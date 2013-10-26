@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "ace.RenderedObject3D.h"
@@ -6,9 +6,9 @@
 namespace ace
 {
 	/**
-		@brief	–³ŒÀ‰“‚©‚ç’‚®ŒõŒ¹ƒIƒuƒWƒFƒNƒg‚ÌƒNƒ‰ƒX
+		@brief	ç„¡é™é ã‹ã‚‰æ³¨ãå…‰æºã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¯ãƒ©ã‚¹
 		@note
-		ƒ[ƒJƒ‹À•W‚Ì(0,0,1)‚Ì•ûŒü‚ÉŒõ‚ğÆË‚·‚éB
+		ãƒ­ãƒ¼ã‚«ãƒ«åº§æ¨™ã®(0,0,1)ã®æ–¹å‘ã«å…‰ã‚’ç…§å°„ã™ã‚‹ã€‚
 	*/
 	class RenderedDirectionalLightObject3D
 		: public RenderedObject3D

@@ -35,7 +35,7 @@ ID3DBlob* NativeShader_Imp_DX11::CompileVertexShader(Graphics_Imp_DX11* g, const
 		NULL,
 		"main",
 		"vs_4_0",
-		D3D10_SHADER_PACK_MATRIX_COLUMN_MAJOR,
+		D3D10_SHADER_PACK_MATRIX_ROW_MAJOR,
 		0,
 		&shader,
 		&error);
@@ -97,7 +97,7 @@ ID3DBlob* NativeShader_Imp_DX11::CompilePixelShader(Graphics_Imp_DX11* g, const 
 		NULL,
 		"main",
 		"ps_4_0",
-		D3D10_SHADER_PACK_MATRIX_COLUMN_MAJOR,
+		D3D10_SHADER_PACK_MATRIX_ROW_MAJOR,
 		0,
 		&shader,
 		&error);

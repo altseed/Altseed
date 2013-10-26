@@ -40,7 +40,7 @@ struct VS_Output
 VS_Output main( const VS_Input Input )
 {
 	VS_Output Output = (VS_Output)0;
-	Output.Pos = mul( matMCP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+	Output.Pos = mul( float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ), matMCP );
 	Output.UV = Input.UV;
 	Output.Color.xyz = directionalLightColor * max( dot(directionalLightDirection,Input.Normal), 0.0 );
 	Output.Color.w = 1.0;
@@ -89,7 +89,7 @@ varying vec4 vaColor;
 
 void main()
 {
-	gl_Position = matMCP * vec4(Position.x,Position.y,Position.z,1.0);
+	gl_Position = vec4(Position.x,Position.y,Position.z,1.0) * matMCP;
 	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
 	vaColor.xyz = directionalLightColor * max( dot(directionalLightDirection,Normal), 0.0 );
 	vaColor.w = 1.0;

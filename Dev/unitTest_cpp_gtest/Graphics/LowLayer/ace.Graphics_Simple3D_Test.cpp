@@ -20,7 +20,7 @@ struct VS_Output
 VS_Output main( const VS_Input Input )
 {
 	VS_Output Output = (VS_Output)0;
-	Output.Pos = mul( matMCP, float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 ) );
+	Output.Pos = mul( float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 ), matMCP );
 	Output.UV = Input.UV;
 	return Output;
 }
@@ -60,7 +60,7 @@ varying vec4 vaTexCoord;
 
 void main()
 {
-	gl_Position = matMCP * vec4(Pos.x,Pos.y,Pos.z,1.0);
+	gl_Position = vec4(Pos.x,Pos.y,Pos.z,1.0) * matMCP;
 	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
 }
 

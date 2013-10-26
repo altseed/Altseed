@@ -92,7 +92,7 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 			glUniformMatrix4fv(
 				l.ID,
 				1,
-				GL_FALSE,
+				GL_TRUE,
 				(const GLfloat*) data);
 		}
 		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT4)
@@ -142,7 +142,7 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 			glUniformMatrix4fv(
 				l.ID,
 				1,
-				GL_FALSE,
+				GL_TRUE,
 				(const GLfloat*) data);
 		}
 		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT4)

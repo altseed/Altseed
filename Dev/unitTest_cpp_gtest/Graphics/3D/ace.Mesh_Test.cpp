@@ -1,4 +1,4 @@
-
+Ôªø
 #include "../ace.Graphics_Test_Utls.h"
 
 #include <Graphics/Common/3D/ace.Renderer3D.h>
@@ -13,9 +13,9 @@ void Graphics_Mesh(bool isOpenGLMode)
 	StartGraphicsTest();
 	SetGLEnable(isOpenGLMode);
 
-	ace::Log* log = ace::Log_Imp::Create(L"graphics.html", L"ÉÅÉbÉVÉÖ");
+	ace::Log* log = ace::Log_Imp::Create(L"graphics.html", L"„É°„ÉÉ„Ç∑„É•");
 
-	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"ÉÅÉbÉVÉÖ").c_str());
+	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"„É°„ÉÉ„Ç∑„É•").c_str());
 	ASSERT_TRUE(window != nullptr);
 
 	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log);

@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.RenderedDirectionalLightObject3D.h"
 
 namespace ace
