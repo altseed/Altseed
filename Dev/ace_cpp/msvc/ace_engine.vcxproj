@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4BA8DEB7-DD89-4EDB-B6A4-63B9358A02F3}</ProjectGuid>
+    <RootNamespace>ace_engine</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)..\..\lib\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)..\..\lib\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\engine\ace.CoreToEngine.h" />
+    <ClInclude Include="..\engine\ace.Engine.Base.h" />
+    <ClInclude Include="..\engine\ace.Engine.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.Layer2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.Object2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.Object2DBase.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.TextureObject2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\ace.Layer.h" />
+    <ClInclude Include="..\engine\ObjectSystem\ace.Scene.h" />
+    <ClInclude Include="..\engine\ObjectSystem\ace.Component.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Fade\ace.FadeIn.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Fade\ace.FadeOut.h" />
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.h" />
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGrayScale.h" />
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\engine\ace.Engine.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.Layer2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2DBase.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.TextureObject2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\ace.Component.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\ace.Scene.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\Fade\ace.FadeIn.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\Fade\ace.FadeOut.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGrayScale.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="ace_core.vcxproj">
+      <Project>{fba17564-7e7c-4be0-881e-6223cb6740d6}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\lib\Debug\ace_common.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Library>
+    <Library Include="..\..\lib\Release\ace_common.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </Library>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

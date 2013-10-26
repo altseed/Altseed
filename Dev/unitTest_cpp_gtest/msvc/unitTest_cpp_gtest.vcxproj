@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\ace.common.Base_test.cpp" />
+    <ClCompile Include="..\ace.DLL.cpp" />
+    <ClCompile Include="..\Graphics\2D\ace.LayerRenderer_Test.cpp" />
+    <ClCompile Include="..\Graphics\2D\ace.PostEffectRenderer_Test.cpp" />
+    <ClCompile Include="..\Graphics\2D\ace.Renderer2D_Test.cpp" />
+    <ClCompile Include="..\Graphics\3D\ace.Mesh_Test.cpp" />
+    <ClCompile Include="..\Graphics\ace.Graphics_Test_Utls.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Empty_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_RenderTarget.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Sampler_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Simple3D_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_SingleTexture_Test.cpp" />
+    <ClCompile Include="..\Log\ace.Log_Test.cpp" />
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\Profiler\ace.ProfilerViewer_test.cpp" />
+    <ClCompile Include="..\Utility\ace.CopyArrayTest.cpp" />
+    <ClCompile Include="..\Utility\ace.BinaryRederWriterTest.cpp" />
+    <ClCompile Include="..\Utility\ace.GetTypeNameTest.cpp" />
+    <ClCompile Include="..\Utility\ace.PointerArray_test.cpp" />
+    <ClCompile Include="..\Utility\ace.Timer_test.cpp" />
+    <ClCompile Include="..\Utility\ace.TypeErasureCopy_test.cpp" />
+    <ClCompile Include="..\Window\ace.Window_Empty_Test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Graphics\ace.Graphics_Test_Utls.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{D12141F5-F955-4510-AC90-DBF95D378311}</ProjectGuid>
+    <RootNamespace>unitTest_cpp_gtest</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)..\..\bin\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)..\..\bin\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

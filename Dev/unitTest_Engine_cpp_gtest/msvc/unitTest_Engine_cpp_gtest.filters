@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{26280779-7059-46a8-b156-ec7098af52f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{9137d40a-f065-41ee-b1a8-753f91923b51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window">
+      <UniqueIdentifier>{44b743bf-3761-492a-af15-f7d7dd615404}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\LowLayer">
+      <UniqueIdentifier>{30d126e4-bc71-467e-b632-a8ad064b929b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\2D">
+      <UniqueIdentifier>{2ac8db9d-a1d2-4772-a34d-859856c6c3a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Profiler">
+      <UniqueIdentifier>{83f7e53c-9497-46c8-9564-34562a269b9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{9057c710-4162-4f9a-b891-5d3b4f04f18a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\Utility\ace.GetTypeNameTest.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\ace.Graphics_Test_Utls.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utility\ace.PointerArray_test.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utility\ace.TypeErasureCopy_test.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Window\ace.Window_Empty_Test.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Simple3D_Test.cpp">
+      <Filter>Graphics\LowLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_SingleTexture_Test.cpp">
+      <Filter>Graphics\LowLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Empty_Test.cpp">
+      <Filter>Graphics\LowLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_RenderTarget.cpp">
+      <Filter>Graphics\LowLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Sampler_Test.cpp">
+      <Filter>Graphics\LowLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ace.common.Base_test.cpp" />
+    <ClCompile Include="..\Graphics\2D\ace.Renderer2D_Test.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="ace.ProfilerViewer_test.cpp">
+      <Filter>Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="ace.Log_Test.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Graphics\ace.Graphics_Test_Utls.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

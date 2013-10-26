@@ -1,0 +1,133 @@
+﻿
+#pragma once
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+#include "ace.CoreToEngine.h"
+#include "ObjectSystem/ace.Scene.h"
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+namespace ace {
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	class Engine
+	{
+		friend Engine* GetEngine();
+
+	private:
+		Core*	m_core;
+		std::shared_ptr<Scene>	m_currentScene;
+		
+		Engine(Core* core);
+		~Engine();
+
+	public:
+		/**
+			@brief	初期化を行う。
+			@param	title	タイトル
+			@param	width	横幅
+			@param	height	縦幅
+			@param	isFullScreen	フルスクリーンで起動するかどうか?
+			@return	成否
+		*/
+		bool Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen);
+
+		/**
+			@brief	初期化を行う。
+			@param	handle1	ハンドル
+			@param	handle2	ハンドル
+			@param	width	横幅
+			@param	height	縦幅
+			@return	成否
+		*/
+		bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height);
+
+		/**
+			@brief	イベントを実行し、進行可否を判断する。
+			@return	進行可能か?
+		*/
+		bool DoEvents();
+
+		/**
+			@brief	更新処理を行う。
+		*/
+		void Update();
+
+		/**
+			@brief	終了処理を行う。
+		*/
+		void Terminate();
+
+		/**
+			@brief	描画する対象となるシーンを変更する。
+		*/
+		void ChangeScene(std::shared_ptr<Scene>& scene);
+
+#if _WIN32
+
+#else
+		/**
+			@brief	初期化を行う。
+			@param	title	タイトル
+			@param	width	横幅
+			@param	height	縦幅
+			@param	isFullScreen	フルスクリーンで起動するかどうか?
+			@return	成否
+		*/
+		bool Initialize(const wchar_t* title, int32_t width, int32_t height, bool isFullScreen)
+		{
+			return Initialize( ToAString(title).c_str(), width, height, isFullScreen );
+		}
+#endif
+	};
+
+	/**
+		@brief	エンジンを取得する。
+		@return	エンジン
+	*/
+	Engine* GetEngine();
+
+	/**
+		@brief キーボードクラスを取得する。
+		@return キーボード
+	*/
+	Keyboard* GetKeyboard();
+
+	/**
+		@brief マウスクラスを取得する。
+		@return マウス
+	*/
+	Mouse* GetMouse();
+
+	/**
+		@brief	ログクラスを取得する。
+		@return	ログクラス
+	*/
+	Log* GetLogger();
+
+	/**
+	@brief	プロファイラクラスを取得する。
+	@return	プロファイラクラス
+	*/
+	Profiler* GetProfiler();
+
+	/**
+	@brief	ジョイスティックコンテナクラスを取得する。
+	@return	ジョイスティックコンテナクラス
+	*/
+	JoystickContainer* GetJoystickContainer();
+
+	/**
+		@brief	Graphicsクラスを取得する。
+	*/
+	Graphics* GetGraphics();
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+}

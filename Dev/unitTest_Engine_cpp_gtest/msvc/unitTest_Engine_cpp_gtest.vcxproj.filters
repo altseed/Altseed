@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\ObjectSystem\Object2DTest.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Profiler.cpp" />
+    <ClCompile Include="..\ParentObject.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ObjectSystem\CustomObject.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ObjectSystem\Component.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\PostEffect\CustomPostEffect.cpp">
+      <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScaleTest.cpp">
+      <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectSepiaTest.cpp">
+      <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ObjectSystem">
+      <UniqueIdentifier>{b0d2a106-1fa0-4b67-908d-6e23024a3d42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{e37ab0e0-616a-4a5c-8294-e7e5db3c8750}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\PostEffect">
+      <UniqueIdentifier>{d1648162-e090-4da6-a429-ccba9d0b022b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

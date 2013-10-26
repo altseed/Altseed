@@ -1,0 +1,69 @@
+
+Google Test導入手引
+===================
+
+GoogleTestの使い方の初歩を簡単に書いておきます。
+実際にテストを書く前に、
+http://opencv.jp/googletestdocs/primer.html
+http://opencv.jp/googletestdocs/advancedguide.html
+に一通り目を通しておくことをお勧めします
+
+テストの追加･実行方法
+----------------
+ - Dev\unitTest_cpp_gtest\以下に各カテゴリのディレクトリが用意されているので、
+   その下にcppファイルを作る(ない場合はそのカテゴリのディレクトリごと作る)
+ - Dev\unitTest_cpp.slnを開き、unitTest_cpp_gtestプロジェクトの該当する場所にcppファイルを追加
+ - テストを記述し、プロジェクトをビルド
+ - Dev\bin\unitTest_cpp_gtest.exeを実行
+
+基本的な使い方
+--------------
+
+TEST(モジュール名, テスト項目名)
+{
+	コード
+}
+という形で記述
+
+アサーションは、
+(失敗しても後のテストに影響を与えない項目)
+EXPECT_TRUE(真となるべき項目);
+EXPECT_FALSE(偽となるべき項目);
+(失敗するとその後のテストの続行が不可能になる項目)
+ASSERT_TRUE(真となるべき項目);
+ASSERT_FALSE(偽となるべき項目);
+など。他にも大小比較や文字列比較などもあり
+
+
+
+フィクスチャ
+------------
+フィクスチャとは、各テストごとに同条件で初期化された環境のこと。
+こちらのほうがよく使うかもしれない。
+
+テストフィクスチャを利用するには、
+1. ::testing::Testクラスの派生クラスを作成
+2. 必要なデータをメンバとして宣言
+3. publicにvirtual void SetUp(), virtual void TearDown()の2メンバ関数を作成
+4. SetUpに環境の初期化、TearDownに環境の終了処理を書く
+5. テストをTEST_F(モジュール名, テスト名)の中に書く
+
+そのほかの機能
+--------------
+ - プロセスが終了することをテストするEXPECT_EXITやクラッシュすることをテストする
+   EXPECT_DEATHなどあり
+ - 浮動小数点型の比較をするときは、EXPECT_FLOAT_EQやEXPECT_DOUBLE_EQなどを
+   使って丸め誤差に対応する
+ - 特定のモジュールのテストだけテストするには、引数に--gtest_filter=ModuleName.*
+   を渡せばよい
+ - 失敗したテストを修正する際、GoogleTestの例外キャッチが邪魔な場合は実行ファイル
+   の引数に--gtest_catch_exceptions=0をつけるか、環境変数GTEST_CATCH_EXCEPTIONSに
+   0をセット
+
+詳細は
+http://opencv.jp/googletestdocs/primer.html
+を参照のこと
+
+注意
+----
+ - 各テストの実行順序は不定なので、**実行順序に依存したテストをかかないこと**

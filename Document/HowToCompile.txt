@@ -1,0 +1,56 @@
+■■　外部ライブラリの生成、更新
+■　glfw for ACE
+・Windows
+gitにて、Submodule Updateを行う。
+glfw.batを実行する。
+最新版が取得できない場合があるので、
+・amcr-glfw-init.bat　を実行
+・amcr-glfw　内部でpull
+・コマンドラインから git submodule update
+を行う。
+
+・ubuntu
+git submodule init
+git submodule update
+を用い、各ライブラリを取得する。
+glfw.shを実行する。
+最新版の取得には、git submodule updateを使用する。
+
+■　zlib,libpng
+・Windows
+自動化できないため最初から追加済み
+
+・他
+libpng.sh を実行する。
+
+■　glew
+・Windows
+自動化できないため最初から追加済み
+
+・他
+パッケージ管理ツールで入手する。
+
+■　GoogleCode
+・Windows
+自分でコンパイルして追加orDropBoxにあるヘッダとライブラリをコピーしてそれにパスを通す。
+
+・他
+gtest.sh　を実行する。
+
+
+■■　ヘッダの生成、更新
+pythonを導入し、
+generateCoreToEngineHeader.py
+generateEngineHeader.py
+を実行する。
+
+次に、
+generate_swig.py
+を実行する。
+
+■■　本体コンパイル
+・Windows
+そのまま
+
+・他
+cmakeを使用する。

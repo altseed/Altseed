@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\engine\ace.Engine.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\ace.Scene.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.TextureObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.Layer2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2DBase.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.cpp">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\ace.Component.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Fade\ace.FadeOut.cpp">
+      <Filter>ObjectSystem\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Fade\ace.FadeIn.cpp">
+      <Filter>ObjectSystem\Fade</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGrayScale.cpp">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.cpp">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\engine\ace.CoreToEngine.h" />
+    <ClInclude Include="..\engine\ace.Engine.h" />
+    <ClInclude Include="..\engine\ObjectSystem\ace.Scene.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.TextureObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.Layer2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.Object2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.Object2DBase.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\ace.Layer.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ace.Engine.Base.h" />
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.h">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\ace.Component.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Fade\ace.FadeOut.h">
+      <Filter>ObjectSystem\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Fade\ace.FadeIn.h">
+      <Filter>ObjectSystem\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGrayScale.h">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.h">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\lib\Debug\ace_common.lib" />
+    <Library Include="..\..\lib\Release\ace_common.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ObjectSystem">
+      <UniqueIdentifier>{684d8171-279f-4e8b-8d26-41ed74129d7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\2D">
+      <UniqueIdentifier>{903ffc95-fef7-455f-8e97-81213bdf6fae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\PostEffect">
+      <UniqueIdentifier>{6b69dfbd-bfde-4093-9f63-22baafbf1fe2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\Fade">
+      <UniqueIdentifier>{b1960cd6-695f-440c-b350-a43be9298d6b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
