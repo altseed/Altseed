@@ -23,9 +23,11 @@ namespace ace
 		LayerRenderer*	m_layerRenderer;
 
 		Vector2DI		m_layerSize;
+		Vector2DI		m_windowSize;
 
-		RenderTexture_Imp*				m_renderTargetDefaultToPostEffect;
-		RenderTexture_Imp*				m_renderTargetPostEffectToLayer;
+		RenderTexture_Imp*				m_renderTarget0;
+		RenderTexture_Imp*				m_renderTarget1;
+		int32_t							m_targetToLayer;
 
 		std::vector<CorePostEffect*>	m_postEffects;
 
@@ -33,7 +35,16 @@ namespace ace
 
 		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();
+
+		void CreateRenderTarget(const Vector2DI& size);
 	public:
+		void SetLayerShape(const Vector2DF& ul, const Vector2DF& ur, const Vector2DF& ll, const Vector2DF& lr, const Vector2DI& size );
+
+		void AddDrawnTriangle(
+			const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
+			const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
+			const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3);
+
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);
 
@@ -49,8 +60,9 @@ namespace ace
 
 		void ClearPostEffects();
 
-		RenderTexture2D* GetRenderTargetDefaultToPostEffect();
-		RenderTexture2D* GetRenderTargetPostEffectToLayer();
+		RenderTexture2D* GetRenderTarget0();
+		RenderTexture2D* GetRenderTarget1();
+		void SetTargetToLayer(int32_t index);
 
 #if !SWIG
 		Renderer2D* GetRenderer() const;

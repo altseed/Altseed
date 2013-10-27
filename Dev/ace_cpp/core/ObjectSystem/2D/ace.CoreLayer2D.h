@@ -23,8 +23,14 @@ namespace ace
 
 		virtual void ClearPostEffects() = 0;
 
-		virtual RenderTexture2D* GetRenderTargetDefaultToPostEffect() = 0;
-		virtual RenderTexture2D* GetRenderTargetPostEffectToLayer() = 0;
+		virtual RenderTexture2D* GetRenderTarget0() = 0;
+		virtual RenderTexture2D* GetRenderTarget1() = 0;
+		
+		/**
+			@brief	最終的な描画結果が描かれている描画先を指定する。
+			@param	index	インデックス
+		*/
+		virtual void SetTargetToLayer(int32_t index) = 0;
 
 #if !SWIG
 		virtual Renderer2D* GetRenderer() const = 0;

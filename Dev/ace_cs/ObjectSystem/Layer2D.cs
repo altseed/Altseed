@@ -173,41 +173,52 @@ namespace ace
 
 			if (postEffects.Count > 0)
 			{
-				var src = coreLayer2D.GetRenderTargetDefaultToPostEffect();
-				var dst = coreLayer2D.GetRenderTargetPostEffectToLayer();
-				RenderTexture2D rtSrc = null;
-				RenderTexture2D rtDst = null;
+				var rt0_ = coreLayer2D.GetRenderTarget0();
+				var rt1_ = coreLayer2D.GetRenderTarget1();
+				RenderTexture2D rt0 = null;
+				RenderTexture2D rt1 = null;
 
-				var existingSrc = GC.Texture2Ds.GetObject(src.GetPtr());
+				var existingSrc = GC.Texture2Ds.GetObject(rt0_.GetPtr());
 				if (existingSrc != null)
 				{
-					rtSrc = (RenderTexture2D)existingSrc;
+					rt0 = (RenderTexture2D)existingSrc;
 				}
 
-				var existingDst = GC.Texture2Ds.GetObject(dst.GetPtr());
+				var existingDst = GC.Texture2Ds.GetObject(rt1_.GetPtr());
 				if (existingDst != null)
 				{
-					rtDst = (RenderTexture2D)existingDst;
+					rt1 = (RenderTexture2D)existingDst;
 				}
 
-				if (rtSrc == null)
+				if (rt0 == null)
 				{
-					src.AddRef();
-					rtSrc = new RenderTexture2D(src);
-					GC.Texture2Ds.AddObject(src.GetPtr(), rtSrc);
+					rt0_.AddRef();
+					rt0 = new RenderTexture2D(rt0_);
+					GC.Texture2Ds.AddObject(rt0_.GetPtr(), rt0);
 				}
 
-				if (rtDst == null)
+				if (rt1 == null)
 				{
-					dst.AddRef();
-					rtDst = new RenderTexture2D(dst);
-					GC.Texture2Ds.AddObject(dst.GetPtr(), rtDst);
+					rt1_.AddRef();
+					rt1 = new RenderTexture2D(rt1_);
+					GC.Texture2Ds.AddObject(rt1_.GetPtr(), rt1);
 				}
 
+				int index = 0;
 				foreach (var p in postEffects)
 				{
-					p.OnDraw(rtDst, rtSrc);
+					if (index % 2 == 0)
+					{
+						p.OnDraw(rt1, rt0);
+					}
+					else
+					{
+						p.OnDraw(rt0, rt1);
+					}
+					index++;
 				}
+
+				coreLayer2D.SetTargetToLayer(index % 2);
 			}
 
 			coreLayer2D.EndDrawingAfterEffects();

@@ -73,16 +73,27 @@ namespace ace
 
 		if (m_postEffects.size() > 0)
 		{
-			m_coreLayer->GetRenderTargetDefaultToPostEffect()->AddRef();
-			m_coreLayer->GetRenderTargetPostEffectToLayer()->AddRef();
+			m_coreLayer->GetRenderTarget0()->AddRef();
+			m_coreLayer->GetRenderTarget1()->AddRef();
 
-			auto rtSrc = CreateSharedPtrWithReleaseDLL(m_coreLayer->GetRenderTargetDefaultToPostEffect());
-			auto rtDst = CreateSharedPtrWithReleaseDLL(m_coreLayer->GetRenderTargetPostEffectToLayer());
+			auto rt0 = CreateSharedPtrWithReleaseDLL(m_coreLayer->GetRenderTarget0());
+			auto rt1 = CreateSharedPtrWithReleaseDLL(m_coreLayer->GetRenderTarget1());
 	
+			int32_t index = 0;
 			for (auto& p : m_postEffects)
 			{
-				p->OnDraw(rtDst, rtSrc);
+				if (index % 2 == 0)
+				{
+					p->OnDraw(rt1, rt0);
+				}
+				else
+				{
+					p->OnDraw(rt0, rt1);
+				}
+				index++;
 			}
+
+			m_coreLayer->SetTargetToLayer(index % 2);
 		}
 
 		m_coreLayer->EndDrawingAfterEffects();

@@ -18,9 +18,11 @@ namespace ace
 		, m_renderer(nullptr)
 		, m_layerRenderer(nullptr)
 		, m_drawingPriority(0)
-		, m_renderTargetDefaultToPostEffect(nullptr)
-		, m_renderTargetPostEffectToLayer(nullptr)
+		, m_renderTarget0(nullptr)
+		, m_renderTarget1(nullptr)
+		, m_targetToLayer(-1)
 		, m_layerSize(windowSize)
+		, m_windowSize(windowSize)
 	{
 		m_renderer = new Renderer2D_Imp(graphics, log, windowSize);
 		m_layerRenderer = new LayerRenderer(graphics);
@@ -50,8 +52,8 @@ namespace ace
 	{
 		ClearPostEffects();
 
-		SafeRelease(m_renderTargetDefaultToPostEffect);
-		SafeRelease(m_renderTargetPostEffectToLayer);
+		SafeRelease(m_renderTarget0);
+		SafeRelease(m_renderTarget1);
 
 		SafeDelete(m_renderer);
 		SafeRelease(m_layerRenderer);
@@ -62,6 +64,46 @@ namespace ace
 		}
 
 		SafeRelease(m_graphics);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::CreateRenderTarget(const Vector2DI& size)
+	{
+		if (m_layerSize == size && m_renderTarget0 != nullptr) return;
+		m_layerSize = size;
+
+		SafeRelease(m_renderTarget0);
+		SafeRelease(m_renderTarget1);
+
+		m_renderTarget0 = m_graphics->CreateRenderTexture_Imp(m_layerSize.X, m_layerSize.Y, eTextureFormat::TEXTURE_FORMAT_RGBA8888);
+		m_renderTarget1 = m_graphics->CreateRenderTexture_Imp(m_layerSize.X, m_layerSize.Y, eTextureFormat::TEXTURE_FORMAT_RGBA8888);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::SetLayerShape(const Vector2DF& ul, const Vector2DF& ur, const Vector2DF& ll, const Vector2DF& lr, const Vector2DI& size)
+	{
+		ace::Vector2DF lpos[4];
+		lpos[0] = ul;
+		lpos[1] = ur;
+		lpos[2] = lr;
+		lpos[3] = ll;
+		m_layerRenderer->SetLayerPosition(lpos);
+	
+		CreateRenderTarget(size);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::AddDrawnTriangle(
+		const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
+		const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
+		const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3)
+	{
 	}
 
 	//----------------------------------------------------------------------------------
@@ -89,6 +131,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::BeginDrawing()
 	{
+		m_targetToLayer = -1;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -100,7 +143,6 @@ namespace ace
 		{
 			x->Draw();
 		}
-		
 	}
 
 	//----------------------------------------------------------------------------------
@@ -110,7 +152,7 @@ namespace ace
 	{
 		if (m_postEffects.size() > 0)
 		{
-			m_graphics->SetRenderTarget(m_renderTargetDefaultToPostEffect, nullptr);
+			m_graphics->SetRenderTarget(m_renderTarget0, nullptr);
 		}
 
 		m_renderer->DrawCache();
@@ -125,7 +167,15 @@ namespace ace
 		if (m_postEffects.size() > 0)
 		{
 			m_graphics->SetRenderTarget(nullptr, nullptr);
-			m_layerRenderer->SetTexture(m_renderTargetPostEffectToLayer);
+
+			if (m_targetToLayer == 0)
+			{
+				m_layerRenderer->SetTexture(m_renderTarget0);
+			}
+			else if (m_targetToLayer == 1)
+			{
+				m_layerRenderer->SetTexture(m_renderTarget1);
+			}
 
 			{
 				ace::Vector2DF positions[4];
@@ -193,15 +243,7 @@ namespace ace
 		SafeAddRef(postEffect);
 		m_postEffects.push_back(postEffect);
 
-		if (m_renderTargetDefaultToPostEffect == nullptr)
-		{
-			m_renderTargetDefaultToPostEffect = m_graphics->CreateRenderTexture_Imp(m_layerSize.X, m_layerSize.Y, eTextureFormat::TEXTURE_FORMAT_RGBA8888);
-		}
-
-		if (m_renderTargetPostEffectToLayer == nullptr)
-		{
-			m_renderTargetPostEffectToLayer = m_graphics->CreateRenderTexture_Imp(m_layerSize.X, m_layerSize.Y, eTextureFormat::TEXTURE_FORMAT_RGBA8888);
-		}
+		CreateRenderTarget(m_layerSize);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -220,17 +262,25 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture2D* CoreLayer2D_Imp::GetRenderTargetDefaultToPostEffect()
+	RenderTexture2D* CoreLayer2D_Imp::GetRenderTarget0()
 	{
-		return m_renderTargetDefaultToPostEffect;
+		return m_renderTarget0;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture2D* CoreLayer2D_Imp::GetRenderTargetPostEffectToLayer()
+	RenderTexture2D* CoreLayer2D_Imp::GetRenderTarget1()
 	{
-		return m_renderTargetPostEffectToLayer;
+		return m_renderTarget1;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::SetTargetToLayer(int32_t index)
+	{
+		m_targetToLayer = index;
 	}
 
 	//----------------------------------------------------------------------------------
