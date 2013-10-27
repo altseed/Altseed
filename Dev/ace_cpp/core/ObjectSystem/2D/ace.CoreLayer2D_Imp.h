@@ -15,6 +15,15 @@ namespace ace
 	friend class ObjectSystemFactory_Imp;
 
 	private:
+		struct Triangle
+		{
+			Vector2DF	Pos1, Pos2, Pos3;
+			Vector2DF	UV1, UV2, UV3;
+			Color		Col1, Col2, Col3;
+		};
+
+		std::vector<Triangle>	m_triangles;
+
 		std::list<ObjectPtr> m_objects;
 		
 		Graphics_Imp*	m_graphics;

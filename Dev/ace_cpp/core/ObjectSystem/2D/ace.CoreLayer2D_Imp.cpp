@@ -104,6 +104,18 @@ namespace ace
 		const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
 		const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3)
 	{
+		Triangle t;
+		t.Pos1 = pos1;
+		t.UV1 = uv1;
+		t.Col1 = col1;
+		t.Pos2 = pos2;
+		t.UV2 = uv2;
+		t.Col2 = col2;
+		t.Pos3 = pos3;
+		t.UV3 = uv3;
+		t.Col3 = col3;
+
+		m_triangles.push_back(t);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -132,6 +144,7 @@ namespace ace
 	void CoreLayer2D_Imp::BeginDrawing()
 	{
 		m_targetToLayer = -1;
+		m_triangles.clear();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -177,57 +190,83 @@ namespace ace
 				m_layerRenderer->SetTexture(m_renderTarget1);
 			}
 
+			if (m_triangles.size() > 0)
 			{
-				ace::Vector2DF positions[4];
-				ace::Color colors[4];
-				ace::Vector2DF uvs[4];
+				for (auto& t : m_triangles)
+				{
+					ace::Vector2DF positions[4];
+					ace::Color colors[4];
+					ace::Vector2DF uvs[4];
 
-				colors[0] = ace::Color(255, 255, 255, 255);
-				colors[1] = ace::Color(255, 255, 255, 255);
-				colors[2] = ace::Color(255, 255, 255, 255);
+					colors[0] = t.Col1;
+					colors[1] = t.Col2;
+					colors[2] = t.Col3;
 
-				positions[0].X = -1.0f;
-				positions[0].Y = -1.0f;
-				positions[1].X = 1.0f;
-				positions[1].Y = -1.0f;
-				positions[2].X = 1.0f;
-				positions[2].Y = 1.0f;
+					positions[0] = t.Pos1;
+					positions[1] = t.Pos2;
+					positions[2] = t.Pos3;
 
+					uvs[0] = t.UV1;
+					uvs[1] = t.UV2;
+					uvs[2] = t.UV3;
 
-				uvs[0].X = 0;
-				uvs[0].Y = 0;
-				uvs[1].X = 1;
-				uvs[1].Y = 0;
-				uvs[2].X = 1;
-				uvs[2].Y = 1;
-
-				m_layerRenderer->AddTriangle(positions, colors, uvs);
+					m_layerRenderer->AddTriangle(positions, colors, uvs);
+				}
 			}
-
+			else
 			{
-				ace::Vector2DF positions[4];
-				ace::Color colors[4];
-				ace::Vector2DF uvs[4];
+				{
+					ace::Vector2DF positions[4];
+					ace::Color colors[4];
+					ace::Vector2DF uvs[4];
 
-				colors[0] = ace::Color(255, 255, 255, 255);
-				colors[1] = ace::Color(255, 255, 255, 255);
-				colors[2] = ace::Color(255, 255, 255, 255);
+					colors[0] = ace::Color(255, 255, 255, 255);
+					colors[1] = ace::Color(255, 255, 255, 255);
+					colors[2] = ace::Color(255, 255, 255, 255);
 
-				positions[0].X = -1.0f;
-				positions[0].Y = 1.0f;
-				positions[1].X = 1.0f;
-				positions[1].Y = 1.0f;
-				positions[2].X = -1.0f;
-				positions[2].Y = -1.0f;
+					positions[0].X = -1.0f;
+					positions[0].Y = -1.0f;
+					positions[1].X = 1.0f;
+					positions[1].Y = -1.0f;
+					positions[2].X = 1.0f;
+					positions[2].Y = 1.0f;
 
-				uvs[0].X = 0;
-				uvs[0].Y = 1;
-				uvs[1].X = 1;
-				uvs[1].Y = 1;
-				uvs[2].X = 0;
-				uvs[2].Y = 0;
 
-				m_layerRenderer->AddTriangle(positions, colors, uvs);
+					uvs[0].X = 0;
+					uvs[0].Y = 0;
+					uvs[1].X = 1;
+					uvs[1].Y = 0;
+					uvs[2].X = 1;
+					uvs[2].Y = 1;
+
+					m_layerRenderer->AddTriangle(positions, colors, uvs);
+				}
+
+				{
+					ace::Vector2DF positions[4];
+					ace::Color colors[4];
+					ace::Vector2DF uvs[4];
+
+					colors[0] = ace::Color(255, 255, 255, 255);
+					colors[1] = ace::Color(255, 255, 255, 255);
+					colors[2] = ace::Color(255, 255, 255, 255);
+
+					positions[0].X = -1.0f;
+					positions[0].Y = 1.0f;
+					positions[1].X = 1.0f;
+					positions[1].Y = 1.0f;
+					positions[2].X = -1.0f;
+					positions[2].Y = -1.0f;
+
+					uvs[0].X = 0;
+					uvs[0].Y = 1;
+					uvs[1].X = 1;
+					uvs[1].Y = 1;
+					uvs[2].X = 0;
+					uvs[2].Y = 0;
+
+					m_layerRenderer->AddTriangle(positions, colors, uvs);
+				}
 			}
 
 			m_layerRenderer->DrawCache();
