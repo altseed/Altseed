@@ -64,17 +64,17 @@ private:
 public:
 	CustomPostEffect(ace::Graphics* g)
 	{
-		// ���[�U�[���O������ݒ�\�ȕϐ��̐ݒ�
+		// 外部から設定可能な変数の設定
 		std::vector<ace::ShaderVariableProperty> props;
 
-		// �e�N�X�`��
+		// テクスチャ
 		auto prop_tex = ace::ShaderVariableProperty();
 		prop_tex.Name = ace::ToAString("g_texture").c_str();
 		prop_tex.Offset = 0;
 		prop_tex.Type = ace::SHADER_VARIABLE_TYPE_TEXTURE2D;
 		props.push_back(prop_tex);
 
-		// �ϐ�
+		// 変数
 		auto prop_v = ace::ShaderVariableProperty();
 		prop_v.Name = ace::ToAString("g_values").c_str();
 		prop_v.Offset = 0;
