@@ -2,7 +2,7 @@
 #include <memory>
 #include <list>
 #include "../../ace.CoreToEngine.h"
-#include "../ace.Component.h"
+#include "../Component/ace.ObjectComponent.h"
 
 namespace ace
 {
@@ -14,7 +14,7 @@ namespace ace
 
 	public:
 		typedef std::shared_ptr<Object2DBase> Object2DBasePtr;
-		typedef std::shared_ptr<Component> ComponentPtr;
+		typedef std::shared_ptr<ObjectComponent> ComponentPtr;
 
 	private:
 		Layer2D* m_owner;

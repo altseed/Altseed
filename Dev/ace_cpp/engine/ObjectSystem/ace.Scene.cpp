@@ -10,8 +10,9 @@ namespace ace
 	//
 	//----------------------------------------------------------------------------------
 	Scene::Scene()
-		: m_layers(list<shared_ptr<Layer>>())
+		: m_layers(list<LayerPtr>())
 		, m_coreScene(nullptr)
+		, m_components(map<astring, ComponentPtr>())
 	{
 		m_coreScene = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateScene());
 	}
@@ -37,6 +38,11 @@ namespace ace
 		for (auto& layer : m_layers)
 		{
 			layer->Update();
+		}
+
+		for (auto& component : m_components)
+		{
+			component.second->Update();
 		}
 
 		OnUpdated();
@@ -107,7 +113,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Scene::AddLayer(const shared_ptr<Layer>& layer)
+	void Scene::AddLayer(const LayerPtr& layer)
 	{
 		if (layer->GetScene() != nullptr)
 		{
@@ -122,10 +128,35 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Scene::RemoveLayer(const shared_ptr<Layer>& layer)
+	void Scene::RemoveLayer(const LayerPtr& layer)
 	{
 		m_layers.remove(layer);
 		m_coreScene->RemoveLayer(layer->GetCoreLayer().get());
 		layer->SetScene(nullptr);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Scene::AddComponent(const ComponentPtr& component, astring key)
+	{
+		m_components[key] = component;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	Scene::ComponentPtr& Scene::GetComponent(astring key)
+	{
+		return m_components[key];
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Scene::RemoveComponent(astring key)
+	{
+		auto it = m_components.find(key);
+		m_components.erase(it);
 	}
 }

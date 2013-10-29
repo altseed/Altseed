@@ -4,6 +4,7 @@
 #include "../ace.CoreToEngine.h"
 #include "ace.Layer.h"
 #include "2D/ace.Layer2D.h"
+#include "Component\ace.SceneComponent.h"
 
 namespace ace
 {
@@ -13,9 +14,14 @@ namespace ace
 	{
 		friend class Engine;
 
+	public:
+		typedef std::shared_ptr<Layer> LayerPtr;
+		typedef std::shared_ptr<SceneComponent> ComponentPtr;
+
 	private:
 		std::shared_ptr<CoreScene> m_coreScene;
-		std::list<std::shared_ptr<Layer>> m_layers;
+		std::list<LayerPtr> m_layers;
+		std::map<astring, ComponentPtr> m_components;
 
 		void Update();
 		void DrawAdditionally();
@@ -30,7 +36,11 @@ namespace ace
 		Scene();
 		virtual ~Scene();
 
-		void AddLayer(const std::shared_ptr<Layer>& layer);
-		void RemoveLayer(const std::shared_ptr<Layer>& layer);
+		void AddLayer(const LayerPtr& layer);
+		void RemoveLayer(const LayerPtr& layer);
+
+		void AddComponent(const ComponentPtr& component, astring key);
+		ComponentPtr& GetComponent(astring key);
+		void RemoveComponent(astring key);
 	};
 }

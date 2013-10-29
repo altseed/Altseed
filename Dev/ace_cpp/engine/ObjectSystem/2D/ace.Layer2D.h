@@ -5,6 +5,7 @@
 #include "../../ace.CoreToEngine.h"
 #include "../ace.Layer.h"
 #include "../PostEffect/ace.PostEffect.h"
+#include "../Component/ace.LayerComponent.h"
 
 namespace ace
 {
@@ -12,11 +13,14 @@ namespace ace
 	{
 		friend class Scene;
 
-	private:
-		typedef Object2DBase Object;
+	public:
+		typedef std::shared_ptr<LayerComponent> ComponentPtr;
+		typedef std::shared_ptr<Object2DBase> ObjectPtr;
 
-		std::shared_ptr<CoreLayer2D>				m_coreLayer;
-		std::list<std::shared_ptr<Object>>			m_objects;
+	private:
+		std::shared_ptr<CoreLayer2D>	m_coreLayer;
+		std::list<ObjectPtr>			m_objects;
+		std::map<astring, ComponentPtr> m_components;
 		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
 		Scene* m_scene;
 		
@@ -37,8 +41,12 @@ namespace ace
 		Layer2D();
 		virtual ~Layer2D();
 
-		void AddObject(const std::shared_ptr<Object>& object);
-		void RemoveObject(const std::shared_ptr<Object>& object);
+		void AddObject(const ObjectPtr& object);
+		void RemoveObject(const ObjectPtr& object);
+
+		void AddComponent(const ComponentPtr& component, astring key);
+		ComponentPtr& GetComponent(astring key);
+		void RemoveComponent(astring key);
 
 		/**
 			@brief	ポストエフェクトを追加する。

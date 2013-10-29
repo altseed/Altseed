@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ace
 {
-	public abstract class Component
+	public abstract class LayerComponent
 	{
-		protected abstract void OnUpdate();
+		protected abstract void OnUpdated();
 
 		internal void Update()
 		{
-			OnUpdate();
+			OnUpdated();
 		}
 	}
 }

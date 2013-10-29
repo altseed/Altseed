@@ -88,7 +88,9 @@
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.TextureObject2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\ace.Layer.h" />
     <ClInclude Include="..\engine\ObjectSystem\ace.Scene.h" />
-    <ClInclude Include="..\engine\ObjectSystem\ace.Component.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Component\ace.LayerComponent.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Component\ace.ObjectComponent.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Component\ace.SceneComponent.h" />
     <ClInclude Include="..\engine\ObjectSystem\Fade\ace.FadeIn.h" />
     <ClInclude Include="..\engine\ObjectSystem\Fade\ace.FadeOut.h" />
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.h" />
@@ -101,8 +103,10 @@
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2DBase.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.TextureObject2D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\ace.Component.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\ace.Scene.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\Component\ace.LayerComponent.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\Component\ace.ObjectComponent.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\Component\ace.SceneComponent.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\Fade\ace.FadeIn.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\Fade\ace.FadeOut.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.cpp" />

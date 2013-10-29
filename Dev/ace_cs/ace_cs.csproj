@@ -70,7 +70,8 @@
     <Compile Include="Math\Vector2DI.cs" />
     <Compile Include="Math\Vector3DF.cs" />
     <Compile Include="ObjectSystem\ChildMode.cs" />
-    <Compile Include="ObjectSystem\Component.cs" />
+    <Compile Include="ObjectSystem\LayerComponent.cs" />
+    <Compile Include="ObjectSystem\ObjectComponent.cs" />
     <Compile Include="ObjectSystem\Object2DBase.cs" />
     <Compile Include="ObjectSystem\Layer.cs" />
     <Compile Include="ObjectSystem\Layer2D.cs" />
@@ -78,6 +79,7 @@
     <Compile Include="ObjectSystem\ObjectSystemFactory.cs" />
     <Compile Include="ObjectSystem\PostEffect.cs" />
     <Compile Include="ObjectSystem\Scene.cs" />
+    <Compile Include="ObjectSystem\SceneComponent.cs" />
     <Compile Include="ObjectSystem\TextureObject2D.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

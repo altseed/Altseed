@@ -2,7 +2,7 @@
 
 namespace ace
 {
-	class Component
+	class ObjectComponent
 	{
 		friend class Object2DBase;
 
@@ -13,7 +13,7 @@ namespace ace
 		virtual void OnUpdate() = 0;
 
 	public:
-		virtual ~Component()
+		virtual ~ObjectComponent()
 		{
 		}
 	};

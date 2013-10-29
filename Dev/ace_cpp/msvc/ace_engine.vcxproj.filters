@@ -20,9 +20,6 @@
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.cpp">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\ObjectSystem\ace.Component.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\engine\ObjectSystem\Fade\ace.FadeOut.cpp">
       <Filter>ObjectSystem\Fade</Filter>
     </ClCompile>
@@ -34,6 +31,15 @@
     </ClCompile>
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.cpp">
       <Filter>ObjectSystem\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Component\ace.ObjectComponent.cpp">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Component\ace.LayerComponent.cpp">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Component\ace.SceneComponent.cpp">
+      <Filter>ObjectSystem\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -61,9 +67,6 @@
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.h">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\ace.Component.h">
-      <Filter>ObjectSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\Fade\ace.FadeOut.h">
       <Filter>ObjectSystem\Fade</Filter>
     </ClInclude>
@@ -75,6 +78,15 @@
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.h">
       <Filter>ObjectSystem\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Component\ace.ObjectComponent.h">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Component\ace.LayerComponent.h">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Component\ace.SceneComponent.h">
+      <Filter>ObjectSystem\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -93,6 +105,9 @@
     </Filter>
     <Filter Include="ObjectSystem\Fade">
       <UniqueIdentifier>{b1960cd6-695f-440c-b350-a43be9298d6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\Component">
+      <UniqueIdentifier>{4589e34b-0cf8-413e-8a85-2d31d7631e14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
