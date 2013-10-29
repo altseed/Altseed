@@ -14,18 +14,14 @@ namespace ace
 		friend class Scene;
 
 	public:
-		typedef std::shared_ptr<LayerComponent> ComponentPtr;
 		typedef std::shared_ptr<Object2DBase> ObjectPtr;
 
 	private:
 		std::shared_ptr<CoreLayer2D>	m_coreLayer;
 		std::list<ObjectPtr>			m_objects;
-		std::map<astring, ComponentPtr> m_components;
 		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
-		Scene* m_scene;
 		
 		std::shared_ptr<CoreLayer> GetCoreLayer() const;
-		void SetScene(Scene* scene);
 		void Update();
 		void DrawAdditionally();
 
@@ -44,10 +40,6 @@ namespace ace
 		void AddObject(const ObjectPtr& object);
 		void RemoveObject(const ObjectPtr& object);
 
-		void AddComponent(const ComponentPtr& component, astring key);
-		ComponentPtr& GetComponent(astring key);
-		void RemoveComponent(astring key);
-
 		/**
 			@brief	ポストエフェクトを追加する。
 			@param	postEffect	ポストエフェクト
@@ -61,7 +53,5 @@ namespace ace
 
 		int GetDrawingPriority() const;
 		void SetDrawingPriority(int value);
-
-		Scene* GetScene() const;
 	};
 }

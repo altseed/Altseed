@@ -103,6 +103,7 @@
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2DBase.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.TextureObject2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\ace.Layer.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\ace.Scene.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\Component\ace.LayerComponent.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\Component\ace.ObjectComponent.cpp" />

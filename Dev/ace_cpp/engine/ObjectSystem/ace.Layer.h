@@ -1,18 +1,24 @@
 ﻿#pragma once
-#include "../ace.CoreToEngine.h"
 #include <memory>
+#include <map>
+#include "../ace.CoreToEngine.h"
+#include "Component\ace.LayerComponent.h"
 
 namespace ace
 {
-	class Scene;
-
 	class Layer
 	{
 		friend class Scene;
 
+	public:
+		typedef std::shared_ptr<LayerComponent> ComponentPtr;
+
 	private:
+		std::map<astring, ComponentPtr> m_components;
+		Scene* m_scene;
+
 		virtual std::shared_ptr<CoreLayer> GetCoreLayer() const = 0;
-		virtual void SetScene(Scene* scene) = 0;
+		virtual void SetScene(Scene* scene);
 
 		virtual void Update() = 0;
 		virtual void DrawAdditionally() = 0;
@@ -21,6 +27,7 @@ namespace ace
 		virtual void EndDrawing() = 0;
 
 	public:
+		Layer();
 		virtual ~Layer()
 		{
 		}
@@ -28,6 +35,10 @@ namespace ace
 		virtual int GetDrawingPriority() const = 0;
 		virtual void SetDrawingPriority(int value) = 0;
 
-		virtual Scene* GetScene() const = 0;
+		void AddComponent(const ComponentPtr& component, astring key);
+		ComponentPtr& GetComponent(astring key);
+		void RemoveComponent(astring key);
+
+		virtual Scene* GetScene() const;
 	};
 }

@@ -41,6 +41,9 @@
     <ClCompile Include="..\engine\ObjectSystem\Component\ace.SceneComponent.cpp">
       <Filter>ObjectSystem\Component</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\ace.Layer.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />

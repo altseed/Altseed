@@ -117,7 +117,6 @@ namespace ace
 	{
 		if (layer->GetScene() != nullptr)
 		{
-			//throw invalid_argument( "追加しようとしたレイヤーは、すでに別のシーンに所属しています。" );
 			throw "追加しようとしたレイヤーは、すでに別のシーンに所属しています。";
 		}
 		m_layers.push_back(layer);
@@ -141,6 +140,7 @@ namespace ace
 	void Scene::AddComponent(const ComponentPtr& component, astring key)
 	{
 		m_components[key] = component;
+		component->SetScene(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -158,5 +158,6 @@ namespace ace
 	{
 		auto it = m_components.find(key);
 		m_components.erase(it);
+		it->second->SetScene(nullptr);
 	}
 }

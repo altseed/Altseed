@@ -110,6 +110,7 @@ namespace ace
 	void Object2DBase::AddComponent(const ComponentPtr& component, astring key)
 	{
 		m_components[key] = component;
+		component->SetOwner(this);
 	}
 
 	Object2DBase::ComponentPtr& Object2DBase::GetComponent(astring key)
@@ -121,5 +122,6 @@ namespace ace
 	{
 		auto it = m_components.find(key);
 		m_components.erase(it);
+		it->second->SetOwner(nullptr);
 	}
 }
