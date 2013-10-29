@@ -22,8 +22,8 @@ namespace ace
 		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
 		
 		std::shared_ptr<CoreLayer> GetCoreLayer() const;
-		void Update();
 		void DrawAdditionally();
+		void UpdateObjects();
 
 		void BeginDrawing();
 		void EndDrawing();

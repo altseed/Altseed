@@ -56,12 +56,6 @@ int main(int argc, char **argv)
 	GetDirectoryName(current_path, argv[0]);
 	SetCurrentDirectoryA(current_path);
 #endif
-	//Graphics_Renderer2D(false);
-	//return 0;
-
-	//Profiler_Profiling();
-	//return 0;
-
 	Graphics_CustomPostEffect();
 	return 0;
 

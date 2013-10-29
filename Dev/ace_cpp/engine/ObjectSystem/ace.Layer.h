@@ -20,11 +20,16 @@ namespace ace
 		virtual std::shared_ptr<CoreLayer> GetCoreLayer() const = 0;
 		virtual void SetScene(Scene* scene);
 
-		virtual void Update() = 0;
+		virtual void Update();
+		virtual void UpdateObjects() = 0;
 		virtual void DrawAdditionally() = 0;
 
 		virtual void BeginDrawing() = 0;
 		virtual void EndDrawing() = 0;
+
+	protected:
+		virtual void OnUpdated() = 0;
+		virtual void OnUpdating() = 0;
 
 	public:
 		Layer();

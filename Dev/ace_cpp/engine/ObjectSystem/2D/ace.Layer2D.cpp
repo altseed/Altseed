@@ -13,7 +13,6 @@ namespace ace
 	Layer2D::Layer2D()
 		: m_coreLayer(nullptr)
 		, m_objects(list<ObjectPtr>())
-		, m_scene(nullptr)
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer2D());
 	}
@@ -32,21 +31,12 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Layer2D::Update()
+	void Layer2D::UpdateObjects()
 	{
-		OnUpdating();
-
 		for (auto& object : m_objects)
 		{
 			object->Update();
 		}
-
-		for (auto& component : m_components)
-		{
-			component.second->Update();
-		}
-
-		OnUpdated();
 	}
 
 	//----------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-#include "ace.Layer.h"
+﻿#include "ace.Layer.h"
 using namespace std;
 
 namespace ace
@@ -7,6 +7,19 @@ namespace ace
 		: m_components(map<astring, ComponentPtr>())
 		, m_scene(nullptr)
 	{
+	}
+
+	void Layer::Update()
+	{
+		OnUpdated();
+		UpdateObjects();
+
+		for (auto& component : m_components)
+		{
+			component.second->Update();
+		}
+
+		OnUpdating();
 	}
 
 	void Layer::AddComponent(const ComponentPtr& component, astring key)
