@@ -35,5 +35,15 @@ namespace ace
 		{
 			return new Vector2DF( left.X + right.X, left.Y + right.Y );
 		}
+
+		public static Vector2DF operator -( Vector2DF left, Vector2DF right )
+		{
+			return new Vector2DF( left.X - right.X, left.Y - right.Y );
+		}
+
+		public static Vector2DF operator -( Vector2DF op )
+		{
+			return new Vector2DF( -op.X, -op.Y );
+		}
 	}
 }
