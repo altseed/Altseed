@@ -26,7 +26,7 @@ namespace ace
 
 			GC.Layer2Ds.AddObject(p, this);
 
-			objects_ = new List<Object2DBase>();
+			objects_ = new List<Object2D>();
 			postEffects = new List<PostEffect>();
 		}
 
@@ -62,7 +62,7 @@ namespace ace
 		/// <summary>
 		/// このレイヤーが管理している2Dオブジェクトのコレクションを取得します。
 		/// </summary>
-		public IEnumerable<Object2DBase> Objects
+		public IEnumerable<Object2D> Objects
 		{
 			get { return objects_; }
 		}
@@ -82,7 +82,7 @@ namespace ace
 		/// このレイヤーに指定した2Dオブジェクトを追加します。
 		/// </summary>
 		/// <param name="object2D">追加する2Dオブジェクト。</param>
-		public void AddObject(Object2DBase object2D)
+		public void AddObject(Object2D object2D)
 		{
 			if( object2D.Layer != null )
 			{
@@ -98,7 +98,7 @@ namespace ace
 		/// このレイヤーから指定した2Dオブジェクトを削除します。
 		/// </summary>
 		/// <param name="object2D">削除される2Dオブジェクト。</param>
-		public void RemoveObject(Object2DBase object2D)
+		public void RemoveObject(Object2D object2D)
 		{
 			objects_.Remove(object2D);
 			coreLayer2D.RemoveObject(object2D.CoreObject);
@@ -226,6 +226,6 @@ namespace ace
 
 		private swig.CoreLayer2D coreLayer2D { get; set; }
 
-		private List<Object2DBase> objects_ { get; set; }
+		private List<Object2D> objects_ { get; set; }
 	}
 }

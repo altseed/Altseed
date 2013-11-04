@@ -109,12 +109,12 @@ namespace ace
 	}
 
 
-	ICoreObject2D& TransformInfo2D::GetParent()
+	CoreObject2D& TransformInfo2D::GetParent()
 	{
 		return m_parentInfo->GetParent();
 	}
 
-	void TransformInfo2D::SetParent(ICoreObject2D& parent, eChildMode mode)
+	void TransformInfo2D::SetParent(CoreObject2D& parent, eChildMode mode)
 	{
 		if (m_parentInfo != nullptr)
 		{

@@ -14,7 +14,6 @@ namespace ace
 		ObjectSystemFactory_Imp(Graphics_Imp* graphics, Log_Imp* logger, Vector2DI windowSize);
 		virtual ~ObjectSystemFactory_Imp();
 
-		CoreObject2D* CreateObject2D();
 		CoreTextureObject2D* CreateTextureObject2D();
 		CoreLayer2D* CreateLayer2D();
 		CoreScene* CreateScene();

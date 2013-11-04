@@ -12,12 +12,12 @@ namespace ace
 		OnUpdate();
 	}
 
-	Object2DBase* ObjectComponent::GetOwner() const
+	Object2D* ObjectComponent::GetOwner() const
 	{
 		return m_object;
 	}
 
-	void ObjectComponent::SetOwner(Object2DBase* value)
+	void ObjectComponent::SetOwner(Object2D* value)
 	{
 		m_object = value;
 	}

@@ -2,11 +2,11 @@
 #include "../common/Math/ace.Vector2DF.h"
 #include "../common/Graphics/ace.Color.h"
 #include "../../Graphics/Common/Resource/ace.Texture2D.h"
-#include "ace.ICoreObject2D.h"
+#include "ace.CoreObject2D.h"
 
 namespace ace
 {
-	class CoreTextureObject2D : public ICoreObject2D
+	class CoreTextureObject2D : public CoreObject2D
 	{
 	public:
 		virtual ~CoreTextureObject2D()

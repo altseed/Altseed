@@ -8,7 +8,7 @@ namespace ace
 {
 	public abstract class SceneComponent
 	{
-		protected void OnUpdated();
+		protected abstract void OnUpdated();
 
 		internal void Update()
 		{

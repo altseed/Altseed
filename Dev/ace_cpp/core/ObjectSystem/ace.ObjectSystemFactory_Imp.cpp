@@ -1,5 +1,4 @@
 ﻿#include "ace.ObjectSystemFactory_Imp.h"
-#include "2D/ace.CoreObject2D_Imp.h"
 #include "2D/ace.CoreTextureObject2D_Imp.h"
 #include "2D/ace.CoreLayer2D_Imp.h"
 #include "ace.CoreScene_Imp.h"
@@ -26,14 +25,6 @@ namespace ace
 	ObjectSystemFactory_Imp::~ObjectSystemFactory_Imp()
 	{
 		SafeRelease(m_graphics);
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	CoreObject2D* ObjectSystemFactory_Imp::CreateObject2D()
-	{
-		return new CoreObject2D_Imp();
 	}
 
 	//----------------------------------------------------------------------------------

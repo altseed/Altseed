@@ -31,7 +31,6 @@ namespace ace {
 	class Material2D;
 
 	class ObjectSystemFactory;
-	class ICoreObject2D;
 	class CoreObject2D;
 	class CoreTextureObject2D;
 	class CoreLayer;

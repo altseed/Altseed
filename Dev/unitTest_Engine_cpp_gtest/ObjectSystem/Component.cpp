@@ -10,11 +10,11 @@ using namespace ace;
 class MyComponent : public ace::ObjectComponent
 {
 private:
-	Object2DBase* m_owner;
+	Object2D* m_owner;
 	int time;
 
 public:
-	MyComponent(Object2DBase& owner)
+	MyComponent(Object2D& owner)
 		: time(0)
 		, m_owner(&owner)
 	{

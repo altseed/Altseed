@@ -11,12 +11,6 @@
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.Layer2D.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2D.cpp">
-      <Filter>ObjectSystem\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2DBase.cpp">
-      <Filter>ObjectSystem\2D</Filter>
-    </ClCompile>
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.cpp">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClCompile>
@@ -44,6 +38,9 @@
     <ClCompile Include="..\engine\ObjectSystem\ace.Layer.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -55,12 +52,6 @@
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.Layer2D.h">
-      <Filter>ObjectSystem\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\2D\ace.Object2D.h">
-      <Filter>ObjectSystem\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\2D\ace.Object2DBase.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\ace.Layer.h">
@@ -90,6 +81,9 @@
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\Component\ace.SceneComponent.h">
       <Filter>ObjectSystem\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.Object2D.h">
+      <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

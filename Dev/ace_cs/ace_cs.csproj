@@ -72,15 +72,14 @@
     <Compile Include="ObjectSystem\ChildMode.cs" />
     <Compile Include="ObjectSystem\LayerComponent.cs" />
     <Compile Include="ObjectSystem\ObjectComponent.cs" />
-    <Compile Include="ObjectSystem\Object2DBase.cs" />
+    <Compile Include="ObjectSystem\2D\Object2D.cs" />
     <Compile Include="ObjectSystem\Layer.cs" />
-    <Compile Include="ObjectSystem\Layer2D.cs" />
-    <Compile Include="ObjectSystem\Object2D.cs" />
+    <Compile Include="ObjectSystem\2D\Layer2D.cs" />
     <Compile Include="ObjectSystem\ObjectSystemFactory.cs" />
     <Compile Include="ObjectSystem\PostEffect.cs" />
     <Compile Include="ObjectSystem\Scene.cs" />
     <Compile Include="ObjectSystem\SceneComponent.cs" />
-    <Compile Include="ObjectSystem\TextureObject2D.cs" />
+    <Compile Include="ObjectSystem\2D\TextureObject2D.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="swig\ace_core_cs.cs" />
@@ -90,7 +89,6 @@
     <Compile Include="swig\CoreLayer2D.cs" />
     <Compile Include="swig\CoreLayer2D_Imp.cs" />
     <Compile Include="swig\CoreObject2D.cs" />
-    <Compile Include="swig\CoreObject2D_Imp.cs" />
     <Compile Include="swig\CorePostEffect.cs" />
     <Compile Include="swig\CorePostEffect_Imp.cs" />
     <Compile Include="swig\CoreScene.cs" />
@@ -114,7 +112,6 @@
     <Compile Include="swig\eTextureWrapType.cs" />
     <Compile Include="swig\Graphics.cs" />
     <Compile Include="swig\Graphics_Imp.cs" />
-    <Compile Include="swig\ICoreObject2D.cs" />
     <Compile Include="swig\IMouseButtonState.cs" />
     <Compile Include="swig\IMouseWheelableButtonState.cs" />
     <Compile Include="swig\IReference.cs" />

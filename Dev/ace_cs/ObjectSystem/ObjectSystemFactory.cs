@@ -16,15 +16,6 @@ namespace ace
 		{
 			this.factory = factory;
 		}
-		
-		/// <summary>
-		/// ネイティブの CoreObject2D クラスをインスタンス化します。
-		/// </summary>
-		/// <returns>ネイティブのインスタンス。</returns>
-		public swig.CoreObject2D CreateObject2D()
-		{
-			return factory.CreateObject2D();
-		}
 
 		/// <summary>
 		/// ネイティブの CoreTextureObject2D クラスをインスタンス化します。

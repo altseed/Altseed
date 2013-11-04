@@ -1,16 +1,16 @@
 ﻿#pragma once
 #include <memory>
-#include "ace.Object2DBase.h"
+#include "ace.Object2D.h"
 
 namespace ace
 {
-	class TextureObject2D : public Object2DBase
+	class TextureObject2D : public Object2D
 	{
 	private:
 		std::shared_ptr<CoreTextureObject2D> m_coreObject;
 		std::shared_ptr<Texture2D> m_texturePtr;
 
-		ICoreObject2D* GetCoreObject() const;
+		CoreObject2D* GetCoreObject() const;
 
 	protected:
 		/**

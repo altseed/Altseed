@@ -25,9 +25,7 @@
 #include "Graphics/Common/Resource/ace.Material2D_Imp.h"
 
 #include "ObjectSystem/ace.eChildMode.h"
-#include "ObjectSystem/2D/ace.ICoreObject2D.h"
 #include "ObjectSystem/2D/ace.CoreObject2D.h"
-#include "ObjectSystem/2D/ace.CoreObject2D_Imp.h"
 #include "ObjectSystem/2D/ace.CoreTextureObject2D.h"
 #include "ObjectSystem/2D/ace.CoreTextureObject2D_Imp.h"
 #include "ObjectSystem/ace.CoreLayer.h"
@@ -265,9 +263,7 @@ namespace ace
 %include "ace_cpp/core/Graphics/Common/ace.Graphics_Imp.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.eChildMode.h"
-%include "ace_cpp/core/ObjectSystem/2D/ace.ICoreObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D.h"
-%include "ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D_Imp.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D_Imp.h"
 %include "ace_cpp/core/ObjectSystem/ace.CoreLayer.h"

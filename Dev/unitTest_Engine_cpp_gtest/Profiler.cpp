@@ -12,6 +12,7 @@ void Profiler_Profiling()
 
 	auto profiler = ace::GetProfiler();
 
+	printf("printfで負荷をかけます\n");
 	while (engine->DoEvents())
 	{
 		profiler->Start(12);
@@ -19,9 +20,10 @@ void Profiler_Profiling()
 		profiler->End(12);
 
 		profiler->Start(17);
-		printf( "負荷をかけています\n" );
+		printf( "*" );
 		profiler->End(17);
 	}
+	printf("\n");
 
 	engine->Terminate();
 }

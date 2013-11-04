@@ -4,13 +4,13 @@ namespace ace
 {
 	class ObjectComponent
 	{
-		friend class Object2DBase;
+		friend class Object2D;
 
 	private:
-		Object2DBase* m_object;
+		Object2D* m_object;
 
 		void Update();
-		void SetOwner(Object2DBase* value);
+		void SetOwner(Object2D* value);
 
 	protected:
 		virtual void OnUpdate() = 0;
@@ -21,6 +21,6 @@ namespace ace
 		{
 		}
 
-		Object2DBase* GetOwner() const;
+		Object2D* GetOwner() const;
 	};
 }

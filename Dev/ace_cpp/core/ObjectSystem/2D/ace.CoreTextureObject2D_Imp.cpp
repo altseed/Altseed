@@ -236,12 +236,12 @@ namespace ace
 		m_layer = layer;
 	}
 
-	void CoreTextureObject2D_Imp::AddChild(ICoreObject2D& child, eChildMode mode)
+	void CoreTextureObject2D_Imp::AddChild(CoreObject2D& child, eChildMode mode)
 	{
 		child.SetParent(*this, mode);
 	}
 
-	void CoreTextureObject2D_Imp::RemoveChild(ICoreObject2D& child)
+	void CoreTextureObject2D_Imp::RemoveChild(CoreObject2D& child)
 	{
 		child.ClearParent();
 	}

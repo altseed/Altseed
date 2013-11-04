@@ -88,7 +88,6 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSep
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.ObjectComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.LayerComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent.h')
-engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Object2DBase.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Object2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Layer.h")

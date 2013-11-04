@@ -15,7 +15,6 @@ namespace ace
 
 		internal static IDObjectContainer<Scene> Scenes { get; private set; }
 		internal static IDObjectContainer<Layer2D> Layer2Ds { get; private set; }
-		internal static IDObjectContainer<Object2D> Object2Ds { get; private set; }
 		internal static IDObjectContainer<TextureObject2D> TextureObject2Ds { get; private set; }
 		internal static IDObjectContainer<PostEffect> PostEffects { get; private set; }
 
@@ -29,7 +28,6 @@ namespace ace
 			Material2Ds = new IDObjectContainer<Material2D>();
 			Scenes = new IDObjectContainer<Scene>();
 			Layer2Ds = new IDObjectContainer<Layer2D>();
-			Object2Ds = new IDObjectContainer<Object2D>();
 			TextureObject2Ds = new IDObjectContainer<TextureObject2D>();
 			PostEffects = new IDObjectContainer<PostEffect>();
 			//Profilers = new IDObjectContainer<Profiler>();
@@ -49,7 +47,6 @@ namespace ace
 				Material2Ds.DestroyAll();
 				Scenes.DestroyAll();
 				Layer2Ds.DestroyAll();
-				Object2Ds.DestroyAll();
 				TextureObject2Ds.DestroyAll();
 				PostEffects.DestroyAll();
 				//Profilers.DestroyAll();

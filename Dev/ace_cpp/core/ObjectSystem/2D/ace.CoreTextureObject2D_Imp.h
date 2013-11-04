@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "ace.CoreObject2D_Imp.h"
 #include "ace.CoreTextureObject2D.h"
 #include "ace.TransformInfo2D.h"
 
@@ -80,14 +79,14 @@ namespace ace
 		void SetAlphaBlendMode(eAlphaBlend alphaBlend);
 #pragma endregion
 
-		void AddChild(ICoreObject2D& child, eChildMode mode);
-		void RemoveChild(ICoreObject2D& child);
+		void AddChild(CoreObject2D& child, eChildMode mode);
+		void RemoveChild(CoreObject2D& child);
 
 #if !SWIG
 		void Draw();
 		
 		void SetLayer(CoreLayer2D* layer);
-		void SetParent(ICoreObject2D& parent, eChildMode mode)
+		void SetParent(CoreObject2D& parent, eChildMode mode)
 		{
 			m_transform.SetParent(parent, mode);
 		}

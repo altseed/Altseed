@@ -1,35 +1,62 @@
 ﻿#pragma once
 #include <memory>
+#include <list>
 #include "../../ace.CoreToEngine.h"
-#include "ace.Object2DBase.h"
+#include "../Component/ace.ObjectComponent.h"
 
 namespace ace
 {
-	class Object2D : Object2DBase
-	{
-	private:
-		std::shared_ptr<CoreObject2D> m_coreObject;
+	class Layer2D;
 
-		ICoreObject2D* GetCoreObject() const;
+	class Object2D
+	{
+		friend class Layer2D;
+
+	public:
+		typedef std::shared_ptr<Object2D> Object2DBasePtr;
+		typedef std::shared_ptr<ObjectComponent> ComponentPtr;
+
+	private:
+		Layer2D* m_owner;
+		std::list<Object2DBasePtr> m_children;
+		std::map<astring, ComponentPtr> m_components;
+
+		void Start();
+		void Update();
+		void SetLayer(Layer2D* layer);
+		virtual CoreObject2D* GetCoreObject() const = 0;
 
 	protected:
-		/**
-		@brief	オーバーライドして、このオブジェクトの初期化処理を記述できる。
-		*/
-		virtual void OnStart();
-
-		/**
-		@brief	オーバーライドして、毎フレーム実行される更新処理を記述できる。
-		*/
-		virtual void OnUpdate();
-
-		/**
-		@brief	オーバーライドして、追加の描画処理を記述できる。
-		*/
-		virtual void OnDrawingAdditionally();
+		virtual void OnStart() = 0;
+		virtual void OnUpdate() = 0;
+		virtual void OnDrawAdditionally() = 0;
 
 	public:
 		Object2D();
 		virtual ~Object2D();
+
+		/**
+			@brief	このオブジェクトを保持しているレイヤーを取得する。
+		*/
+		Layer2D* GetLayer() const;
+
+		void AddChild(const Object2DBasePtr& child, eChildMode mode);
+		void RemoveChild(const Object2DBasePtr& child);
+		const std::list<Object2DBasePtr>& GetChildren() const;
+
+		void AddComponent(const ComponentPtr& component, astring key);
+		ComponentPtr& GetComponent(astring key);
+		void RemoveComponent(astring key);
+
+
+		Vector2DF GetPosition() const;
+		void SetPosition(Vector2DF position);
+		Vector2DF GetGlobalPosition();
+
+		float GetAngle() const;
+		void SetAngle(float value);
+
+		Vector2DF GetScale() const;
+		void SetScale(Vector2DF value);
 	};
 }

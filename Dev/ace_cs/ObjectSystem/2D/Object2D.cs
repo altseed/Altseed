@@ -8,12 +8,12 @@ namespace ace
 	/// <summary>
 	/// 更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
 	/// </summary>
-	public abstract class Object2DBase
+	public abstract class Object2D
 	{
-		public Object2DBase()
+		public Object2D()
 		{
 			components_ = new Dictionary<string, ObjectComponent>();
-			children_ = new List<Object2DBase>();
+			children_ = new List<Object2D>();
 		}
 
 
@@ -27,7 +27,7 @@ namespace ace
 			get { return components_; }
 		}
 
-		public IEnumerable<Object2DBase> Children
+		public IEnumerable<Object2D> Children
 		{
 			get { return children_; }
 		}
@@ -65,13 +65,13 @@ namespace ace
 			return CoreObject.GetGlobalPosition();
 		}
 
-		public void AddChild( Object2DBase child, ChildMode mode )
+		public void AddChild( Object2D child, ChildMode mode )
 		{
 			CoreObject.AddChild( child.CoreObject, (swig.eChildMode)mode );
 			children_.Add( child );
 		}
 
-		public void RemoveChild( Object2DBase child )
+		public void RemoveChild( Object2D child )
 		{
 			CoreObject.RemoveChild( child.CoreObject );
 			children_.Remove( child );
@@ -103,7 +103,7 @@ namespace ace
 		protected abstract void OnDrawAdditionally();
 
 
-		internal abstract swig.ICoreObject2D CoreObject { get; }
+		internal abstract swig.CoreObject2D CoreObject { get; }
 
 		internal void Start()
 		{
@@ -126,6 +126,6 @@ namespace ace
 
 		private Dictionary<string, ObjectComponent> components_ { get; set; }
 
-		private List<Object2DBase> children_ { get; set; }
+		private List<Object2D> children_ { get; set; }
 	}
 }

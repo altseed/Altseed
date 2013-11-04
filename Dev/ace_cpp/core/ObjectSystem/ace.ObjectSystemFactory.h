@@ -13,7 +13,6 @@ namespace ace
 		{
 		}
 
-		virtual CoreObject2D* CreateObject2D() = 0;
 		virtual CoreTextureObject2D* CreateTextureObject2D() = 0;
 		virtual CoreLayer2D* CreateLayer2D() = 0;
 		virtual CoreScene* CreateScene() = 0;

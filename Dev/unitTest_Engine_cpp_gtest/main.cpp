@@ -56,12 +56,6 @@ int main(int argc, char **argv)
 	GetDirectoryName(current_path, argv[0]);
 	SetCurrentDirectoryA(current_path);
 #endif
-	Graphics_CustomPostEffect();
-	return 0;
-
-	// Graphics_PostEffectGrayScale();
-	Graphics_PostEffectSepia();
-	return 0;
 
 	::testing::InitGoogleTest(&argc, argv);
 

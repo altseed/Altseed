@@ -276,19 +276,10 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.TransformInfo2D.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\2D\ace.ICoreObject2D.h">
-      <Filter>ObjectSystem\2D</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreLayer2D.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreLayer2D_Imp.h">
-      <Filter>ObjectSystem\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h">
-      <Filter>ObjectSystem\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextureObject2D.h">
@@ -350,6 +341,9 @@
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.h">
       <Filter>Graphics\Common\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -497,9 +491,6 @@
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreLayer2D_Imp.cpp">
-      <Filter>ObjectSystem\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreTextureObject2D_Imp.cpp">

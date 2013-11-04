@@ -9,7 +9,7 @@ namespace ace
 	/// <summary>
 	/// テクスチャと描画パラメータを用いて、更新・描画処理を行う単位となる2Dオブジェクトの機能を提供するクラス。
 	/// </summary>
-	public class TextureObject2D : Object2DBase, IDestroy
+	public class TextureObject2D : Object2D, IDestroy
 	{
 		/// <summary>
 		/// ace.TextureObject2D の新しいインスタンスを初期化します。
@@ -135,7 +135,7 @@ namespace ace
 			set { renderedObject.SetAlphaBlendMode( (swig.eAlphaBlend)value ); }
 		}
 
-		internal override swig.ICoreObject2D CoreObject
+		internal override swig.CoreObject2D CoreObject
 		{
 			get { return renderedObject; }
 		}

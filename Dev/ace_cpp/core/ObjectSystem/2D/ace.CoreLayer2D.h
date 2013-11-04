@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include <list>
-#include "ace.ICoreObject2D.h"
+#include "ace.CoreObject2D.h"
 #include "../../Graphics/Common/2D/ace.Renderer2D_Imp.h"
 #include "../ace.CoreLayer.h"
 
@@ -9,7 +9,7 @@ namespace ace
 	class CoreLayer2D : public CoreLayer
 	{
 	public:
-		typedef ICoreObject2D* ObjectPtr;
+		typedef CoreObject2D* ObjectPtr;
 
 		virtual void AddObject(ObjectPtr object2D) = 0;
 		virtual void RemoveObject(ObjectPtr object2D) = 0;

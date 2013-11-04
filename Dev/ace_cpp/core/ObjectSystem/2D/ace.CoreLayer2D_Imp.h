@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "ace.CoreLayer2D.h"
-#include "ace.ICoreObject2D.h"
+#include "ace.CoreObject2D.h"
 #include "../../Graphics/Common/2D/ace.Renderer2D_Imp.h"
 #include "../../Graphics/Common/2D/ace.LayerRenderer.h"
 #include <list>

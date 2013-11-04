@@ -16,7 +16,7 @@ namespace ace
 	{
 	}
 
-	ICoreObject2D* TextureObject2D::GetCoreObject() const
+	CoreObject2D* TextureObject2D::GetCoreObject() const
 	{
 		return m_coreObject.get();
 	}
