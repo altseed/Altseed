@@ -28,6 +28,7 @@ namespace ace
 
 			objects_ = new List<Object2D>();
 			postEffects = new List<PostEffect>();
+			components_ = new Dictionary<string, Layer2DComponent>();
 		}
 
 		#region GC対策
@@ -67,7 +68,10 @@ namespace ace
 			get { return objects_; }
 		}
 
-		List<PostEffect> postEffects;
+		public IDictionary<string, Layer2DComponent> Components
+		{
+			get { return components_; }
+		}
 
 		/// <summary>
 		/// このレイヤーの描画優先度を取得または設定します。この値が大きいほど手前に描画されます。
@@ -105,6 +109,18 @@ namespace ace
 			object2D.Layer = null;
 		}
 
+		public void AddComponent(Layer2DComponent component, string key)
+		{
+			components_[key] = component;
+			component.Owner = this;
+		}
+
+		public void RemoveComponent(string key)
+		{
+			components_[key].Owner = null;
+			components_.Remove( key );
+		}
+
 		/// <summary>
 		/// ポストエフェクトを追加する。
 		/// </summary>
@@ -135,6 +151,7 @@ namespace ace
 		protected virtual void OnDrawAdditionally()
 		{
 		}
+
 
 		internal override swig.CoreLayer CoreLayer
 		{
@@ -227,5 +244,9 @@ namespace ace
 		private swig.CoreLayer2D coreLayer2D { get; set; }
 
 		private List<Object2D> objects_ { get; set; }
+
+		private List<PostEffect> postEffects;
+
+		private Dictionary<string, Layer2DComponent> components_ { get; set; }
 	}
 }

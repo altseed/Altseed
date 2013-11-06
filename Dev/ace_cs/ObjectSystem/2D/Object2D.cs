@@ -12,7 +12,7 @@ namespace ace
 	{
 		public Object2D()
 		{
-			components_ = new Dictionary<string, ObjectComponent>();
+			components_ = new Dictionary<string, Object2DComponent>();
 			children_ = new List<Object2D>();
 		}
 
@@ -22,7 +22,7 @@ namespace ace
 		/// </summary>
 		public abstract Layer2D Layer { get; internal set; }
 
-		public IDictionary<string, ObjectComponent> Components
+		public IDictionary<string, Object2DComponent> Components
 		{
 			get { return components_; }
 		}
@@ -77,13 +77,15 @@ namespace ace
 			children_.Remove( child );
 		}
 
-		public void AddComponent( ObjectComponent component, string key )
+		public void AddComponent( Object2DComponent component, string key )
 		{
+			component.Owner = this;
 			components_[key] = component;
 		}
 
 		public void RemoveComponent( string key )
 		{
+			components_[key].Owner = null;
 			components_.Remove(key);
 		}
 
@@ -124,7 +126,7 @@ namespace ace
 			OnDrawAdditionally();
 		}
 
-		private Dictionary<string, ObjectComponent> components_ { get; set; }
+		private Dictionary<string, Object2DComponent> components_ { get; set; }
 
 		private List<Object2D> children_ { get; set; }
 	}

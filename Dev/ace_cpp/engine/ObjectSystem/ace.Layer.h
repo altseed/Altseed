@@ -2,7 +2,6 @@
 #include <memory>
 #include <map>
 #include "../ace.CoreToEngine.h"
-#include "Component\ace.LayerComponent.h"
 
 namespace ace
 {
@@ -10,18 +9,13 @@ namespace ace
 	{
 		friend class Scene;
 
-	public:
-		typedef std::shared_ptr<LayerComponent> ComponentPtr;
-
 	private:
-		std::map<astring, ComponentPtr> m_components;
 		Scene* m_scene;
-
-		virtual std::shared_ptr<CoreLayer> GetCoreLayer() const = 0;
 		virtual void SetScene(Scene* scene);
 
-		virtual void Update();
-		virtual void UpdateObjects() = 0;
+		virtual std::shared_ptr<CoreLayer> GetCoreLayer() const = 0;
+
+		virtual void Update() = 0;
 		virtual void DrawAdditionally() = 0;
 
 		virtual void BeginDrawing() = 0;
@@ -39,10 +33,6 @@ namespace ace
 
 		virtual int GetDrawingPriority() const = 0;
 		virtual void SetDrawingPriority(int value) = 0;
-
-		void AddComponent(const ComponentPtr& component, astring key);
-		ComponentPtr& GetComponent(astring key);
-		void RemoveComponent(astring key);
 
 		virtual Scene* GetScene() const;
 	};

@@ -70,8 +70,8 @@
     <Compile Include="Math\Vector2DI.cs" />
     <Compile Include="Math\Vector3DF.cs" />
     <Compile Include="ObjectSystem\ChildMode.cs" />
-    <Compile Include="ObjectSystem\LayerComponent.cs" />
-    <Compile Include="ObjectSystem\ObjectComponent.cs" />
+    <Compile Include="ObjectSystem\2D\Layer2DComponent.cs" />
+    <Compile Include="ObjectSystem\2D\Object2DComponent.cs" />
     <Compile Include="ObjectSystem\2D\Object2D.cs" />
     <Compile Include="ObjectSystem\Layer.cs" />
     <Compile Include="ObjectSystem\2D\Layer2D.cs" />

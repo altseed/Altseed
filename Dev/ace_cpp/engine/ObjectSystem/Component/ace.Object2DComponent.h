@@ -2,7 +2,7 @@
 
 namespace ace
 {
-	class ObjectComponent
+	class Object2DComponent
 	{
 		friend class Object2D;
 
@@ -16,8 +16,8 @@ namespace ace
 		virtual void OnUpdate() = 0;
 
 	public:
-		ObjectComponent();
-		virtual ~ObjectComponent()
+		Object2DComponent();
+		virtual ~Object2DComponent()
 		{
 		}
 

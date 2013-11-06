@@ -26,12 +26,6 @@
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.cpp">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\ObjectSystem\Component\ace.ObjectComponent.cpp">
-      <Filter>ObjectSystem\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="..\engine\ObjectSystem\Component\ace.LayerComponent.cpp">
-      <Filter>ObjectSystem\Component</Filter>
-    </ClCompile>
     <ClCompile Include="..\engine\ObjectSystem\Component\ace.SceneComponent.cpp">
       <Filter>ObjectSystem\Component</Filter>
     </ClCompile>
@@ -40,6 +34,12 @@
     </ClCompile>
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2D.cpp">
       <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Component\ace.Object2DComponent.cpp">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Component\ace.Layer2DComponent.cpp">
+      <Filter>ObjectSystem\Component</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -73,17 +73,17 @@
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.h">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\Component\ace.ObjectComponent.h">
-      <Filter>ObjectSystem\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\Component\ace.LayerComponent.h">
-      <Filter>ObjectSystem\Component</Filter>
-    </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\Component\ace.SceneComponent.h">
       <Filter>ObjectSystem\Component</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.Object2D.h">
       <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Component\ace.Object2DComponent.h">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Component\ace.Layer2DComponent.h">
+      <Filter>ObjectSystem\Component</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

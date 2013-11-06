@@ -215,6 +215,7 @@ $RECYCLE.BIN/
 /Product/inlude/
 /Product/lib/
 /Sample/
+/Document/Doxygen/
 
 # Result of Test
 /Dev/test_cpp/msvc/Log.html

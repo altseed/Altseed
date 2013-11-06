@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-	public abstract class SceneComponent
+	public abstract class Layer2DComponent
 	{
-		public Scene Owner { get; internal set; }
+		public Layer2D Owner { get; internal set; }
 
 		protected abstract void OnUpdated();
 

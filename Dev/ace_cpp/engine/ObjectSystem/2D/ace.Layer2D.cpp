@@ -13,6 +13,7 @@ namespace ace
 	Layer2D::Layer2D()
 		: m_coreLayer(nullptr)
 		, m_objects(list<ObjectPtr>())
+		, m_components(map<astring, ComponentPtr>())
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer2D());
 	}
@@ -31,12 +32,21 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Layer2D::UpdateObjects()
+	void Layer2D::Update()
 	{
+		OnUpdating();
+
 		for (auto& object : m_objects)
 		{
 			object->Update();
 		}
+
+		for (auto& component : m_components)
+		{
+			component.second->Update();
+		}
+
+		OnUpdated();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -159,6 +169,24 @@ namespace ace
 		m_coreLayer->ClearPostEffects();
 	}
 
+	void Layer2D::AddComponent(const ComponentPtr& component, astring key)
+	{
+		m_components[key] = component;
+		component->SetLayer(this);
+	}
+
+	Layer2D::ComponentPtr& Layer2D::GetComponent(astring key)
+	{
+		return m_components[key];
+	}
+
+	void Layer2D::RemoveComponent(astring key)
+	{
+		auto it = m_components.find(key);
+		m_components.erase(it);
+		it->second->SetLayer(nullptr);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -182,5 +210,4 @@ namespace ace
 	{
 		m_coreLayer->SetDrawingPriority(value);
 	}
-
 }

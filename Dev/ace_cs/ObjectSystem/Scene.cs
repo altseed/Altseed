@@ -29,6 +29,7 @@ namespace ace
 			GC.Scenes.AddObject(p, this);
 
 			layers_ = new List<Layer>();
+			components_ = new Dictionary<string, SceneComponent>();
 		}
 
 		#region GC対策
@@ -66,6 +67,11 @@ namespace ace
 			get { return layers_; }
 		}
 
+		public IDictionary<string,SceneComponent> Components
+		{
+			get { return components_; }
+		}
+
 		/// <summary>
 		/// このシーンに指定したレイヤーを追加します。
 		/// </summary>
@@ -90,6 +96,18 @@ namespace ace
 			layers_.Remove( layer );
 			CoreScene.RemoveLayer( layer.CoreLayer );
 			layer.Scene = null;
+		}
+
+		public void	AddComponent(SceneComponent component, string key)
+		{
+			component.Owner = this;
+			components_[key] = component;
+		}
+
+		public void RemoveComponent(string key)
+		{
+			components_[key].Owner = null;
+			components_.Remove(key);
 		}
 
 		protected virtual void OnUpdating()
@@ -142,5 +160,7 @@ namespace ace
 		}
 
 		private List<Layer> layers_;
+
+		private Dictionary<string, SceneComponent> components_;
 	}
 }
