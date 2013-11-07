@@ -42,6 +42,8 @@ extern void ObjectSystem_Component();
 extern void Graphics_CustomPostEffect();
 extern void Graphics_PostEffectGrayScale();
 extern void Graphics_PostEffectSepia();
+extern void Graphics_PostEffectSmoothing();
+
 
 /**
 	@brief	単体テストを実行する。
