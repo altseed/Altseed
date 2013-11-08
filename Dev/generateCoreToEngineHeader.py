@@ -37,6 +37,7 @@ fromCoreToEngine.append('\n#include <stdint.h>')
 
 fromCoreToEngine.readLines("ace_cpp/common/Graphics/ace.Color.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector2DF.h")
+fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector2DI.h")
 fromCoreToEngine.append('namespace ace{ struct Vector3DF; }')
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Matrix43.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Matrix44.h")
