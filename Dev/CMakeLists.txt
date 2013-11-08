@@ -74,7 +74,6 @@ set(core_src
 	ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory_Imp.cpp
 
 	ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D_Imp.cpp
-	ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.TransformInfo2D.cpp
 
@@ -126,9 +125,14 @@ set(engine_src
 	ace_cpp/engine/ObjectSystem/ace.Scene.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.Object2D.cpp
-	ace_cpp/engine/ObjectSystem/2D/ace.Object2DBase.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.cpp
+	ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.cpp
+	ace_cpp/engine/ObjectSystem/Component/ace.Object2DComponent.cpp
+	ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffect.cpp
+	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGrayScale.cpp
+	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSepia.cpp
+	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSmoothing.cpp
 )
 
 set(unittest_gtest_src
@@ -163,6 +167,12 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/main.cpp
 	unitTest_Engine_cpp_gtest/Profiler.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Object2DTest.cpp
+
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/CustomPostEffect.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGrayScaleTest.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepiaTest.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSmoothingTest.cpp
+
 )
 
 set(test_src
