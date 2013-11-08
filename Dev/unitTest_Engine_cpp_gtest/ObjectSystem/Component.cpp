@@ -7,7 +7,7 @@
 using namespace std;
 using namespace ace;
 
-class MyComponent : public ace::ObjectComponent
+class MyComponent : public ace::Object2DComponent
 {
 private:
 	Object2D* m_owner;
