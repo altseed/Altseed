@@ -2,6 +2,8 @@
 
 namespace ace
 {
+	class Layer2D;
+
 	class Layer2DComponent
 	{
 		friend class Layer2D;

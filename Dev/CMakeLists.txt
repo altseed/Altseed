@@ -122,6 +122,7 @@ endif()
 
 set(engine_src
 	ace_cpp/engine/ace.Engine.cpp
+	ace_cpp/engine/ObjectSystem/ace.Layer.cpp
 	ace_cpp/engine/ObjectSystem/ace.Scene.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.Object2D.cpp
