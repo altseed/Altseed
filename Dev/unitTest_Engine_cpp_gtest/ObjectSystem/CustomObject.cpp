@@ -54,8 +54,10 @@ TEST(ObjectSystem, Custom_GL)
 	ObjectSystem_Custom(true);
 }
 
-
+#if _WIN32
 TEST(ObjectSystem, Custom_DX)
 {
 	ObjectSystem_Custom(false);
 }
+#endif
+

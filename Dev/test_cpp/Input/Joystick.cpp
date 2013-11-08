@@ -2,7 +2,7 @@
 
 void Joystick()
 {
-	ace::GetEngine()->Initialize(L"Joystick", 640, 480, false);
+	ace::GetEngine()->Initialize(L"Joystick", 640, 480, ace::EngineOption());
 
 	if (!ace::GetJoystickContainer()->IsPresentAt(0))
 	{

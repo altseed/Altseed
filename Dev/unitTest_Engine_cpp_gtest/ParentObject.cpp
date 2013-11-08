@@ -53,7 +53,10 @@ TEST(ObjectSystem, Parent_GL)
 	ObjectSystem_Parent(true);
 }
 
+#if _WIN32
 TEST(ObjectSystem, Parent_DX)
 {
 	ObjectSystem_Parent(false);
 }
+#endif
+

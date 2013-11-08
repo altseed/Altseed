@@ -46,7 +46,10 @@ TEST(Graphics, PostEffectSmoothing_GL)
 	Graphics_PostEffectSmoothing(true);
 }
 
+#if _WIN32
 TEST(Graphics, PostEffectSmoothing_DX)
 {
 	Graphics_PostEffectSmoothing(false);
 }
+#endif
+

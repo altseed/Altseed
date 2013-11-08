@@ -42,6 +42,10 @@ TEST(Profiler, Profiling_GL)
 	Profiler_Profiling(true);
 }
 
+#if _WIN32
 TEST(Profiler, Profiling_DX)
 {
-	Profiler_Profiling(false);}
+	Profiler_Profiling(false);
+}
+#endif
+

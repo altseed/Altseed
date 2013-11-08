@@ -46,8 +46,10 @@ TEST(Graphics, PostEffectGrayScale_GL)
 	Graphics_PostEffectGrayScale(true);
 }
 
-
+#if _WIN32
 TEST(Graphics, PostEffectGrayScale_DX)
 {
 	Graphics_PostEffectGrayScale(false);
 }
+#endif
+

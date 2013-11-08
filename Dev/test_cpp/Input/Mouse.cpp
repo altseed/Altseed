@@ -35,7 +35,7 @@ static void WheelTest(ace::Mouse *mouse)
 
 void Mouse()
 {
-	ace::GetEngine()->Initialize(L"Mouse", 640, 480, false);
+	ace::GetEngine()->Initialize(L"Mouse", 640, 480, ace::EngineOption());
 
 	while (ace::GetEngine()->DoEvents())
 	{

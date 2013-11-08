@@ -156,7 +156,10 @@ TEST(Graphics, CustomPostEffect_GL)
 	Graphics_CustomPostEffect(true);
 }
 
+#if _WIN32
 TEST(Graphics, CustomPostEffect_DX)
 {
 	Graphics_CustomPostEffect(true);
 }
+#endif
+

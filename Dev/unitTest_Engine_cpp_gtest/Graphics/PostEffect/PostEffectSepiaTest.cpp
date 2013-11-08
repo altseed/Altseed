@@ -46,7 +46,10 @@ TEST(Graphics, PostEffectSepia_GL)
 	Graphics_PostEffectSepia(true);
 }
 
+#if _WIN32
 TEST(Graphics, PostEffectSepia_DX)
 {
 	Graphics_PostEffectSepia(false);
 }
+#endif
+

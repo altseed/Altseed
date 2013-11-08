@@ -54,7 +54,10 @@ TEST(ObjectSystem, Normal_GL)
 	ObjectSystem_Normal(true);
 }
 
+#if _WIN32
 TEST(ObjectSystem, Normal_DX)
 {
 	ObjectSystem_Normal(false);
 }
+#endif
+

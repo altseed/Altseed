@@ -67,7 +67,10 @@ TEST(ObjectSystem, Component_GL)
 	ObjectSystem_Component(true);
 }
 
+#if _WIN32
 TEST(ObjectSystem, Component_DX)
 {
 	ObjectSystem_Component(false);
 }
+#endif
+
