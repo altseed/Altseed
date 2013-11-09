@@ -3,10 +3,13 @@
 #include <memory>
 
 
-void Graphics_PostEffectSmoothing()
+void Graphics_PostEffectSmoothing(bool isOpenGLMode)
 {
+	ace::EngineOption option;
+	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
+
 	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("PostEffectSmoothing").c_str(), 640, 480, false);
+	engine->Initialize(ace::ToAString("PostEffectSmoothing").c_str(), 640, 480, option);
 
 	{
 		auto scene = std::make_shared<ace::Scene>();
@@ -38,7 +41,12 @@ void Graphics_PostEffectSmoothing()
 }
 
 
-TEST(Graphics, PostEffectSmoothing)
+TEST(Graphics, PostEffectSmoothing_GL)
 {
-	Graphics_PostEffectSmoothing();
+	Graphics_PostEffectSmoothing(true);
+}
+
+TEST(Graphics, PostEffectSmoothing_DX)
+{
+	Graphics_PostEffectSmoothing(false);
 }

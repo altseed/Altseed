@@ -3,10 +3,13 @@
 #include <memory>
 
 
-void Graphics_PostEffectSepia()
+void Graphics_PostEffectSepia(bool isOpenGLMode)
 {
+	ace::EngineOption option;
+	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
+
 	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("PostEffectSepia").c_str(), 640, 480, false);
+	engine->Initialize(ace::ToAString("PostEffectSepia").c_str(), 640, 480, option);
 
 	{
 		auto scene = std::make_shared<ace::Scene>();
@@ -38,7 +41,12 @@ void Graphics_PostEffectSepia()
 }
 
 
-TEST(Graphics, PostEffectSepia)
+TEST(Graphics, PostEffectSepia_GL)
 {
-	Graphics_PostEffectSepia();
+	Graphics_PostEffectSepia(true);
+}
+
+TEST(Graphics, PostEffectSepia_DX)
+{
+	Graphics_PostEffectSepia(false);
 }

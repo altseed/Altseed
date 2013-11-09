@@ -3,10 +3,13 @@
 #include <memory>
 
 
-void Graphics_PostEffectGrayScale()
+void Graphics_PostEffectGrayScale(bool isOpenGLMode)
 {
+	ace::EngineOption option;
+	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
+
 	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("PostEffectGrayScale").c_str(), 640, 480, false);
+	engine->Initialize(ace::ToAString("PostEffectGrayScale").c_str(), 640, 480, option);
 
 	{
 		auto scene = std::make_shared<ace::Scene>();
@@ -38,7 +41,13 @@ void Graphics_PostEffectGrayScale()
 }
 
 
-TEST(Graphics, PostEffectGrayScale)
+TEST(Graphics, PostEffectGrayScale_GL)
 {
-	Graphics_PostEffectGrayScale();
+	Graphics_PostEffectGrayScale(true);
+}
+
+
+TEST(Graphics, PostEffectGrayScale_DX)
+{
+	Graphics_PostEffectGrayScale(false);
 }

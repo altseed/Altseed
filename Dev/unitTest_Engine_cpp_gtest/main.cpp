@@ -30,19 +30,15 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
-//extern void Graphics_SingleTexture(bool isOpenGLMode);
-//extern void Graphics_RenderTarget(bool isOpenGLMode);
-//extern void Graphics_Simple3D(bool isOpenGLMode);
-//extern void Graphics_Renderer2D(bool isOpenGLMode);
-extern void Profiler_Profiling();
-extern void ObjectSystem_Normal();
-extern void ObjectSystem_Parent();
-extern void ObjectSystem_Custom();
-extern void ObjectSystem_Component();
-extern void Graphics_CustomPostEffect();
-extern void Graphics_PostEffectGrayScale();
-extern void Graphics_PostEffectSepia();
-extern void Graphics_PostEffectSmoothing();
+extern void Profiler_Profiling(bool isOpenGLMode);
+extern void ObjectSystem_Normal(bool isOpenGLMode);
+extern void ObjectSystem_Parent(bool isOpenGLMode);
+extern void ObjectSystem_Custom(bool isOpenGLMode);
+extern void ObjectSystem_Component(bool isOpenGLMode);
+extern void Graphics_CustomPostEffect(bool isOpenGLMode);
+extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
+extern void Graphics_PostEffectSepia(bool isOpenGLMode);
+extern void Graphics_PostEffectSmoothing(bool isOpenGLMode);
 
 
 /**

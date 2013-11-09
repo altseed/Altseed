@@ -24,10 +24,13 @@ protected:
 	}
 };
 
-void ObjectSystem_Custom()
+void ObjectSystem_Custom(bool isOpenGLMode)
 {
+	ace::EngineOption option;
+	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
+
 	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("CustomObject2D").c_str(), 640, 480, false);
+	engine->Initialize(ace::ToAString("CustomObject2D").c_str(), 640, 480, option);
 
 	{
 		auto scene = make_shared<Scene>();
@@ -46,7 +49,13 @@ void ObjectSystem_Custom()
 	engine->Terminate();
 }
 
-TEST(ObjectSystem, Custom)
+TEST(ObjectSystem, Custom_GL)
 {
-	ObjectSystem_Custom();
+	ObjectSystem_Custom(true);
+}
+
+
+TEST(ObjectSystem, Custom_DX)
+{
+	ObjectSystem_Custom(false);
 }

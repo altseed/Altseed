@@ -27,9 +27,10 @@ namespace ace {
 		@param	width	横幅
 		@param	height	縦幅
 		@param	isFullScreen	フルスクリーンで起動するかどうか?
+		@param	isOpenGLMode	OpenGLで起動するかどうか?
 		@return	成否
 		*/
-		virtual bool Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen) = 0;
+		virtual bool Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode) = 0;
 
 		/**
 		@brief	初期化を行う。

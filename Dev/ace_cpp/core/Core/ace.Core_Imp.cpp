@@ -56,7 +56,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen)
+	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode)
 	{
 		if (m_window != nullptr) return false;
 		if (m_keyboard != nullptr) return false;
@@ -67,14 +67,22 @@ namespace ace
 
 		m_isInitializedByExternal = false;
 
-		bool isOpenGLMode = false;
-
 #if _WIN32
-		if (!isOpenGLMode)
+		if (isOpenGLMode)
+		{
+			glfwMakeOpenGLEnabled();
+		}
+		else
 		{
 			glfwMakeOpenGLDisabled();
 		}
+#else
+		if (!isOpenGLMode)
+		{
+			return false;
+		}
 #endif
+
 		m_window = Window_Imp::Create(width, height, title);
 		m_keyboard = Keyboard_Imp::Create(m_window);
 		m_mouse = Mouse_Imp::Create(m_window);

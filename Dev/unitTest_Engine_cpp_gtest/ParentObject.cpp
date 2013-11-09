@@ -7,10 +7,13 @@
 using namespace std;
 using namespace ace;
 
-void ObjectSystem_Parent()
+void ObjectSystem_Parent(bool isOpenGLMode)
 {
+	ace::EngineOption option;
+	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
+
 	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("ParentObject2D").c_str(), 640, 480, false);
+	engine->Initialize(ace::ToAString("ParentObject2D").c_str(), 640, 480, option);
 
 	{
 		auto scene = make_shared<Scene>();
@@ -45,7 +48,12 @@ void ObjectSystem_Parent()
 	engine->Terminate();
 }
 
-TEST(ObjectSystem, Parent)
+TEST(ObjectSystem, Parent_GL)
 {
-	ObjectSystem_Parent();
+	ObjectSystem_Parent(true);
+}
+
+TEST(ObjectSystem, Parent_DX)
+{
+	ObjectSystem_Parent(false);
 }

@@ -4,11 +4,14 @@
 #pragma comment(lib,"Debug/ace_core.lib")
 #pragma comment(lib,"Debug/ace_engine.lib")
 
-void Profiler_Profiling()
+void Profiler_Profiling(bool isOpenGLMode)
 {
+	ace::EngineOption option;
+	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
+
 	auto engine = ace::GetEngine();
 
-	engine->Initialize(ace::ToAString("Profiling").c_str(), 640, 480, false);
+	engine->Initialize(ace::ToAString("Profiling").c_str(), 640, 480, option);
 
 	auto profiler = ace::GetProfiler();
 
@@ -28,7 +31,12 @@ void Profiler_Profiling()
 	engine->Terminate();
 }
 
-TEST(Profiler, Profiling)
+TEST(Profiler, Profiling_GL)
 {
-	Profiler_Profiling();
+	Profiler_Profiling(true);
+}
+
+TEST(Profiler, Profiling_DX)
+{
+	Profiler_Profiling(false);
 }

@@ -7,11 +7,14 @@
 using namespace std;
 using namespace ace;
 
-void ObjectSystem_Normal()
+void ObjectSystem_Normal(bool isOpenGLMode)
 {
+	ace::EngineOption option;
+	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
+
 	{
 		auto engine = ace::GetEngine();
-		engine->Initialize(ace::ToAString("Object2D").c_str(), 640, 480, false);
+		engine->Initialize(ace::ToAString("Object2D").c_str(), 640, 480, option);
 
 		{
 			auto scene = make_shared<Scene>();
@@ -46,7 +49,12 @@ void ObjectSystem_Normal()
 	ASSERT_TRUE(ref == 0);
 }
 
-TEST(ObjectSystem, Normal)
+TEST(ObjectSystem, Normal_GL)
 {
-	ObjectSystem_Normal();
+	ObjectSystem_Normal(true);
+}
+
+TEST(ObjectSystem, Normal_DX)
+{
+	ObjectSystem_Normal(false);
 }

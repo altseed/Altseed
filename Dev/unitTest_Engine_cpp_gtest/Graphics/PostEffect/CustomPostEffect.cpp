@@ -112,10 +112,13 @@ public:
 	}
 };
 
-void Graphics_CustomPostEffect()
+void Graphics_CustomPostEffect(bool isOpenGLMode)
 {
+	ace::EngineOption option;
+	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
+
 	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("CustomPostEffect").c_str(), 640, 480, false);
+	engine->Initialize(ace::ToAString("CustomPostEffect").c_str(), 640, 480, option);
 
 	{
 		auto scene = std::make_shared<ace::Scene>();
@@ -144,7 +147,12 @@ void Graphics_CustomPostEffect()
 	ASSERT_TRUE(ref == 0);
 }
 
-TEST(Graphics, CustomPostEffect)
+TEST(Graphics, CustomPostEffect_GL)
 {
-	Graphics_CustomPostEffect();
+	Graphics_CustomPostEffect(true);
+}
+
+TEST(Graphics, CustomPostEffect_DX)
+{
+	Graphics_CustomPostEffect(true);
 }
