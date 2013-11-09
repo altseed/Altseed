@@ -95,12 +95,12 @@ namespace ace {
 			@param	title	タイトル
 			@param	width	横幅
 			@param	height	縦幅
-			@param	isFullScreen	フルスクリーンで起動するかどうか?
+			@param	option	オプション
 			@return	成否
 		*/
-		bool Initialize(const wchar_t* title, int32_t width, int32_t height, bool isFullScreen)
+		bool Initialize(const wchar_t* title, int32_t width, int32_t height, EngineOption option)
 		{
-			return Initialize( ToAString(title).c_str(), width, height, isFullScreen );
+			return Initialize( ToAString(title).c_str(), width, height, option );
 		}
 #endif
 	};
