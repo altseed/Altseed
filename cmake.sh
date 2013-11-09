@@ -4,3 +4,5 @@ mkdir Dev/cmake
 (cd Dev/cmake;
 cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF ../;
 make install;)
+
+cp -rf Dev/bin/Data Dev/cmake/bin

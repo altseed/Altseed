@@ -2,6 +2,8 @@
 
 namespace ace
 {
+	class Object2D;
+
 	class Object2DComponent
 	{
 		friend class Object2D;

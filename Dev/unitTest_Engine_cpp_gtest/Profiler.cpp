@@ -4,31 +4,44 @@
 #pragma comment(lib,"Debug/ace_core.lib")
 #pragma comment(lib,"Debug/ace_engine.lib")
 
-void Profiler_Profiling()
+void Profiler_Profiling(bool isOpenGLMode)
 {
-	auto engine = ace::GetEngine();
+	ace::EngineOption option;
+	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
 
-	engine->Initialize(ace::ToAString("Profiling").c_str(), 640, 480, false);
-
-	auto profiler = ace::GetProfiler();
-
-	printf("printfで負荷をかけます\n");
-	while (engine->DoEvents())
 	{
-		profiler->Start(12);
-		engine->Update();
-		profiler->End(12);
+		auto engine = ace::GetEngine();
+	
+		engine->Initialize(ace::ToAString("Profiling").c_str(), 640, 480, option);
+	
+		auto profiler = ace::GetProfiler();
 
-		profiler->Start(17);
-		printf( "*" );
-		profiler->End(17);
+		printf("printfで負荷をかけます\n");
+		while (engine->DoEvents())
+		{
+			profiler->Start(12);
+			engine->Update();
+			profiler->End(12);
+
+
+			profiler->Start(17);
+			printf( "*" );
+			profiler->End(17);
+		}
+		printf("\n");
+
+		engine->Terminate();
 	}
-	printf("\n");
 
-	engine->Terminate();
+	auto ref = ace::GetGlobalReferenceCount();
+	ASSERT_TRUE(ref == 0);
 }
 
-TEST(Profiler, Profiling)
+TEST(Profiler, Profiling_GL)
 {
-	Profiler_Profiling();
+	Profiler_Profiling(true);
 }
+
+TEST(Profiler, Profiling_DX)
+{
+	Profiler_Profiling(false);}

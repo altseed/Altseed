@@ -149,11 +149,11 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Engine::Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen)
+	bool Engine::Initialize(const achar* title, int32_t width, int32_t height, EngineOption option)
 	{
 		if (this == nullptr) return false;
 
-		bool init = m_core->Initialize(title, width, height, isFullScreen);
+		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, option.GraphicsType != eGraphicsType::GRAPHICS_TYPE_DX11);
 		if (init)
 		{
 			g_keyboard = m_core->GetKeyboard();
@@ -171,7 +171,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Engine::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height)
+	bool Engine::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, EngineOption option)
 	{
 		if (this == nullptr) return false;
 

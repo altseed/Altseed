@@ -32,7 +32,7 @@ libpng.sh を実行する。
 
 ■　GoogleCode
 ・Windows
-自分でコンパイルして追加orDropBoxにあるヘッダとライブラリをコピーしてそれにパスを通す。
+gtest.bat　を実行する。
 
 ・他
 gtest.sh　を実行する。

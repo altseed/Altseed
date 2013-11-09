@@ -5,6 +5,8 @@
 
 namespace ace
 {
+	class Scene;
+
 	class Layer
 	{
 		friend class Scene;

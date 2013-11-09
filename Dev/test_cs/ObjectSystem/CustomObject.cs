@@ -25,7 +25,7 @@ namespace test_cs.ObjectSystem
 
 		public void Run()
 		{
-			Engine.Initialize("CustomObject", 640, 480, false);
+			Engine.Initialize("CustomObject", 640, 480, new EngineOption());
 
 			var scene = new Scene();
 			var layer = new Layer2D();

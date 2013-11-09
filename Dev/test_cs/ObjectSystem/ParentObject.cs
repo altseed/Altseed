@@ -11,7 +11,7 @@ namespace test_cs.ObjectSystem
 	{
 		public void Run()
 		{
-			Engine.Initialize( "ParentObject", 1280, 720, false );
+			Engine.Initialize("ParentObject", 1280, 720, new EngineOption());
 
 			var scene = new Scene();
 			var layer = new Layer2D();

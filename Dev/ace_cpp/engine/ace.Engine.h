@@ -6,6 +6,7 @@
 //----------------------------------------------------------------------------------
 #include "ace.CoreToEngine.h"
 #include "ObjectSystem/ace.Scene.h"
+#include "ace.Engine.Base.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -15,6 +16,24 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+
+	/**
+	@brief	初期化時に設定するオプション
+	*/
+	struct EngineOption
+	{
+		/**
+		@brief	フルスクリーンで起動するか?
+		*/
+		bool			IsFullScreen = false;
+
+		/**
+		@brief	描画に使用するデバイス
+		*/
+		eGraphicsType	GraphicsType = eGraphicsType::GRAPHICS_TYPE_DX11;
+	};
+
+
 	class Engine
 	{
 		friend Engine* GetEngine();
@@ -32,10 +51,10 @@ namespace ace {
 			@param	title	タイトル
 			@param	width	横幅
 			@param	height	縦幅
-			@param	isFullScreen	フルスクリーンで起動するかどうか?
+			@param	option	オプション
 			@return	成否
 		*/
-		bool Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen);
+		bool Initialize(const achar* title, int32_t width, int32_t height, EngineOption option);
 
 		/**
 			@brief	初期化を行う。
@@ -45,7 +64,7 @@ namespace ace {
 			@param	height	縦幅
 			@return	成否
 		*/
-		bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height);
+		bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, EngineOption option);
 
 		/**
 			@brief	イベントを実行し、進行可否を判断する。
@@ -76,12 +95,12 @@ namespace ace {
 			@param	title	タイトル
 			@param	width	横幅
 			@param	height	縦幅
-			@param	isFullScreen	フルスクリーンで起動するかどうか?
+			@param	option	オプション
 			@return	成否
 		*/
-		bool Initialize(const wchar_t* title, int32_t width, int32_t height, bool isFullScreen)
+		bool Initialize(const wchar_t* title, int32_t width, int32_t height, EngineOption option)
 		{
-			return Initialize( ToAString(title).c_str(), width, height, isFullScreen );
+			return Initialize( ToAString(title).c_str(), width, height, option );
 		}
 #endif
 	};

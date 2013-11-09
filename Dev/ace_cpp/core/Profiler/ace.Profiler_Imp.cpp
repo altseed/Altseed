@@ -2,6 +2,11 @@
 #include <ace.common.Base.h>
 #include <Utility/ace.Timer.h>
 #include "ace.Profiler_Imp.h"
+
+#if !_WIN32
+#include <sched.h>
+#endif
+
 using namespace std;
 
 namespace ace
@@ -55,7 +60,7 @@ namespace ace
 #if _WIN32
 		profile->GetCurrent()->SetProcessorNumber(GetCurrentProcessorNumber());
 #else
-		assert(0);
+		profile->GetCurrent()->SetProcessorNumber(sched_getcpu());
 #endif
 	}
 

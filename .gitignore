@@ -186,6 +186,13 @@ $RECYCLE.BIN/
 /Dev/lib/ace_common.Debug.lib
 /Dev/lib/ace_core.UnitTest.Debug_Lib.lib
 /Dev/lib/ace_core.UnitTest.Release_Lib.lib
+/Dev/lib/ace_core.UnitTest.Debug_Lib.lib
+/Dev/lib/ace_core.UnitTest.Release_Lib.lib
+/Dev/lib/gtest.lib
+/Dev/lib/gtestd.lib
+/Dev/lib/gtest_main.lib
+/Dev/lib/gtest_maind.lib
+
 /Dev/unitTest_cpp/msvc/log_test.html
 /Dev/unitTest_cpp/msvc/binaryTest.dat
 
@@ -199,13 +206,11 @@ $RECYCLE.BIN/
 /Dev/cmake/
 
 /Dev/include/GLFW/
+/Dev/include/gtest/
 /Dev/ace_cpp/engine/ace.CoreToEngine.h
 /Dev/include/ace.h
 /Dev/ace_cs/swig/
-/Dev/lib/ace_core.UnitTest.Debug_Lib.lib
-/Dev/lib/ace_core.UnitTest.Release_Lib.lib
-/Dev/lib/ace_engine.Debug.lib
-/Dev/lib/ace_engine.Release.lib
+
 
 /Dev/lib/ace_common.Debug.lib
 /Dev/lib/ace_common.Release.lib

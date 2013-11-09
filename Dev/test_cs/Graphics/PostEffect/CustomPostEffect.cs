@@ -117,7 +117,7 @@ void main()
 
 		public void Run()
 		{
-			Engine.Initialize("CustomPostEffect", 640, 480, false);
+			Engine.Initialize("CustomPostEffect", 640, 480, new EngineOption());
 
 			var scene = new Scene();
 			var layer = new Layer2D();

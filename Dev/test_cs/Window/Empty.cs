@@ -14,7 +14,7 @@ namespace test_cs.Window
 		public void Run()
 		{
 			// aceを初期化する。
-			ace.Engine.Initialize("Empty", 640, 480, false);
+			ace.Engine.Initialize("Empty", 640, 480, new EngineOption());
 
 			// aceが進行可能かチェックする。
 			while (ace.Engine.DoEvents())

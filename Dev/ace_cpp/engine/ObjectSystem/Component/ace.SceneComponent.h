@@ -2,6 +2,8 @@
 
 namespace ace
 {
+	class Scene;
+
 	class SceneComponent
 	{
 		friend class Scene;

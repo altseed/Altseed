@@ -6,6 +6,19 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	public struct EngineOption
+	{
+		/// <summary>
+		/// フルスクリーンで起動するか?
+		/// </summary>
+		public bool IsFullScreen;
+
+		/// <summary>
+		/// 描画に使用するデバイス
+		/// </summary>
+		public GraphicsType GraphicsType;
+	};
+
 	public class Engine
 	{
 		static swig.Core_Imp core = null;
@@ -29,9 +42,9 @@ namespace ace
 		/// <param name="title">タイトル</param>
 		/// <param name="width">横幅</param>
 		/// <param name="height">縦幅</param>
-		/// <param name="isFullScreen">フルスクリーンで起動するかどうか?</param>
+		/// <param name="option">オプション</param>
 		/// <returns>成否</returns>
-		public static bool Initialize( string title, int width, int height, bool isFullScreen )
+		public static bool Initialize( string title, int width, int height, EngineOption option )
 		{
 			if( core != null ) return false;
 
@@ -45,7 +58,7 @@ namespace ace
 				return false;
 			}
 
-			var result = core.Initialize( title, width, height, isFullScreen );
+			var result = core.Initialize( title, width, height, option.IsFullScreen, option.GraphicsType == GraphicsType.OpenGL );
 
 			GC.Initialize();
 
