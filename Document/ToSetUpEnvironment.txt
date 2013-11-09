@@ -10,6 +10,7 @@ WindowsはChocolateyを使用
 ・7zip(コマンドライン版) (http://www.7-zip.org/)
 ・swig (http://www.swig.org/)
 ・python(バージョン任意) (http://www.python.org/)
+・unzip (http://gnuwin32.sourceforge.net/packages/unzip.htm)
 
 ■　cmake(全環境)
 ・windows
