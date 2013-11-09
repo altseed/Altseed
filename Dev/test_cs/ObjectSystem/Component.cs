@@ -7,11 +7,10 @@ using ace;
 
 namespace test_cs.ObjectSystem
 {
-	class MyComponent : ace.Component
+	class MyComponent : ace.Object2DComponent
 	{
-		public MyComponent( Object2DBase owner )
+		public MyComponent()
 		{
-			this.owner = owner;
 			time = 0;
 		}
 
@@ -19,12 +18,11 @@ namespace test_cs.ObjectSystem
 		{
 			if( time % 30 == 0 )
 			{
-				owner.Angle += 30;
+				Owner.Angle += 13;
 			}
 			++time;
 		}
 
-		private Object2DBase owner { get; set; }
 		private int time { get; set; }
 	}
 
@@ -45,7 +43,7 @@ namespace test_cs.ObjectSystem
 			layer.AddObject( obj );
 			scene.AddLayer( layer );
 			Engine.ChangeScene( scene );
-			obj.AddComponent( new MyComponent( obj ), "rotation" );
+			obj.AddComponent( new MyComponent(), "rotation" );
 
 			while( Engine.DoEvents() )
 			{

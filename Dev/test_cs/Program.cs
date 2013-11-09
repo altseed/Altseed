@@ -38,7 +38,12 @@ namespace test_cs
 		[STAThread]
 		public void Run()
 		{
-			var initialized = ace.Engine.Initialize("test", 640, 480, false);
+			var option = new ace.EngineOption
+			{
+				GraphicsType = ace.GraphicsType.DirectX11,
+				IsFullScreen = false
+			};
+			var initialized = ace.Engine.Initialize("test", 640, 480, option);
 
 			while (ace.Engine.DoEvents())
 			{
