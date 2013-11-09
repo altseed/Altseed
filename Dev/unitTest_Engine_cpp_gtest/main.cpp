@@ -55,6 +55,9 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 
+	//Graphics_PostEffectSepia(true);
+	//return 0;
+
 	::testing::InitGoogleTest(&argc, argv);
 
 	auto result = RUN_ALL_TESTS();
