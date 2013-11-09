@@ -12,13 +12,20 @@ namespace ace
 	@brief	平滑化ぼかしをかけるポストエフェクトクラス
 	*/
 
+
+
+
 	class PostEffectSmoothing : public PostEffect
 	{
 	private:
 
-		std::shared_ptr<ace::Shader2D>		m_shader;
-		std::shared_ptr<ace::Material2D>	m_material2d;
+		std::shared_ptr<ace::Shader2D>		m_shaderX, m_shaderY;
+		std::shared_ptr<ace::Material2D>	m_material2dX, m_material2dY;
+		ace::Graphics *m_graphics;
 		PostEffectSmoothing() = default;
+
+
+
 	public:
 		PostEffectSmoothing(Graphics *g);
 
