@@ -14,12 +14,15 @@ SamplerState	g_sampler		: register( s0 );
 
 float4 main( const PS_Input Input ) : SV_Target
 {
+	uint width, height;
+	g_texture.GetDimensions(width, height);
+	float2 unit = float2(1.0 / width, 0);
 	float4 output = g_texture.Sample(g_sampler, Input.UV);
 	if(output.a == 0.0f) discard;
-	output += g_texture.Sample(g_sampler, Input.UV + float2(1, 0));
-	output += g_texture.Sample(g_sampler, Input.UV + float2(-1, 0));
-	output += g_texture.Sample(g_sampler, Input.UV + float2(2, 0));
-	output += g_texture.Sample(g_sampler, Input.UV + float2(-2, 0));
+	output += g_texture.Sample(g_sampler, Input.UV + unit);
+	output += g_texture.Sample(g_sampler, Input.UV - unit);
+	output += g_texture.Sample(g_sampler, Input.UV + unit * 2);
+	output += g_texture.Sample(g_sampler, Input.UV - unit * 2);
 	return output / 5.0;
 }
 
@@ -32,10 +35,11 @@ uniform sampler2D g_texture;
 void main()
 {
 	vec4 output = texture2D(g_texture, inUV.xy);
-	output += texture2D(g_texture, inUV.xy + vec2(1, 0));
-	output += texture2D(g_texture, inUV.xy + vec2(-1, 0));
-	output += texture2D(g_texture, inUV.xy + vec2(2, 0));
-	output += texture2D(g_texture, inUV.xy + vec2(-2, 0));
+	vec2 unit = vec2(1.0 / textureSize(g_texture, 0).x, 0);
+	output += texture2D(g_texture, inUV.xy + unit);
+	output += texture2D(g_texture, inUV.xy - unit);
+	output += texture2D(g_texture, inUV.xy + unit * 2);
+	output += texture2D(g_texture, inUV.xy - unit * 2);
 	gl_FragColor = output / 5.0; 
 }
 
@@ -49,12 +53,15 @@ SamplerState	g_sampler		: register( s0 );
 
 float4 main( const PS_Input Input ) : SV_Target
 {
+	uint width, height;
+	g_texture.GetDimensions(width, height);
+	float2 unit = float2(0, 1.0 / height);
 	float4 output = g_texture.Sample(g_sampler, Input.UV);
 	if(output.a == 0.0f) discard;
-	output += g_texture.Sample(g_sampler, Input.UV + float2(0, 1));
-	output += g_texture.Sample(g_sampler, Input.UV + float2(0, -1));
-	output += g_texture.Sample(g_sampler, Input.UV + float2(0, 2));
-	output += g_texture.Sample(g_sampler, Input.UV + float2(0, -2));
+	output += g_texture.Sample(g_sampler, Input.UV + unit);
+	output += g_texture.Sample(g_sampler, Input.UV - unit * 1);
+	output += g_texture.Sample(g_sampler, Input.UV + unit * 2);
+	output += g_texture.Sample(g_sampler, Input.UV - unit * 2);
 	return output / 5.0;
 }
 
@@ -67,10 +74,11 @@ uniform sampler2D g_texture;
 void main()
 {
 	vec4 output = texture2D(g_texture, inUV.xy);
-	output += texture2D(g_texture, inUV.xy + vec2(0, 1));
-	output += texture2D(g_texture, inUV.xy + vec2(0, -1));
-	output += texture2D(g_texture, inUV.xy + vec2(0, 2));
-	output += texture2D(g_texture, inUV.xy + vec2(0, -2));
+	vec2 unit = vec2(0, 1.0 / textureSize(g_texture, 0).y);
+	output += texture2D(g_texture, inUV.xy + unit);
+	output += texture2D(g_texture, inUV.xy - unit);
+	output += texture2D(g_texture, inUV.xy + unit * 2);
+	output += texture2D(g_texture, inUV.xy - unit * 2);
 	gl_FragColor = output / 5.0; 
 }
 
