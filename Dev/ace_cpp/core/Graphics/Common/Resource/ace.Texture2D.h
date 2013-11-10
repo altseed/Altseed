@@ -30,6 +30,18 @@ namespace ace {
 		virtual Vector2DI GetSize() const = 0;
 
 		/**
+		@brief	フィルタを取得する。
+		@return	フィルタ
+		*/
+		virtual eTextureFilterType GetFilter() const = 0;
+
+		/**
+		@brief	フィルタを設定する。
+		@param	filter	フィルタ
+		*/
+		virtual void SetFilter(eTextureFilterType filter) = 0;
+
+		/**
 			@brief	テクスチャのクラスの種類を取得する。
 			@return	種類
 		*/

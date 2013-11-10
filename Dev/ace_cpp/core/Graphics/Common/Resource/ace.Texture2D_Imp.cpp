@@ -153,6 +153,7 @@ namespace ace {
 		, m_internalTextureData(nullptr)
 		, m_internalTextureWidth(0)
 		, m_internalTextureHeight(0)
+		, m_filter(eTextureFilterType::TEXTURE_FILTER_NEAREST)
 	{
 		m_type = TEXTURE_CLASS_TEXTURE2D;
 	}

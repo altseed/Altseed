@@ -39,11 +39,16 @@ namespace ace {
 
 		Vector2DI	m_size;
 
+		eTextureFilterType	m_filter;
+
 		Texture2D_Imp(Graphics* graphics);
 		virtual ~Texture2D_Imp();
 	public:
 
 		Vector2DI GetSize() const { return m_size; }
+
+		eTextureFilterType GetFilter() const { return m_filter; }
+		void SetFilter(eTextureFilterType filter) { m_filter = filter; }
 
 	// リロード
 #if !SWIG

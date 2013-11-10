@@ -83,8 +83,9 @@ namespace ace
 		/// <param name="handle2">ハンドル2</param>
 		/// <param name="width">横幅</param>
 		/// <param name="height">縦幅</param>
+		/// <param name="option">オプション</param>
 		/// <returns>成否</returns>
-		public static bool InitializeByExternalWindow( IntPtr handle1, IntPtr handle2, int width, int height )
+		public static bool InitializeByExternalWindow(IntPtr handle1, IntPtr handle2, int width, int height, EngineOption option)
 		{
 			if( core != null ) return false;
 

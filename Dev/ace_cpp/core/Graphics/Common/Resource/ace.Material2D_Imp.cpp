@@ -5,6 +5,7 @@
 #include "ace.Material2D_Imp.h"
 #include "ace.Shader2D_Imp.h"
 #include "ace.NativeShader_Imp.h"
+#include "ace.RenderState_Imp.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -87,6 +88,9 @@ namespace ace {
 		auto vbuf = m_shader->GetNativeShader()->GetVertexConstantBuffer();
 		auto pbuf = m_shader->GetNativeShader()->GetPixelConstantBuffer();
 
+		auto g = (Graphics_Imp*) shader->GetNativeShader()->GetGraphics();
+		auto& state = g->GetRenderState()->GetActiveState();
+
 		auto setValuesTo = [&](uint8_t* buf, decltype(shader->GetVertexVariableProperties())& props) -> void
 			{
 				for (auto& i : props)
@@ -117,6 +121,8 @@ namespace ace {
 								ToUtf8String(i.Name.c_str()).c_str(),
 								v.Data.TexturePtr,
 								i.Offset);
+
+							state.TextureFilterTypes[i.Offset] = v.Data.TexturePtr->GetFilter();
 						}
 					}
 				}

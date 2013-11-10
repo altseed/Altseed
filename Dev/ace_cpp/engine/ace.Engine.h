@@ -62,6 +62,7 @@ namespace ace {
 			@param	handle2	ハンドル
 			@param	width	横幅
 			@param	height	縦幅
+			@param	option	オプション
 			@return	成否
 		*/
 		bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, EngineOption option);

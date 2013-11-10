@@ -38,5 +38,16 @@ namespace ace
 			}
 			System.GC.SuppressFinalize(this);
 		}
+
+		public Vector2DI Size
+		{
+			get { return SwigObject.GetSize(); }
+		}
+
+		public TextureFilterType Filter
+		{
+			get { return (TextureFilterType)SwigObject.GetFilter();}
+			set { SwigObject.SetFilter((swig.eTextureFilterType)value); }
+		}
 	}
 }

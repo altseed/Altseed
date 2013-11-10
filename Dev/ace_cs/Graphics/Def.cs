@@ -38,4 +38,10 @@ namespace ace
 		DirectX11 = swig.eGraphicsType.GRAPHICS_TYPE_DX11,
 		OpenGL = swig.eGraphicsType.GRAPHICS_TYPE_GL,
 	}
+
+    public enum TextureFilterType
+    {
+		Nearest = swig.eTextureFilterType.TEXTURE_FILTER_NEAREST,
+		Linear = swig.eTextureFilterType.TEXTURE_FILTER_LINEAR,
+    }
 }

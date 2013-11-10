@@ -23,7 +23,7 @@ namespace test_cs.Window
 
 
 			// aceを初期化する。
-			ace.Engine.InitializeByExternalWindow(form.Handle, new IntPtr(), form.Size.Width, form.Size.Height);
+			ace.Engine.InitializeByExternalWindow(form.Handle, new IntPtr(), form.Size.Width, form.Size.Height, new ace.EngineOption());
 
 			// aceが進行可能かチェックする。
 			while (ace.Engine.DoEvents())
