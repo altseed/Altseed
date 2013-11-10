@@ -1,9 +1,9 @@
 rmdir /S /Q gtest_bin
 rmdir /S /Q gtest-1.7.0
 
-call wget.bat http://googletest.googlecode.com/files/gtest-1.7.0.zip
+python Script/ace_wget.py http://googletest.googlecode.com/files/gtest-1.7.0.zip
 
-unzip gtest-1.7.0.zip
+python Script/ace_unzip.py gtest-1.7.0.zip
 
 mkdir gtest_bin
 cd gtest_bin
