@@ -9,8 +9,11 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	Object2D::Object2D()
 		: m_owner(nullptr)
-		, m_children(list<Object2DBasePtr>())
+		, m_children(list<Object2DPtr>())
 		, m_components(map<astring, ComponentPtr>())
+		, m_isUpdated(true)
+		, m_isDrawn(true)
+		, m_isAlive(true)
 	{
 	}
 
@@ -31,6 +34,11 @@ namespace ace
 
 	void Object2D::Update()
 	{
+		if (!m_isUpdated)
+		{
+			return;
+		}
+
 		OnUpdate();
 		for (auto& x : m_components)
 		{
@@ -38,19 +46,83 @@ namespace ace
 		}
 	}
 
+	bool Object2D::GetIsUpdated() const
+	{
+		return m_isUpdated;
+	}
+
+	void Object2D::SetIsUpdated(bool value)
+	{
+		m_isUpdated = value;
+	}
+
+	bool Object2D::GetIsDrawn() const
+	{
+		return m_isDrawn;
+	}
+
+	void Object2D::SetIsDrawn(bool value)
+	{
+		m_isDrawn = value;
+		GetCoreObject()->SetIsDrawn(value);
+	}
+
+	bool Object2D::GetIsAlive() const
+	{
+		return m_isAlive;
+	}
+
+	void Object2D::Vanish()
+	{
+		m_isAlive = false;
+	}
+
+	Layer2D* Object2D::GetLayer() const
+	{
+		return m_owner;
+	}
+
 	void Object2D::SetLayer(Layer2D* layer)
 	{
 		m_owner = layer;
 	}
 
-#pragma region Get/Set
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	Layer2D* Object2D::GetLayer() const
+	void Object2D::AddChild(const Object2DPtr& child, eChildMode mode)
 	{
-		return m_owner;
+		GetCoreObject()->AddChild(*(child->GetCoreObject()), mode);
+		m_children.push_back(child);
 	}
+
+	void Object2D::RemoveChild(const Object2DPtr& child)
+	{
+		GetCoreObject()->RemoveChild(*(child->GetCoreObject()));
+		m_children.remove(child);
+	}
+
+	const std::list<Object2D::Object2DPtr>& Object2D::GetChildren() const
+	{
+		return m_children;
+	}
+
+	void Object2D::AddComponent(const ComponentPtr& component, astring key)
+	{
+		m_components[key] = component;
+		component->SetOwner(this);
+	}
+
+	Object2D::ComponentPtr& Object2D::GetComponent(astring key)
+	{
+		return m_components[key];
+	}
+
+	void Object2D::RemoveComponent(astring key)
+	{
+		auto it = m_components.find(key);
+		m_components.erase(it);
+		it->second->SetOwner(nullptr);
+	}
+
+#pragma region Get/Set
 
 	Vector2DF Object2D::GetPosition() const
 	{
@@ -88,40 +160,4 @@ namespace ace
 	}
 
 #pragma endregion
-
-	void Object2D::AddChild(const Object2DBasePtr& child, eChildMode mode)
-	{
-		GetCoreObject()->AddChild(*(child->GetCoreObject()), mode);
-		m_children.push_back(child);
-	}
-
-	void Object2D::RemoveChild(const Object2DBasePtr& child)
-	{
-		GetCoreObject()->RemoveChild(*(child->GetCoreObject()));
-		m_children.remove(child);
-	}
-
-	const std::list<Object2D::Object2DBasePtr>& Object2D::GetChildren() const
-	{
-		return m_children;
-	}
-
-
-	void Object2D::AddComponent(const ComponentPtr& component, astring key)
-	{
-		m_components[key] = component;
-		component->SetOwner(this);
-	}
-
-	Object2D::ComponentPtr& Object2D::GetComponent(astring key)
-	{
-		return m_components[key];
-	}
-
-	void Object2D::RemoveComponent(astring key)
-	{
-		auto it = m_components.find(key);
-		m_components.erase(it);
-		it->second->SetOwner(nullptr);
-	}
 }

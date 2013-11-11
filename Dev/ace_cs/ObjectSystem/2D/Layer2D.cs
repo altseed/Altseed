@@ -55,6 +55,14 @@ namespace ace
 		#endregion
 
 
+		public override bool IsUpdated { get; set; }
+
+		public override bool IsDrawn
+		{
+			get { return coreLayer2D.GetIsDrawn(); }
+			set { coreLayer2D.SetIsDrawn( value ); }
+		}
+
 		/// <summary>
 		/// このインスタンスを管理している ace.Scene クラスのインスタンスを取得します。
 		/// </summary>
@@ -160,6 +168,11 @@ namespace ace
 
 		internal override void Update()
 		{
+			if( !IsUpdated )
+			{
+				return;
+			}
+
 			OnUpdating();
 
 			foreach( var item in objects_ )
@@ -167,11 +180,18 @@ namespace ace
 				item.Update();
 			}
 
+			objects_.RemoveAll( _ => !_.IsAlive );
+
 			OnUpdated();
 		}
 
 		internal override void DrawAdditionally()
 		{
+			if( !IsDrawn )
+			{
+				return;
+			}
+
 			OnDrawAdditionally();
 			foreach( var item in objects_ )
 			{

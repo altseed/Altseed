@@ -13,6 +13,7 @@ namespace ace
 
 	private:
 		Scene* m_scene;
+
 		virtual void SetScene(Scene* scene);
 
 		virtual std::shared_ptr<CoreLayer> GetCoreLayer() const = 0;
@@ -37,5 +38,11 @@ namespace ace
 		virtual void SetDrawingPriority(int value) = 0;
 
 		virtual Scene* GetScene() const;
+
+		virtual bool GetIsUpdated() const = 0;
+		virtual void SetIsUpdated(bool value) = 0;
+
+		virtual bool GetIsDrawn() const = 0;
+		virtual void SetIsDrawn(bool value) = 0;
 	};
 }

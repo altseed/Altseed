@@ -40,12 +40,14 @@ namespace ace
 
 		std::vector<CorePostEffect*>	m_postEffects;
 
+		bool m_isDrawn;
 		int m_drawingPriority;
 
 		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();
 
 		void CreateRenderTarget(const Vector2DI& size);
+
 	public:
 		void SetLayerShape(const Vector2DF& ul, const Vector2DF& ur, const Vector2DF& ll, const Vector2DF& lr, const Vector2DI& size );
 
@@ -53,6 +55,9 @@ namespace ace
 			const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
 			const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
 			const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3);
+
+		bool GetIsDrawn() const;
+		void SetIsDrawn(bool value);
 
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);

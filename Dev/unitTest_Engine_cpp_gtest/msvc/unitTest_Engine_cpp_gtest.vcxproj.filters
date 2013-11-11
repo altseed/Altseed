@@ -27,6 +27,9 @@
     <ClCompile Include="..\Graphics\PostEffect\PostEffectSmoothingTest.cpp">
       <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\LayerComponent.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

@@ -18,6 +18,7 @@
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\Component.cpp" />
     <ClCompile Include="..\ObjectSystem\CustomObject.cpp" />
+    <ClCompile Include="..\ObjectSystem\LayerComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\Object2DTest.cpp" />
     <ClCompile Include="..\ParentObject.cpp" />
     <ClCompile Include="..\Profiler.cpp" />

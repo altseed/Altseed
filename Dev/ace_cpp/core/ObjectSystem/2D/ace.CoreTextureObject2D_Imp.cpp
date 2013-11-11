@@ -14,6 +14,7 @@ namespace ace
 		, m_drawingPtiority(0)
 		, m_layer(nullptr)
 		, m_transform(TransformInfo2D())
+		, m_isDrawn(true)
 	{
 	}
 
@@ -28,7 +29,18 @@ namespace ace
 		//SafeRelease(m_layer);
 	}
 
-#pragma region Get/Set
+	bool CoreTextureObject2D_Imp::GetIsDrawn() const
+	{
+		return m_isDrawn;
+	}
+
+	void CoreTextureObject2D_Imp::SetIsDrawn(bool value)
+	{
+		m_isDrawn = value;
+	}
+
+
+#pragma region Paramater
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -149,6 +161,11 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreTextureObject2D_Imp::Draw()
 	{
+		if (!m_isDrawn)
+		{
+			return;
+		}
+
 		Vector2DF position[4];
 		Color color[4];
 		Vector2DF uvs[4];

@@ -23,6 +23,8 @@ namespace ace
 		std::list<ObjectPtr>			m_objects;
 		std::map<astring, ComponentPtr> m_components;
 		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
+		bool m_isUpdated;
+		bool m_isDrawn;
 		
 		std::shared_ptr<CoreLayer> GetCoreLayer() const;
 		void DrawAdditionally();
@@ -60,5 +62,11 @@ namespace ace
 
 		int GetDrawingPriority() const;
 		void SetDrawingPriority(int value);
+
+		bool GetIsUpdated() const;
+		void SetIsUpdated(bool value);
+
+		bool GetIsDrawn() const;
+		void SetIsDrawn(bool value);
 	};
 }

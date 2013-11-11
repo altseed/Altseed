@@ -23,6 +23,7 @@ namespace ace
 		, m_targetToLayer(-1)
 		, m_layerSize(windowSize)
 		, m_windowSize(windowSize)
+		, m_isDrawn(true)
 	{
 		m_renderer = new Renderer2D_Imp(graphics, log, windowSize);
 		m_layerRenderer = new LayerRenderer(graphics);
@@ -121,6 +122,22 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	bool CoreLayer2D_Imp::GetIsDrawn() const
+	{
+		return m_isDrawn;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::SetIsDrawn(bool value)
+	{
+		m_isDrawn = value;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::AddObject(ObjectPtr object)
 	{
 		m_objects.push_back(object);
@@ -152,6 +169,11 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::Draw()
 	{
+		if (!m_isDrawn)
+		{
+			return;
+		}
+
 		for (auto& x : m_objects)
 		{
 			x->Draw();

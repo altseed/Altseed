@@ -14,8 +14,19 @@ namespace ace
 		{
 			components_ = new Dictionary<string, Object2DComponent>();
 			children_ = new List<Object2D>();
+			IsUpdated = true;
+			IsAlive = true;
 		}
 
+		public bool IsUpdated { get; set; }
+
+		public bool IsDrawn
+		{
+			get { return CoreObject.GetIsDrawn(); }
+			set { CoreObject.SetIsDrawn( true ); }
+		}
+
+		public bool IsAlive { get; private set; }
 
 		/// <summary>
 		/// このインスタンスを管理している ace.Layer2D クラスのインスタンスを取得します。
@@ -63,6 +74,11 @@ namespace ace
 		public Vector2DF GetGlobalPosition()
 		{
 			return CoreObject.GetGlobalPosition();
+		}
+
+		public void Vanish()
+		{
+			IsAlive = false;
 		}
 
 		public void AddChild( Object2D child, ChildMode mode )
@@ -114,6 +130,11 @@ namespace ace
 
 		internal void Update()
 		{
+			if( !IsUpdated || !IsAlive )
+			{
+				return;
+			}
+
 			OnUpdate();
 			foreach( var item in components_ )
 			{
@@ -123,6 +144,10 @@ namespace ace
 
 		internal void DrawAdditionally()
 		{
+			if( !IsDrawn || !IsAlive )
+			{
+				return;
+			}
 			OnDrawAdditionally();
 		}
 

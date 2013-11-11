@@ -11,6 +11,7 @@ namespace ace
 	private:
 		TransformInfo2D m_transform;
 		CoreLayer2D* m_layer;
+		bool m_isDrawn;
 
 		Texture2D* m_texture;
 		Vector2DF m_centerPosition;
@@ -24,7 +25,10 @@ namespace ace
 		CoreTextureObject2D_Imp();
 		virtual ~CoreTextureObject2D_Imp();
 
-#pragma region Get/Set
+		bool GetIsDrawn() const;
+		void SetIsDrawn(bool value);
+
+#pragma region Paramater
 		Vector2DF GetPosition() const
 		{
 			return m_transform.GetPosition();

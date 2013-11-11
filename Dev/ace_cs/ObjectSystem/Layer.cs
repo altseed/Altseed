@@ -10,6 +10,10 @@ namespace ace
 	/// </summary>
 	public abstract class Layer
 	{
+		public abstract bool IsUpdated { get; set; }
+
+		public abstract bool IsDrawn { get; set; }
+
 		/// <summary>
 		/// このインスタンスを管理している ace.Scene クラスのインスタンスを取得します。
 		/// </summary>
