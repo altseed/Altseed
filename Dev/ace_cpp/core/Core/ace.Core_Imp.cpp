@@ -140,15 +140,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Core_Imp::Update()
 	{
-		m_graphics->Begin();
-
-		m_graphics->Clear(true, false, Color(0, 0, 0, 255));
-
-		//m_profilerViewer->Draw();
-
-		m_graphics->Present();
-
-		m_graphics->End();
+		assert(0);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -194,6 +186,13 @@ namespace ace
 	{
 		m_graphics->Present();
 		m_graphics->End();
+
+		// スクリーンショット撮影
+		for (auto& ss : m_screenShots)
+		{
+			m_graphics->SaveScreenshot(ss.c_str());
+		}
+		m_screenShots.clear();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -214,6 +213,14 @@ namespace ace
 	void Core_Imp::ChangeScene(CoreScene* scene)
 	{
 		SafeSubstitute(m_currentScene, scene);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Core_Imp::TakeScreenshot(const achar* path)
+	{
+		m_screenShots.push_back(path);
 	}
 
 	//----------------------------------------------------------------------------------

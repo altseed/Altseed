@@ -88,6 +88,12 @@ namespace ace {
 		*/
 		void ChangeScene(std::shared_ptr<Scene>& scene);
 
+		/**
+		@brief	スクリーンショットをpngとして保存する。
+		@param	path	出力先
+		*/
+		void TakeScreenshot(const achar* path);
+
 #if _WIN32
 
 #else
