@@ -27,24 +27,22 @@ namespace ace
 		const Vector3DF& position,
 		const Vector3DF& normal,
 		const Vector3DF& binormal,
-		const Vector3DF& tangent,
 		const Vector2DF& uv1,
 		const Vector2DF& uv2,
 		const Color& color,
-		int32_t boneIndexes,
-		int32_t boneWeights)
+		int32_t boneWeights,
+		int32_t boneIndexes)
 	{
 		Vertex v;
 		v.Position = position;
 		v.Normal = normal;
 		v.Binormal = binormal;
-		v.Tangent = tangent;
 		v.UV1 = uv1;
 		v.UV2 = uv2;
 		v.VColor = color;
-		v.BoneIndexes = boneIndexes;
 		v.BoneWeights = boneWeights;
-
+		v.BoneIndexes = boneIndexes;
+		v.BoneIndexesOriginal = boneIndexes;
 		m_vertexBufferOnMM.push_back(v);
 	}
 

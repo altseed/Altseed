@@ -21,13 +21,12 @@ struct VS_Input
 	float3 Position		: Position0;
 	float3 Normal		: Normal0;
 	float3 Binormal		: Binormal0;
-	float3 Tangent		: Tangent0;
 	float2 UV			: UV0;
 	float2 UVSub		: UVSub0;
 	float4 Color		: Color0;
-	float4 BoneIndexes	: BoneIndexes0;
 	float4 BoneWeights	: BoneWeights0;
-	
+	float4 BoneIndexes	: BoneIndexes0;
+	float4 BoneIndexesOriginal	: BoneIndexesOriginal0;
 };
 
 struct VS_Output
@@ -73,12 +72,11 @@ float4 main( const PS_Input Input ) : SV_Target
 attribute vec3 Position;
 attribute vec3 Normal;
 attribute vec3 Binormal;
-attribute vec3 Tangent;
 attribute vec2 UV;
 attribute vec2 UVSub;
 attribute vec4 Color;
-attribute vec4 BoneIndexes;
 attribute vec4 BoneWeights;
+attribute vec4 BoneIndexesOriginal;
 
 uniform mat4		matMCP;
 uniform vec3		directionalLightDirection;
@@ -117,13 +115,12 @@ void main()
 			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
 			vl.push_back(ace::VertexLayout("Normal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
 			vl.push_back(ace::VertexLayout("Binormal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-			vl.push_back(ace::VertexLayout("Tangent", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
 			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
 			vl.push_back(ace::VertexLayout("UVSub", ace::LAYOUT_FORMAT_R32G32_FLOAT));
 			vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
-			vl.push_back(ace::VertexLayout("BoneIndexes", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
 			vl.push_back(ace::VertexLayout("BoneWeights", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
-
+			vl.push_back(ace::VertexLayout("BoneIndexes", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
+			vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
 
 			std::shared_ptr<ace::NativeShader_Imp> shader;
 			std::vector<ace::Macro> macro;

@@ -25,12 +25,13 @@ namespace ace
 			Vector3DF	Position;
 			Vector3DF	Normal;
 			Vector3DF	Binormal;
-			Vector3DF	Tangent;
 			Vector2DF	UV1;
 			Vector2DF	UV2;
 			Color		VColor;
-			int32_t		BoneIndexes;
 			int32_t		BoneWeights;
+			int32_t		BoneIndexes;
+			int32_t		BoneIndexesOriginal;
+
 		};
 
 		struct Face
@@ -65,12 +66,11 @@ namespace ace
 			const Vector3DF& position,
 			const Vector3DF& normal,
 			const Vector3DF& binormal,
-			const Vector3DF& tangent,
 			const Vector2DF& uv1,
 			const Vector2DF& uv2,
 			const Color& color,
-			int32_t boneIndexes,
-			int32_t boneWeights);
+			int32_t boneWeights,
+			int32_t boneIndexes);
 
 		void AddFace(int32_t index1, int32_t index2, int32_t index3);
 
