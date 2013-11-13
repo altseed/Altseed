@@ -9,6 +9,7 @@ using namespace ace;
 
 void ObjectSystem_Parent(bool isOpenGLMode)
 {
+	int time = 0;
 	ace::EngineOption option;
 	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
 
@@ -42,6 +43,11 @@ void ObjectSystem_Parent(bool isOpenGLMode)
 			parent->SetAngle(parent->GetAngle() + 0.2f);
 			parent->SetScale(parent->GetScale() + Vector2DF(0.001f, 0.001f));
 			engine->Update();
+			++time;
+			if (time == 120)
+			{
+				break;
+			}
 		}
 	}
 

@@ -40,6 +40,8 @@ public:
 	*/
 	Vector2DF( float x, float y );
 
+	bool operator==(const Vector2DF& right);
+
 	Vector2DF operator+(const Vector2DF& right);
 
 	Vector2DF operator-(const Vector2DF& right);

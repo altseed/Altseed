@@ -6,6 +6,7 @@
 
 void Profiler_Profiling(bool isOpenGLMode)
 {
+	int time = 0;
 	ace::EngineOption option;
 	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
 
@@ -27,6 +28,12 @@ void Profiler_Profiling(bool isOpenGLMode)
 			profiler->Start(17);
 			printf( "*" );
 			profiler->End(17);
+
+			++time;
+			if (time == 120)
+			{
+				break;
+			}
 		}
 		printf("\n");
 

@@ -12,12 +12,12 @@ namespace ace
 		OnUpdate();
 	}
 
-	Layer2D* Layer2DComponent::GetLayer() const
+	Layer2D* Layer2DComponent::GetOwner() const
 	{
 		return m_layer;
 	}
 
-	void Layer2DComponent::SetLayer(Layer2D* value)
+	void Layer2DComponent::SetOwner(Layer2D* value)
 	{
 		m_layer = value;
 	}

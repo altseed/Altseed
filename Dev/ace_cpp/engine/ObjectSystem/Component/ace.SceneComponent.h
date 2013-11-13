@@ -12,7 +12,7 @@ namespace ace
 		Scene* m_scene;
 
 		void Update();
-		void SetScene(Scene* value);
+		void SetOwner(Scene* value);
 
 	protected:
 		virtual void OnUpdate() = 0;
@@ -23,6 +23,6 @@ namespace ace
 		{
 		}
 
-		Scene* GetScene() const;
+		Scene* GetOwner() const;
 	};
 }

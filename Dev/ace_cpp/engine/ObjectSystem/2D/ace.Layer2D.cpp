@@ -198,7 +198,7 @@ namespace ace
 	void Layer2D::AddComponent(const ComponentPtr& component, astring key)
 	{
 		m_components[key] = component;
-		component->SetLayer(this);
+		component->SetOwner(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -216,7 +216,7 @@ namespace ace
 	{
 		auto it = m_components.find(key);
 		m_components.erase(it);
-		it->second->SetLayer(nullptr);
+		it->second->SetOwner(nullptr);
 	}
 
 	//----------------------------------------------------------------------------------

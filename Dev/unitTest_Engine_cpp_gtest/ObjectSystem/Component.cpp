@@ -10,13 +10,11 @@ using namespace ace;
 class MyComponent : public ace::Object2DComponent
 {
 private:
-	Object2D* m_owner;
 	int time;
 
 public:
-	MyComponent(Object2D& owner)
+	MyComponent()
 		: time(0)
-		, m_owner(&owner)
 	{
 	}
 
@@ -25,7 +23,7 @@ protected:
 	{
 		if (time % 30 == 0)
 		{
-			m_owner->SetAngle(m_owner->GetAngle() + 30);
+			GetOwner()->SetAngle(GetOwner()->GetAngle() + 13);
 		}
 		++time;
 	}
@@ -33,11 +31,12 @@ protected:
 
 void ObjectSystem_Component(bool isOpenGLMode)
 {
+	int time = 0;
 	ace::EngineOption option;
 	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
 
 	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("CustomObject2D").c_str(), 640, 480, option);
+	engine->Initialize(ace::ToAString("Component").c_str(), 640, 480, option);
 
 	{
 		auto scene = make_shared<Scene>();
@@ -48,7 +47,8 @@ void ObjectSystem_Component(bool isOpenGLMode)
 		layer->AddObject(object);
 
 		object->SetPosition(Vector2DF(320, 240));
-		object->AddComponent(make_shared<MyComponent>(*object), ToAString("rotation"));
+		object->AddComponent(make_shared<MyComponent>(), ToAString("rotation"));
+		ASSERT_NE(object->GetComponent(ToAString("rotation").c_str()), nullptr);
 
 		auto g = ace::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());
 		object->SetTexture(g);
@@ -56,6 +56,11 @@ void ObjectSystem_Component(bool isOpenGLMode)
 		while (engine->DoEvents())
 		{
 			engine->Update();
+			++time;
+			if (time == 120)
+			{
+				break;
+			}
 		}
 	}
 

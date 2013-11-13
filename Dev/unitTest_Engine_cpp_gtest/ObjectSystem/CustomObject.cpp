@@ -26,6 +26,7 @@ protected:
 
 void ObjectSystem_Custom(bool isOpenGLMode)
 {
+	int time = 0;
 	ace::EngineOption option;
 	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
 
@@ -43,6 +44,11 @@ void ObjectSystem_Custom(bool isOpenGLMode)
 		while (engine->DoEvents())
 		{
 			engine->Update();
+			++time;
+			if (time == 120)
+			{
+				break;
+			}
 		}
 	}
 

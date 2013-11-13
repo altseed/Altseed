@@ -12,7 +12,7 @@ namespace ace
 		Layer2D* m_layer;
 
 		void Update();
-		void SetLayer(Layer2D* value);
+		void SetOwner(Layer2D* value);
 
 	protected:
 		virtual void OnUpdate() = 0;
@@ -23,6 +23,6 @@ namespace ace
 		{
 		}
 
-		Layer2D* GetLayer() const;
+		Layer2D* GetOwner() const;
 	};
 }

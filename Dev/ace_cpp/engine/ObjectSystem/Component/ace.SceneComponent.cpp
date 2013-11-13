@@ -12,12 +12,12 @@ namespace ace
 		OnUpdate();
 	}
 
-	Scene* SceneComponent::GetScene() const
+	Scene* SceneComponent::GetOwner() const
 	{
 		return m_scene;
 	}
 
-	void SceneComponent::SetScene(Scene* value)
+	void SceneComponent::SetOwner(Scene* value)
 	{
 		m_scene = value;
 	}

@@ -140,7 +140,7 @@ namespace ace
 	void Scene::AddComponent(const ComponentPtr& component, astring key)
 	{
 		m_components[key] = component;
-		component->SetScene(this);
+		component->SetOwner(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -158,6 +158,6 @@ namespace ace
 	{
 		auto it = m_components.find(key);
 		m_components.erase(it);
-		it->second->SetScene(nullptr);
+		it->second->SetOwner(nullptr);
 	}
 }

@@ -9,6 +9,7 @@ using namespace ace;
 
 void ObjectSystem_Normal(bool isOpenGLMode)
 {
+	int time = 0;
 	ace::EngineOption option;
 	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
 
@@ -22,6 +23,7 @@ void ObjectSystem_Normal(bool isOpenGLMode)
 			auto object = make_shared<TextureObject2D>();
 			auto object2 = make_shared<TextureObject2D>();
 			scene->AddLayer(layer);
+
 			layer->AddObject(object);
 			engine->ChangeScene(scene);
 			layer->AddObject(object2);
@@ -39,6 +41,11 @@ void ObjectSystem_Normal(bool isOpenGLMode)
 			while (engine->DoEvents())
 			{
 				engine->Update();
+				++time;
+				if (time == 120)
+				{
+					break;
+				}
 			}
 		}
 
