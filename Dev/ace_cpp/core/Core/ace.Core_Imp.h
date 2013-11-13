@@ -38,6 +38,8 @@ namespace ace {
 
 		CoreScene* m_currentScene;
 
+		std::vector<astring>		m_screenShots;
+
 		Core_Imp();
 		virtual ~Core_Imp();
 	public:
@@ -63,6 +65,7 @@ namespace ace {
 
 		void ChangeScene(CoreScene* scene);
 
+		void TakeScreenshot(const achar* path);
 
 		Window_Imp* GetWindow() { return m_window; }
 

@@ -200,6 +200,15 @@ namespace ace
 			core.ChangeScene( scene.CoreScene );
 		}
 
+		/// <summary>
+		/// スクリーンショットをpngとして保存する。
+		/// </summary>
+		/// <param name="path">出力先</param>
+		public static void TakeScreenshot(string path)
+		{
+			core.TakeScreenshot(path);
+		}
+
 		private static void SetupMembers()
 		{
 			Logger = new Log( core.GetLogger() );

@@ -83,6 +83,11 @@ namespace ace {
 		*/
 		virtual void ChangeScene(CoreScene* scene) = 0;
 
+		/**
+			@brief	スクリーンショットをpngとして保存する。
+			@param	path	出力先
+		*/
+		virtual void TakeScreenshot(const achar* path) = 0;
 
 		/**
 		@brief キーボードの入力を扱うKeyboardクラスを取得する。
