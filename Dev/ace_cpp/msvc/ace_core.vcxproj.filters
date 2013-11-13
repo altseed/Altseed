@@ -333,9 +333,6 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Mesh.h">
       <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\3D\ace.Armature.h">
-      <Filter>Graphics\Common\3D</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.h">
       <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
@@ -344,6 +341,9 @@
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h">
       <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Bones.h">
+      <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -526,13 +526,13 @@
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Mesh.cpp">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\Common\3D\ace.Armature.cpp">
-      <Filter>Graphics\Common\3D</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.cpp">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.cpp">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.Bones.cpp">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
   </ItemGroup>
