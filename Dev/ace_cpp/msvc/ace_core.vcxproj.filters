@@ -52,14 +52,17 @@
     <Filter Include="ObjectSystem\2D">
       <UniqueIdentifier>{74f722ff-a6a6-4e13-a747-26f9aad2baf3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ObjectSystem\3D">
+      <UniqueIdentifier>{1a0f273d-f655-466e-bed7-929923394648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Common\3D">
+      <UniqueIdentifier>{11a43e1d-a8f8-4810-8fc9-81e102b7ddc2}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ObjectSystem\PostEffect">
       <UniqueIdentifier>{7a139acb-432a-4ed7-b874-e22886ebb54e}</UniqueIdentifier>
     </Filter>
     <Filter Include="ObjectSystem\Fade">
       <UniqueIdentifier>{3a995846-38fb-483c-ab45-8592a576b5f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Common\3D">
-      <UniqueIdentifier>{11a43e1d-a8f8-4810-8fc9-81e102b7ddc2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -345,6 +348,33 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Bones.h">
       <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreLayer3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreLayer3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreCameraObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreDirectionalLightObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreDirectionalLightObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreCameraObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -534,6 +564,18 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Bones.cpp">
       <Filter>Graphics\Common\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreLayer3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreDirectionalLightObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreCameraObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

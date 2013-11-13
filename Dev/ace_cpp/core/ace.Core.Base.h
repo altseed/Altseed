@@ -31,11 +31,19 @@ namespace ace {
 	class Material2D;
 
 	class ObjectSystemFactory;
+	class CoreScene;
+	class CoreLayer;
+
+	class CoreLayer2D;
 	class CoreObject2D;
 	class CoreTextureObject2D;
-	class CoreLayer;
-	class CoreLayer2D;
-	class CoreScene;
+
+	class CoreLayer3D;
+	class CoreObject3D;
+	class CoreMeshObject3D;
+	class CoreCameraObject3D;
+	class CoreDirectionalLightObject3D;
+
 	class CorePostEffect;
 
 	//----------------------------------------------------------------------------------
