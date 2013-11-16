@@ -375,6 +375,9 @@
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreCameraObject3D.h">
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\ace.CoreLayer_Imp.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -576,6 +579,9 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreCameraObject3D_Imp.cpp">
       <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\ace.CoreLayer_Imp.cpp">
+      <Filter>ObjectSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

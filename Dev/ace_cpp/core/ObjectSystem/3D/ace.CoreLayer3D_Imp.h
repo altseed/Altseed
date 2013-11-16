@@ -3,6 +3,7 @@
 
 #include "ace.CoreLayer3D.h"
 
+#include "../ace.CoreLayer_Imp.h"
 #include "../../Graphics/Common/3D/ace.Renderer3D.h"
 #include "../../Graphics/Common/2D/ace.LayerRenderer.h"
 
@@ -12,6 +13,7 @@ namespace ace
 {
 	class CoreLayer3D_Imp
 		: public CoreLayer3D
+		, public CoreLayer_Imp
 		, public ReferenceObject
 	{
 	friend class ObjectSystemFactory_Imp;

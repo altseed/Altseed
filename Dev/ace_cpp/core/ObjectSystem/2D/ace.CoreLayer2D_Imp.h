@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "ace.CoreLayer2D.h"
 #include "ace.CoreObject2D.h"
+#include "../ace.CoreLayer_Imp.h"
 #include "../../Graphics/Common/2D/ace.Renderer2D_Imp.h"
 #include "../../Graphics/Common/2D/ace.LayerRenderer.h"
 #include <list>
@@ -10,6 +11,7 @@ namespace ace
 {
 	class CoreLayer2D_Imp
 		: public CoreLayer2D
+		, public CoreLayer_Imp
 		, public ReferenceObject
 	{
 	friend class ObjectSystemFactory_Imp;
@@ -40,7 +42,7 @@ namespace ace
 
 		std::vector<CorePostEffect*>	m_postEffects;
 
-		bool m_isDrawn;
+		
 		int m_drawingPriority;
 
 		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
@@ -56,8 +58,6 @@ namespace ace
 			const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
 			const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3);
 
-		bool GetIsDrawn() const;
-		void SetIsDrawn(bool value);
 
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);
@@ -77,6 +77,10 @@ namespace ace
 		RenderTexture2D* GetRenderTarget0();
 		RenderTexture2D* GetRenderTarget1();
 		void SetTargetToLayer(int32_t index);
+
+		// 共通部分
+		virtual bool GetIsDrawn() const { return CoreLayer_Imp::GetIsDrawn(); }
+		virtual void SetIsDrawn(bool value) { return CoreLayer_Imp::SetIsDrawn(value); }
 
 #if !SWIG
 		Renderer2D* GetRenderer() const;

@@ -6,7 +6,8 @@
 
 namespace ace
 {
-	class CoreLayer2D : public CoreLayer
+	class CoreLayer2D 
+		: public CoreLayer
 	{
 	public:
 		typedef CoreObject2D* ObjectPtr;

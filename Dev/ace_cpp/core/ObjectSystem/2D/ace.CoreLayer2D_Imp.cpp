@@ -23,7 +23,6 @@ namespace ace
 		, m_targetToLayer(-1)
 		, m_layerSize(windowSize)
 		, m_windowSize(windowSize)
-		, m_isDrawn(true)
 	{
 		m_renderer = new Renderer2D_Imp(graphics, log, windowSize);
 		m_layerRenderer = new LayerRenderer(graphics);
@@ -117,22 +116,6 @@ namespace ace
 		t.Col3 = col3;
 
 		m_triangles.push_back(t);
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	bool CoreLayer2D_Imp::GetIsDrawn() const
-	{
-		return m_isDrawn;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void CoreLayer2D_Imp::SetIsDrawn(bool value)
-	{
-		m_isDrawn = value;
 	}
 
 	//----------------------------------------------------------------------------------

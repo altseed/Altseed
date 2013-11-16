@@ -232,6 +232,7 @@
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreObject3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\ace.CoreLayer_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.eChildMode.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.ObjectSystemFactory_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.CoreScene_Imp.h" />
@@ -319,6 +320,7 @@
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreDirectionalLightObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreLayer3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\ace.CoreLayer_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.ObjectSystemFactory_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.CoreScene_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn_Imp.cpp" />
