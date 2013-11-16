@@ -1,4 +1,6 @@
 ﻿#include "ace.Layer2DComponent.h"
+#include "../2D/ace.Layer2D.h"
+#include "../ace.Layer.h"
 
 namespace ace
 {

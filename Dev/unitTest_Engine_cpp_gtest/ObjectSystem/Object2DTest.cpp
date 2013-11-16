@@ -17,12 +17,19 @@ public:
 protected:
 	void OnStart()
 	{
+		auto engine = GetEngine();
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 		auto object = make_shared<TextureObject2D>();
 		auto object2 = make_shared<TextureObject2D>();
 
-		GetEngine()->ChangeScene(scene);
+		ASSERT_NE(engine, nullptr);
+		ASSERT_NE(scene, nullptr);
+		ASSERT_NE(layer, nullptr);
+		ASSERT_NE(object, nullptr);
+		ASSERT_NE(object2, nullptr);
+
+		engine->ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(object);
 		layer->AddObject(object2);

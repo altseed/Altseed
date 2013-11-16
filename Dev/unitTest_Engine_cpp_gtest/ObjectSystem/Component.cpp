@@ -6,13 +6,13 @@
 using namespace std;
 using namespace ace;
 
-class MyComponent : public ace::Object2DComponent
+class MyObject2DComponent : public ace::Object2DComponent
 {
 private:
 	int time;
 
 public:
-	MyComponent()
+	MyObject2DComponent()
 		: time(0)
 	{
 	}
@@ -48,7 +48,7 @@ protected:
 		layer->AddObject(object);
 
 		object->SetPosition(Vector2DF(320, 240));
-		object->AddComponent(make_shared<MyComponent>(), ToAString("rotation"));
+		object->AddComponent(make_shared<MyObject2DComponent>(), ToAString("rotation"));
 		ASSERT_NE(object->GetComponent(ToAString("rotation").c_str()), nullptr);
 
 		auto g = ace::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());

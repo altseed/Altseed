@@ -34,6 +34,7 @@ void EngineTest::Run()
 	option.GraphicsType = m_isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
 
 	auto engine = ace::GetEngine();
+	ASSERT_NE(engine, nullptr);
 	engine->Initialize(m_title.c_str(), 640, 480, option);
 
 	OnStart();
@@ -46,7 +47,7 @@ void EngineTest::Run()
 
 		if (time == m_exitTime)
 		{
-			astring filename = m_title + ToAString(".png");
+			astring filename = ToAString("./TestSS/") + m_title + ToAString(".png");
 			engine->TakeScreenshot( filename.c_str() );
 		}
 		if (time == m_exitTime + 30)

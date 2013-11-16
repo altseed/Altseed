@@ -20,6 +20,7 @@
     <ClCompile Include="..\ObjectSystem\Component.cpp" />
     <ClCompile Include="..\ObjectSystem\CustomObject.cpp" />
     <ClCompile Include="..\ObjectSystem\LayerComponent.cpp" />
+    <ClCompile Include="..\ObjectSystem\LayerHasNoObject.cpp" />
     <ClCompile Include="..\ObjectSystem\LayersMember.cpp" />
     <ClCompile Include="..\ObjectSystem\Object2DTest.cpp" />
     <ClCompile Include="..\ObjectSystem\ObjectsMember.cpp" />
