@@ -1,8 +1,8 @@
 ﻿#include <ace.h>
 #include <gtest/gtest.h>
 #include <memory>
-#pragma comment(lib,"Debug/ace_core.lib")
-#pragma comment(lib,"Debug/ace_engine.lib")
+#include "../EngineTest.h"
+
 using namespace std;
 using namespace ace;
 
@@ -24,46 +24,34 @@ protected:
 	}
 };
 
-void ObjectSystem_Custom(bool isOpenGLMode)
+class ObjectSystem_CustomObject : public EngineTest
 {
-	int time = 0;
-	ace::EngineOption option;
-	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
+public:
+	ObjectSystem_CustomObject(bool isOpenGLMode)
+		: EngineTest(ace::ToAString("CustomObject"), isOpenGLMode, 120)
+	{
+	}
 
-	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("CustomObject2D").c_str(), 640, 480, option);
-
+protected:
+	void OnStart()
 	{
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 		auto object = make_shared<CustomObject>();
-		engine->ChangeScene(scene);
+		GetEngine()->ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(object);
-
-		while (engine->DoEvents())
-		{
-			engine->Update();
-			++time;
-			if (time == 120)
-			{
-				break;
-			}
-		}
 	}
+};
 
-	engine->Terminate();
-}
-
-TEST(ObjectSystem, Custom_GL)
+TEST(ObjectSystem, CustomObject_GL)
 {
-	ObjectSystem_Custom(true);
+	ObjectSystem_CustomObject(true).Run();
 }
 
 #if _WIN32
-TEST(ObjectSystem, Custom_DX)
+TEST(ObjectSystem, CustomObject_DX)
 {
-	ObjectSystem_Custom(false);
+	ObjectSystem_CustomObject(false).Run();
 }
 #endif
-

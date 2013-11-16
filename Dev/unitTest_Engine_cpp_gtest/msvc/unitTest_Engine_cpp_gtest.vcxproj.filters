@@ -36,6 +36,7 @@
     <ClCompile Include="..\ObjectSystem\LayersMember.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\EngineTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -47,5 +48,8 @@
     <Filter Include="Graphics\PostEffect">
       <UniqueIdentifier>{d1648162-e090-4da6-a429-ccba9d0b022b}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\EngineTest.h" />
   </ItemGroup>
 </Project>

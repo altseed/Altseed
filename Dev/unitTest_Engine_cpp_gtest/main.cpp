@@ -34,7 +34,6 @@ extern void Profiler_Profiling(bool isOpenGLMode);
 extern void ObjectSystem_Normal(bool isOpenGLMode);
 extern void ObjectSystem_Parent(bool isOpenGLMode);
 extern void ObjectSystem_Custom(bool isOpenGLMode);
-extern void ObjectSystem_Component(bool isOpenGLMode);
 extern void Graphics_CustomPostEffect(bool isOpenGLMode);
 extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
 extern void Graphics_PostEffectSepia(bool isOpenGLMode);
