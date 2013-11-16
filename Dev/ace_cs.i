@@ -28,7 +28,9 @@
 #include "ObjectSystem/2D/ace.CoreObject2D.h"
 #include "ObjectSystem/2D/ace.CoreTextureObject2D.h"
 #include "ObjectSystem/2D/ace.CoreTextureObject2D_Imp.h"
+
 #include "ObjectSystem/ace.CoreLayer.h"
+#include "ObjectSystem/ace.CoreLayer_Imp.h"
 #include "ObjectSystem/2D/ace.CoreLayer2D.h"
 #include "ObjectSystem/2D/ace.CoreLayer2D_Imp.h"
 #include "ObjectSystem/ace.CoreScene.h"
@@ -180,6 +182,8 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 //-----------------------------------------------------------------------------------
 CPP_OBJECT( ace::CoreScene )
 CPP_OBJECT( ace::CoreScene_Imp )
+CPP_OBJECT( ace::CoreLayer )
+CPP_OBJECT( ace::CoreLayer_Imp )
 CPP_OBJECT( ace::CoreLayer2D )
 CPP_OBJECT( ace::CoreLayer2D_Imp )
 CPP_OBJECT( ace::CoreObject2D )
@@ -266,7 +270,10 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D_Imp.h"
+
 %include "ace_cpp/core/ObjectSystem/ace.CoreLayer.h"
+%include "ace_cpp/core/ObjectSystem/ace.CoreLayer_Imp.h"
+
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D_Imp.h"
 %include "ace_cpp/core/ObjectSystem/ace.CoreScene.h"
