@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\EngineTest.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\CustomPostEffect.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScaleTest.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectSepiaTest.cpp" />
@@ -19,11 +20,15 @@
     <ClCompile Include="..\ObjectSystem\Component.cpp" />
     <ClCompile Include="..\ObjectSystem\CustomObject.cpp" />
     <ClCompile Include="..\ObjectSystem\LayerComponent.cpp" />
+    <ClCompile Include="..\ObjectSystem\LayerHasNoObject.cpp" />
     <ClCompile Include="..\ObjectSystem\LayersMember.cpp" />
     <ClCompile Include="..\ObjectSystem\Object2DTest.cpp" />
     <ClCompile Include="..\ObjectSystem\ObjectsMember.cpp" />
     <ClCompile Include="..\ParentObject.cpp" />
     <ClCompile Include="..\Profiler.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\EngineTest.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B64D0464-A770-4EB2-9058-84FCAED86DE3}</ProjectGuid>

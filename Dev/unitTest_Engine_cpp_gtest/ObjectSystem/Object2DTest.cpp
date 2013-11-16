@@ -1,70 +1,60 @@
 ﻿#include <ace.h>
 #include <gtest/gtest.h>
 #include <memory>
-#pragma comment(lib,"Debug/ace_core.lib")
-#pragma comment(lib,"Debug/ace_engine.lib")
+#include "../EngineTest.h"
 
 using namespace std;
 using namespace ace;
 
-void ObjectSystem_Normal(bool isOpenGLMode)
+class ObjectSystem_Simple : public EngineTest
 {
-	int time = 0;
-	ace::EngineOption option;
-	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
-
+public:
+	ObjectSystem_Simple(bool isOpenGLMode)
+		: EngineTest(ace::ToAString("Simple"), isOpenGLMode, 60)
 	{
-		auto engine = ace::GetEngine();
-		engine->Initialize(ace::ToAString("Object2D").c_str(), 640, 480, option);
-
-		{
-			auto scene = make_shared<Scene>();
-			auto layer = make_shared<Layer2D>();
-			auto object = make_shared<TextureObject2D>();
-			auto object2 = make_shared<TextureObject2D>();
-			scene->AddLayer(layer);
-
-			layer->AddObject(object);
-			engine->ChangeScene(scene);
-			layer->AddObject(object2);
-
-			auto g = ace::GetGraphics();
-			auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Cloud1.png").c_str());
-			object->SetTexture(texture);
-			object2->SetTexture(texture);
-			
-			object->SetCenterPosition(Vector2DF(128, 128));
-			object->SetAngle(5);
-			object->SetPosition(Vector2DF(320, 240));
-			object->SetScale(object->GetScale() + Vector2DF(0.5f, 0.5f));
-
-			while (engine->DoEvents())
-			{
-				engine->Update();
-				++time;
-				if (time == 120)
-				{
-					break;
-				}
-			}
-		}
-
-		engine->Terminate();
 	}
 
-	auto ref = GetGlobalReferenceCount();
-	ASSERT_TRUE(ref == 0);
-}
+protected:
+	void OnStart()
+	{
+		auto engine = GetEngine();
+		auto scene = make_shared<Scene>();
+		auto layer = make_shared<Layer2D>();
+		auto object = make_shared<TextureObject2D>();
+		auto object2 = make_shared<TextureObject2D>();
 
-TEST(ObjectSystem, Normal_GL)
+		ASSERT_NE(engine, nullptr);
+		ASSERT_NE(scene, nullptr);
+		ASSERT_NE(layer, nullptr);
+		ASSERT_NE(object, nullptr);
+		ASSERT_NE(object2, nullptr);
+
+		engine->ChangeScene(scene);
+		scene->AddLayer(layer);
+		layer->AddObject(object);
+		layer->AddObject(object2);
+
+		auto g = ace::GetGraphics();
+		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Cloud1.png").c_str());
+		object->SetTexture(texture);
+		object2->SetTexture(texture);
+
+		object->SetCenterPosition(Vector2DF(128, 128));
+		object->SetAngle(5);
+		object->SetPosition(Vector2DF(320, 240));
+		object->SetScale(object->GetScale() + Vector2DF(0.5f, 0.5f));
+	}
+};
+
+TEST(ObjectSystem, Simple_GL)
 {
-	ObjectSystem_Normal(true);
+	ObjectSystem_Simple(true).Run();
 }
 
 #if _WIN32
-TEST(ObjectSystem, Normal_DX)
+TEST(ObjectSystem, Simple_DX)
 {
-	ObjectSystem_Normal(false);
+	ObjectSystem_Simple(false).Run();
 }
 #endif
 

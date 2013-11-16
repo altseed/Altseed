@@ -1,68 +1,62 @@
 ﻿#include <ace.h>
 #include <gtest/gtest.h>
 #include <memory>
-#pragma comment(lib,"Debug/ace_core.lib")
-#pragma comment(lib,"Debug/ace_engine.lib")
+#include "EngineTest.h"
 
 using namespace std;
 using namespace ace;
 
-void ObjectSystem_Parent(bool isOpenGLMode)
+class ObjectSystem_ParentObject : public EngineTest
 {
-	int time = 0;
-	ace::EngineOption option;
-	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
+public:
+	ObjectSystem_ParentObject(bool isOpenGLMode)
+		: EngineTest(ace::ToAString("ParentObject"), isOpenGLMode, 120)
+		, m_parent(nullptr)
+	{
+	}
 
-	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("ParentObject2D").c_str(), 640, 480, option);
+protected:
+	shared_ptr<TextureObject2D> m_parent;
 
+	void OnStart()
 	{
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
-		auto parent = make_shared<TextureObject2D>();
 		auto child = make_shared<TextureObject2D>();
+		m_parent = make_shared<TextureObject2D>();
 
-		engine->ChangeScene(scene);
+		GetEngine()->ChangeScene(scene);
 		scene->AddLayer(layer);
-		layer->AddObject(parent);
+		layer->AddObject(m_parent);
 		layer->AddObject(child);
-		parent->AddChild(child, eChildMode::CHILD_MODE_ALL);
+		m_parent->AddChild(child, eChildMode::CHILD_MODE_ALL);
 
 		auto g = ace::GetGraphics();
 		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Cloud1.png").c_str());
-		parent->SetTexture(texture);
+		m_parent->SetTexture(texture);
 		child->SetTexture(texture);
 
-		parent->SetPosition(Vector2DF(320, 240));
-		parent->SetCenterPosition(Vector2DF(128,128));
-		parent->SetColor(Color(255,255,128,255));
+		m_parent->SetPosition(Vector2DF(320, 240));
+		m_parent->SetCenterPosition(Vector2DF(128, 128));
+		m_parent->SetColor(Color(255, 255, 128, 255));
 		child->SetPosition(Vector2DF(50, 50));
-
-		while (engine->DoEvents())
-		{
-			parent->SetAngle(parent->GetAngle() + 0.2f);
-			parent->SetScale(parent->GetScale() + Vector2DF(0.001f, 0.001f));
-			engine->Update();
-			++time;
-			if (time == 120)
-			{
-				break;
-			}
-		}
 	}
 
-	engine->Terminate();
-}
+	void OnUpdating()
+	{
+		m_parent->SetAngle(m_parent->GetAngle() + 0.2f);
+		m_parent->SetScale(m_parent->GetScale() + Vector2DF(0.001f, 0.001f));
+	}
+};
 
-TEST(ObjectSystem, Parent_GL)
+TEST(ObjectSystem, ParentObject_GL)
 {
-	ObjectSystem_Parent(true);
+	ObjectSystem_ParentObject(true).Run();
 }
 
 #if _WIN32
-TEST(ObjectSystem, Parent_DX)
+TEST(ObjectSystem, ParentObject_DX)
 {
-	ObjectSystem_Parent(false);
+	ObjectSystem_ParentObject(false).Run();
 }
 #endif
-

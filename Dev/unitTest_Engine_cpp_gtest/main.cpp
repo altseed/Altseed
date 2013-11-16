@@ -30,11 +30,7 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
-extern void Profiler_Profiling(bool isOpenGLMode);
-extern void ObjectSystem_Normal(bool isOpenGLMode);
-extern void ObjectSystem_Parent(bool isOpenGLMode);
-extern void ObjectSystem_Custom(bool isOpenGLMode);
-extern void ObjectSystem_Component(bool isOpenGLMode);
+extern void Test_LayerComponent_GL();
 extern void Graphics_CustomPostEffect(bool isOpenGLMode);
 extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
 extern void Graphics_PostEffectSepia(bool isOpenGLMode);
@@ -54,7 +50,6 @@ int main(int argc, char **argv)
 	GetDirectoryName(current_path, argv[0]);
 	SetCurrentDirectoryA(current_path);
 #endif
-
 	//Graphics_PostEffectSepia(true);
 	//return 0;
 
