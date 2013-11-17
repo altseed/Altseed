@@ -16,19 +16,20 @@ float4 main( const PS_Input Input ) : SV_Target
 {
 	uint width, height;
 	g_texture.GetDimensions(width, height);
-	float2 accum = float2(1.5 / width, 0.0);
+	float2 accum = float2(1.0 / width, 0.0);
+	float2 half = float2(0.5 / width, 0.0);
 	float2 adder = float2(2.0 / width, 0.0);
-	float4 output = g_texture.Sample(g_sampler, Input.UV);
+	
+	float4 output = g_texture.Sample(g_sampler, Input.UV + half + accum);
 	if(output.a == 0.0f) discard;
-	output += g_texture.Sample(g_sampler, Input.UV + accum);
-	output += g_texture.Sample(g_sampler, Input.UV - accum);
+	output += g_texture.Sample(g_sampler, Input.UV + half - accum);
 	accum += adder;
-	output += g_texture.Sample(g_sampler, Input.UV + accum);
-	output += g_texture.Sample(g_sampler, Input.UV - accum);
+	output += g_texture.Sample(g_sampler, Input.UV + half + accum);
+	output += g_texture.Sample(g_sampler, Input.UV + half - accum);
 	accum += adder;
-	output += g_texture.Sample(g_sampler, Input.UV + accum);
-	output += g_texture.Sample(g_sampler, Input.UV - accum);
-	return output / 7.0;
+	output += g_texture.Sample(g_sampler, Input.UV + half + accum);
+	output += g_texture.Sample(g_sampler, Input.UV + half - accum);
+	return output / 6.0;
 }
 
 )";
@@ -38,18 +39,18 @@ uniform sampler2D g_texture;
 
 void main()
 {
-	vec4 output = texture2D(g_texture, inUV.xy);
-	vec2 accum = vec2(1.5 / float(textureSize(g_texture, 0).x), 0.0);
+	vec2 accum = vec2(1.0 / float(textureSize(g_texture, 0).x), 0.0);
+	vec2 half  = vec2(0.5 / float(textureSize(g_texture, 0).x), 0.0);
 	vec2 adder = vec2(2.0 / float(textureSize(g_texture, 0).x), 0.0);
-	output += texture2D(g_texture, inUV.xy + accum);
-	output += texture2D(g_texture, inUV.xy - accum);
+	vec4 output = texture2D(g_texture, inUV.xy + half + accum);
+	output += texture2D(g_texture, inUV.xy + half - accum);
 	accum += adder;
-	output += texture2D(g_texture, inUV.xy + accum);
-	output += texture2D(g_texture, inUV.xy - accum);
+	output += texture2D(g_texture, inUV.xy + half + accum);
+	output += texture2D(g_texture, inUV.xy + half - accum);
 	accum += adder;
-	output += texture2D(g_texture, inUV.xy + accum);
-	output += texture2D(g_texture, inUV.xy - accum);
-	gl_FragColor = output / 7.0; 
+	output += texture2D(g_texture, inUV.xy + half + accum);
+	output += texture2D(g_texture, inUV.xy + half - accum);
+	gl_FragColor = output / 6.0; 
 }
 
 )";
@@ -64,19 +65,20 @@ float4 main( const PS_Input Input ) : SV_Target
 {
 	uint width, height;
 	g_texture.GetDimensions(width, height);
-	float2 accum = float2(0.0, 1.5 / height);
+	float2 accum = float2(0.0, 1.0 / height);
+	float2 half = float2(0.0, 0.5 / height);
 	float2 adder = float2(0.0, 2.0 / height);
-	float4 output = g_texture.Sample(g_sampler, Input.UV);
+	
+	float4 output = g_texture.Sample(g_sampler, Input.UV + half + accum);
 	if(output.a == 0.0f) discard;
-	output += g_texture.Sample(g_sampler, Input.UV + accum);
-	output += g_texture.Sample(g_sampler, Input.UV - accum);
+	output += g_texture.Sample(g_sampler, Input.UV + half - accum);
 	accum += adder;
-	output += g_texture.Sample(g_sampler, Input.UV + accum);
-	output += g_texture.Sample(g_sampler, Input.UV - accum);
+	output += g_texture.Sample(g_sampler, Input.UV + half + accum);
+	output += g_texture.Sample(g_sampler, Input.UV + half - accum);
 	accum += adder;
-	output += g_texture.Sample(g_sampler, Input.UV + accum);
-	output += g_texture.Sample(g_sampler, Input.UV - accum);
-	return output / 7.0;
+	output += g_texture.Sample(g_sampler, Input.UV + half + accum);
+	output += g_texture.Sample(g_sampler, Input.UV + half - accum);
+	return output / 6.0;
 }
 
 )";
@@ -86,18 +88,18 @@ uniform sampler2D g_texture;
 
 void main()
 {
-	vec4 output = texture2D(g_texture, inUV.xy);
-	vec2 accum = vec2(0.0, 1.5 / float(textureSize(g_texture, 0).y));
+	vec2 accum = vec2(0.0, 1.0 / float(textureSize(g_texture, 0).y));
+	vec2 half  = vec2(0.0, 0.5 / float(textureSize(g_texture, 0).y));
 	vec2 adder = vec2(0.0, 2.0 / float(textureSize(g_texture, 0).y));
-	output += texture2D(g_texture, inUV.xy + accum);
-	output += texture2D(g_texture, inUV.xy - accum);
+	vec4 output = texture2D(g_texture, inUV.xy + half + accum);
+	output += texture2D(g_texture, inUV.xy + half - accum);
 	accum += adder;
-	output += texture2D(g_texture, inUV.xy + accum);
-	output += texture2D(g_texture, inUV.xy - accum);
+	output += texture2D(g_texture, inUV.xy + half + accum);
+	output += texture2D(g_texture, inUV.xy + half - accum);
 	accum += adder;
-	output += texture2D(g_texture, inUV.xy + accum);
-	output += texture2D(g_texture, inUV.xy - accum);
-	gl_FragColor = output / 7.0; 
+	output += texture2D(g_texture, inUV.xy + half + accum);
+	output += texture2D(g_texture, inUV.xy + half - accum);
+	gl_FragColor = output / 6.0; 
 }
 
 )";
