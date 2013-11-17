@@ -16,8 +16,8 @@ float4 main( const PS_Input Input ) : SV_Target
 {
 	uint width, height;
 	g_texture.GetDimensions(width, height);
-	float2 accum = float2(1.5 / width, 0);
-	float2 adder = float2(2.0 / width, 0);
+	float2 accum = float2(1.5 / width, 0.0);
+	float2 adder = float2(2.0 / width, 0.0);
 	float4 output = g_texture.Sample(g_sampler, Input.UV);
 	if(output.a == 0.0f) discard;
 	output += g_texture.Sample(g_sampler, Input.UV + accum);
@@ -34,14 +34,13 @@ float4 main( const PS_Input Input ) : SV_Target
 )";
 
 		static const char* shader2d_gl_ps_x = R"(
-
 uniform sampler2D g_texture;
 
 void main()
 {
 	vec4 output = texture2D(g_texture, inUV.xy);
-	vec2 accum = vec2(1.5 / textureSize(g_texture, 0).x, 0);
-	vec2 adder = vec2(2.0 / textureSize(g_texture, 0).x, 0);
+	vec2 accum = vec2(1.5 / float(textureSize(g_texture, 0).x), 0.0);
+	vec2 adder = vec2(2.0 / float(textureSize(g_texture, 0).x), 0.0);
 	output += texture2D(g_texture, inUV.xy + accum);
 	output += texture2D(g_texture, inUV.xy - accum);
 	accum += adder;
@@ -65,8 +64,8 @@ float4 main( const PS_Input Input ) : SV_Target
 {
 	uint width, height;
 	g_texture.GetDimensions(width, height);
-	float2 accum = float2(0, 1.5 / height);
-	float2 adder = float2(0, 2.0 / height);
+	float2 accum = float2(0.0, 1.5 / height);
+	float2 adder = float2(0.0, 2.0 / height);
 	float4 output = g_texture.Sample(g_sampler, Input.UV);
 	if(output.a == 0.0f) discard;
 	output += g_texture.Sample(g_sampler, Input.UV + accum);
@@ -83,14 +82,13 @@ float4 main( const PS_Input Input ) : SV_Target
 )";
 
 		static const char* shader2d_gl_ps_y = R"(
-
 uniform sampler2D g_texture;
 
 void main()
 {
 	vec4 output = texture2D(g_texture, inUV.xy);
-	vec2 accum = vec2(0, 1.5 / textureSize(g_texture, 0).y);
-	vec2 adder = vec2(0, 2.0 / textureSize(g_texture, 0).y);
+	vec2 accum = vec2(0.0, 1.5 / float(textureSize(g_texture, 0).y));
+	vec2 adder = vec2(0.0, 2.0 / float(textureSize(g_texture, 0).y));
 	output += texture2D(g_texture, inUV.xy + accum);
 	output += texture2D(g_texture, inUV.xy - accum);
 	accum += adder;
@@ -110,6 +108,7 @@ void main()
 		prop_tex.Name = ace::ToAString("g_texture").c_str();
 		prop_tex.Offset = 0;
 		prop_tex.Type = ace::SHADER_VARIABLE_TYPE_TEXTURE2D;
+		
 		propsX.push_back(prop_tex);
 		propsY.push_back(prop_tex);
 
