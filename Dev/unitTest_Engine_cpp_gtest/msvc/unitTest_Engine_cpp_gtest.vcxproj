@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\EngineTest.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\CustomPostEffect.cpp" />
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlurTest.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScaleTest.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectSepiaTest.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectSmoothingTest.cpp" />

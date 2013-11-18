@@ -1,0 +1,225 @@
+﻿#include "ace.PostEffectGaussianBlur.h"
+
+#include <vector>
+namespace ace{
+
+
+	PostEffectGaussianBlur::PostEffectGaussianBlur(Graphics *g)
+	{
+
+		static const char* shader2d_dx_ps_x = R"(
+Texture2D		g_texture		: register( t0 );
+SamplerState	g_sampler		: register( s0 );
+float3          g_weight        : register( c0 );
+float4 main( const PS_Input Input ) : SV_Target
+{
+	uint width, height;
+	g_texture.GetDimensions(width, height);
+	float2 accum = float2(1.0 / width, 0.0);
+	float2 half = float2(0.5 / width, 0.0);
+	float2 adder = float2(2.0 / width, 0.0);
+	
+	float4 output = (g_texture.Sample(g_sampler, Input.UV + half + accum) +
+	                 g_texture.Sample(g_sampler, Input.UV + half - accum)) *
+	                 g_weight.x;
+	if(output.a == 0.0f) discard;
+	accum += adder;
+	output += (g_texture.Sample(g_sampler, Input.UV + half + accum) +
+	           g_texture.Sample(g_sampler, Input.UV + half - accum)) *
+	           g_weight.y;
+	accum += adder;
+	output += (g_texture.Sample(g_sampler, Input.UV + half + accum) +
+	           g_texture.Sample(g_sampler, Input.UV + half - accum)) *
+	           g_weight.z;
+	return output;
+}
+)";
+
+		static const char* shader2d_gl_ps_x = R"(
+uniform sampler2D g_texture;
+uniform vec3      g_weight;
+void main()
+{
+	vec2 accum = vec2(1.0 / float(textureSize(g_texture, 0).x), 0.0);
+	vec2 half  = vec2(0.5 / float(textureSize(g_texture, 0).x), 0.0);
+	vec2 adder = vec2(2.0 / float(textureSize(g_texture, 0).x), 0.0);
+	vec4 output = (texture2D(g_texture, inUV.xy + half + accum)  +
+	               texture2D(g_texture, inUV.xy + half - accum)) *
+	               g_weight.x;
+	accum += adder;
+	output += (texture2D(g_texture, inUV.xy + half + accum)  +
+	          texture2D(g_texture, inUV.xy + half - accum)) *
+	          g_weight.y;
+	accum += adder;
+	output += (texture2D(g_texture, inUV.xy + half + accum)  +
+	          texture2D(g_texture, inUV.xy + half - accum)) *
+	          g_weight.z;
+	gl_FragColor = output; 
+}
+
+)";
+
+
+		static const char* shader2d_dx_ps_y = R"(
+Texture2D		g_texture		: register( t0 );
+SamplerState	g_sampler		: register( s0 );
+float3          g_weight        : register( c0 );
+float4 main( const PS_Input Input ) : SV_Target
+{
+	uint width, height;
+	g_texture.GetDimensions(width, height);
+	float2 accum = float2(0.0, 1.0 / height);
+	float2 half = float2(0.0, 0.5 / height);
+	float2 adder = float2(0.0, 2.0 / height);
+	
+	float4 output = (g_texture.Sample(g_sampler, Input.UV + half + accum) +
+	                 g_texture.Sample(g_sampler, Input.UV + half - accum)) *
+	                 g_weight.x;
+	if(output.a == 0.0f) discard;
+
+	accum += adder;
+	output += (g_texture.Sample(g_sampler, Input.UV + half + accum) +
+	           g_texture.Sample(g_sampler, Input.UV + half - accum)) *
+	           g_weight.y;
+	accum += adder;
+	output += (g_texture.Sample(g_sampler, Input.UV + half + accum) +
+	           g_texture.Sample(g_sampler, Input.UV + half - accum)) *
+	           g_weight.z;
+	return output;
+}
+)";
+
+		static const char* shader2d_gl_ps_y = R"(
+uniform sampler2D g_texture;
+uniform vec3      g_weight;
+void main()
+{
+	vec2 accum = vec2(0.0, 1.0 / float(textureSize(g_texture, 0).y));
+	vec2 half  = vec2(0.0, 0.5 / float(textureSize(g_texture, 0).y));
+	vec2 adder = vec2(0.0, 2.0 / float(textureSize(g_texture, 0).y));
+	
+	vec4 output = (texture2D(g_texture, inUV.xy + half + accum)  +
+	               texture2D(g_texture, inUV.xy + half - accum)) *
+	               g_weight.x;
+	accum += adder;
+	output += (texture2D(g_texture, inUV.xy + half + accum)  +
+	          texture2D(g_texture, inUV.xy + half - accum)) *
+	          g_weight.y;
+	accum += adder;
+	output += (texture2D(g_texture, inUV.xy + half + accum)  +
+	          texture2D(g_texture, inUV.xy + half - accum)) *
+	          g_weight.z;
+
+	gl_FragColor = output; 
+}
+
+)";
+
+
+		std::vector<ace::ShaderVariableProperty> propsX, propsY;
+		auto prop_tex = ace::ShaderVariableProperty();
+		prop_tex.Name = ace::ToAString("g_texture").c_str();
+		prop_tex.Offset = 0;
+		prop_tex.Type = ace::SHADER_VARIABLE_TYPE_TEXTURE2D;
+		
+		auto prop_weight = ace::ShaderVariableProperty();
+		prop_weight.Name = ace::ToAString("g_weight").c_str();
+		prop_weight.Offset = 0;
+		prop_weight.Type = ace::SHADER_VARIABLE_TYPE_VECTOR3DF;
+
+		propsX.push_back(prop_tex);
+		propsX.push_back(prop_weight);
+		propsY.push_back(prop_tex);
+		propsY.push_back(prop_weight);
+
+		if (g->GetGraphicsType() == ace::GRAPHICS_TYPE_DX11)
+		{
+			m_shaderX = g->CreateShader2D(
+				ace::ToAString(shader2d_dx_ps_x).c_str(),
+				propsX
+				);
+		}
+		else if (g->GetGraphicsType() == ace::GRAPHICS_TYPE_GL)
+		{
+			// std::vector<ace::ShaderVariableProperty> prop;
+			m_shaderX = g->CreateShader2D(
+				ace::ToAString(shader2d_gl_ps_x).c_str(),
+				propsX
+				);
+		}
+		else
+		{
+			assert(0);
+		}
+
+		m_material2dX = g->CreateMaterial2D(m_shaderX);
+
+		
+
+		if (g->GetGraphicsType() == ace::GRAPHICS_TYPE_DX11)
+		{
+			m_shaderY = g->CreateShader2D(
+				ace::ToAString(shader2d_dx_ps_y).c_str(),
+				propsY
+				);
+		}
+		else if (g->GetGraphicsType() == ace::GRAPHICS_TYPE_GL)
+		{
+			// std::vector<ace::ShaderVariableProperty> prop;
+			m_shaderY = g->CreateShader2D(
+				ace::ToAString(shader2d_gl_ps_y).c_str(),
+				propsY
+				);
+		}
+		else
+		{
+			assert(0);
+		}
+
+		m_material2dY = g->CreateMaterial2D(m_shaderY);
+
+		m_graphics = g;
+	}
+
+	void PostEffectGaussianBlur::OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src)
+	{
+
+
+		Vector3DF weights;
+		float ws[3];
+		float total = 0.0f;
+		float const dispersion = 5.0f * 5.0f;
+		for (int32_t i = 0; i < 3; i++)
+		{
+			float pos = 1.0f + 2.0f * i;
+			ws[i] = expf(-0.5f * pos * pos / dispersion);
+			total += ws[i] * 2.0f;
+		}
+		weights.X = ws[0] / total;
+		weights.Y = ws[1] / total;
+		weights.Z = ws[2] / total;
+
+		const eTextureFilterType origSrcFiter = src->GetFilter();
+		src->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
+
+		m_material2dX->SetTexture2D(ace::ToAString("g_texture").c_str(), src);
+		m_material2dX->SetVector3DF(ace::ToAString("g_weight").c_str(), weights);
+
+		auto size = src->GetSize();
+		auto type = src->GetType();
+		if (size.X <= 0 || size.Y <= 0 || m_graphics == nullptr){ return; } // return if the source and/or the graphics are invalid
+		
+		auto tmp = m_graphics->CreateRenderTexture(size.X, size.Y, ace::eTextureFormat::TEXTURE_FORMAT_RGBA8888);
+		if (tmp->GetSize().X != size.X || tmp->GetSize().Y != size.Y || tmp->GetType() != type){ return; }
+		tmp->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
+		
+		DrawOnTexture2DWithMaterial(tmp, m_material2dX);
+		
+		m_material2dY->SetTexture2D(ace::ToAString("g_texture").c_str(), tmp);
+		m_material2dY->SetVector3DF(ace::ToAString("g_weight").c_str(), weights);
+		
+		DrawOnTexture2DWithMaterial(dst, m_material2dY);
+		tmp->SetFilter(origSrcFiter);
+	}
+
+}

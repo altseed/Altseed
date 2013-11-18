@@ -86,6 +86,7 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffect.h"
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGrayScale.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSepia.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSmoothing.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGaussianBlur.h")
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Object2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent.h')

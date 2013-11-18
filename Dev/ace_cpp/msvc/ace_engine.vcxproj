@@ -93,6 +93,7 @@
     <ClInclude Include="..\engine\ObjectSystem\Fade\ace.FadeIn.h" />
     <ClInclude Include="..\engine\ObjectSystem\Fade\ace.FadeOut.h" />
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.h" />
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGaussianBlur.h" />
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGrayScale.h" />
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.h" />
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSmoothing.h" />
@@ -110,6 +111,7 @@
     <ClCompile Include="..\engine\ObjectSystem\Fade\ace.FadeIn.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\Fade\ace.FadeOut.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGaussianBlur.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGrayScale.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSmoothing.cpp" />

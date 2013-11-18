@@ -40,6 +40,9 @@
     <ClCompile Include="..\ObjectSystem\LayerHasNoObject.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlurTest.cpp">
+      <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
