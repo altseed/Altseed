@@ -27,8 +27,6 @@ namespace ace
 		std::vector<Triangle>	m_triangles;
 
 		std::list<ObjectPtr> m_objects;
-		
-		Graphics_Imp*	m_graphics;
 
 		Renderer2D*		m_renderer;
 		LayerRenderer*	m_layerRenderer;
@@ -39,11 +37,6 @@ namespace ace
 		RenderTexture_Imp*				m_renderTarget0;
 		RenderTexture_Imp*				m_renderTarget1;
 		int32_t							m_targetToLayer;
-
-		std::vector<CorePostEffect*>	m_postEffects;
-
-		
-		int m_drawingPriority;
 
 		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();
@@ -62,9 +55,6 @@ namespace ace
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);
 
-		int GetDrawingPriority() const;
-		void SetDrawingPriority(int value);
-
 		void BeginDrawing();
 		void Draw();
 		void EndDrawing();
@@ -79,6 +69,9 @@ namespace ace
 		void SetTargetToLayer(int32_t index);
 
 		// 共通部分
+		virtual int GetDrawingPriority() const { return CoreLayer_Imp::GetDrawingPriority(); }
+		virtual void SetDrawingPriority(int value) { CoreLayer_Imp::SetDrawingPriority(value); }
+
 		virtual bool GetIsDrawn() const { return CoreLayer_Imp::GetIsDrawn(); }
 		virtual void SetIsDrawn(bool value) { return CoreLayer_Imp::SetIsDrawn(value); }
 

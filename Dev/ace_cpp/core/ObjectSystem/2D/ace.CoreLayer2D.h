@@ -12,9 +12,6 @@ namespace ace
 	public:
 		typedef CoreObject2D* ObjectPtr;
 
-		virtual bool GetIsDrawn() const = 0;
-		virtual void SetIsDrawn(bool value) = 0;
-
 		virtual void AddObject(ObjectPtr object2D) = 0;
 		virtual void RemoveObject(ObjectPtr object2D) = 0;
 

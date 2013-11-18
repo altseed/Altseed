@@ -82,8 +82,9 @@ void Graphics_Imp::SavePNGImage(const achar* filepath, int32_t width, int32_t he
 	FILE *fp = _wfopen(filepath, L"wb");
 #else
 	FILE *fp = fopen(ToUtf8String(filepath).c_str(), "wb");
-
 #endif
+
+	if (fp == nullptr) return;
 
 	png_structp pp = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	png_infop ip = png_create_info_struct(pp);

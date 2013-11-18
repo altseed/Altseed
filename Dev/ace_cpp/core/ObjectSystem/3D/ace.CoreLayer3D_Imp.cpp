@@ -9,11 +9,10 @@
 namespace ace
 {
 	CoreLayer3D_Imp::CoreLayer3D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize)
-		: m_objects(std::list<ObjectPtr>())
-		, m_graphics(nullptr)
+		: CoreLayer_Imp(graphics)
+		, m_objects(std::list<ObjectPtr>())
 		, m_renderer(nullptr)
 		, m_layerRenderer(nullptr)
-		, m_drawingPriority(0)
 		, m_windowSize(windowSize)
 	{
 		m_renderer = new Renderer3D(graphics);
@@ -32,9 +31,6 @@ namespace ace
 			lpos[3].Y = windowSize.Y;
 			m_layerRenderer->SetLayerPosition(lpos);
 		}
-
-		m_graphics = (Graphics_Imp*) graphics;
-		SafeAddRef(m_graphics);
 	}
 
 	CoreLayer3D_Imp::~CoreLayer3D_Imp()
@@ -46,8 +42,6 @@ namespace ace
 		{
 			SafeRelease(object);
 		}
-
-		SafeRelease(m_graphics);
 	}
 
 	void CoreLayer3D_Imp::AddObject(ObjectPtr object3D)
@@ -63,15 +57,5 @@ namespace ace
 	void CoreLayer3D_Imp::Draw()
 	{
 
-	}
-
-	int32_t CoreLayer3D_Imp::GetDrawingPriority() const
-	{
-		return m_drawingPriority;
-	}
-
-	void CoreLayer3D_Imp::SetDrawingPriority(int value)
-	{
-		m_drawingPriority = value;
 	}
 };

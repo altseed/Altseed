@@ -13,11 +13,10 @@ namespace ace
 	//
 	//----------------------------------------------------------------------------------
 	CoreLayer2D_Imp::CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize)
-		: m_objects(list<ObjectPtr>())
-		, m_graphics(nullptr)
+		: CoreLayer_Imp(graphics)
+		, m_objects(list<ObjectPtr>())
 		, m_renderer(nullptr)
 		, m_layerRenderer(nullptr)
-		, m_drawingPriority(0)
 		, m_renderTarget0(nullptr)
 		, m_renderTarget1(nullptr)
 		, m_targetToLayer(-1)
@@ -40,9 +39,6 @@ namespace ace
 			lpos[3].Y = windowSize.Y;
 			m_layerRenderer->SetLayerPosition(lpos);
 		}
-
-		m_graphics = (Graphics_Imp*) graphics;
-		SafeAddRef(m_graphics);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -63,7 +59,6 @@ namespace ace
 			SafeRelease(object);
 		}
 
-		SafeRelease(m_graphics);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -333,22 +328,6 @@ namespace ace
 	Renderer2D* CoreLayer2D_Imp::GetRenderer() const
 	{
 		return m_renderer;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	int CoreLayer2D_Imp::GetDrawingPriority() const
-	{
-		return m_drawingPriority;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void CoreLayer2D_Imp::SetDrawingPriority(int value)
-	{
-		m_drawingPriority = value;
 	}
 
 }

@@ -53,6 +53,8 @@ int main(int argc, char **argv)
 	//Graphics_PostEffectSepia(true);
 	//return 0;
 
+	//Test_LayerComponent_GL();
+
 	::testing::InitGoogleTest(&argc, argv);
 
 	auto result = RUN_ALL_TESTS();

@@ -22,12 +22,8 @@ namespace ace
 
 		std::list<ObjectPtr> m_objects;
 
-		Graphics_Imp*	m_graphics;
-
 		Renderer3D*		m_renderer;
 		LayerRenderer*	m_layerRenderer;
-
-		int m_drawingPriority;
 
 		Vector2DI		m_windowSize;
 
@@ -41,8 +37,12 @@ namespace ace
 
 		void Draw();
 
-		int GetDrawingPriority() const;
-		void SetDrawingPriority(int value);
+		// 共通部分
+		virtual int GetDrawingPriority() const { return CoreLayer_Imp::GetDrawingPriority(); }
+		virtual void SetDrawingPriority(int value) { CoreLayer_Imp::SetDrawingPriority(value); }
+
+		virtual bool GetIsDrawn() const { return CoreLayer_Imp::GetIsDrawn(); }
+		virtual void SetIsDrawn(bool value) { return CoreLayer_Imp::SetIsDrawn(value); }
 
 #if !SWIG
 	public:
