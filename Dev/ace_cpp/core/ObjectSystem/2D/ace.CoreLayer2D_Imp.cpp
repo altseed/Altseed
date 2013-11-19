@@ -1,7 +1,6 @@
 ﻿
 #include <list>
 #include "ace.CoreLayer2D_Imp.h"
-#include "../PostEffect/ace.CorePostEffect_Imp.h"
 #include "../../Window/ace.Window_Imp.h"
 #include "../../Graphics/Common/ace.Graphics_Imp.h"
 
@@ -13,15 +12,10 @@ namespace ace
 	//
 	//----------------------------------------------------------------------------------
 	CoreLayer2D_Imp::CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize)
-		: CoreLayer_Imp(graphics)
+		: CoreLayer_Imp(graphics, windowSize)
 		, m_objects(list<ObjectPtr>())
 		, m_renderer(nullptr)
 		, m_layerRenderer(nullptr)
-		, m_renderTarget0(nullptr)
-		, m_renderTarget1(nullptr)
-		, m_targetToLayer(-1)
-		, m_layerSize(windowSize)
-		, m_windowSize(windowSize)
 	{
 		m_renderer = new Renderer2D_Imp(graphics, log, windowSize);
 		m_layerRenderer = new LayerRenderer(graphics);
@@ -48,9 +42,6 @@ namespace ace
 	{
 		ClearPostEffects();
 
-		SafeRelease(m_renderTarget0);
-		SafeRelease(m_renderTarget1);
-
 		SafeDelete(m_renderer);
 		SafeRelease(m_layerRenderer);
 
@@ -64,17 +55,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreLayer2D_Imp::CreateRenderTarget(const Vector2DI& size)
-	{
-		if (m_layerSize == size && m_renderTarget0 != nullptr) return;
-		m_layerSize = size;
-
-		SafeRelease(m_renderTarget0);
-		SafeRelease(m_renderTarget1);
-
-		m_renderTarget0 = m_graphics->CreateRenderTexture_Imp(m_layerSize.X, m_layerSize.Y, eTextureFormat::TEXTURE_FORMAT_RGBA8888);
-		m_renderTarget1 = m_graphics->CreateRenderTexture_Imp(m_layerSize.X, m_layerSize.Y, eTextureFormat::TEXTURE_FORMAT_RGBA8888);
-	}
 
 	//----------------------------------------------------------------------------------
 	//
@@ -274,57 +254,6 @@ namespace ace
 		}
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void CoreLayer2D_Imp::AddPostEffect(CorePostEffect* postEffect)
-	{
-		SafeAddRef(postEffect);
-		m_postEffects.push_back(postEffect);
-
-		CreateRenderTarget(m_layerSize);
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void CoreLayer2D_Imp::ClearPostEffects()
-	{
-		for (auto& p : m_postEffects)
-		{
-			SafeRelease(p);
-		}
-
-		m_postEffects.clear();
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	RenderTexture2D* CoreLayer2D_Imp::GetRenderTarget0()
-	{
-		return m_renderTarget0;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	RenderTexture2D* CoreLayer2D_Imp::GetRenderTarget1()
-	{
-		return m_renderTarget1;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void CoreLayer2D_Imp::SetTargetToLayer(int32_t index)
-	{
-		m_targetToLayer = index;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	Renderer2D* CoreLayer2D_Imp::GetRenderer() const
 	{
 		return m_renderer;

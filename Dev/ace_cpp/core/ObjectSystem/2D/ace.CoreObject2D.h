@@ -7,7 +7,8 @@
 
 namespace ace
 {
-	class CoreObject2D : public IReference
+	class CoreObject2D 
+		: public IReference
 	{
 	public:
 		virtual ~CoreObject2D()

@@ -25,8 +25,6 @@ namespace ace
 		Renderer3D*		m_renderer;
 		LayerRenderer*	m_layerRenderer;
 
-		Vector2DI		m_windowSize;
-
 		CoreLayer3D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer3D_Imp();
 
@@ -43,6 +41,13 @@ namespace ace
 
 		virtual bool GetIsDrawn() const { return CoreLayer_Imp::GetIsDrawn(); }
 		virtual void SetIsDrawn(bool value) { return CoreLayer_Imp::SetIsDrawn(value); }
+
+		virtual void AddPostEffect(CorePostEffect* postEffect) { AddPostEffect(postEffect); }
+		virtual void ClearPostEffects() { ClearPostEffects(); }
+
+		virtual RenderTexture2D* GetRenderTarget0() { return GetRenderTarget0(); }
+		virtual RenderTexture2D* GetRenderTarget1() { return GetRenderTarget1(); }
+		virtual void SetTargetToLayer(int32_t index) { SetTargetToLayer(index); }
 
 #if !SWIG
 	public:

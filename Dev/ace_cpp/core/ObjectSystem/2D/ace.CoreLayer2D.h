@@ -10,6 +10,21 @@ namespace ace
 		: public CoreLayer
 	{
 	public:
+
+		/**
+			@brief	コンストラクタ
+			@note
+			中身がなくともないと多重継承に失敗する。
+		*/
+		CoreLayer2D(){}
+
+		/**
+		@brief	デストラクタ
+		@note
+		中身がなくともないと多重継承に失敗する。
+		*/
+		virtual ~CoreLayer2D(){}
+
 		typedef CoreObject2D* ObjectPtr;
 
 		virtual void AddObject(ObjectPtr object2D) = 0;
@@ -19,19 +34,6 @@ namespace ace
 		virtual void Draw() = 0;
 		virtual void EndDrawing() = 0;
 		virtual void EndDrawingAfterEffects() = 0;
-
-		virtual void AddPostEffect(CorePostEffect* postEffect) = 0;
-
-		virtual void ClearPostEffects() = 0;
-
-		virtual RenderTexture2D* GetRenderTarget0() = 0;
-		virtual RenderTexture2D* GetRenderTarget1() = 0;
-		
-		/**
-			@brief	最終的な描画結果が描かれている描画先を指定する。
-			@param	index	インデックス
-		*/
-		virtual void SetTargetToLayer(int32_t index) = 0;
 
 		/**
 			@brief	画面上でのレイヤーの位置を指定する。

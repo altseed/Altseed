@@ -31,17 +31,9 @@ namespace ace
 		Renderer2D*		m_renderer;
 		LayerRenderer*	m_layerRenderer;
 
-		Vector2DI		m_layerSize;
-		Vector2DI		m_windowSize;
-
-		RenderTexture_Imp*				m_renderTarget0;
-		RenderTexture_Imp*				m_renderTarget1;
-		int32_t							m_targetToLayer;
 
 		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();
-
-		void CreateRenderTarget(const Vector2DI& size);
 
 	public:
 		void SetLayerShape(const Vector2DF& ul, const Vector2DF& ur, const Vector2DF& ll, const Vector2DF& lr, const Vector2DI& size );
@@ -60,13 +52,7 @@ namespace ace
 		void EndDrawing();
 		void EndDrawingAfterEffects();
 
-		void AddPostEffect(CorePostEffect* postEffect);
 
-		void ClearPostEffects();
-
-		RenderTexture2D* GetRenderTarget0();
-		RenderTexture2D* GetRenderTarget1();
-		void SetTargetToLayer(int32_t index);
 
 		// 共通部分
 		virtual int GetDrawingPriority() const { return CoreLayer_Imp::GetDrawingPriority(); }
@@ -74,6 +60,13 @@ namespace ace
 
 		virtual bool GetIsDrawn() const { return CoreLayer_Imp::GetIsDrawn(); }
 		virtual void SetIsDrawn(bool value) { return CoreLayer_Imp::SetIsDrawn(value); }
+
+		virtual void AddPostEffect(CorePostEffect* postEffect) override { CoreLayer_Imp::AddPostEffect(postEffect); }
+		virtual void ClearPostEffects() override { CoreLayer_Imp::ClearPostEffects(); }
+
+		virtual RenderTexture2D* GetRenderTarget0() override { return CoreLayer_Imp::GetRenderTarget0(); }
+		virtual RenderTexture2D* GetRenderTarget1() override { return CoreLayer_Imp::GetRenderTarget1(); }
+		virtual void SetTargetToLayer(int32_t index) override { CoreLayer_Imp::SetTargetToLayer(index); }
 
 #if !SWIG
 		Renderer2D* GetRenderer() const;
