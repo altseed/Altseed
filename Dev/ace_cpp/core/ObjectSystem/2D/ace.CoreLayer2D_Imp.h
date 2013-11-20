@@ -3,7 +3,6 @@
 #include "ace.CoreObject2D.h"
 #include "../ace.CoreLayer_Imp.h"
 #include "../../Graphics/Common/2D/ace.Renderer2D_Imp.h"
-#include "../../Graphics/Common/2D/ace.LayerRenderer.h"
 #include <list>
 #include <memory>
 
@@ -29,8 +28,6 @@ namespace ace
 		std::list<ObjectPtr> m_objects;
 
 		Renderer2D*		m_renderer;
-		LayerRenderer*	m_layerRenderer;
-
 
 		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();

@@ -19,6 +19,8 @@ namespace ace
 		bool			m_isDrawn;
 		int32_t			m_drawingPriority;
 
+		LayerRenderer*	m_layerRenderer;
+
 		RenderTexture_Imp*				m_renderTarget0;
 		RenderTexture_Imp*				m_renderTarget1;
 		int32_t							m_targetToLayer;

@@ -23,7 +23,6 @@ namespace ace
 		std::list<ObjectPtr> m_objects;
 
 		Renderer3D*		m_renderer;
-		LayerRenderer*	m_layerRenderer;
 
 		CoreLayer3D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer3D_Imp();

@@ -3,6 +3,7 @@
 #include "ace.CoreLayer2D_Imp.h"
 #include "../../Window/ace.Window_Imp.h"
 #include "../../Graphics/Common/ace.Graphics_Imp.h"
+#include "../../Graphics/Common/2D/ace.LayerRenderer.h"
 
 using namespace std;
 
@@ -15,24 +16,8 @@ namespace ace
 		: CoreLayer_Imp(graphics, windowSize)
 		, m_objects(list<ObjectPtr>())
 		, m_renderer(nullptr)
-		, m_layerRenderer(nullptr)
 	{
 		m_renderer = new Renderer2D_Imp(graphics, log, windowSize);
-		m_layerRenderer = new LayerRenderer(graphics);
-		m_layerRenderer->SetWindowSize(windowSize);
-
-		{
-			ace::Vector2DF lpos[4];
-			lpos[0].X = 0;
-			lpos[0].Y = 0;
-			lpos[1].X = windowSize.X;
-			lpos[1].Y = 0;
-			lpos[2].X = windowSize.X;
-			lpos[2].Y = windowSize.Y;
-			lpos[3].X = 0;
-			lpos[3].Y = windowSize.Y;
-			m_layerRenderer->SetLayerPosition(lpos);
-		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -40,10 +25,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	CoreLayer2D_Imp::~CoreLayer2D_Imp()
 	{
-		ClearPostEffects();
-
 		SafeDelete(m_renderer);
-		SafeRelease(m_layerRenderer);
 
 		for (auto& object : m_objects)
 		{
