@@ -116,6 +116,8 @@ namespace ace {
 		GRAPHICS_TYPE_GL,
 	};
 
+
+
 	/**
 		@brief	シェーダーに対して外部から設定可能なプロパティの変数の種類
 	*/
