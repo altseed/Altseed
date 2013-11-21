@@ -7,12 +7,12 @@
 class Graphics_PostEffectGaussianBlur : public EngineTest
 {
 public:
-	float intensity;
-	Graphics_PostEffectGaussianBlur(bool isOpenGLMode, float const intensity_ = 5.0f) :
-		EngineTest(ace::ToAString("PostEffectGaussianBlur"), isOpenGLMode, 60),
-		intensity(intensity_)
+	Graphics_PostEffectGaussianBlur(bool isOpenGLMode) :
+		EngineTest(ace::ToAString("PostEffectGaussianBlur"), isOpenGLMode, 60)
 	{}
 protected:
+	std::shared_ptr<ace::PostEffectGaussianBlur> pe;
+	float intensity = 0.0f;
 	void OnStart() override
 	{
 		auto engine = ace::GetEngine();
@@ -29,11 +29,16 @@ protected:
 		object->SetTexture(texture);
 		object->SetScale(ace::Vector2DF(2, 2));
 
-		auto pe = std::make_shared<ace::PostEffectGaussianBlur>(g);
+		pe = std::make_shared<ace::PostEffectGaussianBlur>(g);
 		pe->SetIntensity(intensity);
 		layer->AddPostEffect(pe);
-	}
 
+	}
+	void OnUpdating() override
+	{
+		pe->SetIntensity(intensity);
+		intensity += 0.1f;
+	}
 
 	
 };
@@ -41,22 +46,18 @@ protected:
 
 TEST(Graphics, PostEffectGaussianBlur_GL)
 {
-	Graphics_PostEffectGaussianBlur(true, 1.0f).Run();
-	Graphics_PostEffectGaussianBlur(true, 3.0f).Run();
+	
 	Graphics_PostEffectGaussianBlur(true).Run();
-	Graphics_PostEffectGaussianBlur(true, 7.0f).Run();
-	Graphics_PostEffectGaussianBlur(true, 100.0f).Run();
+	
 	
 }
 
 #if _WIN32
 TEST(Graphics, PostEffectGaussianBlur_DX)
 {
-	Graphics_PostEffectGaussianBlur(false, 1.0f).Run();
-	Graphics_PostEffectGaussianBlur(false, 3.0f).Run();
+	
 	Graphics_PostEffectGaussianBlur(false).Run();
-	Graphics_PostEffectGaussianBlur(false, 7.0f).Run();
-	Graphics_PostEffectGaussianBlur(false, 100.0f).Run();
+	
 }
 #endif
 
