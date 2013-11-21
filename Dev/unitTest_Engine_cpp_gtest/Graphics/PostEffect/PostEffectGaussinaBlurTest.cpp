@@ -1,17 +1,22 @@
 ﻿#include <ace.h>
 #include <gtest/gtest.h>
 #include <memory>
+#include "../../EngineTest.h"
 
 
-void Graphics_PostEffectGaussianBlur(bool isOpenGLMode)
+class Graphics_PostEffectGaussianBlur : public EngineTest
 {
-	ace::EngineOption option;
-	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
-
-	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("PostEffectGaussianBlur").c_str(), 640, 480, option);
-
+public:
+	float intensity;
+	Graphics_PostEffectGaussianBlur(bool isOpenGLMode, float const intensity_ = 5.0f) :
+		EngineTest(ace::ToAString("PostEffectGaussianBlur"), isOpenGLMode, 60),
+		intensity(intensity_)
+	{}
+protected:
+	void OnStart() override
 	{
+		auto engine = ace::GetEngine();
+
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer2D>();
 		auto object = std::make_shared<ace::TextureObject2D>();
@@ -25,31 +30,33 @@ void Graphics_PostEffectGaussianBlur(bool isOpenGLMode)
 		object->SetScale(ace::Vector2DF(2, 2));
 
 		auto pe = std::make_shared<ace::PostEffectGaussianBlur>(g);
+		pe->SetIntensity(intensity);
 		layer->AddPostEffect(pe);
-
-		while (engine->DoEvents())
-		{
-			engine->Update();
-		}
 	}
 
-	engine->Terminate();
 
-	auto ref = ace::GetGlobalReferenceCount();
-	ASSERT_TRUE(ref == 0);
-
-}
+	
+};
 
 
 TEST(Graphics, PostEffectGaussianBlur_GL)
 {
-	Graphics_PostEffectGaussianBlur(true);
+	Graphics_PostEffectGaussianBlur(true, 1.0f).Run();
+	Graphics_PostEffectGaussianBlur(true, 3.0f).Run();
+	Graphics_PostEffectGaussianBlur(true).Run();
+	Graphics_PostEffectGaussianBlur(true, 7.0f).Run();
+	Graphics_PostEffectGaussianBlur(true, 100.0f).Run();
+	
 }
 
 #if _WIN32
 TEST(Graphics, PostEffectGaussianBlur_DX)
 {
-	Graphics_PostEffectGaussianBlur(false);
+	Graphics_PostEffectGaussianBlur(false, 1.0f).Run();
+	Graphics_PostEffectGaussianBlur(false, 3.0f).Run();
+	Graphics_PostEffectGaussianBlur(false).Run();
+	Graphics_PostEffectGaussianBlur(false, 7.0f).Run();
+	Graphics_PostEffectGaussianBlur(false, 100.0f).Run();
 }
 #endif
 

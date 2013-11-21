@@ -1,17 +1,21 @@
 ﻿#include <ace.h>
 #include <gtest/gtest.h>
 #include <memory>
+#include "../../EngineTest.h"
 
 
-void Graphics_PostEffectGrayScale(bool isOpenGLMode)
+class Graphics_PostEffectGrayScale : public EngineTest
 {
-	ace::EngineOption option;
-	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
-
-	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("PostEffectGrayScale").c_str(), 640, 480, option);
-
+public:
+	float intensity;
+	Graphics_PostEffectGrayScale(bool isOpenGLMode) :
+		EngineTest(ace::ToAString("PostEffectGrayScale"), isOpenGLMode, 60)
+	{}
+protected:
+	void OnStart() override
 	{
+		auto engine = ace::GetEngine();
+
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer2D>();
 		auto object = std::make_shared<ace::TextureObject2D>();
@@ -20,36 +24,29 @@ void Graphics_PostEffectGrayScale(bool isOpenGLMode)
 		engine->ChangeScene(scene);
 
 		auto g = ace::GetGraphics();
-		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Cloud1.png").c_str());
+		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
 		object->SetTexture(texture);
 		object->SetScale(ace::Vector2DF(2, 2));
 
 		auto pe = std::make_shared<ace::PostEffectGrayScale>(g);
 		layer->AddPostEffect(pe);
-
-		while (engine->DoEvents())
-		{
-			engine->Update();
-		}
 	}
 
-	engine->Terminate();
 
-	auto ref = ace::GetGlobalReferenceCount();
-	ASSERT_TRUE(ref == 0);
 
-}
+};
 
 
 TEST(Graphics, PostEffectGrayScale_GL)
 {
-	Graphics_PostEffectGrayScale(true);
+	Graphics_PostEffectGrayScale(true).Run();
+
 }
 
 #if _WIN32
 TEST(Graphics, PostEffectGrayScale_DX)
 {
-	Graphics_PostEffectGrayScale(false);
+	Graphics_PostEffectGrayScale(false).Run();
 }
 #endif
 

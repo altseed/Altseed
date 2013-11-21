@@ -41,9 +41,6 @@
     <ClCompile Include="..\engine\ObjectSystem\Component\ace.Layer2DComponent.cpp">
       <Filter>ObjectSystem\Component</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSmoothing.cpp">
-      <Filter>ObjectSystem\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGaussianBlur.cpp">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClCompile>
@@ -90,9 +87,6 @@
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\Component\ace.Layer2DComponent.h">
       <Filter>ObjectSystem\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSmoothing.h">
-      <Filter>ObjectSystem\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGaussianBlur.h">
       <Filter>ObjectSystem\PostEffect</Filter>
