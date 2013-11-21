@@ -9,6 +9,8 @@ namespace ace
 		: public IReference
 	{
 	public:
+		virtual void SetLayer(CoreLayer3D* layer) = 0;
+
 		virtual eRenderedObject3DType GetObjectType() = 0;
 
 	};

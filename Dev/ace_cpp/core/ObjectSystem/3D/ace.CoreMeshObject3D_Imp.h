@@ -1,4 +1,4 @@
-
+﻿
 #pragma once
 
 #include "ace.CoreMeshObject3D.h"
@@ -18,6 +18,8 @@ namespace ace
 	private:
 		virtual ~CoreMeshObject3D_Imp();
 	public:
+
+		void SetLayer(CoreLayer3D* layer);
 
 		RenderedMeshObject3D* GetInternalObject(){ return m_object; }
 

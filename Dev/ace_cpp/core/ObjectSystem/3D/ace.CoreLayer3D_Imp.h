@@ -20,7 +20,7 @@ namespace ace
 
 	private:
 
-		std::list<ObjectPtr> m_objects;
+		std::set<ObjectPtr> m_objects;
 
 		Renderer3D*		m_renderer;
 
@@ -47,6 +47,8 @@ namespace ace
 		virtual RenderTexture2D* GetRenderTarget0() { return GetRenderTarget0(); }
 		virtual RenderTexture2D* GetRenderTarget1() { return GetRenderTarget1(); }
 		virtual void SetTargetToLayer(int32_t index) { SetTargetToLayer(index); }
+
+		Renderer3D* GetRenderer() { return m_renderer; }
 
 #if !SWIG
 	public:
