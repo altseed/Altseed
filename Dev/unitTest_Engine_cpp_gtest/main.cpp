@@ -31,6 +31,8 @@ void GetDirectoryName(char* dst, char* src);
 #endif
 
 extern void Test_LayerComponent_GL();
+extern void Test_Component_GL();
+extern void Test_ParentObject();
 extern void Graphics_CustomPostEffect(bool isOpenGLMode);
 extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
 extern void Graphics_PostEffectSepia(bool isOpenGLMode);
@@ -50,14 +52,13 @@ int main(int argc, char **argv)
 	GetDirectoryName(current_path, argv[0]);
 	SetCurrentDirectoryA(current_path);
 #endif
-	//Graphics_PostEffectSepia(true);
-	//return 0;
-
-	//Test_LayerComponent_GL();
-
 	::testing::InitGoogleTest(&argc, argv);
 
+	//Test_ParentObject();
+	//auto result = 0;
+
 	auto result = RUN_ALL_TESTS();
+
 	getchar();
 	return result;
 }

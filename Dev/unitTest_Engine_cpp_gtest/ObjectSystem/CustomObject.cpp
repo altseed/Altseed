@@ -46,12 +46,12 @@ protected:
 
 TEST(ObjectSystem, CustomObject_GL)
 {
-	ObjectSystem_CustomObject(true).Run();
+	RunTest<ObjectSystem_CustomObject>(true);
 }
 
 #if _WIN32
 TEST(ObjectSystem, CustomObject_DX)
 {
-	ObjectSystem_CustomObject(false).Run();
+	RunTest<ObjectSystem_CustomObject>(false);
 }
 #endif

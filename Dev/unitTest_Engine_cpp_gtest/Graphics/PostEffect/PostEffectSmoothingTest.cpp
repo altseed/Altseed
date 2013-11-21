@@ -37,17 +37,16 @@ void Graphics_PostEffectSmoothing(bool isOpenGLMode)
 
 	auto ref = ace::GetGlobalReferenceCount();
 	ASSERT_TRUE(ref == 0);
-
 }
 
 
-TEST(Graphics, PostEffectSmoothing_GL)
+TEST(Graphics, DISABLED_PostEffectSmoothing_GL)
 {
 	Graphics_PostEffectSmoothing(true);
 }
 
 #if _WIN32
-TEST(Graphics, PostEffectSmoothing_DX)
+TEST(Graphics, DISABLED_PostEffectSmoothing_DX)
 {
 	Graphics_PostEffectSmoothing(false);
 }

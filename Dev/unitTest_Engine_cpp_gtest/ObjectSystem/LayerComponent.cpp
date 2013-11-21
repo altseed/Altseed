@@ -43,41 +43,38 @@ class ObjectSystem_LayerComponent : public EngineTest
 public:
 	ObjectSystem_LayerComponent(bool isOpenGLMode)
 		: EngineTest(ace::ToAString("LayerComponent"), isOpenGLMode, 240)
-		, m_layer(nullptr)
 	{
 	}
 
 protected:
-	shared_ptr<Layer2D> m_layer;
-
 	void OnStart()
 	{
 		auto scene = make_shared<Scene>();
-		m_layer = make_shared<Layer2D>();
+		auto layer = make_shared<Layer2D>();
 
 		GetEngine()->ChangeScene(scene);
-		scene->AddLayer(m_layer);
+		scene->AddLayer(layer);
 
 		auto componentName = ToAString("generator");
 
-		m_layer->AddComponent(make_shared<MyLayer2DComponent>(m_layer.get()), componentName);
-		ASSERT_NE(m_layer->GetComponent(componentName), nullptr);
+		layer->AddComponent(make_shared<MyLayer2DComponent>(layer.get()), componentName);
+		ASSERT_NE(layer->GetComponent(componentName), nullptr);
 	}
 };
 
 void Test_LayerComponent_GL()
 {
-	ObjectSystem_LayerComponent(true).Run();
+	RunTest<ObjectSystem_LayerComponent>(true);
 }
 
 TEST(ObjectSystem, LayerComponent_GL)
 {
-	ObjectSystem_LayerComponent(true).Run();
+	RunTest<ObjectSystem_LayerComponent>(true);
 }
 
 #if _WIN32
 TEST(ObjectSystem, LayerComponent_DX)
 {
-	ObjectSystem_LayerComponent(false).Run();
+	RunTest<ObjectSystem_LayerComponent>(false);
 }
 #endif

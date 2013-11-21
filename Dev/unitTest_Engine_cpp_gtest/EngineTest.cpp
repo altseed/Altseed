@@ -1,13 +1,16 @@
 #include <gtest/gtest.h>
 #include <ace.h>
+#include <string>
 #include "EngineTest.h"
 
+using namespace std;
 using namespace ace;
 
 EngineTest::EngineTest(astring title, bool isOpenGLMode, int exitTime)
-	: m_isOpenGLMode(isOpenGLMode)
-	, m_title(title)
-	, m_exitTime(exitTime)
+: m_isOpenGLMode(isOpenGLMode)
+, m_title(title)
+, m_exitTime(exitTime)
+, directory(ToAString("./TestSS/"))
 {
 }
 
@@ -47,8 +50,11 @@ void EngineTest::Run()
 
 		if (time == m_exitTime)
 		{
-			astring filename = ToAString("./TestSS/") + m_title + ToAString(".png");
-			engine->TakeScreenshot( filename.c_str() );
+			string tail = m_isOpenGLMode ? "_GL" : "_DX";
+			tail += ".png";
+			astring fileName = directory + m_title + ToAString(tail.c_str());
+
+			engine->TakeScreenshot(fileName.c_str());
 		}
 		if (time == m_exitTime + 30)
 		{
@@ -61,7 +67,10 @@ void EngineTest::Run()
 	OnFinish();
 
 	engine->Terminate();
+}
 
+void AssertMemoryDoesntLeak()
+{
 	auto ref = ace::GetGlobalReferenceCount();
-	ASSERT_EQ(ref, 0);
+	ASSERT_EQ(0, ref);
 }

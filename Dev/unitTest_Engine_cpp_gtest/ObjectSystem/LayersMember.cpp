@@ -31,12 +31,12 @@ protected:
 
 TEST(ObjectSystem, LayersMember_GL)
 {
-	ObjectSystem_LayersMember(true).Run();
+	RunTest<ObjectSystem_LayersMember>(true);
 }
 
 #if _WIN32
 TEST(ObjectSystem, LayersMember_DX)
 {
-	ObjectSystem_LayersMember(false).Run();
+	RunTest<ObjectSystem_LayersMember>(false);
 }
 #endif

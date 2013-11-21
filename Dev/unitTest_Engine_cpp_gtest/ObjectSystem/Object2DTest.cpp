@@ -48,13 +48,13 @@ protected:
 
 TEST(ObjectSystem, Simple_GL)
 {
-	ObjectSystem_Simple(true).Run();
+	RunTest<ObjectSystem_Simple>(true);
 }
 
 #if _WIN32
 TEST(ObjectSystem, Simple_DX)
 {
-	ObjectSystem_Simple(false).Run();
+	RunTest<ObjectSystem_Simple>(false);
 }
 #endif
 

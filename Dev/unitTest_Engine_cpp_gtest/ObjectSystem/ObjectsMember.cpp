@@ -54,12 +54,12 @@ protected:
 
 TEST(ObjectSystem, ObjectsMember_GL)
 {
-	ObjectSystem_ObjectsMember(true).Run();
+	RunTest<ObjectSystem_ObjectsMember>(true);
 }
 
 #if _WIN32
 TEST(ObjectSystem, ObjectsMember_DX)
 {
-	ObjectSystem_ObjectsMember(false).Run();
+	RunTest<ObjectSystem_ObjectsMember>(false);
 }
 #endif

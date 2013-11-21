@@ -28,12 +28,12 @@ protected:
 
 TEST(ObjectSystem, LayerHasNoObject_GL)
 {
-	ObjectSystem_LayerHasNoObject(true).Run();
+	RunTest<ObjectSystem_LayerHasNoObject>(true);
 }
 
 #if _WIN32
 TEST(ObjectSystem, LayerHasNoObject_DX)
 {
-	ObjectSystem_LayerHasNoObject(false).Run();
+	RunTest<ObjectSystem_LayerHasNoObject>(false);
 }
 #endif

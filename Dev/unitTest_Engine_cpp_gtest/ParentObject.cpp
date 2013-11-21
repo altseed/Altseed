@@ -49,14 +49,20 @@ protected:
 	}
 };
 
+void Test_ParentObject()
+{
+	RunTest<ObjectSystem_ParentObject>(true);
+	RunTest<ObjectSystem_ParentObject>(false);
+}
+
 TEST(ObjectSystem, ParentObject_GL)
 {
-	ObjectSystem_ParentObject(true).Run();
+	RunTest<ObjectSystem_ParentObject>(true);
 }
 
 #if _WIN32
 TEST(ObjectSystem, ParentObject_DX)
 {
-	ObjectSystem_ParentObject(false).Run();
+	RunTest<ObjectSystem_ParentObject>(false);
 }
 #endif
