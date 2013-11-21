@@ -24,13 +24,20 @@ namespace ace
 		ace::Graphics *m_graphics;
 		PostEffectGaussianBlur() = default;
 		
-
+		float intensity = 5.0f;
 
 	public:
 		PostEffectGaussianBlur(Graphics *g);
 
 		virtual ~PostEffectGaussianBlur() = default;
 
+		/**
+		@brief ぼかしの強さを設定する。初期値は0.5
+		@detail 実質的にはガウス関数の分散にあたる値の平方根。1.0fから5.0fあたりが適当
+		*/
+		void SetIntensity(float const value){ if (value <= 0.0f){ return; }intensity = value; }
+
+		
 		virtual void OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src) override;
 	};
 

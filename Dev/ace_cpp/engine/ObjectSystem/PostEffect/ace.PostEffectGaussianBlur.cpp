@@ -188,7 +188,7 @@ void main()
 		Vector3DF weights;
 		float ws[3];
 		float total = 0.0f;
-		float const dispersion = 5.0f * 5.0f;
+		float const dispersion = intensity * intensity;
 		for (int32_t i = 0; i < 3; i++)
 		{
 			float pos = 1.0f + 2.0f * i;

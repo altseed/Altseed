@@ -1,8 +1,7 @@
-﻿
-#include <ace.h>
+﻿#include <ace.h>
 #include <gtest/gtest.h>
 #include <memory>
-
+#include "../../EngineTest.h"
 static const char* shader2d_dx_ps = R"(
 
 Texture2D		g_texture		: register( t0 );
@@ -112,15 +111,21 @@ public:
 	}
 };
 
-void Graphics_CustomPostEffect(bool isOpenGLMode)
+
+
+
+class Graphics_CustomPostEffect : public EngineTest
 {
-	ace::EngineOption option;
-	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
-
-	auto engine = ace::GetEngine();
-	engine->Initialize(ace::ToAString("CustomPostEffect").c_str(), 640, 480, option);
-
+public:
+	float intensity;
+	Graphics_CustomPostEffect(bool isOpenGLMode) :
+		EngineTest(ace::ToAString("CustomPostEffect"), isOpenGLMode, 60)
+	{}
+protected:
+	void OnStart() override
 	{
+		auto engine = ace::GetEngine();
+
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer2D>();
 		auto object = std::make_shared<ace::TextureObject2D>();
@@ -131,35 +136,27 @@ void Graphics_CustomPostEffect(bool isOpenGLMode)
 		auto g = ace::GetGraphics();
 		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
 		object->SetTexture(texture);
+		object->SetScale(ace::Vector2DF(2, 2));
 
 		auto pe = std::make_shared<CustomPostEffect>(g);
-
-		ASSERT_TRUE(pe->m_shader != nullptr);
-		ASSERT_TRUE(pe->m_material2d != nullptr);
-
 		layer->AddPostEffect(pe);
-
-		while (engine->DoEvents())
-		{
-			engine->Update();
-		}
 	}
 
-	engine->Terminate();
 
-	auto ref = ace::GetGlobalReferenceCount();
-	ASSERT_TRUE(ref == 0);
-}
+
+};
+
 
 TEST(Graphics, CustomPostEffect_GL)
 {
-	Graphics_CustomPostEffect(true);
+	Graphics_CustomPostEffect(true).Run();
+
 }
 
 #if _WIN32
 TEST(Graphics, CustomPostEffect_DX)
 {
-	Graphics_CustomPostEffect(true);
+	Graphics_CustomPostEffect(false).Run();
 }
 #endif
 
