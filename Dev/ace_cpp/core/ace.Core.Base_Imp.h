@@ -78,7 +78,7 @@ namespace ace {
 	class RenderedObject3D;
 	class RenderedMeshObject3D;
 	class RenderedDirectionalLightObject3D;
-	class Mesh;
+	class Mesh_Imp;
 
 	enum eRenderedObject3DType
 	{

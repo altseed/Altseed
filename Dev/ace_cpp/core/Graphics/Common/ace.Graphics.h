@@ -24,6 +24,7 @@ protected:
 	virtual RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, eTextureFormat format) = 0;
 	virtual Shader2D* CreateShader2D_( const achar* shaderText, ShaderVariableProperty* variableProperties, int32_t variablePropertiesCount) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
+	virtual Mesh* CreateMesh_() = 0;
 
 public:
 	Graphics(){}
@@ -73,6 +74,17 @@ public:
 		auto material = CreateMaterial2D_(shader.get());
 		return CreateSharedPtrWithReleaseDLL(material);
 	}
+
+	/**
+	@brief	メッシュを生成する。
+	@return	メッシュ
+	*/
+	std::shared_ptr<Mesh> CreateMesh()
+	{
+		auto mesh = CreateMesh_();
+		return CreateSharedPtrWithReleaseDLL(mesh);
+	}
+
 #endif
 
 	/**

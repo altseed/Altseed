@@ -24,7 +24,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 	auto renderer = new ace::Renderer3D(graphics);
 	ASSERT_TRUE(renderer != nullptr);
 
-	auto mesh = new ace::Mesh(graphics);
+	auto mesh = graphics->CreateMesh();
 	mesh->AddVertex(ace::Vector3DF(-0.5, 0.5, 0.5), ace::Vector3DF(0, 0, 1), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 0), ace::Vector2DF(0, 0), ace::Color(255, 255, 255, 255), 0, 0);
 	mesh->AddVertex(ace::Vector3DF(-0.5, -0.5, 0.5), ace::Vector3DF(0, 0, 1), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 1), ace::Vector2DF(0, 1), ace::Color(255, 255, 255, 255), 0, 0);
 	mesh->AddVertex(ace::Vector3DF(0.5, 0.5, 0.5), ace::Vector3DF(0, 0, 1), ace::Vector3DF(0, 1, 0), ace::Vector2DF(1, 0), ace::Vector2DF(1, 0), ace::Color(255, 255, 255, 255), 0, 0);
@@ -74,7 +74,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 	cameraObject->SetWindowSize(ace::Vector2DI(800, 600));
 
 	auto meshObject = new ace::RenderedMeshObject3D(graphics);
-	meshObject->SetMesh(mesh);
+	meshObject->SetMesh(mesh.get());
 	meshObject->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
 
 	auto lightObject = new ace::RenderedDirectionalLightObject3D(graphics);
@@ -110,7 +110,6 @@ void Graphics_Mesh(bool isOpenGLMode)
 		time++;
 	}
 
-	mesh->Release();
 	meshObject->Release();
 	cameraObject->Release();
 	lightObject->Release();

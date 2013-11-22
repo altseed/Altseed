@@ -378,6 +378,9 @@
     <ClInclude Include="..\core\ObjectSystem\ace.CoreLayer_Imp.h">
       <Filter>ObjectSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Mesh_Imp.h">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -556,9 +559,6 @@
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedMeshObject3D.cpp">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\Common\3D\ace.Mesh.cpp">
-      <Filter>Graphics\Common\3D</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.cpp">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
@@ -582,6 +582,9 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\ace.CoreLayer_Imp.cpp">
       <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.Mesh_Imp.cpp">
+      <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

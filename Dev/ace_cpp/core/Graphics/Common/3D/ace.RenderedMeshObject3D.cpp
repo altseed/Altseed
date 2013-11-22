@@ -1,6 +1,6 @@
 ﻿
 #include "ace.RenderedMeshObject3D.h"
-#include "ace.Mesh.h"
+#include "ace.Mesh_Imp.h"
 
 #include "../ace.Graphics_Imp.h"
 #include "../Resource/ace.NativeShader_Imp.h"
@@ -171,7 +171,8 @@ void main()
 
 		void RenderedMeshObject3D::SetMesh(Mesh* mesh)
 		{
-			SafeSubstitute(m_mesh, mesh);
+			auto m = (Mesh_Imp*) mesh;
+			SafeSubstitute(m_mesh, m);
 		}
 
 

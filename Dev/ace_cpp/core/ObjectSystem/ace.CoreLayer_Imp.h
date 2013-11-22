@@ -37,12 +37,12 @@ namespace ace
 		virtual bool GetIsDrawn() const;
 		virtual void SetIsDrawn(bool value);
 
-		virtual void AddPostEffect(CorePostEffect* postEffect) override;
-		virtual void ClearPostEffects() override;
+		virtual void AddPostEffect(CorePostEffect* postEffect);
+		virtual void ClearPostEffects();
 
-		virtual RenderTexture2D* GetRenderTarget0() override;
-		virtual RenderTexture2D* GetRenderTarget1() override;
-		virtual void SetTargetToLayer(int32_t index) override;
+		virtual RenderTexture2D* GetRenderTarget0();
+		virtual RenderTexture2D* GetRenderTarget1();
+		virtual void SetTargetToLayer(int32_t index);
 
 		void CreateRenderTarget(const Vector2DI& size);
 

@@ -19,9 +19,13 @@ namespace ace
 		virtual ~CoreMeshObject3D_Imp();
 	public:
 
+		Vector3DF GetPosition() const;
+		void SetPosition(Vector3DF position);
+
+
 		void SetLayer(CoreLayer3D* layer);
 
-		RenderedMeshObject3D* GetInternalObject(){ return m_object; }
+		//RenderedMeshObject3D* GetInternalObject(){ return m_object; }
 
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MESH; }
 

@@ -1,5 +1,5 @@
 ﻿
-#include "ace.Mesh.h"
+#include "ace.Mesh_Imp.h"
 #include "../ace.Graphics_Imp.h"
 
 #include "../Resource/ace.VertexBuffer_Imp.h"
@@ -8,7 +8,7 @@
 namespace ace
 {
 
-	Mesh::Mesh(Graphics* graphics)
+	Mesh_Imp::Mesh_Imp(Graphics* graphics)
 		: m_graphics(nullptr)
 		, m_vertexBuffer(nullptr)
 		, m_indexBuffer(nullptr)
@@ -17,13 +17,17 @@ namespace ace
 		SafeAddRef(m_graphics);
 	}
 
-	Mesh::~Mesh()
+	Mesh_Imp::~Mesh_Imp()
 	{
 		SafeRelease(m_graphics);
 	}
 
+	Mesh_Imp* Mesh_Imp::Create(Graphics* graphics)
+	{
+		return new Mesh_Imp(graphics);
+	}
 
-	void Mesh::AddVertex(
+	void Mesh_Imp::AddVertex(
 		const Vector3DF& position,
 		const Vector3DF& normal,
 		const Vector3DF& binormal,
@@ -46,7 +50,7 @@ namespace ace
 		m_vertexBufferOnMM.push_back(v);
 	}
 
-	void Mesh::AddFace(int32_t index1, int32_t index2, int32_t index3)
+	void Mesh_Imp::AddFace(int32_t index1, int32_t index2, int32_t index3)
 	{
 		Face f;
 		f.Index1 = index1;
@@ -56,7 +60,7 @@ namespace ace
 		m_faceBufferOnMM.push_back(f);
 	}
 
-	void Mesh::AddMaterialOffset(int32_t materialIndex, int32_t faceOffset)
+	void Mesh_Imp::AddMaterialOffset(int32_t materialIndex, int32_t faceOffset)
 	{
 		MaterialOffset mo;
 		mo.MaterialIndex = materialIndex;
@@ -65,7 +69,7 @@ namespace ace
 		m_materialOffsets.push_back(mo);
 	}
 
-	void Mesh::SendToGPUMemory()
+	void Mesh_Imp::SendToGPUMemory()
 	{
 		m_vertexBuffer.reset();
 		m_indexBuffer.reset();

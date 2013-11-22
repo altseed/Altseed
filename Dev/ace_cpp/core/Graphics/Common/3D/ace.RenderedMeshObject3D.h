@@ -20,7 +20,7 @@ namespace ace
 		};
 
 	private:
-		Mesh*	m_mesh;
+		Mesh_Imp*	m_mesh;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shader;
 
 	public:

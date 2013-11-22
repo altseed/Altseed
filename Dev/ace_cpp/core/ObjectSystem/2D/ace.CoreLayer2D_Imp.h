@@ -58,12 +58,12 @@ namespace ace
 		virtual bool GetIsDrawn() const { return CoreLayer_Imp::GetIsDrawn(); }
 		virtual void SetIsDrawn(bool value) { return CoreLayer_Imp::SetIsDrawn(value); }
 
-		virtual void AddPostEffect(CorePostEffect* postEffect) override { CoreLayer_Imp::AddPostEffect(postEffect); }
-		virtual void ClearPostEffects() override { CoreLayer_Imp::ClearPostEffects(); }
+		virtual void AddPostEffect(CorePostEffect* postEffect) { CoreLayer_Imp::AddPostEffect(postEffect); }
+		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
 
-		virtual RenderTexture2D* GetRenderTarget0() override { return CoreLayer_Imp::GetRenderTarget0(); }
-		virtual RenderTexture2D* GetRenderTarget1() override { return CoreLayer_Imp::GetRenderTarget1(); }
-		virtual void SetTargetToLayer(int32_t index) override { CoreLayer_Imp::SetTargetToLayer(index); }
+		virtual RenderTexture2D* GetRenderTarget0() { return CoreLayer_Imp::GetRenderTarget0(); }
+		virtual RenderTexture2D* GetRenderTarget1() { return CoreLayer_Imp::GetRenderTarget1(); }
+		virtual void SetTargetToLayer(int32_t index) { CoreLayer_Imp::SetTargetToLayer(index); }
 
 #if !SWIG
 		Renderer2D* GetRenderer() const;

@@ -15,6 +15,7 @@
 #include "Resource/ace.Shader2D_Imp.h"
 #include "Resource/ace.Material2D_Imp.h"
 
+#include "3D/ace.Mesh_Imp.h"
 
 #if _WIN32
 #include "../DX11/ace.Graphics_Imp_DX11.h"
@@ -304,6 +305,11 @@ Shader2D_Imp* Graphics_Imp::CreateShader2D_Imp(
 Material2D_Imp* Graphics_Imp::CreateMaterial2D_Imp(Shader2D_Imp* shader)
 {
 	return Material2D_Imp::Create(shader);
+}
+
+Mesh* Graphics_Imp::CreateMesh_()
+{
+	return Mesh_Imp::Create(this);
 }
 
 //----------------------------------------------------------------------------------

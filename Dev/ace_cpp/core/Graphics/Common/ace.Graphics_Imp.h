@@ -148,6 +148,12 @@ namespace ace {
 		*/
 		Material2D_Imp* CreateMaterial2D_Imp(Shader2D_Imp* shader);
 
+		/**
+		@brief	メッシュを生成する。
+		@return	メッシュ
+		*/
+		Mesh* CreateMesh_();
+
 #if !SWIG
 	/**
 	@brief	深度バッファを生成する。

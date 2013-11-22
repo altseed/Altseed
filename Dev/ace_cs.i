@@ -24,6 +24,8 @@
 #include "Graphics/Common/Resource/ace.Material_Imp.h"
 #include "Graphics/Common/Resource/ace.Material2D_Imp.h"
 
+#include "Graphics/Common/3D/ace.Mesh_Imp.h"
+
 #include "ObjectSystem/ace.eChildMode.h"
 #include "ObjectSystem/2D/ace.CoreObject2D.h"
 #include "ObjectSystem/2D/ace.CoreTextureObject2D.h"
@@ -200,6 +202,9 @@ CPP_OBJECT( ace::RenderTexture_Imp )
 CPP_OBJECT( ace::Material2D_Imp )
 CPP_OBJECT( ace::Shader2D_Imp )
 
+CPP_OBJECT( ace::Mesh )
+CPP_OBJECT( ace::Mesh_Imp )
+
 CPP_OBJECT( ace::Profiler )
 CPP_OBJECT( ace::Profiler_Imp )
 CPP_OBJECT( ace::Log )
@@ -211,6 +216,10 @@ CPP_OBJECT( ace::Log_Imp )
 %newobject ace::Core::CreateCore;
 
 %newobject ace::Graphics_Imp::CreateTexture2D_Imp;
+%newobject ace::Graphics_Imp::CreateRenderTexture_Imp;
+%newobject ace::Graphics_Imp::CreateShader2D_Imp;
+%newobject ace::Graphics_Imp::CreateMaterial2D_Imp;
+%newobject ace::Graphics_Imp::CreateMesh_;
 
 %newobject ace::ObjectSystemFactory_Imp::CreateObject2D;
 %newobject ace::ObjectSystemFactory_Imp::CreateTextureObject2D;
@@ -263,6 +272,10 @@ namespace ace
 %include "ace_cpp/core/Graphics/Common/Resource/ace.Texture2D_Imp.h"
 %include "ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture.h"
 %include "ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture_Imp.h"
+
+%include "ace_cpp/core/Graphics/Common/3D/ace.Mesh.h"
+%include "ace_cpp/core/Graphics/Common/3D/ace.Mesh_Imp.h"
+
 %include "ace_cpp/core/Graphics/Common/ace.Graphics.h"
 %include "ace_cpp/core/Graphics/Common/ace.Graphics_Imp.h"
 

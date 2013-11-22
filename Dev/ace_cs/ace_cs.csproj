@@ -127,6 +127,8 @@
     <Compile Include="swig\Material2D.cs" />
     <Compile Include="swig\Material2D_Imp.cs" />
     <Compile Include="swig\Material_Imp.cs" />
+    <Compile Include="swig\Mesh.cs" />
+    <Compile Include="swig\Mesh_Imp.cs" />
     <Compile Include="swig\MiddleButton.cs" />
     <Compile Include="swig\Mouse.cs" />
     <Compile Include="swig\Mouse_Imp.cs" />

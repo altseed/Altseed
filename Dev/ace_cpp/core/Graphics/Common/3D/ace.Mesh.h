@@ -3,66 +3,21 @@
 
 #include <ace.common.Base.h>
 
-#include <Math/ace.Vector2DI.h>
-#include <Math/ace.Vector2DF.h>
-#include <Math/ace.Vector3DF.h>
-#include <Graphics/ace.Color.h>
-
 #include "../../../ace.Core.Base.h"
-#include "../../../ace.Core.Base_Imp.h"
 
 #include "../../../ace.ReferenceObject.h"
 
 namespace ace
 {
 	class Mesh
-		: public ReferenceObject
+		: public IReference
 	{
-	private:
-
-		struct Vertex
-		{
-			Vector3DF	Position;
-			Vector3DF	Normal;
-			Vector3DF	Binormal;
-			Vector2DF	UV1;
-			Vector2DF	UV2;
-			Color		VColor;
-			int32_t		BoneWeights;
-			int32_t		BoneIndexes;
-			int32_t		BoneIndexesOriginal;
-
-		};
-
-		struct Face
-		{
-			int32_t		Index1;
-			int32_t		Index2;
-			int32_t		Index3;
-		};
-
-		struct MaterialOffset
-		{
-			int32_t		MaterialIndex;
-			int32_t		FaceOffset;
-		};
-
-		Graphics_Imp*	m_graphics;
-
-		std::shared_ptr<VertexBuffer_Imp>	m_vertexBuffer;
-		std::shared_ptr<IndexBuffer_Imp>	m_indexBuffer;
-
-		std::vector<Vertex>	m_vertexBufferOnMM;
-		std::vector<Face>	m_faceBufferOnMM;
-
-		std::vector<MaterialOffset>	m_materialOffsets;
-
+	protected:
+		Mesh(){}
+		virtual ~Mesh(){}
 	public:
 
-		Mesh(Graphics* graphics);
-		virtual ~Mesh();
-
-		void AddVertex(
+		virtual void AddVertex(
 			const Vector3DF& position,
 			const Vector3DF& normal,
 			const Vector3DF& binormal,
@@ -70,15 +25,11 @@ namespace ace
 			const Vector2DF& uv2,
 			const Color& color,
 			int32_t boneWeights,
-			int32_t boneIndexes);
+			int32_t boneIndexes) = 0;
 
-		void AddFace(int32_t index1, int32_t index2, int32_t index3);
+		virtual void AddFace(int32_t index1, int32_t index2, int32_t index3) = 0;
 
-		void AddMaterialOffset(int32_t materialIndex, int32_t faceOffset);
-		void SendToGPUMemory();
-
-		std::shared_ptr<VertexBuffer_Imp>& GetVertexBuffer() { return m_vertexBuffer; }
-		std::shared_ptr<IndexBuffer_Imp>& GetIndexBuffer() { return m_indexBuffer; }
-
+		virtual void AddMaterialOffset(int32_t materialIndex, int32_t faceOffset) = 0;
+		virtual void SendToGPUMemory() = 0;
 	};
 };

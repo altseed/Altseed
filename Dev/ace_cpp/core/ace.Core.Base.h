@@ -30,6 +30,8 @@ namespace ace {
 	class Shader2D;
 	class Material2D;
 
+	class Mesh;
+
 	class ObjectSystemFactory;
 	class CoreScene;
 	class CoreLayer;

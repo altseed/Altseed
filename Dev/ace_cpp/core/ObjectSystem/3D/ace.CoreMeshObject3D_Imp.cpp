@@ -17,6 +17,17 @@ namespace ace
 		SafeRelease(m_object);
 	}
 
+	Vector3DF CoreMeshObject3D_Imp::GetPosition() const
+	{
+		return m_object->GetPosition();
+	}
+
+	void CoreMeshObject3D_Imp::SetPosition(Vector3DF position)
+	{
+		m_object->SetPosition(position);
+	}
+
+
 	void CoreMeshObject3D_Imp::SetLayer(CoreLayer3D* layer)
 	{
 		if (layer != nullptr)
