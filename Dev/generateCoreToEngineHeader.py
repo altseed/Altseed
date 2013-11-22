@@ -74,9 +74,17 @@ fromCoreToEngine.readLines("ace_cpp/core/Core/ace.CreateCore.h")
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.eChildMode.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.CoreLayer.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.CoreScene.h')
+
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D.h')
+
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D.h')
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreMeshObject3D.h')
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D.h')
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D.h')
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D.h')
+
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory.h')
 

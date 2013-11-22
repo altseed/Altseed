@@ -81,14 +81,6 @@ namespace ace {
 	class RenderedCameraObject3D;
 	class Mesh_Imp;
 
-	enum eRenderedObject3DType
-	{
-		RENDERED_OBJECT3D_TYPE_UNKNOWN,
-		RENDERED_OBJECT3D_TYPE_MESH,
-		RENDERED_OBJECT3D_TYPE_CAMERA,
-		RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT,
-	};
-
 	enum eVertexLayoutFormat
 	{
 		LAYOUT_FORMAT_R32G32B32_FLOAT,

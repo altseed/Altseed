@@ -92,10 +92,13 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGau
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Object2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent.h')
+
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Layer.h")
+
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Object2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.h")
-engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Layer.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.h")
+
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Scene.h")
 
 engineHeader.readLines("ace_cpp/engine/ace.Engine.h")

@@ -118,7 +118,13 @@ namespace ace {
 		GRAPHICS_TYPE_GL,
 	};
 
-
+	enum eRenderedObject3DType
+	{
+		RENDERED_OBJECT3D_TYPE_UNKNOWN,
+		RENDERED_OBJECT3D_TYPE_MESH,
+		RENDERED_OBJECT3D_TYPE_CAMERA,
+		RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT,
+	};
 
 	/**
 		@brief	シェーダーに対して外部から設定可能なプロパティの変数の種類
