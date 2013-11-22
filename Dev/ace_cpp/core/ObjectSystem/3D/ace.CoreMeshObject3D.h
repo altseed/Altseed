@@ -12,6 +12,6 @@ namespace ace
 		CoreMeshObject3D(){}
 		virtual ~CoreMeshObject3D(){}
 
-		virtual RenderedMeshObject3D* GetInternalObject() = 0;
+		virtual void SetMesh(Mesh* mesh) = 0;
 	};
 }

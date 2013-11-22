@@ -10,6 +10,9 @@ namespace ace
 	{
 	public:
 
+		CoreObject3D(){}
+		virtual ~CoreObject3D(){}
+
 		virtual Vector3DF GetPosition() const = 0;
 		virtual void SetPosition(Vector3DF position) = 0;
 

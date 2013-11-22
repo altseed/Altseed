@@ -10,6 +10,7 @@ namespace ace
 		: m_object(nullptr)
 	{
 		m_object = new RenderedMeshObject3D(graphics);
+		m_commonObject = m_object;
 	}
 
 	CoreMeshObject3D_Imp::~CoreMeshObject3D_Imp()
@@ -17,26 +18,8 @@ namespace ace
 		SafeRelease(m_object);
 	}
 
-	Vector3DF CoreMeshObject3D_Imp::GetPosition() const
+	void CoreMeshObject3D_Imp::SetMesh(Mesh* mesh)
 	{
-		return m_object->GetPosition();
-	}
-
-	void CoreMeshObject3D_Imp::SetPosition(Vector3DF position)
-	{
-		m_object->SetPosition(position);
-	}
-
-
-	void CoreMeshObject3D_Imp::SetLayer(CoreLayer3D* layer)
-	{
-		if (layer != nullptr)
-		{
-			((CoreLayer3D_Imp*) layer)->GetRenderer()->AddObject(m_object);
-		}
-		else
-		{
-			((CoreLayer3D_Imp*) layer)->GetRenderer()->RemoveObject(m_object);
-		}
+		m_object->SetMesh(mesh);
 	}
 }

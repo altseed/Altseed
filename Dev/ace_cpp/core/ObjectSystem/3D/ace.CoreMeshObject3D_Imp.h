@@ -2,12 +2,13 @@
 #pragma once
 
 #include "ace.CoreMeshObject3D.h"
-#include "../../Graphics/Common/3D/ace.RenderedMeshObject3D.h"
+#include "ace.CoreObject3D_Imp.h"
 
 namespace ace
 {
 	class CoreMeshObject3D_Imp
 		: public CoreMeshObject3D
+		, public CoreObject3D_Imp
 	{
 	private:
 		RenderedMeshObject3D*	m_object;
@@ -19,15 +20,8 @@ namespace ace
 		virtual ~CoreMeshObject3D_Imp();
 	public:
 
-		Vector3DF GetPosition() const;
-		void SetPosition(Vector3DF position);
-
-
-		void SetLayer(CoreLayer3D* layer);
-
-		//RenderedMeshObject3D* GetInternalObject(){ return m_object; }
+		void SetMesh(Mesh* mesh);
 
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MESH; }
-
 	};
 }
