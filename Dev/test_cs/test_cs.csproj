@@ -53,8 +53,6 @@
     <Compile Include="ObjectSystem\ParentObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
-    <Compile Include="Window\Empty.cs" />
-    <Compile Include="Window\EmptyExternal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -14,8 +14,6 @@ namespace test_cs
 			ISample[] samples = 
 			{
 				new Empty(),
-				new Window.Empty(),
-				new Window.EmptyExternal(),
 				new LogSample(),
 				new Graphics.PostEffect.CustomPostEffect(),
 				new ObjectSystem.ObjectSimple(),

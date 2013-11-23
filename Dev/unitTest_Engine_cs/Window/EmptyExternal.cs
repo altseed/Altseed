@@ -4,15 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace test_cs.Window
+namespace unitTest_Engine_cs.Window
 {
-	/// <summary>
-	/// 外部のウインドウにaceの機能で描画を行う。
-	/// </summary>
-	class EmptyExternal : ISample
+	public class EmptyExternal : TestFramework
 	{
-		public void Run()
+		//[Test]
+		public override void Test(ace.GraphicsType graphicsType)
 		{
+			var option = new ace.EngineOption
+			{
+				GraphicsType = graphicsType,
+				IsFullScreen = false
+			};
+
 			bool closed = false;
 			System.Windows.Forms.Form form = new System.Windows.Forms.Form();
 			form.FormClosed += (object sender, System.Windows.Forms.FormClosedEventArgs e) =>
@@ -25,6 +29,8 @@ namespace test_cs.Window
 			// aceを初期化する。
 			ace.Engine.InitializeByExternalWindow(form.Handle, new IntPtr(), form.Size.Width, form.Size.Height, new ace.EngineOption());
 
+			int time = 0;
+
 			// aceが進行可能かチェックする。
 			while (ace.Engine.DoEvents())
 			{
@@ -33,6 +39,9 @@ namespace test_cs.Window
 
 				// aceを更新する。
 				ace.Engine.Update();
+
+				if (time == 10) break;
+				time++;
 			}
 
 			// aceを終了する。

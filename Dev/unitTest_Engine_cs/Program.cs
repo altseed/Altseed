@@ -15,7 +15,7 @@ namespace unitTest_Engine_cs
 		}
 	}
 
-	public class TestFramework
+	public abstract class TestFramework
 	{
 		public abstract void Test(ace.GraphicsType graphicsType);
 	}
