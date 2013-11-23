@@ -10,7 +10,7 @@ namespace unitTest_Engine_cs
 	{
 		static void Main(string[] args)
 		{
-			var e = new Window.Empty();
+			var e = new Window.EmptyExternal();
 			e.Test(ace.GraphicsType.DirectX11);
 		}
 	}
