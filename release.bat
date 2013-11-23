@@ -1,9 +1,11 @@
 echo compile
 @Set Path=C:\Program Files (x86)\MSBuild\12.0\Bin;%PATH%
-msbuild Dev/test_cpp/msvc/test_cpp.vcxproj /p:configuration=Debug
-msbuild Dev/test_cpp/msvc/test_cpp.vcxproj /p:configuration=Release
+msbuild Dev/unitTest_Engine_cpp.sln /p:configuration=Debug
+msbuild Dev/unitTest_Engine_cpp.sln /p:configuration=Release
 
 msbuild Dev/test_cs.sln /p:configuration=Release
+
+mkdir Product\bin\
 
 copy Dev\bin\ace_core.Debug.dll Product\bin\
 copy Dev\bin\ace_core.dll Product\bin\

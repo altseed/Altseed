@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.CoreDirectionalLightObject3D_Imp.h"
 #include "ace.CoreLayer3D_Imp.h"
 

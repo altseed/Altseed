@@ -14,9 +14,6 @@ def exec_sync( cmd ):
 exec_sync( '..\\ConvertCharactorSet.exe ace_cpp/ *.cpp CP932' )
 exec_sync( '..\\ConvertCharactorSet.exe ace_cpp/ *.h CP932' )
 
-exec_sync( '..\\ConvertCharactorSet.exe test_cpp/ *.cpp CP932' )
-exec_sync( '..\\ConvertCharactorSet.exe test_cpp/ *.h CP932' )
-
 exec_sync( '..\\ConvertCharactorSet.exe unitTest_cpp_gtest/ *.cpp CP932' )
 exec_sync( '..\\ConvertCharactorSet.exe unitTest_cpp_gtest/ *.h CP932' )
 
@@ -25,9 +22,6 @@ exec_sync( 'swig -c++ -csharp -namespace ace.swig -dllimport ace_core -o ace_cpp
 
 exec_sync( '..\\ConvertCharactorSet.exe ace_cpp/ *.cpp UTF8' )
 exec_sync( '..\\ConvertCharactorSet.exe ace_cpp/ *.h UTF8' )
-
-exec_sync( '..\\ConvertCharactorSet.exe test_cpp/ *.cpp UTF8' )
-exec_sync( '..\\ConvertCharactorSet.exe test_cpp/ *.h UTF8' )
 
 exec_sync( '..\\ConvertCharactorSet.exe unitTest_cpp_gtest/ *.cpp UTF8' )
 exec_sync( '..\\ConvertCharactorSet.exe unitTest_cpp_gtest/ *.h UTF8' )
