@@ -1,11 +1,15 @@
 ﻿
 #include<gtest/gtest.h>
+
 #ifdef _DEBUG
+#pragma comment(lib,"Debug/ace_engine.lib")
 #pragma comment(lib, "gtestd.lib")
 #else
+#pragma comment(lib,"Release/ace_engine.lib")
 #pragma comment(lib, "gtest.lib")
 #endif
 
+/*
 #if _WIN32
 #ifdef _DEBUG
 #pragma comment(lib,"Debug/ace_common.lib")
@@ -23,6 +27,7 @@
 #pragma comment(lib,"opengl32.lib")
 
 #endif
+*/
 
 #if _WIN32
 #include <Windows.h>

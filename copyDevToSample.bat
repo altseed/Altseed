@@ -11,7 +11,8 @@ mkdir %RDIR%\bin\
 mkdir %RDIR%\cpp\
 mkdir %RDIR%\cpp\include\
 mkdir %RDIR%\cpp\lib\
-mkdir %RDIR%\cs\
+mkdir %RDIR%\cpp\lib\Debug\
+mkdir %RDIR%\cpp\lib\Release\
 
 copy Dev\bin\ace_core.Debug.dll %RDIR%\bin\
 copy Dev\bin\ace_core.dll %RDIR%\bin\
@@ -19,8 +20,8 @@ copy Dev\bin\ace_cs.dll %RDIR%\bin\
 
 echo CPlusPlusSample
 copy Dev\include\ace.h %RDIR%\cpp\include\
-copy Dev\lib\ace_engine.Debug.lib %RDIR%\cpp\lib\
-copy Dev\lib\ace_engine.Release.lib %RDIR%\cpp\lib\
+copy Dev\lib\Debug\ace_engine.lib %RDIR%\cpp\lib\Debug\
+copy Dev\lib\Release\ace_engine.lib %RDIR%\cpp\lib\Release\
 
 echo CSharpSample
 copy Dev\bin\ace_cs.dll %RDIR%\sample_cs\

@@ -1,8 +1,6 @@
 ﻿#include <gtest/gtest.h>
 #include <ace.h>
 #include <memory>
-#pragma comment(lib,"Debug/ace_core.lib")
-#pragma comment(lib,"Debug/ace_engine.lib")
 
 void Profiler_Profiling(bool isOpenGLMode)
 {

@@ -93,10 +93,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Library Include="..\..\lib\Debug\ace_common.lib" />
-    <Library Include="..\..\lib\Release\ace_common.lib" />
-  </ItemGroup>
-  <ItemGroup>
     <Filter Include="ObjectSystem">
       <UniqueIdentifier>{684d8171-279f-4e8b-8d26-41ed74129d7c}</UniqueIdentifier>
     </Filter>
@@ -112,5 +108,9 @@
     <Filter Include="ObjectSystem\Component">
       <UniqueIdentifier>{4589e34b-0cf8-413e-8a85-2d31d7631e14}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\lib\Release\ace_common.lib" />
+    <Library Include="..\..\lib\Debug\ace_common.lib" />
   </ItemGroup>
 </Project>
