@@ -11,7 +11,12 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
 			var e = new Window.Empty();
-			e.Test();
+			e.Test(ace.GraphicsType.DirectX11);
 		}
+	}
+
+	public class TestFramework
+	{
+		public abstract void Test(ace.GraphicsType graphicsType);
 	}
 }
