@@ -45,12 +45,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />
-    <Compile Include="JoystickSample.cs" />
-    <Compile Include="KeyboardSample.cs" />
     <Compile Include="ISample.cs" />
     <Compile Include="LogSample.cs" />
-    <Compile Include="MouseSample1.cs" />
-    <Compile Include="MouseSample2.cs" />
     <Compile Include="ObjectSystem\Component.cs" />
     <Compile Include="ObjectSystem\CustomObject.cs" />
     <Compile Include="ObjectSystem\ObjectSimple.cs" />

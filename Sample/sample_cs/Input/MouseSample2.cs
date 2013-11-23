@@ -4,18 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace test_cs
+namespace test_cs.Input
 {
     class MouseSample2:ISample
     {
         [STAThread]
         public void Run()
         {
+			// 初期設定を行う。
 			var option = new ace.EngineOption
 			{
 				GraphicsType = ace.GraphicsType.DirectX11,
 				IsFullScreen = false
 			};
+
             var initialized = ace.Engine.Initialize("Mouse2", 640, 480, option);
 
             while (ace.Engine.DoEvents())

@@ -13,6 +13,13 @@ namespace test_cs.Window
 	{
 		public void Run()
 		{
+			// 初期設定を行う。
+			var option = new ace.EngineOption
+			{
+				GraphicsType = ace.GraphicsType.DirectX11,
+				IsFullScreen = false
+			};
+
 			bool closed = false;
 			System.Windows.Forms.Form form = new System.Windows.Forms.Form();
 			form.FormClosed += (object sender, System.Windows.Forms.FormClosedEventArgs e) =>
@@ -23,7 +30,7 @@ namespace test_cs.Window
 
 
 			// aceを初期化する。
-			ace.Engine.InitializeByExternalWindow(form.Handle, form.Size.Width, form.Size.Height);
+			ace.Engine.InitializeByExternalWindow(form.Handle, IntPtr.Zero, form.Size.Width, form.Size.Height, option);
 
 			// aceが進行可能かチェックする。
 			while (ace.Engine.DoEvents())

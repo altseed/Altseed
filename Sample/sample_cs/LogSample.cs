@@ -13,7 +13,14 @@ namespace test_cs
 	{
 		public void Run()
 		{
-			ace.Engine.Initialize( "Log", 100, 100, false );
+			// 初期設定を行う。
+			var option = new ace.EngineOption
+			{
+				GraphicsType = ace.GraphicsType.DirectX11,
+				IsFullScreen = false
+			};
+
+			ace.Engine.Initialize( "Log", 100, 100, option);
 
 			// Engineに格納されたものを使う（Log.htmlに出力される）
 			var logger = ace.Engine.Logger;

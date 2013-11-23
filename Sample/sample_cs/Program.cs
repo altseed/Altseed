@@ -13,34 +13,17 @@ namespace test_cs
 		{
 			ISample[] samples = 
 			{
-				new Empty(),
 				new Window.Empty(),
 				new Window.EmptyExternal(),
 				new LogSample(),
-                new KeyboardSample(),
-                new MouseSample1(),
-                new MouseSample2(),
-                new JoystickSample()
+                new Input.KeyboardSample(),
+                new Input.MouseSample1(),
+                new Input.MouseSample2(),
+                new Input.JoystickSample()
 			};
 
 			var cui = new SampleGuide( samples );
 			cui.Show();
-		}
-	}
-
-	class Empty : ISample
-	{
-		[STAThread]
-		public void Run()
-		{
-			var initialized = ace.Engine.Initialize("test", 640, 480, false);
-
-			while (ace.Engine.DoEvents())
-			{
-				ace.Engine.Update();
-			}
-
-			ace.Engine.Terminate();
 		}
 	}
 }
