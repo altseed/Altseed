@@ -4,22 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using NUnit.Framework;
+//using NUnit.Framework;
 
 namespace unitTest_Engine_cs.Window
 {
-	[TestFixture]
-	public class Empty
+	//[TestFixture]
+	public class Empty : TestFramework
 	{
-		[Test]
-		public void Test()
+		//[Test]
+		public override void Test(ace.GraphicsType graphicsType)
 		{
 			var option = new ace.EngineOption
 			{
-				GraphicsType = ace.GraphicsType.DirectX11,
+				GraphicsType = graphicsType,
 				IsFullScreen = false
 			};
-			var initialized = ace.Engine.Initialize("test", 640, 480, option);
+
+			var initialized = ace.Engine.Initialize("Empty", 640, 480, option);
 
 			int time = 0;
 
