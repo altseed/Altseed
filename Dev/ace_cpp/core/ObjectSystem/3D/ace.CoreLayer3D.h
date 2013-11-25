@@ -28,5 +28,10 @@ namespace ace
 
 		virtual void AddObject(ObjectPtr object3D) = 0;
 		virtual void RemoveObject(ObjectPtr object3D) = 0;
+
+		virtual void BeginDrawing() = 0;
+		virtual void Draw() = 0;
+		virtual void EndDrawing() = 0;
+		virtual void EndDrawingAfterEffects() = 0;
 	};
 }

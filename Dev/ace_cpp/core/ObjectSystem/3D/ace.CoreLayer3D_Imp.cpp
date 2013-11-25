@@ -48,8 +48,27 @@ namespace ace
 		}
 	}
 
+	void CoreLayer3D_Imp::BeginDrawing()
+	{
+		m_targetToLayer = -1;
+	}
+
 	void CoreLayer3D_Imp::Draw()
+	{
+		if (!m_isDrawn)
+		{
+			return;
+		}
+	}
+
+	void CoreLayer3D_Imp::EndDrawing()
 	{
 
 	}
+
+	void CoreLayer3D_Imp::EndDrawingAfterEffects()
+	{
+
+	}
+
 };

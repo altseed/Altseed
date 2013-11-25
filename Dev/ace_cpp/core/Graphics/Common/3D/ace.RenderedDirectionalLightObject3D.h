@@ -33,9 +33,10 @@ namespace ace
 		void Rendering(RenderingProperty& prop) override;
 
 		Color GetColor_FR();
-		void SetColor(Color color);
-
 		Vector3DF GetDirection_FR();
+
+		Color GetColor();
+		void SetColor(Color color);
 
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT; }
 	};

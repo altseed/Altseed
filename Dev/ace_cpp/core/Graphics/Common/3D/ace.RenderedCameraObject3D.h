@@ -44,10 +44,19 @@ namespace ace
 		void Flip() override;
 		void Rendering(RenderingProperty& prop) override;
 
+		Vector2DI GetWindowSize() const { return m_values.size; }
 		void SetWindowSize( const Vector2DI& size );
+
+		Vector3DF GetFocus(){ return m_values.focus; }
 		void SetFocus(const Vector3DF& focus);
+
+		float GetFieldOfView(){ return m_values.fov; }
 		void SetFieldOfView(float fov);
+
+		float GetZFar() { return m_values.zfar; }
 		void SetZFar(float zfar);
+
+		float GetZNear(){ return m_values.znear; }
 		void SetZNear(float znear);
 
 		void CalculateMatrix_FR() override;
