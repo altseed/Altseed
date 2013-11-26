@@ -20,6 +20,21 @@ namespace ace
 		virtual ~CoreCameraObject3D_Imp();
 	public:
 
+		Vector2DI GetWindowSize() const;
+		void SetWindowSize(const Vector2DI& size);
+
+		Vector3DF GetFocus();
+		void SetFocus(const Vector3DF& focus);
+
+		float GetFieldOfView();
+		void SetFieldOfView(float fov);
+
+		float GetZFar();
+		void SetZFar(float zfar);
+
+		float GetZNear();
+		void SetZNear(float znear);
+
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_CAMERA; }
 	};
 }

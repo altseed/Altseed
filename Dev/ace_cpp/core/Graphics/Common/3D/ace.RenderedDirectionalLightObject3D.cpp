@@ -31,14 +31,19 @@ namespace ace
 		return m_values_FR.color;
 	}
 
-	void RenderedDirectionalLightObject3D::SetColor(Color color)
-	{
-		m_values.color = color;
-	}
-
 	Vector3DF RenderedDirectionalLightObject3D::GetDirection_FR()
 	{
 		auto& mat = GetLocalMatrix_FR();
 		return Vector3DF(mat.Values[0][2], mat.Values[1][2], mat.Values[2][2]);
+	}
+
+	Color RenderedDirectionalLightObject3D::GetColor()
+	{
+		return m_values.color;
+	}
+
+	void RenderedDirectionalLightObject3D::SetColor(Color color)
+	{
+		m_values.color = color;
 	}
 }

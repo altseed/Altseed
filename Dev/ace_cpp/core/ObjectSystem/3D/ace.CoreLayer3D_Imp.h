@@ -32,7 +32,12 @@ namespace ace
 		void AddObject(ObjectPtr object3D);
 		void RemoveObject(ObjectPtr object3D);
 
+		void BeginDrawing();
+		
 		void Draw();
+
+		void EndDrawing();
+		void EndDrawingAfterEffects();
 
 		// 共通部分
 		virtual int GetDrawingPriority() const { return CoreLayer_Imp::GetDrawingPriority(); }

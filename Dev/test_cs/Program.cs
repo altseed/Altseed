@@ -14,13 +14,7 @@ namespace test_cs
 			ISample[] samples = 
 			{
 				new Empty(),
-				new Window.Empty(),
-				new Window.EmptyExternal(),
 				new LogSample(),
-                new KeyboardSample(),
-                new MouseSample1(),
-                new MouseSample2(),
-                new JoystickSample(),
 				new Graphics.PostEffect.CustomPostEffect(),
 				new ObjectSystem.ObjectSimple(),
 				new ObjectSystem.ParentObject(),

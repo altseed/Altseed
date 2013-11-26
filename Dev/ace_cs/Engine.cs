@@ -44,27 +44,27 @@ namespace ace
 		/// <param name="height">縦幅</param>
 		/// <param name="option">オプション</param>
 		/// <returns>成否</returns>
-		public static bool Initialize( string title, int width, int height, EngineOption option )
+		public static bool Initialize(string title, int width, int height, EngineOption option)
 		{
-			if( core != null ) return false;
+			if (core != null) return false;
 
 			try
 			{
 				core = swig.Core_Imp.CreateCore();
 			}
-			catch( System.TypeInitializationException )
+			catch (System.TypeInitializationException)
 			{
 				// DLLが見つからないケース
 				return false;
 			}
 
-			var result = core.Initialize( title, width, height, option.IsFullScreen, option.GraphicsType == GraphicsType.OpenGL );
+			var result = core.Initialize(title, width, height, option.IsFullScreen, option.GraphicsType == GraphicsType.OpenGL);
 
 			GC.Initialize();
 
 			SetupMembers();
 
-			if( result )
+			if (result)
 			{
 				return true;
 			}
@@ -87,25 +87,25 @@ namespace ace
 		/// <returns>成否</returns>
 		public static bool InitializeByExternalWindow(IntPtr handle1, IntPtr handle2, int width, int height, EngineOption option)
 		{
-			if( core != null ) return false;
+			if (core != null) return false;
 
 			try
 			{
 				core = swig.Core_Imp.CreateCore();
 			}
-			catch( System.TypeInitializationException )
+			catch (System.TypeInitializationException)
 			{
 				// DLLが見つからないケース
 				return false;
 			}
 
-			var result = core.InitializeByExternalWindow( handle1, handle2, width, height );
+			var result = core.InitializeByExternalWindow(handle1, handle2, width, height);
 
 			GC.Initialize();
 
 			SetupMembers();
 
-			if( result )
+			if (result)
 			{
 				return true;
 			}
@@ -123,12 +123,17 @@ namespace ace
 		/// <returns>進行可能か?</returns>
 		public static bool DoEvents()
 		{
-			if( core == null ) return false;
+			if (core == null) return false;
 
 			GC.Update();
 
 			bool mes = core.DoEvents();
-			Mouse.RefreshAllState();
+
+			if (Mouse != null)
+			{
+				Mouse.RefreshAllState();
+			}
+
 			return mes;
 		}
 
@@ -137,10 +142,10 @@ namespace ace
 		/// </summary>
 		public static void Update()
 		{
-			if( core == null ) return;
+			if (core == null) return;
 
 			//core.Update();
-			if( CurrentScene != null )
+			if (CurrentScene != null)
 			{
 				CurrentScene.Update();
 			}
@@ -153,12 +158,12 @@ namespace ace
 			}
 
 			core.Draw();
-			
-			if( CurrentScene != null )
+
+			if (CurrentScene != null)
 			{
 				CurrentScene.DrawAdditionally();
 			}
-			
+
 			if (CurrentScene != null)
 			{
 				CurrentScene.EndDrawing();
@@ -173,7 +178,7 @@ namespace ace
 		/// </summary>
 		public static void Terminate()
 		{
-			if( core == null ) return;
+			if (core == null) return;
 
 			GC.Terminate();
 
@@ -194,10 +199,10 @@ namespace ace
 		/// 描画の対象となるシーンを変更します。
 		/// </summary>
 		/// <param name="scene">新しく描画の対象となるシーン。</param>
-		public static void ChangeScene( Scene scene )
+		public static void ChangeScene(Scene scene)
 		{
 			CurrentScene = scene;
-			core.ChangeScene( scene.CoreScene );
+			core.ChangeScene(scene.CoreScene);
 		}
 
 		/// <summary>
@@ -211,13 +216,22 @@ namespace ace
 
 		private static void SetupMembers()
 		{
-			Logger = new Log( core.GetLogger() );
-			Keyboard = new Keyboard( core.GetKeyboard() );
-			Mouse = new Mouse( core.GetMouse() );
-			JoystickContainer = new JoystickContainer( core.GetJoystickContainer() );
-			Graphics = new Graphics( core.GetGraphics_Imp() );
-			ObjectSystemFactory = new ace.ObjectSystemFactory( core.GetObjectSystemFactory() );
-			Profiler = new Profiler( core.GetProfiler() );
+			Logger = new Log(core.GetLogger());
+			Keyboard = new Keyboard(core.GetKeyboard());
+
+			if (core.GetMouse() != null)
+			{
+				Mouse = new Mouse(core.GetMouse());
+			}
+
+			if (core.GetJoystickContainer() != null)
+			{
+				JoystickContainer = new JoystickContainer(core.GetJoystickContainer());
+			}
+
+			Graphics = new Graphics(core.GetGraphics_Imp());
+			ObjectSystemFactory = new ace.ObjectSystemFactory(core.GetObjectSystemFactory());
+			Profiler = new Profiler(core.GetProfiler());
 		}
 	}
 }

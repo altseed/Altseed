@@ -48,12 +48,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="JoystickSample.cs" />
-    <Compile Include="KeyboardSample.cs" />
+    <Compile Include="Input\JoystickSample.cs" />
+    <Compile Include="Input\KeyboardSample.cs" />
     <Compile Include="ISample.cs" />
     <Compile Include="LogSample.cs" />
-    <Compile Include="MouseSample1.cs" />
-    <Compile Include="MouseSample2.cs" />
+    <Compile Include="Input\MouseSample1.cs" />
+    <Compile Include="Input\MouseSample2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
     <Compile Include="Window\Empty.cs" />

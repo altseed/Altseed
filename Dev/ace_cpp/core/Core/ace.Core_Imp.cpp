@@ -31,6 +31,7 @@ namespace ace
 		, m_joystickContainer(nullptr)
 		, m_logger(nullptr)
 		, m_profiler(nullptr)
+		, m_profilerViewer(nullptr)
 		, m_currentScene(nullptr)
 		, m_isInitializedByExternal(false)
 		, m_objectSystemFactory(nullptr)
@@ -86,8 +87,10 @@ namespace ace
 		m_window = Window_Imp::Create(width, height, title);
 		m_keyboard = Keyboard_Imp::Create(m_window);
 		m_mouse = Mouse_Imp::Create(m_window);
-		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), title);
 		m_joystickContainer = JoystickContainer_Imp::Create();
+
+		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), title);
+		
 		m_graphics = Graphics_Imp::Create(m_window, isOpenGLMode, m_logger);
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, m_window->GetSize());
 
@@ -112,6 +115,10 @@ namespace ace
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
 		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, false, m_logger);
+		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, Vector2DI(width,height));
+
+		m_profiler = Profiler_Imp::Create();
+		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, Vector2DI(width, height));
 
 		return true;
 	}

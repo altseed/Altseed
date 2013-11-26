@@ -20,6 +20,9 @@ namespace ace
 		virtual ~CoreDirectionalLightObject3D_Imp();
 	public:
 
+		Color GetColor();
+		void SetColor(const Color& color);
+
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT; }
 	};
 }

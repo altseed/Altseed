@@ -10,12 +10,12 @@ namespace unitTest_Engine_cs
 	{
 		static void Main(string[] args)
 		{
-			var e = new Window.Empty();
+			var e = new Window.EmptyExternal();
 			e.Test(ace.GraphicsType.DirectX11);
 		}
 	}
 
-	public class TestFramework
+	public abstract class TestFramework
 	{
 		public abstract void Test(ace.GraphicsType graphicsType);
 	}
