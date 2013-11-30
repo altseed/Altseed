@@ -8,9 +8,7 @@ namespace ace
 	class CoreLayer3D
 		: public CoreLayer
 	{
-	public:
-		typedef CoreObject3D* ObjectPtr;
-
+	protected:
 
 		/**
 		@brief	コンストラクタ
@@ -25,6 +23,9 @@ namespace ace
 		中身がなくともないと多重継承に失敗する。
 		*/
 		virtual ~CoreLayer3D(){}
+
+	public:
+		typedef CoreObject3D* ObjectPtr;
 
 		virtual void AddObject(ObjectPtr object3D) = 0;
 		virtual void RemoveObject(ObjectPtr object3D) = 0;

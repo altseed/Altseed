@@ -8,10 +8,11 @@ namespace ace
 	class CoreObject3D
 		: public IReference
 	{
-	public:
-
+	protected:
 		CoreObject3D(){}
 		virtual ~CoreObject3D(){}
+
+	public:
 
 		virtual Vector3DF GetPosition() const = 0;
 		virtual void SetPosition(Vector3DF position) = 0;

@@ -69,6 +69,7 @@
     <Compile Include="Math\Vector2DF.cs" />
     <Compile Include="Math\Vector2DI.cs" />
     <Compile Include="Math\Vector3DF.cs" />
+    <Compile Include="ObjectSystem\3D\Layer3D.cs" />
     <Compile Include="ObjectSystem\ChildMode.cs" />
     <Compile Include="ObjectSystem\2D\Layer2DComponent.cs" />
     <Compile Include="ObjectSystem\2D\Object2DComponent.cs" />
@@ -85,11 +86,16 @@
     <Compile Include="swig\ace_core_cs.cs" />
     <Compile Include="swig\ace_core_csPINVOKE.cs" />
     <Compile Include="swig\Core.cs" />
+    <Compile Include="swig\CoreCameraObject3D.cs" />
+    <Compile Include="swig\CoreDirectionalLightObject3D.cs" />
     <Compile Include="swig\CoreLayer.cs" />
     <Compile Include="swig\CoreLayer2D.cs" />
     <Compile Include="swig\CoreLayer2D_Imp.cs" />
+    <Compile Include="swig\CoreLayer3D.cs" />
     <Compile Include="swig\CoreLayer_Imp.cs" />
+    <Compile Include="swig\CoreMeshObject3D.cs" />
     <Compile Include="swig\CoreObject2D.cs" />
+    <Compile Include="swig\CoreObject3D.cs" />
     <Compile Include="swig\CorePostEffect.cs" />
     <Compile Include="swig\CorePostEffect_Imp.cs" />
     <Compile Include="swig\CoreScene.cs" />
@@ -107,6 +113,7 @@
     <Compile Include="swig\eKeyboardButtonState.cs" />
     <Compile Include="swig\eKeys.cs" />
     <Compile Include="swig\eMouseButtonState.cs" />
+    <Compile Include="swig\eRenderedObject3DType.cs" />
     <Compile Include="swig\eTextureClassType.cs" />
     <Compile Include="swig\eTextureFilterType.cs" />
     <Compile Include="swig\eTextureFormat.cs" />
