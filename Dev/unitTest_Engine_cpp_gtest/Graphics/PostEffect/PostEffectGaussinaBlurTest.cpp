@@ -27,7 +27,7 @@ protected:
 		auto g = ace::GetGraphics();
 		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
 		object->SetTexture(texture);
-		object->SetScale(ace::Vector2DF(2, 2));
+		object->SetScale(ace::Vector2DF(1, 1));
 
 		pe = std::make_shared<ace::PostEffectGaussianBlur>(g);
 		pe->SetIntensity(intensity);

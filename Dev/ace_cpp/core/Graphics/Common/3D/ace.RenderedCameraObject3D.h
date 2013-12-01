@@ -2,6 +2,7 @@
 #pragma once
 
 #include <Math/ace.Vector2DI.h>
+#include <Math/ace.Vector3DF.h>
 
 #include "ace.RenderedObject3D.h"
 

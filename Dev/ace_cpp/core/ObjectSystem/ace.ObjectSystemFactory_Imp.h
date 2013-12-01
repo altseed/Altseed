@@ -14,9 +14,15 @@ namespace ace
 		ObjectSystemFactory_Imp(Graphics_Imp* graphics, Log_Imp* logger, Vector2DI windowSize);
 		virtual ~ObjectSystemFactory_Imp();
 
-		CoreTextureObject2D* CreateTextureObject2D();
-		CoreLayer2D* CreateLayer2D();
-		CoreScene* CreateScene();
-		CorePostEffect* CreatePostEffect();
+		CoreTextureObject2D* CreateTextureObject2D() override;
+		CoreLayer2D* CreateLayer2D() override;
+
+		CoreMeshObject3D* CreateMeshObject3D() override;
+		CoreCameraObject3D* CreateCameraObject3D() override;
+		CoreDirectionalLightObject3D* CreateDirectionalLightObject3D() override;
+		CoreLayer3D* CreateLayer3D() override;
+
+		CoreScene* CreateScene() override;
+		CorePostEffect* CreatePostEffect() override;
 	};
 }

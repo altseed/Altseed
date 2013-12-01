@@ -85,6 +85,7 @@
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.Layer2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.Object2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.TextureObject2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\ace.Layer3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\ace.Layer.h" />
     <ClInclude Include="..\engine\ObjectSystem\ace.Scene.h" />
     <ClInclude Include="..\engine\ObjectSystem\Component\ace.Layer2DComponent.h" />
@@ -102,6 +103,7 @@
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.Layer2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.TextureObject2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\ace.Layer3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\ace.Layer.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\ace.Scene.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\Component\ace.Layer2DComponent.cpp" />

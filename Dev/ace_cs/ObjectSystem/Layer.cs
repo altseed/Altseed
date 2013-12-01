@@ -10,19 +10,30 @@ namespace ace
 	/// </summary>
 	public abstract class Layer
 	{
-		public abstract bool IsUpdated { get; set; }
+		internal swig.CoreLayer commonObject = null;
 
-		public abstract bool IsDrawn { get; set; }
+
+		public bool IsUpdated { get; set; }
+
+		public bool IsDrawn
+		{
+			get { return commonObject.GetIsDrawn(); }
+			set { commonObject.SetIsDrawn(value); }
+		}
 
 		/// <summary>
 		/// このインスタンスを管理している ace.Scene クラスのインスタンスを取得します。
 		/// </summary>
-		public abstract Scene Scene { get; internal set; }
+		public Scene Scene { get; internal set; }
 
 		/// <summary>
 		/// このレイヤーの描画優先度を取得または設定します。この値が大きいほど手前に描画されます。
 		/// </summary>
-		public abstract int DrawingPriority { get; set; }
+		public int DrawingPriority
+		{
+			get { return commonObject.GetDrawingPriority(); }
+			set { commonObject.SetDrawingPriority(value); }
+		}
 
 		internal abstract void Update();
 
@@ -32,6 +43,19 @@ namespace ace
 
 		internal abstract void EndDrawing();
 
-		internal abstract unsafe swig.CoreLayer CoreLayer { get; }
+		internal swig.CoreLayer CoreLayer { get { return commonObject; } }
+
+
+		protected virtual void OnUpdating()
+		{
+		}
+
+		protected virtual void OnUpdated()
+		{
+		}
+
+		protected virtual void OnDrawAdditionally()
+		{
+		}
 	}
 }

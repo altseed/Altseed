@@ -24,6 +24,10 @@ class CreateHeader:
 				line = f.readline()
 				continue;
 
+			if re.search('#include <Graphics/ace.', line) != None:
+				line = f.readline()
+				continue;
+
 			self.lines.append(line)
 			line = f.readline()
 		self.lines.append('\n')

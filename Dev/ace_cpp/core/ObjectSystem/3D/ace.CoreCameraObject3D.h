@@ -8,9 +8,11 @@ namespace ace
 	class CoreCameraObject3D
 		: public CoreObject3D
 	{
-	public:
+	protected:
 		CoreCameraObject3D(){}
 		virtual ~CoreCameraObject3D(){}
+
+	public:
 
 		virtual Vector2DI GetWindowSize() const = 0;
 		virtual void SetWindowSize(const Vector2DI& size) = 0;

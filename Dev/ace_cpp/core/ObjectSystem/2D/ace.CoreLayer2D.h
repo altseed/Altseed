@@ -30,11 +30,6 @@ namespace ace
 		virtual void AddObject(ObjectPtr object2D) = 0;
 		virtual void RemoveObject(ObjectPtr object2D) = 0;
 
-		virtual void BeginDrawing() = 0;
-		virtual void Draw() = 0;
-		virtual void EndDrawing() = 0;
-		virtual void EndDrawingAfterEffects() = 0;
-
 		/**
 			@brief	画面上でのレイヤーの位置を指定する。
 			@param	ul	左上座標

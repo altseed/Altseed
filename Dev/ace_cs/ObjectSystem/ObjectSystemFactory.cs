@@ -36,6 +36,43 @@ namespace ace
 		}
 
 		/// <summary>
+		/// ネイティブの MeshObject3D クラスをインスタンス化する。
+		/// </summary>
+		/// <returns>ネイティブのインスタンス</returns>
+		public swig.CoreMeshObject3D CreateMeshObject3D()
+		{
+			return factory.CreateMeshObject3D();
+		}
+
+
+		/// <summary>
+		/// ネイティブの CameraObject3D クラスをインスタンス化する。
+		/// </summary>
+		/// <returns>ネイティブのインスタンス</returns>
+		public swig.CoreCameraObject3D CreateCameraObject3D()
+		{
+			return factory.CreateCameraObject3D();
+		}
+
+		/// <summary>
+		/// ネイティブの DirectionalLightObject3D クラスをインスタンス化する。
+		/// </summary>
+		/// <returns>ネイティブのインスタンス</returns>
+		public swig.CoreDirectionalLightObject3D CreateDirectionalLightObject3D()
+		{
+			return factory.CreateDirectionalLightObject3D();
+		}
+
+		/// <summary>
+		/// ネイティブの CoreLayer2D クラスをインスタンス化する。
+		/// </summary>
+		/// <returns>ネイティブのインスタンス</returns>
+		public swig.CoreLayer3D CreateLayer3D()
+		{
+			return factory.CreateLayer3D();
+		}
+
+		/// <summary>
 		/// ネイティブの CoreScene クラスをインスタンス化します。
 		/// </summary>
 		/// <returns>ネイティブのインスタンス。</returns>

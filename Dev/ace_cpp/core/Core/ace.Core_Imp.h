@@ -85,8 +85,6 @@ namespace ace {
 
 
 		ObjectSystemFactory* GetObjectSystemFactory();
-
-		ObjectSystemFactory_Imp* GetObjectSystemFactoryImp();
 	};
 	//----------------------------------------------------------------------------------
 	//

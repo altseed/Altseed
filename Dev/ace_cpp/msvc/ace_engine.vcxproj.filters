@@ -44,6 +44,9 @@
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGaussianBlur.cpp">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\ace.Layer3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -91,6 +94,9 @@
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGaussianBlur.h">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\ace.Layer3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -107,6 +113,9 @@
     </Filter>
     <Filter Include="ObjectSystem\Component">
       <UniqueIdentifier>{4589e34b-0cf8-413e-8a85-2d31d7631e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\3D">
+      <UniqueIdentifier>{462828c9-aebb-47eb-8efe-d811aaaf5cee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

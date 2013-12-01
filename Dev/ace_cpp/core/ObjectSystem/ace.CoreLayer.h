@@ -16,8 +16,6 @@ namespace ace
 		virtual int GetDrawingPriority() const = 0;
 		virtual void SetDrawingPriority(int value) = 0;
 
-		virtual void Draw() = 0;
-
 		virtual bool GetIsDrawn() const = 0;
 		virtual void SetIsDrawn(bool value) = 0;
 
@@ -32,5 +30,10 @@ namespace ace
 		@param	index	インデックス
 		*/
 		virtual void SetTargetToLayer(int32_t index) = 0;
+
+		virtual void BeginDrawing() = 0;
+		virtual void Draw() = 0;
+		virtual void EndDrawing() = 0;
+		virtual void EndDrawingAfterEffects() = 0;
 	};
 }

@@ -11,12 +11,17 @@ namespace ace
 	{
 		friend class Scene;
 
+	protected:
+		std::shared_ptr<CoreLayer>	m_commonObject;
+		bool m_isUpdated;
+		bool m_isDrawn;
+
 	private:
 		Scene* m_scene;
 
 		virtual void SetScene(Scene* scene);
 
-		virtual std::shared_ptr<CoreLayer> GetCoreLayer() const = 0;
+		std::shared_ptr<CoreLayer> GetCoreLayer() const;
 
 		virtual void Update() = 0;
 		virtual void DrawAdditionally() = 0;
@@ -30,19 +35,17 @@ namespace ace
 
 	public:
 		Layer();
-		virtual ~Layer()
-		{
-		}
-
-		virtual int GetDrawingPriority() const = 0;
-		virtual void SetDrawingPriority(int value) = 0;
+		virtual ~Layer();
 
 		virtual Scene* GetScene() const;
 
-		virtual bool GetIsUpdated() const = 0;
-		virtual void SetIsUpdated(bool value) = 0;
+		bool GetIsUpdated() const;
+		void SetIsUpdated(bool value);
 
-		virtual bool GetIsDrawn() const = 0;
-		virtual void SetIsDrawn(bool value) = 0;
+		bool GetIsDrawn() const;
+		void SetIsDrawn(bool value);
+
+		int GetDrawingPriority() const;
+		void SetDrawingPriority(int value);
 	};
 }

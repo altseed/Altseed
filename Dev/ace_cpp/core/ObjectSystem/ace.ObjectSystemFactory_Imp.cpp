@@ -1,6 +1,14 @@
-﻿#include "ace.ObjectSystemFactory_Imp.h"
+﻿
+#include "ace.ObjectSystemFactory_Imp.h"
+
 #include "2D/ace.CoreTextureObject2D_Imp.h"
 #include "2D/ace.CoreLayer2D_Imp.h"
+
+#include "3D/ace.CoreLayer3D_Imp.h"
+#include "3D/ace.CoreCameraObject3D_Imp.h"
+#include "3D/ace.CoreDirectionalLightObject3D_Imp.h"
+#include "3D/ace.CoreMeshObject3D_Imp.h"
+
 #include "ace.CoreScene_Imp.h"
 #include "PostEffect/ace.CorePostEffect_Imp.h"
 #include "../Log/ace.Log_Imp.h"
@@ -41,6 +49,26 @@ namespace ace
 	CoreLayer2D* ObjectSystemFactory_Imp::CreateLayer2D()
 	{
 		return new CoreLayer2D_Imp(m_graphics, m_logger, m_windowSize);
+	}
+
+	CoreMeshObject3D* ObjectSystemFactory_Imp::CreateMeshObject3D()
+	{
+		return new CoreMeshObject3D_Imp(m_graphics);
+	}
+
+	CoreCameraObject3D* ObjectSystemFactory_Imp::CreateCameraObject3D()
+	{
+		return new CoreCameraObject3D_Imp(m_graphics);
+	}
+
+	CoreDirectionalLightObject3D* ObjectSystemFactory_Imp::CreateDirectionalLightObject3D()
+	{
+		return new CoreDirectionalLightObject3D_Imp(m_graphics);
+	}
+
+	CoreLayer3D* ObjectSystemFactory_Imp::CreateLayer3D()
+	{
+		return new CoreLayer3D_Imp(m_graphics, m_logger, m_windowSize);
 	}
 
 	//----------------------------------------------------------------------------------
