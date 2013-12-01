@@ -180,6 +180,8 @@ namespace ace
 		{
 			if (core == null) return;
 
+			CurrentScene = null;
+
 			GC.Terminate();
 
 			core.Terminate();
@@ -216,6 +218,7 @@ namespace ace
 
 		private static void SetupMembers()
 		{
+			CurrentScene = null;
 			Logger = new Log(core.GetLogger());
 			Keyboard = new Keyboard(core.GetKeyboard());
 
