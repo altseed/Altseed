@@ -29,6 +29,8 @@ namespace ace
 			objects_ = new List<Object2D>();
 			postEffects = new List<PostEffect>();
 			components_ = new Dictionary<string, Layer2DComponent>();
+
+			commonObject = coreLayer2D;
 		}
 
 		#region GC対策
@@ -55,18 +57,9 @@ namespace ace
 		#endregion
 
 
-		public override bool IsUpdated { get; set; }
+		
 
-		public override bool IsDrawn
-		{
-			get { return coreLayer2D.GetIsDrawn(); }
-			set { coreLayer2D.SetIsDrawn( value ); }
-		}
-
-		/// <summary>
-		/// このインスタンスを管理している ace.Scene クラスのインスタンスを取得します。
-		/// </summary>
-		public override Scene Scene { get; internal set; }
+		
 
 		/// <summary>
 		/// このレイヤーが管理している2Dオブジェクトのコレクションを取得します。
@@ -79,15 +72,6 @@ namespace ace
 		public IDictionary<string, Layer2DComponent> Components
 		{
 			get { return components_; }
-		}
-
-		/// <summary>
-		/// このレイヤーの描画優先度を取得または設定します。この値が大きいほど手前に描画されます。
-		/// </summary>
-		public override int DrawingPriority
-		{
-			get { return coreLayer2D.GetDrawingPriority(); }
-			set { coreLayer2D.SetDrawingPriority( value ); }
 		}
 
 		/// <summary>
@@ -148,23 +132,7 @@ namespace ace
 			coreLayer2D.ClearPostEffects();
 		}
 
-		protected virtual void OnUpdating()
-		{
-		}
-
-		protected virtual void OnUpdated()
-		{
-		}
-
-		protected virtual void OnDrawAdditionally()
-		{
-		}
-
-
-		internal override swig.CoreLayer CoreLayer
-		{
-			get { return coreLayer2D; }
-		}
+		
 
 		internal override void Update()
 		{

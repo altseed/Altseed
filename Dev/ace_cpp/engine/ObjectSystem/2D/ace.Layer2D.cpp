@@ -14,10 +14,9 @@ namespace ace
 		: m_coreLayer(nullptr)
 		, m_objects(list<ObjectPtr>())
 		, m_components(map<astring, ComponentPtr>())
-		, m_isUpdated(true)
-		, m_isDrawn(true)
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer2D());
+		m_commonObject = m_coreLayer;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -219,48 +218,4 @@ namespace ace
 		it->second->SetOwner(nullptr);
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	shared_ptr<CoreLayer> Layer2D::GetCoreLayer() const
-	{
-		return m_coreLayer;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	int Layer2D::GetDrawingPriority() const
-	{
-		return m_coreLayer->GetDrawingPriority();
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Layer2D::SetDrawingPriority(int value)
-	{
-		m_coreLayer->SetDrawingPriority(value);
-	}
-
-	bool Layer2D::GetIsUpdated() const
-	{
-		return m_isUpdated;
-	}
-
-	void Layer2D::SetIsUpdated(bool value)
-	{
-		m_isUpdated = value;
-	}
-
-	bool Layer2D::GetIsDrawn() const
-	{
-		return m_isDrawn;
-	}
-
-	void Layer2D::SetIsDrawn(bool value)
-	{
-		m_isDrawn = value;
-		m_coreLayer->SetIsDrawn(value);
-	}
 }

@@ -7,7 +7,9 @@
 namespace ace
 {
 	class Layer3D
+		: public Layer
 	{
+		friend class Scene;
 	private:
 
 	public:
