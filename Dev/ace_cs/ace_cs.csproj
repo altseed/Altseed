@@ -140,7 +140,6 @@
     <Compile Include="swig\Mouse.cs" />
     <Compile Include="swig\Mouse_Imp.cs" />
     <Compile Include="swig\ObjectSystemFactory.cs" />
-    <Compile Include="swig\ObjectSystemFactory_Imp.cs" />
     <Compile Include="swig\Profiler.cs" />
     <Compile Include="swig\Profiler_Imp.cs" />
     <Compile Include="swig\ReferenceObject.cs" />

@@ -291,14 +291,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	ObjectSystemFactory* Core_Imp::GetObjectSystemFactory()
 	{
-		return GetObjectSystemFactoryImp();
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	ObjectSystemFactory_Imp* Core_Imp::GetObjectSystemFactoryImp()
-	{
 		return m_objectSystemFactory;
 	}
 };

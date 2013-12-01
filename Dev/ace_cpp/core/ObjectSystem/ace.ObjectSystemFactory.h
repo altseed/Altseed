@@ -16,7 +16,7 @@ namespace ace
 		virtual CoreTextureObject2D* CreateTextureObject2D() = 0;
 		virtual CoreLayer2D* CreateLayer2D() = 0;
 
-
+		virtual CoreMeshObject3D* CreateMeshObject3D() = 0;
 		virtual CoreCameraObject3D* CreateCameraObject3D() = 0;
 		virtual CoreDirectionalLightObject3D* CreateDirectionalLightObject3D() = 0;
 		virtual CoreLayer3D* CreateLayer3D() = 0;

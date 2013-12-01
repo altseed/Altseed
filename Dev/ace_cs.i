@@ -49,7 +49,6 @@
 #include "ObjectSystem/ace.CoreScene_Imp.h"
 #include "ObjectSystem/PostEffect/ace.CorePostEffect_Imp.h"
 #include "ObjectSystem/ace.ObjectSystemFactory.h"
-#include "ObjectSystem/ace.ObjectSystemFactory_Imp.h"
 
 #include "Core/ace.Core_Imp.h"
 
@@ -239,11 +238,17 @@ CPP_OBJECT( ace::Log_Imp )
 %newobject ace::Graphics_Imp::CreateMaterial2D_Imp;
 %newobject ace::Graphics_Imp::CreateMesh_;
 
-%newobject ace::ObjectSystemFactory_Imp::CreateObject2D;
-%newobject ace::ObjectSystemFactory_Imp::CreateTextureObject2D;
-%newobject ace::ObjectSystemFactory_Imp::CreateLayer2D;
-%newobject ace::ObjectSystemFactory_Imp::CreateScene;
-%newobject ace::ObjectSystemFactory_Imp::CreatePostEffect;
+%newobject ace::ObjectSystemFactory::CreateObject2D;
+%newobject ace::ObjectSystemFactory::CreateTextureObject2D;
+%newobject ace::ObjectSystemFactory::CreateLayer2D;
+
+%newobject ace::ObjectSystemFactory::CreateMeshObject3D;
+%newobject ace::ObjectSystemFactory::CreateCameraObject3D;
+%newobject ace::ObjectSystemFactory::CreateDirectionalLightObject3D;
+%newobject ace::ObjectSystemFactory::CreateLayer3D;
+
+%newobject ace::ObjectSystemFactory::CreateScene;
+%newobject ace::ObjectSystemFactory::CreatePostEffect;
 
 //-----------------------------------------------------------------------------------
 //
@@ -319,8 +324,6 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect.h"
 %include "ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect_Imp.h"
 %include "ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory.h"
-%include "ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory_Imp.h"
-
 
 %include "ace_cpp/core/Core/ace.Core.h"
 %include "ace_cpp/core/Core/ace.Core_Imp.h"
