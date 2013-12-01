@@ -24,7 +24,6 @@ namespace ace
 		std::map<astring, ComponentPtr> m_components;
 		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
 		
-		//std::shared_ptr<CoreLayer> GetCoreLayer() const;
 		void DrawAdditionally();
 		void Update();
 

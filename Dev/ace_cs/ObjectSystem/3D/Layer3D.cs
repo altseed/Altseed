@@ -77,19 +77,28 @@ namespace ace
 				return;
 			}
 
-			OnDrawAdditionally();
 			//foreach (var item in objects_)
 			//{
 			//	item.DrawAdditionally();
 			//}
+
+			OnDrawAdditionally();
 		}
 
 		internal override void BeginDrawing()
 		{
+			coreLayer3D.BeginDrawing();
 		}
 
 		internal override void EndDrawing()
 		{
+			coreLayer3D.EndDrawing();
+
+			/*
+			 ポストエフェクト
+			 */
+
+			coreLayer3D.EndDrawingAfterEffects();
 		}
 	}
 }

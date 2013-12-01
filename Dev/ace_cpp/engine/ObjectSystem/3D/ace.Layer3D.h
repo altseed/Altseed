@@ -12,7 +12,22 @@ namespace ace
 		friend class Scene;
 	private:
 
-	public:
+		std::shared_ptr<CoreLayer3D>	m_coreLayer;
 
+
+		void DrawAdditionally();
+		void Update();
+
+		void BeginDrawing();
+		void EndDrawing();
+
+	protected:
+		virtual void OnUpdating();
+		virtual void OnUpdated();
+		virtual void OnDrawAdditionally();
+
+	public:
+		Layer3D();
+		virtual ~Layer3D();
 	};
 }

@@ -160,11 +160,12 @@ namespace ace
 				return;
 			}
 
-			OnDrawAdditionally();
 			foreach( var item in objects_ )
 			{
 				item.DrawAdditionally();
 			}
+
+			OnDrawAdditionally();
 		}
 
 		internal override void BeginDrawing()
