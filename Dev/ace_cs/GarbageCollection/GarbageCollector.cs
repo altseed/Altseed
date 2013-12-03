@@ -34,6 +34,7 @@ namespace ace
 			{
 				foreach (var o in objects)
 				{
+					if( TryRelease<swig.Texture2D>( o ) ) continue;
 					if (TryRelease<swig.Texture2D_Imp>(o)) continue;
 					if (TryRelease<swig.RenderTexture2D>(o)) continue;
 					if (TryRelease<swig.Shader2D>(o)) continue;
