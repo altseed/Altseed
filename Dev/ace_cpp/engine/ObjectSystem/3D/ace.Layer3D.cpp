@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.Layer3D.h"
 
 namespace ace
@@ -15,6 +15,10 @@ namespace ace
 
 	Layer3D::~Layer3D()
 	{
+		for (auto& object : m_objects)
+		{
+			object->SetLayer(nullptr);
+		}
 	}
 
 	void Layer3D::Update()
@@ -118,5 +122,28 @@ namespace ace
 
 	void Layer3D::OnDrawAdditionally()
 	{
+	}
+
+	void Layer3D::AddObject(const ObjectPtr& object)
+	{
+		if (object->GetLayer() != nullptr)
+		{
+			throw "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。";
+		}
+		m_objects.push_back(object);
+		auto coreObj = object->GetCoreObject();
+		m_coreLayer->AddObject(coreObj);
+		object->SetLayer(this);
+		object->Start();
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Layer3D::RemoveObject(const ObjectPtr& object)
+	{
+		m_objects.remove(object);
+		m_coreLayer->RemoveObject(object->GetCoreObject());
+		object->SetLayer(nullptr);
 	}
 };

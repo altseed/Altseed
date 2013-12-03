@@ -3,6 +3,7 @@
 
 #include "../../ace.CoreToEngine.h"
 #include "../ace.Layer.h"
+#include "ace.Object3D.h"
 
 namespace ace
 {
@@ -10,10 +11,14 @@ namespace ace
 		: public Layer
 	{
 		friend class Scene;
+
+	public:
+		typedef std::shared_ptr<Object3D> ObjectPtr;
+	
 	private:
 
 		std::shared_ptr<CoreLayer3D>	m_coreLayer;
-
+		std::list<ObjectPtr>			m_objects;
 
 		void DrawAdditionally();
 		void Update();
@@ -29,5 +34,9 @@ namespace ace
 	public:
 		Layer3D();
 		virtual ~Layer3D();
+
+		void AddObject(const ObjectPtr& object);
+		void RemoveObject(const ObjectPtr& object);
+
 	};
 }

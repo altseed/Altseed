@@ -47,6 +47,18 @@
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.Layer3D.cpp">
       <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\ace.CameraObject3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\ace.DirectionalLightObject3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\ace.MeshObject3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\ace.Object3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -95,6 +107,18 @@
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.Layer3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\ace.CameraObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\ace.DirectionalLightObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\ace.MeshObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\ace.Object3D.h">
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
   </ItemGroup>
