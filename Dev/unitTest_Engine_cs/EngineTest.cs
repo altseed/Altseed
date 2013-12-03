@@ -9,6 +9,8 @@ namespace unitTest_Engine_cs
 {
 	abstract class EngineTest : TestFramework
 	{
+		protected static readonly string CloudTexturePath = "Data/Texture/Cloud1.png";
+
 		public EngineTest( int timeForExit )
 		{
 			this.Title = GetType().FullName.Replace( "unitTest_Engine_cs.", "" );
@@ -47,7 +49,7 @@ namespace unitTest_Engine_cs
 				{
 					Engine.TakeScreenshot( "TestSS_cs/" + Title + "_" + graphicsType + ".png" );
 				}
-				else if( time == TimeForExit + 10 )
+				else if( time == TimeForExit + 30 )
 				{
 					break;
 				}

@@ -45,7 +45,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EngineTest.cs" />
+    <Compile Include="ObjectSystem\CustomObject.cs" />
+    <Compile Include="ObjectSystem\ObjectComponent.cs" />
     <Compile Include="ObjectSystem\ObjectSimple.cs" />
+    <Compile Include="ObjectSystem\ParentObject.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Window\Empty.cs" />

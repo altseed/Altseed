@@ -11,14 +11,18 @@ namespace unitTest_Engine_cs
 	{
 		static void Main( string[] args )
 		{
-			TestAll();
+			TestSequencially( new ObjectSystem.ObjectComponent() );
+			// TestAll();
 		}
 
+		/// <summary>
+		/// このプロジェクト内に定義されたテストクラスを収集し、すべて実行する。
+		/// </summary>
 		private static void TestAll()
 		{
 			Assembly.GetAssembly( typeof( Program ) )
 				.GetTypes()
-				.Where( _ => _ != typeof( EngineTest ) )
+				.Where( _ => !_.IsAbstract )
 				.Where( _ => _.IsSubclassOf( typeof( TestFramework ) ) )
 				.Select( _ => Activator.CreateInstance( _ ) as TestFramework )
 				.Where( _ => _ != null )
@@ -26,6 +30,10 @@ namespace unitTest_Engine_cs
 				.ForEach( TestSequencially );
 		}
 
+		/// <summary>
+		/// 指定したテストクラスに対して、OpenGL と DirectX 向けのテストを行う。
+		/// </summary>
+		/// <param name="target">対象のテストクラス。</param>
 		private static void TestSequencially( TestFramework target )
 		{
 			try

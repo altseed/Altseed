@@ -10,7 +10,7 @@ namespace unitTest_Engine_cs.ObjectSystem
 	class ObjectSimple : EngineTest
 	{
 		public ObjectSimple()
-			: base( 120 )
+			: base( 60 )
 		{
 		}
 
@@ -21,9 +21,9 @@ namespace unitTest_Engine_cs.ObjectSystem
 			obj = new TextureObject2D()
 			{
 				Texture = Engine.Graphics.CreateTexture2D( "Data/Texture/Cloud1.png" ),
-				Position = new Vector2DF() { X = 320, Y = 240 },
+				Position = new Vector2DF( 320, 240 ),
 				Angle = 5,
-				CenterPosition = new Vector2DF() { X = 128, Y = 128 },
+				CenterPosition = new Vector2DF( 128, 128 ),
 			};
 
 			layer.AddObject( obj );
@@ -33,12 +33,7 @@ namespace unitTest_Engine_cs.ObjectSystem
 
 		protected override void OnUpdating()
 		{
-			obj.Scale += new Vector2DF( 0.0005f, 0.0005f );
-		}
-
-		protected override void OnFinish()
-		{
-			obj = null;
+			obj.Scale += new Vector2DF( 0.0008f, 0.0008f );
 		}
 
 		private TextureObject2D obj;
