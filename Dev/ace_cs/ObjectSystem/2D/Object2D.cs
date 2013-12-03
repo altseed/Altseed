@@ -23,7 +23,7 @@ namespace ace
 		public bool IsDrawn
 		{
 			get { return CoreObject.GetIsDrawn(); }
-			set { CoreObject.SetIsDrawn( true ); }
+			set { CoreObject.SetIsDrawn( value ); }
 		}
 
 		public bool IsAlive { get; private set; }
