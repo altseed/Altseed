@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "ace.Object3D.h"
@@ -13,17 +13,17 @@ namespace ace
 
 	protected:
 		/**
-		@brief	ƒI[ƒo[ƒ‰ƒCƒh‚µ‚ÄA‚±‚ÌƒIƒuƒWƒFƒNƒg‚Ì‰Šú‰»ˆ—‚ð‹Lq‚Å‚«‚éB
+		@brief	ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ã€ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®åˆæœŸåŒ–å‡¦ç†ã‚’è¨˜è¿°ã§ãã‚‹ã€‚
 		*/
 		virtual void OnStart() {};
 
 		/**
-		@brief	ƒI[ƒo[ƒ‰ƒCƒh‚µ‚ÄA–ˆƒtƒŒ[ƒ€ŽÀs‚³‚ê‚éXVˆ—‚ð‹Lq‚Å‚«‚éB
+		@brief	ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ã€æ¯Žãƒ•ãƒ¬ãƒ¼ãƒ å®Ÿè¡Œã•ã‚Œã‚‹æ›´æ–°å‡¦ç†ã‚’è¨˜è¿°ã§ãã‚‹ã€‚
 		*/
 		virtual void OnUpdate() {};
 
 		/**
-		@brief	ƒI[ƒo[ƒ‰ƒCƒh‚µ‚ÄA’Ç‰Á‚Ì•`‰æˆ—‚ð‹Lq‚Å‚«‚éB
+		@brief	ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ã€è¿½åŠ ã®æç”»å‡¦ç†ã‚’è¨˜è¿°ã§ãã‚‹ã€‚
 		*/
 		virtual void OnDrawAdditionally() {};
 

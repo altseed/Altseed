@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.MeshObject3D.h"
 
 namespace ace

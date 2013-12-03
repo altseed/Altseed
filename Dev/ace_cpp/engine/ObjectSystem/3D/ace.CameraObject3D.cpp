@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.CameraObject3D.h"
 
 namespace ace
@@ -58,7 +58,7 @@ namespace ace
 
 	float CameraObject3D::GetZNear()
 	{
-		m_coreObject->GetZNear();
+		return m_coreObject->GetZNear();
 	}
 
 	void CameraObject3D::SetZNear(float znear)

@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "../../ace.CoreToEngine.h"
@@ -35,7 +35,7 @@ namespace ace
 		virtual ~Object3D();
 
 		/**
-		@brief	‚±‚ÌƒIƒuƒWƒFƒNƒg‚ğ•Û‚µ‚Ä‚¢‚éƒŒƒCƒ„[‚ğæ“¾‚·‚éB
+		@brief	ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ä¿æŒã—ã¦ã„ã‚‹ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’å–å¾—ã™ã‚‹ã€‚
 		*/
 		Layer3D* GetLayer() const;
 
