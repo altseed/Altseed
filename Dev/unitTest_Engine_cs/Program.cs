@@ -11,7 +11,7 @@ namespace unitTest_Engine_cs
 	{
 		static void Main( string[] args )
 		{
-			TestSequencially( new ObjectSystem.ObjectComponent() );
+			TestSequencially( new ObjectSystem.ObjectsMembers() );
 			// TestAll();
 		}
 
