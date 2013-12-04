@@ -151,6 +151,22 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	bool Engine::Initialize(const achar* title, int32_t width, int32_t height, EngineOption option)
 	{
+		// Windows限定
+#if _WIN32
+		{
+			auto dll = ::LoadLibraryA("D3DCOMPILER_47.dll");
+			if (dll != nullptr)
+			{
+				FreeLibrary(dll);
+			}
+			else
+			{
+				MessageBoxA(nullptr, "最新のDirectXEndUserRuntime？をインストールしてください。", "Error", MB_OK);
+				return false;
+			}
+		}
+#endif
+
 		if (this == nullptr) return false;
 
 		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, option.GraphicsType != eGraphicsType::GRAPHICS_TYPE_DX11);
@@ -173,6 +189,22 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	bool Engine::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, EngineOption option)
 	{
+		// Windows限定
+#if _WIN32
+		{
+			auto dll = ::LoadLibraryA("D3DCOMPILER_47.dll");
+			if (dll != nullptr)
+			{
+				FreeLibrary(dll);
+			}
+			else
+			{
+				MessageBoxA(nullptr, "最新のDirectXEndUserRuntime？をインストールしてください。", "Error", MB_OK);
+				return false;
+			}
+		}
+#endif
+
 		if (this == nullptr) return false;
 
 		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height);

@@ -48,6 +48,13 @@ namespace ace
 		{
 			if (core != null) return false;
 
+			//Windows限定
+			if (!CheckDLL("D3DCOMPILER_47.dll"))
+			{
+				System.Windows.Forms.MessageBox.Show("最新のDirectXEndUserRuntime？をインストールしてください。");
+				return false;
+			}
+
 			try
 			{
 				core = swig.Core_Imp.CreateCore();
@@ -88,6 +95,13 @@ namespace ace
 		public static bool InitializeByExternalWindow(IntPtr handle1, IntPtr handle2, int width, int height, EngineOption option)
 		{
 			if (core != null) return false;
+
+			//Windows限定
+			if (!CheckDLL("D3DCOMPILER_47.dll"))
+			{
+				System.Windows.Forms.MessageBox.Show("最新のDirectXEndUserRuntime？をインストールしてください。");
+				return false;
+			}
 
 			try
 			{
@@ -235,6 +249,23 @@ namespace ace
 			Graphics = new Graphics(core.GetGraphics_Imp());
 			ObjectSystemFactory = new ace.ObjectSystemFactory(core.GetObjectSystemFactory());
 			Profiler = new Profiler(core.GetProfiler());
+		}
+
+		[System.Runtime.InteropServices.DllImport("kernel32")]
+		private extern static int LoadLibrary(string path);
+
+		[System.Runtime.InteropServices.DllImport("kernel32")]
+		private extern static bool FreeLibrary(int path);
+
+		static bool CheckDLL(string path)
+		{
+			var dll = LoadLibrary(path);
+			if(dll != 0)
+			{
+				FreeLibrary(dll);
+				return true;
+			}
+			return false;
 		}
 	}
 }
