@@ -129,6 +129,34 @@ namespace ace
 		}
 	}
 
+	bool Engine::HasDLL(const char* path)
+	{
+#if _WIN32
+		auto dll = ::LoadLibraryA(path);
+		if (dll != nullptr)
+		{
+			FreeLibrary(dll);
+		}
+		else
+		{
+			return false;
+		}
+#endif
+		return true;
+	}
+
+	bool Engine::CheckDLL()
+	{
+#if _WIN32
+		if (!HasDLL("D3DCOMPILER_47.dll"))
+		{
+			MessageBoxA(nullptr, "最新のDirectXEndUserRuntime？をインストールしてください。", "Error", MB_OK);
+			return false;
+		}
+#endif
+		return true;
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -151,21 +179,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	bool Engine::Initialize(const achar* title, int32_t width, int32_t height, EngineOption option)
 	{
-		// Windows限定
-#if _WIN32
-		{
-			auto dll = ::LoadLibraryA("D3DCOMPILER_47.dll");
-			if (dll != nullptr)
-			{
-				FreeLibrary(dll);
-			}
-			else
-			{
-				MessageBoxA(nullptr, "最新のDirectXEndUserRuntime？をインストールしてください。", "Error", MB_OK);
-				return false;
-			}
-		}
-#endif
+		if (!CheckDLL()) return false;
 
 		if (this == nullptr) return false;
 
@@ -189,21 +203,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	bool Engine::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, EngineOption option)
 	{
-		// Windows限定
-#if _WIN32
-		{
-			auto dll = ::LoadLibraryA("D3DCOMPILER_47.dll");
-			if (dll != nullptr)
-			{
-				FreeLibrary(dll);
-			}
-			else
-			{
-				MessageBoxA(nullptr, "最新のDirectXEndUserRuntime？をインストールしてください。", "Error", MB_OK);
-				return false;
-			}
-		}
-#endif
+		if (!CheckDLL()) return false;
 
 		if (this == nullptr) return false;
 

@@ -48,12 +48,7 @@ namespace ace
 		{
 			if (core != null) return false;
 
-			//Windows限定
-			if (!CheckDLL("D3DCOMPILER_47.dll"))
-			{
-				System.Windows.Forms.MessageBox.Show("最新のDirectXEndUserRuntime？をインストールしてください。");
-				return false;
-			}
+			if (!CheckDLL()) return false;
 
 			try
 			{
@@ -96,12 +91,7 @@ namespace ace
 		{
 			if (core != null) return false;
 
-			//Windows限定
-			if (!CheckDLL("D3DCOMPILER_47.dll"))
-			{
-				System.Windows.Forms.MessageBox.Show("最新のDirectXEndUserRuntime？をインストールしてください。");
-				return false;
-			}
+			if (!CheckDLL()) return false;
 
 			try
 			{
@@ -257,7 +247,17 @@ namespace ace
 		[System.Runtime.InteropServices.DllImport("kernel32")]
 		private extern static bool FreeLibrary(int path);
 
-		static bool CheckDLL(string path)
+		static bool CheckDLL()
+		{
+			if (!HasDLL("D3DCOMPILER_47.dll"))
+			{
+				System.Windows.Forms.MessageBox.Show("最新のDirectXEndUserRuntime？をインストールしてください。");
+				return false;
+			}
+			return true;
+		}
+
+		static bool HasDLL(string path)
 		{
 			var dll = LoadLibrary(path);
 			if(dll != 0)

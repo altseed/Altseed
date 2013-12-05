@@ -42,6 +42,9 @@ namespace ace {
 		Core*	m_core;
 		std::shared_ptr<Scene>	m_currentScene;
 		
+		static bool HasDLL(const char* path);
+		static bool CheckDLL();
+
 		Engine(Core* core);
 		~Engine();
 
