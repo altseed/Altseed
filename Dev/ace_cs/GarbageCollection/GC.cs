@@ -70,5 +70,20 @@ namespace ace
 				Collector.Collect();
 			}
 		}
+
+		internal static Texture2D GenerateTexture2D(swig.Texture2D o)
+		{
+			var p = o.GetPtr();
+
+			var existing = GC.Texture2Ds.GetObject(p);
+			if (existing != null)
+			{
+				return existing;
+			}
+
+			var ret = new Texture2D(o);
+			GC.Texture2Ds.AddObject(p, ret);
+			return ret;
+		}
 	}
 }

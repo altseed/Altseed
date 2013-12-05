@@ -59,9 +59,10 @@ namespace ace
 		/// </summary>
 		public Texture2D Texture
 		{
-			get { return new Texture2D( renderedObject.GetTexture() ); }
-			set { renderedObject.SetTexture( value.SwigObject ); }
+			get { return GC.GenerateTexture2D(renderedObject.GetTexture()); }
+			set { renderedObject.SetTexture(value.SwigObject); }
 		}
+
 		/// <summary>
 		/// この2Dオブジェクトを描画する位置を取得または設定します。
 		/// </summary>

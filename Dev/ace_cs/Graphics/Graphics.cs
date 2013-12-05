@@ -23,17 +23,7 @@ namespace ace
 		public Texture2D CreateTexture2D(string path)
 		{
 			var texture = graphics.CreateTexture2D_Imp(path);
-			var p = texture.GetPtr();
-
-			var existing = GC.Texture2Ds.GetObject(p);
-			if (existing != null)
-			{
-				return existing;
-			}
-
-			var ret = new Texture2D(texture);
-			GC.Texture2Ds.AddObject(p, ret);
-			return ret;
+			return GC.GenerateTexture2D(texture);
 		}
 
 		public RenderTexture2D CreateRenderTexture2D(int width, int height, TextureFormat format)
