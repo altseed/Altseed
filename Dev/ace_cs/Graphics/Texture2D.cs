@@ -12,6 +12,10 @@ namespace ace
 
 		internal Texture2D(swig.Texture2D swig)
 		{
+#if DEBUG
+			// 唯一の対応するクラスであることを保証
+			if(GC.Texture2Ds.GetObject(swig.GetPtr()) != null) throw new Exception();
+#endif
 			SwigObject = swig;
 		}
 

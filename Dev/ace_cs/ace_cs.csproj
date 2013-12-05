@@ -70,7 +70,11 @@
     <Compile Include="Math\Vector2DF.cs" />
     <Compile Include="Math\Vector2DI.cs" />
     <Compile Include="Math\Vector3DF.cs" />
+    <Compile Include="ObjectSystem\3D\CameraObject3D.cs" />
+    <Compile Include="ObjectSystem\3D\DirectionalLightObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Layer3D.cs" />
+    <Compile Include="ObjectSystem\3D\MeshObject3D.cs" />
+    <Compile Include="ObjectSystem\3D\Object3D.cs" />
     <Compile Include="ObjectSystem\ChildMode.cs" />
     <Compile Include="ObjectSystem\2D\Layer2DComponent.cs" />
     <Compile Include="ObjectSystem\2D\Object2DComponent.cs" />
