@@ -85,5 +85,10 @@ namespace ace
 			GC.Material2Ds.AddObject(p, ret);
 			return ret;
 		}
+
+		public Mesh CreateMesh()
+		{
+			return GC.GenerateMesh(graphics.CreateMesh_());
+		}
 	}
 }

@@ -13,6 +13,8 @@ namespace ace
 		internal static IDObjectContainer<Shader2D> Shader2Ds { get; private set; }
 		internal static IDObjectContainer<Material2D> Material2Ds { get; private set; }
 
+		internal static IDObjectContainer<Mesh> Meshs { get; private set; }
+
 		internal static IDObjectContainer<Scene> Scenes { get; private set; }
 
 		internal static IDObjectContainer<Layer2D> Layer2Ds { get; private set; }
@@ -30,6 +32,8 @@ namespace ace
 			Texture2Ds = new IDObjectContainer<Texture2D>();
 			Shader2Ds = new IDObjectContainer<Shader2D>();
 			Material2Ds = new IDObjectContainer<Material2D>();
+			Meshs = new IDObjectContainer<Mesh>();
+
 			Scenes = new IDObjectContainer<Scene>();
 
 			Layer2Ds = new IDObjectContainer<Layer2D>();
@@ -53,6 +57,8 @@ namespace ace
 				Texture2Ds.DestroyAll();
 				Shader2Ds.DestroyAll();
 				Material2Ds.DestroyAll();
+				Meshs.DestroyAll();
+
 				Scenes.DestroyAll();
 
 				Layer2Ds.DestroyAll();
@@ -83,6 +89,21 @@ namespace ace
 
 			var ret = new Texture2D(o);
 			GC.Texture2Ds.AddObject(p, ret);
+			return ret;
+		}
+
+		internal static Mesh GenerateMesh(swig.Mesh o)
+		{
+			var p = o.GetPtr();
+
+			var existing = GC.Meshs.GetObject(p);
+			if (existing != null)
+			{
+				return existing;
+			}
+
+			var ret = new Mesh(o);
+			GC.Meshs.AddObject(p, ret);
 			return ret;
 		}
 	}

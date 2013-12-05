@@ -54,6 +54,7 @@
     <Compile Include="Graphics\Golor.cs" />
     <Compile Include="Graphics\Graphics.cs" />
     <Compile Include="Graphics\Material2D.cs" />
+    <Compile Include="Graphics\Mesh.cs" />
     <Compile Include="Graphics\RenderTexture2D.cs" />
     <Compile Include="Graphics\Shader2D.cs" />
     <Compile Include="Graphics\ShaderVariableProperty.cs" />
