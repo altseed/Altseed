@@ -14,6 +14,8 @@ namespace ace
 
 		public Object3D()
 		{
+			IsUpdated = true;
+			IsAlive = true;
 		}
 
 		#region GC対応
@@ -39,13 +41,22 @@ namespace ace
 		}
 		#endregion
 
+		public bool IsUpdated { get; set; }
+
+		public bool IsDrawn
+		{
+			get { return CoreObject.GetIsDrawn(); }
+			set { CoreObject.SetIsDrawn(value); }
+		}
+
+		public bool IsAlive { get; private set; }
 
 		internal void Start()
 		{
 			OnStart();
 		}
 
-		internal abstract swig.CoreObject3D CoreObject { get { return commonObject; } }
+		internal swig.CoreObject3D CoreObject { get { return commonObject; } }
 	
 		protected abstract void OnStart();
 		protected abstract void OnUpdate();

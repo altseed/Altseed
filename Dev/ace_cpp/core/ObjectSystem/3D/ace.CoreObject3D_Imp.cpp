@@ -8,11 +8,22 @@ namespace ace
 {
 	CoreObject3D_Imp::CoreObject3D_Imp()
 		: m_commonObject(nullptr)
+		, m_isDrawn(true)
 	{
 	}
 
 	CoreObject3D_Imp::~CoreObject3D_Imp()
 	{
+	}
+
+	bool CoreObject3D_Imp::GetIsDrawn() const
+	{
+		return m_isDrawn;
+	}
+
+	void CoreObject3D_Imp::SetIsDrawn(bool value)
+	{
+		m_isDrawn = value;
 	}
 
 	Vector3DF CoreObject3D_Imp::GetPosition() const

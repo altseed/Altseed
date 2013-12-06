@@ -11,12 +11,18 @@ namespace ace
 	class CoreObject3D_Imp
 		: public CoreObject3D
 	{
+	private:
+		bool m_isDrawn;
+
 	protected:
 		RenderedObject3D*	m_commonObject;
 
 	public:
 		CoreObject3D_Imp();
 		virtual ~CoreObject3D_Imp();
+
+		virtual bool GetIsDrawn() const;
+		virtual void SetIsDrawn(bool value);
 
 		virtual Vector3DF GetPosition() const;
 		virtual void SetPosition(Vector3DF position);

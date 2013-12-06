@@ -17,6 +17,10 @@ namespace ace
 	private:
 
 		Layer3D*		m_owner;
+
+		bool m_isUpdated;
+		bool m_isDrawn;
+		bool m_isAlive;
 		
 		void Start();
 		void SetLayer(Layer3D* layer);
@@ -33,6 +37,15 @@ namespace ace
 	public:
 		Object3D();
 		virtual ~Object3D();
+
+		bool GetIsUpdated() const;
+		void SetIsUpdated(bool value);
+
+		bool GetIsDrawn() const;
+		void SetIsDrawn(bool value);
+
+		bool GetIsAlive() const;
+		void Vanish();
 
 		/**
 		@brief	このオブジェクトを保持しているレイヤーを取得する。

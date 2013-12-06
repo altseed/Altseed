@@ -27,6 +27,8 @@ namespace ace
 
 
 		// 共通部分
+		virtual bool GetIsDrawn() const { return CoreObject3D_Imp::GetIsDrawn(); }
+		virtual void SetIsDrawn(bool value) { return CoreObject3D_Imp::SetIsDrawn(value); }
 		virtual Vector3DF GetPosition() const { return CoreObject3D_Imp::GetPosition(); }
 		virtual void SetPosition(Vector3DF position) { CoreObject3D_Imp::SetPosition(position); }
 		virtual void SetLayer(CoreLayer3D* layer) { CoreObject3D_Imp::SetLayer(layer); }

@@ -14,6 +14,9 @@ namespace ace
 
 	public:
 
+		virtual bool GetIsDrawn() const = 0;
+		virtual void SetIsDrawn(bool value) = 0;
+
 		virtual Vector3DF GetPosition() const = 0;
 		virtual void SetPosition(Vector3DF position) = 0;
 
