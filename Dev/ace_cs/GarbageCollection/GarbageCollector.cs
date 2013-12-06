@@ -39,6 +39,8 @@ namespace ace
 					if (TryRelease<swig.RenderTexture2D>(o)) continue;
 					if (TryRelease<swig.Shader2D>(o)) continue;
 					if (TryRelease<swig.Material2D>(o)) continue;
+					if (TryRelease<swig.Mesh>(o)) continue;
+
 					if (TryRelease<swig.CoreScene>(o)) continue;
 
 					if (TryRelease<swig.CoreLayer2D>(o)) continue;
@@ -46,6 +48,7 @@ namespace ace
 					if (TryRelease<swig.CoreTextureObject2D>(o)) continue;
 
 					if (TryRelease<swig.CoreLayer3D>(o)) continue;
+					if (TryRelease<swig.CoreObject3D>(o)) continue;
 
 					if (TryRelease<swig.CorePostEffect>(o)) continue;
 					throw new Exception(string.Format("未登録のクラス{0}を検出しました。", o));

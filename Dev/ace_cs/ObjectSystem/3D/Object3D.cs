@@ -84,9 +84,16 @@ namespace ace
 			internal set { owner = value; }
 		}
 
-		public Vector3DF GetPosition()
+		public Vector3DF Position
 		{
-			return commonObject.GetPosition();
+			get { return commonObject.GetPosition(); }
+			set { commonObject.SetPosition(value); }
+		}
+
+		public Vector3DF Rotation
+		{
+			get { return commonObject.GetRotation(); }
+			set { commonObject.SetRotation(ref value); }
 		}
 	}
 }

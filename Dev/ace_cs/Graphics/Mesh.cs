@@ -43,7 +43,7 @@ namespace ace
 			System.GC.SuppressFinalize(this);
 		}
 
-		public void AddVertex(ref ace.Vector3DF position, ref ace.Vector3DF normal, ref ace.Vector3DF binormal, ref ace.Vector2DF uv1, ref ace.Vector2DF uv2, ref ace.Color color, int boneWeights, int boneIndexes)
+		public void AddVertex(ace.Vector3DF position, ace.Vector3DF normal, ace.Vector3DF binormal, ace.Vector2DF uv1, ace.Vector2DF uv2, ace.Color color, int boneWeights, int boneIndexes)
 		{
 			SwigObject.AddVertex(ref position, ref normal, ref binormal, ref uv1, ref uv2, ref color, boneWeights, boneIndexes);
 		}

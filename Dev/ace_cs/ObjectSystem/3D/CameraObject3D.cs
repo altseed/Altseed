@@ -14,6 +14,7 @@ namespace ace
 		{
 			coreObject = Engine.ObjectSystemFactory.CreateCameraObject3D();
 			GC.Object3Ds.AddObject(coreObject.GetPtr(), this);
+			commonObject = coreObject;
 		}
 
 		public override void Destroy()
@@ -26,31 +27,31 @@ namespace ace
 		protected override void OnUpdate() { }
 		internal protected override void OnDrawAdditionally() { }
 
-		Vector2DI WindowSize
+		public Vector2DI WindowSize
 		{
 			get { return coreObject.GetWindowSize(); }
 			set { coreObject.SetWindowSize(ref value); }
 		}
 
-		Vector3DF Focus
+		public Vector3DF Focus
 		{
 			get { return coreObject.GetFocus(); }
 			set { coreObject.SetFocus(ref value); }
 		}
 
-		float FieldOfView
+		public float FieldOfView
 		{
 			get { return coreObject.GetFieldOfView(); }
 			set { coreObject.SetFieldOfView(value); }
 		}
 
-		float ZFar
+		public float ZFar
 		{
 			get { return coreObject.GetZFar(); }
 			set { coreObject.SetZFar(value); }
 		}
 
-		float ZNear
+		public float ZNear
 		{
 			get { return coreObject.GetZNear(); }
 			set { coreObject.SetZNear(value); }

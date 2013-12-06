@@ -14,7 +14,7 @@ namespace ace
 		{
 			coreObject = Engine.ObjectSystemFactory.CreateDirectionalLightObject3D();
 			GC.Object3Ds.AddObject(coreObject.GetPtr(), this);
-
+			commonObject = coreObject;
 		}
 
 		public override void Destroy()
