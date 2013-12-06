@@ -81,24 +81,24 @@ namespace ace
 		{
 			if (m_cameraObjects.count(o) > 0)
 			{
-				SafeRelease(o);
 				m_cameraObjects.erase(o);
+				SafeRelease(o);
 			}
 		}
 		else if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT)
 		{
-			if (m_cameraObjects.count(o) > 0)
+			if (m_directionalLightObjects.count(o) > 0)
 			{
+				m_directionalLightObjects.erase(o);
 				SafeRelease(o);
-				m_cameraObjects.erase(o);
 			}
 		}
 		else
 		{
 			if (m_objects.count(o) > 0)
 			{
-				SafeRelease(o);
 				m_objects.erase(o);
+				SafeRelease(o);
 			}
 		}
 	}

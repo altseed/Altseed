@@ -33,6 +33,10 @@ namespace ace
 		virtual void SetIsDrawn(bool value) { return CoreObject3D_Imp::SetIsDrawn(value); }
 		virtual Vector3DF GetPosition() const { return CoreObject3D_Imp::GetPosition(); }
 		virtual void SetPosition(Vector3DF position) { CoreObject3D_Imp::SetPosition(position); }
+
+		virtual Vector3DF GetRotation() const{ return CoreObject3D_Imp::GetRotation(); }
+		virtual void SetRotation(const Vector3DF& rot){ CoreObject3D_Imp::SetRotation(rot); }
+
 		virtual void SetLayer(CoreLayer3D* layer) { CoreObject3D_Imp::SetLayer(layer); }
 
 #if !SWIG

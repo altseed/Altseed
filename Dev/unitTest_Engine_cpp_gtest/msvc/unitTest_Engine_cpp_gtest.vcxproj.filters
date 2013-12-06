@@ -40,6 +40,9 @@
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlurTest.cpp">
       <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\3D\SimpleMesh.cpp">
+      <Filter>Graphics\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -50,6 +53,9 @@
     </Filter>
     <Filter Include="Graphics\PostEffect">
       <UniqueIdentifier>{d1648162-e090-4da6-a429-ccba9d0b022b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D">
+      <UniqueIdentifier>{a3372b94-f4f2-40db-b138-02495256e934}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

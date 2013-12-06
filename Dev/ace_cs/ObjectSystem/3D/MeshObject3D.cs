@@ -14,7 +14,6 @@ namespace ace
 		{
 			coreObject = Engine.ObjectSystemFactory.CreateMeshObject3D();
 			GC.Object3Ds.AddObject(coreObject.GetPtr(), this);
-
 		}
 
 		public override void Destroy()

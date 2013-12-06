@@ -103,6 +103,13 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Object2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.h")
 
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.Object3D.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.CameraObject3D.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.DirectionalLightObject3D.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.MeshObject3D.h")
+
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.Layer3D.h")
+
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Scene.h")
 
 engineHeader.readLines("ace_cpp/engine/ace.Engine.h")

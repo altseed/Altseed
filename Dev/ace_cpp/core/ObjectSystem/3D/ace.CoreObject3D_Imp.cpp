@@ -9,6 +9,7 @@ namespace ace
 	CoreObject3D_Imp::CoreObject3D_Imp()
 		: m_commonObject(nullptr)
 		, m_isDrawn(true)
+		, m_owner(nullptr)
 	{
 	}
 
@@ -36,15 +37,27 @@ namespace ace
 		m_commonObject->SetPosition(position);
 	}
 
+	Vector3DF CoreObject3D_Imp::GetRotation() const
+	{
+		return m_commonObject->GetRotation();
+	}
+
+	void CoreObject3D_Imp::SetRotation(const Vector3DF& rot)
+	{
+		m_commonObject->SetRotation(rot);
+	}
+
 	void CoreObject3D_Imp::SetLayer(CoreLayer3D* layer)
 	{
 		if (layer != nullptr)
 		{
+			m_owner = layer;
 			((CoreLayer3D_Imp*) layer)->GetRenderer()->AddObject(m_commonObject);
 		}
 		else
 		{
-			((CoreLayer3D_Imp*) layer)->GetRenderer()->RemoveObject(m_commonObject);
+			((CoreLayer3D_Imp*) m_owner)->GetRenderer()->RemoveObject(m_commonObject);
+			m_owner = nullptr;
 		}
 	}
 }

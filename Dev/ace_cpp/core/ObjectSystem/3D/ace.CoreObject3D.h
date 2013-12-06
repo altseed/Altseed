@@ -19,6 +19,8 @@ namespace ace
 
 		virtual Vector3DF GetPosition() const = 0;
 		virtual void SetPosition(Vector3DF position) = 0;
+		virtual Vector3DF GetRotation() const = 0;
+		virtual void SetRotation(const Vector3DF& rot) = 0;
 
 #if !SWIG
 		virtual void SetLayer(CoreLayer3D* layer) = 0;

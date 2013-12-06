@@ -90,4 +90,19 @@ namespace ace
 	{
 		return m_commonObject->GetPosition();
 	}
+
+	void Object3D::SetPosition(Vector3DF position)
+	{
+		m_commonObject->SetPosition(position);
+	}
+
+	Vector3DF Object3D::GetRotation() const
+	{
+		return m_commonObject->GetRotation();
+	}
+
+	void Object3D::SetRotation(Vector3DF angle)
+	{
+		m_commonObject->SetRotation(angle);
+	}
 }

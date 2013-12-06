@@ -16,6 +16,7 @@ namespace ace
 
 	protected:
 		RenderedObject3D*	m_commonObject;
+		CoreLayer3D*		m_owner;
 
 	public:
 		CoreObject3D_Imp();
@@ -26,6 +27,9 @@ namespace ace
 
 		virtual Vector3DF GetPosition() const;
 		virtual void SetPosition(Vector3DF position);
+
+		virtual Vector3DF GetRotation() const;
+		virtual void SetRotation(const Vector3DF& rot);
 
 		virtual void SetLayer(CoreLayer3D* layer);
 	};

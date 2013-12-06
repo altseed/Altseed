@@ -54,5 +54,9 @@ namespace ace
 		Layer3D* GetLayer() const;
 
 		Vector3DF GetPosition() const;
+		void SetPosition(Vector3DF position);
+
+		Vector3DF GetRotation() const;
+		void SetRotation(Vector3DF angle);
 	};
 }

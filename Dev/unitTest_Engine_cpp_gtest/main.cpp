@@ -9,26 +9,6 @@
 #pragma comment(lib, "gtest.lib")
 #endif
 
-/*
-#if _WIN32
-#ifdef _DEBUG
-#pragma comment(lib,"Debug/ace_common.lib")
-#pragma comment(lib,"Debug/ace_core.lib")
-#pragma comment(lib,"Debug/glfw3.lib")
-#pragma comment(lib,"libpng16.Debug.lib")
-#pragma comment(lib,"zlib.Debug.lib")
-#else
-#pragma comment(lib,"Release/ace_common.lib")
-#pragma comment(lib,"Release/ace_core.lib")
-#pragma comment(lib,"Release/glfw3.lib")
-#pragma comment(lib,"libpng16.Release.lib")
-#pragma comment(lib,"zlib.Release.lib")
-#endif
-#pragma comment(lib,"opengl32.lib")
-
-#endif
-*/
-
 #if _WIN32
 #include <Windows.h>
 std::wstring ToWide(const char* pText);
@@ -41,7 +21,7 @@ extern void Test_ParentObject();
 extern void Graphics_CustomPostEffect(bool isOpenGLMode);
 extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
 extern void Graphics_PostEffectSepia(bool isOpenGLMode);
-extern void Graphics_PostEffectSmoothing(bool isOpenGLMode);
+extern void Graphics_SimpleMesh_(bool isOpenGLMode);
 
 
 /**
@@ -61,6 +41,9 @@ int main(int argc, char **argv)
 
 	//Test_ParentObject();
 	//auto result = 0;
+
+	//Graphics_SimpleMesh_(true);
+	//return 0;
 
 	auto result = RUN_ALL_TESTS();
 

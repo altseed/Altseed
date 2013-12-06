@@ -5,6 +5,7 @@
 #include "../../Graphics/Common/ace.Graphics_Imp.h"
 
 #include "ace.CoreObject3D.h"
+#include "ace.CoreObject3D_Imp.h"
 
 namespace ace
 {
@@ -18,14 +19,14 @@ namespace ace
 
 	CoreLayer3D_Imp::~CoreLayer3D_Imp()
 	{
-		SafeDelete(m_renderer);
-
 		for (auto& object : m_objects)
 		{
 			object->SetLayer(nullptr);
 			object->Release();
 		}
 		m_objects.clear();
+
+		SafeDelete(m_renderer);
 	}
 
 	void CoreLayer3D_Imp::AddObject(ObjectPtr object3D)
@@ -44,7 +45,7 @@ namespace ace
 		{
 			m_objects.erase(object3D);
 			object3D->SetLayer(nullptr);
-			SafeAddRef(object3D);
+			SafeRelease(object3D);
 		}
 	}
 
@@ -59,6 +60,9 @@ namespace ace
 		{
 			return;
 		}
+
+		m_renderer->Flip();
+		m_renderer->Rendering();
 	}
 
 	void CoreLayer3D_Imp::EndDrawing()
