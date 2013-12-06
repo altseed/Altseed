@@ -8,6 +8,22 @@ namespace ace
 		OnStart();
 	}
 
+	void Object3D::Update()
+	{
+		if (!m_isUpdated)
+		{
+			return;
+		}
+
+		OnUpdate();
+		/*
+		for (auto& x : m_components)
+		{
+			x.second->Update();
+		}
+		*/
+	}
+
 	void Object3D::SetLayer(Layer3D* layer)
 	{
 		m_owner = layer;

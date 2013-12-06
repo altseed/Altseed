@@ -25,7 +25,7 @@ namespace ace
 
 		protected override void OnStart() { }
 		protected override void OnUpdate() { }
-		protected override void OnDrawAdditionally() { }
+		internal protected override void OnDrawAdditionally() { }
 
 		public Mesh Mesh
 		{

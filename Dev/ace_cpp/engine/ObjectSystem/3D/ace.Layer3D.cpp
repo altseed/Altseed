@@ -30,8 +30,8 @@ namespace ace
 
 		OnUpdating();
 
-		/*
-		auto beVanished = vector<ObjectPtr>();
+		
+		auto beVanished = std::vector<ObjectPtr>();
 
 		for (auto& object : m_objects)
 		{
@@ -47,6 +47,7 @@ namespace ace
 			RemoveObject(object);
 		}
 
+		/*
 		for (auto& component : m_components)
 		{
 			component.second->Update();
@@ -63,12 +64,10 @@ namespace ace
 			return;
 		}
 
-		/*
 		for (auto& object : m_objects)
 		{
 			object->OnDrawAdditionally();
 		}
-		*/
 
 		OnDrawAdditionally();
 	}

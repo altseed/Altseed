@@ -97,12 +97,12 @@ namespace ace
 
 			OnUpdating();
 
-			//foreach (var item in objects_)
-			//{
-			//	item.Update();
-			//}
-			//
-			//objects_.RemoveAll(_ => !_.IsAlive);
+			foreach (var item in objects_)
+			{
+				item.Update();
+			}
+			
+			objects_.RemoveAll(_ => !_.IsAlive);
 
 			OnUpdated();
 		}
@@ -114,10 +114,10 @@ namespace ace
 				return;
 			}
 
-			//foreach (var item in objects_)
-			//{
-			//	item.DrawAdditionally();
-			//}
+			foreach (var item in objects_)
+			{
+				item.OnDrawAdditionally();
+			}
 
 			OnDrawAdditionally();
 		}

@@ -23,6 +23,7 @@ namespace ace
 		bool m_isAlive;
 		
 		void Start();
+		void Update();
 		void SetLayer(Layer3D* layer);
 		CoreObject3D* GetCoreObject() const;
 

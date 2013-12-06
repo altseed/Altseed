@@ -56,11 +56,27 @@ namespace ace
 			OnStart();
 		}
 
+		internal void Update()
+		{
+			if (!IsUpdated || !IsAlive)
+			{
+				return;
+			}
+
+			OnUpdate();
+			/*
+			foreach (var item in components_)
+			{
+				item.Value.Update();
+			}
+			*/
+		}
+
 		internal swig.CoreObject3D CoreObject { get { return commonObject; } }
 	
 		protected abstract void OnStart();
 		protected abstract void OnUpdate();
-		protected abstract void OnDrawAdditionally();
+		internal protected abstract void OnDrawAdditionally();
 
 		public Layer3D Layer
 		{
