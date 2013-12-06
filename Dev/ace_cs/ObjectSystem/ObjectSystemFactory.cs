@@ -44,7 +44,6 @@ namespace ace
 			return factory.CreateMeshObject3D();
 		}
 
-
 		/// <summary>
 		/// ネイティブの CameraObject3D クラスをインスタンス化する。
 		/// </summary>

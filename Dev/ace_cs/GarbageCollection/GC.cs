@@ -21,6 +21,7 @@ namespace ace
 		internal static IDObjectContainer<TextureObject2D> TextureObject2Ds { get; private set; }
 
 		internal static IDObjectContainer<Layer3D> Layer3Ds { get; private set; }
+		internal static IDObjectContainer<Object3D> Object3Ds { get; private set; }
 
 		internal static IDObjectContainer<PostEffect> PostEffects { get; private set; }
 
@@ -38,6 +39,7 @@ namespace ace
 
 			Layer2Ds = new IDObjectContainer<Layer2D>();
 			TextureObject2Ds = new IDObjectContainer<TextureObject2D>();
+			Object3Ds = new IDObjectContainer<Object3D>();
 
 			Layer3Ds = new IDObjectContainer<Layer3D>();
 
@@ -65,6 +67,7 @@ namespace ace
 				TextureObject2Ds.DestroyAll();
 
 				Layer3Ds.DestroyAll();
+				Object3Ds.DestroyAll();
 
 				PostEffects.DestroyAll();
 				//Profilers.DestroyAll();
@@ -106,5 +109,6 @@ namespace ace
 			GC.Meshs.AddObject(p, ret);
 			return ret;
 		}
+
 	}
 }

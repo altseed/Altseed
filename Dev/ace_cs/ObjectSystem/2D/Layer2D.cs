@@ -31,8 +31,6 @@ namespace ace
 			components_ = new Dictionary<string, Layer2DComponent>();
 
 			commonObject = coreLayer2D;
-
-			IsUpdated = true;
 		}
 
 		#region GC対策

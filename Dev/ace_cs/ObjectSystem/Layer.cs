@@ -12,6 +12,10 @@ namespace ace
 	{
 		internal swig.CoreLayer commonObject = null;
 
+		public Layer()
+		{
+			IsUpdated = true;
+		}
 
 		public bool IsUpdated { get; set; }
 

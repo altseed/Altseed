@@ -10,6 +10,18 @@ namespace ace
 	{
 		swig.CoreCameraObject3D coreObject = null;
 
+		public CameraObject3D()
+		{
+			coreObject = Engine.ObjectSystemFactory.CreateCameraObject3D();
+			GC.Object3Ds.AddObject(coreObject.GetPtr(), this);
+		}
+
+		public override void Destroy()
+		{
+			coreObject = null;
+			base.Destroy();
+		}
+
 		protected override void OnStart() { }
 		protected override void OnUpdate() { }
 		protected override void OnDrawAdditionally() { }

@@ -10,6 +10,19 @@ namespace ace
 	{
 		swig.CoreMeshObject3D coreObject = null;
 
+		public MeshObject3D()
+		{
+			coreObject = Engine.ObjectSystemFactory.CreateMeshObject3D();
+			GC.Object3Ds.AddObject(coreObject.GetPtr(), this);
+
+		}
+
+		public override void Destroy()
+		{
+			coreObject = null;
+			base.Destroy();
+		}
+
 		protected override void OnStart() { }
 		protected override void OnUpdate() { }
 		protected override void OnDrawAdditionally() { }

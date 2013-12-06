@@ -14,7 +14,7 @@ namespace ace
 		{
 #if DEBUG
 			// 唯一の対応するクラスであることを保証
-			if(GC.Meshs.GetObject(swig.GetPtr()) != null) throw new Exception();
+			if (GC.Meshs.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
 			SwigObject = swig;
 		}
@@ -26,7 +26,7 @@ namespace ace
 
 		public bool IsDestroyed
 		{
- 			get
+			get
 			{
 				return SwigObject == null;
 			}
@@ -41,6 +41,26 @@ namespace ace
 				SwigObject = null;
 			}
 			System.GC.SuppressFinalize(this);
+		}
+
+		public void AddVertex(ref ace.Vector3DF position, ref ace.Vector3DF normal, ref ace.Vector3DF binormal, ref ace.Vector2DF uv1, ref ace.Vector2DF uv2, ref ace.Color color, int boneWeights, int boneIndexes)
+		{
+			SwigObject.AddVertex(ref position, ref normal, ref binormal, ref uv1, ref uv2, ref color, boneWeights, boneIndexes);
+		}
+
+		public virtual void AddFace(int index1, int index2, int index3)
+		{
+			SwigObject.AddFace(index1, index2, index3);
+		}
+
+		public virtual void AddMaterialOffset(int materialIndex, int faceOffset)
+		{
+			SwigObject.AddMaterialOffset(materialIndex, faceOffset);
+		}
+
+		public virtual void SendToGPUMemory()
+		{
+			SwigObject.SendToGPUMemory();
 		}
 	}
 }

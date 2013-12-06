@@ -10,6 +10,19 @@ namespace ace
 	{
 		swig.CoreDirectionalLightObject3D coreObject = null;
 
+		public DirectionalLightObject3D()
+		{
+			coreObject = Engine.ObjectSystemFactory.CreateDirectionalLightObject3D();
+			GC.Object3Ds.AddObject(coreObject.GetPtr(), this);
+
+		}
+
+		public override void Destroy()
+		{
+			coreObject = null;
+			base.Destroy();
+		}
+
 		protected override void OnStart() { }
 		protected override void OnUpdate() { }
 		protected override void OnDrawAdditionally() { }

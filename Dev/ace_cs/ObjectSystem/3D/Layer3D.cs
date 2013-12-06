@@ -23,6 +23,8 @@ namespace ace
 
 			GC.Layer3Ds.AddObject(p, this);
 
+			objects_ = new List<Object3D>();
+
 			commonObject = coreLayer3D;
 		}
 
@@ -50,6 +52,41 @@ namespace ace
 		#endregion
 
 		swig.CoreLayer3D coreLayer3D { get; set; }
+
+		/// <summary>
+		/// このレイヤーが管理している3Dオブジェクトのコレクションを取得する。
+		/// </summary>
+		public IEnumerable<Object3D> Objects
+		{
+			get { return objects_; }
+		}
+
+		/// <summary>
+		/// このレイヤーに指定した3Dオブジェクトを追加する。
+		/// </summary>
+		/// <param name="object3D">追加する3Dオブジェクト</param>
+		public void AddObject(Object3D object3D)
+		{
+			if (object3D.Layer != null)
+			{
+				throw new InvalidOperationException("指定したオブジェクトは既に別のレイヤーに所属しています。");
+			}
+			objects_.Add(object3D);
+			coreLayer3D.AddObject(object3D.CoreObject);
+			object3D.Layer = this;
+			object3D.Start();
+		}
+
+		/// <summary>
+		/// このレイヤーから指定した3Dオブジェクトを削除する。
+		/// </summary>
+		/// <param name="object3D">削除される3Dオブジェクト。</param>
+		public void RemoveObject(Object3D object3D)
+		{
+			objects_.Remove(object3D);
+			coreLayer3D.RemoveObject(object3D.CoreObject);
+			object3D.Layer = null;
+		}
 
 		internal override void Update()
 		{
@@ -100,5 +137,7 @@ namespace ace
 
 			coreLayer3D.EndDrawingAfterEffects();
 		}
+
+		private List<Object3D> objects_ { get; set; }
 	}
 }
