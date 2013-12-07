@@ -249,6 +249,8 @@ namespace ace
 
 		static bool CheckDLL()
 		{
+			return true;
+
 			if (!HasDLL("D3DCOMPILER_47.dll"))
 			{
 				System.Windows.Forms.MessageBox.Show("最新のDirectXEndUserRuntime？をインストールしてください。");
