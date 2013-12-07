@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ namespace unitTest_Engine_cs
 {
 	abstract class EngineTest : TestFramework
 	{
+		static readonly string PathOfSS = "TestSS_cs";
 		protected static readonly string CloudTexturePath = "Data/Texture/Cloud1.png";
 
 		public EngineTest( int timeForExit )
@@ -47,7 +49,12 @@ namespace unitTest_Engine_cs
 
 				if( time == TimeForExit )
 				{
-					Engine.TakeScreenshot( "TestSS_cs/" + Title + "_" + graphicsType + ".png" );
+					if( !Directory.Exists( PathOfSS ) )
+					{
+						Directory.CreateDirectory( PathOfSS );
+					}
+					var path = string.Format( "{0}/{1}_{2}.png", PathOfSS, Title, graphicsType );
+					Engine.TakeScreenshot( path );
 				}
 				else if( time == TimeForExit + 20 )
 				{

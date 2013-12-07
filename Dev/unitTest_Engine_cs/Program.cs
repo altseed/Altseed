@@ -11,10 +11,10 @@ namespace unitTest_Engine_cs
 	{
 		static void Main( string[] args )
 		{
-			//TestSequencially( new ObjectSystem.ObjectsMembers() );
+			TestSequencially( new ObjectSystem.ObjectsMembers() );
 			//TestSequencially( new Graphics._3D.SimpleMesh() );
 
-			TestAll();
+			//TestAll();
 
 			Console.ReadKey();
 		}
