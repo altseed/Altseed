@@ -11,9 +11,12 @@ namespace unitTest_Engine_cs
 	{
 		static void Main( string[] args )
 		{
-			TestSequencially(new Graphics._3D.SimpleMesh());
-			TestSequencially( new ObjectSystem.ObjectsMembers() );
-			// TestAll();
+			//TestSequencially( new ObjectSystem.ObjectsMembers() );
+			//TestSequencially( new Graphics._3D.SimpleMesh() );
+
+			TestAll();
+
+			Console.ReadKey();
 		}
 
 		/// <summary>
@@ -34,6 +37,7 @@ namespace unitTest_Engine_cs
 		/// <summary>
 		/// 指定したテストクラスに対して、OpenGL と DirectX 向けのテストを行う。
 		/// </summary>
+		/// <remarks>個別にテストしたい場合に利用してください。</remarks>
 		/// <param name="target">対象のテストクラス。</param>
 		private static void TestSequencially( TestFramework target )
 		{
@@ -46,7 +50,7 @@ namespace unitTest_Engine_cs
 				Console.WriteLine( e.ToString() );
 			}
 
-			Task.Delay( 30 ).Wait();
+			Task.Delay( 50 ).Wait();
 
 			try
 			{
@@ -57,7 +61,7 @@ namespace unitTest_Engine_cs
 				Console.WriteLine( e.ToString() );
 			}
 
-			Task.Delay( 30 ).Wait();
+			Task.Delay( 50 ).Wait();
 		}
 	}
 

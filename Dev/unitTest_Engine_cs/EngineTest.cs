@@ -22,7 +22,7 @@ namespace unitTest_Engine_cs
 
 		public override void Test( GraphicsType graphicsType )
 		{
-			Console.WriteLine( Title + "_" + graphicsType );
+			Console.WriteLine( "[{0}_{1}]", Title, graphicsType );
 
 			int time = 0;
 			var option = new EngineOption
@@ -49,7 +49,7 @@ namespace unitTest_Engine_cs
 				{
 					Engine.TakeScreenshot( "TestSS_cs/" + Title + "_" + graphicsType + ".png" );
 				}
-				else if( time == TimeForExit + 30 )
+				else if( time == TimeForExit + 20 )
 				{
 					break;
 				}

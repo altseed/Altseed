@@ -48,7 +48,7 @@ namespace ace
 		{
 			if (core != null) return false;
 
-			if (!CheckDLL()) return false;
+			//if (!CheckDLL()) return false;
 
 			try
 			{
