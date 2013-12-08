@@ -34,9 +34,8 @@ namespace ace
 		void BeginDrawing();
 		void Draw();
 		void EndDrawing();
-		void EndDrawingAfterEffects();
-
-
+	
+		RenderTexture2D* GetFirstRenderTarget();
 
 		// 共通部分
 		virtual int GetDrawingPriority() const { return CoreLayer_Imp::GetDrawingPriority(); }
@@ -64,6 +63,9 @@ namespace ace
 		{
 			CoreLayer_Imp::AddDrawnTriangle(pos1, uv1, col1, pos2, uv2, col2, pos3, uv3, col3);
 		}
+
+		virtual void EndDrawingAfterEffects() { CoreLayer_Imp::EndDrawingAfterEffects(); }
+
 
 #if !SWIG
 		Renderer2D* GetRenderer() const;

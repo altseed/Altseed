@@ -42,7 +42,6 @@ namespace ace
 		void Draw();
 
 		void EndDrawing();
-		void EndDrawingAfterEffects();
 
 		// 共通部分
 		virtual int GetDrawingPriority() const { return CoreLayer_Imp::GetDrawingPriority(); }
@@ -51,12 +50,12 @@ namespace ace
 		virtual bool GetIsDrawn() const { return CoreLayer_Imp::GetIsDrawn(); }
 		virtual void SetIsDrawn(bool value) { return CoreLayer_Imp::SetIsDrawn(value); }
 
-		virtual void AddPostEffect(CorePostEffect* postEffect) { AddPostEffect(postEffect); }
-		virtual void ClearPostEffects() { ClearPostEffects(); }
+		virtual void AddPostEffect(CorePostEffect* postEffect) { CoreLayer_Imp::AddPostEffect(postEffect); }
+		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
 
-		virtual RenderTexture2D* GetRenderTarget0() { return GetRenderTarget0(); }
-		virtual RenderTexture2D* GetRenderTarget1() { return GetRenderTarget1(); }
-		virtual void SetTargetToLayer(int32_t index) { SetTargetToLayer(index); }
+		virtual RenderTexture2D* GetRenderTarget0() { return CoreLayer_Imp::GetRenderTarget0(); }
+		virtual RenderTexture2D* GetRenderTarget1() { return CoreLayer_Imp::GetRenderTarget1(); }
+		virtual void SetTargetToLayer(int32_t index) { CoreLayer_Imp::SetTargetToLayer(index); }
 
 		virtual void SetLayerShape(const Vector2DF& ul, const Vector2DF& ur, const Vector2DF& ll, const Vector2DF& lr, const Vector2DI& size)
 		{
@@ -71,7 +70,11 @@ namespace ace
 			CoreLayer_Imp::AddDrawnTriangle(pos1, uv1, col1, pos2, uv2, col2, pos3, uv3, col3);
 		}
 
+		virtual void EndDrawingAfterEffects() { CoreLayer_Imp::EndDrawingAfterEffects(); }
+
 		Renderer3D* GetRenderer() { return m_renderer; }
+
+		RenderTexture2D* GetFirstRenderTarget();
 
 #if !SWIG
 	public:

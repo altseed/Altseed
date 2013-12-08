@@ -58,15 +58,22 @@ namespace ace
 
 			if (postEffects.Count > 0)
 			{
+				var rtf_ = commonObject.GetFirstRenderTarget();
 				var rt0_ = commonObject.GetRenderTarget0();
 				var rt1_ = commonObject.GetRenderTarget1();
+
+				RenderTexture2D rtf = GC.GenerateRenderTexture2D(rtf_);
 				RenderTexture2D rt0 = GC.GenerateRenderTexture2D(rt0_);
 				RenderTexture2D rt1 = GC.GenerateRenderTexture2D(rt1_);
 
 				int index = 0;
 				foreach (var p in postEffects)
 				{
-					if (index % 2 == 0)
+					if (index == 0)
+					{
+						p.OnDraw(rt1, rtf);
+					}
+					else if (index % 2 == 0)
 					{
 						p.OnDraw(rt1, rt0);
 					}

@@ -22,6 +22,7 @@ namespace ace
 		virtual void AddPostEffect(CorePostEffect* postEffect) = 0;
 		virtual void ClearPostEffects() = 0;
 
+		virtual RenderTexture2D* GetFirstRenderTarget() = 0;
 		virtual RenderTexture2D* GetRenderTarget0() = 0;
 		virtual RenderTexture2D* GetRenderTarget1() = 0;
 

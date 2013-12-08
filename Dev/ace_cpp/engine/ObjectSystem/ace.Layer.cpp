@@ -14,16 +14,22 @@ namespace ace
 
 		if (m_postEffects.size() > 0)
 		{
+			m_commonObject->GetFirstRenderTarget()->AddRef();
 			m_commonObject->GetRenderTarget0()->AddRef();
 			m_commonObject->GetRenderTarget1()->AddRef();
 
+			auto rtf = CreateSharedPtrWithReleaseDLL(m_commonObject->GetFirstRenderTarget());
 			auto rt0 = CreateSharedPtrWithReleaseDLL(m_commonObject->GetRenderTarget0());
 			auto rt1 = CreateSharedPtrWithReleaseDLL(m_commonObject->GetRenderTarget1());
 
 			int32_t index = 0;
 			for (auto& p : m_postEffects)
 			{
-				if (index % 2 == 0)
+				if (index == 0)
+				{
+					p->OnDraw(rt1, rtf);
+				}
+				else if (index % 2 == 0)
 				{
 					p->OnDraw(rt1, rt0);
 				}

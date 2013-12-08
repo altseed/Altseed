@@ -67,5 +67,6 @@ namespace ace
 
 		void CreateRenderTarget(const Vector2DI& size);
 
+		virtual void EndDrawingAfterEffects();
 	};
 }
