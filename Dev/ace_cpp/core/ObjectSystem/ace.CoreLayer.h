@@ -31,6 +31,9 @@ namespace ace
 		*/
 		virtual void SetTargetToLayer(int32_t index) = 0;
 
+		virtual void BeginUpdating() = 0;
+		virtual void EndUpdating() = 0;
+
 		virtual void BeginDrawing() = 0;
 		virtual void Draw() = 0;
 		virtual void EndDrawing() = 0;

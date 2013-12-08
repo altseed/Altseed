@@ -133,7 +133,7 @@ namespace ace
 		}
 	}
 
-	void Renderer3D::Rendering()
+	void Renderer3D::BeginRendering()
 	{
 		auto g = m_graphics;
 
@@ -195,5 +195,10 @@ namespace ace
 				o->Rendering(prop);
 			}
 		}
+	}
+
+	void Renderer3D::EndRendering()
+	{
+	
 	}
 }

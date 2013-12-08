@@ -122,6 +122,11 @@ namespace ace
 
 		internal void Update()
 		{
+			foreach( var item in layers_ )
+			{
+				item.BeginUpdating();
+			}
+
 			OnUpdating();
 
 			foreach( var item in layers_ )
@@ -130,6 +135,11 @@ namespace ace
 			}
 
 			OnUpdated();
+
+			foreach (var item in layers_)
+			{
+				item.EndUpdating();
+			}
 		}
 
 		internal void DrawAdditionally()

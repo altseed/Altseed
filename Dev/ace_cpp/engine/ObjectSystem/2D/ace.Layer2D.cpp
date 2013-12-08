@@ -66,6 +66,16 @@ namespace ace
 		OnUpdated();
 	}
 
+	void Layer2D::BeginUpdateting()
+	{
+		m_coreLayer->BeginUpdating();
+	}
+
+	void Layer2D::EndUpdateting()
+	{
+		m_coreLayer->EndUpdating();
+	}
+
 	void Layer2D::DrawAdditionally()
 	{
 		if (!m_isDrawn)

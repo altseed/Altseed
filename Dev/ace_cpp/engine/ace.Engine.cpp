@@ -236,13 +236,13 @@ namespace ace
 	{
 		if (this == nullptr) return;
 
+		m_core->BeginDrawing();
+
 		if (m_currentScene != nullptr)
 		{
 			m_currentScene->Update();
 		}
-
-		m_core->BeginDrawing();
-
+		
 		if (m_currentScene != nullptr)
 		{
 			m_currentScene->BeginDrawing();

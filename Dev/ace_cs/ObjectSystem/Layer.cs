@@ -39,6 +39,9 @@ namespace ace
 			set { commonObject.SetDrawingPriority(value); }
 		}
 
+		internal abstract void BeginUpdating();
+		internal abstract void EndUpdating();
+
 		internal abstract void Update();
 
 		internal abstract void DrawAdditionally();

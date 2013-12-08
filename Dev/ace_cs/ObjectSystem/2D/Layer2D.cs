@@ -128,7 +128,15 @@ namespace ace
 			coreLayer2D.ClearPostEffects();
 		}
 
-		
+		internal override void BeginUpdating()
+		{
+			coreLayer2D.BeginUpdating();
+		}
+
+		internal override void EndUpdating()
+		{
+			coreLayer2D.EndUpdating();
+		}
 
 		internal override void Update()
 		{

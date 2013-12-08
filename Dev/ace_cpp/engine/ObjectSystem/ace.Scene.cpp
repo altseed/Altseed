@@ -33,6 +33,11 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::Update()
 	{
+		for (auto& layer : m_layers)
+		{
+			layer->BeginUpdateting();
+		}
+
 		OnUpdating();
 
 		for (auto& layer : m_layers)
@@ -46,6 +51,11 @@ namespace ace
 		}
 
 		OnUpdated();
+
+		for (auto& layer : m_layers)
+		{
+			layer->EndUpdateting();
+		}
 	}
 
 	//----------------------------------------------------------------------------------

@@ -24,6 +24,9 @@ namespace ace
 		std::map<astring, ComponentPtr> m_components;
 		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
 		
+		void BeginUpdateting();
+		void EndUpdateting();
+
 		void DrawAdditionally();
 		void Update();
 

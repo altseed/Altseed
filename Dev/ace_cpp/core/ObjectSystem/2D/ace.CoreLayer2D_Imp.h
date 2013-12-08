@@ -44,6 +44,9 @@ namespace ace
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);
 
+		void BeginUpdating();
+		void EndUpdating();
+
 		void BeginDrawing();
 		void Draw();
 		void EndDrawing();

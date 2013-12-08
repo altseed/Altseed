@@ -88,6 +88,16 @@ namespace ace
 			object3D.Layer = null;
 		}
 
+		internal override void BeginUpdating()
+		{
+			coreLayer3D.BeginUpdating();
+		}
+
+		internal override void EndUpdating()
+		{
+			coreLayer3D.EndUpdating();
+		}
+
 		internal override void Update()
 		{
 			if (!IsUpdated)

@@ -148,13 +148,12 @@ namespace ace
 		{
 			if (core == null) return;
 
-			//core.Update();
+			core.BeginDrawing();
+
 			if (CurrentScene != null)
 			{
 				CurrentScene.Update();
 			}
-
-			core.BeginDrawing();
 
 			if (CurrentScene != null)
 			{

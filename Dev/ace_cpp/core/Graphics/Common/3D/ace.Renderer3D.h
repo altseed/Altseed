@@ -39,6 +39,7 @@ namespace ace
 
 		void Flip();
 
-		void Rendering();
+		void BeginRendering();
+		void EndRendering();
 	};
 }

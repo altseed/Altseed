@@ -24,6 +24,8 @@ namespace ace
 
 		Renderer3D*		m_renderer;
 
+		bool			m_isDrawnTemp;
+
 		CoreLayer3D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer3D_Imp();
 
@@ -31,6 +33,9 @@ namespace ace
 
 		void AddObject(ObjectPtr object3D);
 		void RemoveObject(ObjectPtr object3D);
+
+		void BeginUpdating();
+		void EndUpdating();
 
 		void BeginDrawing();
 		

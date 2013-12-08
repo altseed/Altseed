@@ -49,6 +49,26 @@ namespace ace
 		}
 	}
 
+	void CoreLayer3D_Imp::BeginUpdating()
+	{
+		m_renderer->Flip();
+
+		m_isDrawnTemp = m_isDrawn;
+
+		if (m_isDrawnTemp)
+		{
+			m_renderer->BeginRendering();
+		}
+	}
+
+	void CoreLayer3D_Imp::EndUpdating()
+	{
+		if (m_isDrawnTemp)
+		{
+			m_renderer->EndRendering();
+		}
+	}
+
 	void CoreLayer3D_Imp::BeginDrawing()
 	{
 		m_targetToLayer = -1;
@@ -60,14 +80,11 @@ namespace ace
 		{
 			return;
 		}
-
-		m_renderer->Flip();
-		m_renderer->Rendering();
 	}
 
 	void CoreLayer3D_Imp::EndDrawing()
 	{
-
+		
 	}
 
 	void CoreLayer3D_Imp::EndDrawingAfterEffects()

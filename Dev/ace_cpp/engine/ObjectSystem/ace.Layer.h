@@ -23,6 +23,9 @@ namespace ace
 
 		std::shared_ptr<CoreLayer> GetCoreLayer() const;
 
+		virtual void BeginUpdateting() = 0;
+		virtual void EndUpdateting() = 0;
+
 		virtual void Update() = 0;
 		virtual void DrawAdditionally() = 0;
 
