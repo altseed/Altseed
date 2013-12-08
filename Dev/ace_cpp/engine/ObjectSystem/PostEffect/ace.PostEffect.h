@@ -15,7 +15,7 @@ namespace ace
 	class PostEffect
 	{
 		friend class Engine;
-		friend class Layer2D;
+		friend class Layer;
 
 	private:
 		std::shared_ptr<CorePostEffect>	m_corePostEffect;

@@ -15,6 +15,7 @@ namespace ace
 		public Layer()
 		{
 			IsUpdated = true;
+			postEffects = new List<PostEffect>();
 		}
 
 		public bool IsUpdated { get; set; }
@@ -46,12 +47,43 @@ namespace ace
 
 		internal abstract void DrawAdditionally();
 
-		internal abstract void BeginDrawing();
+		internal void BeginDrawing()
+		{
+			commonObject.BeginDrawing();
+		}
 
-		internal abstract void EndDrawing();
+		internal void EndDrawing()
+		{
+			commonObject.EndDrawing();
+
+			if (postEffects.Count > 0)
+			{
+				var rt0_ = commonObject.GetRenderTarget0();
+				var rt1_ = commonObject.GetRenderTarget1();
+				RenderTexture2D rt0 = GC.GenerateRenderTexture2D(rt0_);
+				RenderTexture2D rt1 = GC.GenerateRenderTexture2D(rt1_);
+
+				int index = 0;
+				foreach (var p in postEffects)
+				{
+					if (index % 2 == 0)
+					{
+						p.OnDraw(rt1, rt0);
+					}
+					else
+					{
+						p.OnDraw(rt0, rt1);
+					}
+					index++;
+				}
+
+				commonObject.SetTargetToLayer(index % 2);
+			}
+
+			commonObject.EndDrawingAfterEffects();
+		}
 
 		internal swig.CoreLayer CoreLayer { get { return commonObject; } }
-
 
 		protected virtual void OnUpdating()
 		{
@@ -64,5 +96,27 @@ namespace ace
 		protected virtual void OnDrawAdditionally()
 		{
 		}
+
+		/// <summary>
+		/// ポストエフェクトを追加する。
+		/// </summary>
+		/// <param name="postEffect">ポストエフェクト</param>
+		public void AddPostEffect(PostEffect postEffect)
+		{
+			postEffects.Add(postEffect);
+			commonObject.AddPostEffect(postEffect.SwigObject);
+		}
+
+		/// <summary>
+		/// ポストエフェクトを全て消去する。
+		/// </summary>
+		public void ClearPostEffect()
+		{
+			postEffects.Clear();
+			commonObject.ClearPostEffects();
+		}
+
+		protected List<PostEffect> postEffects;
+
 	}
 }

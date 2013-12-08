@@ -3,6 +3,43 @@ using namespace std;
 
 namespace ace
 {
+	void Layer::BeginDrawing()
+	{
+		m_commonObject->BeginDrawing();
+	}
+
+	void Layer::EndDrawing()
+	{
+		m_commonObject->EndDrawing();
+
+		if (m_postEffects.size() > 0)
+		{
+			m_commonObject->GetRenderTarget0()->AddRef();
+			m_commonObject->GetRenderTarget1()->AddRef();
+
+			auto rt0 = CreateSharedPtrWithReleaseDLL(m_commonObject->GetRenderTarget0());
+			auto rt1 = CreateSharedPtrWithReleaseDLL(m_commonObject->GetRenderTarget1());
+
+			int32_t index = 0;
+			for (auto& p : m_postEffects)
+			{
+				if (index % 2 == 0)
+				{
+					p->OnDraw(rt1, rt0);
+				}
+				else
+				{
+					p->OnDraw(rt0, rt1);
+				}
+				index++;
+			}
+
+			m_commonObject->SetTargetToLayer(index % 2);
+		}
+
+		m_commonObject->EndDrawingAfterEffects();
+	}
+
 	Layer::Layer()
 		: m_scene(nullptr)
 		, m_isUpdated(true)
@@ -60,4 +97,17 @@ namespace ace
 	{
 		m_commonObject->SetDrawingPriority(value);
 	}
+
+	void Layer::AddPostEffect(const std::shared_ptr<PostEffect>& postEffect)
+	{
+		m_postEffects.push_back(postEffect);
+		m_commonObject->AddPostEffect(postEffect->GetCoreObject());
+	}
+
+	void Layer::ClearPostEffects()
+	{
+		m_postEffects.clear();
+		m_commonObject->ClearPostEffects();
+	}
+
 }

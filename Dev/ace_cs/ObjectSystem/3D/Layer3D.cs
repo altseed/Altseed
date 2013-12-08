@@ -132,22 +132,6 @@ namespace ace
 			OnDrawAdditionally();
 		}
 
-		internal override void BeginDrawing()
-		{
-			coreLayer3D.BeginDrawing();
-		}
-
-		internal override void EndDrawing()
-		{
-			coreLayer3D.EndDrawing();
-
-			/*
-			 ポストエフェクト
-			 */
-
-			coreLayer3D.EndDrawingAfterEffects();
-		}
-
 		private List<Object3D> objects_ { get; set; }
 	}
 }

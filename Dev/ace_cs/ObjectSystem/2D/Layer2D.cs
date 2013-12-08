@@ -27,7 +27,7 @@ namespace ace
 			GC.Layer2Ds.AddObject(p, this);
 
 			objects_ = new List<Object2D>();
-			postEffects = new List<PostEffect>();
+			
 			components_ = new Dictionary<string, Layer2DComponent>();
 
 			commonObject = coreLayer2D;
@@ -109,25 +109,6 @@ namespace ace
 			components_.Remove( key );
 		}
 
-		/// <summary>
-		/// ポストエフェクトを追加する。
-		/// </summary>
-		/// <param name="postEffect">ポストエフェクト</param>
-		public void AddPostEffect(PostEffect postEffect)
-		{
-			postEffects.Add(postEffect);
-			coreLayer2D.AddPostEffect(postEffect.SwigObject);
-		}
-
-		/// <summary>
-		/// ポストエフェクトを全て消去する。
-		/// </summary>
-		public void ClearPostEffect()
-		{
-			postEffects.Clear();
-			coreLayer2D.ClearPostEffects();
-		}
-
 		internal override void BeginUpdating()
 		{
 			coreLayer2D.BeginUpdating();
@@ -172,73 +153,9 @@ namespace ace
 			OnDrawAdditionally();
 		}
 
-		internal override void BeginDrawing()
-		{
-			coreLayer2D.BeginDrawing();
-		}
-
-		internal override void EndDrawing()
-		{
-			coreLayer2D.EndDrawing();
-
-			if (postEffects.Count > 0)
-			{
-				var rt0_ = coreLayer2D.GetRenderTarget0();
-				var rt1_ = coreLayer2D.GetRenderTarget1();
-				RenderTexture2D rt0 = null;
-				RenderTexture2D rt1 = null;
-
-				var existingSrc = GC.Texture2Ds.GetObject(rt0_.GetPtr());
-				if (existingSrc != null)
-				{
-					rt0 = (RenderTexture2D)existingSrc;
-				}
-
-				var existingDst = GC.Texture2Ds.GetObject(rt1_.GetPtr());
-				if (existingDst != null)
-				{
-					rt1 = (RenderTexture2D)existingDst;
-				}
-
-				if (rt0 == null)
-				{
-					rt0_.AddRef();
-					rt0 = new RenderTexture2D(rt0_);
-					GC.Texture2Ds.AddObject(rt0_.GetPtr(), rt0);
-				}
-
-				if (rt1 == null)
-				{
-					rt1_.AddRef();
-					rt1 = new RenderTexture2D(rt1_);
-					GC.Texture2Ds.AddObject(rt1_.GetPtr(), rt1);
-				}
-
-				int index = 0;
-				foreach (var p in postEffects)
-				{
-					if (index % 2 == 0)
-					{
-						p.OnDraw(rt1, rt0);
-					}
-					else
-					{
-						p.OnDraw(rt0, rt1);
-					}
-					index++;
-				}
-
-				coreLayer2D.SetTargetToLayer(index % 2);
-			}
-
-			coreLayer2D.EndDrawingAfterEffects();
-		}
-
 		private swig.CoreLayer2D coreLayer2D { get; set; }
 
 		private List<Object2D> objects_ { get; set; }
-
-		private List<PostEffect> postEffects;
 
 		private Dictionary<string, Layer2DComponent> components_ { get; set; }
 	}

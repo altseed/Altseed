@@ -3,6 +3,8 @@
 #include <map>
 #include "../ace.CoreToEngine.h"
 
+#include "PostEffect/ace.PostEffect.h"
+
 namespace ace
 {
 	class Scene;
@@ -15,6 +17,8 @@ namespace ace
 		std::shared_ptr<CoreLayer>	m_commonObject;
 		bool m_isUpdated;
 		bool m_isDrawn;
+
+		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
 
 	private:
 		Scene* m_scene;
@@ -29,8 +33,8 @@ namespace ace
 		virtual void Update() = 0;
 		virtual void DrawAdditionally() = 0;
 
-		virtual void BeginDrawing() = 0;
-		virtual void EndDrawing() = 0;
+		void BeginDrawing();
+		void EndDrawing();
 
 	protected:
 		virtual void OnUpdated() = 0;
@@ -50,5 +54,17 @@ namespace ace
 
 		int GetDrawingPriority() const;
 		void SetDrawingPriority(int value);
+
+		/**
+		@brief	ポストエフェクトを追加する。
+		@param	postEffect	ポストエフェクト
+		*/
+		void AddPostEffect(const std::shared_ptr<PostEffect>& postEffect);
+
+		/**
+		@brief	ポストエフェクトを全て消去する。
+		*/
+		void ClearPostEffects();
+
 	};
 }

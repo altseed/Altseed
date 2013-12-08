@@ -29,9 +29,6 @@ namespace ace
 		void DrawAdditionally();
 		void Update();
 
-		void BeginDrawing();
-		void EndDrawing();
-
 	protected:
 		virtual void OnUpdating();
 		virtual void OnUpdated();

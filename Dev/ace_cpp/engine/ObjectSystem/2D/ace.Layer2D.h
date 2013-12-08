@@ -5,7 +5,6 @@
 #include "ace.Object2D.h"
 #include "../../ace.CoreToEngine.h"
 #include "../ace.Layer.h"
-#include "../PostEffect/ace.PostEffect.h"
 #include "../Component/ace.Layer2DComponent.h"
 
 namespace ace
@@ -22,16 +21,12 @@ namespace ace
 		std::shared_ptr<CoreLayer2D>	m_coreLayer;
 		std::list<ObjectPtr>			m_objects;
 		std::map<astring, ComponentPtr> m_components;
-		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
 		
 		void BeginUpdateting();
 		void EndUpdateting();
 
 		void DrawAdditionally();
 		void Update();
-
-		void BeginDrawing();
-		void EndDrawing();
 
 	protected:
 		virtual void OnUpdating();
@@ -44,17 +39,6 @@ namespace ace
 
 		void AddObject(const ObjectPtr& object);
 		void RemoveObject(const ObjectPtr& object);
-
-		/**
-			@brief	ポストエフェクトを追加する。
-			@param	postEffect	ポストエフェクト
-		*/
-		void AddPostEffect(const std::shared_ptr<PostEffect>& postEffect);
-
-		/**
-			@brief	ポストエフェクトを全て消去する。
-		*/
-		void ClearPostEffects();
 
 		void AddComponent(const ComponentPtr& component, astring key);
 		ComponentPtr& GetComponent(astring key);

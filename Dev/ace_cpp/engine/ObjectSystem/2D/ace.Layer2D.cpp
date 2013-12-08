@@ -90,49 +90,6 @@ namespace ace
 		OnDrawAdditionally();
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Layer2D::BeginDrawing()
-	{
-		m_coreLayer->BeginDrawing();
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Layer2D::EndDrawing()
-	{
-		m_coreLayer->EndDrawing();
-
-		if (m_postEffects.size() > 0)
-		{
-			m_coreLayer->GetRenderTarget0()->AddRef();
-			m_coreLayer->GetRenderTarget1()->AddRef();
-
-			auto rt0 = CreateSharedPtrWithReleaseDLL(m_coreLayer->GetRenderTarget0());
-			auto rt1 = CreateSharedPtrWithReleaseDLL(m_coreLayer->GetRenderTarget1());
-	
-			int32_t index = 0;
-			for (auto& p : m_postEffects)
-			{
-				if (index % 2 == 0)
-				{
-					p->OnDraw(rt1, rt0);
-				}
-				else
-				{
-					p->OnDraw(rt0, rt1);
-				}
-				index++;
-			}
-
-			m_coreLayer->SetTargetToLayer(index % 2);
-		}
-
-		m_coreLayer->EndDrawingAfterEffects();
-	}
-
 	void Layer2D::OnUpdating()
 	{
 	}
@@ -169,24 +126,6 @@ namespace ace
 		m_objects.remove(object);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 		object->SetLayer(nullptr);
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Layer2D::AddPostEffect(const std::shared_ptr<PostEffect>& postEffect)
-	{
-		m_postEffects.push_back(postEffect);
-		m_coreLayer->AddPostEffect(postEffect->GetCoreObject());
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Layer2D::ClearPostEffects()
-	{
-		m_postEffects.clear();
-		m_coreLayer->ClearPostEffects();
 	}
 
 	//----------------------------------------------------------------------------------

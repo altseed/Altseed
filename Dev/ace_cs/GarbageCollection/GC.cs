@@ -95,6 +95,21 @@ namespace ace
 			return ret;
 		}
 
+		internal static RenderTexture2D GenerateRenderTexture2D(swig.RenderTexture2D o)
+		{
+			var p = o.GetPtr();
+
+			var existing = GC.Texture2Ds.GetObject(p);
+			if (existing != null)
+			{
+				return (RenderTexture2D)existing;
+			}
+
+			var ret = new RenderTexture2D(o);
+			GC.Texture2Ds.AddObject(p, ret);
+			return ret;
+		}
+
 		internal static Mesh GenerateMesh(swig.Mesh o)
 		{
 			var p = o.GetPtr();
