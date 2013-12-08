@@ -410,6 +410,8 @@ void Graphics_Imp_GL::Clear(bool isColorTarget, bool isDepthTarget, const Color&
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::Present()
 {
+	GLCheckError();
+
 	// Save FPS
 	ace::Sleep(16);
 
@@ -432,13 +434,15 @@ void Graphics_Imp_GL::Present()
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 {
+	GLCheckError();
+
 	glFlush();
 	glFinish();
 
 	glViewport( 0, 0, m_size.X, m_size.Y);
-
 	glReadBuffer(GL_BACK);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+
 
 	auto buf = new uint8_t[m_size.X * m_size.Y * 4];
 
@@ -454,6 +458,8 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 	SavePNGImage(path, m_size.X, m_size.Y, buf, true);
 
 	SafeDeleteArray(buf);
+
+	GLCheckError();
 }
 
 //----------------------------------------------------------------------------------

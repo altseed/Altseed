@@ -20,6 +20,17 @@ namespace ace
 	{
 	private:
 
+		struct PasteConstantBuffer
+		{
+			float Size[4];
+		};
+
+		struct PasteVertex
+		{
+			Vector3DF	Position;
+			Vector2DF	UV;
+		};
+
 		struct
 		{
 			std::set<RenderedObject3D*>	objects;
@@ -39,12 +50,22 @@ namespace ace
 
 		bool					m_multithreadingMode;
 
+		Vector2DI				m_windowSize;
+
+		RenderTexture_Imp*		m_renderTarget;
+
+		std::shared_ptr<ace::VertexBuffer_Imp>	m_pasteVertexBuffer;
+		std::shared_ptr<ace::IndexBuffer_Imp>	m_pasteIndexBuffer;
+		std::shared_ptr<ace::NativeShader_Imp>	m_pasteShader;
+
 		static void ThreadFunc(Renderer3D* renderer);
 		void Rendering();
 
 	public:
 		Renderer3D(Graphics* graphics);
 		~Renderer3D();
+
+		void SetWindowSize(Vector2DI windowSize);
 
 		void AddObject(RenderedObject3D* o);
 		void RemoveObject(RenderedObject3D* o);
@@ -53,5 +74,7 @@ namespace ace
 
 		void BeginRendering();
 		void EndRendering();
+
+		RenderTexture_Imp* GetRenderTarget();
 	};
 }

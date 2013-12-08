@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 	//Test_ParentObject();
 	//auto result = 0;
 
-	Graphics_SimpleMesh_(true);
+	Graphics_SimpleMesh_(false);
 	return 0;
 
 	auto result = RUN_ALL_TESTS();

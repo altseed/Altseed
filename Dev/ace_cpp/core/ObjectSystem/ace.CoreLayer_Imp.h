@@ -2,6 +2,8 @@
 #pragma once
 
 #include <Math/ace.Vector2DI.h>
+#include <Math/ace.Vector2DF.h>
+
 #include "ace.CoreLayer.h"
 
 namespace ace
@@ -10,6 +12,16 @@ namespace ace
 		: public CoreLayer
 	{
 	protected:
+
+		struct Triangle
+		{
+			Vector2DF	Pos1, Pos2, Pos3;
+			Vector2DF	UV1, UV2, UV3;
+			Color		Col1, Col2, Col3;
+		};
+
+		std::vector<Triangle>	m_triangles;
+
 
 		Graphics_Imp*	m_graphics;
 

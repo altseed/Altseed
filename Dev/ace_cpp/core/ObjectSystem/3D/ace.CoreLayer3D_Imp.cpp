@@ -15,6 +15,7 @@ namespace ace
 		, m_renderer(nullptr)
 	{
 		m_renderer = new Renderer3D(graphics);
+		m_renderer->SetWindowSize(windowSize);
 	}
 
 	CoreLayer3D_Imp::~CoreLayer3D_Imp()
