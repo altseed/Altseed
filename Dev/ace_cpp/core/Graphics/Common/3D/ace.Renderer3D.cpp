@@ -26,15 +26,113 @@ namespace ace
 		tset.clear();
 	}
 
+
+	void Renderer3D::ThreadFunc(Renderer3D* renderer)
+	{
+		while (renderer->m_running)
+		{
+			if (renderer->m_drawOnce)
+			{
+				renderer->Rendering();
+			}
+			else
+			{
+				Sleep(1);
+			}
+		}
+	}
+
+	void Renderer3D::Rendering()
+	{
+		auto g = m_graphics;
+
+		for (auto& o : rendering.objects)
+		{
+			o->CalculateMatrix_FR();
+		}
+
+		for (auto& o : rendering.cameraObjects)
+		{
+			o->CalculateMatrix_FR();
+		}
+
+		for (auto& o : rendering.directionalLightObjects)
+		{
+			o->CalculateMatrix_FR();
+		}
+
+		RenderingProperty prop;
+
+		// ライトの計算
+		{
+			if (rendering.directionalLightObjects.size() > 0)
+			{
+				auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
+				prop.DirectionalLightColor = light->GetColor_FR();
+				prop.DirectionalLightDirection = light->GetDirection_FR();
+				prop.DirectionalLightDirection.X = -prop.DirectionalLightDirection.X;
+				prop.DirectionalLightDirection.Y = -prop.DirectionalLightDirection.Y;
+				prop.DirectionalLightDirection.Z = -prop.DirectionalLightDirection.Z;
+			}
+			else
+			{
+				prop.DirectionalLightColor = Color(255, 255, 255, 255);
+				prop.DirectionalLightDirection = Vector3DF(1.0f, 1.0f, 1.0f);
+			}
+			Vector3DF::Normal(prop.DirectionalLightDirection, prop.DirectionalLightDirection);
+		}
+
+		for (auto& co : rendering.cameraObjects)
+		{
+			auto c = (RenderedCameraObject3D*) co;
+
+			// ただの3D描画
+
+			//g->SetRenderTarget(c->GetRenderTarget(), c->GetDepthBuffer());
+
+			g->Clear(true, true, ace::Color(0, 0, 0, 255));
+
+			// カメラプロジェクション行列計算
+			Matrix44 cameraProjMat;
+			ace::Matrix44::Mul(cameraProjMat, c->GetCameraMatrix_FR(), c->GetProjectionMatrix_FR());
+
+
+			prop.CameraProjectionMatrix = cameraProjMat;
+
+			for (auto& o : m_objects)
+			{
+				o->Rendering(prop);
+			}
+		}
+
+		m_drawOnce = false;
+	}
+
 	Renderer3D::Renderer3D(Graphics* graphics)
 		: m_graphics(nullptr)
+		, m_thread(std::thread([&]{ ThreadFunc(this); }))
+		, m_running(true)
+		, m_drawOnce(false)
+		, m_multithreadingMode(false)
 	{
 		m_graphics = (Graphics_Imp*) graphics;
-		SafeAddRef(m_graphics);
+		SafeAddRef(m_graphics);	
+
+		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
+		{
+			m_multithreadingMode = true;
+		}
+		else
+		{
+			m_multithreadingMode = false;
+		}
 	}
 
 	Renderer3D::~Renderer3D()
 	{
+		m_running = false;
+		m_thread.join();
+
 		ReleaseObjects(m_objects);
 		ReleaseObjects(rendering.objects);
 
@@ -135,70 +233,21 @@ namespace ace
 
 	void Renderer3D::BeginRendering()
 	{
-		auto g = m_graphics;
-
-		for (auto& o : rendering.objects)
+		if (m_multithreadingMode)
 		{
-			o->CalculateMatrix_FR();
+			m_drawOnce = true;
 		}
-
-		for (auto& o : rendering.cameraObjects)
+		else
 		{
-			o->CalculateMatrix_FR();
-		}
-
-		for (auto& o : rendering.directionalLightObjects)
-		{
-			o->CalculateMatrix_FR();
-		}
-
-		RenderingProperty prop;
-
-		// ライトの計算
-		{
-			if (rendering.directionalLightObjects.size() > 0)
-			{
-				auto light = (RenderedDirectionalLightObject3D*)(*(rendering.directionalLightObjects.begin()));
-				prop.DirectionalLightColor = light->GetColor_FR();
-				prop.DirectionalLightDirection = light->GetDirection_FR();
-				prop.DirectionalLightDirection.X = -prop.DirectionalLightDirection.X;
-				prop.DirectionalLightDirection.Y = -prop.DirectionalLightDirection.Y;
-				prop.DirectionalLightDirection.Z = -prop.DirectionalLightDirection.Z;
-			}
-			else
-			{
-				prop.DirectionalLightColor = Color(255, 255, 255, 255);
-				prop.DirectionalLightDirection = Vector3DF(1.0f, 1.0f, 1.0f);
-			}
-			Vector3DF::Normal(prop.DirectionalLightDirection, prop.DirectionalLightDirection);
-		}
-
-		for (auto& co : rendering.cameraObjects)
-		{
-			auto c = (RenderedCameraObject3D*) co;
-
-			// ただの3D描画
-
-			//g->SetRenderTarget(c->GetRenderTarget(), c->GetDepthBuffer());
-
-			g->Clear(true, true, ace::Color(0, 0, 0, 255));
-
-			// カメラプロジェクション行列計算
-			Matrix44 cameraProjMat;
-			ace::Matrix44::Mul(cameraProjMat, c->GetCameraMatrix_FR(), c->GetProjectionMatrix_FR());
-
-			
-			prop.CameraProjectionMatrix = cameraProjMat;
-
-			for (auto& o : m_objects)
-			{
-				o->Rendering(prop);
-			}
+			Rendering();
 		}
 	}
 
 	void Renderer3D::EndRendering()
 	{
-	
+		while (m_drawOnce)
+		{
+			Sleep(1);
+		}
 	}
 }

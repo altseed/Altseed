@@ -8,6 +8,9 @@
 #include <Math/ace.Vector3DF.h>
 #include <Graphics/ace.Color.h>
 
+#include <thread>
+#include <mutex>
+
 #include "../../../ace.Core.Base.h"
 #include "../../../ace.Core.Base_Imp.h"
 
@@ -29,6 +32,15 @@ namespace ace
 		std::set<RenderedObject3D*>	m_objects;
 		std::set<RenderedObject3D*>	m_cameraObjects;
 		std::set<RenderedObject3D*>	m_directionalLightObjects;
+
+		std::thread				m_thread;
+		volatile bool			m_running;
+		volatile bool			m_drawOnce;
+
+		bool					m_multithreadingMode;
+
+		static void ThreadFunc(Renderer3D* renderer);
+		void Rendering();
 
 	public:
 		Renderer3D(Graphics* graphics);
