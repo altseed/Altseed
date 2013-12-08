@@ -79,8 +79,8 @@ uniform vec4 Size;
 
 void main()
 {
-	gl_Position.x = Pos.x * 2.0 - 1.0;
-	gl_Position.y = -(Pos.y * 2.0 - 1.0);
+	gl_Position.x = Pos.x / Size.x * 2.0 - 1.0;
+	gl_Position.y = -(Pos.y / Size.y * 2.0 - 1.0);
 
 	gl_Position.z = 0.5;
 	gl_Position.w = 1.0;
@@ -218,12 +218,12 @@ void main()
 			cbuf.Size[1] = m_windowSize.Y;
 
 			// 頂点情報をビデオメモリに転送
-			if (!m_pasteVertexBuffer->RingBufferLock(4))
+			if (!m_pasteVertexBuffer->RingBufferLock(6))
 			{
 				assert(0);
 			}
 
-			auto buf = m_pasteVertexBuffer->GetBuffer <PasteVertex>(4);
+			auto buf = m_pasteVertexBuffer->GetBuffer <PasteVertex>(6);
 
 			buf[0].Position = Vector3DF(0, 0, 0.5f);
 			buf[0].UV = Vector2DF(0, 0);
@@ -231,8 +231,12 @@ void main()
 			buf[1].UV = Vector2DF(1, 0);
 			buf[2].Position = Vector3DF(m_windowSize.X, m_windowSize.Y, 0.5f);
 			buf[2].UV = Vector2DF(1, 1);
+
+
 			buf[3].Position = Vector3DF(0, m_windowSize.Y, 0.5f);
 			buf[3].UV = Vector2DF(0, 1);
+			buf[4] = buf[0];
+			buf[5] = buf[2];
 
 			m_pasteVertexBuffer->Unlock();
 

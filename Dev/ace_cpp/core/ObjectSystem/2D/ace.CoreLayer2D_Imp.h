@@ -24,14 +24,7 @@ namespace ace
 		virtual ~CoreLayer2D_Imp();
 
 	public:
-		void SetLayerShape(const Vector2DF& ul, const Vector2DF& ur, const Vector2DF& ll, const Vector2DF& lr, const Vector2DI& size );
-
-		void AddDrawnTriangle(
-			const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
-			const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
-			const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3);
-
-
+		
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);
 
@@ -58,6 +51,19 @@ namespace ace
 		virtual RenderTexture2D* GetRenderTarget0() { return CoreLayer_Imp::GetRenderTarget0(); }
 		virtual RenderTexture2D* GetRenderTarget1() { return CoreLayer_Imp::GetRenderTarget1(); }
 		virtual void SetTargetToLayer(int32_t index) { CoreLayer_Imp::SetTargetToLayer(index); }
+
+		virtual void SetLayerShape(const Vector2DF& ul, const Vector2DF& ur, const Vector2DF& ll, const Vector2DF& lr, const Vector2DI& size)
+		{
+			CoreLayer_Imp::SetLayerShape(ul, ur, ll, lr, size);
+		}
+
+		virtual void AddDrawnTriangle(
+			const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
+			const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
+			const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3)
+		{
+			CoreLayer_Imp::AddDrawnTriangle(pos1, uv1, col1, pos2, uv2, col2, pos3, uv3, col3);
+		}
 
 #if !SWIG
 		Renderer2D* GetRenderer() const;

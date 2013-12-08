@@ -100,6 +100,38 @@ namespace ace
 		return m_renderTarget1;
 	}
 
+	void CoreLayer_Imp::SetLayerShape(const Vector2DF& ul, const Vector2DF& ur, const Vector2DF& ll, const Vector2DF& lr, const Vector2DI& size)
+	{
+		ace::Vector2DF lpos[4];
+		lpos[0] = ul;
+		lpos[1] = ur;
+		lpos[2] = lr;
+		lpos[3] = ll;
+		m_layerRenderer->SetLayerPosition(lpos);
+
+		CreateRenderTarget(size);
+	}
+
+	void CoreLayer_Imp::AddDrawnTriangle(
+		const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
+		const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
+		const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3)
+	{
+		Triangle t;
+		t.Pos1 = pos1;
+		t.UV1 = uv1;
+		t.Col1 = col1;
+		t.Pos2 = pos2;
+		t.UV2 = uv2;
+		t.Col2 = col2;
+		t.Pos3 = pos3;
+		t.UV3 = uv3;
+		t.Col3 = col3;
+
+		m_triangles.push_back(t);
+	}
+
+
 	void CoreLayer_Imp::SetTargetToLayer(int32_t index)
 	{
 		m_targetToLayer = index;
