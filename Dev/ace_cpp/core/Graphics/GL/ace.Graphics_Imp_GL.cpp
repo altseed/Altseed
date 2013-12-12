@@ -63,6 +63,13 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 
 	m_x11Mode = true;
 #endif
+
+#if _WIN32
+	m_renderingThreadDC = 0;
+	m_renderingThreadRC = 0;
+	m_renderingThreadHWND = nullptr;
+#endif
+
 	glewInit();
 
 	m_renderState = new RenderState_Imp_GL(this);
@@ -91,6 +98,21 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 	{
 		glXMakeCurrent(m_x11Display, 0, NULL);
 		glXDestroyContext(m_x11Display, m_glx);
+	}
+#endif
+
+#if _WIN32
+	if (m_renderingThreadRC)
+	{
+		wglMakeCurrent(NULL, NULL);
+		wglDeleteContext(m_renderingThreadRC);
+		m_renderingThreadRC = NULL;
+	}
+	if (m_renderingThreadDC)
+	{
+		ReleaseDC(m_renderingThreadHWND, m_renderingThreadDC);
+		m_renderingThreadDC = NULL;
+		m_renderingThreadHWND = NULL;
 	}
 #endif
 }
@@ -460,6 +482,54 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 	SafeDeleteArray(buf);
 
 	GLCheckError();
+}
+
+void Graphics_Imp_GL::CreateContext(Window* window)
+{
+	if (window == nullptr) return;
+
+	auto window_ = (Window_Imp*) window;
+
+#if _WIN32
+	m_renderingThreadHWND = glfwGetWin32Window(window_->GetWindow());
+	HGLRC mainRC = glfwGetWGLContext(window_->GetWindow());
+
+	PIXELFORMATDESCRIPTOR pformat = {
+		sizeof(PIXELFORMATDESCRIPTOR),
+		1,
+		0 |
+		PFD_DRAW_TO_WINDOW |
+		PFD_SUPPORT_OPENGL |
+		PFD_DOUBLEBUFFER,
+		PFD_TYPE_RGBA,
+		32,				// color
+		0, 0,			// R
+		0, 0,			// G
+		0, 0,			// B
+		0, 0,			// A
+		0, 0, 0, 0, 0,      // AC R G B A
+		24,				// depth
+		8,				// stencil
+		0,				// aux
+		0,				// layertype
+		0,			// reserved
+		0,			// layermask
+		0,			// visiblemask
+		0			// damagemask
+	};
+
+	m_renderingThreadDC = GetDC(m_renderingThreadHWND);
+
+	int pfmt = ChoosePixelFormat(m_renderingThreadDC, &pformat);
+	SetPixelFormat(m_renderingThreadDC, pfmt, &pformat);
+
+	
+	m_renderingThreadRC = wglCreateContext(m_renderingThreadDC);
+	wglShareLists(mainRC, m_renderingThreadRC);
+
+#else
+	assert(0);
+#endif
 }
 
 //----------------------------------------------------------------------------------

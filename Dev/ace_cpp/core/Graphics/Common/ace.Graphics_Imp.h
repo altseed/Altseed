@@ -14,6 +14,8 @@
 #include <Graphics/ace.Color.h>
 #include <Math/ace.Vector2DI.h>
 
+
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -21,6 +23,11 @@ namespace ace {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+
+#if !SWIG
+
+#endif
+
 /**
 	@brief	描画を管理するクラス
 	@note	現在、Graphicsクラスのインスタンスが複数存在した時の挙動は保証していない。
@@ -58,6 +65,9 @@ namespace ace {
 			@param	rev		上下反転で保存する。
 			*/
 		void SavePNGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev);
+
+	protected:
+		
 
 	protected:
 		Texture2D* CreateTexture2D_(const achar* path) { return CreateTexture2D_Imp(path); }

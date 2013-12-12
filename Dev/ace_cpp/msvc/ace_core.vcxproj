@@ -172,6 +172,7 @@
     <ClInclude Include="..\core\Graphics\Common\ace.Graphics.h" />
     <ClInclude Include="..\core\Graphics\Common\ace.GraphicsResourceContainer.h" />
     <ClInclude Include="..\core\Graphics\Common\ace.Graphics_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Common\ace.RenderingThread.h" />
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.DepthBuffer_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.IndexBuffer_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.Material2D.h" />
@@ -282,6 +283,7 @@
     <ClCompile Include="..\core\Graphics\Common\ace.DeviceObject.cpp" />
     <ClCompile Include="..\core\Graphics\Common\ace.GraphicsResourceContainer.cpp" />
     <ClCompile Include="..\core\Graphics\Common\ace.Graphics_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Common\ace.RenderingThread.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.DepthBuffer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.IndexBuffer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.Material2D_Imp.cpp" />

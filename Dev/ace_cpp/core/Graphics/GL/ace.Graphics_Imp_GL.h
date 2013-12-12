@@ -34,6 +34,12 @@ namespace ace {
 		::Window		m_x11Window;
 #endif
 
+#if _WIN32
+		HDC				m_renderingThreadDC;
+		HGLRC			m_renderingThreadRC;
+		HWND			m_renderingThreadHWND;
+#endif
+
 		Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log);
 
 		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log);
@@ -77,6 +83,13 @@ namespace ace {
 		void SaveScreenshot(const achar* path);
 
 		eGraphicsType GetGraphicsType() const { return GRAPHICS_TYPE_GL; }
+
+	private:
+		/**
+			@brief	描画スレッド用にコンテキストを生成する。
+			@param	window	ウインドウ
+		*/
+		void CreateContext(Window* window);
 	};
 
 	//----------------------------------------------------------------------------------
