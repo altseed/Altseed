@@ -129,20 +129,20 @@ void main()
 		tset.clear();
 	}
 
-
-	void Renderer3D::ThreadFunc(Renderer3D* renderer)
+	Renderer3D::RenderingEvent::RenderingEvent(Renderer3D* renderer)
+		: m_renderer(renderer)
 	{
-		while (renderer->m_running)
-		{
-			if (renderer->m_drawOnce)
-			{
-				renderer->Rendering();
-			}
-			else
-			{
-				Sleep(1);
-			}
-		}
+	
+	}
+
+	Renderer3D::RenderingEvent::~RenderingEvent()
+	{
+	
+	}
+
+	void Renderer3D::RenderingEvent::Event()
+	{
+		m_renderer->Rendering();
 	}
 
 	void Renderer3D::Rendering()
@@ -257,17 +257,13 @@ void main()
 
 			m_graphics->GetRenderState()->Pop();
 		}
-
-		m_drawOnce = false;
 	}
 
 	Renderer3D::Renderer3D(Graphics* graphics)
 		: m_graphics(nullptr)
-		, m_thread(std::thread([&]{ ThreadFunc(this); }))
-		, m_running(true)
-		, m_drawOnce(false)
 		, m_multithreadingMode(false)
 		, m_renderTarget(nullptr)
+		, m_event(this)
 	{
 		m_graphics = (Graphics_Imp*) graphics;
 		SafeAddRef(m_graphics);	
@@ -334,8 +330,13 @@ void main()
 
 	Renderer3D::~Renderer3D()
 	{
-		m_running = false;
-		m_thread.join();
+		if (m_multithreadingMode)
+		{
+			while (!m_event.IsExited())
+			{
+				Sleep(1);
+			}
+		}
 
 		ReleaseObjects(m_objects);
 		ReleaseObjects(rendering.objects);
@@ -451,7 +452,7 @@ void main()
 
 		if (m_multithreadingMode)
 		{
-			m_drawOnce = true;
+			m_graphics->GetRenderingThread()->AddEvent(&m_event);
 		}
 		else
 		{
@@ -461,9 +462,12 @@ void main()
 
 	void Renderer3D::EndRendering()
 	{
-		while (m_drawOnce)
+		if (m_multithreadingMode)
 		{
-			Sleep(1);
+			while (!m_event.IsExited())
+			{
+				Sleep(1);
+			}
 		}
 	}
 

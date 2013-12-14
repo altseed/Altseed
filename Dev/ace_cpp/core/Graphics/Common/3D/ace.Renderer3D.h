@@ -8,8 +8,7 @@
 #include <Math/ace.Vector3DF.h>
 #include <Graphics/ace.Color.h>
 
-#include <thread>
-#include <mutex>
+#include "../ace.RenderingThread.h"
 
 #include "../../../ace.Core.Base.h"
 #include "../../../ace.Core.Base_Imp.h"
@@ -19,6 +18,16 @@ namespace ace
 	class Renderer3D
 	{
 	private:
+
+		class RenderingEvent
+			: public RenderingThreadEvent
+		{
+			Renderer3D*	m_renderer;
+		public:
+			RenderingEvent(Renderer3D* renderer);
+			virtual ~RenderingEvent();
+			void Event() override;
+		};
 
 		struct PasteConstantBuffer
 		{
@@ -44,10 +53,7 @@ namespace ace
 		std::set<RenderedObject3D*>	m_cameraObjects;
 		std::set<RenderedObject3D*>	m_directionalLightObjects;
 
-		std::thread				m_thread;
-		volatile bool			m_running;
-		volatile bool			m_drawOnce;
-
+		
 		bool					m_multithreadingMode;
 
 		Vector2DI				m_windowSize;
@@ -58,7 +64,8 @@ namespace ace
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_pasteIndexBuffer;
 		std::shared_ptr<ace::NativeShader_Imp>	m_pasteShader;
 
-		static void ThreadFunc(Renderer3D* renderer);
+		RenderingEvent	m_event;
+
 		void Rendering();
 
 	public:

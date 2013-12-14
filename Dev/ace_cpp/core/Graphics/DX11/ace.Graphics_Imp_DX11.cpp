@@ -3,6 +3,8 @@
 //
 //----------------------------------------------------------------------------------
 #include "ace.Graphics_Imp_DX11.h"
+#include "../Common/ace.RenderingThread.h"
+
 #include "../../Window/ace.Window_Imp.h"
 #include "Resource/ace.Texture2D_Imp_DX11.h"
 #include "Resource/ace.VertexBuffer_Imp_DX11.h"
@@ -47,6 +49,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	, m_currentDepthStencilView(nullptr)
 {
 	m_renderState = new RenderState_Imp_DX11(this);
+	m_renderingThread->Run(this, StartRenderingThreadFunc, nullptr);
 }
 
 //----------------------------------------------------------------------------------

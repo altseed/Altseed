@@ -3,6 +3,7 @@
 //
 //----------------------------------------------------------------------------------
 #include "ace.Graphics_Imp.h"
+#include "ace.RenderingThread.h"
 
 #include "../../Log/ace.Log.h"
 
@@ -130,6 +131,18 @@ void Graphics_Imp::SavePNGImage(const achar* filepath, int32_t width, int32_t he
 	free(raw2D);
 }
 
+void Graphics_Imp::StartRenderingThreadFunc(void* self)
+{
+	auto self_ = (Graphics_Imp*) self;
+	self_->StartRenderingThread();
+}
+
+void Graphics_Imp::StartRenderingThread()
+{
+
+}
+
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -218,6 +231,7 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log)
 {
 	//SafeAddRef(m_log);
 	m_resourceContainer = new GraphicsResourceContainer();
+	m_renderingThread = std::make_shared<RenderingThread>();
 }
 
 //----------------------------------------------------------------------------------
@@ -225,6 +239,13 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log)
 //----------------------------------------------------------------------------------
 Graphics_Imp::~Graphics_Imp()
 {
+	m_renderingThread->AddEvent(nullptr);
+	while (m_renderingThread->IsRunning())
+	{
+		Sleep(1);
+	}
+	m_renderingThread.reset();
+
 	SafeRelease(m_vertexBufferPtr);
 	SafeRelease(m_indexBufferPtr);
 	SafeRelease(m_shaderPtr);

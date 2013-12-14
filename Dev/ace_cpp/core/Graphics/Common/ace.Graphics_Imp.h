@@ -67,7 +67,10 @@ namespace ace {
 		void SavePNGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev);
 
 	protected:
-		
+		std::shared_ptr<RenderingThread>	m_renderingThread;
+		static void StartRenderingThreadFunc(void* self);
+
+		virtual void StartRenderingThread();
 
 	protected:
 		Texture2D* CreateTexture2D_(const achar* path) { return CreateTexture2D_Imp(path); }
@@ -261,6 +264,12 @@ namespace ace {
 		textureがnullの場合は無条件で、デフォルトの描画先を使用する。
 	*/
 	virtual void SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer) = 0;
+
+	/**
+		@brief	スレッドを取得する。
+		@return	スレッド
+	*/
+	std::shared_ptr<RenderingThread>& GetRenderingThread() { return m_renderingThread; }
 #endif
 };
 

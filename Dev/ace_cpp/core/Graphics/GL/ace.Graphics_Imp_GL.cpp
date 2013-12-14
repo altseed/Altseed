@@ -3,6 +3,9 @@
 //
 //----------------------------------------------------------------------------------
 #include "ace.Graphics_Imp_GL.h"
+
+#include "../Common/ace.RenderingThread.h"
+
 #include "../../Window/ace.Window_Imp.h"
 #include "Resource/ace.Texture2D_Imp_GL.h"
 #include "Resource/ace.VertexBuffer_Imp_GL.h"
@@ -40,6 +43,7 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+	m_renderingThread->Run(this, StartRenderingThreadFunc, nullptr);
 }
 
 //----------------------------------------------------------------------------------
@@ -80,6 +84,8 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 	// バグ対策？
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	m_renderingThread->Run(this, StartRenderingThreadFunc, nullptr);
 }
 
 //----------------------------------------------------------------------------------
@@ -115,6 +121,18 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 		m_renderingThreadHWND = NULL;
 	}
 #endif
+}
+
+void Graphics_Imp_GL::StartRenderingThread()
+{
+	if (m_window != nullptr)
+	{
+		CreateContext(m_window);
+	}
+	else
+	{
+		assert(0);
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -484,15 +502,38 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 	GLCheckError();
 }
 
-void Graphics_Imp_GL::CreateContext(Window* window)
+void Graphics_Imp_GL::MakeContextCurrent()
+{
+	if (RenderingThread::GetThreadID() != m_renderingThread->GetThreadID())
+	{
+		if (m_window != nullptr)
+		{
+			glfwMakeContextCurrent(m_window);
+		}
+		else
+		{
+			assert(0);
+		}
+	}
+	else
+	{
+#if _WIN32
+		wglMakeCurrent(m_renderingThreadDC, m_renderingThreadRC);
+#else
+		assert(0);
+#endif
+	}
+}
+
+void Graphics_Imp_GL::CreateContext(GLFWwindow* window)
 {
 	if (window == nullptr) return;
 
-	auto window_ = (Window_Imp*) window;
+	auto window_ = window;
 
 #if _WIN32
-	m_renderingThreadHWND = glfwGetWin32Window(window_->GetWindow());
-	HGLRC mainRC = glfwGetWGLContext(window_->GetWindow());
+	m_renderingThreadHWND = glfwGetWin32Window(window_);
+	HGLRC mainRC = glfwGetWGLContext(window_);
 
 	PIXELFORMATDESCRIPTOR pformat = {
 		sizeof(PIXELFORMATDESCRIPTOR),

@@ -59,6 +59,9 @@ namespace ace {
 	class Joystick_Imp;
 	class JoystickContainer_Imp;
 
+	class RenderingThreadEvent;
+	class RenderingThread;
+
 	class Graphics_Imp;
 	class Texture2D_Imp;
 	class VertexBuffer_Imp;

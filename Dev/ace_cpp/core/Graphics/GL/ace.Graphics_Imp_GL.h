@@ -47,6 +47,8 @@ namespace ace {
 		virtual ~Graphics_Imp_GL();
 
 	protected:
+		void StartRenderingThread() override;
+
 		VertexBuffer_Imp* CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic);
 		IndexBuffer_Imp* CreateIndexBuffer_Imp_(int maxCount, bool isDynamic, bool is32bit);
 		NativeShader_Imp* CreateShader_Imp_(
@@ -84,12 +86,17 @@ namespace ace {
 
 		eGraphicsType GetGraphicsType() const { return GRAPHICS_TYPE_GL; }
 
+		/**
+			@brief	現状のスレットに対応したコンテキストを設定する。
+		*/
+		void MakeContextCurrent();
+
 	private:
 		/**
 			@brief	描画スレッド用にコンテキストを生成する。
 			@param	window	ウインドウ
 		*/
-		void CreateContext(Window* window);
+		void CreateContext(GLFWwindow* window);
 	};
 
 	//----------------------------------------------------------------------------------
