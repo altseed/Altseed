@@ -15,6 +15,9 @@
 #include "Resource/ace.RenderTexture_Imp_GL.h"
 #include "Resource/ace.DepthBuffer_Imp_GL.h"
 
+// Windows以外でGoogleTestとGLFWNativeのヘッダが干渉する(2013/12)
+#include <GLFW/glfw3native.h>
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -33,6 +36,10 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 	m_renderingThreadDC = 0;
 	m_renderingThreadRC = 0;
 	m_renderingThreadHWND = nullptr;
+#else
+	m_renderingThreadGlx = nullptr;
+	m_renderingThreadX11Display = nullptr;
+	m_renderingThreadX11Window = 0;
 #endif
 
 	m_window = ((Window_Imp*)window)->GetWindow();
@@ -53,7 +60,7 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 	// スレッド生成
 	glfwMakeContextCurrent(nullptr);
 	CreateContextBeforeThreading(m_window);
-	m_renderingThread->Run(this, StartRenderingThreadFunc, nullptr);
+	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	while (!m_endStarting)
 	{
 		Sleep(1);
@@ -90,6 +97,10 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 	m_renderingThreadDC = 0;
 	m_renderingThreadRC = 0;
 	m_renderingThreadHWND = nullptr;
+#else
+	m_renderingThreadGlx = nullptr;
+	m_renderingThreadX11Display = nullptr;
+	m_renderingThreadX11Window = 0;
 #endif
 
 	glewInit();
@@ -106,7 +117,7 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 	// スレッド生成
 	glfwMakeContextCurrent(nullptr);
 	CreateContextBeforeThreading(m_window);
-	m_renderingThread->Run(this, StartRenderingThreadFunc, nullptr);
+	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	while (!m_endStarting)
 	{
 		Sleep(1);
@@ -121,11 +132,20 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 //----------------------------------------------------------------------------------
 Graphics_Imp_GL::~Graphics_Imp_GL()
 {
+
 	// 必要なし
 	//SafeRelease(m_currentShader);
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDeleteFramebuffers(1, &m_frameBuffer);
+
+	m_renderingThread->AddEvent(nullptr);
+	while (m_renderingThread->IsRunning())
+	{
+		Sleep(1);
+	}
+	m_renderingThread.reset();
+
 
 #if !_WIN32
 	if( m_x11Mode )
@@ -148,6 +168,9 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 		m_renderingThreadDC = NULL;
 		m_renderingThreadHWND = NULL;
 	}
+
+#else
+	
 #endif
 }
 
@@ -160,6 +183,25 @@ void Graphics_Imp_GL::StartRenderingThread()
 	else
 	{
 		assert(0);
+	}
+}
+
+void Graphics_Imp_GL::EndRenderingThread()
+{
+	if (m_window != nullptr)
+	{
+#if !_WIN32
+		if(m_renderingThreadX11Display != nullptr)
+		{
+			glXMakeCurrent(m_renderingThreadX11Display, 0, NULL);
+			glXDestroyContext(m_renderingThreadX11Display, m_renderingThreadGlx);
+			m_renderingThreadX11Display = nullptr;
+		}
+#endif
+	}
+	else
+	{
+		
 	}
 }
 
@@ -610,9 +652,8 @@ void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
 	m_renderingThreadRC = wglCreateContext(m_renderingThreadDC);
 	wglShareLists(mainRC, m_renderingThreadRC);
 #else
-	assert(0);
-#endif
 
+#endif
 
 }
 
@@ -622,7 +663,20 @@ void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
 
 #if _WIN32
 #else
-	assert(0);
+	auto mainContext = glfwGetGLXContext(window);
+	auto display = glfwGetX11Display();
+	auto wind = glfwGetX11Window(window);
+
+	GLint attribute[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+	XVisualInfo* vi = glXChooseVisual(display, DefaultScreen(display), attribute);
+
+	GLXContext renderingContext = glXCreateContext(display, vi, mainContext, GL_TRUE);
+	
+	XFree(vi);
+	
+	m_renderingThreadGlx = renderingContext;
+	m_renderingThreadX11Display = display;
+	m_renderingThreadX11Window = wind;
 #endif
 
 	m_endStarting = true;

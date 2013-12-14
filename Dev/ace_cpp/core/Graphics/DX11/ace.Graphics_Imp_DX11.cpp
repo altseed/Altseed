@@ -49,7 +49,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	, m_currentDepthStencilView(nullptr)
 {
 	m_renderState = new RenderState_Imp_DX11(this);
-	m_renderingThread->Run(this, StartRenderingThreadFunc, nullptr);
+	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 }
 
 //----------------------------------------------------------------------------------
@@ -57,6 +57,13 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 //----------------------------------------------------------------------------------
 Graphics_Imp_DX11::~Graphics_Imp_DX11()
 {
+	m_renderingThread->AddEvent(nullptr);
+	while (m_renderingThread->IsRunning())
+	{
+		Sleep(1);
+	}
+	m_renderingThread.reset();
+
 	SafeRelease(m_currentBackRenderTargetView);
 	SafeRelease(m_currentDepthStencilView);
 

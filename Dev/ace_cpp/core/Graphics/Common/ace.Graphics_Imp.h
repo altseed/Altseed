@@ -68,9 +68,12 @@ namespace ace {
 
 	protected:
 		std::shared_ptr<RenderingThread>	m_renderingThread;
-		static void StartRenderingThreadFunc(void* self);
 
+		static void StartRenderingThreadFunc(void* self);
 		virtual void StartRenderingThread();
+
+		static void EndRenderingThreadFunc(void* self);
+		virtual void EndRenderingThread();
 
 	protected:
 		Texture2D* CreateTexture2D_(const achar* path) { return CreateTexture2D_Imp(path); }

@@ -41,6 +41,10 @@ namespace ace {
 		HDC				m_renderingThreadDC;
 		HGLRC			m_renderingThreadRC;
 		HWND			m_renderingThreadHWND;
+#else
+		GLXContext		m_renderingThreadGlx;
+		Display*		m_renderingThreadX11Display;
+		::Window		m_renderingThreadX11Window;
 #endif
 
 		std::recursive_mutex		m_mutex;
@@ -53,6 +57,7 @@ namespace ace {
 
 	protected:
 		void StartRenderingThread() override;
+		void EndRenderingThread() override;
 
 		VertexBuffer_Imp* CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic);
 		IndexBuffer_Imp* CreateIndexBuffer_Imp_(int maxCount, bool isDynamic, bool is32bit);

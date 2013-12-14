@@ -2,7 +2,7 @@
 #include "ace.CoreDirectionalLightObject3D_Imp.h"
 #include "ace.CoreLayer3D_Imp.h"
 
-#include "../Core/Graphics/Common/3D/ace.RenderedDirectionalLightObject3D.h"
+#include "../../Graphics/Common/3D/ace.RenderedDirectionalLightObject3D.h"
 
 namespace ace
 {

@@ -142,6 +142,17 @@ void Graphics_Imp::StartRenderingThread()
 
 }
 
+void Graphics_Imp::EndRenderingThreadFunc(void* self)
+{
+	auto self_ = (Graphics_Imp*) self;
+	self_->EndRenderingThread();
+}
+
+void Graphics_Imp::EndRenderingThread()
+{
+
+}
+
 
 //----------------------------------------------------------------------------------
 //
@@ -239,12 +250,7 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log)
 //----------------------------------------------------------------------------------
 Graphics_Imp::~Graphics_Imp()
 {
-	m_renderingThread->AddEvent(nullptr);
-	while (m_renderingThread->IsRunning())
-	{
-		Sleep(1);
-	}
-	m_renderingThread.reset();
+	assert(!m_renderingThread->IsRunning());
 
 	SafeRelease(m_vertexBufferPtr);
 	SafeRelease(m_indexBufferPtr);
