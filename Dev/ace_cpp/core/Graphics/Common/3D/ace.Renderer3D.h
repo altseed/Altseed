@@ -66,9 +66,9 @@ namespace ace
 
 		RenderingEvent	m_event;
 
+	public:
 		void Rendering();
 
-	public:
 		Renderer3D(Graphics* graphics);
 		~Renderer3D();
 

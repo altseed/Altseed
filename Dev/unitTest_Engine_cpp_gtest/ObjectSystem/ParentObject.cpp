@@ -1,7 +1,7 @@
 ﻿#include <ace.h>
 #include <gtest/gtest.h>
 #include <memory>
-#include "EngineTest.h"
+#include "../EngineTest.h"
 
 using namespace std;
 using namespace ace;

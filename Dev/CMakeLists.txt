@@ -40,15 +40,26 @@ set(common_src
 
 set(core_src
 	ace_cpp/core/ace.ReferenceObject.cpp
+
 	ace_cpp/core/Core/ace.Core_Imp.cpp
 	ace_cpp/core/Core/ace.CreateCore.cpp
 
 	ace_cpp/core/Graphics/Common/ace.DeviceObject.cpp
 	ace_cpp/core/Graphics/Common/ace.Graphics_Imp.cpp
 	ace_cpp/core/Graphics/Common/ace.GraphicsResourceContainer.cpp
+	ace_cpp/core/Graphics/Common/ace.RenderingThread.cpp
+
 	ace_cpp/core/Graphics/Common/2D/ace.LayerRenderer.cpp
 	ace_cpp/core/Graphics/Common/2D/ace.PostEffectRenderer.cpp
 	ace_cpp/core/Graphics/Common/2D/ace.Renderer2D_Imp.cpp
+
+	ace_cpp/core/Graphics/Common/3D/ace.Bones.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.Mesh_Imp.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.RenderedCameraObject3D.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.RenderedDirectionalLightObject3D.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.RenderedMeshObject3D.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.RenderedObject3D.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.Renderer3D.cpp
 
 	ace_cpp/core/Graphics/Common/Resource/ace.DepthBuffer_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.IndexBuffer_Imp.cpp
@@ -70,6 +81,8 @@ set(core_src
 
 	ace_cpp/core/Log/ace.Log_Imp.cpp
 
+
+	ace_cpp/core/ObjectSystem/ace.CoreLayer_Imp.cpp
 	ace_cpp/core/ObjectSystem/ace.CoreScene_Imp.cpp
 	ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory_Imp.cpp
 
@@ -77,13 +90,17 @@ set(core_src
 	ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.TransformInfo2D.cpp
 
+	ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D_Imp.cpp
+	ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D_Imp.cpp
+	ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D_Imp.cpp
+	ace_cpp/core/ObjectSystem/3D/ace.CoreMeshObject3D_Imp.cpp
+	ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D_Imp.cpp
+
 	ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect_Imp.cpp
 
 	ace_cpp/core/Profiler/ace.Profile.cpp
 	ace_cpp/core/Profiler/ace.Profiler_Imp.cpp
 	ace_cpp/core/Profiler/ace.ProfilerViewer_Imp.cpp
-
-	ace_cpp/core/Utility/ace.IDContainer.cpp
 
 	ace_cpp/core/Window/ace.Window_Imp.cpp
 	)
@@ -122,29 +139,43 @@ endif()
 
 set(engine_src
 	ace_cpp/engine/ace.Engine.cpp
+
 	ace_cpp/engine/ObjectSystem/ace.Layer.cpp
 	ace_cpp/engine/ObjectSystem/ace.Scene.cpp
+
 	ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.Object2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.cpp
+
+	ace_cpp/engine/ObjectSystem/3D/ace.CameraObject3D.cpp
+	ace_cpp/engine/ObjectSystem/3D/ace.DirectionalLightObject3D.cpp
+	ace_cpp/engine/ObjectSystem/3D/ace.Layer3D.cpp
+	ace_cpp/engine/ObjectSystem/3D/ace.MeshObject3D.cpp
+	ace_cpp/engine/ObjectSystem/3D/ace.Object3D.cpp
+
 	ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.cpp
 	ace_cpp/engine/ObjectSystem/Component/ace.Object2DComponent.cpp
 	ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent.cpp
+
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffect.cpp
+	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGaussianBlur.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGrayScale.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSepia.cpp
-	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSmoothing.cpp
 )
 
 set(unittest_gtest_src
-	unitTest_cpp_gtest/main.cpp
-	unitTest_cpp_gtest/ace.DLL.cpp
 	unitTest_cpp_gtest/ace.common.Base_test.cpp
+	unitTest_cpp_gtest/ace.DLL.cpp
+	unitTest_cpp_gtest/main.cpp
 
 	unitTest_cpp_gtest/Graphics/ace.Graphics_Test_Utls.cpp
+
 	unitTest_cpp_gtest/Graphics/2D/ace.LayerRenderer_Test.cpp
 	unitTest_cpp_gtest/Graphics/2D/ace.PostEffectRenderer_Test.cpp
 	unitTest_cpp_gtest/Graphics/2D/ace.Renderer2D_Test.cpp
+
+	unitTest_cpp_gtest/Graphics/3D/ace.Mesh_Test.cpp
+
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Empty_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_RenderTarget.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Sampler_Test.cpp
@@ -165,32 +196,33 @@ set(unittest_gtest_src
 	unitTest_cpp_gtest/Window/ace.Window_Empty_Test.cpp)
 
 set(unittest_engine_gtest_src
+	unitTest_Engine_cpp_gtest/EngineTest.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
 	unitTest_Engine_cpp_gtest/Profiler.cpp
+
+	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/LayerComponent.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/LayerHasNoObject.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/LayersMember.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Object2DTest.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsMember.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/ParentObject.cpp
+
+	unitTest_Engine_cpp_gtest/Graphics/3D/SimpleMesh.cpp
 
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/CustomPostEffect.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGaussinaBlurTest.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGrayScaleTest.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepiaTest.cpp
-	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSmoothingTest.cpp
 
 )
-
-set(test_src
-	test_cpp/main.cpp
-	test_cpp/SampleGuide.cpp
-	test_cpp/Window/Empty.cpp
-	test_cpp/Window/EmptyExternal.cpp
-	test_cpp/Input/Keyboard.cpp
-	test_cpp/Input/Mouse.cpp
-	test_cpp/Input/Joystick.cpp)
 
 # インクルードの設定
 include_directories(
 	include/
 	ace_cpp/common/
 	ace_cpp/core/
-	test_cpp/
 	)
 
 #ライブラリの設定
@@ -260,8 +292,7 @@ target_link_libraries(aceUnitTestGtest aceCore ${common_lib})
 add_executable( aceUnitTestEngineGtest ${unittest_engine_gtest_src} )
 target_link_libraries(aceUnitTestEngineGtest aceEngine ${common_lib}) 
 
-add_executable( aceTest ${test_src} )
-target_link_libraries(aceTest aceEngine ${common_lib}) 
+
 
 # 出力先の設定
 set_target_properties(aceCommon PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
@@ -279,7 +310,6 @@ set_target_properties(aceEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
 
 set_target_properties(aceUnitTestGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 set_target_properties(aceUnitTestEngineGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
-set_target_properties(aceTest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 
 if (MSVC)
 set_target_properties(aceCommon PROPERTIES OUTPUT_NAME_DEBUG "ace_common" )
@@ -315,8 +345,6 @@ set_target_properties(aceUnitTestGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestG
 set_target_properties(aceUnitTestEngineGtest PROPERTIES OUTPUT_NAME_DEBUG "UnitTestEngineGtest_cpp" )
 set_target_properties(aceUnitTestEngineGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestEngineGtest_cpp" )
 
-set_target_properties(aceTest PROPERTIES OUTPUT_NAME_DEBUG "test_cpp" )
-set_target_properties(aceTest PROPERTIES OUTPUT_NAME_RELEASE "test_cpp" )
 
 # フラグ処理
 if (MSVC)
@@ -366,9 +394,5 @@ install(
 
 install(
 	TARGETS aceUnitTestEngineGtest
-	RUNTIME DESTINATION bin )
-
-install(
-	TARGETS aceTest
 	RUNTIME DESTINATION bin )
 

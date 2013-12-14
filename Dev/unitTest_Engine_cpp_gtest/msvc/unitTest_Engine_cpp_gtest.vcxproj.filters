@@ -6,9 +6,6 @@
       <Filter>ObjectSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\Profiler.cpp" />
-    <ClCompile Include="..\ParentObject.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\ObjectSystem\CustomObject.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
@@ -42,6 +39,9 @@
     </ClCompile>
     <ClCompile Include="..\Graphics\3D\SimpleMesh.cpp">
       <Filter>Graphics\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ObjectSystem\ParentObject.cpp">
+      <Filter>ObjectSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
