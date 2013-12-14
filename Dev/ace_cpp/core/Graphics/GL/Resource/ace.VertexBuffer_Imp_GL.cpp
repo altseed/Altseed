@@ -105,6 +105,9 @@ bool VertexBuffer_Imp_GL::RingBufferLock(int32_t count)
 //-----------------------------------------------------------------------------------
 void VertexBuffer_Imp_GL::Unlock()
 {
+	std::lock_guard<std::recursive_mutex> lock(((Graphics_Imp_GL*) GetGraphics())->GetMutex());
+	((Graphics_Imp_GL*) GetGraphics())->MakeContextCurrent();
+
 	assert(m_isLock || m_ringBufferLock);
 
 	GLCheckError();

@@ -29,6 +29,7 @@ namespace ace {
 
 		GLuint			m_frameBuffer;
 
+		bool			m_endStarting;
 #if !_WIN32
 		bool			m_x11Mode = false;
 		GLXContext		m_glx;
@@ -101,11 +102,24 @@ namespace ace {
 		*/
 		std::recursive_mutex& GetMutex(){ return m_mutex; }
 	private:
+
 		/**
-			@brief	描画スレッド用にコンテキストを生成する。
+		@brief	描画スレッド用にコンテキストを生成する。(描画スレッド生成前)
+		@param	window	ウインドウ
+		*/
+		void CreateContextBeforeThreading(GLFWwindow* window);
+
+		/**
+			@brief	描画スレッド用にコンテキストを生成する。(描画スレッド上)
 			@param	window	ウインドウ
 		*/
-		void CreateContext(GLFWwindow* window);
+		void CreateContextOnThread(GLFWwindow* window);
+
+		/**
+		@brief	描画スレッド用にコンテキストを生成する。(描画スレッド生成後)
+		@param	window	ウインドウ
+		*/
+		void CreateContextAfterThreading(GLFWwindow* window);
 	};
 
 	//----------------------------------------------------------------------------------

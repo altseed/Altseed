@@ -25,8 +25,15 @@ namespace ace {
 Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log)
 	: Graphics_Imp(size, log)
 	, m_window(nullptr)
+	, m_endStarting(false)
 {
 	assert(window != nullptr);
+
+#if _WIN32
+	m_renderingThreadDC = 0;
+	m_renderingThreadRC = 0;
+	m_renderingThreadHWND = nullptr;
+#endif
 
 	m_window = ((Window_Imp*)window)->GetWindow();
 
@@ -43,7 +50,17 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+	// スレッド生成
+	glfwMakeContextCurrent(nullptr);
+	CreateContextBeforeThreading(m_window);
 	m_renderingThread->Run(this, StartRenderingThreadFunc, nullptr);
+	while (!m_endStarting)
+	{
+		Sleep(1);
+	}
+	CreateContextAfterThreading(m_window);
+	glfwMakeContextCurrent(m_window);
+	GLCheckError();
 }
 
 //----------------------------------------------------------------------------------
@@ -52,6 +69,7 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log)
 	: Graphics_Imp(size, log)
 	, m_window(nullptr)
+	, m_endStarting(false)
 {
 #if !_WIN32
 	GLXContext* context_ = (GLXContext*)context;
@@ -85,7 +103,17 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
+	// スレッド生成
+	glfwMakeContextCurrent(nullptr);
+	CreateContextBeforeThreading(m_window);
 	m_renderingThread->Run(this, StartRenderingThreadFunc, nullptr);
+	while (!m_endStarting)
+	{
+		Sleep(1);
+	}
+	CreateContextAfterThreading(m_window);
+	glfwMakeContextCurrent(m_window);
+	GLCheckError();
 }
 
 //----------------------------------------------------------------------------------
@@ -127,7 +155,7 @@ void Graphics_Imp_GL::StartRenderingThread()
 {
 	if (m_window != nullptr)
 	{
-		CreateContext(m_window);
+		CreateContextOnThread(m_window);
 	}
 	else
 	{
@@ -543,15 +571,13 @@ void Graphics_Imp_GL::MakeContextCurrent()
 	}
 }
 
-void Graphics_Imp_GL::CreateContext(GLFWwindow* window)
+void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
 {
 	if (window == nullptr) return;
 
-	auto window_ = window;
-
 #if _WIN32
-	m_renderingThreadHWND = glfwGetWin32Window(window_);
-	HGLRC mainRC = glfwGetWGLContext(window_);
+	m_renderingThreadHWND = glfwGetWin32Window(window);
+	HGLRC mainRC = glfwGetWGLContext(window);
 
 	PIXELFORMATDESCRIPTOR pformat = {
 		sizeof(PIXELFORMATDESCRIPTOR),
@@ -581,14 +607,29 @@ void Graphics_Imp_GL::CreateContext(GLFWwindow* window)
 
 	int pfmt = ChoosePixelFormat(m_renderingThreadDC, &pformat);
 	SetPixelFormat(m_renderingThreadDC, pfmt, &pformat);
-
-	
 	m_renderingThreadRC = wglCreateContext(m_renderingThreadDC);
 	wglShareLists(mainRC, m_renderingThreadRC);
-
 #else
 	assert(0);
 #endif
+
+
+}
+
+void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
+{
+	if (window == nullptr) return;
+
+#if _WIN32
+#else
+	assert(0);
+#endif
+
+	m_endStarting = true;
+}
+
+void Graphics_Imp_GL::CreateContextAfterThreading(GLFWwindow* window)
+{
 }
 
 //----------------------------------------------------------------------------------

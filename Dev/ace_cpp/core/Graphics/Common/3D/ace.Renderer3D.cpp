@@ -275,7 +275,7 @@ void main()
 		}
 		else
 		{
-			m_multithreadingMode = false;
+			m_multithreadingMode = true;
 		}
 
 
