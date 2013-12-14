@@ -271,6 +271,9 @@ void Graphics_Imp_GL::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* verte
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::BeginInternal()
 {
+	std::lock_guard<std::recursive_mutex> lock(GetMutex());
+	MakeContextCurrent();
+
 	GLCheckError();
 
 	// 描画先のリセット
@@ -285,6 +288,9 @@ void Graphics_Imp_GL::BeginInternal()
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::SetViewport(int32_t x, int32_t y, int32_t width, int32_t height)
 {
+	std::lock_guard<std::recursive_mutex> lock(GetMutex());
+	MakeContextCurrent();
+
 	glViewport(x, y, width, height);
 }
 
@@ -352,6 +358,9 @@ DepthBuffer_Imp* Graphics_Imp_GL::CreateDepthBuffer_Imp(int32_t width, int32_t h
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer)
 {
+	std::lock_guard<std::recursive_mutex> lock(GetMutex());
+	MakeContextCurrent();
+
 	// 強制リセット
 	ResetDrawState();
 	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
@@ -415,6 +424,9 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Im
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::Clear(bool isColorTarget, bool isDepthTarget, const Color& color)
 {
+	std::lock_guard<std::recursive_mutex> lock(GetMutex());
+	MakeContextCurrent();
+	
 	GLbitfield bit = 0;
 	if (isColorTarget)
 	{
@@ -450,6 +462,9 @@ void Graphics_Imp_GL::Clear(bool isColorTarget, bool isDepthTarget, const Color&
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::Present()
 {
+	std::lock_guard<std::recursive_mutex> lock(GetMutex());
+	MakeContextCurrent();
+
 	GLCheckError();
 
 	// Save FPS
@@ -474,6 +489,9 @@ void Graphics_Imp_GL::Present()
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 {
+	std::lock_guard<std::recursive_mutex> lock(GetMutex());
+	MakeContextCurrent();
+
 	GLCheckError();
 
 	glFlush();
@@ -504,7 +522,7 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 
 void Graphics_Imp_GL::MakeContextCurrent()
 {
-	if (RenderingThread::GetThreadID() != m_renderingThread->GetThreadID())
+	if (GetThreadID() != m_renderingThread->GetThreadID())
 	{
 		if (m_window != nullptr)
 		{

@@ -1,6 +1,5 @@
 ﻿
 #include "ace.CoreScene_Imp.h"
-#include "../Utility/ace.IDObjectContainer.h"
 
 using namespace std;
 

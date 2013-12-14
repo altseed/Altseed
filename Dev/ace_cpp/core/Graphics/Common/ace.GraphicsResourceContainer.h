@@ -6,8 +6,6 @@
 #include "../../ace.Core.Base_Imp.h"
 #include "ace.Graphics.h"
 
-#include "../../Utility/ace.IDObjectContainer.h"
-
 #include <time.h>
 
 //----------------------------------------------------------------------------------

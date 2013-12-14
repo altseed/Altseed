@@ -87,9 +87,15 @@ namespace ace
 		void AddEvent(RenderingThreadEvent* e);
 
 		/**
-			@brief	呼び出し元のスレッドIDを取得する。
-			@return	スレッドID
+		@brief	スレッドIDを取得する。
+		@return	スレッドID
 		*/
-		static int32_t GetThreadID();
+		int32_t GetThreadID();
 	};
+
+	/**
+	@brief	呼び出し元のスレッドIDを取得する。
+	@return	スレッドID
+	*/
+	int32_t GetThreadID();
 }

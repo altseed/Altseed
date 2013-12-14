@@ -253,7 +253,6 @@
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer.h" />
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer_Imp.h" />
     <ClInclude Include="..\core\Profiler\ace.Profiler_Imp.h" />
-    <ClInclude Include="..\core\Utility\ace.IDObjectContainer.h" />
     <ClInclude Include="..\core\Window\ace.Window.h" />
     <ClInclude Include="..\core\Window\ace.Window_Imp.h" />
     <ClInclude Include="..\core\Window\ace.Window_Imp_Win.h" />

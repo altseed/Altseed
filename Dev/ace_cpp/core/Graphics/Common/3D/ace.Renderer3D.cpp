@@ -268,6 +268,7 @@ void main()
 		m_graphics = (Graphics_Imp*) graphics;
 		SafeAddRef(m_graphics);	
 
+		// 別スレッドで描画を行うか指定
 		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
 		{
 			m_multithreadingMode = true;

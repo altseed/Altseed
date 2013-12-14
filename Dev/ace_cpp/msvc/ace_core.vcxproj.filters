@@ -43,9 +43,6 @@
     <Filter Include="Graphics\Common\2D">
       <UniqueIdentifier>{4c91c88c-e143-4959-b422-06caac46a44d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Utility">
-      <UniqueIdentifier>{c5bcd898-7fab-4c16-9930-d1d85fe9ee83}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ObjectSystem">
       <UniqueIdentifier>{e403fde6-b389-4b62-9792-bc1e6a9e9e94}</UniqueIdentifier>
     </Filter>
@@ -230,9 +227,6 @@
     </ClInclude>
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer_Imp.h">
       <Filter>Profiler</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Utility\ace.IDObjectContainer.h">
-      <Filter>Utility</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\ace.GraphicsResourceContainer.h">
       <Filter>Graphics\Common</Filter>

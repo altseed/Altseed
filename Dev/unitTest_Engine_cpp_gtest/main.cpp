@@ -42,8 +42,8 @@ int main(int argc, char **argv)
 	//Test_ParentObject();
 	//auto result = 0;
 
-	//Graphics_SimpleMesh_(true);
-	//return 0;
+	Graphics_SimpleMesh_(true);
+	return 0;
 
 	auto result = RUN_ALL_TESTS();
 

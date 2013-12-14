@@ -24,7 +24,7 @@ namespace ace
 
 	void RenderingThread::ThreadFunc(RenderingThread* self)
 	{
-		self->m_threadID = GetThreadID();
+		self->m_threadID = ::ace::GetThreadID();
 
 		if (self->m_self != nullptr && self->m_startFunc != nullptr)
 		{
@@ -101,13 +101,18 @@ namespace ace
 		{
 			e->m_isExited = false;
 		}
-		
+
 		m_eventMutex.lock();
 		m_events.push(e);
 		m_eventMutex.unlock();
 	}
 
 	int32_t RenderingThread::GetThreadID()
+	{
+		return m_threadID;
+	}
+
+	int32_t GetThreadID()
 	{
 #if _WIN32
 		return GetCurrentThreadId();

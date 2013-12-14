@@ -6,6 +6,8 @@
 #include "../Common/ace.Graphics_Imp.h"
 #include "ace.GL.Base.h"
 
+#include <mutex>
+
 #if !_WIN32
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
@@ -39,6 +41,8 @@ namespace ace {
 		HGLRC			m_renderingThreadRC;
 		HWND			m_renderingThreadHWND;
 #endif
+
+		std::recursive_mutex		m_mutex;
 
 		Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log);
 
@@ -91,6 +95,11 @@ namespace ace {
 		*/
 		void MakeContextCurrent();
 
+		/**
+			@brief	制御用のミューテックスを取得する。
+			@return	ミューテックス
+		*/
+		std::recursive_mutex& GetMutex(){ return m_mutex; }
 	private:
 		/**
 			@brief	描画スレッド用にコンテキストを生成する。
