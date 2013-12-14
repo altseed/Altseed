@@ -9,6 +9,9 @@ namespace ace
 {
 	class Scene;
 
+	/**
+		@brief	オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス。
+	*/
 	class Layer
 	{
 		friend class Scene;
@@ -44,15 +47,42 @@ namespace ace
 		Layer();
 		virtual ~Layer();
 
+		/**
+			@brief	このインスタンスを管理している ace.Scene クラスのインスタンスを取得する。
+			@return	シーン
+		*/
 		virtual Scene* GetScene() const;
 
+		/**
+			@brief	レイヤーの更新を実行するかどうか取得する。
+		*/
 		bool GetIsUpdated() const;
+
+		/**
+			@brief	レイヤーの更新を実行するかどうか設定する。
+			@param	value	レイヤーの更新を実行するかどうか
+		*/
 		void SetIsUpdated(bool value);
 
+		/**
+		@brief	レイヤーを描画するどうか取得する。
+		*/
 		bool GetIsDrawn() const;
+		/**
+		@brief	レイヤーを描画するどうか設定する。
+		@param	value	レイヤーを描画するどうか
+		*/
 		void SetIsDrawn(bool value);
 
+		/**
+		@brief	このレイヤーの描画優先度を取得する。この値が大きいほど手前に描画される。
+		*/
 		int GetDrawingPriority() const;
+
+		/**
+		@brief	このレイヤーの描画優先度を設定する。この値が大きいほど手前に描画される。
+		@param	value	優先度
+		*/
 		void SetDrawingPriority(int value);
 
 		/**

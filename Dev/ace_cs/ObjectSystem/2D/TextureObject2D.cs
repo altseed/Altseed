@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ace
 {
 	/// <summary>
-	/// テクスチャと描画パラメータを用いて、更新・描画処理を行う単位となる2Dオブジェクトの機能を提供するクラス。
+	/// テクスチャと描画パラメータを用いて、更新・描画処理を行う単位となる2Dオブジェクトの機能を提供するクラス
 	/// </summary>
 	public class TextureObject2D : Object2D, IDestroy
 	{

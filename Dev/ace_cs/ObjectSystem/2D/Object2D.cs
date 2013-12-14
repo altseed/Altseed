@@ -18,6 +18,9 @@ namespace ace
 			IsAlive = true;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
 		public bool IsUpdated { get; set; }
 
 		public bool IsDrawn

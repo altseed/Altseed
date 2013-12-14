@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ace
 {
 	/// <summary>
-	/// 2Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス。
+	/// 2Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
 	/// </summary>
 	public class Layer2D : Layer, IDestroy
 	{
@@ -58,7 +58,7 @@ namespace ace
 		
 
 		/// <summary>
-		/// このレイヤーが管理している2Dオブジェクトのコレクションを取得します。
+		/// このレイヤーが管理している2Dオブジェクトのコレクションを取得する。
 		/// </summary>
 		public IEnumerable<Object2D> Objects
 		{
@@ -71,7 +71,7 @@ namespace ace
 		}
 
 		/// <summary>
-		/// このレイヤーに指定した2Dオブジェクトを追加します。
+		/// このレイヤーに指定した2Dオブジェクトを追加する。
 		/// </summary>
 		/// <param name="object2D">追加する2Dオブジェクト。</param>
 		public void AddObject(Object2D object2D)
@@ -87,9 +87,9 @@ namespace ace
 		}
 
 		/// <summary>
-		/// このレイヤーから指定した2Dオブジェクトを削除します。
+		/// このレイヤーから指定した2Dオブジェクトを削除する。
 		/// </summary>
-		/// <param name="object2D">削除される2Dオブジェクト。</param>
+		/// <param name="object2D">削除される2Dオブジェクト</param>
 		public void RemoveObject(Object2D object2D)
 		{
 			objects_.Remove(object2D);

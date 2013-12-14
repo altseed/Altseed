@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/// <summary>
+	/// 3Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
+	/// </summary>
 	public class Layer3D : Layer, IDestroy
 	{
 		/// <summary>
-		/// ace.Layer2D クラスの新しいインスタンスを初期化します。
+		/// コンストラクタ
 		/// </summary>
 		public Layer3D()
 		{
@@ -80,7 +83,7 @@ namespace ace
 		/// <summary>
 		/// このレイヤーから指定した3Dオブジェクトを削除する。
 		/// </summary>
-		/// <param name="object3D">削除される3Dオブジェクト。</param>
+		/// <param name="object3D">削除される3Dオブジェクト</param>
 		public void RemoveObject(Object3D object3D)
 		{
 			objects_.Remove(object3D);

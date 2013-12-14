@@ -8,7 +8,7 @@
 namespace ace
 {
 	/**
-		@brief	3Dレイヤーのクラス
+		@brief	3Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
 	*/
 	class Layer3D
 		: public Layer
@@ -46,14 +46,14 @@ namespace ace
 		virtual ~Layer3D();
 
 		/**
-			@brief	オブジェクトを追加する。
-			@param	object	オブジェクト
+			@brief	このレイヤーに指定した3Dオブジェクトを追加する。
+			@param	object	追加する3Dオブジェクト
 		*/
 		void AddObject(const ObjectPtr& object);
 		
 		/**
-			@brief	オブジェクトを除去する。
-			@param	object	オブジェクト
+			@brief	このレイヤーから指定した3Dオブジェクトを削除する。
+			@param	object	削除される3Dオブジェクト
 		*/
 		void RemoveObject(const ObjectPtr& object);
 	};

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/// <summary>
+	/// 更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
+	/// </summary>
 	public abstract class Object3D : IDestroy
 	{
 		internal swig.CoreObject3D commonObject = null;
@@ -41,8 +44,14 @@ namespace ace
 		}
 		#endregion
 
+		/// <summary>
+		/// オブジェクトの更新を実行するかどうか取得または設定する。
+		/// </summary>
 		public bool IsUpdated { get; set; }
 
+		/// <summary>
+		/// オブジェクトを描画するかどうか取得または設定する。
+		/// </summary>
 		public bool IsDrawn
 		{
 			get { return CoreObject.GetIsDrawn(); }

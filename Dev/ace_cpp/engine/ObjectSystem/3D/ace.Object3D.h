@@ -7,6 +7,9 @@ namespace ace
 {
 	class Layer3D;
 
+	/**
+		@brief	更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
+	*/
 	class Object3D
 	{
 		friend class Layer3D;
@@ -36,20 +39,42 @@ namespace ace
 		virtual void OnDrawAdditionally() = 0;
 
 	public:
+		/**
+			@brief	コンストラクタ
+		*/
 		Object3D();
+
+		/**
+			@brief	デストラクタ
+		*/
 		virtual ~Object3D();
 
+		/**
+		@brief	オブジェクトの更新を実行するかどうか取得する。
+		*/
 		bool GetIsUpdated() const;
+
+		/**
+		@brief	オブジェクトの更新を実行するかどうか設定する。
+		@param	value	オブジェクトの更新を実行するかどうか
+		*/
 		void SetIsUpdated(bool value);
 
+		/**
+		@brief	オブジェクトを描画するどうか取得する。
+		*/
 		bool GetIsDrawn() const;
+		/**
+		@brief	オブジェクトを描画するどうか設定する。
+		@param	value	オブジェクトを描画するどうか
+		*/
 		void SetIsDrawn(bool value);
 
 		bool GetIsAlive() const;
 		void Vanish();
 
 		/**
-		@brief	このオブジェクトを保持しているレイヤーを取得する。
+		@brief	このインスタンスを管理している ace.Layer3D クラスのインスタンスを取得する。
 		*/
 		Layer3D* GetLayer() const;
 
