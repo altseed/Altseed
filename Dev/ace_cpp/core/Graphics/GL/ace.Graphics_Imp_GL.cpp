@@ -170,7 +170,12 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 	}
 
 #else
-	
+	if(m_renderingThreadX11Display != nullptr)
+	{
+		glXMakeCurrent(m_renderingThreadX11Display, 0, NULL);
+		glXDestroyContext(m_renderingThreadX11Display, m_renderingThreadGlx);
+		m_renderingThreadX11Display = nullptr;
+	}
 #endif
 }
 
@@ -191,12 +196,7 @@ void Graphics_Imp_GL::EndRenderingThread()
 	if (m_window != nullptr)
 	{
 #if !_WIN32
-		if(m_renderingThreadX11Display != nullptr)
-		{
-			glXMakeCurrent(m_renderingThreadX11Display, 0, NULL);
-			glXDestroyContext(m_renderingThreadX11Display, m_renderingThreadGlx);
-			m_renderingThreadX11Display = nullptr;
-		}
+		
 #endif
 	}
 	else
@@ -653,16 +653,6 @@ void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
 	wglShareLists(mainRC, m_renderingThreadRC);
 #else
 
-#endif
-
-}
-
-void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
-{
-	if (window == nullptr) return;
-
-#if _WIN32
-#else
 	auto mainContext = glfwGetGLXContext(window);
 	auto display = glfwGetX11Display();
 	auto wind = glfwGetX11Window(window);
@@ -677,6 +667,18 @@ void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
 	m_renderingThreadGlx = renderingContext;
 	m_renderingThreadX11Display = display;
 	m_renderingThreadX11Window = wind;
+
+#endif
+
+}
+
+void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
+{
+	if (window == nullptr) return;
+
+#if _WIN32
+#else
+
 #endif
 
 	m_endStarting = true;

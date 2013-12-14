@@ -17,7 +17,6 @@ void Window_Imp_X11::Unregist()
 	{
 		glfwDestroyWindow(m_window);
 		m_window = nullptr;
-		glfwTerminate();
 		m_closed = true;
 	}
 }
@@ -63,6 +62,7 @@ Window_Imp_X11::Window_Imp_X11(GLFWwindow* window, int32_t width, int32_t height
 Window_Imp_X11::~Window_Imp_X11()
 {
 	Unregist();
+	glfwTerminate();
 }
 
 //----------------------------------------------------------------------------------

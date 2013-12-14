@@ -250,8 +250,6 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log)
 //----------------------------------------------------------------------------------
 Graphics_Imp::~Graphics_Imp()
 {
-	assert(!m_renderingThread->IsRunning());
-
 	SafeRelease(m_vertexBufferPtr);
 	SafeRelease(m_indexBufferPtr);
 	SafeRelease(m_shaderPtr);

@@ -117,6 +117,7 @@ void Graphics_LayerRenderer(bool isOpenGLMode)
 		time++;
 	}
 
+	texture.reset();
 	renderer->Release();
 	graphics->Release();
 	
