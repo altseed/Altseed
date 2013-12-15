@@ -95,7 +95,7 @@ namespace ace
 			return ret;
 		}
 
-		internal static RenderTexture2D GenerateRenderTexture2D(swig.RenderTexture2D o)
+		internal static RenderTexture2D GenerateRenderTexture2D(swig.RenderTexture2D o, bool ifnewAddRef)
 		{
 			var p = o.GetPtr();
 
@@ -103,6 +103,11 @@ namespace ace
 			if (existing != null)
 			{
 				return (RenderTexture2D)existing;
+			}
+
+			if(ifnewAddRef)
+			{
+				o.AddRef();
 			}
 
 			var ret = new RenderTexture2D(o);

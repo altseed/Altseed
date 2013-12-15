@@ -5,7 +5,7 @@ echo compile
 msbuild Dev/unitTest_Engine_cpp.sln /p:configuration=Debug
 msbuild Dev/unitTest_Engine_cpp.sln /p:configuration=Release
 
-msbuild Dev/test_cs.sln /p:configuration=Release
+msbuild Dev/unitTest_Engine_cs.sln /p:configuration=Release
 
 mkdir %RDIR%\bin\
 mkdir %RDIR%\cpp\

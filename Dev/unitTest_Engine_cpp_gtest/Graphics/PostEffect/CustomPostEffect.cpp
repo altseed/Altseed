@@ -119,7 +119,7 @@ class Graphics_CustomPostEffect : public EngineTest
 public:
 	float intensity;
 	Graphics_CustomPostEffect(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("CustomPostEffect"), isOpenGLMode, 60)
+		EngineTest(ace::ToAString("CustomPostEffect"), isOpenGLMode, 10)
 	{}
 protected:
 	void OnStart() override
@@ -159,4 +159,9 @@ TEST(Graphics, CustomPostEffect_DX)
 	Graphics_CustomPostEffect(false).Run();
 }
 #endif
+
+void Graphics_CustomPostEffect_(bool isGL)
+{
+	Graphics_CustomPostEffect(isGL).Run();
+}
 

@@ -18,7 +18,10 @@ void GetDirectoryName(char* dst, char* src);
 extern void Test_LayerComponent_GL();
 extern void Test_Component_GL();
 extern void Test_ParentObject();
-extern void Graphics_CustomPostEffect(bool isOpenGLMode);
+extern void Graphics_CustomPostEffect_(bool isOpenGLMode);
+
+extern void Graphics_PostEffectGaussianBlur_(bool isOpenGLMode);
+
 extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
 extern void Graphics_PostEffectSepia(bool isOpenGLMode);
 extern void Graphics_SimpleMesh_(bool isOpenGLMode);
@@ -41,6 +44,9 @@ int main(int argc, char **argv)
 
 	//Test_ParentObject();
 	//auto result = 0;
+
+	//Graphics_PostEffectGaussianBlur_(true);
+	//return 0;
 
 	//Graphics_SimpleMesh_(true);
 	//return 0;

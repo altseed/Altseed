@@ -44,7 +44,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />
     <Compile Include="ISample.cs" />
     <Compile Include="LogSample.cs" />
     <Compile Include="ObjectSystem\Component.cs" />

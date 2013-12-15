@@ -46,18 +46,20 @@ protected:
 
 TEST(Graphics, PostEffectGaussianBlur_GL)
 {
-	
 	Graphics_PostEffectGaussianBlur(true).Run();
-	
-	
 }
 
 #if _WIN32
 TEST(Graphics, PostEffectGaussianBlur_DX)
 {
-	
 	Graphics_PostEffectGaussianBlur(false).Run();
-	
 }
 #endif
+
+void Graphics_PostEffectGaussianBlur_(bool isGL)
+{
+	Graphics_PostEffectGaussianBlur(isGL).Run();
+}
+
+
 

@@ -9,7 +9,7 @@ namespace unitTest_Engine_cs.Graphics._3D
 	class SimpleMesh : EngineTest
 	{
 		public SimpleMesh()
-			: base(30)
+			: base(10)
 		{
 		}
 

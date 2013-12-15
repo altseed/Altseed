@@ -15,7 +15,6 @@ namespace test_cs
 			{
 				new Empty(),
 				new LogSample(),
-				new Graphics.PostEffect.CustomPostEffect(),
 				new ObjectSystem.ObjectSimple(),
 				new ObjectSystem.ParentObject(),
 				new ObjectSystem.CustomObject(),

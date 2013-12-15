@@ -9,7 +9,7 @@ class Graphics_PostEffectGrayScale : public EngineTest
 public:
 	float intensity;
 	Graphics_PostEffectGrayScale(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("PostEffectGrayScale"), isOpenGLMode, 60)
+		EngineTest(ace::ToAString("PostEffectGrayScale"), isOpenGLMode, 10)
 	{}
 protected:
 	void OnStart() override

@@ -68,9 +68,9 @@ namespace ace
 				var rt0_ = commonObject.GetRenderTarget0();
 				var rt1_ = commonObject.GetRenderTarget1();
 
-				RenderTexture2D rtf = GC.GenerateRenderTexture2D(rtf_);
-				RenderTexture2D rt0 = GC.GenerateRenderTexture2D(rt0_);
-				RenderTexture2D rt1 = GC.GenerateRenderTexture2D(rt1_);
+				RenderTexture2D rtf = GC.GenerateRenderTexture2D(rtf_, true);
+				RenderTexture2D rt0 = GC.GenerateRenderTexture2D(rt0_, true);
+				RenderTexture2D rt1 = GC.GenerateRenderTexture2D(rt1_, true);
 
 				int index = 0;
 				foreach (var p in postEffects)

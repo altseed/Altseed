@@ -15,11 +15,15 @@ namespace test_cs
 			{
 				new Window.Empty(),
 				new Window.EmptyExternal(),
+
 				new LogSample(),
+
                 new Input.KeyboardSample(),
                 new Input.MouseSample1(),
                 new Input.MouseSample2(),
-                new Input.JoystickSample()
+                new Input.JoystickSample(),
+
+				new Graphics.PostEffect.CustomPostEffect(),
 			};
 
 			var cui = new SampleGuide( samples );

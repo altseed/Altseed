@@ -9,7 +9,7 @@ class Graphics_PostEffectSepia : public EngineTest
 public:
 	float intensity;
 	Graphics_PostEffectSepia(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("PostEffectSepia"), isOpenGLMode, 60)
+		EngineTest(ace::ToAString("PostEffectSepia"), isOpenGLMode, 10)
 	{}
 protected:
 	void OnStart() override

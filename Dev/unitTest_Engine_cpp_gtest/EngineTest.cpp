@@ -6,11 +6,35 @@
 using namespace std;
 using namespace ace;
 
+#if _WIN32
+#include <shlwapi.h>
+#pragma comment(lib, "shlwapi.lib")
+#else
+#include <sys/stat.h>
+#endif
+
+static void CreateSSDirectory()
+{
+	const char* testDirectory = "ScreenShotTest_Engine_cpp";
+#if _WIN32
+	if (!PathIsDirectoryA(testDirectory))
+	{
+		CreateDirectoryA(testDirectory, NULL);
+	}
+#else
+	mkdir(testDirectory,
+		S_IRUSR | S_IWUSR | S_IXUSR |
+		S_IRGRP | S_IWGRP | S_IXGRP |
+		S_IROTH | S_IXOTH | S_IXOTH);
+#endif
+}
+
+
 EngineTest::EngineTest(astring title, bool isOpenGLMode, int exitTime)
 : m_isOpenGLMode(isOpenGLMode)
 , m_title(title)
 , m_exitTime(exitTime)
-, directory(ToAString("./TestSS/"))
+, directory(ToAString("./ScreenShotTest_Engine_cpp/"))
 {
 }
 
@@ -32,6 +56,8 @@ void EngineTest::OnFinish()
 
 void EngineTest::Run()
 {
+	CreateSSDirectory();
+
 	int time = 0;
 	EngineOption option;
 	option.GraphicsType = m_isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
@@ -56,7 +82,7 @@ void EngineTest::Run()
 
 			engine->TakeScreenshot(fileName.c_str());
 		}
-		if (time == m_exitTime + 30)
+		if (time == m_exitTime + 2)
 		{
 			break;
 		}

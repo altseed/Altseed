@@ -19,20 +19,20 @@ float3			g_values		: register( c0 );
 
 float4 main( const PS_Input Input ) : SV_Target
 {
-	float4 output = g_texture.Sample(g_sampler, Input.UV);
-	if(output.a == 0.0f) discard;
+	float4 outputedColor = g_texture.Sample(g_sampler, Input.UV);
+	if(outputedColor.a == 0.0f) discard;
 
 	float2 localPos = float2( (Input.Pos.x + 1.0) / 2.0 * g_values.x, (Input.Pos.y + 1.0) / 2.0 * g_values.y );
 	float2 centerPos = float2( g_values.x / 2.0, g_values.y / 2.0 );
 
 	if( (localPos.x - centerPos.x) * (localPos.x - centerPos.x) + (localPos.y - centerPos.y) * (localPos.y - centerPos.y) < g_values.z * g_values.z )
 	{
-		output.r = 1.0 - output.r;
-		output.g = 1.0 - output.g;
-		output.b = 1.0 - output.b;
+		outputedColor.r = 1.0 - outputedColor.r;
+		outputedColor.g = 1.0 - outputedColor.g;
+		outputedColor.b = 1.0 - outputedColor.b;
 	}
 
-	return output;
+	return outputedColor;
 }
 
 
@@ -46,19 +46,19 @@ uniform vec3		g_values;
 
 void main()
 {
-	vec4 output = texture2D(g_texture, inUV.xy);
+	vec4 outputedColor = texture2D(g_texture, inUV.xy);
 
-	vec2 localPos = vec2( (Input.Pos.x + 1.0) / 2.0 * g_values.x, (Input.Pos.y + 1.0) / 2.0 * g_values.y );
+	vec2 localPos = vec2( (inPos.x + 1.0) / 2.0 * g_values.x, (inPos.y + 1.0) / 2.0 * g_values.y );
 	vec2 centerPos = vec2( g_values.x / 2.0, g_values.y / 2.0 );
 
 	if( (localPos.x - centerPos.x) * (localPos.x - centerPos.x) + (localPos.y - centerPos.y) * (localPos.y - centerPos.y) < g_values.z * g_values.z )
 	{
-		output.r = 1.0 - output.r;
-		output.g = 1.0 - output.g;
-		output.b = 1.0 - output.b;
+		outputedColor.r = 1.0 - outputedColor.r;
+		outputedColor.g = 1.0 - outputedColor.g;
+		outputedColor.b = 1.0 - outputedColor.b;
 	}
 
-	gl_FragColor = output; 
+	gl_FragColor = outputedColor; 
 }
 
 ";

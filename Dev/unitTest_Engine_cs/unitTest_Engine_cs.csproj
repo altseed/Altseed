@@ -47,6 +47,7 @@
     <Compile Include="Assert.cs" />
     <Compile Include="EngineTest.cs" />
     <Compile Include="Graphics\3D\SimpleMesh.cs" />
+    <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />
     <Compile Include="ObjectSystem\CustomObject.cs" />
     <Compile Include="ObjectSystem\ObjectComponent.cs" />
     <Compile Include="ObjectSystem\ObjectSimple.cs" />

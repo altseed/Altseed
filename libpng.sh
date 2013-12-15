@@ -1,7 +1,7 @@
 rm -rf zlib_bin
 rm -rf libpng_bin
 
-wget http://downloads.sourceforge.net/project/libpng/libpng16/1.6.6/libpng-1.6.6.tar.gz
+wget http://sourceforge.net/projects/libpng/files/libpng16/older-releases/1.6.6/libpng-1.6.6.tar.gz
 wget http://zlib.net/zlib-1.2.8.tar.gz
 
 tar zxvf libpng-1.6.6.tar.gz
