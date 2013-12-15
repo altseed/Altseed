@@ -117,8 +117,8 @@ void Graphics_Renderer2D(bool isOpenGLMode)
 
 	graphics->Release();
 	texture.reset();
+	window->Release();
 
-	delete window;
 	delete log;
 }
 

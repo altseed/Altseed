@@ -117,7 +117,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 	delete renderer;
 	graphics->Release();
 
-	delete window;
+	window->Release();
 	delete log;
 }
 

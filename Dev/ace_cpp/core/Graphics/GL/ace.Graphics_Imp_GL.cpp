@@ -27,10 +27,11 @@ namespace ace {
 //----------------------------------------------------------------------------------
 Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log)
 	: Graphics_Imp(size, log)
-	, m_window(nullptr)
+	, m_window(window)
 	, m_endStarting(false)
 {
 	assert(window != nullptr);
+	SafeAddRef(m_window);
 
 #if _WIN32
 	m_renderingThreadDC = 0;
@@ -42,9 +43,9 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 	m_renderingThreadX11Window = 0;
 #endif
 
-	m_window = ((Window_Imp*)window)->GetWindow();
+	auto window_ = ((Window_Imp*)window)->GetWindow();
 
-	glfwMakeContextCurrent(m_window);
+	glfwMakeContextCurrent(window_);
 
 	glewInit();
 
@@ -59,14 +60,14 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 
 	// スレッド生成
 	glfwMakeContextCurrent(nullptr);
-	CreateContextBeforeThreading(m_window);
+	CreateContextBeforeThreading(window_);
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	while (!m_endStarting)
 	{
 		Sleep(1);
 	}
-	CreateContextAfterThreading(m_window);
-	glfwMakeContextCurrent(m_window);
+	CreateContextAfterThreading(window_);
+	glfwMakeContextCurrent(window_);
 	GLCheckError();
 }
 
@@ -116,14 +117,14 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 
 	// スレッド生成
 	glfwMakeContextCurrent(nullptr);
-	CreateContextBeforeThreading(m_window);
+	CreateContextBeforeThreading(nullptr);
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	while (!m_endStarting)
 	{
 		Sleep(1);
 	}
-	CreateContextAfterThreading(m_window);
-	glfwMakeContextCurrent(m_window);
+	CreateContextAfterThreading(nullptr);
+	glfwMakeContextCurrent(nullptr);
 	GLCheckError();
 }
 
@@ -177,13 +178,16 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 		m_renderingThreadX11Display = nullptr;
 	}
 #endif
+
+	SafeRelease(m_window);
 }
 
 void Graphics_Imp_GL::StartRenderingThread()
 {
 	if (m_window != nullptr)
 	{
-		CreateContextOnThread(m_window);
+		auto window_ = ((Window_Imp*) m_window)->GetWindow();
+		CreateContextOnThread(window_);
 	}
 	else
 	{
@@ -542,7 +546,8 @@ void Graphics_Imp_GL::Present()
 
 	if( m_window !=nullptr )
 	{
-		glfwSwapBuffers(m_window);
+		auto window_ = ((Window_Imp*) m_window)->GetWindow();
+		glfwSwapBuffers(window_);
 	}
 	else
 	{
@@ -596,7 +601,8 @@ void Graphics_Imp_GL::MakeContextCurrent()
 	{
 		if (m_window != nullptr)
 		{
-			glfwMakeContextCurrent(m_window);
+			auto window_ = ((Window_Imp*) m_window)->GetWindow();
+			glfwMakeContextCurrent(window_);
 		}
 		else
 		{

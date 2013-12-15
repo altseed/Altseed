@@ -22,13 +22,14 @@ namespace ace {
 	*/
 	class Window_Imp
 		: public Window
+		, public ReferenceObject
 	{
 	protected:
 		Vector2DI	m_size;
 
-	public:
 		Window_Imp(){}
 		virtual ~Window_Imp(){}
+	public:
 
 		/**
 			@brief	ウインドウを生成する。
@@ -43,6 +44,13 @@ namespace ace {
 
 #ifndef SWIG
 		virtual GLFWwindow* GetWindow() = 0;
+#endif
+
+#if !SWIG
+	public:
+		virtual int GetRef() { return ReferenceObject::GetRef(); }
+		virtual int AddRef() { return ReferenceObject::AddRef(); }
+		virtual int Release() { return ReferenceObject::Release(); }
 #endif
 	};
 

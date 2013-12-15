@@ -45,6 +45,13 @@ public:
 	void Close();
 
 	GLFWwindow*	GetWindow() { return m_window; }
+
+#if !SWIG
+public:
+	virtual int GetRef() { return ReferenceObject::GetRef(); }
+	virtual int AddRef() { return ReferenceObject::AddRef(); }
+	virtual int Release() { return ReferenceObject::Release(); }
+#endif
 };
 
 //----------------------------------------------------------------------------------

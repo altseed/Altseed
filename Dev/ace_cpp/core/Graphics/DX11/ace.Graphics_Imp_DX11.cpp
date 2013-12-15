@@ -22,6 +22,7 @@ namespace ace {
 //
 //----------------------------------------------------------------------------------
 Graphics_Imp_DX11::Graphics_Imp_DX11(
+	Window* window,
 	Vector2DI size,
 	Log* log,
 	ID3D11Device* device,
@@ -35,6 +36,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11Texture2D* defaultDepthBuffer,
 	ID3D11DepthStencilView* defaultDepthStencilView)
 	: Graphics_Imp(size, log)
+	, m_window(window)
 	, m_device(device)
 	, m_context(context)
 	, m_dxgiDevice(dxgiDevice)
@@ -48,6 +50,8 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	, m_currentBackRenderTargetView(nullptr)
 	, m_currentDepthStencilView(nullptr)
 {
+	SafeAddRef(window);
+
 	m_renderState = new RenderState_Imp_DX11(this);
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 }
@@ -79,6 +83,9 @@ Graphics_Imp_DX11::~Graphics_Imp_DX11()
 	SafeRelease(m_adapter);
 	SafeRelease(m_dxgiFactory);
 	SafeRelease(m_swapChain);
+
+	SafeRelease(m_window);
+
 }
 
 //----------------------------------------------------------------------------------
@@ -224,17 +231,7 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log)
-{
-	auto size = window->GetSize();
-	auto handle = glfwGetWin32Window(((Window_Imp*) window)->GetWindow());
-	return Create(handle, size.X, size.Y, log);
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log)
 {
 	/* DirectX初期化 */
 	ID3D11Device*			device = NULL;
@@ -347,7 +344,8 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t
 	}
 
 	return new Graphics_Imp_DX11(
-		Vector2DI(width,height),
+		window,
+		Vector2DI(width, height),
 		log,
 		device,
 		context,
@@ -369,6 +367,24 @@ End:
 	SafeRelease(context);
 	SafeRelease(device);
 	return nullptr;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log)
+{
+	auto size = window->GetSize();
+	auto handle = glfwGetWin32Window(((Window_Imp*) window)->GetWindow());
+	return Create(handle, size.X, size.Y, log);
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log)
+{
+	return Create(nullptr, handle, width, height, log);
 }
 
 //----------------------------------------------------------------------------------

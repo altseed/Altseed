@@ -57,7 +57,7 @@ TEST(Window, Empty)
 		counter++;
 	}
 
-	delete window;
+	window->Release();
 #ifdef _PRINTLOG
 	printf("-delete\n");
 #endif

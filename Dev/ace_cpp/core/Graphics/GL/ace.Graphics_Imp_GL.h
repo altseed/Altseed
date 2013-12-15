@@ -25,8 +25,8 @@ namespace ace {
 		: public Graphics_Imp
 	{
 	private:
-		GLFWwindow*		m_window;
-
+		Window*			m_window;
+		
 		GLuint			m_frameBuffer;
 
 		bool			m_endStarting;

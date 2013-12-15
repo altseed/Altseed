@@ -19,7 +19,7 @@ void Graphics_Empty(bool isOpenGLMode)
 	}
 
 	graphics->Release();
-	delete window;
+	window->Release();
 }
 
 TEST(Graphics, Empty_DX)

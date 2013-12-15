@@ -266,7 +266,7 @@ void Graphics_Sampler(bool isOpenGLMode)
 	indexBuffer.reset();
 	shader.reset();
 
-	delete window;
+	window->Release();
 	delete log;
 }
 

@@ -120,8 +120,7 @@ void Graphics_LayerRenderer(bool isOpenGLMode)
 	texture.reset();
 	renderer->Release();
 	graphics->Release();
-	
-	delete window;
+	window->Release();
 	delete log;
 }
 

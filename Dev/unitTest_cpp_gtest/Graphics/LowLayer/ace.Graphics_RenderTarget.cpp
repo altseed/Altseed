@@ -248,7 +248,7 @@ void Graphics_RenderTarget(bool isOpenGLMode)
 	indexBuffer.reset();
 	shader.reset();
 
-	delete window;
+	window->Release();
 	delete log;
 }
 

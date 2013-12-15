@@ -6,6 +6,7 @@
 //----------------------------------------------------------------------------------
 #include <ace.common.Base.h>
 #include <Math/ace.Vector2DI.h>
+#include "../ace.ReferenceObject.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -18,10 +19,12 @@ namespace ace {
 	@brief	メインウインドウを操作するクラス
 */
 class Window
+	: public IReference
 {
-public:
+protected:
 	Window(){}
 	virtual ~Window(){}
+public:
 
 	/**
 		@brief	イベント処理を行う。

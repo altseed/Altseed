@@ -208,7 +208,7 @@ void Graphics_SingleTexture(bool isOpenGLMode)
 	indexBuffer.reset();
 	shader.reset();
 
-	delete window;
+	window->Release();
 	delete log;
 }
 

@@ -249,7 +249,7 @@ void Graphics_Simple3D(bool isOpenGLMode)
 	indexBuffer.reset();
 	shader.reset();
 
-	delete window;
+	window->Release();
 	delete log;
 }
 

@@ -167,7 +167,7 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	renderer->Release();
 	graphics->Release();
 	
-	delete window;
+	window->Release();
 	delete log;
 }
 

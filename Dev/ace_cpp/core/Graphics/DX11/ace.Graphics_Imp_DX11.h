@@ -17,6 +17,8 @@ namespace ace {
 		: public Graphics_Imp
 	{
 	private:
+		Window*					m_window;
+
 		ID3D11Device*			m_device;
 		ID3D11DeviceContext*	m_context;
 		IDXGIDevice1*			m_dxgiDevice;
@@ -34,6 +36,7 @@ namespace ace {
 		ID3D11DepthStencilView*	m_currentDepthStencilView;
 
 		Graphics_Imp_DX11(
+			Window* window,
 			Vector2DI size,
 			Log* log,
 			ID3D11Device* device,
@@ -63,12 +66,15 @@ namespace ace {
 		void DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr);
 		void BeginInternal();
 
+		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log);
+
 	public:
 		
 		static Graphics_Imp_DX11* Create(Window* window, Log* log);
 
 		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log);
 
+		
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 
 		RenderTexture_Imp* CreateRenderTexture_Imp(int32_t width, int32_t height, eTextureFormat format);

@@ -162,7 +162,7 @@ namespace ace
 		SafeDelete(m_profilerViewer);
 
 		SafeRelease(m_graphics);
-		SafeDelete(m_window);
+		SafeRelease(m_window);
 		SafeDelete(m_keyboard);
 		SafeDelete(m_mouse);
 		SafeDelete(m_logger);
