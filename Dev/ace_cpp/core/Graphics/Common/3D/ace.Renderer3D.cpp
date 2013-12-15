@@ -470,6 +470,8 @@ void main()
 				Sleep(1);
 			}
 		}
+
+		m_graphics->MakeContextCurrent();
 	}
 
 	RenderTexture_Imp* Renderer3D::GetRenderTarget()

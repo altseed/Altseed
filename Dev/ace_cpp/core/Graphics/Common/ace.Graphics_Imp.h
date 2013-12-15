@@ -269,6 +269,12 @@ namespace ace {
 	virtual void SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer) = 0;
 
 	/**
+		@brief	コンテキストの設定を行う。
+		@note
+		DirectXの場合は意味はない。
+	*/
+	virtual void MakeContextCurrent() = 0;
+	/**
 		@brief	スレッドを取得する。
 		@return	スレッド
 	*/

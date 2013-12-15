@@ -99,7 +99,7 @@ namespace ace {
 		/**
 			@brief	現状のスレットに対応したコンテキストを設定する。
 		*/
-		void MakeContextCurrent();
+		void MakeContextCurrent() override;
 
 		/**
 			@brief	制御用のミューテックスを取得する。

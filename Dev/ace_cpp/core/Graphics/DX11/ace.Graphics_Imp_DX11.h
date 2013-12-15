@@ -85,6 +85,8 @@ namespace ace {
 
 		void SetViewport(int32_t x, int32_t y, int32_t width, int32_t height);
 
+		void MakeContextCurrent();
+
 	public:
 		void Clear(bool isColorTarget, bool isDepthTarget, const Color& color);
 
