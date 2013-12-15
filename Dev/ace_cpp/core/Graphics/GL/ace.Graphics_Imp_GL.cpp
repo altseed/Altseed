@@ -614,7 +614,7 @@ void Graphics_Imp_GL::MakeContextCurrent()
 #if _WIN32
 		wglMakeCurrent(m_renderingThreadDC, m_renderingThreadRC);
 #else
-		assert(0);
+		glXMakeCurrent(m_renderingThreadX11Display, m_renderingThreadX11Window, m_renderingThreadGlx);
 #endif
 	}
 }
