@@ -19,6 +19,7 @@ namespace unitTest_Engine_cs.ObjectSystem
 			protected override void OnUpdate()
 			{
 				Position += new Vector2DF( 3, 3 );
+				Angle += 2;
 			}
 		}
 

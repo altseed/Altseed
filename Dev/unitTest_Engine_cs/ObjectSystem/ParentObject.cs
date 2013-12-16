@@ -27,7 +27,7 @@ namespace unitTest_Engine_cs.ObjectSystem
 			scene.AddLayer( layer );
 			Engine.ChangeScene( scene );
 
-			var texture = Engine.Graphics.CreateTexture2D( "Data/Texture/Cloud1.png" );
+			var texture = Engine.Graphics.CreateTexture2D( "Data/Texture/Sample1.png" );
 
 			parent.Position = new Vector2DF( 320, 240 );
 			parent.CenterPosition = new Vector2DF( 128, 128 );
