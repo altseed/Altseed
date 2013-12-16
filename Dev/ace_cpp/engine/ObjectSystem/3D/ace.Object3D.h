@@ -34,8 +34,20 @@ namespace ace
 		CoreObject3D*	m_commonObject;
 
 	protected:
+
+		/**
+			@brief	オーバーライドして、この3Dオブジェクトの初期化処理を記述することができる。
+		*/
 		virtual void OnStart() = 0;
+
+		/**
+			@brief	オーバーライドして、この2Dオブジェクトの更新処理を記述することができる。
+		*/
 		virtual void OnUpdate() = 0;
+
+		/**
+			@brief	将来的に削除予定
+		*/
 		virtual void OnDrawAdditionally() = 0;
 
 	public:

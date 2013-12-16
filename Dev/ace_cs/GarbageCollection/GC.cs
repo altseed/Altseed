@@ -25,8 +25,6 @@ namespace ace
 
 		internal static IDObjectContainer<PostEffect> PostEffects { get; private set; }
 
-		//internal static IDObjectContainer<Profiler> Profilers { get; private set; }
-
 		internal static void Initialize()
 		{
 			Collector = new GarbageCollector();
@@ -44,7 +42,6 @@ namespace ace
 			Layer3Ds = new IDObjectContainer<Layer3D>();
 
 			PostEffects = new IDObjectContainer<PostEffect>();
-			//Profilers = new IDObjectContainer<Profiler>();
 		}
 
 		internal static void Update()
@@ -95,6 +92,16 @@ namespace ace
 			return ret;
 		}
 
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="ifnewAddRef">もし、未登録のインスタンスだったら参照カウントを増やすか?</param>
+		/// <returns></returns>
+		/// <remarks>
+		/// 参照カウンタを増やさないケース-C#側で明示的にC++のインスタンスを生成する時
+		/// 参照カウンタを増やすケース-C++側のインスタンス内部で生成されたインスタンスを受け取る可能性がある時、ようは上記以外のとき
+		/// </remarks>
 		internal static RenderTexture2D GenerateRenderTexture2D(swig.RenderTexture2D o, bool ifnewAddRef)
 		{
 			var p = o.GetPtr();

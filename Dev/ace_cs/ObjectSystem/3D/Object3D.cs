@@ -82,11 +82,25 @@ namespace ace
 		}
 
 		internal swig.CoreObject3D CoreObject { get { return commonObject; } }
-	
+
+		/// <summary>
+		/// オーバーライドして、この3Dオブジェクトの初期化処理を記述することができる。
+		/// </summary>
 		protected abstract void OnStart();
+
+		/// <summary>
+		/// オーバーライドして、この2Dオブジェクトの更新処理を記述することができる。
+		/// </summary>
 		protected abstract void OnUpdate();
+
+		/// <summary>
+		/// 将来的に削除予定
+		/// </summary>
 		internal protected abstract void OnDrawAdditionally();
 
+		/// <summary>
+		/// このインスタンスを管理している ace.Layer3D クラスのインスタンスを取得する。
+		/// </summary>
 		public Layer3D Layer
 		{
 			get { return owner; }
