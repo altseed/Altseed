@@ -20,7 +20,8 @@ namespace ace
 
 	private:
 		std::shared_ptr<CoreScene> m_coreScene;
-		std::list<LayerPtr> m_layers;
+		std::list<LayerPtr> m_layersToDraw;
+		std::list<LayerPtr> m_layersToUpdate;
 		std::map<astring, ComponentPtr> m_components;
 
 		void Update();

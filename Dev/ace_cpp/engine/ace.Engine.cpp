@@ -226,6 +226,12 @@ namespace ace
 	{
 		if (this == nullptr) return false;
 
+		if (m_nextScene != nullptr)
+		{
+			m_currentScene = m_nextScene;
+			m_core->ChangeScene(m_nextScene->m_coreScene.get());
+		}
+
 		return m_core->DoEvents();
 	}
 
@@ -283,10 +289,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Engine::ChangeScene(std::shared_ptr<Scene>& scene)
+	void Engine::ChangeScene(ScenePtr& scene)
 	{
-		m_currentScene = scene;
-		m_core->ChangeScene(scene->m_coreScene.get());
+		m_nextScene = scene;
 	}
 
 	//----------------------------------------------------------------------------------

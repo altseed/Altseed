@@ -38,9 +38,13 @@ namespace ace {
 	{
 		friend Engine* GetEngine();
 
+	public:
+		typedef std::shared_ptr<Scene> ScenePtr;
+
 	private:
 		Core*	m_core;
-		std::shared_ptr<Scene>	m_currentScene;
+		ScenePtr m_currentScene;
+		ScenePtr m_nextScene;
 		
 		static bool HasDLL(const char* path);
 		static bool CheckDLL();

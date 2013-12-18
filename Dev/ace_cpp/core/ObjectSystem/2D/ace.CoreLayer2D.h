@@ -6,10 +6,11 @@
 
 namespace ace
 {
-	class CoreLayer2D 
+	class CoreLayer2D
 		: public CoreLayer
 	{
 	public:
+		typedef CoreObject2D* ObjectPtr;
 
 		/**
 			@brief	コンストラクタ
@@ -24,8 +25,6 @@ namespace ace
 		中身がなくともないと多重継承に失敗する。
 		*/
 		virtual ~CoreLayer2D(){}
-
-		typedef CoreObject2D* ObjectPtr;
 
 		virtual void AddObject(ObjectPtr object2D) = 0;
 		virtual void RemoveObject(ObjectPtr object2D) = 0;

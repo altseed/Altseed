@@ -34,6 +34,7 @@ namespace ace
 		public static JoystickContainer JoystickContainer { get; private set; }
 		public static Graphics Graphics { get; private set; }
 		internal static ObjectSystemFactory ObjectSystemFactory { get; private set; }
+		private static Scene NextScene { get; set; }
 
 
 		/// <summary>
@@ -138,6 +139,13 @@ namespace ace
 				Mouse.RefreshAllState();
 			}
 
+			if( NextScene != null )
+			{
+				CurrentScene = NextScene;
+				core.ChangeScene( NextScene.CoreScene );
+				NextScene = null;
+			}
+
 			return mes;
 		}
 
@@ -206,8 +214,7 @@ namespace ace
 		/// <param name="scene">新しく描画の対象となるシーン。</param>
 		public static void ChangeScene(Scene scene)
 		{
-			CurrentScene = scene;
-			core.ChangeScene(scene.CoreScene);
+			NextScene = scene;
 		}
 
 		/// <summary>

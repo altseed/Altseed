@@ -5,7 +5,7 @@
 
 namespace ace
 {
-	class CoreScene_Imp 
+	class CoreScene_Imp
 		: public CoreScene
 		, public ReferenceObject
 	{

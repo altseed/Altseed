@@ -24,7 +24,6 @@ namespace ace
 		virtual ~CoreLayer2D_Imp();
 
 	public:
-		
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);
 

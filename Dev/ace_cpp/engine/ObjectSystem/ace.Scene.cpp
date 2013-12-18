@@ -10,7 +10,8 @@ namespace ace
 	//
 	//----------------------------------------------------------------------------------
 	Scene::Scene()
-		: m_layers(list<LayerPtr>())
+		: m_layersToDraw(list<LayerPtr>())
+		, m_layersToUpdate(list<LayerPtr>())
 		, m_coreScene(nullptr)
 		, m_components(map<astring, ComponentPtr>())
 	{
@@ -22,7 +23,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	Scene::~Scene()
 	{
-		for (auto& layer : m_layers)
+		for (auto& layer : m_layersToDraw)
 		{
 			layer->SetScene(nullptr);
 		}
@@ -33,14 +34,14 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::Update()
 	{
-		for (auto& layer : m_layers)
+		for (auto& layer : m_layersToUpdate)
 		{
 			layer->BeginUpdateting();
 		}
 
 		OnUpdating();
 
-		for (auto& layer : m_layers)
+		for (auto& layer : m_layersToUpdate)
 		{
 			layer->Update();
 		}
@@ -52,7 +53,7 @@ namespace ace
 
 		OnUpdated();
 
-		for (auto& layer : m_layers)
+		for (auto& layer : m_layersToUpdate)
 		{
 			layer->EndUpdateting();
 		}
@@ -61,14 +62,19 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	bool ComparePriority(Scene::LayerPtr& x, Scene::LayerPtr& y)
+	{
+		return x->GetDrawingPriority() >= y->GetDrawingPriority();
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	void Scene::DrawAdditionally()
 	{
-		m_layers.sort([](shared_ptr<Layer>& x, shared_ptr<Layer>& y)
-		{
-			return x->GetDrawingPriority() >= y->GetDrawingPriority();
-		});
+		m_layersToDraw.sort(ComparePriority);
 
-		for (auto& layer : m_layers)
+		for (auto& layer : m_layersToDraw)
 		{
 			layer->DrawAdditionally();
 		}
@@ -79,12 +85,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::BeginDrawing()
 	{
-		m_layers.sort([](shared_ptr<Layer>& x, shared_ptr<Layer>& y)
-		{
-			return x->GetDrawingPriority() >= y->GetDrawingPriority();
-		});
+		m_layersToDraw.sort(ComparePriority);
 
-		for (auto& layer : m_layers)
+		for (auto& layer : m_layersToDraw)
 		{
 			layer->BeginDrawing();
 		}
@@ -95,12 +98,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::EndDrawing()
 	{
-		m_layers.sort([](shared_ptr<Layer>& x, shared_ptr<Layer>& y)
-		{
-			return x->GetDrawingPriority() >= y->GetDrawingPriority();
-		});
+		m_layersToDraw.sort(ComparePriority);
 
-		for (auto& layer : m_layers)
+		for (auto& layer : m_layersToDraw)
 		{
 			layer->EndDrawing();
 		}
@@ -129,7 +129,8 @@ namespace ace
 		{
 			throw "追加しようとしたレイヤーは、すでに別のシーンに所属しています。";
 		}
-		m_layers.push_back(layer);
+		m_layersToDraw.push_back(layer);
+		m_layersToUpdate.push_back(layer);
 		m_coreScene->AddLayer(layer->GetCoreLayer().get());
 		layer->SetScene(this);
 	}
@@ -139,7 +140,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::RemoveLayer(const LayerPtr& layer)
 	{
-		m_layers.remove(layer);
+		m_layersToDraw.remove(layer);
+		m_layersToUpdate.remove(layer);
 		m_coreScene->RemoveLayer(layer->GetCoreLayer().get());
 		layer->SetScene(nullptr);
 	}

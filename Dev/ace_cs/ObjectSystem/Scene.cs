@@ -20,15 +20,16 @@ namespace ace
 
 			var p = CoreScene.GetPtr();
 
-			var existing = GC.Scenes.GetObject(p);
-			if (existing != null)
+			var existing = GC.Scenes.GetObject( p );
+			if( existing != null )
 			{
 				throw new Exception();
 			}
 
-			GC.Scenes.AddObject(p, this);
+			GC.Scenes.AddObject( p, this );
 
-			layers_ = new List<Layer>();
+			layersToDraw_ = new List<Layer>();
+			layersToUpdate_ = new List<Layer>();
 			components_ = new Dictionary<string, SceneComponent>();
 		}
 
@@ -55,7 +56,7 @@ namespace ace
 				CoreScene = null;
 			}
 			System.GC.SuppressFinalize( this );
-		} 
+		}
 		#endregion
 
 
@@ -64,10 +65,10 @@ namespace ace
 		/// </summary>
 		public IEnumerable<Layer> Layers
 		{
-			get { return layers_; }
+			get { return layersToUpdate_; }
 		}
 
-		public IDictionary<string,SceneComponent> Components
+		public IDictionary<string, SceneComponent> Components
 		{
 			get { return components_; }
 		}
@@ -82,7 +83,8 @@ namespace ace
 			{
 				throw new InvalidOperationException( "指定したレイヤーは、既に別のシーンに所属しています。" );
 			}
-			layers_.Add( layer );
+			layersToDraw_.Add( layer );
+			layersToUpdate_.Add( layer );
 			CoreScene.AddLayer( layer.CoreLayer );
 			layer.Scene = this;
 		}
@@ -93,25 +95,26 @@ namespace ace
 		/// <param name="layer">削除されるレイヤー。</param>
 		public void RemoveLayer( Layer layer )
 		{
-			layers_.Remove( layer );
+			layersToDraw_.Remove( layer );
+			layersToUpdate_.Remove( layer );
 			CoreScene.RemoveLayer( layer.CoreLayer );
 			layer.Scene = null;
 		}
 
-		public void	AddComponent(SceneComponent component, string key)
+		public void AddComponent( SceneComponent component, string key )
 		{
 			component.Owner = this;
 			components_[key] = component;
 		}
 
-		public void RemoveComponent(string key)
+		public void RemoveComponent( string key )
 		{
 			components_[key].Owner = null;
-			components_.Remove(key);
+			components_.Remove( key );
 		}
 
 		protected virtual void OnUpdating()
-		{ 
+		{
 		}
 
 		protected virtual void OnUpdated()
@@ -122,21 +125,21 @@ namespace ace
 
 		internal void Update()
 		{
-			foreach( var item in layers_ )
+			foreach( var item in layersToUpdate_ )
 			{
 				item.BeginUpdating();
 			}
 
 			OnUpdating();
 
-			foreach( var item in layers_ )
+			foreach( var item in layersToUpdate_ )
 			{
 				item.Update();
 			}
 
 			OnUpdated();
 
-			foreach (var item in layers_)
+			foreach( var item in layersToUpdate_ )
 			{
 				item.EndUpdating();
 			}
@@ -144,8 +147,8 @@ namespace ace
 
 		internal void DrawAdditionally()
 		{
-			layers_.Sort( ( x, y ) => y.DrawingPriority - x.DrawingPriority );
-			foreach( var item in layers_ )
+			layersToDraw_.Sort( ComparePriority );
+			foreach( var item in layersToDraw_ )
 			{
 				item.DrawAdditionally();
 			}
@@ -153,8 +156,8 @@ namespace ace
 
 		internal void BeginDrawing()
 		{
-			layers_.Sort((x, y) => y.DrawingPriority - x.DrawingPriority);
-			foreach (var item in layers_)
+			layersToDraw_.Sort( ComparePriority );
+			foreach( var item in layersToDraw_ )
 			{
 				item.BeginDrawing();
 			}
@@ -162,14 +165,22 @@ namespace ace
 
 		internal void EndDrawing()
 		{
-			layers_.Sort((x, y) => y.DrawingPriority - x.DrawingPriority);
-			foreach (var item in layers_)
+			layersToDraw_.Sort( ComparePriority );
+			foreach( var item in layersToDraw_ )
 			{
 				item.EndDrawing();
 			}
 		}
 
-		private List<Layer> layers_;
+		private int ComparePriority( Layer x, Layer y )
+		{
+			return y.DrawingPriority - x.DrawingPriority;
+		}
+
+
+		private List<Layer> layersToDraw_;
+
+		private List<Layer> layersToUpdate_;
 
 		private Dictionary<string, SceneComponent> components_;
 	}
