@@ -27,6 +27,9 @@ namespace ace
 		protected override void OnUpdate() { }
 		internal protected override void OnDrawAdditionally() { }
 
+		/// <summary>
+		/// 描画に使用するメッシュを設定する。
+		/// </summary>
 		public Mesh Mesh
 		{
 			get { return null; }

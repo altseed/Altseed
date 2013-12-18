@@ -82,7 +82,15 @@ namespace ace
 		*/
 		void SetIsDrawn(bool value);
 
+		/**
+		@brief	オブジェクトが生存しているか取得する。
+		@return	生存しているか
+		*/
 		bool GetIsAlive() const;
+
+		/**
+		@brief	オブジェクトを破棄する。
+		*/
 		void Vanish();
 
 		/**
@@ -90,10 +98,28 @@ namespace ace
 		*/
 		Layer3D* GetLayer() const;
 
+		/**
+			@brief	このインスタンスの親に対する現在の座標を取得する。
+			@return	座標
+		*/
 		Vector3DF GetPosition() const;
+
+		/**
+			@brief	このインスタンスの親に対する現在の座標を設定する。
+			@param	position	座標
+		*/
 		void SetPosition(Vector3DF position);
 
+		/**
+		@brief	このインスタンスの親に対する現在の角度を取得する。
+		@return	角度
+		*/
 		Vector3DF GetRotation() const;
+
+		/**
+		@brief	このインスタンスの親に対する現在の角度を設定する。
+		@param	angle	角度
+		*/
 		void SetRotation(Vector3DF angle);
 	};
 }

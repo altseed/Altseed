@@ -31,6 +31,10 @@ namespace ace
 		MeshObject3D();
 		virtual ~MeshObject3D();
 
+		/**
+			@brief	描画に使用するメッシュを設定する。
+			@param	mesh	メッシュ
+		*/
 		void SetMesh(std::shared_ptr<Mesh>& mesh);
 	};
 }

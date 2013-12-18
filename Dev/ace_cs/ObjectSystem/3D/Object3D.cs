@@ -58,7 +58,18 @@ namespace ace
 			set { CoreObject.SetIsDrawn(value); }
 		}
 
+		/// <summary>
+		/// オブジェクトが生存しているか取得する。
+		/// </summary>
 		public bool IsAlive { get; private set; }
+
+		/// <summary>
+		/// オブジェクトを破棄する。
+		/// </summary>
+		void Vanish()
+		{
+			IsAlive = false;
+		}
 
 		internal void Start()
 		{
@@ -107,12 +118,18 @@ namespace ace
 			internal set { owner = value; }
 		}
 
+		/// <summary>
+		/// このインスタンスの親に対する現在の座標を取得または設定する。
+		/// </summary>
 		public Vector3DF Position
 		{
 			get { return commonObject.GetPosition(); }
 			set { commonObject.SetPosition(value); }
 		}
 
+		/// <summary>
+		/// このインスタンスの親に対する現在の角度を取得または設定する。
+		/// </summary>
 		public Vector3DF Rotation
 		{
 			get { return commonObject.GetRotation(); }
