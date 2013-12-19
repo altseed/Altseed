@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/// <summary>
+	/// 無限遠光源の機能を提供するクラス
+	/// </summary>
 	public class DirectionalLightObject3D : Object3D
 	{
 		swig.CoreDirectionalLightObject3D coreObject = null;
@@ -27,6 +30,9 @@ namespace ace
 		protected override void OnUpdate() { }
 		internal protected override void OnDrawAdditionally() { }
 
+		/// <summary>
+		/// 光源の色を取得または設定する。
+		/// </summary>
 		public Color Color 
 		{
 			get { return coreObject.GetColor(); }

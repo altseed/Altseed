@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/// <summary>
+	/// メッシュを表示する3Dオブジェクトの機能を提供するクラス
+	/// </summary>
 	public class MeshObject3D : Object3D
 	{
 		swig.CoreMeshObject3D coreObject = null;

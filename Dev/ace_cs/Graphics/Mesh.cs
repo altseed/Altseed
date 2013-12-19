@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/// <summary>
+	/// 3Dメッシュのクラス
+	/// </summary>
 	public class Mesh : IDestroy
 	{
 		internal swig.Mesh SwigObject { get; set; }
@@ -43,6 +46,17 @@ namespace ace
 			System.GC.SuppressFinalize(this);
 		}
 
+		/// <summary>
+		/// 頂点を追加する。
+		/// </summary>
+		/// <param name="position">座標</param>
+		/// <param name="normal">法線</param>
+		/// <param name="binormal">従法線</param>
+		/// <param name="uv1">UV1</param>
+		/// <param name="uv2">UV2</param>
+		/// <param name="color">頂点色</param>
+		/// <param name="boneWeights">ボーンのウエイト</param>
+		/// <param name="boneIndexes">ボーンのインデックス</param>
 		public void AddVertex(ace.Vector3DF position, ace.Vector3DF normal, ace.Vector3DF binormal, ace.Vector2DF uv1, ace.Vector2DF uv2, ace.Color color, int boneWeights, int boneIndexes)
 		{
 			SwigObject.AddVertex(ref position, ref normal, ref binormal, ref uv1, ref uv2, ref color, boneWeights, boneIndexes);

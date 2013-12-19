@@ -5,6 +5,9 @@
 
 namespace ace
 {
+	/**
+	@brief	メッシュを表示する3Dオブジェクトの機能を提供するクラス
+	*/
 	class MeshObject3D
 		: public Object3D
 	{

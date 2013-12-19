@@ -5,6 +5,9 @@
 
 namespace ace
 {
+	/**
+	@brief	無限遠光源の機能を提供するクラス
+	*/
 	class DirectionalLightObject3D
 		: public Object3D
 	{
@@ -31,7 +34,15 @@ namespace ace
 		DirectionalLightObject3D();
 		virtual ~DirectionalLightObject3D();
 
+		/**
+			@brief	光源の色を取得する。
+			@return	光源の色
+		*/
 		Color GetColor();
+		/**
+		@brief	光源の色を設定する。
+		@param	color	光源の色
+		*/
 		void SetColor(const Color& color);
 	};
 }

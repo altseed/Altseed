@@ -9,6 +9,9 @@
 
 namespace ace
 {
+	/**
+		@brief	3Dメッシュのクラス
+	*/
 	class Mesh
 		: public IReference
 	{
@@ -17,6 +20,17 @@ namespace ace
 		virtual ~Mesh(){}
 	public:
 
+		/**
+			@brief	頂点を追加する。
+			@param	position	座標
+			@param	normal		法線
+			@param	binormal	従法線
+			@param	uv1			UV1
+			@param	uv2			UV2
+			@param	color		頂点色
+			@param	boneWeights	ボーンのウエイト
+			@param	boneIndexes	ボーンのインデックス
+		*/
 		virtual void AddVertex(
 			const Vector3DF& position,
 			const Vector3DF& normal,
