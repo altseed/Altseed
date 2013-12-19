@@ -34,10 +34,8 @@
 #include "ObjectSystem/2D/ace.CoreTextureObject2D_Imp.h"
 
 #include "ObjectSystem/ace.CoreLayer.h"
-#include "ObjectSystem/ace.CoreLayer_Imp.h"
 
 #include "ObjectSystem/2D/ace.CoreLayer2D.h"
-#include "ObjectSystem/2D/ace.CoreLayer2D_Imp.h"
 
 #include "ObjectSystem/3D/ace.CoreObject3D.h"
 #include "ObjectSystem/3D/ace.CoreMeshObject3D.h"
@@ -46,8 +44,7 @@
 #include "ObjectSystem/3D/ace.CoreLayer3D.h"
 
 #include "ObjectSystem/ace.CoreScene.h"
-#include "ObjectSystem/ace.CoreScene_Imp.h"
-#include "ObjectSystem/PostEffect/ace.CorePostEffect_Imp.h"
+#include "ObjectSystem/PostEffect/ace.CorePostEffect.h"
 #include "ObjectSystem/ace.ObjectSystemFactory.h"
 
 #include "Core/ace.Core_Imp.h"
@@ -308,10 +305,8 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D_Imp.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.CoreLayer.h"
-%include "ace_cpp/core/ObjectSystem/ace.CoreLayer_Imp.h"
 
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D.h"
-%include "ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D_Imp.h"
 
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreMeshObject3D.h"
@@ -320,9 +315,7 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.CoreScene.h"
-%include "ace_cpp/core/ObjectSystem/ace.CoreScene_Imp.h"
 %include "ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect.h"
-%include "ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect_Imp.h"
 %include "ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory.h"
 
 %include "ace_cpp/core/Core/ace.Core.h"

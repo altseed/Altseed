@@ -96,16 +96,12 @@
     <Compile Include="swig\CoreDirectionalLightObject3D.cs" />
     <Compile Include="swig\CoreLayer.cs" />
     <Compile Include="swig\CoreLayer2D.cs" />
-    <Compile Include="swig\CoreLayer2D_Imp.cs" />
     <Compile Include="swig\CoreLayer3D.cs" />
-    <Compile Include="swig\CoreLayer_Imp.cs" />
     <Compile Include="swig\CoreMeshObject3D.cs" />
     <Compile Include="swig\CoreObject2D.cs" />
     <Compile Include="swig\CoreObject3D.cs" />
     <Compile Include="swig\CorePostEffect.cs" />
-    <Compile Include="swig\CorePostEffect_Imp.cs" />
     <Compile Include="swig\CoreScene.cs" />
-    <Compile Include="swig\CoreScene_Imp.cs" />
     <Compile Include="swig\CoreTextureObject2D.cs" />
     <Compile Include="swig\CoreTextureObject2D_Imp.cs" />
     <Compile Include="swig\Core_Imp.cs" />
