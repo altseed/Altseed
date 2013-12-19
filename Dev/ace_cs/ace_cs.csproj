@@ -103,7 +103,6 @@
     <Compile Include="swig\CorePostEffect.cs" />
     <Compile Include="swig\CoreScene.cs" />
     <Compile Include="swig\CoreTextureObject2D.cs" />
-    <Compile Include="swig\CoreTextureObject2D_Imp.cs" />
     <Compile Include="swig\Core_Imp.cs" />
     <Compile Include="swig\eAlphaBlend.cs" />
     <Compile Include="swig\eChildMode.cs" />
