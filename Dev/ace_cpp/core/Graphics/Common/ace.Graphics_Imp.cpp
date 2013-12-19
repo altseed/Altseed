@@ -404,6 +404,8 @@ void Graphics_Imp::Begin()
 void Graphics_Imp::End()
 {
 	ResetDrawState();
+
+	EndInternal();
 }
 
 //----------------------------------------------------------------------------------

@@ -71,6 +71,7 @@ namespace ace {
 
 		void DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr);
 		void BeginInternal();
+		void EndInternal();
 
 		void SetViewport(int32_t x, int32_t y, int32_t width, int32_t height);
 

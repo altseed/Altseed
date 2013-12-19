@@ -15,6 +15,8 @@
 #include "Resource/ace.RenderTexture_Imp_GL.h"
 #include "Resource/ace.DepthBuffer_Imp_GL.h"
 
+#include "../../Log/ace.Log.h"
+
 // Windows以外でGoogleTestとGLFWNativeのヘッダが干渉する(2013/12)
 #include <GLFW/glfw3native.h>
 
@@ -360,6 +362,14 @@ void Graphics_Imp_GL::BeginInternal()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+void Graphics_Imp_GL::EndInternal()
+{
+	GLCheckError();
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 void Graphics_Imp_GL::SetViewport(int32_t x, int32_t y, int32_t width, int32_t height)
 {
 	std::lock_guard<std::recursive_mutex> lock(GetMutex());
@@ -443,6 +453,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Im
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	glActiveTexture(GL_TEXTURE0);
+	GLCheckError();
 
 	if (texture == nullptr)
 	{
@@ -470,6 +481,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Im
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, cb, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, 0, 0);
+	GLCheckError();
 
 	if (depthBuffer != nullptr)
 	{
@@ -479,12 +491,16 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Im
 	{
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
 	}
+	GLCheckError();
 
 	static const GLenum bufs [] = {
 		GL_COLOR_ATTACHMENT0,
 	};
 	glDrawBuffers(1, bufs);
+	GLCheckError();
+
 	GetRenderState()->Update(true);
+	GLCheckError();
 
 	if (texture != nullptr)
 	{
@@ -544,7 +560,7 @@ void Graphics_Imp_GL::Present()
 	// Save FPS
 	ace::Sleep(16);
 
-	if( m_window !=nullptr )
+	if (m_window != nullptr)
 	{
 		auto window_ = ((Window_Imp*) m_window)->GetWindow();
 		glfwSwapBuffers(window_);
@@ -608,15 +624,26 @@ void Graphics_Imp_GL::MakeContextCurrent()
 		{
 			assert(0);
 		}
+
+		GLCheckError();
 	}
 	else
 	{
+		GLCheckError();
+
 #if _WIN32
-		wglMakeCurrent(m_renderingThreadDC, m_renderingThreadRC);
+		if (!wglMakeCurrent(m_renderingThreadDC, m_renderingThreadRC))
+		{
+			m_log->WriteLineStrongly("wglMakeCurrent is failed.");
+		}
 #else
 		glXMakeCurrent(m_renderingThreadX11Display, m_renderingThreadX11Window, m_renderingThreadGlx);
 #endif
+
+		GLCheckError();
 	}
+
+	
 }
 
 void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
@@ -653,10 +680,18 @@ void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
 
 	m_renderingThreadDC = GetDC(m_renderingThreadHWND);
 
+	wglMakeCurrent(NULL, NULL);
 	int pfmt = ChoosePixelFormat(m_renderingThreadDC, &pformat);
-	SetPixelFormat(m_renderingThreadDC, pfmt, &pformat);
+	if (!SetPixelFormat(m_renderingThreadDC, pfmt, &pformat))
+	{
+		m_log->WriteLineStrongly("SetPixelFormat is failed.");
+	}
+
 	m_renderingThreadRC = wglCreateContext(m_renderingThreadDC);
-	wglShareLists(mainRC, m_renderingThreadRC);
+	if (!wglShareLists(mainRC, m_renderingThreadRC))
+	{
+		m_log->WriteLineStrongly("wglShareLists is failed.");
+	}
 #else
 
 	auto mainContext = glfwGetGLXContext(window);
@@ -675,7 +710,6 @@ void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
 	m_renderingThreadX11Window = wind;
 
 #endif
-
 }
 
 void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
@@ -686,6 +720,9 @@ void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
 #else
 
 #endif
+
+	MakeContextCurrent();
+	GLCheckError();
 
 	m_endStarting = true;
 }

@@ -94,6 +94,7 @@ namespace ace {
 
 		virtual void DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr) = 0;
 		virtual void BeginInternal() = 0;
+		virtual void EndInternal() {}
 
 		/**
 			@brief	テクスチャを生成する。
