@@ -31,6 +31,8 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 	: Graphics_Imp(size, log)
 	, m_window(window)
 	, m_endStarting(false)
+	, m_frameBuffer_main(0)
+	, m_frameBuffer_rendering(0)
 {
 	assert(window != nullptr);
 	SafeAddRef(m_window);
@@ -54,10 +56,10 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 	m_renderState = new RenderState_Imp_GL(this);
 
 	// フレームバッファ生成
-	glGenFramebuffers(1, &m_frameBuffer);
+	glGenFramebuffers(1, &m_frameBuffer_main);
 
 	// バグ対策？
-	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_main);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// スレッド生成
@@ -80,6 +82,8 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 	: Graphics_Imp(size, log)
 	, m_window(nullptr)
 	, m_endStarting(false)
+	, m_frameBuffer_main(0)
+	, m_frameBuffer_rendering(0)
 {
 #if !_WIN32
 	GLXContext* context_ = (GLXContext*)context;
@@ -111,10 +115,10 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 	m_renderState = new RenderState_Imp_GL(this);
 
 	// フレームバッファ生成
-	glGenFramebuffers(1, &m_frameBuffer);
+	glGenFramebuffers(1, &m_frameBuffer_main);
 
 	// バグ対策？
-	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_main);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// スレッド生成
@@ -139,15 +143,16 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 	// 必要なし
 	//SafeRelease(m_currentShader);
 
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glDeleteFramebuffers(1, &m_frameBuffer);
-
 	m_renderingThread->AddEvent(nullptr);
 	while (m_renderingThread->IsRunning())
 	{
 		Sleep(1);
 	}
 	m_renderingThread.reset();
+
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glDeleteFramebuffers(1, &m_frameBuffer_main);
+	glDeleteFramebuffers(1, &m_frameBuffer_rendering);
 
 
 #if !_WIN32
@@ -457,7 +462,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Im
 
 	if (texture == nullptr)
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, 0);
+		UnbindFramebuffer();
 		glDrawBuffer(GL_BACK);
 		GetRenderState()->Update(true);
 		SetViewport(0, 0, m_size.X, m_size.Y);
@@ -478,7 +483,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Im
 		db = ((DepthBuffer_Imp_GL*) depthBuffer)->GetBuffer();
 	}
 
-	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
+	BindFramebuffer();
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, cb, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, 0, 0);
 	GLCheckError();
@@ -629,8 +634,6 @@ void Graphics_Imp_GL::MakeContextCurrent()
 	}
 	else
 	{
-		GLCheckError();
-
 #if _WIN32
 		if (!wglMakeCurrent(m_renderingThreadDC, m_renderingThreadRC))
 		{
@@ -722,6 +725,14 @@ void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
 #endif
 
 	MakeContextCurrent();
+
+	// フレームバッファ生成
+	glGenFramebuffers(1, &m_frameBuffer_rendering);
+
+	// バグ対策？
+	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_rendering);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
 	GLCheckError();
 
 	m_endStarting = true;
@@ -729,6 +740,26 @@ void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
 
 void Graphics_Imp_GL::CreateContextAfterThreading(GLFWwindow* window)
 {
+}
+
+void Graphics_Imp_GL::BindFramebuffer()
+{
+	if (GetThreadID() != m_renderingThread->GetThreadID())
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_main);
+		GLCheckError();
+	}
+	else
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_rendering);
+		GLCheckError();
+	}
+}
+
+void Graphics_Imp_GL::UnbindFramebuffer()
+{
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	GLCheckError();
 }
 
 //----------------------------------------------------------------------------------

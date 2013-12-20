@@ -27,7 +27,8 @@ namespace ace {
 	private:
 		Window*			m_window;
 		
-		GLuint			m_frameBuffer;
+		GLuint			m_frameBuffer_main;
+		GLuint			m_frameBuffer_rendering;
 
 		bool			m_endStarting;
 #if !_WIN32
@@ -126,6 +127,18 @@ namespace ace {
 		@param	window	ウインドウ
 		*/
 		void CreateContextAfterThreading(GLFWwindow* window);
+
+		/**
+			@brief	フレームバッファをバインドする。
+			@note
+			フレームバッファはコンテキスト間で共有できないため、スレッドに応じて切り替えている。
+		*/
+		void BindFramebuffer();
+
+		/**
+			@brief	フレームバッファをアンバインドする。
+		*/
+		void UnbindFramebuffer();
 	};
 
 	//----------------------------------------------------------------------------------
