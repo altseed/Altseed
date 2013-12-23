@@ -20,7 +20,7 @@ public:
 protected:
 	void OnUpdate()
 	{
-		if (time % 30 == 0)
+		if (time % 6 == 0)
 		{
 			GetOwner()->SetAngle(GetOwner()->GetAngle() + 13);
 		}
@@ -32,7 +32,7 @@ class ObjectSystem_Component : public EngineTest
 {
 public:
 	ObjectSystem_Component(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Component"), isOpenGLMode, 120)
+		: EngineTest(ace::ToAString("Component"), isOpenGLMode, 30)
 	{
 	}
 

@@ -10,7 +10,7 @@ class ObjectSystem_LayerHasNoObject : public EngineTest
 {
 public:
 	ObjectSystem_LayerHasNoObject(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("LayerHasNoObject"), isOpenGLMode, 60)
+		: EngineTest(ace::ToAString("LayerHasNoObject"), isOpenGLMode, 20)
 	{
 	}
 

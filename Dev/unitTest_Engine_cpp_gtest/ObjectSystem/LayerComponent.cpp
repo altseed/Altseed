@@ -26,7 +26,7 @@ protected:
 			ASSERT_EQ(GetOwner(), m_expectedOwner);
 		}
 
-		if (time % 60 == 0)
+		if (time % 10 == 0)
 		{
 			auto object = make_shared<TextureObject2D>();
 			object->SetPosition(Vector2DF(time % 320, time % 240));
@@ -42,7 +42,7 @@ class ObjectSystem_LayerComponent : public EngineTest
 {
 public:
 	ObjectSystem_LayerComponent(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("LayerComponent"), isOpenGLMode, 240)
+		: EngineTest(ace::ToAString("LayerComponent"), isOpenGLMode, 60)
 	{
 	}
 

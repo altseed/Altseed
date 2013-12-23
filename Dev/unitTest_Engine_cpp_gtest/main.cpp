@@ -1,5 +1,6 @@
 ﻿
 #include<gtest/gtest.h>
+#include "EngineTest.h"
 
 #ifdef _DEBUG
 #pragma comment(lib,"Debug/ace_engine.lib")
@@ -18,6 +19,7 @@ void GetDirectoryName(char* dst, char* src);
 extern void Test_LayerComponent_GL();
 extern void Test_Component_GL();
 extern void Test_ParentObject();
+extern void Test_LayersFlag(bool gl);
 extern void Graphics_CustomPostEffect_(bool isOpenGLMode);
 
 extern void Graphics_PostEffectGaussianBlur_(bool isOpenGLMode);
@@ -25,7 +27,6 @@ extern void Graphics_PostEffectGaussianBlur_(bool isOpenGLMode);
 extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
 extern void Graphics_PostEffectSepia(bool isOpenGLMode);
 extern void Graphics_SimpleMesh_(bool isOpenGLMode);
-
 
 /**
 	@brief	単体テストを実行する。
@@ -41,9 +42,6 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 	::testing::InitGoogleTest(&argc, argv);
-
-	//Test_ParentObject();
-	//auto result = 0;
 
 	//Graphics_PostEffectGaussianBlur_(true);
 	//return 0;

@@ -24,7 +24,7 @@ namespace unitTest_Engine_cs.ObjectSystem
 		}
 
 		public CustomObject()
-			: base(100)
+			: base(40)
 		{
 		}
 

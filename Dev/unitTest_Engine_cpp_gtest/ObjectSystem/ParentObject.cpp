@@ -10,7 +10,7 @@ class ObjectSystem_ParentObject : public EngineTest
 {
 public:
 	ObjectSystem_ParentObject(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("ParentObject"), isOpenGLMode, 120)
+		: EngineTest(ace::ToAString("ParentObject"), isOpenGLMode, 50)
 		, m_parent(nullptr)
 	{
 	}

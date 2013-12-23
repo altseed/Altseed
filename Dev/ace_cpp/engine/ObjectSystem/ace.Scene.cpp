@@ -62,18 +62,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool ComparePriority(Scene::LayerPtr& x, Scene::LayerPtr& y)
-	{
-		return x->GetDrawingPriority() >= y->GetDrawingPriority();
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	void Scene::DrawAdditionally()
 	{
-		m_layersToDraw.sort(ComparePriority);
-
 		for (auto& layer : m_layersToDraw)
 		{
 			layer->DrawAdditionally();
@@ -85,7 +75,10 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::BeginDrawing()
 	{
-		m_layersToDraw.sort(ComparePriority);
+		m_layersToDraw.sort([](const Scene::LayerPtr& x, const Scene::LayerPtr& y) -> bool
+		{
+			return x->GetDrawingPriority() < y->GetDrawingPriority();
+		});
 
 		for (auto& layer : m_layersToDraw)
 		{
@@ -98,8 +91,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::EndDrawing()
 	{
-		m_layersToDraw.sort(ComparePriority);
-
 		for (auto& layer : m_layersToDraw)
 		{
 			layer->EndDrawing();

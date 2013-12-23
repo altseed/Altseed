@@ -50,7 +50,9 @@
     <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="ObjectSystem\CustomObject.cs" />
+    <Compile Include="ObjectSystem\LayersFlag.cs" />
     <Compile Include="ObjectSystem\ObjectComponent.cs" />
+    <Compile Include="ObjectSystem\ObjectsFlag.cs" />
     <Compile Include="ObjectSystem\ObjectSimple.cs" />
     <Compile Include="ObjectSystem\ObjectsMembers.cs" />
     <Compile Include="ObjectSystem\ParentObject.cs" />

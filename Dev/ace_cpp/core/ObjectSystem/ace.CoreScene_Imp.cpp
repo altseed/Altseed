@@ -49,7 +49,7 @@ namespace ace
 	{
 		m_layers.sort([](CoreLayer* x, CoreLayer* y)
 		{
-			return x->GetDrawingPriority() >= y->GetDrawingPriority();
+			return x->GetDrawingPriority() < y->GetDrawingPriority();
 		});
 
 		for (auto& layer : m_layers)

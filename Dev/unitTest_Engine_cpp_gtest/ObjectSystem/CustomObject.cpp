@@ -28,7 +28,7 @@ class ObjectSystem_CustomObject : public EngineTest
 {
 public:
 	ObjectSystem_CustomObject(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("CustomObject"), isOpenGLMode, 120)
+		: EngineTest(ace::ToAString("CustomObject"), isOpenGLMode, 50)
 	{
 	}
 

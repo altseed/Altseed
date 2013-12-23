@@ -121,6 +121,7 @@ namespace ace
 		{
 		}
 
+
 		internal unsafe swig.CoreScene CoreScene { get; private set; }
 
 		internal void Update()
@@ -147,7 +148,6 @@ namespace ace
 
 		internal void DrawAdditionally()
 		{
-			layersToDraw_.Sort( ComparePriority );
 			foreach( var item in layersToDraw_ )
 			{
 				item.DrawAdditionally();
@@ -156,7 +156,7 @@ namespace ace
 
 		internal void BeginDrawing()
 		{
-			layersToDraw_.Sort( ComparePriority );
+			layersToDraw_.Sort( ( x, y ) => y.DrawingPriority - x.DrawingPriority );
 			foreach( var item in layersToDraw_ )
 			{
 				item.BeginDrawing();
@@ -165,16 +165,10 @@ namespace ace
 
 		internal void EndDrawing()
 		{
-			layersToDraw_.Sort( ComparePriority );
 			foreach( var item in layersToDraw_ )
 			{
 				item.EndDrawing();
 			}
-		}
-
-		private int ComparePriority( Layer x, Layer y )
-		{
-			return y.DrawingPriority - x.DrawingPriority;
 		}
 
 

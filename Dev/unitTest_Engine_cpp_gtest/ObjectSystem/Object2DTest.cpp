@@ -10,7 +10,7 @@ class ObjectSystem_Simple : public EngineTest
 {
 public:
 	ObjectSystem_Simple(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Simple"), isOpenGLMode, 60)
+		: EngineTest(ace::ToAString("Simple"), isOpenGLMode, 30)
 	{
 	}
 
