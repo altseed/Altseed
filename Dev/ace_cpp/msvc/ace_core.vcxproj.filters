@@ -339,9 +339,6 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\3D\ace.Bones.h">
-      <Filter>Graphics\Common\3D</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreLayer3D.h">
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
@@ -380,6 +377,9 @@
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\ace.RenderingThread.h">
       <Filter>Graphics\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Armature.h">
+      <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -565,9 +565,6 @@
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.cpp">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\Common\3D\ace.Bones.cpp">
-      <Filter>Graphics\Common\3D</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D_Imp.cpp">
       <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
@@ -591,6 +588,12 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\ace.RenderingThread.cpp">
       <Filter>Graphics\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.Armature.cpp">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.Armature_Imp.h">
+      <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
