@@ -23,7 +23,7 @@ namespace ace
 		public Texture2D CreateTexture2D(string path)
 		{
 			var texture = graphics.CreateTexture2D_Imp(path);
-			return GC.GenerateTexture2D(texture);
+			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
 		}
 
 		public RenderTexture2D CreateRenderTexture2D(int width, int height, TextureFormat format)

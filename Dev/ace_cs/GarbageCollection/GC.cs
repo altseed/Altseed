@@ -77,14 +77,48 @@ namespace ace
 			}
 		}
 
-		internal static Texture2D GenerateTexture2D(swig.Texture2D o)
+		/// <summary>
+		/// C++のインスタンスの生成及び取得方法
+		/// </summary>
+		public enum GenerationType
+		{
+			/// <summary>
+			/// ファイルパス等からC++のインスタンスが生成された場合
+			/// 生成時に使い回しをしている場合、カウンタを増やしているので、
+			/// 使い回しと判定した場合、カウンタを減らす
+			/// </summary>
+			Create,
+
+			/// <summary>
+			/// C++のインスタンスを取得した場合、
+			/// 新規の場合はC#側でC++のインスタンスを保持するのでカウンタを増やす
+			/// </summary>
+			Get,
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static Texture2D GenerateTexture2D(swig.Texture2D o, GenerationType type)
 		{
 			var p = o.GetPtr();
 
 			var existing = GC.Texture2Ds.GetObject(p);
 			if (existing != null)
 			{
+				if (type == GenerationType.Create)
+				{
+					o.Release();
+				}
+
 				return existing;
+			}
+
+			if (type == GenerationType.Get)
+			{
+				o.AddRef();
 			}
 
 			var ret = new Texture2D(o);
@@ -96,23 +130,23 @@ namespace ace
 		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
 		/// </summary>
 		/// <param name="o"></param>
-		/// <param name="ifnewAddRef">もし、未登録のインスタンスだったら参照カウントを増やすか?</param>
-		/// <returns></returns>
-		/// <remarks>
-		/// 参照カウンタを増やさないケース-C#側で明示的にC++のインスタンスを生成する時
-		/// 参照カウンタを増やすケース-C++側のインスタンス内部で生成されたインスタンスを受け取る可能性がある時、ようは上記以外のとき
-		/// </remarks>
-		internal static RenderTexture2D GenerateRenderTexture2D(swig.RenderTexture2D o, bool ifnewAddRef)
+		/// <param name="type"></param>
+		internal static RenderTexture2D GenerateRenderTexture2D(swig.RenderTexture2D o, GenerationType type)
 		{
 			var p = o.GetPtr();
 
 			var existing = GC.Texture2Ds.GetObject(p);
 			if (existing != null)
 			{
+				if (type == GenerationType.Create)
+				{
+					o.Release();
+				}
+
 				return (RenderTexture2D)existing;
 			}
 
-			if(ifnewAddRef)
+			if (type == GenerationType.Get)
 			{
 				o.AddRef();
 			}

@@ -199,6 +199,8 @@ namespace ace
 			core.Release();
 			core = null;
 
+			Mouse = null;
+
 			var refCount = swig.ace_core_cs.GetGlobalReferenceCount__();
 
 			if (refCount > 0)
