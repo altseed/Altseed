@@ -156,14 +156,29 @@ namespace ace
 			return ret;
 		}
 
-		internal static Mesh GenerateMesh(swig.Mesh o)
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static Mesh GenerateMesh(swig.Mesh o, GenerationType type)
 		{
 			var p = o.GetPtr();
 
 			var existing = GC.Meshs.GetObject(p);
 			if (existing != null)
 			{
+				if (type == GenerationType.Create)
+				{
+					o.Release();
+				}
+
 				return existing;
+			}
+
+			if (type == GenerationType.Get)
+			{
+				o.AddRef();
 			}
 
 			var ret = new Mesh(o);

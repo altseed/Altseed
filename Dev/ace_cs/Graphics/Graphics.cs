@@ -88,7 +88,7 @@ namespace ace
 
 		public Mesh CreateMesh()
 		{
-			return GC.GenerateMesh(graphics.CreateMesh_());
+			return GC.GenerateMesh(graphics.CreateMesh_(), GC.GenerationType.Create);
 		}
 	}
 }
