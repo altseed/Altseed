@@ -190,6 +190,8 @@ void main()
 		{
 			RenderedObject3D::Flip();
 
+			if (m_armature == nullptr) return;
+
 			// 計算
 			for (auto i = 0; i < m_armature->GetBones().size(); i++)
 			{
