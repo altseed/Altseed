@@ -4,6 +4,8 @@
 #include "ace.Armature.h"
 #include "../../../ace.Core.Base_Imp.h"
 
+#include <unordered_map>
+
 namespace ace
 {
 	class Armature_Imp
@@ -21,6 +23,7 @@ namespace ace
 		};
 
 		std::vector<Bone>	m_bones;
+		std::unordered_map<astring, int32_t>	m_nameToIndex;
 
 	public:
 		Armature_Imp();
@@ -29,6 +32,8 @@ namespace ace
 		void AddBone(const achar* name, int32_t parentBoneIndex, BoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv) override;
 
 		std::vector<Bone>& GetBones() { return m_bones; }
+
+		int32_t GetBoneIndex(astring& name);
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

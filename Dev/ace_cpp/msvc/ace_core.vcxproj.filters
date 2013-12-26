@@ -61,6 +61,9 @@
     <Filter Include="ObjectSystem\Fade">
       <UniqueIdentifier>{3a995846-38fb-483c-ab45-8592a576b5f5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Common\Animation">
+      <UniqueIdentifier>{8ab0991f-9512-4141-b379-7fccd419247c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -381,6 +384,24 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Armature.h">
       <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Animation\ace.KeyframeAnimation.h">
+      <Filter>Graphics\Common\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Animation\ace.KeyframeAnimation_Imp.h">
+      <Filter>Graphics\Common\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationClip_Imp.h">
+      <Filter>Graphics\Common\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationSource.h">
+      <Filter>Graphics\Common\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationSource_Imp.h">
+      <Filter>Graphics\Common\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationClip.h">
+      <Filter>Graphics\Common\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -594,6 +615,15 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Armature_Imp.cpp">
       <Filter>Graphics\Common\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\Animation\ace.KeyframeAnimation_Imp.cpp">
+      <Filter>Graphics\Common\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\Animation\ace.AnimationSource_Imp.cpp">
+      <Filter>Graphics\Common\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\Animation\ace.AnimationClip_Imp.cpp">
+      <Filter>Graphics\Common\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

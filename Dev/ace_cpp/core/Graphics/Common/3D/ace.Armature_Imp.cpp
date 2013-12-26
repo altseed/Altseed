@@ -24,5 +24,20 @@ namespace ace
 		bone.GlobalMatInv = globalMatInv;
 
 		m_bones.push_back(bone);
+
+		if (m_nameToIndex.find(bone.Name) == m_nameToIndex.end())
+		{
+			m_nameToIndex[bone.Name] = m_bones.size() - 1;
+		}	
+	}
+
+	int32_t Armature_Imp::GetBoneIndex(astring& name)
+	{
+		if (m_nameToIndex.find(name) == m_nameToIndex.end())
+		{
+			return -1;
+		}
+
+		return m_nameToIndex[name];
 	}
 }
