@@ -11,7 +11,7 @@ namespace ace
 		struct VertexConstantBuffer
 		{
 			Matrix44	MCPMatrix;
-			
+
 			Vector3DF	DirectionalLightDirection;
 			float		Padding0;
 
@@ -20,7 +20,12 @@ namespace ace
 		};
 
 	private:
-		Mesh_Imp*	m_mesh;
+		Mesh_Imp*		m_mesh;
+		Armature_Imp*	m_armature;
+
+		std::vector<Matrix44>	m_matrixes_fr;
+		std::vector<Matrix44>	m_matrixes;
+
 		std::shared_ptr<ace::NativeShader_Imp>	m_shader;
 
 	public:
@@ -31,6 +36,8 @@ namespace ace
 		void Rendering(RenderingProperty& prop) override;
 
 		void SetMesh(Mesh* mesh);
+
+		void SetArmature(Armature* armature);
 
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
 	};

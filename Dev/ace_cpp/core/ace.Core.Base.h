@@ -31,6 +31,7 @@ namespace ace {
 	class Material2D;
 
 	class Mesh;
+	class Armature;
 
 	class ObjectSystemFactory;
 	class CoreScene;

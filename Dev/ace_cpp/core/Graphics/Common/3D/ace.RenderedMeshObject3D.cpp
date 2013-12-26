@@ -1,6 +1,7 @@
 ﻿
 #include "ace.RenderedMeshObject3D.h"
 #include "ace.Mesh_Imp.h"
+#include "ace.Armature_Imp.h"
 
 #include "../ace.Graphics_Imp.h"
 #include "../Resource/ace.NativeShader_Imp.h"
@@ -110,6 +111,7 @@ void main()
 	RenderedMeshObject3D::RenderedMeshObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
 		, m_mesh(nullptr)
+		, m_armature(nullptr)
 		{
 			std::vector<ace::VertexLayout> vl;
 			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
@@ -167,6 +169,7 @@ void main()
 		RenderedMeshObject3D::~RenderedMeshObject3D()
 		{
 			SafeRelease(m_mesh);
+			SafeRelease(m_armature);
 		}
 
 		void RenderedMeshObject3D::SetMesh(Mesh* mesh)
@@ -175,10 +178,48 @@ void main()
 			SafeSubstitute(m_mesh, m);
 		}
 
+		void RenderedMeshObject3D::SetArmature(Armature* armature)
+		{
+			auto a = (Armature_Imp*) armature;
+			SafeSubstitute(m_armature, a);
+
+			m_matrixes.resize(m_armature->GetBones().size());
+		}
 
 		void RenderedMeshObject3D::Flip()
 		{
 			RenderedObject3D::Flip();
+
+			// 計算
+			for (auto i = 0; i < m_armature->GetBones().size(); i++)
+			{
+				auto& b = m_armature->GetBones()[i];
+
+				// todo change animation
+				m_matrixes[i] = Matrix44();
+
+				Matrix44::Mul(m_matrixes[i], m_matrixes[i], b.LocalMat);
+
+				if (b.ParentBoneIndex >= 0)
+				{
+					m_matrixes[i] = Matrix44();
+					Matrix44::Mul(m_matrixes[i], m_matrixes[i], m_matrixes[b.ParentBoneIndex]);
+				}
+			}
+
+			for (auto i = 0; i < m_armature->GetBones().size(); i++)
+			{
+				auto& b = m_armature->GetBones()[i];
+				Matrix44::Mul(m_matrixes[i], m_matrixes[i], b.GlobalMatInv);
+			}
+
+			// コピー
+			if (m_matrixes_fr.size() != m_matrixes.size())
+			{
+				m_matrixes_fr.resize(m_matrixes.size());
+			}
+
+			std::copy(m_matrixes.begin(), m_matrixes.end(), std::back_inserter(m_matrixes_fr));
 		}
 
 		void RenderedMeshObject3D::Rendering(RenderingProperty& prop)

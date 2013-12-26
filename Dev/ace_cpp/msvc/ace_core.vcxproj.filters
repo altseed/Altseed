@@ -589,10 +589,10 @@
     <ClCompile Include="..\core\Graphics\Common\ace.RenderingThread.cpp">
       <Filter>Graphics\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\Common\3D\ace.Armature.cpp">
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.Armature_Imp.h">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\Common\3D\ace.Armature_Imp.h">
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.Armature_Imp.cpp">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
   </ItemGroup>

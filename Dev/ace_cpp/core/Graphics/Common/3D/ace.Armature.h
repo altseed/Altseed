@@ -8,7 +8,7 @@
 #include <Graphics/ace.Color.h>
 
 #include "../../../ace.Core.Base.h"
-#include "../../../ace.Core.Base_Imp.h"
+#include "../../../ace.ReferenceObject.h"
 
 namespace ace
 {
@@ -28,21 +28,12 @@ namespace ace
 	class Armature
 	{
 	private:
-		struct Bone
-		{
-			astring				Name;
-			int32_t				ParentBoneIndex;
-			BoneRotationType	RotationType;
-			Matrix44			LocalMat;
-			Matrix44			GlobalMatInv;
-		};
-
-		std::vector<Bone>	m_bones;
+		
 
 	public:
-		Armature();
-		virtual ~Armature();
+		Armature() {}
+		virtual ~Armature() {}
 
-		void AddBone(const achar* name, int32_t parentBoneIndex, BoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv);
+		virtual void AddBone(const achar* name, int32_t parentBoneIndex, BoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv) = 0;
 	};
 }

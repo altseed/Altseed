@@ -1,19 +1,19 @@
 
-#include "ace.Armature.h"
+#include "ace.Armature_Imp.h"
 
 namespace ace
 {
-	Armature::Armature()
+	Armature_Imp::Armature_Imp()
 	{
 	
 	}
 
-	Armature::~Armature()
+	Armature_Imp::~Armature_Imp()
 	{
 	
 	}
 
-	void Armature::AddBone(const achar* name, int32_t parentBoneIndex, BoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv)
+	void Armature_Imp::AddBone(const achar* name, int32_t parentBoneIndex, BoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv)
 	{
 		auto bone = Bone();
 

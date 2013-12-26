@@ -89,7 +89,9 @@ namespace ace {
 	class RenderedMeshObject3D;
 	class RenderedDirectionalLightObject3D;
 	class RenderedCameraObject3D;
+
 	class Mesh_Imp;
+	class Armature_Imp;
 
 	enum eVertexLayoutFormat
 	{
