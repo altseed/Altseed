@@ -9,7 +9,9 @@ namespace ace
 		friend class Object2D;
 
 	private:
-		Object2D* m_object;
+		Object2D* m_owner;
+		bool m_isUpdated;
+		bool m_isAlive;
 
 		void Update();
 		void SetOwner(Object2D* value);
@@ -24,5 +26,12 @@ namespace ace
 		}
 
 		Object2D* GetOwner() const;
+
+		bool GetIsUpdated() const;
+		void SetIsUpdated(bool value);
+
+		bool GetIsAlive() const;
+
+		void Vanish();
 	};
 }

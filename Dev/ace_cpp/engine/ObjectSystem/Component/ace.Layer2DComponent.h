@@ -10,6 +10,8 @@ namespace ace
 
 	private:
 		Layer2D* m_layer;
+		bool m_isUpdated;
+		bool m_isAlive;
 
 		void Update();
 		void SetOwner(Layer2D* value);
@@ -24,5 +26,12 @@ namespace ace
 		}
 
 		Layer2D* GetOwner() const;
+
+		bool GetIsUpdated() const;
+		void SetIsUpdated(bool value);
+
+		bool GetIsAlive() const;
+
+		void Vanish();
 	};
 }

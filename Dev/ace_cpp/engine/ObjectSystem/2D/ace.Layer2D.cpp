@@ -30,18 +30,26 @@ namespace ace
 		}
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Layer2D::Update()
+	void Layer2D::UpdateComponents()
 	{
-		if (!m_isUpdated)
+		auto beVanished = vector<astring>();
+		for (auto& component : m_components)
 		{
-			return;
+			component.second->Update();
+			if (component.second->GetIsAlive())
+			{
+				beVanished.push_back(component.first);
+			}
 		}
 
-		OnUpdating();
+		for (auto& x : beVanished)
+		{
+			RemoveComponent(x);
+		}
+	}
 
+	void Layer2D::UpdateObjects()
+	{
 		auto beVanished = vector<ObjectPtr>();
 
 		for (auto& object : m_objects)
@@ -57,12 +65,21 @@ namespace ace
 		{
 			RemoveObject(object);
 		}
+	}
 
-		for (auto& component : m_components)
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Layer2D::Update()
+	{
+		if (!m_isUpdated)
 		{
-			component.second->Update();
+			return;
 		}
 
+		OnUpdating();
+		UpdateObjects();
+		UpdateComponents();
 		OnUpdated();
 	}
 

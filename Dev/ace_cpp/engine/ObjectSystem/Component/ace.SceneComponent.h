@@ -10,6 +10,8 @@ namespace ace
 
 	private:
 		Scene* m_scene;
+		bool m_isUpdated;
+		bool m_isAlive;
 
 		void Update();
 		void SetOwner(Scene* value);
@@ -24,5 +26,12 @@ namespace ace
 		}
 
 		Scene* GetOwner() const;
+
+		bool GetIsUpdated() const;
+		void SetIsUpdated(bool value);
+
+		bool GetIsAlive() const;
+
+		void Vanish();
 	};
 }

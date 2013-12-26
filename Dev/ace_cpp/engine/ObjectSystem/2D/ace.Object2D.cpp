@@ -32,6 +32,24 @@ namespace ace
 		OnStart();
 	}
 
+	void Object2D::UpdateComponents()
+	{
+		auto beVanished = vector<astring>();
+		for (auto& x : m_components)
+		{
+			x.second->Update();
+			if (!x.second->GetIsAlive())
+			{
+				beVanished.push_back(x.first);
+			}
+		}
+
+		for (auto& x : beVanished)
+		{
+			RemoveComponent(x);
+		}
+	}
+
 	void Object2D::Update()
 	{
 		if (!m_isUpdated)
@@ -40,10 +58,7 @@ namespace ace
 		}
 
 		OnUpdate();
-		for (auto& x : m_components)
-		{
-			x.second->Update();
-		}
+		UpdateComponents();
 	}
 
 	bool Object2D::GetIsUpdated() const
@@ -76,6 +91,7 @@ namespace ace
 	{
 		m_isAlive = false;
 	}
+
 
 	Layer2D* Object2D::GetLayer() const
 	{

@@ -29,6 +29,8 @@ namespace ace
 		void SetLayer(Layer2D* layer);
 		virtual CoreObject2D* GetCoreObject() const = 0;
 
+		void UpdateComponents();
+
 	protected:
 		virtual void OnStart() = 0;
 		virtual void OnUpdate() = 0;
@@ -37,7 +39,6 @@ namespace ace
 	public:
 		Object2D();
 		virtual ~Object2D();
-
 
 		bool GetIsUpdated() const;
 		void SetIsUpdated(bool value);
