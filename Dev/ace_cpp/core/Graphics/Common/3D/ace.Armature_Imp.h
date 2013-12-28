@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "ace.Armature.h"
@@ -35,7 +35,7 @@ namespace ace
 
 		int32_t GetBoneIndex(astring& name);
 
-		// IReference‚ğŒp³‚µ‚½ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒgŒü‚¯’è‹`
+		// IReferenceã‚’ç¶™æ‰¿ã—ãŸãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‘ã‘å®šç¾©
 #if !SWIG
 	public:
 		virtual int GetRef() { return ReferenceObject::GetRef(); }

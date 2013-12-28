@@ -33,6 +33,11 @@ namespace ace {
 	class Mesh;
 	class Armature;
 
+	class AnimationClip;
+	class AnimationSource;
+	class KeyframeAnimation;
+
+
 	class ObjectSystemFactory;
 	class CoreScene;
 	class CoreLayer;
