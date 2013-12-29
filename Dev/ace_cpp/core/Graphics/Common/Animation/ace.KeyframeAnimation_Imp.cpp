@@ -284,9 +284,9 @@ namespace ace
 		}
 	}
 
-	const achar* KeyframeAnimation_Imp::GetTargetName()
+	astring& KeyframeAnimation_Imp::GetTargetName()
 	{
-		return m_targetName.c_str();
+		return m_targetName;
 	}
 
 	eAnimationCurveTargetType KeyframeAnimation_Imp::GetTargetType()

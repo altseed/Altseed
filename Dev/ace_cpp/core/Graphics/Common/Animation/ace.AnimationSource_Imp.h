@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "../../../ace.Core.Base_Imp.h"
@@ -21,7 +21,7 @@ namespace ace
 
 		std::set<KeyframeAnimation*>& GetAnimations() { return m_animations; }
 
-		// IReference‚ğŒp³‚µ‚½ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒgŒü‚¯’è‹`
+		// IReferenceã‚’ç¶™æ‰¿ã—ãŸãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‘ã‘å®šç¾©
 #if !SWIG
 	public:
 		virtual int GetRef() { return ReferenceObject::GetRef(); }

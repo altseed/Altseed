@@ -16,11 +16,11 @@ namespace ace
 
 	enum eAnimationCurveTargetAxis
 	{
-		ANIMATION_CURVE_TARGET_AXIS_NONE,
-		ANIMATION_CURVE_TARGET_AXIS_X,
-		ANIMATION_CURVE_TARGET_AXIS_Y,
-		ANIMATION_CURVE_TARGET_AXIS_Z,
-		ANIMATION_CURVE_TARGET_AXIS_W,
+		ANIMATION_CURVE_TARGET_AXIS_NONE = -1,
+		ANIMATION_CURVE_TARGET_AXIS_X = 0,
+		ANIMATION_CURVE_TARGET_AXIS_Y = 1,
+		ANIMATION_CURVE_TARGET_AXIS_Z = 2,
+		ANIMATION_CURVE_TARGET_AXIS_W = 3,
 	};
 
 	
@@ -45,7 +45,7 @@ namespace ace
 
 		void SetName(const achar* name);
 
-		const achar* GetTargetName();
+		astring& GetTargetName();
 
 		eAnimationCurveTargetType GetTargetType();
 

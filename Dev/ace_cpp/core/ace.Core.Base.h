@@ -165,6 +165,19 @@ namespace ace {
 		int32_t	Offset;
 	};
 
+	enum eBoneRotationType
+	{
+		BONE_ROTATION_TYPE_QUATERNION = 10,
+		BONE_ROTATION_TYPE_XZY = 11,
+		BONE_ROTATION_TYPE_XYZ = 12,
+		BONE_ROTATION_TYPE_ZXY = 13,
+		BONE_ROTATION_TYPE_ZYX = 14,
+		BONE_ROTATION_TYPE_YXZ = 15,
+		BONE_ROTATION_TYPE_YZX = 16,
+		BONE_ROTATION_TYPE_AXIS = 18,
+		BONE_ROTATION_TYPE_MAX = 0xfffffff
+	};
+
 	/**
 	@brief	参照カウンタのインターフェース
 	*/

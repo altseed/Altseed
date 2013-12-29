@@ -402,6 +402,9 @@
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationClip.h">
       <Filter>Graphics\Common\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Armature_Imp.h">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -609,9 +612,6 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\ace.RenderingThread.cpp">
       <Filter>Graphics\Common</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Common\3D\ace.Armature_Imp.h">
-      <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Armature_Imp.cpp">
       <Filter>Graphics\Common\3D</Filter>
