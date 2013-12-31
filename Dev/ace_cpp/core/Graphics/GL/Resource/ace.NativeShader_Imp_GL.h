@@ -31,6 +31,7 @@ namespace ace {
 			eConstantBufferFormat	Type;
 			GLint			ID;
 			int32_t			Offset;
+			int32_t			Count;
 		};
 
 		GLuint m_program;

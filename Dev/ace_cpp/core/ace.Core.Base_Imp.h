@@ -107,6 +107,7 @@ namespace ace {
 		CONSTANT_BUFFER_FORMAT_FLOAT3,
 		CONSTANT_BUFFER_FORMAT_FLOAT4,
 		CONSTANT_BUFFER_FORMAT_MATRIX44,
+		CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY,
 		CONSTANT_BUFFER_FORMAT_UNKNOWN,
 	};
 
@@ -142,10 +143,16 @@ namespace ace {
 		std::string		Name;
 		int32_t			Offset;
 		eConstantBufferFormat	Format;
+		
+		/**
+			@brief	定数バッファが配列だった際の配列の個数
+		*/
+		int32_t			Count;
 
 		ConstantBufferInformation()
 			: Offset(0)
 			, Format(CONSTANT_BUFFER_FORMAT_FLOAT4)
+			, Count(0)
 		{
 		}
 	};

@@ -72,6 +72,7 @@ void NativeShader_Imp_GL::CreatePixelConstantBufferInternal(int32_t size, std::v
 		c.ID = id;
 		c.Type = i.Format;
 		c.Offset = i.Offset;
+		c.Count = i.Count;
 		m_pixelConstantLayouts.push_back(c);
 	}
 
@@ -92,6 +93,16 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 			glUniformMatrix4fv(
 				l.ID,
 				1,
+				GL_TRUE,
+				(const GLfloat*) data);
+		}
+		else if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
+		{
+			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
+			data += l.Offset;
+			glUniformMatrix4fv(
+				l.ID,
+				l.Count,
 				GL_TRUE,
 				(const GLfloat*) data);
 		}
@@ -142,6 +153,16 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 			glUniformMatrix4fv(
 				l.ID,
 				1,
+				GL_TRUE,
+				(const GLfloat*) data);
+		}
+		else if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
+		{
+			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
+			data += l.Offset;
+			glUniformMatrix4fv(
+				l.ID,
+				l.Count,
 				GL_TRUE,
 				(const GLfloat*) data);
 		}

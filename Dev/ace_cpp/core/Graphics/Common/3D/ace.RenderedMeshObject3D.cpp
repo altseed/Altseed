@@ -269,7 +269,7 @@ void main()
 			constantBuffers[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
 			constantBuffers[0].Name = std::string("matMCP");
 			constantBuffers[0].Offset = 0;
-
+			
 			constantBuffers[1].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
 			constantBuffers[1].Name = std::string("directionalLightDirection");
 			constantBuffers[1].Offset = sizeof(Matrix44);
