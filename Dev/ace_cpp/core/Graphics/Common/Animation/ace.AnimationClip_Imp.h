@@ -18,7 +18,7 @@ namespace ace
 		AnimationClip_Imp();
 		virtual ~AnimationClip_Imp();
 
-		AnimationSource* GetSource();
+		AnimationSource* GetSource_();
 		void SetSource(AnimationSource* source);
 	};
 }

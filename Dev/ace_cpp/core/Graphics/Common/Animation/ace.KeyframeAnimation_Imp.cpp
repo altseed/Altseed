@@ -231,7 +231,7 @@ namespace ace
 
 		auto strs = split(ToAString(name), ToAString("."));
 
-		// ボーン向け設定
+		// ボーン向け設定の取得
 		m_targetName = astring();
 		m_targetType = ANIMATION_CURVE_TARGET_TYPE_NONE;
 		m_targetAxis = ANIMATION_CURVE_TARGET_AXIS_NONE;
@@ -299,11 +299,10 @@ namespace ace
 		return m_targetAxis;
 	}
 
-	void KeyframeAnimation_Imp::AddKeyframe(Keyframe kf)
+	void KeyframeAnimation_Imp::AddKeyframe(const Keyframe& kf)
 	{
 		m_keyframes.push_back(kf);
 	}
-
 
 	float KeyframeAnimation_Imp::GetValue(float frame)
 	{

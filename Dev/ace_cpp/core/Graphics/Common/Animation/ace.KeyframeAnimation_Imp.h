@@ -51,7 +51,7 @@ namespace ace
 
 		eAnimationCurveTargetAxis GetTargetAxis();
 
-		void AddKeyframe(Keyframe kf) override;
+		void AddKeyframe(const Keyframe& kf) override;
 
 		float GetValue(float frame) override;
 

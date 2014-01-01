@@ -15,7 +15,7 @@ namespace ace
 		SafeRelease(m_source);
 	}
 
-	AnimationSource* AnimationClip_Imp::GetSource()
+	AnimationSource* AnimationClip_Imp::GetSource_()
 	{
 		return m_source;
 	}

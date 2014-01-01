@@ -178,6 +178,8 @@
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationClip_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationSource.h" />
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationSource_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationSystem.h" />
+    <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationSystem_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.KeyframeAnimation.h" />
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.KeyframeAnimation_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.DepthBuffer_Imp.h" />
@@ -292,6 +294,7 @@
     <ClCompile Include="..\core\Graphics\Common\ace.RenderingThread.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Animation\ace.AnimationClip_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Animation\ace.AnimationSource_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Common\Animation\ace.AnimationSystem_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Animation\ace.KeyframeAnimation_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.DepthBuffer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.IndexBuffer_Imp.cpp" />

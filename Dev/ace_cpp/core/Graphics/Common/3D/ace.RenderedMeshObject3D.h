@@ -10,7 +10,7 @@ namespace ace
 	{
 		struct VertexConstantBuffer
 		{
-			Matrix44	MCPMatrix;
+			Matrix44	MCPMatrices[32];
 
 			Vector3DF	DirectionalLightDirection;
 			float		Padding0;

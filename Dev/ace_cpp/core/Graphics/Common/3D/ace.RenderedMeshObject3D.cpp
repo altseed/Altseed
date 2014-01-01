@@ -18,8 +18,8 @@ namespace ace
 	static const char* dx_vs = R"(
 
 float4x4	matMCP						: register( c0 );
-float3		directionalLightDirection	: register( c4 );
-float3		directionalLightColor		: register( c5 );
+float3		directionalLightDirection	: register( c128 );
+float3		directionalLightColor		: register( c129 );
 
 struct VS_Input
 {
@@ -41,10 +41,20 @@ struct VS_Output
 	float2 UV		: TEXCOORD0;
 };
 
+mat4 calcMatrix(float4 weights, float4 indexes)
+{
+	return matMCP[indexes.x] * weights.x +
+	matMCP[indexes.y] * weights.y +
+	matMCP[indexes.z] * weights.z +
+	matMCP[indexes.w] * weights.w;
+}
+
 VS_Output main( const VS_Input Input )
 {
 	VS_Output Output = (VS_Output)0;
-	Output.Pos = mul( float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ), matMCP );
+	//Output.Pos = mul( float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ), matMCP[0] );
+	Output.Pos = mul( float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ), calcMatrix(Input.BoneWeights,Input.BoneIndexes) );
+	
 	Output.UV = Input.UV;
 	Output.Color.xyz = directionalLightColor * max( dot(directionalLightDirection,Input.Normal), 0.0 );
 	Output.Color.w = 1.0;
@@ -81,18 +91,28 @@ attribute vec2 UV;
 attribute vec2 UVSub;
 attribute vec4 Color;
 attribute vec4 BoneWeights;
+attribute vec4 BoneIndexes;
 attribute vec4 BoneIndexesOriginal;
 
-uniform mat4		matMCP;
+uniform mat4		matMCP[32];
 uniform vec3		directionalLightDirection;
 uniform vec3		directionalLightColor;
 
 varying vec4 vaTexCoord;
 varying vec4 vaColor;
 
+mat4 calcMatrix(vec4 weights, vec4 indexes)
+{
+	return matMCP[indexes.x] * weights.x +
+	matMCP[indexes.y] * weights.y +
+	matMCP[indexes.z] * weights.z +
+	matMCP[indexes.w] * weights.w;
+}
+
 void main()
 {
-	gl_Position = vec4(Position.x,Position.y,Position.z,1.0) * matMCP;
+//	gl_Position = vec4(Position.x,Position.y,Position.z,1.0) * matMCP[0];
+	gl_Position = vec4(Position.x,Position.y,Position.z,1.0) * calcMatrix(BoneWeights,BoneIndexes);
 	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
 	vaColor.xyz = directionalLightColor * max( dot(directionalLightDirection,Normal), 0.0 );
 	vaColor.w = 1.0;
@@ -266,17 +286,18 @@ void main()
 
 			std::vector<ace::ConstantBufferInformation> constantBuffers;
 			constantBuffers.resize(3);
-			constantBuffers[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
 			constantBuffers[0].Name = std::string("matMCP");
 			constantBuffers[0].Offset = 0;
-			
+			constantBuffers[0].Count = 32;
+
 			constantBuffers[1].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
 			constantBuffers[1].Name = std::string("directionalLightDirection");
-			constantBuffers[1].Offset = sizeof(Matrix44);
+			constantBuffers[1].Offset = sizeof(Matrix44) * 32;
 
 			constantBuffers[2].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
 			constantBuffers[2].Name = std::string("directionalLightColor");
-			constantBuffers[2].Offset = sizeof(Matrix44) +sizeof(float) * 4;
+			constantBuffers[2].Offset = sizeof(Matrix44) * 32 + sizeof(float) * 4;
 
 			m_shader->CreateVertexConstantBuffer<VertexConstantBuffer>(constantBuffers);
 		}
@@ -341,10 +362,10 @@ void main()
 
 			auto localMatrix = CalcLocalMatrix();
 
-			// アニメーション
+			// アニメーションの適用
 			if (m_animationPlaying != nullptr)
 			{
-				auto source = (AnimationSource_Imp*)m_animationPlaying->GetSource();
+				auto source = (AnimationSource_Imp*)m_animationPlaying->GetSource().get();
 				auto& animations = source->GetAnimations();
 				
 				for (auto& a : animations)
@@ -383,7 +404,7 @@ void main()
 			{
 				auto& b = m_armature->GetBones()[i];
 
-				// アニメーションの計算
+				// ローカル行列の計算
 				m_matrixes[i] = m_boneProps[i].CalcMatrix(b.RotationType);
 
 				Matrix44::Mul(m_matrixes[i], m_matrixes[i], b.LocalMat);
@@ -417,7 +438,14 @@ void main()
 		void RenderedMeshObject3D::Rendering(RenderingProperty& prop)
 		{
 			auto& vbuf = m_shader->GetVertexConstantBuffer<VertexConstantBuffer>();
-			Matrix44::Mul(vbuf.MCPMatrix, GetLocalMatrix_FR(), prop.CameraProjectionMatrix);
+
+			// 行列計算
+			for (int32_t i = 0; i < Min(32, m_matrixes_fr.size()); i++)
+			{
+				vbuf.MCPMatrices[i].Indentity();
+				Matrix44::Mul(vbuf.MCPMatrices[i], GetLocalMatrix_FR(), prop.CameraProjectionMatrix);
+				Matrix44::Mul(vbuf.MCPMatrices[i], m_matrixes_fr[i], vbuf.MCPMatrices[i]);
+			}
 
 			{
 				vbuf.DirectionalLightDirection = prop.DirectionalLightDirection;

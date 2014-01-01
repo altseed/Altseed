@@ -27,7 +27,7 @@ namespace ace
 
 		virtual void SetName(const achar* name) = 0;
 
-		virtual void AddKeyframe(Keyframe kf) = 0;
+		virtual void AddKeyframe(const Keyframe& kf) = 0;
 
 		virtual float GetValue(float frame) = 0;
 	};
