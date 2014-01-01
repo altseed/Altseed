@@ -24,10 +24,11 @@ namespace ace
 		std::list<LayerPtr> m_layersToUpdate;
 		std::map<astring, ComponentPtr> m_components;
 
-		void Update();
 		void DrawAdditionally();
 		void BeginDrawing();
 		void EndDrawing();
+		void Update();
+		void UpdateComponents();
 
 	protected:
 		virtual void OnUpdating();
