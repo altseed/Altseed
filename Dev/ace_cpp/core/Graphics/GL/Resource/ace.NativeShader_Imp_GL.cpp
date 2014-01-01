@@ -51,6 +51,7 @@ void NativeShader_Imp_GL::CreateVertexConstantBufferInternal(int32_t size, std::
 		c.ID = id;
 		c.Type = i.Format;
 		c.Offset = i.Offset;
+		c.Count = i.Count;
 		m_vertexConstantLayouts.push_back(c);
 	}
 
