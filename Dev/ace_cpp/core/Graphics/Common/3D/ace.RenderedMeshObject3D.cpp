@@ -17,7 +17,7 @@ namespace ace
 {
 	static const char* dx_vs = R"(
 
-float4x4	matMCP						: register( c0 );
+float4x4	matMCP[32]					: register( c0 );
 float3		directionalLightDirection	: register( c128 );
 float3		directionalLightColor		: register( c129 );
 
@@ -41,7 +41,7 @@ struct VS_Output
 	float2 UV		: TEXCOORD0;
 };
 
-mat4 calcMatrix(float4 weights, float4 indexes)
+float4x4 calcMatrix(float4 weights, float4 indexes)
 {
 	return matMCP[indexes.x] * weights.x +
 	matMCP[indexes.y] * weights.y +
@@ -103,10 +103,10 @@ varying vec4 vaColor;
 
 mat4 calcMatrix(vec4 weights, vec4 indexes)
 {
-	return matMCP[indexes.x] * weights.x +
-	matMCP[indexes.y] * weights.y +
-	matMCP[indexes.z] * weights.z +
-	matMCP[indexes.w] * weights.w;
+	return matMCP[int(indexes.x)] * weights.x +
+	matMCP[int(indexes.y)] * weights.y +
+	matMCP[int(indexes.z)] * weights.z +
+	matMCP[int(indexes.w)] * weights.w;
 }
 
 void main()
