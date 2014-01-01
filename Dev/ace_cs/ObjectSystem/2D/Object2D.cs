@@ -46,7 +46,7 @@ namespace ace
 		public abstract Layer2D Layer { get; internal set; }
 
 		/// <summary>
-		/// このオブジェクトに登録されているコンポーネントのコレクションを取得する。
+		/// このオブジェクトに登録されているコンポーネントのディクショナリを取得する。
 		/// </summary>
 		public IDictionary<string, Object2DComponent> Components
 		{

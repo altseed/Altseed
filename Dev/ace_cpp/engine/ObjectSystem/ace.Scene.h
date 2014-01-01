@@ -10,6 +10,9 @@ namespace ace
 {
 	class Engine;
 
+	/**
+		@brief	画面を表し、レイヤーを管理するクラス。
+	*/
 	class Scene
 	{
 		friend class Engine;
@@ -31,18 +34,51 @@ namespace ace
 		void UpdateComponents();
 
 	protected:
+		/**
+			@brief	オーバーライドして、このシーンを更新する直前の処理を記述できる。
+		*/
 		virtual void OnUpdating();
+		/**
+			@brief	オーバーライドして、このシーンを更新した直後の処理を記述できる。
+		*/
 		virtual void OnUpdated();
 
 	public:
+		/**
+			@brief	コンストラクタ
+		*/
 		Scene();
+		/**
+			@brief	デストラクタ
+		*/
 		virtual ~Scene();
 
+		/**
+			@brief	指定したレイヤーをこのインスタンスに追加する。
+			@param	layer	追加するレイヤー
+		*/
 		void AddLayer(const LayerPtr& layer);
+		/**
+			@brief	指定したレイヤーをこのインスタンスから削除する。
+			@param	layer	削除するレイヤー
+		*/
 		void RemoveLayer(const LayerPtr& layer);
 
+		/**
+			@brief	指定したコンポーネントをこのインスタンスに追加する。
+			@param	component	追加するコンポーネント
+			@param	key			コンポーネントに関連付けるキー
+		*/
 		void AddComponent(const ComponentPtr& component, astring key);
+		/**
+			@brief	キーの示すコンポーネントをこのインスタンスから取得する。
+			@param	key		取得するコンポーネントを示すキー
+		*/
 		ComponentPtr& GetComponent(astring key);
+		/**
+			@brief	キーの示すコンポーネントをこのインスタンスから削除する。
+			@param	key		削除するコンポーネントを示すキー
+		*/
 		void RemoveComponent(astring key);
 	};
 }

@@ -65,7 +65,7 @@ namespace ace
 		void SetIsUpdated(bool value);
 
 		/**
-		@brief	レイヤーを描画するどうか取得する。
+			@brief	レイヤーを描画するどうか取得する。
 		*/
 		bool GetIsDrawn() const;
 		/**
