@@ -32,31 +32,49 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	void Scene::UpdateComponents()
+	{
+		auto beVanished = vector<astring>();
+		for (auto& component : m_components)
+		{
+			component.second->Update();
+			if (!component.second->GetIsAlive())
+			{
+				beVanished.push_back(component.first);
+			}
+		}
+
+		for (auto& x : beVanished)
+		{
+			RemoveComponent(x);
+		}
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	void Scene::Update()
 	{
+		OnUpdating();
+
 		for (auto& layer : m_layersToUpdate)
 		{
 			layer->BeginUpdateting();
 		}
-
-		OnUpdating();
 
 		for (auto& layer : m_layersToUpdate)
 		{
 			layer->Update();
 		}
 
-		for (auto& component : m_components)
-		{
-			component.second->Update();
-		}
-
-		OnUpdated();
-
 		for (auto& layer : m_layersToUpdate)
 		{
 			layer->EndUpdateting();
 		}
+
+		UpdateComponents();
+
+		OnUpdated();
 	}
 
 	//----------------------------------------------------------------------------------

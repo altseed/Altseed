@@ -42,13 +42,14 @@ protected:
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 		auto object = make_shared<TextureObject2D>();
+		auto component = make_shared<MyObject2DComponent>();
 
 		GetEngine()->ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(object);
 
 		object->SetPosition(Vector2DF(320, 240));
-		object->AddComponent(make_shared<MyObject2DComponent>(), ToAString("rotation"));
+		object->AddComponent(component, ToAString("rotation"));
 		ASSERT_NE(object->GetComponent(ToAString("rotation").c_str()), nullptr);
 
 		auto g = ace::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());

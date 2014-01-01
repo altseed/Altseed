@@ -9,16 +9,16 @@ namespace ace
 	class ObjectSystemFactory
 	{
 		/// <summary>
-		/// ObjectSystemFactory クラスをインスタンス化します。
+		/// ObjectSystemFactory クラスをインスタンス化する。
 		/// </summary>
-		/// <param name="factory">ネイティブのラッパー。</param>
+		/// <param name="factory">ネイティブのインスタンス</param>
 		public ObjectSystemFactory(swig.ObjectSystemFactory factory)
 		{
 			this.factory = factory;
 		}
 
 		/// <summary>
-		/// ネイティブの CoreTextureObject2D クラスをインスタンス化します。
+		/// ネイティブの CoreTextureObject2D クラスをインスタンス化する。
 		/// </summary>
 		/// <returns>ネイティブのインスタンス。</returns>
 		public swig.CoreTextureObject2D CreateTextureObject2D()
@@ -27,7 +27,7 @@ namespace ace
 		}
 
 		/// <summary>
-		/// ネイティブの CoreLayer2D クラスをインスタンス化します。
+		/// ネイティブの CoreLayer2D クラスをインスタンス化する。
 		/// </summary>
 		/// <returns>ネイティブのインスタンス。</returns>
 		public swig.CoreLayer2D CreateLayer2D()
@@ -72,7 +72,7 @@ namespace ace
 		}
 
 		/// <summary>
-		/// ネイティブの CoreScene クラスをインスタンス化します。
+		/// ネイティブの CoreScene クラスをインスタンス化する。
 		/// </summary>
 		/// <returns>ネイティブのインスタンス。</returns>
 		public swig.CoreScene CreateScene()

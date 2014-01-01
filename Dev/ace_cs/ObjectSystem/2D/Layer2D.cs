@@ -12,7 +12,7 @@ namespace ace
 	public class Layer2D : Layer, IDestroy
 	{
 		/// <summary>
-		/// ace.Layer2D クラスの新しいインスタンスを初期化します。
+		/// コンストラクタ
 		/// </summary>
 		public Layer2D()
 		{
@@ -65,15 +65,18 @@ namespace ace
 			get { return objects_; }
 		}
 
+		/// <summary>
+		/// このレイヤーに登録されているコンポーネントのコレクションを取得する。
+		/// </summary>
 		public IDictionary<string, Layer2DComponent> Components
 		{
 			get { return components_; }
 		}
 
 		/// <summary>
-		/// このレイヤーに指定した2Dオブジェクトを追加する。
+		/// 指定した2Dオブジェクトをこのレイヤーに追加する。
 		/// </summary>
-		/// <param name="object2D">追加する2Dオブジェクト。</param>
+		/// <param name="object2D">追加する2Dオブジェクト</param>
 		public void AddObject(Object2D object2D)
 		{
 			if( object2D.Layer != null )
@@ -87,7 +90,7 @@ namespace ace
 		}
 
 		/// <summary>
-		/// このレイヤーから指定した2Dオブジェクトを削除する。
+		/// 指定した2Dオブジェクトをこのレイヤーから削除する。
 		/// </summary>
 		/// <param name="object2D">削除される2Dオブジェクト</param>
 		public void RemoveObject(Object2D object2D)
@@ -97,12 +100,21 @@ namespace ace
 			object2D.Layer = null;
 		}
 
+		/// <summary>
+		/// 指定したコンポーネントをこのレイヤーに追加する。
+		/// </summary>
+		/// <param name="component">追加するコンポーネント</param>
+		/// <param name="key">コンポーネントに関連付けるキー</param>
 		public void AddComponent(Layer2DComponent component, string key)
 		{
 			components_[key] = component;
 			component.Owner = this;
 		}
 
+		/// <summary>
+		/// 指定したコンポーネントをこのレイヤーから削除する。
+		/// </summary>
+		/// <param name="key">削除するコンポーネントを示すキー</param>
 		public void RemoveComponent(string key)
 		{
 			components_[key].Owner = null;

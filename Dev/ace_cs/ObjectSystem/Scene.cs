@@ -12,7 +12,7 @@ namespace ace
 	public class Scene : IDestroy
 	{
 		/// <summary>
-		/// ace.Scene クラスの新しいインスタンスを初期化します。
+		/// コンストラクタ
 		/// </summary>
 		public Scene()
 		{
@@ -61,22 +61,25 @@ namespace ace
 
 
 		/// <summary>
-		/// このシーン クラスが管理するレイヤーのコレクションを取得します。
+		/// このシーン クラスが管理するレイヤーのコレクションを取得する。
 		/// </summary>
 		public IEnumerable<Layer> Layers
 		{
 			get { return layersToUpdate_; }
 		}
 
+		/// <summary>
+		/// このシーン クラスに登録されているコンポーネントのコレクションを取得する。
+		/// </summary>
 		public IDictionary<string, SceneComponent> Components
 		{
 			get { return components_; }
 		}
 
 		/// <summary>
-		/// このシーンに指定したレイヤーを追加します。
+		/// 指定したレイヤーをこのシーンに追加する。
 		/// </summary>
-		/// <param name="layer">追加されるレイヤー。</param>
+		/// <param name="layer">追加されるレイヤー</param>
 		public void AddLayer( Layer layer )
 		{
 			if( layer.Scene != null )
@@ -90,9 +93,9 @@ namespace ace
 		}
 
 		/// <summary>
-		/// このシーンから指定したレイヤーを削除します。
+		/// 指定したレイヤーをこのシーンから削除する。
 		/// </summary>
-		/// <param name="layer">削除されるレイヤー。</param>
+		/// <param name="layer">削除されるレイヤー</param>
 		public void RemoveLayer( Layer layer )
 		{
 			layersToDraw_.Remove( layer );
@@ -101,22 +104,37 @@ namespace ace
 			layer.Scene = null;
 		}
 
+		/// <summary>
+		/// 指定したコンポーネントをこのシーンに追加する。
+		/// </summary>
+		/// <param name="component">追加するコンポーネント</param>
+		/// <param name="key">コンポーネントに関連付けるキー</param>
 		public void AddComponent( SceneComponent component, string key )
 		{
 			component.Owner = this;
 			components_[key] = component;
 		}
 
+		/// <summary>
+		/// 指定したコンポーネントをこのシーンから削除する。
+		/// </summary>
+		/// <param name="key">削除するコンポーネントを示すキー</param>
 		public void RemoveComponent( string key )
 		{
 			components_[key].Owner = null;
 			components_.Remove( key );
 		}
 
+		/// <summary>
+		/// オーバーライドして、Updateの直前に実行する処理を記述する。
+		/// </summary>
 		protected virtual void OnUpdating()
 		{
 		}
 
+		/// <summary>
+		/// オーバーライドして、Updateの直後に実行する処理を記述する。
+		/// </summary>
 		protected virtual void OnUpdated()
 		{
 		}

@@ -56,8 +56,9 @@ protected:
 		scene->AddLayer(layer);
 
 		auto componentName = ToAString("generator");
+		auto component = make_shared<MyLayer2DComponent>(layer.get());
 
-		layer->AddComponent(make_shared<MyLayer2DComponent>(layer.get()), componentName);
+		layer->AddComponent(component, componentName);
 		ASSERT_NE(layer->GetComponent(componentName), nullptr);
 	}
 };
