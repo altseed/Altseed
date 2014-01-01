@@ -58,10 +58,12 @@ namespace ace
 			bool		isChanged;
 
 		} m_commonValues_FR;
-
+		
 		Matrix44 CalcLocalMatrix(Vector3DF& t, Vector3DF& r, Vector3DF& s);
 
 	protected:
+		
+		Matrix44 CalcLocalMatrix();
 
 		Graphics_Imp* GetGraphics() { return m_graphics;  }
 		const Matrix44& GetLocalMatrix_FR();

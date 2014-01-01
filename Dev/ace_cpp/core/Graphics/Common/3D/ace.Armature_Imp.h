@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "ace.Armature.h"
@@ -17,7 +17,7 @@ namespace ace
 		{
 			astring				Name;
 			int32_t				ParentBoneIndex;
-			BoneRotationType	RotationType;
+			eBoneRotationType	RotationType;
 			Matrix44			LocalMat;
 			Matrix44			GlobalMatInv;
 		};
@@ -29,13 +29,13 @@ namespace ace
 		Armature_Imp();
 		virtual ~Armature_Imp();
 
-		void AddBone(const achar* name, int32_t parentBoneIndex, BoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv) override;
+		void AddBone(const achar* name, int32_t parentBoneIndex, eBoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv) override;
 
 		std::vector<Bone>& GetBones() { return m_bones; }
 
-		int32_t GetBoneIndex(astring& name);
+		int32_t GetBoneIndex(const astring& name) const;
 
-		// IReference‚ğŒp³‚µ‚½ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒgŒü‚¯’è‹`
+		// IReferenceã‚’ç¶™æ‰¿ã—ãŸãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‘ã‘å®šç¾©
 #if !SWIG
 	public:
 		virtual int GetRef() { return ReferenceObject::GetRef(); }

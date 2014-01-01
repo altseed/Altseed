@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.Armature_Imp.h"
 
 namespace ace
@@ -13,7 +13,7 @@ namespace ace
 	
 	}
 
-	void Armature_Imp::AddBone(const achar* name, int32_t parentBoneIndex, BoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv)
+	void Armature_Imp::AddBone(const achar* name, int32_t parentBoneIndex, eBoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv)
 	{
 		auto bone = Bone();
 
@@ -31,13 +31,13 @@ namespace ace
 		}	
 	}
 
-	int32_t Armature_Imp::GetBoneIndex(astring& name)
+	int32_t Armature_Imp::GetBoneIndex(const astring& name) const
 	{
 		if (m_nameToIndex.find(name) == m_nameToIndex.end())
 		{
 			return -1;
 		}
 
-		return m_nameToIndex[name];
+		return m_nameToIndex.at(name);
 	}
 }

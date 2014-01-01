@@ -1,11 +1,28 @@
-
+ï»¿
 #include "ace.KeyframeAnimation_Imp.h"
 
 namespace ace
 {
+	/**
+		@brief	æ–‡å­—åˆ—åˆ†å‰²
+		@note
+		http://shnya.jp/blog/?p=195 ã®ã‚³ãƒ¼ãƒ‰ã‚’æ”¹é€ 
+	*/
+	static std::vector<astring> split(const astring &str, const astring &delim)
+	{
+		std::vector<astring> res;
+		size_t current = 0, found, delimlen = delim.size();
+		while ((found = str.find(delim, current)) != astring::npos)
+		{
+			res.push_back(astring(str, current, found - current));
+			current = found + delimlen;
+		}
+		res.push_back(astring(str, current, str.size() - current));
+		return res;
+	}
 
 	const double DEF_NaN = std::numeric_limits<double>::quiet_NaN();
-#define M_PI 3.14159265358979
+	const double M_PI = 3.14159265358979;
 
 	static float sqrt3(float value)
 	{
@@ -28,26 +45,26 @@ namespace ace
 		float h1[2];
 		float h2[2];
 
-		// ŒX‚«‚ğ‹‚ß‚é
+		// å‚¾ãã‚’æ±‚ã‚ã‚‹
 		h1[0] = k1[0] - k1rh[0];
 		h1[1] = k1[1] - k1rh[1];
 
 		h2[0] = k2[0] - k2lh[0];
 		h2[1] = k2[1] - k2lh[1];
 
-		// ƒL[ƒtƒŒ[ƒ€ŠÔ‚Ì’·‚³
+		// ã‚­ãƒ¼ãƒ•ãƒ¬ãƒ¼ãƒ é–“ã®é•·ã•
 		auto len = k2[0] - k1[0];
 
-		// ƒL[1‚Ì‰Eè‚Ì’·‚³
+		// ã‚­ãƒ¼1ã®å³æ‰‹ã®é•·ã•
 		auto lenR = abs(h1[0]);
 
-		// ƒL[2‚Ì¶è‚Ì’·‚³
+		// ã‚­ãƒ¼2ã®å·¦æ‰‹ã®é•·ã•
 		auto lenL = abs(h2[0]);
 
-		// ’·‚³‚ª‚È‚¢
+		// é•·ã•ãŒãªã„
 		if (lenR == 0 && lenL == 0) return;
 
-		// è‚ªd‚È‚Á‚Ä‚¢‚éê‡A•â³
+		// æ‰‹ãŒé‡ãªã£ã¦ã„ã‚‹å ´åˆã€è£œæ­£
 		if ((lenR + lenL) > len)
 		{
 			auto f = len / (lenR + lenL);
@@ -142,7 +159,7 @@ namespace ace
 			}
 			else
 			{
-				// ƒrƒGƒ^‚Ì‰ğ
+				// ãƒ“ã‚¨ã‚¿ã®è§£
 				auto phi = acos(-q / sqrt(-(p * p * p)));
 				auto pd3 = cos(phi / 3);
 				auto rmp = sqrt(-p);
@@ -164,7 +181,7 @@ namespace ace
 		}
 		else
 		{
-			// 2Ÿ•û’ö®‚ÌƒP[ƒX
+			// 2æ¬¡æ–¹ç¨‹å¼ã®ã‚±ãƒ¼ã‚¹
 			float r1;
 			float r2;
 			QuadraticFormula(c2_, c1_, c0_, r1, r2);
@@ -192,6 +209,8 @@ namespace ace
 
 
 	KeyframeAnimation_Imp::KeyframeAnimation_Imp()
+		: m_targetType(ANIMATION_CURVE_TARGET_TYPE_NONE)
+		, m_targetAxis(ANIMATION_CURVE_TARGET_AXIS_NONE)
 	{
 	
 	}
@@ -199,6 +218,85 @@ namespace ace
 	KeyframeAnimation_Imp::~KeyframeAnimation_Imp()
 	{
 	
+	}
+
+	const achar* KeyframeAnimation_Imp::GetName()
+	{
+		return m_name.c_str();
+	}
+
+	void KeyframeAnimation_Imp::SetName(const achar* name)
+	{
+		m_name = name;
+
+		auto strs = split(ToAString(name), ToAString("."));
+
+		// ãƒœãƒ¼ãƒ³å‘ã‘è¨­å®š
+		m_targetName = astring();
+		m_targetType = ANIMATION_CURVE_TARGET_TYPE_NONE;
+		m_targetAxis = ANIMATION_CURVE_TARGET_AXIS_NONE;
+
+		if (strs.size() < 3) return;
+		
+		for (size_t i = 0; i < strs.size() - 2; i++)
+		{
+			m_targetName += strs[i];
+
+			if (i != strs.size() - 3)
+			{
+				m_targetName += ToAString(".");
+			}
+		}
+
+		if (strs[strs.size() - 2] == ToAString("pos"))
+		{
+			m_targetType = ANIMATION_CURVE_TARGET_TYPE_POSITON;
+		}
+
+		if (strs[strs.size() - 2] == ToAString("rot"))
+		{
+			m_targetType = ANIMATION_CURVE_TARGET_TYPE_ROTATION;
+		}
+
+		if (strs[strs.size() - 2] == ToAString("scl"))
+		{
+			m_targetType = ANIMATION_CURVE_TARGET_TYPE_SCALE;
+		}
+
+		if (strs[strs.size() - 1] == ToAString("x"))
+		{
+			m_targetAxis = ANIMATION_CURVE_TARGET_AXIS_X;
+		}
+
+		if (strs[strs.size() - 1] == ToAString("y"))
+		{
+			m_targetAxis = ANIMATION_CURVE_TARGET_AXIS_Y;
+		}
+
+		if (strs[strs.size() - 1] == ToAString("z"))
+		{
+			m_targetAxis = ANIMATION_CURVE_TARGET_AXIS_Z;
+		}
+
+		if (strs[strs.size() - 1] == ToAString("w"))
+		{
+			m_targetAxis = ANIMATION_CURVE_TARGET_AXIS_W;
+		}
+	}
+
+	astring& KeyframeAnimation_Imp::GetTargetName()
+	{
+		return m_targetName;
+	}
+
+	eAnimationCurveTargetType KeyframeAnimation_Imp::GetTargetType()
+	{
+		return m_targetType;
+	}
+
+	eAnimationCurveTargetAxis KeyframeAnimation_Imp::GetTargetAxis()
+	{
+		return m_targetAxis;
 	}
 
 	void KeyframeAnimation_Imp::AddKeyframe(Keyframe kf)

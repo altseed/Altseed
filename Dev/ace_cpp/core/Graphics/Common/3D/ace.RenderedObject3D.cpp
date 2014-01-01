@@ -21,6 +21,14 @@ namespace ace
 		return mat;
 	}
 
+	Matrix44 RenderedObject3D::CalcLocalMatrix()
+	{
+		return CalcLocalMatrix(
+			m_commonValues.position,
+			m_commonValues.rotation,
+			m_commonValues.scale);
+	}
+
 	const Matrix44& RenderedObject3D::GetLocalMatrix_FR()
 	{
 		return m_commonValues_FR.localMatrix;
