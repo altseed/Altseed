@@ -12,10 +12,10 @@ namespace ace
 		private static Vector2DF zero = new Vector2DF();
 
 		/// <summary>
-		/// 指定した X 成分と Y 成分を使用して、ace.Vector2DF の新しいインスタンスを初期化する。
+		/// コンストラクタ
 		/// </summary>
-		/// <param name="x">X成分。</param>
-		/// <param name="y">Y成分。</param>
+		/// <param name="x">X成分</param>
+		/// <param name="y">Y成分</param>
 		public Vector2DF( float x, float y )
 			: this()
 		{
@@ -25,6 +25,16 @@ namespace ace
 
 		public float X;
 		public float Y;
+
+		public float GetLength()
+		{
+			return (float)Math.Sqrt( GetSquaredLength() );
+		}
+
+		private float GetSquaredLength()
+		{
+			return X * X + Y * Y;
+		}
 
 		public override string ToString()
 		{
@@ -44,6 +54,31 @@ namespace ace
 		public static Vector2DF operator -( Vector2DF op )
 		{
 			return new Vector2DF( -op.X, -op.Y );
+		}
+
+		public static Vector2DF operator *( Vector2DF op, float scolar )
+		{
+			return new Vector2DF( op.X * scolar, op.Y * scolar );
+		}
+
+		public static Vector2DF operator *( float scolar, Vector2DF op )
+		{
+			return new Vector2DF( scolar * op.X, scolar * op.Y );
+		}
+
+		public static Vector2DF operator *( Vector2DF left, Vector2DF right )
+		{
+			return new Vector2DF( left.X * right.X, left.Y * right.Y );
+		}
+
+		public static Vector2DF operator /( Vector2DF op, float scolar )
+		{
+			return new Vector2DF( op.X / scolar, op.Y / scolar );
+		}
+
+		public static Vector2DF operator /( Vector2DF left, Vector2DF right )
+		{
+			return new Vector2DF( left.X / right.X, left.Y / right.Y );
 		}
 	}
 }
