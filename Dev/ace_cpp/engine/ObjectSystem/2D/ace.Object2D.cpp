@@ -134,8 +134,8 @@ namespace ace
 	void Object2D::RemoveComponent(astring key)
 	{
 		auto it = m_components.find(key);
-		m_components.erase(it);
 		it->second->SetOwner(nullptr);
+		m_components.erase(it);
 	}
 
 #pragma region Get/Set

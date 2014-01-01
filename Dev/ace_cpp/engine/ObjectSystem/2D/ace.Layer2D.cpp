@@ -36,7 +36,7 @@ namespace ace
 		for (auto& component : m_components)
 		{
 			component.second->Update();
-			if (component.second->GetIsAlive())
+			if (!component.second->GetIsAlive())
 			{
 				beVanished.push_back(component.first);
 			}
@@ -168,8 +168,8 @@ namespace ace
 	void Layer2D::RemoveComponent(astring key)
 	{
 		auto it = m_components.find(key);
-		m_components.erase(it);
 		it->second->SetOwner(nullptr);
+		m_components.erase(it);
 	}
 
 }

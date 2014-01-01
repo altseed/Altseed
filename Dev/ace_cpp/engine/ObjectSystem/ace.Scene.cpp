@@ -178,7 +178,7 @@ namespace ace
 	void Scene::RemoveComponent(astring key)
 	{
 		auto it = m_components.find(key);
-		m_components.erase(it);
 		it->second->SetOwner(nullptr);
+		m_components.erase(it);
 	}
 }
