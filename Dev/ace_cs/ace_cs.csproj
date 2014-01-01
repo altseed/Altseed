@@ -68,6 +68,7 @@
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="Input\SideButton.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="Math\Math.cs" />
     <Compile Include="Math\Vector2DF.cs" />
     <Compile Include="Math\Vector2DI.cs" />
     <Compile Include="Math\Vector3DF.cs" />
