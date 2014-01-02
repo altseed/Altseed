@@ -45,6 +45,18 @@ namespace ace
 		Linear = swig.eTextureFilterType.TEXTURE_FILTER_LINEAR,
     }
 
+	public enum RotationOrder
+	{
+		Quaternion = swig.eRotationOrder.ROTATION_ORDER_QUATERNION,
+		XZY  = swig.eRotationOrder.ROTATION_ORDER_XZY,
+		XYZ  = swig.eRotationOrder.ROTATION_ORDER_XYZ,
+		ZXY  = swig.eRotationOrder.ROTATION_ORDER_ZXY,
+		ZYX  = swig.eRotationOrder.ROTATION_ORDER_ZYX,
+		YXZ  = swig.eRotationOrder.ROTATION_ORDER_YXZ,
+		YZX  = swig.eRotationOrder.ROTATION_ORDER_YZX,
+		Axis = swig.eRotationOrder.ROTATION_ORDER_AXIS,
+	}
+
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
 	public struct FCurveKeyframe
 	{

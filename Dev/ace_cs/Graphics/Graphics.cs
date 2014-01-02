@@ -90,5 +90,10 @@ namespace ace
 		{
 			return GC.GenerateMesh(graphics.CreateMesh_(), GC.GenerationType.Create);
 		}
+
+		public Deformer CreateDeformer()
+		{
+			return GC.GenerateDeformer(graphics.CreateDeformer_(), GC.GenerationType.Create);
+		}
 	}
 }

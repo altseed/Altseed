@@ -14,6 +14,7 @@ namespace ace
 		internal static IDObjectContainer<Material2D> Material2Ds { get; private set; }
 
 		internal static IDObjectContainer<Mesh> Meshs { get; private set; }
+		internal static IDObjectContainer<Deformer> Deformers { get; private set; }
 
 		internal static IDObjectContainer<Scene> Scenes { get; private set; }
 
@@ -32,6 +33,7 @@ namespace ace
 			Shader2Ds = new IDObjectContainer<Shader2D>();
 			Material2Ds = new IDObjectContainer<Material2D>();
 			Meshs = new IDObjectContainer<Mesh>();
+			Deformers = new IDObjectContainer<Deformer>();
 
 			Scenes = new IDObjectContainer<Scene>();
 
@@ -57,6 +59,7 @@ namespace ace
 				Shader2Ds.DestroyAll();
 				Material2Ds.DestroyAll();
 				Meshs.DestroyAll();
+				Deformers.DestroyAll();
 
 				Scenes.DestroyAll();
 
@@ -186,5 +189,34 @@ namespace ace
 			return ret;
 		}
 
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static Deformer GenerateDeformer(swig.Deformer o, GenerationType type)
+		{
+			var p = o.GetPtr();
+
+			var existing = GC.Deformers.GetObject(p);
+			if (existing != null)
+			{
+				if (type == GenerationType.Create)
+				{
+					o.Release();
+				}
+
+				return existing;
+			}
+
+			if (type == GenerationType.Get)
+			{
+				o.AddRef();
+			}
+
+			var ret = new Deformer(o);
+			GC.Deformers.AddObject(p, ret);
+			return ret;
+		}
 	}
 }
