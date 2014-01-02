@@ -28,7 +28,7 @@ namespace ace
 
 		void SetSource(std::shared_ptr<AnimationSource>& source)
 		{
-			SetSource(source);
+			SetSource(source.get());
 		}
 #endif
 	};

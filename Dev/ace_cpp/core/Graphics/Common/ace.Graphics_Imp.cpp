@@ -17,6 +17,7 @@
 #include "Resource/ace.Material2D_Imp.h"
 
 #include "3D/ace.Mesh_Imp.h"
+#include "3D/ace.Armature_Imp.h"
 
 #if _WIN32
 #include "../DX11/ace.Graphics_Imp_DX11.h"
@@ -335,6 +336,11 @@ Material2D_Imp* Graphics_Imp::CreateMaterial2D_Imp(Shader2D_Imp* shader)
 Mesh* Graphics_Imp::CreateMesh_()
 {
 	return Mesh_Imp::Create(this);
+}
+
+Armature* Graphics_Imp::CreateArmature_()
+{
+	return new Armature_Imp();
 }
 
 //----------------------------------------------------------------------------------

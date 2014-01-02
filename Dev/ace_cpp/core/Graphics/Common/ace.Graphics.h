@@ -25,6 +25,7 @@ protected:
 	virtual Shader2D* CreateShader2D_( const achar* shaderText, ShaderVariableProperty* variableProperties, int32_t variablePropertiesCount) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
 	virtual Mesh* CreateMesh_() = 0;
+	virtual Armature* CreateArmature_() = 0;
 
 public:
 	Graphics(){}
@@ -83,6 +84,16 @@ public:
 	{
 		auto mesh = CreateMesh_();
 		return CreateSharedPtrWithReleaseDLL(mesh);
+	}
+
+	/**
+	@brief	アーマチュアを生成する。
+	@return	アーマチュア
+	*/
+	std::shared_ptr<Armature> CreateArmature()
+	{
+		auto armature = CreateArmature_();
+		return CreateSharedPtrWithReleaseDLL(armature);
 	}
 
 #endif

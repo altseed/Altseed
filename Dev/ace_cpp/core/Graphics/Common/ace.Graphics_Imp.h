@@ -171,6 +171,8 @@ namespace ace {
 		*/
 		Mesh* CreateMesh_();
 
+		Armature* CreateArmature_();
+
 #if !SWIG
 	/**
 	@brief	深度バッファを生成する。

@@ -13,6 +13,7 @@
 namespace ace
 {
 	class Armature
+		: public IReference
 	{
 	private:
 		

@@ -30,8 +30,8 @@ struct VS_Input
 	float2 UVSub		: UVSub0;
 	float4 Color		: Color0;
 	float4 BoneWeights	: BoneWeights0;
-	float4 BoneIndexes	: BoneIndexes0;
-	float4 BoneIndexesOriginal	: BoneIndexesOriginal0;
+	uint4 BoneIndexes	: BoneIndexes0;
+	uint4 BoneIndexesOriginal	: BoneIndexesOriginal0;
 };
 
 struct VS_Output
@@ -41,7 +41,7 @@ struct VS_Output
 	float2 UV		: TEXCOORD0;
 };
 
-float4x4 calcMatrix(float4 weights, float4 indexes)
+float4x4 calcMatrix(float4 weights, uint4 indexes)
 {
 	return matMCP[indexes.x] * weights.x +
 	matMCP[indexes.y] * weights.y +
@@ -152,9 +152,31 @@ void main()
 
 	Matrix44 RenderedMeshObject3D::BoneProperty::CalcMatrix(eBoneRotationType rotationType)
 	{
+		if (rotationType == BONE_ROTATION_TYPE_QUATERNION)
+		{
+			Matrix44 mat, matS, matR, matT;
+			matS.Scaling(Scale[0], Scale[1], Scale[2]);
+			matT.Translation(Position[0], Position[1], Position[2]);
+			matR.Quaternion(Rotation[0], Rotation[1], Rotation[2], Rotation[3]);
 
-		if (rotationType == BONE_ROTATION_TYPE_XYZ ||
-			rotationType == BONE_ROTATION_TYPE_XZY)
+			mat = Matrix44::Mul(mat, matS, matR);
+			mat = Matrix44::Mul(mat, mat, matT);
+
+			return mat;
+		}
+		else if (rotationType == BONE_ROTATION_TYPE_AXIS)
+		{
+			Matrix44 mat, matS, matR, matT;
+			matS.Scaling(Scale[0], Scale[1], Scale[2]);
+			matT.Translation(Position[0], Position[1], Position[2]);
+			matR.RotationAxis(Vector3DF(Rotation[0], Rotation[2], -Rotation[1]), Rotation[3]);
+
+			mat = Matrix44::Mul(mat, matS, matR);
+			mat = Matrix44::Mul(mat, mat, matT);
+
+			return mat;
+		}
+		else
 		{
 			Matrix44 mat, matS, matRx, matRy, matRz, matT;
 			matS.Scaling(Scale[0], Scale[1], Scale[2]);
@@ -210,30 +232,6 @@ void main()
 				mat = Matrix44::Mul(mat, mat, matRx);
 				mat = Matrix44::Mul(mat, mat, matT);
 			}
-
-			return mat;
-		}
-		else if (rotationType == BONE_ROTATION_TYPE_QUATERNION)
-		{
-			Matrix44 mat, matS, matR, matT;
-			matS.Scaling(Scale[0], Scale[1], Scale[2]);
-			matT.Translation(Position[0], Position[1], Position[2]);
-			matR.Quaternion(Rotation[0], Rotation[1], Rotation[2], Rotation[3]);
-
-			mat = Matrix44::Mul(mat, matS, matR);
-			mat = Matrix44::Mul(mat, mat, matT);
-
-			return mat;
-		}
-		else if (rotationType == BONE_ROTATION_TYPE_AXIS)
-		{
-			Matrix44 mat, matS, matR, matT;
-			matS.Scaling(Scale[0], Scale[1], Scale[2]);
-			matT.Translation(Position[0], Position[1], Position[2]);
-			matR.RotationAxis(Vector3DF(Rotation[0], Rotation[2], -Rotation[1]), Rotation[3]);
-
-			mat = Matrix44::Mul(mat, matS, matR);
-			mat = Matrix44::Mul(mat, mat, matT);
 
 			return mat;
 		}
@@ -388,7 +386,7 @@ void main()
 					}
 					else if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_ROTATION)
 					{
-						m_boneProps[bi].Rotation[axis] = value;
+						m_boneProps[bi].Rotation[axis] = value / 180.0f * 3.141592f;
 					}
 					else if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_SCALE)
 					{
@@ -411,12 +409,7 @@ void main()
 
 				if (b.ParentBoneIndex >= 0)
 				{
-					m_matrixes[i] = Matrix44();
 					Matrix44::Mul(m_matrixes[i], m_matrixes[i], m_matrixes[b.ParentBoneIndex]);
-				}
-				else
-				{
-					Matrix44::Mul(m_matrixes[i], m_matrixes[i], localMatrix);
 				}
 			}
 
@@ -432,7 +425,7 @@ void main()
 				m_matrixes_fr.resize(m_matrixes.size());
 			}
 
-			std::copy(m_matrixes.begin(), m_matrixes.end(), std::back_inserter(m_matrixes_fr));
+			std::copy(m_matrixes.begin(), m_matrixes.end(), m_matrixes_fr.begin());
 		}
 
 		void RenderedMeshObject3D::Rendering(RenderingProperty& prop)
@@ -455,6 +448,10 @@ void main()
 				// ボーンなし
 				vbuf.MCPMatrices[0].Indentity();
 				Matrix44::Mul(vbuf.MCPMatrices[0], GetLocalMatrix_FR(), prop.CameraProjectionMatrix);
+				for (int32_t i = 1; i < 32; i++)
+				{
+					vbuf.MCPMatrices[i] = vbuf.MCPMatrices[0];
+				}
 			}
 			
 			{
