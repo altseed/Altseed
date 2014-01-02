@@ -171,7 +171,7 @@ namespace ace {
 		*/
 		Mesh* CreateMesh_();
 
-		Armature* CreateArmature_();
+		Deformer* CreateDeformer_();
 
 #if !SWIG
 	/**

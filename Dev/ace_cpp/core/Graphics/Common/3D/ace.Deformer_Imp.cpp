@@ -1,19 +1,19 @@
 ﻿
-#include "ace.Armature_Imp.h"
+#include "ace.Deformer_Imp.h"
 
 namespace ace
 {
-	Armature_Imp::Armature_Imp()
+	Deformer_Imp::Deformer_Imp()
 	{
 	
 	}
 
-	Armature_Imp::~Armature_Imp()
+	Deformer_Imp::~Deformer_Imp()
 	{
 	
 	}
 
-	void Armature_Imp::AddBone(const achar* name, int32_t parentBoneIndex, eBoneRotationType rotationType, const Matrix44& localMat, const Matrix44& globalMatInv)
+	void Deformer_Imp::AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationType, const Matrix44& localMat, const Matrix44& globalMatInv)
 	{
 		auto bone = Bone();
 
@@ -31,7 +31,7 @@ namespace ace
 		}	
 	}
 
-	int32_t Armature_Imp::GetBoneIndex(const astring& name) const
+	int32_t Deformer_Imp::GetBoneIndex(const astring& name) const
 	{
 		if (m_nameToIndex.find(name) == m_nameToIndex.end())
 		{

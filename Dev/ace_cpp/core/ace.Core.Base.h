@@ -31,7 +31,7 @@ namespace ace {
 	class Material2D;
 
 	class Mesh;
-	class Armature;
+	class Deformer;
 
 	class AnimationSystem;
 	class AnimationClip;
@@ -166,17 +166,17 @@ namespace ace {
 		int32_t	Offset;
 	};
 
-	enum eBoneRotationType
+	enum eRotationOrder
 	{
-		BONE_ROTATION_TYPE_QUATERNION = 10,
-		BONE_ROTATION_TYPE_XZY = 11,
-		BONE_ROTATION_TYPE_XYZ = 12,
-		BONE_ROTATION_TYPE_ZXY = 13,
-		BONE_ROTATION_TYPE_ZYX = 14,
-		BONE_ROTATION_TYPE_YXZ = 15,
-		BONE_ROTATION_TYPE_YZX = 16,
-		BONE_ROTATION_TYPE_AXIS = 18,
-		BONE_ROTATION_TYPE_MAX = 0xfffffff
+		ROTATION_ORDER_QUATERNION = 10,
+		ROTATION_ORDER_XZY = 11,
+		ROTATION_ORDER_XYZ = 12,
+		ROTATION_ORDER_ZXY = 13,
+		ROTATION_ORDER_ZYX = 14,
+		ROTATION_ORDER_YXZ = 15,
+		ROTATION_ORDER_YZX = 16,
+		ROTATION_ORDER_AXIS = 18,
+		ROTATION_ORDER_MAX = 0xfffffff
 	};
 
 	

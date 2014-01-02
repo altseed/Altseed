@@ -25,7 +25,7 @@ protected:
 	virtual Shader2D* CreateShader2D_( const achar* shaderText, ShaderVariableProperty* variableProperties, int32_t variablePropertiesCount) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
 	virtual Mesh* CreateMesh_() = 0;
-	virtual Armature* CreateArmature_() = 0;
+	virtual Deformer* CreateDeformer_() = 0;
 
 public:
 	Graphics(){}
@@ -87,13 +87,13 @@ public:
 	}
 
 	/**
-	@brief	アーマチュアを生成する。
-	@return	アーマチュア
+	@brief	デフォーマーを生成する。
+	@return	デフォーマー
 	*/
-	std::shared_ptr<Armature> CreateArmature()
+	std::shared_ptr<Deformer> CreateDeformer()
 	{
-		auto armature = CreateArmature_();
-		return CreateSharedPtrWithReleaseDLL(armature);
+		auto deformer = CreateDeformer_();
+		return CreateSharedPtrWithReleaseDLL(deformer);
 	}
 
 #endif

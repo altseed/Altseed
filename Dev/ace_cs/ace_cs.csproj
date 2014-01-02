@@ -96,7 +96,6 @@
     <Compile Include="swig\AnimationClip.cs" />
     <Compile Include="swig\AnimationSource.cs" />
     <Compile Include="swig\AnimationSystem.cs" />
-    <Compile Include="swig\Armature.cs" />
     <Compile Include="swig\Core.cs" />
     <Compile Include="swig\CoreCameraObject3D.cs" />
     <Compile Include="swig\CoreDirectionalLightObject3D.cs" />
@@ -110,8 +109,9 @@
     <Compile Include="swig\CoreScene.cs" />
     <Compile Include="swig\CoreTextureObject2D.cs" />
     <Compile Include="swig\Core_Imp.cs" />
+    <Compile Include="swig\Deformer.cs" />
     <Compile Include="swig\eAlphaBlend.cs" />
-    <Compile Include="swig\eBoneRotationType.cs" />
+    <Compile Include="swig\eRotationOrder.cs" />
     <Compile Include="swig\eChildMode.cs" />
     <Compile Include="swig\eCullingType.cs" />
     <Compile Include="swig\eGraphicsType.cs" />

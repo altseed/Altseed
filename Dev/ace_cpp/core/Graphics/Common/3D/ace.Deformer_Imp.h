@@ -1,15 +1,15 @@
 ﻿
 #pragma once
 
-#include "ace.Armature.h"
+#include "ace.Deformer.h"
 #include "../../../ace.Core.Base_Imp.h"
 
 #include <unordered_map>
 
 namespace ace
 {
-	class Armature_Imp
-		: public Armature
+	class Deformer_Imp
+		: public Deformer
 		, public ReferenceObject
 	{
 	public:
@@ -17,7 +17,7 @@ namespace ace
 		{
 			astring				Name;
 			int32_t				ParentBoneIndex;
-			eBoneRotationType	RotationType;
+			eRotationOrder	RotationType;
 			Matrix44			LocalMat;
 			Matrix44			GlobalMatInv;
 		};
@@ -26,10 +26,10 @@ namespace ace
 		std::unordered_map<astring, int32_t>	m_nameToIndex;
 
 	public:
-		Armature_Imp();
-		virtual ~Armature_Imp();
+		Deformer_Imp();
+		virtual ~Deformer_Imp();
 
-		void AddBone(const achar* name, int32_t parentBoneIndex, eBoneRotationType rotationType, const Matrix44& localMat, const Matrix44& globalMatInv) override;
+		void AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationType, const Matrix44& localMat, const Matrix44& globalMatInv) override;
 
 		std::vector<Bone>& GetBones() { return m_bones; }
 

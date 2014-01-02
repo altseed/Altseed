@@ -91,7 +91,7 @@ namespace ace {
 	class RenderedCameraObject3D;
 
 	class Mesh_Imp;
-	class Armature_Imp;
+	class Deformer_Imp;
 
 	class AnimationSystem_Imp;
 

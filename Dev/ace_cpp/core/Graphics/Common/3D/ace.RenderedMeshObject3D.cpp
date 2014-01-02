@@ -1,7 +1,7 @@
 ﻿
 #include "ace.RenderedMeshObject3D.h"
 #include "ace.Mesh_Imp.h"
-#include "ace.Armature_Imp.h"
+#include "ace.Deformer_Imp.h"
 
 #include "../Animation/ace.AnimationClip_Imp.h"
 #include "../Animation/ace.AnimationSource_Imp.h"
@@ -150,9 +150,9 @@ void main()
 	}
 
 
-	Matrix44 RenderedMeshObject3D::BoneProperty::CalcMatrix(eBoneRotationType rotationType)
+	Matrix44 RenderedMeshObject3D::BoneProperty::CalcMatrix(eRotationOrder rotationType)
 	{
-		if (rotationType == BONE_ROTATION_TYPE_QUATERNION)
+		if (rotationType == ROTATION_ORDER_QUATERNION)
 		{
 			Matrix44 mat, matS, matR, matT;
 			matS.Scaling(Scale[0], Scale[1], Scale[2]);
@@ -164,7 +164,7 @@ void main()
 
 			return mat;
 		}
-		else if (rotationType == BONE_ROTATION_TYPE_AXIS)
+		else if (rotationType == ROTATION_ORDER_AXIS)
 		{
 			Matrix44 mat, matS, matR, matT;
 			matS.Scaling(Scale[0], Scale[1], Scale[2]);
@@ -185,7 +185,7 @@ void main()
 			matRy.RotationY(Rotation[2]);
 			matRz.RotationZ(-Rotation[1]);
 
-			if (rotationType == BONE_ROTATION_TYPE_XZY)
+			if (rotationType == ROTATION_ORDER_XZY)
 			{
 				mat = Matrix44::Mul(mat, matS, matRx);
 				mat = Matrix44::Mul(mat, mat, matRz);
@@ -193,7 +193,7 @@ void main()
 				mat = Matrix44::Mul(mat, mat, matT);
 			}
 
-			if (rotationType == BONE_ROTATION_TYPE_XYZ)
+			if (rotationType == ROTATION_ORDER_XYZ)
 			{
 				mat = Matrix44::Mul(mat, matS, matRx);
 				mat = Matrix44::Mul(mat, mat, matRy);
@@ -201,7 +201,7 @@ void main()
 				mat = Matrix44::Mul(mat, mat, matT);
 			}
 
-			if (rotationType == BONE_ROTATION_TYPE_ZXY)
+			if (rotationType == ROTATION_ORDER_ZXY)
 			{
 				mat = Matrix44::Mul(mat, matS, matRz);
 				mat = Matrix44::Mul(mat, mat, matRx);
@@ -209,7 +209,7 @@ void main()
 				mat = Matrix44::Mul(mat, mat, matT);
 			}
 
-			if (rotationType == BONE_ROTATION_TYPE_ZYX)
+			if (rotationType == ROTATION_ORDER_ZYX)
 			{
 				mat = Matrix44::Mul(mat, matS, matRz);
 				mat = Matrix44::Mul(mat, mat, matRy);
@@ -217,7 +217,7 @@ void main()
 				mat = Matrix44::Mul(mat, mat, matT);
 			}
 
-			if (rotationType == BONE_ROTATION_TYPE_YXZ)
+			if (rotationType == ROTATION_ORDER_YXZ)
 			{
 				mat = Matrix44::Mul(mat, matS, matRy);
 				mat = Matrix44::Mul(mat, mat, matRx);
@@ -225,7 +225,7 @@ void main()
 				mat = Matrix44::Mul(mat, mat, matT);
 			}
 
-			if (rotationType == BONE_ROTATION_TYPE_YZX)
+			if (rotationType == ROTATION_ORDER_YZX)
 			{
 				mat = Matrix44::Mul(mat, matS, matRy);
 				mat = Matrix44::Mul(mat, mat, matRz);
@@ -242,7 +242,7 @@ void main()
 	RenderedMeshObject3D::RenderedMeshObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
 		, m_mesh(nullptr)
-		, m_armature(nullptr)
+		, m_deformer(nullptr)
 		, m_animationPlaying(nullptr)
 		, m_animationTime(0)
 		{
@@ -303,7 +303,7 @@ void main()
 		RenderedMeshObject3D::~RenderedMeshObject3D()
 		{
 			SafeRelease(m_mesh);
-			SafeRelease(m_armature);
+			SafeRelease(m_deformer);
 
 			for (auto& a : m_animationClips)
 			{
@@ -318,13 +318,13 @@ void main()
 			SafeSubstitute(m_mesh, m);
 		}
 
-		void RenderedMeshObject3D::SetArmature(Armature* armature)
+		void RenderedMeshObject3D::SetDeformer(Deformer* deformer)
 		{
-			auto a = (Armature_Imp*) armature;
-			SafeSubstitute(m_armature, a);
+			auto a = (Deformer_Imp*) deformer;
+			SafeSubstitute(m_deformer, a);
 
-			m_matrixes.resize(m_armature->GetBones().size());
-			m_boneProps.resize(m_armature->GetBones().size());
+			m_matrixes.resize(m_deformer->GetBones().size());
+			m_boneProps.resize(m_deformer->GetBones().size());
 
 			for (int32_t i = 0; i < m_boneProps.size(); i++)
 			{
@@ -356,7 +356,7 @@ void main()
 		{
 			RenderedObject3D::Flip();
 
-			if (m_armature == nullptr) return;
+			if (m_deformer == nullptr) return;
 
 			auto localMatrix = CalcLocalMatrix();
 
@@ -372,7 +372,7 @@ void main()
 
 					auto type = a_->GetTargetType();
 					auto axis = a_->GetTargetAxis();
-					auto bi = m_armature->GetBoneIndex(a_->GetTargetName());
+					auto bi = m_deformer->GetBoneIndex(a_->GetTargetName());
 					
 					if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_NONE) continue;
 					if (axis == eAnimationCurveTargetAxis::ANIMATION_CURVE_TARGET_AXIS_NONE) continue;
@@ -398,9 +398,9 @@ void main()
 			}
 
 			// 計算
-			for (auto i = 0; i < m_armature->GetBones().size(); i++)
+			for (auto i = 0; i < m_deformer->GetBones().size(); i++)
 			{
-				auto& b = m_armature->GetBones()[i];
+				auto& b = m_deformer->GetBones()[i];
 
 				// ローカル行列の計算
 				m_matrixes[i] = m_boneProps[i].CalcMatrix(b.RotationType);
@@ -413,9 +413,9 @@ void main()
 				}
 			}
 
-			for (auto i = 0; i < m_armature->GetBones().size(); i++)
+			for (auto i = 0; i < m_deformer->GetBones().size(); i++)
 			{
-				auto& b = m_armature->GetBones()[i];
+				auto& b = m_deformer->GetBones()[i];
 				Matrix44::Mul(m_matrixes[i], m_matrixes[i], b.GlobalMatInv);
 			}
 

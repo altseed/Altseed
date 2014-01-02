@@ -12,16 +12,16 @@
 
 namespace ace
 {
-	class Armature
+	class Deformer
 		: public IReference
 	{
 	private:
 		
 
 	public:
-		Armature() {}
-		virtual ~Armature() {}
+		Deformer() {}
+		virtual ~Deformer() {}
 
-		virtual void AddBone(const achar* name, int32_t parentBoneIndex, eBoneRotationType rotationType, const Matrix44& localMat, const Matrix44& globalMatInv) = 0;
+		virtual void AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationType, const Matrix44& localMat, const Matrix44& globalMatInv) = 0;
 	};
 }

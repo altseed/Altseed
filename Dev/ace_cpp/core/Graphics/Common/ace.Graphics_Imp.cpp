@@ -17,7 +17,7 @@
 #include "Resource/ace.Material2D_Imp.h"
 
 #include "3D/ace.Mesh_Imp.h"
-#include "3D/ace.Armature_Imp.h"
+#include "3D/ace.Deformer_Imp.h"
 
 #if _WIN32
 #include "../DX11/ace.Graphics_Imp_DX11.h"
@@ -338,9 +338,9 @@ Mesh* Graphics_Imp::CreateMesh_()
 	return Mesh_Imp::Create(this);
 }
 
-Armature* Graphics_Imp::CreateArmature_()
+Deformer* Graphics_Imp::CreateDeformer_()
 {
-	return new Armature_Imp();
+	return new Deformer_Imp();
 }
 
 //----------------------------------------------------------------------------------

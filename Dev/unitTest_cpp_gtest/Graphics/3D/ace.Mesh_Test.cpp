@@ -7,7 +7,7 @@
 #include <Graphics/Common/3D/ace.RenderedDirectionalLightObject3D.h>
 
 #include <Graphics/Common/3D/ace.Mesh.h>
-#include <Graphics/Common/3D/ace.Armature.h>
+#include <Graphics/Common/3D/ace.Deformer.h>
 
 #include <Graphics/Common/Animation/ace.AnimationSystem.h>
 #include <Graphics/Common/Animation/ace.AnimationSystem_Imp.h>
@@ -84,9 +84,9 @@ static std::shared_ptr<ace::Mesh> CreateMesh(ace::Graphics* graphics)
 	return mesh;
 }
 
-static std::shared_ptr<ace::Armature> CreateArmature(ace::Graphics* graphics)
+static std::shared_ptr<ace::Deformer> CreateDeformer(ace::Graphics* graphics)
 {
-	auto armature = graphics->CreateArmature();
+	auto deformer = graphics->CreateDeformer();
 
 	ace::Matrix44 mat1, mat2;
 	mat1.Translation(0, -0.5, 0);
@@ -98,10 +98,10 @@ static std::shared_ptr<ace::Armature> CreateArmature(ace::Graphics* graphics)
 	ace::Matrix44::Mul(mat2_inv, mat2, mat1);
 	ace::Matrix44::Inverse(mat2_inv, mat2_inv);
 
-	armature->AddBone(ace::ToAString("no1").c_str(), -1, ace::eBoneRotationType::BONE_ROTATION_TYPE_ZXY, mat1, mat1_inv);
-	armature->AddBone(ace::ToAString("no2").c_str(), 0, ace::eBoneRotationType::BONE_ROTATION_TYPE_ZXY, mat2, mat2_inv);
+	deformer->AddBone(ace::ToAString("no1").c_str(), -1, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat1, mat1_inv);
+	deformer->AddBone(ace::ToAString("no2").c_str(), 0, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat2, mat2_inv);
 
-	return armature;
+	return deformer;
 }
 
 static std::shared_ptr<ace::AnimationClip> CreateAnimation()
@@ -153,7 +153,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 	renderer3d->SetWindowSize(ace::Vector2DI(640, 480));
 
 	auto mesh = CreateMesh(graphics);
-	auto armature = CreateArmature(graphics);
+	auto deformer = CreateDeformer(graphics);
 	auto animation = CreateAnimation();
 
 	auto cameraObject = new ace::RenderedCameraObject3D(graphics);
@@ -173,7 +173,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 	meshObject2->SetMesh(mesh.get());
 	meshObject2->SetPosition(ace::Vector3DF(-1, 0, 0));
 	meshObject2->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
-	meshObject2->SetArmature(armature.get());
+	meshObject2->SetDeformer(deformer.get());
 	meshObject2->AddAnimationClip(ace::ToAString("anime1").c_str(), animation.get());
 	meshObject2->PlayAnimation(ace::ToAString("anime1").c_str());
 

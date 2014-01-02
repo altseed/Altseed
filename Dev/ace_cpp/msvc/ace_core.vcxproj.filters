@@ -381,9 +381,6 @@
     <ClInclude Include="..\core\Graphics\Common\ace.RenderingThread.h">
       <Filter>Graphics\Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\3D\ace.Armature.h">
-      <Filter>Graphics\Common\3D</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.KeyframeAnimation.h">
       <Filter>Graphics\Common\Animation</Filter>
     </ClInclude>
@@ -402,14 +399,17 @@
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationClip.h">
       <Filter>Graphics\Common\Animation</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\3D\ace.Armature_Imp.h">
-      <Filter>Graphics\Common\3D</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationSystem_Imp.h">
       <Filter>Graphics\Common\Animation</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.AnimationSystem.h">
       <Filter>Graphics\Common\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Deformer.h">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Deformer_Imp.h">
+      <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -619,9 +619,6 @@
     <ClCompile Include="..\core\Graphics\Common\ace.RenderingThread.cpp">
       <Filter>Graphics\Common</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\Common\3D\ace.Armature_Imp.cpp">
-      <Filter>Graphics\Common\3D</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\Animation\ace.KeyframeAnimation_Imp.cpp">
       <Filter>Graphics\Common\Animation</Filter>
     </ClCompile>
@@ -633,6 +630,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\Animation\ace.AnimationSystem_Imp.cpp">
       <Filter>Graphics\Common\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.Deformer_Imp.cpp">
+      <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

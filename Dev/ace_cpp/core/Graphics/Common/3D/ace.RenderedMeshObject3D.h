@@ -27,12 +27,12 @@ namespace ace
 
 			BoneProperty();
 
-			Matrix44 CalcMatrix(eBoneRotationType rotationType);
+			Matrix44 CalcMatrix(eRotationOrder rotationType);
 		};
 
 	private:
 		Mesh_Imp*		m_mesh;
-		Armature_Imp*	m_armature;
+		Deformer_Imp*	m_deformer;
 
 		std::vector<Matrix44>	m_matrixes_fr;
 		std::vector<Matrix44>	m_matrixes;
@@ -55,7 +55,7 @@ namespace ace
 
 		void SetMesh(Mesh* mesh);
 
-		void SetArmature(Armature* armature);
+		void SetDeformer(Deformer* deformer);
 
 		void AddAnimationClip(const achar* name, AnimationClip* animationClip);
 
