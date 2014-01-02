@@ -33,6 +33,7 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 	, m_endStarting(false)
 	, m_frameBuffer_main(0)
 	, m_frameBuffer_rendering(0)
+	, m_contextState(0)
 {
 	assert(window != nullptr);
 	SafeAddRef(m_window);
@@ -63,7 +64,7 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// スレッド生成
-	glfwMakeContextCurrent(nullptr);
+	MakeContextNone();
 	CreateContextBeforeThreading(window_);
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	while (!m_endStarting)
@@ -71,7 +72,7 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 		Sleep(1);
 	}
 	CreateContextAfterThreading(window_);
-	glfwMakeContextCurrent(window_);
+	MakeContextCurrent();
 	GLCheckError();
 }
 
@@ -84,6 +85,7 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 	, m_endStarting(false)
 	, m_frameBuffer_main(0)
 	, m_frameBuffer_rendering(0)
+	, m_contextState(0)
 {
 #if !_WIN32
 	GLXContext* context_ = (GLXContext*)context;
@@ -122,7 +124,7 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// スレッド生成
-	glfwMakeContextCurrent(nullptr);
+	MakeContextNone();
 	CreateContextBeforeThreading(nullptr);
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	while (!m_endStarting)
@@ -130,7 +132,7 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 		Sleep(1);
 	}
 	CreateContextAfterThreading(nullptr);
-	glfwMakeContextCurrent(nullptr);
+	MakeContextCurrent();
 	GLCheckError();
 }
 
@@ -620,6 +622,13 @@ void Graphics_Imp_GL::MakeContextCurrent()
 {
 	if (GetThreadID() != m_renderingThread->GetThreadID())
 	{
+		// コンテキストが変わるときは命令処理し終える
+		if (m_contextState != 1)
+		{
+			FlushCommand();
+		}
+		m_contextState = 1;
+
 		if (m_window != nullptr)
 		{
 			auto window_ = ((Window_Imp*) m_window)->GetWindow();
@@ -634,7 +643,17 @@ void Graphics_Imp_GL::MakeContextCurrent()
 	}
 	else
 	{
+		// コンテキストが変わるときは命令処理し終える
+		if (m_contextState != 2)
+		{
+			FlushCommand();
+		}
+		m_contextState = 2;
+
 #if _WIN32
+		//glFlush();
+		//glFinish();
+
 		if (!wglMakeCurrent(m_renderingThreadDC, m_renderingThreadRC))
 		{
 			m_log->WriteLineStrongly("wglMakeCurrent is failed.");
@@ -645,8 +664,26 @@ void Graphics_Imp_GL::MakeContextCurrent()
 
 		GLCheckError();
 	}
+}
 
-	
+void Graphics_Imp_GL::MakeContextNone()
+{
+	if (m_window != nullptr)
+	{
+		glfwMakeContextCurrent(nullptr);
+	}
+	else
+	{
+		assert(0);
+	}
+
+	m_contextState = 0;
+}
+
+void Graphics_Imp_GL::FlushCommand()
+{
+	glFlush();
+	glFinish();
 }
 
 void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)

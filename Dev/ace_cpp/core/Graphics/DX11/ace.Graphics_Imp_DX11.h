@@ -87,6 +87,8 @@ namespace ace {
 
 		void MakeContextCurrent();
 
+		void FlushCommand();
+
 	public:
 		void Clear(bool isColorTarget, bool isDepthTarget, const Color& color);
 

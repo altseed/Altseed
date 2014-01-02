@@ -440,13 +440,23 @@ void main()
 			auto& vbuf = m_shader->GetVertexConstantBuffer<VertexConstantBuffer>();
 
 			// 行列計算
-			for (int32_t i = 0; i < Min(32, m_matrixes_fr.size()); i++)
+			if (m_matrixes_fr.size() > 0)
 			{
-				vbuf.MCPMatrices[i].Indentity();
-				Matrix44::Mul(vbuf.MCPMatrices[i], GetLocalMatrix_FR(), prop.CameraProjectionMatrix);
-				Matrix44::Mul(vbuf.MCPMatrices[i], m_matrixes_fr[i], vbuf.MCPMatrices[i]);
+				// ボーンあり
+				for (int32_t i = 0; i < Min(32, m_matrixes_fr.size()); i++)
+				{
+					vbuf.MCPMatrices[i].Indentity();
+					Matrix44::Mul(vbuf.MCPMatrices[i], GetLocalMatrix_FR(), prop.CameraProjectionMatrix);
+					Matrix44::Mul(vbuf.MCPMatrices[i], m_matrixes_fr[i], vbuf.MCPMatrices[i]);
+				}
 			}
-
+			else
+			{
+				// ボーンなし
+				vbuf.MCPMatrices[0].Indentity();
+				Matrix44::Mul(vbuf.MCPMatrices[0], GetLocalMatrix_FR(), prop.CameraProjectionMatrix);
+			}
+			
 			{
 				vbuf.DirectionalLightDirection = prop.DirectionalLightDirection;
 				vbuf.DirectionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;

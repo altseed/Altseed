@@ -148,6 +148,7 @@ void main()
 	void Renderer3D::Rendering()
 	{
 		auto g = m_graphics;
+		g->MakeContextCurrent();
 
 		for (auto& o : rendering.objects)
 		{
@@ -451,6 +452,9 @@ void main()
 	{
 		assert(m_renderTarget != nullptr);
 
+		// ここで命令を終了させないとフリーズする環境がある
+		m_graphics->FlushCommand();
+
 		if (m_multithreadingMode)
 		{
 			m_graphics->GetRenderingThread()->AddEvent(&m_event);
@@ -472,6 +476,7 @@ void main()
 		}
 
 		m_graphics->MakeContextCurrent();
+		m_graphics->FlushCommand();
 	}
 
 	RenderTexture_Imp* Renderer3D::GetRenderTarget()

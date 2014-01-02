@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 	GetDirectoryName(current_path, argv[0]);
 	SetCurrentDirectoryA(current_path);
 #endif
-	//Graphics_SingleTexture(true);
+	//Graphics_Mesh(false);
 	//return 0;
 
 	//Profiler_Profiling();

@@ -47,6 +47,14 @@ namespace ace {
 		Display*		m_renderingThreadX11Display;
 		::Window		m_renderingThreadX11Window;
 #endif
+		/**
+			@brief		コンテキストの状態
+			@note
+			0-コンテキストなし
+			1-メインスレッド
+			2-描画スレッド
+		*/
+		int32_t			m_contextState;
 
 		std::recursive_mutex		m_mutex;
 
@@ -89,6 +97,7 @@ namespace ace {
 		DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height);
 
 		void SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer);
+
 	public:
 		void Clear(bool isColorTarget, bool isDepthTarget, const Color& color);
 
@@ -102,6 +111,13 @@ namespace ace {
 			@brief	現状のスレットに対応したコンテキストを設定する。
 		*/
 		void MakeContextCurrent() override;
+
+		/**
+		@brief	コンテキストを解除する。
+		*/
+		void MakeContextNone();
+
+		void FlushCommand() override;
 
 		/**
 			@brief	制御用のミューテックスを取得する。

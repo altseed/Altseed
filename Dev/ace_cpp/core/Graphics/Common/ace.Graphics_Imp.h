@@ -275,6 +275,14 @@ namespace ace {
 		DirectXの場合は意味はない。
 	*/
 	virtual void MakeContextCurrent() = 0;
+
+	/**
+		@brief	GPUへの命令が終了するまで待機する。
+		@note
+		DirectXの場合は意味はない。
+	*/
+	virtual void FlushCommand() = 0;
+
 	/**
 		@brief	スレッドを取得する。
 		@return	スレッド
