@@ -13,7 +13,7 @@ namespace ace
 	
 	}
 
-	void Armature_Imp::AddBone(const achar* name, int32_t parentBoneIndex, eBoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv)
+	void Armature_Imp::AddBone(const achar* name, int32_t parentBoneIndex, eBoneRotationType rotationType, const Matrix44& localMat, const Matrix44& globalMatInv)
 	{
 		auto bone = Bone();
 

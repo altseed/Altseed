@@ -160,6 +160,12 @@ namespace ace {
 	*/
 	Graphics* GetGraphics();
 
+	/**
+	@brief	AnimationSyatemクラスを取得する。
+	preturn	AnimationSyatemクラス
+	*/
+	AnimationSystem* GetAnimationSyatem();
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

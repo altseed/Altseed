@@ -313,7 +313,15 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 			d.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 			byteOffset += sizeof(float) * 1;
 		}
-		if (l.LayoutFormat == LAYOUT_FORMAT_R32G32_FLOAT)
+		else if (l.LayoutFormat == LAYOUT_FORMAT_R8G8B8A8_UINT)
+		{
+			d.SemanticName = l.Name.c_str();
+			d.Format = DXGI_FORMAT_R8G8B8A8_UINT;
+			d.AlignedByteOffset = byteOffset;
+			d.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
+			byteOffset += sizeof(float) * 1;
+		}
+		else if (l.LayoutFormat == LAYOUT_FORMAT_R32G32_FLOAT)
 		{
 			d.SemanticName = l.Name.c_str();
 			d.Format = DXGI_FORMAT_R32G32_FLOAT;

@@ -1,6 +1,10 @@
 ﻿
 #include "ace.AnimationSystem_Imp.h"
 
+#include "ace.AnimationClip_Imp.h"
+#include "ace.AnimationSource_Imp.h"
+#include "ace.KeyframeAnimation_Imp.h"
+
 namespace ace
 {
 	AnimationSystem_Imp::AnimationSystem_Imp()
@@ -15,17 +19,17 @@ namespace ace
 
 	AnimationClip* AnimationSystem_Imp::CreateAnimationClip_()
 	{
-		return nullptr;
+		return new AnimationClip_Imp();
 	}
 
 	AnimationSource* AnimationSystem_Imp::CreateAnimationSource_()
 	{
-		return nullptr;
+		return new AnimationSource_Imp();
 	}
 
 	KeyframeAnimation* AnimationSystem_Imp::CreateKeyframeAnimation_()
 	{
-		return nullptr;
+		return new KeyframeAnimation_Imp();
 	}
 
 }

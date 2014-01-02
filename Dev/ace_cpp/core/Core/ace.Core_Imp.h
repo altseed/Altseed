@@ -33,6 +33,7 @@ namespace ace {
 		ProfilerViewer_Imp* m_profilerViewer;
 		Graphics_Imp*	m_graphics;
 		ObjectSystemFactory_Imp* m_objectSystemFactory;
+		AnimationSystem_Imp*	m_animationSyatem;
 
 		JoystickContainer_Imp* m_joystickContainer;
 
@@ -83,8 +84,9 @@ namespace ace {
 
 		Graphics_Imp* GetGraphics_Imp();
 
-
 		ObjectSystemFactory* GetObjectSystemFactory();
+
+		AnimationSystem* GetAnimationSyatem();
 	};
 	//----------------------------------------------------------------------------------
 	//

@@ -21,6 +21,6 @@ namespace ace
 		Armature() {}
 		virtual ~Armature() {}
 
-		virtual void AddBone(const achar* name, int32_t parentBoneIndex, eBoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv) = 0;
+		virtual void AddBone(const achar* name, int32_t parentBoneIndex, eBoneRotationType rotationType, const Matrix44& localMat, const Matrix44& globalMatInv) = 0;
 	};
 }

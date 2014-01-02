@@ -121,6 +121,8 @@ namespace ace {
 
 
 		virtual ObjectSystemFactory* GetObjectSystemFactory() = 0;
+
+		virtual AnimationSystem* GetAnimationSyatem() = 0;
 	};
 	//----------------------------------------------------------------------------------
 	//

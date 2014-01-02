@@ -51,7 +51,7 @@
     <Compile Include="GarbageCollection\IDestroy.cs" />
     <Compile Include="GarbageCollection\IDObjectContainer.cs" />
     <Compile Include="Graphics\Def.cs" />
-    <Compile Include="Graphics\Golor.cs" />
+    <Compile Include="Graphics\Color.cs" />
     <Compile Include="Graphics\Graphics.cs" />
     <Compile Include="Graphics\Material2D.cs" />
     <Compile Include="Graphics\Mesh.cs" />
@@ -69,6 +69,7 @@
     <Compile Include="Input\SideButton.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Math\Math.cs" />
+    <Compile Include="Math\Matrix44.cs" />
     <Compile Include="Math\Vector2DF.cs" />
     <Compile Include="Math\Vector2DI.cs" />
     <Compile Include="Math\Vector3DF.cs" />
@@ -92,6 +93,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="swig\ace_core_cs.cs" />
     <Compile Include="swig\ace_core_csPINVOKE.cs" />
+    <Compile Include="swig\AnimationClip.cs" />
+    <Compile Include="swig\AnimationSource.cs" />
+    <Compile Include="swig\AnimationSystem.cs" />
+    <Compile Include="swig\Armature.cs" />
     <Compile Include="swig\Core.cs" />
     <Compile Include="swig\CoreCameraObject3D.cs" />
     <Compile Include="swig\CoreDirectionalLightObject3D.cs" />
@@ -106,6 +111,7 @@
     <Compile Include="swig\CoreTextureObject2D.cs" />
     <Compile Include="swig\Core_Imp.cs" />
     <Compile Include="swig\eAlphaBlend.cs" />
+    <Compile Include="swig\eBoneRotationType.cs" />
     <Compile Include="swig\eChildMode.cs" />
     <Compile Include="swig\eCullingType.cs" />
     <Compile Include="swig\eGraphicsType.cs" />
@@ -131,13 +137,13 @@
     <Compile Include="swig\Joystick_Imp.cs" />
     <Compile Include="swig\Keyboard.cs" />
     <Compile Include="swig\Keyboard_Imp.cs" />
+    <Compile Include="swig\KeyframeAnimation.cs" />
     <Compile Include="swig\Log.cs" />
     <Compile Include="swig\Log_Imp.cs" />
     <Compile Include="swig\Material2D.cs" />
     <Compile Include="swig\Material2D_Imp.cs" />
     <Compile Include="swig\Material_Imp.cs" />
     <Compile Include="swig\Mesh.cs" />
-    <Compile Include="swig\Mesh_Imp.cs" />
     <Compile Include="swig\MiddleButton.cs" />
     <Compile Include="swig\Mouse.cs" />
     <Compile Include="swig\Mouse_Imp.cs" />

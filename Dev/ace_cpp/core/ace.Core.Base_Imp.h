@@ -93,10 +93,13 @@ namespace ace {
 	class Mesh_Imp;
 	class Armature_Imp;
 
+	class AnimationSystem_Imp;
+
 	enum eVertexLayoutFormat
 	{
 		LAYOUT_FORMAT_R32G32B32_FLOAT,
 		LAYOUT_FORMAT_R8G8B8A8_UNORM,
+		LAYOUT_FORMAT_R8G8B8A8_UINT,
 		LAYOUT_FORMAT_R32G32_FLOAT,
 	};
 
@@ -196,6 +199,18 @@ namespace ace {
 			uint8_t	G;
 			uint8_t	B;
 			uint8_t	A;
+		};
+
+		struct Matrix44_R
+		{
+			float	Values[4 * 4];
+		};
+
+		struct FCurveKeyframe_R
+		{
+			Vector2DF_R	KeyValue;
+			Vector2DF_R	LeftHandle;
+			Vector2DF_R	RightHandle;
 		};
 	}
 	//----------------------------------------------------------------------------------

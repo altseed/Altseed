@@ -8,7 +8,7 @@
 
 namespace ace
 {
-	class Keyframe
+	class FCurveKeyframe
 	{
 	public:
 		Vector2DF	KeyValue;
@@ -27,7 +27,7 @@ namespace ace
 
 		virtual void SetName(const achar* name) = 0;
 
-		virtual void AddKeyframe(const Keyframe& kf) = 0;
+		virtual void AddKeyframe(const FCurveKeyframe& kf) = 0;
 
 		virtual float GetValue(float frame) = 0;
 	};

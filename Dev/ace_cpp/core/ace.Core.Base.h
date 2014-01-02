@@ -33,6 +33,7 @@ namespace ace {
 	class Mesh;
 	class Armature;
 
+	class AnimationSystem;
 	class AnimationClip;
 	class AnimationSource;
 	class KeyframeAnimation;
@@ -177,6 +178,8 @@ namespace ace {
 		BONE_ROTATION_TYPE_AXIS = 18,
 		BONE_ROTATION_TYPE_MAX = 0xfffffff
 	};
+
+	
 
 	/**
 	@brief	参照カウンタのインターフェース

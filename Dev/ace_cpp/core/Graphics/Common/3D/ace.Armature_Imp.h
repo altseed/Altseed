@@ -29,7 +29,7 @@ namespace ace
 		Armature_Imp();
 		virtual ~Armature_Imp();
 
-		void AddBone(const achar* name, int32_t parentBoneIndex, eBoneRotationType rotationType, Matrix44 localMat, Matrix44 globalMatInv) override;
+		void AddBone(const achar* name, int32_t parentBoneIndex, eBoneRotationType rotationType, const Matrix44& localMat, const Matrix44& globalMatInv) override;
 
 		std::vector<Bone>& GetBones() { return m_bones; }
 

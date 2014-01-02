@@ -44,4 +44,12 @@ namespace ace
 		Nearest = swig.eTextureFilterType.TEXTURE_FILTER_NEAREST,
 		Linear = swig.eTextureFilterType.TEXTURE_FILTER_LINEAR,
     }
+
+	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+	public struct FCurveKeyframe
+	{
+		public Vector2DF LeftHandle;
+		public Vector2DF RightHandle;
+		public Vector2DF KeyValue;
+	}
 }

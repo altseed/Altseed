@@ -15,6 +15,8 @@
 #include "../Graphics/Common/ace.Graphics_Imp.h"
 #include "../Graphics/Common/Resource/ace.RenderState_Imp.h"
 
+#include "../Graphics/Common/Animation/ace.AnimationSystem_Imp.h"
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -35,6 +37,7 @@ namespace ace
 		, m_currentScene(nullptr)
 		, m_isInitializedByExternal(false)
 		, m_objectSystemFactory(nullptr)
+		, m_animationSyatem(nullptr)
 	{
 	}
 
@@ -96,6 +99,8 @@ namespace ace
 
 		m_profiler = Profiler_Imp::Create();
 		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, m_window->GetSize());
+
+		m_animationSyatem = new AnimationSystem_Imp();
 		return true;
 	}
 
@@ -120,6 +125,7 @@ namespace ace
 		m_profiler = Profiler_Imp::Create();
 		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, Vector2DI(width, height));
 
+		m_animationSyatem = new AnimationSystem_Imp();
 		return true;
 	}
 
@@ -167,6 +173,8 @@ namespace ace
 		SafeDelete(m_mouse);
 		SafeDelete(m_logger);
 		SafeDelete(m_joystickContainer);
+
+		SafeDelete(m_animationSyatem);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -292,5 +300,13 @@ namespace ace
 	ObjectSystemFactory* Core_Imp::GetObjectSystemFactory()
 	{
 		return m_objectSystemFactory;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	AnimationSystem* Core_Imp::GetAnimationSyatem()
+	{
+		return m_animationSyatem;
 	}
 };

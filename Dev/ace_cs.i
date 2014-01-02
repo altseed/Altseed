@@ -27,6 +27,12 @@
 #include "Graphics/Common/Resource/ace.Material2D_Imp.h"
 
 #include "Graphics/Common/3D/ace.Mesh_Imp.h"
+#include "Graphics/Common/3D/ace.Armature_Imp.h"
+
+#include "Graphics/Common/Animation/ace.AnimationSystem_Imp.h"
+#include "Graphics/Common/Animation/ace.AnimationClip_Imp.h"
+#include "Graphics/Common/Animation/ace.AnimationSource_Imp.h"
+#include "Graphics/Common/Animation/ace.KeyframeAnimation_Imp.h"
 
 #include "ObjectSystem/ace.eChildMode.h"
 #include "ObjectSystem/2D/ace.CoreObject2D.h"
@@ -144,6 +150,9 @@ unsafe class"
 STRUCT_OBJECT( ace::Vector2DF, ace::Vector2DF_R, ace.Vector2DF )
 STRUCT_OBJECT( ace::Vector2DI, ace::Vector2DI_R, ace.Vector2DI )
 STRUCT_OBJECT( ace::Vector3DF, ace::Vector3DF_R, ace.Vector3DF )
+STRUCT_OBJECT( ace::Matrix44, ace::Matrix44_R, ace.Matrix44 )
+STRUCT_OBJECT( ace::FCurveKeyframe, ace::FCurveKeyframe_R, ace.FCurveKeyframe )
+
 STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 
 %template(ShaderVariablePropertyVector) std::vector<ace::ShaderVariableProperty>;
@@ -216,7 +225,10 @@ CPP_OBJECT( ace::Material2D_Imp )
 CPP_OBJECT( ace::Shader2D_Imp )
 
 CPP_OBJECT( ace::Mesh )
-CPP_OBJECT( ace::Mesh_Imp )
+CPP_OBJECT( ace::Armature )
+CPP_OBJECT( ace::KeyframeAnimation )
+CPP_OBJECT( ace::AnimationSource )
+CPP_OBJECT( ace::AnimationClip )
 
 CPP_OBJECT( ace::Profiler )
 CPP_OBJECT( ace::Profiler_Imp )
@@ -255,6 +267,7 @@ namespace ace
 	struct Vector2DI;
 	struct Vector3DF;
 	struct Color;
+	struct Matrix44;
 }
 
 %include "ace_cpp/core/ace.Core.Base.h"
@@ -293,7 +306,11 @@ namespace ace
 %include "ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture_Imp.h"
 
 %include "ace_cpp/core/Graphics/Common/3D/ace.Mesh.h"
-%include "ace_cpp/core/Graphics/Common/3D/ace.Mesh_Imp.h"
+%include "ace_cpp/core/Graphics/Common/3D/ace.Armature.h"
+%include "ace_cpp/core/Graphics/Common/Animation/ace.KeyframeAnimation.h"
+%include "ace_cpp/core/Graphics/Common/Animation/ace.AnimationSource.h"
+%include "ace_cpp/core/Graphics/Common/Animation/ace.AnimationClip.h"
+%include "ace_cpp/core/Graphics/Common/Animation/ace.AnimationSystem.h"
 
 %include "ace_cpp/core/Graphics/Common/ace.Graphics.h"
 %include "ace_cpp/core/Graphics/Common/ace.Graphics_Imp.h"

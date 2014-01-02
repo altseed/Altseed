@@ -386,7 +386,15 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 			l_.offset = byteOffset;
 			byteOffset += sizeof(float) * 1;
 		}
-		if (l.LayoutFormat == LAYOUT_FORMAT_R32G32_FLOAT)
+		else if (l.LayoutFormat == LAYOUT_FORMAT_R8G8B8A8_UINT)
+		{
+			l_.type = GL_UNSIGNED_BYTE;
+			l_.count = 4;
+			l_.normalized = false;
+			l_.offset = byteOffset;
+			byteOffset += sizeof(float) * 1;
+		}
+		else if (l.LayoutFormat == LAYOUT_FORMAT_R32G32_FLOAT)
 		{
 			l_.type = GL_FLOAT;
 			l_.count = 2;

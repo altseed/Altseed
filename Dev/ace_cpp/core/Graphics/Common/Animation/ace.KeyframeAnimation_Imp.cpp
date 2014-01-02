@@ -299,7 +299,7 @@ namespace ace
 		return m_targetAxis;
 	}
 
-	void KeyframeAnimation_Imp::AddKeyframe(const Keyframe& kf)
+	void KeyframeAnimation_Imp::AddKeyframe(const FCurveKeyframe& kf)
 	{
 		m_keyframes.push_back(kf);
 	}

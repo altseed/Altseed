@@ -28,6 +28,10 @@ class CreateHeader:
 				line = f.readline()
 				continue;
 
+			if re.search('#include <Math/ace.', line) != None:
+				line = f.readline()
+				continue;
+
 			self.lines.append(line)
 			line = f.readline()
 		self.lines.append('\n')
@@ -83,6 +87,11 @@ engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Shader2D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Material2D.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/Common/3D/ace.Mesh.h")
+
+engineHeader.readLines("ace_cpp/core/Graphics/Common/Animation/ace.KeyframeAnimation.h")
+engineHeader.readLines("ace_cpp/core/Graphics/Common/Animation/ace.AnimationSource.h")
+engineHeader.readLines("ace_cpp/core/Graphics/Common/Animation/ace.AnimationClip.h")
+engineHeader.readLines("ace_cpp/core/Graphics/Common/Animation/ace.AnimationSystem.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/Common/ace.Graphics.h")
 

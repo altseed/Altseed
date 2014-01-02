@@ -31,7 +31,7 @@ namespace ace
 	private:
 
 		astring					m_name;
-		std::vector<Keyframe>	m_keyframes;
+		std::vector<FCurveKeyframe>	m_keyframes;
 
 		astring						m_targetName;
 		eAnimationCurveTargetType	m_targetType;
@@ -51,7 +51,7 @@ namespace ace
 
 		eAnimationCurveTargetAxis GetTargetAxis();
 
-		void AddKeyframe(const Keyframe& kf) override;
+		void AddKeyframe(const FCurveKeyframe& kf) override;
 
 		float GetValue(float frame) override;
 

@@ -112,6 +112,7 @@ namespace ace
 	static std::shared_ptr <DynamicLinkLibrary>	g_dll = nullptr;
 	static Graphics* g_graphics = nullptr;
 	ObjectSystemFactory* g_objectSystemFactory = nullptr;
+	static AnimationSystem* g_animationSyatem = nullptr;
 
 	static GetIntFunc g_GetGlobalRef = nullptr;
 
@@ -194,6 +195,7 @@ namespace ace
 			g_joystickContainer = m_core->GetJoystickContainer();
 			g_objectSystemFactory = m_core->GetObjectSystemFactory();
 			g_graphics = m_core->GetGraphics();
+			g_animationSyatem = m_core->GetAnimationSyatem();
 		}
 
 		return init;
@@ -215,6 +217,8 @@ namespace ace
 			g_profiler = m_core->GetProfiler();
 			g_objectSystemFactory = m_core->GetObjectSystemFactory();
 			g_graphics = m_core->GetGraphics();
+
+			g_animationSyatem = m_core->GetAnimationSyatem();
 		}
 		return init;
 	}
@@ -412,6 +416,14 @@ namespace ace
 	Graphics* GetGraphics()
 	{
 		return g_graphics;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	AnimationSystem* GetAnimationSyatem()
+	{
+		return g_animationSyatem;
 	}
 
 	//----------------------------------------------------------------------------------
