@@ -120,7 +120,7 @@ void main()
 
 )";
 
-static const char* gl_ps = R"(
+	static const char* gl_ps = R"(
 
 varying vec4 vaTexCoord;
 varying vec4 vaColor;
@@ -239,199 +239,275 @@ void main()
 		return Matrix44();
 	}
 
+	RenderedMeshObject3D::MeshGroup::MeshGroup(Mesh_Imp* mesh)
+		: m_mesh(nullptr)
+		, m_deformer(nullptr)
+	{
+		SafeAddRef(mesh);
+		m_mesh = mesh;
+		CheckDeformer();
+	}
+
+	RenderedMeshObject3D::MeshGroup::~MeshGroup()
+	{
+		SetInternalDeformer(nullptr);
+		SafeRelease(m_mesh);
+	}
+
+	void RenderedMeshObject3D::MeshGroup::Flip(AnimationClip* animationClip, int32_t time)
+	{
+		CheckDeformer();
+
+		CalculateAnimation(animationClip, time);
+
+		CalclateBoneMatrices();
+
+		// コピー
+		if (m_matrixes_fr.size() != m_matrixes.size())
+		{
+			m_matrixes_fr.resize(m_matrixes.size());
+		}
+
+		std::copy(m_matrixes.begin(), m_matrixes.end(), m_matrixes_fr.begin());
+	}
+
+
+	void RenderedMeshObject3D::MeshGroup::CalculateAnimation(AnimationClip* animationClip, int32_t time)
+	{
+		if (animationClip == nullptr) return;
+
+		auto source = (AnimationSource_Imp*) animationClip->GetSource().get();
+		auto& animations = source->GetAnimations();
+
+		for (auto& a : animations)
+		{
+			auto a_ = (KeyframeAnimation_Imp*) a;
+
+			auto type = a_->GetTargetType();
+			auto axis = a_->GetTargetAxis();
+			auto bi = m_deformer->GetBoneIndex(a_->GetTargetName());
+
+			if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_NONE) continue;
+			if (axis == eAnimationCurveTargetAxis::ANIMATION_CURVE_TARGET_AXIS_NONE) continue;
+			if (bi < 0) continue;
+
+			auto value = a_->GetValue(time);
+
+			if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_POSITON)
+			{
+				m_boneProps[bi].Position[axis] = value;
+			}
+			else if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_ROTATION)
+			{
+				m_boneProps[bi].Rotation[axis] = value / 180.0f * 3.141592f;
+			}
+			else if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_SCALE)
+			{
+				m_boneProps[bi].Scale[axis] = value;
+			}
+		}
+	}
+
+	void RenderedMeshObject3D::MeshGroup::CalclateBoneMatrices()
+	{
+		if (m_deformer == nullptr) return;
+
+		// 計算
+		for (auto i = 0; i < m_deformer->GetBones().size(); i++)
+		{
+			auto& b = m_deformer->GetBones()[i];
+
+			// ローカル行列の計算
+			m_matrixes[i] = m_boneProps[i].CalcMatrix(b.RotationType);
+
+			Matrix44::Mul(m_matrixes[i], m_matrixes[i], b.LocalMat);
+
+			if (b.ParentBoneIndex >= 0)
+			{
+				Matrix44::Mul(m_matrixes[i], m_matrixes[i], m_matrixes[b.ParentBoneIndex]);
+			}
+		}
+
+		for (auto i = 0; i < m_deformer->GetBones().size(); i++)
+		{
+			auto& b = m_deformer->GetBones()[i];
+			Matrix44::Mul(m_matrixes[i], m_matrixes[i], b.GlobalMatInv);
+		}
+	}
+
+	void RenderedMeshObject3D::MeshGroup::CheckDeformer()
+	{
+		auto m = (Mesh_Imp*) m_mesh;
+
+		if (m != nullptr)
+		{
+			if (m->GetDeformer_() != m_deformer)
+			{
+				SetInternalDeformer(m->GetDeformer_());
+			}
+		}
+		else
+		{
+			SetInternalDeformer(nullptr);
+		}
+	}
+
+	void RenderedMeshObject3D::MeshGroup::SetInternalDeformer(Deformer* deformer)
+	{
+		auto d = (Deformer_Imp*) deformer;
+		SafeSubstitute(m_deformer, d);
+
+		if (deformer != nullptr)
+		{
+			m_matrixes.resize(m_deformer->GetBones().size());
+			m_boneProps.resize(m_deformer->GetBones().size());
+
+			for (int32_t i = 0; i < m_boneProps.size(); i++)
+			{
+				m_boneProps[i] = BoneProperty();
+			}
+		}
+		else
+		{
+			m_matrixes.resize(0);
+			m_boneProps.resize(0);
+		}
+	}
+
 	RenderedMeshObject3D::RenderedMeshObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
-		, m_mesh(nullptr)
-		, m_deformer(nullptr)
 		, m_animationPlaying(nullptr)
 		, m_animationTime(0)
+	{
+		std::vector<ace::VertexLayout> vl;
+		vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("Normal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("Binormal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("UVSub", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
+		vl.push_back(ace::VertexLayout("BoneWeights", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
+		vl.push_back(ace::VertexLayout("BoneIndexes", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
+		vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
+
+		std::shared_ptr<ace::NativeShader_Imp> shader;
+		std::vector<ace::Macro> macro;
+		if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
 		{
-			std::vector<ace::VertexLayout> vl;
-			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-			vl.push_back(ace::VertexLayout("Normal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-			vl.push_back(ace::VertexLayout("Binormal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-			vl.push_back(ace::VertexLayout("UVSub", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-			vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
-			vl.push_back(ace::VertexLayout("BoneWeights", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
-			vl.push_back(ace::VertexLayout("BoneIndexes", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
-			vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
-
-			std::shared_ptr<ace::NativeShader_Imp> shader;
-			std::vector<ace::Macro> macro;
-			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
-			{
-				m_shader = GetGraphics()->CreateShader_Imp(
-					gl_vs,
-					"vs",
-					gl_ps,
-					"ps",
-					vl,
-					macro);
-			}
-			else
-			{
-				m_shader = GetGraphics()->CreateShader_Imp(
-					dx_vs,
-					"vs",
-					dx_ps,
-					"ps",
-					vl,
-					macro);
-			}
-
-			assert(m_shader != nullptr);
-
-			std::vector<ace::ConstantBufferInformation> constantBuffers;
-			constantBuffers.resize(3);
-			constantBuffers[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
-			constantBuffers[0].Name = std::string("matMCP");
-			constantBuffers[0].Offset = 0;
-			constantBuffers[0].Count = 32;
-
-			constantBuffers[1].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers[1].Name = std::string("directionalLightDirection");
-			constantBuffers[1].Offset = sizeof(Matrix44) * 32;
-
-			constantBuffers[2].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers[2].Name = std::string("directionalLightColor");
-			constantBuffers[2].Offset = sizeof(Matrix44) * 32 + sizeof(float) * 4;
-
-			m_shader->CreateVertexConstantBuffer<VertexConstantBuffer>(constantBuffers);
+			m_shader = GetGraphics()->CreateShader_Imp(
+				gl_vs,
+				"vs",
+				gl_ps,
+				"ps",
+				vl,
+				macro);
+		}
+		else
+		{
+			m_shader = GetGraphics()->CreateShader_Imp(
+				dx_vs,
+				"vs",
+				dx_ps,
+				"ps",
+				vl,
+				macro);
 		}
 
-		RenderedMeshObject3D::~RenderedMeshObject3D()
-		{
-			SafeRelease(m_mesh);
-			
-			SetInternalDeformer(nullptr);
+		assert(m_shader != nullptr);
 
-			for (auto& a : m_animationClips)
-			{
-				a.second->Release();
-			}
-			m_animationClips.clear();
+		std::vector<ace::ConstantBufferInformation> constantBuffers;
+		constantBuffers.resize(3);
+		constantBuffers[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+		constantBuffers[0].Name = std::string("matMCP");
+		constantBuffers[0].Offset = 0;
+		constantBuffers[0].Count = 32;
+
+		constantBuffers[1].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+		constantBuffers[1].Name = std::string("directionalLightDirection");
+		constantBuffers[1].Offset = sizeof(Matrix44) * 32;
+
+		constantBuffers[2].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+		constantBuffers[2].Name = std::string("directionalLightColor");
+		constantBuffers[2].Offset = sizeof(Matrix44) * 32 + sizeof(float) * 4;
+
+		m_shader->CreateVertexConstantBuffer<VertexConstantBuffer>(constantBuffers);
+	}
+
+	RenderedMeshObject3D::~RenderedMeshObject3D()
+	{
+		m_meshGroups.clear();
+		m_meshGroups_fr.clear();
+
+		for (auto& a : m_animationClips)
+		{
+			a.second->Release();
+		}
+		m_animationClips.clear();
+	}
+
+	void RenderedMeshObject3D::AddMesh(Mesh* mesh)
+	{
+		m_meshGroups.push_back(std::make_shared<MeshGroup>((Mesh_Imp*)mesh));
+	}
+
+	void RenderedMeshObject3D::AddAnimationClip(const achar* name, AnimationClip* animationClip)
+	{
+		if (animationClip == nullptr) return;
+
+		if (m_animationClips.find(name) == m_animationClips.end())
+		{
+			SafeAddRef(animationClip);
+			m_animationClips[name] = animationClip;
+		}
+	}
+
+	void RenderedMeshObject3D::PlayAnimation(const achar* name)
+	{
+		auto it = m_animationClips.find(name);
+		if (it == m_animationClips.end()) return;
+
+		m_animationPlaying = (*it).second;
+		m_animationTime = 0;
+	}
+
+	void RenderedMeshObject3D::Flip()
+	{
+		RenderedObject3D::Flip();
+
+		for (auto& g : m_meshGroups)
+		{
+			g->Flip(m_animationPlaying, m_animationTime);
 		}
 
-		void RenderedMeshObject3D::SetMesh(Mesh* mesh)
+		// アニメーションの適用
+		if (m_animationPlaying != nullptr)
 		{
-			auto m = (Mesh_Imp*) mesh;
-			SafeSubstitute(m_mesh, m);
-			
-			CheckDeformer();
+			m_animationTime++;
 		}
 
-		void RenderedMeshObject3D::AddAnimationClip(const achar* name, AnimationClip* animationClip)
+		m_meshGroups_fr.clear();
+		m_meshGroups_fr.resize(m_meshGroups.size());
+		std::copy(m_meshGroups.begin(), m_meshGroups.end(), m_meshGroups_fr.begin());
+	}
+
+	void RenderedMeshObject3D::Rendering(RenderingProperty& prop)
+	{
+		auto& vbuf = m_shader->GetVertexConstantBuffer<VertexConstantBuffer>();
+
+		for (auto& g : m_meshGroups_fr)
 		{
-			if (animationClip == nullptr) return;
-
-			if (m_animationClips.find(name) == m_animationClips.end())
-			{
-				SafeAddRef(animationClip);
-				m_animationClips[name] = animationClip;
-			}
-		}
-
-		void RenderedMeshObject3D::PlayAnimation(const achar* name)
-		{
-			auto it = m_animationClips.find(name);
-			if (it == m_animationClips.end()) return;
-
-			m_animationPlaying = (*it).second;
-			m_animationTime = 0;
-		}
-
-		void RenderedMeshObject3D::Flip()
-		{
-			RenderedObject3D::Flip();
-
-			CheckDeformer();
-
-			if (m_deformer == nullptr) return;
-
-			auto localMatrix = CalcLocalMatrix();
-
-			// アニメーションの適用
-			if (m_animationPlaying != nullptr)
-			{
-				auto source = (AnimationSource_Imp*)m_animationPlaying->GetSource().get();
-				auto& animations = source->GetAnimations();
-				
-				for (auto& a : animations)
-				{
-					auto a_ = (KeyframeAnimation_Imp*) a;
-
-					auto type = a_->GetTargetType();
-					auto axis = a_->GetTargetAxis();
-					auto bi = m_deformer->GetBoneIndex(a_->GetTargetName());
-					
-					if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_NONE) continue;
-					if (axis == eAnimationCurveTargetAxis::ANIMATION_CURVE_TARGET_AXIS_NONE) continue;
-					if (bi < 0) continue;
-					
-					auto value = a_->GetValue(m_animationTime);
-
-					if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_POSITON)
-					{
-						m_boneProps[bi].Position[axis] = value;
-					}
-					else if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_ROTATION)
-					{
-						m_boneProps[bi].Rotation[axis] = value / 180.0f * 3.141592f;
-					}
-					else if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_SCALE)
-					{
-						m_boneProps[bi].Scale[axis] = value;
-					}
-				}
-
-				m_animationTime++;
-			}
-
-			// 計算
-			for (auto i = 0; i < m_deformer->GetBones().size(); i++)
-			{
-				auto& b = m_deformer->GetBones()[i];
-
-				// ローカル行列の計算
-				m_matrixes[i] = m_boneProps[i].CalcMatrix(b.RotationType);
-
-				Matrix44::Mul(m_matrixes[i], m_matrixes[i], b.LocalMat);
-
-				if (b.ParentBoneIndex >= 0)
-				{
-					Matrix44::Mul(m_matrixes[i], m_matrixes[i], m_matrixes[b.ParentBoneIndex]);
-				}
-			}
-
-			for (auto i = 0; i < m_deformer->GetBones().size(); i++)
-			{
-				auto& b = m_deformer->GetBones()[i];
-				Matrix44::Mul(m_matrixes[i], m_matrixes[i], b.GlobalMatInv);
-			}
-
-			// コピー
-			if (m_matrixes_fr.size() != m_matrixes.size())
-			{
-				m_matrixes_fr.resize(m_matrixes.size());
-			}
-
-			std::copy(m_matrixes.begin(), m_matrixes.end(), m_matrixes_fr.begin());
-		}
-
-		void RenderedMeshObject3D::Rendering(RenderingProperty& prop)
-		{
-			auto& vbuf = m_shader->GetVertexConstantBuffer<VertexConstantBuffer>();
+			auto& matrices = g->m_matrixes_fr;
+			auto mesh = g->GetMesh();
 
 			// 行列計算
-			if (m_matrixes_fr.size() > 0)
+			if (matrices.size() > 0)
 			{
 				// ボーンあり
-				for (int32_t i = 0; i < Min(32, m_matrixes_fr.size()); i++)
+				for (int32_t i = 0; i < Min(32, matrices.size()); i++)
 				{
 					vbuf.MCPMatrices[i].Indentity();
 					Matrix44::Mul(vbuf.MCPMatrices[i], GetLocalMatrix_FR(), prop.CameraProjectionMatrix);
-					Matrix44::Mul(vbuf.MCPMatrices[i], m_matrixes_fr[i], vbuf.MCPMatrices[i]);
+					Matrix44::Mul(vbuf.MCPMatrices[i], matrices[i], vbuf.MCPMatrices[i]);
 				}
 			}
 			else
@@ -444,7 +520,7 @@ void main()
 					vbuf.MCPMatrices[i] = vbuf.MCPMatrices[0];
 				}
 			}
-			
+
 			{
 				vbuf.DirectionalLightDirection = prop.DirectionalLightDirection;
 				vbuf.DirectionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
@@ -452,8 +528,8 @@ void main()
 				vbuf.DirectionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
 			}
 
-			GetGraphics()->SetVertexBuffer(m_mesh->GetVertexBuffer().get());
-			GetGraphics()->SetIndexBuffer(m_mesh->GetIndexBuffer().get());
+			GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
+			GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
 			GetGraphics()->SetShader(m_shader.get());
 
 			auto& state = GetGraphics()->GetRenderState()->Push();
@@ -462,47 +538,9 @@ void main()
 			state.CullingType = CULLING_DOUBLE;
 			GetGraphics()->GetRenderState()->Update(false);
 
-			GetGraphics()->DrawPolygon(m_mesh->GetIndexBuffer()->GetCount() / 3);
+			GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
 
 			GetGraphics()->GetRenderState()->Pop();
 		}
-
-		void RenderedMeshObject3D::CheckDeformer()
-		{
-			auto m = (Mesh_Imp*) m_mesh;
-			
-			if (m != nullptr)
-			{
-				if (m->GetDeformer_() != m_deformer)
-				{
-					SetInternalDeformer(m->GetDeformer_());
-				}
-			}
-			else
-			{
-				SetInternalDeformer(nullptr);
-			}
-		}
-
-		void RenderedMeshObject3D::SetInternalDeformer(Deformer* deformer)
-		{
-			auto d = (Deformer_Imp*) deformer;
-			SafeSubstitute(m_deformer, d);
-
-			if (deformer != nullptr)
-			{
-				m_matrixes.resize(m_deformer->GetBones().size());
-				m_boneProps.resize(m_deformer->GetBones().size());
-
-				for (int32_t i = 0; i < m_boneProps.size(); i++)
-				{
-					m_boneProps[i] = BoneProperty();
-				}
-			}
-			else
-			{
-				m_matrixes.resize(0);
-				m_boneProps.resize(0);
-			}
-		}
+	}
 }

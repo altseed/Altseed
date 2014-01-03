@@ -18,8 +18,8 @@ namespace ace
 		SafeRelease(m_object);
 	}
 
-	void CoreMeshObject3D_Imp::SetMesh(Mesh* mesh)
+	void CoreMeshObject3D_Imp::AddMesh(Mesh* mesh)
 	{
-		m_object->SetMesh(mesh);
+		m_object->AddMesh(mesh);
 	}
 }

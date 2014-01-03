@@ -21,7 +21,7 @@ namespace ace
 		virtual ~CoreMeshObject3D_Imp();
 	public:
 
-		void SetMesh(Mesh* mesh);
+		void AddMesh(Mesh* mesh);
 
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MESH; }
 

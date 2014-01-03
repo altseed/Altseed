@@ -17,8 +17,8 @@ namespace ace
 	}
 
 
-	void MeshObject3D::SetMesh(std::shared_ptr<Mesh>& mesh)
+	void MeshObject3D::AddMesh(std::shared_ptr<Mesh>& mesh)
 	{
-		m_coreObject->SetMesh(mesh.get());
+		m_coreObject->AddMesh(mesh.get());
 	}
 }

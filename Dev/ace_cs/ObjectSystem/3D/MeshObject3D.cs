@@ -33,10 +33,9 @@ namespace ace
 		/// <summary>
 		/// 描画に使用するメッシュを設定する。
 		/// </summary>
-		public Mesh Mesh
+		public void AddMesh(Mesh mesh)
 		{
-			get { return null; }
-			set { coreObject.SetMesh(value.SwigObject); }
+			coreObject.AddMesh(mesh.SwigObject);
 		}
 
 	}

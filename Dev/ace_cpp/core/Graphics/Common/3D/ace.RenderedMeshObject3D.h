@@ -30,14 +30,39 @@ namespace ace
 			Matrix44 CalcMatrix(eRotationOrder rotationType);
 		};
 
+		class MeshGroup
+		{
+		private:
+			Mesh_Imp*		m_mesh;
+			Deformer_Imp*	m_deformer;
+
+		public:
+			std::vector<Matrix44>	m_matrixes_fr;
+			std::vector<Matrix44>	m_matrixes;
+
+			std::vector < BoneProperty>	m_boneProps;
+
+			MeshGroup(Mesh_Imp* mesh);
+			~MeshGroup();
+
+			void Flip(AnimationClip* animationClip, int32_t time);
+
+			void CalculateAnimation(AnimationClip* animationClip, int32_t time);
+			void CalclateBoneMatrices();
+
+			Mesh_Imp* GetMesh() { return m_mesh; }
+		private:
+			/**
+			@brief	メッシュのDeformerと比較し、違っていたら差し替える。
+			*/
+			void CheckDeformer();
+			void SetInternalDeformer(Deformer* deformer);
+		};
+		
+
 	private:
-		Mesh_Imp*		m_mesh;
-		Deformer_Imp*	m_deformer;
-
-		std::vector<Matrix44>	m_matrixes_fr;
-		std::vector<Matrix44>	m_matrixes;
-
-		std::vector < BoneProperty>	m_boneProps;
+		std::vector<std::shared_ptr<MeshGroup>>	m_meshGroups;
+		std::vector<std::shared_ptr<MeshGroup>>	m_meshGroups_fr;
 
 		std::shared_ptr<ace::NativeShader_Imp>	m_shader;
 
@@ -53,7 +78,7 @@ namespace ace
 		void Flip() override;
 		void Rendering(RenderingProperty& prop) override;
 
-		void SetMesh(Mesh* mesh);
+		void AddMesh(Mesh* mesh);
 
 		void AddAnimationClip(const achar* name, AnimationClip* animationClip);
 
@@ -62,18 +87,10 @@ namespace ace
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
 
 #if !SWIG
-		void SetMesh(std::shared_ptr<Mesh>& mesh)
+		void AddMesh(std::shared_ptr<Mesh>& mesh)
 		{
-			SetMesh(mesh.get());
+			AddMesh(mesh.get());
 		}
 #endif
-
-	private:
-		/**
-			@brief	メッシュのDeformerと比較し、違っていたら差し替える。
-		*/
-		void CheckDeformer();
-		void SetInternalDeformer(Deformer* deformer);
-
 	};
 }

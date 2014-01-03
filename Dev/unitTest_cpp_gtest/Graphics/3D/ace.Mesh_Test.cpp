@@ -167,12 +167,12 @@ void Graphics_Mesh(bool isOpenGLMode)
 	cameraObject->SetWindowSize(ace::Vector2DI(800, 600));
 
 	auto meshObject1 = new ace::RenderedMeshObject3D(graphics);
-	meshObject1->SetMesh(mesh1);
+	meshObject1->AddMesh(mesh1);
 	meshObject1->SetPosition(ace::Vector3DF(1, 0, 0));
 	meshObject1->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
 
 	auto meshObject2 = new ace::RenderedMeshObject3D(graphics);
-	meshObject2->SetMesh(mesh2);
+	meshObject2->AddMesh(mesh2);
 	meshObject2->SetPosition(ace::Vector3DF(-1, 0, 0));
 	meshObject2->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
 	meshObject2->AddAnimationClip(ace::ToAString("anime1").c_str(), animation.get());

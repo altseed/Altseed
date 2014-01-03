@@ -14,6 +14,6 @@ namespace ace
 
 	public:
 
-		virtual void SetMesh(Mesh* mesh) = 0;
+		virtual void AddMesh(Mesh* mesh) = 0;
 	};
 }
