@@ -1,5 +1,7 @@
 ﻿
 #include "ace.Mesh_Imp.h"
+#include "ace.Deformer_Imp.h"
+
 #include "../ace.Graphics_Imp.h"
 
 #include "../Resource/ace.VertexBuffer_Imp.h"
@@ -100,4 +102,15 @@ namespace ace
 
 		m_indexBuffer->Unlock();
 	}
+
+	Deformer* Mesh_Imp::GetDeformer_()
+	{
+		return m_deformer;
+	}
+
+	void Mesh_Imp::SetDeformer(Deformer* deformer)
+	{
+		SafeSubstitute(m_deformer, deformer);
+	}
+
 };

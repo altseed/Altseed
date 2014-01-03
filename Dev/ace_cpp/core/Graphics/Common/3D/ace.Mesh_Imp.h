@@ -55,6 +55,8 @@ namespace ace
 
 		std::vector<MaterialOffset>	m_materialOffsets;
 
+		Deformer*					m_deformer = nullptr;
+
 		Mesh_Imp(Graphics* graphics);
 		virtual ~Mesh_Imp();
 
@@ -78,6 +80,9 @@ namespace ace
 
 		void AddMaterialOffset(int32_t materialIndex, int32_t faceOffset);
 		void SendToGPUMemory();
+
+		Deformer* GetDeformer_() override;
+		void SetDeformer(Deformer* deformer) override;
 
 #if !SWIG
 		std::shared_ptr<VertexBuffer_Imp>& GetVertexBuffer() { return m_vertexBuffer; }

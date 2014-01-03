@@ -10,7 +10,6 @@ namespace ace
 
 	Deformer_Imp::~Deformer_Imp()
 	{
-	
 	}
 
 	void Deformer_Imp::AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationType, const Matrix44& localMat, const Matrix44& globalMatInv)

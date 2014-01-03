@@ -152,9 +152,11 @@ void Graphics_Mesh(bool isOpenGLMode)
 	ASSERT_TRUE(renderer3d != nullptr);
 	renderer3d->SetWindowSize(ace::Vector2DI(640, 480));
 
-	auto mesh = CreateMesh(graphics);
+	auto mesh1 = CreateMesh(graphics);
+	auto mesh2 = CreateMesh(graphics);
 	auto deformer = CreateDeformer(graphics);
 	auto animation = CreateAnimation();
+	mesh2->SetDeformer(deformer);
 
 	auto cameraObject = new ace::RenderedCameraObject3D(graphics);
 	cameraObject->SetPosition(ace::Vector3DF(0, 0, 10));
@@ -165,15 +167,14 @@ void Graphics_Mesh(bool isOpenGLMode)
 	cameraObject->SetWindowSize(ace::Vector2DI(800, 600));
 
 	auto meshObject1 = new ace::RenderedMeshObject3D(graphics);
-	meshObject1->SetMesh(mesh.get());
+	meshObject1->SetMesh(mesh1);
 	meshObject1->SetPosition(ace::Vector3DF(1, 0, 0));
 	meshObject1->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
 
 	auto meshObject2 = new ace::RenderedMeshObject3D(graphics);
-	meshObject2->SetMesh(mesh.get());
+	meshObject2->SetMesh(mesh2);
 	meshObject2->SetPosition(ace::Vector3DF(-1, 0, 0));
 	meshObject2->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
-	meshObject2->SetDeformer(deformer.get());
 	meshObject2->AddAnimationClip(ace::ToAString("anime1").c_str(), animation.get());
 	meshObject2->PlayAnimation(ace::ToAString("anime1").c_str());
 

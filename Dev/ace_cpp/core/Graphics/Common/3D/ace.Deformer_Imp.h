@@ -35,6 +35,7 @@ namespace ace
 
 		int32_t GetBoneIndex(const astring& name) const;
 
+
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
 	public:

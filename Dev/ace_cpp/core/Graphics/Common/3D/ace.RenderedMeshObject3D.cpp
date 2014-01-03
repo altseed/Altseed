@@ -303,7 +303,8 @@ void main()
 		RenderedMeshObject3D::~RenderedMeshObject3D()
 		{
 			SafeRelease(m_mesh);
-			SafeRelease(m_deformer);
+			
+			SetInternalDeformer(nullptr);
 
 			for (auto& a : m_animationClips)
 			{
@@ -316,20 +317,8 @@ void main()
 		{
 			auto m = (Mesh_Imp*) mesh;
 			SafeSubstitute(m_mesh, m);
-		}
-
-		void RenderedMeshObject3D::SetDeformer(Deformer* deformer)
-		{
-			auto a = (Deformer_Imp*) deformer;
-			SafeSubstitute(m_deformer, a);
-
-			m_matrixes.resize(m_deformer->GetBones().size());
-			m_boneProps.resize(m_deformer->GetBones().size());
-
-			for (int32_t i = 0; i < m_boneProps.size(); i++)
-			{
-				m_boneProps[i] = BoneProperty();
-			}
+			
+			CheckDeformer();
 		}
 
 		void RenderedMeshObject3D::AddAnimationClip(const achar* name, AnimationClip* animationClip)
@@ -355,6 +344,8 @@ void main()
 		void RenderedMeshObject3D::Flip()
 		{
 			RenderedObject3D::Flip();
+
+			CheckDeformer();
 
 			if (m_deformer == nullptr) return;
 
@@ -474,5 +465,44 @@ void main()
 			GetGraphics()->DrawPolygon(m_mesh->GetIndexBuffer()->GetCount() / 3);
 
 			GetGraphics()->GetRenderState()->Pop();
+		}
+
+		void RenderedMeshObject3D::CheckDeformer()
+		{
+			auto m = (Mesh_Imp*) m_mesh;
+			
+			if (m != nullptr)
+			{
+				if (m->GetDeformer_() != m_deformer)
+				{
+					SetInternalDeformer(m->GetDeformer_());
+				}
+			}
+			else
+			{
+				SetInternalDeformer(nullptr);
+			}
+		}
+
+		void RenderedMeshObject3D::SetInternalDeformer(Deformer* deformer)
+		{
+			auto d = (Deformer_Imp*) deformer;
+			SafeSubstitute(m_deformer, d);
+
+			if (deformer != nullptr)
+			{
+				m_matrixes.resize(m_deformer->GetBones().size());
+				m_boneProps.resize(m_deformer->GetBones().size());
+
+				for (int32_t i = 0; i < m_boneProps.size(); i++)
+				{
+					m_boneProps[i] = BoneProperty();
+				}
+			}
+			else
+			{
+				m_matrixes.resize(0);
+				m_boneProps.resize(0);
+			}
 		}
 }

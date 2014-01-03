@@ -305,8 +305,9 @@ namespace ace
 %include "ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture.h"
 %include "ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture_Imp.h"
 
-%include "ace_cpp/core/Graphics/Common/3D/ace.Mesh.h"
 %include "ace_cpp/core/Graphics/Common/3D/ace.Deformer.h"
+%include "ace_cpp/core/Graphics/Common/3D/ace.Mesh.h"
+
 %include "ace_cpp/core/Graphics/Common/Animation/ace.KeyframeAnimation.h"
 %include "ace_cpp/core/Graphics/Common/Animation/ace.AnimationSource.h"
 %include "ace_cpp/core/Graphics/Common/Animation/ace.AnimationClip.h"

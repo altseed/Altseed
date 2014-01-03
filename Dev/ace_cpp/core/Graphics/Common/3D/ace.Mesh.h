@@ -18,6 +18,9 @@ namespace ace
 	protected:
 		Mesh(){}
 		virtual ~Mesh(){}
+
+		virtual Deformer* GetDeformer_() = 0;
+
 	public:
 
 		/**
@@ -45,5 +48,22 @@ namespace ace
 
 		virtual void AddMaterialOffset(int32_t materialIndex, int32_t faceOffset) = 0;
 		virtual void SendToGPUMemory() = 0;
+
+		virtual void SetDeformer(Deformer* deformer) = 0;
+
+#if !SWIG
+		std::shared_ptr<Deformer> GetSource()
+		{
+			auto o = GetDeformer_();
+			SafeAddRef(o);
+			return CreateSharedPtrWithReleaseDLL(o);
+		}
+
+		void SetDeformer(std::shared_ptr<Deformer> deformer)
+		{
+			SetDeformer(deformer.get());
+		}
+#endif
+
 	};
 };

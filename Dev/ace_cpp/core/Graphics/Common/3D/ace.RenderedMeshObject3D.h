@@ -55,12 +55,25 @@ namespace ace
 
 		void SetMesh(Mesh* mesh);
 
-		void SetDeformer(Deformer* deformer);
-
 		void AddAnimationClip(const achar* name, AnimationClip* animationClip);
 
 		void PlayAnimation(const achar* name);
 
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
+
+#if !SWIG
+		void SetMesh(std::shared_ptr<Mesh>& mesh)
+		{
+			SetMesh(mesh.get());
+		}
+#endif
+
+	private:
+		/**
+			@brief	メッシュのDeformerと比較し、違っていたら差し替える。
+		*/
+		void CheckDeformer();
+		void SetInternalDeformer(Deformer* deformer);
+
 	};
 }
