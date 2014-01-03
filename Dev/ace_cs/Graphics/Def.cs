@@ -57,11 +57,28 @@ namespace ace
 		Axis = swig.eRotationOrder.ROTATION_ORDER_AXIS,
 	}
 
+	public enum InterpolationType : int
+	{
+		Constant = swig.eInterpolationType.INTERPOLATION_TYPE_CONSTANT,
+		Linear = swig.eInterpolationType.INTERPOLATION_TYPE_LINEAR,
+		Cubic = swig.eInterpolationType.INTERPOLATION_TYPE_CUBIC,
+	}
+
+
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
 	public struct FCurveKeyframe
 	{
 		public Vector2DF LeftHandle;
 		public Vector2DF RightHandle;
 		public Vector2DF KeyValue;
+		public InterpolationType InterpolationType;
+
+		public FCurveKeyframe(InterpolationType interpolationType = ace.InterpolationType.Linear)
+		{
+			LeftHandle = new Vector2DF();
+			RightHandle = new Vector2DF();
+			KeyValue = new Vector2DF();
+			InterpolationType = interpolationType;
+		}
 	}
 }

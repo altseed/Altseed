@@ -166,6 +166,9 @@ namespace ace {
 		int32_t	Offset;
 	};
 
+	/**
+	@brief	回転行列の計算方法
+	*/
 	enum eRotationOrder
 	{
 		ROTATION_ORDER_QUATERNION = 10,
@@ -179,7 +182,31 @@ namespace ace {
 		ROTATION_ORDER_MAX = 0xfffffff
 	};
 
-	
+	/**
+	@brief	キー間の補間方法
+	*/
+	enum eInterpolationType
+	{
+		/**
+			@brief	次のキーまで定数で補間
+		*/
+		INTERPOLATION_TYPE_CONSTANT = 0,
+
+		/**
+			@brief	次のキーまで線形で補間
+		*/
+		INTERPOLATION_TYPE_LINEAR = 1,
+
+		/**
+			@brief	次のキーまで三次方程式で補間
+		*/
+		INTERPOLATION_TYPE_CUBIC = 2,
+
+		/**
+		@brief	int型指定
+		*/
+		INTERPOLATION_TYPE_MAX = 0xfffffff
+	};
 
 	/**
 	@brief	参照カウンタのインターフェース

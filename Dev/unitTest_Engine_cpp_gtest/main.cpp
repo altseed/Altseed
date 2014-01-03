@@ -46,8 +46,8 @@ int main(int argc, char **argv)
 	//Graphics_PostEffectGaussianBlur_(true);
 	//return 0;
 
-	Graphics_SimpleMesh_(true);
-	return 0;
+	//Graphics_SimpleMesh_(true);
+	//return 0;
 
 	auto result = RUN_ALL_TESTS();
 

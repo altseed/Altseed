@@ -11,9 +11,15 @@ namespace ace
 	class FCurveKeyframe
 	{
 	public:
-		Vector2DF	KeyValue;
-		Vector2DF	LeftHandle;
-		Vector2DF	RightHandle;
+		Vector2DF				KeyValue;
+		Vector2DF				LeftHandle;
+		Vector2DF				RightHandle;
+		eInterpolationType		InterpolationType;
+
+		FCurveKeyframe()
+		{
+			InterpolationType = eInterpolationType::INTERPOLATION_TYPE_LINEAR;
+		}
 	};
 
 	class KeyframeAnimation
