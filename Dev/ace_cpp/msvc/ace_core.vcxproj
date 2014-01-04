@@ -164,6 +164,8 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Deformer_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Mesh.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Mesh_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Model.h" />
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Model_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedMeshObject3D.h" />
@@ -283,6 +285,7 @@
     <ClCompile Include="..\core\Graphics\Common\2D\ace.Renderer2D_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Deformer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Mesh_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.Model_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedMeshObject3D.cpp" />

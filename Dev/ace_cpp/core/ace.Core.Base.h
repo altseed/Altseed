@@ -30,6 +30,8 @@ namespace ace {
 	class Shader2D;
 	class Material2D;
 
+	class Model;
+
 	class Mesh;
 	class Deformer;
 

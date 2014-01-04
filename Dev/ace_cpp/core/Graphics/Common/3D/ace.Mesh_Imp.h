@@ -45,6 +45,12 @@ namespace ace
 			int32_t		FaceOffset;
 		};
 
+		struct BoneOffset
+		{
+			uint8_t		BoneIndex[32];
+			int32_t		FaceOffset;
+		};
+
 		Graphics_Imp*	m_graphics;
 
 		std::shared_ptr<VertexBuffer_Imp>	m_vertexBuffer;
@@ -54,6 +60,7 @@ namespace ace
 		std::vector<Face>	m_faceBufferOnMM;
 
 		std::vector<MaterialOffset>	m_materialOffsets;
+		std::vector<BoneOffset>	m_boneOffsets;
 
 		Deformer*					m_deformer = nullptr;
 
@@ -75,6 +82,29 @@ namespace ace
 			const Color& color,
 			int32_t boneWeights,
 			int32_t boneIndexes);
+
+		/**
+			@brief	内部フォーマットに直接頂点情報を読み込む。
+			@note
+			AddVertexで追加した場合はGPUに送信する時に計算される部分を事前に追加している。
+		*/
+		void AddInternalVertex(
+			const Vector3DF& position,
+			const Vector3DF& normal,
+			const Vector3DF& binormal,
+			const Vector2DF& uv1,
+			const Vector2DF& uv2,
+			const Color& color,
+			int32_t boneWeights,
+			int32_t boneIndexes,
+			int32_t boneIndexesOriginal);
+
+		/**
+		@brief	内部フォーマットに直接描画ごとのGPUの行列配列とボーンの行列の組み合わせを読み込む。
+		@note
+		AddVertexで頂点を追加した場合はGPUに送信する時に計算される部分を事前に追加している。
+		*/
+		void AddInternalBoneOffset(uint8_t boneIndex[32], int32_t faceOffset);
 
 		void AddFace(int32_t index1, int32_t index2, int32_t index3);
 

@@ -52,6 +52,39 @@ namespace ace
 		m_vertexBufferOnMM.push_back(v);
 	}
 
+	void Mesh_Imp::AddInternalVertex(
+		const Vector3DF& position,
+		const Vector3DF& normal,
+		const Vector3DF& binormal,
+		const Vector2DF& uv1,
+		const Vector2DF& uv2,
+		const Color& color,
+		int32_t boneWeights,
+		int32_t boneIndexes,
+		int32_t boneIndexesOriginal)
+	{
+		Vertex v;
+		v.Position = position;
+		v.Normal = normal;
+		v.Binormal = binormal;
+		v.UV1 = uv1;
+		v.UV2 = uv2;
+		v.VColor = color;
+		v.BoneWeights = boneWeights;
+		v.BoneIndexes = boneIndexes;
+		v.BoneIndexesOriginal = boneIndexesOriginal;
+		m_vertexBufferOnMM.push_back(v);
+	}
+
+	void Mesh_Imp::AddInternalBoneOffset(uint8_t boneIndex[32], int32_t faceOffset)
+	{
+		BoneOffset offset;
+
+		for (int32_t i = 0; i < 32; i++)offset.BoneIndex[i] = boneIndex[i];
+		offset.FaceOffset = faceOffset;
+		m_boneOffsets.push_back(offset);
+	}
+
 	void Mesh_Imp::AddFace(int32_t index1, int32_t index2, int32_t index3)
 	{
 		Face f;

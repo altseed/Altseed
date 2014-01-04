@@ -411,6 +411,12 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Deformer_Imp.h">
       <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Model.h">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Model_Imp.h">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -632,6 +638,9 @@
       <Filter>Graphics\Common\Animation</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Deformer_Imp.cpp">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.Model_Imp.cpp">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
   </ItemGroup>
