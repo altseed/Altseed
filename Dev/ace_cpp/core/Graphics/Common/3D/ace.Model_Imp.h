@@ -13,6 +13,7 @@ namespace ace
 	private:
 		
 		std::vector<Mesh_Imp*>		m_meshes;
+		std::vector<astring>		m_animationClipNames;
 		std::vector<AnimationClip*>	m_animationClips;
 
 		void Reset();
@@ -27,6 +28,10 @@ namespace ace
 		Mesh_Imp* LoadMeshGroup(Graphics* g, BinaryReader& reader, const achar* path);
 		Mesh_Imp* LoadMesh(Graphics* g, BinaryReader& reader, const achar* path);
 		Deformer_Imp* LoadDeformer(Graphics* g, BinaryReader& reader, const achar* path);
+
+		void LoadAnimationClip(BinaryReader& reader, std::vector<AnimationSource*>& source);
+		AnimationSource* LoadAnimationSource(BinaryReader& reader);
+		KeyframeAnimation* LoadKeyframeAnimation(BinaryReader& reader);
 
 	public:
 		std::vector<AnimationClip*>& GetAnimationClips() { return m_animationClips; }

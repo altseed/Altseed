@@ -5,6 +5,7 @@
 #include "ace.Deformer_Imp.h"
 #include "../Animation/ace.AnimationClip_Imp.h"
 #include "../Animation/ace.AnimationSource_Imp.h"
+#include "../Animation/ace.KeyframeAnimation_Imp.h"
 
 #include "../ace.Graphics_Imp.h"
 
@@ -59,6 +60,26 @@ namespace ace
 		}
 
 		// アニメーション
+		std::vector<AnimationSource*> sources;
+		int32_t sourceCount = reader.Get<int32_t>();
+		for (int32_t i = 0; i < sourceCount; i++)
+		{
+			auto source = LoadAnimationSource(reader);
+			sources.push_back(source);
+		}
+
+		int32_t clipCount = reader.Get<int32_t>();
+		for (int32_t i = 0; i < clipCount; i++)
+		{
+			LoadAnimationClip(reader, sources);
+		}
+
+		for (auto& s : sources)
+		{
+			s->Release();
+		}
+
+		return true;
 	}
 
 	Mesh_Imp* Model_Imp::LoadMeshGroup(Graphics* g, BinaryReader& reader, const achar* path)
@@ -66,6 +87,23 @@ namespace ace
 		auto mesh = LoadMesh(g, reader, path);
 		auto deformer = LoadDeformer(g, reader, path);
 		mesh->SetDeformer(deformer);
+
+		// 材質
+		int32_t materialCount = reader.Get<int32_t>();
+		for (int32_t i = 0; i < materialCount; i++)
+		{
+			auto type = reader.Get<int32_t>();
+			if (type == 1)
+			{
+				auto path = reader.Get<ace::astring>();
+			}
+			else
+			{
+				auto pathColor = reader.Get<ace::astring>();
+				auto pathNormal = reader.Get<ace::astring>();
+				auto pathSpecular = reader.Get<ace::astring>();
+			}
+		}
 
 		return mesh;
 	}
@@ -143,5 +181,52 @@ namespace ace
 		}
 
 		return deformer;
+	}
+
+	void Model_Imp::LoadAnimationClip(BinaryReader& reader, std::vector<AnimationSource*>& sources)
+	{
+		auto clip = new AnimationClip_Imp();
+
+		auto clipName = reader.Get<ace::astring>();
+		auto sourceIndex = reader.Get<int32_t>();
+
+		clip->SetSource(sources[sourceIndex]);
+
+		m_animationClips.push_back(clip);
+		m_animationClipNames.push_back(clipName);
+	}
+
+	AnimationSource* Model_Imp::LoadAnimationSource(BinaryReader& reader)
+	{
+		auto source = new AnimationSource_Imp();
+
+		auto sourceName = reader.Get<ace::astring>();
+
+		auto keyframesCount = reader.Get<int32_t>();
+		for (int32_t i = 0; i < keyframesCount; i++)
+		{
+			auto keyframeanimation = LoadKeyframeAnimation(reader);
+			source->AddAnimation(keyframeanimation);
+		}
+
+		return source;
+	}
+
+	KeyframeAnimation* Model_Imp::LoadKeyframeAnimation(BinaryReader& reader)
+	{
+		auto keyframeAnimation = new KeyframeAnimation_Imp();
+
+		auto name = reader.Get<ace::astring>();
+		keyframeAnimation->SetName(name.c_str());
+		
+		auto keyCount = reader.Get<int32_t>();
+
+		for (int32_t i = 0; i < keyCount; i++)
+		{
+			auto keyframe = reader.Get< FCurveKeyframe>();
+			keyframeAnimation->AddKeyframe(keyframe);
+		}
+
+		return keyframeAnimation;
 	}
 }
