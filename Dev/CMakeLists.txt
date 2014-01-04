@@ -53,13 +53,19 @@ set(core_src
 	ace_cpp/core/Graphics/Common/2D/ace.PostEffectRenderer.cpp
 	ace_cpp/core/Graphics/Common/2D/ace.Renderer2D_Imp.cpp
 
-	ace_cpp/core/Graphics/Common/3D/ace.Bones.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.Deformer_Imp.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.Mesh_Imp.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.Model_Imp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedCameraObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedDirectionalLightObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedMeshObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.Renderer3D.cpp
+
+	ace_cpp/core/Graphics/Common/Animation/ace.AnimationClip_Imp.cpp
+	ace_cpp/core/Graphics/Common/Animation/ace.AnimationSource_Imp.cpp
+	ace_cpp/core/Graphics/Common/Animation/ace.AnimationSystem_Imp.cpp
+	ace_cpp/core/Graphics/Common/Animation/ace.KeyframeAnimation_Imp.cpp
 
 	ace_cpp/core/Graphics/Common/Resource/ace.DepthBuffer_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.IndexBuffer_Imp.cpp

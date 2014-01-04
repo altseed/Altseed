@@ -125,7 +125,7 @@ namespace ace
 		return mesh;
 	}
 
-	Deformer_Imp* LoadDeformer(Graphics* g, BinaryReader& reader, const achar* path)
+	Deformer_Imp* Model_Imp::LoadDeformer(Graphics* g, BinaryReader& reader, const achar* path)
 	{
 		auto g_ = (Graphics_Imp*) g;
 		auto deformer = (Deformer_Imp*) g_->CreateDeformer_();
