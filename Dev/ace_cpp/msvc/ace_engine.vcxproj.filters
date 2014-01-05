@@ -53,10 +53,10 @@
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.DirectionalLightObject3D.cpp">
       <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\ObjectSystem\3D\ace.MeshObject3D.cpp">
+    <ClCompile Include="..\engine\ObjectSystem\3D\ace.Object3D.cpp">
       <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\ObjectSystem\3D\ace.Object3D.cpp">
+    <ClCompile Include="..\engine\ObjectSystem\3D\ace.ModelObject3D.cpp">
       <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
   </ItemGroup>
@@ -115,10 +115,10 @@
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.DirectionalLightObject3D.h">
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\3D\ace.MeshObject3D.h">
+    <ClInclude Include="..\engine\ObjectSystem\3D\ace.Object3D.h">
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\3D\ace.Object3D.h">
+    <ClInclude Include="..\engine\ObjectSystem\3D\ace.ModelObject3D.h">
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
   </ItemGroup>

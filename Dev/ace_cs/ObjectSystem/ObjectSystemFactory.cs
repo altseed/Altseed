@@ -39,9 +39,9 @@ namespace ace
 		/// ネイティブの MeshObject3D クラスをインスタンス化する。
 		/// </summary>
 		/// <returns>ネイティブのインスタンス</returns>
-		public swig.CoreMeshObject3D CreateMeshObject3D()
+		public swig.CoreModelObject3D CreateModelObject3D()
 		{
-			return factory.CreateMeshObject3D();
+			return factory.CreateModelObject3D();
 		}
 
 		/// <summary>

@@ -15,17 +15,24 @@ namespace ace
 			graphics = swig;
 		}
 
-		public GraphicsType GraphicsType
-		{
-			get { return (GraphicsType)graphics.GetGraphicsType(); }
-		}
-
+		/// <summary>
+		/// テクスチャを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>テクスチャ</returns>
 		public Texture2D CreateTexture2D(string path)
 		{
 			var texture = graphics.CreateTexture2D_Imp(path);
 			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
 		}
 
+		/// <summary>
+		/// 描画先として指定可能なテクスチャを生成する。
+		/// </summary>
+		/// <param name="width">横幅</param>
+		/// <param name="height">縦幅</param>
+		/// <param name="format">フォーマット</param>
+		/// <returns>テクスチャ</returns>
 		public RenderTexture2D CreateRenderTexture2D(int width, int height, TextureFormat format)
 		{
 			var rt = graphics.CreateRenderTexture_Imp(width,height, (swig.eTextureFormat)format);
@@ -42,6 +49,13 @@ namespace ace
 			return ret;
 		}
 
+
+		/// <summary>
+		/// シェーダー(2D)を生成する。
+		/// </summary>
+		/// <param name="shaderText">シェーダーのコード</param>
+		/// <param name="variableProperties">シェーダーで使用可能な外部入力可能な変数</param>
+		/// <returns></returns>
 		public Shader2D CreateShader2D(string shaderText, ShaderVariableProperty[] variableProperties)
 		{
 			swig.ShaderVariablePropertyVector vprops = new swig.ShaderVariablePropertyVector();
@@ -70,6 +84,11 @@ namespace ace
 			return ret;
 		}
 
+		/// <summary>
+		/// マテリアル(2D)を生成する。
+		/// </summary>
+		/// <param name="shader">シェーダー</param>
+		/// <returns>マテリアル(2D)</returns>
 		public Material2D CreateMaterial2D(Shader2D shader)
 		{
 			var material = graphics.CreateMaterial2D_Imp(shader.SwigObject);
@@ -86,14 +105,42 @@ namespace ace
 			return ret;
 		}
 
+		/// <summary>
+		/// メッシュを生成する。
+		/// </summary>
+		/// <returns>メッシュ</returns>
 		public Mesh CreateMesh()
 		{
 			return GC.GenerateMesh(graphics.CreateMesh_(), GC.GenerationType.Create);
 		}
 
+		/// <summary>
+		/// デフォーマーを生成する。
+		/// </summary>
+		/// <returns>デフォーマー</returns>
 		public Deformer CreateDeformer()
 		{
 			return GC.GenerateDeformer(graphics.CreateDeformer_(), GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// モデルを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>モデル</returns>
+		public Model CreateModel(string path)
+		{
+			var model = graphics.CreateModel_(path);
+			if (model == null) return null;
+			return GC.GenerateModel(model, GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// 描画ランタイムの種類を取得する。
+		/// </summary>
+		public GraphicsType GraphicsType
+		{
+			get { return (GraphicsType)graphics.GetGraphicsType(); }
 		}
 	}
 }

@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-	public class Deformer : IDestroy
+	public class Model : IDestroy
 	{
-		internal swig.Deformer SwigObject { get; set; }
+		internal swig.Model SwigObject { get; set; }
 
-		internal Deformer(swig.Deformer swig)
+		internal Model(swig.Model swig)
 		{
 #if DEBUG
 			// 唯一の対応するクラスであることを保証
-			if (GC.Deformers.GetObject(swig.GetPtr()) != null) throw new Exception();
+			if (GC.Models.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
 			SwigObject = swig;
 		}
 
-		~Deformer()
+		~Model()
 		{
 			Destroy();
 		}
@@ -41,11 +41,6 @@ namespace ace
 				SwigObject = null;
 			}
 			System.GC.SuppressFinalize(this);
-		}
-
-		public void AddBone(string name, int parentBoneIndex, RotationOrder rotationOrder, ref ace.Matrix44 localMat, ref ace.Matrix44 globalMatInv)
-		{
-			SwigObject.AddBone(name, parentBoneIndex, (swig.eRotationOrder)rotationOrder, ref localMat, ref globalMatInv);
 		}
 	}
 }

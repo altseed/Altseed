@@ -26,8 +26,9 @@
 #include "Graphics/Common/Resource/ace.Material_Imp.h"
 #include "Graphics/Common/Resource/ace.Material2D_Imp.h"
 
-#include "Graphics/Common/3D/ace.Mesh_Imp.h"
-#include "Graphics/Common/3D/ace.Deformer_Imp.h"
+#include "Graphics/Common/3D/ace.Mesh.h"
+#include "Graphics/Common/3D/ace.Deformer.h"
+#include "Graphics/Common/3D/ace.Model.h"
 
 #include "Graphics/Common/Animation/ace.AnimationSystem_Imp.h"
 #include "Graphics/Common/Animation/ace.AnimationClip_Imp.h"
@@ -43,7 +44,7 @@
 #include "ObjectSystem/2D/ace.CoreLayer2D.h"
 
 #include "ObjectSystem/3D/ace.CoreObject3D.h"
-#include "ObjectSystem/3D/ace.CoreMeshObject3D.h"
+#include "ObjectSystem/3D/ace.CoreModelObject3D.h"
 #include "ObjectSystem/3D/ace.CoreDirectionalLightObject3D.h"
 #include "ObjectSystem/3D/ace.CoreCameraObject3D.h"
 #include "ObjectSystem/3D/ace.CoreLayer3D.h"
@@ -55,6 +56,8 @@
 #include "Core/ace.Core_Imp.h"
 
 #include "Core/ace.CreateCore.h"
+
+#include "ace.Accessor.h"
 
 %}
 
@@ -209,7 +212,7 @@ CPP_OBJECT( ace::CoreTextureObject2D )
 CPP_OBJECT( ace::CoreTextureObject2D_Imp )
 
 CPP_OBJECT( ace::CoreObject3D )
-CPP_OBJECT( ace::CoreMeshObject3D )
+CPP_OBJECT( ace::CoreModelObject3D )
 CPP_OBJECT( ace::CoreDirectionalLightObject3D )
 CPP_OBJECT( ace::CoreCameraObject3D )
 CPP_OBJECT( ace::CoreLayer3D )
@@ -226,6 +229,7 @@ CPP_OBJECT( ace::Shader2D_Imp )
 
 CPP_OBJECT( ace::Mesh )
 CPP_OBJECT( ace::Deformer )
+CPP_OBJECT( ace::Model )
 CPP_OBJECT( ace::KeyframeAnimation )
 CPP_OBJECT( ace::AnimationSource )
 CPP_OBJECT( ace::AnimationClip )
@@ -245,12 +249,14 @@ CPP_OBJECT( ace::Log_Imp )
 %newobject ace::Graphics_Imp::CreateShader2D_Imp;
 %newobject ace::Graphics_Imp::CreateMaterial2D_Imp;
 %newobject ace::Graphics_Imp::CreateMesh_;
+%newobject ace::Graphics_Imp::CreateDeformer_;
+%newobject ace::Graphics_Imp::CreateModel_;
 
 %newobject ace::ObjectSystemFactory::CreateObject2D;
 %newobject ace::ObjectSystemFactory::CreateTextureObject2D;
 %newobject ace::ObjectSystemFactory::CreateLayer2D;
 
-%newobject ace::ObjectSystemFactory::CreateMeshObject3D;
+%newobject ace::ObjectSystemFactory::CreateModelObject3D;
 %newobject ace::ObjectSystemFactory::CreateCameraObject3D;
 %newobject ace::ObjectSystemFactory::CreateDirectionalLightObject3D;
 %newobject ace::ObjectSystemFactory::CreateLayer3D;
@@ -307,6 +313,7 @@ namespace ace
 
 %include "ace_cpp/core/Graphics/Common/3D/ace.Deformer.h"
 %include "ace_cpp/core/Graphics/Common/3D/ace.Mesh.h"
+%include "ace_cpp/core/Graphics/Common/3D/ace.Model.h"
 
 %include "ace_cpp/core/Graphics/Common/Animation/ace.KeyframeAnimation.h"
 %include "ace_cpp/core/Graphics/Common/Animation/ace.AnimationSource.h"
@@ -325,7 +332,7 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D.h"
 
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D.h"
-%include "ace_cpp/core/ObjectSystem/3D/ace.CoreMeshObject3D.h"
+%include "ace_cpp/core/ObjectSystem/3D/ace.CoreModelObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D.h"
@@ -338,4 +345,6 @@ namespace ace
 %include "ace_cpp/core/Core/ace.Core_Imp.h"
 
 %include "ace_cpp/core/Core/ace.CreateCore.h"
+
+%include "ace_cpp/core/ace.Accessor.h"
 

@@ -86,9 +86,11 @@ namespace ace {
 
 	class Renderer3D;
 	class RenderedObject3D;
-	class RenderedMeshObject3D;
+	class RenderedModelObject3D;
 	class RenderedDirectionalLightObject3D;
 	class RenderedCameraObject3D;
+
+	class Model_Imp;
 
 	class Mesh_Imp;
 	class Deformer_Imp;

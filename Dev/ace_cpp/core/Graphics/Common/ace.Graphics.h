@@ -26,6 +26,7 @@ protected:
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
 	virtual Mesh* CreateMesh_() = 0;
 	virtual Deformer* CreateDeformer_() = 0;
+	virtual Model* CreateModel_(const achar* path) = 0;
 
 public:
 	Graphics(){}
@@ -44,6 +45,7 @@ public:
 	@brief	描画先として指定可能なテクスチャを生成する。
 	@param	width	横幅
 	@param	height	縦幅
+	@param	format	フォーマット
 	@return	テクスチャ
 	*/
 	std::shared_ptr<RenderTexture2D> CreateRenderTexture(int32_t width, int32_t height, eTextureFormat format){ return CreateSharedPtrWithReleaseDLL(CreateRenderTexture2D_(width, height, format)); }
@@ -94,6 +96,17 @@ public:
 	{
 		auto deformer = CreateDeformer_();
 		return CreateSharedPtrWithReleaseDLL(deformer);
+	}
+
+	/**
+	@brief	モデルを生成する。
+	@param	path	パス
+	@return	モデル
+	*/
+	std::shared_ptr<Model> CreateModel(const achar* path)
+	{
+		auto model = CreateModel_(path);
+		return CreateSharedPtrWithReleaseDLL(model);
 	}
 
 #endif

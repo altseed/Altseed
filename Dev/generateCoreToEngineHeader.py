@@ -75,6 +75,7 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Material2D
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/3D/ace.Deformer.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/3D/ace.Mesh.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/3D/ace.Model.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Animation/ace.KeyframeAnimation.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Animation/ace.AnimationSource.h")
@@ -95,7 +96,7 @@ fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D.h')
 
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D.h')
-fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreMeshObject3D.h')
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreModelObject3D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D.h')

@@ -88,7 +88,7 @@
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.CameraObject3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.DirectionalLightObject3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.Layer3D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\3D\ace.MeshObject3D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\ace.ModelObject3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.Object3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\ace.Layer.h" />
     <ClInclude Include="..\engine\ObjectSystem\ace.Scene.h" />
@@ -110,7 +110,7 @@
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.CameraObject3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.DirectionalLightObject3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.Layer3D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\3D\ace.MeshObject3D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\ace.ModelObject3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.Object3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\ace.Layer.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\ace.Scene.cpp" />

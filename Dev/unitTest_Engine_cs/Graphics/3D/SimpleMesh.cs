@@ -17,7 +17,7 @@ namespace unitTest_Engine_cs.Graphics._3D
 		{
 			var scene = new ace.Scene();
 			var layer = new ace.Layer3D();
-			var meshObj = new ace.MeshObject3D();
+			var meshObj = new ace.ModelObject3D();
 			var lightObj = new ace.DirectionalLightObject3D();
 			var cameraObj = new ace.CameraObject3D();
 

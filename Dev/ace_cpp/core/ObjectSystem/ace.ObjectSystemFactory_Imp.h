@@ -17,7 +17,7 @@ namespace ace
 		CoreTextureObject2D* CreateTextureObject2D() override;
 		CoreLayer2D* CreateLayer2D() override;
 
-		CoreMeshObject3D* CreateMeshObject3D() override;
+		CoreModelObject3D* CreateModelObject3D() override;
 		CoreCameraObject3D* CreateCameraObject3D() override;
 		CoreDirectionalLightObject3D* CreateDirectionalLightObject3D() override;
 		CoreLayer3D* CreateLayer3D() override;

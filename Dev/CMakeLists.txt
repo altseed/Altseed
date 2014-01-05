@@ -40,6 +40,7 @@ set(common_src
 
 set(core_src
 	ace_cpp/core/ace.ReferenceObject.cpp
+	ace_cpp/core/ace.Accessor.cpp
 
 	ace_cpp/core/Core/ace.Core_Imp.cpp
 	ace_cpp/core/Core/ace.CreateCore.cpp
@@ -53,13 +54,19 @@ set(core_src
 	ace_cpp/core/Graphics/Common/2D/ace.PostEffectRenderer.cpp
 	ace_cpp/core/Graphics/Common/2D/ace.Renderer2D_Imp.cpp
 
-	ace_cpp/core/Graphics/Common/3D/ace.Bones.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.Deformer_Imp.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.Mesh_Imp.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.Model_Imp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedCameraObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedDirectionalLightObject3D.cpp
-	ace_cpp/core/Graphics/Common/3D/ace.RenderedMeshObject3D.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.RenderedModelObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.Renderer3D.cpp
+
+	ace_cpp/core/Graphics/Common/Animation/ace.AnimationClip_Imp.cpp
+	ace_cpp/core/Graphics/Common/Animation/ace.AnimationSource_Imp.cpp
+	ace_cpp/core/Graphics/Common/Animation/ace.AnimationSystem_Imp.cpp
+	ace_cpp/core/Graphics/Common/Animation/ace.KeyframeAnimation_Imp.cpp
 
 	ace_cpp/core/Graphics/Common/Resource/ace.DepthBuffer_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.IndexBuffer_Imp.cpp
@@ -93,7 +100,7 @@ set(core_src
 	ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D_Imp.cpp
-	ace_cpp/core/ObjectSystem/3D/ace.CoreMeshObject3D_Imp.cpp
+	ace_cpp/core/ObjectSystem/3D/ace.CoreModelObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D_Imp.cpp
 
 	ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect_Imp.cpp
@@ -150,7 +157,7 @@ set(engine_src
 	ace_cpp/engine/ObjectSystem/3D/ace.CameraObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.DirectionalLightObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.Layer3D.cpp
-	ace_cpp/engine/ObjectSystem/3D/ace.MeshObject3D.cpp
+	ace_cpp/engine/ObjectSystem/3D/ace.ModelObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.Object3D.cpp
 
 	ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.cpp

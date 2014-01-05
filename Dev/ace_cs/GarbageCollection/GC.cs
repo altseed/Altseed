@@ -15,6 +15,7 @@ namespace ace
 
 		internal static IDObjectContainer<Mesh> Meshs { get; private set; }
 		internal static IDObjectContainer<Deformer> Deformers { get; private set; }
+		internal static IDObjectContainer<Model> Models { get; private set; }
 
 		internal static IDObjectContainer<Scene> Scenes { get; private set; }
 
@@ -34,6 +35,7 @@ namespace ace
 			Material2Ds = new IDObjectContainer<Material2D>();
 			Meshs = new IDObjectContainer<Mesh>();
 			Deformers = new IDObjectContainer<Deformer>();
+			Models = new IDObjectContainer<Model>();
 
 			Scenes = new IDObjectContainer<Scene>();
 
@@ -60,6 +62,7 @@ namespace ace
 				Material2Ds.DestroyAll();
 				Meshs.DestroyAll();
 				Deformers.DestroyAll();
+				Models.DestroyAll();
 
 				Scenes.DestroyAll();
 
@@ -109,20 +112,8 @@ namespace ace
 			var p = o.GetPtr();
 
 			var existing = GC.Texture2Ds.GetObject(p);
-			if (existing != null)
-			{
-				if (type == GenerationType.Create)
-				{
-					o.Release();
-				}
-
-				return existing;
-			}
-
-			if (type == GenerationType.Get)
-			{
-				o.AddRef();
-			}
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
 
 			var ret = new Texture2D(o);
 			GC.Texture2Ds.AddObject(p, ret);
@@ -139,20 +130,8 @@ namespace ace
 			var p = o.GetPtr();
 
 			var existing = GC.Texture2Ds.GetObject(p);
-			if (existing != null)
-			{
-				if (type == GenerationType.Create)
-				{
-					o.Release();
-				}
-
-				return (RenderTexture2D)existing;
-			}
-
-			if (type == GenerationType.Get)
-			{
-				o.AddRef();
-			}
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return (RenderTexture2D)existing;
 
 			var ret = new RenderTexture2D(o);
 			GC.Texture2Ds.AddObject(p, ret);
@@ -169,20 +148,8 @@ namespace ace
 			var p = o.GetPtr();
 
 			var existing = GC.Meshs.GetObject(p);
-			if (existing != null)
-			{
-				if (type == GenerationType.Create)
-				{
-					o.Release();
-				}
-
-				return existing;
-			}
-
-			if (type == GenerationType.Get)
-			{
-				o.AddRef();
-			}
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
 
 			var ret = new Mesh(o);
 			GC.Meshs.AddObject(p, ret);
@@ -199,6 +166,45 @@ namespace ace
 			var p = o.GetPtr();
 
 			var existing = GC.Deformers.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new Deformer(o);
+			GC.Deformers.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static Model GenerateModel(swig.Model o, GenerationType type)
+		{
+			var p = o.GetPtr();
+
+			var existing = GC.Models.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new Model(o);
+			GC.Models.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// Generate*メソッドの内部処理
+		/// </summary>
+		/// <typeparam name="E"></typeparam>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="existing"></param>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		/// <returns></returns>
+		static E GenerateInternal<E, T>(E existing, T o, GenerationType type)
+			where E : class
+			where T : swig.IReference
+		{
 			if (existing != null)
 			{
 				if (type == GenerationType.Create)
@@ -214,9 +220,7 @@ namespace ace
 				o.AddRef();
 			}
 
-			var ret = new Deformer(o);
-			GC.Deformers.AddObject(p, ret);
-			return ret;
+			return null;
 		}
 	}
 }

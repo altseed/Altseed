@@ -1,27 +1,28 @@
 ﻿
 #pragma once
 
-#include "ace.CoreMeshObject3D.h"
+#include "ace.CoreModelObject3D.h"
 #include "ace.CoreObject3D_Imp.h"
 
 namespace ace
 {
-	class CoreMeshObject3D_Imp
-		: public CoreMeshObject3D
+	class CoreModelObject3D_Imp
+		: public CoreModelObject3D
 		, public CoreObject3D_Imp
 		, public ReferenceObject
 	{
 	private:
-		RenderedMeshObject3D*	m_object;
+		RenderedModelObject3D*	m_object;
 
 	public:
-		CoreMeshObject3D_Imp(Graphics* graphics);
+		CoreModelObject3D_Imp(Graphics* graphics);
 
 	private:
-		virtual ~CoreMeshObject3D_Imp();
+		virtual ~CoreModelObject3D_Imp();
 	public:
 
-		void AddMesh(Mesh* mesh);
+		void SetModel(Model* model) override;
+		void AddMesh(Mesh* mesh) override;
 
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MESH; }
 

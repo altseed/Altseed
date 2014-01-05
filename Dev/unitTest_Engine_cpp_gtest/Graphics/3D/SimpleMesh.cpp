@@ -132,7 +132,7 @@ protected:
 
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer3D>();
-		auto meshObj = std::make_shared<ace::MeshObject3D>();
+		auto meshObj = std::make_shared<ace::ModelObject3D>();
 		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
 		auto cameraObj = std::make_shared<ace::CameraObject3D>();
 

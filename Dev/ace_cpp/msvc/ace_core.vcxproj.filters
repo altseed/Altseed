@@ -327,9 +327,6 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedObject3D.h">
       <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedMeshObject3D.h">
-      <Filter>Graphics\Common\3D</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Mesh.h">
       <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
@@ -343,12 +340,6 @@
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreLayer3D.h">
-      <Filter>ObjectSystem\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D.h">
-      <Filter>ObjectSystem\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D_Imp.h">
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreObject3D.h">
@@ -411,6 +402,22 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Deformer_Imp.h">
       <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Model.h">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.Model_Imp.h">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedModelObject3D.h">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ace.Accessor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -586,17 +593,11 @@
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedObject3D.cpp">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedMeshObject3D.cpp">
-      <Filter>Graphics\Common\3D</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.cpp">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.cpp">
       <Filter>Graphics\Common\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D_Imp.cpp">
-      <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreLayer3D_Imp.cpp">
       <Filter>ObjectSystem\3D</Filter>
@@ -634,6 +635,16 @@
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Deformer_Imp.cpp">
       <Filter>Graphics\Common\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.Model_Imp.cpp">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedModelObject3D.cpp">
+      <Filter>Graphics\Common\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ace.Accessor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Window\ace.Window_Imp_X11.cpp">

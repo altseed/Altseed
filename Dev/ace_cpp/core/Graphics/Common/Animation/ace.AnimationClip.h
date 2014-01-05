@@ -9,6 +9,8 @@ namespace ace
 	class AnimationClip
 		: public IReference
 	{
+		friend class Accessor;
+
 	protected:
 		virtual AnimationSource* GetSource_() = 0;
 	public:
