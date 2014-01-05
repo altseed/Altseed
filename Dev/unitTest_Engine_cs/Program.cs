@@ -11,13 +11,12 @@ namespace unitTest_Engine_cs
 	{
 		static void Main( string[] args )
 		{
-			/*
-			TestSequencially( new ObjectSystem.LayersFlag() );
-			TestSequencially( new ObjectSystem.ObjectsFlag() );
-			TestSequencially( new Graphics.PostEffect.CustomPostEffect() );
+			//*
+			TestSequencially( new ObjectSystem2D.ObjectComponent() );
+			TestSequencially( new ObjectSystem2D.LayerComponent() );
 
-			TestSequencially( new ObjectSystem.ObjectsMembers() );
-			TestSequencially( new Graphics._3D.SimpleMesh() );
+			Console.ReadKey();
+			return;
 			//*/
 
 			TestAll();

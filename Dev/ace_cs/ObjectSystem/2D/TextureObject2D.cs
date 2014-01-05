@@ -64,30 +64,6 @@ namespace ace
 		}
 
 		/// <summary>
-		/// この2Dオブジェクトを描画する位置を取得または設定します。
-		/// </summary>
-		public Vector2DF Position
-		{
-			get { return renderedObject.GetPosition(); }
-			set { renderedObject.SetPosition( value ); }
-		}
-		/// <summary>
-		/// この2Dオブジェクトを描画する際の回転角度を取得または設定します。
-		/// </summary>
-		public float Angle
-		{
-			get { return renderedObject.GetAngle(); }
-			set { renderedObject.SetAngle( value ); }
-		}
-		/// <summary>
-		/// この2Dオブジェクトを描画する際の拡大率を取得または設定します。
-		/// </summary>
-		public Vector2DF Scale
-		{
-			get { return renderedObject.GetScale(); }
-			set { renderedObject.SetScale( value ); }
-		}
-		/// <summary>
 		/// この2Dオブジェクトを描画する際の描画原点を取得または設定します。描画原点は拡大・回転・描画の中心となる、画像データ内での座標です。
 		/// </summary>
 		public Vector2DF CenterPosition

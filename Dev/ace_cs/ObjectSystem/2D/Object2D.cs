@@ -18,7 +18,6 @@ namespace ace
 			components_ = new Dictionary<string, Object2DComponent>();
 			children_ = new List<Object2D>();
 			IsUpdated = true;
-			IsAlive = true;
 		}
 
 		/// <summary>
@@ -38,7 +37,11 @@ namespace ace
 		/// <summary>
 		/// このオブジェクトが実行中かどうかを取得する。Vanishメソッドにより削除された時に false を返す。
 		/// </summary>
-		public bool IsAlive { get; private set; }
+		public bool IsAlive
+		{
+			get { return CoreObject.GetIsAlive(); }
+			private set { CoreObject.SetIsAlive( value ); }
+		}
 
 		/// <summary>
 		/// このインスタンスを管理している ace.Layer2D クラスのインスタンスを取得する。
@@ -144,7 +147,7 @@ namespace ace
 		public void RemoveComponent( string key )
 		{
 			components_[key].Owner = null;
-			components_.Remove(key);
+			components_.Remove( key );
 		}
 
 		/// <summary>
@@ -178,9 +181,25 @@ namespace ace
 			}
 
 			OnUpdate();
+			UpdateComponents();
+		}
+
+		private void UpdateComponents()
+		{
+			var vanished = new List<string>();
+
 			foreach( var item in components_ )
 			{
 				item.Value.Update();
+				if( !item.Value.IsAlive )
+				{
+					vanished.Add( item.Key );
+				}
+			}
+
+			foreach( var item in vanished )
+			{
+				components_.Remove( item );
 			}
 		}
 

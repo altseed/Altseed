@@ -162,6 +162,27 @@ namespace ace
 			{
 				item.EndUpdating();
 			}
+
+			UpdateComponents();
+		}
+
+		private void UpdateComponents()
+		{
+			var vanished = new List<string>();
+
+			foreach( var item in components_ )
+			{
+				item.Value.Update();
+				if( !item.Value.IsAlive )
+				{
+					vanished.Add( item.Key );
+				}
+			}
+
+			foreach( var item in vanished )
+			{
+				components_.Remove( item );
+			}
 		}
 
 		internal void DrawAdditionally()

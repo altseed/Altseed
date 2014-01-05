@@ -13,7 +13,6 @@ namespace ace
 		, m_components(map<astring, ComponentPtr>())
 		, m_isUpdated(true)
 		, m_isDrawn(true)
-		, m_isAlive(true)
 	{
 	}
 
@@ -84,12 +83,12 @@ namespace ace
 
 	bool Object2D::GetIsAlive() const
 	{
-		return m_isAlive;
+		return GetCoreObject()->GetIsAlive();
 	}
 
 	void Object2D::Vanish()
 	{
-		m_isAlive = false;
+		GetCoreObject()->SetIsAlive(false);
 	}
 
 

@@ -5,20 +5,26 @@ using System.Text;
 using System.Threading.Tasks;
 using ace;
 
-namespace unitTest_Engine_cs.ObjectSystem
+namespace unitTest_Engine_cs.ObjectSystem2D
 {
-	class ObjectComponent : EngineTest
+	class CustomObject : EngineTest
 	{
-		class MyComponent : Object2DComponent
+		class HogeObject : TextureObject2D
 		{
+			protected override void OnStart()
+			{
+				Texture = Engine.Graphics.CreateTexture2D( CloudTexturePath );
+			}
+
 			protected override void OnUpdate()
 			{
-				Owner.Angle += 1;
+				Position += new Vector2DF( 3, 3 );
+				Angle += 2;
 			}
 		}
 
-		public ObjectComponent()
-			: base( 60 )
+		public CustomObject()
+			: base(40)
 		{
 		}
 
@@ -26,16 +32,11 @@ namespace unitTest_Engine_cs.ObjectSystem
 		{
 			var scene = new Scene();
 			var layer = new Layer2D();
-			var obj = new TextureObject2D()
-			{
-				Position = new Vector2DF( 320, 240 ),
-				Texture = Engine.Graphics.CreateTexture2D( CloudTexturePath ),
-			};
+			var obj = new HogeObject();
 
 			Engine.ChangeScene( scene );
 			scene.AddLayer( layer );
 			layer.AddObject( obj );
-			obj.AddComponent( new MyComponent(), "Rotation" );
 		}
 	}
 }

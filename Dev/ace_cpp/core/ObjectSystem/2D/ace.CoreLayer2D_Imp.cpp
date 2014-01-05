@@ -77,6 +77,20 @@ namespace ace
 	{
 		m_targetToLayer = -1;
 		m_triangles.clear();
+
+		auto vanished = vector<ObjectPtr>();
+		for (auto& x : m_objects)
+		{
+			if (!x->GetIsAlive())
+			{
+				vanished.push_back(x);
+			}
+		}
+
+		for (auto& x : vanished)
+		{
+			RemoveObject(x);
+		}
 	}
 
 	//----------------------------------------------------------------------------------

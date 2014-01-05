@@ -144,10 +144,30 @@ namespace ace
 			{
 				item.Update();
 			}
-
 			objects_.RemoveAll( _ => !_.IsAlive );
 
+			UpdateComponents();
+
 			OnUpdated();
+		}
+
+		private void UpdateComponents()
+		{
+			var vanished = new List<string>();
+
+			foreach( var item in components_ )
+			{
+				item.Value.Update();
+				if( !item.Value.IsAlive )
+				{
+					vanished.Add( item.Key );
+				}
+			}
+
+			foreach( var item in vanished )
+			{
+				components_.Remove( item );
+			}
 		}
 
 		internal override void DrawAdditionally()

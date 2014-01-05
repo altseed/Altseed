@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ace;
 
-namespace unitTest_Engine_cs.ObjectSystem
+namespace unitTest_Engine_cs.ObjectSystem2D
 {
 	class LayersFlag : EngineTest
 	{

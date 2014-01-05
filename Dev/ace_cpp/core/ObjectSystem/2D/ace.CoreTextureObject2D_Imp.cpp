@@ -15,6 +15,7 @@ namespace ace
 		, m_layer(nullptr)
 		, m_transform(TransformInfo2D())
 		, m_isDrawn(true)
+		, m_isAlive(true)
 	{
 	}
 
@@ -37,6 +38,16 @@ namespace ace
 	void CoreTextureObject2D_Imp::SetIsDrawn(bool value)
 	{
 		m_isDrawn = value;
+	}
+
+	bool CoreTextureObject2D_Imp::GetIsAlive() const
+	{
+		return m_isAlive;
+	}
+
+	void CoreTextureObject2D_Imp::SetIsAlive(bool value)
+	{
+		m_isAlive = value;
 	}
 
 

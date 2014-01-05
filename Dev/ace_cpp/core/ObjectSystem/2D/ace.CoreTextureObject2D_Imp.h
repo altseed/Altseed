@@ -12,6 +12,7 @@ namespace ace
 		TransformInfo2D m_transform;
 		CoreLayer2D* m_layer;
 		bool m_isDrawn;
+		bool m_isAlive;
 
 		Texture2D* m_texture;
 		Vector2DF m_centerPosition;
@@ -27,6 +28,10 @@ namespace ace
 
 		bool GetIsDrawn() const;
 		void SetIsDrawn(bool value);
+
+		bool GetIsAlive() const;
+		void SetIsAlive(bool value);
+
 
 #pragma region Paramater
 		Vector2DF GetPosition() const

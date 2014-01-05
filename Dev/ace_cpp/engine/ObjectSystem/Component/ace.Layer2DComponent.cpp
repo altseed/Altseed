@@ -7,7 +7,6 @@ namespace ace
 	Layer2DComponent::Layer2DComponent()
 		: m_layer(nullptr)
 		, m_isUpdated(true)
-		, m_isAlive(true)
 	{
 	}
 

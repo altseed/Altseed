@@ -25,7 +25,6 @@ namespace ace
 		std::map<astring, ComponentPtr> m_components;
 		bool m_isUpdated;
 		bool m_isDrawn;
-		bool m_isAlive;
 
 		void Start();
 		void Update();

@@ -18,6 +18,9 @@ namespace ace
 		virtual bool GetIsDrawn() const = 0;
 		virtual void SetIsDrawn(bool value) = 0;
 
+		virtual bool GetIsAlive() const = 0;
+		virtual void SetIsAlive(bool value) = 0;
+
 		virtual Vector2DF GetPosition() const = 0;
 		virtual void SetPosition(Vector2DF position) = 0;
 		virtual Vector2DF GetGlobalPosition() = 0;
