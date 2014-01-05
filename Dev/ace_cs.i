@@ -26,8 +26,9 @@
 #include "Graphics/Common/Resource/ace.Material_Imp.h"
 #include "Graphics/Common/Resource/ace.Material2D_Imp.h"
 
-#include "Graphics/Common/3D/ace.Mesh_Imp.h"
-#include "Graphics/Common/3D/ace.Deformer_Imp.h"
+#include "Graphics/Common/3D/ace.Mesh.h"
+#include "Graphics/Common/3D/ace.Deformer.h"
+#include "Graphics/Common/3D/ace.Model.h"
 
 #include "Graphics/Common/Animation/ace.AnimationSystem_Imp.h"
 #include "Graphics/Common/Animation/ace.AnimationClip_Imp.h"
@@ -307,6 +308,7 @@ namespace ace
 
 %include "ace_cpp/core/Graphics/Common/3D/ace.Deformer.h"
 %include "ace_cpp/core/Graphics/Common/3D/ace.Mesh.h"
+%include "ace_cpp/core/Graphics/Common/3D/ace.Model.h"
 
 %include "ace_cpp/core/Graphics/Common/Animation/ace.KeyframeAnimation.h"
 %include "ace_cpp/core/Graphics/Common/Animation/ace.AnimationSource.h"

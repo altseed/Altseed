@@ -18,6 +18,11 @@ namespace ace
 		SafeRelease(m_object);
 	}
 
+	void CoreModelObject3D_Imp::SetModel(Model* model)
+	{
+		m_object->SetModel(model);
+	}
+
 	void CoreModelObject3D_Imp::AddMesh(Mesh* mesh)
 	{
 		m_object->AddMesh(mesh);

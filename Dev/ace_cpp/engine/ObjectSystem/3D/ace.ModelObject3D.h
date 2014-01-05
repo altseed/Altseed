@@ -35,6 +35,12 @@ namespace ace
 		virtual ~ModelObject3D();
 
 		/**
+		@brief	描画に使用するモデルを設定する。
+		@param	model	モデル
+		*/
+		void SetModel(std::shared_ptr<Model>& model);
+
+		/**
 			@brief	描画に使用するメッシュを設定する。
 			@param	mesh	メッシュ
 		*/

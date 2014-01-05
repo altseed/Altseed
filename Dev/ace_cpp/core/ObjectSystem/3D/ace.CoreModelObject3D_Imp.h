@@ -21,7 +21,8 @@ namespace ace
 		virtual ~CoreModelObject3D_Imp();
 	public:
 
-		void AddMesh(Mesh* mesh);
+		void SetModel(Model* model) override;
+		void AddMesh(Mesh* mesh) override;
 
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MESH; }
 

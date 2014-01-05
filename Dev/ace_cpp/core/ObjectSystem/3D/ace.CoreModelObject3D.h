@@ -13,7 +13,7 @@ namespace ace
 		virtual ~CoreModelObject3D(){}
 
 	public:
-
+		virtual void SetModel(Model* model) = 0;
 		virtual void AddMesh(Mesh* mesh) = 0;
 	};
 }

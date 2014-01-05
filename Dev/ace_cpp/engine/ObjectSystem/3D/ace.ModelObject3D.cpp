@@ -16,6 +16,10 @@ namespace ace
 
 	}
 
+	void ModelObject3D::SetModel(std::shared_ptr<Model>& model)
+	{
+		m_coreObject->SetModel(model.get());
+	}
 
 	void ModelObject3D::AddMesh(std::shared_ptr<Mesh>& mesh)
 	{

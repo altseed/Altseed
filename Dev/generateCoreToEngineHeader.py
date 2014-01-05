@@ -75,6 +75,7 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Material2D
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/3D/ace.Deformer.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/3D/ace.Mesh.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/3D/ace.Model.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Animation/ace.KeyframeAnimation.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Animation/ace.AnimationSource.h")

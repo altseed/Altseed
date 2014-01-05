@@ -18,6 +18,7 @@
 
 #include "3D/ace.Mesh_Imp.h"
 #include "3D/ace.Deformer_Imp.h"
+#include "3D/ace.Model_Imp.h"
 
 #if _WIN32
 #include "../DX11/ace.Graphics_Imp_DX11.h"
@@ -341,6 +342,31 @@ Mesh* Graphics_Imp::CreateMesh_()
 Deformer* Graphics_Imp::CreateDeformer_()
 {
 	return new Deformer_Imp();
+}
+
+Model* Graphics_Imp::CreateModel_(const achar* path)
+{
+#if _WIN32
+	auto fp = _wfopen(path, L"rb");
+	if (fp == nullptr) return nullptr;
+#else
+	auto fp = fopen(ToUtf8String(path).c_str(), "rb");
+	if (fp == nullptr) return nullptr;
+#endif
+	fseek(fp, 0, SEEK_END);
+	auto size = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+	
+	std::vector<uint8_t> data;
+	data.resize(size);
+
+	fread(&(data[0]), 1, size, fp);
+	fclose(fp);
+
+	auto model = new Model_Imp();
+	model->Load(this, data, path);
+
+	return model;
 }
 
 //----------------------------------------------------------------------------------

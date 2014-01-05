@@ -173,6 +173,8 @@ namespace ace {
 
 		Deformer* CreateDeformer_();
 
+		Model* CreateModel_(const achar* path);
+
 #if !SWIG
 	/**
 	@brief	深度バッファを生成する。
