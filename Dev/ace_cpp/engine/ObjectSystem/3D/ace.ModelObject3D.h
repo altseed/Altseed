@@ -8,11 +8,11 @@ namespace ace
 	/**
 	@brief	メッシュを表示する3Dオブジェクトの機能を提供するクラス
 	*/
-	class MeshObject3D
+	class ModelObject3D
 		: public Object3D
 	{
 	private:
-		std::shared_ptr<CoreMeshObject3D> m_coreObject;
+		std::shared_ptr<CoreModelObject3D> m_coreObject;
 
 	protected:
 		/**
@@ -31,8 +31,8 @@ namespace ace
 		virtual void OnDrawAdditionally() {};
 
 	public:
-		MeshObject3D();
-		virtual ~MeshObject3D();
+		ModelObject3D();
+		virtual ~ModelObject3D();
 
 		/**
 			@brief	描画に使用するメッシュを設定する。

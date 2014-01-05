@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "../../../ace.Core.Base.h"
@@ -7,7 +7,7 @@
 namespace ace
 {
 	/**
-		3Dƒ‚ƒfƒ‹ƒNƒ‰ƒX
+		3Dãƒ¢ãƒ‡ãƒ«ã‚¯ãƒ©ã‚¹
 	*/
 	class Model
 		: public IReference

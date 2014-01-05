@@ -2,7 +2,7 @@
 #include "../ace.Graphics_Test_Utls.h"
 
 #include <Graphics/Common/3D/ace.Renderer3D.h>
-#include <Graphics/Common/3D/ace.RenderedMeshObject3D.h>
+#include <Graphics/Common/3D/ace.RenderedModelObject3D.h>
 #include <Graphics/Common/3D/ace.RenderedCameraObject3D.h>
 #include <Graphics/Common/3D/ace.RenderedDirectionalLightObject3D.h>
 
@@ -166,12 +166,12 @@ void Graphics_Mesh(bool isOpenGLMode)
 	cameraObject->SetZFar(20.0f);
 	cameraObject->SetWindowSize(ace::Vector2DI(800, 600));
 
-	auto meshObject1 = new ace::RenderedMeshObject3D(graphics);
+	auto meshObject1 = new ace::RenderedModelObject3D(graphics);
 	meshObject1->AddMesh(mesh1);
 	meshObject1->SetPosition(ace::Vector3DF(1, 0, 0));
 	meshObject1->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
 
-	auto meshObject2 = new ace::RenderedMeshObject3D(graphics);
+	auto meshObject2 = new ace::RenderedModelObject3D(graphics);
 	meshObject2->AddMesh(mesh2);
 	meshObject2->SetPosition(ace::Vector3DF(-1, 0, 0));
 	meshObject2->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));

@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "ace.Model.h"
@@ -35,9 +35,10 @@ namespace ace
 
 	public:
 		std::vector<AnimationClip*>& GetAnimationClips() { return m_animationClips; }
+		std::vector<astring>& GetAnimationClipNames() { return m_animationClipNames; }
 		std::vector < Mesh_Imp*> GetMeshes() { return m_meshes; }
 		
-		// IReference‚ğŒp³‚µ‚½ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒgŒü‚¯’è‹`
+		// IReferenceã‚’ç¶™æ‰¿ã—ãŸãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‘ã‘å®šç¾©
 #if !SWIG
 	public:
 		virtual int GetRef() { return ReferenceObject::GetRef(); }

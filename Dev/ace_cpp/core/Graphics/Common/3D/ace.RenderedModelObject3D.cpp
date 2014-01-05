@@ -1,7 +1,8 @@
 ﻿
-#include "ace.RenderedMeshObject3D.h"
+#include "ace.RenderedModelObject3D.h"
 #include "ace.Mesh_Imp.h"
 #include "ace.Deformer_Imp.h"
+#include "ace.Model_Imp.h"
 
 #include "../Animation/ace.AnimationClip_Imp.h"
 #include "../Animation/ace.AnimationSource_Imp.h"
@@ -133,7 +134,7 @@ void main()
 )";
 
 
-	RenderedMeshObject3D::BoneProperty::BoneProperty()
+	RenderedModelObject3D::BoneProperty::BoneProperty()
 	{
 		Position[0] = 0.0f;
 		Position[1] = 0.0f;
@@ -150,7 +151,7 @@ void main()
 	}
 
 
-	Matrix44 RenderedMeshObject3D::BoneProperty::CalcMatrix(eRotationOrder rotationType)
+	Matrix44 RenderedModelObject3D::BoneProperty::CalcMatrix(eRotationOrder rotationType)
 	{
 		if (rotationType == ROTATION_ORDER_QUATERNION)
 		{
@@ -239,7 +240,7 @@ void main()
 		return Matrix44();
 	}
 
-	RenderedMeshObject3D::MeshGroup::MeshGroup(Mesh_Imp* mesh)
+	RenderedModelObject3D::MeshGroup::MeshGroup(Mesh_Imp* mesh)
 		: m_mesh(nullptr)
 		, m_deformer(nullptr)
 	{
@@ -248,13 +249,13 @@ void main()
 		CheckDeformer();
 	}
 
-	RenderedMeshObject3D::MeshGroup::~MeshGroup()
+	RenderedModelObject3D::MeshGroup::~MeshGroup()
 	{
 		SetInternalDeformer(nullptr);
 		SafeRelease(m_mesh);
 	}
 
-	void RenderedMeshObject3D::MeshGroup::Flip(AnimationClip* animationClip, int32_t time)
+	void RenderedModelObject3D::MeshGroup::Flip(AnimationClip* animationClip, int32_t time)
 	{
 		CheckDeformer();
 
@@ -272,7 +273,7 @@ void main()
 	}
 
 
-	void RenderedMeshObject3D::MeshGroup::CalculateAnimation(AnimationClip* animationClip, int32_t time)
+	void RenderedModelObject3D::MeshGroup::CalculateAnimation(AnimationClip* animationClip, int32_t time)
 	{
 		if (animationClip == nullptr) return;
 
@@ -308,7 +309,7 @@ void main()
 		}
 	}
 
-	void RenderedMeshObject3D::MeshGroup::CalclateBoneMatrices()
+	void RenderedModelObject3D::MeshGroup::CalclateBoneMatrices()
 	{
 		if (m_deformer == nullptr) return;
 
@@ -335,7 +336,7 @@ void main()
 		}
 	}
 
-	void RenderedMeshObject3D::MeshGroup::CheckDeformer()
+	void RenderedModelObject3D::MeshGroup::CheckDeformer()
 	{
 		auto m = (Mesh_Imp*) m_mesh;
 
@@ -352,7 +353,7 @@ void main()
 		}
 	}
 
-	void RenderedMeshObject3D::MeshGroup::SetInternalDeformer(Deformer* deformer)
+	void RenderedModelObject3D::MeshGroup::SetInternalDeformer(Deformer* deformer)
 	{
 		auto d = (Deformer_Imp*) deformer;
 		SafeSubstitute(m_deformer, d);
@@ -374,7 +375,7 @@ void main()
 		}
 	}
 
-	RenderedMeshObject3D::RenderedMeshObject3D(Graphics* graphics)
+	RenderedModelObject3D::RenderedModelObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
 		, m_animationPlaying(nullptr)
 		, m_animationTime(0)
@@ -433,10 +434,12 @@ void main()
 		m_shader->CreateVertexConstantBuffer<VertexConstantBuffer>(constantBuffers);
 	}
 
-	RenderedMeshObject3D::~RenderedMeshObject3D()
+	RenderedModelObject3D::~RenderedModelObject3D()
 	{
-		m_meshGroups.clear();
 		m_meshGroups_fr.clear();
+
+		m_meshGroups.clear();
+		SafeRelease(m_model);
 
 		for (auto& a : m_animationClips)
 		{
@@ -445,12 +448,42 @@ void main()
 		m_animationClips.clear();
 	}
 
-	void RenderedMeshObject3D::AddMesh(Mesh* mesh)
+	void RenderedModelObject3D::SetModel(Model* model)
+	{
+		// 描画中以外のオブジェクトをリセット
+		m_meshGroups.clear();
+		SafeRelease(m_model);
+
+		for (auto& a : m_animationClips)
+		{
+			a.second->Release();
+		}
+		m_animationClips.clear();
+
+		// モデルの内容を設定
+		if (model == nullptr) return;
+		auto model_ = (Model_Imp*) model;
+
+		for (auto& m : model_->GetMeshes())
+		{
+			AddMesh(m);
+		}
+
+		for (int32_t i = 0; i < model_->GetAnimationClips().size(); i++)
+		{
+			AddAnimationClip(model_->GetAnimationClipNames()[i].c_str(), model_->GetAnimationClips()[i]);
+		}
+
+		m_model = model_;
+		SafeAddRef(m_model);
+	}
+
+	void RenderedModelObject3D::AddMesh(Mesh* mesh)
 	{
 		m_meshGroups.push_back(std::make_shared<MeshGroup>((Mesh_Imp*)mesh));
 	}
 
-	void RenderedMeshObject3D::AddAnimationClip(const achar* name, AnimationClip* animationClip)
+	void RenderedModelObject3D::AddAnimationClip(const achar* name, AnimationClip* animationClip)
 	{
 		if (animationClip == nullptr) return;
 
@@ -461,7 +494,7 @@ void main()
 		}
 	}
 
-	void RenderedMeshObject3D::PlayAnimation(const achar* name)
+	void RenderedModelObject3D::PlayAnimation(const achar* name)
 	{
 		auto it = m_animationClips.find(name);
 		if (it == m_animationClips.end()) return;
@@ -470,7 +503,7 @@ void main()
 		m_animationTime = 0;
 	}
 
-	void RenderedMeshObject3D::Flip()
+	void RenderedModelObject3D::Flip()
 	{
 		RenderedObject3D::Flip();
 
@@ -490,7 +523,7 @@ void main()
 		std::copy(m_meshGroups.begin(), m_meshGroups.end(), m_meshGroups_fr.begin());
 	}
 
-	void RenderedMeshObject3D::Rendering(RenderingProperty& prop)
+	void RenderedModelObject3D::Rendering(RenderingProperty& prop)
 	{
 		auto& vbuf = m_shader->GetVertexConstantBuffer<VertexConstantBuffer>();
 

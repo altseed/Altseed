@@ -51,7 +51,7 @@ namespace ace {
 
 	class CoreLayer3D;
 	class CoreObject3D;
-	class CoreMeshObject3D;
+	class CoreModelObject3D;
 	class CoreCameraObject3D;
 	class CoreDirectionalLightObject3D;
 

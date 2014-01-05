@@ -5,7 +5,7 @@
 
 namespace ace
 {
-	class RenderedMeshObject3D
+	class RenderedModelObject3D
 		: public RenderedObject3D
 	{
 		struct VertexConstantBuffer
@@ -56,6 +56,10 @@ namespace ace
 			@brief	メッシュのDeformerと比較し、違っていたら差し替える。
 			*/
 			void CheckDeformer();
+
+			/**
+			@brief	Deformerを設定する。
+			*/
 			void SetInternalDeformer(Deformer* deformer);
 		};
 		
@@ -63,6 +67,8 @@ namespace ace
 	private:
 		std::vector<std::shared_ptr<MeshGroup>>	m_meshGroups;
 		std::vector<std::shared_ptr<MeshGroup>>	m_meshGroups_fr;
+
+		Model_Imp*								m_model = nullptr;
 
 		std::shared_ptr<ace::NativeShader_Imp>	m_shader;
 
@@ -72,11 +78,13 @@ namespace ace
 		int32_t									m_animationTime;
 
 	public:
-		RenderedMeshObject3D(Graphics* graphics);
-		virtual ~RenderedMeshObject3D();
+		RenderedModelObject3D(Graphics* graphics);
+		virtual ~RenderedModelObject3D();
 
 		void Flip() override;
 		void Rendering(RenderingProperty& prop) override;
+
+		void SetModel(Model* model);
 
 		void AddMesh(Mesh* mesh);
 

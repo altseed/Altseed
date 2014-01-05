@@ -9,13 +9,13 @@ namespace ace
 	/// <summary>
 	/// メッシュを表示する3Dオブジェクトの機能を提供するクラス
 	/// </summary>
-	public class MeshObject3D : Object3D
+	public class ModelObject3D : Object3D
 	{
-		swig.CoreMeshObject3D coreObject = null;
+		swig.CoreModelObject3D coreObject = null;
 
-		public MeshObject3D()
+		public ModelObject3D()
 		{
-			coreObject = Engine.ObjectSystemFactory.CreateMeshObject3D();
+			coreObject = Engine.ObjectSystemFactory.CreateModelObject3D();
 			GC.Object3Ds.AddObject(coreObject.GetPtr(), this);
 			commonObject = coreObject;
 		}

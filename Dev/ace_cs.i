@@ -43,7 +43,7 @@
 #include "ObjectSystem/2D/ace.CoreLayer2D.h"
 
 #include "ObjectSystem/3D/ace.CoreObject3D.h"
-#include "ObjectSystem/3D/ace.CoreMeshObject3D.h"
+#include "ObjectSystem/3D/ace.CoreModelObject3D.h"
 #include "ObjectSystem/3D/ace.CoreDirectionalLightObject3D.h"
 #include "ObjectSystem/3D/ace.CoreCameraObject3D.h"
 #include "ObjectSystem/3D/ace.CoreLayer3D.h"
@@ -209,7 +209,7 @@ CPP_OBJECT( ace::CoreTextureObject2D )
 CPP_OBJECT( ace::CoreTextureObject2D_Imp )
 
 CPP_OBJECT( ace::CoreObject3D )
-CPP_OBJECT( ace::CoreMeshObject3D )
+CPP_OBJECT( ace::CoreModelObject3D )
 CPP_OBJECT( ace::CoreDirectionalLightObject3D )
 CPP_OBJECT( ace::CoreCameraObject3D )
 CPP_OBJECT( ace::CoreLayer3D )
@@ -250,7 +250,7 @@ CPP_OBJECT( ace::Log_Imp )
 %newobject ace::ObjectSystemFactory::CreateTextureObject2D;
 %newobject ace::ObjectSystemFactory::CreateLayer2D;
 
-%newobject ace::ObjectSystemFactory::CreateMeshObject3D;
+%newobject ace::ObjectSystemFactory::CreateModelObject3D;
 %newobject ace::ObjectSystemFactory::CreateCameraObject3D;
 %newobject ace::ObjectSystemFactory::CreateDirectionalLightObject3D;
 %newobject ace::ObjectSystemFactory::CreateLayer3D;
@@ -325,7 +325,7 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D.h"
 
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D.h"
-%include "ace_cpp/core/ObjectSystem/3D/ace.CoreMeshObject3D.h"
+%include "ace_cpp/core/ObjectSystem/3D/ace.CoreModelObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D.h"

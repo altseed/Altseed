@@ -168,7 +168,7 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Model_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.h" />
-    <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedMeshObject3D.h" />
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedModelObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Renderer3D.h" />
     <ClInclude Include="..\core\Graphics\Common\ace.DeviceObject.h" />
@@ -242,8 +242,8 @@
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreDirectionalLightObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreLayer3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreLayer3D.h" />
-    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D.h" />
-    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreObject3D.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.CoreLayer_Imp.h" />
@@ -288,7 +288,7 @@
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Model_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.cpp" />
-    <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedMeshObject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedModelObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Renderer3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\ace.DeviceObject.cpp" />
@@ -338,7 +338,7 @@
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreCameraObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreDirectionalLightObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreLayer3D_Imp.cpp" />
-    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreMeshObject3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.CoreLayer_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.ObjectSystemFactory_Imp.cpp" />

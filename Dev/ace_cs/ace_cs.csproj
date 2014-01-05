@@ -77,7 +77,7 @@
     <Compile Include="ObjectSystem\3D\CameraObject3D.cs" />
     <Compile Include="ObjectSystem\3D\DirectionalLightObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Layer3D.cs" />
-    <Compile Include="ObjectSystem\3D\MeshObject3D.cs" />
+    <Compile Include="ObjectSystem\3D\ModelObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Object3D.cs" />
     <Compile Include="ObjectSystem\ChildMode.cs" />
     <Compile Include="ObjectSystem\2D\Layer2DComponent.cs" />
@@ -103,7 +103,7 @@
     <Compile Include="swig\CoreLayer.cs" />
     <Compile Include="swig\CoreLayer2D.cs" />
     <Compile Include="swig\CoreLayer3D.cs" />
-    <Compile Include="swig\CoreMeshObject3D.cs" />
+    <Compile Include="swig\CoreModelObject3D.cs" />
     <Compile Include="swig\CoreObject2D.cs" />
     <Compile Include="swig\CoreObject3D.cs" />
     <Compile Include="swig\CorePostEffect.cs" />
@@ -112,11 +112,10 @@
     <Compile Include="swig\Core_Imp.cs" />
     <Compile Include="swig\Deformer.cs" />
     <Compile Include="swig\eAlphaBlend.cs" />
-    <Compile Include="swig\eInterpolationType.cs" />
-    <Compile Include="swig\eRotationOrder.cs" />
     <Compile Include="swig\eChildMode.cs" />
     <Compile Include="swig\eCullingType.cs" />
     <Compile Include="swig\eGraphicsType.cs" />
+    <Compile Include="swig\eInterpolationType.cs" />
     <Compile Include="swig\eJoystickAxises.cs" />
     <Compile Include="swig\eJoystickButtons.cs" />
     <Compile Include="swig\eJoystickButtonState.cs" />
@@ -124,6 +123,7 @@
     <Compile Include="swig\eKeys.cs" />
     <Compile Include="swig\eMouseButtonState.cs" />
     <Compile Include="swig\eRenderedObject3DType.cs" />
+    <Compile Include="swig\eRotationOrder.cs" />
     <Compile Include="swig\eTextureClassType.cs" />
     <Compile Include="swig\eTextureFilterType.cs" />
     <Compile Include="swig\eTextureFormat.cs" />

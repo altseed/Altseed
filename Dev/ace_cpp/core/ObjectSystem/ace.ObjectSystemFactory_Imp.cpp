@@ -7,7 +7,7 @@
 #include "3D/ace.CoreLayer3D_Imp.h"
 #include "3D/ace.CoreCameraObject3D_Imp.h"
 #include "3D/ace.CoreDirectionalLightObject3D_Imp.h"
-#include "3D/ace.CoreMeshObject3D_Imp.h"
+#include "3D/ace.CoreModelObject3D_Imp.h"
 
 #include "ace.CoreScene_Imp.h"
 #include "PostEffect/ace.CorePostEffect_Imp.h"
@@ -51,9 +51,9 @@ namespace ace
 		return new CoreLayer2D_Imp(m_graphics, m_logger, m_windowSize);
 	}
 
-	CoreMeshObject3D* ObjectSystemFactory_Imp::CreateMeshObject3D()
+	CoreModelObject3D* ObjectSystemFactory_Imp::CreateModelObject3D()
 	{
-		return new CoreMeshObject3D_Imp(m_graphics);
+		return new CoreModelObject3D_Imp(m_graphics);
 	}
 
 	CoreCameraObject3D* ObjectSystemFactory_Imp::CreateCameraObject3D()
