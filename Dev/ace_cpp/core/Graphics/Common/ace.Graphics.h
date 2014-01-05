@@ -45,6 +45,7 @@ public:
 	@brief	描画先として指定可能なテクスチャを生成する。
 	@param	width	横幅
 	@param	height	縦幅
+	@param	format	フォーマット
 	@return	テクスチャ
 	*/
 	std::shared_ptr<RenderTexture2D> CreateRenderTexture(int32_t width, int32_t height, eTextureFormat format){ return CreateSharedPtrWithReleaseDLL(CreateRenderTexture2D_(width, height, format)); }
