@@ -417,6 +417,7 @@
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D_Imp.h">
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ace.Accessor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -643,6 +644,7 @@
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D_Imp.cpp">
       <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\core\ace.Accessor.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Window\ace.Window_Imp_X11.cpp">

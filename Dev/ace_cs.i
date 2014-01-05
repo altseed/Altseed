@@ -57,6 +57,8 @@
 
 #include "Core/ace.CreateCore.h"
 
+#include "ace.Accessor.h"
+
 %}
 
 //-----------------------------------------------------------------------------------
@@ -227,6 +229,7 @@ CPP_OBJECT( ace::Shader2D_Imp )
 
 CPP_OBJECT( ace::Mesh )
 CPP_OBJECT( ace::Deformer )
+CPP_OBJECT( ace::Model )
 CPP_OBJECT( ace::KeyframeAnimation )
 CPP_OBJECT( ace::AnimationSource )
 CPP_OBJECT( ace::AnimationClip )
@@ -246,6 +249,8 @@ CPP_OBJECT( ace::Log_Imp )
 %newobject ace::Graphics_Imp::CreateShader2D_Imp;
 %newobject ace::Graphics_Imp::CreateMaterial2D_Imp;
 %newobject ace::Graphics_Imp::CreateMesh_;
+%newobject ace::Graphics_Imp::CreateDeformer_;
+%newobject ace::Graphics_Imp::CreateModel_;
 
 %newobject ace::ObjectSystemFactory::CreateObject2D;
 %newobject ace::ObjectSystemFactory::CreateTextureObject2D;
@@ -340,4 +345,6 @@ namespace ace
 %include "ace_cpp/core/Core/ace.Core_Imp.h"
 
 %include "ace_cpp/core/Core/ace.CreateCore.h"
+
+%include "ace_cpp/core/ace.Accessor.h"
 

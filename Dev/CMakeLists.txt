@@ -40,6 +40,7 @@ set(common_src
 
 set(core_src
 	ace_cpp/core/ace.ReferenceObject.cpp
+	ace_cpp/core/ace.Accessor.cpp
 
 	ace_cpp/core/Core/ace.Core_Imp.cpp
 	ace_cpp/core/Core/ace.CreateCore.cpp
