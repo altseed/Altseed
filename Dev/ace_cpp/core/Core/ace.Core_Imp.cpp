@@ -17,6 +17,8 @@
 
 #include "../Graphics/Common/Animation/ace.AnimationSystem_Imp.h"
 
+#include <Utility/ace.Timer.h>
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -38,7 +40,13 @@ namespace ace
 		, m_isInitializedByExternal(false)
 		, m_objectSystemFactory(nullptr)
 		, m_animationSyatem(nullptr)
+		, m_targetFPS(60)
+		, m_currentFPS(60)
+		, m_nextFPS(60)
+		, m_previousTime(0)
+		, m_startFrameTime(0)
 	{
+		m_previousTime = GetTime();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -55,6 +63,55 @@ namespace ace
 	Core_Imp* Core_Imp::CreateCore()
 	{
 		return new Core_Imp();
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Core_Imp::ComputeFPS()
+	{
+		auto time = GetTime();
+		auto div = (time - m_previousTime) / 1000;
+		if (div > 1000)
+		{
+			m_currentFPS = m_nextFPS * 1000.0f / (float)div;
+			m_nextFPS = 0;
+			m_previousTime = GetTime();
+		}
+
+		m_nextFPS++;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Core_Imp::ControlFPS()
+	{
+		int64_t ns = 1000000;
+
+		int64_t frameTime = ns / m_targetFPS;
+		auto d = GetTime() - m_startFrameTime;
+
+		if (d > frameTime)
+		{
+			m_startFrameTime = GetTime();
+		}
+		else
+		{
+			auto sleepTime = ((frameTime + m_startFrameTime) - GetTime()) / 1000;
+
+			if (sleepTime > 1)
+			{
+				Sleep(sleepTime - 1);
+			}
+
+			do
+			{
+				d = GetTime() - m_startFrameTime;
+			} while (frameTime > d);
+
+			m_startFrameTime += frameTime;
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -141,6 +198,10 @@ namespace ace
 		assert(m_mouse != nullptr);
 		assert(m_logger != nullptr);
 		assert(m_joystickContainer != nullptr);
+
+		ControlFPS();
+		ComputeFPS();
+
 		m_keyboard->RefreshInputState();
 		m_mouse->RefreshInputState();
 		m_joystickContainer->RefreshJoysticks();
@@ -236,6 +297,30 @@ namespace ace
 	void Core_Imp::TakeScreenshot(const achar* path)
 	{
 		m_screenShots.push_back(path);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	float Core_Imp::GetCurrentFPS()
+	{
+		return m_currentFPS;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	int32_t Core_Imp::GetTargetFPS()
+	{
+		return m_targetFPS;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Core_Imp::SetTargetFPS(int32_t fps)
+	{
+		m_targetFPS = fps;
 	}
 
 	//----------------------------------------------------------------------------------

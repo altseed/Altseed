@@ -89,6 +89,12 @@ namespace ace {
 		*/
 		virtual void TakeScreenshot(const achar* path) = 0;
 
+		virtual float GetCurrentFPS() = 0;
+
+		virtual int32_t GetTargetFPS() = 0;
+
+		virtual void SetTargetFPS(int32_t fps) = 0;
+
 		/**
 		@brief キーボードの入力を扱うKeyboardクラスを取得する。
 		*/

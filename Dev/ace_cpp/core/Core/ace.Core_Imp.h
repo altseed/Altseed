@@ -41,8 +41,19 @@ namespace ace {
 
 		std::vector<astring>		m_screenShots;
 
+		int32_t				m_targetFPS;
+		float				m_currentFPS;
+		float				m_nextFPS;
+		int64_t				m_previousTime;
+		int64_t				m_startFrameTime;
+
 		Core_Imp();
 		virtual ~Core_Imp();
+
+		void ComputeFPS();
+
+		void ControlFPS();
+
 	public:
 		static Core_Imp* CreateCore();
 
@@ -67,6 +78,12 @@ namespace ace {
 		void ChangeScene(CoreScene* scene);
 
 		void TakeScreenshot(const achar* path);
+
+		float GetCurrentFPS();
+
+		int32_t GetTargetFPS();
+
+		void SetTargetFPS(int32_t fps);
 
 		Window_Imp* GetWindow() { return m_window; }
 

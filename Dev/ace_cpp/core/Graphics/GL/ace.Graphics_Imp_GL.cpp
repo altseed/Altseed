@@ -564,9 +564,6 @@ void Graphics_Imp_GL::Present()
 
 	GLCheckError();
 
-	// Save FPS
-	ace::Sleep(16);
-
 	if (m_window != nullptr)
 	{
 		auto window_ = ((Window_Imp*) m_window)->GetWindow();
