@@ -62,19 +62,43 @@ namespace ace
 			SwigObject.AddVertex(ref position, ref normal, ref binormal, ref uv1, ref uv2, ref color, boneWeights, boneIndexes);
 		}
 
-		public virtual void AddFace(int index1, int index2, int index3)
+		/// <summary>
+		/// 面を追加する。
+		/// </summary>
+		/// <param name="index1">頂点インデックス1</param>
+		/// <param name="index2">頂点インデックス2</param>
+		/// <param name="index3">頂点インデックス3</param>
+		public void AddFace(int index1, int index2, int index3)
 		{
 			SwigObject.AddFace(index1, index2, index3);
 		}
 
-		public virtual void AddMaterialOffset(int materialIndex, int faceOffset)
+		/// <summary>
+		/// 素材を設定する。
+		/// </summary>
+		/// <param name="materialIndex">素材のインデックス</param>
+		/// <param name="faceCount">面数</param>
+		/// <remarks>素材は追加された順に先頭から面数の数だけ割り当てられる。</remarks>
+		public void AddMaterialCount(int materialIndex, int faceCount)
 		{
-			SwigObject.AddMaterialOffset(materialIndex, faceOffset);
+			SwigObject.AddMaterialCount(materialIndex, faceCount);
 		}
 
-		public virtual void SendToGPUMemory()
+		/// <summary>
+		/// 設定した値をGPUに送信する。
+		/// </summary>
+		public void SendToGPUMemory()
 		{
 			SwigObject.SendToGPUMemory();
+		}
+
+		/// <summary>
+		/// デフォーマーを設定する。
+		/// </summary>
+		/// <param name="deformer">デフォーマー</param>
+		public void SetDeformer(Deformer deformer)
+		{
+			SwigObject.SetDeformer(deformer.SwigObject);
 		}
 	}
 }

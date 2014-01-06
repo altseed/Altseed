@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/// <summary>
+	/// 3Dモデルクラス
+	/// </summary>
 	public class Model : IDestroy
 	{
 		internal swig.Model SwigObject { get; set; }

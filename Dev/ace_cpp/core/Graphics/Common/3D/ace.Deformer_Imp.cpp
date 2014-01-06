@@ -12,13 +12,13 @@ namespace ace
 	{
 	}
 
-	void Deformer_Imp::AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationType, const Matrix44& localMat, const Matrix44& globalMatInv)
+	void Deformer_Imp::AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationOrder, const Matrix44& localMat, const Matrix44& globalMatInv)
 	{
 		auto bone = Bone();
 
 		bone.Name = astring(name);
 		bone.ParentBoneIndex = parentBoneIndex;
-		bone.RotationType = rotationType;
+		bone.RotationType = rotationOrder;
 		bone.LocalMat = localMat;
 		bone.GlobalMatInv = globalMatInv;
 

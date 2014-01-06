@@ -108,7 +108,7 @@ namespace ace
 
 		void AddFace(int32_t index1, int32_t index2, int32_t index3);
 
-		void AddMaterialOffset(int32_t materialIndex, int32_t faceOffset);
+		void AddMaterialCount(int32_t materialIndex, int32_t faceCount);
 		void SendToGPUMemory();
 
 		Deformer* GetDeformer_() override;

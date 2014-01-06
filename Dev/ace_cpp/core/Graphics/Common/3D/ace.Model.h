@@ -7,7 +7,7 @@
 namespace ace
 {
 	/**
-		3Dモデルクラス
+		@brief	3Dモデルクラス
 	*/
 	class Model
 		: public IReference

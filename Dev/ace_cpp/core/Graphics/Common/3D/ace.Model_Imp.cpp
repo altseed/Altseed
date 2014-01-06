@@ -145,7 +145,7 @@ namespace ace
 			auto index = reader.Get<int32_t>();
 			auto facecount = reader.Get<int32_t>();
 		
-			mesh->AddMaterialOffset(index, facecount);
+			mesh->AddMaterialCount(index, facecount);
 		}
 
 		int32_t bcount = reader.Get<int32_t>();

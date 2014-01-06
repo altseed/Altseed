@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/// <summary>
+	/// メッシュを変形させるためのクラス
+	/// </summary>
 	public class Deformer : IDestroy
 	{
 		internal swig.Deformer SwigObject { get; set; }
@@ -43,6 +46,22 @@ namespace ace
 			System.GC.SuppressFinalize(this);
 		}
 
+		/**
+			@brief	
+			@param	name	
+			@param	rotationOrder	
+			@param	localMat	
+			@param	globalMatInv	
+		*/
+
+		/// <summary>
+		/// ボーンを追加する。
+		/// </summary>
+		/// <param name="name">ボーンの名称</param>
+		/// <param name="parentBoneIndex">親ボーンのインデックス(親がない場合は-1)</param>
+		/// <param name="rotationOrder">ボーンの回転行列の計算方法</param>
+		/// <param name="localMat">ボーンのローカル変形行列</param>
+		/// <param name="globalMatInv">ボーンの全体への逆行列</param>
 		public void AddBone(string name, int parentBoneIndex, RotationOrder rotationOrder, ref ace.Matrix44 localMat, ref ace.Matrix44 globalMatInv)
 		{
 			SwigObject.AddBone(name, parentBoneIndex, (swig.eRotationOrder)rotationOrder, ref localMat, ref globalMatInv);

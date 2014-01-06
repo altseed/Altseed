@@ -95,11 +95,11 @@ namespace ace
 		m_faceBufferOnMM.push_back(f);
 	}
 
-	void Mesh_Imp::AddMaterialOffset(int32_t materialIndex, int32_t faceOffset)
+	void Mesh_Imp::AddMaterialCount(int32_t materialIndex, int32_t faceCount)
 	{
 		MaterialOffset mo;
 		mo.MaterialIndex = materialIndex;
-		mo.FaceOffset = faceOffset;
+		mo.FaceOffset = faceCount;
 
 		m_materialOffsets.push_back(mo);
 	}

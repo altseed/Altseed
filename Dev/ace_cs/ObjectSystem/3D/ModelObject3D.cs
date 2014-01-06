@@ -31,6 +31,15 @@ namespace ace
 		internal protected override void OnDrawAdditionally() { }
 
 		/// <summary>
+		/// 描画に使用するモデルを設定する。
+		/// </summary>
+		/// <param name="model">モデル</param>
+		public void SetModel(Model model)
+		{
+			coreObject.SetModel(model.SwigObject);
+		}
+
+		/// <summary>
 		/// 描画に使用するメッシュを設定する。
 		/// </summary>
 		public void AddMesh(Mesh mesh)
