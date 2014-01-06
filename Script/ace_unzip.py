@@ -9,9 +9,15 @@ def unzip(zip_filename):
 		if f.endswith('/'):
 		        os.makedirs(f)
 		else:
-			unzip_file = file(f, "wb")
-			unzip_file.write(zip_file.read(f))
-			unzip_file.close()
+			version = sys.version_info
+			if version[0] == 2:
+				unzip_file = file(f, "wb")
+				unzip_file.write(zip_file.read(f))
+				unzip_file.close()
+			elif version[0] == 3:
+				unzip_file = open(f, "wb")
+				unzip_file.write(zip_file.read(f))
+				unzip_file.close();
 	zip_file.close()
 
 argvs = sys.argv
