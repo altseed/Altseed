@@ -101,6 +101,24 @@ namespace ace {
 		*/
 		void TakeScreenshot(const achar* path);
 
+		/**
+		@brief	現在のFPSを取得する。
+		@return FPS
+		*/
+		float GetCurrentFPS();
+
+		/**
+		@brief	目標FPSを取得する。
+		@return	FPS
+		*/
+		int32_t GetTargetFPS();
+
+		/**
+		@brief	目標FPSを設定する。
+		@param	fps	FPS
+		*/
+		void SetTargetFPS(int32_t fps);
+
 #if _WIN32
 
 #else

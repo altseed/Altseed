@@ -89,10 +89,22 @@ namespace ace {
 		*/
 		virtual void TakeScreenshot(const achar* path) = 0;
 
+		/**
+			@brief	現在のFPSを取得する。
+			@return FPS
+		*/
 		virtual float GetCurrentFPS() = 0;
 
+		/**
+			@brief	目標FPSを取得する。
+			@return	FPS
+		*/
 		virtual int32_t GetTargetFPS() = 0;
 
+		/**
+			@brief	目標FPSを設定する。
+			@param	fps	FPS
+		*/
 		virtual void SetTargetFPS(int32_t fps) = 0;
 
 		/**

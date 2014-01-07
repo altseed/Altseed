@@ -228,6 +228,32 @@ namespace ace
 			core.TakeScreenshot(path);
 		}
 
+		/// <summary>
+		/// 現在のFPSを取得する。
+		/// </summary>
+		public static float CurrentFPS
+		{
+			get
+			{
+				return core.GetCurrentFPS();
+			}
+		}
+
+		/// <summary>
+		/// 目標FPSを取得、または設定する。
+		/// </summary>
+		public static int TargetFPS
+		{
+			get
+			{
+				return core.GetTargetFPS();
+			}
+			set
+			{
+				core.SetTargetFPS(value);
+			}
+		}
+
 		private static void SetupMembers()
 		{
 			CurrentScene = null;
