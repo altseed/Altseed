@@ -519,7 +519,8 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::Present()
 {
-	m_swapChain->Present(1, 0);
+	// 同期しない
+	m_swapChain->Present(0, 0);
 }
 
 //----------------------------------------------------------------------------------

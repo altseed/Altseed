@@ -51,6 +51,9 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 	auto window_ = ((Window_Imp*)window)->GetWindow();
 
 	glfwMakeContextCurrent(window_);
+	
+	// 同期しない
+	glfwSwapInterval(0);
 
 	glewInit();
 
