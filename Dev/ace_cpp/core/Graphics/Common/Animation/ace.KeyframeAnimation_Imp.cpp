@@ -303,17 +303,17 @@ namespace ace
 		m_keyframes.push_back(kf);
 	}
 
-	float KeyframeAnimation_Imp::GetValue(float frame)
+	float KeyframeAnimation_Imp::GetValue(float time)
 	{
 		if (m_keyframes.size() == 0) return 0;
 
-		if (m_keyframes[0].KeyValue.X > frame) return m_keyframes[0].KeyValue.Y;
+		if (m_keyframes[0].KeyValue.X > time) return m_keyframes[0].KeyValue.Y;
 
-		if (m_keyframes[m_keyframes.size() - 1].KeyValue.X <= frame) return m_keyframes[m_keyframes.size() - 1].KeyValue.Y;
+		if (m_keyframes[m_keyframes.size() - 1].KeyValue.X <= time) return m_keyframes[m_keyframes.size() - 1].KeyValue.Y;
 
 		for (int32_t i = 0; i < m_keyframes.size() - 1; i++)
 		{
-			if (m_keyframes[i].KeyValue.X <= frame && frame < m_keyframes[i + 1].KeyValue.X)
+			if (m_keyframes[i].KeyValue.X <= time && time < m_keyframes[i + 1].KeyValue.X)
 			{
 				if (m_keyframes[i].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_CONSTANT)
 				{
@@ -321,7 +321,7 @@ namespace ace
 				}
 				else if (m_keyframes[i].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_LINEAR)
 				{
-					auto d = frame - m_keyframes[i].KeyValue.X;
+					auto d = time - m_keyframes[i].KeyValue.X;
 					auto dx = m_keyframes[i + 1].KeyValue.X - m_keyframes[i].KeyValue.X;
 					auto dy = m_keyframes[i + 1].KeyValue.Y - m_keyframes[i].KeyValue.Y;
 
@@ -348,7 +348,7 @@ namespace ace
 
 					NormalizeValues(k1, k1rh, k2lh, k2);
 					float t = 0;
-					auto getT = CalcT(frame, k1[0], k1rh[0], k2lh[0], k2[0], t);
+					auto getT = CalcT(time, k1[0], k1rh[0], k2lh[0], k2[0], t);
 					if (getT)
 					{
 						return CalcBezierValue(k1[1], k1rh[1], k2lh[1], k2[1], t);

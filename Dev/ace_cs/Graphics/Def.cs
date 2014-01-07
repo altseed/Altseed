@@ -64,13 +64,30 @@ namespace ace
 		Cubic = swig.eInterpolationType.INTERPOLATION_TYPE_CUBIC,
 	}
 
-
+	/// <summary>
+	/// Fカーブのキーフレーム
+	/// </summary>
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
 	public struct FCurveKeyframe
 	{
-		public Vector2DF LeftHandle;
-		public Vector2DF RightHandle;
+		/// <summary>
+		/// 時間と値
+		/// </summary>
 		public Vector2DF KeyValue;
+
+		/// <summary>
+		/// 制御用ハンドル
+		/// </summary>
+		public Vector2DF LeftHandle;
+
+		/// <summary>
+		/// 制御用ハンドル
+		/// </summary>
+		public Vector2DF RightHandle;
+
+		/// <summary>
+		/// 補間方法
+		/// </summary>
 		public InterpolationType InterpolationType;
 
 		public FCurveKeyframe(InterpolationType interpolationType = ace.InterpolationType.Linear)

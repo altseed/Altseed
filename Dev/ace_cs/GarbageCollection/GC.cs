@@ -17,6 +17,8 @@ namespace ace
 		internal static IDObjectContainer<Deformer> Deformers { get; private set; }
 		internal static IDObjectContainer<Model> Models { get; private set; }
 
+		internal static IDObjectContainer<KeyframeAnimation> KeyframeAnimations { get; private set; }
+
 		internal static IDObjectContainer<Scene> Scenes { get; private set; }
 
 		internal static IDObjectContainer<Layer2D> Layer2Ds { get; private set; }
@@ -36,6 +38,8 @@ namespace ace
 			Meshs = new IDObjectContainer<Mesh>();
 			Deformers = new IDObjectContainer<Deformer>();
 			Models = new IDObjectContainer<Model>();
+
+			KeyframeAnimations = new IDObjectContainer<KeyframeAnimation>();
 
 			Scenes = new IDObjectContainer<Scene>();
 
@@ -63,6 +67,8 @@ namespace ace
 				Meshs.DestroyAll();
 				Deformers.DestroyAll();
 				Models.DestroyAll();
+
+				KeyframeAnimations.DestroyAll();
 
 				Scenes.DestroyAll();
 
@@ -189,6 +195,24 @@ namespace ace
 
 			var ret = new Model(o);
 			GC.Models.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static KeyframeAnimation GenerateModel(swig.KeyframeAnimation o, GenerationType type)
+		{
+			var p = o.GetPtr();
+
+			var existing = GC.KeyframeAnimations.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new KeyframeAnimation(o);
+			GC.KeyframeAnimations.AddObject(p, ret);
 			return ret;
 		}
 

@@ -53,7 +53,7 @@ namespace ace
 
 		void AddKeyframe(const FCurveKeyframe& kf) override;
 
-		float GetValue(float frame) override;
+		float GetValue(float time) override;
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
