@@ -1,3 +1,4 @@
+#define FBXSDK_SHARED
 #include <fbxsdk.h>
 
 /* Tab character ("\t") counter */
