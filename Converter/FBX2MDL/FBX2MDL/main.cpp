@@ -92,7 +92,7 @@ void PrintNode(FbxNode* pNode) {
 int main(int argc, char** argv) {
 
     // Change the following filename to a suitable filename value.
-    const char* lFilename = "file.fbx";
+    const char* lFilename = argv[1];
     
     // Initialize the SDK manager. This object handles all our memory management.
     FbxManager* lSdkManager = FbxManager::Create();
