@@ -185,31 +185,34 @@ namespace ace
 			}
 		}
 
-		internal void DrawAdditionally()
+		internal void Draw()
 		{
-			foreach( var item in layersToDraw_ )
-			{
-				item.DrawAdditionally();
-			}
-		}
+			layersToDraw_.Sort((x, y) => y.DrawingPriority - x.DrawingPriority);
 
-		internal void BeginDrawing()
-		{
-			layersToDraw_.Sort( ( x, y ) => y.DrawingPriority - x.DrawingPriority );
-			foreach( var item in layersToDraw_ )
+			CoreScene.BeginDrawing();
+
+			foreach (var item in layersToDraw_)
 			{
 				item.BeginDrawing();
 			}
-		}
 
-		internal void EndDrawing()
-		{
-			foreach( var item in layersToDraw_ )
+			foreach (var item in layersToDraw_)
+			{
+				item.Draw();
+			}
+
+			foreach (var item in layersToDraw_)
+			{
+				item.DrawAdditionally();
+			}
+
+			foreach (var item in layersToDraw_)
 			{
 				item.EndDrawing();
 			}
-		}
 
+			CoreScene.EndDrawing();
+		}
 
 		private List<Layer> layersToDraw_;
 

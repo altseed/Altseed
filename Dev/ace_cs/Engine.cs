@@ -165,20 +165,10 @@ namespace ace
 
 			if (CurrentScene != null)
 			{
-				CurrentScene.BeginDrawing();
+				CurrentScene.Draw();
 			}
 
 			core.Draw();
-
-			if (CurrentScene != null)
-			{
-				CurrentScene.DrawAdditionally();
-			}
-
-			if (CurrentScene != null)
-			{
-				CurrentScene.EndDrawing();
-			}
 
 			core.EndDrawing();
 

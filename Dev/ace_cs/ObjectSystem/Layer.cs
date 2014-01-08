@@ -55,6 +55,7 @@ namespace ace
 
 		internal void BeginDrawing()
 		{
+			Scene.CoreScene.SetRenderTargetForDrawingLayer();
 			commonObject.BeginDrawing();
 		}
 
@@ -64,38 +65,27 @@ namespace ace
 
 			if (postEffects.Count > 0)
 			{
-				var rtf_ = commonObject.GetFirstRenderTarget();
-				var rt0_ = commonObject.GetRenderTarget0();
-				var rt1_ = commonObject.GetRenderTarget1();
-
-				RenderTexture2D rtf = GC.GenerateRenderTexture2D(rtf_, GC.GenerationType.Get);
-				RenderTexture2D rt0 = GC.GenerateRenderTexture2D(rt0_, GC.GenerationType.Get);
-				RenderTexture2D rt1 = GC.GenerateRenderTexture2D(rt1_, GC.GenerationType.Get);
-
-				int index = 0;
 				foreach (var p in postEffects)
 				{
-					if (index == 0)
-					{
-						p.OnDraw(rt1, rtf);
-					}
-					else if (index % 2 == 0)
-					{
-						p.OnDraw(rt1, rt0);
-					}
-					else
-					{
-						p.OnDraw(rt0, rt1);
-					}
-					index++;
+					Scene.CoreScene.BeginPostEffect();
+
+					var src_ = Scene.CoreScene.GetSrcTarget();
+					var dst_ = Scene.CoreScene.GetDstTarget();
+
+					RenderTexture2D src = GC.GenerateRenderTexture2D(src_, GC.GenerationType.Get);
+					RenderTexture2D dst = GC.GenerateRenderTexture2D(dst_, GC.GenerationType.Get);
+
+					p.OnDraw(src, dst);
+
+					Scene.CoreScene.EndPostEffect();
 				}
-
-				commonObject.SetTargetToLayer(index % 2);
 			}
-
-			commonObject.EndDrawingAfterEffects();
 		}
 
+		internal void Draw()
+		{
+			commonObject.Draw();
+		}
 
 		internal swig.CoreLayer CoreLayer { get { return commonObject; } }
 
