@@ -75,9 +75,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::BeginDrawing()
 	{
-		m_targetToLayer = -1;
-		m_triangles.clear();
-
 		auto vanished = vector<ObjectPtr>();
 		for (auto& x : m_objects)
 		{
@@ -114,28 +111,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::EndDrawing()
 	{
-		if (m_postEffects.size() > 0)
-		{
-			m_graphics->SetRenderTarget(m_renderTarget0, nullptr);
-		}
-
 		m_renderer->DrawCache();
 		m_renderer->ClearCache();
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	Renderer2D* CoreLayer2D_Imp::GetRenderer() const
-	{
-		return m_renderer;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	RenderTexture2D* CoreLayer2D_Imp::GetFirstRenderTarget()
-	{
-		return m_renderTarget0;
 	}
 }

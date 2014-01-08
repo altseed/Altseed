@@ -76,7 +76,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	CoreScene* ObjectSystemFactory_Imp::CreateScene()
 	{
-		return new CoreScene_Imp();
+		return new CoreScene_Imp(m_graphics, m_windowSize);
 	}
 
 	//----------------------------------------------------------------------------------

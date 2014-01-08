@@ -18,5 +18,16 @@ namespace ace
 		virtual void RemoveLayer(LayerPtr layer) = 0;
 
 		virtual void Draw() = 0;
+
+		virtual void SetRenderTargetForDrawingLayer() = 0;
+
+		virtual RenderTexture2D* GetBaseTarget() = 0;
+		virtual void BeginPostEffect() = 0;
+		virtual void EndPostEffect() = 0;
+		virtual RenderTexture2D* GetSrcTarget() = 0;
+		virtual RenderTexture2D* GetDstTarget() = 0;
+
+		virtual void BeginDrawing() = 0;
+		virtual void EndDrawing() = 0;
 	};
 }

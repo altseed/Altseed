@@ -255,20 +255,10 @@ namespace ace
 		
 		if (m_currentScene != nullptr)
 		{
-			m_currentScene->BeginDrawing();
+			m_currentScene->Draw();
 		}
 
 		m_core->Draw();
-
-		if (m_currentScene != nullptr)
-		{
-			m_currentScene->DrawAdditionally();
-		}
-
-		if (m_currentScene != nullptr)
-		{
-			m_currentScene->EndDrawing();
-		}
 
 		m_core->EndDrawing();
 	}

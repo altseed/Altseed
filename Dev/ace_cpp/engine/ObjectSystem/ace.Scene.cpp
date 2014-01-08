@@ -80,39 +80,36 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Scene::DrawAdditionally()
-	{
-		for (auto& layer : m_layersToDraw)
-		{
-			layer->DrawAdditionally();
-		}
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Scene::BeginDrawing()
+	void Scene::Draw()
 	{
 		m_layersToDraw.sort([](const Scene::LayerPtr& x, const Scene::LayerPtr& y) -> bool
 		{
 			return x->GetDrawingPriority() < y->GetDrawingPriority();
 		});
 
+		m_coreScene->BeginDrawing();
+
 		for (auto& layer : m_layersToDraw)
 		{
 			layer->BeginDrawing();
 		}
-	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Scene::EndDrawing()
-	{
+		for (auto& layer : m_layersToDraw)
+		{
+			layer->Draw();
+		}
+
+		for (auto& layer : m_layersToDraw)
+		{
+			layer->DrawAdditionally();
+		}
+
 		for (auto& layer : m_layersToDraw)
 		{
 			layer->EndDrawing();
 		}
+
+		m_coreScene->EndDrawing();
 	}
 
 	//----------------------------------------------------------------------------------

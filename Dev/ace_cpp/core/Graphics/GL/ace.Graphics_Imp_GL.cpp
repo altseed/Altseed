@@ -724,13 +724,13 @@ void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
 	int pfmt = ChoosePixelFormat(m_renderingThreadDC, &pformat);
 	if (!SetPixelFormat(m_renderingThreadDC, pfmt, &pformat))
 	{
-		m_log->WriteLineStrongly("SetPixelFormat is failed.");
+		if (m_log != nullptr) m_log->WriteLineStrongly("SetPixelFormat is failed.");
 	}
 
 	m_renderingThreadRC = wglCreateContext(m_renderingThreadDC);
 	if (!wglShareLists(mainRC, m_renderingThreadRC))
 	{
-		m_log->WriteLineStrongly("wglShareLists is failed.");
+		if (m_log != nullptr) m_log->WriteLineStrongly("wglShareLists is failed.");
 	}
 #else
 

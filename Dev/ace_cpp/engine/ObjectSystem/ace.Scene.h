@@ -9,6 +9,7 @@
 namespace ace
 {
 	class Engine;
+	class Layer;
 
 	/**
 		@brief	画面を表し、レイヤーを管理するクラス。
@@ -16,6 +17,7 @@ namespace ace
 	class Scene
 	{
 		friend class Engine;
+		friend class Layer;
 
 	public:
 		typedef std::shared_ptr<Layer> LayerPtr;
@@ -27,9 +29,8 @@ namespace ace
 		std::list<LayerPtr> m_layersToUpdate;
 		std::map<astring, ComponentPtr> m_components;
 
-		void DrawAdditionally();
-		void BeginDrawing();
-		void EndDrawing();
+		void Draw();
+
 		void Update();
 		void UpdateComponents();
 

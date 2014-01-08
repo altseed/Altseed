@@ -37,6 +37,7 @@ extern void Graphics_Renderer2D(bool isOpenGLMode);
 extern void Graphics_PostEffectRenderer(bool isOpenGLMode);
 extern void Graphics_LayerRenderer(bool isOpenGLMode);
 extern void Graphics_Mesh(bool isOpenGLMode);
+extern void Graphics_Empty(bool isOpenGLMode);
 
 //extern void Profiler_Profiling();
 
@@ -54,7 +55,7 @@ int main(int argc, char **argv)
 	GetDirectoryName(current_path, argv[0]);
 	SetCurrentDirectoryA(current_path);
 #endif
-	//Graphics_Mesh(false);
+	//Graphics_Empty(true);
 	//return 0;
 
 	//Profiler_Profiling();

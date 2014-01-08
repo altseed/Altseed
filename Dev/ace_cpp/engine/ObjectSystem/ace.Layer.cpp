@@ -1,10 +1,15 @@
-﻿#include "ace.Layer.h"
+﻿
+#include "ace.Scene.h"
+#include "ace.Layer.h"
+
 using namespace std;
 
 namespace ace
 {
 	void Layer::BeginDrawing()
 	{
+		GetScene()->m_coreScene->SetRenderTargetForDrawingLayer();
+
 		m_commonObject->BeginDrawing();
 	}
 
@@ -14,36 +19,26 @@ namespace ace
 
 		if (m_postEffects.size() > 0)
 		{
-			m_commonObject->GetFirstRenderTarget()->AddRef();
-			m_commonObject->GetRenderTarget0()->AddRef();
-			m_commonObject->GetRenderTarget1()->AddRef();
-
-			auto rtf = CreateSharedPtrWithReleaseDLL(m_commonObject->GetFirstRenderTarget());
-			auto rt0 = CreateSharedPtrWithReleaseDLL(m_commonObject->GetRenderTarget0());
-			auto rt1 = CreateSharedPtrWithReleaseDLL(m_commonObject->GetRenderTarget1());
-
-			int32_t index = 0;
 			for (auto& p : m_postEffects)
 			{
-				if (index == 0)
-				{
-					p->OnDraw(rt1, rtf);
-				}
-				else if (index % 2 == 0)
-				{
-					p->OnDraw(rt1, rt0);
-				}
-				else
-				{
-					p->OnDraw(rt0, rt1);
-				}
-				index++;
+				GetScene()->m_coreScene->BeginPostEffect();
+
+				GetScene()->m_coreScene->GetSrcTarget()->AddRef();
+				GetScene()->m_coreScene->GetDstTarget()->AddRef();
+
+				auto src = CreateSharedPtrWithReleaseDLL(GetScene()->m_coreScene->GetSrcTarget());
+				auto dst = CreateSharedPtrWithReleaseDLL(GetScene()->m_coreScene->GetDstTarget());
+				
+				p->OnDraw(dst, src);
+
+				GetScene()->m_coreScene->EndPostEffect();
 			}
-
-			m_commonObject->SetTargetToLayer(index % 2);
 		}
+	}
 
-		m_commonObject->EndDrawingAfterEffects();
+	void Layer::Draw()
+	{
+		m_commonObject->Draw();
 	}
 
 	Layer::Layer()

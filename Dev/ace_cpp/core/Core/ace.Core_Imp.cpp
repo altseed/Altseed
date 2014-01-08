@@ -276,10 +276,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Core_Imp::Draw()
 	{
-		if (m_currentScene != nullptr)
-		{
-			m_currentScene->Draw();
-		}
 		m_profilerViewer->Draw();
 	}
 

@@ -33,10 +33,6 @@ namespace ace
 
 		LayerRenderer*	m_layerRenderer;
 
-		RenderTexture_Imp*				m_renderTarget0;
-		RenderTexture_Imp*				m_renderTarget1;
-		int32_t							m_targetToLayer;
-
 		std::vector<CorePostEffect*>	m_postEffects;
 
 		CoreLayer_Imp(Graphics* graphics, Vector2DI windowSize);
@@ -51,22 +47,5 @@ namespace ace
 
 		virtual void AddPostEffect(CorePostEffect* postEffect);
 		virtual void ClearPostEffects();
-
-		virtual RenderTexture2D* GetRenderTarget0();
-		virtual RenderTexture2D* GetRenderTarget1();
-
-		virtual void SetLayerShape(const Vector2DF& ul, const Vector2DF& ur, const Vector2DF& ll, const Vector2DF& lr, const Vector2DI& size);
-
-		virtual void AddDrawnTriangle(
-			const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
-			const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
-			const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3);
-
-
-		virtual void SetTargetToLayer(int32_t index);
-
-		void CreateRenderTarget(const Vector2DI& size);
-
-		virtual void EndDrawingAfterEffects();
 	};
 }

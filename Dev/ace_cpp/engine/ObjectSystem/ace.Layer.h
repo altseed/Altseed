@@ -38,6 +38,7 @@ namespace ace
 
 		void BeginDrawing();
 		void EndDrawing();
+		void Draw();
 
 	protected:
 		virtual void OnUpdated() = 0;
