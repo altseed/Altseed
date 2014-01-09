@@ -18,6 +18,8 @@ namespace ace
 		internal static IDObjectContainer<Model> Models { get; private set; }
 
 		internal static IDObjectContainer<KeyframeAnimation> KeyframeAnimations { get; private set; }
+		internal static IDObjectContainer<AnimationSource> AnimationSources { get; private set; }
+		internal static IDObjectContainer<AnimationClip> AnimationClips { get; private set; }
 
 		internal static IDObjectContainer<Scene> Scenes { get; private set; }
 
@@ -40,6 +42,8 @@ namespace ace
 			Models = new IDObjectContainer<Model>();
 
 			KeyframeAnimations = new IDObjectContainer<KeyframeAnimation>();
+			AnimationSources = new IDObjectContainer<AnimationSource>();
+			AnimationClips = new IDObjectContainer<AnimationClip>();
 
 			Scenes = new IDObjectContainer<Scene>();
 
@@ -69,6 +73,7 @@ namespace ace
 				Models.DestroyAll();
 
 				KeyframeAnimations.DestroyAll();
+				AnimationSources.DestroyAll();
 
 				Scenes.DestroyAll();
 
@@ -203,7 +208,7 @@ namespace ace
 		/// </summary>
 		/// <param name="o"></param>
 		/// <param name="type"></param>
-		internal static KeyframeAnimation GenerateModel(swig.KeyframeAnimation o, GenerationType type)
+		internal static KeyframeAnimation GenerateKeyframeAnimation(swig.KeyframeAnimation o, GenerationType type)
 		{
 			var p = o.GetPtr();
 
@@ -213,6 +218,42 @@ namespace ace
 
 			var ret = new KeyframeAnimation(o);
 			GC.KeyframeAnimations.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static AnimationSource GenerateAnimationSource(swig.AnimationSource o, GenerationType type)
+		{
+			var p = o.GetPtr();
+
+			var existing = GC.AnimationSources.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new AnimationSource(o);
+			GC.AnimationSources.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static AnimationClip GenerateAnimationClip(swig.AnimationClip o, GenerationType type)
+		{
+			var p = o.GetPtr();
+
+			var existing = GC.AnimationClips.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new AnimationClip(o);
+			GC.AnimationClips.AddObject(p, ret);
 			return ret;
 		}
 
