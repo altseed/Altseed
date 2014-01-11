@@ -15,5 +15,7 @@ namespace ace
 	public:
 		static AnimationSource* AnimationClip_GetSource(AnimationClip* o);
 
+		static Texture2D* Material2D_GetTexture2D(Material2D* o, const achar* name);
+		static Shader2D* Material2D_GetShader2D(Material2D* o);
 	};
 }

@@ -91,7 +91,7 @@ namespace ace
 		/// <returns>マテリアル(2D)</returns>
 		public Material2D CreateMaterial2D(Shader2D shader)
 		{
-			var material = graphics.CreateMaterial2D_Imp(shader.SwigObject);
+			var material = graphics.CreateMaterial2D_(shader.SwigObject);
 			var p = material.GetPtr();
 
 			var existing = GC.Material2Ds.GetObject(p);

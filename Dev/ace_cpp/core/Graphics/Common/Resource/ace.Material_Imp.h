@@ -36,14 +36,14 @@ namespace ace {
 		virtual ~Material_Imp();
 	public:
 
-		float GetFloat_(const achar* name);
-		void SetFloat_(const achar* name, float value);
+		float GetFloat_Imp(const achar* name);
+		void SetFloat_Imp(const achar* name, float value);
 
-		Vector2DF GetVector2DF_(const achar* name);
-		void SetVector2DF_(const achar* name, Vector2DF value);
+		Vector2DF GetVector2DF_Imp(const achar* name);
+		void SetVector2DF_Imp(const achar* name, Vector2DF value);
 
-		Vector3DF GetVector3DF_(const achar* name);
-		void SetVector3DF_(const achar* name, Vector3DF value);
+		Vector3DF GetVector3DF_Imp(const achar* name);
+		void SetVector3DF_Imp(const achar* name, Vector3DF value);
 
 		/**
 			@brief	テクスチャを取得する。
@@ -51,8 +51,8 @@ namespace ace {
 			@note
 			テクスチャを取得した際にテクスチャの参照カウンタが1加算される。
 		*/
-		Texture2D* GetTexture2D_(const achar* name);
-		void SetTexture2D_(const achar* name, Texture2D* value);
+		Texture2D* GetTexture2D_Imp(const achar* name);
+		void SetTexture2D_Imp(const achar* name, Texture2D* value);
 
 	};
 

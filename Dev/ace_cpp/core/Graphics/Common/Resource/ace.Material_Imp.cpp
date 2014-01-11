@@ -29,7 +29,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	float Material_Imp::GetFloat_(const achar* name)
+	float Material_Imp::GetFloat_Imp(const achar* name)
 	{
 		if (m_values.count(name) > 0)
 		{
@@ -42,7 +42,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Material_Imp::SetFloat_(const achar* name, float value)
+	void Material_Imp::SetFloat_Imp(const achar* name, float value)
 	{
 		if (m_values.count(name) > 0)
 		{
@@ -59,7 +59,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DF Material_Imp::GetVector2DF_(const achar* name)
+	Vector2DF Material_Imp::GetVector2DF_Imp(const achar* name)
 	{
 		if (m_values.count(name) > 0)
 		{
@@ -72,7 +72,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Material_Imp::SetVector2DF_(const achar* name, Vector2DF value)
+	void Material_Imp::SetVector2DF_Imp(const achar* name, Vector2DF value)
 	{
 		if (m_values.count(name) > 0)
 		{
@@ -91,7 +91,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector3DF Material_Imp::GetVector3DF_(const achar* name)
+	Vector3DF Material_Imp::GetVector3DF_Imp(const achar* name)
 	{
 		if (m_values.count(name) > 0)
 		{
@@ -104,7 +104,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Material_Imp::SetVector3DF_(const achar* name, Vector3DF value)
+	void Material_Imp::SetVector3DF_Imp(const achar* name, Vector3DF value)
 	{
 		if (m_values.count(name) > 0)
 		{
@@ -125,7 +125,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D* Material_Imp::GetTexture2D_(const achar* name)
+	Texture2D* Material_Imp::GetTexture2D_Imp(const achar* name)
 	{
 		if (m_values.count(name) > 0)
 		{
@@ -140,7 +140,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Material_Imp::SetTexture2D_(const achar* name, Texture2D* value)
+	void Material_Imp::SetTexture2D_Imp(const achar* name, Texture2D* value)
 	{
 		if (m_values.count(name) > 0)
 		{

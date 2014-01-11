@@ -97,7 +97,9 @@ namespace ace {
 
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());
-		m_graphics->SetShader(material->GetShader_Imp()->GetNativeShader().get());
+
+		auto shader = (Shader2D_Imp*) material->GetShader2D_();
+		m_graphics->SetShader(shader->GetNativeShader().get());
 		
 		state.DepthTest = false;
 		state.DepthWrite = false;

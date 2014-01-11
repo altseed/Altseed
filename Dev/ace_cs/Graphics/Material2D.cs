@@ -8,9 +8,9 @@ namespace ace
 {
 	public class Material2D : IDestroy
 	{
-		internal swig.Material2D_Imp SwigObject { get; set; }
+		internal swig.Material2D SwigObject { get; set; }
 
-		internal Material2D(swig.Material2D_Imp swig)
+		internal Material2D(swig.Material2D swig)
 		{
 			SwigObject = swig;
 		}
@@ -71,7 +71,7 @@ namespace ace
 
 		public Texture2D GetTexture2D(string name)
 		{
-			var swigObj = SwigObject.GetTexture2D__(name);
+			var swigObj = swig.Accessor.Material2D_GetTexture2D(SwigObject, name);
 
 			var existing = GC.Texture2Ds.GetObject(swigObj.GetPtr());
 			if (existing != null) return existing;
@@ -83,12 +83,12 @@ namespace ace
 		public void SetTexture2D(string name, Texture2D value)
 		{
 			if (value == null) return;
-			SwigObject.SetTexture2D__(name, value.SwigObject);
+			SwigObject.SetTexture2D(name, value.SwigObject);
 		}
 
 		public Shader2D GetShader2D(string name)
 		{
-			var swigObj = SwigObject.GetShader_Imp();
+			var swigObj = swig.Accessor.Material2D_GetShader2D(SwigObject);
 
 			var existing = GC.Shader2Ds.GetObject(swigObj.GetPtr());
 			if (existing != null) return existing;
@@ -99,7 +99,7 @@ namespace ace
 
 		public void SetShader2D(string name, Shader2D value)
 		{
-			SwigObject.SetShader_Imp(value.SwigObject);
+			SwigObject.SetShader2D(value.SwigObject);
 		}
 	}
 }

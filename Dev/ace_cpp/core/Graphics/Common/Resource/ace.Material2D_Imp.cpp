@@ -66,7 +66,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Shader2D_Imp* Material2D_Imp::GetShader_Imp()
+	Shader2D* Material2D_Imp::GetShader2D_()
 	{
 		return m_shader;
 	}
@@ -74,9 +74,10 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Material2D_Imp::SetShader_Imp(Shader2D_Imp* shader)
+	void Material2D_Imp::SetShader2D(Shader2D* shader)
 	{
-		SafeSubstitute(m_shader, shader);
+		auto s = (Shader2D_Imp*) shader;
+		SafeSubstitute(m_shader, s);
 	}
 
 	//----------------------------------------------------------------------------------

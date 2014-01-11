@@ -79,8 +79,7 @@ namespace ace {
 		Texture2D* CreateTexture2D_(const achar* path) { return CreateTexture2D_Imp(path); }
 		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, eTextureFormat format) { return CreateRenderTexture_Imp(width, height, format); }
 		Shader2D* CreateShader2D_( const achar* shaderText, ShaderVariableProperty* variableProperties, int32_t variablePropertiesCount);
-		Material2D* CreateMaterial2D_(Shader2D* shader);
-
+		
 	protected:
 		virtual VertexBuffer_Imp* CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic) = 0;
 		virtual IndexBuffer_Imp* CreateIndexBuffer_Imp_(int maxCount, bool isDynamic, bool is32bit) = 0;
@@ -163,7 +162,7 @@ namespace ace {
 			@param	shader	シェーダー
 			@return	マテリアル(2D)
 		*/
-		Material2D_Imp* CreateMaterial2D_Imp(Shader2D_Imp* shader);
+		Material2D* CreateMaterial2D_(Shader2D* shader);
 
 		/**
 		@brief	メッシュを生成する。
