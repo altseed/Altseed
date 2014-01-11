@@ -5,23 +5,35 @@
 #include "../Resource/ace.RenderTexture_Imp.h"
 #include "../Resource/ace.DepthBuffer_Imp.h"
 
+#include "../2D/ace.PostEffectRenderer.h"
+
 namespace ace
 {
 	RenderedCameraObject3D::RenderedCameraObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
-		, m_renderTarget_FR(nullptr)
 		, m_depthBuffer_FR(nullptr)
+		, m_postEffectRenderer(nullptr)
 	{
+		m_renderTarget_FR[0] = nullptr;
+		m_renderTarget_FR[1] = nullptr;
+
 		m_values.size = Vector2DI();
 		m_values.fov = 0.0f;
 		m_values.zfar = 0.0f;
 		m_values.znear = 0.0f;
+
+		m_values.postEffectCount = 0;
+		m_values_FR.postEffectCount = 0;
+
+		m_postEffectRenderer = PostEffectRenderer::Create(graphics);
 	}
 
 	RenderedCameraObject3D::~RenderedCameraObject3D()
 	{
-		SafeRelease(m_renderTarget_FR);
+		SafeRelease(m_renderTarget_FR[0]);
+		SafeRelease(m_renderTarget_FR[1]);
 		SafeRelease(m_depthBuffer_FR);
+		SafeRelease(m_postEffectRenderer);
 	}
 
 	void RenderedCameraObject3D::Flip()
@@ -31,10 +43,12 @@ namespace ace
 		if (m_values.size != m_values_FR.size)
 		{
 			m_values_FR.size = m_values.size;
-			SafeRelease(m_renderTarget_FR);
+			SafeRelease(m_renderTarget_FR[0]);
+			SafeRelease(m_renderTarget_FR[1]);
 			SafeRelease(m_depthBuffer_FR);
 
-			m_renderTarget_FR = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, TEXTURE_FORMAT_RGBA8888);
+			m_renderTarget_FR[0] = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, TEXTURE_FORMAT_RGBA8888);
+			m_renderTarget_FR[1] = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, TEXTURE_FORMAT_RGBA8888);
 			m_depthBuffer_FR = GetGraphics()->CreateDepthBuffer_Imp(m_values_FR.size.X, m_values_FR.size.Y);
 		}
 
@@ -43,6 +57,11 @@ namespace ace
 		m_values_FR.zfar = m_values.zfar;
 		m_values_FR.fov = m_values.fov;
 		m_values_FR.focus = m_values.focus;
+		m_values_FR.postEffectCount = m_values.postEffectCount;
+
+		m_postEffectCommands_FR.clear();
+		m_postEffectCommands_FR.resize(m_postEffectCommands.size());
+		std::copy(m_postEffectCommands.begin(), m_postEffectCommands.end(), m_postEffectCommands_FR.begin());
 	}
 
 	void RenderedCameraObject3D::Rendering(RenderingProperty& prop)
@@ -75,6 +94,72 @@ namespace ace
 		m_values.znear = znear;
 	}
 
+	void RenderedCameraObject3D::SetPostEffectCount(int32_t postEffectCount)
+	{
+		m_values.postEffectCount = postEffectCount;
+	}
+
+	void RenderedCameraObject3D::AddPostEffectCommand(std::shared_ptr<Material2DCommand> command)
+	{
+		m_postEffectCommands.push_back(command);
+	}
+
+	RenderTexture2D* RenderedCameraObject3D::GetDstForPostEffect(int32_t count)
+	{
+		if (m_values.postEffectCount % 2 == 0)
+		{
+			if (count % 2 == 1)
+			{
+				return m_renderTarget_FR[0];
+			}
+			else
+			{
+				return m_renderTarget_FR[1];
+			}
+		}
+		else
+		{
+			if (count % 2 == 1)
+			{
+				return m_renderTarget_FR[1];
+			}
+			else
+			{
+				return m_renderTarget_FR[0];
+			}
+		}
+
+		return nullptr;
+	}
+
+	RenderTexture2D* RenderedCameraObject3D::GetSrcForPostEffect(int32_t count)
+	{
+		if (m_values.postEffectCount % 2 == 0)
+		{
+			if (count % 2 == 1)
+			{
+				return m_renderTarget_FR[1];
+			}
+			else
+			{
+				return m_renderTarget_FR[0];
+			}
+		}
+		else
+		{
+			if (count % 2 == 1)
+			{
+				return m_renderTarget_FR[0];
+			}
+			else
+			{
+				return m_renderTarget_FR[1];
+			}
+		}
+
+		return nullptr;
+	}
+
 	void RenderedCameraObject3D::CalculateMatrix_FR()
 	{
 		RenderedObject3D::CalculateMatrix_FR();
@@ -91,5 +176,13 @@ namespace ace
 			Vector3DF(mat.Values[3][0], mat.Values[3][1], mat.Values[3][2]),
 			m_values_FR.focus,
 			Vector3DF(0, 1, 0));
+	}
+
+	void RenderedCameraObject3D::ApplyPostEffects_FR()
+	{
+		for (auto& c : m_postEffectCommands_FR)
+		{
+			m_postEffectRenderer->DrawOnTexture2DWithMaterialWithCommand(c);
+		}
 	}
 }

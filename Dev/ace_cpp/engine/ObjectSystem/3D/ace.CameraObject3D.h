@@ -5,6 +5,8 @@
 
 namespace ace
 {
+	class PostEffect;
+
 	/**
 	@brief	カメラの機能を提供するクラス
 	*/
@@ -13,6 +15,10 @@ namespace ace
 	{
 	private:
 		std::shared_ptr<CoreCameraObject3D> m_coreObject;
+
+		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
+
+		void OnUpdateInternal() override;
 
 	protected:
 		/**
@@ -93,5 +99,17 @@ namespace ace
 		@param	znear	描画する最近距離
 		*/
 		void SetZNear(float znear);
+
+		/**
+		@brief	ポストエフェクトを追加する。
+		@param	postEffect	ポストエフェクト
+		*/
+		void AddPostEffect(const std::shared_ptr<PostEffect>& postEffect);
+
+		/**
+		@brief	ポストエフェクトを全て消去する。
+		*/
+		void ClearPostEffects();
+
 	};
 }

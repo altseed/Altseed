@@ -1,9 +1,33 @@
 ﻿
 #include "ace.CameraObject3D.h"
+#include "../PostEffect/ace.PostEffect.h"
 
 namespace ace
 {
 	extern ObjectSystemFactory* g_objectSystemFactory;
+
+	void CameraObject3D::OnUpdateInternal()
+	{
+		m_coreObject->SetPostEffectCount(m_postEffects.size());
+
+		int32_t count = 0;
+		for (auto& p : m_postEffects)
+		{
+			m_coreObject->BeginPostEffect(p->GetCoreObject());
+
+			m_coreObject->GetSrcForPostEffect(count)->AddRef();
+			m_coreObject->GetDstForPostEffect(count)->AddRef();
+
+			auto src = CreateSharedPtrWithReleaseDLL(m_coreObject->GetSrcForPostEffect(count));
+			auto dst = CreateSharedPtrWithReleaseDLL(m_coreObject->GetDstForPostEffect(count));
+
+			p->OnDraw(dst, src);
+
+			m_coreObject->EndPostEffect(p->GetCoreObject());
+
+			count++;
+		}
+	}
 
 	CameraObject3D::CameraObject3D()
 	{
@@ -64,5 +88,15 @@ namespace ace
 	void CameraObject3D::SetZNear(float znear)
 	{
 		m_coreObject->SetZNear(znear);
+	}
+
+	void CameraObject3D::AddPostEffect(const std::shared_ptr<PostEffect>& postEffect)
+	{
+		m_postEffects.push_back(postEffect);
+	}
+
+	void CameraObject3D::ClearPostEffects()
+	{
+		m_postEffects.clear();
 	}
 }

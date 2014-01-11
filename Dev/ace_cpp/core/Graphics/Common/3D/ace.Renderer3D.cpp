@@ -206,6 +206,8 @@ void main()
 			{
 				o->Rendering(prop);
 			}
+
+			c->ApplyPostEffects_FR();
 		}
 
 		for (auto& co : rendering.cameraObjects)

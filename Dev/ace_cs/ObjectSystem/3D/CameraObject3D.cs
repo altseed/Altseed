@@ -30,6 +30,29 @@ namespace ace
 		protected override void OnUpdate() { }
 		internal protected override void OnDrawAdditionally() { }
 
+		protected override void OnUpdateInternal()
+		{
+			coreObject.SetPostEffectCount(postEffects.Count);
+
+			int count = 0;
+			foreach (var p in postEffects)
+			{
+				coreObject.BeginPostEffect(p.SwigObject);
+
+				var src_ = coreObject.GetSrcForPostEffect(count);
+				var dst_ = coreObject.GetDstForPostEffect(count);
+
+				RenderTexture2D src = GC.GenerateRenderTexture2D(src_, GC.GenerationType.Get);
+				RenderTexture2D dst = GC.GenerateRenderTexture2D(dst_, GC.GenerationType.Get);
+
+				p.OnDraw(dst, src);
+
+				coreObject.EndPostEffect(p.SwigObject);
+
+				count++;
+			}
+		}
+
 		/// <summary>
 		/// 画面サイズを取得または設定する。
 		/// </summary>
@@ -74,5 +97,24 @@ namespace ace
 			get { return coreObject.GetZNear(); }
 			set { coreObject.SetZNear(value); }
 		}
+
+		/// <summary>
+		/// ポストエフェクトを追加する。
+		/// </summary>
+		/// <param name="postEffect">ポストエフェクト</param>
+		public void AddPostEffect(PostEffect postEffect)
+		{
+			postEffects.Add(postEffect);
+		}
+
+		/// <summary>
+		/// ポストエフェクトを全て消去する。
+		/// </summary>
+		public void ClearPostEffect()
+		{
+			postEffects.Clear();
+		}
+
+		List<PostEffect> postEffects = new List<PostEffect>();
 	}
 }

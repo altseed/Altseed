@@ -33,6 +33,11 @@ namespace ace
 	protected:
 		CoreObject3D*	m_commonObject;
 
+		/**
+		@brief	ユーザーはオーバーライドしてはいけない。
+		*/
+		virtual void OnUpdateInternal() {}
+
 	protected:
 
 		/**

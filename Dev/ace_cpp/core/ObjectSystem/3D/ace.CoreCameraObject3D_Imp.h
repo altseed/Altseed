@@ -38,6 +38,13 @@ namespace ace
 		float GetZNear();
 		void SetZNear(float znear);
 
+		void BeginPostEffect(CorePostEffect* postEffect) override;
+		void EndPostEffect(CorePostEffect* postEffect) override;
+
+		void SetPostEffectCount(int count) override;
+		RenderTexture2D* GetDstForPostEffect(int count) override;
+		RenderTexture2D* GetSrcForPostEffect(int count) override;
+
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_CAMERA; }
 
 
