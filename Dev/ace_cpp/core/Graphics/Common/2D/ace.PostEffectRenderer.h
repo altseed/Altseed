@@ -59,10 +59,9 @@ namespace ace {
 
 		/**
 			@brief	マテリアルを用いてテクスチャに画像を描画する。
-			@param	target		描画先
-			@param	material	マテリアル
+			@param	command	描画命令
 		*/
-		void DrawOnTexture2DWithMaterial_Imp(RenderTexture_Imp* target, Material2D_Imp* material);
+		void DrawOnTexture2DWithMaterialWithCommand(std::shared_ptr<Material2DCommand> command);
 	};
 
 	//----------------------------------------------------------------------------------

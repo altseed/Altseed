@@ -67,7 +67,7 @@ namespace ace
 			{
 				foreach (var p in postEffects)
 				{
-					Scene.CoreScene.BeginPostEffect();
+					Scene.CoreScene.BeginPostEffect(p.SwigObject);
 
 					var src_ = Scene.CoreScene.GetSrcTarget();
 					var dst_ = Scene.CoreScene.GetDstTarget();
@@ -77,7 +77,7 @@ namespace ace
 
 					p.OnDraw(src, dst);
 
-					Scene.CoreScene.EndPostEffect();
+					Scene.CoreScene.EndPostEffect(p.SwigObject);
 				}
 			}
 		}

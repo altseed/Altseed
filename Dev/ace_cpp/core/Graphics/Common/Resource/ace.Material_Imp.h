@@ -14,10 +14,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	class Material_Imp
-		: public ReferenceObject
+	class MaterialCommand
 	{
-	protected:
+	public:
 		struct Value
 		{
 			ShaderVariableType ValueType;
@@ -30,7 +29,21 @@ namespace ace {
 			} Data;
 		};
 
+	protected:
 		std::map<astring, Value>		m_values;
+
+	public:
+		MaterialCommand(std::map<astring, Value>& values);
+		virtual ~MaterialCommand();
+
+		virtual void SetValueToShader() = 0;
+	};
+
+	class Material_Imp
+		: public ReferenceObject
+	{
+	protected:
+		std::map<astring, MaterialCommand::Value>		m_values;
 
 		Material_Imp(){}
 		virtual ~Material_Imp();

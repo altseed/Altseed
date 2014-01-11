@@ -15,6 +15,35 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	MaterialCommand::MaterialCommand(std::map<astring, Value>& values)
+	{
+		m_values = values;
+		for (auto& v : m_values)
+		{
+			if (v.second.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
+			{
+				SafeAddRef(v.second.Data.TexturePtr);
+			}
+		}
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	MaterialCommand::~MaterialCommand()
+	{
+		for (auto& v : m_values)
+		{
+			if (v.second.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
+			{
+				SafeRelease(v.second.Data.TexturePtr);
+			}
+		}
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	Material_Imp::~Material_Imp()
 	{
 		for (auto& v : m_values)

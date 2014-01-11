@@ -87,18 +87,17 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void PostEffectRenderer::DrawOnTexture2DWithMaterial_Imp(RenderTexture_Imp* target, Material2D_Imp* material)
+	void PostEffectRenderer::DrawOnTexture2DWithMaterialWithCommand(std::shared_ptr<Material2DCommand> command)
 	{
 		auto state = m_graphics->GetRenderState()->Push();
 
-		material->SetValuesToShader();
-
-		m_graphics->SetRenderTarget(target, nullptr);
+		command->SetValueToShader();
+		m_graphics->SetRenderTarget((RenderTexture_Imp*)command->GetTarget(), nullptr);
 
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());
 
-		auto shader = (Shader2D_Imp*) material->GetShader2D_();
+		auto shader = command->GetShader();
 		m_graphics->SetShader(shader->GetNativeShader().get());
 		
 		state.DepthTest = false;

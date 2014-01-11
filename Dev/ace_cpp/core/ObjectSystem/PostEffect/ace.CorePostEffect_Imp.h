@@ -12,7 +12,8 @@ namespace ace
 		friend class ObjectSystemFactory_Imp;
 
 	private:
-		PostEffectRenderer*	m_renderer;
+		
+		std::vector<std::shared_ptr<Material2DCommand>>	m_commands;
 
 		CorePostEffect_Imp(Graphics* graphics);
 		virtual ~CorePostEffect_Imp();
@@ -20,6 +21,8 @@ namespace ace
 
 		void DrawOnTexture2DWithMaterial(RenderTexture2D* target, Material2D* material);
 
+		std::vector<std::shared_ptr<Material2DCommand>>& GetCommands() { return m_commands; }
+		void ClearCommands(){ m_commands.clear(); }
 #if !SWIG
 	public:
 		virtual int GetRef() { return ReferenceObject::GetRef(); }

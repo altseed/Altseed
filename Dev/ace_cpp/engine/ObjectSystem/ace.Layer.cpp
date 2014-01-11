@@ -21,7 +21,7 @@ namespace ace
 		{
 			for (auto& p : m_postEffects)
 			{
-				GetScene()->m_coreScene->BeginPostEffect();
+				GetScene()->m_coreScene->BeginPostEffect(p->GetCoreObject());
 
 				GetScene()->m_coreScene->GetSrcTarget()->AddRef();
 				GetScene()->m_coreScene->GetDstTarget()->AddRef();
@@ -31,7 +31,7 @@ namespace ace
 				
 				p->OnDraw(dst, src);
 
-				GetScene()->m_coreScene->EndPostEffect();
+				GetScene()->m_coreScene->EndPostEffect(p->GetCoreObject());
 			}
 		}
 	}

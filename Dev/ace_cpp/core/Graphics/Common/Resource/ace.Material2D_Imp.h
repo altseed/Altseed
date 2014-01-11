@@ -15,6 +15,25 @@
 //
 //----------------------------------------------------------------------------------
 namespace ace {
+	class Material2DCommand
+		: public MaterialCommand
+	{
+	private:
+		RenderTexture2D*	m_target;
+		Shader2D_Imp*		m_shader;
+	public:
+		Material2DCommand(Shader2D_Imp* shader, std::map<astring, Value>& values);
+		virtual ~Material2DCommand();
+
+		void SetValueToShader() override;
+
+		Shader2D_Imp* GetShader();
+
+		RenderTexture2D* GetTarget();
+
+		void SetTarget(RenderTexture2D* target);
+	};
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -23,6 +42,7 @@ namespace ace {
 		, public Material_Imp
 	{
 	private:
+
 		Shader2D_Imp*	m_shader;
 
 		Material2D_Imp(Shader2D_Imp* shader);
@@ -48,9 +68,9 @@ namespace ace {
 		void SetShader2D(Shader2D* shader);
 
 		/**
-			@brief	マテリアルに設定されている値をシェーダーに設定する。
+			@brief	マテリアルに設定されている値をシェーダーに設定するコマンドを出力する。
 		*/
-		void SetValuesToShader();
+		std::shared_ptr <Material2DCommand> GenerateShaderCommand();
 
 #if !SWIG
 		static Material2D_Imp* Create(Shader2D_Imp* shader);
