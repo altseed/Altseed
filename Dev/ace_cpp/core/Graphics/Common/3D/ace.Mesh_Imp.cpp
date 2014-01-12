@@ -9,6 +9,19 @@
 
 namespace ace
 {
+	Mesh_Imp::Material::Material()
+		: ColorTexture(nullptr)
+		, NormalTexture(nullptr)
+		, SpecularTexture(nullptr)
+	{
+	}
+
+	Mesh_Imp::Material::~Material()
+	{
+		SafeRelease(ColorTexture);
+		SafeRelease(NormalTexture);
+		SafeRelease(SpecularTexture);
+	}
 
 	Mesh_Imp::Mesh_Imp(Graphics* graphics)
 		: m_graphics(nullptr)
@@ -102,6 +115,8 @@ namespace ace
 		mo.FaceOffset = faceCount;
 
 		m_materialOffsets.push_back(mo);
+
+		m_materials.push_back(Material());
 	}
 
 	void Mesh_Imp::SendToGPUMemory()
@@ -146,4 +161,21 @@ namespace ace
 		SafeSubstitute(m_deformer, deformer);
 	}
 
+	void Mesh_Imp::SetColorTexture(int32_t materialIndex, Texture2D* texture)
+	{
+		if (m_materials.size() <= materialIndex) return;
+		SafeSubstitute(m_materials[materialIndex].ColorTexture, texture);
+	}
+
+	void Mesh_Imp::SetNormalTexture(int32_t materialIndex, Texture2D* texture)
+	{
+		if (m_materials.size() <= materialIndex) return;
+		SafeSubstitute(m_materials[materialIndex].NormalTexture, texture);
+	}
+
+	void Mesh_Imp::SetSpecularTexture(int32_t materialIndex, Texture2D* texture)
+	{
+		if (m_materials.size() <= materialIndex) return;
+		SafeSubstitute(m_materials[materialIndex].SpecularTexture, texture);
+	}
 };

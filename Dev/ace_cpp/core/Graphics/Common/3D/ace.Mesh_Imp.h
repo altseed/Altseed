@@ -16,6 +16,17 @@ namespace ace
 		: public Mesh
 		, public ReferenceObject
 	{
+	public:
+		struct Material
+		{
+			Texture2D*	ColorTexture;
+			Texture2D*	NormalTexture;
+			Texture2D*	SpecularTexture;
+
+			Material();
+			~Material();
+		};
+
 	private:
 
 		struct Vertex
@@ -51,6 +62,7 @@ namespace ace
 			int32_t		FaceOffset;
 		};
 
+		
 		Graphics_Imp*	m_graphics;
 
 		std::shared_ptr<VertexBuffer_Imp>	m_vertexBuffer;
@@ -61,6 +73,8 @@ namespace ace
 
 		std::vector<MaterialOffset>	m_materialOffsets;
 		std::vector<BoneOffset>	m_boneOffsets;
+
+		std::vector<Material>	m_materials;
 
 		Deformer*					m_deformer = nullptr;
 
@@ -113,6 +127,10 @@ namespace ace
 
 		Deformer* GetDeformer_() override;
 		void SetDeformer(Deformer* deformer) override;
+
+		void SetColorTexture(int32_t materialIndex, Texture2D* texture) override;
+		void SetNormalTexture(int32_t materialIndex, Texture2D* texture) override;
+		void SetSpecularTexture(int32_t materialIndex, Texture2D* texture) override;
 
 #if !SWIG
 		std::shared_ptr<VertexBuffer_Imp>& GetVertexBuffer() { return m_vertexBuffer; }

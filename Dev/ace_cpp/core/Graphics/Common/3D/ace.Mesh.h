@@ -72,6 +72,33 @@ namespace ace
 		*/
 		virtual void SetDeformer(Deformer* deformer) = 0;
 
+		/**
+		@brief	内部シェーダーを使用する場合のカラーテクスチャを設定する。
+		@param	materialIndex	材質のインデックス
+		@param	テクスチャ
+		@note
+		AddMaterialCountを実行した後でないと無効になる。
+		*/
+		virtual void SetColorTexture(int32_t materialIndex, Texture2D* texture) = 0;
+
+		/**
+		@brief	内部シェーダーを使用する場合の法線テクスチャを設定する。
+		@param	materialIndex	材質のインデックス
+		@param	テクスチャ
+		@note
+		AddMaterialCountを実行した後でないと無効になる。
+		*/
+		virtual void SetNormalTexture(int32_t materialIndex, Texture2D* texture) = 0;
+
+		/**
+		@brief	内部シェーダーを使用する場合のスペキュラテクスチャを設定する。
+		@param	materialIndex	材質のインデックス
+		@param	テクスチャ
+		@note
+		AddMaterialCountを実行した後でないと無効になる。
+		*/
+		virtual void SetSpecularTexture(int32_t materialIndex, Texture2D* texture) = 0;
+
 #if !SWIG
 		std::shared_ptr<Deformer> GetSource()
 		{
