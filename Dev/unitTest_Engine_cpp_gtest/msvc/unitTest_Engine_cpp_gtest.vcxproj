@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\EngineTest.cpp" />
+    <ClCompile Include="..\Graphics\3D\Camera3DPostEffect.cpp" />
     <ClCompile Include="..\Graphics\3D\SimpleMesh.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\CustomPostEffect.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlurTest.cpp" />

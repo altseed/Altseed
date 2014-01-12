@@ -185,4 +185,14 @@ namespace ace
 			m_postEffectRenderer->DrawOnTexture2DWithMaterialWithCommand(c);
 		}
 	}
+
+	RenderTexture_Imp* RenderedCameraObject3D::GetRenderTarget_FR()
+	{ 
+		return m_renderTarget_FR[m_values_FR.postEffectCount % 2]; 
+	}
+
+	RenderTexture_Imp* RenderedCameraObject3D::GetAffectedRenderTarget_FR()
+	{ 
+		return m_renderTarget_FR[0];
+	}
 }

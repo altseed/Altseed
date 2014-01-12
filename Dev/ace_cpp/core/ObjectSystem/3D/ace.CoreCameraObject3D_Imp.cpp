@@ -94,7 +94,7 @@ namespace ace
 
 	RenderTexture2D* CoreCameraObject3D_Imp::GetDstForPostEffect(int count)
 	{
-		return m_object->GetSrcForPostEffect(count);
+		return m_object->GetDstForPostEffect(count);
 	}
 
 	RenderTexture2D* CoreCameraObject3D_Imp::GetSrcForPostEffect(int count)

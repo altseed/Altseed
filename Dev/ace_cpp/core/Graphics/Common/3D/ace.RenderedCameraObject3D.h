@@ -93,7 +93,9 @@ namespace ace
 
 		void ApplyPostEffects_FR();
 
-		RenderTexture_Imp* GetRenderTarget_FR() { return m_renderTarget_FR[m_values_FR.postEffectCount % 2]; }
+		RenderTexture_Imp* GetRenderTarget_FR();
+		RenderTexture_Imp* GetAffectedRenderTarget_FR();
+
 		DepthBuffer_Imp* GetDepthBuffer_FR() { return m_depthBuffer_FR; }
 
 		const Matrix44& GetCameraMatrix_FR() { return m_values_FR.cameraMatrix; }
