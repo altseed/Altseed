@@ -178,4 +178,10 @@ namespace ace
 		if (m_materials.size() <= materialIndex) return;
 		SafeSubstitute(m_materials[materialIndex].SpecularTexture, texture);
 	}
+
+	Mesh_Imp::Material* Mesh_Imp::GetMaterial(int32_t materialIndex)
+	{
+		if (m_materials.size() <= materialIndex) return nullptr;
+		return &m_materials[materialIndex];
+	}
 };

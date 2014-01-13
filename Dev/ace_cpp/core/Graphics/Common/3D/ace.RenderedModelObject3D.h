@@ -19,6 +19,12 @@ namespace ace
 			float		Padding1;
 		};
 
+		struct PixelConstantBuffer
+		{
+			Vector3DF	HasTextures;
+			float		Padding0;
+		};
+
 		struct BoneProperty
 		{
 			float	Position[3];

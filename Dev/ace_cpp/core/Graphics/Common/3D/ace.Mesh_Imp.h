@@ -27,6 +27,18 @@ namespace ace
 			~Material();
 		};
 
+		struct MaterialOffset
+		{
+			int32_t		MaterialIndex;
+			int32_t		FaceOffset;
+		};
+
+		struct BoneOffset
+		{
+			uint8_t		BoneIndex[32];
+			int32_t		FaceOffset;
+		};
+
 	private:
 
 		struct Vertex
@@ -48,18 +60,6 @@ namespace ace
 			int32_t		Index1;
 			int32_t		Index2;
 			int32_t		Index3;
-		};
-
-		struct MaterialOffset
-		{
-			int32_t		MaterialIndex;
-			int32_t		FaceOffset;
-		};
-
-		struct BoneOffset
-		{
-			uint8_t		BoneIndex[32];
-			int32_t		FaceOffset;
 		};
 
 		
@@ -131,6 +131,11 @@ namespace ace
 		void SetColorTexture(int32_t materialIndex, Texture2D* texture) override;
 		void SetNormalTexture(int32_t materialIndex, Texture2D* texture) override;
 		void SetSpecularTexture(int32_t materialIndex, Texture2D* texture) override;
+
+		Material* GetMaterial(int32_t materialIndex);
+
+		std::vector<MaterialOffset>& GetMaterialOffsets() { return m_materialOffsets; }
+		std::vector<BoneOffset>& GetBoneOffsets() { return m_boneOffsets; }
 
 #if !SWIG
 		std::shared_ptr<VertexBuffer_Imp>& GetVertexBuffer() { return m_vertexBuffer; }

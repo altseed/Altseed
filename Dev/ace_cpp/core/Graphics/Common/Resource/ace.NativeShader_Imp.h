@@ -94,7 +94,7 @@ namespace ace {
 		{
 			SafeDeleteArray(m_pixelConstantBuffer);
 
-			m_vertexConstantBuffer = new uint8_t[sizeof(T)];
+			m_pixelConstantBuffer = new uint8_t[sizeof(T)];
 			CreatePixelConstantBufferInternal(sizeof(T), info);
 		}
 
