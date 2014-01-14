@@ -8,9 +8,9 @@ namespace ace
 {
 	public class Shader2D : IDestroy
 		{
-		internal swig.Shader2D_Imp SwigObject { get; set; }
+		internal swig.Shader2D SwigObject { get; set; }
 
-		internal Shader2D(swig.Shader2D_Imp swig)
+		internal Shader2D(swig.Shader2D swig)
 		{
 			SwigObject = swig;
 		}

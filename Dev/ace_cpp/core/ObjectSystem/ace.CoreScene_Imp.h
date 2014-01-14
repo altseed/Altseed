@@ -24,6 +24,7 @@ namespace ace
 
 		std::vector<Triangle>	m_triangles;
 		LayerRenderer*			m_layerRenderer;
+		PostEffectRenderer*		m_postEffectRenderer;
 
 		std::list<LayerPtr> m_layers;
 
@@ -44,8 +45,8 @@ namespace ace
 		void SetRenderTargetForDrawingLayer();
 
 		RenderTexture2D* GetBaseTarget();
-		void BeginPostEffect();
-		void EndPostEffect();
+		void BeginPostEffect(CorePostEffect* postEffect);
+		void EndPostEffect(CorePostEffect* postEffect);
 		RenderTexture2D* GetSrcTarget();
 		RenderTexture2D* GetDstTarget();
 

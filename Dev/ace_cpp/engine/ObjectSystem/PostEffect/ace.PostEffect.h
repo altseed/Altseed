@@ -16,6 +16,7 @@ namespace ace
 	{
 		friend class Engine;
 		friend class Layer;
+		friend class CameraObject3D;
 
 	private:
 		std::shared_ptr<CorePostEffect>	m_corePostEffect;

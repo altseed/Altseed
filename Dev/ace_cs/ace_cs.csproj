@@ -149,8 +149,6 @@
     <Compile Include="swig\Log.cs" />
     <Compile Include="swig\Log_Imp.cs" />
     <Compile Include="swig\Material2D.cs" />
-    <Compile Include="swig\Material2D_Imp.cs" />
-    <Compile Include="swig\Material_Imp.cs" />
     <Compile Include="swig\Mesh.cs" />
     <Compile Include="swig\MiddleButton.cs" />
     <Compile Include="swig\Model.cs" />

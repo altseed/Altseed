@@ -84,6 +84,9 @@ namespace ace
 			}
 
 			OnUpdate();
+
+			OnUpdateInternal();
+
 			/*
 			foreach (var item in components_)
 			{
@@ -93,6 +96,11 @@ namespace ace
 		}
 
 		internal swig.CoreObject3D CoreObject { get { return commonObject; } }
+
+		/// <summary>
+		/// ユーザーはオーバーライドしてはいけない。
+		/// </summary>
+		protected virtual void OnUpdateInternal() { }
 
 		/// <summary>
 		/// オーバーライドして、この3Dオブジェクトの初期化処理を記述することができる。

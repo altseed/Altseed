@@ -21,6 +21,9 @@ namespace ace
 
 			Vector2DI	size;
 			Vector3DF	focus;
+
+			int32_t	postEffectCount;
+
 		} m_values;
 
 		struct
@@ -33,10 +36,17 @@ namespace ace
 			Matrix44	cameraMatrix;
 			Matrix44	projectionMatrix;
 
+			int32_t	postEffectCount;
+
 		} m_values_FR;
 
-		RenderTexture_Imp*	m_renderTarget_FR;
+		RenderTexture_Imp*	m_renderTarget_FR[2];
 		DepthBuffer_Imp*	m_depthBuffer_FR;
+
+		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands;
+		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands_FR;
+
+		PostEffectRenderer*								m_postEffectRenderer;
 
 	public:
 		RenderedCameraObject3D(Graphics* graphics);
@@ -60,9 +70,32 @@ namespace ace
 		float GetZNear(){ return m_values.znear; }
 		void SetZNear(float znear);
 
+		void SetPostEffectCount(int32_t postEffectCount);
+		void AddPostEffectCommand(std::shared_ptr<Material2DCommand> command);
+
+		/**
+			@brief	ポストエフェクト設定時の出力先を取得する。
+			@param	count	現在の描画回数
+			@note
+			別スレッドで描画に使用されている可能性が高いので注意する。
+		*/
+		RenderTexture2D* GetDstForPostEffect(int32_t count);
+
+		/**
+		@brief	ポストエフェクト設定時の出力元を取得する。
+		@param	count	現在の描画回数
+		@note
+		別スレッドで描画に使用されている可能性が高いので注意する。
+		*/
+		RenderTexture2D* GetSrcForPostEffect(int32_t count);
+
 		void CalculateMatrix_FR() override;
 
-		RenderTexture_Imp* GetRenderTarget_FR() { return m_renderTarget_FR; }
+		void ApplyPostEffects_FR();
+
+		RenderTexture_Imp* GetRenderTarget_FR();
+		RenderTexture_Imp* GetAffectedRenderTarget_FR();
+
 		DepthBuffer_Imp* GetDepthBuffer_FR() { return m_depthBuffer_FR; }
 
 		const Matrix44& GetCameraMatrix_FR() { return m_values_FR.cameraMatrix; }

@@ -206,6 +206,8 @@ void main()
 			{
 				o->Rendering(prop);
 			}
+
+			c->ApplyPostEffects_FR();
 		}
 
 		for (auto& co : rendering.cameraObjects)
@@ -241,7 +243,7 @@ void main()
 
 			m_pasteVertexBuffer->Unlock();
 
-			m_pasteShader->SetTexture("g_texture", c->GetRenderTarget_FR(), 0);
+			m_pasteShader->SetTexture("g_texture", c->GetAffectedRenderTarget_FR(), 0);
 			
 			m_graphics->SetVertexBuffer(m_pasteVertexBuffer.get());
 			m_graphics->SetIndexBuffer(m_pasteIndexBuffer.get());

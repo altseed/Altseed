@@ -179,16 +179,6 @@ Shader2D* Graphics_Imp::CreateShader2D_(
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Material2D* Graphics_Imp::CreateMaterial2D_(Shader2D* shader)
-{
-	auto material = CreateMaterial2D_Imp((Shader2D_Imp*) shader);
-	auto material2d = (Material2D*) material;
-	return material2d;
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 Graphics_Imp* Graphics_Imp::Create(Window* window, bool isOpenGLMode, Log* log)
 {
 #if _WIN32
@@ -329,11 +319,16 @@ Shader2D_Imp* Graphics_Imp::CreateShader2D_Imp(
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Material2D_Imp* Graphics_Imp::CreateMaterial2D_Imp(Shader2D_Imp* shader)
+Material2D* Graphics_Imp::CreateMaterial2D_(Shader2D* shader)
 {
-	return Material2D_Imp::Create(shader);
+	auto material = Material2D_Imp::Create((Shader2D_Imp*) shader);
+	auto material2d = (Material2D*) material;
+	return material2d;
 }
 
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 Mesh* Graphics_Imp::CreateMesh_()
 {
 	return Mesh_Imp::Create(this);

@@ -1,8 +1,14 @@
 ﻿
 #include "ace.CoreScene_Imp.h"
+#include "PostEffect/ace.CorePostEffect_Imp.h"
 
 #include "../Graphics/Common/ace.Graphics_Imp.h"
 #include "../Graphics/Common/2D/ace.LayerRenderer.h"
+
+#include "../Graphics/Common/2D/ace.PostEffectRenderer.h"
+#include "../Graphics/Common/Resource/ace.Shader2D_Imp.h"
+#include "../Graphics/Common/Resource/ace.Material2D_Imp.h"
+
 
 using namespace std;
 
@@ -15,6 +21,7 @@ namespace ace
 		: m_layers(list<LayerPtr>())
 		, m_graphics((Graphics_Imp*)graphics)
 		, m_layerRenderer(nullptr)
+		, m_postEffectRenderer(nullptr)
 		, m_baseTarget0(nullptr)
 		, m_baseTarget1(nullptr)
 		, m_targetIndex(0)
@@ -39,6 +46,8 @@ namespace ace
 			lpos[3].Y = windowSize.Y;
 			m_layerRenderer->SetLayerPosition(lpos);
 		}
+
+		m_postEffectRenderer = PostEffectRenderer::Create(graphics);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -50,6 +59,8 @@ namespace ace
 		{
 			SafeRelease(layer);
 		}
+
+		SafeRelease(m_postEffectRenderer);
 
 		SafeRelease(m_layerRenderer);
 
@@ -114,7 +125,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreScene_Imp::BeginPostEffect()
+	void CoreScene_Imp::BeginPostEffect(CorePostEffect* postEffect)
 	{
 		m_targetIndex++;
 	}
@@ -122,9 +133,16 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreScene_Imp::EndPostEffect()
+	void CoreScene_Imp::EndPostEffect(CorePostEffect* postEffect)
 	{
-	
+		auto pf = (CorePostEffect_Imp*) postEffect;
+
+		for (auto& c : pf->GetCommands())
+		{
+			m_postEffectRenderer->DrawOnTexture2DWithMaterialWithCommand(c);
+		}
+
+		pf->ClearCommands();
 	}
 
 	//----------------------------------------------------------------------------------

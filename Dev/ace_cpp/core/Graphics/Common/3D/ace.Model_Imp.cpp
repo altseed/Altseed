@@ -102,6 +102,21 @@ namespace ace
 				auto pathColor = reader.Get<ace::astring>();
 				auto pathNormal = reader.Get<ace::astring>();
 				auto pathSpecular = reader.Get<ace::astring>();
+
+				if (pathColor != ace::ToAString(""))
+				{
+					mesh->SetColorTexture(i, g->CreateTexture2D(pathColor.c_str()).get());
+				}
+
+				if (pathNormal != ace::ToAString(""))
+				{
+					mesh->SetNormalTexture(i, g->CreateTexture2D(pathNormal.c_str()).get());
+				}
+
+				if (pathSpecular != ace::ToAString(""))
+				{
+					mesh->SetSpecularTexture(i, g->CreateTexture2D(pathSpecular.c_str()).get());
+				}
 			}
 		}
 

@@ -16,6 +16,9 @@ namespace ace
 		}
 
 		OnUpdate();
+
+		OnUpdateInternal();
+
 		/*
 		for (auto& x : m_components)
 		{

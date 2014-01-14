@@ -100,5 +100,38 @@ namespace ace
 		{
 			SwigObject.SetDeformer(deformer.SwigObject);
 		}
+
+		/// <summary>
+		/// 内部シェーダーを使用する場合のカラーテクスチャを設定する。
+		/// </summary>
+		/// <param name="materialIndex">材質のインデックス</param>
+		/// <param name="texture">テクスチャ</param>
+		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
+		public void SetColorTexture(int materialIndex, Texture2D texture)
+		{
+			SwigObject.SetColorTexture(materialIndex, texture.SwigObject);
+		}
+
+		/// <summary>
+		/// 内部シェーダーを使用する場合の法線テクスチャを設定する。
+		/// </summary>
+		/// <param name="materialIndex">材質のインデックス</param>
+		/// <param name="texture">テクスチャ</param>
+		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
+		public void SetNormalTexture(int materialIndex, Texture2D texture)
+		{
+			SwigObject.SetNormalTexture(materialIndex, texture.SwigObject);
+		}
+
+		/// <summary>
+		/// 内部シェーダーを使用する場合のスペキュラテクスチャを設定する。
+		/// </summary>
+		/// <param name="materialIndex">材質のインデックス</param>
+		/// <param name="texture">テクスチャ</param>
+		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
+		public void SetSpecularTexture(int materialIndex, Texture2D texture)
+		{
+			SwigObject.SetSpecularTexture(materialIndex, texture.SwigObject);
+		}
 	}
 }

@@ -22,8 +22,8 @@ namespace ace
 		virtual void SetRenderTargetForDrawingLayer() = 0;
 
 		virtual RenderTexture2D* GetBaseTarget() = 0;
-		virtual void BeginPostEffect() = 0;
-		virtual void EndPostEffect() = 0;
+		virtual void BeginPostEffect(CorePostEffect* postEffect) = 0;
+		virtual void EndPostEffect(CorePostEffect* postEffect) = 0;
 		virtual RenderTexture2D* GetSrcTarget() = 0;
 		virtual RenderTexture2D* GetDstTarget() = 0;
 

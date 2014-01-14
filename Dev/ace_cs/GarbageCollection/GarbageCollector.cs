@@ -45,6 +45,8 @@ namespace ace
 					if (TryRelease<swig.Model>(o)) continue;
 
 					if (TryRelease<swig.KeyframeAnimation>(o)) continue;
+					if (TryRelease<swig.AnimationSource>(o)) continue;
+					if (TryRelease<swig.AnimationClip>(o)) continue;
 
 
 					if (TryRelease<swig.CoreScene>(o)) continue;

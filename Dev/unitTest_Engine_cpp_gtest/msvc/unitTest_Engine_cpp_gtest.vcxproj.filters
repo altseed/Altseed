@@ -49,6 +49,9 @@
     <ClCompile Include="..\ObjectSystem\LayersFlag.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\3D\Camera3DPostEffect.cpp">
+      <Filter>Graphics\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

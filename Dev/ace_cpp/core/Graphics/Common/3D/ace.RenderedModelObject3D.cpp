@@ -73,6 +73,7 @@ struct PS_Input
 	float2 UV		: TEXCOORD0;
 };
 
+float3		hasTextures	: register( c0 );
 
 float4 main( const PS_Input Input ) : SV_Target
 {
@@ -125,6 +126,8 @@ void main()
 
 varying vec4 vaTexCoord;
 varying vec4 vaColor;
+
+uniform vec3 hasTextures;
 
 void main() 
 {
@@ -416,22 +419,30 @@ void main()
 
 		assert(m_shader != nullptr);
 
-		std::vector<ace::ConstantBufferInformation> constantBuffers;
-		constantBuffers.resize(3);
-		constantBuffers[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
-		constantBuffers[0].Name = std::string("matMCP");
-		constantBuffers[0].Offset = 0;
-		constantBuffers[0].Count = 32;
+		std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
+		constantBuffers_vs.resize(3);
+		constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+		constantBuffers_vs[0].Name = std::string("matMCP");
+		constantBuffers_vs[0].Offset = 0;
+		constantBuffers_vs[0].Count = 32;
 
-		constantBuffers[1].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-		constantBuffers[1].Name = std::string("directionalLightDirection");
-		constantBuffers[1].Offset = sizeof(Matrix44) * 32;
+		constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+		constantBuffers_vs[1].Name = std::string("directionalLightDirection");
+		constantBuffers_vs[1].Offset = sizeof(Matrix44) * 32;
 
-		constantBuffers[2].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-		constantBuffers[2].Name = std::string("directionalLightColor");
-		constantBuffers[2].Offset = sizeof(Matrix44) * 32 + sizeof(float) * 4;
+		constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+		constantBuffers_vs[2].Name = std::string("directionalLightColor");
+		constantBuffers_vs[2].Offset = sizeof(Matrix44) * 32 + sizeof(float) * 4;
 
-		m_shader->CreateVertexConstantBuffer<VertexConstantBuffer>(constantBuffers);
+		m_shader->CreateVertexConstantBuffer<VertexConstantBuffer>(constantBuffers_vs);
+
+		std::vector<ace::ConstantBufferInformation> constantBuffers_ps;
+		constantBuffers_ps.resize(1);
+		constantBuffers_ps[0].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+		constantBuffers_ps[0].Name = std::string("hasTextures");
+		constantBuffers_ps[0].Offset = 0;
+
+		m_shader->CreatePixelConstantBuffer<PixelConstantBuffer>(constantBuffers_ps);
 	}
 
 	RenderedModelObject3D::~RenderedModelObject3D()
@@ -526,6 +537,7 @@ void main()
 	void RenderedModelObject3D::Rendering(RenderingProperty& prop)
 	{
 		auto& vbuf = m_shader->GetVertexConstantBuffer<VertexConstantBuffer>();
+		auto& pbuf = m_shader->GetPixelConstantBuffer<PixelConstantBuffer>();
 
 		for (auto& g : m_meshGroups_fr)
 		{
@@ -560,6 +572,8 @@ void main()
 				vbuf.DirectionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
 				vbuf.DirectionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
 			}
+
+			//pbuf.HasTextures.X = 
 
 			GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
 			GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());

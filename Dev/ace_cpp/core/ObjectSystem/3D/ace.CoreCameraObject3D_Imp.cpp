@@ -2,6 +2,8 @@
 #include "ace.CoreCameraObject3D_Imp.h"
 #include "ace.CoreLayer3D_Imp.h"
 
+#include "../PostEffect/ace.CorePostEffect_Imp.h"
+
 #include "../../Graphics/Common/3D/ace.RenderedCameraObject3D.h"
 
 namespace ace
@@ -67,4 +69,37 @@ namespace ace
 	{
 		m_object->SetZNear(znear);
 	}
+
+	void CoreCameraObject3D_Imp::BeginPostEffect(CorePostEffect* postEffect)
+	{
+
+	}
+
+	void CoreCameraObject3D_Imp::EndPostEffect(CorePostEffect* postEffect)
+	{
+		auto pe = (CorePostEffect_Imp*) postEffect;
+
+		for (auto& c : pe->GetCommands())
+		{
+			m_object->AddPostEffectCommand(c);
+		}
+
+		pe->ClearCommands();
+	}
+
+	void CoreCameraObject3D_Imp::SetPostEffectCount(int count)
+	{
+		m_object->SetPostEffectCount(count);
+	}
+
+	RenderTexture2D* CoreCameraObject3D_Imp::GetDstForPostEffect(int count)
+	{
+		return m_object->GetDstForPostEffect(count);
+	}
+
+	RenderTexture2D* CoreCameraObject3D_Imp::GetSrcForPostEffect(int count)
+	{
+		return m_object->GetSrcForPostEffect(count);
+	}
+
 }

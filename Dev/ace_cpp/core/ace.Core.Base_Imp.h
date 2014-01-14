@@ -74,6 +74,9 @@ namespace ace {
 	class RenderTexture_Imp;
 	class DepthBuffer_Imp;
 	class Shader2D_Imp;
+
+	class MaterialCommand;
+	class Material2DCommand;
 	class Material2D_Imp;
 
 	class PostEffectRenderer;
