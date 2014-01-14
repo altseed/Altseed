@@ -53,6 +53,9 @@
     <ClInclude Include="..\common\Math\ace.Matrix33.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="..\common\Math\ace.RectI.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\Math\ace.Matrix44.cpp">
@@ -86,6 +89,9 @@
       <Filter>Thread</Filter>
     </ClCompile>
     <ClCompile Include="..\common\Math\ace.Matrix33.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Math\RectI.cpp">
       <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>

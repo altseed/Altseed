@@ -81,4 +81,9 @@ namespace ace
 
 		m_postEffects.clear();
 	}
+
+	void CoreLayer_Imp::SetScene(CoreScene* scene)
+	{
+		m_scene = scene;
+	}
 }

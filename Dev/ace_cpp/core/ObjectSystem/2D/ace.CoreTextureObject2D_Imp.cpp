@@ -170,7 +170,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextureObject2D_Imp::Draw()
+	void CoreTextureObject2D_Imp::Draw(CoreCameraObject2D* camera)
 	{
 		if (!m_isDrawn)
 		{
@@ -203,6 +203,8 @@ namespace ace
 		auto radian = DegreeToRadian(m_transform.GetAngle());
 		auto scale = m_transform.GetScale();
 		auto matrix = m_transform.GetParentsMatrix();
+		Matrix33 cameraMatrix = camera != nullptr ? camera->GetCameraMatrix() : Matrix33();
+
 		for (auto& pos : position)
 		{
 			pos -= m_centerPosition;
@@ -220,7 +222,7 @@ namespace ace
 			pos += p;
 
 			auto v3 = Vector3DF(pos.X, pos.Y, 1);
-			auto result = matrix * v3;
+			auto result = cameraMatrix * matrix * v3;
 			pos = Vector2DF(result.X, result.Y);
 		}
 

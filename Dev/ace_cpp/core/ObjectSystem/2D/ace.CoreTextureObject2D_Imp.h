@@ -26,6 +26,11 @@ namespace ace
 		CoreTextureObject2D_Imp();
 		virtual ~CoreTextureObject2D_Imp();
 
+		bool GetIsCamera() const
+		{
+			return false;
+		}
+
 		bool GetIsDrawn() const;
 		void SetIsDrawn(bool value);
 
@@ -92,7 +97,7 @@ namespace ace
 		void RemoveChild(CoreObject2D& child);
 
 #if !SWIG
-		void Draw();
+		void Draw(CoreCameraObject2D* camera);
 		
 		void SetLayer(CoreLayer2D* layer);
 		void SetParent(CoreObject2D& parent, eChildMode mode)

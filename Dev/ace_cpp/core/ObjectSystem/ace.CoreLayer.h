@@ -2,10 +2,11 @@
 #pragma once
 
 #include "../ace.ReferenceObject.h"
+#include "ace.CoreScene.h"
 
 namespace ace
 {
-	class CoreLayer 
+	class CoreLayer
 		: public IReference
 	{
 	protected:
@@ -28,5 +29,9 @@ namespace ace
 		virtual void BeginDrawing() = 0;
 		virtual void Draw() = 0;
 		virtual void EndDrawing() = 0;
+
+#if !SWIG
+		virtual void SetScene(CoreScene* scene) = 0;
+#endif
 	};
 }

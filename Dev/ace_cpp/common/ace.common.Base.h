@@ -80,6 +80,7 @@ struct Vector3DF;
 struct Matrix43;
 struct Matrix44;
 struct RectF;
+struct RectI;
 
 //----------------------------------------------------------------------------------
 //
@@ -134,8 +135,8 @@ T Clamp( T t, U max_, V min_ )
 //----------------------------------------------------------------------------------
 inline float NormalizeAngle(float angle)
 {
-    int32_t ofs = (*(int32_t*)&angle & 0x80000000) | 0x3F000000; 
-    return (angle - ((int)(angle * 0.159154943f + *(float*)&ofs) * 6.283185307f)); 
+	int32_t ofs = (*(int32_t*)&angle & 0x80000000) | 0x3F000000; 
+	return (angle - ((int)(angle * 0.159154943f + *(float*)&ofs) * 6.283185307f)); 
 }
 
 //----------------------------------------------------------------------------------

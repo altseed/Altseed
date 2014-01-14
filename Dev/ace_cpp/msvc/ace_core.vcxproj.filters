@@ -418,6 +418,12 @@
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ace.Accessor.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -645,6 +651,9 @@
       <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
     <ClCompile Include="..\core\ace.Accessor.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Window\ace.Window_Imp_X11.cpp">

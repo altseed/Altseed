@@ -8,7 +8,7 @@
 
 namespace ace
 {
-	class CoreLayer_Imp 
+	class CoreLayer_Imp
 		: public CoreLayer
 	{
 	protected:
@@ -35,6 +35,8 @@ namespace ace
 
 		std::vector<CorePostEffect*>	m_postEffects;
 
+		CoreScene* m_scene;
+
 		CoreLayer_Imp(Graphics* graphics, Vector2DI windowSize);
 		virtual ~CoreLayer_Imp();
 	public:
@@ -47,5 +49,9 @@ namespace ace
 
 		virtual void AddPostEffect(CorePostEffect* postEffect);
 		virtual void ClearPostEffects();
+
+#if !SWIG
+		virtual void SetScene(CoreScene* scene);
+#endif
 	};
 }

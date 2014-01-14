@@ -15,6 +15,7 @@ namespace ace
 	CoreLayer2D_Imp::CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize)
 		: CoreLayer_Imp(graphics, windowSize)
 		, m_objects(list<ObjectPtr>())
+		, m_cameras(set<CoreCameraObject2D*>())
 		, m_renderer(nullptr)
 	{
 		m_renderer = new Renderer2D_Imp(graphics, log, windowSize);
@@ -39,7 +40,17 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::AddObject(ObjectPtr object)
 	{
-		m_objects.push_back(object);
+		if (object->GetIsCamera())
+		{
+			auto camera = (CoreCameraObject2D*)object;
+			m_cameras.insert(camera);
+			SafeAddRef(camera);
+		}
+		else
+		{
+			m_objects.push_back(object);
+		}
+
 		object->SetLayer(this);
 		SafeAddRef(object);
 	}
@@ -49,7 +60,17 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::RemoveObject(ObjectPtr object)
 	{
-		m_objects.remove(object);
+		if (object->GetIsCamera())
+		{
+			auto camera = (CoreCameraObject2D*)object;
+			m_cameras.erase(camera);
+			SafeRelease(camera);
+		}
+		else
+		{
+			m_objects.remove(object);
+		}
+
 		object->SetLayer(nullptr);
 		SafeRelease(object);
 	}
@@ -68,6 +89,14 @@ namespace ace
 	void CoreLayer2D_Imp::EndUpdating()
 	{
 
+	}
+
+	void CoreLayer2D_Imp::DrawObjects(CoreCameraObject2D* camera)
+	{
+		for (auto& x : m_objects)
+		{
+			x->Draw(camera);
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -100,9 +129,24 @@ namespace ace
 			return;
 		}
 
-		for (auto& x : m_objects)
+		if (!m_cameras.empty())
 		{
-			x->Draw();
+			for (auto& c : m_cameras)
+			{
+				m_graphics->SetRenderTarget(c->GetRenderTarget(), c->GetDepthBuffer());
+				DrawObjects(c);
+			}
+		}
+		else
+		{
+			DrawObjects(nullptr);
+		}
+
+		m_scene->SetRenderTargetForDrawingLayer();
+
+		for (auto& c : m_cameras)
+		{
+			c->Draw(nullptr);
 		}
 	}
 

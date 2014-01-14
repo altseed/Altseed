@@ -4,6 +4,7 @@
 #include "../ace.eChildMode.h"
 #include "../../Graphics/Common/2D/ace.Renderer2D.h"
 #include "ace.CoreLayer2D.h"
+#include "ace.CoreCameraObject2D.h"
 
 namespace ace
 {
@@ -14,6 +15,8 @@ namespace ace
 		virtual ~CoreObject2D()
 		{
 		}
+
+		virtual bool GetIsCamera() const = 0;
 
 		virtual bool GetIsDrawn() const = 0;
 		virtual void SetIsDrawn(bool value) = 0;
@@ -35,7 +38,7 @@ namespace ace
 		virtual void RemoveChild(CoreObject2D& chlid) = 0;
 
 #if !SWIG
-		virtual void Draw() = 0;
+		virtual void Draw(CoreCameraObject2D* camera) = 0;
 
 		virtual void SetLayer(CoreLayer2D* layer) = 0;
 		virtual void SetParent(CoreObject2D& parent, eChildMode mode) = 0;

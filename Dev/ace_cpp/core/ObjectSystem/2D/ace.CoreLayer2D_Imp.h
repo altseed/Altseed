@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "ace.CoreLayer2D.h"
 #include "ace.CoreObject2D.h"
+#include "ace.CoreCameraObject2D.h"
 #include "../ace.CoreLayer_Imp.h"
 #include "../../Graphics/Common/2D/ace.Renderer2D_Imp.h"
 #include <list>
@@ -16,12 +17,15 @@ namespace ace
 	friend class ObjectSystemFactory_Imp;
 
 	private:
+		std::set<CoreCameraObject2D*> m_cameras;
 		std::list<ObjectPtr> m_objects;
 
 		Renderer2D*		m_renderer;
 
 		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();
+
+		void DrawObjects(CoreCameraObject2D* camera);
 
 	public:
 		void AddObject(ObjectPtr object);

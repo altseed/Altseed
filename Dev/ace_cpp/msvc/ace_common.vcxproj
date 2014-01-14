@@ -79,6 +79,7 @@
     <ClInclude Include="..\common\Math\ace.Matrix43.h" />
     <ClInclude Include="..\common\Math\ace.Matrix44.h" />
     <ClInclude Include="..\common\Math\ace.RectF.h" />
+    <ClInclude Include="..\common\Math\ace.RectI.h" />
     <ClInclude Include="..\common\Math\ace.Vector2DF.h" />
     <ClInclude Include="..\common\Math\ace.Vector2DI.h" />
     <ClInclude Include="..\common\Math\ace.Vector3DF.h" />
@@ -101,6 +102,7 @@
     <ClCompile Include="..\common\Math\ace.Vector2DF.cpp" />
     <ClCompile Include="..\common\Math\ace.Vector2DI.cpp" />
     <ClCompile Include="..\common\Math\ace.Vector3DF.cpp" />
+    <ClCompile Include="..\common\Math\RectI.cpp" />
     <ClCompile Include="..\common\Thread\ace.CriticalSection.cpp" />
     <ClCompile Include="..\common\Thread\ace.Thread.cpp" />
     <ClCompile Include="..\common\utility\ace.PointerArray.cpp" />

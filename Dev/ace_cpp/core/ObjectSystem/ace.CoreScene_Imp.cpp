@@ -65,6 +65,7 @@ namespace ace
 	{
 		m_layers.push_back(layer);
 		SafeAddRef(layer);
+		layer->SetScene(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -74,6 +75,7 @@ namespace ace
 	{
 		m_layers.remove(layer);
 		SafeRelease(layer);
+		layer->SetScene(nullptr);
 	}
 
 	//----------------------------------------------------------------------------------
