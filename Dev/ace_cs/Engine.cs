@@ -33,6 +33,8 @@ namespace ace
 		public static Mouse Mouse { get; private set; }
 		public static JoystickContainer JoystickContainer { get; private set; }
 		public static Graphics Graphics { get; private set; }
+		public static AnimationSystem AnimationSystem { get; private set; }
+
 		internal static ObjectSystemFactory ObjectSystemFactory { get; private set; }
 		private static Scene NextScene { get; set; }
 
@@ -263,6 +265,7 @@ namespace ace
 			Graphics = new Graphics(core.GetGraphics_Imp());
 			ObjectSystemFactory = new ace.ObjectSystemFactory(core.GetObjectSystemFactory());
 			Profiler = new Profiler(core.GetProfiler());
+			AnimationSystem = new AnimationSystem(core.GetAnimationSyatem());
 		}
 
 		[System.Runtime.InteropServices.DllImport("kernel32")]
