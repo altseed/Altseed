@@ -75,10 +75,25 @@ struct PS_Input
 
 float3		hasTextures	: register( c0 );
 
+Texture2D		g_colorTexture		: register( t0 );
+SamplerState	g_colorSampler		: register( s0 );
+
+Texture2D		g_normalTexture		: register( t1 );
+SamplerState	g_normalSampler		: register( s1 );
+
+Texture2D		g_specularTexture		: register( t2 );
+SamplerState	g_specularSampler		: register( s2 );
+
 float4 main( const PS_Input Input ) : SV_Target
 {
 	float4 Output = Input.Color;
 	if(Output.a == 0.0f) discard;
+
+	if(hasTextures.x != 0.0)
+	{
+		Output = Output * g_colorTexture.Sample(g_colorSampler, Input.UV);
+	}
+
 	return Output;
 }
 
@@ -129,9 +144,22 @@ varying vec4 vaColor;
 
 uniform vec3 hasTextures;
 
+uniform sampler2D g_colorTexture;
+uniform sampler2D g_normalTexture;
+uniform sampler2D g_specularTexture;
+
 void main() 
 {
 	gl_FragColor = vaColor;
+
+	// gl only
+	vec4 vaTexCoord_ = vaTexCoord;
+	vaTexCoord_.y = 1.0 - vaTexCoord_.y;
+
+	if(hasTextures.x != 0.0)
+	{
+		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaTexCoord_.xy);
+	}
 }
 
 )";
@@ -573,21 +601,110 @@ void main()
 				vbuf.DirectionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
 			}
 
-			//pbuf.HasTextures.X = 
+			auto& boneOffsets = mesh->GetMaterialOffsets();
+			auto& materialOffsets = mesh->GetMaterialOffsets();
 
-			GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
-			GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
-			GetGraphics()->SetShader(m_shader.get());
+			if (boneOffsets.size() == 0 || materialOffsets.size() == 0)
+			{
+				// ボーン、もしくはマテリアルの設定がない場合
 
-			auto& state = GetGraphics()->GetRenderState()->Push();
-			state.DepthTest = true;
-			state.DepthWrite = true;
-			state.CullingType = CULLING_DOUBLE;
-			GetGraphics()->GetRenderState()->Update(false);
+				pbuf.HasTextures.X = 0.0f;
+				pbuf.HasTextures.Y = 0.0f;
+				pbuf.HasTextures.Z = 0.0f;
 
-			GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
+				GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
+				GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
+				GetGraphics()->SetShader(m_shader.get());
 
-			GetGraphics()->GetRenderState()->Pop();
+				auto& state = GetGraphics()->GetRenderState()->Push();
+				state.DepthTest = true;
+				state.DepthWrite = true;
+				state.CullingType = CULLING_DOUBLE;
+				GetGraphics()->GetRenderState()->Update(false);
+
+				GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
+
+				GetGraphics()->GetRenderState()->Pop();
+			}
+			else
+			{
+				// 設定がある場合
+				auto mIndex = 0;
+				auto bIndex = 0;
+
+				auto fOffset = 0;
+				auto fCount = 0;
+
+				auto bFCount = boneOffsets[bIndex].FaceOffset;
+				auto mFCount = materialOffsets[mIndex].FaceOffset;
+
+				while (fCount < mesh->GetIndexBuffer()->GetCount() / 3)
+				{
+					fCount = Min(bFCount, mFCount) - fOffset;
+					if (fCount == 0) break;
+
+					auto material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
+
+					if (material != nullptr)
+					{
+						pbuf.HasTextures.X = material->ColorTexture != nullptr ? 1.0f : 0.0f;
+						pbuf.HasTextures.Y = material->NormalTexture != nullptr ? 1.0f : 0.0f;
+						pbuf.HasTextures.Z = material->SpecularTexture != nullptr ? 1.0f : 0.0f;
+
+						if (material->ColorTexture != nullptr)
+						{
+							m_shader->SetTexture("g_colorTexture", material->ColorTexture, 0);
+						}
+
+						if (material->NormalTexture != nullptr)
+						{
+							m_shader->SetTexture("g_normalTexture", material->NormalTexture, 1);
+						}
+
+						if (material->SpecularTexture != nullptr)
+						{
+							m_shader->SetTexture("g_specularTexture", material->SpecularTexture, 2);
+						}
+					}
+					else
+					{
+						pbuf.HasTextures.X = 0.0f;
+						pbuf.HasTextures.Y = 0.0f;
+						pbuf.HasTextures.Z = 0.0f;
+					}
+					
+					GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
+					GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
+					GetGraphics()->SetShader(m_shader.get());
+
+					auto& state = GetGraphics()->GetRenderState()->Push();
+					state.DepthTest = true;
+					state.DepthWrite = true;
+					state.CullingType = CULLING_DOUBLE;
+					GetGraphics()->GetRenderState()->Update(false);
+
+					GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
+
+					GetGraphics()->GetRenderState()->Pop();
+
+
+					if (fCount + fOffset == bFCount && boneOffsets.size() > bIndex)
+					{
+						bIndex++;
+						bFCount += boneOffsets[bIndex].FaceOffset;
+					}
+
+					if (fCount + fOffset == mFCount && materialOffsets.size() > mIndex)
+					{
+						mIndex++;
+						mFCount += materialOffsets[mIndex].FaceOffset;
+					}
+
+					fOffset += fCount;
+				}
+			}
+
+			
 		}
 	}
 }
