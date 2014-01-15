@@ -27,6 +27,7 @@ extern void Graphics_PostEffectGaussianBlur_(bool isOpenGLMode);
 extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
 extern void Graphics_PostEffectSepia(bool isOpenGLMode);
 extern void Graphics_SimpleMesh_(bool isOpenGLMode);
+extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
 
 /**
 	@brief	単体テストを実行する。
@@ -46,7 +47,7 @@ int main(int argc, char **argv)
 	//Graphics_PostEffectGaussianBlur_(true);
 	//return 0;
 
-	//Graphics_SimpleMesh_(true);
+	//Graphics_Camera3DPostEffect_(false);
 	//return 0;
 
 	auto result = RUN_ALL_TESTS();

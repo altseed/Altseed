@@ -31,22 +31,20 @@ protected:
 		auto pe = std::make_shared<ace::PostEffectGrayScale>(g);
 		layer->AddPostEffect(pe);
 	}
-
-
-
 };
 
 
 TEST(Graphics, PostEffectGrayScale_GL)
 {
 	Graphics_PostEffectGrayScale(true).Run();
-
+	AssertMemoryDoesntLeak();
 }
 
 #if _WIN32
 TEST(Graphics, PostEffectGrayScale_DX)
 {
 	Graphics_PostEffectGrayScale(false).Run();
+	AssertMemoryDoesntLeak();
 }
 #endif
 

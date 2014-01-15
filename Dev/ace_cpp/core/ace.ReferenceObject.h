@@ -5,6 +5,7 @@
 //----------------------------------------------------------------------------------
 #include <ace.common.Base.h>
 #include <memory>
+#include <atomic>
 
 #include "ace.Core.Base_Imp.h"
 
@@ -22,7 +23,7 @@ namespace ace {
 		: public IReference
 	{
 	private:
-		int32_t m_reference;
+		mutable std::atomic<int32_t> m_reference;
 
 	public:
 		ReferenceObject();

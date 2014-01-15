@@ -169,16 +169,19 @@ protected:
 TEST(Graphics, Camera3DPostEffect_GL)
 {
 	Graphics_Camera3DPostEffect(true).Run();
+	AssertMemoryDoesntLeak();
 }
 
 #if _WIN32
 TEST(Graphics, Camera3DPostEffect_DX)
 {
 	Graphics_Camera3DPostEffect(false).Run();
+	AssertMemoryDoesntLeak();
 }
 #endif
 
 void Graphics_Camera3DPostEffect_(bool isGL)
 {
 	Graphics_Camera3DPostEffect(isGL).Run();
+	AssertMemoryDoesntLeak();
 }
