@@ -53,8 +53,8 @@ float4x4 calcMatrix(float4 weights, uint4 indexes)
 VS_Output main( const VS_Input Input )
 {
 	VS_Output Output = (VS_Output)0;
-	//Output.Pos = mul( float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ), matMCP[0] );
-	Output.Pos = mul( float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ), calcMatrix(Input.BoneWeights,Input.BoneIndexes) );
+	//Output.Pos = mul( matMCP[0], float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+	Output.Pos = mul( calcMatrix(Input.BoneWeights,Input.BoneIndexes), float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
 	
 	Output.UV = Input.UV;
 	Output.Color.xyz = directionalLightColor * max( dot(directionalLightDirection,Input.Normal), 0.0 );
@@ -128,8 +128,8 @@ mat4 calcMatrix(vec4 weights, vec4 indexes)
 
 void main()
 {
-//	gl_Position = vec4(Position.x,Position.y,Position.z,1.0) * matMCP[0];
-	gl_Position = vec4(Position.x,Position.y,Position.z,1.0) * calcMatrix(BoneWeights,BoneIndexes);
+//	gl_Position = matMCP[0] * vec4(Position.x,Position.y,Position.z,1.0);
+	gl_Position = calcMatrix(BoneWeights,BoneIndexes) * vec4(Position.x,Position.y,Position.z,1.0);
 	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
 	vaColor.xyz = directionalLightColor * max( dot(directionalLightDirection,Normal), 0.0 );
 	vaColor.w = 1.0;
@@ -191,8 +191,8 @@ void main()
 			matT.Translation(Position[0], Position[1], Position[2]);
 			matR.Quaternion(Rotation[0], Rotation[1], Rotation[2], Rotation[3]);
 
-			mat = Matrix44::Mul(mat, matS, matR);
-			mat = Matrix44::Mul(mat, mat, matT);
+			mat = Matrix44::Mul(mat, matR, matS);
+			mat = Matrix44::Mul(mat, matT, mat);
 
 			return mat;
 		}
@@ -203,8 +203,8 @@ void main()
 			matT.Translation(Position[0], Position[1], Position[2]);
 			matR.RotationAxis(Vector3DF(Rotation[0], Rotation[2], -Rotation[1]), Rotation[3]);
 
-			mat = Matrix44::Mul(mat, matS, matR);
-			mat = Matrix44::Mul(mat, mat, matT);
+			mat = Matrix44::Mul(mat, matR, matS);
+			mat = Matrix44::Mul(mat, matT, mat);
 
 			return mat;
 		}
@@ -219,50 +219,50 @@ void main()
 
 			if (rotationType == ROTATION_ORDER_XZY)
 			{
-				mat = Matrix44::Mul(mat, matS, matRx);
-				mat = Matrix44::Mul(mat, mat, matRz);
-				mat = Matrix44::Mul(mat, mat, matRy);
-				mat = Matrix44::Mul(mat, mat, matT);
+				mat = Matrix44::Mul(mat, matRx, matS);
+				mat = Matrix44::Mul(mat, matRz, mat);
+				mat = Matrix44::Mul(mat, matRy, mat);
+				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			if (rotationType == ROTATION_ORDER_XYZ)
 			{
-				mat = Matrix44::Mul(mat, matS, matRx);
-				mat = Matrix44::Mul(mat, mat, matRy);
-				mat = Matrix44::Mul(mat, mat, matRz);
-				mat = Matrix44::Mul(mat, mat, matT);
+				mat = Matrix44::Mul(mat, matRx, matS);
+				mat = Matrix44::Mul(mat, matRy, mat);
+				mat = Matrix44::Mul(mat, matRz, mat);
+				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			if (rotationType == ROTATION_ORDER_ZXY)
 			{
-				mat = Matrix44::Mul(mat, matS, matRz);
-				mat = Matrix44::Mul(mat, mat, matRx);
-				mat = Matrix44::Mul(mat, mat, matRy);
-				mat = Matrix44::Mul(mat, mat, matT);
+				mat = Matrix44::Mul(mat, matRz, matS);
+				mat = Matrix44::Mul(mat, matRx, mat);
+				mat = Matrix44::Mul(mat, matRy, mat);
+				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			if (rotationType == ROTATION_ORDER_ZYX)
 			{
-				mat = Matrix44::Mul(mat, matS, matRz);
-				mat = Matrix44::Mul(mat, mat, matRy);
-				mat = Matrix44::Mul(mat, mat, matRz);
-				mat = Matrix44::Mul(mat, mat, matT);
+				mat = Matrix44::Mul(mat, matRz, matS);
+				mat = Matrix44::Mul(mat, matRy, mat);
+				mat = Matrix44::Mul(mat, matRz, mat);
+				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			if (rotationType == ROTATION_ORDER_YXZ)
 			{
-				mat = Matrix44::Mul(mat, matS, matRy);
-				mat = Matrix44::Mul(mat, mat, matRx);
-				mat = Matrix44::Mul(mat, mat, matRz);
-				mat = Matrix44::Mul(mat, mat, matT);
+				mat = Matrix44::Mul(mat, matRy, matS);
+				mat = Matrix44::Mul(mat, matRx, mat);
+				mat = Matrix44::Mul(mat, matRz, mat);
+				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			if (rotationType == ROTATION_ORDER_YZX)
 			{
-				mat = Matrix44::Mul(mat, matS, matRy);
-				mat = Matrix44::Mul(mat, mat, matRz);
-				mat = Matrix44::Mul(mat, mat, matRx);
-				mat = Matrix44::Mul(mat, mat, matT);
+				mat = Matrix44::Mul(mat, matRy, matS);
+				mat = Matrix44::Mul(mat, matRz, mat);
+				mat = Matrix44::Mul(mat, matRx, mat);
+				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			return mat;
@@ -352,18 +352,18 @@ void main()
 			// ローカル行列の計算
 			m_matrixes[i] = m_boneProps[i].CalcMatrix(b.RotationType);
 
-			Matrix44::Mul(m_matrixes[i], m_matrixes[i], b.LocalMat);
+			Matrix44::Mul(m_matrixes[i], b.LocalMat, m_matrixes[i]);
 
 			if (b.ParentBoneIndex >= 0)
 			{
-				Matrix44::Mul(m_matrixes[i], m_matrixes[i], m_matrixes[b.ParentBoneIndex]);
+				Matrix44::Mul(m_matrixes[i], m_matrixes[b.ParentBoneIndex], m_matrixes[i]);
 			}
 		}
 
 		for (auto i = 0; i < m_deformer->GetBones().size(); i++)
 		{
 			auto& b = m_deformer->GetBones()[i];
-			Matrix44::Mul(m_matrixes[i], m_matrixes[i], b.GlobalMatInv);
+			Matrix44::Mul(m_matrixes[i], b.GlobalMatInv, m_matrixes[i]);
 		}
 	}
 
@@ -579,15 +579,15 @@ void main()
 				for (int32_t i = 0; i < Min(32, matrices.size()); i++)
 				{
 					vbuf.MCPMatrices[i].Indentity();
-					Matrix44::Mul(vbuf.MCPMatrices[i], GetLocalMatrix_FR(), prop.CameraProjectionMatrix);
-					Matrix44::Mul(vbuf.MCPMatrices[i], matrices[i], vbuf.MCPMatrices[i]);
+					Matrix44::Mul(vbuf.MCPMatrices[i], prop.CameraProjectionMatrix, GetLocalMatrix_FR());
+					Matrix44::Mul(vbuf.MCPMatrices[i], vbuf.MCPMatrices[i], matrices[i]);
 				}
 			}
 			else
 			{
 				// ボーンなし
 				vbuf.MCPMatrices[0].Indentity();
-				Matrix44::Mul(vbuf.MCPMatrices[0], GetLocalMatrix_FR(), prop.CameraProjectionMatrix);
+				Matrix44::Mul(vbuf.MCPMatrices[0], prop.CameraProjectionMatrix, GetLocalMatrix_FR());
 				for (int32_t i = 1; i < 32; i++)
 				{
 					vbuf.MCPMatrices[i] = vbuf.MCPMatrices[0];

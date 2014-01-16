@@ -101,8 +101,6 @@ public:
 	*/
 	static Vector3DF& Cross( Vector3DF& o, const Vector3DF& in1, const Vector3DF& in2 );
 
-	static Vector3DF& Transform( Vector3DF& o, const Vector3DF& in, const Matrix43& mat );
-
 	static Vector3DF& Transform( Vector3DF& o, const Vector3DF& in, const Matrix44& mat );
 };
 

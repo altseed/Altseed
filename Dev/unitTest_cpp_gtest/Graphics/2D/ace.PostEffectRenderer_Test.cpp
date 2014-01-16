@@ -109,9 +109,9 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 		graphics->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 		material->SetTexture2D(ace::ToAString("g_texture").c_str(), texture);
-		renderer->DrawOnTexture2DWithMaterial_Imp(
-			(ace::RenderTexture_Imp*)(rtex.get()),
-			(ace::Material2D_Imp*)(material.get()));
+		//renderer->DrawOnTexture2DWithMaterial_Imp(
+		//	(ace::RenderTexture_Imp*)(rtex.get()),
+		//	(ace::Material2D_Imp*)(material.get()));
 
 		graphics->SetRenderTarget(nullptr, nullptr);
 

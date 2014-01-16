@@ -198,7 +198,7 @@ void main()
 
 			// カメラプロジェクション行列計算
 			Matrix44 cameraProjMat;
-			ace::Matrix44::Mul(cameraProjMat, c->GetCameraMatrix_FR(), c->GetProjectionMatrix_FR());
+			ace::Matrix44::Mul(cameraProjMat, c->GetProjectionMatrix_FR(), c->GetCameraMatrix_FR());
 
 			prop.CameraProjectionMatrix = cameraProjMat;
 

@@ -13,10 +13,10 @@ namespace ace
 		matrz.RotationZ(r.Z / 180.0f * 3.141592f);
 		mats.Scaling(s.X, s.Y, s.Z);
 
-		Matrix44::Mul(mat, mats, matrz);
-		Matrix44::Mul(mat, mat, matrx);
-		Matrix44::Mul(mat, mat, matry);
-		Matrix44::Mul(mat, mat, matt);
+		Matrix44::Mul(mat, matrz, mats);
+		Matrix44::Mul(mat, matrx, mat);
+		Matrix44::Mul(mat, matry, mat);
+		Matrix44::Mul(mat, matt, mat);
 
 		return mat;
 	}

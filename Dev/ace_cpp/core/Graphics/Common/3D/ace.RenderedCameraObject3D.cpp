@@ -173,7 +173,7 @@ namespace ace
 			m_values_FR.zfar);
 
 		m_values_FR.cameraMatrix.LookAtRH(
-			Vector3DF(mat.Values[3][0], mat.Values[3][1], mat.Values[3][2]),
+			Vector3DF(mat.Values[0][3], mat.Values[1][3], mat.Values[2][3]),
 			m_values_FR.focus,
 			Vector3DF(0, 1, 0));
 	}
