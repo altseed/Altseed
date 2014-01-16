@@ -80,7 +80,7 @@ namespace ace
 			auto rotation = Matrix33().SetRotation(DegreeToRadian(m_angle));
 			auto scale = Matrix33().SetScaling(m_scale.X, m_scale.Y);
 			m_matrixToTransform = make_shared<Matrix33>();
-			*m_matrixToTransform = translation * scale * rotation;
+			*m_matrixToTransform = translation * rotation * scale;
 		}
 		return *m_matrixToTransform;
 	}
