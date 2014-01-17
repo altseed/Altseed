@@ -1,4 +1,5 @@
 #include <fbxsdk.h>
+#include "../ace_cpp/common/Utility/ace.BinaryWriter.h"
 
 /* Tab character ("\t") counter */
 int numTabs = 0; 
