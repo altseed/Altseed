@@ -13,6 +13,93 @@
 //
 //----------------------------------------------------------------------------------
 namespace ace {
+
+	GraphicsResourceFile::GraphicsResourceFile(
+		GraphicsResourceContainer* container, 
+		const achar* path, 
+		GraphicsResourceFileObserver* observer)
+	{
+		m_path = path;
+		m_modifiedTime = GraphicsResourceContainer::GetModifiedTime(path);
+		m_container = container;
+
+		m_observers.insert(observer);
+
+		m_container->AddResourceFile(this);
+	}
+
+	GraphicsResourceFile::~GraphicsResourceFile()
+	{
+	}
+
+	void GraphicsResourceFile::Reload(bool fourced)
+	{
+		auto time = GraphicsResourceContainer::GetModifiedTime(m_path.c_str());
+
+		if (m_modifiedTime != time)
+		{
+			for (auto& o : m_observers)
+			{
+				o->Update(this);
+			}
+
+			m_modifiedTime = time;
+		}
+	}
+
+	void GraphicsResourceFile::Attach(GraphicsResourceFileObserver* observer)
+	{
+		if (m_observers.count(observer) == 0)
+		{
+			m_observers.insert(observer);
+		}
+	}
+
+	void GraphicsResourceFile::Detach(GraphicsResourceFileObserver* observer)
+	{
+		if (m_observers.count(observer) != 0)
+		{
+			m_observers.erase(observer);
+		}
+
+		if (m_observers.size() == 0)
+		{
+			m_container->RemoveResourceFile(this);
+			delete this;
+		}
+	}
+
+	GraphicsTexture2DFileObserver::GraphicsTexture2DFileObserver(Texture2D_Imp* texture)
+	{
+		m_texture = texture;
+	}
+
+	GraphicsTexture2DFileObserver::~GraphicsTexture2DFileObserver()
+	{
+
+	}
+
+	void GraphicsTexture2DFileObserver::Update(GraphicsResourceFile* file)
+	{
+#if _WIN32
+		auto fp = _wfopen(file->GetPath(), L"rb");
+		if (fp == nullptr) return;
+#else
+		auto fp = fopen(ToUtf8String(file->GetPath()).c_str(), "rb");
+		if (fp == nullptr) return;
+#endif
+
+		fseek(fp, 0, SEEK_END);
+		auto size = ftell(fp);
+		fseek(fp, 0, SEEK_SET);
+		auto data = new uint8_t[size];
+		fread(data, 1, size, fp);
+		fclose(fp);
+
+		m_texture->Reload(data, size);
+		SafeDeleteArray(data);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -142,6 +229,16 @@ namespace ace {
 			info.first->Reload(data, size);
 			SafeDeleteArray(data);
 		}
+	}
+
+	void GraphicsResourceContainer::AddResourceFile(GraphicsResourceFile* file)
+	{
+		m_resourceFiles.insert(file);
+	}
+
+	void GraphicsResourceContainer::RemoveResourceFile(GraphicsResourceFile* file)
+	{
+		m_resourceFiles.erase(file);
 	}
 
 	//----------------------------------------------------------------------------------
