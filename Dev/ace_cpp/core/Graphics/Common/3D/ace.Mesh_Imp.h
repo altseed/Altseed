@@ -76,7 +76,9 @@ namespace ace
 
 		std::vector<Material>	m_materials;
 
-		Deformer*					m_deformer = nullptr;
+		bool					m_requireToCalcInternalParameters;
+
+		Deformer*				m_deformer = nullptr;
 
 		Mesh_Imp(Graphics* graphics);
 		virtual ~Mesh_Imp();

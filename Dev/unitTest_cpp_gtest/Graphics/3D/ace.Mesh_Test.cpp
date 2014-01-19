@@ -80,6 +80,8 @@ static std::shared_ptr<ace::Mesh> CreateMesh(ace::Graphics* graphics)
 	mesh->AddFace(11, 15, 19);
 	mesh->AddFace(11, 19, 23);
 
+	mesh->AddMaterialCount(0, 12);
+
 	mesh->SendToGPUMemory();
 	return mesh;
 }
