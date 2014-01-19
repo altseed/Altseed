@@ -82,7 +82,11 @@ static std::shared_ptr<ace::Mesh> CreateMesh(ace::Graphics* graphics)
 
 	mesh->AddMaterialCount(0, 12);
 
+	auto texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sample1.png").c_str());
+
+	mesh->SetColorTexture(0, texture.get());
 	mesh->SendToGPUMemory();
+
 	return mesh;
 }
 
