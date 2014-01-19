@@ -3,7 +3,7 @@
 
 #include <Graphics/Common/2D/ace.PostEffectRenderer.h>
 #include <Graphics/Common/2D/ace.Renderer2D_Imp.h>
-#include <Graphics/Common/Resource/ace.Material2D.h>
+#include <Graphics/Common/Resource/ace.Material2D_Imp.h>
 #include <Graphics/Common/Resource/ace.Shader2D.h>
 
 static const char* shader2d_dx_ps = R"(
@@ -109,9 +109,10 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 		graphics->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 		material->SetTexture2D(ace::ToAString("g_texture").c_str(), texture);
-		//renderer->DrawOnTexture2DWithMaterial_Imp(
-		//	(ace::RenderTexture_Imp*)(rtex.get()),
-		//	(ace::Material2D_Imp*)(material.get()));
+
+		auto command = ((ace::Material2D_Imp*)material.get())->GenerateShaderCommand();
+		command->SetTarget(rtex.get());
+		renderer->DrawOnTexture2DWithMaterialWithCommand(command);
 
 		graphics->SetRenderTarget(nullptr, nullptr);
 

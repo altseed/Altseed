@@ -214,8 +214,8 @@ void main()
 			matS.Scaling(Scale[0], Scale[1], Scale[2]);
 			matT.Translation(Position[0], Position[1], Position[2]);
 			matRx.RotationX(Rotation[0]);
-			matRy.RotationY(Rotation[2]);
-			matRz.RotationZ(-Rotation[1]);
+			matRy.RotationY(Rotation[1]);
+			matRz.RotationZ(Rotation[2]);
 
 			if (rotationType == ROTATION_ORDER_XZY)
 			{
@@ -601,7 +601,7 @@ void main()
 				vbuf.DirectionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
 			}
 
-			auto& boneOffsets = mesh->GetMaterialOffsets();
+			auto& boneOffsets = mesh->GetBoneOffsets();
 			auto& materialOffsets = mesh->GetMaterialOffsets();
 
 			if (boneOffsets.size() == 0 || materialOffsets.size() == 0)
@@ -690,14 +690,14 @@ void main()
 
 					if (fCount + fOffset == bFCount && boneOffsets.size() > bIndex)
 					{
-						bIndex++;
 						bFCount += boneOffsets[bIndex].FaceOffset;
+						bIndex++;
 					}
 
 					if (fCount + fOffset == mFCount && materialOffsets.size() > mIndex)
 					{
-						mIndex++;
 						mFCount += materialOffsets[mIndex].FaceOffset;
+						mIndex++;
 					}
 
 					fOffset += fCount;
