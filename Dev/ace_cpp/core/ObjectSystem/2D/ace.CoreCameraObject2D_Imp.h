@@ -4,7 +4,9 @@
 
 namespace ace
 {
-	class CoreCameraObject2D_Imp : public CoreCameraObject2D
+	class CoreCameraObject2D_Imp
+		: public CoreCameraObject2D
+		, public ReferenceObject
 	{
 	private:
 		ObjectInfo2D m_objectInfo;
@@ -20,7 +22,7 @@ namespace ace
 		{
 		}
 
-		bool GetIsCamera()
+		bool GetIsCamera() const
 		{
 			return true;
 		}
@@ -121,6 +123,10 @@ namespace ace
 		}
 
 		Matrix33 GetCameraMatrix();
+
+		int AddRef() { return ReferenceObject::AddRef(); }
+		int Release() { return ReferenceObject::Release(); }
+		int GetRef() { return ReferenceObject::GetRef(); }
 #endif
 	};
 }

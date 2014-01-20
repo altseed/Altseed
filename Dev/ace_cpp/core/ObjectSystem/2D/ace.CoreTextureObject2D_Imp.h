@@ -108,7 +108,7 @@ namespace ace
 		void RemoveChild(CoreObject2D& child);
 
 #if !SWIG
-		void Draw(Matrix33* cameraMatrix);
+		void Draw(Matrix33 cameraMatrix);
 		
 		void SetLayer(CoreLayer2D* layer)
 		{

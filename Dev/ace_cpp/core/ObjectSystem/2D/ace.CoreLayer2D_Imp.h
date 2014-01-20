@@ -10,7 +10,7 @@
 
 namespace ace
 {
-	class Scene;
+	class CoreScene;
 
 	class CoreLayer2D_Imp
 		: public CoreLayer2D
@@ -56,7 +56,7 @@ namespace ace
 		Renderer2D* GetRenderer() const { return m_renderer; }
 		Graphics* GetGraphicsImp() { return m_graphics; }
 
-		void SetScene(Scene* scene);
+		virtual void SetScene(CoreScene* scene) { CoreLayer_Imp::SetScene(scene); }
 
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }

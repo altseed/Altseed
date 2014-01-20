@@ -15,6 +15,7 @@ namespace ace
 		virtual ~ObjectSystemFactory_Imp();
 
 		CoreTextureObject2D* CreateTextureObject2D() override;
+		CoreCameraObject2D* CreateCameraObject2D() override;
 		CoreLayer2D* CreateLayer2D() override;
 
 		CoreModelObject3D* CreateModelObject3D() override;

@@ -11,6 +11,8 @@
 
 namespace ace
 {
+	class CoreScene;
+
 	class CoreLayer3D_Imp
 		: public CoreLayer3D
 		, public CoreLayer_Imp
@@ -56,6 +58,8 @@ namespace ace
 		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
 #if !SWIG
 	public:
+		virtual void SetScene(CoreScene* scene) { CoreLayer_Imp::SetScene(scene); }
+
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }
