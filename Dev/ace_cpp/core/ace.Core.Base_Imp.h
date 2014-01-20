@@ -217,6 +217,14 @@ namespace ace {
 			Vector2DF_R	LeftHandle;
 			Vector2DF_R	RightHandle;
 		};
+
+		struct RectI_R
+		{
+			int X;
+			int Y;
+			int Width;
+			int Height;
+		};
 	}
 	//----------------------------------------------------------------------------------
 	//

@@ -4,6 +4,11 @@ using namespace std;
 
 namespace ace
 {
+	RectI::RectI()
+		: X(0), Y(0), Width(0), Height(0)
+	{
+	}
+
 	RectI::RectI(int x, int y, int width, int height)
 		: X(x), Y(y), Width(width), Height(height)
 	{

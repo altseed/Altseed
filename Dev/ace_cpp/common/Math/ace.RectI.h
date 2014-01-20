@@ -15,6 +15,8 @@ namespace ace
 		int Width;
 		int Height;
 
+		RectI();
+
 		RectI(int x, int y, int width, int height);
 
 		Vector2DI GetPosition() const;

@@ -38,6 +38,7 @@
 #include "ObjectSystem/ace.eChildMode.h"
 #include "ObjectSystem/2D/ace.CoreObject2D.h"
 #include "ObjectSystem/2D/ace.CoreTextureObject2D.h"
+#include "ObjectSystem/2D/ace.CoreCameraObject2D.h"
 
 #include "ObjectSystem/ace.CoreLayer.h"
 
@@ -153,6 +154,7 @@ unsafe class"
 STRUCT_OBJECT( ace::Vector2DF, ace::Vector2DF_R, ace.Vector2DF )
 STRUCT_OBJECT( ace::Vector2DI, ace::Vector2DI_R, ace.Vector2DI )
 STRUCT_OBJECT( ace::Vector3DF, ace::Vector3DF_R, ace.Vector3DF )
+STRUCT_OBJECT( ace::RectI, ace::RectI_R, ace.RectI )
 STRUCT_OBJECT( ace::Matrix44, ace::Matrix44_R, ace.Matrix44 )
 STRUCT_OBJECT( ace::FCurveKeyframe, ace::FCurveKeyframe_R, ace.FCurveKeyframe )
 
@@ -210,6 +212,8 @@ CPP_OBJECT( ace::CoreObject2D )
 CPP_OBJECT( ace::CoreObject2D_Imp )
 CPP_OBJECT( ace::CoreTextureObject2D )
 CPP_OBJECT( ace::CoreTextureObject2D_Imp )
+CPP_OBJECT( ace::CoreCameraObject2D )
+CPP_OBJECT( ace::CoreCameraObject2D_Imp )
 
 CPP_OBJECT( ace::CoreObject3D )
 CPP_OBJECT( ace::CoreModelObject3D )
@@ -275,6 +279,7 @@ namespace ace
 	struct Vector3DF;
 	struct Color;
 	struct Matrix44;
+	struct RectI;
 }
 
 %include "ace_cpp/core/ace.Core.Base.h"
@@ -325,6 +330,7 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/ace.eChildMode.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D.h"
+%include "ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.CoreLayer.h"
 
