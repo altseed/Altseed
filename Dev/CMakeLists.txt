@@ -31,6 +31,7 @@ set(common_src
 	ace_cpp/common/Math/ace.Matrix43.cpp
 	ace_cpp/common/Math/ace.Matrix44.cpp
 	ace_cpp/common/Math/ace.RectF.cpp
+	ace_cpp/common/Math/ace.RectI.cpp
 	ace_cpp/common/Math/ace.Vector2DF.cpp
 	ace_cpp/common/Math/ace.Vector2DI.cpp
 	ace_cpp/common/Math/ace.Vector3DF.cpp
@@ -93,8 +94,10 @@ set(core_src
 	ace_cpp/core/ObjectSystem/ace.CoreScene_Imp.cpp
 	ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory_Imp.cpp
 
+	ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D_Imp.cpp
+	ace_cpp/core/ObjectSystem/2D/ace.ObjectInfo2D.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.TransformInfo2D.cpp
 
 	ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D_Imp.cpp
@@ -216,6 +219,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsMember.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ParentObject.cpp
 
+	unitTest_Engine_cpp_gtest/Graphics/3D/Camera3DPostEffect.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/SimpleMesh.cpp
 
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/CustomPostEffect.cpp
