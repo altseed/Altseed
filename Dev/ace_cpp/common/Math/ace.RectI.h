@@ -1,7 +1,9 @@
-#pragma once
+﻿#pragma once
 
+#include <array>
 #include "../ace.common.Base.h"
 #include "ace.Vector2DI.h"
+#include "ace.Vector2DF.h"
 
 namespace ace
 {
@@ -18,5 +20,7 @@ namespace ace
 		Vector2DI GetPosition() const;
 
 		Vector2DI GetSize() const;
+
+		std::array<Vector2DF, 4> GetVertexes() const;
 	};
 }

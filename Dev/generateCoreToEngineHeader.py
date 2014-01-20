@@ -93,6 +93,7 @@ fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.CoreScene.h')
 
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D.h')
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D.h')
 
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D.h')

@@ -2,6 +2,7 @@
 #include <memory>
 #include "ace.CoreObject2D.h"
 #include "ace.ParentInfo2D.h"
+#include "ace.CoreLayer2D.h"
 
 namespace ace
 {

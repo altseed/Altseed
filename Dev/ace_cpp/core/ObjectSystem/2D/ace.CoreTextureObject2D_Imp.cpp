@@ -12,10 +12,8 @@ namespace ace
 		, m_turnUL(false)
 		, m_alphablend(eAlphaBlend::ALPHA_BLEND_BLEND)
 		, m_drawingPtiority(0)
-		, m_layer(nullptr)
 		, m_transform(TransformInfo2D())
-		, m_isDrawn(true)
-		, m_isAlive(true)
+		, m_objectInfo(ObjectInfo2D())
 	{
 	}
 
@@ -28,26 +26,6 @@ namespace ace
 
 		// 循環になるので参照カウンタは変更しない
 		//SafeRelease(m_layer);
-	}
-
-	bool CoreTextureObject2D_Imp::GetIsDrawn() const
-	{
-		return m_isDrawn;
-	}
-
-	void CoreTextureObject2D_Imp::SetIsDrawn(bool value)
-	{
-		m_isDrawn = value;
-	}
-
-	bool CoreTextureObject2D_Imp::GetIsAlive() const
-	{
-		return m_isAlive;
-	}
-
-	void CoreTextureObject2D_Imp::SetIsAlive(bool value)
-	{
-		m_isAlive = value;
 	}
 
 
@@ -170,9 +148,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextureObject2D_Imp::Draw(CoreCameraObject2D* camera)
+	void CoreTextureObject2D_Imp::Draw(Matrix33* cameraMatrix)
 	{
-		if (!m_isDrawn)
+		if (!m_objectInfo.GetIsDrawn())
 		{
 			return;
 		}
@@ -203,7 +181,7 @@ namespace ace
 		auto radian = DegreeToRadian(m_transform.GetAngle());
 		auto scale = m_transform.GetScale();
 		auto matrix = m_transform.GetParentsMatrix();
-		Matrix33 cameraMatrix = camera != nullptr ? camera->GetCameraMatrix() : Matrix33();
+		Matrix33 cMatrix = cameraMatrix != nullptr ? *cameraMatrix : Matrix33();
 
 		for (auto& pos : position)
 		{
@@ -211,18 +189,19 @@ namespace ace
 
 			auto x = pos.X;
 			auto y = pos.Y;
+
+			pos.X *= scale.X;
+			pos.Y *= scale.Y;
+
 			float sin, cos;
 			SinCos(radian, sin, cos);
 			pos.X = x * cos - y * sin;
 			pos.Y = x * sin + y * cos;
 
-			pos.X *= scale.X;
-			pos.Y *= scale.Y;
-
 			pos += p;
 
 			auto v3 = Vector3DF(pos.X, pos.Y, 1);
-			auto result = cameraMatrix * matrix * v3;
+			auto result = cMatrix * matrix * v3;
 			pos = Vector2DF(result.X, result.Y);
 		}
 
@@ -252,18 +231,13 @@ namespace ace
 			}
 		}
 
-		m_layer->GetRenderer()->AddSprite(
+		m_objectInfo.GetLayer()->GetRenderer()->AddSprite(
 			position,
 			color,
 			uvs,
 			m_texture,
 			m_alphablend,
 			m_drawingPtiority);
-	}
-
-	void CoreTextureObject2D_Imp::SetLayer(CoreLayer2D* layer)
-	{
-		m_layer = layer;
 	}
 
 	void CoreTextureObject2D_Imp::AddChild(CoreObject2D& child, eChildMode mode)

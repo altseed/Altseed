@@ -31,6 +31,7 @@ namespace ace
 
 #if !SWIG
 		virtual Renderer2D* GetRenderer() const = 0;
+		virtual Graphics* GetGraphicsImp() = 0;
 #endif
 	};
 }

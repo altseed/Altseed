@@ -102,7 +102,7 @@
     <ClCompile Include="..\common\Math\ace.Vector2DF.cpp" />
     <ClCompile Include="..\common\Math\ace.Vector2DI.cpp" />
     <ClCompile Include="..\common\Math\ace.Vector3DF.cpp" />
-    <ClCompile Include="..\common\Math\RectI.cpp" />
+    <ClCompile Include="..\common\Math\ace.RectI.cpp" />
     <ClCompile Include="..\common\Thread\ace.CriticalSection.cpp" />
     <ClCompile Include="..\common\Thread\ace.Thread.cpp" />
     <ClCompile Include="..\common\utility\ace.PointerArray.cpp" />

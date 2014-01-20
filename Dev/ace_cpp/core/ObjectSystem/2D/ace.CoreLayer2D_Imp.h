@@ -4,11 +4,14 @@
 #include "ace.CoreCameraObject2D.h"
 #include "../ace.CoreLayer_Imp.h"
 #include "../../Graphics/Common/2D/ace.Renderer2D_Imp.h"
+#include "../../Graphics/Common/ace.Graphics_Imp.h"
 #include <list>
 #include <memory>
 
 namespace ace
 {
+	class Scene;
+
 	class CoreLayer2D_Imp
 		: public CoreLayer2D
 		, public CoreLayer_Imp
@@ -25,7 +28,7 @@ namespace ace
 		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();
 
-		void DrawObjects(CoreCameraObject2D* camera);
+		void DrawObjects(Matrix33 cameraMatrix);
 
 	public:
 		void AddObject(ObjectPtr object);
@@ -47,12 +50,14 @@ namespace ace
 
 		virtual void AddPostEffect(CorePostEffect* postEffect) { CoreLayer_Imp::AddPostEffect(postEffect); }
 		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
-#if !SWIG
-		Renderer2D* GetRenderer() const { return m_renderer; }
-#endif
 
 #if !SWIG
 	public:
+		Renderer2D* GetRenderer() const { return m_renderer; }
+		Graphics* GetGraphicsImp() { return m_graphics; }
+
+		void SetScene(Scene* scene);
+
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }

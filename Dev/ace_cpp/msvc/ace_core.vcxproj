@@ -239,6 +239,7 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreLayer2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextureObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextureObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.ObjectInfo2D.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreCameraObject3D.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreCameraObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreDirectionalLightObject3D.h" />
@@ -337,6 +338,7 @@
     <ClCompile Include="..\core\Input\ace.SideButton.cpp" />
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.ObjectInfo2D.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.TransformInfo2D.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreLayer2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreTextureObject2D_Imp.cpp" />

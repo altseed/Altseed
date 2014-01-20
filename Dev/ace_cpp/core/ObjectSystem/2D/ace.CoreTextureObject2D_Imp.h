@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include "ace.CoreTextureObject2D.h"
 #include "ace.TransformInfo2D.h"
+#include "ace.ObjectInfo2D.h"
 
 namespace ace
 {
@@ -10,9 +11,7 @@ namespace ace
 	{
 	private:
 		TransformInfo2D m_transform;
-		CoreLayer2D* m_layer;
-		bool m_isDrawn;
-		bool m_isAlive;
+		ObjectInfo2D m_objectInfo;
 
 		Texture2D* m_texture;
 		Vector2DF m_centerPosition;
@@ -31,11 +30,23 @@ namespace ace
 			return false;
 		}
 
-		bool GetIsDrawn() const;
-		void SetIsDrawn(bool value);
+		bool GetIsDrawn() const
+		{
+			return m_objectInfo.GetIsDrawn();
+		}
+		void SetIsDrawn(bool value)
+		{
+			m_objectInfo.SetIsDrawn(value);
+		}
 
-		bool GetIsAlive() const;
-		void SetIsAlive(bool value);
+		bool GetIsAlive() const
+		{
+			return m_objectInfo.GetIsAlive();
+		}
+		void SetIsAlive(bool value)
+		{
+			m_objectInfo.SetIsAlive(value);
+		}
 
 
 #pragma region Paramater
@@ -97,9 +108,12 @@ namespace ace
 		void RemoveChild(CoreObject2D& child);
 
 #if !SWIG
-		void Draw(CoreCameraObject2D* camera);
+		void Draw(Matrix33* cameraMatrix);
 		
-		void SetLayer(CoreLayer2D* layer);
+		void SetLayer(CoreLayer2D* layer)
+		{
+			m_objectInfo.SetLayer(layer);
+		}
 		void SetParent(CoreObject2D& parent, eChildMode mode)
 		{
 			m_transform.SetParent(parent, mode);
