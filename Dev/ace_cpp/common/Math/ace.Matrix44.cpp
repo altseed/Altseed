@@ -45,23 +45,23 @@ Matrix44& Matrix44::LookAtRH( const Vector3DF& eye, const Vector3DF& at, const V
 	Vector3DF::Normal( U, Vector3DF::Cross( U, F, R ) );
 
 	Values[0][0] = R.X;
-	Values[1][0] = R.Y;
-	Values[2][0] = R.Z;
-	Values[3][0] = 0.0f;
+	Values[0][1] = R.Y;
+	Values[0][2] = R.Z;
+	Values[0][3] = 0.0f;
 
-	Values[0][1] = U.X;
+	Values[1][0] = U.X;
 	Values[1][1] = U.Y;
-	Values[2][1] = U.Z;
-	Values[3][1] = 0.0f;
+	Values[1][2] = U.Z;
+	Values[1][3] = 0.0f;
 
-	Values[0][2] = F.X;
-	Values[1][2] = F.Y;
+	Values[2][0] = F.X;
+	Values[2][1] = F.Y;
 	Values[2][2] = F.Z;
-	Values[3][2] = 0.0f;
+	Values[2][3] = 0.0f;
 
-	Values[3][0] = - Vector3DF::Dot( R, eye );
-	Values[3][1] = - Vector3DF::Dot( U, eye );
-	Values[3][2] = - Vector3DF::Dot( F, eye );
+	Values[0][3] = -Vector3DF::Dot(R, eye);
+	Values[1][3] = -Vector3DF::Dot(U, eye);
+	Values[2][3] = -Vector3DF::Dot(F, eye);
 	Values[3][3] = 1.0f;
 	return *this;
 }
@@ -80,23 +80,23 @@ Matrix44& Matrix44::LookAtLH( const Vector3DF& eye, const Vector3DF& at, const V
 	Vector3DF::Normal( U, Vector3DF::Cross( U, F, R ) );
 
 	Values[0][0] = R.X;
-	Values[1][0] = R.Y;
-	Values[2][0] = R.Z;
-	Values[3][0] = 0.0f;
+	Values[0][1] = R.Y;
+	Values[0][2] = R.Z;
+	Values[0][3] = 0.0f;
 
-	Values[0][1] = U.X;
+	Values[1][0] = U.X;
 	Values[1][1] = U.Y;
-	Values[2][1] = U.Z;
-	Values[3][1] = 0.0f;
+	Values[1][2] = U.Z;
+	Values[1][3] = 0.0f;
 
-	Values[0][2] = F.X;
-	Values[1][2] = F.Y;
+	Values[2][0] = F.X;
+	Values[2][1] = F.Y;
 	Values[2][2] = F.Z;
-	Values[3][2] = 0.0f;
+	Values[2][3] = 0.0f;
 
-	Values[3][0] = - Vector3DF::Dot( R, eye );
-	Values[3][1] = - Vector3DF::Dot( U, eye );
-	Values[3][2] = - Vector3DF::Dot( F, eye );
+	Values[0][3] = -Vector3DF::Dot(R, eye);
+	Values[1][3] = -Vector3DF::Dot(U, eye);
+	Values[2][3] = -Vector3DF::Dot(F, eye);
 	Values[3][3] = 1.0f;
 	return *this;
 }
@@ -110,23 +110,23 @@ Matrix44& Matrix44::PerspectiveFovRH( float ovY, float aspect, float zn, float z
 	float xScale = yScale / aspect;
 
 	Values[0][0] = xScale;
-	Values[0][1] = 0;
-	Values[0][2] = 0;
-	Values[0][3] = 0;
-
 	Values[1][0] = 0;
-	Values[1][1] = yScale;
-	Values[1][2] = 0;
-	Values[1][3] = 0;
-
 	Values[2][0] = 0;
-	Values[2][1] = 0;
-	Values[2][2] = zf / (zn-zf);
-	Values[2][3] = -1;
-
 	Values[3][0] = 0;
+
+	Values[0][1] = 0;
+	Values[1][1] = yScale;
+	Values[2][1] = 0;
 	Values[3][1] = 0;
-	Values[3][2] = zn * zf / (zn-zf);
+
+	Values[0][2] = 0;
+	Values[1][2] = 0;
+	Values[2][2] = zf / (zn - zf);
+	Values[3][2] = -1;
+
+	Values[0][3] = 0;
+	Values[1][3] = 0;
+	Values[2][3] = zn * zf / (zn - zf);
 	Values[3][3] = 0;
 	return *this;
 }
@@ -141,23 +141,23 @@ Matrix44& Matrix44::PerspectiveFovRH_OpenGL( float ovY, float aspect, float zn, 
 	float dz = zf - zn;
 
 	Values[0][0] = xScale;
-	Values[0][1] = 0;
-	Values[0][2] = 0;
-	Values[0][3] = 0;
-
 	Values[1][0] = 0;
-	Values[1][1] = yScale;
-	Values[1][2] = 0;
-	Values[1][3] = 0;
-
 	Values[2][0] = 0;
-	Values[2][1] = 0;
-	Values[2][2] = -(zf + zn) / dz;
-	Values[2][3] = -1.0f;
-
 	Values[3][0] = 0;
+
+	Values[0][1] = 0;
+	Values[1][1] = yScale;
+	Values[2][1] = 0;
 	Values[3][1] = 0;
-	Values[3][2] = -2.0f * zn * zf / dz;
+
+	Values[0][2] = 0;
+	Values[1][2] = 0;
+	Values[2][2] = -(zf + zn) / dz;
+	Values[3][2] = -1.0f;
+
+	Values[0][3] = 0;
+	Values[1][3] = 0;
+	Values[2][3] = -2.0f * zn * zf / dz;
 	Values[3][3] = 0.0f;
 
 	return *this;
@@ -172,23 +172,23 @@ Matrix44& Matrix44::PerspectiveFovLH( float ovY, float aspect, float zn, float z
 	float xScale = yScale / aspect;
 
 	Values[0][0] = xScale;
-	Values[0][1] = 0;
-	Values[0][2] = 0;
-	Values[0][3] = 0;
-
 	Values[1][0] = 0;
-	Values[1][1] = yScale;
-	Values[1][2] = 0;
-	Values[1][3] = 0;
-
 	Values[2][0] = 0;
-	Values[2][1] = 0;
-	Values[2][2] = zf / (zf-zn);
-	Values[2][3] = 1;
-
 	Values[3][0] = 0;
+
+	Values[0][1] = 0;
+	Values[1][1] = yScale;
+	Values[2][1] = 0;
 	Values[3][1] = 0;
-	Values[3][2] = -zn * zf / (zf-zn);
+
+	Values[0][2] = 0;
+	Values[1][2] = 0;
+	Values[2][2] = zf / (zf - zn);
+	Values[3][2] = 1;
+
+	Values[0][3] = 0;
+	Values[1][3] = 0;
+	Values[2][3] = -zn * zf / (zf - zn);
 	Values[3][3] = 0;
 	return *this;
 }
@@ -199,23 +199,23 @@ Matrix44& Matrix44::PerspectiveFovLH( float ovY, float aspect, float zn, float z
 Matrix44& Matrix44::OrthographicRH( float width, float height, float zn, float zf )
 {
 	Values[0][0] = 2 / width;
-	Values[0][1] = 0;
-	Values[0][2] = 0;
-	Values[0][3] = 0;
-
 	Values[1][0] = 0;
-	Values[1][1] = 2 / height;
-	Values[1][2] = 0;
-	Values[1][3] = 0;
-
 	Values[2][0] = 0;
-	Values[2][1] = 0;
-	Values[2][2] = 1 / (zn-zf);
-	Values[2][3] = 0;
-
 	Values[3][0] = 0;
+
+	Values[0][1] = 0;
+	Values[1][1] = 2 / height;
+	Values[2][1] = 0;
 	Values[3][1] = 0;
-	Values[3][2] = zn / (zn-zf);
+
+	Values[0][2] = 0;
+	Values[1][2] = 0;
+	Values[2][2] = 1 / (zn - zf);
+	Values[3][2] = 0;
+
+	Values[0][3] = 0;
+	Values[1][3] = 0;
+	Values[2][3] = zn / (zn - zf);
 	Values[3][3] = 1;
 	return *this;
 }
@@ -226,23 +226,23 @@ Matrix44& Matrix44::OrthographicRH( float width, float height, float zn, float z
 Matrix44& Matrix44::OrthographicLH( float width, float height, float zn, float zf )
 {
 	Values[0][0] = 2 / width;
-	Values[0][1] = 0;
-	Values[0][2] = 0;
-	Values[0][3] = 0;
-
 	Values[1][0] = 0;
-	Values[1][1] = 2 / height;
-	Values[1][2] = 0;
-	Values[1][3] = 0;
-
 	Values[2][0] = 0;
-	Values[2][1] = 0;
-	Values[2][2] = 1 / (zf-zn);
-	Values[2][3] = 0;
-
 	Values[3][0] = 0;
+
+	Values[0][1] = 0;
+	Values[1][1] = 2 / height;
+	Values[2][1] = 0;
 	Values[3][1] = 0;
-	Values[3][2] = zn / (zn-zf);
+
+	Values[0][2] = 0;
+	Values[1][2] = 0;
+	Values[2][2] = 1 / (zf - zn);
+	Values[3][2] = 0;
+
+	Values[0][3] = 0;
+	Values[1][3] = 0;
+	Values[2][3] = zn / (zn - zf);
 	Values[3][3] = 1;
 	return *this;
 }
@@ -268,23 +268,23 @@ void Matrix44::RotationX( float angle )
 	SinCos( angle, s, c );
 
 	Values[0][0] = 1.0f;
-	Values[0][1] = 0.0f;
-	Values[0][2] = 0.0f;
-	Values[0][3] = 0.0f;
-
 	Values[1][0] = 0.0f;
-	Values[1][1] = c;
-	Values[1][2] = s;
-	Values[1][3] = 0.0f;
-
 	Values[2][0] = 0.0f;
-	Values[2][1] = -s;
-	Values[2][2] = c;
-	Values[2][3] = 0.0f;
-
 	Values[3][0] = 0.0f;
+
+	Values[0][1] = 0.0f;
+	Values[1][1] = c;
+	Values[2][1] = s;
 	Values[3][1] = 0.0f;
+
+	Values[0][2] = 0.0f;
+	Values[1][2] = -s;
+	Values[2][2] = c;
 	Values[3][2] = 0.0f;
+
+	Values[0][3] = 0.0f;
+	Values[1][3] = 0.0f;
+	Values[2][3] = 0.0f;
 	Values[3][3] = 1.0f;
 }
 
@@ -297,23 +297,23 @@ void Matrix44::RotationY( float angle )
 	SinCos( angle, s, c );
 
 	Values[0][0] = c;
-	Values[0][1] = 0.0f;
-	Values[0][2] = -s;
-	Values[0][3] = 0.0f;
-
 	Values[1][0] = 0.0f;
-	Values[1][1] = 1.0f;
-	Values[1][2] = 0.0f;
-	Values[1][3] = 0.0f;
-
-	Values[2][0] = s;
-	Values[2][1] = 0.0f;
-	Values[2][2] = c;
-	Values[2][3] = 0.0f;
-
+	Values[2][0] = -s;
 	Values[3][0] = 0.0f;
+
+	Values[0][1] = 0.0f;
+	Values[1][1] = 1.0f;
+	Values[2][1] = 0.0f;
 	Values[3][1] = 0.0f;
+
+	Values[0][2] = s;
+	Values[1][2] = 0.0f;
+	Values[2][2] = c;
 	Values[3][2] = 0.0f;
+
+	Values[0][3] = 0.0f;
+	Values[1][3] = 0.0f;
+	Values[2][3] = 0.0f;
 	Values[3][3] = 1.0f;
 }
 
@@ -326,23 +326,23 @@ void Matrix44::RotationZ( float angle )
 	SinCos( angle, s, c );
 
 	Values[0][0] = c;
-	Values[0][1] = s;
-	Values[0][2] = 0.0f;
-	Values[0][3] = 0.0f;
-
-	Values[1][0] = -s;
-	Values[1][1] = c;
-	Values[1][2] = 0.0f;
-	Values[1][3] = 0.0f;
-
+	Values[1][0] = s;
 	Values[2][0] = 0.0f;
-	Values[2][1] = 0.0f;
-	Values[2][2] = 1;
-	Values[2][3] = 0.0f;
-
 	Values[3][0] = 0.0f;
+
+	Values[0][1] = -s;
+	Values[1][1] = c;
+	Values[2][1] = 0.0f;
 	Values[3][1] = 0.0f;
+
+	Values[0][2] = 0.0f;
+	Values[1][2] = 0.0f;
+	Values[2][2] = 1;
 	Values[3][2] = 0.0f;
+
+	Values[0][3] = 0.0f;
+	Values[1][3] = 0.0f;
+	Values[2][3] = 0.0f;
 	Values[3][3] = 1.0f;
 }
 
@@ -352,9 +352,9 @@ void Matrix44::RotationZ( float angle )
 void Matrix44::Translation( float x, float y, float z )
 {
 	Indentity();
-	Values[3][0] = x;
-	Values[3][1] = y;
-	Values[3][2] = z;
+	Values[0][3] = x;
+	Values[1][3] = y;
+	Values[2][3] = z;
 }
 
 //----------------------------------------------------------------------------------
@@ -367,20 +367,20 @@ void Matrix44::RotationAxis( const Vector3DF& axis, float angle )
 	const float cc = 1.0f - c;
 
 	Values[0][0] = cc * (axis.X * axis.X) + c;
-	Values[0][1] = cc * (axis.X * axis.Y) + (axis.Z * s);
-	Values[0][2] = cc * (axis.Z * axis.X) - (axis.Y * s);
+	Values[1][0] = cc * (axis.X * axis.Y) + (axis.Z * s);
+	Values[2][0] = cc * (axis.Z * axis.X) - (axis.Y * s);
 
-	Values[1][0] = cc * (axis.X * axis.Y) - (axis.Z * s);
+	Values[0][1] = cc * (axis.X * axis.Y) - (axis.Z * s);
 	Values[1][1] = cc * (axis.Y * axis.Y) + c;
-	Values[1][2] = cc * (axis.Y * axis.Z) + (axis.X * s);
+	Values[2][1] = cc * (axis.Y * axis.Z) + (axis.X * s);
 
-	Values[2][0] = cc * (axis.Z * axis.X) + (axis.Y * s);
-	Values[2][1] = cc * (axis.Y * axis.Z) - (axis.X * s);
+	Values[0][2] = cc * (axis.Z * axis.X) + (axis.Y * s);
+	Values[1][2] = cc * (axis.Y * axis.Z) - (axis.X * s);
 	Values[2][2] = cc * (axis.Z * axis.Z) + c;
 
-	Values[3][0] = 0.0f;
-	Values[3][1] = 0.0f;
-	Values[3][2] = 0.0f;
+	Values[0][3] = 0.0f;
+	Values[1][3] = 0.0f;
+	Values[2][3] = 0.0f;
 }
 
 //----------------------------------------------------------------------------------
@@ -399,23 +399,23 @@ void Matrix44::Quaternion( float x, float y, float z, float w )
 	float wz = w * z;
 
 	Values[0][0] = 1.0f - 2.0f * (yy + zz);
-	Values[1][0] = 2.0f * (xy - wz);
-	Values[2][0] = 2.0f * (xz + wy);
-	Values[3][0] = 0.0f;
-
-	Values[0][1] = 2.0f * (xy + wz);
-	Values[1][1] = 1.0f - 2.0f * (xx + zz);
-	Values[2][1] = 2.0f * (yz - wx);
-	Values[3][1] = 0.0f;
-
-	Values[0][2] = 2.0f * (xz - wy);
-	Values[1][2] = 2.0f * (yz + wx);
-	Values[2][2] = 1.0f - 2.0f * (xx + yy);
-	Values[3][2] = 0.0f;
-
+	Values[0][1] = 2.0f * (xy - wz);
+	Values[0][2] = 2.0f * (xz + wy);
 	Values[0][3] = 0.0f;
+
+	Values[1][0] = 2.0f * (xy + wz);
+	Values[1][1] = 1.0f - 2.0f * (xx + zz);
+	Values[1][2] = 2.0f * (yz - wx);
 	Values[1][3] = 0.0f;
+
+	Values[2][0] = 2.0f * (xz - wy);
+	Values[2][1] = 2.0f * (yz + wx);
+	Values[2][2] = 1.0f - 2.0f * (xx + yy);
 	Values[2][3] = 0.0f;
+
+	Values[3][0] = 0.0f;
+	Values[3][1] = 0.0f;
+	Values[3][2] = 0.0f;
 	Values[3][3] = 1.0f;
 }
 

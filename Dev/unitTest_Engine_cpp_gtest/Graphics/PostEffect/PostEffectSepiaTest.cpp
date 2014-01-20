@@ -31,9 +31,6 @@ protected:
 		auto pe = std::make_shared<ace::PostEffectSepia>(g);
 		layer->AddPostEffect(pe);
 	}
-
-
-
 };
 
 

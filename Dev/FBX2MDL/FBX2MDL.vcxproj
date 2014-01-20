@@ -83,6 +83,11 @@
   <ItemGroup>
     <ClCompile Include="main.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ace_cpp\common\ace.common.Base.h" />
+    <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryReader.h" />
+    <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryWriter.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

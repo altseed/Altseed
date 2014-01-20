@@ -1,6 +1,7 @@
 ﻿
 #include "ace.Accessor.h"
 
+#include "Graphics/Common/Animation/ace.AnimationSystem.h"
 #include "Graphics/Common/Animation/ace.AnimationClip.h"
 #include "Graphics/Common/Animation/ace.AnimationSource.h"
 
@@ -22,5 +23,20 @@ namespace ace
 	Shader2D* Accessor::Material2D_GetShader2D(Material2D* o)
 	{
 		return o->GetShader2D_();
+	}
+
+	AnimationClip* Accessor::AnimationSyatem_CreateAnimationClip(AnimationSystem* o)
+	{
+		return o->CreateAnimationClip_();
+	}
+
+	AnimationSource* Accessor::AnimationSyatem_CreateAnimationSource(AnimationSystem* o)
+	{
+		return o->CreateAnimationSource_();
+	}
+
+	KeyframeAnimation* Accessor::AnimationSyatem_CreateKeyframeAnimation(AnimationSystem* o)
+	{
+		return o->CreateKeyframeAnimation_();
 	}
 }

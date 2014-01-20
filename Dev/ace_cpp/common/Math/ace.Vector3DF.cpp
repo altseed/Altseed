@@ -221,26 +221,6 @@ Vector3DF& Vector3DF::Cross( Vector3DF& o, const Vector3DF& in1, const Vector3DF
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Vector3DF& Vector3DF::Transform( Vector3DF& o, const Vector3DF& in, const Matrix43& mat )
-{
-	float values[4];
-	for( int i = 0; i < 3; i++ )
-	{
-		values[i] = 0;
-		values[i] += in.X * mat.Values[0][i];
-		values[i] += in.Y * mat.Values[1][i];
-		values[i] += in.Z * mat.Values[2][i];
-		values[i] += mat.Values[3][i];
-	}
-	o.X = values[0];
-	o.Y = values[1];
-	o.Z = values[2];
-	return o;
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 Vector3DF& Vector3DF::Transform( Vector3DF& o, const Vector3DF& in, const Matrix44& mat )
 {
 	float values[3];

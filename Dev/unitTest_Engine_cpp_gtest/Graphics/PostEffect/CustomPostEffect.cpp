@@ -150,18 +150,20 @@ protected:
 TEST(Graphics, CustomPostEffect_GL)
 {
 	Graphics_CustomPostEffect(true).Run();
-
+	AssertMemoryDoesntLeak();
 }
 
 #if _WIN32
 TEST(Graphics, CustomPostEffect_DX)
 {
 	Graphics_CustomPostEffect(false).Run();
+	AssertMemoryDoesntLeak();
 }
 #endif
 
 void Graphics_CustomPostEffect_(bool isGL)
 {
 	Graphics_CustomPostEffect(isGL).Run();
+	AssertMemoryDoesntLeak();
 }
 

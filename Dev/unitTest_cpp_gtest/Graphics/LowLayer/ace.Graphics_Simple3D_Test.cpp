@@ -20,7 +20,7 @@ struct VS_Output
 VS_Output main( const VS_Input Input )
 {
 	VS_Output Output = (VS_Output)0;
-	Output.Pos = mul( float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 ), matMCP );
+	Output.Pos = mul( matMCP, float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 ) );
 	Output.UV = Input.UV;
 	return Output;
 }
@@ -60,7 +60,7 @@ varying vec4 vaTexCoord;
 
 void main()
 {
-	gl_Position = vec4(Pos.x,Pos.y,Pos.z,1.0) * matMCP;
+	gl_Position = matMCP * vec4(Pos.x,Pos.y,Pos.z,1.0);
 	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
 }
 
@@ -205,8 +205,8 @@ void Graphics_Simple3D(bool isOpenGLMode)
 		}
 		matC.LookAtRH(ace::Vector3DF(2.0f, 2.0f, 5.0f), ace::Vector3DF(), ace::Vector3DF(0.0f, 1.0f, 0.0f));
 		
-		ace::Matrix44::Mul(mat, matM, matC);
-		ace::Matrix44::Mul(mat, mat, matP);
+		ace::Matrix44::Mul(mat, matC, matM);
+		ace::Matrix44::Mul(mat, matP, mat);
 
 		auto& mat_ = shader->GetVertexConstantBuffer<ace::Matrix44>();
 		mat_ = mat;

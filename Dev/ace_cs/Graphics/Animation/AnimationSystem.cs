@@ -6,7 +6,43 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/// <summary>
+	/// アニメーションに関するインスタンスを生成するためのクラス
+	/// </summary>
 	public class AnimationSystem
 	{
+		swig.AnimationSystem animationSyatem = null;
+
+		internal AnimationSystem(swig.AnimationSystem animationSyatem)
+		{
+			this.animationSyatem = animationSyatem;
+		}
+
+		/// <summary>
+		/// アニメーションクリップのインスタンスを生成する。
+		/// </summary>
+		/// <returns>インスタンス</returns>
+		public AnimationClip CreateAnimationClip()
+		{
+			return GC.GenerateAnimationClip(swig.Accessor.AnimationSyatem_CreateAnimationClip(animationSyatem), GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// アニメーションソースのインスタンスを生成する。
+		/// </summary>
+		/// <returns>インスタンス</returns>
+		public AnimationSource CreateAnimationSource()
+		{
+			return GC.GenerateAnimationSource(swig.Accessor.AnimationSyatem_CreateAnimationSource(animationSyatem), GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// キーフレームアニメーションのインスタンスを生成する。
+		/// </summary>
+		/// <returns>インスタンス</returns>
+		public KeyframeAnimation CreateKeyframeAnimation()
+		{
+			return GC.GenerateKeyframeAnimation(swig.Accessor.AnimationSyatem_CreateKeyframeAnimation(animationSyatem), GC.GenerationType.Create);
+		}
 	}
 }

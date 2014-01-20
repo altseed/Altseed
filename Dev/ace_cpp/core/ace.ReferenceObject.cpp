@@ -12,7 +12,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	// extern経由で他から参照される部分
 	//----------------------------------------------------------------------------------
-	int32_t					g_globalRefCount__ = 0;
+	std::atomic<int32_t>	g_globalRefCount__ = 0;
 
 	//----------------------------------------------------------------------------------
 	// エンジンにもほぼ同じ動作をしつつ、違うコードが存在(この関数はlib経由、もしくはDLL内部使用時に使用)
@@ -50,8 +50,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	int ReferenceObject::AddRef()
 	{
-		m_reference++;
-		g_globalRefCount__++;
+		std::atomic_fetch_add_explicit(&g_globalRefCount__, 1u, std::memory_order_consume);
+		std::atomic_fetch_add_explicit(&m_reference, 1u, std::memory_order_consume);
+
 		return m_reference;
 	}
 
@@ -69,13 +70,15 @@ namespace ace {
 	int ReferenceObject::Release()
 	{
 		assert(m_reference > 0);
-		m_reference--;
-		g_globalRefCount__--;
-		if (m_reference == 0)
+
+		std::atomic_fetch_sub_explicit(&g_globalRefCount__, 1u, std::memory_order_consume);
+		bool destroy = std::atomic_fetch_sub_explicit(&m_reference, 1u, std::memory_order_consume) == 1;
+		if (destroy)
 		{
 			delete this;
 			return 0;
 		}
+
 		return m_reference;
 	}
 

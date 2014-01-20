@@ -78,7 +78,7 @@ static std::shared_ptr<ace::Deformer> CreateDeformer(ace::Graphics* graphics)
 	ace::Matrix44 mat1_inv, mat2_inv;
 	mat1.Inverse(mat1_inv, mat1);
 
-	ace::Matrix44::Mul(mat2_inv, mat2, mat1);
+	ace::Matrix44::Mul(mat2_inv, mat1, mat2);
 	ace::Matrix44::Inverse(mat2_inv, mat2_inv);
 
 	deformer->AddBone(ace::ToAString("no1").c_str(), -1, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat1, mat1_inv);
@@ -165,16 +165,19 @@ protected:
 TEST(Graphics, SimpleMesh_GL)
 {
 	Graphics_SimpleMesh(true).Run();
+	AssertMemoryDoesntLeak();
 }
 
 #if _WIN32
 TEST(Graphics, SimpleMesh_DX)
 {
 	Graphics_SimpleMesh(false).Run();
+	AssertMemoryDoesntLeak();
 }
 #endif
 
 void Graphics_SimpleMesh_(bool isGL)
 {
 	Graphics_SimpleMesh(isGL).Run();
+	AssertMemoryDoesntLeak();
 }
