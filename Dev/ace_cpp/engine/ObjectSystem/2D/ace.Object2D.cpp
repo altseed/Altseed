@@ -60,26 +60,18 @@ namespace ace
 		UpdateComponents();
 	}
 
-	bool Object2D::GetIsUpdated() const
+	void Object2D::OnStart()
 	{
-		return m_isUpdated;
 	}
 
-	void Object2D::SetIsUpdated(bool value)
+	void Object2D::OnUpdate()
 	{
-		m_isUpdated = value;
 	}
 
-	bool Object2D::GetIsDrawn() const
+	void Object2D::OnDrawAdditionally()
 	{
-		return m_isDrawn;
 	}
 
-	void Object2D::SetIsDrawn(bool value)
-	{
-		m_isDrawn = value;
-		GetCoreObject()->SetIsDrawn(value);
-	}
 
 	bool Object2D::GetIsAlive() const
 	{
@@ -90,7 +82,6 @@ namespace ace
 	{
 		GetCoreObject()->SetIsAlive(false);
 	}
-
 
 	Layer2D* Object2D::GetLayer() const
 	{
@@ -138,6 +129,27 @@ namespace ace
 	}
 
 #pragma region Get/Set
+
+	bool Object2D::GetIsUpdated() const
+	{
+		return m_isUpdated;
+	}
+
+	void Object2D::SetIsUpdated(bool value)
+	{
+		m_isUpdated = value;
+	}
+
+	bool Object2D::GetIsDrawn() const
+	{
+		return m_isDrawn;
+	}
+
+	void Object2D::SetIsDrawn(bool value)
+	{
+		m_isDrawn = value;
+		GetCoreObject()->SetIsDrawn(value);
+	}
 
 	Vector2DF Object2D::GetPosition() const
 	{

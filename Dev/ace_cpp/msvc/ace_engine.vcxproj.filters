@@ -59,6 +59,9 @@
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.ModelObject3D.cpp">
       <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.CameraObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -120,6 +123,9 @@
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.ModelObject3D.h">
       <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.CameraObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

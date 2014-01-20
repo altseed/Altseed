@@ -37,15 +37,15 @@ namespace ace
 		/**
 			@brief	オーバーライドして、このオブジェクトの初期化処理を記述できる。
 		*/
-		virtual void OnStart() = 0;
+		virtual void OnStart();
 		/**
 			@brief	オーバーライドして、このオブジェクトの更新処理を記述できる。
 		*/
-		virtual void OnUpdate() = 0;
+		virtual void OnUpdate();
 		/**
 			@brief	オーバーライドして、このオブジェクトに対する追加の描画処理を記述できる。
 		*/
-		virtual void OnDrawAdditionally() = 0;
+		virtual void OnDrawAdditionally();
 
 	public:
 		/**

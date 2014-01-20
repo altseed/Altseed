@@ -12,22 +12,6 @@ namespace ace
 
 		CoreObject2D* GetCoreObject() const;
 
-	protected:
-		/**
-			@brief	オーバーライドして、このオブジェクトの初期化処理を記述できる。
-		*/
-		virtual void OnStart();
-
-		/**
-			@brief	オーバーライドして、毎フレーム実行される更新処理を記述できる。
-		*/
-		virtual void OnUpdate();
-
-		/**
-			@brief	オーバーライドして、追加の描画処理を記述できる。
-		*/
-		virtual void OnDrawAdditionally();
-
 	public:
 		/**
 			@brief	コンストラクタ

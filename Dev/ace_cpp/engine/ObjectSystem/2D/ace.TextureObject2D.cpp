@@ -21,18 +21,6 @@ namespace ace
 		return m_coreObject.get();
 	}
 
-	void TextureObject2D::OnStart()
-	{
-	}
-
-	void TextureObject2D::OnUpdate()
-	{
-	}
-
-	void TextureObject2D::OnDrawAdditionally()
-	{
-	}
-
 
 	shared_ptr<Texture2D> TextureObject2D::GetTexture() const
 	{
