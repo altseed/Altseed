@@ -16,10 +16,12 @@ namespace ace
 		std::vector<astring>		m_animationClipNames;
 		std::vector<AnimationClip*>	m_animationClips;
 
+		Graphics*					m_graphics;
+
 		void Reset();
 
 	public:
-		Model_Imp();
+		Model_Imp(Graphics* graphics);
 		virtual ~Model_Imp();
 
 		bool Load(Graphics* g, std::vector<uint8_t>& data, const achar* path);

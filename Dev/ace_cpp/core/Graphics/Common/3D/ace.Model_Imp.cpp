@@ -8,6 +8,7 @@
 #include "../Animation/ace.KeyframeAnimation_Imp.h"
 
 #include "../ace.Graphics_Imp.h"
+#include "../ace.GraphicsResourceContainer.h"
 
 namespace ace
 {
@@ -24,13 +25,20 @@ namespace ace
 		}
 	}
 
-	Model_Imp::Model_Imp()
+	Model_Imp::Model_Imp(Graphics* graphics)
+		: m_graphics(graphics)
 	{
+		SafeAddRef(graphics);
 	}
 
 	Model_Imp::~Model_Imp()
 	{
 		Reset();
+
+		auto g = (Graphics_Imp*) m_graphics;
+		g->GetResourceContainer()->Models.Unregist(this);
+
+		SafeRelease(m_graphics);
 	}
 
 	bool Model_Imp::Load(Graphics* g, std::vector<uint8_t>&	data, const achar* path)

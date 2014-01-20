@@ -164,7 +164,7 @@ namespace ace {
 	Texture2D_Imp::~Texture2D_Imp()
 	{
 		auto g = (Graphics_Imp*)GetGraphics();
-		g->GetResourceContainer()->UnregistTexture2D(this);
+		g->GetResourceContainer()->Texture2Ds.Unregist(this);
 
 		SafeDeleteArray(m_internalTextureData);
 	}
