@@ -258,7 +258,7 @@ Graphics_Imp::~Graphics_Imp()
 Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 {
 	{
-		auto existing = GetResourceContainer()->GetTexture2D(path);
+		auto existing = GetResourceContainer()->Texture2Ds.Get(path);
 		if (existing != nullptr)
 		{
 			SafeAddRef(existing);
@@ -294,7 +294,7 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 	info->ModifiedTime = GetResourceContainer()->GetModifiedTime(path);
 	info->Path = path;
 	
-	GetResourceContainer()->RegistTexture2D(path, info, texture);
+	GetResourceContainer()->Texture2Ds.Regist(path, info, texture);
 	return texture;
 }
 
@@ -341,6 +341,15 @@ Deformer* Graphics_Imp::CreateDeformer_()
 
 Model* Graphics_Imp::CreateModel_(const achar* path)
 {
+	{
+		auto existing = GetResourceContainer()->Models.Get(path);
+		if (existing != nullptr)
+		{
+			SafeAddRef(existing);
+			return existing;
+		}
+	}
+
 #if _WIN32
 	auto fp = _wfopen(path, L"rb");
 	if (fp == nullptr) return nullptr;
@@ -358,9 +367,16 @@ Model* Graphics_Imp::CreateModel_(const achar* path)
 	fread(&(data[0]), 1, size, fp);
 	fclose(fp);
 
-	auto model = new Model_Imp();
+	auto model = new Model_Imp(this);
 	model->Load(this, data, path);
 
+	std::shared_ptr<ModelReloadInformation> info;
+	info.reset(new ModelReloadInformation());
+	info->ModifiedTime = GetResourceContainer()->GetModifiedTime(path);
+	info->Path = path;
+
+	GetResourceContainer()->Models.Regist(path, info, model);
+	
 	return model;
 }
 

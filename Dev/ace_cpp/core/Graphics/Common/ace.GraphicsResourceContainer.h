@@ -15,48 +15,6 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	
-	class GraphicsResourceFile;
-	class GraphicsResourceFileObserver;
-	class GraphicsResourceContainer;
-
-	class GraphicsResourceFile
-	{
-	private:
-		time_t	m_modifiedTime;
-		astring	m_path;
-		GraphicsResourceContainer*	m_container;
-		std::set<GraphicsResourceFileObserver*>	m_observers;
-	public:
-		GraphicsResourceFile(GraphicsResourceContainer* container, const achar* path, GraphicsResourceFileObserver* observer);
-		virtual ~GraphicsResourceFile();
-
-		void Reload(bool fourced);
-		void Attach(GraphicsResourceFileObserver* observer);
-		void Detach(GraphicsResourceFileObserver* observer);
-
-		const achar* GetPath(){ return m_path.c_str(); }
-	};
-
-	class GraphicsResourceFileObserver
-	{
-	public:
-		GraphicsResourceFileObserver(){}
-		virtual ~GraphicsResourceFileObserver(){}
-		virtual void Update(GraphicsResourceFile* file) = 0;
-	};
-	
-	class GraphicsTexture2DFileObserver
-		: public GraphicsResourceFileObserver
-	{
-	private:
-		Texture2D_Imp*		m_texture;
-
-	public:
-		GraphicsTexture2DFileObserver(Texture2D_Imp* texture);
-		virtual ~GraphicsTexture2DFileObserver();
-		void Update(GraphicsResourceFile* file) override;
-	};
 
 	/**
 		@brief	描画リソースを格納するクラス
@@ -64,20 +22,50 @@ namespace ace {
 	class GraphicsResourceContainer
 	{
 	private:
-		std::map<astring, Texture2D_Imp*>	m_keyToTexture2Ds;
-		std::map<Texture2D_Imp*,astring>	m_texture2DToKeys;
-		std::map < Texture2D_Imp*, std::shared_ptr < Texture2DReloadInformation> >	m_texture2DReloadInfo;
 
-		std::set<GraphicsResourceFile*>		m_resourceFiles;
+		template<typename TARGET, typename INFO>
+		class Resource
+		{
+			friend class GraphicsResourceContainer;
+
+		private:
+			std::map<astring, TARGET*>	m_keyToResource;
+			std::map<TARGET*, astring>	m_resourceToKeys;
+			std::map <TARGET*, std::shared_ptr < INFO> >	m_reloadInfo;
+		public:
+			
+			TARGET* Get(const achar* key)
+			{
+				if (m_keyToResource.count(key) > 0)
+				{
+					return m_keyToResource[key];
+				}
+
+				return nullptr;
+			}
+
+			void Regist(const achar* key, std::shared_ptr <INFO> info, TARGET* target)
+			{
+				m_keyToResource[key] = target;
+				m_resourceToKeys[target] = key;
+				m_reloadInfo[target] = info;
+			}
+
+			void Unregist(TARGET* target)
+			{
+				m_keyToResource.erase(m_resourceToKeys[target]);
+				m_resourceToKeys.erase(target);
+				m_reloadInfo.erase(target);
+			}
+		};
 
 	public:
 
 		GraphicsResourceContainer();
 		~GraphicsResourceContainer();
 
-		Texture2D_Imp* GetTexture2D(const achar* key);
-		void RegistTexture2D(const achar* key, std::shared_ptr <Texture2DReloadInformation> info, Texture2D_Imp* texture);
-		void UnregistTexture2D(Texture2D_Imp* texture);
+		Resource<Texture2D_Imp, Texture2DReloadInformation>	Texture2Ds;
+		Resource<Model_Imp, ModelReloadInformation>			Models;
 
 		/**
 			@brief	ファイル更新時間を取得する。
@@ -86,10 +74,6 @@ namespace ace {
 		static time_t GetModifiedTime(const achar* path);
 
 		void Reload();
-
-		void AddResourceFile(GraphicsResourceFile* file);
-		void RemoveResourceFile(GraphicsResourceFile* file);
-
 	};
 	//----------------------------------------------------------------------------------
 	//
