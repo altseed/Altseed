@@ -50,8 +50,8 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	int ReferenceObject::AddRef()
 	{
-		std::atomic_fetch_add_explicit(&g_globalRefCount__, 1u, std::memory_order_consume);
-		std::atomic_fetch_add_explicit(&m_reference, 1u, std::memory_order_consume);
+		std::atomic_fetch_add_explicit(&g_globalRefCount__, 1, std::memory_order_consume);
+		std::atomic_fetch_add_explicit(&m_reference, 1, std::memory_order_consume);
 
 		return m_reference;
 	}
@@ -71,8 +71,8 @@ namespace ace {
 	{
 		assert(m_reference > 0);
 
-		std::atomic_fetch_sub_explicit(&g_globalRefCount__, 1u, std::memory_order_consume);
-		bool destroy = std::atomic_fetch_sub_explicit(&m_reference, 1u, std::memory_order_consume) == 1;
+		std::atomic_fetch_sub_explicit(&g_globalRefCount__, 1, std::memory_order_consume);
+		bool destroy = std::atomic_fetch_sub_explicit(&m_reference, 1, std::memory_order_consume) == 1;
 		if (destroy)
 		{
 			delete this;
