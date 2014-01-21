@@ -81,12 +81,34 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix33.cpp" />
+    <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix43.cpp" />
+    <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix44.cpp" />
+    <ClCompile Include="..\ace_cpp\common\Math\ace.RectF.cpp" />
+    <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DF.cpp" />
+    <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DI.cpp" />
+    <ClCompile Include="..\ace_cpp\common\Math\ace.Vector3DF.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MDLExporter.cpp" />
+    <ClCompile Include="Mesh.cpp" />
+    <ClCompile Include="VerticeLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ace_cpp\common\ace.common.Base.h" />
+    <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix33.h" />
+    <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix43.h" />
+    <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix44.h" />
+    <ClInclude Include="..\ace_cpp\common\Math\ace.RectF.h" />
+    <ClInclude Include="..\ace_cpp\common\Math\ace.Vector2DF.h" />
+    <ClInclude Include="..\ace_cpp\common\Math\ace.Vector2DI.h" />
+    <ClInclude Include="..\ace_cpp\common\Math\ace.Vector3DF.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryReader.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryWriter.h" />
+    <ClInclude Include="MDLExporter.h" />
+    <ClInclude Include="Mesh.h" />
+    <ClInclude Include="MeshGroup.h" />
+    <ClInclude Include="Vertex.h" />
+    <ClInclude Include="VerticeLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
