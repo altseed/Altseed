@@ -88,6 +88,7 @@
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DF.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DI.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector3DF.cpp" />
+    <ClCompile Include="FacesLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MDLExporter.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -104,6 +105,8 @@
     <ClInclude Include="..\ace_cpp\common\Math\ace.Vector3DF.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryReader.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryWriter.h" />
+    <ClInclude Include="Face.h" />
+    <ClInclude Include="FacesLoader.h" />
     <ClInclude Include="MDLExporter.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshGroup.h" />
