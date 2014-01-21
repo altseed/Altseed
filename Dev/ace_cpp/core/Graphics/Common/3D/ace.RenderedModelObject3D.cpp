@@ -478,6 +478,12 @@ void main()
 		m_meshGroups_fr.clear();
 
 		m_meshGroups.clear();
+
+		if (m_model != nullptr)
+		{
+			m_model->Detach(this);
+		}
+
 		SafeRelease(m_model);
 
 		for (auto& a : m_animationClips)
@@ -489,37 +495,62 @@ void main()
 
 	void RenderedModelObject3D::SetModel(Model* model)
 	{
-		// 描画中以外のオブジェクトをリセット
-		m_meshGroups.clear();
+		UnloadModel();
+
+		if (m_model != nullptr)
+		{
+			m_model->Detach(this);
+		}
+
 		SafeRelease(m_model);
+
+		if (model == nullptr) return;
+		auto model_ = (Model_Imp*) model;
+		m_model = model_;
+		SafeAddRef(m_model);
+
+		m_model->Attach(this);
+
+		LoadModel();
+	}
+
+	void RenderedModelObject3D::AddMesh(Mesh* mesh)
+	{
+		m_meshGroups.push_back(std::make_shared<MeshGroup>((Mesh_Imp*)mesh));
+	}
+
+	void RenderedModelObject3D::UnloadModel()
+	{
+		// 描画中以外のオブジェクトをリセット
+
+		m_meshGroups.clear();
 
 		for (auto& a : m_animationClips)
 		{
 			a.second->Release();
 		}
 		m_animationClips.clear();
+	}
 
-		// モデルの内容を設定
-		if (model == nullptr) return;
-		auto model_ = (Model_Imp*) model;
+	void RenderedModelObject3D::LoadModel()
+	{
+		if (m_model == nullptr) return;
 
-		for (auto& m : model_->GetMeshes())
+		for (auto& m : m_model->GetMeshes())
 		{
 			AddMesh(m);
 		}
 
-		for (int32_t i = 0; i < model_->GetAnimationClips().size(); i++)
+		for (int32_t i = 0; i < m_model->GetAnimationClips().size(); i++)
 		{
-			AddAnimationClip(model_->GetAnimationClipNames()[i].c_str(), model_->GetAnimationClips()[i]);
+			AddAnimationClip(m_model->GetAnimationClipNames()[i].c_str(), m_model->GetAnimationClips()[i]);
 		}
-
-		m_model = model_;
-		SafeAddRef(m_model);
 	}
 
-	void RenderedModelObject3D::AddMesh(Mesh* mesh)
+	void RenderedModelObject3D::ReloadModel()
 	{
-		m_meshGroups.push_back(std::make_shared<MeshGroup>((Mesh_Imp*)mesh));
+		UnloadModel();
+		LoadModel();
 	}
 
 	void RenderedModelObject3D::AddAnimationClip(const achar* name, AnimationClip* animationClip)
