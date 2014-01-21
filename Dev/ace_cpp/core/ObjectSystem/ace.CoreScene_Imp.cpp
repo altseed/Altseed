@@ -166,19 +166,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreScene_Imp::SetLayerShape(const Vector2DF& ul, const Vector2DF& ur, const Vector2DF& ll, const Vector2DF& lr, const Vector2DI& size)
-	{
-		ace::Vector2DF lpos[4];
-		lpos[0] = ul;
-		lpos[1] = ur;
-		lpos[2] = lr;
-		lpos[3] = ll;
-		m_layerRenderer->SetLayerPosition(lpos);
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	void CoreScene_Imp::AddDrawnTriangle(
 		const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
 		const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
@@ -297,5 +284,6 @@ namespace ace
 
 		m_layerRenderer->DrawCache();
 		m_layerRenderer->ClearCache();
+		m_triangles.clear();
 	}
 }

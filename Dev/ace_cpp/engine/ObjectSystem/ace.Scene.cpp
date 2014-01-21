@@ -178,4 +178,18 @@ namespace ace
 		it->second->SetOwner(nullptr);
 		m_components.erase(it);
 	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Scene::AddDrawnTriangle(
+		const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
+		const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
+		const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3)
+	{
+		m_coreScene->AddDrawnTriangle(
+			pos1, uv1, col1,
+			pos2, uv2, col2,
+			pos3, uv3, col3);
+	}
 }
