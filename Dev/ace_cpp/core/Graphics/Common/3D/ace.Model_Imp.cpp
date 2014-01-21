@@ -3,6 +3,9 @@
 
 #include "ace.Mesh_Imp.h"
 #include "ace.Deformer_Imp.h"
+
+#include "ace.RenderedModelObject3D.h"
+
 #include "../Animation/ace.AnimationClip_Imp.h"
 #include "../Animation/ace.AnimationSource_Imp.h"
 #include "../Animation/ace.KeyframeAnimation_Imp.h"
@@ -88,6 +91,30 @@ namespace ace
 		}
 
 		return true;
+	}
+
+	void Model_Imp::Attach(RenderedModelObject3D* model)
+	{
+		assert(m_observers.find(model) != m_observers.end());
+
+		m_observers.insert(model);
+	}
+
+	void Model_Imp::Detach(RenderedModelObject3D* model)
+	{
+		assert(m_observers.find(model) == m_observers.end());
+
+		m_observers.erase(model);
+	}
+
+	void Model_Imp::Reload(std::vector<uint8_t>& data, const achar* path)
+	{
+		Load(m_graphics, data, path);
+
+		for (auto& o : m_observers)
+		{
+			o->ReloadModel();
+		}
 	}
 
 	Mesh_Imp* Model_Imp::LoadMeshGroup(Graphics* g, BinaryReader& reader, const achar* path)

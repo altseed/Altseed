@@ -18,6 +18,8 @@ namespace ace
 
 		Graphics*					m_graphics;
 
+		std::set<RenderedModelObject3D*>	m_observers;
+
 		void Reset();
 
 	public:
@@ -25,6 +27,10 @@ namespace ace
 		virtual ~Model_Imp();
 
 		bool Load(Graphics* g, std::vector<uint8_t>& data, const achar* path);
+
+		void Attach(RenderedModelObject3D* model);
+		void Detach(RenderedModelObject3D* model);
+		void Reload(std::vector<uint8_t>& data, const achar* path);
 
 	private:
 		Mesh_Imp* LoadMeshGroup(Graphics* g, BinaryReader& reader, const achar* path);

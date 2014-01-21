@@ -94,6 +94,11 @@ namespace ace
 
 		void AddMesh(Mesh* mesh);
 
+		void UnloadModel();
+		void LoadModel();
+
+		void ReloadModel();
+
 		void AddAnimationClip(const achar* name, AnimationClip* animationClip);
 
 		void PlayAnimation(const achar* name);

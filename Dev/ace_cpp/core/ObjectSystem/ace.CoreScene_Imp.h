@@ -50,8 +50,6 @@ namespace ace
 		RenderTexture2D* GetSrcTarget();
 		RenderTexture2D* GetDstTarget();
 
-		void SetLayerShape(const Vector2DF& ul, const Vector2DF& ur, const Vector2DF& ll, const Vector2DF& lr, const Vector2DI& size);
-
 		void AddDrawnTriangle(
 			const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
 			const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
