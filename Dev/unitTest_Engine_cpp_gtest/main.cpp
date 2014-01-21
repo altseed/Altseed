@@ -17,9 +17,7 @@ void GetDirectoryName(char* dst, char* src);
 #endif
 
 extern void Test_LayerComponent_GL();
-extern void Test_Component_GL();
-extern void Test_ParentObject();
-extern void Test_LayersFlag(bool gl);
+extern void TestCamera();
 extern void Graphics_CustomPostEffect_(bool isOpenGLMode);
 
 extern void Graphics_PostEffectGaussianBlur_(bool isOpenGLMode);
@@ -43,6 +41,9 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 	::testing::InitGoogleTest(&argc, argv);
+
+	TestCamera();
+	return 0;
 
 	//Graphics_PostEffectGaussianBlur_(true);
 	//return 0;

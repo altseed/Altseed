@@ -13,14 +13,15 @@ namespace ace
 
 		RectI m_src;
 		RectI m_dst;
+
+		Graphics_Imp* m_graphics;
 		RenderTexture_Imp* m_renderTarget;
-		DepthBuffer_Imp* m_depthBuffer;
+
+		void ResetBuffer();
 
 	public:
-		CoreCameraObject2D_Imp();
-		virtual ~CoreCameraObject2D_Imp()
-		{
-		}
+		CoreCameraObject2D_Imp(Graphics_Imp* graphics);
+		virtual ~CoreCameraObject2D_Imp();
 
 		bool GetIsCamera() const
 		{

@@ -129,6 +129,8 @@ namespace ace
 
 		Vector2DF operator*(const Vector2DF& right);
 
+		Vector2DF operator/(const Vector2DF& right);
+
 		Vector2DF operator*(float right);
 
 		Vector2DF operator/(float right);
@@ -139,7 +141,11 @@ namespace ace
 
 		Vector2DF& operator*=(const Vector2DF& right);
 
+		Vector2DF& operator/=(const Vector2DF& right);
+
 		Vector2DF& operator*=(float right);
+
+		Vector2DF& operator/=(float right);
 	};
 
 	//----------------------------------------------------------------------------------

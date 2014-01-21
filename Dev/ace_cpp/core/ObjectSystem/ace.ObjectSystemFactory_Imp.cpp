@@ -49,7 +49,7 @@ namespace ace
 
 	CoreCameraObject2D* ObjectSystemFactory_Imp::CreateCameraObject2D()
 	{
-		return new CoreCameraObject2D_Imp();
+		return new CoreCameraObject2D_Imp(m_graphics);
 	}
 
 	//----------------------------------------------------------------------------------

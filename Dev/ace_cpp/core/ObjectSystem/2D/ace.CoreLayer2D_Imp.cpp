@@ -15,7 +15,7 @@ namespace ace
 	CoreLayer2D_Imp::CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize)
 		: CoreLayer_Imp(graphics, windowSize)
 		, m_objects(list<ObjectPtr>())
-		, m_cameras(set<CoreCameraObject2D*>())
+		, m_cameras(list<CoreCameraObject2D*>())
 		, m_renderer(nullptr)
 	{
 		m_renderer = new Renderer2D_Imp(graphics, log, windowSize);
@@ -30,9 +30,14 @@ namespace ace
 
 		for (auto& object : m_objects)
 		{
+			object->SetLayer(nullptr);
 			SafeRelease(object);
 		}
-
+		for (auto& camera : m_cameras)
+		{
+			camera->SetLayer(nullptr);
+			SafeRelease(camera);
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -43,16 +48,16 @@ namespace ace
 		if (object->GetIsCamera())
 		{
 			auto camera = (CoreCameraObject2D*)object;
-			m_cameras.insert(camera);
+			m_cameras.push_back(camera);
 			SafeAddRef(camera);
 		}
 		else
 		{
 			m_objects.push_back(object);
+			SafeAddRef(object);
 		}
 
 		object->SetLayer(this);
-		SafeAddRef(object);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -63,16 +68,16 @@ namespace ace
 		if (object->GetIsCamera())
 		{
 			auto camera = (CoreCameraObject2D*)object;
-			m_cameras.erase(camera);
+			m_cameras.remove(camera);
 			SafeRelease(camera);
 		}
 		else
 		{
 			m_objects.remove(object);
+			SafeRelease(object);
 		}
 
 		object->SetLayer(nullptr);
-		SafeRelease(object);
 	}
 
 	//----------------------------------------------------------------------------------

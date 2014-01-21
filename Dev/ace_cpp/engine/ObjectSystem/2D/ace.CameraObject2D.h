@@ -15,10 +15,10 @@ namespace ace
 		CameraObject2D();
 		virtual ~CameraObject2D();
 
-		RectI GetSrc() const { return m_coreObject->GetSrc(); }
-		void SetSrc(RectI value) { m_coreObject->SetSrc(value); }
+		RectI GetSrc() const;
+		void SetSrc(RectI value);
 
-		RectI GetDst() const { return m_coreObject->GetDst(); }
-		void SetDst(RectI value) { m_coreObject->SetDst(value); }
+		RectI GetDst() const;
+		void SetDst(RectI value);
 	};
 }

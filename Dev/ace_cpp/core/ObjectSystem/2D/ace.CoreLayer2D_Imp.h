@@ -20,7 +20,7 @@ namespace ace
 	friend class ObjectSystemFactory_Imp;
 
 	private:
-		std::set<CoreCameraObject2D*> m_cameras;
+		std::list <CoreCameraObject2D*> m_cameras;
 		std::list<ObjectPtr> m_objects;
 
 		Renderer2D*		m_renderer;

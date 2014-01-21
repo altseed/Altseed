@@ -156,15 +156,9 @@ namespace ace
 		}
 
 		Vector2DF position[4];
-		Color color[4];
-		Vector2DF uvs[4];
-
-		auto p = m_transform.GetPosition();
 
 		{
 			auto textureSize = m_texture != nullptr ? m_texture->GetSize() : Vector2DI(1, 1);
-			auto x = p.X;
-			auto y = p.Y;
 			auto w = textureSize.X;
 			auto h = textureSize.Y;
 
@@ -178,37 +172,24 @@ namespace ace
 			position[3].Y = h;
 		}
 
-		auto radian = DegreeToRadian(m_transform.GetAngle());
-		auto scale = m_transform.GetScale();
-		auto matrix = m_transform.GetParentsMatrix();
+		auto& parentMatrix = m_transform.GetParentsMatrix();
+		auto& matrix = m_transform.GetMatrixToTransform();
 
 		for (auto& pos : position)
 		{
 			pos -= m_centerPosition;
-
-			auto x = pos.X;
-			auto y = pos.Y;
-
-			pos.X *= scale.X;
-			pos.Y *= scale.Y;
-
-			float sin, cos;
-			SinCos(radian, sin, cos);
-			pos.X = x * cos - y * sin;
-			pos.Y = x * sin + y * cos;
-
-			pos += p;
-
 			auto v3 = Vector3DF(pos.X, pos.Y, 1);
-			auto result = cameraMatrix * matrix * v3;
+			auto result = cameraMatrix * parentMatrix * matrix * v3;
 			pos = Vector2DF(result.X, result.Y);
 		}
 
+		Color color[4];
 		color[0] = m_color;
 		color[1] = m_color;
 		color[2] = m_color;
 		color[3] = m_color;
 
+		Vector2DF uvs[4];
 		uvs[0].X = 0;
 		uvs[0].Y = 0;
 		uvs[1].X = 1;

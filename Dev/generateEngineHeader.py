@@ -61,6 +61,7 @@ engineHeader.readLines("ace_cpp/common/Math/ace.Vector3DF.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.Matrix33.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.Matrix43.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.Matrix44.h")
+engineHeader.readLines("ace_cpp/common/Math/ace.RectI.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.RectF.h")
 
 engineHeader.readLines("ace_cpp/common/Graphics/ace.Color.h")
@@ -112,6 +113,7 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Layer.h")
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Object2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.CameraObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.h")
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.Object3D.h")

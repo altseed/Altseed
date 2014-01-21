@@ -18,4 +18,25 @@ namespace ace
 	{
 		return m_coreObject.get();
 	}
+
+	RectI CameraObject2D::GetSrc() const
+	{
+		return m_coreObject->GetSrc();
+	}
+
+	void CameraObject2D::SetSrc(RectI value)
+	{
+		m_coreObject->SetSrc(value);
+	}
+
+	RectI CameraObject2D::GetDst() const
+	{
+		return m_coreObject->GetDst();
+	}
+
+	void CameraObject2D::SetDst(RectI value)
+	{
+		m_coreObject->SetDst(value);
+	}
+
 }

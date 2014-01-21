@@ -52,6 +52,9 @@
     <ClCompile Include="..\Graphics\3D\Camera3DPostEffect.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\Camera.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
