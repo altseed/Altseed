@@ -23,7 +23,7 @@ namespace ace
 		};
 
 		std::vector<Bone>	m_bones;
-		std::unordered_map<astring, int32_t>	m_nameToIndex;
+		std::map<astring, int32_t>	m_nameToIndex;
 
 	public:
 		Deformer_Imp();

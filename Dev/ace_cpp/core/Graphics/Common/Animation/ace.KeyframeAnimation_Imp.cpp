@@ -1,6 +1,8 @@
 ﻿
 #include "ace.KeyframeAnimation_Imp.h"
 
+#include <cmath>
+
 namespace ace
 {
 	/**
@@ -21,8 +23,11 @@ namespace ace
 		return res;
 	}
 
-	const double DEF_NaN = std::numeric_limits<double>::quiet_NaN();
-	const double M_PI = 3.14159265358979;
+	static const double DEF_NaN = std::numeric_limits<double>::quiet_NaN();
+
+#if _WIN32
+	static const double M_PI = 3.14159265358979;
+#endif
 
 	static float sqrt3(float value)
 	{
@@ -111,7 +116,7 @@ namespace ace
 	{
 		auto isValid = [](float v) -> bool
 		{
-			if (_isnan(v)) return false;
+			if (std::isnan(v)) return false;
 
 			auto small_ = -0.00001f;
 			auto big_ = 1.000001f;
@@ -228,7 +233,7 @@ namespace ace
 	{
 		m_name = name;
 
-		auto strs = split(ToAString(name), ToAString("."));
+		auto strs = split(astring(name), ToAString("."));
 
 		// ボーン向け設定の取得
 		m_targetName = astring();
