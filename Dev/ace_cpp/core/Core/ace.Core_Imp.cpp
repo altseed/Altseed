@@ -117,7 +117,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode)
+	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode, bool isMultithreadingMode)
 	{
 		if (m_window != nullptr) return false;
 		if (m_keyboard != nullptr) return false;
@@ -151,7 +151,7 @@ namespace ace
 
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), title);
 		
-		m_graphics = Graphics_Imp::Create(m_window, isOpenGLMode, m_logger);
+		m_graphics = Graphics_Imp::Create(m_window, isOpenGLMode, m_logger, isMultithreadingMode);
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, m_window->GetSize());
 
 		m_profiler = Profiler_Imp::Create();
@@ -164,7 +164,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Core_Imp::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height)
+	bool Core_Imp::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, bool isMultithreadingMode)
 	{
 		if (m_window != nullptr) return false;
 		if (m_keyboard != nullptr) return false;
@@ -174,9 +174,25 @@ namespace ace
 
 		m_isInitializedByExternal = true;
 
+#if _WIN32
+		if (isOpenGLMode)
+		{
+			glfwMakeOpenGLEnabled();
+		}
+		else
+		{
+			glfwMakeOpenGLDisabled();
+		}
+#else
+		if (!isOpenGLMode)
+		{
+			return false;
+		}
+#endif
+
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
-		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, false, m_logger);
+		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, false, m_logger, isMultithreadingMode);
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, Vector2DI(width,height));
 
 		m_profiler = Profiler_Imp::Create();

@@ -272,15 +272,7 @@ void main()
 		SafeAddRef(m_graphics);
 
 		// 別スレッドで描画を行うか指定
-		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
-		{
-			m_multithreadingMode = true;
-		}
-		else
-		{
-			m_multithreadingMode = true;
-		}
-
+		m_multithreadingMode = m_graphics->IsMultithreadingMode();
 
 		m_pasteVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(PasteVertex), 2 * 3, true);
 		m_pasteIndexBuffer = m_graphics->CreateIndexBuffer_Imp(2 * 3, false, false);

@@ -27,8 +27,8 @@ namespace ace {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log)
-	: Graphics_Imp(size, log)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isMultithreadingMode)
+	: Graphics_Imp(size, log, isMultithreadingMode)
 	, m_window(window)
 	, m_endStarting(false)
 	, m_frameBuffer_main(0)
@@ -68,18 +68,19 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 
 	// スレッド生成
 	MakeContextNone();
-	CreateContextBeforeThreading(window_);
 
-	MakeContextCurrent();
-	FlushCommand();
-	MakeContextNone();
-
-	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
-	while (!m_endStarting)
+	if (IsMultithreadingMode())
 	{
-		Sleep(1);
+		CreateContextBeforeThreading(window_);
+
+		m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
+		while (!m_endStarting)
+		{
+			Sleep(1);
+		}
+		CreateContextAfterThreading(window_);
 	}
-	CreateContextAfterThreading(window_);
+
 	MakeContextCurrent();
 	GLCheckError();
 }
@@ -87,8 +88,8 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log)
-	: Graphics_Imp(size, log)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isMultithreadingMode)
+	: Graphics_Imp(size, log, isMultithreadingMode)
 	, m_window(nullptr)
 	, m_endStarting(false)
 	, m_frameBuffer_main(0)
@@ -133,18 +134,20 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 
 	// スレッド生成
 	MakeContextNone();
-	CreateContextBeforeThreading(nullptr);
-	
-	MakeContextCurrent();
-	FlushCommand();
-	MakeContextNone();
 
-	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
-	while (!m_endStarting)
+	if (IsMultithreadingMode())
 	{
-		Sleep(1);
+		CreateContextBeforeThreading(nullptr);
+
+		m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
+		while (!m_endStarting)
+		{
+			Sleep(1);
+		}
+		CreateContextAfterThreading(nullptr);
 	}
-	CreateContextAfterThreading(nullptr);
+
+
 	MakeContextCurrent();
 	GLCheckError();
 }
@@ -158,17 +161,23 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 	// 必要なし
 	//SafeRelease(m_currentShader);
 
-	m_renderingThread->AddEvent(nullptr);
-	while (m_renderingThread->IsRunning())
+	if (IsMultithreadingMode())
 	{
-		Sleep(1);
+		m_renderingThread->AddEvent(nullptr);
+		while (m_renderingThread->IsRunning())
+		{
+			Sleep(1);
+		}
+		m_renderingThread.reset();
 	}
-	m_renderingThread.reset();
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDeleteFramebuffers(1, &m_frameBuffer_main);
-	glDeleteFramebuffers(1, &m_frameBuffer_rendering);
 
+	if (IsMultithreadingMode())
+	{
+		glDeleteFramebuffers(1, &m_frameBuffer_rendering);
+	}
 
 #if !_WIN32
 	if( m_x11Mode )
@@ -178,28 +187,31 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 	}
 #endif
 
+	if (IsMultithreadingMode())
+	{
 #if _WIN32
-	if (m_renderingThreadRC)
-	{
-		wglMakeCurrent(NULL, NULL);
-		wglDeleteContext(m_renderingThreadRC);
-		m_renderingThreadRC = NULL;
-	}
-	if (m_renderingThreadDC)
-	{
-		ReleaseDC(m_renderingThreadHWND, m_renderingThreadDC);
-		m_renderingThreadDC = NULL;
-		m_renderingThreadHWND = NULL;
-	}
+		if (m_renderingThreadRC)
+		{
+			wglMakeCurrent(NULL, NULL);
+			wglDeleteContext(m_renderingThreadRC);
+			m_renderingThreadRC = NULL;
+		}
+		if (m_renderingThreadDC)
+		{
+			ReleaseDC(m_renderingThreadHWND, m_renderingThreadDC);
+			m_renderingThreadDC = NULL;
+			m_renderingThreadHWND = NULL;
+		}
 
 #else
-	if(m_renderingThreadX11Display != nullptr)
-	{
-		glXMakeCurrent(m_renderingThreadX11Display, 0, NULL);
-		glXDestroyContext(m_renderingThreadX11Display, m_renderingThreadGlx);
-		m_renderingThreadX11Display = nullptr;
-	}
+		if(m_renderingThreadX11Display != nullptr)
+		{
+			glXMakeCurrent(m_renderingThreadX11Display, 0, NULL);
+			glXDestroyContext(m_renderingThreadX11Display, m_renderingThreadGlx);
+			m_renderingThreadX11Display = nullptr;
+		}
 #endif
+	}
 
 	SafeRelease(m_window);
 }
@@ -401,16 +413,16 @@ void Graphics_Imp_GL::SetViewport(int32_t x, int32_t y, int32_t width, int32_t h
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log)
+Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool isMultithreadingMode)
 {
-	return new Graphics_Imp_GL(window->GetSize(), window, log);
+	return new Graphics_Imp_GL(window->GetSize(), window, log, isMultithreadingMode);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
 #if !_WIN32
-Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log )
+Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isMultithreadingMode )
 {
 	Display* display_ = (Display*)display;
 	::Window window_ = *((::Window*)window);
@@ -630,7 +642,7 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 
 void Graphics_Imp_GL::MakeContextCurrent()
 {
-	if (GetThreadID() != m_renderingThread->GetThreadID())
+	if (!IsMultithreadingMode() || GetThreadID() != m_renderingThread->GetThreadID())
 	{
 		// コンテキストが変わるときは命令処理し終える
 		if (m_contextState != 1)
@@ -661,9 +673,6 @@ void Graphics_Imp_GL::MakeContextCurrent()
 		m_contextState = 2;
 
 #if _WIN32
-		//glFlush();
-		//glFinish();
-
 		if (!wglMakeCurrent(m_renderingThreadDC, m_renderingThreadRC))
 		{
 			m_log->WriteLineStrongly("wglMakeCurrent is failed.");
@@ -791,7 +800,7 @@ void Graphics_Imp_GL::CreateContextAfterThreading(GLFWwindow* window)
 
 void Graphics_Imp_GL::BindFramebuffer()
 {
-	if (GetThreadID() != m_renderingThread->GetThreadID())
+	if (!IsMultithreadingMode() || GetThreadID() != m_renderingThread->GetThreadID())
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_main);
 		GLCheckError();

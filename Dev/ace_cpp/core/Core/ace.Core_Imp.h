@@ -57,9 +57,9 @@ namespace ace {
 	public:
 		static Core_Imp* CreateCore();
 
-		bool Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode);
+		bool Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode, bool isMultithreadingMode);
 
-		bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height);
+		bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, bool isMultithreadingMode);
 
 		bool DoEvents();
 
