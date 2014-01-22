@@ -25,6 +25,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	Window* window,
 	Vector2DI size,
 	Log* log,
+	bool isMultithreadingMode,
 	ID3D11Device* device,
 	ID3D11DeviceContext* context,
 	IDXGIDevice1* dxgiDevice,
@@ -35,7 +36,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11RenderTargetView*	defaultBackRenderTargetView,
 	ID3D11Texture2D* defaultDepthBuffer,
 	ID3D11DepthStencilView* defaultDepthStencilView)
-	: Graphics_Imp(size, log)
+	: Graphics_Imp(size, log, isMultithreadingMode)
 	, m_window(window)
 	, m_device(device)
 	, m_context(context)
@@ -53,7 +54,11 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	SafeAddRef(window);
 
 	m_renderState = new RenderState_Imp_DX11(this);
-	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
+
+	if (IsMultithreadingMode())
+	{
+		m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -61,12 +66,15 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 //----------------------------------------------------------------------------------
 Graphics_Imp_DX11::~Graphics_Imp_DX11()
 {
-	m_renderingThread->AddEvent(nullptr);
-	while (m_renderingThread->IsRunning())
+	if (IsMultithreadingMode())
 	{
-		Sleep(1);
+		m_renderingThread->AddEvent(nullptr);
+		while (m_renderingThread->IsRunning())
+		{
+			Sleep(1);
+		}
+		m_renderingThread.reset();
 	}
-	m_renderingThread.reset();
 
 	SafeRelease(m_currentBackRenderTargetView);
 	SafeRelease(m_currentDepthStencilView);
@@ -231,7 +239,7 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode)
 {
 	/* DirectX初期化 */
 	ID3D11Device*			device = NULL;
@@ -347,6 +355,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		window,
 		Vector2DI(width, height),
 		log,
+		isMultithreadingMode,
 		device,
 		context,
 		dxgiDevice,
@@ -372,19 +381,19 @@ End:
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, bool isMultithreadingMode)
 {
 	auto size = window->GetSize();
 	auto handle = glfwGetWin32Window(((Window_Imp*) window)->GetWindow());
-	return Create(handle, size.X, size.Y, log);
+	return Create(handle, size.X, size.Y, log, isMultithreadingMode);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode)
 {
-	return Create(nullptr, handle, width, height, log);
+	return Create(nullptr, handle, width, height, log, isMultithreadingMode);
 }
 
 //----------------------------------------------------------------------------------

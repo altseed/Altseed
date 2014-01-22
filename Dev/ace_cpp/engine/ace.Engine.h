@@ -31,6 +31,13 @@ namespace ace {
 		@brief	描画に使用するデバイス
 		*/
 		eGraphicsType	GraphicsType = eGraphicsType::GRAPHICS_TYPE_DX11;
+
+		/**
+		@brief	マルチスレッドモードを使用するか?
+		@note
+		現在、マルチスレッドモードは開発中であり、実行速度は上昇するが、バグが多発する可能性がある。
+		*/
+		bool			IsMultithreadingMode = false;
 	};
 
 

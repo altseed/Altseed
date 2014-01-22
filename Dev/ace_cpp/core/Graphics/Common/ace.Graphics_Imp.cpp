@@ -179,21 +179,21 @@ Shader2D* Graphics_Imp::CreateShader2D_(
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(Window* window, bool isOpenGLMode, Log* log)
+Graphics_Imp* Graphics_Imp::Create(Window* window, bool isOpenGLMode, Log* log, bool isMultithreadingMode)
 {
 #if _WIN32
 	if (isOpenGLMode)
 	{
-		return Graphics_Imp_GL::Create(window, log);
+		return Graphics_Imp_GL::Create(window, log, isMultithreadingMode);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create(window, log);
+		return Graphics_Imp_DX11::Create(window, log, isMultithreadingMode);
 	}
 #else
 	if (isOpenGLMode)
 	{
-		return Graphics_Imp_GL::Create(window, log);
+		return Graphics_Imp_GL::Create(window, log, isMultithreadingMode);
 	}
 	else
 	{
@@ -205,36 +205,41 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, bool isOpenGLMode, Log* log)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log)
+Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log, bool isMultithreadingMode)
 {
 #if _WIN32
 	if (isOpenGLMode)
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isMultithreadingMode);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isMultithreadingMode);
 	}
 #else 
-	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log);
+	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, isMultithreadingMode);
 #endif
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log)
+Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isMultithreadingMode)
 	: m_size(size)
 	, m_renderState(nullptr)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)
 	, m_shaderPtr(nullptr)
 	, m_log(log)
+	, m_isMultithreadingMode(isMultithreadingMode)
 {
 	//SafeAddRef(m_log);
 	m_resourceContainer = new GraphicsResourceContainer();
-	m_renderingThread = std::make_shared<RenderingThread>();
+
+	if (IsMultithreadingMode())
+	{
+		m_renderingThread = std::make_shared<RenderingThread>();
+	}
 }
 
 //----------------------------------------------------------------------------------

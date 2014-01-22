@@ -61,6 +61,7 @@ void EngineTest::Run()
 	int time = 0;
 	EngineOption option;
 	option.GraphicsType = m_isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
+	option.IsMultithreadingMode = true;
 
 	auto engine = ace::GetEngine();
 	ASSERT_NE(engine, nullptr);
