@@ -87,6 +87,9 @@
     <ClCompile Include="..\Graphics\3D\ace.Mesh_Test.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\2D\ace.Renderer_Practice.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Graphics\ace.Graphics_Test_Utls.h">

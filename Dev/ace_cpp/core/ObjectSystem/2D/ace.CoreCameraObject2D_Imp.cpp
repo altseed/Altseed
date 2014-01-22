@@ -84,22 +84,19 @@ namespace ace
 		array<Color, 4> colors;
 		fill(begin(colors), end(colors), Color());
 
-		auto size = m_renderTarget->GetSize();
-		auto u = m_src.Width / (float)size.X;
-		auto v = m_src.Height / (float)size.Y;
 		array<Vector2DF, 4> uvs =
 		{
 			Vector2DF(0, 0),
-			Vector2DF(u, 0),
-			Vector2DF(u, v),
-			Vector2DF(0, v),
+			Vector2DF(1, 0),
+			Vector2DF(1, 1),
+			Vector2DF(0, 1),
 		};
 
 		renderer->AddSprite(
 			m_dst.GetVertexes().data(),
 			colors.data(),
 			uvs.data(),
-			m_renderTarget,
+			nullptr,
 			eAlphaBlend::ALPHA_BLEND_BLEND,
 			0);
 	}
