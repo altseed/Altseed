@@ -26,6 +26,8 @@ namespace ace {
 	public:
 		static Texture2D_Imp_GL* Create(Graphics_Imp_GL* graphics, uint8_t* data, int32_t size);
 
+		bool Save(const achar* path) override;
+
 		void Reload(void* data, int32_t size);
 
 		GLuint GetBuffer() { return m_texture; }

@@ -621,7 +621,6 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 	glReadBuffer(GL_BACK);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-
 	auto buf = new uint8_t[m_size.X * m_size.Y * 4];
 
 	glReadPixels(
@@ -638,6 +637,34 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 	SafeDeleteArray(buf);
 
 	GLCheckError();
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+bool Graphics_Imp_GL::SaveTexture(const achar* path, GLuint texture, Vector2DI size)
+{
+	std::lock_guard<std::recursive_mutex> lock(GetMutex());
+	MakeContextCurrent();
+
+	GLCheckError();
+
+	auto buf = new uint8_t[size.X * size.Y * 4];
+
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
+
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	SavePNGImage(path, size.X, size.Y, buf, true);
+
+	SafeDeleteArray(buf);
+
+	GLCheckError();
+
+	return true;
 }
 
 void Graphics_Imp_GL::MakeContextCurrent()

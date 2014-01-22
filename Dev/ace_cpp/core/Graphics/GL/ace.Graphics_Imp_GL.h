@@ -105,6 +105,8 @@ namespace ace {
 
 		void SaveScreenshot(const achar* path);
 
+		bool SaveTexture(const achar* path, GLuint texture, Vector2DI size);
+
 		eGraphicsType GetGraphicsType() const { return GRAPHICS_TYPE_GL; }
 
 		/**

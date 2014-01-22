@@ -540,58 +540,75 @@ void Graphics_Imp_DX11::SaveScreenshot(const achar* path)
 	HRESULT hr;
 
 	ID3D11Resource* resource = nullptr;
-	ID3D11Texture2D* texture = nullptr;
 
 	m_defaultBackRenderTargetView->GetResource(&resource);
+
+
+	SaveTexture(path, resource, m_size);
+	
+END:;
+	SafeRelease(resource);
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+bool Graphics_Imp_DX11::SaveTexture(const achar* path, ID3D11Resource* texture, Vector2DI size)
+{
+	ID3D11Texture2D* texture_ = nullptr;
+
+	HRESULT hr;
 
 	D3D11_TEXTURE2D_DESC desc;
 	desc.ArraySize = 1;
 	desc.BindFlags = 0;
 	desc.CPUAccessFlags = D3D11_CPU_ACCESS_READ | D3D11_CPU_ACCESS_WRITE;
 	desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	desc.Width = m_size.X;
-	desc.Height = m_size.Y;
+	desc.Width = size.X;
+	desc.Height = size.Y;
 	desc.MipLevels = 1;
 	desc.MiscFlags = 0;
 	desc.SampleDesc.Count = 1;
 	desc.SampleDesc.Quality = 0;
 	desc.Usage = D3D11_USAGE_STAGING;
 
-	
-	hr = GetDevice()->CreateTexture2D(&desc, 0, &texture);
+	hr = GetDevice()->CreateTexture2D(&desc, 0, &texture_);
 	if (FAILED(hr))
 	{
 		goto END;
 	}
 
-	GetContext()->CopyResource(texture, resource);
+	GetContext()->CopyResource(texture_, texture);
 
 	D3D11_MAPPED_SUBRESOURCE mr;
-	UINT sr= D3D11CalcSubresource(0, 0, 0);
-	hr = GetContext()->Map(texture, sr, D3D11_MAP_READ_WRITE, 0, &mr);
+	UINT sr = D3D11CalcSubresource(0, 0, 0);
+	hr = GetContext()->Map(texture_, sr, D3D11_MAP_READ_WRITE, 0, &mr);
 	if (FAILED(hr))
 	{
-		goto END;
+		return false;
 	}
 
-	auto data = new uint8_t[m_size.X * m_size.Y * 4];
+	auto data = new uint8_t[size.X * size.Y * 4];
 
-	for (int32_t h = 0; h < m_size.Y; h++)
+	for (int32_t h = 0; h < size.Y; h++)
 	{
-		auto dst = &(data[h*m_size.X * 4]);
+		auto dst = &(data[h*size.X * 4]);
 		auto src = &(((uint8_t*) mr.pData)[h*mr.RowPitch]);
-		memcpy(dst, src, m_size.X * 4);
+		memcpy(dst, src, size.X * 4);
 	}
 
-	SavePNGImage(path, m_size.X, m_size.Y, data,false);
+	SavePNGImage(path, size.X, size.Y, data, false);
 
 	SafeDeleteArray(data);
 
 	GetContext()->Unmap(texture, sr);
-	
+
+	SafeRelease(texture_);
+	return true;
+
 END:;
-	SafeRelease(resource);
-	SafeRelease(texture);
+	SafeRelease(texture_);
+	return false;
 }
 
 //----------------------------------------------------------------------------------

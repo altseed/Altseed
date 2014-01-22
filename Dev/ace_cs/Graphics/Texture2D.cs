@@ -43,6 +43,16 @@ namespace ace
 			System.GC.SuppressFinalize(this);
 		}
 
+		/// <summary>
+		/// テクスチャをファイルに保存する。
+		/// </summary>
+		/// <param name="path">出力先</param>
+		/// <returns>成否</returns>
+		public bool Save(string path)
+		{
+			return SwigObject.Save(path);
+		}
+
 		public Vector2DI Size
 		{
 			get { return SwigObject.GetSize(); }
