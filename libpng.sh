@@ -7,6 +7,9 @@ wget http://zlib.net/zlib-1.2.8.tar.gz
 tar zxvf libpng-1.6.6.tar.gz
 tar zxvf zlib-1.2.8.tar.gz
 
+python Script/ace_editCmakeForACE.py zlib-1.2.8/CMakeLists.txt
+python Script/ace_editCmakeForACE.py libpng-1.6.6/CMakeLists.txt
+
 mkdir zlib_bin
 (cd zlib_bin;
 cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev ../zlib-1.2.8/;

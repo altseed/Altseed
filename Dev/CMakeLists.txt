@@ -20,7 +20,7 @@ endif()
 if (MSVC)
 	# “Á‚É‰½‚à
 else()
-	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC" ${CMAKE_CXX_FLAGS})
+	set(CMAKE_CXX_FLAGS "-std=c++11" ${CMAKE_CXX_FLAGS})
 endif()
 
 
@@ -211,6 +211,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/main.cpp
 	unitTest_Engine_cpp_gtest/Profiler.cpp
 
+	unitTest_Engine_cpp_gtest/ObjectSystem/Camera.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayerComponent.cpp

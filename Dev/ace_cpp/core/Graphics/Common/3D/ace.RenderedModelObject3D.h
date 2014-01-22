@@ -93,8 +93,15 @@ namespace ace
 		void SetModel(Model* model);
 
 		void AddMesh(Mesh* mesh);
-
+		
+		/**
+			@brief	モデルの解除を行わずに、現在設定されているインスタンスを解除する。
+		*/
 		void UnloadModel();
+
+		/**
+			@brief	現在設定されているモデルからインスタンスを読み込む。
+		*/
 		void LoadModel();
 
 		void ReloadModel();

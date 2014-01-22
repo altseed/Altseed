@@ -69,6 +69,11 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log
 	// スレッド生成
 	MakeContextNone();
 	CreateContextBeforeThreading(window_);
+
+	MakeContextCurrent();
+	FlushCommand();
+	MakeContextNone();
+
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	while (!m_endStarting)
 	{
@@ -129,6 +134,11 @@ Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, vo
 	// スレッド生成
 	MakeContextNone();
 	CreateContextBeforeThreading(nullptr);
+	
+	MakeContextCurrent();
+	FlushCommand();
+	MakeContextNone();
+
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	while (!m_endStarting)
 	{

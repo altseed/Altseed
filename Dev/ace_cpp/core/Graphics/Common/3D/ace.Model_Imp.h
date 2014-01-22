@@ -28,8 +28,18 @@ namespace ace
 
 		bool Load(Graphics* g, std::vector<uint8_t>& data, const achar* path);
 
+		/**
+			@brief	モデルに変更が発生したことを伝える先を登録する。
+			@param	model	観察者
+		*/
 		void Attach(RenderedModelObject3D* model);
+
+		/**
+			@brief	モデルに変更が発生したことを伝える先を解除する。
+			@param	model	観察者
+		*/
 		void Detach(RenderedModelObject3D* model);
+
 		void Reload(std::vector<uint8_t>& data, const achar* path);
 
 	private:
