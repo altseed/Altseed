@@ -18,7 +18,7 @@ void GetDirectoryName(char* dst, char* src);
 
 extern void TestCustomObject();
 extern void Test_LayerComponent_GL();
-extern void TestCamera();
+extern void TestCamera(bool openGL);
 extern void Graphics_CustomPostEffect_(bool isOpenGLMode);
 
 extern void Graphics_PostEffectGaussianBlur_(bool isOpenGLMode);
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	TestCustomObject();
+	TestCamera(false);
 	return 0;
 
 	//Graphics_PostEffectGaussianBlur_(true);
