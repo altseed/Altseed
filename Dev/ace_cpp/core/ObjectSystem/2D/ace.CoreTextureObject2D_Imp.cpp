@@ -172,8 +172,8 @@ namespace ace
 			position[3].Y = h;
 		}
 
-		auto& parentMatrix = m_transform.GetParentsMatrix();
-		auto& matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = m_transform.GetParentsMatrix();
+		auto matrix = m_transform.GetMatrixToTransform();
 
 		for (auto& pos : position)
 		{

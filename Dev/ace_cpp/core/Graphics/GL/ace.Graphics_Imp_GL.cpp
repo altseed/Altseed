@@ -440,7 +440,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_
 
 	XFree(vi);
 
-	return new Graphics_Imp_GL( ace::Vector2DI(width,height), display, window, context_, log );
+	return new Graphics_Imp_GL( ace::Vector2DI(width,height), display, window, context_, log, isMultithreadingMode );
 }
 #endif
 

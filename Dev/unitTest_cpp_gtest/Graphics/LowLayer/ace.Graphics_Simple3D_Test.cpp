@@ -105,7 +105,7 @@ void Graphics_Simple3D(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"Simple3D").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log);
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sample1.png").c_str());
