@@ -2,6 +2,7 @@
 #include <fbxsdk.h>
 #include "Vertex.h"
 #include <vector>
+#include "../ace_cpp/common/Utility/ace.BinaryWriter.h"
 
 using namespace std;
 
@@ -20,5 +21,8 @@ public:
 	VerticeLoader(FbxMesh* _fbxMesh);
 
 	vector<Vertex> GetVertices();
+
+	void Load();
+	void Write(ace::BinaryWriter* writer);
 
 };

@@ -314,3 +314,23 @@ void VerticeLoader::_loadWeights()
 		}
 	}
 }
+
+void VerticeLoader::Load()
+{
+	_loadPositions();
+	_loadNormals();
+	_loadBinormals();
+	_loadUVs();
+	_loadColors();
+	_loadWeights();
+}
+
+void VerticeLoader::Write(ace::BinaryWriter* writer)
+{
+	writer->Push((int32_t)_vertices.size());
+
+	for(int i=0;i<_vertices.size();++i)
+	{
+		//writeAllMethod
+	}
+}
