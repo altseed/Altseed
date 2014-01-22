@@ -185,7 +185,7 @@ namespace ace
 
 		if (this == nullptr) return false;
 
-		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, option.GraphicsType != eGraphicsType::GRAPHICS_TYPE_DX11);
+		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, option.GraphicsType != eGraphicsType::GRAPHICS_TYPE_DX11, option.IsMultithreadingMode);
 		if (init)
 		{
 			g_keyboard = m_core->GetKeyboard();
@@ -210,7 +210,7 @@ namespace ace
 
 		if (this == nullptr) return false;
 
-		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height);
+		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, option.GraphicsType != eGraphicsType::GRAPHICS_TYPE_DX11, option.IsMultithreadingMode);
 		if (init)
 		{
 			g_logger = m_core->GetLogger();

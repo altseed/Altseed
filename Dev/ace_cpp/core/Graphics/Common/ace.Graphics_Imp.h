@@ -43,6 +43,7 @@ namespace ace {
 		VertexBuffer_Imp*	m_vertexBufferPtr;
 		IndexBuffer_Imp*	m_indexBufferPtr;
 		NativeShader_Imp*	m_shaderPtr;
+		bool				m_isMultithreadingMode;
 
 		void AddDeviceObject(DeviceObject* o);
 		void RemoveDeviceObject(DeviceObject* o);
@@ -104,12 +105,14 @@ namespace ace {
 		virtual Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
 
 	public:
-		Graphics_Imp(Vector2DI size, Log* log);
+		Graphics_Imp(Vector2DI size, Log* log, bool isMultithreadingMode);
 		virtual ~Graphics_Imp();
 
-		static Graphics_Imp* Create(Window* window, bool isOpenGLMode, Log* log);
+		static Graphics_Imp* Create(Window* window, bool isOpenGLMode, Log* log, bool isMultithreadingMode);
 
-		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log);
+		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log, bool isMultithreadingMode);
+
+		bool IsMultithreadingMode() { return m_isMultithreadingMode; }
 
 		/**
 		@brief	画面をクリアする。

@@ -16,6 +16,7 @@
     <ClCompile Include="..\Graphics\2D\ace.LayerRenderer_Test.cpp" />
     <ClCompile Include="..\Graphics\2D\ace.PostEffectRenderer_Test.cpp" />
     <ClCompile Include="..\Graphics\2D\ace.Renderer2D_Test.cpp" />
+    <ClCompile Include="..\Graphics\2D\ace.Renderer_Practice.cpp" />
     <ClCompile Include="..\Graphics\3D\ace.Mesh_Test.cpp" />
     <ClCompile Include="..\Graphics\ace.Graphics_Test_Utls.cpp" />
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Empty_Test.cpp" />
