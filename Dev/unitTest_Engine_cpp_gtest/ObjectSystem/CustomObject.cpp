@@ -18,7 +18,7 @@ protected:
 
 	void OnUpdate()
 	{
-		SetPosition(GetPosition() + Vector2DF(0.4f, 0.3f));
+		SetPosition(GetPosition() + Vector2DF(4, 3));
 		SetAngle(GetAngle() + 1);
 		SetScale(GetScale() - Vector2DF(0.001f, 0.001f));
 	}
@@ -43,6 +43,11 @@ protected:
 		layer->AddObject(object);
 	}
 };
+
+void TestCustomObject()
+{
+	RunTest<ObjectSystem_CustomObject>(true);
+}
 
 TEST(ObjectSystem, CustomObject_GL)
 {

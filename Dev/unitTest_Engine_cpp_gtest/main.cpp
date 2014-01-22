@@ -16,6 +16,7 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
+extern void TestCustomObject();
 extern void Test_LayerComponent_GL();
 extern void TestCamera();
 extern void Graphics_CustomPostEffect_(bool isOpenGLMode);
@@ -42,7 +43,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	TestCamera();
+	TestCustomObject();
 	return 0;
 
 	//Graphics_PostEffectGaussianBlur_(true);
