@@ -171,10 +171,19 @@ TEST_F(BinaryReaderWriterTest, mixedTypeTest)
 	ace::astring astr(ace::ToAString(L"これはテストです"));
 	std::string str("This is a test");
 	ace::achar* achs;
-
+	ace::Vector3DF v3f = { 1.0f, 2.0f, 3.0f };
+	ace::Matrix44 m44;
 	writer.Reserve(42);
 
 	EXPECT_TRUE(writer.Get().capacity() >= 42);
+
+	for (int j = 0; j < 4; j++)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			m44.Values[j][i] = i * j;
+		}
+	}
 
 	writer.Push(i);
 	writer.Push(sh);
@@ -182,7 +191,9 @@ TEST_F(BinaryReaderWriterTest, mixedTypeTest)
 	writer.Push(astr);
 	writer.Push(astr.c_str());
 	writer.Push(str);
-
+	writer.Push(42.0f);
+	writer.Push(v3f);
+	writer.Push(m44);
 	WriteOut();
 	ReadIn();
 
@@ -212,6 +223,23 @@ TEST_F(BinaryReaderWriterTest, mixedTypeTest)
 
 	str = reader.Get<std::string>();
 	EXPECT_TRUE(str == std::string("This is a test"));
+
+	EXPECT_TRUE(reader.Get<float>() == 42.0f);
+
+
+	v3f = reader.Get<ace::Vector3DF>();
+	EXPECT_TRUE(v3f.X == 1.0f && v3f.Y == 2.0f && v3f.Z == 3.0f);
+
+	m44 = reader.Get<ace::Matrix44>();
+	for (int j = 0; j < 4; j++)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			EXPECT_TRUE(m44.Values[j][i] == i * j);
+		}
+	}
+
+
 
 
 }
