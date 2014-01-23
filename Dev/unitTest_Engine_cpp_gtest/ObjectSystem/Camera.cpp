@@ -9,7 +9,7 @@ class ObjectSystem_Camera : public EngineTest
 {
 public:
 	ObjectSystem_Camera(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Camera"), isOpenGLMode, 120)
+		: EngineTest(ace::ToAString("Camera"), isOpenGLMode, 1)
 	{
 	}
 
@@ -25,8 +25,8 @@ protected:
 		m_camera = make_shared<CameraObject2D>();
 
 		obj->SetTexture(GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Sample1.png").c_str()));
-		m_camera->SetSrc(RectI(100, 100, 100, 100));
-		m_camera->SetDst(RectI(10, 10, 640, 480));
+		m_camera->SetSrc(RectI(100, 100, 312, 312));
+		m_camera->SetDst(RectI(10, 10, 100, 80));
 
 		layer->AddObject(obj);
 		layer->AddObject(m_camera);

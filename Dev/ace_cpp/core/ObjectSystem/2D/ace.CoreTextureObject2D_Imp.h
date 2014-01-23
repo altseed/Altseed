@@ -48,7 +48,6 @@ namespace ace
 			m_objectInfo.SetIsAlive(value);
 		}
 
-
 #pragma region Paramater
 		Vector2DF GetPosition() const
 		{
@@ -108,7 +107,7 @@ namespace ace
 		void RemoveChild(CoreObject2D& child);
 
 #if !SWIG
-		void Draw(Matrix33 cameraMatrix);
+		void Draw(Renderer2D* renderer, Matrix33 cameraMatrix);
 		
 		void SetLayer(CoreLayer2D* layer)
 		{

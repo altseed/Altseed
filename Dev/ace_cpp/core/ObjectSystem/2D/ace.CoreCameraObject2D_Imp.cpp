@@ -10,6 +10,7 @@ namespace ace
 		: m_src(RectI(0, 0, 100, 100))
 		, m_dst(RectI(0, 0, 100, 100))
 		, m_renderTarget(nullptr)
+		, m_renderer(nullptr)
 		, m_graphics(graphics)
 	{
 		SafeAddRef(m_graphics);
@@ -20,16 +21,20 @@ namespace ace
 	{
 		SafeRelease(m_graphics);
 		SafeRelease(m_renderTarget);
+		SafeDelete(m_renderer);
 	}
 
 	void CoreCameraObject2D_Imp::ResetBuffer()
 	{
 		SafeRelease(m_renderTarget);
+		SafeDelete(m_renderer);
 
 		m_renderTarget = m_graphics->CreateRenderTexture_Imp(
 			m_src.Width,
 			m_src.Height,
 			eTextureFormat::TEXTURE_FORMAT_RGBA8888);
+
+		m_renderer = new Renderer2D_Imp(m_graphics, nullptr, m_src.GetSize());
 	}
 
 
@@ -61,26 +66,36 @@ namespace ace
 		m_dst = value;
 	}
 
-	void CoreCameraObject2D_Imp::SetForRenderTarget()
-	{
-		m_graphics->SetRenderTarget(m_renderTarget, nullptr);
-	}
-
 	Matrix33 CoreCameraObject2D_Imp::GetCameraMatrix()
 	{
 		auto translate = Matrix33().SetTranslation(-m_src.X, -m_src.Y);
 		return translate;
 	}
 
-	void CoreCameraObject2D_Imp::Draw(Matrix33 cameraMatrix)
+	Renderer2D* CoreCameraObject2D_Imp::GetRenderer() const
+	{
+		return m_renderer;
+	}
+
+
+	void CoreCameraObject2D_Imp::SetForRenderTarget()
+	{
+		m_graphics->SetRenderTarget(m_renderTarget, nullptr);
+	}
+
+	void CoreCameraObject2D_Imp::Draw(Renderer2D* renderer, Matrix33 cameraMatrix)
 	{
 		throw "CameraObject2D の Draw 関数は無効です。";
 	}
 
-	void CoreCameraObject2D_Imp::DrawBuffer()
+	void CoreCameraObject2D_Imp::FlushToBuffer()
 	{
-		auto renderer = m_objectInfo.GetLayer()->GetRenderer();
+		m_renderer->DrawCache();
+		m_renderer->ClearCache();
+	}
 
+	void CoreCameraObject2D_Imp::DrawBuffer(Renderer2D* renderer)
+	{
 		array<Color, 4> colors;
 		fill(begin(colors), end(colors), Color());
 
@@ -91,6 +106,8 @@ namespace ace
 			Vector2DF(1, 1),
 			Vector2DF(0, 1),
 		};
+
+		((Texture2D*)m_renderTarget)->Save(ToAString("Camera.png").c_str());
 
 		renderer->AddSprite(
 			m_dst.GetVertexes().data(),

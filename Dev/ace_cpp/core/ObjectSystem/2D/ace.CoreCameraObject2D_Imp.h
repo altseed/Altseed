@@ -15,6 +15,7 @@ namespace ace
 		RectI m_dst;
 
 		Graphics_Imp* m_graphics;
+		Renderer2D* m_renderer;
 		RenderTexture_Imp* m_renderTarget;
 
 		void ResetBuffer();
@@ -52,7 +53,12 @@ namespace ace
 		RectI GetDst() const;
 		void SetDst(RectI value);
 
+		Renderer2D* GetRenderer() const;
+		Matrix33 GetCameraMatrix();
+
 		void SetForRenderTarget();
+		void FlushToBuffer();
+		void DrawBuffer(Renderer2D* renderer);
 
 #pragma region 無効な機能
 		Vector2DF GetPosition() const
@@ -115,15 +121,12 @@ namespace ace
 #pragma endregion
 
 #if !SWIG
-		void DrawBuffer();
-		void Draw(Matrix33 cameraMatrix);
+		void Draw(Renderer2D* renderer, Matrix33 cameraMatrix);
 
 		void SetLayer(CoreLayer2D* layer)
 		{
 			m_objectInfo.SetLayer(layer);
 		}
-
-		Matrix33 GetCameraMatrix();
 
 		int AddRef() { return ReferenceObject::AddRef(); }
 		int Release() { return ReferenceObject::Release(); }

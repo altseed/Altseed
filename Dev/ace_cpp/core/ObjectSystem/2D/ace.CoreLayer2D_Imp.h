@@ -28,7 +28,7 @@ namespace ace
 		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();
 
-		void DrawObjects(Matrix33 cameraMatrix);
+		void DrawObjects(Renderer2D* renderer, Matrix33 cameraMatrix);
 
 	public:
 		void AddObject(ObjectPtr object);

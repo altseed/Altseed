@@ -148,7 +148,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextureObject2D_Imp::Draw(Matrix33 cameraMatrix)
+	void CoreTextureObject2D_Imp::Draw(Renderer2D* renderer, Matrix33 cameraMatrix)
 	{
 		if (!m_objectInfo.GetIsDrawn())
 		{
@@ -211,7 +211,7 @@ namespace ace
 			}
 		}
 
-		m_objectInfo.GetLayer()->GetRenderer()->AddSprite(
+		renderer->AddSprite(
 			position,
 			color,
 			uvs,
