@@ -9,7 +9,7 @@ void Graphics_Empty(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"Empty").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, nullptr);
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, nullptr, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	while (window->DoEvent())

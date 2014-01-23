@@ -97,6 +97,10 @@ namespace ace {
 
 		void SaveScreenshot(const achar* path);
 
+		bool SaveTexture(const achar* path, ID3D11Resource* texture, Vector2DI size);
+
+	public:
+
 		ID3D11Device* GetDevice() { return m_device; }
 		ID3D11DeviceContext* GetContext() { return m_context;}
 

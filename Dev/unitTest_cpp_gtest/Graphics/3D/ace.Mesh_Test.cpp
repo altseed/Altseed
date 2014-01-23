@@ -151,7 +151,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"メッシュ").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log);
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto renderer3d = new ace::Renderer3D(graphics);

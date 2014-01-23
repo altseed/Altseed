@@ -17,6 +17,14 @@ namespace ace
 		/// 描画に使用するデバイス
 		/// </summary>
 		public GraphicsType GraphicsType;
+
+		/// <summary>
+		/// マルチスレッドモードを使用するか?
+		/// </summary>
+		/// <remarks>
+		/// 現在、マルチスレッドモードは開発中であり、実行速度は上昇するが、バグが多発する可能性がある。
+		/// </remarks>
+		public bool IsMultithreadingMode = false;
 	};
 
 	public class Engine
@@ -63,7 +71,7 @@ namespace ace
 				return false;
 			}
 
-			var result = core.Initialize(title, width, height, option.IsFullScreen, option.GraphicsType == GraphicsType.OpenGL);
+			var result = core.Initialize(title, width, height, option.IsFullScreen, option.GraphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
 
 			GC.Initialize();
 
@@ -106,7 +114,7 @@ namespace ace
 				return false;
 			}
 
-			var result = core.InitializeByExternalWindow(handle1, handle2, width, height);
+			var result = core.InitializeByExternalWindow(handle1, handle2, width, height, option.GraphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
 
 			GC.Initialize();
 

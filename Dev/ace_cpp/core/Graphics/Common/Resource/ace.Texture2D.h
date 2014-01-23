@@ -42,6 +42,13 @@ namespace ace {
 		virtual void SetFilter(eTextureFilterType filter) = 0;
 
 		/**
+		@brief	テクスチャをファイルに保存する。
+		@param	path	出力先
+		@return	成否
+		*/
+		virtual bool Save(const achar* path) = 0;
+
+		/**
 			@brief	テクスチャのクラスの種類を取得する。
 			@return	種類
 		*/

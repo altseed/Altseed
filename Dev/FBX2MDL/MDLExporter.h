@@ -15,9 +15,9 @@ class MDLExporter
 
 	void PrintHeader();
 
-	void GetMeshGroup(FbxNode* pNode);
+	void GetMesh(FbxNode* pNode);
 
-	void GetVertice();
+	void GetMeshGroup(FbxNode* pNode);
 public:
 	MDLExporter(){}
 

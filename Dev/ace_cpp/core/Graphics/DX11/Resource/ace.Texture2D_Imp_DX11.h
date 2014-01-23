@@ -27,6 +27,8 @@ namespace ace {
 	public:
 		static Texture2D_Imp_DX11* Create(Graphics_Imp_DX11* graphics, uint8_t* data, int32_t size);
 
+		bool Save(const achar* path) override;
+
 		void Reload(void* data, int32_t size);
 
 		ID3D11ShaderResourceView* GetShaderResourceView() { return m_textureSRV; }

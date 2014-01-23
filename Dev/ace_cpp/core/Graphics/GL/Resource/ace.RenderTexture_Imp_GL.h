@@ -26,6 +26,8 @@ namespace ace {
 
 		static RenderTexture_Imp_GL* Create(Graphics* graphics, int32_t width, int32_t height);
 
+		bool Save(const achar* path) override;
+
 		GLuint GetBuffer() { return m_texture; }
 	};
 

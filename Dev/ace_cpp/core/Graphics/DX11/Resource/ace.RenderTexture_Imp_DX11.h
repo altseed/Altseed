@@ -28,6 +28,8 @@ namespace ace {
 
 		static RenderTexture_Imp_DX11* Create(Graphics* graphics, int32_t width, int32_t height);
 
+		bool Save(const achar* path) override;
+
 		ID3D11RenderTargetView* GetRenderTargetView() { return m_textureRTV; }
 		ID3D11ShaderResourceView* GetShaderResourceView() { return m_textureSRV; }
 	};
