@@ -140,6 +140,8 @@ namespace ace
 			{
 				c->SetForRenderTarget();
 				DrawObjects(c->GetCameraMatrix());
+				m_renderer->DrawCache();
+				m_renderer->ClearCache();
 			}
 		}
 		else

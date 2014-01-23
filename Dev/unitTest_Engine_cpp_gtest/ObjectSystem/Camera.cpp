@@ -25,8 +25,8 @@ protected:
 		m_camera = make_shared<CameraObject2D>();
 
 		obj->SetTexture(GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Sample1.png").c_str()));
-		m_camera->SetSrc(RectI(100, 100, 50, 50));
-		m_camera->SetDst(RectI(10, 10, 100, 50));
+		m_camera->SetSrc(RectI(100, 100, 100, 100));
+		m_camera->SetDst(RectI(10, 10, 640, 480));
 
 		layer->AddObject(obj);
 		layer->AddObject(m_camera);

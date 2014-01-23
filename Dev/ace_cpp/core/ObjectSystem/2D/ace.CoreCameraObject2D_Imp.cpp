@@ -96,7 +96,7 @@ namespace ace
 			m_dst.GetVertexes().data(),
 			colors.data(),
 			uvs.data(),
-			nullptr,
+			m_renderTarget,
 			eAlphaBlend::ALPHA_BLEND_BLEND,
 			0);
 	}
