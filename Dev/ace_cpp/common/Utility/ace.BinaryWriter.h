@@ -5,6 +5,8 @@
 #include<fstream>
 #include<string>
 #include"../ace.common.Base.h"
+#include "../Math/ace.Vector3DF.h"
+#include "../Math/ace.Matrix44.h"
 
 namespace ace
 {
@@ -161,6 +163,54 @@ public:
 		}
 
 	}
+
+
+	//-----------------------------------------------------------------------------------
+	//
+	//-----------------------------------------------------------------------------------
+	/**
+	@brief	floatをシリアライズし、バイト列の末尾に追加する
+	@param	content	シリアライズする実数
+	*/
+	void Push(float content){
+		int8_t* pc = static_cast<int8_t*>(static_cast<void*>(&content));
+		for (int i = 0; i < 4; i++)
+		{
+			m_data.push_back(pc[i]);
+		}
+	}
+	//-----------------------------------------------------------------------------------
+	//
+	//-----------------------------------------------------------------------------------
+	/**
+	@brief	ace::Vector3DFをシリアライズし、バイト列の末尾に追加する
+	@param	content	シリアライズするVector
+	*/
+	void Push(ace::Vector3DF const& content){
+		Push(content.X);
+		Push(content.Y);
+		Push(content.Z);
+	}
+
+	//-----------------------------------------------------------------------------------
+	//
+	//-----------------------------------------------------------------------------------
+	/**
+	@brief	ace::Matrix44をシリアライズし、バイト列の末尾に追加する
+	@param	content	シリアライズするVector
+	*/
+	void Push(ace::Matrix44 const& content){
+		for (int j = 0; j < 4; j++)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				Push(content.Values[j][i]);
+			}
+		}
+
+	}
+
+
 
 	//-----------------------------------------------------------------------------------
 	//

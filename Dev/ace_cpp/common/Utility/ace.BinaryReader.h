@@ -6,6 +6,9 @@
 #include<climits>
 #include<cassert>
 #include"../ace.common.Base.h"
+#include "../Math/ace.Vector3DF.h"
+#include "../Math/ace.Matrix44.h"
+
 namespace ace
 {
 
@@ -178,5 +181,47 @@ template<> inline ace::achar* BinaryReader::Get()
 	return achs;
 }
 
+template<> inline float BinaryReader::Get()
+{
+	int8_t cs[4];
+	for (int i = 0; i < 4; i++)
+	{
+		assert(!data.empty());
+		if (data.empty()){
+			return static_cast<float>(0);
+		}
+		cs[i] = data.front();
+		data.pop_front();
+	}
+
+	return *(static_cast<float*>(static_cast<void*>(cs)));
+}
+
+
+template<> inline Vector3DF BinaryReader::Get()
+{
+	Vector3DF v;
+	v.X = Get<float>();
+	v.Y = Get<float>();
+	v.Z = Get<float>();
+
+	return v;
+
+}
+
+template<> inline Matrix44 BinaryReader::Get()
+{
+	Matrix44 m;
+	for (int j = 0; j < 4; j++)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			m.Values[j][i] = Get<float>();
+		}
+	}
+
+	return m;
+
+}
 
 } 
