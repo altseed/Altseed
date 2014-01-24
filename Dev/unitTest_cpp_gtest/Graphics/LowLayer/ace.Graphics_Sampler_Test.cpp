@@ -272,11 +272,11 @@ void Graphics_Sampler(bool isOpenGLMode)
 
 TEST(Graphics, Sampler_DX)
 {
-	Graphics_Sampler(true);
+	Graphics_Sampler(false);
 }
 
 TEST(Graphics, Sampler_GL)
 {
-	Graphics_Sampler(false);
+	Graphics_Sampler(true);
 }
 
