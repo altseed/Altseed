@@ -65,7 +65,9 @@ void EngineTest::Run()
 
 	auto engine = ace::GetEngine();
 	ASSERT_NE(engine, nullptr);
-	engine->Initialize(m_title.c_str(), 640, 480, option);
+
+	auto initialized = engine->Initialize(m_title.c_str(), 640, 480, option);
+	ASSERT_EQ(true, initialized);
 
 	OnStart();
 
