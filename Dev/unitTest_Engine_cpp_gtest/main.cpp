@@ -43,9 +43,9 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	TestCamera(true);
-	TestCamera(false);
-	return 0;
+	//TestCamera(true);
+	//TestCamera(false);
+	//return 0;
 
 	//Graphics_PostEffectGaussianBlur_(true);
 	//return 0;
