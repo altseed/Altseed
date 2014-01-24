@@ -10,7 +10,7 @@ namespace ace{
 		Joystick_Imp *joystickContainer[MAX_CONTAINER_SIZE];
 		JoystickContainer_Imp();
 	public:
-		~JoystickContainer_Imp();
+		virtual ~JoystickContainer_Imp();
 		void RefreshJoysticks();
 		static JoystickContainer_Imp* Create();
 		const bool IsPresentAt(int at);

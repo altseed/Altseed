@@ -22,7 +22,7 @@ namespace ace{
 
 		Joystick_Imp(int id);
 	public:
-		~Joystick_Imp();
+		virtual ~Joystick_Imp();
 		static Joystick_Imp* Create(int id);
 
 		void RefreshInputState();

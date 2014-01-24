@@ -23,6 +23,9 @@ namespace ace{
 	class Joystick
 	{
 	public:
+		Joystick(){}
+		virtual ~Joystick(){}
+
 		virtual const ace::achar* GetJoystickName() = 0;
 
 

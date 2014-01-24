@@ -14,7 +14,7 @@ namespace ace{
 	{
 		for (int i = 0; i < MAX_CONTAINER_SIZE; ++i)
 		{
-			delete joystickContainer[i];
+			SafeDelete(joystickContainer[i]);
 		}
 	}
 

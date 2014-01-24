@@ -10,6 +10,7 @@ namespace ace{
 		connectId = id;
 		buttonsCount = 0;
 		AxesCount = 0;
+		joystickName = ToAString("");
 
 		for (int i = 0; i < MAX_BUTTONS_NUM; ++i)
 		{
