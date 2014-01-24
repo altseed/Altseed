@@ -48,13 +48,6 @@ engineHeader.append('#pragma once')
 engineHeader.readLines("ace_cpp/common/ace.common.Base.h")
 engineHeader.readLines("ace_cpp/engine/ace.Engine.Base.h")
 
-engineHeader.readLines("ace_cpp/common/Utility/ace.BinaryReader.h")
-engineHeader.readLines("ace_cpp/common/Utility/ace.BinaryWriter.h")
-engineHeader.readLines("ace_cpp/common/Utility/ace.GetTypeName.h")
-engineHeader.readLines("ace_cpp/common/Utility/ace.PointerArray.h")
-engineHeader.readLines("ace_cpp/common/Utility/ace.Timer.h")
-engineHeader.readLines("ace_cpp/common/Utility/ace.TypeErasureCopy.h")
-
 engineHeader.readLines("ace_cpp/common/Math/ace.Vector2DF.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.Vector2DI.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.Vector3DF.h")
@@ -63,6 +56,13 @@ engineHeader.readLines("ace_cpp/common/Math/ace.Matrix43.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.Matrix44.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.RectI.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.RectF.h")
+
+engineHeader.readLines("ace_cpp/common/Utility/ace.BinaryReader.h")
+engineHeader.readLines("ace_cpp/common/Utility/ace.BinaryWriter.h")
+engineHeader.readLines("ace_cpp/common/Utility/ace.GetTypeName.h")
+engineHeader.readLines("ace_cpp/common/Utility/ace.PointerArray.h")
+engineHeader.readLines("ace_cpp/common/Utility/ace.Timer.h")
+engineHeader.readLines("ace_cpp/common/Utility/ace.TypeErasureCopy.h")
 
 engineHeader.readLines("ace_cpp/common/Graphics/ace.Color.h")
 

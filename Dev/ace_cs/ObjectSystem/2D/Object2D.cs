@@ -8,7 +8,7 @@ namespace ace
 	/// <summary>
 	/// 更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
 	/// </summary>
-	public abstract class Object2D
+	public abstract class Object2D : IDestroy
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -46,7 +46,7 @@ namespace ace
 		/// <summary>
 		/// このインスタンスを管理している ace.Layer2D クラスのインスタンスを取得する。
 		/// </summary>
-		public abstract Layer2D Layer { get; internal set; }
+		public Layer2D Layer { get; internal set; }
 
 		/// <summary>
 		/// このオブジェクトに登録されているコンポーネントのディクショナリを取得する。
@@ -215,5 +215,9 @@ namespace ace
 		private Dictionary<string, Object2DComponent> components_ { get; set; }
 
 		private List<Object2D> children_ { get; set; }
+
+		public abstract bool IsDestroyed { get; }
+
+		public abstract void Destroy();
 	}
 }

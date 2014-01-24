@@ -24,7 +24,7 @@ namespace ace
 		internal static IDObjectContainer<Scene> Scenes { get; private set; }
 
 		internal static IDObjectContainer<Layer2D> Layer2Ds { get; private set; }
-		internal static IDObjectContainer<TextureObject2D> TextureObject2Ds { get; private set; }
+		internal static IDObjectContainer<Object2D> Object2Ds { get; private set; }
 
 		internal static IDObjectContainer<Layer3D> Layer3Ds { get; private set; }
 		internal static IDObjectContainer<Object3D> Object3Ds { get; private set; }
@@ -48,7 +48,7 @@ namespace ace
 			Scenes = new IDObjectContainer<Scene>();
 
 			Layer2Ds = new IDObjectContainer<Layer2D>();
-			TextureObject2Ds = new IDObjectContainer<TextureObject2D>();
+			Object2Ds = new IDObjectContainer<Object2D>();
 			Object3Ds = new IDObjectContainer<Object3D>();
 
 			Layer3Ds = new IDObjectContainer<Layer3D>();
@@ -78,7 +78,7 @@ namespace ace
 				Scenes.DestroyAll();
 
 				Layer2Ds.DestroyAll();
-				TextureObject2Ds.DestroyAll();
+				Object2Ds.DestroyAll();
 
 				Layer3Ds.DestroyAll();
 				Object3Ds.DestroyAll();
@@ -266,13 +266,13 @@ namespace ace
 		/// <param name="o"></param>
 		/// <param name="type"></param>
 		/// <returns></returns>
-		static E GenerateInternal<E, T>(E existing, T o, GenerationType type)
+		static E GenerateInternal<E, T>( E existing, T o, GenerationType type )
 			where E : class
 			where T : swig.IReference
 		{
-			if (existing != null)
+			if( existing != null )
 			{
-				if (type == GenerationType.Create)
+				if( type == GenerationType.Create )
 				{
 					o.Release();
 				}
@@ -280,7 +280,7 @@ namespace ace
 				return existing;
 			}
 
-			if (type == GenerationType.Get)
+			if( type == GenerationType.Get )
 			{
 				o.AddRef();
 			}

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-	public struct EngineOption
+	public class EngineOption
 	{
 		/// <summary>
 		/// フルスクリーンで起動するか?

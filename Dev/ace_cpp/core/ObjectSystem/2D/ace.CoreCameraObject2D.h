@@ -15,6 +15,7 @@ namespace ace
 		virtual RectI GetDst() const = 0;
 		virtual void SetDst(RectI value) = 0;
 
+#if !SWIG
 		virtual Renderer2D* GetRenderer() const = 0;
 		virtual Matrix33 GetCameraMatrix() = 0;
 
@@ -33,5 +34,6 @@ namespace ace
 			@param	renderer	登録するRenderer
 		*/
 		virtual void DrawBuffer(Renderer2D* renderer) = 0;
+#endif
 	};
 }

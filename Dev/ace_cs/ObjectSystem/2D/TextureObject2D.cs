@@ -19,11 +19,11 @@ namespace ace
 			renderedObject = Engine.ObjectSystemFactory.CreateTextureObject2D();
 
 			var p = renderedObject.GetPtr();
-			if( GC.TextureObject2Ds.GetObject( p ) != null )
+			if( GC.Object2Ds.GetObject( p ) != null )
 			{
 				throw new Exception();
 			}
-			GC.TextureObject2Ds.AddObject( p, this );
+			GC.Object2Ds.AddObject( p, this );
 		}
 
 		#region GC対応
@@ -32,12 +32,12 @@ namespace ace
 			Destroy();
 		}
 
-		public bool IsDestroyed
+		public override bool IsDestroyed
 		{
 			get { return renderedObject == null; }
 		}
 
-		public void Destroy()
+		public override void Destroy()
 		{
 			lock( this )
 			{
@@ -50,10 +50,6 @@ namespace ace
 		#endregion
 
 
-		/// <summary>
-		/// このインスタンスを管理している ace.Layer2D クラスのインスタンスを取得します。
-		/// </summary>
-		public override Layer2D Layer { get; internal set; }
 		/// <summary>
 		/// この2Dオブジェクトの描画に使用するテクスチャを取得または設定します。
 		/// </summary>

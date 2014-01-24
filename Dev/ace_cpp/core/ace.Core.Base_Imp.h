@@ -212,6 +212,11 @@ namespace ace {
 			uint8_t	A;
 		};
 
+		struct Matrix33_R
+		{
+			float Values[3][3];
+		};
+
 		struct Matrix44_R
 		{
 			float	Values[4 * 4];

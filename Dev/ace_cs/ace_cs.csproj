@@ -76,9 +76,11 @@
     <Compile Include="Log.cs" />
     <Compile Include="Math\Math.cs" />
     <Compile Include="Math\Matrix44.cs" />
+    <Compile Include="Math\RectI.cs" />
     <Compile Include="Math\Vector2DF.cs" />
     <Compile Include="Math\Vector2DI.cs" />
     <Compile Include="Math\Vector3DF.cs" />
+    <Compile Include="ObjectSystem\2D\CameraObject2D.cs" />
     <Compile Include="ObjectSystem\3D\CameraObject3D.cs" />
     <Compile Include="ObjectSystem\3D\DirectionalLightObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Layer3D.cs" />
@@ -104,6 +106,7 @@
     <Compile Include="swig\AnimationSource.cs" />
     <Compile Include="swig\AnimationSystem.cs" />
     <Compile Include="swig\Core.cs" />
+    <Compile Include="swig\CoreCameraObject2D.cs" />
     <Compile Include="swig\CoreCameraObject3D.cs" />
     <Compile Include="swig\CoreDirectionalLightObject3D.cs" />
     <Compile Include="swig\CoreLayer.cs" />
@@ -118,7 +121,9 @@
     <Compile Include="swig\Core_Imp.cs" />
     <Compile Include="swig\Deformer.cs" />
     <Compile Include="swig\eAlphaBlend.cs" />
-    <Compile Include="swig\eChildMode.cs" />
+    <Compile Include="swig\eChildMode.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="swig\eCullingType.cs" />
     <Compile Include="swig\eGraphicsType.cs" />
     <Compile Include="swig\eInterpolationType.cs" />

@@ -12,8 +12,7 @@ namespace unitTest_Engine_cs
 		static void Main( string[] args )
 		{
 			//*
-			TestSequencially( new ObjectSystem2D.ObjectComponent() );
-			TestSequencially( new ObjectSystem2D.LayerComponent() );
+			TestSequencially( new ObjectSystem2D.CameraObject() );
 
 			Console.ReadKey();
 			return;

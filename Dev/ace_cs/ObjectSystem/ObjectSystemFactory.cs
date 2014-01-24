@@ -17,6 +17,11 @@ namespace ace
 			this.factory = factory;
 		}
 
+		public swig.CoreCameraObject2D CreateCameraObject2D()
+		{
+			return factory.CreateCameraObject2D();
+		}
+
 		/// <summary>
 		/// ネイティブの CoreTextureObject2D クラスをインスタンス化する。
 		/// </summary>
