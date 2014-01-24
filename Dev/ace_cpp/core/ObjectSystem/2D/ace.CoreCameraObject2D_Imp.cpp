@@ -107,8 +107,6 @@ namespace ace
 			Vector2DF(0, 1),
 		};
 
-		((Texture2D*)m_renderTarget)->Save(ToAString("Camera.png").c_str());
-
 		renderer->AddSprite(
 			m_dst.GetVertexes().data(),
 			colors.data(),

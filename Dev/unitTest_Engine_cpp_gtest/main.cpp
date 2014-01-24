@@ -43,6 +43,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
+	TestCamera(true);
 	TestCamera(false);
 	return 0;
 

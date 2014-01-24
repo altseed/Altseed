@@ -176,6 +176,7 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
+/Dev/bin/*.png
 /Dev/bin/*.dll
 /Dev/bin/*.exp
 /Dev/bin/*.ilk
@@ -228,6 +229,8 @@ $RECYCLE.BIN/
 /Product/inlude/
 /Product/lib/
 /Document/Doxygen/
+
+*.exe.config
 
 # Result of Test
 /Dev/test_cpp/msvc/Log.html
