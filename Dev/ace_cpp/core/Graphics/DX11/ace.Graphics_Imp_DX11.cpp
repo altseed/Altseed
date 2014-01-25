@@ -606,7 +606,7 @@ bool Graphics_Imp_DX11::SaveTexture(const achar* path, ID3D11Resource* texture, 
 
 	SafeDeleteArray(data);
 
-	GetContext()->Unmap(texture, sr);
+	GetContext()->Unmap(texture_, sr);
 
 	SafeRelease(texture_);
 	return true;

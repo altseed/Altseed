@@ -44,7 +44,7 @@ VS_Output main( const VS_Input Input )
 	float2 lr = LayerPosL.xy / Size.xy;
 	float2 ll = LayerPosL.zw / Size.xy;
 
-	float2 pos = float2( (Input.Pos.x + 1.0) / 2.0, 1.0 - (Input.Pos.y + 1.0) / 2.0 );
+	float2 pos = float2( Input.Pos.x, Input.Pos.y );
   
 	float2 u = (ur - ul) * pos.x + ul;
 	float2 l = (lr - ll) * pos.x + ll;
@@ -106,7 +106,7 @@ void main()
 	vec2 lr = LayerPosL.xy / Size.xy;
 	vec2 ll = LayerPosL.zw / Size.xy;
 
-	vec2 pos = vec2( (Pos.x + 1.0) / 2.0, 1.0 - (Pos.y + 1.0) / 2.0 );
+	vec2 pos = vec2( Pos.x, Pos.y );
   
 	vec2 u = (ur - ul) * pos.x + ul;
 	vec2 l = (lr - ll) * pos.x + ll;

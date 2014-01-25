@@ -97,10 +97,10 @@ namespace ace
 			colors[1] = ace::Color(255, 255, 255, 255);
 			colors[2] = ace::Color(255, 255, 255, 255);
 
-			positions[0].X = -1.0f;
-			positions[0].Y = -1.0f;
+			positions[0].X = 0.0f;
+			positions[0].Y = 0.0f;
 			positions[1].X = 1.0f;
-			positions[1].Y = -1.0f;
+			positions[1].Y = 0.0f;
 			positions[2].X = 1.0f;
 			positions[2].Y = 1.0f;
 
@@ -124,12 +124,12 @@ namespace ace
 			colors[1] = ace::Color(255, 255, 255, 255);
 			colors[2] = ace::Color(255, 255, 255, 255);
 
-			positions[0].X = -1.0f;
+			positions[0].X = 0.0f;
 			positions[0].Y = 1.0f;
 			positions[1].X = 1.0f;
 			positions[1].Y = 1.0f;
-			positions[2].X = -1.0f;
-			positions[2].Y = -1.0f;
+			positions[2].X = 0.0f;
+			positions[2].Y = 0.0f;
 
 			uvs[0].X = 0;
 			uvs[0].Y = 1;
