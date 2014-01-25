@@ -184,19 +184,24 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 			char* texName = nullptr;
 			if (shader->GetTexture(texName, tex, i))
 			{
+				ID3D11ShaderResourceView* rv = nullptr;
+
 				if (tex->GetType() == TEXTURE_CLASS_TEXTURE2D)
 				{
 					auto t = (Texture2D_Imp_DX11*) tex;
-					auto rv = t->GetShaderResourceView();
-					GetContext()->PSSetShaderResources(0, 1, &rv);
+					rv = t->GetShaderResourceView();
 				}
 				else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE)
 				{
 					auto t = (RenderTexture_Imp_DX11*) tex;
-					auto rv = t->GetShaderResourceView();
-					GetContext()->PSSetShaderResources(0, 1, &rv);
+					rv = t->GetShaderResourceView();
 				}
 				
+				// 頂点シェーダーに設定
+				GetContext()->VSSetShaderResources(0, 1, &rv);
+
+				// ピクセルシェーダーに設定
+				GetContext()->PSSetShaderResources(0, 1, &rv);
 			}
 		}
 	}
