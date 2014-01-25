@@ -224,6 +224,22 @@ void Graphics_Imp_DX11::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* ver
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+void Graphics_Imp_DX11::DrawPolygonInstancedInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr, int32_t instanceCount)
+{
+	int32_t vertexBufferOffset = 0;
+
+	UpdateDrawStates(vertexBuffer, indexBuffer, shaderPtr, vertexBufferOffset);
+	GetContext()->DrawIndexedInstanced(
+		count * 3,
+		instanceCount,
+		0,
+		0,
+		0);
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::BeginInternal()
 {
 	// 描画先のリセット

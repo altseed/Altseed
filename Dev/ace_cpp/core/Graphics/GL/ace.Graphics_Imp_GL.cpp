@@ -284,7 +284,7 @@ NativeShader_Imp* Graphics_Imp_GL::CreateShader_Imp_(
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Graphics_Imp_GL::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr)
+void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr)
 {
 	assert(vertexBuffer != nullptr);
 	assert(indexBuffer != nullptr);
@@ -354,6 +354,22 @@ void Graphics_Imp_GL::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* verte
 
 	// glBindTextureをするたびにテクスチャの値がリセットされるらしいので値を再設定
 	GetRenderState()->Update(true);
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void Graphics_Imp_GL::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr)
+{
+	assert(vertexBuffer != nullptr);
+	assert(indexBuffer != nullptr);
+	assert(shaderPtr != nullptr);
+
+	auto shader = (NativeShader_Imp_GL*) shaderPtr;
+	auto vb = (VertexBuffer_Imp_GL*) vertexBuffer;
+	auto ib = (IndexBuffer_Imp_GL*) indexBuffer;
+
+	UpdateStatus(vb, ib, shader);
 
 	if (indexBuffer->Is32Bit())
 	{
@@ -362,6 +378,41 @@ void Graphics_Imp_GL::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* verte
 	else
 	{
 		glDrawElements(GL_TRIANGLES, count * 3, GL_UNSIGNED_SHORT, NULL);
+	}
+
+	{
+		auto shader = (NativeShader_Imp_GL*) shaderPtr;
+		shader->Disable();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	GLCheckError();
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void Graphics_Imp_GL::DrawPolygonInstancedInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr, int32_t instanceCount)
+{
+	assert(vertexBuffer != nullptr);
+	assert(indexBuffer != nullptr);
+	assert(shaderPtr != nullptr);
+
+
+	auto shader = (NativeShader_Imp_GL*) shaderPtr;
+	auto vb = (VertexBuffer_Imp_GL*) vertexBuffer;
+	auto ib = (IndexBuffer_Imp_GL*) indexBuffer;
+
+	UpdateStatus(vb, ib, shader);
+
+	if (indexBuffer->Is32Bit())
+	{
+		glDrawElementsInstanced(GL_TRIANGLES, count * 3, GL_UNSIGNED_INT, NULL, instanceCount);
+	}
+	else
+	{
+		glDrawElementsInstanced(GL_TRIANGLES, count * 3, GL_UNSIGNED_SHORT, NULL, instanceCount);
 	}
 
 	{
