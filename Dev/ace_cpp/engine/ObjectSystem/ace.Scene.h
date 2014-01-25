@@ -98,5 +98,14 @@ namespace ace
 			const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
 			const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
 			const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3);
+
+		/**
+			@brief	全てのレイヤーとポストエフェクトが描画され終わった画面をテクスチャとして取得する。
+			@return	画面
+			@note
+			テクスチャの内容はシーンが描画されるたびに変わる。
+			主にシーン遷移の際に使用する。
+		*/
+		std::shared_ptr<RenderTexture2D> GetEffectedScreen();
 	};
 }

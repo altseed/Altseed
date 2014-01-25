@@ -21,7 +21,12 @@ namespace ace
 
 		virtual void SetRenderTargetForDrawingLayer() = 0;
 
+		/**
+			@brief	ポストエフェクトをかけた結果の画像を取得する。
+			@return	ポストエフェクト後の画像
+		*/
 		virtual RenderTexture2D* GetBaseTarget() = 0;
+		
 		virtual void BeginPostEffect(CorePostEffect* postEffect) = 0;
 		virtual void EndPostEffect(CorePostEffect* postEffect) = 0;
 		virtual RenderTexture2D* GetSrcTarget() = 0;

@@ -192,4 +192,16 @@ namespace ace
 			pos2, uv2, col2,
 			pos3, uv3, col3);
 	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	std::shared_ptr<RenderTexture2D> Scene::GetEffectedScreen()
+	{
+		auto target = m_coreScene->GetBaseTarget();
+		if (target == nullptr) return std::shared_ptr<RenderTexture2D>();
+
+		SafeAddRef(target);
+		return CreateSharedPtrWithReleaseDLL(target);
+	}
 }
