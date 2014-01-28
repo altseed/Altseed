@@ -169,7 +169,7 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Model_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.h" />
-    <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedEffectOnject3D.h" />
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedEffectObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedModelObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Renderer3D.h" />
@@ -296,7 +296,7 @@
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Model_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.cpp" />
-    <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedEffectOnject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedEffectObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedModelObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Renderer3D.cpp" />
