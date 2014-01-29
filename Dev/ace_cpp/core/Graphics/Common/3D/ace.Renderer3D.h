@@ -64,6 +64,9 @@ namespace ace
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_pasteIndexBuffer;
 		std::shared_ptr<ace::NativeShader_Imp>	m_pasteShader;
 
+		Effekseer::Manager*						m_effectManager = nullptr;
+		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
+
 		RenderingEvent	m_event;
 
 	public:
