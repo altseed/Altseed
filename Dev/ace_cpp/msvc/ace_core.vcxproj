@@ -169,6 +169,7 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Model_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.h" />
+    <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedEffectObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedModelObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedObject3D.h" />
     <ClInclude Include="..\core\Graphics\Common\3D\ace.Renderer3D.h" />
@@ -186,6 +187,8 @@
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.KeyframeAnimation.h" />
     <ClInclude Include="..\core\Graphics\Common\Animation\ace.KeyframeAnimation_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.DepthBuffer_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Common\Resource\ace.Effect.h" />
+    <ClInclude Include="..\core\Graphics\Common\Resource\ace.Effect_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.IndexBuffer_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.Material2D.h" />
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.Material2D_Imp.h" />
@@ -293,6 +296,7 @@
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Model_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedCameraObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedDirectionalLightObject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedEffectObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedModelObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\Common\3D\ace.Renderer3D.cpp" />
@@ -305,6 +309,7 @@
     <ClCompile Include="..\core\Graphics\Common\Animation\ace.AnimationSystem_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Animation\ace.KeyframeAnimation_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.DepthBuffer_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Common\Resource\ace.Effect_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.IndexBuffer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.Material2D_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.Material_Imp.cpp" />

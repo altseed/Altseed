@@ -56,6 +56,7 @@ set(core_src
 	ace_cpp/core/Graphics/Common/2D/ace.Renderer2D_Imp.cpp
 
 	ace_cpp/core/Graphics/Common/3D/ace.Deformer_Imp.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.RenderedEffectObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.Mesh_Imp.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.Model_Imp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedCameraObject3D.cpp
@@ -70,6 +71,7 @@ set(core_src
 	ace_cpp/core/Graphics/Common/Animation/ace.KeyframeAnimation_Imp.cpp
 
 	ace_cpp/core/Graphics/Common/Resource/ace.DepthBuffer_Imp.cpp
+	ace_cpp/core/Graphics/Common/Resource/ace.Effect_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.IndexBuffer_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.Material_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.Material2D_Imp.cpp

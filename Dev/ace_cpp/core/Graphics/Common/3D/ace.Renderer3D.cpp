@@ -10,6 +10,11 @@
 #include "../Resource/ace.IndexBuffer_Imp.h"
 #include "../Resource/ace.RenderState_Imp.h"
 
+#if _WIN32
+#include "../../DX11/ace.Graphics_Imp_DX11.h"
+#endif
+#include "../../GL/ace.Graphics_Imp_GL.h"
+
 namespace ace
 {
 	//----------------------------------------------------------------------------------
@@ -322,6 +327,28 @@ void main()
 		constantBuffers[0].Offset = 0;
 
 		m_pasteShader->CreateVertexConstantBuffer<PasteConstantBuffer>(constantBuffers);
+
+		// エフェクト
+		m_effectManager = ::Effekseer::Manager::Create(2000);
+		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
+		{
+#if _WIN32
+			auto g = (Graphics_Imp_DX11*) m_graphics;
+			m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), 2000);
+#endif
+		}
+		else if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
+		{
+			m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(2000);
+		}
+
+		m_effectManager->SetSpriteRenderer(m_effectRenderer->CreateSpriteRenderer());
+		m_effectManager->SetRibbonRenderer(m_effectRenderer->CreateRibbonRenderer());
+		m_effectManager->SetRingRenderer(m_effectRenderer->CreateRingRenderer());
+		m_effectManager->SetModelRenderer(m_effectRenderer->CreateModelRenderer());
+		m_effectManager->SetTrackRenderer(m_effectRenderer->CreateTrackRenderer());
+
+		m_effectManager->SetCoordinateSystem(::Effekseer::COORDINATE_SYSTEM_RH);
 	}
 
 	Renderer3D::~Renderer3D()
@@ -345,6 +372,11 @@ void main()
 
 		SafeRelease(m_renderTarget);
 
+		m_effectRenderer->Destory();
+		m_effectManager->Destroy();
+		m_effectRenderer = nullptr;
+		m_effectManager = nullptr;
+
 		SafeRelease(m_graphics);
 	}
 
@@ -353,6 +385,15 @@ void main()
 		SafeRelease(m_renderTarget);
 		m_renderTarget = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_RGBA8888);
 		m_windowSize = windowSize;
+
+		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
+		{
+			m_effectRenderer->SetProjectionMatrix(::Effekseer::Matrix44().PerspectiveFovRH(90.0f / 180.0f * 3.14f, windowSize.X / windowSize.Y, 1.0f, 50.0f));
+		}
+		else if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
+		{
+			m_effectRenderer->SetProjectionMatrix(::Effekseer::Matrix44().PerspectiveFovRH_OpenGL(90.0f / 180.0f * 3.14f, windowSize.X / windowSize.Y, 1.0f, 50.0f));
+		}
 	}
 
 

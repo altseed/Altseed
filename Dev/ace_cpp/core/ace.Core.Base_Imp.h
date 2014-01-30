@@ -43,6 +43,25 @@
 #include <GLFW/glfw3native.h>
 #endif
 
+#include <Effekseer.h>
+
+#if _WIN32
+#include <EffekseerRendererDX11.h>
+
+#if _DEBUG
+#pragma comment(lib,"Debug/Effekseer.lib")
+#pragma comment(lib,"Debug/EffekseerRendererDX11.lib")
+#pragma comment(lib,"Debug/EffekseerRendererGL.lib")
+#else
+#pragma comment(lib,"Release/Effekseer.lib")
+#pragma comment(lib,"Release/EffekseerRendererDX11.lib")
+#pragma comment(lib,"Release/EffekseerRendererGL.lib")
+#endif
+
+#endif
+#include <EffekseerRendererGL.h>
+
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
