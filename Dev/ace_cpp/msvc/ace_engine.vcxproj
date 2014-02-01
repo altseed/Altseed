@@ -88,6 +88,7 @@
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.TextureObject2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.CameraObject3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.DirectionalLightObject3D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\ace.EffectObject3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.Layer3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.ModelObject3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.Object3D.h" />
@@ -111,6 +112,7 @@
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.TextureObject2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.CameraObject3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.DirectionalLightObject3D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\ace.EffectObject3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.Layer3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.ModelObject3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.Object3D.cpp" />

@@ -25,6 +25,8 @@ extern void Graphics_PostEffectGaussianBlur_(bool isOpenGLMode);
 
 extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
 extern void Graphics_PostEffectSepia(bool isOpenGLMode);
+
+extern void Graphics_Effect3D_(bool isOpenGLMode);
 extern void Graphics_SimpleMesh_(bool isOpenGLMode);
 extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
 
@@ -50,7 +52,7 @@ int main(int argc, char **argv)
 	//Graphics_PostEffectGaussianBlur_(true);
 	//return 0;
 
-	//Graphics_Camera3DPostEffect_(false);
+	//Graphics_Effect3D_(false);
 	//return 0;
 
 	auto result = RUN_ALL_TESTS();

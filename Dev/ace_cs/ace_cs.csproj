@@ -109,6 +109,7 @@
     <Compile Include="swig\CoreCameraObject2D.cs" />
     <Compile Include="swig\CoreCameraObject3D.cs" />
     <Compile Include="swig\CoreDirectionalLightObject3D.cs" />
+    <Compile Include="swig\CoreEffectObject3D.cs" />
     <Compile Include="swig\CoreLayer.cs" />
     <Compile Include="swig\CoreLayer2D.cs" />
     <Compile Include="swig\CoreLayer3D.cs" />

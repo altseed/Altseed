@@ -27,7 +27,7 @@ namespace ace
 
 		std::vector<Effekseer::Handle>	m_handles;
 		Effect*							m_effect;
-		Renderer3D*						m_renderer;
+		Renderer3D*						m_renderer = nullptr;
 
 	public:
 		RenderedEffectObject3D(Graphics* graphics);

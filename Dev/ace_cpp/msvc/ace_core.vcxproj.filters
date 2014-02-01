@@ -436,6 +436,12 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.RenderedEffectObject3D.h">
       <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreEffectObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreEffectObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -674,6 +680,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\ace.RenderedEffectObject3D.cpp">
       <Filter>Graphics\Common\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreEffectObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

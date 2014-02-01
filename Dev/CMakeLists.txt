@@ -60,6 +60,7 @@ set(core_src
 	ace_cpp/core/Graphics/Common/3D/ace.Mesh_Imp.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.Model_Imp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedCameraObject3D.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.RenderedEffectObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedDirectionalLightObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedModelObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedObject3D.cpp
@@ -104,6 +105,7 @@ set(core_src
 
 	ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D_Imp.cpp
+	ace_cpp/core/ObjectSystem/3D/ace.CoreEffectObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreModelObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D_Imp.cpp
@@ -161,6 +163,7 @@ set(engine_src
 	ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.cpp
 
 	ace_cpp/engine/ObjectSystem/3D/ace.CameraObject3D.cpp
+	ace_cpp/engine/ObjectSystem/3D/ace.EffectObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.DirectionalLightObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.Layer3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.ModelObject3D.cpp
@@ -224,6 +227,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/ObjectSystem/ParentObject.cpp
 
 	unitTest_Engine_cpp_gtest/Graphics/3D/Camera3DPostEffect.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/Effect3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/SimpleMesh.cpp
 
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/CustomPostEffect.cpp

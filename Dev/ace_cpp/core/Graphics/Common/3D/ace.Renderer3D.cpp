@@ -240,6 +240,7 @@ void main()
 				rendering.EffectRenderer->BeginRendering();
 				rendering.EffectManager->Draw();
 				rendering.EffectRenderer->EndRendering();
+				g->GetRenderState()->Update(true);
 			}
 
 			c->ApplyPostEffects_FR();

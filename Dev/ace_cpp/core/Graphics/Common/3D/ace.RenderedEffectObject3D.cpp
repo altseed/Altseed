@@ -40,11 +40,21 @@ namespace ace
 		if (m_renderer == nullptr) return;
 
 		auto e = (Effect_Imp*) m_effect;
-		auto ne = e->GetEffect();	
+		auto ne = e->GetEffect();
+
 		auto pos = GetPosition();
+		auto mat = CalcLocalMatrix();
+		Effekseer::Matrix43 efMat;
 
+		for (auto c = 0; c < 3; c++)
+		{
+			for (auto r = 0; r < 4; r++)
+			{
+				efMat.Value[r][c] = mat.Values[c][r];
+			}
+		}
 		auto handle = m_renderer->GetEffectManager()->Play(ne, pos.X, pos.Y, pos.Z);
-
+		m_renderer->GetEffectManager()->SetMatrix(handle, efMat);
 		m_handles.push_back(handle);
 	}
 

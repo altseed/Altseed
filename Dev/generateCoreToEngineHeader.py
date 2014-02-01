@@ -103,6 +103,7 @@ fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreModelObject3D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D.h')
+fromCoreToEngine.readLines("ace_cpp/core/ObjectSystem/3D/ace.CoreEffectObject3D.h")
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D.h')
 
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect.h')

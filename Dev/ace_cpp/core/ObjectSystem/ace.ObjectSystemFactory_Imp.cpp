@@ -8,6 +8,7 @@
 #include "3D/ace.CoreLayer3D_Imp.h"
 #include "3D/ace.CoreCameraObject3D_Imp.h"
 #include "3D/ace.CoreDirectionalLightObject3D_Imp.h"
+#include "3D/ace.CoreEffectObject3D_Imp.h"
 #include "3D/ace.CoreModelObject3D_Imp.h"
 
 #include "ace.CoreScene_Imp.h"
@@ -68,6 +69,11 @@ namespace ace
 	CoreCameraObject3D* ObjectSystemFactory_Imp::CreateCameraObject3D()
 	{
 		return new CoreCameraObject3D_Imp(m_graphics);
+	}
+
+	CoreEffectObject3D* ObjectSystemFactory_Imp::CreateEffectObject3D()
+	{
+		return new CoreEffectObject3D_Imp(m_graphics);
 	}
 
 	CoreDirectionalLightObject3D* ObjectSystemFactory_Imp::CreateDirectionalLightObject3D()

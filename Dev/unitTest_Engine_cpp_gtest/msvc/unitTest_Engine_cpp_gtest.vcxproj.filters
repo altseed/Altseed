@@ -55,6 +55,9 @@
     <ClCompile Include="..\ObjectSystem\Camera.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\3D\Effect3D.cpp">
+      <Filter>Graphics\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

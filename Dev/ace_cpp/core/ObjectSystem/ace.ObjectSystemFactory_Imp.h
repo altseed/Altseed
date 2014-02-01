@@ -20,6 +20,7 @@ namespace ace
 
 		CoreModelObject3D* CreateModelObject3D() override;
 		CoreCameraObject3D* CreateCameraObject3D() override;
+		CoreEffectObject3D* CreateEffectObject3D() override;
 		CoreDirectionalLightObject3D* CreateDirectionalLightObject3D() override;
 		CoreLayer3D* CreateLayer3D() override;
 

@@ -18,6 +18,34 @@
 //
 //----------------------------------------------------------------------------------
 namespace ace {
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	class TextureLoader
+		: public ::Effekseer::TextureLoader
+	{
+	private:
+		Graphics_Imp_DX11*	m_graphics;
+
+
+	public:
+		TextureLoader(Graphics_Imp_DX11* graphics)
+			:m_graphics(graphics)
+		{
+		}
+		virtual ~TextureLoader()
+		{}
+
+	public:
+		void* Load(const EFK_CHAR* path)
+		{
+		}
+
+		void Unload(void* data)
+		{
+		}
+	};
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -166,18 +194,18 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 	{
 		auto shader = (NativeShader_Imp_DX11*) shaderPtr;
 
-		// シェーダーの設定
+		// ?V?F?[?_?[????
 		GetContext()->VSSetShader(shader->GetVertexShader(), NULL, 0);
 		GetContext()->PSSetShader(shader->GetPixelShader(), NULL, 0);
 
-		// レイアウトの設定
+		// ???C?A?E?g????
 		GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		GetContext()->IASetInputLayout(shader->GetLayout());
 
-		// 定数バッファの設定
+		// ???o?b?t?@????
 		shaderPtr->AssignConstantBuffer();
 
-		// テクスチャの設定
+		// ?e?N?X?`??????
 		for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
 		{
 			Texture2D* tex = nullptr;
@@ -197,10 +225,10 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 					rv = t->GetShaderResourceView();
 				}
 				
-				// 頂点シェーダーに設定
+				// ???_?V?F?[?_?[????
 				GetContext()->VSSetShaderResources(0, 1, &rv);
 
-				// ピクセルシェーダーに設定
+				// ?s?N?Z???V?F?[?_?[????
 				GetContext()->PSSetShaderResources(0, 1, &rv);
 			}
 		}
@@ -242,7 +270,7 @@ void Graphics_Imp_DX11::DrawPolygonInstancedInternal(int32_t count, VertexBuffer
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::BeginInternal()
 {
-	// 描画先のリセット
+	// ?`??????Z?b?g
 	m_context->OMSetRenderTargets(1, &m_defaultBackRenderTargetView, m_defaultDepthStencilView);
 
 	SafeRelease(m_currentBackRenderTargetView);
@@ -253,7 +281,7 @@ void Graphics_Imp_DX11::BeginInternal()
 	m_currentDepthStencilView = m_defaultDepthStencilView;
 	SafeAddRef(m_currentDepthStencilView);
 
-	// 描画範囲のリセット
+	// ?`???????Z?b?g
 	SetViewport(0, 0, m_size.X, m_size.Y);
 }
 
@@ -262,7 +290,7 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode)
 {
-	/* DirectX初期化 */
+	/* DirectX?????? */
 	ID3D11Device*			device = NULL;
 	ID3D11DeviceContext*	context = NULL;
 	IDXGIDevice1*			dxgiDevice = NULL;
@@ -447,7 +475,7 @@ DepthBuffer_Imp* Graphics_Imp_DX11::CreateDepthBuffer_Imp(int32_t width, int32_t
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer)
 {
-	// 強制リセット(テクスチャと描画先同時設定不可のため)
+	// ???????Z?b?g(?e?N?X?`????`??擯?????s??????)
 	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
 	{
 		ID3D11ShaderResourceView* rv = nullptr;
@@ -549,7 +577,7 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::Present()
 {
-	// 同期しない
+	// ?????????
 	m_swapChain->Present(0, 0);
 }
 

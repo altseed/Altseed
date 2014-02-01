@@ -25,7 +25,21 @@ namespace ace {
 //----------------------------------------------------------------------------------
 
 #if !SWIG
+	class ImageHelper
+	{
+	public:
 
+		/**
+			@brief	PNGファイルを読み込む。
+			@param	data	データ
+			@param	size	データサイズ
+			@param	imagewidth	画像横幅
+			@param	imageheight	画像縦幅
+			@param	imagedst		出力結果(newで確保される)
+			@return	成否
+		*/
+		static bool LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, void*& imagedst);
+	};
 #endif
 
 /**
