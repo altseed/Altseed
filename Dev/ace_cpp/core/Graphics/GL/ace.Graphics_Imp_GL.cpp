@@ -24,6 +24,108 @@
 //
 //----------------------------------------------------------------------------------
 namespace ace {
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void GraphicsHelper_GL::LoadTexture(Graphics_Imp_GL* graphics, void* imgdata, int32_t width, int32_t height, GLuint& texture)
+	{
+		texture = 0;
+
+		glGenTextures(1, &texture);
+
+		GLCheckError();
+		if (glGetError() != GL_NO_ERROR) return;
+
+		glBindTexture(GL_TEXTURE_2D, texture);
+
+		glTexImage2D(
+			GL_TEXTURE_2D,
+			0,
+			GL_RGBA,
+			width,
+			height,
+			0,
+			GL_RGBA,
+			GL_UNSIGNED_BYTE,
+			imgdata);
+
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+		glBindTexture(GL_TEXTURE_2D, 0);
+
+		if (glGetError() != GL_NO_ERROR)
+		{
+			glDeleteTextures(1, &texture);
+			texture = 0;
+			return;
+		}
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	class TextureLoader_GL
+		: public ::Effekseer::TextureLoader
+	{
+	private:
+		Graphics_Imp_GL*	m_graphics;
+
+
+	public:
+		TextureLoader_GL(Graphics_Imp_GL* graphics)
+			:m_graphics(graphics)
+		{
+		}
+		virtual ~TextureLoader_GL()
+		{}
+
+	public:
+		void* Load(const EFK_CHAR* path)
+		{
+#if _WIN32
+			auto fp = _wfopen((const achar*) path, L"rb");
+			if (fp == nullptr) return false;
+#else
+			auto fp = fopen(ToUtf8String((const achar*) path).c_str(), "rb");
+			if (fp == nullptr) return false;
+#endif
+			fseek(fp, 0, SEEK_END);
+			auto size = ftell(fp);
+			fseek(fp, 0, SEEK_SET);
+			auto data = new uint8_t[size];
+			fread(data, 1, size, fp);
+			fclose(fp);
+
+			int32_t imageWidth = 0;
+			int32_t imageHeight = 0;
+			void* imageDst = nullptr;
+			if (!ImageHelper::LoadPNGImage(data, size, false, imageWidth, imageHeight, imageDst))
+			{
+				SafeDeleteArray(data);
+				return nullptr;
+			}
+
+			GLuint texture = 0;
+
+			GraphicsHelper_GL::LoadTexture(m_graphics, imageDst, imageWidth, imageHeight, texture);
+			SafeDeleteArray(data);
+
+			return (void*)texture;
+		}
+
+		void Unload(void* data)
+		{
+			if (data != NULL)
+			{
+				GLuint texture = (GLuint) data;
+				glDeleteTextures(1, &texture);
+			}
+		}
+	};
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -83,6 +185,8 @@ namespace ace {
 
 	MakeContextCurrent();
 	GLCheckError();
+
+	GetSetting()->SetTextureLoader(new TextureLoader_GL(this));
 }
 
 //----------------------------------------------------------------------------------
@@ -150,6 +254,8 @@ namespace ace {
 
 	MakeContextCurrent();
 	GLCheckError();
+
+	GetSetting()->SetTextureLoader(new TextureLoader_GL(this));
 }
 
 //----------------------------------------------------------------------------------

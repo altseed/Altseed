@@ -19,7 +19,7 @@ protected:
 		auto effectObj = std::make_shared<ace::EffectObject3D>();
 		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
 		auto cameraObj = std::make_shared<ace::CameraObject3D>();
-		auto effect = ace::GetGraphics()->CreateEffect(ace::ToAString("Data/Effect/test.efk").c_str());
+		auto effect = ace::GetGraphics()->CreateEffect(ace::ToAString("Data/Effect/Laser01.efk").c_str());
 
 		scene->AddLayer(layer);
 		layer->AddObject(effectObj);
@@ -27,14 +27,14 @@ protected:
 		layer->AddObject(cameraObj);
 		engine->ChangeScene(scene);
 
-		cameraObj->SetPosition(ace::Vector3DF(0, 0, 30));
+		cameraObj->SetPosition(ace::Vector3DF(40, 20, 40));
 		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
-		cameraObj->SetFieldOfView(20.0f);
+		cameraObj->SetFieldOfView(50.0f);
 		cameraObj->SetZNear(1.0f);
 		cameraObj->SetZFar(200.0f);
 		cameraObj->SetWindowSize(ace::Vector2DI(800, 600));
 
-		effectObj->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
+		effectObj->SetRotation(ace::Vector3DF(00.0f, 20.0f, 0.0f));
 
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
 

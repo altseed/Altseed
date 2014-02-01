@@ -34,6 +34,8 @@ RenderState_Imp_GL::~RenderState_Imp_GL()
 //----------------------------------------------------------------------------------
 void RenderState_Imp_GL::Update(bool forced)
 {
+	GLCheckError();
+
 	if (m_active.DepthTest != m_next.DepthTest || forced)
 	{
 		if (m_next.DepthTest)

@@ -40,6 +40,8 @@ namespace ace {
 		*/
 		static bool LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, void*& imagedst);
 	};
+
+
 #endif
 
 /**

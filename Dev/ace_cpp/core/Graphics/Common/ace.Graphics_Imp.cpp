@@ -94,6 +94,10 @@ static void PngReadData(png_structp png_ptr, png_bytep data, png_size_t length)
 //----------------------------------------------------------------------------------
 bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, void*& imagedst)
 {
+	imagewidth = 0;
+	imageheight = 0;
+	imagedst = nullptr;
+
 	uint8_t* data_ = (uint8_t*) data;
 
 	/* pngアクセス構造体を作成 */
@@ -157,11 +161,11 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 
 	imagewidth = png_info->width;
 	imageheight = png_info->height;
-	imagedst = new uint8_t[imagewidth * imageheight * 4];
+	uint8_t* imagedst_ = new uint8_t[imagewidth * imageheight * 4];
 
 	if (pixelBytes == 4)
 	{
-		memcpy(imagedst, image, imagewidth * imageheight * 4);
+		memcpy(imagedst_, image, imagewidth * imageheight * 4);
 	}
 	else
 	{
@@ -169,9 +173,8 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 		{
 			for (int32_t x = 0; x < imagewidth; x++)
 			{
-				auto src = (x + y * imageheight) * 3;
-				auto dst = (x + y * imageheight) * 4;
-				auto imagedst_ = (uint8_t*) imagedst;
+				auto src = (x + y * imagewidth) * 3;
+				auto dst = (x + y * imagewidth) * 4;
 				imagedst_[dst + 0] = image[src + 0];
 				imagedst_[dst + 1] = image[src + 1];
 				imagedst_[dst + 2] = image[src + 2];
@@ -179,6 +182,8 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 			}
 		}
 	}
+
+	imagedst = imagedst_;
 
 	delete[] image;
 	png_destroy_read_struct(&png, &png_info, NULL);

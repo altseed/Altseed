@@ -21,7 +21,62 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	class TextureLoader
+	void GraphicsHelper_DX11::LoadTexture(Graphics_Imp_DX11* graphics, void* imgdata, int32_t width, int32_t height, ID3D11Texture2D*& texture, ID3D11ShaderResourceView*& textureSRV)
+	{
+		ID3D11ShaderResourceView* srv = nullptr;
+		texture = nullptr;
+
+		D3D11_TEXTURE2D_DESC TexDesc;
+		TexDesc.Width = width;
+		TexDesc.Height = height;
+		TexDesc.MipLevels = 1;
+		TexDesc.ArraySize = 1;
+		TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		TexDesc.SampleDesc.Count = 1;
+		TexDesc.SampleDesc.Quality = 0;
+		TexDesc.Usage = D3D11_USAGE_DEFAULT;
+		TexDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+		TexDesc.CPUAccessFlags = 0;
+		TexDesc.MiscFlags = 0;
+
+		D3D11_SUBRESOURCE_DATA data;
+		data.pSysMem = imgdata;
+		data.SysMemPitch = width * 4;
+		data.SysMemSlicePitch =width * height * 4;
+
+		auto hr = graphics->GetDevice()->CreateTexture2D(&TexDesc, &data, &texture);
+
+		if (FAILED(hr))
+		{
+			texture = nullptr;
+			textureSRV = nullptr;
+			return;
+		}
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC desc;
+		ZeroMemory(&desc, sizeof(desc));
+		desc.Format = TexDesc.Format;
+		desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		desc.Texture2D.MostDetailedMip = 0;
+		desc.Texture2D.MipLevels = TexDesc.MipLevels;
+
+		hr = graphics->GetDevice()->CreateShaderResourceView(texture, &desc, &srv);
+		if (FAILED(hr))
+		{
+			SafeRelease(texture);
+			texture = nullptr;
+			textureSRV = nullptr;
+			return;
+		}
+
+		texture = texture;
+		textureSRV = srv;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	class TextureLoader_DX11
 		: public ::Effekseer::TextureLoader
 	{
 	private:
@@ -29,20 +84,56 @@ namespace ace {
 
 
 	public:
-		TextureLoader(Graphics_Imp_DX11* graphics)
+		TextureLoader_DX11(Graphics_Imp_DX11* graphics)
 			:m_graphics(graphics)
 		{
 		}
-		virtual ~TextureLoader()
+		virtual ~TextureLoader_DX11()
 		{}
 
 	public:
 		void* Load(const EFK_CHAR* path)
 		{
+#if _WIN32
+			auto fp = _wfopen((const achar*) path, L"rb");
+			if (fp == nullptr) return false;
+#else
+			auto fp = fopen(ToUtf8String((const achar*) path).c_str(), "rb");
+			if (fp == nullptr) return false;
+#endif
+			fseek(fp, 0, SEEK_END);
+			auto size = ftell(fp);
+			fseek(fp, 0, SEEK_SET);
+			auto data = new uint8_t[size];
+			fread(data, 1, size, fp);
+			fclose(fp);
+
+			int32_t imageWidth = 0;
+			int32_t imageHeight = 0;
+			void* imageDst = nullptr;
+			if (!ImageHelper::LoadPNGImage(data, size, false, imageWidth, imageHeight, imageDst))
+			{
+				SafeDeleteArray(data);
+				return nullptr;
+			}
+
+			ID3D11Texture2D* texture = nullptr;
+			ID3D11ShaderResourceView* textureSRV = nullptr;
+
+			GraphicsHelper_DX11::LoadTexture(m_graphics, imageDst, imageWidth, imageHeight, texture, textureSRV);
+			SafeDeleteArray(data);
+
+			SafeRelease(texture);
+			return textureSRV;
 		}
 
 		void Unload(void* data)
 		{
+			if (data != NULL)
+			{
+				ID3D11ShaderResourceView* texture = (ID3D11ShaderResourceView*) data;
+				texture->Release();
+			}
 		}
 	};
 
@@ -87,6 +178,8 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	{
 		m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	}
+
+	GetSetting()->SetTextureLoader(new TextureLoader_DX11(this));
 }
 
 //----------------------------------------------------------------------------------
