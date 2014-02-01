@@ -27,6 +27,7 @@ protected:
 	virtual Mesh* CreateMesh_() = 0;
 	virtual Deformer* CreateDeformer_() = 0;
 	virtual Model* CreateModel_(const achar* path) = 0;
+	virtual Effect* CreateEffect_(const achar* path) = 0;
 
 public:
 	Graphics(){}
@@ -107,6 +108,17 @@ public:
 	{
 		auto model = CreateModel_(path);
 		return CreateSharedPtrWithReleaseDLL(model);
+	}
+
+	/**
+	@brief	エフェクトを生成する。
+	@param	path	パス
+	@return	エフェクト
+	*/
+	std::shared_ptr<Effect> CreateEffect(const achar* path)
+	{
+		auto effect = CreateEffect_(path);
+		return CreateSharedPtrWithReleaseDLL(effect);
 	}
 
 #endif

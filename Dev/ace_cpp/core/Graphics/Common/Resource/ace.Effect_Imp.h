@@ -16,7 +16,7 @@ namespace ace
 		virtual ~Effect_Imp();
 	public:
 
-		static Effect_Imp* CreateEffect(Graphics* graphics);
+		static Effect_Imp* CreateEffect(Graphics* graphics, Effekseer::Effect* effect);
 		
 		Effekseer::Effect* GetEffect() { return m_effect; }
 

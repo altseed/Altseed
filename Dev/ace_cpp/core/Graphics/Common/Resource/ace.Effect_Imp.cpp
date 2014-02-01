@@ -13,8 +13,8 @@ namespace ace
 		SafeRelease(m_effect);
 	}
 
-	Effect_Imp* Effect_Imp::CreateEffect(Graphics* graphics)
+	Effect_Imp* Effect_Imp::CreateEffect(Graphics* graphics, Effekseer::Effect* effect)
 	{
-		return nullptr;
+		return new Effect_Imp(effect);
 	}
 }

@@ -87,6 +87,8 @@ engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture.
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Shader2D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Material2D.h")
 
+engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Effect.h")
+
 engineHeader.readLines("ace_cpp/core/Graphics/Common/3D/ace.Deformer.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/3D/ace.Mesh.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/3D/ace.Model.h")

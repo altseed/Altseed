@@ -81,6 +81,10 @@ namespace ace
 		Vector3DF GetScale() const;
 		void SetScale(const Vector3DF& scale);
 
+		virtual void OnAdded(Renderer3D* renderer) {}
+
+		virtual void OnRemoving(Renderer3D* renderer) {}
+
 		virtual void CalculateMatrix_FR();
 
 		virtual void Flip();

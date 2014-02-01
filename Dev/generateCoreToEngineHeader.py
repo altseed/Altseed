@@ -74,6 +74,8 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.RenderText
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Shader2D.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Material2D.h")
 
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Effect.h")
+
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/3D/ace.Deformer.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/3D/ace.Mesh.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/3D/ace.Model.h")

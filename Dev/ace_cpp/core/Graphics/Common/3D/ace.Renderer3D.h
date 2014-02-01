@@ -42,9 +42,12 @@ namespace ace
 
 		struct
 		{
-			std::set<RenderedObject3D*>	objects;
-			std::set<RenderedObject3D*>	cameraObjects;
-			std::set<RenderedObject3D*> directionalLightObjects;
+			std::set<RenderedObject3D*>		objects;
+			std::set<RenderedObject3D*>		cameraObjects;
+			std::set<RenderedObject3D*>		directionalLightObjects;
+			Effekseer::Manager*				EffectManager;
+			EffekseerRenderer::Renderer*	EffectRenderer;
+
 		} rendering;
 
 		Graphics_Imp*	m_graphics;
@@ -86,5 +89,7 @@ namespace ace
 		void EndRendering();
 
 		RenderTexture_Imp* GetRenderTarget();
+
+		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
 	};
 }

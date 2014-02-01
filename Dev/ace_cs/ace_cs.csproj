@@ -125,6 +125,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="swig\eCullingType.cs" />
+    <Compile Include="swig\Effect.cs" />
     <Compile Include="swig\eGraphicsType.cs" />
     <Compile Include="swig\eInterpolationType.cs" />
     <Compile Include="swig\eJoystickAxises.cs" />

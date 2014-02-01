@@ -116,22 +116,31 @@ void main()
 
 
 	template<typename T>
-	void AddRefToObjects(std::set<T*>& tset)
+	void AddRefToObjects(std::set<T*>& os)
 	{
-		for (auto& o : tset)
+		for (auto& o : os)
 		{
 			SafeAddRef(o);
 		}
 	}
 
 	template<typename T>
-	void ReleaseObjects(std::set<T*>& tset)
+	void ReleaseObjects(std::set<T*>& os)
 	{
-		for (auto& o : tset)
+		for (auto& o : os)
 		{
 			o->Release();
 		}
-		tset.clear();
+		os.clear();
+	}
+
+	template<typename T>
+	void CallRemovingObjects(std::set<T*>& os, Renderer3D* renderer)
+	{
+		for (auto& o : os)
+		{
+			o->OnRemoving(renderer);
+		}
 	}
 
 	Renderer3D::RenderingEvent::RenderingEvent(Renderer3D* renderer)
@@ -169,6 +178,9 @@ void main()
 		{
 			o->CalculateMatrix_FR();
 		}
+
+		// エフェクトの更新
+		rendering.EffectManager->Update(1.0f);
 
 		RenderingProperty prop;
 
@@ -210,6 +222,24 @@ void main()
 			for (auto& o : m_objects)
 			{
 				o->Rendering(prop);
+			}
+
+			// エフェクトの描画
+			{
+				Effekseer::Matrix44 cameraMat, projMat;
+				for (auto c_ = 0; c_ < 4; c_++)
+				{
+					for (auto r = 0; r < 4; r++)
+					{
+						cameraMat.Values[c_][r] = c->GetCameraMatrix_FR().Values[r][c_];
+						projMat.Values[c_][r] = c->GetProjectionMatrix_FR().Values[r][c_];
+					}
+				}
+				rendering.EffectRenderer->SetCameraMatrix(cameraMat);
+				rendering.EffectRenderer->SetProjectionMatrix(projMat);
+				rendering.EffectRenderer->BeginRendering();
+				rendering.EffectManager->Draw();
+				rendering.EffectRenderer->EndRendering();
 			}
 
 			c->ApplyPostEffects_FR();
@@ -329,7 +359,7 @@ void main()
 		m_pasteShader->CreateVertexConstantBuffer<PasteConstantBuffer>(constantBuffers);
 
 		// エフェクト
-		m_effectManager = ::Effekseer::Manager::Create(2000);
+		m_effectManager = ::Effekseer::Manager::Create(2000, false);
 		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
 		{
 #if _WIN32
@@ -361,12 +391,15 @@ void main()
 			}
 		}
 
+		CallRemovingObjects(m_objects, this);
 		ReleaseObjects(m_objects);
 		ReleaseObjects(rendering.objects);
 
+		CallRemovingObjects(m_cameraObjects, this);
 		ReleaseObjects(m_cameraObjects);
 		ReleaseObjects(rendering.cameraObjects);
 
+		CallRemovingObjects(m_directionalLightObjects, this);
 		ReleaseObjects(m_directionalLightObjects);
 		ReleaseObjects(rendering.directionalLightObjects);
 
@@ -405,6 +438,7 @@ void main()
 			{
 				SafeAddRef(o);
 				m_cameraObjects.insert(o);
+				o->OnAdded(this);
 			}
 		}
 		else if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT)
@@ -413,6 +447,7 @@ void main()
 			{
 				SafeAddRef(o);
 				m_directionalLightObjects.insert(o);
+				o->OnAdded(this);
 			}
 		}
 		else
@@ -421,6 +456,7 @@ void main()
 			{
 				SafeAddRef(o);
 				m_objects.insert(o);
+				o->OnAdded(this);
 			}
 		}
 	}
@@ -431,6 +467,7 @@ void main()
 		{
 			if (m_cameraObjects.count(o) > 0)
 			{
+				o->OnRemoving(this);
 				m_cameraObjects.erase(o);
 				SafeRelease(o);
 			}
@@ -439,6 +476,7 @@ void main()
 		{
 			if (m_directionalLightObjects.count(o) > 0)
 			{
+				o->OnRemoving(this);
 				m_directionalLightObjects.erase(o);
 				SafeRelease(o);
 			}
@@ -447,6 +485,7 @@ void main()
 		{
 			if (m_objects.count(o) > 0)
 			{
+				o->OnRemoving(this);
 				m_objects.erase(o);
 				SafeRelease(o);
 			}
@@ -462,10 +501,14 @@ void main()
 		rendering.objects.insert(m_objects.begin(), m_objects.end());
 		rendering.cameraObjects.insert(m_cameraObjects.begin(), m_cameraObjects.end());
 		rendering.directionalLightObjects.insert(m_directionalLightObjects.begin(), m_directionalLightObjects.end());
+		rendering.EffectManager = m_effectManager;
+		rendering.EffectRenderer = m_effectRenderer;
 
 		AddRefToObjects(rendering.objects);
 		AddRefToObjects(rendering.cameraObjects);
 		AddRefToObjects(rendering.directionalLightObjects);
+
+		m_effectManager->Flip();
 
 		for (auto& o : rendering.objects)
 		{

@@ -45,6 +45,8 @@ namespace ace {
 		NativeShader_Imp*	m_shaderPtr;
 		bool				m_isMultithreadingMode;
 
+		Effekseer::Setting*	m_effectSetting = nullptr;
+
 		void AddDeviceObject(DeviceObject* o);
 		void RemoveDeviceObject(DeviceObject* o);
 
@@ -178,6 +180,8 @@ namespace ace {
 
 		Model* CreateModel_(const achar* path);
 
+		Effect* CreateEffect_(const achar* path);
+
 #if !SWIG
 	/**
 	@brief	深度バッファを生成する。
@@ -295,6 +299,12 @@ namespace ace {
 		@return	スレッド
 	*/
 	std::shared_ptr<RenderingThread>& GetRenderingThread() { return m_renderingThread; }
+
+	/**
+		@brief	エフェクトの設定を取得する。
+		@return	設定
+	*/
+	Effekseer::Setting* GetSetting() { return m_effectSetting; }
 #endif
 };
 

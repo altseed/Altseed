@@ -108,6 +108,7 @@ namespace ace {
 
 	class Renderer3D;
 	class RenderedObject3D;
+	class RenderedEffectObject3D;
 	class RenderedModelObject3D;
 	class RenderedDirectionalLightObject3D;
 	class RenderedCameraObject3D;

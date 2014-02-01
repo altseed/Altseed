@@ -26,6 +26,8 @@
 #include "Graphics/Common/Resource/ace.Material_Imp.h"
 #include "Graphics/Common/Resource/ace.Material2D_Imp.h"
 
+#include "Graphics/Common/Resource/ace.Effect.h"
+
 #include "Graphics/Common/3D/ace.Mesh.h"
 #include "Graphics/Common/3D/ace.Deformer.h"
 #include "Graphics/Common/3D/ace.Model.h"
@@ -316,6 +318,8 @@ namespace ace
 %include "ace_cpp/core/Graphics/Common/Resource/ace.Texture2D_Imp.h"
 %include "ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture.h"
 %include "ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture_Imp.h"
+
+%include "ace_cpp/core/Graphics/Common/Resource/ace.Effect.h"
 
 %include "ace_cpp/core/Graphics/Common/3D/ace.Deformer.h"
 %include "ace_cpp/core/Graphics/Common/3D/ace.Mesh.h"

@@ -30,6 +30,8 @@ namespace ace {
 	class Shader2D;
 	class Material2D;
 
+	class Effect;
+
 	class Model;
 
 	class Mesh;
@@ -133,6 +135,7 @@ namespace ace {
 		RENDERED_OBJECT3D_TYPE_UNKNOWN,
 		RENDERED_OBJECT3D_TYPE_MESH,
 		RENDERED_OBJECT3D_TYPE_CAMERA,
+		RENDERED_OBJECT3D_TYPE_EFFECT,
 		RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT,
 	};
 

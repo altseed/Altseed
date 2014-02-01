@@ -10,11 +10,14 @@
 #include "Resource/ace.VertexBuffer_Imp.h"
 #include "Resource/ace.IndexBuffer_Imp.h"
 #include "Resource/ace.NativeShader_Imp.h"
+#include "Resource/ace.Effect_Imp.h"
 
 #include "Resource/ace.RenderState_Imp.h"
 
 #include "Resource/ace.Shader2D_Imp.h"
 #include "Resource/ace.Material2D_Imp.h"
+
+#include "Resource/ace.Effect_Imp.h"
 
 #include "3D/ace.Mesh_Imp.h"
 #include "3D/ace.Deformer_Imp.h"
@@ -240,6 +243,10 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isMultithreadingMode)
 	{
 		m_renderingThread = std::make_shared<RenderingThread>();
 	}
+
+	m_effectSetting = Effekseer::Setting::Create();
+	m_effectSetting->SetCoordinateSystem(Effekseer::eCoordinateSystem::COORDINATE_SYSTEM_RH);
+
 }
 
 //----------------------------------------------------------------------------------
@@ -254,6 +261,7 @@ Graphics_Imp::~Graphics_Imp()
 
 	SafeDelete(m_resourceContainer);
 
+	SafeRelease(m_effectSetting);
 	//SafeRelease(m_log);
 }
 
@@ -383,6 +391,18 @@ Model* Graphics_Imp::CreateModel_(const achar* path)
 	GetResourceContainer()->Models.Regist(path, info, model);
 	
 	return model;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Effect* Graphics_Imp::CreateEffect_(const achar* path)
+{
+	auto effect = Effekseer::Effect::Create(m_effectSetting, (const EFK_CHAR*)path, 1.0f);
+	if (effect == nullptr) return nullptr;
+
+	auto ret = Effect_Imp::CreateEffect(this, effect);
+	return ret;
 }
 
 //----------------------------------------------------------------------------------
