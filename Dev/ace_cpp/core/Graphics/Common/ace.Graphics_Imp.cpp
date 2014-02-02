@@ -127,7 +127,7 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 	{
 	case PNG_COLOR_TYPE_PALETTE:
 		png_set_palette_to_rgb(png);
-		pixelBytes = 3;
+		pixelBytes = 4;
 		break;
 	case PNG_COLOR_TYPE_GRAY:
 		png_set_expand_gray_1_2_4_to_8(png);
