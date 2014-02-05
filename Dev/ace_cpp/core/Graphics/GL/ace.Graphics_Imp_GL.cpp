@@ -70,62 +70,38 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	class TextureLoader_GL
-		: public ::Effekseer::TextureLoader
+	class EffectTextureLoader_GL
+		: public EffectTextureLoader
 	{
-	private:
-		Graphics_Imp_GL*	m_graphics;
-
-
 	public:
-		TextureLoader_GL(Graphics_Imp_GL* graphics)
-			:m_graphics(graphics)
+		EffectTextureLoader_GL(Graphics_Imp_GL* graphics)
+			:EffectTextureLoader(graphics)
 		{
 		}
-		virtual ~TextureLoader_GL()
+		virtual ~EffectTextureLoader_GL()
 		{}
 
 	public:
-		void* Load(const EFK_CHAR* path)
+		void* InternalLoad(Graphics_Imp* graphics, void* data, int32_t width, int32_t height)
 		{
-#if _WIN32
-			auto fp = _wfopen((const achar*) path, L"rb");
-			if (fp == nullptr) return false;
-#else
-			auto fp = fopen(ToUtf8String((const achar*) path).c_str(), "rb");
-			if (fp == nullptr) return false;
-#endif
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			auto data = new uint8_t[size];
-			fread(data, 1, size, fp);
-			fclose(fp);
-
-			int32_t imageWidth = 0;
-			int32_t imageHeight = 0;
-			void* imageDst = nullptr;
-			if (!ImageHelper::LoadPNGImage(data, size, false, imageWidth, imageHeight, imageDst))
-			{
-				SafeDeleteArray(data);
-				return nullptr;
-			}
-
 			GLuint texture = 0;
+			GraphicsHelper_GL::LoadTexture((Graphics_Imp_GL*) m_graphics, data, width, height, texture);
 
-			GraphicsHelper_GL::LoadTexture(m_graphics, imageDst, imageWidth, imageHeight, texture);
-			SafeDeleteArray(data);
-
-			return (void*)texture;
+			return (void*) texture;
 		}
 
-		void Unload(void* data)
+		void InternalUnload(void* data)
 		{
 			if (data != NULL)
 			{
 				GLuint texture = (GLuint) data;
 				glDeleteTextures(1, &texture);
 			}
+		}
+
+		bool IsReversed()
+		{
+			return true;
 		}
 	};
 
@@ -189,7 +165,7 @@ namespace ace {
 	MakeContextCurrent();
 	GLCheckError();
 
-	GetSetting()->SetTextureLoader(new TextureLoader_GL(this));
+	GetSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
 }
 
 //----------------------------------------------------------------------------------
@@ -258,7 +234,7 @@ namespace ace {
 	MakeContextCurrent();
 	GLCheckError();
 
-	GetSetting()->SetTextureLoader(new TextureLoader_GL(this));
+	GetSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
 }
 
 //----------------------------------------------------------------------------------

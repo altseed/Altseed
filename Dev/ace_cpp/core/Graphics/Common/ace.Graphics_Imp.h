@@ -41,7 +41,25 @@ namespace ace {
 		static bool LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, void*& imagedst);
 	};
 
+	class EffectTextureLoader
+		: public ::Effekseer::TextureLoader
+	{
+	protected:
+		Graphics_Imp*	m_graphics = nullptr;
 
+		std::map<astring, void*>		m_caches;
+
+		virtual void* InternalLoad(Graphics_Imp* graphics, void* data, int32_t width, int32_t height ) = 0;
+		virtual void InternalUnload(void* data) = 0;
+		virtual bool IsReversed() = 0;
+	public:
+
+		EffectTextureLoader(Graphics_Imp* graphics);
+		virtual ~EffectTextureLoader();
+
+		void* Load(const EFK_CHAR* path);
+		void Unload(void* data);
+	};
 #endif
 
 /**

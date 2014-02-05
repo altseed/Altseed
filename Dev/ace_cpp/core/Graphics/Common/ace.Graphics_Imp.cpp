@@ -194,6 +194,72 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+EffectTextureLoader::EffectTextureLoader(Graphics_Imp* graphics)
+	: m_graphics(graphics)
+{
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+EffectTextureLoader::~EffectTextureLoader()
+{
+	for (auto& c : m_caches)
+	{
+		Unload(c.second);
+	}
+	m_caches.clear();
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void* EffectTextureLoader::Load(const EFK_CHAR* path)
+{
+	auto cache = m_caches.find(astring((const achar*)path));
+	if (cache != m_caches.end()) return cache->second;
+	
+#if _WIN32
+	auto fp = _wfopen((const achar*) path, L"rb");
+	if (fp == nullptr) return false;
+#else
+	auto fp = fopen(ToUtf8String((const achar*) path).c_str(), "rb");
+	if (fp == nullptr) return false;
+#endif
+	fseek(fp, 0, SEEK_END);
+	auto size = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+	auto data = new uint8_t[size];
+	fread(data, 1, size, fp);
+	fclose(fp);
+
+	int32_t imageWidth = 0;
+	int32_t imageHeight = 0;
+	void* imageDst = nullptr;
+	if (!ImageHelper::LoadPNGImage(data, size, IsReversed(), imageWidth, imageHeight, imageDst))
+	{
+		SafeDeleteArray(data);
+		return nullptr;
+	}
+
+	void* img = InternalLoad(m_graphics, imageDst, imageWidth, imageHeight);
+
+	SafeDeleteArray(data);
+
+	return img;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void EffectTextureLoader::Unload(void* data)
+{
+	InternalUnload(data);
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 void Graphics_Imp::AddDeviceObject(DeviceObject* o)
 {
 	assert(m_deviceObjects.count(o) == 0);

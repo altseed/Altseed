@@ -76,64 +76,48 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	class TextureLoader_DX11
-		: public ::Effekseer::TextureLoader
+	class EffectTextureLoader_DX11
+		: public EffectTextureLoader
 	{
-	private:
-		Graphics_Imp_DX11*	m_graphics;
-
-
 	public:
-		TextureLoader_DX11(Graphics_Imp_DX11* graphics)
-			:m_graphics(graphics)
+		EffectTextureLoader_DX11(Graphics_Imp_DX11* graphics)
+			:EffectTextureLoader(graphics)
 		{
 		}
-		virtual ~TextureLoader_DX11()
+		virtual ~EffectTextureLoader_DX11()
 		{}
 
 	public:
-		void* Load(const EFK_CHAR* path)
+		void* InternalLoad(Graphics_Imp* graphics, void* data, int32_t width, int32_t height)
 		{
-#if _WIN32
-			auto fp = _wfopen((const achar*) path, L"rb");
-			if (fp == nullptr) return false;
-#else
-			auto fp = fopen(ToUtf8String((const achar*) path).c_str(), "rb");
-			if (fp == nullptr) return false;
-#endif
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			auto data = new uint8_t[size];
-			fread(data, 1, size, fp);
-			fclose(fp);
-
-			int32_t imageWidth = 0;
-			int32_t imageHeight = 0;
-			void* imageDst = nullptr;
-			if (!ImageHelper::LoadPNGImage(data, size, false, imageWidth, imageHeight, imageDst))
-			{
-				SafeDeleteArray(data);
-				return nullptr;
-			}
-
 			ID3D11Texture2D* texture = nullptr;
 			ID3D11ShaderResourceView* textureSRV = nullptr;
 
-			GraphicsHelper_DX11::LoadTexture(m_graphics, imageDst, imageWidth, imageHeight, texture, textureSRV);
+			GraphicsHelper_DX11::LoadTexture(
+				(Graphics_Imp_DX11*) m_graphics,
+				data, 
+				width,
+				height, 
+				texture, 
+				textureSRV);
 			SafeDeleteArray(data);
 
 			SafeRelease(texture);
 			return textureSRV;
 		}
 
-		void Unload(void* data)
+		void InternalUnload(void* data)
 		{
 			if (data != NULL)
 			{
 				ID3D11ShaderResourceView* texture = (ID3D11ShaderResourceView*) data;
 				texture->Release();
 			}
+		}
+
+		bool IsReversed()
+		{
+			return false;
 		}
 	};
 
@@ -179,7 +163,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 		m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	}
 
-	GetSetting()->SetTextureLoader(new TextureLoader_DX11(this));
+	GetSetting()->SetTextureLoader(new EffectTextureLoader_DX11(this));
 }
 
 //----------------------------------------------------------------------------------

@@ -6,7 +6,7 @@ class Graphics_Effect3D : public EngineTest
 public:
 
 	Graphics_Effect3D(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("Effect3D"), isOpenGLMode, 60)
+		EngineTest(ace::ToAString("Effect3D"), isOpenGLMode, 20)
 	{}
 
 protected:
