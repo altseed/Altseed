@@ -6,6 +6,9 @@
 
 namespace ace
 {
+	/**
+		@brief	エフェクトの情報が記録されているクラス
+	*/
 	class Effect
 		: public IReference
 	{

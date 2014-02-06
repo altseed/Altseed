@@ -25,4 +25,24 @@ namespace ace
 	{
 		m_coreObject->Play();
 	}
+
+	void EffectObject3D::Stop()
+	{
+		m_coreObject->Stop();
+	}
+
+	void EffectObject3D::StopRoot()
+	{
+		m_coreObject->StopRoot();
+	}
+
+	bool EffectObject3D::GetDoesMoveEffects()
+	{
+		return m_coreObject->GetDoesMoveEffects();
+	}
+
+	void EffectObject3D::SetDoesMoveEffects(bool value)
+	{
+		m_coreObject->SetDoesMoveEffects(value);
+	}
 }

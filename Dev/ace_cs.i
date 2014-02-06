@@ -236,6 +236,8 @@ CPP_OBJECT( ace::Material2D )
 CPP_OBJECT( ace::Shader2D )
 CPP_OBJECT( ace::Shader2D_Imp )
 
+CPP_OBJECT( ace::Effect )
+
 CPP_OBJECT( ace::Mesh )
 CPP_OBJECT( ace::Deformer )
 CPP_OBJECT( ace::Model )

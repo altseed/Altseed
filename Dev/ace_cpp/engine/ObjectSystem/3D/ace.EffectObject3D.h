@@ -40,9 +40,32 @@ namespace ace
 		*/
 		void SetEffect(std::shared_ptr<Effect> effect);
 
+
 		/**
-			@brief	エフェクトを再生する。
+		@brief	設定されている全てのエフェクトを再生する。
 		*/
 		void Play();
+
+		/**
+		@brief	このオブジェクトから再生されたエフェクトを全て停止する。
+		*/
+		void Stop();
+
+		/**
+		@brief	このオブジェクトから再生されたエフェクトのルートを全て停止する。
+		*/
+		void StopRoot();
+
+		/**
+		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得する。
+		@return	フラグ
+		*/
+		bool GetDoesMoveEffects();
+
+		/**
+		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか設定する。
+		@param	value	フラグ
+		*/
+		void SetDoesMoveEffects(bool value);
 	};
 }

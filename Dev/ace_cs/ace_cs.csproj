@@ -57,6 +57,7 @@
     <Compile Include="Graphics\Def.cs" />
     <Compile Include="Graphics\Color.cs" />
     <Compile Include="Graphics\Deformer.cs" />
+    <Compile Include="Graphics\Effect.cs" />
     <Compile Include="Graphics\Graphics.cs" />
     <Compile Include="Graphics\Material2D.cs" />
     <Compile Include="Graphics\Mesh.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="ObjectSystem\2D\CameraObject2D.cs" />
     <Compile Include="ObjectSystem\3D\CameraObject3D.cs" />
     <Compile Include="ObjectSystem\3D\DirectionalLightObject3D.cs" />
+    <Compile Include="ObjectSystem\3D\EffectObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Layer3D.cs" />
     <Compile Include="ObjectSystem\3D\ModelObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Object3D.cs" />

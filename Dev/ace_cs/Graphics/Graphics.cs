@@ -136,6 +136,18 @@ namespace ace
 		}
 
 		/// <summary>
+		/// エフェクトを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>エフェクト</returns>
+		public Effect CreateEffect(string path)
+		{
+			var effect = graphics.CreateEffect_(path);
+			if (effect == null) return null;
+			return GC.GenerateEffect(effect, GC.GenerationType.Create);
+		}
+
+		/// <summary>
 		/// 描画ランタイムの種類を取得する。
 		/// </summary>
 		public GraphicsType GraphicsType

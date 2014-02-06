@@ -25,6 +25,14 @@ namespace ace
 
 		void Play() override;
 
+		void Stop() override;
+
+		void StopRoot() override;
+
+		bool GetDoesMoveEffects() override;
+
+		void SetDoesMoveEffects(bool value) override;
+
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_EFFECT; }
 
 		// 共通部分

@@ -226,6 +226,7 @@ void main()
 
 			// エフェクトの描画
 			{
+				// 行列を転置して設定
 				Effekseer::Matrix44 cameraMat, projMat;
 				for (auto c_ = 0; c_ < 4; c_++)
 				{
@@ -240,6 +241,8 @@ void main()
 				rendering.EffectRenderer->BeginRendering();
 				rendering.EffectManager->Draw();
 				rendering.EffectRenderer->EndRendering();
+
+				// レンダー設定リセット
 				g->GetRenderState()->Update(true);
 			}
 

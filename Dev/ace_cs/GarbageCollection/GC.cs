@@ -13,6 +13,8 @@ namespace ace
 		internal static IDObjectContainer<Shader2D> Shader2Ds { get; private set; }
 		internal static IDObjectContainer<Material2D> Material2Ds { get; private set; }
 
+		internal static IDObjectContainer<Effect> Effects { get; private set; }
+
 		internal static IDObjectContainer<Mesh> Meshs { get; private set; }
 		internal static IDObjectContainer<Deformer> Deformers { get; private set; }
 		internal static IDObjectContainer<Model> Models { get; private set; }
@@ -37,6 +39,9 @@ namespace ace
 			Texture2Ds = new IDObjectContainer<Texture2D>();
 			Shader2Ds = new IDObjectContainer<Shader2D>();
 			Material2Ds = new IDObjectContainer<Material2D>();
+
+			Effects = new IDObjectContainer<Effect>();
+
 			Meshs = new IDObjectContainer<Mesh>();
 			Deformers = new IDObjectContainer<Deformer>();
 			Models = new IDObjectContainer<Model>();
@@ -68,6 +73,9 @@ namespace ace
 				Texture2Ds.DestroyAll();
 				Shader2Ds.DestroyAll();
 				Material2Ds.DestroyAll();
+
+				Effects.DestroyAll();
+
 				Meshs.DestroyAll();
 				Deformers.DestroyAll();
 				Models.DestroyAll();
@@ -146,6 +154,24 @@ namespace ace
 
 			var ret = new RenderTexture2D(o);
 			GC.Texture2Ds.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static Effect GenerateEffect(swig.Effect o, GenerationType type)
+		{
+			var p = o.GetPtr();
+
+			var existing = GC.Effects.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new Effect(o);
+			GC.Effects.AddObject(p, ret);
 			return ret;
 		}
 

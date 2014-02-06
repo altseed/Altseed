@@ -59,6 +59,15 @@ namespace ace
 		}
 
 		/// <summary>
+		/// ネイティブの EffectObject3D クラスをインスタンス化する。
+		/// </summary>
+		/// <returns>ネイティブのインスタンス</returns>
+		public swig.CoreEffectObject3D CreateEffectObject3D()
+		{
+			return factory.CreateEffectObject3D();
+		}
+
+		/// <summary>
 		/// ネイティブの DirectionalLightObject3D クラスをインスタンス化する。
 		/// </summary>
 		/// <returns>ネイティブのインスタンス</returns>

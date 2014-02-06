@@ -39,7 +39,9 @@ namespace ace
 					if (TryRelease<swig.RenderTexture2D>(o)) continue;
 					if (TryRelease<swig.Shader2D>(o)) continue;
 					if (TryRelease<swig.Material2D>(o)) continue;
-					
+
+					if (TryRelease<swig.Effect>(o)) continue;
+
 					if (TryRelease<swig.Mesh>(o)) continue;
 					if (TryRelease<swig.Deformer>(o)) continue;
 					if (TryRelease<swig.Model>(o)) continue;

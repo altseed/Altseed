@@ -20,5 +20,12 @@ namespace ace
 
 		virtual void Play() = 0;
 
+		virtual void Stop() = 0;
+
+		virtual void StopRoot() = 0;
+
+		virtual bool GetDoesMoveEffects() = 0;
+
+		virtual void SetDoesMoveEffects(bool value) = 0;
 	};
 }

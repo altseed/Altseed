@@ -81,8 +81,16 @@ namespace ace
 		Vector3DF GetScale() const;
 		void SetScale(const Vector3DF& scale);
 
+		/**
+			@brief	レンダラーに追加された時に呼ばれる
+			@param	renderer	レンダラー
+		*/
 		virtual void OnAdded(Renderer3D* renderer) {}
 
+		/**
+			@brief	レンダラーから外れる時に呼ばれる
+			@param	renderer	レンダラー
+		*/
 		virtual void OnRemoving(Renderer3D* renderer) {}
 
 		virtual void CalculateMatrix_FR();
