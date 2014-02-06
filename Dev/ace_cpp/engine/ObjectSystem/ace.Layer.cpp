@@ -9,7 +9,6 @@ namespace ace
 	void Layer::BeginDrawing()
 	{
 		GetScene()->m_coreScene->SetRenderTargetForDrawingLayer();
-
 		m_commonObject->BeginDrawing();
 	}
 

@@ -75,7 +75,7 @@ namespace ace
 					RenderTexture2D src = GC.GenerateRenderTexture2D(src_, GC.GenerationType.Get);
 					RenderTexture2D dst = GC.GenerateRenderTexture2D(dst_, GC.GenerationType.Get);
 
-					p.OnDraw(src, dst);
+					p.OnDraw(dst, src);
 
 					Scene.CoreScene.EndPostEffect(p.SwigObject);
 				}

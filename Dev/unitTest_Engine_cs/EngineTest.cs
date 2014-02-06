@@ -30,8 +30,10 @@ namespace unitTest_Engine_cs
 			var option = new EngineOption
 			{
 				IsFullScreen = false,
-				GraphicsType = graphicsType
+				GraphicsType = graphicsType,
+				IsMultithreadingMode = true,
 			};
+
 			var result = Engine.Initialize( Title, 640, 480, option );
 
 			if( !result )

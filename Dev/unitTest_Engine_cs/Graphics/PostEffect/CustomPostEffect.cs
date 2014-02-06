@@ -128,6 +128,7 @@ void main()
 			{
 				Texture = Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png"),
 			};
+			obj.Scale = new Vector2DF(2.0f, 2.0f);
 
 			layer.AddObject(obj);
 			layer.AddPostEffect(new PostEffect(Engine.Graphics));
@@ -135,6 +136,5 @@ void main()
 
 			Engine.ChangeScene(scene);
 		}
-
 	}
 }

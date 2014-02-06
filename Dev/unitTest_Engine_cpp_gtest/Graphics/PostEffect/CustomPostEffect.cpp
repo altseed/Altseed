@@ -141,11 +141,7 @@ protected:
 		auto pe = std::make_shared<CustomPostEffect>(g);
 		layer->AddPostEffect(pe);
 	}
-
-
-
 };
-
 
 TEST(Graphics, CustomPostEffect_GL)
 {
