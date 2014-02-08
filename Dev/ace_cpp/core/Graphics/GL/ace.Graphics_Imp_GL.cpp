@@ -94,7 +94,8 @@ namespace ace {
 		{
 			if (data != NULL)
 			{
-				GLuint texture = (GLuint) data;
+				uint64_t data_ = reinterpret_cast<uint64_t>(data);
+				GLuint texture = static_cast<GLuint>(data_);
 				glDeleteTextures(1, &texture);
 			}
 		}

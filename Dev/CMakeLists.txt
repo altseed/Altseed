@@ -261,6 +261,9 @@ else()
 	list(APPEND common_lib gtest )
 	list(APPEND common_lib gtest_main )
 
+	list(APPEND common_lib Effekseer )
+	list(APPEND common_lib EffekseerRendererGL )
+
 	list(APPEND common_lib dl )
 
 	find_package(Threads REQUIRED)
