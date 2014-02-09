@@ -167,6 +167,28 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 %template(ShaderVariablePropertyVector) std::vector<ace::ShaderVariableProperty>;
 
 //-----------------------------------------------------------------------------------
+// Dispose無視
+//-----------------------------------------------------------------------------------
+%define DISABLE_DISPOSE( SWIGTYPE )
+%typemap(csdestruct, methodname="Dispose", methodmodifiers="public") SWIGTYPE
+{
+	lock(this)
+	{
+		GC.SuppressFinalize(this);
+	}
+}
+
+%typemap(csdestruct_derived, methodname="Dispose", methodmodifiers="public") SWIGTYPE
+{
+	lock(this)
+	{
+		GC.SuppressFinalize(this);
+	}
+}
+
+%enddef
+
+//-----------------------------------------------------------------------------------
 // IReference,ReferenceObject向け拡張
 //-----------------------------------------------------------------------------------
 %typemap(csout) int ace::IReference::Release()
@@ -189,10 +211,15 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 }
 %}
 
+DISABLE_DISPOSE( ace::IReference )
+DISABLE_DISPOSE( ace::ReferenceObject )
+
 //-----------------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------------
 %define CPP_OBJECT( CTYPE )
+/* 未開放バグが怖いが、ラッパークラスとswigのクラスのGCが同時に動作したときに、swigのクラスのGCを止める手段がないため */
+DISABLE_DISPOSE( CTYPE )
 %typemap(cscode) CTYPE
 %{
     public IntPtr GetPtr()
