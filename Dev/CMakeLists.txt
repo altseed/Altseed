@@ -58,7 +58,8 @@ set(core_src
 	ace_cpp/core/Graphics/Common/3D/ace.Deformer_Imp.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedEffectObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.Mesh_Imp.cpp
-	ace_cpp/core/Graphics/Common/3D/ace.Model_Imp
+	ace_cpp/core/Graphics/Common/3D/ace.MassModel_Imp.cpp
+	ace_cpp/core/Graphics/Common/3D/ace.Model_Imp.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedCameraObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedEffectObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedDirectionalLightObject3D.cpp
