@@ -331,6 +331,30 @@ void VerticeLoader::Write(ace::BinaryWriter* writer)
 
 	for(int i=0;i<_vertices.size();++i)
 	{
-		//writeAllMethod
+		writer->Push(_vertices[i].position);
+		writer->Push(_vertices[i].normal);
+		writer->Push(_vertices[i].binormal);
+		writer->Push(_vertices[i].uv.X);
+		writer->Push(_vertices[i].uv.Y);
+		
+		for (int j = 0; j < 4; ++j)
+		{
+			writer->Push(_vertices[i].color[j]);
+		}
+
+		for (int j = 0; j < 4; ++j)
+		{
+			writer->Push(_vertices[i].weight[j]);
+		}
+
+		for (int j = 0; j < 4; ++j)
+		{
+			writer->Push(_vertices[i].weightIndexOriginal[j]);
+		}
+
+		for (int j = 0; j < 4; ++j)
+		{
+			writer->Push(_vertices[i].weightIndexDivided[j]);
+		}
 	}
 }
