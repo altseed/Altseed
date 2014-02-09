@@ -27,3 +27,20 @@ vector<Face> FacesLoader::GetFaces()
 {
 	return _faces;
 }
+
+void FacesLoader::Load()
+{
+	_loadIndices();
+}
+
+void FacesLoader::Write(ace::BinaryWriter* writer)
+{
+	writer->Push((int32_t) _faces.size());
+	for (auto ite = _faces.begin(); ite != _faces.end(); ++ite)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			writer->Push((int32_t) ite->vertexIndex[i]);
+		}
+	}
+}
