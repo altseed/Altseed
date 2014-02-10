@@ -39,6 +39,11 @@ set(common_src
 	ace_cpp/common/Thread/ace.Thread.cpp
 	ace_cpp/common/Utility/ace.PointerArray.cpp)
 
+set(file_src
+	ace_cpp/file/3D/ace.MassModel3D_IO.cpp
+	ace_cpp/file/3D/ace.Model3D_IO.cpp)
+
+
 set(core_src
 	ace_cpp/core/ace.ReferenceObject.cpp
 	ace_cpp/core/ace.Accessor.cpp
@@ -242,6 +247,7 @@ set(unittest_engine_gtest_src
 include_directories(
 	include/
 	ace_cpp/common/
+	ace_cpp/file/
 	ace_cpp/core/
 	)
 
@@ -302,6 +308,8 @@ endif()
 # コンパイル先を追加
 add_library( aceCommon STATIC ${common_src} )
 
+add_library( aceFile STATIC ${file_src} )
+
 add_library( aceCore STATIC ${core_src} )
 add_library( aceCoreDLL SHARED ${core_src} )
 target_link_libraries(aceCore aceCommon) 
@@ -320,6 +328,9 @@ target_link_libraries(aceUnitTestEngineGtest aceEngine ${common_lib})
 # 出力先の設定
 set_target_properties(aceCommon PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
 set_target_properties(aceCommon PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
+
+set_target_properties(aceFile PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
+set_target_properties(aceFile PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
 
 set_target_properties(aceCore PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
 set_target_properties(aceCore PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
@@ -392,6 +403,11 @@ endif()
 # インストール先を決定
 install(
 	TARGETS aceCommon
+	ARCHIVE DESTINATION lib
+	LIBRARY DESTINATION lib)
+
+install(
+	TARGETS aceFile
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib)
 

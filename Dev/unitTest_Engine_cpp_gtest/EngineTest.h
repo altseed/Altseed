@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include <ace.h>
@@ -15,22 +15,22 @@ private:
 
 protected:
 	/**
-		@brief	ƒI[ƒo[ƒ‰ƒCƒh‚µ‚ÄAƒƒCƒ“ƒ‹[ƒv‚æ‚è‘O‚ÌƒAƒT[ƒVƒ‡ƒ“‚â‰Šú‰»‚ð‹Lq‚Å‚«‚éB
+		@brief	ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ã€ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—ã‚ˆã‚Šå‰ã®ã‚¢ã‚µãƒ¼ã‚·ãƒ§ãƒ³ã‚„åˆæœŸåŒ–ã‚’è¨˜è¿°ã§ãã‚‹ã€‚
 	*/
 	virtual void OnStart();
 
 	/**
-		@brief	ƒI[ƒo[ƒ‰ƒCƒh‚µ‚ÄAƒƒCƒ“ƒ‹[ƒv“à‚ÌƒAƒT[ƒVƒ‡ƒ“‚È‚Ç‚ð‹Lq‚Å‚«‚éB
+		@brief	ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ã€ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—å†…ã®ã‚¢ã‚µãƒ¼ã‚·ãƒ§ãƒ³ãªã©ã‚’è¨˜è¿°ã§ãã‚‹ã€‚
 	*/
 	virtual void OnUpdating();
 
 	/**
-		@brief	ƒI[ƒo[ƒ‰ƒCƒh‚µ‚ÄAƒƒCƒ“ƒ‹[ƒv“à‚ÌƒAƒT[ƒVƒ‡ƒ“‚È‚Ç‚ð‹Lq‚Å‚«‚éB
+		@brief	ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ã€ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—å†…ã®ã‚¢ã‚µãƒ¼ã‚·ãƒ§ãƒ³ãªã©ã‚’è¨˜è¿°ã§ãã‚‹ã€‚
 	*/
 	virtual void OnUpdated();
 
 	/**
-		@brief	ƒI[ƒo[ƒ‰ƒCƒh‚µ‚ÄAƒƒCƒ“ƒ‹[ƒv‚ÌŒã‚ÌƒAƒT[ƒVƒ‡ƒ“‚âI—¹ˆ—‚ð‹Lq‚Å‚«‚éB
+		@brief	ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ã€ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—ã®å¾Œã®ã‚¢ã‚µãƒ¼ã‚·ãƒ§ãƒ³ã‚„çµ‚äº†å‡¦ç†ã‚’è¨˜è¿°ã§ãã‚‹ã€‚
 	*/
 	virtual void OnFinish();
 
@@ -42,9 +42,9 @@ public:
 extern void AssertMemoryDoesntLeak();
 
 /**
-	@brief	EngineTestƒNƒ‰ƒX‚ðŒp³‚µ‚½ƒeƒXƒg ƒNƒ‰ƒX‚É‚æ‚éƒeƒXƒg‚ðŽÀs‚·‚éB
-	@param	T				ŽÀs‚·‚éƒeƒXƒgƒNƒ‰ƒX‚ÌŒ^Bˆø”‚ÉAOpenGLƒ‚[ƒh‚©‚Ç‚¤‚©‚ð•\‚·^‹U’l‚ð‚P‚Â‚¾‚¯‚Æ‚éƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ª•K—v‚Å‚ ‚éB
-	@param	isOpenGLMode	OpenGLƒ‚[ƒh‚©‚Ç‚¤‚©B
+	@brief	EngineTestã‚¯ãƒ©ã‚¹ã‚’ç¶™æ‰¿ã—ãŸãƒ†ã‚¹ãƒˆ ã‚¯ãƒ©ã‚¹ã«ã‚ˆã‚‹ãƒ†ã‚¹ãƒˆã‚’å®Ÿè¡Œã™ã‚‹ã€‚
+	@param	T				å®Ÿè¡Œã™ã‚‹ãƒ†ã‚¹ãƒˆã‚¯ãƒ©ã‚¹ã®åž‹ã€‚å¼•æ•°ã«ã€OpenGLãƒ¢ãƒ¼ãƒ‰ã‹ã©ã†ã‹ã‚’è¡¨ã™çœŸå½å€¤ã‚’ï¼‘ã¤ã ã‘ã¨ã‚‹ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ãŒå¿…è¦ã§ã‚ã‚‹ã€‚
+	@param	isOpenGLMode	OpenGLãƒ¢ãƒ¼ãƒ‰ã‹ã©ã†ã‹ã€‚
 */
 template<class T>
 extern void RunTest(bool isOpenGLMode)

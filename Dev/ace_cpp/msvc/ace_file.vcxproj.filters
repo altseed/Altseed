@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{7036fd16-6a29-4ad1-b89a-53a02191c916}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D">
+      <UniqueIdentifier>{c2f34220-619f-4744-bd93-7f42a068a92f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\file\Graphics\3D\ace.MassModel3D_IO.h">
+      <Filter>Graphics\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\file\Graphics\3D\ace.Model3D_IO.h">
+      <Filter>Graphics\3D</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\file\Graphics\3D\ace.Model3D_IO.cpp">
+      <Filter>Graphics\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\file\Graphics\3D\ace.MassModel3D_IO.cpp">
+      <Filter>Graphics\3D</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
