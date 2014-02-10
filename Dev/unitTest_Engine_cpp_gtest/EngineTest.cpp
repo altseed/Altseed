@@ -63,18 +63,15 @@ void EngineTest::Run()
 	option.GraphicsType = m_isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
 	option.IsMultithreadingMode = true;
 
-	auto engine = ace::GetEngine();
-	ASSERT_NE(engine, nullptr);
-
-	auto initialized = engine->Initialize(m_title.c_str(), 640, 480, option);
+	auto initialized = ace::Engine::Initialize(m_title.c_str(), 640, 480, option);
 	ASSERT_EQ(true, initialized);
 
 	OnStart();
 
-	while (engine->DoEvents())
+	while (ace::Engine::DoEvents())
 	{
 		OnUpdating();
-		engine->Update();
+		ace::Engine::Update();
 		OnUpdated();
 
 		if (time == m_exitTime)
@@ -83,7 +80,7 @@ void EngineTest::Run()
 			tail += ".png";
 			astring fileName = directory + m_title + ToAString(tail.c_str());
 
-			engine->TakeScreenshot(fileName.c_str());
+			ace::Engine::TakeScreenshot(fileName.c_str());
 		}
 		if (time == m_exitTime + 2)
 		{
@@ -95,7 +92,7 @@ void EngineTest::Run()
 
 	OnFinish();
 
-	engine->Terminate();
+	ace::Engine::Terminate();
 }
 
 void AssertMemoryDoesntLeak()

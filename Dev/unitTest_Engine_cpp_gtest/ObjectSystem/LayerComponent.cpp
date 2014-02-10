@@ -30,7 +30,7 @@ protected:
 		{
 			auto object = make_shared<TextureObject2D>();
 			object->SetPosition(Vector2DF(time % 320, time % 240));
-			object->SetTexture(GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
+			object->SetTexture(ace::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
 			GetOwner()->AddObject(object);
 		}
 
@@ -52,7 +52,7 @@ protected:
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 
-		GetEngine()->ChangeScene(scene);
+		ace::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 
 		auto componentName = ToAString("generator");

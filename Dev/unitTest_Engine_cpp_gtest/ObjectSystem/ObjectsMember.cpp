@@ -46,7 +46,7 @@ protected:
 		object->SetTurnUL(false);
 		ASSERT_EQ(object->GetTurnUL(), false);
 
-		auto g = ace::GetGraphics();
+		auto g = ace::Engine::GetGraphics();
 		object->SetTexture(g->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
 		ASSERT_NE(object->GetTexture(), nullptr);
 	}

@@ -8,18 +8,16 @@ void Profiler_Profiling(bool isOpenGLMode)
 	ace::EngineOption option;
 	option.GraphicsType = isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
 
-	{
-		auto engine = ace::GetEngine();
+	{	
+		ace::Engine::Initialize(ace::ToAString("Profiling").c_str(), 640, 480, option);
 	
-		engine->Initialize(ace::ToAString("Profiling").c_str(), 640, 480, option);
-	
-		auto profiler = ace::GetProfiler();
+		auto profiler = ace::Engine::GetProfiler();
 
 		printf("printfで負荷をかけます\n");
-		while (engine->DoEvents())
+		while (ace::Engine::DoEvents())
 		{
 			profiler->Start(12);
-			engine->Update();
+			ace::Engine::Update();
 			profiler->End(12);
 
 
@@ -35,7 +33,7 @@ void Profiler_Profiling(bool isOpenGLMode)
 		}
 		printf("\n");
 
-		engine->Terminate();
+		ace::Engine::Terminate();
 	}
 
 	auto ref = ace::GetGlobalReferenceCount();

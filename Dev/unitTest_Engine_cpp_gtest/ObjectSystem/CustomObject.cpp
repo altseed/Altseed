@@ -12,7 +12,7 @@ protected:
 	void OnStart()
 	{
 		SetTexture(
-			GetGraphics()->CreateTexture2D(
+			ace::Engine::GetGraphics()->CreateTexture2D(
 				ToAString("Data/Texture/Cloud1.png").c_str()));
 	}
 
@@ -38,7 +38,7 @@ protected:
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 		auto object = make_shared<CustomObject>();
-		GetEngine()->ChangeScene(scene);
+		ace::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(object);
 	}

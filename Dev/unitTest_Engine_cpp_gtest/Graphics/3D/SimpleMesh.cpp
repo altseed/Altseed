@@ -89,7 +89,7 @@ static std::shared_ptr<ace::Deformer> CreateDeformer(ace::Graphics* graphics)
 
 static std::shared_ptr<ace::AnimationClip> CreateAnimation()
 {
-	auto factory = ace::GetAnimationSyatem();
+	auto factory = ace::Engine::GetAnimationSyatem();
 
 	auto clip = factory->CreateAnimationClip();
 	auto source = factory->CreateAnimationSource();
@@ -128,8 +128,6 @@ public:
 protected:
 	void OnStart() override
 	{
-		auto engine = ace::GetEngine();
-
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer3D>();
 		auto meshObj = std::make_shared<ace::ModelObject3D>();
@@ -140,11 +138,11 @@ protected:
 		layer->AddObject(meshObj);
 		layer->AddObject(lightObj);
 		layer->AddObject(cameraObj);
-		engine->ChangeScene(scene);
+		ace::Engine::ChangeScene(scene);
 
 		
-		auto mesh = CreateMesh(ace::GetGraphics());
-		auto deformer = CreateDeformer(ace::GetGraphics());
+		auto mesh = CreateMesh(ace::Engine::GetGraphics());
+		auto deformer = CreateDeformer(ace::Engine::GetGraphics());
 		auto animation = CreateAnimation();
 
 		cameraObj->SetPosition(ace::Vector3DF(0, 0, 10));

@@ -15,16 +15,14 @@ protected:
 	float intensity = 0.0f;
 	void OnStart() override
 	{
-		auto engine = ace::GetEngine();
-
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer2D>();
 		auto object = std::make_shared<ace::TextureObject2D>();
 		scene->AddLayer(layer);
 		layer->AddObject(object);
-		engine->ChangeScene(scene);
+		ace::Engine::ChangeScene(scene);
 
-		auto g = ace::GetGraphics();
+		auto g = ace::Engine::GetGraphics();
 		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
 		object->SetTexture(texture);
 		object->SetScale(ace::Vector2DF(1, 1));

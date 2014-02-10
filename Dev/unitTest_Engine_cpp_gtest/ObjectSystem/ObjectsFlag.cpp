@@ -12,7 +12,7 @@ class ObjectSystem_ObjectsFlag : public EngineTest
 	public:
 		MyObject(float x, float y)
 		{
-			auto texture = GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());
+			auto texture = ace::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());
 			SetTexture(texture);
 			SetPosition(Vector2DF(x, y));
 			SetCenterPosition(Vector2DF(128, 128));
@@ -48,7 +48,7 @@ protected:
 		layer->AddObject(isntUpdated);
 
 		scene->AddLayer(layer);
-		GetEngine()->ChangeScene(scene);
+		ace::Engine::ChangeScene(scene);
 	}
 };
 

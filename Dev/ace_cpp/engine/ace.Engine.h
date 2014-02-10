@@ -43,20 +43,30 @@ namespace ace {
 
 	class Engine
 	{
-		friend Engine* GetEngine();
-
 	public:
 		typedef std::shared_ptr<Scene> ScenePtr;
 
+		static Core*					m_core;
+
+		static Keyboard* m_keyboard ;
+		static Mouse* m_mouse ;
+		static JoystickContainer* m_joystickContainer ;
+		static Log* m_logger ;
+		static Profiler* m_profiler ;
+		static Graphics* m_graphics ;
+		static ObjectSystemFactory* m_objectSystemFactory ;
+		static AnimationSystem* m_animationSyatem ;
+
+
+		static std::shared_ptr<Scene>	m_currentScene;
+		static std::shared_ptr<Scene>	m_nextScene;
+
 	private:
-		Core*	m_core;
-		ScenePtr m_currentScene;
-		ScenePtr m_nextScene;
-		
 		static bool HasDLL(const char* path);
 		static bool CheckDLL();
+		static bool GenerateCore();
 
-		Engine(Core* core);
+		Engine();
 		~Engine();
 
 	public:
@@ -68,7 +78,7 @@ namespace ace {
 			@param	option	オプション
 			@return	成否
 		*/
-		bool Initialize(const achar* title, int32_t width, int32_t height, EngineOption option);
+		static bool Initialize(const achar* title, int32_t width, int32_t height, EngineOption option);
 
 		/**
 			@brief	初期化を行う。
@@ -79,52 +89,94 @@ namespace ace {
 			@param	option	オプション
 			@return	成否
 		*/
-		bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, EngineOption option);
+		static bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, EngineOption option);
 
 		/**
 			@brief	イベントを実行し、進行可否を判断する。
 			@return	進行可能か?
 		*/
-		bool DoEvents();
+		static bool DoEvents();
 
 		/**
 			@brief	更新処理を行う。
 		*/
-		void Update();
+		static void Update();
 
 		/**
 			@brief	終了処理を行う。
 		*/
-		void Terminate();
+		static void Terminate();
 
 		/**
 			@brief	描画する対象となるシーンを変更する。
 		*/
-		void ChangeScene(std::shared_ptr<Scene>& scene);
+		static void ChangeScene(std::shared_ptr<Scene>& scene);
 
 		/**
 		@brief	スクリーンショットをpngとして保存する。
 		@param	path	出力先
 		*/
-		void TakeScreenshot(const achar* path);
+		static void TakeScreenshot(const achar* path);
 
 		/**
 		@brief	現在のFPSを取得する。
 		@return FPS
 		*/
-		float GetCurrentFPS();
+		static float GetCurrentFPS();
 
 		/**
 		@brief	目標FPSを取得する。
 		@return	FPS
 		*/
-		int32_t GetTargetFPS();
+		static int32_t GetTargetFPS();
 
 		/**
 		@brief	目標FPSを設定する。
 		@param	fps	FPS
 		*/
-		void SetTargetFPS(int32_t fps);
+		static void SetTargetFPS(int32_t fps);
+
+
+		/**
+		@brief キーボードクラスを取得する。
+		@return キーボード
+		*/
+		static Keyboard* GetKeyboard();
+
+		/**
+		@brief マウスクラスを取得する。
+		@return マウス
+		*/
+		static Mouse* GetMouse();
+
+		/**
+		@brief	ログクラスを取得する。
+		@return	ログクラス
+		*/
+		static Log* GetLogger();
+
+		/**
+		@brief	プロファイラクラスを取得する。
+		@return	プロファイラクラス
+		*/
+		static Profiler* GetProfiler();
+
+		/**
+		@brief	ジョイスティックコンテナクラスを取得する。
+		@return	ジョイスティックコンテナクラス
+		*/
+		static JoystickContainer* GetJoystickContainer();
+
+		/**
+		@brief	Graphicsクラスを取得する。
+		*/
+		static Graphics* GetGraphics();
+
+		/**
+		@brief	AnimationSyatemクラスを取得する。
+		preturn	AnimationSyatemクラス
+		*/
+		static AnimationSystem* GetAnimationSyatem();
 
 #if _WIN32
 
@@ -137,59 +189,12 @@ namespace ace {
 			@param	option	オプション
 			@return	成否
 		*/
-		bool Initialize(const wchar_t* title, int32_t width, int32_t height, EngineOption option)
+		static bool Initialize(const wchar_t* title, int32_t width, int32_t height, EngineOption option)
 		{
 			return Initialize( ToAString(title).c_str(), width, height, option );
 		}
 #endif
 	};
-
-	/**
-		@brief	エンジンを取得する。
-		@return	エンジン
-	*/
-	Engine* GetEngine();
-
-	/**
-		@brief キーボードクラスを取得する。
-		@return キーボード
-	*/
-	Keyboard* GetKeyboard();
-
-	/**
-		@brief マウスクラスを取得する。
-		@return マウス
-	*/
-	Mouse* GetMouse();
-
-	/**
-		@brief	ログクラスを取得する。
-		@return	ログクラス
-	*/
-	Log* GetLogger();
-
-	/**
-	@brief	プロファイラクラスを取得する。
-	@return	プロファイラクラス
-	*/
-	Profiler* GetProfiler();
-
-	/**
-	@brief	ジョイスティックコンテナクラスを取得する。
-	@return	ジョイスティックコンテナクラス
-	*/
-	JoystickContainer* GetJoystickContainer();
-
-	/**
-		@brief	Graphicsクラスを取得する。
-	*/
-	Graphics* GetGraphics();
-
-	/**
-	@brief	AnimationSyatemクラスを取得する。
-	preturn	AnimationSyatemクラス
-	*/
-	AnimationSystem* GetAnimationSyatem();
 
 	//----------------------------------------------------------------------------------
 	//

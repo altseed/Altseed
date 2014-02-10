@@ -17,11 +17,10 @@ public:
 protected:
 	void OnStart()
 	{
-		auto engine = GetEngine();
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 
-		engine->ChangeScene(scene);
+		ace::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 	}
 };

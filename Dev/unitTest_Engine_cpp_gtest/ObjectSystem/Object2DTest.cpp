@@ -17,24 +17,22 @@ public:
 protected:
 	void OnStart()
 	{
-		auto engine = GetEngine();
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 		auto object = make_shared<TextureObject2D>();
 		auto object2 = make_shared<TextureObject2D>();
 
-		ASSERT_NE(engine, nullptr);
 		ASSERT_NE(scene, nullptr);
 		ASSERT_NE(layer, nullptr);
 		ASSERT_NE(object, nullptr);
 		ASSERT_NE(object2, nullptr);
 
-		engine->ChangeScene(scene);
+		ace::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(object);
 		layer->AddObject(object2);
 
-		auto g = ace::GetGraphics();
+		auto g = ace::Engine::GetGraphics();
 		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Cloud1.png").c_str());
 		object->SetTexture(texture);
 		object2->SetTexture(texture);

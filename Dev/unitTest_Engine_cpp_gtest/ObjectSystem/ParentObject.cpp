@@ -25,13 +25,13 @@ protected:
 		auto child = make_shared<TextureObject2D>();
 		m_parent = make_shared<TextureObject2D>();
 
-		GetEngine()->ChangeScene(scene);
+		ace::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(m_parent);
 		layer->AddObject(child);
 		m_parent->AddChild(child, eChildMode::CHILD_MODE_ALL);
 
-		auto g = ace::GetGraphics();
+		auto g = ace::Engine::GetGraphics();
 		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Cloud1.png").c_str());
 		m_parent->SetTexture(texture);
 		child->SetTexture(texture);

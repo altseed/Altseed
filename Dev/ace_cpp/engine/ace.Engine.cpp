@@ -103,19 +103,11 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	static Engine*	g_engine = nullptr;
-	static Keyboard* g_keyboard = nullptr;
-	static Mouse* g_mouse = nullptr;
-	static JoystickContainer* g_joystickContainer = nullptr;
-	static Log* g_logger = nullptr;
-	static Profiler* g_profiler = nullptr;
+	
 	static std::shared_ptr <DynamicLinkLibrary>	g_dll = nullptr;
-	static Graphics* g_graphics = nullptr;
-	ObjectSystemFactory* g_objectSystemFactory = nullptr;
-	static AnimationSystem* g_animationSyatem = nullptr;
-
 	static GetIntFunc g_GetGlobalRef = nullptr;
-
+	ObjectSystemFactory* g_objectSystemFactory = nullptr;
+	
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -162,11 +154,88 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Engine::Engine(Core* core)
-		: m_core(core)
-		, m_currentScene(nullptr)
+	bool Engine::GenerateCore()
 	{
+		// DLLからコアを生成する。
+		if (m_core == nullptr)
+		{
+			g_dll = std::shared_ptr<DynamicLinkLibrary>(new DynamicLinkLibrary());
 
+#if _WIN32
+#if _DEBUG
+			const char* path = "ace_core.dll";
+#else
+			const char* path = "ace_core.dll";
+#endif
+#else
+#if _DEBUG
+			const char* path = "libace_core.so";
+#else
+			const char* path = "libace_core.so";
+#endif
+#endif
+			if (!g_dll->Load(path))
+			{
+				g_dll.reset();
+				return false;
+			}
+
+			{
+#if _WIN32
+				const char* name = "_CreateCore@0";
+#else
+				const char* name = "CreateCore";
+#endif
+				auto pProc = g_dll->GetProc<Core*(*)()>(name);
+				if (pProc == NULL)
+				{
+					return false;
+				}
+
+				m_core = pProc();
+			}
+
+			{
+#if _WIN32
+				const char* name = "_GetGlobalReferenceCount__@0";
+#else
+				const char* name = "GetGlobalReferenceCount__";
+#endif
+				auto pProc = g_dll->GetProc<GetIntFunc>(name);
+				if (pProc == NULL)
+				{
+					return false;
+				}
+
+				g_GetGlobalRef = pProc;
+			}
+		}
+
+		return true;
+	}
+
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	Core* Engine::m_core = nullptr;
+	Keyboard* Engine::m_keyboard = nullptr;
+	Mouse* Engine::m_mouse = nullptr;
+	JoystickContainer* Engine::m_joystickContainer = nullptr;
+	Log* Engine::m_logger = nullptr;
+	Profiler* Engine::m_profiler = nullptr;
+	Graphics* Engine::m_graphics = nullptr;
+	ObjectSystemFactory* Engine::m_objectSystemFactory = nullptr;
+	AnimationSystem* Engine::m_animationSyatem = nullptr;
+
+	std::shared_ptr<Scene>	Engine::m_currentScene;
+	std::shared_ptr<Scene>	Engine::m_nextScene;
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	Engine::Engine()
+	{
 	}
 
 	//----------------------------------------------------------------------------------
@@ -183,19 +252,22 @@ namespace ace
 	{
 		if (!CheckDLL()) return false;
 
-		if (this == nullptr) return false;
+		if (!GenerateCore()) return false;
 
 		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, option.GraphicsType != eGraphicsType::GRAPHICS_TYPE_DX11, option.IsMultithreadingMode);
 		if (init)
 		{
-			g_keyboard = m_core->GetKeyboard();
-			g_mouse = m_core->GetMouse();
-			g_logger = m_core->GetLogger();
-			g_profiler = m_core->GetProfiler();
-			g_joystickContainer = m_core->GetJoystickContainer();
-			g_objectSystemFactory = m_core->GetObjectSystemFactory();
-			g_graphics = m_core->GetGraphics();
-			g_animationSyatem = m_core->GetAnimationSyatem();
+			m_logger = m_core->GetLogger();
+			m_profiler = m_core->GetProfiler();
+			m_objectSystemFactory = m_core->GetObjectSystemFactory();
+			m_graphics = m_core->GetGraphics();
+			m_animationSyatem = m_core->GetAnimationSyatem();
+
+			m_keyboard = m_core->GetKeyboard();
+			m_mouse = m_core->GetMouse();
+			m_joystickContainer = m_core->GetJoystickContainer();
+
+			g_objectSystemFactory = m_objectSystemFactory;
 		}
 
 		return init;
@@ -208,17 +280,18 @@ namespace ace
 	{
 		if (!CheckDLL()) return false;
 
-		if (this == nullptr) return false;
+		if (!GenerateCore()) return false;
 
 		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, option.GraphicsType != eGraphicsType::GRAPHICS_TYPE_DX11, option.IsMultithreadingMode);
 		if (init)
 		{
-			g_logger = m_core->GetLogger();
-			g_profiler = m_core->GetProfiler();
-			g_objectSystemFactory = m_core->GetObjectSystemFactory();
-			g_graphics = m_core->GetGraphics();
+			m_logger = m_core->GetLogger();
+			m_profiler = m_core->GetProfiler();
+			m_objectSystemFactory = m_core->GetObjectSystemFactory();
+			m_graphics = m_core->GetGraphics();
+			m_animationSyatem = m_core->GetAnimationSyatem();
 
-			g_animationSyatem = m_core->GetAnimationSyatem();
+			g_objectSystemFactory = m_objectSystemFactory;
 		}
 		return init;
 	}
@@ -228,7 +301,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	bool Engine::DoEvents()
 	{
-		if (this == nullptr) return false;
+		if (m_core == nullptr) return false;
 
 		if (m_nextScene != nullptr)
 		{
@@ -244,7 +317,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Engine::Update()
 	{
-		if (this == nullptr) return;
+		if (m_core == nullptr) return;
 
 		m_core->BeginDrawing();
 
@@ -268,16 +341,14 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Engine::Terminate()
 	{
-		if (this == nullptr) return;
+		if (m_core == nullptr) return;
 
 		m_currentScene.reset();
+		m_nextScene.reset();
 
 		m_core->Terminate();
 
 		SafeRelease(m_core);
-
-		delete this;
-		g_engine = nullptr;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -323,121 +394,57 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Engine* GetEngine()
+	Keyboard* Engine::GetKeyboard()
 	{
-		// DLLからエンジンを生成する。
-		if (g_engine == nullptr)
-		{
-			g_dll = std::shared_ptr<DynamicLinkLibrary>(new DynamicLinkLibrary());
-
-#if _WIN32
-#if _DEBUG
-			const char* path = "ace_core.dll";
-#else
-			const char* path = "ace_core.dll";
-#endif
-#else
-#if _DEBUG
-			const char* path = "libace_core.so";
-#else
-			const char* path = "libace_core.so";
-#endif
-#endif
-			if (!g_dll->Load(path))
-			{
-				g_dll.reset();
-				return nullptr;
-			}
-
-			{
-#if _WIN32
-				const char* name = "_CreateCore@0";
-#else
-				const char* name = "CreateCore";
-#endif
-				auto pProc = g_dll->GetProc<Core*(*)()>(name);
-				if (pProc == NULL)
-				{
-					return nullptr;
-				}
-	
-				auto core = pProc();
-				g_engine = new Engine(core);
-			}
-
-			{
-#if _WIN32
-				const char* name = "_GetGlobalReferenceCount__@0";
-#else
-				const char* name = "GetGlobalReferenceCount__";
-#endif
-				auto pProc = g_dll->GetProc<GetIntFunc>(name);
-				if (pProc == NULL)
-				{
-					return nullptr;
-				}
-
-				g_GetGlobalRef = pProc;
-			}
-		}
-
-		return g_engine;
+		return m_keyboard;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Keyboard* GetKeyboard()
+	Mouse* Engine::GetMouse()
 	{
-		return g_keyboard;
+		return m_mouse;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Mouse* GetMouse()
+	Log* Engine::GetLogger()
 	{
-		return g_mouse;
+		return m_logger;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Log* GetLogger()
+	Profiler* Engine::GetProfiler()
 	{
-		return g_logger;
+		return m_profiler;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Profiler* GetProfiler()
+	JoystickContainer* Engine::GetJoystickContainer()
 	{
-		return g_profiler;
+		return m_joystickContainer;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	JoystickContainer* GetJoystickContainer()
+	Graphics* Engine::GetGraphics()
 	{
-		return g_joystickContainer;
+		return m_graphics;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Graphics* GetGraphics()
+	AnimationSystem* Engine::GetAnimationSyatem()
 	{
-		return g_graphics;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	AnimationSystem* GetAnimationSyatem()
-	{
-		return g_animationSyatem;
+		return m_animationSyatem;
 	}
 
 	//----------------------------------------------------------------------------------
