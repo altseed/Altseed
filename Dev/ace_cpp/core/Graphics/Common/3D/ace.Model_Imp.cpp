@@ -202,7 +202,7 @@ namespace ace
 		for (int32_t i = 0; i < bcount; i++)
 		{
 			uint8_t offset[32];
-			for (int32_t i = 0; i < 32; i++) offset[i] = reader.Get<uint8_t>();
+			for (int32_t j = 0; j < 32; j++) offset[j] = reader.Get<uint8_t>();
 			auto facecount = reader.Get<int32_t>();
 
 			mesh->AddInternalBoneOffset(offset, facecount);
