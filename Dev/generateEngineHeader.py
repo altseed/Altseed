@@ -64,6 +64,7 @@ engineHeader.readLines("ace_cpp/common/Utility/ace.PointerArray.h")
 engineHeader.readLines("ace_cpp/common/Utility/ace.Timer.h")
 engineHeader.readLines("ace_cpp/common/Utility/ace.TypeErasureCopy.h")
 
+engineHeader.readLines("ace_cpp/common/Graphics/ace.Graphics.Common.h")
 engineHeader.readLines("ace_cpp/common/Graphics/ace.Color.h")
 
 engineHeader.readLines("ace_cpp/core/ace.Core.Base.h")

@@ -6,6 +6,7 @@
 #include <Math/ace.Vector3DF.h>
 #include <Math/ace.Matrix44.h>
 #include <Graphics/ace.Color.h>
+#include <Graphics/ace.Graphics.Common.h>
 
 #include "../../../ace.Core.Base.h"
 #include "../../../ace.ReferenceObject.h"

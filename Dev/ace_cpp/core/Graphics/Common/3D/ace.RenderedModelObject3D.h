@@ -2,6 +2,7 @@
 #pragma once
 
 #include "ace.RenderedObject3D.h"
+#include <Graphics/ace.Graphics.Common.h>
 
 namespace ace
 {

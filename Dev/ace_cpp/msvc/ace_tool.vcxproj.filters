@@ -9,18 +9,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\file\Graphics\3D\ace.MassModel3D_IO.h">
+    <ClInclude Include="..\tool\Graphics\3D\ace.MassModel_IO.h">
       <Filter>Graphics\3D</Filter>
     </ClInclude>
-    <ClInclude Include="..\file\Graphics\3D\ace.Model3D_IO.h">
+    <ClInclude Include="..\tool\Graphics\3D\ace.Model_IO.h">
       <Filter>Graphics\3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\file\Graphics\3D\ace.Model3D_IO.cpp">
+    <ClCompile Include="..\tool\Graphics\3D\ace.Model_IO.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\file\Graphics\3D\ace.MassModel3D_IO.cpp">
+    <ClCompile Include="..\tool\Graphics\3D\ace.MassModel_IO.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
   </ItemGroup>
