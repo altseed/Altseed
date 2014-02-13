@@ -5,6 +5,7 @@
 #include "../../../ace.ReferenceObject.h"
 
 #include <Math/ace.Vector2DF.h>
+#include <Graphics/ace.Graphics.Common.h>
 
 namespace ace
 {

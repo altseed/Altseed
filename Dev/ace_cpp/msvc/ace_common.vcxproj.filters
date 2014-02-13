@@ -56,6 +56,9 @@
     <ClInclude Include="..\common\Math\ace.RectI.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="..\common\Graphics\ace.Graphics.Common.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\Math\ace.Matrix44.cpp">

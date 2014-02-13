@@ -44,6 +44,8 @@ fromCoreToEngine.append('#pragma once')
 fromCoreToEngine.append('\n#include <stdint.h>')
 fromCoreToEngine.append('\n#include <ace.common.Base.h>')
 
+fromCoreToEngine.readLines("ace_cpp/common/Graphics/ace.Graphics.Common.h")
+
 fromCoreToEngine.readLines("ace_cpp/common/Graphics/ace.Color.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector2DF.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector2DI.h")

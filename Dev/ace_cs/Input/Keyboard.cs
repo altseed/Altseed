@@ -145,7 +145,7 @@ namespace ace
         KPAdd = ace.swig.eKeys.ACE_KEY_KP_ADD,
         KPEnter = ace.swig.eKeys.ACE_KEY_KP_ENTER,
         KPEqual = ace.swig.eKeys.ACE_KEY_KP_EQUAL,
-        LeftShit = ace.swig.eKeys.ACE_KEY_LEFT_SHIFT,
+        LeftShift = ace.swig.eKeys.ACE_KEY_LEFT_SHIFT,
         LeftControl = ace.swig.eKeys.ACE_KEY_LEFT_CONTROL,
         LeftAlt = ace.swig.eKeys.ACE_KEY_LEFT_ALT,
         LeftSuper = ace.swig.eKeys.ACE_KEY_LEFT_SUPER,

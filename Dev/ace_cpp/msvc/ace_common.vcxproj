@@ -75,6 +75,7 @@
   <ItemGroup>
     <ClInclude Include="..\common\ace.common.Base.h" />
     <ClInclude Include="..\common\Graphics\ace.Color.h" />
+    <ClInclude Include="..\common\Graphics\ace.Graphics.Common.h" />
     <ClInclude Include="..\common\Math\ace.Matrix33.h" />
     <ClInclude Include="..\common\Math\ace.Matrix43.h" />
     <ClInclude Include="..\common\Math\ace.Matrix44.h" />

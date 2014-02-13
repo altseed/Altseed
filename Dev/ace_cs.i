@@ -316,6 +316,8 @@ namespace ace
 	struct RectI;
 }
 
+%include "ace_cpp/common/Graphics/ace.Graphics.Common.h"
+
 %include "ace_cpp/core/ace.Core.Base.h"
 %include "ace_cpp/core/ace.ReferenceObject.h"
 

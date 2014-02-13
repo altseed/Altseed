@@ -52,7 +52,6 @@ namespace ace
 			int32_t		BoneWeights;
 			int32_t		BoneIndexes;
 			int32_t		BoneIndexesOriginal;
-
 		};
 
 		struct Face

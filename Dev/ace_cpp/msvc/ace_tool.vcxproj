@@ -11,16 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\file\Graphics\3D\ace.MassModel3D_IO.h" />
-    <ClInclude Include="..\file\Graphics\3D\ace.Model3D_IO.h" />
+    <ClInclude Include="..\tool\Graphics\3D\ace.MassModel_IO.h" />
+    <ClInclude Include="..\tool\Graphics\3D\ace.Model_IO.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\file\Graphics\3D\ace.MassModel3D_IO.cpp" />
-    <ClCompile Include="..\file\Graphics\3D\ace.Model3D_IO.cpp" />
+    <ClCompile Include="..\tool\Graphics\3D\ace.MassModel_IO.cpp" />
+    <ClCompile Include="..\tool\Graphics\3D\ace.Model_IO.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E500B6B8-E90E-46D7-B6D0-F85388E0D75E}</ProjectGuid>
     <RootNamespace>ace_file</RootNamespace>
+    <ProjectName>ace_tool</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
