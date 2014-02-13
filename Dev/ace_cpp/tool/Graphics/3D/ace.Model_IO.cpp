@@ -1,4 +1,4 @@
-
+ï»¿
 #include "ace.Model_IO.h"
 
 namespace ace
@@ -10,7 +10,7 @@ namespace ace
 		BinaryReader reader;
 		reader.ReadIn(data.begin(), data.end());
 
-		// ƒwƒbƒ_[ƒ`ƒFƒbƒN
+		// ãƒ˜ãƒƒãƒ€ãƒ¼ãƒã‚§ãƒƒã‚¯
 		uint8_t header_true [] = "MDL";
 		for (int32_t i = 0; i < 4; i++)
 		{
@@ -18,10 +18,10 @@ namespace ace
 			if (header_true[i] != h) return false;
 		}
 
-		// ƒo[ƒWƒ‡ƒ“
+		// ãƒãƒ¼ã‚¸ãƒ§ãƒ³
 		int32_t version = reader.Get<int32_t>();
 
-		// ƒƒbƒVƒ…ƒOƒ‹[ƒv
+		// ãƒ¡ãƒƒã‚·ãƒ¥ã‚°ãƒ«ãƒ¼ãƒ—
 		int32_t meshGroupCount = reader.Get<int32_t>();
 		MeshGroups.resize(meshGroupCount);
 		for (int32_t i = 0; i < meshGroupCount; i++)
@@ -29,7 +29,7 @@ namespace ace
 			LoadMeshGroup(&(MeshGroups[i]), reader, path);
 		}
 
-		// ƒAƒjƒ[ƒVƒ‡ƒ“
+		// ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
 		int32_t sourceCount = reader.Get<int32_t>();
 		AnimationSources.resize(sourceCount);
 		for (int32_t i = 0; i < sourceCount; i++)
