@@ -224,6 +224,13 @@ namespace ace {
 			float	Z;
 		};
 
+		struct Vector4DF_R
+		{
+			float	X;
+			float	Y;
+			float	Z;
+			float	W;
+		};
 		struct Color_R
 		{
 			uint8_t	R;

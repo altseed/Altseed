@@ -81,6 +81,7 @@
     <Compile Include="Math\Vector2DF.cs" />
     <Compile Include="Math\Vector2DI.cs" />
     <Compile Include="Math\Vector3DF.cs" />
+    <Compile Include="Math\Vector4DF.cs" />
     <Compile Include="ObjectSystem\2D\CameraObject2D.cs" />
     <Compile Include="ObjectSystem\3D\CameraObject3D.cs" />
     <Compile Include="ObjectSystem\3D\DirectionalLightObject3D.cs" />

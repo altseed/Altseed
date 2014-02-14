@@ -59,6 +59,9 @@
     <ClInclude Include="..\common\Graphics\ace.Graphics.Common.h">
       <Filter>Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="..\common\Math\ace.Vector4DF.h">
+      <Filter>Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\Math\ace.Matrix44.cpp">
@@ -95,6 +98,9 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="..\common\Math\ace.RectI.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Math\ace.Vector4DF.cpp">
       <Filter>Math</Filter>
     </ClCompile>
   </ItemGroup>

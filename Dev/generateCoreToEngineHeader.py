@@ -54,6 +54,7 @@ fromCoreToEngine.append('namespace ace{ struct Vector3DF; }')
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Matrix43.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Matrix44.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector3DF.h")
+fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector4DF.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Matrix33.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/ace.Core.Base.h")

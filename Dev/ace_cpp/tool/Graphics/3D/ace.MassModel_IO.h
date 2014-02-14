@@ -5,6 +5,7 @@
 
 #include <Math/ace.Vector2DF.h>
 #include <Math/ace.Vector3DF.h>
+#include <Math/ace.Vector4DF.h>
 #include <Math/ace.Matrix44.h>
 
 #include <Graphics/ace.Color.h>
@@ -64,7 +65,7 @@ namespace ace
 			std::vector<int32_t> FrameCount;
 			int32_t	TextureWidth;
 			int32_t	TextureHeight;
-			std::vector<uint8_t> Buffer;
+			std::vector<Vector4DF> Buffer;
 		};
 
 		std::vector<Vertex>				Vertices;
