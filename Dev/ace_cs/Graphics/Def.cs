@@ -30,7 +30,8 @@ namespace ace
 
 	public enum TextureFormat
 	{
-		RGBA8888 = swig.eTextureFormat.TEXTURE_FORMAT_RGBA8888
+		R8G8B8A8_UNORM = swig.eTextureFormat.TEXTURE_FORMAT_R8G8B8A8_UNORM,
+		R32G32B32A32_FLOAT = swig.eTextureFormat.TEXTURE_FORMAT_R32G32B32A32_FLOAT
 	}
 
 	public enum GraphicsType

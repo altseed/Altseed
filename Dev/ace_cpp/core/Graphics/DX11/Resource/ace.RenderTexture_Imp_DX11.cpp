@@ -33,7 +33,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture_Imp_DX11* RenderTexture_Imp_DX11::Create(Graphics* graphics, int32_t width, int32_t height)
+	RenderTexture_Imp_DX11* RenderTexture_Imp_DX11::Create(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
 	{
 		auto g = (Graphics_Imp_DX11*) graphics;
 
@@ -47,7 +47,15 @@ namespace ace {
 		TexDesc.Height = height;
 		TexDesc.MipLevels = 1;
 		TexDesc.ArraySize = 1;
-		TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
+		{
+			TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		}
+		else if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
+		{
+			TexDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
+		}
+
 		TexDesc.SampleDesc.Count = 1;
 		TexDesc.SampleDesc.Quality = 0;
 		TexDesc.Usage = D3D11_USAGE_DEFAULT;

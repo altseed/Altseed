@@ -30,7 +30,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture_Imp_GL* RenderTexture_Imp_GL::Create(Graphics* graphics, int32_t width, int32_t height)
+	RenderTexture_Imp_GL* RenderTexture_Imp_GL::Create(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
 	{
 		GLuint texture = 0;
 		glGenTextures(1, &texture);
@@ -39,16 +39,32 @@ namespace ace {
 
 		glBindTexture(GL_TEXTURE_2D, texture);
 
-		glTexImage2D(
-			GL_TEXTURE_2D,
-			0,
-			GL_RGBA,
-			width,
-			height,
-			0,
-			GL_RGBA,
-			GL_UNSIGNED_BYTE,
-			nullptr);
+		if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
+		{
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_RGBA,
+				width,
+				height,
+				0,
+				GL_RGBA,
+				GL_UNSIGNED_BYTE,
+				nullptr);
+		}
+		else if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
+		{
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_RGBA,
+				width,
+				height,
+				0,
+				GL_RGBA,
+				GL_FLOAT,
+				nullptr);
+		}
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 

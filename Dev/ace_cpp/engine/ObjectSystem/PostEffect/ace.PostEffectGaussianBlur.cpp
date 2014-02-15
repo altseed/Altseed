@@ -209,7 +209,7 @@ void main()
 		auto type = src->GetType();
 		if (size.X <= 0 || size.Y <= 0 || m_graphics == nullptr){ return; } // return if the source and/or the graphics are invalid
 		
-		auto tmp = m_graphics->CreateRenderTexture(size.X, size.Y, ace::eTextureFormat::TEXTURE_FORMAT_RGBA8888);
+		auto tmp = m_graphics->CreateRenderTexture(size.X, size.Y, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 		if (tmp->GetSize().X != size.X || tmp->GetSize().Y != size.Y || tmp->GetType() != type){ return; }
 		tmp->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
 		

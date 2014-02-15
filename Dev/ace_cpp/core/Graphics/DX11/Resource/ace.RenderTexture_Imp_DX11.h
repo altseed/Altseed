@@ -26,7 +26,7 @@ namespace ace {
 		virtual ~RenderTexture_Imp_DX11();
 	public:
 
-		static RenderTexture_Imp_DX11* Create(Graphics* graphics, int32_t width, int32_t height);
+		static RenderTexture_Imp_DX11* Create(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format);
 
 		bool Save(const achar* path) override;
 
