@@ -28,6 +28,10 @@ namespace ace {
 
 		bool Save(const achar* path) override;
 
+		bool Lock(TextureLockInfomation& info) override { return false; };
+
+		void Unlock() override {};
+
 		GLuint GetBuffer() { return m_texture; }
 	};
 

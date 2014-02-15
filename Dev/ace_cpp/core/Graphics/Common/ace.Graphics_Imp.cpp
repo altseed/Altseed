@@ -194,6 +194,16 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+int32_t ImageHelper::GetPitch(eTextureFormat format)
+{
+	if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM) return 4;
+	if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT) return 4 * 4;
+	return 0;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 EffectTextureLoader::EffectTextureLoader(Graphics_Imp* graphics)
 	: m_graphics(graphics)
 {
@@ -519,6 +529,14 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 	
 	GetResourceContainer()->Texture2Ds.Regist(path, info, texture);
 	return texture;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Texture2D_Imp* Graphics_Imp::CreateEmptyTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format)
+{
+	return CreateEmptyTexture2D_Imp_Internal(this, width, height, format);
 }
 
 //----------------------------------------------------------------------------------

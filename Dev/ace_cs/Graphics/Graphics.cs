@@ -27,6 +27,19 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 空のテクスチャを生成する。
+		/// </summary>
+		/// <param name="width">横幅</param>
+		/// <param name="height">縦幅</param>
+		/// <param name="format">フォーマット</param>
+		/// <returns>テクスチャ</returns>
+		public Texture2D CreateEmptyTexture2D(int width, int height, TextureFormat format)
+		{
+			var texture = graphics.CreateEmptyTexture2D_Imp(width, height, (swig.eTextureFormat)format);
+			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
+		}
+
+		/// <summary>
 		/// 描画先として指定可能なテクスチャを生成する。
 		/// </summary>
 		/// <param name="width">横幅</param>

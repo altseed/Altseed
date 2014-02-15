@@ -272,6 +272,14 @@ namespace ace {
 			int Width;
 			int Height;
 		};
+
+		struct TextureLockInfomation_R
+		{
+			void* Pixels;
+			int Pitch;
+			Vector2DI_R Size;
+		};
+
 	}
 	//----------------------------------------------------------------------------------
 	//

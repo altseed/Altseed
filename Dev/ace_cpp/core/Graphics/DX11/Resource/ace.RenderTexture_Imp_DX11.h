@@ -30,6 +30,10 @@ namespace ace {
 
 		bool Save(const achar* path) override;
 
+		bool Lock(TextureLockInfomation& info) override { return false; };
+
+		void Unlock() override {};
+
 		ID3D11RenderTargetView* GetRenderTargetView() { return m_textureRTV; }
 		ID3D11ShaderResourceView* GetShaderResourceView() { return m_textureSRV; }
 	};

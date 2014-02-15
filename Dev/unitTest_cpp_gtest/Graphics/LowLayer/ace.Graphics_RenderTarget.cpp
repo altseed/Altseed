@@ -115,7 +115,7 @@ void Graphics_RenderTarget(bool isOpenGLMode)
 	vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
 	vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
 
-	auto renderTexture = graphics->CreateRenderTexture_Imp(320, 240, ace::TEXTURE_FORMAT_RGBA8888);
+	auto renderTexture = graphics->CreateRenderTexture_Imp(320, 240, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 	ASSERT_TRUE(renderTexture != nullptr);
 
 	auto depthBuffer = graphics->CreateDepthBuffer_Imp(320, 240);

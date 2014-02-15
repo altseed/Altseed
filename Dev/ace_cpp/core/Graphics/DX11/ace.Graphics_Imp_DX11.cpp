@@ -534,6 +534,15 @@ Texture2D_Imp* Graphics_Imp_DX11::CreateTexture2D_Imp_Internal(Graphics* graphic
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
+{
+	auto ret = Texture2D_Imp_DX11::Create(this, width, height, format);
+	return ret;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 RenderTexture_Imp* Graphics_Imp_DX11::CreateRenderTexture_Imp(int32_t width, int32_t height, eTextureFormat format)
 {
 	return RenderTexture_Imp_DX11::Create(this, width, height, format);

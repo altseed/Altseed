@@ -162,6 +162,7 @@ STRUCT_OBJECT( ace::RectI, ace::RectI_R, ace.RectI )
 STRUCT_OBJECT( ace::Matrix33, ace::Matrix33_R, ace.Matrix33 )
 STRUCT_OBJECT( ace::Matrix44, ace::Matrix44_R, ace.Matrix44 )
 STRUCT_OBJECT( ace::FCurveKeyframe, ace::FCurveKeyframe_R, ace.FCurveKeyframe )
+STRUCT_OBJECT( ace::TextureLockInfomation, ace::TextureLockInfomation_R, ace.TextureLockInfomation )
 
 STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 

@@ -53,6 +53,25 @@ namespace ace
 			return SwigObject.Save(path);
 		}
 
+		/// <summary>
+		/// テクスチャをロックし編集可能にする。
+		/// </summary>
+		/// <param name="info">テクスチャ情報</param>
+		/// <returns>成否</returns>
+		public bool Lock(ref TextureLockInfomation info)
+		{
+			info.texture = this;
+			return SwigObject.Lock(ref info);
+		}
+
+		/// <summary>
+		/// テクスチャをアンロックする。
+		/// </summary>
+		public void Unlock()
+		{
+			SwigObject.Unlock();
+		}
+
 		public Vector2DI Size
 		{
 			get { return SwigObject.GetSize(); }
