@@ -14,7 +14,7 @@ namespace ace
 
 	void Deformer_Imp::AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationOrder, const Matrix44& localMat, const Matrix44& globalMatInv)
 	{
-		auto bone = Bone();
+		auto bone = Model_IO::Bone();
 
 		bone.Name = astring(name);
 		bone.ParentBoneIndex = parentBoneIndex;

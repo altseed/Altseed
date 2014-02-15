@@ -61,6 +61,15 @@
 #endif
 #include <EffekseerRendererGL.h>
 
+#if _WIN32
+#if _DEBUG
+#pragma comment(lib,"Debug/ace_common.lib")
+#pragma comment(lib,"Debug/ace_tool.lib")
+#else
+#pragma comment(lib,"Release/ace_common.lib")
+#pragma comment(lib,"Release/ace_tool.lib")
+#endif
+#endif
 
 //----------------------------------------------------------------------------------
 //

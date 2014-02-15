@@ -13,7 +13,6 @@
 #include "../Resource/ace.RenderState_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
 
-
 namespace ace
 {
 	static const char* dx_vs = R"(
@@ -184,91 +183,11 @@ void main()
 
 	Matrix44 RenderedModelObject3D::BoneProperty::CalcMatrix(eRotationOrder rotationType)
 	{
-		if (rotationType == ROTATION_ORDER_QUATERNION)
-		{
-			Matrix44 mat, matS, matR, matT;
-			matS.Scaling(Scale[0], Scale[1], Scale[2]);
-			matT.Translation(Position[0], Position[1], Position[2]);
-			matR.Quaternion(Rotation[0], Rotation[1], Rotation[2], Rotation[3]);
-
-			mat = Matrix44::Mul(mat, matR, matS);
-			mat = Matrix44::Mul(mat, matT, mat);
-
-			return mat;
-		}
-		else if (rotationType == ROTATION_ORDER_AXIS)
-		{
-			Matrix44 mat, matS, matR, matT;
-			matS.Scaling(Scale[0], Scale[1], Scale[2]);
-			matT.Translation(Position[0], Position[1], Position[2]);
-			matR.RotationAxis(Vector3DF(Rotation[0], Rotation[2], -Rotation[1]), Rotation[3]);
-
-			mat = Matrix44::Mul(mat, matR, matS);
-			mat = Matrix44::Mul(mat, matT, mat);
-
-			return mat;
-		}
-		else
-		{
-			Matrix44 mat, matS, matRx, matRy, matRz, matT;
-			matS.Scaling(Scale[0], Scale[1], Scale[2]);
-			matT.Translation(Position[0], Position[1], Position[2]);
-			matRx.RotationX(Rotation[0]);
-			matRy.RotationY(Rotation[1]);
-			matRz.RotationZ(Rotation[2]);
-
-			if (rotationType == ROTATION_ORDER_XZY)
-			{
-				mat = Matrix44::Mul(mat, matRx, matS);
-				mat = Matrix44::Mul(mat, matRz, mat);
-				mat = Matrix44::Mul(mat, matRy, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
-			}
-
-			if (rotationType == ROTATION_ORDER_XYZ)
-			{
-				mat = Matrix44::Mul(mat, matRx, matS);
-				mat = Matrix44::Mul(mat, matRy, mat);
-				mat = Matrix44::Mul(mat, matRz, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
-			}
-
-			if (rotationType == ROTATION_ORDER_ZXY)
-			{
-				mat = Matrix44::Mul(mat, matRz, matS);
-				mat = Matrix44::Mul(mat, matRx, mat);
-				mat = Matrix44::Mul(mat, matRy, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
-			}
-
-			if (rotationType == ROTATION_ORDER_ZYX)
-			{
-				mat = Matrix44::Mul(mat, matRz, matS);
-				mat = Matrix44::Mul(mat, matRy, mat);
-				mat = Matrix44::Mul(mat, matRz, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
-			}
-
-			if (rotationType == ROTATION_ORDER_YXZ)
-			{
-				mat = Matrix44::Mul(mat, matRy, matS);
-				mat = Matrix44::Mul(mat, matRx, mat);
-				mat = Matrix44::Mul(mat, matRz, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
-			}
-
-			if (rotationType == ROTATION_ORDER_YZX)
-			{
-				mat = Matrix44::Mul(mat, matRy, matS);
-				mat = Matrix44::Mul(mat, matRz, mat);
-				mat = Matrix44::Mul(mat, matRx, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
-			}
-
-			return mat;
-		}
-
-		return Matrix44();
+		return ModelUtils::CalcMatrix(
+			Position,
+			Rotation,
+			Scale,
+			rotationType);
 	}
 
 	RenderedModelObject3D::MeshGroup::MeshGroup(Mesh_Imp* mesh)
@@ -344,27 +263,16 @@ void main()
 	{
 		if (m_deformer == nullptr) return;
 
-		// 計算
 		for (auto i = 0; i < m_deformer->GetBones().size(); i++)
 		{
 			auto& b = m_deformer->GetBones()[i];
-
-			// ローカル行列の計算
 			m_matrixes[i] = m_boneProps[i].CalcMatrix(b.RotationType);
-
-			Matrix44::Mul(m_matrixes[i], b.LocalMat, m_matrixes[i]);
-
-			if (b.ParentBoneIndex >= 0)
-			{
-				Matrix44::Mul(m_matrixes[i], m_matrixes[b.ParentBoneIndex], m_matrixes[i]);
-			}
 		}
 
-		for (auto i = 0; i < m_deformer->GetBones().size(); i++)
-		{
-			auto& b = m_deformer->GetBones()[i];
-			Matrix44::Mul(m_matrixes[i], b.GlobalMatInv, m_matrixes[i]);
-		}
+		ModelUtils::CalculateBoneMatrixes(
+			m_matrixes,
+			m_deformer->GetBones(),
+			m_matrixes);
 	}
 
 	void RenderedModelObject3D::MeshGroup::CheckDeformer()

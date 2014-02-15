@@ -6,6 +6,8 @@
 
 #include <unordered_map>
 
+#include <Graphics/3D/ace.Model_IO.h>
+
 namespace ace
 {
 	class Deformer_Imp
@@ -13,16 +15,7 @@ namespace ace
 		, public ReferenceObject
 	{
 	public:
-		struct Bone
-		{
-			astring				Name;
-			int32_t				ParentBoneIndex;
-			eRotationOrder	RotationType;
-			Matrix44			LocalMat;
-			Matrix44			GlobalMatInv;
-		};
-
-		std::vector<Bone>	m_bones;
+		std::vector<Model_IO::Bone>	m_bones;
 		std::map<astring, int32_t>	m_nameToIndex;
 
 	public:
@@ -31,7 +24,7 @@ namespace ace
 
 		void AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationOrder, const Matrix44& localMat, const Matrix44& globalMatInv) override;
 
-		std::vector<Bone>& GetBones() { return m_bones; }
+		std::vector<Model_IO::Bone>& GetBones() { return m_bones; }
 
 		int32_t GetBoneIndex(const astring& name) const;
 

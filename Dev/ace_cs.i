@@ -316,6 +316,8 @@ namespace ace
 	struct Matrix33;
 	struct Matrix44;
 	struct RectI;
+
+	struct FCurveKeyframe;
 }
 
 %include "ace_cpp/common/Graphics/ace.Graphics.Common.h"

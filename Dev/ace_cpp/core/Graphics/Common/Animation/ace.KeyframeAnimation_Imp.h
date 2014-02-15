@@ -4,6 +4,8 @@
 #include "../../../ace.Core.Base_Imp.h"
 #include "ace.KeyframeAnimation.h"
 
+#include <Graphics/3D/ace.Model_IO.h>
+
 namespace ace
 {
 	enum eAnimationCurveTargetType
