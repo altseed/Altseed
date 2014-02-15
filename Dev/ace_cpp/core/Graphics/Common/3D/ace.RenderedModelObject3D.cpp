@@ -238,24 +238,16 @@ void main()
 			auto axis = a_->GetTargetAxis();
 			auto bi = m_deformer->GetBoneIndex(a_->GetTargetName());
 
-			if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_NONE) continue;
-			if (axis == eAnimationCurveTargetAxis::ANIMATION_CURVE_TARGET_AXIS_NONE) continue;
 			if (bi < 0) continue;
-
 			auto value = a_->GetValue(time);
 
-			if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_POSITON)
-			{
-				m_boneProps[bi].Position[axis] = value;
-			}
-			else if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_ROTATION)
-			{
-				m_boneProps[bi].Rotation[axis] = value / 180.0f * 3.141592f;
-			}
-			else if (type == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_SCALE)
-			{
-				m_boneProps[bi].Scale[axis] = value;
-			}
+			ModelUtils::SetBoneValue(
+				m_boneProps[bi].Position,
+				m_boneProps[bi].Rotation,
+				m_boneProps[bi].Scale,
+				type,
+				axis,
+				value);
 		}
 	}
 

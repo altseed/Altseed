@@ -87,11 +87,84 @@ namespace ace
 		}
 
 		AnimationTexture.TextureWidth = frameMax * 4;
-		AnimationTexture.TextureHeight = AnimationTexture.AnimationCount * 32 * 4;
+		AnimationTexture.TextureHeight = AnimationTexture.AnimationCount * 32;
 
 		AnimationTexture.Buffer.resize(AnimationTexture.TextureWidth * AnimationTexture.TextureHeight);
 
-		return false;
+		struct BoneValue
+		{
+			float Position[3];
+			float Rotation[4];
+			float Scale[3];
+		};
+
+		std::vector<Matrix44> localMatrixes;
+		std::vector<BoneValue> boneValues;
+		std::map<astring, int32_t> nameToBoneIndex;
+
+		localMatrixes.resize(mg.Deformer.Bones.size());
+		boneValues.resize(mg.Deformer.Bones.size());
+
+		for (auto i = 0; i < mg.Deformer.Bones.size(); i++)
+		{
+			auto& b = mg.Deformer.Bones[i];
+			nameToBoneIndex[b.Name] = i;
+		}
+
+		for (auto i = 0; i < AnimationTexture.AnimationCount; i++)
+		{
+			auto& as = model.AnimationSources[i];
+
+			for (auto t = 0; t < AnimationTexture.FrameCount[i]; t++)
+			{
+				for (auto& kf : as.KeyframeAnimations)
+				{
+					astring targetName;
+					eAnimationCurveTargetType targetType;
+					eAnimationCurveTargetAxis targetAxis;
+
+					ModelUtils::GetAnimationTarget(targetName, targetType, targetAxis, kf.Name);
+
+					if(nameToBoneIndex.find(targetName) == nameToBoneIndex.end()) continue;
+					auto index = nameToBoneIndex[targetName];
+					auto value = ModelUtils::GetKeyframeValue(t, kf.Keyframes);
+					ModelUtils::SetBoneValue(
+						boneValues[index].Position,
+						boneValues[index].Rotation,
+						boneValues[index].Scale,
+						targetType,
+						targetAxis,
+						value);
+
+					localMatrixes[index] = ModelUtils::CalcMatrix(
+						boneValues[index].Position,
+						boneValues[index].Rotation,
+						boneValues[index].Scale,
+						mg.Deformer.Bones[index].RotationType);
+				}
+
+				ModelUtils::CalculateBoneMatrixes(
+					localMatrixes,
+					mg.Deformer.Bones,
+					localMatrixes);
+				
+				for (auto j = 0; j < mg.Deformer.Bones.size(); j++)
+				{
+					int32_t x = t * 4;
+					int32_t y = i * 32 + j;
+
+					for (auto k = 0; k < 4; k++)
+					{
+						AnimationTexture.Buffer[x + k + y * AnimationTexture.TextureWidth].X = localMatrixes[j].Values[k][0];
+						AnimationTexture.Buffer[x + k + y * AnimationTexture.TextureWidth].X = localMatrixes[j].Values[k][1];
+						AnimationTexture.Buffer[x + k + y * AnimationTexture.TextureWidth].X = localMatrixes[j].Values[k][2];
+						AnimationTexture.Buffer[x + k + y * AnimationTexture.TextureWidth].X = localMatrixes[j].Values[k][3];
+					}
+				}
+			}
+		}
+
+		return true;
 	}
 
 	void MassModel_IO::Reset()

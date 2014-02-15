@@ -25,6 +25,24 @@ namespace ace
 		}
 	}
 
+	/**
+	@brief	文字列分割
+	@note
+	http://shnya.jp/blog/?p=195 のコードを改造
+	*/
+	static std::vector<astring> split(const astring &str, const astring &delim)
+	{
+		std::vector<astring> res;
+		size_t current = 0, found, delimlen = delim.size();
+		while ((found = str.find(delim, current)) != astring::npos)
+		{
+			res.push_back(astring(str, current, found - current));
+			current = found + delimlen;
+		}
+		res.push_back(astring(str, current, str.size() - current));
+		return res;
+	}
+
 	static void NormalizeValues(float k1[], float k1rh[], float k2lh[], float k2[])
 	{
 		float h1[2];
@@ -578,5 +596,89 @@ namespace ace
 		}
 
 		return 0;
+	}
+
+	bool ModelUtils::GetAnimationTarget(astring& targetName, eAnimationCurveTargetType& targetType, eAnimationCurveTargetAxis& targetAxis, const astring& name)
+	{
+		auto strs = split(astring(name), ToAString("."));
+
+		// ボーン向け設定の取得
+		targetName = astring();
+		targetType = ANIMATION_CURVE_TARGET_TYPE_NONE;
+		targetAxis = ANIMATION_CURVE_TARGET_AXIS_NONE;
+
+		if (strs.size() < 3) return false;
+
+		for (size_t i = 0; i < strs.size() - 2; i++)
+		{
+			targetName += strs[i];
+
+			if (i != strs.size() - 3)
+			{
+				targetName += ToAString(".");
+			}
+		}
+
+		if (strs[strs.size() - 2] == ToAString("pos"))
+		{
+			targetType = ANIMATION_CURVE_TARGET_TYPE_POSITON;
+		}
+
+		if (strs[strs.size() - 2] == ToAString("rot"))
+		{
+			targetType = ANIMATION_CURVE_TARGET_TYPE_ROTATION;
+		}
+
+		if (strs[strs.size() - 2] == ToAString("scl"))
+		{
+			targetType = ANIMATION_CURVE_TARGET_TYPE_SCALE;
+		}
+
+		if (strs[strs.size() - 1] == ToAString("x"))
+		{
+			targetAxis = ANIMATION_CURVE_TARGET_AXIS_X;
+		}
+
+		if (strs[strs.size() - 1] == ToAString("y"))
+		{
+			targetAxis = ANIMATION_CURVE_TARGET_AXIS_Y;
+		}
+
+		if (strs[strs.size() - 1] == ToAString("z"))
+		{
+			targetAxis = ANIMATION_CURVE_TARGET_AXIS_Z;
+		}
+
+		if (strs[strs.size() - 1] == ToAString("w"))
+		{
+			targetAxis = ANIMATION_CURVE_TARGET_AXIS_W;
+		}
+
+		return true;
+	}
+
+	void ModelUtils::SetBoneValue(
+		float position[3],
+		float rotation[4],
+		float scale[3],
+		eAnimationCurveTargetType targetType,
+		eAnimationCurveTargetAxis targetAxis,
+		float value)
+	{
+		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_NONE) return;
+		if (targetAxis == eAnimationCurveTargetAxis::ANIMATION_CURVE_TARGET_AXIS_NONE) return;
+		
+		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_POSITON)
+		{
+			position[targetAxis] = value;
+		}
+		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_ROTATION)
+		{
+			rotation[targetAxis] = value / 180.0f * 3.141592f;
+		}
+		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_SCALE)
+		{
+			scale[targetAxis] = value;
+		}
 	}
 }
