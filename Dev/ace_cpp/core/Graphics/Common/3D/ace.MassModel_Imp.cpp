@@ -13,7 +13,7 @@ namespace ace
 		m_vertexBuffer.reset();
 		m_indexBuffer.reset();
 		m_animationTexture.reset();
-		
+
 		// 頂点バッファ
 		m_vertexBuffer = g->CreateVertexBuffer_Imp(sizeof(MassModel_IO::Vertex), io.Vertices.size(), false);
 		m_vertexBuffer->Lock();
@@ -42,7 +42,13 @@ namespace ace
 
 		// アニメーションテクスチャ
 		auto texture = g->CreateRenderTexture(io.AnimationTexture.TextureWidth, io.AnimationTexture.TextureHeight, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
-		
+		TextureLockInfomation info;
+
+		if (texture->Lock(info))
+		{
+			memcpy(info.Pixels, &(io.AnimationTexture.Buffer[0]), io.AnimationTexture.Buffer.size() * 4);
+			texture->Unlock();
+		}
 		return true;
 	}
 
