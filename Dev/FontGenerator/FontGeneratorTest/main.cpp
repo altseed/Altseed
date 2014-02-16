@@ -1,15 +1,23 @@
+#include <iostream>
 #include "../FontGenerator/FontGenerator.h"
-#pragma comment(lib, "../Debug/FontGenerator.lib")
 
 int main()
 {
 	FontGenerator::FontGenerator gen;
 
-	gen.GenerateFontFile(
-		L"C:/Windows/Fonts/consola.ttf",
-		16,
-		L"test.txt",
-		L"sample");
+	try
+	{
+		gen.GenerateFontFile(
+			L"C:/Windows/Fonts/azuki.ttf",
+			16,
+			L"test.txt",
+			L"test");
+	}
+	catch (const char* err)
+	{
+		std::cout << err << std::endl;
+	}
 
+	system("pause");
 	return 0;
 }

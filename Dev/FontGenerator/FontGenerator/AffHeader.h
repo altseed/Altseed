@@ -1,7 +1,7 @@
 #pragma once
-#include <array>
-#include <vector>
 #include <string>
+#include <iostream>
+#include <Utility/ace.BinaryWriter.h>
 
 namespace FontGenerator
 {
@@ -11,19 +11,33 @@ namespace FontGenerator
 		static const int GUID_LENGTH = 4;
 		static const int AFF_VERSION = 1;
 		static const int SHEET_NAME_LENGTH = 64;
+		static const int FONT_SIZE_DEFAULT = 16;
+		static const int SHEET_COUNT_DEFAULT = 1;
+		static const int FONT_COUNT_DEFAULT = 0;
+
+		std::int8_t m_guid[GUID_LENGTH];
+		int m_version;
+		int m_fontSize;
+		int m_fontWidth;
+		int m_fontHeight;
+		int m_sheetCount;
+		int m_fontCount;
+		ace::astring m_sheetName;
 
 	public:
-		AffHeader(int fontSize, std::wstring sheetName);
+		AffHeader(ace::astring sheetName);
 
-		std::array<char, GUID_LENGTH> guid;
-		int version;
-		int fontSize;
-		int fontWidth;
-		int fontHeight;
-		int sheetCount;
-		int fontCount;
-		std::array<wchar_t, SHEET_NAME_LENGTH> sheetName;
+		void WriteOut(std::ostream& stream);
 
-		std::vector<char> GetBytes();
+#pragma region GetSet
+		int GetFontSize() const;
+		void SetFontSize(int value);
+
+		int GetSheetCount() const;
+		void SetSheetCount(int value);
+
+		int GetFontCount() const;
+		void SetFontCount(int value);
+#pragma endregion
 	};
 }
