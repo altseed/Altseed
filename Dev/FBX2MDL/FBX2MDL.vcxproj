@@ -88,11 +88,9 @@
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DF.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DI.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector3DF.cpp" />
-    <ClCompile Include="FacesLoader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MDLExporter.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="VerticeLoader.cpp" />
+    <ClCompile Include="MeshLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ace_cpp\common\ace.common.Base.h" />
@@ -105,13 +103,9 @@
     <ClInclude Include="..\ace_cpp\common\Math\ace.Vector3DF.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryReader.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryWriter.h" />
-    <ClInclude Include="Face.h" />
-    <ClInclude Include="FacesLoader.h" />
     <ClInclude Include="MDLExporter.h" />
-    <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshGroup.h" />
-    <ClInclude Include="Vertex.h" />
-    <ClInclude Include="VerticeLoader.h" />
+    <ClInclude Include="MeshLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

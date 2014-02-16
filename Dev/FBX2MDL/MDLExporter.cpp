@@ -1,8 +1,9 @@
 #include "MDLExporter.h"
 #include "../ace_cpp/common/Math/ace.Vector2DF.h"
 #include "../ace_cpp/common/Math/ace.Vector3DF.h"
+#include "../ace_cpp/common/Math/ace.Matrix44.h"
 
-#include "VerticeLoader.h"
+#include "MeshLoader.h"
 
 MDLExporter::MDLExporter(const char* fileName){
 	// Initialize the SDK manager. This object handles all our memory management.
@@ -33,6 +34,8 @@ MDLExporter::MDLExporter(const char* fileName){
 
 	binaryWriter=new ace::BinaryWriter();
 
+	mLoader=new MeshLoader();
+
 }
 
 void MDLExporter::Convert()
@@ -43,6 +46,44 @@ void MDLExporter::Convert()
         for(int i = 0; i < lRootNode->GetChildCount(); i++)
 			GetMeshGroup(lRootNode->GetChild(i));
     }
+	
+	binaryWriter->Push(1);
+	//ƒo[ƒWƒ‡ƒ“
+	{
+
+		mLoader->WriteVertices(binaryWriter);
+		mLoader->WriteFaces(binaryWriter);
+		mLoader->WriteFaceMaterials(binaryWriter);
+		mLoader->WriteBoneAttachments(binaryWriter);
+
+		binaryWriter->Push(0);
+
+		binaryWriter->Push(0);
+	}
+		/*
+		binaryWriter->Push("");
+		binaryWriter->Push(0);
+		binaryWriter->Push(10);
+
+		ace::Matrix44 matrix=ace::Matrix44();
+		binaryWriter->Push(matrix);
+		binaryWriter->Push(matrix);
+		*/
+
+		
+		/*
+		binaryWriter->Push(1);
+		binaryWriter->Push("");
+		*/
+
+	{
+		binaryWriter->Push(0);
+		binaryWriter->Push(0);
+	}
+
+
+	binaryWriter->WriteOut("out.mdl");
+
 }
 
 MDLExporter::~MDLExporter()
@@ -50,6 +91,8 @@ MDLExporter::~MDLExporter()
 	lSdkManager->Destroy();
 
 	delete binaryWriter;
+
+	delete mLoader;
 }
 
 void MDLExporter::GetMeshGroup(FbxNode* pNode)
@@ -75,16 +118,15 @@ void MDLExporter::GetMeshProperty(FbxNodeAttribute* pAttribute)
 
 	FbxMesh* mesh=(FbxMesh*)pAttribute;
 
-	VerticeLoader* vloader=new VerticeLoader(mesh);
-
-	vloader->Load();
-	vloader->Write(this->binaryWriter);
-
-	delete vloader;
+	mLoader->Load(mesh);
 }
 
 void MDLExporter::PrintHeader()
 {
-	binaryWriter->Push("MDL");
-	binaryWriter->Push((int32_t)0);
+	binaryWriter->Push((uint8_t)'M');
+	binaryWriter->Push((uint8_t)'D');
+	binaryWriter->Push((uint8_t)'L');
+	binaryWriter->Push((uint8_t)0);
+
+	binaryWriter->Push(1);
 }

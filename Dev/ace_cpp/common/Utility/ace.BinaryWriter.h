@@ -5,6 +5,7 @@
 #include<fstream>
 #include<string>
 #include"../ace.common.Base.h"
+#include "../Math/ace.Vector2DF.h"
 #include "../Math/ace.Vector3DF.h"
 #include "../Math/ace.Matrix44.h"
 
@@ -203,6 +204,18 @@ public:
 		Push(content.X);
 		Push(content.Y);
 		Push(content.Z);
+	}
+
+	//-----------------------------------------------------------------------------------
+	//
+	//-----------------------------------------------------------------------------------
+	/**
+	@brief	ace::Vector2DFをシリアライズし、バイト列の末尾に追加する
+	@param	content	シリアライズするVector
+	*/
+	void Push(ace::Vector2DF const& content){
+		Push(content.X);
+		Push(content.Y);
 	}
 
 	//-----------------------------------------------------------------------------------

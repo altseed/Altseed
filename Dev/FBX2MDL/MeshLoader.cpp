@@ -1,93 +1,97 @@
-#include "VerticeLoader.h"
+#include "MeshLoader.h"
 
 
-VerticeLoader::VerticeLoader(FbxMesh* fbxMesh)
+MeshLoader::MeshLoader()
 {
-	_fbxMesh=fbxMesh;
+
 }
 
-vector<Vertex> VerticeLoader::GetVertices()
+vector<Vertex> MeshLoader::GetVertices()
 {
 	return _vertices;
 }
 
-void VerticeLoader::_loadPositions()
+void MeshLoader::_loadPositions(FbxMesh* fbxMesh)
 {
 
-	int controlNum = _fbxMesh->GetControlPointsCount();
+	int controlNum = fbxMesh->GetControlPointsCount();
 
-	_vertices=vector<Vertex>(controlNum);
-
-	FbxVector4* src = _fbxMesh->GetControlPoints();
+	FbxVector4* src = fbxMesh->GetControlPoints();
 
 	for(int i=0;i<controlNum;++i)
 	{
+		Vertex vertex;
 		ace::Vector3DF controlAry;
-		controlAry.X=src[i][0]/src[i][3];
-		controlAry.Y=src[i][1]/src[i][3];
-		controlAry.Z=src[i][2]/src[i][3];
-		_vertices[i].position=controlAry;
+		controlAry.X=src[i][0];
+		controlAry.Y=src[i][1];
+		controlAry.Z=src[i][2];
+		vertex.position=controlAry;
+
+		_vertices.push_back(vertex);
 	}
 }
 
-void VerticeLoader::_loadNormals()
+void MeshLoader::_loadNormals(FbxMesh* fbxMesh)
 {
-	FbxGeometryElementNormal* lNormalElement = _fbxMesh->GetElementNormal();
-	if(lNormalElement)
+	FbxGeometryElementNormal* lNormalElement = fbxMesh->GetElementNormal();
+	if(!lNormalElement)
 	{
-		if( lNormalElement->GetMappingMode() == FbxGeometryElement::eByControlPoint )
+		return;
+	}
+		
+	if( lNormalElement->GetMappingMode() == FbxGeometryElement::eByControlPoint )	
+	{
+		for(int lVertexIndex = 0; lVertexIndex < fbxMesh->GetControlPointsCount(); lVertexIndex++)
 		{
-			for(int lVertexIndex = 0; lVertexIndex < _fbxMesh->GetControlPointsCount(); lVertexIndex++)
+			int lNormalIndex = 0;
+			if( lNormalElement->GetReferenceMode() == FbxGeometryElement::eDirect )
+				lNormalIndex = lVertexIndex;
+
+			if(lNormalElement->GetReferenceMode() == FbxGeometryElement::eIndexToDirect)
+				lNormalIndex = lNormalElement->GetIndexArray().GetAt(lVertexIndex);
+
+			FbxVector4 lNormal = lNormalElement->GetDirectArray().GetAt(lNormalIndex);
+
+			_vertices[lVertexIndex].normal=ace::Vector3DF(lNormal[0]/lNormal[3],lNormal[1]/lNormal[3],lNormal[2]/lNormal[3]);
+		}
+	}
+	else if(lNormalElement->GetMappingMode() == FbxGeometryElement::eByPolygonVertex)
+	{
+		int lIndexByPolygonVertex = 0;
+
+		int polygonCount=fbxMesh->GetPolygonCount();
+
+		for(int lPolygonIndex = 0; lPolygonIndex < polygonCount; lPolygonIndex++)
+		{
+			int lPolygonSize = fbxMesh->GetPolygonSize(lPolygonIndex);
+
+			for(int i = 0; i < lPolygonSize; i++)
 			{
 				int lNormalIndex = 0;
+                    
 				if( lNormalElement->GetReferenceMode() == FbxGeometryElement::eDirect )
-					lNormalIndex = lVertexIndex;
-
+					lNormalIndex = lIndexByPolygonVertex;
+                    
 				if(lNormalElement->GetReferenceMode() == FbxGeometryElement::eIndexToDirect)
-					lNormalIndex = lNormalElement->GetIndexArray().GetAt(lVertexIndex);
+					lNormalIndex = lNormalElement->GetIndexArray().GetAt(lIndexByPolygonVertex);
 
 				FbxVector4 lNormal = lNormalElement->GetDirectArray().GetAt(lNormalIndex);
 
-				_vertices[lNormalIndex].normal=ace::Vector3DF(lNormal[0]/lNormal[3],lNormal[1]/lNormal[3],lNormal[2]/lNormal[3]);
-			}
+				//_vertices[lNormalIndex].normal=ace::Vector3DF(lNormal[0]/lNormal[3],lNormal[1]/lNormal[3],lNormal[2]/lNormal[3]);
+				printf("[%d]=(%f, %f, %f)\n",i,lNormal[0],lNormal[1],lNormal[2]);
+
+				lIndexByPolygonVertex++;
+			}      
 		}
-		else if(lNormalElement->GetMappingMode() == FbxGeometryElement::eByPolygonVertex)
-		{
-			int lIndexByPolygonVertex = 0;
-
-			for(int lPolygonIndex = 0; lPolygonIndex < _fbxMesh->GetPolygonCount(); lPolygonIndex++)
-			{
-				int lPolygonSize = _fbxMesh->GetPolygonSize(lPolygonIndex);
-
-				for(int i = 0; i < lPolygonSize; i++)
-				{
-					int lNormalIndex = 0;
-                    
-					if( lNormalElement->GetReferenceMode() == FbxGeometryElement::eDirect )
-						lNormalIndex = lIndexByPolygonVertex;
-                    
-					if(lNormalElement->GetReferenceMode() == FbxGeometryElement::eIndexToDirect)
-						lNormalIndex = lNormalElement->GetIndexArray().GetAt(lIndexByPolygonVertex);
-
-					FbxVector4 lNormal = lNormalElement->GetDirectArray().GetAt(lNormalIndex);
-
-					_vertices[lNormalIndex].normal=ace::Vector3DF(lNormal[0]/lNormal[3],lNormal[1]/lNormal[3],lNormal[2]/lNormal[3]);
-
-					lIndexByPolygonVertex++;
-				}
-                
-			}
 			
-		}
 	}
-
 }
 
 	
-void VerticeLoader::_loadBinormals()
+void MeshLoader::_loadBinormals(FbxMesh* fbxMesh)
 {
 
-	FbxGeometryElementBinormal* lBinormalElement = _fbxMesh->GetElementBinormal();
+	FbxGeometryElementBinormal* lBinormalElement = fbxMesh->GetElementBinormal();
     
 	if(lBinormalElement)
 	{
@@ -95,7 +99,7 @@ void VerticeLoader::_loadBinormals()
 		if( lBinormalElement->GetMappingMode() == FbxGeometryElement::eByControlPoint )
 		{
         
-			for(int lVertexIndex = 0; lVertexIndex < _fbxMesh->GetControlPointsCount(); lVertexIndex++)
+			for(int lVertexIndex = 0; lVertexIndex < fbxMesh->GetControlPointsCount(); lVertexIndex++)
 			{
 				int lBinormalIndex = 0;
                 
@@ -107,7 +111,7 @@ void VerticeLoader::_loadBinormals()
 
 				FbxVector4 lNormal = lBinormalElement->GetDirectArray().GetAt(lBinormalIndex);
 
-				_vertices[lBinormalIndex].binormal=ace::Vector3DF(lNormal[0]/lNormal[3],lNormal[1]/lNormal[3],lNormal[2]/lNormal[3]);
+				_vertices[lVertexIndex].binormal=ace::Vector3DF(lNormal[0]/lNormal[3],lNormal[1]/lNormal[3],lNormal[2]/lNormal[3]);
                 
 			}
             
@@ -117,9 +121,9 @@ void VerticeLoader::_loadBinormals()
         
 			int lIndexByPolygonVertex = 0;
 
-			for(int lPolygonIndex = 0; lPolygonIndex < _fbxMesh->GetPolygonCount(); lPolygonIndex++)
+			for(int lPolygonIndex = 0; lPolygonIndex < fbxMesh->GetPolygonCount(); lPolygonIndex++)
 			{
-				int lPolygonSize = _fbxMesh->GetPolygonSize(lPolygonIndex);
+				int lPolygonSize = fbxMesh->GetPolygonSize(lPolygonIndex);
 
 				for(int i = 0; i < lPolygonSize; i++)
 				{
@@ -133,7 +137,7 @@ void VerticeLoader::_loadBinormals()
 
 					FbxVector4 lNormal = lBinormalElement->GetDirectArray().GetAt(lBinormalIndex);
 
-					_vertices[lBinormalIndex].binormal=ace::Vector3DF(lNormal[0]/lNormal[3],lNormal[1]/lNormal[3],lNormal[2]/lNormal[3]);
+					_vertices[i].binormal=ace::Vector3DF(lNormal[0]/lNormal[3],lNormal[1]/lNormal[3],lNormal[2]/lNormal[3]);
 
 					lIndexByPolygonVertex++;
                     
@@ -143,17 +147,17 @@ void VerticeLoader::_loadBinormals()
 	}
 }
 	
-void VerticeLoader::_loadUVs()
+void MeshLoader::_loadUVs(FbxMesh* fbxMesh)
 {
 	FbxStringList lUVSetNameList;
-    _fbxMesh->GetUVSetNames(lUVSetNameList);
+    fbxMesh->GetUVSetNames(lUVSetNameList);
 
     //iterating over all uv sets
     for (int lUVSetIndex = 0; lUVSetIndex < lUVSetNameList.GetCount(); lUVSetIndex++)
     {
         //get lUVSetIndex-th uv set
         const char* lUVSetName = lUVSetNameList.GetStringAt(lUVSetIndex);
-        const FbxGeometryElementUV* lUVElement = _fbxMesh->GetElementUV(lUVSetName);
+        const FbxGeometryElementUV* lUVElement = fbxMesh->GetElementUV(lUVSetName);
 
         if(!lUVElement)
             continue;
@@ -168,20 +172,20 @@ void VerticeLoader::_loadUVs()
         const int lIndexCount= (lUseIndex) ? lUVElement->GetIndexArray().GetCount() : 0;
 
         //iterating through the data by polygon
-        const int lPolyCount = _fbxMesh->GetPolygonCount();
+        const int lPolyCount = fbxMesh->GetPolygonCount();
 
         if( lUVElement->GetMappingMode() == FbxGeometryElement::eByControlPoint )
         {
             for( int lPolyIndex = 0; lPolyIndex < lPolyCount; ++lPolyIndex )
             {
                 // build the max index array that we need to pass into MakePoly
-                const int lPolySize = _fbxMesh->GetPolygonSize(lPolyIndex);
+                const int lPolySize = fbxMesh->GetPolygonSize(lPolyIndex);
                 for( int lVertIndex = 0; lVertIndex < lPolySize; ++lVertIndex )
                 {
                     FbxVector2 lUVValue;
 
                     //get the index of the current vertex in control points array
-                    int lPolyVertIndex = _fbxMesh->GetPolygonVertex(lPolyIndex,lVertIndex);
+                    int lPolyVertIndex = fbxMesh->GetPolygonVertex(lPolyIndex,lVertIndex);
 
                     //the UV index depends on the reference mode
                     int lUVIndex = lUseIndex ? lUVElement->GetIndexArray().GetAt(lPolyVertIndex) : lPolyVertIndex;
@@ -202,7 +206,7 @@ void VerticeLoader::_loadUVs()
             for( int lPolyIndex = 0; lPolyIndex < lPolyCount; ++lPolyIndex )
             {
                 // build the max index array that we need to pass into MakePoly
-                const int lPolySize = _fbxMesh->GetPolygonSize(lPolyIndex);
+                const int lPolySize = fbxMesh->GetPolygonSize(lPolyIndex);
                 for( int lVertIndex = 0; lVertIndex < lPolySize; ++lVertIndex )
                 {
                     if (lPolyIndexCounter < lIndexCount)
@@ -225,17 +229,17 @@ void VerticeLoader::_loadUVs()
     }
 }
 	
-void VerticeLoader::_loadColors()
+void MeshLoader::_loadColors(FbxMesh* fbxMesh)
 {
  
 	//--- 頂点カラーセット数を取得 ---//
-	int vColorLayerCount = _fbxMesh->GetElementVertexColorCount();
+	int vColorLayerCount = fbxMesh->GetElementVertexColorCount();
 
 	//--- レイヤー数だけ回る ---//
 	for (int i = 0; vColorLayerCount > i; i++) {
    
 		//--- 法線セットを取得 ---//
-		FbxGeometryElementVertexColor* color = _fbxMesh->GetElementVertexColor(i);
+		FbxGeometryElementVertexColor* color = fbxMesh->GetElementVertexColor(i);
  
 		//--- マッピングモードの取得
 		FbxGeometryElement::EMappingMode mappingMode = color->GetMappingMode();
@@ -286,13 +290,13 @@ void VerticeLoader::_loadColors()
 	}
 }
 	
-void VerticeLoader::_loadWeights()
+void MeshLoader::_loadWeights(FbxMesh* fbxMesh)
 {
-	int skinCount=_fbxMesh->GetDeformerCount(FbxDeformer::eSkin);
+	int skinCount=fbxMesh->GetDeformerCount(FbxDeformer::eSkin);
 
 	for(int i=0;i<skinCount;++i)
 	{
-		FbxSkin* skin = (FbxSkin*)_fbxMesh->GetDeformer(i,FbxDeformer::eSkin);
+		FbxSkin* skin = (FbxSkin*)fbxMesh->GetDeformer(i,FbxDeformer::eSkin);
 
 		int clusterNum = skin->GetClusterCount();
 
@@ -315,46 +319,113 @@ void VerticeLoader::_loadWeights()
 	}
 }
 
-void VerticeLoader::Load()
+void MeshLoader::_loadFaceIndices(FbxMesh* fbxMesh)
 {
-	_loadPositions();
-	_loadNormals();
-	_loadBinormals();
-	_loadUVs();
-	_loadColors();
-	_loadWeights();
+	int PolygonVertexNum=fbxMesh->GetPolygonVertexCount();
+	int *IndexAry = fbxMesh->GetPolygonVertices();
+
+	Face face;
+	int faceIndexer=0;
+	for(int i=0;i<PolygonVertexNum;++i)
+	{
+		face.vertexIndex[faceIndexer++]=IndexAry[i];
+		if(faceIndexer==3)
+		{
+			faceIndexer=0;
+			_faces.push_back(face);
+		}
+	}
 }
 
-void VerticeLoader::Write(ace::BinaryWriter* writer)
+void MeshLoader::Load(FbxMesh* fbxMesh)
 {
+	_loadPositions(fbxMesh);
+	//_loadNormals();
+	//_loadBinormals();
+	//_loadUVs();
+	//_loadColors();
+	//_loadWeights();
+}
+
+void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
+{
+	printf("Control Point Num = %d\n",_vertices.size());
 	writer->Push((int32_t)_vertices.size());
+
+	ace::Vector3DF zero3 = ace::Vector3DF(0,0,0);
+	ace::Vector2DF zero2 = ace::Vector2DF(0,0);
+
 
 	for(int i=0;i<_vertices.size();++i)
 	{
 		writer->Push(_vertices[i].position);
-		writer->Push(_vertices[i].normal);
-		writer->Push(_vertices[i].binormal);
-		writer->Push(_vertices[i].uv.X);
-		writer->Push(_vertices[i].uv.Y);
+
+		writer->Push(zero3);
+		writer->Push(zero3);
+
+		writer->Push(zero2);
+		writer->Push(zero2);
+
+		//writer->Push(_vertices[i].normal);
+		//writer->Push(_vertices[i].binormal);
+		//writer->Push(_vertices[i].uv.X);
+		//writer->Push(_vertices[i].uv.Y);
 		
 		for (int j = 0; j < 4; ++j)
 		{
-			writer->Push(_vertices[i].color[j]);
+			//writer->Push(_vertices[i].color[j]);
+			writer->Push((uint8_t)0);
 		}
 
 		for (int j = 0; j < 4; ++j)
 		{
-			writer->Push(_vertices[i].weight[j]);
+			//writer->Push(_vertices[i].weight[j]);
+			writer->Push((int8_t)0);
 		}
 
 		for (int j = 0; j < 4; ++j)
 		{
-			writer->Push(_vertices[i].weightIndexOriginal[j]);
+			//writer->Push(_vertices[i].weightIndexOriginal[j]);
+			writer->Push((int8_t)0);
 		}
 
 		for (int j = 0; j < 4; ++j)
 		{
-			writer->Push(_vertices[i].weightIndexDivided[j]);
+			//writer->Push(_vertices[i].weightIndexDivided[j]);
+			writer->Push((int8_t)0);
 		}
 	}
+}
+
+void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
+{
+	writer->Push((int32_t) _faces.size());
+	for (auto ite = _faces.begin(); ite != _faces.end(); ++ite)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			writer->Push((int32_t) ite->vertexIndex[i]);
+		}
+	}
+}
+
+void MeshLoader::_loadFaceMaterials(FbxMesh* fbxMesh)
+{
+
+}
+
+
+void MeshLoader::_loadBoneAttachments(FbxMesh* fbxMesh)
+{
+
+}
+
+void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer)
+{
+	writer->Push((int32_t)0);
+}
+	
+void MeshLoader::WriteBoneAttachments(ace::BinaryWriter* writer)
+{
+	writer->Push((int32_t)0);
 }
