@@ -95,14 +95,14 @@ namespace ace
 
 	void Model_Imp::Attach(RenderedModelObject3D* model)
 	{
-		assert(m_observers.find(model) != m_observers.end());
+		assert(m_observers.find(model) == m_observers.end());
 
 		m_observers.insert(model);
 	}
 
 	void Model_Imp::Detach(RenderedModelObject3D* model)
 	{
-		assert(m_observers.find(model) == m_observers.end());
+		assert(m_observers.find(model) != m_observers.end());
 
 		m_observers.erase(model);
 	}
