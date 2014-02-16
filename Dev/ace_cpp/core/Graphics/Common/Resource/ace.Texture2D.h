@@ -4,6 +4,7 @@
 //
 //----------------------------------------------------------------------------------
 #include <ace.common.Base.h>
+#include <Math/ace.Vector2DI.h>
 #include "../../../ace.ReferenceObject.h"
 
 //----------------------------------------------------------------------------------
@@ -13,6 +14,13 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	struct TextureLockInfomation
+	{
+		void* Pixels;
+		int Pitch;
+		Vector2DI Size;
+	};
+
 	class Texture2D
 		: public IReference
 	{
@@ -48,6 +56,18 @@ namespace ace {
 		*/
 		virtual bool Save(const achar* path) = 0;
 
+		/**
+			@brief	テクスチャをロックし編集可能にする。
+			@param	info	テクスチャ情報
+			@return	成否
+		*/
+		virtual bool Lock(TextureLockInfomation& info) = 0;
+
+		/**
+		@brief	テクスチャをアンロックする。
+		*/
+		virtual void Unlock() = 0;
+		
 		/**
 			@brief	テクスチャのクラスの種類を取得する。
 			@return	種類

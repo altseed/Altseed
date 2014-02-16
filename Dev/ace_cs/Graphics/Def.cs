@@ -28,9 +28,12 @@ namespace ace
 		Dword = swig.eAlphaBlend.ALPHA_BLEND_DWORD,
 	}
 
+
+
 	public enum TextureFormat
 	{
-		RGBA8888 = swig.eTextureFormat.TEXTURE_FORMAT_RGBA8888
+		R8G8B8A8_UNORM = swig.eTextureFormat.TEXTURE_FORMAT_R8G8B8A8_UNORM,
+		R32G32B32A32_FLOAT = swig.eTextureFormat.TEXTURE_FORMAT_R32G32B32A32_FLOAT
 	}
 
 	public enum GraphicsType
@@ -97,5 +100,19 @@ namespace ace
 			KeyValue = new Vector2DF();
 			InterpolationType = interpolationType;
 		}
+	}
+
+	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+	public struct TextureLockInfomation
+	{
+		public IntPtr Pixels;
+		public int Pitch;
+		public Vector2DI Size;
+
+		/// <summary>
+		/// ロックしたテクスチャの参照
+		/// C++側に影響がないよう、最後尾に配置
+		/// </summary>
+		internal Texture2D texture;
 	}
 }

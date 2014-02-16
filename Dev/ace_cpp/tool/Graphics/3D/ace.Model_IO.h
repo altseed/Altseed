@@ -85,15 +85,6 @@ namespace ace
 			std::vector<Material> Materials;
 		};
 
-		struct FCurveKeyframe
-		{
-			Vector2DF				KeyValue;
-			Vector2DF				LeftHandle;
-			Vector2DF				RightHandle;
-			eInterpolationType		InterpolationType;
-		};
-
-
 		struct KeyframeAnimation
 		{
 			astring Name;
@@ -139,6 +130,43 @@ namespace ace
 		void LoadAnimationSource(AnimationSource* as, BinaryReader& reader, const achar* path);
 		void LoadKeyframeAnimation(KeyframeAnimation* ka, BinaryReader& reader, const achar* path);
 		void LoadAnimationClip(AnimationClip* ac, BinaryReader& reader, const achar* path);
+	};
+
+	enum eAnimationCurveTargetType
+	{
+		ANIMATION_CURVE_TARGET_TYPE_NONE,
+		ANIMATION_CURVE_TARGET_TYPE_POSITON,
+		ANIMATION_CURVE_TARGET_TYPE_ROTATION,
+		ANIMATION_CURVE_TARGET_TYPE_SCALE,
+	};
+
+	enum eAnimationCurveTargetAxis
+	{
+		ANIMATION_CURVE_TARGET_AXIS_NONE = -1,
+		ANIMATION_CURVE_TARGET_AXIS_X = 0,
+		ANIMATION_CURVE_TARGET_AXIS_Y = 1,
+		ANIMATION_CURVE_TARGET_AXIS_Z = 2,
+		ANIMATION_CURVE_TARGET_AXIS_W = 3,
+	};
+
+	class ModelUtils
+	{
+	public:
+		static void CalculateBoneMatrixes(std::vector<Matrix44>& dst, const std::vector<Model_IO::Bone>& bones, const std::vector<Matrix44>& localMatrixes);
+
+		static Matrix44 CalcMatrix(float position[3], float rotation[4], float scale[3], eRotationOrder rotationType);
+
+		static float GetKeyframeValue(float time, const std::vector<FCurveKeyframe>& keyframes);
+
+		static bool GetAnimationTarget(astring& targetName, eAnimationCurveTargetType& targetType, eAnimationCurveTargetAxis& targetAxis, const astring& name);
+
+		static void SetBoneValue(
+			float position[3], 
+			float rotation[4], 
+			float scale[3], 
+			eAnimationCurveTargetType targetType, 
+			eAnimationCurveTargetAxis targetAxis, 
+			float value);
 
 	};
 }

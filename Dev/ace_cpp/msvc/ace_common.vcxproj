@@ -84,6 +84,7 @@
     <ClInclude Include="..\common\Math\ace.Vector2DF.h" />
     <ClInclude Include="..\common\Math\ace.Vector2DI.h" />
     <ClInclude Include="..\common\Math\ace.Vector3DF.h" />
+    <ClInclude Include="..\common\Math\ace.Vector4DF.h" />
     <ClInclude Include="..\common\Thread\ace.CriticalSection.h" />
     <ClInclude Include="..\common\Thread\ace.Thread.h" />
     <ClInclude Include="..\common\utility\ace.BinaryReader.h" />
@@ -104,6 +105,7 @@
     <ClCompile Include="..\common\Math\ace.Vector2DI.cpp" />
     <ClCompile Include="..\common\Math\ace.Vector3DF.cpp" />
     <ClCompile Include="..\common\Math\ace.RectI.cpp" />
+    <ClCompile Include="..\common\Math\ace.Vector4DF.cpp" />
     <ClCompile Include="..\common\Thread\ace.CriticalSection.cpp" />
     <ClCompile Include="..\common\Thread\ace.Thread.cpp" />
     <ClCompile Include="..\common\utility\ace.PointerArray.cpp" />

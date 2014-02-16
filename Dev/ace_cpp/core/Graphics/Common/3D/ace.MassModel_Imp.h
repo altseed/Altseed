@@ -3,6 +3,8 @@
 
 #include "ace.MassModel.h"
 
+#include <Graphics/3D/ace.MassModel_IO.h>
+
 namespace ace
 {
 	class MassObject_Imp
@@ -14,6 +16,8 @@ namespace ace
 		std::shared_ptr<IndexBuffer_Imp>	m_indexBuffer;
 
 		std::shared_ptr<Texture2D_Imp>		m_animationTexture;
+
+		bool Load(Graphics_Imp* g, MassModel_IO& io);
 
 	public:
 		MassObject_Imp();

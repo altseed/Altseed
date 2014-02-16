@@ -13,7 +13,7 @@ namespace ace
 
 /**
 @brief	数値、文字列をバイト列にシリアライズし、ファイルに書き出すクラス
-@detail	対応する型はint32_t, int16_t, int8_t, std::string, astring, achar*
+@detail	対応する型はint32_t, int16_t, int8_t, uint8_t, std::string, astring, achar*
 @warning	エンディアンは現状非互換、正当性の検査等はないので、
 データを読み出す際はBinaryReaderで*書き出した順に*読み出すこと
 */
@@ -86,6 +86,19 @@ public:
 	void Push(int8_t content){
 
 		m_data.push_back(content);
+
+	}
+
+	//-----------------------------------------------------------------------------------
+	//
+	//-----------------------------------------------------------------------------------
+	/**
+	@brief	uint8_tをシリアライズし、バイト列の末尾に追加する
+	@param	content	シリアライズする整数
+	*/
+	void Push(uint8_t content){
+
+		m_data.push_back(*((uint8_t*)(&content)));
 
 	}
 	//-----------------------------------------------------------------------------------

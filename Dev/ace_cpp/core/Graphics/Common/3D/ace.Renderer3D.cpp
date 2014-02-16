@@ -420,7 +420,7 @@ void main()
 	void Renderer3D::SetWindowSize(Vector2DI windowSize)
 	{
 		SafeRelease(m_renderTarget);
-		m_renderTarget = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_RGBA8888);
+		m_renderTarget = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 		m_windowSize = windowSize;
 
 		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)

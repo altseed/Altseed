@@ -21,6 +21,7 @@ class Graphics
 {
 protected:
 	virtual Texture2D* CreateTexture2D_(const achar* path) = 0;
+	virtual Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, eTextureFormat format) = 0;
 	virtual RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, eTextureFormat format) = 0;
 	virtual Shader2D* CreateShader2D_( const achar* shaderText, ShaderVariableProperty* variableProperties, int32_t variablePropertiesCount) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
@@ -41,6 +42,18 @@ public:
 	@return	テクスチャ
 	*/
 	std::shared_ptr<Texture2D> CreateTexture2D(const achar* path) { return CreateSharedPtrWithReleaseDLL(CreateTexture2D_(path)); }
+
+	/**
+	@brief	テクスチャを生成する。
+	@param	width	横幅
+	@param	height	縦幅
+	@param	format	フォーマット
+	@return	テクスチャ
+	*/
+	std::shared_ptr<Texture2D> CreateEmptyTexture2D(int32_t width, int32_t height, eTextureFormat format)
+	{
+		return CreateSharedPtrWithReleaseDLL(CreateEmptyTexture2D_(width, height, format));
+	}
 
 	/**
 	@brief	描画先として指定可能なテクスチャを生成する。

@@ -76,6 +76,20 @@ template<> inline int8_t BinaryReader::Get()
 	return c;
 }
 
+template<> inline uint8_t BinaryReader::Get()
+{
+	uint8_t c;
+	assert(!data.empty());
+	if (data.empty()){
+		return static_cast<uint8_t>(0);
+	}
+	c = data.front();
+	data.pop_front();
+
+	return c;
+}
+
+
 template<> inline std::string BinaryReader::Get()
 {
 	int8_t lenCs[4];

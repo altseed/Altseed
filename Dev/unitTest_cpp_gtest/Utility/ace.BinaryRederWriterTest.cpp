@@ -74,6 +74,23 @@ TEST_F(BinaryReaderWriterTest, int8Test)
 	}
 }
 
+TEST_F(BinaryReaderWriterTest, uint8Test)
+{
+	std::vector<uint8_t> orig = { 1, 2, 3, 42 };
+	for (auto const e : orig)
+	{
+		writer.Push(e);
+	}
+	WriteOut();
+	ReadIn();
+
+	for (auto const e : orig)
+	{
+		ASSERT_FALSE(reader.IsEmpty());
+		EXPECT_TRUE(e == reader.Get<uint8_t>());
+	}
+}
+
 TEST_F(BinaryReaderWriterTest, int16Test)
 {
 	std::vector<int16_t> orig = { 0xACE, 0x1234, 0x7777, 0x1, 0x4649 };

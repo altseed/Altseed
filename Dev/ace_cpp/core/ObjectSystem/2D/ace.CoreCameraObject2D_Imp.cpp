@@ -32,7 +32,7 @@ namespace ace
 		m_renderTarget = m_graphics->CreateRenderTexture_Imp(
 			m_src.Width,
 			m_src.Height,
-			eTextureFormat::TEXTURE_FORMAT_RGBA8888);
+			eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 
 		m_renderer = new Renderer2D_Imp(m_graphics, nullptr, m_src.GetSize());
 	}

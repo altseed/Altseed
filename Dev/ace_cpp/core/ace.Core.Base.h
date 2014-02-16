@@ -66,7 +66,8 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	enum eTextureFormat
 	{
-		TEXTURE_FORMAT_RGBA8888 = 0,
+		TEXTURE_FORMAT_R8G8B8A8_UNORM = 0,
+		TEXTURE_FORMAT_R32G32B32A32_FLOAT = 1,
 	};
 
 	enum eTextureClassType

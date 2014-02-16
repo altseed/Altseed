@@ -5,6 +5,7 @@
 // Include
 //----------------------------------------------------------------------------------
 #include "../ace.common.Base.h"
+#include "../Math/ace.Vector2DF.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -53,6 +54,38 @@ namespace ace {
 		@brief	int型指定
 		*/
 		INTERPOLATION_TYPE_MAX = 0xfffffff
+	};
+
+	/**
+	@brief	Fカーブのキーフレーム
+	*/
+	struct FCurveKeyframe
+	{
+	public:
+		/**
+		@brief	時間と値
+		*/
+		Vector2DF				KeyValue;
+
+		/**
+		@brief	制御用ハンドル
+		*/
+		Vector2DF				LeftHandle;
+
+		/**
+		@brief	制御用ハンドル
+		*/
+		Vector2DF				RightHandle;
+
+		/**
+		@brief	補間方法
+		*/
+		eInterpolationType		InterpolationType;
+
+		FCurveKeyframe()
+		{
+			InterpolationType = eInterpolationType::INTERPOLATION_TYPE_LINEAR;
+		}
 	};
 
 

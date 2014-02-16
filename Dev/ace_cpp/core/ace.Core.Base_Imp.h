@@ -61,6 +61,15 @@
 #endif
 #include <EffekseerRendererGL.h>
 
+#if _WIN32
+#if _DEBUG
+#pragma comment(lib,"Debug/ace_common.lib")
+#pragma comment(lib,"Debug/ace_tool.lib")
+#else
+#pragma comment(lib,"Release/ace_common.lib")
+#pragma comment(lib,"Release/ace_tool.lib")
+#endif
+#endif
 
 //----------------------------------------------------------------------------------
 //
@@ -224,6 +233,13 @@ namespace ace {
 			float	Z;
 		};
 
+		struct Vector4DF_R
+		{
+			float	X;
+			float	Y;
+			float	Z;
+			float	W;
+		};
 		struct Color_R
 		{
 			uint8_t	R;
@@ -256,6 +272,14 @@ namespace ace {
 			int Width;
 			int Height;
 		};
+
+		struct TextureLockInfomation_R
+		{
+			void* Pixels;
+			int Pitch;
+			Vector2DI_R Size;
+		};
+
 	}
 	//----------------------------------------------------------------------------------
 	//

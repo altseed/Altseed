@@ -28,8 +28,8 @@ namespace ace
 
 	{
 		SafeAddRef(m_graphics);
-		m_baseTarget0 = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_RGBA8888);
-		m_baseTarget1 = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_RGBA8888);
+		m_baseTarget0 = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+		m_baseTarget1 = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 
 		m_layerRenderer = new LayerRenderer(graphics);
 		m_layerRenderer->SetWindowSize(windowSize);

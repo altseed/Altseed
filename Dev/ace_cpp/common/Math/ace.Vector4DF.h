@@ -1,11 +1,9 @@
-﻿
-#pragma once
+﻿#pragma once
 
 //----------------------------------------------------------------------------------
-//
+// Include
 //----------------------------------------------------------------------------------
-#include "../../Common/Resource/ace.RenderTexture_Imp.h"
-#include "../ace.GL.Base.h"
+#include "../ace.common.Base.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -14,25 +12,33 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	class RenderTexture_Imp_GL
-		: public RenderTexture_Imp
+	/**
+	@brief	4次元ベクトル
+	*/
+	struct Vector4DF
 	{
-	protected:
-		GLuint	m_texture;
-
-		RenderTexture_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size);
-		virtual ~RenderTexture_Imp_GL();
 	public:
+		/**
+		@brief	X
+		*/
+		float	X;
 
-		static RenderTexture_Imp_GL* Create(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format);
+		/**
+		@brief	Y
+		*/
+		float	Y;
 
-		bool Save(const achar* path) override;
+		/**
+		@brief	Z
+		*/
+		float	Z;
 
-		bool Lock(TextureLockInfomation& info) override { return false; };
+		/**
+			@brief	W
+			*/
+		float	W;
 
-		void Unlock() override {};
-
-		GLuint GetBuffer() { return m_texture; }
+		Vector4DF();
 	};
 
 	//----------------------------------------------------------------------------------

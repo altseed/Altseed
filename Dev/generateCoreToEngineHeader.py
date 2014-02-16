@@ -44,17 +44,19 @@ fromCoreToEngine.append('#pragma once')
 fromCoreToEngine.append('\n#include <stdint.h>')
 fromCoreToEngine.append('\n#include <ace.common.Base.h>')
 
-fromCoreToEngine.readLines("ace_cpp/common/Graphics/ace.Graphics.Common.h")
 
-fromCoreToEngine.readLines("ace_cpp/common/Graphics/ace.Color.h")
-fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector2DF.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector2DI.h")
+fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector2DF.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.RectI.h")
 fromCoreToEngine.append('namespace ace{ struct Vector3DF; }')
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Matrix43.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Matrix44.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector3DF.h")
+fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector4DF.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Matrix33.h")
+
+fromCoreToEngine.readLines("ace_cpp/common/Graphics/ace.Graphics.Common.h")
+fromCoreToEngine.readLines("ace_cpp/common/Graphics/ace.Color.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/ace.Core.Base.h")
 fromCoreToEngine.readLines("ace_cpp/core/ace.ReferenceObject.h")

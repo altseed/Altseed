@@ -593,9 +593,18 @@ Texture2D_Imp* Graphics_Imp_GL::CreateTexture2D_Imp_Internal(Graphics* graphics,
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+Texture2D_Imp* Graphics_Imp_GL::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
+{
+	auto ret = Texture2D_Imp_GL::Create(this, width, height, format);
+	return ret;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 RenderTexture_Imp* Graphics_Imp_GL::CreateRenderTexture_Imp(int32_t width, int32_t height, eTextureFormat format)
 {
-	return RenderTexture_Imp_GL::Create(this, width, height);
+	return RenderTexture_Imp_GL::Create(this, width, height, format);
 }
 
 //----------------------------------------------------------------------------------
