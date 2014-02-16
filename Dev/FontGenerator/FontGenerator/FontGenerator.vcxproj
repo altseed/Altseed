@@ -19,7 +19,7 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -40,11 +40,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;$(IncludePath);D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common</IncludePath>
     <LibraryPath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype;$(IncludePath)</IncludePath>
+    <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype;$(IncludePath);D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common</IncludePath>
     <LibraryPath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -56,6 +56,12 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>ace_common.lib;libpng16.Debug.lib;zlib.Debug.lib;freetype252ST.lib</AdditionalDependencies>
+    </Lib>
+    <Lib>
+      <AdditionalLibraryDirectories>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib\Debug;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -69,16 +75,25 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>ace_common.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Font.h" />
+    <ClInclude Include="FontData.h" />
     <ClInclude Include="FontGenerator.h" />
     <ClInclude Include="AffHeader.h" />
+    <ClInclude Include="PngGenerator.h" />
+    <ClInclude Include="ResultOfGeneratingPng.h" />
     <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AffHeader.cpp" />
+    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="FontData.cpp" />
     <ClCompile Include="FontGenerator.cpp" />
+    <ClCompile Include="PngGenerator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

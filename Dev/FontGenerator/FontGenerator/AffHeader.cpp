@@ -2,45 +2,74 @@
 #include "utility.h"
 
 using namespace std;
+using namespace ace;
 
 namespace FontGenerator
 {
-	AffHeader::AffHeader(int fontSize, wstring sheetName)
-		: version(AFF_VERSION)
-		, fontSize(fontSize)
-		, fontWidth(fontSize)
-		, fontHeight(fontSize)
-		, sheetCount(1)
-		, fontCount(1)
+	AffHeader::AffHeader(wstring sheetName)
+		: m_version(AFF_VERSION)
+		, m_fontSize(FONT_SIZE_DEFAULT)
+		, m_fontWidth(FONT_SIZE_DEFAULT)
+		, m_fontHeight(FONT_SIZE_DEFAULT)
+		, m_sheetCount(SHEET_COUNT_DEFAULT)
+		, m_fontCount(FONT_COUNT_DEFAULT)
+		, m_sheetName(sheetName)
 	{
-		guid[0] = 'A';
-		guid[1] = 'F';
-		guid[2] = 'F';
-		guid[3] = '/0';
-		this->sheetName.fill(L'\0');
-
-		for (int i = 0; i < SHEET_NAME_LENGTH && i < sheetName.size(); ++i)
-		{
-			this->sheetName[i] = sheetName[i];
-		}
+		m_guid[0] = 'A';
+		m_guid[1] = 'F';
+		m_guid[2] = 'F';
+		m_guid[3] = '\0';
 	}
 
-	vector<char> AffHeader::GetBytes()
+	void AffHeader::WriteOut(ostream& stream)
 	{
-		vector<char> result;
-		result.insert(result.end(), guid.begin(), guid.end());
+		BinaryWriter writer;
 
-		AddRange(result, GetBytesOf(version));
-		AddRange(result, GetBytesOf(fontSize));
-		AddRange(result, GetBytesOf(fontWidth));
-		AddRange(result, GetBytesOf(fontHeight));
-		AddRange(result, GetBytesOf(sheetCount));
-
-		for (auto& wc : sheetName)
+		for (int8_t c : m_guid)
 		{
-			AddRange(result, GetBytesOf(wc));
+			writer.Push(c);
 		}
 
-		return result;
+		writer.Push(m_version);
+		writer.Push(m_fontSize);
+		writer.Push(m_fontWidth);
+		writer.Push(m_fontHeight);
+		writer.Push(m_sheetCount);
+		writer.Push(m_fontCount);
+		writer.Push(m_sheetName);
+
+		writer.WriteOut(stream);
 	}
+
+#pragma region GetSet
+	int AffHeader::GetFontSize() const
+	{
+		return m_fontSize;
+	}
+
+	void AffHeader::SetFontSize(int value)
+	{
+		m_fontSize = value;
+	}
+
+	int AffHeader::GetSheetCount() const
+	{
+		return m_sheetCount;
+	}
+
+	void AffHeader::SetSheetCount(int value)
+	{
+		m_sheetCount = value;
+	}
+
+	int AffHeader::GetFontCount() const
+	{
+		return m_fontCount;
+	}
+
+	void AffHeader::SetFontCount(int value)
+	{
+		m_fontCount = value;
+	}
+#pragma endregion
 }
