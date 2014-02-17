@@ -359,6 +359,7 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 
 	for(int i=0;i<_vertices.size();++i)
 	{
+		printf("CP(%f, %f, %f)\n",_vertices[i].position.X,_vertices[i].position.Y,_vertices[i].position.Z);
 		writer->Push(_vertices[i].position);
 
 		writer->Push(zero3);
@@ -405,10 +406,13 @@ void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
 	writer->Push((int32_t) _faces.size());
 	for (auto ite = _faces.begin(); ite != _faces.end(); ++ite)
 	{
+		printf("FI(");
 		for (int i = 0; i < 3; ++i)
 		{
+			printf("%d, ",ite->vertexIndex[i]);
 			writer->Push((int32_t) ite->vertexIndex[i]);
 		}
+		printf(")\n");
 	}
 }
 
