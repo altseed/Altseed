@@ -122,6 +122,7 @@ namespace ace
 		auto mesh = LoadMesh(g, reader, path);
 		auto deformer = LoadDeformer(g, reader, path);
 		mesh->SetDeformer(deformer);
+		SafeRelease(deformer);
 
 		// 材質
 		int32_t materialCount = reader.Get<int32_t>();

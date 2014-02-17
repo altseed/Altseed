@@ -30,6 +30,8 @@ extern void Graphics_Effect3D_(bool isOpenGLMode);
 extern void Graphics_SimpleMesh_(bool isOpenGLMode);
 extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
 
+extern void Graphics_Model_(bool isOpenGLMode);
+
 /**
 	@brief	単体テストを実行する。
 	@note
@@ -44,6 +46,9 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 	::testing::InitGoogleTest(&argc, argv);
+
+	//Graphics_Model_(false);
+	//return 0;
 
 	//TestCamera(true);
 	//TestCamera(false);

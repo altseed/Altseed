@@ -35,6 +35,7 @@ namespace ace
 
 	Mesh_Imp::~Mesh_Imp()
 	{
+		SafeRelease(m_deformer);
 		SafeRelease(m_graphics);
 	}
 
@@ -220,17 +221,20 @@ namespace ace
 
 		// インデックスバッファ送信
 		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(m_faceBufferOnMM.size() * 3, false, true);
-		m_indexBuffer->Lock();
-
-		auto ibuf = m_indexBuffer->GetBuffer<int32_t>(m_faceBufferOnMM.size() * 3);
-		for (size_t i = 0; i < m_faceBufferOnMM.size(); i++)
+		if (m_indexBuffer != nullptr)
 		{
-			ibuf[i * 3 + 0] = m_faceBufferOnMM[i].Index1;
-			ibuf[i * 3 + 1] = m_faceBufferOnMM[i].Index2;
-			ibuf[i * 3 + 2] = m_faceBufferOnMM[i].Index3;
-		}
+			m_indexBuffer->Lock();
 
-		m_indexBuffer->Unlock();
+			auto ibuf = m_indexBuffer->GetBuffer<int32_t>(m_faceBufferOnMM.size() * 3);
+			for (size_t i = 0; i < m_faceBufferOnMM.size(); i++)
+			{
+				ibuf[i * 3 + 0] = m_faceBufferOnMM[i].Index1;
+				ibuf[i * 3 + 1] = m_faceBufferOnMM[i].Index2;
+				ibuf[i * 3 + 2] = m_faceBufferOnMM[i].Index3;
+			}
+
+			m_indexBuffer->Unlock();
+		}
 	}
 
 	Deformer* Mesh_Imp::GetDeformer_()

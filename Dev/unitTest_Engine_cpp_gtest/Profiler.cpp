@@ -1,4 +1,7 @@
-﻿#include <gtest/gtest.h>
+﻿
+#include "EngineTest.h"
+
+#include <gtest/gtest.h>
 #include <ace.h>
 #include <memory>
 
@@ -35,20 +38,19 @@ void Profiler_Profiling(bool isOpenGLMode)
 
 		ace::Engine::Terminate();
 	}
-
-	auto ref = ace::GetGlobalReferenceCount();
-	ASSERT_TRUE(ref == 0);
 }
 
 TEST(Profiler, Profiling_GL)
 {
 	Profiler_Profiling(true);
+	AssertMemoryDoesntLeak();
 }
 
 #if _WIN32
 TEST(Profiler, Profiling_DX)
 {
 	Profiler_Profiling(false);
+	AssertMemoryDoesntLeak();
 }
 #endif
 
