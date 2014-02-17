@@ -15,5 +15,7 @@ int main(int argc, char** argv) {
 	exporter->Convert();
 	
 	delete exporter;
+
+	system("PAUSE");
     return 0;
 }

@@ -345,6 +345,7 @@ void MeshLoader::Load(FbxMesh* fbxMesh)
 	//_loadUVs();
 	//_loadColors();
 	//_loadWeights();
+	_loadFaceIndices(fbxMesh);
 }
 
 void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
@@ -399,6 +400,8 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 
 void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
 {
+
+	printf("Face Num = %d\n",_faces.size());
 	writer->Push((int32_t) _faces.size());
 	for (auto ite = _faces.begin(); ite != _faces.end(); ++ite)
 	{

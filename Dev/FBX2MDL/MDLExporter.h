@@ -9,7 +9,7 @@ class MDLExporter
 	FbxManager* lSdkManager;
 	FbxScene* lScene;
 	ace::BinaryWriter* binaryWriter;
-	MeshLoader* mLoader;
+	std::vector<MeshLoader> _meshGroup;
 
 	void GetMesh(FbxNode* pNode);
 

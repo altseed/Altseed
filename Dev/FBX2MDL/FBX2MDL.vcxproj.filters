@@ -80,10 +80,10 @@
     <ClInclude Include="..\ace_cpp\common\Math\ace.Vector3DF.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="MeshGroup.h">
+    <ClInclude Include="MeshLoader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="MeshLoader.h">
+    <ClInclude Include="MeshGroupLoader.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

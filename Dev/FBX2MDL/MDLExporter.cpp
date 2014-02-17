@@ -34,8 +34,6 @@ MDLExporter::MDLExporter(const char* fileName){
 
 	binaryWriter=new ace::BinaryWriter();
 
-	mLoader=new MeshLoader();
-
 }
 
 void MDLExporter::Convert()
@@ -46,38 +44,38 @@ void MDLExporter::Convert()
         for(int i = 0; i < lRootNode->GetChildCount(); i++)
 			GetMeshGroup(lRootNode->GetChild(i));
     }
-	
-	binaryWriter->Push(1);
-	//バージョン
+
+
+	//メッシュグループ
 	{
+		int meshGroupNum = (int) _meshGroup.size();
 
-		mLoader->WriteVertices(binaryWriter);
-		mLoader->WriteFaces(binaryWriter);
-		mLoader->WriteFaceMaterials(binaryWriter);
-		mLoader->WriteBoneAttachments(binaryWriter);
+		printf("Mesh Group Num = %d\n",meshGroupNum);
 
+		//メッシュ
+		binaryWriter->Push(meshGroupNum);
+
+		for (int i = 0; i < meshGroupNum; ++i)
+		{
+			_meshGroup[i].WriteVertices(binaryWriter);
+			_meshGroup[i].WriteFaces(binaryWriter);
+			_meshGroup[i].WriteFaceMaterials(binaryWriter);
+			_meshGroup[i].WriteBoneAttachments(binaryWriter);
+		}
+
+		//ボーン
 		binaryWriter->Push(0);
-
+		//材質
 		binaryWriter->Push(0);
 	}
-		/*
-		binaryWriter->Push("");
-		binaryWriter->Push(0);
-		binaryWriter->Push(10);
-
-		ace::Matrix44 matrix=ace::Matrix44();
-		binaryWriter->Push(matrix);
-		binaryWriter->Push(matrix);
-		*/
-
-		
-		/*
-		binaryWriter->Push(1);
-		binaryWriter->Push("");
-		*/
 
 	{
+		//アニメーションソース
 		binaryWriter->Push(0);
+	}
+
+	{
+		//アニメーションクリップ
 		binaryWriter->Push(0);
 	}
 
@@ -91,8 +89,6 @@ MDLExporter::~MDLExporter()
 	lSdkManager->Destroy();
 
 	delete binaryWriter;
-
-	delete mLoader;
 }
 
 void MDLExporter::GetMeshGroup(FbxNode* pNode)
@@ -118,7 +114,18 @@ void MDLExporter::GetMeshProperty(FbxNodeAttribute* pAttribute)
 
 	FbxMesh* mesh=(FbxMesh*)pAttribute;
 
-	mLoader->Load(mesh);
+	if(!mesh->IsTriangleMesh())
+	{
+		printf("Not Triangle... Converted.");
+		FbxGeometryConverter _converter(lSdkManager);
+		mesh=(FbxMesh*)_converter.Triangulate(mesh,true);
+	}
+
+	MeshLoader mLoader=MeshLoader();
+
+	mLoader.Load(mesh);
+
+	_meshGroup.push_back(mLoader);
 }
 
 void MDLExporter::PrintHeader()
