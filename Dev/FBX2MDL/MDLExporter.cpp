@@ -116,7 +116,7 @@ void MDLExporter::GetMeshProperty(FbxNodeAttribute* pAttribute)
 
 	if(!mesh->IsTriangleMesh())
 	{
-		printf("Not Triangle... Converted.");
+		printf("Not Triangle... Converted.\n");
 		FbxGeometryConverter _converter(lSdkManager);
 		mesh=(FbxMesh*)_converter.Triangulate(mesh,true);
 	}
