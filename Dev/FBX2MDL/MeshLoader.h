@@ -13,7 +13,7 @@ struct Vertex
 	ace::Vector3DF binormal;
 	ace::Vector2DF uv;
 
-	float color[4];
+	int color[4];
 	uint8_t weight[4];
 	uint8_t weightIndexDivided[4];
 	uint8_t weightIndexOriginal[4];

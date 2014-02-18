@@ -61,12 +61,12 @@ void MDLExporter::Convert()
 			_meshGroup[i].WriteFaces(binaryWriter);
 			_meshGroup[i].WriteFaceMaterials(binaryWriter);
 			_meshGroup[i].WriteBoneAttachments(binaryWriter);
-		}
 
-		//ボーン
-		binaryWriter->Push(0);
-		//材質
-		binaryWriter->Push(0);
+			//ボーン
+			binaryWriter->Push(0);
+			//材質
+			binaryWriter->Push(0);
+		}
 	}
 
 	{
