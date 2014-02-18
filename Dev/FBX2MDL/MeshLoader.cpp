@@ -362,39 +362,34 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 		printf("CP(%f, %f, %f)\n",_vertices[i].position.X,_vertices[i].position.Y,_vertices[i].position.Z);
 		writer->Push(_vertices[i].position);
 
-		writer->Push(zero3);
+		writer->Push(ace::Vector3DF(0,0,1));
 		writer->Push(zero3);
 
 		writer->Push(zero2);
 		writer->Push(zero2);
-
-		//writer->Push(_vertices[i].normal);
-		//writer->Push(_vertices[i].binormal);
-		//writer->Push(_vertices[i].uv.X);
-		//writer->Push(_vertices[i].uv.Y);
 		
+		//頂点カラー
+		writer->Push((uint8_t)255);
+		writer->Push((uint8_t)255);
+		writer->Push((uint8_t)255);
+		writer->Push((uint8_t)255);
+
+		//頂点ウェイト
+		writer->Push((uint8_t)255);
+		writer->Push((uint8_t)0);
+		writer->Push((uint8_t)0);
+		writer->Push((uint8_t)0);
+
 		for (int j = 0; j < 4; ++j)
 		{
-			//writer->Push(_vertices[i].color[j]);
+			//writer->Push(_vertices[i].weightIndexOriginal[j]);
 			writer->Push((uint8_t)0);
 		}
 
 		for (int j = 0; j < 4; ++j)
 		{
-			//writer->Push(_vertices[i].weight[j]);
-			writer->Push((int8_t)0);
-		}
-
-		for (int j = 0; j < 4; ++j)
-		{
-			//writer->Push(_vertices[i].weightIndexOriginal[j]);
-			writer->Push((int8_t)0);
-		}
-
-		for (int j = 0; j < 4; ++j)
-		{
 			//writer->Push(_vertices[i].weightIndexDivided[j]);
-			writer->Push((int8_t)0);
+			writer->Push((uint8_t)0);
 		}
 	}
 }
