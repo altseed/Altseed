@@ -74,6 +74,28 @@ namespace FontGenerator
 		free(raw2D);
 	}
 
+	static void DrawBitmap(int* buffer, FT_Bitmap bmp, int size, int penX, int penY)
+	{
+		for (int yi = 0; yi < bmp.rows; ++yi)
+		{
+			int yIndex = penY + yi;
+			if (yIndex < 0)continue;
+			if (yIndex >= size) break;
+			for (int xi = 0; xi < bmp.width; ++xi)
+			{
+				int xIndex = penX + xi;
+				if (xIndex < 0)continue;
+				if (xIndex >= size) break;
+
+				int index = yIndex * size + xIndex;
+				if (index >= 0 && index < size*size)
+				{
+					buffer[index] = bmp.buffer[yi*bmp.width+xi] << 24;
+				}
+			}
+		}
+	}
+
 	PngGenerator::PngGenerator()
 		: m_sheetName(L"font.png")
 		, m_fontSize(20)
@@ -88,14 +110,30 @@ namespace FontGenerator
 
 		vector<int> buffer(m_sheetSize*m_sheetSize, 0);
 
-		int penX = 0, penY = 0;
+		int fontHeight = m_font.GetFontHeight() >> 6;
+		int penX = 0, penY = fontHeight;
 		for (auto& glyph : m_font.GetGlyphs(charactors))
 		{
 			auto bmp = glyph->bitmap;
+			int advance = glyph->root.advance.x >> 16;
+
+			if (penX + advance >= m_sheetSize)
+			{
+				penX = 0;
+				penY += fontHeight;
+			}
+
 			FontData data;
 			data.x = penX;
 			data.y = penY;
-			data.width = glyph->root.advance.x >> 6;
+			data.width = glyph->root.advance.x >> 16;
+			DrawBitmap(
+				buffer.data(),
+				bmp,
+				m_sheetSize,
+				penX + glyph->left,
+				penY - glyph->top);
+			penX += advance;
 		}
 
 		auto pngPath = GetSheetName() + ToAString(".png");

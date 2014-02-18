@@ -37,6 +37,7 @@ namespace FontGenerator
 		header.WriteOut(file);
 	}
 
+	// UTF-16Ç™ëŒè€
 	vector<achar> FontGenerator::GetCharactors(astring textPath)
 	{
 		vector<achar> result;
@@ -44,11 +45,16 @@ namespace FontGenerator
 		FILE* file;
 		_wfopen_s(&file, textPath.c_str(), L"r");
 
+		achar bom;
+		fread(&bom, sizeof(achar), 1, file);
+
 		while (!feof(file))
 		{
 			achar c;
-			fread(&c, sizeof(achar), 1, file);
-			result.push_back(c);
+			if (fread(&c, sizeof(achar), 1, file) == 1)
+			{
+				result.push_back(c);
+			}
 		}
 
 		fclose(file);

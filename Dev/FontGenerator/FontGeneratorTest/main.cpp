@@ -9,7 +9,7 @@ int main()
 	{
 		gen.GenerateFontFile(
 			L"C:/Windows/Fonts/azuki.ttf",
-			16,
+			24,
 			L"test.txt",
 			L"test");
 	}

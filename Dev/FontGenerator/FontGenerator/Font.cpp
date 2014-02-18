@@ -66,10 +66,16 @@ namespace FontGenerator
 	void Font::SetFontSize(int value)
 	{
 		m_fontSize = value;
-		auto error = FT_Set_Char_Size(m_face, 0, value * 64, 300, 300);
+		//auto error = FT_Set_Char_Size(m_face, 0, value * 64, 96, 96);
+		auto error = FT_Set_Pixel_Sizes(m_face, 0, value);
 		if (error)
 		{
 			throw "フォントサイズの設定に失敗しました";
 		}
+	}
+
+	int Font::GetFontHeight() const
+	{
+		return m_face->size->metrics.height;
 	}
 }

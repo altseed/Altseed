@@ -23,5 +23,7 @@ namespace FontGenerator
 
 		int GetFontSize() const;
 		void SetFontSize(int value);
+
+		int GetFontHeight() const;
 	};
 }
