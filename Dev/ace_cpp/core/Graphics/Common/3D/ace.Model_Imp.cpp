@@ -95,14 +95,14 @@ namespace ace
 
 	void Model_Imp::Attach(RenderedModelObject3D* model)
 	{
-		assert(m_observers.find(model) != m_observers.end());
+		assert(m_observers.find(model) == m_observers.end());
 
 		m_observers.insert(model);
 	}
 
 	void Model_Imp::Detach(RenderedModelObject3D* model)
 	{
-		assert(m_observers.find(model) == m_observers.end());
+		assert(m_observers.find(model) != m_observers.end());
 
 		m_observers.erase(model);
 	}
@@ -122,6 +122,7 @@ namespace ace
 		auto mesh = LoadMesh(g, reader, path);
 		auto deformer = LoadDeformer(g, reader, path);
 		mesh->SetDeformer(deformer);
+		SafeRelease(deformer);
 
 		// 材質
 		int32_t materialCount = reader.Get<int32_t>();

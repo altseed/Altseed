@@ -1,8 +1,9 @@
 #include "MDLExporter.h"
 #include "../ace_cpp/common/Math/ace.Vector2DF.h"
 #include "../ace_cpp/common/Math/ace.Vector3DF.h"
+#include "../ace_cpp/common/Math/ace.Matrix44.h"
 
-#include "VerticeLoader.h"
+#include "MeshLoader.h"
 
 MDLExporter::MDLExporter(const char* fileName){
 	// Initialize the SDK manager. This object handles all our memory management.
@@ -43,6 +44,44 @@ void MDLExporter::Convert()
         for(int i = 0; i < lRootNode->GetChildCount(); i++)
 			GetMeshGroup(lRootNode->GetChild(i));
     }
+
+
+	//メッシュグループ
+	{
+		int meshGroupNum = (int) _meshGroup.size();
+
+		printf("Mesh Group Num = %d\n",meshGroupNum);
+
+		//メッシュ
+		binaryWriter->Push(meshGroupNum);
+
+		for (int i = 0; i < meshGroupNum; ++i)
+		{
+			_meshGroup[i].WriteVertices(binaryWriter);
+			_meshGroup[i].WriteFaces(binaryWriter);
+			_meshGroup[i].WriteFaceMaterials(binaryWriter);
+			_meshGroup[i].WriteBoneAttachments(binaryWriter);
+		}
+
+		//ボーン
+		binaryWriter->Push(0);
+		//材質
+		binaryWriter->Push(0);
+	}
+
+	{
+		//アニメーションソース
+		binaryWriter->Push(0);
+	}
+
+	{
+		//アニメーションクリップ
+		binaryWriter->Push(0);
+	}
+
+
+	binaryWriter->WriteOut("out.mdl");
+
 }
 
 MDLExporter::~MDLExporter()
@@ -75,16 +114,26 @@ void MDLExporter::GetMeshProperty(FbxNodeAttribute* pAttribute)
 
 	FbxMesh* mesh=(FbxMesh*)pAttribute;
 
-	VerticeLoader* vloader=new VerticeLoader(mesh);
+	if(!mesh->IsTriangleMesh())
+	{
+		printf("Not Triangle... Converted.\n");
+		FbxGeometryConverter _converter(lSdkManager);
+		mesh=(FbxMesh*)_converter.Triangulate(mesh,true);
+	}
 
-	vloader->Load();
-	vloader->Write(this->binaryWriter);
+	MeshLoader mLoader=MeshLoader();
 
-	delete vloader;
+	mLoader.Load(mesh);
+
+	_meshGroup.push_back(mLoader);
 }
 
 void MDLExporter::PrintHeader()
 {
-	binaryWriter->Push("MDL");
-	binaryWriter->Push((int32_t)0);
+	binaryWriter->Push((uint8_t)'M');
+	binaryWriter->Push((uint8_t)'D');
+	binaryWriter->Push((uint8_t)'L');
+	binaryWriter->Push((uint8_t)0);
+
+	binaryWriter->Push(1);
 }

@@ -503,6 +503,9 @@ void main()
 			auto& matrices = g->m_matrixes_fr;
 			auto mesh = g->GetMesh();
 
+			// 有効チェック
+			if (mesh->GetIndexBuffer() == nullptr) continue;
+
 			// 行列計算
 			if (matrices.size() > 0)
 			{

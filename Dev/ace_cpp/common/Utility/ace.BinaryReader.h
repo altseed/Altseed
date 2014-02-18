@@ -5,7 +5,9 @@
 #include<cstdint>
 #include<climits>
 #include<cassert>
-#include"../ace.common.Base.h"
+#include "../ace.common.Base.h"
+#include "../Graphics/ace.Graphics.Common.h"
+#include "../Math/ace.Vector2DF.h"
 #include "../Math/ace.Vector3DF.h"
 #include "../Math/ace.Matrix44.h"
 
@@ -221,6 +223,47 @@ template<> inline Vector3DF BinaryReader::Get()
 
 	return v;
 
+}
+
+template<> inline Vector2DF BinaryReader::Get()
+{
+	Vector2DF v;
+	v.X = Get<float>();
+	v.Y = Get<float>();
+
+	return v;
+}
+
+template<> inline Color BinaryReader::Get()
+{
+	Color c;
+	c.R = Get<uint8_t>();
+	c.G = Get<uint8_t>();
+	c.B = Get<uint8_t>();
+	c.A = Get<uint8_t>();
+
+	return c;
+}
+
+template<> inline FCurveKeyframe BinaryReader::Get()
+{
+	FCurveKeyframe keyframe;
+
+	keyframe.KeyValue = Get<Vector2DF>();
+	keyframe.LeftHandle = Get<Vector2DF>();
+	keyframe.RightHandle = Get<Vector2DF>();
+	keyframe.InterpolationType = (ace::eInterpolationType)Get<int32_t>();
+
+	return keyframe;
+}
+
+template<> inline eRotationOrder BinaryReader::Get()
+{
+	eRotationOrder rotationOrder;
+
+	rotationOrder = (ace::eRotationOrder)Get<int32_t>();
+
+	return rotationOrder;
 }
 
 template<> inline Matrix44 BinaryReader::Get()
