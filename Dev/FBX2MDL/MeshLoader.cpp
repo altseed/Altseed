@@ -29,6 +29,7 @@ void MeshLoader::_loadPositions(FbxMesh* fbxMesh)
 		vertex.normal=ace::Vector3DF(0,0,0);
 		vertex.binormal=ace::Vector3DF(0,0,0);
 		vertex.uv=ace::Vector2DF(0,0);
+		vertex.subuv=ace::Vector2DF(0,0);
 		for(int j=0;j<4;++j)
 		{
 			vertex.color[j]=0;
@@ -194,84 +195,79 @@ void MeshLoader::_loadBinormals(FbxMesh* fbxMesh)
 	
 void MeshLoader::_loadUVs(FbxMesh* fbxMesh)
 {
-	FbxStringList lUVSetNameList;
-    fbxMesh->GetUVSetNames(lUVSetNameList);
+	int i, j, lPolygonCount = fbxMesh->GetPolygonCount();
+    FbxVector4* lControlPoints = fbxMesh->GetControlPoints(); 
 
-    //iterating over all uv sets
-    for (int lUVSetIndex = 0; lUVSetIndex < lUVSetNameList.GetCount(); lUVSetIndex++)
+	vector<int> addNum(fbxMesh->GetControlPointsCount(),0);
+
+    int vertexId = 0;
+    for (i = 0; i < lPolygonCount; i++)
     {
-        //get lUVSetIndex-th uv set
-        const char* lUVSetName = lUVSetNameList.GetStringAt(lUVSetIndex);
-        const FbxGeometryElementUV* lUVElement = fbxMesh->GetElementUV(lUVSetName);
+		int lPolygonSize = fbxMesh->GetPolygonSize(i);
+		for (j = 0; j < lPolygonSize; j++)
+		{
+			int lControlPointIndex = fbxMesh->GetPolygonVertex(i, j);
+			for (int l = 0; l < fbxMesh->GetElementUVCount(); ++l)
+			{
+				FbxGeometryElementUV* leUV = fbxMesh->GetElementUV( l);
 
-        if(!lUVElement)
-            continue;
+				switch (leUV->GetMappingMode())
+				{
+				case FbxGeometryElement::eByControlPoint:
+					switch (leUV->GetReferenceMode())
+					{
+					case FbxGeometryElement::eDirect:
+						//Display2DVector(header, leUV->GetDirectArray().GetAt(lControlPointIndex));
+						_vertices[lControlPointIndex].uv.X=(float)leUV->GetDirectArray().GetAt(lControlPointIndex)[0];
+						_vertices[lControlPointIndex].uv.Y=(float)leUV->GetDirectArray().GetAt(lControlPointIndex)[1];
+						++addNum[lControlPointIndex];
+						break;
+					case FbxGeometryElement::eIndexToDirect:
+						{
+							int id = leUV->GetIndexArray().GetAt(lControlPointIndex);
+							//Display2DVector(header, leUV->GetDirectArray().GetAt(id));
+							_vertices[lControlPointIndex].uv.X=(float)leUV->GetDirectArray().GetAt(id)[0];
+							_vertices[lControlPointIndex].uv.Y=(float)leUV->GetDirectArray().GetAt(id)[1];
+							++addNum[lControlPointIndex];
+						}
+						break;
+					default:
+						break; // other reference modes not shown here!
+					}
+					break;
 
-        // only support mapping mode eByPolygonVertex and eByControlPoint
-        if( lUVElement->GetMappingMode() != FbxGeometryElement::eByPolygonVertex &&
-            lUVElement->GetMappingMode() != FbxGeometryElement::eByControlPoint )
-            return;
+				case FbxGeometryElement::eByPolygonVertex:
+					{
+						int lTextureUVIndex = fbxMesh->GetTextureUVIndex(i, j);
+						switch (leUV->GetReferenceMode())
+						{
+						case FbxGeometryElement::eDirect:
+						case FbxGeometryElement::eIndexToDirect:
+							{
+								//Display2DVector(header, leUV->GetDirectArray().GetAt(lTextureUVIndex));
+								_vertices[lControlPointIndex].uv.X=(float)leUV->GetDirectArray().GetAt(lTextureUVIndex)[0];
+								_vertices[lControlPointIndex].uv.Y=(float)leUV->GetDirectArray().GetAt(lTextureUVIndex)[1];
+								++addNum[lControlPointIndex];
+							}
+							break;
+						default:
+							break; // other reference modes not shown here!
+						}
+					}
+					break;
+				}
+			}
+			++vertexId;
+		}
+	}
 
-        //index array, where holds the index referenced to the uv data
-        const bool lUseIndex = lUVElement->GetReferenceMode() != FbxGeometryElement::eDirect;
-        const int lIndexCount= (lUseIndex) ? lUVElement->GetIndexArray().GetCount() : 0;
-
-        //iterating through the data by polygon
-        const int lPolyCount = fbxMesh->GetPolygonCount();
-
-        if( lUVElement->GetMappingMode() == FbxGeometryElement::eByControlPoint )
-        {
-            for( int lPolyIndex = 0; lPolyIndex < lPolyCount; ++lPolyIndex )
-            {
-                // build the max index array that we need to pass into MakePoly
-                const int lPolySize = fbxMesh->GetPolygonSize(lPolyIndex);
-                for( int lVertIndex = 0; lVertIndex < lPolySize; ++lVertIndex )
-                {
-                    FbxVector2 lUVValue;
-
-                    //get the index of the current vertex in control points array
-                    int lPolyVertIndex = fbxMesh->GetPolygonVertex(lPolyIndex,lVertIndex);
-
-                    //the UV index depends on the reference mode
-                    int lUVIndex = lUseIndex ? lUVElement->GetIndexArray().GetAt(lPolyVertIndex) : lPolyVertIndex;
-
-                    lUVValue = lUVElement->GetDirectArray().GetAt(lUVIndex);
-
-                    //User TODO:
-                    //Print out the value of UV(lUVValue) or log it to a file
-
-					_vertices[lUVIndex].uv.X=lUVValue[0];
-					_vertices[lUVIndex].uv.Y=lUVValue[1];
-                }
-            }
-        }
-        else if (lUVElement->GetMappingMode() == FbxGeometryElement::eByPolygonVertex)
-        {
-            int lPolyIndexCounter = 0;
-            for( int lPolyIndex = 0; lPolyIndex < lPolyCount; ++lPolyIndex )
-            {
-                // build the max index array that we need to pass into MakePoly
-                const int lPolySize = fbxMesh->GetPolygonSize(lPolyIndex);
-                for( int lVertIndex = 0; lVertIndex < lPolySize; ++lVertIndex )
-                {
-                    if (lPolyIndexCounter < lIndexCount)
-                    {
-                        FbxVector2 lUVValue;
-
-                        //the UV index depends on the reference mode
-                        int lUVIndex = lUseIndex ? lUVElement->GetIndexArray().GetAt(lPolyIndexCounter) : lPolyIndexCounter;
-
-                        lUVValue = lUVElement->GetDirectArray().GetAt(lUVIndex);
-					
-						_vertices[lUVIndex].uv.X=lUVValue[0];
-						_vertices[lUVIndex].uv.Y=lUVValue[1];
-
-                        lPolyIndexCounter++;
-                    }
-                }
-            }
-        }
-    }
+	int vsize = (int)_vertices.size();
+	for(i=0;i<vsize;++i)
+	{
+		if(addNum[i]==0) continue;
+		_vertices[i].uv.X/=addNum[i];
+		_vertices[i].uv.Y/=addNum[i];
+	}
 }
 	
 void MeshLoader::_loadColors(FbxMesh* fbxMesh)
@@ -423,7 +419,7 @@ void MeshLoader::Load(FbxMesh* fbxMesh)
 
 	_loadNormals(fbxMesh);
 	//_loadBinormals(fbxMesh);
-	//_loadUVs();
+	_loadUVs(fbxMesh);
 	_loadColors(fbxMesh);
 	//_loadWeights();
 }
@@ -446,8 +442,9 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 		writer->Push(_vertices[i].normal);
 		writer->Push(zero3);
 
-		writer->Push(zero2);
-		writer->Push(zero2);
+		printf("UV(%f, %f)\n",_vertices[i].uv.X,_vertices[i].uv.Y);
+		writer->Push(_vertices[i].uv);
+		writer->Push(_vertices[i].subuv);
 
 		//’¸“_ƒJƒ‰[
 		writer->Push((uint8_t)_vertices[i].color[0]);
