@@ -422,6 +422,7 @@ void MeshLoader::Load(FbxMesh* fbxMesh)
 	_loadUVs(fbxMesh);
 	_loadColors(fbxMesh);
 	//_loadWeights();
+	_loadTextures(fbxMesh);
 }
 
 void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
@@ -489,6 +490,22 @@ void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
 	}
 }
 
+void MeshLoader::WriteMaterials(ace::BinaryWriter* writer)
+{
+	printf("Material Num = %d\n",_materials.size());
+	writer->Push((int32_t)_materials.size());
+	for(auto ite=_materials.begin();ite!=_materials.end();++ite)
+	{
+		writer->Push(ite->Type);
+		for(int i=0;i<3;++i)
+		{
+			printf("%s\n",ite->texture[i].c_str());
+			writer->Push(ace::ToAString(ite->texture[i].c_str()));
+		}
+	}
+
+}
+
 void MeshLoader::_loadFaceMaterials(FbxMesh* fbxMesh)
 {
 
@@ -509,3 +526,70 @@ void MeshLoader::WriteBoneAttachments(ace::BinaryWriter* writer)
 {
 	writer->Push((int32_t)0);
 }
+
+void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
+{
+	FbxNode* node = fbxMesh->GetNode();
+
+	int materialCount = node->GetMaterialCount();
+
+	const char* mats[3]={FbxSurfaceMaterial::sDiffuse,FbxSurfaceMaterial::sNormalMap,FbxSurfaceMaterial::sSpecular};
+
+	for (int i = 0; materialCount > i; i++) {
+
+		FbxSurfaceMaterial* material = node->GetMaterial(i);
+		Material mat;
+		mat.Type=0;
+		for(int j=0;j<3;++j)
+		{
+			FbxProperty prop = material->FindProperty(mats[j]);
+
+			int layeredTextureCount = prop.GetSrcObjectCount<FbxLayeredTexture>();
+
+			if(0 < layeredTextureCount) {
+
+				for(int j = 0; layeredTextureCount > j; j++) {
+
+					FbxLayeredTexture* layeredTexture = prop.GetSrcObject<FbxLayeredTexture>(j);
+					int textureCount = layeredTexture->GetSrcObjectCount<FbxFileTexture>();
+
+					for(int k = 0; textureCount > k; k++) {
+						FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(k);
+
+						if(texture) {
+							//--- テクスチャ名を取得 ---//
+							//std::string textureName = texture->GetName();
+							std::string textureName = texture->GetRelativeFileName();
+
+							//--- UVSet名を取得 ---//
+							std::string UVSetName = texture->UVSet.Get().Buffer();
+
+							mat.texture[j]=textureName;
+						}
+					}
+				}
+			}
+			else {
+				//--- テクスチャ数を取得 ---//
+				int fileTextureCount = prop.GetSrcObjectCount<FbxFileTexture>();
+
+				if(0 < fileTextureCount) {
+					for(int j = 0; fileTextureCount > j; j++) {
+						FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(j);
+						if(texture) {
+							//std::string textureName = texture->GetName();
+							std::string textureName = texture->GetRelativeFileName();
+
+							//--- UVSet名を取得 ---//
+							std::string UVSetName = texture->UVSet.Get().Buffer();
+
+							mat.texture[j]=textureName;
+						}
+					}
+				}
+			}
+		}
+		_materials.push_back(mat);
+	}
+}
+

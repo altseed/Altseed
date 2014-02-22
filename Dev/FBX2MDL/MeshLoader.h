@@ -25,10 +25,17 @@ struct Face
 	int vertexIndex[3];
 };
 
+struct Material
+{
+	int Type;
+	string texture[3];
+};
+
 class MeshLoader
 {
 	vector<Vertex> _vertices;
 	vector<Face> _faces;
+	vector<Material> _materials;
 
 	void _loadPositions(FbxMesh* fbxMesh);
 	void _loadNormals(FbxMesh* fbxMesh);
@@ -41,16 +48,20 @@ class MeshLoader
 
 	void _loadFaceMaterials(FbxMesh* fbxMesh);
 	void _loadBoneAttachments(FbxMesh* fbxMesh);
+
+	void _loadTextures(FbxMesh* fbxMesh);
 public:
 	MeshLoader();
 
 	vector<Vertex> GetVertices();
 	vector<Face> GetFaces();
+	vector<Material> GetMaterials();
 
 	void Load(FbxMesh* fbxMesh);
 	void WriteVertices(ace::BinaryWriter* writer);
 	void WriteFaces(ace::BinaryWriter* writer);
 	void WriteFaceMaterials(ace::BinaryWriter* writer);
 	void WriteBoneAttachments(ace::BinaryWriter* writer);
+	void WriteMaterials(ace::BinaryWriter* writer);
 
 };

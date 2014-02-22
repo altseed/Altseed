@@ -65,7 +65,7 @@ void MDLExporter::Convert()
 			//ƒ{[ƒ“
 			binaryWriter->Push(0);
 			//ÞŽ¿
-			binaryWriter->Push(0);
+			_meshGroup[i].WriteMaterials(binaryWriter);
 		}
 	}
 
