@@ -40,11 +40,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;$(IncludePath);D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common</IncludePath>
+    <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype\;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype;$(IncludePath);D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common</IncludePath>
+    <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -52,6 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -80,20 +81,29 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Font.h" />
+    <ClInclude Include="Rendering\Color.h" />
+    <ClInclude Include="Rendering\Font.h" />
     <ClInclude Include="FontData.h" />
-    <ClInclude Include="FontGenerator.h" />
+    <ClInclude Include="Generator.h" />
     <ClInclude Include="AffHeader.h" />
+    <ClInclude Include="Rendering\Glyph.h" />
     <ClInclude Include="PngGenerator.h" />
+    <ClInclude Include="Rendering\GlyphWithBorder.h" />
     <ClInclude Include="ResultOfGeneratingPng.h" />
+    <ClInclude Include="Rendering\Setting.h" />
+    <ClInclude Include="Rendering\SettingForRendering.h" />
     <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AffHeader.cpp" />
-    <ClCompile Include="Font.cpp" />
+    <ClCompile Include="Rendering\Color.cpp" />
+    <ClCompile Include="Rendering\Font.cpp" />
     <ClCompile Include="FontData.cpp" />
-    <ClCompile Include="FontGenerator.cpp" />
+    <ClCompile Include="Generator.cpp" />
+    <ClCompile Include="Rendering\Glyph.cpp" />
     <ClCompile Include="PngGenerator.cpp" />
+    <ClCompile Include="Rendering\GlyphWithBorder.cpp" />
+    <ClCompile Include="Rendering\SettingForRendering.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

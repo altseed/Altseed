@@ -22,41 +22,21 @@ namespace FontGenerator
 		}
 
 		SetFontSize(16);
-
-		FT_Outline_Embolden();
 	}
 
 	Font::~Font()
 	{
-		for (auto& g : m_cashForRelease)
-		{
-			FT_Done_Glyph(g);
-		}
-		
 		FT_Done_Face(m_face);
-
 		FT_Done_FreeType(m_library);
 	}
 
-	vector<FT_BitmapGlyph> Font::GetGlyphs(vector<achar>& charactors)
+	vector<Glyph::Ptr> Font::GetGlyphs(vector<achar>& charactors)
 	{
-		vector<FT_BitmapGlyph> glyphs;
+		vector<Glyph::Ptr> glyphs;
 		for (auto& c : charactors)
 		{
-			FT_Glyph glyph;
-			FT_BitmapGlyph bitmap;
-
-			auto error = FT_Load_Char(m_face, c, FT_LOAD_RENDER);
-			if (error)
-			{
-				throw "ƒOƒŠƒt‚Ì¶¬‚ÉŽ¸”s‚µ‚Ü‚µ‚½B";
-			}
-
-			FT_Get_Glyph(m_face->glyph, &glyph);
-			m_cashForRelease.push_back(glyph);
-
-			bitmap = (FT_BitmapGlyph)glyph;
-			glyphs.push_back(bitmap);
+			auto g = make_shared<Glyph>(m_library, m_face, c);
+			glyphs.push_back(g);
 		}
 		return glyphs;
 	}
@@ -79,6 +59,6 @@ namespace FontGenerator
 
 	int Font::GetFontHeight() const
 	{
-		return m_face->size->metrics.height;
+		return m_face->size->metrics.height >> 6;
 	}
 }

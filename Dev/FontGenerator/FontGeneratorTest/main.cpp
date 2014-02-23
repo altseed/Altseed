@@ -1,17 +1,27 @@
 #include <iostream>
-#include "../FontGenerator/FontGenerator.h"
+#include <memory>
+#include "../FontGenerator/Generator.h"
+#include "../FontGenerator/Rendering/Color.h"
+
+using namespace std;
+using namespace FontGenerator;
 
 int main()
 {
-	FontGenerator::FontGenerator gen;
+	Generator gen;
 
 	try
 	{
+		SettingForRendering setting;
+		setting.SetFontSize(32);
+		setting.SetFontColor(Color(255, 0, 0, 255));
+		setting.SetBorder(make_shared<BorderSetting>(2, Color(0, 0, 0, 128)));
+
 		gen.GenerateFontFile(
 			L"C:/Windows/Fonts/azuki.ttf",
-			24,
 			L"test.txt",
-			L"test");
+			L"result/test",
+			setting);
 	}
 	catch (const char* err)
 	{

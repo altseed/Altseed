@@ -1,7 +1,7 @@
 #include <fstream>
 #include <freetype/ft2build.h>
 #include FT_FREETYPE_H
-#include "FontGenerator.h"
+#include "Generator.h"
 #include "AffHeader.h"
 #include "PngGenerator.h"
 
@@ -13,24 +13,24 @@ using namespace ace;
 
 namespace FontGenerator
 {
-	void FontGenerator::GenerateFontFile(
+	void Generator::GenerateFontFile(
 		wstring fontPath,
-		int fontSize,
 		wstring textPath,
-		wstring sheetName)
+		wstring sheetName,
+		SettingForRendering setting)
 	{
 		ofstream file(sheetName + L".aff");
 
 		auto charactors = GetCharactors(ToAString(textPath.c_str()));
 
 		PngGenerator png;
-		png.SetFontSize(fontSize);
+		png.SetSetting(setting);
 		png.SetSheetName(sheetName);
 		png.SetSheetSize(256);
 		auto result = png.Generate(ToAString(fontPath.c_str()), charactors);
 
 		AffHeader header(sheetName);
-		header.SetFontSize(fontSize);
+		header.SetFontSize(setting.GetFontSize());
 		header.SetFontCount(result.fonts.size());
 		header.SetSheetCount(result.sheetCount);
 
@@ -38,7 +38,7 @@ namespace FontGenerator
 	}
 
 	// UTF-16Ç™ëŒè€
-	vector<achar> FontGenerator::GetCharactors(astring textPath)
+	vector<achar> Generator::GetCharactors(astring textPath)
 	{
 		vector<achar> result;
 

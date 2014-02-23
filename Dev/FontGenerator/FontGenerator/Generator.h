@@ -2,17 +2,21 @@
 #include <string>
 #include <vector>
 #include "../../ace_cpp/common/ace.common.Base.h"
+#include "Rendering/SettingForRendering.h"
 
 namespace FontGenerator
 {
-	class FontGenerator
+	class Generator
 	{
+	private:
+
+
 	public:
 		void GenerateFontFile(
 			std::wstring fontPath,
-			int fontSize,
 			std::wstring textPath,
-			std::wstring sheetName);
+			std::wstring sheetName,
+			SettingForRendering setting);
 
 		std::vector<ace::achar> GetCharactors(ace::astring textPath);
 	};

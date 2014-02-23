@@ -74,65 +74,35 @@ namespace FontGenerator
 		free(raw2D);
 	}
 
-	static void DrawBitmap(int* buffer, FT_Bitmap bmp, int size, int penX, int penY)
-	{
-		for (int yi = 0; yi < bmp.rows; ++yi)
-		{
-			int yIndex = penY + yi;
-			if (yIndex < 0)continue;
-			if (yIndex >= size) break;
-			for (int xi = 0; xi < bmp.width; ++xi)
-			{
-				int xIndex = penX + xi;
-				if (xIndex < 0)continue;
-				if (xIndex >= size) break;
-
-				int index = yIndex * size + xIndex;
-				if (index >= 0 && index < size*size)
-				{
-					buffer[index] = bmp.buffer[yi*bmp.width+xi] << 24;
-				}
-			}
-		}
-	}
-
 	PngGenerator::PngGenerator()
 		: m_sheetName(L"font.png")
-		, m_fontSize(20)
 		, m_fonts(vector<FontData>())
+		, m_setting(SettingForRendering())
 	{
 	}
 
 	ResultOfGeneratingPng PngGenerator::Generate(astring fontPath, vector<achar>& charactors)
 	{
 		Font m_font(fontPath);
-		m_font.SetFontSize(m_fontSize);
+		m_font.SetFontSize(m_setting.GetFontSize());
 
 		vector<int> buffer(m_sheetSize*m_sheetSize, 0);
 
-		int fontHeight = m_font.GetFontHeight() >> 6;
-		int penX = 0, penY = fontHeight;
+		int lineHeight = m_font.GetFontHeight() * 2;	// ‘¾Žš‚â—ÖŠsü‚Ì•ª‚Ì—]—T‚ðŽ‚Â‚½‚ß‚É‚Q”{‚É‚·‚é
+		int penX = 0, penY = lineHeight;
 		for (auto& glyph : m_font.GetGlyphs(charactors))
 		{
-			auto bmp = glyph->bitmap;
-			int advance = glyph->root.advance.x >> 16;
+			auto finalGlyph = m_setting.ProcessGlyph(glyph);
+			auto advance = finalGlyph.GetAdvance();
 
-			if (penX + advance >= m_sheetSize)
+			if (penX + advance > m_sheetSize)
 			{
 				penX = 0;
-				penY += fontHeight;
+				penY += lineHeight;
 			}
 
-			FontData data;
-			data.x = penX;
-			data.y = penY;
-			data.width = glyph->root.advance.x >> 16;
-			DrawBitmap(
-				buffer.data(),
-				bmp,
-				m_sheetSize,
-				penX + glyph->left,
-				penY - glyph->top);
+			finalGlyph.Draw(buffer.data(), m_sheetSize, m_sheetSize, penX, penY);
+
 			penX += advance;
 		}
 
@@ -153,16 +123,6 @@ namespace FontGenerator
 		m_sheetName = value;
 	}
 
-	int PngGenerator::GetFontSize() const
-	{
-		return m_fontSize;
-	}
-
-	void PngGenerator::SetFontSize(int value)
-	{
-		m_fontSize = value;
-	}
-
 	int PngGenerator::GetSheetSize() const
 	{
 		return m_sheetSize;
@@ -171,6 +131,16 @@ namespace FontGenerator
 	void PngGenerator::SetSheetSize(int value)
 	{
 		m_sheetSize = value;
+	}
+
+	SettingForRendering PngGenerator::GetSetting() const
+	{
+		return m_setting;
+	}
+
+	void PngGenerator::SetSetting(SettingForRendering value)
+	{
+		m_setting = value;
 	}
 
 #pragma endregion

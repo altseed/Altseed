@@ -1,8 +1,10 @@
 #pragma once
 #include <vector>
 #include <ace.common.Base.h>
-#include "Font.h"
 #include "ResultOfGeneratingPng.h"
+#include "Rendering/Font.h"
+#include "Rendering/Setting.h"
+#include "Rendering/SettingForRendering.h"
 
 namespace FontGenerator
 {
@@ -10,8 +12,9 @@ namespace FontGenerator
 	{
 	private:
 		ace::astring m_sheetName;
-		int m_fontSize;
 		int m_sheetSize;
+		SettingForRendering m_setting;
+
 		std::vector<FontData> m_fonts;
 
 		std::vector<ace::achar> GetCharactors(ace::astring textPath);
@@ -27,11 +30,12 @@ namespace FontGenerator
 		ace::astring GetSheetName() const;
 		void SetSheetName(ace::astring value);
 
-		int GetFontSize() const;
-		void SetFontSize(int value);
-
 		int GetSheetSize() const;
 		void SetSheetSize(int value);
+
+		SettingForRendering GetSetting() const;
+		void SetSetting(SettingForRendering value);
+
 #pragma endregion
 	};
 }
