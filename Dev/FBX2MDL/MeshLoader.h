@@ -18,6 +18,18 @@ struct Vertex
 	uint8_t weight[4];
 	uint8_t weightIndexDivided[4];
 	uint8_t weightIndexOriginal[4];
+
+	bool operator == (const Vertex& o)
+	{
+		return position==o.position && normal==o.normal && binormal == o.binormal && uv == o.uv && subuv == o.subuv
+		&& color[0]==o.color[0] && color[1] == o.color[1] && color[2] == o.color[2] && color[3] == o.color[3];
+	}
+
+	bool operator != (const Vertex& o)
+	{
+		return !(position==o.position && normal==o.normal && binormal == o.binormal && uv == o.uv && subuv == o.subuv
+		&& color[0]==o.color[0] && color[1] == o.color[1] && color[2] == o.color[2] && color[3] == o.color[3]);
+	}
 };
 
 struct Face
@@ -33,16 +45,20 @@ struct Material
 
 class MeshLoader
 {
+	vector<Vertex> _baseVertices;
 	vector<Vertex> _vertices;
 	vector<Face> _faces;
 	vector<Material> _materials;
 
 	void _loadPositions(FbxMesh* fbxMesh);
-	void _loadNormals(FbxMesh* fbxMesh);
-	void _loadBinormals(FbxMesh* fbxMesh);
-	void _loadUVs(FbxMesh* fbxMesh);
-	void _loadColors(FbxMesh* fbxMesh);
-	void _loadWeights(FbxMesh* fbxMesh);
+
+	ace::Vector3DF _loadNormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
+	ace::Vector3DF _loadBinormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
+	ace::Vector2DF _loadUV(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId,int i,int j);
+	uint8_t* _loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
+	void _loadWeight(FbxMesh* fbxMesh);
+
+	void _loadVertices(FbxMesh* fbxMesh);
 
 	void _loadFaceIndices(FbxMesh* fbxMesh);
 

@@ -104,7 +104,6 @@
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryReader.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryWriter.h" />
     <ClInclude Include="MDLExporter.h" />
-    <ClInclude Include="MeshGroupLoader.h" />
     <ClInclude Include="MeshLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
