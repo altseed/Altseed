@@ -1,4 +1,5 @@
 #include "Font.h"
+#include FT_OUTLINE_H
 
 using namespace std;
 using namespace ace;
@@ -21,6 +22,8 @@ namespace FontGenerator
 		}
 
 		SetFontSize(16);
+
+		FT_Outline_Embolden();
 	}
 
 	Font::~Font()
