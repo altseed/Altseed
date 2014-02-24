@@ -24,14 +24,14 @@ namespace ace
 		return Vector2DI(Width, Height);
 	}
 
-	array<Vector2DF, 4> RectI::GetVertexes() const
+	array<Vector2DI, 4> RectI::GetVertexes() const
 	{
-		array<Vector2DF, 4> result =
+		array<Vector2DI, 4> result =
 		{
-			Vector2DF(X, Y),
-			Vector2DF(X + Width, Y),
-			Vector2DF(X + Width, Y + Height),
-			Vector2DF(X, Y + Height)
+			Vector2DI(X, Y),
+			Vector2DI(X + Width, Y),
+			Vector2DI(X + Width, Y + Height),
+			Vector2DI(X, Y + Height)
 		};
 		return result;
 	}

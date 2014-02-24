@@ -7,59 +7,59 @@ using System.Threading.Tasks;
 namespace ace
 {
 	/// <summary>
-	/// 長方形(整数)の構造体
+	/// 長方形(浮動小数点)の構造体
 	/// </summary>
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-	public struct RectI
+	public struct RectF
 	{
 		/// <summary>
 		/// 左上X座標
 		/// </summary>
-		public int X { get; set; }
+		public float X { get; set; }
 
 		/// <summary>
 		/// 左上Y座標
 		/// </summary>
-		public int Y { get; set; }
+		public float Y { get; set; }
 
 		/// <summary>
 		/// 横幅
 		/// </summary>
-		public int Width { get; set; }
+		public float Width { get; set; }
 
 		/// <summary>
 		/// 縦幅
 		/// </summary>
-		public int Height { get; set; }
+		public float Height { get; set; }
 
 		/// <summary>
 		/// 左上座標を取得する。
 		/// </summary>
-		public Vector2DI Position
+		public Vector2DF Position
 		{
-			get { return new Vector2DI( X, Y ); }
+			get { return new Vector2DF(X, Y); }
 		}
 
 		/// <summary>
 		/// 大きさを取得する。
 		/// </summary>
-		public Vector2DI Size
+		public Vector2DF Size
 		{
-			get { return new Vector2DI( Width, Height ); }
+			get { return new Vector2DF(Width, Height); }
 		}
 
 		/// <summary>
 		/// 四隅の座標を(X,Y)、(X+Width,Y)、(X+Width,Y+Height)、(X,Y+Height)の順に配列として取得する。
 		/// </summary>
-		public Vector2DI[] Vertexes
+		public Vector2DF[] Vertexes
 		{
 			get
 			{
-				return new Vector2DI[]{
-				new Vector2DI(X,Y),
-				new Vector2DI(X+Width,Y),
-				new Vector2DI(X+Width,Y+Height),
-				new Vector2DI(X,Y+Height)};
+				return new Vector2DF[]{
+				new Vector2DF(X,Y),
+				new Vector2DF(X+Width,Y),
+				new Vector2DF(X+Width,Y+Height),
+				new Vector2DF(X,Y+Height)};
 			}
 		}
 
@@ -70,7 +70,7 @@ namespace ace
 		/// <param name="y">左上Y座標</param>
 		/// <param name="width">横幅</param>
 		/// <param name="height">縦幅</param>
-		public RectI(int x, int y, int width, int height)
+		public RectF(float x, float y, float width, float height)
 			: this()
 		{
 			this.X = x;

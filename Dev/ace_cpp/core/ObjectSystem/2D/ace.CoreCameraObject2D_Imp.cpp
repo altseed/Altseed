@@ -107,8 +107,16 @@ namespace ace
 			Vector2DF(0, 1),
 		};
 
+		array<Vector2DF, 4> vs =
+		{
+			Vector2DF(m_dst.X, m_dst.Y),
+			Vector2DF(m_dst.X + m_dst.Width, m_dst.Y),
+			Vector2DF(m_dst.X + m_dst.Width, m_dst.Y + m_dst.Height),
+			Vector2DF(m_dst.X, m_dst.Y + m_dst.Height),
+		};
+
 		renderer->AddSprite(
-			m_dst.GetVertexes().data(),
+			vs.data(),
 			colors.data(),
 			uvs.data(),
 			m_renderTarget,

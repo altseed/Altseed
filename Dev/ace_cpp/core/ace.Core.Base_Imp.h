@@ -273,6 +273,14 @@ namespace ace {
 			int Height;
 		};
 
+		struct RectF_R
+		{
+			float X;
+			float Y;
+			float Width;
+			float Height;
+		};
+
 		struct TextureLockInfomation_R
 		{
 			void* Pixels;
