@@ -6,16 +6,17 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/// <summary>
+	/// 2次元ベクトル
+	/// </summary>
 	[System.Runtime.InteropServices.StructLayout( System.Runtime.InteropServices.LayoutKind.Sequential )]
 	public struct Vector2DF
 	{
-		private static Vector2DF zero = new Vector2DF();
-
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		/// <param name="x">X成分</param>
-		/// <param name="y">Y成分</param>
+		/// <param name="x">X</param>
+		/// <param name="y">Y</param>
 		public Vector2DF( float x, float y )
 			: this()
 		{
@@ -24,16 +25,16 @@ namespace ace
 		}
 
 		/// <summary>
-		/// ベクトルの X 要素。
+		/// X
 		/// </summary>
 		public float X;
 		/// <summary>
-		/// ベクトルの Y 要素。
+		/// Y
 		/// </summary>
 		public float Y;
 
 		/// <summary>
-		/// ベクトルの長さを取得または設定します。
+		/// ベクトルの長さを取得または設定する。
 		/// </summary>
 		public float Length
 		{
@@ -46,14 +47,37 @@ namespace ace
 			}
 		}
 		/// <summary>
-		/// ベクトルの長さの二乗を取得または設定します。
+		/// ベクトルの長さの二乗を取得する。
 		/// </summary>
 		public float SquaredLength
 		{
 			get { return X * X + Y * Y; }
 		}
+
 		/// <summary>
-		/// ベクトルの向きを弧度法で取得または設定します。
+		/// このベクトルの単位ベクトルを取得する。
+		/// </summary>
+		public Vector2DF Normal
+		{
+			get
+			{
+				float length = Length;
+				return new Vector2DF(X / length, Y / length);
+			}
+		}
+
+		/// <summary>
+		/// このベクトルを単位ベクトル化する。
+		/// </summary>
+		public void Normalize()
+		{
+			float length = Length;
+			X /= length;
+			Y /= length;
+		}
+
+		/// <summary>
+		/// ベクトルの向きを弧度法で取得または設定する。
 		/// </summary>
 		public float Radian
 		{
@@ -66,7 +90,7 @@ namespace ace
 			}
 		}
 		/// <summary>
-		/// ベクトルの向きを度数法で取得または設定します。
+		/// ベクトルの向きを度数法で取得または設定する。
 		/// </summary>
 		public float Degree
 		{
@@ -118,6 +142,30 @@ namespace ace
 		public static Vector2DF operator /( Vector2DF left, Vector2DF right )
 		{
 			return new Vector2DF( left.X / right.X, left.Y / right.Y );
+		}
+
+		/// <summary>
+		/// 内積を取得する。
+		/// </summary>
+		/// <param name="v1">値1</param>
+		/// <param name="v2">値2</param>
+		/// <returns>内積</returns>
+		static float Dot(ref Vector2DF v1, ref Vector2DF v2)
+		{
+			return v1.X * v2.X + v1.Y * v2.Y;
+		}
+
+		/// <summary>
+		/// 2点間の距離を取得する。
+		/// </summary>
+		/// <param name="v1">値1</param>
+		/// <param name="v2">値2</param>
+		/// <returns>距離</returns>
+		static float Distance(ref Vector2DF v1, ref Vector2DF v2)
+		{
+			float dx = v1.X - v2.X;
+			float dy = v1.Y - v2.Y;
+			return (float)Math.Sqrt(dx * dx + dy * dy);
 		}
 	}
 }

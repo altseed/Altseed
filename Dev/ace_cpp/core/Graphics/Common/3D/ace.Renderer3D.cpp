@@ -200,7 +200,7 @@ void main()
 				prop.DirectionalLightColor = Color(255, 255, 255, 255);
 				prop.DirectionalLightDirection = Vector3DF(1.0f, 1.0f, 1.0f);
 			}
-			Vector3DF::Normal(prop.DirectionalLightDirection, prop.DirectionalLightDirection);
+			prop.DirectionalLightDirection.Normalize();
 		}
 
 		for (auto& co : rendering.cameraObjects)
