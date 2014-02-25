@@ -16,7 +16,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 
 	/**
-		@brief	2次元ベクトル
+		@brief	2次元ベクトル(整数)
 		*/
 	struct Vector2DI
 	{
@@ -43,6 +43,32 @@ namespace ace
 
 		bool operator == (const Vector2DI& o);
 		bool operator != (const Vector2DI& o);
+
+		Vector2DI operator-();
+
+		Vector2DI operator+(const Vector2DI& right);
+
+		Vector2DI operator-(const Vector2DI& right);
+
+		Vector2DI operator*(const Vector2DI& right);
+
+		Vector2DI operator/(const Vector2DI& right);
+
+		Vector2DI operator*(int32_t right);
+
+		Vector2DI operator/(int32_t right);
+
+		Vector2DI& operator+=(const Vector2DI& right);
+
+		Vector2DI& operator-=(const Vector2DI& right);
+
+		Vector2DI& operator*=(const Vector2DI& right);
+
+		Vector2DI& operator/=(const Vector2DI& right);
+
+		Vector2DI& operator*=(int32_t right);
+
+		Vector2DI& operator/=(int32_t right);
 	};
 
 	//----------------------------------------------------------------------------------
