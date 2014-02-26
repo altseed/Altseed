@@ -15,10 +15,8 @@ namespace ace {
 //----------------------------------------------------------------------------------
 
 /**
-	@brief	行列
+	@brief	4x4行列
 	@note
-	右手系<BR>
-	左手系<BR>
 	M * V[x,y,z,1] の形<BR>
 	[0,0][0,1][0,2][0,3]
 	[1,0][1,1][1,2][1,3]
@@ -42,12 +40,29 @@ public:
 	float	Values[4][4];
 
 	/**
-		@brief	単位行列化
+		@brief	単位行列化する。
 	*/
 	Matrix44& Indentity();
 
 	/**
-		@brief	カメラ行列化(右手系)
+		@brief	転置行列化する。
+	*/
+	Matrix44& Transpose();
+
+	/**
+		@brief	逆行列化する。
+	*/
+	Matrix44& Invert();
+
+	/**
+		@brief	逆行列を取得する。
+		@return	逆行列
+	*/
+	Matrix44 GetInverted();
+
+
+	/**
+		@brief	カメラ行列化(右手系)する。
 	*/
 	Matrix44& LookAtRH( const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up );
 
@@ -120,11 +135,6 @@ public:
 		@brief	乗算
 	*/
 	static Matrix44& Mul( Matrix44& o, const Matrix44& in1, const Matrix44& in2 );
-
-	/**
-		@brief	逆行列
-	*/
-	static Matrix44& Inverse( Matrix44& o, const Matrix44& in );
 };
 
 //----------------------------------------------------------------------------------
