@@ -77,6 +77,7 @@
     <Compile Include="Log.cs" />
     <Compile Include="Math\Math.cs" />
     <Compile Include="Math\Matrix44.cs" />
+    <Compile Include="Math\RectF.cs" />
     <Compile Include="Math\RectI.cs" />
     <Compile Include="Math\Vector2DF.cs" />
     <Compile Include="Math\Vector2DI.cs" />

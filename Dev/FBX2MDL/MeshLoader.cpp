@@ -6,7 +6,7 @@ MeshLoader::MeshLoader()
 
 }
 
-vector<Vertex> MeshLoader::GetVertices()
+std::vector<Vertex> MeshLoader::GetVertices()
 {
 	return _vertices;
 }
@@ -106,7 +106,7 @@ ace::Vector3DF MeshLoader::_loadBinormal(FbxMesh* fbxMesh,int lControlPointIndex
 	return binormal;
 }
 
-ace::Vector2DF MeshLoader::_loadUV(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId,int i,int j)
+ace::Vector2DF MeshLoader::_loadUV(FbxMesh* fbxMesh, int lControlPointIndex, int vertexId, int polygonCount, int polygonVert)
 {
 	ace::Vector2DF uv;
 	for (int l = 0; l < fbxMesh->GetElementUVCount(); ++l)
@@ -135,8 +135,8 @@ ace::Vector2DF MeshLoader::_loadUV(FbxMesh* fbxMesh,int lControlPointIndex,int v
 			break;
 
 		case FbxGeometryElement::eByPolygonVertex:
-			{
-				int lTextureUVIndex = fbxMesh->GetTextureUVIndex(i, j);
+			{									 
+				int lTextureUVIndex = fbxMesh->GetTextureUVIndex(polygonCount, polygonVert);
 				switch (leUV->GetReferenceMode())
 				{
 				case FbxGeometryElement::eDirect:
@@ -449,11 +449,11 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 
 void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 {
-	int i, j, lPolygonCount = fbxMesh->GetPolygonCount();
+	int lPolygonCount = fbxMesh->GetPolygonCount();
 	FbxVector4* lControlPoints = fbxMesh->GetControlPoints();
 
 	int vertexId = 0;
-	for (i = 0; i < lPolygonCount; i++)
+	for (int i = 0; i < lPolygonCount; i++)
 	{
 		int l;
 
@@ -461,7 +461,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 
 		int cIndices[3];
 
-		for (j = 0; j < lPolygonSize; j++)
+		for (int j = 0; j < lPolygonSize; j++)
 		{
 			int lControlPointIndex = fbxMesh->GetPolygonVertex(i, j);
 

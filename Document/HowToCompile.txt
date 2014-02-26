@@ -37,6 +37,12 @@ gtest.bat　を実行する。
 ・他
 gtest.sh　を実行する。
 
+■　Effekseer
+・Windows
+effekseer.bat　を実行する。
+
+・他
+effekseer.sh　を実行する。
 
 ■■　ヘッダの生成、更新
 pythonを導入し、

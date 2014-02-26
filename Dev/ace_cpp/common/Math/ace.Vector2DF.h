@@ -37,11 +37,10 @@ namespace ace
 
 		/**
 			@brief	コンストラクタ
-			@param	x	X要素
-			@param	y	Y要素
+			@param	x	X
+			@param	y	Y
 		*/
 		Vector2DF(float x, float y);
-
 
 		/**
 			@brief	このベクトルの長さを取得する。
@@ -52,21 +51,38 @@ namespace ace
 		}
 
 		/**
-			@brief	このベクトルの長さを設定する。
-		*/
-		void SetLength(float value)
-		{
-			SinCos(GetRadian(), Y, X);
-			X *= value;
-			Y *= value;
-		}
-
-		/**
-			@brief	このベクトルの長さの二乗を取得する。
+		@brief	このベクトルの長さの二乗を取得する。
 		*/
 		float GetSquaredLength() const
 		{
 			return X * X + Y * Y;
+		}
+
+		/**
+			@brief	このベクトルの長さを設定する。
+		*/
+		void SetLength(float value)
+		{
+			float length = GetLength();
+			(*this) *= (value / length);
+		}
+
+		/**
+		@brief	このベクトルの単位ベクトルを取得する。
+		*/
+		Vector2DF GetNormal()
+		{
+			float length = GetLength();
+			return Vector2DF(X / length, Y / length);
+		}
+
+		/**
+		@brief	このベクトルの単位ベクトル化する。
+		*/
+		void Normalize()
+		{
+			float length = GetLength();
+			(*this) /= length;
 		}
 
 		/**
@@ -107,16 +123,6 @@ namespace ace
 			Y *= length;
 		}
 
-		/**
-			@brief	このベクトルと同じ向きで、長さが１のベクトルを生成する。
-		*/
-		Vector2DF GetUnit()
-		{
-			float length = GetLength();
-			return Vector2DF(X / length, Y / length);
-		}
-
-
 		bool operator==(const Vector2DF& right);
 
 		bool operator!=(const Vector2DF& right);
@@ -146,6 +152,28 @@ namespace ace
 		Vector2DF& operator*=(float right);
 
 		Vector2DF& operator/=(float right);
+		
+		/**
+			@brief	内積を取得する。
+			@param	v1	値1
+			@param	v2	値2
+		*/
+		static float Dot(const Vector2DF& v1, const Vector2DF& v2)
+		{
+			return v1.X * v2.X + v1.Y * v2.Y;
+		}
+
+		/**
+		@brief	2点間の距離を取得する。
+		@param	v1	値1
+		@param	v2	値2
+		*/
+		static float Distance(const Vector2DF& v1, const Vector2DF& v2)
+		{
+			float dx = v1.X - v2.X;
+			float dy = v1.Y - v2.Y;
+			return sqrt(dx * dx + dy * dy);
+		}
 	};
 
 	//----------------------------------------------------------------------------------

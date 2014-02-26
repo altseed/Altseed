@@ -4,8 +4,6 @@
 #include "../ace_cpp/common/Utility/ace.BinaryWriter.h"
 #include "../ace_cpp/common/Math/ace.Vector2DF.h"
 
-using namespace std;
-
 struct Vertex
 {
 	ace::Vector3DF position;
@@ -40,21 +38,21 @@ struct Face
 struct Material
 {
 	int Type;
-	string texture[3];
+	std::string texture[3];
 };
 
 class MeshLoader
 {
-	vector<Vertex> _baseVertices;
-	vector<Vertex> _vertices;
-	vector<Face> _faces;
-	vector<Material> _materials;
+	std::vector<Vertex> _baseVertices;
+	std::vector<Vertex> _vertices;
+	std::vector<Face> _faces;
+	std::vector<Material> _materials;
 
 	void _loadPositions(FbxMesh* fbxMesh);
 
 	ace::Vector3DF _loadNormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
 	ace::Vector3DF _loadBinormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
-	ace::Vector2DF _loadUV(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId,int i,int j);
+	ace::Vector2DF _loadUV(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId,int polygonCount,int polygonVert);
 	uint8_t* _loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
 	void _loadWeight(FbxMesh* fbxMesh);
 
@@ -69,9 +67,9 @@ class MeshLoader
 public:
 	MeshLoader();
 
-	vector<Vertex> GetVertices();
-	vector<Face> GetFaces();
-	vector<Material> GetMaterials();
+	std::vector<Vertex> GetVertices();
+	std::vector<Face> GetFaces();
+	std::vector<Material> GetMaterials();
 
 	void Load(FbxMesh* fbxMesh);
 	void WriteVertices(ace::BinaryWriter* writer);

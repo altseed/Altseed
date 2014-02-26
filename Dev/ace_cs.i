@@ -159,6 +159,7 @@ STRUCT_OBJECT( ace::Vector2DI, ace::Vector2DI_R, ace.Vector2DI )
 STRUCT_OBJECT( ace::Vector3DF, ace::Vector3DF_R, ace.Vector3DF )
 STRUCT_OBJECT( ace::Vector4DF, ace::Vector4DF_R, ace.Vector4DF )
 STRUCT_OBJECT( ace::RectI, ace::RectI_R, ace.RectI )
+STRUCT_OBJECT( ace::RectF, ace::RectF_R, ace.RectF )
 STRUCT_OBJECT( ace::Matrix33, ace::Matrix33_R, ace.Matrix33 )
 STRUCT_OBJECT( ace::Matrix44, ace::Matrix44_R, ace.Matrix44 )
 STRUCT_OBJECT( ace::FCurveKeyframe, ace::FCurveKeyframe_R, ace.FCurveKeyframe )
@@ -317,6 +318,7 @@ namespace ace
 	struct Matrix33;
 	struct Matrix44;
 	struct RectI;
+	struct RectF;
 
 	struct FCurveKeyframe;
 }

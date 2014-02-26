@@ -37,12 +37,9 @@ Matrix44& Matrix44::Indentity()
 Matrix44& Matrix44::LookAtRH( const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up )
 {
 	// F=正面、R=右方向、U=上方向
-	Vector3DF F; 
-	Vector3DF R;
-	Vector3DF U;
-	Vector3DF::Normal( F, Vector3DF::Sub( F, eye, at ) );
-	Vector3DF::Normal( R, Vector3DF::Cross( R, up, F ) );
-	Vector3DF::Normal( U, Vector3DF::Cross( U, F, R ) );
+	Vector3DF F = (eye - at).GetNormal();
+	Vector3DF R = Vector3DF::Cross(up, F).GetNormal();
+	Vector3DF U = Vector3DF::Cross(F, R).GetNormal();
 
 	Values[0][0] = R.X;
 	Values[0][1] = R.Y;
@@ -72,12 +69,9 @@ Matrix44& Matrix44::LookAtRH( const Vector3DF& eye, const Vector3DF& at, const V
 Matrix44& Matrix44::LookAtLH( const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up )
 {
 	// F=正面、R=右方向、U=上方向
-	Vector3DF F; 
-	Vector3DF R;
-	Vector3DF U;
-	Vector3DF::Normal( F, Vector3DF::Sub( F, at, eye ) );
-	Vector3DF::Normal( R, Vector3DF::Cross( R, up, F ) );
-	Vector3DF::Normal( U, Vector3DF::Cross( U, F, R ) );
+	Vector3DF F = (at - eye).GetNormal();
+	Vector3DF R = Vector3DF::Cross(up, F).GetNormal();
+	Vector3DF U = Vector3DF::Cross(F, R).GetNormal();
 
 	Values[0][0] = R.X;
 	Values[0][1] = R.Y;

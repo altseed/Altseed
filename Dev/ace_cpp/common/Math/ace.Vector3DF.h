@@ -40,13 +40,25 @@ public:
 	Vector3DF();
 
 	/**
-		@brief	コンストラクタ
+	@brief	コンストラクタ
+	@param	x	X
+	@param	y	Y
+	@param	z	Z
 	*/
 	Vector3DF( float x, float y, float z );
+
+	bool operator == (const Vector3DF& o);
+	bool operator != (const Vector3DF& o);
+
+	Vector3DF operator-();
 
 	Vector3DF operator + ( const Vector3DF& o ) const;
 
 	Vector3DF operator - ( const Vector3DF& o ) const;
+
+	Vector3DF operator * (const Vector3DF& o) const;
+
+	Vector3DF operator / (const Vector3DF& o) const;
 
 	Vector3DF operator * ( const float& o ) const;
 
@@ -56,50 +68,75 @@ public:
 
 	Vector3DF& operator -= ( const Vector3DF& o );
 
+	Vector3DF& operator *= (const Vector3DF& o);
+
+	Vector3DF& operator /= (const Vector3DF& o);
+
 	Vector3DF& operator *= ( const float& o );
 
 	Vector3DF& operator /= ( const float& o );
 
-	bool operator == (const Vector3DF& o);
-	bool operator != (const Vector3DF& o);
 
 	/**
-		@brief	加算
+	@brief	このベクトルの長さを取得する。
 	*/
-	static void Add( Vector3DF* pOut, const Vector3DF* pIn1, const Vector3DF* pIn2 );
+	float GetLength() const
+	{
+		return sqrt(GetSquaredLength());
+	}
 
 	/**
-		@brief	減算
+	@brief	このベクトルの長さの二乗を取得する。
 	*/
-	static Vector3DF& Sub( Vector3DF& o, const Vector3DF& in1, const Vector3DF& in2 );
+	float GetSquaredLength() const
+	{
+		return X * X + Y * Y + Z * Z;
+	}
 
 	/**
-		@brief	長さ
+	@brief	このベクトルの長さを設定する。
 	*/
-	static float Length( const Vector3DF& in );
+	void SetLength(float value)
+	{
+		float length = GetLength();
+		(*this) *= (value / length);
+	}
 
 	/**
-		@brief	長さの二乗
+	@brief	このベクトルの単位ベクトルを取得する。
 	*/
-	static float LengthSq( const Vector3DF& in );
+	Vector3DF GetNormal()
+	{
+		float length = GetLength();
+		return Vector3DF(X / length, Y / length, Z / length);
+	}
 
 	/**
-		@brief	内積
+	@brief	このベクトルの単位ベクトル化する。
 	*/
-	static float Dot( const Vector3DF& in1, const Vector3DF& in2 );
+	void Normalize()
+	{
+		float length = GetLength();
+		(*this) /= length;
+	}
 
 	/**
-		@brief	単位ベクトル
+		@brief	内積を取得する。
 	*/
-	static void Normal( Vector3DF& o, const Vector3DF& in );
+	static float Dot( const Vector3DF& v1, const Vector3DF& v2 );
 
 	/**
-		@brief	外積
+		@brief	外積を取得する。
 		@note
-		右手系の場合、右手の親指がin1、人差し指がin2としたとき、中指の方向を返す。<BR>
-		左手系の場合、左手の親指がin1、人差し指がin2としたとき、中指の方向を返す。<BR>
+		右手系の場合、右手の親指がv1、人差し指がv2としたとき、中指の方向を返す。<BR>
+		左手系の場合、左手の親指がv1、人差し指がv2としたとき、中指の方向を返す。<BR>
 	*/
-	static Vector3DF& Cross( Vector3DF& o, const Vector3DF& in1, const Vector3DF& in2 );
+	static Vector3DF Cross(const Vector3DF& v1, const Vector3DF& v2 );
+
+	/**
+		@brief	2点間の距離を取得する。
+	*/
+	static float Distance(const Vector3DF& v1, const Vector3DF& v2);
 
 	static Vector3DF& Transform( Vector3DF& o, const Vector3DF& in, const Matrix44& mat );
 };
