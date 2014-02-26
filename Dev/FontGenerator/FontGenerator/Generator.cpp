@@ -53,7 +53,10 @@ namespace FontGenerator
 			achar c;
 			if (fread(&c, sizeof(achar), 1, file) == 1)
 			{
-				result.push_back(c);
+				if (find(result.begin(), result.end(), c) == result.end())
+				{
+					result.push_back(c);
+				}
 			}
 		}
 
