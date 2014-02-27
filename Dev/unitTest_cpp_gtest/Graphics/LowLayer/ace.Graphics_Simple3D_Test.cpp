@@ -194,16 +194,16 @@ void Graphics_Simple3D(bool isOpenGLMode)
 		graphics->Clear(true, true, ace::Color(64, 32, 16, 255));
 
 		ace::Matrix44 matP, matC, matM, mat;
-		matM.RotationY((float) time * 0.002f);
+		matM.SetRotationY((float) time * 0.002f);
 		if (isOpenGLMode)
 		{
-			matP.PerspectiveFovRH_OpenGL(3.14f / 4.0f, 4.0f / 3.0f, 0.1f, 20.0f);
+			matP.SetPerspectiveFovRH_OpenGL(3.14f / 4.0f, 4.0f / 3.0f, 0.1f, 20.0f);
 		}
 		else
 		{
-			matP.PerspectiveFovRH(3.14f / 4.0f, 4.0f / 3.0f, 0.1f, 20.0f);
+			matP.SetPerspectiveFovRH(3.14f / 4.0f, 4.0f / 3.0f, 0.1f, 20.0f);
 		}
-		matC.LookAtRH(ace::Vector3DF(2.0f, 2.0f, 5.0f), ace::Vector3DF(), ace::Vector3DF(0.0f, 1.0f, 0.0f));
+		matC.SetLookAtRH(ace::Vector3DF(2.0f, 2.0f, 5.0f), ace::Vector3DF(), ace::Vector3DF(0.0f, 1.0f, 0.0f));
 		
 		ace::Matrix44::Mul(mat, matC, matM);
 		ace::Matrix44::Mul(mat, matP, mat);

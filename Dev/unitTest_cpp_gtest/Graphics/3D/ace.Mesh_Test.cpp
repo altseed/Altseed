@@ -95,8 +95,8 @@ static std::shared_ptr<ace::Deformer> CreateDeformer(ace::Graphics* graphics)
 	auto deformer = graphics->CreateDeformer();
 
 	ace::Matrix44 mat1, mat2;
-	mat1.Translation(0, -0.5, 0);
-	mat2.Translation(0, 0.5, 0);
+	mat1.SetTranslation(0, -0.5, 0);
+	mat2.SetTranslation(0, 0.5, 0);
 
 	ace::Matrix44 mat1_inv, mat2_inv;
 	mat1_inv = mat1.GetInverted();

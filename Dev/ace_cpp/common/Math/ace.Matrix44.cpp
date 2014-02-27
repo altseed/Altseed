@@ -4,6 +4,7 @@
 //
 //----------------------------------------------------------------------------------
 #include "ace.Vector3DF.h"
+#include "ace.Vector4DF.h"
 #include "ace.Matrix44.h"
 
 //----------------------------------------------------------------------------------
@@ -134,7 +135,7 @@ Matrix44 Matrix44::GetInverted()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::LookAtRH( const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up )
+Matrix44& Matrix44::SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up)
 {
 	// F=正面、R=右方向、U=上方向
 	Vector3DF F = (eye - at).GetNormal();
@@ -166,7 +167,7 @@ Matrix44& Matrix44::LookAtRH( const Vector3DF& eye, const Vector3DF& at, const V
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::LookAtLH( const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up )
+Matrix44& Matrix44::SetLookAtLH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up)
 {
 	// F=正面、R=右方向、U=上方向
 	Vector3DF F = (at - eye).GetNormal();
@@ -198,7 +199,7 @@ Matrix44& Matrix44::LookAtLH( const Vector3DF& eye, const Vector3DF& at, const V
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::PerspectiveFovRH( float ovY, float aspect, float zn, float zf )
+Matrix44& Matrix44::SetPerspectiveFovRH(float ovY, float aspect, float zn, float zf)
 {
 	float yScale = 1 / tanf( ovY / 2 );
 	float xScale = yScale / aspect;
@@ -228,7 +229,7 @@ Matrix44& Matrix44::PerspectiveFovRH( float ovY, float aspect, float zn, float z
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::PerspectiveFovRH_OpenGL( float ovY, float aspect, float zn, float zf )
+Matrix44& Matrix44::SetPerspectiveFovRH_OpenGL(float ovY, float aspect, float zn, float zf)
 {
 	float yScale = 1 / tanf( ovY / 2 );
 	float xScale = yScale / aspect;
@@ -260,7 +261,7 @@ Matrix44& Matrix44::PerspectiveFovRH_OpenGL( float ovY, float aspect, float zn, 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::PerspectiveFovLH( float ovY, float aspect, float zn, float zf )
+Matrix44& Matrix44::SetPerspectiveFovLH(float ovY, float aspect, float zn, float zf)
 {
 	float yScale = 1 / tanf( ovY / 2 );
 	float xScale = yScale / aspect;
@@ -290,7 +291,7 @@ Matrix44& Matrix44::PerspectiveFovLH( float ovY, float aspect, float zn, float z
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::OrthographicRH( float width, float height, float zn, float zf )
+Matrix44& Matrix44::SetOrthographicRH(float width, float height, float zn, float zf)
 {
 	Values[0][0] = 2 / width;
 	Values[1][0] = 0;
@@ -317,7 +318,7 @@ Matrix44& Matrix44::OrthographicRH( float width, float height, float zn, float z
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::OrthographicLH( float width, float height, float zn, float zf )
+Matrix44& Matrix44::SetOrthographicLH(float width, float height, float zn, float zf)
 {
 	Values[0][0] = 2 / width;
 	Values[1][0] = 0;
@@ -341,22 +342,23 @@ Matrix44& Matrix44::OrthographicLH( float width, float height, float zn, float z
 	return *this;
 }
 
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::Scaling( float x, float y, float z )
+Matrix44& Matrix44::SetTranslation(float x, float y, float z)
 {
-	memset( Values, 0, sizeof(float) * 16 );
-	Values[0][0] = x;
-	Values[1][1] = y;
-	Values[2][2] = z;
-	Values[3][3] = 1.0f;
+	Indentity();
+	Values[0][3] = x;
+	Values[1][3] = y;
+	Values[2][3] = z;
+	return *this;
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::RotationX( float angle )
+Matrix44& Matrix44::SetRotationX(float angle)
 {
 	float c, s;
 	SinCos( angle, s, c );
@@ -380,12 +382,13 @@ void Matrix44::RotationX( float angle )
 	Values[1][3] = 0.0f;
 	Values[2][3] = 0.0f;
 	Values[3][3] = 1.0f;
+	return *this;
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::RotationY( float angle )
+Matrix44& Matrix44::SetRotationY(float angle)
 {
 	float c, s;
 	SinCos( angle, s, c );
@@ -409,12 +412,13 @@ void Matrix44::RotationY( float angle )
 	Values[1][3] = 0.0f;
 	Values[2][3] = 0.0f;
 	Values[3][3] = 1.0f;
+	return *this;
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::RotationZ( float angle )
+Matrix44& Matrix44::SetRotationZ(float angle)
 {
 	float c, s;
 	SinCos( angle, s, c );
@@ -438,26 +442,16 @@ void Matrix44::RotationZ( float angle )
 	Values[1][3] = 0.0f;
 	Values[2][3] = 0.0f;
 	Values[3][3] = 1.0f;
+	return *this;
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::Translation( float x, float y, float z )
+Matrix44& Matrix44::SetRotationAxis(const Vector3DF& axis, float angle)
 {
-	Indentity();
-	Values[0][3] = x;
-	Values[1][3] = y;
-	Values[2][3] = z;
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void Matrix44::RotationAxis( const Vector3DF& axis, float angle )
-{
-	const float c = cosf( angle );
-	const float s = sinf( angle );
+	const float c = cosf(angle);
+	const float s = sinf(angle);
 	const float cc = 1.0f - c;
 
 	Values[0][0] = cc * (axis.X * axis.X) + c;
@@ -475,12 +469,13 @@ void Matrix44::RotationAxis( const Vector3DF& axis, float angle )
 	Values[0][3] = 0.0f;
 	Values[1][3] = 0.0f;
 	Values[2][3] = 0.0f;
+	return *this;
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::Quaternion( float x, float y, float z, float w )
+Matrix44& Matrix44::SetQuaternion(float x, float y, float z, float w)
 {
 	float xx = x * x;
 	float yy = y * y;
@@ -511,6 +506,77 @@ void Matrix44::Quaternion( float x, float y, float z, float w )
 	Values[3][1] = 0.0f;
 	Values[3][2] = 0.0f;
 	Values[3][3] = 1.0f;
+	return *this;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Matrix44& Matrix44::SetScale(float x, float y, float z)
+{
+	memset(Values, 0, sizeof(float) * 16);
+	Values[0][0] = x;
+	Values[1][1] = y;
+	Values[2][2] = z;
+	Values[3][3] = 1.0f;
+	return *this;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Vector3DF Matrix44::Transform3D(const Vector3DF& in)
+{
+	float values[3];
+
+	for (int i = 0; i < 3; i++)
+	{
+		values[i] = 0;
+		values[i] += in.X * Values[0][i];
+		values[i] += in.Y * Values[1][i];
+		values[i] += in.Z * Values[2][i];
+		values[i] += Values[3][i];
+	}
+
+	Vector3DF o;
+	o.X = values[0];
+	o.Y = values[1];
+	o.Z = values[2];
+	return o;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Vector4DF Matrix44::Transform4D(const Vector4DF& in)
+{
+	float values[4];
+
+	for (int i = 0; i < 4; i++)
+	{
+		values[i] = 0;
+		values[i] += in.X * Values[0][i];
+		values[i] += in.Y * Values[1][i];
+		values[i] += in.Z * Values[2][i];
+		values[i] += in.W * Values[3][i];
+	}
+
+	Vector4DF o;
+	o.X = values[0];
+	o.Y = values[1];
+	o.Z = values[2];
+	o.W = values[3];
+	return o;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Matrix44 Matrix44::operator * (const Matrix44& o) const
+{
+	Matrix44 o_;
+	Mul(o_, *this, o);
+	return o_;
 }
 
 //----------------------------------------------------------------------------------

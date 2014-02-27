@@ -7,11 +7,11 @@ namespace ace
 	Matrix44 RenderedObject3D::CalcLocalMatrix(Vector3DF& t, Vector3DF& r, Vector3DF& s)
 	{
 		Matrix44 mat, matt, matrx, matry, matrz, mats;
-		matt.Translation(t.X, t.Y, t.Z);
-		matrx.RotationX(r.X / 180.0f * 3.141592f);
-		matry.RotationY(r.Y / 180.0f * 3.141592f);
-		matrz.RotationZ(r.Z / 180.0f * 3.141592f);
-		mats.Scaling(s.X, s.Y, s.Z);
+		matt.SetTranslation(t.X, t.Y, t.Z);
+		matrx.SetRotationX(r.X / 180.0f * 3.141592f);
+		matry.SetRotationY(r.Y / 180.0f * 3.141592f);
+		matrz.SetRotationZ(r.Z / 180.0f * 3.141592f);
+		mats.SetScale(s.X, s.Y, s.Z);
 
 		Matrix44::Mul(mat, matrz, mats);
 		Matrix44::Mul(mat, matrx, mat);
