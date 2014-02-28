@@ -7,7 +7,6 @@
 #include <emmintrin.h>
 #endif
 #include "ace.Vector3DF.h"
-#include "ace.Matrix43.h"
 #include "ace.Matrix44.h"
 
 //----------------------------------------------------------------------------------
@@ -202,28 +201,6 @@ float Vector3DF::Distance(const Vector3DF& v1, const Vector3DF& v2)
 	float dy = v1.Y - v2.Y;
 	float dz = v1.Z - v2.Z;
 	return sqrt(dx * dx + dy * dy + dz * dz);
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-Vector3DF& Vector3DF::Transform( Vector3DF& o, const Vector3DF& in, const Matrix44& mat )
-{
-	float values[3];
-
-	for( int i = 0; i < 3; i++ )
-	{
-		values[i] = 0;
-		values[i] += in.X * mat.Values[0][i];
-		values[i] += in.Y * mat.Values[1][i];
-		values[i] += in.Z * mat.Values[2][i];
-		values[i] += mat.Values[3][i];
-	}
-
-	o.X = values[0];
-	o.Y = values[1];
-	o.Z = values[2];
-	return o;
 }
 
 //----------------------------------------------------------------------------------

@@ -77,7 +77,6 @@
     <ClInclude Include="..\common\Graphics\ace.Color.h" />
     <ClInclude Include="..\common\Graphics\ace.Graphics.Common.h" />
     <ClInclude Include="..\common\Math\ace.Matrix33.h" />
-    <ClInclude Include="..\common\Math\ace.Matrix43.h" />
     <ClInclude Include="..\common\Math\ace.Matrix44.h" />
     <ClInclude Include="..\common\Math\ace.RectF.h" />
     <ClInclude Include="..\common\Math\ace.RectI.h" />
@@ -98,7 +97,6 @@
   <ItemGroup>
     <ClCompile Include="..\common\Graphics\ace.Color.cpp" />
     <ClCompile Include="..\common\Math\ace.Matrix33.cpp" />
-    <ClCompile Include="..\common\Math\ace.Matrix43.cpp" />
     <ClCompile Include="..\common\Math\ace.Matrix44.cpp" />
     <ClCompile Include="..\common\Math\ace.RectF.cpp" />
     <ClCompile Include="..\common\Math\ace.Vector2DF.cpp" />

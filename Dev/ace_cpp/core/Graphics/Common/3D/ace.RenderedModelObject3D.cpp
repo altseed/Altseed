@@ -512,7 +512,7 @@ void main()
 				// ボーンあり
 				for (int32_t i = 0; i < Min(32, matrices.size()); i++)
 				{
-					vbuf.MCPMatrices[i].Indentity();
+					vbuf.MCPMatrices[i].SetIndentity();
 					Matrix44::Mul(vbuf.MCPMatrices[i], prop.CameraProjectionMatrix, GetLocalMatrix_FR());
 					Matrix44::Mul(vbuf.MCPMatrices[i], vbuf.MCPMatrices[i], matrices[i]);
 				}
@@ -520,7 +520,7 @@ void main()
 			else
 			{
 				// ボーンなし
-				vbuf.MCPMatrices[0].Indentity();
+				vbuf.MCPMatrices[0].SetIndentity();
 				Matrix44::Mul(vbuf.MCPMatrices[0], prop.CameraProjectionMatrix, GetLocalMatrix_FR());
 				for (int32_t i = 1; i < 32; i++)
 				{
