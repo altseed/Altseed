@@ -3,6 +3,7 @@
 
 class Graphics_Model : public EngineTest
 {
+	std::shared_ptr<ace::ModelObject3D> meshObj;
 public:
 
 	Graphics_Model(bool isOpenGLMode) :
@@ -14,7 +15,7 @@ protected:
 	{
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer3D>();
-		auto meshObj = std::make_shared<ace::ModelObject3D>();
+		meshObj = std::make_shared<ace::ModelObject3D>();
 		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
 		auto cameraObj = std::make_shared<ace::CameraObject3D>();
 
@@ -41,6 +42,14 @@ protected:
 
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
 	}
+
+	void OnUpdating() override
+	{
+		ace::Vector3DF v=meshObj->GetRotation();
+		meshObj->SetRotation(v + ace::Vector3DF(4,0,0));
+	}
+
+
 };
 
 TEST(Graphics, Model_GL)
