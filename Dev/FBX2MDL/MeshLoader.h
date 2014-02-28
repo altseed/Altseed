@@ -12,6 +12,9 @@ struct Vertex
 	ace::Vector2DF uv;
 	ace::Vector2DF subuv;
 
+	int normalAddCount;
+	int binormalAddCount;
+
 	int color[4];
 	uint8_t weight[4];
 	uint8_t weightIndexDivided[4];

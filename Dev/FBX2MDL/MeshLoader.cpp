@@ -30,6 +30,8 @@ void MeshLoader::_loadPositions(FbxMesh* fbxMesh)
 		vertex.binormal=ace::Vector3DF(0,0,0);
 		vertex.uv=ace::Vector2DF(0,0);
 		vertex.subuv=ace::Vector2DF(0,0);
+		vertex.normalAddCount=0;
+		vertex.binormalAddCount=0;
 		for(int j=0;j<4;++j)
 		{
 			vertex.color[j]=0;
@@ -293,9 +295,9 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 		printf("CP(%f, %f, %f)\n",_vertices[i].position.X,_vertices[i].position.Y,_vertices[i].position.Z);
 		writer->Push(_vertices[i].position);
 
-		printf("NV(%f, %f, %f)\n",_vertices[i].normal.X,_vertices[i].normal.Y,_vertices[i].normal.Z);
-		writer->Push(_vertices[i].normal);
-		writer->Push(zero3);
+		printf("NV(%f, %f, %f)\n",_vertices[i].normal.X/_vertices[i].normalAddCount,_vertices[i].normal.Y/_vertices[i].normalAddCount,_vertices[i].normal.Z/_vertices[i].normalAddCount);
+		writer->Push(_vertices[i].normal/_vertices[i].normalAddCount);
+		writer->Push(_vertices[i].binormal/_vertices[i].binormalAddCount);
 
 		printf("UV(%f, %f)\n",_vertices[i].uv.X,_vertices[i].uv.Y);
 		writer->Push(_vertices[i].uv);
@@ -453,10 +455,30 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 	FbxVector4* lControlPoints = fbxMesh->GetControlPoints();
 
 	int vertexId = 0;
+
 	for (int i = 0; i < lPolygonCount; i++)
 	{
-		int l;
+		int lPolygonSize = fbxMesh->GetPolygonSize(i);
 
+		for (int j = 0; j < lPolygonSize; j++)
+		{
+			int lControlPointIndex = fbxMesh->GetPolygonVertex(i, j);
+
+			_baseVertices[lControlPointIndex].normal += _loadNormal(fbxMesh,lControlPointIndex,vertexId);
+
+			_baseVertices[lControlPointIndex].binormal += _loadBinormal(fbxMesh,lControlPointIndex,vertexId);
+
+			++_baseVertices[lControlPointIndex].normalAddCount;
+			++_baseVertices[lControlPointIndex].binormalAddCount;
+
+			vertexId++;
+		} // for polygonSize
+	}
+
+	vertexId=0;
+
+	for (int i = 0; i < lPolygonCount; i++)
+	{
 		int lPolygonSize = fbxMesh->GetPolygonSize(i);
 
 		int cIndices[3];
@@ -477,17 +499,11 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			vertex.color[3]=color[3];
 
 			vertex.uv = _loadUV(fbxMesh,lControlPointIndex,vertexId,i,j);
-
-			vertex.normal = _loadNormal(fbxMesh,lControlPointIndex,vertexId);
-
-			vertex.binormal = _loadBinormal(fbxMesh,lControlPointIndex,vertexId);
-
 			int index = -1;
 			for(int k=0;k<_vertices.size();++k)
 			{
 				if(_vertices[k]==vertex)
 				{
-					printf("SAME! %d\n",k);
 					index=k;
 					break;
 				}
@@ -507,6 +523,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			vertexId++;
 		} // for polygonSize
 
+		
 		Face face;
 		face.vertexIndex[0]=cIndices[0];
 		face.vertexIndex[1]=cIndices[1];
