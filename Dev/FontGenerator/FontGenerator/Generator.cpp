@@ -3,7 +3,7 @@
 #include FT_FREETYPE_H
 #include "Generator.h"
 #include "AffHeader.h"
-#include "PngGenerator.h"
+#include <Utility/ace.BinaryWriter.h>
 
 #pragma comment(linker, "/nodefaultlib:libcmtd.lib")
 #pragma comment(linker, "/nodefaultlib:LIBCMT.lib")
@@ -13,6 +13,38 @@ using namespace ace;
 
 namespace FontGenerator
 {
+	void Generator::WriteIndexTableOut(ResultOfGeneratingPng& result, ostream& stream)
+	{
+		vector<int16_t> indexes(INDEX_MAX, 0);
+
+		for (int i = 0; i < result.fonts.size(); ++i)
+		{
+			indexes[result.fonts[i].charactor] = (int16_t)i;
+		}
+
+		BinaryWriter writer;
+		for (auto& index : indexes)
+		{
+			writer.Push(index);
+		}
+
+		writer.WriteOut(stream);
+	}
+
+	void Generator::WriteFontBalkOut(ResultOfGeneratingPng& result, std::ostream& stream)
+	{
+		BinaryWriter writer;
+		for (auto& f : result.fonts)
+		{
+			writer.Push(f.sheetNumber);
+			writer.Push(f.x);
+			writer.Push(f.y);
+			writer.Push(f.width);
+			writer.Push(f.height);
+		}
+		writer.WriteOut(stream);
+	}
+
 	void Generator::GenerateFontFile(
 		wstring fontPath,
 		wstring textPath,
@@ -35,6 +67,10 @@ namespace FontGenerator
 		header.SetSheetCount(result.sheetCount);
 
 		header.WriteOut(file);
+
+		WriteIndexTableOut(result, file);
+
+		WriteFontBalkOut(result, file);
 	}
 
 	// UTF-16‚ª‘ÎÛ
@@ -53,7 +89,10 @@ namespace FontGenerator
 			achar c;
 			if (fread(&c, sizeof(achar), 1, file) == 1)
 			{
-				result.push_back(c);
+				if (find(result.begin(), result.end(), c) == result.end())
+				{
+					result.push_back(c);
+				}
 			}
 		}
 

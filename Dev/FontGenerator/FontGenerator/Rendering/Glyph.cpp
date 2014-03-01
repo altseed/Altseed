@@ -8,7 +8,7 @@ using namespace std;
 namespace FontGenerator
 {
 	Glyph::Glyph(FT_Library& library, FT_OutlineGlyph& glyph)
-		: m_color(Color()), m_library(&library)
+		: m_color(Color()), m_library(&library), m_charactor(L'\0')
 	{
 		FT_Glyph g;
 		FT_Glyph_Copy(&glyph->root, &g);
@@ -16,7 +16,7 @@ namespace FontGenerator
 	}
 
 	Glyph::Glyph(FT_Library& library, FT_Face& face, wchar_t ch)
-		: m_color(Color()), m_library(&library)
+		: m_color(Color()), m_library(&library), m_charactor(ch)
 	{
 		auto index = FT_Get_Char_Index(face, ch);
 		FT_Load_Glyph(face, index, FT_LOAD_NO_BITMAP);
@@ -137,5 +137,10 @@ namespace FontGenerator
 	int Glyph::GetAdvance() const
 	{
 		return m_glyph->root.advance.x >> 16;
+	}
+
+	wchar_t Glyph::GetCharactor() const
+	{
+		return m_charactor;
 	}
 }

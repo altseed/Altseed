@@ -26,6 +26,7 @@ namespace FontGenerator
 		FT_Library* m_library;
 		FT_OutlineGlyph m_glyph;
 		Color m_color;
+		wchar_t m_charactor;
 
 		/**
 			@brief	保持するfreetypeのグリフを直接指定して初期化する。
@@ -39,6 +40,8 @@ namespace FontGenerator
 
 		Glyph(FT_Library& library, FT_Face& face, wchar_t ch);
 		~Glyph();
+
+		wchar_t GetCharactor() const;
 
 		/**
 			@brief	このグリフの描画幅を取得する。
