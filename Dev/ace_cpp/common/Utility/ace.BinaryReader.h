@@ -7,6 +7,7 @@
 #include<cassert>
 #include "../ace.common.Base.h"
 #include "../Graphics/ace.Graphics.Common.h"
+#include "../Graphics/ace.Color.h"
 #include "../Math/ace.Vector2DF.h"
 #include "../Math/ace.Vector3DF.h"
 #include "../Math/ace.Matrix44.h"

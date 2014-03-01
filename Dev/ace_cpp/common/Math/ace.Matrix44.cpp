@@ -4,6 +4,7 @@
 //
 //----------------------------------------------------------------------------------
 #include "ace.Vector3DF.h"
+#include "ace.Vector4DF.h"
 #include "ace.Matrix44.h"
 
 //----------------------------------------------------------------------------------
@@ -15,13 +16,13 @@ namespace ace {
 //----------------------------------------------------------------------------------
 Matrix44::Matrix44()
 {
-	Indentity();
+	SetIndentity();
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::Indentity()
+Matrix44& Matrix44::SetIndentity()
 {
 	memset( Values, 0, sizeof(float) * 16 );
 	Values[0][0] = 1.0f;
@@ -34,7 +35,107 @@ Matrix44& Matrix44::Indentity()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::LookAtRH( const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up )
+Matrix44& Matrix44::SetTransposed()
+{
+	for (int32_t c = 0; c < 4; c++)
+	{
+		for (int32_t r = 0; r < 4; r++)
+		{
+			float v = Values[r][c];
+			Values[r][c] = Values[c][r];
+			Values[c][r] = v;
+		}
+	}
+
+	return *this;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Matrix44& Matrix44::SetInverted()
+{
+	float a11 = this->Values[0][0];
+	float a12 = this->Values[0][1];
+	float a13 = this->Values[0][2];
+	float a14 = this->Values[0][3];
+	float a21 = this->Values[1][0];
+	float a22 = this->Values[1][1];
+	float a23 = this->Values[1][2];
+	float a24 = this->Values[1][3];
+	float a31 = this->Values[2][0];
+	float a32 = this->Values[2][1];
+	float a33 = this->Values[2][2];
+	float a34 = this->Values[2][3];
+	float a41 = this->Values[3][0];
+	float a42 = this->Values[3][1];
+	float a43 = this->Values[3][2];
+	float a44 = this->Values[3][3];
+
+	/* 行列式の計算 */
+	float b11 = +a22 * (a33 * a44 - a43 * a34) - a23 * (a32 * a44 - a42 * a34) + a24 * (a32 * a43 - a42 * a33);
+	float b12 = -a12 * (a33 * a44 - a43 * a34) + a13 * (a32 * a44 - a42 * a34) - a14 * (a32 * a43 - a42 * a33);
+	float b13 = +a12 * (a23 * a44 - a43 * a24) - a13 * (a22 * a44 - a42 * a24) + a14 * (a22 * a43 - a42 * a23);
+	float b14 = -a12 * (a23 * a34 - a33 * a24) + a13 * (a22 * a34 - a32 * a24) - a14 * (a22 * a33 - a32 * a23);
+
+	float b21 = -a21 * (a33 * a44 - a43 * a34) + a23 * (a31 * a44 - a41 * a34) - a24 * (a31 * a43 - a41 * a33);
+	float b22 = +a11 * (a33 * a44 - a43 * a34) - a13 * (a31 * a44 - a41 * a34) + a14 * (a31 * a43 - a41 * a33);
+	float b23 = -a11 * (a23 * a44 - a43 * a24) + a13 * (a21 * a44 - a41 * a24) - a14 * (a21 * a43 - a41 * a23);
+	float b24 = +a11 * (a23 * a34 - a33 * a24) - a13 * (a21 * a34 - a31 * a24) + a14 * (a21 * a33 - a31 * a23);
+
+	float b31 = +a21 * (a32 * a44 - a42 * a34) - a22 * (a31 * a44 - a41 * a34) + a24 * (a31 * a42 - a41 * a32);
+	float b32 = -a11 * (a32 * a44 - a42 * a34) + a12 * (a31 * a44 - a41 * a34) - a14 * (a31 * a42 - a41 * a32);
+	float b33 = +a11 * (a22 * a44 - a42 * a24) - a12 * (a21 * a44 - a41 * a24) + a14 * (a21 * a42 - a41 * a22);
+	float b34 = -a11 * (a22 * a34 - a32 * a24) + a12 * (a21 * a34 - a31 * a24) - a14 * (a21 * a32 - a31 * a22);
+
+	float b41 = -a21 * (a32 * a43 - a42 * a33) + a22 * (a31 * a43 - a41 * a33) - a23 * (a31 * a42 - a41 * a32);
+	float b42 = +a11 * (a32 * a43 - a42 * a33) - a12 * (a31 * a43 - a41 * a33) + a13 * (a31 * a42 - a41 * a32);
+	float b43 = -a11 * (a22 * a43 - a42 * a23) + a12 * (a21 * a43 - a41 * a23) - a13 * (a21 * a42 - a41 * a22);
+	float b44 = +a11 * (a22 * a33 - a32 * a23) - a12 * (a21 * a33 - a31 * a23) + a13 * (a21 * a32 - a31 * a22);
+
+	// 行列式の逆数をかける
+	float Det = (a11 * b11) + (a12 * b21) + (a13 * b31) + (a14 * b41);
+	if ((-FLT_MIN <= Det) && (Det <= +FLT_MIN))
+	{
+		return *this;
+	}
+
+	float InvDet = 1.0f / Det;
+
+	Values[0][0] = b11 * InvDet;
+	Values[0][1] = b12 * InvDet;
+	Values[0][2] = b13 * InvDet;
+	Values[0][3] = b14 * InvDet;
+	Values[1][0] = b21 * InvDet;
+	Values[1][1] = b22 * InvDet;
+	Values[1][2] = b23 * InvDet;
+	Values[1][3] = b24 * InvDet;
+	Values[2][0] = b31 * InvDet;
+	Values[2][1] = b32 * InvDet;
+	Values[2][2] = b33 * InvDet;
+	Values[2][3] = b34 * InvDet;
+	Values[3][0] = b41 * InvDet;
+	Values[3][1] = b42 * InvDet;
+	Values[3][2] = b43 * InvDet;
+	Values[3][3] = b44 * InvDet;
+
+	return *this;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Matrix44 Matrix44::GetInverted()
+{
+	Matrix44 o = (*this);
+	o.SetInverted();
+	return o;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Matrix44& Matrix44::SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up)
 {
 	// F=正面、R=右方向、U=上方向
 	Vector3DF F = (eye - at).GetNormal();
@@ -66,7 +167,7 @@ Matrix44& Matrix44::LookAtRH( const Vector3DF& eye, const Vector3DF& at, const V
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::LookAtLH( const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up )
+Matrix44& Matrix44::SetLookAtLH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up)
 {
 	// F=正面、R=右方向、U=上方向
 	Vector3DF F = (at - eye).GetNormal();
@@ -98,7 +199,7 @@ Matrix44& Matrix44::LookAtLH( const Vector3DF& eye, const Vector3DF& at, const V
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::PerspectiveFovRH( float ovY, float aspect, float zn, float zf )
+Matrix44& Matrix44::SetPerspectiveFovRH(float ovY, float aspect, float zn, float zf)
 {
 	float yScale = 1 / tanf( ovY / 2 );
 	float xScale = yScale / aspect;
@@ -128,7 +229,7 @@ Matrix44& Matrix44::PerspectiveFovRH( float ovY, float aspect, float zn, float z
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::PerspectiveFovRH_OpenGL( float ovY, float aspect, float zn, float zf )
+Matrix44& Matrix44::SetPerspectiveFovRH_OpenGL(float ovY, float aspect, float zn, float zf)
 {
 	float yScale = 1 / tanf( ovY / 2 );
 	float xScale = yScale / aspect;
@@ -160,7 +261,7 @@ Matrix44& Matrix44::PerspectiveFovRH_OpenGL( float ovY, float aspect, float zn, 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::PerspectiveFovLH( float ovY, float aspect, float zn, float zf )
+Matrix44& Matrix44::SetPerspectiveFovLH(float ovY, float aspect, float zn, float zf)
 {
 	float yScale = 1 / tanf( ovY / 2 );
 	float xScale = yScale / aspect;
@@ -190,7 +291,7 @@ Matrix44& Matrix44::PerspectiveFovLH( float ovY, float aspect, float zn, float z
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::OrthographicRH( float width, float height, float zn, float zf )
+Matrix44& Matrix44::SetOrthographicRH(float width, float height, float zn, float zf)
 {
 	Values[0][0] = 2 / width;
 	Values[1][0] = 0;
@@ -217,7 +318,7 @@ Matrix44& Matrix44::OrthographicRH( float width, float height, float zn, float z
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::OrthographicLH( float width, float height, float zn, float zf )
+Matrix44& Matrix44::SetOrthographicLH(float width, float height, float zn, float zf)
 {
 	Values[0][0] = 2 / width;
 	Values[1][0] = 0;
@@ -241,22 +342,23 @@ Matrix44& Matrix44::OrthographicLH( float width, float height, float zn, float z
 	return *this;
 }
 
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::Scaling( float x, float y, float z )
+Matrix44& Matrix44::SetTranslation(float x, float y, float z)
 {
-	memset( Values, 0, sizeof(float) * 16 );
-	Values[0][0] = x;
-	Values[1][1] = y;
-	Values[2][2] = z;
-	Values[3][3] = 1.0f;
+	SetIndentity();
+	Values[0][3] = x;
+	Values[1][3] = y;
+	Values[2][3] = z;
+	return *this;
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::RotationX( float angle )
+Matrix44& Matrix44::SetRotationX(float angle)
 {
 	float c, s;
 	SinCos( angle, s, c );
@@ -280,12 +382,13 @@ void Matrix44::RotationX( float angle )
 	Values[1][3] = 0.0f;
 	Values[2][3] = 0.0f;
 	Values[3][3] = 1.0f;
+	return *this;
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::RotationY( float angle )
+Matrix44& Matrix44::SetRotationY(float angle)
 {
 	float c, s;
 	SinCos( angle, s, c );
@@ -309,12 +412,13 @@ void Matrix44::RotationY( float angle )
 	Values[1][3] = 0.0f;
 	Values[2][3] = 0.0f;
 	Values[3][3] = 1.0f;
+	return *this;
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::RotationZ( float angle )
+Matrix44& Matrix44::SetRotationZ(float angle)
 {
 	float c, s;
 	SinCos( angle, s, c );
@@ -338,26 +442,16 @@ void Matrix44::RotationZ( float angle )
 	Values[1][3] = 0.0f;
 	Values[2][3] = 0.0f;
 	Values[3][3] = 1.0f;
+	return *this;
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::Translation( float x, float y, float z )
+Matrix44& Matrix44::SetRotationAxis(const Vector3DF& axis, float angle)
 {
-	Indentity();
-	Values[0][3] = x;
-	Values[1][3] = y;
-	Values[2][3] = z;
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void Matrix44::RotationAxis( const Vector3DF& axis, float angle )
-{
-	const float c = cosf( angle );
-	const float s = sinf( angle );
+	const float c = cosf(angle);
+	const float s = sinf(angle);
 	const float cc = 1.0f - c;
 
 	Values[0][0] = cc * (axis.X * axis.X) + c;
@@ -375,12 +469,13 @@ void Matrix44::RotationAxis( const Vector3DF& axis, float angle )
 	Values[0][3] = 0.0f;
 	Values[1][3] = 0.0f;
 	Values[2][3] = 0.0f;
+	return *this;
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Matrix44::Quaternion( float x, float y, float z, float w )
+Matrix44& Matrix44::SetQuaternion(float x, float y, float z, float w)
 {
 	float xx = x * x;
 	float yy = y * y;
@@ -411,6 +506,93 @@ void Matrix44::Quaternion( float x, float y, float z, float w )
 	Values[3][1] = 0.0f;
 	Values[3][2] = 0.0f;
 	Values[3][3] = 1.0f;
+	return *this;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Matrix44& Matrix44::SetScale(float x, float y, float z)
+{
+	memset(Values, 0, sizeof(float) * 16);
+	Values[0][0] = x;
+	Values[1][1] = y;
+	Values[2][2] = z;
+	Values[3][3] = 1.0f;
+	return *this;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Vector3DF Matrix44::Transform3D(const Vector3DF& in) const
+{
+	float values[3];
+
+	for (int i = 0; i < 3; i++)
+	{
+		values[i] = 0;
+		values[i] += in.X * Values[0][i];
+		values[i] += in.Y * Values[1][i];
+		values[i] += in.Z * Values[2][i];
+		values[i] += Values[3][i];
+	}
+
+	Vector3DF o;
+	o.X = values[0];
+	o.Y = values[1];
+	o.Z = values[2];
+	return o;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Vector4DF Matrix44::Transform4D(const Vector4DF& in) const
+{
+	float values[4];
+
+	for (int i = 0; i < 4; i++)
+	{
+		values[i] = 0;
+		values[i] += in.X * Values[0][i];
+		values[i] += in.Y * Values[1][i];
+		values[i] += in.Z * Values[2][i];
+		values[i] += in.W * Values[3][i];
+	}
+
+	Vector4DF o;
+	o.X = values[0];
+	o.Y = values[1];
+	o.Z = values[2];
+	o.W = values[3];
+	return o;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Matrix44 Matrix44::operator * (const Matrix44& right) const
+{
+	Matrix44 o_;
+	Mul(o_, *this, right);
+	return o_;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Vector3DF Matrix44::operator * (const Vector3DF& right) const
+{
+	return Transform3D(right);
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Vector4DF Matrix44::operator * (const Vector4DF& right) const
+{
+	return Transform4D(right);
 }
 
 //----------------------------------------------------------------------------------
@@ -433,79 +615,6 @@ Matrix44& Matrix44::Mul( Matrix44& o, const Matrix44& in1, const Matrix44& in2 )
 			o.Values[i][j] = v;
 		}
 	}
-	return o;
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-Matrix44& Matrix44::Inverse(  Matrix44& o, const Matrix44& in )
-{
-	float a11 = in.Values[0][0];
-	float a12 = in.Values[0][1];
-	float a13 = in.Values[0][2];
-	float a14 = in.Values[0][3];
-	float a21 = in.Values[1][0];
-	float a22 = in.Values[1][1];
-	float a23 = in.Values[1][2];
-	float a24 = in.Values[1][3];
-	float a31 = in.Values[2][0];
-	float a32 = in.Values[2][1];
-	float a33 = in.Values[2][2];
-	float a34 = in.Values[2][3];
-	float a41 = in.Values[3][0];
-	float a42 = in.Values[3][1];
-	float a43 = in.Values[3][2];
-	float a44 = in.Values[3][3];
-
-	/* 行列式の計算 */
-	float b11 = + a22 * (a33 * a44 - a43 * a34) - a23 * (a32 * a44 - a42 * a34) + a24 * (a32 * a43 - a42 * a33);
-	float b12 = - a12 * (a33 * a44 - a43 * a34) + a13 * (a32 * a44 - a42 * a34) - a14 * (a32 * a43 - a42 * a33);
-	float b13 = + a12 * (a23 * a44 - a43 * a24) - a13 * (a22 * a44 - a42 * a24) + a14 * (a22 * a43 - a42 * a23);
-	float b14 = - a12 * (a23 * a34 - a33 * a24) + a13 * (a22 * a34 - a32 * a24) - a14 * (a22 * a33 - a32 * a23);
-
-	float b21 = - a21 * (a33 * a44 - a43 * a34) + a23 * (a31 * a44 - a41 * a34) - a24 * (a31 * a43 - a41 * a33);
-	float b22 = + a11 * (a33 * a44 - a43 * a34) - a13 * (a31 * a44 - a41 * a34) + a14 * (a31 * a43 - a41 * a33);
-	float b23 = - a11 * (a23 * a44 - a43 * a24) + a13 * (a21 * a44 - a41 * a24) - a14 * (a21 * a43 - a41 * a23);
-	float b24 = + a11 * (a23 * a34 - a33 * a24) - a13 * (a21 * a34 - a31 * a24) + a14 * (a21 * a33 - a31 * a23);
-
-	float b31 = + a21 * (a32 * a44 - a42 * a34) - a22 * (a31 * a44 - a41 * a34) + a24 * (a31 * a42 - a41 * a32);
-	float b32 = - a11 * (a32 * a44 - a42 * a34) + a12 * (a31 * a44 - a41 * a34) - a14 * (a31 * a42 - a41 * a32);
-	float b33 = + a11 * (a22 * a44 - a42 * a24) - a12 * (a21 * a44 - a41 * a24) + a14 * (a21 * a42 - a41 * a22);
-	float b34 = - a11 * (a22 * a34 - a32 * a24) + a12 * (a21 * a34 - a31 * a24) - a14 * (a21 * a32 - a31 * a22);
-
-	float b41 = - a21 * (a32 * a43 - a42 * a33) + a22 * (a31 * a43 - a41 * a33) - a23 * (a31 * a42 - a41 * a32);
-	float b42 = + a11 * (a32 * a43 - a42 * a33) - a12 * (a31 * a43 - a41 * a33) + a13 * (a31 * a42 - a41 * a32);
-	float b43 = - a11 * (a22 * a43 - a42 * a23) + a12 * (a21 * a43 - a41 * a23) - a13 * (a21 * a42 - a41 * a22);
-	float b44 = + a11 * (a22 * a33 - a32 * a23) - a12 * (a21 * a33 - a31 * a23) + a13 * (a21 * a32 - a31 * a22);
-
-	// 行列式の逆数をかける
-	float Det = (a11 * b11) + (a12 * b21) + (a13 * b31) + (a14 * b41);
-	if ( (-FLT_MIN <= Det) && (Det <= +FLT_MIN) )
-	{
-		o = in;
-		return o;
-	}
-
-	float InvDet = 1.0f / Det;
-
-	o.Values[0][0] = b11 * InvDet;
-	o.Values[0][1] = b12 * InvDet;
-	o.Values[0][2] = b13 * InvDet;
-	o.Values[0][3] = b14 * InvDet;
-	o.Values[1][0] = b21 * InvDet;
-	o.Values[1][1] = b22 * InvDet;
-	o.Values[1][2] = b23 * InvDet;
-	o.Values[1][3] = b24 * InvDet;
-	o.Values[2][0] = b31 * InvDet;
-	o.Values[2][1] = b32 * InvDet;
-	o.Values[2][2] = b33 * InvDet;
-	o.Values[2][3] = b34 * InvDet;
-	o.Values[3][0] = b41 * InvDet;
-	o.Values[3][1] = b42 * InvDet;
-	o.Values[3][2] = b43 * InvDet;
-	o.Values[3][3] = b44 * InvDet;
-
 	return o;
 }
 

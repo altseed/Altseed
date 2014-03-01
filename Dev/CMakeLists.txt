@@ -28,7 +28,6 @@ endif()
 set(common_src
 	ace_cpp/common/Graphics/ace.Color.cpp
 	ace_cpp/common/Math/ace.Matrix33.cpp
-	ace_cpp/common/Math/ace.Matrix43.cpp
 	ace_cpp/common/Math/ace.Matrix44.cpp
 	ace_cpp/common/Math/ace.RectF.cpp
 	ace_cpp/common/Math/ace.RectI.cpp

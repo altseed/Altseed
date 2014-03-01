@@ -137,8 +137,6 @@ public:
 		@brief	2点間の距離を取得する。
 	*/
 	static float Distance(const Vector3DF& v1, const Vector3DF& v2);
-
-	static Vector3DF& Transform( Vector3DF& o, const Vector3DF& in, const Matrix44& mat );
 };
 
 //----------------------------------------------------------------------------------

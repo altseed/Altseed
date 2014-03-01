@@ -451,9 +451,9 @@ namespace ace
 		if (rotationType == ROTATION_ORDER_QUATERNION)
 		{
 			Matrix44 mat, matS, matR, matT;
-			matS.Scaling(scale[0], scale[1], scale[2]);
-			matT.Translation(position[0], position[1], position[2]);
-			matR.Quaternion(rotation[0], rotation[1], rotation[2], rotation[3]);
+			matS.SetScale(scale[0], scale[1], scale[2]);
+			matT.SetTranslation(position[0], position[1], position[2]);
+			matR.SetQuaternion(rotation[0], rotation[1], rotation[2], rotation[3]);
 
 			mat = Matrix44::Mul(mat, matR, matS);
 			mat = Matrix44::Mul(mat, matT, mat);
@@ -463,9 +463,9 @@ namespace ace
 		else if (rotationType == ROTATION_ORDER_AXIS)
 		{
 			Matrix44 mat, matS, matR, matT;
-			matS.Scaling(scale[0], scale[1], scale[2]);
-			matT.Translation(position[0], position[1], position[2]);
-			matR.RotationAxis(Vector3DF(rotation[0], rotation[2], -rotation[1]), rotation[3]);
+			matS.SetScale(scale[0], scale[1], scale[2]);
+			matT.SetTranslation(position[0], position[1], position[2]);
+			matR.SetRotationAxis(Vector3DF(rotation[0], rotation[2], -rotation[1]), rotation[3]);
 
 			mat = Matrix44::Mul(mat, matR, matS);
 			mat = Matrix44::Mul(mat, matT, mat);
@@ -475,11 +475,11 @@ namespace ace
 		else
 		{
 			Matrix44 mat, matS, matRx, matRy, matRz, matT;
-			matS.Scaling(scale[0], scale[1], scale[2]);
-			matT.Translation(position[0], position[1], position[2]);
-			matRx.RotationX(rotation[0]);
-			matRy.RotationY(rotation[1]);
-			matRz.RotationZ(rotation[2]);
+			matS.SetScale(scale[0], scale[1], scale[2]);
+			matT.SetTranslation(position[0], position[1], position[2]);
+			matRx.SetRotationX(rotation[0]);
+			matRy.SetRotationY(rotation[1]);
+			matRz.SetRotationZ(rotation[2]);
 
 			if (rotationType == ROTATION_ORDER_XZY)
 			{

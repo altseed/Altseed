@@ -72,14 +72,14 @@ static std::shared_ptr<ace::Deformer> CreateDeformer(ace::Graphics* graphics)
 	auto deformer = graphics->CreateDeformer();
 
 	ace::Matrix44 mat1, mat2;
-	mat1.Translation(0, -0.5, 0);
-	mat2.Translation(0, 0.5, 0);
+	mat1.SetTranslation(0, -0.5, 0);
+	mat2.SetTranslation(0, 0.5, 0);
 
 	ace::Matrix44 mat1_inv, mat2_inv;
-	mat1.Inverse(mat1_inv, mat1);
+	mat1_inv = mat1.GetInverted();
 
 	ace::Matrix44::Mul(mat2_inv, mat1, mat2);
-	ace::Matrix44::Inverse(mat2_inv, mat2_inv);
+	mat2_inv = mat2_inv.GetInverted();
 
 	deformer->AddBone(ace::ToAString("no1").c_str(), -1, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat1, mat1_inv);
 	deformer->AddBone(ace::ToAString("no2").c_str(), 0, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat2, mat2_inv);

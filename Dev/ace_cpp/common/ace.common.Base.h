@@ -77,6 +77,7 @@ namespace ace
 struct Vector2DF;
 struct Vector2DI;
 struct Vector3DF;
+struct Vector4DF;
 struct Matrix43;
 struct Matrix44;
 struct RectF;
