@@ -87,6 +87,7 @@ namespace FontGenerator
 		m_font.SetFontSize(m_setting.GetFontSize());
 
 		vector<int> buffer(m_sheetSize*m_sheetSize, 0);
+		vector<FontData> fontData;
 
 		int outlineWidth = 0;
 		if (m_setting.GetBorder() != nullptr)
@@ -107,6 +108,16 @@ namespace FontGenerator
 				penY += lineHeight;
 			}
 
+			FontData data;
+			data.x = penX;
+			data.y = penY - lineHeight;
+			data.width = advance;
+			data.height = lineHeight;
+			data.sheetNumber = 0;
+			data.charactor = glyph->GetCharactor();
+
+			fontData.push_back(data);
+
 			finalGlyph.Draw(buffer.data(), m_sheetSize, m_sheetSize, penX, penY);
 
 			penX += advance;
@@ -115,7 +126,10 @@ namespace FontGenerator
 		auto pngPath = GetSheetName() + ToAString(".png");
 		SavePNGImage(pngPath.c_str(), m_sheetSize, m_sheetSize, buffer.data(), false);
 
-		return ResultOfGeneratingPng();
+		ResultOfGeneratingPng result;
+		result.sheetCount = 1;
+		result.fonts = fontData;
+		return result;
 	}
 
 #pragma region GetSet
