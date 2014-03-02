@@ -4,6 +4,7 @@
 #include "Generator.h"
 #include "AffHeader.h"
 #include <Utility/ace.BinaryWriter.h>
+#include <Utility/ace.BinaryReader.h>
 
 #pragma comment(linker, "/nodefaultlib:libcmtd.lib")
 #pragma comment(linker, "/nodefaultlib:LIBCMT.lib")
