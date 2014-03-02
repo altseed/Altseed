@@ -1,3 +1,7 @@
+
+del master.zip
+rm -rf Effekseer-master
+
 python Script/ace_wget.py https://github.com/effekseer/Effekseer/archive/master.zip
 python Script/ace_unzip.py master.zip
 
