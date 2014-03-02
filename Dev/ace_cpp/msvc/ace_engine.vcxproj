@@ -52,6 +52,11 @@
       <Optimization>Disabled</Optimization>
       <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../engine/PCH/ace.Engine.PCH.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>../engine/PCH/ace.Engine.PCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -68,6 +73,11 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../engine/PCH/ace.Engine.PCH.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>../engine/PCH/ace.Engine.PCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -103,6 +113,7 @@
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGaussianBlur.h" />
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGrayScale.h" />
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.h" />
+    <ClInclude Include="..\engine\PCH\ace.Engine.PCH.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\engine\ace.Engine.cpp" />
@@ -127,6 +138,10 @@
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGaussianBlur.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGrayScale.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectSepia.cpp" />
+    <ClCompile Include="..\engine\PCH\ace.Engine.PCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ace_core.vcxproj">

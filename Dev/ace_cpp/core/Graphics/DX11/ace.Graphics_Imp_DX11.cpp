@@ -5,6 +5,7 @@
 #include "ace.Graphics_Imp_DX11.h"
 #include "../Common/ace.RenderingThread.h"
 
+#include "../../Log/ace.Log.h"
 #include "../../Window/ace.Window_Imp.h"
 #include "Resource/ace.Texture2D_Imp_DX11.h"
 #include "Resource/ace.VertexBuffer_Imp_DX11.h"
@@ -13,6 +14,7 @@
 #include "Resource/ace.RenderState_Imp_DX11.h"
 #include "Resource/ace.RenderTexture_Imp_DX11.h"
 #include "Resource/ace.DepthBuffer_Imp_DX11.h"
+
 
 //----------------------------------------------------------------------------------
 //
@@ -367,6 +369,20 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode)
 {
+	auto writeLogHeading = [log](const astring s) -> void
+	{
+		if (log == nullptr) return;
+		log->WriteHeading(s.c_str());
+	};
+
+	auto writeLog = [log](const astring s) -> void
+	{
+		if (log == nullptr) return;
+		log->WriteLine(s.c_str());
+	};
+
+	writeLogHeading(ToAString("DirectX11"));
+
 	/* DirectX初期化 */
 	ID3D11Device*			device = NULL;
 	ID3D11DeviceContext*	context = NULL;
@@ -398,22 +414,26 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	if FAILED(hr)
 	{
+		writeLog(ToAString("デバイスの作成に失敗"));
 		goto End;
 	}
 
 	if (FAILED(device->QueryInterface(__uuidof(IDXGIDevice1), (void**) &dxgiDevice)))
 	{
+		writeLog(ToAString("デバイス1の作成に失敗"));
 		goto End;
 	}
 
 	if (FAILED(dxgiDevice->GetAdapter(&adapter)))
 	{
+		writeLog(ToAString("アダプタの取得に失敗"));
 		goto End;
 	}
 
 	adapter->GetParent(__uuidof(IDXGIFactory), (void**) &dxgiFactory);
 	if (dxgiFactory == NULL)
 	{
+		writeLog(ToAString("ファクトリの取得に失敗"));
 		goto End;
 	}
 
@@ -436,16 +456,19 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	if (FAILED(dxgiFactory->CreateSwapChain(device, &hDXGISwapChainDesc, &swapChain)))
 	{
+		writeLog(ToAString("スワップチェーンの作成に失敗"));
 		goto End;
 	}
 
 	if (FAILED(swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**) &defaultBack)))
 	{
+		writeLog(ToAString("バックバッファの取得に失敗"));
 		goto End;
 	}
 
 	if (FAILED(device->CreateRenderTargetView(defaultBack, NULL, &defaultBackRenderTargetView)))
 	{
+		writeLog(ToAString("バックバッファのレンダーターゲットの取得に失敗"));
 		goto End;
 	}
 
@@ -465,6 +488,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	if (FAILED(device->CreateTexture2D(&descDepth, NULL, &depthBuffer)))
 	{
+		writeLog(ToAString("深度バッファの作成に失敗"));
 		goto End;
 	}
 
@@ -474,8 +498,11 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	viewDesc.Flags = 0;
 	if (FAILED(device->CreateDepthStencilView(depthBuffer, &viewDesc, &depthStencilView)))
 	{
+		writeLog(ToAString("深度バッファのビューの作成に失敗"));
 		goto End;
 	}
+
+	writeLog(ToAString("DirectX11初期化成功"));
 
 	return new Graphics_Imp_DX11(
 		window,
@@ -501,6 +528,9 @@ End:
 	SafeRelease(dxgiDevice);
 	SafeRelease(context);
 	SafeRelease(device);
+
+	writeLog(ToAString("DirectX11初期化失敗"));
+
 	return nullptr;
 }
 

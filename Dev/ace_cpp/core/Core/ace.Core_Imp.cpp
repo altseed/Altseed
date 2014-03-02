@@ -144,14 +144,16 @@ namespace ace
 		}
 #endif
 
+		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), title);
+
 		m_window = Window_Imp::Create(width, height, title);
 		m_keyboard = Keyboard_Imp::Create(m_window);
 		m_mouse = Mouse_Imp::Create(m_window);
 		m_joystickContainer = JoystickContainer_Imp::Create();
 
-		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), title);
-		
 		m_graphics = Graphics_Imp::Create(m_window, isOpenGLMode, m_logger, isMultithreadingMode);
+		if (m_graphics == nullptr) return false;
+
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, m_window->GetSize());
 
 		m_profiler = Profiler_Imp::Create();
@@ -193,6 +195,8 @@ namespace ace
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
 		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, false, m_logger, isMultithreadingMode);
+		if (m_graphics == nullptr) return false;
+
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, Vector2DI(width,height));
 
 		m_profiler = Profiler_Imp::Create();

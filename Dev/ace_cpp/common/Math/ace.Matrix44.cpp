@@ -532,10 +532,10 @@ Vector3DF Matrix44::Transform3D(const Vector3DF& in) const
 	for (int i = 0; i < 3; i++)
 	{
 		values[i] = 0;
-		values[i] += in.X * Values[0][i];
-		values[i] += in.Y * Values[1][i];
-		values[i] += in.Z * Values[2][i];
-		values[i] += Values[3][i];
+		values[i] += in.X * Values[i][0];
+		values[i] += in.Y * Values[i][1];
+		values[i] += in.Z * Values[i][2];
+		values[i] += Values[i][3];
 	}
 
 	Vector3DF o;
@@ -555,10 +555,10 @@ Vector4DF Matrix44::Transform4D(const Vector4DF& in) const
 	for (int i = 0; i < 4; i++)
 	{
 		values[i] = 0;
-		values[i] += in.X * Values[0][i];
-		values[i] += in.Y * Values[1][i];
-		values[i] += in.Z * Values[2][i];
-		values[i] += in.W * Values[3][i];
+		values[i] += in.X * Values[i][0];
+		values[i] += in.Y * Values[i][1];
+		values[i] += in.Z * Values[i][2];
+		values[i] += in.W * Values[i][3];
 	}
 
 	Vector4DF o;

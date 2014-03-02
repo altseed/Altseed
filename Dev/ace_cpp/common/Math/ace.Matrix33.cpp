@@ -131,9 +131,9 @@ namespace ace
 		for (int i = 0; i < 3; i++)
 		{
 			values[i] = 0;
-			values[i] += in.X * Values[0][i];
-			values[i] += in.Y * Values[1][i];
-			values[i] += 1.0f * Values[2][i];
+			values[i] += in.X * Values[i][0];
+			values[i] += in.Y * Values[i][1];
+			values[i] += 1.0f * Values[i][2];
 		}
 
 		Vector2DF o;
@@ -149,9 +149,9 @@ namespace ace
 		for (int i = 0; i < 3; i++)
 		{
 			values[i] = 0;
-			values[i] += in.X * Values[0][i];
-			values[i] += in.Y * Values[1][i];
-			values[i] += in.Z * Values[2][i];
+			values[i] += in.X * Values[i][0];
+			values[i] += in.Y * Values[i][1];
+			values[i] += in.Z * Values[i][2];
 		}
 
 		Vector3DF o;

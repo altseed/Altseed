@@ -624,10 +624,10 @@ namespace ace
 				for (int i = 0; i < 3; i++)
 				{
 					values[i] = 0;
-					values[i] += in_.X * v[0 * 4 + i];
-					values[i] += in_.Y * v[1 * 4 + i];
-					values[i] += in_.Z * v[2 * 4 + i];
-					values[i] += v[3 * 4 + i];
+					values[i] += in_.X * v[i * 4 + 0];
+					values[i] += in_.Y * v[i * 4 + 1];
+					values[i] += in_.Z * v[i * 4 + 2];
+					values[i] += v[i * 4 + 3];
 				}
 			}
 
@@ -652,10 +652,10 @@ namespace ace
 				for (int i = 0; i < 4; i++)
 				{
 					values[i] = 0;
-					values[i] += in_.X * v[0 * 4 + i];
-					values[i] += in_.Y * v[1 * 4 + i];
-					values[i] += in_.Z * v[2 * 4 + i];
-					values[i] += in_.W * v[3 * 4 + i];
+					values[i] += in_.X * v[i * 4 + 0];
+					values[i] += in_.Y * v[i * 4 + 1];
+					values[i] += in_.Z * v[i * 4 + 2];
+					values[i] += in_.W * v[i * 4 + 3];
 				}
 			}
 
