@@ -25,6 +25,10 @@
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_SingleTexture_Test.cpp" />
     <ClCompile Include="..\Log\ace.Log_Test.cpp" />
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\PCH\ace.UnitTestCpp.PCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\Profiler\ace.ProfilerViewer_test.cpp" />
     <ClCompile Include="..\Utility\ace.CopyArrayTest.cpp" />
     <ClCompile Include="..\Utility\ace.BinaryRederWriterTest.cpp" />
@@ -36,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Graphics\ace.Graphics_Test_Utls.h" />
+    <ClInclude Include="..\PCH\ace.UnitTestCpp.PCH.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D12141F5-F955-4510-AC90-DBF95D378311}</ProjectGuid>
@@ -78,6 +83,9 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\PCH\ace.UnitTestCpp.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\PCH\ace.UnitTestCpp.PCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -93,6 +101,9 @@
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>..\PCH\ace.UnitTestCpp.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\PCH\ace.UnitTestCpp.PCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

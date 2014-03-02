@@ -271,18 +271,18 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 	{
 		auto shader = (NativeShader_Imp_DX11*) shaderPtr;
 
-		// ?V?F?[?_?[????
+		// シェーダーの設定
 		GetContext()->VSSetShader(shader->GetVertexShader(), NULL, 0);
 		GetContext()->PSSetShader(shader->GetPixelShader(), NULL, 0);
 
-		// ???C?A?E?g????
+		// レイアウトの設定
 		GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		GetContext()->IASetInputLayout(shader->GetLayout());
 
-		// ???o?b?t?@????
+		// 定数バッファの割り当て
 		shaderPtr->AssignConstantBuffer();
 
-		// ?e?N?X?`??????
+		// テクスチャの設定
 		for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
 		{
 			Texture2D* tex = nullptr;
@@ -302,10 +302,10 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 					rv = t->GetShaderResourceView();
 				}
 				
-				// ???_?V?F?[?_?[????
+				// 頂点シェーダーに設定
 				GetContext()->VSSetShaderResources(0, 1, &rv);
 
-				// ?s?N?Z???V?F?[?_?[????
+				// ピクセルシェーダーに設定
 				GetContext()->PSSetShaderResources(0, 1, &rv);
 			}
 		}
@@ -347,7 +347,7 @@ void Graphics_Imp_DX11::DrawPolygonInstancedInternal(int32_t count, VertexBuffer
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::BeginInternal()
 {
-	// ?`??????Z?b?g
+	// 描画先のリセット
 	m_context->OMSetRenderTargets(1, &m_defaultBackRenderTargetView, m_defaultDepthStencilView);
 
 	SafeRelease(m_currentBackRenderTargetView);
@@ -358,7 +358,7 @@ void Graphics_Imp_DX11::BeginInternal()
 	m_currentDepthStencilView = m_defaultDepthStencilView;
 	SafeAddRef(m_currentDepthStencilView);
 
-	// ?`???????Z?b?g
+	// 描画範囲のリセット
 	SetViewport(0, 0, m_size.X, m_size.Y);
 }
 
@@ -367,7 +367,7 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode)
 {
-	/* DirectX?????? */
+	/* DirectX初期化 */
 	ID3D11Device*			device = NULL;
 	ID3D11DeviceContext*	context = NULL;
 	IDXGIDevice1*			dxgiDevice = NULL;
@@ -561,7 +561,7 @@ DepthBuffer_Imp* Graphics_Imp_DX11::CreateDepthBuffer_Imp(int32_t width, int32_t
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer)
 {
-	// ???????Z?b?g(?e?N?X?`????`??擯?????s??????)
+	// 強制リセット(テクスチャと描画先同時設定不可のため)
 	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
 	{
 		ID3D11ShaderResourceView* rv = nullptr;
@@ -663,7 +663,7 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::Present()
 {
-	// ?????????
+	// 同期しない
 	m_swapChain->Present(0, 0);
 }
 
