@@ -1,6 +1,7 @@
 ﻿#include "../common/Math/ace.Vector3DF.h"
 #include "../common/ace.common.Base.h"
 #include "ace.CoreTextureObject2D_Imp.h"
+#include <array>
 
 namespace ace
 {
@@ -14,6 +15,7 @@ namespace ace
 		, m_drawingPtiority(0)
 		, m_transform(TransformInfo2D())
 		, m_objectInfo(ObjectInfo2D())
+		, m_src(RectF(0, 0, 1, 1))
 	{
 	}
 
@@ -46,6 +48,17 @@ namespace ace
 		SafeRelease(m_texture);
 		m_texture = texture;
 		SafeAddRef(texture);
+		SetSrc(RectF(0, 0, texture->GetSize().X, texture->GetSize().Y));
+	}
+
+	RectF CoreTextureObject2D_Imp::GetSrc() const
+	{
+		return m_src;
+	}
+
+	void CoreTextureObject2D_Imp::SetSrc(RectF value)
+	{
+		m_src = value;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -156,9 +169,9 @@ namespace ace
 		}
 
 		Vector2DF position[4];
+		auto textureSize = m_texture != nullptr ? m_texture->GetSize() : Vector2DI(1, 1);
 
 		{
-			auto textureSize = m_texture != nullptr ? m_texture->GetSize() : Vector2DI(1, 1);
 			auto w = textureSize.X;
 			auto h = textureSize.Y;
 
@@ -189,15 +202,16 @@ namespace ace
 		color[2] = m_color;
 		color[3] = m_color;
 
-		Vector2DF uvs[4];
-		uvs[0].X = 0;
-		uvs[0].Y = 0;
-		uvs[1].X = 1;
-		uvs[1].Y = 0;
-		uvs[2].X = 1;
-		uvs[2].Y = 1;
-		uvs[3].X = 0;
-		uvs[3].Y = 1;
+		std::array<Vector2DF, 4> uvs;
+
+		{
+			uvs = m_src.GetVertexes();
+			auto size = Vector2DF(textureSize.X, textureSize.Y);
+			for (int i = 0; i < 4; ++i)
+			{
+				uvs[i] /= size;
+			}
+		}
 
 		for (auto& uv : uvs)
 		{
@@ -214,7 +228,7 @@ namespace ace
 		renderer->AddSprite(
 			position,
 			color,
-			uvs,
+			uvs.data(),
 			m_texture,
 			m_alphablend,
 			m_drawingPtiority);

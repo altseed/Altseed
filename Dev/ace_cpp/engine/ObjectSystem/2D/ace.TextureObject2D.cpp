@@ -33,6 +33,16 @@ namespace ace
 		m_texturePtr = texture;
 	}
 
+	RectF TextureObject2D::GetSrc() const
+	{
+		return m_coreObject->GetSrc();
+	}
+
+	void TextureObject2D::SetSrc(RectF value)
+	{
+		m_coreObject->SetSrc(value);
+	}
+
 	Vector2DF TextureObject2D::GetCenterPosition() const
 	{
 		return m_coreObject->GetCenterPosition();

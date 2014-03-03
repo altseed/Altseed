@@ -61,6 +61,9 @@
     <ClCompile Include="..\Graphics\3D\Model.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\SetSourceOfTexture.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

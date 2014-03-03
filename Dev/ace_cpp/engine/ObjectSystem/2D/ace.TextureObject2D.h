@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <memory>
 #include "ace.Object2D.h"
+#include "../common/Math/ace.RectF.h"
 
 namespace ace
 {
@@ -31,6 +32,9 @@ namespace ace
 			@brief	描画するテクスチャを設定する。
 		*/
 		void SetTexture(std::shared_ptr<Texture2D> texture);
+
+		RectF GetSrc() const;
+		void SetSrc(RectF value);
 
 		/**
 			@brief	描画する際の中心座標を取得する。
