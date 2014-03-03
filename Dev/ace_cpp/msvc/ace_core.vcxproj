@@ -95,6 +95,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/ace.Core.PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>..\core\PCH\ace.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -111,6 +113,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/ace.Core.PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>..\core\PCH\ace.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -131,6 +135,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/ace.Core.PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>..\core\PCH\ace.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -151,6 +156,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/ace.Core.PCH.h</PrecompiledHeaderFile>
       <ForcedIncludeFiles>..\core\PCH\ace.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

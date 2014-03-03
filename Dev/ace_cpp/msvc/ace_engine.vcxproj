@@ -57,6 +57,8 @@
       <ForcedUsingFiles>
       </ForcedUsingFiles>
       <ForcedIncludeFiles>../engine/PCH/ace.Engine.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -78,6 +80,7 @@
       <ForcedUsingFiles>
       </ForcedUsingFiles>
       <ForcedIncludeFiles>../engine/PCH/ace.Engine.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
