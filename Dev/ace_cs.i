@@ -2,6 +2,8 @@
 %{
 
 #include <ace.common.Base.h>
+#include <Math/ace.RectF.h>
+
 #include "Window/ace.Window_Imp.h"
 #include "Log/ace.Log_Imp.h"
 
