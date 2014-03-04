@@ -141,17 +141,20 @@ namespace ace
 
 				if (pathColor != ace::ToAString(""))
 				{
-					mesh->SetColorTexture(i, g->CreateTexture2D(pathColor.c_str()).get());
+					auto path_ = CombinePath(path, pathColor.c_str());
+					mesh->SetColorTexture(i, g->CreateTexture2D(path_.c_str()).get());
 				}
 
 				if (pathNormal != ace::ToAString(""))
 				{
-					mesh->SetNormalTexture(i, g->CreateTexture2D(pathNormal.c_str()).get());
+					auto path_ = CombinePath(path, pathNormal.c_str());
+					mesh->SetNormalTexture(i, g->CreateTexture2D(path_.c_str()).get());
 				}
 
 				if (pathSpecular != ace::ToAString(""))
 				{
-					mesh->SetSpecularTexture(i, g->CreateTexture2D(pathSpecular.c_str()).get());
+					auto path_ = CombinePath(path, pathSpecular.c_str());
+					mesh->SetSpecularTexture(i, g->CreateTexture2D(path_.c_str()).get());
 				}
 			}
 		}

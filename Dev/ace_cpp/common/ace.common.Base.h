@@ -388,6 +388,118 @@ static astring ReplaceAll(const astring text, const achar* from, const achar* to
 	return result;
 }
 
+static astring CombinePath( const achar* rootPath, const achar* path )
+{
+	const int32_t dstLength = 260;
+	achar dst[dstLength];
+
+	int rootPathLength = 0;
+	while( rootPath[ rootPathLength ] != 0 )
+	{
+		rootPathLength++;
+	}
+
+	int pathLength = 0;
+	while (path[pathLength] != 0)
+	{
+		pathLength++;
+	}
+
+	// 両方ともなし
+	if (rootPathLength == 0 && pathLength == 0)
+	{
+		return false;
+	}
+
+	// 片方なし
+	if (rootPathLength == 0)
+	{
+		if (pathLength < dstLength)
+		{
+			memcpy(dst, path, sizeof(achar) * (pathLength + 1));
+			return astring(dst);
+		}
+		else
+		{
+			return astring();
+		}
+	}
+
+	if (pathLength == 0)
+	{
+		if (rootPathLength < dstLength)
+		{
+			memcpy(dst, rootPath, sizeof(wchar_t) * (rootPathLength + 1));
+			return astring(dst);
+		}
+		else
+		{
+			return astring();
+		}
+	}
+
+	// 両方あり
+
+	// ディレクトリパスまで戻す。
+	int PathPosition = rootPathLength;
+	while (PathPosition > 0)
+	{
+		if (rootPath[PathPosition - 1] == L'/' || rootPath[PathPosition - 1] == L'\\')
+		{
+			break;
+		}
+		PathPosition--;
+	}
+
+	// コピーする
+	memcpy(dst, rootPath, sizeof(achar) * PathPosition);
+	dst[PathPosition] = 0;
+
+	// 無理やり繋げる
+	if (PathPosition + pathLength > dstLength)
+	{
+		return astring();
+	}
+
+	memcpy(&(dst[PathPosition]), path, sizeof(achar) * pathLength);
+	PathPosition = PathPosition + pathLength;
+	dst[PathPosition] = 0;
+
+	// ../ ..\ の処理
+	for (int i = 0; i < PathPosition - 2; i++)
+	{
+		if (dst[i] == L'.' && dst[i + 1] == L'.' && (dst[i + 2] == L'/' || dst[i + 2] == L'\\'))
+		{
+			int pos = 0;
+
+			if (i > 1 && dst[i - 2] == L'.')
+			{
+
+			}
+			else
+			{
+				for (pos = i - 2; pos > 0; pos--)
+				{
+					if (dst[pos - 1] == L'/' || dst[pos - 1] == L'\\')
+					{
+						break;
+					}
+				}
+
+				for (int k = pos; k < PathPosition; k++)
+				{
+					dst[k] = dst[k + (i + 3) - pos];
+				}
+				PathPosition = PathPosition - (i + 3 - pos);
+				i = pos - 1;
+			}
+		}
+	}
+	dst[PathPosition] = 0;
+	return astring(dst);
+}
+
+
 #if !_WIN32 && !SWIG
 //----------------------------------------------------------------------------------
 //

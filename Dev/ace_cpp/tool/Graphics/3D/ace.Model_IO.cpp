@@ -375,9 +375,9 @@ namespace ace
 			auto pathNormal = reader.Get<ace::astring>();
 			auto pathSpecular = reader.Get<ace::astring>();
 
-			material->ColorTexture = pathColor;
-			material->NormalTexture = pathNormal;
-			material->SpecularTexture = pathSpecular;
+			material->ColorTexture = CombinePath(path, pathColor.c_str());
+			material->NormalTexture = CombinePath(path, pathNormal.c_str());
+			material->SpecularTexture = CombinePath(path, pathSpecular.c_str());
 		}
 	}
 
