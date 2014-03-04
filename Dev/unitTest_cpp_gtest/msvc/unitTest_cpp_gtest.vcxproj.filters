@@ -25,6 +25,9 @@
     <Filter Include="Graphics\3D">
       <UniqueIdentifier>{123fb6e9-0541-479d-896a-cdc24c0d676a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PCH">
+      <UniqueIdentifier>{57fd1f00-c83e-444c-aa40-c43321acdae6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
@@ -87,10 +90,16 @@
     <ClCompile Include="..\Graphics\3D\ace.Mesh_Test.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\PCH\ace.UnitTestCpp.PCH.cpp">
+      <Filter>PCH</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Graphics\ace.Graphics_Test_Utls.h">
       <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\PCH\ace.UnitTestCpp.PCH.h">
+      <Filter>PCH</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

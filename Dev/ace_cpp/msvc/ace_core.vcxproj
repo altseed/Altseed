@@ -90,8 +90,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\tool\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\tool\;..\..\include\;..\..\ace_cpp\core\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/ace.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\ace.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -103,8 +108,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\tool\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\tool\;..\..\include\;..\..\ace_cpp\core\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/ace.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\ace.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -120,8 +130,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\tool\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\tool\;..\..\include\;..\..\ace_cpp\core\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/ace.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\ace.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -137,8 +151,12 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\tool\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\tool\;..\..\include\;..\..\ace_cpp\core\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/ace.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\ace.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -270,6 +288,7 @@
     <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect.h" />
     <ClInclude Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect_Imp.h" />
+    <ClInclude Include="..\core\PCH\ace.Core.PCH.h" />
     <ClInclude Include="..\core\Profiler\ace.Profile.h" />
     <ClInclude Include="..\core\Profiler\ace.Profiler.h" />
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer.h" />
@@ -364,6 +383,12 @@
     <ClCompile Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect_Imp.cpp" />
+    <ClCompile Include="..\core\PCH\ace.Core.PCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="..\core\Profiler\ace.Profile.cpp" />
     <ClCompile Include="..\core\Profiler\ace.Profiler_Imp.cpp" />
     <ClCompile Include="..\core\Profiler\ace.ProfilerViewer_Imp.cpp" />

@@ -179,9 +179,9 @@ namespace ace
 			for (int i = 0; i < 3; i++)
 			{
 				values[i] = 0;
-				values[i] += in_.X * v[0*3+i];
-				values[i] += in_.Y * v[1*3+i];
-				values[i] += 1.0f * v[2*3+i];
+				values[i] += in_.X * v[i*3+0];
+				values[i] += in_.Y * v[i*3+1];
+				values[i] += 1.0f * v[i*3+2];
 			}
 			}
 
@@ -205,9 +205,9 @@ namespace ace
 			for (int i = 0; i < 3; i++)
 			{
 				values[i] = 0;
-				values[i] += in_.X * v[0*3+i];
-				values[i] += in_.Y * v[1*3+i];
-				values[i] += in_.Z * v[2*3+i];
+				values[i] += in_.X * v[i * 3 + 0];
+				values[i] += in_.Y * v[i * 3 + 1];
+				values[i] += in_.Z * v[i * 3 + 2];
 			}
 			}
 

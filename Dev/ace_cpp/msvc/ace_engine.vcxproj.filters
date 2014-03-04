@@ -65,6 +65,9 @@
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.EffectObject3D.cpp">
       <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\PCH\ace.Engine.PCH.cpp">
+      <Filter>PCH</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -133,6 +136,9 @@
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.EffectObject3D.h">
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\PCH\ace.Engine.PCH.h">
+      <Filter>PCH</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -152,6 +158,9 @@
     </Filter>
     <Filter Include="ObjectSystem\3D">
       <UniqueIdentifier>{462828c9-aebb-47eb-8efe-d811aaaf5cee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PCH">
+      <UniqueIdentifier>{dc350251-4706-4779-b7e2-fe2e7ac53e8f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

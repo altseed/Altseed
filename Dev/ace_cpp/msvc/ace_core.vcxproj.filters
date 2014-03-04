@@ -64,6 +64,9 @@
     <Filter Include="Graphics\Common\Animation">
       <UniqueIdentifier>{8ab0991f-9512-4141-b379-7fccd419247c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PCH">
+      <UniqueIdentifier>{b5f06827-15ae-427a-94d1-e3f3a2ea4103}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -448,6 +451,9 @@
     <ClInclude Include="..\core\Graphics\Common\3D\ace.MassModel.h">
       <Filter>Graphics\Common\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\PCH\ace.Core.PCH.h">
+      <Filter>PCH</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -692,6 +698,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\ace.MassModel_Imp.cpp">
       <Filter>Graphics\Common\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\PCH\ace.Core.PCH.cpp">
+      <Filter>PCH</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

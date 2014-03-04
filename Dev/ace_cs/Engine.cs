@@ -73,12 +73,10 @@ namespace ace
 
 			var result = core.Initialize(title, width, height, option.IsFullScreen, option.GraphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
 
-			GC.Initialize();
-
-			SetupMembers();
-
 			if (result)
 			{
+				GC.Initialize();
+				SetupMembers();
 				return true;
 			}
 			else
@@ -116,12 +114,10 @@ namespace ace
 
 			var result = core.InitializeByExternalWindow(handle1, handle2, width, height, option.GraphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
 
-			GC.Initialize();
-
-			SetupMembers();
-
 			if (result)
 			{
+				GC.Initialize();
+				SetupMembers();
 				return true;
 			}
 			else

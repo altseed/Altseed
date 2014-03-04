@@ -1,8 +1,7 @@
 ﻿
 #pragma once
 
-#include <ace.h>
-#include <gtest/gtest.h>
+#include "PCH/ace.UnitTestEngineCpp.PCH.h"
 
 class EngineTest
 {

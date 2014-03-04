@@ -6,17 +6,7 @@
 #include "../../ace.Core.Base.h"
 #include "../../ace.Core.Base_Imp.h"
 
-#if _WIN32
-
-#include <d3d11.h>
-#pragma comment(lib, "d3d11.lib" )
-
-#include <D3Dcompiler.h>
-#pragma comment(lib, "d3dcompiler.lib" )
-
-#endif
-
-
+#include "../../PCH/ace.Core.PCH.h"
 
 //----------------------------------------------------------------------------------
 //
