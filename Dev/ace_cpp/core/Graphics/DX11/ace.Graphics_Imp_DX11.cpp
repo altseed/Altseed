@@ -400,6 +400,8 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	UINT debugFlag = 0;
 	debugFlag = D3D11_CREATE_DEVICE_DEBUG;
 
+	D3D_FEATURE_LEVEL currentFeatureLevel;
+
 	hr = D3D11CreateDevice(
 		NULL,
 		D3D_DRIVER_TYPE_HARDWARE,
@@ -409,7 +411,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		0,
 		D3D11_SDK_VERSION,
 		&device,
-		NULL,
+		&currentFeatureLevel,
 		&context);
 
 	if FAILED(hr)
@@ -417,6 +419,14 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		writeLog(ToAString("デバイスの作成に失敗"));
 		goto End;
 	}
+
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_11_0) writeLog(ToAString("レベル11.0でデバイスを作成"));
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_10_1) writeLog(ToAString("レベル10.1でデバイスを作成"));
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_10_0) writeLog(ToAString("レベル10.0でデバイスを作成"));
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_3) writeLog(ToAString("レベル9.3でデバイスを作成"));
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_2) writeLog(ToAString("レベル9.2でデバイスを作成"));
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_1) writeLog(ToAString("レベル9.1でデバイスを作成"));
+
 
 	if (FAILED(device->QueryInterface(__uuidof(IDXGIDevice1), (void**) &dxgiDevice)))
 	{
