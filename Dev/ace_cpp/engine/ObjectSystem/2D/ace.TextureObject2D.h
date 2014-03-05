@@ -1,7 +1,6 @@
 ﻿#pragma once
 #include <memory>
 #include "ace.Object2D.h"
-#include "../common/Math/ace.RectF.h"
 
 namespace ace
 {
