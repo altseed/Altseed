@@ -9,6 +9,9 @@ namespace ace
 	public class GC
 	{
 		internal static GarbageCollector Collector { get; private set; }
+
+		internal static IDObjectContainer<SoundSource> SoundSources { get; private set; }
+		
 		internal static IDObjectContainer<Texture2D> Texture2Ds { get; private set; }
 		internal static IDObjectContainer<Shader2D> Shader2Ds { get; private set; }
 		internal static IDObjectContainer<Material2D> Material2Ds { get; private set; }
@@ -36,6 +39,9 @@ namespace ace
 		internal static void Initialize()
 		{
 			Collector = new GarbageCollector();
+
+			SoundSources = new IDObjectContainer<SoundSource>();
+
 			Texture2Ds = new IDObjectContainer<Texture2D>();
 			Shader2Ds = new IDObjectContainer<Shader2D>();
 			Material2Ds = new IDObjectContainer<Material2D>();
@@ -70,6 +76,8 @@ namespace ace
 		{
 			for (int loop = 0; loop < 3; loop++)
 			{
+				SoundSources.DestroyAll();
+
 				Texture2Ds.DestroyAll();
 				Shader2Ds.DestroyAll();
 				Material2Ds.DestroyAll();
@@ -119,6 +127,24 @@ namespace ace
 			/// 新規の場合はC#側でC++のインスタンスを保持するのでカウンタを増やす
 			/// </summary>
 			Get,
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static SoundSource GenerateSoundSource(swig.SoundSource o, GenerationType type)
+		{
+			var p = o.GetPtr();
+
+			var existing = GC.SoundSources.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new SoundSource(o);
+			GC.SoundSources.AddObject(p, ret);
+			return ret;
 		}
 
 		/// <summary>

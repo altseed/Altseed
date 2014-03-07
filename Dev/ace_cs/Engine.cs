@@ -40,6 +40,7 @@ namespace ace
 		public static Keyboard Keyboard { get; private set; }
 		public static Mouse Mouse { get; private set; }
 		public static JoystickContainer JoystickContainer { get; private set; }
+		public static Sound Sound { get; private set; }
 		public static Graphics Graphics { get; private set; }
 		public static AnimationSystem AnimationSystem { get; private set; }
 
@@ -266,6 +267,7 @@ namespace ace
 				JoystickContainer = new JoystickContainer(core.GetJoystickContainer());
 			}
 
+			Sound = new Sound(core.GetSound());
 			Graphics = new Graphics(core.GetGraphics_Imp());
 			ObjectSystemFactory = new ace.ObjectSystemFactory(core.GetObjectSystemFactory());
 			Profiler = new Profiler(core.GetProfiler());

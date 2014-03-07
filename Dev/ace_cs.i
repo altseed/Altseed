@@ -20,6 +20,9 @@
 #include "Input/ace.Joystick_Imp.h"
 #include "Input/ace.JoystickContainer_Imp.h"
 
+#include "Sound/ace.SoundSource_Imp.h"
+#include "Sound/ace.Sound_Imp.h"
+
 #include "Graphics/Common/ace.Graphics_Imp.h"
 #include "Graphics/Common/Resource/ace.Texture2D_Imp.h"
 
@@ -260,6 +263,8 @@ CPP_OBJECT( ace::CoreLayer3D )
 CPP_OBJECT( ace::CorePostEffect )
 CPP_OBJECT( ace::CorePostEffect_Imp )
 
+CPP_OBJECT( ace::SoundSource )
+
 CPP_OBJECT( ace::Texture2D )
 CPP_OBJECT( ace::Texture2D_Imp )
 CPP_OBJECT( ace::RenderTexture2D )
@@ -349,6 +354,9 @@ namespace ace
 %include "ace_cpp/core/Input/ace.JoystickContainer.h"
 %include "ace_cpp/core/Input/ace.JoystickContainer_Imp.h"
 %include "ace_cpp/core/Input/ace.JoystickContainer_Imp.h"
+
+%include "ace_cpp/core/Sound/ace.SoundSource.h"
+%include "ace_cpp/core/Sound/ace.Sound.h"
 
 %include "ace_cpp/core/Graphics/Common/Resource/ace.Shader2D.h"
 %include "ace_cpp/core/Graphics/Common/Resource/ace.Shader2D_Imp.h"
