@@ -4,6 +4,8 @@
 #include "../ace_cpp/common/Utility/ace.BinaryWriter.h"
 #include "../ace_cpp/common/Math/ace.Vector2DF.h"
 
+#define EPS 0.0001
+
 struct Vertex
 {
 	ace::Vector3DF position;
@@ -19,6 +21,7 @@ struct Vertex
 	uint8_t weight[4];
 	uint8_t weightIndexDivided[4];
 	uint8_t weightIndexOriginal[4];
+	int weightPtr;
 
 	bool operator == (const Vertex& o)
 	{

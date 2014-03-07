@@ -32,6 +32,7 @@ void MeshLoader::_loadPositions(FbxMesh* fbxMesh)
 		vertex.subuv=ace::Vector2DF(0,0);
 		vertex.normalAddCount=0;
 		vertex.binormalAddCount=0;
+		vertex.weightPtr=0;
 		for(int j=0;j<4;++j)
 		{
 			vertex.color[j]=0;
@@ -40,7 +41,7 @@ void MeshLoader::_loadPositions(FbxMesh* fbxMesh)
 			vertex.weightIndexOriginal[j]=0;
 
 		}
-
+		vertex.weight[0]=255;
 		_baseVertices.push_back(vertex);
 	}
 }
@@ -238,10 +239,15 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh)
 
 			for(int k=0;k<pointNum;++k)
 			{
-				int index = pointAry[i];
-				float weight = (float)weightAry[i];
+				int index = pointAry[k];
+				float weight = (float)weightAry[k];
 
-				_vertices[index].weight[j]=weight;
+				int ptr=_baseVertices[index].weightPtr;
+
+				_baseVertices[index].weight[ptr]=(uint8_t)weight*255;
+				_baseVertices[index].weightIndexDivided[ptr]=j;
+
+				++_baseVertices[index].weightPtr;
 			}
 		}
 	}
@@ -269,14 +275,9 @@ void MeshLoader::Load(FbxMesh* fbxMesh)
 {
 	_loadPositions(fbxMesh);
 
-	_loadVertices(fbxMesh);
-	//_loadFaceIndices(fbxMesh);
+	_loadWeight(fbxMesh);
 
-	//_loadNormals(fbxMesh);
-	//_loadBinormals(fbxMesh);
-	//_loadUVs(fbxMesh);
-	//_loadColors(fbxMesh);
-	//_loadWeights();
+	_loadVertices(fbxMesh);
 
 	_loadTextures(fbxMesh);
 }
@@ -310,21 +311,20 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 		writer->Push((uint8_t)_vertices[i].color[3]);
 
 		//頂点ウェイト
-		writer->Push((uint8_t)255);
-		writer->Push((uint8_t)0);
-		writer->Push((uint8_t)0);
-		writer->Push((uint8_t)0);
-
+		
 		for (int j = 0; j < 4; ++j)
 		{
-			//writer->Push(_vertices[i].weightIndexOriginal[j]);
-			writer->Push((uint8_t)0);
+			writer->Push(_vertices[i].weight[j]);
 		}
 
 		for (int j = 0; j < 4; ++j)
 		{
-			//writer->Push(_vertices[i].weightIndexDivided[j]);
-			writer->Push((uint8_t)0);
+			writer->Push(_vertices[i].weightIndexOriginal[j]);
+		}
+
+		for (int j = 0; j < 4; ++j)
+		{
+			writer->Push(_vertices[i].weightIndexDivided[j]);
 		}
 	}
 }
