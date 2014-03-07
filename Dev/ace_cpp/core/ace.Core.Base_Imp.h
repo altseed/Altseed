@@ -29,6 +29,9 @@ namespace ace {
 	class Joystick_Imp;
 	class JoystickContainer_Imp;
 
+	class Sound_Imp;
+	class SoundSource_Imp;
+
 	class RenderingThreadEvent;
 	class RenderingThread;
 

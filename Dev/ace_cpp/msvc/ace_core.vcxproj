@@ -295,6 +295,10 @@
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer.h" />
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer_Imp.h" />
     <ClInclude Include="..\core\Profiler\ace.Profiler_Imp.h" />
+    <ClInclude Include="..\core\Sound\ace.Sound.h" />
+    <ClInclude Include="..\core\Sound\ace.SoundSource.h" />
+    <ClInclude Include="..\core\Sound\ace.SoundSource_Imp.h" />
+    <ClInclude Include="..\core\Sound\ace.Sound_Imp.h" />
     <ClInclude Include="..\core\Window\ace.Window.h" />
     <ClInclude Include="..\core\Window\ace.Window_Imp.h" />
     <ClInclude Include="..\core\Window\ace.Window_Imp_Win.h" />
@@ -393,6 +397,8 @@
     <ClCompile Include="..\core\Profiler\ace.Profile.cpp" />
     <ClCompile Include="..\core\Profiler\ace.Profiler_Imp.cpp" />
     <ClCompile Include="..\core\Profiler\ace.ProfilerViewer_Imp.cpp" />
+    <ClCompile Include="..\core\Sound\ace.SoundSource_Imp.cpp" />
+    <ClCompile Include="..\core\Sound\ace.Sound_Imp.cpp" />
     <ClCompile Include="..\core\Window\ace.Window_Imp.cpp" />
     <ClCompile Include="..\core\Window\ace.Window_Imp_Win.cpp" />
     <None Include="..\core\Window\ace.Window_Imp_X11.cpp">

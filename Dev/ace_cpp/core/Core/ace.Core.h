@@ -140,6 +140,7 @@ namespace ace {
 		*/
 		virtual Graphics* GetGraphics() = 0;
 
+		virtual Sound* GetSound() = 0;
 
 		virtual ObjectSystemFactory* GetObjectSystemFactory() = 0;
 

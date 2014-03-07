@@ -70,6 +70,9 @@
     <Filter Include="File">
       <UniqueIdentifier>{97ca3507-027e-477b-a4a1-d619c1911b84}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{4234750f-7ad3-4f83-8ef7-6a92ae1a6517}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -460,6 +463,18 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Sound\ace.Sound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Sound\ace.Sound_Imp.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Sound\ace.SoundSource.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Sound\ace.SoundSource_Imp.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -707,6 +722,12 @@
     </ClCompile>
     <ClCompile Include="..\core\PCH\ace.Core.PCH.cpp">
       <Filter>PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Sound\ace.Sound_Imp.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Sound\ace.SoundSource_Imp.cpp">
+      <Filter>Sound</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
