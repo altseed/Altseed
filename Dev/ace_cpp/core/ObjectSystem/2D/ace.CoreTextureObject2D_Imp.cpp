@@ -168,22 +168,17 @@ namespace ace
 			return;
 		}
 
-		Vector2DF position[4];
-		auto textureSize = m_texture != nullptr ? m_texture->GetSize() : Vector2DI(1, 1);
+		std::array<Vector2DF, 4> position = m_src.GetVertexes();
 
 		{
-			auto w = textureSize.X;
-			auto h = textureSize.Y;
-
-			position[0].X = 0;
-			position[0].Y = 0;
-			position[1].X = w;
-			position[1].Y = 0;
-			position[2].X = w;
-			position[2].Y = h;
-			position[3].X = 0;
-			position[3].Y = h;
+			Vector2DF origin = position[0];
+			for (int i = 0; i < 4; ++i)
+			{
+				position[i] -= origin;
+			}
 		}
+
+		auto textureSize = m_texture != nullptr ? m_texture->GetSize() : Vector2DI(1, 1);
 
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
@@ -202,10 +197,9 @@ namespace ace
 		color[2] = m_color;
 		color[3] = m_color;
 
-		std::array<Vector2DF, 4> uvs;
+		std::array<Vector2DF, 4> uvs = m_src.GetVertexes();
 
 		{
-			uvs = m_src.GetVertexes();
 			auto size = Vector2DF(textureSize.X, textureSize.Y);
 			for (int i = 0; i < 4; ++i)
 			{
@@ -226,7 +220,7 @@ namespace ace
 		}
 
 		renderer->AddSprite(
-			position,
+			position.data(),
 			color,
 			uvs.data(),
 			m_texture,

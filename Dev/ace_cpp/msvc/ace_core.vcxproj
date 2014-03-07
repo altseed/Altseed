@@ -256,6 +256,7 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.TransformInfo2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.ParentInfo2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreLayer2D.h" />

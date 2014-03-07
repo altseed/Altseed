@@ -67,6 +67,9 @@
     <Filter Include="PCH">
       <UniqueIdentifier>{b5f06827-15ae-427a-94d1-e3f3a2ea4103}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{97ca3507-027e-477b-a4a1-d619c1911b84}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -453,6 +456,9 @@
     </ClInclude>
     <ClInclude Include="..\core\PCH\ace.Core.PCH.h">
       <Filter>PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
