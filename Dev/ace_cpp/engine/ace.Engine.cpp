@@ -163,7 +163,7 @@ namespace ace
 
 #if _WIN32
 #if _DEBUG
-			const char* path = "ace_core.dll";
+			const char* path = "ace_core.Debug.dll";
 #else
 			const char* path = "ace_core.dll";
 #endif

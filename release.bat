@@ -2,10 +2,13 @@ echo compile
 @Set Path=C:\Program Files (x86)\MSBuild\12.0\Bin;%PATH%
 msbuild Dev/unitTest_Engine_cpp.sln /p:configuration=Debug
 msbuild Dev/unitTest_Engine_cpp.sln /p:configuration=Release
-
 msbuild Dev/test_cs.sln /p:configuration=Release
 
 mkdir Product\bin\
+mkdir Product\cpp\
+mkdir Product\cpp\Debug\
+mkdir Product\cpp\Release\
+mkdir Product\cs\
 
 copy Dev\bin\ace_core.Debug.dll Product\bin\
 copy Dev\bin\ace_core.dll Product\bin\
@@ -15,8 +18,8 @@ echo CPlusPlus
 copy Dev\bin\ace_core.Debug.dll Product\cpp\
 copy Dev\bin\ace_core.dll Product\cpp\
 copy Dev\include\ace.h Product\cpp\
-copy Dev\lib\ace_engine.Debug.lib Product\cpp\
-copy Dev\lib\ace_engine.Release.lib Product\cpp\
+copy Dev\lib\Debug\ace_engine.lib Product\cpp\Debug\
+copy Dev\lib\Release\ace_engine.lib Product\cpp\Release\
 
 echo CPlusPlusSample
 copy Dev\include\ace.h Product\cpp_sample\
