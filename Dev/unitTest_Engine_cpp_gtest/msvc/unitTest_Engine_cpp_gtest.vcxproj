@@ -22,6 +22,7 @@
     <ClCompile Include="..\Graphics\PostEffect\PostEffectSepiaTest.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\Camera.cpp" />
+    <ClCompile Include="..\ObjectSystem\CameraAndSetTexture.cpp" />
     <ClCompile Include="..\ObjectSystem\Component.cpp" />
     <ClCompile Include="..\ObjectSystem\CustomObject.cpp" />
     <ClCompile Include="..\ObjectSystem\LayerComponent.cpp" />

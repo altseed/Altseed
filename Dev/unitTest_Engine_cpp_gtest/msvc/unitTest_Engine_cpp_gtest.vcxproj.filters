@@ -67,6 +67,9 @@
     <ClCompile Include="..\PCH\ace.UnitTestEngineCpp.PCH.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\CameraAndSetTexture.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

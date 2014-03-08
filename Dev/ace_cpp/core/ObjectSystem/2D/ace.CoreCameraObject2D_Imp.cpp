@@ -81,6 +81,7 @@ namespace ace
 	void CoreCameraObject2D_Imp::SetForRenderTarget()
 	{
 		m_graphics->SetRenderTarget(m_renderTarget, nullptr);
+		m_graphics->Clear(true, false, Color(0, 0, 0, 255));
 	}
 
 	void CoreCameraObject2D_Imp::Draw(Renderer2D* renderer, Matrix33 cameraMatrix)
