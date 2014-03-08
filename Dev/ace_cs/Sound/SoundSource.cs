@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/// <summary>
+	/// 音源のクラス
+	/// </summary>
 	public class SoundSource : IDestroy
 	{
 		internal swig.SoundSource SwigObject;
@@ -43,11 +46,20 @@ namespace ace
 			System.GC.SuppressFinalize(this);
 		}
 
+		/// <summary>
+		/// ループポイントを設定する。
+		/// </summary>
+		/// <param name="loopStart">ループ戻り地点(秒)</param>
+		/// <param name="loopEnd">ループ開始地点(秒)</param>
 		public void SetLoopPoint(float loopStart, float loopEnd)
 		{
 			SwigObject.SetLoopPoint(loopStart, loopEnd);
 		}
 
+		/// <summary>
+		/// 音の長さを取得する。
+		/// </summary>
+		/// <returns>長さ(秒)</returns>
 		public float GetLength()
 		{
 			float ret = SwigObject.GetLength();
