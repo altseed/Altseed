@@ -5,7 +5,7 @@ echo compile
 @Set Path=C:\Program Files (x86)\MSBuild\12.0\Bin;%PATH%
 msbuild Dev/unitTest_Engine_cpp.sln /p:configuration=Debug
 msbuild Dev/unitTest_Engine_cpp.sln /p:configuration=Release
-msbuild Dev/test_cs.sln /p:configuration=Release
+msbuild Dev/unitTest_Engine_cs.sln /p:configuration=Release
 
 echo GenDirectories
 mkdir %RDIR%\
