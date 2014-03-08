@@ -163,7 +163,7 @@ namespace ace
 
 #if _WIN32
 #if _DEBUG
-			const char* path = "ace_core.dll";
+			const char* path = "ace_core.Debug.dll";
 #else
 			const char* path = "ace_core.dll";
 #endif
@@ -224,6 +224,7 @@ namespace ace
 	JoystickContainer* Engine::m_joystickContainer = nullptr;
 	Log* Engine::m_logger = nullptr;
 	Profiler* Engine::m_profiler = nullptr;
+	Sound* Engine::m_sound = nullptr;
 	Graphics* Engine::m_graphics = nullptr;
 	ObjectSystemFactory* Engine::m_objectSystemFactory = nullptr;
 	AnimationSystem* Engine::m_animationSyatem = nullptr;
@@ -260,6 +261,7 @@ namespace ace
 			m_logger = m_core->GetLogger();
 			m_profiler = m_core->GetProfiler();
 			m_objectSystemFactory = m_core->GetObjectSystemFactory();
+			m_sound = m_core->GetSound();
 			m_graphics = m_core->GetGraphics();
 			m_animationSyatem = m_core->GetAnimationSyatem();
 
@@ -288,6 +290,7 @@ namespace ace
 			m_logger = m_core->GetLogger();
 			m_profiler = m_core->GetProfiler();
 			m_objectSystemFactory = m_core->GetObjectSystemFactory();
+			m_sound = m_core->GetSound();
 			m_graphics = m_core->GetGraphics();
 			m_animationSyatem = m_core->GetAnimationSyatem();
 
@@ -437,6 +440,14 @@ namespace ace
 	Graphics* Engine::GetGraphics()
 	{
 		return m_graphics;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	Sound* Engine::GetSound()
+	{
+		return m_sound;
 	}
 
 	//----------------------------------------------------------------------------------

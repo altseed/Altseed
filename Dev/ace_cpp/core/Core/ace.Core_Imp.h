@@ -32,6 +32,8 @@ namespace ace {
 		Profiler_Imp*	m_profiler;
 		ProfilerViewer_Imp* m_profilerViewer;
 		Graphics_Imp*	m_graphics;
+		Sound_Imp*		m_sound;
+
 		ObjectSystemFactory_Imp* m_objectSystemFactory;
 		AnimationSystem_Imp*	m_animationSyatem;
 
@@ -100,6 +102,8 @@ namespace ace {
 		Graphics* GetGraphics();
 
 		Graphics_Imp* GetGraphics_Imp();
+
+		Sound* GetSound();
 
 		ObjectSystemFactory* GetObjectSystemFactory();
 

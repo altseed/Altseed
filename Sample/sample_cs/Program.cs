@@ -23,6 +23,8 @@ namespace test_cs
                 new Input.MouseSample2(),
                 new Input.JoystickSample(),
 
+				new Sound.SoundSample(),
+
 				new Graphics.PostEffect.CustomPostEffect(),
 			};
 

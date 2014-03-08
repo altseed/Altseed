@@ -53,6 +53,7 @@ namespace ace {
 		static JoystickContainer* m_joystickContainer ;
 		static Log* m_logger ;
 		static Profiler* m_profiler ;
+		static Sound*	m_sound;
 		static Graphics* m_graphics ;
 		static ObjectSystemFactory* m_objectSystemFactory ;
 		static AnimationSystem* m_animationSyatem ;
@@ -171,6 +172,11 @@ namespace ace {
 		@brief	Graphicsクラスを取得する。
 		*/
 		static Graphics* GetGraphics();
+
+		/**
+		@brief	Soundクラスを取得する。
+		*/
+		static Sound* GetSound();
 
 		/**
 		@brief	AnimationSyatemクラスを取得する。

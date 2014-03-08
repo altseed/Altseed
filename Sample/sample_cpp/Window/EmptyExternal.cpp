@@ -206,22 +206,22 @@ void EmptyExternal()
 
 	// aceを初期化する。
 #if _WIN32
-	ace::GetEngine()->InitializeByExternalWindow(g_handle, nullptr, 640, 480, ace::EngineOption());
+	ace::Engine::InitializeByExternalWindow(g_handle, nullptr, 640, 480, ace::EngineOption());
 #else
-	ace::GetEngine()->InitializeByExternalWindow((void*)(g_display), (void*)(&g_window), 640, 480, ace::EngineOption());
+	ace::Engine::InitializeByExternalWindow((void*)(g_display), (void*)(&g_window), 640, 480, ace::EngineOption());
 #endif
 
 	// aceが進行可能かチェックする。 
-	while (ace::GetEngine()->DoEvents())
+	while (ace::Engine::DoEvents())
 	{
 		if (!DoEvent()) break;
 
 		// aceを更新する。
-		ace::GetEngine()->Update();
+		ace::Engine::Update();
 	}
 
 	// aceを終了する。
-	ace::GetEngine()->Terminate();
+	ace::Engine::Terminate();
 
 	ExitWindow();
 }

@@ -18,6 +18,9 @@
     <ClCompile Include="..\Input\Joystick.cpp">
       <Filter>Input</Filter>
     </ClCompile>
+    <ClCompile Include="..\Sound\Sound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">
@@ -25,6 +28,9 @@
     </Filter>
     <Filter Include="Window">
       <UniqueIdentifier>{35756864-34d6-43ea-ba04-ee2f1b1e0673}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{430850be-6470-4f64-ae8a-4edb291f8f18}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

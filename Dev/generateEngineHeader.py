@@ -84,6 +84,9 @@ engineHeader.readLines("ace_cpp/core/Input/ace.JoystickContainer.h")
 engineHeader.readLines("ace_cpp/core/Log/ace.Log.h")
 engineHeader.readLines("ace_cpp/core/Profiler/ace.Profiler.h")
 
+engineHeader.readLines("ace_cpp/core/Sound/ace.SoundSource.h")
+engineHeader.readLines("ace_cpp/core/Sound/ace.Sound.h")
+
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Texture2D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Shader2D.h")

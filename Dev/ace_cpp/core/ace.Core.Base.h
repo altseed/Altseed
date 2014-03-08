@@ -25,6 +25,9 @@ namespace ace {
 	class Joystick;
 	class JoystickContainer;
 
+	class Sound;
+	class SoundSource;
+
 	class Texture2D;
 	class RenderTexture2D;
 	class Shader2D;

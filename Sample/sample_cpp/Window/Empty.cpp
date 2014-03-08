@@ -7,15 +7,15 @@
 void Empty()
 {
 	// aceを初期化する
-	ace::GetEngine()->Initialize(L"Empty", 640, 480, ace::EngineOption());
+	ace::Engine::Initialize(L"Empty", 640, 480, ace::EngineOption());
 
 	// aceが進行可能かチェックする。
-	while (ace::GetEngine()->DoEvents())
+	while (ace::Engine::DoEvents())
 	{
 		// aceを更新する。
-		ace::GetEngine()->Update();
+		ace::Engine::Update();
 	}
 
 	// aceを終了する。
-	ace::GetEngine()->Terminate();
+	ace::Engine::Terminate();
 }

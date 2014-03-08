@@ -398,7 +398,10 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	HRESULT hr;
 
 	UINT debugFlag = 0;
+
+#if _DEBUG
 	debugFlag = D3D11_CREATE_DEVICE_DEBUG;
+#endif
 
 	D3D_FEATURE_LEVEL currentFeatureLevel;
 
