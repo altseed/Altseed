@@ -14,6 +14,7 @@ extern void EmptyExternal();
 extern void Keyboard();
 extern void Mouse();
 extern void Joystick();
+extern void Sound();
 
 int main(int argc, char** argv)
 {
@@ -29,7 +30,9 @@ int main(int argc, char** argv)
 		INFO(EmptyExternal),
 		INFO(Keyboard),
 		INFO(Mouse),
-		INFO(Joystick)
+		INFO(Joystick),
+
+		INFO(Sound),
 	};
 
 	auto cui = SampleGuide(samples);

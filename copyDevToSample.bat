@@ -14,6 +14,7 @@ mkdir %RDIR%\cpp\lib\
 mkdir %RDIR%\cpp\lib\Debug\
 mkdir %RDIR%\cpp\lib\Release\
 
+echo bin
 copy Dev\bin\ace_core.Debug.dll %RDIR%\bin\
 copy Dev\bin\ace_core.dll %RDIR%\bin\
 copy Dev\bin\ace_cs.dll %RDIR%\bin\

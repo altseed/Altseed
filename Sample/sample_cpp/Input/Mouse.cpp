@@ -35,16 +35,16 @@ static void WheelTest(ace::Mouse *mouse)
 
 void Mouse()
 {
-	ace::GetEngine()->Initialize(L"Mouse", 640, 480, ace::EngineOption());
+	ace::Engine::Initialize(L"Mouse", 640, 480, ace::EngineOption());
 
-	while (ace::GetEngine()->DoEvents())
+	while (ace::Engine::DoEvents())
 	{
-		ace::Mouse* mouse = ace::GetMouse();
+		ace::Mouse* mouse = ace::Engine::GetMouse();
 
 		WheelTest(mouse);
 
-		ace::GetEngine()->Update();
+		ace::Engine::Update();
 	}
 
-	ace::GetEngine()->Terminate();
+	ace::Engine::Terminate();
 }
