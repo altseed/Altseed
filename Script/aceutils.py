@@ -67,7 +67,7 @@ def copy(src,dst):
 	shutil.copyfile(src,dst)
 
 def copytree(src,dst):
-	if not os.path.exists(src):
+	if not os.path.exists(dst):
 		shutil.copytree(src,dst)
 
 
