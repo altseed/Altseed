@@ -39,6 +39,6 @@ else:
 	aceutils.copy(r'Effekseer-master/Dev/Cpp/Effekseer/Effekseer.h', r'Dev/include/')
 	aceutils.copy(r'Effekseer-master/Dev/Cpp/EffekseerRendererGL/EffekseerRendererGL.h', r'Dev/include/')
 	aceutils.copy(r'effekseer_bin/libEffekseer.a', r'Dev/lib/')
-	aceutils.copy(r'effekseer_bin/libEffekseerGL.a', r'Dev/lib/')
+	aceutils.copy(r'effekseer_bin/libEffekseerRendererGL.a', r'Dev/lib/')
 
 
