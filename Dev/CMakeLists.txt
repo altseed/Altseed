@@ -39,8 +39,8 @@ set(common_src
 	ace_cpp/common/Utility/ace.PointerArray.cpp)
 
 set(tool_src
-	ace_cpp/tool/3D/ace.MassModel3D_IO.cpp
-	ace_cpp/tool/3D/ace.Model3D_IO.cpp)
+	ace_cpp/tool/Graphics/3D/ace.MassModel_IO.cpp
+	ace_cpp/tool/Graphics/3D/ace.Model_IO.cpp)
 
 
 set(core_src
@@ -120,6 +120,9 @@ set(core_src
 	ace_cpp/core/Profiler/ace.Profile.cpp
 	ace_cpp/core/Profiler/ace.Profiler_Imp.cpp
 	ace_cpp/core/Profiler/ace.ProfilerViewer_Imp.cpp
+
+	ace_cpp/core/Sound/ace.Sound_Imp.cpp
+	ace_cpp/core/Sound/ace.SoundSource_Imp.cpp
 
 	ace_cpp/core/Window/ace.Window_Imp.cpp
 	)
@@ -270,6 +273,11 @@ else()
 	list(APPEND common_lib Effekseer )
 	list(APPEND common_lib EffekseerRendererGL )
 
+	list(APPEND common_lib ogg )
+	list(APPEND common_lib vorbisfile )
+
+	list(APPEND common_lib OpenSoundMixer )
+
 	list(APPEND common_lib dl )
 
 	find_package(Threads REQUIRED)
@@ -282,6 +290,9 @@ else()
 	find_package(OpenGL)
 	list(APPEND common_inc ${OPENGL_INCLUDE_DIR})
 	list(APPEND common_lib ${OPENGL_LIBRARY})
+
+	FIND_PACKAGE(PulseAudio REQUIRED)
+	list(APPEND osmtest ${PulseAudio_LIBRARY})
 
 	if (NOT X11_Xrandr_FOUND)
 		message(FATAL_ERROR "X11_Xrandr were not found")
