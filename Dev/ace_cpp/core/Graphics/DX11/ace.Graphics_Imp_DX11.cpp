@@ -305,10 +305,10 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 				}
 				
 				// 頂点シェーダーに設定
-				GetContext()->VSSetShaderResources(0, 1, &rv);
+				GetContext()->VSSetShaderResources(i, 1, &rv);
 
 				// ピクセルシェーダーに設定
-				GetContext()->PSSetShaderResources(0, 1, &rv);
+				GetContext()->PSSetShaderResources(i, 1, &rv);
 			}
 		}
 	}
@@ -607,8 +607,9 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_
 	// 強制リセット(テクスチャと描画先同時設定不可のため)
 	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
 	{
-		ID3D11ShaderResourceView* rv = nullptr;
-		GetContext()->PSSetShaderResources(0, 1, &rv);
+		ID3D11ShaderResourceView* rv = { nullptr };
+		GetContext()->VSSetShaderResources(i, 1, &rv);
+		GetContext()->PSSetShaderResources(i, 1, &rv);
 	}
 
 	if (texture == nullptr)
