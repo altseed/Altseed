@@ -16,13 +16,12 @@ namespace ace
 		friend class Layer2D;
 
 	public:
-		typedef std::shared_ptr<Object2D> Object2DPtr;
-		typedef std::shared_ptr<Object2DComponent> ComponentPtr;
+		typedef std::shared_ptr<Object2D> Ptr;
 
 	private:
 		Layer2D* m_owner;
-		std::list<Object2DPtr> m_children;
-		std::map<astring, ComponentPtr> m_components;
+		std::list<Object2D::Ptr> m_children;
+		std::map<astring, Object2DComponent::Ptr> m_components;
 		bool m_isUpdated;
 		bool m_isDrawn;
 
@@ -96,28 +95,28 @@ namespace ace
 			@param	child	追加する子オブジェクト
 			@param	mode	子オブジェクトの同期モード
 		*/
-		void AddChild(const Object2DPtr& child, eChildMode mode);
+		void AddChild(const Object2D::Ptr& child, eChildMode mode);
 		/**
 			@brief	指定した子オブジェクトをこのインスタンスから削除する。
 			@param	child	削除する子オブジェクト
 		*/
-		void RemoveChild(const Object2DPtr& child);
+		void RemoveChild(const Object2D::Ptr& child);
 		/**
 			@brief	このオブジェクトが保持している子オブジェクトを含むコンテナを取得する。
 		*/
-		const std::list<Object2DPtr>& GetChildren() const;
+		const std::list<Object2D::Ptr>& GetChildren() const;
 
 		/**
 			@brief	指定したコンポーネントをこのインスタンスに追加する。
 			@param	component	追加するコンポーネント
 			@param	key			コンポーネントに関連付けるキー
 		*/
-		void AddComponent(const ComponentPtr& component, astring key);
+		void AddComponent(const Object2DComponent::Ptr& component, astring key);
 		/**
 			@brief	指定したキーを持つコンポーネントを取得する。
 			@param	key		取得するコンポーネントを示すキー
 		*/
-		ComponentPtr& GetComponent(astring key);
+		Object2DComponent::Ptr& GetComponent(astring key);
 		/**
 			@brief	指定したコンポーネントを削除する。
 			@param	key		削除するコンポーネントを示すキー

@@ -70,6 +70,9 @@
     <ClCompile Include="..\ObjectSystem\CameraAndSetTexture.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\TrasingCamera.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

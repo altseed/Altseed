@@ -10,10 +10,10 @@ namespace ace
 	//
 	//----------------------------------------------------------------------------------
 	Scene::Scene()
-		: m_layersToDraw(list<LayerPtr>())
-		, m_layersToUpdate(list<LayerPtr>())
+		: m_layersToDraw(list<Layer::Ptr>())
+		, m_layersToUpdate(list<Layer::Ptr>())
 		, m_coreScene(nullptr)
-		, m_components(map<astring, ComponentPtr>())
+		, m_components(map<astring, SceneComponent::Ptr>())
 	{
 		m_coreScene = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateScene());
 	}
@@ -82,7 +82,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::Draw()
 	{
-		m_layersToDraw.sort([](const Scene::LayerPtr& x, const Scene::LayerPtr& y) -> bool
+		m_layersToDraw.sort([](const Layer::Ptr& x, const Layer::Ptr& y) -> bool
 		{
 			return x->GetDrawingPriority() < y->GetDrawingPriority();
 		});
@@ -129,7 +129,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Scene::AddLayer(const LayerPtr& layer)
+	void Scene::AddLayer(const Layer::Ptr& layer)
 	{
 		if (layer->GetScene() != nullptr)
 		{
@@ -144,7 +144,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Scene::RemoveLayer(const LayerPtr& layer)
+	void Scene::RemoveLayer(const Layer::Ptr& layer)
 	{
 		m_layersToDraw.remove(layer);
 		m_layersToUpdate.remove(layer);
@@ -155,7 +155,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Scene::AddComponent(const ComponentPtr& component, astring key)
+	void Scene::AddComponent(const SceneComponent::Ptr& component, astring key)
 	{
 		m_components[key] = component;
 		component->SetOwner(this);
@@ -164,7 +164,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Scene::ComponentPtr& Scene::GetComponent(astring key)
+	SceneComponent::Ptr& Scene::GetComponent(astring key)
 	{
 		return m_components[key];
 	}

@@ -16,6 +16,8 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
+extern void Test_ObjectSystem_TrasingCamera(bool openGL);
+
 extern void TestCustomObject();
 extern void Test_LayerComponent_GL();
 extern void TestCamera(bool openGL);
@@ -46,6 +48,9 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 	::testing::InitGoogleTest(&argc, argv);
+
+	Test_ObjectSystem_TrasingCamera(true);
+	return 0;
 
 	//Graphics_Model_(false);
 	//return 0;

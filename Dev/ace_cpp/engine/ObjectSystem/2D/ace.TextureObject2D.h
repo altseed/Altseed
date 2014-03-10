@@ -13,6 +13,8 @@ namespace ace
 		CoreObject2D* GetCoreObject() const;
 
 	public:
+		typedef std::shared_ptr<TextureObject2D> Ptr;
+
 		/**
 			@brief	コンストラクタ
 		*/

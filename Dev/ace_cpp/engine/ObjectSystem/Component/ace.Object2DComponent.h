@@ -26,6 +26,8 @@ namespace ace
 		virtual void OnUpdate() = 0;
 
 	public:
+		typedef std::shared_ptr<Object2DComponent> Ptr;
+
 		/**
 			@brief	コンストラクタ
 		*/

@@ -12,8 +12,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	Layer2D::Layer2D()
 		: m_coreLayer(nullptr)
-		, m_objects(list<ObjectPtr>())
-		, m_components(map<astring, ComponentPtr>())
+		, m_objects(list<Object2D::Ptr>())
+		, m_components(map<astring, Layer2DComponent::Ptr>())
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer2D());
 		m_commonObject = m_coreLayer;
@@ -50,7 +50,7 @@ namespace ace
 
 	void Layer2D::UpdateObjects()
 	{
-		auto beVanished = vector<ObjectPtr>();
+		auto beVanished = vector<Object2D::Ptr>();
 
 		for (auto& object : m_objects)
 		{
@@ -122,7 +122,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Layer2D::AddObject(const ObjectPtr& object)
+	void Layer2D::AddObject(const Object2D::Ptr& object)
 	{
 		if (object->GetLayer() != nullptr)
 		{
@@ -138,7 +138,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Layer2D::RemoveObject(const ObjectPtr& object)
+	void Layer2D::RemoveObject(const Object2D::Ptr& object)
 	{
 		m_objects.remove(object);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
@@ -148,7 +148,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Layer2D::AddComponent(const ComponentPtr& component, astring key)
+	void Layer2D::AddComponent(const Layer2DComponent::Ptr& component, astring key)
 	{
 		m_components[key] = component;
 		component->SetOwner(this);
@@ -157,7 +157,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Layer2D::ComponentPtr& Layer2D::GetComponent(astring key)
+	Layer2DComponent::Ptr& Layer2D::GetComponent(astring key)
 	{
 		return m_components[key];
 	}

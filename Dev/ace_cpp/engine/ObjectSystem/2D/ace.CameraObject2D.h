@@ -12,6 +12,8 @@ namespace ace
 		CoreObject2D* GetCoreObject() const;
 
 	public:
+		typedef std::shared_ptr<CameraObject2D> Ptr;
+
 		CameraObject2D();
 		virtual ~CameraObject2D();
 

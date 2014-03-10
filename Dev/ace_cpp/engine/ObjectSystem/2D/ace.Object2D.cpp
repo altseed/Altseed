@@ -9,8 +9,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	Object2D::Object2D()
 		: m_owner(nullptr)
-		, m_children(list<Object2DPtr>())
-		, m_components(map<astring, ComponentPtr>())
+		, m_children(list<Object2D::Ptr>())
+		, m_components(map<astring, Object2DComponent::Ptr>())
 		, m_isUpdated(true)
 		, m_isDrawn(true)
 	{
@@ -93,30 +93,30 @@ namespace ace
 		m_owner = layer;
 	}
 
-	void Object2D::AddChild(const Object2DPtr& child, eChildMode mode)
+	void Object2D::AddChild(const Object2D::Ptr& child, eChildMode mode)
 	{
 		GetCoreObject()->AddChild(*(child->GetCoreObject()), mode);
 		m_children.push_back(child);
 	}
 
-	void Object2D::RemoveChild(const Object2DPtr& child)
+	void Object2D::RemoveChild(const Object2D::Ptr& child)
 	{
 		GetCoreObject()->RemoveChild(*(child->GetCoreObject()));
 		m_children.remove(child);
 	}
 
-	const std::list<Object2D::Object2DPtr>& Object2D::GetChildren() const
+	const std::list<Object2D::Ptr>& Object2D::GetChildren() const
 	{
 		return m_children;
 	}
 
-	void Object2D::AddComponent(const ComponentPtr& component, astring key)
+	void Object2D::AddComponent(const Object2DComponent::Ptr& component, astring key)
 	{
 		m_components[key] = component;
 		component->SetOwner(this);
 	}
 
-	Object2D::ComponentPtr& Object2D::GetComponent(astring key)
+	Object2DComponent::Ptr& Object2D::GetComponent(astring key)
 	{
 		return m_components[key];
 	}
