@@ -31,11 +31,7 @@ libpng.sh を実行する。
 パッケージ管理ツールで入手する。
 
 ■　GoogleCode
-・Windows
-gtest.bat　を実行する。
-
-・他
-gtest.sh　を実行する。
+Script/download_gtest.py を実行する。
 
 ■　Effekseer
 ・Windows
