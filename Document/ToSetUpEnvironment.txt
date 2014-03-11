@@ -21,6 +21,7 @@ http://www.cmake.org/@‚©‚çDL‚µA‰ğ“€‚µ‚½ŒãAbin‚ÉƒpƒX‚ğ’Ê‚·B(Chocolateyã‚Ì‚Íƒ
 
 ¡@MSVC(Windows)
 Visual Studio 2013‚ğDL‚µƒCƒ“ƒXƒg[ƒ‹‚·‚éB
+DirectX Software Development Kit‚ğƒCƒ“ƒXƒg[ƒ‹‚·‚é(XAudio2—p)@(http://www.microsoft.com/en-us/download/details.aspx?id=6812)
 
 ¡@gcc(LinuxAMac)
 gcc 4.7ˆÈ~•K{
@@ -49,18 +50,7 @@ libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg
 –¢’è
 
 ¡¡@ƒRƒ“ƒpƒCƒ‹
-EWindows
-‚»‚Ì‚Ü‚Ü
-
-E‘¼
-HowToSetup.txt‚ğQÆ
-
-
-
-
-
-
-
+HowToCompile.txt‚ğQÆB
 
 ¡@Android(Win)
 
