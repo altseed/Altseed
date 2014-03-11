@@ -2,15 +2,15 @@
 import aceutils
 
 aceutils.cd(r'../')
-#aceutils.rm(r'master.zip')
-#aceutils.rmdir(r'Effekseer-master')
+aceutils.rm(r'master.zip')
+aceutils.rmdir(r'Effekseer-master')
 
-#aceutils.wget(r'https://github.com/effekseer/Effekseer/archive/master.zip')
-#aceutils.unzip(r'master.zip')
+aceutils.wget(r'https://github.com/effekseer/Effekseer/archive/master.zip')
+aceutils.unzip(r'master.zip')
 
-#aceutils.editCmakeForACE(r'Effekseer-master/Dev/Cpp/CMakeLists.txt')
+aceutils.editCmakeForACE(r'Effekseer-master/Dev/Cpp/CMakeLists.txt')
 
-#aceutils.mkdir(r"effekseer_bin")
+aceutils.mkdir(r"effekseer_bin")
 aceutils.cd(r"effekseer_bin")
 
 if aceutils.isWin():
