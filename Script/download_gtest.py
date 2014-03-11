@@ -27,8 +27,8 @@ if aceutils.isWin():
 	aceutils.copy(r'Release/gtest.lib', r'../Dev/lib/gtest.lib')
 	aceutils.copy(r'Release/gtest_main.lib', r'../Dev/lib/gtest_main.lib')
 else:
-	aceutils.copy(r'libgtest.a', r'../Dev/lib/')
-	aceutils.copy(r'libgtest_main.a', r'../Dev/lib/')
+	aceutils.copy(r'libgtest.a', r'../Dev/lib/libgtest.a')
+	aceutils.copy(r'libgtest_main.a', r'../Dev/lib/libgtest_main.a')
 
 aceutils.copytree(r'../gtest-1.7.0/include/gtest', r'../Dev/include/gtest/')
 
