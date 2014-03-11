@@ -4,7 +4,6 @@ import shutil
 import subprocess
 import os
 import os.path
-import urllib.request
 import zipfile
 import platform
 
@@ -22,8 +21,13 @@ def call( cmd ):
 
 
 def wget( address ):
-	urllib.request.urlretrieve(address, os.path.basename(address))
-
+	version = sys.version_info
+	if version[0] == 2:
+		import urllib
+		urllib.urlretrieve(address, os.path.basename(address))
+	elif version[0] == 3:
+		import urllib.request
+		urllib.request.urlretrieve(address, os.path.basename(address))
 
 def unzip(zip_filename):
 	zip_file = zipfile.ZipFile(zip_filename, "r")
@@ -32,9 +36,15 @@ def unzip(zip_filename):
 		if f.endswith('/'):
 		        os.makedirs(f)
 		else:
-			unzip_file = open(f, "wb")
-			unzip_file.write(zip_file.read(f))
-			unzip_file.close();
+			version = sys.version_info
+			if version[0] == 2:
+				unzip_file = file(f, "wb")
+				unzip_file.write(zip_file.read(f))
+				unzip_file.close()
+			elif version[0] == 3:
+				unzip_file = open(f, "wb")
+				unzip_file.write(zip_file.read(f))
+				unzip_file.close();
 	zip_file.close()
 
 
@@ -50,12 +60,14 @@ def cd(path):
 	os.chdir(path)
 
 def mkdir(path):
-	os.mkdir(path)
+	if not os.path.exists(path):
+		os.mkdir(path)
 
 def copy(src,dst):
 	shutil.copyfile(src,dst)
 
 def copytree(src,dst):
-	shutil.copytree(src,dst)
+	if not os.path.exists(src):
+		shutil.copytree(src,dst)
 
 
