@@ -6,6 +6,43 @@ import os
 import os.path
 import zipfile
 import platform
+import os.path
+
+def get_filelist(path):
+	""" get file list.
+	"""
+
+	def getlistdir(path,l):
+		dirs = os.listdir(path)
+		for d in dirs:
+			newpath = os.path.join( path, d )
+			if os.path.isdir( newpath ):
+				getlistdir( newpath, l )
+			else:
+				l.append( newpath )
+	
+	ret = []
+	getlistdir( path, ret )
+	return ret
+
+
+def copytreeE(src,dst,exts):
+	filelist = get_filelist(src)
+	for _from in filelist:
+
+		root, ext = os.path.splitext(_from)
+		if not ext in exts:
+			continue
+
+		old = _from[len(_from):]
+		_to = dst + old
+		print(_from + '\t:\t' + _to)
+
+		if not os.path.exists(os.path.dirname(_to)):
+			os.makedirs(os.path.dirname(_to))
+		
+		shutil.copy(_from,_to)
+
 
 def isWin():
 	return platform.system() == 'Windows'
