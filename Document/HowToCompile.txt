@@ -21,7 +21,7 @@ glfw.shを実行する。
 自動化できないため最初から追加済み
 
 ・他
-libpng.sh を実行する。
+Script/download_libpng.py  を実行する。
 
 ■　glew
 ・Windows
