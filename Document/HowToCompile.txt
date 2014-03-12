@@ -54,4 +54,4 @@ generate_swig.py
 そのまま
 
 ・他
-cmakeを使用する。
+Script/compile.py を実行する。
