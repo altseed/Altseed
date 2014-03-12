@@ -1,58 +1,31 @@
-■■　必要なソフトのインストール(PC向けコンパイルのみ)
+■■　PC向け
+■　必要なソフトのインストール
 
-・2013年現在、cygwinはライブラリ不足につき、glfw3.0.1をコンパイルできないため使用できません。
+Windowsではパッケージ管理ツールとしてChocolateyを使用する。
 
-■　パッケージ管理ツールから入手可能なソフト
-WindowsはChocolateyを使用
-手動でインストールする場合は、自分でダウンロードしパスを通してください。
+□　共通
+・python(3.0以上推奨)
+・cmake(2.8.11以上)
+・swig(2.0.12以上)	※Linuxではコードからコンパイルする必要あり
 
-・7zip(コマンドライン版) (http://www.7-zip.org/)
-・swig (http://www.swig.org/)
-・python(バージョン任意) (http://www.python.org/)
-・unzip (Windows以外)
-・wget (Windows以外)
+□　Windows
+Visual Studio 2013
+DirectX Software Development Kit　(http://www.microsoft.com/en-us/download/details.aspx?id=6812)
 
-■　cmake(全環境)
-・windows
-2.8.11以降必須
-http://www.cmake.org/　からDLし、解凍した後、binにパスを通す。(Chocolatey上のはバージョンが古い)
-・他
-パッケージ管理ツールで入手する。
-
-■　MSVC(Windows)
-Visual Studio 2013をDLしインストールする。
-DirectX Software Development Kitをインストールする(XAudio2用)　(http://www.microsoft.com/en-us/download/details.aspx?id=6812)
-
-■　gcc(Linux、Mac)
-gcc 4.7以降必須
-
-□　cygwin
-cygwinをインストールする。
-GOW等でmake.exeが存在するディレクトリにパスが通ってるとおかしくなるので注意。
-apt-cygをインストールする。
-http://code.google.com/p/apt-cyg/
-必要そうなのを全てインストールする。
-git, make, gcc-g++, libGL-devel, xorg-x11-devel, xorg-x11-bin, X-start-menu-icons
-libXrandr, libXrandr-devel, libXi, libXi-develは何故かapt-cygからインストールできなかったため、本体からインストール
-Makefileでコンパイルする。
-startxでGUIを起動する。
-
-□　Linux
-必要そうなものをインストールしてMakefileでコンパイルする。
+□　Windows以外
+・gcc(4.7以上)
+・unzip
+・wget
 
 -Ubuntu
-libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg-dev libglu1-mesa-dev
+libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg-dev libglu1-mesa-dev libpulse-dev libvorbis-dev
 
-□　Mac
-不明
-
-・他
-未定
-
-■■　コンパイル
+■　コンパイル
 HowToCompile.txtを参照。
 
-■　Android(Win)
+
+
+■■　Android(Win) (予定)
 
 (この前にAndroid系の全てを抹消している)
 
@@ -71,8 +44,6 @@ Work with: に--All Available Sites--　と記述
 
 「ウインドウ」-> 「設定] -> [Android」 -> 「NDK」
 にて先ほど解凍したNDKを選択
-
-
 
 ■　iPhone
 不明
