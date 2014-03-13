@@ -8,8 +8,8 @@ import zipfile
 import platform
 import os.path
 
-def get_filelist(path):
-	""" get file list.
+def get_files(path):
+	""" get files.
 	"""
 
 	def getlistdir(path,l):
@@ -26,16 +26,14 @@ def get_filelist(path):
 	return ret
 
 
-def copytreeE(src,dst,exts):
-	filelist = get_filelist(src)
-	for _from in filelist:
+def copytreeWithExt(src,dst,exts):
+	files = get_files(src)
+	for _from in files:
 
 		root, ext = os.path.splitext(_from)
 		if not ext in exts:
 			continue
-
-		old = _from[len(_from):]
-		_to = dst + old
+		_to = dst + _from[len(src):]
 		print(_from + '\t:\t' + _to)
 
 		if not os.path.exists(os.path.dirname(_to)):
