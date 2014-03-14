@@ -57,6 +57,8 @@ aceutils.mkdir(cstargetDir)
 aceutils.copy(r'Dev/bin/ace_cs.dll', cstargetDir)
 aceutils.copy(r'Dev/bin/ace_cs.XML', cstargetDir)
 
-
+# Doxygen
+aceutils.call(r'doxygen Script/acecppDoxyfile')
+aceutils.copytree(r'Reference_CPP/html/', targetDir+r'/Reference_CPP')
 
 
