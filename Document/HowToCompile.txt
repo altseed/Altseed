@@ -1,20 +1,6 @@
 ■■　外部ライブラリの生成、更新
 ■　glfw for ACE
-・Windows
-gitにて、Submodule Updateを行う。
-glfw.batを実行する。
-最新版が取得できない場合があるので、
-・amcr-glfw-init.bat　を実行
-・amcr-glfw　内部でpull
-・コマンドラインから git submodule update
-を行う。
-
-・ubuntu
-git submodule init
-git submodule update
-を用い、各ライブラリを取得する。
-glfw.shを実行する。
-最新版の取得には、git submodule updateを使用する。
+Script/download_glfw.py  を実行する。
 
 ■　zlib,libpng
 ・Windows
