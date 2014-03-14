@@ -403,6 +403,16 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	debugFlag = D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
+	D3D_FEATURE_LEVEL flevels[] = {
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,
+		D3D_FEATURE_LEVEL_9_2,
+		D3D_FEATURE_LEVEL_9_1,
+	};
+	int32_t flevelCount = sizeof(flevels) / sizeof(D3D_FEATURE_LEVEL);
+
 	D3D_FEATURE_LEVEL currentFeatureLevel;
 
 	hr = D3D11CreateDevice(
@@ -410,8 +420,8 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
 		debugFlag,
-		NULL,
-		0,
+		flevels,
+		flevelCount,
 		D3D11_SDK_VERSION,
 		&device,
 		&currentFeatureLevel,
