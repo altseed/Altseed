@@ -37,7 +37,13 @@ generate_swig.py
 
 ■■　本体コンパイル
 ・Windows
-そのまま
+Dev/unitTest_Engine_cpp.sln
+Dev/unitTest_Engine_cs.sln
+を実行する。
 
 ・他
 Script/compile.py を実行する。
+
+■■　リリース
+Doxygenを導入し、パスを通す。
+Script/release.py を実行する。(現在、Windowsのみ対応)
