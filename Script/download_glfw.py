@@ -24,6 +24,8 @@ else:
 
 aceutils.cd(r"../")
 
+aceutils.mkdir(r"Dev/include/GLFW/")
+
 if aceutils.isWin():
 	aceutils.copy(r'glfw-master/include/GLFW/glfw3.h', r'Dev/include/GLFW/')
 	aceutils.copy(r'glfw-master/include/GLFW/glfw3native.h', r'Dev/include/GLFW')
