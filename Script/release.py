@@ -23,6 +23,7 @@ sampleDir = targetDir+r'/Sample/'
 
 aceutils.copytreeWithExt(r'Sample/',targetDir+r'/Sample/',[ r'.h', r'.cpp', r'.filters', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png'])
 
+aceutils.mkdir(sampleDir+r'cpp/')
 aceutils.mkdir(sampleDir+r'cpp/include/')
 aceutils.mkdir(sampleDir+r'cpp/lib/')
 aceutils.mkdir(sampleDir+r'cpp/lib/Debug/')
