@@ -25,6 +25,8 @@ namespace ace
 	class DynamicLinkLibrary
 	{
 	private:
+		mutable std::atomic<int32_t> m_reference;
+
 #if _WIN32
 		HMODULE	m_dll;
 #else
@@ -33,6 +35,7 @@ namespace ace
 
 	public:
 		DynamicLinkLibrary()
+			: m_reference(1)
 		{
 			m_dll = nullptr;
 		}
@@ -93,6 +96,38 @@ namespace ace
 			}
 			return (T)(pProc);
 		}
+
+		int AddRef()
+		{
+			std::atomic_fetch_add_explicit(&m_reference, 1, std::memory_order_consume);
+			return m_reference;
+		}
+
+		int GetRef()
+		{
+			return m_reference;
+		}
+
+		int Release()
+		{
+			assert(m_reference > 0);
+			bool destroy = std::atomic_fetch_sub_explicit(&m_reference, 1, std::memory_order_consume) == 1;
+			if (destroy)
+			{
+				delete this;
+				return 0;
+			}
+
+			return m_reference;
+		}
+	};
+
+	struct DynamicLinkLibraryDeleter
+	{
+		void operator ()(DynamicLinkLibrary* p)
+		{
+			SafeRelease(p);
+		}
 	};
 
 	//----------------------------------------------------------------------------------
@@ -115,11 +150,22 @@ namespace ace
 	{
 		if (g_dll != NULL)
 		{
-			g_GetGlobalRef = nullptr;
-
-			g_dll->Reset();
-			g_dll.reset();
+			if (g_dll->GetRef() == 1)
+			{
+				g_GetGlobalRef = nullptr;
+				g_dll->Reset();
+				g_dll.reset();
+			}
+			else
+			{
+				g_dll->Release();
+			}
 		}
+	}
+
+	static void ACE_STDCALL RemovedCore(Core* core)
+	{
+		ReleaseDLL();
 	}
 
 	bool Engine::HasDLL(const char* path)
@@ -159,7 +205,7 @@ namespace ace
 		// DLLからコアを生成する。
 		if (m_core == nullptr)
 		{
-			g_dll = std::shared_ptr<DynamicLinkLibrary>(new DynamicLinkLibrary());
+			g_dll = std::shared_ptr<DynamicLinkLibrary>(new DynamicLinkLibrary(), DynamicLinkLibraryDeleter());
 
 #if _WIN32
 #if _DEBUG
@@ -193,6 +239,8 @@ namespace ace
 				}
 
 				m_core = pProc();
+				m_core->SetRemovedFunctionPpointer(RemovedCore);
+				SafeAddRef(m_core);
 			}
 
 			{

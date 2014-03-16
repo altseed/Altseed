@@ -23,6 +23,7 @@ namespace ace {
 
 	private:
 
+		CoreFuncPtr		m_removedFuncPtr;
 		bool	m_isInitializedByExternal;
 
 		Window_Imp*		m_window;
@@ -58,6 +59,8 @@ namespace ace {
 
 	public:
 		static Core_Imp* CreateCore();
+
+		void SetRemovedFunctionPpointer(CoreFuncPtr func) override;
 
 		bool Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode, bool isMultithreadingMode);
 
