@@ -34,7 +34,7 @@ class CreateHeader:
 
 			self.lines.append(line)
 			line = f.readline()
-		self.lines.append('\n')
+		self.lines.append('\r\n')
 		f.close
 
 	def output(self,path):

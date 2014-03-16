@@ -26,6 +26,7 @@ endif()
 
 # ファイルをソースリストに追加
 set(common_src
+	ace_cpp/common/ace.common.cpp
 	ace_cpp/common/Graphics/ace.Color.cpp
 	ace_cpp/common/Math/ace.Matrix33.cpp
 	ace_cpp/common/Math/ace.Matrix44.cpp

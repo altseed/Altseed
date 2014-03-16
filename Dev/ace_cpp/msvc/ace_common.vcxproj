@@ -98,6 +98,7 @@
     <ClInclude Include="..\common\utility\ace.TypeErasureCopy.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\ace.common.cpp" />
     <ClCompile Include="..\common\Graphics\ace.Color.cpp" />
     <ClCompile Include="..\common\Math\ace.Matrix33.cpp" />
     <ClCompile Include="..\common\Math\ace.Matrix44.cpp" />

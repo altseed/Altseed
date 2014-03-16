@@ -60,7 +60,7 @@ namespace ace {
 	public:
 		static Core_Imp* CreateCore();
 
-		void SetRemovedFunctionPpointer(CoreFuncPtr func) override;
+		void SetRemovedFunctionPpointer(CoreFuncPtr func);
 
 		bool Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode, bool isMultithreadingMode);
 
