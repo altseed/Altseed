@@ -177,7 +177,9 @@ int32_t Utf16ToUtf8(int8_t* dst, int32_t dst_size, const int16_t* src);
 */
 int32_t Utf8ToUtf16(int16_t* dst, int32_t dst_size, const int8_t* src);
 
-std::wstring ToWide(const char* pText); astring ToAString(const wchar_t* src);
+std::wstring ToWide(const char* pText);
+
+astring ToAString(const wchar_t* src);
 
 astring ToAString(const char* src);
 
@@ -197,6 +199,32 @@ static astring ReplaceAll(const astring text, const wchar_t* from, const wchar_t
 }
 #endif
 
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+#if !SWIG
+void ShowMessageBox(const achar* title, const achar* text);
+
+#if _WIN32
+#define SPRINTF sprintf_s
+#else
+#define SPRINTF snprintf
+#endif
+
+#define ACE_ASSERT(condition, message) { \
+if (!(condition)) { \
+	char lbuf[100]; \
+	SPRINTF(lbuf, 100, "%d", __LINE__); \
+	auto m = ::ace::ToAString(message); \
+	auto f = ::ace::ToAString(__FILE__); \
+	auto l = ::ace::ToAString(lbuf); \
+	auto state = f + ::ace::ToAString("(") + l + ::ace::ToAString(")"); \
+	auto m_ = state + ::ace::ToAString("\n") + m; \
+	::ace::ShowMessageBox(::ace::ToAString("Assert").c_str(), m_.c_str()); \
+	(*((int*)0x0) = 0x0);  } \
+}
+
+#endif
 
 //----------------------------------------------------------------------------------
 //
