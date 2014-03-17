@@ -2,6 +2,7 @@ import subprocess
 import os
 import os.path
 import sys
+import platform
 
 def conv(path):
 	temp = open(path,mode='rb')
@@ -58,5 +59,9 @@ conv_dir(r'ace_cpp/')
 conv_dir(r'unitTest_cpp_gtest/')
 conv_dir(r'unitTest_Engine_cpp_gtest/')
 
-exec_sync( 'mkdir ace_cs\\swig' )
-exec_sync( 'swig -c++ -csharp -namespace ace.swig -dllimport ace_core -o ace_cpp\\core\\dll_cs.cxx -outdir ace_cs\\swig\\ ace_cs.i' )
+if platform.system() == 'Windows':
+	exec_sync( 'mkdir ace_cs\\swig' )
+else:
+	exec_sync( 'mkdir ace_cs/swig' )
+
+exec_sync( 'swig -c++ -csharp -namespace ace.swig -dllimport ace_core -o ace_cpp/core/dll_cs.cxx -outdir ace_cs/swig/ ace_cs.i' )
