@@ -15,6 +15,7 @@
 #include "Resource/ace.RenderTexture_Imp_DX11.h"
 #include "Resource/ace.DepthBuffer_Imp_DX11.h"
 
+#include <sstream>
 
 //----------------------------------------------------------------------------------
 //
@@ -201,6 +202,63 @@ Graphics_Imp_DX11::~Graphics_Imp_DX11()
 
 	SafeRelease(m_window);
 
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void Graphics_Imp_DX11::WriteDeviceInformation(Log* log, IDXGIAdapter* adapter)
+{
+	DXGI_ADAPTER_DESC adapterDesc;
+
+	auto hr = adapter->GetDesc(&adapterDesc);
+
+	std::ostringstream title, card, vendor, device, subSys, revision, videoMemory, systemMemory, sharedSystemMemory;
+
+	title << "ビデオカード情報";
+	
+	if (SUCCEEDED(hr))
+	{
+		card << ToUtf8String(adapterDesc.Description);
+		vendor << adapterDesc.VendorId;
+		device << adapterDesc.DeviceId;
+		subSys << adapterDesc.SubSysId;
+		revision << adapterDesc.Revision;
+		videoMemory << (adapterDesc.DedicatedVideoMemory / 1024 / 1024) << "MB";
+		systemMemory << (adapterDesc.DedicatedSystemMemory / 1024 / 1024) << "MB";
+		sharedSystemMemory << (adapterDesc.SharedSystemMemory / 1024 / 1024) << "MB";
+	}
+
+	auto write = [log](std::ostringstream& os) -> void
+	{
+		log->Write(ToAString(os.str().c_str()).c_str());
+	};
+
+	auto writeTable = [log,write](const char* title, std::ostringstream& text, bool isLast) -> void
+	{
+		log->Write(ToAString(title).c_str());
+		log->ChangeColumn();
+		write(text);
+		if (!isLast)
+		{
+			log->ChangeRow();
+		}
+	};
+	
+	log->WriteLineStrongly(ToAString(title.str().c_str()).c_str());
+
+	log->BeginTable();
+	
+	writeTable("GraphicCard", card, false);
+	writeTable("VendorID", vendor, false);
+	writeTable("DeviceID", device, false);
+	writeTable("SubSysID", subSys, false);
+	writeTable("Revision", revision, false);
+	writeTable("VideoMemory", videoMemory, false);
+	writeTable("SystemMemory", systemMemory, false);
+	writeTable("SharedSystemMemory", sharedSystemMemory, true);
+
+	log->EndTable();
 }
 
 //----------------------------------------------------------------------------------
@@ -526,6 +584,9 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	}
 
 	writeLog(ToAString("DirectX11初期化成功"));
+	writeLog(ToAString(""));
+
+	WriteDeviceInformation(log, adapter);
 
 	return new Graphics_Imp_DX11(
 		window,
@@ -553,6 +614,7 @@ End:
 	SafeRelease(device);
 
 	writeLog(ToAString("DirectX11初期化失敗"));
+	writeLog(ToAString(""));
 
 	return nullptr;
 }
