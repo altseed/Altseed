@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//Graphics_Model_(false);
+	//Graphics_Model_(true);
 	//return 0;
 
 	//TestCamera(true);

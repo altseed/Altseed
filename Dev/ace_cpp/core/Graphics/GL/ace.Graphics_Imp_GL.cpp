@@ -138,6 +138,9 @@ namespace ace {
 	glfwSwapInterval(0);
 
 	glewInit();
+	MakeContextCurrent();
+	WriteInitializedLog(m_log);
+	MakeContextNone();
 
 	m_renderState = new RenderState_Imp_GL(this);
 
@@ -206,6 +209,9 @@ namespace ace {
 #endif
 
 	glewInit();
+	MakeContextCurrent();
+	WriteInitializedLog(m_log);
+	MakeContextNone();
 
 	m_renderState = new RenderState_Imp_GL(this);
 
@@ -243,7 +249,6 @@ namespace ace {
 //----------------------------------------------------------------------------------
 Graphics_Imp_GL::~Graphics_Imp_GL()
 {
-
 	// 必要なし
 	//SafeRelease(m_currentShader);
 
@@ -300,6 +305,45 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 	}
 
 	SafeRelease(m_window);
+}
+
+void Graphics_Imp_GL::WriteInitializedLog(Log* log)
+{
+	auto writeLogHeading = [log](const astring s) -> void
+	{
+		if (log == nullptr) return;
+		log->WriteHeading(s.c_str());
+	};
+
+	auto writeLog = [log](const astring s) -> void
+	{
+		if (log == nullptr) return;
+		log->WriteLine(s.c_str());
+	};
+
+	writeLogHeading(ToAString("OpenGL"));
+	writeLog(ToAString(""));
+
+	WriteDeviceInformation(log);
+}
+
+void Graphics_Imp_GL::WriteDeviceInformation(Log* log)
+{
+	log->WriteLineStrongly(ToAString("ビデオカード情報").c_str());
+
+	log->BeginTable();
+
+	log->Write(ToAString("バージョン").c_str());
+	log->ChangeColumn();
+
+	if (GLEW_VERSION_4_0) { log->Write(ToAString("4.0").c_str()); }
+	else if (GLEW_VERSION_3_3) { log->Write(ToAString("3.3").c_str()); }
+	else if (GLEW_VERSION_3_2) { log->Write(ToAString("3.2").c_str()); }
+	else if (GLEW_VERSION_3_1) { log->Write(ToAString("3.1").c_str()); }
+	else if (GLEW_VERSION_3_0) { log->Write(ToAString("3.0").c_str()); }
+	else if (GLEW_VERSION_2_1) { log->Write(ToAString("2.1").c_str()); }
+	else  { log->Write(ToAString("Unknown").c_str()); }
+	log->EndTable();
 }
 
 void Graphics_Imp_GL::StartRenderingThread()
