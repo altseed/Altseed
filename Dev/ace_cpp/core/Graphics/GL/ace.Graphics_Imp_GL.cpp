@@ -138,9 +138,6 @@ namespace ace {
 	glfwSwapInterval(0);
 
 	glewInit();
-	MakeContextCurrent();
-	WriteInitializedLog(m_log);
-	MakeContextNone();
 
 	m_renderState = new RenderState_Imp_GL(this);
 
@@ -167,6 +164,7 @@ namespace ace {
 	}
 
 	MakeContextCurrent();
+	WriteInitializedLog(m_log);
 	GLCheckError();
 
 	GetSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
@@ -209,9 +207,6 @@ namespace ace {
 #endif
 
 	glewInit();
-	MakeContextCurrent();
-	WriteInitializedLog(m_log);
-	MakeContextNone();
 
 	m_renderState = new RenderState_Imp_GL(this);
 
@@ -239,6 +234,7 @@ namespace ace {
 
 
 	MakeContextCurrent();
+	WriteInitializedLog(m_log);
 	GLCheckError();
 
 	GetSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
