@@ -455,6 +455,22 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	HRESULT hr;
 
+	hr = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**) &dxgiFactory);
+	if (dxgiFactory == NULL)
+	{
+		writeLog(ToAString("ファクトリの作成に失敗"));
+		goto End;
+	}
+
+	uint32_t index = 0;
+	dxgiFactory->EnumAdapters(index, &adapter);
+
+	if (adapter == nullptr)
+	{
+		writeLog(ToAString("アダプタの取得に失敗"));
+		goto End;
+	}
+
 	UINT debugFlag = 0;
 
 #if _DEBUG
@@ -474,8 +490,8 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	D3D_FEATURE_LEVEL currentFeatureLevel;
 
 	hr = D3D11CreateDevice(
-		NULL,
-		D3D_DRIVER_TYPE_HARDWARE,
+		adapter,
+		D3D_DRIVER_TYPE_UNKNOWN,
 		NULL,
 		debugFlag,
 		flevels,
@@ -498,23 +514,9 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_2) writeLog(ToAString("レベル9.2でデバイスを作成"));
 	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_1) writeLog(ToAString("レベル9.1でデバイスを作成"));
 
-
 	if (FAILED(device->QueryInterface(__uuidof(IDXGIDevice1), (void**) &dxgiDevice)))
 	{
 		writeLog(ToAString("デバイス1の作成に失敗"));
-		goto End;
-	}
-
-	if (FAILED(dxgiDevice->GetAdapter(&adapter)))
-	{
-		writeLog(ToAString("アダプタの取得に失敗"));
-		goto End;
-	}
-
-	adapter->GetParent(__uuidof(IDXGIFactory), (void**) &dxgiFactory);
-	if (dxgiFactory == NULL)
-	{
-		writeLog(ToAString("ファクトリの取得に失敗"));
 		goto End;
 	}
 
