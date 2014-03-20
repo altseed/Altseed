@@ -607,5 +607,27 @@ static float RadianToDegree(float radian)
 	return radian / PI * 180.0f;
 }
 
+static std::vector<int8_t> GetBinaryData(std::wstring filePath)
+{
+	FILE* fp;
+
+#if _WIN32
+	_wfopen_s(&fp, filePath.c_str(), L"rb");
+#else
+	throw "未実装";
+#endif
+
+	fseek(fp, 0, SEEK_END);
+	auto size = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+
+	std::vector<int8_t> data;
+	data.resize(size);
+
+	fread(&(data[0]), 1, size, fp);
+	fclose(fp);
+
+	return data;
+}
 }
 

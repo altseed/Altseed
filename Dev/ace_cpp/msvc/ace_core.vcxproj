@@ -175,6 +175,10 @@
     <ClInclude Include="..\core\Core\ace.Core.h" />
     <ClInclude Include="..\core\Core\ace.Core_Imp.h" />
     <ClInclude Include="..\core\Core\ace.CreateCore.h" />
+    <ClInclude Include="..\core\File\ace.AffHeader.h" />
+    <ClInclude Include="..\core\File\ace.AffLoader.h" />
+    <ClInclude Include="..\core\File\ace.GlyphData.h" />
+    <ClInclude Include="..\core\File\ace.AffIndexTable.h" />
     <ClInclude Include="..\core\Graphics\Common\2D\ace.LayerRenderer.h" />
     <ClInclude Include="..\core\Graphics\Common\2D\ace.PostEffectRenderer.h" />
     <ClInclude Include="..\core\Graphics\Common\2D\ace.Renderer2D.h" />
@@ -257,7 +261,6 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D.h" />
-    <ClInclude Include="..\core\ObjectSystem\2D\ace.GlyphData.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.TransformInfo2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.ParentInfo2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreLayer2D.h" />
@@ -265,7 +268,6 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextureObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextureObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.ObjectInfo2D.h" />
-    <ClInclude Include="..\core\ObjectSystem\2D\ace.AffLoader.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreCameraObject3D.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreCameraObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreDirectionalLightObject3D.h" />
@@ -318,6 +320,9 @@
     <ClCompile Include="..\core\Core\ace.Core_Imp.cpp" />
     <ClCompile Include="..\core\Core\ace.CreateCore.cpp" />
     <ClCompile Include="..\core\dll_cs.cxx" />
+    <ClCompile Include="..\core\File\ace.AffHeader.cpp" />
+    <ClCompile Include="..\core\File\ace.AffLoader.cpp" />
+    <ClCompile Include="..\core\File\ace.AffIndexTable.cpp" />
     <ClCompile Include="..\core\Graphics\Common\2D\ace.LayerRenderer.cpp" />
     <ClCompile Include="..\core\Graphics\Common\2D\ace.PostEffectRenderer.cpp" />
     <ClCompile Include="..\core\Graphics\Common\2D\ace.Renderer2D_Imp.cpp" />
@@ -373,7 +378,6 @@
     <ClCompile Include="..\core\Input\ace.Mouse_Imp.cpp" />
     <ClCompile Include="..\core\Input\ace.SideButton.cpp" />
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp" />
-    <ClCompile Include="..\core\ObjectSystem\2D\ace.AffLoader.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.ObjectInfo2D.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.TransformInfo2D.cpp" />

@@ -475,11 +475,17 @@
     <ClInclude Include="..\core\Sound\ace.SoundSource_Imp.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\2D\ace.GlyphData.h">
-      <Filter>ObjectSystem\2D</Filter>
+    <ClInclude Include="..\core\File\ace.AffLoader.h">
+      <Filter>File</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\2D\ace.AffLoader.h">
-      <Filter>ObjectSystem\2D</Filter>
+    <ClInclude Include="..\core\File\ace.GlyphData.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\File\ace.AffHeader.h">
+      <Filter>File</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\File\ace.AffIndexTable.h">
+      <Filter>File</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -735,8 +741,14 @@
     <ClCompile Include="..\core\Sound\ace.SoundSource_Imp.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\ObjectSystem\2D\ace.AffLoader.cpp">
-      <Filter>ObjectSystem\2D</Filter>
+    <ClCompile Include="..\core\File\ace.AffHeader.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\File\ace.AffLoader.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\File\ace.AffIndexTable.cpp">
+      <Filter>File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

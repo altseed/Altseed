@@ -28,6 +28,9 @@
     <Filter Include="PCH">
       <UniqueIdentifier>{57fd1f00-c83e-444c-aa40-c43321acdae6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{2ccf4cf3-5c60-4ae6-810e-bd86abd706b2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
@@ -92,6 +95,9 @@
     </ClCompile>
     <ClCompile Include="..\PCH\ace.UnitTestCpp.PCH.cpp">
       <Filter>PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\File\ace.AffHeader_Test.cpp">
+      <Filter>File</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

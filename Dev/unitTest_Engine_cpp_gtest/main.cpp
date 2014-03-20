@@ -49,9 +49,6 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	Test_ObjectSystem_TrasingCamera(true);
-	return 0;
-
 	//Graphics_Model_(false);
 	//return 0;
 

@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\ace.common.Base_test.cpp" />
     <ClCompile Include="..\ace.DLL.cpp" />
+    <ClCompile Include="..\File\ace.AffHeader_Test.cpp" />
     <ClCompile Include="..\Graphics\2D\ace.LayerRenderer_Test.cpp" />
     <ClCompile Include="..\Graphics\2D\ace.PostEffectRenderer_Test.cpp" />
     <ClCompile Include="..\Graphics\2D\ace.Renderer2D_Test.cpp" />
