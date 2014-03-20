@@ -39,6 +39,7 @@ namespace ace
 		, m_profiler(nullptr)
 		, m_profilerViewer(nullptr)
 		, m_currentScene(nullptr)
+		, m_removedFuncPtr(nullptr)
 		, m_isInitializedByExternal(false)
 		, m_objectSystemFactory(nullptr)
 		, m_animationSyatem(nullptr)
@@ -114,6 +115,14 @@ namespace ace
 
 			m_startFrameTime += frameTime;
 		}
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Core_Imp::SetRemovedFunctionPpointer(CoreFuncPtr func)
+	{
+		m_removedFuncPtr = func;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -248,6 +257,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Core_Imp::Terminate()
 	{
+		auto removingPtr = m_removedFuncPtr;
+
 		SafeRelease(m_currentScene);
 		SafeDelete(m_objectSystemFactory);
 
@@ -263,6 +274,11 @@ namespace ace
 		SafeDelete(m_joystickContainer);
 
 		SafeDelete(m_animationSyatem);
+
+		if (removingPtr != nullptr)
+		{
+			removingPtr(this);
+		}
 	}
 
 	//----------------------------------------------------------------------------------

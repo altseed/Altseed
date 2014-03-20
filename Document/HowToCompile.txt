@@ -1,27 +1,13 @@
 ■■　外部ライブラリの生成、更新
 ■　glfw for ACE
-・Windows
-gitにて、Submodule Updateを行う。
-glfw.batを実行する。
-最新版が取得できない場合があるので、
-・amcr-glfw-init.bat　を実行
-・amcr-glfw　内部でpull
-・コマンドラインから git submodule update
-を行う。
-
-・ubuntu
-git submodule init
-git submodule update
-を用い、各ライブラリを取得する。
-glfw.shを実行する。
-最新版の取得には、git submodule updateを使用する。
+Script/download_glfw.py  を実行する。
 
 ■　zlib,libpng
 ・Windows
 自動化できないため最初から追加済み
 
 ・他
-libpng.sh を実行する。
+Script/download_libpng.py  を実行する。
 
 ■　glew
 ・Windows
@@ -31,18 +17,13 @@ libpng.sh を実行する。
 パッケージ管理ツールで入手する。
 
 ■　GoogleCode
-・Windows
-gtest.bat　を実行する。
-
-・他
-gtest.sh　を実行する。
+Script/download_gtest.py を実行する。
 
 ■　Effekseer
-・Windows
-effekseer.bat　を実行する。
+Script/download_effekseer.py を実行する。
 
-・他
-effekseer.sh　を実行する。
+■　OpenSoundMixer
+Script/download_OpenSoundMixer.py を実行する。
 
 ■■　ヘッダの生成、更新
 pythonを導入し、
@@ -56,7 +37,13 @@ generate_swig.py
 
 ■■　本体コンパイル
 ・Windows
-そのまま
+Dev/unitTest_Engine_cpp.sln
+Dev/unitTest_Engine_cs.sln
+を実行する。
 
 ・他
-cmakeを使用する。
+Script/compile.py を実行する。
+
+■■　リリース
+Doxygenを導入し、パスを通す。
+Script/release.py を実行する。(現在、Windowsのみ対応)

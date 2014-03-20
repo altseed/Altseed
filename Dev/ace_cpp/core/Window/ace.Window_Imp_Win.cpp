@@ -32,6 +32,8 @@ Window_Imp* Window_Imp_Win::Create(int32_t width, int32_t height, const achar* t
 		return nullptr;
 	}
 
+	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
 	auto titleUTF8 = ToUtf8String(title);
 
 	auto window = glfwCreateWindow(width, height, titleUTF8.c_str(), NULL, NULL);

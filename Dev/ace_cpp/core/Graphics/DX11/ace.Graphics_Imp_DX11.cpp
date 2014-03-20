@@ -15,6 +15,7 @@
 #include "Resource/ace.RenderTexture_Imp_DX11.h"
 #include "Resource/ace.DepthBuffer_Imp_DX11.h"
 
+#include <sstream>
 
 //----------------------------------------------------------------------------------
 //
@@ -206,6 +207,63 @@ Graphics_Imp_DX11::~Graphics_Imp_DX11()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+void Graphics_Imp_DX11::WriteDeviceInformation(Log* log, IDXGIAdapter* adapter)
+{
+	DXGI_ADAPTER_DESC adapterDesc;
+
+	auto hr = adapter->GetDesc(&adapterDesc);
+
+	std::ostringstream title, card, vendor, device, subSys, revision, videoMemory, systemMemory, sharedSystemMemory;
+
+	title << "ビデオカード情報";
+	
+	if (SUCCEEDED(hr))
+	{
+		card << ToUtf8String(adapterDesc.Description);
+		vendor << adapterDesc.VendorId;
+		device << adapterDesc.DeviceId;
+		subSys << adapterDesc.SubSysId;
+		revision << adapterDesc.Revision;
+		videoMemory << (adapterDesc.DedicatedVideoMemory / 1024 / 1024) << "MB";
+		systemMemory << (adapterDesc.DedicatedSystemMemory / 1024 / 1024) << "MB";
+		sharedSystemMemory << (adapterDesc.SharedSystemMemory / 1024 / 1024) << "MB";
+	}
+
+	auto write = [log](std::ostringstream& os) -> void
+	{
+		log->Write(ToAString(os.str().c_str()).c_str());
+	};
+
+	auto writeTable = [log,write](const char* title, std::ostringstream& text, bool isLast) -> void
+	{
+		log->Write(ToAString(title).c_str());
+		log->ChangeColumn();
+		write(text);
+		if (!isLast)
+		{
+			log->ChangeRow();
+		}
+	};
+	
+	log->WriteLineStrongly(ToAString(title.str().c_str()).c_str());
+
+	log->BeginTable();
+	
+	writeTable("GraphicCard", card, false);
+	writeTable("VendorID", vendor, false);
+	writeTable("DeviceID", device, false);
+	writeTable("SubSysID", subSys, false);
+	writeTable("Revision", revision, false);
+	writeTable("VideoMemory", videoMemory, false);
+	writeTable("SystemMemory", systemMemory, false);
+	writeTable("SharedSystemMemory", sharedSystemMemory, true);
+
+	log->EndTable();
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 VertexBuffer_Imp* Graphics_Imp_DX11::CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic)
 {
 	return VertexBuffer_Imp_DX11::Create(this, size, count, isDynamic);
@@ -305,10 +363,10 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 				}
 				
 				// 頂点シェーダーに設定
-				GetContext()->VSSetShaderResources(0, 1, &rv);
+				GetContext()->VSSetShaderResources(i, 1, &rv);
 
 				// ピクセルシェーダーに設定
-				GetContext()->PSSetShaderResources(0, 1, &rv);
+				GetContext()->PSSetShaderResources(i, 1, &rv);
 			}
 		}
 	}
@@ -397,21 +455,47 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	HRESULT hr;
 
+	hr = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**) &dxgiFactory);
+	if (dxgiFactory == NULL)
+	{
+		writeLog(ToAString("ファクトリの作成に失敗"));
+		goto End;
+	}
+
+	uint32_t index = 0;
+	dxgiFactory->EnumAdapters(index, &adapter);
+
+	if (adapter == nullptr)
+	{
+		writeLog(ToAString("アダプタの取得に失敗"));
+		goto End;
+	}
+
 	UINT debugFlag = 0;
 
 #if _DEBUG
 	debugFlag = D3D11_CREATE_DEVICE_DEBUG;
 #endif
 
+	D3D_FEATURE_LEVEL flevels[] = {
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,
+		D3D_FEATURE_LEVEL_9_2,
+		D3D_FEATURE_LEVEL_9_1,
+	};
+	int32_t flevelCount = sizeof(flevels) / sizeof(D3D_FEATURE_LEVEL);
+
 	D3D_FEATURE_LEVEL currentFeatureLevel;
 
 	hr = D3D11CreateDevice(
-		NULL,
-		D3D_DRIVER_TYPE_HARDWARE,
+		adapter,
+		D3D_DRIVER_TYPE_UNKNOWN,
 		NULL,
 		debugFlag,
-		NULL,
-		0,
+		flevels,
+		flevelCount,
 		D3D11_SDK_VERSION,
 		&device,
 		&currentFeatureLevel,
@@ -430,23 +514,9 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_2) writeLog(ToAString("レベル9.2でデバイスを作成"));
 	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_1) writeLog(ToAString("レベル9.1でデバイスを作成"));
 
-
 	if (FAILED(device->QueryInterface(__uuidof(IDXGIDevice1), (void**) &dxgiDevice)))
 	{
 		writeLog(ToAString("デバイス1の作成に失敗"));
-		goto End;
-	}
-
-	if (FAILED(dxgiDevice->GetAdapter(&adapter)))
-	{
-		writeLog(ToAString("アダプタの取得に失敗"));
-		goto End;
-	}
-
-	adapter->GetParent(__uuidof(IDXGIFactory), (void**) &dxgiFactory);
-	if (dxgiFactory == NULL)
-	{
-		writeLog(ToAString("ファクトリの取得に失敗"));
 		goto End;
 	}
 
@@ -516,6 +586,9 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	}
 
 	writeLog(ToAString("DirectX11初期化成功"));
+	writeLog(ToAString(""));
+
+	WriteDeviceInformation(log, adapter);
 
 	return new Graphics_Imp_DX11(
 		window,
@@ -543,6 +616,7 @@ End:
 	SafeRelease(device);
 
 	writeLog(ToAString("DirectX11初期化失敗"));
+	writeLog(ToAString(""));
 
 	return nullptr;
 }
@@ -607,8 +681,9 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_
 	// 強制リセット(テクスチャと描画先同時設定不可のため)
 	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
 	{
-		ID3D11ShaderResourceView* rv = nullptr;
-		GetContext()->PSSetShaderResources(0, 1, &rv);
+		ID3D11ShaderResourceView* rv = { nullptr };
+		GetContext()->VSSetShaderResources(i, 1, &rv);
+		GetContext()->PSSetShaderResources(i, 1, &rv);
 	}
 
 	if (texture == nullptr)

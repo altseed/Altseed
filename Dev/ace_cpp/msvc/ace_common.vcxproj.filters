@@ -97,6 +97,7 @@
     <ClCompile Include="..\common\Math\ace.Vector4DF.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\ace.common.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Math">
