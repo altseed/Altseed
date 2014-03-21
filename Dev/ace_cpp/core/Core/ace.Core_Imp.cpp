@@ -58,6 +58,12 @@ namespace ace
 	Core_Imp::~Core_Imp()
 	{
 		Terminate();
+
+		auto removingPtr = m_removedFuncPtr;
+		if (removingPtr != nullptr)
+		{
+			removingPtr(this);
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -257,8 +263,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Core_Imp::Terminate()
 	{
-		auto removingPtr = m_removedFuncPtr;
-
 		SafeRelease(m_currentScene);
 		SafeDelete(m_objectSystemFactory);
 
@@ -274,11 +278,6 @@ namespace ace
 		SafeDelete(m_joystickContainer);
 
 		SafeDelete(m_animationSyatem);
-
-		if (removingPtr != nullptr)
-		{
-			removingPtr(this);
-		}
 	}
 
 	//----------------------------------------------------------------------------------

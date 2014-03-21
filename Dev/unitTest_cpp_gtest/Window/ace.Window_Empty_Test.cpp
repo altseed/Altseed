@@ -1,7 +1,7 @@
 ﻿
-#include <Window/ace.Window_Imp.h>
+#include "../PCH/ace.UnitTestCpp.PCH.h"
 
-#include<gtest/gtest.h>
+#include <Window/ace.Window_Imp.h>
 
 //#define _PRINTLOG 1
 
