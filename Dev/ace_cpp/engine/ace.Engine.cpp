@@ -240,7 +240,7 @@ namespace ace
 
 				m_core = pProc();
 				m_core->SetRemovedFunctionPpointer(RemovedCore);
-				SafeAddRef(m_core);
+				SafeAddRef(g_dll);
 			}
 
 			{

@@ -18,7 +18,7 @@ DirectX Software Development Kit　(http://www.microsoft.com/en-us/download/detai
 ・wget
 
 -Ubuntu
-libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg-dev libglu1-mesa-dev libpulse-dev libvorbis-dev
+libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg-dev libglu1-mesa-dev libpulse-dev libvorbis-dev libogg-dev
 
 ■　コンパイル
 HowToCompile.txtを参照。
