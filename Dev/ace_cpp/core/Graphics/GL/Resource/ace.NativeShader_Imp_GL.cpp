@@ -329,32 +329,45 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 	}
 
 	{
-		log->WriteHeading("シェーダー生成中");
-		log->WriteLine(vertexShaderFileName);
-		log->WriteLine(pixelShaderFileName);
+		char vs_text[512];
+		int32_t vs_size;
 
-		char log_text[512];
-		int32_t log_size;
-		glGetShaderInfoLog(vs_shader, sizeof(log_text), &log_size, log_text);
-		if (log_size > 0)
+		char ps_text[512];
+		int32_t ps_size;
+
+		char l_text[512];
+		int32_t l_size;
+
+		glGetShaderInfoLog(vs_shader, sizeof(vs_text), &vs_size, vs_text);
+		glGetShaderInfoLog(ps_shader, sizeof(ps_text), &ps_size, ps_text);
+		glGetProgramInfoLog(program, sizeof(l_text), &l_size, l_text);
+
+		if (vs_size > 0 || ps_size > 0 || l_size > 0)
 		{
-			OUTPUT_DEBUG_STRING("Vertex Shader:\n");
-			OUTPUT_DEBUG_STRING(log_text);
-			log->WriteLine(log_text);
-		}
-		glGetShaderInfoLog(ps_shader, sizeof(log_text), &log_size, log_text);
-		if (log_size > 0)
-		{
-			OUTPUT_DEBUG_STRING("Fragment Shader:\n");
-			OUTPUT_DEBUG_STRING(log_text);
-			log->WriteLine(log_text);
-		}
-		glGetProgramInfoLog(program, sizeof(log_text), &log_size, log_text);
-		if (log_size > 0)
-		{
-			OUTPUT_DEBUG_STRING("Shader Link:\n");
-			OUTPUT_DEBUG_STRING(log_text);
-			log->WriteLine(log_text);
+			log->WriteHeading("シェーダー生成中");
+			log->WriteLine(vertexShaderFileName);
+			log->WriteLine(pixelShaderFileName);
+
+			if (vs_size > 0)
+			{
+				OUTPUT_DEBUG_STRING("Vertex Shader:\n");
+				OUTPUT_DEBUG_STRING(vs_text);
+				log->WriteLine(vs_text);
+			}
+
+			if (ps_size > 0)
+			{
+				OUTPUT_DEBUG_STRING("Fragment Shader:\n");
+				OUTPUT_DEBUG_STRING(ps_text);
+				log->WriteLine(ps_text);
+			}
+
+			if (l_size > 0)
+			{
+				OUTPUT_DEBUG_STRING("Shader Link:\n");
+				OUTPUT_DEBUG_STRING(l_text);
+				log->WriteLine(l_text);
+			}
 		}
 	}
 
