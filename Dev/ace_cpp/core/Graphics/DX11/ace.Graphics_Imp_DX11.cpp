@@ -135,8 +135,8 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11Device* device,
 	ID3D11DeviceContext* context,
 	IDXGIDevice1* dxgiDevice,
-	IDXGIAdapter* adapter,
-	IDXGIFactory* dxgiFactory,
+	IDXGIAdapter1* adapter,
+	IDXGIFactory1* dxgiFactory,
 	IDXGISwapChain* swapChain,
 	ID3D11Texture2D* defaultBack,
 	ID3D11RenderTargetView*	defaultBackRenderTargetView,
@@ -207,7 +207,7 @@ Graphics_Imp_DX11::~Graphics_Imp_DX11()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter* adapter, int32_t index)
+void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter, int32_t index)
 {
 	auto write = [log](std::ostringstream& os) -> void
 	{
@@ -226,9 +226,9 @@ void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter* adapter,
 	};
 
 	{
-		DXGI_ADAPTER_DESC adapterDesc;
+		DXGI_ADAPTER_DESC1 adapterDesc;
 
-		auto hr = adapter->GetDesc(&adapterDesc);
+		auto hr = adapter->GetDesc1(&adapterDesc);
 
 		std::ostringstream title, card, vendor, device, subSys, revision, videoMemory, systemMemory, sharedSystemMemory;
 
@@ -483,9 +483,9 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	ID3D11Device*			device = NULL;
 	ID3D11DeviceContext*	context = NULL;
 	IDXGIDevice1*			dxgiDevice = NULL;
-	IDXGIAdapter*			adapter = NULL;
-	std::vector<IDXGIAdapter*>	adapters;
-	IDXGIFactory*			dxgiFactory = NULL;
+	IDXGIAdapter1*			adapter = NULL;
+	std::vector<IDXGIAdapter1*>	adapters;
+	IDXGIFactory1*			dxgiFactory = NULL;
 	IDXGISwapChain*			swapChain = NULL;
 	ID3D11Texture2D*		defaultBack = NULL;
 	ID3D11RenderTargetView*	defaultBackRenderTargetView = NULL;
@@ -494,7 +494,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	HRESULT hr;
 
-	hr = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**) &dxgiFactory);
+	hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), (void**) &dxgiFactory);
 	if (dxgiFactory == NULL)
 	{
 		writeLog(ToAString("ファクトリの作成に失敗"));
@@ -503,8 +503,8 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	for (int32_t i = 0;; i++)
 	{
-		IDXGIAdapter* temp = 0;
-		if (dxgiFactory->EnumAdapters(i, &temp) != DXGI_ERROR_NOT_FOUND)
+		IDXGIAdapter1* temp = 0;
+		if (dxgiFactory->EnumAdapters1(i, &temp) != DXGI_ERROR_NOT_FOUND)
 		{
 			adapters.push_back(temp);
 		}
