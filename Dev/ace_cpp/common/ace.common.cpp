@@ -90,16 +90,16 @@ namespace ace_x11
 		strvec = NULL;
 		strvec_size = 0;
 
-		temp = malloc(strlen(text) + 1);
+		temp = (char*)malloc(strlen(text) + 1);
 		strcpy(temp, text);
 
 		pch = strtok(temp, "\n");
 
 		while (pch != NULL)
 		{
-			strvec = realloc(strvec, (strvec_size + 1)*sizeof(char**));
+			strvec = (char**)realloc(strvec, (strvec_size + 1)*sizeof(char**));
 
-			strvec[strvec_size] = malloc(strlen(pch) + 1);
+			strvec[strvec_size] = (char*)malloc(strlen(pch) + 1);
 			strcpy(strvec[strvec_size], pch);
 
 			++strvec_size;
