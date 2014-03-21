@@ -64,7 +64,7 @@ namespace ace {
 			ID3D11DepthStencilView* defaultDepthStencilView);
 		virtual ~Graphics_Imp_DX11();
 
-		static void WriteDeviceInformation(Log* log, IDXGIAdapter* adapter);
+		static void WriteAdapterInformation(Log* log, IDXGIAdapter* adapter, int32_t index);
 
 	protected:
 		VertexBuffer_Imp* CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic);
