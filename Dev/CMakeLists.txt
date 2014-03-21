@@ -275,10 +275,13 @@ else()
 	list(APPEND common_lib Effekseer )
 	list(APPEND common_lib EffekseerRendererGL )
 
+	# OpenSoundMixerの後に内部で使用しているライブラリを追加する必要あり
+	list(APPEND common_lib OpenSoundMixer )
 	list(APPEND common_lib ogg )
 	list(APPEND common_lib vorbisfile )
-
-	list(APPEND common_lib OpenSoundMixer )
+	list(APPEND common_lib vorbis )
+	FIND_PACKAGE(PulseAudio REQUIRED)
+	list(APPEND common_lib ${PulseAudio_LIBRARY})
 
 	list(APPEND common_lib dl )
 
@@ -292,9 +295,6 @@ else()
 	find_package(OpenGL)
 	list(APPEND common_inc ${OPENGL_INCLUDE_DIR})
 	list(APPEND common_lib ${OPENGL_LIBRARY})
-
-	FIND_PACKAGE(PulseAudio REQUIRED)
-	list(APPEND osmtest ${PulseAudio_LIBRARY})
 
 	if (NOT X11_Xrandr_FOUND)
 		message(FATAL_ERROR "X11_Xrandr were not found")
@@ -324,13 +324,13 @@ add_library( aceTool STATIC ${tool_src} )
 
 add_library( aceCore STATIC ${core_src} )
 add_library( aceCoreDLL SHARED ${core_src} )
-target_link_libraries(aceCore aceCommon) 
-target_link_libraries(aceCoreDLL aceCommon ${common_lib}) 
+
+target_link_libraries(aceCoreDLL aceTool aceCommon ${common_lib}) 
 
 add_library( aceEngine STATIC ${engine_src} ${common_src} )
 
 add_executable( aceUnitTestGtest ${unittest_gtest_src} )
-target_link_libraries(aceUnitTestGtest aceCore ${common_lib}) 
+target_link_libraries(aceUnitTestGtest aceCore aceTool aceCommon ${common_lib}) 
 
 add_executable( aceUnitTestEngineGtest ${unittest_engine_gtest_src} )
 target_link_libraries(aceUnitTestEngineGtest aceEngine ${common_lib}) 
