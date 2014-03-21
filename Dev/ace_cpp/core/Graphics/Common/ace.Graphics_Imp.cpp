@@ -74,7 +74,8 @@ namespace ace {
 
 		void Unload(void* data, int32_t size)
 		{
-			SafeDeleteArray(data);
+			auto d = (uint8_t*) data;
+			SafeDeleteArray(d);
 		}
 	};
 

@@ -35,6 +35,7 @@ set(common_src
 	ace_cpp/common/Math/ace.Vector2DF.cpp
 	ace_cpp/common/Math/ace.Vector2DI.cpp
 	ace_cpp/common/Math/ace.Vector3DF.cpp
+	ace_cpp/common/Math/ace.Vector4DF.cpp
 	ace_cpp/common/Thread/ace.CriticalSection.cpp
 	ace_cpp/common/Thread/ace.Thread.cpp
 	ace_cpp/common/Utility/ace.PointerArray.cpp)
