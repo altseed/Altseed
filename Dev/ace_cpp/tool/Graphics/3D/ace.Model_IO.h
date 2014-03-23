@@ -80,8 +80,8 @@ namespace ace
 
 		struct MeshGroup
 		{
-			Mesh Mesh;
-			Deformer Deformer;
+			Mesh Mesh_;
+			Deformer Deformer_;
 			std::vector<Material> Materials;
 		};
 

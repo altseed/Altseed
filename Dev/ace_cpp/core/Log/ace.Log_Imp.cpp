@@ -235,7 +235,7 @@ td, th
 	{
 		if (WritingIsRequired(level))
 		{
-			m_file << "<strong>" << ArrangeString(text) << "</strong>" << endl;
+			m_file << "<strong>" << ArrangeString(text) << "</strong><br />" << endl;
 		}
 	}
 

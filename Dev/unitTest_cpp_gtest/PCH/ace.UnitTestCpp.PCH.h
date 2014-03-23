@@ -2,6 +2,8 @@
 #pragma once
 
 #include <ace.common.Base.h>
+#include <gtest/gtest.h>
+
 
 #include <Math/ace.Vector2DF.h>
 #include <Math/ace.Vector3DF.h>
@@ -17,8 +19,6 @@
 #include <Graphics/Common/Resource/ace.RenderState_Imp.h>
 #include <Graphics/Common/Resource/ace.RenderTexture_Imp.h>
 #include <Graphics/Common/Resource/ace.DepthBuffer_Imp.h>
-
-#include <gtest/gtest.h>
 
 #include <cstdint>
 #include <iostream>

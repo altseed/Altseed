@@ -23,7 +23,15 @@ inline int64_t GetTime()
 	{
 		if (QueryPerformanceFrequency((LARGE_INTEGER*)&freq))
 		{
-			return count * 1000000 / freq;
+			// オーバーフロー対策
+			// return count * 1000000 / freq; と等価
+
+			int64_t ret = 0;
+			ret = count / freq;
+			count -= ret * freq;
+			ret *= 1000000;
+			ret += count * 1000000 / freq;
+			return ret;
 		}
 	}
 	return 0;

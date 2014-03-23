@@ -14,5 +14,5 @@ else:
 	aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF ../')
 	aceutils.call(r'make install')
 	aceutils.cd(r'../../')
-	aceutils.copytree(r'Dev/bin/Data',r'Dev/cmake/bin')
+	aceutils.copytree(r'Dev/bin/Data',r'Dev/cmake/bin/Data')
 

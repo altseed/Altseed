@@ -305,6 +305,8 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 
 void Graphics_Imp_GL::WriteInitializedLog(Log* log)
 {
+	if(log == nullptr) return;
+
 	auto writeLogHeading = [log](const astring s) -> void
 	{
 		if (log == nullptr) return;

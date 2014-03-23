@@ -257,8 +257,8 @@ namespace ace
 
 	void Model_IO::LoadMeshGroup(MeshGroup* meshGroup, BinaryReader& reader, const achar* path)
 	{
-		LoadMesh(&(meshGroup->Mesh), reader, path);
-		LoadDeformer(&(meshGroup->Deformer), reader, path);
+		LoadMesh(&(meshGroup->Mesh_), reader, path);
+		LoadDeformer(&(meshGroup->Deformer_), reader, path);
 		LoadMaterials(&(meshGroup->Materials), reader, path);
 	}
 

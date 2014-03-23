@@ -34,8 +34,8 @@ namespace ace {
 		ID3D11Device*			m_device;
 		ID3D11DeviceContext*	m_context;
 		IDXGIDevice1*			m_dxgiDevice;
-		IDXGIAdapter*			m_adapter;
-		IDXGIFactory*			m_dxgiFactory;
+		IDXGIAdapter1*			m_adapter;
+		IDXGIFactory1*			m_dxgiFactory;
 		IDXGISwapChain*			m_swapChain;
 
 		ID3D11Texture2D*		m_defaultBack;
@@ -55,8 +55,8 @@ namespace ace {
 			ID3D11Device* device,
 			ID3D11DeviceContext* context,
 			IDXGIDevice1* dxgiDevice,
-			IDXGIAdapter* adapter,
-			IDXGIFactory* dxgiFactory,
+			IDXGIAdapter1* adapter,
+			IDXGIFactory1* dxgiFactory,
 			IDXGISwapChain* swapChain,
 			ID3D11Texture2D* defaultBack,
 			ID3D11RenderTargetView*	defaultBackRenderTargetView,
@@ -64,7 +64,7 @@ namespace ace {
 			ID3D11DepthStencilView* defaultDepthStencilView);
 		virtual ~Graphics_Imp_DX11();
 
-		static void WriteDeviceInformation(Log* log, IDXGIAdapter* adapter);
+		static void WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter, int32_t index);
 
 	protected:
 		VertexBuffer_Imp* CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic);

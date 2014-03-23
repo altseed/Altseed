@@ -135,8 +135,8 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11Device* device,
 	ID3D11DeviceContext* context,
 	IDXGIDevice1* dxgiDevice,
-	IDXGIAdapter* adapter,
-	IDXGIFactory* dxgiFactory,
+	IDXGIAdapter1* adapter,
+	IDXGIFactory1* dxgiFactory,
 	IDXGISwapChain* swapChain,
 	ID3D11Texture2D* defaultBack,
 	ID3D11RenderTargetView*	defaultBackRenderTargetView,
@@ -207,34 +207,14 @@ Graphics_Imp_DX11::~Graphics_Imp_DX11()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Graphics_Imp_DX11::WriteDeviceInformation(Log* log, IDXGIAdapter* adapter)
+void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter, int32_t index)
 {
-	DXGI_ADAPTER_DESC adapterDesc;
-
-	auto hr = adapter->GetDesc(&adapterDesc);
-
-	std::ostringstream title, card, vendor, device, subSys, revision, videoMemory, systemMemory, sharedSystemMemory;
-
-	title << "ビデオカード情報";
-	
-	if (SUCCEEDED(hr))
-	{
-		card << ToUtf8String(adapterDesc.Description);
-		vendor << adapterDesc.VendorId;
-		device << adapterDesc.DeviceId;
-		subSys << adapterDesc.SubSysId;
-		revision << adapterDesc.Revision;
-		videoMemory << (adapterDesc.DedicatedVideoMemory / 1024 / 1024) << "MB";
-		systemMemory << (adapterDesc.DedicatedSystemMemory / 1024 / 1024) << "MB";
-		sharedSystemMemory << (adapterDesc.SharedSystemMemory / 1024 / 1024) << "MB";
-	}
-
 	auto write = [log](std::ostringstream& os) -> void
 	{
 		log->Write(ToAString(os.str().c_str()).c_str());
 	};
 
-	auto writeTable = [log,write](const char* title, std::ostringstream& text, bool isLast) -> void
+	auto writeTable = [log, write](const char* title, std::ostringstream& text, bool isLast) -> void
 	{
 		log->Write(ToAString(title).c_str());
 		log->ChangeColumn();
@@ -244,21 +224,79 @@ void Graphics_Imp_DX11::WriteDeviceInformation(Log* log, IDXGIAdapter* adapter)
 			log->ChangeRow();
 		}
 	};
-	
-	log->WriteLineStrongly(ToAString(title.str().c_str()).c_str());
 
-	log->BeginTable();
-	
-	writeTable("GraphicCard", card, false);
-	writeTable("VendorID", vendor, false);
-	writeTable("DeviceID", device, false);
-	writeTable("SubSysID", subSys, false);
-	writeTable("Revision", revision, false);
-	writeTable("VideoMemory", videoMemory, false);
-	writeTable("SystemMemory", systemMemory, false);
-	writeTable("SharedSystemMemory", sharedSystemMemory, true);
+	{
+		DXGI_ADAPTER_DESC1 adapterDesc;
 
-	log->EndTable();
+		auto hr = adapter->GetDesc1(&adapterDesc);
+
+		std::ostringstream title, card, vendor, device, subSys, revision, videoMemory, systemMemory, sharedSystemMemory;
+
+		title << "デバイス情報 (" << (index + 1) << ")";
+
+		if (SUCCEEDED(hr))
+		{
+			card << ToUtf8String(adapterDesc.Description);
+			vendor << adapterDesc.VendorId;
+			device << adapterDesc.DeviceId;
+			subSys << adapterDesc.SubSysId;
+			revision << adapterDesc.Revision;
+			videoMemory << (adapterDesc.DedicatedVideoMemory / 1024 / 1024) << "MB";
+			systemMemory << (adapterDesc.DedicatedSystemMemory / 1024 / 1024) << "MB";
+			sharedSystemMemory << (adapterDesc.SharedSystemMemory / 1024 / 1024) << "MB";
+		}
+
+		log->WriteLineStrongly(ToAString(title.str().c_str()).c_str());
+
+		log->BeginTable();
+
+		writeTable("GraphicCard", card, false);
+		writeTable("VendorID", vendor, false);
+		writeTable("DeviceID", device, false);
+		writeTable("SubSysID", subSys, false);
+		writeTable("Revision", revision, false);
+		writeTable("VideoMemory", videoMemory, false);
+		writeTable("SystemMemory", systemMemory, false);
+		writeTable("SharedSystemMemory", sharedSystemMemory, true);
+
+		log->EndTable();
+	}
+
+	for (int32_t i = 0;; i++)
+	{
+		IDXGIOutput* temp = nullptr;
+		if (adapter->EnumOutputs(i, &temp) != DXGI_ERROR_NOT_FOUND)
+		{
+			DXGI_OUTPUT_DESC outputDesc;
+
+			if (SUCCEEDED(temp->GetDesc(&outputDesc)))
+			{
+				std::ostringstream title, name, attach, pos;
+
+				title << "アウトプット情報 (" << (i + 1) << ")";
+
+				name << ToUtf8String(outputDesc.DeviceName);
+				attach << (outputDesc.AttachedToDesktop == TRUE ? "True" : "False");
+				pos << "(" << outputDesc.DesktopCoordinates.left << ","
+					<< outputDesc.DesktopCoordinates.top << ","
+					<< (outputDesc.DesktopCoordinates.right - outputDesc.DesktopCoordinates.left) << ","
+					<< (outputDesc.DesktopCoordinates.bottom - outputDesc.DesktopCoordinates.top) << ")";
+					
+				log->WriteLineStrongly(ToAString(title.str().c_str()).c_str());
+				log->BeginTable();
+				writeTable("Name", name, false);
+				writeTable("AttachedToDesktop", attach, false);
+				writeTable("Coordinate", pos, true);
+				log->EndTable();
+			}
+
+			SafeRelease(temp);
+		}
+		else
+		{
+			break;
+		}
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -445,8 +483,9 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	ID3D11Device*			device = NULL;
 	ID3D11DeviceContext*	context = NULL;
 	IDXGIDevice1*			dxgiDevice = NULL;
-	IDXGIAdapter*			adapter = NULL;
-	IDXGIFactory*			dxgiFactory = NULL;
+	IDXGIAdapter1*			adapter = NULL;
+	std::vector<IDXGIAdapter1*>	adapters;
+	IDXGIFactory1*			dxgiFactory = NULL;
 	IDXGISwapChain*			swapChain = NULL;
 	ID3D11Texture2D*		defaultBack = NULL;
 	ID3D11RenderTargetView*	defaultBackRenderTargetView = NULL;
@@ -455,15 +494,31 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	HRESULT hr;
 
-	hr = CreateDXGIFactory(__uuidof(IDXGIFactory), (void**) &dxgiFactory);
+	hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), (void**) &dxgiFactory);
 	if (dxgiFactory == NULL)
 	{
 		writeLog(ToAString("ファクトリの作成に失敗"));
 		goto End;
 	}
 
-	uint32_t index = 0;
-	dxgiFactory->EnumAdapters(index, &adapter);
+	for (int32_t i = 0;; i++)
+	{
+		IDXGIAdapter1* temp = 0;
+		if (dxgiFactory->EnumAdapters1(i, &temp) != DXGI_ERROR_NOT_FOUND)
+		{
+			adapters.push_back(temp);
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	if (adapters.size() > 0)
+	{
+		SafeAddRef(adapters[0]);
+		adapter = adapters[0];
+	}
 
 	if (adapter == nullptr)
 	{
@@ -588,7 +643,13 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	writeLog(ToAString("DirectX11初期化成功"));
 	writeLog(ToAString(""));
 
-	WriteDeviceInformation(log, adapter);
+	for (size_t i = 0; i < adapters.size(); i++)
+	{
+		WriteAdapterInformation(log, adapters[i], i);
+	}
+
+	// 破棄処理
+	for (auto& a : adapters) a->Release();
 
 	return new Graphics_Imp_DX11(
 		window,
@@ -614,6 +675,7 @@ End:
 	SafeRelease(dxgiDevice);
 	SafeRelease(context);
 	SafeRelease(device);
+	for (auto& a : adapters) a->Release();
 
 	writeLog(ToAString("DirectX11初期化失敗"));
 	writeLog(ToAString(""));
