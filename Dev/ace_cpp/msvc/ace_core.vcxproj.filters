@@ -750,6 +750,9 @@
     <ClCompile Include="..\core\File\ace.AffIndexTable.cpp">
       <Filter>File</Filter>
     </ClCompile>
+    <ClCompile Include="..\core\File\ace.GlyphData.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Window\ace.Window_Imp_X11.cpp">

@@ -323,6 +323,7 @@
     <ClCompile Include="..\core\File\ace.AffHeader.cpp" />
     <ClCompile Include="..\core\File\ace.AffLoader.cpp" />
     <ClCompile Include="..\core\File\ace.AffIndexTable.cpp" />
+    <ClCompile Include="..\core\File\ace.GlyphData.cpp" />
     <ClCompile Include="..\core\Graphics\Common\2D\ace.LayerRenderer.cpp" />
     <ClCompile Include="..\core\Graphics\Common\2D\ace.PostEffectRenderer.cpp" />
     <ClCompile Include="..\core\Graphics\Common\2D\ace.Renderer2D_Imp.cpp" />
