@@ -153,8 +153,7 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node, D
 	for (int i = 0; i < node->GetNodeAttributeCount(); ++i)
 	{
 		FbxSkeleton *sk = (FbxSkeleton*) node->GetNodeAttributeByIndex(i);
-
-		skeleton.name = sk->GetName();
+		skeleton.name = sk->GetNode()->GetName();
 
 		skeleton.parentIndex = (parentSkeleton == NULL) ? -1 : parentSkeleton->index;
 
