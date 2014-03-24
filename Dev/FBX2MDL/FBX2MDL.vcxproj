@@ -89,6 +89,7 @@
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DI.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector3DF.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector4DF.cpp" />
+    <ClCompile Include="Deformer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MDLExporter.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
@@ -105,7 +106,10 @@
     <ClInclude Include="..\ace_cpp\common\Math\ace.Vector4DF.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryReader.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryWriter.h" />
+    <ClInclude Include="Deformer.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="MDLExporter.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

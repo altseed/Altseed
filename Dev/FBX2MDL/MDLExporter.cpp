@@ -4,35 +4,38 @@
 #include "../ace_cpp/common/Math/ace.Matrix44.h"
 
 #include "MeshLoader.h"
+#include <iostream>
 
 MDLExporter::MDLExporter(const char* fileName){
 	// Initialize the SDK manager. This object handles all our memory management.
-    lSdkManager = FbxManager::Create();
-    
-    // Create the IO settings object.
-    FbxIOSettings *ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
-    lSdkManager->SetIOSettings(ios);
+	lSdkManager = FbxManager::Create();
 
-    // Create an importer using the SDK manager.
-    FbxImporter* lImporter = FbxImporter::Create(lSdkManager,"");
-    
-    // Use the first argument as the filename for the importer.
-    if(!lImporter->Initialize(fileName, -1, lSdkManager->GetIOSettings())) { 
-        printf("Call to FbxImporter::Initialize() failed.\n"); 
-        printf("Error returned: %s\n\n", lImporter->GetStatus().GetErrorString()); 
-        exit(-1); 
-    }
-    
-    // Create a new scene so that it can be populated by the imported file.
-    lScene = FbxScene::Create(lSdkManager,"myScene");
+	// Create the IO settings object.
+	FbxIOSettings *ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
+	lSdkManager->SetIOSettings(ios);
 
-    // Import the contents of the file into the scene.
-    lImporter->Import(lScene);
+	// Create an importer using the SDK manager.
+	FbxImporter* lImporter = FbxImporter::Create(lSdkManager, "");
 
-    // The file is imported; so get rid of the importer.
-    lImporter->Destroy();
+	// Use the first argument as the filename for the importer.
+	if (!lImporter->Initialize(fileName, -1, lSdkManager->GetIOSettings())) {
+		printf("Call to FbxImporter::Initialize() failed.\n");
+		printf("Error returned: %s\n\n", lImporter->GetStatus().GetErrorString());
+		exit(-1);
+	}
 
-	binaryWriter=new ace::BinaryWriter();
+	// Create a new scene so that it can be populated by the imported file.
+	lScene = FbxScene::Create(lSdkManager, "myScene");
+
+	// Import the contents of the file into the scene.
+	lImporter->Import(lScene);
+
+	// The file is imported; so get rid of the importer.
+	lImporter->Destroy();
+
+	binaryWriter = new ace::BinaryWriter();
+
+	deformerManager = DeformerManager();
 
 }
 
@@ -40,17 +43,21 @@ void MDLExporter::Convert()
 {
 	PrintHeader();
 	FbxNode* lRootNode = lScene->GetRootNode();
-    if(lRootNode) {
-        for(int i = 0; i < lRootNode->GetChildCount(); i++)
+	if (lRootNode) {
+
+		for (int i = 0; i < lRootNode->GetChildCount(); i++)
+			GetDeformer(NULL,lRootNode->GetChild(i));
+
+		for (int i = 0; i < lRootNode->GetChildCount(); i++)
 			GetMeshGroup(lRootNode->GetChild(i));
-    }
+	}
 
 
 	//メッシュグループ
 	{
 		int meshGroupNum = (int) _meshGroup.size();
 
-		printf("Mesh Group Num = %d\n",meshGroupNum);
+		printf("Mesh Group Num = %d\n", meshGroupNum);
 
 		//メッシュ
 		binaryWriter->Push(meshGroupNum);
@@ -93,39 +100,89 @@ MDLExporter::~MDLExporter()
 
 void MDLExporter::GetMeshGroup(FbxNode* pNode)
 {
-    // Print the node's attributes.
-    for(int i = 0; i < pNode->GetNodeAttributeCount(); i++)
-		GetMeshProperty(pNode->GetNodeAttributeByIndex(i));
+	if(pNode->GetNodeAttribute()->GetAttributeType()!=FbxNodeAttribute::eMesh) return;
+	// Print the node's attributes.
+
+	GetMeshProperty(pNode);
 
 
-    for(int j = 0; j < pNode->GetChildCount(); j++)
-        GetMeshGroup(pNode->GetChild(j));
+	for (int j = 0; j < pNode->GetChildCount(); j++)
+		GetMeshGroup(pNode->GetChild(j));
 }
 
-void MDLExporter::GetMesh(FbxNode* pNode)
+void MDLExporter::GetMeshProperty(FbxNode* node)
 {
-	GetMeshProperty(pNode->GetNodeAttribute());
-}
-
-void MDLExporter::GetMeshProperty(FbxNodeAttribute* pAttribute)
-{
-	//メッシュじゃない
-	if(pAttribute->GetAttributeType()!=FbxNodeAttribute::eMesh) return;
-
-	FbxMesh* mesh=(FbxMesh*)pAttribute;
-
-	if(!mesh->IsTriangleMesh())
+	for (int i = 0; i < node->GetNodeAttributeCount(); ++i)
 	{
-		printf("Not Triangle... Converted.\n");
-		FbxGeometryConverter _converter(lSdkManager);
-		mesh=(FbxMesh*)_converter.Triangulate(mesh,true);
+		FbxNodeAttribute *pAttribute = node->GetNodeAttributeByIndex(i);
+		FbxMesh* mesh = (FbxMesh*) pAttribute;
+
+		if (!mesh->IsTriangleMesh())
+		{
+			printf("Not Triangle... Converted.\n");
+			FbxGeometryConverter _converter(lSdkManager);
+			mesh = (FbxMesh*) _converter.Triangulate(mesh, true);
+		}
+
+		MeshLoader mLoader = MeshLoader(deformerManager);
+
+		mLoader.Load(mesh);
+
+		_meshGroup.push_back(mLoader);
 	}
 
-	MeshLoader mLoader=MeshLoader();
+}
 
-	mLoader.Load(mesh);
+void MDLExporter::GetDeformer(Deformer* parentSkeleton, FbxNode* pNode)
+{
+	if(pNode->GetNodeAttribute()->GetAttributeType()!=FbxNodeAttribute::eSkeleton) return;
 
-	_meshGroup.push_back(mLoader);
+	Deformer deformer = Deformer();
+	GetDeformerProperty(parentSkeleton,pNode,deformer);
+
+	deformerManager.AddDeformer(&deformer);
+
+	for(int j=0;j<pNode->GetChildCount();++j)
+	{
+		GetDeformer(&deformer,pNode->GetChild(j));
+	}
+}
+
+void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node, Deformer &skeleton)
+{
+	for (int i = 0; i < node->GetNodeAttributeCount(); ++i)
+	{
+		FbxSkeleton *sk = (FbxSkeleton*) node->GetNodeAttributeByIndex(i);
+
+		skeleton.name = sk->GetName();
+
+		skeleton.parentIndex = (parentSkeleton == NULL) ? -1 : parentSkeleton->index;
+
+		fbxsdk_2014_2_1::EFbxRotationOrder fbxRotationOrder;
+		node->GetRotationOrder(FbxNode::eSourcePivot, fbxRotationOrder);
+
+		
+		switch(fbxRotationOrder)
+		{
+		case eEulerXYZ :
+			skeleton.rotationOrder=12;	break ;
+		case eEulerXZY :
+			skeleton.rotationOrder=11;	break ;
+		case eEulerYZX :
+			skeleton.rotationOrder=16;	break ;
+		case eEulerYXZ :
+			skeleton.rotationOrder=15;	break ;
+		case eEulerZXY :
+			skeleton.rotationOrder=13;	break ;
+		case eEulerZYX :
+			skeleton.rotationOrder=14;	break ;
+		case eSphericXYZ :
+			break ;	
+		}
+
+		std::cout<<"Bone Name:"<<skeleton.name<<std::endl;
+		std::cout<<"Bone Index:"<<skeleton.index<<" "<<skeleton.parentIndex<<std::endl;
+	}
 }
 
 void MDLExporter::PrintHeader()
@@ -133,7 +190,7 @@ void MDLExporter::PrintHeader()
 	binaryWriter->Push((uint8_t)'M');
 	binaryWriter->Push((uint8_t)'D');
 	binaryWriter->Push((uint8_t)'L');
-	binaryWriter->Push((uint8_t)0);
+	binaryWriter->Push((uint8_t) 0);
 
 	binaryWriter->Push(1);
 }

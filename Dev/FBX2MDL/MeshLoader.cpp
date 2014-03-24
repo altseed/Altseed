@@ -1,7 +1,7 @@
 #include "MeshLoader.h"
 
-
-MeshLoader::MeshLoader()
+MeshLoader::MeshLoader(DeformerManager &def)
+	:_deformerManager(def)
 {
 
 }
@@ -355,7 +355,7 @@ void MeshLoader::WriteMaterials(ace::BinaryWriter* writer)
 		writer->Push(ite->Type);
 		for(int i=0;i<3;++i)
 		{
-			printf("%s\n",ite->texture[i].c_str());
+			printf("%s\n", ite->texture[i].c_str());
 			writer->Push(ace::ToAString(ite->texture[i].c_str()));
 		}
 	}
