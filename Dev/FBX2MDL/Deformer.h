@@ -32,7 +32,12 @@ class DeformerManager
 
 public:
 	DeformerManager(){}
+	~DeformerManager();
 	void AddDeformer(Deformer*);
 
 	int GetIndexByName(std::string name);
+
+	Deformer* GetDeformerByName(std::string name);
+
+	Deformer* GetDeformerByIndex(int index);
 };

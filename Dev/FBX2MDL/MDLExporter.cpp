@@ -137,25 +137,25 @@ void MDLExporter::GetDeformer(Deformer* parentSkeleton, FbxNode* pNode)
 {
 	if(pNode->GetNodeAttribute()->GetAttributeType()!=FbxNodeAttribute::eSkeleton) return;
 
-	Deformer deformer = Deformer();
+	Deformer* deformer = new Deformer();
 	GetDeformerProperty(parentSkeleton,pNode,deformer);
 
-	deformerManager.AddDeformer(&deformer);
+	deformerManager.AddDeformer(deformer);
 
 	for(int j=0;j<pNode->GetChildCount();++j)
 	{
-		GetDeformer(&deformer,pNode->GetChild(j));
+		GetDeformer(deformer,pNode->GetChild(j));
 	}
 }
 
-void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node, Deformer &skeleton)
+void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node, Deformer *skeleton)
 {
 	for (int i = 0; i < node->GetNodeAttributeCount(); ++i)
 	{
 		FbxSkeleton *sk = (FbxSkeleton*) node->GetNodeAttributeByIndex(i);
-		skeleton.name = sk->GetNode()->GetName();
+		skeleton->name = std::string(sk->GetNode()->GetName());
 
-		skeleton.parentIndex = (parentSkeleton == NULL) ? -1 : parentSkeleton->index;
+		skeleton->parentIndex = (parentSkeleton == NULL) ? -1 : parentSkeleton->index;
 
 		fbxsdk_2014_2_1::EFbxRotationOrder fbxRotationOrder;
 		node->GetRotationOrder(FbxNode::eSourcePivot, fbxRotationOrder);
@@ -164,23 +164,23 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node, D
 		switch(fbxRotationOrder)
 		{
 		case eEulerXYZ :
-			skeleton.rotationOrder=12;	break ;
+			skeleton->rotationOrder=12;	break ;
 		case eEulerXZY :
-			skeleton.rotationOrder=11;	break ;
+			skeleton->rotationOrder=11;	break ;
 		case eEulerYZX :
-			skeleton.rotationOrder=16;	break ;
+			skeleton->rotationOrder=16;	break ;
 		case eEulerYXZ :
-			skeleton.rotationOrder=15;	break ;
+			skeleton->rotationOrder=15;	break ;
 		case eEulerZXY :
-			skeleton.rotationOrder=13;	break ;
+			skeleton->rotationOrder=13;	break ;
 		case eEulerZYX :
-			skeleton.rotationOrder=14;	break ;
+			skeleton->rotationOrder=14;	break ;
 		case eSphericXYZ :
 			break ;	
 		}
 
-		std::cout<<"Bone Name:"<<skeleton.name<<std::endl;
-		std::cout<<"Bone Index:"<<skeleton.index<<" "<<skeleton.parentIndex<<std::endl;
+		std::cout<<"Bone Name:"<<skeleton->name<<std::endl;
+		std::cout<<"Bone Index:"<<skeleton->index<<" "<<skeleton->parentIndex<<std::endl;
 	}
 }
 

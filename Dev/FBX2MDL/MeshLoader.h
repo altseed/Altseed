@@ -15,7 +15,7 @@ class MeshLoader
 	std::vector<Face> _faces;
 	std::vector<Material> _materials;
 
-	DeformerManager &_deformerManager;
+	DeformerManager &_deformerManagerRef;
 
 	void _loadPositions(FbxMesh* fbxMesh);
 

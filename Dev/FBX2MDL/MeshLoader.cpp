@@ -1,7 +1,8 @@
 #include "MeshLoader.h"
+#include <iostream>
 
 MeshLoader::MeshLoader(DeformerManager &def)
-	:_deformerManager(def)
+	:_deformerManagerRef(def)
 {
 
 }
@@ -237,6 +238,26 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh)
 			int* pointAry = cluster->GetControlPointIndices();
 			double* weightAry = cluster->GetControlPointWeights();
 
+			std::string name = cluster->GetLink()->GetName();
+
+			std::cout<<"Cluster :"<<name<<std::endl;
+			std::cout<<"Point Num:"<<pointNum<<std::endl;
+
+			
+			Deformer* deformer=_deformerManagerRef.GetDeformerByName(name);
+
+			fbxsdk_2014_2_1::FbxAMatrix linkmatrix;
+			cluster->GetTransformLinkMatrix(linkmatrix);
+			fbxsdk_2014_2_1::FbxAMatrix invmatrix=linkmatrix.Inverse();
+
+			for(int x=0;x<4;++x)
+			{
+				for(int y=0;y<4;++y)
+				{
+					deformer->invMatrix.Values[y][x]=(float)invmatrix.Get(y,x);
+				}
+			}
+			
 			for(int k=0;k<pointNum;++k)
 			{
 				int index = pointAry[k];

@@ -19,7 +19,7 @@ class MDLExporter
 	void GetMeshProperty(FbxNode* node);
 
 	void GetDeformer(Deformer* parentSkeleton, FbxNode* pNode);
-	void GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node, Deformer &skeleton);
+	void GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node, Deformer *skeleton);
 public:
 	MDLExporter(){}
 
