@@ -11,7 +11,7 @@ class MDLExporter
 	FbxScene* lScene;
 	ace::BinaryWriter* binaryWriter;
 	std::vector<MeshLoader> _meshGroup;
-	DeformerManager deformerManager;
+	DeformerManager _deformerManager;
 
 	void PrintHeader();
 

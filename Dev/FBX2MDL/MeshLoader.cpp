@@ -226,6 +226,7 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh)
 
 	for(int i=0;i<skinCount;++i)
 	{
+		printf("Weight Start.\n");
 		FbxSkin* skin = (FbxSkin*)fbxMesh->GetDeformer(i,FbxDeformer::eSkin);
 
 		int clusterNum = skin->GetClusterCount();
@@ -246,17 +247,35 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh)
 			
 			Deformer* deformer=_deformerManagerRef.GetDeformerByName(name);
 
-			fbxsdk_2014_2_1::FbxAMatrix linkmatrix;
-			cluster->GetTransformLinkMatrix(linkmatrix);
-			fbxsdk_2014_2_1::FbxAMatrix invmatrix=linkmatrix.Inverse();
+			fbxsdk_2014_2_1::FbxAMatrix fbxtransformMatrix;
+			cluster->GetTransformLinkMatrix(fbxtransformMatrix);
 
+			ace::Matrix44 parentMatrix;
+			if(deformer->parentIndex!=-1)
+			{
+				parentMatrix=_deformerManagerRef.GetDeformerByIndex(deformer->parentIndex)->transformMatrix;
+			}
+			else
+			{
+				parentMatrix.Indentity();
+			}
+
+			fbxsdk_2014_2_1::FbxAMatrix invmatrix=fbxtransformMatrix.Inverse();
+			ace::Matrix44 transformMatrix;
 			for(int x=0;x<4;++x)
 			{
 				for(int y=0;y<4;++y)
 				{
 					deformer->invMatrix.Values[y][x]=(float)invmatrix.Get(y,x);
+					transformMatrix.Values[y][x]=(float)fbxtransformMatrix.Get(y,x);
 				}
 			}
+
+			ace::Matrix44 relationMatrix;
+
+			ace::Matrix44::Mul(relationMatrix,parentMatrix.Invert(),transformMatrix);
+
+			deformer->transformMatrix=relationMatrix;
 			
 			for(int k=0;k<pointNum;++k)
 			{

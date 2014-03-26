@@ -42,3 +42,17 @@ DeformerManager::~DeformerManager()
 	_deformer.clear();
 	
 }
+
+void DeformerManager::WriteDeformerInformation(ace::BinaryWriter* binaryWriter)
+{
+	binaryWriter->Push((int32_t)_deformer.size());
+
+	for(int i=0;i<_deformer.size();++i)
+	{
+		binaryWriter->Push(ace::ToAString(_deformer[i]->name.c_str()));
+		binaryWriter->Push((int32_t)_deformer[i]->parentIndex);
+		binaryWriter->Push((int32_t)_deformer[i]->rotationOrder);
+		binaryWriter->Push(_deformer[i]->transformMatrix);
+		binaryWriter->Push(_deformer[i]->invMatrix);
+	}
+}

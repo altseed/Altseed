@@ -35,7 +35,7 @@ MDLExporter::MDLExporter(const char* fileName){
 
 	binaryWriter = new ace::BinaryWriter();
 
-	deformerManager = DeformerManager();
+	_deformerManager = DeformerManager();
 
 }
 
@@ -119,12 +119,11 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 
 		if (!mesh->IsTriangleMesh())
 		{
-			printf("Not Triangle... Converted.\n");
 			FbxGeometryConverter _converter(lSdkManager);
 			mesh = (FbxMesh*) _converter.Triangulate(mesh, true);
 		}
 
-		MeshLoader mLoader = MeshLoader(deformerManager);
+		MeshLoader mLoader = MeshLoader(_deformerManager);
 
 		mLoader.Load(mesh);
 
@@ -140,7 +139,7 @@ void MDLExporter::GetDeformer(Deformer* parentSkeleton, FbxNode* pNode)
 	Deformer* deformer = new Deformer();
 	GetDeformerProperty(parentSkeleton,pNode,deformer);
 
-	deformerManager.AddDeformer(deformer);
+	_deformerManager.AddDeformer(deformer);
 
 	for(int j=0;j<pNode->GetChildCount();++j)
 	{
@@ -178,9 +177,6 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node, D
 		case eSphericXYZ :
 			break ;	
 		}
-
-		std::cout<<"Bone Name:"<<skeleton->name<<std::endl;
-		std::cout<<"Bone Index:"<<skeleton->index<<" "<<skeleton->parentIndex<<std::endl;
 	}
 }
 

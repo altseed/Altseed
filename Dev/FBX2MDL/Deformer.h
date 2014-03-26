@@ -2,6 +2,8 @@
 
 #include <string>
 #include "../ace_cpp/common/Math/ace.Matrix44.h"
+#include "../ace_cpp/common/Utility/ace.BinaryWriter.h"
+
 struct Deformer
 {
 	std::string name;
@@ -40,4 +42,6 @@ public:
 	Deformer* GetDeformerByName(std::string name);
 
 	Deformer* GetDeformerByIndex(int index);
+
+	void WriteDeformerInformation(ace::BinaryWriter* binaryWriter);
 };
