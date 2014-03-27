@@ -55,6 +55,10 @@ namespace ace {
 		{
 			TexDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 		}
+		else if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM_SRGB)
+		{
+			TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		}
 
 		TexDesc.SampleDesc.Count = 1;
 		TexDesc.SampleDesc.Quality = 0;

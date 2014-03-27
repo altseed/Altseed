@@ -115,20 +115,28 @@ namespace ace {
 
 		glBindTexture(GL_TEXTURE_2D, texture);
 
+		int32_t format_;
 		int32_t type;
 		if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
 		{
+			format_ = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
 		}
 		else if(format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
 		{
+			format_ = GL_RGBA;
 			type = GL_FLOAT;
+		}
+		else if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
+		{
+			format_ = GL_SRGB8_ALPHA8;
+			type = GL_UNSIGNED_BYTE;
 		}
 
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
-			GL_RGBA,
+			format_,
 			width,
 			height,
 			0,
@@ -180,14 +188,22 @@ namespace ace {
 
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
+		int32_t format_;
 		int32_t type;
 		if (m_format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
 		{
+			format_ = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
 		}
 		else if (m_format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
 		{
+			format_ = GL_RGBA;
 			type = GL_FLOAT;
+		}
+		else if (m_format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
+		{
+			format_ = GL_SRGB8_ALPHA8;
+			type = GL_UNSIGNED_BYTE;
 		}
 
 		glTexSubImage2D(
@@ -197,7 +213,7 @@ namespace ace {
 			0,
 			m_size.X,
 			m_size.Y,
-			GL_RGBA,
+			format_,
 			type,
 			m_resource.data());
 

@@ -199,6 +199,7 @@ int32_t ImageHelper::GetPitch(eTextureFormat format)
 {
 	if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM) return 4;
 	if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT) return 4 * 4;
+	if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM_SRGB) return 4;
 	return 0;
 }
 
