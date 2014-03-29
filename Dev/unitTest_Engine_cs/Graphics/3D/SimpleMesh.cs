@@ -75,7 +75,8 @@ namespace unitTest_Engine_cs.Graphics._3D
 			cameraObj.ZFar = 20.0f;
 			cameraObj.WindowSize = new ace.Vector2DI(800, 600);
 
-			meshObj.AddMesh(mesh);
+			meshObj.AddMeshGroup();
+			meshObj.AddMesh(0, mesh);
 			meshObj.Rotation = new ace.Vector3DF(20.0f, 20.0f, 0.0f);
 
 			lightObj.Rotation = new ace.Vector3DF(30, 160, 0);

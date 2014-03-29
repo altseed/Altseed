@@ -18,9 +18,6 @@ namespace ace
 	protected:
 		Mesh(){}
 		virtual ~Mesh(){}
-
-		virtual Deformer* GetDeformer_() = 0;
-
 	public:
 
 		/**
@@ -67,12 +64,6 @@ namespace ace
 		virtual void SendToGPUMemory() = 0;
 
 		/**
-			@brief	デフォーマーを設定する。
-			@param	deformer	デフォーマー
-		*/
-		virtual void SetDeformer(Deformer* deformer) = 0;
-
-		/**
 		@brief	内部シェーダーを使用する場合のカラーテクスチャを設定する。
 		@param	materialIndex	材質のインデックス
 		@param	テクスチャ
@@ -98,20 +89,5 @@ namespace ace
 		AddMaterialCountを実行した後でないと無効になる。
 		*/
 		virtual void SetSpecularTexture(int32_t materialIndex, Texture2D* texture) = 0;
-
-#if !SWIG
-		std::shared_ptr<Deformer> GetSource()
-		{
-			auto o = GetDeformer_();
-			SafeAddRef(o);
-			return CreateSharedPtrWithReleaseDLL(o);
-		}
-
-		void SetDeformer(std::shared_ptr<Deformer> deformer)
-		{
-			SetDeformer(deformer.get());
-		}
-#endif
-
 	};
 };

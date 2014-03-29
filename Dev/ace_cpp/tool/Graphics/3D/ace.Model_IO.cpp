@@ -257,7 +257,14 @@ namespace ace
 
 	void Model_IO::LoadMeshGroup(MeshGroup* meshGroup, BinaryReader& reader, const achar* path)
 	{
-		LoadMesh(&(meshGroup->Mesh_), reader, path);
+		auto mcount = reader.Get<int32_t>();
+		meshGroup->Mesh_.resize(mcount);
+
+		for (auto i = 0; i < mcount; i++)
+		{
+			LoadMesh(&(meshGroup->Mesh_[i]), reader, path);
+		}
+		
 		LoadDeformer(&(meshGroup->Deformer_), reader, path);
 		LoadMaterials(&(meshGroup->Materials), reader, path);
 	}

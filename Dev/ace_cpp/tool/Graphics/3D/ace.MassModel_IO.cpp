@@ -11,12 +11,14 @@ namespace ace
 		if (model.MeshGroups.size() >= 2) return false;
 		if (model.MeshGroups.size() == 0) return false;
 
-		if (model.MeshGroups[0].Mesh_.BoneOffsets.size() >= 2) return false;
-		if (model.MeshGroups[0].Mesh_.BoneOffsets.size() == 0) return false;
+		if (model.MeshGroups[0].Mesh_.size() == 1) return false;
+
+		if (model.MeshGroups[0].Mesh_[0].BoneOffsets.size() >= 2) return false;
+		if (model.MeshGroups[0].Mesh_[0].BoneOffsets.size() == 0) return false;
 
 		auto& mg = model.MeshGroups[0];
 
-		for (auto& v : mg.Mesh_.Vertices)
+		for (auto& v : mg.Mesh_[0].Vertices)
 		{
 			Vertex v_;
 			v_.Position = v.Position;
@@ -30,7 +32,7 @@ namespace ace
 			Vertices.push_back(v_);
 		}
 
-		for (auto& f : mg.Mesh_.Faces)
+		for (auto& f : mg.Mesh_[0].Faces)
 		{
 			Face f_;
 			f_.Index1 = f.Index1;
@@ -39,7 +41,7 @@ namespace ace
 			Faces.push_back(f_);
 		}
 
-		for (auto& mo : mg.Mesh_.MaterialOffsets)
+		for (auto& mo : mg.Mesh_[0].MaterialOffsets)
 		{
 			MaterialOffset mo_;
 			mo_.FaceOffset = mo.FaceOffset;

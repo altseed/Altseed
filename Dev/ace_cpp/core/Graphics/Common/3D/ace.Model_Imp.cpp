@@ -15,11 +15,20 @@
 
 namespace ace
 {
-	void Model_Imp::Reset()
+	Model_Imp::MeshGroup::~MeshGroup()
 	{
-		for (auto& m : m_meshes)
+		for (auto& m : Meshes)
 		{
 			m->Release();
+		}
+		SafeRelease(Deformer_);
+	}
+
+	void Model_Imp::Reset()
+	{
+		for (auto& mg : m_meshGroups)
+		{
+			mg->Release();
 		}
 
 		for (auto& a : m_animationClips)
@@ -66,8 +75,9 @@ namespace ace
 		int32_t meshGroupCount = reader.Get<int32_t>();
 		for (int32_t i = 0; i < meshGroupCount; i++)
 		{
-			auto mesh = LoadMeshGroup(g, reader, path);
-			m_meshes.push_back(mesh);
+			auto mg = LoadMeshGroup(g, reader, path);
+
+			m_meshGroups.push_back(mg);
 		}
 
 		// アニメーション
@@ -117,13 +127,22 @@ namespace ace
 		}
 	}
 
-	Mesh_Imp* Model_Imp::LoadMeshGroup(Graphics* g, BinaryReader& reader, const achar* path)
+	Model_Imp::MeshGroup* Model_Imp::LoadMeshGroup(Graphics* g, BinaryReader& reader, const achar* path)
 	{
-		auto mesh = LoadMesh(g, reader, path);
-		auto deformer = LoadDeformer(g, reader, path);
-		mesh->SetDeformer(deformer);
-		SafeRelease(deformer);
+		MeshGroup* mg = new MeshGroup();
 
+		int32_t meshCount = reader.Get<int32_t>();
+
+		for (auto i = 0; i < meshCount; i++)
+		{
+			auto mesh = LoadMesh(g, reader, path);
+			mg->Meshes.push_back(mesh);
+		}
+
+		auto deformer = LoadDeformer(g, reader, path);
+
+		mg->Deformer_ = deformer;
+		
 		// 材質
 		int32_t materialCount = reader.Get<int32_t>();
 		for (int32_t i = 0; i < materialCount; i++)
@@ -142,24 +161,33 @@ namespace ace
 				if (pathColor != ace::ToAString(""))
 				{
 					auto path_ = CombinePath(path, pathColor.c_str());
-					mesh->SetColorTexture(i, g->CreateTexture2D(path_.c_str()).get());
+					for (auto& mesh : mg->Meshes)
+					{
+						mesh->SetColorTexture(i, g->CreateTexture2D(path_.c_str()).get());
+					}
 				}
 
 				if (pathNormal != ace::ToAString(""))
 				{
 					auto path_ = CombinePath(path, pathNormal.c_str());
-					mesh->SetNormalTexture(i, g->CreateTexture2D(path_.c_str()).get());
+					for (auto& mesh : mg->Meshes)
+					{
+						mesh->SetNormalTexture(i, g->CreateTexture2D(path_.c_str()).get());
+					}
 				}
 
 				if (pathSpecular != ace::ToAString(""))
 				{
 					auto path_ = CombinePath(path, pathSpecular.c_str());
-					mesh->SetSpecularTexture(i, g->CreateTexture2D(path_.c_str()).get());
+					for (auto& mesh : mg->Meshes)
+					{
+						mesh->SetSpecularTexture(i, g->CreateTexture2D(path_.c_str()).get());
+					}
 				}
 			}
 		}
 
-		return mesh;
+		return mg;
 	}
 
 	Mesh_Imp* Model_Imp::LoadMesh(Graphics* g, BinaryReader& reader, const achar* path)

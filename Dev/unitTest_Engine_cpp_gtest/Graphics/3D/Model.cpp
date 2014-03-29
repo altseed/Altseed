@@ -43,6 +43,7 @@ protected:
 	}
 };
 
+/*
 TEST(Graphics, Model_GL)
 {
 	Graphics_Model(true).Run();
@@ -62,3 +63,4 @@ void Graphics_Model_(bool isGL)
 	Graphics_Model(isGL).Run();
 	AssertMemoryDoesntLeak();
 }
+*/
