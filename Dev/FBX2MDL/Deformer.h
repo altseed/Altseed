@@ -25,6 +25,11 @@ public:
 	{
 		return indexCount++;
 	}
+
+	static void ResetIndexCount()
+	{
+		indexCount=0;
+	}
 };
 
 

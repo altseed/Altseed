@@ -227,7 +227,7 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<Mes
 
 	for(int i=0;i<skinCount;++i)
 	{
-		printf("Weight Start.\n");
+		//printf("Weight Start.\n");
 		FbxSkin* skin = (FbxSkin*)fbxMesh->GetDeformer(i,FbxDeformer::eSkin);
 
 		FbxCluster* firstCluster = skin->GetCluster(0);
@@ -241,6 +241,8 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<Mes
 			}
 		}
 
+		printf("Attached to %d\n",attachedIndex);
+
 		int clusterNum = skin->GetClusterCount();
 
 		for(int j=0;j<clusterNum;++j)
@@ -253,8 +255,8 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<Mes
 
 			std::string name = cluster->GetLink()->GetName();
 
-			std::cout<<"Cluster :"<<name<<std::endl;
-			std::cout<<"Point Num:"<<pointNum<<"\n"<<std::endl;
+			//std::cout<<"Cluster :"<<name<<std::endl;
+			//std::cout<<"Point Num:"<<pointNum<<"\n"<<std::endl;
 
 			
 			Deformer* deformer=meshGroups[attachedIndex].deformerManager.GetDeformerByName(name);

@@ -58,6 +58,7 @@ void MDLExporter::Convert()
 			int armaturePtr=0;
 			for (int i = 0; i < (int)armatureIndices.size(); i++)
 			{
+				Deformer::ResetIndexCount();
 				GetDeformer(NULL,lRootNode->GetChild(armatureIndices[i]),_meshGroups[armaturePtr++].deformerManager);
 			}
 		}
@@ -173,8 +174,11 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 
 void MDLExporter::GetDeformer(Deformer* parentSkeleton, FbxNode* pNode,DeformerManager &deformerManager)
 {
-	Deformer *deformer=NULL;
+	Deformer *deformer;
+	deformer=new Deformer();
 	GetDeformerProperty(parentSkeleton,pNode,deformer,deformerManager);
+
+	deformerManager.AddDeformer(deformer);
 
 	for(int j=0;j<pNode->GetChildCount();++j)
 	{
@@ -186,7 +190,6 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,De
 {
 	if(node->GetNodeAttribute()->GetAttributeType()!=FbxNodeAttribute::eSkeleton) return;
 
-	deformer=new Deformer();
 
 	for (int i = 0; i < node->GetNodeAttributeCount(); ++i)
 	{
@@ -217,8 +220,6 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,De
 			break ;	
 		}
 	}
-
-	deformerManager.AddDeformer(deformer);
 }
 
 void MDLExporter::PrintHeader()
