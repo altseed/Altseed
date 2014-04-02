@@ -33,13 +33,7 @@ Deformer* DeformerManager::GetDeformerByIndex(int index)
 
 DeformerManager::~DeformerManager()
 {
-	
-	for(int i=0;i<_deformer.size();++i)
-	{
-		delete _deformer[i];
-	}
 
-	_deformer.clear();
 	
 }
 

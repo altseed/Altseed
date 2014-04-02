@@ -10,16 +10,15 @@ class MDLExporter
 	FbxManager* lSdkManager;
 	FbxScene* lScene;
 	ace::BinaryWriter* binaryWriter;
-	std::vector<MeshLoader> _meshGroup;
-	DeformerManager _deformerManager;
+	std::vector<MeshGroup> _meshGroups;
 
 	void PrintHeader();
 
-	void GetMeshGroup(FbxNode* pNode);
+	void GetMeshGroup(FbxNode* pNode,int depth);
 	void GetMeshProperty(FbxNode* node);
 
-	void GetDeformer(Deformer* parentSkeleton, FbxNode* pNode);
-	void GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node, Deformer *skeleton);
+	void GetDeformer(Deformer* parentSkeleton, FbxNode* pNode,DeformerManager &deformerManager);
+	void GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,Deformer *deformer, DeformerManager &deformerManager);
 public:
 	MDLExporter(){}
 

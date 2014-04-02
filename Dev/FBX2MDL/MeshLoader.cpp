@@ -1,8 +1,7 @@
 #include "MeshLoader.h"
 #include <iostream>
 
-MeshLoader::MeshLoader(DeformerManager &def)
-	:_deformerManagerRef(def)
+MeshLoader::MeshLoader()
 {
 
 }
@@ -220,14 +219,27 @@ uint8_t* MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vert
 	return color;
 }
 
-void MeshLoader::_loadWeight(FbxMesh* fbxMesh)
+void MeshLoader::_loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<MeshGroup> &meshGroups)
 {
 	int skinCount=fbxMesh->GetDeformerCount(FbxDeformer::eSkin);
+
+	attachedIndex=-1;
 
 	for(int i=0;i<skinCount;++i)
 	{
 		printf("Weight Start.\n");
 		FbxSkin* skin = (FbxSkin*)fbxMesh->GetDeformer(i,FbxDeformer::eSkin);
+
+		FbxCluster* firstCluster = skin->GetCluster(0);
+
+		for(int j=0;j<meshGroups.size();++j)
+		{
+			if (meshGroups[j].deformerManager.GetDeformerByName(firstCluster->GetLink()->GetName())!=NULL)
+			{
+				attachedIndex =j;
+				break;
+			}
+		}
 
 		int clusterNum = skin->GetClusterCount();
 
@@ -242,10 +254,10 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh)
 			std::string name = cluster->GetLink()->GetName();
 
 			std::cout<<"Cluster :"<<name<<std::endl;
-			std::cout<<"Point Num:"<<pointNum<<std::endl;
+			std::cout<<"Point Num:"<<pointNum<<"\n"<<std::endl;
 
 			
-			Deformer* deformer=_deformerManagerRef.GetDeformerByName(name);
+			Deformer* deformer=meshGroups[attachedIndex].deformerManager.GetDeformerByName(name);
 
 			fbxsdk_2014_2_1::FbxAMatrix fbxtransformMatrix;
 			cluster->GetTransformLinkMatrix(fbxtransformMatrix);
@@ -253,7 +265,7 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh)
 			ace::Matrix44 parentMatrix;
 			if(deformer->parentIndex!=-1)
 			{
-				parentMatrix=_deformerManagerRef.GetDeformerByIndex(deformer->parentIndex)->transformMatrix;
+				parentMatrix=meshGroups[attachedIndex].deformerManager.GetDeformerByIndex(deformer->parentIndex)->transformMatrix;
 			}
 			else
 			{
@@ -311,11 +323,11 @@ void MeshLoader::_loadFaceIndices(FbxMesh* fbxMesh)
 	}
 }
 
-void MeshLoader::Load(FbxMesh* fbxMesh)
+void MeshLoader::Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGroup> &meshGroups)
 {
 	_loadPositions(fbxMesh);
 
-	_loadWeight(fbxMesh);
+	_loadWeight(fbxMesh,attachmentIndex,meshGroups);
 
 	_loadVertices(fbxMesh);
 
@@ -324,7 +336,7 @@ void MeshLoader::Load(FbxMesh* fbxMesh)
 
 void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 {
-	printf("Control Point Num = %d\n",_vertices.size());
+	//printf("Control Point Num = %d\n",_vertices.size());
 	writer->Push((int32_t)_vertices.size());
 
 	ace::Vector3DF zero3 = ace::Vector3DF(0,0,0);
@@ -333,14 +345,11 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 
 	for(int i=0;i<_vertices.size();++i)
 	{
-		printf("CP(%f, %f, %f)\n",_vertices[i].position.X,_vertices[i].position.Y,_vertices[i].position.Z);
 		writer->Push(_vertices[i].position);
 
-		printf("NV(%f, %f, %f)\n",_vertices[i].normal.X/_vertices[i].normalAddCount,_vertices[i].normal.Y/_vertices[i].normalAddCount,_vertices[i].normal.Z/_vertices[i].normalAddCount);
 		writer->Push(_vertices[i].normal/_vertices[i].normalAddCount);
 		writer->Push(_vertices[i].binormal/_vertices[i].binormalAddCount);
 
-		printf("UV(%f, %f)\n",_vertices[i].uv.X,_vertices[i].uv.Y);
 		writer->Push(_vertices[i].uv);
 		writer->Push(_vertices[i].subuv);
 
@@ -371,31 +380,24 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 
 void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
 {
-
-	printf("Face Num = %d\n",_faces.size());
 	writer->Push((int32_t) _faces.size());
 	for (auto ite = _faces.begin(); ite != _faces.end(); ++ite)
 	{
-		printf("FI(");
 		for (int i = 0; i < 3; ++i)
 		{
-			printf("%d, ",ite->vertexIndex[i]);
 			writer->Push((int32_t) ite->vertexIndex[i]);
 		}
-		printf(")\n");
 	}
 }
 
 void MeshLoader::WriteMaterials(ace::BinaryWriter* writer)
 {
-	printf("Material Num = %d\n",_materials.size());
 	writer->Push((int32_t)_materials.size());
 	for(auto ite=_materials.begin();ite!=_materials.end();++ite)
 	{
 		writer->Push(ite->Type);
 		for(int i=0;i<3;++i)
 		{
-			printf("%s\n", ite->texture[i].c_str());
 			writer->Push(ace::ToAString(ite->texture[i].c_str()));
 		}
 	}
