@@ -50,3 +50,8 @@ void DeformerManager::WriteDeformerInformation(ace::BinaryWriter* binaryWriter)
 		binaryWriter->Push(_deformer[i]->invMatrix);
 	}
 }
+
+int DeformerManager::GetDeformerNum()
+{
+	return (int)_deformer.size();
+}

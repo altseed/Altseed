@@ -93,7 +93,19 @@ void MDLExporter::Convert()
 				meshGroup.meshLoaders[j].WriteBoneAttachments(binaryWriter);
 			}
 			//ƒ{[ƒ“
-			binaryWriter->Push(0);
+			binaryWriter->Push((int32_t)meshGroup.deformerManager.GetDeformerNum());
+
+			for(int j=0;j<meshGroup.deformerManager.GetDeformerNum();++j)
+			{
+				Deformer *deformer = meshGroup.deformerManager.GetDeformerByIndex(j);
+
+				binaryWriter->Push(ace::ToAString(deformer->name.c_str()));
+				binaryWriter->Push(deformer->parentIndex);
+				binaryWriter->Push(deformer->rotationOrder);
+				binaryWriter->Push(deformer->transformMatrix);
+				binaryWriter->Push(deformer->invMatrix);
+			}
+
 			//Ş¿
 			for(int j=0;j<meshGroup.meshLoaders.size();++j)
 			{

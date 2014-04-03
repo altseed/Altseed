@@ -49,4 +49,6 @@ public:
 	Deformer* GetDeformerByIndex(int index);
 
 	void WriteDeformerInformation(ace::BinaryWriter* binaryWriter);
+
+	int GetDeformerNum();
 };
