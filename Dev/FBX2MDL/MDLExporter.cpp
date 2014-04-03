@@ -157,7 +157,7 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 
 		if(attachmentIndex!=-1)
 		{
-
+			_meshGroups[attachmentIndex].meshLoaders.push_back(mLoader);
 		}
 		else
 		{

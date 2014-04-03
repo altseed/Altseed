@@ -241,8 +241,6 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<Mes
 			}
 		}
 
-		printf("Attached to %d\n",attachedIndex);
-
 		int clusterNum = skin->GetClusterCount();
 
 		for(int j=0;j<clusterNum;++j)
@@ -327,6 +325,7 @@ void MeshLoader::_loadFaceIndices(FbxMesh* fbxMesh)
 
 void MeshLoader::Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGroup> &meshGroups)
 {
+	printf("Name:%s\n",fbxMesh->GetNode()->GetName());
 	_loadPositions(fbxMesh);
 
 	_loadWeight(fbxMesh,attachmentIndex,meshGroups);
