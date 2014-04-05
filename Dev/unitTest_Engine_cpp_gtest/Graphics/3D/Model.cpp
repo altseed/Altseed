@@ -7,7 +7,7 @@ class Graphics_Model : public EngineTest
 public:
 
 	Graphics_Model(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("Model"), isOpenGLMode, 180)
+		EngineTest(ace::ToAString("Model"), isOpenGLMode, 360)
 	{}
 
 protected:
@@ -30,22 +30,23 @@ protected:
 
 		auto model = graphics->CreateModel(ace::ToAString("Data/Model/out.mdl").c_str());
 
-		cameraObj->SetPosition(ace::Vector3DF(10, 10, 10));
-		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
+		cameraObj->SetPosition(ace::Vector3DF(0, 120, 900));
+		cameraObj->SetFocus(ace::Vector3DF(0, 120, 0));
 		cameraObj->SetFieldOfView(20.0f);
 		cameraObj->SetZNear(1.0f);
 		cameraObj->SetZFar(1000.0f);
 		cameraObj->SetWindowSize(ace::Vector2DI(800, 600));
 
 		meshObj->SetModel(model);
+		meshObj->SetRotation(ace::Vector3DF(-90, 0, 0));
 
-		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
+		lightObj->SetRotation(ace::Vector3DF(0, 0, 0));
 	}
 
 	void OnUpdating() override
 	{
 		ace::Vector3DF v=meshObj->GetRotation();
-		meshObj->SetRotation(v + ace::Vector3DF(0,0,2));
+		meshObj->SetRotation(v + ace::Vector3DF(0,2,0));
 	}
 
 
