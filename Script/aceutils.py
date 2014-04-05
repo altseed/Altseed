@@ -89,7 +89,10 @@ def rm(path):
 
 def rmdir(path):
 	if os.path.exists(path):
+		print("rmdir : " + path)
 		shutil.rmtree(path)
+	else:
+		print("rmdir : not found " + path)
 
 def cd(path):
 	os.chdir(path)
@@ -102,7 +105,10 @@ def copy(src,dst):
 	print("copying from {0} to {1}".format(src, dst))
 	shutil.copy(src,dst)
 
-def copytree(src,dst):
+def copytree(src,dst,change=False):
+	if change and os.path.exists(dst):
+		rmdir(dst)
+
 	if not os.path.exists(dst):
 		shutil.copytree(src,dst)
 

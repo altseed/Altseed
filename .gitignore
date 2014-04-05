@@ -176,6 +176,10 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
+*.exe.config
+*.manifest
+*.pyc
+
 /Dev/bin/*.png
 /Dev/bin/*.dll
 /Dev/bin/*.exp
@@ -238,11 +242,11 @@ $RECYCLE.BIN/
 /Product/lib/
 /Document/Doxygen/
 
-*.exe.config
-
 # Result of Test
 /Dev/test_cpp/msvc/Log.html
+
 /Dev/bin/Log.html
+/Dev/bin/ScreenShotTest
 
 /Dev/bin/binaryTest.dat
 /Dev/bin/graphics.html

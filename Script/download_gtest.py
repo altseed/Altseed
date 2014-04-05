@@ -30,7 +30,7 @@ else:
 	aceutils.copy(r'libgtest.a', r'../Dev/lib/libgtest.a')
 	aceutils.copy(r'libgtest_main.a', r'../Dev/lib/libgtest_main.a')
 
-aceutils.copytree(r'../gtest-1.7.0/include/gtest', r'../Dev/include/gtest')
+aceutils.copytree(r'../gtest-1.7.0/include/gtest', r'../Dev/include/gtest', True)
 
 
 
