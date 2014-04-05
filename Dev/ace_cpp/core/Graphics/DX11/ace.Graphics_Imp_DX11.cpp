@@ -209,6 +209,8 @@ Graphics_Imp_DX11::~Graphics_Imp_DX11()
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter, int32_t index)
 {
+	if (log == nullptr) return;
+
 	auto write = [log](std::ostringstream& os) -> void
 	{
 		log->Write(ToAString(os.str().c_str()).c_str());
