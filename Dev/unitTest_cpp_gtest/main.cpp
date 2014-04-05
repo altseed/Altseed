@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 
-	//Graphics_Mesh(true);
+	//Graphics_Empty(false);
 	//return 0;
 
 	//Profiler_Profiling();
