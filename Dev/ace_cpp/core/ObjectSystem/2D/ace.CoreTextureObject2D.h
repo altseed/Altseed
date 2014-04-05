@@ -18,6 +18,8 @@ namespace ace
 		*/
 		virtual Texture2D* GetTexture() const = 0;
 
+		virtual RectF GetSrc() const = 0;
+
 		/**
 			@brief	このオブジェクトを描画する際のテクスチャの向きを取得します。
 		*/
@@ -63,6 +65,8 @@ namespace ace
 			@brief	このオブジェクトを描画する際に使用されるテクスチャを設定します。
 		*/
 		virtual void SetTexture(Texture2D* texture) = 0;
+
+		virtual void SetSrc(RectF value) = 0;
 
 		/**
 			@brief	このオブジェクトを描画する際のテクスチャの向きを設定します。

@@ -30,7 +30,7 @@ class CreateHeader:
 
 			self.lines.append(line)
 			line = f.readline()
-		self.lines.append('\n')
+		self.lines.append('\r\n')
 		f.close
 
 	def output(self,path):
@@ -48,8 +48,8 @@ fromCoreToEngine.append('\n#include <ace.common.Base.h>')
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector2DI.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector2DF.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.RectI.h")
+fromCoreToEngine.readLines("ace_cpp/common/Math/ace.RectF.h")
 fromCoreToEngine.append('namespace ace{ struct Vector3DF; }')
-fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Matrix43.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Matrix44.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector3DF.h")
 fromCoreToEngine.readLines("ace_cpp/common/Math/ace.Vector4DF.h")
@@ -72,6 +72,9 @@ fromCoreToEngine.readLines("ace_cpp/core/Input/ace.JoystickContainer.h")
 fromCoreToEngine.readLines("ace_cpp/core/Log/ace.Log.h")
 fromCoreToEngine.readLines("ace_cpp/core/Profiler/ace.Profile.h")
 fromCoreToEngine.readLines("ace_cpp/core/Profiler/ace.Profiler.h")
+
+fromCoreToEngine.readLines("ace_cpp/core/Sound/ace.SoundSource.h")
+fromCoreToEngine.readLines("ace_cpp/core/Sound/ace.Sound.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Texture2D.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture.h")

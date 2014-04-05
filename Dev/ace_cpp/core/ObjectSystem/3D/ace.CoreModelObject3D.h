@@ -14,6 +14,13 @@ namespace ace
 
 	public:
 		virtual void SetModel(Model* model) = 0;
-		virtual void AddMesh(Mesh* mesh) = 0;
+
+		virtual void AddMeshGroup() = 0;
+
+		virtual int32_t GetMeshGroupCount() = 0;
+
+		virtual void AddMesh(int32_t meshGroupIndex, Mesh* mesh) = 0;
+
+		virtual void SetDeformer(int32_t meshGroupIndex, Deformer* deformer) = 0;
 	};
 }

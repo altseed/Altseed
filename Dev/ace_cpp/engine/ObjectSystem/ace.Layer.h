@@ -16,6 +16,9 @@ namespace ace
 	{
 		friend class Scene;
 
+	public:
+		typedef std::shared_ptr<Layer> Ptr;
+
 	protected:
 		std::shared_ptr<CoreLayer>	m_commonObject;
 		bool m_isUpdated;

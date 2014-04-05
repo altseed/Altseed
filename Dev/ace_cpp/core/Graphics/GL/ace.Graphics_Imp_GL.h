@@ -75,6 +75,9 @@ namespace ace {
 
 		virtual ~Graphics_Imp_GL();
 
+		static void WriteInitializedLog(Log* log);
+		static void WriteDeviceInformation(Log* log);
+
 	protected:
 		void StartRenderingThread() override;
 		void EndRenderingThread() override;

@@ -23,8 +23,23 @@ namespace ace
 		m_object->SetModel(model);
 	}
 
-	void CoreModelObject3D_Imp::AddMesh(Mesh* mesh)
+	void CoreModelObject3D_Imp::AddMeshGroup()
 	{
-		m_object->AddMesh(mesh);
+		m_object->AddMeshGroup();
+	}
+
+	int32_t CoreModelObject3D_Imp::GetMeshGroupCount()
+	{
+		return m_object->GetMeshGroupCount();
+	}
+
+	void CoreModelObject3D_Imp::AddMesh(int32_t meshGroupIndex, Mesh* mesh)
+	{
+		m_object->AddMesh(meshGroupIndex, mesh);
+	}
+
+	void CoreModelObject3D_Imp::SetDeformer(int32_t meshGroupIndex, Deformer* deformer)
+	{
+		m_object->SetDeformer(meshGroupIndex, deformer);
 	}
 }

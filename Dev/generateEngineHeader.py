@@ -34,7 +34,7 @@ class CreateHeader:
 
 			self.lines.append(line)
 			line = f.readline()
-		self.lines.append('\n')
+		self.lines.append('\r\n')
 		f.close
 
 	def output(self,path):
@@ -53,7 +53,6 @@ engineHeader.readLines("ace_cpp/common/Math/ace.Vector2DF.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.Vector3DF.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.Vector4DF.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.Matrix33.h")
-engineHeader.readLines("ace_cpp/common/Math/ace.Matrix43.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.Matrix44.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.RectI.h")
 engineHeader.readLines("ace_cpp/common/Math/ace.RectF.h")
@@ -84,6 +83,9 @@ engineHeader.readLines("ace_cpp/core/Input/ace.JoystickContainer.h")
 
 engineHeader.readLines("ace_cpp/core/Log/ace.Log.h")
 engineHeader.readLines("ace_cpp/core/Profiler/ace.Profiler.h")
+
+engineHeader.readLines("ace_cpp/core/Sound/ace.SoundSource.h")
+engineHeader.readLines("ace_cpp/core/Sound/ace.Sound.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Texture2D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture.h")

@@ -13,6 +13,7 @@
 #include "../ObjectSystem/ace.ObjectSystemFactory_Imp.h"
 
 #include "../Graphics/Common/ace.Graphics_Imp.h"
+#include "../Sound/ace.Sound_Imp.h"
 #include "../Graphics/Common/Resource/ace.RenderState_Imp.h"
 
 #include "../Graphics/Common/Animation/ace.AnimationSystem_Imp.h"
@@ -32,11 +33,13 @@ namespace ace
 		, m_keyboard(nullptr)
 		, m_mouse(nullptr)
 		, m_graphics(nullptr)
+		, m_sound(nullptr)
 		, m_joystickContainer(nullptr)
 		, m_logger(nullptr)
 		, m_profiler(nullptr)
 		, m_profilerViewer(nullptr)
 		, m_currentScene(nullptr)
+		, m_removedFuncPtr(nullptr)
 		, m_isInitializedByExternal(false)
 		, m_objectSystemFactory(nullptr)
 		, m_animationSyatem(nullptr)
@@ -55,6 +58,12 @@ namespace ace
 	Core_Imp::~Core_Imp()
 	{
 		Terminate();
+
+		auto removingPtr = m_removedFuncPtr;
+		if (removingPtr != nullptr)
+		{
+			removingPtr(this);
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -117,6 +126,14 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	void Core_Imp::SetRemovedFunctionPpointer(CoreFuncPtr func)
+	{
+		m_removedFuncPtr = func;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode, bool isMultithreadingMode)
 	{
 		if (m_window != nullptr) return false;
@@ -144,20 +161,26 @@ namespace ace
 		}
 #endif
 
+		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), title);
+
 		m_window = Window_Imp::Create(width, height, title);
 		m_keyboard = Keyboard_Imp::Create(m_window);
 		m_mouse = Mouse_Imp::Create(m_window);
 		m_joystickContainer = JoystickContainer_Imp::Create();
 
-		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), title);
-		
 		m_graphics = Graphics_Imp::Create(m_window, isOpenGLMode, m_logger, isMultithreadingMode);
-		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, m_window->GetSize());
+		if (m_graphics == nullptr) return false;
 
+		m_sound = new Sound_Imp();
+
+		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, m_window->GetSize());
 		m_profiler = Profiler_Imp::Create();
 		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, m_window->GetSize());
 
 		m_animationSyatem = new AnimationSystem_Imp();
+
+		m_logger->WriteLineStrongly(L"コア初期化成功");
+
 		return true;
 	}
 
@@ -193,12 +216,19 @@ namespace ace
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
 		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, false, m_logger, isMultithreadingMode);
+		if (m_graphics == nullptr) return false;
+
+		m_sound = new Sound_Imp();
+
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, Vector2DI(width,height));
 
 		m_profiler = Profiler_Imp::Create();
 		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, Vector2DI(width, height));
 
 		m_animationSyatem = new AnimationSystem_Imp();
+
+		m_logger->WriteLineStrongly(L"コア初期化成功");
+
 		return true;
 	}
 
@@ -244,6 +274,7 @@ namespace ace
 		SafeRelease(m_profiler);
 		SafeDelete(m_profilerViewer);
 
+		SafeRelease(m_sound);
 		SafeRelease(m_graphics);
 		SafeRelease(m_window);
 		SafeDelete(m_keyboard);
@@ -381,6 +412,14 @@ namespace ace
 	Graphics_Imp* Core_Imp::GetGraphics_Imp()
 	{
 		return m_graphics;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	Sound* Core_Imp::GetSound()
+	{
+		return m_sound;
 	}
 
 	//----------------------------------------------------------------------------------

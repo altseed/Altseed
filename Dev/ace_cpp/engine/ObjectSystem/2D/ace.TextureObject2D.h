@@ -13,6 +13,8 @@ namespace ace
 		CoreObject2D* GetCoreObject() const;
 
 	public:
+		typedef std::shared_ptr<TextureObject2D> Ptr;
+
 		/**
 			@brief	コンストラクタ
 		*/
@@ -31,6 +33,9 @@ namespace ace
 			@brief	描画するテクスチャを設定する。
 		*/
 		void SetTexture(std::shared_ptr<Texture2D> texture);
+
+		RectF GetSrc() const;
+		void SetSrc(RectF value);
 
 		/**
 			@brief	描画する際の中心座標を取得する。

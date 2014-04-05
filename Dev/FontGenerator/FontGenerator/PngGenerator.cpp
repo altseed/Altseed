@@ -87,19 +87,36 @@ namespace FontGenerator
 		m_font.SetFontSize(m_setting.GetFontSize());
 
 		vector<int> buffer(m_sheetSize*m_sheetSize, 0);
+		vector<FontData> fontData;
 
-		int lineHeight = m_font.GetFontHeight() * 2;	// ‘¾Žš‚â—ÖŠsü‚Ì•ª‚Ì—]—T‚ðŽ‚Â‚½‚ß‚É‚Q”{‚É‚·‚é
-		int penX = 0, penY = lineHeight;
+		int outlineWidth = 0;
+		if (m_setting.GetBorder() != nullptr)
+		{
+			outlineWidth = m_setting.GetBorder()->width;
+		}
+
+		int lineHeight = m_font.GetFontHeight() + outlineWidth*2;
+		int penX = outlineWidth, penY = lineHeight;
 		for (auto& glyph : m_font.GetGlyphs(charactors))
 		{
 			auto finalGlyph = m_setting.ProcessGlyph(glyph);
-			auto advance = finalGlyph.GetAdvance();
+			auto advance = (int)(finalGlyph.GetAdvance() + outlineWidth*2);
 
 			if (penX + advance > m_sheetSize)
 			{
-				penX = 0;
+				penX = outlineWidth;
 				penY += lineHeight;
 			}
+
+			FontData data;
+			data.x = penX;
+			data.y = penY - lineHeight;
+			data.width = advance;
+			data.height = lineHeight;
+			data.sheetNumber = 0;
+			data.charactor = glyph->GetCharactor();
+
+			fontData.push_back(data);
 
 			finalGlyph.Draw(buffer.data(), m_sheetSize, m_sheetSize, penX, penY);
 
@@ -109,7 +126,10 @@ namespace FontGenerator
 		auto pngPath = GetSheetName() + ToAString(".png");
 		SavePNGImage(pngPath.c_str(), m_sheetSize, m_sheetSize, buffer.data(), false);
 
-		return ResultOfGeneratingPng();
+		ResultOfGeneratingPng result;
+		result.sheetCount = 1;
+		result.fonts = fontData;
+		return result;
 	}
 
 #pragma region GetSet

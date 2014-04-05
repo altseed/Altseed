@@ -11,12 +11,14 @@ namespace ace
 		if (model.MeshGroups.size() >= 2) return false;
 		if (model.MeshGroups.size() == 0) return false;
 
-		if (model.MeshGroups[0].Mesh.BoneOffsets.size() >= 2) return false;
-		if (model.MeshGroups[0].Mesh.BoneOffsets.size() == 0) return false;
+		if (model.MeshGroups[0].Mesh_.size() == 1) return false;
+
+		if (model.MeshGroups[0].Mesh_[0].BoneOffsets.size() >= 2) return false;
+		if (model.MeshGroups[0].Mesh_[0].BoneOffsets.size() == 0) return false;
 
 		auto& mg = model.MeshGroups[0];
 
-		for (auto& v : mg.Mesh.Vertices)
+		for (auto& v : mg.Mesh_[0].Vertices)
 		{
 			Vertex v_;
 			v_.Position = v.Position;
@@ -30,7 +32,7 @@ namespace ace
 			Vertices.push_back(v_);
 		}
 
-		for (auto& f : mg.Mesh.Faces)
+		for (auto& f : mg.Mesh_[0].Faces)
 		{
 			Face f_;
 			f_.Index1 = f.Index1;
@@ -39,7 +41,7 @@ namespace ace
 			Faces.push_back(f_);
 		}
 
-		for (auto& mo : mg.Mesh.MaterialOffsets)
+		for (auto& mo : mg.Mesh_[0].MaterialOffsets)
 		{
 			MaterialOffset mo_;
 			mo_.FaceOffset = mo.FaceOffset;
@@ -102,12 +104,12 @@ namespace ace
 		std::vector<BoneValue> boneValues;
 		std::map<astring, int32_t> nameToBoneIndex;
 
-		localMatrixes.resize(mg.Deformer.Bones.size());
-		boneValues.resize(mg.Deformer.Bones.size());
+		localMatrixes.resize(mg.Deformer_.Bones.size());
+		boneValues.resize(mg.Deformer_.Bones.size());
 
-		for (auto i = 0; i < mg.Deformer.Bones.size(); i++)
+		for (auto i = 0; i < mg.Deformer_.Bones.size(); i++)
 		{
-			auto& b = mg.Deformer.Bones[i];
+			auto& b = mg.Deformer_.Bones[i];
 			nameToBoneIndex[b.Name] = i;
 		}
 
@@ -140,15 +142,15 @@ namespace ace
 						boneValues[index].Position,
 						boneValues[index].Rotation,
 						boneValues[index].Scale,
-						mg.Deformer.Bones[index].RotationType);
+						mg.Deformer_.Bones[index].RotationType);
 				}
 
 				ModelUtils::CalculateBoneMatrixes(
 					localMatrixes,
-					mg.Deformer.Bones,
+					mg.Deformer_.Bones,
 					localMatrixes);
 				
-				for (auto j = 0; j < mg.Deformer.Bones.size(); j++)
+				for (auto j = 0; j < mg.Deformer_.Bones.size(); j++)
 				{
 					int32_t x = t * 4;
 					int32_t y = i * 32 + j;

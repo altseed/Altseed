@@ -2,9 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="..\common\ace.common.Base.h" />
-    <ClInclude Include="..\common\Math\ace.Matrix43.h">
-      <Filter>Math</Filter>
-    </ClInclude>
     <ClInclude Include="..\common\Math\ace.Matrix44.h">
       <Filter>Math</Filter>
     </ClInclude>
@@ -70,9 +67,6 @@
     <ClCompile Include="..\common\Math\ace.RectF.cpp">
       <Filter>Math</Filter>
     </ClCompile>
-    <ClCompile Include="..\common\Math\ace.Matrix43.cpp">
-      <Filter>Math</Filter>
-    </ClCompile>
     <ClCompile Include="..\common\Graphics\ace.Color.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
@@ -103,6 +97,7 @@
     <ClCompile Include="..\common\Math\ace.Vector4DF.cpp">
       <Filter>Math</Filter>
     </ClCompile>
+    <ClCompile Include="..\common\ace.common.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Math">

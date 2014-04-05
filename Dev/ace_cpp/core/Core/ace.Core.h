@@ -14,12 +14,24 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+#if !SWIG
+	typedef void(ACE_STDCALL *CoreFuncPtr)(Core*);
+#endif
+
 	class Core
 		: public ReferenceObject
 	{
 	private:
 
 	public:
+
+#if !SWIG
+		/**
+			@brief	インスタンスが破棄された際に呼ばれる関数ポインタを設定する。
+			@param	func	破棄された際に呼ばれる関数
+		*/
+		virtual void SetRemovedFunctionPpointer(CoreFuncPtr func) = 0;
+#endif
 
 		/**
 		@brief	初期化を行う。
@@ -140,6 +152,7 @@ namespace ace {
 		*/
 		virtual Graphics* GetGraphics() = 0;
 
+		virtual Sound* GetSound() = 0;
 
 		virtual ObjectSystemFactory* GetObjectSystemFactory() = 0;
 

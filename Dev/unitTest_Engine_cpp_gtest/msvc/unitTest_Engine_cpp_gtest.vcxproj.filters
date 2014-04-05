@@ -61,6 +61,18 @@
     <ClCompile Include="..\Graphics\3D\Model.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\SetSourceOfTexture.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\PCH\ace.UnitTestEngineCpp.PCH.cpp">
+      <Filter>PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ObjectSystem\CameraAndSetTexture.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ObjectSystem\TrasingCamera.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -75,8 +87,14 @@
     <Filter Include="Graphics\3D">
       <UniqueIdentifier>{a3372b94-f4f2-40db-b138-02495256e934}</UniqueIdentifier>
     </Filter>
+    <Filter Include="PCH">
+      <UniqueIdentifier>{67833557-68d5-4132-add9-56d9aa7eed38}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\EngineTest.h" />
+    <ClInclude Include="..\PCH\ace.UnitTestEngineCpp.PCH.h">
+      <Filter>PCH</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

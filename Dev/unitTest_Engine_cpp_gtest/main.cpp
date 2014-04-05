@@ -16,6 +16,8 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
+extern void Test_ObjectSystem_TrasingCamera(bool openGL);
+
 extern void TestCustomObject();
 extern void Test_LayerComponent_GL();
 extern void TestCamera(bool openGL);
@@ -47,7 +49,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//Graphics_Model_(false);
+	//Graphics_Model_(true);
 	//return 0;
 
 	//TestCamera(true);
@@ -57,7 +59,7 @@ int main(int argc, char **argv)
 	//Graphics_PostEffectGaussianBlur_(true);
 	//return 0;
 
-	//Graphics_Effect3D_(true);
+	//Graphics_Effect3D_(false);
 	//return 0;
 
 	auto result = RUN_ALL_TESTS();

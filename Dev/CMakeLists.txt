@@ -26,22 +26,23 @@ endif()
 
 # ファイルをソースリストに追加
 set(common_src
+	ace_cpp/common/ace.common.cpp
 	ace_cpp/common/Graphics/ace.Color.cpp
 	ace_cpp/common/Math/ace.Matrix33.cpp
-	ace_cpp/common/Math/ace.Matrix43.cpp
 	ace_cpp/common/Math/ace.Matrix44.cpp
 	ace_cpp/common/Math/ace.RectF.cpp
 	ace_cpp/common/Math/ace.RectI.cpp
 	ace_cpp/common/Math/ace.Vector2DF.cpp
 	ace_cpp/common/Math/ace.Vector2DI.cpp
 	ace_cpp/common/Math/ace.Vector3DF.cpp
+	ace_cpp/common/Math/ace.Vector4DF.cpp
 	ace_cpp/common/Thread/ace.CriticalSection.cpp
 	ace_cpp/common/Thread/ace.Thread.cpp
 	ace_cpp/common/Utility/ace.PointerArray.cpp)
 
 set(tool_src
-	ace_cpp/tool/3D/ace.MassModel3D_IO.cpp
-	ace_cpp/tool/3D/ace.Model3D_IO.cpp)
+	ace_cpp/tool/Graphics/3D/ace.MassModel_IO.cpp
+	ace_cpp/tool/Graphics/3D/ace.Model_IO.cpp)
 
 
 set(core_src
@@ -121,6 +122,9 @@ set(core_src
 	ace_cpp/core/Profiler/ace.Profile.cpp
 	ace_cpp/core/Profiler/ace.Profiler_Imp.cpp
 	ace_cpp/core/Profiler/ace.ProfilerViewer_Imp.cpp
+
+	ace_cpp/core/Sound/ace.Sound_Imp.cpp
+	ace_cpp/core/Sound/ace.SoundSource_Imp.cpp
 
 	ace_cpp/core/Window/ace.Window_Imp.cpp
 	)
@@ -271,6 +275,14 @@ else()
 	list(APPEND common_lib Effekseer )
 	list(APPEND common_lib EffekseerRendererGL )
 
+	# OpenSoundMixerの後に内部で使用しているライブラリを追加する必要あり
+	list(APPEND common_lib OpenSoundMixer )
+	list(APPEND common_lib ogg )
+	list(APPEND common_lib vorbisfile )
+	list(APPEND common_lib vorbis )
+	FIND_PACKAGE(PulseAudio REQUIRED)
+	list(APPEND common_lib ${PulseAudio_LIBRARY})
+
 	list(APPEND common_lib dl )
 
 	find_package(Threads REQUIRED)
@@ -312,13 +324,13 @@ add_library( aceTool STATIC ${tool_src} )
 
 add_library( aceCore STATIC ${core_src} )
 add_library( aceCoreDLL SHARED ${core_src} )
-target_link_libraries(aceCore aceCommon) 
-target_link_libraries(aceCoreDLL aceCommon ${common_lib}) 
+
+target_link_libraries(aceCoreDLL aceTool aceCommon ${common_lib}) 
 
 add_library( aceEngine STATIC ${engine_src} ${common_src} )
 
 add_executable( aceUnitTestGtest ${unittest_gtest_src} )
-target_link_libraries(aceUnitTestGtest aceCore ${common_lib}) 
+target_link_libraries(aceUnitTestGtest aceCore aceTool aceCommon ${common_lib}) 
 
 add_executable( aceUnitTestEngineGtest ${unittest_engine_gtest_src} )
 target_link_libraries(aceUnitTestEngineGtest aceEngine ${common_lib}) 

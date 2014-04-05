@@ -81,11 +81,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ace.AffHeader.h" />
     <ClInclude Include="Rendering\Color.h" />
     <ClInclude Include="Rendering\Font.h" />
     <ClInclude Include="FontData.h" />
     <ClInclude Include="Generator.h" />
-    <ClInclude Include="AffHeader.h" />
     <ClInclude Include="Rendering\Glyph.h" />
     <ClInclude Include="PngGenerator.h" />
     <ClInclude Include="Rendering\GlyphWithBorder.h" />
@@ -95,7 +95,7 @@
     <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AffHeader.cpp" />
+    <ClCompile Include="ace.AffHeader.cpp" />
     <ClCompile Include="Rendering\Color.cpp" />
     <ClCompile Include="Rendering\Font.cpp" />
     <ClCompile Include="FontData.cpp" />

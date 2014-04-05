@@ -3,11 +3,11 @@
 
 void Keyboard()
 {
-	ace::GetEngine()->Initialize(L"Keyboard", 640, 480, ace::EngineOption());
+	ace::Engine::Initialize(L"Keyboard", 640, 480, ace::EngineOption());
 
-	while (ace::GetEngine()->DoEvents())
+	while (ace::Engine::DoEvents())
 	{
-		switch (ace::GetKeyboard()->GetKeyState(ace::eKeys::ACE_KEY_Z))
+		switch (ace::Engine::GetKeyboard()->GetKeyState(ace::eKeys::ACE_KEY_Z))
 		{
 		case ace::KEYBOARD_FREE:
 			printf("Z key free\n");
@@ -22,8 +22,8 @@ void Keyboard()
 			printf("Z key push\n");
 			break;
 		}
-		ace::GetEngine()->Update();
+		ace::Engine::Update();
 	}
 
-	ace::GetEngine()->Terminate();
+	ace::Engine::Terminate();
 }

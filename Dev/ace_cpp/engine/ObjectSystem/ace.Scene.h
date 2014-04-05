@@ -1,7 +1,8 @@
-﻿#pragma once
-#include <vector>
-#include <memory>
+﻿
+#pragma once
+
 #include "../ace.CoreToEngine.h"
+
 #include "ace.Layer.h"
 #include "2D/ace.Layer2D.h"
 #include "Component/ace.SceneComponent.h"
@@ -22,12 +23,13 @@ namespace ace
 	public:
 		typedef std::shared_ptr<Layer> LayerPtr;
 		typedef std::shared_ptr<SceneComponent> ComponentPtr;
+		typedef std::shared_ptr<Scene> Ptr;
 
 	private:
 		std::shared_ptr<CoreScene> m_coreScene;
 		std::list<LayerPtr> m_layersToDraw;
 		std::list<LayerPtr> m_layersToUpdate;
-		std::map<astring, ComponentPtr> m_components;
+		std::map<astring, SceneComponent::Ptr> m_components;
 
 		void Draw();
 
@@ -58,19 +60,19 @@ namespace ace
 			@brief	指定したレイヤーをこのインスタンスに追加する。
 			@param	layer	追加するレイヤー
 		*/
-		void AddLayer(const LayerPtr& layer);
+		void AddLayer(const Layer::Ptr& layer);
 		/**
 			@brief	指定したレイヤーをこのインスタンスから削除する。
 			@param	layer	削除するレイヤー
 		*/
-		void RemoveLayer(const LayerPtr& layer);
+		void RemoveLayer(const Layer::Ptr& layer);
 
 		/**
 			@brief	指定したコンポーネントをこのインスタンスに追加する。
 			@param	component	追加するコンポーネント
 			@param	key			コンポーネントに関連付けるキー
 		*/
-		void AddComponent(const ComponentPtr& component, astring key);
+		void AddComponent(const SceneComponent::Ptr& component, astring key);
 		/**
 			@brief	キーの示すコンポーネントをこのインスタンスから取得する。
 			@param	key		取得するコンポーネントを示すキー

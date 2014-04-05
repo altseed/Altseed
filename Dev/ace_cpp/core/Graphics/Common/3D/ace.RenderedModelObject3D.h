@@ -37,10 +37,12 @@ namespace ace
 			Matrix44 CalcMatrix(eRotationOrder rotationType);
 		};
 
+
+
 		class MeshGroup
 		{
 		private:
-			Mesh_Imp*		m_mesh;
+			std::vector<Mesh_Imp*>		m_meshes;
 			Deformer_Imp*	m_deformer;
 
 		public:
@@ -49,25 +51,18 @@ namespace ace
 
 			std::vector < BoneProperty>	m_boneProps;
 
-			MeshGroup(Mesh_Imp* mesh);
+			MeshGroup();
 			~MeshGroup();
 
 			void Flip(AnimationClip* animationClip, int32_t time);
 
 			void CalculateAnimation(AnimationClip* animationClip, int32_t time);
 			void CalclateBoneMatrices();
+			
+			void AddMesh(Mesh_Imp* mesh);
+			void SetDeformer(Deformer_Imp* deformer);
 
-			Mesh_Imp* GetMesh() { return m_mesh; }
-		private:
-			/**
-			@brief	メッシュのDeformerと比較し、違っていたら差し替える。
-			*/
-			void CheckDeformer();
-
-			/**
-			@brief	Deformerを設定する。
-			*/
-			void SetInternalDeformer(Deformer* deformer);
+			std::vector<Mesh_Imp*>& GetMeshes() { return m_meshes; }
 		};
 		
 
@@ -88,13 +83,20 @@ namespace ace
 		RenderedModelObject3D(Graphics* graphics);
 		virtual ~RenderedModelObject3D();
 
+		void SetModel(Model* model);
+
+		void AddMeshGroup();
+
+		int32_t GetMeshGroupCount();
+
+		void AddMesh(int32_t meshGroupIndex, Mesh* mesh);
+
+		void SetDeformer(int32_t meshGroupIndex, Deformer* deformer);
+
 		void Flip() override;
 		void Rendering(RenderingProperty& prop) override;
 
-		void SetModel(Model* model);
 
-		void AddMesh(Mesh* mesh);
-		
 		/**
 			@brief	モデルの解除を行わずに、現在設定されているインスタンスを解除する。
 		*/
@@ -114,9 +116,9 @@ namespace ace
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
 
 #if !SWIG
-		void AddMesh(std::shared_ptr<Mesh>& mesh)
+		void AddMesh(int32_t meshGroupIndex, std::shared_ptr<Mesh>& mesh)
 		{
-			AddMesh(mesh.get());
+			AddMesh(meshGroupIndex, mesh.get());
 		}
 #endif
 	};

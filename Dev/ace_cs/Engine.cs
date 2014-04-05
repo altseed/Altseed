@@ -40,6 +40,7 @@ namespace ace
 		public static Keyboard Keyboard { get; private set; }
 		public static Mouse Mouse { get; private set; }
 		public static JoystickContainer JoystickContainer { get; private set; }
+		public static Sound Sound { get; private set; }
 		public static Graphics Graphics { get; private set; }
 		public static AnimationSystem AnimationSystem { get; private set; }
 
@@ -73,12 +74,10 @@ namespace ace
 
 			var result = core.Initialize(title, width, height, option.IsFullScreen, option.GraphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
 
-			GC.Initialize();
-
-			SetupMembers();
-
 			if (result)
 			{
+				GC.Initialize();
+				SetupMembers();
 				return true;
 			}
 			else
@@ -116,12 +115,10 @@ namespace ace
 
 			var result = core.InitializeByExternalWindow(handle1, handle2, width, height, option.GraphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
 
-			GC.Initialize();
-
-			SetupMembers();
-
 			if (result)
 			{
+				GC.Initialize();
+				SetupMembers();
 				return true;
 			}
 			else
@@ -270,6 +267,7 @@ namespace ace
 				JoystickContainer = new JoystickContainer(core.GetJoystickContainer());
 			}
 
+			Sound = new Sound(core.GetSound());
 			Graphics = new Graphics(core.GetGraphics_Imp());
 			ObjectSystemFactory = new ace.ObjectSystemFactory(core.GetObjectSystemFactory());
 			Profiler = new Profiler(core.GetProfiler());

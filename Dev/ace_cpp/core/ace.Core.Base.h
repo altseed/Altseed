@@ -25,6 +25,9 @@ namespace ace {
 	class Joystick;
 	class JoystickContainer;
 
+	class Sound;
+	class SoundSource;
+
 	class Texture2D;
 	class RenderTexture2D;
 	class Shader2D;
@@ -68,6 +71,7 @@ namespace ace {
 	{
 		TEXTURE_FORMAT_R8G8B8A8_UNORM = 0,
 		TEXTURE_FORMAT_R32G32B32A32_FLOAT = 1,
+		TEXTURE_FORMAT_R8G8B8A8_UNORM_SRGB = 2,
 	};
 
 	enum eTextureClassType

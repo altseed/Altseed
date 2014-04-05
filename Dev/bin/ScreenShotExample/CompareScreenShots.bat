@@ -1,1 +1,0 @@
-CompareScreenShots ./ ../ScreenShotTest/ CompareScreenShots.txt

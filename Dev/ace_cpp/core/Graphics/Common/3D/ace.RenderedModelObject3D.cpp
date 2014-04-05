@@ -190,25 +190,24 @@ void main()
 			rotationType);
 	}
 
-	RenderedModelObject3D::MeshGroup::MeshGroup(Mesh_Imp* mesh)
-		: m_mesh(nullptr)
-		, m_deformer(nullptr)
+	RenderedModelObject3D::MeshGroup::MeshGroup()
+		: m_deformer(nullptr)
 	{
-		SafeAddRef(mesh);
-		m_mesh = mesh;
-		CheckDeformer();
 	}
 
 	RenderedModelObject3D::MeshGroup::~MeshGroup()
 	{
-		SetInternalDeformer(nullptr);
-		SafeRelease(m_mesh);
+		for (auto& mesh : m_meshes)
+		{
+			mesh->Release();
+		}
+		m_meshes.clear();
+
+		SafeRelease(m_deformer);
 	}
 
 	void RenderedModelObject3D::MeshGroup::Flip(AnimationClip* animationClip, int32_t time)
 	{
-		CheckDeformer();
-
 		CalculateAnimation(animationClip, time);
 
 		CalclateBoneMatrices();
@@ -267,27 +266,15 @@ void main()
 			m_matrixes);
 	}
 
-	void RenderedModelObject3D::MeshGroup::CheckDeformer()
+	void RenderedModelObject3D::MeshGroup::AddMesh(Mesh_Imp* mesh)
 	{
-		auto m = (Mesh_Imp*) m_mesh;
-
-		if (m != nullptr)
-		{
-			if (m->GetDeformer_() != m_deformer)
-			{
-				SetInternalDeformer(m->GetDeformer_());
-			}
-		}
-		else
-		{
-			SetInternalDeformer(nullptr);
-		}
+		SafeAddRef(mesh);
+		m_meshes.push_back(mesh);
 	}
 
-	void RenderedModelObject3D::MeshGroup::SetInternalDeformer(Deformer* deformer)
+	void RenderedModelObject3D::MeshGroup::SetDeformer(Deformer_Imp* deformer)
 	{
-		auto d = (Deformer_Imp*) deformer;
-		SafeSubstitute(m_deformer, d);
+		SafeSubstitute(m_deformer, deformer);
 
 		if (deformer != nullptr)
 		{
@@ -414,9 +401,26 @@ void main()
 		LoadModel();
 	}
 
-	void RenderedModelObject3D::AddMesh(Mesh* mesh)
+	void RenderedModelObject3D::AddMeshGroup()
 	{
-		m_meshGroups.push_back(std::make_shared<MeshGroup>((Mesh_Imp*)mesh));
+		m_meshGroups.push_back(std::make_shared<MeshGroup>());
+	}
+
+	int32_t RenderedModelObject3D::GetMeshGroupCount()
+	{
+		return m_meshGroups.size();
+	}
+
+	void RenderedModelObject3D::AddMesh(int32_t meshGroupIndex, Mesh* mesh)
+	{
+		if (meshGroupIndex >= GetMeshGroupCount()) return;
+		m_meshGroups[meshGroupIndex]->AddMesh((Mesh_Imp*)mesh);
+	}
+
+	void  RenderedModelObject3D::SetDeformer(int32_t meshGroupIndex, Deformer* deformer)
+	{
+		if (meshGroupIndex >= GetMeshGroupCount()) return;
+		m_meshGroups[meshGroupIndex]->SetDeformer((Deformer_Imp*) deformer);
 	}
 
 	void RenderedModelObject3D::UnloadModel()
@@ -436,9 +440,17 @@ void main()
 	{
 		if (m_model == nullptr) return;
 
-		for (auto& m : m_model->GetMeshes())
+		int32_t index = 0;
+		for (auto& mg : m_model->GetMeshGroups())
 		{
-			AddMesh(m);
+			AddMeshGroup();
+
+			for (auto& m : mg->Meshes)
+			{
+				AddMesh(index, m);
+			}
+			SetDeformer(index, mg->Deformer_);
+			index++;
 		}
 
 		for (int32_t i = 0; i < m_model->GetAnimationClips().size(); i++)
@@ -501,112 +513,52 @@ void main()
 		for (auto& g : m_meshGroups_fr)
 		{
 			auto& matrices = g->m_matrixes_fr;
-			auto mesh = g->GetMesh();
 
-			// 有効チェック
-			if (mesh->GetIndexBuffer() == nullptr) continue;
-
-			// 行列計算
-			if (matrices.size() > 0)
+			for (auto& mesh : g->GetMeshes())
 			{
-				// ボーンあり
-				for (int32_t i = 0; i < Min(32, matrices.size()); i++)
+				// 有効チェック
+				if (mesh->GetIndexBuffer() == nullptr) continue;
+
+				// 行列計算
+				if (matrices.size() > 0)
 				{
-					vbuf.MCPMatrices[i].Indentity();
-					Matrix44::Mul(vbuf.MCPMatrices[i], prop.CameraProjectionMatrix, GetLocalMatrix_FR());
-					Matrix44::Mul(vbuf.MCPMatrices[i], vbuf.MCPMatrices[i], matrices[i]);
-				}
-			}
-			else
-			{
-				// ボーンなし
-				vbuf.MCPMatrices[0].Indentity();
-				Matrix44::Mul(vbuf.MCPMatrices[0], prop.CameraProjectionMatrix, GetLocalMatrix_FR());
-				for (int32_t i = 1; i < 32; i++)
-				{
-					vbuf.MCPMatrices[i] = vbuf.MCPMatrices[0];
-				}
-			}
-
-			{
-				vbuf.DirectionalLightDirection = prop.DirectionalLightDirection;
-				vbuf.DirectionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
-				vbuf.DirectionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
-				vbuf.DirectionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
-			}
-
-			auto& boneOffsets = mesh->GetBoneOffsets();
-			auto& materialOffsets = mesh->GetMaterialOffsets();
-
-			if (boneOffsets.size() == 0 || materialOffsets.size() == 0)
-			{
-				// ボーン、もしくはマテリアルの設定がない場合
-
-				pbuf.HasTextures.X = 0.0f;
-				pbuf.HasTextures.Y = 0.0f;
-				pbuf.HasTextures.Z = 0.0f;
-
-				GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
-				GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
-				GetGraphics()->SetShader(m_shader.get());
-
-				auto& state = GetGraphics()->GetRenderState()->Push();
-				state.DepthTest = true;
-				state.DepthWrite = true;
-				state.CullingType = CULLING_DOUBLE;
-				GetGraphics()->GetRenderState()->Update(false);
-
-				GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
-
-				GetGraphics()->GetRenderState()->Pop();
-			}
-			else
-			{
-				// 設定がある場合
-				auto mIndex = 0;
-				auto bIndex = 0;
-
-				auto fOffset = 0;
-				auto fCount = 0;
-
-				auto bFCount = boneOffsets[bIndex].FaceOffset;
-				auto mFCount = materialOffsets[mIndex].FaceOffset;
-
-				while (fCount < mesh->GetIndexBuffer()->GetCount() / 3)
-				{
-					fCount = Min(bFCount, mFCount) - fOffset;
-					if (fCount == 0) break;
-
-					auto material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
-
-					if (material != nullptr)
+					// ボーンあり
+					for (int32_t i = 0; i < Min(32, matrices.size()); i++)
 					{
-						pbuf.HasTextures.X = material->ColorTexture != nullptr ? 1.0f : 0.0f;
-						pbuf.HasTextures.Y = material->NormalTexture != nullptr ? 1.0f : 0.0f;
-						pbuf.HasTextures.Z = material->SpecularTexture != nullptr ? 1.0f : 0.0f;
-
-						if (material->ColorTexture != nullptr)
-						{
-							m_shader->SetTexture("g_colorTexture", material->ColorTexture, 0);
-						}
-
-						if (material->NormalTexture != nullptr)
-						{
-							m_shader->SetTexture("g_normalTexture", material->NormalTexture, 1);
-						}
-
-						if (material->SpecularTexture != nullptr)
-						{
-							m_shader->SetTexture("g_specularTexture", material->SpecularTexture, 2);
-						}
+						vbuf.MCPMatrices[i].SetIndentity();
+						Matrix44::Mul(vbuf.MCPMatrices[i], prop.CameraProjectionMatrix, GetLocalMatrix_FR());
+						Matrix44::Mul(vbuf.MCPMatrices[i], vbuf.MCPMatrices[i], matrices[i]);
 					}
-					else
+				}
+				else
+				{
+					// ボーンなし
+					vbuf.MCPMatrices[0].SetIndentity();
+					Matrix44::Mul(vbuf.MCPMatrices[0], prop.CameraProjectionMatrix, GetLocalMatrix_FR());
+					for (int32_t i = 1; i < 32; i++)
 					{
-						pbuf.HasTextures.X = 0.0f;
-						pbuf.HasTextures.Y = 0.0f;
-						pbuf.HasTextures.Z = 0.0f;
+						vbuf.MCPMatrices[i] = vbuf.MCPMatrices[0];
 					}
-					
+				}
+
+				{
+					vbuf.DirectionalLightDirection = prop.DirectionalLightDirection;
+					vbuf.DirectionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
+					vbuf.DirectionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
+					vbuf.DirectionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
+				}
+
+				auto& boneOffsets = mesh->GetBoneOffsets();
+				auto& materialOffsets = mesh->GetMaterialOffsets();
+
+				if (boneOffsets.size() == 0 || materialOffsets.size() == 0)
+				{
+					// ボーン、もしくはマテリアルの設定がない場合
+
+					pbuf.HasTextures.X = 0.0f;
+					pbuf.HasTextures.Y = 0.0f;
+					pbuf.HasTextures.Z = 0.0f;
+
 					GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
 					GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
 					GetGraphics()->SetShader(m_shader.get());
@@ -620,25 +572,85 @@ void main()
 					GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
 
 					GetGraphics()->GetRenderState()->Pop();
+				}
+				else
+				{
+					// 設定がある場合
+					auto mIndex = 0;
+					auto bIndex = 0;
 
+					auto fOffset = 0;
+					auto fCount = 0;
 
-					if (fCount + fOffset == bFCount && boneOffsets.size() > bIndex)
+					auto bFCount = boneOffsets[bIndex].FaceOffset;
+					auto mFCount = materialOffsets[mIndex].FaceOffset;
+
+					while (fCount < mesh->GetIndexBuffer()->GetCount() / 3)
 					{
-						bFCount += boneOffsets[bIndex].FaceOffset;
-						bIndex++;
-					}
+						fCount = Min(bFCount, mFCount) - fOffset;
+						if (fCount == 0) break;
 
-					if (fCount + fOffset == mFCount && materialOffsets.size() > mIndex)
-					{
-						mFCount += materialOffsets[mIndex].FaceOffset;
-						mIndex++;
-					}
+						auto material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
 
-					fOffset += fCount;
+						if (material != nullptr)
+						{
+							pbuf.HasTextures.X = material->ColorTexture != nullptr ? 1.0f : 0.0f;
+							pbuf.HasTextures.Y = material->NormalTexture != nullptr ? 1.0f : 0.0f;
+							pbuf.HasTextures.Z = material->SpecularTexture != nullptr ? 1.0f : 0.0f;
+
+							if (material->ColorTexture != nullptr)
+							{
+								m_shader->SetTexture("g_colorTexture", material->ColorTexture, 0);
+							}
+
+							if (material->NormalTexture != nullptr)
+							{
+								m_shader->SetTexture("g_normalTexture", material->NormalTexture, 1);
+							}
+
+							if (material->SpecularTexture != nullptr)
+							{
+								m_shader->SetTexture("g_specularTexture", material->SpecularTexture, 2);
+							}
+						}
+						else
+						{
+							pbuf.HasTextures.X = 0.0f;
+							pbuf.HasTextures.Y = 0.0f;
+							pbuf.HasTextures.Z = 0.0f;
+						}
+
+						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
+						GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
+						GetGraphics()->SetShader(m_shader.get());
+
+						auto& state = GetGraphics()->GetRenderState()->Push();
+						state.DepthTest = true;
+						state.DepthWrite = true;
+						state.CullingType = CULLING_DOUBLE;
+						GetGraphics()->GetRenderState()->Update(false);
+
+						GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
+
+						GetGraphics()->GetRenderState()->Pop();
+
+
+						if (fCount + fOffset == bFCount && boneOffsets.size() > bIndex)
+						{
+							bFCount += boneOffsets[bIndex].FaceOffset;
+							bIndex++;
+						}
+
+						if (fCount + fOffset == mFCount && materialOffsets.size() > mIndex)
+						{
+							mFCount += materialOffsets[mIndex].FaceOffset;
+							mIndex++;
+						}
+
+						fOffset += fCount;
+					}
 				}
 			}
-
-			
 		}
 	}
 }

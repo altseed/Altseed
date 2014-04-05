@@ -16,13 +16,13 @@ namespace ace {
 //----------------------------------------------------------------------------------
 Matrix44::Matrix44()
 {
-	Indentity();
+	SetIndentity();
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::Indentity()
+Matrix44& Matrix44::SetIndentity()
 {
 	memset( Values, 0, sizeof(float) * 16 );
 	Values[0][0] = 1.0f;
@@ -35,7 +35,7 @@ Matrix44& Matrix44::Indentity()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::Transpose()
+Matrix44& Matrix44::SetTransposed()
 {
 	for (int32_t c = 0; c < 4; c++)
 	{
@@ -53,7 +53,7 @@ Matrix44& Matrix44::Transpose()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::Invert()
+Matrix44& Matrix44::SetInverted()
 {
 	float a11 = this->Values[0][0];
 	float a12 = this->Values[0][1];
@@ -128,7 +128,7 @@ Matrix44& Matrix44::Invert()
 Matrix44 Matrix44::GetInverted()
 {
 	Matrix44 o = (*this);
-	o.Invert();
+	o.SetInverted();
 	return o;
 }
 
@@ -348,7 +348,7 @@ Matrix44& Matrix44::SetOrthographicLH(float width, float height, float zn, float
 //----------------------------------------------------------------------------------
 Matrix44& Matrix44::SetTranslation(float x, float y, float z)
 {
-	Indentity();
+	SetIndentity();
 	Values[0][3] = x;
 	Values[1][3] = y;
 	Values[2][3] = z;
@@ -525,17 +525,17 @@ Matrix44& Matrix44::SetScale(float x, float y, float z)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Vector3DF Matrix44::Transform3D(const Vector3DF& in)
+Vector3DF Matrix44::Transform3D(const Vector3DF& in) const
 {
 	float values[3];
 
 	for (int i = 0; i < 3; i++)
 	{
 		values[i] = 0;
-		values[i] += in.X * Values[0][i];
-		values[i] += in.Y * Values[1][i];
-		values[i] += in.Z * Values[2][i];
-		values[i] += Values[3][i];
+		values[i] += in.X * Values[i][0];
+		values[i] += in.Y * Values[i][1];
+		values[i] += in.Z * Values[i][2];
+		values[i] += Values[i][3];
 	}
 
 	Vector3DF o;
@@ -548,17 +548,17 @@ Vector3DF Matrix44::Transform3D(const Vector3DF& in)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Vector4DF Matrix44::Transform4D(const Vector4DF& in)
+Vector4DF Matrix44::Transform4D(const Vector4DF& in) const
 {
 	float values[4];
 
 	for (int i = 0; i < 4; i++)
 	{
 		values[i] = 0;
-		values[i] += in.X * Values[0][i];
-		values[i] += in.Y * Values[1][i];
-		values[i] += in.Z * Values[2][i];
-		values[i] += in.W * Values[3][i];
+		values[i] += in.X * Values[i][0];
+		values[i] += in.Y * Values[i][1];
+		values[i] += in.Z * Values[i][2];
+		values[i] += in.W * Values[i][3];
 	}
 
 	Vector4DF o;
@@ -572,11 +572,27 @@ Vector4DF Matrix44::Transform4D(const Vector4DF& in)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44 Matrix44::operator * (const Matrix44& o) const
+Matrix44 Matrix44::operator * (const Matrix44& right) const
 {
 	Matrix44 o_;
-	Mul(o_, *this, o);
+	Mul(o_, *this, right);
 	return o_;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Vector3DF Matrix44::operator * (const Vector3DF& right) const
+{
+	return Transform3D(right);
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Vector4DF Matrix44::operator * (const Vector4DF& right) const
+{
+	return Transform4D(right);
 }
 
 //----------------------------------------------------------------------------------

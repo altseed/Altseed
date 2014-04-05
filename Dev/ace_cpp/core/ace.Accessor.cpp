@@ -1,6 +1,8 @@
 ﻿
 #include "ace.Accessor.h"
 
+#include "Sound/ace.Sound_Imp.h"
+
 #include "Graphics/Common/Animation/ace.AnimationSystem.h"
 #include "Graphics/Common/Animation/ace.AnimationClip.h"
 #include "Graphics/Common/Animation/ace.AnimationSource.h"
@@ -10,6 +12,11 @@
 
 namespace ace
 {
+	SoundSource* Accessor::Sound_CreateSoundSource(Sound* o, const achar* path, bool isDecompressed)
+	{
+		return o->CreateSoundSource_(path, isDecompressed);
+	}
+
 	AnimationSource* Accessor::AnimationClip_GetSource(AnimationClip* o)
 	{
 		return o->GetSource_();

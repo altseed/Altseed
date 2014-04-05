@@ -176,6 +176,10 @@ $RECYCLE.BIN/
 # Mac crap
 .DS_Store
 
+*.exe.config
+*.manifest
+*.pyc
+
 /Dev/bin/*.png
 /Dev/bin/*.dll
 /Dev/bin/*.exp
@@ -214,10 +218,17 @@ $RECYCLE.BIN/
 /Dev/cmake/
 
 /Dev/packages/
+
 /Dev/include/GLFW/
 /Dev/include/gtest/
-/Dev/ace_cpp/engine/ace.CoreToEngine.h
 /Dev/include/ace.h
+/Dev/include/Effekseer.h
+/Dev/include/EffekseerRendererDX11.h
+/Dev/include/EffekseerRendererGL.h
+/Dev/include/OpenSoundMixer.h
+
+/Dev/ace_cpp/engine/ace.CoreToEngine.h
+
 /Dev/ace_cs/swig/
 
 
@@ -225,16 +236,17 @@ $RECYCLE.BIN/
 /Dev/lib/ace_common.Release.lib
 
 /Dev/ace_cpp/core/dll_cs.cxx
+
 /Product/bin/
 /Product/inlude/
 /Product/lib/
 /Document/Doxygen/
 
-*.exe.config
-
 # Result of Test
 /Dev/test_cpp/msvc/Log.html
+
 /Dev/bin/Log.html
+/Dev/bin/ScreenShotTest
 
 /Dev/bin/binaryTest.dat
 /Dev/bin/graphics.html

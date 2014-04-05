@@ -40,12 +40,40 @@ namespace ace
 		}
 
 		/// <summary>
-		/// 描画に使用するメッシュを設定する。
+		/// メッシュグループを追加する。
 		/// </summary>
-		public void AddMesh(Mesh mesh)
+		public void AddMeshGroup()
 		{
-			coreObject.AddMesh(mesh.SwigObject);
+			coreObject.AddMeshGroup();
 		}
 
+		/// <summary>
+		/// メッシュグループの個数を取得する。
+		/// </summary>
+		/// <returns>個数</returns>
+		public int GetMeshGroupCount()
+		{
+			return coreObject.GetMeshGroupCount();
+		}
+
+		/// <summary>
+		/// 描画に使用するメッシュを追加する。
+		/// </summary>
+		/// <param name="meshGroupIndex">メッシュグループのインデックス</param>
+		/// <param name="mesh">メッシュ</param>
+		public void AddMesh(int meshGroupIndex, Mesh mesh)
+		{
+			coreObject.AddMesh(meshGroupIndex, mesh.SwigObject);
+		}
+
+		/// <summary>
+		/// 描画に使用するデフォーマーを設定する。
+		/// </summary>
+		/// <param name="meshGroupIndex">メッシュグループのインデックス</param>
+		/// <param name="deformer">デフォーマー</param>
+		public void SetDeformer(int meshGroupIndex, Deformer deformer)
+		{
+			coreObject.SetDeformer(meshGroupIndex, deformer.SwigObject);
+		}
 	}
 }

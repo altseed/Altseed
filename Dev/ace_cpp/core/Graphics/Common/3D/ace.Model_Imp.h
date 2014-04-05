@@ -10,9 +10,20 @@ namespace ace
 		: public Model
 		, public ReferenceObject
 	{
+	public:
+		class MeshGroup
+			: public ReferenceObject
+		{
+		public:
+			std::vector<Mesh_Imp*>		Meshes;
+			Deformer_Imp*				Deformer_;
+
+			MeshGroup() = default;
+			virtual ~MeshGroup();
+		};
+
 	private:
-		
-		std::vector<Mesh_Imp*>		m_meshes;
+		std::vector<MeshGroup*>		m_meshGroups;
 		std::vector<astring>		m_animationClipNames;
 		std::vector<AnimationClip*>	m_animationClips;
 
@@ -43,7 +54,7 @@ namespace ace
 		void Reload(std::vector<uint8_t>& data, const achar* path);
 
 	private:
-		Mesh_Imp* LoadMeshGroup(Graphics* g, BinaryReader& reader, const achar* path);
+		MeshGroup* LoadMeshGroup(Graphics* g, BinaryReader& reader, const achar* path);
 		Mesh_Imp* LoadMesh(Graphics* g, BinaryReader& reader, const achar* path);
 		Deformer_Imp* LoadDeformer(Graphics* g, BinaryReader& reader, const achar* path);
 
@@ -54,7 +65,7 @@ namespace ace
 	public:
 		std::vector<AnimationClip*>& GetAnimationClips() { return m_animationClips; }
 		std::vector<astring>& GetAnimationClipNames() { return m_animationClipNames; }
-		std::vector < Mesh_Imp*> GetMeshes() { return m_meshes; }
+		std::vector < MeshGroup*> GetMeshGroups() { return m_meshGroups; }
 		
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

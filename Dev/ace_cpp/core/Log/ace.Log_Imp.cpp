@@ -5,6 +5,129 @@ using namespace std;
 
 namespace ace
 {
+	static const char* css = R"(
+@charset "utf-8";
+
+body
+{
+	line-height: 1.5em;
+}
+
+*::selection
+{
+	background-color: rgba(255, 210, 130, 0.5);
+/*	background-color: rgba(160, 220, 150, 0.5);*/
+}
+
+h1, h2, h3, h4
+{
+	font-family: "Meiryo UI";
+	display: block;
+}
+
+h1, h2, h3
+{
+	padding: 0.2em 0.3em;
+}
+
+h1
+{
+	font-size: 2em;
+	background-color: #ddeeee;
+	border-bottom: 1px solid #999999;
+	line-height: 1.2em;
+}
+h2
+{
+	font-size: 1.5em;
+	background-color: #eef3f3;
+	border-bottom: 1px solid #999999;
+	line-height: 1.2em;
+}
+h3{
+	font-size: 1.3em;
+	background-color: #eeeeee;
+}
+h4
+{
+	font-size: 1.1em;
+	margin-top: 0.3em;
+	margin-bottom: 0em;
+}
+
+p
+{
+	margin-bottom: 0.9em;
+}
+
+p code {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  background-color: #f9f9f9;
+  padding: 1px 5px;
+  display: inline-block;
+}
+
+pre
+{
+  margin-top: 0.1em;
+  margin-left: 1em;
+  border: 1px solid #ccc;
+  background-color: #f9f9f9;
+  padding: 3px 5px;
+  display: block;
+  font: 1em "Consolas";
+}
+
+pre code
+{
+  font: 0.9em "Consolas";
+}
+
+code
+{
+  color: #52595d;
+  font: 0.95em "Consolas";
+  margin: 0em 0.3em;
+}
+
+hr
+{
+	border: 0;
+	border-bottom: 2px dashed #acc;
+	background-color: #fff;
+}
+
+ul
+{
+	list-style-type: none;
+}
+
+li
+{
+	border-left: 2px solid #cdd;
+	margin-bottom: 2px;
+	padding-left: 0.5em;
+}
+
+em
+{
+	display: none;
+}
+
+table
+{
+	border-collapse: collapse;
+}
+
+td, th
+{
+	border: 1px solid #8bb;
+	padding: 2px 5px;
+	vertical-align: middle;
+}
+)";
+
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
@@ -42,6 +165,7 @@ namespace ace
 
 		temp->m_file << "<!DOCTYPE html>\r\n"
 			<< "<html>\r\n<head>\r\n<meta charset=\"UTF-8\">\r\n"
+			<< "<STYLE type=\"text/css\">\r\n<!--\r\n" << ArrangeString(ToAString(css).c_str()) << "\r\n-->\r\n</STYLE>\r\n"
 			<< "<title>" << ArrangeString(title) << "</title>\r\n"
 			<< "</head>\r\n<body>";
 
@@ -111,7 +235,7 @@ namespace ace
 	{
 		if (WritingIsRequired(level))
 		{
-			m_file << "<strong>" << ArrangeString(text) << "</strong>" << endl;
+			m_file << "<strong>" << ArrangeString(text) << "</strong><br />" << endl;
 		}
 	}
 

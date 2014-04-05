@@ -1,4 +1,5 @@
-﻿#include <stdio.h>
+﻿
+#include <stdio.h>
 #include <string.h>
 #include "SampleGuide.h"
 using namespace std;

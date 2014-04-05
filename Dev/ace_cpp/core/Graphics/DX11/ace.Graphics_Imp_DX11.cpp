@@ -5,6 +5,7 @@
 #include "ace.Graphics_Imp_DX11.h"
 #include "../Common/ace.RenderingThread.h"
 
+#include "../../Log/ace.Log.h"
 #include "../../Window/ace.Window_Imp.h"
 #include "Resource/ace.Texture2D_Imp_DX11.h"
 #include "Resource/ace.VertexBuffer_Imp_DX11.h"
@@ -13,6 +14,8 @@
 #include "Resource/ace.RenderState_Imp_DX11.h"
 #include "Resource/ace.RenderTexture_Imp_DX11.h"
 #include "Resource/ace.DepthBuffer_Imp_DX11.h"
+
+#include <sstream>
 
 //----------------------------------------------------------------------------------
 //
@@ -132,8 +135,8 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11Device* device,
 	ID3D11DeviceContext* context,
 	IDXGIDevice1* dxgiDevice,
-	IDXGIAdapter* adapter,
-	IDXGIFactory* dxgiFactory,
+	IDXGIAdapter1* adapter,
+	IDXGIFactory1* dxgiFactory,
 	IDXGISwapChain* swapChain,
 	ID3D11Texture2D* defaultBack,
 	ID3D11RenderTargetView*	defaultBackRenderTargetView,
@@ -199,6 +202,103 @@ Graphics_Imp_DX11::~Graphics_Imp_DX11()
 
 	SafeRelease(m_window);
 
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter, int32_t index)
+{
+	if (log == nullptr) return;
+
+	auto write = [log](std::ostringstream& os) -> void
+	{
+		log->Write(ToAString(os.str().c_str()).c_str());
+	};
+
+	auto writeTable = [log, write](const char* title, std::ostringstream& text, bool isLast) -> void
+	{
+		log->Write(ToAString(title).c_str());
+		log->ChangeColumn();
+		write(text);
+		if (!isLast)
+		{
+			log->ChangeRow();
+		}
+	};
+
+	{
+		DXGI_ADAPTER_DESC1 adapterDesc;
+
+		auto hr = adapter->GetDesc1(&adapterDesc);
+
+		std::ostringstream title, card, vendor, device, subSys, revision, videoMemory, systemMemory, sharedSystemMemory;
+
+		title << "デバイス情報 (" << (index + 1) << ")";
+
+		if (SUCCEEDED(hr))
+		{
+			card << ToUtf8String(adapterDesc.Description);
+			vendor << adapterDesc.VendorId;
+			device << adapterDesc.DeviceId;
+			subSys << adapterDesc.SubSysId;
+			revision << adapterDesc.Revision;
+			videoMemory << (adapterDesc.DedicatedVideoMemory / 1024 / 1024) << "MB";
+			systemMemory << (adapterDesc.DedicatedSystemMemory / 1024 / 1024) << "MB";
+			sharedSystemMemory << (adapterDesc.SharedSystemMemory / 1024 / 1024) << "MB";
+		}
+
+		log->WriteLineStrongly(ToAString(title.str().c_str()).c_str());
+
+		log->BeginTable();
+
+		writeTable("GraphicCard", card, false);
+		writeTable("VendorID", vendor, false);
+		writeTable("DeviceID", device, false);
+		writeTable("SubSysID", subSys, false);
+		writeTable("Revision", revision, false);
+		writeTable("VideoMemory", videoMemory, false);
+		writeTable("SystemMemory", systemMemory, false);
+		writeTable("SharedSystemMemory", sharedSystemMemory, true);
+
+		log->EndTable();
+	}
+
+	for (int32_t i = 0;; i++)
+	{
+		IDXGIOutput* temp = nullptr;
+		if (adapter->EnumOutputs(i, &temp) != DXGI_ERROR_NOT_FOUND)
+		{
+			DXGI_OUTPUT_DESC outputDesc;
+
+			if (SUCCEEDED(temp->GetDesc(&outputDesc)))
+			{
+				std::ostringstream title, name, attach, pos;
+
+				title << "アウトプット情報 (" << (i + 1) << ")";
+
+				name << ToUtf8String(outputDesc.DeviceName);
+				attach << (outputDesc.AttachedToDesktop == TRUE ? "True" : "False");
+				pos << "(" << outputDesc.DesktopCoordinates.left << ","
+					<< outputDesc.DesktopCoordinates.top << ","
+					<< (outputDesc.DesktopCoordinates.right - outputDesc.DesktopCoordinates.left) << ","
+					<< (outputDesc.DesktopCoordinates.bottom - outputDesc.DesktopCoordinates.top) << ")";
+					
+				log->WriteLineStrongly(ToAString(title.str().c_str()).c_str());
+				log->BeginTable();
+				writeTable("Name", name, false);
+				writeTable("AttachedToDesktop", attach, false);
+				writeTable("Coordinate", pos, true);
+				log->EndTable();
+			}
+
+			SafeRelease(temp);
+		}
+		else
+		{
+			break;
+		}
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -271,18 +371,18 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 	{
 		auto shader = (NativeShader_Imp_DX11*) shaderPtr;
 
-		// ?V?F?[?_?[????
+		// シェーダーの設定
 		GetContext()->VSSetShader(shader->GetVertexShader(), NULL, 0);
 		GetContext()->PSSetShader(shader->GetPixelShader(), NULL, 0);
 
-		// ???C?A?E?g????
+		// レイアウトの設定
 		GetContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 		GetContext()->IASetInputLayout(shader->GetLayout());
 
-		// ???o?b?t?@????
+		// 定数バッファの割り当て
 		shaderPtr->AssignConstantBuffer();
 
-		// ?e?N?X?`??????
+		// テクスチャの設定
 		for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
 		{
 			Texture2D* tex = nullptr;
@@ -302,11 +402,11 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 					rv = t->GetShaderResourceView();
 				}
 				
-				// ???_?V?F?[?_?[????
-				GetContext()->VSSetShaderResources(0, 1, &rv);
+				// 頂点シェーダーに設定
+				GetContext()->VSSetShaderResources(i, 1, &rv);
 
-				// ?s?N?Z???V?F?[?_?[????
-				GetContext()->PSSetShaderResources(0, 1, &rv);
+				// ピクセルシェーダーに設定
+				GetContext()->PSSetShaderResources(i, 1, &rv);
 			}
 		}
 	}
@@ -347,7 +447,7 @@ void Graphics_Imp_DX11::DrawPolygonInstancedInternal(int32_t count, VertexBuffer
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::BeginInternal()
 {
-	// ?`??????Z?b?g
+	// 描画先のリセット
 	m_context->OMSetRenderTargets(1, &m_defaultBackRenderTargetView, m_defaultDepthStencilView);
 
 	SafeRelease(m_currentBackRenderTargetView);
@@ -358,7 +458,7 @@ void Graphics_Imp_DX11::BeginInternal()
 	m_currentDepthStencilView = m_defaultDepthStencilView;
 	SafeAddRef(m_currentDepthStencilView);
 
-	// ?`???????Z?b?g
+	// 描画範囲のリセット
 	SetViewport(0, 0, m_size.X, m_size.Y);
 }
 
@@ -367,12 +467,27 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode)
 {
-	/* DirectX?????? */
+	auto writeLogHeading = [log](const astring s) -> void
+	{
+		if (log == nullptr) return;
+		log->WriteHeading(s.c_str());
+	};
+
+	auto writeLog = [log](const astring s) -> void
+	{
+		if (log == nullptr) return;
+		log->WriteLine(s.c_str());
+	};
+
+	writeLogHeading(ToAString("DirectX11"));
+
+	/* DirectX初期化 */
 	ID3D11Device*			device = NULL;
 	ID3D11DeviceContext*	context = NULL;
 	IDXGIDevice1*			dxgiDevice = NULL;
-	IDXGIAdapter*			adapter = NULL;
-	IDXGIFactory*			dxgiFactory = NULL;
+	IDXGIAdapter1*			adapter = NULL;
+	std::vector<IDXGIAdapter1*>	adapters;
+	IDXGIFactory1*			dxgiFactory = NULL;
 	IDXGISwapChain*			swapChain = NULL;
 	ID3D11Texture2D*		defaultBack = NULL;
 	ID3D11RenderTargetView*	defaultBackRenderTargetView = NULL;
@@ -381,39 +496,84 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	HRESULT hr;
 
+	hr = CreateDXGIFactory1(__uuidof(IDXGIFactory1), (void**) &dxgiFactory);
+	if (dxgiFactory == NULL)
+	{
+		writeLog(ToAString("ファクトリの作成に失敗"));
+		goto End;
+	}
+
+	for (int32_t i = 0;; i++)
+	{
+		IDXGIAdapter1* temp = 0;
+		if (dxgiFactory->EnumAdapters1(i, &temp) != DXGI_ERROR_NOT_FOUND)
+		{
+			adapters.push_back(temp);
+		}
+		else
+		{
+			break;
+		}
+	}
+
+	if (adapters.size() > 0)
+	{
+		SafeAddRef(adapters[0]);
+		adapter = adapters[0];
+	}
+
+	if (adapter == nullptr)
+	{
+		writeLog(ToAString("アダプタの取得に失敗"));
+		goto End;
+	}
+
 	UINT debugFlag = 0;
+
+#if _DEBUG
 	debugFlag = D3D11_CREATE_DEVICE_DEBUG;
+#endif
+
+	D3D_FEATURE_LEVEL flevels[] = {
+		D3D_FEATURE_LEVEL_11_0,
+		D3D_FEATURE_LEVEL_10_1,
+		D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,
+		D3D_FEATURE_LEVEL_9_2,
+		D3D_FEATURE_LEVEL_9_1,
+	};
+	int32_t flevelCount = sizeof(flevels) / sizeof(D3D_FEATURE_LEVEL);
+
+	D3D_FEATURE_LEVEL currentFeatureLevel;
 
 	hr = D3D11CreateDevice(
-		NULL,
-		D3D_DRIVER_TYPE_HARDWARE,
+		adapter,
+		D3D_DRIVER_TYPE_UNKNOWN,
 		NULL,
 		debugFlag,
-		NULL,
-		0,
+		flevels,
+		flevelCount,
 		D3D11_SDK_VERSION,
 		&device,
-		NULL,
+		&currentFeatureLevel,
 		&context);
 
 	if FAILED(hr)
 	{
+		writeLog(ToAString("デバイスの作成に失敗"));
 		goto End;
 	}
+
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_11_0) writeLog(ToAString("レベル11.0でデバイスを作成"));
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_10_1) writeLog(ToAString("レベル10.1でデバイスを作成"));
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_10_0) writeLog(ToAString("レベル10.0でデバイスを作成"));
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_3) writeLog(ToAString("レベル9.3でデバイスを作成"));
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_2) writeLog(ToAString("レベル9.2でデバイスを作成"));
+	if (currentFeatureLevel == D3D_FEATURE_LEVEL_9_1) writeLog(ToAString("レベル9.1でデバイスを作成"));
 
 	if (FAILED(device->QueryInterface(__uuidof(IDXGIDevice1), (void**) &dxgiDevice)))
 	{
-		goto End;
-	}
-
-	if (FAILED(dxgiDevice->GetAdapter(&adapter)))
-	{
-		goto End;
-	}
-
-	adapter->GetParent(__uuidof(IDXGIFactory), (void**) &dxgiFactory);
-	if (dxgiFactory == NULL)
-	{
+		writeLog(ToAString("デバイス1の作成に失敗"));
 		goto End;
 	}
 
@@ -436,16 +596,19 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	if (FAILED(dxgiFactory->CreateSwapChain(device, &hDXGISwapChainDesc, &swapChain)))
 	{
+		writeLog(ToAString("スワップチェーンの作成に失敗"));
 		goto End;
 	}
 
 	if (FAILED(swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**) &defaultBack)))
 	{
+		writeLog(ToAString("バックバッファの取得に失敗"));
 		goto End;
 	}
 
 	if (FAILED(device->CreateRenderTargetView(defaultBack, NULL, &defaultBackRenderTargetView)))
 	{
+		writeLog(ToAString("バックバッファのレンダーターゲットの取得に失敗"));
 		goto End;
 	}
 
@@ -465,6 +628,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 
 	if (FAILED(device->CreateTexture2D(&descDepth, NULL, &depthBuffer)))
 	{
+		writeLog(ToAString("深度バッファの作成に失敗"));
 		goto End;
 	}
 
@@ -474,8 +638,20 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	viewDesc.Flags = 0;
 	if (FAILED(device->CreateDepthStencilView(depthBuffer, &viewDesc, &depthStencilView)))
 	{
+		writeLog(ToAString("深度バッファのビューの作成に失敗"));
 		goto End;
 	}
+
+	writeLog(ToAString("DirectX11初期化成功"));
+	writeLog(ToAString(""));
+
+	for (size_t i = 0; i < adapters.size(); i++)
+	{
+		WriteAdapterInformation(log, adapters[i], i);
+	}
+
+	// 破棄処理
+	for (auto& a : adapters) a->Release();
 
 	return new Graphics_Imp_DX11(
 		window,
@@ -501,6 +677,11 @@ End:
 	SafeRelease(dxgiDevice);
 	SafeRelease(context);
 	SafeRelease(device);
+	for (auto& a : adapters) a->Release();
+
+	writeLog(ToAString("DirectX11初期化失敗"));
+	writeLog(ToAString(""));
+
 	return nullptr;
 }
 
@@ -561,11 +742,12 @@ DepthBuffer_Imp* Graphics_Imp_DX11::CreateDepthBuffer_Imp(int32_t width, int32_t
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer)
 {
-	// ???????Z?b?g(?e?N?X?`????`??擯?????s??????)
+	// 強制リセット(テクスチャと描画先同時設定不可のため)
 	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
 	{
-		ID3D11ShaderResourceView* rv = nullptr;
-		GetContext()->PSSetShaderResources(0, 1, &rv);
+		ID3D11ShaderResourceView* rv = { nullptr };
+		GetContext()->VSSetShaderResources(i, 1, &rv);
+		GetContext()->PSSetShaderResources(i, 1, &rv);
 	}
 
 	if (texture == nullptr)
@@ -663,7 +845,7 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::Present()
 {
-	// ?????????
+	// 同期しない
 	m_swapChain->Present(0, 0);
 }
 

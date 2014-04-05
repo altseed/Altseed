@@ -1,7 +1,6 @@
-﻿#include <cstdint>
-#include <iostream>
-#include <ace.common.Base.h>
-#include<gtest/gtest.h>
+﻿
+#include "PCH/ace.UnitTestCpp.PCH.h"
+
 using namespace std;
 
 TEST(CharSet, Utf16ToUtf8)

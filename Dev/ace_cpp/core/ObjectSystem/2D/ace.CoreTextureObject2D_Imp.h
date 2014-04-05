@@ -1,4 +1,5 @@
 ﻿#pragma once
+#include "../common/Math/ace.RectF.h"
 #include "ace.CoreTextureObject2D.h"
 #include "ace.TransformInfo2D.h"
 #include "ace.ObjectInfo2D.h"
@@ -14,6 +15,7 @@ namespace ace
 		ObjectInfo2D m_objectInfo;
 
 		Texture2D* m_texture;
+		RectF m_src;
 		Vector2DF m_centerPosition;
 		Color m_color;
 		bool m_turnLR;
@@ -83,6 +85,9 @@ namespace ace
 
 		Texture2D* GetTexture() const;
 		void SetTexture(Texture2D* texture);
+
+		RectF GetSrc() const;
+		void SetSrc(RectF value);
 
 		Vector2DF GetCenterPosition() const;
 		void SetCenterPosition(Vector2DF position);

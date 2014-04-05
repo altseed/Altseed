@@ -257,8 +257,15 @@ namespace ace
 
 	void Model_IO::LoadMeshGroup(MeshGroup* meshGroup, BinaryReader& reader, const achar* path)
 	{
-		LoadMesh(&(meshGroup->Mesh), reader, path);
-		LoadDeformer(&(meshGroup->Deformer), reader, path);
+		auto mcount = reader.Get<int32_t>();
+		meshGroup->Mesh_.resize(mcount);
+
+		for (auto i = 0; i < mcount; i++)
+		{
+			LoadMesh(&(meshGroup->Mesh_[i]), reader, path);
+		}
+		
+		LoadDeformer(&(meshGroup->Deformer_), reader, path);
 		LoadMaterials(&(meshGroup->Materials), reader, path);
 	}
 
@@ -375,9 +382,9 @@ namespace ace
 			auto pathNormal = reader.Get<ace::astring>();
 			auto pathSpecular = reader.Get<ace::astring>();
 
-			material->ColorTexture = pathColor;
-			material->NormalTexture = pathNormal;
-			material->SpecularTexture = pathSpecular;
+			material->ColorTexture = CombinePath(path, pathColor.c_str());
+			material->NormalTexture = CombinePath(path, pathNormal.c_str());
+			material->SpecularTexture = CombinePath(path, pathSpecular.c_str());
 		}
 	}
 

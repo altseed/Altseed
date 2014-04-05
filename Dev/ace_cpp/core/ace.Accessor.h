@@ -13,6 +13,9 @@ namespace ace
 		Accessor() {}
 		~Accessor() {}
 	public:
+
+		static SoundSource* Sound_CreateSoundSource(Sound* o, const achar* path, bool isDecompressed);
+
 		static AnimationSource* AnimationClip_GetSource(AnimationClip* o);
 
 		static Texture2D* Material2D_GetTexture2D(Material2D* o, const achar* name);

@@ -22,7 +22,14 @@ namespace ace
 	public:
 
 		void SetModel(Model* model) override;
-		void AddMesh(Mesh* mesh) override;
+
+		void AddMeshGroup() override;
+
+		int32_t GetMeshGroupCount() override;
+
+		void AddMesh(int32_t meshGroupIndex, Mesh* mesh) override;
+
+		void SetDeformer(int32_t meshGroupIndex, Deformer* deformer) override;
 
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MESH; }
 

@@ -93,15 +93,6 @@ namespace ace
 		}
 
 		/// <summary>
-		/// デフォーマーを設定する。
-		/// </summary>
-		/// <param name="deformer">デフォーマー</param>
-		public void SetDeformer(Deformer deformer)
-		{
-			SwigObject.SetDeformer(deformer.SwigObject);
-		}
-
-		/// <summary>
 		/// 内部シェーダーを使用する場合のカラーテクスチャを設定する。
 		/// </summary>
 		/// <param name="materialIndex">材質のインデックス</param>

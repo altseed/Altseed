@@ -26,6 +26,8 @@ namespace ace
 		virtual void OnUpdate() = 0;
 
 	public:
+		typedef std::shared_ptr<SceneComponent> Ptr;
+
 		/**
 			@brief	コンストラクタ
 		*/

@@ -152,7 +152,8 @@ protected:
 		cameraObj->SetZFar(20.0f);
 		cameraObj->SetWindowSize(ace::Vector2DI(800, 600));
 
-		meshObj->AddMesh(mesh);
+		meshObj->AddMeshGroup();
+		meshObj->AddMesh(0, mesh);
 		meshObj->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
 		
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));

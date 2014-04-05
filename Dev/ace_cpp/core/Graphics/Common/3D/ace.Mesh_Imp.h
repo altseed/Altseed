@@ -77,8 +77,6 @@ namespace ace
 
 		bool					m_requireToCalcInternalParameters;
 
-		Deformer*				m_deformer = nullptr;
-
 		Mesh_Imp(Graphics* graphics);
 		virtual ~Mesh_Imp();
 
@@ -125,9 +123,6 @@ namespace ace
 
 		void AddMaterialCount(int32_t materialIndex, int32_t faceCount);
 		void SendToGPUMemory();
-
-		Deformer* GetDeformer_() override;
-		void SetDeformer(Deformer* deformer) override;
 
 		void SetColorTexture(int32_t materialIndex, Texture2D* texture) override;
 		void SetNormalTexture(int32_t materialIndex, Texture2D* texture) override;

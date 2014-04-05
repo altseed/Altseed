@@ -52,6 +52,8 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -65,6 +67,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -77,7 +80,6 @@
     <ClInclude Include="..\common\Graphics\ace.Color.h" />
     <ClInclude Include="..\common\Graphics\ace.Graphics.Common.h" />
     <ClInclude Include="..\common\Math\ace.Matrix33.h" />
-    <ClInclude Include="..\common\Math\ace.Matrix43.h" />
     <ClInclude Include="..\common\Math\ace.Matrix44.h" />
     <ClInclude Include="..\common\Math\ace.RectF.h" />
     <ClInclude Include="..\common\Math\ace.RectI.h" />
@@ -96,9 +98,9 @@
     <ClInclude Include="..\common\utility\ace.TypeErasureCopy.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\common\ace.common.cpp" />
     <ClCompile Include="..\common\Graphics\ace.Color.cpp" />
     <ClCompile Include="..\common\Math\ace.Matrix33.cpp" />
-    <ClCompile Include="..\common\Math\ace.Matrix43.cpp" />
     <ClCompile Include="..\common\Math\ace.Matrix44.cpp" />
     <ClCompile Include="..\common\Math\ace.RectF.cpp" />
     <ClCompile Include="..\common\Math\ace.Vector2DF.cpp" />
