@@ -251,17 +251,20 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<Mes
 			int* pointAry = cluster->GetControlPointIndices();
 			double* weightAry = cluster->GetControlPointWeights();
 
-			std::string name = cluster->GetLink()->GetName();
+			std::string name = std::string(cluster->GetLink()->GetName());
+
+			int dmIndex = meshGroups[attachedIndex].deformerManager.GetIndexByName(name);
 
 			for(int k=0;k<pointNum;++k)
 			{
 				int index = pointAry[k];
-				float weight = (float)weightAry[k];
+				float weight = static_cast<float>(weightAry[k]);
 
 				int ptr=_baseVertices[index].weightPtr;
 
-				_baseVertices[index].weight[ptr]=(uint8_t)weight*255;
-				_baseVertices[index].weightIndexDivided[ptr]=j;
+				_baseVertices[index].weight[ptr]=static_cast<uint8_t>(weight*255.0);
+				_baseVertices[index].weightIndexDivided[ptr]=dmIndex;
+				_baseVertices[index].weightIndexOriginal[ptr]=dmIndex;
 
 				++_baseVertices[index].weightPtr;
 			}
@@ -289,7 +292,6 @@ void MeshLoader::_loadFaceIndices(FbxMesh* fbxMesh)
 
 void MeshLoader::Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGroup> &meshGroups)
 {
-	printf("Name:%s\n",fbxMesh->GetNode()->GetName());
 	_loadPositions(fbxMesh);
 
 	_loadWeight(fbxMesh,attachmentIndex,meshGroups);
@@ -326,20 +328,49 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 
 		//頂点ウェイト
 		
+		uint8_t biggest=0;
+		int biggestIndex=0;
+		int sum=0;
 		for (int j = 0; j < 4; ++j)
 		{
+			if(_vertices[i].weight[j]>biggest)
+			{
+				biggest=_vertices[i].weight[j];
+				biggestIndex=j;
+			}
+			sum+=static_cast<int>(_vertices[i].weight[j]);
+		}
+
+		if(sum!=255)
+		{
+			_vertices[i].weight[biggestIndex]+=static_cast<uint8_t>(255-sum);
+		}
+
+		printf("Weight: ");
+		for (int j = 0; j < 4; ++j)
+		{
+			printf("%d ",_vertices[i].weight[j]);
 			writer->Push(_vertices[i].weight[j]);
 		}
+		printf("\n");
 
+		printf("Weight Index(O): ");
 		for (int j = 0; j < 4; ++j)
 		{
+			printf("%d ",_vertices[i].weightIndexOriginal[j]);
 			writer->Push(_vertices[i].weightIndexOriginal[j]);
 		}
+		printf("\n");
 
+		printf("Weight Index(D): ");
 		for (int j = 0; j < 4; ++j)
 		{
+			printf("%d ",_vertices[i].weightIndexDivided[j]);
 			writer->Push(_vertices[i].weightIndexDivided[j]);
 		}
+		printf("\n");
+
+		printf("Weight Ptr:%d\n\n",_vertices[i].weightPtr);
 	}
 }
 
@@ -353,20 +384,6 @@ void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
 			writer->Push((int32_t) ite->vertexIndex[i]);
 		}
 	}
-}
-
-void MeshLoader::WriteMaterials(ace::BinaryWriter* writer)
-{
-	writer->Push((int32_t)_materials.size());
-	for(auto ite=_materials.begin();ite!=_materials.end();++ite)
-	{
-		writer->Push(ite->Type);
-		for(int i=0;i<3;++i)
-		{
-			writer->Push(ace::ToAString(ite->texture[i].c_str()));
-		}
-	}
-
 }
 
 void MeshLoader::_loadFaceMaterials(FbxMesh* fbxMesh)
@@ -454,7 +471,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 				}
 			}
 		}
-		_materials.push_back(mat);
+		//_materials.push_back(mat);
 	}
 }
 

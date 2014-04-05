@@ -39,6 +39,8 @@ DeformerManager::~DeformerManager()
 
 void DeformerManager::WriteDeformerInformation(ace::BinaryWriter* binaryWriter)
 {
+	printf("Deformer Num:%d\n",_deformer.size());
+
 	binaryWriter->Push((int32_t)_deformer.size());
 
 	for(int i=0;i<_deformer.size();++i)

@@ -1,0 +1,26 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+*.suo
+*.tlog
+*.obj
+*.ipch
+*.idb
+*.log
+*.cache
+*.user
+
+[Oo]bj/
+
+Release/RuntimeSample/lib/*.lib

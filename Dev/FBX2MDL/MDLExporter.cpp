@@ -109,23 +109,17 @@ void MDLExporter::Convert()
 				meshGroup.meshLoaders[j].WriteBoneAttachments(binaryWriter);
 			}
 			//É{Å[Éì
-			binaryWriter->Push((int32_t)meshGroup.deformerManager.GetDeformerNum());
-
-			for(int j=0;j<meshGroup.deformerManager.GetDeformerNum();++j)
-			{
-				Deformer *deformer = meshGroup.deformerManager.GetDeformerByIndex(j);
-
-				binaryWriter->Push(ace::ToAString(deformer->name.c_str()));
-				binaryWriter->Push(deformer->parentIndex);
-				binaryWriter->Push(deformer->rotationOrder);
-				binaryWriter->Push(deformer->relationMatrix);
-				binaryWriter->Push(deformer->invMatrix);
-			}
+			meshGroup.deformerManager.WriteDeformerInformation(binaryWriter);
 
 			//çﬁéø
-			for(int j=0;j<meshGroup.meshLoaders.size();++j)
+			//meshGroup.WriteMaterials(binaryWriter);
 			{
-				meshGroup.meshLoaders[j].WriteMaterials(binaryWriter);
+				binaryWriter->Push((int32_t)1);
+
+				binaryWriter->Push((int32_t)0);
+				binaryWriter->Push(ace::ToAString("bunny_texture.png"));
+				binaryWriter->Push(ace::ToAString(""));
+				binaryWriter->Push(ace::ToAString(""));
 			}
 		}
 	}
@@ -310,7 +304,17 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,De
 		FbxAMatrix transform = node->EvaluateGlobalTransform();
 		FbxAMatrix invMatrix = transform.Inverse();
 
-		FbxAMatrix parentTransform = node->GetParent()->EvaluateGlobalTransform();
+		FbxAMatrix parentTransform;
+
+		if(parentSkeleton == NULL)
+		{
+			parentTransform.SetIdentity();
+		}
+		else
+		{
+			parentTransform = node->GetParent()->EvaluateGlobalTransform();
+		}
+
 		FbxAMatrix invParentMatrix = parentTransform.Inverse();
 
 		FbxAMatrix relationMatrix = invParentMatrix * transform;

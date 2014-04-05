@@ -30,15 +30,14 @@ protected:
 
 		auto model = graphics->CreateModel(ace::ToAString("Data/Model/out.mdl").c_str());
 
-		cameraObj->SetPosition(ace::Vector3DF(0, 0, 10));
+		cameraObj->SetPosition(ace::Vector3DF(300, 300, 300));
 		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
 		cameraObj->SetFieldOfView(20.0f);
 		cameraObj->SetZNear(1.0f);
-		cameraObj->SetZFar(20.0f);
+		cameraObj->SetZFar(1000.0f);
 		cameraObj->SetWindowSize(ace::Vector2DI(800, 600));
 
 		meshObj->SetModel(model);
-		meshObj->SetRotation(ace::Vector3DF(0.0f, 20.0f, 0.0f));
 
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
 	}
@@ -46,13 +45,13 @@ protected:
 	void OnUpdating() override
 	{
 		ace::Vector3DF v=meshObj->GetRotation();
-		meshObj->SetRotation(v + ace::Vector3DF(4,0,0));
+		meshObj->SetRotation(v + ace::Vector3DF(1,0,0));
 	}
 
 
 };
 
-/*
+
 TEST(Graphics, Model_GL)
 {
 	Graphics_Model(true).Run();
@@ -72,4 +71,4 @@ void Graphics_Model_(bool isGL)
 	Graphics_Model(isGL).Run();
 	AssertMemoryDoesntLeak();
 }
-*/
+

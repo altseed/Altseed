@@ -24,9 +24,6 @@
     <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix33.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix43.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix44.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -51,6 +48,9 @@
     <ClCompile Include="Deformer.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="..\ace_cpp\common\ace.common.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ace_cpp\common\ace.common.Base.h">
@@ -66,9 +66,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix33.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix43.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix44.h">

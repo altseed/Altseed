@@ -14,6 +14,21 @@ struct MeshGroup
 {
 	std::vector<MeshLoader> meshLoaders;
 	DeformerManager deformerManager;
+	std::vector<Material> materials;
+
+	void WriteMaterials(ace::BinaryWriter* writer)
+	{
+		writer->Push((int32_t)materials.size());
+		for(auto ite=materials.begin();ite!=materials.end();++ite)
+		{
+			writer->Push(ite->Type);
+			for(int i=0;i<3;++i)
+			{
+				writer->Push(ace::ToAString(ite->texture[i].c_str()));
+			}
+		}
+
+	}
 };
 
 class MeshLoader
@@ -21,7 +36,6 @@ class MeshLoader
 	std::vector<Vertex> _baseVertices;
 	std::vector<Vertex> _vertices;
 	std::vector<Face> _faces;
-	std::vector<Material> _materials;
 
 	void _loadPositions(FbxMesh* fbxMesh);
 
@@ -42,7 +56,6 @@ public:
 
 	std::vector<Vertex> GetVertices();
 	std::vector<Face> GetFaces();
-	std::vector<Material> GetMaterials();
 
 	void Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGroup> &meshGroups);
 	void WriteVertices(ace::BinaryWriter* writer);
@@ -56,7 +69,6 @@ public:
 		_baseVertices=meshLoader._baseVertices;
 		_vertices=meshLoader._vertices;
 		_faces=meshLoader._faces;
-		_materials=meshLoader._materials;
 
 		return *this;
 	}
