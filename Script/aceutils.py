@@ -99,6 +99,7 @@ def mkdir(path):
 		os.mkdir(path)
 
 def copy(src,dst):
+	print("copying from {0} to {1}".format(src, dst))
 	shutil.copy(src,dst)
 
 def copytree(src,dst):
