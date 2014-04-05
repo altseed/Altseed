@@ -91,7 +91,7 @@ void MDLExporter::Convert()
 	{
 		int meshGroupNum = (int) _meshGroups.size();
 
-		//printf("Mesh Group Num = %d\n", meshGroupNum);
+		printf("Mesh Group Num = %d\n", meshGroupNum);
 
 		//ƒƒbƒVƒ…
 		binaryWriter->Push(meshGroupNum);
@@ -99,6 +99,8 @@ void MDLExporter::Convert()
 		for (int i = 0; i < meshGroupNum; ++i)
 		{
 			MeshGroup meshGroup=_meshGroups[i];
+
+			printf("Mesh Num = %d\n", meshGroup.meshLoaders.size());
 
 			binaryWriter->Push((int32_t)meshGroup.meshLoaders.size());
 			for(int j=0;j<meshGroup.meshLoaders.size();++j)
@@ -323,8 +325,8 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,De
 		{
 			for(int k=0;k<4;++k)
 			{
-				deformer->invMatrix.Values[j][k]=invMatrix.Get(j,k);
-				deformer->relationMatrix.Values[j][k]=relationMatrix.Get(j,k);
+				deformer->invMatrix.Values[j][k]=invMatrix.Get(k,j);
+				deformer->relationMatrix.Values[j][k]=relationMatrix.Get(k,j);
 			}
 		}
 
