@@ -214,10 +214,17 @@ $RECYCLE.BIN/
 /Dev/cmake/
 
 /Dev/packages/
+
 /Dev/include/GLFW/
 /Dev/include/gtest/
-/Dev/ace_cpp/engine/ace.CoreToEngine.h
 /Dev/include/ace.h
+/Dev/include/Effekseer.h
+/Dev/include/EffekseerRendererDX11.h
+/Dev/include/EffekseerRendererGL.h
+/Dev/include/OpenSoundMixer.h
+
+/Dev/ace_cpp/engine/ace.CoreToEngine.h
+
 /Dev/ace_cs/swig/
 
 
@@ -225,6 +232,7 @@ $RECYCLE.BIN/
 /Dev/lib/ace_common.Release.lib
 
 /Dev/ace_cpp/core/dll_cs.cxx
+
 /Product/bin/
 /Product/inlude/
 /Product/lib/
