@@ -10,7 +10,7 @@ struct Deformer
 	int parentIndex;
 	int rotationOrder;
 	ace::Matrix44 invMatrix;
-	ace::Matrix44 transformMatrix;
+	ace::Matrix44 relationMatrix;
 	int index;
 
 	static int indexCount;

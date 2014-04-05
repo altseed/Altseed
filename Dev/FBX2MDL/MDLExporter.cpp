@@ -63,6 +63,22 @@ void MDLExporter::Convert()
 			}
 		}
 
+		//アニメーション
+		{
+			const int stackCount = lScene->GetSrcObjectCount<FbxAnimStack>();
+
+			for(int i=0;i<stackCount;++i)
+			{
+				AnimationSource animationSource;
+				FbxAnimStack *pStack = lScene->GetSrcObject<FbxAnimStack>(i);
+				for(int j=0;j<lRootNode->GetChildCount();++j)
+				{
+					AnimStackAnalyze(pStack,lRootNode->GetChild(j),animationSource);
+				}
+				_animationSources.push_back(animationSource);
+			}
+		}
+
 		//メッシュ一覧
 		{
 			for (int i = 0; i < lRootNode->GetChildCount(); i++)
@@ -71,7 +87,7 @@ void MDLExporter::Convert()
 	}
 
 
-	//メッシュグループ
+	//出力
 	{
 		int meshGroupNum = (int) _meshGroups.size();
 
@@ -102,7 +118,7 @@ void MDLExporter::Convert()
 				binaryWriter->Push(ace::ToAString(deformer->name.c_str()));
 				binaryWriter->Push(deformer->parentIndex);
 				binaryWriter->Push(deformer->rotationOrder);
-				binaryWriter->Push(deformer->transformMatrix);
+				binaryWriter->Push(deformer->relationMatrix);
 				binaryWriter->Push(deformer->invMatrix);
 			}
 
@@ -198,6 +214,87 @@ void MDLExporter::GetDeformer(Deformer* parentSkeleton, FbxNode* pNode,DeformerM
 	}
 }
 
+void MDLExporter::AnimStackAnalyze(FbxAnimStack* pStack, FbxNode *rootNode,AnimationSource &animationSource)
+{
+	const int layerCount = pStack->GetMemberCount<FbxAnimLayer>();
+
+	if(layerCount>0)
+	{
+		const char* animationName = pStack->GetName();
+
+		FbxTime startTime = pStack->LocalStart;
+		FbxTime endTime = pStack->LocalStop;
+
+		AnimationSource animationSource;
+		animationSource.animationName=std::string(animationName);
+		animationSource.startTime=startTime;
+		animationSource.stopTime=endTime;
+
+		_animationSources.push_back(animationSource);
+	}
+
+	for(int i=0;i<layerCount;++i)
+	{
+		FbxAnimLayer *pLayer = pStack->GetMember<FbxAnimLayer>();
+		GetMotion(NULL,rootNode,pLayer,animationSource);
+		break;
+	}
+}
+
+void MDLExporter::GetMotion(FbxNode *parentNode,FbxNode* node,FbxAnimLayer* pLayer,AnimationSource &animationSource)
+{
+	if(node->GetNodeAttribute()->GetAttributeType()==FbxNodeAttribute::eSkeleton)
+	{
+		GetSkeletonCurve(node,pLayer,animationSource);
+	}
+
+	for(int i=0;i<node->GetChildCount();++i)
+	{
+		GetMotion(node,node->GetChild(i),pLayer,animationSource);
+	}
+}
+
+void MDLExporter::GetSkeletonCurve(FbxNode* fbxNode,FbxAnimLayer* fbxAnimLayer,AnimationSource &animationSource)
+{
+	std::string boneName = fbxNode->GetName();
+
+	AnalyzeCurve(boneName+".pos.x",fbxNode->LclTranslation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_X),animationSource);
+	AnalyzeCurve(boneName+".pos.y",fbxNode->LclTranslation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Y),animationSource);
+	AnalyzeCurve(boneName+".pos.z",fbxNode->LclTranslation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Z),animationSource);
+
+	AnalyzeCurve(boneName+".rot.x",fbxNode->LclRotation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_X),animationSource);
+	AnalyzeCurve(boneName+".rot.y",fbxNode->LclRotation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Y),animationSource);
+	AnalyzeCurve(boneName+".rot.z",fbxNode->LclRotation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Z),animationSource);
+
+	AnalyzeCurve(boneName+".scl.x",fbxNode->LclScaling.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_X),animationSource);
+	AnalyzeCurve(boneName+".scl.y",fbxNode->LclScaling.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Y),animationSource);
+	AnalyzeCurve(boneName+".scl.z",fbxNode->LclScaling.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Z),animationSource);
+}
+
+void MDLExporter::AnalyzeCurve(std::string target,FbxAnimCurve* pCurve,AnimationSource &animationSource)
+{
+	KeyFrameAnimation keyFrameAnimation;
+	keyFrameAnimation.targetName=target;
+
+	const int keyCount = pCurve->KeyGetCount();
+
+	int hour,minute,second,frame,field,residual;
+
+	for(int i=0;i<keyCount;++i)
+	{
+		float value = pCurve->KeyGetValue(i);
+		FbxTime time = pCurve->KeyGetTime(i);
+		int interpolation = pCurve->KeyGetInterpolation(i);
+		time.GetTime(hour,minute,second,frame,field,residual,FbxTime::eFrames60);
+
+		KeyFrame keyFrame;
+		keyFrame.keyValue=ace::Vector2DF(value,(hour * 60 * 60 * 60) + (minute * 60 * 60) + (second * 60) + frame);
+		keyFrame.interpolation=interpolation;
+		keyFrameAnimation.keyFrames.push_back(keyFrame);
+	}
+	animationSource.keyFrameAnimations.push_back(keyFrameAnimation);
+}
+
 void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,Deformer *deformer, DeformerManager &deformerManager)
 {
 	if(node->GetNodeAttribute()->GetAttributeType()!=FbxNodeAttribute::eSkeleton) return;
@@ -209,6 +306,23 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,De
 		deformer->name = std::string(sk->GetNode()->GetName());
 
 		deformer->parentIndex = (parentSkeleton == NULL) ? -1 : parentSkeleton->index;
+
+		FbxAMatrix transform = node->EvaluateGlobalTransform();
+		FbxAMatrix invMatrix = transform.Inverse();
+
+		FbxAMatrix parentTransform = node->GetParent()->EvaluateGlobalTransform();
+		FbxAMatrix invParentMatrix = parentTransform.Inverse();
+
+		FbxAMatrix relationMatrix = invParentMatrix * transform;
+
+		for(int j=0;j<4;++j)
+		{
+			for(int k=0;k<4;++k)
+			{
+				deformer->invMatrix.Values[j][k]=invMatrix.Get(j,k);
+				deformer->relationMatrix.Values[j][k]=relationMatrix.Get(j,k);
+			}
+		}
 
 		fbxsdk_2014_2_1::EFbxRotationOrder fbxRotationOrder;
 		node->GetRotationOrder(FbxNode::eSourcePivot, fbxRotationOrder);

@@ -106,6 +106,7 @@
     <ClInclude Include="..\ace_cpp\common\Math\ace.Vector4DF.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryReader.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryWriter.h" />
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Deformer.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MDLExporter.h" />
