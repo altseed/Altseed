@@ -178,6 +178,7 @@ $RECYCLE.BIN/
 
 *.exe.config
 *.manifest
+*.pyc
 
 /Dev/bin/*.png
 /Dev/bin/*.dll
