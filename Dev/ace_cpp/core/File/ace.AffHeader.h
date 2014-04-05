@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <string>
 #include <iostream>
 #include <cstdint>
@@ -32,8 +32,8 @@ namespace ace
 		void Push(ace::BinaryWriter& writer);
 
 		/**
-			@brief	affƒtƒ@ƒCƒ‹‚ÌƒoƒCƒiƒŠƒf[ƒ^‚©‚çAffHeader‚ğ•œŒ³‚µA“Ç‚ñ‚¾•ª‚¾‚¯ƒoƒCƒiƒŠƒf[ƒ^‚ğí‚éB
-			@param	buffer	ƒoƒCƒiƒŠƒf[ƒ^B
+			@brief	affãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿ã‹ã‚‰AffHeaderã‚’å¾©å…ƒã—ã€èª­ã‚“ã åˆ†ã ã‘ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿ã‚’å‰Šã‚‹ã€‚
+			@param	buffer	ãƒã‚¤ãƒŠãƒªãƒ‡ãƒ¼ã‚¿ã€‚
 		*/
 		static AffHeader Get(ace::BinaryReader& reader);
 

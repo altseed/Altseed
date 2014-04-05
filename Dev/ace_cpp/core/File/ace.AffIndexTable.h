@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <map>
 #include <cstdint>
 #include "../common/Utility/ace.BinaryWriter.h"

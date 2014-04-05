@@ -1,4 +1,4 @@
-#include "ace.GlyphData.h"
+﻿#include "ace.GlyphData.h"
 
 namespace ace
 {
