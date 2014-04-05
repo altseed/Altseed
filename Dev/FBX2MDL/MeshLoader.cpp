@@ -406,7 +406,12 @@ void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer)
 
 void MeshLoader::WriteBoneAttachments(ace::BinaryWriter* writer)
 {
-	writer->Push((int32_t)0);
+	writer->Push((int32_t)1);
+	for(int i=0;i<32;++i)
+	{
+		writer->Push(static_cast<uint8_t>(i));
+	}
+	writer->Push(static_cast<int>(_faces.size()));
 }
 
 void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
