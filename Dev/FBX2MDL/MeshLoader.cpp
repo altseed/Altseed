@@ -173,18 +173,18 @@ uint8_t* MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vert
 			switch (leVtxc->GetReferenceMode())
 			{
 			case FbxGeometryElement::eDirect:
-				color[0]=(uint8_t)leVtxc->GetDirectArray().GetAt(lControlPointIndex)[0]*255;
-				color[1]=(uint8_t)leVtxc->GetDirectArray().GetAt(lControlPointIndex)[1]*255;
-				color[2]=(uint8_t)leVtxc->GetDirectArray().GetAt(lControlPointIndex)[2]*255;
-				color[3]=(uint8_t)leVtxc->GetDirectArray().GetAt(lControlPointIndex)[3]*255;
+				color[0]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(lControlPointIndex)[0]*255);
+				color[1]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(lControlPointIndex)[1]*255);
+				color[2]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(lControlPointIndex)[2]*255);
+				color[3]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(lControlPointIndex)[3]*255);
 				break;
 			case FbxGeometryElement::eIndexToDirect:
 				{
 					int id = leVtxc->GetIndexArray().GetAt(lControlPointIndex);
-					color[0]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[0]*255;
-					color[1]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[1]*255;
-					color[2]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[2]*255;
-					color[3]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[3]*255;
+					color[0]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[0]*255);
+					color[1]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[1]*255);
+					color[2]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[2]*255);
+					color[3]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[3]*255);
 				}
 				break;
 			default:
@@ -197,18 +197,18 @@ uint8_t* MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vert
 				switch (leVtxc->GetReferenceMode())
 				{
 				case FbxGeometryElement::eDirect:
-					color[0]=(uint8_t)leVtxc->GetDirectArray().GetAt(vertexId)[0]*255;
-					color[1]=(uint8_t)leVtxc->GetDirectArray().GetAt(vertexId)[1]*255;
-					color[2]=(uint8_t)leVtxc->GetDirectArray().GetAt(vertexId)[2]*255;
-					color[3]=(uint8_t)leVtxc->GetDirectArray().GetAt(vertexId)[3]*255;
+					color[0]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(vertexId)[0]*255);
+					color[1]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(vertexId)[1]*255);
+					color[2]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(vertexId)[2]*255);
+					color[3]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(vertexId)[3]*255);
 					break;
 				case FbxGeometryElement::eIndexToDirect:
 					{
 						int id = leVtxc->GetIndexArray().GetAt(vertexId);
-						color[0]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[0]*255;
-						color[1]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[1]*255;
-						color[2]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[2]*255;
-						color[3]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[3]*255;
+						color[0]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[0]*255);
+						color[1]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[1]*255);
+						color[2]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[2]*255);
+						color[3]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[3]*255);
 					}
 					break;
 				}
@@ -321,10 +321,10 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 		writer->Push(_vertices[i].subuv);
 
 		//頂点カラー
-		writer->Push((uint8_t)_vertices[i].color[0]);
-		writer->Push((uint8_t)_vertices[i].color[1]);
-		writer->Push((uint8_t)_vertices[i].color[2]);
-		writer->Push((uint8_t)_vertices[i].color[3]);
+		writer->Push(static_cast<uint8_t>(_vertices[i].color[0]));
+		writer->Push(static_cast<uint8_t>(_vertices[i].color[1]));
+		writer->Push(static_cast<uint8_t>(_vertices[i].color[2]));
+		writer->Push(static_cast<uint8_t>(_vertices[i].color[3]));
 
 		//頂点ウェイト
 		
