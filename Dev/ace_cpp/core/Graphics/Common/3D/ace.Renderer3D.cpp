@@ -208,6 +208,11 @@ void main()
 		{
 			auto c = (RenderedCameraObject3D*) co;
 			
+			// カメラプロジェクション行列計算
+			Matrix44 cameraProjMat;
+			ace::Matrix44::Mul(cameraProjMat, c->GetProjectionMatrix_FR(), c->GetCameraMatrix_FR());
+			prop.CameraProjectionMatrix = cameraProjMat;
+			
 			// シャドウマップ作成
 			RenderTexture_Imp* shadowMap = nullptr;
 			if (rendering.directionalLightObjects.size() > 0)
@@ -240,16 +245,12 @@ void main()
 			}
 			prop.ShadowMapPtr = shadowMap;
 
+			//prop.CameraProjectionMatrix = prop.LightProjectionMatrix;
+
+
 			// 3D描画
 			g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());
 			g->Clear(true, true, ace::Color(0, 0, 0, 255));
-
-			
-			// カメラプロジェクション行列計算
-			Matrix44 cameraProjMat;
-			ace::Matrix44::Mul(cameraProjMat, c->GetProjectionMatrix_FR(), c->GetCameraMatrix_FR());
-
-			prop.CameraProjectionMatrix = cameraProjMat;
 
 			for (auto& o : m_objects)
 			{
