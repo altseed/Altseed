@@ -20,6 +20,15 @@ namespace ace
 		Matrix44	CameraProjectionMatrix;
 		Color		DirectionalLightColor;
 		Vector3DF	DirectionalLightDirection;
+		Matrix44	LightProjectionMatrix;
+
+		RenderTexture_Imp*	ShadowMapPtr;
+	};
+
+	class RenderingShadowMapProperty
+	{
+	public:
+		Matrix44	LightProjectionMatrix;
 	};
 
 	/**
@@ -29,7 +38,7 @@ namespace ace
 		
 		-関数・変数名
 		 メインスレッドのみ使用可能な関数-特に何もなし
-		 レンダリングスレッドのみ使用可能な関数-サフィックスに_FR(ForRendering)がつく。
+		 レンダリングスレッドのみ使用可能な関数-サフィックスに_FR(ForRendering)がつく。もしくはregionで指定されている。
 
 		-Flip
 		  メインスレッドとレンダリングスレッドのデータの同期を行う。
@@ -66,8 +75,7 @@ namespace ace
 		Matrix44 CalcLocalMatrix();
 
 		Graphics_Imp* GetGraphics() { return m_graphics;  }
-		const Matrix44& GetLocalMatrix_FR();
-
+	
 	public:
 		RenderedObject3D(Graphics* graphics);
 		virtual ~RenderedObject3D();
@@ -98,6 +106,14 @@ namespace ace
 		virtual void Flip();
 
 		virtual void Rendering(RenderingProperty& prop) = 0;
+
+		virtual void RenderingShadowMap(RenderingShadowMapProperty& prop) {}
+
+		Vector3DF GetPosition_FR();
+
+		const Matrix44& GetMatrix_FR();
+
+		const Matrix44& GetLocalMatrix_FR();
 
 		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
 	};

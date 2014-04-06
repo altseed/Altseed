@@ -29,11 +29,6 @@ namespace ace
 			m_commonValues.scale);
 	}
 
-	const Matrix44& RenderedObject3D::GetLocalMatrix_FR()
-	{
-		return m_commonValues_FR.localMatrix;
-	}
-
 	RenderedObject3D::RenderedObject3D(Graphics* graphics)
 		: m_graphics(nullptr)
 	{
@@ -108,5 +103,22 @@ namespace ace
 		{
 			m_commonValues_FR.isChanged = false;
 		}
+	}
+
+	Vector3DF RenderedObject3D::GetPosition_FR()
+	{
+		auto& mat = GetMatrix_FR();
+		return Vector3DF(mat.Values[0][3], mat.Values[1][3], mat.Values[2][3]);
+	}
+
+	const Matrix44& RenderedObject3D::GetMatrix_FR()
+	{
+		// そのうち親子関係をもった時に拡張する。
+		return m_commonValues_FR.localMatrix;
+	}
+
+	const Matrix44& RenderedObject3D::GetLocalMatrix_FR()
+	{
+		return m_commonValues_FR.localMatrix;
 	}
 }

@@ -77,12 +77,11 @@ namespace ace
 		// LiSPSMで行列を計算する。
 
 		// 初期化
-		auto mat = GetLocalMatrix_FR();
-		m_shadowObjectPoints.clear();
-
 		auto lightDirection = GetDirection_FR();
 		viewDirection.Normalize();
 		lightDirection.Normalize();
+
+		m_shadowObjectPoints.clear();
 
 		// ライトビューに含むオブジェクトの座標算出
 		auto matCPInv = matCameraProj.GetInverted();

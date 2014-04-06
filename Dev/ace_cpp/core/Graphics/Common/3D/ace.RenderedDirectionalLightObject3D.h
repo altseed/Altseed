@@ -48,6 +48,9 @@ namespace ace
 		Color GetColor_FR();
 		Vector3DF GetDirection_FR();
 
+		RenderTexture_Imp* GetShadowTexture_FR() { return m_shadowTexture; }
+		DepthBuffer_Imp* GetShadowDepthBuffer_FR()  { return m_shadowDepthBuffer; }
+
 		Color GetColor();
 		void SetColor(Color color);
 

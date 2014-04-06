@@ -101,6 +101,12 @@ namespace ace
 		const Matrix44& GetCameraMatrix_FR() { return m_values_FR.cameraMatrix; }
 		const Matrix44& GetProjectionMatrix_FR() { return m_values_FR.projectionMatrix; }
 
+		Vector3DF GetFocus_FR(){ return m_values_FR.focus; }
+
+		float GetZFar_FR() { return m_values_FR.zfar; }
+
+		float GetZNear_FR(){ return m_values_FR.znear; }
+
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_CAMERA; }
 	};
 }
