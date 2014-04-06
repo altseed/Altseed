@@ -3,6 +3,7 @@
 
 #include "ace.RenderedObject3D.h"
 #include <Graphics/ace.Graphics.Common.h>
+#include <Math/ace.Vector4DF.h>
 
 namespace ace
 {
@@ -11,7 +12,9 @@ namespace ace
 	{
 		struct VertexConstantBuffer
 		{
-			Matrix44	MCPMatrices[32];
+			Matrix44	MMatrices[32];
+			Matrix44	CPMatrix;
+			Matrix44	LightVPMatrix;
 
 			Vector3DF	DirectionalLightDirection;
 			float		Padding0;
@@ -22,8 +25,7 @@ namespace ace
 
 		struct PixelConstantBuffer
 		{
-			Vector3DF	HasTextures;
-			float		Padding0;
+			Vector4DF	HasTextures;
 		};
 
 		struct BoneProperty
@@ -73,6 +75,7 @@ namespace ace
 		Model_Imp*								m_model = nullptr;
 
 		std::shared_ptr<ace::NativeShader_Imp>	m_shader;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderShadow;
 
 		std::map<astring, AnimationClip*>		m_animationClips;
 
@@ -95,7 +98,7 @@ namespace ace
 
 		void Flip() override;
 		void Rendering(RenderingProperty& prop) override;
-
+		void RenderingShadowMap(RenderingShadowMapProperty& prop) override;
 
 		/**
 			@brief	モデルの解除を行わずに、現在設定されているインスタンスを解除する。

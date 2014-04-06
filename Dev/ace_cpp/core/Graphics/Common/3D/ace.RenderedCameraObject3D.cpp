@@ -164,8 +164,6 @@ namespace ace
 	{
 		RenderedObject3D::CalculateMatrix_FR();
 
-		auto& mat = GetLocalMatrix_FR();
-
 		m_values_FR.projectionMatrix.SetPerspectiveFovRH(
 			m_values_FR.fov / 180.0f * 3.141592f,
 			(float) m_values_FR.size.X / (float) m_values_FR.size.Y,
@@ -173,7 +171,7 @@ namespace ace
 			m_values_FR.zfar);
 
 		m_values_FR.cameraMatrix.SetLookAtRH(
-			Vector3DF(mat.Values[0][3], mat.Values[1][3], mat.Values[2][3]),
+			GetPosition_FR(),
 			m_values_FR.focus,
 			Vector3DF(0, 1, 0));
 	}

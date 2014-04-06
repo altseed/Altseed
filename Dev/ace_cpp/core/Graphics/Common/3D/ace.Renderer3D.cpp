@@ -183,6 +183,7 @@ void main()
 		rendering.EffectManager->Update(1.0f);
 
 		RenderingProperty prop;
+		prop.ShadowMapPtr = nullptr;
 
 		// ライトの計算
 		{
@@ -206,13 +207,44 @@ void main()
 		for (auto& co : rendering.cameraObjects)
 		{
 			auto c = (RenderedCameraObject3D*) co;
-			g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());
-
-			// ただの3D描画
-
 			
+			// シャドウマップ作成
+			RenderTexture_Imp* shadowMap = nullptr;
+			if (rendering.directionalLightObjects.size() > 0)
+			{
+				auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
+				shadowMap = light->GetShadowTexture_FR();
+			
+				g->SetRenderTarget(light->GetShadowTexture_FR(), light->GetShadowDepthBuffer_FR());
+				g->Clear(true, true, ace::Color(0, 0, 0, 255));
+
+				Matrix44 view, proj;
+				
+				light->CalcShadowMatrix(
+					c->GetPosition_FR(),
+					c->GetFocus_FR() - c->GetPosition_FR(),
+					prop.CameraProjectionMatrix,
+					c->GetZNear_FR(),
+					c->GetZFar_FR(),
+					view,
+					proj);
+
+				RenderingShadowMapProperty shadowProp;
+				shadowProp.LightProjectionMatrix = proj * view;
+				prop.LightProjectionMatrix = shadowProp.LightProjectionMatrix;
+
+				for (auto& o : m_objects)
+				{
+					o->RenderingShadowMap(shadowProp);
+				}
+			}
+			prop.ShadowMapPtr = shadowMap;
+
+			// 3D描画
+			g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());
 			g->Clear(true, true, ace::Color(0, 0, 0, 255));
 
+			
 			// カメラプロジェクション行列計算
 			Matrix44 cameraProjMat;
 			ace::Matrix44::Mul(cameraProjMat, c->GetProjectionMatrix_FR(), c->GetCameraMatrix_FR());

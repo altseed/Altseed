@@ -115,32 +115,39 @@ namespace ace {
 
 		glBindTexture(GL_TEXTURE_2D, texture);
 
-		int32_t format_;
+		int32_t intrenalFormat_;
+		int32_t format_ = GL_RGBA;
 		int32_t type;
 		if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
 		{
-			format_ = GL_RGBA;
+			intrenalFormat_ = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
 		}
 		else if(format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
 		{
-			format_ = GL_RGBA;
+			intrenalFormat_ = GL_RGBA;
 			type = GL_FLOAT;
 		}
 		else if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
 		{
-			format_ = GL_SRGB8_ALPHA8;
+			intrenalFormat_ = GL_SRGB8_ALPHA8;
+			type = GL_UNSIGNED_BYTE;
+		}
+		else if (format == eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT)
+		{
+			intrenalFormat_ = GL_RG16F;
+			format_ = GL_RG;
 			type = GL_UNSIGNED_BYTE;
 		}
 
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
-			format_,
+			intrenalFormat_,
 			width,
 			height,
 			0,
-			GL_RGBA,
+			format_,
 			type,
 			nullptr);
 
@@ -188,21 +195,30 @@ namespace ace {
 
 		glBindTexture(GL_TEXTURE_2D, m_texture);
 
-		int32_t format_;
+		auto format = m_format;
+
+		int32_t intrenalFormat_;
+		int32_t format_ = GL_RGBA;
 		int32_t type;
-		if (m_format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
+		if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
 		{
-			format_ = GL_RGBA;
+			intrenalFormat_ = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
 		}
-		else if (m_format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
+		else if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
 		{
-			format_ = GL_RGBA;
+			intrenalFormat_ = GL_RGBA;
 			type = GL_FLOAT;
 		}
-		else if (m_format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
+		else if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
 		{
-			format_ = GL_SRGB8_ALPHA8;
+			intrenalFormat_ = GL_SRGB8_ALPHA8;
+			type = GL_UNSIGNED_BYTE;
+		}
+		else if (format == eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT)
+		{
+			intrenalFormat_ = GL_RG16F;
+			format_ = GL_RG;
 			type = GL_UNSIGNED_BYTE;
 		}
 
