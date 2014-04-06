@@ -551,29 +551,6 @@ void main()
 				auto& boneOffsets = mesh->GetBoneOffsets();
 				auto& materialOffsets = mesh->GetMaterialOffsets();
 
-				if (boneOffsets.size() == 0 || materialOffsets.size() == 0)
-				{
-					// ボーン、もしくはマテリアルの設定がない場合
-
-					pbuf.HasTextures.X = 0.0f;
-					pbuf.HasTextures.Y = 0.0f;
-					pbuf.HasTextures.Z = 0.0f;
-
-					GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
-					GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
-					GetGraphics()->SetShader(m_shader.get());
-
-					auto& state = GetGraphics()->GetRenderState()->Push();
-					state.DepthTest = true;
-					state.DepthWrite = true;
-					state.CullingType = CULLING_DOUBLE;
-					GetGraphics()->GetRenderState()->Update(false);
-
-					GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
-
-					GetGraphics()->GetRenderState()->Pop();
-				}
-				else
 				{
 					// 設定がある場合
 					auto mIndex = 0;
@@ -582,15 +559,36 @@ void main()
 					auto fOffset = 0;
 					auto fCount = 0;
 
-					auto bFCount = boneOffsets[bIndex].FaceOffset;
-					auto mFCount = materialOffsets[mIndex].FaceOffset;
+					auto bFCount = 0;
+					if (boneOffsets.size() > 0)
+					{
+						bFCount = boneOffsets[bIndex].FaceOffset;
+					}
+					else
+					{
+						bFCount = mesh->GetIndexBuffer()->GetCount() / 3;
+					}
 
+					auto mFCount = 0;
+					if (materialOffsets.size() > 0)
+					{
+						mFCount = materialOffsets[mIndex].FaceOffset;
+					}
+					else
+					{
+						mFCount = mesh->GetIndexBuffer()->GetCount() / 3;
+					}
+					
 					while (fCount < mesh->GetIndexBuffer()->GetCount() / 3)
 					{
 						fCount = Min(bFCount, mFCount) - fOffset;
 						if (fCount == 0) break;
 
-						auto material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
+						Mesh_Imp::Material* material = nullptr;
+						if (materialOffsets.size() > 0)
+						{
+							material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
+						}
 
 						if (material != nullptr)
 						{
@@ -633,7 +631,6 @@ void main()
 						GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
 
 						GetGraphics()->GetRenderState()->Pop();
-
 
 						if (fCount + fOffset == bFCount && boneOffsets.size() > bIndex)
 						{

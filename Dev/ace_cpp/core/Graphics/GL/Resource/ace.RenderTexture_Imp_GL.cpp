@@ -78,6 +78,19 @@ namespace ace {
 				GL_UNSIGNED_BYTE,
 				nullptr);
 		}
+		else if (format == eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT)
+		{
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_RG16F,
+				width,
+				height,
+				0,
+				GL_RG16,
+				GL_HALF_FLOAT,
+				nullptr);
+		}
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 
