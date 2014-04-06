@@ -67,10 +67,11 @@ namespace ace
 			matCubeClip.Values[1][2] = 0.0f;
 			matCubeClip.Values[1][3] = -(max_.Y + min_.Y) / (max_.Y - min_.Y);
 
+			// おそらくDirectX限定
 			matCubeClip.Values[2][0] = 0.0f;
 			matCubeClip.Values[2][1] = 0.0f;
-			matCubeClip.Values[2][2] = 1.0f / (max_.Z - min_.Z);
-			matCubeClip.Values[2][3] = -min_.Z / (max_.Z - min_.Z);
+			matCubeClip.Values[2][2] = -1.0f / (max_.Z - min_.Z);
+			matCubeClip.Values[2][3] = min_.Z / (max_.Z - min_.Z) + 1.0f;
 			return matCubeClip;
 		};
 
@@ -101,17 +102,17 @@ namespace ace
 
 			for (int32_t i = 0; i < 8; i++)
 			{
-				matCPInv.Transform3D(points[i]);
+				points[i] = matCPInv.Transform3D(points[i]);
 				m_shadowObjectPoints.push_back(points[i]);
 			}
 		}
 		else
 		{
 			Vector3DF points[8] = {
-				Vector3DF(1.0f, 1.0f, 0.0f),
-				Vector3DF(-1.0f, 1.0f, 0.0f),
-				Vector3DF(1.0f, -1.0f, 0.0f),
-				Vector3DF(-1.0f, -1.0f, 0.0f),
+				Vector3DF(1.0f, 1.0f, -1.0f),
+				Vector3DF(-1.0f, 1.0f, -1.0f),
+				Vector3DF(1.0f, -1.0f, -1.0f),
+				Vector3DF(-1.0f, -1.0f, -1.0f),
 				Vector3DF(1.0f, 1.0f, 1.0f),
 				Vector3DF(-1.0f, 1.0f, 1.0f),
 				Vector3DF(1.0f, -1.0f, 1.0f),
@@ -151,12 +152,18 @@ namespace ace
 			calcAABB(m_shadowObjectPoints, max_, min_);
 
 			lightProjection = calcCubeClipMatrix(max_, min_);
+
+			//for (auto i = 0; i < m_shadowObjectPoints.size(); i++)
+			//{
+			//	m_shadowObjectPoints[i] = lightProjection.Transform3D(m_shadowObjectPoints[i]);
+			//}
+			return;
 		}
 
 		auto sinGamma = sqrtf(1.0f - vlAngle * vlAngle);
 
 		// Upの計算(左手右手系の都合で違う可能性あり)
-		auto upLeft = Vector3DF::Cross(lightDirection, viewDirection);
+		auto upLeft = Vector3DF::Cross(viewDirection, lightDirection);
 		auto up = Vector3DF::Cross(upLeft, lightDirection);
 		up.Normalize();
 
@@ -197,12 +204,13 @@ namespace ace
 		auto pos = eye - up * (n - zn);
 		lightView.SetLookAtRH(pos, (pos + lightDirection), up);
 
-		// Y方向への射影行列を取得(0.0～1.0に射影)
+		// Y方向への射影行列を取得(0.0～1.0に射影 DirectX限定)
 		Matrix44 matPerspective;
 		matPerspective.SetIndentity();
 		matPerspective.Values[1][1] = f / (n - f);
-		matPerspective.Values[3][1] = 1.0f;
-		matPerspective.Values[1][3] = f * n / (n - f);
+		matPerspective.Values[3][1] = -1.0f;
+
+		matPerspective.Values[1][3] = n * f / (n - f);
 		matPerspective.Values[3][3] = 0.0f;
 	
 		// 透視変換後の空間へ変換する
