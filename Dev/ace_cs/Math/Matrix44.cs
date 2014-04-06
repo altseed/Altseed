@@ -617,11 +617,11 @@ namespace ace
 		/// <returns>変形後ベクトル</returns>
 		public Vector3DF Transform3D(ref Vector3DF in_)
 		{
-			float* values = stackalloc float[3];
+			float* values = stackalloc float[4];
 
 			fixed (float* v = Values)
 			{
-				for (int i = 0; i < 3; i++)
+				for (int i = 0; i < 4; i++)
 				{
 					values[i] = 0;
 					values[i] += in_.X * v[i * 4 + 0];
@@ -632,9 +632,9 @@ namespace ace
 			}
 
 			Vector3DF o;
-			o.X = values[0];
-			o.Y = values[1];
-			o.Z = values[2];
+			o.X = values[0] / values[3];
+			o.Y = values[1] / values[3];
+			o.Z = values[2] / values[3];
 			return o;
 		}
 

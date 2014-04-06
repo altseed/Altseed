@@ -527,9 +527,9 @@ Matrix44& Matrix44::SetScale(float x, float y, float z)
 //----------------------------------------------------------------------------------
 Vector3DF Matrix44::Transform3D(const Vector3DF& in) const
 {
-	float values[3];
+	float values[4];
 
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		values[i] = 0;
 		values[i] += in.X * Values[i][0];
@@ -539,9 +539,9 @@ Vector3DF Matrix44::Transform3D(const Vector3DF& in) const
 	}
 
 	Vector3DF o;
-	o.X = values[0];
-	o.Y = values[1];
-	o.Z = values[2];
+	o.X = values[0] / values[3];
+	o.Y = values[1] / values[3];
+	o.Z = values[2] / values[3];
 	return o;
 }
 

@@ -66,7 +66,7 @@ VS_Output main( const VS_Input Input )
 	Output.LightPos = mul( matMLVP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
 	
 	Output.UV = Input.UV;
-	Output.Color.xyz = directionalLightColor * max( dot(directionalLightDirection,Input.Normal), 0.0 );
+	Output.Color.xyz = directionalLightColor * max( dot(directionalLightDirection,Input.Normal), 0.0 ) + 0.2;
 	Output.Color.w = 1.0;
 	return Output;
 }
@@ -115,8 +115,8 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	if(shadowZ < g_shadowTexture.Sample(g_shadowSampler, shadowUV).r )
 	{
-		Output.r = 0;
-		Output.g = 0;
+		//Output.r = 0;
+		//Output.g = 0;
 	}
 
 	return Output;
@@ -206,7 +206,7 @@ void main()
 	vaLightPos = matMLVP * vec4(Position.x,Position.y,Position.z,1.0);
 
 	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
-	vaColor.xyz = directionalLightColor * max( dot(directionalLightDirection,Normal), 0.0 );
+	vaColor.xyz = directionalLightColor * max( dot(directionalLightDirection,Normal), 0.0 ) + 0.2;
 	vaColor.w = 1.0;
 
 	gl_Position = vaPosition;

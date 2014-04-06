@@ -70,8 +70,8 @@ namespace ace
 			// おそらくDirectX限定
 			matCubeClip.Values[2][0] = 0.0f;
 			matCubeClip.Values[2][1] = 0.0f;
-			matCubeClip.Values[2][2] = 1.0f / (max_.Z - min_.Z);
-			matCubeClip.Values[2][3] = -min_.Z / (max_.Z - min_.Z);
+			matCubeClip.Values[2][2] = -1.0f / (max_.Z - min_.Z);
+			matCubeClip.Values[2][3] = min_.Z / (max_.Z - min_.Z) + 1.0f;
 			return matCubeClip;
 		};
 
@@ -134,7 +134,7 @@ namespace ace
 		auto vlC = Vector3DF::Dot(viewDirection, lightDirection);
 		auto vlAngle = atan2(vlS, vlC);
 
-		//if (fabsf(vlAngle) < 0.01f || fabsf(vlAngle - PI) < 0.01f)
+		if (fabsf(vlAngle) < 0.01f || fabsf(vlAngle - PI) < 0.01f)
 		{
 			// 視線とライトの方向が近い場合はPSM
 			
@@ -152,6 +152,11 @@ namespace ace
 			calcAABB(m_shadowObjectPoints, max_, min_);
 
 			lightProjection = calcCubeClipMatrix(max_, min_);
+
+			//for (auto i = 0; i < m_shadowObjectPoints.size(); i++)
+			//{
+			//	m_shadowObjectPoints[i] = lightProjection.Transform3D(m_shadowObjectPoints[i]);
+			//}
 			return;
 		}
 
