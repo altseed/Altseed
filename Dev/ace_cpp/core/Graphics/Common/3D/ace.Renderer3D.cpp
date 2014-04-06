@@ -215,8 +215,8 @@ void main()
 				auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
 				shadowMap = light->GetShadowTexture_FR();
 			
-				//g->SetRenderTarget(light->GetShadowTexture_FR(), light->GetShadowDepthBuffer_FR());
-				//g->Clear(true, true, ace::Color(0, 0, 0, 255));
+				g->SetRenderTarget(light->GetShadowTexture_FR(), light->GetShadowDepthBuffer_FR());
+				g->Clear(true, true, ace::Color(0, 0, 0, 255));
 
 				Matrix44 view, proj;
 				
@@ -233,10 +233,10 @@ void main()
 				shadowProp.LightProjectionMatrix = proj * view;
 				prop.LightProjectionMatrix = shadowProp.LightProjectionMatrix;
 
-				//for (auto& o : m_objects)
-				//{
-				//	o->RenderingShadowMap(shadowProp);
-				//}
+				for (auto& o : m_objects)
+				{
+					o->RenderingShadowMap(shadowProp);
+				}
 			}
 			prop.ShadowMapPtr = shadowMap;
 

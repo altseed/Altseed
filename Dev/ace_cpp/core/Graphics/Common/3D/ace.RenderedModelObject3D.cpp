@@ -73,7 +73,7 @@ VS_Output main( const VS_Input Input )
 
 )";
 
-	static const char* dx_ps = R"(
+static const char* dx_ps = R"(
 
 struct PS_Input
 {
@@ -94,6 +94,9 @@ SamplerState	g_normalSampler		: register( s1 );
 Texture2D		g_specularTexture		: register( t2 );
 SamplerState	g_specularSampler		: register( s2 );
 
+Texture2D		g_shadowTexture		: register( t3 );
+SamplerState	g_shadowSampler		: register( s3 );
+
 float4 main( const PS_Input Input ) : SV_Target
 {
 	//return float4(0.5,1.0,1.0,1.0);
@@ -103,6 +106,17 @@ float4 main( const PS_Input Input ) : SV_Target
 	if(hasTextures.x != 0.0)
 	{
 		Output = Output * g_colorTexture.Sample(g_colorSampler, Input.UV);
+	}
+	if(Output.a == 0.0f) discard;
+
+	// shadow
+	float2 shadowUV = float2( (Input.LightPos.x / Input.LightPos.w + 1.0) / 2.0, 1.0 - (Input.LightPos.y / Input.LightPos.w + 1.0) / 2.0 );
+	float shadowZ = Input.LightPos.z / Input.LightPos.w;
+
+	if(shadowZ < g_shadowTexture.Sample(g_shadowSampler, shadowUV).r )
+	{
+		Output.r = 0;
+		Output.g = 0;
 	}
 
 	return Output;
@@ -115,7 +129,7 @@ static const char* dx_shadow_ps = R"(
 struct PS_Input
 {
 	float4 Position	: SV_POSITION;
-	//float4 LightPos	: LightPosition0;
+	float4 LightPos	: LightPosition0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
 };
@@ -212,6 +226,7 @@ uniform vec4 hasTextures;
 uniform sampler2D g_colorTexture;
 uniform sampler2D g_normalTexture;
 uniform sampler2D g_specularTexture;
+uniform sampler2D g_shadowTexture;
 
 void main() 
 {
@@ -229,6 +244,16 @@ void main()
 	}
 
 	if(gl_FragColor.a == 0.0f) discard;
+
+	// shadow
+	vec2 shadowUV = vec2( (vaLightPos.x / vaLightPos.w + 1.0) / 2.0, (vaLightPos.y / vaLightPos.w + 1.0) / 2.0 );
+	float shadowZ = vaLightPos.z / vaLightPos.w;
+
+	if(shadowZ <  texture2D(g_shadowTexture, shadowUV).r )
+	{
+		gl_FragColor.r = 0;
+		gl_FragColor.g = 0;
+	}
 }
 
 )";
@@ -762,6 +787,16 @@ void main()
 							pbuf.HasTextures.X = 0.0f;
 							pbuf.HasTextures.Y = 0.0f;
 							pbuf.HasTextures.Z = 0.0f;
+						}
+
+						if (prop.ShadowMapPtr != nullptr)
+						{
+							pbuf.HasTextures.W = 1.0f;
+							m_shader->SetTexture("g_shadowTexture", prop.ShadowMapPtr, 3);
+						}
+						else
+						{
+							pbuf.HasTextures.W = 0.0f;
 						}
 
 						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
