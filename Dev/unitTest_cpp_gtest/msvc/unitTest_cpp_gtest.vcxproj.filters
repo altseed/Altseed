@@ -28,8 +28,8 @@
     <Filter Include="PCH">
       <UniqueIdentifier>{57fd1f00-c83e-444c-aa40-c43321acdae6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File">
-      <UniqueIdentifier>{2ccf4cf3-5c60-4ae6-810e-bd86abd706b2}</UniqueIdentifier>
+    <Filter Include="Graphics\Font">
+      <UniqueIdentifier>{807d54dc-ccb5-4a56-aab4-10d3806ce778}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -96,8 +96,8 @@
     <ClCompile Include="..\PCH\ace.UnitTestCpp.PCH.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
-    <ClCompile Include="..\File\ace.AffHeader_Test.cpp">
-      <Filter>File</Filter>
+    <ClCompile Include="..\Graphics\Font\ace.AffHeader_Test.cpp">
+      <Filter>Graphics\Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

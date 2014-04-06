@@ -13,12 +13,12 @@
   <ItemGroup>
     <ClCompile Include="..\ace.common.Base_test.cpp" />
     <ClCompile Include="..\ace.DLL.cpp" />
-    <ClCompile Include="..\File\ace.AffHeader_Test.cpp" />
     <ClCompile Include="..\Graphics\2D\ace.LayerRenderer_Test.cpp" />
     <ClCompile Include="..\Graphics\2D\ace.PostEffectRenderer_Test.cpp" />
     <ClCompile Include="..\Graphics\2D\ace.Renderer2D_Test.cpp" />
     <ClCompile Include="..\Graphics\3D\ace.Mesh_Test.cpp" />
     <ClCompile Include="..\Graphics\ace.Graphics_Test_Utls.cpp" />
+    <ClCompile Include="..\Graphics\Font\ace.AffHeader_Test.cpp" />
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Empty_Test.cpp" />
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_RenderTarget.cpp" />
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Sampler_Test.cpp" />

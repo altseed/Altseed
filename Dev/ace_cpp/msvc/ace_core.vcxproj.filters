@@ -67,11 +67,11 @@
     <Filter Include="PCH">
       <UniqueIdentifier>{b5f06827-15ae-427a-94d1-e3f3a2ea4103}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File">
-      <UniqueIdentifier>{97ca3507-027e-477b-a4a1-d619c1911b84}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sound">
       <UniqueIdentifier>{4234750f-7ad3-4f83-8ef7-6a92ae1a6517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Font">
+      <UniqueIdentifier>{a6a01d6c-b11f-47e5-b850-87ebdcca380d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -475,17 +475,17 @@
     <ClInclude Include="..\core\Sound\ace.SoundSource_Imp.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\File\ace.AffLoader.h">
-      <Filter>File</Filter>
+    <ClInclude Include="..\core\Graphics\Font\ace.AffLoader.h">
+      <Filter>Graphics\Font</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\File\ace.GlyphData.h">
-      <Filter>File</Filter>
+    <ClInclude Include="..\core\Graphics\Font\ace.GlyphData.h">
+      <Filter>Graphics\Font</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\File\ace.AffHeader.h">
-      <Filter>File</Filter>
+    <ClInclude Include="..\core\Graphics\Font\ace.AffHeader.h">
+      <Filter>Graphics\Font</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\File\ace.AffIndexTable.h">
-      <Filter>File</Filter>
+    <ClInclude Include="..\core\Graphics\Font\ace.AffIndexTable.h">
+      <Filter>Graphics\Font</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -741,17 +741,17 @@
     <ClCompile Include="..\core\Sound\ace.SoundSource_Imp.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\File\ace.AffHeader.cpp">
-      <Filter>File</Filter>
+    <ClCompile Include="..\core\Graphics\Font\ace.AffLoader.cpp">
+      <Filter>Graphics\Font</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\File\ace.AffLoader.cpp">
-      <Filter>File</Filter>
+    <ClCompile Include="..\core\Graphics\Font\ace.GlyphData.cpp">
+      <Filter>Graphics\Font</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\File\ace.AffIndexTable.cpp">
-      <Filter>File</Filter>
+    <ClCompile Include="..\core\Graphics\Font\ace.AffHeader.cpp">
+      <Filter>Graphics\Font</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\File\ace.GlyphData.cpp">
-      <Filter>File</Filter>
+    <ClCompile Include="..\core\Graphics\Font\ace.AffIndexTable.cpp">
+      <Filter>Graphics\Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
