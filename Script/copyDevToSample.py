@@ -1,8 +1,9 @@
-
+import os.path
 import aceutils
 
 targetDir = r'Sample'
 
+aceutils.cdToScript()
 aceutils.cd(r'../')
 
 

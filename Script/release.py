@@ -3,6 +3,7 @@ import aceutils
 
 targetDir = r'ACE140315'
 
+aceutils.cdToScript()
 aceutils.cd(r'../')
 
 

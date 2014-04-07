@@ -1,6 +1,7 @@
 
 import aceutils
 
+aceutils.cdToScript()
 aceutils.cd(r'../')
 aceutils.rm(r'master.zip')
 aceutils.rmdir(r'OpenSoundMixer-master')
