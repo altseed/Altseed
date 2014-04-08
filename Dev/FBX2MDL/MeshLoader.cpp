@@ -41,7 +41,7 @@ void MeshLoader::_loadPositions(FbxMesh* fbxMesh)
 			vertex.weightIndexOriginal[j]=0;
 
 		}
-		vertex.weight[0]=255;
+		//vertex.weight[0]=255;
 		_baseVertices.push_back(vertex);
 	}
 }
@@ -341,7 +341,7 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 			sum+=static_cast<int>(_vertices[i].weight[j]);
 		}
 
-		if(sum!=255)
+		if(sum!=255&&sum!=0)
 		{
 			_vertices[i].weight[biggestIndex]+=static_cast<uint8_t>(255-sum);
 		}
@@ -376,6 +376,7 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 
 void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
 {
+	
 	writer->Push((int32_t) _faces.size());
 	for (auto ite = _faces.begin(); ite != _faces.end(); ++ite)
 	{
@@ -384,6 +385,7 @@ void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
 			writer->Push((int32_t) ite->vertexIndex[i]);
 		}
 	}
+	
 }
 
 void MeshLoader::_loadFaceMaterials(FbxMesh* fbxMesh)
@@ -406,12 +408,15 @@ void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer)
 
 void MeshLoader::WriteBoneAttachments(ace::BinaryWriter* writer)
 {
+	writer->Push((int32_t)0);
+	/*
 	writer->Push((int32_t)1);
 	for(int i=0;i<32;++i)
 	{
 		writer->Push(static_cast<uint8_t>(i));
 	}
 	writer->Push(static_cast<int>(_faces.size()));
+	*/
 }
 
 void MeshLoader::_loadTextures(FbxMesh* fbxMesh)

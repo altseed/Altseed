@@ -115,13 +115,15 @@ void MDLExporter::Convert()
 
 			//ÞŽ¿
 			//meshGroup.WriteMaterials(binaryWriter);
-			{
-				binaryWriter->Push((int32_t)1);
 
+			binaryWriter->Push((int32_t)1);
+			{
+				
 				binaryWriter->Push((int32_t)0);
-				binaryWriter->Push(ace::ToAString("bunny_texture.png"));
+				binaryWriter->Push(ace::ToAString("test.png"));
 				binaryWriter->Push(ace::ToAString(""));
 				binaryWriter->Push(ace::ToAString(""));
+				
 			}
 		}
 	}
