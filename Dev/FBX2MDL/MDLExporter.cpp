@@ -173,7 +173,7 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 		{
 			FbxGeometryConverter _converter(lSdkManager);
 			mesh = (FbxMesh*) _converter.Triangulate(mesh, true);
-		} 
+		}
 
 		MeshLoader mLoader;
 

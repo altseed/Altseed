@@ -30,23 +30,23 @@ protected:
 
 		auto model = graphics->CreateModel(ace::ToAString("Data/Model/out.mdl").c_str());
 
-		cameraObj->SetPosition(ace::Vector3DF(3, 3, 3));
+		cameraObj->SetPosition(ace::Vector3DF(0, 10, 1));
 		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
 		cameraObj->SetFieldOfView(20.0f);
 		cameraObj->SetZNear(1.0f);
 		cameraObj->SetZFar(1000.0f);
 		cameraObj->SetWindowSize(ace::Vector2DI(800, 600));
 
+		ace::Matrix44 identity = ace::Matrix44();
+
 		meshObj->SetModel(model);
-		meshObj->SetRotation(ace::Vector3DF(-90, 0, 0));
 
 		lightObj->SetRotation(ace::Vector3DF(5, 5, 5));
 	}
 
 	void OnUpdating() override
 	{
-		ace::Vector3DF v=meshObj->GetRotation();
-		meshObj->SetRotation(v + ace::Vector3DF(0,2,0));
+
 	}
 
 

@@ -35,13 +35,13 @@ void MeshLoader::_loadPositions(FbxMesh* fbxMesh)
 		vertex.weightPtr=0;
 		for(int j=0;j<4;++j)
 		{
-			vertex.color[j]=0;
+			vertex.color[j]=255;
 			vertex.weight[j]=0;
 			vertex.weightIndexDivided[j]=0;
 			vertex.weightIndexOriginal[j]=0;
 
 		}
-		//vertex.weight[0]=255;
+		vertex.weight[0]=255;
 		_baseVertices.push_back(vertex);
 	}
 }
