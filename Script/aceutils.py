@@ -97,6 +97,9 @@ def rmdir(path):
 def cd(path):
 	os.chdir(path)
 
+def cdToScript():
+	cd(os.path.dirname(__file__))
+
 def mkdir(path):
 	if not os.path.exists(path):
 		os.mkdir(path)

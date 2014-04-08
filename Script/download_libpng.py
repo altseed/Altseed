@@ -1,6 +1,7 @@
-
+import os.path
 import aceutils
 
+aceutils.cdToScript()
 aceutils.cd(r'../')
 
 aceutils.rmdir(r'zlib_bin')
