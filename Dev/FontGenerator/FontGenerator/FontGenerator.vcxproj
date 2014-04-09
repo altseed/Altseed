@@ -49,16 +49,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>..\..\include;..\..\include\freetype\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib;$(LibraryPath)</LibraryPath>
-  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug2|Win32'">
-    <IncludePath>..\..\include\freetype\;..\..\include\;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\lib\;$(LibraryPath)</LibraryPath>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -66,18 +59,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common;..\..\include;..\..\include\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <Lib>
-      <AdditionalDependencies>libpng16.Debug.lib;zlib.Debug.lib;freetype252ST.lib</AdditionalDependencies>
-    </Lib>
-    <Lib>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-    </Lib>
+    <Lib />
+    <Lib />
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -99,9 +88,7 @@
     <ClCompile>
       <AdditionalIncludeDirectories>..\..\ace_cpp\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Lib>
-      <AdditionalDependencies>D:\Generate\VisualStudio2013\Projects\Works\ace\Dev\lib\freetype252ST.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Lib>
+    <Lib />
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Rendering\Color.h" />

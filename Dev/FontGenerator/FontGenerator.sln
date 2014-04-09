@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FontGenerator", "FontGenerator\FontGenerator.vcxproj", "{0954C297-511F-4340-9DCD-A37313AE7F15}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FontGeneratorTest", "FontGeneratorTest\FontGeneratorTest.vcxproj", "{DF0DFB2F-5C8D-48E8-B670-A5104F3D2811}"
+	ProjectSection(ProjectDependencies) = postProject
+		{86542137-F2A1-4152-A16B-5BE71E060DC6} = {86542137-F2A1-4152-A16B-5BE71E060DC6}
+	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ace_common", "..\ace_cpp\msvc\ace_common.vcxproj", "{86542137-F2A1-4152-A16B-5BE71E060DC6}"
 EndProject

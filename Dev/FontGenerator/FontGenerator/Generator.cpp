@@ -1,3 +1,4 @@
+
 #include <fstream>
 #include "Generator.h"
 #include <Graphics/Font/ace.AffHeader.h>
@@ -7,9 +8,6 @@
 #include <Utility/ace.BinaryReader.h>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-
-#pragma comment(linker, "/nodefaultlib:libcmtd.lib")
-#pragma comment(linker, "/nodefaultlib:LIBCMT.lib")
 
 using namespace std;
 using namespace ace;
