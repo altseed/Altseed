@@ -40,7 +40,7 @@ struct VS_Input
 struct VS_Output
 {
 	float4 Pos		: SV_POSITION;
-	float4 LightPos	: LightPosition0;
+	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
 };
@@ -64,7 +64,7 @@ VS_Output main( const VS_Input Input )
 
 	Output.Pos = mul( matMVP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
 	Output.LightPos = mul( matMLVP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
-	
+
 	Output.UV = Input.UV;
 	Output.Color.xyz = directionalLightColor * max( dot(directionalLightDirection,Input.Normal), 0.0 ) + 0.2;
 	Output.Color.w = 1.0;
@@ -73,12 +73,12 @@ VS_Output main( const VS_Input Input )
 
 )";
 
-static const char* dx_ps = R"(
+	static const char* dx_ps = R"(
 
 struct PS_Input
 {
 	float4 Position	: SV_POSITION;
-	float4 LightPos	: LightPosition0;
+	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
 };
@@ -99,7 +99,6 @@ SamplerState	g_shadowSampler		: register( s3 );
 
 float4 main( const PS_Input Input ) : SV_Target
 {
-	//return float4(0.5,1.0,1.0,1.0);
 	float4 Output = Input.Color;
 	if(Output.a == 0.0f) discard;
 
@@ -113,10 +112,10 @@ float4 main( const PS_Input Input ) : SV_Target
 	float2 shadowUV = float2( (Input.LightPos.x / Input.LightPos.w + 1.0) / 2.0, 1.0 - (Input.LightPos.y / Input.LightPos.w + 1.0) / 2.0 );
 	float shadowZ = Input.LightPos.z / Input.LightPos.w;
 
-	if(shadowZ < g_shadowTexture.Sample(g_shadowSampler, shadowUV).r )
+	float bias = 0.001;
+	if(shadowZ > g_shadowTexture.Sample(g_shadowSampler, shadowUV).r + bias )
 	{
-		//Output.r = 0;
-		//Output.g = 0;
+		Output.rgb = Output.rgb * 0.5;
 	}
 
 	return Output;
@@ -129,7 +128,7 @@ static const char* dx_shadow_ps = R"(
 struct PS_Input
 {
 	float4 Position	: SV_POSITION;
-	float4 LightPos	: LightPosition0;
+	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
 };
@@ -156,7 +155,8 @@ float4 main( const PS_Input Input ) : SV_Target
 	}
 	if(Output.a == 0.0f) discard;
 	
-	float color = Input.Position.z / Input.Position.w;
+	// Wで除算してはいけない(既にされているため)
+	float color = Input.Position.z;
 	return float4( color, color * color, 0, 1 );
 }
 
@@ -214,7 +214,7 @@ void main()
 
 )";
 
-	static const char* gl_ps = R"(
+static const char* gl_ps = R"(
 
 varying vec4 vaPosition;
 varying vec4 vaLightPos;
@@ -249,11 +249,14 @@ void main()
 	vec2 shadowUV = vec2( (vaLightPos.x / vaLightPos.w + 1.0) / 2.0, (vaLightPos.y / vaLightPos.w + 1.0) / 2.0 );
 	float shadowZ = vaLightPos.z / vaLightPos.w;
 
-	if(shadowZ <  texture2D(g_shadowTexture, shadowUV).r )
+	float bias = 0.001;
+	if(shadowZ >  texture2D(g_shadowTexture, shadowUV).r + bias )
 	{
-		gl_FragColor.r = 0;
-		gl_FragColor.g = 0;
+		gl_FragColor.rgb = gl_FragColor.rgb * 0.5;
 	}
+
+	//gl_FragColor.r = shadowZ;
+	//gl_FragColor.b = bias;
 }
 
 )";
@@ -285,9 +288,9 @@ void main()
 		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaTexCoord_.xy);
 	}
 
-	if(gl_FragColor.a == 0.0f) discard;
+	if(gl_FragColor.a == 0.0) discard;
 
-	float color = vaPosition.z / vaPosition.w;
+	float color = vaPosition.z;
 	gl_FragColor= vec4( color, color * color, 0, 1 );
 }
 
@@ -834,8 +837,8 @@ void main()
 
 	void RenderedModelObject3D::RenderingShadowMap(RenderingShadowMapProperty& prop)
 	{
-		auto& vbuf = m_shader->GetVertexConstantBuffer<VertexConstantBuffer>();
-		auto& pbuf = m_shader->GetPixelConstantBuffer<PixelConstantBuffer>();
+		auto& vbuf = m_shaderShadow->GetVertexConstantBuffer<VertexConstantBuffer>();
+		auto& pbuf = m_shaderShadow->GetPixelConstantBuffer<PixelConstantBuffer>();
 
 		for (auto& g : m_meshGroups_fr)
 		{
