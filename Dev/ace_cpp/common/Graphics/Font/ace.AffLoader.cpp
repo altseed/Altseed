@@ -1,7 +1,7 @@
 ﻿#include "ace.AffLoader.h"
 #include <vector>
 #include <array>
-#include "../common/Utility/ace.BinaryReader.h"
+#include "../../Utility/ace.BinaryReader.h"
 #include "ace.AffHeader.h"
 #define CHARCODE_MAX 65536
 

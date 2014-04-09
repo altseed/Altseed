@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <fstream>
 #include <map>
-#include "../common/ace.common.Base.h"
+#include "../../ace.common.Base.h"
 #include "ace.GlyphData.h"
 
 namespace ace

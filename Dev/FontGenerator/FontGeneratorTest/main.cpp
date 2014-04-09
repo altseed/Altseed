@@ -3,6 +3,9 @@
 #include "../FontGenerator/Generator.h"
 #include "../FontGenerator/Rendering/Color.h"
 
+#pragma comment(linker, "/nodefaultlib:libcmtd.lib")
+#pragma comment(linker, "/nodefaultlib:LIBCMT.lib")
+
 using namespace std;
 using namespace FontGenerator;
 

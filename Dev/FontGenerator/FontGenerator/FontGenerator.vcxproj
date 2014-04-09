@@ -1,6 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug2|Win32">
+      <Configuration>Debug2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
@@ -28,6 +32,10 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug2|Win32'">
+    <PlatformToolset>v120</PlatformToolset>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+  </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
@@ -37,31 +45,38 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug2|Win32'" />
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <TargetExt>.lib</TargetExt>
-    <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype\;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\include;..\..\include\freetype\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common;$(IncludePath)</IncludePath>
     <LibraryPath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug2|Win32'">
+    <IncludePath>..\..\include\freetype\;..\..\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\lib\;$(LibraryPath)</LibraryPath>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>ace_common.lib;libpng16.Debug.lib;zlib.Debug.lib;freetype252ST.lib</AdditionalDependencies>
+      <AdditionalDependencies>libpng16.Debug.lib;zlib.Debug.lib;freetype252ST.lib</AdditionalDependencies>
     </Lib>
     <Lib>
-      <AdditionalLibraryDirectories>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib\Debug;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -80,8 +95,15 @@
       <AdditionalDependencies>ace_common.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug2|Win32'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Lib>
+      <AdditionalDependencies>D:\Generate\VisualStudio2013\Projects\Works\ace\Dev\lib\freetype252ST.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
+  </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="ace.AffHeader.h" />
     <ClInclude Include="Rendering\Color.h" />
     <ClInclude Include="Rendering\Font.h" />
     <ClInclude Include="FontData.h" />
@@ -95,7 +117,6 @@
     <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ace.AffHeader.cpp" />
     <ClCompile Include="Rendering\Color.cpp" />
     <ClCompile Include="Rendering\Font.cpp" />
     <ClCompile Include="FontData.cpp" />
@@ -104,6 +125,16 @@
     <ClCompile Include="PngGenerator.cpp" />
     <ClCompile Include="Rendering\GlyphWithBorder.cpp" />
     <ClCompile Include="Rendering\SettingForRendering.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ace_cpp\msvc\ace_common.vcxproj">
+      <Project>{86542137-f2a1-4152-a16b-5be71e060dc6}</Project>
+      <Private>false</Private>
+      <ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+      <CopyLocalSatelliteAssemblies>false</CopyLocalSatelliteAssemblies>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+      <UseLibraryDependencyInputs>false</UseLibraryDependencyInputs>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -79,6 +79,10 @@
     <ClInclude Include="..\common\ace.common.Base.h" />
     <ClInclude Include="..\common\Graphics\ace.Color.h" />
     <ClInclude Include="..\common\Graphics\ace.Graphics.Common.h" />
+    <ClInclude Include="..\common\Graphics\Font\ace.AffHeader.h" />
+    <ClInclude Include="..\common\Graphics\Font\ace.AffIndexTable.h" />
+    <ClInclude Include="..\common\Graphics\Font\ace.AffLoader.h" />
+    <ClInclude Include="..\common\Graphics\Font\ace.GlyphData.h" />
     <ClInclude Include="..\common\Math\ace.Matrix33.h" />
     <ClInclude Include="..\common\Math\ace.Matrix44.h" />
     <ClInclude Include="..\common\Math\ace.RectF.h" />
@@ -100,6 +104,10 @@
   <ItemGroup>
     <ClCompile Include="..\common\ace.common.cpp" />
     <ClCompile Include="..\common\Graphics\ace.Color.cpp" />
+    <ClCompile Include="..\common\Graphics\Font\ace.AffHeader.cpp" />
+    <ClCompile Include="..\common\Graphics\Font\ace.AffIndexTable.cpp" />
+    <ClCompile Include="..\common\Graphics\Font\ace.AffLoader.cpp" />
+    <ClCompile Include="..\common\Graphics\Font\ace.GlyphData.cpp" />
     <ClCompile Include="..\common\Math\ace.Matrix33.cpp" />
     <ClCompile Include="..\common\Math\ace.Matrix44.cpp" />
     <ClCompile Include="..\common\Math\ace.RectF.cpp" />

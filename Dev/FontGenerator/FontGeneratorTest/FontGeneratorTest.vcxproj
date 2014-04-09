@@ -39,7 +39,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common\Utility;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\include\freetype;..\..\include\;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\lib\;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IncludePath>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include\freetype;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\include;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\ace_cpp\common;$(IncludePath)</IncludePath>
@@ -49,10 +50,12 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>..\..\ace_cpp\common;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>D:\Generate\visual studio 2013\Projects\Works\ace\Dev\lib;D:\Generate\visual studio 2013\Projects\Works\ace\Dev\FontGenerator\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>..\..\lib;..\Debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>libpng16.Debug.lib;zlib.Debug.lib;FontGenerator.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -74,6 +77,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\FontGenerator\FontGenerator.vcxproj">
+      <Project>{0954c297-511f-4340-9dcd-a37313ae7f15}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
