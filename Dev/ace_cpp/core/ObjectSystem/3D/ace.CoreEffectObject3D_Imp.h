@@ -44,6 +44,9 @@ namespace ace
 		virtual Vector3DF GetRotation() const{ return CoreObject3D_Imp::GetRotation(); }
 		virtual void SetRotation(const Vector3DF& rot){ CoreObject3D_Imp::SetRotation(rot); }
 
+		virtual Vector3DF GetScale() const{ return CoreObject3D_Imp::GetScale(); }
+		virtual void SetScale(const Vector3DF& scale){ CoreObject3D_Imp::SetScale(scale); }
+
 		virtual void SetLayer(CoreLayer3D* layer) { CoreObject3D_Imp::SetLayer(layer); }
 
 #if !SWIG

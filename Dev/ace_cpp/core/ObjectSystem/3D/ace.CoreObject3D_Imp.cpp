@@ -47,6 +47,16 @@ namespace ace
 		m_commonObject->SetRotation(rot);
 	}
 
+	Vector3DF CoreObject3D_Imp::GetScale() const
+	{
+		return m_commonObject->GetScale();
+	}
+
+	void CoreObject3D_Imp::SetScale(const Vector3DF& scale)
+	{
+		m_commonObject->SetScale(scale);
+	}
+
 	void CoreObject3D_Imp::SetLayer(CoreLayer3D* layer)
 	{
 		if (layer != nullptr)

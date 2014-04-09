@@ -53,7 +53,7 @@ namespace ace
 			}
 		};
 
-		auto calcCubeClipMatrix = [](Vector3DF& max_, Vector3DF& min_)->Matrix44
+		auto calcCubeClipMatrix = [this](Vector3DF& max_, Vector3DF& min_)->Matrix44
 		{
 			Matrix44 matCubeClip;
 			matCubeClip.SetIndentity();
@@ -67,11 +67,22 @@ namespace ace
 			matCubeClip.Values[1][2] = 0.0f;
 			matCubeClip.Values[1][3] = -(max_.Y + min_.Y) / (max_.Y - min_.Y);
 
-			// おそらくDirectX限定
-			matCubeClip.Values[2][0] = 0.0f;
-			matCubeClip.Values[2][1] = 0.0f;
-			matCubeClip.Values[2][2] = -1.0f / (max_.Z - min_.Z);
-			matCubeClip.Values[2][3] = min_.Z / (max_.Z - min_.Z) + 1.0f;
+			// もしかしたら符号が逆の可能性あり
+			if (GetGraphics()->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
+			{
+				matCubeClip.Values[2][0] = 0.0f;
+				matCubeClip.Values[2][1] = 0.0f;
+				matCubeClip.Values[2][2] = -1.0f / (max_.Z - min_.Z);
+				matCubeClip.Values[2][3] = min_.Z / (max_.Z - min_.Z) + 1.0f;
+			}
+			else
+			{
+				matCubeClip.Values[2][0] = 0.0f;
+				matCubeClip.Values[2][1] = 0.0f;
+				matCubeClip.Values[2][2] = -2.0f / (max_.Z - min_.Z);
+				matCubeClip.Values[2][3] = (max_.Z + min_.Z) / (max_.Z - min_.Z);
+			}
+
 			return matCubeClip;
 		};
 
@@ -127,8 +138,9 @@ namespace ace
 		}
 
 		m_shadowObjectPointsBack = m_shadowObjectPoints;
+		auto back2 = m_shadowObjectPoints;
 
-		// LiSPSMかPSMか
+		// LiSPSMかUSMか
 		auto vlCross = Vector3DF::Cross(viewDirection, lightDirection);
 		auto vlS = vlCross.GetLength();
 		auto vlC = Vector3DF::Dot(viewDirection, lightDirection);
@@ -136,8 +148,8 @@ namespace ace
 
 		if (fabsf(vlAngle) < 0.01f || fabsf(vlAngle - PI) < 0.01f)
 		{
-			// 視線とライトの方向が近い場合はPSM
-			
+			// 視線とライトの方向が近い場合はUSM
+
 			// ライトビューの計算
 			auto eye = viewPosition;
 			lightView.SetLookAtRH(eye, eye + lightDirection, viewDirection);
@@ -153,17 +165,48 @@ namespace ace
 
 			lightProjection = calcCubeClipMatrix(max_, min_);
 
-			//for (auto i = 0; i < m_shadowObjectPoints.size(); i++)
-			//{
-			//	m_shadowObjectPoints[i] = lightProjection.Transform3D(m_shadowObjectPoints[i]);
-			//}
+			// デバッグ用
+			/*
+			for (auto i = 0; i < m_shadowObjectPoints.size(); i++)
+			{
+				m_shadowObjectPoints[i] = lightProjection.Transform3D(m_shadowObjectPoints[i]);
+			}
+			
+
+			{
+				Vector3DF points[8] = {
+					Vector3DF(0.5f, 0.5f, -0.5f),
+					Vector3DF(-0.5f, 0.5f, -0.5f),
+					Vector3DF(0.5f, -0.5f, -0.5f),
+					Vector3DF(-0.5f, -0.5f, -0.5f),
+					Vector3DF(0.5f, 0.5f, 0.5f),
+					Vector3DF(-0.5f, 0.5f, 0.5f),
+					Vector3DF(0.5f, -0.5f, 0.5f),
+					Vector3DF(-0.5f, -0.5f, 0.5f),
+				};
+
+				for (int32_t i = 0; i < 8; i++)
+				{
+					back2.push_back(points[i]);
+				}
+			}
+
+			auto back = back2;
+			auto lvp = lightProjection * lightView;
+			{
+				for (auto i = 0; i < back2.size(); i++)
+				{
+					back2[i] = lvp.Transform3D(back2[i]);
+				}
+			}
+			*/
 			return;
 		}
 
-		auto sinGamma = sqrtf(1.0f - vlAngle * vlAngle);
+		auto sinGamma = sqrtf(1.0f - vlC * vlC);
 
-		// Upの計算(左手右手系の都合で違う可能性あり)
-		auto upLeft = Vector3DF::Cross(viewDirection, lightDirection);
+		// Upの計算
+		auto upLeft = Vector3DF::Cross(lightDirection, viewDirection );
 		auto up = Vector3DF::Cross(upLeft, lightDirection);
 		up.Normalize();
 
@@ -204,17 +247,41 @@ namespace ace
 		auto pos = eye - up * (n - zn);
 		lightView.SetLookAtRH(pos, (pos + lightDirection), up);
 
-		// Y方向への射影行列を取得(0.0～1.0に射影 DirectX限定)
+		// Y方向への射影行列を取得
 		Matrix44 matPerspective;
-		matPerspective.SetIndentity();
-		matPerspective.Values[1][1] = f / (n - f);
-		matPerspective.Values[3][1] = -1.0f;
+		if (GetGraphics()->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
+		{
+			// [1,	0,	0,	0]
+			// [0,	a,	0,	b]
+			// [0,	0,	1,	0]
+			// [0,	1,	0,	0]
+			// a = f / (f - n);
+			// b = - n * f / (f - n)
 
-		matPerspective.Values[1][3] = n * f / (n - f);
-		matPerspective.Values[3][3] = 0.0f;
-	
+			matPerspective.SetIndentity();
+			matPerspective.Values[1][1] = f / (f - n);
+			matPerspective.Values[3][1] = 1.0f;
+			matPerspective.Values[1][3] = - n * f / (f - n);
+			matPerspective.Values[3][3] = 0.0f;
+		}
+		else
+		{
+			// [1,	0,	0,	0]
+			// [0,	a,	0,	b]
+			// [0,	0,	1,	0]
+			// [0,	1,	0,	0]
+			// a = (f + n) / (f - n)
+			// b = -2.0f * n * f / (f - n)
+
+			matPerspective.SetIndentity();
+			matPerspective.Values[1][1] = (f + n) / (f - n);
+			matPerspective.Values[3][1] = 1.0f;
+			matPerspective.Values[1][3] = -2.0f * n * f / (f - n);
+			matPerspective.Values[3][3] = 0.0f;
+		}
+
 		// 透視変換後の空間へ変換する
-		auto lightProjection_ = matPerspective * lightView;
+		Matrix44 lightProjection_ = matPerspective * lightView;
 
 		// AABBを計算
 		for (auto i = 0; i < m_shadowObjectPointsBack.size(); i++)
@@ -226,8 +293,38 @@ namespace ace
 		calcAABB(m_shadowObjectPointsBack, max__, min__);
 
 		Matrix44 matCubeClip = calcCubeClipMatrix(max__, min__);
-		
+
 		lightProjection = matCubeClip * matPerspective;
+
+		// デバッグ用コード
+		/*
+		{
+			Vector3DF points[8] = {
+				Vector3DF(0.5f, 0.5f, -0.5f),
+				Vector3DF(-0.5f, 0.5f, -0.5f),
+				Vector3DF(0.5f, -0.5f, -0.5f),
+				Vector3DF(-0.5f, -0.5f, -0.5f),
+				Vector3DF(0.5f, 0.5f, 0.5f),
+				Vector3DF(-0.5f, 0.5f, 0.5f),
+				Vector3DF(0.5f, -0.5f, 0.5f),
+				Vector3DF(-0.5f, -0.5f, 0.5f),
+			};
+
+			for (int32_t i = 0; i < 8; i++)
+			{
+				back2.push_back(points[i]);
+			}
+		}
+
+		auto back = back2;
+		auto lvp = lightProjection * lightView;
+		{
+			for (auto i = 0; i < back2.size(); i++)
+			{
+				back2[i] = lvp.Transform3D(back2[i]);
+			}
+		}
+		*/
 	}
 
 	Color RenderedDirectionalLightObject3D::GetColor_FR()

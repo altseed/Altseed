@@ -245,8 +245,8 @@ void main()
 			}
 			prop.ShadowMapPtr = shadowMap;
 
+			// 影用デバッグコード
 			//prop.CameraProjectionMatrix = prop.LightProjectionMatrix;
-
 
 			// 3D描画
 			g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());

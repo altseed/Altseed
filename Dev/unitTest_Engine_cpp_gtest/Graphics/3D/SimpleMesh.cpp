@@ -122,7 +122,7 @@ class Graphics_SimpleMesh : public EngineTest
 public:
 	
 	Graphics_SimpleMesh(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("SimpleMesh"), isOpenGLMode, 60)
+		EngineTest(ace::ToAString("SimpleMesh"), isOpenGLMode, 15)
 	{}
 
 protected:
@@ -131,21 +131,24 @@ protected:
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer3D>();
 		auto meshObj = std::make_shared<ace::ModelObject3D>();
+		auto meshObj2 = std::make_shared<ace::ModelObject3D>();
 		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
 		auto cameraObj = std::make_shared<ace::CameraObject3D>();
 
 		scene->AddLayer(layer);
 		layer->AddObject(meshObj);
+		layer->AddObject(meshObj2);
 		layer->AddObject(lightObj);
 		layer->AddObject(cameraObj);
 		ace::Engine::ChangeScene(scene);
 
 		
 		auto mesh = CreateMesh(ace::Engine::GetGraphics());
+		auto mesh2 = CreateMesh(ace::Engine::GetGraphics());
 		auto deformer = CreateDeformer(ace::Engine::GetGraphics());
 		auto animation = CreateAnimation();
 
-		cameraObj->SetPosition(ace::Vector3DF(0, 0, 10));
+		cameraObj->SetPosition(ace::Vector3DF(0, 2, 10));
 		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
 		cameraObj->SetFieldOfView(20.0f);
 		cameraObj->SetZNear(1.0f);
@@ -155,7 +158,12 @@ protected:
 		meshObj->AddMeshGroup();
 		meshObj->AddMesh(0, mesh);
 		meshObj->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
-		
+	
+		meshObj2->AddMeshGroup();
+		meshObj2->AddMesh(0, mesh);
+		meshObj2->SetPosition(ace::Vector3DF(0.0f, -6.0f, -6.0f));
+		meshObj2->SetScale(ace::Vector3DF(8.0f, 8.0f, 8.0f));
+
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
 	}
 };
