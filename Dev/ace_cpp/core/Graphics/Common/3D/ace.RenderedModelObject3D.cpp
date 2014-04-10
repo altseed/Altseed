@@ -62,11 +62,20 @@ VS_Output main( const VS_Input Input )
 	float4x4 matMVP = mul(matCP, matLocal);
 	float4x4 matMLVP = mul(matLVP, matLocal);
 
-	Output.Pos = mul( matMVP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+	float4 localPosition = mul( matLocal, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+	localPosition = localPosition / localPosition.w;
+
+	float4 localNormal = mul( matLocal, float4( Input.Normal.x + Input.Position.x, Input.Normal.y + Input.Position.y, Input.Normal.z + Input.Position.z, 1.0 ) );
+	localNormal = localNormal / localNormal.w;
+
+	localNormal = localNormal - localPosition;
+	localNormal = normalize(localNormal);
+
+	Output.Pos = mul( matCP, localPosition );
 	Output.LightPos = mul( matMLVP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
 
 	Output.UV = Input.UV;
-	Output.Color.xyz = directionalLightColor * max( dot(directionalLightDirection,Input.Normal), 0.0 ) + 0.2;
+	Output.Color.xyz = directionalLightColor * max( dot(directionalLightDirection,localNormal.xyz), 0.0 ) + 0.2;
 	Output.Color.w = 1.0;
 	return Output;
 }
@@ -112,7 +121,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	float2 shadowUV = float2( (Input.LightPos.x / Input.LightPos.w + 1.0) / 2.0, 1.0 - (Input.LightPos.y / Input.LightPos.w + 1.0) / 2.0 );
 	float shadowZ = Input.LightPos.z / Input.LightPos.w;
 
-	float bias = 0.001;
+	float bias = 0.01;
 	if(shadowZ > g_shadowTexture.Sample(g_shadowSampler, shadowUV).r + bias )
 	{
 		Output.rgb = Output.rgb * 0.5;
@@ -202,11 +211,20 @@ void main()
 	mat4 matMVP = matCP * matLocal;
 	mat4 matMLVP = matLVP * matLocal;
 
-	vaPosition = matMVP * vec4(Position.x,Position.y,Position.z,1.0);
+	vec4 localPosition = mul( matLocal, vec4( Position.x, Position.y, Position.z, 1.0 ) );
+	localPosition = localPosition / localPosition.w;
+
+	vec4 localNormal = mul( matLocal, vec4( Normal.x + Position.x, Normal.y + Position.y, Normal.z + Position.z, 1.0 ) );
+	localNormal = localNormal / localNormal.w;
+
+	localNormal = localNormal - localPosition;
+	localNormal = normalize(localNormal);
+
+	vaPosition = matCP * localPosition;
 	vaLightPos = matMLVP * vec4(Position.x,Position.y,Position.z,1.0);
 
 	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
-	vaColor.xyz = directionalLightColor * max( dot(directionalLightDirection,Normal), 0.0 ) + 0.2;
+	vaColor.xyz = directionalLightColor * max( dot(directionalLightDirection,localNormal.xyz), 0.0 ) + 0.2;
 	vaColor.w = 1.0;
 
 	gl_Position = vaPosition;
@@ -250,7 +268,7 @@ void main()
 	float shadowZ = vaLightPos.z / vaLightPos.w;
 	shadowZ = (shadowZ + 1.0) / 2.0;
 
-	float bias = 0.001;
+	float bias = 0.01;
 	if(shadowZ >  texture2D(g_shadowTexture, shadowUV).r + bias )
 	{
 		gl_FragColor.rgb = gl_FragColor.rgb * 0.5;

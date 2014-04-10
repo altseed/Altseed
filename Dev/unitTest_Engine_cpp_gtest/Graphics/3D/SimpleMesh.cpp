@@ -161,8 +161,8 @@ protected:
 	
 		meshObj2->AddMeshGroup();
 		meshObj2->AddMesh(0, mesh);
-		meshObj2->SetPosition(ace::Vector3DF(0.0f, -6.0f, -6.0f));
-		meshObj2->SetScale(ace::Vector3DF(8.0f, 8.0f, 8.0f));
+		meshObj2->SetPosition(ace::Vector3DF(0.0f, -6.0f, 0.0f));
+		meshObj2->SetScale(ace::Vector3DF(10.0f, 10.0f, 10.0f));
 
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
 	}
