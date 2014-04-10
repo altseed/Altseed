@@ -137,7 +137,7 @@ namespace ace {
 		{
 			intrenalFormat_ = GL_RG16F;
 			format_ = GL_RG;
-			type = GL_UNSIGNED_BYTE;
+			type = GL_FLOAT;
 		}
 
 		glTexImage2D(
@@ -219,7 +219,7 @@ namespace ace {
 		{
 			intrenalFormat_ = GL_RG16F;
 			format_ = GL_RG;
-			type = GL_UNSIGNED_BYTE;
+			type = GL_FLOAT;
 		}
 
 		glTexSubImage2D(

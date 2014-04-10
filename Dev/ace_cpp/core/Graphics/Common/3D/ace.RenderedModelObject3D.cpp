@@ -248,15 +248,13 @@ void main()
 	// shadow
 	vec2 shadowUV = vec2( (vaLightPos.x / vaLightPos.w + 1.0) / 2.0, (vaLightPos.y / vaLightPos.w + 1.0) / 2.0 );
 	float shadowZ = vaLightPos.z / vaLightPos.w;
+	shadowZ = (shadowZ + 1.0) / 2.0;
 
 	float bias = 0.001;
 	if(shadowZ >  texture2D(g_shadowTexture, shadowUV).r + bias )
 	{
 		gl_FragColor.rgb = gl_FragColor.rgb * 0.5;
 	}
-
-	//gl_FragColor.r = shadowZ;
-	//gl_FragColor.b = bias;
 }
 
 )";
@@ -290,7 +288,7 @@ void main()
 
 	if(gl_FragColor.a == 0.0) discard;
 
-	float color = vaPosition.z;
+	float color = (vaPosition.z / vaPosition.w + 1.0) / 2.0;
 	gl_FragColor= vec4( color, color * color, 0, 1 );
 }
 
