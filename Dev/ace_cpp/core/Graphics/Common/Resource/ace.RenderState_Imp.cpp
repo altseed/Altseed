@@ -26,15 +26,11 @@ void RenderState_Imp::State::Reset()
 	AlphaBlend = ALPHA_BLEND_BLEND;
 	CullingType = CULLING_DOUBLE;
 
-	TextureFilterTypes[0] = TEXTURE_FILTER_NEAREST;
-	TextureFilterTypes[1] = TEXTURE_FILTER_NEAREST;
-	TextureFilterTypes[2] = TEXTURE_FILTER_NEAREST;
-	TextureFilterTypes[3] = TEXTURE_FILTER_NEAREST;
-
-	TextureWrapTypes[0] = TEXTURE_WRAP_CLAMP;
-	TextureWrapTypes[1] = TEXTURE_WRAP_CLAMP;
-	TextureWrapTypes[2] = TEXTURE_WRAP_CLAMP;
-	TextureWrapTypes[3] = TEXTURE_WRAP_CLAMP;
+	for (auto i = 0; i < TextureCount; i++)
+	{
+		TextureFilterTypes[i] = TEXTURE_FILTER_NEAREST;
+		TextureWrapTypes[i] = TEXTURE_WRAP_CLAMP;
+	}
 }
 
 //-----------------------------------------------------------------------------------
@@ -46,15 +42,12 @@ void RenderState_Imp::State::CopyTo(State& state)
 	state.DepthWrite = DepthWrite;
 	state.AlphaBlend = AlphaBlend;
 	state.CullingType = CullingType;
-	state.TextureFilterTypes[0] = TextureFilterTypes[0];
-	state.TextureFilterTypes[1] = TextureFilterTypes[1];
-	state.TextureFilterTypes[2] = TextureFilterTypes[2];
-	state.TextureFilterTypes[3] = TextureFilterTypes[3];
 
-	state.TextureWrapTypes[0] = TextureWrapTypes[0];
-	state.TextureWrapTypes[1] = TextureWrapTypes[1];
-	state.TextureWrapTypes[2] = TextureWrapTypes[2];
-	state.TextureWrapTypes[3] = TextureWrapTypes[3];
+	for (auto i = 0; i < TextureCount; i++)
+	{
+		state.TextureFilterTypes[i] = TextureFilterTypes[i];
+		state.TextureWrapTypes[i] = TextureWrapTypes[i];
+	}
 }
 
 //-----------------------------------------------------------------------------------
