@@ -5,14 +5,16 @@
 #include "../FontGenerator/Generator.h"
 #include "../FontGenerator/Rendering/Color.h"
 
-#pragma comment(lib,"libpng16.Debug.lib")
-#pragma comment(lib,"zlib.Debug.lib")
 #pragma comment(lib,"FontGenerator.lib")
 
 #if _DEBUG
 #pragma comment(lib,"freetype253MT_D.lib")
+#pragma comment(lib,"libpng16.Debug.lib")
+#pragma comment(lib,"zlib.Debug.lib")
 #else
 #pragma comment(lib,"freetype253MT.lib")
+#pragma comment(lib,"libpng16.Release.lib")
+#pragma comment(lib,"zlib.Release.lib")
 #endif
 
 using namespace std;

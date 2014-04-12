@@ -16,7 +16,6 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_Lib|Win32 = Debug_Lib|Win32
 		Debug|Win32 = Debug|Win32
-		Debug2|Win32 = Debug2|Win32
 		Release_Lib|Win32 = Release_Lib|Win32
 		Release|Win32 = Release|Win32
 	EndGlobalSection
@@ -25,8 +24,6 @@ Global
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug_Lib|Win32.Build.0 = Debug|Win32
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug|Win32.ActiveCfg = Debug|Win32
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug|Win32.Build.0 = Debug|Win32
-		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug2|Win32.ActiveCfg = Debug2|Win32
-		{0954C297-511F-4340-9DCD-A37313AE7F15}.Debug2|Win32.Build.0 = Debug2|Win32
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Release_Lib|Win32.ActiveCfg = Release|Win32
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Release_Lib|Win32.Build.0 = Release|Win32
 		{0954C297-511F-4340-9DCD-A37313AE7F15}.Release|Win32.ActiveCfg = Release|Win32
@@ -35,8 +32,6 @@ Global
 		{DF0DFB2F-5C8D-48E8-B670-A5104F3D2811}.Debug_Lib|Win32.Build.0 = Debug|Win32
 		{DF0DFB2F-5C8D-48E8-B670-A5104F3D2811}.Debug|Win32.ActiveCfg = Debug|Win32
 		{DF0DFB2F-5C8D-48E8-B670-A5104F3D2811}.Debug|Win32.Build.0 = Debug|Win32
-		{DF0DFB2F-5C8D-48E8-B670-A5104F3D2811}.Debug2|Win32.ActiveCfg = Debug|Win32
-		{DF0DFB2F-5C8D-48E8-B670-A5104F3D2811}.Debug2|Win32.Build.0 = Debug|Win32
 		{DF0DFB2F-5C8D-48E8-B670-A5104F3D2811}.Release_Lib|Win32.ActiveCfg = Release|Win32
 		{DF0DFB2F-5C8D-48E8-B670-A5104F3D2811}.Release_Lib|Win32.Build.0 = Release|Win32
 		{DF0DFB2F-5C8D-48E8-B670-A5104F3D2811}.Release|Win32.ActiveCfg = Release|Win32
@@ -45,8 +40,6 @@ Global
 		{86542137-F2A1-4152-A16B-5BE71E060DC6}.Debug_Lib|Win32.Build.0 = Debug|Win32
 		{86542137-F2A1-4152-A16B-5BE71E060DC6}.Debug|Win32.ActiveCfg = Debug|Win32
 		{86542137-F2A1-4152-A16B-5BE71E060DC6}.Debug|Win32.Build.0 = Debug|Win32
-		{86542137-F2A1-4152-A16B-5BE71E060DC6}.Debug2|Win32.ActiveCfg = Debug|Win32
-		{86542137-F2A1-4152-A16B-5BE71E060DC6}.Debug2|Win32.Build.0 = Debug|Win32
 		{86542137-F2A1-4152-A16B-5BE71E060DC6}.Release_Lib|Win32.ActiveCfg = Release|Win32
 		{86542137-F2A1-4152-A16B-5BE71E060DC6}.Release_Lib|Win32.Build.0 = Release|Win32
 		{86542137-F2A1-4152-A16B-5BE71E060DC6}.Release|Win32.ActiveCfg = Release|Win32
