@@ -40,6 +40,19 @@ namespace ace
 			Vector2DF	UV;
 		};
 
+		struct ShadowConstantBuffer
+		{
+			Vector3DF	Weights;
+			float		Padding;
+		};
+
+		struct ShadowVertex
+		{
+			Vector3DF	Position;
+			Vector2DF	UV;
+			Color		VColor;
+		};
+
 		struct
 		{
 			std::set<RenderedObject3D*>		objects;
@@ -66,6 +79,13 @@ namespace ace
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_pasteVertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_pasteIndexBuffer;
 		std::shared_ptr<ace::NativeShader_Imp>	m_pasteShader;
+
+		std::shared_ptr<ace::VertexBuffer_Imp>	m_shadowVertexBuffer;
+		std::shared_ptr<ace::IndexBuffer_Imp>	m_shadowIndexBuffer;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shadowShaderX;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shadowShaderY;
+
+		std::shared_ptr<RenderTexture2D>		m_shadowTempTexture;
 
 		Effekseer::Manager*						m_effectManager = nullptr;
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;

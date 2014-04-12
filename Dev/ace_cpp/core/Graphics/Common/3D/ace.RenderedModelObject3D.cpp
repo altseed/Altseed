@@ -82,7 +82,7 @@ VS_Output main( const VS_Input Input )
 
 )";
 
-	static const char* dx_ps = R"(
+static const char* dx_ps = R"(
 
 struct PS_Input
 {
@@ -106,6 +106,18 @@ SamplerState	g_specularSampler		: register( s2 );
 Texture2D		g_shadowTexture		: register( t3 );
 SamplerState	g_shadowSampler		: register( s3 );
 
+float VSM(float2 moments, float t)
+{
+	float ex = moments.x;
+	float ex2 = moments.y;
+
+	float p = (t <= ex);
+	float variance = ex2 - ex * ex;
+	float d = t - ex;
+	float p_max = variance / (variance + d * d);
+	return max(p, p_max);
+}
+
 float4 main( const PS_Input Input ) : SV_Target
 {
 	float4 Output = Input.Color;
@@ -119,14 +131,19 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	// shadow
 	float2 shadowUV = float2( (Input.LightPos.x / Input.LightPos.w + 1.0) / 2.0, 1.0 - (Input.LightPos.y / Input.LightPos.w + 1.0) / 2.0 );
-	float shadowZ = Input.LightPos.z / Input.LightPos.w;
+	float lightDepthZ = Input.LightPos.z / Input.LightPos.w;
 
-	float bias = 0.01;
-	if(shadowZ > g_shadowTexture.Sample(g_shadowSampler, shadowUV).r + bias )
-	{
-		Output.rgb = Output.rgb * 0.5;
-	}
+	float2 shadowParam = g_shadowTexture.Sample(g_shadowSampler, shadowUV).xy;
 
+	float p = VSM(shadowParam, lightDepthZ - 0.02 );
+
+	//float bias = 0.01;
+	//if(shadowZ > g_shadowTexture.Sample(g_shadowSampler, shadowUV).r + bias )
+	//{
+	//	Output.rgb = Output.rgb * 0.5;
+	//}
+
+	Output.rgb = Output.rgb * p;
 	return Output;
 }
 
@@ -246,6 +263,23 @@ uniform sampler2D g_normalTexture;
 uniform sampler2D g_specularTexture;
 uniform sampler2D g_shadowTexture;
 
+float VSM(vec2 moments, float t)
+{
+	float ex = moments.x;
+	float ex2 = moments.y;
+
+	float p = 0.0;
+	if (t <= ex)
+	{
+		p = 1.0;
+	}
+
+	float variance = ex2 - ex * ex;
+	float d = t - ex;
+	float p_max = variance / (variance + d * d);
+	return max(p, p_max);
+}
+
 void main() 
 {
 	gl_FragColor = vaColor;
@@ -268,11 +302,20 @@ void main()
 	float shadowZ = vaLightPos.z / vaLightPos.w;
 	shadowZ = (shadowZ + 1.0) / 2.0;
 
+	float p = VSM(texture2D(g_shadowTexture, shadowUV).xy, shadowZ - 0.02 );
+
+	/*
 	float bias = 0.01;
-	if(shadowZ >  texture2D(g_shadowTexture, shadowUV).r + bias )
+	if(shadowZ > texture2D(g_shadowTexture, shadowUV).r + bias )
 	{
 		gl_FragColor.rgb = gl_FragColor.rgb * 0.5;
 	}
+	*/
+
+	gl_FragColor.rgb = gl_FragColor.rgb * p;
+
+	//gl_FragColor.r = shadowZ;
+	//gl_FragColor.g = texture2D(g_shadowTexture, shadowUV).r;
 }
 
 )";
@@ -811,6 +854,7 @@ void main()
 						if (prop.ShadowMapPtr != nullptr)
 						{
 							pbuf.HasTextures.W = 1.0f;
+							prop.ShadowMapPtr->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
 							m_shader->SetTexture("g_shadowTexture", prop.ShadowMapPtr, 3);
 						}
 						else
