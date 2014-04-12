@@ -228,10 +228,10 @@ void main()
 	mat4 matMVP = matCP * matLocal;
 	mat4 matMLVP = matLVP * matLocal;
 
-	vec4 localPosition = mul( matLocal, vec4( Position.x, Position.y, Position.z, 1.0 ) );
+	vec4 localPosition = matLocal * vec4( Position.x, Position.y, Position.z, 1.0 );
 	localPosition = localPosition / localPosition.w;
 
-	vec4 localNormal = mul( matLocal, vec4( Normal.x + Position.x, Normal.y + Position.y, Normal.z + Position.z, 1.0 ) );
+	vec4 localNormal = matLocal * vec4( Normal.x + Position.x, Normal.y + Position.y, Normal.z + Position.z, 1.0 );
 	localNormal = localNormal / localNormal.w;
 
 	localNormal = localNormal - localPosition;
