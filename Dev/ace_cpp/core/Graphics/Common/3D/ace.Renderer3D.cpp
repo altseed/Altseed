@@ -114,6 +114,196 @@ void main()
 
 )";
 
+static const char* shadowBlur_dx_vs = R"(
+
+struct VS_Input
+{
+	float3 Pos		: Pos0;
+	float2 UV		: UV0;
+	float4 Color	: COLOR0;
+};
+
+struct VS_Output
+{
+	float4 Pos_		: SV_POSITION;
+	float4 Pos		: Pos0;
+	float2 UV		: TEXCOORD0;
+	float4 Color	: COLOR0;
+};
+
+VS_Output main( const VS_Input Input )
+{
+	VS_Output Output = (VS_Output)0;
+	Output.Pos_ = float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 );
+	Output.Pos = float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 );
+	Output.UV = Input.UV;
+	Output.Color = Input.Color;
+	return Output;
+}
+
+)";
+
+static const char* shadowBlur_gl_vs = R"(
+
+attribute vec3 Pos;
+attribute vec2 UV;
+attribute vec4 Color;
+
+varying vec4 inPos;
+varying vec2 inUV;
+varying vec4 inColor;
+
+void main()
+{
+	gl_Position = vec4(Pos.x,Pos.y,Pos.z,1.0);
+	inPos = gl_Position;
+	inUV = UV;
+	inColor = Color;
+
+	// gl only
+	inUV.y = 1.0 - inUV.y;
+}
+
+)";
+
+static const char* shadowBlur_dx_ps_x = R"(
+
+struct PS_Input
+{
+	float4 Pos_		: SV_POSITION;
+	float4 Pos		: Pos0;
+	float2 UV		: TEXCOORD0;
+	float4 Color	: COLOR0;
+};
+
+Texture2D		g_texture		: register( t0 );
+SamplerState	g_sampler		: register( s0 );
+float3          g_weight        : register( c0 );
+float4 main( const PS_Input Input ) : SV_Target
+{
+	uint width, height;
+	g_texture.GetDimensions(width, height);
+	float2 accum = float2(1.0 / width, 0.0);
+	float2 half_ = float2(0.5 / width, 0.0);
+	float2 adder = float2(2.0 / width, 0.0);
+	
+	float4 output_ = (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
+	                 g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
+	                 g_weight.x;
+	if(output_.a == 0.0f) discard;
+	accum += adder;
+	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
+	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
+	           g_weight.y;
+	accum += adder;
+	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
+	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
+	           g_weight.z;
+	return output_;
+}
+
+)";
+
+static const char* shadowBlur_gl_ps_x = R"(
+
+varying vec4 inPos;
+varying vec2 inUV;
+varying vec4 inColor;
+
+uniform sampler2D g_texture;
+uniform vec3      g_weight;
+void main()
+{
+	vec2 accum = vec2(1.0 / float(textureSize(g_texture, 0).x), 0.0);
+	vec2 half_  = vec2(0.5 / float(textureSize(g_texture, 0).x), 0.0);
+	vec2 adder = vec2(2.0 / float(textureSize(g_texture, 0).x), 0.0);
+	vec4 output_ = (texture2D(g_texture, inUV.xy + half_ + accum)  +
+	               texture2D(g_texture, inUV.xy + half_ - accum)) *
+	               g_weight.x;
+	accum += adder;
+	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
+	          texture2D(g_texture, inUV.xy + half_ - accum)) *
+	          g_weight.y;
+	accum += adder;
+	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
+	          texture2D(g_texture, inUV.xy + half_ - accum)) *
+	          g_weight.z;
+	gl_FragColor = output_; 
+}
+
+)";
+
+
+static const char* shadowBlur_dx_ps_y = R"(
+
+struct PS_Input
+{
+	float4 Pos_		: SV_POSITION;
+	float4 Pos		: Pos0;
+	float2 UV		: TEXCOORD0;
+	float4 Color	: COLOR0;
+};
+
+Texture2D		g_texture		: register( t0 );
+SamplerState	g_sampler		: register( s0 );
+float3          g_weight        : register( c0 );
+float4 main( const PS_Input Input ) : SV_Target
+{
+	uint width, height;
+	g_texture.GetDimensions(width, height);
+	float2 accum = float2(0.0, 1.0 / height);
+	float2 half_ = float2(0.0, 0.5 / height);
+	float2 adder = float2(0.0, 2.0 / height);
+	
+	float4 output_ = (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
+	                 g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
+	                 g_weight.x;
+	if(output_.a == 0.0f) discard;
+
+	accum += adder;
+	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
+	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
+	           g_weight.y;
+	accum += adder;
+	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
+	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
+	           g_weight.z;
+	return output_;
+}
+
+)";
+
+static const char* shadowBlur_gl_ps_y = R"(
+
+varying vec4 inPos;
+varying vec2 inUV;
+varying vec4 inColor;
+
+uniform sampler2D g_texture;
+uniform vec3      g_weight;
+void main()
+{
+	vec2 accum = vec2(0.0, 1.0 / float(textureSize(g_texture, 0).y));
+	vec2 half_  = vec2(0.0, 0.5 / float(textureSize(g_texture, 0).y));
+	vec2 adder = vec2(0.0, 2.0 / float(textureSize(g_texture, 0).y));
+	
+	vec4 output_ = (texture2D(g_texture, inUV.xy + half_ + accum)  +
+	               texture2D(g_texture, inUV.xy + half_ - accum)) *
+	               g_weight.x;
+	accum += adder;
+	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
+	          texture2D(g_texture, inUV.xy + half_ - accum)) *
+	          g_weight.y;
+	accum += adder;
+	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
+	          texture2D(g_texture, inUV.xy + half_ - accum)) *
+	          g_weight.z;
+
+	gl_FragColor = output_; 
+}
+
+)";
+
 
 	template<typename T>
 	void AddRefToObjects(std::set<T*>& os)
@@ -242,6 +432,70 @@ void main()
 				{
 					o->RenderingShadowMap(shadowProp);
 				}
+
+				float intensity = 4.0f;
+				Vector3DF weights;
+				float ws[3];
+				float total = 0.0f;
+				float const dispersion = intensity * intensity;
+				for (int32_t i = 0; i < 3; i++)
+				{
+					float pos = 1.0f + 2.0f * i;
+					ws[i] = expf(-0.5f * pos * pos / dispersion);
+					total += ws[i] * 2.0f;
+				}
+				weights.X = ws[0] / total;
+				weights.Y = ws[1] / total;
+				weights.Z = ws[2] / total;
+
+				{
+					g->SetRenderTarget((RenderTexture_Imp*) m_shadowTempTexture.get(), nullptr);
+					g->Clear(true, false, ace::Color(0, 0, 0, 255));
+
+					m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_FR(), 0);
+					light->GetShadowTexture_FR()->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
+					ShadowConstantBuffer& cbufX = m_shadowShaderX->GetPixelConstantBuffer<ShadowConstantBuffer>();
+					cbufX.Weights = weights;
+
+					g->SetVertexBuffer(m_shadowVertexBuffer.get());
+					g->SetIndexBuffer(m_shadowIndexBuffer.get());
+					g->SetShader(m_shadowShaderX.get());
+
+					auto& state = g->GetRenderState()->Push();
+					state.DepthTest = false;
+					state.DepthWrite = false;
+					state.CullingType = CULLING_DOUBLE;
+					g->GetRenderState()->Update(false);
+
+					g->DrawPolygon(2);
+
+					g->GetRenderState()->Pop();
+				}
+
+				{
+					g->SetRenderTarget(light->GetShadowTexture_FR(), nullptr);
+					g->Clear(true, false, ace::Color(0, 0, 0, 255));
+
+					m_shadowShaderY->SetTexture("g_texture", m_shadowTempTexture.get(), 0);
+					m_shadowTempTexture.get()->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
+					ShadowConstantBuffer& cbufY = m_shadowShaderY->GetPixelConstantBuffer<ShadowConstantBuffer>();
+					cbufY.Weights = weights;
+
+					g->SetVertexBuffer(m_shadowVertexBuffer.get());
+					g->SetIndexBuffer(m_shadowIndexBuffer.get());
+					g->SetShader(m_shadowShaderY.get());
+
+					auto& state = g->GetRenderState()->Push();
+					state.DepthTest = false;
+					state.DepthWrite = false;
+					state.CullingType = CULLING_DOUBLE;
+					g->GetRenderState()->Update(false);
+
+					g->DrawPolygon(2);
+
+					g->GetRenderState()->Pop();
+				}
+				
 			}
 			prop.ShadowMapPtr = shadowMap;
 
@@ -346,76 +600,169 @@ void main()
 		// 別スレッドで描画を行うか指定
 		m_multithreadingMode = m_graphics->IsMultithreadingMode();
 
-		m_pasteVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(PasteVertex), 2 * 3, true);
-		m_pasteIndexBuffer = m_graphics->CreateIndexBuffer_Imp(2 * 3, false, false);
-
-		m_pasteIndexBuffer->Lock();
-		auto ib = m_pasteIndexBuffer->GetBuffer<uint16_t>(2 * 3);
-
-		for (int32_t i = 0; i < 2; i++)
+		// ペースト用シェーダー
 		{
-			ib[i * 3 + 0] = 0 + i * 3;
-			ib[i * 3 + 1] = 1 + i * 3;
-			ib[i * 3 + 2] = 2 + i * 3;
+			m_pasteVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(PasteVertex), 2 * 3, true);
+			m_pasteIndexBuffer = m_graphics->CreateIndexBuffer_Imp(2 * 3, false, false);
+
+			m_pasteIndexBuffer->Lock();
+			auto ib = m_pasteIndexBuffer->GetBuffer<uint16_t>(2 * 3);
+
+			for (int32_t i = 0; i < 2; i++)
+			{
+				ib[i * 3 + 0] = 0 + i * 3;
+				ib[i * 3 + 1] = 1 + i * 3;
+				ib[i * 3 + 2] = 2 + i * 3;
+			}
+
+			m_pasteIndexBuffer->Unlock();
+
+			std::vector<ace::VertexLayout> vl;
+			vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+
+			std::vector<ace::Macro> macro;
+			if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
+			{
+				m_pasteShader = m_graphics->CreateShader_Imp(
+					paste_gl_vs,
+					"vs",
+					paste_gl_ps,
+					"ps",
+					vl,
+					macro);
+			}
+			else
+			{
+				m_pasteShader = m_graphics->CreateShader_Imp(
+					paste_dx_vs,
+					"vs",
+					paste_dx_ps,
+					"ps",
+					vl,
+					macro);
+			}
+
+			std::vector<ace::ConstantBufferInformation> constantBuffers;
+			constantBuffers.resize(1);
+			constantBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
+			constantBuffers[0].Name = std::string("Size");
+			constantBuffers[0].Offset = 0;
+
+			m_pasteShader->CreateVertexConstantBuffer<PasteConstantBuffer>(constantBuffers);
 		}
 
-		m_pasteIndexBuffer->Unlock();
-
-		std::vector<ace::VertexLayout> vl;
-		vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		
-		std::vector<ace::Macro> macro;
-		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
+		// シャドー用シェーダー
 		{
-			m_pasteShader = m_graphics->CreateShader_Imp(
-				paste_gl_vs,
-				"vs",
-				paste_gl_ps,
-				"ps",
-				vl,
-				macro);
-		}
-		else
-		{
-			m_pasteShader = m_graphics->CreateShader_Imp(
-				paste_dx_vs,
-				"vs",
-				paste_dx_ps,
-				"ps",
-				vl,
-				macro);
-		}
+			m_shadowVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(ShadowVertex), 2 * 3, true);
+			m_shadowIndexBuffer = m_graphics->CreateIndexBuffer_Imp(2 * 3, false, false);
 
-		std::vector<ace::ConstantBufferInformation> constantBuffers;
-		constantBuffers.resize(1);
-		constantBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
-		constantBuffers[0].Name = std::string("Size");
-		constantBuffers[0].Offset = 0;
+			m_shadowIndexBuffer->Lock();
+			auto ib = m_shadowIndexBuffer->GetBuffer<uint16_t>(2 * 3);
 
-		m_pasteShader->CreateVertexConstantBuffer<PasteConstantBuffer>(constantBuffers);
+			for (int32_t i = 0; i < 2; i++)
+			{
+				ib[i * 3 + 0] = 0 + i * 3;
+				ib[i * 3 + 1] = 1 + i * 3;
+				ib[i * 3 + 2] = 2 + i * 3;
+			}
+
+			m_shadowIndexBuffer->Unlock();
+
+			std::vector<ace::VertexLayout> vl;
+			vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+			vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
+
+			std::vector<ace::Macro> macro;
+			if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
+			{
+				m_shadowShaderX = m_graphics->CreateShader_Imp(
+					shadowBlur_gl_vs,
+					"vs",
+					shadowBlur_gl_ps_x,
+					"ps",
+					vl,
+					macro);
+
+				m_shadowShaderY = m_graphics->CreateShader_Imp(
+					shadowBlur_gl_vs,
+					"vs",
+					shadowBlur_gl_ps_y,
+					"ps",
+					vl,
+					macro);
+			}
+			else
+			{
+				m_shadowShaderX = m_graphics->CreateShader_Imp(
+					shadowBlur_dx_vs,
+					"vs",
+					shadowBlur_dx_ps_x,
+					"ps",
+					vl,
+					macro);
+
+				m_shadowShaderY = m_graphics->CreateShader_Imp(
+					shadowBlur_dx_vs,
+					"vs",
+					shadowBlur_dx_ps_y,
+					"ps",
+					vl,
+					macro);
+			}
+
+			std::vector<ace::ConstantBufferInformation> constantBuffers;
+			constantBuffers.resize(1);
+			constantBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers[0].Name = std::string("g_weight");
+			constantBuffers[0].Offset = 0;
+
+			m_shadowShaderX->CreatePixelConstantBuffer<ShadowConstantBuffer>(constantBuffers);
+			m_shadowShaderY->CreatePixelConstantBuffer<ShadowConstantBuffer>(constantBuffers);
+
+			m_shadowTempTexture = m_graphics->CreateRenderTexture(2048, 2048, ace::eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
+
+			m_shadowVertexBuffer->Lock();
+			auto buf = m_shadowVertexBuffer->GetBuffer <ShadowVertex>(6);
+
+			buf[0].Position = Vector3DF(-1.0f, -1.0f, 0.5f);
+			buf[0].UV = Vector2DF(0, 0);
+			buf[1].Position = Vector3DF(1.0f, -1.0f, 0.5f);
+			buf[1].UV = Vector2DF(1, 0);
+			buf[2].Position = Vector3DF(1.0f, 1.0f, 0.5f);
+			buf[2].UV = Vector2DF(1, 1);
+			buf[3].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
+			buf[3].UV = Vector2DF(0, 1);
+			buf[4] = buf[0];
+			buf[5] = buf[2];
+
+			m_shadowVertexBuffer->Unlock();
+		}
 
 		// エフェクト
-		m_effectManager = ::Effekseer::Manager::Create(2000, false);
-		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
 		{
+			m_effectManager = ::Effekseer::Manager::Create(2000, false);
+			if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
+			{
 #if _WIN32
-			auto g = (Graphics_Imp_DX11*) m_graphics;
-			m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), 2000);
+				auto g = (Graphics_Imp_DX11*) m_graphics;
+				m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), 2000);
 #endif
-		}
-		else if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
-		{
-			m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(2000);
-		}
+			}
+			else if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
+			{
+				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(2000);
+			}
 
-		m_effectManager->SetSpriteRenderer(m_effectRenderer->CreateSpriteRenderer());
-		m_effectManager->SetRibbonRenderer(m_effectRenderer->CreateRibbonRenderer());
-		m_effectManager->SetRingRenderer(m_effectRenderer->CreateRingRenderer());
-		m_effectManager->SetModelRenderer(m_effectRenderer->CreateModelRenderer());
-		m_effectManager->SetTrackRenderer(m_effectRenderer->CreateTrackRenderer());
+			m_effectManager->SetSpriteRenderer(m_effectRenderer->CreateSpriteRenderer());
+			m_effectManager->SetRibbonRenderer(m_effectRenderer->CreateRibbonRenderer());
+			m_effectManager->SetRingRenderer(m_effectRenderer->CreateRingRenderer());
+			m_effectManager->SetModelRenderer(m_effectRenderer->CreateModelRenderer());
+			m_effectManager->SetTrackRenderer(m_effectRenderer->CreateTrackRenderer());
 
-		m_effectManager->SetCoordinateSystem(::Effekseer::COORDINATE_SYSTEM_RH);
+			m_effectManager->SetCoordinateSystem(::Effekseer::COORDINATE_SYSTEM_RH);
+		}
 	}
 
 	Renderer3D::~Renderer3D()
