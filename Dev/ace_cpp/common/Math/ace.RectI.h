@@ -63,5 +63,7 @@ namespace ace
 			@return	座標
 		*/
 		std::array<Vector2DI, 4> GetVertexes() const;
+
+		bool operator==(RectI& other);
 	};
 }

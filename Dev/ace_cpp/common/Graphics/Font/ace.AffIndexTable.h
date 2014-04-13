@@ -13,6 +13,7 @@ namespace ace
 
 	public:
 		static const int CHARCODE_MAX = 65536;
+		static const int16_t NONAVAILABLE = 0xff;
 
 		AffIndexTable();
 

@@ -35,4 +35,12 @@ namespace ace
 		};
 		return result;
 	}
+
+	bool RectI::operator==(RectI& other)
+	{
+		return X == other.X
+			&& Y == other.Y
+			&& Width == other.Width
+			&& Height == other.Height;
+	}
 }

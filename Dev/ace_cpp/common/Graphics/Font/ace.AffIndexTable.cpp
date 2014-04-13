@@ -24,6 +24,11 @@ namespace ace
 	{
 		array<int16_t, CHARCODE_MAX> indexes;
 
+		for (int i = 0; i < CHARCODE_MAX; ++i)
+		{
+			indexes[i] = NONAVAILABLE;
+		}
+
 		for (auto& x : m_indexes)
 		{
 			indexes[(int)(x.first)] = x.second;

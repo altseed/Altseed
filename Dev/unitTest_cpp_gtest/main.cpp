@@ -30,6 +30,8 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
+extern void Font_IndexTable();
+extern void Font_GlyphDataSerialize();
 extern void Graphics_SingleTexture(bool isOpenGLMode);
 extern void Graphics_RenderTarget(bool isOpenGLMode);
 extern void Graphics_Simple3D(bool isOpenGLMode);

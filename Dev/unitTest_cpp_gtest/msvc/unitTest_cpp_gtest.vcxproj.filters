@@ -99,6 +99,12 @@
     <ClCompile Include="..\Graphics\Font\ace.AffHeader_Test.cpp">
       <Filter>Graphics\Font</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\Font\ace.AffIndexTable_Test.cpp">
+      <Filter>Graphics\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\Font\ace.GlyphData_Test.cpp">
+      <Filter>Graphics\Font</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Graphics\ace.Graphics_Test_Utls.h">

@@ -6,7 +6,7 @@
 using namespace std;
 using namespace ace;
 
-static void File_AffHeader()
+static void Font_AffHeader()
 {
 	static wstring fileName = L"test.aff";
 
@@ -32,7 +32,7 @@ static void File_AffHeader()
 	ASSERT_EQ(header->GetSheetCount(), result.GetSheetCount());
 }
 
-TEST(File, AffHeaderMethod)
+TEST(Font, AffHeaderIO)
 {
-	File_AffHeader();
+	Font_AffHeader();
 }

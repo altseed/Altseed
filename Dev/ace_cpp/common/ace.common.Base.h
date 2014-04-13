@@ -329,7 +329,7 @@ static std::vector<int8_t> GetBinaryData(std::wstring filePath)
 #if _WIN32
 	_wfopen_s(&fp, filePath.c_str(), L"rb");
 #else
-	throw "未実装";
+	ACE_ASSERT(false, "Windows以外での GetBinaryData 関数は未実装です。");
 #endif
 
 	fseek(fp, 0, SEEK_END);
