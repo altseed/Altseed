@@ -153,7 +153,7 @@ protected:
 		cameraObj->SetFieldOfView(20.0f);
 		cameraObj->SetZNear(1.0f);
 		cameraObj->SetZFar(20.0f);
-		cameraObj->SetWindowSize(ace::Vector2DI(800, 600));
+		cameraObj->SetWindowSize(ace::Vector2DI(WindowWidth, WindowHeight));
 
 		meshObj->AddMeshGroup();
 		meshObj->AddMesh(0, mesh);

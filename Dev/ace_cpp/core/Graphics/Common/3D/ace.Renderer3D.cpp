@@ -178,7 +178,7 @@ struct PS_Input
 
 Texture2D		g_texture		: register( t0 );
 SamplerState	g_sampler		: register( s0 );
-float3          g_weight        : register( c0 );
+float4          g_weight        : register( c0 );
 float4 main( const PS_Input Input ) : SV_Target
 {
 	uint width, height;
@@ -199,6 +199,10 @@ float4 main( const PS_Input Input ) : SV_Target
 	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
 	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
 	           g_weight.z;
+	accum += adder;
+	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
+	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
+	           g_weight.w;
 	return output_;
 }
 
@@ -211,7 +215,7 @@ varying vec2 inUV;
 varying vec4 inColor;
 
 uniform sampler2D g_texture;
-uniform vec3      g_weight;
+uniform vec4      g_weight;
 void main()
 {
 	vec2 accum = vec2(1.0 / float(textureSize(g_texture, 0).x), 0.0);
@@ -228,6 +232,10 @@ void main()
 	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
 	          texture2D(g_texture, inUV.xy + half_ - accum)) *
 	          g_weight.z;
+	accum += adder;
+	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
+	          texture2D(g_texture, inUV.xy + half_ - accum)) *
+	          g_weight.w;
 	gl_FragColor = output_; 
 }
 
@@ -246,7 +254,7 @@ struct PS_Input
 
 Texture2D		g_texture		: register( t0 );
 SamplerState	g_sampler		: register( s0 );
-float3          g_weight        : register( c0 );
+float4          g_weight        : register( c0 );
 float4 main( const PS_Input Input ) : SV_Target
 {
 	uint width, height;
@@ -268,6 +276,10 @@ float4 main( const PS_Input Input ) : SV_Target
 	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
 	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
 	           g_weight.z;
+	accum += adder;
+	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
+	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
+	           g_weight.w;
 	return output_;
 }
 
@@ -280,7 +292,7 @@ varying vec2 inUV;
 varying vec4 inColor;
 
 uniform sampler2D g_texture;
-uniform vec3      g_weight;
+uniform vec4      g_weight;
 void main()
 {
 	vec2 accum = vec2(0.0, 1.0 / float(textureSize(g_texture, 0).y));
@@ -298,7 +310,10 @@ void main()
 	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
 	          texture2D(g_texture, inUV.xy + half_ - accum)) *
 	          g_weight.z;
-
+	accum += adder;
+	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
+	          texture2D(g_texture, inUV.xy + half_ - accum)) *
+	          g_weight.w;
 	gl_FragColor = output_; 
 }
 
@@ -433,12 +448,12 @@ void main()
 					o->RenderingShadowMap(shadowProp);
 				}
 
-				float intensity = 4.0f;
-				Vector3DF weights;
-				float ws[3];
+				float intensity = 5.0f;
+				Vector4DF weights;
+				float ws[4];
 				float total = 0.0f;
 				float const dispersion = intensity * intensity;
-				for (int32_t i = 0; i < 3; i++)
+				for (int32_t i = 0; i < 4; i++)
 				{
 					float pos = 1.0f + 2.0f * i;
 					ws[i] = expf(-0.5f * pos * pos / dispersion);
@@ -447,13 +462,13 @@ void main()
 				weights.X = ws[0] / total;
 				weights.Y = ws[1] / total;
 				weights.Z = ws[2] / total;
+				weights.W = ws[3] / total;
 
 				{
 					g->SetRenderTarget((RenderTexture_Imp*) m_shadowTempTexture.get(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 					m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_FR(), 0);
-					light->GetShadowTexture_FR()->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
 					ShadowConstantBuffer& cbufX = m_shadowShaderX->GetPixelConstantBuffer<ShadowConstantBuffer>();
 					cbufX.Weights = weights;
 
@@ -465,6 +480,7 @@ void main()
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
+					state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
 					g->GetRenderState()->Update(false);
 
 					g->DrawPolygon(2);
@@ -477,7 +493,6 @@ void main()
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 					m_shadowShaderY->SetTexture("g_texture", m_shadowTempTexture.get(), 0);
-					m_shadowTempTexture.get()->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
 					ShadowConstantBuffer& cbufY = m_shadowShaderY->GetPixelConstantBuffer<ShadowConstantBuffer>();
 					cbufY.Weights = weights;
 
@@ -489,6 +504,7 @@ void main()
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
+					state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
 					g->GetRenderState()->Update(false);
 
 					g->DrawPolygon(2);
@@ -714,7 +730,7 @@ void main()
 
 			std::vector<ace::ConstantBufferInformation> constantBuffers;
 			constantBuffers.resize(1);
-			constantBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
 			constantBuffers[0].Name = std::string("g_weight");
 			constantBuffers[0].Offset = 0;
 

@@ -854,7 +854,6 @@ void main()
 						if (prop.ShadowMapPtr != nullptr)
 						{
 							pbuf.HasTextures.W = 1.0f;
-							prop.ShadowMapPtr->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
 							m_shader->SetTexture("g_shadowTexture", prop.ShadowMapPtr, 3);
 						}
 						else
@@ -870,6 +869,7 @@ void main()
 						state.DepthTest = true;
 						state.DepthWrite = true;
 						state.CullingType = CULLING_DOUBLE;
+						state.TextureFilterTypes[3] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
 						GetGraphics()->GetRenderState()->Update(false);
 
 						GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);

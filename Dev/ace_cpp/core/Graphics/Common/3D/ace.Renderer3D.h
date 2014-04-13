@@ -6,6 +6,7 @@
 #include <Math/ace.Vector2DI.h>
 #include <Math/ace.Vector2DF.h>
 #include <Math/ace.Vector3DF.h>
+#include <Math/ace.Vector4DF.h>
 #include <Graphics/ace.Color.h>
 
 #include "../ace.RenderingThread.h"
@@ -42,8 +43,7 @@ namespace ace
 
 		struct ShadowConstantBuffer
 		{
-			Vector3DF	Weights;
-			float		Padding;
+			Vector4DF	Weights;
 		};
 
 		struct ShadowVertex

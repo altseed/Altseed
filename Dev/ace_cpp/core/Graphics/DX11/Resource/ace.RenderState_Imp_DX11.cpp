@@ -206,7 +206,7 @@ void RenderState_Imp_DX11::Update(bool forced)
 		m_graphics->GetContext()->OMSetBlendState(m_bStates[m_next.AlphaBlend], blendFactor, 0xFFFFFFFF);
 	}
 
-	for (int32_t i = 0; i < 4; i++)
+	for (int32_t i = 0; i < TextureCount; i++)
 	{
 		bool changeSampler = forced;
 

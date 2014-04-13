@@ -5,6 +5,10 @@
 
 class EngineTest
 {
+public:
+	const int32_t WindowWidth = 640;
+	const int32_t WindowHeight = 480;
+
 private:
 	const ace::astring directory;
 
