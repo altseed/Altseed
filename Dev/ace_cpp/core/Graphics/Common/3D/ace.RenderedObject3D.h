@@ -17,7 +17,8 @@ namespace ace
 	class RenderingProperty
 	{
 	public:
-		Matrix44	CameraProjectionMatrix;
+		Matrix44	CameraMatrix;
+		Matrix44	ProjectionMatrix;
 		Color		DirectionalLightColor;
 		Vector3DF	DirectionalLightDirection;
 		Matrix44	LightProjectionMatrix;

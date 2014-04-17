@@ -18,11 +18,12 @@ namespace ace
 	static const char* dx_vs = R"(
 
 float4x4	matM[32]					: register( c0 );
-float4x4	matCP						: register( c128 );
-float4x4	matLVP						: register( c132 );
+float4x4	matC						: register( c128 );
+float4x4	matP						: register( c132 );
+float4x4	matLCP						: register( c136 );
 
-float3		directionalLightDirection	: register( c136 );
-float3		directionalLightColor		: register( c137 );
+float3		directionalLightDirection	: register( c140 );
+float3		directionalLightColor		: register( c141 );
 
 struct VS_Input
 {
@@ -43,6 +44,7 @@ struct VS_Output
 	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
+	half3 Normal	: NORMAL0;
 };
 
 float4x4 calcMatrix(float4 weights, uint4 indexes)
@@ -59,23 +61,26 @@ VS_Output main( const VS_Input Input )
 	//Output.Pos = mul( matMCP[0], float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
 
 	float4x4 matLocal = calcMatrix(Input.BoneWeights,Input.BoneIndexes);
-	float4x4 matMVP = mul(matCP, matLocal);
-	float4x4 matMLVP = mul(matLVP, matLocal);
+	float4x4 matMC = mul(matC, matLocal);
+	float4x4 matMLCP = mul(matLCP, matLocal);
 
-	float4 localPosition = mul( matLocal, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
-	localPosition = localPosition / localPosition.w;
+	float4 cPosition = mul( matMC, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+	cPosition = cPosition / cPosition.w;
 
-	float4 localNormal = mul( matLocal, float4( Input.Normal.x + Input.Position.x, Input.Normal.y + Input.Position.y, Input.Normal.z + Input.Position.z, 1.0 ) );
-	localNormal = localNormal / localNormal.w;
+	float4 cNormal = mul( matMC, float4( Input.Normal.x + Input.Position.x, Input.Normal.y + Input.Position.y, Input.Normal.z + Input.Position.z, 1.0 ) );
+	cNormal = cNormal / cNormal.w;
 
-	localNormal = localNormal - localPosition;
-	localNormal = normalize(localNormal);
+	cNormal = cNormal - cPosition;
+	cNormal.xyz = normalize(cNormal.xyz);
 
-	Output.Pos = mul( matCP, localPosition );
-	Output.LightPos = mul( matMLVP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+	float3 cDirectionalLightDirection = mul(matC, directionalLightDirection).xyz;
 
+	Output.Pos = mul( matP, cPosition );
+	Output.LightPos = mul( matMLCP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+
+	Output.Normal = (half3)cNormal.xyz;
 	Output.UV = Input.UV;
-	Output.Color.xyz = directionalLightColor * max( dot(directionalLightDirection,localNormal.xyz), 0.0 ) + 0.2;
+	Output.Color.xyz = directionalLightColor * max( dot(cDirectionalLightDirection.xyz,cNormal.xyz), 0.0 ) + 0.2;
 	Output.Color.w = 1.0;
 	return Output;
 }
@@ -86,10 +91,11 @@ static const char* dx_ps = R"(
 
 struct PS_Input
 {
-	float4 Position	: SV_POSITION;
+	float4 Pos	: SV_POSITION;
 	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
+	half3 Normal	: NORMAL0;
 };
 
 float4		hasTextures	: register( c0 );
@@ -153,10 +159,11 @@ static const char* dx_shadow_ps = R"(
 
 struct PS_Input
 {
-	float4 Position	: SV_POSITION;
+	float4 Pos	: SV_POSITION;
 	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
+	half3 Normal	: NORMAL0;
 };
 
 float4		hasTextures	: register( c0 );
@@ -182,7 +189,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	if(Output.a == 0.0f) discard;
 	
 	// Wで除算してはいけない(既にされているため)
-	float color = Input.Position.z;
+	float color = Input.Pos.z;
 	return float4( color, color * color, 0, 1 );
 }
 
@@ -201,16 +208,18 @@ attribute vec4 BoneIndexes;
 attribute vec4 BoneIndexesOriginal;
 
 uniform mat4		matM[32];
-uniform mat4		matCP;
-uniform mat4		matLVP;
+uniform mat4		matC;
+uniform mat4		matP;
+uniform mat4		matLCP;
 
 uniform vec3		directionalLightDirection;
 uniform vec3		directionalLightColor;
 
-varying vec4 vaPosition;
+varying vec4 vaPos;
 varying vec4 vaLightPos;
-varying vec4 vaTexCoord;
+varying vec2 vaUV;
 varying vec4 vaColor;
+varying vec3 vaNormal;
 
 mat4 calcMatrix(vec4 weights, vec4 indexes)
 {
@@ -222,39 +231,43 @@ mat4 calcMatrix(vec4 weights, vec4 indexes)
 
 void main()
 {
-//	gl_Position = matMCP[0] * vec4(Position.x,Position.y,Position.z,1.0);
+	//Output.Pos = mul( matMCP[0], vec4( Position.x, Position.y, Position.z, 1.0 ) );
 
 	mat4 matLocal = calcMatrix(BoneWeights,BoneIndexes);
-	mat4 matMVP = matCP * matLocal;
-	mat4 matMLVP = matLVP * matLocal;
+	mat4 matMC = matC * matLocal;
+	mat4 matMLCP = matLCP * matLocal;
 
-	vec4 localPosition = matLocal * vec4( Position.x, Position.y, Position.z, 1.0 );
-	localPosition = localPosition / localPosition.w;
+	vec4 cPosition = matMC * vec4( Position.x, Position.y, Position.z, 1.0 );
+	cPosition = cPosition / cPosition.w;
 
-	vec4 localNormal = matLocal * vec4( Normal.x + Position.x, Normal.y + Position.y, Normal.z + Position.z, 1.0 );
-	localNormal = localNormal / localNormal.w;
+	vec4 cNormal = matMC * vec4( Normal.x + Position.x, Normal.y + Position.y, Normal.z + Position.z, 1.0 );
+	cNormal = cNormal / cNormal.w;
 
-	localNormal = localNormal - localPosition;
-	localNormal = normalize(localNormal);
+	cNormal = cNormal - cPosition;
+	cNormal.xyz = normalize(cNormal).xyz;
 
-	vaPosition = matCP * localPosition;
-	vaLightPos = matMLVP * vec4(Position.x,Position.y,Position.z,1.0);
+	vec3 cDirectionalLightDirection = (matC * vec4(directionalLightDirection, 0.0) ).xyz;
 
-	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
-	vaColor.xyz = directionalLightColor * max( dot(directionalLightDirection,localNormal.xyz), 0.0 ) + 0.2;
+	vaPos = matP * cPosition;
+	vaLightPos = matMLCP * vec4( Position.x, Position.y, Position.z, 1.0 );
+
+	vaNormal = cNormal.xyz;
+	vaUV = UV;
+	vaColor.xyz = directionalLightColor * max( dot(cDirectionalLightDirection.xyz,cNormal.xyz), 0.0 ) + 0.2;
 	vaColor.w = 1.0;
 
-	gl_Position = vaPosition;
+	gl_Position = vaPos;
 }
 
 )";
 
 static const char* gl_ps = R"(
 
-varying vec4 vaPosition;
+varying vec4 vaPos;
 varying vec4 vaLightPos;
-varying vec4 vaTexCoord;
+varying vec2 vaUV;
 varying vec4 vaColor;
+varying vec3 vaNormal;
 
 uniform vec4 hasTextures;
 
@@ -287,12 +300,12 @@ void main()
 	if(gl_FragColor.a == 0.0f) discard;
 
 	// gl only
-	vec4 vaTexCoord_ = vaTexCoord;
-	vaTexCoord_.y = 1.0 - vaTexCoord_.y;
+	vec2 vaUV_ = vaUV;
+	vaUV_.y = 1.0 - vaUV_.y;
 
 	if(hasTextures.x != 0.0)
 	{
-		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaTexCoord_.xy);
+		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaUV_.xy);
 	}
 
 	if(gl_FragColor.a == 0.0f) discard;
@@ -321,10 +334,11 @@ void main()
 )";
 
 static const char* gl_shadow_ps = R"(
-varying vec4 vaPosition;
+varying vec4 vaPos;
 varying vec4 vaLightPos;
-varying vec4 vaTexCoord;
+varying vec2 vaUV;
 varying vec4 vaColor;
+varying vec3 vaNormal;
 
 uniform vec4 hasTextures;
 
@@ -339,17 +353,17 @@ void main()
 	if(gl_FragColor.a == 0.0f) discard;
 
 	// gl only
-	vec4 vaTexCoord_ = vaTexCoord;
-	vaTexCoord_.y = 1.0 - vaTexCoord_.y;
+	vec2 vaUV_ = vaUV;
+	vaUV_.y = 1.0 - vaUV_.y;
 
 	if(hasTextures.x != 0.0)
 	{
-		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaTexCoord_.xy);
+		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaUV_.xy);
 	}
 
 	if(gl_FragColor.a == 0.0) discard;
 
-	float color = (vaPosition.z / vaPosition.w + 1.0) / 2.0;
+	float color = (vaPos.z / vaPos.w + 1.0) / 2.0;
 	gl_FragColor= vec4( color, color * color, 0, 1 );
 }
 
@@ -501,27 +515,31 @@ void main()
 		vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
 
 		std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
-		constantBuffers_vs.resize(5);
+		constantBuffers_vs.resize(6);
 		constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
 		constantBuffers_vs[0].Name = std::string("matM");
 		constantBuffers_vs[0].Offset = 0;
 		constantBuffers_vs[0].Count = 32;
 
 		constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-		constantBuffers_vs[1].Name = std::string("matCP");
+		constantBuffers_vs[1].Name = std::string("matC");
 		constantBuffers_vs[1].Offset = sizeof(Matrix44) * 32;
 
 		constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-		constantBuffers_vs[2].Name = std::string("matLVP");
+		constantBuffers_vs[2].Name = std::string("matP");
 		constantBuffers_vs[2].Offset = sizeof(Matrix44) * 33;
 
-		constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-		constantBuffers_vs[3].Name = std::string("directionalLightDirection");
+		constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+		constantBuffers_vs[3].Name = std::string("matLCP");
 		constantBuffers_vs[3].Offset = sizeof(Matrix44) * 34;
 
 		constantBuffers_vs[4].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-		constantBuffers_vs[4].Name = std::string("directionalLightColor");
-		constantBuffers_vs[4].Offset = sizeof(Matrix44) * 34 + sizeof(float) * 4;
+		constantBuffers_vs[4].Name = std::string("directionalLightDirection");
+		constantBuffers_vs[4].Offset = sizeof(Matrix44) * 35;
+
+		constantBuffers_vs[5].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+		constantBuffers_vs[5].Name = std::string("directionalLightColor");
+		constantBuffers_vs[5].Offset = sizeof(Matrix44) * 35 + sizeof(float) * 4;
 
 
 		std::vector<ace::ConstantBufferInformation> constantBuffers_ps;
@@ -770,7 +788,8 @@ void main()
 				}
 
 				{
-					vbuf.CPMatrix = prop.CameraProjectionMatrix;
+					vbuf.CMatrix = prop.CameraMatrix;
+					vbuf.PMatrix = prop.ProjectionMatrix;
 					vbuf.LightVPMatrix = prop.LightProjectionMatrix;
 				}
 
@@ -930,7 +949,8 @@ void main()
 				}
 
 				{
-					vbuf.CPMatrix = prop.LightProjectionMatrix;
+					vbuf.CMatrix = Matrix44();
+					vbuf.PMatrix = prop.LightProjectionMatrix;
 					vbuf.LightVPMatrix = prop.LightProjectionMatrix;
 				}
 

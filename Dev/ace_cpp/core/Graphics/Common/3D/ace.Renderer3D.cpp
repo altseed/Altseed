@@ -416,7 +416,8 @@ void main()
 			// カメラプロジェクション行列計算
 			Matrix44 cameraProjMat;
 			ace::Matrix44::Mul(cameraProjMat, c->GetProjectionMatrix_FR(), c->GetCameraMatrix_FR());
-			prop.CameraProjectionMatrix = cameraProjMat;
+			prop.CameraMatrix = c->GetCameraMatrix_FR();
+			prop.ProjectionMatrix = c->GetProjectionMatrix_FR();
 			
 			// シャドウマップ作成
 			RenderTexture_Imp* shadowMap = nullptr;
@@ -433,7 +434,7 @@ void main()
 				light->CalcShadowMatrix(
 					c->GetPosition_FR(),
 					c->GetFocus_FR() - c->GetPosition_FR(),
-					prop.CameraProjectionMatrix,
+					cameraProjMat,
 					c->GetZNear_FR(),
 					c->GetZFar_FR(),
 					view,
@@ -524,7 +525,7 @@ void main()
 				g->Clear(true, true, ace::Color(0, 0, 0, 255));
 
 				RenderingShadowMapProperty shadowProp;
-				shadowProp.LightProjectionMatrix = prop.CameraProjectionMatrix;
+				shadowProp.LightProjectionMatrix = cameraProjMat;
 				
 				for (auto& o : m_objects)
 				{

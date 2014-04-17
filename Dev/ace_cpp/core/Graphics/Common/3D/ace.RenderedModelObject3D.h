@@ -13,7 +13,8 @@ namespace ace
 		struct VertexConstantBuffer
 		{
 			Matrix44	MMatrices[32];
-			Matrix44	CPMatrix;
+			Matrix44	CMatrix;
+			Matrix44	PMatrix;
 			Matrix44	LightVPMatrix;
 
 			Vector3DF	DirectionalLightDirection;
