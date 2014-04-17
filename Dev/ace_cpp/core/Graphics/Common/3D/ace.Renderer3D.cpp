@@ -518,14 +518,31 @@ void main()
 			// 影用デバッグコード
 			//prop.CameraProjectionMatrix = prop.LightProjectionMatrix;
 
-			// 3D描画
-			g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());
-			g->Clear(true, true, ace::Color(0, 0, 0, 255));
-
-			for (auto& o : m_objects)
+			// 奥行き描画
 			{
-				o->Rendering(prop);
+				g->SetRenderTarget(c->GetRenderTargetDepth_FR(), c->GetDepthBuffer_FR());
+				g->Clear(true, true, ace::Color(0, 0, 0, 255));
+
+				RenderingShadowMapProperty shadowProp;
+				shadowProp.LightProjectionMatrix = prop.CameraProjectionMatrix;
+				
+				for (auto& o : m_objects)
+				{
+					o->RenderingShadowMap(shadowProp);
+				}
 			}
+
+			// 3D描画
+			{
+				g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());
+				g->Clear(true, true, ace::Color(0, 0, 0, 255));
+
+				for (auto& o : m_objects)
+				{
+					o->Rendering(prop);
+				}
+			}
+			
 
 			// エフェクトの描画
 			{
