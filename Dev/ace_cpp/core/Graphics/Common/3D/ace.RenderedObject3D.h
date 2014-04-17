@@ -110,6 +110,8 @@ namespace ace
 
 		virtual void RenderingShadowMap(RenderingShadowMapProperty& prop) {}
 
+		virtual void RenderingNormalDepth(RenderingProperty& prop) {}
+
 		Vector3DF GetPosition_FR();
 
 		const Matrix44& GetMatrix_FR();

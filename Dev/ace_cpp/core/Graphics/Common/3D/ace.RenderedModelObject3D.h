@@ -77,6 +77,7 @@ namespace ace
 
 		std::shared_ptr<ace::NativeShader_Imp>	m_shader;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderShadow;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderNormalDepth;
 
 		std::map<astring, AnimationClip*>		m_animationClips;
 
@@ -100,6 +101,7 @@ namespace ace
 		void Flip() override;
 		void Rendering(RenderingProperty& prop) override;
 		void RenderingShadowMap(RenderingShadowMapProperty& prop) override;
+		void RenderingNormalDepth(RenderingProperty& prop) override;
 
 		/**
 			@brief	モデルの解除を行わずに、現在設定されているインスタンスを解除する。

@@ -522,14 +522,11 @@ void main()
 			// 奥行き描画
 			{
 				g->SetRenderTarget(c->GetRenderTargetDepth_FR(), c->GetDepthBuffer_FR());
-				g->Clear(true, true, ace::Color(0, 0, 0, 255));
+				g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-				RenderingShadowMapProperty shadowProp;
-				shadowProp.LightProjectionMatrix = cameraProjMat;
-				
 				for (auto& o : m_objects)
 				{
-					o->RenderingShadowMap(shadowProp);
+					o->RenderingNormalDepth(prop);
 				}
 			}
 

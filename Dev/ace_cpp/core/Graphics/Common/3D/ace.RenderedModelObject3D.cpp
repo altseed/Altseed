@@ -195,6 +195,46 @@ float4 main( const PS_Input Input ) : SV_Target
 
 )";
 
+static const char* dx_normal_depth_ps = R"(
+
+struct PS_Input
+{
+	float4 Pos	: SV_POSITION;
+	float4 LightPos	: Light0;
+	float4 Color	: Color0;
+	float2 UV		: TEXCOORD0;
+	half3 Normal	: NORMAL0;
+};
+
+float4		hasTextures	: register( c0 );
+
+Texture2D		g_colorTexture		: register( t0 );
+SamplerState	g_colorSampler		: register( s0 );
+
+Texture2D		g_normalTexture		: register( t1 );
+SamplerState	g_normalSampler		: register( s1 );
+
+Texture2D		g_specularTexture		: register( t2 );
+SamplerState	g_specularSampler		: register( s2 );
+
+float4 main( const PS_Input Input ) : SV_Target
+{
+	float4 Output = Input.Color;
+	if(Output.a == 0.0f) discard;
+
+	if(hasTextures.x != 0.0)
+	{
+		Output = Output * g_colorTexture.Sample(g_colorSampler, Input.UV);
+	}
+	if(Output.a == 0.0f) discard;
+	
+	// Wで除算してはいけない(既にされているため)
+	float depth = Input.Pos.z;
+	return float4( Input.Normal.x, Input.Normal.y, Input.Normal.z, depth );
+}
+
+)";
+
 static const char* gl_vs = R"(
 
 attribute vec3 Position;
@@ -365,6 +405,42 @@ void main()
 
 	float color = (vaPos.z / vaPos.w + 1.0) / 2.0;
 	gl_FragColor= vec4( color, color * color, 0, 1 );
+}
+
+)";
+
+static const char* gl_normal_depth_ps = R"(
+varying vec4 vaPos;
+varying vec4 vaLightPos;
+varying vec2 vaUV;
+varying vec4 vaColor;
+varying vec3 vaNormal;
+
+uniform vec4 hasTextures;
+
+uniform sampler2D g_colorTexture;
+uniform sampler2D g_normalTexture;
+uniform sampler2D g_specularTexture;
+
+void main() 
+{
+	gl_FragColor = vaColor;
+
+	if(gl_FragColor.a == 0.0f) discard;
+
+	// gl only
+	vec2 vaUV_ = vaUV;
+	vaUV_.y = 1.0 - vaUV_.y;
+
+	if(hasTextures.x != 0.0)
+	{
+		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaUV_.xy);
+	}
+
+	if(gl_FragColor.a == 0.0) discard;
+
+	float depth = (vaPos.z / vaPos.w + 1.0) / 2.0;
+	gl_FragColor= vec4( vaNormal.x, vaNormal.y, vaNormal.z, depth );
 }
 
 )";
@@ -605,6 +681,36 @@ void main()
 
 			m_shaderShadow->CreateVertexConstantBuffer<VertexConstantBuffer>(constantBuffers_vs);
 			m_shaderShadow->CreatePixelConstantBuffer<PixelConstantBuffer>(constantBuffers_ps);
+		}
+
+		{
+			std::shared_ptr<ace::NativeShader_Imp> shader;
+			std::vector<ace::Macro> macro;
+			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
+			{
+				m_shaderNormalDepth = GetGraphics()->CreateShader_Imp(
+					gl_vs,
+					"shadow_vs",
+					gl_normal_depth_ps,
+					"shadow_ps",
+					vl,
+					macro);
+			}
+			else
+			{
+				m_shaderNormalDepth = GetGraphics()->CreateShader_Imp(
+					dx_vs,
+					"shadow_vs",
+					dx_normal_depth_ps,
+					"shadow_ps",
+					vl,
+					macro);
+			}
+
+			assert(m_shaderNormalDepth != nullptr);
+
+			m_shaderNormalDepth->CreateVertexConstantBuffer<VertexConstantBuffer>(constantBuffers_vs);
+			m_shaderNormalDepth->CreatePixelConstantBuffer<PixelConstantBuffer>(constantBuffers_ps);
 		}
 	}
 
@@ -1031,6 +1137,150 @@ void main()
 						auto& state = GetGraphics()->GetRenderState()->Push();
 						state.DepthTest = true;
 						state.DepthWrite = true;
+						state.CullingType = CULLING_DOUBLE;
+						GetGraphics()->GetRenderState()->Update(false);
+
+						GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
+
+						GetGraphics()->GetRenderState()->Pop();
+
+						if (fCount + fOffset == bFCount && boneOffsets.size() > bIndex)
+						{
+							bFCount += boneOffsets[bIndex].FaceOffset;
+							bIndex++;
+						}
+
+						if (fCount + fOffset == mFCount && materialOffsets.size() > mIndex)
+						{
+							mFCount += materialOffsets[mIndex].FaceOffset;
+							mIndex++;
+						}
+
+						fOffset += fCount;
+					}
+				}
+			}
+		}
+	}
+
+	void RenderedModelObject3D::RenderingNormalDepth(RenderingProperty& prop)
+	{
+		auto& vbuf = m_shaderNormalDepth->GetVertexConstantBuffer<VertexConstantBuffer>();
+		auto& pbuf = m_shaderNormalDepth->GetPixelConstantBuffer<PixelConstantBuffer>();
+
+		for (auto& g : m_meshGroups_fr)
+		{
+			auto& matrices = g->m_matrixes_fr;
+
+			for (auto& mesh : g->GetMeshes())
+			{
+				// 有効チェック
+				if (mesh->GetIndexBuffer() == nullptr) continue;
+
+				// 行列計算
+				if (matrices.size() > 0)
+				{
+					// ボーンあり
+					for (int32_t i = 0; i < Min(32, matrices.size()); i++)
+					{
+						vbuf.MMatrices[i].SetIndentity();
+						Matrix44::Mul(vbuf.MMatrices[i], GetLocalMatrix_FR(), matrices[i]);
+					}
+				}
+				else
+				{
+					// ボーンなし
+					vbuf.MMatrices[0] = GetLocalMatrix_FR();
+					for (int32_t i = 1; i < 32; i++)
+					{
+						vbuf.MMatrices[i] = vbuf.MMatrices[0];
+					}
+				}
+
+				{
+					vbuf.CMatrix = prop.CameraMatrix;
+					vbuf.PMatrix = prop.ProjectionMatrix;
+					vbuf.LightVPMatrix = prop.LightProjectionMatrix;
+				}
+
+				auto& boneOffsets = mesh->GetBoneOffsets();
+				auto& materialOffsets = mesh->GetMaterialOffsets();
+
+				{
+					// 設定がある場合
+					auto mIndex = 0;
+					auto bIndex = 0;
+
+					auto fOffset = 0;
+					auto fCount = 0;
+
+					auto bFCount = 0;
+					if (boneOffsets.size() > 0)
+					{
+						bFCount = boneOffsets[bIndex].FaceOffset;
+					}
+					else
+					{
+						bFCount = mesh->GetIndexBuffer()->GetCount() / 3;
+					}
+
+					auto mFCount = 0;
+					if (materialOffsets.size() > 0)
+					{
+						mFCount = materialOffsets[mIndex].FaceOffset;
+					}
+					else
+					{
+						mFCount = mesh->GetIndexBuffer()->GetCount() / 3;
+					}
+
+					while (fCount < mesh->GetIndexBuffer()->GetCount() / 3)
+					{
+						fCount = Min(bFCount, mFCount) - fOffset;
+						if (fCount == 0) break;
+
+						Mesh_Imp::Material* material = nullptr;
+						if (materialOffsets.size() > 0)
+						{
+							material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
+						}
+
+						if (material != nullptr)
+						{
+							pbuf.HasTextures.X = material->ColorTexture != nullptr ? 1.0f : 0.0f;
+							pbuf.HasTextures.Y = material->NormalTexture != nullptr ? 1.0f : 0.0f;
+							pbuf.HasTextures.Z = material->SpecularTexture != nullptr ? 1.0f : 0.0f;
+
+							if (material->ColorTexture != nullptr)
+							{
+								m_shaderNormalDepth->SetTexture("g_colorTexture", material->ColorTexture, 0);
+							}
+
+							if (material->NormalTexture != nullptr)
+							{
+								m_shaderNormalDepth->SetTexture("g_normalTexture", material->NormalTexture, 1);
+							}
+
+							if (material->SpecularTexture != nullptr)
+							{
+								m_shaderNormalDepth->SetTexture("g_specularTexture", material->SpecularTexture, 2);
+							}
+						}
+						else
+						{
+							pbuf.HasTextures.X = 0.0f;
+							pbuf.HasTextures.Y = 0.0f;
+							pbuf.HasTextures.Z = 0.0f;
+						}
+
+						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
+						GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
+						GetGraphics()->SetShader(m_shaderNormalDepth.get());
+
+						auto& state = GetGraphics()->GetRenderState()->Push();
+						state.DepthTest = true;
+						state.DepthWrite = true;
+						state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
 						state.CullingType = CULLING_DOUBLE;
 						GetGraphics()->GetRenderState()->Update(false);
 
