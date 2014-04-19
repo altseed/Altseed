@@ -40,7 +40,8 @@ struct VS_Input
 
 struct VS_Output
 {
-	float4 Pos		: SV_POSITION;
+	float4 Position		: SV_POSITION;
+	float4 Pos			: POSITION0;
 	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
@@ -75,7 +76,8 @@ VS_Output main( const VS_Input Input )
 
 	float3 cDirectionalLightDirection = mul(matC, directionalLightDirection).xyz;
 
-	Output.Pos = mul( matP, cPosition );
+	Output.Position = mul( matP, cPosition );
+	Output.Pos = Output.Position;
 	Output.LightPos = mul( matMLCP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
 
 	Output.Normal = (half3)cNormal.xyz;
@@ -91,7 +93,8 @@ static const char* dx_ps = R"(
 
 struct PS_Input
 {
-	float4 Pos	: SV_POSITION;
+	float4 Position		: SV_POSITION;
+	float4 Pos			: POSITION0;
 	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
@@ -159,7 +162,8 @@ static const char* dx_shadow_ps = R"(
 
 struct PS_Input
 {
-	float4 Pos	: SV_POSITION;
+	float4 Position		: SV_POSITION;
+	float4 Pos			: POSITION0;
 	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
@@ -188,8 +192,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	}
 	if(Output.a == 0.0f) discard;
 	
-	// Wで除算してはいけない(既にされているため)
-	float color = Input.Pos.z;
+	float color = Input.Pos.z / Input.Pos.w;
 	return float4( color, color * color, 0, 1 );
 }
 
@@ -199,7 +202,8 @@ static const char* dx_normal_depth_ps = R"(
 
 struct PS_Input
 {
-	float4 Pos	: SV_POSITION;
+	float4 Position		: SV_POSITION;
+	float4 Pos			: POSITION0;
 	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
@@ -228,9 +232,8 @@ float4 main( const PS_Input Input ) : SV_Target
 	}
 	if(Output.a == 0.0f) discard;
 	
-	// Wで除算してはいけない(既にされているため)
-	float depth = Input.Pos.z;
-	return float4( Input.Normal.x, Input.Normal.y, Input.Normal.z, depth );
+	float depth = Input.Pos.z / Input.Pos.w;
+	return float4( (Input.Normal.x + 1.0) / 2.0, (Input.Normal.y + 1.0) / 2.0, (Input.Normal.z + 1.0) / 2.0, depth );
 }
 
 )";
@@ -440,7 +443,7 @@ void main()
 	if(gl_FragColor.a == 0.0) discard;
 
 	float depth = (vaPos.z / vaPos.w + 1.0) / 2.0;
-	gl_FragColor= vec4( vaNormal.x, vaNormal.y, vaNormal.z, depth );
+	gl_FragColor= vec4( (vaNormal.x + 1.0) / 2.0, (vaNormal.y + 1.0) / 2.0, (vaNormal.z + 1.0) / 2.0, depth );
 }
 
 )";
