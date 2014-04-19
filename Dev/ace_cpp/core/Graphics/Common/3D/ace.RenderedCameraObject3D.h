@@ -111,6 +111,8 @@ namespace ace
 
 		float GetZNear_FR(){ return m_values_FR.znear; }
 
+		float GetFov_FR(){ return m_values_FR.fov; }
+
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_CAMERA; }
 	};
 }

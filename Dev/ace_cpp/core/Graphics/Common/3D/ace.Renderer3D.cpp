@@ -351,7 +351,7 @@ VS_Output main( const VS_Input Input )
 
 )";
 
-	static const char* ssao_dx_ps = R"(
+static const char* ssao_dx_ps = R"(
 
 struct PS_Input
 {
@@ -399,9 +399,9 @@ float ReconstructDepth(float z)
 	return reconstructInfo1.x / (reconstructInfo1.y * z + reconstructInfo1.z);
 }
 
-float3 ReconstructPosition(float2 screenXY, float z)
+float3 ReconstructPosition(float2 screenXY, float depth)
 {
-	return float3( reconstructInfo2.xy * screenXY * (-z), z );
+	return float3( reconstructInfo2.xy * screenXY * (-depth), depth );
 }
 
 float2 GetScreenPos(float2 uv)
@@ -426,7 +426,7 @@ float3 GetSphereOffset(int index, float offset)
 }
 
 
-float SampleAO(float3 centerPos, float2 centerUV, float3 normal, float sRadius, float random, int index)
+float4 SampleAO(float3 centerPos, float2 centerUV, float3 normal, float sRadius, float random, int index)
 {
 	uint width, height;
 	g_texture.GetDimensions(width, height);
@@ -443,8 +443,6 @@ float SampleAO(float3 centerPos, float2 centerUV, float3 normal, float sRadius, 
 
 	float vv = dot(v, v);
 	float vn = dot(v, normal);
-	
-	return max(vn-bias,0.0);
 
 	// Scalable Ambient Obscurance記載
 	const float epsilon = 0.01;
@@ -469,14 +467,14 @@ float4 main( const PS_Input Input ) : SV_Target
 	float sum = 0.0;
 	for (int i = 0; i < NUM_SAMPLES; i++)
 	{
-		sum += SampleAO(centerPos, Input.UV, normal, sRadius, random, 8);
+		sum += SampleAO(centerPos, Input.UV, normal, sRadius, random, i);
 	}
 
 	// Scalable Ambient Obscurance記載のAの強さの算出方法
 	float A = max( 0.0, 1.0 - intensity * sum * 5.0 / (radius * radius * radius * radius * radius * radius * NUM_SAMPLES) );
 
 	A = max(1.0 - sum * 4,0);
-/*
+
 	// Bilateral box-filter
 	if (abs(ddx(centerPos.z)) < 0.02)
 	{
@@ -486,7 +484,6 @@ float4 main( const PS_Input Input ) : SV_Target
 	{
 		A -= ddy(A) * ((sPos.y & 1) - 0.5);
 	}
-*/
 
 	return float4(A,A,A,1.0);
 }
@@ -716,16 +713,23 @@ float4 main( const PS_Input Input ) : SV_Target
 				cvbuf.Size[1] = m_windowSize.Y;
 
 				SSAOConstantPixelBuffer& cpbuf = m_ssaoShader->GetPixelConstantBuffer<SSAOConstantPixelBuffer>();
-				cpbuf.Radius = 30.0f;
-				cpbuf.ProjScale = 1.0f;
+				cpbuf.Radius = 5.0f;
+				cpbuf.ProjScale = 2.0f;
 				cpbuf.Bias = 0.1f;
 				cpbuf.Intensity = 1.0f;
 				cpbuf.ReconstructInfo1[0] = c->GetZNear_FR() * c->GetZFar_FR();
 				cpbuf.ReconstructInfo1[1] = c->GetZFar_FR() - c->GetZNear_FR();
 				cpbuf.ReconstructInfo1[2] = -c->GetZFar_FR();
 
-				cpbuf.ReconstructInfo2[0] = 1.0f;
-				cpbuf.ReconstructInfo2[1] = 1.0f;
+				auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
+				auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
+	
+				// DirectX
+				float yScale = 1 / tanf(fov / 2);
+				float xScale = yScale / aspect;
+
+				cpbuf.ReconstructInfo2[0] = 1.0f / xScale;
+				cpbuf.ReconstructInfo2[1] = 1.0f / yScale;
 
 				g->SetVertexBuffer(m_ssaoVertexBuffer.get());
 				g->SetIndexBuffer(m_ssaoIndexBuffer.get());
@@ -745,6 +749,7 @@ float4 main( const PS_Input Input ) : SV_Target
 			
 
 			// 3D描画
+			
 			{
 				g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());
 				g->Clear(true, false, ace::Color(0, 0, 0, 255));
