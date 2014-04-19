@@ -119,6 +119,8 @@ namespace ace
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_ssaoVertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_ssaoIndexBuffer;
 		std::shared_ptr<ace::NativeShader_Imp>	m_ssaoShader;
+		std::shared_ptr<ace::NativeShader_Imp>	m_ssaoBlurXShader;
+		std::shared_ptr<ace::NativeShader_Imp>	m_ssaoBlurYShader;
 
 		std::shared_ptr<RenderTexture2D>		m_shadowTempTexture;
 

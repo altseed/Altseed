@@ -112,6 +112,18 @@ namespace ace {
 	{
 		const char* Name;
 		const char* Definition;
+
+		Macro()
+			: Name(nullptr)
+			, Definition(nullptr)
+		{
+		}
+
+		Macro(const char* name, const char* definition)
+			: Name(name)
+			, Definition(definition)
+		{
+		}
 	};
 
 	/**

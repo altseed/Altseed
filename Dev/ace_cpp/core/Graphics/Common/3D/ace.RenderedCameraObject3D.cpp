@@ -13,7 +13,9 @@ namespace ace
 		: RenderedObject3D(graphics)
 		, m_depthBuffer_FR(nullptr)
 		, m_postEffectRenderer(nullptr)
-		, m_renderTargetDepth_FR(nullptr)
+		, m_renderTargetNormalDepth_FR(nullptr)
+		, m_renderTargetSSAO_FR(nullptr)
+		, m_renderTargetSSAO_temp_FR(nullptr)
 	{
 		m_renderTarget_FR[0] = nullptr;
 		m_renderTarget_FR[1] = nullptr;
@@ -34,7 +36,11 @@ namespace ace
 		SafeRelease(m_renderTarget_FR[0]);
 		SafeRelease(m_renderTarget_FR[1]);
 		SafeRelease(m_depthBuffer_FR);
-		SafeRelease(m_renderTargetDepth_FR);
+		SafeRelease(m_renderTargetNormalDepth_FR);
+
+		SafeRelease(m_renderTargetSSAO_FR);
+		SafeRelease(m_renderTargetSSAO_temp_FR);
+
 		SafeRelease(m_postEffectRenderer);
 	}
 
@@ -53,7 +59,10 @@ namespace ace
 			m_renderTarget_FR[1] = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			m_depthBuffer_FR = GetGraphics()->CreateDepthBuffer_Imp(m_values_FR.size.X, m_values_FR.size.Y);
 
-			m_renderTargetDepth_FR = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+			m_renderTargetNormalDepth_FR = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+
+			m_renderTargetSSAO_FR = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTargetSSAO_temp_FR = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 		}
 
 		m_values_FR.size = m_values.size;

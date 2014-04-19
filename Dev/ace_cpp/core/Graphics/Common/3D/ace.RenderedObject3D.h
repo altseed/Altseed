@@ -24,6 +24,8 @@ namespace ace
 		Matrix44	LightProjectionMatrix;
 
 		RenderTexture_Imp*	ShadowMapPtr;
+		RenderTexture_Imp*	SSAOPtr;
+
 	};
 
 	class RenderingShadowMapProperty
