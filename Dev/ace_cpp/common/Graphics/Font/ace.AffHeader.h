@@ -2,8 +2,8 @@
 #include <string>
 #include <iostream>
 #include <cstdint>
-#include "../common/Utility/ace.BinaryWriter.h"
-#include "../common/Utility/ace.BinaryReader.h"
+#include "../../Utility/ace.BinaryWriter.h"
+#include "../../Utility/ace.BinaryReader.h"
 
 namespace ace
 {

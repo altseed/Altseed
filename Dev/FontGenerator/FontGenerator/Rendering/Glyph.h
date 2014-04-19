@@ -2,7 +2,7 @@
 #include <vector>
 #include <memory>
 #include "Color.h"
-#include <freetype/ft2build.h>
+#include <ft2build.h>
 #include FT_GLYPH_H
 
 namespace FontGenerator

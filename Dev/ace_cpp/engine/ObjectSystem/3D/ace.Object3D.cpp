@@ -108,4 +108,14 @@ namespace ace
 	{
 		m_commonObject->SetRotation(angle);
 	}
+
+	Vector3DF Object3D::GetScale() const
+	{
+		return m_commonObject->GetScale();
+	}
+
+	void Object3D::SetScale(Vector3DF scale)
+	{
+		m_commonObject->SetScale(scale);
+	}
 }

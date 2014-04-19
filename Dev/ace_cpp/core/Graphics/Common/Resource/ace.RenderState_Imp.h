@@ -20,14 +20,17 @@ namespace ace {
 	class RenderState_Imp
 	{
 	public:
+
+		static const int32_t TextureCount = 8;
+
 		struct State
 		{
 			bool								DepthTest;
 			bool								DepthWrite;
 			eAlphaBlend							AlphaBlend;
 			eCullingType						CullingType;
-			eTextureFilterType					TextureFilterTypes[4];
-			eTextureWrapType					TextureWrapTypes[4];
+			eTextureFilterType					TextureFilterTypes[TextureCount];
+			eTextureWrapType					TextureWrapTypes[TextureCount];
 
 			State();
 

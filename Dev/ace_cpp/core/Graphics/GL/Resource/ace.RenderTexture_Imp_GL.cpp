@@ -87,8 +87,8 @@ namespace ace {
 				width,
 				height,
 				0,
-				GL_RG16,
-				GL_HALF_FLOAT,
+				GL_RG,
+				GL_FLOAT,
 				nullptr);
 		}
 

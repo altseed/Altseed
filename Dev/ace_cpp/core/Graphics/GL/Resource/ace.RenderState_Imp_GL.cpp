@@ -14,9 +14,7 @@ namespace ace {
 RenderState_Imp_GL::RenderState_Imp_GL(Graphics_Imp_GL* graphics)
 	: m_graphics(graphics)
 {
-#ifdef	__USE_SAMPLERS
-	glGenSamplers(4, m_samplers);
-#endif
+	glGenSamplers(TextureCount, m_samplers);
 }
 
 //----------------------------------------------------------------------------------
@@ -24,9 +22,7 @@ RenderState_Imp_GL::RenderState_Imp_GL(Graphics_Imp_GL* graphics)
 //----------------------------------------------------------------------------------
 RenderState_Imp_GL::~RenderState_Imp_GL()
 {
-#ifdef	__USE_SAMPLERS
-	glDeleteSamplers(4, m_samplers);
-#endif
+	glDeleteSamplers(TextureCount, m_samplers);
 }
 
 //----------------------------------------------------------------------------------
@@ -51,6 +47,7 @@ void RenderState_Imp_GL::Update(bool forced)
 	if (m_active.DepthWrite != m_next.DepthWrite || forced)
 	{
 		glDepthMask(m_next.DepthWrite);
+		glDepthFunc(GL_LEQUAL);
 	}
 
 	if (m_active.CullingType != m_next.CullingType || forced)
@@ -112,8 +109,7 @@ void RenderState_Imp_GL::Update(bool forced)
 	static const GLint glfilter [] = { GL_NEAREST, GL_LINEAR };
 	static const GLint glwrap [] = { GL_REPEAT, GL_CLAMP_TO_EDGE };
 
-#ifdef	__USE_SAMPLERS
-	for (int32_t i = 0; i < 4; i++)
+	for (int32_t i = 0; i < TextureCount; i++)
 	{
 		if (m_active.TextureFilterTypes[i] != m_next.TextureFilterTypes[i] || forced)
 		{
@@ -140,29 +136,6 @@ void RenderState_Imp_GL::Update(bool forced)
 			glBindSampler(i, m_samplers[i]);
 		}
 	}
-#else
-	for (int32_t i = 0; i < 4; i++)
-	{
-		if (m_active.TextureFilterTypes[i] != m_next.TextureFilterTypes[i] || forced)
-		{
-			glActiveTexture(GL_TEXTURE0 + i);
-
-			int32_t filter_ = (int32_t) m_next.TextureFilterTypes[i];
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, glfilter[filter_]);
-		}
-
-		if (m_active.TextureWrapTypes[i] != m_next.TextureWrapTypes[i] || forced)
-		{
-			glActiveTexture(GL_TEXTURE0 + i);
-
-			int32_t wrap_ = (int32_t) m_next.TextureWrapTypes[i];
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, glwrap[wrap_]);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, glwrap[wrap_]);
-		}
-	}
-#endif
 
 	glActiveTexture(GL_TEXTURE0);
 

@@ -1,8 +1,8 @@
 ﻿#pragma once
-#include "../common/ace.common.Base.h"
-#include "../common/Math/ace.RectI.h"
-#include "../common/Utility/ace.BinaryWriter.h"
-#include "../common/Utility/ace.BinaryReader.h"
+#include "../../ace.common.Base.h"
+#include "../../Math/ace.RectI.h"
+#include "../../Utility/ace.BinaryWriter.h"
+#include "../../Utility/ace.BinaryReader.h"
 
 namespace ace
 {

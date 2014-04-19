@@ -1,7 +1,19 @@
+
 #include <iostream>
 #include <memory>
+
 #include "../FontGenerator/Generator.h"
 #include "../FontGenerator/Rendering/Color.h"
+
+#pragma comment(lib,"libpng16.Debug.lib")
+#pragma comment(lib,"zlib.Debug.lib")
+#pragma comment(lib,"FontGenerator.lib")
+
+#if _DEBUG
+#pragma comment(lib,"freetype253MT_D.lib")
+#else
+#pragma comment(lib,"freetype253MT.lib")
+#endif
 
 using namespace std;
 using namespace FontGenerator;
@@ -28,6 +40,7 @@ int main()
 	{
 		std::cout << err << std::endl;
 	}
+
 
 	system("pause");
 	return 0;

@@ -6,6 +6,7 @@
 #include <Math/ace.Vector2DI.h>
 #include <Math/ace.Vector2DF.h>
 #include <Math/ace.Vector3DF.h>
+#include <Math/ace.Vector4DF.h>
 #include <Graphics/ace.Color.h>
 
 #include "../ace.RenderingThread.h"
@@ -40,6 +41,49 @@ namespace ace
 			Vector2DF	UV;
 		};
 
+		struct ShadowConstantBuffer
+		{
+			Vector4DF	Weights;
+		};
+
+		struct ShadowVertex
+		{
+			Vector3DF	Position;
+			Vector2DF	UV;
+			Color		VColor;
+		};
+
+		struct SSAOVertex
+		{
+			Vector3DF	Position;
+			Vector2DF	UV;
+		};
+
+		struct SSAOConstantVertexBuffer
+		{
+			float Size[4];
+		};
+
+		struct SSAOConstantPixelBuffer
+		{
+			float Radius;
+			float Padding1[3];
+
+			float ProjScale;
+			float Padding2[3];
+
+			float Bias;
+			float Padding3[3];
+
+			float Intensity;
+			float Padding4[3];
+
+			float ReconstructInfo1[4];
+
+			float ReconstructInfo2[4];
+
+		};
+
 		struct
 		{
 			std::set<RenderedObject3D*>		objects;
@@ -66,6 +110,17 @@ namespace ace
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_pasteVertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_pasteIndexBuffer;
 		std::shared_ptr<ace::NativeShader_Imp>	m_pasteShader;
+
+		std::shared_ptr<ace::VertexBuffer_Imp>	m_shadowVertexBuffer;
+		std::shared_ptr<ace::IndexBuffer_Imp>	m_shadowIndexBuffer;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shadowShaderX;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shadowShaderY;
+
+		std::shared_ptr<ace::VertexBuffer_Imp>	m_ssaoVertexBuffer;
+		std::shared_ptr<ace::IndexBuffer_Imp>	m_ssaoIndexBuffer;
+		std::shared_ptr<ace::NativeShader_Imp>	m_ssaoShader;
+
+		std::shared_ptr<RenderTexture2D>		m_shadowTempTexture;
 
 		Effekseer::Manager*						m_effectManager = nullptr;
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;

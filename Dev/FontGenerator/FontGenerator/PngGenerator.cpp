@@ -1,6 +1,8 @@
 #include <fstream>
 #include "PngGenerator.h"
 #include <png.h>
+#pragma comment (lib, "libpng16.Debug.lib")
+#pragma comment (lib, "zlib.Debug.lib")
 
 #pragma warning(disable:4996)
 
@@ -87,7 +89,7 @@ namespace FontGenerator
 		m_font.SetFontSize(m_setting.GetFontSize());
 
 		vector<int> buffer(m_sheetSize*m_sheetSize, 0);
-		vector<FontData> fontData;
+		vector<GlyphData> fontData;
 
 		int outlineWidth = 0;
 		if (m_setting.GetBorder() != nullptr)
@@ -108,14 +110,8 @@ namespace FontGenerator
 				penY += lineHeight;
 			}
 
-			FontData data;
-			data.x = penX;
-			data.y = penY - lineHeight;
-			data.width = advance;
-			data.height = lineHeight;
-			data.sheetNumber = 0;
-			data.charactor = glyph->GetCharactor();
-
+			RectI src(penX, penY, advance, lineHeight);
+			GlyphData data(glyph->GetCharactor(), 0, src);
 			fontData.push_back(data);
 
 			finalGlyph.Draw(buffer.data(), m_sheetSize, m_sheetSize, penX, penY);

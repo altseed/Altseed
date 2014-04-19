@@ -31,6 +31,9 @@ namespace ace
 		virtual Vector3DF GetRotation() const;
 		virtual void SetRotation(const Vector3DF& rot);
 
+		virtual Vector3DF GetScale() const;
+		virtual void SetScale(const Vector3DF& scale);
+
 		virtual void SetLayer(CoreLayer3D* layer);
 	};
 }

@@ -6,8 +6,6 @@
 #include "../../Common/Resource/ace.RenderState_Imp.h"
 #include "../ace.Graphics_Imp_GL.h"
 
-//#define __USE_SAMPLERS	1
-
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -20,10 +18,8 @@ namespace ace {
 	{
 	private:
 		Graphics_Imp_GL* m_graphics;
+		GLuint			m_samplers[TextureCount];
 
-#ifdef	__USE_SAMPLERS
-		GLuint					m_samplers[4];
-#endif
 	public:
 		RenderState_Imp_GL(Graphics_Imp_GL* graphics);
 		virtual ~RenderState_Imp_GL();

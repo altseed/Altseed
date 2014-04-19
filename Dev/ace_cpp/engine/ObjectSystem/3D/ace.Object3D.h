@@ -126,5 +126,17 @@ namespace ace
 		@param	angle	角度
 		*/
 		void SetRotation(Vector3DF angle);
+
+		/**
+		@brief	このインスタンスの親に対する現在の拡大率を取得する。
+		@return	拡大率
+		*/
+		Vector3DF GetScale() const;
+
+		/**
+		@brief	このインスタンスの親に対する現在の拡大率を設定する。
+		@param	scale	拡大率
+		*/
+		void SetScale(Vector3DF scale);
 	};
 }

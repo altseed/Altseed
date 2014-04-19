@@ -17,7 +17,8 @@ namespace ace
 	class RenderingProperty
 	{
 	public:
-		Matrix44	CameraProjectionMatrix;
+		Matrix44	CameraMatrix;
+		Matrix44	ProjectionMatrix;
 		Color		DirectionalLightColor;
 		Vector3DF	DirectionalLightDirection;
 		Matrix44	LightProjectionMatrix;
@@ -108,6 +109,8 @@ namespace ace
 		virtual void Rendering(RenderingProperty& prop) = 0;
 
 		virtual void RenderingShadowMap(RenderingShadowMapProperty& prop) {}
+
+		virtual void RenderingNormalDepth(RenderingProperty& prop) {}
 
 		Vector3DF GetPosition_FR();
 

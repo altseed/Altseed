@@ -1,49 +1,27 @@
+
 #include <fstream>
-#include <freetype/ft2build.h>
-#include FT_FREETYPE_H
 #include "Generator.h"
-#include "AffHeader.h"
+#include <Graphics/Font/ace.AffHeader.h>
+#include <Graphics/Font/ace.AffIndexTable.h>
+#include <Graphics/Font/ace.GlyphData.h>
 #include <Utility/ace.BinaryWriter.h>
 #include <Utility/ace.BinaryReader.h>
-
-#pragma comment(linker, "/nodefaultlib:libcmtd.lib")
-#pragma comment(linker, "/nodefaultlib:LIBCMT.lib")
+#include <ft2build.h>
+#include FT_FREETYPE_H
 
 using namespace std;
 using namespace ace;
 
 namespace FontGenerator
 {
-	void Generator::WriteIndexTableOut(ResultOfGeneratingPng& result, ostream& stream)
+	Generator::Generator()
+		: m_sheetName(ToAString(L"font"))
 	{
-		vector<int16_t> indexes(INDEX_MAX, 0);
-
-		for (int i = 0; i < result.fonts.size(); ++i)
-		{
-			indexes[result.fonts[i].charactor] = (int16_t)i;
-		}
-
-		BinaryWriter writer;
-		for (auto& index : indexes)
-		{
-			writer.Push(index);
-		}
-
-		writer.WriteOut(stream);
-	}
-
-	void Generator::WriteFontBalkOut(ResultOfGeneratingPng& result, std::ostream& stream)
-	{
-		BinaryWriter writer;
-		for (auto& f : result.fonts)
-		{
-			writer.Push(f.sheetNumber);
-			writer.Push(f.x);
-			writer.Push(f.y);
-			writer.Push(f.width);
-			writer.Push(f.height);
-		}
-		writer.WriteOut(stream);
+		m_setting = SettingForRendering();
+		m_setting.SetBold(nullptr);
+		m_setting.SetBorder(nullptr);
+		m_setting.SetFontSize(16);
+		m_setting.SetFontColor(Color(0, 0, 0, 255));
 	}
 
 	void Generator::GenerateFontFile(
@@ -52,26 +30,47 @@ namespace FontGenerator
 		wstring sheetName,
 		SettingForRendering setting)
 	{
-		ofstream file(sheetName + L".aff");
+		auto result = RenderPng(fontPath, textPath);
 
+		BinaryWriter writer;
+		PushAff(writer, result);
+
+		ofstream file(sheetName + L".aff");
+		writer.WriteOut(file);
+	}
+
+	ResultOfGeneratingPng Generator::RenderPng(wstring fontPath, wstring textPath)
+	{
 		auto charactors = GetCharactors(ToAString(textPath.c_str()));
 
 		PngGenerator png;
-		png.SetSetting(setting);
-		png.SetSheetName(sheetName);
+		png.SetSetting(m_setting);
+		png.SetSheetName(m_sheetName);
 		png.SetSheetSize(256);
-		auto result = png.Generate(ToAString(fontPath.c_str()), charactors);
 
-		AffHeader header(sheetName);
-		header.SetFontSize(setting.GetFontSize());
+		auto result = png.Generate(ToAString(fontPath.c_str()), charactors);
+		return result;
+	}
+
+	void Generator::PushAff(BinaryWriter& writer, ResultOfGeneratingPng& result)
+	{
+		AffHeader header(m_sheetName);
+		header.SetFontSize(m_setting.GetFontSize());
 		header.SetFontCount(result.fonts.size());
 		header.SetSheetCount(result.sheetCount);
 
-		header.WriteOut(file);
+		AffIndexTable indexTable;
+		for (int i = 0; i < result.fonts.size(); ++i)
+		{
+			indexTable.AppendFontIndex(result.fonts[i].GetCharactor(), (int16_t)i);
+		}
 
-		WriteIndexTableOut(result, file);
-
-		WriteFontBalkOut(result, file);
+		header.Push(writer);
+		indexTable.Push(writer);
+		for (auto& f : result.fonts)
+		{
+			f.Push(writer);
+		}
 	}
 
 	// UTF-16‚ª‘ÎÛ
@@ -101,4 +100,25 @@ namespace FontGenerator
 
 		return result;
 	}
+
+	wstring Generator::GetSheetName() const
+	{
+		return m_sheetName;
+	}
+
+	void Generator::SetSheetName(wstring value)
+	{
+		m_sheetName = value;
+	}
+
+	SettingForRendering Generator::GetSetting() const
+	{
+		return m_setting;
+	}
+
+	void Generator::SetSetting(SettingForRendering value)
+	{
+		m_setting = value;
+	}
+
 }

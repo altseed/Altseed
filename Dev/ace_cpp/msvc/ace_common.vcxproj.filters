@@ -59,6 +59,18 @@
     <ClInclude Include="..\common\Math\ace.Vector4DF.h">
       <Filter>Math</Filter>
     </ClInclude>
+    <ClInclude Include="..\common\Graphics\Font\ace.AffHeader.h">
+      <Filter>Graphics\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Graphics\Font\ace.AffIndexTable.h">
+      <Filter>Graphics\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Graphics\Font\ace.AffLoader.h">
+      <Filter>Graphics\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Graphics\Font\ace.GlyphData.h">
+      <Filter>Graphics\Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\common\Math\ace.Matrix44.cpp">
@@ -98,6 +110,18 @@
       <Filter>Math</Filter>
     </ClCompile>
     <ClCompile Include="..\common\ace.common.cpp" />
+    <ClCompile Include="..\common\Graphics\Font\ace.AffHeader.cpp">
+      <Filter>Graphics\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Graphics\Font\ace.AffIndexTable.cpp">
+      <Filter>Graphics\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Graphics\Font\ace.AffLoader.cpp">
+      <Filter>Graphics\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Graphics\Font\ace.GlyphData.cpp">
+      <Filter>Graphics\Font</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Math">
@@ -111,6 +135,9 @@
     </Filter>
     <Filter Include="Thread">
       <UniqueIdentifier>{eff8510c-2d9a-41e8-b20e-3bf4d6075014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Font">
+      <UniqueIdentifier>{1fc74b1b-4fe6-434a-bd9b-bbe31460dbd3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

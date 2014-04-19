@@ -40,6 +40,8 @@ namespace ace
 
 		} m_values_FR;
 
+		RenderTexture_Imp*	m_renderTargetDepth_FR;
+
 		RenderTexture_Imp*	m_renderTarget_FR[2];
 		DepthBuffer_Imp*	m_depthBuffer_FR;
 
@@ -98,6 +100,8 @@ namespace ace
 
 		DepthBuffer_Imp* GetDepthBuffer_FR() { return m_depthBuffer_FR; }
 
+		RenderTexture_Imp*	GetRenderTargetDepth_FR() { return m_renderTargetDepth_FR; }
+
 		const Matrix44& GetCameraMatrix_FR() { return m_values_FR.cameraMatrix; }
 		const Matrix44& GetProjectionMatrix_FR() { return m_values_FR.projectionMatrix; }
 
@@ -106,6 +110,8 @@ namespace ace
 		float GetZFar_FR() { return m_values_FR.zfar; }
 
 		float GetZNear_FR(){ return m_values_FR.znear; }
+
+		float GetFov_FR(){ return m_values_FR.fov; }
 
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_CAMERA; }
 	};

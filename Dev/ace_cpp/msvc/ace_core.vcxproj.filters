@@ -70,9 +70,6 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{4234750f-7ad3-4f83-8ef7-6a92ae1a6517}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Font">
-      <UniqueIdentifier>{a6a01d6c-b11f-47e5-b850-87ebdcca380d}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -475,18 +472,6 @@
     <ClInclude Include="..\core\Sound\ace.SoundSource_Imp.h">
       <Filter>Sound</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Font\ace.AffLoader.h">
-      <Filter>Graphics\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Font\ace.GlyphData.h">
-      <Filter>Graphics\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Font\ace.AffHeader.h">
-      <Filter>Graphics\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Font\ace.AffIndexTable.h">
-      <Filter>Graphics\Font</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -740,18 +725,6 @@
     </ClCompile>
     <ClCompile Include="..\core\Sound\ace.SoundSource_Imp.cpp">
       <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Font\ace.AffLoader.cpp">
-      <Filter>Graphics\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Font\ace.GlyphData.cpp">
-      <Filter>Graphics\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Font\ace.AffHeader.cpp">
-      <Filter>Graphics\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Font\ace.AffIndexTable.cpp">
-      <Filter>Graphics\Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

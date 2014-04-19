@@ -2,9 +2,11 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include "../../ace_cpp/common/ace.common.Base.h"
+#include <ace.common.Base.h>
+#include <Utility/ace.BinaryWriter.h>
 #include "Rendering/SettingForRendering.h"
 #include "PngGenerator.h"
+#include "ResultOfGeneratingPng.h"
 
 namespace FontGenerator
 {
@@ -12,8 +14,12 @@ namespace FontGenerator
 	{
 	private:
 		const int INDEX_MAX = 65536;
+		std::wstring m_sheetName;
+		SettingForRendering m_setting;
 
 	public:
+		Generator();
+
 		void GenerateFontFile(
 			std::wstring fontPath,
 			std::wstring textPath,
@@ -21,9 +27,13 @@ namespace FontGenerator
 			SettingForRendering setting);
 
 		std::vector<ace::achar> GetCharactors(ace::astring textPath);
+		ResultOfGeneratingPng RenderPng(std::wstring fontPath, std::wstring textPath);
+		void PushAff(ace::BinaryWriter& writer, ResultOfGeneratingPng& result);
 
-		void WriteIndexTableOut(ResultOfGeneratingPng& result, std::ostream& stream);
+		std::wstring GetSheetName() const;
+		void SetSheetName(std::wstring value);
 
-		void WriteFontBalkOut(ResultOfGeneratingPng& result, std::ostream& stream);
+		SettingForRendering GetSetting() const;
+		void SetSetting(SettingForRendering value);
 	};
 }

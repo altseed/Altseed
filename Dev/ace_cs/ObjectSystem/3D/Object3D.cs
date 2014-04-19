@@ -143,5 +143,14 @@ namespace ace
 			get { return commonObject.GetRotation(); }
 			set { commonObject.SetRotation(ref value); }
 		}
+
+		/// <summary>
+		/// このインスタンスの親に対する現在の拡大率を取得または設定する。
+		/// </summary>
+		public Vector3DF Scale
+		{
+			get { return commonObject.GetScale(); }
+			set { commonObject.SetScale(ref value); }
+		}
 	}
 }

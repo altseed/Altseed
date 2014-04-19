@@ -13,6 +13,7 @@ namespace ace
 		: RenderedObject3D(graphics)
 		, m_depthBuffer_FR(nullptr)
 		, m_postEffectRenderer(nullptr)
+		, m_renderTargetDepth_FR(nullptr)
 	{
 		m_renderTarget_FR[0] = nullptr;
 		m_renderTarget_FR[1] = nullptr;
@@ -33,6 +34,7 @@ namespace ace
 		SafeRelease(m_renderTarget_FR[0]);
 		SafeRelease(m_renderTarget_FR[1]);
 		SafeRelease(m_depthBuffer_FR);
+		SafeRelease(m_renderTargetDepth_FR);
 		SafeRelease(m_postEffectRenderer);
 	}
 
@@ -50,6 +52,8 @@ namespace ace
 			m_renderTarget_FR[0] = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			m_renderTarget_FR[1] = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			m_depthBuffer_FR = GetGraphics()->CreateDepthBuffer_Imp(m_values_FR.size.X, m_values_FR.size.Y);
+
+			m_renderTargetDepth_FR = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
 		}
 
 		m_values_FR.size = m_values.size;
@@ -164,11 +168,23 @@ namespace ace
 	{
 		RenderedObject3D::CalculateMatrix_FR();
 
-		m_values_FR.projectionMatrix.SetPerspectiveFovRH(
-			m_values_FR.fov / 180.0f * 3.141592f,
-			(float) m_values_FR.size.X / (float) m_values_FR.size.Y,
-			m_values_FR.znear,
-			m_values_FR.zfar);
+		if (GetGraphics()->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
+		{
+			m_values_FR.projectionMatrix.SetPerspectiveFovRH(
+				m_values_FR.fov / 180.0f * 3.141592f,
+				(float) m_values_FR.size.X / (float) m_values_FR.size.Y,
+				m_values_FR.znear,
+				m_values_FR.zfar);
+		}
+		else
+		{
+			m_values_FR.projectionMatrix.SetPerspectiveFovRH_OpenGL(
+				m_values_FR.fov / 180.0f * 3.141592f,
+				(float) m_values_FR.size.X / (float) m_values_FR.size.Y,
+				m_values_FR.znear,
+				m_values_FR.zfar);
+		}
+		
 
 		m_values_FR.cameraMatrix.SetLookAtRH(
 			GetPosition_FR(),

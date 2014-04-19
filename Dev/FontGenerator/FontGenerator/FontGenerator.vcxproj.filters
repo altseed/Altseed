@@ -1,84 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
-    </Filter>
-    <Filter Include="リソース ファイル">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="Rendering">
+      <UniqueIdentifier>{ce548656-e42d-4fd7-bf98-db696b32b83b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="utility.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="ResultOfGeneratingPng.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="FontData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="PngGenerator.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\Glyph.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="Rendering\Color.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\Font.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\Setting.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\SettingForRendering.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Rendering\Glyph.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\GlyphWithBorder.h">
-      <Filter>ヘッダー ファイル</Filter>
+      <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Generator.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Rendering\Setting.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="ace.AffHeader.h">
-      <Filter>ヘッダー ファイル</Filter>
+    <ClInclude Include="Rendering\SettingForRendering.h">
+      <Filter>Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="FontData.h" />
+    <ClInclude Include="Generator.h" />
+    <ClInclude Include="PngGenerator.h" />
+    <ClInclude Include="ResultOfGeneratingPng.h" />
+    <ClInclude Include="utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FontData.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="PngGenerator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\Glyph.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="Rendering\Color.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Font.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\SettingForRendering.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Rendering\Glyph.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\GlyphWithBorder.cpp">
-      <Filter>ソース ファイル</Filter>
+      <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="Generator.cpp">
-      <Filter>ソース ファイル</Filter>
+    <ClCompile Include="Rendering\SettingForRendering.cpp">
+      <Filter>Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="ace.AffHeader.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
+    <ClCompile Include="FontData.cpp" />
+    <ClCompile Include="Generator.cpp" />
+    <ClCompile Include="PngGenerator.cpp" />
   </ItemGroup>
 </Project>

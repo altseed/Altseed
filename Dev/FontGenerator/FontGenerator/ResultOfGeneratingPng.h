@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <Graphics/Font/ace.GlyphData.h>
 #include "FontData.h"
 
 namespace FontGenerator
@@ -8,6 +9,6 @@ namespace FontGenerator
 	{
 	public:
 		int sheetCount;
-		std::vector<FontData> fonts;
+		std::vector<ace::GlyphData> fonts;
 	};
 }

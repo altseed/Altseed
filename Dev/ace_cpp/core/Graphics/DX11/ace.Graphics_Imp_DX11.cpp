@@ -834,7 +834,7 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 		m_context->ClearRenderTargetView(m_currentBackRenderTargetView, ClearColor);
 	}
 
-	if (isDepthTarget)
+	if (isDepthTarget && m_currentDepthStencilView != nullptr)
 	{
 		m_context->ClearDepthStencilView(m_currentDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
