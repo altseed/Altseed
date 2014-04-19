@@ -126,17 +126,22 @@ public:
 	{}
 
 protected:
+
+	std::shared_ptr<ace::ModelObject3D> meshObj1;
+	float rotation1 = 20.0f;
+	float rotation2 = 20.0f;
+
 	void OnStart() override
 	{
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer3D>();
-		auto meshObj = std::make_shared<ace::ModelObject3D>();
+		meshObj1 = std::make_shared<ace::ModelObject3D>();
 		auto meshObj2 = std::make_shared<ace::ModelObject3D>();
 		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
 		auto cameraObj = std::make_shared<ace::CameraObject3D>();
 
 		scene->AddLayer(layer);
-		layer->AddObject(meshObj);
+		layer->AddObject(meshObj1);
 		layer->AddObject(meshObj2);
 		layer->AddObject(lightObj);
 		layer->AddObject(cameraObj);
@@ -155,16 +160,23 @@ protected:
 		cameraObj->SetZFar(20.0f);
 		cameraObj->SetWindowSize(ace::Vector2DI(WindowWidth, WindowHeight));
 
-		meshObj->AddMeshGroup();
-		meshObj->AddMesh(0, mesh);
-		meshObj->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
+		meshObj1->AddMeshGroup();
+		meshObj1->AddMesh(0, mesh);
+		meshObj1->SetRotation(ace::Vector3DF(rotation1, rotation2, 0.0f));
 	
 		meshObj2->AddMeshGroup();
 		meshObj2->AddMesh(0, mesh);
-		meshObj2->SetPosition(ace::Vector3DF(0.0f, -6.0f, 0.0f));
-		meshObj2->SetScale(ace::Vector3DF(10.0f, 10.0f, 10.0f));
+		meshObj2->SetPosition(ace::Vector3DF(0.0f, -5.0f, 0.0f));
+		meshObj2->SetScale(ace::Vector3DF(10.0f, 10.0f, 40.0f));
 
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
+	}
+
+	void OnUpdating()
+	{
+		meshObj1->SetRotation(ace::Vector3DF(rotation1, rotation2, 0.0f));
+		rotation1 += 0.1f;
+		rotation2 += 0.3f;
 	}
 };
 

@@ -360,7 +360,7 @@ struct PS_Input
 };
 
 // サンプル数
-#define NUM_SAMPLES (11)
+#define NUM_SAMPLES (9)
 
 // サンプル時の回転数
 #define NUM_TURNS (7)
@@ -370,6 +370,8 @@ SamplerState	g_sampler		: register( s0 );
 
 
 float radius		: register( c0 );
+
+// 1mの位置にサイズ1のオブジェクトを出した時の縦方向ピクセル数
 float projScale		: register( c1 );
 float bias			: register( c2 );
 float intensity		: register( c3 );
@@ -472,8 +474,6 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	// Scalable Ambient Obscurance記載のAの強さの算出方法
 	float A = max( 0.0, 1.0 - intensity * sum * 5.0 / (radius * radius * radius * radius * radius * radius * NUM_SAMPLES) );
-
-	A = max(1.0 - sum * 4,0);
 
 	// Bilateral box-filter
 	if (abs(ddx(centerPos.z)) < 0.02)
@@ -712,22 +712,24 @@ float4 main( const PS_Input Input ) : SV_Target
 				cvbuf.Size[0] = m_windowSize.X;
 				cvbuf.Size[1] = m_windowSize.Y;
 
+				auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
+				auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
+
+				// DirectX
+				float yScale = 1 / tanf(fov / 2);
+				float xScale = yScale / aspect;
+
+
 				SSAOConstantPixelBuffer& cpbuf = m_ssaoShader->GetPixelConstantBuffer<SSAOConstantPixelBuffer>();
-				cpbuf.Radius = 5.0f;
-				cpbuf.ProjScale = 2.0f;
+				cpbuf.Radius = 0.4f;
+				cpbuf.ProjScale = c->GetWindowSize().Y * yScale / 2.0f;
 				cpbuf.Bias = 0.1f;
 				cpbuf.Intensity = 1.0f;
 				cpbuf.ReconstructInfo1[0] = c->GetZNear_FR() * c->GetZFar_FR();
 				cpbuf.ReconstructInfo1[1] = c->GetZFar_FR() - c->GetZNear_FR();
 				cpbuf.ReconstructInfo1[2] = -c->GetZFar_FR();
 
-				auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
-				auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
 	
-				// DirectX
-				float yScale = 1 / tanf(fov / 2);
-				float xScale = yScale / aspect;
-
 				cpbuf.ReconstructInfo2[0] = 1.0f / xScale;
 				cpbuf.ReconstructInfo2[1] = 1.0f / yScale;
 
@@ -749,7 +751,6 @@ float4 main( const PS_Input Input ) : SV_Target
 			
 
 			// 3D描画
-			
 			{
 				g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());
 				g->Clear(true, false, ace::Color(0, 0, 0, 255));
@@ -759,7 +760,6 @@ float4 main( const PS_Input Input ) : SV_Target
 					o->Rendering(prop);
 				}
 			}
-			
 
 			// エフェクトの描画
 			{
