@@ -360,7 +360,7 @@ struct PS_Input
 };
 
 // サンプル数
-#define NUM_SAMPLES (9)
+#define NUM_SAMPLES (13)
 
 // サンプル時の回転数
 #define NUM_TURNS (7)
@@ -535,7 +535,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	const int radius = 4;
 	const float scale = 1.0;
 	const float gaussian[] = { 0.144760504, 0.129537389, 0.103725441, 0.0743225217, 0.0476541445 };
-	const float intensity = 500.0;
+	const float intensity = 700.0;
 
 	uint width, height;
 	g_texture.GetDimensions(width, height);
@@ -809,10 +809,10 @@ float4 main( const PS_Input Input ) : SV_Target
 
 
 					SSAOConstantPixelBuffer& cpbuf = m_ssaoShader->GetPixelConstantBuffer<SSAOConstantPixelBuffer>();
-					cpbuf.Radius = 0.4f;
+					cpbuf.Radius = 0.2f;
 					cpbuf.ProjScale = c->GetWindowSize().Y * yScale / 2.0f;
 					cpbuf.Bias = 0.1f;
-					cpbuf.Intensity = 1.0f;
+					cpbuf.Intensity = 5.0f;
 					cpbuf.ReconstructInfo1[0] = c->GetZNear_FR() * c->GetZFar_FR();
 					cpbuf.ReconstructInfo1[1] = c->GetZFar_FR() - c->GetZNear_FR();
 					cpbuf.ReconstructInfo1[2] = -c->GetZFar_FR();
