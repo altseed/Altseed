@@ -419,9 +419,9 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 		FbxSurfaceMaterial* material = node->GetMaterial(i);
 		Material mat;
 		mat.Type=0;
-		for(int j=0;j<3;++j)
+		for(int s=0;s<3;++s)
 		{
-			FbxProperty prop = material->FindProperty(mats[j]);
+			FbxProperty prop = material->FindProperty(mats[s]);
 
 			int layeredTextureCount = prop.GetSrcObjectCount<FbxLayeredTexture>();
 
