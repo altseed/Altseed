@@ -18,16 +18,17 @@ struct MeshGroup
 
 	void WriteMaterials(ace::BinaryWriter* writer)
 	{
+		printf("Materials:%d\n",(int32_t)materials.size());
 		writer->Push((int32_t)materials.size());
 		for(auto ite=materials.begin();ite!=materials.end();++ite)
 		{
 			writer->Push(ite->Type);
 			for(int i=0;i<3;++i)
 			{
+				printf("mat:%s\n",ite->texture[i].c_str());
 				writer->Push(ace::ToAString(ite->texture[i].c_str()));
 			}
 		}
-
 	}
 };
 
@@ -36,6 +37,8 @@ class MeshLoader
 	std::vector<Vertex> _baseVertices;
 	std::vector<Vertex> _vertices;
 	std::vector<Face> _faces;
+
+	MeshGroup &meshGroupRef;
 
 	void _loadPositions(FbxMesh* fbxMesh);
 
@@ -53,6 +56,7 @@ class MeshLoader
 	void _loadTextures(FbxMesh* fbxMesh);
 public:
 	MeshLoader();
+	MeshLoader(MeshGroup &meshGroup);
 
 	std::vector<Vertex> GetVertices();
 	std::vector<Face> GetFaces();
@@ -60,7 +64,7 @@ public:
 	void Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGroup> &meshGroups);
 	void WriteVertices(ace::BinaryWriter* writer);
 	void WriteFaces(ace::BinaryWriter* writer);
-	void WriteFaceMaterials(ace::BinaryWriter* writer);
+	void WriteFaceMaterials(ace::BinaryWriter* writer,int materialIndex);
 	void WriteBoneAttachments(ace::BinaryWriter* writer);
 	void WriteMaterials(ace::BinaryWriter* writer);
 

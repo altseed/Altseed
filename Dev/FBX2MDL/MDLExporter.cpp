@@ -107,24 +107,14 @@ void MDLExporter::Convert()
 			{
 				meshGroup.meshLoaders[j].WriteVertices(binaryWriter);
 				meshGroup.meshLoaders[j].WriteFaces(binaryWriter);
-				meshGroup.meshLoaders[j].WriteFaceMaterials(binaryWriter);
+				meshGroup.meshLoaders[j].WriteFaceMaterials(binaryWriter,j);
 				meshGroup.meshLoaders[j].WriteBoneAttachments(binaryWriter);
 			}
 			//ƒ{[ƒ“
 			meshGroup.deformerManager.WriteDeformerInformation(binaryWriter);
 
 			//ÞŽ¿
-			//meshGroup.WriteMaterials(binaryWriter);
-
-			binaryWriter->Push((int32_t)1);
-			{
-				
-				binaryWriter->Push((int32_t)0);
-				binaryWriter->Push(ace::ToAString("test.png"));
-				binaryWriter->Push(ace::ToAString(""));
-				binaryWriter->Push(ace::ToAString(""));
-				
-			}
+			meshGroup.WriteMaterials(binaryWriter);
 		}
 	}
 
@@ -174,8 +164,10 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 			FbxGeometryConverter _converter(lSdkManager);
 			mesh = (FbxMesh*) _converter.Triangulate(mesh, true);
 		}
+		
+		MeshGroup meshGroup;
 
-		MeshLoader mLoader;
+		MeshLoader mLoader(meshGroup);
 
 		int attachmentIndex;
 
@@ -184,10 +176,14 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 		if(attachmentIndex!=-1)
 		{
 			_meshGroups[attachmentIndex].meshLoaders.push_back(mLoader);
+
+			for(int j=0;j<meshGroup.materials.size();++j)
+			{
+				_meshGroups[attachmentIndex].materials.push_back(meshGroup.materials[j]);
+			}
 		}
 		else
 		{
-			MeshGroup meshGroup;
 
 			meshGroup.meshLoaders.push_back(mLoader);
 

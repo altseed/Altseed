@@ -34,7 +34,6 @@ Deformer* DeformerManager::GetDeformerByIndex(int index)
 DeformerManager::~DeformerManager()
 {
 
-	
 }
 
 void DeformerManager::WriteDeformerInformation(ace::BinaryWriter* binaryWriter)

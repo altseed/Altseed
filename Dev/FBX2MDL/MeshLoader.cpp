@@ -1,7 +1,8 @@
 #include "MeshLoader.h"
 #include <iostream>
 
-MeshLoader::MeshLoader()
+MeshLoader::MeshLoader(MeshGroup &meshGroup)
+	:meshGroupRef(meshGroup)
 {
 
 }
@@ -346,31 +347,18 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 			_vertices[i].weight[biggestIndex]+=static_cast<uint8_t>(255-sum);
 		}
 
-		printf("Weight: ");
 		for (int j = 0; j < 4; ++j)
 		{
-			printf("%d ",_vertices[i].weight[j]);
 			writer->Push(_vertices[i].weight[j]);
 		}
-		printf("\n");
-
-		printf("Weight Index(O): ");
 		for (int j = 0; j < 4; ++j)
 		{
-			printf("%d ",_vertices[i].weightIndexOriginal[j]);
 			writer->Push(_vertices[i].weightIndexOriginal[j]);
 		}
-		printf("\n");
-
-		printf("Weight Index(D): ");
 		for (int j = 0; j < 4; ++j)
 		{
-			printf("%d ",_vertices[i].weightIndexDivided[j]);
 			writer->Push(_vertices[i].weightIndexDivided[j]);
 		}
-		printf("\n");
-
-		printf("Weight Ptr:%d\n\n",_vertices[i].weightPtr);
 	}
 }
 
@@ -399,24 +387,24 @@ void MeshLoader::_loadBoneAttachments(FbxMesh* fbxMesh)
 
 }
 
-void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer)
+void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer,int materialIndex)
 {
 	writer->Push((int32_t)1);
-	writer->Push((int32_t)0);
+	writer->Push((int32_t)materialIndex);
 	writer->Push((int32_t)_faces.size());
 }
 
 void MeshLoader::WriteBoneAttachments(ace::BinaryWriter* writer)
 {
-	writer->Push((int32_t)0);
-	/*
+	//writer->Push((int32_t)0);
+	
 	writer->Push((int32_t)1);
 	for(int i=0;i<32;++i)
 	{
 		writer->Push(static_cast<uint8_t>(i));
 	}
 	writer->Push(static_cast<int>(_faces.size()));
-	*/
+	
 }
 
 void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
@@ -451,7 +439,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 						if(texture) {
 							//--- テクスチャ名を取得 ---//
 							//std::string textureName = texture->GetName();
-							std::string textureName = texture->GetRelativeFileName();
+							std::string textureName = texture->GetFileName();
 
 							//--- UVSet名を取得 ---//
 							std::string UVSetName = texture->UVSet.Get().Buffer();
@@ -470,7 +458,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 						FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(j);
 						if(texture) {
 							//std::string textureName = texture->GetName();
-							std::string textureName = texture->GetRelativeFileName();
+							std::string textureName = texture->GetFileName();
 
 							//--- UVSet名を取得 ---//
 							std::string UVSetName = texture->UVSet.Get().Buffer();
@@ -481,7 +469,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 				}
 			}
 		}
-		//_materials.push_back(mat);
+		meshGroupRef.materials.push_back(mat);
 	}
 }
 
