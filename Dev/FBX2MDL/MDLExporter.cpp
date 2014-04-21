@@ -164,10 +164,8 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 			FbxGeometryConverter _converter(lSdkManager);
 			mesh = (FbxMesh*) _converter.Triangulate(mesh, true);
 		}
-		
-		MeshGroup meshGroup;
 
-		MeshLoader mLoader(meshGroup);
+		MeshLoader mLoader;
 
 		int attachmentIndex;
 
@@ -177,16 +175,16 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 		{
 			_meshGroups[attachmentIndex].meshLoaders.push_back(mLoader);
 
-			for(int j=0;j<meshGroup.materials.size();++j)
+			for(int j=0;j<mLoader.materials.size();++j)
 			{
-				_meshGroups[attachmentIndex].materials.push_back(meshGroup.materials[j]);
+				_meshGroups[attachmentIndex].materials.push_back(mLoader.materials[j]);
 			}
 		}
 		else
 		{
-
+			MeshGroup meshGroup;
 			meshGroup.meshLoaders.push_back(mLoader);
-
+			meshGroup.materials=mLoader.materials;
 			_meshGroups.push_back(meshGroup);
 		}
 

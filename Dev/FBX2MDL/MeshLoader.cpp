@@ -1,8 +1,7 @@
 #include "MeshLoader.h"
 #include <iostream>
 
-MeshLoader::MeshLoader(MeshGroup &meshGroup)
-	:meshGroupRef(meshGroup)
+MeshLoader::MeshLoader()
 {
 
 }
@@ -469,7 +468,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 				}
 			}
 		}
-		meshGroupRef.materials.push_back(mat);
+		materials.push_back(mat);
 	}
 }
 
