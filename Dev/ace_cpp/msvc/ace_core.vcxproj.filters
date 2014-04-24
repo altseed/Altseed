@@ -472,6 +472,18 @@
     <ClInclude Include="..\core\Graphics\GL\Resource\ace.RenderTexture2D_Imp_GL.h">
       <Filter>Graphics\GL\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Resource\ace.CubemapTexture.h">
+      <Filter>Graphics\Common\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Resource\ace.CubemapTexture_Imp.h">
+      <Filter>Graphics\Common\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\DX11\Resource\ace.Cubemap_Imp_DX11.h">
+      <Filter>Graphics\DX11\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\GL\Resource\ace.Cubemap_Imp_GL.h">
+      <Filter>Graphics\GL\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -724,6 +736,15 @@
       <Filter>Graphics\DX11\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\GL\Resource\ace.RenderTexture2D_Imp_GL.cpp">
+      <Filter>Graphics\GL\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\Resource\ace.CubemapTexture_Imp.cpp">
+      <Filter>Graphics\Common\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\DX11\Resource\ace.Cubemap_Imp_DX11.cpp">
+      <Filter>Graphics\DX11\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\GL\Resource\ace.Cubemap_Imp_GL.cpp">
       <Filter>Graphics\GL\Resource</Filter>
     </ClCompile>
   </ItemGroup>
