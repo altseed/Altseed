@@ -226,7 +226,7 @@
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.VertexBuffer_Imp.h" />
     <ClInclude Include="..\core\Graphics\DX11\ace.DX11.Base.h" />
     <ClInclude Include="..\core\Graphics\DX11\ace.Graphics_Imp_DX11.h" />
-    <ClInclude Include="..\core\Graphics\DX11\Resource\ace.Cubemap_Imp_DX11.h" />
+    <ClInclude Include="..\core\Graphics\DX11\Resource\ace.CubemapTexture_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\DX11\Resource\ace.DepthBuffer_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\DX11\Resource\ace.IndexBuffer_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\DX11\Resource\ace.RenderState_Imp_DX11.h" />
@@ -236,7 +236,7 @@
     <ClInclude Include="..\core\Graphics\DX11\Resource\ace.VertexBuffer_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\GL\ace.GL.Base.h" />
     <ClInclude Include="..\core\Graphics\GL\ace.Graphics_Imp_GL.h" />
-    <ClInclude Include="..\core\Graphics\GL\Resource\ace.Cubemap_Imp_GL.h" />
+    <ClInclude Include="..\core\Graphics\GL\Resource\ace.CubemapTexture_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\GL\Resource\ace.DepthBuffer_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\GL\Resource\ace.IndexBuffer_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\GL\Resource\ace.RenderState_Imp_GL.h" />
@@ -354,7 +354,7 @@
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.Texture2D_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.VertexBuffer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\DX11\ace.Graphics_Imp_DX11.cpp" />
-    <ClCompile Include="..\core\Graphics\DX11\Resource\ace.Cubemap_Imp_DX11.cpp" />
+    <ClCompile Include="..\core\Graphics\DX11\Resource\ace.CubemapTexture_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\DX11\Resource\ace.DepthBuffer_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\DX11\Resource\ace.IndexBuffer_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\DX11\Resource\ace.RenderState_Imp_DX11.cpp" />
@@ -363,7 +363,7 @@
     <ClCompile Include="..\core\Graphics\DX11\Resource\ace.Texture2D_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\DX11\Resource\ace.VertexBuffer_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\GL\ace.Graphics_Imp_GL.cpp" />
-    <ClCompile Include="..\core\Graphics\GL\Resource\ace.Cubemap_Imp_GL.cpp" />
+    <ClCompile Include="..\core\Graphics\GL\Resource\ace.CubemapTexture_Imp_GL.cpp" />
     <ClCompile Include="..\core\Graphics\GL\Resource\ace.DepthBuffer_Imp_GL.cpp" />
     <ClCompile Include="..\core\Graphics\GL\Resource\ace.IndexBuffer_Imp_GL.cpp" />
     <ClCompile Include="..\core\Graphics\GL\Resource\ace.RenderState_Imp_GL.cpp" />

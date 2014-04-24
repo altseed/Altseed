@@ -1,0 +1,16 @@
+
+#pragma once
+
+#include "../../Common/Resource/ace.CubemapTexture_Imp.h"
+
+namespace ace
+{
+	class CubemapTexture_Imp_GL
+		: public CubemapTexture_Imp
+	{
+	private:
+
+	public:
+
+	};
+}
