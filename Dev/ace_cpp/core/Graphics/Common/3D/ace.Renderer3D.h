@@ -105,7 +105,7 @@ namespace ace
 
 		Vector2DI				m_windowSize;
 
-		RenderTexture_Imp*		m_renderTarget;
+		RenderTexture2D_Imp*		m_renderTarget;
 
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_pasteVertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_pasteIndexBuffer;
@@ -145,7 +145,7 @@ namespace ace
 		void BeginRendering();
 		void EndRendering();
 
-		RenderTexture_Imp* GetRenderTarget();
+		RenderTexture2D_Imp* GetRenderTarget();
 
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
 	};

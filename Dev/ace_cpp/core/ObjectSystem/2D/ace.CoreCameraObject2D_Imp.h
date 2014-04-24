@@ -16,7 +16,7 @@ namespace ace
 
 		Graphics_Imp* m_graphics;
 		Renderer2D* m_renderer;
-		RenderTexture_Imp* m_renderTarget;
+		RenderTexture2D_Imp* m_renderTarget;
 
 		void ResetBuffer();
 

@@ -48,7 +48,7 @@ namespace ace
 		/// <returns>テクスチャ</returns>
 		public RenderTexture2D CreateRenderTexture2D(int width, int height, TextureFormat format)
 		{
-			var rt = graphics.CreateRenderTexture_Imp(width,height, (swig.eTextureFormat)format);
+			var rt = graphics.CreateRenderTexture2D_Imp(width,height, (swig.eTextureFormat)format);
 			var p = rt.GetPtr();
 
 			var existing = GC.Texture2Ds.GetObject(p);

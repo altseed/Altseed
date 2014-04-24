@@ -677,7 +677,7 @@ float4 main( const PS_Input Input ) : SV_Target
 			prop.ProjectionMatrix = c->GetProjectionMatrix_FR();
 
 			// シャドウマップ作成
-			RenderTexture_Imp* shadowMap = nullptr;
+			RenderTexture2D_Imp* shadowMap = nullptr;
 			if (rendering.directionalLightObjects.size() > 0)
 			{
 				auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
@@ -723,7 +723,7 @@ float4 main( const PS_Input Input ) : SV_Target
 				weights.W = ws[3] / total;
 
 				{
-					g->SetRenderTarget((RenderTexture_Imp*) m_shadowTempTexture.get(), nullptr);
+					g->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 					m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_FR(), 0);
@@ -1315,7 +1315,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	void Renderer3D::SetWindowSize(Vector2DI windowSize)
 	{
 		SafeRelease(m_renderTarget);
-		m_renderTarget = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+		m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 		m_windowSize = windowSize;
 
 		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
@@ -1456,7 +1456,7 @@ float4 main( const PS_Input Input ) : SV_Target
 		m_graphics->FlushCommand();
 	}
 
-	RenderTexture_Imp* Renderer3D::GetRenderTarget()
+	RenderTexture2D_Imp* Renderer3D::GetRenderTarget()
 	{
 		return m_renderTarget;
 	}

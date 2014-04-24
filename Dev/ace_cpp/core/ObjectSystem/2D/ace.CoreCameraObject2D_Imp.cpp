@@ -29,7 +29,7 @@ namespace ace
 		SafeRelease(m_renderTarget);
 		SafeDelete(m_renderer);
 
-		m_renderTarget = m_graphics->CreateRenderTexture_Imp(
+		m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(
 			m_src.Width,
 			m_src.Height,
 			eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);

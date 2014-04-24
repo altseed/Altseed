@@ -201,15 +201,6 @@
     <ClInclude Include="..\core\Graphics\GL\Resource\ace.DepthBuffer_Imp_GL.h">
       <Filter>Graphics\GL\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\Resource\ace.RenderTexture_Imp.h">
-      <Filter>Graphics\Common\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\DX11\Resource\ace.RenderTexture_Imp_DX11.h">
-      <Filter>Graphics\DX11\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\GL\Resource\ace.RenderTexture_Imp_GL.h">
-      <Filter>Graphics\GL\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.Texture2D_Imp.h">
       <Filter>Graphics\Common\Resource</Filter>
     </ClInclude>
@@ -220,9 +211,6 @@
       <Filter>Graphics\GL\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.Texture2D.h">
-      <Filter>Graphics\Common\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\Resource\ace.RenderTexture.h">
       <Filter>Graphics\Common\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\2D\ace.Renderer2D_Imp.h">
@@ -472,6 +460,18 @@
     <ClInclude Include="..\core\Sound\ace.SoundSource_Imp.h">
       <Filter>Sound</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Resource\ace.RenderTexture2D.h">
+      <Filter>Graphics\Common\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Resource\ace.RenderTexture2D_Imp.h">
+      <Filter>Graphics\Common\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\DX11\Resource\ace.RenderTexture2D_Imp_DX11.h">
+      <Filter>Graphics\DX11\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\GL\Resource\ace.RenderTexture2D_Imp_GL.h">
+      <Filter>Graphics\GL\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -561,15 +561,6 @@
       <Filter>Graphics\DX11\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\GL\Resource\ace.DepthBuffer_Imp_GL.cpp">
-      <Filter>Graphics\GL\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Common\Resource\ace.RenderTexture_Imp.cpp">
-      <Filter>Graphics\Common\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\DX11\Resource\ace.RenderTexture_Imp_DX11.cpp">
-      <Filter>Graphics\DX11\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\GL\Resource\ace.RenderTexture_Imp_GL.cpp">
       <Filter>Graphics\GL\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\Resource\ace.Texture2D_Imp.cpp">
@@ -725,6 +716,15 @@
     </ClCompile>
     <ClCompile Include="..\core\Sound\ace.SoundSource_Imp.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\Resource\ace.RenderTexture2D_Imp.cpp">
+      <Filter>Graphics\Common\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\DX11\Resource\ace.RenderTexture2D_Imp_DX11.cpp">
+      <Filter>Graphics\DX11\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\GL\Resource\ace.RenderTexture2D_Imp_GL.cpp">
+      <Filter>Graphics\GL\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -23,8 +23,8 @@ namespace ace
 		Vector3DF	DirectionalLightDirection;
 		Matrix44	LightProjectionMatrix;
 
-		RenderTexture_Imp*	ShadowMapPtr;
-		RenderTexture_Imp*	SSAOPtr;
+		RenderTexture2D_Imp*	ShadowMapPtr;
+		RenderTexture2D_Imp*	SSAOPtr;
 
 	};
 

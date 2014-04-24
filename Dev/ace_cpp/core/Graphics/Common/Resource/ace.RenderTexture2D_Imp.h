@@ -6,7 +6,7 @@
 //----------------------------------------------------------------------------------
 #include <Math/ace.Vector2DI.h>
 #include "../ace.DeviceObject.h"
-#include "ace.RenderTexture.h"
+#include "ace.RenderTexture2D.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -18,7 +18,7 @@ namespace ace {
 	/**
 		@brief	描画先として使用できるテクスチャ
 	*/
-	class RenderTexture_Imp
+	class RenderTexture2D_Imp
 		: public RenderTexture2D
 		, public DeviceObject
 	{
@@ -27,8 +27,8 @@ namespace ace {
 
 		eTextureFilterType	m_filter;
 
-		RenderTexture_Imp(Graphics* graphics, Vector2DI size);
-		virtual ~RenderTexture_Imp();
+		RenderTexture2D_Imp(Graphics* graphics, Vector2DI size);
+		virtual ~RenderTexture2D_Imp();
 	public:
 
 		Vector2DI GetSize() const { return m_size; }

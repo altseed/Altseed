@@ -111,10 +111,10 @@ namespace ace {
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 		Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format) override;
-		RenderTexture_Imp* CreateRenderTexture_Imp(int32_t width, int32_t height, eTextureFormat format);
+		RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format);
 		DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height);
 
-		void SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer);
+		void SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer);
 
 	public:
 		void Clear(bool isColorTarget, bool isDepthTarget, const Color& color);
