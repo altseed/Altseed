@@ -39,7 +39,7 @@ RenderState_Imp_DX11::RenderState_Imp_DX11(Graphics_Imp_DX11* graphics)
 			ZeroMemory(&dsDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
 			dsDesc.DepthEnable = dt;
 			dsDesc.DepthWriteMask = (D3D11_DEPTH_WRITE_MASK) dw;
-			dsDesc.DepthFunc = D3D11_COMPARISON_LESS;
+			dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
 			dsDesc.StencilEnable = FALSE;
 			m_graphics->GetDevice()->CreateDepthStencilState(&dsDesc, &m_dStates[dt][dw]);
 		}

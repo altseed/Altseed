@@ -12,7 +12,7 @@
 #include "Resource/ace.IndexBuffer_Imp_GL.h"
 #include "Resource/ace.NativeShader_Imp_GL.h"
 #include "Resource/ace.RenderState_Imp_GL.h"
-#include "Resource/ace.RenderTexture_Imp_GL.h"
+#include "Resource/ace.RenderTexture2D_Imp_GL.h"
 #include "Resource/ace.DepthBuffer_Imp_GL.h"
 
 #include "../../Log/ace.Log.h"
@@ -463,9 +463,9 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 					auto t = (Texture2D_Imp_GL*) tex;
 					buf = t->GetBuffer();
 				}
-				else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE)
+				else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE2D)
 				{
-					auto t = (RenderTexture_Imp_GL*) tex;
+					auto t = (RenderTexture2D_Imp_GL*) tex;
 					buf = t->GetBuffer();
 				}
 
@@ -644,9 +644,9 @@ Texture2D_Imp* Graphics_Imp_GL::CreateEmptyTexture2D_Imp_Internal(Graphics* grap
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-RenderTexture_Imp* Graphics_Imp_GL::CreateRenderTexture_Imp(int32_t width, int32_t height, eTextureFormat format)
+RenderTexture2D_Imp* Graphics_Imp_GL::CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format)
 {
-	return RenderTexture_Imp_GL::Create(this, width, height, format);
+	return RenderTexture2D_Imp_GL::Create(this, width, height, format);
 }
 
 //----------------------------------------------------------------------------------
@@ -660,7 +660,7 @@ DepthBuffer_Imp* Graphics_Imp_GL::CreateDepthBuffer_Imp(int32_t width, int32_t h
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Graphics_Imp_GL::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer)
+void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer)
 {
 	std::lock_guard<std::recursive_mutex> lock(GetMutex());
 	MakeContextCurrent();
@@ -690,7 +690,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Im
 
 	if (texture != nullptr)
 	{
-		cb = ((RenderTexture_Imp_GL*) texture)->GetBuffer();
+		cb = ((RenderTexture2D_Imp_GL*) texture)->GetBuffer();
 	}
 
 	if (depthBuffer != nullptr)

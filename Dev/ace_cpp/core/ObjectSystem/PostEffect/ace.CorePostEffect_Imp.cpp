@@ -16,7 +16,7 @@ namespace ace
 
 	void CorePostEffect_Imp::DrawOnTexture2DWithMaterial(RenderTexture2D* target, Material2D* material)
 	{
-		auto target_ = (RenderTexture_Imp*) target;
+		auto target_ = (RenderTexture2D_Imp*) target;
 		auto material_ = (Material2D_Imp*) material;
 
 		auto command = material_->GenerateShaderCommand();

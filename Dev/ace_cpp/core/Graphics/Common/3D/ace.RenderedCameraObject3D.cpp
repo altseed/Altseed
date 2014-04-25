@@ -2,7 +2,7 @@
 #include "ace.RenderedCameraObject3D.h"
 #include "../ace.Graphics_Imp.h"
 
-#include "../Resource/ace.RenderTexture_Imp.h"
+#include "../Resource/ace.RenderTexture2D_Imp.h"
 #include "../Resource/ace.DepthBuffer_Imp.h"
 
 #include "../2D/ace.PostEffectRenderer.h"
@@ -13,6 +13,9 @@ namespace ace
 		: RenderedObject3D(graphics)
 		, m_depthBuffer_FR(nullptr)
 		, m_postEffectRenderer(nullptr)
+		, m_renderTargetNormalDepth_FR(nullptr)
+		, m_renderTargetSSAO_FR(nullptr)
+		, m_renderTargetSSAO_temp_FR(nullptr)
 	{
 		m_renderTarget_FR[0] = nullptr;
 		m_renderTarget_FR[1] = nullptr;
@@ -33,6 +36,11 @@ namespace ace
 		SafeRelease(m_renderTarget_FR[0]);
 		SafeRelease(m_renderTarget_FR[1]);
 		SafeRelease(m_depthBuffer_FR);
+		SafeRelease(m_renderTargetNormalDepth_FR);
+
+		SafeRelease(m_renderTargetSSAO_FR);
+		SafeRelease(m_renderTargetSSAO_temp_FR);
+
 		SafeRelease(m_postEffectRenderer);
 	}
 
@@ -47,9 +55,14 @@ namespace ace
 			SafeRelease(m_renderTarget_FR[1]);
 			SafeRelease(m_depthBuffer_FR);
 
-			m_renderTarget_FR[0] = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
-			m_renderTarget_FR[1] = GetGraphics()->CreateRenderTexture_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTarget_FR[0] = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTarget_FR[1] = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			m_depthBuffer_FR = GetGraphics()->CreateDepthBuffer_Imp(m_values_FR.size.X, m_values_FR.size.Y);
+
+			m_renderTargetNormalDepth_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+
+			m_renderTargetSSAO_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTargetSSAO_temp_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 		}
 
 		m_values_FR.size = m_values.size;
@@ -164,11 +177,23 @@ namespace ace
 	{
 		RenderedObject3D::CalculateMatrix_FR();
 
-		m_values_FR.projectionMatrix.SetPerspectiveFovRH(
-			m_values_FR.fov / 180.0f * 3.141592f,
-			(float) m_values_FR.size.X / (float) m_values_FR.size.Y,
-			m_values_FR.znear,
-			m_values_FR.zfar);
+		if (GetGraphics()->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
+		{
+			m_values_FR.projectionMatrix.SetPerspectiveFovRH(
+				m_values_FR.fov / 180.0f * 3.141592f,
+				(float) m_values_FR.size.X / (float) m_values_FR.size.Y,
+				m_values_FR.znear,
+				m_values_FR.zfar);
+		}
+		else
+		{
+			m_values_FR.projectionMatrix.SetPerspectiveFovRH_OpenGL(
+				m_values_FR.fov / 180.0f * 3.141592f,
+				(float) m_values_FR.size.X / (float) m_values_FR.size.Y,
+				m_values_FR.znear,
+				m_values_FR.zfar);
+		}
+		
 
 		m_values_FR.cameraMatrix.SetLookAtRH(
 			GetPosition_FR(),
@@ -184,12 +209,12 @@ namespace ace
 		}
 	}
 
-	RenderTexture_Imp* RenderedCameraObject3D::GetRenderTarget_FR()
+	RenderTexture2D_Imp* RenderedCameraObject3D::GetRenderTarget_FR()
 	{ 
 		return m_renderTarget_FR[m_values_FR.postEffectCount % 2]; 
 	}
 
-	RenderTexture_Imp* RenderedCameraObject3D::GetAffectedRenderTarget_FR()
+	RenderTexture2D_Imp* RenderedCameraObject3D::GetAffectedRenderTarget_FR()
 	{ 
 		return m_renderTarget_FR[0];
 	}

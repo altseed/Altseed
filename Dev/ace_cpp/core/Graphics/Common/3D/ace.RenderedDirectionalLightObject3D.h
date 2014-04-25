@@ -18,7 +18,7 @@ namespace ace
 		const int32_t ShadowBufferSize = 2048;
 
 #pragma region RenderingThread
-		RenderTexture_Imp*	m_shadowTexture = nullptr;
+		RenderTexture2D_Imp*	m_shadowTexture = nullptr;
 		DepthBuffer_Imp*	m_shadowDepthBuffer = nullptr;
 		std::vector<Vector3DF>	m_shadowObjectPoints;
 		std::vector<Vector3DF>	m_shadowObjectPointsBack;
@@ -48,7 +48,7 @@ namespace ace
 		Color GetColor_FR();
 		Vector3DF GetDirection_FR();
 
-		RenderTexture_Imp* GetShadowTexture_FR() { return m_shadowTexture; }
+		RenderTexture2D_Imp* GetShadowTexture_FR() { return m_shadowTexture; }
 		DepthBuffer_Imp* GetShadowDepthBuffer_FR()  { return m_shadowDepthBuffer; }
 
 		Color GetColor();

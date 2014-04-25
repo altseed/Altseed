@@ -2,7 +2,7 @@
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-#include "ace.RenderTexture_Imp_DX11.h"
+#include "ace.RenderTexture2D_Imp_DX11.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -11,8 +11,8 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture_Imp_DX11::RenderTexture_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, ID3D11RenderTargetView* textureRTV, Vector2DI size)
-		: RenderTexture_Imp(graphics, size)
+	RenderTexture2D_Imp_DX11::RenderTexture2D_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, ID3D11RenderTargetView* textureRTV, Vector2DI size)
+		: RenderTexture2D_Imp(graphics, size)
 		, m_texture(texture)
 		, m_textureSRV(textureSRV)
 		, m_textureRTV(textureRTV)
@@ -23,7 +23,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture_Imp_DX11::~RenderTexture_Imp_DX11()
+	RenderTexture2D_Imp_DX11::~RenderTexture2D_Imp_DX11()
 	{
 		SafeRelease(m_texture);
 		SafeRelease(m_textureSRV);
@@ -33,7 +33,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture_Imp_DX11* RenderTexture_Imp_DX11::Create(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
+	RenderTexture2D_Imp_DX11* RenderTexture2D_Imp_DX11::Create(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
 	{
 		auto g = (Graphics_Imp_DX11*) graphics;
 
@@ -97,7 +97,7 @@ namespace ace {
 			goto End;
 		}
 
-		return new RenderTexture_Imp_DX11(g, texture, textureSRV, textureRTV, Vector2DI(width, height));
+		return new RenderTexture2D_Imp_DX11(g, texture, textureSRV, textureRTV, Vector2DI(width, height));
 
 	End:;
 		SafeRelease(texture);
@@ -109,7 +109,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool RenderTexture_Imp_DX11::Save(const achar* path)
+	bool RenderTexture2D_Imp_DX11::Save(const achar* path)
 	{
 		auto g = (Graphics_Imp_DX11*) GetGraphics();
 		return g->SaveTexture(path, m_texture, GetSize());

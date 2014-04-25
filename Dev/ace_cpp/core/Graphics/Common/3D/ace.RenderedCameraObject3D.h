@@ -40,7 +40,11 @@ namespace ace
 
 		} m_values_FR;
 
-		RenderTexture_Imp*	m_renderTarget_FR[2];
+		RenderTexture2D_Imp*	m_renderTargetNormalDepth_FR;
+		RenderTexture2D_Imp*	m_renderTargetSSAO_FR;
+		RenderTexture2D_Imp*	m_renderTargetSSAO_temp_FR;
+
+		RenderTexture2D_Imp*	m_renderTarget_FR[2];
 		DepthBuffer_Imp*	m_depthBuffer_FR;
 
 		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands;
@@ -93,10 +97,15 @@ namespace ace
 
 		void ApplyPostEffects_FR();
 
-		RenderTexture_Imp* GetRenderTarget_FR();
-		RenderTexture_Imp* GetAffectedRenderTarget_FR();
+		RenderTexture2D_Imp* GetRenderTarget_FR();
+		RenderTexture2D_Imp* GetAffectedRenderTarget_FR();
 
 		DepthBuffer_Imp* GetDepthBuffer_FR() { return m_depthBuffer_FR; }
+
+		RenderTexture2D_Imp*	GetRenderTargetDepth_FR() { return m_renderTargetNormalDepth_FR; }
+
+		RenderTexture2D_Imp*	GetRenderTargetSSAO_FR() { return m_renderTargetSSAO_FR; }
+		RenderTexture2D_Imp*	GetRenderTargetSSAO_Temp_FR() { return m_renderTargetSSAO_temp_FR; }
 
 		const Matrix44& GetCameraMatrix_FR() { return m_values_FR.cameraMatrix; }
 		const Matrix44& GetProjectionMatrix_FR() { return m_values_FR.projectionMatrix; }
@@ -106,6 +115,8 @@ namespace ace
 		float GetZFar_FR() { return m_values_FR.zfar; }
 
 		float GetZNear_FR(){ return m_values_FR.znear; }
+
+		float GetFov_FR(){ return m_values_FR.fov; }
 
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_CAMERA; }
 	};

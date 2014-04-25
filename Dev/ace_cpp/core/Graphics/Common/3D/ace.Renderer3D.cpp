@@ -319,6 +319,263 @@ void main()
 
 )";
 
+static const char* ssao_dx_vs = R"(
+struct VS_Input
+{
+	float3 Pos		: Pos0;
+	float2 UV		: UV0;
+};
+
+struct VS_Output
+{
+	float4 Pos		: SV_POSITION;
+	float2 UV		: TEXCOORD0;
+};
+
+float4 Size			: register( c0 );
+
+VS_Output main( const VS_Input Input )
+{
+	VS_Output Output = (VS_Output)0;
+
+	Output.Pos.x = Input.Pos.x;
+	Output.Pos.y = Input.Pos.y;
+ 
+	Output.Pos.z = 0.5;
+	Output.Pos.w = 1.0;
+
+	Output.UV = Input.UV;
+	Output.UV.y = 1.0 - Output.UV.y;
+	return Output;
+}
+
+)";
+
+static const char* ssao_dx_ps = R"(
+
+struct PS_Input
+{
+	float4 Pos		: SV_POSITION;
+	float2 UV		: TEXCOORD0;
+};
+
+// サンプル数
+#define NUM_SAMPLES (13)
+
+// サンプル時の回転数
+#define NUM_TURNS (7)
+
+Texture2D		g_texture		: register( t0 );
+SamplerState	g_sampler		: register( s0 );
+
+
+float radius		: register( c0 );
+
+// 1mの位置にサイズ1のオブジェクトを出した時の縦方向ピクセル数
+float projScale		: register( c1 );
+float bias			: register( c2 );
+float intensity		: register( c3 );
+
+// 座標再構成情報
+// x = n・f
+// y = f-n
+// z = -f
+float3 reconstructInfo1	: register( c4 );
+
+// x = 1/xScale
+// y = 1/yScale
+float4 reconstructInfo2	: register( c5 );
+
+float3 GetNormal(float2 uv)
+{
+	return g_texture.Sample(g_sampler, uv).xyz * 2.0 - 1.0;
+}
+
+float GetZ(float2 uv)
+{
+	return g_texture.Sample(g_sampler, uv).w;
+}
+
+float ReconstructDepth(float z)
+{
+	return reconstructInfo1.x / (reconstructInfo1.y * z + reconstructInfo1.z);
+}
+
+float3 ReconstructPosition(float2 screenXY, float depth)
+{
+	return float3( reconstructInfo2.xy * screenXY * (-depth), depth );
+}
+
+float2 GetScreenPos(float2 uv)
+{
+	return float2(uv.x * 2.0 - 1.0, 1.0 - uv.y * 2.0 );
+}
+
+int2 GetScreenPixelPos(float2 uv)
+{
+	uint width, height;
+	g_texture.GetDimensions(width, height);
+	return int2(width*uv.x,height*uv.y);
+}
+
+// 球内のサンプルする位置のオフセットをユニット単位で取得する。
+float3 GetSphereOffset(int index, float offset)
+{
+	float alpha = float(index + 0.5) * (1.0 / NUM_SAMPLES);
+	float angle = alpha * (NUM_TURNS * 6.28) + offset;
+
+	return float3(cos(angle), sin(angle), alpha);
+}
+
+
+float4 SampleAO(float3 centerPos, float2 centerUV, float3 normal, float sRadius, float random, int index)
+{
+	uint width, height;
+	g_texture.GetDimensions(width, height);
+
+	float3 offset = GetSphereOffset(index, random );
+
+	float2 targetUV = centerUV;
+	targetUV.x = targetUV.x + offset.x * sRadius * offset.z / (float)width;
+	targetUV.y = targetUV.y + offset.y * sRadius * offset.z / (float)height;
+
+	float3 targetPos = ReconstructPosition( GetScreenPos(targetUV), ReconstructDepth(GetZ(targetUV)));
+	
+	float3 v = targetPos - centerPos;
+
+	float vv = dot(v, v);
+	float vn = dot(v, normal);
+
+	// Scalable Ambient Obscurance記載
+	const float epsilon = 0.01;
+    float f = max(radius * radius - vv, 0.0);
+
+	return f * f * f * max((vn - bias) / (epsilon + vv), 0.0);
+}
+
+float2 CompressValue(float value)
+{
+	float temp = floor(value * 256.0);
+	return float2( temp * (1.0 / 256.0), value * 256.0 - temp );
+}
+
+
+float4 main( const PS_Input Input ) : SV_Target
+{
+	int2 sPos = GetScreenPixelPos(Input.UV);
+	float3 centerPos = ReconstructPosition( GetScreenPos(Input.UV), ReconstructDepth(GetZ(Input.UV)));
+
+	// 中心の奥行きでの球の半径を計算(カメラ座標系のため、zはマイナス)
+	float sRadius = -projScale * radius / centerPos.z;
+
+	// Scalable Ambient Obscurance記載のランダム
+	float random = (3 * sPos.x ^ sPos.y + sPos.x * sPos.y) * 10;
+
+	float3 normal =  GetNormal(Input.UV);
+
+	float sum = 0.0;
+	for (int i = 0; i < NUM_SAMPLES; i++)
+	{
+		sum += SampleAO(centerPos, Input.UV, normal, sRadius, random, i);
+	}
+
+	// Scalable Ambient Obscurance記載のAの強さの算出方法
+	float A = max( 0.0, 1.0 - intensity * sum * 5.0 / (radius * radius * radius * radius * radius * radius * NUM_SAMPLES) );
+
+	// Bilateral box-filter
+	if (abs(ddx(centerPos.z)) < 0.02)
+	{
+		A -= ddx(A) * ((sPos.x & 1) - 0.5);
+	}
+	if (abs(ddy(centerPos.z)) < 0.02)
+	{
+		A -= ddy(A) * ((sPos.y & 1) - 0.5);
+	}
+
+	float2 compressedDepth = CompressValue(centerPos.z);
+	return float4(A,compressedDepth.x,compressedDepth.y,1.0);
+}
+
+)";
+
+	static const char* ssao_blur_dx_ps = R"(
+
+struct PS_Input
+{
+	float4 Pos		: SV_POSITION;
+	float2 UV		: TEXCOORD0;
+};
+
+Texture2D		g_texture		: register( t0 );
+SamplerState	g_sampler		: register( s0 );
+
+float GetValue(float2 uv)
+{
+	return g_texture.Sample(g_sampler, uv).x;
+}
+
+float2 GetCompressedDepth(float2 uv)
+{
+	return g_texture.Sample(g_sampler, uv).yz;
+}
+
+float DecompressValue(float2 compressed)
+{
+	return compressed.x + compressed.y * (1.0 / 256.0);
+}
+
+float GetDepth(float2 uv)
+{
+	float2 compressed = GetCompressedDepth(uv);
+	return DecompressValue(compressed);
+}
+
+float4 main( const PS_Input Input ) : SV_Target
+{
+	const int radius = 4;
+	const float scale = 1.0;
+	const float gaussian[] = { 0.144760504, 0.129537389, 0.103725441, 0.0743225217, 0.0476541445 };
+	const float intensity = 700.0;
+
+	uint width, height;
+	g_texture.GetDimensions(width, height);
+	float scaleX = scale / (float)width;
+	float scaleY = scale / (float)height;
+
+	float baseDepth = GetDepth( Input.UV );
+
+	float sum = 0.0;
+	float weightSum = 0.0;
+
+	[unroll]
+	for(int r = -radius; r <= radius; r++)
+	{
+#if BLUR_X
+		float2 uv = Input.UV + float2(r * scaleX, 0.0);
+#endif
+
+#if BLUR_Y
+		float2 uv = Input.UV + float2(0.0, r * scaleY);
+#endif
+
+		float depth = GetDepth( uv );
+		
+		float weight =  gaussian[abs(r)];
+		weight = weight * max(0.0, 1.0 - intensity * abs(depth-baseDepth) );
+		
+		float value = GetValue( uv);
+		
+		sum += value * weight;
+		weightSum += weight;
+	}
+
+	const float epsilon = 0.0001;
+	float a = sum / (weightSum + epsilon);
+
+	return float4(a, GetCompressedDepth(Input.UV), 1.0 );
+}
+
+)";
 
 	template<typename T>
 	void AddRefToObjects(std::set<T*>& os)
@@ -412,28 +669,29 @@ void main()
 		for (auto& co : rendering.cameraObjects)
 		{
 			auto c = (RenderedCameraObject3D*) co;
-			
+
 			// カメラプロジェクション行列計算
 			Matrix44 cameraProjMat;
 			ace::Matrix44::Mul(cameraProjMat, c->GetProjectionMatrix_FR(), c->GetCameraMatrix_FR());
-			prop.CameraProjectionMatrix = cameraProjMat;
-			
+			prop.CameraMatrix = c->GetCameraMatrix_FR();
+			prop.ProjectionMatrix = c->GetProjectionMatrix_FR();
+
 			// シャドウマップ作成
-			RenderTexture_Imp* shadowMap = nullptr;
+			RenderTexture2D_Imp* shadowMap = nullptr;
 			if (rendering.directionalLightObjects.size() > 0)
 			{
 				auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
 				shadowMap = light->GetShadowTexture_FR();
-			
+
 				g->SetRenderTarget(light->GetShadowTexture_FR(), light->GetShadowDepthBuffer_FR());
 				g->Clear(true, true, ace::Color(0, 0, 0, 255));
 
 				Matrix44 view, proj;
-				
+
 				light->CalcShadowMatrix(
 					c->GetPosition_FR(),
 					c->GetFocus_FR() - c->GetPosition_FR(),
-					prop.CameraProjectionMatrix,
+					cameraProjMat,
 					c->GetZNear_FR(),
 					c->GetZFar_FR(),
 					view,
@@ -465,7 +723,7 @@ void main()
 				weights.W = ws[3] / total;
 
 				{
-					g->SetRenderTarget((RenderTexture_Imp*) m_shadowTempTexture.get(), nullptr);
+					g->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 					m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_FR(), 0);
@@ -511,20 +769,134 @@ void main()
 
 					g->GetRenderState()->Pop();
 				}
-				
+
 			}
 			prop.ShadowMapPtr = shadowMap;
-
+			
 			// 影用デバッグコード
 			//prop.CameraProjectionMatrix = prop.LightProjectionMatrix;
 
-			// 3D描画
-			g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());
-			g->Clear(true, true, ace::Color(0, 0, 0, 255));
-
-			for (auto& o : m_objects)
+			// 奥行き描画
 			{
-				o->Rendering(prop);
+				g->SetRenderTarget(c->GetRenderTargetDepth_FR(), c->GetDepthBuffer_FR());
+				g->Clear(true, true, ace::Color(0, 0, 0, 255));
+
+				for (auto& o : m_objects)
+				{
+					o->RenderingNormalDepth(prop);
+				}
+			}
+
+			// SSAO
+			if (m_ssaoShader != nullptr)
+			{
+				{
+					g->SetRenderTarget(c->GetRenderTargetSSAO_FR(), nullptr);
+					g->Clear(true, false, ace::Color(0, 0, 0, 255));
+
+					m_ssaoShader->SetTexture("g_texture", c->GetRenderTargetDepth_FR(), 0);
+
+					auto& cvbuf = m_ssaoShader->GetVertexConstantBuffer<SSAOConstantVertexBuffer>();
+					cvbuf.Size[0] = m_windowSize.X;
+					cvbuf.Size[1] = m_windowSize.Y;
+
+					auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
+					auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
+
+					// DirectX
+					float yScale = 1 / tanf(fov / 2);
+					float xScale = yScale / aspect;
+
+
+					SSAOConstantPixelBuffer& cpbuf = m_ssaoShader->GetPixelConstantBuffer<SSAOConstantPixelBuffer>();
+					cpbuf.Radius = 0.2f;
+					cpbuf.ProjScale = c->GetWindowSize().Y * yScale / 2.0f;
+					cpbuf.Bias = 0.1f;
+					cpbuf.Intensity = 5.0f;
+					cpbuf.ReconstructInfo1[0] = c->GetZNear_FR() * c->GetZFar_FR();
+					cpbuf.ReconstructInfo1[1] = c->GetZFar_FR() - c->GetZNear_FR();
+					cpbuf.ReconstructInfo1[2] = -c->GetZFar_FR();
+
+
+					cpbuf.ReconstructInfo2[0] = 1.0f / xScale;
+					cpbuf.ReconstructInfo2[1] = 1.0f / yScale;
+
+					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
+					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
+					g->SetShader(m_ssaoShader.get());
+
+					auto& state = g->GetRenderState()->Push();
+					state.DepthTest = false;
+					state.DepthWrite = false;
+					state.CullingType = CULLING_DOUBLE;
+					state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					g->GetRenderState()->Update(false);
+
+					g->DrawPolygon(2);
+
+					g->GetRenderState()->Pop();
+				}
+
+				{
+					g->SetRenderTarget(c->GetRenderTargetSSAO_Temp_FR(), nullptr);
+					g->Clear(true, false, ace::Color(0, 0, 0, 255));
+
+					m_ssaoBlurXShader->SetTexture("g_texture", c->GetRenderTargetSSAO_FR(), 0);
+
+					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
+					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
+					g->SetShader(m_ssaoBlurXShader.get());
+
+					auto& state = g->GetRenderState()->Push();
+					state.DepthTest = false;
+					state.DepthWrite = false;
+					state.CullingType = CULLING_DOUBLE;
+					state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					g->GetRenderState()->Update(false);
+
+					g->DrawPolygon(2);
+
+					g->GetRenderState()->Pop();
+				}
+
+				{
+					g->SetRenderTarget(c->GetRenderTargetSSAO_FR(), nullptr);
+					g->Clear(true, false, ace::Color(0, 0, 0, 255));
+
+					m_ssaoBlurYShader->SetTexture("g_texture", c->GetRenderTargetSSAO_Temp_FR(), 0);
+
+					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
+					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
+					g->SetShader(m_ssaoBlurYShader.get());
+
+					auto& state = g->GetRenderState()->Push();
+					state.DepthTest = false;
+					state.DepthWrite = false;
+					state.CullingType = CULLING_DOUBLE;
+					state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					g->GetRenderState()->Update(false);
+
+					g->DrawPolygon(2);
+
+					g->GetRenderState()->Pop();
+				}
+
+				prop.SSAOPtr = c->GetRenderTargetSSAO_FR();
+			}
+			else
+			{
+				prop.SSAOPtr = nullptr;
+			}
+
+			// 3D描画
+			{
+				g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());
+				g->Clear(true, false, ace::Color(0, 0, 0, 255));
+
+				for (auto& o : m_objects)
+				{
+					o->Rendering(prop);
+				}
 			}
 
 			// エフェクトの描画
@@ -586,6 +958,10 @@ void main()
 			m_pasteVertexBuffer->Unlock();
 
 			m_pasteShader->SetTexture("g_texture", c->GetAffectedRenderTarget_FR(), 0);
+			
+			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetSSAO_FR(), 0);
+			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetSSAO_Temp_FR(), 0);
+
 			
 			m_graphics->SetVertexBuffer(m_pasteVertexBuffer.get());
 			m_graphics->SetIndexBuffer(m_pasteIndexBuffer.get());
@@ -756,6 +1132,129 @@ void main()
 			m_shadowVertexBuffer->Unlock();
 		}
 
+		// SSAO用シェーダー
+		{
+			m_ssaoVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(SSAOVertex), 2 * 3, true);
+			m_ssaoIndexBuffer = m_graphics->CreateIndexBuffer_Imp(2 * 3, false, false);
+
+			m_ssaoIndexBuffer->Lock();
+			auto ib = m_ssaoIndexBuffer->GetBuffer<uint16_t>(2 * 3);
+
+			for (int32_t i = 0; i < 2; i++)
+			{
+				ib[i * 3 + 0] = 0 + i * 3;
+				ib[i * 3 + 1] = 1 + i * 3;
+				ib[i * 3 + 2] = 2 + i * 3;
+			}
+
+			m_ssaoIndexBuffer->Unlock();
+
+			m_ssaoVertexBuffer->Lock();
+			auto buf = m_ssaoVertexBuffer->GetBuffer <SSAOVertex>(6);
+
+			buf[0].Position = Vector3DF(-1.0f, -1.0f, 0.5f);
+			buf[0].UV = Vector2DF(0, 0);
+			buf[1].Position = Vector3DF(1.0f, -1.0f, 0.5f);
+			buf[1].UV = Vector2DF(1, 0);
+			buf[2].Position = Vector3DF(1.0f, 1.0f, 0.5f);
+			buf[2].UV = Vector2DF(1, 1.0);
+			buf[3].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
+			buf[3].UV = Vector2DF(0, 1.0);
+			buf[4] = buf[0];
+			buf[5] = buf[2];
+
+			m_ssaoVertexBuffer->Unlock();
+
+			std::vector<ace::VertexLayout> vl;
+			vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+
+			std::vector<ace::Macro> macro;
+			if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
+			{
+				/*
+				m_pasteShader = m_graphics->CreateShader_Imp(
+					paste_gl_vs,
+					"vs",
+					paste_gl_ps,
+					"ps",
+					vl,
+					macro);
+				*/
+			}
+			else
+			{
+				m_ssaoShader = m_graphics->CreateShader_Imp(
+					ssao_dx_vs,
+					"vs",
+					ssao_dx_ps,
+					"ps",
+					vl,
+					macro);
+
+				const char* BLUR_X = "BLUR_X";
+				const char* BLUR_Y = "BLUR_Y";
+				const char* ONE = "1";
+
+				macro.push_back(Macro(BLUR_X, ONE));
+				m_ssaoBlurXShader = m_graphics->CreateShader_Imp(
+					ssao_dx_vs,
+					"vs",
+					ssao_blur_dx_ps,
+					"ps",
+					vl,
+					macro);
+
+				macro.clear();
+				macro.push_back(Macro(BLUR_Y, ONE));
+				m_ssaoBlurYShader = m_graphics->CreateShader_Imp(
+					ssao_dx_vs,
+					"vs",
+					ssao_blur_dx_ps,
+					"ps",
+					vl,
+					macro);
+			}
+
+			std::vector<ace::ConstantBufferInformation> constantVBuffers;
+			constantVBuffers.resize(1);
+			constantVBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
+			constantVBuffers[0].Name = std::string("Size");
+			constantVBuffers[0].Offset = 0;
+
+			std::vector<ace::ConstantBufferInformation> constantPBuffers;
+			constantPBuffers.resize(6);
+			constantPBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
+			constantPBuffers[0].Name = std::string("Radius");
+			constantPBuffers[0].Offset = 0;
+
+			constantPBuffers[1].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
+			constantPBuffers[1].Name = std::string("ProjScale");
+			constantPBuffers[1].Offset = sizeof(float) * 4;
+
+			constantPBuffers[2].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
+			constantPBuffers[2].Name = std::string("Bias");
+			constantPBuffers[2].Offset = sizeof(float) * 8;
+
+			constantPBuffers[3].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
+			constantPBuffers[3].Name = std::string("Intensity");
+			constantPBuffers[3].Offset = sizeof(float) * 12;
+
+			constantPBuffers[4].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantPBuffers[4].Name = std::string("ReconstructInfo1");
+			constantPBuffers[4].Offset = sizeof(float) * 16;
+
+			constantPBuffers[5].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
+			constantPBuffers[5].Name = std::string("ReconstructInfo2");
+			constantPBuffers[5].Offset = sizeof(float) * 20;
+
+			if (m_ssaoShader != nullptr)
+			{
+				m_ssaoShader->CreateVertexConstantBuffer<SSAOConstantVertexBuffer>(constantVBuffers);
+				m_ssaoShader->CreatePixelConstantBuffer<SSAOConstantPixelBuffer>(constantPBuffers);
+			}
+		}
+
 		// エフェクト
 		{
 			m_effectManager = ::Effekseer::Manager::Create(2000, false);
@@ -816,7 +1315,7 @@ void main()
 	void Renderer3D::SetWindowSize(Vector2DI windowSize)
 	{
 		SafeRelease(m_renderTarget);
-		m_renderTarget = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+		m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 		m_windowSize = windowSize;
 
 		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
@@ -957,7 +1456,7 @@ void main()
 		m_graphics->FlushCommand();
 	}
 
-	RenderTexture_Imp* Renderer3D::GetRenderTarget()
+	RenderTexture2D_Imp* Renderer3D::GetRenderTarget()
 	{
 		return m_renderTarget;
 	}

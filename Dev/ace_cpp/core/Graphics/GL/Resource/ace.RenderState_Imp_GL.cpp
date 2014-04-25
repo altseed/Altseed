@@ -47,6 +47,7 @@ void RenderState_Imp_GL::Update(bool forced)
 	if (m_active.DepthWrite != m_next.DepthWrite || forced)
 	{
 		glDepthMask(m_next.DepthWrite);
+		glDepthFunc(GL_LEQUAL);
 	}
 
 	if (m_active.CullingType != m_next.CullingType || forced)

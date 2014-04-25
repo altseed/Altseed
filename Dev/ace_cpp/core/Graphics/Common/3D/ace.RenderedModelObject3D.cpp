@@ -18,11 +18,12 @@ namespace ace
 	static const char* dx_vs = R"(
 
 float4x4	matM[32]					: register( c0 );
-float4x4	matCP						: register( c128 );
-float4x4	matLVP						: register( c132 );
+float4x4	matC						: register( c128 );
+float4x4	matP						: register( c132 );
+float4x4	matLCP						: register( c136 );
 
-float3		directionalLightDirection	: register( c136 );
-float3		directionalLightColor		: register( c137 );
+float3		directionalLightDirection	: register( c140 );
+float3		directionalLightColor		: register( c141 );
 
 struct VS_Input
 {
@@ -39,10 +40,12 @@ struct VS_Input
 
 struct VS_Output
 {
-	float4 Pos		: SV_POSITION;
+	float4 Position		: SV_POSITION;
+	float4 Pos			: POSITION0;
 	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
+	half3 Normal	: NORMAL0;
 };
 
 float4x4 calcMatrix(float4 weights, uint4 indexes)
@@ -59,23 +62,27 @@ VS_Output main( const VS_Input Input )
 	//Output.Pos = mul( matMCP[0], float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
 
 	float4x4 matLocal = calcMatrix(Input.BoneWeights,Input.BoneIndexes);
-	float4x4 matMVP = mul(matCP, matLocal);
-	float4x4 matMLVP = mul(matLVP, matLocal);
+	float4x4 matMC = mul(matC, matLocal);
+	float4x4 matMLCP = mul(matLCP, matLocal);
 
-	float4 localPosition = mul( matLocal, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
-	localPosition = localPosition / localPosition.w;
+	float4 cPosition = mul( matMC, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+	cPosition = cPosition / cPosition.w;
 
-	float4 localNormal = mul( matLocal, float4( Input.Normal.x + Input.Position.x, Input.Normal.y + Input.Position.y, Input.Normal.z + Input.Position.z, 1.0 ) );
-	localNormal = localNormal / localNormal.w;
+	float4 cNormal = mul( matMC, float4( Input.Normal.x + Input.Position.x, Input.Normal.y + Input.Position.y, Input.Normal.z + Input.Position.z, 1.0 ) );
+	cNormal = cNormal / cNormal.w;
 
-	localNormal = localNormal - localPosition;
-	localNormal = normalize(localNormal);
+	cNormal = cNormal - cPosition;
+	cNormal.xyz = normalize(cNormal.xyz);
 
-	Output.Pos = mul( matCP, localPosition );
-	Output.LightPos = mul( matMLVP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+	float3 cDirectionalLightDirection = mul(matC, directionalLightDirection).xyz;
 
+	Output.Position = mul( matP, cPosition );
+	Output.Pos = Output.Position;
+	Output.LightPos = mul( matMLCP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+
+	Output.Normal = (half3)cNormal.xyz;
 	Output.UV = Input.UV;
-	Output.Color.xyz = directionalLightColor * max( dot(directionalLightDirection,localNormal.xyz), 0.0 ) + 0.2;
+	Output.Color.xyz = directionalLightColor * max( dot(cDirectionalLightDirection.xyz,cNormal.xyz), 0.0 ) + 0.2;
 	Output.Color.w = 1.0;
 	return Output;
 }
@@ -86,10 +93,12 @@ static const char* dx_ps = R"(
 
 struct PS_Input
 {
-	float4 Position	: SV_POSITION;
+	float4 Position		: SV_POSITION;
+	float4 Pos			: POSITION0;
 	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
+	half3 Normal	: NORMAL0;
 };
 
 float4		hasTextures	: register( c0 );
@@ -105,6 +114,9 @@ SamplerState	g_specularSampler		: register( s2 );
 
 Texture2D		g_shadowTexture		: register( t3 );
 SamplerState	g_shadowSampler		: register( s3 );
+
+Texture2D		g_ssaoTexture		: register( t4 );
+SamplerState	g_ssaoSampler		: register( s4 );
 
 float VSM(float2 moments, float t)
 {
@@ -129,6 +141,10 @@ float4 main( const PS_Input Input ) : SV_Target
 	}
 	if(Output.a == 0.0f) discard;
 
+	// SSAO
+	float2 ssaoUV = float2( (Input.Pos.x / Input.Pos.w + 1.0) / 2.0, (-Input.Pos.y / Input.Pos.w + 1.0) / 2.0 );
+	float a = g_ssaoTexture.Sample(g_ssaoSampler, ssaoUV).x;
+
 	// shadow
 	float2 shadowUV = float2( (Input.LightPos.x / Input.LightPos.w + 1.0) / 2.0, 1.0 - (Input.LightPos.y / Input.LightPos.w + 1.0) / 2.0 );
 	float lightDepthZ = Input.LightPos.z / Input.LightPos.w;
@@ -143,7 +159,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	//	Output.rgb = Output.rgb * 0.5;
 	//}
 
-	Output.rgb = Output.rgb * p;
+	Output.rgb = Output.rgb * p * a;
 	return Output;
 }
 
@@ -153,10 +169,12 @@ static const char* dx_shadow_ps = R"(
 
 struct PS_Input
 {
-	float4 Position	: SV_POSITION;
+	float4 Position		: SV_POSITION;
+	float4 Pos			: POSITION0;
 	float4 LightPos	: Light0;
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
+	half3 Normal	: NORMAL0;
 };
 
 float4		hasTextures	: register( c0 );
@@ -181,9 +199,48 @@ float4 main( const PS_Input Input ) : SV_Target
 	}
 	if(Output.a == 0.0f) discard;
 	
-	// Wで除算してはいけない(既にされているため)
-	float color = Input.Position.z;
+	float color = Input.Pos.z / Input.Pos.w;
 	return float4( color, color * color, 0, 1 );
+}
+
+)";
+
+static const char* dx_normal_depth_ps = R"(
+
+struct PS_Input
+{
+	float4 Position		: SV_POSITION;
+	float4 Pos			: POSITION0;
+	float4 LightPos	: Light0;
+	float4 Color	: Color0;
+	float2 UV		: TEXCOORD0;
+	half3 Normal	: NORMAL0;
+};
+
+float4		hasTextures	: register( c0 );
+
+Texture2D		g_colorTexture		: register( t0 );
+SamplerState	g_colorSampler		: register( s0 );
+
+Texture2D		g_normalTexture		: register( t1 );
+SamplerState	g_normalSampler		: register( s1 );
+
+Texture2D		g_specularTexture		: register( t2 );
+SamplerState	g_specularSampler		: register( s2 );
+
+float4 main( const PS_Input Input ) : SV_Target
+{
+	float4 Output = Input.Color;
+	if(Output.a == 0.0f) discard;
+
+	if(hasTextures.x != 0.0)
+	{
+		Output = Output * g_colorTexture.Sample(g_colorSampler, Input.UV);
+	}
+	if(Output.a == 0.0f) discard;
+	
+	float depth = Input.Pos.z / Input.Pos.w;
+	return float4( (Input.Normal.x + 1.0) / 2.0, (Input.Normal.y + 1.0) / 2.0, (Input.Normal.z + 1.0) / 2.0, depth );
 }
 
 )";
@@ -201,16 +258,18 @@ attribute vec4 BoneIndexes;
 attribute vec4 BoneIndexesOriginal;
 
 uniform mat4		matM[32];
-uniform mat4		matCP;
-uniform mat4		matLVP;
+uniform mat4		matC;
+uniform mat4		matP;
+uniform mat4		matLCP;
 
 uniform vec3		directionalLightDirection;
 uniform vec3		directionalLightColor;
 
-varying vec4 vaPosition;
+varying vec4 vaPos;
 varying vec4 vaLightPos;
-varying vec4 vaTexCoord;
+varying vec2 vaUV;
 varying vec4 vaColor;
+varying vec3 vaNormal;
 
 mat4 calcMatrix(vec4 weights, vec4 indexes)
 {
@@ -222,39 +281,43 @@ mat4 calcMatrix(vec4 weights, vec4 indexes)
 
 void main()
 {
-//	gl_Position = matMCP[0] * vec4(Position.x,Position.y,Position.z,1.0);
+	//Output.Pos = mul( matMCP[0], vec4( Position.x, Position.y, Position.z, 1.0 ) );
 
 	mat4 matLocal = calcMatrix(BoneWeights,BoneIndexes);
-	mat4 matMVP = matCP * matLocal;
-	mat4 matMLVP = matLVP * matLocal;
+	mat4 matMC = matC * matLocal;
+	mat4 matMLCP = matLCP * matLocal;
 
-	vec4 localPosition = matLocal * vec4( Position.x, Position.y, Position.z, 1.0 );
-	localPosition = localPosition / localPosition.w;
+	vec4 cPosition = matMC * vec4( Position.x, Position.y, Position.z, 1.0 );
+	cPosition = cPosition / cPosition.w;
 
-	vec4 localNormal = matLocal * vec4( Normal.x + Position.x, Normal.y + Position.y, Normal.z + Position.z, 1.0 );
-	localNormal = localNormal / localNormal.w;
+	vec4 cNormal = matMC * vec4( Normal.x + Position.x, Normal.y + Position.y, Normal.z + Position.z, 1.0 );
+	cNormal = cNormal / cNormal.w;
 
-	localNormal = localNormal - localPosition;
-	localNormal = normalize(localNormal);
+	cNormal = cNormal - cPosition;
+	cNormal.xyz = normalize(cNormal).xyz;
 
-	vaPosition = matCP * localPosition;
-	vaLightPos = matMLVP * vec4(Position.x,Position.y,Position.z,1.0);
+	vec3 cDirectionalLightDirection = (matC * vec4(directionalLightDirection, 0.0) ).xyz;
 
-	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
-	vaColor.xyz = directionalLightColor * max( dot(directionalLightDirection,localNormal.xyz), 0.0 ) + 0.2;
+	vaPos = matP * cPosition;
+	vaLightPos = matMLCP * vec4( Position.x, Position.y, Position.z, 1.0 );
+
+	vaNormal = cNormal.xyz;
+	vaUV = UV;
+	vaColor.xyz = directionalLightColor * max( dot(cDirectionalLightDirection.xyz,cNormal.xyz), 0.0 ) + 0.2;
 	vaColor.w = 1.0;
 
-	gl_Position = vaPosition;
+	gl_Position = vaPos;
 }
 
 )";
 
 static const char* gl_ps = R"(
 
-varying vec4 vaPosition;
+varying vec4 vaPos;
 varying vec4 vaLightPos;
-varying vec4 vaTexCoord;
+varying vec2 vaUV;
 varying vec4 vaColor;
+varying vec3 vaNormal;
 
 uniform vec4 hasTextures;
 
@@ -287,12 +350,12 @@ void main()
 	if(gl_FragColor.a == 0.0f) discard;
 
 	// gl only
-	vec4 vaTexCoord_ = vaTexCoord;
-	vaTexCoord_.y = 1.0 - vaTexCoord_.y;
+	vec2 vaUV_ = vaUV;
+	vaUV_.y = 1.0 - vaUV_.y;
 
 	if(hasTextures.x != 0.0)
 	{
-		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaTexCoord_.xy);
+		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaUV_.xy);
 	}
 
 	if(gl_FragColor.a == 0.0f) discard;
@@ -321,10 +384,11 @@ void main()
 )";
 
 static const char* gl_shadow_ps = R"(
-varying vec4 vaPosition;
+varying vec4 vaPos;
 varying vec4 vaLightPos;
-varying vec4 vaTexCoord;
+varying vec2 vaUV;
 varying vec4 vaColor;
+varying vec3 vaNormal;
 
 uniform vec4 hasTextures;
 
@@ -339,18 +403,54 @@ void main()
 	if(gl_FragColor.a == 0.0f) discard;
 
 	// gl only
-	vec4 vaTexCoord_ = vaTexCoord;
-	vaTexCoord_.y = 1.0 - vaTexCoord_.y;
+	vec2 vaUV_ = vaUV;
+	vaUV_.y = 1.0 - vaUV_.y;
 
 	if(hasTextures.x != 0.0)
 	{
-		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaTexCoord_.xy);
+		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaUV_.xy);
 	}
 
 	if(gl_FragColor.a == 0.0) discard;
 
-	float color = (vaPosition.z / vaPosition.w + 1.0) / 2.0;
+	float color = (vaPos.z / vaPos.w + 1.0) / 2.0;
 	gl_FragColor= vec4( color, color * color, 0, 1 );
+}
+
+)";
+
+static const char* gl_normal_depth_ps = R"(
+varying vec4 vaPos;
+varying vec4 vaLightPos;
+varying vec2 vaUV;
+varying vec4 vaColor;
+varying vec3 vaNormal;
+
+uniform vec4 hasTextures;
+
+uniform sampler2D g_colorTexture;
+uniform sampler2D g_normalTexture;
+uniform sampler2D g_specularTexture;
+
+void main() 
+{
+	gl_FragColor = vaColor;
+
+	if(gl_FragColor.a == 0.0f) discard;
+
+	// gl only
+	vec2 vaUV_ = vaUV;
+	vaUV_.y = 1.0 - vaUV_.y;
+
+	if(hasTextures.x != 0.0)
+	{
+		gl_FragColor = gl_FragColor * texture2D(g_colorTexture, vaUV_.xy);
+	}
+
+	if(gl_FragColor.a == 0.0) discard;
+
+	float depth = (vaPos.z / vaPos.w + 1.0) / 2.0;
+	gl_FragColor= vec4( (vaNormal.x + 1.0) / 2.0, (vaNormal.y + 1.0) / 2.0, (vaNormal.z + 1.0) / 2.0, depth );
 }
 
 )";
@@ -501,27 +601,31 @@ void main()
 		vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
 
 		std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
-		constantBuffers_vs.resize(5);
+		constantBuffers_vs.resize(6);
 		constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
 		constantBuffers_vs[0].Name = std::string("matM");
 		constantBuffers_vs[0].Offset = 0;
 		constantBuffers_vs[0].Count = 32;
 
 		constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-		constantBuffers_vs[1].Name = std::string("matCP");
+		constantBuffers_vs[1].Name = std::string("matC");
 		constantBuffers_vs[1].Offset = sizeof(Matrix44) * 32;
 
 		constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-		constantBuffers_vs[2].Name = std::string("matLVP");
+		constantBuffers_vs[2].Name = std::string("matP");
 		constantBuffers_vs[2].Offset = sizeof(Matrix44) * 33;
 
-		constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-		constantBuffers_vs[3].Name = std::string("directionalLightDirection");
+		constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+		constantBuffers_vs[3].Name = std::string("matLCP");
 		constantBuffers_vs[3].Offset = sizeof(Matrix44) * 34;
 
 		constantBuffers_vs[4].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-		constantBuffers_vs[4].Name = std::string("directionalLightColor");
-		constantBuffers_vs[4].Offset = sizeof(Matrix44) * 34 + sizeof(float) * 4;
+		constantBuffers_vs[4].Name = std::string("directionalLightDirection");
+		constantBuffers_vs[4].Offset = sizeof(Matrix44) * 35;
+
+		constantBuffers_vs[5].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+		constantBuffers_vs[5].Name = std::string("directionalLightColor");
+		constantBuffers_vs[5].Offset = sizeof(Matrix44) * 35 + sizeof(float) * 4;
 
 
 		std::vector<ace::ConstantBufferInformation> constantBuffers_ps;
@@ -587,6 +691,36 @@ void main()
 
 			m_shaderShadow->CreateVertexConstantBuffer<VertexConstantBuffer>(constantBuffers_vs);
 			m_shaderShadow->CreatePixelConstantBuffer<PixelConstantBuffer>(constantBuffers_ps);
+		}
+
+		{
+			std::shared_ptr<ace::NativeShader_Imp> shader;
+			std::vector<ace::Macro> macro;
+			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
+			{
+				m_shaderNormalDepth = GetGraphics()->CreateShader_Imp(
+					gl_vs,
+					"shadow_vs",
+					gl_normal_depth_ps,
+					"shadow_ps",
+					vl,
+					macro);
+			}
+			else
+			{
+				m_shaderNormalDepth = GetGraphics()->CreateShader_Imp(
+					dx_vs,
+					"shadow_vs",
+					dx_normal_depth_ps,
+					"shadow_ps",
+					vl,
+					macro);
+			}
+
+			assert(m_shaderNormalDepth != nullptr);
+
+			m_shaderNormalDepth->CreateVertexConstantBuffer<VertexConstantBuffer>(constantBuffers_vs);
+			m_shaderNormalDepth->CreatePixelConstantBuffer<PixelConstantBuffer>(constantBuffers_ps);
 		}
 	}
 
@@ -770,7 +904,8 @@ void main()
 				}
 
 				{
-					vbuf.CPMatrix = prop.CameraProjectionMatrix;
+					vbuf.CMatrix = prop.CameraMatrix;
+					vbuf.PMatrix = prop.ProjectionMatrix;
 					vbuf.LightVPMatrix = prop.LightProjectionMatrix;
 				}
 
@@ -861,6 +996,11 @@ void main()
 							pbuf.HasTextures.W = 0.0f;
 						}
 
+						if (prop.SSAOPtr != nullptr)
+						{
+							m_shader->SetTexture("g_ssaoTexture", prop.SSAOPtr, 4);
+						}
+
 						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
 						GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
 						GetGraphics()->SetShader(m_shader.get());
@@ -930,7 +1070,8 @@ void main()
 				}
 
 				{
-					vbuf.CPMatrix = prop.LightProjectionMatrix;
+					vbuf.CMatrix = Matrix44();
+					vbuf.PMatrix = prop.LightProjectionMatrix;
 					vbuf.LightVPMatrix = prop.LightProjectionMatrix;
 				}
 
@@ -1011,6 +1152,150 @@ void main()
 						auto& state = GetGraphics()->GetRenderState()->Push();
 						state.DepthTest = true;
 						state.DepthWrite = true;
+						state.CullingType = CULLING_DOUBLE;
+						GetGraphics()->GetRenderState()->Update(false);
+
+						GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
+
+						GetGraphics()->GetRenderState()->Pop();
+
+						if (fCount + fOffset == bFCount && boneOffsets.size() > bIndex)
+						{
+							bFCount += boneOffsets[bIndex].FaceOffset;
+							bIndex++;
+						}
+
+						if (fCount + fOffset == mFCount && materialOffsets.size() > mIndex)
+						{
+							mFCount += materialOffsets[mIndex].FaceOffset;
+							mIndex++;
+						}
+
+						fOffset += fCount;
+					}
+				}
+			}
+		}
+	}
+
+	void RenderedModelObject3D::RenderingNormalDepth(RenderingProperty& prop)
+	{
+		auto& vbuf = m_shaderNormalDepth->GetVertexConstantBuffer<VertexConstantBuffer>();
+		auto& pbuf = m_shaderNormalDepth->GetPixelConstantBuffer<PixelConstantBuffer>();
+
+		for (auto& g : m_meshGroups_fr)
+		{
+			auto& matrices = g->m_matrixes_fr;
+
+			for (auto& mesh : g->GetMeshes())
+			{
+				// 有効チェック
+				if (mesh->GetIndexBuffer() == nullptr) continue;
+
+				// 行列計算
+				if (matrices.size() > 0)
+				{
+					// ボーンあり
+					for (int32_t i = 0; i < Min(32, matrices.size()); i++)
+					{
+						vbuf.MMatrices[i].SetIndentity();
+						Matrix44::Mul(vbuf.MMatrices[i], GetLocalMatrix_FR(), matrices[i]);
+					}
+				}
+				else
+				{
+					// ボーンなし
+					vbuf.MMatrices[0] = GetLocalMatrix_FR();
+					for (int32_t i = 1; i < 32; i++)
+					{
+						vbuf.MMatrices[i] = vbuf.MMatrices[0];
+					}
+				}
+
+				{
+					vbuf.CMatrix = prop.CameraMatrix;
+					vbuf.PMatrix = prop.ProjectionMatrix;
+					vbuf.LightVPMatrix = prop.LightProjectionMatrix;
+				}
+
+				auto& boneOffsets = mesh->GetBoneOffsets();
+				auto& materialOffsets = mesh->GetMaterialOffsets();
+
+				{
+					// 設定がある場合
+					auto mIndex = 0;
+					auto bIndex = 0;
+
+					auto fOffset = 0;
+					auto fCount = 0;
+
+					auto bFCount = 0;
+					if (boneOffsets.size() > 0)
+					{
+						bFCount = boneOffsets[bIndex].FaceOffset;
+					}
+					else
+					{
+						bFCount = mesh->GetIndexBuffer()->GetCount() / 3;
+					}
+
+					auto mFCount = 0;
+					if (materialOffsets.size() > 0)
+					{
+						mFCount = materialOffsets[mIndex].FaceOffset;
+					}
+					else
+					{
+						mFCount = mesh->GetIndexBuffer()->GetCount() / 3;
+					}
+
+					while (fCount < mesh->GetIndexBuffer()->GetCount() / 3)
+					{
+						fCount = Min(bFCount, mFCount) - fOffset;
+						if (fCount == 0) break;
+
+						Mesh_Imp::Material* material = nullptr;
+						if (materialOffsets.size() > 0)
+						{
+							material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
+						}
+
+						if (material != nullptr)
+						{
+							pbuf.HasTextures.X = material->ColorTexture != nullptr ? 1.0f : 0.0f;
+							pbuf.HasTextures.Y = material->NormalTexture != nullptr ? 1.0f : 0.0f;
+							pbuf.HasTextures.Z = material->SpecularTexture != nullptr ? 1.0f : 0.0f;
+
+							if (material->ColorTexture != nullptr)
+							{
+								m_shaderNormalDepth->SetTexture("g_colorTexture", material->ColorTexture, 0);
+							}
+
+							if (material->NormalTexture != nullptr)
+							{
+								m_shaderNormalDepth->SetTexture("g_normalTexture", material->NormalTexture, 1);
+							}
+
+							if (material->SpecularTexture != nullptr)
+							{
+								m_shaderNormalDepth->SetTexture("g_specularTexture", material->SpecularTexture, 2);
+							}
+						}
+						else
+						{
+							pbuf.HasTextures.X = 0.0f;
+							pbuf.HasTextures.Y = 0.0f;
+							pbuf.HasTextures.Z = 0.0f;
+						}
+
+						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
+						GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
+						GetGraphics()->SetShader(m_shaderNormalDepth.get());
+
+						auto& state = GetGraphics()->GetRenderState()->Push();
+						state.DepthTest = true;
+						state.DepthWrite = true;
+						state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
 						state.CullingType = CULLING_DOUBLE;
 						GetGraphics()->GetRenderState()->Update(false);
 

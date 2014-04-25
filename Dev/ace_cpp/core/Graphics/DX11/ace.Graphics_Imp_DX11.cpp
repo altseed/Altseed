@@ -12,7 +12,7 @@
 #include "Resource/ace.IndexBuffer_Imp_DX11.h"
 #include "Resource/ace.NativeShader_Imp_DX11.h"
 #include "Resource/ace.RenderState_Imp_DX11.h"
-#include "Resource/ace.RenderTexture_Imp_DX11.h"
+#include "Resource/ace.RenderTexture2D_Imp_DX11.h"
 #include "Resource/ace.DepthBuffer_Imp_DX11.h"
 
 #include <sstream>
@@ -396,9 +396,9 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 					auto t = (Texture2D_Imp_DX11*) tex;
 					rv = t->GetShaderResourceView();
 				}
-				else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE)
+				else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE2D)
 				{
-					auto t = (RenderTexture_Imp_DX11*) tex;
+					auto t = (RenderTexture2D_Imp_DX11*) tex;
 					rv = t->GetShaderResourceView();
 				}
 				
@@ -724,9 +724,9 @@ Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* gr
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-RenderTexture_Imp* Graphics_Imp_DX11::CreateRenderTexture_Imp(int32_t width, int32_t height, eTextureFormat format)
+RenderTexture2D_Imp* Graphics_Imp_DX11::CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format)
 {
-	return RenderTexture_Imp_DX11::Create(this, width, height, format);
+	return RenderTexture2D_Imp_DX11::Create(this, width, height, format);
 }
 
 //----------------------------------------------------------------------------------
@@ -740,7 +740,7 @@ DepthBuffer_Imp* Graphics_Imp_DX11::CreateDepthBuffer_Imp(int32_t width, int32_t
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Graphics_Imp_DX11::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer)
+void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer)
 {
 	// 強制リセット(テクスチャと描画先同時設定不可のため)
 	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
@@ -771,7 +771,7 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_
 
 	if (texture != nullptr)
 	{
-		rt = ((RenderTexture_Imp_DX11*) texture)->GetRenderTargetView();
+		rt = ((RenderTexture2D_Imp_DX11*) texture)->GetRenderTargetView();
 	}
 
 	if (depthBuffer != nullptr)
@@ -834,7 +834,7 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 		m_context->ClearRenderTargetView(m_currentBackRenderTargetView, ClearColor);
 	}
 
-	if (isDepthTarget)
+	if (isDepthTarget && m_currentDepthStencilView != nullptr)
 	{
 		m_context->ClearDepthStencilView(m_currentDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1.0f, 0);
 	}
