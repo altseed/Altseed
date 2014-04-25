@@ -131,6 +131,10 @@ namespace ace
 			goto End;
 		}
 
+		for (int32_t i = 0; i < 6; i++)
+		{
+			SafeDeleteArray(buffers[i]);
+		}
 		return new CubemapTexture_Imp_DX11(graphics, texture, srv);
 
 	End:;
