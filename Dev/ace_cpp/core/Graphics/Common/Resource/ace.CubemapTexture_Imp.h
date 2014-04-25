@@ -1,13 +1,16 @@
 
 #include "ace.CubemapTexture.h"
+#include "../ace.DeviceObject.h"
 
 namespace ace
 {
 	class CubemapTexture_Imp
 		: public CubemapTexture
-		, public ReferenceObject
+		, public DeviceObject
 	{
-	private:
+	protected:
+		CubemapTexture_Imp(Graphics* graphics);
+		virtual ~CubemapTexture_Imp();
 
 	public:
 
