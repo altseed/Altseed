@@ -265,6 +265,7 @@ CPP_OBJECT( ace::CorePostEffect_Imp )
 
 CPP_OBJECT( ace::SoundSource )
 
+CPP_OBJECT( ace::Texture )
 CPP_OBJECT( ace::Texture2D )
 CPP_OBJECT( ace::Texture2D_Imp )
 CPP_OBJECT( ace::RenderTexture2D )
@@ -363,6 +364,7 @@ namespace ace
 
 %include "ace_cpp/core/Graphics/Common/Resource/ace.Material2D.h"
 
+%include "ace_cpp/core/Graphics/Common/Resource/ace.Texture.h"
 %include "ace_cpp/core/Graphics/Common/Resource/ace.Texture2D.h"
 %include "ace_cpp/core/Graphics/Common/Resource/ace.Texture2D_Imp.h"
 %include "ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture2D.h"

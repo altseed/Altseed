@@ -1,4 +1,4 @@
-
+﻿
 #pragma once
 
 #include "../../Common/Resource/ace.CubemapTexture_Imp.h"

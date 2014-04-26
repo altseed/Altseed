@@ -484,6 +484,9 @@
     <ClInclude Include="..\core\Graphics\GL\Resource\ace.CubemapTexture_Imp_GL.h">
       <Filter>Graphics\GL\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Resource\ace.Texture.h">
+      <Filter>Graphics\Common\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">

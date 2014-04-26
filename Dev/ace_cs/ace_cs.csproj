@@ -182,6 +182,7 @@
     <Compile Include="swig\SideButton.cs" />
     <Compile Include="swig\Sound.cs" />
     <Compile Include="swig\SoundSource.cs" />
+    <Compile Include="swig\Texture.cs" />
     <Compile Include="swig\Texture2D.cs" />
     <Compile Include="swig\Texture2D_Imp.cs" />
     <Compile Include="swig\Window.cs" />

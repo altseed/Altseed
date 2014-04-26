@@ -28,8 +28,11 @@ namespace ace {
 	class Sound;
 	class SoundSource;
 
+	class Texture;
 	class Texture2D;
 	class RenderTexture2D;
+	class CubemapTexture;
+
 	class Shader2D;
 	class Material2D;
 
