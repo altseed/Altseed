@@ -51,6 +51,7 @@ namespace ace
 
 	void RenderedObject3D::SetPosition(const Vector3DF& pos)
 	{
+		if (m_commonValues.position != pos) m_commonValues.isChanged = true;
 		m_commonValues.position = pos;
 	}
 

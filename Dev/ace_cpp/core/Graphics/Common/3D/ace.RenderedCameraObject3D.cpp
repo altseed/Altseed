@@ -194,9 +194,9 @@ namespace ace
 				m_values_FR.zfar);
 		}
 		
-
+		auto pos = GetPosition_FR();
 		m_values_FR.cameraMatrix.SetLookAtRH(
-			GetPosition_FR(),
+			pos,
 			m_values_FR.focus,
 			Vector3DF(0, 1, 0));
 	}

@@ -809,10 +809,10 @@ float4 main( const PS_Input Input ) : SV_Target
 
 
 					SSAOConstantPixelBuffer& cpbuf = m_ssaoShader->GetPixelConstantBuffer<SSAOConstantPixelBuffer>();
-					cpbuf.Radius = 0.2f;
+					cpbuf.Radius = 0.1f;
 					cpbuf.ProjScale = c->GetWindowSize().Y * yScale / 2.0f;
-					cpbuf.Bias = 0.1f;
-					cpbuf.Intensity = 5.0f;
+					cpbuf.Bias = 0.001f;
+					cpbuf.Intensity = 1.0f;
 					cpbuf.ReconstructInfo1[0] = c->GetZNear_FR() * c->GetZFar_FR();
 					cpbuf.ReconstructInfo1[1] = c->GetZFar_FR() - c->GetZNear_FR();
 					cpbuf.ReconstructInfo1[2] = -c->GetZFar_FR();
