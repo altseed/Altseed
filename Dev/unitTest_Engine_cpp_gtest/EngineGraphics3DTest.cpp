@@ -61,7 +61,6 @@ void EngineGraphics3DTest::OnStart()
 
 void EngineGraphics3DTest::OnUpdating()
 {
-
 	{
 		auto mousePos = ace::Engine::GetMouse()->GetPosition();
 		auto d = mousePos - m_mousePos;
@@ -72,8 +71,8 @@ void EngineGraphics3DTest::OnUpdating()
 
 			if (m_cameraRotX > 90.0f) m_cameraRotX = 90.0f;
 			if (m_cameraRotX < -90.0f) m_cameraRotX = -90.0f;
-			if (m_cameraRotY < -180.0f) m_cameraRotY += 360.0f;
-			if (m_cameraRotY > 180.0f) m_cameraRotY -= 360.0f;
+			if (m_cameraRotY < -180.0f) m_cameraRotY = -180.0f;
+			if (m_cameraRotY > 180.0f) m_cameraRotY = 180.0f;
 		}
 
 		if (ace::Engine::GetMouse()->GetRightButton()->GetButtonState() == ace::eMouseButtonState::MOUSE_HOLD)

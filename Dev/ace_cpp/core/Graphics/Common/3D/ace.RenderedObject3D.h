@@ -21,7 +21,12 @@ namespace ace
 		Matrix44	ProjectionMatrix;
 		Color		DirectionalLightColor;
 		Vector3DF	DirectionalLightDirection;
+		Matrix44	LightCameraMatrix;
 		Matrix44	LightProjectionMatrix;
+
+		float		DepthRange;
+		float		ZFar;
+		float		ZNear;
 
 		RenderTexture2D_Imp*	ShadowMapPtr;
 		RenderTexture2D_Imp*	SSAOPtr;
@@ -31,7 +36,12 @@ namespace ace
 	class RenderingShadowMapProperty
 	{
 	public:
-		Matrix44	LightProjectionMatrix;
+		Matrix44	CameraMatrix;
+		Matrix44	ProjectionMatrix;
+
+		float		DepthRange;
+		float		ZFar;
+		float		ZNear;
 	};
 
 	/**

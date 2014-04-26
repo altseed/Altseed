@@ -20,10 +20,13 @@ namespace ace
 float4x4	matM[32]					: register( c0 );
 float4x4	matC						: register( c128 );
 float4x4	matP						: register( c132 );
-float4x4	matLCP						: register( c136 );
+float4x4	matLC						: register( c136 );
+float4x4	matLP						: register( c140 );
 
-float3		directionalLightDirection	: register( c140 );
-float3		directionalLightColor		: register( c141 );
+float3		depthParams					: register( c144 );
+
+float3		directionalLightDirection	: register( c145 );
+float3		directionalLightColor		: register( c146 );
 
 struct VS_Input
 {
@@ -41,8 +44,13 @@ struct VS_Input
 struct VS_Output
 {
 	float4 Position		: SV_POSITION;
-	float4 Pos			: POSITION0;
-	float4 LightPos	: Light0;
+	float4 Pos			: POSITION0;	
+
+	float4 LightPos		: Light0;
+
+	float Depth			: POSITION1;
+	float LightDepth	: Light1;
+
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
 	half3 Normal	: NORMAL0;
@@ -63,7 +71,7 @@ VS_Output main( const VS_Input Input )
 
 	float4x4 matLocal = calcMatrix(Input.BoneWeights,Input.BoneIndexes);
 	float4x4 matMC = mul(matC, matLocal);
-	float4x4 matMLCP = mul(matLCP, matLocal);
+	float4x4 matMLC = mul(matLC, matLocal);
 
 	float4 cPosition = mul( matMC, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
 	cPosition = cPosition / cPosition.w;
@@ -78,12 +86,16 @@ VS_Output main( const VS_Input Input )
 
 	Output.Position = mul( matP, cPosition );
 	Output.Pos = Output.Position;
-	Output.LightPos = mul( matMLCP, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
-
+	Output.Depth = (-cPosition.z - depthParams.z) / depthParams.x;
 	Output.Normal = (half3)cNormal.xyz;
 	Output.UV = Input.UV;
 	Output.Color.xyz = directionalLightColor * max( dot(cDirectionalLightDirection.xyz,cNormal.xyz), 0.0 ) + 0.2;
 	Output.Color.w = 1.0;
+
+	Output.LightPos = mul( matMLC, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+	Output.LightDepth = (-Output.LightPos.z - depthParams.z) / depthParams.x;
+	Output.LightPos = mul( matLP, Output.LightPos );
+
 	return Output;
 }
 
@@ -95,13 +107,19 @@ struct PS_Input
 {
 	float4 Position		: SV_POSITION;
 	float4 Pos			: POSITION0;
-	float4 LightPos	: Light0;
+
+	float4 LightPos		: Light0;
+
+	float Depth			: POSITION1;
+	float LightDepth	: Light1;
+
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
 	half3 Normal	: NORMAL0;
 };
 
 float4		hasTextures	: register( c0 );
+float3		depthParams_	: register( c1 );
 
 Texture2D		g_colorTexture		: register( t0 );
 SamplerState	g_colorSampler		: register( s0 );
@@ -123,8 +141,12 @@ float VSM(float2 moments, float t)
 	float ex = moments.x;
 	float ex2 = moments.y;
 
-	float p = (t <= ex);
+	float p = 0.0;
+	if (t <= ex) p = 1.0;
+
 	float variance = ex2 - ex * ex;
+	variance = max(variance, 0.4 / (depthParams_.x * depthParams_.x));
+
 	float d = t - ex;
 	float p_max = variance / (variance + d * d);
 	return max(p, p_max);
@@ -144,22 +166,18 @@ float4 main( const PS_Input Input ) : SV_Target
 	// SSAO
 	float2 ssaoUV = float2( (Input.Pos.x / Input.Pos.w + 1.0) / 2.0, (-Input.Pos.y / Input.Pos.w + 1.0) / 2.0 );
 	float a = g_ssaoTexture.Sample(g_ssaoSampler, ssaoUV).x;
+	//a = 1.0;
 
 	// shadow
 	float2 shadowUV = float2( (Input.LightPos.x / Input.LightPos.w + 1.0) / 2.0, 1.0 - (Input.LightPos.y / Input.LightPos.w + 1.0) / 2.0 );
-	float lightDepthZ = Input.LightPos.z / Input.LightPos.w;
+	float lightDepthZ = Input.LightDepth;
 
 	float2 shadowParam = g_shadowTexture.Sample(g_shadowSampler, shadowUV).xy;
 
-	float p = VSM(shadowParam, lightDepthZ - 0.02 );
+	float shadow = VSM(shadowParam, lightDepthZ );
 
-	//float bias = 0.01;
-	//if(shadowZ > g_shadowTexture.Sample(g_shadowSampler, shadowUV).r + bias )
-	//{
-	//	Output.rgb = Output.rgb * 0.5;
-	//}
 
-	Output.rgb = Output.rgb * p * a;
+	Output.rgb = Output.rgb * shadow * a;
 	return Output;
 }
 
@@ -172,6 +190,10 @@ struct PS_Input
 	float4 Position		: SV_POSITION;
 	float4 Pos			: POSITION0;
 	float4 LightPos	: Light0;
+
+	float Depth			: POSITION1;
+	float LightDepth	: Light1;
+
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
 	half3 Normal	: NORMAL0;
@@ -199,7 +221,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	}
 	if(Output.a == 0.0f) discard;
 	
-	float color = Input.Pos.z / Input.Pos.w;
+	float color = Input.Depth;
 	return float4( color, color * color, 0, 1 );
 }
 
@@ -212,6 +234,10 @@ struct PS_Input
 	float4 Position		: SV_POSITION;
 	float4 Pos			: POSITION0;
 	float4 LightPos	: Light0;
+
+	float Depth			: POSITION1;
+	float LightDepth	: Light1;
+
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
 	half3 Normal	: NORMAL0;
@@ -239,7 +265,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	}
 	if(Output.a == 0.0f) discard;
 	
-	float depth = Input.Pos.z / Input.Pos.w;
+	float depth = Input.Depth;
 	return float4( (Input.Normal.x + 1.0) / 2.0, (Input.Normal.y + 1.0) / 2.0, (Input.Normal.z + 1.0) / 2.0, depth );
 }
 
@@ -260,7 +286,10 @@ attribute vec4 BoneIndexesOriginal;
 uniform mat4		matM[32];
 uniform mat4		matC;
 uniform mat4		matP;
-uniform mat4		matLCP;
+uniform mat4		matLC;
+uniform mat4		matLP;
+
+uniform vec3		depthParams;
 
 uniform vec3		directionalLightDirection;
 uniform vec3		directionalLightColor;
@@ -270,6 +299,9 @@ varying vec4 vaLightPos;
 varying vec2 vaUV;
 varying vec4 vaColor;
 varying vec3 vaNormal;
+
+varying float vaDepth;
+varying float vaLightDepth;
 
 mat4 calcMatrix(vec4 weights, vec4 indexes)
 {
@@ -285,7 +317,7 @@ void main()
 
 	mat4 matLocal = calcMatrix(BoneWeights,BoneIndexes);
 	mat4 matMC = matC * matLocal;
-	mat4 matMLCP = matLCP * matLocal;
+	mat4 matMLC = matLC * matLocal;
 
 	vec4 cPosition = matMC * vec4( Position.x, Position.y, Position.z, 1.0 );
 	cPosition = cPosition / cPosition.w;
@@ -299,12 +331,15 @@ void main()
 	vec3 cDirectionalLightDirection = (matC * vec4(directionalLightDirection, 0.0) ).xyz;
 
 	vaPos = matP * cPosition;
-	vaLightPos = matMLCP * vec4( Position.x, Position.y, Position.z, 1.0 );
-
+	vaDepth = (-cPosition.z - depthParams.z) / depthParams.x;
 	vaNormal = cNormal.xyz;
 	vaUV = UV;
 	vaColor.xyz = directionalLightColor * max( dot(cDirectionalLightDirection.xyz,cNormal.xyz), 0.0 ) + 0.2;
 	vaColor.w = 1.0;
+
+	vaLightPos = matMLC * vec4( Position.x, Position.y, Position.z, 1.0 );
+	vaLightDepth = (-vaLightPos.z - depthParams.z) / depthParams.x;
+	vaLightPos = matLP * vaLightPos;
 
 	gl_Position = vaPos;
 }
@@ -319,7 +354,11 @@ varying vec2 vaUV;
 varying vec4 vaColor;
 varying vec3 vaNormal;
 
+varying float vaDepth;
+varying float vaLightDepth;
+
 uniform vec4 hasTextures;
+uniform vec3 depthParams_;
 
 uniform sampler2D g_colorTexture;
 uniform sampler2D g_normalTexture;
@@ -338,6 +377,7 @@ float VSM(vec2 moments, float t)
 	}
 
 	float variance = ex2 - ex * ex;
+	variance = max(variance, 0.4 / (depthParams_.x * depthParams_.x));
 	float d = t - ex;
 	float p_max = variance / (variance + d * d);
 	return max(p, p_max);
@@ -362,23 +402,13 @@ void main()
 
 	// shadow
 	vec2 shadowUV = vec2( (vaLightPos.x / vaLightPos.w + 1.0) / 2.0, (vaLightPos.y / vaLightPos.w + 1.0) / 2.0 );
-	float shadowZ = vaLightPos.z / vaLightPos.w;
-	shadowZ = (shadowZ + 1.0) / 2.0;
+	float shadowZ = vaLightDepth;
 
-	float p = VSM(texture2D(g_shadowTexture, shadowUV).xy, shadowZ - 0.02 );
+	float2 shadowParam = texture2D(g_shadowTexture, shadowUV).xy;
 
-	/*
-	float bias = 0.01;
-	if(shadowZ > texture2D(g_shadowTexture, shadowUV).r + bias )
-	{
-		gl_FragColor.rgb = gl_FragColor.rgb * 0.5;
-	}
-	*/
+	float p = VSM(shadowParam, shadowZ );
 
 	gl_FragColor.rgb = gl_FragColor.rgb * p;
-
-	//gl_FragColor.r = shadowZ;
-	//gl_FragColor.g = texture2D(g_shadowTexture, shadowUV).r;
 }
 
 )";
@@ -389,8 +419,11 @@ varying vec4 vaLightPos;
 varying vec2 vaUV;
 varying vec4 vaColor;
 varying vec3 vaNormal;
+varying float vaDepth;
+varying float vaLightDepth;
 
 uniform vec4 hasTextures;
+uniform vec3 depthParams_;
 
 uniform sampler2D g_colorTexture;
 uniform sampler2D g_normalTexture;
@@ -413,7 +446,7 @@ void main()
 
 	if(gl_FragColor.a == 0.0) discard;
 
-	float color = (vaPos.z / vaPos.w + 1.0) / 2.0;
+	float color = vaDepth;
 	gl_FragColor= vec4( color, color * color, 0, 1 );
 }
 
@@ -425,8 +458,11 @@ varying vec4 vaLightPos;
 varying vec2 vaUV;
 varying vec4 vaColor;
 varying vec3 vaNormal;
+varying float vaDepth;
+varying float vaLightDepth;
 
 uniform vec4 hasTextures;
+uniform vec3 depthParams_;
 
 uniform sampler2D g_colorTexture;
 uniform sampler2D g_normalTexture;
@@ -449,7 +485,7 @@ void main()
 
 	if(gl_FragColor.a == 0.0) discard;
 
-	float depth = (vaPos.z / vaPos.w + 1.0) / 2.0;
+	float depth = vaDepth;
 	gl_FragColor= vec4( (vaNormal.x + 1.0) / 2.0, (vaNormal.y + 1.0) / 2.0, (vaNormal.z + 1.0) / 2.0, depth );
 }
 
@@ -601,7 +637,7 @@ void main()
 		vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
 
 		std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
-		constantBuffers_vs.resize(6);
+		constantBuffers_vs.resize(8);
 		constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
 		constantBuffers_vs[0].Name = std::string("matM");
 		constantBuffers_vs[0].Offset = 0;
@@ -616,23 +652,35 @@ void main()
 		constantBuffers_vs[2].Offset = sizeof(Matrix44) * 33;
 
 		constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-		constantBuffers_vs[3].Name = std::string("matLCP");
+		constantBuffers_vs[3].Name = std::string("matLC");
 		constantBuffers_vs[3].Offset = sizeof(Matrix44) * 34;
 
-		constantBuffers_vs[4].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-		constantBuffers_vs[4].Name = std::string("directionalLightDirection");
+		constantBuffers_vs[4].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+		constantBuffers_vs[4].Name = std::string("matLP");
 		constantBuffers_vs[4].Offset = sizeof(Matrix44) * 35;
 
 		constantBuffers_vs[5].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-		constantBuffers_vs[5].Name = std::string("directionalLightColor");
-		constantBuffers_vs[5].Offset = sizeof(Matrix44) * 35 + sizeof(float) * 4;
+		constantBuffers_vs[5].Name = std::string("depthParams");
+		constantBuffers_vs[5].Offset = sizeof(Matrix44) * 36 + sizeof(float) * 0;
+
+		constantBuffers_vs[6].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+		constantBuffers_vs[6].Name = std::string("directionalLightDirection");
+		constantBuffers_vs[6].Offset = sizeof(Matrix44) * 36 + sizeof(float) * 4;
+
+		constantBuffers_vs[7].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+		constantBuffers_vs[7].Name = std::string("directionalLightColor");
+		constantBuffers_vs[7].Offset = sizeof(Matrix44) * 36 + sizeof(float) * 8;
 
 
 		std::vector<ace::ConstantBufferInformation> constantBuffers_ps;
-		constantBuffers_ps.resize(1);
+		constantBuffers_ps.resize(2);
 		constantBuffers_ps[0].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT4;
 		constantBuffers_ps[0].Name = std::string("hasTextures");
 		constantBuffers_ps[0].Offset = 0;
+
+		constantBuffers_ps[1].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+		constantBuffers_ps[1].Name = std::string("depthParams_");
+		constantBuffers_ps[1].Offset = sizeof(float) * 4;
 
 		{
 			std::vector<ace::Macro> macro;
@@ -700,9 +748,9 @@ void main()
 			{
 				m_shaderNormalDepth = GetGraphics()->CreateShader_Imp(
 					gl_vs,
-					"shadow_vs",
+					"nd_vs",
 					gl_normal_depth_ps,
-					"shadow_ps",
+					"nd_ps",
 					vl,
 					macro);
 			}
@@ -710,9 +758,9 @@ void main()
 			{
 				m_shaderNormalDepth = GetGraphics()->CreateShader_Imp(
 					dx_vs,
-					"shadow_vs",
+					"nd_vs",
 					dx_normal_depth_ps,
-					"shadow_ps",
+					"nd_ps",
 					vl,
 					macro);
 			}
@@ -906,7 +954,11 @@ void main()
 				{
 					vbuf.CMatrix = prop.CameraMatrix;
 					vbuf.PMatrix = prop.ProjectionMatrix;
-					vbuf.LightVPMatrix = prop.LightProjectionMatrix;
+					vbuf.LightCMatrix = prop.LightCameraMatrix;
+					vbuf.LightPMatrix = prop.LightProjectionMatrix;
+					vbuf.DepthRange = prop.DepthRange;
+					vbuf.ZFar = prop.ZFar;
+					vbuf.ZNear = prop.ZNear;
 				}
 
 				{
@@ -996,6 +1048,10 @@ void main()
 							pbuf.HasTextures.W = 0.0f;
 						}
 
+						pbuf.DepthRange = vbuf.DepthRange;
+						pbuf.ZFar = vbuf.ZFar;
+						pbuf.ZNear = pbuf.ZNear;
+
 						if (prop.SSAOPtr != nullptr)
 						{
 							m_shader->SetTexture("g_ssaoTexture", prop.SSAOPtr, 4);
@@ -1010,6 +1066,7 @@ void main()
 						state.DepthWrite = true;
 						state.CullingType = CULLING_DOUBLE;
 						state.TextureFilterTypes[3] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+						state.TextureFilterTypes[4] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
 						GetGraphics()->GetRenderState()->Update(false);
 
 						GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
@@ -1070,9 +1127,13 @@ void main()
 				}
 
 				{
-					vbuf.CMatrix = Matrix44();
-					vbuf.PMatrix = prop.LightProjectionMatrix;
-					vbuf.LightVPMatrix = prop.LightProjectionMatrix;
+					vbuf.CMatrix = prop.CameraMatrix;
+					vbuf.PMatrix = prop.ProjectionMatrix;
+					vbuf.LightCMatrix = prop.CameraMatrix;
+					vbuf.LightPMatrix = prop.ProjectionMatrix;
+					vbuf.DepthRange = prop.DepthRange;
+					vbuf.ZFar = prop.ZFar;
+					vbuf.ZNear = prop.ZNear;
 				}
 
 				auto& boneOffsets = mesh->GetBoneOffsets();
@@ -1145,6 +1206,10 @@ void main()
 							pbuf.HasTextures.Z = 0.0f;
 						}
 
+						pbuf.DepthRange = vbuf.DepthRange;
+						pbuf.ZFar = vbuf.ZFar;
+						pbuf.ZNear = pbuf.ZNear;
+
 						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
 						GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
 						GetGraphics()->SetShader(m_shaderShadow.get());
@@ -1215,7 +1280,11 @@ void main()
 				{
 					vbuf.CMatrix = prop.CameraMatrix;
 					vbuf.PMatrix = prop.ProjectionMatrix;
-					vbuf.LightVPMatrix = prop.LightProjectionMatrix;
+					vbuf.LightCMatrix = prop.LightCameraMatrix;
+					vbuf.LightPMatrix = prop.LightProjectionMatrix;
+					vbuf.DepthRange = prop.DepthRange;
+					vbuf.ZFar = prop.ZFar;
+					vbuf.ZNear = prop.ZNear;
 				}
 
 				auto& boneOffsets = mesh->GetBoneOffsets();
@@ -1287,6 +1356,10 @@ void main()
 							pbuf.HasTextures.Y = 0.0f;
 							pbuf.HasTextures.Z = 0.0f;
 						}
+
+						pbuf.DepthRange = vbuf.DepthRange;
+						pbuf.ZFar = vbuf.ZFar;
+						pbuf.ZNear = pbuf.ZNear;
 
 						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
 						GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
