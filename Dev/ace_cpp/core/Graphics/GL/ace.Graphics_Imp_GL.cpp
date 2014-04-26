@@ -648,6 +648,11 @@ Texture2D_Imp* Graphics_Imp_GL::CreateEmptyTexture2D_Imp_Internal(Graphics* grap
 	return ret;
 }
 
+CubemapTexture* Graphics_Imp_GL::CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
+{
+	return CubemapTexture_Imp_GL::Create(this, front, left, back, right, top, bottom);
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

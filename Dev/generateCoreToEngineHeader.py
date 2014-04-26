@@ -79,6 +79,7 @@ fromCoreToEngine.readLines("ace_cpp/core/Sound/ace.Sound.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Texture.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Texture2D.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture2D.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.CubemapTexture.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Shader2D.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Material2D.h")
 

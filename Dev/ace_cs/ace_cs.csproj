@@ -54,6 +54,7 @@
     <Compile Include="Graphics\Animation\AnimationSource.cs" />
     <Compile Include="Graphics\Animation\AnimationSystem.cs" />
     <Compile Include="Graphics\Animation\KeyframeAnimation.cs" />
+    <Compile Include="Graphics\CubemapTexture.cs" />
     <Compile Include="Graphics\Def.cs" />
     <Compile Include="Graphics\Color.cs" />
     <Compile Include="Graphics\Deformer.cs" />
@@ -65,6 +66,7 @@
     <Compile Include="Graphics\RenderTexture2D.cs" />
     <Compile Include="Graphics\Shader2D.cs" />
     <Compile Include="Graphics\ShaderVariableProperty.cs" />
+    <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Input\IMouseButtonState.cs" />
     <Compile Include="Input\IMouseWheelableButtonState.cs" />
@@ -127,6 +129,7 @@
     <Compile Include="swig\CoreScene.cs" />
     <Compile Include="swig\CoreTextureObject2D.cs" />
     <Compile Include="swig\Core_Imp.cs" />
+    <Compile Include="swig\CubemapTexture.cs" />
     <Compile Include="swig\Deformer.cs" />
     <Compile Include="swig\eAlphaBlend.cs" />
     <Compile Include="swig\eChildMode.cs">

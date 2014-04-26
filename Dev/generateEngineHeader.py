@@ -90,6 +90,7 @@ engineHeader.readLines("ace_cpp/core/Sound/ace.Sound.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Texture.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Texture2D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture2D.h")
+engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.CubemapTexture.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Shader2D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Common/Resource/ace.Material2D.h")
 

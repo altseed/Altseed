@@ -6,6 +6,9 @@
 
 namespace ace
 {
+	/**
+	@brief	キューブマップ
+	*/
 	class CubemapTexture
 		: public IReference
 	{
