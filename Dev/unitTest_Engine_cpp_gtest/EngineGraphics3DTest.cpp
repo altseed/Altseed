@@ -84,8 +84,8 @@ void EngineGraphics3DTest::OnUpdating()
 			up = look.Transform3D(up);
 			right = look.Transform3D(right);
 
-			auto dx = -d.X / 10.0f;
-			auto dy = -d.Y / 10.0f;
+			auto dx = -d.X / 200.0f * m_cameraDistance;
+			auto dy =  d.Y / 200.0f * m_cameraDistance;
 
 			up.X = up.X * (dy);
 			up.Y = up.Y * (dy);
@@ -96,6 +96,11 @@ void EngineGraphics3DTest::OnUpdating()
 
 			ace::Vector3DF v = up + right;
 			m_cameraFocus += v;
+		}
+
+		if (ace::Engine::GetMouse()->GetMiddleButton()->GetRotation() != 0)
+		{
+			m_cameraDistance += ace::Engine::GetMouse()->GetMiddleButton()->GetRotation();
 		}
 
 		m_mousePos = mousePos;
