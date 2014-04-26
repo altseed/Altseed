@@ -7,13 +7,15 @@
 
 #include "../../Log/ace.Log.h"
 #include "../../Window/ace.Window_Imp.h"
-#include "Resource/ace.Texture2D_Imp_DX11.h"
 #include "Resource/ace.VertexBuffer_Imp_DX11.h"
 #include "Resource/ace.IndexBuffer_Imp_DX11.h"
 #include "Resource/ace.NativeShader_Imp_DX11.h"
 #include "Resource/ace.RenderState_Imp_DX11.h"
-#include "Resource/ace.RenderTexture_Imp_DX11.h"
 #include "Resource/ace.DepthBuffer_Imp_DX11.h"
+
+#include "Resource/ace.Texture2D_Imp_DX11.h"
+#include "Resource/ace.RenderTexture2D_Imp_DX11.h"
+#include "Resource/ace.CubemapTexture_Imp_DX11.h"
 
 #include <sstream>
 
@@ -385,7 +387,7 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 		// テクスチャの設定
 		for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
 		{
-			Texture2D* tex = nullptr;
+			Texture* tex = nullptr;
 			char* texName = nullptr;
 			if (shader->GetTexture(texName, tex, i))
 			{
@@ -396,12 +398,17 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 					auto t = (Texture2D_Imp_DX11*) tex;
 					rv = t->GetShaderResourceView();
 				}
-				else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE)
+				else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE2D)
 				{
-					auto t = (RenderTexture_Imp_DX11*) tex;
+					auto t = (RenderTexture2D_Imp_DX11*) tex;
 					rv = t->GetShaderResourceView();
 				}
-				
+				else if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+				{
+					auto t = (CubemapTexture_Imp_DX11*) tex;
+					rv = t->GetShaderResourceView();
+				}
+
 				// 頂点シェーダーに設定
 				GetContext()->VSSetShaderResources(i, 1, &rv);
 
@@ -724,9 +731,14 @@ Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* gr
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-RenderTexture_Imp* Graphics_Imp_DX11::CreateRenderTexture_Imp(int32_t width, int32_t height, eTextureFormat format)
+RenderTexture2D_Imp* Graphics_Imp_DX11::CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format)
 {
-	return RenderTexture_Imp_DX11::Create(this, width, height, format);
+	return RenderTexture2D_Imp_DX11::Create(this, width, height, format);
+}
+
+CubemapTexture* Graphics_Imp_DX11::CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
+{
+	return CubemapTexture_Imp_DX11::Create(this, front, left, back, right, top, bottom);
 }
 
 //----------------------------------------------------------------------------------
@@ -740,7 +752,7 @@ DepthBuffer_Imp* Graphics_Imp_DX11::CreateDepthBuffer_Imp(int32_t width, int32_t
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void Graphics_Imp_DX11::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer)
+void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer)
 {
 	// 強制リセット(テクスチャと描画先同時設定不可のため)
 	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
@@ -771,7 +783,7 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_
 
 	if (texture != nullptr)
 	{
-		rt = ((RenderTexture_Imp_DX11*) texture)->GetRenderTargetView();
+		rt = ((RenderTexture2D_Imp_DX11*) texture)->GetRenderTargetView();
 	}
 
 	if (depthBuffer != nullptr)

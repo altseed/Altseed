@@ -29,8 +29,8 @@ namespace ace
 		std::list<LayerPtr> m_layers;
 
 		Graphics_Imp*		m_graphics;
-		RenderTexture_Imp*	m_baseTarget0;
-		RenderTexture_Imp*	m_baseTarget1;
+		RenderTexture2D_Imp*	m_baseTarget0;
+		RenderTexture2D_Imp*	m_baseTarget1;
 		int32_t				m_targetIndex;
 
 		CoreScene_Imp(Graphics* graphics, Vector2DI windowSize);

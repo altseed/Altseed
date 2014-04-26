@@ -3,7 +3,7 @@
 
 #include "../ace.Graphics_Imp.h"
 
-#include "../Resource/ace.RenderTexture_Imp.h"
+#include "../Resource/ace.RenderTexture2D_Imp.h"
 #include "../Resource/ace.DepthBuffer_Imp.h"
 
 namespace ace
@@ -14,7 +14,7 @@ namespace ace
 		m_values.color = Color(255, 255, 255, 255);
 		m_values_FR.color = Color(255, 255, 255, 255);
 
-		m_shadowTexture = GetGraphics()->CreateRenderTexture_Imp(ShadowBufferSize, ShadowBufferSize, eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
+		m_shadowTexture = GetGraphics()->CreateRenderTexture2D_Imp(ShadowBufferSize, ShadowBufferSize, eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
 		m_shadowDepthBuffer = GetGraphics()->CreateDepthBuffer_Imp(ShadowBufferSize, ShadowBufferSize);
 	}
 

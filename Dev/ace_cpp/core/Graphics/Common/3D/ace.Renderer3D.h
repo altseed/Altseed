@@ -105,7 +105,7 @@ namespace ace
 
 		Vector2DI				m_windowSize;
 
-		RenderTexture_Imp*		m_renderTarget;
+		RenderTexture2D_Imp*		m_renderTarget;
 
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_pasteVertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_pasteIndexBuffer;
@@ -119,6 +119,8 @@ namespace ace
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_ssaoVertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_ssaoIndexBuffer;
 		std::shared_ptr<ace::NativeShader_Imp>	m_ssaoShader;
+		std::shared_ptr<ace::NativeShader_Imp>	m_ssaoBlurXShader;
+		std::shared_ptr<ace::NativeShader_Imp>	m_ssaoBlurYShader;
 
 		std::shared_ptr<RenderTexture2D>		m_shadowTempTexture;
 
@@ -143,7 +145,7 @@ namespace ace
 		void BeginRendering();
 		void EndRendering();
 
-		RenderTexture_Imp* GetRenderTarget();
+		RenderTexture2D_Imp* GetRenderTarget();
 
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
 	};

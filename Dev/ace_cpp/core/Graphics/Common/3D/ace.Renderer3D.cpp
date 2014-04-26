@@ -360,7 +360,7 @@ struct PS_Input
 };
 
 // サンプル数
-#define NUM_SAMPLES (9)
+#define NUM_SAMPLES (13)
 
 // サンプル時の回転数
 #define NUM_TURNS (7)
@@ -453,6 +453,13 @@ float4 SampleAO(float3 centerPos, float2 centerUV, float3 normal, float sRadius,
 	return f * f * f * max((vn - bias) / (epsilon + vv), 0.0);
 }
 
+float2 CompressValue(float value)
+{
+	float temp = floor(value * 256.0);
+	return float2( temp * (1.0 / 256.0), value * 256.0 - temp );
+}
+
+
 float4 main( const PS_Input Input ) : SV_Target
 {
 	int2 sPos = GetScreenPixelPos(Input.UV);
@@ -485,7 +492,87 @@ float4 main( const PS_Input Input ) : SV_Target
 		A -= ddy(A) * ((sPos.y & 1) - 0.5);
 	}
 
-	return float4(A,A,A,1.0);
+	float2 compressedDepth = CompressValue(centerPos.z);
+	return float4(A,compressedDepth.x,compressedDepth.y,1.0);
+}
+
+)";
+
+	static const char* ssao_blur_dx_ps = R"(
+
+struct PS_Input
+{
+	float4 Pos		: SV_POSITION;
+	float2 UV		: TEXCOORD0;
+};
+
+Texture2D		g_texture		: register( t0 );
+SamplerState	g_sampler		: register( s0 );
+
+float GetValue(float2 uv)
+{
+	return g_texture.Sample(g_sampler, uv).x;
+}
+
+float2 GetCompressedDepth(float2 uv)
+{
+	return g_texture.Sample(g_sampler, uv).yz;
+}
+
+float DecompressValue(float2 compressed)
+{
+	return compressed.x + compressed.y * (1.0 / 256.0);
+}
+
+float GetDepth(float2 uv)
+{
+	float2 compressed = GetCompressedDepth(uv);
+	return DecompressValue(compressed);
+}
+
+float4 main( const PS_Input Input ) : SV_Target
+{
+	const int radius = 4;
+	const float scale = 1.0;
+	const float gaussian[] = { 0.144760504, 0.129537389, 0.103725441, 0.0743225217, 0.0476541445 };
+	const float intensity = 700.0;
+
+	uint width, height;
+	g_texture.GetDimensions(width, height);
+	float scaleX = scale / (float)width;
+	float scaleY = scale / (float)height;
+
+	float baseDepth = GetDepth( Input.UV );
+
+	float sum = 0.0;
+	float weightSum = 0.0;
+
+	[unroll]
+	for(int r = -radius; r <= radius; r++)
+	{
+#if BLUR_X
+		float2 uv = Input.UV + float2(r * scaleX, 0.0);
+#endif
+
+#if BLUR_Y
+		float2 uv = Input.UV + float2(0.0, r * scaleY);
+#endif
+
+		float depth = GetDepth( uv );
+		
+		float weight =  gaussian[abs(r)];
+		weight = weight * max(0.0, 1.0 - intensity * abs(depth-baseDepth) );
+		
+		float value = GetValue( uv);
+		
+		sum += value * weight;
+		weightSum += weight;
+	}
+
+	const float epsilon = 0.0001;
+	float a = sum / (weightSum + epsilon);
+
+	return float4(a, GetCompressedDepth(Input.UV), 1.0 );
 }
 
 )";
@@ -590,7 +677,7 @@ float4 main( const PS_Input Input ) : SV_Target
 			prop.ProjectionMatrix = c->GetProjectionMatrix_FR();
 
 			// シャドウマップ作成
-			RenderTexture_Imp* shadowMap = nullptr;
+			RenderTexture2D_Imp* shadowMap = nullptr;
 			if (rendering.directionalLightObjects.size() > 0)
 			{
 				auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
@@ -636,7 +723,7 @@ float4 main( const PS_Input Input ) : SV_Target
 				weights.W = ws[3] / total;
 
 				{
-					g->SetRenderTarget((RenderTexture_Imp*) m_shadowTempTexture.get(), nullptr);
+					g->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 					m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_FR(), 0);
@@ -685,7 +772,7 @@ float4 main( const PS_Input Input ) : SV_Target
 
 			}
 			prop.ShadowMapPtr = shadowMap;
-
+			
 			// 影用デバッグコード
 			//prop.CameraProjectionMatrix = prop.LightProjectionMatrix;
 
@@ -703,52 +790,103 @@ float4 main( const PS_Input Input ) : SV_Target
 			// SSAO
 			if (m_ssaoShader != nullptr)
 			{
-				g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());
-				g->Clear(true, false, ace::Color(0, 0, 0, 255));
-			
-				m_ssaoShader->SetTexture("g_texture", c->GetRenderTargetDepth_FR(), 0);
+				{
+					g->SetRenderTarget(c->GetRenderTargetSSAO_FR(), nullptr);
+					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-				auto& cvbuf = m_ssaoShader->GetVertexConstantBuffer<SSAOConstantVertexBuffer>();
-				cvbuf.Size[0] = m_windowSize.X;
-				cvbuf.Size[1] = m_windowSize.Y;
+					m_ssaoShader->SetTexture("g_texture", c->GetRenderTargetDepth_FR(), 0);
 
-				auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
-				auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
+					auto& cvbuf = m_ssaoShader->GetVertexConstantBuffer<SSAOConstantVertexBuffer>();
+					cvbuf.Size[0] = m_windowSize.X;
+					cvbuf.Size[1] = m_windowSize.Y;
 
-				// DirectX
-				float yScale = 1 / tanf(fov / 2);
-				float xScale = yScale / aspect;
+					auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
+					auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
+
+					// DirectX
+					float yScale = 1 / tanf(fov / 2);
+					float xScale = yScale / aspect;
 
 
-				SSAOConstantPixelBuffer& cpbuf = m_ssaoShader->GetPixelConstantBuffer<SSAOConstantPixelBuffer>();
-				cpbuf.Radius = 0.4f;
-				cpbuf.ProjScale = c->GetWindowSize().Y * yScale / 2.0f;
-				cpbuf.Bias = 0.1f;
-				cpbuf.Intensity = 1.0f;
-				cpbuf.ReconstructInfo1[0] = c->GetZNear_FR() * c->GetZFar_FR();
-				cpbuf.ReconstructInfo1[1] = c->GetZFar_FR() - c->GetZNear_FR();
-				cpbuf.ReconstructInfo1[2] = -c->GetZFar_FR();
+					SSAOConstantPixelBuffer& cpbuf = m_ssaoShader->GetPixelConstantBuffer<SSAOConstantPixelBuffer>();
+					cpbuf.Radius = 0.1f;
+					cpbuf.ProjScale = c->GetWindowSize().Y * yScale / 2.0f;
+					cpbuf.Bias = 0.001f;
+					cpbuf.Intensity = 1.0f;
+					cpbuf.ReconstructInfo1[0] = c->GetZNear_FR() * c->GetZFar_FR();
+					cpbuf.ReconstructInfo1[1] = c->GetZFar_FR() - c->GetZNear_FR();
+					cpbuf.ReconstructInfo1[2] = -c->GetZFar_FR();
 
-	
-				cpbuf.ReconstructInfo2[0] = 1.0f / xScale;
-				cpbuf.ReconstructInfo2[1] = 1.0f / yScale;
 
-				g->SetVertexBuffer(m_ssaoVertexBuffer.get());
-				g->SetIndexBuffer(m_ssaoIndexBuffer.get());
-				g->SetShader(m_ssaoShader.get());
+					cpbuf.ReconstructInfo2[0] = 1.0f / xScale;
+					cpbuf.ReconstructInfo2[1] = 1.0f / yScale;
 
-				auto& state = g->GetRenderState()->Push();
-				state.DepthTest = false;
-				state.DepthWrite = false;
-				state.CullingType = CULLING_DOUBLE;
-				state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
-				g->GetRenderState()->Update(false);
+					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
+					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
+					g->SetShader(m_ssaoShader.get());
 
-				g->DrawPolygon(2);
+					auto& state = g->GetRenderState()->Push();
+					state.DepthTest = false;
+					state.DepthWrite = false;
+					state.CullingType = CULLING_DOUBLE;
+					state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					g->GetRenderState()->Update(false);
 
-				g->GetRenderState()->Pop();
+					g->DrawPolygon(2);
+
+					g->GetRenderState()->Pop();
+				}
+
+				{
+					g->SetRenderTarget(c->GetRenderTargetSSAO_Temp_FR(), nullptr);
+					g->Clear(true, false, ace::Color(0, 0, 0, 255));
+
+					m_ssaoBlurXShader->SetTexture("g_texture", c->GetRenderTargetSSAO_FR(), 0);
+
+					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
+					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
+					g->SetShader(m_ssaoBlurXShader.get());
+
+					auto& state = g->GetRenderState()->Push();
+					state.DepthTest = false;
+					state.DepthWrite = false;
+					state.CullingType = CULLING_DOUBLE;
+					state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					g->GetRenderState()->Update(false);
+
+					g->DrawPolygon(2);
+
+					g->GetRenderState()->Pop();
+				}
+
+				{
+					g->SetRenderTarget(c->GetRenderTargetSSAO_FR(), nullptr);
+					g->Clear(true, false, ace::Color(0, 0, 0, 255));
+
+					m_ssaoBlurYShader->SetTexture("g_texture", c->GetRenderTargetSSAO_Temp_FR(), 0);
+
+					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
+					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
+					g->SetShader(m_ssaoBlurYShader.get());
+
+					auto& state = g->GetRenderState()->Push();
+					state.DepthTest = false;
+					state.DepthWrite = false;
+					state.CullingType = CULLING_DOUBLE;
+					state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					g->GetRenderState()->Update(false);
+
+					g->DrawPolygon(2);
+
+					g->GetRenderState()->Pop();
+				}
+
+				prop.SSAOPtr = c->GetRenderTargetSSAO_FR();
 			}
-			
+			else
+			{
+				prop.SSAOPtr = nullptr;
+			}
 
 			// 3D描画
 			{
@@ -820,6 +958,10 @@ float4 main( const PS_Input Input ) : SV_Target
 			m_pasteVertexBuffer->Unlock();
 
 			m_pasteShader->SetTexture("g_texture", c->GetAffectedRenderTarget_FR(), 0);
+			
+			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetSSAO_FR(), 0);
+			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetSSAO_Temp_FR(), 0);
+
 			
 			m_graphics->SetVertexBuffer(m_pasteVertexBuffer.get());
 			m_graphics->SetIndexBuffer(m_pasteIndexBuffer.get());
@@ -1049,6 +1191,29 @@ float4 main( const PS_Input Input ) : SV_Target
 					"ps",
 					vl,
 					macro);
+
+				const char* BLUR_X = "BLUR_X";
+				const char* BLUR_Y = "BLUR_Y";
+				const char* ONE = "1";
+
+				macro.push_back(Macro(BLUR_X, ONE));
+				m_ssaoBlurXShader = m_graphics->CreateShader_Imp(
+					ssao_dx_vs,
+					"vs",
+					ssao_blur_dx_ps,
+					"ps",
+					vl,
+					macro);
+
+				macro.clear();
+				macro.push_back(Macro(BLUR_Y, ONE));
+				m_ssaoBlurYShader = m_graphics->CreateShader_Imp(
+					ssao_dx_vs,
+					"vs",
+					ssao_blur_dx_ps,
+					"ps",
+					vl,
+					macro);
 			}
 
 			std::vector<ace::ConstantBufferInformation> constantVBuffers;
@@ -1087,7 +1252,6 @@ float4 main( const PS_Input Input ) : SV_Target
 			{
 				m_ssaoShader->CreateVertexConstantBuffer<SSAOConstantVertexBuffer>(constantVBuffers);
 				m_ssaoShader->CreatePixelConstantBuffer<SSAOConstantPixelBuffer>(constantPBuffers);
-
 			}
 		}
 
@@ -1151,7 +1315,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	void Renderer3D::SetWindowSize(Vector2DI windowSize)
 	{
 		SafeRelease(m_renderTarget);
-		m_renderTarget = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+		m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 		m_windowSize = windowSize;
 
 		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
@@ -1292,7 +1456,7 @@ float4 main( const PS_Input Input ) : SV_Target
 		m_graphics->FlushCommand();
 	}
 
-	RenderTexture_Imp* Renderer3D::GetRenderTarget()
+	RenderTexture2D_Imp* Renderer3D::GetRenderTarget()
 	{
 		return m_renderTarget;
 	}

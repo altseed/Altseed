@@ -28,8 +28,8 @@ namespace ace
 
 	{
 		SafeAddRef(m_graphics);
-		m_baseTarget0 = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
-		m_baseTarget1 = m_graphics->CreateRenderTexture_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+		m_baseTarget0 = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+		m_baseTarget1 = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 
 		m_layerRenderer = new LayerRenderer(graphics);
 		m_layerRenderer->SetWindowSize(windowSize);
@@ -110,7 +110,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreScene_Imp::SetRenderTargetForDrawingLayer()
 	{
-		m_graphics->SetRenderTarget((RenderTexture_Imp*)GetBaseTarget(), nullptr);
+		m_graphics->SetRenderTarget((RenderTexture2D_Imp*)GetBaseTarget(), nullptr);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -190,7 +190,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreScene_Imp::BeginDrawing()
 	{
-		m_graphics->SetRenderTarget((RenderTexture_Imp*) GetBaseTarget(), nullptr);
+		m_graphics->SetRenderTarget((RenderTexture2D_Imp*) GetBaseTarget(), nullptr);
 		m_graphics->Clear(true, false, Color(0, 0, 0, 255));
 	}
 

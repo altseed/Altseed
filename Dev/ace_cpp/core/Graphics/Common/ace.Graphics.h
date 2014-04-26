@@ -23,6 +23,7 @@ protected:
 	virtual Texture2D* CreateTexture2D_(const achar* path) = 0;
 	virtual Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, eTextureFormat format) = 0;
 	virtual RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, eTextureFormat format) = 0;
+	virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) = 0;
 	virtual Shader2D* CreateShader2D_( const achar* shaderText, ShaderVariableProperty* variableProperties, int32_t variablePropertiesCount) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
 	virtual Mesh* CreateMesh_() = 0;
@@ -63,6 +64,23 @@ public:
 	@return	テクスチャ
 	*/
 	std::shared_ptr<RenderTexture2D> CreateRenderTexture(int32_t width, int32_t height, eTextureFormat format){ return CreateSharedPtrWithReleaseDLL(CreateRenderTexture2D_(width, height, format)); }
+
+	/**
+	@brief	6枚の画像ファイルからキューブマップテクスチャを生成する。
+	@param	front	前方向の画像ファイルへの相対パス
+	@param	left	左方向の画像ファイルへの相対パス
+	@param	back	後ろ方向の画像ファイルへの相対パス
+	@param	right	右方向の画像ファイルへの相対パス
+	@param	top		上方向の画像ファイルへの相対パス
+	@param	bottom	下方向の画像ファイルへの相対パス
+	@return	キューブマップ
+	*/
+	std::shared_ptr<CubemapTexture> CreateCubemapTextureFrom6ImageFiles(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
+	{
+		return CreateSharedPtrWithReleaseDLL(
+			CreateCubemapTextureFrom6ImageFiles_(
+			front, left, back, right, top, bottom));
+	}
 
 	/**
 	@brief	シェーダー(2D)を生成する。

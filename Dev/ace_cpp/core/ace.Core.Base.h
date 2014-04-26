@@ -28,8 +28,11 @@ namespace ace {
 	class Sound;
 	class SoundSource;
 
+	class Texture;
 	class Texture2D;
 	class RenderTexture2D;
+	class CubemapTexture;
+
 	class Shader2D;
 	class Material2D;
 
@@ -78,7 +81,8 @@ namespace ace {
 	enum eTextureClassType
 	{
 		TEXTURE_CLASS_TEXTURE2D = 0,
-		TEXTURE_CLASS_RENDERTEXTURE = 1,
+		TEXTURE_CLASS_RENDERTEXTURE2D = 1,
+		TEXTURE_CLASS_CUBEMAPTEXTURE = 2,
 	};
 
 	enum eAlphaBlend

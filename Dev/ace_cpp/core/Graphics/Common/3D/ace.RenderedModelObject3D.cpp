@@ -115,6 +115,9 @@ SamplerState	g_specularSampler		: register( s2 );
 Texture2D		g_shadowTexture		: register( t3 );
 SamplerState	g_shadowSampler		: register( s3 );
 
+Texture2D		g_ssaoTexture		: register( t4 );
+SamplerState	g_ssaoSampler		: register( s4 );
+
 float VSM(float2 moments, float t)
 {
 	float ex = moments.x;
@@ -138,6 +141,10 @@ float4 main( const PS_Input Input ) : SV_Target
 	}
 	if(Output.a == 0.0f) discard;
 
+	// SSAO
+	float2 ssaoUV = float2( (Input.Pos.x / Input.Pos.w + 1.0) / 2.0, (-Input.Pos.y / Input.Pos.w + 1.0) / 2.0 );
+	float a = g_ssaoTexture.Sample(g_ssaoSampler, ssaoUV).x;
+
 	// shadow
 	float2 shadowUV = float2( (Input.LightPos.x / Input.LightPos.w + 1.0) / 2.0, 1.0 - (Input.LightPos.y / Input.LightPos.w + 1.0) / 2.0 );
 	float lightDepthZ = Input.LightPos.z / Input.LightPos.w;
@@ -152,7 +159,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	//	Output.rgb = Output.rgb * 0.5;
 	//}
 
-	Output.rgb = Output.rgb * p;
+	Output.rgb = Output.rgb * p * a;
 	return Output;
 }
 
@@ -987,6 +994,11 @@ void main()
 						else
 						{
 							pbuf.HasTextures.W = 0.0f;
+						}
+
+						if (prop.SSAOPtr != nullptr)
+						{
+							m_shader->SetTexture("g_ssaoTexture", prop.SSAOPtr, 4);
 						}
 
 						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());

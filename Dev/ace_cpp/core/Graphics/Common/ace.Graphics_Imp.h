@@ -9,7 +9,7 @@
 #include "ace.GraphicsResourceContainer.h"
 
 #include "Resource/ace.Texture2D_Imp.h"
-#include "Resource/ace.RenderTexture_Imp.h"
+#include "Resource/ace.RenderTexture2D_Imp.h"
 
 #include <Graphics/ace.Color.h>
 #include <Math/ace.Vector2DI.h>
@@ -123,7 +123,7 @@ namespace ace {
 		Texture2D* CreateTexture2D_(const achar* path) { return CreateTexture2D_Imp(path); }
 		Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, eTextureFormat format) { return CreateEmptyTexture2D_Imp(width, height, format); }
 
-		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, eTextureFormat format) { return CreateRenderTexture_Imp(width, height, format); }
+		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, eTextureFormat format) { return CreateRenderTexture2D_Imp(width, height, format); }
 		Shader2D* CreateShader2D_( const achar* shaderText, ShaderVariableProperty* variableProperties, int32_t variablePropertiesCount);
 		
 	protected:
@@ -206,8 +206,13 @@ namespace ace {
 		@param	height	縦幅
 		@param	format	フォーマット
 		*/
-		virtual RenderTexture_Imp* CreateRenderTexture_Imp(int32_t width, int32_t height, eTextureFormat format) = 0;
+		virtual RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format) = 0;
 
+		/**
+			@brief	SWIG向けに記述
+		*/
+		virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) { return nullptr; }
+		
 		/**
 			@brief	シェーダー(2D)を生成する。
 			@param	shaderText						シェーダーのコード
@@ -333,7 +338,7 @@ namespace ace {
 		@note
 		textureがnullの場合は無条件で、デフォルトの描画先を使用する。
 	*/
-	virtual void SetRenderTarget(RenderTexture_Imp* texture, DepthBuffer_Imp* depthBuffer) = 0;
+	virtual void SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer) = 0;
 
 	/**
 		@brief	コンテキストの設定を行う。

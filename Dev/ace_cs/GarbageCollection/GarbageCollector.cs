@@ -39,6 +39,7 @@ namespace ace
 					if (TryRelease<swig.Texture2D>(o)) continue;
 					if (TryRelease<swig.Texture2D_Imp>(o)) continue;
 					if (TryRelease<swig.RenderTexture2D>(o)) continue;
+					if (TryRelease<swig.CubemapTexture>(o)) continue;
 					if (TryRelease<swig.Shader2D>(o)) continue;
 					if (TryRelease<swig.Material2D>(o)) continue;
 

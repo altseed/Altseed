@@ -73,6 +73,7 @@
     <ClCompile Include="..\ObjectSystem\TrasingCamera.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\EngineGraphics3DTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -96,5 +97,6 @@
     <ClInclude Include="..\PCH\ace.UnitTestEngineCpp.PCH.h">
       <Filter>PCH</Filter>
     </ClInclude>
+    <ClInclude Include="..\EngineGraphics3DTest.h" />
   </ItemGroup>
 </Project>

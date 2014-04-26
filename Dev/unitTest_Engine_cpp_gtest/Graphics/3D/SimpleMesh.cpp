@@ -1,5 +1,5 @@
 ﻿
-#include "../../EngineTest.h"
+#include "../../EngineGraphics3DTest.h"
 
 static std::shared_ptr<ace::Mesh> CreateMesh(ace::Graphics* graphics)
 {
@@ -117,12 +117,12 @@ static std::shared_ptr<ace::AnimationClip> CreateAnimation()
 	return clip;
 }
 
-class Graphics_SimpleMesh : public EngineTest
+class Graphics_SimpleMesh : public EngineGraphics3DTest
 {
 public:
 	
 	Graphics_SimpleMesh(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("SimpleMesh"), isOpenGLMode, 15)
+		EngineGraphics3DTest(ace::ToAString("SimpleMesh"), isOpenGLMode, 15, true)
 	{}
 
 protected:
@@ -133,32 +133,20 @@ protected:
 
 	void OnStart() override
 	{
-		auto scene = std::make_shared<ace::Scene>();
-		auto layer = std::make_shared<ace::Layer3D>();
+		EngineGraphics3DTest::OnStart();
+
 		meshObj1 = std::make_shared<ace::ModelObject3D>();
 		auto meshObj2 = std::make_shared<ace::ModelObject3D>();
 		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
-		auto cameraObj = std::make_shared<ace::CameraObject3D>();
 
-		scene->AddLayer(layer);
-		layer->AddObject(meshObj1);
-		layer->AddObject(meshObj2);
-		layer->AddObject(lightObj);
-		layer->AddObject(cameraObj);
-		ace::Engine::ChangeScene(scene);
-
-		
+		GetLayer3D()->AddObject(meshObj1);
+		GetLayer3D()->AddObject(meshObj2);
+		GetLayer3D()->AddObject(lightObj);
+				
 		auto mesh = CreateMesh(ace::Engine::GetGraphics());
 		auto mesh2 = CreateMesh(ace::Engine::GetGraphics());
 		auto deformer = CreateDeformer(ace::Engine::GetGraphics());
 		auto animation = CreateAnimation();
-
-		cameraObj->SetPosition(ace::Vector3DF(0, 2, 10));
-		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
-		cameraObj->SetFieldOfView(20.0f);
-		cameraObj->SetZNear(1.0f);
-		cameraObj->SetZFar(20.0f);
-		cameraObj->SetWindowSize(ace::Vector2DI(WindowWidth, WindowHeight));
 
 		meshObj1->AddMeshGroup();
 		meshObj1->AddMesh(0, mesh);
@@ -170,10 +158,14 @@ protected:
 		meshObj2->SetScale(ace::Vector3DF(10.0f, 10.0f, 40.0f));
 
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
+
+		SetCameraParameter(10, 15, -15, 1, 20, 20);
 	}
 
 	void OnUpdating()
 	{
+		EngineGraphics3DTest::OnUpdating();
+
 		meshObj1->SetRotation(ace::Vector3DF(rotation1, rotation2, 0.0f));
 		rotation1 += 0.1f;
 		rotation2 += 0.3f;

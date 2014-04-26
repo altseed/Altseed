@@ -1,8 +1,11 @@
 ﻿
+#pragma once
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-#include  "ace.RenderTexture_Imp.h"
+#include "../../Common/Resource/ace.RenderTexture2D_Imp.h"
+#include "../ace.GL.Base.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -11,21 +14,26 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture_Imp::RenderTexture_Imp(Graphics* graphics, Vector2DI size)
-		: DeviceObject(graphics)
-		, m_size(size)
-		, m_filter(eTextureFilterType::TEXTURE_FILTER_NEAREST)
+	class RenderTexture2D_Imp_GL
+		: public RenderTexture2D_Imp
 	{
-		m_type = TEXTURE_CLASS_RENDERTEXTURE;
-	}
+	protected:
+		GLuint	m_texture;
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	RenderTexture_Imp::~RenderTexture_Imp()
-	{
+		RenderTexture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size);
+		virtual ~RenderTexture2D_Imp_GL();
+	public:
 
-	}
+		static RenderTexture2D_Imp_GL* Create(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format);
+
+		bool Save(const achar* path) override;
+
+		bool Lock(TextureLockInfomation& info) override { return false; };
+
+		void Unlock() override {};
+
+		GLuint GetBuffer() { return m_texture; }
+	};
 
 	//----------------------------------------------------------------------------------
 	//

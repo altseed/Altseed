@@ -85,7 +85,7 @@ set(core_src
 	ace_cpp/core/Graphics/Common/Resource/ace.Material2D_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.NativeShader_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.RenderState_Imp.cpp
-	ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture_Imp.cpp
+	ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture2D_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.Shader2D_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.Texture2D_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.VertexBuffer_Imp.cpp
@@ -136,7 +136,7 @@ set(dx11_src
 	ace_cpp/core/Graphics/DX11/Resource/ace.RenderState_Imp_DX11.cpp
 	ace_cpp/core/Graphics/DX11/Resource/ace.NativeShader_Imp_DX11.cpp
 	ace_cpp/core/Graphics/DX11/Resource/ace.Texture2D_Imp_DX11.cpp
-	ace_cpp/core/Graphics/DX11/Resource/ace.RenderTexture_Imp_DX11.cpp
+	ace_cpp/core/Graphics/DX11/Resource/ace.RenderTexture2D_Imp_DX11.cpp
 	ace_cpp/core/Graphics/DX11/Resource/ace.DepthBuffer_Imp_DX11.cpp)
 
 set(gl_src
@@ -146,7 +146,7 @@ set(gl_src
 	ace_cpp/core/Graphics/GL/Resource/ace.RenderState_Imp_GL.cpp
 	ace_cpp/core/Graphics/GL/Resource/ace.NativeShader_Imp_GL.cpp
 	ace_cpp/core/Graphics/GL/Resource/ace.Texture2D_Imp_GL.cpp
-	ace_cpp/core/Graphics/GL/Resource/ace.RenderTexture_Imp_GL.cpp
+	ace_cpp/core/Graphics/GL/Resource/ace.RenderTexture2D_Imp_GL.cpp
 	ace_cpp/core/Graphics/GL/Resource/ace.DepthBuffer_Imp_GL.cpp)
 
 if (WIN32)

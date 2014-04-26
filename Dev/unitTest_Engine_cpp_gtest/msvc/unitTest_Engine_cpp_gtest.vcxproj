@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\EngineGraphics3DTest.cpp" />
     <ClCompile Include="..\EngineTest.cpp" />
     <ClCompile Include="..\Graphics\3D\Camera3DPostEffect.cpp" />
     <ClCompile Include="..\Graphics\3D\Effect3D.cpp" />
@@ -42,6 +43,7 @@
     <ClCompile Include="..\Profiler.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\EngineGraphics3DTest.h" />
     <ClInclude Include="..\EngineTest.h" />
     <ClInclude Include="..\PCH\ace.UnitTestEngineCpp.PCH.h" />
   </ItemGroup>

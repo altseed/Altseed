@@ -92,7 +92,7 @@ namespace ace {
 		auto state = m_graphics->GetRenderState()->Push();
 
 		command->SetValueToShader();
-		m_graphics->SetRenderTarget((RenderTexture_Imp*)command->GetTarget(), nullptr);
+		m_graphics->SetRenderTarget((RenderTexture2D_Imp*) command->GetTarget(), nullptr);
 
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());
