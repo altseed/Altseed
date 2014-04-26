@@ -16,6 +16,8 @@ namespace ace
 		virtual ~CubemapTexture_Imp_DX11();
 
 	public:
+
+		ID3D11ShaderResourceView* GetShaderResourceView() { return m_textureSRV; }
 		
 		static CubemapTexture_Imp* Create(Graphics_Imp* graphics, const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom);
 	};
