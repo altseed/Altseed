@@ -24,6 +24,19 @@ std::shared_ptr<ace::CameraObject3D> EngineGraphics3DTest::GetCamera(int32_t ind
 	return m_cameras[index];
 }
 
+void EngineGraphics3DTest::SetCameraParameter(float distance, float rotX, float rotY, float zn, float zf, float fov)
+{
+	auto cameraObj = GetCamera(0);
+	m_cameraDistance = distance;
+	m_cameraRotX = rotX;
+	m_cameraRotY = rotY;
+	
+	cameraObj->SetFieldOfView(fov);
+	cameraObj->SetZNear(zn);
+	cameraObj->SetZFar(zf);
+	cameraObj->SetWindowSize(ace::Vector2DI(WindowWidth, WindowHeight));
+}
+
 void EngineGraphics3DTest::OnStart()
 {
 	m_scene = std::make_shared<ace::Scene>();

@@ -158,6 +158,8 @@ protected:
 		meshObj2->SetScale(ace::Vector3DF(10.0f, 10.0f, 40.0f));
 
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
+
+		SetCameraParameter(10, 15, -15, 1, 20, 20);
 	}
 
 	void OnUpdating()

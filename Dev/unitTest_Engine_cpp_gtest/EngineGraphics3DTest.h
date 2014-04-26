@@ -34,6 +34,7 @@ public:
 
 	void AddCamera();
 	std::shared_ptr<ace::CameraObject3D> GetCamera(int32_t index);
+	void SetCameraParameter(float distance, float rotX, float rotY, float zn, float zf, float fov);
 
 	/**
 	@brief	オーバーライドして、メインループより前のアサーションや初期化を記述できる。
