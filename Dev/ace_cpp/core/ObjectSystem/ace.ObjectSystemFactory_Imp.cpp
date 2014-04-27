@@ -81,9 +81,9 @@ namespace ace
 		return new CoreDirectionalLightObject3D_Imp(m_graphics);
 	}
 
-	CoreLayer3D* ObjectSystemFactory_Imp::CreateLayer3D()
+	CoreLayer3D* ObjectSystemFactory_Imp::CreateLayer3D(RenderSettings settings)
 	{
-		return new CoreLayer3D_Imp(m_graphics, m_logger, m_windowSize);
+		return new CoreLayer3D_Imp(m_graphics, m_logger, m_windowSize, settings);
 	}
 
 	//----------------------------------------------------------------------------------

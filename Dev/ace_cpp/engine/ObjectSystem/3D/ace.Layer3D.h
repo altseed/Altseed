@@ -38,7 +38,7 @@ namespace ace
 		/**
 			@brief	コンストラクタ
 		*/
-		Layer3D();
+		Layer3D(RenderSettings settings = RenderSettings());
 
 		/**
 			@brief	デストラクタ

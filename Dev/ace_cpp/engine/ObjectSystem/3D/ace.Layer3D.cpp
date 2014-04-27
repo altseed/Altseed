@@ -6,10 +6,10 @@ namespace ace
 
 	extern ObjectSystemFactory* g_objectSystemFactory;
 
-	Layer3D::Layer3D()
+	Layer3D::Layer3D(RenderSettings settings)
 		: m_coreLayer(nullptr)
 	{
-		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer3D());
+		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer3D(settings));
 		m_commonObject = m_coreLayer;
 	}
 

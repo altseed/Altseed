@@ -175,6 +175,7 @@
     <Compile Include="swig\Profiler.cs" />
     <Compile Include="swig\Profiler_Imp.cs" />
     <Compile Include="swig\ReferenceObject.cs" />
+    <Compile Include="swig\RenderSettings.cs" />
     <Compile Include="swig\RenderTexture2D.cs" />
     <Compile Include="swig\RenderTexture2D_Imp.cs" />
     <Compile Include="swig\Shader2D.cs" />

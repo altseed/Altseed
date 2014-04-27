@@ -1002,8 +1002,9 @@ float4 main( const PS_Input Input ) : SV_Target
 		}
 	}
 
-	Renderer3D::Renderer3D(Graphics* graphics)
+	Renderer3D::Renderer3D(Graphics* graphics, RenderSettings settings)
 		: m_graphics(nullptr)
+		, m_settings(settings)
 		, m_multithreadingMode(false)
 		, m_renderTarget(nullptr)
 		, m_event(this)

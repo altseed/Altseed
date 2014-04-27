@@ -1,12 +1,12 @@
-
+ï»¿
 #include "EngineTest.h"
 
 /**
-	@brief	3D•`‰æƒeƒXƒg—pƒtƒŒ[ƒ€ƒ[ƒN
+	@brief	3Dæç”»ãƒ†ã‚¹ãƒˆç”¨ãƒ•ãƒ¬ãƒ¼ãƒ ãƒ¯ãƒ¼ã‚¯
 	@note
-	‰ŠúƒIƒuƒWƒFƒNƒg‚Æ‚µ‚ÄA
-	ƒJƒƒ‰1‚Â
-	‚ª—^‚¦‚ç‚ê‚Ä‚¢‚éB
+	åˆæœŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦ã€
+	ã‚«ãƒ¡ãƒ©1ã¤
+	ãŒä¸ãˆã‚‰ã‚Œã¦ã„ã‚‹ã€‚
 */
 class EngineGraphics3DTest
 	: public EngineTest
@@ -37,12 +37,12 @@ public:
 	void SetCameraParameter(float distance, float rotX, float rotY, float zn, float zf, float fov);
 
 	/**
-	@brief	ƒI[ƒo[ƒ‰ƒCƒh‚µ‚ÄAƒƒCƒ“ƒ‹[ƒv‚æ‚è‘O‚ÌƒAƒT[ƒVƒ‡ƒ“‚â‰Šú‰»‚ğ‹Lq‚Å‚«‚éB
+	@brief	ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ã€ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—ã‚ˆã‚Šå‰ã®ã‚¢ã‚µãƒ¼ã‚·ãƒ§ãƒ³ã‚„åˆæœŸåŒ–ã‚’è¨˜è¿°ã§ãã‚‹ã€‚
 	*/
 	virtual void OnStart() override;
 
 	/**
-	@brief	ƒI[ƒo[ƒ‰ƒCƒh‚µ‚ÄAƒƒCƒ“ƒ‹[ƒv“à‚ÌƒAƒT[ƒVƒ‡ƒ“‚È‚Ç‚ğ‹Lq‚Å‚«‚éB
+	@brief	ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã—ã¦ã€ãƒ¡ã‚¤ãƒ³ãƒ«ãƒ¼ãƒ—å†…ã®ã‚¢ã‚µãƒ¼ã‚·ãƒ§ãƒ³ãªã©ã‚’è¨˜è¿°ã§ãã‚‹ã€‚
 	*/
 	virtual void OnUpdating() override;
 
