@@ -1,11 +1,14 @@
-
+﻿
 #pragma once
 
 #include <ace.common.Base.h>
-#include "../../../ace.ReferenceObject.h"
+#include "ace.Texture.h"
 
 namespace ace
 {
+	/**
+	@brief	キューブマップ
+	*/
 	class CubemapTexture
 		: public IReference
 	{
@@ -15,5 +18,10 @@ namespace ace
 
 	public:
 
+		/**
+		@brief	テクスチャのクラスの種類を取得する。
+		@return	種類
+		*/
+		virtual eTextureClassType GetType() { return TEXTURE_CLASS_CUBEMAPTEXTURE; }
 	};
 }

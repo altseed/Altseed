@@ -209,6 +209,11 @@ namespace ace {
 		virtual RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format) = 0;
 
 		/**
+			@brief	SWIG向けに記述
+		*/
+		virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) { return nullptr; }
+		
+		/**
 			@brief	シェーダー(2D)を生成する。
 			@param	shaderText						シェーダーのコード
 			@param	pixelVariableProperties			シェーダーで使用可能な外部入力可能な変数

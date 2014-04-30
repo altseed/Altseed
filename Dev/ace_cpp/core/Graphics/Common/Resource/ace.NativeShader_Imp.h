@@ -28,7 +28,7 @@ namespace ace {
 	protected:
 		uint8_t*	m_vertexConstantBuffer;
 		uint8_t*	m_pixelConstantBuffer;
-		Texture2D*	m_textureSlots[TextureCountMax];
+		Texture*	m_textureSlots[TextureCountMax];
 		std::string	m_textureNames[TextureCountMax];
 
 		virtual void CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
@@ -107,9 +107,9 @@ namespace ace {
 			CreatePixelConstantBufferInternal(size, info);
 		}
 
-		void SetTexture(const char* name, Texture2D* texture, int32_t index);
+		void SetTexture(const char* name, Texture* texture, int32_t index);
 
-		bool GetTexture(char*& name, Texture2D*& texture, int32_t index);
+		bool GetTexture(char*& name, Texture*& texture, int32_t index);
 	};
 
 	//----------------------------------------------------------------------------------

@@ -9,12 +9,12 @@
 
 namespace ace
 {
-	CoreLayer3D_Imp::CoreLayer3D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize)
+	CoreLayer3D_Imp::CoreLayer3D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize, RenderSettings settings)
 		: CoreLayer_Imp(graphics, windowSize)
 		, m_objects(std::set<ObjectPtr>())
 		, m_renderer(nullptr)
 	{
-		m_renderer = new Renderer3D(graphics);
+		m_renderer = new Renderer3D(graphics, settings);
 		m_renderer->SetWindowSize(windowSize);
 	}
 

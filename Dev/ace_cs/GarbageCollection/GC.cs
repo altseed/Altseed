@@ -13,6 +13,7 @@ namespace ace
 		internal static IDObjectContainer<SoundSource> SoundSources { get; private set; }
 		
 		internal static IDObjectContainer<Texture2D> Texture2Ds { get; private set; }
+		internal static IDObjectContainer<CubemapTexture> CubemapTextures { get; private set; }
 		internal static IDObjectContainer<Shader2D> Shader2Ds { get; private set; }
 		internal static IDObjectContainer<Material2D> Material2Ds { get; private set; }
 
@@ -43,6 +44,8 @@ namespace ace
 			SoundSources = new IDObjectContainer<SoundSource>();
 
 			Texture2Ds = new IDObjectContainer<Texture2D>();
+			CubemapTextures = new IDObjectContainer<CubemapTexture>();
+
 			Shader2Ds = new IDObjectContainer<Shader2D>();
 			Material2Ds = new IDObjectContainer<Material2D>();
 
@@ -79,6 +82,8 @@ namespace ace
 				SoundSources.DestroyAll();
 
 				Texture2Ds.DestroyAll();
+				CubemapTextures.DestroyAll();
+
 				Shader2Ds.DestroyAll();
 				Material2Ds.DestroyAll();
 
@@ -180,6 +185,24 @@ namespace ace
 
 			var ret = new RenderTexture2D(o);
 			GC.Texture2Ds.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static CubemapTexture GenerateCubemapTexture(swig.CubemapTexture o, GenerationType type)
+		{
+			var p = o.GetPtr();
+
+			var existing = GC.CubemapTextures.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new CubemapTexture(o);
+			GC.CubemapTextures.AddObject(p, ret);
 			return ret;
 		}
 

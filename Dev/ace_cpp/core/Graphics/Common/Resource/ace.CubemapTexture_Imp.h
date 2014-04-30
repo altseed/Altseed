@@ -1,17 +1,20 @@
-
+ï»¿
 #include "ace.CubemapTexture.h"
+#include "../ace.DeviceObject.h"
 
 namespace ace
 {
 	class CubemapTexture_Imp
 		: public CubemapTexture
-		, public ReferenceObject
+		, public DeviceObject
 	{
-	private:
+	protected:
+		CubemapTexture_Imp(Graphics* graphics);
+		virtual ~CubemapTexture_Imp();
 
 	public:
 
-		// IReference‚ğŒp³‚µ‚½ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒgŒü‚¯’è‹`
+		// IReferenceã‚’ç¶™æ‰¿ã—ãŸãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‘ã‘å®šç¾©
 #if !SWIG
 	public:
 		virtual int GetRef() { return ReferenceObject::GetRef(); }

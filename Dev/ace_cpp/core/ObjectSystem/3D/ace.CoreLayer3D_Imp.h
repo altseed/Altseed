@@ -28,7 +28,7 @@ namespace ace
 
 		bool			m_isDrawnTemp;
 
-		CoreLayer3D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
+		CoreLayer3D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize, RenderSettings settings);
 		virtual ~CoreLayer3D_Imp();
 
 	public:

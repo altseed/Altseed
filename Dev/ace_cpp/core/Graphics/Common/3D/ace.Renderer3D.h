@@ -16,6 +16,12 @@
 
 namespace ace
 {
+	/**
+		@brief	レンダラー
+		@note
+		ライトウエイトレンダラー
+		ディレクショナルライト1、半球ライト1のみ、影等なし
+	*/
 	class Renderer3D
 	{
 	private:
@@ -95,6 +101,7 @@ namespace ace
 		} rendering;
 
 		Graphics_Imp*	m_graphics;
+		RenderSettings	m_settings;
 
 		std::set<RenderedObject3D*>	m_objects;
 		std::set<RenderedObject3D*>	m_cameraObjects;
@@ -132,7 +139,7 @@ namespace ace
 	public:
 		void Rendering();
 
-		Renderer3D(Graphics* graphics);
+		Renderer3D(Graphics* graphics, RenderSettings settings);
 		~Renderer3D();
 
 		void SetWindowSize(Vector2DI windowSize);

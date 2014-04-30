@@ -41,19 +41,19 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void NativeShader_Imp::SetTexture(const char* name, Texture2D* texture, int32_t index)
+	void NativeShader_Imp::SetTexture(const char* name, Texture* texture, int32_t index)
 	{
 		if (index >= TextureCountMax) return;
 		
 		SafeAddRef(texture);
 
 		{
-			auto t = (Texture2D*) m_textureSlots[index];
+			auto t = m_textureSlots[index];
 			SafeRelease(t);
 		}
 
 		{
-			auto t = (Texture2D*) texture;
+			auto t = texture;
 			m_textureSlots[index] = t;
 			m_textureNames[index] = name;
 		}
@@ -62,7 +62,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool NativeShader_Imp::GetTexture(char*& name, Texture2D*& texture, int32_t index)
+	bool NativeShader_Imp::GetTexture(char*& name, Texture*& texture, int32_t index)
 	{
 		if (index >= TextureCountMax) return false;
 		if (m_textureSlots[index] == nullptr) return false;

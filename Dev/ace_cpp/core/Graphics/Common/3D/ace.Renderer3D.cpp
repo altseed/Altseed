@@ -377,9 +377,14 @@ float bias			: register( c2 );
 float intensity		: register( c3 );
 
 // 座標再構成情報
+// perspective
 // x = n・f
 // y = f-n
 // z = -f
+
+// ace
+// x = f-n
+// y = n
 float3 reconstructInfo1	: register( c4 );
 
 // x = 1/xScale
@@ -398,7 +403,8 @@ float GetZ(float2 uv)
 
 float ReconstructDepth(float z)
 {
-	return reconstructInfo1.x / (reconstructInfo1.y * z + reconstructInfo1.z);
+	//return reconstructInfo1.x / (reconstructInfo1.y * z + reconstructInfo1.z);
+	return -((z * reconstructInfo1.x) + reconstructInfo1.y);
 }
 
 float3 ReconstructPosition(float2 screenXY, float depth)
@@ -521,7 +527,7 @@ float2 GetCompressedDepth(float2 uv)
 
 float DecompressValue(float2 compressed)
 {
-	return compressed.x + compressed.y * (1.0 / 256.0);
+	return compressed.x * (256.0 / 257.0) + compressed.y * (1.0 / 257.0);
 }
 
 float GetDepth(float2 uv)
@@ -533,14 +539,17 @@ float GetDepth(float2 uv)
 float4 main( const PS_Input Input ) : SV_Target
 {
 	const int radius = 4;
-	const float scale = 1.0;
+	const float scale = 2.0;
+	const float centerOffset = 0.5;
 	const float gaussian[] = { 0.144760504, 0.129537389, 0.103725441, 0.0743225217, 0.0476541445 };
-	const float intensity = 700.0;
+	const float intensity = 200.0;
 
 	uint width, height;
 	g_texture.GetDimensions(width, height);
 	float scaleX = scale / (float)width;
 	float scaleY = scale / (float)height;
+	float centerOffsetX = centerOffset / (float)width;
+	float centerOffsetY = centerOffset / (float)height;
 
 	float baseDepth = GetDepth( Input.UV );
 
@@ -551,11 +560,11 @@ float4 main( const PS_Input Input ) : SV_Target
 	for(int r = -radius; r <= radius; r++)
 	{
 #if BLUR_X
-		float2 uv = Input.UV + float2(r * scaleX, 0.0);
+		float2 uv = Input.UV + float2(r * scaleX + centerOffsetX, 0.0 + centerOffsetY);
 #endif
 
 #if BLUR_Y
-		float2 uv = Input.UV + float2(0.0, r * scaleY);
+		float2 uv = Input.UV + float2(0.0 + centerOffsetX, r * scaleY + centerOffsetY);
 #endif
 
 		float depth = GetDepth( uv );
@@ -563,14 +572,14 @@ float4 main( const PS_Input Input ) : SV_Target
 		float weight =  gaussian[abs(r)];
 		weight = weight * max(0.0, 1.0 - intensity * abs(depth-baseDepth) );
 		
-		float value = GetValue( uv);
+		float value = GetValue(uv);
 		
 		sum += value * weight;
 		weightSum += weight;
 	}
 
 	const float epsilon = 0.0001;
-	float a = sum / (weightSum + epsilon);
+	float a = (sum + epsilon) / (weightSum + epsilon);
 
 	return float4(a, GetCompressedDepth(Input.UV), 1.0 );
 }
@@ -646,7 +655,7 @@ float4 main( const PS_Input Input ) : SV_Target
 
 		RenderingProperty prop;
 		prop.ShadowMapPtr = nullptr;
-
+		
 		// ライトの計算
 		{
 			if (rendering.directionalLightObjects.size() > 0)
@@ -675,6 +684,9 @@ float4 main( const PS_Input Input ) : SV_Target
 			ace::Matrix44::Mul(cameraProjMat, c->GetProjectionMatrix_FR(), c->GetCameraMatrix_FR());
 			prop.CameraMatrix = c->GetCameraMatrix_FR();
 			prop.ProjectionMatrix = c->GetProjectionMatrix_FR();
+			prop.DepthRange = c->GetZFar_FR() - c->GetZNear_FR();
+			prop.ZFar = c->GetZFar_FR();
+			prop.ZNear = c->GetZNear_FR();
 
 			// シャドウマップ作成
 			RenderTexture2D_Imp* shadowMap = nullptr;
@@ -698,8 +710,14 @@ float4 main( const PS_Input Input ) : SV_Target
 					proj);
 
 				RenderingShadowMapProperty shadowProp;
-				shadowProp.LightProjectionMatrix = proj * view;
-				prop.LightProjectionMatrix = shadowProp.LightProjectionMatrix;
+				shadowProp.CameraMatrix = view;
+				shadowProp.ProjectionMatrix = proj;
+				shadowProp.DepthRange = prop.DepthRange;
+				shadowProp.ZFar = prop.ZFar;
+				shadowProp.ZNear = prop.ZNear;
+
+				prop.LightCameraMatrix = shadowProp.CameraMatrix;
+				prop.LightProjectionMatrix = shadowProp.ProjectionMatrix;
 
 				for (auto& o : m_objects)
 				{
@@ -809,14 +827,18 @@ float4 main( const PS_Input Input ) : SV_Target
 
 
 					SSAOConstantPixelBuffer& cpbuf = m_ssaoShader->GetPixelConstantBuffer<SSAOConstantPixelBuffer>();
-					cpbuf.Radius = 0.2f;
+					cpbuf.Radius = 0.1f;
 					cpbuf.ProjScale = c->GetWindowSize().Y * yScale / 2.0f;
-					cpbuf.Bias = 0.1f;
-					cpbuf.Intensity = 5.0f;
+					cpbuf.Bias = 0.001f;
+					cpbuf.Intensity = 1.0f;
+
+					/*
 					cpbuf.ReconstructInfo1[0] = c->GetZNear_FR() * c->GetZFar_FR();
 					cpbuf.ReconstructInfo1[1] = c->GetZFar_FR() - c->GetZNear_FR();
 					cpbuf.ReconstructInfo1[2] = -c->GetZFar_FR();
-
+					*/
+					cpbuf.ReconstructInfo1[0] = c->GetZFar_FR() - c->GetZNear_FR();
+					cpbuf.ReconstructInfo1[1] = c->GetZNear_FR();
 
 					cpbuf.ReconstructInfo2[0] = 1.0f / xScale;
 					cpbuf.ReconstructInfo2[1] = 1.0f / yScale;
@@ -980,8 +1002,9 @@ float4 main( const PS_Input Input ) : SV_Target
 		}
 	}
 
-	Renderer3D::Renderer3D(Graphics* graphics)
+	Renderer3D::Renderer3D(Graphics* graphics, RenderSettings settings)
 		: m_graphics(nullptr)
+		, m_settings(settings)
 		, m_multithreadingMode(false)
 		, m_renderTarget(nullptr)
 		, m_event(this)

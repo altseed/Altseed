@@ -62,6 +62,20 @@ namespace ace
 			return ret;
 		}
 
+		/// <summary>
+		/// 6枚の画像ファイルからキューブマップテクスチャを生成する。
+		/// </summary>
+		/// <param name="front">前方向の画像ファイルへの相対パス</param>
+		/// <param name="left">左方向の画像ファイルへの相対パス</param>
+		/// <param name="back">後ろ方向の画像ファイルへの相対パス</param>
+		/// <param name="right">右方向の画像ファイルへの相対パス</param>
+		/// <param name="top">上方向の画像ファイルへの相対パス</param>
+		/// <param name="bottom">下方向の画像ファイルへの相対パス</param>
+		/// <returns>キューブマップ</returns>
+		CubemapTexture CreateCubemapTextureFrom6ImageFiles(string front, string left, string back, string right, string top, string bottom)
+		{
+			return GC.GenerateCubemapTexture(graphics.CreateCubemapTextureFrom6ImageFiles_(front, left, back, right, top, bottom), GC.GenerationType.Create);
+		}
 
 		/// <summary>
 		/// シェーダー(2D)を生成する。

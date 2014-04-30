@@ -28,8 +28,11 @@ namespace ace {
 	class Sound;
 	class SoundSource;
 
+	class Texture;
 	class Texture2D;
 	class RenderTexture2D;
+	class CubemapTexture;
+
 	class Shader2D;
 	class Material2D;
 
@@ -181,6 +184,23 @@ namespace ace {
 	};
 
 	/**
+		@brief	描画設定のクラス
+	*/
+	class RenderSettings
+	{
+	public:
+		/**
+			@brief	遅延レンダリングから軽量レンダリングに変更し高速に描画するか?
+		*/
+		bool IsLightweightMode;
+
+		RenderSettings()
+		{
+			IsLightweightMode = false;
+		}
+	};
+
+	/**
 	@brief	参照カウンタのインターフェース
 	*/
 	class IReference
@@ -204,7 +224,6 @@ namespace ace {
 		*/
 		virtual int Release() = 0;
 	};
-
 
 	//----------------------------------------------------------------------------------
 	//

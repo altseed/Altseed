@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-	public class Texture2D : IDestroy
+	public class Texture2D : Texture, IDestroy
 	{
 		internal swig.Texture2D SwigObject { get; set; }
 

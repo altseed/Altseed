@@ -25,7 +25,7 @@ namespace ace
 		virtual CoreModelObject3D* CreateModelObject3D() = 0;
 		virtual CoreCameraObject3D* CreateCameraObject3D() = 0;
 		virtual CoreDirectionalLightObject3D* CreateDirectionalLightObject3D() = 0;
-		virtual CoreLayer3D* CreateLayer3D() = 0;
+		virtual CoreLayer3D* CreateLayer3D(RenderSettings settings) = 0;
 
 		virtual CoreScene* CreateScene() = 0;
 		virtual CorePostEffect* CreatePostEffect() = 0;
