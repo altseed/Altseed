@@ -508,6 +508,18 @@
     <ClInclude Include="..\core\Graphics\Common\3D\Renderer\Shader\Model_Internal_PS_DX.h">
       <Filter>Graphics\Common\3D\Renderer\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -773,6 +785,15 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Common\3D\Renderer\ace.Shader3DCache.cpp">
       <Filter>Graphics\Common\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

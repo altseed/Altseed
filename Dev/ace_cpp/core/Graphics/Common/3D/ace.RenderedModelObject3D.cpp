@@ -404,7 +404,7 @@ void main()
 	vec2 shadowUV = vec2( (vaLightPos.x / vaLightPos.w + 1.0) / 2.0, (vaLightPos.y / vaLightPos.w + 1.0) / 2.0 );
 	float shadowZ = vaLightDepth;
 
-	float2 shadowParam = texture2D(g_shadowTexture, shadowUV).xy;
+	vec2 shadowParam = texture2D(g_shadowTexture, shadowUV).xy;
 
 	float p = VSM(shadowParam, shadowZ );
 

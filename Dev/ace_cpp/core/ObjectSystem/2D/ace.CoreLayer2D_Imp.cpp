@@ -5,6 +5,8 @@
 #include "../../Graphics/Common/ace.Graphics_Imp.h"
 #include "../../Graphics/Common/2D/ace.LayerRenderer.h"
 
+#include "ace.CoreCameraObject2D_Imp.h"
+
 using namespace std;
 
 namespace ace
@@ -47,7 +49,7 @@ namespace ace
 	{
 		if (object->GetIsCamera())
 		{
-			auto camera = (CoreCameraObject2D*)object;
+			auto camera = (CoreCameraObject2D_Imp*)object;
 			m_cameras.push_back(camera);
 			SafeAddRef(camera);
 		}

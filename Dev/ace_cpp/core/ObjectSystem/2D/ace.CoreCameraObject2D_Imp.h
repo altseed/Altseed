@@ -1,11 +1,12 @@
 ﻿#pragma once
 #include "ace.CoreCameraObject2D.h"
-#include "ace.ObjectInfo2D.h"
+#include "ace.CoreObject2D_Imp.h"
 
 namespace ace
 {
 	class CoreCameraObject2D_Imp
 		: public CoreCameraObject2D
+		, public CoreObject2D_Imp
 		, public ReferenceObject
 	{
 	private:
@@ -27,24 +28,6 @@ namespace ace
 		bool GetIsCamera() const
 		{
 			return true;
-		}
-
-		bool GetIsDrawn() const
-		{
-			return m_objectInfo.GetIsDrawn();
-		}
-		void SetIsDrawn(bool value)
-		{
-			m_objectInfo.SetIsDrawn(value);
-		}
-
-		bool GetIsAlive() const
-		{
-			return m_objectInfo.GetIsAlive();
-		}
-		void SetIsAlive(bool value)
-		{
-			m_objectInfo.SetIsAlive(value);
 		}
 
 		RectI GetSrc() const;
@@ -127,10 +110,7 @@ namespace ace
 		{
 			m_objectInfo.SetLayer(layer);
 		}
-
-		int AddRef() { return ReferenceObject::AddRef(); }
-		int Release() { return ReferenceObject::Release(); }
-		int GetRef() { return ReferenceObject::GetRef(); }
 #endif
+		CORE_OBJECT2D_IMP_COMMON
 	};
 }

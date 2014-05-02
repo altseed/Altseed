@@ -14,7 +14,6 @@ namespace ace
 		, m_alphablend(eAlphaBlend::ALPHA_BLEND_BLEND)
 		, m_drawingPtiority(0)
 		, m_transform(TransformInfo2D())
-		, m_objectInfo(ObjectInfo2D())
 		, m_src(RectF(0, 0, 1, 1))
 	{
 	}

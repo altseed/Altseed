@@ -6,7 +6,8 @@
 
 namespace ace
 {
-	class CoreCameraObject2D : public CoreObject2D
+	class CoreCameraObject2D 
+		: public CoreObject2D
 	{
 	public:
 		virtual RectI GetSrc() const = 0;

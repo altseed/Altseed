@@ -265,8 +265,12 @@
     <ClInclude Include="..\core\Log\ace.Log_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.TransformInfo2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.ParentInfo2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreLayer2D.h" />
@@ -386,6 +390,9 @@
     <ClCompile Include="..\core\Input\ace.SideButton.cpp" />
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.ObjectInfo2D.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.TransformInfo2D.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreLayer2D_Imp.cpp" />

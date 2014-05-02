@@ -1,19 +1,19 @@
 ﻿#pragma once
 #include "../common/Math/ace.RectF.h"
 #include "ace.CoreTextureObject2D.h"
+#include "ace.CoreObject2D_Imp.h"
+
 #include "ace.TransformInfo2D.h"
-#include "ace.ObjectInfo2D.h"
 
 namespace ace
 {
-	class CoreTextureObject2D_Imp :
-		public CoreTextureObject2D,
-		public ReferenceObject
+	class CoreTextureObject2D_Imp
+		: public CoreTextureObject2D
+		, public CoreObject2D_Imp
+		, public ReferenceObject
 	{
 	private:
 		TransformInfo2D m_transform;
-		ObjectInfo2D m_objectInfo;
-
 		Texture2D* m_texture;
 		RectF m_src;
 		Vector2DF m_centerPosition;
@@ -30,24 +30,6 @@ namespace ace
 		bool GetIsCamera() const
 		{
 			return false;
-		}
-
-		bool GetIsDrawn() const
-		{
-			return m_objectInfo.GetIsDrawn();
-		}
-		void SetIsDrawn(bool value)
-		{
-			m_objectInfo.SetIsDrawn(value);
-		}
-
-		bool GetIsAlive() const
-		{
-			return m_objectInfo.GetIsAlive();
-		}
-		void SetIsAlive(bool value)
-		{
-			m_objectInfo.SetIsAlive(value);
 		}
 
 #pragma region Paramater
@@ -81,7 +63,6 @@ namespace ace
 		{
 			m_transform.SetScale(value);
 		}
-
 
 		Texture2D* GetTexture() const;
 		void SetTexture(Texture2D* texture);
@@ -135,10 +116,7 @@ namespace ace
 		{
 			return m_transform.GetMatrixToTransform();
 		}
-
-		virtual int GetRef() { return ReferenceObject::GetRef(); }
-		virtual int AddRef() { return ReferenceObject::AddRef(); }
-		virtual int Release() { return ReferenceObject::Release(); }
 #endif
+		CORE_OBJECT2D_IMP_COMMON
 	};
 }

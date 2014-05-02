@@ -6,7 +6,8 @@
 
 namespace ace
 {
-	class CoreTextureObject2D : public CoreObject2D
+	class CoreTextureObject2D 
+		: public CoreObject2D
 	{
 	public:
 		virtual ~CoreTextureObject2D()
