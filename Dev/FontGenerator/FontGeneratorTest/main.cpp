@@ -5,18 +5,17 @@
 #include "../FontGeneratorCore/Generator.h"
 #include "../FontGeneratorCore/Rendering/Color.h"
 
+#pragma comment(lib,"ace_common.lib")
 #pragma comment(lib,"FontGeneratorCore.lib")
 
 #if _DEBUG
 #pragma comment(lib,"freetype253MT_D.lib")
 #pragma comment(lib,"libpng16.Debug.lib")
 #pragma comment(lib,"zlib.Debug.lib")
-#pragma comment(lib,"ace_common.lib")
 #else
 #pragma comment(lib,"freetype253MT.lib")
 #pragma comment(lib,"libpng16.Release.lib")
 #pragma comment(lib,"zlib.Release.lib")
-#pragma comment(lib,"ace_common.lib")
 #endif
 
 using namespace std;
