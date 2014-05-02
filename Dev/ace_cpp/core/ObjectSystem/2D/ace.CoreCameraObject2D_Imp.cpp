@@ -11,15 +11,13 @@ namespace ace
 		, m_dst(RectI(0, 0, 100, 100))
 		, m_renderTarget(nullptr)
 		, m_renderer(nullptr)
-		, m_graphics(graphics)
+		, CoreObject2D_Imp(graphics)
 	{
-		SafeAddRef(m_graphics);
 		ResetBuffer();
 	}
 
 	CoreCameraObject2D_Imp::~CoreCameraObject2D_Imp()
 	{
-		SafeRelease(m_graphics);
 		SafeRelease(m_renderTarget);
 		SafeDelete(m_renderer);
 	}

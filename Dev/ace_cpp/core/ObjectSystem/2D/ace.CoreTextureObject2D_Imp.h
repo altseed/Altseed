@@ -24,7 +24,7 @@ namespace ace
 		int m_drawingPtiority;
 
 	public:
-		CoreTextureObject2D_Imp();
+		CoreTextureObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreTextureObject2D_Imp();
 
 		bool GetIsCamera() const

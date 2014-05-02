@@ -45,7 +45,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	CoreTextureObject2D* ObjectSystemFactory_Imp::CreateTextureObject2D()
 	{
-		return new CoreTextureObject2D_Imp();
+		return new CoreTextureObject2D_Imp(m_graphics);
 	}
 
 	CoreCameraObject2D* ObjectSystemFactory_Imp::CreateCameraObject2D()

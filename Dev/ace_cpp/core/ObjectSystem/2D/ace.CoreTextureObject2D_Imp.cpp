@@ -5,7 +5,7 @@
 
 namespace ace
 {
-	CoreTextureObject2D_Imp::CoreTextureObject2D_Imp()
+	CoreTextureObject2D_Imp::CoreTextureObject2D_Imp(Graphics_Imp* graphics)
 		: m_texture(nullptr)
 		, m_centerPosition(Vector2DF())
 		, m_color(Color())
@@ -15,6 +15,7 @@ namespace ace
 		, m_drawingPtiority(0)
 		, m_transform(TransformInfo2D())
 		, m_src(RectF(0, 0, 1, 1))
+		, CoreObject2D_Imp(graphics)
 	{
 	}
 

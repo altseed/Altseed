@@ -10,12 +10,9 @@ namespace ace
 		, public ReferenceObject
 	{
 	private:
-		ObjectInfo2D m_objectInfo;
-
 		RectI m_src;
 		RectI m_dst;
 
-		Graphics_Imp* m_graphics;
 		Renderer2D* m_renderer;
 		RenderTexture2D_Imp* m_renderTarget;
 

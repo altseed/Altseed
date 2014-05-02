@@ -27,10 +27,10 @@ namespace ace
 	private:
 
 	protected:
-		ObjectInfo2D m_objectInfo;
-
+		ObjectInfo2D	m_objectInfo;
+		Graphics_Imp*	m_graphics;
 	public:
-		CoreObject2D_Imp();
+		CoreObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreObject2D_Imp();
 
 		bool GetIsDrawn() const
