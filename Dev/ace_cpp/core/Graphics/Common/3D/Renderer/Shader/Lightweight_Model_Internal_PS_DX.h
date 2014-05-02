@@ -1,6 +1,6 @@
-static const char* lightweight_model_internal_ps_dx = R"(
+ï»¿static const char* lightweight_model_internal_ps_dx = R"(
 
-//<|| ƒ‚ƒfƒ‹‹¤’ÊƒŒƒWƒXƒ^
+//<|| ãƒ¢ãƒ‡ãƒ«å…±é€šãƒ¬ã‚¸ã‚¹ã‚¿
 Texture2D		g_colorTexture		: register( t0 );
 SamplerState	g_colorSampler		: register( s0 );
 //>||

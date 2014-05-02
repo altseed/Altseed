@@ -1,6 +1,6 @@
-static const char* lightweight_model_internal_vs_dx = R"(
+ï»¿static const char* lightweight_model_internal_vs_dx = R"(
 
-//<|| ƒ‚ƒfƒ‹‹¤’ÊƒŒƒWƒXƒ^
+//<|| ãƒ¢ãƒ‡ãƒ«å…±é€šãƒ¬ã‚¸ã‚¹ã‚¿
 float4x4	matM[32]					: register( c0 );
 float4x4	matC						: register( c128 );
 float4x4	matP						: register( c132 );
@@ -11,7 +11,7 @@ float3		directionalLightColor		: register( c137 );
 float3		skyLightColor				: register( c138 );
 float3		groundLightColor			: register( c139 );
 
-//<|| ƒ‚ƒfƒ‹‹¤’Ê’¸“_“ü—Í
+//<|| ãƒ¢ãƒ‡ãƒ«å…±é€šé ‚ç‚¹å…¥åŠ›
 struct VS_Input
 {
 	float3 Position		: Position0;
@@ -36,7 +36,7 @@ struct VS_Output
 	half3 Normal	: NORMAL0;
 };
 
-//<|| ƒ‚ƒfƒ‹‹¤’ÊŠÖ”
+//<|| ãƒ¢ãƒ‡ãƒ«å…±é€šé–¢æ•°
 float4x4 calcMatrix(float4 weights, uint4 indexes)
 {
 	return matM[indexes.x] * weights.x +

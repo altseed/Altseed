@@ -1,4 +1,4 @@
-#include "../../PCH/ace.UnitTestCpp.PCH.h"
+﻿#include "../../PCH/ace.UnitTestCpp.PCH.h"
 #include <Graphics/Font/ace.AffIndexTable.h>
 #include <memory>
 #include <cstdint>

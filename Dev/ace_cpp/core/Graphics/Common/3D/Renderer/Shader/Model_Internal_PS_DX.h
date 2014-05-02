@@ -1,6 +1,6 @@
-static const char* model_internal_ps_dx = R"(
+ï»¿static const char* model_internal_ps_dx = R"(
 
-//<|| ƒ‚ƒfƒ‹‹¤’ÊƒŒƒWƒXƒ^
+//<|| ãƒ¢ãƒ‡ãƒ«å…±é€šãƒ¬ã‚¸ã‚¹ã‚¿
 Texture2D		g_colorTexture		: register( t0 );
 SamplerState	g_colorSampler		: register( s0 );
 //>||
@@ -26,7 +26,7 @@ struct PS_Output
 	float4 NormalDepth	: SV_Target1;
 	float4 Specular		: SV_Target2;
 	float4 RoughnessMaterialAO		: SV_Target3;
-	// ƒ‰ƒCƒgƒ}ƒbƒvŒn‚ª“ü‚ç‚È‚¢
+	// ãƒ©ã‚¤ãƒˆãƒãƒƒãƒ—ç³»ãŒå…¥ã‚‰ãªã„
 }
 
 float4 main( const PS_Input Input ) : SV_Target
