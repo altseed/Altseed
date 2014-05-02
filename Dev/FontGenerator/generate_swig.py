@@ -55,12 +55,8 @@ def exec_sync( cmd ):
 	ret = p.wait()
 	print('')
 
-conv_dir(r'ace_cpp/')
-conv_dir(r'unitTest_cpp_gtest/')
-conv_dir(r'unitTest_Engine_cpp_gtest/')
-
-if not os.path.isdir('ace_cs/swig'):
-  os.makedirs('ace_cs/swig')
+if not os.path.isdir('FontGenerator/swig'):
+  os.makedirs('FontGenerator/swig')
 
 
 exec_sync( 'swig -c++ -csharp -namespace FontGenerator.swig -dllimport FontGeneratorCore -o FontGeneratorCore/dll_cs.cxx -outdir FontGenerator/swig/ FontGenerator.i' )

@@ -29,6 +29,7 @@
     <ClInclude Include="PngGenerator.h" />
     <ClInclude Include="ResultOfGeneratingPng.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="DLL.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering\Color.cpp">
@@ -49,5 +50,7 @@
     <ClCompile Include="FontData.cpp" />
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="PngGenerator.cpp" />
+    <ClCompile Include="DLL.cpp" />
+    <ClCompile Include="dll_cs.cxx" />
   </ItemGroup>
 </Project>

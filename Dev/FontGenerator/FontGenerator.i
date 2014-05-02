@@ -1,14 +1,25 @@
 %module FontGenerator
 
 %{
-#include "Generator.h"
+#include "DLL.h"
 %}
 
 //-----------------------------------------------------------------------------------
 // csharp
 //-----------------------------------------------------------------------------------
-%include "stdint.i"
 %include "arrays_csharp.i"
+%include "wchar.i"
+%include "stdint.i"
+%include "std_vector.i"
+%include "std_string.i"
+%include "std_wstring.i"
+
+// 全OS共通でwchar_t扱い
+namespace ace {
+typedef wchar_t achar;
+typedef std::wstring astring;
+}
+
 
 // セキュリティチェックを外して高速化
 %pragma(csharp) imclassclassmodifiers="
@@ -133,4 +144,5 @@ public class"
 //-----------------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------------
-%include "FontGeneratorCore/Generator.h"
+%include "FontGeneratorCore/DLL.h"
+
