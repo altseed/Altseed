@@ -87,7 +87,7 @@
     <ClInclude Include="ResultOfGeneratingPng.h" />
     <ClInclude Include="Rendering\Setting.h" />
     <ClInclude Include="Rendering\SettingForRendering.h" />
-    <ClInclude Include="utility.h" />
+    <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering\Color.cpp" />
