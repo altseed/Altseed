@@ -64,6 +64,6 @@ namespace ace
 		*/
 		std::array<Vector2DI, 4> GetVertexes() const;
 
-		bool operator==(RectI& other);
+		bool operator == (const RectI& other) const;
 	};
 }

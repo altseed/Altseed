@@ -29,7 +29,10 @@ void Font_IndexTable()
 	ASSERT_EQ(0, result[L'N']);
 	ASSERT_EQ(1, result[L'A']);
 	ASSERT_EQ(2, result[L'C']);
-	ASSERT_EQ(AffIndexTable::NONAVAILABLE, result[L'X']);
+
+	// Linux対策
+	auto NONAVAILABLE = AffIndexTable::NONAVAILABLE;
+	ASSERT_EQ(NONAVAILABLE, result[L'X']);
 }
 
 TEST(Font, IndexTableIO)

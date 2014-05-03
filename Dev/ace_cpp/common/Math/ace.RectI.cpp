@@ -36,7 +36,7 @@ namespace ace
 		return result;
 	}
 
-	bool RectI::operator==(RectI& other)
+	bool RectI::operator==(const RectI& other) const
 	{
 		return X == other.X
 			&& Y == other.Y

@@ -10,8 +10,8 @@ void AssertGlyphData(GlyphData& expected, GlyphData& actual)
 {
 	ASSERT_EQ(expected.GetCharactor(), actual.GetCharactor());
 	ASSERT_EQ(expected.GetSheetNum(), actual.GetSheetNum());
-	//ASSERT_EQ(expected.GetSrc(), actual.GetSrc());
-	ASSERT_TRUE(expected.GetSrc() == actual.GetSrc());
+	ASSERT_EQ(expected.GetSrc(), actual.GetSrc());
+	//ASSERT_TRUE(expected.GetSrc() == actual.GetSrc());
 }
 
 void Font_GlyphDataSerialize()
