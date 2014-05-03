@@ -10,7 +10,7 @@ Windowsでは実行ファイルへパスを通す必要があります。
 
 Windowsではパッケージ管理ツール Chocolatey を使用することで容易に導入できます。
 
-Ubuntuでは、'''../Script/install_swig_ubuntu.sh'''　を実行することでswigを容易にインストールすることができます。
+Ubuntuでは、```Script/install_swig_ubuntu.sh```　を実行することでswigを容易にインストールすることができます。
 
 ## Windows
 
@@ -27,9 +27,10 @@ Ubuntuでは、'''../Script/install_swig_ubuntu.sh'''　を実行することで
 * gcc(4.7以上)
 
 * 各種ライブラリ
-- Ubuntu
-
+  - Ubuntu
+```
 libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg-dev libglu1-mesa-dev libpulse-dev libvorbis-dev libogg-dev
+```
 
 ## Mac
 
@@ -39,7 +40,7 @@ libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg
 
 ## glfw for ACE
 
-Script/download_glfw.py  を実行する。
+```Script/download_glfw.py``` を実行します。
 
 ## zip,libpng
 
@@ -49,7 +50,7 @@ Script/download_glfw.py  を実行する。
 
 ### 他
 
-Script/download_libpng.py  を実行する。
+```Script/download_libpng.py``` を実行します。
 
 
 ## glew
@@ -60,46 +61,46 @@ Script/download_libpng.py  を実行する。
 
 ### 他
 
-パッケージ管理ツールで入手する。
+パッケージ管理ツールで入手します。
 
 ## GoogleTest
 
-Script/download_gtest.py を実行する。
+```Script/download_gtest.py``` を実行します。
 
 ## Effekseer
 
-Script/download_effekseer.py を実行する。
+```Script/download_effekseer.py``` を実行します。
 
 ## OpenSoundMixer
 
-Script/download_OpenSoundMixer.py を実行する。
+```Script/download_OpenSoundMixer.py``` を実行します。
 
 # ヘッダの生成
 
-以下のスクリプトを実行する。
+以下のスクリプトを実行します。
 
-'''
+```
 Dev/generateCoreToEngineHeader.py
 Dev/generateEngineHeader.py
 Dev/generate_swig.py
-'''
+```
 
 # コンパイル
 
 ## Windows
 
-以下のソリューションを実行する。
+以下のソリューションを実行します。
 
-'''
+```
 Dev/unitTest_Engine_cpp.sln
 Dev/unitTest_Engine_cs.sln
-'''
+```
 
 ## 他
 
-Script/compile.py を実行する。
+```Script/compile.py``` を実行します。
 
 # リリース
 
-Doxygenを導入し、パスを通す。
-Script/release.py を実行する。(現在、Windowsのみ対応)
+Doxygenをインストールします。
+```Script/release.py``` を実行します。現在、Windowsのみ対応しております。
