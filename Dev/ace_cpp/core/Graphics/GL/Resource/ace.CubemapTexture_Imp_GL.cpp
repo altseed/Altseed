@@ -37,6 +37,10 @@ namespace ace
 			return true;
 		};
 
+		int32_t width = 0;
+		int32_t height = 0;
+		GLuint cubemapTexture = 0;
+
 		int32_t widthes[6];
 		int32_t heights[6];
 		std::vector<uint8_t> fileBuffers[6];
@@ -82,16 +86,14 @@ namespace ace
 		}
 
 
-		auto width = widthes[0];
-		auto height = heights[0];
+		width = widthes[0];
+		height = heights[0];
 
 		for (int32_t i = 0; i < 6; i++)
 		{
 			if (widthes[i] != width) goto End;
 			if (heights[i] != height) goto End;
 		}
-
-		GLuint cubemapTexture = 0;
 
 		glGenTextures(1, &cubemapTexture);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);

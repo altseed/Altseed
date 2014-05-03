@@ -22,6 +22,9 @@
 %insert(runtime) %{
 /* Callback for returning strings to C# without leaking memory */
 
+#include <stdint.h>
+#include <string>
+
 namespace ace
 {
 #ifdef _WIN32

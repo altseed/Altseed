@@ -16,11 +16,11 @@ void AssertGlyphData(GlyphData& expected, GlyphData& actual)
 
 void Font_GlyphDataSerialize()
 {
-	static wstring fileName = L"test.aff";
+	static astring fileName = ToAString(L"test.aff");
 	static int count = 3;
 
 	vector<GlyphData> glyphs;
-	wstring str = L"NumAni";
+	astring str = ToAString(L"NumAni");
 	for (int i = 0; i < count; ++i)
 	{
 		RectI rect(i*20, 0, 20, 40);
@@ -32,7 +32,7 @@ void Font_GlyphDataSerialize()
 	{
 		x.Push(writer);
 	}
-	ofstream out(fileName, ios::binary);
+	ofstream out(ToUtf8String(fileName.c_str()).c_str(), ios::binary);
 	writer.WriteOut(out);
 	out.close();
 

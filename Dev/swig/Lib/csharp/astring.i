@@ -61,7 +61,7 @@ class astring;
    return $null; %}
 
 // const astring &
-%typemap(ctype, out="void *") const astring & "wchar_t *"
+%typemap(ctype, out="void *") const astring & "::ace::achar *"
 %typemap(imtype, inattributes="[global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]") const astring & "string"  
 %typemap(cstype) const astring & "string"
 

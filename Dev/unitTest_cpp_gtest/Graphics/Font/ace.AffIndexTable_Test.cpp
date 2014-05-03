@@ -8,7 +8,7 @@ using namespace ace;
 
 void Font_IndexTable()
 {
-	static wstring fileName = L"test.aff";
+	static astring fileName = ToAString(L"test.aff");
 
 	AffIndexTable table;
 	table.AppendFontIndex(L'N', 0);
@@ -17,7 +17,7 @@ void Font_IndexTable()
 
 	BinaryWriter writer;
 	table.Push(writer);
-	ofstream out(fileName, ios::binary);
+	ofstream out(ToUtf8String(fileName.c_str()).c_str(), ios::binary);
 	writer.WriteOut(out);
 	out.close();
 

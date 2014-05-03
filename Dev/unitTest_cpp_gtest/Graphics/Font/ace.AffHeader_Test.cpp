@@ -8,7 +8,7 @@ using namespace ace;
 
 static void Font_AffHeader()
 {
-	static wstring fileName = L"test.aff";
+	static astring fileName = ToAString(L"test.aff");
 
 	auto header = make_shared<AffHeader>(ToAString("test"));
 	header->SetFontSize(10);
@@ -17,7 +17,8 @@ static void Font_AffHeader()
 
 	BinaryWriter writer;
 	header->Push(writer);
-	ofstream out(fileName, ios::binary);
+
+	ofstream out(ToUtf8String(fileName.c_str()).c_str(), ios::binary);
 	writer.WriteOut(out);
 	out.close();
 
