@@ -14,9 +14,15 @@ namespace ace
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		public Layer3D()
+		public Layer3D(RenderSettings settings = null)
 		{
-			coreLayer3D = Engine.ObjectSystemFactory.CreateLayer3D();
+			swig.RenderSettings settings_ = new swig.RenderSettings();
+			if(settings_ != null)
+			{
+				settings_.IsLightweightMode = settings.IsLightweightMode;
+			}
+
+			coreLayer3D = Engine.ObjectSystemFactory.CreateLayer3D(settings_);
 
 			var p = coreLayer3D.GetPtr();
 			if (GC.Layer3Ds.GetObject(p) != null)

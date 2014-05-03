@@ -3,8 +3,6 @@
 #include "ace.CoreTextureObject2D.h"
 #include "ace.CoreObject2D_Imp.h"
 
-#include "ace.TransformInfo2D.h"
-
 namespace ace
 {
 	class CoreTextureObject2D_Imp
@@ -13,7 +11,6 @@ namespace ace
 		, public ReferenceObject
 	{
 	private:
-		TransformInfo2D m_transform;
 		Texture2D* m_texture;
 		RectF m_src;
 		Vector2DF m_centerPosition;
@@ -27,43 +24,9 @@ namespace ace
 		CoreTextureObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreTextureObject2D_Imp();
 
-		bool GetIsCamera() const
-		{
-			return false;
-		}
+		eObject2DType GetObjectType() const override { return eObject2DType::RENDERED_OBJECT2D_TYPE_TEXTURE; }
 
-#pragma region Paramater
-		Vector2DF GetPosition() const
-		{
-			return m_transform.GetPosition();
-		}
-		void SetPosition(Vector2DF value)
-		{
-			m_transform.SetPosition(value);
-		}
-		Vector2DF GetGlobalPosition()
-		{
-			return m_transform.GetGlobalPosition();
-		}
-
-		float GetAngle() const
-		{
-			return m_transform.GetAngle();
-		}
-		void SetAngle(float value)
-		{
-			m_transform.SetAngle(value);
-		}
-
-		Vector2DF GetScale() const
-		{
-			return m_transform.GetScale();
-		}
-		void SetScale(Vector2DF value)
-		{
-			m_transform.SetScale(value);
-		}
-
+#pragma region Parameter
 		Texture2D* GetTexture() const;
 		void SetTexture(Texture2D* texture);
 
@@ -89,34 +52,12 @@ namespace ace
 		void SetAlphaBlendMode(eAlphaBlend alphaBlend);
 #pragma endregion
 
-		void AddChild(CoreObject2D& child, eChildMode mode);
-		void RemoveChild(CoreObject2D& child);
-
-#if !SWIG
 		void Draw(Renderer2D* renderer, Matrix33 cameraMatrix);
-		
-		void SetLayer(CoreLayer2D* layer)
-		{
-			m_objectInfo.SetLayer(layer);
-		}
-		void SetParent(CoreObject2D& parent, eChildMode mode)
-		{
-			m_transform.SetParent(parent, mode);
-		}
-		void ClearParent()
-		{
-			m_transform.ClearParent();
-		}
 
-		Matrix33 GetMatrixToTranslate()
-		{
-			return m_transform.GetMatrixToTranslate();
-		}
-		Matrix33 GetMatrixToTransform()
-		{
-			return m_transform.GetMatrixToTransform();
-		}
-#endif
 		CORE_OBJECT2D_IMP_COMMON
+
+		CORE_OBJECT2D_IMP_TRANSFORM
+
+		CORE_OBJECT2D_IMP_CHILD
 	};
 }

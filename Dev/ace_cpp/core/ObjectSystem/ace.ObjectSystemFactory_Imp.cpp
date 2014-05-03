@@ -3,6 +3,8 @@
 
 #include "2D/ace.CoreTextureObject2D_Imp.h"
 #include "2D/ace.CoreCameraObject2D_Imp.h"
+#include "2D/ace.CoreTextObject2D_Imp.h"
+#include "2D/ace.CoreEffectObject2D_Imp.h"
 #include "2D/ace.CoreLayer2D_Imp.h"
 
 #include "3D/ace.CoreLayer3D_Imp.h"
@@ -51,6 +53,16 @@ namespace ace
 	CoreCameraObject2D* ObjectSystemFactory_Imp::CreateCameraObject2D()
 	{
 		return new CoreCameraObject2D_Imp(m_graphics);
+	}
+
+	CoreTextObject2D* ObjectSystemFactory_Imp::CreateTextObject2D()
+	{
+		return new CoreTextObject2D_Imp(m_graphics);
+	}
+
+	CoreEffectObject2D* ObjectSystemFactory_Imp::CreateEffectObject2D()
+	{
+		return new CoreEffectObject2D_Imp(m_graphics);
 	}
 
 	//----------------------------------------------------------------------------------

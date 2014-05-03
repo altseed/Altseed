@@ -118,6 +118,7 @@
     <Compile Include="swig\CoreCameraObject2D.cs" />
     <Compile Include="swig\CoreCameraObject3D.cs" />
     <Compile Include="swig\CoreDirectionalLightObject3D.cs" />
+    <Compile Include="swig\CoreEffectObject2D.cs" />
     <Compile Include="swig\CoreEffectObject3D.cs" />
     <Compile Include="swig\CoreLayer.cs" />
     <Compile Include="swig\CoreLayer2D.cs" />
@@ -127,6 +128,7 @@
     <Compile Include="swig\CoreObject3D.cs" />
     <Compile Include="swig\CorePostEffect.cs" />
     <Compile Include="swig\CoreScene.cs" />
+    <Compile Include="swig\CoreTextObject2D.cs" />
     <Compile Include="swig\CoreTextureObject2D.cs" />
     <Compile Include="swig\Core_Imp.cs" />
     <Compile Include="swig\CubemapTexture.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="swig\eKeyboardButtonState.cs" />
     <Compile Include="swig\eKeys.cs" />
     <Compile Include="swig\eMouseButtonState.cs" />
+    <Compile Include="swig\eObject2DType.cs" />
     <Compile Include="swig\eRenderedObject3DType.cs" />
     <Compile Include="swig\eRotationOrder.cs" />
     <Compile Include="swig\eTextureClassType.cs" />

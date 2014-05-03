@@ -47,6 +47,8 @@
 #include "ObjectSystem/2D/ace.CoreObject2D.h"
 #include "ObjectSystem/2D/ace.CoreTextureObject2D.h"
 #include "ObjectSystem/2D/ace.CoreCameraObject2D.h"
+#include "ObjectSystem/2D/ace.CoreTextObject2D.h"
+#include "ObjectSystem/2D/ace.CoreEffectObject2D.h"
 
 #include "ObjectSystem/ace.CoreLayer.h"
 
@@ -247,13 +249,12 @@ CPP_OBJECT( ace::CoreLayer )
 CPP_OBJECT( ace::CoreLayer_Imp )
 
 CPP_OBJECT( ace::CoreLayer2D )
-CPP_OBJECT( ace::CoreLayer2D_Imp )
 CPP_OBJECT( ace::CoreObject2D )
-CPP_OBJECT( ace::CoreObject2D_Imp )
 CPP_OBJECT( ace::CoreTextureObject2D )
-CPP_OBJECT( ace::CoreTextureObject2D_Imp )
 CPP_OBJECT( ace::CoreCameraObject2D )
-CPP_OBJECT( ace::CoreCameraObject2D_Imp )
+CPP_OBJECT( ace::CoreTextObject2D )
+CPP_OBJECT( ace::CoreEffectObject2D )
+
 
 CPP_OBJECT( ace::CoreObject3D )
 CPP_OBJECT( ace::CoreModelObject3D )
@@ -393,6 +394,8 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D.h"
+%include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextObject2D.h"
+%include "ace_cpp/core/ObjectSystem/2D/ace.CoreEffectObject2D.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.CoreLayer.h"
 

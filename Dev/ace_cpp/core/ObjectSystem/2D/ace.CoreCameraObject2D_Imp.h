@@ -22,10 +22,7 @@ namespace ace
 		CoreCameraObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreCameraObject2D_Imp();
 
-		bool GetIsCamera() const
-		{
-			return true;
-		}
+		eObject2DType GetObjectType() const override { return eObject2DType::RENDERED_OBJECT2D_TYPE_CAMERA; }
 
 		RectI GetSrc() const;
 		void SetSrc(RectI value);
@@ -102,11 +99,6 @@ namespace ace
 		void DrawBuffer(Renderer2D* renderer);
 
 		void Draw(Renderer2D* renderer, Matrix33 cameraMatrix);
-
-		void SetLayer(CoreLayer2D* layer)
-		{
-			m_objectInfo.SetLayer(layer);
-		}
 #endif
 		CORE_OBJECT2D_IMP_COMMON
 	};

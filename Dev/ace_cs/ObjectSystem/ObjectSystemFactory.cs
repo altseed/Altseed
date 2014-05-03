@@ -79,10 +79,11 @@ namespace ace
 		/// <summary>
 		/// ネイティブの CoreLayer2D クラスをインスタンス化する。
 		/// </summary>
+		/// <param name="settings">設定</param>
 		/// <returns>ネイティブのインスタンス</returns>
-		public swig.CoreLayer3D CreateLayer3D()
+		public swig.CoreLayer3D CreateLayer3D(swig.RenderSettings settings)
 		{
-			return factory.CreateLayer3D();
+			return factory.CreateLayer3D(settings);
 		}
 
 		/// <summary>

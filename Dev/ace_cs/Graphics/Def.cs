@@ -117,4 +117,15 @@ namespace ace
 		/// </summary>
 		internal Texture2D texture;
 	}
+
+	/// <summary>
+	/// 描画設定のクラス
+	/// </summary>
+	public class RenderSettings
+	{
+		/// <summary>
+		/// 遅延レンダリングから軽量レンダリングに変更し高速に描画するか?
+		/// </summary>
+		public bool IsLightweightMode = false;
+	}
 }

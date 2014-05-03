@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.CoreTextObject2D_Imp.h"
 
 namespace ace

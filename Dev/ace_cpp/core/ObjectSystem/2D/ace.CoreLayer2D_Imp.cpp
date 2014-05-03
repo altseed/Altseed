@@ -47,7 +47,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::AddObject(ObjectPtr object)
 	{
-		if (object->GetIsCamera())
+		if (object->GetObjectType() == eObject2DType::RENDERED_OBJECT2D_TYPE_CAMERA)
 		{
 			auto camera = (CoreCameraObject2D_Imp*)object;
 			m_cameras.push_back(camera);
@@ -67,7 +67,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::RemoveObject(ObjectPtr object)
 	{
-		if (object->GetIsCamera())
+		if (object->GetObjectType() == eObject2DType::RENDERED_OBJECT2D_TYPE_CAMERA)
 		{
 			auto camera = (CoreCameraObject2D*)object;
 			m_cameras.remove(camera);

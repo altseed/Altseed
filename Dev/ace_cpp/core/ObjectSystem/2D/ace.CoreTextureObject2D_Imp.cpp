@@ -13,7 +13,6 @@ namespace ace
 		, m_turnUL(false)
 		, m_alphablend(eAlphaBlend::ALPHA_BLEND_BLEND)
 		, m_drawingPtiority(0)
-		, m_transform(TransformInfo2D())
 		, m_src(RectF(0, 0, 1, 1))
 		, CoreObject2D_Imp(graphics)
 	{
@@ -226,15 +225,5 @@ namespace ace
 			m_texture,
 			m_alphablend,
 			m_drawingPtiority);
-	}
-
-	void CoreTextureObject2D_Imp::AddChild(CoreObject2D& child, eChildMode mode)
-	{
-		child.SetParent(*this, mode);
-	}
-
-	void CoreTextureObject2D_Imp::RemoveChild(CoreObject2D& child)
-	{
-		child.ClearParent();
 	}
 }
