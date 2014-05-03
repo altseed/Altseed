@@ -1,6 +1,6 @@
 ﻿amusement-creators-engine
 =========================
 
-[コンパイル手順](Dcoument/HowToCompile.md)
+[コンパイル手順](Document/HowToCompile.md)
 
-[現在のタスク](Dcoument/Task.md)
+[現在のタスク](Document/Task.md)
