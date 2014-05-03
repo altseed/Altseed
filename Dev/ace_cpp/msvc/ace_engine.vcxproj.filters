@@ -68,6 +68,12 @@
     <ClCompile Include="..\engine\PCH\ace.Engine.PCH.cpp">
       <Filter>PCH</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.EffectObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.TextObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -138,6 +144,12 @@
     </ClInclude>
     <ClInclude Include="..\engine\PCH\ace.Engine.PCH.h">
       <Filter>PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.EffectObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.TextObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

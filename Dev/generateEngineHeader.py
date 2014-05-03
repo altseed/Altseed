@@ -123,6 +123,8 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Layer.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Object2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.CameraObject2D.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.TextObject2D.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.EffectObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.h")
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.Object3D.h")

@@ -57,6 +57,8 @@ namespace ace {
 	class CoreObject2D;
 	class CoreTextureObject2D;
 	class CoreCameraObject2D;
+	class CoreTextObject2D;
+	class CoreEffectObject2D;
 
 	class CoreLayer3D;
 	class CoreObject3D;

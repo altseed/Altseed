@@ -17,18 +17,40 @@ namespace ace
 			this.factory = factory;
 		}
 
+		/// <summary>
+		/// ネイティブのクラスをインスタンス化する。
+		/// </summary>
+		/// <returns>ネイティブのインスタンス</returns>
 		public swig.CoreCameraObject2D CreateCameraObject2D()
 		{
 			return factory.CreateCameraObject2D();
 		}
 
 		/// <summary>
-		/// ネイティブの CoreTextureObject2D クラスをインスタンス化する。
+		/// ネイティブのクラスをインスタンス化する。
 		/// </summary>
-		/// <returns>ネイティブのインスタンス。</returns>
+		/// <returns>ネイティブのインスタンス</returns>
 		public swig.CoreTextureObject2D CreateTextureObject2D()
 		{
 			return factory.CreateTextureObject2D();
+		}
+
+		/// <summary>
+		/// ネイティブのクラスをインスタンス化する。
+		/// </summary>
+		/// <returns>ネイティブのインスタンス</returns>
+		public swig.CoreTextObject2D CreateTextObject2D()
+		{
+			return factory.CreateTextObject2D();
+		}
+
+		/// <summary>
+		/// ネイティブのクラスをインスタンス化する。
+		/// </summary>
+		/// <returns>ネイティブのインスタンス</returns>
+		public swig.CoreEffectObject2D CreateEffectObject2D()
+		{
+			return factory.CreateEffectObject2D();
 		}
 
 		/// <summary>

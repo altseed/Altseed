@@ -18,6 +18,7 @@ namespace ace
 			get { return coreCameraObject.GetDst(); }
 			set { coreCameraObject.SetDst( value ); }
 		}
+
 		internal override swig.CoreObject2D CoreObject
 		{
 			get { return coreCameraObject; }
