@@ -333,7 +333,7 @@ static std::vector<int8_t> GetBinaryData(astring filePath)
 	_wfopen_s(&fp, filePath.c_str(), L"rb");
 	if (fp == nullptr) return std::vector<int8_t>();
 #else
-	auto fp = fopen(ToUtf8String(filePath).c_str(), "rb");
+	fp = fopen(ToUtf8String(filePath.c_str()).c_str(), "rb");
 	if (fp == nullptr) return std::vector<int8_t>();
 #endif
 
