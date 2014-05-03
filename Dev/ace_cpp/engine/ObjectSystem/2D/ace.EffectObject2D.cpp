@@ -1,4 +1,4 @@
-#include "ace.EffectObject2D.h"
+﻿#include "ace.EffectObject2D.h"
 
 namespace ace
 {

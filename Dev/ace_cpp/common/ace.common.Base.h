@@ -322,14 +322,19 @@ static float RadianToDegree(float radian)
 	return radian / PI * 180.0f;
 }
 
-static std::vector<int8_t> GetBinaryData(std::wstring filePath)
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+static std::vector<int8_t> GetBinaryData(astring filePath)
 {
-	FILE* fp;
+	FILE* fp = nullptr;
 
 #if _WIN32
 	_wfopen_s(&fp, filePath.c_str(), L"rb");
+	if (fp == nullptr) return std::vector<int8_t>();
 #else
-	ACE_ASSERT(false, "Windows以外での GetBinaryData 関数は未実装です。");
+	auto fp = fopen(ToUtf8String(filePath).c_str(), "rb");
+	if (fp == nullptr) return std::vector<int8_t>();
 #endif
 
 	fseek(fp, 0, SEEK_END);
