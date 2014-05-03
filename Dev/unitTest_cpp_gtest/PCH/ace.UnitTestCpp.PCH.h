@@ -17,7 +17,7 @@
 #include <Graphics/Common/Resource/ace.IndexBuffer_Imp.h>
 #include <Graphics/Common/Resource/ace.NativeShader_Imp.h>
 #include <Graphics/Common/Resource/ace.RenderState_Imp.h>
-#include <Graphics/Common/Resource/ace.RenderTexture_Imp.h>
+#include <Graphics/Common/Resource/ace.RenderTexture2D_Imp.h>
 #include <Graphics/Common/Resource/ace.DepthBuffer_Imp.h>
 
 #include <cstdint>

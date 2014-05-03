@@ -154,7 +154,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log, false);
 	ASSERT_TRUE(graphics != nullptr);
 
-	auto renderer3d = new ace::Renderer3D(graphics);
+	auto renderer3d = new ace::Renderer3D(graphics, ace::RenderSettings());
 	ASSERT_TRUE(renderer3d != nullptr);
 	renderer3d->SetWindowSize(ace::Vector2DI(640, 480));
 
