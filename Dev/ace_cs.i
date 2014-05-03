@@ -77,17 +77,25 @@
 // csharp
 //-----------------------------------------------------------------------------------
 %include "arrays_csharp.i"
-%include "wchar.i"
 %include "stdint.i"
 %include "std_vector.i"
 %include "std_string.i"
-%include "std_wstring.i"
 
-// 全OS共通でwchar_t扱い
+// 通常の定義
+//namespace ace {
+//	typedef wchar_t achar;
+//	typedef std::wstring astring;
+//}
+//%include "wchar.i"
+//%include "std_wstring.i"
+
+// 独自の定義を使用
 namespace ace {
-typedef wchar_t achar;
-typedef std::wstring astring;
+	class achar;
+	class astring;
 }
+%include "swig/Lib/csharp/achar.i"
+%include "swig/Lib/csharp/astring.i"
 
 // swig上ではなし
 #define ACE_DLLEXPORT 
@@ -103,18 +111,18 @@ unsafe class"
 
 %pragma(csharp) moduleclassmodifiers="unsafe class"
 
-// csharp void* の定義
+//-----------------------------------------------------------------------------------
+// void*定義
+//-----------------------------------------------------------------------------------
 %typemap(ctype) void * "void *"
-%typemap(imtype) void * "IntPtr"
-%typemap(cstype) void * "IntPtr"
+%typemap(imtype) void * "System.IntPtr"
+%typemap(cstype) void * "System.IntPtr"
 %typemap(in) void * { $1 = $input; }
 %typemap(out) void * { $result = $1; }
 %typemap(csin) void * "$csinput"
 %typemap(csout) void * { return $imcall; }
 %typemap(csvarin) void * "set { $imcall; }"
 %typemap(csvarout) void * "get { return $imcall; }" 
-
-
 
 //-----------------------------------------------------------------------------------
 // 構造体定義
@@ -185,7 +193,7 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 {
 	lock(this)
 	{
-		GC.SuppressFinalize(this);
+		System.GC.SuppressFinalize(this);
 	}
 }
 
@@ -193,7 +201,7 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 {
 	lock(this)
 	{
-		GC.SuppressFinalize(this);
+		System.GC.SuppressFinalize(this);
 	}
 }
 
@@ -207,7 +215,7 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 {
 	int result = $imcall;
 	swigCMemOwn = false;
-	swigCPtr = new HandleRef(null, IntPtr.Zero);
+	swigCPtr = new System.Runtime.InteropServices.HandleRef(null, System.IntPtr.Zero);
 	return result;
 }
 %}
@@ -217,7 +225,7 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 {
 	int result = $imcall;
 	swigCMemOwn = false;
-	swigCPtr = new HandleRef(null, IntPtr.Zero);
+	swigCPtr = new System.Runtime.InteropServices.HandleRef(null, System.IntPtr.Zero);
 	return result;
 }
 %}
@@ -233,7 +241,7 @@ DISABLE_DISPOSE( ace::ReferenceObject )
 DISABLE_DISPOSE( CTYPE )
 %typemap(cscode) CTYPE
 %{
-    public IntPtr GetPtr()
+    public System.IntPtr GetPtr()
     {
     return  swigCPtr.Handle;
     }

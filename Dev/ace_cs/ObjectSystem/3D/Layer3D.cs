@@ -17,7 +17,7 @@ namespace ace
 		public Layer3D(RenderSettings settings = null)
 		{
 			swig.RenderSettings settings_ = new swig.RenderSettings();
-			if(settings_ != null)
+			if(settings != null)
 			{
 				settings_.IsLightweightMode = settings.IsLightweightMode;
 			}
