@@ -21,6 +21,18 @@
 #define SWIG_CSHARP_WSTRING_HELPER_
 %insert(runtime) %{
 /* Callback for returning strings to C# without leaking memory */
+
+namespace ace
+{
+#ifdef _WIN32
+typedef wchar_t achar;
+typedef std::wstring astring;
+#else 
+typedef uint16_t achar;
+typedef std::basic_string<uint16_t> astring;
+#endif
+};
+
 typedef void * (SWIGSTDCALL* SWIG_CSharpWStringHelperCallback)(const ::ace::achar *);
 static SWIG_CSharpWStringHelperCallback SWIG_csharp_wstring_callback = NULL;
 %}

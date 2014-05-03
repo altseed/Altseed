@@ -9,6 +9,7 @@ namespace unitTest_Engine_cs
 {
 	class Program
 	{
+		[STAThread]
 		static void Main( string[] args )
 		{
 			/*
