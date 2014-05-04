@@ -45,6 +45,8 @@ namespace ace {
 	class DepthBuffer_Imp;
 	class Shader2D_Imp;
 
+	class ShaderCache;
+
 	class MaterialCommand;
 	class Material2DCommand;
 	class Material2D_Imp;

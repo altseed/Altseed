@@ -42,7 +42,6 @@ set(core_src
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedModelObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.RenderedObject3D.cpp
 	ace_cpp/core/Graphics/Common/3D/ace.Renderer3D.cpp
-	ace_cpp/core/Graphics/Common/3D/Renderer/ace.Shader3DCache.cpp
 	ace_cpp/core/Graphics/Common/ace.DeviceObject.cpp
 	ace_cpp/core/Graphics/Common/ace.GraphicsResourceContainer.cpp
 	ace_cpp/core/Graphics/Common/ace.Graphics_Imp.cpp
@@ -61,6 +60,7 @@ set(core_src
 	ace_cpp/core/Graphics/Common/Resource/ace.RenderState_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.RenderTexture2D_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.Shader2D_Imp.cpp
+	ace_cpp/core/Graphics/Common/Resource/ace.ShaderCache.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.Texture2D_Imp.cpp
 	ace_cpp/core/Graphics/Common/Resource/ace.VertexBuffer_Imp.cpp
 	ace_cpp/core/Input/ace.JoystickContainer_Imp.cpp

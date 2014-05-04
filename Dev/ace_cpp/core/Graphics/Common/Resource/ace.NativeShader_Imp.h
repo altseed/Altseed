@@ -39,11 +39,19 @@ namespace ace {
 		{
 		}
 
+		/**
+			@note	キャッシュ用キー
+		*/
+		astring		m_key;
+
 	public:
 		NativeShader_Imp(Graphics* graphics);
 		virtual ~NativeShader_Imp();
 
 		virtual void AssignConstantBuffer() = 0;
+
+		const achar* GetKey() { return m_key.c_str(); }
+		void SetKey(const achar* key) { m_key = key; }
 
 		template<typename T>
 		T& GetVertexConstantBuffer()

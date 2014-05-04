@@ -70,11 +70,8 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{4234750f-7ad3-4f83-8ef7-6a92ae1a6517}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Common\3D\Renderer">
-      <UniqueIdentifier>{5b118e06-e362-4e8a-a3b4-db4e7662413a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\Common\3D\Renderer\Shader">
-      <UniqueIdentifier>{b32bb277-1126-46ea-ae10-57719e9cb81f}</UniqueIdentifier>
+    <Filter Include="Graphics\Common\Shader">
+      <UniqueIdentifier>{9f0fe4e6-447e-49fb-a48a-35a03a90d6fb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -493,21 +490,6 @@
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.Texture.h">
       <Filter>Graphics\Common\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\3D\Renderer\ace.Shader3DCache.h">
-      <Filter>Graphics\Common\3D\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\3D\Renderer\Shader\Lightweight_Model_Internal_PS_DX.h">
-      <Filter>Graphics\Common\3D\Renderer\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\3D\Renderer\Shader\Lightweight_Model_Internal_VS_DX.h">
-      <Filter>Graphics\Common\3D\Renderer\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\3D\Renderer\Shader\Model_Internal_VS_DX.h">
-      <Filter>Graphics\Common\3D\Renderer\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\3D\Renderer\Shader\Model_Internal_PS_DX.h">
-      <Filter>Graphics\Common\3D\Renderer\Shader</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D_Imp.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
@@ -519,6 +501,21 @@
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp.h">
       <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Resource\ace.ShaderCache.h">
+      <Filter>Graphics\Common\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\Lightweight_Model_Internal_PS_DX.h">
+      <Filter>Graphics\Common\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\Lightweight_Model_Internal_VS_DX.h">
+      <Filter>Graphics\Common\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\Model_Internal_PS_DX.h">
+      <Filter>Graphics\Common\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\Model_Internal_VS_DX.h">
+      <Filter>Graphics\Common\Shader</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -783,9 +780,6 @@
     <ClCompile Include="..\core\Graphics\GL\Resource\ace.CubemapTexture_Imp_GL.cpp">
       <Filter>Graphics\GL\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\Common\3D\Renderer\ace.Shader3DCache.cpp">
-      <Filter>Graphics\Common\3D\Renderer</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
@@ -794,6 +788,9 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Common\Resource\ace.ShaderCache.cpp">
+      <Filter>Graphics\Common\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

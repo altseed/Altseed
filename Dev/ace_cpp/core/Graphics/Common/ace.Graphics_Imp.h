@@ -88,6 +88,8 @@ namespace ace {
 
 		Effekseer::Setting*	m_effectSetting = nullptr;
 
+		ShaderCache*		m_shaderCache = nullptr;
+
 		void AddDeviceObject(DeviceObject* o);
 		void RemoveDeviceObject(DeviceObject* o);
 
@@ -129,13 +131,6 @@ namespace ace {
 	protected:
 		virtual VertexBuffer_Imp* CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic) = 0;
 		virtual IndexBuffer_Imp* CreateIndexBuffer_Imp_(int maxCount, bool isDynamic, bool is32bit) = 0;
-		virtual NativeShader_Imp* CreateShader_Imp_(
-			const char* vertexShaderText,
-			const char* vertexShaderFileName,
-			const char* pixelShaderText,
-			const char* pixelShaderFileName,
-			std::vector <VertexLayout>& layout,
-			std::vector <Macro>& macro) = 0;
 
 		virtual void DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr) = 0;
 		virtual void DrawPolygonInstancedInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr, int32_t instanceCount) = 0;
@@ -276,6 +271,19 @@ namespace ace {
 		return CreateSharedPtr(CreateIndexBuffer_Imp_(maxCount, isDynamic, is32bit));
 	}
 
+	/**
+		@brief	シェーダーを生成する。
+		@note
+		基本的にShaderCacheを経由してシェーダーを生成するため、この関数を直接使う機会は殆ど無い。
+	*/
+	virtual NativeShader_Imp* CreateShader_Imp_(
+		const char* vertexShaderText,
+		const char* vertexShaderFileName,
+		const char* pixelShaderText,
+		const char* pixelShaderFileName,
+		std::vector <VertexLayout>& layout,
+		std::vector <Macro>& macro) = 0;
+
 	std::shared_ptr<NativeShader_Imp> CreateShader_Imp(
 		const char* vertexShaderText,
 		const char* vertexShaderFileName,
@@ -293,6 +301,12 @@ namespace ace {
 		@return	レンダーステート
 	*/
 	RenderState_Imp* GetRenderState() { return m_renderState; };
+
+	/**
+	@brief	シェーダキャッシュを取得する。
+	@return	シェーダキャッシュ
+	*/
+	ShaderCache* GetShaderCache() { return m_shaderCache; }
 
 	/**
 		@brief	リソースコンテナを取得する。

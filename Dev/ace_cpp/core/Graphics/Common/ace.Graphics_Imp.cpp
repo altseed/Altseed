@@ -19,6 +19,8 @@
 
 #include "Resource/ace.Effect_Imp.h"
 
+#include "Resource/ace.ShaderCache.h"
+
 #include "3D/ace.Mesh_Imp.h"
 #include "3D/ace.Deformer_Imp.h"
 #include "3D/ace.Model_Imp.h"
@@ -470,6 +472,8 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isMultithreadingMode)
 	m_effectSetting->SetCoordinateSystem(Effekseer::eCoordinateSystem::COORDINATE_SYSTEM_RH);
 	m_effectSetting->SetEffectLoader(new EffectLoader());
 
+	m_shaderCache = new ShaderCache(this);
+
 }
 
 //----------------------------------------------------------------------------------
@@ -477,6 +481,8 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isMultithreadingMode)
 //----------------------------------------------------------------------------------
 Graphics_Imp::~Graphics_Imp()
 {
+	SafeDelete(m_shaderCache);
+
 	SafeRelease(m_vertexBufferPtr);
 	SafeRelease(m_indexBufferPtr);
 	SafeRelease(m_shaderPtr);
