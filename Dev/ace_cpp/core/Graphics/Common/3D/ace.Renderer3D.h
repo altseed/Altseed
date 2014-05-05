@@ -56,7 +56,6 @@ namespace ace
 		{
 			Vector3DF	Position;
 			Vector2DF	UV;
-			Color		VColor;
 		};
 
 		struct SSAOVertex

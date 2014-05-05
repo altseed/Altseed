@@ -236,7 +236,7 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 	{
 		for ( auto& m : macro)
 		{
-			macros += (std::string(m.Name) + std::string(" ") + std::string(m.Definition) + std::string("\n"));
+			macros += (std::string("#define ") + std::string(m.Name) + std::string(" ") + std::string(m.Definition) + std::string("\n"));
 		}
 
 		vs_src[0] = (char*)macros.c_str();

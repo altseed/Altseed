@@ -236,6 +236,7 @@
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\Screen_VS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\SSAO_Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\SSAO_PS.h" />
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\Screen\Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\GL\Screen\Paste_PS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\GL\Screen\Screen_VS.h" />
     <ClInclude Include="..\core\Graphics\DX11\ace.DX11.Base.h" />

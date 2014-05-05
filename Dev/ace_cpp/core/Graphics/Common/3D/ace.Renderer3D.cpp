@@ -17,6 +17,8 @@
 #include "../Shader/GL/Screen/Screen_VS.h"
 #include "../Shader/GL/Screen/Paste_PS.h"
 
+#include "../Shader/DX/Screen/Blur_PS.h"
+#include "../Shader/GL/Screen/Blur_PS.h"
 
 #if _WIN32
 #include "../../DX11/ace.Graphics_Imp_DX11.h"
@@ -28,211 +30,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-static const char* shadowBlur_dx_vs = R"(
-
-struct VS_Input
-{
-	float3 Pos		: Pos0;
-	float2 UV		: UV0;
-	float4 Color	: COLOR0;
-};
-
-struct VS_Output
-{
-	float4 Pos_		: SV_POSITION;
-	float4 Pos		: Pos0;
-	float2 UV		: TEXCOORD0;
-	float4 Color	: COLOR0;
-};
-
-VS_Output main( const VS_Input Input )
-{
-	VS_Output Output = (VS_Output)0;
-	Output.Pos_ = float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 );
-	Output.Pos = float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 );
-	Output.UV = Input.UV;
-	Output.Color = Input.Color;
-	return Output;
-}
-
-)";
-
-static const char* shadowBlur_gl_vs = R"(
-
-attribute vec3 Pos;
-attribute vec2 UV;
-attribute vec4 Color;
-
-varying vec4 inPos;
-varying vec2 inUV;
-varying vec4 inColor;
-
-void main()
-{
-	gl_Position = vec4(Pos.x,Pos.y,Pos.z,1.0);
-	inPos = gl_Position;
-	inUV = UV;
-	inColor = Color;
-
-	// gl only
-	inUV.y = 1.0 - inUV.y;
-}
-
-)";
-
-static const char* shadowBlur_dx_ps_x = R"(
-
-struct PS_Input
-{
-	float4 Pos_		: SV_POSITION;
-	float4 Pos		: Pos0;
-	float2 UV		: TEXCOORD0;
-	float4 Color	: COLOR0;
-};
-
-Texture2D		g_texture		: register( t0 );
-SamplerState	g_sampler		: register( s0 );
-float4          g_weight        : register( c0 );
-float4 main( const PS_Input Input ) : SV_Target
-{
-	uint width, height;
-	g_texture.GetDimensions(width, height);
-	float2 accum = float2(1.0 / width, 0.0);
-	float2 half_ = float2(0.5 / width, 0.0);
-	float2 adder = float2(2.0 / width, 0.0);
-	
-	float4 output_ = (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	                 g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	                 g_weight.x;
-	if(output_.a == 0.0f) discard;
-	accum += adder;
-	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	           g_weight.y;
-	accum += adder;
-	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	           g_weight.z;
-	accum += adder;
-	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	           g_weight.w;
-	return output_;
-}
-
-)";
-
-static const char* shadowBlur_gl_ps_x = R"(
-
-varying vec4 inPos;
-varying vec2 inUV;
-varying vec4 inColor;
-
-uniform sampler2D g_texture;
-uniform vec4      g_weight;
-void main()
-{
-	vec2 accum = vec2(1.0 / float(textureSize(g_texture, 0).x), 0.0);
-	vec2 half_  = vec2(0.5 / float(textureSize(g_texture, 0).x), 0.0);
-	vec2 adder = vec2(2.0 / float(textureSize(g_texture, 0).x), 0.0);
-	vec4 output_ = (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	               texture2D(g_texture, inUV.xy + half_ - accum)) *
-	               g_weight.x;
-	accum += adder;
-	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	          texture2D(g_texture, inUV.xy + half_ - accum)) *
-	          g_weight.y;
-	accum += adder;
-	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	          texture2D(g_texture, inUV.xy + half_ - accum)) *
-	          g_weight.z;
-	accum += adder;
-	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	          texture2D(g_texture, inUV.xy + half_ - accum)) *
-	          g_weight.w;
-	gl_FragColor = output_; 
-}
-
-)";
-
-
-static const char* shadowBlur_dx_ps_y = R"(
-
-struct PS_Input
-{
-	float4 Pos_		: SV_POSITION;
-	float4 Pos		: Pos0;
-	float2 UV		: TEXCOORD0;
-	float4 Color	: COLOR0;
-};
-
-Texture2D		g_texture		: register( t0 );
-SamplerState	g_sampler		: register( s0 );
-float4          g_weight        : register( c0 );
-float4 main( const PS_Input Input ) : SV_Target
-{
-	uint width, height;
-	g_texture.GetDimensions(width, height);
-	float2 accum = float2(0.0, 1.0 / height);
-	float2 half_ = float2(0.0, 0.5 / height);
-	float2 adder = float2(0.0, 2.0 / height);
-	
-	float4 output_ = (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	                 g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	                 g_weight.x;
-	if(output_.a == 0.0f) discard;
-
-	accum += adder;
-	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	           g_weight.y;
-	accum += adder;
-	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	           g_weight.z;
-	accum += adder;
-	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	           g_weight.w;
-	return output_;
-}
-
-)";
-
-static const char* shadowBlur_gl_ps_y = R"(
-
-varying vec4 inPos;
-varying vec2 inUV;
-varying vec4 inColor;
-
-uniform sampler2D g_texture;
-uniform vec4      g_weight;
-void main()
-{
-	vec2 accum = vec2(0.0, 1.0 / float(textureSize(g_texture, 0).y));
-	vec2 half_  = vec2(0.0, 0.5 / float(textureSize(g_texture, 0).y));
-	vec2 adder = vec2(0.0, 2.0 / float(textureSize(g_texture, 0).y));
-	
-	vec4 output_ = (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	               texture2D(g_texture, inUV.xy + half_ - accum)) *
-	               g_weight.x;
-	accum += adder;
-	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	          texture2D(g_texture, inUV.xy + half_ - accum)) *
-	          g_weight.y;
-	accum += adder;
-	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	          texture2D(g_texture, inUV.xy + half_ - accum)) *
-	          g_weight.z;
-	accum += adder;
-	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	          texture2D(g_texture, inUV.xy + half_ - accum)) *
-	          g_weight.w;
-	gl_FragColor = output_; 
-}
-
-)";
-
 static const char* ssao_dx_vs = R"(
 struct VS_Input
 {
@@ -982,46 +779,46 @@ float4 main( const PS_Input Input ) : SV_Target
 			m_shadowIndexBuffer->Unlock();
 
 			std::vector<ace::VertexLayout> vl;
-			vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
 			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-			vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
+			
+			std::vector<ace::Macro> macro_x;
+			macro_x.push_back(Macro("BLUR_X", "1"));
 
-			std::vector<ace::Macro> macro;
+			std::vector<ace::Macro> macro_y;
+			macro_y.push_back(Macro("BLUR_Y", "1"));
+
 			if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
 			{
-				m_shadowShaderX = m_graphics->CreateShader_Imp(
-					shadowBlur_gl_vs,
-					"vs",
-					shadowBlur_gl_ps_x,
-					"ps",
+				m_shadowShaderX = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.BlurX").c_str(),
+					screen_vs_gl,
+					blur_ps_gl,
 					vl,
-					macro);
+					macro_x);
 
-				m_shadowShaderY = m_graphics->CreateShader_Imp(
-					shadowBlur_gl_vs,
-					"vs",
-					shadowBlur_gl_ps_y,
-					"ps",
+				m_shadowShaderY = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.BlurY").c_str(),
+					screen_vs_gl,
+					blur_ps_gl,
 					vl,
-					macro);
+					macro_y);
 			}
 			else
 			{
-				m_shadowShaderX = m_graphics->CreateShader_Imp(
-					shadowBlur_dx_vs,
-					"vs",
-					shadowBlur_dx_ps_x,
-					"ps",
+				m_shadowShaderX = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.BlurX").c_str(),
+					screen_vs_dx,
+					blur_ps_dx,
 					vl,
-					macro);
+					macro_x);
 
-				m_shadowShaderY = m_graphics->CreateShader_Imp(
-					shadowBlur_dx_vs,
-					"vs",
-					shadowBlur_dx_ps_y,
-					"ps",
+				m_shadowShaderY = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.BlurY").c_str(),
+					screen_vs_dx,
+					blur_ps_dx,
 					vl,
-					macro);
+					macro_y);
 			}
 
 			std::vector<ace::ConstantBufferInformation> constantBuffers;
