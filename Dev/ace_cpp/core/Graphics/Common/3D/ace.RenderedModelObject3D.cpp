@@ -165,7 +165,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	if(Output.a == 0.0f) discard;
 
 	// SSAO
-	float2 ssaoUV = float2( (Input.Pos.x / Input.Pos.w + 1.0) / 2.0, (-Input.Pos.y / Input.Pos.w + 1.0) / 2.0 );
+	float2 ssaoUV = float2( (Input.Pos.x / Input.Pos.w + 1.0) / 2.0, (Input.Pos.y / Input.Pos.w + 1.0) / 2.0 );
 	float a = g_ssaoTexture.Sample(g_ssaoSampler, ssaoUV).x;
 	//a = 1.0;
 
