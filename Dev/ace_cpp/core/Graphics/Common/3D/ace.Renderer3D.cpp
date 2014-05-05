@@ -5,10 +5,18 @@
 #include "ace.RenderedDirectionalLightObject3D.h"
 #include "../ace.Graphics_Imp.h"
 
+#include "../Resource/ace.ShaderCache.h"
 #include "../Resource/ace.NativeShader_Imp.h"
 #include "../Resource/ace.VertexBuffer_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
 #include "../Resource/ace.RenderState_Imp.h"
+
+
+#include "../Shader/DX/Screen/Screen_VS.h"
+#include "../Shader/DX/Screen/Paste_PS.h"
+#include "../Shader/GL/Screen/Screen_VS.h"
+#include "../Shader/GL/Screen/Paste_PS.h"
+
 
 #if _WIN32
 #include "../../DX11/ace.Graphics_Imp_DX11.h"
@@ -20,100 +28,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-static const char* paste_dx_vs = R"(
-struct VS_Input
-{
-	float3 Pos		: Pos0;
-	float2 UV		: UV0;
-};
-
-struct VS_Output
-{
-	float4 Pos		: SV_POSITION;
-	float2 UV		: TEXCOORD0;
-};
-
-float4 Size			: register( c0 );
-
-VS_Output main( const VS_Input Input )
-{
-	VS_Output Output = (VS_Output)0;
-
-	Output.Pos.x = Input.Pos.x / Size.x * 2.0 - 1.0;
-	Output.Pos.y = -(Input.Pos.y / Size.y * 2.0 - 1.0);
- 
-	Output.Pos.z = 0.5;
-	Output.Pos.w = 1.0;
-
-	Output.UV = Input.UV;
-	return Output;
-}
-
-)";
-
-static const char* paste_dx_ps = R"(
-
-Texture2D		g_texture		: register( t0 );
-SamplerState	g_sampler		: register( s0 );
-
-
-struct PS_Input
-{
-	float4 Pos		: SV_POSITION;
-	float2 UV		: TEXCOORD0;
-};
-
-
-float4 main( const PS_Input Input ) : SV_Target
-{
-	float4 Output = g_texture.Sample(g_sampler, Input.UV);
-	if(Output.a == 0.0f) discard;
-	return Output;
-}
-
-)";
-
-static const char* paste_gl_vs = R"(
-
-attribute vec3 Pos;
-attribute vec2 UV;
-
-varying vec4 vaTexCoord;
-
-uniform vec4 Size;
-
-void main()
-{
-	gl_Position.x = Pos.x / Size.x * 2.0 - 1.0;
-	gl_Position.y = -(Pos.y / Size.y * 2.0 - 1.0);
-
-	gl_Position.z = 0.5;
-	gl_Position.w = 1.0;
-
-	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
-}
-
-)";
-
-static const char* paste_gl_ps = R"(
-
-varying vec4 vaTexCoord;
-
-uniform sampler2D g_texture;
-
-void main() 
-{
-	// varying(in) は変更不可(Radeon)
-
-	// gl only
-	vec4 vaTexCoord_ = vaTexCoord;
-	vaTexCoord_.y = 1.0 - vaTexCoord_.y;
-
-	gl_FragColor = texture2D(g_texture, vaTexCoord_.xy);
-}
-
-)";
-
 static const char* shadowBlur_dx_vs = R"(
 
 struct VS_Input
@@ -951,11 +865,6 @@ float4 main( const PS_Input Input ) : SV_Target
 			auto c = (RenderedCameraObject3D*) co;
 			g->SetRenderTarget(GetRenderTarget(), nullptr);
 
-			// 定数バッファを設定
-			auto& cbuf = m_pasteShader->GetVertexConstantBuffer<PasteConstantBuffer>();
-			cbuf.Size[0] = m_windowSize.X;
-			cbuf.Size[1] = m_windowSize.Y;
-
 			// 頂点情報をビデオメモリに転送
 			if (!m_pasteVertexBuffer->RingBufferLock(6))
 			{
@@ -964,16 +873,14 @@ float4 main( const PS_Input Input ) : SV_Target
 
 			auto buf = m_pasteVertexBuffer->GetBuffer <PasteVertex>(6);
 
-			buf[0].Position = Vector3DF(0, 0, 0.5f);
-			buf[0].UV = Vector2DF(0, 0);
-			buf[1].Position = Vector3DF(m_windowSize.X, 0, 0.5f);
-			buf[1].UV = Vector2DF(1, 0);
-			buf[2].Position = Vector3DF(m_windowSize.X, m_windowSize.Y, 0.5f);
-			buf[2].UV = Vector2DF(1, 1);
-
-
-			buf[3].Position = Vector3DF(0, m_windowSize.Y, 0.5f);
-			buf[3].UV = Vector2DF(0, 1);
+			buf[0].Position = Vector3DF(-1.0f, -1.0f, 0.5f);
+			buf[0].UV = Vector2DF(0, 1);
+			buf[1].Position = Vector3DF(1.0f, -1.0f, 0.5f);
+			buf[1].UV = Vector2DF(1, 1);
+			buf[2].Position = Vector3DF(1.0f, 1.0f, 0.5f);
+			buf[2].UV = Vector2DF(1, 0);
+			buf[3].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
+			buf[3].UV = Vector2DF(0, 0);
 			buf[4] = buf[0];
 			buf[5] = buf[2];
 
@@ -1033,38 +940,28 @@ float4 main( const PS_Input Input ) : SV_Target
 			m_pasteIndexBuffer->Unlock();
 
 			std::vector<ace::VertexLayout> vl;
-			vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
 			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
 
 			std::vector<ace::Macro> macro;
 			if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
 			{
-				m_pasteShader = m_graphics->CreateShader_Imp(
-					paste_gl_vs,
-					"vs",
-					paste_gl_ps,
-					"ps",
+				m_pasteShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.Paste").c_str(),
+					screen_vs_gl,
+					paste_ps_gl,
 					vl,
 					macro);
 			}
 			else
 			{
-				m_pasteShader = m_graphics->CreateShader_Imp(
-					paste_dx_vs,
-					"vs",
-					paste_dx_ps,
-					"ps",
+				m_pasteShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.Paste").c_str(),
+					screen_vs_dx,
+					paste_ps_dx,
 					vl,
 					macro);
 			}
-
-			std::vector<ace::ConstantBufferInformation> constantBuffers;
-			constantBuffers.resize(1);
-			constantBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
-			constantBuffers[0].Name = std::string("Size");
-			constantBuffers[0].Offset = 0;
-
-			m_pasteShader->CreateVertexConstantBuffer<PasteConstantBuffer>(constantBuffers);
 		}
 
 		// シャドー用シェーダー

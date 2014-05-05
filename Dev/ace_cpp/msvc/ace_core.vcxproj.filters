@@ -73,6 +73,18 @@
     <Filter Include="Graphics\Common\Shader">
       <UniqueIdentifier>{9f0fe4e6-447e-49fb-a48a-35a03a90d6fb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Common\Shader\DX">
+      <UniqueIdentifier>{6d2fca11-668e-433a-a572-7c7b91d1660c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Common\Shader\DX\Screen">
+      <UniqueIdentifier>{e3414769-f7cf-4efd-8ece-e49cdce78dd2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Common\Shader\GL">
+      <UniqueIdentifier>{45fbe388-1a3f-44b5-8c6d-01cb5da8aefc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Common\Shader\GL\Screen">
+      <UniqueIdentifier>{ac807921-cc4e-481d-8fba-9e799103c187}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -505,17 +517,41 @@
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.ShaderCache.h">
       <Filter>Graphics\Common\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\Shader\Lightweight_Model_Internal_PS_DX.h">
-      <Filter>Graphics\Common\Shader</Filter>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\Lightweight_Model_Internal_PS.h">
+      <Filter>Graphics\Common\Shader\DX</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\Shader\Lightweight_Model_Internal_VS_DX.h">
-      <Filter>Graphics\Common\Shader</Filter>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\Lightweight_Model_Internal_VS.h">
+      <Filter>Graphics\Common\Shader\DX</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\Shader\Model_Internal_PS_DX.h">
-      <Filter>Graphics\Common\Shader</Filter>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\Model_Internal_PS.h">
+      <Filter>Graphics\Common\Shader\DX</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Common\Shader\Model_Internal_VS_DX.h">
-      <Filter>Graphics\Common\Shader</Filter>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\Model_Internal_VS.h">
+      <Filter>Graphics\Common\Shader\DX</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\Blur_PS.h">
+      <Filter>Graphics\Common\Shader\DX\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\DirectionalLight_Shadow_PS.h">
+      <Filter>Graphics\Common\Shader\DX\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\Screen_VS.h">
+      <Filter>Graphics\Common\Shader\DX\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\SSAO_Blur_PS.h">
+      <Filter>Graphics\Common\Shader\DX\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\SSAO_PS.h">
+      <Filter>Graphics\Common\Shader\DX\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\Paste_PS.h">
+      <Filter>Graphics\Common\Shader\DX\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\Screen\Screen_VS.h">
+      <Filter>Graphics\Common\Shader\GL\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\Screen\Paste_PS.h">
+      <Filter>Graphics\Common\Shader\GL\Screen</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
