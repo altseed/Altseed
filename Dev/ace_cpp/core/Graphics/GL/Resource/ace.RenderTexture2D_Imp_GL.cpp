@@ -57,7 +57,7 @@ namespace ace {
 			glTexImage2D(
 				GL_TEXTURE_2D,
 				0,
-				GL_RGBA,
+				GL_RGBA32F,
 				width,
 				height,
 				0,

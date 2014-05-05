@@ -47,10 +47,7 @@ struct VS_Output
 	float4 Position		: SV_POSITION;
 	float4 Pos			: POSITION0;	
 
-	float4 LightPos		: Light0;
-
 	float Depth			: POSITION1;
-	float LightDepth	: Light1;
 
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
@@ -93,10 +90,6 @@ VS_Output main( const VS_Input Input )
 	Output.Color.xyz = directionalLightColor * max( dot(cDirectionalLightDirection.xyz,cNormal.xyz), 0.0 ) + 0.2;
 	Output.Color.w = 1.0;
 
-	Output.LightPos = mul( matMLC, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
-	Output.LightDepth = (-Output.LightPos.z - depthParams.z) / depthParams.x;
-	Output.LightPos = mul( matLP, Output.LightPos );
-
 	return Output;
 }
 
@@ -109,10 +102,7 @@ struct PS_Input
 	float4 Position		: SV_POSITION;
 	float4 Pos			: POSITION0;
 
-	float4 LightPos		: Light0;
-
 	float Depth			: POSITION1;
-	float LightDepth	: Light1;
 
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
@@ -137,22 +127,6 @@ SamplerState	g_shadowSampler		: register( s3 );
 Texture2D		g_ssaoTexture		: register( t4 );
 SamplerState	g_ssaoSampler		: register( s4 );
 
-float VSM(float2 moments, float t)
-{
-	float ex = moments.x;
-	float ex2 = moments.y;
-
-	float p = 0.0;
-	if (t <= ex) p = 1.0;
-
-	float variance = ex2 - ex * ex;
-	variance = max(variance, 0.4 / (depthParams_.x * depthParams_.x));
-
-	float d = t - ex;
-	float p_max = variance / (variance + d * d);
-	return max(p, p_max);
-}
-
 float4 main( const PS_Input Input ) : SV_Target
 {
 	float4 Output = Input.Color;
@@ -165,18 +139,11 @@ float4 main( const PS_Input Input ) : SV_Target
 	if(Output.a == 0.0f) discard;
 
 	// SSAO
-	float2 ssaoUV = float2( (Input.Pos.x / Input.Pos.w + 1.0) / 2.0, (Input.Pos.y / Input.Pos.w + 1.0) / 2.0 );
+	float2 ssaoUV = float2( (Input.Pos.x / Input.Pos.w + 1.0) / 2.0, 1.0-(Input.Pos.y / Input.Pos.w + 1.0) / 2.0 );
 	float a = g_ssaoTexture.Sample(g_ssaoSampler, ssaoUV).x;
 	//a = 1.0;
 
-	// shadow
-	float2 shadowUV = float2( (Input.LightPos.x / Input.LightPos.w + 1.0) / 2.0, 1.0 - (Input.LightPos.y / Input.LightPos.w + 1.0) / 2.0 );
-	float lightDepthZ = Input.LightDepth;
-
-	float2 shadowParam = g_shadowTexture.Sample(g_shadowSampler, shadowUV).xy;
-
-	float shadow = VSM(shadowParam, lightDepthZ );
-
+	float shadow = g_shadowTexture.Sample(g_shadowSampler, ssaoUV).x;
 
 	Output.rgb = Output.rgb * shadow * a;
 	return Output;
@@ -190,10 +157,8 @@ struct PS_Input
 {
 	float4 Position		: SV_POSITION;
 	float4 Pos			: POSITION0;
-	float4 LightPos	: Light0;
 
 	float Depth			: POSITION1;
-	float LightDepth	: Light1;
 
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
@@ -234,10 +199,8 @@ struct PS_Input
 {
 	float4 Position		: SV_POSITION;
 	float4 Pos			: POSITION0;
-	float4 LightPos	: Light0;
 
 	float Depth			: POSITION1;
-	float LightDepth	: Light1;
 
 	float4 Color	: Color0;
 	float2 UV		: TEXCOORD0;
@@ -296,13 +259,11 @@ uniform vec3		directionalLightDirection;
 uniform vec3		directionalLightColor;
 
 varying vec4 vaPos;
-varying vec4 vaLightPos;
 varying vec2 vaUV;
 varying vec4 vaColor;
 varying vec3 vaNormal;
 
 varying float vaDepth;
-varying float vaLightDepth;
 
 mat4 calcMatrix(vec4 weights, vec4 indexes)
 {
@@ -338,10 +299,6 @@ void main()
 	vaColor.xyz = directionalLightColor * max( dot(cDirectionalLightDirection.xyz,cNormal.xyz), 0.0 ) + 0.2;
 	vaColor.w = 1.0;
 
-	vaLightPos = matMLC * vec4( Position.x, Position.y, Position.z, 1.0 );
-	vaLightDepth = (-vaLightPos.z - depthParams.z) / depthParams.x;
-	vaLightPos = matLP * vaLightPos;
-
 	gl_Position = vaPos;
 }
 
@@ -350,13 +307,11 @@ void main()
 static const char* gl_ps = R"(
 
 varying vec4 vaPos;
-varying vec4 vaLightPos;
 varying vec2 vaUV;
 varying vec4 vaColor;
 varying vec3 vaNormal;
 
 varying float vaDepth;
-varying float vaLightDepth;
 
 uniform vec4 hasTextures;
 uniform vec3 depthParams_;
@@ -365,24 +320,6 @@ uniform sampler2D g_colorTexture;
 uniform sampler2D g_normalTexture;
 uniform sampler2D g_specularTexture;
 uniform sampler2D g_shadowTexture;
-
-float VSM(vec2 moments, float t)
-{
-	float ex = moments.x;
-	float ex2 = moments.y;
-
-	float p = 0.0;
-	if (t <= ex)
-	{
-		p = 1.0;
-	}
-
-	float variance = ex2 - ex * ex;
-	variance = max(variance, 0.4 / (depthParams_.x * depthParams_.x));
-	float d = t - ex;
-	float p_max = variance / (variance + d * d);
-	return max(p, p_max);
-}
 
 void main() 
 {
@@ -401,27 +338,21 @@ void main()
 
 	if(gl_FragColor.a == 0.0f) discard;
 
-	// shadow
-	vec2 shadowUV = vec2( (vaLightPos.x / vaLightPos.w + 1.0) / 2.0, (vaLightPos.y / vaLightPos.w + 1.0) / 2.0 );
-	float shadowZ = vaLightDepth;
+	float2 ssaoUV = float2( (vaPos.x / vaPos.w + 1.0) / 2.0, (vaPos.y / vaPos.w + 1.0) / 2.0 );
 
-	vec2 shadowParam = texture2D(g_shadowTexture, shadowUV).xy;
+	float shadow = texture2D(g_shadowTexture, ssaoUV);
 
-	float p = VSM(shadowParam, shadowZ );
-
-	gl_FragColor.rgb = gl_FragColor.rgb * p;
+	gl_FragColor.rgb = gl_FragColor.rgb * shadow;
 }
 
 )";
 
 static const char* gl_shadow_ps = R"(
 varying vec4 vaPos;
-varying vec4 vaLightPos;
 varying vec2 vaUV;
 varying vec4 vaColor;
 varying vec3 vaNormal;
 varying float vaDepth;
-varying float vaLightDepth;
 
 uniform vec4 hasTextures;
 uniform vec3 depthParams_;
@@ -455,12 +386,10 @@ void main()
 
 static const char* gl_normal_depth_ps = R"(
 varying vec4 vaPos;
-varying vec4 vaLightPos;
 varying vec2 vaUV;
 varying vec4 vaColor;
 varying vec3 vaNormal;
 varying float vaDepth;
-varying float vaLightDepth;
 
 uniform vec4 hasTextures;
 uniform vec3 depthParams_;

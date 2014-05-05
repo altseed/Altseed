@@ -16,6 +16,7 @@ namespace ace
 		, m_renderTargetNormalDepth_FR(nullptr)
 		, m_renderTargetSSAO_FR(nullptr)
 		, m_renderTargetSSAO_temp_FR(nullptr)
+		, m_renderTargetShadow_FR(nullptr)
 	{
 		m_renderTarget_FR[0] = nullptr;
 		m_renderTarget_FR[1] = nullptr;
@@ -37,6 +38,8 @@ namespace ace
 		SafeRelease(m_renderTarget_FR[1]);
 		SafeRelease(m_depthBuffer_FR);
 		SafeRelease(m_renderTargetNormalDepth_FR);
+
+		SafeRelease(m_renderTargetShadow_FR);
 
 		SafeRelease(m_renderTargetSSAO_FR);
 		SafeRelease(m_renderTargetSSAO_temp_FR);
@@ -63,6 +66,8 @@ namespace ace
 
 			m_renderTargetSSAO_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			m_renderTargetSSAO_temp_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+
+			m_renderTargetShadow_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 		}
 
 		m_values_FR.size = m_values.size;

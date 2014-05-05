@@ -15,8 +15,11 @@ SamplerState	g_gbuffer3Sampler		: register( s3 );
 Texture2D		g_shadowmapTexture		: register( t4 );
 SamplerState	g_shadowmapSampler		: register( s4 );
 
-float4x4		g_screenToShadowmap		: register( c0 );
+float4x4		g_cameraPositionToShadowCameraPosition		: register( c0 );
+float4x4		g_shadowProjection							: register( c4 );
 
+float3 reconstructInfo1	: register( c8 );
+float4 reconstructInfo2	: register( c9 );
 
 struct PS_Input
 {
@@ -26,18 +29,38 @@ struct PS_Input
 	float2 UV				: UV0;
 };
 
-float GetDepth(float2 uv)
+float GetNormalizedDepth(float2 uv)
 {
-	float w = g_gbuffer2Sampler.Sample(g_gbuffer2Sampler, uv);
-	return w;
+	return g_gbuffer2Texture.Sample(g_gbuffer2Sampler, uv).w;
 }
 
-float2 GetShadowmapUV(float4 position, float2 uv)
+float ReconstructDepth(float z)
 {
-	float w = g_gbuffer2Sampler.Sample(g_gbuffer2Sampler, uv);
-	float4 originalProjectedPos = float4(position.x, position.y, w, 1.0);
-	float4 shadowmapProjectedPos = mul(g_screenToShadowmap, originalProjectedPos);
-	return float2( (shadowmapProjectedPos.x + 1.0) / 2.0f, -(shadowmapProjectedPos.y + 1.0) / 2.0f );
+	return -((z * reconstructInfo1.x) + reconstructInfo1.y);
+}
+
+float3 ReconstructPosition(float2 screenXY, float depth)
+{
+	return float3( reconstructInfo2.xy * screenXY * (-depth), depth );
+}
+
+float4 ReconstructShadowmapPosition(float3 cameraPos)
+{
+	float4 shadowmapPos = mul( g_cameraPositionToShadowCameraPosition, float4(cameraPos,1.0) );
+	shadowmapPos = shadowmapPos / shadowmapPos.w;
+	return shadowmapPos;
+}
+
+float4 ReconstructProjectedShadowmapPosition(float4 shadowmapPosition)
+{
+	float4 shadowmapPos = mul( g_shadowProjection, shadowmapPosition );
+	shadowmapPos = shadowmapPos / shadowmapPos.w;
+	return shadowmapPos;
+}
+
+float2 GetShadowmapUV(float4 shadowmapPos)
+{
+	return float2( (shadowmapPos.x + 1.0) / 2.0f, 1.0 - (shadowmapPos.y + 1.0) / 2.0f );
 }
 
 float VSM(float2 moments, float t)
@@ -49,7 +72,7 @@ float VSM(float2 moments, float t)
 	if (t <= ex) p = 1.0;
 
 	float variance = ex2 - ex * ex;
-	variance = max(variance, 0.4 / (depthParams_.x * depthParams_.x));
+	variance = max(variance, 0.4 / (reconstructInfo1.x * reconstructInfo1.x));
 
 	float d = t - ex;
 	float p_max = variance / (variance + d * d);
@@ -58,17 +81,23 @@ float VSM(float2 moments, float t)
 
 float4 main( const PS_Input Input ) : SV_Target
 {
+	float2 uv = Input.UV;
+	// uv.y = 1.0 - uv.y;
+
+	float3 cameraPos = ReconstructPosition(Input.Position.xy, ReconstructDepth(GetNormalizedDepth(uv)));
+
+	float4 shadowmapPos = ReconstructShadowmapPosition(cameraPos);
+	float4 projShadowmapPos = ReconstructProjectedShadowmapPosition(shadowmapPos);
+	float2 shadowmapUV = GetShadowmapUV(projShadowmapPos);
+
 	float4 Output = float4(0.0,0.0,0.0,1.0);
 
-	float2 shadowUV = GetShadowmapUV(Input.Position, Input.UV);
-	float depth =  GetDepth( Input.UV);
+	float depth = (-shadowmapPos.z - reconstructInfo1.y) / reconstructInfo1.x;
+	float2 shadowParam = g_shadowmapTexture.Sample(g_shadowmapSampler, shadowmapUV).xy;
 
-	float2 shadowParam = g_shadowmapTexture.Sample(g_shadowmapSampler, shadowUV).xy;
-
-	float shadow = VSM(shadowParam, lightDepthZ );
+	float shadow = VSM(shadowParam, depth );
 
 	Output.x = shadow;
-
 	return Output;
 }
 

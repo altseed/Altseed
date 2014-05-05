@@ -43,6 +43,7 @@ namespace ace
 		RenderTexture2D_Imp*	m_renderTargetNormalDepth_FR;
 		RenderTexture2D_Imp*	m_renderTargetSSAO_FR;
 		RenderTexture2D_Imp*	m_renderTargetSSAO_temp_FR;
+		RenderTexture2D_Imp*	m_renderTargetShadow_FR;
 
 		RenderTexture2D_Imp*	m_renderTarget_FR[2];
 		DepthBuffer_Imp*	m_depthBuffer_FR;
@@ -103,6 +104,8 @@ namespace ace
 		DepthBuffer_Imp* GetDepthBuffer_FR() { return m_depthBuffer_FR; }
 
 		RenderTexture2D_Imp*	GetRenderTargetDepth_FR() { return m_renderTargetNormalDepth_FR; }
+
+		RenderTexture2D_Imp*	GetRenderTargetShadow_FR() { return m_renderTargetShadow_FR; }
 
 		RenderTexture2D_Imp*	GetRenderTargetSSAO_FR() { return m_renderTargetSSAO_FR; }
 		RenderTexture2D_Imp*	GetRenderTargetSSAO_Temp_FR() { return m_renderTargetSSAO_temp_FR; }

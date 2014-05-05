@@ -23,6 +23,9 @@
 #include "../Shader/DX/Screen/SSAO_PS.h"
 #include "../Shader/DX/Screen/SSAO_Blur_PS.h"
 
+#include "../Shader/DX/Screen/DirectionalLight_Shadow_PS.h"
+#include "../Shader/GL/Screen/DirectionalLight_Shadow_PS.h"
+
 #if _WIN32
 #include "../../DX11/ace.Graphics_Imp_DX11.h"
 #endif
@@ -192,7 +195,7 @@ namespace ace
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 					m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_FR(), 0);
-					ShadowConstantBuffer& cbufX = m_shadowShaderX->GetPixelConstantBuffer<ShadowConstantBuffer>();
+					ShadowBlurConstantBuffer& cbufX = m_shadowShaderX->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
 					cbufX.Weights = weights;
 
 					g->SetVertexBuffer(m_shadowVertexBuffer.get());
@@ -216,7 +219,7 @@ namespace ace
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 					m_shadowShaderY->SetTexture("g_texture", m_shadowTempTexture.get(), 0);
-					ShadowConstantBuffer& cbufY = m_shadowShaderY->GetPixelConstantBuffer<ShadowConstantBuffer>();
+					ShadowBlurConstantBuffer& cbufY = m_shadowShaderY->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
 					cbufY.Weights = weights;
 
 					g->SetVertexBuffer(m_shadowVertexBuffer.get());
@@ -250,6 +253,65 @@ namespace ace
 				{
 					o->RenderingNormalDepth(prop);
 				}
+			}
+
+			// 影マップ描画
+			{
+				auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
+				Matrix44 view, proj;
+
+				light->CalcShadowMatrix(
+					c->GetPosition_FR(),
+					c->GetFocus_FR() - c->GetPosition_FR(),
+					cameraProjMat,
+					c->GetZNear_FR(),
+					c->GetZFar_FR(),
+					view,
+					proj);
+
+				g->SetRenderTarget(c->GetRenderTargetShadow_FR(), nullptr);
+				g->Clear(true, false, ace::Color(0, 0, 0, 255));
+			
+				m_shadowShader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_FR(), 2);
+				m_shadowShader->SetTexture("g_shadowmapTexture", light->GetShadowTexture_FR(), 4);
+
+				ShadowConstantBuffer& cbuf = m_shadowShader->GetPixelConstantBuffer<ShadowConstantBuffer>();
+				
+				auto invCameraMat = (prop.CameraMatrix).GetInverted();
+
+				auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
+				auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
+
+				// DirectX
+				float yScale = 1 / tanf(fov / 2);
+				float xScale = yScale / aspect;
+
+				cbuf.CameraPositionToShadowCameraPosition = (view) * invCameraMat;
+				cbuf.ShadowProjection = proj;
+				cbuf.ReconstructInfo1[0] = c->GetZFar_FR() - c->GetZNear_FR();
+				cbuf.ReconstructInfo1[1] = c->GetZNear_FR();
+
+				cbuf.ReconstructInfo2[0] = 1.0f / xScale;
+				cbuf.ReconstructInfo2[1] = 1.0f / yScale;
+
+				g->SetVertexBuffer(m_shadowVertexBuffer.get());
+				g->SetIndexBuffer(m_shadowIndexBuffer.get());
+				g->SetShader(m_shadowShader.get());
+
+				auto& state = g->GetRenderState()->Push();
+				state.DepthTest = false;
+				state.DepthWrite = false;
+				state.CullingType = CULLING_DOUBLE;
+				state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
+				state.TextureFilterTypes[2] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+				state.TextureFilterTypes[4] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+				g->GetRenderState()->Update(false);
+
+				g->DrawPolygon(2);
+
+				g->GetRenderState()->Pop();
+
+				prop.ShadowMapPtr = c->GetRenderTargetShadow_FR();
 			}
 
 			// SSAO
@@ -423,8 +485,8 @@ namespace ace
 			
 			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetSSAO_FR(), 0);
 			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetSSAO_Temp_FR(), 0);
+			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetShadow_FR(), 0);
 
-			
 			m_graphics->SetVertexBuffer(m_pasteVertexBuffer.get());
 			m_graphics->SetIndexBuffer(m_pasteIndexBuffer.get());
 			m_graphics->SetShader(m_pasteShader.get());
@@ -539,6 +601,13 @@ namespace ace
 					blur_ps_gl,
 					vl,
 					macro_y);
+
+				m_shadowShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.Shadow").c_str(),
+					screen_vs_gl,
+					directonalLight_Shadow_ps_gl,
+					vl,
+					macro_y);
 			}
 			else
 			{
@@ -555,6 +624,13 @@ namespace ace
 					blur_ps_dx,
 					vl,
 					macro_y);
+
+				m_shadowShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.Shadow").c_str(),
+					screen_vs_dx,
+					directonalLight_Shadow_ps_dx,
+					vl,
+					macro_y);
 			}
 
 			std::vector<ace::ConstantBufferInformation> constantBuffers;
@@ -563,21 +639,42 @@ namespace ace
 			constantBuffers[0].Name = std::string("g_weight");
 			constantBuffers[0].Offset = 0;
 
-			m_shadowShaderX->CreatePixelConstantBuffer<ShadowConstantBuffer>(constantBuffers);
-			m_shadowShaderY->CreatePixelConstantBuffer<ShadowConstantBuffer>(constantBuffers);
+			m_shadowShaderX->CreatePixelConstantBuffer<ShadowBlurConstantBuffer>(constantBuffers);
+			m_shadowShaderY->CreatePixelConstantBuffer<ShadowBlurConstantBuffer>(constantBuffers);
+
+
+			std::vector<ace::ConstantBufferInformation> constantBuffers2;
+			constantBuffers2.resize(4);
+			constantBuffers2[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers2[0].Name = std::string("g_cameraPositionToShadowCameraPosition");
+			constantBuffers2[0].Offset = 0;
+
+			constantBuffers2[1].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers2[1].Name = std::string("g_shadowProjection");
+			constantBuffers2[1].Offset = sizeof(Matrix44) * 1;
+
+			constantBuffers2[2].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers2[2].Name = std::string("reconstructInfo1");
+			constantBuffers2[2].Offset = sizeof(Matrix44) * 2;
+
+			constantBuffers2[3].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
+			constantBuffers2[3].Name = std::string("reconstructInfo2");
+			constantBuffers2[3].Offset = sizeof(Matrix44) * 2 + sizeof(Vector4DF) * 1;
+
+			m_shadowShader->CreatePixelConstantBuffer<ShadowConstantBuffer>(constantBuffers2);
 
 			m_shadowTempTexture = m_graphics->CreateRenderTexture(2048, 2048, ace::eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
 
 			m_shadowVertexBuffer->Lock();
 			auto buf = m_shadowVertexBuffer->GetBuffer <ShadowVertex>(6);
 
-			buf[0].Position = Vector3DF(-1.0f, -1.0f, 0.5f);
+			buf[0].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
 			buf[0].UV = Vector2DF(0, 0);
-			buf[1].Position = Vector3DF(1.0f, -1.0f, 0.5f);
+			buf[1].Position = Vector3DF(1.0f, 1.0f, 0.5f);
 			buf[1].UV = Vector2DF(1, 0);
-			buf[2].Position = Vector3DF(1.0f, 1.0f, 0.5f);
+			buf[2].Position = Vector3DF(1.0f, -1.0f, 0.5f);
 			buf[2].UV = Vector2DF(1, 1);
-			buf[3].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
+			buf[3].Position = Vector3DF(-1.0f, -1.0f, 0.5f);
 			buf[3].UV = Vector2DF(0, 1);
 			buf[4] = buf[0];
 			buf[5] = buf[2];
@@ -605,13 +702,13 @@ namespace ace
 			m_ssaoVertexBuffer->Lock();
 			auto buf = m_ssaoVertexBuffer->GetBuffer <SSAOVertex>(6);
 
-			buf[0].Position = Vector3DF(-1.0f, -1.0f, 0.5f);
+			buf[0].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
 			buf[0].UV = Vector2DF(0, 0);
-			buf[1].Position = Vector3DF(1.0f, -1.0f, 0.5f);
+			buf[1].Position = Vector3DF(1.0f, 1.0f, 0.5f);
 			buf[1].UV = Vector2DF(1, 0);
-			buf[2].Position = Vector3DF(1.0f, 1.0f, 0.5f);
+			buf[2].Position = Vector3DF(1.0f, -1.0f, 0.5f);
 			buf[2].UV = Vector2DF(1, 1.0);
-			buf[3].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
+			buf[3].Position = Vector3DF(-1.0f, -1.0f, 0.5f);
 			buf[3].UV = Vector2DF(0, 1.0);
 			buf[4] = buf[0];
 			buf[5] = buf[2];

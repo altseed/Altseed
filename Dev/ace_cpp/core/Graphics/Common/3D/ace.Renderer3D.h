@@ -7,6 +7,7 @@
 #include <Math/ace.Vector2DF.h>
 #include <Math/ace.Vector3DF.h>
 #include <Math/ace.Vector4DF.h>
+#include <Math/ace.Matrix44.h>
 #include <Graphics/ace.Color.h>
 
 #include "../ace.RenderingThread.h"
@@ -47,9 +48,18 @@ namespace ace
 			Vector2DF	UV;
 		};
 
-		struct ShadowConstantBuffer
+		struct ShadowBlurConstantBuffer
 		{
 			Vector4DF	Weights;
+		};
+
+		struct ShadowConstantBuffer
+		{
+			Matrix44	CameraPositionToShadowCameraPosition;
+			Matrix44	ShadowProjection;
+
+			float ReconstructInfo1[4];
+			float ReconstructInfo2[4];
 		};
 
 		struct ShadowVertex
@@ -121,6 +131,8 @@ namespace ace
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_shadowIndexBuffer;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shadowShaderX;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shadowShaderY;
+
+		std::shared_ptr<ace::NativeShader_Imp>	m_shadowShader;
 
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_ssaoVertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_ssaoIndexBuffer;

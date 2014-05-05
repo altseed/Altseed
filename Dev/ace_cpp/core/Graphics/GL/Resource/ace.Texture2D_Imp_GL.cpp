@@ -125,7 +125,7 @@ namespace ace {
 		}
 		else if(format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
 		{
-			intrenalFormat_ = GL_RGBA;
+			intrenalFormat_ = GL_RGBA32F;
 			type = GL_FLOAT;
 		}
 		else if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
@@ -207,7 +207,7 @@ namespace ace {
 		}
 		else if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
 		{
-			intrenalFormat_ = GL_RGBA;
+			intrenalFormat_ = GL_RGBA32F;
 			type = GL_FLOAT;
 		}
 		else if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
