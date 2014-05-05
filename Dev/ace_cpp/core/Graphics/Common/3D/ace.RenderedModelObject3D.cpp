@@ -9,6 +9,7 @@
 #include "../Animation/ace.KeyframeAnimation_Imp.h"
 
 #include "../ace.Graphics_Imp.h"
+#include "../Resource/ace.ShaderCache.h"
 #include "../Resource/ace.NativeShader_Imp.h"
 #include "../Resource/ace.RenderState_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
@@ -686,21 +687,19 @@ void main()
 			std::vector<ace::Macro> macro;
 			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
 			{
-				m_shader = GetGraphics()->CreateShader_Imp(
+				m_shader = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D").c_str(),
 					gl_vs,
-					"vs",
 					gl_ps,
-					"ps",
 					vl,
 					macro);
 			}
 			else
 			{
-				m_shader = GetGraphics()->CreateShader_Imp(
+				m_shader = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D").c_str(),
 					dx_vs,
-					"vs",
 					dx_ps,
-					"ps",
 					vl,
 					macro);
 			}
@@ -716,21 +715,19 @@ void main()
 			std::vector<ace::Macro> macro;
 			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
 			{
-				m_shaderShadow = GetGraphics()->CreateShader_Imp(
+				m_shaderShadow = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.Shadow").c_str(),
 					gl_vs,
-					"shadow_vs",
 					gl_shadow_ps,
-					"shadow_ps",
 					vl,
 					macro);
 			}
 			else
 			{
-				m_shaderShadow = GetGraphics()->CreateShader_Imp(
+				m_shaderShadow = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.Shadow").c_str(),
 					dx_vs,
-					"shadow_vs",
 					dx_shadow_ps,
-					"shadow_ps",
 					vl,
 					macro);
 			}
@@ -746,21 +743,19 @@ void main()
 			std::vector<ace::Macro> macro;
 			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
 			{
-				m_shaderNormalDepth = GetGraphics()->CreateShader_Imp(
+				m_shaderNormalDepth = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.NormalDepth").c_str(),
 					gl_vs,
-					"nd_vs",
 					gl_normal_depth_ps,
-					"nd_ps",
 					vl,
 					macro);
 			}
 			else
 			{
-				m_shaderNormalDepth = GetGraphics()->CreateShader_Imp(
+				m_shaderNormalDepth = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.NormalDepth").c_str(),
 					dx_vs,
-					"nd_vs",
 					dx_normal_depth_ps,
-					"nd_ps",
 					vl,
 					macro);
 			}

@@ -62,7 +62,7 @@ namespace ace
 
 	void ShaderCache::RemoveShader(NativeShader_Imp* shader)
 	{
-		assert(shader == nullptr);
+		assert(shader != nullptr);
 		assert(shader->GetRef() == 1);
 		m_shaders.erase(shader->GetKey());
 	}

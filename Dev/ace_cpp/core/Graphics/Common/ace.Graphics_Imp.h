@@ -284,6 +284,11 @@ namespace ace {
 		std::vector <VertexLayout>& layout,
 		std::vector <Macro>& macro) = 0;
 
+	/**
+	@brief	シェーダーを生成する。
+	@note
+	基本的にShaderCacheを経由してシェーダーを生成するため、この関数を直接使う機会は殆ど無い。
+	*/
 	std::shared_ptr<NativeShader_Imp> CreateShader_Imp(
 		const char* vertexShaderText,
 		const char* vertexShaderFileName,
