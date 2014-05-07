@@ -14,6 +14,12 @@
 #include "../Resource/ace.RenderState_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
 
+#include "../Shader/DX/Lightweight_Model_Internal_VS.h"
+#include "../Shader/DX/Lightweight_Model_Internal_PS.h"
+
+#include "../Shader/DX/Model_Internal_VS.h"
+#include "../Shader/DX/Model_Internal_PS.h"
+
 namespace ace
 {
 	static const char* dx_vs = R"(
@@ -616,6 +622,55 @@ void main()
 			std::vector<ace::Macro> macro;
 			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
 			{
+				//m_shaderLightweight = GetGraphics()->GetShaderCache()->CreateFromCode(
+				//	ToAString("Internal.ModelObject3D.Lightweight").c_str(),
+				//	lightweight_model_internal_vs_dx,
+				//	lightweight_model_internal_ps_dx,
+				//	vl,
+				//	macro);
+			}
+			else
+			{
+				m_shaderLightweight = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.Lightweight").c_str(),
+					lightweight_model_internal_vs_dx,
+					lightweight_model_internal_ps_dx,
+					vl,
+					macro);
+
+				assert(m_shaderLightweight != nullptr);
+			}
+		}
+
+		{
+			std::vector<ace::Macro> macro;
+			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
+			{
+				//m_shader = GetGraphics()->GetShaderCache()->CreateFromCode(
+				//	ToAString("Internal.ModelObject3D.DF").c_str(),
+				//	model_internal_vs_dx,
+				//	model_internal_ps_dx,
+				//	vl,
+				//	macro);
+			}
+			else
+			{
+				m_shaderDF = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.DF").c_str(),
+					model_internal_vs_dx,
+					model_internal_ps_dx,
+					vl,
+					macro);
+
+				assert(m_shaderDF != nullptr);
+			}
+		}
+
+
+		{
+			std::vector<ace::Macro> macro;
+			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
+			{
 				m_shader = GetGraphics()->GetShaderCache()->CreateFromCode(
 					ToAString("Internal.ModelObject3D").c_str(),
 					gl_vs,
@@ -640,7 +695,6 @@ void main()
 		}
 
 		{
-			std::shared_ptr<ace::NativeShader_Imp> shader;
 			std::vector<ace::Macro> macro;
 			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
 			{
