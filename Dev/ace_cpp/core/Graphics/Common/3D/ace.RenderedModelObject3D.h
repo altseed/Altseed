@@ -90,6 +90,9 @@ namespace ace
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderShadow;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderNormalDepth;
 
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;
+		
 		std::map<astring, AnimationClip*>		m_animationClips;
 
 		AnimationClip*							m_animationPlaying;

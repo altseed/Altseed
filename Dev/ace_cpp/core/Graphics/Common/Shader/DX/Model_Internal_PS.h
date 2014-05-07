@@ -26,7 +26,7 @@ struct PS_Input
 struct PS_Output
 {
 	float4 Depth					: SV_Target0;
-}
+};
 #else
 struct PS_Output
 {
@@ -34,8 +34,9 @@ struct PS_Output
 	float4 SpecularColor_Smoothness		: SV_Target1;
 	float4 NormalDepth					: SV_Target2;
 	float4 AO_MatID						: SV_Target3;
-}
+};
 #endif
+
 
 half3 CalculateNormal( half3 normal, half3 tangent, half3 binormal, float3 normalMap )
 {
@@ -48,7 +49,7 @@ half CalculateDepth(float4 position)
 	return position.z / position.w;
 }
 
-float4 main( const PS_Input Input ) : SV_Target
+PS_Output main( const PS_Input Input )
 {
 	float4 diffuseColor = Input.Color;
 	if(diffuseColor.a == 0.0f) discard;
@@ -66,7 +67,7 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	Output.DiffuseColor = diffuseColor;
 
-	Output.NormalDepth.xyz = CalculateNormal( Input.Normal, Input.Tangent, Input.Binormal, g_normalTexture.Sample(g_normalSampler, Input.UV) );
+	Output.NormalDepth.xyz = CalculateNormal( Input.Normal, Input.Tangent, Input.Binormal, g_normalTexture.Sample(g_normalSampler, Input.UV).xyz );
 	Output.NormalDepth.w = CalculateDepth( Input.Position );
 
 	Output.SpecularColor_Smoothness.xyz = g_specularTexture.Sample(g_specularSampler, Input.UV).xyz;

@@ -68,7 +68,6 @@ VS_Output main( const VS_Input Input )
 
 	float4x4 matLocal = calcMatrix(Input.BoneWeights,Input.BoneIndexes);
 	float4x4 matMC = mul(matC, matLocal);
-	float4x4 matMLC = mul(matLC, matLocal);
 	float3x3 matC33 = convert44to33(matC);
 	float3x3 matMC33 = convert44to33(matMC);
 
