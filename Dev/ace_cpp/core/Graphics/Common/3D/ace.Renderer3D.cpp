@@ -31,6 +31,8 @@
 #endif
 #include "../../GL/ace.Graphics_Imp_GL.h"
 
+#include "../Shader/ace.Vertices.h"
+
 namespace ace
 {
 	//----------------------------------------------------------------------------------
@@ -466,7 +468,7 @@ namespace ace
 				assert(0);
 			}
 
-			auto buf = m_pasteVertexBuffer->GetBuffer <PasteVertex>(6);
+			auto buf = m_pasteVertexBuffer->GetBuffer <ScreenVertexLayout>(6);
 
 			buf[0].Position = Vector3DF(-1.0f, -1.0f, 0.5f);
 			buf[0].UV = Vector2DF(0, 1);
@@ -519,7 +521,7 @@ namespace ace
 
 		// ペースト用シェーダー
 		{
-			m_pasteVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(PasteVertex), 2 * 3, true);
+			m_pasteVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(ScreenVertexLayout), 2 * 3, true);
 			m_pasteIndexBuffer = m_graphics->CreateIndexBuffer_Imp(2 * 3, false, false);
 
 			m_pasteIndexBuffer->Lock();
@@ -561,7 +563,7 @@ namespace ace
 
 		// シャドー用シェーダー
 		{
-			m_shadowVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(ShadowVertex), 2 * 3, true);
+			m_shadowVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(ScreenVertexLayout), 2 * 3, true);
 			m_shadowIndexBuffer = m_graphics->CreateIndexBuffer_Imp(2 * 3, false, false);
 
 			m_shadowIndexBuffer->Lock();
@@ -666,7 +668,7 @@ namespace ace
 			m_shadowTempTexture = m_graphics->CreateRenderTexture(2048, 2048, ace::eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
 
 			m_shadowVertexBuffer->Lock();
-			auto buf = m_shadowVertexBuffer->GetBuffer <ShadowVertex>(6);
+			auto buf = m_shadowVertexBuffer->GetBuffer <ScreenVertexLayout>(6);
 
 			buf[0].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
 			buf[0].UV = Vector2DF(0, 0);
@@ -684,7 +686,7 @@ namespace ace
 
 		// SSAO用シェーダー
 		{
-			m_ssaoVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(SSAOVertex), 2 * 3, true);
+			m_ssaoVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(ScreenVertexLayout), 2 * 3, true);
 			m_ssaoIndexBuffer = m_graphics->CreateIndexBuffer_Imp(2 * 3, false, false);
 
 			m_ssaoIndexBuffer->Lock();
@@ -700,7 +702,7 @@ namespace ace
 			m_ssaoIndexBuffer->Unlock();
 
 			m_ssaoVertexBuffer->Lock();
-			auto buf = m_ssaoVertexBuffer->GetBuffer <SSAOVertex>(6);
+			auto buf = m_ssaoVertexBuffer->GetBuffer <ScreenVertexLayout>(6);
 
 			buf[0].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
 			buf[0].UV = Vector2DF(0, 0);

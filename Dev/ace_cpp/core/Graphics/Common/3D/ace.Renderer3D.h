@@ -42,12 +42,6 @@ namespace ace
 			float Size[4];
 		};
 
-		struct PasteVertex
-		{
-			Vector3DF	Position;
-			Vector2DF	UV;
-		};
-
 		struct ShadowBlurConstantBuffer
 		{
 			Vector4DF	Weights;
@@ -60,18 +54,6 @@ namespace ace
 
 			float ReconstructInfo1[4];
 			float ReconstructInfo2[4];
-		};
-
-		struct ShadowVertex
-		{
-			Vector3DF	Position;
-			Vector2DF	UV;
-		};
-
-		struct SSAOVertex
-		{
-			Vector3DF	Position;
-			Vector2DF	UV;
 		};
 
 		struct SSAOConstantVertexBuffer

@@ -226,6 +226,7 @@
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.Texture2D.h" />
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.Texture2D_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.VertexBuffer_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Common\Shader\ace.Vertices.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Lightweight_Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Lightweight_Model_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Model_Internal_PS.h" />
