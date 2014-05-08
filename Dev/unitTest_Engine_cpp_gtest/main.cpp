@@ -49,7 +49,6 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//Graphics_SimpleMesh_(false);
 	//return 0;
 
 	//TestCamera(true);
