@@ -127,6 +127,8 @@ namespace ace
 		Effekseer::Manager*						m_effectManager = nullptr;
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
 
+		std::shared_ptr<Texture2D>				m_dummyTextureWhite;
+
 		RenderingEvent	m_event;
 
 	public:
@@ -144,6 +146,8 @@ namespace ace
 
 		void BeginRendering();
 		void EndRendering();
+
+		std::shared_ptr<Texture2D> GetDummyTextureWhite() { return m_dummyTextureWhite; }
 
 		RenderTexture2D_Imp* GetRenderTarget();
 

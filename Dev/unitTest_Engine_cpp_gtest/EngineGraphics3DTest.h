@@ -25,6 +25,8 @@ private:
 
 	ace::Vector2DF	m_mousePos;
 
+	ace::RenderSettings	m_settings;
+
 	const float PI = 3.14159265358979f;
 
 public:
@@ -35,6 +37,8 @@ public:
 	void AddCamera();
 	std::shared_ptr<ace::CameraObject3D> GetCamera(int32_t index);
 	void SetCameraParameter(float distance, float rotX, float rotY, float zn, float zf, float fov);
+
+	void SetRenderSettings(ace::RenderSettings settings);
 
 	/**
 	@brief	オーバーライドして、メインループより前のアサーションや初期化を記述できる。

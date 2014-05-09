@@ -3,6 +3,7 @@
 #include "ace.Mesh_Imp.h"
 #include "ace.Deformer_Imp.h"
 #include "ace.Model_Imp.h"
+#include "ace.Renderer3D.h"
 
 #include "../Animation/ace.AnimationClip_Imp.h"
 #include "../Animation/ace.AnimationSource_Imp.h"
@@ -16,9 +17,15 @@
 
 #include "../Shader/DX/Lightweight_Model_Internal_VS.h"
 #include "../Shader/DX/Lightweight_Model_Internal_PS.h"
-
 #include "../Shader/DX/Model_Internal_VS.h"
 #include "../Shader/DX/Model_Internal_PS.h"
+
+#include "../Shader/GL/Lightweight_Model_Internal_VS.h"
+#include "../Shader/GL/Lightweight_Model_Internal_PS.h"
+#include "../Shader/GL/Model_Internal_VS.h"
+#include "../Shader/GL/Model_Internal_PS.h"
+
+#include <cstddef>
 
 namespace ace
 {
@@ -572,6 +579,113 @@ void main()
 		vl.push_back(ace::VertexLayout("BoneIndexes", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
 		vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
 
+		{
+			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
+			constantBuffers_vs.resize(7);
+			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+			constantBuffers_vs[0].Name = std::string("matM");
+			constantBuffers_vs[0].Offset = 0;
+			constantBuffers_vs[0].Count = 32;
+
+			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[1].Name = std::string("matC");
+			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferLightweight, matC);
+
+			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[2].Name = std::string("matP");
+			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferLightweight, matP);
+
+			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[3].Name = std::string("directionalLightDirection");
+			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferLightweight, directionalLightDirection);
+
+			constantBuffers_vs[4].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[4].Name = std::string("directionalLightColor");
+			constantBuffers_vs[4].Offset = offsetof(VertexConstantBufferLightweight, directionalLightColor);
+
+			constantBuffers_vs[5].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[5].Name = std::string("skyLightColor");
+			constantBuffers_vs[5].Offset = offsetof(VertexConstantBufferLightweight, skyLightColor);
+
+			constantBuffers_vs[6].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[6].Name = std::string("groundLightColor");
+			constantBuffers_vs[6].Offset = offsetof(VertexConstantBufferLightweight, groundLightColor);
+
+			std::vector<ace::Macro> macro;
+			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
+			{
+				m_shaderLightweight = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.Lightweight").c_str(),
+					lightweight_model_internal_vs_gl,
+					lightweight_model_internal_ps_gl,
+					vl,
+					macro);
+			}
+			else
+			{
+				m_shaderLightweight = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.Lightweight").c_str(),
+					lightweight_model_internal_vs_dx,
+					lightweight_model_internal_ps_dx,
+					vl,
+					macro);
+			}
+
+			assert(m_shaderLightweight != nullptr);
+			m_shaderLightweight->CreateVertexConstantBuffer<VertexConstantBufferLightweight>(constantBuffers_vs);
+		}
+
+		{
+			std::vector<ace::Macro> macro;
+			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
+			{
+				m_shaderDF = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.DF").c_str(),
+					model_internal_vs_gl,
+					model_internal_ps_gl,
+					vl,
+					macro);
+			}
+			else
+			{
+				m_shaderDF = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.DF").c_str(),
+					model_internal_vs_dx,
+					model_internal_ps_dx,
+					vl,
+					macro);
+			}
+
+			assert(m_shaderDF != nullptr);
+		}
+
+		{
+			std::vector<ace::Macro> macro;
+			macro.push_back(Macro("EXPORT_DEPTH", "1"));
+
+			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
+			{
+				m_shaderDF_ND = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.DF.ND").c_str(),
+					model_internal_vs_gl,
+					model_internal_ps_gl,
+					vl,
+					macro);
+			}
+			else
+			{
+				m_shaderDF_ND = GetGraphics()->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.DF.ND").c_str(),
+					model_internal_vs_dx,
+					model_internal_ps_dx,
+					vl,
+					macro);
+			}
+
+			assert(m_shaderDF_ND != nullptr);
+		}
+
+
 		std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
 		constantBuffers_vs.resize(8);
 		constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
@@ -617,55 +731,6 @@ void main()
 		constantBuffers_ps[1].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
 		constantBuffers_ps[1].Name = std::string("depthParams_");
 		constantBuffers_ps[1].Offset = sizeof(float) * 4;
-
-		{
-			std::vector<ace::Macro> macro;
-			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
-			{
-				//m_shaderLightweight = GetGraphics()->GetShaderCache()->CreateFromCode(
-				//	ToAString("Internal.ModelObject3D.Lightweight").c_str(),
-				//	lightweight_model_internal_vs_dx,
-				//	lightweight_model_internal_ps_dx,
-				//	vl,
-				//	macro);
-			}
-			else
-			{
-				m_shaderLightweight = GetGraphics()->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.Lightweight").c_str(),
-					lightweight_model_internal_vs_dx,
-					lightweight_model_internal_ps_dx,
-					vl,
-					macro);
-
-				assert(m_shaderLightweight != nullptr);
-			}
-		}
-
-		{
-			std::vector<ace::Macro> macro;
-			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
-			{
-				//m_shader = GetGraphics()->GetShaderCache()->CreateFromCode(
-				//	ToAString("Internal.ModelObject3D.DF").c_str(),
-				//	model_internal_vs_dx,
-				//	model_internal_ps_dx,
-				//	vl,
-				//	macro);
-			}
-			else
-			{
-				m_shaderDF = GetGraphics()->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.DF").c_str(),
-					model_internal_vs_dx,
-					model_internal_ps_dx,
-					vl,
-					macro);
-
-				assert(m_shaderDF != nullptr);
-			}
-		}
-
 
 		{
 			std::vector<ace::Macro> macro;
@@ -875,6 +940,18 @@ void main()
 		m_animationTime = 0;
 	}
 
+	void RenderedModelObject3D::OnAdded(Renderer3D* renderer)
+	{
+		assert(m_renderer == nullptr);
+		m_renderer = renderer;
+	}
+
+	void RenderedModelObject3D::OnRemoving(Renderer3D* renderer)
+	{
+		assert(m_renderer == renderer);
+		m_renderer = nullptr;
+	}
+
 	void RenderedModelObject3D::Flip()
 	{
 		RenderedObject3D::Flip();
@@ -897,8 +974,38 @@ void main()
 
 	void RenderedModelObject3D::Rendering(RenderingProperty& prop)
 	{
-		auto& vbuf = m_shader->GetVertexConstantBuffer<VertexConstantBuffer>();
-		auto& pbuf = m_shader->GetPixelConstantBuffer<PixelConstantBuffer>();
+		std::shared_ptr<ace::NativeShader_Imp> shader;
+		if (prop.IsLightweightMode)
+		{
+			shader = m_shaderLightweight;
+		}
+		else
+		{
+			shader = m_shader;
+		}
+
+		Matrix44* matM = nullptr;
+		Matrix44* matC = nullptr;
+		Matrix44* matP = nullptr;
+		{
+			if (prop.IsLightweightMode)
+			{
+				auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
+				matM = vbuf.matM;
+				matC = &vbuf.matC;
+				matP = &vbuf.matP;
+			}
+			else
+			{
+				auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBuffer>();
+				matM = vbuf.MMatrices;
+				matC = &vbuf.CMatrix;
+				matP = &vbuf.PMatrix;
+			}
+
+			*matC = prop.CameraMatrix;
+			*matP = prop.ProjectionMatrix;
+		}
 
 		for (auto& g : m_meshGroups_fr)
 		{
@@ -915,31 +1022,45 @@ void main()
 					// ボーンあり
 					for (int32_t i = 0; i < Min(32, matrices.size()); i++)
 					{
-						vbuf.MMatrices[i].SetIndentity();
-						Matrix44::Mul(vbuf.MMatrices[i], GetLocalMatrix_FR(), matrices[i]);
+						matM[i].SetIndentity();
+						Matrix44::Mul(matM[i], GetLocalMatrix_FR(), matrices[i]);
 					}
 				}
 				else
 				{
 					// ボーンなし
-					vbuf.MMatrices[0] = GetLocalMatrix_FR();
+					matM[0] = GetLocalMatrix_FR();
 					for (int32_t i = 1; i < 32; i++)
 					{
-						vbuf.MMatrices[i] = vbuf.MMatrices[0];
+						matM[i] = matM[0];
 					}
 				}
 
+				if (prop.IsLightweightMode)
 				{
-					vbuf.CMatrix = prop.CameraMatrix;
-					vbuf.PMatrix = prop.ProjectionMatrix;
+					auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
+
+					vbuf.directionalLightDirection = prop.DirectionalLightDirection;
+					vbuf.directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
+					vbuf.directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
+					vbuf.directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
+					vbuf.groundLightColor.X = prop.GroundLightColor.R / 255.0f;
+					vbuf.groundLightColor.Y = prop.GroundLightColor.G / 255.0f;
+					vbuf.groundLightColor.Z = prop.GroundLightColor.B / 255.0f;
+					vbuf.skyLightColor.X = prop.SkyLightColor.R / 255.0f;
+					vbuf.skyLightColor.Y = prop.SkyLightColor.G / 255.0f;
+					vbuf.skyLightColor.Z = prop.SkyLightColor.B / 255.0f;
+				}
+				else
+				{
+					auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBuffer>();
+
 					vbuf.LightCMatrix = prop.LightCameraMatrix;
 					vbuf.LightPMatrix = prop.LightProjectionMatrix;
 					vbuf.DepthRange = prop.DepthRange;
 					vbuf.ZFar = prop.ZFar;
 					vbuf.ZNear = prop.ZNear;
-				}
-
-				{
+		
 					vbuf.DirectionalLightDirection = prop.DirectionalLightDirection;
 					vbuf.DirectionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
 					vbuf.DirectionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
@@ -990,54 +1111,88 @@ void main()
 
 						if (material != nullptr)
 						{
-							pbuf.HasTextures.X = material->ColorTexture != nullptr ? 1.0f : 0.0f;
-							pbuf.HasTextures.Y = material->NormalTexture != nullptr ? 1.0f : 0.0f;
-							pbuf.HasTextures.Z = material->SpecularTexture != nullptr ? 1.0f : 0.0f;
-
-							if (material->ColorTexture != nullptr)
+							if (prop.IsLightweightMode)
 							{
-								m_shader->SetTexture("g_colorTexture", material->ColorTexture, 0);
+								if (material->ColorTexture != nullptr)
+								{
+									shader->SetTexture("g_colorTexture", material->ColorTexture, 0);
+								}
+								else
+								{
+									shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
+								}
 							}
-
-							if (material->NormalTexture != nullptr)
+							else
 							{
-								m_shader->SetTexture("g_normalTexture", material->NormalTexture, 1);
-							}
+								auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBuffer>();
+								auto& pbuf = shader->GetPixelConstantBuffer<PixelConstantBuffer>();
 
-							if (material->SpecularTexture != nullptr)
-							{
-								m_shader->SetTexture("g_specularTexture", material->SpecularTexture, 2);
+								pbuf.HasTextures.X = material->ColorTexture != nullptr ? 1.0f : 0.0f;
+								pbuf.HasTextures.Y = material->NormalTexture != nullptr ? 1.0f : 0.0f;
+								pbuf.HasTextures.Z = material->SpecularTexture != nullptr ? 1.0f : 0.0f;
+
+								if (material->ColorTexture != nullptr)
+								{
+									shader->SetTexture("g_colorTexture", material->ColorTexture, 0);
+								}
+
+								if (material->NormalTexture != nullptr)
+								{
+									shader->SetTexture("g_normalTexture", material->NormalTexture, 1);
+								}
+
+								if (material->SpecularTexture != nullptr)
+								{
+									shader->SetTexture("g_specularTexture", material->SpecularTexture, 2);
+								}
 							}
 						}
 						else
 						{
-							pbuf.HasTextures.X = 0.0f;
-							pbuf.HasTextures.Y = 0.0f;
-							pbuf.HasTextures.Z = 0.0f;
+							if (prop.IsLightweightMode)
+							{
+								shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
+							}
+							else
+							{
+								auto& pbuf = shader->GetPixelConstantBuffer<PixelConstantBuffer>();
+								pbuf.HasTextures.X = 0.0f;
+								pbuf.HasTextures.Y = 0.0f;
+								pbuf.HasTextures.Z = 0.0f;
+							}
 						}
 
-						if (prop.ShadowMapPtr != nullptr)
+						if (prop.IsLightweightMode)
 						{
-							pbuf.HasTextures.W = 1.0f;
-							m_shader->SetTexture("g_shadowTexture", prop.ShadowMapPtr, 3);
 						}
 						else
 						{
-							pbuf.HasTextures.W = 0.0f;
-						}
+							auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBuffer>();
+							auto& pbuf = shader->GetPixelConstantBuffer<PixelConstantBuffer>();
 
-						pbuf.DepthRange = vbuf.DepthRange;
-						pbuf.ZFar = vbuf.ZFar;
-						pbuf.ZNear = pbuf.ZNear;
+							if (prop.ShadowMapPtr != nullptr)
+							{
+								pbuf.HasTextures.W = 1.0f;
+								shader->SetTexture("g_shadowTexture", prop.ShadowMapPtr, 3);
+							}
+							else
+							{
+								pbuf.HasTextures.W = 0.0f;
+							}
 
-						if (prop.SSAOPtr != nullptr)
-						{
-							m_shader->SetTexture("g_ssaoTexture", prop.SSAOPtr, 4);
+							pbuf.DepthRange = vbuf.DepthRange;
+							pbuf.ZFar = vbuf.ZFar;
+							pbuf.ZNear = pbuf.ZNear;
+
+							if (prop.SSAOPtr != nullptr)
+							{
+								shader->SetTexture("g_ssaoTexture", prop.SSAOPtr, 4);
+							}
 						}
 
 						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
 						GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
-						GetGraphics()->SetShader(m_shader.get());
+						GetGraphics()->SetShader(shader.get());
 
 						auto& state = GetGraphics()->GetRenderState()->Push();
 						state.DepthTest = true;

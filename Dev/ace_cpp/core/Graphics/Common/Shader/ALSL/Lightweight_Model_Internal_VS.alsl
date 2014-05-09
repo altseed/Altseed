@@ -1,0 +1,26 @@
+
+//<|| ƒ‚ƒfƒ‹‹¤’ÊŠÖ”
+mat4 calcMatrix(float4 weights, uint4 indexes)
+{
+	return matM[indexes.x] * weights.x +
+	matM[indexes.y] * weights.y +
+	matM[indexes.z] * weights.z +
+	matM[indexes.w] * weights.w;
+}
+
+mat3 convert44to33(mat4 mat)
+{
+	return mat3(mat[0].xyz, mat[1].xyz, mat[2].xyz);
+}
+//||>
+
+float4 calcLightColor(float3 upDir, float3 normal, float3 lightDir)
+{
+	float4 color = float4(0.0,0.0,0.0,1.0);
+	float NoL = dot(normal,lightDir);
+	float NoU = dot(normal,upDir);
+	color.xyz = directionalLightColor * max(NoL,0.0);
+	color.xyz = color.xyz + skyLightColor * max(NoU,0.0);
+	color.xyz = color.xyz + groundLightColor * max(-NoU,0.0);
+	return color;
+}

@@ -119,6 +119,8 @@ namespace ace {
 
 		void SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer);
 
+		void SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer);
+
 	public:
 		void Clear(bool isColorTarget, bool isDepthTarget, const Color& color);
 

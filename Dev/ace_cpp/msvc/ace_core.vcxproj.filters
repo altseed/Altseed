@@ -85,6 +85,9 @@
     <Filter Include="Graphics\Common\Shader\GL\Screen">
       <UniqueIdentifier>{ac807921-cc4e-481d-8fba-9e799103c187}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Common\Shader\ALSL">
+      <UniqueIdentifier>{616da8ab-0c69-4f0f-b88e-894a084ce00f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -562,6 +565,18 @@
     <ClInclude Include="..\core\Graphics\Common\Shader\ace.Vertices.h">
       <Filter>Graphics\Common\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\Model_Internal_VS.h">
+      <Filter>Graphics\Common\Shader\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\Lightweight_Model_Internal_PS.h">
+      <Filter>Graphics\Common\Shader\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\Lightweight_Model_Internal_VS.h">
+      <Filter>Graphics\Common\Shader\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\Model_Internal_PS.h">
+      <Filter>Graphics\Common\Shader\GL</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -847,6 +862,18 @@
     </None>
     <None Include="..\core\Input\ace.JoystickContainer.h">
       <Filter>Input</Filter>
+    </None>
+    <None Include="..\core\Graphics\Common\Shader\ALSL\Lightweight_Model_Internal_PS.alsl">
+      <Filter>Graphics\Common\Shader\ALSL</Filter>
+    </None>
+    <None Include="..\core\Graphics\Common\Shader\ALSL\Lightweight_Model_Internal_VS.alsl">
+      <Filter>Graphics\Common\Shader\ALSL</Filter>
+    </None>
+    <None Include="..\core\Graphics\Common\Shader\ALSL\Model_Internal_VS.alsl">
+      <Filter>Graphics\Common\Shader\ALSL</Filter>
+    </None>
+    <None Include="..\core\Graphics\Common\Shader\ALSL\Model_Internal_PS.alsl">
+      <Filter>Graphics\Common\Shader\ALSL</Filter>
     </None>
   </ItemGroup>
 </Project>

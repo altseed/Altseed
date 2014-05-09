@@ -37,7 +37,11 @@ namespace ace
 		SafeRelease(m_renderTarget_FR[0]);
 		SafeRelease(m_renderTarget_FR[1]);
 		SafeRelease(m_depthBuffer_FR);
+
+		SafeRelease(m_renderTargetDiffuseColor_FR);
+		SafeRelease(m_renderTargetSpecularColor_Smoothness_FR);
 		SafeRelease(m_renderTargetNormalDepth_FR);
+		SafeRelease(m_renderTargetAO_MatID_FR);
 
 		SafeRelease(m_renderTargetShadow_FR);
 
@@ -62,7 +66,10 @@ namespace ace
 			m_renderTarget_FR[1] = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			m_depthBuffer_FR = GetGraphics()->CreateDepthBuffer_Imp(m_values_FR.size.X, m_values_FR.size.Y);
 
+			m_renderTargetDiffuseColor_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTargetSpecularColor_Smoothness_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			m_renderTargetNormalDepth_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+			m_renderTargetAO_MatID_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 
 			m_renderTargetSSAO_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			m_renderTargetSSAO_temp_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);

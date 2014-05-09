@@ -133,6 +133,10 @@ protected:
 
 	void OnStart() override
 	{
+		ace::RenderSettings settings;
+		//settings.IsLightweightMode = true;
+		SetRenderSettings(settings);
+
 		EngineGraphics3DTest::OnStart();
 
 		meshObj1 = std::make_shared<ace::ModelObject3D>();

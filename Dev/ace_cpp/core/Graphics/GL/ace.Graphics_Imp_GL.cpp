@@ -713,6 +713,8 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_
 	BindFramebuffer();
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, cb, 0);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, 0, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, 0, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, 0, 0);
 	GLCheckError();
 
 	if (depthBuffer != nullptr)
@@ -737,6 +739,95 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_
 	if (texture != nullptr)
 	{
 		SetViewport(0, 0, texture->GetSize().X, texture->GetSize().Y);
+	}
+	GLCheckError();
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer)
+{
+	std::lock_guard<std::recursive_mutex> lock(GetMutex());
+	MakeContextCurrent();
+
+	// 強制リセット
+	ResetDrawState();
+	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	glActiveTexture(GL_TEXTURE0);
+	GLCheckError();
+
+	if (texture1 == nullptr)
+	{
+		UnbindFramebuffer();
+		glDrawBuffer(GL_BACK);
+		GetRenderState()->Update(true);
+		SetViewport(0, 0, m_size.X, m_size.Y);
+		GLCheckError();
+		return;
+	}
+
+	GLuint cb[MaxRenderTarget] = { 0, 0, 0, 0};
+	GLuint db = 0;
+
+	if (texture1 != nullptr)
+	{
+		cb[0] = ((RenderTexture2D_Imp_GL*) texture1)->GetBuffer();
+	}
+
+	if (texture2 != nullptr)
+	{
+		cb[1] = ((RenderTexture2D_Imp_GL*) texture2)->GetBuffer();
+	}
+
+	if (texture3 != nullptr)
+	{
+		cb[2] = ((RenderTexture2D_Imp_GL*) texture3)->GetBuffer();
+	}
+
+	if (texture4 != nullptr)
+	{
+		cb[3] = ((RenderTexture2D_Imp_GL*) texture4)->GetBuffer();
+	}
+
+	if (depthBuffer != nullptr)
+	{
+		db = ((DepthBuffer_Imp_GL*) depthBuffer)->GetBuffer();
+	}
+
+	BindFramebuffer();
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, cb[0], 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, cb[1], 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, cb[2], 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, cb[3], 0);
+	GLCheckError();
+
+	if (depthBuffer != nullptr)
+	{
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, db, 0);
+	}
+	else
+	{
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
+	}
+	GLCheckError();
+
+	static const GLenum bufs[] = {
+		GL_COLOR_ATTACHMENT0,
+	};
+	glDrawBuffers(1, bufs);
+	GLCheckError();
+
+	GetRenderState()->Update(true);
+	GLCheckError();
+
+	if (texture1 != nullptr)
+	{
+		SetViewport(0, 0, texture1->GetSize().X, texture1->GetSize().Y);
 	}
 	GLCheckError();
 }

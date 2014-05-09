@@ -237,6 +237,10 @@
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\Screen_VS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\SSAO_Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\SSAO_PS.h" />
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\Lightweight_Model_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\Lightweight_Model_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\Model_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\Model_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\GL\Screen\Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\GL\Screen\DirectionalLight_Shadow_PS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\GL\Screen\Paste_PS.h" />
@@ -327,6 +331,10 @@
     <ClInclude Include="..\core\Window\ace.Window.h" />
     <ClInclude Include="..\core\Window\ace.Window_Imp.h" />
     <ClInclude Include="..\core\Window\ace.Window_Imp_Win.h" />
+    <None Include="..\core\Graphics\Common\Shader\ALSL\Lightweight_Model_Internal_PS.alsl" />
+    <None Include="..\core\Graphics\Common\Shader\ALSL\Lightweight_Model_Internal_VS.alsl" />
+    <None Include="..\core\Graphics\Common\Shader\ALSL\Model_Internal_PS.alsl" />
+    <None Include="..\core\Graphics\Common\Shader\ALSL\Model_Internal_VS.alsl" />
     <None Include="..\core\Input\ace.JoystickContainer.h" />
     <None Include="..\core\Window\ace.Window_Imp_X11.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">true</ExcludedFromBuild>

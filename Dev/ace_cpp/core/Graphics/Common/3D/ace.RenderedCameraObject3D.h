@@ -40,7 +40,11 @@ namespace ace
 
 		} m_values_FR;
 
-		RenderTexture2D_Imp*	m_renderTargetNormalDepth_FR;
+		RenderTexture2D_Imp*	m_renderTargetDiffuseColor_FR = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetSpecularColor_Smoothness_FR = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetNormalDepth_FR = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetAO_MatID_FR = nullptr;
+
 		RenderTexture2D_Imp*	m_renderTargetSSAO_FR;
 		RenderTexture2D_Imp*	m_renderTargetSSAO_temp_FR;
 		RenderTexture2D_Imp*	m_renderTargetShadow_FR;
@@ -103,7 +107,11 @@ namespace ace
 
 		DepthBuffer_Imp* GetDepthBuffer_FR() { return m_depthBuffer_FR; }
 
+		RenderTexture2D_Imp*	GetRenderTargetDiffuseColor_FR() { return m_renderTargetDiffuseColor_FR; }
+		RenderTexture2D_Imp*	GetRenderTargetSpecularColor_Smoothness_FR() { return m_renderTargetSpecularColor_Smoothness_FR; }
 		RenderTexture2D_Imp*	GetRenderTargetDepth_FR() { return m_renderTargetNormalDepth_FR; }
+		RenderTexture2D_Imp*	GetRenderTargetAO_MatID_FR() { return m_renderTargetAO_MatID_FR; }
+
 
 		RenderTexture2D_Imp*	GetRenderTargetShadow_FR() { return m_renderTargetShadow_FR; }
 

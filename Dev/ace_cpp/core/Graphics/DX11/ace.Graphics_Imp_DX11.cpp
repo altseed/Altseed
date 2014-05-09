@@ -156,10 +156,14 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	, m_defaultBackRenderTargetView(defaultBackRenderTargetView)
 	, m_defaultDepthBuffer(defaultDepthBuffer)
 	, m_defaultDepthStencilView(defaultDepthStencilView)
-	, m_currentBackRenderTargetView(nullptr)
 	, m_currentDepthStencilView(nullptr)
 {
 	SafeAddRef(window);
+
+	for (auto i = 0; i < MaxRenderTarget; i++)
+	{
+		m_currentBackRenderTargetViews[i] = nullptr;
+	}
 
 	m_renderState = new RenderState_Imp_DX11(this);
 
@@ -186,7 +190,11 @@ Graphics_Imp_DX11::~Graphics_Imp_DX11()
 		m_renderingThread.reset();
 	}
 
-	SafeRelease(m_currentBackRenderTargetView);
+	for (auto i = 0; i < MaxRenderTarget; i++)
+	{
+		SafeRelease(m_currentBackRenderTargetViews[i]);
+	}
+
 	SafeRelease(m_currentDepthStencilView);
 
 	SafeRelease(m_defaultBack);
@@ -457,9 +465,13 @@ void Graphics_Imp_DX11::BeginInternal()
 	// 描画先のリセット
 	m_context->OMSetRenderTargets(1, &m_defaultBackRenderTargetView, m_defaultDepthStencilView);
 
-	SafeRelease(m_currentBackRenderTargetView);
-	m_currentBackRenderTargetView = m_defaultBackRenderTargetView;
-	SafeAddRef(m_currentBackRenderTargetView);
+	for (auto i = 0; i < MaxRenderTarget; i++)
+	{
+		SafeRelease(m_currentBackRenderTargetViews[i]);
+	}
+
+	m_currentBackRenderTargetViews[0] = m_defaultBackRenderTargetView;
+	SafeAddRef(m_currentBackRenderTargetViews[0]);
 
 	SafeRelease(m_currentDepthStencilView);
 	m_currentDepthStencilView = m_defaultDepthStencilView;
@@ -767,9 +779,12 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffe
 		m_context->OMSetRenderTargets(1, &m_defaultBackRenderTargetView, m_defaultDepthStencilView);
 		SetViewport(0, 0, m_size.X, m_size.Y);
 
-		SafeRelease(m_currentBackRenderTargetView);
-		m_currentBackRenderTargetView = m_defaultBackRenderTargetView;
-		SafeAddRef(m_currentBackRenderTargetView);
+		for (auto i = 0; i < MaxRenderTarget; i++)
+		{
+			SafeRelease(m_currentBackRenderTargetViews[i]);
+		}
+		m_currentBackRenderTargetViews[0] = m_defaultBackRenderTargetView;
+		SafeAddRef(m_currentBackRenderTargetViews[0]);
 
 		SafeRelease(m_currentDepthStencilView);
 		m_currentDepthStencilView = m_defaultDepthStencilView;
@@ -796,9 +811,90 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffe
 		m_context->OMSetRenderTargets(1, &rt, ds);
 		SetViewport(0, 0, texture->GetSize().X, texture->GetSize().Y);
 
-		SafeRelease(m_currentBackRenderTargetView);
-		m_currentBackRenderTargetView = rt;
-		SafeAddRef(m_currentBackRenderTargetView);
+		for (auto i = 0; i < MaxRenderTarget; i++)
+		{
+			SafeRelease(m_currentBackRenderTargetViews[i]);
+		}
+		m_currentBackRenderTargetViews[0] = rt;
+		SafeAddRef(m_currentBackRenderTargetViews[0]);
+
+		SafeRelease(m_currentDepthStencilView);
+		m_currentDepthStencilView = ds;
+		SafeAddRef(m_currentDepthStencilView);
+	}
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer)
+{
+	// 強制リセット(テクスチャと描画先同時設定不可のため)
+	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	{
+		ID3D11ShaderResourceView* rv = { nullptr };
+		GetContext()->VSSetShaderResources(i, 1, &rv);
+		GetContext()->PSSetShaderResources(i, 1, &rv);
+	}
+
+	if (texture1 == nullptr)
+	{
+		m_context->OMSetRenderTargets(1, &m_defaultBackRenderTargetView, m_defaultDepthStencilView);
+		SetViewport(0, 0, m_size.X, m_size.Y);
+
+		for (auto i = 0; i < MaxRenderTarget; i++)
+		{
+			SafeRelease(m_currentBackRenderTargetViews[i]);
+		}
+		m_currentBackRenderTargetViews[0] = m_defaultBackRenderTargetView;
+		SafeAddRef(m_currentBackRenderTargetViews[0]);
+
+		SafeRelease(m_currentDepthStencilView);
+		m_currentDepthStencilView = m_defaultDepthStencilView;
+		SafeAddRef(m_currentDepthStencilView);
+
+		return;
+	}
+
+	ID3D11RenderTargetView* rt[MaxRenderTarget] = { nullptr, nullptr, nullptr, nullptr };
+	ID3D11DepthStencilView* ds = nullptr;
+
+	if (texture1 != nullptr)
+	{
+		rt[0] = ((RenderTexture2D_Imp_DX11*) texture1)->GetRenderTargetView();
+	}
+
+	if (texture2 != nullptr)
+	{
+		rt[1] = ((RenderTexture2D_Imp_DX11*) texture2)->GetRenderTargetView();
+	}
+
+	if (texture3 != nullptr)
+	{
+		rt[2] = ((RenderTexture2D_Imp_DX11*) texture3)->GetRenderTargetView();
+	}
+
+	if (texture3 != nullptr)
+	{
+		rt[3] = ((RenderTexture2D_Imp_DX11*) texture3)->GetRenderTargetView();
+	}
+
+	if (depthBuffer != nullptr)
+	{
+		ds = ((DepthBuffer_Imp_DX11*) depthBuffer)->GetDepthStencilView();
+	}
+
+	if (rt != nullptr)
+	{
+		m_context->OMSetRenderTargets(4, rt, ds);
+		SetViewport(0, 0, texture1->GetSize().X, texture1->GetSize().Y);
+
+		for (auto i = 0; i < MaxRenderTarget; i++)
+		{
+			SafeAddRef(rt[i]);
+			SafeRelease(m_currentBackRenderTargetViews[i]);
+			m_currentBackRenderTargetViews[i] = rt[i];
+		}
 
 		SafeRelease(m_currentDepthStencilView);
 		m_currentDepthStencilView = ds;
@@ -843,7 +939,12 @@ void Graphics_Imp_DX11::Clear(bool isColorTarget, bool isDepthTarget, const Colo
 	if (isColorTarget)
 	{
 		float ClearColor [] = { color.R / 255.0f, color.G / 255.0f, color.B / 255.0f, color.A / 255.0f };
-		m_context->ClearRenderTargetView(m_currentBackRenderTargetView, ClearColor);
+
+		for (auto i = 0; i < MaxRenderTarget; i++)
+		{
+			if (m_currentBackRenderTargetViews[i] == nullptr) continue;
+			m_context->ClearRenderTargetView(m_currentBackRenderTargetViews[i], ClearColor);
+		}
 	}
 
 	if (isDepthTarget && m_currentDepthStencilView != nullptr)

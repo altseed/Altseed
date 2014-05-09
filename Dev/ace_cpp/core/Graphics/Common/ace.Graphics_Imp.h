@@ -96,6 +96,8 @@ namespace ace {
 	protected:
 		void ResetDrawState();
 
+		static const int32_t		MaxRenderTarget = 4;
+
 		Vector2DI					m_size;
 		RenderState_Imp*			m_renderState;
 		GraphicsResourceContainer*	m_resourceContainer;
@@ -358,6 +360,15 @@ namespace ace {
 		textureがnullの場合は無条件で、デフォルトの描画先を使用する。
 	*/
 	virtual void SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer) = 0;
+
+	/**
+	@brief	描画先を設定する。
+	@param	texture1		描画先のテクスチャ
+	@param	depthBuffer	描画先の深度バッファ
+	@note
+	textureがnullの場合は無条件で、デフォルトの描画先を使用する。
+	*/
+	virtual void SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer) = 0;
 
 	/**
 		@brief	コンテキストの設定を行う。

@@ -44,7 +44,7 @@ namespace ace {
 		ID3D11Texture2D*		m_defaultDepthBuffer;
 		ID3D11DepthStencilView*	m_defaultDepthStencilView;
 
-		ID3D11RenderTargetView*	m_currentBackRenderTargetView;
+		ID3D11RenderTargetView*	m_currentBackRenderTargetViews[MaxRenderTarget];
 		ID3D11DepthStencilView*	m_currentDepthStencilView;
 
 		Graphics_Imp_DX11(
@@ -91,7 +91,6 @@ namespace ace {
 
 		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode);
 
-		
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 
 		Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format) override;
@@ -103,6 +102,8 @@ namespace ace {
 		DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height);
 
 		void SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer);
+
+		void SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer);
 
 		void SetViewport(int32_t x, int32_t y, int32_t width, int32_t height);
 

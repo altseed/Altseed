@@ -1,0 +1,15 @@
+
+//<|| ƒ‚ƒfƒ‹‹¤’ÊŠÖ”
+mat4 calcMatrix(float4 weights, uint4 indexes)
+{
+	return matM[indexes.x] * weights.x +
+	matM[indexes.y] * weights.y +
+	matM[indexes.z] * weights.z +
+	matM[indexes.w] * weights.w;
+}
+
+mat3 convert44to33(mat4 mat)
+{
+	return mat3(mat[0].xyz, mat[1].xyz, mat[2].xyz);
+}
+//||>

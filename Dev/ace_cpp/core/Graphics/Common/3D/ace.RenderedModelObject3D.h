@@ -40,6 +40,25 @@ namespace ace
 			float		Padding0;
 		};
 
+		struct VertexConstantBufferLightweight
+		{
+			Matrix44	matM[32];
+			Matrix44	matC;
+			Matrix44	matP;
+			Vector3DF	directionalLightDirection;
+			float		Padding1;
+
+			Vector3DF	directionalLightColor;
+			float		Padding2;
+
+			Vector3DF	skyLightColor;
+			float		Padding3;
+
+			Vector3DF	groundLightColor;
+			float		Padding4;
+		};
+
+
 		struct BoneProperty
 		{
 			float	Position[3];
@@ -91,12 +110,15 @@ namespace ace
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderNormalDepth;
 
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF_ND;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;
 		
 		std::map<astring, AnimationClip*>		m_animationClips;
 
 		AnimationClip*							m_animationPlaying;
 		int32_t									m_animationTime;
+
+		Renderer3D*								m_renderer = nullptr;
 
 	public:
 		RenderedModelObject3D(Graphics* graphics);
@@ -111,6 +133,10 @@ namespace ace
 		void AddMesh(int32_t meshGroupIndex, Mesh* mesh);
 
 		void SetDeformer(int32_t meshGroupIndex, Deformer* deformer);
+
+		void OnAdded(Renderer3D* renderer) override;
+
+		void OnRemoving(Renderer3D* renderer) override;
 
 		void Flip() override;
 		void Rendering(RenderingProperty& prop) override;

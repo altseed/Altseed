@@ -14,24 +14,22 @@
 
 namespace ace
 {
-	class RenderingLightweightProperty
-	{
-	public:
-		Matrix44	CameraMatrix;
-		Matrix44	ProjectionMatrix;
-		Color		DirectionalLightColor;
-		Vector3DF	DirectionalLightDirection;
-		Color		AirLightColor;
-		Color		GroundLightColor;
-	};
-
 	class RenderingProperty
 	{
 	public:
+		bool		IsLightweightMode = false;
+
 		Matrix44	CameraMatrix;
 		Matrix44	ProjectionMatrix;
+
+		// 軽量描画用
 		Color		DirectionalLightColor;
 		Vector3DF	DirectionalLightDirection;
+		Color		SkyLightColor;
+		Color		GroundLightColor;
+
+
+
 		Matrix44	LightCameraMatrix;
 		Matrix44	LightProjectionMatrix;
 

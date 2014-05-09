@@ -37,10 +37,15 @@ void EngineGraphics3DTest::SetCameraParameter(float distance, float rotX, float 
 	cameraObj->SetWindowSize(ace::Vector2DI(WindowWidth, WindowHeight));
 }
 
+void EngineGraphics3DTest::SetRenderSettings(ace::RenderSettings settings)
+{
+	m_settings = settings;
+}
+
 void EngineGraphics3DTest::OnStart()
 {
 	m_scene = std::make_shared<ace::Scene>();
-	m_layer3d = std::make_shared<ace::Layer3D>();
+	m_layer3d = std::make_shared<ace::Layer3D>(m_settings);
 	m_scene->AddLayer(m_layer3d);
 	ace::Engine::ChangeScene(m_scene);
 
