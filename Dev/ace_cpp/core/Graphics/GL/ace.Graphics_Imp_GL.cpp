@@ -448,9 +448,11 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 
 		// レイアウトの設定
 		shader->SetLayout();
+		GLCheckError();
 
 		// 定数バッファの設定
 		shader->AssignConstantBuffer();
+		GLCheckError();
 
 		// テクスチャの設定
 		for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
@@ -476,11 +478,14 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 					buf = t->GetBuffer();
 				}
 
+				GLCheckError();
 				glActiveTexture(GL_TEXTURE0 + i);
 				glBindTexture(GL_TEXTURE_2D, buf);
+				GLCheckError();
 
 				auto id = glGetUniformLocation(program, texName);
 				glUniform1i(id, i);
+				GLCheckError();
 			}
 		}
 
@@ -818,8 +823,11 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTextu
 
 	static const GLenum bufs[] = {
 		GL_COLOR_ATTACHMENT0,
+		GL_COLOR_ATTACHMENT1,
+		GL_COLOR_ATTACHMENT2,
+		GL_COLOR_ATTACHMENT3,
 	};
-	glDrawBuffers(1, bufs);
+	glDrawBuffers(4, bufs);
 	GLCheckError();
 
 	GetRenderState()->Update(true);

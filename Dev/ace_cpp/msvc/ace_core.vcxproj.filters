@@ -88,6 +88,9 @@
     <Filter Include="Graphics\Common\Shader\ALSL">
       <UniqueIdentifier>{616da8ab-0c69-4f0f-b88e-894a084ce00f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Common\Shader\ALSL\Screen">
+      <UniqueIdentifier>{bb3b5864-522e-481e-b732-f294a4d56b04}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -874,6 +877,9 @@
     </None>
     <None Include="..\core\Graphics\Common\Shader\ALSL\Model_Internal_PS.alsl">
       <Filter>Graphics\Common\Shader\ALSL</Filter>
+    </None>
+    <None Include="..\core\Graphics\Common\Shader\ALSL\Screen\DirectionalLight_Shadow_PS.alsl">
+      <Filter>Graphics\Common\Shader\ALSL\Screen</Filter>
     </None>
   </ItemGroup>
 </Project>

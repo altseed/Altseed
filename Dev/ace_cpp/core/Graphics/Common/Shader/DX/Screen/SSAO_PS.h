@@ -42,7 +42,7 @@ struct PS_Input
 
 float3 GetNormal(float2 uv)
 {
-	return g_texture.Sample(g_sampler, uv).xyz * 2.0 - 1.0;
+	return g_texture.Sample(g_sampler, uv).xyz;
 }
 
 float GetZ(float2 uv)

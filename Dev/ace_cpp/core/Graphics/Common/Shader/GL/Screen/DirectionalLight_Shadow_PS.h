@@ -11,16 +11,46 @@ uniform sampler2D		g_gbuffer3Texture;
 
 uniform sampler2D		g_shadowmapTexture;
 
+uniform sampler2D		g_ssaoTexture;
+
 uniform mat4			g_cameraPositionToShadowCameraPosition;
 uniform mat4			g_shadowProjection;
 
 uniform vec3			reconstructInfo1;
 uniform vec4			reconstructInfo2;
 
+uniform vec3			directionalLightDirection;
+uniform vec3			directionalLightColor;
+uniform vec3			skyLightColor;
+uniform vec3			groundLightColor;
+uniform vec3			upDir;
+
 in vec4 voutPosition;
 in vec2 voutUV;
 
 out vec4 outOutput0;
+
+
+//<|| ALSL
+vec4 calcLightColor(vec3 upDir, vec3 normal, vec3 lightDir, float shadow)
+{
+	vec4 color = vec4(0.000000, 0.000000, 0.000000, 1.00000);
+	float NoL = dot(normal, lightDir);
+	float NoU = dot(normal, upDir);
+	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow;
+	color.xyz = color.xyz + skyLightColor * max(NoU, 0.000000);
+	color.xyz = color.xyz + groundLightColor * max(-NoU, 0.000000);
+	return color;
+	
+}
+
+
+//||>
+
+vec3 GetNormal(vec2 uv)
+{
+	return texture2D(g_gbuffer2Texture, uv).xyz;
+}
 
 float GetNormalizedDepth(vec2 uv)
 {
@@ -89,7 +119,12 @@ void main()
 
 	float shadow = VSM(shadowParam, depth );
 
-	outOutput0.x = shadow;
+	vec4 lightColor = calcLightColor(upDir, GetNormal(uv), directionalLightDirection, shadow);
+
+	float ao = texture2D(g_ssaoTexture, uv).x;
+	lightColor.xyz *= ao;
+
+	outOutput0 = lightColor;
 }
 
 )";

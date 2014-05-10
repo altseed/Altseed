@@ -20,6 +20,7 @@ struct PS_Input
 	half3 Normal			: NORMAL0;
 	half3 Binormal			: BINORMAL0;
 	half3 Tangent			: TANGENT0;
+	float Depth				: DEPTH0;
 };
 
 #ifdef EXPORT_DEPTH
@@ -41,12 +42,7 @@ struct PS_Output
 half3 CalculateNormal( half3 normal, half3 tangent, half3 binormal, float3 normalMap )
 {
 	half3 n = (normalMap - 0.5) * 2.0;
-	return mul( half3x3(tangent, binormal, normal), n );
-}
-
-half CalculateDepth(float4 position)
-{
-	return position.z / position.w;
+	return tangent * n.x + binormal * n.y + normal * n.z;
 }
 
 PS_Output main( const PS_Input Input )
@@ -60,15 +56,15 @@ PS_Output main( const PS_Input Input )
 	PS_Output Output;
 
 #ifdef EXPORT_DEPTH
-	Output.Depth.x = CalculateDepth( Input.Position );
-	Output.Depth = float4( Output.Depth.x, Output.Depth.y, Output.Depth.z, Output.Depth.w );
-
+	Output.Depth.x = Input.Depth;
+	Output.Depth.y = 0.0;
+	Output.Depth.z = 0.0;
+	Output.Depth.w = Input.Depth;
 #else
-
 	Output.DiffuseColor = diffuseColor;
 
 	Output.NormalDepth.xyz = CalculateNormal( Input.Normal, Input.Tangent, Input.Binormal, g_normalTexture.Sample(g_normalSampler, Input.UV).xyz );
-	Output.NormalDepth.w = CalculateDepth( Input.Position );
+	Output.NormalDepth.w = Input.Depth;
 
 	Output.SpecularColor_Smoothness.xyz = g_specularTexture.Sample(g_specularSampler, Input.UV).xyz;
 	Output.SpecularColor_Smoothness.w = 0.5;
@@ -77,7 +73,6 @@ PS_Output main( const PS_Input Input )
 	Output.AO_MatID.y = 0;
 	Output.AO_MatID.z = 0;
 	Output.AO_MatID.w = 0;
-
 #endif
 
 	return Output;

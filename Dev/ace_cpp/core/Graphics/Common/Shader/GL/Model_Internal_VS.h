@@ -7,6 +7,8 @@ uniform mat4	matC;
 uniform mat4	matP;
 //||>
 
+uniform vec3		depthParams;
+
 //<|| モデル共通頂点入力
 in vec3 Position;
 in vec3 Normal;
@@ -25,6 +27,7 @@ out vec2 voutUV;
 out vec3 voutNormal;
 out vec3 voutBinormal;
 out vec3 voutTangent;
+out	float voutDepth;
 
 //<|| モデル共通関数
 mat4 calcMatrix(vec4 weights, vec4 indexes)
@@ -49,12 +52,14 @@ void main()
 	vec4 cPosition = matMC * vec4( Position.x, Position.y, Position.z, 1.0 );
 
 	vec3 cNormal = matMC33 * Normal;
+	//vec3 cNormal =( matMC * vec4(Normal,0.0) ).xyz;
 	cNormal = normalize(cNormal);
 
 	vec3 cBinormal = matMC33 * Binormal;
 	cBinormal = normalize(cBinormal);
 
 	vec3 cTangent = cross( cBinormal, cNormal );
+	cTangent = normalize(cTangent);
 
 	voutPosition = matP * cPosition;
 	voutNormal = cNormal;
@@ -62,6 +67,7 @@ void main()
 	voutTangent = cTangent;
 	voutUV = UV;
 	voutColor = Color;
+	voutDepth = (-cPosition.z - depthParams.z) / depthParams.x;
 
 	gl_Position = voutPosition;
 }

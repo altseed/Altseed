@@ -15,11 +15,20 @@ SamplerState	g_gbuffer3Sampler		: register( s3 );
 Texture2D		g_shadowmapTexture		: register( t4 );
 SamplerState	g_shadowmapSampler		: register( s4 );
 
+Texture2D		g_ssaoTexture		: register( t5 );
+SamplerState	g_ssaoSampler		: register( s5 );
+
 float4x4		g_cameraPositionToShadowCameraPosition		: register( c0 );
 float4x4		g_shadowProjection							: register( c4 );
 
 float3 reconstructInfo1	: register( c8 );
 float4 reconstructInfo2	: register( c9 );
+
+float3		directionalLightDirection	: register( c10 );
+float3		directionalLightColor		: register( c11 );
+float3		skyLightColor				: register( c12 );
+float3		groundLightColor			: register( c13 );
+float3		upDir			: register( c14 );
 
 struct PS_Input
 {
@@ -28,6 +37,27 @@ struct PS_Input
 	float4 Position			: POSITION0;
 	float2 UV				: UV0;
 };
+
+//<|| ALSL
+float4 calcLightColor(float3 upDir, float3 normal, float3 lightDir, float shadow)
+{
+	float4 color = float4(0.000000, 0.000000, 0.000000, 1.00000);
+	float NoL = dot(normal, lightDir);
+	float NoU = dot(normal, upDir);
+	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow;
+	color.xyz = color.xyz + skyLightColor * max(NoU, 0.000000);
+	color.xyz = color.xyz + groundLightColor * max(-NoU, 0.000000);
+	return color;
+	
+}
+
+
+//||>
+
+float3 GetNormal(float2 uv)
+{
+	return g_gbuffer2Texture.Sample(g_gbuffer2Sampler, uv).xyz;
+}
 
 float GetNormalizedDepth(float2 uv)
 {
@@ -97,7 +127,13 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float shadow = VSM(shadowParam, depth );
 
-	Output.x = shadow;
+	float4 lightColor = calcLightColor(upDir, GetNormal(uv), directionalLightDirection, shadow);
+
+	float ao = g_ssaoTexture.Sample(g_ssaoSampler, uv).x;
+	lightColor.xyz *= ao;
+
+	Output = lightColor;
+
 	return Output;
 }
 

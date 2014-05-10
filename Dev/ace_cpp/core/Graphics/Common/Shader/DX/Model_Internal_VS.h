@@ -6,6 +6,8 @@ float4x4	matC						: register( c128 );
 float4x4	matP						: register( c132 );
 //||>
 
+float3		depthParams					: register( c136 );
+
 //<|| モデル共通頂点入力
 struct VS_Input
 {
@@ -31,6 +33,7 @@ struct VS_Output
 	half3 Normal			: NORMAL0;
 	half3 Binormal			: BINORMAL0;
 	half3 Tangent			: TANGENT0;
+	float Depth				: DEPTH0;
 };
 
 //<|| モデル共通関数
@@ -44,7 +47,7 @@ float4x4 calcMatrix(float4 weights, uint4 indexes)
 
 float3x3 convert44to33(float4x4 mat)
 {
-	return float3x3(mat[0].xyz, mat[1].xyz, mat[2].xyz);
+	return (float3x3)mat;
 }
 //||>
 
@@ -67,6 +70,7 @@ VS_Output main( const VS_Input Input )
 	cBinormal = normalize(cBinormal);
 
 	float3 cTangent = cross( cBinormal, cNormal );
+	cTangent = normalize(cTangent);
 
 	Output.SV_Position = mul( matP, cPosition );
 	Output.Position = Output.SV_Position;
@@ -75,6 +79,7 @@ VS_Output main( const VS_Input Input )
 	Output.Tangent = (half3)cTangent;
 	Output.UV = Input.UV;
 	Output.Color = Input.Color;
+	Output.Depth = (-cPosition.z - depthParams.z) / depthParams.x;
 
 	return Output;
 }

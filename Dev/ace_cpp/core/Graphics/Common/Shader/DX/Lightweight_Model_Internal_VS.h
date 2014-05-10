@@ -47,7 +47,7 @@ float4x4 calcMatrix(float4 weights, uint4 indexes)
 
 float3x3 convert44to33(float4x4 mat)
 {
-	return float3x3(mat[0].xyz, mat[1].xyz, mat[2].xyz);
+	return (float3x3)mat;
 }
 //||>
 

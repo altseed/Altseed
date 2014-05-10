@@ -54,6 +54,17 @@ namespace ace
 
 			float ReconstructInfo1[4];
 			float ReconstructInfo2[4];
+
+			Vector3DF	directionalLightDirection;
+			float		Padding1;
+			Vector3DF	directionalLightColor;
+			float		Padding2;
+			Vector3DF	skyLightColor;
+			float		Padding3;
+			Vector3DF	groundLightColor;
+			float		Padding4;
+			Vector3DF	upDir;
+			float		Padding5;
 		};
 
 		struct SSAOConstantVertexBuffer
@@ -128,7 +139,9 @@ namespace ace
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
 
 		std::shared_ptr<Texture2D>				m_dummyTextureWhite;
-
+		std::shared_ptr<Texture2D>				m_dummyTextureBlack;
+		std::shared_ptr<Texture2D>				m_dummyTextureNormal;
+		
 		RenderingEvent	m_event;
 
 	public:
@@ -148,6 +161,8 @@ namespace ace
 		void EndRendering();
 
 		std::shared_ptr<Texture2D> GetDummyTextureWhite() { return m_dummyTextureWhite; }
+		std::shared_ptr<Texture2D> GetDummyTextureBlack() { return m_dummyTextureBlack; }
+		std::shared_ptr<Texture2D> GetDummyTextureNormal() { return m_dummyTextureNormal; }
 
 		RenderTexture2D_Imp* GetRenderTarget();
 

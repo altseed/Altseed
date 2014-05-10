@@ -18,6 +18,7 @@ namespace ace
 	{
 	public:
 		bool		IsLightweightMode = false;
+		bool		IsDepthMode = false;
 
 		Matrix44	CameraMatrix;
 		Matrix44	ProjectionMatrix;
@@ -28,18 +29,12 @@ namespace ace
 		Color		SkyLightColor;
 		Color		GroundLightColor;
 
-
-
-		Matrix44	LightCameraMatrix;
-		Matrix44	LightProjectionMatrix;
-
 		float		DepthRange;
 		float		ZFar;
 		float		ZNear;
 
-		RenderTexture2D_Imp*	ShadowMapPtr;
-		RenderTexture2D_Imp*	SSAOPtr;
-
+		Matrix44	LightCameraMatrix;
+		Matrix44	LightProjectionMatrix;
 	};
 
 	class RenderingShadowMapProperty
@@ -130,8 +125,6 @@ namespace ace
 		virtual void Rendering(RenderingProperty& prop) = 0;
 
 		virtual void RenderingShadowMap(RenderingShadowMapProperty& prop) {}
-
-		virtual void RenderingNormalDepth(RenderingProperty& prop) {}
 
 		Vector3DF GetPosition_FR();
 

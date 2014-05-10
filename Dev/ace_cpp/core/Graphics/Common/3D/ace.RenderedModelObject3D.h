@@ -58,6 +58,15 @@ namespace ace
 			float		Padding4;
 		};
 
+		struct VertexConstantBufferDeferredRendering
+		{
+			Matrix44	matM[32];
+			Matrix44	matC;
+			Matrix44	matP;
+
+			Vector3DF	depthParams;
+			float		Padding0;
+		};
 
 		struct BoneProperty
 		{
@@ -141,7 +150,6 @@ namespace ace
 		void Flip() override;
 		void Rendering(RenderingProperty& prop) override;
 		void RenderingShadowMap(RenderingShadowMapProperty& prop) override;
-		void RenderingNormalDepth(RenderingProperty& prop) override;
 
 		/**
 			@brief	モデルの解除を行わずに、現在設定されているインスタンスを解除する。

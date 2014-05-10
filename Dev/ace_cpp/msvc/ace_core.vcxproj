@@ -335,6 +335,7 @@
     <None Include="..\core\Graphics\Common\Shader\ALSL\Lightweight_Model_Internal_VS.alsl" />
     <None Include="..\core\Graphics\Common\Shader\ALSL\Model_Internal_PS.alsl" />
     <None Include="..\core\Graphics\Common\Shader\ALSL\Model_Internal_VS.alsl" />
+    <None Include="..\core\Graphics\Common\Shader\ALSL\Screen\DirectionalLight_Shadow_PS.alsl" />
     <None Include="..\core\Input\ace.JoystickContainer.h" />
     <None Include="..\core\Window\ace.Window_Imp_X11.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">true</ExcludedFromBuild>

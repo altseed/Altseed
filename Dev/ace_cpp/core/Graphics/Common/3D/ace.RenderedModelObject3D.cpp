@@ -636,6 +636,25 @@ void main()
 		}
 
 		{
+			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
+			constantBuffers_vs.resize(4);
+			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+			constantBuffers_vs[0].Name = std::string("matM");
+			constantBuffers_vs[0].Offset = 0;
+			constantBuffers_vs[0].Count = 32;
+
+			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[1].Name = std::string("matC");
+			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferDeferredRendering, matC);
+
+			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[2].Name = std::string("matP");
+			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferDeferredRendering, matP);
+
+			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[3].Name = std::string("depthParams");
+			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferDeferredRendering, depthParams);
+
 			std::vector<ace::Macro> macro;
 			if (GetGraphics()->GetGraphicsType() == GRAPHICS_TYPE_GL)
 			{
@@ -657,9 +676,29 @@ void main()
 			}
 
 			assert(m_shaderDF != nullptr);
+			m_shaderDF->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
 		}
 
 		{
+			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
+			constantBuffers_vs.resize(4);
+			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+			constantBuffers_vs[0].Name = std::string("matM");
+			constantBuffers_vs[0].Offset = 0;
+			constantBuffers_vs[0].Count = 32;
+
+			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[1].Name = std::string("matC");
+			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferDeferredRendering, matC);
+
+			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[2].Name = std::string("matP");
+			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferDeferredRendering, matP);
+
+			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[3].Name = std::string("depthParams");
+			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferDeferredRendering, depthParams);
+
 			std::vector<ace::Macro> macro;
 			macro.push_back(Macro("EXPORT_DEPTH", "1"));
 
@@ -683,6 +722,7 @@ void main()
 			}
 
 			assert(m_shaderDF_ND != nullptr);
+			m_shaderDF_ND->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
 		}
 
 
@@ -981,7 +1021,14 @@ void main()
 		}
 		else
 		{
-			shader = m_shader;
+			if (prop.IsDepthMode)
+			{
+				shader = m_shaderDF_ND;
+			}
+			else
+			{
+				shader = m_shaderDF;
+			}
 		}
 
 		Matrix44* matM = nullptr;
@@ -997,14 +1044,37 @@ void main()
 			}
 			else
 			{
-				auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBuffer>();
-				matM = vbuf.MMatrices;
-				matC = &vbuf.CMatrix;
-				matP = &vbuf.PMatrix;
+				auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferDeferredRendering>();
+				matM = vbuf.matM;
+				matC = &vbuf.matC;
+				matP = &vbuf.matP;
 			}
 
 			*matC = prop.CameraMatrix;
 			*matP = prop.ProjectionMatrix;
+		}
+
+		if (prop.IsLightweightMode)
+		{
+			auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
+
+			vbuf.directionalLightDirection = prop.DirectionalLightDirection;
+			vbuf.directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
+			vbuf.directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
+			vbuf.directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
+			vbuf.groundLightColor.X = prop.GroundLightColor.R / 255.0f;
+			vbuf.groundLightColor.Y = prop.GroundLightColor.G / 255.0f;
+			vbuf.groundLightColor.Z = prop.GroundLightColor.B / 255.0f;
+			vbuf.skyLightColor.X = prop.SkyLightColor.R / 255.0f;
+			vbuf.skyLightColor.Y = prop.SkyLightColor.G / 255.0f;
+			vbuf.skyLightColor.Z = prop.SkyLightColor.B / 255.0f;
+		}
+		else
+		{
+			auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferDeferredRendering>();
+			vbuf.depthParams.X = prop.DepthRange;
+			vbuf.depthParams.Y = prop.ZFar;
+			vbuf.depthParams.Z = prop.ZNear;
 		}
 
 		for (auto& g : m_meshGroups_fr)
@@ -1034,37 +1104,6 @@ void main()
 					{
 						matM[i] = matM[0];
 					}
-				}
-
-				if (prop.IsLightweightMode)
-				{
-					auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
-
-					vbuf.directionalLightDirection = prop.DirectionalLightDirection;
-					vbuf.directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
-					vbuf.directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
-					vbuf.directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
-					vbuf.groundLightColor.X = prop.GroundLightColor.R / 255.0f;
-					vbuf.groundLightColor.Y = prop.GroundLightColor.G / 255.0f;
-					vbuf.groundLightColor.Z = prop.GroundLightColor.B / 255.0f;
-					vbuf.skyLightColor.X = prop.SkyLightColor.R / 255.0f;
-					vbuf.skyLightColor.Y = prop.SkyLightColor.G / 255.0f;
-					vbuf.skyLightColor.Z = prop.SkyLightColor.B / 255.0f;
-				}
-				else
-				{
-					auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBuffer>();
-
-					vbuf.LightCMatrix = prop.LightCameraMatrix;
-					vbuf.LightPMatrix = prop.LightProjectionMatrix;
-					vbuf.DepthRange = prop.DepthRange;
-					vbuf.ZFar = prop.ZFar;
-					vbuf.ZNear = prop.ZNear;
-		
-					vbuf.DirectionalLightDirection = prop.DirectionalLightDirection;
-					vbuf.DirectionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
-					vbuf.DirectionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
-					vbuf.DirectionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
 				}
 
 				auto& boneOffsets = mesh->GetBoneOffsets();
@@ -1111,83 +1150,41 @@ void main()
 
 						if (material != nullptr)
 						{
-							if (prop.IsLightweightMode)
+							if (material->ColorTexture != nullptr)
 							{
-								if (material->ColorTexture != nullptr)
-								{
-									shader->SetTexture("g_colorTexture", material->ColorTexture, 0);
-								}
-								else
-								{
-									shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
-								}
+								shader->SetTexture("g_colorTexture", material->ColorTexture, 0);
 							}
 							else
 							{
-								auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBuffer>();
-								auto& pbuf = shader->GetPixelConstantBuffer<PixelConstantBuffer>();
+								shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
+							}
 
-								pbuf.HasTextures.X = material->ColorTexture != nullptr ? 1.0f : 0.0f;
-								pbuf.HasTextures.Y = material->NormalTexture != nullptr ? 1.0f : 0.0f;
-								pbuf.HasTextures.Z = material->SpecularTexture != nullptr ? 1.0f : 0.0f;
-
-								if (material->ColorTexture != nullptr)
-								{
-									shader->SetTexture("g_colorTexture", material->ColorTexture, 0);
-								}
-
+							if (prop.IsLightweightMode)
+							{
 								if (material->NormalTexture != nullptr)
 								{
 									shader->SetTexture("g_normalTexture", material->NormalTexture, 1);
+								}
+								else
+								{
+									shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), 1);
 								}
 
 								if (material->SpecularTexture != nullptr)
 								{
 									shader->SetTexture("g_specularTexture", material->SpecularTexture, 2);
 								}
+								else
+								{
+									shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), 2);
+								}
 							}
 						}
 						else
-						{
-							if (prop.IsLightweightMode)
-							{
-								shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
-							}
-							else
-							{
-								auto& pbuf = shader->GetPixelConstantBuffer<PixelConstantBuffer>();
-								pbuf.HasTextures.X = 0.0f;
-								pbuf.HasTextures.Y = 0.0f;
-								pbuf.HasTextures.Z = 0.0f;
-							}
-						}
-
-						if (prop.IsLightweightMode)
-						{
-						}
-						else
-						{
-							auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBuffer>();
-							auto& pbuf = shader->GetPixelConstantBuffer<PixelConstantBuffer>();
-
-							if (prop.ShadowMapPtr != nullptr)
-							{
-								pbuf.HasTextures.W = 1.0f;
-								shader->SetTexture("g_shadowTexture", prop.ShadowMapPtr, 3);
-							}
-							else
-							{
-								pbuf.HasTextures.W = 0.0f;
-							}
-
-							pbuf.DepthRange = vbuf.DepthRange;
-							pbuf.ZFar = vbuf.ZFar;
-							pbuf.ZNear = pbuf.ZNear;
-
-							if (prop.SSAOPtr != nullptr)
-							{
-								shader->SetTexture("g_ssaoTexture", prop.SSAOPtr, 4);
-							}
+						{		
+							shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
+							shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), 1);
+							shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), 2);
 						}
 
 						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
@@ -1197,9 +1194,9 @@ void main()
 						auto& state = GetGraphics()->GetRenderState()->Push();
 						state.DepthTest = true;
 						state.DepthWrite = true;
-						state.CullingType = CULLING_DOUBLE;
-						state.TextureFilterTypes[3] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
-						state.TextureFilterTypes[4] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+						state.CullingType = CULLING_FRONT;
+						state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
+
 						GetGraphics()->GetRenderState()->Update(false);
 
 						GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
@@ -1350,158 +1347,6 @@ void main()
 						auto& state = GetGraphics()->GetRenderState()->Push();
 						state.DepthTest = true;
 						state.DepthWrite = true;
-						state.CullingType = CULLING_DOUBLE;
-						GetGraphics()->GetRenderState()->Update(false);
-
-						GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
-
-						GetGraphics()->GetRenderState()->Pop();
-
-						if (fCount + fOffset == bFCount && boneOffsets.size() > bIndex)
-						{
-							bFCount += boneOffsets[bIndex].FaceOffset;
-							bIndex++;
-						}
-
-						if (fCount + fOffset == mFCount && materialOffsets.size() > mIndex)
-						{
-							mFCount += materialOffsets[mIndex].FaceOffset;
-							mIndex++;
-						}
-
-						fOffset += fCount;
-					}
-				}
-			}
-		}
-	}
-
-	void RenderedModelObject3D::RenderingNormalDepth(RenderingProperty& prop)
-	{
-		auto& vbuf = m_shaderNormalDepth->GetVertexConstantBuffer<VertexConstantBuffer>();
-		auto& pbuf = m_shaderNormalDepth->GetPixelConstantBuffer<PixelConstantBuffer>();
-
-		for (auto& g : m_meshGroups_fr)
-		{
-			auto& matrices = g->m_matrixes_fr;
-
-			for (auto& mesh : g->GetMeshes())
-			{
-				// 有効チェック
-				if (mesh->GetIndexBuffer() == nullptr) continue;
-
-				// 行列計算
-				if (matrices.size() > 0)
-				{
-					// ボーンあり
-					for (int32_t i = 0; i < Min(32, matrices.size()); i++)
-					{
-						vbuf.MMatrices[i].SetIndentity();
-						Matrix44::Mul(vbuf.MMatrices[i], GetLocalMatrix_FR(), matrices[i]);
-					}
-				}
-				else
-				{
-					// ボーンなし
-					vbuf.MMatrices[0] = GetLocalMatrix_FR();
-					for (int32_t i = 1; i < 32; i++)
-					{
-						vbuf.MMatrices[i] = vbuf.MMatrices[0];
-					}
-				}
-
-				{
-					vbuf.CMatrix = prop.CameraMatrix;
-					vbuf.PMatrix = prop.ProjectionMatrix;
-					vbuf.LightCMatrix = prop.LightCameraMatrix;
-					vbuf.LightPMatrix = prop.LightProjectionMatrix;
-					vbuf.DepthRange = prop.DepthRange;
-					vbuf.ZFar = prop.ZFar;
-					vbuf.ZNear = prop.ZNear;
-				}
-
-				auto& boneOffsets = mesh->GetBoneOffsets();
-				auto& materialOffsets = mesh->GetMaterialOffsets();
-
-				{
-					// 設定がある場合
-					auto mIndex = 0;
-					auto bIndex = 0;
-
-					auto fOffset = 0;
-					auto fCount = 0;
-
-					auto bFCount = 0;
-					if (boneOffsets.size() > 0)
-					{
-						bFCount = boneOffsets[bIndex].FaceOffset;
-					}
-					else
-					{
-						bFCount = mesh->GetIndexBuffer()->GetCount() / 3;
-					}
-
-					auto mFCount = 0;
-					if (materialOffsets.size() > 0)
-					{
-						mFCount = materialOffsets[mIndex].FaceOffset;
-					}
-					else
-					{
-						mFCount = mesh->GetIndexBuffer()->GetCount() / 3;
-					}
-
-					while (fCount < mesh->GetIndexBuffer()->GetCount() / 3)
-					{
-						fCount = Min(bFCount, mFCount) - fOffset;
-						if (fCount == 0) break;
-
-						Mesh_Imp::Material* material = nullptr;
-						if (materialOffsets.size() > 0)
-						{
-							material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
-						}
-
-						if (material != nullptr)
-						{
-							pbuf.HasTextures.X = material->ColorTexture != nullptr ? 1.0f : 0.0f;
-							pbuf.HasTextures.Y = material->NormalTexture != nullptr ? 1.0f : 0.0f;
-							pbuf.HasTextures.Z = material->SpecularTexture != nullptr ? 1.0f : 0.0f;
-
-							if (material->ColorTexture != nullptr)
-							{
-								m_shaderNormalDepth->SetTexture("g_colorTexture", material->ColorTexture, 0);
-							}
-
-							if (material->NormalTexture != nullptr)
-							{
-								m_shaderNormalDepth->SetTexture("g_normalTexture", material->NormalTexture, 1);
-							}
-
-							if (material->SpecularTexture != nullptr)
-							{
-								m_shaderNormalDepth->SetTexture("g_specularTexture", material->SpecularTexture, 2);
-							}
-						}
-						else
-						{
-							pbuf.HasTextures.X = 0.0f;
-							pbuf.HasTextures.Y = 0.0f;
-							pbuf.HasTextures.Z = 0.0f;
-						}
-
-						pbuf.DepthRange = vbuf.DepthRange;
-						pbuf.ZFar = vbuf.ZFar;
-						pbuf.ZNear = pbuf.ZNear;
-
-						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
-						GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
-						GetGraphics()->SetShader(m_shaderNormalDepth.get());
-
-						auto& state = GetGraphics()->GetRenderState()->Push();
-						state.DepthTest = true;
-						state.DepthWrite = true;
-						state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
 						state.CullingType = CULLING_DOUBLE;
 						GetGraphics()->GetRenderState()->Update(false);
 

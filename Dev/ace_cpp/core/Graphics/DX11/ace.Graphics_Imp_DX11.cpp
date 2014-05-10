@@ -874,9 +874,9 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTex
 		rt[2] = ((RenderTexture2D_Imp_DX11*) texture3)->GetRenderTargetView();
 	}
 
-	if (texture3 != nullptr)
+	if (texture4 != nullptr)
 	{
-		rt[3] = ((RenderTexture2D_Imp_DX11*) texture3)->GetRenderTargetView();
+		rt[3] = ((RenderTexture2D_Imp_DX11*) texture4)->GetRenderTargetView();
 	}
 
 	if (depthBuffer != nullptr)
