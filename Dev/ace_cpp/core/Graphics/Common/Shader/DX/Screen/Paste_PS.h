@@ -1,4 +1,4 @@
-static const char* paste_ps_dx = R"(
+﻿static const char* paste_ps_dx = R"(
 
 
 Texture2D		g_texture		: register( t0 );

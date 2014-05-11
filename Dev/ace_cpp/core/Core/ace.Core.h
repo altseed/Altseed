@@ -123,6 +123,12 @@ namespace ace {
 		virtual void SetTargetFPS(int32_t fps) = 0;
 
 		/**
+			@brief	Windowsの場合、ウインドウのハンドルを返す。
+			@return	ウインドウハンドル
+		*/
+		virtual void* GetWindowHandle() const = 0;
+
+		/**
 		@brief キーボードの入力を扱うKeyboardクラスを取得する。
 		*/
 		virtual Keyboard* GetKeyboard() = 0;

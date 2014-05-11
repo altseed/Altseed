@@ -1,4 +1,4 @@
-static const char* ssao_blur_ps_dx = R"(
+﻿static const char* ssao_blur_ps_dx = R"(
 
 Texture2D		g_texture		: register( t0 );
 SamplerState	g_sampler		: register( s0 );

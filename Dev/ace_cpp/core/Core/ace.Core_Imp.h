@@ -92,6 +92,8 @@ namespace ace {
 
 		void SetTargetFPS(int32_t fps);
 
+		void* GetWindowHandle() const;
+
 		Window_Imp* GetWindow() { return m_window; }
 
 		Keyboard* GetKeyboard();

@@ -251,6 +251,17 @@ namespace ace
 			}
 		}
 
+		/// <summary>
+		/// ウインドウズの場合、ウインドウハンドルを取得する。
+		/// </summary>
+		public static IntPtr WindowHandle
+		{
+			get
+			{
+				return core.GetWindowHandle();
+			}
+		}
+
 		private static void SetupMembers()
 		{
 			CurrentScene = null;

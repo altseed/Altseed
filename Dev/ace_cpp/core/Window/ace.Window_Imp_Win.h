@@ -46,6 +46,8 @@ public:
 
 	GLFWwindow*	GetWindow() { return m_window; }
 
+	void* GetWindowHandle() const override;
+
 #if !SWIG
 public:
 	virtual int GetRef() { return ReferenceObject::GetRef(); }

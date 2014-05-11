@@ -1,18 +1,18 @@
-static const char* ssao_ps_dx = R"(
+ï»¿static const char* ssao_ps_dx = R"(
 
 Texture2D		g_texture		: register( t0 );
 SamplerState	g_sampler		: register( s0 );
 
 float radius		: register( c0 );
 
-// 1m‚ÌˆÊ’u‚ÉƒTƒCƒY1‚ÌƒIƒuƒWƒFƒNƒg‚ğo‚µ‚½‚Ìc•ûŒüƒsƒNƒZƒ‹”
+// 1mã®ä½ç½®ã«ã‚µã‚¤ã‚º1ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å‡ºã—ãŸæ™‚ã®ç¸¦æ–¹å‘ãƒ”ã‚¯ã‚»ãƒ«æ•°
 float projScale		: register( c1 );
 float bias			: register( c2 );
 float intensity		: register( c3 );
 
-// À•WÄ\¬î•ñ
+// åº§æ¨™å†æ§‹æˆæƒ…å ±
 // perspective
-// x = nEf
+// x = nãƒ»f
 // y = f-n
 // z = -f
 
@@ -33,10 +33,10 @@ struct PS_Input
 	float2 UV				: UV0;
 };
 
-// ƒTƒ“ƒvƒ‹”
+// ã‚µãƒ³ãƒ—ãƒ«æ•°
 #define NUM_SAMPLES (13)
 
-// ƒTƒ“ƒvƒ‹‚Ì‰ñ“]”
+// ã‚µãƒ³ãƒ—ãƒ«æ™‚ã®å›è»¢æ•°
 #define NUM_TURNS (7)
 
 
@@ -73,7 +73,7 @@ int2 GetScreenPixelPos(float2 uv)
 	return int2(width*uv.x,height*uv.y);
 }
 
-// ‹…“à‚ÌƒTƒ“ƒvƒ‹‚·‚éˆÊ’u‚ÌƒIƒtƒZƒbƒg‚ğƒ†ƒjƒbƒg’PˆÊ‚Åæ“¾‚·‚éB
+// çƒå†…ã®ã‚µãƒ³ãƒ—ãƒ«ã™ã‚‹ä½ç½®ã®ã‚ªãƒ•ã‚»ãƒƒãƒˆã‚’ãƒ¦ãƒ‹ãƒƒãƒˆå˜ä½ã§å–å¾—ã™ã‚‹ã€‚
 float3 GetSphereOffset(int index, float offset)
 {
 	float alpha = float(index + 0.5) * (1.0 / NUM_SAMPLES);
@@ -101,7 +101,7 @@ float4 SampleAO(float3 centerPos, float2 centerUV, float3 normal, float sRadius,
 	float vv = dot(v, v);
 	float vn = dot(v, normal);
 
-	// Scalable Ambient Obscurance‹LÚ
+	// Scalable Ambient Obscuranceè¨˜è¼‰
 	const float epsilon = 0.01;
     float f = max(radius * radius - vv, 0.0);
 
@@ -120,10 +120,10 @@ float4 main( const PS_Input Input ) : SV_Target
 	int2 sPos = GetScreenPixelPos(Input.UV);
 	float3 centerPos = ReconstructPosition( GetScreenPos(Input.UV), ReconstructDepth(GetZ(Input.UV)));
 
-	// ’†S‚Ì‰œs‚«‚Å‚Ì‹…‚Ì”¼Œa‚ğŒvZ(ƒJƒƒ‰À•WŒn‚Ì‚½‚ßAz‚Íƒ}ƒCƒiƒX)
+	// ä¸­å¿ƒã®å¥¥è¡Œãã§ã®çƒã®åŠå¾„ã‚’è¨ˆç®—(ã‚«ãƒ¡ãƒ©åº§æ¨™ç³»ã®ãŸã‚ã€zã¯ãƒã‚¤ãƒŠã‚¹)
 	float sRadius = -projScale * radius / centerPos.z;
 
-	// Scalable Ambient Obscurance‹LÚ‚Ìƒ‰ƒ“ƒ_ƒ€
+	// Scalable Ambient Obscuranceè¨˜è¼‰ã®ãƒ©ãƒ³ãƒ€ãƒ 
 	float random = (3 * sPos.x ^ sPos.y + sPos.x * sPos.y) * 10;
 
 	float3 normal =  GetNormal(Input.UV);
@@ -134,7 +134,7 @@ float4 main( const PS_Input Input ) : SV_Target
 		sum += SampleAO(centerPos, Input.UV, normal, sRadius, random, i);
 	}
 
-	// Scalable Ambient Obscurance‹LÚ‚ÌA‚Ì‹­‚³‚ÌZo•û–@
+	// Scalable Ambient Obscuranceè¨˜è¼‰ã®Aã®å¼·ã•ã®ç®—å‡ºæ–¹æ³•
 	float A = max( 0.0, 1.0 - intensity * sum * 5.0 / (radius * radius * radius * radius * radius * radius * NUM_SAMPLES) );
 
 	// Bilateral box-filter

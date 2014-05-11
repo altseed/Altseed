@@ -1,4 +1,4 @@
-static const char* screen_vs_dx = R"(
+﻿static const char* screen_vs_dx = R"(
 
 struct VS_Input
 {

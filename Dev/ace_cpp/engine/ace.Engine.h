@@ -137,6 +137,11 @@ namespace ace {
 		*/
 		static void SetTargetFPS(int32_t fps);
 
+		/**
+		@brief	Windowsの場合、ウインドウのハンドルを取得する。
+		@return	ウインドウハンドル
+		*/
+		static void* GetWindowHandle();
 
 		/**
 		@brief キーボードクラスを取得する。

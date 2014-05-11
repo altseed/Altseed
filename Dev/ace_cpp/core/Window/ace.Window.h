@@ -48,6 +48,12 @@ public:
 		@return	画面サイズ
 	*/
 	virtual Vector2DI GetSize() const = 0;
+
+	/**
+		@brief	ウインドウズの場合、ウインドウハンドルを取得する。
+		@return	ウインドウハンドル
+	*/
+	virtual void* GetWindowHandle() const = 0;
 };
 
 //----------------------------------------------------------------------------------
