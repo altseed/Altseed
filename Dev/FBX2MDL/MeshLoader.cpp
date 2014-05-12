@@ -1,5 +1,5 @@
 #include "MeshLoader.h"
-
+#include <iostream>
 
 MeshLoader::MeshLoader()
 {
@@ -30,15 +30,18 @@ void MeshLoader::_loadPositions(FbxMesh* fbxMesh)
 		vertex.binormal=ace::Vector3DF(0,0,0);
 		vertex.uv=ace::Vector2DF(0,0);
 		vertex.subuv=ace::Vector2DF(0,0);
+		vertex.normalAddCount=0;
+		vertex.binormalAddCount=0;
+		vertex.weightPtr=0;
 		for(int j=0;j<4;++j)
 		{
-			vertex.color[j]=0;
+			vertex.color[j]=255;
 			vertex.weight[j]=0;
 			vertex.weightIndexDivided[j]=0;
 			vertex.weightIndexOriginal[j]=0;
 
 		}
-
+		vertex.weight[0]=255;
 		_baseVertices.push_back(vertex);
 	}
 }
@@ -170,18 +173,18 @@ uint8_t* MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vert
 			switch (leVtxc->GetReferenceMode())
 			{
 			case FbxGeometryElement::eDirect:
-				color[0]=(uint8_t)leVtxc->GetDirectArray().GetAt(lControlPointIndex)[0]*255;
-				color[1]=(uint8_t)leVtxc->GetDirectArray().GetAt(lControlPointIndex)[1]*255;
-				color[2]=(uint8_t)leVtxc->GetDirectArray().GetAt(lControlPointIndex)[2]*255;
-				color[3]=(uint8_t)leVtxc->GetDirectArray().GetAt(lControlPointIndex)[3]*255;
+				color[0]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(lControlPointIndex)[0]*255);
+				color[1]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(lControlPointIndex)[1]*255);
+				color[2]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(lControlPointIndex)[2]*255);
+				color[3]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(lControlPointIndex)[3]*255);
 				break;
 			case FbxGeometryElement::eIndexToDirect:
 				{
 					int id = leVtxc->GetIndexArray().GetAt(lControlPointIndex);
-					color[0]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[0]*255;
-					color[1]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[1]*255;
-					color[2]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[2]*255;
-					color[3]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[3]*255;
+					color[0]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[0]*255);
+					color[1]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[1]*255);
+					color[2]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[2]*255);
+					color[3]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[3]*255);
 				}
 				break;
 			default:
@@ -194,18 +197,18 @@ uint8_t* MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vert
 				switch (leVtxc->GetReferenceMode())
 				{
 				case FbxGeometryElement::eDirect:
-					color[0]=(uint8_t)leVtxc->GetDirectArray().GetAt(vertexId)[0]*255;
-					color[1]=(uint8_t)leVtxc->GetDirectArray().GetAt(vertexId)[1]*255;
-					color[2]=(uint8_t)leVtxc->GetDirectArray().GetAt(vertexId)[2]*255;
-					color[3]=(uint8_t)leVtxc->GetDirectArray().GetAt(vertexId)[3]*255;
+					color[0]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(vertexId)[0]*255);
+					color[1]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(vertexId)[1]*255);
+					color[2]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(vertexId)[2]*255);
+					color[3]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(vertexId)[3]*255);
 					break;
 				case FbxGeometryElement::eIndexToDirect:
 					{
 						int id = leVtxc->GetIndexArray().GetAt(vertexId);
-						color[0]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[0]*255;
-						color[1]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[1]*255;
-						color[2]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[2]*255;
-						color[3]=(uint8_t)leVtxc->GetDirectArray().GetAt(id)[3]*255;
+						color[0]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[0]*255);
+						color[1]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[1]*255);
+						color[2]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[2]*255);
+						color[3]=static_cast<uint8_t>(leVtxc->GetDirectArray().GetAt(id)[3]*255);
 					}
 					break;
 				}
@@ -216,13 +219,27 @@ uint8_t* MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vert
 	return color;
 }
 
-void MeshLoader::_loadWeight(FbxMesh* fbxMesh)
+void MeshLoader::_loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<MeshGroup> &meshGroups)
 {
 	int skinCount=fbxMesh->GetDeformerCount(FbxDeformer::eSkin);
 
+	attachedIndex=-1;
+
 	for(int i=0;i<skinCount;++i)
 	{
+		//printf("Weight Start.\n");
 		FbxSkin* skin = (FbxSkin*)fbxMesh->GetDeformer(i,FbxDeformer::eSkin);
+
+		FbxCluster* firstCluster = skin->GetCluster(0);
+
+		for(int j=0;j<meshGroups.size();++j)
+		{
+			if (meshGroups[j].deformerManager.GetDeformerByName(firstCluster->GetLink()->GetName())!=NULL)
+			{
+				attachedIndex =j;
+				break;
+			}
+		}
 
 		int clusterNum = skin->GetClusterCount();
 
@@ -234,12 +251,22 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh)
 			int* pointAry = cluster->GetControlPointIndices();
 			double* weightAry = cluster->GetControlPointWeights();
 
+			std::string name = std::string(cluster->GetLink()->GetName());
+
+			int dmIndex = meshGroups[attachedIndex].deformerManager.GetIndexByName(name);
+
 			for(int k=0;k<pointNum;++k)
 			{
-				int index = pointAry[i];
-				float weight = (float)weightAry[i];
+				int index = pointAry[k];
+				float weight = static_cast<float>(weightAry[k]);
 
-				_vertices[index].weight[j]=weight;
+				int ptr=_baseVertices[index].weightPtr;
+
+				_baseVertices[index].weight[ptr]=static_cast<uint8_t>(weight*255.0);
+				_baseVertices[index].weightIndexDivided[ptr]=dmIndex;
+				_baseVertices[index].weightIndexOriginal[ptr]=dmIndex;
+
+				++_baseVertices[index].weightPtr;
 			}
 		}
 	}
@@ -263,25 +290,20 @@ void MeshLoader::_loadFaceIndices(FbxMesh* fbxMesh)
 	}
 }
 
-void MeshLoader::Load(FbxMesh* fbxMesh)
+void MeshLoader::Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGroup> &meshGroups)
 {
 	_loadPositions(fbxMesh);
 
-	_loadVertices(fbxMesh);
-	//_loadFaceIndices(fbxMesh);
+	_loadWeight(fbxMesh,attachmentIndex,meshGroups);
 
-	//_loadNormals(fbxMesh);
-	//_loadBinormals(fbxMesh);
-	//_loadUVs(fbxMesh);
-	//_loadColors(fbxMesh);
-	//_loadWeights();
+	_loadVertices(fbxMesh);
 
 	_loadTextures(fbxMesh);
 }
 
 void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 {
-	printf("Control Point Num = %d\n",_vertices.size());
+	//printf("Control Point Num = %d\n",_vertices.size());
 	writer->Push((int32_t)_vertices.size());
 
 	ace::Vector3DF zero3 = ace::Vector3DF(0,0,0);
@@ -290,74 +312,67 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 
 	for(int i=0;i<_vertices.size();++i)
 	{
-		printf("CP(%f, %f, %f)\n",_vertices[i].position.X,_vertices[i].position.Y,_vertices[i].position.Z);
 		writer->Push(_vertices[i].position);
 
-		printf("NV(%f, %f, %f)\n",_vertices[i].normal.X,_vertices[i].normal.Y,_vertices[i].normal.Z);
-		writer->Push(_vertices[i].normal);
-		writer->Push(zero3);
+		writer->Push(_vertices[i].normal/_vertices[i].normalAddCount);
+		writer->Push(_vertices[i].binormal/_vertices[i].binormalAddCount);
 
-		printf("UV(%f, %f)\n",_vertices[i].uv.X,_vertices[i].uv.Y);
 		writer->Push(_vertices[i].uv);
 		writer->Push(_vertices[i].subuv);
 
 		//頂点カラー
-		writer->Push((uint8_t)_vertices[i].color[0]);
-		writer->Push((uint8_t)_vertices[i].color[1]);
-		writer->Push((uint8_t)_vertices[i].color[2]);
-		writer->Push((uint8_t)_vertices[i].color[3]);
+		writer->Push(static_cast<uint8_t>(_vertices[i].color[0]));
+		writer->Push(static_cast<uint8_t>(_vertices[i].color[1]));
+		writer->Push(static_cast<uint8_t>(_vertices[i].color[2]));
+		writer->Push(static_cast<uint8_t>(_vertices[i].color[3]));
 
 		//頂点ウェイト
-		writer->Push((uint8_t)255);
-		writer->Push((uint8_t)0);
-		writer->Push((uint8_t)0);
-		writer->Push((uint8_t)0);
-
+		
+		uint8_t biggest=0;
+		int biggestIndex=0;
+		int sum=0;
 		for (int j = 0; j < 4; ++j)
 		{
-			//writer->Push(_vertices[i].weightIndexOriginal[j]);
-			writer->Push((uint8_t)0);
+			if(_vertices[i].weight[j]>biggest)
+			{
+				biggest=_vertices[i].weight[j];
+				biggestIndex=j;
+			}
+			sum+=static_cast<int>(_vertices[i].weight[j]);
+		}
+
+		if(sum!=255&&sum!=0)
+		{
+			_vertices[i].weight[biggestIndex]+=static_cast<uint8_t>(255-sum);
 		}
 
 		for (int j = 0; j < 4; ++j)
 		{
-			//writer->Push(_vertices[i].weightIndexDivided[j]);
-			writer->Push((uint8_t)0);
+			writer->Push(_vertices[i].weight[j]);
+		}
+		for (int j = 0; j < 4; ++j)
+		{
+			writer->Push(_vertices[i].weightIndexOriginal[j]);
+		}
+		for (int j = 0; j < 4; ++j)
+		{
+			writer->Push(_vertices[i].weightIndexDivided[j]);
 		}
 	}
 }
 
 void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
 {
-
-	printf("Face Num = %d\n",_faces.size());
+	
 	writer->Push((int32_t) _faces.size());
 	for (auto ite = _faces.begin(); ite != _faces.end(); ++ite)
 	{
-		printf("FI(");
 		for (int i = 0; i < 3; ++i)
 		{
-			printf("%d, ",ite->vertexIndex[i]);
 			writer->Push((int32_t) ite->vertexIndex[i]);
 		}
-		printf(")\n");
 	}
-}
-
-void MeshLoader::WriteMaterials(ace::BinaryWriter* writer)
-{
-	printf("Material Num = %d\n",_materials.size());
-	writer->Push((int32_t)_materials.size());
-	for(auto ite=_materials.begin();ite!=_materials.end();++ite)
-	{
-		writer->Push(ite->Type);
-		for(int i=0;i<3;++i)
-		{
-			printf("%s\n",ite->texture[i].c_str());
-			writer->Push(ace::ToAString(ite->texture[i].c_str()));
-		}
-	}
-
+	
 }
 
 void MeshLoader::_loadFaceMaterials(FbxMesh* fbxMesh)
@@ -371,14 +386,26 @@ void MeshLoader::_loadBoneAttachments(FbxMesh* fbxMesh)
 
 }
 
-void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer)
+void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer,int materialIndex)
 {
-	writer->Push((int32_t)0);
+	printf("MI=%d\n",materialIndex);
+	printf("FS=%d\n",_faces.size());
+	writer->Push((int32_t)1);
+	writer->Push((int32_t)materialIndex);
+	writer->Push((int32_t)_faces.size());
 }
 
 void MeshLoader::WriteBoneAttachments(ace::BinaryWriter* writer)
 {
-	writer->Push((int32_t)0);
+	//writer->Push((int32_t)0);
+	
+	writer->Push((int32_t)1);
+	for(int i=0;i<32;++i)
+	{
+		writer->Push(static_cast<uint8_t>(i));
+	}
+	writer->Push(static_cast<int>(_faces.size()));
+	
 }
 
 void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
@@ -394,9 +421,9 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 		FbxSurfaceMaterial* material = node->GetMaterial(i);
 		Material mat;
 		mat.Type=0;
-		for(int j=0;j<3;++j)
+		for(int s=0;s<3;++s)
 		{
-			FbxProperty prop = material->FindProperty(mats[j]);
+			FbxProperty prop = material->FindProperty(mats[s]);
 
 			int layeredTextureCount = prop.GetSrcObjectCount<FbxLayeredTexture>();
 
@@ -413,7 +440,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 						if(texture) {
 							//--- テクスチャ名を取得 ---//
 							//std::string textureName = texture->GetName();
-							std::string textureName = texture->GetRelativeFileName();
+							std::string textureName = texture->GetFileName();
 
 							//--- UVSet名を取得 ---//
 							std::string UVSetName = texture->UVSet.Get().Buffer();
@@ -432,7 +459,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 						FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(j);
 						if(texture) {
 							//std::string textureName = texture->GetName();
-							std::string textureName = texture->GetRelativeFileName();
+							std::string textureName = texture->GetFileName();
 
 							//--- UVSet名を取得 ---//
 							std::string UVSetName = texture->UVSet.Get().Buffer();
@@ -443,7 +470,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 				}
 			}
 		}
-		_materials.push_back(mat);
+		materials.push_back(mat);
 	}
 }
 
@@ -453,10 +480,30 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 	FbxVector4* lControlPoints = fbxMesh->GetControlPoints();
 
 	int vertexId = 0;
+
 	for (int i = 0; i < lPolygonCount; i++)
 	{
-		int l;
+		int lPolygonSize = fbxMesh->GetPolygonSize(i);
 
+		for (int j = 0; j < lPolygonSize; j++)
+		{
+			int lControlPointIndex = fbxMesh->GetPolygonVertex(i, j);
+
+			_baseVertices[lControlPointIndex].normal += _loadNormal(fbxMesh,lControlPointIndex,vertexId);
+
+			_baseVertices[lControlPointIndex].binormal += _loadBinormal(fbxMesh,lControlPointIndex,vertexId);
+
+			++_baseVertices[lControlPointIndex].normalAddCount;
+			++_baseVertices[lControlPointIndex].binormalAddCount;
+
+			vertexId++;
+		} // for polygonSize
+	}
+
+	vertexId=0;
+
+	for (int i = 0; i < lPolygonCount; i++)
+	{
 		int lPolygonSize = fbxMesh->GetPolygonSize(i);
 
 		int cIndices[3];
@@ -477,17 +524,11 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			vertex.color[3]=color[3];
 
 			vertex.uv = _loadUV(fbxMesh,lControlPointIndex,vertexId,i,j);
-
-			vertex.normal = _loadNormal(fbxMesh,lControlPointIndex,vertexId);
-
-			vertex.binormal = _loadBinormal(fbxMesh,lControlPointIndex,vertexId);
-
 			int index = -1;
 			for(int k=0;k<_vertices.size();++k)
 			{
 				if(_vertices[k]==vertex)
 				{
-					printf("SAME! %d\n",k);
 					index=k;
 					break;
 				}
@@ -507,6 +548,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			vertexId++;
 		} // for polygonSize
 
+		
 		Face face;
 		face.vertexIndex[0]=cIndices[0];
 		face.vertexIndex[1]=cIndices[1];

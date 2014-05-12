@@ -71,7 +71,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2014.2\lib\vs2012\x86\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
@@ -81,13 +81,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\ace_cpp\common\ace.common.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix33.cpp" />
-    <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix43.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix44.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.RectF.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DF.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DI.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector3DF.cpp" />
+    <ClCompile Include="..\ace_cpp\common\Math\ace.Vector4DF.cpp" />
+    <ClCompile Include="Deformer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MDLExporter.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
@@ -95,15 +97,19 @@
   <ItemGroup>
     <ClInclude Include="..\ace_cpp\common\ace.common.Base.h" />
     <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix33.h" />
-    <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix43.h" />
     <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix44.h" />
     <ClInclude Include="..\ace_cpp\common\Math\ace.RectF.h" />
     <ClInclude Include="..\ace_cpp\common\Math\ace.Vector2DF.h" />
     <ClInclude Include="..\ace_cpp\common\Math\ace.Vector2DI.h" />
     <ClInclude Include="..\ace_cpp\common\Math\ace.Vector3DF.h" />
+    <ClInclude Include="..\ace_cpp\common\Math\ace.Vector4DF.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryReader.h" />
     <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryWriter.h" />
+    <ClInclude Include="Animation.h" />
+    <ClInclude Include="Deformer.h" />
+    <ClInclude Include="Material.h" />
     <ClInclude Include="MDLExporter.h" />
+    <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

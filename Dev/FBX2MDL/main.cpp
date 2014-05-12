@@ -16,6 +16,5 @@ int main(int argc, char** argv) {
 	
 	delete exporter;
 
-	system("PAUSE");
     return 0;
 }

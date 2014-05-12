@@ -3,10 +3,11 @@
 
 class Graphics_Model : public EngineTest
 {
+	std::shared_ptr<ace::ModelObject3D> meshObj;
 public:
 
 	Graphics_Model(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("Model"), isOpenGLMode, 60)
+		EngineTest(ace::ToAString("Model"), isOpenGLMode, 180)
 	{}
 
 protected:
@@ -14,7 +15,7 @@ protected:
 	{
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer3D>();
-		auto meshObj = std::make_shared<ace::ModelObject3D>();
+		meshObj = std::make_shared<ace::ModelObject3D>();
 		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
 		auto cameraObj = std::make_shared<ace::CameraObject3D>();
 
@@ -33,17 +34,26 @@ protected:
 		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
 		cameraObj->SetFieldOfView(20.0f);
 		cameraObj->SetZNear(1.0f);
-		cameraObj->SetZFar(20.0f);
+		cameraObj->SetZFar(1000.0f);
 		cameraObj->SetWindowSize(ace::Vector2DI(800, 600));
 
-		meshObj->SetModel(model);
-		meshObj->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
+		ace::Matrix44 identity = ace::Matrix44();
 
-		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
+		meshObj->SetModel(model);
+		meshObj->SetRotation(ace::Vector3DF(0, 0, 0));
+		lightObj->SetRotation(ace::Vector3DF(180, 0, 0));
 	}
+
+	void OnUpdating() override
+	{
+		auto rot = meshObj->GetRotation();
+		meshObj->SetRotation(rot + ace::Vector3DF(3, 0, 0));
+	}
+
+
 };
 
-/*
+
 TEST(Graphics, Model_GL)
 {
 	Graphics_Model(true).Run();
@@ -63,4 +73,4 @@ void Graphics_Model_(bool isGL)
 	Graphics_Model(isGL).Run();
 	AssertMemoryDoesntLeak();
 }
-*/
+

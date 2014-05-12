@@ -24,9 +24,6 @@
     <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix33.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix43.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix44.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -43,6 +40,15 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="MeshLoader.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ace_cpp\common\Math\ace.Vector4DF.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="Deformer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ace_cpp\common\ace.common.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -62,9 +68,6 @@
     <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix33.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix43.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix44.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -81,6 +84,21 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="MeshLoader.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ace_cpp\common\Math\ace.Vector4DF.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Deformer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

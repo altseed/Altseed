@@ -1,0 +1,1658 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ace_cs</name>
+    </assembly>
+    <members>
+        <member name="F:ace.EngineOption.IsFullScreen">
+            <summary>
+            フルスクリーンで起動するか?
+            </summary>
+        </member>
+        <member name="F:ace.EngineOption.GraphicsType">
+            <summary>
+            描画に使用するデバイス
+            </summary>
+        </member>
+        <member name="F:ace.EngineOption.IsMultithreadingMode">
+            <summary>
+            マルチスレッドモードを使用するか?
+            </summary>
+            <remarks>
+            現在、マルチスレッドモードは開発中であり、実行速度は上昇するが、バグが多発する可能性がある。
+            </remarks>
+        </member>
+        <member name="M:ace.Engine.Initialize(System.String,System.Int32,System.Int32,ace.EngineOption)">
+            <summary>
+            初期化を行う。
+            </summary>
+            <param name="title">タイトル</param>
+            <param name="width">横幅</param>
+            <param name="height">縦幅</param>
+            <param name="option">オプション</param>
+            <returns>成否</returns>
+        </member>
+        <member name="M:ace.Engine.InitializeByExternalWindow(System.IntPtr,System.IntPtr,System.Int32,System.Int32,ace.EngineOption)">
+            <summary>
+            外部ウインドウにゲーム画面を表示する初期化を行う。
+            </summary>
+            <param name="handle1">ハンドル1</param>
+            <param name="handle2">ハンドル2</param>
+            <param name="width">横幅</param>
+            <param name="height">縦幅</param>
+            <param name="option">オプション</param>
+            <returns>成否</returns>
+        </member>
+        <member name="M:ace.Engine.DoEvents">
+            <summary>
+            イベントを実行し、進行可否を判断する。
+            </summary>
+            <returns>進行可能か?</returns>
+        </member>
+        <member name="M:ace.Engine.Update">
+            <summary>
+            更新処理を行う。
+            </summary>
+        </member>
+        <member name="M:ace.Engine.Terminate">
+            <summary>
+            終了処理を行う。
+            </summary>
+        </member>
+        <member name="M:ace.Engine.ChangeScene(ace.Scene)">
+            <summary>
+            描画の対象となるシーンを変更します。
+            </summary>
+            <param name="scene">新しく描画の対象となるシーン。</param>
+        </member>
+        <member name="M:ace.Engine.TakeScreenshot(System.String)">
+            <summary>
+            スクリーンショットをpngとして保存する。
+            </summary>
+            <param name="path">出力先</param>
+        </member>
+        <member name="P:ace.Engine.CurrentScene">
+            <summary>
+            現在描画対象となっているシーンを表す ace.Scene クラスのインスタンスを取得します。
+            </summary>
+        </member>
+        <member name="P:ace.Engine.CurrentFPS">
+            <summary>
+            現在のFPSを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Engine.TargetFPS">
+            <summary>
+            目標FPSを取得、または設定する。
+            </summary>
+        </member>
+        <member name="T:ace.GarbageCollector">
+            <summary>
+            実際にネイティブのオブジェクトのGCを行うクラス
+            </summary>
+        </member>
+        <member name="M:ace.GarbageCollector.AddObject(System.Object)">
+            <summary>
+            破棄するインスタンスを追加する。
+            </summary>
+            <param name="o">インスタンス</param>
+        </member>
+        <member name="M:ace.GarbageCollector.Collect">
+            <summary>
+            インスタンスを破棄する。
+            </summary>
+        </member>
+        <member name="M:ace.GC.GenerateTexture2D(ace.swig.Texture2D,ace.GC.GenerationType)">
+            <summary>
+            ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+            </summary>
+            <param name="o"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:ace.GC.GenerateRenderTexture2D(ace.swig.RenderTexture2D,ace.GC.GenerationType)">
+            <summary>
+            ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+            </summary>
+            <param name="o"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:ace.GC.GenerateEffect(ace.swig.Effect,ace.GC.GenerationType)">
+            <summary>
+            ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+            </summary>
+            <param name="o"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:ace.GC.GenerateMesh(ace.swig.Mesh,ace.GC.GenerationType)">
+            <summary>
+            ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+            </summary>
+            <param name="o"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:ace.GC.GenerateDeformer(ace.swig.Deformer,ace.GC.GenerationType)">
+            <summary>
+            ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+            </summary>
+            <param name="o"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:ace.GC.GenerateModel(ace.swig.Model,ace.GC.GenerationType)">
+            <summary>
+            ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+            </summary>
+            <param name="o"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:ace.GC.GenerateKeyframeAnimation(ace.swig.KeyframeAnimation,ace.GC.GenerationType)">
+            <summary>
+            ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+            </summary>
+            <param name="o"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:ace.GC.GenerateAnimationSource(ace.swig.AnimationSource,ace.GC.GenerationType)">
+            <summary>
+            ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+            </summary>
+            <param name="o"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:ace.GC.GenerateAnimationClip(ace.swig.AnimationClip,ace.GC.GenerationType)">
+            <summary>
+            ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+            </summary>
+            <param name="o"></param>
+            <param name="type"></param>
+        </member>
+        <member name="M:ace.GC.GenerateInternal``2(``0,``1,ace.GC.GenerationType)">
+            <summary>
+            Generate*メソッドの内部処理
+            </summary>
+            <typeparam name="E"></typeparam>
+            <typeparam name="T"></typeparam>
+            <param name="existing"></param>
+            <param name="o"></param>
+            <param name="type"></param>
+            <returns></returns>
+        </member>
+        <member name="T:ace.GC.GenerationType">
+            <summary>
+            C++のインスタンスの生成及び取得方法
+            </summary>
+        </member>
+        <member name="F:ace.GC.GenerationType.Create">
+            <summary>
+            ファイルパス等からC++のインスタンスが生成された場合
+            生成時に使い回しをしている場合、カウンタを増やしているので、
+            使い回しと判定した場合、カウンタを減らす
+            </summary>
+        </member>
+        <member name="F:ace.GC.GenerationType.Get">
+            <summary>
+            C++のインスタンスを取得した場合、
+            新規の場合はC#側でC++のインスタンスを保持するのでカウンタを増やす
+            </summary>
+        </member>
+        <member name="T:ace.IDestroy">
+            <summary>
+            破棄可能なインスタンス
+            </summary>
+        </member>
+        <member name="M:ace.IDestroy.Destroy">
+            <summary>
+            破棄する。
+            </summary>
+        </member>
+        <member name="P:ace.IDestroy.IsDestroyed">
+            <summary>
+            破棄されているか？
+            </summary>
+        </member>
+        <member name="T:ace.AnimationClip">
+            <summary>
+            アニメーションソースを元に情報が付加されたアニメーションクラス
+            </summary>
+        </member>
+        <member name="P:ace.AnimationClip.Source">
+            <summary>
+            ソースを取得、または設定する。
+            </summary>
+        </member>
+        <member name="T:ace.AnimationSource">
+            <summary>
+            アニメーションの元データのクラス
+            </summary>
+        </member>
+        <member name="M:ace.AnimationSource.AddAnimation(ace.KeyframeAnimation)">
+            <summary>
+            ボーンごとのアニメーションを追加する。
+            </summary>
+            <param name="keyframeAnimation">アニメーション</param>
+        </member>
+        <member name="M:ace.AnimationSource.RemoveAnimation(ace.KeyframeAnimation)">
+            <summary>
+            ボーンごとのアニメーションを削除する。
+            </summary>
+            <param name="keyframeAnimation">アニメーション</param>
+        </member>
+        <member name="T:ace.AnimationSystem">
+            <summary>
+            アニメーションに関するインスタンスを生成するためのクラス
+            </summary>
+        </member>
+        <member name="M:ace.AnimationSystem.CreateAnimationClip">
+            <summary>
+            アニメーションクリップのインスタンスを生成する。
+            </summary>
+            <returns>インスタンス</returns>
+        </member>
+        <member name="M:ace.AnimationSystem.CreateAnimationSource">
+            <summary>
+            アニメーションソースのインスタンスを生成する。
+            </summary>
+            <returns>インスタンス</returns>
+        </member>
+        <member name="M:ace.AnimationSystem.CreateKeyframeAnimation">
+            <summary>
+            キーフレームアニメーションのインスタンスを生成する。
+            </summary>
+            <returns>インスタンス</returns>
+        </member>
+        <member name="T:ace.KeyframeAnimation">
+            <summary>
+            キーフレームで指定するアニメーションのクラス
+            </summary>
+        </member>
+        <member name="M:ace.KeyframeAnimation.AddKeyframe(ace.FCurveKeyframe)">
+            <summary>
+            キーフレームを追加する。
+            </summary>
+            <param name="kf">キーフレーム</param>
+        </member>
+        <member name="M:ace.KeyframeAnimation.GetValue(System.Single)">
+            <summary>
+            指定した時間の値を取得する。
+            </summary>
+            <param name="time">時間</param>
+            <returns>値</returns>
+        </member>
+        <member name="P:ace.KeyframeAnimation.Name">
+            <summary>
+            名称を取得、または設定する。
+            </summary>
+        </member>
+        <member name="T:ace.AlphaBlendMode">
+            <summary>
+            描画の際のブレンドモードを表す列挙体。
+            </summary>
+        </member>
+        <member name="F:ace.AlphaBlendMode.Add">
+            <summary>
+            加算合成。
+            </summary>
+        </member>
+        <member name="F:ace.AlphaBlendMode.Sub">
+            <summary>
+            減算合成。
+            </summary>
+        </member>
+        <member name="F:ace.AlphaBlendMode.Mul">
+            <summary>
+            乗算合成。
+            </summary>
+        </member>
+        <member name="T:ace.FCurveKeyframe">
+            <summary>
+            Fカーブのキーフレーム
+            </summary>
+        </member>
+        <member name="F:ace.FCurveKeyframe.KeyValue">
+            <summary>
+            時間と値
+            </summary>
+        </member>
+        <member name="F:ace.FCurveKeyframe.LeftHandle">
+            <summary>
+            制御用ハンドル
+            </summary>
+        </member>
+        <member name="F:ace.FCurveKeyframe.RightHandle">
+            <summary>
+            制御用ハンドル
+            </summary>
+        </member>
+        <member name="F:ace.FCurveKeyframe.InterpolationType">
+            <summary>
+            補間方法
+            </summary>
+        </member>
+        <member name="F:ace.TextureLockInfomation.texture">
+            <summary>
+            ロックしたテクスチャの参照
+            C++側に影響がないよう、最後尾に配置
+            </summary>
+        </member>
+        <member name="T:ace.Deformer">
+            <summary>
+            メッシュを変形させるためのクラス
+            </summary>
+        </member>
+        <member name="M:ace.Deformer.AddBone(System.String,System.Int32,ace.RotationOrder,ace.Matrix44@,ace.Matrix44@)">
+            <summary>
+            ボーンを追加する。
+            </summary>
+            <param name="name">ボーンの名称</param>
+            <param name="parentBoneIndex">親ボーンのインデックス(親がない場合は-1)</param>
+            <param name="rotationOrder">ボーンの回転行列の計算方法</param>
+            <param name="localMat">ボーンのローカル変形行列</param>
+            <param name="globalMatInv">ボーンの全体への逆行列</param>
+        </member>
+        <member name="T:ace.Effect">
+            <summary>
+            エフェクトの情報が記録されているクラス
+            </summary>
+        </member>
+        <member name="M:ace.Graphics.CreateTexture2D(System.String)">
+            <summary>
+            テクスチャを生成する。
+            </summary>
+            <param name="path">パス</param>
+            <returns>テクスチャ</returns>
+        </member>
+        <member name="M:ace.Graphics.CreateEmptyTexture2D(System.Int32,System.Int32,ace.TextureFormat)">
+            <summary>
+            空のテクスチャを生成する。
+            </summary>
+            <param name="width">横幅</param>
+            <param name="height">縦幅</param>
+            <param name="format">フォーマット</param>
+            <returns>テクスチャ</returns>
+        </member>
+        <member name="M:ace.Graphics.CreateRenderTexture2D(System.Int32,System.Int32,ace.TextureFormat)">
+            <summary>
+            描画先として指定可能なテクスチャを生成する。
+            </summary>
+            <param name="width">横幅</param>
+            <param name="height">縦幅</param>
+            <param name="format">フォーマット</param>
+            <returns>テクスチャ</returns>
+        </member>
+        <member name="M:ace.Graphics.CreateShader2D(System.String,ace.ShaderVariableProperty[])">
+            <summary>
+            シェーダー(2D)を生成する。
+            </summary>
+            <param name="shaderText">シェーダーのコード</param>
+            <param name="variableProperties">シェーダーで使用可能な外部入力可能な変数</param>
+            <returns></returns>
+        </member>
+        <member name="M:ace.Graphics.CreateMaterial2D(ace.Shader2D)">
+            <summary>
+            マテリアル(2D)を生成する。
+            </summary>
+            <param name="shader">シェーダー</param>
+            <returns>マテリアル(2D)</returns>
+        </member>
+        <member name="M:ace.Graphics.CreateMesh">
+            <summary>
+            メッシュを生成する。
+            </summary>
+            <returns>メッシュ</returns>
+        </member>
+        <member name="M:ace.Graphics.CreateDeformer">
+            <summary>
+            デフォーマーを生成する。
+            </summary>
+            <returns>デフォーマー</returns>
+        </member>
+        <member name="M:ace.Graphics.CreateModel(System.String)">
+            <summary>
+            モデルを生成する。
+            </summary>
+            <param name="path">パス</param>
+            <returns>モデル</returns>
+        </member>
+        <member name="M:ace.Graphics.CreateEffect(System.String)">
+            <summary>
+            エフェクトを生成する。
+            </summary>
+            <param name="path">パス</param>
+            <returns>エフェクト</returns>
+        </member>
+        <member name="P:ace.Graphics.GraphicsType">
+            <summary>
+            描画ランタイムの種類を取得する。
+            </summary>
+        </member>
+        <member name="T:ace.Mesh">
+            <summary>
+            3Dメッシュのクラス
+            </summary>
+        </member>
+        <member name="M:ace.Mesh.AddVertex(ace.Vector3DF,ace.Vector3DF,ace.Vector3DF,ace.Vector2DF,ace.Vector2DF,ace.Color,System.Int32,System.Int32)">
+            <summary>
+            頂点を追加する。
+            </summary>
+            <param name="position">座標</param>
+            <param name="normal">法線</param>
+            <param name="binormal">従法線</param>
+            <param name="uv1">UV1</param>
+            <param name="uv2">UV2</param>
+            <param name="color">頂点色</param>
+            <param name="boneWeights">ボーンのウエイト</param>
+            <param name="boneIndexes">ボーンのインデックス</param>
+        </member>
+        <member name="M:ace.Mesh.AddFace(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            面を追加する。
+            </summary>
+            <param name="index1">頂点インデックス1</param>
+            <param name="index2">頂点インデックス2</param>
+            <param name="index3">頂点インデックス3</param>
+        </member>
+        <member name="M:ace.Mesh.AddMaterialCount(System.Int32,System.Int32)">
+            <summary>
+            素材を設定する。
+            </summary>
+            <param name="materialIndex">素材のインデックス</param>
+            <param name="faceCount">面数</param>
+            <remarks>素材は追加された順に先頭から面数の数だけ割り当てられる。</remarks>
+        </member>
+        <member name="M:ace.Mesh.SendToGPUMemory">
+            <summary>
+            設定した値をGPUに送信する。
+            </summary>
+        </member>
+        <member name="M:ace.Mesh.SetDeformer(ace.Deformer)">
+            <summary>
+            デフォーマーを設定する。
+            </summary>
+            <param name="deformer">デフォーマー</param>
+        </member>
+        <member name="M:ace.Mesh.SetColorTexture(System.Int32,ace.Texture2D)">
+            <summary>
+            内部シェーダーを使用する場合のカラーテクスチャを設定する。
+            </summary>
+            <param name="materialIndex">材質のインデックス</param>
+            <param name="texture">テクスチャ</param>
+            <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
+        </member>
+        <member name="M:ace.Mesh.SetNormalTexture(System.Int32,ace.Texture2D)">
+            <summary>
+            内部シェーダーを使用する場合の法線テクスチャを設定する。
+            </summary>
+            <param name="materialIndex">材質のインデックス</param>
+            <param name="texture">テクスチャ</param>
+            <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
+        </member>
+        <member name="M:ace.Mesh.SetSpecularTexture(System.Int32,ace.Texture2D)">
+            <summary>
+            内部シェーダーを使用する場合のスペキュラテクスチャを設定する。
+            </summary>
+            <param name="materialIndex">材質のインデックス</param>
+            <param name="texture">テクスチャ</param>
+            <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
+        </member>
+        <member name="T:ace.Model">
+            <summary>
+            3Dモデルクラス
+            </summary>
+        </member>
+        <member name="M:ace.Texture2D.Save(System.String)">
+            <summary>
+            テクスチャをファイルに保存する。
+            </summary>
+            <param name="path">出力先</param>
+            <returns>成否</returns>
+        </member>
+        <member name="M:ace.Texture2D.Lock(ace.TextureLockInfomation@)">
+            <summary>
+            テクスチャをロックし編集可能にする。
+            </summary>
+            <param name="info">テクスチャ情報</param>
+            <returns>成否</returns>
+        </member>
+        <member name="M:ace.Texture2D.Unlock">
+            <summary>
+            テクスチャをアンロックする。
+            </summary>
+        </member>
+        <member name="T:ace.MouseButtonState">
+            <summary>
+            マウスの押下状態を示す列挙型
+            </summary>
+        </member>
+        <member name="F:ace.MouseButtonState.Pull">
+            <summary>
+            ボタンを離した瞬間のみ返す
+            </summary>
+        </member>
+        <member name="F:ace.MouseButtonState.Push">
+            <summary>
+            ボタンを押した瞬間のみ返す
+            </summary>
+        </member>
+        <member name="F:ace.MouseButtonState.Free">
+            <summary>
+            ボタンを押していない時に返す
+            </summary>
+        </member>
+        <member name="F:ace.MouseButtonState.Hold">
+            <summary>
+            ボタンを押している時に返す
+            </summary>
+        </member>
+        <member name="T:ace.IMouseButtonState">
+            <summary>
+            マウスのボタン押下状態のインタフェース
+            </summary>
+        </member>
+        <member name="P:ace.IMouseButtonState.ButtonState">
+            <summary>
+            ボタンの押下状態を返す
+            </summary>
+        </member>
+        <member name="T:ace.JoystickButtonState">
+            <summary>
+            ジョイスティックの押下状態を示す列挙型
+            </summary>
+        </member>
+        <member name="F:ace.JoystickButtonState.Pull">
+            <summary>
+            キーを離した瞬間のみ返す
+            </summary>
+        </member>
+        <member name="F:ace.JoystickButtonState.Push">
+            <summary>
+            キーを押した瞬間のみ返す
+            </summary>
+        </member>
+        <member name="F:ace.JoystickButtonState.Hold">
+            <summary>
+            キーを押しっぱなしの時に返す
+            </summary>
+        </member>
+        <member name="F:ace.JoystickButtonState.Free">
+            <summary>
+            キーを離しっぱなしの時に返す
+            </summary>
+        </member>
+        <member name="M:ace.Joystick.#ctor(ace.swig.Joystick)">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="js">ネイティブインタフェース</param>
+        </member>
+        <member name="M:ace.Joystick.GetButtonState(System.Int32)">
+            <summary>
+            あるボタンの押下状態を返す
+            </summary>
+            <param name="at">何番目のボタンの押下状態を取得するか</param>
+            <returns>押下状態</returns>
+        </member>
+        <member name="M:ace.Joystick.GetAxisState(System.Int32)">
+            <summary>
+            ある軸の入力状態を返す
+            </summary>
+            <param name="at">何番目の軸配列の状態を取得するか</param>
+            <returns>傾倒の度合い</returns>
+        </member>
+        <member name="P:ace.Joystick.JoystickName">
+            <summary>
+            ジョイスティックの名前を返す
+            </summary>
+        </member>
+        <member name="P:ace.Joystick.ButtonsCount">
+            <summary>
+            ジョイスティックのボタンの合計数を返す
+            </summary>
+        </member>
+        <member name="P:ace.Joystick.AxesCount">
+            <summary>
+            ジョイスティックの軸の合計数を返す
+            </summary>
+        </member>
+        <member name="M:ace.JoystickContainer.#ctor(ace.swig.JoystickContainer)">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="jc">ネイティブインタフェース</param>
+        </member>
+        <member name="M:ace.JoystickContainer.IsPresentAt(System.Int32)">
+            <summary>
+            引数に指定した番目のジョイスティックが接続されているかを返す
+            </summary>
+            <param name="at">何番目のジョイスティックの接続を確認するか</param>
+            <returns>接続されているか否か</returns>
+        </member>
+        <member name="M:ace.JoystickContainer.GetJoystickAt(System.Int32)">
+            <summary>
+            引数に指定した番目のジョイスティッククラスを返す
+            </summary>
+            <param name="at">何番目のジョイスティッククラスをとるか</param>
+            <returns>ジョイスティッククラス</returns>
+        </member>
+        <member name="T:ace.KeyState">
+            <summary>
+            キーボードの押下状態を示す列挙型
+            </summary>
+        </member>
+        <member name="F:ace.KeyState.Pull">
+             <summary>
+            Pull-キーを離した瞬間のみ返す
+             </summary>
+        </member>
+        <member name="F:ace.KeyState.Push">
+            <summary>
+            Push-キーを押した瞬間のみ返す
+            </summary>
+        </member>
+        <member name="F:ace.KeyState.Free">
+            <summary>
+            Free-キーを押していない時に返す
+            </summary>
+        </member>
+        <member name="F:ace.KeyState.Hold">
+            <summary>
+            Hold-キーを押している時に返す
+            </summary>
+        </member>
+        <member name="T:ace.Keys">
+            <summary>
+            ACEで扱うキーボードのキー一覧
+            </summary>
+        </member>
+        <member name="T:ace.Keyboard">
+            <summary>
+            キーボードからの入力を取得するクラス
+            </summary>
+        </member>
+        <member name="M:ace.Keyboard.#ctor(ace.swig.Keyboard)">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="kb">C++へのインタフェースクラス</param>
+        </member>
+        <member name="M:ace.Keyboard.GetKeyState(ace.Keys)">
+            <summary>
+            特定のキーの押下状態をKeyState列挙型で返す
+            </summary>
+            <param name="key">押下状態を調べたいキー</param>
+            <returns>押下状態</returns>
+        </member>
+        <member name="T:ace.MiddleButton">
+            <summary>
+            マウスの中ボタンの状態を扱うクラス
+            </summary>
+        </member>
+        <member name="F:ace.MiddleButton.rotation">
+            <summary>
+            回転度合いを保持する変数
+            </summary>
+        </member>
+        <member name="F:ace.MiddleButton.mouseButtonState">
+            <summary>
+            押下状態を保持する変数
+            </summary>
+        </member>
+        <member name="M:ace.MiddleButton.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:ace.MiddleButton.SetState(ace.MouseButtonState,System.Double)">
+            <summary>
+            押下状態とホイール回転状態をセットする関数
+            </summary>
+            <param name="mbuttonstate">押下状態</param>
+            <param name="rot">回転度合い</param>
+        </member>
+        <member name="P:ace.MiddleButton.WheelRotation">
+            <summary>
+            回転度合いを返すプロパティ
+            </summary>
+        </member>
+        <member name="P:ace.MiddleButton.ButtonState">
+            <summary>
+            押下状態を返すプロパティ
+            </summary>
+        </member>
+        <member name="T:ace.Mouse">
+            <summary>
+            マウスからの入力を取得するクラス
+            </summary>
+        </member>
+        <member name="M:ace.Mouse.#ctor(ace.swig.Mouse)">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="m">ネイティブインタフェース</param>
+        </member>
+        <member name="P:ace.Mouse.Position">
+            <summary>
+            マウスの現在位置を返す
+            </summary>
+        </member>
+        <member name="P:ace.Mouse.LeftButton">
+            <summary>
+            左ボタンの状態を返すプロパティ
+            </summary>
+        </member>
+        <member name="P:ace.Mouse.RightButton">
+            <summary>
+            右ボタンの状態を返すプロパティ
+            </summary>
+        </member>
+        <member name="P:ace.Mouse.MiddleButton">
+            <summary>
+            中ボタンの状態を返すプロパティ
+            </summary>
+        </member>
+        <member name="T:ace.SideButton">
+            <summary>
+            マウスの左右ボタンの状態を扱うクラス
+            </summary>
+        </member>
+        <member name="F:ace.SideButton.mouseButtonState">
+            <summary>
+            押下状態を保持する変数
+            </summary>
+        </member>
+        <member name="M:ace.SideButton.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:ace.SideButton.SetState(ace.MouseButtonState)">
+            <summary>
+            押下状態をセットする関数
+            </summary>
+            <param name="mButtonState">押下状態</param>
+        </member>
+        <member name="P:ace.SideButton.ButtonState">
+            <summary>
+            押下状態を返すプロパティ
+            </summary>
+        </member>
+        <member name="T:ace.Log">
+            <summary>
+            テキスト形式でログを記録し、HTMLファイルに保存する機能を提供するクラス。
+            </summary>
+        </member>
+        <member name="M:ace.Log.#ctor(System.String,System.String)">
+            <summary>
+            Logクラスをインスタンス化します。
+            </summary>
+            <param name="path">ログファイルを出力するファイル パス。</param>
+            <param name="title">ログファイルのタイトル。</param>
+        </member>
+        <member name="M:ace.Log.#ctor(ace.swig.Log)">
+            <summary>
+            Logクラスをインスタンス化します。
+            </summary>
+            <param name="log">ネイティブのラッパー</param>
+        </member>
+        <member name="M:ace.Log.Write(System.String,ace.Log.OutputLevel)">
+            <summary>
+            テキストをログファイルに書き込みます。
+            </summary>
+            <param name="text">書き込まれるテキスト。</param>
+            <param name="level">出力レベル。</param>
+        </member>
+        <member name="M:ace.Log.WriteLine(System.String,ace.Log.OutputLevel)">
+            <summary>
+            テキストをログファイルに書き込み、つづけて改行を書き込みます。
+            </summary>
+            <param name="text">書き込まれるテキスト。</param>
+            <param name="level">出力レベル。</param>
+        </member>
+        <member name="M:ace.Log.WriteStrongly(System.String,ace.Log.OutputLevel)">
+            <summary>
+            テキストを強調されるスタイルでログファイルに書き込みます。
+            </summary>
+            <param name="text">書き込まれるテキスト。</param>
+            <param name="level">出力レベル。</param>
+        </member>
+        <member name="M:ace.Log.WriteLineStrongly(System.String,ace.Log.OutputLevel)">
+            <summary>
+            テキストを強調されるスタイルでログファイルに書き込み、つづけて改行を書き込みます。
+            </summary>
+            <param name="text">書き込まれるテキスト。</param>
+            <param name="level">出力レベル。</param>
+        </member>
+        <member name="M:ace.Log.WriteHeading(System.String,ace.Log.OutputLevel)">
+            <summary>
+            テキストを見出しとしてログファイルに書き込みます。
+            </summary>
+            <param name="text">書き込まれるテキスト。</param>
+            <param name="level">出力レベル。</param>
+        </member>
+        <member name="M:ace.Log.WriteHorizontalRule(ace.Log.OutputLevel)">
+            <summary>
+            水平線をログファイルに書き込みます。
+            </summary>
+            <param name="level">出力レベル。</param>
+        </member>
+        <member name="M:ace.Log.BeginTable(ace.Log.OutputLevel)">
+            <summary>
+            テーブルの開始タグをログファイルに書き込みます。
+            </summary>
+            <param name="level">出力レベル。</param>
+        </member>
+        <member name="M:ace.Log.EndTable(ace.Log.OutputLevel)">
+            <summary>
+            テーブルの終了タグをログファイルに書き込みます。
+            </summary>
+            <param name="level">出力レベル。</param>
+        </member>
+        <member name="M:ace.Log.ChangeRow(ace.Log.OutputLevel)">
+            <summary>
+            テーブルの新たな行に移動するタグをログファイルに書き込みます。
+            </summary>
+            <param name="level"></param>
+        </member>
+        <member name="M:ace.Log.ChangeColumn(ace.Log.OutputLevel)">
+            <summary>
+            テーブルの新たな列に移動するタグをログファイルに書き込みます。
+            </summary>
+            <param name="level"></param>
+        </member>
+        <member name="M:ace.Log.IsValid">
+            <summary>
+            Logクラスが使用可能かどうかを表す値を取得します。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:ace.Log.SetOutputLevel(ace.Log.OutputLevel)">
+            <summary>
+            Logクラスが出力するログの出力レベルを設定します。
+            </summary>
+            <param name="level">設定する出力レベル。この値よりレベルが高く指定されたログのみが記録されるようになります。</param>
+        </member>
+        <member name="T:ace.Log.OutputLevel">
+            <summary>
+            ログの出力レベルを表す列挙体。レベルがLogクラスに設定されたものより高いログのみが記録されます。
+            </summary>
+        </member>
+        <member name="F:ace.Log.OutputLevel.Error">
+            <summary>
+            プログラムを停止しなければならない状況に関するログの出力レベル。
+            </summary>
+        </member>
+        <member name="F:ace.Log.OutputLevel.Critical">
+            <summary>
+            プログラムが正常に動作できないことに関するログの出力レベル。
+            </summary>
+        </member>
+        <member name="F:ace.Log.OutputLevel.Warning">
+            <summary>
+            プログラムが正常に動作することが保証できない状況に関するログの出力レベル。
+            </summary>
+        </member>
+        <member name="F:ace.Log.OutputLevel.Information">
+            <summary>
+            プログラムの動作の異常ではなく、単に動作の状況を示すログの出力レベル。
+            </summary>
+        </member>
+        <member name="F:ace.Log.OutputLevel.All">
+            <summary>
+            最低の出力レベル。
+            </summary>
+        </member>
+        <member name="M:ace.Vector2DF.#ctor(System.Single,System.Single)">
+            <summary>
+            コンストラクタ
+            </summary>
+            <param name="x">X成分</param>
+            <param name="y">Y成分</param>
+        </member>
+        <member name="F:ace.Vector2DF.X">
+            <summary>
+            ベクトルの X 要素。
+            </summary>
+        </member>
+        <member name="F:ace.Vector2DF.Y">
+            <summary>
+            ベクトルの Y 要素。
+            </summary>
+        </member>
+        <member name="P:ace.Vector2DF.Length">
+            <summary>
+            ベクトルの長さを取得または設定します。
+            </summary>
+        </member>
+        <member name="P:ace.Vector2DF.SquaredLength">
+            <summary>
+            ベクトルの長さの二乗を取得または設定します。
+            </summary>
+        </member>
+        <member name="P:ace.Vector2DF.Radian">
+            <summary>
+            ベクトルの向きを弧度法で取得または設定します。
+            </summary>
+        </member>
+        <member name="P:ace.Vector2DF.Degree">
+            <summary>
+            ベクトルの向きを度数法で取得または設定します。
+            </summary>
+        </member>
+        <member name="T:ace.Object2D">
+            <summary>
+            更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
+            </summary>
+        </member>
+        <member name="M:ace.Object2D.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:ace.Object2D.GetGlobalPosition">
+            <summary>
+            この2Dオブジェクトを描画する際の実際の位置を取得または設定する。親子関係がある場合に、親の位置を考慮した位置を取得できる。
+            </summary>
+            <returns>この2Dオブジェクトの位置。</returns>
+        </member>
+        <member name="M:ace.Object2D.Vanish">
+            <summary>
+            この2Dオブジェクトを破棄します。
+            </summary>
+        </member>
+        <member name="M:ace.Object2D.AddChild(ace.Object2D,ace.ChildMode)">
+            <summary>
+            指定した2Dオブジェクトを子オブジェクトとしてこのインスタンスに追加する。
+            </summary>
+            <param name="child">追加する子オブジェクト</param>
+            <param name="mode">子オブジェクトの同期モード</param>
+        </member>
+        <member name="M:ace.Object2D.RemoveChild(ace.Object2D)">
+            <summary>
+            指定した子オブジェクトをこのインスタンスから削除する。
+            </summary>
+            <param name="child"></param>
+        </member>
+        <member name="M:ace.Object2D.AddComponent(ace.Object2DComponent,System.String)">
+            <summary>
+            指定したコンポーネントをこの2Dオブジェクトに追加する。
+            </summary>
+            <param name="component">追加するコンポーネント</param>
+            <param name="key">コンポーネントに関連付けるキー</param>
+        </member>
+        <member name="M:ace.Object2D.RemoveComponent(System.String)">
+            <summary>
+            指定したコンポーネントをこの2Dオブジェクトから削除する。
+            </summary>
+            <param name="key">削除するコンポーネントを示すキー</param>
+        </member>
+        <member name="M:ace.Object2D.OnStart">
+            <summary>
+            オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
+            </summary>
+        </member>
+        <member name="M:ace.Object2D.OnUpdate">
+            <summary>
+            オーバーライドして、この2Dオブジェクトの更新処理を記述できる。
+            </summary>
+        </member>
+        <member name="M:ace.Object2D.OnDrawAdditionally">
+            <summary>
+            オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述できる。
+            </summary>
+        </member>
+        <member name="P:ace.Object2D.IsUpdated">
+            <summary>
+            このオブジェクトが更新されるかどうかを取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.Object2D.IsDrawn">
+            <summary>
+            このオブジェクトが描画されるかどうかを取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.Object2D.IsAlive">
+            <summary>
+            このオブジェクトが実行中かどうかを取得する。Vanishメソッドにより削除された時に false を返す。
+            </summary>
+        </member>
+        <member name="P:ace.Object2D.Layer">
+            <summary>
+            このインスタンスを管理している ace.Layer2D クラスのインスタンスを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Object2D.Components">
+            <summary>
+            このオブジェクトに登録されているコンポーネントのディクショナリを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Object2D.Children">
+            <summary>
+            このオブジェクトが持っている子オブジェクトのコレクションを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Object2D.Position">
+            <summary>
+            この2Dオブジェクトを描画する位置を取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.Object2D.Angle">
+            <summary>
+            この2Dオブジェクトを描画する際の回転角度を取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.Object2D.Scale">
+            <summary>
+            この2Dオブジェクトを描画する際の拡大率を取得または設定する。
+            </summary>
+        </member>
+        <member name="T:ace.CameraObject3D">
+            <summary>
+            カメラの機能を提供するクラス
+            </summary>
+        </member>
+        <member name="T:ace.Object3D">
+            <summary>
+            更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
+            </summary>
+        </member>
+        <member name="M:ace.Object3D.Vanish">
+            <summary>
+            オブジェクトを破棄する。
+            </summary>
+        </member>
+        <member name="M:ace.Object3D.OnUpdateInternal">
+            <summary>
+            ユーザーはオーバーライドしてはいけない。
+            </summary>
+        </member>
+        <member name="M:ace.Object3D.OnStart">
+            <summary>
+            オーバーライドして、この3Dオブジェクトの初期化処理を記述することができる。
+            </summary>
+        </member>
+        <member name="M:ace.Object3D.OnUpdate">
+            <summary>
+            オーバーライドして、この2Dオブジェクトの更新処理を記述することができる。
+            </summary>
+        </member>
+        <member name="M:ace.Object3D.OnDrawAdditionally">
+            <summary>
+            将来的に削除予定
+            </summary>
+        </member>
+        <member name="P:ace.Object3D.IsUpdated">
+            <summary>
+            オブジェクトの更新を実行するかどうか取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.Object3D.IsDrawn">
+            <summary>
+            オブジェクトを描画するかどうか取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.Object3D.IsAlive">
+            <summary>
+            オブジェクトが生存しているか取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Object3D.Layer">
+            <summary>
+            このインスタンスを管理している ace.Layer3D クラスのインスタンスを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Object3D.Position">
+            <summary>
+            このインスタンスの親に対する現在の座標を取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.Object3D.Rotation">
+            <summary>
+            このインスタンスの親に対する現在の角度を取得または設定する。
+            </summary>
+        </member>
+        <member name="M:ace.CameraObject3D.AddPostEffect(ace.PostEffect)">
+            <summary>
+            ポストエフェクトを追加する。
+            </summary>
+            <param name="postEffect">ポストエフェクト</param>
+        </member>
+        <member name="M:ace.CameraObject3D.ClearPostEffect">
+            <summary>
+            ポストエフェクトを全て消去する。
+            </summary>
+        </member>
+        <member name="P:ace.CameraObject3D.WindowSize">
+            <summary>
+            画面サイズを取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.CameraObject3D.Focus">
+            <summary>
+            カメラが見る座標を取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.CameraObject3D.FieldOfView">
+            <summary>
+            画角を取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.CameraObject3D.ZFar">
+            <summary>
+            描画する最遠距離を取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.CameraObject3D.ZNear">
+            <summary>
+            描画する最近距離を取得または設定する。
+            </summary>
+        </member>
+        <member name="T:ace.DirectionalLightObject3D">
+            <summary>
+            無限遠光源の機能を提供するクラス
+            </summary>
+        </member>
+        <member name="P:ace.DirectionalLightObject3D.Color">
+            <summary>
+            光源の色を取得または設定する。
+            </summary>
+        </member>
+        <member name="T:ace.EffectObject3D">
+            <summary>
+            エフェクトの機能を提供するクラス
+            </summary>
+        </member>
+        <member name="M:ace.EffectObject3D.SetEffect(ace.Effect)">
+            <summary>
+            描画に使用するエフェクトを設定する。
+            </summary>
+            <param name="effect">エフェクト</param>
+        </member>
+        <member name="M:ace.EffectObject3D.Play">
+            <summary>
+            設定されている全てのエフェクトを再生する。
+            </summary>
+        </member>
+        <member name="M:ace.EffectObject3D.Stop">
+            <summary>
+            このオブジェクトから再生されたエフェクトを全て停止する。
+            </summary>
+        </member>
+        <member name="M:ace.EffectObject3D.StopRoot">
+            <summary>
+            このオブジェクトから再生されたエフェクトのルートを全て停止する。
+            </summary>
+        </member>
+        <member name="P:ace.EffectObject3D.DoesMoveEffects">
+            <summary>
+            このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得、または設定する。
+            </summary>
+        </member>
+        <member name="T:ace.Layer3D">
+            <summary>
+            3Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
+            </summary>
+        </member>
+        <member name="T:ace.Layer">
+            <summary>
+            オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス
+            </summary>
+        </member>
+        <member name="M:ace.Layer.AddPostEffect(ace.PostEffect)">
+            <summary>
+            ポストエフェクトを追加する。
+            </summary>
+            <param name="postEffect">ポストエフェクト</param>
+        </member>
+        <member name="M:ace.Layer.ClearPostEffect">
+            <summary>
+            ポストエフェクトを全て消去する。
+            </summary>
+        </member>
+        <member name="P:ace.Layer.IsUpdated">
+            <summary>
+            レイヤーの更新を実行するかどうか取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.Layer.IsDrawn">
+            <summary>
+            レイヤーを描画するかどうか取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.Layer.Scene">
+            <summary>
+            このインスタンスを管理している ace.Scene クラスのインスタンスを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Layer.DrawingPriority">
+            <summary>
+            このレイヤーの描画優先度を取得または設定する。この値が大きいほど手前に描画される。
+            </summary>
+        </member>
+        <member name="M:ace.Layer3D.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:ace.Layer3D.AddObject(ace.Object3D)">
+            <summary>
+            このレイヤーに指定した3Dオブジェクトを追加する。
+            </summary>
+            <param name="object3D">追加する3Dオブジェクト</param>
+        </member>
+        <member name="M:ace.Layer3D.RemoveObject(ace.Object3D)">
+            <summary>
+            このレイヤーから指定した3Dオブジェクトを削除する。
+            </summary>
+            <param name="object3D">削除される3Dオブジェクト</param>
+        </member>
+        <member name="P:ace.Layer3D.Objects">
+            <summary>
+            このレイヤーが管理している3Dオブジェクトのコレクションを取得する。
+            </summary>
+        </member>
+        <member name="T:ace.ModelObject3D">
+            <summary>
+            メッシュを表示する3Dオブジェクトの機能を提供するクラス
+            </summary>
+        </member>
+        <member name="M:ace.ModelObject3D.SetModel(ace.Model)">
+            <summary>
+            描画に使用するモデルを設定する。
+            </summary>
+            <param name="model">モデル</param>
+        </member>
+        <member name="M:ace.ModelObject3D.AddMesh(ace.Mesh)">
+            <summary>
+            描画に使用するメッシュを設定する。
+            </summary>
+        </member>
+        <member name="T:ace.ChildMode">
+            <summary>
+            オブジェクトの親子関係の同期方法を表す列挙体。
+            </summary>
+        </member>
+        <member name="F:ace.ChildMode.Position">
+            <summary>
+            位置のみを同期する。
+            </summary>
+        </member>
+        <member name="F:ace.ChildMode.All">
+            <summary>
+            位置・角度・拡大率を同期する。
+            </summary>
+        </member>
+        <member name="F:ace.ChildMode.Nothing">
+            <summary>
+            同期を行わない。
+            </summary>
+        </member>
+        <member name="T:ace.Layer2DComponent">
+            <summary>
+            ace.Layer2D クラスに登録することができるコンポーネント クラス。
+            </summary>
+        </member>
+        <member name="M:ace.Layer2DComponent.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:ace.Layer2DComponent.Vanish">
+            <summary>
+            このコンポーネントを破棄する。
+            </summary>
+        </member>
+        <member name="M:ace.Layer2DComponent.OnUpdated">
+            <summary>
+            オーバーライドして、このコンポーネントの Update時の処理を記述できる。
+            </summary>
+        </member>
+        <member name="P:ace.Layer2DComponent.Owner">
+            <summary>
+            このコンポーネントを保持しているレイヤー クラスのインスタンスを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Layer2DComponent.IsUpdated">
+            <summary>
+            このコンポーネントが更新されるかどうかを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Layer2DComponent.IsAlive">
+            <summary>
+            このコンポーネントが実行中かどうかを取得する。Vanishメソッドによって破棄された時に false を返す。
+            </summary>
+        </member>
+        <member name="T:ace.Object2DComponent">
+            <summary>
+            ace.Object2D クラスに登録できるコンポーネント クラス。
+            </summary>
+        </member>
+        <member name="M:ace.Object2DComponent.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:ace.Object2DComponent.Vanish">
+            <summary>
+            このコンポーネントを破棄する。
+            </summary>
+        </member>
+        <member name="M:ace.Object2DComponent.OnUpdate">
+            <summary>
+            オーバーライドして、このコンポーネントの Update時の処理を記述できる。
+            </summary>
+        </member>
+        <member name="P:ace.Object2DComponent.Owner">
+            <summary>
+            このコンポーネントを保持している2Dオブジェクトのインスタンスを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Object2DComponent.IsUpdated">
+            <summary>
+            このコンポーネントが更新されるかどうかを取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.Object2DComponent.IsAlive">
+            <summary>
+            このコンポーネントが実行中かどうかを取得する。Vanishメソッドによって破棄された時に false を返す。
+            </summary>
+        </member>
+        <member name="T:ace.Layer2D">
+            <summary>
+            2Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
+            </summary>
+        </member>
+        <member name="M:ace.Layer2D.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:ace.Layer2D.AddObject(ace.Object2D)">
+            <summary>
+            指定した2Dオブジェクトをこのレイヤーに追加する。
+            </summary>
+            <param name="object2D">追加する2Dオブジェクト</param>
+        </member>
+        <member name="M:ace.Layer2D.RemoveObject(ace.Object2D)">
+            <summary>
+            指定した2Dオブジェクトをこのレイヤーから削除する。
+            </summary>
+            <param name="object2D">削除される2Dオブジェクト</param>
+        </member>
+        <member name="M:ace.Layer2D.AddComponent(ace.Layer2DComponent,System.String)">
+            <summary>
+            指定したコンポーネントをこのレイヤーに追加する。
+            </summary>
+            <param name="component">追加するコンポーネント</param>
+            <param name="key">コンポーネントに関連付けるキー</param>
+        </member>
+        <member name="M:ace.Layer2D.RemoveComponent(System.String)">
+            <summary>
+            指定したコンポーネントをこのレイヤーから削除する。
+            </summary>
+            <param name="key">削除するコンポーネントを示すキー</param>
+        </member>
+        <member name="P:ace.Layer2D.Objects">
+            <summary>
+            このレイヤーが管理している2Dオブジェクトのコレクションを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Layer2D.Components">
+            <summary>
+            このレイヤーに登録されているコンポーネントのコレクションを取得する。
+            </summary>
+        </member>
+        <member name="M:ace.ObjectSystemFactory.#ctor(ace.swig.ObjectSystemFactory)">
+            <summary>
+            ObjectSystemFactory クラスをインスタンス化する。
+            </summary>
+            <param name="factory">ネイティブのインスタンス</param>
+        </member>
+        <member name="M:ace.ObjectSystemFactory.CreateTextureObject2D">
+            <summary>
+            ネイティブの CoreTextureObject2D クラスをインスタンス化する。
+            </summary>
+            <returns>ネイティブのインスタンス。</returns>
+        </member>
+        <member name="M:ace.ObjectSystemFactory.CreateLayer2D">
+            <summary>
+            ネイティブの CoreLayer2D クラスをインスタンス化する。
+            </summary>
+            <returns>ネイティブのインスタンス。</returns>
+        </member>
+        <member name="M:ace.ObjectSystemFactory.CreateModelObject3D">
+            <summary>
+            ネイティブの MeshObject3D クラスをインスタンス化する。
+            </summary>
+            <returns>ネイティブのインスタンス</returns>
+        </member>
+        <member name="M:ace.ObjectSystemFactory.CreateCameraObject3D">
+            <summary>
+            ネイティブの CameraObject3D クラスをインスタンス化する。
+            </summary>
+            <returns>ネイティブのインスタンス</returns>
+        </member>
+        <member name="M:ace.ObjectSystemFactory.CreateEffectObject3D">
+            <summary>
+            ネイティブの EffectObject3D クラスをインスタンス化する。
+            </summary>
+            <returns>ネイティブのインスタンス</returns>
+        </member>
+        <member name="M:ace.ObjectSystemFactory.CreateDirectionalLightObject3D">
+            <summary>
+            ネイティブの DirectionalLightObject3D クラスをインスタンス化する。
+            </summary>
+            <returns>ネイティブのインスタンス</returns>
+        </member>
+        <member name="M:ace.ObjectSystemFactory.CreateLayer3D">
+            <summary>
+            ネイティブの CoreLayer2D クラスをインスタンス化する。
+            </summary>
+            <returns>ネイティブのインスタンス</returns>
+        </member>
+        <member name="M:ace.ObjectSystemFactory.CreateScene">
+            <summary>
+            ネイティブの CoreScene クラスをインスタンス化する。
+            </summary>
+            <returns>ネイティブのインスタンス。</returns>
+        </member>
+        <member name="M:ace.ObjectSystemFactory.CreatePostEffect">
+            <summary>
+            ネイティブの PostEffect クラスをインスタンス化する。
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:ace.PostEffect">
+            <summary>
+            ポストエフェクトを適用するクラス
+            </summary>
+        </member>
+        <member name="M:ace.PostEffect.OnDraw(ace.RenderTexture2D,ace.RenderTexture2D)">
+            		@brief	
+            <summary>
+            オーバーライドして、毎フレーム描画される処理を記述できる。
+            </summary>
+        </member>
+        <member name="M:ace.PostEffect.DrawOnTexture2DWithMaterial(ace.RenderTexture2D,ace.Material2D)">
+            <summary>
+            マテリアルを用いてテクスチャに画像を描画する。
+            </summary>
+            <param name="target">描画先</param>
+            <param name="material">マテリアル</param>
+        </member>
+        <member name="T:ace.Scene">
+            <summary>
+            レイヤーの更新と描画を管理するシーン機能を提供するクラス。
+            </summary>
+        </member>
+        <member name="M:ace.Scene.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:ace.Scene.AddLayer(ace.Layer)">
+            <summary>
+            指定したレイヤーをこのシーンに追加する。
+            </summary>
+            <param name="layer">追加されるレイヤー</param>
+        </member>
+        <member name="M:ace.Scene.RemoveLayer(ace.Layer)">
+            <summary>
+            指定したレイヤーをこのシーンから削除する。
+            </summary>
+            <param name="layer">削除されるレイヤー</param>
+        </member>
+        <member name="M:ace.Scene.AddComponent(ace.SceneComponent,System.String)">
+            <summary>
+            指定したコンポーネントをこのシーンに追加する。
+            </summary>
+            <param name="component">追加するコンポーネント</param>
+            <param name="key">コンポーネントに関連付けるキー</param>
+        </member>
+        <member name="M:ace.Scene.RemoveComponent(System.String)">
+            <summary>
+            指定したコンポーネントをこのシーンから削除する。
+            </summary>
+            <param name="key">削除するコンポーネントを示すキー</param>
+        </member>
+        <member name="M:ace.Scene.AddDrawnTriangle(ace.Vector2DF@,ace.Vector2DF@,ace.Color@,ace.Vector2DF@,ace.Vector2DF@,ace.Color@,ace.Vector2DF@,ace.Vector2DF@,ace.Color@)">
+            <summary>
+            シーンの最終的な描画内容を表示する三角形を追加する。
+            </summary>
+            <param name="pos1">座標1</param>
+            <param name="uv1">UV1</param>
+            <param name="col1">色1</param>
+            <param name="pos2">座標2</param>
+            <param name="uv2">UV2</param>
+            <param name="col2">色2</param>
+            <param name="pos3">座標3</param>
+            <param name="uv3">UV2</param>
+            <param name="col3">色3</param>
+        </member>
+        <member name="M:ace.Scene.GetEffectedScreen">
+            <summary>
+            全てのレイヤーとポストエフェクトが描画され終わった画面をテクスチャとして取得する。
+            </summary>
+            <returns>画面</returns>
+            <remarks>テクスチャの内容はシーンが描画されるたびに変わる。主にシーン遷移の際に使用する。</remarks>
+        </member>
+        <member name="M:ace.Scene.OnUpdating">
+            <summary>
+            オーバーライドして、Updateの直前に実行する処理を記述する。
+            </summary>
+        </member>
+        <member name="M:ace.Scene.OnUpdated">
+            <summary>
+            オーバーライドして、Updateの直後に実行する処理を記述する。
+            </summary>
+        </member>
+        <member name="P:ace.Scene.Layers">
+            <summary>
+            このシーン クラスが管理するレイヤーのコレクションを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.Scene.Components">
+            <summary>
+            このシーン クラスに登録されているコンポーネントのコレクションを取得する。
+            </summary>
+        </member>
+        <member name="T:ace.SceneComponent">
+            <summary>
+            ace.Scene クラスに登録することができるコンポーネント。
+            </summary>
+        </member>
+        <member name="M:ace.SceneComponent.#ctor">
+            <summary>
+            コンストラクタ
+            </summary>
+        </member>
+        <member name="M:ace.SceneComponent.Vanish">
+            <summary>
+            このコンポーネントを破棄する。
+            </summary>
+        </member>
+        <member name="M:ace.SceneComponent.OnUpdated">
+            <summary>
+            オーバーライドして、このコンポーネントの Update時の処理を記述できる。
+            </summary>
+        </member>
+        <member name="P:ace.SceneComponent.Owner">
+            <summary>
+            このインスタンスを保持しているシーン クラスを取得する。
+            </summary>
+        </member>
+        <member name="P:ace.SceneComponent.IsUpdated">
+            <summary>
+            このコンポーネントが更新されるかどうかを取得または設定する。
+            </summary>
+        </member>
+        <member name="P:ace.SceneComponent.IsAlive">
+            <summary>
+            このコンポーネントが実行中かどうかを取得する。Vanishメソッドによって破棄された時に false を返す。
+            </summary>
+        </member>
+        <member name="T:ace.TextureObject2D">
+            <summary>
+            テクスチャと描画パラメータを用いて、更新・描画処理を行う単位となる2Dオブジェクトの機能を提供するクラス
+            </summary>
+        </member>
+        <member name="M:ace.TextureObject2D.#ctor">
+            <summary>
+            ace.TextureObject2D の新しいインスタンスを初期化します。
+            </summary>
+        </member>
+        <member name="M:ace.TextureObject2D.OnStart">
+            <summary>
+            オーバーライドして、この2Dオブジェクトの初期化処理を記述することができます。
+            </summary>
+        </member>
+        <member name="M:ace.TextureObject2D.OnUpdate">
+            <summary>
+            オーバーライドして、この2Dオブジェクトの更新処理を記述することができます。
+            </summary>
+        </member>
+        <member name="M:ace.TextureObject2D.OnDrawAdditionally">
+            <summary>
+            オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述することができます。
+            </summary>
+        </member>
+        <member name="P:ace.TextureObject2D.Texture">
+            <summary>
+            この2Dオブジェクトの描画に使用するテクスチャを取得または設定します。
+            </summary>
+        </member>
+        <member name="P:ace.TextureObject2D.CenterPosition">
+            <summary>
+            この2Dオブジェクトを描画する際の描画原点を取得または設定します。描画原点は拡大・回転・描画の中心となる、画像データ内での座標です。
+            </summary>
+        </member>
+        <member name="P:ace.TextureObject2D.Color">
+            <summary>
+            この2Dオブジェクトを描画する際に合成する色を取得または設定します。
+            </summary>
+        </member>
+        <member name="P:ace.TextureObject2D.TurnLR">
+            <summary>
+            この2Dオブジェクトを描画する際に左右反転するかどうかの真偽値を取得または設定します。
+            </summary>
+        </member>
+        <member name="P:ace.TextureObject2D.TurnUL">
+            <summary>
+            この2Dオブジェクトを描画する際に上下反転するかどうかの真偽値を取得または設定します。
+            </summary>
+        </member>
+        <member name="P:ace.TextureObject2D.DrawingPriority">
+            <summary>
+            この2Dオブジェクトを描画する際の描画優先度を取得または設定します。描画優先度が高いほど手前に描画されます。
+            </summary>
+        </member>
+        <member name="P:ace.TextureObject2D.AlphaBlend">
+            <summary>
+            この2Dオブジェクトを描画する際のブレンドモードを取得または設定します。
+            </summary>
+        </member>
+        <member name="T:ace.swig.ShaderVariablePropertyVector.ShaderVariablePropertyVectorEnumerator">
+            Note that the IEnumerator documentation requires an InvalidOperationException to be thrown
+            whenever the collection is modified. This has been done for changes in the size of the
+            collection but not when one of the elements of the collection is modified as it is a bit
+            tricky to detect unmanaged code that modifies the collection under our feet.
+        </member>
+    </members>
+</doc>
