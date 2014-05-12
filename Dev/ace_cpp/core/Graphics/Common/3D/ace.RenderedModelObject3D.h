@@ -114,10 +114,6 @@ namespace ace
 
 		Model_Imp*								m_model = nullptr;
 
-		std::shared_ptr<ace::NativeShader_Imp>	m_shader;
-		std::shared_ptr<ace::NativeShader_Imp>	m_shaderShadow;
-		std::shared_ptr<ace::NativeShader_Imp>	m_shaderNormalDepth;
-
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF_ND;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;
@@ -149,7 +145,6 @@ namespace ace
 
 		void Flip() override;
 		void Rendering(RenderingProperty& prop) override;
-		void RenderingShadowMap(RenderingShadowMapProperty& prop) override;
 
 		/**
 			@brief	モデルの解除を行わずに、現在設定されているインスタンスを解除する。

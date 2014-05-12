@@ -146,173 +146,6 @@ namespace ace
 			prop.ZFar = c->GetZFar_FR();
 			prop.ZNear = c->GetZNear_FR();
 
-			if (prop.IsLightweightMode)
-			{
-			}
-			else
-			{
-				// シャドウマップ作成
-				RenderTexture2D_Imp* shadowMap = nullptr;
-				if (rendering.directionalLightObjects.size() > 0)
-				{
-					auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
-					shadowMap = light->GetShadowTexture_FR();
-
-					g->SetRenderTarget(light->GetShadowTexture_FR(), light->GetShadowDepthBuffer_FR());
-					g->Clear(true, true, ace::Color(0, 0, 0, 255));
-
-					Matrix44 view, proj;
-
-					light->CalcShadowMatrix(
-						c->GetPosition_FR(),
-						c->GetFocus_FR() - c->GetPosition_FR(),
-						cameraProjMat,
-						c->GetZNear_FR(),
-						c->GetZFar_FR(),
-						view,
-						proj);
-
-					RenderingShadowMapProperty shadowProp;
-					shadowProp.CameraMatrix = view;
-					shadowProp.ProjectionMatrix = proj;
-					shadowProp.DepthRange = prop.DepthRange;
-					shadowProp.ZFar = prop.ZFar;
-					shadowProp.ZNear = prop.ZNear;
-
-					prop.LightCameraMatrix = shadowProp.CameraMatrix;
-					prop.LightProjectionMatrix = shadowProp.ProjectionMatrix;
-
-					for (auto& o : m_objects)
-					{
-						o->RenderingShadowMap(shadowProp);
-					}
-
-					float intensity = 5.0f;
-					Vector4DF weights;
-					float ws[4];
-					float total = 0.0f;
-					float const dispersion = intensity * intensity;
-					for (int32_t i = 0; i < 4; i++)
-					{
-						float pos = 1.0f + 2.0f * i;
-						ws[i] = expf(-0.5f * pos * pos / dispersion);
-						total += ws[i] * 2.0f;
-					}
-					weights.X = ws[0] / total;
-					weights.Y = ws[1] / total;
-					weights.Z = ws[2] / total;
-					weights.W = ws[3] / total;
-
-					{
-						g->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
-						g->Clear(true, false, ace::Color(0, 0, 0, 255));
-
-						m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_FR(), 0);
-						ShadowBlurConstantBuffer& cbufX = m_shadowShaderX->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
-						cbufX.Weights = weights;
-
-						g->SetVertexBuffer(m_shadowVertexBuffer.get());
-						g->SetIndexBuffer(m_shadowIndexBuffer.get());
-						g->SetShader(m_shadowShaderX.get());
-
-						auto& state = g->GetRenderState()->Push();
-						state.DepthTest = false;
-						state.DepthWrite = false;
-						state.CullingType = CULLING_DOUBLE;
-						state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
-						g->GetRenderState()->Update(false);
-
-						g->DrawPolygon(2);
-
-						g->GetRenderState()->Pop();
-					}
-
-					{
-						g->SetRenderTarget(light->GetShadowTexture_FR(), nullptr);
-						g->Clear(true, false, ace::Color(0, 0, 0, 255));
-
-						m_shadowShaderY->SetTexture("g_texture", m_shadowTempTexture.get(), 0);
-						ShadowBlurConstantBuffer& cbufY = m_shadowShaderY->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
-						cbufY.Weights = weights;
-
-						g->SetVertexBuffer(m_shadowVertexBuffer.get());
-						g->SetIndexBuffer(m_shadowIndexBuffer.get());
-						g->SetShader(m_shadowShaderY.get());
-
-						auto& state = g->GetRenderState()->Push();
-						state.DepthTest = false;
-						state.DepthWrite = false;
-						state.CullingType = CULLING_DOUBLE;
-						state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
-						g->GetRenderState()->Update(false);
-
-						g->DrawPolygon(2);
-
-						g->GetRenderState()->Pop();
-					}
-				}
-
-				// 影用デバッグコード
-				//prop.CameraProjectionMatrix = prop.LightProjectionMatrix;
-
-				// 影マップ描画
-				{
-					auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
-					Matrix44 view, proj;
-
-					light->CalcShadowMatrix(
-						c->GetPosition_FR(),
-						c->GetFocus_FR() - c->GetPosition_FR(),
-						cameraProjMat,
-						c->GetZNear_FR(),
-						c->GetZFar_FR(),
-						view,
-						proj);
-
-					g->SetRenderTarget(c->GetRenderTargetShadow_FR(), nullptr);
-					g->Clear(true, false, ace::Color(0, 0, 0, 255));
-
-					m_shadowShader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_FR(), 2);
-					m_shadowShader->SetTexture("g_shadowmapTexture", light->GetShadowTexture_FR(), 4);
-
-					ShadowConstantBuffer& cbuf = m_shadowShader->GetPixelConstantBuffer<ShadowConstantBuffer>();
-
-					auto invCameraMat = (prop.CameraMatrix).GetInverted();
-
-					auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
-					auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
-
-					// DirectX
-					float yScale = 1 / tanf(fov / 2);
-					float xScale = yScale / aspect;
-
-					cbuf.CameraPositionToShadowCameraPosition = (view) * invCameraMat;
-					cbuf.ShadowProjection = proj;
-					cbuf.ReconstructInfo1[0] = c->GetZFar_FR() - c->GetZNear_FR();
-					cbuf.ReconstructInfo1[1] = c->GetZNear_FR();
-
-					cbuf.ReconstructInfo2[0] = 1.0f / xScale;
-					cbuf.ReconstructInfo2[1] = 1.0f / yScale;
-
-					g->SetVertexBuffer(m_shadowVertexBuffer.get());
-					g->SetIndexBuffer(m_shadowIndexBuffer.get());
-					g->SetShader(m_shadowShader.get());
-
-					auto& state = g->GetRenderState()->Push();
-					state.DepthTest = false;
-					state.DepthWrite = false;
-					state.CullingType = CULLING_DOUBLE;
-					state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
-					state.TextureFilterTypes[2] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
-					state.TextureFilterTypes[4] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
-					g->GetRenderState()->Update(false);
-
-					g->DrawPolygon(2);
-
-					g->GetRenderState()->Pop();
-				}
-			}
-
 			// 3D描画
 			{
 				if (prop.IsLightweightMode)
@@ -487,7 +320,8 @@ namespace ace
 						g->SetRenderTarget(light->GetShadowTexture_FR(), light->GetShadowDepthBuffer_FR());
 						g->Clear(true, true, ace::Color(0, 0, 0, 255));
 
-						RenderingShadowMapProperty shadowProp;
+						RenderingProperty shadowProp = prop;
+						shadowProp.IsDepthMode = true;
 						shadowProp.CameraMatrix = view;
 						shadowProp.ProjectionMatrix = proj;
 						shadowProp.DepthRange = prop.DepthRange;
@@ -499,7 +333,7 @@ namespace ace
 
 						for (auto& o : m_objects)
 						{
-							o->RenderingShadowMap(shadowProp);
+							o->Rendering(shadowProp);
 						}
 
 						float intensity = 5.0f;

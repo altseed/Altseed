@@ -44,8 +44,9 @@ void main()
 	if(diffuseColor.a == 0.0f) discard;	
 
 #ifdef EXPORT_DEPTH
+	// VSM用二乗バッファ含む
 	Depth.x = voutDepth;
-	Depth.y = 0.0;
+	Depth.y = voutDepth * voutDepth;
 	Depth.z = 0.0;
 	Depth.w = voutDepth;
 #else

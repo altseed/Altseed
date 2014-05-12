@@ -56,8 +56,9 @@ PS_Output main( const PS_Input Input )
 	PS_Output Output;
 
 #ifdef EXPORT_DEPTH
+	// VSM用二乗バッファ含む
 	Output.Depth.x = Input.Depth;
-	Output.Depth.y = 0.0;
+	Output.Depth.y = Input.Depth * Input.Depth;
 	Output.Depth.z = 0.0;
 	Output.Depth.w = Input.Depth;
 #else

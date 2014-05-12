@@ -37,17 +37,6 @@ namespace ace
 		Matrix44	LightProjectionMatrix;
 	};
 
-	class RenderingShadowMapProperty
-	{
-	public:
-		Matrix44	CameraMatrix;
-		Matrix44	ProjectionMatrix;
-
-		float		DepthRange;
-		float		ZFar;
-		float		ZNear;
-	};
-
 	/**
 		@brief	描画されるオブジェクトのクラス
 		@note
@@ -123,8 +112,6 @@ namespace ace
 		virtual void Flip();
 
 		virtual void Rendering(RenderingProperty& prop) = 0;
-
-		virtual void RenderingShadowMap(RenderingShadowMapProperty& prop) {}
 
 		Vector3DF GetPosition_FR();
 
