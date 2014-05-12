@@ -30,8 +30,8 @@ protected:
 
 		auto model = graphics->CreateModel(ace::ToAString("Data/Model/out.mdl").c_str());
 
-		cameraObj->SetPosition(ace::Vector3DF(0, 150, 500));
-		cameraObj->SetFocus(ace::Vector3DF(0, 150, 0));
+		cameraObj->SetPosition(ace::Vector3DF(0, 0, 10));
+		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
 		cameraObj->SetFieldOfView(20.0f);
 		cameraObj->SetZNear(1.0f);
 		cameraObj->SetZFar(1000.0f);
@@ -40,14 +40,14 @@ protected:
 		ace::Matrix44 identity = ace::Matrix44();
 
 		meshObj->SetModel(model);
-		meshObj->SetRotation(ace::Vector3DF(-90, 0, 0));
-		lightObj->SetRotation(ace::Vector3DF(5, 5, 5));
+		meshObj->SetRotation(ace::Vector3DF(0, 0, 0));
+		lightObj->SetRotation(ace::Vector3DF(180, 0, 0));
 	}
 
 	void OnUpdating() override
 	{
 		auto rot = meshObj->GetRotation();
-		meshObj->SetRotation(rot + ace::Vector3DF(0, 3, 0));
+		meshObj->SetRotation(rot + ace::Vector3DF(3, 0, 0));
 	}
 
 

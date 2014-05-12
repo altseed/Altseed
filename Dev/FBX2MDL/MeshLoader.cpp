@@ -388,6 +388,8 @@ void MeshLoader::_loadBoneAttachments(FbxMesh* fbxMesh)
 
 void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer,int materialIndex)
 {
+	printf("MI=%d\n",materialIndex);
+	printf("FS=%d\n",_faces.size());
 	writer->Push((int32_t)1);
 	writer->Push((int32_t)materialIndex);
 	writer->Push((int32_t)_faces.size());
