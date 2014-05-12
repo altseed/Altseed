@@ -12,7 +12,7 @@ namespace ace
 		: RenderedObject3D(graphics)
 	{
 		m_values.color = Color(255, 255, 255, 255);
-		m_values_FR.color = Color(255, 255, 255, 255);
+		m_values_RT.color = Color(255, 255, 255, 255);
 
 		m_shadowTexture = GetGraphics()->CreateRenderTexture2D_Imp(ShadowBufferSize, ShadowBufferSize, eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
 		m_shadowDepthBuffer = GetGraphics()->CreateDepthBuffer_Imp(ShadowBufferSize, ShadowBufferSize);
@@ -27,7 +27,7 @@ namespace ace
 	void RenderedDirectionalLightObject3D::Flip()
 	{
 		RenderedObject3D::Flip();
-		m_values_FR.color = m_values.color;
+		m_values_RT.color = m_values.color;
 	}
 
 	void RenderedDirectionalLightObject3D::Rendering(RenderingProperty& prop)
@@ -89,7 +89,7 @@ namespace ace
 		// LiSPSMで行列を計算する。
 
 		// 初期化
-		auto lightDirection = GetDirection_FR();
+		auto lightDirection = GetDirection_RT();
 		viewDirection.Normalize();
 		lightDirection.Normalize();
 
@@ -327,14 +327,14 @@ namespace ace
 		*/
 	}
 
-	Color RenderedDirectionalLightObject3D::GetColor_FR()
+	Color RenderedDirectionalLightObject3D::GetColor_RT()
 	{
-		return m_values_FR.color;
+		return m_values_RT.color;
 	}
 
-	Vector3DF RenderedDirectionalLightObject3D::GetDirection_FR()
+	Vector3DF RenderedDirectionalLightObject3D::GetDirection_RT()
 	{
-		auto& mat = GetLocalMatrix_FR();
+		auto& mat = GetLocalMatrix_RT();
 		return Vector3DF(mat.Values[0][2], mat.Values[1][2], mat.Values[2][2]);
 	}
 

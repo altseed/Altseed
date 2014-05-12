@@ -34,7 +34,7 @@ namespace ace
 		{
 			Color		color;
 
-		} m_values_FR;
+		} m_values_RT;
 
 	public:
 		RenderedDirectionalLightObject3D(Graphics* graphics);
@@ -45,11 +45,11 @@ namespace ace
 
 		void CalcShadowMatrix(Vector3DF viewPosition, Vector3DF viewDirection, Matrix44 matCameraProj, float zn, float zf, Matrix44& lightView, Matrix44& lightProjection);
 
-		Color GetColor_FR();
-		Vector3DF GetDirection_FR();
+		Color GetColor_RT();
+		Vector3DF GetDirection_RT();
 
-		RenderTexture2D_Imp* GetShadowTexture_FR() { return m_shadowTexture; }
-		DepthBuffer_Imp* GetShadowDepthBuffer_FR()  { return m_shadowDepthBuffer; }
+		RenderTexture2D_Imp* GetShadowTexture_RT() { return m_shadowTexture; }
+		DepthBuffer_Imp* GetShadowDepthBuffer_RT()  { return m_shadowDepthBuffer; }
 
 		Color GetColor();
 		void SetColor(Color color);

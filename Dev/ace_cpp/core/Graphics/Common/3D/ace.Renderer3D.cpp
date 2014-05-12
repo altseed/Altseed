@@ -91,17 +91,17 @@ namespace ace
 
 		for (auto& o : rendering.objects)
 		{
-			o->CalculateMatrix_FR();
+			o->CalculateMatrix_RT();
 		}
 
 		for (auto& o : rendering.cameraObjects)
 		{
-			o->CalculateMatrix_FR();
+			o->CalculateMatrix_RT();
 		}
 
 		for (auto& o : rendering.directionalLightObjects)
 		{
-			o->CalculateMatrix_FR();
+			o->CalculateMatrix_RT();
 		}
 
 		// エフェクトの更新
@@ -116,8 +116,8 @@ namespace ace
 			if (rendering.directionalLightObjects.size() > 0)
 			{
 				auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
-				prop.DirectionalLightColor = light->GetColor_FR();
-				prop.DirectionalLightDirection = light->GetDirection_FR();
+				prop.DirectionalLightColor = light->GetColor_RT();
+				prop.DirectionalLightDirection = light->GetDirection_RT();
 				prop.DirectionalLightDirection.X = -prop.DirectionalLightDirection.X;
 				prop.DirectionalLightDirection.Y = -prop.DirectionalLightDirection.Y;
 				prop.DirectionalLightDirection.Z = -prop.DirectionalLightDirection.Z;
@@ -139,18 +139,18 @@ namespace ace
 
 			// カメラプロジェクション行列計算
 			Matrix44 cameraProjMat;
-			ace::Matrix44::Mul(cameraProjMat, c->GetProjectionMatrix_FR(), c->GetCameraMatrix_FR());
-			prop.CameraMatrix = c->GetCameraMatrix_FR();
-			prop.ProjectionMatrix = c->GetProjectionMatrix_FR();
-			prop.DepthRange = c->GetZFar_FR() - c->GetZNear_FR();
-			prop.ZFar = c->GetZFar_FR();
-			prop.ZNear = c->GetZNear_FR();
+			ace::Matrix44::Mul(cameraProjMat, c->GetProjectionMatrix_RT(), c->GetCameraMatrix_RT());
+			prop.CameraMatrix = c->GetCameraMatrix_RT();
+			prop.ProjectionMatrix = c->GetProjectionMatrix_RT();
+			prop.DepthRange = c->GetZFar_RT() - c->GetZNear_RT();
+			prop.ZFar = c->GetZFar_RT();
+			prop.ZNear = c->GetZNear_RT();
 
 			// 3D描画
 			{
 				if (prop.IsLightweightMode)
 				{
-					g->SetRenderTarget(c->GetRenderTarget_FR(), c->GetDepthBuffer_FR());
+					g->SetRenderTarget(c->GetRenderTarget_RT(), c->GetDepthBuffer_RT());
 					g->Clear(true, true, ace::Color(0, 0, 0, 255));
 
 					for (auto& o : m_objects)
@@ -162,7 +162,7 @@ namespace ace
 				{
 					// 奥行き描画
 					{
-						g->SetRenderTarget(c->GetRenderTargetDepth_FR(), c->GetDepthBuffer_FR());
+						g->SetRenderTarget(c->GetRenderTargetDepth_RT(), c->GetDepthBuffer_RT());
 						g->Clear(true, true, ace::Color(0, 0, 0, 255));
 						prop.IsDepthMode = true;
 						for (auto& o : m_objects)
@@ -174,11 +174,11 @@ namespace ace
 					// Gバッファ描画
 					{
 						g->SetRenderTarget(
-							c->GetRenderTargetDiffuseColor_FR(),
-							c->GetRenderTargetSpecularColor_Smoothness_FR(),
-							c->GetRenderTargetDepth_FR(),
-							c->GetRenderTargetAO_MatID_FR(),
-							c->GetDepthBuffer_FR());
+							c->GetRenderTargetDiffuseColor_RT(),
+							c->GetRenderTargetSpecularColor_Smoothness_RT(),
+							c->GetRenderTargetDepth_RT(),
+							c->GetRenderTargetAO_MatID_RT(),
+							c->GetDepthBuffer_RT());
 						g->Clear(true, false, ace::Color(0, 0, 0, 255));
 						prop.IsDepthMode = false;
 						for (auto& o : m_objects)
@@ -194,10 +194,10 @@ namespace ace
 			if (!m_settings.IsLightweightMode && m_ssaoShader != nullptr)
 			{
 				{
-					g->SetRenderTarget(c->GetRenderTargetSSAO_FR(), nullptr);
+					g->SetRenderTarget(c->GetRenderTargetSSAO_RT(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoShader->SetTexture("g_texture", c->GetRenderTargetDepth_FR(), 0);
+					m_ssaoShader->SetTexture("g_texture", c->GetRenderTargetDepth_RT(), 0);
 
 					auto& cvbuf = m_ssaoShader->GetVertexConstantBuffer<SSAOConstantVertexBuffer>();
 					cvbuf.Size[0] = m_windowSize.X;
@@ -218,12 +218,12 @@ namespace ace
 					cpbuf.Intensity = 1.0f;
 
 					/*
-					cpbuf.ReconstructInfo1[0] = c->GetZNear_FR() * c->GetZFar_FR();
-					cpbuf.ReconstructInfo1[1] = c->GetZFar_FR() - c->GetZNear_FR();
-					cpbuf.ReconstructInfo1[2] = -c->GetZFar_FR();
+					cpbuf.ReconstructInfo1[0] = c->GetZNear_RT() * c->GetZFar_RT();
+					cpbuf.ReconstructInfo1[1] = c->GetZFar_RT() - c->GetZNear_RT();
+					cpbuf.ReconstructInfo1[2] = -c->GetZFar_RT();
 					*/
-					cpbuf.ReconstructInfo1[0] = c->GetZFar_FR() - c->GetZNear_FR();
-					cpbuf.ReconstructInfo1[1] = c->GetZNear_FR();
+					cpbuf.ReconstructInfo1[0] = c->GetZFar_RT() - c->GetZNear_RT();
+					cpbuf.ReconstructInfo1[1] = c->GetZNear_RT();
 
 					cpbuf.ReconstructInfo2[0] = 1.0f / xScale;
 					cpbuf.ReconstructInfo2[1] = 1.0f / yScale;
@@ -245,10 +245,10 @@ namespace ace
 				}
 
 				{
-					g->SetRenderTarget(c->GetRenderTargetSSAO_Temp_FR(), nullptr);
+					g->SetRenderTarget(c->GetRenderTargetSSAO_Temp_RT(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoBlurXShader->SetTexture("g_texture", c->GetRenderTargetSSAO_FR(), 0);
+					m_ssaoBlurXShader->SetTexture("g_texture", c->GetRenderTargetSSAO_RT(), 0);
 
 					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
 					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
@@ -267,10 +267,10 @@ namespace ace
 				}
 
 				{
-					g->SetRenderTarget(c->GetRenderTargetSSAO_FR(), nullptr);
+					g->SetRenderTarget(c->GetRenderTargetSSAO_RT(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoBlurYShader->SetTexture("g_texture", c->GetRenderTargetSSAO_Temp_FR(), 0);
+					m_ssaoBlurYShader->SetTexture("g_texture", c->GetRenderTargetSSAO_Temp_RT(), 0);
 
 					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
 					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
@@ -292,7 +292,7 @@ namespace ace
 			// 蓄積リセット
 			if (!m_settings.IsLightweightMode)
 			{
-				g->SetRenderTarget(c->GetRenderTarget_FR(), nullptr);
+				g->SetRenderTarget(c->GetRenderTarget_RT(), nullptr);
 				g->Clear(true, false, ace::Color(0, 0, 0, 255));
 			}
 
@@ -302,22 +302,22 @@ namespace ace
 				for (auto& light : rendering.directionalLightObjects)
 				{
 					auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
-					RenderTexture2D_Imp* shadowMap = light->GetShadowTexture_FR();
+					RenderTexture2D_Imp* shadowMap = light->GetShadowTexture_RT();
 
 					Matrix44 view, proj;
 
 					light->CalcShadowMatrix(
-						c->GetPosition_FR(),
-						c->GetFocus_FR() - c->GetPosition_FR(),
+						c->GetPosition_RT(),
+						c->GetFocus_RT() - c->GetPosition_RT(),
 						cameraProjMat,
-						c->GetZNear_FR(),
-						c->GetZFar_FR(),
+						c->GetZNear_RT(),
+						c->GetZFar_RT(),
 						view,
 						proj);
 
 					// 影マップ作成
 					{
-						g->SetRenderTarget(light->GetShadowTexture_FR(), light->GetShadowDepthBuffer_FR());
+						g->SetRenderTarget(light->GetShadowTexture_RT(), light->GetShadowDepthBuffer_RT());
 						g->Clear(true, true, ace::Color(0, 0, 0, 255));
 
 						RenderingProperty shadowProp = prop;
@@ -356,7 +356,7 @@ namespace ace
 							g->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
 							g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-							m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_FR(), 0);
+							m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_RT(), 0);
 							ShadowBlurConstantBuffer& cbufX = m_shadowShaderX->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
 							cbufX.Weights = weights;
 
@@ -377,7 +377,7 @@ namespace ace
 						}
 
 						{
-							g->SetRenderTarget(light->GetShadowTexture_FR(), nullptr);
+							g->SetRenderTarget(light->GetShadowTexture_RT(), nullptr);
 							g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 							m_shadowShaderY->SetTexture("g_texture", m_shadowTempTexture.get(), 0);
@@ -403,17 +403,17 @@ namespace ace
 
 					// 影マップ描画
 					{
-						g->SetRenderTarget(c->GetRenderTarget_FR(), nullptr);
+						g->SetRenderTarget(c->GetRenderTarget_RT(), nullptr);
 
-						m_shadowShader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_FR(), 0);
-						m_shadowShader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_FR(), 1);
-						m_shadowShader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_FR(), 2);
-						m_shadowShader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_FR(), 3);
-						m_shadowShader->SetTexture("g_shadowmapTexture", light->GetShadowTexture_FR(), 4);
+						m_shadowShader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), 0);
+						m_shadowShader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), 1);
+						m_shadowShader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), 2);
+						m_shadowShader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), 3);
+						m_shadowShader->SetTexture("g_shadowmapTexture", light->GetShadowTexture_RT(), 4);
 
 						if (m_ssaoShader != nullptr)
 						{
-							m_shadowShader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_FR(), 5);
+							m_shadowShader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), 5);
 						}
 						else
 						{
@@ -433,8 +433,8 @@ namespace ace
 
 						cbuf.CameraPositionToShadowCameraPosition = (view) * invCameraMat;
 						cbuf.ShadowProjection = proj;
-						cbuf.ReconstructInfo1[0] = c->GetZFar_FR() - c->GetZNear_FR();
-						cbuf.ReconstructInfo1[1] = c->GetZNear_FR();
+						cbuf.ReconstructInfo1[0] = c->GetZFar_RT() - c->GetZNear_RT();
+						cbuf.ReconstructInfo1[1] = c->GetZNear_RT();
 
 						cbuf.ReconstructInfo2[0] = 1.0f / xScale;
 						cbuf.ReconstructInfo2[1] = 1.0f / yScale;
@@ -486,8 +486,8 @@ namespace ace
 				{
 					for (auto r = 0; r < 4; r++)
 					{
-						cameraMat.Values[c_][r] = c->GetCameraMatrix_FR().Values[r][c_];
-						projMat.Values[c_][r] = c->GetProjectionMatrix_FR().Values[r][c_];
+						cameraMat.Values[c_][r] = c->GetCameraMatrix_RT().Values[r][c_];
+						projMat.Values[c_][r] = c->GetProjectionMatrix_RT().Values[r][c_];
 					}
 				}
 				rendering.EffectRenderer->SetCameraMatrix(cameraMat);
@@ -500,7 +500,7 @@ namespace ace
 				g->GetRenderState()->Update(true);
 			}
 
-			c->ApplyPostEffects_FR();
+			c->ApplyPostEffects_RT();
 		}
 
 		for (auto& co : rendering.cameraObjects)
@@ -529,12 +529,12 @@ namespace ace
 
 			m_pasteVertexBuffer->Unlock();
 
-			m_pasteShader->SetTexture("g_texture", c->GetAffectedRenderTarget_FR(), 0);
+			m_pasteShader->SetTexture("g_texture", c->GetAffectedRenderTarget_RT(), 0);
 			
-			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetDiffuseColor_FR(), 0);
-			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetDepth_FR(), 0);
-			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetSSAO_FR(), 0);
-			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetShadow_FR(), 0);
+			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetDiffuseColor_RT(), 0);
+			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetDepth_RT(), 0);
+			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetSSAO_RT(), 0);
+			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetShadow_RT(), 0);
 
 			m_graphics->SetVertexBuffer(m_pasteVertexBuffer.get());
 			m_graphics->SetIndexBuffer(m_pasteIndexBuffer.get());

@@ -38,22 +38,22 @@ namespace ace
 
 			int32_t	postEffectCount;
 
-		} m_values_FR;
+		} m_values_RT;
 
-		RenderTexture2D_Imp*	m_renderTargetDiffuseColor_FR = nullptr;
-		RenderTexture2D_Imp*	m_renderTargetSpecularColor_Smoothness_FR = nullptr;
-		RenderTexture2D_Imp*	m_renderTargetNormalDepth_FR = nullptr;
-		RenderTexture2D_Imp*	m_renderTargetAO_MatID_FR = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetDiffuseColor_RT = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetSpecularColor_Smoothness_RT = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetNormalDepth_RT = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetAO_MatID_RT = nullptr;
 
-		RenderTexture2D_Imp*	m_renderTargetSSAO_FR;
-		RenderTexture2D_Imp*	m_renderTargetSSAO_temp_FR;
-		RenderTexture2D_Imp*	m_renderTargetShadow_FR;
+		RenderTexture2D_Imp*	m_renderTargetSSAO_RT;
+		RenderTexture2D_Imp*	m_renderTargetSSAO_temp_RT;
+		RenderTexture2D_Imp*	m_renderTargetShadow_RT;
 
 		RenderTexture2D_Imp*	m_renderTarget_FR[2];
-		DepthBuffer_Imp*	m_depthBuffer_FR;
+		DepthBuffer_Imp*	m_depthBuffer_RT;
 
 		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands;
-		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands_FR;
+		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands_RT;
 
 		PostEffectRenderer*								m_postEffectRenderer;
 
@@ -98,36 +98,36 @@ namespace ace
 		*/
 		RenderTexture2D* GetSrcForPostEffect(int32_t count);
 
-		void CalculateMatrix_FR() override;
+		void CalculateMatrix_RT() override;
 
-		void ApplyPostEffects_FR();
+		void ApplyPostEffects_RT();
 
-		RenderTexture2D_Imp* GetRenderTarget_FR();
-		RenderTexture2D_Imp* GetAffectedRenderTarget_FR();
+		RenderTexture2D_Imp* GetRenderTarget_RT();
+		RenderTexture2D_Imp* GetAffectedRenderTarget_RT();
 
-		DepthBuffer_Imp* GetDepthBuffer_FR() { return m_depthBuffer_FR; }
+		DepthBuffer_Imp* GetDepthBuffer_RT() { return m_depthBuffer_RT; }
 
-		RenderTexture2D_Imp*	GetRenderTargetDiffuseColor_FR() { return m_renderTargetDiffuseColor_FR; }
-		RenderTexture2D_Imp*	GetRenderTargetSpecularColor_Smoothness_FR() { return m_renderTargetSpecularColor_Smoothness_FR; }
-		RenderTexture2D_Imp*	GetRenderTargetDepth_FR() { return m_renderTargetNormalDepth_FR; }
-		RenderTexture2D_Imp*	GetRenderTargetAO_MatID_FR() { return m_renderTargetAO_MatID_FR; }
+		RenderTexture2D_Imp*	GetRenderTargetDiffuseColor_RT() { return m_renderTargetDiffuseColor_RT; }
+		RenderTexture2D_Imp*	GetRenderTargetSpecularColor_Smoothness_RT() { return m_renderTargetSpecularColor_Smoothness_RT; }
+		RenderTexture2D_Imp*	GetRenderTargetDepth_RT() { return m_renderTargetNormalDepth_RT; }
+		RenderTexture2D_Imp*	GetRenderTargetAO_MatID_RT() { return m_renderTargetAO_MatID_RT; }
 
 
-		RenderTexture2D_Imp*	GetRenderTargetShadow_FR() { return m_renderTargetShadow_FR; }
+		RenderTexture2D_Imp*	GetRenderTargetShadow_RT() { return m_renderTargetShadow_RT; }
 
-		RenderTexture2D_Imp*	GetRenderTargetSSAO_FR() { return m_renderTargetSSAO_FR; }
-		RenderTexture2D_Imp*	GetRenderTargetSSAO_Temp_FR() { return m_renderTargetSSAO_temp_FR; }
+		RenderTexture2D_Imp*	GetRenderTargetSSAO_RT() { return m_renderTargetSSAO_RT; }
+		RenderTexture2D_Imp*	GetRenderTargetSSAO_Temp_RT() { return m_renderTargetSSAO_temp_RT; }
 
-		const Matrix44& GetCameraMatrix_FR() { return m_values_FR.cameraMatrix; }
-		const Matrix44& GetProjectionMatrix_FR() { return m_values_FR.projectionMatrix; }
+		const Matrix44& GetCameraMatrix_RT() { return m_values_RT.cameraMatrix; }
+		const Matrix44& GetProjectionMatrix_RT() { return m_values_RT.projectionMatrix; }
 
-		Vector3DF GetFocus_FR(){ return m_values_FR.focus; }
+		Vector3DF GetFocus_RT(){ return m_values_RT.focus; }
 
-		float GetZFar_FR() { return m_values_FR.zfar; }
+		float GetZFar_RT() { return m_values_RT.zfar; }
 
-		float GetZNear_FR(){ return m_values_FR.znear; }
+		float GetZNear_RT(){ return m_values_RT.znear; }
 
-		float GetFov_FR(){ return m_values_FR.fov; }
+		float GetFov_RT(){ return m_values_RT.fov; }
 
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_CAMERA; }
 	};

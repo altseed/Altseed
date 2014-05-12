@@ -24,7 +24,7 @@ namespace ace
 		{
 
 
-		} m_values_FR;
+		} m_values_RT;
 
 		std::vector<Effekseer::Handle>	m_handles;
 		Effect*							m_effect;

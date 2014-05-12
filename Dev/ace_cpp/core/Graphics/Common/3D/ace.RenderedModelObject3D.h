@@ -10,36 +10,6 @@ namespace ace
 	class RenderedModelObject3D
 		: public RenderedObject3D
 	{
-		struct VertexConstantBuffer
-		{
-			Matrix44	MMatrices[32];
-			Matrix44	CMatrix;
-			Matrix44	PMatrix;
-			Matrix44	LightCMatrix;
-			Matrix44	LightPMatrix;
-
-			float		DepthRange;
-			float		ZFar;
-			float		ZNear;
-			float		Padding0;
-
-			Vector3DF	DirectionalLightDirection;
-			float		Padding1;
-
-			Vector3DF	DirectionalLightColor;
-			float		Padding2;
-		};
-
-		struct PixelConstantBuffer
-		{
-			Vector4DF	HasTextures;
-
-			float		DepthRange;
-			float		ZFar;
-			float		ZNear;
-			float		Padding0;
-		};
-
 		struct VertexConstantBufferLightweight
 		{
 			Matrix44	matM[32];

@@ -559,13 +559,13 @@ namespace ace
 					for (int32_t i = 0; i < Min(32, matrices.size()); i++)
 					{
 						matM[i].SetIndentity();
-						Matrix44::Mul(matM[i], GetLocalMatrix_FR(), matrices[i]);
+						Matrix44::Mul(matM[i], GetLocalMatrix_RT(), matrices[i]);
 					}
 				}
 				else
 				{
 					// ボーンなし
-					matM[0] = GetLocalMatrix_FR();
+					matM[0] = GetLocalMatrix_RT();
 					for (int32_t i = 1; i < 32; i++)
 					{
 						matM[i] = matM[0];

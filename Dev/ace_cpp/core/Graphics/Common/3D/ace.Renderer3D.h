@@ -37,11 +37,6 @@ namespace ace
 			void Event() override;
 		};
 
-		struct PasteConstantBuffer
-		{
-			float Size[4];
-		};
-
 		struct ShadowBlurConstantBuffer
 		{
 			Vector4DF	Weights;

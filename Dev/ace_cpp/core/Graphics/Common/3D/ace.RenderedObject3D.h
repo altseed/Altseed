@@ -44,7 +44,7 @@ namespace ace
 		
 		-関数・変数名
 		 メインスレッドのみ使用可能な関数-特に何もなし
-		 レンダリングスレッドのみ使用可能な関数-サフィックスに_FR(ForRendering)がつく。もしくはregionで指定されている。
+		 レンダリングスレッドのみ使用可能な関数-サフィックスに_RT(RenderingThread)がつく。もしくはregionで指定されている。
 
 		-Flip
 		  メインスレッドとレンダリングスレッドのデータの同期を行う。
@@ -72,7 +72,7 @@ namespace ace
 			Matrix44	localMatrix;
 			bool		isChanged;
 
-		} m_commonValues_FR;
+		} m_commonValues_RT;
 		
 		Matrix44 CalcLocalMatrix(Vector3DF& t, Vector3DF& r, Vector3DF& s);
 
@@ -107,17 +107,17 @@ namespace ace
 		*/
 		virtual void OnRemoving(Renderer3D* renderer) {}
 
-		virtual void CalculateMatrix_FR();
+		virtual void CalculateMatrix_RT();
 
 		virtual void Flip();
 
 		virtual void Rendering(RenderingProperty& prop) = 0;
 
-		Vector3DF GetPosition_FR();
+		Vector3DF GetPosition_RT();
 
-		const Matrix44& GetMatrix_FR();
+		const Matrix44& GetMatrix_RT();
 
-		const Matrix44& GetLocalMatrix_FR();
+		const Matrix44& GetLocalMatrix_RT();
 
 		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
 	};

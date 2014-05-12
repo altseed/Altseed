@@ -11,12 +11,12 @@ namespace ace
 {
 	RenderedCameraObject3D::RenderedCameraObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
-		, m_depthBuffer_FR(nullptr)
+		, m_depthBuffer_RT(nullptr)
 		, m_postEffectRenderer(nullptr)
-		, m_renderTargetNormalDepth_FR(nullptr)
-		, m_renderTargetSSAO_FR(nullptr)
-		, m_renderTargetSSAO_temp_FR(nullptr)
-		, m_renderTargetShadow_FR(nullptr)
+		, m_renderTargetNormalDepth_RT(nullptr)
+		, m_renderTargetSSAO_RT(nullptr)
+		, m_renderTargetSSAO_temp_RT(nullptr)
+		, m_renderTargetShadow_RT(nullptr)
 	{
 		m_renderTarget_FR[0] = nullptr;
 		m_renderTarget_FR[1] = nullptr;
@@ -27,7 +27,7 @@ namespace ace
 		m_values.znear = 0.0f;
 
 		m_values.postEffectCount = 0;
-		m_values_FR.postEffectCount = 0;
+		m_values_RT.postEffectCount = 0;
 
 		m_postEffectRenderer = PostEffectRenderer::Create(graphics);
 	}
@@ -36,17 +36,17 @@ namespace ace
 	{
 		SafeRelease(m_renderTarget_FR[0]);
 		SafeRelease(m_renderTarget_FR[1]);
-		SafeRelease(m_depthBuffer_FR);
+		SafeRelease(m_depthBuffer_RT);
 
-		SafeRelease(m_renderTargetDiffuseColor_FR);
-		SafeRelease(m_renderTargetSpecularColor_Smoothness_FR);
-		SafeRelease(m_renderTargetNormalDepth_FR);
-		SafeRelease(m_renderTargetAO_MatID_FR);
+		SafeRelease(m_renderTargetDiffuseColor_RT);
+		SafeRelease(m_renderTargetSpecularColor_Smoothness_RT);
+		SafeRelease(m_renderTargetNormalDepth_RT);
+		SafeRelease(m_renderTargetAO_MatID_RT);
 
-		SafeRelease(m_renderTargetShadow_FR);
+		SafeRelease(m_renderTargetShadow_RT);
 
-		SafeRelease(m_renderTargetSSAO_FR);
-		SafeRelease(m_renderTargetSSAO_temp_FR);
+		SafeRelease(m_renderTargetSSAO_RT);
+		SafeRelease(m_renderTargetSSAO_temp_RT);
 
 		SafeRelease(m_postEffectRenderer);
 	}
@@ -55,38 +55,38 @@ namespace ace
 	{
 		RenderedObject3D::Flip();
 
-		if (m_values.size != m_values_FR.size)
+		if (m_values.size != m_values_RT.size)
 		{
-			m_values_FR.size = m_values.size;
+			m_values_RT.size = m_values.size;
 			SafeRelease(m_renderTarget_FR[0]);
 			SafeRelease(m_renderTarget_FR[1]);
-			SafeRelease(m_depthBuffer_FR);
+			SafeRelease(m_depthBuffer_RT);
 
-			m_renderTarget_FR[0] = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
-			m_renderTarget_FR[1] = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
-			m_depthBuffer_FR = GetGraphics()->CreateDepthBuffer_Imp(m_values_FR.size.X, m_values_FR.size.Y);
+			m_renderTarget_FR[0] = GetGraphics()->CreateRenderTexture2D_Imp(m_values_RT.size.X, m_values_RT.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTarget_FR[1] = GetGraphics()->CreateRenderTexture2D_Imp(m_values_RT.size.X, m_values_RT.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_depthBuffer_RT = GetGraphics()->CreateDepthBuffer_Imp(m_values_RT.size.X, m_values_RT.size.Y);
 
-			m_renderTargetDiffuseColor_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
-			m_renderTargetSpecularColor_Smoothness_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
-			m_renderTargetNormalDepth_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
-			m_renderTargetAO_MatID_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTargetDiffuseColor_RT = GetGraphics()->CreateRenderTexture2D_Imp(m_values_RT.size.X, m_values_RT.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTargetSpecularColor_Smoothness_RT = GetGraphics()->CreateRenderTexture2D_Imp(m_values_RT.size.X, m_values_RT.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTargetNormalDepth_RT = GetGraphics()->CreateRenderTexture2D_Imp(m_values_RT.size.X, m_values_RT.size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+			m_renderTargetAO_MatID_RT = GetGraphics()->CreateRenderTexture2D_Imp(m_values_RT.size.X, m_values_RT.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 
-			m_renderTargetSSAO_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
-			m_renderTargetSSAO_temp_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTargetSSAO_RT = GetGraphics()->CreateRenderTexture2D_Imp(m_values_RT.size.X, m_values_RT.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTargetSSAO_temp_RT = GetGraphics()->CreateRenderTexture2D_Imp(m_values_RT.size.X, m_values_RT.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 
-			m_renderTargetShadow_FR = GetGraphics()->CreateRenderTexture2D_Imp(m_values_FR.size.X, m_values_FR.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTargetShadow_RT = GetGraphics()->CreateRenderTexture2D_Imp(m_values_RT.size.X, m_values_RT.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 		}
 
-		m_values_FR.size = m_values.size;
-		m_values_FR.znear = m_values.znear;
-		m_values_FR.zfar = m_values.zfar;
-		m_values_FR.fov = m_values.fov;
-		m_values_FR.focus = m_values.focus;
-		m_values_FR.postEffectCount = m_values.postEffectCount;
+		m_values_RT.size = m_values.size;
+		m_values_RT.znear = m_values.znear;
+		m_values_RT.zfar = m_values.zfar;
+		m_values_RT.fov = m_values.fov;
+		m_values_RT.focus = m_values.focus;
+		m_values_RT.postEffectCount = m_values.postEffectCount;
 
-		m_postEffectCommands_FR.clear();
-		m_postEffectCommands_FR.resize(m_postEffectCommands.size());
-		std::copy(m_postEffectCommands.begin(), m_postEffectCommands.end(), m_postEffectCommands_FR.begin());
+		m_postEffectCommands_RT.clear();
+		m_postEffectCommands_RT.resize(m_postEffectCommands.size());
+		std::copy(m_postEffectCommands.begin(), m_postEffectCommands.end(), m_postEffectCommands_RT.begin());
 	}
 
 	void RenderedCameraObject3D::Rendering(RenderingProperty& prop)
@@ -185,48 +185,48 @@ namespace ace
 		return nullptr;
 	}
 
-	void RenderedCameraObject3D::CalculateMatrix_FR()
+	void RenderedCameraObject3D::CalculateMatrix_RT()
 	{
-		RenderedObject3D::CalculateMatrix_FR();
+		RenderedObject3D::CalculateMatrix_RT();
 
 		if (GetGraphics()->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
 		{
-			m_values_FR.projectionMatrix.SetPerspectiveFovRH(
-				m_values_FR.fov / 180.0f * 3.141592f,
-				(float) m_values_FR.size.X / (float) m_values_FR.size.Y,
-				m_values_FR.znear,
-				m_values_FR.zfar);
+			m_values_RT.projectionMatrix.SetPerspectiveFovRH(
+				m_values_RT.fov / 180.0f * 3.141592f,
+				(float) m_values_RT.size.X / (float) m_values_RT.size.Y,
+				m_values_RT.znear,
+				m_values_RT.zfar);
 		}
 		else
 		{
-			m_values_FR.projectionMatrix.SetPerspectiveFovRH_OpenGL(
-				m_values_FR.fov / 180.0f * 3.141592f,
-				(float) m_values_FR.size.X / (float) m_values_FR.size.Y,
-				m_values_FR.znear,
-				m_values_FR.zfar);
+			m_values_RT.projectionMatrix.SetPerspectiveFovRH_OpenGL(
+				m_values_RT.fov / 180.0f * 3.141592f,
+				(float) m_values_RT.size.X / (float) m_values_RT.size.Y,
+				m_values_RT.znear,
+				m_values_RT.zfar);
 		}
 		
-		auto pos = GetPosition_FR();
-		m_values_FR.cameraMatrix.SetLookAtRH(
+		auto pos = GetPosition_RT();
+		m_values_RT.cameraMatrix.SetLookAtRH(
 			pos,
-			m_values_FR.focus,
+			m_values_RT.focus,
 			Vector3DF(0, 1, 0));
 	}
 
-	void RenderedCameraObject3D::ApplyPostEffects_FR()
+	void RenderedCameraObject3D::ApplyPostEffects_RT()
 	{
-		for (auto& c : m_postEffectCommands_FR)
+		for (auto& c : m_postEffectCommands_RT)
 		{
 			m_postEffectRenderer->DrawOnTexture2DWithMaterialWithCommand(c);
 		}
 	}
 
-	RenderTexture2D_Imp* RenderedCameraObject3D::GetRenderTarget_FR()
+	RenderTexture2D_Imp* RenderedCameraObject3D::GetRenderTarget_RT()
 	{ 
-		return m_renderTarget_FR[m_values_FR.postEffectCount % 2]; 
+		return m_renderTarget_FR[m_values_RT.postEffectCount % 2]; 
 	}
 
-	RenderTexture2D_Imp* RenderedCameraObject3D::GetAffectedRenderTarget_FR()
+	RenderTexture2D_Imp* RenderedCameraObject3D::GetAffectedRenderTarget_RT()
 	{ 
 		return m_renderTarget_FR[0];
 	}
