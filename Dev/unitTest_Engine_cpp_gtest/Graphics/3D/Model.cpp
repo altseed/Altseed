@@ -1,51 +1,45 @@
 ﻿
-#include "../../EngineTest.h"
+#include "../../EngineGraphics3DTest.h"
 
-class Graphics_Model : public EngineTest
+class Graphics_Model : public EngineGraphics3DTest
 {
 	std::shared_ptr<ace::ModelObject3D> meshObj;
 public:
 
 	Graphics_Model(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("Model"), isOpenGLMode, 180)
+		EngineGraphics3DTest(ace::ToAString("Model"), isOpenGLMode, 60,true)
 	{}
 
 protected:
 	void OnStart() override
 	{
-		auto scene = std::make_shared<ace::Scene>();
-		auto layer = std::make_shared<ace::Layer3D>();
+		ace::RenderSettings settings;
+		settings.IsLightweightMode = true;
+		SetRenderSettings(settings);
+
+		EngineGraphics3DTest::OnStart();
+
 		meshObj = std::make_shared<ace::ModelObject3D>();
 		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
-		auto cameraObj = std::make_shared<ace::CameraObject3D>();
-
-		scene->AddLayer(layer);
-		layer->AddObject(meshObj);
-		layer->AddObject(lightObj);
-		layer->AddObject(cameraObj);
-		ace::Engine::ChangeScene(scene);
-
 
 		auto graphics = ace::Engine::GetGraphics();
 
 		auto model = graphics->CreateModel(ace::ToAString("Data/Model/out.mdl").c_str());
 
-		cameraObj->SetPosition(ace::Vector3DF(0, 0, 10));
-		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
-		cameraObj->SetFieldOfView(20.0f);
-		cameraObj->SetZNear(1.0f);
-		cameraObj->SetZFar(1000.0f);
-		cameraObj->SetWindowSize(ace::Vector2DI(800, 600));
-
-		ace::Matrix44 identity = ace::Matrix44();
 
 		meshObj->SetModel(model);
-		meshObj->SetRotation(ace::Vector3DF(0, 0, 0));
+		meshObj->SetPosition(ace::Vector3DF(5, 5, 0));
 		lightObj->SetRotation(ace::Vector3DF(180, 0, 0));
+
+		GetLayer3D()->AddObject(meshObj);
+		GetLayer3D()->AddObject(lightObj);
+
+		SetCameraParameter(10, 0, 0, 1, 20, 20);
 	}
 
 	void OnUpdating() override
 	{
+		EngineGraphics3DTest::OnUpdating();
 		auto rot = meshObj->GetRotation();
 		meshObj->SetRotation(rot + ace::Vector3DF(3, 0, 0));
 	}
