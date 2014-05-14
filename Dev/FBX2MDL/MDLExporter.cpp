@@ -282,7 +282,7 @@ void MDLExporter::AnalyzeCurve(std::string target,FbxAnimCurve* pCurve,Animation
 		time.GetTime(hour,minute,second,frame,field,residual,FbxTime::eFrames60);
 
 		KeyFrame keyFrame;
-		keyFrame.keyValue=ace::Vector2DF((hour * 60 * 60 * 60) + (minute * 60 * 60) + (second * 60) + frame,value);
+		keyFrame.keyValue=ace::Vector2DF(hour*60*60+minute*60+second+(float)frame/60,value);
 		keyFrame.leftPosition=keyFrame.keyValue;
 		keyFrame.rightPosition=keyFrame.keyValue;
 		keyFrame.interpolation=interpolation;
