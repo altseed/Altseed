@@ -137,6 +137,103 @@ ID3DBlob* NativeShader_Imp_DX11::CompilePixelShader(Graphics_Imp_DX11* g, const 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf)
+{
+	auto getBufferType = [](D3D11_SHADER_TYPE_DESC typeDesc, eConstantBufferFormat& format, int32_t& elements) -> void
+	{
+		elements = 1;
+
+		if (typeDesc.Class == D3D_SHADER_VARIABLE_CLASS::D3D10_SVC_SCALAR && typeDesc.Type == D3D_SHADER_VARIABLE_TYPE::D3D10_SVT_FLOAT)
+		{
+			if (typeDesc.Columns == 1) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
+		}
+
+		if (typeDesc.Class == D3D_SHADER_VARIABLE_CLASS::D3D_SVC_VECTOR && typeDesc.Type == D3D_SHADER_VARIABLE_TYPE::D3D10_SVT_FLOAT)
+		{
+			if (typeDesc.Columns == 2) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT2;
+			if (typeDesc.Columns == 3) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			if (typeDesc.Columns == 4) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
+		}
+
+		if (typeDesc.Class == D3D_SHADER_VARIABLE_CLASS::D3D_SVC_MATRIX_ROWS && typeDesc.Type == D3D_SHADER_VARIABLE_TYPE::D3D10_SVT_FLOAT)
+		{
+			if (typeDesc.Rows == 4 && typeDesc.Columns == 4)
+			{
+				if (typeDesc.Elements == 0) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
+				if (typeDesc.Elements > 0)
+				{
+					elements = typeDesc.Elements;
+					format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+				}
+			}
+		}
+	};
+	
+	auto getResourceType = [](D3D11_SHADER_INPUT_BIND_DESC bindDesc, eConstantBufferFormat& format, int32_t& bindPoint) -> bool
+	{
+		if (bindDesc.Type == D3D_SIT_TEXTURE && bindDesc.Dimension == D3D_SRV_DIMENSION_TEXTURE2D)
+		{
+			bindPoint = bindDesc.BindPoint;
+			return true;
+		}
+
+		return false;
+	};
+
+	ID3D11ShaderReflection*	reflection = nullptr;
+	D3DReflect(buf->GetBufferPointer(), buf->GetBufferSize(), IID_ID3D11ShaderReflection, (void**) &reflection);
+
+	D3D11_SHADER_DESC shaderDesc;
+	reflection->GetDesc(&shaderDesc);
+
+	for (int32_t i = 0; i < shaderDesc.BoundResources; i++)
+	{
+		D3D11_SHADER_INPUT_BIND_DESC bindDesc;
+		reflection->GetResourceBindingDesc(i, &bindDesc);
+
+		eConstantBufferFormat format;
+		int32_t bindPoint = 0;
+		if (!getResourceType(bindDesc, format, bindPoint)) continue;
+		auto name = bindDesc.Name;
+
+
+	}
+
+	for (int32_t i = 0; i < shaderDesc.ConstantBuffers; i++)
+	{
+		auto cbuf = reflection->GetConstantBufferByIndex(i);
+
+		D3D11_SHADER_BUFFER_DESC bufferDesc;
+		cbuf->GetDesc(&bufferDesc);
+		for (int32_t j = 0; j < bufferDesc.Variables; j++)
+		{
+			auto variable = cbuf->GetVariableByIndex(j);
+			if (variable == nullptr) continue;
+
+			auto type = variable->GetType();
+
+			D3D11_SHADER_TYPE_DESC typeDesc;
+			type->GetDesc(&typeDesc);
+
+			D3D11_SHADER_VARIABLE_DESC variableDesc;
+			variable->GetDesc(&variableDesc);
+			auto name = variableDesc.Name;
+			auto size = variableDesc.Size;
+			auto startOffset = variableDesc.StartOffset;
+
+			eConstantBufferFormat format;
+			int32_t elements = 0;
+			getBufferType(typeDesc, format, elements);
+		}
+
+	}
+
+	SafeRelease(reflection);
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 NativeShader_Imp_DX11::NativeShader_Imp_DX11(Graphics* graphics, ID3D11VertexShader* vertexShader, ID3D11PixelShader* pixelShader, ID3D11InputLayout* layout)
 	: NativeShader_Imp(graphics)
 	, m_vertexShader(vertexShader)
@@ -332,6 +429,9 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		decl.push_back(d);
 	}
 
+	Reflect(vertexShader);
+	Reflect(pixelShader);
+
 	hr = g->GetDevice()->CreateInputLayout(
 		&(decl[0]),
 		decl.size(),
@@ -349,6 +449,8 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		log->WriteLine(pixelShaderFileName);
 		goto End;
 	}
+
+	
 
 	return new NativeShader_Imp_DX11(
 		g,

@@ -26,6 +26,8 @@ namespace ace {
 		static ID3DBlob* CompileVertexShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 		static ID3DBlob* CompilePixelShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 
+		static void Reflect(ID3DBlob* buf);
+
 	protected:
 		void CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info);
 		void CreatePixelConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info);
