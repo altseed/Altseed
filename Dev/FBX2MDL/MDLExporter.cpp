@@ -14,12 +14,14 @@ MDLExporter::MDLExporter(const char* fileName){
 	lSdkManager->SetIOSettings(ios);
 
 	// Create an importer using the SDK manager.
-	FbxImporter* lImporter = FbxImporter::Create(lSdkManager, "");
+	
+	fbxsdk_2014_2_1::FbxImporter* lImporter = fbxsdk_2014_2_1::FbxImporter::Create(lSdkManager, "");
 
 	// Use the first argument as the filename for the importer.
 	if (!lImporter->Initialize(fileName, -1, lSdkManager->GetIOSettings())) {
 		printf("Call to FbxImporter::Initialize() failed.\n");
 		printf("Error returned: %s\n\n", lImporter->GetStatus().GetErrorString());
+		system("PAUSE");
 		exit(-1);
 	}
 
@@ -31,6 +33,7 @@ MDLExporter::MDLExporter(const char* fileName){
 
 	// The file is imported; so get rid of the importer.
 	lImporter->Destroy();
+
 
 	binaryWriter = new ace::BinaryWriter();
 
@@ -71,10 +74,8 @@ void MDLExporter::Convert()
 			{
 				AnimationSource animationSource;
 				FbxAnimStack *pStack = lScene->GetSrcObject<FbxAnimStack>(i);
-				for(int j=0;j<lRootNode->GetChildCount();++j)
-				{
-					AnimStackAnalyze(pStack,lRootNode->GetChild(j),animationSource);
-				}
+				lScene->SetCurrentAnimationStack(pStack);
+				AnimStackAnalyze(pStack,lRootNode,animationSource);
 				_animationSources.push_back(animationSource);
 			}
 		}
@@ -217,12 +218,11 @@ void MDLExporter::AnimStackAnalyze(FbxAnimStack* pStack, FbxNode *rootNode,Anima
 		FbxTime startTime = pStack->LocalStart;
 		FbxTime endTime = pStack->LocalStop;
 
-		AnimationSource animationSource;
 		animationSource.animationName=std::string(animationName);
 		animationSource.startTime=startTime;
 		animationSource.stopTime=endTime;
 
-		_animationSources.push_back(animationSource);
+		//_animationSources.push_back(animationSource);
 	}
 
 	for(int i=0;i<layerCount;++i)
@@ -235,7 +235,9 @@ void MDLExporter::AnimStackAnalyze(FbxAnimStack* pStack, FbxNode *rootNode,Anima
 
 void MDLExporter::GetMotion(FbxNode *parentNode,FbxNode* node,FbxAnimLayer* pLayer,AnimationSource &animationSource)
 {
-	if(node->GetNodeAttribute()->GetAttributeType()==FbxNodeAttribute::eSkeleton)
+	//assert(node->GetNodeAttribute());
+
+	if(node->GetNodeAttribute() && node->GetNodeAttribute()->GetAttributeType()==FbxNodeAttribute::eSkeleton)
 	{
 		GetSkeletonCurve(node,pLayer,animationSource);
 	}
@@ -280,7 +282,9 @@ void MDLExporter::AnalyzeCurve(std::string target,FbxAnimCurve* pCurve,Animation
 		time.GetTime(hour,minute,second,frame,field,residual,FbxTime::eFrames60);
 
 		KeyFrame keyFrame;
-		keyFrame.keyValue=ace::Vector2DF(value,(hour * 60 * 60 * 60) + (minute * 60 * 60) + (second * 60) + frame);
+		keyFrame.keyValue=ace::Vector2DF((hour * 60 * 60 * 60) + (minute * 60 * 60) + (second * 60) + frame,value);
+		keyFrame.leftPosition=keyFrame.keyValue;
+		keyFrame.rightPosition=keyFrame.keyValue;
 		keyFrame.interpolation=interpolation;
 		keyFrameAnimation.keyFrames.push_back(keyFrame);
 	}
