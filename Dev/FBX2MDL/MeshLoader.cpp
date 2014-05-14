@@ -157,9 +157,14 @@ ace::Vector2DF MeshLoader::_loadUV(FbxMesh* fbxMesh, int lControlPointIndex, int
 	return uv;
 }
 
-uint8_t* MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId)
+std::vector<uint8_t> MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId)
 {
-	uint8_t color[4]={0,0,0,0};
+	//uint8_t color[4]={0,0,0,0};
+	std::vector<uint8_t> color;
+	color.push_back(0);
+	color.push_back(0);
+	color.push_back(0);
+	color.push_back(0);
 
 	for (int l = 0; l < fbxMesh->GetElementVertexColorCount(); l++)
 	{
@@ -521,7 +526,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 
 			vertex=_baseVertices[lControlPointIndex];
 
-			uint8_t* color = _loadColor(fbxMesh,lControlPointIndex,vertexId);
+			std::vector<uint8_t> color = _loadColor(fbxMesh,lControlPointIndex,vertexId);
 
 			vertex.color[0]=color[0];
 			vertex.color[1]=color[1];
