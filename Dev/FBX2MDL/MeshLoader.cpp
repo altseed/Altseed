@@ -328,6 +328,9 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 		if(_vertices[i].color[0]==0&&_vertices[i].color[1]==0&&_vertices[i].color[2]==0&&_vertices[i].color[3]==0)
 		{
 			_vertices[i].color[0]=255;
+			_vertices[i].color[1]=255;
+			_vertices[i].color[2]=255;
+			_vertices[i].color[3]=255;
 		}
 
 		//í∏ì_ÉJÉâÅ[
