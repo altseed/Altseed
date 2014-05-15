@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../ace_cpp/common/Math/ace.Vector2DF.h"
+#include "../ace_cpp/common/Utility/ace.BinaryWriter.h"
+#include "fbxsdk.h"
 #include <vector>
 #include <string>
 
@@ -31,5 +33,7 @@ struct AnimationSource
 
 	FbxTime startTime;
 	FbxTime stopTime;
+
+	void WriteAnimationSource(ace::BinaryWriter *binaryWriter);
 };
 

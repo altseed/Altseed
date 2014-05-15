@@ -121,12 +121,21 @@ void MDLExporter::Convert()
 
 	{
 		//アニメーションソース
-		binaryWriter->Push(0);
+		binaryWriter->Push((int32_t)_animationSources.size());
+		for(int i=0;i<_animationSources.size();++i)
+		{
+			_animationSources[i].WriteAnimationSource(binaryWriter);
+		}
 	}
 
 	{
 		//アニメーションクリップ
-		binaryWriter->Push(0);
+		binaryWriter->Push((int32_t)_animationSources.size());
+		for(int i=0;i<_animationSources.size();++i)
+		{
+			binaryWriter->Push(ace::ToAString(_animationSources[i].animationName.c_str()));
+			binaryWriter->Push(i);
+		}
 	}
 
 
