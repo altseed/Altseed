@@ -28,6 +28,7 @@ namespace ace {
 
 		struct ConstantLayout
 		{
+			std::string				Name;
 			eConstantBufferFormat	Type;
 			GLint			ID;
 			int32_t			Offset;
@@ -43,6 +44,8 @@ namespace ace {
 
 		NativeShader_Imp_GL(Graphics* graphics, GLuint program, std::vector<Layout>& layout, int32_t vertexSize);
 		virtual ~NativeShader_Imp_GL();
+
+		static void Reflect(GLuint program, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<std::string>& textures);
 
 	protected:
 		void CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info);

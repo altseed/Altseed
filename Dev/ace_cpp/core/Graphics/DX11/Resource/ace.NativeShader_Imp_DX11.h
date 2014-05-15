@@ -23,10 +23,19 @@ namespace ace {
 		ID3D11Buffer*				m_constantBufferToVS;
 		ID3D11Buffer*				m_constantBufferToPS;
 
+		struct ConstantLayout
+		{
+			std::string				Name;
+			eConstantBufferFormat	Type;
+			//GLint			ID;
+			int32_t			Offset;
+			int32_t			Count;
+		};
+
 		static ID3DBlob* CompileVertexShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 		static ID3DBlob* CompilePixelShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 
-		static void Reflect(ID3DBlob* buf);
+		static void Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<std::string>& textures);
 
 	protected:
 		void CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info);

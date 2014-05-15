@@ -137,7 +137,7 @@ ID3DBlob* NativeShader_Imp_DX11::CompilePixelShader(Graphics_Imp_DX11* g, const 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf)
+void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<std::string>& textures)
 {
 	auto getBufferType = [](D3D11_SHADER_TYPE_DESC typeDesc, eConstantBufferFormat& format, int32_t& elements) -> void
 	{
@@ -180,6 +180,8 @@ void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf)
 		return false;
 	};
 
+	int32_t offset = 0;
+
 	ID3D11ShaderReflection*	reflection = nullptr;
 	D3DReflect(buf->GetBufferPointer(), buf->GetBufferSize(), IID_ID3D11ShaderReflection, (void**) &reflection);
 
@@ -196,7 +198,8 @@ void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf)
 		if (!getResourceType(bindDesc, format, bindPoint)) continue;
 		auto name = bindDesc.Name;
 
-
+		if (textures.size() <= bindPoint) textures.resize(bindPoint + 1);
+		textures[bindPoint] = name;
 	}
 
 	for (int32_t i = 0; i < shaderDesc.ConstantBuffers; i++)
@@ -224,11 +227,22 @@ void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf)
 			eConstantBufferFormat format;
 			int32_t elements = 0;
 			getBufferType(typeDesc, format, elements);
+
+			offset = Max(offset, startOffset + size);
+			ConstantLayout l;
+			l.Name = name;
+			l.Count = elements;
+			l.Offset = startOffset;
+			l.Type = format;
+
+			uniformLayouts.push_back(l);
 		}
 
 	}
 
 	SafeRelease(reflection);
+
+	uniformBufferSize = offset;
 }
 
 //----------------------------------------------------------------------------------
@@ -337,6 +351,13 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	ID3D11InputLayout* il = nullptr;
 	std::vector< D3D11_INPUT_ELEMENT_DESC> decl;
 
+	std::vector<ConstantLayout> vs_uniformLayouts;
+	int32_t vs_uniformBufferSize;
+	std::vector<std::string> vs_textures;
+
+	std::vector<ConstantLayout> ps_uniformLayouts;
+	int32_t ps_uniformBufferSize;
+	std::vector<std::string> ps_textures;
 
 	auto vertexShader = CompileVertexShader(
 		(Graphics_Imp_DX11*) graphics,
@@ -429,8 +450,8 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		decl.push_back(d);
 	}
 
-	Reflect(vertexShader);
-	Reflect(pixelShader);
+	Reflect(vertexShader, vs_uniformLayouts, vs_uniformBufferSize, vs_textures);
+	Reflect(pixelShader, ps_uniformLayouts, ps_uniformBufferSize, ps_textures);
 
 	hr = g->GetDevice()->CreateInputLayout(
 		&(decl[0]),

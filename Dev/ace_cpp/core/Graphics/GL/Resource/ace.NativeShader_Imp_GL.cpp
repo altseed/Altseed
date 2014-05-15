@@ -39,6 +39,75 @@ NativeShader_Imp_GL::~NativeShader_Imp_GL()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<std::string>& textures)
+{
+	int32_t uniformCount = 0;
+	glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &uniformCount);
+
+	uniformLayouts.resize(0);
+	int32_t offset = 0;
+
+	for (int32_t u = 0; u < uniformCount; u++)
+	{
+		char name[256];
+		int32_t nameLen = 0;
+		GLint size = 0;
+		GLenum type;
+		glGetActiveUniform(program, u, sizeof(name), &nameLen, &size, &type, name);
+
+		if (type == GL_SAMPLER_2D)
+		{
+			textures.push_back(name);
+		}
+		else
+		{
+			ConstantLayout l;
+			l.Name = name;
+			l.ID = glGetUniformLocation(program, name);
+			l.Offset = offset;
+			l.Count = size;
+
+			if (type == GL_FLOAT)
+			{
+				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
+				offset += sizeof(float) * 1 * l.Count;
+			}
+			else if (type == GL_FLOAT_VEC2)
+			{
+				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT2;
+				offset += sizeof(float) * 2 * l.Count;
+			}
+			else if (type == GL_FLOAT_VEC3)
+			{
+				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
+				offset += sizeof(float) * 3 * l.Count;
+			}
+			else if (type == GL_FLOAT_VEC4)
+			{
+				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
+				offset += sizeof(float) * 4 * l.Count;
+			}
+			else if (type == GL_FLOAT_MAT4)
+			{
+				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
+				offset += sizeof(float) * 4 * l.Count;
+			}
+			else
+			{
+				printf("unknown\n");
+				continue;
+			}
+
+			uniformLayouts.push_back(l);
+		}
+	}
+
+	uniformBufferSize = offset;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 void NativeShader_Imp_GL::CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
 {
 	m_vertexConstantLayouts.clear();
@@ -374,6 +443,11 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 	glDeleteShader(vs_shader);
 	glDeleteShader(ps_shader);
 
+	std::vector<ConstantLayout> uniformLayouts;
+	int32_t unifomBufferSize = 0;
+	std::vector<std::string> textures;
+	Reflect(program, uniformLayouts, unifomBufferSize, textures);
+
 	std::vector<Layout> layout_;
 	uint16_t byteOffset = 0;
 
@@ -420,6 +494,8 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 	}
 
 	GLCheckError();
+
+	
 
 	return new NativeShader_Imp_GL(graphics, program, layout_, byteOffset);
 }
