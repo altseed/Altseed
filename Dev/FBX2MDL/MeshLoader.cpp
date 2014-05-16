@@ -651,9 +651,9 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 
 		Face face;
 		face.materialIndex=lMatId;
-		face.vertexIndex[0]=cIndices[0];
+		face.vertexIndex[0]=cIndices[2];
 		face.vertexIndex[1]=cIndices[1];
-		face.vertexIndex[2]=cIndices[2];
+		face.vertexIndex[2]=cIndices[0];
 		_faces.push_back(face);
 
 	} // for polygonCount

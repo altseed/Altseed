@@ -288,14 +288,33 @@ void MDLExporter::AnalyzeCurve(std::string target,FbxAnimCurve* pCurve,Animation
 	{
 		float value = pCurve->KeyGetValue(i);
 		FbxTime time = pCurve->KeyGetTime(i);
-		int interpolation = pCurve->KeyGetInterpolation(i);
+		auto interpolation = pCurve->KeyGetInterpolation(i);
 		time.GetTime(hour,minute,second,frame,field,residual,FbxTime::eFrames60);
 
 		KeyFrame keyFrame;
-		keyFrame.keyValue=ace::Vector2DF(hour*60*60+minute*60+second+(float)frame/60,value);
+		keyFrame.keyValue=ace::Vector2DF(60*(hour*60*60+minute*60+second+(float)frame/60),value);
 		keyFrame.leftPosition=keyFrame.keyValue;
 		keyFrame.rightPosition=keyFrame.keyValue;
-		keyFrame.interpolation=interpolation;
+
+		switch(interpolation)
+		{
+		case fbxsdk_2014_2_1::FbxAnimCurveDef::eInterpolationConstant:
+			{
+				keyFrame.interpolation=1;
+			}
+			break;
+		case fbxsdk_2014_2_1::FbxAnimCurveDef::eInterpolationLinear:
+			{
+				keyFrame.interpolation=2;
+			}
+			break;
+		case fbxsdk_2014_2_1::FbxAnimCurveDef::eInterpolationCubic:
+			{
+				keyFrame.interpolation=3;
+			}
+			break;
+		}
+
 		keyFrameAnimation.keyFrames.push_back(keyFrame);
 	}
 	animationSource.keyFrameAnimations.push_back(keyFrameAnimation);
