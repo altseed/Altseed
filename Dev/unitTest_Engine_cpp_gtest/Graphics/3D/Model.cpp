@@ -3,7 +3,6 @@
 
 class Graphics_Model : public EngineGraphics3DTest
 {
-	std::shared_ptr<ace::ModelObject3D> meshObj;
 public:
 
 	Graphics_Model(bool isOpenGLMode) :
@@ -11,6 +10,9 @@ public:
 	{}
 
 protected:
+	std::shared_ptr<ace::ModelObject3D> meshObj;
+
+
 	void OnStart() override
 	{
 		ace::RenderSettings settings;

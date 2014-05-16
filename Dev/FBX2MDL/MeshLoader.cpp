@@ -161,10 +161,10 @@ std::vector<uint8_t> MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIn
 {
 	//uint8_t color[4]={0,0,0,0};
 	std::vector<uint8_t> color;
-	color.push_back(0);
-	color.push_back(0);
-	color.push_back(0);
-	color.push_back(0);
+	color.push_back(255);
+	color.push_back(255);
+	color.push_back(255);
+	color.push_back(255);
 
 	for (int l = 0; l < fbxMesh->GetElementVertexColorCount(); l++)
 	{
