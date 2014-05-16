@@ -289,6 +289,7 @@ namespace ace
 		{
 			auto keyframeanimation = LoadKeyframeAnimation(reader);
 			source->AddAnimation(keyframeanimation);
+			keyframeanimation->Release();
 		}
 
 		return source;
