@@ -6,7 +6,7 @@ class Graphics_Model : public EngineGraphics3DTest
 public:
 
 	Graphics_Model(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("Model"), isOpenGLMode, 60,true)
+		EngineGraphics3DTest(ace::ToAString("Model"), isOpenGLMode, 6000,true)
 	{}
 
 protected:
@@ -30,13 +30,13 @@ protected:
 
 
 		meshObj->SetModel(model);
-		meshObj->SetPosition(ace::Vector3DF(5, 5, 0));
+		meshObj->SetPosition(ace::Vector3DF(0, 0, 0));
 		lightObj->SetRotation(ace::Vector3DF(180, 0, 0));
 
 		GetLayer3D()->AddObject(meshObj);
 		GetLayer3D()->AddObject(lightObj);
 
-		SetCameraParameter(10, 0, 0, 1, 20, 20);
+		SetCameraParameter(20, 0, 0, 1, 40, 20);
 	}
 
 	void OnUpdating() override
