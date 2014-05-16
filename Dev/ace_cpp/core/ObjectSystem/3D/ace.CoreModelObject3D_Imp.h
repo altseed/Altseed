@@ -31,6 +31,8 @@ namespace ace
 
 		void SetDeformer(int32_t meshGroupIndex, Deformer* deformer) override;
 
+		void PlayAnimation(const achar* name) override;
+
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MESH; }
 
 

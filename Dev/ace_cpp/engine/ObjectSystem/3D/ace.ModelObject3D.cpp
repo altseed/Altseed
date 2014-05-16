@@ -40,4 +40,9 @@ namespace ace
 	{
 		m_coreObject->SetDeformer(meshGroupIndex, deformer.get());
 	}
+
+	void ModelObject3D::PlayAnimation(const achar* name)
+	{
+		m_coreObject->PlayAnimation(name);
+	}
 }

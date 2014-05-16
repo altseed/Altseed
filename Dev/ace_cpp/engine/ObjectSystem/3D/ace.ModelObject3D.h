@@ -64,5 +64,11 @@ namespace ace
 		@param	deformer	デフォーマー
 		*/
 		void SetDeformer(int32_t meshGroupIndex, std::shared_ptr<Deformer> deformer);
+
+		/**
+		@brief	アニメーションを再生する。
+		@param	name	アニメーションの名称
+		*/
+		void PlayAnimation(const achar* name);
 	};
 }
