@@ -22,5 +22,7 @@ namespace ace
 		virtual void AddMesh(int32_t meshGroupIndex, Mesh* mesh) = 0;
 
 		virtual void SetDeformer(int32_t meshGroupIndex, Deformer* deformer) = 0;
+
+		virtual void PlayAnimation(const achar* name) = 0;
 	};
 }

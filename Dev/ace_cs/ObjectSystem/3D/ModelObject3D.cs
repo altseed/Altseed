@@ -75,5 +75,14 @@ namespace ace
 		{
 			coreObject.SetDeformer(meshGroupIndex, deformer.SwigObject);
 		}
+
+		/// <summary>
+		/// アニメーションを再生する。
+		/// </summary>
+		/// <param name="name">アニメーションの名称</param>
+		public void PlayAnimation(string name)
+		{
+			coreObject.PlayAnimation(name);
+		}
 	}
 }
