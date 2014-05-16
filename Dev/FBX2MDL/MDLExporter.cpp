@@ -74,8 +74,10 @@ void MDLExporter::Convert()
 			{
 				AnimationSource animationSource;
 				FbxAnimStack *pStack = lScene->GetSrcObject<FbxAnimStack>(i);
+
 				lScene->SetCurrentAnimationStack(pStack);
 				AnimStackAnalyze(pStack,lRootNode,animationSource);
+
 				_animationSources.push_back(animationSource);
 			}
 		}
@@ -121,11 +123,11 @@ void MDLExporter::Convert()
 
 	{
 		//アニメーションソース
-		binaryWriter->Push((int32_t)_animationSources.size());
-		for(int i=0;i<_animationSources.size();++i)
-		{
-			_animationSources[i].WriteAnimationSource(binaryWriter);
-		}
+        binaryWriter->Push((int32_t)_animationSources.size());
+        for(int i=0;i<_animationSources.size();++i)
+        {
+            _animationSources[i].WriteAnimationSource(binaryWriter);
+        }
 	}
 
 	{
@@ -230,8 +232,6 @@ void MDLExporter::AnimStackAnalyze(FbxAnimStack* pStack, FbxNode *rootNode,Anima
 		animationSource.animationName=std::string(animationName);
 		animationSource.startTime=startTime;
 		animationSource.stopTime=endTime;
-
-		//_animationSources.push_back(animationSource);
 	}
 
 	for(int i=0;i<layerCount;++i)
@@ -247,6 +247,7 @@ void MDLExporter::GetMotion(FbxNode *parentNode,FbxNode* node,FbxAnimLayer* pLay
 	//assert(node->GetNodeAttribute());
 
 	if(node->GetNodeAttribute() && node->GetNodeAttribute()->GetAttributeType()==FbxNodeAttribute::eSkeleton)
+
 	{
 		GetSkeletonCurve(node,pLayer,animationSource);
 	}
