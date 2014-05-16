@@ -37,6 +37,10 @@ class MeshLoader
 	std::vector<Vertex> _baseVertices;
 	std::vector<Vertex> _vertices;
 	std::vector<Face> _faces;
+	std::vector<FacialMaterial> _facialMaterials;
+
+	int faceContinue;
+	int preFaceIndex;
 
 
 	void _loadPositions(FbxMesh* fbxMesh);
@@ -63,7 +67,7 @@ public:
 	void Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGroup> &meshGroups);
 	void WriteVertices(ace::BinaryWriter* writer);
 	void WriteFaces(ace::BinaryWriter* writer);
-	void WriteFaceMaterials(ace::BinaryWriter* writer,int materialIndex);
+	void WriteFaceMaterials(ace::BinaryWriter* writer);
 	void WriteBoneAttachments(ace::BinaryWriter* writer);
 	void WriteMaterials(ace::BinaryWriter* writer);
 

@@ -3,7 +3,8 @@
 
 MeshLoader::MeshLoader()
 {
-
+	faceContinue=0;
+	preFaceIndex=0;
 }
 
 std::vector<Vertex> MeshLoader::GetVertices()
@@ -326,7 +327,7 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 
 		writer->Push(_vertices[i].uv);
 		writer->Push(_vertices[i].subuv);
-
+		/*
 		if(_vertices[i].color[0]==0&&_vertices[i].color[1]==0&&_vertices[i].color[2]==0&&_vertices[i].color[3]==0)
 		{
 			_vertices[i].color[0]=255;
@@ -334,6 +335,7 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 			_vertices[i].color[2]=255;
 			_vertices[i].color[3]=255;
 		}
+		*/
 
 		//頂点カラー
 		writer->Push(static_cast<uint8_t>(_vertices[i].color[0]));
@@ -396,13 +398,14 @@ void MeshLoader::_loadBoneAttachments(FbxMesh* fbxMesh)
 
 }
 
-void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer,int materialIndex)
+void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer)
 {
-	printf("MI=%d\n",materialIndex);
-	printf("FS=%d\n",_faces.size());
-	writer->Push((int32_t)1);
-	writer->Push((int32_t)materialIndex);
-	writer->Push((int32_t)_faces.size());
+	writer->Push((int32_t)_facialMaterials.size());
+	for(int i=0;i<_facialMaterials.size();++i)
+	{
+		writer->Push((int32_t)_facialMaterials[i].materialIndex);
+		writer->Push((int32_t)_facialMaterials[i].faceNum);
+	}
 }
 
 void MeshLoader::WriteBoneAttachments(ace::BinaryWriter* writer)
@@ -426,7 +429,8 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 
 	const char* mats[3]={FbxSurfaceMaterial::sDiffuse,FbxSurfaceMaterial::sNormalMap,FbxSurfaceMaterial::sSpecular};
 
-	for (int i = 0; i < materialCount; i++) {
+	for (int i = 0; i < materialCount; i++) 
+	{
 
 		FbxSurfaceMaterial* material = node->GetMaterial(i);
 		Material mat;
@@ -437,9 +441,11 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 
 			int layeredTextureCount = prop.GetSrcObjectCount<FbxLayeredTexture>();
 
-			if(0 < layeredTextureCount) {
+			if(0 < layeredTextureCount) 
+			{
 
-				for(int j = 0; layeredTextureCount > j; j++) {
+				for(int j = 0; layeredTextureCount > j; j++) 
+				{
 
 					FbxLayeredTexture* layeredTexture = prop.GetSrcObject<FbxLayeredTexture>(j);
 					int textureCount = layeredTexture->GetSrcObjectCount<FbxFileTexture>();
@@ -464,7 +470,8 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 				//--- テクスチャ数を取得 ---//
 				int fileTextureCount = prop.GetSrcObjectCount<FbxFileTexture>();
 
-				if(0 < fileTextureCount) {
+				if(0 < fileTextureCount) 
+				{
 					for(int j = 0; fileTextureCount > j; j++) {
 						FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(j);
 						if(texture) {
@@ -647,7 +654,27 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			lMatId = lMaterialElement->GetIndexArray().GetAt(0);
 		}
 
-		printf("Material id:%d\n", lMatId);
+		printf("Matid=%d\n",lMatId);
+
+		if(i==0)
+		{
+			preFaceIndex = lMatId;
+		}
+		else if(i==lPolygonCount-1)
+		{
+			_facialMaterials.push_back(FacialMaterial(preFaceIndex,faceContinue+2));
+		}
+		else if(preFaceIndex==lMatId)
+		{
+			++faceContinue;
+		}
+		else
+		{
+			_facialMaterials.push_back(FacialMaterial(preFaceIndex,faceContinue+1));
+			faceContinue=0;
+		}
+
+		preFaceIndex=lMatId;
 
 		Face face;
 		face.materialIndex=lMatId;
@@ -657,4 +684,11 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 		_faces.push_back(face);
 
 	} // for polygonCount
+
+	{
+		for(int i=0;i<_facialMaterials.size();++i)
+		{
+			printf("%d %d\n",_facialMaterials[i].faceNum,_facialMaterials[i].materialIndex);
+		}
+	}
 }

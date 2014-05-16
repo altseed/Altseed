@@ -110,7 +110,7 @@ void MDLExporter::Convert()
 			{
 				meshGroup.meshLoaders[j].WriteVertices(binaryWriter);
 				meshGroup.meshLoaders[j].WriteFaces(binaryWriter);
-				meshGroup.meshLoaders[j].WriteFaceMaterials(binaryWriter,j);
+				meshGroup.meshLoaders[j].WriteFaceMaterials(binaryWriter);
 				meshGroup.meshLoaders[j].WriteBoneAttachments(binaryWriter);
 			}
 			//É{Å[Éì

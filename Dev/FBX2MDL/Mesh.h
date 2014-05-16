@@ -43,6 +43,12 @@ struct FacialMaterial
 {
 	int materialIndex;
 	int faceNum;
+
+	FacialMaterial(int materialindex,int facenum)
+	{
+		materialIndex=materialindex;
+		faceNum = facenum;
+	}
 };
 
 struct BoneAttachment
