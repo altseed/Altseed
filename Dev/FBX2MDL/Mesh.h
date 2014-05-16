@@ -36,6 +36,7 @@ struct Vertex
 struct Face
 {
 	int vertexIndex[3];
+	int materialIndex;
 };
 
 struct FacialMaterial

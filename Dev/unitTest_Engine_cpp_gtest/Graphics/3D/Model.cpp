@@ -3,6 +3,7 @@
 
 class Graphics_Model : public EngineGraphics3DTest
 {
+
 public:
 
 	Graphics_Model(bool isOpenGLMode) :
@@ -28,7 +29,6 @@ protected:
 
 		auto model = graphics->CreateModel(ace::ToAString("Data/Model/out.mdl").c_str());
 
-
 		meshObj->SetModel(model);
 		meshObj->SetPosition(ace::Vector3DF(0, 0, 0));
 		lightObj->SetRotation(ace::Vector3DF(180, 0, 0));
@@ -44,6 +44,7 @@ protected:
 		EngineGraphics3DTest::OnUpdating();
 		auto rot = meshObj->GetRotation();
 		meshObj->SetRotation(rot + ace::Vector3DF(3, 0, 0));
+
 	}
 
 
