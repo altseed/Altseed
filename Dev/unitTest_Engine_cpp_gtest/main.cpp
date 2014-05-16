@@ -47,7 +47,7 @@ int main(int argc, char **argv)
 	GetDirectoryName(current_path, argv[0]);
 	SetCurrentDirectoryA(current_path);
 #endif
-	::testing::InitGoogleTest(&argc, argv);
+	//::testing::InitGoogleTest(&argc, argv);
 
 	//Graphics_SimpleMesh_(true);
 	//return 0;
@@ -61,6 +61,10 @@ int main(int argc, char **argv)
 
 	//Graphics_Effect3D_(false);
 	//return 0;
+
+	Graphics_Model_(false);
+	system("pause");
+	return 0;
 
 	auto result = RUN_ALL_TESTS();
 

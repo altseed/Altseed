@@ -37,13 +37,15 @@ protected:
 		GetLayer3D()->AddObject(lightObj);
 
 		SetCameraParameter(20, 0, 0, 1, 40, 20);
+
+		meshObj->SetPosition(ace::Vector3DF(0, 0, -20));
+		meshObj->PlayAnimation(ace::ToAString("anime1").c_str());
+		
 	}
 
 	void OnUpdating() override
 	{
-		EngineGraphics3DTest::OnUpdating();
-		auto rot = meshObj->GetRotation();
-		meshObj->SetRotation(rot + ace::Vector3DF(3, 0, 0));
+
 
 	}
 

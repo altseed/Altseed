@@ -305,7 +305,7 @@ void MeshLoader::Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGrou
 
 	_loadTextures(fbxMesh);
 
-	_loadFaceMaterials(fbxMesh);
+	//_loadFaceMaterials(fbxMesh);
 }
 
 void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
@@ -639,12 +639,15 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			lMaterial = fbxMesh->GetNode()->GetMaterial(lMaterialElement->GetIndexArray().GetAt(i));
 
 			lMatId = lMaterialElement->GetIndexArray().GetAt(i);
-
-			if(lMatId >= 0)
-			{
-				printf("Material id:%d\n", lMatId);
-			}
 		}
+		else
+		{
+			FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial( 0);
+			FbxSurfaceMaterial* lMaterial = fbxMesh->GetNode()->GetMaterial(lMaterialElement->GetIndexArray().GetAt(0));    
+			lMatId = lMaterialElement->GetIndexArray().GetAt(0);
+		}
+
+		printf("Material id:%d\n", lMatId);
 
 		Face face;
 		face.materialIndex=lMatId;
