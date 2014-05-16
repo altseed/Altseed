@@ -660,7 +660,7 @@ namespace ace
 						auto& state = GetGraphics()->GetRenderState()->Push();
 						state.DepthTest = true;
 						state.DepthWrite = true;
-						state.CullingType = CULLING_FRONT;
+						state.CullingType = eCullingType::CULLING_FRONT;
 						state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
 
 						GetGraphics()->GetRenderState()->Update(false);
