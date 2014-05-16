@@ -525,7 +525,6 @@ void MeshLoader::_loadFaceMaterials(FbxMesh* fbxMesh)
 		printf("not share all\n");
 		for (int i = 0; i < lPolygonCount; i++)
 		{
-
 			for (int l = 0; l < fbxMesh->GetElementMaterialCount(); l++)
 			{
 
@@ -533,11 +532,6 @@ void MeshLoader::_loadFaceMaterials(FbxMesh* fbxMesh)
 				FbxSurfaceMaterial* lMaterial = NULL;
 				int lMatId = -1;
 				lMaterial = fbxMesh->GetNode()->GetMaterial(lMaterialElement->GetIndexArray().GetAt(i));
-
-				for(int j=0;j<3;++j)
-				{
-
-				}
 
 				lMatId = lMaterialElement->GetIndexArray().GetAt(i);
 
@@ -578,6 +572,18 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 	}
 
 	vertexId=0;
+
+	bool lIsAllSame = true;
+	for (int l = 0; l < fbxMesh->GetElementMaterialCount(); l++)
+	{
+
+		FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial(l);
+		if( lMaterialElement->GetMappingMode() == FbxGeometryElement::eByPolygon) 
+		{
+			lIsAllSame = false;
+			break;
+		}
+	}
 
 	for (int i = 0; i < lPolygonCount; i++)
 	{
@@ -626,8 +632,24 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			vertexId++;
 		} // for polygonSize
 
+		int lMatId = -1;
+		if(!lIsAllSame)
+		{
+			FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial(0);
+			FbxSurfaceMaterial* lMaterial = NULL;
+
+			lMaterial = fbxMesh->GetNode()->GetMaterial(lMaterialElement->GetIndexArray().GetAt(i));
+
+			lMatId = lMaterialElement->GetIndexArray().GetAt(i);
+
+			if(lMatId >= 0)
+			{
+				printf("Material id:%d\n", lMatId);
+			}
+		}
 
 		Face face;
+		face.materialIndex=lMatId;
 		face.vertexIndex[0]=cIndices[0];
 		face.vertexIndex[1]=cIndices[1];
 		face.vertexIndex[2]=cIndices[2];
