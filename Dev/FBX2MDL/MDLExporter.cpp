@@ -71,10 +71,8 @@ void MDLExporter::Convert()
 			{
 				AnimationSource animationSource;
 				FbxAnimStack *pStack = lScene->GetSrcObject<FbxAnimStack>(i);
-				for(int j=0;j<lRootNode->GetChildCount();++j)
-				{
-					AnimStackAnalyze(pStack,lRootNode->GetChild(j),animationSource);
-				}
+                lScene->SetCurrentAnimationStack(pStack);
+                AnimStackAnalyze(pStack,lRootNode,animationSource);
 				_animationSources.push_back(animationSource);
 			}
 		}
@@ -120,12 +118,23 @@ void MDLExporter::Convert()
 
 	{
 		//アニメーションソース
-		binaryWriter->Push(0);
+        binaryWriter->Push((int32_t)_animationSources.size());
+        for(int i=0;i<_animationSources.size();++i)
+        {
+            _animationSources[i].WriteAnimationSource(binaryWriter);
+        }
+
 	}
 
 	{
 		//アニメーションクリップ
-		binaryWriter->Push(0);
+        binaryWriter->Push((int32_t)_animationSources.size());
+        for(int i=0;i<_animationSources.size();++i)
+        {
+            binaryWriter->Push(ace::ToAString(_animationSources[i].animationName.c_str()));
+            binaryWriter->Push(i);
+        }
+
 	}
 
 
@@ -221,8 +230,6 @@ void MDLExporter::AnimStackAnalyze(FbxAnimStack* pStack, FbxNode *rootNode,Anima
 		animationSource.animationName=std::string(animationName);
 		animationSource.startTime=startTime;
 		animationSource.stopTime=endTime;
-
-		_animationSources.push_back(animationSource);
 	}
 
 	for(int i=0;i<layerCount;++i)
@@ -235,7 +242,8 @@ void MDLExporter::AnimStackAnalyze(FbxAnimStack* pStack, FbxNode *rootNode,Anima
 
 void MDLExporter::GetMotion(FbxNode *parentNode,FbxNode* node,FbxAnimLayer* pLayer,AnimationSource &animationSource)
 {
-	if(node->GetNodeAttribute()->GetAttributeType()==FbxNodeAttribute::eSkeleton)
+    if(node->GetNodeAttribute() && node->GetNodeAttribute()->GetAttributeType()==FbxNodeAttribute::eSkeleton)
+
 	{
 		GetSkeletonCurve(node,pLayer,animationSource);
 	}
@@ -280,7 +288,7 @@ void MDLExporter::AnalyzeCurve(std::string target,FbxAnimCurve* pCurve,Animation
 		time.GetTime(hour,minute,second,frame,field,residual,FbxTime::eFrames60);
 
 		KeyFrame keyFrame;
-		keyFrame.keyValue=ace::Vector2DF(value,(hour * 60 * 60 * 60) + (minute * 60 * 60) + (second * 60) + frame);
+        keyFrame.keyValue=ace::Vector2DF(hour*60*60+minute*60+second+(float)frame/60,value);
 		keyFrame.interpolation=interpolation;
 		keyFrameAnimation.keyFrames.push_back(keyFrame);
 	}

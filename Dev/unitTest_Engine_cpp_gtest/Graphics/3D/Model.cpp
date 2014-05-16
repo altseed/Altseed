@@ -1,9 +1,11 @@
 ﻿
 #include "../../EngineTest.h"
+//#include "../../../ace_cpp/core/Graphics/Common/3D/ace.RenderedModelObject3D.h"
 
 class Graphics_Model : public EngineTest
 {
 	std::shared_ptr<ace::ModelObject3D> meshObj;
+	
 public:
 
 	Graphics_Model(bool isOpenGLMode) :
@@ -30,14 +32,14 @@ protected:
 
 		auto model = graphics->CreateModel(ace::ToAString("Data/Model/out.mdl").c_str());
 
-		cameraObj->SetPosition(ace::Vector3DF(0, 0, 10));
-		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
+		const ace::Vector3DF origin = ace::Vector3DF(0, 0, 0);
+
+		cameraObj->SetPosition(ace::Vector3DF(0, 0, 30));
+		cameraObj->SetFocus(origin);
 		cameraObj->SetFieldOfView(20.0f);
 		cameraObj->SetZNear(1.0f);
 		cameraObj->SetZFar(1000.0f);
 		cameraObj->SetWindowSize(ace::Vector2DI(800, 600));
-
-		ace::Matrix44 identity = ace::Matrix44();
 
 		meshObj->SetModel(model);
 		meshObj->SetRotation(ace::Vector3DF(0, 0, 0));
@@ -46,8 +48,7 @@ protected:
 
 	void OnUpdating() override
 	{
-		auto rot = meshObj->GetRotation();
-		meshObj->SetRotation(rot + ace::Vector3DF(3, 0, 0));
+
 	}
 
 

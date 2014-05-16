@@ -89,6 +89,7 @@
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DI.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector3DF.cpp" />
     <ClCompile Include="..\ace_cpp\common\Math\ace.Vector4DF.cpp" />
+    <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Deformer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MDLExporter.cpp" />

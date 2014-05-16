@@ -44,7 +44,7 @@ class MeshLoader
 	ace::Vector3DF _loadNormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
 	ace::Vector3DF _loadBinormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
 	ace::Vector2DF _loadUV(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId,int polygonCount,int polygonVert);
-	uint8_t* _loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
+	std::vector<uint8_t> _loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
 	void _loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<MeshGroup> &meshGroups);
 	void _loadVertices(FbxMesh* fbxMesh);
 	void _loadFaceIndices(FbxMesh* fbxMesh);

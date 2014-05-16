@@ -157,9 +157,13 @@ ace::Vector2DF MeshLoader::_loadUV(FbxMesh* fbxMesh, int lControlPointIndex, int
 	return uv;
 }
 
-uint8_t* MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId)
+std::vector<uint8_t> MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId)
 {
-	uint8_t color[4]={0,0,0,0};
+	std::vector<uint8_t> color;
+	color.push_back(255);
+	color.push_back(255);
+	color.push_back(255);
+	color.push_back(255);
 
 	for (int l = 0; l < fbxMesh->GetElementVertexColorCount(); l++)
 	{
@@ -279,6 +283,7 @@ void MeshLoader::_loadFaceIndices(FbxMesh* fbxMesh)
 
 	Face face;
 	int faceIndexer=0;
+
 	for(int i=0;i<PolygonVertexNum;++i)
 	{
 		face.vertexIndex[faceIndexer++]=IndexAry[i];
@@ -299,6 +304,8 @@ void MeshLoader::Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGrou
 	_loadVertices(fbxMesh);
 
 	_loadTextures(fbxMesh);
+
+	_loadFaceMaterials(fbxMesh);
 }
 
 void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
@@ -320,6 +327,16 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 		writer->Push(_vertices[i].uv);
 		writer->Push(_vertices[i].subuv);
 
+		if(_vertices[i].color[0]==0&&_vertices[i].color[1]==0&&_vertices[i].color[2]==0&&_vertices[i].color[3]==0)
+		{
+			_vertices[i].color[0]=255;
+			_vertices[i].color[1]=255;
+			_vertices[i].color[2]=255;
+			_vertices[i].color[3]=255;
+		}
+
+
+
 		//頂点カラー
 		writer->Push(static_cast<uint8_t>(_vertices[i].color[0]));
 		writer->Push(static_cast<uint8_t>(_vertices[i].color[1]));
@@ -327,7 +344,7 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 		writer->Push(static_cast<uint8_t>(_vertices[i].color[3]));
 
 		//頂点ウェイト
-		
+
 		uint8_t biggest=0;
 		int biggestIndex=0;
 		int sum=0;
@@ -363,7 +380,7 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 
 void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
 {
-	
+
 	writer->Push((int32_t) _faces.size());
 	for (auto ite = _faces.begin(); ite != _faces.end(); ++ite)
 	{
@@ -372,11 +389,6 @@ void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
 			writer->Push((int32_t) ite->vertexIndex[i]);
 		}
 	}
-	
-}
-
-void MeshLoader::_loadFaceMaterials(FbxMesh* fbxMesh)
-{
 
 }
 
@@ -398,14 +410,14 @@ void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer,int materialIndex)
 void MeshLoader::WriteBoneAttachments(ace::BinaryWriter* writer)
 {
 	//writer->Push((int32_t)0);
-	
+
 	writer->Push((int32_t)1);
 	for(int i=0;i<32;++i)
 	{
 		writer->Push(static_cast<uint8_t>(i));
 	}
 	writer->Push(static_cast<int>(_faces.size()));
-	
+
 }
 
 void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
@@ -416,7 +428,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 
 	const char* mats[3]={FbxSurfaceMaterial::sDiffuse,FbxSurfaceMaterial::sNormalMap,FbxSurfaceMaterial::sSpecular};
 
-	for (int i = 0; materialCount > i; i++) {
+	for (int i = 0; i < materialCount; i++) {
 
 		FbxSurfaceMaterial* material = node->GetMaterial(i);
 		Material mat;
@@ -474,6 +486,71 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 	}
 }
 
+void MeshLoader::_loadFaceMaterials(FbxMesh* fbxMesh)
+{
+	int lPolygonCount = fbxMesh->GetPolygonCount();
+
+
+	bool lIsAllSame = true;
+	for (int l = 0; l < fbxMesh->GetElementMaterialCount(); l++)
+	{
+
+		FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial(l);
+		if( lMaterialElement->GetMappingMode() == FbxGeometryElement::eByPolygon) 
+		{
+			lIsAllSame = false;
+			break;
+		}
+	}
+
+	if(lIsAllSame)
+	{
+		printf("share all\n");
+		for (int l = 0; l < fbxMesh->GetElementMaterialCount(); l++)
+		{
+
+			FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial( l);
+			if( lMaterialElement->GetMappingMode() == FbxGeometryElement::eAllSame) 
+			{
+				FbxSurfaceMaterial* lMaterial = fbxMesh->GetNode()->GetMaterial(lMaterialElement->GetIndexArray().GetAt(0));    
+				int lMatId = lMaterialElement->GetIndexArray().GetAt(0);
+
+
+			}
+		}
+	}
+	else
+	{
+
+		printf("not share all\n");
+		for (int i = 0; i < lPolygonCount; i++)
+		{
+
+			for (int l = 0; l < fbxMesh->GetElementMaterialCount(); l++)
+			{
+
+				FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial( l);
+				FbxSurfaceMaterial* lMaterial = NULL;
+				int lMatId = -1;
+				lMaterial = fbxMesh->GetNode()->GetMaterial(lMaterialElement->GetIndexArray().GetAt(i));
+
+				for(int j=0;j<3;++j)
+				{
+
+				}
+
+				lMatId = lMaterialElement->GetIndexArray().GetAt(i);
+
+				if(lMatId >= 0)
+				{
+					//printf("id:%d l:%d\n", lMatId, l);
+				}
+
+			}
+		}
+	}
+}
+
 void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 {
 	int lPolygonCount = fbxMesh->GetPolygonCount();
@@ -516,7 +593,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 
 			vertex=_baseVertices[lControlPointIndex];
 
-			uint8_t* color = _loadColor(fbxMesh,lControlPointIndex,vertexId);
+			std::vector<uint8_t> color = _loadColor(fbxMesh,lControlPointIndex,vertexId);
 
 			vertex.color[0]=color[0];
 			vertex.color[1]=color[1];
@@ -524,6 +601,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			vertex.color[3]=color[3];
 
 			vertex.uv = _loadUV(fbxMesh,lControlPointIndex,vertexId,i,j);
+			vertex.uv.Y=1-vertex.uv.Y;
 			int index = -1;
 			for(int k=0;k<_vertices.size();++k)
 			{
@@ -548,7 +626,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			vertexId++;
 		} // for polygonSize
 
-		
+
 		Face face;
 		face.vertexIndex[0]=cIndices[0];
 		face.vertexIndex[1]=cIndices[1];
