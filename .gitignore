@@ -64,6 +64,8 @@ build/
 *.tlog
 *.idb
 *.lastbuildstate
+*.blend1
+*.blend2
 
 # Visual C++ cache files
 ipch/
