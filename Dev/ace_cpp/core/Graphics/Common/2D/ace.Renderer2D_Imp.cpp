@@ -496,9 +496,9 @@ namespace ace {
 		}
 
 		// 定数バッファを設定
-		auto& cbuf = shader->GetVertexConstantBuffer<SpriteConstantBuffer>();
-		cbuf.Size.X = m_windowSize.X;
-		cbuf.Size.Y = m_windowSize.Y;
+		Vector4DF windowSize = Vector4DF(m_windowSize.X, m_windowSize.Y, 0, 0);
+		shader->SetConstantBuffer("Size", &windowSize, sizeof(Vector4DF));
+
 
 		// 描画
 		if (m_state.Texture != nullptr)

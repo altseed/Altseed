@@ -11,7 +11,8 @@ out vec4 outOutput0;
 
 vec2 GetTextureSize(sampler2D texture_)
 {
-	return textureSize(texture_, 0);
+	// ドライバに依存して明示的な型変換の必要あり、キャストの方法も依存あり
+	return vec2(textureSize(texture_, 0));
 }
 
 void main()

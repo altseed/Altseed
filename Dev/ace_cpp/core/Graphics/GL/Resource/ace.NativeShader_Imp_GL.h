@@ -42,7 +42,17 @@ namespace ace {
 		std::vector<ConstantLayout>	m_vertexConstantLayouts;
 		std::vector<ConstantLayout>	m_pixelConstantLayouts;
 
-		NativeShader_Imp_GL(Graphics* graphics, GLuint program, std::vector<Layout>& layout, int32_t vertexSize);
+		std::map < std::string, ConstantLayout>	m_constantLayouts;
+
+		NativeShader_Imp_GL(
+			Graphics* graphics, 
+			GLuint program, 
+			std::vector<Layout>& layout, 
+			int32_t vertexSize,
+			std::vector<ConstantLayout>& uniformLayouts, 
+			int32_t uniformBufferSize, 
+			std::vector<std::string>& textures);
+
 		virtual ~NativeShader_Imp_GL();
 
 		static void Reflect(GLuint program, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<std::string>& textures);
@@ -52,6 +62,8 @@ namespace ace {
 		void CreatePixelConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info);
 
 	public:
+		void SetConstantBuffer(const char* name, void* data, int32_t size);
+
 		void AssignConstantBuffer();
 
 		static NativeShader_Imp_GL* Create(

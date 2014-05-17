@@ -19,13 +19,23 @@ namespace ace {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-NativeShader_Imp_GL::NativeShader_Imp_GL(Graphics* graphics, GLuint program, std::vector<Layout>& layout, int32_t vertexSize)
+NativeShader_Imp_GL::NativeShader_Imp_GL(
+	Graphics* graphics, 
+	GLuint program, 
+	std::vector<Layout>& layout, 
+	int32_t vertexSize,
+	std::vector<ConstantLayout>& uniformLayouts,
+	int32_t uniformBufferSize,
+	std::vector<std::string>& textures)
 	: NativeShader_Imp(graphics)
 	, m_program(program)
 	, m_layout(layout)
 	, m_vertexSize(vertexSize)
 {
-
+	for (auto& l : uniformLayouts)
+	{
+		m_constantLayouts[l.Name] = l;
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -147,6 +157,25 @@ void NativeShader_Imp_GL::CreatePixelConstantBufferInternal(int32_t size, std::v
 	}
 
 	GLCheckError();
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void NativeShader_Imp_GL::SetConstantBuffer(const char* name, void* data, int32_t size)
+{
+	auto key = std::string(name);
+
+	auto it = m_constantLayouts.find(key);
+
+	if (it != m_constantLayouts.end())
+	{
+		auto size_ = GetBufferSize(it->second.Type, it->second.Count);
+		assert(size == size_);
+
+		if (m_vertexConstantBuffer != nullptr) memcpy(&(m_vertexConstantBuffer[it->second.Offset]), data, size);
+		if (m_pixelConstantBuffer != nullptr) memcpy(&(m_pixelConstantBuffer[it->second.Offset]), data, size);
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -372,6 +401,8 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 		if (log_size > 0)
 		{
 			OUTPUT_DEBUG_STRING("Vertex Shader:\n");
+			OUTPUT_DEBUG_STRING(vertexShaderFileName);
+			OUTPUT_DEBUG_STRING("\n");
 			OUTPUT_DEBUG_STRING(log_text);
 			log->WriteLine(log_text);
 		}
@@ -379,6 +410,8 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 		if (log_size > 0)
 		{
 			OUTPUT_DEBUG_STRING("Fragment Shader:\n");
+			OUTPUT_DEBUG_STRING(pixelShaderFileName);
+			OUTPUT_DEBUG_STRING("\n");
 			OUTPUT_DEBUG_STRING(log_text);
 			log->WriteLine(log_text);
 		}
@@ -386,6 +419,10 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 		if (log_size > 0)
 		{
 			OUTPUT_DEBUG_STRING("Shader Link:\n");
+			OUTPUT_DEBUG_STRING(vertexShaderFileName);
+			OUTPUT_DEBUG_STRING("\n");
+			OUTPUT_DEBUG_STRING(pixelShaderFileName);
+			OUTPUT_DEBUG_STRING("\n");
 			OUTPUT_DEBUG_STRING(log_text);
 			log->WriteLine(log_text);
 		}
@@ -420,6 +457,8 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 			if (vs_size > 0)
 			{
 				OUTPUT_DEBUG_STRING("Vertex Shader:\n");
+				OUTPUT_DEBUG_STRING(vertexShaderFileName);
+				OUTPUT_DEBUG_STRING("\n");
 				OUTPUT_DEBUG_STRING(vs_text);
 				log->WriteLine(vs_text);
 			}
@@ -427,6 +466,8 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 			if (ps_size > 0)
 			{
 				OUTPUT_DEBUG_STRING("Fragment Shader:\n");
+				OUTPUT_DEBUG_STRING(pixelShaderFileName);
+				OUTPUT_DEBUG_STRING("\n");
 				OUTPUT_DEBUG_STRING(ps_text);
 				log->WriteLine(ps_text);
 			}
@@ -434,6 +475,10 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 			if (l_size > 0)
 			{
 				OUTPUT_DEBUG_STRING("Shader Link:\n");
+				OUTPUT_DEBUG_STRING(vertexShaderFileName);
+				OUTPUT_DEBUG_STRING("\n");
+				OUTPUT_DEBUG_STRING(pixelShaderFileName);
+				OUTPUT_DEBUG_STRING("\n");
 				OUTPUT_DEBUG_STRING(l_text);
 				log->WriteLine(l_text);
 			}
@@ -444,9 +489,9 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 	glDeleteShader(ps_shader);
 
 	std::vector<ConstantLayout> uniformLayouts;
-	int32_t unifomBufferSize = 0;
+	int32_t uniformBufferSize = 0;
 	std::vector<std::string> textures;
-	Reflect(program, uniformLayouts, unifomBufferSize, textures);
+	Reflect(program, uniformLayouts, uniformBufferSize, textures);
 
 	std::vector<Layout> layout_;
 	uint16_t byteOffset = 0;
@@ -495,9 +540,14 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 
 	GLCheckError();
 
-	
-
-	return new NativeShader_Imp_GL(graphics, program, layout_, byteOffset);
+	return new NativeShader_Imp_GL(
+		graphics, 
+		program, 
+		layout_, 
+		byteOffset,
+		uniformLayouts,
+		uniformBufferSize,
+		textures);
 }
 
 
