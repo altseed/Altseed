@@ -826,15 +826,7 @@ namespace ace
 			std::vector<ace::Macro> macro;
 			if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
 			{
-				/*
-				m_pasteShader = m_graphics->CreateShader_Imp(
-					paste_gl_vs,
-					"vs",
-					paste_gl_ps,
-					"ps",
-					vl,
-					macro);
-				*/
+				
 			}
 			else
 			{

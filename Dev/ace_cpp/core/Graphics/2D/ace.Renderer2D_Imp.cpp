@@ -310,8 +310,8 @@ namespace ace {
 		}
 
 		// 定数バッファを設定
-		Vector4DF windowSize = Vector4DF(m_windowSize.X, m_windowSize.Y, 0, 0);
-		shader->SetVector4DF("Size", windowSize);
+		Vector2DF windowSize = Vector2DF(m_windowSize.X, m_windowSize.Y);
+		shader->SetVector2DF("Size", windowSize);
 
 		// 描画
 		if (m_state.Texture != nullptr)

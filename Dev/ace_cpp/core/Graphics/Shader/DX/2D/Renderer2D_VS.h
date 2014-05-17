@@ -17,7 +17,7 @@ struct VS_Output
 	float4 Color	: COLOR0;
 };
 
-float4 Size			: register( c0 );
+float2 Size;
 
 VS_Output main( const VS_Input Input )
 {

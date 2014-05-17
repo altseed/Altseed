@@ -10,7 +10,7 @@ varying vec4 vaTexCoord;
 
 varying vec4 vaColor;
 
-uniform vec4 Size;
+uniform vec2 Size;
 
 void main()
 {

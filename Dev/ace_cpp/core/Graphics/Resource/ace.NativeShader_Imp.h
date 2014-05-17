@@ -87,7 +87,9 @@ namespace ace {
 			return m_pixelConstantBuffer;
 		}
 
-
+		/**
+		@brief	定数バッファを生成する。[廃止予定]
+		*/
 		template<typename T>
 		void CreateVertexConstantBuffer(std::vector<ConstantBufferInformation>& info)
 		{
@@ -98,6 +100,9 @@ namespace ace {
 			CreateVertexConstantBufferInternal(sizeof(T), info);
 		}
 
+		/**
+		@brief	定数バッファを生成する。[廃止予定]
+		*/
 		void CreateVertexConstantBuffer(int32_t size, std::vector<ConstantBufferInformation>& info)
 		{
 			SafeDeleteArray(m_vertexConstantBuffer);
@@ -107,6 +112,9 @@ namespace ace {
 			CreateVertexConstantBufferInternal(size, info);
 		}
 
+		/**
+		@brief	定数バッファを生成する。[廃止予定]
+		*/
 		template<typename T>
 		void CreatePixelConstantBuffer(std::vector<ConstantBufferInformation>& info)
 		{
@@ -116,6 +124,9 @@ namespace ace {
 			CreatePixelConstantBufferInternal(sizeof(T), info);
 		}
 
+		/**
+			@brief	定数バッファを生成する。[廃止予定]
+		*/
 		void CreatePixelConstantBuffer(int32_t size, std::vector<ConstantBufferInformation>& info)
 		{
 			SafeDeleteArray(m_pixelConstantBuffer);
