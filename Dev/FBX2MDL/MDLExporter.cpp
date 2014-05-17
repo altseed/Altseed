@@ -186,16 +186,15 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 
 		if(attachmentIndex!=-1)
 		{
-			_meshGroups[attachmentIndex].meshLoaders.push_back(mLoader);
-
 			for(int j=0;j<mLoader.materials.size();++j)
 			{
+				mLoader.materials[j].groupIndex=_meshGroups[attachmentIndex].materials.size();
 				if(std::find(_meshGroups[attachmentIndex].materials.begin(),_meshGroups[attachmentIndex].materials.end(),mLoader.materials[j])==_meshGroups[attachmentIndex].materials.end())
 				{
-					mLoader.materials[j].groupIndex=_meshGroups[attachmentIndex].materials.size();
 					_meshGroups[attachmentIndex].materials.push_back(mLoader.materials[j]);
 				}
 			}
+			_meshGroups[attachmentIndex].meshLoaders.push_back(mLoader);
 		}
 		else
 		{
