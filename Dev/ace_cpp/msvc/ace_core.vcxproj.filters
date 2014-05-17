@@ -91,6 +91,12 @@
     <Filter Include="Graphics\Common\Shader\ALSL\Screen">
       <UniqueIdentifier>{bb3b5864-522e-481e-b732-f294a4d56b04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Common\Shader\DX\2D">
+      <UniqueIdentifier>{8528158a-cedd-44cd-b799-09b497419cb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Common\Shader\GL\2D">
+      <UniqueIdentifier>{1a73e988-3c02-483f-944c-483ba2ae6440}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -579,6 +585,18 @@
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Common\Shader\GL\Model_Internal_PS.h">
       <Filter>Graphics\Common\Shader\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\2D\Renderer2D_VS.h">
+      <Filter>Graphics\Common\Shader\DX\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\2D\Renderer2D_PS.h">
+      <Filter>Graphics\Common\Shader\DX\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\2D\Renderer2D_PS.h">
+      <Filter>Graphics\Common\Shader\GL\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\2D\Renderer2D_VS.h">
+      <Filter>Graphics\Common\Shader\GL\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

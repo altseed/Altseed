@@ -227,6 +227,8 @@
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.Texture2D_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\Resource\ace.VertexBuffer_Imp.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\ace.Vertices.h" />
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\2D\Renderer2D_PS.h" />
+    <ClInclude Include="..\core\Graphics\Common\Shader\DX\2D\Renderer2D_VS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Lightweight_Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Lightweight_Model_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Model_Internal_PS.h" />
@@ -237,6 +239,8 @@
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\Screen_VS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\SSAO_Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\DX\Screen\SSAO_PS.h" />
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\2D\Renderer2D_PS.h" />
+    <ClInclude Include="..\core\Graphics\Common\Shader\GL\2D\Renderer2D_VS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\GL\Lightweight_Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\GL\Lightweight_Model_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Common\Shader\GL\Model_Internal_PS.h" />

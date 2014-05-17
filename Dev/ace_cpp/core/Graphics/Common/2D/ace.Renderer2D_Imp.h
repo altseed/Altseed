@@ -38,14 +38,6 @@ namespace ace {
 		/**
 			@brief	スプライト描画時に使用する定数バッファ
 		*/
-		/*
-		struct SpriteConstantBuffer
-		{
-			Vector2DF	Size;
-			float		Padding[2];
-		};
-		*/
-
 		struct vector2DF
 		{
 			float	X;

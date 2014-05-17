@@ -10,190 +10,14 @@
 #include "../Resource/ace.IndexBuffer_Imp.h"
 #include "../Resource/ace.NativeShader_Imp.h"
 #include "../Resource/ace.RenderState_Imp.h"
+#include "../Resource/ace.ShaderCache.h"
 
 #include <Utility/ace.TypeErasureCopy.h>
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-static const char* dx_vs = R"(
-struct VS_Input
-{
-	float3 Pos		: Pos0;
-	float2 UV		: UV0;
-	float4 Color	: COLOR0;
-};
-
-struct VS_Output
-{
-	float4 Pos		: SV_POSITION;
-	float2 UV		: TEXCOORD0;
-	float4 Color	: COLOR0;
-};
-
-float4 Size			: register( c0 );
-
-VS_Output main( const VS_Input Input )
-{
-	VS_Output Output = (VS_Output)0;
-	Output.Pos.x = Input.Pos.x / Size.x * 2.0 - 1.0;
-	Output.Pos.y = -(Input.Pos.y / Size.y * 2.0 - 1.0);
-	Output.Pos.z = 0.5;
-	Output.Pos.w = 1.0;
-
-	Output.UV = Input.UV;
-	Output.Color = Input.Color;
-	return Output;
-}
-
-)";
-
-static const char* dx_ps = R"(
-
-Texture2D		g_texture		: register( t0 );
-SamplerState	g_sampler		: register( s0 );
-
-
-struct PS_Input
-{
-	float4 Pos		: SV_POSITION;
-	float2 UV		: TEXCOORD0;
-	float4 Color	: COLOR0;
-};
-
-
-float4 main( const PS_Input Input ) : SV_Target
-{
-	float4 Output = g_texture.Sample(g_sampler, Input.UV) * Input.Color;
-	if(Output.a == 0.0f) discard;
-	return Output;
-}
-
-)";
-
-static const char* dx_nt_vs = R"(
-struct VS_Input
-{
-	float3 Pos		: Pos0;
-	float2 UV		: UV0;
-	float4 Color	: COLOR0;
-};
-
-struct VS_Output
-{
-	float4 Pos		: SV_POSITION;
-	float4 Color	: COLOR0;
-};
-
-float4 Size			: register( c0 );
-
-VS_Output main( const VS_Input Input )
-{
-	VS_Output Output = (VS_Output)0;
-	Output.Pos.x = Input.Pos.x / Size.x * 2.0 - 1.0;
-	Output.Pos.y = -(Input.Pos.y / Size.y * 2.0 - 1.0);
-	Output.Pos.z = 0.5;
-	Output.Pos.w = 1.0;
-	Output.Color = Input.Color;
-	return Output;
-}
-
-)";
-
-static const char* dx_nt_ps = R"(
-
-struct PS_Input
-{
-	float4 Pos		: SV_POSITION;
-	float4 Color	: COLOR0;
-};
-
-
-float4 main( const PS_Input Input ) : SV_Target
-{
-	float4 Output = Input.Color;
-	if(Output.a == 0.0f) discard;
-	return Output;
-}
-
-)";
-
-static const char* gl_vs = R"(
-
-attribute vec3 Pos;
-attribute vec2 UV;
-attribute vec4 Color;
-
-varying vec4 vaTexCoord;
-varying vec4 vaColor;
-
-uniform vec4 Size;
-
-void main()
-{
-	gl_Position.x = Pos.x / Size.x * 2.0 - 1.0;
-	gl_Position.y = -(Pos.y / Size.y * 2.0 - 1.0);
-	gl_Position.z = 0.5;
-	gl_Position.w = 1.0;
-
-	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
-	vaColor = Color;
-}
-
-)";
-
-static const char* gl_ps = R"(
-
-varying vec4 vaTexCoord;
-varying vec4 vaColor;
-
-uniform sampler2D g_texture;
-
-void main() 
-{
-	// varying(in) は変更不可(Radeon)
-
-	// gl only
-	vec4 vaTexCoord_ = vaTexCoord;
-	vaTexCoord_.y = 1.0 - vaTexCoord_.y;
-
-	gl_FragColor = texture2D(g_texture, vaTexCoord_.xy) * vaColor;
-}
-
-)";
-
-
-static const char* gl_nt_vs = R"(
-
-attribute vec3 Pos;
-attribute vec2 UV;
-attribute vec4 Color;
-
-varying vec4 vaColor;
-
-uniform vec4 Size;
-
-void main()
-{
-	gl_Position.x = Pos.x / Size.x * 2.0 - 1.0;
-	gl_Position.y = -(Pos.y / Size.y * 2.0 - 1.0);
-	gl_Position.z = 0.5;
-	gl_Position.w = 1.0;
-	vaColor = Color;
-}
-
-)";
-
-static const char* gl_nt_ps = R"(
-
-varying vec4 vaColor;
-
-void main() 
-{
-	gl_FragColor = vaColor;
-}
-
-)";
+#include "../Shader/DX/2D/Renderer2D_PS.h"
+#include "../Shader/DX/2D/Renderer2D_VS.h"
+#include "../Shader/GL/2D/Renderer2D_PS.h"
+#include "../Shader/GL/2D/Renderer2D_VS.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -254,59 +78,48 @@ namespace ace {
 		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
 		vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
 
+		std::vector<ace::Macro> macro_tex;
+		macro_tex.push_back(Macro("HAS_TEXTURE", "1"));
+
 		std::vector<ace::Macro> macro;
+		
 		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
 		{
-			m_shader = m_graphics->CreateShader_Imp(
-				gl_vs,
-				"vs",
-				gl_ps,
-				"ps",
+			m_shader = m_graphics->GetShaderCache()->CreateFromCode(
+				ToAString(L"Internal.2D.Renderer2D.Texture").c_str(),
+				renderer2d_vs_gl,
+				renderer2d_ps_gl,
+				vl,
+				macro_tex);
+		}
+		else
+		{
+			m_shader = m_graphics->GetShaderCache()->CreateFromCode(
+				ToAString(L"Internal.2D.Renderer2D.Texture").c_str(),
+				renderer2d_vs_dx,
+				renderer2d_ps_dx,
+				vl,
+				macro_tex);
+		}
+
+		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
+		{
+			m_shader_nt = m_graphics->GetShaderCache()->CreateFromCode(
+				ToAString(L"Internal.2D.Renderer2D").c_str(),
+				renderer2d_vs_gl,
+				renderer2d_ps_gl,
 				vl,
 				macro);
 		}
 		else
 		{
-			m_shader = m_graphics->CreateShader_Imp(
-				dx_vs,
-				"vs",
-				dx_ps,
-				"ps",
+			m_shader_nt = m_graphics->GetShaderCache()->CreateFromCode(
+				ToAString(L"Internal.2D.Renderer2D").c_str(),
+				renderer2d_vs_dx,
+				renderer2d_ps_dx,
 				vl,
 				macro);
 		}
-
-		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
-		{
-			m_shader_nt = m_graphics->CreateShader_Imp(
-				gl_nt_vs,
-				"vs",
-				gl_nt_ps,
-				"ps",
-				vl,
-				macro);
-		}
-		else
-		{
-			m_shader_nt = m_graphics->CreateShader_Imp(
-				dx_nt_vs,
-				"vs",
-				dx_nt_ps,
-				"ps",
-				vl,
-				macro);
-		}
-
-		/*
-		std::vector<ace::ConstantBufferInformation> constantBuffers;
-		constantBuffers.resize(1);
-		constantBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
-		constantBuffers[0].Name = std::string("Size");
-		constantBuffers[0].Offset = 0;
-
-		m_shader->CreateVertexConstantBuffer<SpriteConstantBuffer>(constantBuffers);
-		m_shader_nt->CreateVertexConstantBuffer<SpriteConstantBuffer>(constantBuffers);
-		*/
 	}
 
 	//----------------------------------------------------------------------------------
