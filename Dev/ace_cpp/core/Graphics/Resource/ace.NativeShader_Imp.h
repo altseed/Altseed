@@ -52,6 +52,8 @@ namespace ace {
 		NativeShader_Imp(Graphics* graphics);
 		virtual ~NativeShader_Imp();
 
+		void SetVector2DF(const char* name, const Vector2DF& value);
+
 		void SetVector4DF(const char* name, const Vector4DF& value);
 
 		virtual void SetConstantBuffer(const char* name, const void* data, int32_t size) = 0;

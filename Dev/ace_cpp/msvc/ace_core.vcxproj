@@ -247,6 +247,8 @@
     <ClInclude Include="..\core\Graphics\Resource\ace.Texture2D_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.VertexBuffer_Imp.h" />
     <ClInclude Include="..\core\Graphics\Shader\ace.Vertices.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\2D\LayerRenderer_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\2D\LayerRenderer_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\2D\Renderer2D_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\2D\Renderer2D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Blur_PS.h" />
@@ -259,6 +261,8 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Screen_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\2D\LayerRenderer_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\2D\LayerRenderer_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Blur_PS.h" />

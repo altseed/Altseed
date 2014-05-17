@@ -1,7 +1,7 @@
 ﻿
 #include "../ace.Graphics_Test_Utls.h"
 
-#include <Graphics/Common/2D/ace.LayerRenderer.h>
+#include <Graphics/2D/ace.LayerRenderer.h>
 
 
 void Graphics_LayerRenderer(bool isOpenGLMode)

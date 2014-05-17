@@ -1,7 +1,7 @@
 ﻿
 #include "../ace.Graphics_Test_Utls.h"
 
-#include <Graphics/Common/2D/ace.Renderer2D_Imp.h>
+#include <Graphics/2D/ace.Renderer2D_Imp.h>
 
 struct Vertex
 {

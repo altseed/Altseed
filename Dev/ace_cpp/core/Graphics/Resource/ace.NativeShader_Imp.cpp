@@ -79,6 +79,14 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	void NativeShader_Imp::SetVector2DF(const char* name, const Vector2DF& value)
+	{
+		SetConstantBuffer(name, &value, sizeof(Vector2DF));
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	void NativeShader_Imp::SetVector4DF(const char* name, const Vector4DF& value)
 	{
 		SetConstantBuffer(name, &value, sizeof(Vector4DF));

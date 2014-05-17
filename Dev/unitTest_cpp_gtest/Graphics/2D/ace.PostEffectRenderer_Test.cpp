@@ -1,10 +1,10 @@
 ﻿
 #include "../ace.Graphics_Test_Utls.h"
 
-#include <Graphics/Common/2D/ace.PostEffectRenderer.h>
-#include <Graphics/Common/2D/ace.Renderer2D_Imp.h>
-#include <Graphics/Common/Resource/ace.Material2D_Imp.h>
-#include <Graphics/Common/Resource/ace.Shader2D.h>
+#include <Graphics/2D/ace.PostEffectRenderer.h>
+#include <Graphics/2D/ace.Renderer2D_Imp.h>
+#include <Graphics/Resource/ace.Material2D_Imp.h>
+#include <Graphics/Resource/ace.Shader2D.h>
 
 static const char* shader2d_dx_ps = R"(
 

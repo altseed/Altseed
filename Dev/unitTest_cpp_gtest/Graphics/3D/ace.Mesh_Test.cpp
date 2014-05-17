@@ -1,22 +1,22 @@
 ﻿
 #include "../ace.Graphics_Test_Utls.h"
 
-#include <Graphics/Common/3D/ace.Renderer3D.h>
-#include <Graphics/Common/3D/ace.RenderedModelObject3D.h>
-#include <Graphics/Common/3D/ace.RenderedCameraObject3D.h>
-#include <Graphics/Common/3D/ace.RenderedDirectionalLightObject3D.h>
+#include <Graphics/3D/ace.Renderer3D.h>
+#include <Graphics/3D/ace.RenderedModelObject3D.h>
+#include <Graphics/3D/ace.RenderedCameraObject3D.h>
+#include <Graphics/3D/ace.RenderedDirectionalLightObject3D.h>
 
-#include <Graphics/Common/3D/ace.Mesh.h>
-#include <Graphics/Common/3D/ace.Deformer.h>
+#include <Graphics/3D/ace.Mesh.h>
+#include <Graphics/3D/ace.Deformer.h>
 
-#include <Graphics/Common/Animation/ace.AnimationSystem.h>
-#include <Graphics/Common/Animation/ace.AnimationSystem_Imp.h>
+#include <Graphics/Animation/ace.AnimationSystem.h>
+#include <Graphics/Animation/ace.AnimationSystem_Imp.h>
 
-#include <Graphics/Common/Animation/ace.AnimationClip.h>
-#include <Graphics/Common/Animation/ace.AnimationSource.h>
-#include <Graphics/Common/Animation/ace.KeyframeAnimation.h>
+#include <Graphics/Animation/ace.AnimationClip.h>
+#include <Graphics/Animation/ace.AnimationSource.h>
+#include <Graphics/Animation/ace.KeyframeAnimation.h>
 
-#include <Graphics/Common/2D/ace.Renderer2D_Imp.h>
+#include <Graphics/2D/ace.Renderer2D_Imp.h>
 
 static std::shared_ptr<ace::Mesh> CreateMesh(ace::Graphics* graphics)
 {

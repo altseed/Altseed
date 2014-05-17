@@ -10,140 +10,14 @@
 #include "../Resource/ace.IndexBuffer_Imp.h"
 #include "../Resource/ace.NativeShader_Imp.h"
 #include "../Resource/ace.RenderState_Imp.h"
+#include "../Resource/ace.ShaderCache.h"
 
 #include <Utility/ace.TypeErasureCopy.h>
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-static const char* dx_vs = R"(
-struct VS_Input
-{
-	float3 Pos		: Pos0;
-	float2 UV		: UV0;
-	float4 Color	: COLOR0;
-};
-
-struct VS_Output
-{
-	float4 Pos		: SV_POSITION;
-	float2 UV		: TEXCOORD0;
-	float4 Color	: COLOR0;
-};
-
-float4 Size			: register( c0 );
-float4 LayerPosU	: register( c1 );
-float4 LayerPosL	: register( c2 );
-
-VS_Output main( const VS_Input Input )
-{
-	VS_Output Output = (VS_Output)0;
-
-	float2 ul = LayerPosU.xy / Size.xy;
-	float2 ur = LayerPosU.zw / Size.xy;
-	float2 lr = LayerPosL.xy / Size.xy;
-	float2 ll = LayerPosL.zw / Size.xy;
-
-	float2 pos = float2( Input.Pos.x, Input.Pos.y );
-  
-	float2 u = (ur - ul) * pos.x + ul;
-	float2 l = (lr - ll) * pos.x + ll;
-	float2 p = (l - u) * pos.y + u;
-
-	Output.Pos.x = p.x * 2.0 - 1.0;
-	Output.Pos.y = -(p.y * 2.0 - 1.0);
- 
-	Output.Pos.z = 0.5;
-	Output.Pos.w = 1.0;
-
-	Output.UV = Input.UV;
-	Output.Color = Input.Color;
-	return Output;
-}
-
-)";
-
-static const char* dx_ps = R"(
-
-Texture2D		g_texture		: register( t0 );
-SamplerState	g_sampler		: register( s0 );
-
-
-struct PS_Input
-{
-	float4 Pos		: SV_POSITION;
-	float2 UV		: TEXCOORD0;
-	float4 Color	: COLOR0;
-};
-
-
-float4 main( const PS_Input Input ) : SV_Target
-{
-	float4 Output = g_texture.Sample(g_sampler, Input.UV) * Input.Color;
-	if(Output.a == 0.0f) discard;
-	return Output;
-}
-
-)";
-
-static const char* gl_vs = R"(
-
-attribute vec3 Pos;
-attribute vec2 UV;
-attribute vec4 Color;
-
-varying vec4 vaTexCoord;
-varying vec4 vaColor;
-
-uniform vec4 Size;
-uniform vec4 LayerPosU;
-uniform vec4 LayerPosL;
-
-void main()
-{
-	vec2 ul = LayerPosU.xy / Size.xy;
-	vec2 ur = LayerPosU.zw / Size.xy;
-	vec2 lr = LayerPosL.xy / Size.xy;
-	vec2 ll = LayerPosL.zw / Size.xy;
-
-	vec2 pos = vec2( Pos.x, Pos.y );
-  
-	vec2 u = (ur - ul) * pos.x + ul;
-	vec2 l = (lr - ll) * pos.x + ll;
-	vec2 p = (l - u) * pos.y + u;
-
-	gl_Position.x = p.x * 2.0 - 1.0;
-	gl_Position.y = -(p.y * 2.0 - 1.0);
-
-	gl_Position.z = 0.5;
-	gl_Position.w = 1.0;
-
-	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
-	vaColor = Color;
-}
-
-)";
-
-static const char* gl_ps = R"(
-
-varying vec4 vaTexCoord;
-varying vec4 vaColor;
-
-uniform sampler2D g_texture;
-
-void main() 
-{
-	// varying(in) は変更不可(Radeon)
-
-	// gl only
-	vec4 vaTexCoord_ = vaTexCoord;
-	vaTexCoord_.y = 1.0 - vaTexCoord_.y;
-
-	gl_FragColor = texture2D(g_texture, vaTexCoord_.xy) * vaColor;
-}
-
-)";
-
+#include "../Shader/DX/2D/LayerRenderer_PS.h"
+#include "../Shader/DX/2D/LayerRenderer_VS.h"
+#include "../Shader/GL/2D/LayerRenderer_PS.h"
+#include "../Shader/GL/2D/LayerRenderer_VS.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -185,41 +59,22 @@ namespace ace {
 		std::vector<ace::Macro> macro;
 		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
 		{
-			m_shader = m_graphics->CreateShader_Imp(
-				gl_vs,
-				"vs",
-				gl_ps,
-				"ps",
+			m_shader = m_graphics->GetShaderCache()->CreateFromCode(
+				ToAString(L"Internal.2D.LayerRenderer").c_str(),
+				layerrenderer_vs_gl,
+				layerrenderer_ps_gl,
 				vl,
 				macro);
 		}
 		else
 		{
-			m_shader = m_graphics->CreateShader_Imp(
-				dx_vs,
-				"vs",
-				dx_ps,
-				"ps",
+			m_shader = m_graphics->GetShaderCache()->CreateFromCode(
+				ToAString(L"Internal.2D.LayerRenderer").c_str(),
+				layerrenderer_vs_dx,
+				layerrenderer_ps_dx,
 				vl,
 				macro);
 		}
-
-
-		std::vector<ace::ConstantBufferInformation> constantBuffers;
-		constantBuffers.resize(3);
-		constantBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
-		constantBuffers[0].Name = std::string("Size");
-		constantBuffers[0].Offset = 0;
-
-		constantBuffers[1].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
-		constantBuffers[1].Name = std::string("LayerPosU");
-		constantBuffers[1].Offset = sizeof(float) * 4;
-
-		constantBuffers[2].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
-		constantBuffers[2].Name = std::string("LayerPosL");
-		constantBuffers[2].Offset = sizeof(float) * 8;
-
-		m_shader->CreateVertexConstantBuffer<TriangleConstantBuffer>(constantBuffers);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -268,13 +123,9 @@ namespace ace {
 			std::shared_ptr<NativeShader_Imp> shader = m_shader;
 
 			// 定数バッファを設定
-			auto& cbuf = shader->GetVertexConstantBuffer<TriangleConstantBuffer>();
-			cbuf.Size.X = m_windowSize.X;
-			cbuf.Size.Y = m_windowSize.Y;
-			cbuf.UL = m_layerPosition[0];
-			cbuf.UR = m_layerPosition[1];
-			cbuf.LR = m_layerPosition[2];
-			cbuf.LL = m_layerPosition[3];
+			shader->SetVector2DF("Size", Vector2DF(m_windowSize.X, m_windowSize.Y));
+			shader->SetVector4DF("LayerPosU", Vector4DF(m_layerPosition[0].X, m_layerPosition[0].Y, m_layerPosition[1].X, m_layerPosition[1].Y));
+			shader->SetVector4DF("LayerPosL", Vector4DF(m_layerPosition[2].X, m_layerPosition[2].Y, m_layerPosition[3].X, m_layerPosition[3].Y));
 
 			// 描画
 			if (m_texture != nullptr)

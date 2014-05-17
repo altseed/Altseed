@@ -40,6 +40,7 @@ namespace ace {
 		/**
 		@brief	トライアングル描画時に使用する定数バッファ
 		*/
+		/*
 		struct TriangleConstantBuffer
 		{
 			Vector2DF	Size;
@@ -49,6 +50,7 @@ namespace ace {
 			Vector2DF	LR;
 			Vector2DF	LL;
 		};
+		*/
 
 	private:
 		/**
