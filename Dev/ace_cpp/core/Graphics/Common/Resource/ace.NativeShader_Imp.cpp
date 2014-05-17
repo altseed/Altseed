@@ -12,6 +12,44 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	int32_t NativeShader_Imp::GetBufferSize(eConstantBufferFormat type, int32_t count)
+	{
+		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1)
+		{
+			return sizeof(float) * 1 * count;
+		}
+		
+		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT2)
+		{
+			return sizeof(float) * 2 * count;
+		}
+
+		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3)
+		{
+			return sizeof(float) * 3 * count;
+		}
+
+		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4)
+		{
+			return sizeof(float) * 4 * count;
+		}
+
+		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44)
+		{
+			return sizeof(float) * 16 * count;
+		}
+
+		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
+		{
+			return sizeof(float) * 16 * count;
+		}
+
+		return 0;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	NativeShader_Imp::NativeShader_Imp(Graphics* graphics)
 		: DeviceObject(graphics)
 		, m_vertexConstantBuffer(nullptr)

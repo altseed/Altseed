@@ -32,6 +32,9 @@ namespace ace {
 			int32_t			Count;
 		};
 
+		std::map < std::string, ConstantLayout>	m_vs_constantLayouts;
+		std::map < std::string, ConstantLayout>	m_ps_constantLayouts;
+
 		static ID3DBlob* CompileVertexShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 		static ID3DBlob* CompilePixelShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 
@@ -42,8 +45,21 @@ namespace ace {
 		void CreatePixelConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info);
 
 	public:
-		NativeShader_Imp_DX11(Graphics* graphics, ID3D11VertexShader* vertexShader, ID3D11PixelShader* pixelShader, ID3D11InputLayout* layout);
+		NativeShader_Imp_DX11(
+			Graphics* graphics, 
+			ID3D11VertexShader* vertexShader, 
+			ID3D11PixelShader* pixelShader, 
+			ID3D11InputLayout* layout,
+			std::vector<ConstantLayout> vs_uniformLayouts,
+			int32_t vs_uniformBufferSize,
+			std::vector<std::string> vs_textures,
+			std::vector<ConstantLayout> ps_uniformLayouts,
+			int32_t ps_uniformBufferSize,
+			std::vector<std::string> ps_textures
+			);
 		virtual ~NativeShader_Imp_DX11();
+
+		void SetConstantBuffer(const char* name, void* data, int32_t size);
 
 		void AssignConstantBuffer();
 

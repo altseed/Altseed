@@ -39,6 +39,8 @@ namespace ace {
 		{
 		}
 
+		int32_t GetBufferSize(eConstantBufferFormat type, int32_t count);
+
 		/**
 			@note	キャッシュ用キー
 		*/
@@ -47,6 +49,8 @@ namespace ace {
 	public:
 		NativeShader_Imp(Graphics* graphics);
 		virtual ~NativeShader_Imp();
+
+		virtual void SetConstantBuffer(const char* name, void* data, int32_t size) = 0;
 
 		virtual void AssignConstantBuffer() = 0;
 

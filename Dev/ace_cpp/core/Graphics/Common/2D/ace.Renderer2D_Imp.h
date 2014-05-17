@@ -8,6 +8,7 @@
 #include "../../../ace.Core.Base_Imp.h"
 
 #include <Math/ace.Vector3DF.h>
+#include <Math/ace.Vector4DF.h>
 
 //----------------------------------------------------------------------------------
 //

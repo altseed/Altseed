@@ -248,7 +248,17 @@ void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-NativeShader_Imp_DX11::NativeShader_Imp_DX11(Graphics* graphics, ID3D11VertexShader* vertexShader, ID3D11PixelShader* pixelShader, ID3D11InputLayout* layout)
+NativeShader_Imp_DX11::NativeShader_Imp_DX11(
+	Graphics* graphics, 
+	ID3D11VertexShader* vertexShader, 
+	ID3D11PixelShader* pixelShader, 
+	ID3D11InputLayout* layout,
+	std::vector<ConstantLayout> vs_uniformLayouts,
+	int32_t vs_uniformBufferSize,
+	std::vector<std::string> vs_textures,
+	std::vector<ConstantLayout> ps_uniformLayouts,
+	int32_t ps_uniformBufferSize,
+	std::vector<std::string> ps_textures)
 	: NativeShader_Imp(graphics)
 	, m_vertexShader(vertexShader)
 	, m_pixelShader(pixelShader)
@@ -256,7 +266,15 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(Graphics* graphics, ID3D11VertexSha
 	, m_constantBufferToVS(nullptr)
 	, m_constantBufferToPS(nullptr)
 {
+	for (auto& l : vs_uniformLayouts)
+	{
+		m_vs_constantLayouts[l.Name] = l;
+	}
 
+	for (auto& l : ps_uniformLayouts)
+	{
+		m_ps_constantLayouts[l.Name] = l;
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -309,6 +327,33 @@ void NativeShader_Imp_DX11::CreatePixelConstantBufferInternal(int32_t size, std:
 	hBufferDesc.StructureByteStride = sizeof(float) ;
 
 	g->GetDevice()->CreateBuffer(&hBufferDesc, NULL, &m_constantBufferToPS);
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void NativeShader_Imp_DX11::SetConstantBuffer(const char* name, void* data, int32_t size)
+{
+	auto key = std::string(name);
+
+	auto it_vs = m_vs_constantLayouts.find(key);
+	auto it_ps = m_ps_constantLayouts.find(key);
+
+	if (it_vs != m_vs_constantLayouts.end())
+	{
+		auto size_ = GetBufferSize(it_vs->second.Type, it_vs->second.Count);
+		assert(size == size_);
+
+		memcpy(&(m_vertexConstantBuffer[it_vs->second.Offset]), data, size);
+	}
+
+	if (it_ps != m_ps_constantLayouts.end())
+	{
+		auto size_ = GetBufferSize(it_ps->second.Type, it_ps->second.Count);
+		assert(size == size_);
+
+		memcpy(&(m_pixelConstantBuffer[it_ps->second.Offset]), data, size);
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -477,7 +522,13 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		g,
 		vs,
 		ps,
-		il);
+		il,
+		vs_uniformLayouts,
+		vs_uniformBufferSize,
+		vs_textures,
+		ps_uniformLayouts,
+		ps_uniformBufferSize,
+		ps_textures);
 
 End:;
 	SafeRelease(vertexShader);
