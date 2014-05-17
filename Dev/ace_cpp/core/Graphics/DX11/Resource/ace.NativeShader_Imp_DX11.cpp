@@ -275,6 +275,46 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 	{
 		m_ps_constantLayouts[l.Name] = l;
 	}
+
+	if (vs_uniformBufferSize > 0)
+	{
+		vs_uniformBufferSize = (vs_uniformBufferSize / 16 + 1) * 16;
+
+		SafeRelease(m_constantBufferToVS);
+		m_vertexConstantBuffer = new uint8_t[vs_uniformBufferSize];
+	
+		auto g = (Graphics_Imp_DX11*) GetGraphics();
+
+		D3D11_BUFFER_DESC hBufferDesc;
+		hBufferDesc.ByteWidth = vs_uniformBufferSize;
+		hBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		hBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		hBufferDesc.CPUAccessFlags = 0;
+		hBufferDesc.MiscFlags = 0;
+		hBufferDesc.StructureByteStride = sizeof(float);
+
+		g->GetDevice()->CreateBuffer(&hBufferDesc, NULL, &m_constantBufferToVS);
+	}
+
+	if (ps_uniformBufferSize > 0)
+	{
+		ps_uniformBufferSize = (ps_uniformBufferSize / 16 + 1) * 16;
+
+		SafeRelease(m_constantBufferToPS);
+		m_pixelConstantBuffer = new uint8_t[ps_uniformBufferSize];
+
+		auto g = (Graphics_Imp_DX11*) GetGraphics();
+
+		D3D11_BUFFER_DESC hBufferDesc;
+		hBufferDesc.ByteWidth = ps_uniformBufferSize;
+		hBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+		hBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
+		hBufferDesc.CPUAccessFlags = 0;
+		hBufferDesc.MiscFlags = 0;
+		hBufferDesc.StructureByteStride = sizeof(float);
+
+		g->GetDevice()->CreateBuffer(&hBufferDesc, NULL, &m_constantBufferToPS);
+	}
 }
 
 //----------------------------------------------------------------------------------

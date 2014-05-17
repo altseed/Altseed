@@ -43,6 +43,7 @@ namespace ace {
 		std::vector<ConstantLayout>	m_pixelConstantLayouts;
 
 		std::map < std::string, ConstantLayout>	m_constantLayouts;
+		uint8_t*								m_constantBuffer;
 
 		NativeShader_Imp_GL(
 			Graphics* graphics, 

@@ -297,6 +297,7 @@ namespace ace {
 				macro);
 		}
 
+		/*
 		std::vector<ace::ConstantBufferInformation> constantBuffers;
 		constantBuffers.resize(1);
 		constantBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
@@ -305,7 +306,7 @@ namespace ace {
 
 		m_shader->CreateVertexConstantBuffer<SpriteConstantBuffer>(constantBuffers);
 		m_shader_nt->CreateVertexConstantBuffer<SpriteConstantBuffer>(constantBuffers);
-
+		*/
 	}
 
 	//----------------------------------------------------------------------------------
