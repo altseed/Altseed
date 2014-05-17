@@ -1,6 +1,6 @@
 ﻿
 #include "ace.CoreObject2D_Imp.h"
-#include "../../Graphics/Common/ace.Graphics_Imp.h"
+#include "../../Graphics/ace.Graphics_Imp.h"
 
 namespace ace
 {

@@ -1,6 +1,6 @@
 ﻿
 #include "ace.CoreFadeOut_Imp.h"
-#include "../../Graphics/Common/2D/ace.LayerRenderer.h"
+#include "../../Graphics/2D/ace.LayerRenderer.h"
 
 namespace ace
 {

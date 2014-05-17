@@ -1,8 +1,8 @@
 ﻿
 #include "ace.CorePostEffect_Imp.h"
-#include "../../Graphics/Common/2D/ace.PostEffectRenderer.h"
-#include "../../Graphics/Common/Resource/ace.Shader2D_Imp.h"
-#include "../../Graphics/Common/Resource/ace.Material2D_Imp.h"
+#include "../../Graphics/2D/ace.PostEffectRenderer.h"
+#include "../../Graphics/Resource/ace.Shader2D_Imp.h"
+#include "../../Graphics/Resource/ace.Material2D_Imp.h"
 
 namespace ace
 {

@@ -2,7 +2,7 @@
 #include "../common/Math/ace.Vector2DF.h"
 #include "../common/Math/ace.Matrix33.h"
 #include "../ace.eChildMode.h"
-#include "../../Graphics/Common/2D/ace.Renderer2D.h"
+#include "../../Graphics/2D/ace.Renderer2D.h"
 #include "ace.CoreLayer2D.h"
 
 namespace ace

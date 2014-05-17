@@ -1,6 +1,6 @@
 ﻿#include <algorithm>
 #include "ace.CoreCameraObject2D_Imp.h"
-#include "../../Graphics/Common/ace.Graphics_Imp.h"
+#include "../../Graphics/ace.Graphics_Imp.h"
 
 using namespace std;
 

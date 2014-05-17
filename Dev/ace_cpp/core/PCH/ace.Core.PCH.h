@@ -5,6 +5,7 @@
 
 #include <Math/ace.Vector2DF.h>
 #include <Math/ace.Vector3DF.h>
+#include <Math/ace.Vector4DF.h>
 #include <Graphics/ace.Color.h>
 
 // GLEW

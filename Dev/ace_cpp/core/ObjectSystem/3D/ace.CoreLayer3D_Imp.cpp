@@ -2,7 +2,7 @@
 #include "ace.CoreLayer3D_Imp.h"
 #include "../PostEffect/ace.CorePostEffect_Imp.h"
 #include "../../Window/ace.Window_Imp.h"
-#include "../../Graphics/Common/ace.Graphics_Imp.h"
+#include "../../Graphics/ace.Graphics_Imp.h"
 
 #include "ace.CoreObject3D.h"
 #include "ace.CoreObject3D_Imp.h"

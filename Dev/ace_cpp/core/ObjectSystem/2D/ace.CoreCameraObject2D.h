@@ -2,7 +2,7 @@
 #include "ace.CoreObject2D.h"
 #include "../common/Math/ace.RectI.h"
 #include "../common/Math/ace.Matrix33.h"
-#include "../../Graphics/Common/Resource/ace.RenderTexture2D.h"
+#include "../../Graphics/Resource/ace.RenderTexture2D.h"
 
 namespace ace
 {

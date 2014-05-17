@@ -2,12 +2,12 @@
 #include "ace.CoreScene_Imp.h"
 #include "PostEffect/ace.CorePostEffect_Imp.h"
 
-#include "../Graphics/Common/ace.Graphics_Imp.h"
-#include "../Graphics/Common/2D/ace.LayerRenderer.h"
+#include "../Graphics/ace.Graphics_Imp.h"
+#include "../Graphics/2D/ace.LayerRenderer.h"
 
-#include "../Graphics/Common/2D/ace.PostEffectRenderer.h"
-#include "../Graphics/Common/Resource/ace.Shader2D_Imp.h"
-#include "../Graphics/Common/Resource/ace.Material2D_Imp.h"
+#include "../Graphics/2D/ace.PostEffectRenderer.h"
+#include "../Graphics/Resource/ace.Shader2D_Imp.h"
+#include "../Graphics/Resource/ace.Material2D_Imp.h"
 
 
 using namespace std;

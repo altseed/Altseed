@@ -3,8 +3,8 @@
 #include "ace.CoreObject2D.h"
 #include "ace.CoreCameraObject2D.h"
 #include "../ace.CoreLayer_Imp.h"
-#include "../../Graphics/Common/2D/ace.Renderer2D_Imp.h"
-#include "../../Graphics/Common/ace.Graphics_Imp.h"
+#include "../../Graphics/2D/ace.Renderer2D_Imp.h"
+#include "../../Graphics/ace.Graphics_Imp.h"
 #include <list>
 #include <memory>
 

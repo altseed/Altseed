@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include <list>
 #include "ace.CoreObject2D.h"
-#include "../../Graphics/Common/2D/ace.Renderer2D_Imp.h"
+#include "../../Graphics/2D/ace.Renderer2D_Imp.h"
 #include "../ace.CoreLayer.h"
 
 namespace ace

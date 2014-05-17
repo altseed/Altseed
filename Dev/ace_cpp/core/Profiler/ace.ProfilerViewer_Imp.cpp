@@ -1,7 +1,7 @@
 ﻿#include "ace.ProfilerViewer_Imp.h"
-#include "../Graphics/Common/ace.Graphics_Imp.h"
-#include "../Graphics/Common/Resource/ace.Texture2D_Imp.h"
-#include "../Graphics/Common/2D/ace.Renderer2D_Imp.h"
+#include "../Graphics/ace.Graphics_Imp.h"
+#include "../Graphics/Resource/ace.Texture2D_Imp.h"
+#include "../Graphics/2D/ace.Renderer2D_Imp.h"
 #include "../Log/ace.Log_Imp.h"
 #include <cmath>
 

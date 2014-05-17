@@ -1,9 +1,8 @@
 ﻿
-#include <list>
 #include "ace.CoreLayer2D_Imp.h"
 #include "../../Window/ace.Window_Imp.h"
-#include "../../Graphics/Common/ace.Graphics_Imp.h"
-#include "../../Graphics/Common/2D/ace.LayerRenderer.h"
+#include "../../Graphics/ace.Graphics_Imp.h"
+#include "../../Graphics/2D/ace.LayerRenderer.h"
 
 #include "ace.CoreCameraObject2D_Imp.h"
 

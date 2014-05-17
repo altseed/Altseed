@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../common/Math/ace.Vector2DF.h"
 #include "../common/Graphics/ace.Color.h"
-#include "../../Graphics/Common/Resource/ace.Texture2D.h"
+#include "../../Graphics/Resource/ace.Texture2D.h"
 #include "ace.CoreObject2D.h"
 
 namespace ace

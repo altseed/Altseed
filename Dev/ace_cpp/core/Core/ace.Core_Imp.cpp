@@ -12,11 +12,11 @@
 #include "../Profiler/ace.ProfilerViewer_Imp.h"
 #include "../ObjectSystem/ace.ObjectSystemFactory_Imp.h"
 
-#include "../Graphics/Common/ace.Graphics_Imp.h"
+#include "../Graphics/ace.Graphics_Imp.h"
 #include "../Sound/ace.Sound_Imp.h"
-#include "../Graphics/Common/Resource/ace.RenderState_Imp.h"
+#include "../Graphics/Resource/ace.RenderState_Imp.h"
 
-#include "../Graphics/Common/Animation/ace.AnimationSystem_Imp.h"
+#include "../Graphics/Animation/ace.AnimationSystem_Imp.h"
 
 #include <Utility/ace.Timer.h>
 
