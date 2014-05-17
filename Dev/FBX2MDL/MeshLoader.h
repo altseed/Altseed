@@ -22,18 +22,21 @@ struct MeshGroup
 		writer->Push((int32_t)materials.size());
 		for(auto ite=materials.begin();ite!=materials.end();++ite)
 		{
+			printf("index = %d\n",ite->groupIndex);
 			writer->Push(ite->Type);
 			for(int i=0;i<3;++i)
 			{
 				printf("mat:%s\n",ite->texture[i].c_str());
 				writer->Push(ace::ToAString(ite->texture[i].c_str()));
 			}
+			printf("\n");
 		}
 	}
 };
 
 class MeshLoader
 {
+	std::string name;
 	std::vector<Vertex> _baseVertices;
 	std::vector<Vertex> _vertices;
 	std::vector<Face> _faces;
