@@ -59,7 +59,7 @@ namespace ace {
 			);
 		virtual ~NativeShader_Imp_DX11();
 
-		void SetConstantBuffer(const char* name, void* data, int32_t size);
+		void SetConstantBuffer(const char* name, const void* data, int32_t size);
 
 		void AssignConstantBuffer();
 

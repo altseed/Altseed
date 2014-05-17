@@ -4,6 +4,8 @@
 //
 //----------------------------------------------------------------------------------
 #include <ace.common.Base.h>
+#include <Math/ace.Vector4DF.h>
+
 #include "../ace.Graphics_Imp.h"
 #include "../ace.DeviceObject.h"
 
@@ -50,7 +52,9 @@ namespace ace {
 		NativeShader_Imp(Graphics* graphics);
 		virtual ~NativeShader_Imp();
 
-		virtual void SetConstantBuffer(const char* name, void* data, int32_t size) = 0;
+		void SetVector4DF(const char* name, const Vector4DF& value);
+
+		virtual void SetConstantBuffer(const char* name, const void* data, int32_t size) = 0;
 
 		virtual void AssignConstantBuffer() = 0;
 

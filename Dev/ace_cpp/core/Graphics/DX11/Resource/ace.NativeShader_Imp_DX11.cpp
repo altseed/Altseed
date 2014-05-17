@@ -332,7 +332,7 @@ void NativeShader_Imp_DX11::CreatePixelConstantBufferInternal(int32_t size, std:
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void NativeShader_Imp_DX11::SetConstantBuffer(const char* name, void* data, int32_t size)
+void NativeShader_Imp_DX11::SetConstantBuffer(const char* name, const void* data, int32_t size)
 {
 	auto key = std::string(name);
 

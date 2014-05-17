@@ -79,6 +79,14 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	void NativeShader_Imp::SetVector4DF(const char* name, const Vector4DF& value)
+	{
+		SetConstantBuffer(name, &value, sizeof(Vector4DF));
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	void NativeShader_Imp::SetTexture(const char* name, Texture* texture, int32_t index)
 	{
 		if (index >= TextureCountMax) return;

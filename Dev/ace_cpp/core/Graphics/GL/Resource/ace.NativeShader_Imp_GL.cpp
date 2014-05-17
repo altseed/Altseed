@@ -162,7 +162,7 @@ void NativeShader_Imp_GL::CreatePixelConstantBufferInternal(int32_t size, std::v
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void NativeShader_Imp_GL::SetConstantBuffer(const char* name, void* data, int32_t size)
+void NativeShader_Imp_GL::SetConstantBuffer(const char* name, const void* data, int32_t size)
 {
 	auto key = std::string(name);
 
