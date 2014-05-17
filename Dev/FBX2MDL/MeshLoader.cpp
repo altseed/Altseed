@@ -14,7 +14,7 @@ std::vector<Vertex> MeshLoader::GetVertices()
 
 void MeshLoader::_loadPositions(FbxMesh* fbxMesh)
 {
-
+	name=std::string(fbxMesh->GetNode()->GetName());
 	int controlNum = fbxMesh->GetControlPointsCount();
 
 	FbxVector4* src = fbxMesh->GetControlPoints();
@@ -301,16 +301,18 @@ void MeshLoader::Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGrou
 	_loadPositions(fbxMesh);
 
 	_loadWeight(fbxMesh,attachmentIndex,meshGroups);
+	
+	_loadTextures(fbxMesh);
 
 	_loadVertices(fbxMesh);
 
-	_loadTextures(fbxMesh);
 
 	//_loadFaceMaterials(fbxMesh);
 }
 
 void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 {
+	printf("Mesh Name = %s\n",name.c_str());
 	//printf("Control Point Num = %d\n",_vertices.size());
 	writer->Push((int32_t)_vertices.size());
 
@@ -401,10 +403,15 @@ void MeshLoader::_loadBoneAttachments(FbxMesh* fbxMesh)
 void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer)
 {
 	writer->Push((int32_t)_facialMaterials.size());
+
+	printf("fms = %d\n",_facialMaterials.size());
+
 	for(int i=0;i<_facialMaterials.size();++i)
 	{
 		writer->Push((int32_t)_facialMaterials[i].materialIndex);
 		writer->Push((int32_t)_facialMaterials[i].faceNum);
+
+		printf("fmi = %d fmfn = %d\n",_facialMaterials[i].materialIndex,_facialMaterials[i].faceNum);
 	}
 }
 
@@ -428,6 +435,8 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 	int materialCount = node->GetMaterialCount();
 
 	const char* mats[3]={FbxSurfaceMaterial::sDiffuse,FbxSurfaceMaterial::sNormalMap,FbxSurfaceMaterial::sSpecular};
+
+	printf("mat num = %d\n",materialCount);
 
 	for (int i = 0; i < materialCount; i++) 
 	{
@@ -493,61 +502,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 
 void MeshLoader::_loadFaceMaterials(FbxMesh* fbxMesh)
 {
-	int lPolygonCount = fbxMesh->GetPolygonCount();
 
-
-	bool lIsAllSame = true;
-	for (int l = 0; l < fbxMesh->GetElementMaterialCount(); l++)
-	{
-
-		FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial(l);
-		if( lMaterialElement->GetMappingMode() == FbxGeometryElement::eByPolygon) 
-		{
-			lIsAllSame = false;
-			break;
-		}
-	}
-
-	if(lIsAllSame)
-	{
-		printf("share all\n");
-		for (int l = 0; l < fbxMesh->GetElementMaterialCount(); l++)
-		{
-
-			FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial( l);
-			if( lMaterialElement->GetMappingMode() == FbxGeometryElement::eAllSame) 
-			{
-				FbxSurfaceMaterial* lMaterial = fbxMesh->GetNode()->GetMaterial(lMaterialElement->GetIndexArray().GetAt(0));    
-				int lMatId = lMaterialElement->GetIndexArray().GetAt(0);
-
-
-			}
-		}
-	}
-	else
-	{
-
-		printf("not share all\n");
-		for (int i = 0; i < lPolygonCount; i++)
-		{
-			for (int l = 0; l < fbxMesh->GetElementMaterialCount(); l++)
-			{
-
-				FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial( l);
-				FbxSurfaceMaterial* lMaterial = NULL;
-				int lMatId = -1;
-				lMaterial = fbxMesh->GetNode()->GetMaterial(lMaterialElement->GetIndexArray().GetAt(i));
-
-				lMatId = lMaterialElement->GetIndexArray().GetAt(i);
-
-				if(lMatId >= 0)
-				{
-					//printf("id:%d l:%d\n", lMatId, l);
-				}
-
-			}
-		}
-	}
 }
 
 void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
@@ -654,15 +609,13 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			lMatId = lMaterialElement->GetIndexArray().GetAt(0);
 		}
 
-		printf("Matid=%d\n",lMatId);
-
 		if(i==0)
 		{
 			preFaceIndex = lMatId;
 		}
 		else if(i==lPolygonCount-1)
 		{
-			_facialMaterials.push_back(FacialMaterial(preFaceIndex,faceContinue+2));
+			_facialMaterials.push_back(FacialMaterial(preFaceIndex,faceContinue+2,materials[lMatId]));
 		}
 		else if(preFaceIndex==lMatId)
 		{
@@ -670,7 +623,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 		}
 		else
 		{
-			_facialMaterials.push_back(FacialMaterial(preFaceIndex,faceContinue+1));
+			_facialMaterials.push_back(FacialMaterial(preFaceIndex,faceContinue+1,materials[lMatId]));
 			faceContinue=0;
 		}
 
@@ -690,5 +643,6 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 		{
 			printf("%d %d\n",_facialMaterials[i].faceNum,_facialMaterials[i].materialIndex);
 		}
+		printf("\n");
 	}
 }

@@ -4,6 +4,7 @@
 #include "../ace_cpp/common/Math/ace.Matrix44.h"
 
 #include <iostream>
+#include <algorithm>
 
 MDLExporter::MDLExporter(const char* fileName){
 	// Initialize the SDK manager. This object handles all our memory management.
@@ -189,17 +190,26 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 
 			for(int j=0;j<mLoader.materials.size();++j)
 			{
-				_meshGroups[attachmentIndex].materials.push_back(mLoader.materials[j]);
+				if(std::find(_meshGroups[attachmentIndex].materials.begin(),_meshGroups[attachmentIndex].materials.end(),mLoader.materials[j])==_meshGroups[attachmentIndex].materials.end())
+				{
+					mLoader.materials[j].groupIndex=_meshGroups[attachmentIndex].materials.size();
+					_meshGroups[attachmentIndex].materials.push_back(mLoader.materials[j]);
+				}
 			}
 		}
 		else
 		{
 			MeshGroup meshGroup;
 			meshGroup.meshLoaders.push_back(mLoader);
-			meshGroup.materials=mLoader.materials;
+
+			for(int j=0;j<mLoader.materials.size();++j)
+			{
+				mLoader.materials[j].groupIndex=j;
+				meshGroup.materials.push_back(mLoader.materials[j]);
+			}
+
 			_meshGroups.push_back(meshGroup);
 		}
-
 	}
 
 }
@@ -247,7 +257,6 @@ void MDLExporter::GetMotion(FbxNode *parentNode,FbxNode* node,FbxAnimLayer* pLay
 	//assert(node->GetNodeAttribute());
 
 	if(node->GetNodeAttribute() && node->GetNodeAttribute()->GetAttributeType()==FbxNodeAttribute::eSkeleton)
-
 	{
 		GetSkeletonCurve(node,pLayer,animationSource);
 	}
@@ -361,7 +370,6 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,De
 
 		fbxsdk_2014_2_1::EFbxRotationOrder fbxRotationOrder;
 		node->GetRotationOrder(FbxNode::eSourcePivot, fbxRotationOrder);
-
 
 		switch(fbxRotationOrder)
 		{
