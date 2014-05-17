@@ -408,10 +408,10 @@ void MeshLoader::WriteFaceMaterials(ace::BinaryWriter* writer)
 
 	for(int i=0;i<_facialMaterials.size();++i)
 	{
-		writer->Push((int32_t)_facialMaterials[i].materialIndex);
+		writer->Push((int32_t)_facialMaterials[i].materialRef.groupIndex);
 		writer->Push((int32_t)_facialMaterials[i].faceNum);
 
-		printf("fmi = %d fmfn = %d\n",_facialMaterials[i].materialIndex,_facialMaterials[i].faceNum);
+		printf("fmi = %d fmfn = %d\n",_facialMaterials[i].materialRef.groupIndex,_facialMaterials[i].faceNum);
 	}
 }
 
