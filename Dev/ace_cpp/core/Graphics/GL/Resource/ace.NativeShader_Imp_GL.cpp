@@ -372,6 +372,8 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 		if (log_size > 0)
 		{
 			OUTPUT_DEBUG_STRING("Vertex Shader:\n");
+			OUTPUT_DEBUG_STRING(vertexShaderFileName);
+			OUTPUT_DEBUG_STRING("\n");
 			OUTPUT_DEBUG_STRING(log_text);
 			log->WriteLine(log_text);
 		}
@@ -379,6 +381,8 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 		if (log_size > 0)
 		{
 			OUTPUT_DEBUG_STRING("Fragment Shader:\n");
+			OUTPUT_DEBUG_STRING(pixelShaderFileName);
+			OUTPUT_DEBUG_STRING("\n");
 			OUTPUT_DEBUG_STRING(log_text);
 			log->WriteLine(log_text);
 		}
@@ -386,6 +390,10 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 		if (log_size > 0)
 		{
 			OUTPUT_DEBUG_STRING("Shader Link:\n");
+			OUTPUT_DEBUG_STRING(vertexShaderFileName);
+			OUTPUT_DEBUG_STRING("\n");
+			OUTPUT_DEBUG_STRING(pixelShaderFileName);
+			OUTPUT_DEBUG_STRING("\n");
 			OUTPUT_DEBUG_STRING(log_text);
 			log->WriteLine(log_text);
 		}
@@ -420,6 +428,8 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 			if (vs_size > 0)
 			{
 				OUTPUT_DEBUG_STRING("Vertex Shader:\n");
+				OUTPUT_DEBUG_STRING(vertexShaderFileName);
+				OUTPUT_DEBUG_STRING("\n");
 				OUTPUT_DEBUG_STRING(vs_text);
 				log->WriteLine(vs_text);
 			}
@@ -427,6 +437,8 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 			if (ps_size > 0)
 			{
 				OUTPUT_DEBUG_STRING("Fragment Shader:\n");
+				OUTPUT_DEBUG_STRING(pixelShaderFileName);
+				OUTPUT_DEBUG_STRING("\n");
 				OUTPUT_DEBUG_STRING(ps_text);
 				log->WriteLine(ps_text);
 			}
@@ -434,6 +446,10 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 			if (l_size > 0)
 			{
 				OUTPUT_DEBUG_STRING("Shader Link:\n");
+				OUTPUT_DEBUG_STRING(vertexShaderFileName);
+				OUTPUT_DEBUG_STRING("\n");
+				OUTPUT_DEBUG_STRING(pixelShaderFileName);
+				OUTPUT_DEBUG_STRING("\n");
 				OUTPUT_DEBUG_STRING(l_text);
 				log->WriteLine(l_text);
 			}
