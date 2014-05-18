@@ -568,6 +568,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			vertex.color[3]=color[3];
 
 			vertex.uv = _loadUV(fbxMesh,lControlPointIndex,vertexId,i,j);
+			//Blender‚Ì‚ÝUV(Y)‚ÌŽn“_‚ªˆÙ‚È‚é‚½‚ß
 			vertex.uv.Y=1-vertex.uv.Y;
 			int index = -1;
 			for(int k=0;k<_vertices.size();++k)
