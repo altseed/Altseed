@@ -675,7 +675,7 @@ namespace ace
 							bIndex++;
 						}
 
-						if (fCount + fOffset == mFCount && materialOffsets.size() > mIndex)
+						if (fCount + fOffset == mFCount && materialOffsets.size()-1 > mIndex)
 						{
 							mFCount += materialOffsets[mIndex].FaceOffset;
 							mIndex++;

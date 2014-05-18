@@ -15,7 +15,7 @@ MDLExporter::MDLExporter(const char* fileName){
 	lSdkManager->SetIOSettings(ios);
 
 	// Create an importer using the SDK manager.
-	
+
 	fbxsdk_2014_2_1::FbxImporter* lImporter = fbxsdk_2014_2_1::FbxImporter::Create(lSdkManager, "");
 
 	// Use the first argument as the filename for the importer.
@@ -124,11 +124,11 @@ void MDLExporter::Convert()
 
 	{
 		//アニメーションソース
-        binaryWriter->Push((int32_t)_animationSources.size());
-        for(int i=0;i<_animationSources.size();++i)
-        {
-            _animationSources[i].WriteAnimationSource(binaryWriter);
-        }
+		binaryWriter->Push((int32_t)_animationSources.size());
+		for(int i=0;i<_animationSources.size();++i)
+		{
+			_animationSources[i].WriteAnimationSource(binaryWriter);
+		}
 	}
 
 	{
@@ -188,18 +188,22 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 		{
 			for(int j=0;j<mLoader.materials.size();++j)
 			{
+				/*
 				mLoader.materials[j].groupIndex=_meshGroups[attachmentIndex].materials.size();
 				if(std::find(_meshGroups[attachmentIndex].materials.begin(),_meshGroups[attachmentIndex].materials.end(),mLoader.materials[j])==_meshGroups[attachmentIndex].materials.end())
 				{
 					_meshGroups[attachmentIndex].materials.push_back(mLoader.materials[j]);
 				}
+				*/
+				mLoader.materials[j].groupIndex=_meshGroups[attachmentIndex].materials.size();
+				_meshGroups[attachmentIndex].materials.push_back(mLoader.materials[j]);
+
 			}
 			_meshGroups[attachmentIndex].meshLoaders.push_back(mLoader);
 		}
 		else
 		{
 			MeshGroup meshGroup;
-			meshGroup.meshLoaders.push_back(mLoader);
 
 			for(int j=0;j<mLoader.materials.size();++j)
 			{
@@ -207,6 +211,7 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 				meshGroup.materials.push_back(mLoader.materials[j]);
 			}
 
+			meshGroup.meshLoaders.push_back(mLoader);
 			_meshGroups.push_back(meshGroup);
 		}
 	}

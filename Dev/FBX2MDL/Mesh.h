@@ -43,14 +43,12 @@ struct Material;
 
 struct FacialMaterial
 {
-	int materialIndex;
 	int faceNum;
 	Material &materialRef;
 
-	FacialMaterial(int materialindex,int facenum,Material &materialref)
+	FacialMaterial(int facenum,Material &materialref)
 		:materialRef(materialref)
 	{
-		materialIndex=materialindex;
 		faceNum = facenum;
 	}
 };

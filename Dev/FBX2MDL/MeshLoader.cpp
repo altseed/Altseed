@@ -444,6 +444,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 		FbxSurfaceMaterial* material = node->GetMaterial(i);
 		Material mat;
 		mat.Type=0;
+		mat.groupIndex=-1;
 		for(int s=0;s<3;++s)
 		{
 			FbxProperty prop = material->FindProperty(mats[s]);
@@ -615,7 +616,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 		}
 		else if(i==lPolygonCount-1)
 		{
-			_facialMaterials.push_back(FacialMaterial(preFaceIndex,faceContinue+2,materials[lMatId]));
+			_facialMaterials.push_back(FacialMaterial(faceContinue+2,materials[lMatId]));
 		}
 		else if(preFaceIndex==lMatId)
 		{
@@ -623,7 +624,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 		}
 		else
 		{
-			_facialMaterials.push_back(FacialMaterial(preFaceIndex,faceContinue+1,materials[lMatId]));
+			_facialMaterials.push_back(FacialMaterial(faceContinue+1,materials[lMatId]));
 			faceContinue=0;
 		}
 
@@ -637,12 +638,4 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 		_faces.push_back(face);
 
 	} // for polygonCount
-
-	{
-		for(int i=0;i<_facialMaterials.size();++i)
-		{
-			printf("%d %d\n",_facialMaterials[i].faceNum,_facialMaterials[i].materialIndex);
-		}
-		printf("\n");
-	}
 }
