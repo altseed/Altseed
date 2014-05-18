@@ -35,7 +35,7 @@ public:
 
 class DeformerManager
 {
-	std::vector<Deformer*> _deformer;
+	std::vector<Deformer*> m_deformer;
 
 public:
 	DeformerManager(){}

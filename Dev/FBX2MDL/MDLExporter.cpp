@@ -8,18 +8,18 @@
 
 MDLExporter::MDLExporter(const char* fileName){
 	// Initialize the SDK manager. This object handles all our memory management.
-	lSdkManager = FbxManager::Create();
+	m_SdkManager = FbxManager::Create();
 
 	// Create the IO settings object.
-	FbxIOSettings *ios = FbxIOSettings::Create(lSdkManager, IOSROOT);
-	lSdkManager->SetIOSettings(ios);
+	FbxIOSettings *ios = FbxIOSettings::Create(m_SdkManager, IOSROOT);
+	m_SdkManager->SetIOSettings(ios);
 
 	// Create an importer using the SDK manager.
 
-	fbxsdk_2014_2_1::FbxImporter* lImporter = fbxsdk_2014_2_1::FbxImporter::Create(lSdkManager, "");
+	fbxsdk_2014_2_1::FbxImporter* lImporter = fbxsdk_2014_2_1::FbxImporter::Create(m_SdkManager, "");
 
 	// Use the first argument as the filename for the importer.
-	if (!lImporter->Initialize(fileName, -1, lSdkManager->GetIOSettings())) {
+	if (!lImporter->Initialize(fileName, -1, m_SdkManager->GetIOSettings())) {
 		printf("Call to FbxImporter::Initialize() failed.\n");
 		printf("Error returned: %s\n\n", lImporter->GetStatus().GetErrorString());
 		system("PAUSE");
@@ -27,23 +27,23 @@ MDLExporter::MDLExporter(const char* fileName){
 	}
 
 	// Create a new scene so that it can be populated by the imported file.
-	lScene = FbxScene::Create(lSdkManager, "myScene");
+	m_Scene = FbxScene::Create(m_SdkManager, "myScene");
 
 	// Import the contents of the file into the scene.
-	lImporter->Import(lScene);
+	lImporter->Import(m_Scene);
 
 	// The file is imported; so get rid of the importer.
 	lImporter->Destroy();
 
 
-	binaryWriter = new ace::BinaryWriter();
+	m_binaryWriter = new ace::BinaryWriter();
 
 }
 
 void MDLExporter::Convert()
 {
 	PrintHeader();
-	FbxNode* lRootNode = lScene->GetRootNode();
+	FbxNode* lRootNode = m_Scene->GetRootNode();
 	if (lRootNode) {
 
 		//ボーンリスト
@@ -57,29 +57,29 @@ void MDLExporter::Convert()
 				}
 			}
 
-			_meshGroups.resize((int32_t)armatureIndices.size());
+			m_meshGroups.resize((int32_t)armatureIndices.size());
 
 			int armaturePtr=0;
 			for (int i = 0; i < (int)armatureIndices.size(); i++)
 			{
 				Deformer::ResetIndexCount();
-				GetDeformer(NULL,lRootNode->GetChild(armatureIndices[i]),_meshGroups[armaturePtr++].deformerManager);
+				GetDeformer(NULL,lRootNode->GetChild(armatureIndices[i]),m_meshGroups[armaturePtr++].deformerManager);
 			}
 		}
 
 		//アニメーション
 		{
-			const int stackCount = lScene->GetSrcObjectCount<FbxAnimStack>();
+			const int stackCount = m_Scene->GetSrcObjectCount<FbxAnimStack>();
 
 			for(int i=0;i<stackCount;++i)
 			{
 				AnimationSource animationSource;
-				FbxAnimStack *pStack = lScene->GetSrcObject<FbxAnimStack>(i);
+				FbxAnimStack *pStack = m_Scene->GetSrcObject<FbxAnimStack>(i);
 
-				lScene->SetCurrentAnimationStack(pStack);
+				m_Scene->SetCurrentAnimationStack(pStack);
 				AnimStackAnalyze(pStack,lRootNode,animationSource);
 
-				_animationSources.push_back(animationSource);
+				m_animationSources.push_back(animationSource);
 			}
 		}
 
@@ -93,64 +93,64 @@ void MDLExporter::Convert()
 
 	//出力
 	{
-		int meshGroupNum = (int) _meshGroups.size();
+		int meshGroupNum = (int) m_meshGroups.size();
 
 		printf("Mesh Group Num = %d\n", meshGroupNum);
 
 		//メッシュ
-		binaryWriter->Push(meshGroupNum);
+		m_binaryWriter->Push(meshGroupNum);
 
 		for (int i = 0; i < meshGroupNum; ++i)
 		{
-			MeshGroup meshGroup=_meshGroups[i];
+			MeshGroup meshGroup=m_meshGroups[i];
 
 			printf("Mesh Num = %d\n", meshGroup.meshLoaders.size());
 
-			binaryWriter->Push((int32_t)meshGroup.meshLoaders.size());
+			m_binaryWriter->Push((int32_t)meshGroup.meshLoaders.size());
 			for(int j=0;j<meshGroup.meshLoaders.size();++j)
 			{
-				meshGroup.meshLoaders[j].WriteVertices(binaryWriter);
-				meshGroup.meshLoaders[j].WriteFaces(binaryWriter);
-				meshGroup.meshLoaders[j].WriteFaceMaterials(binaryWriter);
-				meshGroup.meshLoaders[j].WriteBoneAttachments(binaryWriter);
+				meshGroup.meshLoaders[j].WriteVertices(m_binaryWriter);
+				meshGroup.meshLoaders[j].WriteFaces(m_binaryWriter);
+				meshGroup.meshLoaders[j].WriteFaceMaterials(m_binaryWriter);
+				meshGroup.meshLoaders[j].WriteBoneAttachments(m_binaryWriter);
 			}
 			//ボーン
-			meshGroup.deformerManager.WriteDeformerInformation(binaryWriter);
+			meshGroup.deformerManager.WriteDeformerInformation(m_binaryWriter);
 
 			//材質
-			meshGroup.WriteMaterials(binaryWriter);
+			meshGroup.WriteMaterials(m_binaryWriter);
 		}
 	}
 
 	{
 		//アニメーションソース
-		binaryWriter->Push((int32_t)_animationSources.size());
-		for(int i=0;i<_animationSources.size();++i)
+		m_binaryWriter->Push((int32_t)m_animationSources.size());
+		for(int i=0;i<m_animationSources.size();++i)
 		{
-			_animationSources[i].WriteAnimationSource(binaryWriter);
+			m_animationSources[i].WriteAnimationSource(m_binaryWriter);
 		}
 	}
 
 	{
 		//アニメーションクリップ
-		binaryWriter->Push((int32_t)_animationSources.size());
-		for(int i=0;i<_animationSources.size();++i)
+		m_binaryWriter->Push((int32_t)m_animationSources.size());
+		for(int i=0;i<m_animationSources.size();++i)
 		{
-			binaryWriter->Push(ace::ToAString(_animationSources[i].animationName.c_str()));
-			binaryWriter->Push(i);
+			m_binaryWriter->Push(ace::ToAString(m_animationSources[i].animationName.c_str()));
+			m_binaryWriter->Push(i);
 		}
 	}
 
 
-	binaryWriter->WriteOut("out.mdl");
+	m_binaryWriter->WriteOut("out.mdl");
 
 }
 
 MDLExporter::~MDLExporter()
 {
-	lSdkManager->Destroy();
+	m_SdkManager->Destroy();
 
-	delete binaryWriter;
+	delete m_binaryWriter;
 }
 
 void MDLExporter::GetMeshGroup(FbxNode* pNode,int depth)
@@ -174,7 +174,7 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 
 		if (!mesh->IsTriangleMesh())
 		{
-			FbxGeometryConverter _converter(lSdkManager);
+			FbxGeometryConverter _converter(m_SdkManager);
 			mesh = (FbxMesh*) _converter.Triangulate(mesh, true);
 		}
 
@@ -182,7 +182,7 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 
 		int attachmentIndex;
 
-		mLoader.Load(mesh,attachmentIndex,_meshGroups);
+		mLoader.Load(mesh,attachmentIndex,m_meshGroups);
 
 		if(attachmentIndex!=-1)
 		{
@@ -195,11 +195,11 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 					_meshGroups[attachmentIndex].materials.push_back(mLoader.materials[j]);
 				}
 				*/
-				mLoader.materials[j].groupIndex=_meshGroups[attachmentIndex].materials.size();
-				_meshGroups[attachmentIndex].materials.push_back(mLoader.materials[j]);
+				mLoader.materials[j].groupIndex=m_meshGroups[attachmentIndex].materials.size();
+				m_meshGroups[attachmentIndex].materials.push_back(mLoader.materials[j]);
 
 			}
-			_meshGroups[attachmentIndex].meshLoaders.push_back(mLoader);
+			m_meshGroups[attachmentIndex].meshLoaders.push_back(mLoader);
 		}
 		else
 		{
@@ -212,7 +212,7 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 			}
 
 			meshGroup.meshLoaders.push_back(mLoader);
-			_meshGroups.push_back(meshGroup);
+			m_meshGroups.push_back(meshGroup);
 		}
 	}
 
@@ -398,10 +398,10 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,De
 
 void MDLExporter::PrintHeader()
 {
-	binaryWriter->Push((uint8_t)'M');
-	binaryWriter->Push((uint8_t)'D');
-	binaryWriter->Push((uint8_t)'L');
-	binaryWriter->Push((uint8_t) 0);
+	m_binaryWriter->Push((uint8_t)'M');
+	m_binaryWriter->Push((uint8_t)'D');
+	m_binaryWriter->Push((uint8_t)'L');
+	m_binaryWriter->Push((uint8_t) 0);
 
-	binaryWriter->Push(1);
+	m_binaryWriter->Push(1);
 }
