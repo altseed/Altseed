@@ -79,7 +79,7 @@ public:
 		m_baseVertices=meshLoader.m_baseVertices;
 		m_vertices=meshLoader.m_vertices;
 		m_faces=meshLoader.m_faces;
-		//m_facialMaterials=meshLoader.m_facialMaterials;
+		m_facialMaterials=meshLoader.m_facialMaterials;
 
 		return *this;
 	}
