@@ -593,10 +593,12 @@ namespace ace
 						bFCount = mesh->GetIndexBuffer()->GetCount() / 3;
 					}
 
+					Mesh_Imp::Material* material = nullptr;
 					auto mFCount = 0;
 					if (materialOffsets.size() > 0)
 					{
 						mFCount = materialOffsets[mIndex].FaceOffset;
+						material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
 					}
 					else
 					{
@@ -607,12 +609,6 @@ namespace ace
 					{
 						fCount = Min(bFCount, mFCount) - fOffset;
 						if (fCount == 0) break;
-
-						Mesh_Imp::Material* material = nullptr;
-						if (materialOffsets.size() > 0)
-						{
-							material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
-						}
 
 						if (material != nullptr)
 						{
@@ -675,9 +671,10 @@ namespace ace
 							bIndex++;
 						}
 
-						if (fCount + fOffset == mFCount && materialOffsets.size()-1 > mIndex)
+						if (fCount + fOffset == mFCount && materialOffsets.size() > mIndex)
 						{
 							mFCount += materialOffsets[mIndex].FaceOffset;
+							material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
 							mIndex++;
 						}
 

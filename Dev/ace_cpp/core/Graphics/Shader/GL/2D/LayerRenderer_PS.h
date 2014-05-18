@@ -1,4 +1,4 @@
-static const char* layerrenderer_ps_gl = R"(
+﻿static const char* layerrenderer_ps_gl = R"(
 
 varying vec4 vaTexCoord;
 varying vec4 vaColor;
@@ -7,7 +7,7 @@ uniform sampler2D g_texture;
 
 void main() 
 {
-	// varying(in) �͕ύX�s��(Radeon)
+	// varying(in) は変更不可(Radeon)
 
 	// gl only
 	vec4 vaTexCoord_ = vaTexCoord;

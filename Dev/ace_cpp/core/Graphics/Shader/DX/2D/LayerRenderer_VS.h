@@ -1,4 +1,4 @@
-static const char* layerrenderer_vs_dx = R"(
+﻿static const char* layerrenderer_vs_dx = R"(
 struct VS_Input
 {
 	float3 Pos		: Pos0;

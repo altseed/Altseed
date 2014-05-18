@@ -1,4 +1,4 @@
-static const char* layerrenderer_vs_gl = R"(
+﻿static const char* layerrenderer_vs_gl = R"(
 
 attribute vec3 Pos;
 attribute vec2 UV;
