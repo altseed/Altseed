@@ -184,7 +184,8 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 
 		mLoader.Load(mesh,attachmentIndex,m_meshGroups);
 
-		if(attachmentIndex!=-1)
+		
+		if(attachmentIndex!=-1) //あるメッシュグループに属する場合
 		{
 			for(int j=0;j<mLoader.materials.size();++j)
 			{
@@ -201,7 +202,7 @@ void MDLExporter::GetMeshProperty(FbxNode* node)
 			}
 			m_meshGroups[attachmentIndex].meshLoaders.push_back(mLoader);
 		}
-		else
+		else //どのメッシュグループにも属さない場合
 		{
 			MeshGroup meshGroup;
 
@@ -364,6 +365,7 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,De
 
 		FbxAMatrix relationMatrix = invParentMatrix * transform;
 
+		//FBXのマトリクスをACEのマトリクスに代入（転置ではない）
 		for(int j=0;j<4;++j)
 		{
 			for(int k=0;k<4;++k)
@@ -373,6 +375,7 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,De
 			}
 		}
 
+		//回転の順序を取得
 		fbxsdk_2014_2_1::EFbxRotationOrder fbxRotationOrder;
 		node->GetRotationOrder(FbxNode::eSourcePivot, fbxRotationOrder);
 
