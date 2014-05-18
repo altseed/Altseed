@@ -118,13 +118,19 @@ namespace ace
 
 			auto small_ = -0.00001f;
 			auto big_ = 1.000001f;
-			return (v >= small_) && (v <= big_);
+			return (small_ <= v) && (v <= big_);
 		};
 
 		auto c3_ = k2X - k1X + 3.0f * (k1rhX - k2lhX);
 		auto c2_ = 3.0f * (k1X - 2.0f * k1rhX + k2lhX);
 		auto c1_ = 3.0f * (k1rhX - k1X);
 		auto c0_ = k1X - frame;
+
+		if (c0_ == 0.0)
+		{
+			r = 0.0f;
+			return true;
+		}
 
 		if (c3_ != 0.0)
 		{
