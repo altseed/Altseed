@@ -42,7 +42,7 @@ void MeshLoader::_loadPositions(FbxMesh* fbxMesh)
 			vertex.weightIndexOriginal[j]=0;
 
 		}
-		vertex.weight[0]=255;
+		//vertex.weight[0]=255;
 		m_baseVertices.push_back(vertex);
 	}
 }
@@ -365,18 +365,30 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 			m_vertices[i].weight[biggestIndex]+=static_cast<uint8_t>(255-sum);
 		}
 
+		printf("\nWeight = ");
+
 		for (int j = 0; j < 4; ++j)
 		{
+			printf("%d ",m_vertices[i].weight[j]);
 			writer->Push(m_vertices[i].weight[j]);
 		}
+
+		printf("\nWeightIndexOriginal = ");
+
 		for (int j = 0; j < 4; ++j)
 		{
+			printf("%d ",m_vertices[i].weightIndexOriginal[j]);
 			writer->Push(m_vertices[i].weightIndexOriginal[j]);
 		}
+
+		printf("\nWeightIndexDivided = ");
+
 		for (int j = 0; j < 4; ++j)
 		{
+			printf("%d ",m_vertices[i].weightIndexDivided[j]);
 			writer->Push(m_vertices[i].weightIndexDivided[j]);
 		}
+		printf("\n");
 	}
 }
 
