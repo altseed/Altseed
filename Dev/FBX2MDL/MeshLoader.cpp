@@ -466,7 +466,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 						if(texture) {
 							//--- テクスチャ名を取得 ---//
 							//std::string textureName = texture->GetName();
-							std::string textureName = texture->GetFileName();
+							std::string textureName = texture->GetRelativeFileName();
 
 							//--- UVSet名を取得 ---//
 							std::string UVSetName = texture->UVSet.Get().Buffer();
@@ -486,7 +486,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 						FbxFileTexture* texture = prop.GetSrcObject<FbxFileTexture>(j);
 						if(texture) {
 							//std::string textureName = texture->GetName();
-							std::string textureName = texture->GetFileName();
+							std::string textureName = texture->GetRelativeFileName();
 
 							//--- UVSet名を取得 ---//
 							std::string UVSetName = texture->UVSet.Get().Buffer();
@@ -616,7 +616,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 		}
 		else if(i==lPolygonCount-1)
 		{
-			_facialMaterials.push_back(FacialMaterial(faceContinue+2,materials[lMatId]));
+			_facialMaterials.push_back(FacialMaterial(faceContinue+2,materials[preFaceIndex]));
 		}
 		else if(preFaceIndex==lMatId)
 		{
@@ -624,7 +624,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 		}
 		else
 		{
-			_facialMaterials.push_back(FacialMaterial(faceContinue+1,materials[lMatId]));
+			_facialMaterials.push_back(FacialMaterial(faceContinue+1,materials[preFaceIndex]));
 			faceContinue=0;
 		}
 
