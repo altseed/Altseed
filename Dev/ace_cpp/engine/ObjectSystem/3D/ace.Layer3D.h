@@ -56,5 +56,18 @@ namespace ace
 			@param	object	削除される3Dオブジェクト
 		*/
 		void RemoveObject(const ObjectPtr& object);
+
+		/**
+			@brief	空方向の環境光の色を設定する。
+			@param	color	色
+		*/
+		void SetSkyAmbientColor(Color color);
+
+		/**
+		@brief	地面方向の環境光の色を設定する。
+		@param	color	色
+		*/
+		void SetGroundAmbientColor(Color color);
+
 	};
 }

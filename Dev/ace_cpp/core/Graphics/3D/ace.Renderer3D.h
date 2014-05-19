@@ -95,6 +95,8 @@ namespace ace
 			Effekseer::Manager*				EffectManager;
 			EffekseerRenderer::Renderer*	EffectRenderer;
 
+			Color							SkyAmbientColor;
+			Color							GroundAmbientColor;
 		} rendering;
 
 		Graphics_Imp*	m_graphics;
@@ -104,7 +106,9 @@ namespace ace
 		std::set<RenderedObject3D*>	m_cameraObjects;
 		std::set<RenderedObject3D*>	m_directionalLightObjects;
 
-		
+		Color						m_skyAmbientColor;
+		Color						m_groundAmbientColor;
+
 		bool					m_multithreadingMode;
 
 		Vector2DI				m_windowSize;
@@ -154,6 +158,9 @@ namespace ace
 
 		void BeginRendering();
 		void EndRendering();
+
+		void SetSkyAmbientColor(Color color) { m_skyAmbientColor = color; }
+		void SetGroundAmbientColor(Color color) { m_groundAmbientColor = color; }
 
 		std::shared_ptr<Texture2D> GetDummyTextureWhite() { return m_dummyTextureWhite; }
 		std::shared_ptr<Texture2D> GetDummyTextureBlack() { return m_dummyTextureBlack; }

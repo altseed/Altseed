@@ -97,6 +97,24 @@ namespace ace
 			object3D.Layer = null;
 		}
 
+		/// <summary>
+		/// 空方向の環境光の色を設定する。
+		/// </summary>
+		/// <param name="color">色</param>
+		void SetSkyAmbientColor(Color color)
+		{
+			coreLayer3D.SetSkyAmbientColor(color);
+		}
+	
+		/// <summary>
+		/// 地面方向の環境光の色を設定する。
+		/// </summary>
+		/// <param name="color">色</param>
+		void SetGroundAmbientColor(Color color)
+		{
+			coreLayer3D.SetGroundAmbientColor(color);
+		}
+
 		internal override void BeginUpdating()
 		{
 			coreLayer3D.BeginUpdating();

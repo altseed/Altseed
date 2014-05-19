@@ -36,6 +36,9 @@ namespace ace
 		void AddObject(ObjectPtr object3D);
 		void RemoveObject(ObjectPtr object3D);
 
+		void SetSkyAmbientColor(Color color);
+		void SetGroundAmbientColor(Color color);
+
 		void BeginUpdating();
 		void EndUpdating();
 

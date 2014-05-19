@@ -29,5 +29,9 @@ namespace ace
 
 		virtual void AddObject(ObjectPtr object3D) = 0;
 		virtual void RemoveObject(ObjectPtr object3D) = 0;
+
+		virtual void SetSkyAmbientColor(Color color) = 0;
+		virtual void SetGroundAmbientColor(Color color) = 0;
+
 	};
 }

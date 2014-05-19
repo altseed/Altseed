@@ -113,4 +113,14 @@ namespace ace
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 		object->SetLayer(nullptr);
 	}
+
+	void Layer3D::SetSkyAmbientColor(Color color)
+	{
+		m_coreLayer->SetSkyAmbientColor(color);
+	}
+
+	void Layer3D::SetGroundAmbientColor(Color color)
+	{
+		m_coreLayer->SetGroundAmbientColor(color);
+	}
 };

@@ -129,8 +129,8 @@ namespace ace
 			}
 			prop.DirectionalLightDirection.Normalize();
 
-			prop.GroundLightColor = Color(20, 20, 20, 255);
-			prop.SkyLightColor = Color(20, 20, 20, 255);
+			prop.GroundLightColor = rendering.GroundAmbientColor;
+			prop.SkyLightColor = rendering.SkyAmbientColor;
 		}
 
 		for (auto& co : rendering.cameraObjects)
@@ -560,6 +560,8 @@ namespace ace
 		, m_multithreadingMode(false)
 		, m_renderTarget(nullptr)
 		, m_event(this)
+		, m_skyAmbientColor(Color(10,10,20,255))
+		, m_groundAmbientColor(Color(10,10,10,255))
 	{
 		m_graphics = (Graphics_Imp*) graphics;
 		SafeAddRef(m_graphics);
@@ -1067,6 +1069,9 @@ namespace ace
 		{
 			o->Flip();
 		}
+
+		rendering.SkyAmbientColor = m_skyAmbientColor;
+		rendering.GroundAmbientColor = m_groundAmbientColor;
 	}
 
 	void Renderer3D::BeginRendering()

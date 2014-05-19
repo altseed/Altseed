@@ -50,6 +50,16 @@ namespace ace
 		}
 	}
 
+	void CoreLayer3D_Imp::SetSkyAmbientColor(Color color)
+	{
+		m_renderer->SetSkyAmbientColor(color);
+	}
+
+	void CoreLayer3D_Imp::SetGroundAmbientColor(Color color)
+	{
+		m_renderer->SetGroundAmbientColor(color);
+	}
+
 	void CoreLayer3D_Imp::BeginUpdating()
 	{
 		m_renderer->Flip();
