@@ -36,14 +36,14 @@ struct MeshGroup
 
 class MeshLoader
 {
-	std::string name;
-	std::vector<Vertex> _baseVertices;
-	std::vector<Vertex> _vertices;
-	std::vector<Face> _faces;
-	std::vector<FacialMaterial> _facialMaterials;
+	std::string m_name;
+	std::vector<Vertex> m_baseVertices;
+	std::vector<Vertex> m_vertices;
+	std::vector<Face> m_faces;
+	std::vector<FacialMaterial> m_facialMaterials;
 
-	int faceContinue;
-	int preFaceIndex;
+	int m_faceContinue;
+	int m_preFaceIndex;
 
 
 	void _loadPositions(FbxMesh* fbxMesh);
@@ -76,9 +76,10 @@ public:
 
 	MeshLoader& operator=( const MeshLoader &meshLoader)
 	{
-		_baseVertices=meshLoader._baseVertices;
-		_vertices=meshLoader._vertices;
-		_faces=meshLoader._faces;
+		m_baseVertices=meshLoader.m_baseVertices;
+		m_vertices=meshLoader.m_vertices;
+		m_faces=meshLoader.m_faces;
+		m_facialMaterials=meshLoader.m_facialMaterials;
 
 		return *this;
 	}

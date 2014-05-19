@@ -2,6 +2,7 @@
 
 #include "../ace_cpp/common/Math/ace.Vector3DF.h"
 #include "../ace_cpp/common/Math/ace.Vector2DF.h"
+#include "Material.h"
 
 struct Vertex
 {
@@ -39,8 +40,6 @@ struct Face
 	int materialIndex;
 };
 
-struct Material;
-
 struct FacialMaterial
 {
 	int faceNum;
@@ -51,6 +50,15 @@ struct FacialMaterial
 	{
 		faceNum = facenum;
 	}
+
+	FacialMaterial& operator=( const FacialMaterial &facialMaterial)
+	{
+		faceNum=facialMaterial.faceNum;
+		materialRef=facialMaterial.materialRef;
+
+		return *this;
+	}
+
 };
 
 struct BoneAttachment

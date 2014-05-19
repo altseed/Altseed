@@ -9,11 +9,11 @@
 
 class MDLExporter
 {
-	FbxManager* lSdkManager;
-	FbxScene* lScene;
-	ace::BinaryWriter* binaryWriter;
-	std::vector<MeshGroup> _meshGroups;
-	std::vector<AnimationSource> _animationSources;
+	FbxManager* m_SdkManager;
+	FbxScene* m_Scene;
+	ace::BinaryWriter* m_binaryWriter;
+	std::vector<MeshGroup> m_meshGroups;
+	std::vector<AnimationSource> m_animationSources;
 
 	void PrintHeader();
 
