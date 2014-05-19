@@ -57,8 +57,8 @@ float4 calcLightColor(float3 upDir, float3 normal, float3 lightDir)
 	float NoL = dot(normal,lightDir);
 	float NoU = dot(normal,upDir);
 	color.xyz = directionalLightColor * max(NoL,0.0);
-	color.xyz = color.xyz + skyLightColor * max(NoU,0.0);
-	color.xyz = color.xyz + groundLightColor * max(-NoU,0.0);
+	color.xyz = color.xyz + skyLightColor * max(NoU+1,0.0) / 2.0;
+	color.xyz = color.xyz + groundLightColor * max(-NoU+1,0.0) / 2.0;
 	return color;
 }
 
