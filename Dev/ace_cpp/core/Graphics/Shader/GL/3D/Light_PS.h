@@ -65,6 +65,11 @@ float VSM(vec2 moments, float t)
 
 //||>
 
+vec3 GetDiffuseColor(vec2 uv)
+{
+	return texture2D(g_gbuffer0Texture, uv).xyz;
+}
+
 vec3 GetNormal(vec2 uv)
 {
 	return texture2D(g_gbuffer2Texture, uv).xyz;
@@ -133,6 +138,8 @@ void main()
 
 	float ao = texture2D(g_ssaoTexture, uv).x;
 	lightColor.xyz *= ao;
+
+	lightColor.xyz *= GetDiffuseColor(uv);
 
 	outOutput0 = lightColor;
 }

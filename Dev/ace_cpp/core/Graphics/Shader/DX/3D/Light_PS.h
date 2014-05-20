@@ -72,6 +72,11 @@ float VSM(float2 moments, float t)
 
 //||>
 
+float3 GetDiffuseColor(float2 uv)
+{
+	return g_gbuffer0Texture.Sample(g_gbuffer0Sampler, uv).xyz;
+}
+
 float3 GetNormal(float2 uv)
 {
 	return g_gbuffer2Texture.Sample(g_gbuffer2Sampler, uv).xyz;
@@ -140,6 +145,8 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float ao = g_ssaoTexture.Sample(g_ssaoSampler, uv).x;
 	lightColor.xyz *= ao;
+
+	lightColor.xyz *= GetDiffuseColor(uv);
 
 	return lightColor;
 }
