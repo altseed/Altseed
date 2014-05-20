@@ -584,29 +584,39 @@ namespace ace
 					auto fCount = 0;
 
 					auto bFCount = 0;
-					if (boneOffsets.size() > 0)
-					{
-						bFCount = boneOffsets[bIndex].FaceOffset;
-					}
-					else
-					{
-						bFCount = mesh->GetIndexBuffer()->GetCount() / 3;
-					}
+					auto mFCount = 0;
 
 					Mesh_Imp::Material* material = nullptr;
-					auto mFCount = 0;
-					if (materialOffsets.size() > 0)
-					{
-						mFCount = materialOffsets[mIndex].FaceOffset;
-						material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
-					}
-					else
-					{
-						mFCount = mesh->GetIndexBuffer()->GetCount() / 3;
-					}
-					
+							
 					while (fCount < mesh->GetIndexBuffer()->GetCount() / 3)
 					{
+						if (boneOffsets.size() > 0)
+						{
+							if (fOffset == bFCount && boneOffsets.size() > bIndex)
+							{
+								bFCount += boneOffsets[bIndex].FaceOffset;
+								bIndex++;
+							}
+						}
+						else
+						{
+							bFCount = mesh->GetIndexBuffer()->GetCount() / 3;
+						}
+
+						if (materialOffsets.size() > 0)
+						{
+							if (fOffset == mFCount && materialOffsets.size() > mIndex)
+							{
+								mFCount += materialOffsets[mIndex].FaceOffset;
+								material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
+								mIndex++;
+							}
+						}
+						else
+						{
+							mFCount = mesh->GetIndexBuffer()->GetCount() / 3;
+						}
+
 						fCount = Min(bFCount, mFCount) - fOffset;
 						if (fCount == 0) break;
 
@@ -664,19 +674,6 @@ namespace ace
 						GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
 
 						GetGraphics()->GetRenderState()->Pop();
-
-						if (fCount + fOffset == bFCount && boneOffsets.size() > bIndex)
-						{
-							bFCount += boneOffsets[bIndex].FaceOffset;
-							bIndex++;
-						}
-
-						if (fCount + fOffset == mFCount && materialOffsets.size() > mIndex)
-						{
-							mFCount += materialOffsets[mIndex].FaceOffset;
-							material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
-							mIndex++;
-						}
 
 						fOffset += fCount;
 					}
