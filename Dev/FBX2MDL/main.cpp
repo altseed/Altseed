@@ -9,7 +9,7 @@ int main(int argc, char** argv) {
 
 	if(argc!=3)
 	{
-		printf("Illegal command!!\n");
+		printf("コマンドの使い方が間違ってます。\n");
 		return -1;
 	}
 
