@@ -41,6 +41,7 @@ struct PS_Output
 
 half3 CalculateNormal( half3 normal, half3 tangent, half3 binormal, float3 normalMap )
 {
+	return normal;
 	half3 n = (normalMap - 0.5) * 2.0;
 	return tangent * n.x + binormal * n.y + normal * n.z;
 }

@@ -17,7 +17,7 @@ protected:
 	void OnStart() override
 	{
 		ace::RenderSettings settings;
-		settings.IsLightweightMode = true;
+		settings.IsLightweightMode = false;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
@@ -31,14 +31,14 @@ protected:
 
 		meshObj->SetModel(model);
 		meshObj->SetPosition(ace::Vector3DF(0, 0, 0));
-		lightObj->SetRotation(ace::Vector3DF(180, 0, 0));
+		lightObj->SetRotation(ace::Vector3DF(120, 50, 0));
 
 		GetLayer3D()->AddObject(meshObj);
 		GetLayer3D()->AddObject(lightObj);
 
 		SetCameraParameter(20, 0, 0, 1, 40, 20);
 
-		meshObj->PlayAnimation(ace::ToAString("anime1").c_str());
+		//meshObj->PlayAnimation(ace::ToAString("anime1").c_str());
 		
 	}
 
