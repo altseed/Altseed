@@ -104,6 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\ace_cpp\common\ace.common.Base.h" />
+    <ClInclude Include="..\ace_cpp\common\Graphics\ace.Graphics.Common.h" />
     <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix33.h" />
     <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix44.h" />
     <ClInclude Include="..\ace_cpp\common\Math\ace.RectF.h" />

@@ -1,4 +1,5 @@
 #include "MDLExporter.h"
+#include "../ace_cpp/common/Graphics/ace.Graphics.Common.h"
 #include "../ace_cpp/common/Math/ace.Vector2DF.h"
 #include "../ace_cpp/common/Math/ace.Vector3DF.h"
 #include "../ace_cpp/common/Math/ace.Matrix44.h"
@@ -380,22 +381,28 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,De
 
 		//‰ñ“]‚Ì‡˜‚ðŽæ“¾
 		fbxsdk_2014_2_1::EFbxRotationOrder fbxRotationOrder;
-		node->GetRotationOrder(FbxNode::eSourcePivot, fbxRotationOrder);
+		node->GetRotationOrder(FbxNode::eDestinationPivot, fbxRotationOrder);
 
 		switch(fbxRotationOrder)
 		{
 		case eEulerXYZ :
-			deformer->rotationOrder=12;	break ;
+			deformer->rotationOrder=ace::ROTATION_ORDER_XYZ;
+			break ;
 		case eEulerXZY :
-			deformer->rotationOrder=11;	break ;
+			deformer->rotationOrder=ace::ROTATION_ORDER_XZY;
+			break ;
 		case eEulerYZX :
-			deformer->rotationOrder=16;	break ;
+			deformer->rotationOrder=ace::ROTATION_ORDER_YZX;
+			break ;
 		case eEulerYXZ :
-			deformer->rotationOrder=15;	break ;
+			deformer->rotationOrder=ace::ROTATION_ORDER_YXZ;
+			break ;
 		case eEulerZXY :
-			deformer->rotationOrder=13;	break ;
+			deformer->rotationOrder=ace::ROTATION_ORDER_ZXY;
+			break ;
 		case eEulerZYX :
-			deformer->rotationOrder=14;	break ;
+			deformer->rotationOrder=ace::ROTATION_ORDER_ZYX;
+			break ;
 		case eSphericXYZ :
 			break ;	
 		}
