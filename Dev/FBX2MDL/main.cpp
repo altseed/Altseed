@@ -9,7 +9,7 @@ int main(int argc, char** argv) {
 
 	if(argc!=3)
 	{
-		printf("No output name!!\n");
+		printf("Illegal command!!\n");
 		return -1;
 	}
 
