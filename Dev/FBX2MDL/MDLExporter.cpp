@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 
-MDLExporter::MDLExporter(const char* fileName){
+MDLExporter::MDLExporter(const char* fileName,const char *exportName){
 	// Initialize the SDK manager. This object handles all our memory management.
 	m_SdkManager = FbxManager::Create();
 
@@ -38,6 +38,7 @@ MDLExporter::MDLExporter(const char* fileName){
 
 	m_binaryWriter = new ace::BinaryWriter();
 
+	m_outName=std::string(exportName);
 }
 
 void MDLExporter::Convert()
@@ -142,7 +143,7 @@ void MDLExporter::Convert()
 	}
 
 
-	m_binaryWriter->WriteOut("out.mdl");
+	m_binaryWriter->WriteOut(m_outName);
 
 }
 
@@ -277,17 +278,19 @@ void MDLExporter::GetSkeletonCurve(FbxNode* fbxNode,FbxAnimLayer* fbxAnimLayer,A
 	std::string boneName = fbxNode->GetName();
 
 	//Blender‚Ì‚Ýz,y‚Ì•ÏŒ`‚ð“ü‚ê‘Ö‚¦‚é
+	
 	AnalyzeCurve(boneName+".pos.x",fbxNode->LclTranslation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_X),animationSource);
 	AnalyzeCurve(boneName+".pos.z",fbxNode->LclTranslation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Y),animationSource);
 	AnalyzeCurve(boneName+".pos.y",fbxNode->LclTranslation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Z),animationSource);
-
+	
 	AnalyzeCurve(boneName+".rot.x",fbxNode->LclRotation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_X),animationSource);
 	AnalyzeCurve(boneName+".rot.z",fbxNode->LclRotation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Y),animationSource);
 	AnalyzeCurve(boneName+".rot.y",fbxNode->LclRotation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Z),animationSource);
-
+	
 	AnalyzeCurve(boneName+".scl.x",fbxNode->LclScaling.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_X),animationSource);
 	AnalyzeCurve(boneName+".scl.z",fbxNode->LclScaling.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Y),animationSource);
 	AnalyzeCurve(boneName+".scl.y",fbxNode->LclScaling.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Z),animationSource);
+	
 }
 
 void MDLExporter::AnalyzeCurve(std::string target,FbxAnimCurve* pCurve,AnimationSource &animationSource)
@@ -307,7 +310,7 @@ void MDLExporter::AnalyzeCurve(std::string target,FbxAnimCurve* pCurve,Animation
 		time.GetTime(hour,minute,second,frame,field,residual,FbxTime::eFrames60);
 
 		KeyFrame keyFrame;
-		keyFrame.keyValue=ace::Vector2DF(60*(hour*60*60+minute*60+second+(float)frame/60),value);
+		keyFrame.keyValue=ace::Vector2DF(60*(hour*60*60+minute*60+second)+frame,value);
 		keyFrame.leftPosition=keyFrame.keyValue;
 		keyFrame.rightPosition=keyFrame.keyValue;
 

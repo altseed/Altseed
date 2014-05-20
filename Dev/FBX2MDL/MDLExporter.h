@@ -9,6 +9,7 @@
 
 class MDLExporter
 {
+	std::string m_outName;
 	FbxManager* m_SdkManager;
 	FbxScene* m_Scene;
 	ace::BinaryWriter* m_binaryWriter;
@@ -32,7 +33,7 @@ class MDLExporter
 public:
 	MDLExporter(){}
 
-	MDLExporter(const char* fileName);
+	MDLExporter(const char* fileName,const char *exportName);
 
 	void Convert();
 
