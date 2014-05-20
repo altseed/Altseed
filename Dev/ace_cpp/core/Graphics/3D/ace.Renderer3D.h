@@ -42,26 +42,6 @@ namespace ace
 			Vector4DF	Weights;
 		};
 
-		struct ShadowConstantBuffer
-		{
-			Matrix44	CameraPositionToShadowCameraPosition;
-			Matrix44	ShadowProjection;
-
-			float ReconstructInfo1[4];
-			float ReconstructInfo2[4];
-
-			Vector3DF	directionalLightDirection;
-			float		Padding1;
-			Vector3DF	directionalLightColor;
-			float		Padding2;
-			Vector3DF	skyLightColor;
-			float		Padding3;
-			Vector3DF	groundLightColor;
-			float		Padding4;
-			Vector3DF	upDir;
-			float		Padding5;
-		};
-
 		struct SSAOConstantVertexBuffer
 		{
 			float Size[4];
@@ -124,7 +104,9 @@ namespace ace
 		std::shared_ptr<ace::NativeShader_Imp>	m_shadowShaderX;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shadowShaderY;
 
-		std::shared_ptr<ace::NativeShader_Imp>	m_shadowShader;
+		std::shared_ptr<ace::NativeShader_Imp>	m_directionalWithAmbientLightShader;
+		std::shared_ptr<ace::NativeShader_Imp>	m_directionalLightShader;
+		std::shared_ptr<ace::NativeShader_Imp>	m_ambientLightShader;
 
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_ssaoVertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_ssaoIndexBuffer;

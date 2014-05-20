@@ -23,8 +23,8 @@
 #include "../Shader/DX/3D/PostEffect/SSAO_PS.h"
 #include "../Shader/DX/3D/PostEffect/SSAO_Blur_PS.h"
 
-#include "../Shader/DX/3D/DirectionalLight_Shadow_PS.h"
-#include "../Shader/GL/3D/DirectionalLight_Shadow_PS.h"
+#include "../Shader/DX/3D/Light_PS.h"
+#include "../Shader/GL/3D/Light_PS.h"
 
 #if _WIN32
 #include "../Platform/DX11/ace.Graphics_Imp_DX11.h"
@@ -124,7 +124,7 @@ namespace ace
 			}
 			else
 			{
-				prop.DirectionalLightColor = Color(255, 255, 255, 255);
+				prop.DirectionalLightColor = Color(0, 0, 0, 0);
 				prop.DirectionalLightDirection = Vector3DF(1.0f, 1.0f, 1.0f);
 			}
 			prop.DirectionalLightDirection.Normalize();
@@ -299,6 +299,38 @@ namespace ace
 			// 直接光描画
 			if (!m_settings.IsLightweightMode)
 			{
+				auto invCameraMat = (prop.CameraMatrix).GetInverted();
+
+				auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
+				auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
+
+				float yScale = 1 / tanf(fov / 2);
+				float xScale = yScale / aspect;
+
+				Vector4DF ReconstructInfo1;
+				Vector4DF ReconstructInfo2;
+
+				ReconstructInfo1.X = c->GetZFar_RT() - c->GetZNear_RT();
+				ReconstructInfo1.Y = c->GetZNear_RT();
+				ReconstructInfo2.X = 1.0f / xScale;
+				ReconstructInfo2.Y = 1.0f / yScale;
+
+				Vector3DF upDir = Vector3DF(0, 1, 0);
+				Vector3DF zero;
+				zero = prop.CameraMatrix.Transform3D(zero);
+				upDir = prop.CameraMatrix.Transform3D(upDir) - zero;
+
+				Vector3DF groundLightColor(
+					prop.GroundLightColor.R / 255.0f,
+					prop.GroundLightColor.G / 255.0f,
+					prop.GroundLightColor.B / 255.0f);
+
+				Vector3DF skyLightColor(
+					prop.SkyLightColor.R / 255.0f,
+					prop.SkyLightColor.G / 255.0f,
+					prop.SkyLightColor.B / 255.0f);
+
+				int32_t lightIndex = 0;
 				for (auto& light : rendering.directionalLightObjects)
 				{
 					auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
@@ -401,65 +433,64 @@ namespace ace
 						}
 					}
 
-					// 影マップ描画
+					// 光源描画
 					{
 						g->SetRenderTarget(c->GetRenderTarget_RT(), nullptr);
 
-						m_shadowShader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), 0);
-						m_shadowShader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), 1);
-						m_shadowShader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), 2);
-						m_shadowShader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), 3);
-						m_shadowShader->SetTexture("g_shadowmapTexture", light->GetShadowTexture_RT(), 4);
+						std::shared_ptr<ace::NativeShader_Imp> shader;
 
-						if (m_ssaoShader != nullptr)
+						if (lightIndex == 0)
 						{
-							m_shadowShader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), 5);
+							shader = m_directionalWithAmbientLightShader;
+							shader->SetVector3DF("skyLightColor", skyLightColor);
+							shader->SetVector3DF("groundLightColor", groundLightColor);
 						}
 						else
 						{
-							m_shadowShader->SetTexture("g_ssaoTexture", GetDummyTextureWhite().get(), 5);
+							shader = m_directionalLightShader;
 						}
 
-						ShadowConstantBuffer& cbuf = m_shadowShader->GetPixelConstantBuffer<ShadowConstantBuffer>();
+						shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), 0);
+						shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), 1);
+						shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), 2);
+						shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), 3);
+						shader->SetTexture("g_shadowmapTexture", light->GetShadowTexture_RT(), 4);
 
-						auto invCameraMat = (prop.CameraMatrix).GetInverted();
+						if (m_ssaoShader != nullptr)
+						{
+							shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), 5);
+						}
+						else
+						{
+							shader->SetTexture("g_ssaoTexture", GetDummyTextureWhite().get(), 5);
+						}
 
-						auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
-						auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
+						auto CameraPositionToShadowCameraPosition = (view) * invCameraMat;
+						shader->SetMatrix44("g_cameraPositionToShadowCameraPosition", CameraPositionToShadowCameraPosition);
 
-						// DirectX
-						float yScale = 1 / tanf(fov / 2);
-						float xScale = yScale / aspect;
+						auto ShadowProjection = proj;
+						shader->SetMatrix44("g_shadowProjection", ShadowProjection);
 
-						cbuf.CameraPositionToShadowCameraPosition = (view) * invCameraMat;
-						cbuf.ShadowProjection = proj;
-						cbuf.ReconstructInfo1[0] = c->GetZFar_RT() - c->GetZNear_RT();
-						cbuf.ReconstructInfo1[1] = c->GetZNear_RT();
+						shader->SetVector4DF("reconstructInfo1", ReconstructInfo1);
+						shader->SetVector4DF("reconstructInfo2", ReconstructInfo2);
 
-						cbuf.ReconstructInfo2[0] = 1.0f / xScale;
-						cbuf.ReconstructInfo2[1] = 1.0f / yScale;
+						Vector3DF directionalLightDirection;
+						Vector3DF directionalLightColor;
+						
+						directionalLightDirection = prop.DirectionalLightDirection;
+						directionalLightDirection = prop.CameraMatrix.Transform3D(directionalLightDirection) - zero;
 
-						cbuf.directionalLightDirection = prop.DirectionalLightDirection;
-						cbuf.upDir = Vector3DF(0, 1, 0);
+						directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
+						directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
+						directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
 
-						Vector3DF zero;
-						zero = prop.CameraMatrix.Transform3D(zero);
-						cbuf.directionalLightDirection = prop.CameraMatrix.Transform3D(cbuf.directionalLightDirection) - zero;
-						cbuf.upDir = prop.CameraMatrix.Transform3D(cbuf.upDir) - zero;
-
-						cbuf.directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
-						cbuf.directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
-						cbuf.directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
-						cbuf.groundLightColor.X = prop.GroundLightColor.R / 255.0f;
-						cbuf.groundLightColor.Y = prop.GroundLightColor.G / 255.0f;
-						cbuf.groundLightColor.Z = prop.GroundLightColor.B / 255.0f;
-						cbuf.skyLightColor.X = prop.SkyLightColor.R / 255.0f;
-						cbuf.skyLightColor.Y = prop.SkyLightColor.G / 255.0f;
-						cbuf.skyLightColor.Z = prop.SkyLightColor.B / 255.0f;
+						shader->SetVector3DF("directionalLightDirection", directionalLightDirection);
+						shader->SetVector3DF("directionalLightColor", directionalLightColor);
+						shader->SetVector3DF("upDir", upDir);
 
 						g->SetVertexBuffer(m_shadowVertexBuffer.get());
 						g->SetIndexBuffer(m_shadowIndexBuffer.get());
-						g->SetShader(m_shadowShader.get());
+						g->SetShader(shader.get());
 
 						auto& state = g->GetRenderState()->Push();
 						state.DepthTest = false;
@@ -474,6 +505,54 @@ namespace ace
 
 						g->GetRenderState()->Pop();
 					}
+
+					lightIndex++;
+				}
+
+				// 環境光
+				if (lightIndex == 0)
+				{
+					g->SetRenderTarget(c->GetRenderTarget_RT(), nullptr);
+
+					std::shared_ptr<ace::NativeShader_Imp> shader = m_ambientLightShader;
+
+					shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), 0);
+					shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), 1);
+					shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), 2);
+					shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), 3);
+
+					if (m_ssaoShader != nullptr)
+					{
+						shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), 5);
+					}
+					else
+					{
+						shader->SetTexture("g_ssaoTexture", GetDummyTextureWhite().get(), 5);
+					}
+
+					shader->SetVector3DF("skyLightColor", skyLightColor);
+					shader->SetVector3DF("groundLightColor", groundLightColor);
+
+					shader->SetVector4DF("reconstructInfo1", ReconstructInfo1);
+					shader->SetVector4DF("reconstructInfo2", ReconstructInfo2);
+					shader->SetVector3DF("upDir", upDir);
+
+					g->SetVertexBuffer(m_shadowVertexBuffer.get());
+					g->SetIndexBuffer(m_shadowIndexBuffer.get());
+					g->SetShader(shader.get());
+
+					auto& state = g->GetRenderState()->Push();
+					state.DepthTest = false;
+					state.DepthWrite = false;
+					state.CullingType = CULLING_DOUBLE;
+					state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_ADD;
+					state.TextureFilterTypes[2] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					state.TextureFilterTypes[4] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					g->GetRenderState()->Update(false);
+
+					g->DrawPolygon(2);
+
+					g->GetRenderState()->Pop();
 				}
 			}
 
@@ -687,13 +766,6 @@ namespace ace
 					blur_ps_gl,
 					vl,
 					macro_y);
-
-				m_shadowShader = m_graphics->GetShaderCache()->CreateFromCode(
-					ToAString(L"Internal.Shadow").c_str(),
-					screen_vs_gl,
-					directonalLight_Shadow_ps_gl,
-					vl,
-					macro_y);
 			}
 			else
 			{
@@ -710,13 +782,6 @@ namespace ace
 					blur_ps_dx,
 					vl,
 					macro_y);
-
-				m_shadowShader = m_graphics->GetShaderCache()->CreateFromCode(
-					ToAString(L"Internal.Shadow").c_str(),
-					screen_vs_dx,
-					directonalLight_Shadow_ps_dx,
-					vl,
-					macro_y);
 			}
 
 			std::vector<ace::ConstantBufferInformation> constantBuffers;
@@ -727,47 +792,6 @@ namespace ace
 
 			m_shadowShaderX->CreatePixelConstantBuffer<ShadowBlurConstantBuffer>(constantBuffers);
 			m_shadowShaderY->CreatePixelConstantBuffer<ShadowBlurConstantBuffer>(constantBuffers);
-
-
-			std::vector<ace::ConstantBufferInformation> constantBuffers2;
-			constantBuffers2.resize(9);
-			constantBuffers2[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers2[0].Name = std::string("g_cameraPositionToShadowCameraPosition");
-			constantBuffers2[0].Offset = 0;
-
-			constantBuffers2[1].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers2[1].Name = std::string("g_shadowProjection");
-			constantBuffers2[1].Offset = sizeof(Matrix44) * 1;
-
-			constantBuffers2[2].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers2[2].Name = std::string("reconstructInfo1");
-			constantBuffers2[2].Offset = sizeof(Matrix44) * 2;
-
-			constantBuffers2[3].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
-			constantBuffers2[3].Name = std::string("reconstructInfo2");
-			constantBuffers2[3].Offset = sizeof(Matrix44) * 2 + sizeof(Vector4DF) * 1;
-
-			constantBuffers2[4].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers2[4].Name = std::string("directionalLightColor");
-			constantBuffers2[4].Offset = offsetof(ShadowConstantBuffer, directionalLightColor);
-
-			constantBuffers2[5].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers2[5].Name = std::string("directionalLightDirection");
-			constantBuffers2[5].Offset = offsetof(ShadowConstantBuffer, directionalLightDirection);
-
-			constantBuffers2[6].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers2[6].Name = std::string("skyLightColor");
-			constantBuffers2[6].Offset = offsetof(ShadowConstantBuffer, skyLightColor);
-
-			constantBuffers2[7].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers2[7].Name = std::string("groundLightColor");
-			constantBuffers2[7].Offset = offsetof(ShadowConstantBuffer, groundLightColor);
-
-			constantBuffers2[8].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers2[8].Name = std::string("upDir");
-			constantBuffers2[8].Offset = offsetof(ShadowConstantBuffer, upDir);
-
-			m_shadowShader->CreatePixelConstantBuffer<ShadowConstantBuffer>(constantBuffers2);
 
 			m_shadowTempTexture = m_graphics->CreateRenderTexture(2048, 2048, ace::eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
 
@@ -787,6 +811,71 @@ namespace ace
 
 			m_shadowVertexBuffer->Unlock();
 		}
+
+		// ライト用シェーダ
+		{
+			std::vector<ace::VertexLayout> vl;
+			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+
+			std::vector<ace::Macro> macro_d_a;
+			macro_d_a.push_back(Macro("DIRECTIONAL_LIGHT", "1"));
+			macro_d_a.push_back(Macro("AMBIENT_LIGHT", "1"));
+
+			std::vector<ace::Macro> macro_d;
+			macro_d.push_back(Macro("DIRECTIONAL_LIGHT", "1"));
+
+			std::vector<ace::Macro> macro_a;
+			macro_a.push_back(Macro("AMBIENT_LIGHT", "1"));
+
+			if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
+			{
+				m_directionalWithAmbientLightShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.D_A_Light").c_str(),
+					screen_vs_gl,
+					light_ps_gl,
+					vl,
+					macro_d_a);
+
+				m_directionalLightShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.D_Light").c_str(),
+					screen_vs_gl,
+					light_ps_gl,
+					vl,
+					macro_d);
+
+				m_ambientLightShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.A_Light").c_str(),
+					screen_vs_gl,
+					light_ps_gl,
+					vl,
+					macro_a);
+			}
+			else
+			{
+				m_directionalWithAmbientLightShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.D_A_Light").c_str(),
+					screen_vs_dx,
+					light_ps_dx,
+					vl,
+					macro_d_a);
+
+				m_directionalLightShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.D_Light").c_str(),
+					screen_vs_dx,
+					light_ps_dx,
+					vl,
+					macro_d);
+
+				m_ambientLightShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.A_Light").c_str(),
+					screen_vs_dx,
+					light_ps_dx,
+					vl,
+					macro_a);
+			}
+		}
+
 
 		// SSAO用シェーダー
 		{

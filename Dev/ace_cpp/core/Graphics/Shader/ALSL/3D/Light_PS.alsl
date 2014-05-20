@@ -1,0 +1,34 @@
+
+
+float3 calcAmbientColor(float3 upDir, float3 normal)
+{
+	float3 color = float3(0.0,0.0,0.0);
+	float NoU = dot(normal,upDir);
+	color.xyz = color.xyz + skyLightColor * max(NoU+1,0.0) / 2.0;
+	color.xyz = color.xyz + groundLightColor * max(-NoU+1,0.0) / 2.0;
+	return color;
+}
+
+float3 calcDirectionalLightColor(float3 normal, float3 lightDir, float shadow)
+{
+	float3 color = float3(0.0,0.0,0.0);
+	float NoL = dot(normal,lightDir);
+	color.xyz = directionalLightColor * max(NoL,0.0) * shadow;
+	return color;
+}
+
+float VSM(float2 moments, float t)
+{
+	float ex = moments.x;
+	float ex2 = moments.y;
+
+	float p = 0.0;
+	if (t <= ex) p = 1.0;
+
+	float variance = ex2 - ex * ex;
+	variance = max(variance, 0.4 / (reconstructInfo1.x * reconstructInfo1.x));
+
+	float d = t - ex;
+	float p_max = variance / (variance + d * d);
+	return max(p, p_max);
+}

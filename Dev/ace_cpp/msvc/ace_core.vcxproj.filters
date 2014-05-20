@@ -532,9 +532,6 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Blur_PS.h">
       <Filter>Graphics\Shader\DX\3D</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Shader\DX\3D\DirectionalLight_Shadow_PS.h">
-      <Filter>Graphics\Shader\DX\3D</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_PS.h">
       <Filter>Graphics\Shader\DX\3D</Filter>
     </ClInclude>
@@ -560,9 +557,6 @@
       <Filter>Graphics\Shader\DX\3D\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Blur_PS.h">
-      <Filter>Graphics\Shader\GL\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Shader\GL\3D\DirectionalLight_Shadow_PS.h">
       <Filter>Graphics\Shader\GL\3D</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Model_Internal_PS.h">
@@ -618,6 +612,12 @@
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Shader\DX\2D\LayerRenderer_PS.h">
       <Filter>Graphics\Shader\DX\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Light_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Light_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -917,7 +917,7 @@
     <None Include="..\core\Graphics\Shader\ALSL\3D\Model_Internal_VS.alsl">
       <Filter>Graphics\Shader\ALSL\3D</Filter>
     </None>
-    <None Include="..\core\Graphics\Shader\ALSL\3D\DirectionalLight_Shadow_PS.alsl">
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Light_PS.alsl">
       <Filter>Graphics\Shader\ALSL\3D</Filter>
     </None>
   </ItemGroup>

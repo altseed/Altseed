@@ -252,7 +252,7 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\2D\Renderer2D_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\2D\Renderer2D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Blur_PS.h" />
-    <ClInclude Include="..\core\Graphics\Shader\DX\3D\DirectionalLight_Shadow_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Light_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Model_Internal_PS.h" />
@@ -266,7 +266,7 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Blur_PS.h" />
-    <ClInclude Include="..\core\Graphics\Shader\GL\3D\DirectionalLight_Shadow_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Light_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Model_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Model_Internal_PS.h" />
@@ -339,7 +339,7 @@
     <ClInclude Include="..\core\Window\ace.Window.h" />
     <ClInclude Include="..\core\Window\ace.Window_Imp.h" />
     <ClInclude Include="..\core\Window\ace.Window_Imp_Win.h" />
-    <None Include="..\core\Graphics\Shader\ALSL\3D\DirectionalLight_Shadow_PS.alsl" />
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Light_PS.alsl" />
     <None Include="..\core\Graphics\Shader\ALSL\3D\Lightweight_Model_Internal_PS.alsl" />
     <None Include="..\core\Graphics\Shader\ALSL\3D\Lightweight_Model_Internal_VS.alsl" />
     <None Include="..\core\Graphics\Shader\ALSL\3D\Model_Internal_PS.alsl" />

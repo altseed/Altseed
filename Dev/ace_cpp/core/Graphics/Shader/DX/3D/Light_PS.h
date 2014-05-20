@@ -1,4 +1,4 @@
-﻿static const char* directonalLight_Shadow_ps_dx = R"(
+﻿static const char* light_ps_dx = R"(
 
 Texture2D		g_gbuffer0Texture		: register( t0 );
 SamplerState	g_gbuffer0Sampler		: register( s0 );
@@ -18,17 +18,17 @@ SamplerState	g_shadowmapSampler		: register( s4 );
 Texture2D		g_ssaoTexture		: register( t5 );
 SamplerState	g_ssaoSampler		: register( s5 );
 
-float4x4		g_cameraPositionToShadowCameraPosition		: register( c0 );
-float4x4		g_shadowProjection							: register( c4 );
+float4x4		g_cameraPositionToShadowCameraPosition;
+float4x4		g_shadowProjection;
 
-float3 reconstructInfo1	: register( c8 );
-float4 reconstructInfo2	: register( c9 );
+float4 reconstructInfo1;
+float4 reconstructInfo2;
 
-float3		directionalLightDirection	: register( c10 );
-float3		directionalLightColor		: register( c11 );
-float3		skyLightColor				: register( c12 );
-float3		groundLightColor			: register( c13 );
-float3		upDir			: register( c14 );
+float3		directionalLightDirection;
+float3		directionalLightColor;
+float3		skyLightColor;
+float3		groundLightColor;
+float3		upDir;
 
 struct PS_Input
 {
@@ -39,16 +39,34 @@ struct PS_Input
 };
 
 //<|| ALSL
-float4 calcLightColor(float3 upDir, float3 normal, float3 lightDir, float shadow)
+float3 calcAmbientColor(float3 upDir, float3 normal)
 {
-	float4 color = float4(0.000000, 0.000000, 0.000000, 1.00000);
-	float NoL = dot(normal, lightDir);
+	float3 color = float3(0.000000, 0.000000, 0.000000);
 	float NoU = dot(normal, upDir);
-	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow;
-	color.xyz = color.xyz + skyLightColor * max(NoU+1,0.0) / 2.0;
-	color.xyz = color.xyz + groundLightColor * max(-NoU+1,0.0) / 2.0;
+	color.xyz = color.xyz + skyLightColor * max(NoU + 1, 0.000000) / 2.00000;
+	color.xyz = color.xyz + groundLightColor * max(-NoU + 1, 0.000000) / 2.00000;
 	return color;
-	
+}
+
+float3 calcDirectionalLightColor(float3 normal, float3 lightDir, float shadow)
+{
+	float3 color = float3(0.000000, 0.000000, 0.000000);
+	float NoL = dot(normal, lightDir);
+	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow;
+	return color;
+}
+
+float VSM(float2 moments, float t)
+{
+	float ex = moments.x;
+	float ex2 = moments.y;
+	float p = 0.000000;
+	if(t <= ex) p = 1.00000;
+	float variance = ex2 - ex * ex;
+	variance = max(variance, 0.400000 / (reconstructInfo1.x * reconstructInfo1.x));
+	float d = t - ex;
+	float p_max = variance / (variance + d * d);
+	return max(p, p_max);
 }
 
 
@@ -93,22 +111,6 @@ float2 GetShadowmapUV(float4 shadowmapPos)
 	return float2( (shadowmapPos.x + 1.0) / 2.0f, 1.0 - (shadowmapPos.y + 1.0) / 2.0f );
 }
 
-float VSM(float2 moments, float t)
-{
-	float ex = moments.x;
-	float ex2 = moments.y;
-
-	float p = 0.0;
-	if (t <= ex) p = 1.0;
-
-	float variance = ex2 - ex * ex;
-	variance = max(variance, 0.4 / (reconstructInfo1.x * reconstructInfo1.x));
-
-	float d = t - ex;
-	float p_max = variance / (variance + d * d);
-	return max(p, p_max);
-}
-
 float4 main( const PS_Input Input ) : SV_Target
 {
 	float2 uv = Input.UV;
@@ -116,25 +118,30 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float3 cameraPos = ReconstructPosition(Input.Position.xy, ReconstructDepth(GetNormalizedDepth(uv)));
 
+	float4 lightColor = float4(0.0,0.0,0.0,1.0);
+	float3 normal = GetNormal(uv);
+
+#ifdef DIRECTIONAL_LIGHT
 	float4 shadowmapPos = ReconstructShadowmapPosition(cameraPos);
 	float4 projShadowmapPos = ReconstructProjectedShadowmapPosition(shadowmapPos);
 	float2 shadowmapUV = GetShadowmapUV(projShadowmapPos);
-
-	float4 Output = float4(0.0,0.0,0.0,1.0);
 
 	float depth = (-shadowmapPos.z - reconstructInfo1.y) / reconstructInfo1.x;
 	float2 shadowParam = g_shadowmapTexture.Sample(g_shadowmapSampler, shadowmapUV).xy;
 
 	float shadow = VSM(shadowParam, depth );
 
-	float4 lightColor = calcLightColor(upDir, GetNormal(uv), directionalLightDirection, shadow);
+	lightColor.xyz += calcDirectionalLightColor(normal, directionalLightDirection, shadow);
+#endif
+
+#ifdef AMBIENT_LIGHT
+	lightColor.xyz += calcAmbientColor(upDir, normal);
+#endif
 
 	float ao = g_ssaoTexture.Sample(g_ssaoSampler, uv).x;
 	lightColor.xyz *= ao;
 
-	Output = lightColor;
-
-	return Output;
+	return lightColor;
 }
 
 )";

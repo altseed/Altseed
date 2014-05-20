@@ -5,6 +5,7 @@
 //----------------------------------------------------------------------------------
 #include <ace.common.Base.h>
 #include <Math/ace.Vector4DF.h>
+#include <Math/ace.Matrix44.h>
 
 #include "../ace.Graphics_Imp.h"
 #include "../ace.DeviceObject.h"
@@ -54,7 +55,11 @@ namespace ace {
 
 		void SetVector2DF(const char* name, const Vector2DF& value);
 
+		void SetVector3DF(const char* name, const Vector3DF& value);
+
 		void SetVector4DF(const char* name, const Vector4DF& value);
+
+		void SetMatrix44(const char* name, const Matrix44& value);
 
 		virtual void SetConstantBuffer(const char* name, const void* data, int32_t size) = 0;
 

@@ -102,7 +102,7 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 			else if (type == GL_FLOAT_MAT4)
 			{
 				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
-				offset += sizeof(float) * 4 * l.Count;
+				offset += sizeof(float) * 16 * l.Count;
 			}
 			else
 			{
