@@ -252,6 +252,7 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\2D\Renderer2D_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\2D\Renderer2D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Blur_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\DeferredBuffer_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Light_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_VS.h" />
@@ -266,6 +267,7 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Blur_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\DeferredBuffer_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Light_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Model_Internal_VS.h" />

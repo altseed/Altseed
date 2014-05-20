@@ -26,6 +26,9 @@
 #include "../Shader/DX/3D/Light_PS.h"
 #include "../Shader/GL/3D/Light_PS.h"
 
+#include "../Shader/DX/3D/DeferredBuffer_PS.h"
+#include "../Shader/GL/3D/DeferredBuffer_PS.h"
+
 #if _WIN32
 #include "../Platform/DX11/ace.Graphics_Imp_DX11.h"
 #endif
@@ -580,6 +583,46 @@ namespace ace
 			}
 
 			c->ApplyPostEffects_RT();
+
+			// デバッグ用
+			if (!m_settings.IsLightweightMode && false)
+			{
+				g->SetRenderTarget(c->GetRenderTarget_RT(), nullptr);
+				g->Clear(true, false, Color(0, 0, 0, 0));
+
+				std::shared_ptr<ace::NativeShader_Imp> shader = m_deferredBufferShader;
+
+				shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), 0);
+				shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), 1);
+				shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), 2);
+				shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), 3);
+
+				if (m_ssaoShader != nullptr)
+				{
+					shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), 5);
+				}
+				else
+				{
+					shader->SetTexture("g_ssaoTexture", GetDummyTextureWhite().get(), 5);
+				}
+
+				g->SetVertexBuffer(m_shadowVertexBuffer.get());
+				g->SetIndexBuffer(m_shadowIndexBuffer.get());
+				g->SetShader(shader.get());
+
+				auto& state = g->GetRenderState()->Push();
+				state.DepthTest = false;
+				state.DepthWrite = false;
+				state.CullingType = CULLING_DOUBLE;
+				state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
+				state.TextureFilterTypes[2] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+				state.TextureFilterTypes[4] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+				g->GetRenderState()->Update(false);
+
+				g->DrawPolygon(2);
+
+				g->GetRenderState()->Pop();
+			}
 		}
 
 		for (auto& co : rendering.cameraObjects)
@@ -876,6 +919,33 @@ namespace ace
 			}
 		}
 
+		// 遅延バッファ用シェーダ
+		{
+			std::vector<ace::VertexLayout> vl;
+			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+
+			std::vector<ace::Macro> macro;
+
+			if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
+			{
+				m_deferredBufferShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.DeferredBuffer").c_str(),
+					screen_vs_gl,
+					deferred_buffer_ps_gl,
+					vl,
+					macro);
+			}
+			else
+			{
+				m_deferredBufferShader = m_graphics->GetShaderCache()->CreateFromCode(
+					ToAString(L"Internal.DeferredBuffer").c_str(),
+					screen_vs_dx,
+					deferred_buffer_ps_dx,
+					vl,
+					macro);
+			}
+		}
 
 		// SSAO用シェーダー
 		{

@@ -108,6 +108,8 @@ namespace ace
 		std::shared_ptr<ace::NativeShader_Imp>	m_directionalLightShader;
 		std::shared_ptr<ace::NativeShader_Imp>	m_ambientLightShader;
 
+		std::shared_ptr<ace::NativeShader_Imp>	m_deferredBufferShader;
+
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_ssaoVertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_ssaoIndexBuffer;
 		std::shared_ptr<ace::NativeShader_Imp>	m_ssaoShader;
