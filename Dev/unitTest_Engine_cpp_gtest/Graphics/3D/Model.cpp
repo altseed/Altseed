@@ -38,7 +38,7 @@ protected:
 
 		SetCameraParameter(20, 0, 0, 1, 40, 20);
 
-		//meshObj->PlayAnimation(ace::ToAString("anime1").c_str());
+		meshObj->PlayAnimation(ace::ToAString("Constant").c_str());
 		
 	}
 

@@ -9,8 +9,9 @@ int main(int argc, char** argv) {
 
     // Change the following filename to a suitable filename value.
     const char* lFilename = argv[1];
+	const char* lExportName = argv[2];
     
-	MDLExporter *exporter= new MDLExporter(lFilename);
+	MDLExporter *exporter= new MDLExporter(lFilename,lExportName);
 
 	exporter->Convert();
 	
