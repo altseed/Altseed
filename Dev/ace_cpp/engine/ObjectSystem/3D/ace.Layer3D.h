@@ -46,6 +46,18 @@ namespace ace
 		virtual ~Layer3D();
 
 		/**
+			@brief	描画設定を取得する。
+			@return	描画設定
+		*/
+		RenderSettings GetRenderSettings() const;
+
+		/**
+			@brief	描画設定を設定する。
+			@param	settings	描画設定
+		*/
+		void SetRenderSettings(RenderSettings settings);
+
+		/**
 			@brief	このレイヤーに指定した3Dオブジェクトを追加する。
 			@param	object	追加する3Dオブジェクト
 		*/

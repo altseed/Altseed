@@ -70,6 +70,15 @@ namespace ace
 	}
 
 	/// <summary>
+	/// 3D描画時に表示されるバッファ
+	/// </summary>
+	public enum VisualizedBuffer : int 
+	{
+		FinalImage = swig.eVisalizedBuffer.VISALIZED_BUFFER_FINALIMAGE,
+		Normal = swig.eVisalizedBuffer.VISALIZED_BUFFER_NORMAL,
+	}
+
+	/// <summary>
 	/// Fカーブのキーフレーム
 	/// </summary>
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
@@ -127,5 +136,16 @@ namespace ace
 		/// 遅延レンダリングから軽量レンダリングに変更し高速に描画するか?
 		/// </summary>
 		public bool IsLightweightMode = false;
+
+		/// <summary>
+		/// 画面に表示されるバッファ
+		/// </summary>
+		public VisualizedBuffer VisualizedBuffer = VisualizedBuffer.FinalImage;
+
+		internal RenderSettings(swig.RenderSettings settings)
+		{
+			IsLightweightMode = settings.IsLightweightMode;
+			VisualizedBuffer = (VisualizedBuffer)settings.VisalizedBuffer;
+		}
 	}
 }

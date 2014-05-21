@@ -33,6 +33,9 @@ namespace ace
 
 	public:
 
+		RenderSettings GetRenderSettings() const;
+		void SetRenderSettings(RenderSettings settings);
+
 		void AddObject(ObjectPtr object3D);
 		void RemoveObject(ObjectPtr object3D);
 

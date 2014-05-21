@@ -30,6 +30,16 @@ namespace ace
 		SafeDelete(m_renderer);
 	}
 
+	RenderSettings CoreLayer3D_Imp::GetRenderSettings() const
+	{
+		return m_renderer->GetRenderSettings();
+	}
+
+	void CoreLayer3D_Imp::SetRenderSettings(RenderSettings settings)
+	{
+		m_renderer->SetRenderSettings(settings);
+	}
+
 	void CoreLayer3D_Imp::AddObject(ObjectPtr object3D)
 	{
 		if (m_objects.count(object3D) == 0)

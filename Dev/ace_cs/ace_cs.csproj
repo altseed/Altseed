@@ -156,6 +156,7 @@
     <Compile Include="swig\eTextureFilterType.cs" />
     <Compile Include="swig\eTextureFormat.cs" />
     <Compile Include="swig\eTextureWrapType.cs" />
+    <Compile Include="swig\eVisalizedBuffer.cs" />
     <Compile Include="swig\Graphics.cs" />
     <Compile Include="swig\Graphics_Imp.cs" />
     <Compile Include="swig\IMouseButtonState.cs" />

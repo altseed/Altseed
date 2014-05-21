@@ -195,6 +195,15 @@ namespace ace {
 	};
 
 	/**
+	@brief	3D描画時に表示されるバッファ
+	*/
+	enum eVisalizedBuffer
+	{
+		VISALIZED_BUFFER_FINALIMAGE,
+		VISALIZED_BUFFER_NORMAL,
+	};
+
+	/**
 		@brief	描画設定のクラス
 	*/
 	class RenderSettings
@@ -204,10 +213,16 @@ namespace ace {
 			@brief	遅延レンダリングから軽量レンダリングに変更し高速に描画するか?
 		*/
 		bool IsLightweightMode;
+		
+		/**
+			@brief	画面に表示されるバッファ
+		*/
+		eVisalizedBuffer VisalizedBuffer;
 
 		RenderSettings()
 		{
 			IsLightweightMode = false;
+			VisalizedBuffer = VISALIZED_BUFFER_FINALIMAGE;
 		}
 	};
 

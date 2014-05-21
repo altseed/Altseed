@@ -77,6 +77,8 @@ namespace ace
 
 			Color							SkyAmbientColor;
 			Color							GroundAmbientColor;
+
+			RenderSettings					Settings;
 		} rendering;
 
 		Graphics_Imp*	m_graphics;
@@ -132,6 +134,9 @@ namespace ace
 
 		Renderer3D(Graphics* graphics, RenderSettings settings);
 		~Renderer3D();
+
+		RenderSettings GetRenderSettings() const;
+		void SetRenderSettings(RenderSettings settings);
 
 		void SetWindowSize(Vector2DI windowSize);
 

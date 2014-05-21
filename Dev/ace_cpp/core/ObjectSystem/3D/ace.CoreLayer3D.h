@@ -27,6 +27,9 @@ namespace ace
 	public:
 		typedef CoreObject3D* ObjectPtr;
 
+		virtual RenderSettings GetRenderSettings() const = 0;
+		virtual void SetRenderSettings(RenderSettings settings) = 0;
+
 		virtual void AddObject(ObjectPtr object3D) = 0;
 		virtual void RemoveObject(ObjectPtr object3D) = 0;
 

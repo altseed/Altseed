@@ -1,4 +1,4 @@
-static const char* deferred_buffer_ps_gl = R"(
+﻿static const char* deferred_buffer_ps_gl = R"(
 #version 330
 
 uniform sampler2D		g_gbuffer0Texture;

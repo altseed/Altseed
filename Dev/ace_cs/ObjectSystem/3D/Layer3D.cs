@@ -20,6 +20,7 @@ namespace ace
 			if(settings != null)
 			{
 				settings_.IsLightweightMode = settings.IsLightweightMode;
+				settings_.VisalizedBuffer = (swig.eVisalizedBuffer)settings.VisualizedBuffer;
 			}
 
 			coreLayer3D = Engine.ObjectSystemFactory.CreateLayer3D(settings_);
@@ -68,6 +69,24 @@ namespace ace
 		public IEnumerable<Object3D> Objects
 		{
 			get { return objects_; }
+		}
+
+		/// <summary>
+		/// 描画設定を取得、設定する。
+		/// </summary>
+		public RenderSettings Settings
+		{
+			get
+			{
+				return new RenderSettings(coreLayer3D.GetRenderSettings());
+			}
+			set
+			{
+				swig.RenderSettings settings_ = new swig.RenderSettings();
+				settings_.IsLightweightMode = value.IsLightweightMode;
+				settings_.VisalizedBuffer = (swig.eVisalizedBuffer)value.VisualizedBuffer;
+				coreLayer3D.SetRenderSettings(settings_);
+			}
 		}
 
 		/// <summary>

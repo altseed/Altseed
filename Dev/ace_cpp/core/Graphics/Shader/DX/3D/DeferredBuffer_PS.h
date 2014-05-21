@@ -1,4 +1,4 @@
-static const char* deferred_buffer_ps_dx = R"(
+﻿static const char* deferred_buffer_ps_dx = R"(
 
 Texture2D		g_gbuffer0Texture		: register( t0 );
 SamplerState	g_gbuffer0Sampler		: register( s0 );

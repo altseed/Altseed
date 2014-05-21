@@ -111,7 +111,7 @@ namespace ace
 		rendering.EffectManager->Update(1.0f);
 
 		RenderingProperty prop;
-		prop.IsLightweightMode = m_settings.IsLightweightMode;
+		prop.IsLightweightMode = rendering.Settings.IsLightweightMode;
 		prop.IsDepthMode = false;
 		
 		// ライトの計算
@@ -582,10 +582,12 @@ namespace ace
 				g->GetRenderState()->Update(true);
 			}
 
-			c->ApplyPostEffects_RT();
-
-			// デバッグ用
-			if (!m_settings.IsLightweightMode && false)
+			if (m_settings.IsLightweightMode || rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
+			{
+				// ポストエフェクト適用
+				c->ApplyPostEffects_RT();
+			}
+			else
 			{
 				g->SetRenderTarget(c->GetRenderTarget_RT(), nullptr);
 				g->Clear(true, false, Color(0, 0, 0, 0));
@@ -651,7 +653,15 @@ namespace ace
 
 			m_pasteVertexBuffer->Unlock();
 
-			m_pasteShader->SetTexture("g_texture", c->GetAffectedRenderTarget_RT(), 0);
+			if (m_settings.IsLightweightMode || rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
+			{
+				m_pasteShader->SetTexture("g_texture", c->GetAffectedRenderTarget_RT(), 0);
+			}
+			else
+			{
+				m_pasteShader->SetTexture("g_texture", c->GetRenderTarget_RT(), 0);
+			}
+			
 			
 			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetDiffuseColor_RT(), 0);
 			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetDepth_RT(), 0);
@@ -1117,6 +1127,16 @@ namespace ace
 		SafeRelease(m_graphics);
 	}
 
+	RenderSettings Renderer3D::GetRenderSettings() const
+	{
+		return m_settings;
+	}
+
+	void Renderer3D::SetRenderSettings(RenderSettings settings)
+	{
+		m_settings = settings;
+	}
+
 	void Renderer3D::SetWindowSize(Vector2DI windowSize)
 	{
 		SafeRelease(m_renderTarget);
@@ -1231,6 +1251,7 @@ namespace ace
 
 		rendering.SkyAmbientColor = m_skyAmbientColor;
 		rendering.GroundAmbientColor = m_groundAmbientColor;
+		rendering.Settings = m_settings;
 	}
 
 	void Renderer3D::BeginRendering()
