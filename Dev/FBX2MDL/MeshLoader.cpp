@@ -80,9 +80,19 @@ ace::Vector3DF MeshLoader::_loadNormal(FbxMesh* fbxMesh,int lControlPointIndex,i
 }
 
 
-ace::Vector3DF MeshLoader::_loadBinormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId)
+ace::Vector3DF MeshLoader::_loadBinormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId,bool &found)
 {
 	ace::Vector3DF binormal;
+
+	if(fbxMesh->GetElementBinormalCount()==0)
+	{
+		found=false;
+		binormal=ace::Vector3DF(0,0,0);
+		return binormal;
+	}
+	
+	found=true;
+
 	for(int l = 0; l < fbxMesh->GetElementBinormalCount(); ++l)
 	{
 
@@ -525,6 +535,9 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 
 	int vertexId = 0;
 
+
+	bool binormalLoaded=false;
+
 	for (int i = 0; i < lPolygonCount; i++)
 	{
 		int lPolygonSize = fbxMesh->GetPolygonSize(i);
@@ -535,13 +548,13 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 
 			m_baseVertices[lControlPointIndex].normal += _loadNormal(fbxMesh,lControlPointIndex,vertexId);
 
-			m_baseVertices[lControlPointIndex].binormal += _loadBinormal(fbxMesh,lControlPointIndex,vertexId);
+			m_baseVertices[lControlPointIndex].binormal += _loadBinormal(fbxMesh,lControlPointIndex,vertexId,binormalLoaded);
 
 			++m_baseVertices[lControlPointIndex].normalAddCount;
 			++m_baseVertices[lControlPointIndex].binormalAddCount;
 
 			vertexId++;
-		} // for polygonSize
+		}
 	}
 
 	vertexId=0;
@@ -601,6 +614,11 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			else
 			{
 				cIndices[j]=index;
+			}
+
+			if(!binormalLoaded)
+			{
+				//è]ñ@ê¸Ç™ñ≥Ç¢ÇΩÇﬂåvéZÇ∑ÇÈ
 			}
 
 			vertexId++;
