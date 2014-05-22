@@ -26,6 +26,13 @@ struct PS_Input
 	float2 UV				: UV0;
 };
 
+float	flag;
+
+float3 GetDiffuse(float2 uv)
+{
+	return g_gbuffer0Texture.Sample(g_gbuffer0Sampler, uv).xyz;
+}
+
 float3 GetNormal(float2 uv)
 {
 	return g_gbuffer2Texture.Sample(g_gbuffer2Sampler, uv).xyz;
@@ -38,8 +45,15 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float4 color = float4(0.0,0.0,0.0,1.0);
 
-	color.xyz = GetNormal(uv);
-
+	if(flag == 0.0)
+	{
+		color.xyz = GetDiffuse(uv);
+	}
+	else if(flag == 1.0)
+	{
+		color.xyz = GetNormal(uv);
+	}
+	
 	return color;
 }
 

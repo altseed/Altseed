@@ -75,6 +75,7 @@ namespace ace
 	public enum VisualizedBuffer : int 
 	{
 		FinalImage = swig.eVisalizedBuffer.VISALIZED_BUFFER_FINALIMAGE,
+		Diffuse = swig.eVisalizedBuffer.VISALIZED_BUFFER_DIFFUSE,
 		Normal = swig.eVisalizedBuffer.VISALIZED_BUFFER_NORMAL,
 	}
 

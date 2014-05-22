@@ -37,10 +37,13 @@ vec3 CalculateNormal(vec3 normal, vec3 tangent, vec3 binormal, vec3 normalMap)
 
 void main()
 {
+	vec2 voutUV_ = voutUV;
+	voutUV_.y = 1.0 - voutUV_.y;
+
 	vec4 diffuseColor = voutColor;
 	if(diffuseColor.a == 0.0f) discard;
 
-	diffuseColor = diffuseColor * texture2D(g_colorTexture, voutUV);
+	diffuseColor = diffuseColor * texture2D(g_colorTexture, voutUV_);
 	if(diffuseColor.a == 0.0f) discard;	
 
 #ifdef EXPORT_DEPTH
@@ -53,11 +56,18 @@ void main()
 
 	DiffuseColor = diffuseColor;
 
-	NormalDepth.xyz = CalculateNormal( voutNormal, voutTangent, voutBinormal, texture2D(g_normalTexture, voutUV).xyz );
+	NormalDepth.xyz = CalculateNormal( voutNormal, voutTangent, voutBinormal, texture2D(g_normalTexture, voutUV_).xyz );
+	//NormalDepth.xyz = texture2D(g_normalTexture, voutUV_).xyz;
 	NormalDepth.w = voutDepth;
 	//NormalDepth.xyz = voutNormal;
 
-	SpecularColor_Smoothness.xyz = texture2D(g_specularTexture, voutUV).xyz;
+	//NormalDepth.x = 1.0;
+	//NormalDepth.y = 1.0;
+	//NormalDepth.z = 1.0;
+	//NormalDepth.w = 1.0;
+	//NormalDepth = diffuseColor;
+
+	SpecularColor_Smoothness.xyz = texture2D(g_specularTexture, voutUV_).xyz;
 	SpecularColor_Smoothness.w = 0.5;
 
 	AO_MatID.x = 1.0;

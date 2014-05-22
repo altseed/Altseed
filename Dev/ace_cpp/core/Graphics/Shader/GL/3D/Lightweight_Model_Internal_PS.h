@@ -14,10 +14,13 @@ out vec4 outOutput0;
 
 void main()
 {
+	vec2 voutUV_ = voutUV;
+	voutUV_.y = 1.0 - voutUV_.y;
+
 	outOutput0 = voutColor;
 	if(outOutput0.a == 0.0f) discard;
 
-	outOutput0 = outOutput0 * texture2D(g_colorTexture, voutUV);
+	outOutput0 = outOutput0 * texture2D(g_colorTexture, voutUV_);
 	if(outOutput0.a == 0.0f) discard;
 }
 

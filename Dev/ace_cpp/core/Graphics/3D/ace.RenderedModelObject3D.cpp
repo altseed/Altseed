@@ -631,7 +631,7 @@ namespace ace
 								shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
 							}
 
-							if (prop.IsLightweightMode)
+							if (!prop.IsLightweightMode)
 							{
 								if (material->NormalTexture != nullptr)
 								{

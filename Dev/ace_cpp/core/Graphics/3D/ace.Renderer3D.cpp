@@ -594,6 +594,15 @@ namespace ace
 
 				std::shared_ptr<ace::NativeShader_Imp> shader = m_deferredBufferShader;
 
+				if (rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_DIFFUSE)
+				{
+					shader->SetFloat("flag", 0.0f);
+				}
+				else if (rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_NORMAL)
+				{
+					shader->SetFloat("flag", 1.0f);
+				}
+
 				shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), 0);
 				shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), 1);
 				shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), 2);

@@ -53,6 +53,8 @@ namespace ace {
 		NativeShader_Imp(Graphics* graphics);
 		virtual ~NativeShader_Imp();
 
+		void SetFloat(const char* name, const float& value);
+
 		void SetVector2DF(const char* name, const Vector2DF& value);
 
 		void SetVector3DF(const char* name, const Vector3DF& value);

@@ -200,6 +200,7 @@ namespace ace {
 	enum eVisalizedBuffer
 	{
 		VISALIZED_BUFFER_FINALIMAGE,
+		VISALIZED_BUFFER_DIFFUSE,
 		VISALIZED_BUFFER_NORMAL,
 	};
 
