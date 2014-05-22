@@ -90,7 +90,7 @@ ace::Vector3DF MeshLoader::_loadBinormal(FbxMesh* fbxMesh,int lControlPointIndex
 		binormal=ace::Vector3DF(0,0,0);
 		return binormal;
 	}
-	
+
 	found=true;
 
 	for(int l = 0; l < fbxMesh->GetElementBinormalCount(); ++l)
@@ -311,7 +311,7 @@ void MeshLoader::Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGrou
 	_loadPositions(fbxMesh);
 
 	_loadWeight(fbxMesh,attachmentIndex,meshGroups);
-	
+
 	_loadTextures(fbxMesh);
 
 	_loadVertices(fbxMesh);
@@ -342,10 +342,10 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 		/*
 		if(_vertices[i].color[0]==0&&_vertices[i].color[1]==0&&_vertices[i].color[2]==0&&_vertices[i].color[3]==0)
 		{
-			_vertices[i].color[0]=255;
-			_vertices[i].color[1]=255;
-			_vertices[i].color[2]=255;
-			_vertices[i].color[3]=255;
+		_vertices[i].color[0]=255;
+		_vertices[i].color[1]=255;
+		_vertices[i].color[2]=255;
+		_vertices[i].color[3]=255;
 		}
 		*/
 
@@ -547,11 +547,14 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			int lControlPointIndex = fbxMesh->GetPolygonVertex(i, j);
 
 			m_baseVertices[lControlPointIndex].normal += _loadNormal(fbxMesh,lControlPointIndex,vertexId);
-
-			m_baseVertices[lControlPointIndex].binormal += _loadBinormal(fbxMesh,lControlPointIndex,vertexId,binormalLoaded);
-
 			++m_baseVertices[lControlPointIndex].normalAddCount;
-			++m_baseVertices[lControlPointIndex].binormalAddCount;
+
+			auto binormal = _loadBinormal(fbxMesh,lControlPointIndex,vertexId,binormalLoaded);
+			if(binormalLoaded)
+			{
+				m_baseVertices[lControlPointIndex].binormal += binormal;
+				++m_baseVertices[lControlPointIndex].binormalAddCount;
+			}
 
 			vertexId++;
 		}
@@ -605,7 +608,6 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 				}
 			}
 
-			//not found same vertex
 			if(index==-1)
 			{
 				m_vertices.push_back(vertex);
@@ -616,13 +618,22 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 				cIndices[j]=index;
 			}
 
-			if(!binormalLoaded)
+			vertexId++;
+		} 
+
+
+		if(!binormalLoaded)
+		{
+			std::vector<Vertex*> v;
+			for(int j=0;j<lPolygonSize;++j)
 			{
-				//]–@ü‚ª–³‚¢‚½‚ßŒvŽZ‚·‚é
+				int index = cIndices[j];
+
+				v.push_back(&m_vertices[index]);
 			}
 
-			vertexId++;
-		} // for polygonSize
+			//‚±‚±‚ÅŒvŽZ‚¹‚æ
+		}
 
 		int lMatId = -1;
 		if(!lIsAllSame)
