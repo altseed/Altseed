@@ -4,9 +4,9 @@ sudo apt-get -y install automake
 sudo apt-get -y install libtool
 sudo apt-get -y install libpcre3-dev
 
-wget http://sourceforge.net/projects/swig/files/swig/swig-2.0.12/swig-2.0.12.tar.gz
-tar zxvf swig-2.0.12.tar.gz
-cd swig-2.0.12
+wget http://sourceforge.net/projects/swig/files/swig/swig-3.0.0/swig-3.0.0.tar.gz
+tar zxvf swig-3.0.0.tar.gz
+cd swig-3.0.0
 ./autogen.sh
 ./configure
 make
