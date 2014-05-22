@@ -624,15 +624,54 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 
 		if(!binormalLoaded)
 		{
-			std::vector<Vertex*> v;
+			std::vector<Vertex*> vertice;
 			for(int j=0;j<lPolygonSize;++j)
 			{
 				int index = cIndices[j];
 
-				v.push_back(&m_vertices[index]);
+				vertice.push_back(&m_vertices[index]);
 			}
 
-			//‚±‚±‚ÅŒvŽZ‚¹‚æ
+			ace::Vector3DF cp0[3];
+			cp0[0]=ace::Vector3DF(vertice[0]->position.X,vertice[0]->uv.X,vertice[0]->uv.Y);
+			cp0[1]=ace::Vector3DF(vertice[0]->position.Y,vertice[0]->uv.X,vertice[0]->uv.Y);
+			cp0[2]=ace::Vector3DF(vertice[0]->position.Z,vertice[0]->uv.X,vertice[0]->uv.Y);
+
+			ace::Vector3DF cp1[3];
+			cp1[0]=ace::Vector3DF(vertice[1]->position.X,vertice[1]->uv.X,vertice[1]->uv.Y);
+			cp1[1]=ace::Vector3DF(vertice[1]->position.Y,vertice[1]->uv.X,vertice[1]->uv.Y);
+			cp1[2]=ace::Vector3DF(vertice[1]->position.Z,vertice[1]->uv.X,vertice[1]->uv.Y);
+
+			ace::Vector3DF cp2[3];
+			cp2[0]=ace::Vector3DF(vertice[2]->position.X,vertice[2]->uv.X,vertice[2]->uv.Y);
+			cp2[1]=ace::Vector3DF(vertice[2]->position.Y,vertice[2]->uv.X,vertice[2]->uv.Y);
+			cp2[2]=ace::Vector3DF(vertice[2]->position.Z,vertice[2]->uv.X,vertice[2]->uv.Y);
+
+			double u[3],v[3];
+			for(int j=0;j<3;++j)
+			{
+				ace::Vector3DF v1=cp1[i]-cp0[i];
+				ace::Vector3DF v2=cp2[i]-cp1[i];
+				ace::Vector3DF abc;
+				abc = ace::Vector3DF::Cross(v1,v2);
+
+				if(abc.X==0.0f)
+				{
+					exit(-1);
+				}
+				u[i]=-abc.Y/abc.X;
+				v[i]=-abc.Z/abc.X;
+			}
+
+			ace::Vector3DF binormal = ace::Vector3DF(v[0],v[1],v[2]);
+			binormal.Normalize();
+
+			for(int j=0;j<lPolygonSize;++j)
+			{
+				vertice[j]->binormal+=binormal;
+				++vertice[j]->binormalAddCount;
+			}
+			
 		}
 
 		int lMatId = -1;
