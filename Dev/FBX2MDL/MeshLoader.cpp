@@ -129,8 +129,6 @@ ace::Vector2DF MeshLoader::_loadUV(FbxMesh* fbxMesh, int lControlPointIndex, int
 
 		switch (leUV->GetMappingMode())
 		{
-		default:
-			break;
 		case FbxGeometryElement::eByControlPoint:
 			switch (leUV->GetReferenceMode())
 			{
@@ -162,6 +160,8 @@ ace::Vector2DF MeshLoader::_loadUV(FbxMesh* fbxMesh, int lControlPointIndex, int
 					break;
 				}
 			}
+			break;
+		default:
 			break;
 		}
 	}
@@ -336,6 +336,8 @@ void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
 
 		writer->Push(m_vertices[i].normal/m_vertices[i].normalAddCount);
 		writer->Push(m_vertices[i].binormal/m_vertices[i].binormalAddCount);
+
+		printf("binormal=%f %f %f\n",m_vertices[i].binormal.X/m_vertices[i].binormalAddCount,m_vertices[i].binormal.Y/m_vertices[i].binormalAddCount,m_vertices[i].binormal.Z/m_vertices[i].binormalAddCount);
 
 		writer->Push(m_vertices[i].uv);
 		writer->Push(m_vertices[i].subuv);
@@ -619,8 +621,7 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			}
 
 			vertexId++;
-		} 
-
+		}
 
 		if(!binormalLoaded)
 		{
@@ -647,24 +648,30 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			cp2[1]=ace::Vector3DF(vertice[2]->position.Y,vertice[2]->uv.X,vertice[2]->uv.Y);
 			cp2[2]=ace::Vector3DF(vertice[2]->position.Z,vertice[2]->uv.X,vertice[2]->uv.Y);
 
-			double u[3],v[3];
+			double v[3];
 			for(int j=0;j<3;++j)
 			{
-				ace::Vector3DF v1=cp1[i]-cp0[i];
-				ace::Vector3DF v2=cp2[i]-cp1[i];
+				ace::Vector3DF v1=cp1[j]-cp0[j];
+				ace::Vector3DF v2=cp2[j]-cp1[j];
 				ace::Vector3DF abc;
 				abc = ace::Vector3DF::Cross(v1,v2);
 
 				if(abc.X==0.0f)
 				{
-					exit(-1);
+					v[j]=0;
 				}
-				u[i]=-abc.Y/abc.X;
-				v[i]=-abc.Z/abc.X;
+				else
+				{
+					v[j]=-abc.Z/abc.X;
+				}
 			}
 
 			ace::Vector3DF binormal = ace::Vector3DF(v[0],v[1],v[2]);
-			binormal.Normalize();
+
+			if(binormal.GetLength()!=0)
+			{
+				binormal.Normalize();
+			}
 
 			for(int j=0;j<lPolygonSize;++j)
 			{
@@ -719,4 +726,6 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 		m_faces.push_back(face);
 
 	} // for polygonCount
+
+	printf("dummy");
 }
