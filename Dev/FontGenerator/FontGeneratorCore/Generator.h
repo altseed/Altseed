@@ -22,9 +22,7 @@ namespace FontGenerator
 
 		void GenerateFontFile(
 			std::wstring fontPath,
-			std::wstring textPath,
-			std::wstring sheetName,
-			SettingForRendering setting);
+			std::wstring textPath);
 
 		std::vector<ace::achar> GetCharactors(ace::astring textPath);
 		ResultOfGeneratingPng RenderPng(std::wstring fontPath, std::wstring textPath);

@@ -26,16 +26,14 @@ namespace FontGenerator
 
 	void Generator::GenerateFontFile(
 		wstring fontPath,
-		wstring textPath,
-		wstring sheetName,
-		SettingForRendering setting)
+		wstring textPath)
 	{
 		auto result = RenderPng(fontPath, textPath);
 
 		BinaryWriter writer;
 		PushAff(writer, result);
 
-		ofstream file(sheetName + L".aff");
+		ofstream file(m_sheetName + L".aff");
 		writer.WriteOut(file);
 	}
 

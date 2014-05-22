@@ -1,4 +1,5 @@
 #include "Glyph.h"
+#include <ace.common.Base.h>
 #include FT_GLYPH_H
 #include FT_OUTLINE_H
 #include FT_STROKER_H
@@ -23,14 +24,10 @@ namespace FontGenerator
 
 		FT_Glyph g;
 		FT_Get_Glyph(face->glyph, &g);
-		if (g->format == FT_GLYPH_FORMAT_OUTLINE)
-		{
-			m_glyph = reinterpret_cast<FT_OutlineGlyph>(g);
-		}
-		else
-		{
-			throw "グリフの生成に失敗";
-		}
+
+		ACE_ASSERT(g->format == FT_GLYPH_FORMAT_OUTLINE, "グリフの生成に失敗");
+
+		m_glyph = reinterpret_cast<FT_OutlineGlyph>(g);
 	}
 
 	Glyph::~Glyph()
