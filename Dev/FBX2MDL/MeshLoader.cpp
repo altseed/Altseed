@@ -564,23 +564,13 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 
 	vertexId=0;
 
-	bool lIsAllSame = true;
-	for (int l = 0; l < fbxMesh->GetElementMaterialCount(); l++)
-	{
-
-		FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial(l);
-		if( lMaterialElement->GetMappingMode() == FbxGeometryElement::eByPolygon) 
-		{
-			lIsAllSame = false;
-			break;
-		}
-	}
-
 	for (int i = 0; i < lPolygonCount; i++)
 	{
 		int lPolygonSize = fbxMesh->GetPolygonSize(i);
 
 		int cIndices[3];
+
+		std::vector<Vertex> tverts;
 
 		for (int j = 0; j < lPolygonSize; j++)
 		{
@@ -600,53 +590,29 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			vertex.uv = _loadUV(fbxMesh,lControlPointIndex,vertexId,i,j);
 			//BlenderのみUV(Y)の始点が異なるため
 			vertex.uv.Y=1-vertex.uv.Y;
-			int index = -1;
-			for(int k=0;k<m_vertices.size();++k)
-			{
-				if(m_vertices[k]==vertex)
-				{
-					index=k;
-					break;
-				}
-			}
 
-			if(index==-1)
-			{
-				m_vertices.push_back(vertex);
-				cIndices[j]=(int)m_vertices.size()-1;
-			}
-			else
-			{
-				cIndices[j]=index;
-			}
+			tverts.push_back(vertex);
 
 			vertexId++;
 		}
 
 		if(!binormalLoaded)
 		{
-			std::vector<Vertex*> vertice;
-			for(int j=0;j<lPolygonSize;++j)
-			{
-				int index = cIndices[j];
-
-				vertice.push_back(&m_vertices[index]);
-			}
 
 			ace::Vector3DF cp0[3];
-			cp0[0]=ace::Vector3DF(vertice[0]->position.X,vertice[0]->uv.X,vertice[0]->uv.Y);
-			cp0[1]=ace::Vector3DF(vertice[0]->position.Y,vertice[0]->uv.X,vertice[0]->uv.Y);
-			cp0[2]=ace::Vector3DF(vertice[0]->position.Z,vertice[0]->uv.X,vertice[0]->uv.Y);
+			cp0[0]=ace::Vector3DF(tverts[0].position.X,tverts[0].uv.X,tverts[0].uv.Y);
+			cp0[1]=ace::Vector3DF(tverts[0].position.Y,tverts[0].uv.X,tverts[0].uv.Y);
+			cp0[2]=ace::Vector3DF(tverts[0].position.Z,tverts[0].uv.X,tverts[0].uv.Y);
 
 			ace::Vector3DF cp1[3];
-			cp1[0]=ace::Vector3DF(vertice[1]->position.X,vertice[1]->uv.X,vertice[1]->uv.Y);
-			cp1[1]=ace::Vector3DF(vertice[1]->position.Y,vertice[1]->uv.X,vertice[1]->uv.Y);
-			cp1[2]=ace::Vector3DF(vertice[1]->position.Z,vertice[1]->uv.X,vertice[1]->uv.Y);
+			cp1[0]=ace::Vector3DF(tverts[1].position.X,tverts[1].uv.X,tverts[1].uv.Y);
+			cp1[1]=ace::Vector3DF(tverts[1].position.Y,tverts[1].uv.X,tverts[1].uv.Y);
+			cp1[2]=ace::Vector3DF(tverts[1].position.Z,tverts[1].uv.X,tverts[1].uv.Y);
 
 			ace::Vector3DF cp2[3];
-			cp2[0]=ace::Vector3DF(vertice[2]->position.X,vertice[2]->uv.X,vertice[2]->uv.Y);
-			cp2[1]=ace::Vector3DF(vertice[2]->position.Y,vertice[2]->uv.X,vertice[2]->uv.Y);
-			cp2[2]=ace::Vector3DF(vertice[2]->position.Z,vertice[2]->uv.X,vertice[2]->uv.Y);
+			cp2[0]=ace::Vector3DF(tverts[2].position.X,tverts[2].uv.X,tverts[2].uv.Y);
+			cp2[1]=ace::Vector3DF(tverts[2].position.Y,tverts[2].uv.X,tverts[2].uv.Y);
+			cp2[2]=ace::Vector3DF(tverts[2].position.Z,tverts[2].uv.X,tverts[2].uv.Y);
 
 			double v[3];
 			for(int j=0;j<3;++j)
@@ -672,13 +638,55 @@ void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
 			{
 				binormal.Normalize();
 			}
+			else
+			{
+				binormal=ace::Vector3DF(1,0,0);
+			}
 
 			for(int j=0;j<lPolygonSize;++j)
 			{
-				vertice[j]->binormal+=binormal;
-				++vertice[j]->binormalAddCount;
+				tverts[j].binormal=binormal;
 			}
-			
+
+		}
+
+		//頂点複製の打診と適切な処理
+		for(int j=0;j<lPolygonSize;++j)
+		{
+			int index = -1;
+			for(int k=0;k<m_vertices.size();++k)
+			{
+				if(m_vertices[k]==tverts[j])
+				{
+					index=k;
+					break;
+				}
+			}
+
+			if(index==-1)
+			{
+				m_vertices.push_back(tverts[j]);
+				cIndices[j]=(int)m_vertices.size()-1;
+				m_vertices[cIndices[j]].binormalAddCount++;
+			}
+			else
+			{
+				cIndices[j]=index;
+				m_vertices[index].binormal+=tverts[j].binormal;
+				m_vertices[index].binormalAddCount++;
+			}
+		}
+
+		bool lIsAllSame = true;
+		for (int l = 0; l < fbxMesh->GetElementMaterialCount(); l++)
+		{
+
+			FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial(l);
+			if( lMaterialElement->GetMappingMode() == FbxGeometryElement::eByPolygon) 
+			{
+				lIsAllSame = false;
+				break;
+			}
 		}
 
 		int lMatId = -1;

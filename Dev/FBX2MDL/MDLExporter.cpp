@@ -17,7 +17,7 @@ MDLExporter::MDLExporter(const char* fileName,const char *exportName){
 
 	// Create an importer using the SDK manager.
 
-	fbxsdk_2014_2_1::FbxImporter* lImporter = fbxsdk_2014_2_1::FbxImporter::Create(m_SdkManager, "");
+	fbxsdk_2015_1::FbxImporter* lImporter = fbxsdk_2015_1::FbxImporter::Create(m_SdkManager, "");
 
 	// Use the first argument as the filename for the importer.
 	if (!lImporter->Initialize(fileName, -1, m_SdkManager->GetIOSettings())) {
@@ -317,17 +317,17 @@ void MDLExporter::AnalyzeCurve(std::string target,FbxAnimCurve* pCurve,Animation
 
 		switch(interpolation)
 		{
-		case fbxsdk_2014_2_1::FbxAnimCurveDef::eInterpolationConstant:
+		case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationConstant:
 			{
 				keyFrame.interpolation=1;
 			}
 			break;
-		case fbxsdk_2014_2_1::FbxAnimCurveDef::eInterpolationLinear:
+		case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationLinear:
 			{
 				keyFrame.interpolation=2;
 			}
 			break;
-		case fbxsdk_2014_2_1::FbxAnimCurveDef::eInterpolationCubic:
+		case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationCubic:
 			{
 				keyFrame.interpolation=3;
 			}
@@ -380,7 +380,7 @@ void MDLExporter::GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,De
 		}
 
 		//‰ñ“]‚Ì‡˜‚ðŽæ“¾
-		fbxsdk_2014_2_1::EFbxRotationOrder fbxRotationOrder;
+		fbxsdk_2015_1::EFbxRotationOrder fbxRotationOrder;
 		node->GetRotationOrder(FbxNode::eDestinationPivot, fbxRotationOrder);
 
 		switch(fbxRotationOrder)

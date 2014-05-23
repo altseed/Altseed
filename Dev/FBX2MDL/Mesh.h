@@ -23,13 +23,13 @@ struct Vertex
 
 	bool operator == (const Vertex& o)
 	{
-		return position==o.position && normal==o.normal && binormal == o.binormal && uv == o.uv && subuv == o.subuv
+		return position==o.position && normal==o.normal && uv == o.uv && subuv == o.subuv
 		&& color[0]==o.color[0] && color[1] == o.color[1] && color[2] == o.color[2] && color[3] == o.color[3];
 	}
 
 	bool operator != (const Vertex& o)
 	{
-		return !(position==o.position && normal==o.normal && binormal == o.binormal && uv == o.uv && subuv == o.subuv
+		return !(position==o.position && normal==o.normal && uv == o.uv && subuv == o.subuv
 		&& color[0]==o.color[0] && color[1] == o.color[1] && color[2] == o.color[2] && color[3] == o.color[3]);
 	}
 };

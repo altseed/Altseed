@@ -27,7 +27,7 @@ protected:
 
 		auto graphics = ace::Engine::GetGraphics();
 
-		auto model = graphics->CreateModel(ace::ToAString("Data/Model/out.mdl").c_str());
+		auto model = graphics->CreateModel(ace::ToAString("Data/Model/binormals.mdl").c_str());
 
 		meshObj->SetModel(model);
 		meshObj->SetPosition(ace::Vector3DF(0, 0, 0));
