@@ -1,8 +1,8 @@
+
 #pragma once
 
-#include <string>
-#include "../ace_cpp/common/Math/ace.Matrix44.h"
-#include "../ace_cpp/common/Utility/ace.BinaryWriter.h"
+#include <Math/ace.Matrix44.h>
+#include <Utility/ace.BinaryWriter.h>
 
 struct Deformer
 {

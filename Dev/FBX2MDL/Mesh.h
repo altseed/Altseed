@@ -1,7 +1,8 @@
+
 #pragma once
 
-#include "../ace_cpp/common/Math/ace.Vector3DF.h"
-#include "../ace_cpp/common/Math/ace.Vector2DF.h"
+#include <Math/ace.Vector3DF.h>
+#include <Math/ace.Vector2DF.h>
 #include "Material.h"
 
 //’¸“_

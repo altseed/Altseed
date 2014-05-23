@@ -24,7 +24,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -41,27 +41,27 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>$(IncludePath)</IncludePath>
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir)\Debug</OutDir>
+    <OutDir>$(ProjectDir)..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <OutDir>$(SolutionDir)\Release</OutDir>
+    <OutDir>$(ProjectDir)..\bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2015.1\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <AdditionalIncludeDirectories>..\include\;..\ace_cpp\common\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2015.1\lib\vs2013\x86\debug;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>
@@ -73,29 +73,21 @@
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalIncludeDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2014.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalIncludeDirectories>..\include\;..\ace_cpp\common\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>C:\Program Files\Autodesk\FBX\FBX SDK\2014.2\lib\vs2012\x86\release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>libfbxsdk-md.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>
       </IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\ace_cpp\common\ace.common.cpp" />
-    <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix33.cpp" />
-    <ClCompile Include="..\ace_cpp\common\Math\ace.Matrix44.cpp" />
-    <ClCompile Include="..\ace_cpp\common\Math\ace.RectF.cpp" />
-    <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DF.cpp" />
-    <ClCompile Include="..\ace_cpp\common\Math\ace.Vector2DI.cpp" />
-    <ClCompile Include="..\ace_cpp\common\Math\ace.Vector3DF.cpp" />
-    <ClCompile Include="..\ace_cpp\common\Math\ace.Vector4DF.cpp" />
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Deformer.cpp" />
     <ClCompile Include="main.cpp" />
@@ -103,17 +95,6 @@
     <ClCompile Include="MeshLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\ace_cpp\common\ace.common.Base.h" />
-    <ClInclude Include="..\ace_cpp\common\Graphics\ace.Graphics.Common.h" />
-    <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix33.h" />
-    <ClInclude Include="..\ace_cpp\common\Math\ace.Matrix44.h" />
-    <ClInclude Include="..\ace_cpp\common\Math\ace.RectF.h" />
-    <ClInclude Include="..\ace_cpp\common\Math\ace.Vector2DF.h" />
-    <ClInclude Include="..\ace_cpp\common\Math\ace.Vector2DI.h" />
-    <ClInclude Include="..\ace_cpp\common\Math\ace.Vector3DF.h" />
-    <ClInclude Include="..\ace_cpp\common\Math\ace.Vector4DF.h" />
-    <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryReader.h" />
-    <ClInclude Include="..\ace_cpp\common\Utility\ace.BinaryWriter.h" />
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Deformer.h" />
     <ClInclude Include="Material.h" />

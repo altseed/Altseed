@@ -1,5 +1,15 @@
+
+#if _DEBUG
+#pragma comment(lib,"debug/libfbxsdk-mt.lib")
+#pragma comment(lib,"Debug/ace_common.lib")
+#else
+#pragma comment(lib,"release/libfbxsdk-mt.lib")
+#pragma comment(lib,"Release/ace_common.lib")
+#endif
+
 #include <fbxsdk.h>
-#include "../ace_cpp/common/Utility/ace.BinaryWriter.h"
+#include <Utility/ace.BinaryWriter.h>
+
 #include "MDLExporter.h"
 /**
  * Main function - loads the hard-coded fbx file,

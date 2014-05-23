@@ -1,10 +1,10 @@
+
 #pragma once
 
-#include "../ace_cpp/common/Math/ace.Vector2DF.h"
-#include "../ace_cpp/common/Utility/ace.BinaryWriter.h"
-#include "fbxsdk.h"
-#include <vector>
-#include <string>
+#include <Math/ace.Vector2DF.h>
+#include <Utility/ace.BinaryWriter.h>
+
+#include <fbxsdk.h>
 
 //アニメーションクリップ構造体
 struct AnimationClip

@@ -1,8 +1,9 @@
+
 #pragma once
 #include <fbxsdk.h>
-#include <vector>
-#include "../ace_cpp/common/Utility/ace.BinaryWriter.h"
-#include "../ace_cpp/common/Math/ace.Vector2DF.h"
+
+#include <Utility/ace.BinaryWriter.h>
+#include <Math/ace.Vector2DF.h>
 #include "Mesh.h"
 #include "Deformer.h"
 #include "Material.h"
