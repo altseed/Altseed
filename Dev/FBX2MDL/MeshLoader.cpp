@@ -1,6 +1,23 @@
 #include "MeshLoader.h"
 #include <iostream>
 
+void MeshGroup::WriteMaterials(ace::BinaryWriter* writer)
+{
+	printf("Materials:%d\n", (int32_t)materials.size());
+	writer->Push((int32_t)materials.size());
+	for (auto ite = materials.begin(); ite != materials.end(); ++ite)
+	{
+		printf("index = %d\n", ite->groupIndex);
+		writer->Push(ite->Type);
+		for (int i = 0; i<3; ++i)
+		{
+			printf("mat:%s\n", ite->texture[i].c_str());
+			writer->Push(ace::ToAString(ite->texture[i].c_str()));
+		}
+		printf("\n");
+	}
+}
+
 MeshLoader::MeshLoader()
 {
 	m_faceContinue=0;
@@ -286,7 +303,7 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<Mes
 		}
 	}
 }
-
+/*
 void MeshLoader::_loadFaceIndices(FbxMesh* fbxMesh)
 {
 	int PolygonVertexNum=fbxMesh->GetPolygonVertexCount();
@@ -305,7 +322,7 @@ void MeshLoader::_loadFaceIndices(FbxMesh* fbxMesh)
 		}
 	}
 }
-
+*/
 void MeshLoader::Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGroup> &meshGroups)
 {
 	_loadPositions(fbxMesh);
@@ -314,10 +331,7 @@ void MeshLoader::Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGrou
 
 	_loadTextures(fbxMesh);
 
-	_loadVertices(fbxMesh);
-
-
-	//_loadFaceMaterials(fbxMesh);
+	_loadVerticesAndFaces(fbxMesh);
 }
 
 void MeshLoader::WriteVertices(ace::BinaryWriter* writer)
@@ -415,12 +429,6 @@ void MeshLoader::WriteFaces(ace::BinaryWriter* writer)
 			writer->Push((int32_t) ite->vertexIndex[i]);
 		}
 	}
-
-}
-
-
-void MeshLoader::_loadBoneAttachments(FbxMesh* fbxMesh)
-{
 
 }
 
@@ -525,12 +533,7 @@ void MeshLoader::_loadTextures(FbxMesh* fbxMesh)
 	}
 }
 
-void MeshLoader::_loadFaceMaterials(FbxMesh* fbxMesh)
-{
-
-}
-
-void MeshLoader::_loadVertices(FbxMesh* fbxMesh)
+void MeshLoader::_loadVerticesAndFaces(FbxMesh* fbxMesh)
 {
 	int lPolygonCount = fbxMesh->GetPolygonCount();
 	FbxVector4* lControlPoints = fbxMesh->GetControlPoints();

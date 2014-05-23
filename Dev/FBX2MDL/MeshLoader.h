@@ -10,55 +10,62 @@
 
 class MeshLoader;
 
+/*
+メッシュグループ構造体
+*/
 struct MeshGroup
 {
 	std::vector<MeshLoader> meshLoaders;
 	DeformerManager deformerManager;
 	std::vector<Material> materials;
 
-	void WriteMaterials(ace::BinaryWriter* writer)
-	{
-		printf("Materials:%d\n",(int32_t)materials.size());
-		writer->Push((int32_t)materials.size());
-		for(auto ite=materials.begin();ite!=materials.end();++ite)
-		{
-			printf("index = %d\n",ite->groupIndex);
-			writer->Push(ite->Type);
-			for(int i=0;i<3;++i)
-			{
-				printf("mat:%s\n",ite->texture[i].c_str());
-				writer->Push(ace::ToAString(ite->texture[i].c_str()));
-			}
-			printf("\n");
-		}
-	}
+	//メッシュグループの材質一覧の情報を書き出す
+	void WriteMaterials(ace::BinaryWriter* writer);
 };
 
 class MeshLoader
 {
+	//メッシュ名
 	std::string m_name;
+
+	//頂点リスト(UV並びに法線の値による分割前)
 	std::vector<Vertex> m_baseVertices;
+
+	//頂点リスト(UV並びに法線の値による分割後)
 	std::vector<Vertex> m_vertices;
+
+	//面リスト
 	std::vector<Face> m_faces;
+
+	//面材質リスト
 	std::vector<FacialMaterial> m_facialMaterials;
 
 	int m_faceContinue;
 	int m_preFaceIndex;
 
-
+	//頂点位置一覧読み込み関数
 	void _loadPositions(FbxMesh* fbxMesh);
 
+	//法線読み込み関数
 	ace::Vector3DF _loadNormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
-	ace::Vector3DF _loadBinormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId,bool &found);
-	ace::Vector2DF _loadUV(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId,int polygonCount,int polygonVert);
-	std::vector<uint8_t> _loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
-	void _loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<MeshGroup> &meshGroups);
-	void _loadVertices(FbxMesh* fbxMesh);
-	void _loadFaceIndices(FbxMesh* fbxMesh);
-	void _loadFaceMaterials(FbxMesh* fbxMesh);
-	void _loadBoneAttachments(FbxMesh* fbxMesh);
 
-	//Material
+	//従法線読み込み関数
+	ace::Vector3DF _loadBinormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId,bool &found);
+
+	//UV読み込み関数
+	ace::Vector2DF _loadUV(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId,int polygonCount,int polygonVert);
+
+	//頂点カラー読み込み関数
+	std::vector<uint8_t> _loadColor(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId);
+
+	//頂点ウェイトおよびインデックス読み込み関数
+	void _loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<MeshGroup> &meshGroups);
+
+	//頂点情報と面情報の読み込み関数
+	void _loadVerticesAndFaces(FbxMesh* fbxMesh);
+	//void _loadFaceIndices(FbxMesh* fbxMesh);
+
+	//テクスチャ（面材質）一覧読み込み関数
 	void _loadTextures(FbxMesh* fbxMesh);
 public:
 	MeshLoader();
@@ -67,11 +74,22 @@ public:
 	std::vector<Vertex> GetVertices();
 	std::vector<Face> GetFaces();
 
+	//メッシュの情報を読み込む関数
 	void Load(FbxMesh* fbxMesh,int& attachmentIndex,std::vector<MeshGroup> &meshGroups);
+
+	//頂点一覧書き出し関数
 	void WriteVertices(ace::BinaryWriter* writer);
+
+	//面一覧書き出し関数
 	void WriteFaces(ace::BinaryWriter* writer);
+
+	//面材質一覧書き出し関数
 	void WriteFaceMaterials(ace::BinaryWriter* writer);
+
+	//ボーン対応書き出し関数
 	void WriteBoneAttachments(ace::BinaryWriter* writer);
+
+	//材質一覧書き出し関数
 	void WriteMaterials(ace::BinaryWriter* writer);
 
 	MeshLoader& operator=( const MeshLoader &meshLoader)

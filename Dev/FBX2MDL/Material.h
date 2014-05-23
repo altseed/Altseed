@@ -3,8 +3,13 @@
 
 struct Material
 {
+	//メッシュグループに属した後のインデックス
 	int groupIndex;
+
+	//テクスチャタイプ(内部もしくは外部)
 	int Type;
+
+	//テクスチャパス
 	std::string texture[3];
 
 	bool operator==(Material material)

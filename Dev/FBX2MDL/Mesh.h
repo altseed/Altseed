@@ -4,21 +4,43 @@
 #include "../ace_cpp/common/Math/ace.Vector2DF.h"
 #include "Material.h"
 
+//頂点
 struct Vertex
 {
+	//位置
 	ace::Vector3DF position;
+
+	//法線
 	ace::Vector3DF normal;
+
+	//従法線
 	ace::Vector3DF binormal;
+
+	//UV
 	ace::Vector2DF uv;
+
+	//補助UV
 	ace::Vector2DF subuv;
 
+	//法線加算回数
 	int normalAddCount;
+
+	//従法線加算回数
 	int binormalAddCount;
 
+	//頂点カラー
 	int color[4];
+
+	//頂点ウェイト
 	uint8_t weight[4];
+
+	//頂点ウェイトインデックス(分割済み)
 	uint8_t weightIndexDivided[4];
+
+	//頂点ウェイトインデックス(オリジナル)
 	uint8_t weightIndexOriginal[4];
+
+	//ウェイト配列ポインタ
 	int weightPtr;
 
 	bool operator == (const Vertex& o)
@@ -34,15 +56,23 @@ struct Vertex
 	}
 };
 
+//面
 struct Face
 {
+	//頂点インデックス
 	int vertexIndex[3];
+
+	//面材質インデックス
 	int materialIndex;
 };
 
+//面材質
 struct FacialMaterial
 {
+	//面数
 	int faceNum;
+
+	//面材質への参照
 	Material &materialRef;
 
 	FacialMaterial(int facenum,Material &materialref)
