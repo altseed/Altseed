@@ -1,8 +1,8 @@
+
 #include "Animation.h"
 
 void AnimationSource::WriteAnimationSource(ace::BinaryWriter *binaryWriter)
 {
-
     binaryWriter->Push(ace::ToAString(animationName.c_str()));
 
     binaryWriter->Push((int32_t)keyFrameAnimations.size());

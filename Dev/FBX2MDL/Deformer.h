@@ -1,8 +1,7 @@
 
 #pragma once
 
-#include <Math/ace.Matrix44.h>
-#include <Utility/ace.BinaryWriter.h>
+#include "FBX2MDL.Base.h"
 
 struct Deformer
 {

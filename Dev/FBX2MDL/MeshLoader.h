@@ -1,12 +1,12 @@
 
 #pragma once
-#include <fbxsdk.h>
 
-#include <Utility/ace.BinaryWriter.h>
-#include <Math/ace.Vector2DF.h>
+#include "FBX2MDL.Base.h"
+
 #include "Mesh.h"
 #include "Deformer.h"
 #include "Material.h"
+
 #define EPS 0.0001
 
 class MeshLoader;
@@ -68,6 +68,16 @@ class MeshLoader
 
 	//テクスチャ（面材質）一覧読み込み関数
 	void _loadTextures(FbxMesh* fbxMesh);
+
+	/**
+		@brief	従法線を計算する。
+		@param	v1	頂点1
+		@param	v2	頂点2
+		@param	v3	頂点3
+		@return	従法線
+	*/
+	ace::Vector3DF CalcBinormal(const Vertex& v1, const Vertex& v2, const Vertex& v3);
+
 public:
 	MeshLoader();
 	

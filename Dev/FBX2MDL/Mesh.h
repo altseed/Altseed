@@ -1,8 +1,7 @@
 
 #pragma once
 
-#include <Math/ace.Vector3DF.h>
-#include <Math/ace.Vector2DF.h>
+#include "FBX2MDL.Base.h"
 #include "Material.h"
 
 //’¸“_

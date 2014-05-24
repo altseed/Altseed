@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include "FBX2MDL.Base.h"
+
 struct Material
 {
 	//メッシュグループに属した後のインデックス

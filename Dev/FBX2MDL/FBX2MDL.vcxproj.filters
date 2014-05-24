@@ -14,5 +14,6 @@
     <ClInclude Include="MDLExporter.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshLoader.h" />
+    <ClInclude Include="FBX2MDL.Base.h" />
   </ItemGroup>
 </Project>

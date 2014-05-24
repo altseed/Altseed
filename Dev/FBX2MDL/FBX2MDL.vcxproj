@@ -97,6 +97,7 @@
   <ItemGroup>
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Deformer.h" />
+    <ClInclude Include="FBX2MDL.Base.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MDLExporter.h" />
     <ClInclude Include="Mesh.h" />

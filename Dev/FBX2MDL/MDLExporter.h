@@ -1,7 +1,7 @@
 #pragma once
 
-#include <fbxsdk.h>
-#include <Utility/ace.BinaryWriter.h>
+#include "FBX2MDL.Base.h"
+
 #include "Deformer.h"
 #include "MeshLoader.h"
 
@@ -32,32 +32,33 @@ class MDLExporter
 	void PrintHeader();
 
 	//メッシュを取得して、適切なメッシュグループに分類する
-	void GetMeshGroup(FbxNode* pNode,int depth);
+	void GetMeshGroup(FbxNode* pNode, int depth);
 
 	//メッシュが持つ値を取得する関数
 	void GetMeshProperty(FbxNode* node);
 
 	//デフォーマを取得する関数(再帰的に全て調べあげる)
-	void GetDeformer(Deformer* parentSkeleton, FbxNode* pNode,DeformerManager &deformerManager);
+	void GetDeformer(Deformer* parentSkeleton, FbxNode* pNode, DeformerManager &deformerManager);
 
 	//デフォーマが持つ値を取得する関数
-	void GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node,Deformer *deformer, DeformerManager &deformerManager);
+	void GetDeformerProperty(Deformer* parentSkeleton, FbxNode* node, Deformer *deformer, DeformerManager &deformerManager);
 
 	//モーションを取得する関数(再帰的に全て調べあげる)
-	void GetMotion(FbxNode *parentNode,FbxNode* node,FbxAnimLayer* pLayer,AnimationSource &animationSource);
+	void GetMotion(FbxNode *parentNode, FbxNode* node, FbxAnimLayer* pLayer, AnimationSource &animationSource);
 
 	//各々のアニメーションに関して調査を行う
-	void AnimStackAnalyze(FbxAnimStack* pStack, FbxNode *rootNode,AnimationSource &animationSource);
+	void AnimStackAnalyze(FbxAnimStack* pStack, FbxNode *rootNode, AnimationSource &animationSource);
 
 	//ボーンの拡大、回転、移動の時間による値を取得する
-	void GetSkeletonCurve(FbxNode* fbxNode,FbxAnimLayer* fbxAnimLayer,AnimationSource &animationSource);
+	void GetSkeletonCurve(FbxNode* fbxNode, FbxAnimLayer* fbxAnimLayer, AnimationSource &animationSource);
 
 	//指定した変換のアニメーションのカーブを解析する
-	void AnalyzeCurve(std::string target,FbxAnimCurve* pCurve,AnimationSource &animationSource);
+	void AnalyzeCurve(std::string target, FbxAnimCurve* pCurve, AnimationSource &animationSource);
+
 public:
 	MDLExporter(){}
 
-	MDLExporter(const char* fileName,const char *exportName);
+	MDLExporter(const char* fileName, const char *exportName);
 
 	//変換実行
 	void Convert();

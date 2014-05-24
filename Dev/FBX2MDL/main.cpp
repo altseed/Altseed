@@ -1,4 +1,7 @@
 
+#include "FBX2MDL.Base.h"
+#include "MDLExporter.h"
+
 #if _DEBUG
 #pragma comment(lib,"debug/libfbxsdk-mt.lib")
 #pragma comment(lib,"Debug/ace_common.lib")
@@ -7,15 +10,8 @@
 #pragma comment(lib,"Release/ace_common.lib")
 #endif
 
-#include <fbxsdk.h>
-#include <Utility/ace.BinaryWriter.h>
-
-#include "MDLExporter.h"
-/**
- * Main function - loads the hard-coded fbx file,
- * and prints its contents in an xml format to stdout.
- */
-int main(int argc, char** argv) {
+int main(int argc, char** argv)
+{
 
 	if(argc!=3)
 	{

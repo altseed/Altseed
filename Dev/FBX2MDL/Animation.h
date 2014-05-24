@@ -1,10 +1,7 @@
 
 #pragma once
 
-#include <Math/ace.Vector2DF.h>
-#include <Utility/ace.BinaryWriter.h>
-
-#include <fbxsdk.h>
+#include "FBX2MDL.Base.h"
 
 //アニメーションクリップ構造体
 struct AnimationClip

@@ -97,24 +97,24 @@ ace::Vector3DF MeshLoader::_loadNormal(FbxMesh* fbxMesh,int lControlPointIndex,i
 }
 
 
-ace::Vector3DF MeshLoader::_loadBinormal(FbxMesh* fbxMesh,int lControlPointIndex,int vertexId,bool &found)
+ace::Vector3DF MeshLoader::_loadBinormal(FbxMesh* fbxMesh, int lControlPointIndex, int vertexId, bool &found)
 {
 	ace::Vector3DF binormal;
 
-	if(fbxMesh->GetElementBinormalCount()==0)
+	if (fbxMesh->GetElementBinormalCount() == 0)
 	{
-		found=false;
-		binormal=ace::Vector3DF(0,0,0);
+		found = false;
+		binormal = ace::Vector3DF(0, 0, 0);
 		return binormal;
 	}
 
-	found=true;
+	found = true;
 
-	for(int l = 0; l < fbxMesh->GetElementBinormalCount(); ++l)
+	for (int l = 0; l < fbxMesh->GetElementBinormalCount(); ++l)
 	{
 
-		FbxGeometryElementBinormal* leBinormal = fbxMesh->GetElementBinormal( l);
-		if(leBinormal->GetMappingMode() == FbxGeometryElement::eByPolygonVertex)
+		FbxGeometryElementBinormal* leBinormal = fbxMesh->GetElementBinormal(l);
+		if (leBinormal->GetMappingMode() == FbxGeometryElement::eByPolygonVertex)
 		{
 			switch (leBinormal->GetReferenceMode())
 			{
@@ -124,12 +124,12 @@ ace::Vector3DF MeshLoader::_loadBinormal(FbxMesh* fbxMesh,int lControlPointIndex
 				binormal.Z = leBinormal->GetDirectArray().GetAt(vertexId)[2];
 				break;
 			case FbxGeometryElement::eIndexToDirect:
-				{
-					int id = leBinormal->GetIndexArray().GetAt(vertexId);
-					binormal.X = leBinormal->GetDirectArray().GetAt(id)[0];
-					binormal.Y = leBinormal->GetDirectArray().GetAt(id)[1];
-					binormal.Z = leBinormal->GetDirectArray().GetAt(id)[2];
-				}
+			{
+				int id = leBinormal->GetIndexArray().GetAt(vertexId);
+				binormal.X = leBinormal->GetDirectArray().GetAt(id)[0];
+				binormal.Y = leBinormal->GetDirectArray().GetAt(id)[1];
+				binormal.Z = leBinormal->GetDirectArray().GetAt(id)[2];
+			}
 				break;
 			}
 		}
@@ -541,7 +541,7 @@ void MeshLoader::_loadVerticesAndFaces(FbxMesh* fbxMesh)
 	int vertexId = 0;
 
 
-	bool binormalLoaded=false;
+	bool binormalLoaded = false;
 
 	for (int i = 0; i < lPolygonCount; i++)
 	{
@@ -551,11 +551,11 @@ void MeshLoader::_loadVerticesAndFaces(FbxMesh* fbxMesh)
 		{
 			int lControlPointIndex = fbxMesh->GetPolygonVertex(i, j);
 
-			m_baseVertices[lControlPointIndex].normal += _loadNormal(fbxMesh,lControlPointIndex,vertexId);
+			m_baseVertices[lControlPointIndex].normal += _loadNormal(fbxMesh, lControlPointIndex, vertexId);
 			++m_baseVertices[lControlPointIndex].normalAddCount;
 
-			auto binormal = _loadBinormal(fbxMesh,lControlPointIndex,vertexId,binormalLoaded);
-			if(binormalLoaded)
+			auto binormal = _loadBinormal(fbxMesh, lControlPointIndex, vertexId, binormalLoaded);
+			if (binormalLoaded)
 			{
 				m_baseVertices[lControlPointIndex].binormal += binormal;
 				++m_baseVertices[lControlPointIndex].binormalAddCount;
@@ -565,7 +565,7 @@ void MeshLoader::_loadVerticesAndFaces(FbxMesh* fbxMesh)
 		}
 	}
 
-	vertexId=0;
+	vertexId = 0;
 
 	for (int i = 0; i < lPolygonCount; i++)
 	{
@@ -581,103 +581,63 @@ void MeshLoader::_loadVerticesAndFaces(FbxMesh* fbxMesh)
 
 			Vertex vertex;
 
-			vertex=m_baseVertices[lControlPointIndex];
+			vertex = m_baseVertices[lControlPointIndex];
 
-			std::vector<uint8_t> color = _loadColor(fbxMesh,lControlPointIndex,vertexId);
+			std::vector<uint8_t> color = _loadColor(fbxMesh, lControlPointIndex, vertexId);
 
-			vertex.color[0]=color[0];
-			vertex.color[1]=color[1];
-			vertex.color[2]=color[2];
-			vertex.color[3]=color[3];
+			vertex.color[0] = color[0];
+			vertex.color[1] = color[1];
+			vertex.color[2] = color[2];
+			vertex.color[3] = color[3];
 
-			vertex.uv = _loadUV(fbxMesh,lControlPointIndex,vertexId,i,j);
-			//BlenderのみUV(Y)の始点が異なるため
-			vertex.uv.Y=1-vertex.uv.Y;
+			vertex.uv = _loadUV(fbxMesh, lControlPointIndex, vertexId, i, j);
+
+			// 始点が左下の場合の対策(Blender)
+			vertex.uv.Y = 1.0 - vertex.uv.Y;
 
 			tverts.push_back(vertex);
 
 			vertexId++;
 		}
 
-		if(!binormalLoaded)
+		// 頂点がbinormal情報を持っていなかった場合、計算で求める
+		if (!binormalLoaded)
 		{
+			auto binormal = CalcBinormal(tverts[0], tverts[1], tverts[2]);
 
-			ace::Vector3DF cp0[3];
-			cp0[0]=ace::Vector3DF(tverts[0].position.X,tverts[0].uv.X,tverts[0].uv.Y);
-			cp0[1]=ace::Vector3DF(tverts[0].position.Y,tverts[0].uv.X,tverts[0].uv.Y);
-			cp0[2]=ace::Vector3DF(tverts[0].position.Z,tverts[0].uv.X,tverts[0].uv.Y);
-
-			ace::Vector3DF cp1[3];
-			cp1[0]=ace::Vector3DF(tverts[1].position.X,tverts[1].uv.X,tverts[1].uv.Y);
-			cp1[1]=ace::Vector3DF(tverts[1].position.Y,tverts[1].uv.X,tverts[1].uv.Y);
-			cp1[2]=ace::Vector3DF(tverts[1].position.Z,tverts[1].uv.X,tverts[1].uv.Y);
-
-			ace::Vector3DF cp2[3];
-			cp2[0]=ace::Vector3DF(tverts[2].position.X,tverts[2].uv.X,tverts[2].uv.Y);
-			cp2[1]=ace::Vector3DF(tverts[2].position.Y,tverts[2].uv.X,tverts[2].uv.Y);
-			cp2[2]=ace::Vector3DF(tverts[2].position.Z,tverts[2].uv.X,tverts[2].uv.Y);
-
-			double v[3];
-			for(int j=0;j<3;++j)
+			for (int j = 0; j < lPolygonSize; ++j)
 			{
-				ace::Vector3DF v1=cp1[j]-cp0[j];
-				ace::Vector3DF v2=cp2[j]-cp1[j];
-				ace::Vector3DF abc;
-				abc = ace::Vector3DF::Cross(v1,v2);
-
-				if(abc.X==0.0f)
-				{
-					v[j]=0;
-				}
-				else
-				{
-					v[j]=-abc.Z/abc.X;
-				}
-			}
-
-			ace::Vector3DF binormal = ace::Vector3DF(v[0],v[1],v[2]);
-
-			if(binormal.GetLength()!=0)
-			{
-				binormal.Normalize();
-			}
-			else
-			{
-				binormal=ace::Vector3DF(1,0,0);
-			}
-
-			for(int j=0;j<lPolygonSize;++j)
-			{
-				tverts[j].binormal=binormal;
+				tverts[j].binormal = binormal;
 			}
 
 		}
 
-		//頂点複製の打診と適切な処理
-		for(int j=0;j<lPolygonSize;++j)
+		// 既存の頂点群に同じ頂点がないか検索し、あれば情報の補正、なければ追加を行う。
+		for (int32_t j = 0; j < lPolygonSize; j++)
 		{
+			// 一致する頂点を探索
 			int index = -1;
-			for(int k=0;k<m_vertices.size();++k)
+			for (int32_t k = 0; k < m_vertices.size(); k++)
 			{
-				if(m_vertices[k]==tverts[j])
+				if (m_vertices[k] == tverts[j])
 				{
-					index=k;
+					index = k;
 					break;
 				}
 			}
 
-			if(index==-1)
+			if (index == -1)
 			{
+				index = (int32_t) m_vertices.size() - 1;
 				m_vertices.push_back(tverts[j]);
-				cIndices[j]=(int)m_vertices.size()-1;
-				m_vertices[cIndices[j]].binormalAddCount++;
 			}
 			else
 			{
-				cIndices[j]=index;
-				m_vertices[index].binormal+=tverts[j].binormal;
-				m_vertices[index].binormalAddCount++;
+				m_vertices[index].binormal += tverts[j].binormal;
 			}
+
+			cIndices[j] = index;
+			m_vertices[index].binormalAddCount++;
 		}
 
 		bool lIsAllSame = true;
@@ -685,7 +645,7 @@ void MeshLoader::_loadVerticesAndFaces(FbxMesh* fbxMesh)
 		{
 
 			FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial(l);
-			if( lMaterialElement->GetMappingMode() == FbxGeometryElement::eByPolygon) 
+			if (lMaterialElement->GetMappingMode() == FbxGeometryElement::eByPolygon)
 			{
 				lIsAllSame = false;
 				break;
@@ -693,7 +653,7 @@ void MeshLoader::_loadVerticesAndFaces(FbxMesh* fbxMesh)
 		}
 
 		int lMatId = -1;
-		if(!lIsAllSame)
+		if (!lIsAllSame)
 		{
 			FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial(0);
 			FbxSurfaceMaterial* lMaterial = NULL;
@@ -704,39 +664,79 @@ void MeshLoader::_loadVerticesAndFaces(FbxMesh* fbxMesh)
 		}
 		else
 		{
-			FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial( 0);
-			FbxSurfaceMaterial* lMaterial = fbxMesh->GetNode()->GetMaterial(lMaterialElement->GetIndexArray().GetAt(0));    
+			FbxGeometryElementMaterial* lMaterialElement = fbxMesh->GetElementMaterial(0);
+			FbxSurfaceMaterial* lMaterial = fbxMesh->GetNode()->GetMaterial(lMaterialElement->GetIndexArray().GetAt(0));
 			lMatId = lMaterialElement->GetIndexArray().GetAt(0);
 		}
 
-		if(i==0)
+		if (i == 0)
 		{
 			m_preFaceIndex = lMatId;
 		}
-		else if(i==lPolygonCount-1)
+		else if (i == lPolygonCount - 1)
 		{
-			m_facialMaterials.push_back(FacialMaterial(m_faceContinue+2,materials[m_preFaceIndex]));
+			m_facialMaterials.push_back(FacialMaterial(m_faceContinue + 2, materials[m_preFaceIndex]));
 		}
-		else if(m_preFaceIndex==lMatId)
+		else if (m_preFaceIndex == lMatId)
 		{
 			++m_faceContinue;
 		}
 		else
 		{
-			m_facialMaterials.push_back(FacialMaterial(m_faceContinue+1,materials[m_preFaceIndex]));
-			m_faceContinue=0;
+			m_facialMaterials.push_back(FacialMaterial(m_faceContinue + 1, materials[m_preFaceIndex]));
+			m_faceContinue = 0;
 		}
 
-		m_preFaceIndex=lMatId;
+		m_preFaceIndex = lMatId;
 
 		Face face;
-		face.materialIndex=lMatId;
-		face.vertexIndex[0]=cIndices[2];
-		face.vertexIndex[1]=cIndices[1];
-		face.vertexIndex[2]=cIndices[0];
+		face.materialIndex = lMatId;
+		face.vertexIndex[0] = cIndices[2];
+		face.vertexIndex[1] = cIndices[1];
+		face.vertexIndex[2] = cIndices[0];
 		m_faces.push_back(face);
 
-	} // for polygonCount
+	}
 
 	printf("dummy");
+}
+
+ace::Vector3DF MeshLoader::CalcBinormal(const Vertex& v1, const Vertex& v2, const Vertex& v3)
+{
+	ace::Vector3DF cp0[3];
+	cp0[0] = ace::Vector3DF(v1.position.X, v1.uv.X, v1.uv.Y);
+	cp0[1] = ace::Vector3DF(v1.position.Y, v1.uv.X, v1.uv.Y);
+	cp0[2] = ace::Vector3DF(v1.position.Z, v1.uv.X, v1.uv.Y);
+
+	ace::Vector3DF cp1[3];
+	cp1[0] = ace::Vector3DF(v2.position.X, v2.uv.X, v2.uv.Y);
+	cp1[1] = ace::Vector3DF(v2.position.Y, v2.uv.X, v2.uv.Y);
+	cp1[2] = ace::Vector3DF(v2.position.Z, v2.uv.X, v2.uv.Y);
+
+	ace::Vector3DF cp2[3];
+	cp2[0] = ace::Vector3DF(v3.position.X, v3.uv.X, v3.uv.Y);
+	cp2[1] = ace::Vector3DF(v3.position.Y, v3.uv.X, v3.uv.Y);
+	cp2[2] = ace::Vector3DF(v3.position.Z, v3.uv.X, v3.uv.Y);
+
+	double v[3];
+	for (int32_t i = 0; i < 3; i++)
+	{
+		auto v1 = cp1[i] - cp0[i];
+		auto v2 = cp2[i] - cp1[i];
+		auto abc = ace::Vector3DF::Cross(v1, v2);
+
+		if (abc.X == 0.0f)
+		{
+			return ace::Vector3DF();
+		}
+		else
+		{
+			v[i] = -abc.Z / abc.X;
+		}
+	}
+
+	ace::Vector3DF binormal = ace::Vector3DF(v[0], v[1], v[2]);
+	binormal.Normalize();
+
+	return binormal;
 }
