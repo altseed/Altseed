@@ -46,7 +46,8 @@ void MDLExporter::Convert()
 {
 	PrintHeader();
 	FbxNode* lRootNode = m_Scene->GetRootNode();
-	if (lRootNode) {
+	if (lRootNode)
+	{
 
 		//ボーンリスト
 		{

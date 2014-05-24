@@ -18,6 +18,7 @@ protected:
 	{
 		ace::RenderSettings settings;
 		settings.IsLightweightMode = false;
+		settings.VisalizedBuffer = ace::eVisalizedBuffer::VISALIZED_BUFFER_NORMAL;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
@@ -27,7 +28,7 @@ protected:
 
 		auto graphics = ace::Engine::GetGraphics();
 
-		auto model = graphics->CreateModel(ace::ToAString("Data/Model/binormals.mdl").c_str());
+		auto model = graphics->CreateModel(ace::ToAString("Data/Model/Box.mdl").c_str());
 
 		meshObj->SetModel(model);
 		meshObj->SetPosition(ace::Vector3DF(0, 0, 0));
@@ -36,9 +37,9 @@ protected:
 		GetLayer3D()->AddObject(meshObj);
 		GetLayer3D()->AddObject(lightObj);
 
-		SetCameraParameter(20, 0, 0, 1, 40, 20);
+		SetCameraParameter(30, 0, 0, 1, 60, 20);
 
-		meshObj->PlayAnimation(ace::ToAString("Constant").c_str());
+		//meshObj->PlayAnimation(ace::ToAString("Constant").c_str());
 		
 	}
 

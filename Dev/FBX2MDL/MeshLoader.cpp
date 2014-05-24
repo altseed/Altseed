@@ -251,31 +251,31 @@ std::vector<uint8_t> MeshLoader::_loadColor(FbxMesh* fbxMesh,int lControlPointIn
 	return color;
 }
 
-void MeshLoader::_loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<MeshGroup> &meshGroups)
+void MeshLoader::_loadWeight(FbxMesh* fbxMesh, int& attachedIndex, std::vector<MeshGroup> &meshGroups)
 {
-	int skinCount=fbxMesh->GetDeformerCount(FbxDeformer::eSkin);
+	int skinCount = fbxMesh->GetDeformerCount(FbxDeformer::eSkin);
 
-	attachedIndex=-1;
+	attachedIndex = -1;
 
-	for(int i=0;i<skinCount;++i)
+	for (int i = 0; i < skinCount; ++i)
 	{
 		//printf("Weight Start.\n");
-		FbxSkin* skin = (FbxSkin*)fbxMesh->GetDeformer(i,FbxDeformer::eSkin);
+		FbxSkin* skin = (FbxSkin*) fbxMesh->GetDeformer(i, FbxDeformer::eSkin);
 
 		FbxCluster* firstCluster = skin->GetCluster(0);
 
-		for(int j=0;j<meshGroups.size();++j)
+		for (int j = 0; j < meshGroups.size(); ++j)
 		{
-			if (meshGroups[j].deformerManager.GetDeformerByName(firstCluster->GetLink()->GetName())!=NULL)
+			if (meshGroups[j].deformerManager.GetDeformerByName(firstCluster->GetLink()->GetName()) != NULL)
 			{
-				attachedIndex =j;
+				attachedIndex = j;
 				break;
 			}
 		}
 
 		int clusterNum = skin->GetClusterCount();
 
-		for(int j=0;j<clusterNum;++j)
+		for (int j = 0; j < clusterNum; ++j)
 		{
 			FbxCluster* cluster = skin->GetCluster(j);
 
@@ -287,16 +287,16 @@ void MeshLoader::_loadWeight(FbxMesh* fbxMesh,int& attachedIndex,std::vector<Mes
 
 			int dmIndex = meshGroups[attachedIndex].deformerManager.GetIndexByName(name);
 
-			for(int k=0;k<pointNum;++k)
+			for (int k = 0; k < pointNum; ++k)
 			{
 				int index = pointAry[k];
 				float weight = static_cast<float>(weightAry[k]);
 
-				int ptr=m_baseVertices[index].weightPtr;
+				int ptr = m_baseVertices[index].weightPtr;
 
-				m_baseVertices[index].weight[ptr]=static_cast<uint8_t>(weight*255.0);
-				m_baseVertices[index].weightIndexDivided[ptr]=dmIndex;
-				m_baseVertices[index].weightIndexOriginal[ptr]=dmIndex;
+				m_baseVertices[index].weight[ptr] = static_cast<uint8_t>(weight*255.0);
+				m_baseVertices[index].weightIndexDivided[ptr] = dmIndex;
+				m_baseVertices[index].weightIndexOriginal[ptr] = dmIndex;
 
 				++m_baseVertices[index].weightPtr;
 			}
@@ -628,7 +628,7 @@ void MeshLoader::_loadVerticesAndFaces(FbxMesh* fbxMesh)
 
 			if (index == -1)
 			{
-				index = (int32_t) m_vertices.size() - 1;
+				index = (int32_t) m_vertices.size();
 				m_vertices.push_back(tverts[j]);
 			}
 			else
@@ -718,6 +718,14 @@ ace::Vector3DF MeshLoader::CalcBinormal(const Vertex& v1, const Vertex& v2, cons
 	cp2[1] = ace::Vector3DF(v3.position.Y, v3.uv.X, v3.uv.Y);
 	cp2[2] = ace::Vector3DF(v3.position.Z, v3.uv.X, v3.uv.Y);
 
+	// Blenderç¿ïWånâºëŒçÙ
+	//std::swap(cp0[1].X, cp0[2].X);
+	//std::swap(cp1[1].X, cp1[2].X);
+	//std::swap(cp2[1].X, cp2[2].X);
+	//cp0[2].X = -cp0[2].X;
+	//cp1[2].X = -cp1[2].X;
+	//cp2[2].X = -cp2[2].X;
+	
 	double v[3];
 	for (int32_t i = 0; i < 3; i++)
 	{
