@@ -416,6 +416,11 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 					auto t = (CubemapTexture_Imp_DX11*) tex;
 					rv = t->GetShaderResourceView();
 				}
+				else if (tex->GetType() == TEXTURE_CLASS_DEPTHBUFFER)
+				{
+					auto t = (DepthBuffer_Imp_DX11*) tex;
+					rv = t->GetShaderResourceView();
+				}
 
 				// 頂点シェーダーに設定
 				GetContext()->VSSetShaderResources(i, 1, &rv);

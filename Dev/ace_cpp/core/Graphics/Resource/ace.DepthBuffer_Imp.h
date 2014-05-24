@@ -3,8 +3,10 @@
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+#include <ace.common.Base.h>
 #include <Math/ace.Vector2DI.h>
 
+#include "ace.Texture.h"
 #include "../ace.DeviceObject.h"
 
 //----------------------------------------------------------------------------------
@@ -15,7 +17,8 @@ namespace ace {
 	//
 	//----------------------------------------------------------------------------------
 	class DepthBuffer_Imp
-		: public DeviceObject
+		: public Texture
+		, public DeviceObject
 	{
 	protected:
 		Vector2DI	m_size;
@@ -25,6 +28,20 @@ namespace ace {
 	public:
 
 		Vector2DI GetSize() const { return m_size; }
+
+		/**
+		@brief	テクスチャのクラスの種類を取得する。
+		@return	種類
+		*/
+		virtual eTextureClassType GetType() override { return TEXTURE_CLASS_DEPTHBUFFER; }
+
+		// IReferenceを継承したデバイスオブジェクト向け定義
+#if !SWIG
+	public:
+		virtual int GetRef() { return ReferenceObject::GetRef(); }
+		virtual int AddRef() { return ReferenceObject::AddRef(); }
+		virtual int Release() { return ReferenceObject::Release(); }
+#endif
 	};
 
 	//----------------------------------------------------------------------------------

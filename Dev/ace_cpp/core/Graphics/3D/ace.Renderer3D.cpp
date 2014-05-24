@@ -10,7 +10,7 @@
 #include "../Resource/ace.VertexBuffer_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
 #include "../Resource/ace.RenderState_Imp.h"
-
+#include "../Resource/ace.DepthBuffer_Imp.h"
 
 #include "../Shader/DX/3D/Screen_VS.h"
 #include "../Shader/DX/3D/Paste_PS.h"
@@ -672,7 +672,7 @@ namespace ace
 			}
 			
 			
-			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetDiffuseColor_RT(), 0);
+			//m_pasteShader->SetTexture("g_texture", c->GetDepthBuffer_RT(), 0);
 			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetDepth_RT(), 0);
 			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetSSAO_RT(), 0);
 			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetShadow_RT(), 0);

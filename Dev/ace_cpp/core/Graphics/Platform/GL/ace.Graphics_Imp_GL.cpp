@@ -477,6 +477,11 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 					auto t = (CubemapTexture_Imp_GL*) tex;
 					buf = t->GetBuffer();
 				}
+				else if (tex->GetType() == TEXTURE_CLASS_DEPTHBUFFER)
+				{
+					auto t = (DepthBuffer_Imp_GL*) tex;
+					buf = t->GetBuffer();
+				}
 
 				GLCheckError();
 				glActiveTexture(GL_TEXTURE0 + i);
