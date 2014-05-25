@@ -50,7 +50,8 @@ namespace FontGenerator
 			while(true)
 			{
 				Console.Write("> ");
-				var result = int.TryParse(Console.ReadLine(), out int i);
+				int i;
+				var result = int.TryParse(Console.ReadLine(), out i);
 				if(result)
 				{
 					return i;
