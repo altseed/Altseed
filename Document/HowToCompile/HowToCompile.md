@@ -20,7 +20,9 @@ Ubuntuでは、```Script/install_swig_ubuntu.sh```　を実行することでswi
 
 [ダウンロード](http://www.microsoft.com/en-us/download/details.aspx?id=6812)
 
-インストール後、VisualStudioのプロパティマネージャからパスを追加する必要があります。
+インストール後、DirectX SDKへパスを通します。
+
+[パスを通す方法](DirectXSDK.md)
 
 ## Linux
 
