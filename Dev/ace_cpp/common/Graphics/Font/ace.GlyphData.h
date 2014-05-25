@@ -13,9 +13,10 @@ namespace ace
 		int m_sheetNum;
 		RectI m_src;
 
-		GlyphData();
 
 	public:
+		GlyphData();
+
 		GlyphData(achar charactor, int sheetNum, RectI src);
 
 		void Push(BinaryWriter& writer);

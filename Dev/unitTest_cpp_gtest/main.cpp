@@ -32,6 +32,7 @@ void GetDirectoryName(char* dst, char* src);
 
 extern void Font_IndexTable();
 extern void Font_GlyphDataSerialize();
+extern void Font_AffLoader();
 extern void Graphics_SingleTexture(bool isOpenGLMode);
 extern void Graphics_RenderTarget(bool isOpenGLMode);
 extern void Graphics_Simple3D(bool isOpenGLMode);
@@ -57,12 +58,6 @@ int main(int argc, char **argv)
 	GetDirectoryName(current_path, argv[0]);
 	SetCurrentDirectoryA(current_path);
 #endif
-
-	//Graphics_Empty(false);
-	//return 0;
-
-	//Profiler_Profiling();
-	//return 0;
 
 	::testing::InitGoogleTest(&argc, argv);
 

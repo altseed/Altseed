@@ -32,8 +32,16 @@ namespace ace
 
 		auto header = AffHeader::Get(reader);
 		auto indexes = GetIndexTable(reader);
+	 	auto fontNum = header.GetFontCount();
 
 		map<achar, GlyphData> result;
+
+		for (int16_t i = 0; i < fontNum; ++i)
+		{
+			auto charactor = distance(indexes.begin(), find(indexes.begin(), indexes.end(), i));
+			result[charactor] = GlyphData::Get(reader, charactor);
+		}
+
 		return result;
 	}
 }

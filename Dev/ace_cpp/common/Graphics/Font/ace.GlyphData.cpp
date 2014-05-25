@@ -3,6 +3,9 @@
 namespace ace
 {
 	GlyphData::GlyphData()
+		: m_charactor(0)
+		, m_sheetNum(0)
+		, m_src(RectI())
 	{
 	}
 
