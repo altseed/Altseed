@@ -139,8 +139,6 @@ namespace ace {
 	// 同期しない
 	glfwSwapInterval(0);
 
-	glewInit();
-
 	m_renderState = new RenderState_Imp_GL(this);
 
 	// フレームバッファ生成
@@ -207,8 +205,6 @@ namespace ace {
 	m_renderingThreadX11Display = nullptr;
 	m_renderingThreadX11Window = 0;
 #endif
-
-	glewInit();
 
 	m_renderState = new RenderState_Imp_GL(this);
 
@@ -611,7 +607,44 @@ void Graphics_Imp_GL::SetViewport(int32_t x, int32_t y, int32_t width, int32_t h
 //----------------------------------------------------------------------------------
 Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool isMultithreadingMode)
 {
+	auto writeLogHeading = [log](const astring s) -> void
+	{
+		if (log == nullptr) return;
+		log->WriteHeading(s.c_str());
+	};
+
+	auto writeLog = [log](const astring s) -> void
+	{
+		if (log == nullptr) return;
+		log->WriteLine(s.c_str());
+	};
+
+	writeLogHeading(ToAString("OpenGL"));
+
+	auto window_ = ((Window_Imp*) window)->GetWindow();
+	glfwMakeContextCurrent(window_);
+
+	if (glewInit() != GLEW_OK)
+	{
+		writeLog(ToAString("GLEWの初期化に失敗"));
+		goto End;
+	}
+
+	else if (!GLEW_VERSION_3_3)
+	{
+		writeLog(ToAString("OpenGL3.3に未対応"));
+		goto End;
+	}
+
+	writeLog(ToAString("OpenGL初期化成功"));
+	writeLog(ToAString(""));
+
 	return new Graphics_Imp_GL(window->GetSize(), window, log, isMultithreadingMode);
+
+End:;
+	writeLog(ToAString("OpenGL初期化失敗"));
+	writeLog(ToAString(""));
+	return nullptr;
 }
 
 //----------------------------------------------------------------------------------
@@ -620,6 +653,20 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool i
 #if !_WIN32
 Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isMultithreadingMode )
 {
+	auto writeLogHeading = [log](const astring s) -> void
+	{
+		if (log == nullptr) return;
+		log->WriteHeading(s.c_str());
+	};
+
+	auto writeLog = [log](const astring s) -> void
+	{
+		if (log == nullptr) return;
+		log->WriteLine(s.c_str());
+	};
+
+	writeLogHeading(ToAString("OpenGL"));
+
 	Display* display_ = (Display*)display;
 	::Window window_ = *((::Window*)window);
 
@@ -636,7 +683,29 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_
 
 	XFree(vi);
 
+	glXMakeCurrent(m_x11Display, m_x11Window, m_glx);
+
+	if (glewInit() != GLEW_OK)
+	{
+		writeLog(ToAString("GLEWの初期化に失敗"));
+		goto End;
+	}
+
+	else if (!GLEW_VERSION_3_3)
+	{
+		writeLog(ToAString("OpenGL3.3に未対応"));
+		goto End;
+	}
+
+	writeLog(ToAString("OpenGL初期化成功"));
+	writeLog(ToAString(""));
+
 	return new Graphics_Imp_GL( ace::Vector2DI(width,height), display, window, context_, log, isMultithreadingMode );
+
+End:;
+	writeLog(ToAString("OpenGL初期化失敗"));
+	writeLog(ToAString(""));
+	return nullptr;
 }
 #endif
 

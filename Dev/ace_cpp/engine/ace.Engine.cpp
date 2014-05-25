@@ -319,6 +319,10 @@ namespace ace
 
 			g_objectSystemFactory = m_objectSystemFactory;
 		}
+		else
+		{
+			SafeRelease(m_core);
+		}
 
 		return init;
 	}
