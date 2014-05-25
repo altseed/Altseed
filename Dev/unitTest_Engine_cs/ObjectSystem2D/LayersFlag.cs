@@ -9,6 +9,9 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 {
 	class LayersFlag : EngineTest
 	{
+		Scene scene;
+		Layer2D layer;
+
 		class MyObject : TextureObject2D
 		{
 			public MyObject( float x, float y )
@@ -29,14 +32,14 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 		}
 
 		public LayersFlag()
-			: base( 30 )
+			: base(30)
 		{
 		}
 
 		protected override void OnStart()
 		{
-			var scene = new Scene();
-			var layer = new Layer2D();
+			scene = new Scene();
+			layer = new Layer2D();
 			var notDrawnLayer = new Layer2D();
 			var notUpdatedLayer = new Layer2D();
 			var object1 = new MyObject( 100, 128 );
@@ -54,6 +57,15 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			scene.AddLayer( notUpdatedLayer );
 
 			Engine.ChangeScene( scene );
+		}
+
+		protected override void OnUpdating()
+		{
+			// レイヤー削除テスト
+			if (Time == ExitTime)
+			{
+				scene.RemoveLayer(layer);
+			}
 		}
 	}
 }

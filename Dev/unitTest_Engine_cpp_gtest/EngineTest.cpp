@@ -33,6 +33,7 @@ static void CreateSSDirectory()
 EngineTest::EngineTest(astring title, bool isOpenGLMode, int exitTime)
 : m_isOpenGLMode(isOpenGLMode)
 , m_title(title)
+, m_currentTime(0)
 , m_exitTime(exitTime)
 , directory(ToAString("./ScreenShotTest_Engine_cpp/"))
 {
@@ -58,7 +59,6 @@ void EngineTest::Run()
 {
 	CreateSSDirectory();
 
-	int time = 0;
 	EngineOption option;
 	option.GraphicsType = m_isOpenGLMode ? ace::GRAPHICS_TYPE_GL : ace::GRAPHICS_TYPE_DX11;
 	option.IsMultithreadingMode = true;
@@ -74,7 +74,7 @@ void EngineTest::Run()
 		ace::Engine::Update();
 		OnUpdated();
 
-		if (time == m_exitTime)
+		if (m_currentTime == m_exitTime)
 		{
 			string tail = m_isOpenGLMode ? "_GL" : "_DX";
 			tail += ".png";
@@ -82,12 +82,12 @@ void EngineTest::Run()
 
 			ace::Engine::TakeScreenshot(fileName.c_str());
 		}
-		if (time == m_exitTime + 2)
+		if (m_currentTime == m_exitTime + 2)
 		{
 			break;
 		}
 
-		++time;
+		++m_currentTime;
 	}
 
 	OnFinish();

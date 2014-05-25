@@ -7,6 +7,9 @@ using namespace ace;
 
 class ObjectSystem_LayersFlag : public EngineTest
 {
+	std::shared_ptr<Scene>	scene;
+	std::shared_ptr<Layer2D> layer;
+
 	class MyObject : public TextureObject2D
 	{
 	public:
@@ -34,8 +37,8 @@ public:
 protected:
 	void OnStart()
 	{
-		auto scene = make_shared<Scene>();
-		auto layer = make_shared<Layer2D>();
+		scene = make_shared<Scene>();
+		layer = make_shared<Layer2D>();
 		auto notDrawnLayer = make_shared<Layer2D>();
 		auto notUpdatedLauer = make_shared<Layer2D>();
 		auto object1 = make_shared<ObjectSystem_LayersFlag::MyObject>(100, 128);
@@ -52,6 +55,15 @@ protected:
 		scene->AddLayer(notDrawnLayer);
 		scene->AddLayer(notUpdatedLauer);
 		ace::Engine::ChangeScene(scene);
+	}
+
+	void OnUpdating()
+	{
+		// レイヤー削除テスト
+		if (GetTime() == GetExitTime())
+		{
+			scene->RemoveLayer(layer);
+		}
 	}
 };
 
