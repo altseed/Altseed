@@ -58,5 +58,8 @@ def exec_sync( cmd ):
 if not os.path.isdir('FontGenerator/swig'):
   os.makedirs('FontGenerator/swig')
 
+if not os.path.isdir('FontGenerator.Model/swig'):
+  os.makedirs('FontGenerator.Model/swig')
 
 exec_sync( 'swig -c++ -csharp -namespace FontGenerator.swig -dllimport FontGeneratorCore -o FontGeneratorCore/dll_cs.cxx -outdir FontGenerator/swig/ FontGenerator.i' )
+exec_sync( 'swig -c++ -csharp -namespace FontGenerator.swig -dllimport FontGeneratorCore -o FontGeneratorCore/dll_cs.cxx -outdir FontGenerator.Model/swig/ FontGenerator.i' )

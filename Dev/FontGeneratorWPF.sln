@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontGenerator.Model", "FontGenerator\FontGenerator.Model\FontGenerator.Model.csproj", "{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontGenerator.WPF", "FontGenerator\FontGenerator.WPF\FontGenerator.WPF.csproj", "{EF7B1CEE-D436-4FD6-AA09-C15879EA17C4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF7B1CEE-D436-4FD6-AA09-C15879EA17C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF7B1CEE-D436-4FD6-AA09-C15879EA17C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF7B1CEE-D436-4FD6-AA09-C15879EA17C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF7B1CEE-D436-4FD6-AA09-C15879EA17C4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
