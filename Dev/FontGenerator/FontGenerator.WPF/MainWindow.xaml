@@ -1,0 +1,65 @@
+﻿<Window x:Class="FontGenerator.WPF.MainWindow"
+				xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+				xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+				Title="フォント生成ツール" Width="525" Height="auto">
+	<GroupBox Header="フォント設定" Margin="6">
+		<StackPanel VerticalAlignment="Top">
+			<Grid Margin="4">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="auto"/>
+					<RowDefinition Height="auto"/>
+					<RowDefinition Height="auto"/>
+					<RowDefinition Height="auto"/>
+					<RowDefinition Height="auto"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="auto"/>
+					<ColumnDefinition Width="300"/>
+					<ColumnDefinition Width="auto"/>
+				</Grid.ColumnDefinitions>
+
+				<Label Content="フォントファイル：" HorizontalAlignment="Right" Margin="4"/>
+				<Label Content="テキストファイル：" HorizontalAlignment="Right" Margin="4" Grid.Row="1"/>
+				<Label Content="出力先ディレクトリ：" HorizontalAlignment="Right" Margin="4" Grid.Row="2"/>
+				<Label Content="シート名：" HorizontalAlignment="Right" Margin="4" Grid.Row="3"/>
+				<Label Content="フォントサイズ：" HorizontalAlignment="Right" Margin="4" Grid.Row="4"/>
+
+				<TextBox Margin="4" Grid.Column="1"/>
+				<TextBox Margin="4" Grid.Column="1" Grid.Row="1"/>
+				<TextBox Margin="4" Grid.Column="1" Grid.Row="2"/>
+				<TextBox Margin="4" Grid.Column="1" Grid.Row="3"/>
+				<TextBox Margin="4" Grid.Column="1" Grid.Row="4" Width="100" HorizontalAlignment="Left"/>
+			</Grid>
+			
+			<GroupBox Header="色(0~255)" Margin="6">
+				<StackPanel Orientation="Horizontal">
+					<Grid Width="auto">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="auto"/>
+							<RowDefinition Height="auto"/>
+							<RowDefinition Height="auto"/>
+							<RowDefinition Height="auto"/>
+						</Grid.RowDefinitions>
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="auto"/>
+							<ColumnDefinition Width="auto"/>
+						</Grid.ColumnDefinitions>
+
+						<Label HorizontalAlignment="Right" Content="赤："/>
+						<Label HorizontalAlignment="Right" Content="緑：" Grid.Row="1"/>
+						<Label HorizontalAlignment="Right" Content="青：" Grid.Row="2"/>
+						<Label HorizontalAlignment="Right" Content="不透明度：" Grid.Row="3"/>
+
+						<TextBox Width="100" Grid.Column="1" Margin="4" Grid.Row="0"/>
+						<TextBox Width="100" Grid.Column="1" Margin="4" Grid.Row="1"/>
+						<TextBox Width="100" Grid.Column="1" Margin="4" Grid.Row="2"/>
+						<TextBox Width="100" Grid.Column="1" Margin="4" Grid.Row="3"/>
+					</Grid>
+					<Rectangle Fill="Red" Width="50" Height="50"/>
+				</StackPanel>
+			</GroupBox>
+			
+			<Button Content="生成" HorizontalAlignment="Left" Width="70" Margin="6"/>
+		</StackPanel>
+	</GroupBox>
+</Window>

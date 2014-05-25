@@ -18,8 +18,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontGenerator", "FontGenera
 		{0954C297-511F-4340-9DCD-A37313AE7F15} = {0954C297-511F-4340-9DCD-A37313AE7F15}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FontGenerator.Model", "FontGenerator\FontGenerator.Model\FontGenerator.Model.csproj", "{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug_Test|Any CPU = Debug_Test|Any CPU
@@ -112,26 +110,6 @@ Global
 		{44DE88FC-C5D3-4225-A241-95CF9A4DBC52}.Release|Mixed Platforms.Build.0 = Release|x86
 		{44DE88FC-C5D3-4225-A241-95CF9A4DBC52}.Release|x86.ActiveCfg = Release|x86
 		{44DE88FC-C5D3-4225-A241-95CF9A4DBC52}.Release|x86.Build.0 = Release|x86
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug_Test|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug_Test|Any CPU.Build.0 = Debug|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug_Test|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug_Test|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug_Test|x86.ActiveCfg = Debug|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release_Test|Any CPU.ActiveCfg = Release|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release_Test|Any CPU.Build.0 = Release|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release_Test|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release_Test|Mixed Platforms.Build.0 = Release|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release_Test|x86.ActiveCfg = Release|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{A0B8AA62-9A43-4B3E-AC73-A55F10B595F9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
