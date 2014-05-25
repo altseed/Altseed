@@ -20,6 +20,8 @@ extern void Test_ObjectSystem_TrasingCamera(bool openGL);
 
 extern void TestCustomObject();
 extern void Test_LayerComponent_GL();
+
+extern void Test_LayersFlag(bool openGL);
 extern void TestCamera(bool openGL);
 extern void Graphics_CustomPostEffect_(bool isOpenGLMode);
 
@@ -49,7 +51,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//Graphics_SimpleMesh_(true);
+	//Test_LayersFlag(true);
 	//return 0;
 
 	//TestCamera(true);
@@ -62,8 +64,8 @@ int main(int argc, char **argv)
 	//Graphics_Effect3D_(false);
 	//return 0;
 
-	Graphics_Model_(false);
-	return 0;
+	//Graphics_Model_(false);
+	//return 0;
 
 	auto result = RUN_ALL_TESTS();
 

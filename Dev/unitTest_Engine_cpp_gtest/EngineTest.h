@@ -13,6 +13,7 @@ private:
 	const ace::astring directory;
 
 	int m_exitTime;
+	int m_currentTime;
 	bool m_isOpenGLMode;
 	ace::astring m_title;
 
@@ -40,6 +41,9 @@ protected:
 public:
 	EngineTest(ace::astring title, bool isOpenGLMode, int exitTime);
 	void Run();
+	int32_t GetExitTime() { return m_exitTime; }
+	int32_t GetTime() { return m_currentTime; }
+
 };
 
 extern void AssertMemoryDoesntLeak();

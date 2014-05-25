@@ -85,8 +85,8 @@ namespace ace
 	void CoreScene_Imp::RemoveLayer(LayerPtr layer)
 	{
 		m_layers.remove(layer);
-		SafeRelease(layer);
 		layer->SetScene(nullptr);
+		SafeRelease(layer);
 	}
 
 	//----------------------------------------------------------------------------------

@@ -16,17 +16,17 @@ namespace unitTest_Engine_cs
 		public EngineTest( int timeForExit )
 		{
 			this.Title = GetType().FullName.Replace( "unitTest_Engine_cs.", "" );
-			this.TimeForExit = timeForExit;
+			this.ExitTime = timeForExit;
 		}
 
 		public string Title { get; private set; }
-		public int TimeForExit { get; private set; }
+		public int ExitTime { get; private set; }
+		public int Time { get; private set; }
 
 		public override void Test( GraphicsType graphicsType )
 		{
 			Console.WriteLine( "[{0}_{1}]", Title, graphicsType );
 
-			int time = 0;
 			var option = new EngineOption
 			{
 				IsFullScreen = false,
@@ -49,7 +49,7 @@ namespace unitTest_Engine_cs
 				Engine.Update();
 				OnUpdated();
 
-				if( time == TimeForExit )
+				if( Time == ExitTime )
 				{
 					if( !Directory.Exists( PathOfSS ) )
 					{
@@ -58,12 +58,12 @@ namespace unitTest_Engine_cs
 					var path = string.Format( "{0}/{1}_{2}.png", PathOfSS, Title, graphicsType );
 					Engine.TakeScreenshot( path );
 				}
-				else if( time == TimeForExit + 2 )
+				else if( Time == ExitTime + 2 )
 				{
 					break;
 				}
 
-				++time;
+				++Time;
 			}
 
 			OnFinish();
