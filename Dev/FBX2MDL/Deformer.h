@@ -32,6 +32,11 @@ public:
 		index = GetIndexCount();
 	}
 
+	virtual ~Deformer()
+	{
+
+	}
+
 	//割り当てインデックス取得
 	static int GetIndexCount()
 	{

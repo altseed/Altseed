@@ -64,8 +64,8 @@ int main(int argc, char **argv)
 	//Graphics_Effect3D_(false);
 	//return 0;
 
-	//Graphics_Model_(false);
-	//return 0;
+	Graphics_Model_(false);
+	return 0;
 
 	auto result = RUN_ALL_TESTS();
 

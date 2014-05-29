@@ -18,7 +18,7 @@ protected:
 	{
 		ace::RenderSettings settings;
 		settings.IsLightweightMode = false;
-		settings.VisalizedBuffer = ace::eVisalizedBuffer::VISALIZED_BUFFER_NORMAL;
+		settings.VisalizedBuffer = ace::eVisalizedBuffer::VISALIZED_BUFFER_DIFFUSE;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
@@ -28,7 +28,7 @@ protected:
 
 		auto graphics = ace::Engine::GetGraphics();
 
-		auto model = graphics->CreateModel(ace::ToAString("Data/Model/Box.mdl").c_str());
+		auto model = graphics->CreateModel(ace::ToAString("Data/Model/AnimationTest.mdl").c_str());
 
 		meshObj->SetModel(model);
 		meshObj->SetPosition(ace::Vector3DF(0, 0, 0));
@@ -39,7 +39,7 @@ protected:
 
 		SetCameraParameter(30, 0, 0, 1, 60, 20);
 
-		//meshObj->PlayAnimation(ace::ToAString("Constant").c_str());
+		meshObj->PlayAnimation(ace::ToAString("anime1").c_str());
 		
 	}
 

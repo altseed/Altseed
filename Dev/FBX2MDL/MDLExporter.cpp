@@ -280,58 +280,64 @@ void MDLExporter::GetSkeletonCurve(FbxNode* fbxNode,FbxAnimLayer* fbxAnimLayer,A
 	std::string boneName = fbxNode->GetName();
 
 	//Blender‚Ì‚Ýz,y‚Ì•ÏŒ`‚ð“ü‚ê‘Ö‚¦‚é
+
+	auto lclT = fbxNode->LclTranslation.Get();
+	auto lclR = fbxNode->LclRotation.Get();
+	auto lclS = fbxNode->LclScaling.Get();
 	
-	AnalyzeCurve(boneName+".pos.x",fbxNode->LclTranslation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_X),animationSource);
-	AnalyzeCurve(boneName+".pos.z",fbxNode->LclTranslation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Y),animationSource);
-	AnalyzeCurve(boneName+".pos.y",fbxNode->LclTranslation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Z),animationSource);
+	AnalyzeCurve(boneName + ".pos.x", fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X), animationSource, lclT.mData[0]);
+	AnalyzeCurve(boneName + ".pos.z", fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y), animationSource, lclT.mData[1]);
+	AnalyzeCurve(boneName + ".pos.y", fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z), animationSource, lclT.mData[2]);
 	
-	AnalyzeCurve(boneName+".rot.x",fbxNode->LclRotation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_X),animationSource);
-	AnalyzeCurve(boneName+".rot.z",fbxNode->LclRotation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Y),animationSource);
-	AnalyzeCurve(boneName+".rot.y",fbxNode->LclRotation.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Z),animationSource);
+	AnalyzeCurve(boneName + ".rot.x", fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X), animationSource, lclR.mData[0]);
+	AnalyzeCurve(boneName + ".rot.z", fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y), animationSource, lclR.mData[1]);
+	AnalyzeCurve(boneName + ".rot.y", fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z), animationSource, lclR.mData[2]);
 	
-	AnalyzeCurve(boneName+".scl.x",fbxNode->LclScaling.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_X),animationSource);
-	AnalyzeCurve(boneName+".scl.z",fbxNode->LclScaling.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Y),animationSource);
-	AnalyzeCurve(boneName+".scl.y",fbxNode->LclScaling.GetCurve(fbxAnimLayer,FBXSDK_CURVENODE_COMPONENT_Z),animationSource);
+	AnalyzeCurve(boneName + ".scl.x", fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X), animationSource, lclS.mData[0] - 1.0f);
+	AnalyzeCurve(boneName + ".scl.z", fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y), animationSource, lclS.mData[1] - 1.0f);
+	AnalyzeCurve(boneName + ".scl.y", fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z), animationSource, lclS.mData[2] - 1.0f);
 	
 }
 
-void MDLExporter::AnalyzeCurve(std::string target,FbxAnimCurve* pCurve,AnimationSource &animationSource)
+void MDLExporter::AnalyzeCurve(std::string target, FbxAnimCurve* pCurve, AnimationSource &animationSource, float defaultValue)
 {
 	KeyFrameAnimation keyFrameAnimation;
-	keyFrameAnimation.targetName=target;
+	keyFrameAnimation.targetName = target;
 
 	const int keyCount = pCurve->KeyGetCount();
 
-	int hour,minute,second,frame,field,residual;
+	int hour, minute, second, frame, field, residual;
 
-	for(int i=0;i<keyCount;++i)
+	for (int i = 0; i < keyCount; ++i)
 	{
-		float value = pCurve->KeyGetValue(i);
+		float value = pCurve->KeyGetValue(i) - defaultValue;
+		//float value = pCurve->KeyGetValue(i);
+
 		FbxTime time = pCurve->KeyGetTime(i);
 		auto interpolation = pCurve->KeyGetInterpolation(i);
-		time.GetTime(hour,minute,second,frame,field,residual,FbxTime::eFrames60);
+		time.GetTime(hour, minute, second, frame, field, residual, FbxTime::eFrames60);
 
 		KeyFrame keyFrame;
-		keyFrame.keyValue=ace::Vector2DF(60*(hour*60*60+minute*60+second)+frame,value);
-		keyFrame.leftPosition=keyFrame.keyValue;
-		keyFrame.rightPosition=keyFrame.keyValue;
+		keyFrame.keyValue = ace::Vector2DF(60 * (hour * 60 * 60 + minute * 60 + second) + frame, value);
+		keyFrame.leftPosition = keyFrame.keyValue;
+		keyFrame.rightPosition = keyFrame.keyValue;
 
-		switch(interpolation)
+		switch (interpolation)
 		{
 		case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationConstant:
-			{
-				keyFrame.interpolation=1;
-			}
+		{
+			keyFrame.interpolation = 1;
+		}
 			break;
 		case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationLinear:
-			{
-				keyFrame.interpolation=2;
-			}
+		{
+			keyFrame.interpolation = 2;
+		}
 			break;
 		case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationCubic:
-			{
-				keyFrame.interpolation=3;
-			}
+		{
+			keyFrame.interpolation = 3;
+		}
 			break;
 		}
 

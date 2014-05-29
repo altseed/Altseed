@@ -27,7 +27,7 @@ int main(int argc, char** argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 
-	MDLExporter *exporter = new MDLExporter("Data/Model/Box.fbx", "Data/Model/Box.mdl");
+	MDLExporter *exporter = new MDLExporter("Data/Model/AnimationTest.fbx", "Data/Model/AnimationTest.mdl");
 	exporter->Convert();
 	delete exporter;
 }

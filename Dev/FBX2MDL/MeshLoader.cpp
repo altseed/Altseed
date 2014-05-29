@@ -718,14 +718,6 @@ ace::Vector3DF MeshLoader::CalcBinormal(const Vertex& v1, const Vertex& v2, cons
 	cp2[1] = ace::Vector3DF(v3.position.Y, v3.uv.X, v3.uv.Y);
 	cp2[2] = ace::Vector3DF(v3.position.Z, v3.uv.X, v3.uv.Y);
 
-	// Blenderç¿ïWånâºëŒçÙ
-	//std::swap(cp0[1].X, cp0[2].X);
-	//std::swap(cp1[1].X, cp1[2].X);
-	//std::swap(cp2[1].X, cp2[2].X);
-	//cp0[2].X = -cp0[2].X;
-	//cp1[2].X = -cp1[2].X;
-	//cp2[2].X = -cp2[2].X;
-	
 	double v[3];
 	for (int32_t i = 0; i < 3; i++)
 	{

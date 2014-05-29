@@ -53,7 +53,7 @@ class MDLExporter
 	void GetSkeletonCurve(FbxNode* fbxNode, FbxAnimLayer* fbxAnimLayer, AnimationSource &animationSource);
 
 	//指定した変換のアニメーションのカーブを解析する
-	void AnalyzeCurve(std::string target, FbxAnimCurve* pCurve, AnimationSource &animationSource);
+	void AnalyzeCurve(std::string target, FbxAnimCurve* pCurve, AnimationSource &animationSource, float defaultValue);
 
 public:
 	MDLExporter(){}
