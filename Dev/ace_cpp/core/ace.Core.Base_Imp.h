@@ -71,6 +71,8 @@ namespace ace {
 	class Mesh_Imp;
 	class Deformer_Imp;
 
+	class Font_Imp;
+
 	class AnimationSystem_Imp;
 
 	enum eVertexLayoutFormat

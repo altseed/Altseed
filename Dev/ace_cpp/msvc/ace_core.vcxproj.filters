@@ -625,6 +625,12 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\DeferredBuffer_PS.h">
       <Filter>Graphics\Shader\DX\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\ace.Font.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\ace.Font_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -899,6 +905,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\ace.RenderingThread.cpp">
       <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\ace.Font_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

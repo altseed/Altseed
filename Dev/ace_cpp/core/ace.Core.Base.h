@@ -40,6 +40,8 @@ namespace ace {
 
 	class Model;
 
+	class Font;
+
 	class Mesh;
 	class Deformer;
 
