@@ -9,6 +9,7 @@
 Windowsでは実行ファイルへパスを通す必要があります。
 
 Windowsではパッケージ管理ツール Chocolatey を使用することで容易に導入できます。
+Chocolateyは管理者として実行する必要があります。
 
 Ubuntuでは、```Script/install_swig_ubuntu.sh```　を実行することでswigを容易にインストールすることができます。
 
