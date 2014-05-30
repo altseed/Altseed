@@ -25,7 +25,7 @@ namespace ace {
 
 		std::map<achar, GlyphData> m_glyphs;
 
-		Font_Imp(Graphics* graphics,std::map<achar,GlyphData> glyphs);
+		Font_Imp(Graphics* graphics,const achar* affFilePath);
 		virtual ~Font_Imp();
 
 		// IReferenceを継承したデバイスオブジェクト向け定義

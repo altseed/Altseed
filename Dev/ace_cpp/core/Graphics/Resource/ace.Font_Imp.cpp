@@ -29,10 +29,11 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Font_Imp::Font_Imp(Graphics* graphics, std::map<achar, GlyphData> glyphs)
+	Font_Imp::Font_Imp(Graphics* graphics, const achar* affFilePath)
 		: DeviceObject(graphics)
-		, m_glyphs(glyphs)
 	{
+		AffLoader affLoader = AffLoader(ace::astring(affFilePath));
+		m_glyphs = affLoader.GetGlyphs();
 	}
 
 	//----------------------------------------------------------------------------------
