@@ -24,7 +24,7 @@ namespace ace
 	{
 		for (int32_t c = 0; c < 3; c++)
 		{
-			for (int32_t r = 0; r < 3; r++)
+			for (int32_t r = c; r < 3; r++)
 			{
 				float v = Values[r][c];
 				Values[r][c] = Values[c][r];

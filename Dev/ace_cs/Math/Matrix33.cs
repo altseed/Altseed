@@ -40,7 +40,7 @@ namespace ace
 			{
 				for (int c = 0; c < 3; c++)
 				{
-					for (int r = 0; r < 3; r++)
+					for (int r = c; r < 3; r++)
 					{
 						float v_ = v[r*3+c];
 						v[r*3+c] = v[c*3+r];

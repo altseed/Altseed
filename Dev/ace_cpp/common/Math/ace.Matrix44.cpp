@@ -39,7 +39,7 @@ Matrix44& Matrix44::SetTransposed()
 {
 	for (int32_t c = 0; c < 4; c++)
 	{
-		for (int32_t r = 0; r < 4; r++)
+		for (int32_t r = c; r < 4; r++)
 		{
 			float v = Values[r][c];
 			Values[r][c] = Values[c][r];
