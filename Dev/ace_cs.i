@@ -34,6 +34,8 @@
 
 #include "Graphics/Resource/ace.Effect.h"
 
+#include "Graphics/Resource/ace.Font.h"
+
 #include "Graphics/3D/ace.Mesh.h"
 #include "Graphics/3D/ace.Deformer.h"
 #include "Graphics/3D/ace.Model.h"
@@ -287,6 +289,8 @@ CPP_OBJECT( ace::Shader2D_Imp )
 
 CPP_OBJECT( ace::Effect )
 
+CPP_OBJECT( ace::Font )
+
 CPP_OBJECT( ace::Mesh )
 CPP_OBJECT( ace::Deformer )
 CPP_OBJECT( ace::Model )
@@ -313,6 +317,8 @@ CPP_OBJECT( ace::Log_Imp )
 %newobject ace::Graphics_Imp::CreateMesh_;
 %newobject ace::Graphics_Imp::CreateDeformer_;
 %newobject ace::Graphics_Imp::CreateModel_;
+
+%newobject ace::Graphics_Imp::CreateFont_;
 
 %newobject ace::ObjectSystemFactory::CreateObject2D;
 %newobject ace::ObjectSystemFactory::CreateTextureObject2D;
@@ -385,6 +391,8 @@ namespace ace
 %include "ace_cpp/core/Graphics/Resource/ace.CubemapTexture.h"
 
 %include "ace_cpp/core/Graphics/Resource/ace.Effect.h"
+
+%include "ace_cpp/core/Graphics/Resource/ace.Font.h"
 
 %include "ace_cpp/core/Graphics/3D/ace.Deformer.h"
 %include "ace_cpp/core/Graphics/3D/ace.Mesh.h"

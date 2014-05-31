@@ -66,7 +66,7 @@ namespace ace {
 
 		Resource<Texture2D_Imp, Texture2DReloadInformation>	Texture2Ds;
 		Resource<Model_Imp, ModelReloadInformation>			Models;
-
+		Resource<Font_Imp, FontReloadInformation>			Fonts;
 		/**
 			@brief	ファイル更新時間を取得する。
 			@param	path	パス

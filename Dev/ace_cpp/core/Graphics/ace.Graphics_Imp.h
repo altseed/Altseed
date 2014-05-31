@@ -9,6 +9,7 @@
 #include "ace.GraphicsResourceContainer.h"
 
 #include "Resource/ace.Texture2D_Imp.h"
+#include "Resource/ace.Font_Imp.h"
 #include "Resource/ace.RenderTexture2D_Imp.h"
 
 #include <Graphics/ace.Color.h>
@@ -238,6 +239,8 @@ namespace ace {
 		Model* CreateModel_(const achar* path);
 
 		Effect* CreateEffect_(const achar* path);
+
+		Font* CreateFont_(const achar* path);
 
 #if !SWIG
 	/**

@@ -30,6 +30,7 @@ protected:
 	virtual Deformer* CreateDeformer_() = 0;
 	virtual Model* CreateModel_(const achar* path) = 0;
 	virtual Effect* CreateEffect_(const achar* path) = 0;
+	virtual Font* CreateFont_(const achar* path) = 0;
 
 public:
 	Graphics(){}
@@ -150,6 +151,17 @@ public:
 	{
 		auto effect = CreateEffect_(path);
 		return CreateSharedPtrWithReleaseDLL(effect);
+	}
+
+	/**
+	@brief	フォントを生成する。
+	@param	path	パス
+	@return	フォント
+	*/
+	std::shared_ptr<Font> CreateFont(const achar* path)
+	{
+		auto font = CreateFont_(path);
+		return CreateSharedPtrWithReleaseDLL(font);
 	}
 
 #endif

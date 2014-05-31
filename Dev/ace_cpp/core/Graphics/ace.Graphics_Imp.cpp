@@ -645,6 +645,32 @@ Effect* Graphics_Imp::CreateEffect_(const achar* path)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+Font* Graphics_Imp::CreateFont_(const achar* path)
+{
+	{
+		auto existing = GetResourceContainer()->Fonts.Get(path);
+		if (existing != nullptr)
+		{
+			SafeAddRef(existing);
+			return existing;
+		}
+	}
+
+	auto font = new Font_Imp(this,path);
+
+	std::shared_ptr<FontReloadInformation> info;
+	info.reset(new FontReloadInformation());
+	info->ModifiedTime = GetResourceContainer()->GetModifiedTime(path);
+	info->Path = path;
+
+	GetResourceContainer()->Fonts.Regist(path, info, font);
+
+	return font;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 void Graphics_Imp::SetVertexBuffer(VertexBuffer_Imp* vertexBuffer)
 {
 	SafeAddRef(vertexBuffer);

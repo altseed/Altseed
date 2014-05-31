@@ -5,6 +5,7 @@
 #include "ace.GraphicsResourceContainer.h"
 #include "Resource/ace.Texture2D_Imp.h"
 #include "3D/ace.Model_Imp.h"
+#include "Resource/ace.Font_Imp.h"
 
 #if !_WIN32
 #include <sys/stat.h>
@@ -141,6 +142,21 @@ namespace ace {
 			fclose(fp);
 
 			info.first->Reload(data, info_->Path.c_str());
+		}
+
+		for (auto info : Fonts.m_reloadInfo)
+		{
+			if (info.second == nullptr) continue;
+
+			auto info_ = info.second.get();
+
+			auto time = GetModifiedTime(info_->Path.c_str());
+
+			if (info_->ModifiedTime == time) continue;
+			info_->ModifiedTime = time;
+
+			// リロード処理
+			info.first->Reload(info_->Path.c_str());
 		}
 	}
 

@@ -23,10 +23,17 @@ namespace ace {
 		, public DeviceObject
 	{
 	protected:
+
+		Graphics *m_graphics;
+
 		std::vector<std::shared_ptr<Texture2D>> m_textures;
 		std::map<achar, GlyphData> m_glyphs;
 
-		Font_Imp(Graphics* graphics,const achar* affFilePath);
+	public:
+		// リロード
+		void Reload(const achar* affFilePath);
+
+		Font_Imp(Graphics* graphics, const achar* affFilePath);
 		virtual ~Font_Imp();
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
