@@ -20,6 +20,11 @@ namespace ace
 		virtual Font* GetFont() const = 0;
 
 		/**
+		@brief 描画するテキストを取得する。
+		*/
+		virtual astring GetDrawText() const = 0;
+
+		/**
 		@brief	このオブジェクトを描画する際の傾きを取得する。
 		*/
 		virtual float GetAngle() const = 0;
@@ -63,6 +68,11 @@ namespace ace
 		@brief	このオブジェクトを描画する際のフォントハンドルを設定する。
 		*/
 		virtual void SetFont(Font* font) = 0;
+
+		/**
+		@brief 描画するテキストを設定する。
+		*/
+		virtual void SetDrawText(astring drawText) = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のテクスチャの向きを設定する。

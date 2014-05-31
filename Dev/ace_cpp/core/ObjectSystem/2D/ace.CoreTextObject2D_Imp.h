@@ -23,11 +23,15 @@ namespace ace
 		bool m_turnUL;
 		eAlphaBlend m_alphablend;
 		int m_drawingPtiority;
+		astring m_drawText;
 
 	public:
 #pragma region Parameter
 		Font* GetFont() const override;
 		void SetFont(Font* font) override;
+
+		astring GetDrawText() const override;
+		void SetDrawText(astring drawText) override;
 
 		Vector2DF GetCenterPosition() const override;
 		void SetCenterPosition(Vector2DF position) override;
