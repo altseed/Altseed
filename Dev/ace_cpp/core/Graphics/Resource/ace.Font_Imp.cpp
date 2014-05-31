@@ -68,7 +68,7 @@ namespace ace {
 				}
 #endif
 			}
-			m_textures.push_back(graphics->CreateTexture2D(pngFilePath.c_str()));
+			m_textures.push_back(m_graphics->CreateTexture2D(pngFilePath.c_str()));
 
 
 			++pictureNumber;
