@@ -4,6 +4,19 @@
 
 namespace FBX2MDL
 {
+	ace::Vector3DF FBXLoader::LoadPosition(FbxMesh* fbxMesh, int32_t ctrlPointIndex)
+	{
+		ace::Vector3DF position;
+
+		auto controlPoints = fbxMesh->GetControlPoints();
+		
+		position.X = controlPoints[ctrlPointIndex][0];
+		position.Y = controlPoints[ctrlPointIndex][1];
+		position.Z = controlPoints[ctrlPointIndex][2];
+	
+		return position;
+	}
+
 	ace::Vector3DF FBXLoader::LoadNormal(FbxLayerElementNormal* normals, int32_t vertexID, int32_t ctrlPointIndex)
 	{
 		ace::Vector3DF normal;
@@ -159,10 +172,17 @@ namespace FBX2MDL
 				cluster->GetTransformMatrix(m1);
 				cluster->GetTransformLinkMatrix(m2);
 
+				auto m1_ = ToAce(m1);
+				auto m2_ = ToAce(m2);
+
 				int32_t id = boneConnectors.size();
 
 				BoneConnector connector;
 				connector.Name = ace::ToAString(name);
+
+				auto m2_inv = m2_.GetInverted();
+				auto m = m1_ * m2_inv;
+				connector.OffsetMatrix = m;
 
 				boneConnectors.push_back(connector);
 
@@ -222,6 +242,41 @@ namespace FBX2MDL
 		}
 	}
 
+	void FBXLoader::LoadMaterial(FbxMesh* fbxMesh, FbxLayerElementMaterial* materials, std::vector<Material>& dst)
+	{
+		auto node = fbxMesh->GetNode();
+		if (node == nullptr) return;
+	
+		auto materialCount = node->GetMaterialCount();
+
+		for (auto materialIndex = 0; materialIndex < materialCount; materialIndex++)
+		{
+			auto material = node->GetMaterial(materialIndex);
+
+			auto name = material->GetName();
+
+			auto m = Material();
+
+			m.Name = ace::ToAString(name);
+
+			// テクスチャ取得
+			FbxProperty prop = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
+			auto fileTextureCount = prop.GetSrcObjectCount<FbxFileTexture>();
+
+			for (auto fileTextureIndex = 0; fileTextureIndex < fileTextureCount; fileTextureIndex++)
+			{
+				auto texture = prop.GetSrcObject<FbxFileTexture>(fileTextureIndex);
+				if (texture != nullptr)
+				{
+					m.DiffuseTexturePath = ace::ToAString(texture->GetRelativeFileName());
+				}
+			}
+
+			dst.push_back(m);
+		}
+
+	}
+
 	void FBXLoader::LoadMesh(Mesh* mesh, FbxMesh* fbxMesh)
 	{
 		assert(mesh != nullptr);
@@ -233,6 +288,7 @@ namespace FBX2MDL
 		auto vcolors = layer->GetVertexColors();
 		auto normals = layer->GetNormals();
 		auto binormals = layer->GetBinormals();
+		auto materials = layer->GetMaterials();
 
 		auto controlPoints = fbxMesh->GetControlPoints();
 		auto controlPointsCount = fbxMesh->GetControlPointsCount();
@@ -240,32 +296,119 @@ namespace FBX2MDL
 		auto polygonCount = fbxMesh->GetPolygonCount();
 
 		std::vector<FbxVertexWeight> weights;
-		LoadSkin(fbxMesh, mesh->BoneConnectors, weights);
+		std::vector<FbxFace> faces;
+		std::vector<BoneConnector> boneConnectors;
+		std::vector<Material> materials_;
 
-		mesh->Name = ace::ToAString(node->GetName());
+		LoadSkin(fbxMesh, boneConnectors, weights);
 
-		for (int32_t i = 0; i < controlPointsCount; i++)
-		{
-			Vertex v;
-			v.Position.X = controlPoints[i][0];
-			v.Position.Y = controlPoints[i][1];
-			v.Position.Z = controlPoints[i][2];
-			mesh->Vertexes.push_back(v);
-		}
-
+		// ポリゴン走査
+		int32_t vertexID = 0;
 		for (int32_t polygonIndex = 0; polygonIndex < polygonCount; polygonIndex++)
 		{
 			int polygonPointCount = fbxMesh->GetPolygonSize(polygonIndex);
 
+			FbxFace face;
+
 			for (int32_t polygonPointIndex = 0; polygonPointIndex < polygonPointCount; polygonPointIndex++)
 			{
 				auto ctrlPointIndex = fbxMesh->GetPolygonVertex(polygonIndex, polygonPointIndex);
-			
+
+				Vertex v;
+
+				v.Position = LoadPosition(fbxMesh, ctrlPointIndex);
+				
+				for (auto i = 0; i < 4; i++)
+				{
+					v.Weight[i] = weights[ctrlPointIndex].Weights[i];
+					v.WeightIndexOriginal[i] = weights[ctrlPointIndex].Indexes[i];
+				}
+
+				if (normals != nullptr)
+				{
+					v.Normal = LoadNormal(normals, vertexID, ctrlPointIndex);
+				}
+
 				if (uvs != nullptr)
 				{
+					v.UV = LoadUV(fbxMesh, uvs, vertexID, ctrlPointIndex, polygonIndex, polygonPointIndex);
+				}
 
+				if (vcolors != nullptr)
+				{
+					v.Color = LoadVertexColor(fbxMesh, vcolors, vertexID, ctrlPointIndex, polygonIndex, polygonPointIndex);
+				}
+
+				face.Vertecies.push_back(v);
+				vertexID++;
+			}
+
+			faces.push_back(face);
+		}
+
+		// 材質インデックス設定
+		if (materials != nullptr && materials->GetReferenceMode() == FbxLayerElement::eIndexToDirect)
+		{
+			auto indexArrayCount = materials->GetIndexArray().GetCount();
+
+			for (auto i = 0; i < indexArrayCount; i++)
+			{
+				auto index = materials->GetIndexArray().GetAt(i);
+				faces[i].MaterialIndex = index;
+			}
+		}
+
+		if (materials != nullptr)
+		{
+			LoadMaterial(fbxMesh, materials, materials_);
+		}
+		
+		// メッシュで使用可能な形式に変換
+	
+		// 頂点変換テーブル作成
+		int32_t vInd = 0;
+		std::map<Vertex, int32_t> v2ind;
+		std::map<int32_t, Vertex> ind2v;
+
+		for (auto& face : faces)
+		{
+			if (face.Vertecies.size() != 3) continue;
+
+			for (auto& vertex : face.Vertecies)
+			{
+				auto it = v2ind.find(vertex);
+				if (it == v2ind.end())
+				{
+					v2ind[vertex] = vInd;
+					ind2v[vInd] = vertex;
+					vInd++;
 				}
 			}
+		}
+
+		// 設定
+		mesh->Name = ace::ToAString(node->GetName());
+		mesh->BoneConnectors = boneConnectors;
+		mesh->Materials = materials_;
+
+		mesh->Vertexes.resize(vInd);
+		for (auto& iv : ind2v)
+		{
+			mesh->Vertexes[iv.first] = iv.second;
+		}
+
+		for (auto& face : faces)
+		{
+			if (face.Vertecies.size() != 3) continue;
+
+			Face f;
+			f.Index[0] = v2ind[face.Vertecies[0]];
+			f.Index[1] = v2ind[face.Vertecies[1]];
+			f.Index[2] = v2ind[face.Vertecies[2]];
+
+			f.MaterialIndex = face.MaterialIndex;
+
+			mesh->Faces.push_back(f);
 		}
 	}
 }
