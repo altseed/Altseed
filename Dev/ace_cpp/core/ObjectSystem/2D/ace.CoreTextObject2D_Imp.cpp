@@ -10,6 +10,7 @@ namespace ace
 		, m_color(Color())
 		, m_turnLR(false)
 		, m_turnUL(false)
+		, m_drawText(ace::ToAString(""))
 		, m_alphablend(eAlphaBlend::ALPHA_BLEND_BLEND)
 		, m_drawingPtiority(0)
 	{
