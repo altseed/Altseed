@@ -1,5 +1,6 @@
 ﻿#include "../common/ace.common.Base.h"
 #include "ace.CoreTextObject2D_Imp.h"
+#include "../../Graphics/Resource/ace.Font_Imp.h"
 
 namespace ace
 {
@@ -196,9 +197,24 @@ namespace ace
 			return;
 		}
 
+		Vector2DF drawPosition = m_drawPosition;
+
+		Font_Imp *font_Imp = (Font_Imp*)m_font;
+
 		for (int textIndex = 0; textIndex < m_writeText.length(); ++textIndex)
 		{
+			GlyphData glyphData = font_Imp->GetGlyphData(m_writeText[textIndex]);
 
+			//ここで描画処理を書く
+
+			if (m_textWritingDirection == TextWritingDirection::Vertical)
+			{
+				drawPosition += ace::Vector2DF(glyphData.GetSrc().Width, 0);
+			}
+			else
+			{
+				drawPosition += ace::Vector2DF(0, glyphData.GetSrc().Height);
+			}
 		}
 
 	}

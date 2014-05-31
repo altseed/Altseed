@@ -3,10 +3,11 @@
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-#include <Graphics/Font/ace.AffLoader.h>
-#include <Graphics/Font/ace.GlyphData.h>
+
 #include <Math/ace.Vector2DI.h>
 
+#include <Graphics/Font/ace.AffLoader.h>
+#include <Graphics/Font/ace.GlyphData.h>
 #include "ace.Texture2D.h"
 #include "ace.Font.h"
 #include "../ace.DeviceObject.h"
@@ -30,6 +31,7 @@ namespace ace {
 		std::map<achar, GlyphData> m_glyphs;
 
 	public:
+		const GlyphData GetGlyphData(achar c);
 		// リロード
 		void Reload(const achar* affFilePath);
 

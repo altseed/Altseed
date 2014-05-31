@@ -17,6 +17,5 @@ namespace ace
 		Font(){}
 		virtual ~Font(){}
 	public:
-
 	};
 }
