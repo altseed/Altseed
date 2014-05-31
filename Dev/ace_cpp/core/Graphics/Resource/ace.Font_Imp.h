@@ -7,6 +7,7 @@
 #include <Graphics/Font/ace.GlyphData.h>
 #include <Math/ace.Vector2DI.h>
 
+#include "ace.Texture2D.h"
 #include "ace.Font.h"
 #include "../ace.DeviceObject.h"
 
@@ -22,7 +23,7 @@ namespace ace {
 		, public DeviceObject
 	{
 	protected:
-
+		std::vector<std::shared_ptr<Texture2D>> m_textures;
 		std::map<achar, GlyphData> m_glyphs;
 
 		Font_Imp(Graphics* graphics,const achar* affFilePath);
