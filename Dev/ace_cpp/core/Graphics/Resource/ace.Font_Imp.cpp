@@ -30,8 +30,8 @@ namespace ace {
 	//
 	//----------------------------------------------------------------------------------
 	Font_Imp::Font_Imp(Graphics* graphics, const achar* affFilePath)
-		: DeviceObject(graphics),
-		m_graphics(graphics)
+		: DeviceObject(graphics)
+		, m_graphics(graphics)
 	{
 		const ace::astring affFilePathStr = ace::astring(affFilePath);
 		AffLoader affLoader = AffLoader(affFilePathStr);
@@ -41,12 +41,10 @@ namespace ace {
 		const ace::astring rawFilePath = affFilePathStr.substr(0, affFilePathStr.length() - 3);
 
 		int pictureNumber = 1;
-		
-		FILE *fp;
 
 		ace::astring pngExtension = ace::astring(ToAString(".png"));
 
-		while (1)
+		while (true)
 		{
 			//連番を文字列化。
 			ace::astring strNumber = ace::astring(ace::ToAString(std::to_string(pictureNumber).c_str()));
@@ -57,12 +55,12 @@ namespace ace {
 			//この連番のファイルが存在するか否か調べて、存在しなかったらループを抜ける。
 			{
 #ifdef _WIN32
-				if ((fp = _wfopen(pngFilePath.c_str(), L"rb")) == nullptr)
+				if (_wfopen(pngFilePath.c_str(), L"rb") == nullptr)
 				{
 					break;
 				}
 #else
-				if((fp = fopen(ToUtf8String(pngFilePath.c_str()).c_str(),"rb"))==nullptr)
+				if(fopen(ToUtf8String(pngFilePath.c_str()).c_str(),"rb")==nullptr)
 				{
 					break;
 				}
@@ -101,11 +99,9 @@ namespace ace {
 
 		int pictureNumber = 1;
 
-		FILE *fp;
-
 		ace::astring pngExtension = ace::astring(ToAString(".png"));
 
-		while (1)
+		while (true)
 		{
 			//連番を文字列化。
 			ace::astring strNumber = ace::astring(ace::ToAString(std::to_string(pictureNumber).c_str()));
@@ -116,12 +112,12 @@ namespace ace {
 			//この連番のファイルが存在するか否か調べて、存在しなかったらループを抜ける。
 			{
 #ifdef _WIN32
-				if ((fp = _wfopen(pngFilePath.c_str(), L"rb")) == nullptr)
+				if (_wfopen(pngFilePath.c_str(), L"rb") == nullptr)
 				{
 					break;
 				}
 #else
-				if ((fp = fopen(ToUtf8String(pngFilePath.c_str()).c_str(), "rb")) == nullptr)
+				if (fopen(ToUtf8String(pngFilePath.c_str()).c_str(), "rb") == nullptr)
 				{
 					break;
 				}

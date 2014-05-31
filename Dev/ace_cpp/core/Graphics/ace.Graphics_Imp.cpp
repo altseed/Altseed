@@ -656,6 +656,12 @@ Font* Graphics_Imp::CreateFont_(const achar* path)
 		}
 	}
 
+#if _WIN32
+	if (_wfopen(path, L"rb") == nullptr) return nullptr;
+#else
+	if (fopen(ToUtf8String(path).c_str(), "rb") == nullptr) return nullptr;
+#endif
+
 	auto font = new Font_Imp(this,path);
 
 	std::shared_ptr<FontReloadInformation> info;
