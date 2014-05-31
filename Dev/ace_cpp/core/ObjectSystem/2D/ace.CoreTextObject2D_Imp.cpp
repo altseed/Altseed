@@ -10,9 +10,10 @@ namespace ace
 		, m_color(Color())
 		, m_turnLR(false)
 		, m_turnUL(false)
-		, m_drawText(ace::ToAString(""))
+		, m_writeText(ace::ToAString(""))
 		, m_alphablend(eAlphaBlend::ALPHA_BLEND_BLEND)
 		, m_drawingPtiority(0)
+		, m_drawPosition(Vector2DF())
 	{
 
 	}
@@ -43,17 +44,49 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	astring CoreTextObject2D_Imp::GetDrawText() const
+	Vector2DF CoreTextObject2D_Imp::GetDrawPosition() const
 	{
-		return m_drawText;
+		return m_drawPosition;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetDrawText(astring drawText)
+	void CoreTextObject2D_Imp::SetDrawPosition(Vector2DF drawPosition)
 	{
-		m_drawText = drawText;
+		m_drawPosition = drawPosition;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	TextWritingDirection CoreTextObject2D_Imp::GetTextWritingDirection() const
+	{
+		return m_textWritingDirection;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreTextObject2D_Imp::SetTextWritingDirection(TextWritingDirection textWritingDirection)
+	{
+		m_textWritingDirection = textWritingDirection;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	astring CoreTextObject2D_Imp::GetWriteText() const
+	{
+		return m_writeText;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreTextObject2D_Imp::SetWriteText(astring writeText)
+	{
+		m_writeText = writeText;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -163,7 +196,10 @@ namespace ace
 			return;
 		}
 
-		//ここから描画を書く
+		for (int textIndex = 0; textIndex < m_writeText.length(); ++textIndex)
+		{
+
+		}
 
 	}
 }

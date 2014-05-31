@@ -7,12 +7,23 @@
 
 namespace ace
 {
+
 	class CoreTextObject2D
 		: public CoreObject2D
 	{
 	public:
 		CoreTextObject2D() {}
 		virtual ~CoreTextObject2D() {}
+
+		/**
+		@brief	このオブジェクトを描画する際の描画方向を取得する。
+		*/
+		virtual TextWritingDirection GetTextWritingDirection() const = 0;
+
+		/**
+		@brief	このオブジェクトを描画する際のフォントハンドルを取得する。
+		*/
+		virtual Vector2DF GetDrawPosition() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のフォントハンドルを取得する。
@@ -22,7 +33,7 @@ namespace ace
 		/**
 		@brief 描画するテキストを取得する。
 		*/
-		virtual astring GetDrawText() const = 0;
+		virtual astring GetWriteText() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際の傾きを取得する。
@@ -65,6 +76,16 @@ namespace ace
 		virtual eAlphaBlend GetAlphaBlendMode() const = 0;
 
 		/**
+		@brief	このオブジェクトを描画する際の描画方向を設定します。
+		*/
+		virtual void SetTextWritingDirection(TextWritingDirection textWritingDirection) = 0;
+
+		/**
+		@brief	このオブジェクトを描画する際のブレンドモードを設定します。
+		*/
+		virtual void SetDrawPosition(Vector2DF drawPosition) = 0;
+
+		/**
 		@brief	このオブジェクトを描画する際のフォントハンドルを設定する。
 		*/
 		virtual void SetFont(Font* font) = 0;
@@ -72,7 +93,7 @@ namespace ace
 		/**
 		@brief 描画するテキストを設定する。
 		*/
-		virtual void SetDrawText(astring drawText) = 0;
+		virtual void SetWriteText(astring drawText) = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のテクスチャの向きを設定する。

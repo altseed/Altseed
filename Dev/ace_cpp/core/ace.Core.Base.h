@@ -74,6 +74,12 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	enum class TextWritingDirection :int
+	{
+		Vertical,
+		Horizontal,
+	};
+
 	enum eTextureFormat
 	{
 		TEXTURE_FORMAT_R8G8B8A8_UNORM = 0,

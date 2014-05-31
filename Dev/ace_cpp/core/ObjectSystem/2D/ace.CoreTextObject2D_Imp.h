@@ -16,22 +16,30 @@ namespace ace
 		eObject2DType GetObjectType() const override { return eObject2DType::RENDERED_OBJECT2D_TYPE_TEXT; }
 
 	private:
+		TextWritingDirection m_textWritingDirection;
 		Font* m_font;
+		Vector2DF m_drawPosition;
 		Vector2DF m_centerPosition;
 		Color m_color;
 		bool m_turnLR;
 		bool m_turnUL;
 		eAlphaBlend m_alphablend;
 		int m_drawingPtiority;
-		astring m_drawText;
+		astring m_writeText;
 
 	public:
 #pragma region Parameter
 		Font* GetFont() const override;
 		void SetFont(Font* font) override;
 
-		astring GetDrawText() const override;
-		void SetDrawText(astring drawText) override;
+		Vector2DF GetDrawPosition() const override;
+		void SetDrawPosition(Vector2DF drawPosition) override;
+
+		TextWritingDirection GetTextWritingDirection() const override;
+		void SetTextWritingDirection(TextWritingDirection textWritingDirection) override;
+
+		astring GetWriteText() const override;
+		void SetWriteText(astring writeText) override;
 
 		Vector2DF GetCenterPosition() const override;
 		void SetCenterPosition(Vector2DF position) override;
