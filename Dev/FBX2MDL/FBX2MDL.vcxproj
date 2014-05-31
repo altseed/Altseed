@@ -90,6 +90,8 @@
   <ItemGroup>
     <ClCompile Include="Animation.cpp" />
     <ClCompile Include="Deformer.cpp" />
+    <ClCompile Include="FBX2MDL.FBXLoader.cpp" />
+    <ClCompile Include="FBX2MDL.Mesh.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MDLExporter.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
@@ -98,6 +100,8 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Deformer.h" />
     <ClInclude Include="FBX2MDL.Base.h" />
+    <ClInclude Include="FBX2MDL.FBXLoader.h" />
+    <ClInclude Include="FBX2MDL.Mesh.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MDLExporter.h" />
     <ClInclude Include="Mesh.h" />
