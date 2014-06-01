@@ -24,8 +24,13 @@ namespace ace {
 
 	class Joystick;
 	class JoystickContainer;
+	
+	class File;
+	class Path;
+	class PathIterator;
+	class StaticFile;
+	class StreamFile;
 
-	class Sound;
 	class SoundSource;
 
 	class Texture;

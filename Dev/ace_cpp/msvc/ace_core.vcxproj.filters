@@ -40,6 +40,9 @@
     <Filter Include="PCH">
       <UniqueIdentifier>{b5f06827-15ae-427a-94d1-e3f3a2ea4103}</UniqueIdentifier>
     </Filter>
+    <Filter Include="IO">
+      <UniqueIdentifier>{b2b10351-a9c1-4822-824f-e012e4922b8b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Sound">
       <UniqueIdentifier>{4234750f-7ad3-4f83-8ef7-6a92ae1a6517}</UniqueIdentifier>
     </Filter>
@@ -631,6 +634,39 @@
     <ClInclude Include="..\core\Graphics\Resource\ace.Font_Imp.h">
       <Filter>Graphics\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\IO\ace.StreamFile_Imp.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.File.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.File_Imp.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.StaticFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.StaticFile_Imp.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.StreamFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.BaseFile_Imp.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.Path.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.Path_Imp.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.PathIterator.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.PathIterator_Imp.h">
+      <Filter>IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -908,6 +944,24 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Resource\ace.Font_Imp.cpp">
       <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.StreamFile_Imp.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.File_Imp.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.StaticFile_Imp.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.Path_Imp.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.PathIterator_Imp.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.BaseFile.cpp">
+      <Filter>IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
