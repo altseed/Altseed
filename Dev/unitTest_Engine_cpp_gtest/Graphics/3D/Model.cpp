@@ -7,7 +7,7 @@ class Graphics_Model : public EngineGraphics3DTest
 public:
 
 	Graphics_Model(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("Model"), isOpenGLMode, 6000,true)
+		EngineGraphics3DTest(ace::ToAString("Model"), isOpenGLMode, 15,true)
 	{}
 
 protected:

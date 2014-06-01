@@ -51,7 +51,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//Test_LayersFlag(true);
+	//Graphics_Camera3DPostEffect_(true);
 	//return 0;
 
 	//TestCamera(true);
@@ -67,7 +67,7 @@ int main(int argc, char **argv)
 
 
 	//Graphics_Model_(false);
-	return 0;
+	//return 0;
 
 	auto result = RUN_ALL_TESTS();
 
