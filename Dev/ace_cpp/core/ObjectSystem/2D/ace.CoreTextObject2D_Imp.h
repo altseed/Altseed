@@ -18,7 +18,6 @@ namespace ace
 	private:
 		TextWritingDirection m_textWritingDirection;
 		Font* m_font;
-		Vector2DF m_drawPosition;
 		Vector2DF m_centerPosition;
 		Color m_color;
 		bool m_turnLR;
@@ -31,9 +30,6 @@ namespace ace
 #pragma region Parameter
 		Font* GetFont() const override;
 		void SetFont(Font* font) override;
-
-		Vector2DF GetDrawPosition() const override;
-		void SetDrawPosition(Vector2DF drawPosition) override;
 
 		TextWritingDirection GetTextWritingDirection() const override;
 		void SetTextWritingDirection(TextWritingDirection textWritingDirection) override;

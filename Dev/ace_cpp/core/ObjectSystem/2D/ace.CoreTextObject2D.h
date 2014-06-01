@@ -23,11 +23,6 @@ namespace ace
 		/**
 		@brief	このオブジェクトを描画する際のフォントハンドルを取得する。
 		*/
-		virtual Vector2DF GetDrawPosition() const = 0;
-
-		/**
-		@brief	このオブジェクトを描画する際のフォントハンドルを取得する。
-		*/
 		virtual Font* GetFont() const = 0;
 
 		/**
@@ -79,11 +74,6 @@ namespace ace
 		@brief	このオブジェクトを描画する際の描画方向を設定します。
 		*/
 		virtual void SetTextWritingDirection(TextWritingDirection textWritingDirection) = 0;
-
-		/**
-		@brief	このオブジェクトを描画する際のブレンドモードを設定します。
-		*/
-		virtual void SetDrawPosition(Vector2DF drawPosition) = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のフォントハンドルを設定する。

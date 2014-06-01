@@ -1,6 +1,7 @@
 ﻿#include "../common/ace.common.Base.h"
 #include "ace.CoreTextObject2D_Imp.h"
 #include "../../Graphics/Resource/ace.Font_Imp.h"
+#include "../../Graphics/Resource/ace.Texture2D_Imp.h"
 
 namespace ace
 {
@@ -14,7 +15,6 @@ namespace ace
 		, m_writeText(ace::ToAString(""))
 		, m_alphablend(eAlphaBlend::ALPHA_BLEND_BLEND)
 		, m_drawingPtiority(0)
-		, m_drawPosition(Vector2DF())
 	{
 
 	}
@@ -40,22 +40,6 @@ namespace ace
 	void CoreTextObject2D_Imp::SetFont(Font* font)
 	{
 		SafeSubstitute(font, m_font);
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	Vector2DF CoreTextObject2D_Imp::GetDrawPosition() const
-	{
-		return m_drawPosition;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetDrawPosition(Vector2DF drawPosition)
-	{
-		m_drawPosition = drawPosition;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -197,7 +181,16 @@ namespace ace
 			return;
 		}
 
-		Vector2DF drawPosition = m_drawPosition;
+		Vector2DF drawPosition = m_transform.GetPosition();
+
+		auto parentMatrix = m_transform.GetParentsMatrix();
+		auto matrix = m_transform.GetMatrixToTransform();
+
+		Color color[4];
+		color[0] = m_color;
+		color[1] = m_color;
+		color[2] = m_color;
+		color[3] = m_color;
 
 		Font_Imp *font_Imp = (Font_Imp*)m_font;
 
@@ -205,15 +198,65 @@ namespace ace
 		{
 			GlyphData glyphData = font_Imp->GetGlyphData(m_writeText[textIndex]);
 
-			//ここで描画処理を書く
+			auto glyphSrc = glyphData.GetSrc();
+
+			std::array<Vector2DF, 4> position;
+
+			{
+				position[0] = Vector2DF(0, 0);
+				position[1] = Vector2DF(glyphSrc.Width, 0);
+				position[2] = Vector2DF(glyphSrc.Width, glyphSrc.Height);
+				position[3] = Vector2DF(0, glyphSrc.Height);
+
+				for (auto& pos : position)
+				{
+					pos += drawPosition;
+					pos -= m_centerPosition;
+					auto v3 = Vector3DF(pos.X, pos.Y, 1);
+					auto result = cameraMatrix * parentMatrix * matrix * v3;
+					pos = Vector2DF(result.X, result.Y);
+				}
+
+			}
+
+			auto texture = font_Imp->GetTexture(glyphData.GetSheetNum() - 1);
+
+			std::array<Vector2DF, 4> uvs;
+			{
+				auto textureSize = Vector2DF(texture->GetSize().X,texture->GetSize().Y);
+
+				uvs[0] = Vector2DF(glyphSrc.X, glyphSrc.Y);
+				uvs[1] = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y);
+				uvs[2] = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.X + glyphSrc.Height);
+				uvs[3] = Vector2DF(glyphSrc.X, glyphSrc.Y + glyphSrc.Height);
+
+				for (auto& uv : uvs)
+				{
+					uv /= textureSize;
+				}
+
+				if (m_turnLR)
+				{
+					std::swap(uvs[0], uvs[1]);
+					std::swap(uvs[2], uvs[3]);
+				}
+
+				if (m_turnUL)
+				{
+					std::swap(uvs[0], uvs[3]);
+					std::swap(uvs[1], uvs[2]);
+				}
+			}
+
+			renderer->AddSprite(position.data(), color, uvs.data(), texture.get(), m_alphablend, m_drawingPtiority);
 
 			if (m_textWritingDirection == TextWritingDirection::Vertical)
 			{
-				drawPosition += ace::Vector2DF(glyphData.GetSrc().Width, 0);
+				drawPosition += ace::Vector2DF(glyphSrc.Width, 0);
 			}
 			else
 			{
-				drawPosition += ace::Vector2DF(0, glyphData.GetSrc().Height);
+				drawPosition += ace::Vector2DF(0, glyphSrc.Height);
 			}
 		}
 
