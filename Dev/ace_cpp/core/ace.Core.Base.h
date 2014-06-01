@@ -31,6 +31,7 @@ namespace ace {
 	class StaticFile;
 	class StreamFile;
 
+	class Sound;
 	class SoundSource;
 
 	class Texture;
