@@ -6,8 +6,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MDLExporter.cpp" />
     <ClCompile Include="MeshLoader.cpp" />
-    <ClCompile Include="FBX2MDL.Mesh.cpp" />
     <ClCompile Include="FBX2MDL.FBXLoader.cpp" />
+    <ClCompile Include="FBX2MDL.FBXExporter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h" />
@@ -17,7 +17,7 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="FBX2MDL.Base.h" />
-    <ClInclude Include="FBX2MDL.Mesh.h" />
     <ClInclude Include="FBX2MDL.FBXLoader.h" />
+    <ClInclude Include="FBX2MDL.FBXExporter.h" />
   </ItemGroup>
 </Project>

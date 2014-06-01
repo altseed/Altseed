@@ -1,6 +1,5 @@
 
 #include "FBX2MDL.FBXLoader.h"
-#include "FBX2MDL.Mesh.h"
 
 namespace FBX2MDL
 {
@@ -445,6 +444,7 @@ namespace FBX2MDL
 		case FbxNodeAttribute::eSkeleton:
 			break;
 		default:
+			return std::shared_ptr<Node>();
 			break;
 		}
 

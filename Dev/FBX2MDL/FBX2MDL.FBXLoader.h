@@ -1,6 +1,5 @@
 
 #include "FBX2MDL.Base.h"
-#include "FBX2MDL.Mesh.h"
 
 namespace FBX2MDL
 {
