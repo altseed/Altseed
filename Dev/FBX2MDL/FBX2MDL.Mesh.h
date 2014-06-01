@@ -92,6 +92,8 @@ namespace FBX2MDL
 	struct BoneConnector
 	{
 		ace::astring	Name;
+		ace::Matrix44	TransformMatrix;
+		ace::Matrix44	TransformLinkMatrix;
 		ace::Matrix44	OffsetMatrix;
 	};
 

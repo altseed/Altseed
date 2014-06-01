@@ -59,8 +59,17 @@ namespace FBX2MDL
 		void LoadSkin(FbxMesh* fbxMesh, std::vector<BoneConnector>& boneConnectors, std::vector<FbxVertexWeight>& weights);
 		void LoadMaterial(FbxMesh* fbxMesh, FbxLayerElementMaterial* materials, std::vector<Material>& dst);
 
+		std::shared_ptr<Mesh> LoadMesh(FbxMesh* fbxMesh);
+
+		std::shared_ptr<Node> LoadHierarchy(std::shared_ptr<Node> parent, FbxNode* fbxNode, FbxManager* fbxManager);
+
+		ace::Matrix44 CalcMatrix(ace::eRotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz);
+
+		void LoadAnimationSource(FbxAnimStack* fbxAnimStack, FbxNode* fbxRootNode, AnimationSource &animationSource);
+		void LoadCurve(FbxNode* fbxNode, FbxAnimLayer* fbxAnimLayer, AnimationSource &animationSource);
+		void LoadCurve(ace::astring target, FbxAnimCurve* curve, AnimationSource &animationSource);
 	public:
 
-		void LoadMesh(Mesh* mesh, FbxMesh* fbxMesh);
+		std::shared_ptr<Scene> LoadScene(FbxScene* fbxScene, FbxManager* fbxManager);
 	};
 }

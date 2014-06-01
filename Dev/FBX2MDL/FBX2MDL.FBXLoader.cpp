@@ -88,6 +88,9 @@ namespace FBX2MDL
 			break;
 		}
 
+		// 上下逆
+		uv.Y = 1.0 - uv.Y;
+		
 		return uv;
 	}
 
@@ -182,6 +185,9 @@ namespace FBX2MDL
 
 				auto m2_inv = m2_.GetInverted();
 				auto m = m1_ * m2_inv;
+				
+				connector.TransformMatrix = m1_;
+				connector.TransformLinkMatrix = m2_;
 				connector.OffsetMatrix = m;
 
 				boneConnectors.push_back(connector);
@@ -277,9 +283,8 @@ namespace FBX2MDL
 
 	}
 
-	void FBXLoader::LoadMesh(Mesh* mesh, FbxMesh* fbxMesh)
+	std::shared_ptr<Mesh> FBXLoader::LoadMesh(FbxMesh* fbxMesh)
 	{
-		assert(mesh != nullptr);
 		assert(fbxMesh->GetLayerCount() > 0);
 
 		auto node = fbxMesh->GetNode();
@@ -387,6 +392,7 @@ namespace FBX2MDL
 		}
 
 		// 設定
+		auto mesh = std::make_shared<Mesh>();
 		mesh->Name = ace::ToAString(node->GetName());
 		mesh->BoneConnectors = boneConnectors;
 		mesh->Materials = materials_;
@@ -410,5 +416,226 @@ namespace FBX2MDL
 
 			mesh->Faces.push_back(f);
 		}
+
+		return mesh;
+	}
+
+	std::shared_ptr<Node> FBXLoader::LoadHierarchy(std::shared_ptr<Node> parent, FbxNode* fbxNode, FbxManager* fbxManager)
+	{
+		FbxMesh* mesh = nullptr;
+		std::shared_ptr<Node> node = std::make_shared<Node>();
+
+		node->Name = ace::ToAString(fbxNode->GetName());
+
+		auto attributeType = fbxNode->GetNodeAttribute()->GetAttributeType();
+		
+		switch (attributeType)
+		{
+		case FbxNodeAttribute::eMesh:
+			mesh = fbxNode->GetMesh();
+
+			if (!mesh->IsTriangleMesh())
+			{
+				FbxGeometryConverter converter(fbxManager);
+				mesh = (FbxMesh*) converter.Triangulate(mesh, true);
+			}
+
+			node->MeshParameter = LoadMesh(mesh);
+			break;
+		case FbxNodeAttribute::eSkeleton:
+			break;
+		default:
+			break;
+		}
+
+		// 回転方向
+		fbxsdk_2015_1::EFbxRotationOrder fbxRotationOrder;
+		fbxNode->GetRotationOrder(FbxNode::eDestinationPivot, fbxRotationOrder);
+
+		switch (fbxRotationOrder)
+		{
+		case eEulerXYZ:
+			node->RotationOrder = ace::ROTATION_ORDER_XYZ;
+			break;
+		case eEulerXZY:
+			node->RotationOrder = ace::ROTATION_ORDER_XZY;
+			break;
+		case eEulerYZX:
+			node->RotationOrder = ace::ROTATION_ORDER_YZX;
+			break;
+		case eEulerYXZ:
+			node->RotationOrder = ace::ROTATION_ORDER_YXZ;
+			break;
+		case eEulerZXY:
+			node->RotationOrder = ace::ROTATION_ORDER_ZXY;
+			break;
+		case eEulerZYX:
+			node->RotationOrder = ace::ROTATION_ORDER_ZYX;
+			break;
+		case eSphericXYZ:
+			break;
+		}
+
+		// デフォルト
+		auto lclT = fbxNode->LclTranslation.Get();
+		auto lclR = fbxNode->LclRotation.Get();
+		auto lclS = fbxNode->LclScaling.Get();
+		node->LclMatrix = CalcMatrix(node->RotationOrder, lclT[0], lclT[1], lclT[2], lclR[0], lclR[1], lclR[2], lclS[0], lclS[1], lclS[2]);
+
+		// ジオメトリ
+		auto geT = fbxNode->GeometricTranslation.Get();
+		auto geR = fbxNode->GeometricRotation.Get();
+		auto geS = fbxNode->GeometricScaling.Get();
+		node->GeometricMatrix = CalcMatrix(node->RotationOrder, geT[0], geT[1], geT[2], geR[0], geR[1], geR[2], geS[0], geS[1], geS[2]);
+
+		// 子の走査
+		for (auto i = 0; i < fbxNode->GetChildCount(); i++)
+		{
+			auto childNode = LoadHierarchy(node, fbxNode->GetChild(i), fbxManager);
+			node->Children.push_back(childNode);
+		}
+
+		return node;
+	}
+
+	ace::Matrix44 FBXLoader::CalcMatrix(ace::eRotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz)
+	{
+		ace::Matrix44 matT, matRx, matRy, matRz, matS;
+		matT.SetTranslation(tx, ty, tz);
+		matRx.SetRotationX(rx / 180.0 * 3.141592);
+		matRy.SetRotationY(ry / 180.0 * 3.141592);
+		matRz.SetRotationZ(rz / 180.0 * 3.141592);
+		matS.SetScale(sx, sy, sz);
+
+		if (order == ace::ROTATION_ORDER_XYZ) return matT * matRz * matRy * matRx * matS;
+		if (order == ace::ROTATION_ORDER_XZY) return matT * matRy * matRz * matRx * matS;
+		if (order == ace::ROTATION_ORDER_YZX) return matT * matRx * matRz * matRy * matS;
+
+		if (order == ace::ROTATION_ORDER_YXZ) return matT * matRz * matRx * matRy * matS;
+		if (order == ace::ROTATION_ORDER_ZXY) return matT * matRy * matRx * matRz * matS;
+		if (order == ace::ROTATION_ORDER_ZYX) return matT * matRx * matRy * matRz * matS;
+
+		return ace::Matrix44();
+	}
+
+	void FBXLoader::LoadAnimationSource(FbxAnimStack* fbxAnimStack, FbxNode* fbxRootNode, AnimationSource &animationSource)
+	{
+		const int32_t layerCount = fbxAnimStack->GetMemberCount<FbxAnimLayer>();
+		if (layerCount == 0) return;
+
+		auto animationName = fbxAnimStack->GetName();
+
+		FbxTime startTime = fbxAnimStack->LocalStart;
+		FbxTime endTime = fbxAnimStack->LocalStop;
+
+		animationSource.Name = ace::ToAString(animationName);
+		//animationSource.StartTime = startTime;
+		//animationSource.StopTime = endTime;
+
+
+		for (auto i = 0; i < layerCount; ++i)
+		{
+			auto layer = fbxAnimStack->GetMember<FbxAnimLayer>();
+			LoadCurve(fbxRootNode, layer, animationSource);
+			// break;
+		}
+	}
+
+	void FBXLoader::LoadCurve(FbxNode* fbxNode, FbxAnimLayer* fbxAnimLayer, AnimationSource &animationSource)
+	{
+		auto boneName = ace::ToAString(fbxNode->GetName());
+
+		LoadCurve(boneName + ace::ToAString(".pos.x"), fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X), animationSource);
+		LoadCurve(boneName + ace::ToAString(".pos.z"), fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y), animationSource);
+		LoadCurve(boneName + ace::ToAString(".pos.y"), fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z), animationSource);
+
+		LoadCurve(boneName + ace::ToAString(".rot.x"), fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X), animationSource);
+		LoadCurve(boneName + ace::ToAString(".rot.z"), fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y), animationSource);
+		LoadCurve(boneName + ace::ToAString(".rot.y"), fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z), animationSource);
+
+		LoadCurve(boneName + ace::ToAString(".scl.x"), fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X), animationSource);
+		LoadCurve(boneName + ace::ToAString(".scl.z"), fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y), animationSource);
+		LoadCurve(boneName + ace::ToAString(".scl.y"), fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z), animationSource);
+
+		// 子の処理
+		for (auto i = 0; i< fbxNode->GetChildCount(); i++)
+		{
+			LoadCurve(fbxNode->GetChild(i), fbxAnimLayer, animationSource);
+		}
+	}
+
+	void FBXLoader::LoadCurve(ace::astring target, FbxAnimCurve* curve, AnimationSource &animationSource)
+	{
+		KeyFrameAnimation keyFrameAnimation;
+		keyFrameAnimation.TargetName = target;
+
+		const auto keyCount = curve->KeyGetCount();
+
+		int hour, minute, second, frame, field, residual;
+
+		for (auto i = 0; i < keyCount; i++)
+		{
+			float value = curve->KeyGetValue(i);
+			auto time = curve->KeyGetTime(i);
+			auto interpolation = curve->KeyGetInterpolation(i);
+			time.GetTime(hour, minute, second, frame, field, residual, FbxTime::eFrames60);
+
+			KeyFrame keyFrame;
+			keyFrame.KeyValue = ace::Vector2DF(60 * (hour * 60 * 60 + minute * 60 + second) + frame, value);
+			keyFrame.LeftPosition = keyFrame.KeyValue;
+			keyFrame.RightPosition = keyFrame.KeyValue;
+
+			switch (interpolation)
+			{
+			case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationConstant:
+			{
+				keyFrame.Interpolation = 1;
+			}
+				break;
+			case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationLinear:
+			{
+				keyFrame.Interpolation = 2;
+			}
+				break;
+			case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationCubic:
+			{
+				keyFrame.Interpolation = 3;
+			}
+				break;
+			}
+
+			keyFrameAnimation.KeyFrames.push_back(keyFrame);
+		}
+		animationSource.keyFrameAnimations.push_back(keyFrameAnimation);
+	}
+
+	std::shared_ptr<Scene> FBXLoader::LoadScene(FbxScene* fbxScene, FbxManager* fbxManager)
+	{
+		// 座標系変換
+		FbxAxisSystem axis(FbxAxisSystem::eOpenGL);
+		axis.ConvertScene(fbxScene);
+
+		auto scene = std::make_shared<Scene>();
+
+		// ノード
+		auto root = fbxScene->GetRootNode();
+		scene->Root = LoadHierarchy(nullptr, root, fbxManager);
+
+		// アニメーション
+		auto animStackCount = fbxScene->GetSrcObjectCount<FbxAnimStack>();
+
+		for (auto animStackIndex = 0; animStackIndex < animStackCount; animStackIndex++)
+		{
+			AnimationSource source;
+
+			auto animStack = fbxScene->GetSrcObject<FbxAnimStack>(animStackIndex);
+
+			fbxScene->SetCurrentAnimationStack(animStack);
+			LoadAnimationSource(animStack, root, source);
+
+			scene->AnimationSources.push_back(source);
+		}
+
+		return scene;
 	}
 }
