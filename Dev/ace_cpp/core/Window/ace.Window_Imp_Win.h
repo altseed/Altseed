@@ -33,9 +33,9 @@ private:
 
 public:
 
-	static Window_Imp* Create(int32_t width, int32_t height, const achar* title);
+	static Window_Imp* Create(int32_t width, int32_t height, const achar* title, Log* logger);
 
-	Window_Imp_Win( GLFWwindow* window, int32_t width, int32_t height);
+	Window_Imp_Win(GLFWwindow* window, int32_t width, int32_t height, Log* logger);
 	virtual ~Window_Imp_Win();
 
 	bool DoEvent();

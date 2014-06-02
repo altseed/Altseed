@@ -163,7 +163,9 @@ namespace ace
 
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), title);
 
-		m_window = Window_Imp::Create(width, height, title);
+		m_window = Window_Imp::Create(width, height, title, m_logger);
+		if (m_window == nullptr) return false;
+
 		m_keyboard = Keyboard_Imp::Create(m_window);
 		m_mouse = Mouse_Imp::Create(m_window);
 		m_joystickContainer = JoystickContainer_Imp::Create();

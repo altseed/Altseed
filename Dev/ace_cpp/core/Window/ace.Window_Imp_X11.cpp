@@ -3,6 +3,7 @@
 //
 //----------------------------------------------------------------------------------
 #include "ace.Window_Imp_X11.h"
+#include "../Log/ace.Log_Imp.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -24,10 +25,11 @@ void Window_Imp_X11::Unregist()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Window_Imp* Window_Imp_X11::Create(int32_t width, int32_t height, const achar* title)
+Window_Imp* Window_Imp_X11::Create(int32_t width, int32_t height, const achar* title, Log* logger)
 {
 	if (!glfwInit())
 	{
+		if (logger != nullptr) logger->WriteLine("ウインドウシステムの初期化に失敗");
 		return nullptr;
 	}
 
@@ -38,20 +40,22 @@ Window_Imp* Window_Imp_X11::Create(int32_t width, int32_t height, const achar* t
 	auto window = glfwCreateWindow(width, height, titleUTF8.c_str(), NULL, NULL);
 	if (window == nullptr)
 	{
+		if (logger != nullptr) logger->WriteLine("ウインドウの作成に失敗");
 		glfwTerminate();
 		return nullptr;
 	}
 
 	glfwSwapInterval(1);
 
-	return new Window_Imp_X11(window, width, height);
+	return new Window_Imp_X11(window, width, height, logger);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Window_Imp_X11::Window_Imp_X11(GLFWwindow* window, int32_t width, int32_t height)
-	: m_window(window)
+Window_Imp_X11::Window_Imp_X11(GLFWwindow* window, int32_t width, int32_t height, Log* logger)
+	: Window_Imp(logger)
+	, m_window(window)
 	, m_closed(false)
 {
 	m_size.X = width;

@@ -26,19 +26,21 @@ namespace ace {
 	{
 	protected:
 		Vector2DI	m_size;
+		Log*		m_logger;
 
-		Window_Imp(){}
-		virtual ~Window_Imp(){}
+		Window_Imp(Log* logger);
+		virtual ~Window_Imp();
 	public:
 
 		/**
 			@brief	ウインドウを生成する。
-			@param	width	[in]	クライアント領域の横幅
-			@param	height	[in]	クライアント領域の縦幅
-			@param	achar	[in]	タイトル
+			@param	width	クライアント領域の横幅
+			@param	height	クライアント領域の縦幅
+			@param	achar	タイトル
+			@param	logger	ログ
 			@return	ウインドウ
 		*/
-		static Window_Imp* Create(int32_t width, int32_t height, const achar* title);
+		static Window_Imp* Create(int32_t width, int32_t height, const achar* title, Log* logger = nullptr);
 
 		Vector2DI GetSize() const { return m_size; }
 
