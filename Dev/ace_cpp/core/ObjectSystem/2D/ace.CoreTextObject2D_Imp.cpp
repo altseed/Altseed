@@ -61,7 +61,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	astring CoreTextObject2D_Imp::GetWriteText() const
+	astring CoreTextObject2D_Imp::GetText() const
 	{
 		return m_writeText;
 	}
@@ -69,9 +69,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetWriteText(astring writeText)
+	void CoreTextObject2D_Imp::SetText(const achar* text)
 	{
-		m_writeText = writeText;
+		m_writeText = text;
 	}
 
 	//----------------------------------------------------------------------------------

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "../ace.Core.Base.h"
 #include "ace.StaticFile.h"
@@ -9,7 +9,7 @@ namespace ace
 	class File
 	{
 	private:
-		// static ƒtƒ@ƒCƒ‹‚Æstream ƒtƒ@ƒCƒ‹‚ÌQÆ‚ğ‚Â
+		// static ãƒ•ã‚¡ã‚¤ãƒ«ã¨stream ãƒ•ã‚¡ã‚¤ãƒ«ã®å‚ç…§ã‚’æŒã¤
 	public:
 		virtual ~File() { }
 		virtual void SetRootDirectories(const astring& path) = 0;

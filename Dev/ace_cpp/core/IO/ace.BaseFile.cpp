@@ -1,4 +1,4 @@
-#include "ace.BaseFile_Imp.h"
+﻿#include "ace.BaseFile_Imp.h"
 #include <sstream>
 
 namespace ace

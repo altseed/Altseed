@@ -28,7 +28,7 @@ namespace ace
 		/**
 		@brief 描画するテキストを取得する。
 		*/
-		virtual astring GetWriteText() const = 0;
+		virtual astring GetText() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際の傾きを取得する。
@@ -83,7 +83,7 @@ namespace ace
 		/**
 		@brief 描画するテキストを設定する。
 		*/
-		virtual void SetWriteText(astring drawText) = 0;
+		virtual void SetText(const achar* text) = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のテクスチャの向きを設定する。
