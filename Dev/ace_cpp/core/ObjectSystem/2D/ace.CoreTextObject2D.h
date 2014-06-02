@@ -18,7 +18,7 @@ namespace ace
 		/**
 		@brief	このオブジェクトを描画する際の描画方向を取得する。
 		*/
-		virtual TextWritingDirection GetTextWritingDirection() const = 0;
+		virtual WritingDirection GetWritingDirection() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のフォントハンドルを取得する。
@@ -73,7 +73,7 @@ namespace ace
 		/**
 		@brief	このオブジェクトを描画する際の描画方向を設定します。
 		*/
-		virtual void SetTextWritingDirection(TextWritingDirection textWritingDirection) = 0;
+		virtual void SetWritingDirection(WritingDirection writingDirection) = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のフォントハンドルを設定する。

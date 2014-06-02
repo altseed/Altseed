@@ -12,9 +12,10 @@ namespace ace
 		, m_color(Color())
 		, m_turnLR(false)
 		, m_turnUL(false)
-		, m_writeText(ace::ToAString(""))
+		, m_text(ace::ToAString(""))
 		, m_alphablend(eAlphaBlend::ALPHA_BLEND_BLEND)
 		, m_drawingPtiority(0)
+		, m_writingDirection(WritingDirection::Horizontal)
 	{
 
 	}
@@ -45,17 +46,17 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	TextWritingDirection CoreTextObject2D_Imp::GetTextWritingDirection() const
+	WritingDirection CoreTextObject2D_Imp::GetWritingDirection() const
 	{
-		return m_textWritingDirection;
+		return m_writingDirection;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetTextWritingDirection(TextWritingDirection textWritingDirection)
+	void CoreTextObject2D_Imp::SetWritingDirection(WritingDirection writingDirection)
 	{
-		m_textWritingDirection = textWritingDirection;
+		m_writingDirection = writingDirection;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -63,7 +64,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	astring CoreTextObject2D_Imp::GetText() const
 	{
-		return m_writeText;
+		return m_text;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -71,7 +72,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreTextObject2D_Imp::SetText(const achar* text)
 	{
-		m_writeText = text;
+		m_text = text;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -194,9 +195,9 @@ namespace ace
 
 		Font_Imp *font_Imp = (Font_Imp*)m_font;
 
-		for (int textIndex = 0; textIndex < m_writeText.length(); ++textIndex)
+		for (int textIndex = 0; textIndex < m_text.length(); ++textIndex)
 		{
-			GlyphData glyphData = font_Imp->GetGlyphData(m_writeText[textIndex]);
+			GlyphData glyphData = font_Imp->GetGlyphData(m_text[textIndex]);
 
 			auto glyphSrc = glyphData.GetSrc();
 
@@ -250,7 +251,7 @@ namespace ace
 
 			renderer->AddSprite(position.data(), color, uvs.data(), texture.get(), m_alphablend, m_drawingPtiority);
 
-			if (m_textWritingDirection == TextWritingDirection::Vertical)
+			if (m_writingDirection == WritingDirection::Horizontal)
 			{
 				drawPosition += ace::Vector2DF(glyphSrc.Width, 0);
 			}

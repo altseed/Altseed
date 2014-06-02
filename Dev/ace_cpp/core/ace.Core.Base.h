@@ -80,7 +80,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	enum class TextWritingDirection :int
+	enum class WritingDirection :int
 	{
 		Vertical,
 		Horizontal,
