@@ -196,9 +196,9 @@
     <Compile Include="swig\Texture.cs" />
     <Compile Include="swig\Texture2D.cs" />
     <Compile Include="swig\Texture2D_Imp.cs" />
-    <Compile Include="swig\TextWritingDirection.cs" />
     <Compile Include="swig\Window.cs" />
     <Compile Include="swig\Window_Imp.cs" />
+    <Compile Include="swig\WritingDirection.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
