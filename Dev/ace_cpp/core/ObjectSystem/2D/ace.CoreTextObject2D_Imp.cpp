@@ -220,7 +220,7 @@ namespace ace
 
 			}
 
-			auto texture = font_Imp->GetTexture(glyphData.GetSheetNum() - 1);
+			auto texture = font_Imp->GetTexture(glyphData.GetSheetNum());
 
 			std::array<Vector2DF, 4> uvs;
 			{
