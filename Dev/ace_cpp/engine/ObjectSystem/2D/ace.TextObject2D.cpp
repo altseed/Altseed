@@ -108,6 +108,6 @@ namespace ace
 
 	void TextObject2D::SetText(astring text)
 	{
-		m_coreObject->SetText(text);
+		m_coreObject->SetText(text.c_str());
 	}
 }

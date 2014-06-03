@@ -83,7 +83,7 @@ namespace ace
 		/**
 		@brief 描画するテキストを設定する。
 		*/
-		virtual void SetText(astring text) = 0;
+		virtual void SetText(const achar* text) = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のテクスチャの向きを設定する。
