@@ -80,7 +80,7 @@ namespace ace
 	}
 
     ///<summary>
-    /// テキストの描画モード
+    /// テキストの描画方向
     /// </summary>
     public enum WritingDirection :int
     {
