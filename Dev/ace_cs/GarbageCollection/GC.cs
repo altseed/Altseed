@@ -22,6 +22,7 @@ namespace ace
 		internal static IDObjectContainer<Mesh> Meshs { get; private set; }
 		internal static IDObjectContainer<Deformer> Deformers { get; private set; }
 		internal static IDObjectContainer<Model> Models { get; private set; }
+        internal static IDObjectContainer<Font> Fonts { get;private set; }
 
 		internal static IDObjectContainer<KeyframeAnimation> KeyframeAnimations { get; private set; }
 		internal static IDObjectContainer<AnimationSource> AnimationSources { get; private set; }
@@ -92,6 +93,7 @@ namespace ace
 				Meshs.DestroyAll();
 				Deformers.DestroyAll();
 				Models.DestroyAll();
+                Fonts.DestroyAll();
 
 				KeyframeAnimations.DestroyAll();
 				AnimationSources.DestroyAll();
@@ -224,12 +226,30 @@ namespace ace
 			return ret;
 		}
 
-		/// <summary>
-		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
-		/// </summary>
-		/// <param name="o"></param>
-		/// <param name="type"></param>
-		internal static Mesh GenerateMesh(swig.Mesh o, GenerationType type)
+        /// <summary>
+        /// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="type"></param>
+        internal static Font GenerateFont(swig.Font o, GenerationType type)
+        {
+            var p = o.GetPtr();
+
+            var existing = GC.Fonts.GetObject(p);
+            existing = GenerateInternal(existing, o, type);
+            if (existing != null) return existing;
+
+            var ret = new Font(o);
+            GC.Fonts.AddObject(p, ret);
+            return ret;
+        }
+
+        /// <summary>
+        /// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="type"></param>
+        internal static Mesh GenerateMesh(swig.Mesh o, GenerationType type)
 		{
 			var p = o.GetPtr();
 

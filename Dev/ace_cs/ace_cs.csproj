@@ -59,6 +59,7 @@
     <Compile Include="Graphics\Color.cs" />
     <Compile Include="Graphics\Deformer.cs" />
     <Compile Include="Graphics\Effect.cs" />
+    <Compile Include="Graphics\Font.cs" />
     <Compile Include="Graphics\Graphics.cs" />
     <Compile Include="Graphics\Material2D.cs" />
     <Compile Include="Graphics\Mesh.cs" />

@@ -79,6 +79,15 @@ namespace ace
 		Normal = swig.eVisalizedBuffer.VISALIZED_BUFFER_NORMAL,
 	}
 
+    ///<summary>
+    /// テキストの描画モード
+    /// </summary>
+    public enum WritingDirection :int
+    {
+        Horizontal = swig.WritingDirection.Horizontal,
+        Vertical = swig.WritingDirection.Vertical,
+    }
+
 	/// <summary>
 	/// Fカーブのキーフレーム
 	/// </summary>

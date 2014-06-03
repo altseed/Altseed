@@ -174,6 +174,18 @@ namespace ace
 			return GC.GenerateEffect(effect, GC.GenerationType.Create);
 		}
 
+        /// <summary>
+        /// フォントを生成する。
+        /// </summary>
+        /// <param name="path">パス</param>
+        /// <returns>フォント</returns>
+        public Font CreateFont(string path)
+        {
+            var font = graphics.CreateFont_(path);
+            if (font == null) return null;
+            return GC.GenerateFont(font, GC.GenerationType.Create);
+        }
+
 		/// <summary>
 		/// 描画ランタイムの種類を取得する。
 		/// </summary>
