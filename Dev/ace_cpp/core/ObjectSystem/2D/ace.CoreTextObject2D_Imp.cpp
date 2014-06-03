@@ -40,7 +40,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreTextObject2D_Imp::SetFont(Font* font)
 	{
-		SafeSubstitute(font, m_font);
+		SafeSubstitute(m_font, font);
 	}
 
 	//----------------------------------------------------------------------------------
