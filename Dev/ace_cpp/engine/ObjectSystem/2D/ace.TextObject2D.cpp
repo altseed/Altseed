@@ -106,7 +106,7 @@ namespace ace
 		return m_coreObject->GetText();
 	}
 
-	void TextObject2D::SetText(const astring text)
+	void TextObject2D::SetText(astring text)
 	{
 		m_coreObject->SetText(text);
 	}

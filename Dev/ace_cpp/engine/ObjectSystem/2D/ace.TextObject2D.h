@@ -76,7 +76,7 @@ namespace ace
 		/**
 		@brief 描画するテキストを設定する。
 		*/
-		void SetText(const astring text);
+		void SetText(astring text);
 
 		/**
 		@brief	このオブジェクトの原点位置を設定する。この位置が、描画する際の描画・拡縮・回転の中心となる。

@@ -70,7 +70,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetText(const astring text)
+	void CoreTextObject2D_Imp::SetText(astring text)
 	{
 		m_text = text;
 	}
