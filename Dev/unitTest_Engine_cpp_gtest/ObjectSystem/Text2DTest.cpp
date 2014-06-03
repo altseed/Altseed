@@ -6,10 +6,10 @@
 using namespace std;
 using namespace ace;
 
-class Text2DTest : public EngineTest
+class ObjectSystem_Text2DTest : public EngineTest
 {
 public:
-	Text2DTest(bool isOpenGLMode)
+	ObjectSystem_Text2DTest(bool isOpenGLMode)
 		: EngineTest(ace::ToAString("Text2D"), isOpenGLMode, 30)
 	{
 	}
@@ -31,26 +31,32 @@ protected:
 
 		auto g = ace::Engine::GetGraphics();
 		
-		auto font = g->CreateFont(ace::ToAString("hoge").c_str());
+		auto font = g->CreateFont(ace::ToAString("Data/Text/textTest.aff").c_str());
+
+		object->SetFont(font);
+		object->SetText(ToAString("ACEえんじんてすと"));
 
 		object->SetCenterPosition(Vector2DF(128, 128));
 		object->SetAngle(5);
 		object->SetPosition(Vector2DF(320, 240));
-		object->SetScale(object->GetScale() + Vector2DF(0.5f, 0.5f));
 	}
 };
 
 /*
-TEST(ObjectSystem, Simple_GL)
+TEST(ObjectSystem, Text2D_GL)
 {
-	RunTest<Text2DTest>(true);
+	RunTest<ObjectSystem_Text2DTest>(true);
 }
 
 #if _WIN32
-TEST(ObjectSystem, Simple_DX)
+TEST(ObjectSystem, Text2D_DX)
 {
-	RunTest<Text2DTest>(false);
+	RunTest<ObjectSystem_Text2DTest>(false);
 }
 #endif
 */
-
+void ObjectSystem_Text2DTest_(bool isGL)
+{
+	ObjectSystem_Text2DTest(isGL).Run();
+	AssertMemoryDoesntLeak();
+}
