@@ -158,6 +158,8 @@ public:
 	@param	path	パス
 	@return	フォント
 	*/
+
+#undef CreateFont
 	std::shared_ptr<Font> CreateFont(const achar* path)
 	{
 		auto font = CreateFont_(path);
