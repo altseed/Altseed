@@ -153,13 +153,12 @@ public:
 		return CreateSharedPtrWithReleaseDLL(effect);
 	}
 
+#undef CreateFont
 	/**
 	@brief	フォントを生成する。
 	@param	path	パス
 	@return	フォント
 	*/
-
-#undef CreateFont
 	std::shared_ptr<Font> CreateFont(const achar* path)
 	{
 		auto font = CreateFont_(path);
