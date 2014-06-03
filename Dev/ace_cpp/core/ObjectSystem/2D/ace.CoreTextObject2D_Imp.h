@@ -35,7 +35,7 @@ namespace ace
 		void SetWritingDirection(WritingDirection writingDirection) override;
 
 		astring GetText() const override;
-		void SetText(const achar* text) override;
+		void SetText(const astring text) override;
 
 		Vector2DF GetCenterPosition() const override;
 		void SetCenterPosition(Vector2DF position) override;
