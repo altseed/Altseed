@@ -165,11 +165,10 @@ namespace FBX2MDL
 				func();
 			}
 		}
-		
 
 		// メッシュ編集
 		auto meshes = GetMeshes(scene->Root);
-
+		
 
 		// メッシュ情報出力
 
