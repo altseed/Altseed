@@ -11,11 +11,10 @@
 class BinaryReaderWriterTest : public ::testing::Test
 {
 protected:
-	std::ifstream ifs;
 	ace::BinaryWriter writer;
 	ace::BinaryReader reader;
 	std::vector<int8_t> dat;
-	BinaryReaderWriterTest() : ifs("binaryTest.dat", std::ios_base::in | std::ios_base::binary)
+	BinaryReaderWriterTest()
 	{
 
 	}
@@ -38,6 +37,7 @@ protected:
 	void ReadIn()
 	{
 		char ch;
+		std::ifstream ifs("binaryTest.dat", std::ios_base::in | std::ios_base::binary);
 		while (ifs.get(ch))
 		{
 			dat.push_back(*(static_cast<int8_t*>(static_cast<void*>(&ch))));
