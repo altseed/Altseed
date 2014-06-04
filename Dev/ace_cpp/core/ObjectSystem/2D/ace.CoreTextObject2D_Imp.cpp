@@ -228,7 +228,7 @@ namespace ace
 
 				uvs[0] = Vector2DF(glyphSrc.X, glyphSrc.Y);
 				uvs[1] = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y);
-				uvs[2] = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.X + glyphSrc.Height);
+				uvs[2] = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y + glyphSrc.Height);
 				uvs[3] = Vector2DF(glyphSrc.X, glyphSrc.Y + glyphSrc.Height);
 
 				for (auto& uv : uvs)
