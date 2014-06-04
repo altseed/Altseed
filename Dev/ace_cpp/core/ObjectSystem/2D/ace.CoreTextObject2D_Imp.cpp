@@ -182,7 +182,7 @@ namespace ace
 			return;
 		}
 
-		Vector2DF drawPosition = m_transform.GetPosition();
+		Vector2DF drawPosition = Vector2DF(0, 0);
 
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
