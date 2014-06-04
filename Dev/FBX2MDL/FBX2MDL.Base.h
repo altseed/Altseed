@@ -11,6 +11,8 @@
 
 #include <Utility/ace.BinaryWriter.h>
 
+#include <functional>
+
 namespace FBX2MDL
 {
 	class FBXLoader;

@@ -492,7 +492,10 @@ namespace FBX2MDL
 		for (auto i = 0; i < fbxNode->GetChildCount(); i++)
 		{
 			auto childNode = LoadHierarchy(node, fbxNode->GetChild(i), fbxManager);
-			node->Children.push_back(childNode);
+			if (childNode != nullptr)
+			{
+				node->Children.push_back(childNode);
+			}
 		}
 
 		return node;
