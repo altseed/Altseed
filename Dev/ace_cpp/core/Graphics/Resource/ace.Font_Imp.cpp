@@ -111,7 +111,7 @@ namespace ace {
 		m_glyphs = affLoader.GetGlyphs();
 
 		//AFFファイルの拡張子以前のパスを取得。
-		const ace::astring rawFilePath = affFilePathStr.substr(0, affFilePathStr.length() - 3);
+		const ace::astring rawFilePath = affFilePathStr.substr(0, affFilePathStr.length() - 4);
 
 		int pictureNumber = 0;
 

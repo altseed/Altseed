@@ -31,13 +31,13 @@ protected:
 
 		auto g = ace::Engine::GetGraphics();
 		
-		auto font = g->CreateFont(ace::ToAString("Data/Text/textTest.aff").c_str());
+		auto font = g->CreateFont(ace::ToAString("Data/Text/Tester.aff").c_str());
 
 		object->SetFont(font);
-		object->SetText(ToAString("ACEえんじんてすと"));
+		object->SetText(ToAString("Font"));
 
-		object->SetCenterPosition(Vector2DF(128, 128));
-		object->SetAngle(5);
+		//object->SetCenterPosition(Vector2DF(128, 128));
+		object->SetAngle(45);
 		object->SetPosition(Vector2DF(320, 240));
 	}
 };
