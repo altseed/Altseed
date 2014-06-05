@@ -30,6 +30,8 @@ namespace FBX2MDL
 
 		std::vector<std::function<void()>> GetWritingDeformerFuncs(const std::shared_ptr<Node>& node, int32_t parentIndex, int32_t& currentIndex);
 
+		std::map<ace::astring, int32_t> GetDeformerNameToIndexes(const std::shared_ptr<Node>& node, int32_t& currentIndex);
+
 	public:
 		FBXExporter();
 		virtual ~FBXExporter();

@@ -139,6 +139,23 @@ namespace FBX2MDL
 		return dst;
 	}
 
+	std::map<ace::astring, int32_t> FBXExporter::GetDeformerNameToIndexes(const std::shared_ptr<Node>& node, int32_t& currentIndex)
+	{
+		std::map<ace::astring, int32_t> dst;
+
+		dst[node->Name] = currentIndex;
+
+		auto current = currentIndex;
+		for (const auto& node_ : node->Children)
+		{
+			currentIndex++;
+			auto dst_ = GetDeformerNameToIndexes(node, currentIndex);
+			dst.insert(dst_.begin(), dst_.end());
+		}
+
+		return dst;
+	}
+
 	FBXExporter::FBXExporter()
 	{
 	}
@@ -166,13 +183,48 @@ namespace FBX2MDL
 			}
 		}
 
+		// デフォーマー情報取得
+		std::map<ace::astring, int32_t> deformer_name2ind;
+		{
+			int32_t currentIndex = 0;
+			deformer_name2ind = GetDeformerNameToIndexes(scene->Root, currentIndex);
+		}
+
 		// メッシュ編集
 		auto meshes = GetMeshes(scene->Root);
-		
+		m_writer->Push((int32_t) meshes.size());
+		for (auto& mesh : meshes)
+		{
+			// 上下方向に面ソート
+			/*
+			std::sort(mesh->Faces.begin(), mesh->Faces.end(), [mesh](const Face& f) -> float { 
+				return
+					-(mesh->Vertexes[f.Index[0]].Position.Y +
+					mesh->Vertexes[f.Index[1]].Position.Y +
+					mesh->Vertexes[f.Index[2]].Position.Y);
+			});
+			*/
 
-		// メッシュ情報出力
+			// ボーン数による分割
+			// 現在省略につきボーン数32以上は落ちる。
 
-		// ボーン情報出力
+			// 材質ソート
+			//std::sort(mesh->Faces.begin(), mesh->Faces.end(), [](const Face& f) -> int32_t { return f.MaterialIndex; });
+
+			// 頂点に情報書き込み
+			for (auto i = 0; i < mesh->Vertexes.size(); i++)
+			{
+				auto& v = mesh->Vertexes[i];
+				v.WeightIndexDivided[0] = v.WeightIndexOriginal[0];
+				v.WeightIndexDivided[1] = v.WeightIndexOriginal[1];
+				v.WeightIndexDivided[2] = v.WeightIndexOriginal[2];
+				v.WeightIndexDivided[3] = v.WeightIndexOriginal[3];
+			}
+
+			// メッシュ情報出力
+
+			// ボーン情報出力
+		}
 
 		// アニメーション出力
 		std::remove_if(
