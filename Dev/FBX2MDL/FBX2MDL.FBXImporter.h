@@ -3,7 +3,7 @@
 
 namespace FBX2MDL
 {
-	class FBXLoader
+	class FBXImporter
 	{
 		struct FbxWeight
 		{
@@ -48,7 +48,23 @@ namespace FBX2MDL
 			int32_t MaterialIndex;
 		};
 
+		struct VertexNormals
+		{
+			int32_t Count = 0;
+			ace::Vector3DF Binormal;
+			ace::Vector3DF Tangent;
+		};
+
 	private:
+		/**
+		@brief	接ベクトルを計算する。
+		@param	v1	頂点1
+		@param	v2	頂点2
+		@param	v3	頂点3
+		@param	binormal	従法線
+		@param	tangent		接法線
+		*/
+		void CalcTangentSpace(const Vertex& v1, const Vertex& v2, const Vertex& v3, ace::Vector3DF& binormal, ace::Vector3DF& tangent);
 
 		ace::Vector3DF LoadPosition(FbxMesh* fbxMesh, int32_t ctrlPointIndex);
 		ace::Vector3DF LoadNormal(FbxLayerElementNormal* normals, int32_t vertexID, int32_t ctrlPointIndex);

@@ -1,5 +1,8 @@
 
 #include "FBX2MDL.Base.h"
+#include "FBX2MDL.FBXImporter.h"
+#include "FBX2MDL.FBXExporter.h"
+
 #include "MDLExporter.h"
 
 #if _DEBUG
@@ -27,9 +30,39 @@ int main(int argc, char** argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 
+	FBX2MDL::FBXImporter importer;
+	FBX2MDL::FBXExporter exporter;
+
+	FbxManager* sdkManager = FbxManager::Create();
+	FbxIOSettings* ios = FbxIOSettings::Create(sdkManager, IOSROOT);
+	sdkManager->SetIOSettings(ios);
+
+	fbxsdk_2015_1::FbxImporter* fbxImporter = fbxsdk_2015_1::FbxImporter::Create(sdkManager, "");
+	if (!fbxImporter->Initialize("Data/Model/Box.fbx", -1, sdkManager->GetIOSettings()))
+	{
+		printf("Call to FbxImporter::Initialize() failed.\n");
+		printf("Error returned: %s\n\n", fbxImporter->GetStatus().GetErrorString());
+		system("PAUSE");
+		exit(-1);
+	}
+
+	FbxScene* fbxScene = FbxScene::Create(sdkManager, "myScene");
+	fbxImporter->Import(fbxScene);
+	
+	auto scene = importer.LoadScene(fbxScene, sdkManager);
+	auto writer = exporter.Export(scene);
+
+	fbxScene->Destroy();
+	fbxImporter->Destroy();
+	sdkManager->Destroy();
+
+	writer->WriteOut("Data/Model/Box.mdl");
+
+	/*
 	MDLExporter *exporter = new MDLExporter("Data/Model/AnimationTest.fbx", "Data/Model/AnimationTest.mdl");
 	exporter->Convert();
 	delete exporter;
+	*/
 }
 
 #else

@@ -12,10 +12,12 @@
 #include <Utility/ace.BinaryWriter.h>
 
 #include <functional>
+#include <algorithm>
 
 namespace FBX2MDL
 {
-	class FBXLoader;
+	class FBXImporter;
+	class FBXExporter;
 	class Scene;
 	class Node;
 	class Mesh;

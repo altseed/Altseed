@@ -1,9 +1,56 @@
 
-#include "FBX2MDL.FBXLoader.h"
+#include "FBX2MDL.FBXImporter.h"
 
 namespace FBX2MDL
 {
-	ace::Vector3DF FBXLoader::LoadPosition(FbxMesh* fbxMesh, int32_t ctrlPointIndex)
+	void FBXImporter::CalcTangentSpace(const Vertex& v1, const Vertex& v2, const Vertex& v3, ace::Vector3DF& binormal, ace::Vector3DF& tangent)
+	{
+		binormal = ace::Vector3DF();
+		tangent = ace::Vector3DF();
+
+		ace::Vector3DF cp0[3];
+		cp0[0] = ace::Vector3DF(v1.Position.X, v1.UV.X, v1.UV.Y);
+		cp0[1] = ace::Vector3DF(v1.Position.Y, v1.UV.X, v1.UV.Y);
+		cp0[2] = ace::Vector3DF(v1.Position.Z, v1.UV.X, v1.UV.Y);
+
+		ace::Vector3DF cp1[3];
+		cp1[0] = ace::Vector3DF(v2.Position.X, v2.UV.X, v2.UV.Y);
+		cp1[1] = ace::Vector3DF(v2.Position.Y, v2.UV.X, v2.UV.Y);
+		cp1[2] = ace::Vector3DF(v2.Position.Z, v2.UV.X, v2.UV.Y);
+
+		ace::Vector3DF cp2[3];
+		cp2[0] = ace::Vector3DF(v3.Position.X, v3.UV.X, v3.UV.Y);
+		cp2[1] = ace::Vector3DF(v3.Position.Y, v3.UV.X, v3.UV.Y);
+		cp2[2] = ace::Vector3DF(v3.Position.Z, v3.UV.X, v3.UV.Y);
+
+		double u[3];
+		double v[3];
+		
+		for (int32_t i = 0; i < 3; i++)
+		{
+			auto v1 = cp1[i] - cp0[i];
+			auto v2 = cp2[i] - cp1[i];
+			auto abc = ace::Vector3DF::Cross(v1, v2);
+
+			if (abc.X == 0.0f)
+			{
+				return;
+			}
+			else
+			{
+				u[i] = -abc.Y / abc.X;
+				v[i] = -abc.Z / abc.X;
+			}
+		}
+
+		tangent = ace::Vector3DF(u[0], u[1], u[2]);
+		tangent.Normalize();
+
+		binormal = ace::Vector3DF(v[0], v[1], v[2]);
+		binormal.Normalize();
+	}
+
+	ace::Vector3DF FBXImporter::LoadPosition(FbxMesh* fbxMesh, int32_t ctrlPointIndex)
 	{
 		ace::Vector3DF position;
 
@@ -16,7 +63,7 @@ namespace FBX2MDL
 		return position;
 	}
 
-	ace::Vector3DF FBXLoader::LoadNormal(FbxLayerElementNormal* normals, int32_t vertexID, int32_t ctrlPointIndex)
+	ace::Vector3DF FBXImporter::LoadNormal(FbxLayerElementNormal* normals, int32_t vertexID, int32_t ctrlPointIndex)
 	{
 		ace::Vector3DF normal;
 
@@ -43,7 +90,7 @@ namespace FBX2MDL
 		return normal;
 	}
 
-	ace::Vector2DF FBXLoader::LoadUV(FbxMesh* fbxMesh, FbxLayerElementUV* uvs, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex)
+	ace::Vector2DF FBXImporter::LoadUV(FbxMesh* fbxMesh, FbxLayerElementUV* uvs, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex)
 	{
 		ace::Vector2DF uv;
 
@@ -93,7 +140,7 @@ namespace FBX2MDL
 		return uv;
 	}
 
-	ace::Color FBXLoader::LoadVertexColor(FbxMesh* fbxMesh, FbxLayerElementVertexColor* colors, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex)
+	ace::Color FBXImporter::LoadVertexColor(FbxMesh* fbxMesh, FbxLayerElementVertexColor* colors, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex)
 	{
 		ace::Color color;
 
@@ -151,7 +198,7 @@ namespace FBX2MDL
 		return color;
 	}
 
-	void FBXLoader::LoadSkin(FbxMesh* fbxMesh, std::vector<BoneConnector>& boneConnectors, std::vector<FbxVertexWeight>& weights)
+	void FBXImporter::LoadSkin(FbxMesh* fbxMesh, std::vector<BoneConnector>& boneConnectors, std::vector<FbxVertexWeight>& weights)
 	{
 		weights.resize(fbxMesh->GetControlPointsCount());
 
@@ -247,7 +294,7 @@ namespace FBX2MDL
 		}
 	}
 
-	void FBXLoader::LoadMaterial(FbxMesh* fbxMesh, FbxLayerElementMaterial* materials, std::vector<Material>& dst)
+	void FBXImporter::LoadMaterial(FbxMesh* fbxMesh, FbxLayerElementMaterial* materials, std::vector<Material>& dst)
 	{
 		auto node = fbxMesh->GetNode();
 		if (node == nullptr) return;
@@ -282,7 +329,7 @@ namespace FBX2MDL
 
 	}
 
-	std::shared_ptr<Mesh> FBXLoader::LoadMesh(FbxMesh* fbxMesh)
+	std::shared_ptr<Mesh> FBXImporter::LoadMesh(FbxMesh* fbxMesh)
 	{
 		assert(fbxMesh->GetLayerCount() > 0);
 
@@ -416,36 +463,77 @@ namespace FBX2MDL
 			mesh->Faces.push_back(f);
 		}
 
+		// Binormal,TangentåvéZ
+		std::map<int32_t, VertexNormals> vInd2Normals;
+
+		for (const auto& face : mesh->Faces)
+		{
+			ace::Vector3DF binormal, tangent;
+			CalcTangentSpace(
+				mesh->Vertexes[face.Index[0]],
+				mesh->Vertexes[face.Index[1]],
+				mesh->Vertexes[face.Index[2]],
+				binormal,
+				tangent);
+
+			for (auto i = 0; i < 3; i++)
+			{
+				vInd2Normals[face.Index[i]].Binormal += binormal;
+				vInd2Normals[face.Index[i]].Tangent += tangent;
+				vInd2Normals[face.Index[i]].Count += 1;
+			}
+		}
+
+		for (auto& vn : vInd2Normals)
+		{
+			vn.second.Binormal /= vn.second.Count;
+			vn.second.Tangent /= vn.second.Count;
+		}
+
+		for (auto& vn : vInd2Normals)
+		{
+			mesh->Vertexes[vn.first].Binormal = vn.second.Binormal;
+			//mesh->Vertexes[vn.first].Tangent = vn.second.Tangent;
+		}
+
 		return mesh;
 	}
 
-	std::shared_ptr<Node> FBXLoader::LoadHierarchy(std::shared_ptr<Node> parent, FbxNode* fbxNode, FbxManager* fbxManager)
+	std::shared_ptr<Node> FBXImporter::LoadHierarchy(std::shared_ptr<Node> parent, FbxNode* fbxNode, FbxManager* fbxManager)
 	{
 		FbxMesh* mesh = nullptr;
 		std::shared_ptr<Node> node = std::make_shared<Node>();
 
 		node->Name = ace::ToAString(fbxNode->GetName());
 
-		auto attributeType = fbxNode->GetNodeAttribute()->GetAttributeType();
-		
-		switch (attributeType)
+		auto attribute_ = fbxNode->GetNodeAttribute();
+
+		if (attribute_ != nullptr)
 		{
-		case FbxNodeAttribute::eMesh:
-			mesh = fbxNode->GetMesh();
-
-			if (!mesh->IsTriangleMesh())
+			auto attributeType = attribute_->GetAttributeType();
+			switch (attributeType)
 			{
-				FbxGeometryConverter converter(fbxManager);
-				mesh = (FbxMesh*) converter.Triangulate(mesh, true);
-			}
+			case FbxNodeAttribute::eMesh:
+				mesh = fbxNode->GetMesh();
 
-			node->MeshParameter = LoadMesh(mesh);
-			break;
-		case FbxNodeAttribute::eSkeleton:
-			break;
-		default:
-			return std::shared_ptr<Node>();
-			break;
+				if (!mesh->IsTriangleMesh())
+				{
+					FbxGeometryConverter converter(fbxManager);
+					mesh = (FbxMesh*) converter.Triangulate(mesh, true);
+				}
+
+				node->MeshParameter = LoadMesh(mesh);
+				break;
+			case FbxNodeAttribute::eSkeleton:
+				break;
+			default:
+				return std::shared_ptr<Node>();
+				break;
+			}
+		}
+		else
+		{
+			// ÉãÅ[Ég
 		}
 
 		// âÒì]ï˚å¸
@@ -501,7 +589,7 @@ namespace FBX2MDL
 		return node;
 	}
 
-	ace::Matrix44 FBXLoader::CalcMatrix(ace::eRotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz)
+	ace::Matrix44 FBXImporter::CalcMatrix(ace::eRotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz)
 	{
 		ace::Matrix44 matT, matRx, matRy, matRz, matS;
 		matT.SetTranslation(tx, ty, tz);
@@ -521,7 +609,7 @@ namespace FBX2MDL
 		return ace::Matrix44();
 	}
 
-	void FBXLoader::LoadAnimationSource(FbxAnimStack* fbxAnimStack, FbxNode* fbxRootNode, AnimationSource &animationSource)
+	void FBXImporter::LoadAnimationSource(FbxAnimStack* fbxAnimStack, FbxNode* fbxRootNode, AnimationSource &animationSource)
 	{
 		const int32_t layerCount = fbxAnimStack->GetMemberCount<FbxAnimLayer>();
 		if (layerCount == 0) return;
@@ -544,21 +632,33 @@ namespace FBX2MDL
 		}
 	}
 
-	void FBXLoader::LoadCurve(FbxNode* fbxNode, FbxAnimLayer* fbxAnimLayer, AnimationSource &animationSource)
+	void FBXImporter::LoadCurve(FbxNode* fbxNode, FbxAnimLayer* fbxAnimLayer, AnimationSource &animationSource)
 	{
 		auto boneName = ace::ToAString(fbxNode->GetName());
 
-		LoadCurve(boneName + ace::ToAString(".pos.x"), fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X), animationSource);
-		LoadCurve(boneName + ace::ToAString(".pos.z"), fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y), animationSource);
-		LoadCurve(boneName + ace::ToAString(".pos.y"), fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z), animationSource);
+		auto transXCurve = fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
+		auto transYCurve = fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
+		auto transZCurve = fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
 
-		LoadCurve(boneName + ace::ToAString(".rot.x"), fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X), animationSource);
-		LoadCurve(boneName + ace::ToAString(".rot.z"), fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y), animationSource);
-		LoadCurve(boneName + ace::ToAString(".rot.y"), fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z), animationSource);
+		auto rotXCurve = fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
+		auto rotYCurve = fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
+		auto rotZCurve = fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
 
-		LoadCurve(boneName + ace::ToAString(".scl.x"), fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X), animationSource);
-		LoadCurve(boneName + ace::ToAString(".scl.z"), fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y), animationSource);
-		LoadCurve(boneName + ace::ToAString(".scl.y"), fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z), animationSource);
+		auto sclXCurve = fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
+		auto sclYCurve = fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
+		auto sclZCurve = fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
+
+		if (transXCurve != nullptr) LoadCurve(boneName + ace::ToAString(".pos.x"), transXCurve, animationSource);
+		if (transYCurve != nullptr) LoadCurve(boneName + ace::ToAString(".pos.y"), transYCurve, animationSource);
+		if (transZCurve != nullptr) LoadCurve(boneName + ace::ToAString(".pos.z"), transZCurve, animationSource);
+
+		if (rotXCurve != nullptr) LoadCurve(boneName + ace::ToAString(".rot.x"), rotXCurve, animationSource);
+		if (rotYCurve != nullptr) LoadCurve(boneName + ace::ToAString(".rot.y"), rotYCurve, animationSource);
+		if (rotZCurve != nullptr) LoadCurve(boneName + ace::ToAString(".rot.z"), rotZCurve, animationSource);
+
+		if (sclXCurve != nullptr) LoadCurve(boneName + ace::ToAString(".scl.x"), sclXCurve, animationSource);
+		if (sclYCurve != nullptr) LoadCurve(boneName + ace::ToAString(".scl.y"), sclYCurve, animationSource);
+		if (sclZCurve != nullptr) LoadCurve(boneName + ace::ToAString(".scl.z"), sclZCurve, animationSource);
 
 		// éqÇÃèàóù
 		for (auto i = 0; i< fbxNode->GetChildCount(); i++)
@@ -567,7 +667,7 @@ namespace FBX2MDL
 		}
 	}
 
-	void FBXLoader::LoadCurve(ace::astring target, FbxAnimCurve* curve, AnimationSource &animationSource)
+	void FBXImporter::LoadCurve(ace::astring target, FbxAnimCurve* curve, AnimationSource &animationSource)
 	{
 		KeyFrameAnimation keyFrameAnimation;
 		keyFrameAnimation.TargetName = target;
@@ -612,7 +712,7 @@ namespace FBX2MDL
 		animationSource.keyFrameAnimations.push_back(keyFrameAnimation);
 	}
 
-	std::shared_ptr<Scene> FBXLoader::LoadScene(FbxScene* fbxScene, FbxManager* fbxManager)
+	std::shared_ptr<Scene> FBXImporter::LoadScene(FbxScene* fbxScene, FbxManager* fbxManager)
 	{
 		// ç¿ïWånïœä∑
 		FbxAxisSystem axis(FbxAxisSystem::eOpenGL);

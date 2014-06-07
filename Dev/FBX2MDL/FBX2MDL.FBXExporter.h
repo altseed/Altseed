@@ -18,6 +18,7 @@ namespace FBX2MDL
 		std::shared_ptr<ace::BinaryWriter> m_writer;
 
 		void WriteHeader();
+
 		void WriteAnimationSource(AnimationSource& source);
 		void WriteAnimationSources(std::vector<AnimationSource>& animationSources);
 

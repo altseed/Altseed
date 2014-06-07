@@ -92,8 +92,6 @@ namespace FBX2MDL
 				m_writer->Push(w);
 			}
 		}
-
-		assert(0);
 	}
 
 
@@ -107,7 +105,7 @@ namespace FBX2MDL
 
 		for (const auto& node_ : node->Children)
 		{
-			auto dst_ = GetMeshes(node);
+			auto dst_ = GetMeshes(node_);
 			dst.insert(dst.end(), dst_.begin(), dst_.end());
 		}
 
@@ -132,7 +130,7 @@ namespace FBX2MDL
 		for (const auto& node_ : node->Children)
 		{
 			currentIndex++;
-			auto dst_ = GetWritingDeformerFuncs(node, current, currentIndex);
+			auto dst_ = GetWritingDeformerFuncs(node_, current, currentIndex);
 			dst.insert(dst.end(), dst_.begin(), dst_.end());
 		}
 
@@ -149,7 +147,7 @@ namespace FBX2MDL
 		for (const auto& node_ : node->Children)
 		{
 			currentIndex++;
-			auto dst_ = GetDeformerNameToIndexes(node, currentIndex);
+			auto dst_ = GetDeformerNameToIndexes(node_, currentIndex);
 			dst.insert(dst_.begin(), dst_.end());
 		}
 
@@ -196,34 +194,83 @@ namespace FBX2MDL
 		for (auto& mesh : meshes)
 		{
 			// 上下方向に面ソート
-			/*
-			std::sort(mesh->Faces.begin(), mesh->Faces.end(), [mesh](const Face& f) -> float { 
+			std::sort(mesh->Faces.begin(), mesh->Faces.end(), [mesh](const Face& f1, const Face& f2) -> float {
 				return
-					-(mesh->Vertexes[f.Index[0]].Position.Y +
-					mesh->Vertexes[f.Index[1]].Position.Y +
-					mesh->Vertexes[f.Index[2]].Position.Y);
+					(mesh->Vertexes[f1.Index[0]].Position.Y +
+					mesh->Vertexes[f1.Index[1]].Position.Y +
+					mesh->Vertexes[f1.Index[2]].Position.Y) < 
+					(mesh->Vertexes[f2.Index[0]].Position.Y +
+					mesh->Vertexes[f2.Index[1]].Position.Y +
+					mesh->Vertexes[f2.Index[2]].Position.Y);
 			});
-			*/
 
 			// ボーン数による分割
 			// 現在省略につきボーン数32以上は落ちる。
 
 			// 材質ソート
-			//std::sort(mesh->Faces.begin(), mesh->Faces.end(), [](const Face& f) -> int32_t { return f.MaterialIndex; });
+			std::sort(mesh->Faces.begin(), mesh->Faces.end(), [](const Face& f1, const Face& f2) -> int32_t { return f1.MaterialIndex > f2.MaterialIndex; });
 
-			// 頂点に情報書き込み
-			for (auto i = 0; i < mesh->Vertexes.size(); i++)
+			// 分割済頂点
+			int32_t divided = 1;
+			m_writer->Push(divided);
 			{
-				auto& v = mesh->Vertexes[i];
-				v.WeightIndexDivided[0] = v.WeightIndexOriginal[0];
-				v.WeightIndexDivided[1] = v.WeightIndexOriginal[1];
-				v.WeightIndexDivided[2] = v.WeightIndexOriginal[2];
-				v.WeightIndexDivided[3] = v.WeightIndexOriginal[3];
+				// 頂点に情報書き込み
+				for (auto i = 0; i < mesh->Vertexes.size(); i++)
+				{
+					auto& v = mesh->Vertexes[i];
+					v.WeightIndexDivided[0] = v.WeightIndexOriginal[0];
+					v.WeightIndexDivided[1] = v.WeightIndexOriginal[1];
+					v.WeightIndexDivided[2] = v.WeightIndexOriginal[2];
+					v.WeightIndexDivided[3] = v.WeightIndexOriginal[3];
+				}
+
+				// メッシュ情報出力
+				WriteMesh(mesh);
+
+				// ボーン情報出力
+				m_writer->Push((int32_t) mesh->BoneConnectors.size());
+				for (auto& bone : mesh->BoneConnectors)
+				{
+					auto id = deformer_name2ind[bone.Name];
+					m_writer->Push((int32_t) id);
+					m_writer->Push(bone.OffsetMatrix);
+				}
+
+				// 材質面出力
+				{
+					std::vector<std::tuple<int32_t, int32_t>> materialFaces;
+					int32_t materialIndex = -1;
+					int32_t materialCount = 0;
+					for (const auto& face : mesh->Faces)
+					{
+						if (materialIndex == face.MaterialIndex)
+						{
+							materialCount++;
+						}
+						else
+						{
+							if (materialCount > 0)
+							{
+								auto t = std::tuple<int32_t, int32_t>(materialIndex, materialCount);
+								materialFaces.push_back(t);
+								materialCount = 0;
+							}
+
+							materialCount++;
+							materialIndex = face.MaterialIndex;
+						}
+					}
+
+					if (materialCount > 0)
+					{
+						auto t = std::tuple<int32_t, int32_t>(materialIndex, materialCount);
+						materialFaces.push_back(t);
+					}
+				}
 			}
 
-			// メッシュ情報出力
-
-			// ボーン情報出力
+			// 材質出力
+			WriteMaterials(mesh->Materials);
 		}
 
 		// アニメーション出力
