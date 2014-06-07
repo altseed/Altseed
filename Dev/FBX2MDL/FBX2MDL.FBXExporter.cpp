@@ -72,6 +72,7 @@ namespace FBX2MDL
 			m_writer->Push(v.Normal);
 			m_writer->Push(v.Binormal);
 			m_writer->Push(v.UV);
+			m_writer->Push(v.SubUV);
 			m_writer->Push(v.Color.R);
 			m_writer->Push(v.Color.G);
 			m_writer->Push(v.Color.B);
@@ -91,6 +92,16 @@ namespace FBX2MDL
 			{
 				m_writer->Push(w);
 			}
+		}
+
+		auto fcount = (int32_t) mesh->Faces.size();
+		m_writer->Push(fcount);
+
+		for (const auto& f : mesh->Faces)
+		{
+			m_writer->Push(f.Index[0]);
+			m_writer->Push(f.Index[1]);
+			m_writer->Push(f.Index[2]);
 		}
 	}
 
@@ -227,18 +238,9 @@ namespace FBX2MDL
 				// メッシュ情報出力
 				WriteMesh(mesh);
 
-				// ボーン情報出力
-				m_writer->Push((int32_t) mesh->BoneConnectors.size());
-				for (auto& bone : mesh->BoneConnectors)
-				{
-					auto id = deformer_name2ind[bone.Name];
-					m_writer->Push((int32_t) id);
-					m_writer->Push(bone.OffsetMatrix);
-				}
-
 				// 材質面出力
 				{
-					std::vector<std::tuple<int32_t, int32_t>> materialFaces;
+					std::vector<MaterialOffset> materialFaces;
 					int32_t materialIndex = -1;
 					int32_t materialCount = 0;
 					for (const auto& face : mesh->Faces)
@@ -251,8 +253,10 @@ namespace FBX2MDL
 						{
 							if (materialCount > 0)
 							{
-								auto t = std::tuple<int32_t, int32_t>(materialIndex, materialCount);
-								materialFaces.push_back(t);
+								MaterialOffset mo;
+								mo.MaterialIndex = materialIndex;
+								mo.FaceOffset = materialCount;
+								materialFaces.push_back(mo);
 								materialCount = 0;
 							}
 
@@ -263,10 +267,29 @@ namespace FBX2MDL
 
 					if (materialCount > 0)
 					{
-						auto t = std::tuple<int32_t, int32_t>(materialIndex, materialCount);
-						materialFaces.push_back(t);
+						MaterialOffset mo;
+						mo.MaterialIndex = materialIndex;
+						mo.FaceOffset = materialCount;
+						materialFaces.push_back(mo);
+					}
+
+					m_writer->Push((int32_t) materialFaces.size());
+					for (auto& mf : materialFaces)
+					{
+						m_writer->Push(mf.MaterialIndex);
+						m_writer->Push(mf.FaceOffset);
 					}
 				}
+
+				// ボーン情報出力
+				m_writer->Push((int32_t) mesh->BoneConnectors.size());
+				for (auto& bone : mesh->BoneConnectors)
+				{
+					auto id = deformer_name2ind[bone.Name];
+					m_writer->Push((int32_t) id);
+					m_writer->Push(bone.OffsetMatrix);
+				}
+
 			}
 
 			// 材質出力

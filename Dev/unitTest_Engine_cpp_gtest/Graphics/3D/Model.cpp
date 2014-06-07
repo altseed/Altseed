@@ -28,7 +28,7 @@ protected:
 
 		auto graphics = ace::Engine::GetGraphics();
 
-		auto model = graphics->CreateModel(ace::ToAString("Data/Model/AnimationTest.mdl").c_str());
+		auto model = graphics->CreateModel(ace::ToAString("Data/Model/Test_Animation.mdl").c_str());
 
 		meshObj->SetModel(model);
 		meshObj->SetPosition(ace::Vector3DF(0, 0, 0));

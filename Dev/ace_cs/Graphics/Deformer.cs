@@ -61,10 +61,9 @@ namespace ace
 		/// <param name="parentBoneIndex">親ボーンのインデックス(親がない場合は-1)</param>
 		/// <param name="rotationOrder">ボーンの回転行列の計算方法</param>
 		/// <param name="localMat">ボーンのローカル変形行列</param>
-		/// <param name="globalMatInv">ボーンの全体への逆行列</param>
-		public void AddBone(string name, int parentBoneIndex, RotationOrder rotationOrder, ref ace.Matrix44 localMat, ref ace.Matrix44 globalMatInv)
+		public void AddBone(string name, int parentBoneIndex, RotationOrder rotationOrder, ref ace.Matrix44 localMat)
 		{
-			SwigObject.AddBone(name, parentBoneIndex, (swig.eRotationOrder)rotationOrder, ref localMat, ref globalMatInv);
+			SwigObject.AddBone(name, parentBoneIndex, (swig.eRotationOrder)rotationOrder, ref localMat);
 		}
 	}
 }

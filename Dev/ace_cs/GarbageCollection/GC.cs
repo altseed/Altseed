@@ -14,6 +14,8 @@ namespace ace
 		
 		internal static IDObjectContainer<Texture2D> Texture2Ds { get; private set; }
 		internal static IDObjectContainer<CubemapTexture> CubemapTextures { get; private set; }
+		internal static IDObjectContainer<Font> Fonts { get; private set; }
+
 		internal static IDObjectContainer<Shader2D> Shader2Ds { get; private set; }
 		internal static IDObjectContainer<Material2D> Material2Ds { get; private set; }
 
@@ -22,7 +24,6 @@ namespace ace
 		internal static IDObjectContainer<Mesh> Meshs { get; private set; }
 		internal static IDObjectContainer<Deformer> Deformers { get; private set; }
 		internal static IDObjectContainer<Model> Models { get; private set; }
-        internal static IDObjectContainer<Font> Fonts { get;private set; }
 
 		internal static IDObjectContainer<KeyframeAnimation> KeyframeAnimations { get; private set; }
 		internal static IDObjectContainer<AnimationSource> AnimationSources { get; private set; }
@@ -46,6 +47,7 @@ namespace ace
 
 			Texture2Ds = new IDObjectContainer<Texture2D>();
 			CubemapTextures = new IDObjectContainer<CubemapTexture>();
+			Fonts = new IDObjectContainer<Font>();
 
 			Shader2Ds = new IDObjectContainer<Shader2D>();
 			Material2Ds = new IDObjectContainer<Material2D>();
@@ -84,6 +86,7 @@ namespace ace
 
 				Texture2Ds.DestroyAll();
 				CubemapTextures.DestroyAll();
+				Fonts.DestroyAll();
 
 				Shader2Ds.DestroyAll();
 				Material2Ds.DestroyAll();
@@ -93,8 +96,7 @@ namespace ace
 				Meshs.DestroyAll();
 				Deformers.DestroyAll();
 				Models.DestroyAll();
-                Fonts.DestroyAll();
-
+                
 				KeyframeAnimations.DestroyAll();
 				AnimationSources.DestroyAll();
 

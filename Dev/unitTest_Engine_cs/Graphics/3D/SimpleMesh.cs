@@ -53,18 +53,18 @@ namespace unitTest_Engine_cs.Graphics._3D
 			mesh.AddVertex(new ace.Vector3DF(-0.5f, -0.5f, -0.5f), new ace.Vector3DF(-1, 0, 0), new ace.Vector3DF(0, 1, 0), new ace.Vector2DF(0, 1), new ace.Vector2DF(0, 1), new ace.Color(255, 255, 255, 255), 0, 0);
 			mesh.AddVertex(new ace.Vector3DF(-0.5f, -0.5f, -0.5f), new ace.Vector3DF(0, -1, 0), new ace.Vector3DF(0, 0, 1), new ace.Vector2DF(0, 1), new ace.Vector2DF(0, 1), new ace.Color(255, 255, 255, 255), 0, 0);
 
-			mesh.AddFace(0, 2, 3);
-			mesh.AddFace(0, 3, 1);
-			mesh.AddFace(12, 4, 5);
-			mesh.AddFace(12, 5, 14);
-			mesh.AddFace(16, 6, 7);
-			mesh.AddFace(16, 7, 18);
-			mesh.AddFace(20, 8, 10);
-			mesh.AddFace(20, 10, 22);
-			mesh.AddFace(21, 17, 13);
-			mesh.AddFace(21, 13, 9);
-			mesh.AddFace(11, 15, 19);
-			mesh.AddFace(11, 19, 23);
+			mesh.AddFace(0, 2, 3, -1);
+			mesh.AddFace(0, 3, 1, -1);
+			mesh.AddFace(12, 4, 5, -1);
+			mesh.AddFace(12, 5, 14, -1);
+			mesh.AddFace(16, 6, 7, -1);
+			mesh.AddFace(16, 7, 18, -1);
+			mesh.AddFace(20, 8, 10, -1);
+			mesh.AddFace(20, 10, 22, -1);
+			mesh.AddFace(21, 17, 13, -1);
+			mesh.AddFace(21, 13, 9, -1);
+			mesh.AddFace(11, 15, 19, -1);
+			mesh.AddFace(11, 19, 23, -1);
 
 			mesh.SendToGPUMemory();
 
@@ -75,8 +75,7 @@ namespace unitTest_Engine_cs.Graphics._3D
 			cameraObj.ZFar = 20.0f;
 			cameraObj.WindowSize = new ace.Vector2DI(800, 600);
 
-			meshObj.AddMeshGroup();
-			meshObj.AddMesh(0, mesh);
+			meshObj.AddMesh(mesh);
 			meshObj.Rotation = new ace.Vector3DF(20.0f, 20.0f, 0.0f);
 
 			lightObj.Rotation = new ace.Vector3DF(30, 160, 0);

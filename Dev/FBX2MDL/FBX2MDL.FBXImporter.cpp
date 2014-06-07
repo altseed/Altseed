@@ -397,15 +397,41 @@ namespace FBX2MDL
 			faces.push_back(face);
 		}
 
-		// 材質インデックス設定
-		if (materials != nullptr && materials->GetReferenceMode() == FbxLayerElement::eIndexToDirect)
+		// 面の表裏入れ替え
+		for (auto& face : faces)
 		{
-			auto indexArrayCount = materials->GetIndexArray().GetCount();
+			std::reverse(face.Vertecies.begin(), face.Vertecies.end());
+		}
 
-			for (auto i = 0; i < indexArrayCount; i++)
+		// 材質インデックス設定
+		if (materials != nullptr)
+		{
+			auto mappingMode = materials->GetMappingMode();
+			auto referenceMode = materials->GetReferenceMode();
+
+			if (mappingMode == FbxLayerElement::eAllSame)
 			{
-				auto index = materials->GetIndexArray().GetAt(i);
-				faces[i].MaterialIndex = index;
+				auto indexArrayCount = materials->GetIndexArray().GetCount();
+				if (indexArrayCount > 0)
+				{
+					auto index = materials->GetIndexArray().GetAt(0);
+					for (auto& face : faces)
+					{
+						face.MaterialIndex = index;
+					}
+				}
+			}
+			else
+			{
+				if (materials->GetReferenceMode() == FbxLayerElement::eIndexToDirect)
+				{
+					auto indexArrayCount = materials->GetIndexArray().GetCount();
+					for (auto i = 0; i < indexArrayCount; i++)
+					{
+						auto index = materials->GetIndexArray().GetAt(i);
+						faces[i].MaterialIndex = index;
+					}
+				}
 			}
 		}
 

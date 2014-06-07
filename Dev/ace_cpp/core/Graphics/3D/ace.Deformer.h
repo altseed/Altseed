@@ -30,8 +30,7 @@ namespace ace
 			@param	parentBoneIndex	親ボーンのインデックス(親がない場合は-1)
 			@param	rotationOrder	ボーンの回転行列の計算方法
 			@param	localMat	ボーンのローカル変形行列
-			@param	globalMatInv	ボーンの全体への逆行列
 		*/
-		virtual void AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationOrder, const Matrix44& localMat, const Matrix44& globalMatInv) = 0;
+		virtual void AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationOrder, const Matrix44& localMat) = 0;
 	};
 }

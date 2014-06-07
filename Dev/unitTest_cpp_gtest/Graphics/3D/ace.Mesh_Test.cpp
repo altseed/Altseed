@@ -67,30 +67,28 @@ static std::shared_ptr<ace::Mesh> CreateMesh(ace::Graphics* graphics)
 	mesh->AddVertex(ace::Vector3DF(-0.5, -0.5, -0.5), ace::Vector3DF(-1, 0, 0), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 1), ace::Vector2DF(0, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
 	mesh->AddVertex(ace::Vector3DF(-0.5, -0.5, -0.5), ace::Vector3DF(0, -1, 0), ace::Vector3DF(0, 0, 1), ace::Vector2DF(0, 1), ace::Vector2DF(0, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
 
-	mesh->AddFace(0, 2, 3);
-	mesh->AddFace(0, 3, 1);
-	mesh->AddFace(12, 4, 5);
-	mesh->AddFace(12, 5, 14);
-	mesh->AddFace(16, 6, 7);
-	mesh->AddFace(16, 7, 18);
-	mesh->AddFace(20, 8, 10);
-	mesh->AddFace(20, 10, 22);
-	mesh->AddFace(21, 17, 13);
-	mesh->AddFace(21, 13, 9);
-	mesh->AddFace(11, 15, 19);
-	mesh->AddFace(11, 19, 23);
+	mesh->AddFace(0, 2, 3, 0);
+	mesh->AddFace(0, 3, 1, 0);
+	mesh->AddFace(12, 4, 5, 0);
+	mesh->AddFace(12, 5, 14, 0);
+	mesh->AddFace(16, 6, 7, 0);
+	mesh->AddFace(16, 7, 18, 0);
+	mesh->AddFace(20, 8, 10, 0);
+	mesh->AddFace(20, 10, 22, 0);
+	mesh->AddFace(21, 17, 13, 0);
+	mesh->AddFace(21, 13, 9, 0);
+	mesh->AddFace(11, 15, 19, 0);
+	mesh->AddFace(11, 19, 23, 0);
 
-	mesh->AddMaterialCount(0, 12);
+	mesh->AddMaterial();
 
 	auto texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sample1.png").c_str());
 
 	mesh->SetColorTexture(0, texture.get());
-	mesh->SendToGPUMemory();
-
 	return mesh;
 }
 
-static std::shared_ptr<ace::Deformer> CreateDeformer(ace::Graphics* graphics)
+static std::shared_ptr<ace::Deformer> CreateDeformer( ace::Graphics* graphics)
 {
 	auto deformer = graphics->CreateDeformer();
 
@@ -104,10 +102,26 @@ static std::shared_ptr<ace::Deformer> CreateDeformer(ace::Graphics* graphics)
 	ace::Matrix44::Mul(mat2_inv, mat2, mat1);
 	mat2_inv = mat2_inv.GetInverted();
 	
-	deformer->AddBone(ace::ToAString("no1").c_str(), -1, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat1, mat1_inv);
-	deformer->AddBone(ace::ToAString("no2").c_str(), 0, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat2, mat2_inv);
+	deformer->AddBone(ace::ToAString("no1").c_str(), -1, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat1);
+	deformer->AddBone(ace::ToAString("no2").c_str(), 0, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat2);
 
 	return deformer;
+}
+
+static void SetMeshBone(std::shared_ptr<ace::Mesh> mesh)
+{
+	ace::Matrix44 mat1, mat2;
+	mat1.SetTranslation(0, -0.5, 0);
+	mat2.SetTranslation(0, 0.5, 0);
+
+	ace::Matrix44 mat1_inv, mat2_inv;
+	mat1_inv = mat1.GetInverted();
+
+	ace::Matrix44::Mul(mat2_inv, mat2, mat1);
+	mat2_inv = mat2_inv.GetInverted();
+
+	mesh->AddBoneConnector(0, mat1_inv);
+	mesh->AddBoneConnector(1, mat2_inv);
 }
 
 static std::shared_ptr<ace::AnimationClip> CreateAnimation()
@@ -163,6 +177,11 @@ void Graphics_Mesh(bool isOpenGLMode)
 	auto deformer = CreateDeformer(graphics);
 	auto animation = CreateAnimation();
 
+	SetMeshBone(mesh2);
+
+	mesh1->SendToGPUMemory();
+	mesh2->SendToGPUMemory();
+
 	auto cameraObject = new ace::RenderedCameraObject3D(graphics);
 	cameraObject->SetPosition(ace::Vector3DF(0, 0, 10));
 	cameraObject->SetFocus(ace::Vector3DF(0, 0, 0));
@@ -172,16 +191,14 @@ void Graphics_Mesh(bool isOpenGLMode)
 	cameraObject->SetWindowSize(ace::Vector2DI(800, 600));
 
 	auto meshObject1 = new ace::RenderedModelObject3D(graphics);
-	meshObject1->AddMeshGroup();
-	meshObject1->AddMesh(0, mesh1);
+	meshObject1->AddMesh(mesh1);
 	
 	meshObject1->SetPosition(ace::Vector3DF(1, 0, 0));
 	meshObject1->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
 
 	auto meshObject2 = new ace::RenderedModelObject3D(graphics);
-	meshObject2->AddMeshGroup();
-	meshObject2->AddMesh(0, mesh2);
-	meshObject2->SetDeformer(0, deformer.get());
+	meshObject2->AddMesh(mesh2);
+	meshObject2->SetDeformer(deformer.get());
 	meshObject2->SetPosition(ace::Vector3DF(-1, 0, 0));
 	meshObject2->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
 	meshObject2->AddAnimationClip(ace::ToAString("anime1").c_str(), animation.get());

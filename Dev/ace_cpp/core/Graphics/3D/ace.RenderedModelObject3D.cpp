@@ -56,43 +56,36 @@ namespace ace
 	}
 
 	RenderedModelObject3D::MeshGroup::MeshGroup()
-		: m_deformer(nullptr)
 	{
 	}
 
 	RenderedModelObject3D::MeshGroup::~MeshGroup()
 	{
-		for (auto& mesh : m_meshes)
-		{
-			mesh->Release();
-		}
-		m_meshes.clear();
-
-		SafeRelease(m_deformer);
 	}
 
-	void RenderedModelObject3D::MeshGroup::Flip(AnimationClip* animationClip, int32_t time)
+	void RenderedModelObject3D::Flip(AnimationClip* animationClip, int32_t time)
 	{
 		CalculateAnimation(animationClip, time);
 
 		CalclateBoneMatrices();
 
 		// コピー
-		if (m_matrixes_fr.size() != m_matrixes.size())
+		if (m_matrixes_rt.size() != m_matrixes.size())
 		{
-			m_matrixes_fr.resize(m_matrixes.size());
+			m_matrixes_rt.resize(m_matrixes.size());
 		}
 
-		std::copy(m_matrixes.begin(), m_matrixes.end(), m_matrixes_fr.begin());
+		std::copy(m_matrixes.begin(), m_matrixes.end(), m_matrixes_rt.begin());
 	}
 
 
-	void RenderedModelObject3D::MeshGroup::CalculateAnimation(AnimationClip* animationClip, int32_t time)
+	void RenderedModelObject3D::CalculateAnimation(AnimationClip* animationClip, int32_t time)
 	{
 		if (animationClip == nullptr) return;
 
 		auto source = (AnimationSource_Imp*) animationClip->GetSource().get();
 		auto& animations = source->GetAnimations();
+		auto d = (Deformer_Imp*) m_deformer.get();
 
 		for (auto& a : animations)
 		{
@@ -100,7 +93,7 @@ namespace ace
 
 			auto type = a_->GetTargetType();
 			auto axis = a_->GetTargetAxis();
-			auto bi = m_deformer->GetBoneIndex(a_->GetTargetName());
+			auto bi = d->GetBoneIndex(a_->GetTargetName());
 
 			if (bi < 0) continue;
 			auto value = a_->GetValue(time);
@@ -115,47 +108,21 @@ namespace ace
 		}
 	}
 
-	void RenderedModelObject3D::MeshGroup::CalclateBoneMatrices()
+	void RenderedModelObject3D::CalclateBoneMatrices()
 	{
 		if (m_deformer == nullptr) return;
+		auto d = (Deformer_Imp*) m_deformer.get();
 
-		for (auto i = 0; i < m_deformer->GetBones().size(); i++)
+		for (auto i = 0; i < d->GetBones().size(); i++)
 		{
-			auto& b = m_deformer->GetBones()[i];
+			auto& b = d->GetBones()[i];
 			m_matrixes[i] = m_boneProps[i].CalcMatrix(b.RotationType);
 		}
 
 		ModelUtils::CalculateBoneMatrixes(
 			m_matrixes,
-			m_deformer->GetBones(),
+			d->GetBones(),
 			m_matrixes);
-	}
-
-	void RenderedModelObject3D::MeshGroup::AddMesh(Mesh_Imp* mesh)
-	{
-		SafeAddRef(mesh);
-		m_meshes.push_back(mesh);
-	}
-
-	void RenderedModelObject3D::MeshGroup::SetDeformer(Deformer_Imp* deformer)
-	{
-		SafeSubstitute(m_deformer, deformer);
-
-		if (deformer != nullptr)
-		{
-			m_matrixes.resize(m_deformer->GetBones().size());
-			m_boneProps.resize(m_deformer->GetBones().size());
-
-			for (int32_t i = 0; i < m_boneProps.size(); i++)
-			{
-				m_boneProps[i] = BoneProperty();
-			}
-		}
-		else
-		{
-			m_matrixes.resize(0);
-			m_boneProps.resize(0);
-		}
 	}
 
 	RenderedModelObject3D::RenderedModelObject3D(Graphics* graphics)
@@ -323,10 +290,6 @@ namespace ace
 
 	RenderedModelObject3D::~RenderedModelObject3D()
 	{
-		m_meshGroups_fr.clear();
-
-		m_meshGroups.clear();
-
 		if (m_model != nullptr)
 		{
 			m_model->Detach(this);
@@ -362,33 +325,39 @@ namespace ace
 		LoadModel();
 	}
 
-	void RenderedModelObject3D::AddMeshGroup()
+	void RenderedModelObject3D::AddMesh(Mesh* mesh)
 	{
-		m_meshGroups.push_back(std::make_shared<MeshGroup>());
+		if (mesh == nullptr) return;
+		SafeAddRef(mesh);
+		auto mesh_ = CreateSharedPtrWithReleaseDLL(mesh);
+		m_meshes.push_back(mesh_);
 	}
 
-	int32_t RenderedModelObject3D::GetMeshGroupCount()
+	void  RenderedModelObject3D::SetDeformer(Deformer* deformer)
 	{
-		return m_meshGroups.size();
-	}
+		auto d = (Deformer_Imp*) deformer;
 
-	void RenderedModelObject3D::AddMesh(int32_t meshGroupIndex, Mesh* mesh)
-	{
-		if (meshGroupIndex >= GetMeshGroupCount()) return;
-		m_meshGroups[meshGroupIndex]->AddMesh((Mesh_Imp*)mesh);
-	}
+		SafeAddRef(deformer);
+		auto deformer_ = CreateSharedPtrWithReleaseDLL(deformer);
+		m_deformer = deformer_;
 
-	void  RenderedModelObject3D::SetDeformer(int32_t meshGroupIndex, Deformer* deformer)
-	{
-		if (meshGroupIndex >= GetMeshGroupCount()) return;
-		m_meshGroups[meshGroupIndex]->SetDeformer((Deformer_Imp*) deformer);
+		if (m_deformer != nullptr)
+		{
+			m_matrixes.resize(d->GetBones().size());
+			m_boneProps.resize(d->GetBones().size());
+		}
+		else
+		{
+			m_matrixes.resize(0);
+			m_boneProps.resize(0);
+		}
 	}
 
 	void RenderedModelObject3D::UnloadModel()
 	{
 		// 描画中以外のオブジェクトをリセット
-
-		m_meshGroups.clear();
+		m_meshes.clear();
+		m_deformer.reset();
 
 		for (auto& a : m_animationClips)
 		{
@@ -402,17 +371,11 @@ namespace ace
 		if (m_model == nullptr) return;
 
 		int32_t index = 0;
-		for (auto& mg : m_model->GetMeshGroups())
+		for (auto& mg : m_model->GetMeshGroup()->Meshes)
 		{
-			AddMeshGroup();
-
-			for (auto& m : mg->Meshes)
-			{
-				AddMesh(index, m);
-			}
-			SetDeformer(index, mg->Deformer_);
-			index++;
+			AddMesh(mg);
 		}
+		SetDeformer(m_model->GetMeshGroup()->Deformer_);
 
 		for (int32_t i = 0; i < m_model->GetAnimationClips().size(); i++)
 		{
@@ -462,20 +425,17 @@ namespace ace
 	{
 		RenderedObject3D::Flip();
 
-		for (auto& g : m_meshGroups)
-		{
-			g->Flip(m_animationPlaying, m_animationTime);
-		}
-
+		Flip(m_animationPlaying, m_animationTime);
+		
 		// アニメーションの適用
 		if (m_animationPlaying != nullptr)
 		{
 			m_animationTime++;
 		}
 
-		m_meshGroups_fr.clear();
-		m_meshGroups_fr.resize(m_meshGroups.size());
-		std::copy(m_meshGroups.begin(), m_meshGroups.end(), m_meshGroups_fr.begin());
+		m_meshes_rt.clear();
+		m_meshes_rt.resize(m_meshes.size());
+		std::copy(m_meshes.begin(), m_meshes.end(), m_meshes_rt.begin());
 	}
 
 	void RenderedModelObject3D::Rendering(RenderingProperty& prop)
@@ -543,139 +503,128 @@ namespace ace
 			vbuf.depthParams.Z = prop.ZNear;
 		}
 
-		for (auto& g : m_meshGroups_fr)
 		{
-			auto& matrices = g->m_matrixes_fr;
+			auto& matrices = m_matrixes_rt;
 
-			for (auto& mesh : g->GetMeshes())
+			for (auto& mesh_ : m_meshes_rt)
 			{
-				// 有効チェック
-				if (mesh->GetIndexBuffer() == nullptr) continue;
+				auto mesh_root = (Mesh_Imp*)mesh_.get();
 
-				// 行列計算
-				if (matrices.size() > 0)
+				for (auto& mesh : mesh_root->GetDvidedMeshes())
 				{
-					// ボーンあり
-					for (int32_t i = 0; i < Min(32, matrices.size()); i++)
+					// 有効チェック
+					if (mesh.IndexBufferPtr == nullptr) continue;
+
+					auto& boneConnectors = mesh.BoneConnectors;
+
+					// 行列計算
+					if (boneConnectors.size() > 0)
 					{
-						matM[i].SetIndentity();
-						Matrix44::Mul(matM[i], GetLocalMatrix_RT(), matrices[i]);
+						// ボーンあり
+						for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
+						{
+							matM[i].SetIndentity();
+							Matrix44::Mul(matM[i], boneConnectors[i].BoneToMesh, matrices[boneConnectors[i].TargetIndex]);
+							Matrix44::Mul(matM[i], GetLocalMatrix_RT(), matM[i]);
+						}
 					}
-				}
-				else
-				{
-					// ボーンなし
-					matM[0] = GetLocalMatrix_RT();
-					for (int32_t i = 1; i < 32; i++)
+					else
 					{
-						matM[i] = matM[0];
+						// ボーンなし
+						matM[0] = GetLocalMatrix_RT();
+						for (int32_t i = 1; i < 32; i++)
+						{
+							matM[i] = matM[0];
+						}
 					}
-				}
+					
+					auto& materialOffsets = mesh.MaterialOffsets;
 
-				auto& boneOffsets = mesh->GetBoneOffsets();
-				auto& materialOffsets = mesh->GetMaterialOffsets();
-
-				{
-					// 設定がある場合
-					auto mIndex = 0;
-					auto bIndex = 0;
-
-					auto fOffset = 0;
-					auto fCount = 0;
-
-					auto bFCount = 0;
-					auto mFCount = 0;
-
-					Mesh_Imp::Material* material = nullptr;
-							
-					while (fCount < mesh->GetIndexBuffer()->GetCount() / 3)
 					{
-						if (boneOffsets.size() > 0)
+						// 設定がある場合
+						auto mIndex = 0;
+						auto fOffset = 0;
+						auto fCount = 0;
+						auto mFCount = 0;
+
+						Mesh_Imp::Material* material = nullptr;
+
+						while (fCount < mesh.IndexBufferPtr->GetCount() / 3)
 						{
-							if (fOffset == bFCount && boneOffsets.size() > bIndex)
+							if (materialOffsets.size() > 0)
 							{
-								bFCount += boneOffsets[bIndex].FaceOffset;
-								bIndex++;
+								if (fOffset == mFCount && materialOffsets.size() > mIndex)
+								{
+									mFCount += materialOffsets[mIndex].FaceOffset;
+									material = mesh_root->GetMaterial(materialOffsets[mIndex].MaterialIndex);
+									mIndex++;
+								}
 							}
-						}
-						else
-						{
-							bFCount = mesh->GetIndexBuffer()->GetCount() / 3;
-						}
-
-						if (materialOffsets.size() > 0)
-						{
-							if (fOffset == mFCount && materialOffsets.size() > mIndex)
+							else
 							{
-								mFCount += materialOffsets[mIndex].FaceOffset;
-								material = mesh->GetMaterial(materialOffsets[mIndex].MaterialIndex);
-								mIndex++;
+								mFCount = mesh.IndexBufferPtr->GetCount() / 3;
 							}
-						}
-						else
-						{
-							mFCount = mesh->GetIndexBuffer()->GetCount() / 3;
-						}
 
-						fCount = Min(bFCount, mFCount) - fOffset;
-						if (fCount == 0) break;
+							fCount = mFCount - fOffset;
+							if (fCount == 0) break;
 
-						if (material != nullptr)
-						{
-							if (material->ColorTexture != nullptr)
+							if (material != nullptr)
 							{
-								shader->SetTexture("g_colorTexture", material->ColorTexture, 0);
+								if (material->ColorTexture != nullptr)
+								{
+									shader->SetTexture("g_colorTexture", material->ColorTexture.get(), 0);
+								}
+								else
+								{
+									shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
+								}
+
+								if (!prop.IsLightweightMode)
+								{
+									if (material->NormalTexture != nullptr)
+									{
+										shader->SetTexture("g_normalTexture", material->NormalTexture.get(), 1);
+									}
+									else
+									{
+										shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), 1);
+									}
+
+									if (material->SpecularTexture != nullptr)
+									{
+										shader->SetTexture("g_specularTexture", material->SpecularTexture.get(), 2);
+									}
+									else
+									{
+										shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), 2);
+									}
+								}
 							}
 							else
 							{
 								shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
+								shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), 1);
+								shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), 2);
 							}
 
-							if (!prop.IsLightweightMode)
-							{
-								if (material->NormalTexture != nullptr)
-								{
-									shader->SetTexture("g_normalTexture", material->NormalTexture, 1);
-								}
-								else
-								{
-									shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), 1);
-								}
+							GetGraphics()->SetVertexBuffer(mesh.VertexBufferPtr.get());
+							GetGraphics()->SetIndexBuffer(mesh.IndexBufferPtr.get());
+							GetGraphics()->SetShader(shader.get());
 
-								if (material->SpecularTexture != nullptr)
-								{
-									shader->SetTexture("g_specularTexture", material->SpecularTexture, 2);
-								}
-								else
-								{
-									shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), 2);
-								}
-							}
+							auto& state = GetGraphics()->GetRenderState()->Push();
+							state.DepthTest = true;
+							state.DepthWrite = true;
+							state.CullingType = eCullingType::CULLING_FRONT;
+							state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
+
+							GetGraphics()->GetRenderState()->Update(false);
+
+							GetGraphics()->DrawPolygon(mesh.IndexBufferPtr->GetCount() / 3);
+
+							GetGraphics()->GetRenderState()->Pop();
+
+							fOffset += fCount;
 						}
-						else
-						{		
-							shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
-							shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), 1);
-							shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), 2);
-						}
-
-						GetGraphics()->SetVertexBuffer(mesh->GetVertexBuffer().get());
-						GetGraphics()->SetIndexBuffer(mesh->GetIndexBuffer().get());
-						GetGraphics()->SetShader(shader.get());
-
-						auto& state = GetGraphics()->GetRenderState()->Push();
-						state.DepthTest = true;
-						state.DepthWrite = true;
-						state.CullingType = eCullingType::CULLING_FRONT;
-						state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
-
-						GetGraphics()->GetRenderState()->Update(false);
-
-						GetGraphics()->DrawPolygon(mesh->GetIndexBuffer()->GetCount() / 3);
-
-						GetGraphics()->GetRenderState()->Pop();
-
-						fOffset += fCount;
 					}
 				}
 			}

@@ -8,17 +8,14 @@ namespace ace
 	{
 		Reset();
 
-		if (model.MeshGroups.size() >= 2) return false;
-		if (model.MeshGroups.size() == 0) return false;
+		if (model.Meshes.size() != 1) return false;
+		if (model.Meshes[0].DividedMeshes.size() != 2) return false;
+		
+		auto& materials = model.Meshes[0].Materials;
+		auto& mesh = model.Meshes[0].DividedMeshes[0];
+		auto& deformer = model.Deformer_;
 
-		if (model.MeshGroups[0].Mesh_.size() == 1) return false;
-
-		if (model.MeshGroups[0].Mesh_[0].BoneOffsets.size() >= 2) return false;
-		if (model.MeshGroups[0].Mesh_[0].BoneOffsets.size() == 0) return false;
-
-		auto& mg = model.MeshGroups[0];
-
-		for (auto& v : mg.Mesh_[0].Vertices)
+		for (auto& v : mesh.Vertices)
 		{
 			Vertex v_;
 			v_.Position = v.Position;
@@ -32,7 +29,7 @@ namespace ace
 			Vertices.push_back(v_);
 		}
 
-		for (auto& f : mg.Mesh_[0].Faces)
+		for (auto& f : mesh.Faces)
 		{
 			Face f_;
 			f_.Index1 = f.Index1;
@@ -41,7 +38,7 @@ namespace ace
 			Faces.push_back(f_);
 		}
 
-		for (auto& mo : mg.Mesh_[0].MaterialOffsets)
+		for (auto& mo : mesh.MaterialOffsets)
 		{
 			MaterialOffset mo_;
 			mo_.FaceOffset = mo.FaceOffset;
@@ -49,7 +46,7 @@ namespace ace
 			MaterialOffsets.push_back(mo_);
 		}
 
-		for (auto& m : mg.Materials)
+		for (auto& m : materials)
 		{
 			Material m_;
 			m_.ColorTexture = m.ColorTexture;
@@ -104,12 +101,12 @@ namespace ace
 		std::vector<BoneValue> boneValues;
 		std::map<astring, int32_t> nameToBoneIndex;
 
-		localMatrixes.resize(mg.Deformer_.Bones.size());
-		boneValues.resize(mg.Deformer_.Bones.size());
+		localMatrixes.resize(deformer.Bones.size());
+		boneValues.resize(deformer.Bones.size());
 
-		for (auto i = 0; i < mg.Deformer_.Bones.size(); i++)
+		for (auto i = 0; i < deformer.Bones.size(); i++)
 		{
-			auto& b = mg.Deformer_.Bones[i];
+			auto& b = deformer.Bones[i];
 			nameToBoneIndex[b.Name] = i;
 		}
 
@@ -142,15 +139,15 @@ namespace ace
 						boneValues[index].Position,
 						boneValues[index].Rotation,
 						boneValues[index].Scale,
-						mg.Deformer_.Bones[index].RotationType);
+						deformer.Bones[index].RotationType);
 				}
 
 				ModelUtils::CalculateBoneMatrixes(
 					localMatrixes,
-					mg.Deformer_.Bones,
+					deformer.Bones,
 					localMatrixes);
 				
-				for (auto j = 0; j < mg.Deformer_.Bones.size(); j++)
+				for (auto j = 0; j < deformer.Bones.size(); j++)
 				{
 					int32_t x = t * 4;
 					int32_t y = i * 32 + j;

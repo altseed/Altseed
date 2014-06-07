@@ -112,6 +112,13 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 	/* png画像情報構造体を作成 */
 	png_infop png_info = png_create_info_struct(png);
 
+	/* エラーハンドリング */
+	if (setjmp(png_jmpbuf(png)))
+	{
+		png_destroy_read_struct(&png, &png_info, NULL);
+		return false;
+	}
+
 	/* IHDRチャンク情報を取得 */
 	png_read_info(png, png_info);
 

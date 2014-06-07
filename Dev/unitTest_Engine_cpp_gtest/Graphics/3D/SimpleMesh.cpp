@@ -50,41 +50,21 @@ static std::shared_ptr<ace::Mesh> CreateMesh(ace::Graphics* graphics)
 	mesh->AddVertex(ace::Vector3DF(-0.5, -0.5, -0.5), ace::Vector3DF(-1, 0, 0), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 1), ace::Vector2DF(0, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
 	mesh->AddVertex(ace::Vector3DF(-0.5, -0.5, -0.5), ace::Vector3DF(0, -1, 0), ace::Vector3DF(0, 0, 1), ace::Vector2DF(0, 1), ace::Vector2DF(0, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
 
-	mesh->AddFace(0, 2, 3);
-	mesh->AddFace(0, 3, 1);
-	mesh->AddFace(12, 4, 5);
-	mesh->AddFace(12, 5, 14);
-	mesh->AddFace(16, 6, 7);
-	mesh->AddFace(16, 7, 18);
-	mesh->AddFace(20, 8, 10);
-	mesh->AddFace(20, 10, 22);
-	mesh->AddFace(21, 17, 13);
-	mesh->AddFace(21, 13, 9);
-	mesh->AddFace(11, 15, 19);
-	mesh->AddFace(11, 19, 23);
+	mesh->AddFace(0, 2, 3, -1);
+	mesh->AddFace(0, 3, 1, -1);
+	mesh->AddFace(12, 4, 5, -1);
+	mesh->AddFace(12, 5, 14, -1);
+	mesh->AddFace(16, 6, 7, -1);
+	mesh->AddFace(16, 7, 18, -1);
+	mesh->AddFace(20, 8, 10, -1);
+	mesh->AddFace(20, 10, 22, -1);
+	mesh->AddFace(21, 17, 13, -1);
+	mesh->AddFace(21, 13, 9, -1);
+	mesh->AddFace(11, 15, 19, -1);
+	mesh->AddFace(11, 19, 23, -1);
 
 	mesh->SendToGPUMemory();
 	return mesh;
-}
-
-static std::shared_ptr<ace::Deformer> CreateDeformer(ace::Graphics* graphics)
-{
-	auto deformer = graphics->CreateDeformer();
-
-	ace::Matrix44 mat1, mat2;
-	mat1.SetTranslation(0, -0.5, 0);
-	mat2.SetTranslation(0, 0.5, 0);
-
-	ace::Matrix44 mat1_inv, mat2_inv;
-	mat1_inv = mat1.GetInverted();
-
-	ace::Matrix44::Mul(mat2_inv, mat1, mat2);
-	mat2_inv = mat2_inv.GetInverted();
-
-	deformer->AddBone(ace::ToAString("no1").c_str(), -1, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat1, mat1_inv);
-	deformer->AddBone(ace::ToAString("no2").c_str(), 0, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat2, mat2_inv);
-
-	return deformer;
 }
 
 static std::shared_ptr<ace::AnimationClip> CreateAnimation()
@@ -149,15 +129,12 @@ protected:
 				
 		auto mesh = CreateMesh(ace::Engine::GetGraphics());
 		auto mesh2 = CreateMesh(ace::Engine::GetGraphics());
-		auto deformer = CreateDeformer(ace::Engine::GetGraphics());
 		auto animation = CreateAnimation();
 
-		meshObj1->AddMeshGroup();
-		meshObj1->AddMesh(0, mesh);
+		meshObj1->AddMesh(mesh);
 		meshObj1->SetRotation(ace::Vector3DF(rotation1, rotation2, 0.0f));
 	
-		meshObj2->AddMeshGroup();
-		meshObj2->AddMesh(0, mesh);
+		meshObj2->AddMesh(mesh);
 		meshObj2->SetPosition(ace::Vector3DF(0.0f, -5.0f, 0.0f));
 		meshObj2->SetScale(ace::Vector3DF(10.0f, 10.0f, 40.0f));
 

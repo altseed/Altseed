@@ -26,19 +26,18 @@ namespace ace
 
 	void Model_Imp::Reset()
 	{
-		for (auto& mg : m_meshGroups)
-		{
-			mg->Release();
-		}
+		SafeRelease(m_meshGroup);
 
 		for (auto& a : m_animationClips)
 		{
 			a->Release();
 		}
+		m_animationClips.clear();
 	}
 
 	Model_Imp::Model_Imp(Graphics* graphics)
 		: m_graphics(graphics)
+		, m_meshGroup(nullptr)
 	{
 		SafeAddRef(graphics);
 	}
@@ -57,42 +56,23 @@ namespace ace
 	{
 		Reset();
 
-		BinaryReader reader;
-		reader.ReadIn(data.begin(), data.end());
-
-		// ヘッダーチェック
-		uint8_t header_true[] = "MDL";
-		for (int32_t i = 0; i < 4; i++)
-		{
-			auto h = reader.Get<uint8_t>();
-			if (header_true[i] != h) return false;
-		}
-		
-		// バージョン
-		int32_t version = reader.Get<int32_t>();
+		Model_IO io;
+		if (!io.Load(data, path)) return false;
 
 		// メッシュグループ
-		int32_t meshGroupCount = reader.Get<int32_t>();
-		for (int32_t i = 0; i < meshGroupCount; i++)
-		{
-			auto mg = LoadMeshGroup(g, reader, path);
-
-			m_meshGroups.push_back(mg);
-		}
+		m_meshGroup = LoadMeshGroup(g, io, path);
 
 		// アニメーション
 		std::vector<AnimationSource*> sources;
-		int32_t sourceCount = reader.Get<int32_t>();
-		for (int32_t i = 0; i < sourceCount; i++)
+		for (int32_t i = 0; i < io.AnimationSources.size(); i++)
 		{
-			auto source = LoadAnimationSource(reader);
+			auto source = LoadAnimationSource(io.AnimationSources[i]);
 			sources.push_back(source);
 		}
 
-		int32_t clipCount = reader.Get<int32_t>();
-		for (int32_t i = 0; i < clipCount; i++)
+		for (auto i = 0; i < io.AnimationClips.size(); i++)
 		{
-			LoadAnimationClip(reader, sources);
+			LoadAnimationClip(io.AnimationClips[i], sources);
 		}
 
 		for (auto& s : sources)
@@ -127,150 +107,112 @@ namespace ace
 		}
 	}
 
-	Model_Imp::MeshGroup* Model_Imp::LoadMeshGroup(Graphics* g, BinaryReader& reader, const achar* path)
+	Model_Imp::MeshGroup* Model_Imp::LoadMeshGroup(Graphics* g, Model_IO& io, const achar* path)
 	{
 		MeshGroup* mg = new MeshGroup();
 
-		int32_t meshCount = reader.Get<int32_t>();
-
-		for (auto i = 0; i < meshCount; i++)
+		for (auto i = 0; i < io.Meshes.size(); i++)
 		{
-			auto mesh = LoadMesh(g, reader, path);
+			auto mesh = LoadMesh(g, io.Meshes[i], path);
 			mg->Meshes.push_back(mesh);
 		}
 
-		auto deformer = LoadDeformer(g, reader, path);
-
+		auto deformer = LoadDeformer(g, io, path);
 		mg->Deformer_ = deformer;
-		
-		// 材質
-		int32_t materialCount = reader.Get<int32_t>();
-		for (int32_t i = 0; i < materialCount; i++)
-		{
-			auto type = reader.Get<int32_t>();
-			if (type == 1)
-			{
-				auto path = reader.Get<ace::astring>();
-			}
-			else
-			{
-				auto pathColor = reader.Get<ace::astring>();
-				auto pathNormal = reader.Get<ace::astring>();
-				auto pathSpecular = reader.Get<ace::astring>();
-
-				if (pathColor != ace::ToAString(""))
-				{
-					auto path_ = CombinePath(path, pathColor.c_str());
-					for (auto& mesh : mg->Meshes)
-					{
-						mesh->SetColorTexture(i, g->CreateTexture2D(path_.c_str()).get());
-					}
-				}
-
-				if (pathNormal != ace::ToAString(""))
-				{
-					auto path_ = CombinePath(path, pathNormal.c_str());
-					for (auto& mesh : mg->Meshes)
-					{
-						mesh->SetNormalTexture(i, g->CreateTexture2D(path_.c_str()).get());
-					}
-				}
-
-				if (pathSpecular != ace::ToAString(""))
-				{
-					auto path_ = CombinePath(path, pathSpecular.c_str());
-					for (auto& mesh : mg->Meshes)
-					{
-						mesh->SetSpecularTexture(i, g->CreateTexture2D(path_.c_str()).get());
-					}
-				}
-			}
-		}
 
 		return mg;
 	}
 
-	Mesh_Imp* Model_Imp::LoadMesh(Graphics* g, BinaryReader& reader, const achar* path)
+	Mesh_Imp* Model_Imp::LoadMesh(Graphics* g, Model_IO::Mesh& io, const achar* path)
 	{
 		auto g_ = (Graphics_Imp*) g;
 		auto mesh = (Mesh_Imp*)g_->CreateMesh_();
 
-		int32_t vcount = reader.Get<int32_t>();
-		for (int32_t i = 0; i < vcount; i++)
+		for (auto& dm_s : io.DividedMeshes)
 		{
-			auto pos = reader.Get<Vector3DF>();
-			auto normal = reader.Get<Vector3DF>();
-			auto binormal = reader.Get<Vector3DF>();
-			auto uv = reader.Get<Vector2DF>();
-			auto subuv = reader.Get<Vector2DF>();
-			auto color = reader.Get<Color>();
-			auto weights = reader.Get<int32_t>();
-			auto indexes = reader.Get<int32_t>();
-			auto indexesOriginal = reader.Get<int32_t>();
+			std::vector<Mesh_Imp::Vertex> vertexes;
+			std::vector<Mesh_Imp::Face> faces;
+			std::vector<Mesh_Imp::BoneConnector> boneConnectors;
+			std::vector<Mesh_Imp::MaterialOffset> materialOffsets;
 
-			mesh->AddInternalVertex(pos, normal, binormal, uv, subuv, color, weights, indexes, indexesOriginal);
+			for (auto i = 0; i < dm_s.Vertices.size(); i++)
+			{
+				Mesh_Imp::Vertex t;
+				t.Position = dm_s.Vertices[i].Position;
+				t.Normal = dm_s.Vertices[i].Normal;
+				t.Binormal = dm_s.Vertices[i].Binormal;
+				t.UV1 = dm_s.Vertices[i].UV1;
+				t.UV2 = dm_s.Vertices[i].UV2;
+				t.VColor = dm_s.Vertices[i].VColor;
+				t.BoneWeights = dm_s.Vertices[i].BoneWeights;
+				t.BoneIndexes = dm_s.Vertices[i].BoneIndexes;
+				t.BoneIndexesOriginal = dm_s.Vertices[i].BoneIndexesOriginal;
+
+				vertexes.push_back(t);
+			}
+
+			for (auto i = 0; i < dm_s.Faces.size(); i++)
+			{
+				Mesh_Imp::Face t;
+				t.Index1 = dm_s.Faces[i].Index1;
+				t.Index2 = dm_s.Faces[i].Index2;
+				t.Index3 = dm_s.Faces[i].Index3;
+
+				faces.push_back(t);
+			}
+
+			for (auto i = 0; i < dm_s.BoneConnectors.size(); i++)
+			{
+				Mesh_Imp::BoneConnector t;
+				t.TargetIndex = dm_s.BoneConnectors[i].TargetIndex;
+				t.BoneToMesh = dm_s.BoneConnectors[i].OffsetMatrix;
+				boneConnectors.push_back(t);
+			}
+			
+			for (auto i = 0; i < dm_s.MaterialOffsets.size(); i++)
+			{
+				Mesh_Imp::MaterialOffset t;
+				t.MaterialIndex = dm_s.MaterialOffsets[i].MaterialIndex;
+				t.FaceOffset = dm_s.MaterialOffsets[i].FaceOffset;
+				materialOffsets.push_back(t);
+			}
+
+			mesh->AddDividedMesh(vertexes, faces, boneConnectors, materialOffsets);
 		}
 
-		int32_t fcount = reader.Get<int32_t>();
-		for (int32_t i = 0; i < fcount; i++)
-		{
-			auto f1 = reader.Get<int32_t>();
-			auto f2 = reader.Get<int32_t>();
-			auto f3 = reader.Get<int32_t>();
-
-			mesh->AddFace(f1, f2, f3);
-		}
-
-		int32_t mcount = reader.Get<int32_t>();
-		for (int32_t i = 0; i < mcount; i++)
-		{
-			auto index = reader.Get<int32_t>();
-			auto facecount = reader.Get<int32_t>();
 		
-			mesh->AddMaterialCount(index, facecount);
-		}
-
-		int32_t bcount = reader.Get<int32_t>();
-		for (int32_t i = 0; i < bcount; i++)
+		for (auto i = 0; i < io.Materials.size(); i++)
 		{
-			uint8_t offset[32];
-			for (int32_t j = 0; j < 32; j++) offset[j] = reader.Get<uint8_t>();
-			auto facecount = reader.Get<int32_t>();
-
-			mesh->AddInternalBoneOffset(offset, facecount);
+			auto& material = io.Materials[i];
+			auto ind = mesh->AddMaterial();
+	
+			if (material.ColorTexture != astring()) mesh->SetColorTexture(ind, g->CreateTexture2D(material.ColorTexture.c_str()).get());
+			if (material.NormalTexture != astring()) mesh->SetNormalTexture(ind, g->CreateTexture2D(material.NormalTexture.c_str()).get());
+			if (material.SpecularTexture != astring()) mesh->SetSpecularTexture(ind, g->CreateTexture2D(material.SpecularTexture.c_str()).get());
 		}
-
-		mesh->SendToGPUMemory();
 
 		return mesh;
 	}
 
-	Deformer_Imp* Model_Imp::LoadDeformer(Graphics* g, BinaryReader& reader, const achar* path)
+	Deformer_Imp* Model_Imp::LoadDeformer(Graphics* g, Model_IO& io, const achar* path)
 	{
 		auto g_ = (Graphics_Imp*) g;
 		auto deformer = (Deformer_Imp*) g_->CreateDeformer_();
-
-		int32_t bcount = reader.Get<int32_t>();
-		for (int32_t i = 0; i < bcount; i++)
+		for (auto i = 0; i < io.Deformer_.Bones.size(); i++)
 		{
-			auto name = reader.Get<ace::astring>();
-			auto parent = reader.Get<int32_t>();
-			eRotationOrder rotationOrder = reader.Get<eRotationOrder>();
-			auto localMat = reader.Get<Matrix44>();
-			auto matInv = reader.Get<Matrix44>();
-
-			deformer->AddBone(name.c_str(), parent, rotationOrder, localMat, matInv);
+			auto& bone = io.Deformer_.Bones[i];
+			deformer->AddBone( bone.Name.c_str(), bone.ParentBoneIndex, bone.RotationType, bone.LocalMat);
 		}
 
 		return deformer;
 	}
 
-	void Model_Imp::LoadAnimationClip(BinaryReader& reader, std::vector<AnimationSource*>& sources)
+	void Model_Imp::LoadAnimationClip(Model_IO::AnimationClip& io, std::vector<AnimationSource*>& sources)
 	{
 		auto clip = new AnimationClip_Imp();
-
-		auto clipName = reader.Get<ace::astring>();
-		auto sourceIndex = reader.Get<int32_t>();
+		
+		auto clipName = io.Name;
+		auto sourceIndex = io.Index;
 
 		clip->SetSource(sources[sourceIndex]);
 
@@ -278,16 +220,15 @@ namespace ace
 		m_animationClipNames.push_back(clipName);
 	}
 
-	AnimationSource* Model_Imp::LoadAnimationSource(BinaryReader& reader)
+	AnimationSource* Model_Imp::LoadAnimationSource(Model_IO::AnimationSource& io)
 	{
 		auto source = new AnimationSource_Imp();
 
-		auto sourceName = reader.Get<ace::astring>();
+		auto sourceName = io.Name;
 
-		auto keyframesCount = reader.Get<int32_t>();
-		for (int32_t i = 0; i < keyframesCount; i++)
+		for (auto i = 0; i < io.KeyframeAnimations.size(); i++)
 		{
-			auto keyframeanimation = LoadKeyframeAnimation(reader);
+			auto keyframeanimation = LoadKeyframeAnimation(io.KeyframeAnimations[i]);
 			source->AddAnimation(keyframeanimation);
 			keyframeanimation->Release();
 		}
@@ -295,18 +236,16 @@ namespace ace
 		return source;
 	}
 
-	KeyframeAnimation* Model_Imp::LoadKeyframeAnimation(BinaryReader& reader)
+	KeyframeAnimation* Model_Imp::LoadKeyframeAnimation(Model_IO::KeyframeAnimation& io)
 	{
 		auto keyframeAnimation = new KeyframeAnimation_Imp();
 
-		auto name = reader.Get<ace::astring>();
+		auto name = io.Name;
 		keyframeAnimation->SetName(name.c_str());
 		
-		auto keyCount = reader.Get<int32_t>();
-
-		for (int32_t i = 0; i < keyCount; i++)
+		for (int32_t i = 0; i < io.Keyframes.size(); i++)
 		{
-			auto keyframe = reader.Get< FCurveKeyframe>();
+			auto keyframe = io.Keyframes[i];
 			keyframeAnimation->AddKeyframe(keyframe);
 		}
 

@@ -23,13 +23,9 @@ namespace ace
 
 		void SetModel(Model* model) override;
 
-		void AddMeshGroup() override;
+		void AddMesh(Mesh* mesh) override;
 
-		int32_t GetMeshGroupCount() override;
-
-		void AddMesh(int32_t meshGroupIndex, Mesh* mesh) override;
-
-		void SetDeformer(int32_t meshGroupIndex, Deformer* deformer) override;
+		void SetDeformer(Deformer* deformer) override;
 
 		void PlayAnimation(const achar* name) override;
 

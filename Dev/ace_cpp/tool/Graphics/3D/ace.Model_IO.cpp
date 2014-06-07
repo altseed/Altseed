@@ -217,9 +217,9 @@ namespace ace
 	}
 
 
-	bool Model_IO::Load(std::vector<uint8_t>&	data, const achar* path)
+	bool Model_IO::Load(std::vector<uint8_t>& data, const achar* path)
 	{
-		MeshGroups.clear();
+		Meshes.clear();
 
 		BinaryReader reader;
 		reader.ReadIn(data.begin(), data.end());
@@ -235,50 +235,59 @@ namespace ace
 		// バージョン
 		int32_t version = reader.Get<int32_t>();
 
-		// メッシュグループ
-		int32_t meshGroupCount = reader.Get<int32_t>();
-		MeshGroups.resize(meshGroupCount);
-		for (int32_t i = 0; i < meshGroupCount; i++)
-		{
-			LoadMeshGroup(&(MeshGroups[i]), reader, path);
-		}
+		// ボーン
+		LoadDeformer(Deformer_, reader, path);
+
+		// メッシュ
+		LoadMeshes(Meshes, reader, path);
 
 		// アニメーション
 		int32_t sourceCount = reader.Get<int32_t>();
 		AnimationSources.resize(sourceCount);
 		for (int32_t i = 0; i < sourceCount; i++)
 		{
-			LoadAnimationSource(&(AnimationSources[i]), reader, path);
+			LoadAnimationSource(AnimationSources[i], reader, path);
 		}
 
 		int32_t clipCount = reader.Get<int32_t>();
 		AnimationClips.resize(clipCount);
 		for (int32_t i = 0; i < clipCount; i++)
 		{
-			LoadAnimationClip(&(AnimationClips[i]), reader, path);
+			LoadAnimationClip(AnimationClips[i], reader, path);
 		}
 
 		return true;
 	}
 
-	void Model_IO::LoadMeshGroup(MeshGroup* meshGroup, BinaryReader& reader, const achar* path)
+	void Model_IO::LoadMeshes(std::vector<Mesh>& meshes, BinaryReader& reader, const achar* path)
 	{
 		auto mcount = reader.Get<int32_t>();
-		meshGroup->Mesh_.resize(mcount);
+		meshes.resize(mcount);
+		
+		for (auto i = 0; i < mcount; i++)
+		{
+			LoadMesh(meshes[i], reader, path);
+		}
+	}
+
+	void Model_IO::LoadMesh(Mesh& mesh, BinaryReader& reader, const achar* path)
+	{
+		auto mcount = reader.Get<int32_t>();
+		mesh.DividedMeshes.resize(mcount);
 
 		for (auto i = 0; i < mcount; i++)
 		{
-			LoadMesh(&(meshGroup->Mesh_[i]), reader, path);
+			LoadDividedMesh(mesh.DividedMeshes[i], reader, path);
 		}
+
+		LoadMaterials(mesh.Materials, reader, path);
 		
-		LoadDeformer(&(meshGroup->Deformer_), reader, path);
-		LoadMaterials(&(meshGroup->Materials), reader, path);
 	}
 
-	void Model_IO::LoadMesh(Mesh* mesh, BinaryReader& reader, const achar* path)
+	void Model_IO::LoadDividedMesh(DividedMesh& mesh, BinaryReader& reader, const achar* path)
 	{
 		int32_t vcount = reader.Get<int32_t>();
-		mesh->Vertices.resize(vcount);
+		mesh.Vertices.resize(vcount);
 
 		for (int32_t i = 0; i < vcount; i++)
 		{
@@ -292,19 +301,19 @@ namespace ace
 			auto indexes = reader.Get<int32_t>();
 			auto indexesOriginal = reader.Get<int32_t>();
 
-			mesh->Vertices[i].Position = pos;
-			mesh->Vertices[i].Normal = normal;
-			mesh->Vertices[i].Binormal = binormal;
-			mesh->Vertices[i].UV1 = uv;
-			mesh->Vertices[i].UV2 = subuv;
-			mesh->Vertices[i].VColor = color;
-			mesh->Vertices[i].BoneWeights = weights;
-			mesh->Vertices[i].BoneIndexes = indexes;
-			mesh->Vertices[i].BoneIndexesOriginal = indexesOriginal;
+			mesh.Vertices[i].Position = pos;
+			mesh.Vertices[i].Normal = normal;
+			mesh.Vertices[i].Binormal = binormal;
+			mesh.Vertices[i].UV1 = uv;
+			mesh.Vertices[i].UV2 = subuv;
+			mesh.Vertices[i].VColor = color;
+			mesh.Vertices[i].BoneWeights = weights;
+			mesh.Vertices[i].BoneIndexes = indexes;
+			mesh.Vertices[i].BoneIndexesOriginal = indexesOriginal;
 		}
 
 		int32_t fcount = reader.Get<int32_t>();
-		mesh->Faces.resize(fcount);
+		mesh.Faces.resize(fcount);
 
 		for (int32_t i = 0; i < fcount; i++)
 		{
@@ -312,41 +321,39 @@ namespace ace
 			auto f2 = reader.Get<int32_t>();
 			auto f3 = reader.Get<int32_t>();
 
-			mesh->Faces[i].Index1 = f1;
-			mesh->Faces[i].Index2 = f2;
-			mesh->Faces[i].Index3 = f3;
+			mesh.Faces[i].Index1 = f1;
+			mesh.Faces[i].Index2 = f2;
+			mesh.Faces[i].Index3 = f3;
 		}
 
 		int32_t mcount = reader.Get<int32_t>();
-		mesh->MaterialOffsets.resize(mcount);
+		mesh.MaterialOffsets.resize(mcount);
 
 		for (int32_t i = 0; i < mcount; i++)
 		{
 			auto index = reader.Get<int32_t>();
 			auto facecount = reader.Get<int32_t>();
 
-			mesh->MaterialOffsets[i].MaterialIndex = index;
-			mesh->MaterialOffsets[i].FaceOffset = facecount;
+			mesh.MaterialOffsets[i].MaterialIndex = index;
+			mesh.MaterialOffsets[i].FaceOffset = facecount;
 		}
 
 		int32_t bcount = reader.Get<int32_t>();
-		mesh->BoneOffsets.resize(bcount);
-
+		mesh.BoneConnectors.resize(bcount);
 		for (int32_t i = 0; i < bcount; i++)
 		{
-			uint8_t offset[32];
-			for (int32_t j = 0; j < 32; j++) offset[j] = reader.Get<uint8_t>();
-			auto facecount = reader.Get<int32_t>();
+			auto index = reader.Get<int32_t>();
+			auto offsetMatrix = reader.Get<Matrix44>();
 
-			mesh->BoneOffsets[i].FaceOffset = facecount;
-			for (int32_t j = 0; j < 32; j++) mesh->BoneOffsets[i].BoneIndex[j] = offset[i];
+			mesh.BoneConnectors[i].TargetIndex = index;
+			mesh.BoneConnectors[i].OffsetMatrix = offsetMatrix;
 		}
 	}
 
-	void Model_IO::LoadDeformer(Deformer* deformer, BinaryReader& reader, const achar* path)
+	void Model_IO::LoadDeformer(Deformer& deformer, BinaryReader& reader, const achar* path)
 	{
 		int32_t bcount = reader.Get<int32_t>();
-		deformer->Bones.resize(bcount);
+		deformer.Bones.resize(bcount);
 
 		for (int32_t i = 0; i < bcount; i++)
 		{
@@ -354,28 +361,26 @@ namespace ace
 			auto parent = reader.Get<int32_t>();
 			eRotationOrder rotationOrder = reader.Get<eRotationOrder>();
 			auto localMat = reader.Get<Matrix44>();
-			auto matInv = reader.Get<Matrix44>();
 
-			deformer->Bones[i].Name = name;
-			deformer->Bones[i].ParentBoneIndex = parent;
-			deformer->Bones[i].RotationType = rotationOrder;
-			deformer->Bones[i].LocalMat = localMat;
-			deformer->Bones[i].GlobalMatInv = matInv;
+			deformer.Bones[i].Name = name;
+			deformer.Bones[i].ParentBoneIndex = parent;
+			deformer.Bones[i].RotationType = rotationOrder;
+			deformer.Bones[i].LocalMat = localMat;
 		}
 	}
 
-	void Model_IO::LoadMaterials(std::vector<Material>* materials, BinaryReader& reader, const achar* path)
+	void Model_IO::LoadMaterials(std::vector<Material>& materials, BinaryReader& reader, const achar* path)
 	{
 		int32_t materialCount = reader.Get<int32_t>();
-		materials->resize(materialCount);
+		materials.resize(materialCount);
 
 		for (int32_t i = 0; i < materialCount; i++)
 		{
-			LoadMaterial(&(materials->at(i)), reader, path);
+			LoadMaterial(materials[i], reader, path);
 		}
 	}
 
-	void Model_IO::LoadMaterial(Material* material, BinaryReader& reader, const achar* path)
+	void Model_IO::LoadMaterial(Material& material, BinaryReader& reader, const achar* path)
 	{
 		auto type = reader.Get<int32_t>();
 		if (type == 1)
@@ -388,50 +393,50 @@ namespace ace
 			auto pathNormal = reader.Get<ace::astring>();
 			auto pathSpecular = reader.Get<ace::astring>();
 
-			material->ColorTexture = CombinePath(path, pathColor.c_str());
-			material->NormalTexture = CombinePath(path, pathNormal.c_str());
-			material->SpecularTexture = CombinePath(path, pathSpecular.c_str());
+			if (pathColor != astring()) material.ColorTexture = CombinePath(path, pathColor.c_str());
+			if (pathNormal != astring()) material.NormalTexture = CombinePath(path, pathNormal.c_str());
+			if (pathSpecular != astring()) material.SpecularTexture = CombinePath(path, pathSpecular.c_str());
 		}
 	}
 
-	void Model_IO::LoadAnimationSource(AnimationSource* as, BinaryReader& reader, const achar* path)
+	void Model_IO::LoadAnimationSource(AnimationSource& as, BinaryReader& reader, const achar* path)
 	{
 		auto sourceName = reader.Get<ace::astring>();
 		auto keyframesCount = reader.Get<int32_t>();
 
-		as->Name = sourceName;
-		as->KeyframeAnimations.resize(keyframesCount);
+		as.Name = sourceName;
+		as.KeyframeAnimations.resize(keyframesCount);
 
 		for (int32_t i = 0; i < keyframesCount; i++)
 		{
-			LoadKeyframeAnimation(&(as->KeyframeAnimations[i]), reader, path);
+			LoadKeyframeAnimation(as.KeyframeAnimations[i], reader, path);
 		}
 	}
 
-	void Model_IO::LoadKeyframeAnimation(KeyframeAnimation* ka, BinaryReader& reader, const achar* path)
+	void Model_IO::LoadKeyframeAnimation(KeyframeAnimation& ka, BinaryReader& reader, const achar* path)
 	{
 		auto name = reader.Get<ace::astring>();
-		ka->Name = name;
+		ka.Name = name;
 
 		auto keyCount = reader.Get<int32_t>();
-		ka->Keyframes.resize(keyCount);
+		ka.Keyframes.resize(keyCount);
 
 		for (int32_t i = 0; i < keyCount; i++)
 		{
-			ka->Keyframes[i].KeyValue = reader.Get<Vector2DF>();
-			ka->Keyframes[i].LeftHandle = reader.Get<Vector2DF>();
-			ka->Keyframes[i].RightHandle = reader.Get<Vector2DF>();
-			ka->Keyframes[i].InterpolationType = (eInterpolationType) reader.Get<int32_t>();
+			ka.Keyframes[i].KeyValue = reader.Get<Vector2DF>();
+			ka.Keyframes[i].LeftHandle = reader.Get<Vector2DF>();
+			ka.Keyframes[i].RightHandle = reader.Get<Vector2DF>();
+			ka.Keyframes[i].InterpolationType = (eInterpolationType) reader.Get<int32_t>();
 		}
 	}
 
-	void Model_IO::LoadAnimationClip(AnimationClip* ac, BinaryReader& reader, const achar* path)
+	void Model_IO::LoadAnimationClip(AnimationClip& ac, BinaryReader& reader, const achar* path)
 	{
 		auto clipName = reader.Get<ace::astring>();
 		auto sourceIndex = reader.Get<int32_t>();
 
-		ac->Name = clipName;
-		ac->Index = sourceIndex;
+		ac.Name = clipName;
+		ac.Index = sourceIndex;
 	}
 
 	void ModelUtils::CalculateBoneMatrixes(std::vector<Matrix44>& dst, const std::vector<Model_IO::Bone>& bones, const std::vector<Matrix44>& localMatrixes)
@@ -444,18 +449,13 @@ namespace ace
 			// ローカル行列の計算
 			dst[i] = localMatrixes[i];
 
-			Matrix44::Mul(dst[i], b.LocalMat, dst[i]);
+			// todo アニメーション動作中は必要なさそう
+			//Matrix44::Mul(dst[i], b.LocalMat, dst[i]);
 
 			if (b.ParentBoneIndex >= 0)
 			{
 				Matrix44::Mul(dst[i], dst[b.ParentBoneIndex], dst[i]);
 			}
-		}
-
-		for (auto i = 0; i < bones.size(); i++)
-		{
-			auto& b = bones[i];
-			Matrix44::Mul(dst[i], b.GlobalMatInv, dst[i]);
 		}
 	}
 

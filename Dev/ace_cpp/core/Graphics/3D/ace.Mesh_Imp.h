@@ -6,6 +6,7 @@
 #include <Math/ace.Vector2DI.h>
 #include <Math/ace.Vector2DF.h>
 #include <Math/ace.Vector3DF.h>
+#include <Math/ace.Matrix44.h>
 #include <Graphics/ace.Color.h>
 
 #include "ace.Mesh.h"
@@ -19,9 +20,9 @@ namespace ace
 	public:
 		struct Material
 		{
-			Texture2D*	ColorTexture;
-			Texture2D*	NormalTexture;
-			Texture2D*	SpecularTexture;
+			std::shared_ptr<Texture2D>	ColorTexture;
+			std::shared_ptr<Texture2D>	NormalTexture;
+			std::shared_ptr<Texture2D>	SpecularTexture;
 
 			Material();
 			~Material();
@@ -33,13 +34,11 @@ namespace ace
 			int32_t		FaceOffset;
 		};
 
-		struct BoneOffset
+		struct BoneConnector
 		{
-			uint8_t		BoneIndex[32];
-			int32_t		FaceOffset;
+			int32_t		TargetIndex;
+			Matrix44	BoneToMesh;
 		};
-
-	private:
 
 		struct Vertex
 		{
@@ -59,23 +58,28 @@ namespace ace
 			int32_t		Index1;
 			int32_t		Index2;
 			int32_t		Index3;
+			int32_t		MaterialIndex;
 		};
 
-		
+		struct DividedMesh
+		{
+			std::shared_ptr<VertexBuffer_Imp>	VertexBufferPtr;
+			std::shared_ptr<IndexBuffer_Imp>	IndexBufferPtr;
+			std::vector<Vertex>					VertexBufferOnMM;
+			std::vector<Face>					FaceBufferOnMM;
+			std::vector<BoneConnector>			BoneConnectors;
+			std::vector<MaterialOffset>			MaterialOffsets;
+		};
+
+	private:
 		Graphics_Imp*	m_graphics;
 
-		std::shared_ptr<VertexBuffer_Imp>	m_vertexBuffer;
-		std::shared_ptr<IndexBuffer_Imp>	m_indexBuffer;
-
-		std::vector<Vertex>	m_vertexBufferOnMM;
-		std::vector<Face>	m_faceBufferOnMM;
-
-		std::vector<MaterialOffset>	m_materialOffsets;
-		std::vector<BoneOffset>	m_boneOffsets;
+		std::vector<DividedMesh>			m_dividedMeshes;
+		std::vector<Vertex>					m_vertexBufferOnMM;
+		std::vector<Face>					m_faceBufferOnMM;
+		std::vector<BoneConnector>			m_boneConnectors;
 
 		std::vector<Material>	m_materials;
-
-		bool					m_requireToCalcInternalParameters;
 
 		Mesh_Imp(Graphics* graphics);
 		virtual ~Mesh_Imp();
@@ -94,35 +98,21 @@ namespace ace
 			const Vector2DF& uv2,
 			const Color& color,
 			int32_t boneWeights,
-			int32_t boneIndexes);
+			int32_t boneIndexes) override;
+
+		void AddFace(int32_t index1, int32_t index2, int32_t index3, int32_t materialIndex) override;
+
+		void AddBoneConnector(int32_t targetIndex, const Matrix44& boneToMesh) override;
 
 		/**
-			@brief	内部フォーマットに直接頂点情報を読み込む。
+			@brief	直接内部形式を読み込む。
 			@note
-			AddVertexで追加した場合はGPUに送信する時に計算される部分を事前に追加している。
+			基本的にファイル読み込み時専用である。FaceのMaterialIndexを設定する必要はない。
 		*/
-		void AddInternalVertex(
-			const Vector3DF& position,
-			const Vector3DF& normal,
-			const Vector3DF& binormal,
-			const Vector2DF& uv1,
-			const Vector2DF& uv2,
-			const Color& color,
-			int32_t boneWeights,
-			int32_t boneIndexes,
-			int32_t boneIndexesOriginal);
+		void AddDividedMesh(const std::vector<Vertex>& vertexes, const std::vector<Face>& faces, const std::vector<BoneConnector>& boneConnectors, const std::vector<MaterialOffset>& materialOffsets);
 
-		/**
-		@brief	内部フォーマットに直接描画ごとのGPUの行列配列とボーンの行列の組み合わせを読み込む。
-		@note
-		AddVertexで頂点を追加した場合はGPUに送信する時に計算される部分を事前に追加している。
-		*/
-		void AddInternalBoneOffset(uint8_t boneIndex[32], int32_t faceOffset);
-
-		void AddFace(int32_t index1, int32_t index2, int32_t index3);
-
-		void AddMaterialCount(int32_t materialIndex, int32_t faceCount);
-		void SendToGPUMemory();
+		int32_t AddMaterial() override;
+		void SendToGPUMemory() override;
 
 		void SetColorTexture(int32_t materialIndex, Texture2D* texture) override;
 		void SetNormalTexture(int32_t materialIndex, Texture2D* texture) override;
@@ -130,12 +120,9 @@ namespace ace
 
 		Material* GetMaterial(int32_t materialIndex);
 
-		std::vector<MaterialOffset>& GetMaterialOffsets() { return m_materialOffsets; }
-		std::vector<BoneOffset>& GetBoneOffsets() { return m_boneOffsets; }
 
 #if !SWIG
-		std::shared_ptr<VertexBuffer_Imp>& GetVertexBuffer() { return m_vertexBuffer; }
-		std::shared_ptr<IndexBuffer_Imp>& GetIndexBuffer() { return m_indexBuffer; }
+		std::vector<DividedMesh>& GetDvidedMeshes() { return m_dividedMeshes; }
 #endif
 
 		// IReferenceを継承したデバイスオブジェクト向け定義

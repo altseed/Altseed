@@ -5,12 +5,16 @@
 
 #include "MDLExporter.h"
 
+#include <Graphics/3D/ace.Model_IO.h>
+
 #if _DEBUG
 #pragma comment(lib,"debug/libfbxsdk-mt.lib")
 #pragma comment(lib,"Debug/ace_common.lib")
+#pragma comment(lib,"Debug/ace_tool.lib")
 #else
 #pragma comment(lib,"release/libfbxsdk-mt.lib")
 #pragma comment(lib,"Release/ace_common.lib")
+#pragma comment(lib,"Release/ace_tool.lib")
 #endif
 
 #if _WIN32
@@ -38,7 +42,7 @@ int main(int argc, char** argv)
 	sdkManager->SetIOSettings(ios);
 
 	fbxsdk_2015_1::FbxImporter* fbxImporter = fbxsdk_2015_1::FbxImporter::Create(sdkManager, "");
-	if (!fbxImporter->Initialize("Data/Model/Box.fbx", -1, sdkManager->GetIOSettings()))
+	if (!fbxImporter->Initialize("Data/Model/Test_Animation.fbx", -1, sdkManager->GetIOSettings()))
 	{
 		printf("Call to FbxImporter::Initialize() failed.\n");
 		printf("Error returned: %s\n\n", fbxImporter->GetStatus().GetErrorString());
@@ -56,13 +60,29 @@ int main(int argc, char** argv)
 	fbxImporter->Destroy();
 	sdkManager->Destroy();
 
-	writer->WriteOut("Data/Model/Box.mdl");
+	writer->WriteOut("Data/Model/Test_Animation.mdl");
+
+	
+	auto buf = writer->Get();
+	auto buf_ = std::vector<uint8_t>();
+
+	for (size_t i = 0; i < buf.size(); i++)
+	{
+		auto b = ((uint8_t*) buf.data())[i];
+		buf_.push_back(b);
+	}
+
+	ace::Model_IO model_io;
+	model_io.Load(buf_, ace::ToAString("./").c_str());
+	
 
 	/*
 	MDLExporter *exporter = new MDLExporter("Data/Model/AnimationTest.fbx", "Data/Model/AnimationTest.mdl");
 	exporter->Convert();
 	delete exporter;
 	*/
+
+	return 0;
 }
 
 #else

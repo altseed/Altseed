@@ -46,17 +46,22 @@ namespace ace
 			@param	index1	頂点インデックス1
 			@param	index2	頂点インデックス2
 			@param	index3	頂点インデックス3
+			@param	materialIndex	材質インデックス
 		*/
-		virtual void AddFace(int32_t index1, int32_t index2, int32_t index3) = 0;
+		virtual void AddFace(int32_t index1, int32_t index2, int32_t index3, int32_t materialIndex) = 0;
 
 		/**
-			@brief	素材を設定する。
-			@param	materialIndex	素材のインデックス
-			@param	faceCount	面数
-			@note
-			素材は追加された順に先頭から面数の数だけ割り当てられる。
+			@brief	ボーンとの接続設定を追加する。
+			@param	targetIndex	対象ボーンインデックス
+			@param	boneToMesh	ボーンの行列をメッシュの行列に変換する行列
 		*/
-		virtual void AddMaterialCount(int32_t materialIndex, int32_t faceCount) = 0;
+		virtual void AddBoneConnector(int32_t targetIndex, const Matrix44& boneToMesh) = 0;
+
+		/**
+			@brief	材質を追加する。
+			@return	材質のインデックス
+		*/
+		virtual int32_t AddMaterial() = 0;
 
 		/**
 			@brief	設定した値をGPUに送信する。

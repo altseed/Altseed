@@ -50,13 +50,8 @@ namespace ace
 		};
 
 
-
 		class MeshGroup
 		{
-		private:
-			std::vector<Mesh_Imp*>		m_meshes;
-			Deformer_Imp*	m_deformer;
-
 		public:
 			std::vector<Matrix44>	m_matrixes_fr;
 			std::vector<Matrix44>	m_matrixes;
@@ -65,22 +60,19 @@ namespace ace
 
 			MeshGroup();
 			~MeshGroup();
-
-			void Flip(AnimationClip* animationClip, int32_t time);
-
-			void CalculateAnimation(AnimationClip* animationClip, int32_t time);
-			void CalclateBoneMatrices();
-			
-			void AddMesh(Mesh_Imp* mesh);
-			void SetDeformer(Deformer_Imp* deformer);
-
-			std::vector<Mesh_Imp*>& GetMeshes() { return m_meshes; }
 		};
 		
 
 	private:
-		std::vector<std::shared_ptr<MeshGroup>>	m_meshGroups;
-		std::vector<std::shared_ptr<MeshGroup>>	m_meshGroups_fr;
+		std::vector<std::shared_ptr<Mesh>>		m_meshes;
+		std::vector<std::shared_ptr<Mesh>>		m_meshes_rt;
+
+		std::shared_ptr<Deformer>				m_deformer;
+		std::shared_ptr<Deformer>				m_deformer_rt;
+
+		std::vector<Matrix44>					m_matrixes_rt;
+		std::vector<Matrix44>					m_matrixes;
+		std::vector <BoneProperty>				m_boneProps;
 
 		Model_Imp*								m_model = nullptr;
 
@@ -95,19 +87,19 @@ namespace ace
 
 		Renderer3D*								m_renderer = nullptr;
 
+		void Flip(AnimationClip* animationClip, int32_t time);
+		void CalculateAnimation(AnimationClip* animationClip, int32_t time);
+		void CalclateBoneMatrices();
+
 	public:
 		RenderedModelObject3D(Graphics* graphics);
 		virtual ~RenderedModelObject3D();
 
 		void SetModel(Model* model);
 
-		void AddMeshGroup();
+		void AddMesh(Mesh* mesh);
 
-		int32_t GetMeshGroupCount();
-
-		void AddMesh(int32_t meshGroupIndex, Mesh* mesh);
-
-		void SetDeformer(int32_t meshGroupIndex, Deformer* deformer);
+		void SetDeformer(Deformer* deformer);
 
 		void OnAdded(Renderer3D* renderer) override;
 
@@ -135,9 +127,9 @@ namespace ace
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
 
 #if !SWIG
-		void AddMesh(int32_t meshGroupIndex, std::shared_ptr<Mesh>& mesh)
+		void AddMesh(std::shared_ptr<Mesh>& mesh)
 		{
-			AddMesh(meshGroupIndex, mesh.get());
+			AddMesh(mesh.get());
 		}
 #endif
 	};

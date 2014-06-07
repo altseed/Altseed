@@ -45,7 +45,7 @@ namespace FBX2MDL
 		struct FbxFace
 		{
 			std::vector<Vertex> Vertecies;
-			int32_t MaterialIndex;
+			int32_t MaterialIndex = -1;
 		};
 
 		struct VertexNormals

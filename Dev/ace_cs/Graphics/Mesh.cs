@@ -68,20 +68,29 @@ namespace ace
 		/// <param name="index1">頂点インデックス1</param>
 		/// <param name="index2">頂点インデックス2</param>
 		/// <param name="index3">頂点インデックス3</param>
-		public void AddFace(int index1, int index2, int index3)
+		/// <param name="materialIndex">材質インデックス</param>
+		public void AddFace(int index1, int index2, int index3, int materialIndex)
 		{
-			SwigObject.AddFace(index1, index2, index3);
+			SwigObject.AddFace(index1, index2, index3, materialIndex);
 		}
 
 		/// <summary>
-		/// 素材を設定する。
+		/// 素材を追加する。
 		/// </summary>
-		/// <param name="materialIndex">素材のインデックス</param>
-		/// <param name="faceCount">面数</param>
-		/// <remarks>素材は追加された順に先頭から面数の数だけ割り当てられる。</remarks>
-		public void AddMaterialCount(int materialIndex, int faceCount)
+		/// <returns>材質のインデックス</returns>
+		public int AddMaterial()
 		{
-			SwigObject.AddMaterialCount(materialIndex, faceCount);
+			return SwigObject.AddMaterial();
+		}
+
+		/// <summary>
+		/// ボーンとの接続設定を追加する。
+		/// </summary>
+		/// <param name="targetIndex">対象ボーンインデックス</param>
+		/// <param name="boneToMesh">ボーンの行列をメッシュの行列に変換する行列</param>
+		public void AddBoneConnector(int targetIndex, ref Matrix44 boneToMesh)
+		{
+			SwigObject.AddBoneConnector(targetIndex, ref boneToMesh);
 		}
 
 		/// <summary>

@@ -41,29 +41,18 @@ namespace ace
 		void SetModel(std::shared_ptr<Model>& model);
 
 		/**
-		@brief	メッシュグループを追加する。
-		*/
-		void AddMeshGroup();
-
-		/**
-		@brief	メッシュグループの個数を取得する。
-		@return	個数
-		*/
-		int32_t GetMeshGroupCount();
-
-		/**
 		@brief	描画に使用するメッシュを追加する。
 		@param	meshGroupIndex	メッシュグループのインデックス
 		@param	mesh	メッシュ
 		*/
-		void AddMesh(int32_t meshGroupIndex, std::shared_ptr<Mesh> mesh);
+		void AddMesh(std::shared_ptr<Mesh> mesh);
 
 		/**
 		@brief	描画に使用するデフォーマーを設定する。
 		@param	meshGroupIndex	メッシュグループのインデックス
 		@param	deformer	デフォーマー
 		*/
-		void SetDeformer(int32_t meshGroupIndex, std::shared_ptr<Deformer> deformer);
+		void SetDeformer(std::shared_ptr<Deformer> deformer);
 
 		/**
 		@brief	アニメーションを再生する。

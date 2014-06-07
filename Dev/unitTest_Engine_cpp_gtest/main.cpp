@@ -71,8 +71,10 @@ int main(int argc, char **argv)
 	return 0;
 	*/
 
-	//Graphics_Model_(false);
-	//return 0;
+	/*
+	Graphics_Model_(false);
+	return 0;
+	*/
 
 	auto result = RUN_ALL_TESTS();
 

@@ -2,7 +2,8 @@
 #pragma once
 
 #include "ace.Model.h"
-#include <Utility/ace.BinaryReader.h>
+
+#include <Graphics/3D/ace.Model_IO.h>
 
 namespace ace
 {
@@ -23,7 +24,8 @@ namespace ace
 		};
 
 	private:
-		std::vector<MeshGroup*>		m_meshGroups;
+		MeshGroup*					m_meshGroup;
+
 		std::vector<astring>		m_animationClipNames;
 		std::vector<AnimationClip*>	m_animationClips;
 
@@ -54,18 +56,18 @@ namespace ace
 		void Reload(std::vector<uint8_t>& data, const achar* path);
 
 	private:
-		MeshGroup* LoadMeshGroup(Graphics* g, BinaryReader& reader, const achar* path);
-		Mesh_Imp* LoadMesh(Graphics* g, BinaryReader& reader, const achar* path);
-		Deformer_Imp* LoadDeformer(Graphics* g, BinaryReader& reader, const achar* path);
+		MeshGroup* LoadMeshGroup(Graphics* g, Model_IO& io, const achar* path);
+		Mesh_Imp* LoadMesh(Graphics* g, Model_IO::Mesh& io, const achar* path);
+		Deformer_Imp* LoadDeformer(Graphics* g, Model_IO& io, const achar* path);
 
-		void LoadAnimationClip(BinaryReader& reader, std::vector<AnimationSource*>& source);
-		AnimationSource* LoadAnimationSource(BinaryReader& reader);
-		KeyframeAnimation* LoadKeyframeAnimation(BinaryReader& reader);
+		void LoadAnimationClip(Model_IO::AnimationClip& io, std::vector<AnimationSource*>& source);
+		AnimationSource* LoadAnimationSource(Model_IO::AnimationSource& io);
+		KeyframeAnimation* LoadKeyframeAnimation(Model_IO::KeyframeAnimation& io);
 
 	public:
 		std::vector<AnimationClip*>& GetAnimationClips() { return m_animationClips; }
 		std::vector<astring>& GetAnimationClipNames() { return m_animationClipNames; }
-		std::vector < MeshGroup*> GetMeshGroups() { return m_meshGroups; }
+		MeshGroup* GetMeshGroup() { return m_meshGroup; }
 		
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

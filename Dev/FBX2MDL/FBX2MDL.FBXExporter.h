@@ -14,6 +14,11 @@ namespace FBX2MDL
 
 		};
 
+		struct MaterialOffset
+		{
+			int32_t		MaterialIndex;
+			int32_t		FaceOffset;
+		};
 		
 		std::shared_ptr<ace::BinaryWriter> m_writer;
 
