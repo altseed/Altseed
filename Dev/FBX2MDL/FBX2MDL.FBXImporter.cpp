@@ -230,12 +230,13 @@ namespace FBX2MDL
 				connector.Name = ace::ToAString(name);
 
 				auto m2_inv = m2_.GetInverted();
-				auto m = m1_ * m2_inv;
+				auto m = m2_inv * m1_;
 				
+				//  親ボーン行列 * 自分のボーン行列 * TransformLinkMatrix^-1 * TransformMatrix * 頂点
 				connector.TransformMatrix = m1_;
 				connector.TransformLinkMatrix = m2_;
 				connector.OffsetMatrix = m;
-
+				
 				boneConnectors.push_back(connector);
 
 				// 頂点ごとのウエイトを取得

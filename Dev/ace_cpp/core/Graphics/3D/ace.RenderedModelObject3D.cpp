@@ -524,7 +524,7 @@ namespace ace
 						for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
 						{
 							matM[i].SetIndentity();
-							Matrix44::Mul(matM[i], boneConnectors[i].BoneToMesh, matrices[boneConnectors[i].TargetIndex]);
+							Matrix44::Mul(matM[i], matrices[boneConnectors[i].TargetIndex], boneConnectors[i].BoneToMesh);
 							Matrix44::Mul(matM[i], GetLocalMatrix_RT(), matM[i]);
 						}
 					}
