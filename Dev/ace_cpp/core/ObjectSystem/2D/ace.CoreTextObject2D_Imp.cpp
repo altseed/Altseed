@@ -46,7 +46,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	WritingDirection CoreTextObject2D_Imp::GetWritingDirection() const
+	const WritingDirection CoreTextObject2D_Imp::GetWritingDirection() const
 	{
 		return m_writingDirection;
 	}
@@ -62,7 +62,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	astring CoreTextObject2D_Imp::GetText() const
+	const astring CoreTextObject2D_Imp::GetText() const
 	{
 		return m_text;
 	}
@@ -78,7 +78,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DF CoreTextObject2D_Imp::GetCenterPosition() const
+	const Vector2DF CoreTextObject2D_Imp::GetCenterPosition() const
 	{
 		return m_centerPosition;
 	}
@@ -94,7 +94,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Color CoreTextObject2D_Imp::GetColor() const
+	const Color CoreTextObject2D_Imp::GetColor() const
 	{
 		return m_color;
 	}
@@ -110,7 +110,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool CoreTextObject2D_Imp::GetTurnLR() const
+	const bool CoreTextObject2D_Imp::GetTurnLR() const
 	{
 		return m_turnLR;
 	}
@@ -126,7 +126,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool CoreTextObject2D_Imp::GetTurnUL() const
+	const bool CoreTextObject2D_Imp::GetTurnUL() const
 	{
 		return m_turnUL;
 	}
@@ -142,7 +142,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	int CoreTextObject2D_Imp::GetDrawingPriority() const
+	const int CoreTextObject2D_Imp::GetDrawingPriority() const
 	{
 		return m_drawingPtiority;
 	}
@@ -158,7 +158,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	eAlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
+	const eAlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
 	{
 		return m_alphablend;
 	}
@@ -187,16 +187,21 @@ namespace ace
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
 
-		Color color[4];
-		color[0] = m_color;
-		color[1] = m_color;
-		color[2] = m_color;
-		color[3] = m_color;
+		std::array<Color, 4> color;
+		color.at(0) = m_color;
+		color.at(1) = m_color;
+		color.at(2) = m_color;
+		color.at(3) = m_color;
 
 		Font_Imp *font_Imp = (Font_Imp*)m_font;
 
 		for (int textIndex = 0; textIndex < m_text.length(); ++textIndex)
 		{
+			if (!font_Imp->HasGlyphData(m_text[textIndex]))
+			{
+				continue;
+			}
+
 			GlyphData glyphData = font_Imp->GetGlyphData(m_text[textIndex]);
 
 			auto glyphSrc = glyphData.GetSrc();
@@ -204,10 +209,10 @@ namespace ace
 			std::array<Vector2DF, 4> position;
 
 			{
-				position[0] = Vector2DF(0, 0);
-				position[1] = Vector2DF(glyphSrc.Width, 0);
-				position[2] = Vector2DF(glyphSrc.Width, glyphSrc.Height);
-				position[3] = Vector2DF(0, glyphSrc.Height);
+				position.at(0) = Vector2DF(0, 0);
+				position.at(1) = Vector2DF(glyphSrc.Width, 0);
+				position.at(2) = Vector2DF(glyphSrc.Width, glyphSrc.Height);
+				position.at(3) = Vector2DF(0, glyphSrc.Height);
 
 				for (auto& pos : position)
 				{
@@ -226,10 +231,10 @@ namespace ace
 			{
 				auto textureSize = Vector2DF(texture->GetSize().X,texture->GetSize().Y);
 
-				uvs[0] = Vector2DF(glyphSrc.X, glyphSrc.Y);
-				uvs[1] = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y);
-				uvs[2] = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y + glyphSrc.Height);
-				uvs[3] = Vector2DF(glyphSrc.X, glyphSrc.Y + glyphSrc.Height);
+				uvs.at(0) = Vector2DF(glyphSrc.X, glyphSrc.Y);
+				uvs.at(1) = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y);
+				uvs.at(2) = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y + glyphSrc.Height);
+				uvs.at(3) = Vector2DF(glyphSrc.X, glyphSrc.Y + glyphSrc.Height);
 
 				for (auto& uv : uvs)
 				{
@@ -238,18 +243,18 @@ namespace ace
 
 				if (m_turnLR)
 				{
-					std::swap(uvs[0], uvs[1]);
-					std::swap(uvs[2], uvs[3]);
+					std::swap(uvs.at(0), uvs.at(1));
+					std::swap(uvs.at(2), uvs.at(3));
 				}
 
 				if (m_turnUL)
 				{
-					std::swap(uvs[0], uvs[3]);
-					std::swap(uvs[1], uvs[2]);
+					std::swap(uvs.at(0), uvs.at(3));
+					std::swap(uvs.at(1), uvs.at(2));
 				}
 			}
 
-			renderer->AddSprite(position.data(), color, uvs.data(), texture.get(), m_alphablend, m_drawingPtiority);
+			renderer->AddSprite(position.data(), &color[0], uvs.data(), texture.get(), m_alphablend, m_drawingPtiority);
 
 			if (m_writingDirection == WritingDirection::Horizontal)
 			{

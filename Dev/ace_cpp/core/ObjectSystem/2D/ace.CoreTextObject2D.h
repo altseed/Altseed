@@ -18,7 +18,7 @@ namespace ace
 		/**
 		@brief	このオブジェクトを描画する際の描画方向を取得する。
 		*/
-		virtual WritingDirection GetWritingDirection() const = 0;
+		virtual const WritingDirection GetWritingDirection() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のフォントハンドルを取得する。
@@ -28,47 +28,37 @@ namespace ace
 		/**
 		@brief 描画するテキストを取得する。
 		*/
-		virtual astring GetText() const = 0;
-
-		/**
-		@brief	このオブジェクトを描画する際の傾きを取得する。
-		*/
-		virtual float GetAngle() const = 0;
-
-		/**
-		@brief	このオブジェクトを描画する際のテクスチャの拡大率を取得する。
-		*/
-		virtual Vector2DF GetScale() const = 0;
+		virtual const astring GetText() const = 0;
 
 		/**
 		@brief	このオブジェクトの原点位置を取得する。この位置が、描画する際の描画・拡縮・回転の中心となる。
 		*/
-		virtual Vector2DF GetCenterPosition() const = 0;
+		virtual const Vector2DF GetCenterPosition() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際に文字画像に合成する色を取得する。
 		*/
-		virtual Color GetColor() const = 0;
+		virtual const Color GetColor() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際に左右反転するかどうかの真偽値を取得する。
 		*/
-		virtual bool GetTurnLR() const = 0;
+		virtual const bool GetTurnLR() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際に上下反転するかどうかの真偽値を取得する。
 		*/
-		virtual bool GetTurnUL() const = 0;
+		virtual const bool GetTurnUL() const = 0;
 
 		/**
 		@brief	このオブジェクトの描画優先度を取得します。
 		*/
-		virtual int GetDrawingPriority() const = 0;
+		virtual const int GetDrawingPriority() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のブレンドモードを取得します。
 		*/
-		virtual eAlphaBlend GetAlphaBlendMode() const = 0;
+		virtual const eAlphaBlend GetAlphaBlendMode() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際の描画方向を設定します。
