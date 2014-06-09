@@ -184,8 +184,8 @@ namespace ace
 
 		Vector2DF drawPosition = Vector2DF(0, 0);
 
-		auto parentMatrix = m_transform.GetParentsMatrix();
-		auto matrix = m_transform.GetMatrixToTransform();
+		const auto parentMatrix = m_transform.GetParentsMatrix();
+		const auto matrix = m_transform.GetMatrixToTransform();
 
 		std::array<Color, 4> color;
 		color.at(0) = m_color;
@@ -202,9 +202,9 @@ namespace ace
 				continue;
 			}
 
-			GlyphData glyphData = font_Imp->GetGlyphData(m_text[textIndex]);
+			const GlyphData glyphData = font_Imp->GetGlyphData(m_text[textIndex]);
 
-			auto glyphSrc = glyphData.GetSrc();
+			const auto glyphSrc = glyphData.GetSrc();
 
 			std::array<Vector2DF, 4> position;
 
@@ -229,7 +229,7 @@ namespace ace
 
 			std::array<Vector2DF, 4> uvs;
 			{
-				auto textureSize = Vector2DF(texture->GetSize().X,texture->GetSize().Y);
+				const auto textureSize = Vector2DF(texture->GetSize().X, texture->GetSize().Y);
 
 				uvs.at(0) = Vector2DF(glyphSrc.X, glyphSrc.Y);
 				uvs.at(1) = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y);

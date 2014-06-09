@@ -42,15 +42,15 @@ namespace ace {
 
 		int pictureNumber = 1;
 
-		ace::astring pngExtension = ace::astring(ToAString(".png"));
+		const ace::astring pngExtension = ace::astring(ToAString(".png"));
 
 		while (true)
 		{
 			//連番を文字列化。
-			ace::astring strNumber = ace::ToAString(std::to_string(pictureNumber).c_str());
+			const ace::astring strNumber = ace::ToAString(std::to_string(pictureNumber).c_str());
 
 			//PNGファイルへのパス文字列を構成。
-			ace::astring pngFilePath = (rawFilePath + strNumber + pngExtension);
+			const ace::astring pngFilePath = (rawFilePath + strNumber + pngExtension);
 
 			//この連番のファイルが存在するか否か調べて、存在しなかったらループを抜ける。
 
@@ -118,15 +118,15 @@ namespace ace {
 
 		int pictureNumber = 0;
 
-		ace::astring pngExtension = ace::astring(ToAString(".png"));
+		const ace::astring pngExtension = ace::astring(ToAString(".png"));
 
 		while (true)
 		{
 			//連番を文字列化。
-			ace::astring strNumber = ace::astring(ace::ToAString(std::to_string(pictureNumber).c_str()));
+			const ace::astring strNumber = ace::astring(ace::ToAString(std::to_string(pictureNumber).c_str()));
 
 			//PNGファイルへのパス文字列を構成。
-			ace::astring pngFilePath = (rawFilePath + strNumber + pngExtension);
+			const ace::astring pngFilePath = (rawFilePath + strNumber + pngExtension);
 
 			auto texture = m_graphics->CreateTexture2D(pngFilePath.c_str());
 
