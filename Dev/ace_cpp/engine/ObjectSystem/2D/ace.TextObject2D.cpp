@@ -20,7 +20,7 @@ namespace ace
 		return m_coreObject.get();
 	}
 
-	std::shared_ptr<Font> TextObject2D::GetFont() const
+	const std::shared_ptr<Font> TextObject2D::GetFont() const
 	{
 		return m_font;
 	}
@@ -31,7 +31,7 @@ namespace ace
 		m_font = font;
 	}
 
-	Vector2DF TextObject2D::GetCenterPosition() const
+	const Vector2DF TextObject2D::GetCenterPosition() const
 	{
 		return m_coreObject->GetCenterPosition();
 	}
@@ -41,7 +41,7 @@ namespace ace
 		m_coreObject->SetCenterPosition(position);
 	}
 
-	Color TextObject2D::GetColor() const
+	const Color TextObject2D::GetColor() const
 	{
 		return m_coreObject->GetColor();
 	}
@@ -51,7 +51,7 @@ namespace ace
 		m_coreObject->SetColor(color);
 	}
 
-	bool TextObject2D::GetTurnLR() const
+	const bool TextObject2D::GetTurnLR() const
 	{
 		return m_coreObject->GetTurnLR();
 	}
@@ -61,7 +61,7 @@ namespace ace
 		m_coreObject->SetTurnLR(turnLR);
 	}
 
-	bool TextObject2D::GetTurnUL() const
+	const bool TextObject2D::GetTurnUL() const
 	{
 		return m_coreObject->GetTurnUL();
 	}
@@ -71,7 +71,7 @@ namespace ace
 		m_coreObject->SetTurnUL(turnUL);
 	}
 
-	int TextObject2D::GetDrawingPriority() const
+	const int TextObject2D::GetDrawingPriority() const
 	{
 		return m_coreObject->GetDrawingPriority();
 	}
@@ -81,7 +81,7 @@ namespace ace
 		m_coreObject->SetDrawingPriority(priority);
 	}
 
-	eAlphaBlend TextObject2D::GetAlphaBlendMode() const
+	const eAlphaBlend TextObject2D::GetAlphaBlendMode() const
 	{
 		return m_coreObject->GetAlphaBlendMode();
 	}
@@ -91,7 +91,7 @@ namespace ace
 		m_coreObject->SetAlphaBlendMode(alphaBlend);
 	}
 
-	WritingDirection TextObject2D::GetWritingDirection() const
+	const WritingDirection TextObject2D::GetWritingDirection() const
 	{
 		return m_coreObject->GetWritingDirection();
 	}
@@ -101,7 +101,7 @@ namespace ace
 		m_coreObject->SetWritingDirection(writingDirection);
 	}
 
-	astring TextObject2D::GetText() const
+	const astring TextObject2D::GetText() const
 	{
 		return m_coreObject->GetText();
 	}

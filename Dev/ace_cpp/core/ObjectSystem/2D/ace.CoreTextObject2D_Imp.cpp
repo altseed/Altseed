@@ -30,7 +30,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Font* CoreTextObject2D_Imp::GetFont() const
+	const Font* CoreTextObject2D_Imp::GetFont() const
 	{
 		return m_font;
 	}

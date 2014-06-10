@@ -23,7 +23,7 @@ namespace ace
 		/**
 		@brief	このオブジェクトを描画する際のフォントハンドルを取得する。
 		*/
-		virtual Font* GetFont() const = 0;
+		virtual const Font* GetFont() const = 0;
 
 		/**
 		@brief 描画するテキストを取得する。

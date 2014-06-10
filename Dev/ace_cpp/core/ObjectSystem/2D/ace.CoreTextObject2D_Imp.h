@@ -28,7 +28,7 @@ namespace ace
 
 	public:
 #pragma region Parameter
-		Font* GetFont() const override;
+		const Font* GetFont() const override;
 		void SetFont(Font* font) override;
 
 		const WritingDirection GetWritingDirection() const override;

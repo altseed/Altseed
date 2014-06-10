@@ -21,47 +21,47 @@ namespace ace
 		/**
 		@brief	このオブジェクトを描画する際の描画方向を取得する。
 		*/
-		WritingDirection GetWritingDirection() const;
+		const WritingDirection GetWritingDirection() const;
 
 		/**
 		@brief	このオブジェクトを描画する際のフォントハンドルを取得する。
 		*/
-		std::shared_ptr<Font> GetFont() const;
+		const std::shared_ptr<Font> GetFont() const;
 
 		/**
 		@brief 描画するテキストを取得する。
 		*/
-		astring GetText() const;
+		const astring GetText() const;
 
 		/**
 		@brief	このオブジェクトの原点位置を取得する。この位置が、描画する際の描画・拡縮・回転の中心となる。
 		*/
-		Vector2DF GetCenterPosition() const;
+		const Vector2DF GetCenterPosition() const;
 
 		/**
 		@brief	このオブジェクトを描画する際に文字画像に合成する色を取得する。
 		*/
-		Color GetColor() const;
+		const Color GetColor() const;
 
 		/**
 		@brief	このオブジェクトを描画する際に左右反転するかどうかの真偽値を取得する。
 		*/
-		bool GetTurnLR() const;
+		const bool GetTurnLR() const;
 
 		/**
 		@brief	このオブジェクトを描画する際に上下反転するかどうかの真偽値を取得する。
 		*/
-		bool GetTurnUL() const;
+		const bool GetTurnUL() const;
 
 		/**
 		@brief	このオブジェクトの描画優先度を取得します。
 		*/
-		int GetDrawingPriority() const;
+		const int GetDrawingPriority() const;
 
 		/**
 		@brief	このオブジェクトを描画する際のブレンドモードを取得します。
 		*/
-		eAlphaBlend GetAlphaBlendMode() const;
+		const eAlphaBlend GetAlphaBlendMode() const;
 
 		/**
 		@brief	このオブジェクトを描画する際の描画方向を設定します。
