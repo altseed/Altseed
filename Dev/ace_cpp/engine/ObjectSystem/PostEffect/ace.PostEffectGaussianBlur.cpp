@@ -183,7 +183,9 @@ void main()
 
 	void PostEffectGaussianBlur::OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src)
 	{
-
+		assert(m_graphics != nullptr);
+		assert(src != nullptr);
+		assert(dst != nullptr);
 
 		Vector3DF weights;
 		float ws[3];
@@ -207,19 +209,22 @@ void main()
 
 		auto size = src->GetSize();
 		auto type = src->GetType();
-		if (size.X <= 0 || size.Y <= 0 || m_graphics == nullptr){ return; } // return if the source and/or the graphics are invalid
+
+		if (m_tempTexture == nullptr ||
+			(m_tempTexture->GetSize() != size || m_tempTexture->GetType() != type))
+		{
+			m_tempTexture = m_graphics->CreateRenderTexture(size.X, size.Y, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+		}
+
+		m_tempTexture->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
 		
-		auto tmp = m_graphics->CreateRenderTexture(size.X, size.Y, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
-		if (tmp->GetSize().X != size.X || tmp->GetSize().Y != size.Y || tmp->GetType() != type){ return; }
-		tmp->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
+		DrawOnTexture2DWithMaterial(m_tempTexture, m_material2dX);
 		
-		DrawOnTexture2DWithMaterial(tmp, m_material2dX);
-		
-		m_material2dY->SetTexture2D(ace::ToAString("g_texture").c_str(), tmp);
+		m_material2dY->SetTexture2D(ace::ToAString("g_texture").c_str(), m_tempTexture);
 		m_material2dY->SetVector3DF(ace::ToAString("g_weight").c_str(), weights);
 		
 		DrawOnTexture2DWithMaterial(dst, m_material2dY);
-		tmp->SetFilter(origSrcFiter);
+		m_tempTexture->SetFilter(origSrcFiter);
 	}
 
 }

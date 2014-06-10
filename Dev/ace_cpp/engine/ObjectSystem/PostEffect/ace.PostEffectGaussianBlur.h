@@ -22,6 +22,9 @@ namespace ace
 		std::shared_ptr<ace::Shader2D>		m_shaderX, m_shaderY;
 		std::shared_ptr<ace::Material2D>	m_material2dX, m_material2dY;
 		ace::Graphics *m_graphics;
+
+		std::shared_ptr<RenderTexture2D>	m_tempTexture;
+
 		PostEffectGaussianBlur() = default;
 		
 		float intensity = 5.0f;
