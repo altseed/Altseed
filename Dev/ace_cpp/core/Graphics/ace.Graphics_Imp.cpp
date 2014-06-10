@@ -677,6 +677,7 @@ Font* Graphics_Imp::CreateFont_(const achar* path)
 		return nullptr;
 	}
 #endif
+	fclose(fp);
 
 	auto font = new Font_Imp(this,path);
 
