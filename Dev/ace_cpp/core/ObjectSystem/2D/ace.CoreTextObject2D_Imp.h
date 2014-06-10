@@ -28,31 +28,31 @@ namespace ace
 
 	public:
 #pragma region Parameter
-		Font* GetFont() const override;
+		const Font* GetFont() const override;
 		void SetFont(Font* font) override;
 
-		WritingDirection GetWritingDirection() const override;
+		const WritingDirection GetWritingDirection() const override;
 		void SetWritingDirection(WritingDirection writingDirection) override;
 
-		astring GetText() const override;
+		const astring GetText() const override;
 		void SetText(const achar* text) override;
 
-		Vector2DF GetCenterPosition() const override;
+		const Vector2DF GetCenterPosition() const override;
 		void SetCenterPosition(Vector2DF position) override;
 
-		Color GetColor() const override;
+		const Color GetColor() const override;
 		void SetColor(Color color) override;
 
-		bool GetTurnLR() const override;
+		const bool GetTurnLR() const override;
 		void SetTurnLR(bool turnLR) override;
 
-		bool GetTurnUL() const override;
+		const bool GetTurnUL() const override;
 		void SetTurnUL(bool turnUL) override;
 
-		int GetDrawingPriority() const override;
+		const int GetDrawingPriority() const override;
 		void SetDrawingPriority(int priority) override;
 
-		eAlphaBlend GetAlphaBlendMode() const override;
+		const eAlphaBlend GetAlphaBlendMode() const override;
 		void SetAlphaBlendMode(eAlphaBlend alphaBlend) override;
 #pragma endregion
 

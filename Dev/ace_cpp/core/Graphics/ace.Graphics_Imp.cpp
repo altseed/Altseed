@@ -663,11 +663,21 @@ Font* Graphics_Imp::CreateFont_(const achar* path)
 		}
 	}
 
+	FILE *fp;
 #if _WIN32
-	if (_wfopen(path, L"rb") == nullptr) return nullptr;
+	if ((fp = _wfopen(path, L"rb")) == nullptr)
+	{
+		fclose(fp);
+		return nullptr;
+	}
 #else
-	if (fopen(ToUtf8String(path).c_str(), "rb") == nullptr) return nullptr;
+	if ((fp =fopen(ToUtf8String(path).c_str(), "rb")) == nullptr)
+	{
+		fclose(fp);
+		return nullptr;
+	}
 #endif
+	fclose(fp);
 
 	auto font = new Font_Imp(this,path);
 

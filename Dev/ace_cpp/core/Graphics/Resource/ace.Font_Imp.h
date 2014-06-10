@@ -32,6 +32,7 @@ namespace ace {
 
 	public:
 		const GlyphData GetGlyphData(achar c);
+		const bool HasGlyphData(achar c);
 
 		const std::shared_ptr<Texture2D> GetTexture(int index) const;
 		// リロード

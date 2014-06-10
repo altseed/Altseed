@@ -42,31 +42,26 @@ namespace ace {
 
 		int pictureNumber = 1;
 
-		ace::astring pngExtension = ace::astring(ToAString(".png"));
+		const ace::astring pngExtension = ace::astring(ToAString(".png"));
 
 		while (true)
 		{
 			//連番を文字列化。
-			ace::astring strNumber = ace::astring(ace::ToAString(std::to_string(pictureNumber).c_str()));
+			const ace::astring strNumber = ace::ToAString(std::to_string(pictureNumber).c_str());
 
 			//PNGファイルへのパス文字列を構成。
-			ace::astring pngFilePath = (rawFilePath + strNumber + pngExtension);
+			const ace::astring pngFilePath = (rawFilePath + strNumber + pngExtension);
 
 			//この連番のファイルが存在するか否か調べて、存在しなかったらループを抜ける。
+
+			auto texture = m_graphics->CreateTexture2D(pngFilePath.c_str());
+
+			if (texture == nullptr)
 			{
-#ifdef _WIN32
-				if (_wfopen(pngFilePath.c_str(), L"rb") == nullptr)
-				{
-					break;
-				}
-#else
-				if(fopen(ToUtf8String(pngFilePath.c_str()).c_str(),"rb")==nullptr)
-				{
-					break;
-				}
-#endif
+				break;
 			}
-			m_textures.push_back(m_graphics->CreateTexture2D(pngFilePath.c_str()));
+
+			m_textures.push_back(texture);
 
 
 			++pictureNumber;
@@ -101,6 +96,14 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	const bool Font_Imp::HasGlyphData(achar c)
+	{
+		return m_glyphs.count(c) == 1;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	void Font_Imp::Reload(const achar* affFilePath)
 	{
 		m_glyphs.clear();
@@ -115,31 +118,24 @@ namespace ace {
 
 		int pictureNumber = 0;
 
-		ace::astring pngExtension = ace::astring(ToAString(".png"));
+		const ace::astring pngExtension = ace::astring(ToAString(".png"));
 
 		while (true)
 		{
 			//連番を文字列化。
-			ace::astring strNumber = ace::astring(ace::ToAString(std::to_string(pictureNumber).c_str()));
+			const ace::astring strNumber = ace::astring(ace::ToAString(std::to_string(pictureNumber).c_str()));
 
 			//PNGファイルへのパス文字列を構成。
-			ace::astring pngFilePath = (rawFilePath + strNumber + pngExtension);
+			const ace::astring pngFilePath = (rawFilePath + strNumber + pngExtension);
 
-			//この連番のファイルが存在するか否か調べて、存在しなかったらループを抜ける。
+			auto texture = m_graphics->CreateTexture2D(pngFilePath.c_str());
+
+			if (texture == nullptr)
 			{
-#ifdef _WIN32
-				if (_wfopen(pngFilePath.c_str(), L"rb") == nullptr)
-				{
-					break;
-				}
-#else
-				if (fopen(ToUtf8String(pngFilePath.c_str()).c_str(), "rb") == nullptr)
-				{
-					break;
-				}
-#endif
+				break;
 			}
-			m_textures.push_back(m_graphics->CreateTexture2D(pngFilePath.c_str()));
+
+			m_textures.push_back(texture);
 
 
 			++pictureNumber;
