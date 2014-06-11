@@ -11,13 +11,13 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture2D_Imp_DX11::RenderTexture2D_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, ID3D11RenderTargetView* textureRTV, Vector2DI size)
+	RenderTexture2D_Imp_DX11::RenderTexture2D_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, ID3D11RenderTargetView* textureRTV, Vector2DI size, eTextureFormat format)
 		: RenderTexture2D_Imp(graphics, size)
 		, m_texture(texture)
 		, m_textureSRV(textureSRV)
 		, m_textureRTV(textureRTV)
 	{
-
+		m_format = format;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -97,7 +97,7 @@ namespace ace {
 			goto End;
 		}
 
-		return new RenderTexture2D_Imp_DX11(g, texture, textureSRV, textureRTV, Vector2DI(width, height));
+		return new RenderTexture2D_Imp_DX11(g, texture, textureSRV, textureRTV, Vector2DI(width, height), format);
 
 	End:;
 		SafeRelease(texture);

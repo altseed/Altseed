@@ -13,7 +13,10 @@ namespace ace
 
 	public:
 		typedef CoreLayer* LayerPtr;
-		
+
+		virtual bool GetHDRMode() const = 0;
+		virtual void SetHDRMode(bool value) = 0;
+
 		virtual void AddLayer(LayerPtr layer) = 0;
 		virtual void RemoveLayer(LayerPtr layer) = 0;
 

@@ -26,12 +26,14 @@ namespace ace {
 		Vector2DI	m_size;
 
 		eTextureFilterType	m_filter;
+		eTextureFormat		m_format;
 
 		RenderTexture2D_Imp(Graphics* graphics, Vector2DI size);
 		virtual ~RenderTexture2D_Imp();
 	public:
 
-		Vector2DI GetSize() const { return m_size; }
+		Vector2DI GetSize() const override { return m_size; }
+		eTextureFormat GetFormat() const override { return m_format; }
 
 		eTextureFilterType GetFilter() const { return m_filter; }
 		void SetFilter(eTextureFilterType filter) { m_filter = filter; }

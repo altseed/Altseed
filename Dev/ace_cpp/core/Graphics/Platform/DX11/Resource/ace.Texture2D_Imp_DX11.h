@@ -19,7 +19,6 @@ namespace ace {
 	private:
 		ID3D11Texture2D*	m_texture;
 		ID3D11ShaderResourceView*	m_textureSRV;
-		eTextureFormat				m_format;
 		std::vector<uint8_t>		m_resource;
 
 		Texture2D_Imp_DX11(Graphics* graphics);

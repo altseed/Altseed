@@ -57,6 +57,18 @@ namespace ace
 		virtual ~Scene();
 
 		/**
+			@brief	描画先のフォーマットがHDRか取得する。
+			@return	HDRか?
+		*/
+		bool GetHDRMode() const;
+
+		/**
+			@brief	描画先のフォーマットをHDRにするか設定する。
+			@param	value	HDRか?
+		*/
+		void SetHDRMode(bool value);
+
+		/**
 			@brief	指定したレイヤーをこのインスタンスに追加する。
 			@param	layer	追加するレイヤー
 		*/

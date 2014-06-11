@@ -37,6 +37,12 @@ namespace ace {
 		virtual Vector2DI GetSize() const = 0;
 
 		/**
+			@brief	テクスチャのフォーマットを取得する。
+			@return	フォーマット
+		*/
+		virtual eTextureFormat GetFormat() const = 0;
+
+		/**
 		@brief	フィルタを取得する。
 		@return	フィルタ
 		*/

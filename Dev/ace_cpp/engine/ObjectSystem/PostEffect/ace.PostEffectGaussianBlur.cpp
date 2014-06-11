@@ -1,6 +1,6 @@
-﻿#include "ace.PostEffectGaussianBlur.h"
+﻿
+#include "ace.PostEffectGaussianBlur.h"
 
-#include <vector>
 namespace ace{
 
 
@@ -31,6 +31,9 @@ float4 main( const PS_Input Input ) : SV_Target
 	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
 	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
 	           g_weight.z;
+
+	output_.a = 1.0;
+
 	return output_;
 }
 )";
@@ -54,6 +57,9 @@ void main()
 	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
 	          texture2D(g_texture, inUV.xy + half_ - accum)) *
 	          g_weight.z;
+
+	output_.a = 1.0;
+
 	gl_FragColor = output_; 
 }
 
@@ -85,6 +91,9 @@ float4 main( const PS_Input Input ) : SV_Target
 	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
 	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
 	           g_weight.z;
+
+	output_.a = 1.0;
+
 	return output_;
 }
 )";
@@ -109,6 +118,8 @@ void main()
 	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
 	          texture2D(g_texture, inUV.xy + half_ - accum)) *
 	          g_weight.z;
+
+	output_.a = 1.0;
 
 	gl_FragColor = output_; 
 }
@@ -208,12 +219,19 @@ void main()
 		m_material2dX->SetVector3DF(ace::ToAString("g_weight").c_str(), weights);
 
 		auto size = src->GetSize();
-		auto type = src->GetType();
-
+		auto format = src->GetFormat();
+		
 		if (m_tempTexture == nullptr ||
-			(m_tempTexture->GetSize() != size || m_tempTexture->GetType() != type))
+			(m_tempTexture->GetSize() != size || m_tempTexture->GetFormat() != format))
 		{
-			m_tempTexture = m_graphics->CreateRenderTexture(size.X, size.Y, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
+			{
+				m_tempTexture = m_graphics->CreateRenderTexture(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+			}
+			else
+			{
+				m_tempTexture = m_graphics->CreateRenderTexture(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			}
 		}
 
 		m_tempTexture->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);

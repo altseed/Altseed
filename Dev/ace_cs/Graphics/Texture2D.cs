@@ -77,6 +77,14 @@ namespace ace
 			get { return SwigObject.GetSize(); }
 		}
 
+		/// <summary>
+		/// テクスチャのフォーマットを取得する。
+		/// </summary>
+		public TextureFormat Format
+		{
+			get { return (TextureFormat)SwigObject.GetFormat(); }
+		}
+
 		public TextureFilterType Filter
 		{
 			get { return (TextureFilterType)SwigObject.GetFilter();}

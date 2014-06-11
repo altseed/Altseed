@@ -77,6 +77,15 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 描画先がHDRかどうか、取得、または設定する。
+		/// </summary>
+		public bool HDRMode
+		{
+			get { return CoreScene.GetHDRMode(); }
+			set { CoreScene.SetHDRMode(value); }
+		}
+
+		/// <summary>
 		/// 指定したレイヤーをこのシーンに追加する。
 		/// </summary>
 		/// <param name="layer">追加されるレイヤー</param>
