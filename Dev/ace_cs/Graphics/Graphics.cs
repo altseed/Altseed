@@ -189,7 +189,7 @@ namespace ace
         /// <summary>
         /// 二次元チップを生成する。
         /// </summary>
-        /// <returns></returns>
+        /// <returns>二次元チップ</returns>
         public Chip2D CreateChip2D()
         {
             var chip = graphics.CreateChip2D_();
