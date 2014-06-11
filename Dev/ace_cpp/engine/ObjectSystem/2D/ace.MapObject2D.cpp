@@ -12,6 +12,7 @@ namespace ace
 
 	MapObject2D::~MapObject2D()
 	{
+		m_chips.clear();
 	}
 
 	CoreObject2D* MapObject2D::GetCoreObject() const

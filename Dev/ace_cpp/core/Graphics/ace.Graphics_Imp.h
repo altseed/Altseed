@@ -242,7 +242,7 @@ namespace ace {
 
 		Font* CreateFont_(const achar* path);
 
-		Chip2D* CreateChip2D_(Texture2D* texture);
+		Chip2D* CreateChip2D_();
 
 #if !SWIG
 	/**

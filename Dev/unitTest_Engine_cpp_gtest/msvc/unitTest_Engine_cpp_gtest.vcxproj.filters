@@ -77,6 +77,9 @@
     <ClCompile Include="..\ObjectSystem\Text2DTest.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\Map2DTest.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

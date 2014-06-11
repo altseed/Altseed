@@ -15,11 +15,6 @@ namespace ace
 
 	CoreMapObject2D_Imp::~CoreMapObject2D_Imp()
 	{
-		for (std::set<Chip2D*>::iterator ite = m_chips.begin(); ite != m_chips.end(); ++ite)
-		{
-			auto chip = *ite;
-			SafeRelease(chip);
-		}
 		m_chips.clear();
 	}
 
@@ -106,7 +101,7 @@ namespace ace
 
 			}
 
-			auto texture = (*chip)->GetTexture();
+			Texture2D* texture = (*chip)->GetTexture();
 
 			std::array<Vector2DF, 4> uvs;
 			{

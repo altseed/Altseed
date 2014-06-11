@@ -30,6 +30,7 @@
     <ClCompile Include="..\ObjectSystem\LayerHasNoObject.cpp" />
     <ClCompile Include="..\ObjectSystem\LayersFlag.cpp" />
     <ClCompile Include="..\ObjectSystem\LayersMember.cpp" />
+    <ClCompile Include="..\ObjectSystem\Map2DTest.cpp" />
     <ClCompile Include="..\ObjectSystem\Object2DTest.cpp" />
     <ClCompile Include="..\ObjectSystem\ObjectsFlag.cpp" />
     <ClCompile Include="..\ObjectSystem\ObjectsMember.cpp" />

@@ -29,13 +29,13 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Chip2D_Imp::Chip2D_Imp(Graphics* graphics,Texture2D*  texture)
+	Chip2D_Imp::Chip2D_Imp(Graphics* graphics)
 		: DeviceObject(graphics)
 		, m_graphics(graphics)
 		, m_src(RectF())
 		, m_color(Color())
 		, m_alphaBlend(ALPHA_BLEND_BLEND)
-		, m_texture(texture)
+		, m_texture(nullptr)
 		, m_turnLR(false)
 		, m_turnUL(false)
 	{

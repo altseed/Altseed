@@ -695,9 +695,9 @@ Font* Graphics_Imp::CreateFont_(const achar* path)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Chip2D* Graphics_Imp::CreateChip2D_(Texture2D* texture)
+Chip2D* Graphics_Imp::CreateChip2D_()
 {
-	auto chip = new Chip2D_Imp(this, texture);
+	auto chip = new Chip2D_Imp(this);
 	if (chip == nullptr) return nullptr;
 
 

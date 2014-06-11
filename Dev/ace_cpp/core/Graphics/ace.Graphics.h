@@ -31,7 +31,7 @@ protected:
 	virtual Model* CreateModel_(const achar* path) = 0;
 	virtual Effect* CreateEffect_(const achar* path) = 0;
 	virtual Font* CreateFont_(const achar* path) = 0;
-	virtual Chip2D* CreateChip2D_(Texture2D* chip) = 0;
+	virtual Chip2D* CreateChip2D_() = 0;
 
 public:
 	Graphics(){}
@@ -159,9 +159,9 @@ public:
 	@param	texture	テクスチャ
 	@return	2Dチップ
 	*/
-	std::shared_ptr<Chip2D> CreateChip2D(std::shared_ptr<Texture2D> texture)
+	std::shared_ptr<Chip2D> CreateChip2D()
 	{
-		auto chip = CreateChip2D_(texture.get());
+		auto chip = CreateChip2D_();
 		return CreateSharedPtrWithReleaseDLL(chip);
 	}
 

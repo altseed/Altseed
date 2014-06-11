@@ -38,6 +38,8 @@ extern void Graphics_Model_(bool isOpenGLMode);
 
 extern void ObjectSystem_Text2DTest_(bool isOpenGLMode);
 
+extern void ObjectSystem_Map2DTest_(bool isGL);
+
 /**
 	@brief	単体テストを実行する。
 	@note
@@ -74,7 +76,6 @@ int main(int argc, char **argv)
 	
 	//Graphics_Model_(false);
 	//return 0;
-	
 
 	auto result = RUN_ALL_TESTS();
 

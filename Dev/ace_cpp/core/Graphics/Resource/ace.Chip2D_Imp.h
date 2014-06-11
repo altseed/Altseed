@@ -50,7 +50,7 @@ namespace ace {
 		const eAlphaBlend GetAlphaBlendMode() const override;
 		void SetAlphaBlendMode(eAlphaBlend alphaBlend) override;
 
-		Chip2D_Imp(Graphics* graphics, Texture2D* texture);
+		Chip2D_Imp(Graphics* graphics);
 		virtual ~Chip2D_Imp();
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
