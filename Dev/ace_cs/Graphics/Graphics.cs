@@ -186,6 +186,17 @@ namespace ace
             return GC.GenerateFont(font, GC.GenerationType.Create);
         }
 
+        /// <summary>
+        /// 二次元チップを生成する。
+        /// </summary>
+        /// <returns></returns>
+        public Chip2D CreateChip2D()
+        {
+            var chip = graphics.CreateChip2D_();
+            if (chip == null) return null;
+            return GC.GenerateChip2D(chip, GC.GenerationType.Create);
+        }
+
 		/// <summary>
 		/// 描画ランタイムの種類を取得する。
 		/// </summary>

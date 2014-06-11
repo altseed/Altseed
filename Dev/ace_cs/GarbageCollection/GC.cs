@@ -15,8 +15,9 @@ namespace ace
 		internal static IDObjectContainer<Texture2D> Texture2Ds { get; private set; }
 		internal static IDObjectContainer<CubemapTexture> CubemapTextures { get; private set; }
 		internal static IDObjectContainer<Font> Fonts { get; private set; }
+        internal static IDObjectContainer<Chip2D> Chip2Ds { get; private set; }
 
-		internal static IDObjectContainer<Shader2D> Shader2Ds { get; private set; }
+        internal static IDObjectContainer<Shader2D> Shader2Ds { get; private set; }
 		internal static IDObjectContainer<Material2D> Material2Ds { get; private set; }
 
 		internal static IDObjectContainer<Effect> Effects { get; private set; }
@@ -48,6 +49,7 @@ namespace ace
 			Texture2Ds = new IDObjectContainer<Texture2D>();
 			CubemapTextures = new IDObjectContainer<CubemapTexture>();
 			Fonts = new IDObjectContainer<Font>();
+            Chip2Ds = new IDObjectContainer<Chip2D>();
 
 			Shader2Ds = new IDObjectContainer<Shader2D>();
 			Material2Ds = new IDObjectContainer<Material2D>();
@@ -87,6 +89,7 @@ namespace ace
 				Texture2Ds.DestroyAll();
 				CubemapTextures.DestroyAll();
 				Fonts.DestroyAll();
+                Chip2Ds.DestroyAll();
 
 				Shader2Ds.DestroyAll();
 				Material2Ds.DestroyAll();
@@ -243,6 +246,19 @@ namespace ace
 
             var ret = new Font(o);
             GC.Fonts.AddObject(p, ret);
+            return ret;
+        }
+
+        internal static Chip2D GenerateChip2D(swig.Chip2D o,GenerationType type)
+        {
+            var p = o.GetPtr();
+
+            var existing = GC.Chip2Ds.GetObject(p);
+            existing = GenerateInternal(existing, o, type);
+            if (existing != null) return existing;
+
+            var ret = new Chip2D(o);
+            GC.Chip2Ds.AddObject(p, ret);
             return ret;
         }
 

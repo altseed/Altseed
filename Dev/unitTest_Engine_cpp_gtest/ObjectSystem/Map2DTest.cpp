@@ -30,10 +30,15 @@ protected:
 
 		auto g = ace::Engine::GetGraphics();
 		auto texture = g->CreateTexture2D(ace::ToAString("Data/Map/MapTest.png").c_str());
-		auto chip = g->CreateChip2D();
-		chip->SetTexture(texture.get());
-		chip->SetSrc(ace::RectF(0, 0, 256, 256));
-		object->AddChip(chip);
+		auto chip1 = g->CreateChip2D();
+		chip1->SetTexture(texture.get());
+		chip1->SetSrc(ace::RectF(0, 0, 256, 256));
+		object->AddChip(chip1);
+
+		auto chip2 = g->CreateChip2D();
+		chip2->SetTexture(texture.get());
+		chip2->SetSrc(ace::RectF(300, 0, 256, 256));
+		object->AddChip(chip2);
 
 		object->SetPosition(Vector2DF(0, 0));
 	}

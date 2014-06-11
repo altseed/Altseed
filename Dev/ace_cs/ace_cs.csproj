@@ -54,6 +54,7 @@
     <Compile Include="Graphics\Animation\AnimationSource.cs" />
     <Compile Include="Graphics\Animation\AnimationSystem.cs" />
     <Compile Include="Graphics\Animation\KeyframeAnimation.cs" />
+    <Compile Include="Graphics\Chip2D.cs" />
     <Compile Include="Graphics\CubemapTexture.cs" />
     <Compile Include="Graphics\Def.cs" />
     <Compile Include="Graphics\Color.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Math\Vector4DF.cs" />
     <Compile Include="ObjectSystem\2D\CameraObject2D.cs" />
     <Compile Include="ObjectSystem\2D\EffectObject2D.cs" />
+    <Compile Include="ObjectSystem\2D\MapObject2D.cs" />
     <Compile Include="ObjectSystem\2D\TextObject2D.cs" />
     <Compile Include="ObjectSystem\3D\CameraObject3D.cs" />
     <Compile Include="ObjectSystem\3D\DirectionalLightObject3D.cs" />

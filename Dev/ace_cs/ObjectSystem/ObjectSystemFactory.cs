@@ -35,11 +35,20 @@ namespace ace
 			return factory.CreateTextureObject2D();
 		}
 
-		/// <summary>
-		/// ネイティブのクラスをインスタンス化する。
-		/// </summary>
-		/// <returns>ネイティブのインスタンス</returns>
-		public swig.CoreTextObject2D CreateTextObject2D()
+        /// <summary>
+        /// ネイティブのMapObject2Dをインスタンス化する。
+        /// </summary>
+        /// <returns>ネイティブのインスタンス</returns>
+        public swig.CoreMapObject2D CreateMapObject2D()
+        {
+            return factory.CreateMapObject2D();
+        }
+
+        /// <summary>
+        /// ネイティブのTextObject2Dをインスタンス化する。
+        /// </summary>
+        /// <returns>ネイティブのインスタンス</returns>
+        public swig.CoreTextObject2D CreateTextObject2D()
 		{
 			return factory.CreateTextObject2D();
 		}
