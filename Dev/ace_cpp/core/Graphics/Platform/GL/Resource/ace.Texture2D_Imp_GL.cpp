@@ -25,8 +25,8 @@ namespace ace {
 	Texture2D_Imp_GL::Texture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, eTextureFormat format)
 		: Texture2D_Imp(graphics)
 		, m_texture(texture)
-		, m_format(format)
 	{
+		m_format = format;
 		m_size = size;
 		m_resource.resize(size.X * size.Y * ImageHelper::GetPitch(m_format));
 	}

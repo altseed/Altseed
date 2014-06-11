@@ -28,18 +28,29 @@ namespace ace
 
 		std::list<LayerPtr> m_layers;
 
+		Vector2DI			m_windowSize;
+		bool				m_hdrMode;
+
 		Graphics_Imp*		m_graphics;
 		RenderTexture2D_Imp*	m_baseTarget0;
 		RenderTexture2D_Imp*	m_baseTarget1;
 		int32_t				m_targetIndex;
 
+		/**
+			@brief	レンダーターゲットを必要ならば更新する。
+		*/
+		void RenewRenderTarget(Vector2DI windowSize, bool isHDRMode);
+
 		CoreScene_Imp(Graphics* graphics, Vector2DI windowSize);
 		virtual ~CoreScene_Imp();
 	public:
-		
+
+		bool GetHDRMode() const override;
+		void SetHDRMode(bool value) override;
+
 		void AddLayer(LayerPtr layer);
 		void RemoveLayer(LayerPtr layer);
-		
+
 		void Draw();
 
 		void SetRenderTargetForDrawingLayer();

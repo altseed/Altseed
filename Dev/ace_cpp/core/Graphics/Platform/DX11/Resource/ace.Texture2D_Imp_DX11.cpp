@@ -27,8 +27,8 @@ namespace ace {
 		: Texture2D_Imp(graphics)
 		, m_texture(texture)
 		, m_textureSRV(textureSRV)
-		, m_format(format)
 	{
+		m_format = format;
 		m_size = size;
 		m_resource.resize(size.X * size.Y * ImageHelper::GetPitch(m_format));
 	}
@@ -72,6 +72,7 @@ namespace ace {
 
 		m_size.X = m_internalTextureWidth;
 		m_size.Y = m_internalTextureHeight;
+		m_format = eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM;
 
 		InternalUnload();
 		if (FAILED(hr))

@@ -22,7 +22,7 @@ namespace ace {
 		ID3D11ShaderResourceView*	m_textureSRV;
 		ID3D11RenderTargetView*		m_textureRTV;
 
-		RenderTexture2D_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, ID3D11RenderTargetView* textureRTV, Vector2DI size);
+		RenderTexture2D_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, ID3D11RenderTargetView* textureRTV, Vector2DI size, eTextureFormat format);
 		virtual ~RenderTexture2D_Imp_DX11();
 	public:
 

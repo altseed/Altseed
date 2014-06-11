@@ -12,11 +12,11 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture2D_Imp_GL::RenderTexture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size)
+	RenderTexture2D_Imp_GL::RenderTexture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, eTextureFormat format)
 		: RenderTexture2D_Imp(graphics, size)
 		, m_texture(texture)
 	{
-
+		m_format = format;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ namespace ace {
 
 		GLCheckError();
 
-		return new RenderTexture2D_Imp_GL(graphics, texture, Vector2DI(width, height));
+		return new RenderTexture2D_Imp_GL(graphics, texture, Vector2DI(width, height), format);
 	}
 
 	//----------------------------------------------------------------------------------

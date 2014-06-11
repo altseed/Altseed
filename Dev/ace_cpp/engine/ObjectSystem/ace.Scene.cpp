@@ -126,6 +126,16 @@ namespace ace
 	{
 	}
 
+	bool Scene::GetHDRMode() const
+	{
+		return m_coreScene->GetHDRMode();
+	}
+
+	void Scene::SetHDRMode(bool value)
+	{
+		m_coreScene->SetHDRMode(value);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

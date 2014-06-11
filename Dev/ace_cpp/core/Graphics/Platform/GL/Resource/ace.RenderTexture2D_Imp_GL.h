@@ -20,7 +20,7 @@ namespace ace {
 	protected:
 		GLuint	m_texture;
 
-		RenderTexture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size);
+		RenderTexture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, eTextureFormat format);
 		virtual ~RenderTexture2D_Imp_GL();
 	public:
 

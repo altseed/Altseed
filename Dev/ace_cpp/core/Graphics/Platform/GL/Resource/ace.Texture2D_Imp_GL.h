@@ -18,7 +18,6 @@ namespace ace {
 	{
 	private:
 		GLuint	m_texture;
-		eTextureFormat				m_format;
 		std::vector<uint8_t>		m_resource;
 
 		Texture2D_Imp_GL(Graphics* graphics);
