@@ -36,6 +36,8 @@
 
 #include "Graphics/Resource/ace.Font.h"
 
+#include "Graphics/Resource/ace.Chip2D.h"
+
 #include "Graphics/3D/ace.Mesh.h"
 #include "Graphics/3D/ace.Deformer.h"
 #include "Graphics/3D/ace.Model.h"
@@ -51,6 +53,7 @@
 #include "ObjectSystem/2D/ace.CoreCameraObject2D.h"
 #include "ObjectSystem/2D/ace.CoreTextObject2D.h"
 #include "ObjectSystem/2D/ace.CoreEffectObject2D.h"
+#include "ObjectSystem/2D/ace.CoreMapObject2D.h"
 
 #include "ObjectSystem/ace.CoreLayer.h"
 
@@ -264,6 +267,7 @@ CPP_OBJECT( ace::CoreTextureObject2D )
 CPP_OBJECT( ace::CoreCameraObject2D )
 CPP_OBJECT( ace::CoreTextObject2D )
 CPP_OBJECT( ace::CoreEffectObject2D )
+CPP_OBJECT( ace::CoreMapObject2D )
 
 
 CPP_OBJECT( ace::CoreObject3D )
@@ -290,6 +294,8 @@ CPP_OBJECT( ace::Shader2D_Imp )
 CPP_OBJECT( ace::Effect )
 
 CPP_OBJECT( ace::Font )
+
+CPP_OBJECT( ace::Chip2D )
 
 CPP_OBJECT( ace::Mesh )
 CPP_OBJECT( ace::Deformer )
@@ -319,9 +325,12 @@ CPP_OBJECT( ace::Log_Imp )
 %newobject ace::Graphics_Imp::CreateModel_;
 
 %newobject ace::Graphics_Imp::CreateFont_;
+%newobject ace::Graphics_Imp::CreateChip2D_;
 
 %newobject ace::ObjectSystemFactory::CreateObject2D;
 %newobject ace::ObjectSystemFactory::CreateTextureObject2D;
+%newobject ace::ObjectSystemFactory::CreateFont;
+%newobject ace::ObjectSystemFactory::CreateChip2D;
 %newobject ace::ObjectSystemFactory::CreateLayer2D;
 
 %newobject ace::ObjectSystemFactory::CreateModelObject3D;
@@ -394,6 +403,8 @@ namespace ace
 
 %include "ace_cpp/core/Graphics/Resource/ace.Font.h"
 
+%include "ace_cpp/core/Graphics/Resource/ace.Chip2D.h"
+
 %include "ace_cpp/core/Graphics/3D/ace.Deformer.h"
 %include "ace_cpp/core/Graphics/3D/ace.Mesh.h"
 %include "ace_cpp/core/Graphics/3D/ace.Model.h"
@@ -412,6 +423,7 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreEffectObject2D.h"
+%include "ace_cpp/core/ObjectSystem/2D/ace.CoreMapObject2D.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.CoreLayer.h"
 

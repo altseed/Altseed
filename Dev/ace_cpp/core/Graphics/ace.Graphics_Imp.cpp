@@ -16,6 +16,7 @@
 
 #include "Resource/ace.Shader2D_Imp.h"
 #include "Resource/ace.Material2D_Imp.h"
+#include "Resource/ace.Chip2D_Imp.h"
 
 #include "Resource/ace.Effect_Imp.h"
 
@@ -689,6 +690,18 @@ Font* Graphics_Imp::CreateFont_(const achar* path)
 	GetResourceContainer()->Fonts.Regist(path, info, font);
 
 	return font;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+Chip2D* Graphics_Imp::CreateChip2D_(Texture2D* texture)
+{
+	auto chip = new Chip2D_Imp(this, texture);
+	if (chip == nullptr) return nullptr;
+
+
+	return chip;
 }
 
 //----------------------------------------------------------------------------------

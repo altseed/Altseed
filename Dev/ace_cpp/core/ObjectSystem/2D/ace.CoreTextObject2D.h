@@ -76,16 +76,6 @@ namespace ace
 		virtual void SetText(const achar* text) = 0;
 
 		/**
-		@brief	このオブジェクトを描画する際のテクスチャの向きを設定する。
-		*/
-		virtual void SetAngle(float degree) = 0;
-
-		/**
-		@brief	このオブジェクトを描画する際のテクスチャの拡大率を設定する。
-		*/
-		virtual void SetScale(Vector2DF scale) = 0;
-
-		/**
 		@brief	このオブジェクトの原点位置を設定する。この位置が、描画する際の描画・拡縮・回転の中心となる。
 		*/
 		virtual void SetCenterPosition(Vector2DF position) = 0;

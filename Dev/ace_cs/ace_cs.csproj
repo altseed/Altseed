@@ -117,6 +117,7 @@
     <Compile Include="swig\AnimationClip.cs" />
     <Compile Include="swig\AnimationSource.cs" />
     <Compile Include="swig\AnimationSystem.cs" />
+    <Compile Include="swig\Chip2D.cs" />
     <Compile Include="swig\Core.cs" />
     <Compile Include="swig\CoreCameraObject2D.cs" />
     <Compile Include="swig\CoreCameraObject3D.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="swig\CoreLayer.cs" />
     <Compile Include="swig\CoreLayer2D.cs" />
     <Compile Include="swig\CoreLayer3D.cs" />
+    <Compile Include="swig\CoreMapObject2D.cs" />
     <Compile Include="swig\CoreModelObject3D.cs" />
     <Compile Include="swig\CoreObject2D.cs" />
     <Compile Include="swig\CoreObject3D.cs" />

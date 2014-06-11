@@ -242,6 +242,8 @@ namespace ace {
 
 		Font* CreateFont_(const achar* path);
 
+		Chip2D* CreateChip2D_(Texture2D* texture);
+
 #if !SWIG
 	/**
 	@brief	深度バッファを生成する。

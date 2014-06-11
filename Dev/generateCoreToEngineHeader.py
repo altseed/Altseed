@@ -84,6 +84,8 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Shader2D.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Material2D.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Font.h")
 
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Chip2D.h")
+
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Effect.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/ace.Deformer.h")
@@ -109,6 +111,7 @@ fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreTextObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreEffectObject2D.h')
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreMapObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D.h')
 
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D.h')

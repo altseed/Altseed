@@ -6,6 +6,7 @@
 #include "2D/ace.CoreCameraObject2D.h"
 #include "2D/ace.CoreTextObject2D.h"
 #include "2D/ace.CoreEffectObject2D.h"
+#include "2D/ace.CoreMapObject2D.h"
 #include "2D/ace.CoreLayer2D.h"
 #include "ace.CoreScene.h"
 
@@ -22,6 +23,7 @@ namespace ace
 		virtual CoreCameraObject2D* CreateCameraObject2D() = 0;
 		virtual CoreTextObject2D* CreateTextObject2D() = 0;
 		virtual CoreEffectObject2D* CreateEffectObject2D() = 0;
+		virtual CoreMapObject2D* CreateMapObject2D() = 0;
 		virtual CoreLayer2D* CreateLayer2D() = 0;
 
 

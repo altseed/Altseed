@@ -48,6 +48,8 @@ namespace ace {
 
 	class Font;
 
+	class Chip2D;
+
 	class Mesh;
 	class Deformer;
 
@@ -67,6 +69,7 @@ namespace ace {
 	class CoreCameraObject2D;
 	class CoreTextObject2D;
 	class CoreEffectObject2D;
+	class CoreMapObject2D;
 
 	class CoreLayer3D;
 	class CoreObject3D;

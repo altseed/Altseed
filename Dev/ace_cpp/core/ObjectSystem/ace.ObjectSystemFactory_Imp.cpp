@@ -5,6 +5,7 @@
 #include "2D/ace.CoreCameraObject2D_Imp.h"
 #include "2D/ace.CoreTextObject2D_Imp.h"
 #include "2D/ace.CoreEffectObject2D_Imp.h"
+#include "2D/ace.CoreMapObject2D_Imp.h"
 #include "2D/ace.CoreLayer2D_Imp.h"
 
 #include "3D/ace.CoreLayer3D_Imp.h"
@@ -63,6 +64,11 @@ namespace ace
 	CoreEffectObject2D* ObjectSystemFactory_Imp::CreateEffectObject2D()
 	{
 		return new CoreEffectObject2D_Imp(m_graphics);
+	}
+
+	CoreMapObject2D* ObjectSystemFactory_Imp::CreateMapObject2D()
+	{
+		return new CoreMapObject2D_Imp(m_graphics);
 	}
 
 	//----------------------------------------------------------------------------------

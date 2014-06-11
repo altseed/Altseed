@@ -74,6 +74,9 @@
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.TextObject2D.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.MapObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -149,6 +152,9 @@
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.TextObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.MapObject2D.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
   </ItemGroup>
