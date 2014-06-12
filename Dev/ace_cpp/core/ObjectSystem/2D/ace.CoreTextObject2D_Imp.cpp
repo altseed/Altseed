@@ -203,6 +203,12 @@ namespace ace
 			}
 
 			const GlyphData glyphData = font_Imp->GetGlyphData(m_text[textIndex]);
+			auto texture = font_Imp->GetTexture(glyphData.GetSheetNum());
+
+			if (texture == nullptr)
+			{
+				continue;
+			}
 
 			const auto glyphSrc = glyphData.GetSrc();
 
@@ -224,8 +230,6 @@ namespace ace
 				}
 
 			}
-
-			auto texture = font_Imp->GetTexture(glyphData.GetSheetNum());
 
 			std::array<Vector2DF, 4> uvs;
 			{

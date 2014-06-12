@@ -64,7 +64,10 @@ namespace ace
 	const bool CoreMapObject2D_Imp::AddChip(Chip2D* chip)
 	{
 		auto pair = m_chips.insert(chip);
-		SafeAddRef(chip);
+		if (pair.second)
+		{
+			SafeAddRef(chip);
+		}
 		return pair.second;
 	}
 
@@ -75,7 +78,10 @@ namespace ace
 	{
 		auto prevSize = m_chips.size();
 		auto newSize = m_chips.erase(chip);
-		SafeRelease(chip);
+		if (prevSize != newSize)
+		{
+			SafeRelease(chip);
+		}
 		return (prevSize != newSize);
 	}
 	//----------------------------------------------------------------------------------
@@ -93,6 +99,18 @@ namespace ace
 
 		for (auto chip = m_chips.begin(); chip != m_chips.end(); ++chip)
 		{
+			if (*chip == nullptr)
+			{
+				continue;
+			}
+
+			Texture2D* texture = (*chip)->GetTexture();
+
+			if (texture == nullptr)
+			{
+				continue;
+			}
+
 			std::array<Vector2DF, 4> position = (*chip)->GetSrc().GetVertexes();
 
 			{
@@ -107,7 +125,6 @@ namespace ace
 
 			}
 
-			Texture2D* texture = (*chip)->GetTexture();
 
 			std::array<Vector2DF, 4> uvs;
 			{

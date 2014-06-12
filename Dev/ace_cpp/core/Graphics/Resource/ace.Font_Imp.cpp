@@ -82,6 +82,10 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	const std::shared_ptr<Texture2D> Font_Imp::GetTexture(int index) const
 	{
+		if (index < 0 || index >= m_textures.size())
+		{
+			return nullptr;
+		}
 		return m_textures[index];
 	}
 
