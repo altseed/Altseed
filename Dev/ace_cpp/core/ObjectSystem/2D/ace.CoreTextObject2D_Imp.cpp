@@ -177,7 +177,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreTextObject2D_Imp::Draw(Renderer2D* renderer, Matrix33 cameraMatrix)
 	{
-		if (!m_objectInfo.GetIsDrawn())
+		if (!m_objectInfo.GetIsDrawn() || m_font == nullptr)
 		{
 			return;
 		}
