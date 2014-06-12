@@ -15,6 +15,10 @@ namespace ace
 
 	CoreMapObject2D_Imp::~CoreMapObject2D_Imp()
 	{
+		for(auto chip : m_chips)
+		{
+			SafeRelease(chip);
+		}
 		m_chips.clear();
 	}
 
@@ -60,6 +64,7 @@ namespace ace
 	const bool CoreMapObject2D_Imp::AddChip(Chip2D* chip)
 	{
 		auto pair = m_chips.insert(chip);
+		SafeAddRef(chip);
 		return pair.second;
 	}
 
@@ -70,6 +75,7 @@ namespace ace
 	{
 		auto prevSize = m_chips.size();
 		auto newSize = m_chips.erase(chip);
+		SafeRelease(chip);
 		return (prevSize != newSize);
 	}
 	//----------------------------------------------------------------------------------
