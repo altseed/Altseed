@@ -43,7 +43,7 @@ namespace ace
 			}
 		}
 
-		if (m_doesMoveEffects && m_handles.size() > 0)
+		if (m_syncEffects && m_handles.size() > 0)
 		{
 			auto mat = CalcLocalMatrix();
 			Effekseer::Matrix43 efMat;

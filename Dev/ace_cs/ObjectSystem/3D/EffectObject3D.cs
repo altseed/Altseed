@@ -72,15 +72,15 @@ namespace ace
 		/// <summary>
 		/// このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得、または設定する。
 		/// </summary>
-		public bool DoesMoveEffects
+		public bool SyncEffects
 		{
 			get
 			{
-				return coreObject.GetDoesMoveEffects();
+				return coreObject.GetSyncEffects();
 			}
 			set
 			{
-				coreObject.SetDoesMoveEffects(value);
+				coreObject.SetSyncEffects(value);
 			}
 		}
 	}

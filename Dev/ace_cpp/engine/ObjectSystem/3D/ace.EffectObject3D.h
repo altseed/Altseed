@@ -60,12 +60,12 @@ namespace ace
 		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得する。
 		@return	フラグ
 		*/
-		bool GetDoesMoveEffects();
+		bool GetSyncEffects();
 
 		/**
 		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか設定する。
 		@param	value	フラグ
 		*/
-		void SetDoesMoveEffects(bool value);
+		void SetSyncEffects(bool value);
 	};
 }
