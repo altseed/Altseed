@@ -38,13 +38,13 @@ namespace ace
 		m_object->StopRoot();
 	}
 
-	bool CoreEffectObject3D_Imp::GetDoesMoveEffects()
+	bool CoreEffectObject3D_Imp::GetSyncEffects()
 	{
-		return m_object->GetDoesMoveEffects();
+		return m_object->GetSyncEffects();
 	}
 
-	void CoreEffectObject3D_Imp::SetDoesMoveEffects(bool value)
+	void CoreEffectObject3D_Imp::SetSyncEffects(bool value)
 	{
-		m_object->SetDoesMoveEffects(value);
+		m_object->SetSyncEffects(value);
 	}
 }

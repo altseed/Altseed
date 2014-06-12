@@ -29,7 +29,7 @@ namespace ace
 		std::vector<Effekseer::Handle>	m_handles;
 		Effect*							m_effect;
 		Renderer3D*						m_renderer = nullptr;
-		bool							m_doesMoveEffects = nullptr;
+		bool							m_syncEffects = nullptr;
 
 	public:
 		RenderedEffectObject3D(Graphics* graphics);
@@ -59,13 +59,13 @@ namespace ace
 		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得する。
 		@return	フラグ
 		*/
-		bool GetDoesMoveEffects() { return m_doesMoveEffects; }
+		bool GetSyncEffects() { return m_syncEffects; }
 
 		/**
 		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか設定する。
 		@param	value	フラグ
 		*/
-		void SetDoesMoveEffects(bool value) { m_doesMoveEffects = value; }
+		void SetSyncEffects(bool value) { m_syncEffects = value; }
 
 		void OnAdded(Renderer3D* renderer) override;
 

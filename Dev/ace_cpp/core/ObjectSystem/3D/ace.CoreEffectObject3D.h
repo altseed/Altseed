@@ -24,8 +24,8 @@ namespace ace
 
 		virtual void StopRoot() = 0;
 
-		virtual bool GetDoesMoveEffects() = 0;
+		virtual bool GetSyncEffects() = 0;
 
-		virtual void SetDoesMoveEffects(bool value) = 0;
+		virtual void SetSyncEffects(bool value) = 0;
 	};
 }

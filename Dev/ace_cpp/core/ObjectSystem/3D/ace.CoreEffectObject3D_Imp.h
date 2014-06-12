@@ -29,9 +29,9 @@ namespace ace
 
 		void StopRoot() override;
 
-		bool GetDoesMoveEffects() override;
+		bool GetSyncEffects() override;
 
-		void SetDoesMoveEffects(bool value) override;
+		void SetSyncEffects(bool value) override;
 
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_EFFECT; }
 
