@@ -63,7 +63,13 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	const bool CoreMapObject2D_Imp::AddChip(Chip2D* chip)
 	{
+		if (chip == nullptr)
+		{
+			return false;
+		}
+
 		auto pair = m_chips.insert(chip);
+
 		if (pair.second)
 		{
 			SafeAddRef(chip);
@@ -76,8 +82,14 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	const bool CoreMapObject2D_Imp::RemoveChip(Chip2D* chip)
 	{
+		if (chip == nullptr)
+		{
+			return false;
+		}
+
 		auto prevSize = m_chips.size();
 		auto newSize = m_chips.erase(chip);
+
 		if (prevSize != newSize)
 		{
 			SafeRelease(chip);
@@ -99,10 +111,6 @@ namespace ace
 
 		for (auto chip = m_chips.begin(); chip != m_chips.end(); ++chip)
 		{
-			if (*chip == nullptr)
-			{
-				continue;
-			}
 
 			Texture2D* texture = (*chip)->GetTexture();
 
