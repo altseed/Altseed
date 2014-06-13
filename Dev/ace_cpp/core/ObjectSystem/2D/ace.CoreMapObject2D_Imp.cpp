@@ -167,7 +167,7 @@ namespace ace
 			color[2] = (*chip)->GetColor();
 			color[3] = (*chip)->GetColor();
 
-			renderer->AddSprite(position.data(), &color[0], uvs.data(), texture, (*chip)->GetAlphaBlendMode(), m_drawingPtiority);
+			renderer->AddSprite(position.data(), color.data(), uvs.data(), texture, (*chip)->GetAlphaBlendMode(), m_drawingPtiority);
 		}
 
 	}
