@@ -52,14 +52,4 @@ protected:
 	}
 };
 
-TEST(ObjectSystem, ObjectsMember_GL)
-{
-	RunTest<ObjectSystem_ObjectsMember>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, ObjectsMember_DX)
-{
-	RunTest<ObjectSystem_ObjectsMember>(false);
-}
-#endif
+ENGINE_TEST(ObjectSystem, ObjectsMember)

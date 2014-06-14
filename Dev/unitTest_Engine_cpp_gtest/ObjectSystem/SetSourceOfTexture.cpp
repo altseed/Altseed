@@ -29,14 +29,4 @@ protected:
 	}
 };
 
-TEST(ObjectSystem, SetSourceOfTexture_GL)
-{
-	RunTest<ObjectSystem_SetSourceOfTexture>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, SetSourceOfTexture_DX)
-{
-	RunTest<ObjectSystem_SetSourceOfTexture>(false);
-}
-#endif
+ENGINE_TEST(ObjectSystem, SetSourceOfTexture)

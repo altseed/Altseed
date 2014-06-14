@@ -44,15 +44,5 @@ protected:
 	}
 };
 
-TEST(ObjectSystem, Simple_GL)
-{
-	RunTest<ObjectSystem_Simple>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, Simple_DX)
-{
-	RunTest<ObjectSystem_Simple>(false);
-}
-#endif
+ENGINE_TEST(ObjectSystem, Simple)
 

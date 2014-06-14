@@ -25,14 +25,4 @@ protected:
 	}
 };
 
-TEST(ObjectSystem, LayerHasNoObject_GL)
-{
-	RunTest<ObjectSystem_LayerHasNoObject>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, LayerHasNoObject_DX)
-{
-	RunTest<ObjectSystem_LayerHasNoObject>(false);
-}
-#endif
+ENGINE_TEST(ObjectSystem, LayerHasNoObject)

@@ -57,22 +57,4 @@ protected:
 	}
 };
 
-void Test_Component_GL()
-{
-	ObjectSystem_Component(true).Run();
-	AssertMemoryDoesntLeak();
-}
-
-TEST(ObjectSystem, Component_GL)
-{
-	ObjectSystem_Component(true).Run();
-	AssertMemoryDoesntLeak();
-}
-
-#if _WIN32
-TEST(ObjectSystem, Component_DX)
-{
-	ObjectSystem_Component(false).Run();
-	AssertMemoryDoesntLeak();
-}
-#endif
+ENGINE_TEST(ObjectSystem, Component)

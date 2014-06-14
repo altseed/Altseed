@@ -29,14 +29,4 @@ protected:
 	}
 };
 
-TEST(ObjectSystem, LayersMember_GL)
-{
-	RunTest<ObjectSystem_LayersMember>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, LayersMember_DX)
-{
-	RunTest<ObjectSystem_LayersMember>(false);
-}
-#endif
+ENGINE_TEST(ObjectSystem, LayersMember)

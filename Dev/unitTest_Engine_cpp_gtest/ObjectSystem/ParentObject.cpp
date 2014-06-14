@@ -49,20 +49,4 @@ protected:
 	}
 };
 
-void Test_ParentObject()
-{
-	RunTest<ObjectSystem_ParentObject>(true);
-	RunTest<ObjectSystem_ParentObject>(false);
-}
-
-TEST(ObjectSystem, ParentObject_GL)
-{
-	RunTest<ObjectSystem_ParentObject>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, ParentObject_DX)
-{
-	RunTest<ObjectSystem_ParentObject>(false);
-}
-#endif
+ENGINE_TEST(ObjectSystem, ParentObject)

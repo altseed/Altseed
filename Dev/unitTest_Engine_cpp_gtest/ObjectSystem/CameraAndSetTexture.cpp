@@ -46,14 +46,4 @@ protected:
 	}
 };
 
-TEST(ObjectSystem, CameraAndSetTexture_GL)
-{
-	RunTest<ObjectSystem_CameraAndSetTexture>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, CameraAndSetTexture_DX)
-{
-	RunTest<ObjectSystem_CameraAndSetTexture>(false);
-}
-#endif
+ENGINE_TEST(ObjectSystem, CameraAndSetTexture)

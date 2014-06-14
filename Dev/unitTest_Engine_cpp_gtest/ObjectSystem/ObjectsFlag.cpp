@@ -52,14 +52,4 @@ protected:
 	}
 };
 
-TEST(ObjectSystem, ObjectsFlag_GL)
-{
-	RunTest<ObjectSystem_ObjectsFlag>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, ObjectsFlag_DX)
-{
-	RunTest<ObjectSystem_ObjectsFlag>(false);
-}
-#endif
+ENGINE_TEST(ObjectSystem, ObjectsFlag)

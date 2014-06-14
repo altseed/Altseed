@@ -67,19 +67,4 @@ protected:
 	}
 };
 
-TEST(ObjectSystem, LayersFlag_GL)
-{
-	RunTest<ObjectSystem_LayersFlag>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, LayersFlag_DX)
-{
-	RunTest<ObjectSystem_LayersFlag>(false);
-}
-#endif
-
-void Test_LayersFlag(bool gl)
-{
-	RunTest<ObjectSystem_LayersFlag>(true);
-}
+ENGINE_TEST(ObjectSystem, LayersFlag)

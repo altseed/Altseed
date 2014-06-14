@@ -42,19 +42,4 @@ protected:
 	}
 };
 
-void TestCamera(bool openGL)
-{
-	RunTest<ObjectSystem_Camera>(openGL);
-}
-
-TEST(ObjectSystem, Camera_GL)
-{
-	RunTest<ObjectSystem_Camera>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, Camera_DX)
-{
-	RunTest<ObjectSystem_Camera>(false);
-}
-#endif
+ENGINE_TEST(ObjectSystem, Camera)

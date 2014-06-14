@@ -2,9 +2,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\ObjectSystem\Object2DTest.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Profiler.cpp" />
     <ClCompile Include="..\ObjectSystem\CustomObject.cpp">
       <Filter>ObjectSystem</Filter>
@@ -82,6 +79,9 @@
     </ClCompile>
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp">
       <Filter>Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ObjectSystem\SimpleObject2D.cpp">
+      <Filter>ObjectSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
