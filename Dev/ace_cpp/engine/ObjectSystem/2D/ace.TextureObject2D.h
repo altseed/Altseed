@@ -34,7 +34,15 @@ namespace ace
 		*/
 		void SetTexture(std::shared_ptr<Texture2D> texture);
 
+		/**
+		@brief	テクスチャ上の描画範囲を取得する。
+		*/
 		RectF GetSrc() const;
+
+		/**
+		@brief	テクスチャ上の描画範囲を設定する。
+		@param value 描画するテクスチャ上の範囲。(フィールドのいずれかが0より小さかったらテクスチャ全体を描画する。)
+		*/
 		void SetSrc(RectF value);
 
 		/**

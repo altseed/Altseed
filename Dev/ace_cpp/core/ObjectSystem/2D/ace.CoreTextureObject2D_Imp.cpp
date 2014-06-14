@@ -196,7 +196,19 @@ namespace ace
 		color[2] = m_color;
 		color[3] = m_color;
 
-		std::array<Vector2DF, 4> uvs = m_src.GetVertexes();
+		std::array<Vector2DF, 4> uvs;
+		
+		if (m_src.X < 0 || m_src.Y < 0 || m_src.Width < 0 || m_src.Height < 0)
+		{
+			uvs[0] = Vector2DF(0, 0);
+			uvs[1] = Vector2DF(textureSize.X, 0);
+			uvs[2] = Vector2DF(textureSize.X, textureSize.Y);
+			uvs[3] = Vector2DF(0, textureSize.Y);
+		}
+		else
+		{
+			uvs = m_src.GetVertexes();
+		}
 
 		{
 			auto size = Vector2DF(textureSize.X, textureSize.Y);
