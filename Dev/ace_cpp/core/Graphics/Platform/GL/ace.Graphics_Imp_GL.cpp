@@ -167,7 +167,7 @@ namespace ace {
 	WriteInitializedLog(m_log);
 	GLCheckError();
 
-	GetSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
+	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
 }
 
 //----------------------------------------------------------------------------------
@@ -235,7 +235,7 @@ namespace ace {
 	WriteInitializedLog(m_log);
 	GLCheckError();
 
-	GetSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
+	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
 }
 
 //----------------------------------------------------------------------------------

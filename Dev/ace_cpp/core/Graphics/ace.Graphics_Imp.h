@@ -399,7 +399,7 @@ namespace ace {
 		@brief	エフェクトの設定を取得する。
 		@return	設定
 	*/
-	Effekseer::Setting* GetSetting() { return m_effectSetting; }
+	Effekseer::Setting* GetEffectSetting() { return m_effectSetting; }
 #endif
 };
 

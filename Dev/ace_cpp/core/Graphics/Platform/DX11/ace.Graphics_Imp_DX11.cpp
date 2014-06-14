@@ -172,7 +172,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 		m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	}
 
-	GetSetting()->SetTextureLoader(new EffectTextureLoader_DX11(this));
+	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_DX11(this));
 }
 
 //----------------------------------------------------------------------------------

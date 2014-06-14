@@ -19,7 +19,7 @@ namespace ace
 		CoreMapObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreMapObject2D_Imp();
 
-		eObject2DType GetObjectType() const override { return eObject2DType::RENDERED_OBJECT2D_TYPE_TEXTURE; }
+		eObject2DType GetObjectType() const override { return eObject2DType::RENDERED_OBJECT2D_TYPE_MAP; }
 
 #pragma region Parameter
 		const Vector2DF GetCenterPosition() const;

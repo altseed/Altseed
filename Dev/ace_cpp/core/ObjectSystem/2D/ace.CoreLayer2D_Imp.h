@@ -2,11 +2,10 @@
 #include "ace.CoreLayer2D.h"
 #include "ace.CoreObject2D.h"
 #include "ace.CoreCameraObject2D.h"
+#include "ace.CoreObject2D_Imp.h"
 #include "../ace.CoreLayer_Imp.h"
 #include "../../Graphics/2D/ace.Renderer2D_Imp.h"
 #include "../../Graphics/ace.Graphics_Imp.h"
-#include <list>
-#include <memory>
 
 namespace ace
 {
@@ -27,6 +26,13 @@ namespace ace
 
 		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();
+
+		/**
+			@brief	Impに型変換する。
+			@note
+			CoreObject2D_ImpがCoreObject2Dを継承していない、かつ、dynamic_castを使用しないため
+		*/
+		CoreObject2D_Imp* CoreObject2DToImp(ObjectPtr obj);
 
 		void DrawObjects(Renderer2D* renderer, Matrix33 cameraMatrix);
 

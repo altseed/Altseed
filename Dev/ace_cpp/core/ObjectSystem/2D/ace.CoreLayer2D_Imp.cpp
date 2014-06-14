@@ -4,7 +4,11 @@
 #include "../../Graphics/ace.Graphics_Imp.h"
 #include "../../Graphics/2D/ace.LayerRenderer.h"
 
+#include "ace.CoreTextureObject2D_Imp.h"
+#include "ace.CoreTextObject2D_Imp.h"
 #include "ace.CoreCameraObject2D_Imp.h"
+#include "ace.CoreMapObject2D_Imp.h"
+#include "ace.CoreEffectObject2D_Imp.h"
 
 using namespace std;
 
@@ -41,6 +45,29 @@ namespace ace
 		}
 	}
 
+	CoreObject2D_Imp* CoreLayer2D_Imp::CoreObject2DToImp(ObjectPtr obj)
+	{
+		if (obj == nullptr) return nullptr;
+
+		switch (obj->GetObjectType())
+		{
+		case eObject2DType::RENDERED_OBJECT2D_TYPE_TEXTURE:
+			return (CoreTextureObject2D_Imp*) obj;
+		case eObject2DType::RENDERED_OBJECT2D_TYPE_TEXT:
+			return (CoreTextObject2D_Imp*) obj;
+		case eObject2DType::RENDERED_OBJECT2D_TYPE_CAMERA:
+			return (CoreCameraObject2D_Imp*) obj;
+		case eObject2DType::RENDERED_OBJECT2D_TYPE_MAP:
+			return (CoreMapObject2D_Imp*) obj;
+		case eObject2DType::RENDERED_OBJECT2D_TYPE_EFFECT:
+			return (CoreEffectObject2D_Imp*) obj;
+		default:
+			break;
+		}
+
+		return nullptr;
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -59,6 +86,11 @@ namespace ace
 		}
 
 		object->SetLayer(this);
+
+		{
+			auto o = CoreObject2DToImp(object);
+			o->OnAdded(m_renderer);
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -66,6 +98,11 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::RemoveObject(ObjectPtr object)
 	{
+		{
+			auto o = CoreObject2DToImp(object);
+			o->OnRemoving(m_renderer);
+		}
+
 		if (object->GetObjectType() == eObject2DType::RENDERED_OBJECT2D_TYPE_CAMERA)
 		{
 			auto camera = (CoreCameraObject2D*)object;
@@ -94,7 +131,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::EndUpdating()
 	{
-
+		// エフェクトの更新 TODO 時間を計算するように
+		m_renderer->GetEffectManager()->Update(1.0f);
+		m_renderer->GetEffectManager()->Flip();
 	}
 
 	//----------------------------------------------------------------------------------

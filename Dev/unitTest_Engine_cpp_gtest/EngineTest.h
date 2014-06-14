@@ -3,6 +3,37 @@
 
 #include "PCH/ace.UnitTestEngineCpp.PCH.h"
 
+#if _WIN32
+#define ENGINE_TEST_DX11(group,name)	\
+	TEST(group , name##_DX)	{				\
+	RunTest< group##_##name >(false);		\
+		}										\
+
+#else
+#define ENGINE_TEST_DX11(group,name)
+#endif
+
+#define ENGINE_TEST(group,name)  \
+	void Test_##group##_##name(bool openGL) { \
+	RunTest< group##_##name >(openGL); \
+		} \
+	\
+	TEST( group , name##_GL ) {				\
+		RunTest< group##_##name >(true);	\
+		}										\
+	ENGINE_TEST_DX11(group,name)			\
+	\
+
+#define EXTERN_ENGINE_TEST(group,name)  \
+	extern void Test_##group##_##name(bool openGL);	\
+	\
+
+
+#define CALL_ENGINE_TEST(group,name,flag)	\
+	Test_##group##_##name(flag);			\
+	\
+
+
 class EngineTest
 {
 public:

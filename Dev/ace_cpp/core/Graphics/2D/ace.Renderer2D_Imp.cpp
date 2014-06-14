@@ -19,6 +19,11 @@
 #include "../Shader/GL/2D/Renderer2D_PS.h"
 #include "../Shader/GL/2D/Renderer2D_VS.h"
 
+#if _WIN32
+#include "../Platform/DX11/ace.Graphics_Imp_DX11.h"
+#endif
+#include "../Platform/GL/ace.Graphics_Imp_GL.h"
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -120,6 +125,33 @@ namespace ace {
 				vl,
 				macro);
 		}
+
+		// エフェクト
+		{
+			m_effectManager = ::Effekseer::Manager::Create(2000, false);
+			if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
+			{
+#if _WIN32
+				auto g = (Graphics_Imp_DX11*) m_graphics;
+				m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), 2000);
+#endif
+			}
+			else if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
+			{
+				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(2000);
+			}
+
+			m_effectManager->SetSpriteRenderer(m_effectRenderer->CreateSpriteRenderer());
+			m_effectManager->SetRibbonRenderer(m_effectRenderer->CreateRibbonRenderer());
+			m_effectManager->SetRingRenderer(m_effectRenderer->CreateRingRenderer());
+			m_effectManager->SetModelRenderer(m_effectRenderer->CreateModelRenderer());
+			m_effectManager->SetTrackRenderer(m_effectRenderer->CreateTrackRenderer());
+
+			m_effectManager->SetSetting(m_graphics->GetEffectSetting());
+
+			m_effectProjMat.SetOrthographicRH(60, 40, 0.1, 100.0);
+			m_effectCameraMat.SetLookAtRH(Vector3DF(0, 0, -10), Vector3DF(0, 0, 0), Vector3DF(0, 1, 0));
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -133,6 +165,11 @@ namespace ace {
 		m_indexBuffer.reset();
 		m_shader_nt.reset();
 		m_shader.reset();
+
+		m_effectRenderer->Destory();
+		m_effectManager->Destroy();
+		m_effectRenderer = nullptr;
+		m_effectManager = nullptr;
 
 		SafeRelease(m_graphics);
 	}
@@ -152,7 +189,32 @@ namespace ace {
 			}
 		}
 
+
 		EndDrawing();
+
+		// エフェクトの描画
+		{
+			// 行列を転置して設定
+			Effekseer::Matrix44 cameraMat, projMat;
+			for (auto c_ = 0; c_ < 4; c_++)
+			{
+				for (auto r = 0; r < 4; r++)
+				{
+					cameraMat.Values[c_][r] = m_effectCameraMat.Values[r][c_];
+					projMat.Values[c_][r] = m_effectProjMat.Values[r][c_];
+				}
+			}
+			m_effectRenderer->SetCameraMatrix(cameraMat);
+			m_effectRenderer->SetProjectionMatrix(projMat);
+			m_effectRenderer->BeginRendering();
+			m_effectManager->Draw();
+			m_effectRenderer->EndRendering();
+
+			// レンダー設定リセット
+			m_graphics->GetRenderState()->Update(true);
+
+		}
+
 	}
 
 	//----------------------------------------------------------------------------------

@@ -58,6 +58,7 @@ namespace ace
 		ObjectInfo2D	m_objectInfo;
 		TransformInfo2D m_transform;
 		Graphics_Imp*	m_graphics;
+		
 	public:
 		CoreObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreObject2D_Imp();
@@ -138,5 +139,9 @@ namespace ace
 		{
 			return m_transform.GetMatrixToTransform();
 		}
+
+		virtual void OnAdded(Renderer2D* renderer) {}
+
+		virtual void OnRemoving(Renderer2D* renderer) {}
 	};
 }

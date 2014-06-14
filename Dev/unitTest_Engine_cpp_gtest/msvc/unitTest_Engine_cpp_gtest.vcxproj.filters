@@ -80,6 +80,9 @@
     <ClCompile Include="..\ObjectSystem\Map2DTest.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\2D\Effect2D.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -96,6 +99,9 @@
     </Filter>
     <Filter Include="PCH">
       <UniqueIdentifier>{67833557-68d5-4132-add9-56d9aa7eed38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\2D">
+      <UniqueIdentifier>{2c70accc-d708-436f-8ae6-74b4d8a63187}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
