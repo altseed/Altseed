@@ -130,7 +130,7 @@ namespace FontGenerator
 			penX += advance;
 		}
 
-		auto pngPath = GetSheetName() + ToAString(".png");
+		auto pngPath = GetSheetName() + ToAString("_1.png");
 		SavePNGImage(pngPath.c_str(), m_sheetSize, m_sheetSize, buffer.data(), false);
 
 		ResultOfGeneratingPng result;
