@@ -28,6 +28,54 @@ namespace ace
 			GC.Object2Ds.AddObject( p, this );
 		}
 
+		/// <summary>
+		/// 描画に使用するエフェクトを設定する。
+		/// </summary>
+		/// <param name="effect">エフェクト</param>
+		public void SetEffect(Effect effect)
+		{
+			coreEffectObject.SetEffect(effect.SwigObject);
+		}
+
+		/// <summary>
+		/// 設定されている全てのエフェクトを再生する。
+		/// </summary>
+		public void Play()
+		{
+			coreEffectObject.Play();
+		}
+
+		/// <summary>
+		/// このオブジェクトから再生されたエフェクトを全て停止する。
+		/// </summary>
+		public void Stop()
+		{
+			coreEffectObject.Stop();
+		}
+
+		/// <summary>
+		/// このオブジェクトから再生されたエフェクトのルートを全て停止する。
+		/// </summary>
+		public void StopRoot()
+		{
+			coreEffectObject.StopRoot();
+		}
+
+		/// <summary>
+		/// このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得、または設定する。
+		/// </summary>
+		public bool SyncEffects
+		{
+			get
+			{
+				return coreEffectObject.GetSyncEffects();
+			}
+			set
+			{
+				coreEffectObject.SetSyncEffects(value);
+			}
+		}
+
 		protected override void OnStart()
 		{
 		}

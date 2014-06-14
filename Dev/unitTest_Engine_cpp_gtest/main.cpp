@@ -40,6 +40,8 @@ extern void ObjectSystem_Text2DTest_(bool isOpenGLMode);
 
 extern void ObjectSystem_Map2DTest_(bool isGL);
 
+EXTERN_ENGINE_TEST(Graphics, Effect2D)
+
 /**
 	@brief	単体テストを実行する。
 	@note
@@ -55,7 +57,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//Graphics_Camera3DPostEffect_(true);
+	//CALL_ENGINE_TEST(Graphics, Effect2D, true)
 	//return 0;
 
 	//TestCamera(true);

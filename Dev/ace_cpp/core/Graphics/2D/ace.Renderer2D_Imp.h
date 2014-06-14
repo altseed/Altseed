@@ -9,6 +9,7 @@
 
 #include <Math/ace.Vector3DF.h>
 #include <Math/ace.Vector4DF.h>
+#include <Math/ace.Matrix44.h>
 
 //----------------------------------------------------------------------------------
 //
@@ -120,7 +121,13 @@ namespace ace {
 
 		std::map<int32_t, std::vector<Event>>	m_events;
 
-		
+		Effekseer::Manager*						m_effectManager = nullptr;
+		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
+
+		Matrix44								m_effectProjMat;
+		Matrix44								m_effectCameraMat;
+
+
 	public:
 		Renderer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~Renderer2D_Imp();
@@ -130,6 +137,8 @@ namespace ace {
 		void ClearCache();
 
 		void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, eAlphaBlend alphaBlend, int32_t priority);
+
+		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
 
 	private:
 		void AddEvent(int32_t priority, Event& e);

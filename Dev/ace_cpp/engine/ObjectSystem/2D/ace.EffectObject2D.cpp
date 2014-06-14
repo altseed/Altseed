@@ -18,4 +18,34 @@ namespace ace
 	{
 		return m_coreObject.get();
 	}
+
+	void EffectObject2D::SetEffect(std::shared_ptr<Effect> effect)
+	{
+		m_coreObject->SetEffect(effect.get());
+	}
+
+	void EffectObject2D::Play()
+	{
+		m_coreObject->Play();
+	}
+
+	void EffectObject2D::Stop()
+	{
+		m_coreObject->Stop();
+	}
+
+	void EffectObject2D::StopRoot()
+	{
+		m_coreObject->StopRoot();
+	}
+
+	bool EffectObject2D::GetSyncEffects()
+	{
+		return m_coreObject->GetSyncEffects();
+	}
+
+	void EffectObject2D::SetSyncEffects(bool value)
+	{
+		m_coreObject->SetSyncEffects(value);
+	}
 }

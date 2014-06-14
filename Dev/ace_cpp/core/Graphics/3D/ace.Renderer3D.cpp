@@ -107,7 +107,7 @@ namespace ace
 			o->CalculateMatrix_RT();
 		}
 
-		// エフェクトの更新
+		// エフェクトの更新 TODO 時間を計算するように
 		rendering.EffectManager->Update(1.0f);
 
 		RenderingProperty prop;
@@ -1100,7 +1100,7 @@ namespace ace
 			m_effectManager->SetModelRenderer(m_effectRenderer->CreateModelRenderer());
 			m_effectManager->SetTrackRenderer(m_effectRenderer->CreateTrackRenderer());
 
-			m_effectManager->SetCoordinateSystem(::Effekseer::COORDINATE_SYSTEM_RH);
+			m_effectManager->SetSetting(m_graphics->GetEffectSetting());
 		}
 	}
 
