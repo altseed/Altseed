@@ -50,11 +50,11 @@ namespace ace
 			}
 		}
 		efMat.Value[3][0] = pos.X;
-		efMat.Value[3][1] = pos.Y;
+		efMat.Value[3][1] = -pos.Y;
 		efMat.Value[3][2] = 0.0f;
 
 
-		auto handle = m_renderer->GetEffectManager()->Play(ne, pos.X, pos.Y, 0.0f);
+		auto handle = m_renderer->GetEffectManager()->Play(ne, pos.X, -pos.Y, 0.0f);
 		m_renderer->GetEffectManager()->SetMatrix(handle, efMat);
 		m_handles.push_back(handle);
 	}
@@ -139,7 +139,7 @@ namespace ace
 				}
 			}
 			efMat.Value[3][0] = pos.X;
-			efMat.Value[3][1] = pos.Y;
+			efMat.Value[3][1] = -pos.Y;
 			efMat.Value[3][2] = 0.0f;
 
 			for (size_t i = 0; i < m_handles.size();)

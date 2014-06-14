@@ -89,7 +89,7 @@ namespace ace
 
 	void CoreCameraObject2D_Imp::FlushToBuffer()
 	{
-		m_renderer->DrawCache();
+		m_renderer->DrawCache(RectF(m_src.X, m_src.Y, m_src.Width, m_src.Height));
 		m_renderer->ClearCache();
 	}
 

@@ -16,6 +16,7 @@ namespace ace
 		: m_profiler(nullptr)
 		, m_renderer(nullptr)
 		, m_materTexture(nullptr)
+		, m_windowSize(windowSize)
 	{
 		//auto texture = (Texture2D*)graphics->CreateTexture2D_Imp(ace::ToAString(L"Data/Texture/Sampler.png").c_str());
 		//m_materTexture = CreateSharedPtr(texture);
@@ -80,7 +81,7 @@ namespace ace
 			++index;
 		}
 
-		m_renderer->DrawCache();
+		m_renderer->DrawCache(RectF(0,0,m_windowSize.X, m_windowSize.Y));
 		m_renderer->ClearCache();
 	}
 

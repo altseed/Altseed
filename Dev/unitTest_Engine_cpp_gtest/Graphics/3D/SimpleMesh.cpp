@@ -153,23 +153,4 @@ protected:
 	}
 };
 
-
-TEST(Graphics, SimpleMesh_GL)
-{
-	Graphics_SimpleMesh(true).Run();
-	AssertMemoryDoesntLeak();
-}
-
-#if _WIN32
-TEST(Graphics, SimpleMesh_DX)
-{
-	Graphics_SimpleMesh(false).Run();
-	AssertMemoryDoesntLeak();
-}
-#endif
-
-void Graphics_SimpleMesh_(bool isGL)
-{
-	Graphics_SimpleMesh(isGL).Run();
-	AssertMemoryDoesntLeak();
-}
+ENGINE_TEST(Graphics, SimpleMesh)

@@ -41,23 +41,4 @@ protected:
 	}
 };
 
-
-TEST(Graphics, Effect3D_GL)
-{
-	Graphics_Effect3D(true).Run();
-	AssertMemoryDoesntLeak();
-}
-
-#if _WIN32
-TEST(Graphics, Effect3D_DX)
-{
-	Graphics_Effect3D(false).Run();
-	AssertMemoryDoesntLeak();
-}
-#endif
-
-void Graphics_Effect3D_(bool isGL)
-{
-	Graphics_Effect3D(isGL).Run();
-	AssertMemoryDoesntLeak();
-}
+ENGINE_TEST(Graphics, Effect3D)

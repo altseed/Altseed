@@ -20,6 +20,7 @@ namespace ace
 
 		Profiler_Imp* m_profiler;
 		Renderer2D* m_renderer;
+		Vector2DI	m_windowSize;
 		std::shared_ptr<Texture2D> m_materTexture;
 
 		Sprite* CreatePolygonOfMater(int index, int time);

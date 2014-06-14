@@ -56,15 +56,15 @@ namespace ace {
 		SafeAddRef(graphics);
 
 		m_windowSize = windowSize;
-		
+
 
 		m_vertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(SpriteVertex), SpriteCount * 4, true);
-		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(SpriteCount*6, false, false);
-		
+		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(SpriteCount * 6, false, false);
+
 		{
 			m_indexBuffer->Lock();
-			auto ib = m_indexBuffer->GetBuffer<uint16_t>(SpriteCount*6);
-			
+			auto ib = m_indexBuffer->GetBuffer<uint16_t>(SpriteCount * 6);
+
 			for (int32_t i = 0; i < SpriteCount; i++)
 			{
 				ib[i * 6 + 0] = 0 + i * 4;
@@ -74,9 +74,9 @@ namespace ace {
 				ib[i * 6 + 4] = 2 + i * 4;
 				ib[i * 6 + 5] = 3 + i * 4;
 			}
-			
+
 			m_indexBuffer->Unlock();
-	}
+		}
 
 		std::vector<ace::VertexLayout> vl;
 		vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
@@ -87,7 +87,7 @@ namespace ace {
 		macro_tex.push_back(Macro("HAS_TEXTURE", "1"));
 
 		std::vector<ace::Macro> macro;
-		
+
 		if (m_graphics->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_GL)
 		{
 			m_shader = m_graphics->GetShaderCache()->CreateFromCode(
@@ -148,9 +148,6 @@ namespace ace {
 			m_effectManager->SetTrackRenderer(m_effectRenderer->CreateTrackRenderer());
 
 			m_effectManager->SetSetting(m_graphics->GetEffectSetting());
-
-			m_effectProjMat.SetOrthographicRH(60, 40, 0.1, 100.0);
-			m_effectCameraMat.SetLookAtRH(Vector3DF(0, 0, -10), Vector3DF(0, 0, 0), Vector3DF(0, 1, 0));
 		}
 	}
 
@@ -177,7 +174,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Renderer2D_Imp::DrawCache()
+	void Renderer2D_Imp::DrawCache(const RectF& area)
 	{
 		StartDrawing();
 
@@ -194,14 +191,23 @@ namespace ace {
 
 		// エフェクトの描画
 		{
+			Matrix44 effectProjMat;
+			Matrix44 effectCameraMat;
+			effectProjMat.SetOrthographicRH(area.Width, area.Height, 0.1, 200.0);
+
+			auto px = area.X + area.Width / 2;
+			auto py = -(area.Y + area.Height / 2);
+			effectCameraMat.SetLookAtRH(Vector3DF(px, py, 100), Vector3DF(px, py, 0), Vector3DF(0, 1, 0));
+
 			// 行列を転置して設定
+			
 			Effekseer::Matrix44 cameraMat, projMat;
 			for (auto c_ = 0; c_ < 4; c_++)
 			{
 				for (auto r = 0; r < 4; r++)
 				{
-					cameraMat.Values[c_][r] = m_effectCameraMat.Values[r][c_];
-					projMat.Values[c_][r] = m_effectProjMat.Values[r][c_];
+					cameraMat.Values[c_][r] = effectCameraMat.Values[r][c_];
+					projMat.Values[c_][r] = effectProjMat.Values[r][c_];
 				}
 			}
 			m_effectRenderer->SetCameraMatrix(cameraMat);

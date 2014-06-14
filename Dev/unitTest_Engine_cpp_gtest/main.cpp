@@ -30,17 +30,17 @@ extern void Graphics_PostEffectGaussianBlur_(bool isOpenGLMode);
 extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
 extern void Graphics_PostEffectSepia(bool isOpenGLMode);
 
-extern void Graphics_Effect3D_(bool isOpenGLMode);
-extern void Graphics_SimpleMesh_(bool isOpenGLMode);
 extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
-
-extern void Graphics_Model_(bool isOpenGLMode);
 
 extern void ObjectSystem_Text2DTest_(bool isOpenGLMode);
 
 extern void ObjectSystem_Map2DTest_(bool isGL);
 
-EXTERN_ENGINE_TEST(Graphics, Effect2D)
+EXTERN_ENGINE_TEST(Graphics, Effect3D)
+EXTERN_ENGINE_TEST(Graphics, SimpleMesh)
+EXTERN_ENGINE_TEST(Graphics, Model)
+
+EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
 
 /**
 	@brief	単体テストを実行する。
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//CALL_ENGINE_TEST(Graphics, Effect2D, true)
+	//CALL_ENGINE_TEST(Graphics, EffectObject2D, false)
 	//return 0;
 
 	//TestCamera(true);
@@ -67,17 +67,10 @@ int main(int argc, char **argv)
 	//Graphics_PostEffectGaussianBlur_(true);
 	//return 0;
 
-	//Graphics_Effect3D_(false);
-	//return 0;
-
 	/*
 	ObjectSystem_Text2DTest_(false);
 	return 0;
 	*/
-
-	
-	//Graphics_Model_(false);
-	//return 0;
 
 	auto result = RUN_ALL_TESTS();
 

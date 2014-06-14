@@ -53,24 +53,4 @@ protected:
 
 };
 
-
-TEST(Graphics, Model_GL)
-{
-	Graphics_Model(true).Run();
-	AssertMemoryDoesntLeak();
-}
-
-#if _WIN32
-TEST(Graphics, Model_DX)
-{
-	Graphics_Model(false).Run();
-	AssertMemoryDoesntLeak();
-}
-#endif
-
-void Graphics_Model_(bool isGL)
-{
-	Graphics_Model(isGL).Run();
-	AssertMemoryDoesntLeak();
-}
-
+ENGINE_TEST(Graphics, Model)

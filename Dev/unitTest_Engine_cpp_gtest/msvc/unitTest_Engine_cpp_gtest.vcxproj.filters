@@ -80,7 +80,7 @@
     <ClCompile Include="..\ObjectSystem\Map2DTest.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\2D\Effect2D.cpp">
+    <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
   </ItemGroup>

@@ -33,8 +33,11 @@ namespace ace {
 		
 		/**
 			@brief	キャッシュを描画する。
+			@param	area	描画される領域
+			@note
+			現在は描画領域はEffect専用
 		*/
-		virtual void DrawCache() = 0;
+		virtual void DrawCache(const RectF& area) = 0;
 
 		/**
 			@brief	キャッシュを消去する。
@@ -56,7 +59,6 @@ namespace ace {
 			@return	エフェクト管理インスタンス
 		*/
 		virtual Effekseer::Manager*	GetEffectManager() = 0;
-
 	};
 
 	//----------------------------------------------------------------------------------

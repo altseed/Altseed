@@ -10,6 +10,7 @@
 #include <Math/ace.Vector3DF.h>
 #include <Math/ace.Vector4DF.h>
 #include <Math/ace.Matrix44.h>
+#include <Math/ace.RectF.h>
 
 //----------------------------------------------------------------------------------
 //
@@ -124,15 +125,11 @@ namespace ace {
 		Effekseer::Manager*						m_effectManager = nullptr;
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
 
-		Matrix44								m_effectProjMat;
-		Matrix44								m_effectCameraMat;
-
-
 	public:
 		Renderer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~Renderer2D_Imp();
 
-		void DrawCache();
+		void DrawCache(const RectF& area);
 
 		void ClearCache();
 

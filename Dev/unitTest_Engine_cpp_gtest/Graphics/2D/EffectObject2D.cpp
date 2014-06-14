@@ -6,11 +6,11 @@
 using namespace std;
 using namespace ace;
 
-class Graphics_Effect2D : public EngineTest
+class Graphics_EffectObject2D : public EngineTest
 {
 public:
-	Graphics_Effect2D(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Effect2D"), isOpenGLMode, 60)
+	Graphics_EffectObject2D(bool isOpenGLMode)
+		: EngineTest(ace::ToAString("EffectObject2D"), isOpenGLMode, 20)
 	{
 	}
 
@@ -29,6 +29,7 @@ protected:
 		scene->AddLayer(layer);
 		ace::Engine::ChangeScene(scene);
 
+		m_effectObj->SetPosition(ace::Vector2DF(320, 240));
 		m_effectObj->SetEffect(effect);
 		m_effectObj->Play();
 	}
@@ -39,4 +40,4 @@ protected:
 };
 
 
-ENGINE_TEST(Graphics, Effect2D)
+ENGINE_TEST(Graphics, EffectObject2D)
