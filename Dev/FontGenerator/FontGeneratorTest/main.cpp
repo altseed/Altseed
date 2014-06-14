@@ -21,8 +21,22 @@
 using namespace std;
 using namespace FontGenerator;
 
+void Test()
+{
+	Generator gen;
+	auto chars = gen.GetCharactors(ace::ToAString("textFile.txt"));
+	for (auto& c : chars)
+	{
+		wprintf(L"%c", c);
+	}
+
+
+}
+
 int main()
 {
+	Test();
+
 	Generator gen;
 
 	try
@@ -37,7 +51,7 @@ int main()
 		gen.SetSheetName(L"result/test");
 
 		gen.GenerateFontFile(
-			L"C:/Windows/Fonts/AzukiP.ttf",
+			L"C:/Windows/Fonts/Consola.ttf",
 			L"test.txt");
 	}
 	catch (const char* err)

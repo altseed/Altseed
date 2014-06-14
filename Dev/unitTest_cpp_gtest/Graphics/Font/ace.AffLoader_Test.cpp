@@ -18,11 +18,11 @@ bool ContainsChar(map<achar, GlyphData>& glyphs, achar charactor)
 
 void Font_AffLoader()
 {
-	static astring fileName = ToAString(L"Data/Font/forTest.aff");
+	static astring fileName = ToAString(L"Data/Font/test.aff");
 
 	AffLoader loader(fileName);
 	auto glyphs = loader.GetGlyphs();
-	astring str = ToAString(L"Font");
+	astring str = ToAString(L"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!\"#$%&'()=~`{}*+L>?_0123456789,./\\]:;|l@[^-");
 
 	for (auto& c : str)
 	{
