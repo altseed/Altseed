@@ -206,16 +206,16 @@ namespace ace
 			}
 		}
 
-		for (auto& uv : uvs)
+		if (m_turnLR)
 		{
-			if (m_turnLR)
-			{
-				uv.X = uv.X == 0 ? 1 : 0;
-			}
-			if (m_turnUL)
-			{
-				uv.Y = uv.Y == 0 ? 1 : 0;
-			}
+			std::swap(uvs[0], uvs[1]);
+			std::swap(uvs[2], uvs[3]);
+		}
+
+		if (m_turnUL)
+		{
+			std::swap(uvs[0], uvs[3]);
+			std::swap(uvs[1], uvs[2]);
 		}
 
 		renderer->AddSprite(
