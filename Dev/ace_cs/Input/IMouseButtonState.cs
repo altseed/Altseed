@@ -14,19 +14,19 @@ namespace ace
         /// <summary>
         /// ボタンを離した瞬間のみ返す
         /// </summary>
-        Pull=ace.swig.eMouseButtonState.MOUSE_PULL,
+        Pull =ace.swig.MouseButtonState.Pull,
         /// <summary>
         /// ボタンを押した瞬間のみ返す
         /// </summary>
-        Push=ace.swig.eMouseButtonState.MOUSE_PUSH,
+        Push =ace.swig.MouseButtonState.Push,
         /// <summary>
         /// ボタンを押していない時に返す
         /// </summary>
-        Free=ace.swig.eMouseButtonState.MOUSE_FREE,
+        Free =ace.swig.MouseButtonState.Free,
         /// <summary>
         /// ボタンを押している時に返す
         /// </summary>
-        Hold=ace.swig.eMouseButtonState.MOUSE_HOLD
+        Hold =ace.swig.MouseButtonState.Hold
     }
 
     /// <summary>

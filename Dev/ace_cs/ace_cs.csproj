@@ -141,19 +141,13 @@
     <Compile Include="swig\CubemapTexture.cs" />
     <Compile Include="swig\Deformer.cs" />
     <Compile Include="swig\eAlphaBlend.cs" />
-    <Compile Include="swig\eChildMode.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="swig\eChildMode.cs" />
     <Compile Include="swig\eCullingType.cs" />
     <Compile Include="swig\Effect.cs" />
     <Compile Include="swig\eGraphicsType.cs" />
     <Compile Include="swig\eInterpolationType.cs" />
     <Compile Include="swig\eJoystickAxises.cs" />
     <Compile Include="swig\eJoystickButtons.cs" />
-    <Compile Include="swig\eJoystickButtonState.cs" />
-    <Compile Include="swig\eKeyboardButtonState.cs" />
-    <Compile Include="swig\eKeys.cs" />
-    <Compile Include="swig\eMouseButtonState.cs" />
     <Compile Include="swig\eObject2DType.cs" />
     <Compile Include="swig\eRenderedObject3DType.cs" />
     <Compile Include="swig\eRotationOrder.cs" />
@@ -169,12 +163,15 @@
     <Compile Include="swig\IMouseWheelableButtonState.cs" />
     <Compile Include="swig\IReference.cs" />
     <Compile Include="swig\Joystick.cs" />
+    <Compile Include="swig\JoystickButtonState.cs" />
     <Compile Include="swig\JoystickContainer.cs" />
     <Compile Include="swig\JoystickContainer_Imp.cs" />
     <Compile Include="swig\Joystick_Imp.cs" />
     <Compile Include="swig\Keyboard.cs" />
+    <Compile Include="swig\KeyboardButtonState.cs" />
     <Compile Include="swig\Keyboard_Imp.cs" />
     <Compile Include="swig\KeyframeAnimation.cs" />
+    <Compile Include="swig\Keys.cs" />
     <Compile Include="swig\Log.cs" />
     <Compile Include="swig\Log_Imp.cs" />
     <Compile Include="swig\Material2D.cs" />
@@ -182,6 +179,7 @@
     <Compile Include="swig\MiddleButton.cs" />
     <Compile Include="swig\Model.cs" />
     <Compile Include="swig\Mouse.cs" />
+    <Compile Include="swig\MouseButtonState.cs" />
     <Compile Include="swig\Mouse_Imp.cs" />
     <Compile Include="swig\ObjectSystemFactory.cs" />
     <Compile Include="swig\Profiler.cs" />

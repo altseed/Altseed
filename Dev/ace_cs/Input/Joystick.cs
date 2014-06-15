@@ -14,19 +14,19 @@ namespace ace
         /// <summary>
         /// キーを離した瞬間のみ返す
         /// </summary>
-        Pull=ace.swig.eJoystickButtonState.ACE_JOYSTICK_BUTTON_PULL,
+        Pull =ace.swig.JoystickButtonState.Pull,
         /// <summary>
         /// キーを押した瞬間のみ返す
         /// </summary>
-        Push=ace.swig.eJoystickButtonState.ACE_JOYSTICK_BUTTON_PUSH,
+        Push =ace.swig.JoystickButtonState.Push,
         /// <summary>
         /// キーを押しっぱなしの時に返す
         /// </summary>
-        Hold=ace.swig.eJoystickButtonState.ACE_JOYSTICK_BUTTON_HOLD,
+        Hold =ace.swig.JoystickButtonState.Hold,
         /// <summary>
         /// キーを離しっぱなしの時に返す
         /// </summary>
-        Free=ace.swig.eJoystickButtonState.ACE_JOYSTICK_BUTTON_FREE
+        Free =ace.swig.JoystickButtonState.Free
     }
 
     public class Joystick
