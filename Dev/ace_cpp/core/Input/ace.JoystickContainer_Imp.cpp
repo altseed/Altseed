@@ -6,7 +6,7 @@ namespace ace{
 	{
 		for (int i = 0; i < MAX_CONTAINER_SIZE; ++i)
 		{
-			joystickContainer[i] = Joystick_Imp::Create(i);
+			m_joystickContainer[i] = Joystick_Imp::Create(i);
 		}
 	}
 
@@ -14,7 +14,7 @@ namespace ace{
 	{
 		for (int i = 0; i < MAX_CONTAINER_SIZE; ++i)
 		{
-			SafeDelete(joystickContainer[i]);
+			SafeDelete(m_joystickContainer[i]);
 		}
 	}
 
@@ -22,7 +22,7 @@ namespace ace{
 	{
 		for (int i = 0; i < MAX_CONTAINER_SIZE; ++i)
 		{
-			if (IsPresentAt(i)) joystickContainer[i]->RefreshInputState();
+			if (IsPresentAt(i)) m_joystickContainer[i]->RefreshInputState();
 		}
 	}
 
@@ -37,6 +37,6 @@ namespace ace{
 	}
 	Joystick* JoystickContainer_Imp::GetJoystickAt(int at)
 	{
-		return (IsPresentAt(at)) ? joystickContainer[at] : NULL;
+		return (IsPresentAt(at)) ? m_joystickContainer[at] : nullptr;
 	}
 };

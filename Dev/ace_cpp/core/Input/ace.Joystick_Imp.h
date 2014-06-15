@@ -5,20 +5,20 @@
 namespace ace{
 	class Joystick_Imp:public Joystick
 	{
-		int connectId;
+		int m_connectId;
 
-		int buttonsCount;
-		int AxesCount;
+		int m_buttonsCount;
+		int m_axesCount;
 
 		static const int MAX_AXES_NUM = 10;
 		static const int MAX_BUTTONS_NUM = 30;
 
-		float currentAxes[MAX_AXES_NUM];
+		float m_currentAxes[MAX_AXES_NUM];
 
-		bool currentButtonHit[MAX_BUTTONS_NUM];
-		bool preButtonHit[MAX_BUTTONS_NUM];
+		bool m_currentButtonHit[MAX_BUTTONS_NUM];
+		bool m_preButtonHit[MAX_BUTTONS_NUM];
 
-		ace::astring joystickName;
+		ace::astring m_joystickName;
 
 		Joystick_Imp(int id);
 	public:
@@ -31,7 +31,7 @@ namespace ace{
 		const ace::achar* GetJoystickName();
 		const int GetButtonsCount();
 		const int GetAxesCount();
-		const eJoystickButtonState GetButtonState(int at);
+		const JoystickButtonState GetButtonState(int at);
 		const float GetAxisState(int at);
 	};
 };

@@ -15,14 +15,14 @@ namespace ace{
 		void RefreshInputState();
 	private:
 		Mouse_Imp(Window_Imp* window_Imp);
-		Vector2DF m_Position;
-		GLFWwindow* m_Window;
-		SideButton* m_LeftButton;
-		SideButton* m_RightButton;
-		MiddleButton* m_MiddleButton;
-		bool preHitLeft;
-		bool preHitMiddle;
-		bool preHitRight;
-		double wheel;
+		Vector2DF m_position;
+		GLFWwindow* m_window;
+		SideButton* m_leftButton;
+		SideButton* m_rightButton;
+		MiddleButton* m_middleButton;
+		bool m_preHitLeft;
+		bool m_preHitMiddle;
+		bool m_preHitRight;
+		double m_wheel;
 	};
 };

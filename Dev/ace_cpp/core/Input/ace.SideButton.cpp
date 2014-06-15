@@ -1,13 +1,13 @@
 ﻿#include "ace.SideButton.h"
 
 namespace ace{
-	SideButton::SideButton(eMouseButtonState eMouseButtonState,bool doubleClicked)
+	SideButton::SideButton(MouseButtonState mouseButtonState,bool doubleClicked)
 	{
-		m_eMouseButtonState = eMouseButtonState;
+		m_mouseButtonState = mouseButtonState;
 	}
 
-	eMouseButtonState SideButton::GetButtonState() const
+	const MouseButtonState SideButton::GetButtonState() const
 	{
-		return m_eMouseButtonState;
+		return m_mouseButtonState;
 	}
 };

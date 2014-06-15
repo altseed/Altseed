@@ -10,14 +10,14 @@ namespace ace{
 	public:
 		static Keyboard_Imp* Create(Window_Imp *window_Imp);
 		void RefreshInputState();
-		const eKeyboardButtonState GetKeyState(eKeys key);
+		const KeyboardButtonState GetKeyState(Keys key);
 		Keyboard_Imp(Window_Imp *window_Imp);
 		virtual ~Keyboard_Imp();
 	private:
-		static const int keyCode[128];
-		static const int KeyNum;
-		bool currentHit[121];
-		bool preHit[121];
+		static const int m_keyCode[128];
+		static const int m_KeyNum;
+		bool m_currentHit[121];
+		bool m_preHit[121];
 		GLFWwindow* m_window;
 	};
 

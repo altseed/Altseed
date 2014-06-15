@@ -2,14 +2,14 @@
 
 namespace ace{
 
-	enum eMouseButtonState
+	enum class MouseButtonState:int
 	{
-		MOUSE_PUSH,MOUSE_PULL,MOUSE_HOLD,MOUSE_FREE
+		Push,Pull,Hold,Free
 	};
 
 	class IMouseButtonState
 	{
 	public:
-		virtual eMouseButtonState GetButtonState() const = 0;
+		virtual const MouseButtonState GetButtonState() const = 0;
 	};
 };

@@ -7,10 +7,10 @@ namespace ace{
 	class SideButton:public IMouseButtonState
 	{
 	private:
-		eMouseButtonState m_eMouseButtonState;
+		MouseButtonState m_mouseButtonState;
 	public:
-		eMouseButtonState GetButtonState() const;
+		const MouseButtonState GetButtonState() const;
 		SideButton(){}
-		SideButton(eMouseButtonState eMouseButtonState,bool doubleClicked);
+		SideButton(MouseButtonState mouseButtonState,bool doubleClicked);
 	};
 };

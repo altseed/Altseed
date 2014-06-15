@@ -2,7 +2,7 @@
 
 namespace ace{
 
-	const int Keyboard_Imp::keyCode [] = 
+	const int Keyboard_Imp::m_keyCode[] =
 	{
 		GLFW_KEY_UNKNOWN,
 		GLFW_KEY_SPACE,
@@ -128,15 +128,15 @@ namespace ace{
 		GLFW_KEY_MENU
 	};
 
-	const int Keyboard_Imp::KeyNum = 121;
+	const int Keyboard_Imp::m_KeyNum = 121;
 
 	Keyboard_Imp::Keyboard_Imp(Window_Imp *window_Imp)
 	{
 		GLFWwindow *window = window_Imp->GetWindow();
 		m_window = window;
-		for (int i = 0; i < KeyNum; i++){
-			currentHit[i] = GLFW_RELEASE;
-			preHit[i] = GLFW_RELEASE;
+		for (int i = 0; i < m_KeyNum; i++){
+			m_currentHit[i] = GLFW_RELEASE;
+			m_preHit[i] = GLFW_RELEASE;
 		}
 	}
 		
@@ -153,17 +153,18 @@ namespace ace{
 
 	void Keyboard_Imp::RefreshInputState()
 	{
-		for (int i = 0; i < KeyNum; i++){
-			preHit[i] = currentHit[i];
-			currentHit[i] = (bool)glfwGetKey(m_window, keyCode[i]);
+		for (int i = 0; i < m_KeyNum; i++){
+			m_preHit[i] = m_currentHit[i];
+			m_currentHit[i] = (bool)glfwGetKey(m_window, m_keyCode[i]);
 		}
 	}
 
-	const eKeyboardButtonState Keyboard_Imp::GetKeyState(eKeys key)
+	const KeyboardButtonState Keyboard_Imp::GetKeyState(Keys key)
 	{
-		if (currentHit[key] && preHit[key]) return eKeyboardButtonState::KEYBOARD_HOLD;
-		else if (!currentHit[key] && preHit[key]) return eKeyboardButtonState::KEYBOARD_PULL;
-		else if (currentHit[key] && !preHit[key]) return eKeyboardButtonState::KEYBOARD_PUSH;
-		else return eKeyboardButtonState::KEYBOARD_FREE;
+		int index = (int)key;
+		if (m_currentHit[index] && m_preHit[index]) return KeyboardButtonState::Hold;
+		else if (!m_currentHit[index] && m_preHit[index]) return KeyboardButtonState::Pull;
+		else if (m_currentHit[index] && !m_preHit[index]) return KeyboardButtonState::Push;
+		else return KeyboardButtonState::Free;
 	}
 };

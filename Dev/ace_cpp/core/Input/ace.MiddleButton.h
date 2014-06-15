@@ -7,12 +7,12 @@ namespace ace{
 	class MiddleButton : public IMouseWheelableButtonState
 	{
 	private:
-		eMouseButtonState m_eMouseButtonState;
+		MouseButtonState m_mouseButtonState;
 		double m_rotation;
 	public:
-		eMouseButtonState GetButtonState() const;
+		const MouseButtonState GetButtonState() const;
 		const double GetRotation() const;
-		MiddleButton(eMouseButtonState eMouseButtonState,double rotation);
+		MiddleButton(MouseButtonState mouseButtonState,double rotation);
 		MiddleButton(){}
 	};
 };

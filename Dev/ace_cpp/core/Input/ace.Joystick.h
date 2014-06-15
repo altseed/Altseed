@@ -2,12 +2,12 @@
 
 namespace ace{
 
-	enum eJoystickButtonState
+	enum class JoystickButtonState:int
 	{
-		ACE_JOYSTICK_BUTTON_PUSH,
-		ACE_JOYSTICK_BUTTON_PULL,
-		ACE_JOYSTICK_BUTTON_FREE,
-		ACE_JOYSTICK_BUTTON_HOLD
+		Push,
+		Pull,
+		Free,
+		Hold
 	};
 
 	enum eJoystickButtons
@@ -35,7 +35,7 @@ namespace ace{
 		virtual const int GetAxesCount() = 0;
 
 
-		virtual const eJoystickButtonState GetButtonState(int at) = 0;
+		virtual const JoystickButtonState GetButtonState(int at) = 0;
 
 
 		virtual const float GetAxisState(int at) = 0;
