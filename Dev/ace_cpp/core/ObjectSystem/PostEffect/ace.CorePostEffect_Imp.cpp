@@ -4,6 +4,9 @@
 #include "../../Graphics/Resource/ace.Shader2D_Imp.h"
 #include "../../Graphics/Resource/ace.Material2D_Imp.h"
 
+#include "../../Graphics/Shader/DX/PostEffect/LightBloom_PS.h"
+#include "../../Graphics/Shader/GL/PostEffect/LightBloom_PS.h"
+
 namespace ace
 {
 	CorePostEffect_Imp::CorePostEffect_Imp(Graphics* graphics)
