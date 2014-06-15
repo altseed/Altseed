@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include<memory>
 #include <vector>
@@ -9,7 +9,7 @@ namespace ace
 {
 
 	/**
-		@brief	‹P“x‚Ì‚‚¢‰æ‘f‚Ì‚İ‚ğ‚Ú‚©‚µ‚Ä‰ÁZ‚·‚éƒ|ƒXƒgƒGƒtƒFƒNƒg
+		@brief	è¼åº¦ã®é«˜ã„ç”»ç´ ã®ã¿ã‚’ã¼ã‹ã—ã¦åŠ ç®—ã™ã‚‹ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆ
 	*/
 	class PostEffectLightBloom : public PostEffect
 	{
@@ -31,8 +31,8 @@ namespace ace
 		virtual ~PostEffectLightBloom() = default;
 
 		/**
-		@brief ‚Ú‚©‚µ‚Ì‹­‚³‚ğİ’è‚·‚éB‰Šú’l‚Í0.5
-		@detail À¿“I‚É‚ÍƒKƒEƒXŠÖ”‚Ì•ªU‚É‚ ‚½‚é’l‚Ì•½•ûªB1.0f‚©‚ç5.0f‚ ‚½‚è‚ª“K“–
+		@brief ã¼ã‹ã—ã®å¼·ã•ã‚’è¨­å®šã™ã‚‹ã€‚åˆæœŸå€¤ã¯0.5
+		@detail å®Ÿè³ªçš„ã«ã¯ã‚¬ã‚¦ã‚¹é–¢æ•°ã®åˆ†æ•£ã«ã‚ãŸã‚‹å€¤ã®å¹³æ–¹æ ¹ã€‚1.0fã‹ã‚‰5.0fã‚ãŸã‚ŠãŒé©å½“
 		*/
 		void SetIntensity(float const value){ if (value <= 0.0f){ return; }intensity = value; }
 

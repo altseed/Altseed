@@ -1,15 +1,15 @@
 ﻿#include "ace.MiddleButton.h"
 
 namespace ace{
-	MiddleButton::MiddleButton(eMouseButtonState eMouseButtonState, double rotation)
+	MiddleButton::MiddleButton(MouseButtonState mouseButtonState, double rotation)
 	{
-		m_eMouseButtonState = eMouseButtonState;
+		m_mouseButtonState = mouseButtonState;
 		m_rotation = rotation;
 	}
 
-	eMouseButtonState MiddleButton::GetButtonState() const
+	const MouseButtonState MiddleButton::GetButtonState() const
 	{
-		return m_eMouseButtonState;
+		return m_mouseButtonState;
 	}
 
 	const double MiddleButton::GetRotation() const

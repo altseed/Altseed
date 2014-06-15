@@ -7,7 +7,7 @@ namespace ace{
 	{
 		static const int MAX_CONTAINER_SIZE = 16;
 
-		Joystick_Imp *joystickContainer[MAX_CONTAINER_SIZE];
+		Joystick_Imp *m_joystickContainer[MAX_CONTAINER_SIZE];
 		JoystickContainer_Imp();
 	public:
 		virtual ~JoystickContainer_Imp();

@@ -9,7 +9,7 @@ namespace ace{
 	{
 	public:
 
-		virtual eMouseButtonState GetButtonState() const = 0;
+		virtual const MouseButtonState GetButtonState() const = 0;
 
 		virtual const double GetRotation() const = 0;
 	};

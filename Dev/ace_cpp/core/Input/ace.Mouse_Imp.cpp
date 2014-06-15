@@ -17,52 +17,52 @@ namespace ace{
 
 	Mouse_Imp::Mouse_Imp(Window_Imp* window_Imp)
 	{
-		preHitLeft = false;
-		preHitMiddle = false;
-		preHitRight = false;
+		m_preHitLeft = false;
+		m_preHitMiddle = false;
+		m_preHitRight = false;
 
 		GLFWwindow *window = window_Imp->GetWindow();
 		glfwSetScrollCallback(window, GetWheel);
 
-		m_Window = window;
+		m_window = window;
 		wheelCalled = false;
 	}
 
 	void Mouse_Imp::RefreshInputState()
 	{
 		double mx, my;
-		glfwGetCursorPos(m_Window, &mx, &my);
-		m_Position = Vector2DF((float) mx, (float) my);
+		glfwGetCursorPos(m_window, &mx, &my);
+		m_position = Vector2DF((float) mx, (float) my);
 
-		int leftState = glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_LEFT);
+		int leftState = glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT);
 		if (leftState == GLFW_PRESS){
-			m_LeftButton = new SideButton((preHitLeft)?eMouseButtonState::MOUSE_HOLD:eMouseButtonState::MOUSE_PUSH,false);
-			preHitLeft = true;
+			m_leftButton = new SideButton((m_preHitLeft)?MouseButtonState::Hold:MouseButtonState::Push,false);
+			m_preHitLeft = true;
 		}
 		else{
-			m_LeftButton = new SideButton((preHitLeft) ? eMouseButtonState::MOUSE_PULL : eMouseButtonState::MOUSE_FREE , false);
-			preHitLeft = false;
+			m_leftButton = new SideButton((m_preHitLeft) ? MouseButtonState::Pull : MouseButtonState::Free , false);
+			m_preHitLeft = false;
 		}
 
-		int middleState = glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_MIDDLE);
+		int middleState = glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_MIDDLE);
 		if (middleState == GLFW_PRESS){
-			m_MiddleButton = new MiddleButton((preHitMiddle) ? eMouseButtonState::MOUSE_HOLD : eMouseButtonState::MOUSE_PUSH, (wheelCalled) ? yWheel : 0);
-			preHitMiddle = true;
+			m_middleButton = new MiddleButton((m_preHitMiddle) ? MouseButtonState::Hold : MouseButtonState::Push, (wheelCalled) ? yWheel : 0);
+			m_preHitMiddle = true;
 		}
 		else{
-			m_MiddleButton = new MiddleButton((preHitMiddle) ? eMouseButtonState::MOUSE_PULL : eMouseButtonState::MOUSE_FREE, (wheelCalled) ? yWheel : 0);
-			preHitMiddle = false;
+			m_middleButton = new MiddleButton((m_preHitMiddle) ? MouseButtonState::Pull : MouseButtonState::Free, (wheelCalled) ? yWheel : 0);
+			m_preHitMiddle = false;
 		}
 		
 
-		int rightState = glfwGetMouseButton(m_Window, GLFW_MOUSE_BUTTON_RIGHT);
+		int rightState = glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_RIGHT);
 		if (rightState == GLFW_PRESS){
-			m_RightButton = new SideButton((preHitRight) ? eMouseButtonState::MOUSE_HOLD : eMouseButtonState::MOUSE_PUSH, false);
-			preHitRight = true;
+			m_rightButton = new SideButton((m_preHitRight) ? MouseButtonState::Hold : MouseButtonState::Push, false);
+			m_preHitRight = true;
 		}
 		else{
-			m_RightButton = new SideButton((preHitRight) ? eMouseButtonState::MOUSE_PULL : eMouseButtonState::MOUSE_FREE, false);
-			preHitRight = false;
+			m_rightButton = new SideButton((m_preHitRight) ? MouseButtonState::Pull : MouseButtonState::Free, false);
+			m_preHitRight = false;
 		}
 
 		wheelCalled = false;
@@ -70,21 +70,21 @@ namespace ace{
 
 	const SideButton* Mouse_Imp::GetLeftButton() const
 	{
-		return m_LeftButton;
+		return m_leftButton;
 	}
 
 	const SideButton* Mouse_Imp::GetRightButton() const
 	{
-		return m_RightButton;
+		return m_rightButton;
 	}
 
 	const MiddleButton* Mouse_Imp::GetMiddleButton() const
 	{
-		return m_MiddleButton;
+		return m_middleButton;
 	}
 
 	const Vector2DF Mouse_Imp::GetPosition() const
 	{
-		return m_Position;
+		return m_position;
 	}
 }

@@ -145,7 +145,7 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 
 		renderer2d->AddSprite(positions, colors, uvs, rtex.get(), ace::eAlphaBlend::ALPHA_BLEND_BLEND, 0);
 
-		renderer2d->DrawCache();
+		renderer2d->DrawCache(ace::RectF(0, 0, 640, 480));
 		renderer2d->ClearCache();
 
 		graphics->Present();

@@ -7,20 +7,20 @@ namespace ace{
 
 	Joystick_Imp::Joystick_Imp(int id)
 	{
-		connectId = id;
-		buttonsCount = 0;
-		AxesCount = 0;
-		joystickName = ToAString("");
+		m_connectId = id;
+		m_buttonsCount = 0;
+		m_axesCount = 0;
+		m_joystickName = ToAString("");
 
 		for (int i = 0; i < MAX_BUTTONS_NUM; ++i)
 		{
-			currentButtonHit[i] = false;
-			preButtonHit[i] = false;
+			m_currentButtonHit[i] = false;
+			m_preButtonHit[i] = false;
 		}
 
 		for (int i = 0; i < MAX_AXES_NUM; ++i)
 		{
-			currentAxes[i] = 0;
+			m_currentAxes[i] = 0;
 		}
 	}
 
@@ -37,51 +37,51 @@ namespace ace{
 	void Joystick_Imp::RefreshInputState()
 	{
 
-		const float* ax=glfwGetJoystickAxes(connectId, &AxesCount);
-		for (int i = 0; i < AxesCount; ++i)
+		const float* ax = glfwGetJoystickAxes(m_connectId, &m_axesCount);
+		for (int i = 0; i < m_axesCount; ++i)
 		{
-			currentAxes[i] = ax[i];
+			m_currentAxes[i] = ax[i];
 		}
 
-		const unsigned char* btns = glfwGetJoystickButtons(connectId, &buttonsCount);
-		for (int i = 0; i < buttonsCount; ++i)
+		const unsigned char* btns = glfwGetJoystickButtons(m_connectId, &m_buttonsCount);
+		for (int i = 0; i < m_buttonsCount; ++i)
 		{
-			preButtonHit[i] = currentButtonHit[i];
-			currentButtonHit[i] = btns[i];
+			m_preButtonHit[i] = m_currentButtonHit[i];
+			m_currentButtonHit[i] = btns[i];
 		}
 	}
 
 	const ace::achar* Joystick_Imp::GetJoystickName()
 	{
 
-		joystickName=ToAString(glfwGetJoystickName(connectId));
-		return joystickName.c_str();
+		m_joystickName = ToAString(glfwGetJoystickName(m_connectId));
+		return m_joystickName.c_str();
 	}
 
 
 	const int Joystick_Imp::GetButtonsCount()
 	{
-		return buttonsCount;
+		return m_buttonsCount;
 	}
 
 
 	const int Joystick_Imp::GetAxesCount()
 	{
-		return AxesCount;
+		return m_axesCount;
 	}
 
 
-	const eJoystickButtonState Joystick_Imp::GetButtonState(int at)
+	const JoystickButtonState Joystick_Imp::GetButtonState(int at)
 	{
-		if (currentButtonHit[at] && preButtonHit[at]) return ACE_JOYSTICK_BUTTON_HOLD;
-		else if (currentButtonHit[at] && !preButtonHit[at]) return ACE_JOYSTICK_BUTTON_PUSH;
-		else if (!currentButtonHit[at] && preButtonHit[at]) return ACE_JOYSTICK_BUTTON_PULL;
-		else return ACE_JOYSTICK_BUTTON_FREE;
+		if (m_currentButtonHit[at] && m_preButtonHit[at]) return JoystickButtonState::Hold;
+		else if (m_currentButtonHit[at] && !m_preButtonHit[at]) return JoystickButtonState::Push;
+		else if (!m_currentButtonHit[at] && m_preButtonHit[at]) return JoystickButtonState::Pull;
+		else return JoystickButtonState::Free;
 	}
 
 
 	const float Joystick_Imp::GetAxisState(int at)
 	{
-		return currentButtonHit[at];
+		return m_currentButtonHit[at];
 	}
 };
