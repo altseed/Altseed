@@ -1,4 +1,4 @@
-ï»¿#pragma once
+#pragma once
 
 #include<memory>
 #include <vector>
@@ -9,9 +9,9 @@ namespace ace
 {
 
 	/**
-	@brief	ã‚¬ã‚¦ã‚¹ã¼ã‹ã—ã‚’ã‹ã‘ã‚‹ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚¯ãƒ©ã‚¹
+		@brief	‹P“x‚Ì‚‚¢‰æ‘f‚Ì‚İ‚ğ‚Ú‚©‚µ‚Ä‰ÁZ‚·‚éƒ|ƒXƒgƒGƒtƒFƒNƒg
 	*/
-	class PostEffectGaussianBlur : public PostEffect
+	class PostEffectLightBloom : public PostEffect
 	{
 	private:
 
@@ -21,22 +21,22 @@ namespace ace
 
 		std::shared_ptr<RenderTexture2D>	m_tempTexture;
 
-		PostEffectGaussianBlur() = default;
-		
+		PostEffectLightBloom() = default;
+
 		float intensity = 5.0f;
 
 	public:
-		PostEffectGaussianBlur(Graphics *g);
+		PostEffectLightBloom(Graphics *g);
 
-		virtual ~PostEffectGaussianBlur() = default;
+		virtual ~PostEffectLightBloom() = default;
 
 		/**
-		@brief ã¼ã‹ã—ã®å¼·ã•ã‚’è¨­å®šã™ã‚‹ã€‚åˆæœŸå€¤ã¯0.5
-		@detail å®Ÿè³ªçš„ã«ã¯ã‚¬ã‚¦ã‚¹é–¢æ•°ã®åˆ†æ•£ã«ã‚ãŸã‚‹å€¤ã®å¹³æ–¹æ ¹ã€‚1.0fã‹ã‚‰5.0fã‚ãŸã‚ŠãŒé©å½“
+		@brief ‚Ú‚©‚µ‚Ì‹­‚³‚ğİ’è‚·‚éB‰Šú’l‚Í0.5
+		@detail À¿“I‚É‚ÍƒKƒEƒXŠÖ”‚Ì•ªU‚É‚ ‚½‚é’l‚Ì•½•ûªB1.0f‚©‚ç5.0f‚ ‚½‚è‚ª“K“–
 		*/
 		void SetIntensity(float const value){ if (value <= 0.0f){ return; }intensity = value; }
 
-		
+
 		virtual void OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src) override;
 	};
 

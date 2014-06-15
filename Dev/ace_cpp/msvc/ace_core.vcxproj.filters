@@ -109,6 +109,15 @@
     <Filter Include="Graphics\Shader\DX\3D\PostEffect">
       <UniqueIdentifier>{4a9c92be-b0a1-4441-b52a-80dedbdc1ff5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Shader\ALSL\PostEffect">
+      <UniqueIdentifier>{5e5dd758-27cf-47f0-abf4-c768d2261955}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\DX\PostEffect">
+      <UniqueIdentifier>{e3ce24af-0183-4c3b-8919-befef47aee99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\GL\PostEffect">
+      <UniqueIdentifier>{01654490-7041-4665-8199-f04ba738bcf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -1007,5 +1016,16 @@
     <None Include="..\core\Graphics\Shader\ALSL\3D\Light_PS.alsl">
       <Filter>Graphics\Shader\ALSL\3D</Filter>
     </None>
+    <None Include="..\core\Graphics\Shader\ALSL\PostEffect\LightBloom.alsl">
+      <Filter>Graphics\Shader\ALSL\PostEffect</Filter>
+    </None>
+    <None Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h">
+      <Filter>Graphics\Shader\GL\PostEffect</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h">
+      <Filter>Graphics\Shader\DX\PostEffect</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

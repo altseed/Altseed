@@ -77,6 +77,9 @@
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.MapObject2D.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectLightBloom.cpp">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -156,6 +159,9 @@
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.MapObject2D.h">
       <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectLightBloom.h">
+      <Filter>ObjectSystem\PostEffect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
