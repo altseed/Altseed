@@ -3,6 +3,7 @@
 #include <array>
 #include "../../Utility/ace.BinaryReader.h"
 #include "ace.AffHeader.h"
+#include "ace.AffIndexTable.h"
 #define CHARCODE_MAX 65536
 
 using namespace std;
@@ -11,6 +12,8 @@ namespace ace
 {
 	static array<int16_t, CHARCODE_MAX> GetIndexTable(BinaryReader& reader)
 	{
+		auto table = AffIndexTable::Get(reader);
+
 		array<int16_t, CHARCODE_MAX> result;
 		for (int i = 0; i < result.size(); ++i)
 		{

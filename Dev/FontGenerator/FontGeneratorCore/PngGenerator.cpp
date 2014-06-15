@@ -113,7 +113,7 @@ namespace FontGenerator
 		for (auto& glyph : m_font.GetGlyphs(charactors))
 		{
 			auto finalGlyph = m_setting.ProcessGlyph(glyph);
-			auto advance = (int)(finalGlyph.GetAdvance() + outlineWidth*2);
+			auto advance = (int)(finalGlyph.GetAdvance() + outlineWidth*2);	// —ÖŠsü‚Ì‘¾‚³‚Ö‚Ì‘Î‰ž‚ÍA‚Æ‚è‚ ‚¦‚¸‘¾‚³*2‚¾‚¯—]—T‚ð‚Æ‚é
 
 			if (penX + advance > m_sheetSize)
 			{
