@@ -17,6 +17,13 @@ namespace ace
 		bool							m_syncEffects = nullptr;
 		Renderer2D*						m_renderer;
 
+		/**
+			@brief	Y軸回転(度)
+		*/
+		float							m_rotation = 0.0f;
+
+		Effekseer::Matrix43 CalcEffectMatrix();
+
 	public:
 		CoreEffectObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreEffectObject2D_Imp();
@@ -51,6 +58,10 @@ namespace ace
 		@param	value	フラグ
 		*/
 		void SetSyncEffects(bool value) { m_syncEffects = value; }
+
+		float GetEffectRotation() const override;
+
+		void SetEffectRotation(float value) override;
 
 		void OnAdded(Renderer2D* renderer) override;
 

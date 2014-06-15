@@ -48,4 +48,14 @@ namespace ace
 	{
 		m_coreObject->SetSyncEffects(value);
 	}
+
+	float EffectObject2D::GetEffectRotation() const
+	{
+		return m_coreObject->GetEffectRotation();
+	}
+
+	void EffectObject2D::SetEffectRotation(float value)
+	{
+		m_coreObject->SetEffectRotation(value);
+	}
 }

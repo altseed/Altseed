@@ -50,5 +50,20 @@ namespace ace
 		@param	value	フラグ
 		*/
 		void SetSyncEffects(bool value);
+
+		/**
+		@brief	このオブジェクトから再生されるエフェクトの向きを取得する。
+		@return	value	回転量(度)
+		*/
+		float GetEffectRotation() const;
+
+		/**
+		@brief	このオブジェクトから再生されるエフェクトの向き(度)を指定する。
+		@param	value	回転量(度)
+		@note
+		2D表示だとエフェクトが画面に対して前後に表示されるように作成されていた場合、予期せぬ見た目で表示されてしまうことがある。
+		そのため、Y軸を中心にエフェクトを回転させ2Dとして違和感のない表示ができるようにする。
+		*/
+		void SetEffectRotation(float value);
 	};
 }

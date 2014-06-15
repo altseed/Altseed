@@ -76,6 +76,25 @@ namespace ace
 			}
 		}
 
+		/// <summary>
+		/// このオブジェクトから再生されるエフェクトの向き(度)を指定する。
+		/// </summary>
+		/// <remarks>
+		/// 2D表示だとエフェクトが画面に対して前後に表示されるように作成されていた場合、予期せぬ見た目で表示されてしまうことがある。
+		/// そのため、Y軸を中心にエフェクトを回転させ2Dとして違和感のない表示ができるようにする。
+		/// </remarks>
+		public float EffectRotation
+		{
+			get
+			{
+				return coreEffectObject.GetEffectRotation();
+			}
+			set
+			{
+				coreEffectObject.SetEffectRotation(value);
+			}
+		}
+
 		protected override void OnStart()
 		{
 		}
