@@ -30,7 +30,7 @@ protected:
 		ace::Engine::ChangeScene(scene);
 
 		m_effectObj->SetPosition(ace::Vector2DF(320, 240));
-		//m_effectObj->SetScale(ace::Vector2DF(10, 10));	// もしかして視点方向・・？
+		m_effectObj->SetScale(ace::Vector2DF(20, 20));
 		m_effectObj->SetEffectRotation(90);
 
 		m_effectObj->SetEffect(effect);

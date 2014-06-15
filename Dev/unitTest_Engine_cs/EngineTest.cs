@@ -13,9 +13,9 @@ namespace unitTest_Engine_cs
 		static readonly string PathOfSS = "ScreenShotTest_Engine_cs";
 		protected static readonly string CloudTexturePath = "Data/Texture/Cloud1.png";
 
-		public EngineTest( int timeForExit )
+		public EngineTest(int timeForExit)
 		{
-			this.Title = GetType().FullName.Replace( "unitTest_Engine_cs.", "" );
+			this.Title = GetType().FullName.Replace("unitTest_Engine_cs.", "");
 			this.ExitTime = timeForExit;
 		}
 
@@ -23,42 +23,44 @@ namespace unitTest_Engine_cs
 		public int ExitTime { get; private set; }
 		public int Time { get; private set; }
 
-		public override void Test( GraphicsType graphicsType )
+		public override void Test(GraphicsType graphicsType)
 		{
-			Console.WriteLine( "[{0}_{1}]", Title, graphicsType );
+			Time = 0;
+
+			Console.WriteLine("[{0}_{1}]", Title, graphicsType);
 
 			var option = new EngineOption
 			{
 				IsFullScreen = false,
 				GraphicsType = graphicsType,
-				IsMultithreadingMode = true,
+				IsMultithreadingMode = false,
 			};
 
-			var result = Engine.Initialize( Title, 640, 480, option );
+			var result = Engine.Initialize(Title, 640, 480, option);
 
-			if( !result )
+			if (!result)
 			{
-				throw new Exception( "ACEの初期化に失敗しました。" );
+				throw new Exception("ACEの初期化に失敗しました。");
 			}
 
 			OnStart();
 
-			while( Engine.DoEvents() )
+			while (Engine.DoEvents())
 			{
 				OnUpdating();
 				Engine.Update();
 				OnUpdated();
 
-				if( Time == ExitTime )
+				if (Time == ExitTime)
 				{
-					if( !Directory.Exists( PathOfSS ) )
+					if (!Directory.Exists(PathOfSS))
 					{
-						Directory.CreateDirectory( PathOfSS );
+						Directory.CreateDirectory(PathOfSS);
 					}
-					var path = string.Format( "{0}/{1}_{2}.png", PathOfSS, Title, graphicsType );
-					Engine.TakeScreenshot( path );
+					var path = string.Format("{0}/{1}_{2}.png", PathOfSS, Title, graphicsType);
+					Engine.TakeScreenshot(path);
 				}
-				else if( Time == ExitTime + 2 )
+				else if (Time == ExitTime + 2)
 				{
 					break;
 				}
