@@ -297,9 +297,6 @@ namespace ace
 			auto uv = reader.Get<Vector2DF>();
 			auto subuv = reader.Get<Vector2DF>();
 			auto color = reader.Get<Color>();
-			auto weights = reader.Get<int32_t>();
-			auto indexes = reader.Get<int32_t>();
-			auto indexesOriginal = reader.Get<int32_t>();
 
 			mesh.Vertices[i].Position = pos;
 			mesh.Vertices[i].Normal = normal;
@@ -307,9 +304,21 @@ namespace ace
 			mesh.Vertices[i].UV1 = uv;
 			mesh.Vertices[i].UV2 = subuv;
 			mesh.Vertices[i].VColor = color;
-			mesh.Vertices[i].BoneWeights = weights;
-			mesh.Vertices[i].BoneIndexes = indexes;
-			mesh.Vertices[i].BoneIndexesOriginal = indexesOriginal;
+
+			for (auto w = 0; w < 4; w++)
+			{
+				mesh.Vertices[i].BoneWeights[w] = reader.Get<uint8_t>();
+			}
+
+			for (auto w = 0; w < 4; w++)
+			{
+				mesh.Vertices[i].BoneIndexes[w] = reader.Get<uint8_t>();
+			}
+
+			for (auto w = 0; w < 4; w++)
+			{
+				mesh.Vertices[i].BoneIndexesOriginal[w] = reader.Get<uint8_t>();
+			}
 		}
 
 		int32_t fcount = reader.Get<int32_t>();
@@ -321,9 +330,9 @@ namespace ace
 			auto f2 = reader.Get<int32_t>();
 			auto f3 = reader.Get<int32_t>();
 
-			mesh.Faces[i].Index1 = f1;
-			mesh.Faces[i].Index2 = f2;
-			mesh.Faces[i].Index3 = f3;
+			mesh.Faces[i].Indexes[0] = f1;
+			mesh.Faces[i].Indexes[1] = f2;
+			mesh.Faces[i].Indexes[2] = f3;
 		}
 
 		int32_t mcount = reader.Get<int32_t>();

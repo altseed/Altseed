@@ -62,46 +62,46 @@ namespace FBX2MDL
 		}
 	}
 
-	void FBXExporter::WriteMesh(const std::shared_ptr<Mesh>& mesh)
+	void FBXExporter::WriteMesh(const ace::Model_IO::DividedMesh& mesh)
 	{
-		auto vcount = (int32_t)mesh->Vertexes.size();
+		auto vcount = (int32_t)mesh.Vertices.size();
 		m_writer->Push(vcount);
-		for (const auto& v : mesh->Vertexes)
+		for (const auto& v : mesh.Vertices)
 		{
 			m_writer->Push(v.Position);
 			m_writer->Push(v.Normal);
 			m_writer->Push(v.Binormal);
-			m_writer->Push(v.UV);
-			m_writer->Push(v.SubUV);
-			m_writer->Push(v.Color.R);
-			m_writer->Push(v.Color.G);
-			m_writer->Push(v.Color.B);
-			m_writer->Push(v.Color.A);
+			m_writer->Push(v.UV1);
+			m_writer->Push(v.UV2);
+			m_writer->Push(v.VColor.R);
+			m_writer->Push(v.VColor.G);
+			m_writer->Push(v.VColor.B);
+			m_writer->Push(v.VColor.A);
 			
-			for (const auto& w : v.Weight)
+			for (const auto& w : v.BoneWeights)
 			{
 				m_writer->Push(w);
 			}
 			
-			for (const auto& w : v.WeightIndexOriginal)
+			for (const auto& w : v.BoneIndexes)
 			{
 				m_writer->Push(w);
 			}
 
-			for (const auto& w : v.WeightIndexDivided)
+			for (const auto& w : v.BoneIndexesOriginal)
 			{
 				m_writer->Push(w);
 			}
 		}
 
-		auto fcount = (int32_t) mesh->Faces.size();
+		auto fcount = (int32_t) mesh.Faces.size();
 		m_writer->Push(fcount);
 
-		for (const auto& f : mesh->Faces)
+		for (const auto& f : mesh.Faces)
 		{
-			m_writer->Push(f.Index[0]);
-			m_writer->Push(f.Index[1]);
-			m_writer->Push(f.Index[2]);
+			m_writer->Push(f.Indexes[0]);
+			m_writer->Push(f.Indexes[1]);
+			m_writer->Push(f.Indexes[2]);
 		}
 	}
 
@@ -215,81 +215,175 @@ namespace FBX2MDL
 					mesh->Vertexes[f2.Index[2]].Position.Y);
 			});
 
-			// ボーン数による分割
-			// 現在省略につきボーン数32以上は落ちる。
-
 			// 材質ソート
 			std::sort(mesh->Faces.begin(), mesh->Faces.end(), [](const Face& f1, const Face& f2) -> int32_t { return f1.MaterialIndex > f2.MaterialIndex; });
 
-			// 分割済頂点
-			int32_t divided = 1;
-			m_writer->Push(divided);
+			// ボーン数が一定ごとになるように分割
+			std::vector<ace::Model_IO::DividedMesh> dividedMeshes;
+
 			{
-				// 頂点に情報書き込み
-				for (auto i = 0; i < mesh->Vertexes.size(); i++)
-				{
-					auto& v = mesh->Vertexes[i];
-					v.WeightIndexDivided[0] = v.WeightIndexOriginal[0];
-					v.WeightIndexDivided[1] = v.WeightIndexOriginal[1];
-					v.WeightIndexDivided[2] = v.WeightIndexOriginal[2];
-					v.WeightIndexDivided[3] = v.WeightIndexOriginal[3];
-				}
+				dividedMeshes.push_back(ace::Model_IO::DividedMesh());
+				std::set<int32_t> connectors;
+				std::set<int32_t> newConnectors;
+				std::map<int32_t, int32_t> oldV2newV;
+				std::map<int32_t, int32_t> oldC2newC;
 
-				// メッシュ情報出力
-				WriteMesh(mesh);
+				int32_t materialIndex = -1;
+				int32_t materialCount = 0;
 
-				// 材質面出力
+				auto finishMesh = [&dividedMeshes, &connectors, &oldV2newV, &oldC2newC,&materialIndex,&materialCount]() -> void
 				{
-					std::vector<MaterialOffset> materialFaces;
-					int32_t materialIndex = -1;
-					int32_t materialCount = 0;
-					for (const auto& face : mesh->Faces)
+					auto& m = dividedMeshes[dividedMeshes.size() - 1];
+					for (auto& v : m.Vertices)
 					{
-						if (materialIndex == face.MaterialIndex)
+						for (auto w = 0; w < 4; w++)
 						{
-							materialCount++;
-						}
-						else
-						{
-							if (materialCount > 0)
-							{
-								MaterialOffset mo;
-								mo.MaterialIndex = materialIndex;
-								mo.FaceOffset = materialCount;
-								materialFaces.push_back(mo);
-								materialCount = 0;
-							}
-
-							materialCount++;
-							materialIndex = face.MaterialIndex;
+							v.BoneIndexes[w] = oldC2newC[v.BoneIndexesOriginal[w]];
 						}
 					}
+
+					connectors.clear();
+					oldV2newV.clear();
+					oldC2newC.clear();
 
 					if (materialCount > 0)
 					{
-						MaterialOffset mo;
+						ace::Model_IO::MaterialOffset mo;
 						mo.MaterialIndex = materialIndex;
 						mo.FaceOffset = materialCount;
-						materialFaces.push_back(mo);
+						m.MaterialOffsets.push_back(mo);
+						materialCount = 0;
+					}
+				};
+
+				for (auto& face : mesh->Faces)
+				{
+					newConnectors.clear();
+
+					for (auto fp = 0; fp < 3; fp++)
+					{
+						auto v = mesh->Vertexes[face.Index[fp]];
+						for (auto w = 0; w < 4; w++)
+						{
+							if (v.Weight[w] == 0.0f) continue;
+							if (connectors.count(v.WeightIndexOriginal[w]) == 0)
+							{
+								newConnectors.insert(v.WeightIndexOriginal[w]);
+							}
+						}
 					}
 
-					m_writer->Push((int32_t) materialFaces.size());
-					for (auto& mf : materialFaces)
+					if (connectors.size() + newConnectors.size() > 32)
 					{
-						m_writer->Push(mf.MaterialIndex);
-						m_writer->Push(mf.FaceOffset);
+						finishMesh();
+
+						// 新しいメッシュを生成
+						dividedMeshes.push_back(ace::Model_IO::DividedMesh());
+						dividedMeshes[dividedMeshes.size() - 1];
+					}
+					ace::Model_IO::DividedMesh& dmesh = dividedMeshes[dividedMeshes.size() - 1];
+
+					for (auto it = newConnectors.begin(); it != newConnectors.end(); it++)
+					{
+						connectors.insert(*it);
+					}
+
+					auto face_ = ace::Model_IO::Face();
+					face_.Indexes[0] = face.Index[0];
+					face_.Indexes[1] = face.Index[1];
+					face_.Indexes[2] = face.Index[2];
+
+					for (auto fp = 0; fp < 3; fp++)
+					{
+						auto ind = face.Index[fp];
+						if (oldV2newV.count(ind) == 0)
+						{
+							auto v_new = ace::Model_IO::Vertex();
+							auto v_old = mesh->Vertexes[ind];
+							v_new.Position = v_old.Position;
+							v_new.Normal = v_old.Normal;
+							v_new.Binormal = v_old.Binormal;
+							v_new.UV1 = v_old.UV;
+							v_new.UV2 = v_old.SubUV;
+							v_new.VColor = v_old.Color;
+							
+							for (auto w = 0; w < 4; w++)
+							{
+								v_new.BoneWeights[w] = v_old.Weight[w];
+								v_new.BoneIndexes[w] = v_old.WeightIndexDivided[w];
+								v_new.BoneIndexesOriginal[w] = v_old.WeightIndexOriginal[w];
+							}
+							dmesh.Vertices.push_back(v_new);
+							oldV2newV[ind] = dmesh.Vertices.size() - 1;
+						}
+
+						face_.Indexes[fp] = oldV2newV[ind];
+					}
+
+					dmesh.Faces.push_back(face_);
+
+					if (materialIndex == face.MaterialIndex)
+					{
+						materialCount++;
+					}
+					else
+					{
+						if (materialCount > 0)
+						{
+							ace::Model_IO::MaterialOffset mo;
+							mo.MaterialIndex = materialIndex;
+							mo.FaceOffset = materialCount;
+							dmesh.MaterialOffsets.push_back(mo);
+							materialCount = 0;
+						}
+
+						materialCount++;
+						materialIndex = face.MaterialIndex;
+					}
+
+					for (auto& newC : newConnectors)
+					{
+						ace::Model_IO::BoneConnector c;
+						c.TargetIndex = deformer_name2ind[mesh->BoneConnectors[newC].Name];
+						c.OffsetMatrix = mesh->BoneConnectors[newC].OffsetMatrix;
+						dmesh.BoneConnectors.push_back(c);
+						oldC2newC[newC] = dmesh.BoneConnectors.size() - 1;
 					}
 				}
+
+				finishMesh();
+
+				if ((dividedMeshes.end() - 1)->Vertices.size() == 0)
+				{
+					dividedMeshes.resize(dividedMeshes.size() - 1);
+				}
+			}
+			
+
+			// 分割済
+			m_writer->Push((int32_t)dividedMeshes.size());
+			for (auto& dmesh : dividedMeshes)
+			{
+				// メッシュ情報出力
+				WriteMesh(dmesh);
+
+				// 材質面出力
+				
+				m_writer->Push((int32_t) dmesh.MaterialOffsets.size());
+				for (auto& mf : dmesh.MaterialOffsets)
+				{
+					m_writer->Push(mf.MaterialIndex);
+					m_writer->Push(mf.FaceOffset);
+				}
+				
 
 				// ボーン情報出力
-				m_writer->Push((int32_t) mesh->BoneConnectors.size());
-				for (auto& bone : mesh->BoneConnectors)
+				m_writer->Push((int32_t) dmesh.BoneConnectors.size());
+				for (auto& bone : dmesh.BoneConnectors)
 				{
-					auto id = deformer_name2ind[bone.Name];
-					m_writer->Push((int32_t) id);
+					m_writer->Push((int32_t) bone.TargetIndex);
 					m_writer->Push(bone.OffsetMatrix);
 				}
-
 			}
 
 			// 材質出力

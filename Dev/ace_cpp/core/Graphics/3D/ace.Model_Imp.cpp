@@ -144,9 +144,10 @@ namespace ace
 				t.UV1 = dm_s.Vertices[i].UV1;
 				t.UV2 = dm_s.Vertices[i].UV2;
 				t.VColor = dm_s.Vertices[i].VColor;
-				t.BoneWeights = dm_s.Vertices[i].BoneWeights;
-				t.BoneIndexes = dm_s.Vertices[i].BoneIndexes;
-				t.BoneIndexesOriginal = dm_s.Vertices[i].BoneIndexesOriginal;
+
+				memcpy(&t.BoneWeights, dm_s.Vertices[i].BoneWeights, sizeof(int32_t));
+				memcpy(&t.BoneIndexes, dm_s.Vertices[i].BoneIndexes, sizeof(int32_t));
+				memcpy(&t.BoneIndexesOriginal, dm_s.Vertices[i].BoneIndexesOriginal, sizeof(int32_t));
 
 				vertexes.push_back(t);
 			}
@@ -154,9 +155,9 @@ namespace ace
 			for (auto i = 0; i < dm_s.Faces.size(); i++)
 			{
 				Mesh_Imp::Face t;
-				t.Index1 = dm_s.Faces[i].Index1;
-				t.Index2 = dm_s.Faces[i].Index2;
-				t.Index3 = dm_s.Faces[i].Index3;
+				t.Index1 = dm_s.Faces[i].Indexes[0];
+				t.Index2 = dm_s.Faces[i].Indexes[1];
+				t.Index3 = dm_s.Faces[i].Indexes[2];
 
 				faces.push_back(t);
 			}

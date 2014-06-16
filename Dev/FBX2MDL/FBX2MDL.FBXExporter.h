@@ -30,7 +30,7 @@ namespace FBX2MDL
 		void WriteMaterial(const Material& material);
 		void WriteMaterials(const std::vector<Material>& materials);
 
-		void WriteMesh(const std::shared_ptr<Mesh>& mesh);
+		void WriteMesh(const ace::Model_IO::DividedMesh& mesh);
 
 		static std::vector<std::shared_ptr<Mesh>> GetMeshes(const std::shared_ptr<Node>& node);
 

@@ -11,6 +11,8 @@
 
 #include <Utility/ace.BinaryWriter.h>
 
+#include <Graphics/3D/ace.Model_IO.h>
+
 #include <functional>
 #include <algorithm>
 

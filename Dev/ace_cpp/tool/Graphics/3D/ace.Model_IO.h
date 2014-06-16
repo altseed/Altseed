@@ -32,16 +32,14 @@ namespace ace
 			Vector2DF	UV1;
 			Vector2DF	UV2;
 			Color		VColor;
-			int32_t		BoneWeights;
-			int32_t		BoneIndexes;
-			int32_t		BoneIndexesOriginal;
+			uint8_t		BoneWeights[4];
+			uint8_t		BoneIndexes[4];
+			uint8_t		BoneIndexesOriginal[4];
 		};
 
 		struct Face
 		{
-			int32_t		Index1;
-			int32_t		Index2;
-			int32_t		Index3;
+			int32_t		Indexes[3];
 		};
 
 		struct MaterialOffset

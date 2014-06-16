@@ -1,13 +1,13 @@
 ﻿
 #include "../../EngineGraphics3DTest.h"
 
-class Graphics_Model : public EngineGraphics3DTest
+class Graphics_ModelObject3D : public EngineGraphics3DTest
 {
 
 public:
 
-	Graphics_Model(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("Model"), isOpenGLMode, 15,true)
+	Graphics_ModelObject3D(bool isOpenGLMode) :
+		EngineGraphics3DTest(ace::ToAString("ModelObject3D"), isOpenGLMode, 1500,true)
 	{}
 
 protected:
@@ -53,4 +53,4 @@ protected:
 
 };
 
-ENGINE_TEST(Graphics, Model)
+ENGINE_TEST(Graphics, ModelObject3D)

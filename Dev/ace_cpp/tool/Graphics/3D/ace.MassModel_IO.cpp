@@ -21,8 +21,8 @@ namespace ace
 			v_.Position = v.Position;
 			v_.Normal = v.Normal;
 			v_.Binormal = v.Binormal;
-			v_.BoneIndexes = v.BoneIndexes;
-			v_.BoneWeights = v.BoneWeights;
+			//v_.BoneIndexes = v.BoneIndexes;
+			//v_.BoneWeights = v.BoneWeights;
 			v_.UV1 = v.UV1;
 			v_.UV2 = v.UV2;
 			v_.VColor = v.VColor;
@@ -32,9 +32,9 @@ namespace ace
 		for (auto& f : mesh.Faces)
 		{
 			Face f_;
-			f_.Index1 = f.Index1;
-			f_.Index2 = f.Index2;
-			f_.Index3 = f.Index3;
+			f_.Index1 = f.Indexes[0];
+			f_.Index2 = f.Indexes[1];
+			f_.Index3 = f.Indexes[2];
 			Faces.push_back(f_);
 		}
 
