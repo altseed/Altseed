@@ -216,6 +216,10 @@ namespace ace
 		return c0 + t * c1 + t * t * c2 + t * t * t * c3;
 	}
 
+	void Model_IO::Int32ToUInt8Array(uint8_t dst[4], int32_t src)
+	{
+		memcpy(dst, &src, sizeof(int32_t));
+	}
 
 	bool Model_IO::Load(std::vector<uint8_t>& data, const achar* path)
 	{
@@ -297,6 +301,9 @@ namespace ace
 			auto uv = reader.Get<Vector2DF>();
 			auto subuv = reader.Get<Vector2DF>();
 			auto color = reader.Get<Color>();
+			auto weights = reader.Get<int32_t>();
+			auto indexes = reader.Get<int32_t>();
+			auto indexesOriginal = reader.Get<int32_t>();
 
 			mesh.Vertices[i].Position = pos;
 			mesh.Vertices[i].Normal = normal;
@@ -305,20 +312,9 @@ namespace ace
 			mesh.Vertices[i].UV2 = subuv;
 			mesh.Vertices[i].VColor = color;
 
-			for (auto w = 0; w < 4; w++)
-			{
-				mesh.Vertices[i].BoneWeights[w] = reader.Get<uint8_t>();
-			}
-
-			for (auto w = 0; w < 4; w++)
-			{
-				mesh.Vertices[i].BoneIndexes[w] = reader.Get<uint8_t>();
-			}
-
-			for (auto w = 0; w < 4; w++)
-			{
-				mesh.Vertices[i].BoneIndexesOriginal[w] = reader.Get<uint8_t>();
-			}
+			Int32ToUInt8Array(mesh.Vertices[i].BoneWeights, weights);
+			Int32ToUInt8Array(mesh.Vertices[i].BoneIndexes, indexes);
+			Int32ToUInt8Array(mesh.Vertices[i].BoneIndexesOriginal, indexesOriginal);
 		}
 
 		int32_t fcount = reader.Get<int32_t>();

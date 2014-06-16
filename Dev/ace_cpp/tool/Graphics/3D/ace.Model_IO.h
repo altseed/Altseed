@@ -119,6 +119,8 @@ namespace ace
 		*/
 		std::vector<AnimationClip>		AnimationClips;
 
+		static void Int32ToUInt8Array(uint8_t dst[4], int32_t src);
+
 		bool Load(std::vector<uint8_t>&	data, const achar* path);
 
 	private:
