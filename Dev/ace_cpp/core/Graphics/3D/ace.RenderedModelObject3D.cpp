@@ -67,7 +67,7 @@ namespace ace
 	{
 		CalculateAnimation(animationClip, time);
 
-		CalclateBoneMatrices();
+		CalclateBoneMatrices(animationClip != nullptr);
 
 		// コピー
 		if (m_matrixes_rt.size() != m_matrixes.size())
@@ -108,21 +108,28 @@ namespace ace
 		}
 	}
 
-	void RenderedModelObject3D::CalclateBoneMatrices()
+	void RenderedModelObject3D::CalclateBoneMatrices(bool isPlayingAnimation)
 	{
 		if (m_deformer == nullptr) return;
 		auto d = (Deformer_Imp*) m_deformer.get();
 
-		for (auto i = 0; i < d->GetBones().size(); i++)
+		if (isPlayingAnimation)
 		{
-			auto& b = d->GetBones()[i];
-			m_matrixes[i] = m_boneProps[i].CalcMatrix(b.RotationType);
+			for (auto i = 0; i < d->GetBones().size(); i++)
+			{
+				auto& b = d->GetBones()[i];
+				m_matrixes[i] = m_boneProps[i].CalcMatrix(b.RotationType);
+			}
+		}
+		else
+		{
 		}
 
 		ModelUtils::CalculateBoneMatrixes(
 			m_matrixes,
 			d->GetBones(),
-			m_matrixes);
+			m_matrixes,
+			isPlayingAnimation);
 	}
 
 	RenderedModelObject3D::RenderedModelObject3D(Graphics* graphics)

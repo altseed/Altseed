@@ -89,7 +89,7 @@ namespace ace
 
 		void Flip(AnimationClip* animationClip, int32_t time);
 		void CalculateAnimation(AnimationClip* animationClip, int32_t time);
-		void CalclateBoneMatrices();
+		void CalclateBoneMatrices(bool isPlayingAnimation);
 
 	public:
 		RenderedModelObject3D(Graphics* graphics);

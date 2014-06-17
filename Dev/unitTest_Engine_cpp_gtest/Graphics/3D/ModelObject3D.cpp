@@ -7,7 +7,7 @@ class Graphics_ModelObject3D : public EngineGraphics3DTest
 public:
 
 	Graphics_ModelObject3D(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("ModelObject3D"), isOpenGLMode, 15,true)
+		EngineGraphics3DTest(ace::ToAString("ModelObject3D"), isOpenGLMode, 150,true)
 	{}
 
 protected:
@@ -39,7 +39,7 @@ protected:
 
 		SetCameraParameter(30, 0, 0, 1, 60, 20);
 
-		meshObj->PlayAnimation(ace::ToAString("anime1").c_str());
+		//meshObj->PlayAnimation(ace::ToAString("anime1").c_str());
 		
 	}
 

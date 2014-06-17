@@ -145,7 +145,8 @@ namespace ace
 				ModelUtils::CalculateBoneMatrixes(
 					localMatrixes,
 					deformer.Bones,
-					localMatrixes);
+					localMatrixes,
+					true);
 				
 				for (auto j = 0; j < deformer.Bones.size(); j++)
 				{
