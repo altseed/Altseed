@@ -38,6 +38,8 @@ namespace FBX2MDL
 
 		std::map<ace::astring, int32_t> GetDeformerNameToIndexes(const std::shared_ptr<Node>& node, int32_t& currentIndex);
 
+		ace::Model_IO::Vertex ConverterVertexToModelVertex(ace::Model_IO::Vertex);
+
 	public:
 		FBXExporter();
 		virtual ~FBXExporter();

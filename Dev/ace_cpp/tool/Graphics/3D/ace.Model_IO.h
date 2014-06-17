@@ -35,6 +35,42 @@ namespace ace
 			uint8_t		BoneWeights[4];
 			uint8_t		BoneIndexes[4];
 			uint8_t		BoneIndexesOriginal[4];
+
+			bool operator<(const Vertex& r) const
+			{
+				auto& l = *this;
+				if (l.Position.X != r.Position.X) return l.Position.X < r.Position.X;
+				if (l.Position.Y != r.Position.Y) return l.Position.Y < r.Position.Y;
+				if (l.Position.Z != r.Position.Z) return l.Position.Z < r.Position.Z;
+
+				if (l.Normal.X != r.Normal.X) return l.Normal.X < r.Normal.X;
+				if (l.Normal.Y != r.Normal.Y) return l.Normal.Y < r.Normal.Y;
+				if (l.Normal.Z != r.Normal.Z) return l.Normal.Z < r.Normal.Z;
+
+				if (l.Binormal.X != r.Binormal.X) return l.Binormal.X < r.Binormal.X;
+				if (l.Binormal.Y != r.Binormal.Y) return l.Binormal.Y < r.Binormal.Y;
+				if (l.Binormal.Z != r.Binormal.Z) return l.Binormal.Z < r.Binormal.Z;
+
+				if (l.UV1.X != r.UV1.X) return l.UV1.X < r.UV1.X;
+				if (l.UV1.Y != r.UV1.Y) return l.UV1.Y < r.UV1.Y;
+
+				if (l.UV2.X != r.UV2.X) return l.UV2.X < r.UV2.X;
+				if (l.UV2.Y != r.UV2.Y) return l.UV2.Y < r.UV2.Y;
+
+				if (l.VColor.R != r.VColor.R) return l.VColor.R < r.VColor.R;
+				if (l.VColor.G != r.VColor.G) return l.VColor.G < r.VColor.G;
+				if (l.VColor.B != r.VColor.B) return l.VColor.B < r.VColor.B;
+				if (l.VColor.A != r.VColor.A) return l.VColor.A < r.VColor.A;
+
+				for (int32_t i = 0; i < 4; i++)
+				{
+					if (l.BoneWeights[i] != r.BoneWeights[i]) return l.BoneWeights[i] < r.BoneWeights[i];
+					if (l.BoneIndexes[i] != r.BoneIndexes[i]) return l.BoneIndexes[i] < r.BoneIndexes[i];
+					if (l.BoneIndexesOriginal[i] != r.BoneIndexesOriginal[i]) return l.BoneIndexesOriginal[i] < r.BoneIndexesOriginal[i];
+				}
+
+				return false;
+			}
 		};
 
 		struct Face

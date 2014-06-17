@@ -265,10 +265,10 @@ namespace FBX2MDL
 						auto v = mesh->Vertexes[face.Index[fp]];
 						for (auto w = 0; w < 4; w++)
 						{
-							if (v.Weight[w] == 0.0f) continue;
-							if (connectors.count(v.WeightIndexOriginal[w]) == 0)
+							if (v.BoneWeights[w] == 0.0f) continue;
+							if (connectors.count(v.BoneIndexesOriginal[w]) == 0)
 							{
-								newConnectors.insert(v.WeightIndexOriginal[w]);
+								newConnectors.insert(v.BoneIndexesOriginal[w]);
 							}
 						}
 					}
@@ -298,22 +298,8 @@ namespace FBX2MDL
 						auto ind = face.Index[fp];
 						if (oldV2newV.count(ind) == 0)
 						{
-							auto v_new = ace::Model_IO::Vertex();
-							auto v_old = mesh->Vertexes[ind];
-							v_new.Position = v_old.Position;
-							v_new.Normal = v_old.Normal;
-							v_new.Binormal = v_old.Binormal;
-							v_new.UV1 = v_old.UV;
-							v_new.UV2 = v_old.SubUV;
-							v_new.VColor = v_old.Color;
-							
-							for (auto w = 0; w < 4; w++)
-							{
-								v_new.BoneWeights[w] = v_old.Weight[w];
-								v_new.BoneIndexes[w] = v_old.WeightIndexDivided[w];
-								v_new.BoneIndexesOriginal[w] = v_old.WeightIndexOriginal[w];
-							}
-							dmesh.Vertices.push_back(v_new);
+							auto v = mesh->Vertexes[ind];
+							dmesh.Vertices.push_back(v);
 							oldV2newV[ind] = dmesh.Vertices.size() - 1;
 						}
 

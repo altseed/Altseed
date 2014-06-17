@@ -44,7 +44,7 @@ namespace FBX2MDL
 
 		struct FbxFace
 		{
-			std::vector<Vertex> Vertecies;
+			std::vector<ace::Model_IO::Vertex> Vertecies;
 			int32_t MaterialIndex = -1;
 		};
 
@@ -64,7 +64,7 @@ namespace FBX2MDL
 		@param	binormal	è]ñ@ê¸
 		@param	tangent		ê⁄ñ@ê¸
 		*/
-		void CalcTangentSpace(const Vertex& v1, const Vertex& v2, const Vertex& v3, ace::Vector3DF& binormal, ace::Vector3DF& tangent);
+		void CalcTangentSpace(const ace::Model_IO::Vertex& v1, const ace::Model_IO::Vertex& v2, const ace::Model_IO::Vertex& v3, ace::Vector3DF& binormal, ace::Vector3DF& tangent);
 
 		ace::Vector3DF LoadPosition(FbxMesh* fbxMesh, int32_t ctrlPointIndex);
 		ace::Vector3DF LoadNormal(FbxLayerElementNormal* normals, int32_t vertexID, int32_t ctrlPointIndex);

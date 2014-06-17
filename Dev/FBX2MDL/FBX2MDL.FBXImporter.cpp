@@ -3,25 +3,25 @@
 
 namespace FBX2MDL
 {
-	void FBXImporter::CalcTangentSpace(const Vertex& v1, const Vertex& v2, const Vertex& v3, ace::Vector3DF& binormal, ace::Vector3DF& tangent)
+	void FBXImporter::CalcTangentSpace(const ace::Model_IO::Vertex& v1, const ace::Model_IO::Vertex& v2, const ace::Model_IO::Vertex& v3, ace::Vector3DF& binormal, ace::Vector3DF& tangent)
 	{
 		binormal = ace::Vector3DF();
 		tangent = ace::Vector3DF();
 
 		ace::Vector3DF cp0[3];
-		cp0[0] = ace::Vector3DF(v1.Position.X, v1.UV.X, v1.UV.Y);
-		cp0[1] = ace::Vector3DF(v1.Position.Y, v1.UV.X, v1.UV.Y);
-		cp0[2] = ace::Vector3DF(v1.Position.Z, v1.UV.X, v1.UV.Y);
+		cp0[0] = ace::Vector3DF(v1.Position.X, v1.UV1.X, v1.UV1.Y);
+		cp0[1] = ace::Vector3DF(v1.Position.Y, v1.UV1.X, v1.UV1.Y);
+		cp0[2] = ace::Vector3DF(v1.Position.Z, v1.UV1.X, v1.UV1.Y);
 
 		ace::Vector3DF cp1[3];
-		cp1[0] = ace::Vector3DF(v2.Position.X, v2.UV.X, v2.UV.Y);
-		cp1[1] = ace::Vector3DF(v2.Position.Y, v2.UV.X, v2.UV.Y);
-		cp1[2] = ace::Vector3DF(v2.Position.Z, v2.UV.X, v2.UV.Y);
+		cp1[0] = ace::Vector3DF(v2.Position.X, v2.UV1.X, v2.UV1.Y);
+		cp1[1] = ace::Vector3DF(v2.Position.Y, v2.UV1.X, v2.UV1.Y);
+		cp1[2] = ace::Vector3DF(v2.Position.Z, v2.UV1.X, v2.UV1.Y);
 
 		ace::Vector3DF cp2[3];
-		cp2[0] = ace::Vector3DF(v3.Position.X, v3.UV.X, v3.UV.Y);
-		cp2[1] = ace::Vector3DF(v3.Position.Y, v3.UV.X, v3.UV.Y);
-		cp2[2] = ace::Vector3DF(v3.Position.Z, v3.UV.X, v3.UV.Y);
+		cp2[0] = ace::Vector3DF(v3.Position.X, v3.UV1.X, v3.UV1.Y);
+		cp2[1] = ace::Vector3DF(v3.Position.Y, v3.UV1.X, v3.UV1.Y);
+		cp2[2] = ace::Vector3DF(v3.Position.Z, v3.UV1.X, v3.UV1.Y);
 
 		double u[3];
 		double v[3];
@@ -366,14 +366,14 @@ namespace FBX2MDL
 			{
 				auto ctrlPointIndex = fbxMesh->GetPolygonVertex(polygonIndex, polygonPointIndex);
 
-				Vertex v;
+				ace::Model_IO::Vertex v;
 
 				v.Position = LoadPosition(fbxMesh, ctrlPointIndex);
 				
 				for (auto i = 0; i < 4; i++)
 				{
-					v.Weight[i] = weights[ctrlPointIndex].Weights[i];
-					v.WeightIndexOriginal[i] = weights[ctrlPointIndex].Indexes[i];
+					v.BoneWeights[i] = weights[ctrlPointIndex].Weights[i];
+					v.BoneIndexesOriginal[i] = weights[ctrlPointIndex].Indexes[i];
 				}
 
 				if (normals != nullptr)
@@ -383,12 +383,12 @@ namespace FBX2MDL
 
 				if (uvs != nullptr)
 				{
-					v.UV = LoadUV(fbxMesh, uvs, vertexID, ctrlPointIndex, polygonIndex, polygonPointIndex);
+					v.UV1 = LoadUV(fbxMesh, uvs, vertexID, ctrlPointIndex, polygonIndex, polygonPointIndex);
 				}
 
 				if (vcolors != nullptr)
 				{
-					v.Color = LoadVertexColor(fbxMesh, vcolors, vertexID, ctrlPointIndex, polygonIndex, polygonPointIndex);
+					v.VColor = LoadVertexColor(fbxMesh, vcolors, vertexID, ctrlPointIndex, polygonIndex, polygonPointIndex);
 				}
 
 				face.Vertecies.push_back(v);
@@ -445,8 +445,8 @@ namespace FBX2MDL
 	
 		// 頂点変換テーブル作成
 		int32_t vInd = 0;
-		std::map<Vertex, int32_t> v2ind;
-		std::map<int32_t, Vertex> ind2v;
+		std::map<ace::Model_IO::Vertex, int32_t> v2ind;
+		std::map<int32_t, ace::Model_IO::Vertex> ind2v;
 
 		for (auto& face : faces)
 		{

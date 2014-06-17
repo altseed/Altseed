@@ -23,7 +23,7 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
-#define TEST 1
+#define TEST 0
 
 #if TEST
 int main(int argc, char** argv)
@@ -90,10 +90,42 @@ int main(int argc, char** argv)
 {
 	if(argc!=3)
 	{
-		printf("コマンドの使い方が間違ってます。\n");
+		printf("引数が足りません。\n");
 		return -1;
 	}
 
+	const char* importPath = argv[1];
+	const char* exportPath = argv[2];
+
+	FBX2MDL::FBXImporter importer;
+	FBX2MDL::FBXExporter exporter;
+
+	FbxManager* sdkManager = FbxManager::Create();
+	FbxIOSettings* ios = FbxIOSettings::Create(sdkManager, IOSROOT);
+	sdkManager->SetIOSettings(ios);
+
+	fbxsdk_2015_1::FbxImporter* fbxImporter = fbxsdk_2015_1::FbxImporter::Create(sdkManager, "");
+	if (!fbxImporter->Initialize(importPath, -1, sdkManager->GetIOSettings()))
+	{
+		printf("Call to FbxImporter::Initialize() failed.\n");
+		printf("Error returned: %s\n\n", fbxImporter->GetStatus().GetErrorString());
+		system("PAUSE");
+		exit(-1);
+	}
+
+	FbxScene* fbxScene = FbxScene::Create(sdkManager, "myScene");
+	fbxImporter->Import(fbxScene);
+
+	auto scene = importer.LoadScene(fbxScene, sdkManager);
+	auto writer = exporter.Export(scene);
+
+	fbxScene->Destroy();
+	fbxImporter->Destroy();
+	sdkManager->Destroy();
+
+	writer->WriteOut(exportPath);
+
+	/*
     const char* lFilename = argv[1];
 	const char* lExportName = argv[2];
     
@@ -102,6 +134,7 @@ int main(int argc, char** argv)
 	exporter->Convert();
 	
 	delete exporter;
+	*/
 
     return 0;
 }
