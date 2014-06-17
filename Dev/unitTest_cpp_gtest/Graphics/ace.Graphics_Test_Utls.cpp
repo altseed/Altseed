@@ -22,7 +22,7 @@ void SaveSceenShot_(ace::Graphics_Imp* g, const char* file, int32_t num)
 	auto filename = GetFileName(file);
 
 	char ssname[260];
-	if (gtype == ace::GRAPHICS_TYPE_GL)
+	if (gtype == ace::GraphicsType::OpenGL)
 	{
 #if _WIN32
 		sprintf_s(ssname, "%s/%s_%d_gl.png", testDirectory, filename.c_str(), num);

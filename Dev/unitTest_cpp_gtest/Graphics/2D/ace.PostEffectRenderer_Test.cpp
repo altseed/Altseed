@@ -78,14 +78,14 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	prop_tex.Type = ace::SHADER_VARIABLE_TYPE_TEXTURE2D;
 	props.push_back(prop_tex);
 
-	if (graphics->GetGraphicsType() == ace::GRAPHICS_TYPE_DX11)
+	if (graphics->GetGraphicsType() == ace::GraphicsType::DirectX11)
 	{
 		shader = graphics->CreateShader2D(
 			ace::ToAString(shader2d_dx_ps).c_str(),
 			props
 			);
 	}
-	else if (graphics->GetGraphicsType() == ace::GRAPHICS_TYPE_GL)
+	else if (graphics->GetGraphicsType() == ace::GraphicsType::OpenGL)
 	{
 		std::vector<ace::ShaderVariableProperty> prop;
 		shader = graphics->CreateShader2D(

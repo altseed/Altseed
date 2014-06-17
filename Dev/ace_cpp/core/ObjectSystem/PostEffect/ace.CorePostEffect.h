@@ -22,5 +22,8 @@ namespace ace
 		@param	material	マテリアル
 		*/
 		virtual void DrawOnTexture2DWithMaterial(RenderTexture2D* target, Material2D* material) = 0;
+
+		virtual const char* GetLightBloomShader(GraphicsType graphicsType) const = 0;
+
 	};
 }

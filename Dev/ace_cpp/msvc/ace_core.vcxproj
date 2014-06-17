@@ -266,6 +266,7 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Screen_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\LayerRenderer_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\LayerRenderer_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_PS.h" />
@@ -279,6 +280,7 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Model_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Paste_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Screen_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h" />
     <ClInclude Include="..\core\Input\ace.IMouseButtonState.h" />
     <ClInclude Include="..\core\Input\ace.IMouseWheelableButtonState.h" />
     <ClInclude Include="..\core\Input\ace.Joystick.h" />
@@ -363,8 +365,7 @@
     <None Include="..\core\Graphics\Shader\ALSL\3D\Lightweight_Model_Internal_VS.alsl" />
     <None Include="..\core\Graphics\Shader\ALSL\3D\Model_Internal_PS.alsl" />
     <None Include="..\core\Graphics\Shader\ALSL\3D\Model_Internal_VS.alsl" />
-    <None Include="..\core\Graphics\Shader\ALSL\PostEffect\LightBloom.alsl" />
-    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h" />
+    <None Include="..\core\Graphics\Shader\ALSL\PostEffect\LightBloom_PS.alsl" />
     <None Include="..\core\Input\ace.JoystickContainer.h" />
     <None Include="..\core\Window\ace.Window_Imp_X11.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">true</ExcludedFromBuild>
@@ -491,9 +492,6 @@
     <ProjectReference Include="ace_common.vcxproj">
       <Project>{86542137-f2a1-4152-a16b-5be71e060dc6}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -303,7 +303,17 @@ namespace ace
 
 		if (!GenerateCore()) return false;
 
-		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, option.GraphicsType != eGraphicsType::GRAPHICS_TYPE_DX11, option.IsMultithreadingMode);
+		auto graphicsType = option.GraphicsType;
+		if (graphicsType == GraphicsType::Default)
+		{
+#if _WIN32
+			graphicsType = GraphicsType::DirectX11;
+#else
+			graphicsType = GraphicsType::OpenGL;
+#endif
+		}
+
+		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, graphicsType != GraphicsType::DirectX11, option.IsMultithreadingMode);
 		if (init)
 		{
 			m_logger = m_core->GetLogger();
@@ -336,7 +346,17 @@ namespace ace
 
 		if (!GenerateCore()) return false;
 
-		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, option.GraphicsType != eGraphicsType::GRAPHICS_TYPE_DX11, option.IsMultithreadingMode);
+		auto graphicsType = option.GraphicsType;
+		if (graphicsType == GraphicsType::Default)
+		{
+#if _WIN32
+			graphicsType = GraphicsType::DirectX11;
+#else
+			graphicsType = GraphicsType::OpenGL;
+#endif
+		}
+
+		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, graphicsType != GraphicsType::DirectX11, option.IsMultithreadingMode);
 		if (init)
 		{
 			m_logger = m_core->GetLogger();

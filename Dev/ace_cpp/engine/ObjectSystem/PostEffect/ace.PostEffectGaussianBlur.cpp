@@ -143,14 +143,14 @@ void main()
 		propsY.push_back(prop_tex);
 		propsY.push_back(prop_weight);
 
-		if (g->GetGraphicsType() == ace::GRAPHICS_TYPE_DX11)
+		if (g->GetGraphicsType() == ace::GraphicsType::DirectX11)
 		{
 			m_shaderX = g->CreateShader2D(
 				ace::ToAString(shader2d_dx_ps_x).c_str(),
 				propsX
 				);
 		}
-		else if (g->GetGraphicsType() == ace::GRAPHICS_TYPE_GL)
+		else if (g->GetGraphicsType() == ace::GraphicsType::OpenGL)
 		{
 			// std::vector<ace::ShaderVariableProperty> prop;
 			m_shaderX = g->CreateShader2D(
@@ -167,14 +167,14 @@ void main()
 
 		
 
-		if (g->GetGraphicsType() == ace::GRAPHICS_TYPE_DX11)
+		if (g->GetGraphicsType() == ace::GraphicsType::DirectX11)
 		{
 			m_shaderY = g->CreateShader2D(
 				ace::ToAString(shader2d_dx_ps_y).c_str(),
 				propsY
 				);
 		}
-		else if (g->GetGraphicsType() == ace::GRAPHICS_TYPE_GL)
+		else if (g->GetGraphicsType() == ace::GraphicsType::OpenGL)
 		{
 			// std::vector<ace::ShaderVariableProperty> prop;
 			m_shaderY = g->CreateShader2D(

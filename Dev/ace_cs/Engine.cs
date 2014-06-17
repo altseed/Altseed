@@ -72,7 +72,13 @@ namespace ace
 				return false;
 			}
 
-			var result = core.Initialize(title, width, height, option.IsFullScreen, option.GraphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
+			var graphicsType = option.GraphicsType;
+			if(graphicsType == GraphicsType.Default)
+			{
+				graphicsType = GraphicsType.DirectX11;
+			}
+
+			var result = core.Initialize(title, width, height, option.IsFullScreen, graphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
 
 			if (result)
 			{
@@ -113,7 +119,13 @@ namespace ace
 				return false;
 			}
 
-			var result = core.InitializeByExternalWindow(handle1, handle2, width, height, option.GraphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
+			var graphicsType = option.GraphicsType;
+			if (graphicsType == GraphicsType.Default)
+			{
+				graphicsType = GraphicsType.DirectX11;
+			}
+
+			var result = core.InitializeByExternalWindow(handle1, handle2, width, height, graphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
 
 			if (result)
 			{

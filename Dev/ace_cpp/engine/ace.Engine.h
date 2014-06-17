@@ -30,7 +30,7 @@ namespace ace {
 		/**
 		@brief	描画に使用するデバイス
 		*/
-		eGraphicsType	GraphicsType = eGraphicsType::GRAPHICS_TYPE_DX11;
+		GraphicsType	GraphicsType = GraphicsType::Default;
 
 		/**
 		@brief	マルチスレッドモードを使用するか?

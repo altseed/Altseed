@@ -27,4 +27,18 @@ namespace ace
 
 		m_commands.push_back(command);
 	}
+
+	const char* CorePostEffect_Imp::GetLightBloomShader(GraphicsType graphicsType) const
+	{
+		if (graphicsType == GraphicsType::DirectX11)
+		{
+			return lightbloom_ps_dx;
+		}
+		else if (graphicsType == GraphicsType::OpenGL)
+		{
+			return lightbloom_ps_gl;
+		}
+
+		return nullptr;
+	}
 }

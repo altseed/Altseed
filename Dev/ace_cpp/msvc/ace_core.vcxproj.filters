@@ -688,6 +688,12 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D_Imp.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h">
+      <Filter>Graphics\Shader\DX\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h">
+      <Filter>Graphics\Shader\GL\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1016,16 +1022,8 @@
     <None Include="..\core\Graphics\Shader\ALSL\3D\Light_PS.alsl">
       <Filter>Graphics\Shader\ALSL\3D</Filter>
     </None>
-    <None Include="..\core\Graphics\Shader\ALSL\PostEffect\LightBloom.alsl">
+    <None Include="..\core\Graphics\Shader\ALSL\PostEffect\LightBloom_PS.alsl">
       <Filter>Graphics\Shader\ALSL\PostEffect</Filter>
     </None>
-    <None Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h">
-      <Filter>Graphics\Shader\GL\PostEffect</Filter>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h">
-      <Filter>Graphics\Shader\DX\PostEffect</Filter>
-    </FxCompile>
   </ItemGroup>
 </Project>

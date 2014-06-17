@@ -125,7 +125,7 @@ namespace ace {
 		ID3D11Device* GetDevice() { return m_device; }
 		ID3D11DeviceContext* GetContext() { return m_context;}
 
-		eGraphicsType GetGraphicsType() const { return GRAPHICS_TYPE_DX11; }
+		GraphicsType GetGraphicsType() const { return GraphicsType::DirectX11; }
 	};
 
 	//----------------------------------------------------------------------------------

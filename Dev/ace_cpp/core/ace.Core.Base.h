@@ -156,10 +156,14 @@ namespace ace {
 		CULLING_DWORD = 0x7fffffff,
 	};
 
-	enum eGraphicsType
+	/**
+		@brief	描画方法
+	*/
+	enum class GraphicsType : int32_t
 	{
-		GRAPHICS_TYPE_DX11,
-		GRAPHICS_TYPE_GL,
+		Default = 0,		///< 実行環境で最も安定している描画方法(初期化時に使用)
+		DirectX11 = 1,		///< DirectX11
+		OpenGL = 2,			///< OpenGL
 	};
 
 	enum eObject2DType

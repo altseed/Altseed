@@ -183,7 +183,7 @@ public:
 	@brief	描画ランタイムの種類を取得する。
 	@return	種類
 	*/
-	virtual eGraphicsType GetGraphicsType() const = 0;
+	virtual GraphicsType GetGraphicsType() const = 0;
 
 };
 

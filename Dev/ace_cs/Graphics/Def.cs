@@ -38,10 +38,23 @@ namespace ace
 		R16G16_FLOAT = swig.eTextureFormat.TEXTURE_FORMAT_GL_R16G16_FLOAT,
 	}
 
+	/// <summary>
+	/// 描画方法
+	/// </summary>
 	public enum GraphicsType
 	{
-		DirectX11 = swig.eGraphicsType.GRAPHICS_TYPE_DX11,
-		OpenGL = swig.eGraphicsType.GRAPHICS_TYPE_GL,
+		/// <summary>
+		/// 実行環境で最も安定している描画方法(初期化時に使用)
+		/// </summary>
+		Default = swig.GraphicsType.Default,
+		/// <summary>
+		/// DirectX11
+		/// </summary>
+		DirectX11 = swig.GraphicsType.DirectX11,
+		/// <summary>
+		/// OpenGL
+		/// </summary>
+		OpenGL = swig.GraphicsType.OpenGL,
 	}
 
     public enum TextureFilterType

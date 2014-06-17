@@ -25,6 +25,8 @@ namespace ace
 		void ClearCommands(){ m_commands.clear(); }
 #if !SWIG
 	public:
+		const char* GetLightBloomShader(GraphicsType graphicsType) const override;
+
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }

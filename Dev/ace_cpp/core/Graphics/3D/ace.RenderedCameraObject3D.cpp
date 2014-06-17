@@ -189,7 +189,7 @@ namespace ace
 	{
 		RenderedObject3D::CalculateMatrix_RT();
 
-		if (GetGraphics()->GetGraphicsType() == eGraphicsType::GRAPHICS_TYPE_DX11)
+		if (GetGraphics()->GetGraphicsType() == GraphicsType::DirectX11)
 		{
 			m_values_RT.projectionMatrix.SetPerspectiveFovRH(
 				m_values_RT.fov / 180.0f * 3.141592f,
