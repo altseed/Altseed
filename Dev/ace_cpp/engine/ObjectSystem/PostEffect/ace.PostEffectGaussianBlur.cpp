@@ -143,49 +143,25 @@ void main()
 		propsY.push_back(prop_tex);
 		propsY.push_back(prop_weight);
 
-		if (g->GetGraphicsType() == ace::GraphicsType::DirectX11)
-		{
-			m_shaderX = g->CreateShader2D(
-				ace::ToAString(shader2d_dx_ps_x).c_str(),
-				propsX
-				);
-		}
-		else if (g->GetGraphicsType() == ace::GraphicsType::OpenGL)
-		{
-			// std::vector<ace::ShaderVariableProperty> prop;
-			m_shaderX = g->CreateShader2D(
-				ace::ToAString(shader2d_gl_ps_x).c_str(),
-				propsX
-				);
-		}
-		else
-		{
-			assert(0);
-		}
+		std::string baseShader = m_corePostEffect->GetGaussianBlurShader(g->GetGraphicsType());
+
+		std::string shaderX = std::string("#define BLUR_X 1\n") + baseShader;
+		std::string shaderY = std::string("#define BLUR_Y 1\n") + baseShader;
+
+		m_shaderX = g->CreateShader2D(
+			ace::ToAString(shaderX.c_str()).c_str(),
+			propsX
+			);
 
 		m_material2dX = g->CreateMaterial2D(m_shaderX);
 
 		
 
-		if (g->GetGraphicsType() == ace::GraphicsType::DirectX11)
-		{
-			m_shaderY = g->CreateShader2D(
-				ace::ToAString(shader2d_dx_ps_y).c_str(),
-				propsY
-				);
-		}
-		else if (g->GetGraphicsType() == ace::GraphicsType::OpenGL)
-		{
-			// std::vector<ace::ShaderVariableProperty> prop;
-			m_shaderY = g->CreateShader2D(
-				ace::ToAString(shader2d_gl_ps_y).c_str(),
-				propsY
-				);
-		}
-		else
-		{
-			assert(0);
-		}
+		m_shaderY = g->CreateShader2D(
+			ace::ToAString(shaderY.c_str()).c_str(),
+			propsY
+			);
+
 
 		m_material2dY = g->CreateMaterial2D(m_shaderY);
 

@@ -17,6 +17,10 @@ namespace ace
 		friend class Engine;
 		friend class Layer;
 		friend class CameraObject3D;
+		friend class PostEffectGrayScale;
+		friend class PostEffectGaussianBlur;
+		friend class PostEffectLightBloom;
+		friend class PostEffectSepia;
 
 	private:
 		std::shared_ptr<CorePostEffect>	m_corePostEffect;

@@ -23,7 +23,10 @@ namespace ace
 		*/
 		virtual void DrawOnTexture2DWithMaterial(RenderTexture2D* target, Material2D* material) = 0;
 
+		virtual const char* GetGrayScaleShader(GraphicsType graphicsType) const = 0;
 		virtual const char* GetLightBloomShader(GraphicsType graphicsType) const = 0;
+		virtual const char* GetSepiaShader(GraphicsType graphicsType) const = 0;
+		virtual const char* GetGaussianBlurShader(GraphicsType graphicsType) const = 0;
 
 	};
 }
