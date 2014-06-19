@@ -37,6 +37,12 @@ NativeShader_Imp_GL::NativeShader_Imp_GL(
 		m_constantLayouts[l.Name] = l;
 	}
 	m_constantBuffer = new uint8_t[uniformBufferSize];
+
+	for (auto i = 0; i < textures.size(); i++)
+	{
+		if (textures[i] == "") continue;
+		m_textureLayouts[textures[i]] = i;
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -176,6 +182,18 @@ void NativeShader_Imp_GL::SetConstantBuffer(const char* name, const void* data, 
 		assert(size == size_);
 
 		memcpy(&(m_constantBuffer[it->second.Offset]), data, size);
+	}
+}
+
+void NativeShader_Imp_GL::SetTexture(const char* name, Texture* texture)
+{
+	auto key = std::string(name);
+
+	auto it = m_textureLayouts.find(key);
+
+	if (it != m_textureLayouts.end())
+	{
+		NativeShader_Imp::SetTexture(name, texture, (*it).second);
 	}
 }
 

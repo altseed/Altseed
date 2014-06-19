@@ -61,6 +61,9 @@ namespace ace {
 		virtual Vector3DF GetVector3DF(const achar* name) { return Material_Imp::GetVector3DF_Imp(name); }
 		virtual void SetVector3DF(const achar* name, Vector3DF value) { Material_Imp::SetVector3DF_Imp(name, value); }
 
+		virtual Vector4DF GetVector4DF(const achar* name) { return Material_Imp::GetVector4DF_Imp(name); }
+		virtual void SetVector4DF(const achar* name, Vector4DF value) { Material_Imp::SetVector4DF_Imp(name, value); }
+
 		Texture2D* GetTexture2D_(const achar* name) { return Material_Imp::GetTexture2D_Imp(name); }
 		void SetTexture2D(const achar* name, Texture2D* value) { return Material_Imp::SetTexture2D_Imp(name, value); }
 

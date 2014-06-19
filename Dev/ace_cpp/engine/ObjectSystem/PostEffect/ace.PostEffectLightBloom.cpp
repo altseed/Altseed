@@ -125,37 +125,17 @@ void main()
 }
 
 )";
-
-
-		std::vector<ace::ShaderVariableProperty> propsX, propsY;
-		auto prop_tex = ace::ShaderVariableProperty();
-		prop_tex.Name = ace::ToAString("g_texture").c_str();
-		prop_tex.Offset = 0;
-		prop_tex.Type = ace::SHADER_VARIABLE_TYPE_TEXTURE2D;
-
-		auto prop_weight = ace::ShaderVariableProperty();
-		prop_weight.Name = ace::ToAString("g_weight").c_str();
-		prop_weight.Offset = 0;
-		prop_weight.Type = ace::SHADER_VARIABLE_TYPE_VECTOR3DF;
-
-		propsX.push_back(prop_tex);
-		propsX.push_back(prop_weight);
-		propsY.push_back(prop_tex);
-		propsY.push_back(prop_weight);
-
 		if (g->GetGraphicsType() == ace::GraphicsType::DirectX11)
 		{
 			m_shaderX = g->CreateShader2D(
-				ace::ToAString(shader2d_dx_ps_x).c_str(),
-				propsX
+				ace::ToAString(shader2d_dx_ps_x).c_str()
 				);
 		}
 		else if (g->GetGraphicsType() == ace::GraphicsType::OpenGL)
 		{
 			// std::vector<ace::ShaderVariableProperty> prop;
 			m_shaderX = g->CreateShader2D(
-				ace::ToAString(shader2d_gl_ps_x).c_str(),
-				propsX
+				ace::ToAString(shader2d_gl_ps_x).c_str()
 				);
 		}
 		else
@@ -170,16 +150,14 @@ void main()
 		if (g->GetGraphicsType() == ace::GraphicsType::DirectX11)
 		{
 			m_shaderY = g->CreateShader2D(
-				ace::ToAString(shader2d_dx_ps_y).c_str(),
-				propsY
+				ace::ToAString(shader2d_dx_ps_y).c_str()
 				);
 		}
 		else if (g->GetGraphicsType() == ace::GraphicsType::OpenGL)
 		{
 			// std::vector<ace::ShaderVariableProperty> prop;
 			m_shaderY = g->CreateShader2D(
-				ace::ToAString(shader2d_gl_ps_y).c_str(),
-				propsY
+				ace::ToAString(shader2d_gl_ps_y).c_str()
 				);
 		}
 		else

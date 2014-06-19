@@ -129,7 +129,7 @@ namespace ace {
 		Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, eTextureFormat format) { return CreateEmptyTexture2D_Imp(width, height, format); }
 
 		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, eTextureFormat format) { return CreateRenderTexture2D_Imp(width, height, format); }
-		Shader2D* CreateShader2D_( const achar* shaderText, ShaderVariableProperty* variableProperties, int32_t variablePropertiesCount);
+		Shader2D* CreateShader2D_( const achar* shaderText);
 		
 	protected:
 		virtual VertexBuffer_Imp* CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic) = 0;
@@ -214,12 +214,9 @@ namespace ace {
 		/**
 			@brief	シェーダー(2D)を生成する。
 			@param	shaderText						シェーダーのコード
-			@param	pixelVariableProperties			シェーダーで使用可能な外部入力可能な変数
 			@return	シェーダー(2D)
 		*/
-		Shader2D_Imp* CreateShader2D_Imp(
-			const achar* shaderText,
-			std::vector <ShaderVariableProperty>& variableProperties);
+		Shader2D_Imp* CreateShader2D_Imp(const achar* shaderText);
 
 		/**
 			@brief	マテリアル(2D)を生成する。

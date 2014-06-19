@@ -83,16 +83,14 @@ public:
 		if (g->GetGraphicsType() == ace::GraphicsType::DirectX11)
 		{
 			m_shader = g->CreateShader2D(
-				ace::ToAString(shader2d_dx_ps).c_str(),
-				props
+				ace::ToAString(shader2d_dx_ps).c_str()
 				);
 		}
 		else if (g->GetGraphicsType() == ace::GraphicsType::OpenGL)
 		{
 			std::vector<ace::ShaderVariableProperty> prop;
 			m_shader = g->CreateShader2D(
-				ace::ToAString(shader2d_gl_ps).c_str(),
-				props
+				ace::ToAString(shader2d_gl_ps).c_str()
 				);
 		}
 		else

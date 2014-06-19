@@ -32,6 +32,36 @@ namespace ace {
 	void Material2DCommand::SetValueToShader()
 	{
 		auto& shader = m_shader;
+
+		for (auto& value : m_values)
+		{
+			auto key = ToUtf8String(value.first.c_str());
+			if (value.second.ValueType == SHADER_VARIABLE_TYPE_FLOAT)
+			{
+				shader->GetNativeShader()->SetFloat(key.c_str(), value.second.Data.Float4[0]);
+			}
+			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_VECTOR2DF)
+			{
+				shader->GetNativeShader()->SetVector2DF(key.c_str(), Vector2DF(value.second.Data.Float4[0], value.second.Data.Float4[1]));
+			}
+			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_VECTOR3DF)
+			{
+				shader->GetNativeShader()->SetVector3DF(key.c_str(), Vector3DF(value.second.Data.Float4[0], value.second.Data.Float4[1], value.second.Data.Float4[2]));
+			}
+			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_VECTOR4DF)
+			{
+				shader->GetNativeShader()->SetVector4DF(key.c_str(), Vector4DF(value.second.Data.Float4[0], value.second.Data.Float4[1], value.second.Data.Float4[2], value.second.Data.Float4[3]));
+			}
+			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
+			{
+				shader->GetNativeShader()->SetTexture(
+					key.c_str(),
+					value.second.Data.TexturePtr);
+				//state.TextureFilterTypes[i.Offset] = v.Data.TexturePtr->GetFilter();
+			}
+		}
+
+		/*
 		auto vbuf = m_shader->GetNativeShader()->GetVertexConstantBuffer();
 		auto pbuf = m_shader->GetNativeShader()->GetPixelConstantBuffer();
 
@@ -77,6 +107,7 @@ namespace ace {
 
 		//setValuesTo(vbuf, shader->GetVertexVariableProperties());
 		setValuesTo(pbuf, shader->GetPixelVariableProperties());
+		*/
 	}
 
 	//----------------------------------------------------------------------------------

@@ -181,8 +181,8 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 		auto vInfo = genInfo(vertexVariableProperties);
 		auto pInfo = genInfo(pixelVariableProperties);
 
-		shader->CreateVertexConstantBuffer(vConstantSize, vInfo);
-		shader->CreatePixelConstantBuffer(pConstantSize, pInfo);
+		//shader->CreateVertexConstantBuffer(vConstantSize, vInfo);
+		//shader->CreatePixelConstantBuffer(pConstantSize, pInfo);
 
 		m_shader = shader;
 		m_vertexVariableProperties = vertexVariableProperties;
@@ -204,10 +204,10 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 		Graphics* graphics,
 		const achar* shaderText,
 		const achar* shaderFileName,
-		std::vector <ShaderVariableProperty>& pixelVariableProperties,
 		Log* log)
 	{
 		std::vector <ShaderVariableProperty> vertexVariableProperties;
+		std::vector <ShaderVariableProperty> pixelVariableProperties;
 
 		auto g = (Graphics_Imp*) graphics;
 

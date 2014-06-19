@@ -37,6 +37,9 @@ namespace ace {
 		virtual Vector3DF GetVector3DF(const achar* name) = 0;
 		virtual void SetVector3DF(const achar* name, Vector3DF value) = 0;
 
+		virtual Vector4DF GetVector4DF(const achar* name) = 0;
+		virtual void SetVector4DF(const achar* name, Vector4DF value) = 0;
+
 		virtual void SetTexture2D(const achar* name, Texture2D* value) = 0;
 		virtual void SetShader2D(Shader2D* shader) = 0;
 

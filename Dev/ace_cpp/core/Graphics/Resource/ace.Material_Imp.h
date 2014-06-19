@@ -58,6 +58,9 @@ namespace ace {
 		Vector3DF GetVector3DF_Imp(const achar* name);
 		void SetVector3DF_Imp(const achar* name, Vector3DF value);
 
+		Vector4DF GetVector4DF_Imp(const achar* name);
+		void SetVector4DF_Imp(const achar* name, Vector4DF value);
+
 		/**
 			@brief	テクスチャを取得する。
 			@name	名称

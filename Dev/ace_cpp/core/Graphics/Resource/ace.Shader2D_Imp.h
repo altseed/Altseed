@@ -40,7 +40,6 @@ namespace ace {
 			Graphics* graphics,
 			const achar* shaderText,
 			const achar* shaderFileName,
-			std::vector <ShaderVariableProperty>& pixelVariableProperties,
 			Log* log);
 
 #if !SWIG

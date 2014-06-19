@@ -81,21 +81,10 @@ namespace ace
 		/// シェーダー(2D)を生成する。
 		/// </summary>
 		/// <param name="shaderText">シェーダーのコード</param>
-		/// <param name="variableProperties">シェーダーで使用可能な外部入力可能な変数</param>
 		/// <returns></returns>
-		public Shader2D CreateShader2D(string shaderText, ShaderVariableProperty[] variableProperties)
+		public Shader2D CreateShader2D(string shaderText)
 		{
-			swig.ShaderVariablePropertyVector vprops = new swig.ShaderVariablePropertyVector();
-			foreach (var v_ in variableProperties)
-			{
-				var sprop = new swig.ShaderVariableProperty();
-				sprop.Name = v_.Name;
-				sprop.Type = (swig.ShaderVariableType)v_.Type;
-				sprop.Offset = v_.Offset;
-				vprops.Add(sprop);
-			}
-
-			var shader = graphics.CreateShader2D_Imp(shaderText, vprops);
+			var shader = graphics.CreateShader2D_Imp(shaderText);
 			if (shader == null) return null;
 
 			var p = shader.GetPtr();

@@ -69,6 +69,16 @@ namespace ace
 			SwigObject.SetVector3DF(name, value);
 		}
 
+		public Vector4DF GetVector4DF(string name)
+		{
+			return SwigObject.GetVector4DF(name);
+		}
+
+		public void SetVector4DF(string name, Vector4DF value)
+		{
+			SwigObject.SetVector4DF(name, value);
+		}
+
 		public Texture2D GetTexture2D(string name)
 		{
 			var swigObj = swig.Accessor.Material2D_GetTexture2D(SwigObject, name);

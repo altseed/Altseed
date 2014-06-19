@@ -154,6 +154,42 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	Vector4DF Material_Imp::GetVector4DF_Imp(const achar* name)
+	{
+		if (m_values.count(name) > 0)
+		{
+			if (m_values[name].ValueType != SHADER_VARIABLE_TYPE_VECTOR4DF) return Vector4DF(0.0f, 0.0f, 0.0f, 0.0f);
+			return Vector4DF(m_values[name].Data.Float4[0], m_values[name].Data.Float4[1], m_values[name].Data.Float4[2], m_values[name].Data.Float4[3]);
+		}
+		return Vector4DF();
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Material_Imp::SetVector4DF_Imp(const achar* name, Vector4DF value)
+	{
+		if (m_values.count(name) > 0)
+		{
+			if (m_values[name].ValueType != SHADER_VARIABLE_TYPE_VECTOR4DF) return;
+			m_values[name].Data.Float4[0] = value.X;
+			m_values[name].Data.Float4[1] = value.Y;
+			m_values[name].Data.Float4[2] = value.Z;
+			m_values[name].Data.Float4[3] = value.W;
+		}
+		else
+		{
+			m_values[name].ValueType = SHADER_VARIABLE_TYPE_VECTOR4DF;
+			m_values[name].Data.Float4[0] = value.X;
+			m_values[name].Data.Float4[1] = value.Y;
+			m_values[name].Data.Float4[2] = value.Z;
+			m_values[name].Data.Float4[3] = value.W;
+		}
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	Texture2D* Material_Imp::GetTexture2D_Imp(const achar* name)
 	{
 		if (m_values.count(name) > 0)
