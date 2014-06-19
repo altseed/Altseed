@@ -40,4 +40,4 @@ protected:
 };
 
 
-ENGINE_TEST(Graphics, PostEffectLightBloom)
+//ENGINE_TEST(Graphics, PostEffectLightBloom)
