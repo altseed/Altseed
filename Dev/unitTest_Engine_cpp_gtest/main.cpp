@@ -29,6 +29,8 @@ extern void Graphics_PostEffectGaussianBlur_(bool isOpenGLMode);
 
 extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
 extern void Graphics_PostEffectSepia(bool isOpenGLMode);
+EXTERN_ENGINE_TEST(Graphics, PostEffectLightBloom)
+
 
 extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
 

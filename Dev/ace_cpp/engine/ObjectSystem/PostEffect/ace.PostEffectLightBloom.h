@@ -15,11 +15,12 @@ namespace ace
 	{
 	private:
 
-		std::shared_ptr<ace::Shader2D>		m_shaderX, m_shaderY;
-		std::shared_ptr<ace::Material2D>	m_material2dX, m_material2dY;
+		std::shared_ptr<ace::Shader2D>		m_shader, m_shaderX, m_shaderY;
+		std::shared_ptr<ace::Material2D>	m_material, m_material2dX, m_material2dY;
 		ace::Graphics *m_graphics;
 
 		std::shared_ptr<RenderTexture2D>	m_tempTexture;
+		std::shared_ptr<RenderTexture2D>	m_copiedTexture;
 
 		PostEffectLightBloom() = default;
 

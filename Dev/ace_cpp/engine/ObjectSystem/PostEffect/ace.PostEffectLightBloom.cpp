@@ -6,165 +6,19 @@ namespace ace{
 
 	PostEffectLightBloom::PostEffectLightBloom(Graphics *g)
 	{
+		std::string baseShader = m_corePostEffect->GetLightBloomShader(g->GetGraphicsType());
 
-		static const char* shader2d_dx_ps_x = R"(
-Texture2D		g_texture		: register( t0 );
-SamplerState	g_sampler		: register( s0 );
-float3          g_weight        : register( c0 );
-float4 main( const PS_Input Input ) : SV_Target
-{
-	uint width, height;
-	g_texture.GetDimensions(width, height);
-	float2 accum = float2(1.0 / width, 0.0);
-	float2 half_ = float2(0.5 / width, 0.0);
-	float2 adder = float2(2.0 / width, 0.0);
-	
-	float4 output_ = (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	                 g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	                 g_weight.x;
-	if(output_.a == 0.0f) discard;
-	accum += adder;
-	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	           g_weight.y;
-	accum += adder;
-	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	           g_weight.z;
+		std::string shader = std::string("#define COPY 1\n") + baseShader;
+		std::string shaderX = std::string("#define BLUR_X 1\n") + baseShader;
+		std::string shaderY = std::string("#define BLUR_Y 1\n") + baseShader;
 
-	output_.a = 1.0;
+		m_shader = g->CreateShader2D(ace::ToAString(shader.c_str()).c_str());
+		m_material = g->CreateMaterial2D(m_shader);
 
-	return output_;
-}
-)";
-
-		static const char* shader2d_gl_ps_x = R"(
-uniform sampler2D g_texture;
-uniform vec3      g_weight;
-void main()
-{
-	vec2 accum = vec2(1.0 / float(textureSize(g_texture, 0).x), 0.0);
-	vec2 half_  = vec2(0.5 / float(textureSize(g_texture, 0).x), 0.0);
-	vec2 adder = vec2(2.0 / float(textureSize(g_texture, 0).x), 0.0);
-	vec4 output_ = (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	               texture2D(g_texture, inUV.xy + half_ - accum)) *
-	               g_weight.x;
-	accum += adder;
-	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	          texture2D(g_texture, inUV.xy + half_ - accum)) *
-	          g_weight.y;
-	accum += adder;
-	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	          texture2D(g_texture, inUV.xy + half_ - accum)) *
-	          g_weight.z;
-
-	output_.a = 1.0;
-
-	gl_FragColor = output_; 
-}
-
-)";
-
-
-		static const char* shader2d_dx_ps_y = R"(
-Texture2D		g_texture		: register( t0 );
-SamplerState	g_sampler		: register( s0 );
-float3          g_weight        : register( c0 );
-float4 main( const PS_Input Input ) : SV_Target
-{
-	uint width, height;
-	g_texture.GetDimensions(width, height);
-	float2 accum = float2(0.0, 1.0 / height);
-	float2 half_ = float2(0.0, 0.5 / height);
-	float2 adder = float2(0.0, 2.0 / height);
-	
-	float4 output_ = (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	                 g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	                 g_weight.x;
-	if(output_.a == 0.0f) discard;
-
-	accum += adder;
-	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	           g_weight.y;
-	accum += adder;
-	output_ += (g_texture.Sample(g_sampler, Input.UV + half_ + accum) +
-	           g_texture.Sample(g_sampler, Input.UV + half_ - accum)) *
-	           g_weight.z;
-
-	output_.a = 1.0;
-
-	return output_;
-}
-)";
-
-		static const char* shader2d_gl_ps_y = R"(
-uniform sampler2D g_texture;
-uniform vec3      g_weight;
-void main()
-{
-	vec2 accum = vec2(0.0, 1.0 / float(textureSize(g_texture, 0).y));
-	vec2 half_  = vec2(0.0, 0.5 / float(textureSize(g_texture, 0).y));
-	vec2 adder = vec2(0.0, 2.0 / float(textureSize(g_texture, 0).y));
-	
-	vec4 output_ = (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	               texture2D(g_texture, inUV.xy + half_ - accum)) *
-	               g_weight.x;
-	accum += adder;
-	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	          texture2D(g_texture, inUV.xy + half_ - accum)) *
-	          g_weight.y;
-	accum += adder;
-	output_ += (texture2D(g_texture, inUV.xy + half_ + accum)  +
-	          texture2D(g_texture, inUV.xy + half_ - accum)) *
-	          g_weight.z;
-
-	output_.a = 1.0;
-
-	gl_FragColor = output_; 
-}
-
-)";
-		if (g->GetGraphicsType() == ace::GraphicsType::DirectX11)
-		{
-			m_shaderX = g->CreateShader2D(
-				ace::ToAString(shader2d_dx_ps_x).c_str()
-				);
-		}
-		else if (g->GetGraphicsType() == ace::GraphicsType::OpenGL)
-		{
-			// std::vector<ace::ShaderVariableProperty> prop;
-			m_shaderX = g->CreateShader2D(
-				ace::ToAString(shader2d_gl_ps_x).c_str()
-				);
-		}
-		else
-		{
-			assert(0);
-		}
-
+		m_shaderX = g->CreateShader2D(ace::ToAString(shaderX.c_str()).c_str());
 		m_material2dX = g->CreateMaterial2D(m_shaderX);
 
-
-
-		if (g->GetGraphicsType() == ace::GraphicsType::DirectX11)
-		{
-			m_shaderY = g->CreateShader2D(
-				ace::ToAString(shader2d_dx_ps_y).c_str()
-				);
-		}
-		else if (g->GetGraphicsType() == ace::GraphicsType::OpenGL)
-		{
-			// std::vector<ace::ShaderVariableProperty> prop;
-			m_shaderY = g->CreateShader2D(
-				ace::ToAString(shader2d_gl_ps_y).c_str()
-				);
-		}
-		else
-		{
-			assert(0);
-		}
-
+		m_shaderY = g->CreateShader2D(ace::ToAString(shaderY.c_str()).c_str());
 		m_material2dY = g->CreateMaterial2D(m_shaderY);
 
 		m_graphics = g;
@@ -176,11 +30,11 @@ void main()
 		assert(src != nullptr);
 		assert(dst != nullptr);
 
-		Vector3DF weights;
-		float ws[3];
+		Vector4DF weights;
+		float ws[4];
 		float total = 0.0f;
 		float const dispersion = intensity * intensity;
-		for (int32_t i = 0; i < 3; i++)
+		for (int32_t i = 0; i < 4; i++)
 		{
 			float pos = 1.0f + 2.0f * i;
 			ws[i] = expf(-0.5f * pos * pos / dispersion);
@@ -189,12 +43,7 @@ void main()
 		weights.X = ws[0] / total;
 		weights.Y = ws[1] / total;
 		weights.Z = ws[2] / total;
-
-		const eTextureFilterType origSrcFiter = src->GetFilter();
-		src->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
-
-		m_material2dX->SetTexture2D(ace::ToAString("g_texture").c_str(), src);
-		m_material2dX->SetVector3DF(ace::ToAString("g_weight").c_str(), weights);
+		weights.W = ws[3] / total;
 
 		auto size = src->GetSize();
 		auto format = src->GetFormat();
@@ -212,12 +61,36 @@ void main()
 			}
 		}
 
+		if (m_copiedTexture == nullptr ||
+			(m_copiedTexture->GetSize() != size || m_copiedTexture->GetFormat() != format))
+		{
+			if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
+			{
+				m_copiedTexture = m_graphics->CreateRenderTexture(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+			}
+			else
+			{
+				m_copiedTexture = m_graphics->CreateRenderTexture(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			}
+		}
+
+		m_material->SetTexture2D(ace::ToAString("g_originalTexture").c_str(), src);
+		DrawOnTexture2DWithMaterial(m_copiedTexture, m_material);
+		
+
+		const eTextureFilterType origSrcFiter = src->GetFilter();
+		src->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
+
+		m_material2dX->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), src);
+		m_material2dX->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
+
 		m_tempTexture->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
 
 		DrawOnTexture2DWithMaterial(m_tempTexture, m_material2dX);
 
-		m_material2dY->SetTexture2D(ace::ToAString("g_texture").c_str(), m_tempTexture);
-		m_material2dY->SetVector3DF(ace::ToAString("g_weight").c_str(), weights);
+		m_material2dY->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), m_tempTexture);
+		m_material2dY->SetTexture2D(ace::ToAString("g_originalTexture").c_str(), m_copiedTexture);
+		m_material2dY->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
 
 		DrawOnTexture2DWithMaterial(dst, m_material2dY);
 		m_tempTexture->SetFilter(origSrcFiter);

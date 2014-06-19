@@ -21,6 +21,7 @@
     <ClCompile Include="..\Graphics\PostEffect\CustomPostEffect.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlurTest.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScaleTest.cpp" />
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectLightBloom.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectSepiaTest.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\Camera.cpp" />

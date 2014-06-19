@@ -19,6 +19,12 @@ float4 CalcBlurredColor(float2 uv)
 {
 	float2 size = GetTextureSize(g_texture,g_sampler);
 
+#if COPY
+	float2 shift_p = float2(0.0, 0.0);
+	float2 shift_m = float2(0.0, 0.0);
+	float2 adder = float2(0.0, 0.0);
+#endif
+
 #if BLUR_X
 	float2 shift_p = float2(0.5/size.x, 0.5/size.y);
 	float2 shift_m = float2(-0.5/size.x, 0.5/size.y);
@@ -50,6 +56,10 @@ float4 CalcBlurredColor(float2 uv)
 
 float4 Main_(float2 uv)
 {
+#if COPY
+	return GetOriginalColor(uv);
+#endif
+
 #if BLUR_X
 	return CalcBlurredColor(uv);
 #endif

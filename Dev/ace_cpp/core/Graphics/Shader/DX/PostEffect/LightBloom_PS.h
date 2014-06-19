@@ -6,7 +6,8 @@ SamplerState g_blurredSampler			: register( s0 );
 Texture2D g_originalTexture				: register( t1 );
 SamplerState g_originalSampler			: register( s1 );
 
-float4 SampleTexture(Texture2D texture_, SamplerState sampler_, float2 uv_: TEXCOORD): COLOR {
+
+float4 SampleTexture(Texture2D texture_, SamplerState sampler_, float2 uv_) {
 	return texture_.Sample(sampler_, uv_);
 }
 uint2 GetTextureSize(Texture2D texture_, SamplerState sampler_){
@@ -27,6 +28,11 @@ float4 GetColor(float2 uv)
 float4 CalcBlurredColor(float2 uv)
 {
 	float2 size = GetTextureSize(g_texture, g_sampler);
+#if COPY
+	float2 shift_p = float2(0.000000, 0.000000);
+	float2 shift_m = float2(0.000000, 0.000000);
+	float2 adder = float2(0.000000, 0.000000);
+#endif
 #if BLUR_X
 	float2 shift_p = float2(0.500000 / size.x, 0.500000 / size.y);
 	float2 shift_m = float2(-0.500000 / size.x, 0.500000 / size.y);
@@ -51,6 +57,9 @@ float4 CalcBlurredColor(float2 uv)
 
 float4 Main_(float2 uv)
 {
+#if COPY
+	return GetOriginalColor(uv);
+#endif
 #if BLUR_X
 	return CalcBlurredColor(uv);
 #endif
@@ -58,6 +67,7 @@ float4 Main_(float2 uv)
 	return max(CalcBlurredColor(uv) - float4(1.00000, 1.00000, 1.00000, 1.00000), float4(0.000000, 0.000000, 0.000000, 0.000000)) + GetOriginalColor(uv);
 #endif
 }
+
 
 
 
