@@ -35,8 +35,8 @@ protected:
 	}
 	void OnUpdating() override
 	{
-		pe->SetThreshold(0.5f);
-		pe->SetPower(1.0f);
+		pe->SetThreshold(0.3f);
+		pe->SetPower(2.0f);
 		pe->SetIntensity(intensity);
 		intensity += 0.1f;
 	}
