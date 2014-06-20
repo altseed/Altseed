@@ -31,9 +31,6 @@
     <ClCompile Include="..\ObjectSystem\LayerHasNoObject.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlurTest.cpp">
-      <Filter>Graphics\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="..\Graphics\3D\SimpleMesh.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
@@ -84,6 +81,9 @@
       <Filter>Graphics\3D</Filter>
     </ClCompile>
     <ClCompile Include="..\Graphics\PostEffect\PostEffectLightBloom.cpp">
+      <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlur.cpp">
       <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>

@@ -11,7 +11,7 @@ void main()
 	outputedColor.r = outputedColor.r > 1.0? 1.0: outputedColor.r;
 	outputedColor.g *= 0.921369;
 	outputedColor.b *= 0.535390;
-	gl_FragColor = outputedColor; 
+	outOutput = outputedColor; 
 }
 
 )";

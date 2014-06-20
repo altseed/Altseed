@@ -25,10 +25,10 @@ extern void Test_LayersFlag(bool openGL);
 extern void TestCamera(bool openGL);
 extern void Graphics_CustomPostEffect_(bool isOpenGLMode);
 
-extern void Graphics_PostEffectGaussianBlur_(bool isOpenGLMode);
-
 extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
 extern void Graphics_PostEffectSepia(bool isOpenGLMode);
+
+EXTERN_ENGINE_TEST(Graphics, PostEffectGaussianBlur)
 EXTERN_ENGINE_TEST(Graphics, PostEffectLightBloom)
 
 
@@ -59,14 +59,11 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//CALL_ENGINE_TEST(Graphics, ModelObject3D, true)
+	//CALL_ENGINE_TEST(Graphics, PostEffectLightBloom, false)
 	//return 0;
 
 	//TestCamera(true);
 	//TestCamera(false);
-	//return 0;
-
-	//Graphics_PostEffectGaussianBlur_(true);
 	//return 0;
 
 	/*

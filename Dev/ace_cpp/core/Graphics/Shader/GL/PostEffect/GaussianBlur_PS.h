@@ -3,13 +3,13 @@ uniform sampler2D g_texture;
 uniform vec3      g_weight;
 void main()
 {
-#if BLUR_X
+#ifdef BLUR_X
 	vec2 accum = vec2(1.0 / float(textureSize(g_texture, 0).x), 0.0);
 	vec2 half_  = vec2(0.5 / float(textureSize(g_texture, 0).x), 0.0);
 	vec2 adder = vec2(2.0 / float(textureSize(g_texture, 0).x), 0.0);
 #endif
 
-#if BLUR_Y
+#ifdef BLUR_Y
 	vec2 accum = vec2(0.0, 1.0 / float(textureSize(g_texture, 0).y));
 	vec2 half_  = vec2(0.0, 0.5 / float(textureSize(g_texture, 0).y));
 	vec2 adder = vec2(0.0, 2.0 / float(textureSize(g_texture, 0).y));
@@ -29,7 +29,7 @@ void main()
 
 	output_.a = 1.0;
 
-	gl_FragColor = output_; 
+	outOutput = output_; 
 }
 
 )";

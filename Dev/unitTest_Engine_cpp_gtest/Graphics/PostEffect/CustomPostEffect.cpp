@@ -49,7 +49,7 @@ void main()
 		outputedColor.b = 1.0 - outputedColor.b;
 	}
 
-	gl_FragColor = outputedColor; 
+	outOutput = outputedColor; 
 }
 
 )";

@@ -8,7 +8,7 @@ class Graphics_PostEffectLightBloom : public EngineTest
 {
 public:
 	Graphics_PostEffectLightBloom(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("PostEffectLightBloom"), isOpenGLMode, 15)
+		EngineTest(ace::ToAString("PostEffectLightBloom"), isOpenGLMode, 10)
 	{}
 protected:
 	std::shared_ptr<ace::PostEffectLightBloom> pe;
@@ -18,6 +18,7 @@ protected:
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer2D>();
 		auto object = std::make_shared<ace::TextureObject2D>();
+		scene->SetHDRMode(true);
 		scene->AddLayer(layer);
 		layer->AddObject(object);
 		ace::Engine::ChangeScene(scene);
@@ -34,10 +35,11 @@ protected:
 	}
 	void OnUpdating() override
 	{
+		pe->SetThreshold(0.5f);
+		pe->SetPower(1.0f);
 		pe->SetIntensity(intensity);
 		intensity += 0.1f;
 	}
 };
 
-
-//ENGINE_TEST(Graphics, PostEffectLightBloom)
+ENGINE_TEST(Graphics, PostEffectLightBloom)

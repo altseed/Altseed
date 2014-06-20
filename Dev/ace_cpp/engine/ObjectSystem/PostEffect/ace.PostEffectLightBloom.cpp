@@ -83,6 +83,8 @@ namespace ace{
 
 		m_material2dX->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), src);
 		m_material2dX->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
+		m_material2dX->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
+		m_material2dX->SetFloat(ace::ToAString("g_power").c_str(), power);
 
 		m_tempTexture->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
 
@@ -91,6 +93,8 @@ namespace ace{
 		m_material2dY->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), m_tempTexture);
 		m_material2dY->SetTexture2D(ace::ToAString("g_originalTexture").c_str(), m_copiedTexture);
 		m_material2dY->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
+		m_material2dY->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
+		m_material2dY->SetFloat(ace::ToAString("g_power").c_str(), power);
 
 		DrawOnTexture2DWithMaterial(dst, m_material2dY);
 		m_tempTexture->SetFilter(origSrcFiter);

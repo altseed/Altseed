@@ -8,7 +8,7 @@ void main()
 	float y = outputedColor.r * 0.298912 + outputedColor.g * 0.586611 + outputedColor.b * 0.114478;
 	//outputedColor.xyz = y; (特定環境でコンパイル不可)
 	outputedColor.rgb = vec3(y,y,y);
-	gl_FragColor = outputedColor; 
+	outOutput = outputedColor; 
 }
 
 )";
