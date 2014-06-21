@@ -20,7 +20,7 @@ namespace test_cs.Sound
 			ace.SoundSource se1 = ace.Engine.Sound.CreateSoundSource("Data/Sound/se1.wav", true);
 			ace.SoundSource bgm1 = ace.Engine.Sound.CreateSoundSource("Data/Sound/bgm1.ogg", false);
 
-			// 再生する
+			// 再生する。
 			int id_se1 = ace.Engine.Sound.Play(se1);
 			int id_bgm1 = ace.Engine.Sound.Play(bgm1);
 
@@ -30,7 +30,7 @@ namespace test_cs.Sound
 				// aceを更新する。
 				ace.Engine.Update();
 
-				// 音が再生終了してるか調べる
+				// 音が再生終了してるか調べる。
 				if(!ace.Engine.Sound.IsPlaying(id_bgm1))
 				{
 					break;
