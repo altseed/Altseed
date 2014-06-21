@@ -12,12 +12,6 @@
     <ClCompile Include="..\Graphics\PostEffect\CustomPostEffect.cpp">
       <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScaleTest.cpp">
-      <Filter>Graphics\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Graphics\PostEffect\PostEffectSepiaTest.cpp">
-      <Filter>Graphics\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="..\ObjectSystem\LayerComponent.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
@@ -84,6 +78,12 @@
       <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlur.cpp">
+      <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScale.cpp">
+      <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectSepia.cpp">
       <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>

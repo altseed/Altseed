@@ -102,7 +102,7 @@ class Graphics_Camera3DPostEffect : public EngineTest
 public:
 
 	Graphics_Camera3DPostEffect(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("Camera3DPostEffect"), isOpenGLMode, 60)
+		EngineTest(ace::ToAString("Camera3DPostEffect"), isOpenGLMode, 20)
 	{}
 
 protected:
@@ -135,7 +135,7 @@ protected:
 
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
 
-		auto pe = std::make_shared<ace::PostEffectGaussianBlur>(ace::Engine::GetGraphics());
+		auto pe = std::make_shared<ace::PostEffectGaussianBlur>();
 		pe->SetIntensity(100.0f);
 		cameraObj->AddPostEffect(pe);
 	}

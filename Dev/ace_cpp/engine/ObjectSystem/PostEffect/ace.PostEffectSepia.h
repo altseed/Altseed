@@ -15,13 +15,9 @@ namespace ace
 	class PostEffectSepia : public PostEffect
 	{
 	private:
-
-		std::shared_ptr<ace::Shader2D>		m_shader;
-		std::shared_ptr<ace::Material2D>	m_material2d;
-		PostEffectSepia() = default;
+		std::shared_ptr<ace::Material2D>	material2d;
 	public:
-		PostEffectSepia(Graphics *g);
-
+		PostEffectSepia();
 		virtual ~PostEffectSepia() = default;
 
 		virtual void OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src) override;

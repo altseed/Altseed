@@ -23,14 +23,12 @@ extern void Test_LayerComponent_GL();
 
 extern void Test_LayersFlag(bool openGL);
 extern void TestCamera(bool openGL);
-extern void Graphics_CustomPostEffect_(bool isOpenGLMode);
-
-extern void Graphics_PostEffectGrayScale(bool isOpenGLMode);
-extern void Graphics_PostEffectSepia(bool isOpenGLMode);
 
 EXTERN_ENGINE_TEST(Graphics, PostEffectGaussianBlur)
 EXTERN_ENGINE_TEST(Graphics, PostEffectLightBloom)
-
+EXTERN_ENGINE_TEST(Graphics, PostEffectGrayScale)
+EXTERN_ENGINE_TEST(Graphics, PostEffectSepia)
+EXTERN_ENGINE_TEST(Graphics, CustomPostEffect)
 
 extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
 

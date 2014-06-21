@@ -105,7 +105,11 @@
     <Compile Include="ObjectSystem\Layer.cs" />
     <Compile Include="ObjectSystem\2D\Layer2D.cs" />
     <Compile Include="ObjectSystem\ObjectSystemFactory.cs" />
-    <Compile Include="ObjectSystem\PostEffect.cs" />
+    <Compile Include="ObjectSystem\PostEffect\PostEffectGrayScale.cs" />
+    <Compile Include="ObjectSystem\PostEffect\PostEffect.cs" />
+    <Compile Include="ObjectSystem\PostEffect\PostEffectGaussianBlur.cs" />
+    <Compile Include="ObjectSystem\PostEffect\PostEffectLightBloom.cs" />
+    <Compile Include="ObjectSystem\PostEffect\PostEffectSepia.cs" />
     <Compile Include="ObjectSystem\Scene.cs" />
     <Compile Include="ObjectSystem\SceneComponent.cs" />
     <Compile Include="ObjectSystem\2D\TextureObject2D.cs" />

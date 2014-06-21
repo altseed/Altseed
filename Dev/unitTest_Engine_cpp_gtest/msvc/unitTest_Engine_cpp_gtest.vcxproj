@@ -20,9 +20,9 @@
     <ClCompile Include="..\Graphics\3D\SimpleMesh.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\CustomPostEffect.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlur.cpp" />
-    <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScaleTest.cpp" />
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScale.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectLightBloom.cpp" />
-    <ClCompile Include="..\Graphics\PostEffect\PostEffectSepiaTest.cpp" />
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectSepia.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\Camera.cpp" />
     <ClCompile Include="..\ObjectSystem\CameraAndSetTexture.cpp" />

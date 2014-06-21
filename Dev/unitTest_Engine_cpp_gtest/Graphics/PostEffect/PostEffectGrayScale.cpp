@@ -14,36 +14,23 @@ public:
 protected:
 	void OnStart() override
 	{
-
 		auto scene = std::make_shared<ace::Scene>();
 		auto layer = std::make_shared<ace::Layer2D>();
-		auto object = std::make_shared<ace::TextureObject2D>();
+		auto obj = std::make_shared<ace::TextureObject2D>();
 		scene->AddLayer(layer);
-		layer->AddObject(object);
+		layer->AddObject(obj);
 		ace::Engine::ChangeScene(scene);
 
 		auto g = ace::Engine::GetGraphics();
 		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
-		object->SetTexture(texture);
-		object->SetScale(ace::Vector2DF(2, 2));
+		obj->SetTexture(texture);
+		obj->SetScale(ace::Vector2DF(2, 2));
 
-		auto pe = std::make_shared<ace::PostEffectGrayScale>(g);
+		auto pe = std::make_shared<ace::PostEffectGrayScale>();
 		layer->AddPostEffect(pe);
 	}
 };
 
+ENGINE_TEST(Graphics, PostEffectGrayScale)
 
-TEST(Graphics, PostEffectGrayScale_GL)
-{
-	Graphics_PostEffectGrayScale(true).Run();
-	AssertMemoryDoesntLeak();
-}
-
-#if _WIN32
-TEST(Graphics, PostEffectGrayScale_DX)
-{
-	Graphics_PostEffectGrayScale(false).Run();
-	AssertMemoryDoesntLeak();
-}
-#endif
 

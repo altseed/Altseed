@@ -1,7 +1,7 @@
 ﻿#include <ace.h>
 #include <gtest/gtest.h>
-#include <memory>
 #include "../../EngineTest.h"
+
 static const char* shader2d_dx_ps = R"(
 
 Texture2D		g_texture		: register( t0 );
@@ -63,23 +63,6 @@ public:
 public:
 	CustomPostEffect(ace::Graphics* g)
 	{
-		// 外部から設定可能な変数の設定
-		std::vector<ace::ShaderVariableProperty> props;
-
-		// テクスチャ
-		auto prop_tex = ace::ShaderVariableProperty();
-		prop_tex.Name = ace::ToAString("g_texture").c_str();
-		prop_tex.Offset = 0;
-		prop_tex.Type = ace::SHADER_VARIABLE_TYPE_TEXTURE2D;
-		props.push_back(prop_tex);
-
-		// 変数
-		auto prop_v = ace::ShaderVariableProperty();
-		prop_v.Name = ace::ToAString("g_values").c_str();
-		prop_v.Offset = 0;
-		prop_v.Type = ace::SHADER_VARIABLE_TYPE_VECTOR3DF;
-		props.push_back(prop_v);
-
 		if (g->GetGraphicsType() == ace::GraphicsType::DirectX11)
 		{
 			m_shader = g->CreateShader2D(
@@ -139,23 +122,5 @@ protected:
 	}
 };
 
-TEST(Graphics, CustomPostEffect_GL)
-{
-	Graphics_CustomPostEffect(true).Run();
-	AssertMemoryDoesntLeak();
-}
-
-#if _WIN32
-TEST(Graphics, CustomPostEffect_DX)
-{
-	Graphics_CustomPostEffect(false).Run();
-	AssertMemoryDoesntLeak();
-}
-#endif
-
-void Graphics_CustomPostEffect_(bool isGL)
-{
-	Graphics_CustomPostEffect(isGL).Run();
-	AssertMemoryDoesntLeak();
-}
+ENGINE_TEST(Graphics, CustomPostEffect)
 

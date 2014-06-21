@@ -65,7 +65,7 @@ public:
 	@param	format	フォーマット
 	@return	テクスチャ
 	*/
-	std::shared_ptr<RenderTexture2D> CreateRenderTexture(int32_t width, int32_t height, eTextureFormat format){ return CreateSharedPtrWithReleaseDLL(CreateRenderTexture2D_(width, height, format)); }
+	std::shared_ptr<RenderTexture2D> CreateRenderTexture2D(int32_t width, int32_t height, eTextureFormat format){ return CreateSharedPtrWithReleaseDLL(CreateRenderTexture2D_(width, height, format)); }
 
 	/**
 	@brief	6枚の画像ファイルからキューブマップテクスチャを生成する。

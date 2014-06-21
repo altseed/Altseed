@@ -855,7 +855,7 @@ namespace ace
 			m_shadowShaderX->CreatePixelConstantBuffer<ShadowBlurConstantBuffer>(constantBuffers);
 			m_shadowShaderY->CreatePixelConstantBuffer<ShadowBlurConstantBuffer>(constantBuffers);
 
-			m_shadowTempTexture = m_graphics->CreateRenderTexture(2048, 2048, ace::eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
+			m_shadowTempTexture = m_graphics->CreateRenderTexture2D(2048, 2048, ace::eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
 
 			m_shadowVertexBuffer->Lock();
 			auto buf = m_shadowVertexBuffer->GetBuffer <ScreenVertexLayout>(6);

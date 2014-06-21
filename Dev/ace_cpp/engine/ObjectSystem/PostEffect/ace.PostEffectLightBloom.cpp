@@ -1,32 +1,31 @@
 ﻿
 #include "ace.PostEffectLightBloom.h"
+#include "../../ace.Engine.h"
 
 namespace ace{
 
 
-	PostEffectLightBloom::PostEffectLightBloom(Graphics *g)
+	PostEffectLightBloom::PostEffectLightBloom()
 	{
-		std::string baseShader = m_corePostEffect->GetLightBloomShader(g->GetGraphicsType());
+		auto g = Engine::GetGraphics();
+		std::string baseCode = m_corePostEffect->GetLightBloomShader(g->GetGraphicsType());
 
-		std::string shader = std::string("#define COPY 1\n") + baseShader;
-		std::string shaderX = std::string("#define BLUR_X 1\n") + baseShader;
-		std::string shaderY = std::string("#define BLUR_Y 1\n") + baseShader;
+		std::string code = std::string("#define COPY 1\n") + baseCode;
+		std::string codeX = std::string("#define BLUR_X 1\n") + baseCode;
+		std::string codeY = std::string("#define BLUR_Y 1\n") + baseCode;
 
-		m_shader = g->CreateShader2D(ace::ToAString(shader.c_str()).c_str());
-		m_material = g->CreateMaterial2D(m_shader);
+		auto shader = g->CreateShader2D(ace::ToAString(code.c_str()).c_str());
+		material = g->CreateMaterial2D(shader);
 
-		m_shaderX = g->CreateShader2D(ace::ToAString(shaderX.c_str()).c_str());
-		m_material2dX = g->CreateMaterial2D(m_shaderX);
+		auto shaderX = g->CreateShader2D(ace::ToAString(codeX.c_str()).c_str());
+		material2dX = g->CreateMaterial2D(shaderX);
 
-		m_shaderY = g->CreateShader2D(ace::ToAString(shaderY.c_str()).c_str());
-		m_material2dY = g->CreateMaterial2D(m_shaderY);
-
-		m_graphics = g;
+		auto shaderY = g->CreateShader2D(ace::ToAString(codeY.c_str()).c_str());
+		material2dY = g->CreateMaterial2D(shaderY);
 	}
 
 	void PostEffectLightBloom::OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src)
 	{
-		assert(m_graphics != nullptr);
 		assert(src != nullptr);
 		assert(dst != nullptr);
 
@@ -48,56 +47,53 @@ namespace ace{
 		auto size = src->GetSize();
 		auto format = src->GetFormat();
 
-		if (m_tempTexture == nullptr ||
-			(m_tempTexture->GetSize() != size || m_tempTexture->GetFormat() != format))
+		if (tempTexture == nullptr ||
+			(tempTexture->GetSize() != size || tempTexture->GetFormat() != format))
 		{
 			if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
 			{
-				m_tempTexture = m_graphics->CreateRenderTexture(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+				tempTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
 			}
 			else
 			{
-				m_tempTexture = m_graphics->CreateRenderTexture(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+				tempTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			}
 		}
 
-		if (m_copiedTexture == nullptr ||
-			(m_copiedTexture->GetSize() != size || m_copiedTexture->GetFormat() != format))
+		if (copiedTexture == nullptr ||
+			(copiedTexture->GetSize() != size || copiedTexture->GetFormat() != format))
 		{
 			if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
 			{
-				m_copiedTexture = m_graphics->CreateRenderTexture(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+				copiedTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
 			}
 			else
 			{
-				m_copiedTexture = m_graphics->CreateRenderTexture(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+				copiedTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			}
 		}
 
-		m_material->SetTexture2D(ace::ToAString("g_originalTexture").c_str(), src);
-		DrawOnTexture2DWithMaterial(m_copiedTexture, m_material);
+		material->SetTexture2D(ace::ToAString("g_originalTexture").c_str(), src);
+		DrawOnTexture2DWithMaterial(copiedTexture, material);
 		
-
-		const eTextureFilterType origSrcFiter = src->GetFilter();
 		src->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
 
-		m_material2dX->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), src);
-		m_material2dX->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
-		m_material2dX->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
-		m_material2dX->SetFloat(ace::ToAString("g_power").c_str(), power);
+		material2dX->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), src);
+		material2dX->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
+		material2dX->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
+		material2dX->SetFloat(ace::ToAString("g_power").c_str(), power);
 
-		m_tempTexture->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
+		tempTexture->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
 
-		DrawOnTexture2DWithMaterial(m_tempTexture, m_material2dX);
+		DrawOnTexture2DWithMaterial(tempTexture, material2dX);
 
-		m_material2dY->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), m_tempTexture);
-		m_material2dY->SetTexture2D(ace::ToAString("g_originalTexture").c_str(), m_copiedTexture);
-		m_material2dY->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
-		m_material2dY->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
-		m_material2dY->SetFloat(ace::ToAString("g_power").c_str(), power);
+		material2dY->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), tempTexture);
+		material2dY->SetTexture2D(ace::ToAString("g_originalTexture").c_str(), copiedTexture);
+		material2dY->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
+		material2dY->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
+		material2dY->SetFloat(ace::ToAString("g_power").c_str(), power);
 
-		DrawOnTexture2DWithMaterial(dst, m_material2dY);
-		m_tempTexture->SetFilter(origSrcFiter);
+		DrawOnTexture2DWithMaterial(dst, material2dY);
 	}
 
 }
