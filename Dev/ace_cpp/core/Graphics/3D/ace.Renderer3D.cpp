@@ -239,7 +239,7 @@ namespace ace
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					state.TextureFilterTypes[0] = TextureFilterType::Linear;
 					g->GetRenderState()->Update(false);
 
 					g->DrawPolygon(2);
@@ -261,7 +261,7 @@ namespace ace
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					state.TextureFilterTypes[0] = TextureFilterType::Linear;
 					g->GetRenderState()->Update(false);
 
 					g->DrawPolygon(2);
@@ -283,7 +283,7 @@ namespace ace
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					state.TextureFilterTypes[0] = TextureFilterType::Linear;
 					g->GetRenderState()->Update(false);
 
 					g->DrawPolygon(2);
@@ -403,7 +403,7 @@ namespace ace
 							state.DepthTest = false;
 							state.DepthWrite = false;
 							state.CullingType = CULLING_DOUBLE;
-							state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+							state.TextureFilterTypes[0] = TextureFilterType::Linear;
 							g->GetRenderState()->Update(false);
 
 							g->DrawPolygon(2);
@@ -427,7 +427,7 @@ namespace ace
 							state.DepthTest = false;
 							state.DepthWrite = false;
 							state.CullingType = CULLING_DOUBLE;
-							state.TextureFilterTypes[0] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+							state.TextureFilterTypes[0] = TextureFilterType::Linear;
 							g->GetRenderState()->Update(false);
 
 							g->DrawPolygon(2);
@@ -500,8 +500,8 @@ namespace ace
 						state.DepthWrite = false;
 						state.CullingType = CULLING_DOUBLE;
 						state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_ADD;
-						state.TextureFilterTypes[2] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
-						state.TextureFilterTypes[4] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+						state.TextureFilterTypes[2] = TextureFilterType::Linear;
+						state.TextureFilterTypes[4] = TextureFilterType::Linear;
 						g->GetRenderState()->Update(false);
 
 						g->DrawPolygon(2);
@@ -549,8 +549,8 @@ namespace ace
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
 					state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_ADD;
-					state.TextureFilterTypes[2] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
-					state.TextureFilterTypes[4] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+					state.TextureFilterTypes[2] = TextureFilterType::Linear;
+					state.TextureFilterTypes[4] = TextureFilterType::Linear;
 					g->GetRenderState()->Update(false);
 
 					g->DrawPolygon(2);
@@ -626,8 +626,8 @@ namespace ace
 				state.DepthWrite = false;
 				state.CullingType = CULLING_DOUBLE;
 				state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
-				state.TextureFilterTypes[2] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
-				state.TextureFilterTypes[4] = eTextureFilterType::TEXTURE_FILTER_LINEAR;
+				state.TextureFilterTypes[2] = TextureFilterType::Linear;
+				state.TextureFilterTypes[4] = TextureFilterType::Linear;
 				g->GetRenderState()->Update(false);
 
 				g->DrawPolygon(2);
@@ -686,7 +686,7 @@ namespace ace
 			state.DepthWrite = false;
 			state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
 			state.CullingType = ace::eCullingType::CULLING_DOUBLE;
-			state.TextureWrapTypes[0] = ace::eTextureWrapType::TEXTURE_WRAP_CLAMP;
+			state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
 			m_graphics->GetRenderState()->Update(false);
 
 			m_graphics->DrawPolygon(2);

@@ -76,14 +76,11 @@ namespace ace{
 		material->SetTexture2D(ace::ToAString("g_originalTexture").c_str(), src);
 		DrawOnTexture2DWithMaterial(copiedTexture, material);
 		
-		src->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
-
 		material2dX->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), src);
 		material2dX->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
 		material2dX->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
 		material2dX->SetFloat(ace::ToAString("g_power").c_str(), power);
-
-		tempTexture->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
+		material2dX->SetTextureFilterType(ace::ToAString("g_blurredTexture").c_str(), TextureFilterType::Linear);
 
 		DrawOnTexture2DWithMaterial(tempTexture, material2dX);
 
@@ -92,6 +89,8 @@ namespace ace{
 		material2dY->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
 		material2dY->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
 		material2dY->SetFloat(ace::ToAString("g_power").c_str(), power);
+		material2dY->SetTextureFilterType(ace::ToAString("g_blurredTexture").c_str(), TextureFilterType::Linear);
+		material2dY->SetTextureFilterType(ace::ToAString("g_originalTexture").c_str(), TextureFilterType::Linear);
 
 		DrawOnTexture2DWithMaterial(dst, material2dY);
 	}

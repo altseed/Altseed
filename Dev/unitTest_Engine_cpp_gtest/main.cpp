@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//CALL_ENGINE_TEST(Graphics, PostEffectLightBloom, false)
+	//CALL_ENGINE_TEST(Graphics, PostEffectLightBloom, true)
 	//return 0;
 
 	//TestCamera(true);

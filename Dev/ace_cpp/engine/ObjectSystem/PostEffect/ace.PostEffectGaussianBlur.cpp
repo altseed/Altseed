@@ -39,10 +39,9 @@ namespace ace{
 		weights.Y = ws[1] / total;
 		weights.Z = ws[2] / total;
 
-		src->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
-
 		material2dX->SetTexture2D(ace::ToAString("g_texture").c_str(), src);
 		material2dX->SetVector3DF(ace::ToAString("g_weight").c_str(), weights);
+		material2dX->SetTextureFilterType(ace::ToAString("g_texture").c_str(), TextureFilterType::Linear);
 
 		auto size = src->GetSize();
 		auto format = src->GetFormat();
@@ -60,13 +59,12 @@ namespace ace{
 			}
 		}
 
-		tempTexture->SetFilter(eTextureFilterType::TEXTURE_FILTER_LINEAR);
-		
 		DrawOnTexture2DWithMaterial(tempTexture, material2dX);
 		
 		material2dY->SetTexture2D(ace::ToAString("g_texture").c_str(), tempTexture);
 		material2dY->SetVector3DF(ace::ToAString("g_weight").c_str(), weights);
-		
+		material2dY->SetTextureFilterType(ace::ToAString("g_texture").c_str(), TextureFilterType::Linear);
+
 		DrawOnTexture2DWithMaterial(dst, material2dY);
 	}
 

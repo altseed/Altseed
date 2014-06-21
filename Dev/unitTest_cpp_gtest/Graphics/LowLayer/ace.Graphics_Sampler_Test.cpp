@@ -168,7 +168,7 @@ void Graphics_Sampler(bool isOpenGLMode)
 	int32_t time = 0;
 	while (window->DoEvent())
 	{
-		auto draw = [&](uint8_t r, uint8_t g, uint8_t b, uint8_t a, ace::eTextureFilterType filter, ace::eTextureWrapType wrap, ace::eAlphaBlend alphaBlend) -> void
+		auto draw = [&](uint8_t r, uint8_t g, uint8_t b, uint8_t a, ace::TextureFilterType filter, ace::TextureWrapType wrap, ace::eAlphaBlend alphaBlend) -> void
 		{
 			graphics->Clear(true, false, ace::Color(r,g,b,a));
 			graphics->SetVertexBuffer(vertexBuffer.get());
@@ -191,36 +191,36 @@ void Graphics_Sampler(bool isOpenGLMode)
 		if( time < 4  )
 		{
 			draw( 100, 10, 10, 255,
-				ace::eTextureFilterType:: TEXTURE_FILTER_LINEAR,
-				ace::eTextureWrapType::TEXTURE_WRAP_REPEAT,
+				ace::TextureFilterType::Linear,
+				ace::TextureWrapType::Repeat,
 				ace::eAlphaBlend::ALPHA_BLEND_BLEND );
 		}
 		else if (time  < 8)
 		{
 			draw( 10, 100, 10, 255,
-				ace::eTextureFilterType::TEXTURE_FILTER_NEAREST,
-				ace::eTextureWrapType::TEXTURE_WRAP_REPEAT,
+				ace::TextureFilterType::Nearest,
+				ace::TextureWrapType::Repeat,
 				ace::eAlphaBlend::ALPHA_BLEND_ADD);
 		}
 		else if (time < 12)
 		{
 			draw(200, 100, 100, 255,
-				ace::eTextureFilterType::TEXTURE_FILTER_LINEAR,
-				ace::eTextureWrapType::TEXTURE_WRAP_CLAMP,
+				ace::TextureFilterType::Linear,
+				ace::TextureWrapType::Clamp,
 				ace::eAlphaBlend::ALPHA_BLEND_SUB);
 		}
 		else if (time < 16)
 		{
 			draw(100, 200, 100, 255,
-				ace::eTextureFilterType::TEXTURE_FILTER_NEAREST,
-				ace::eTextureWrapType::TEXTURE_WRAP_CLAMP,
+				ace::TextureFilterType::Nearest,
+				ace::TextureWrapType::Clamp,
 				ace::eAlphaBlend::ALPHA_BLEND_MUL);
 		}
 		else if (time < 20)
 		{
 			draw(10, 10, 100, 255,
-				ace::eTextureFilterType::TEXTURE_FILTER_LINEAR,
-				ace::eTextureWrapType::TEXTURE_WRAP_CLAMP,
+				ace::TextureFilterType::Linear,
+				ace::TextureWrapType::Clamp,
 				ace::eAlphaBlend::ALPHA_BLEND_OPACITY);
 		}
 

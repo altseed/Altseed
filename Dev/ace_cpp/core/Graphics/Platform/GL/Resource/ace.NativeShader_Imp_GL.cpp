@@ -4,6 +4,11 @@
 //
 //----------------------------------------------------------------------------------
 #include "ace.NativeShader_Imp_GL.h"
+
+#include "../ace.Graphics_Imp_GL.h"
+
+#include "../../../Resource/ace.RenderState_Imp.h"
+
 #include "../../../../Log/ace.Log.h"
 
 //----------------------------------------------------------------------------------
@@ -185,15 +190,19 @@ void NativeShader_Imp_GL::SetConstantBuffer(const char* name, const void* data, 
 	}
 }
 
-void NativeShader_Imp_GL::SetTexture(const char* name, Texture* texture)
+void NativeShader_Imp_GL::SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType)
 {
 	auto key = std::string(name);
+	auto g = (Graphics_Imp_GL*) GetGraphics();
 
 	auto it = m_textureLayouts.find(key);
 
 	if (it != m_textureLayouts.end())
 	{
 		NativeShader_Imp::SetTexture(name, texture, (*it).second);
+
+		g->GetRenderState()->GetActiveState().TextureFilterTypes[(*it).second] = filterType;
+		g->GetRenderState()->GetActiveState().TextureWrapTypes[(*it).second] = wrapType;
 	}
 }
 

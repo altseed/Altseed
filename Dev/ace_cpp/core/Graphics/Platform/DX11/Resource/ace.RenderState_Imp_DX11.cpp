@@ -222,7 +222,7 @@ void RenderState_Imp_DX11::Update(bool forced)
 
 		if (changeSampler)
 		{
-			ID3D11SamplerState* samplerTbl [] = { m_sStates[m_next.TextureFilterTypes[i]][m_next.TextureWrapTypes[i]] };
+			ID3D11SamplerState* samplerTbl[] = { m_sStates[(int32_t) m_next.TextureFilterTypes[i]][(int32_t) m_next.TextureWrapTypes[i]] };
 			m_graphics->GetContext()->PSSetSamplers(i, 1, samplerTbl);
 		}
 	}

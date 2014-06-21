@@ -43,18 +43,6 @@ namespace ace {
 		virtual eTextureFormat GetFormat() const = 0;
 
 		/**
-		@brief	フィルタを取得する。
-		@return	フィルタ
-		*/
-		virtual eTextureFilterType GetFilter() const = 0;
-
-		/**
-		@brief	フィルタを設定する。
-		@param	filter	フィルタ
-		*/
-		virtual void SetFilter(eTextureFilterType filter) = 0;
-
-		/**
 		@brief	テクスチャをファイルに保存する。
 		@param	path	出力先
 		@return	成否

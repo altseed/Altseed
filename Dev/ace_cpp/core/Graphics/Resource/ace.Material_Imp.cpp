@@ -22,7 +22,7 @@ namespace ace {
 		{
 			if (v.second.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
 			{
-				SafeAddRef(v.second.Data.TexturePtr);
+				SafeAddRef(v.second.Data.Texture2DPtr.Ptr);
 			}
 		}
 	}
@@ -36,7 +36,7 @@ namespace ace {
 		{
 			if (v.second.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
 			{
-				SafeRelease(v.second.Data.TexturePtr);
+				SafeRelease(v.second.Data.Texture2DPtr.Ptr);
 			}
 		}
 	}
@@ -50,7 +50,7 @@ namespace ace {
 		{
 			if (v.second.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
 			{
-				SafeRelease(v.second.Data.TexturePtr);
+				SafeRelease(v.second.Data.Texture2DPtr.Ptr);
 			}
 		}
 	}
@@ -190,12 +190,12 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D* Material_Imp::GetTexture2D_Imp(const achar* name)
+	Texture2D* Material_Imp::GetTexture2D_(const achar* name)
 	{
 		if (m_values.count(name) > 0)
 		{
 			if (m_values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return nullptr;
-			auto ret = m_values[name].Data.TexturePtr;
+			auto ret = m_values[name].Data.Texture2DPtr.Ptr;
 			SafeAddRef(ret);
 			return ret;
 		}
@@ -205,19 +205,79 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Material_Imp::SetTexture2D_Imp(const achar* name, Texture2D* value)
+	void Material_Imp::SetTexture2D_(const achar* name, Texture2D* value)
 	{
 		if (m_values.count(name) > 0)
 		{
 			if (m_values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return;
-			SafeSubstitute(m_values[name].Data.TexturePtr, value);
+			SafeSubstitute(m_values[name].Data.Texture2DPtr.Ptr, value);
 		}
 		else
 		{
 			m_values[name].ValueType = SHADER_VARIABLE_TYPE_TEXTURE2D;
-			m_values[name].Data.TexturePtr = value;
+			m_values[name].Data.Texture2DPtr.Ptr = nullptr;
+			m_values[name].Data.Texture2DPtr.FilterType = TextureFilterType::Nearest;
+			m_values[name].Data.Texture2DPtr.WrapType = TextureWrapType::Clamp;
+
+			m_values[name].Data.Texture2DPtr.Ptr = value;
 			SafeAddRef(value);
 		}
+	}
+
+	TextureFilterType Material_Imp::GetTextureFilterType(const achar* name)
+	{
+		if (m_values.count(name) > 0)
+		{
+			if (m_values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return TextureFilterType::Linear;
+			auto ret = m_values[name].Data.Texture2DPtr.FilterType;
+			return ret;
+		}
+		return TextureFilterType::Linear;
+	}
+
+	void Material_Imp::SetTextureFilterType(const achar* name, TextureFilterType filter)
+	{
+		if (m_values.count(name) > 0)
+		{
+			if (m_values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return;
+		}
+		else
+		{
+			m_values[name].ValueType = SHADER_VARIABLE_TYPE_TEXTURE2D;
+			m_values[name].Data.Texture2DPtr.Ptr = nullptr;
+			m_values[name].Data.Texture2DPtr.FilterType = TextureFilterType::Nearest;
+			m_values[name].Data.Texture2DPtr.WrapType = TextureWrapType::Clamp;
+		}
+
+		m_values[name].Data.Texture2DPtr.FilterType = filter;
+	}
+
+	TextureWrapType Material_Imp::GetTextureWrapType(const achar* name)
+	{
+		if (m_values.count(name) > 0)
+		{
+			if (m_values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return TextureWrapType::Clamp;
+			auto ret = m_values[name].Data.Texture2DPtr.WrapType;
+			return ret;
+		}
+		return TextureWrapType::Clamp;
+	}
+
+	void Material_Imp::SetTextureWrapType(const achar* name, TextureWrapType wrap)
+	{
+		if (m_values.count(name) > 0)
+		{
+			if (m_values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return;
+		}
+		else
+		{
+			m_values[name].ValueType = SHADER_VARIABLE_TYPE_TEXTURE2D;
+			m_values[name].Data.Texture2DPtr.Ptr = nullptr;
+			m_values[name].Data.Texture2DPtr.FilterType = TextureFilterType::Nearest;
+			m_values[name].Data.Texture2DPtr.WrapType = TextureWrapType::Clamp;
+		}
+
+		m_values[name].Data.Texture2DPtr.WrapType = wrap;
 	}
 
 	//----------------------------------------------------------------------------------

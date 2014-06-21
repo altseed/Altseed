@@ -140,7 +140,7 @@ namespace ace {
 			state.DepthTest = false;
 			state.DepthWrite = false;
 			state.CullingType = ace::eCullingType::CULLING_DOUBLE;
-			state.TextureWrapTypes[0] = ace::eTextureWrapType::TEXTURE_WRAP_CLAMP;
+			state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
 			m_graphics->GetRenderState()->Update(false);
 
 			m_graphics->DrawPolygon(vCount / 3);

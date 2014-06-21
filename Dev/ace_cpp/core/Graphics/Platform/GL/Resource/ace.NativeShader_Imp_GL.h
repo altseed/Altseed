@@ -66,7 +66,7 @@ namespace ace {
 
 	public:
 		void SetConstantBuffer(const char* name, const void* data, int32_t size) override;
-		void SetTexture(const char* name, Texture* texture) override;
+		void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) override;
 
 		void AssignConstantBuffer();
 

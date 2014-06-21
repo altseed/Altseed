@@ -25,7 +25,14 @@ namespace ace {
 			{
 				float		Float4[4];
 				float		Mat44[16];
-				Texture2D*	TexturePtr;
+
+				struct
+				{
+					Texture2D*			Ptr;
+					TextureFilterType	FilterType;
+					TextureWrapType		WrapType;
+				} Texture2DPtr;
+				
 			} Data;
 		};
 
@@ -67,8 +74,14 @@ namespace ace {
 			@note
 			テクスチャを取得した際にテクスチャの参照カウンタが1加算される。
 		*/
-		Texture2D* GetTexture2D_Imp(const achar* name);
-		void SetTexture2D_Imp(const achar* name, Texture2D* value);
+		Texture2D* GetTexture2D_(const achar* name);
+		void SetTexture2D_(const achar* name, Texture2D* value);
+
+		TextureFilterType GetTextureFilterType(const achar* name);
+		void SetTextureFilterType(const achar* name, TextureFilterType filter);
+
+		TextureWrapType GetTextureWrapType(const achar* name);
+		void SetTextureWrapType(const achar* name, TextureWrapType wrap);
 
 	};
 

@@ -125,14 +125,11 @@ namespace ace
 			material.SetTexture2D("g_originalTexture", src);
 			DrawOnTexture2DWithMaterial(copiedTexture, material);
 
-			src.Filter = TextureFilterType.Linear;
-
 			material2dX.SetTexture2D("g_blurredTexture", src);
 			material2dX.SetVector4DF("g_weight", weights);
 			material2dX.SetFloat("g_threshold", threshold);
 			material2dX.SetFloat("g_power", power);
-
-			tempTexture.Filter = TextureFilterType.Linear;
+			material2dX.SetTextureFilterType("g_blurredTexture", TextureFilterType.Linear);
 
 			DrawOnTexture2DWithMaterial(tempTexture, material2dX);
 
@@ -141,6 +138,8 @@ namespace ace
 			material2dY.SetVector4DF("g_weight", weights);
 			material2dY.SetFloat("g_threshold", threshold);
 			material2dY.SetFloat("g_power", power);
+			material2dY.SetTextureFilterType("g_blurredTexture", TextureFilterType.Linear);
+			material2dY.SetTextureFilterType("g_originalTexture", TextureFilterType.Linear);
 
 			DrawOnTexture2DWithMaterial(dst, material2dY);
 		}

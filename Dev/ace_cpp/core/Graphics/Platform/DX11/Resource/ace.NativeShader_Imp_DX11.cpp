@@ -3,6 +3,11 @@
 //
 //----------------------------------------------------------------------------------
 #include "ace.NativeShader_Imp_DX11.h"
+
+#include "../ace.Graphics_Imp_DX11.h"
+
+#include "../../../Resource/ace.RenderState_Imp.h"
+
 #include "../../../../Log/ace.Log.h"
 
 //----------------------------------------------------------------------------------
@@ -412,7 +417,7 @@ void NativeShader_Imp_DX11::SetConstantBuffer(const char* name, const void* data
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void NativeShader_Imp_DX11::SetTexture(const char* name, Texture* texture)
+void NativeShader_Imp_DX11::SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType)
 {
 	auto key = std::string(name);
 	auto g = (Graphics_Imp_DX11*) GetGraphics();
@@ -423,11 +428,15 @@ void NativeShader_Imp_DX11::SetTexture(const char* name, Texture* texture)
 	if (it_vs != m_vs_textureLayouts.end())
 	{
 		NativeShader_Imp::SetTexture(name, texture, (*it_vs).second);
+		g->GetRenderState()->GetActiveState().TextureFilterTypes[(*it_vs).second] = filterType;
+		g->GetRenderState()->GetActiveState().TextureWrapTypes[(*it_vs).second] = wrapType;
 	}
 
 	if (it_ps != m_ps_textureLayouts.end())
 	{
 		NativeShader_Imp::SetTexture(name, texture, (*it_ps).second);
+		g->GetRenderState()->GetActiveState().TextureFilterTypes[(*it_ps).second] = filterType;
+		g->GetRenderState()->GetActiveState().TextureWrapTypes[(*it_ps).second] = wrapType;
 	}
 }
 

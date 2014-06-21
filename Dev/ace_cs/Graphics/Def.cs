@@ -59,9 +59,15 @@ namespace ace
 
     public enum TextureFilterType
     {
-		Nearest = swig.eTextureFilterType.TEXTURE_FILTER_NEAREST,
-		Linear = swig.eTextureFilterType.TEXTURE_FILTER_LINEAR,
+		Nearest = swig.TextureFilterType.Nearest,
+		Linear = swig.TextureFilterType.Linear,
     }
+
+	public enum TextureWrapType
+	{
+		Clamp = swig.TextureWrapType.Clamp,
+		Repeat = swig.TextureWrapType.Repeat,
+	}
 
 	public enum RotationOrder
 	{

@@ -96,6 +96,26 @@ namespace ace
 			SwigObject.SetTexture2D(name, value.SwigObject);
 		}
 
+		public TextureFilterType GetTextureFilterType(string name)
+		{
+			return (TextureFilterType)SwigObject.GetTextureFilterType(name); 
+		}
+
+		public void SetTextureFilterType(string name, TextureFilterType filter)
+		{
+			SwigObject.SetTextureFilterType(name, (swig.TextureFilterType)filter);
+		}
+
+		public TextureWrapType GetTextureWrapType(string name)
+		{
+			return (TextureWrapType)SwigObject.GetTextureWrapType(name);
+		}
+
+		public void SetTextureWrapType(string name, TextureWrapType wrap)
+		{
+			SwigObject.SetTextureWrapType(name, (swig.TextureWrapType)wrap);
+		}
+
 		public Shader2D GetShader2D(string name)
 		{
 			var swigObj = swig.Accessor.Material2D_GetShader2D(SwigObject);

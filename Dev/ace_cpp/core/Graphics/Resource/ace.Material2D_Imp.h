@@ -64,8 +64,14 @@ namespace ace {
 		virtual Vector4DF GetVector4DF(const achar* name) { return Material_Imp::GetVector4DF_Imp(name); }
 		virtual void SetVector4DF(const achar* name, Vector4DF value) { Material_Imp::SetVector4DF_Imp(name, value); }
 
-		Texture2D* GetTexture2D_(const achar* name) { return Material_Imp::GetTexture2D_Imp(name); }
-		void SetTexture2D(const achar* name, Texture2D* value) { return Material_Imp::SetTexture2D_Imp(name, value); }
+		Texture2D* GetTexture2D_(const achar* name) { return Material_Imp::GetTexture2D_(name); }
+		void SetTexture2D(const achar* name, Texture2D* value) { return Material_Imp::SetTexture2D_(name, value); }
+
+		TextureFilterType GetTextureFilterType(const achar* name) { return Material_Imp::GetTextureFilterType(name); }
+		void SetTextureFilterType(const achar* name, TextureFilterType filter) {  Material_Imp::SetTextureFilterType(name, filter); }
+
+		TextureWrapType GetTextureWrapType(const achar* name) { return Material_Imp::GetTextureWrapType(name); }
+		void SetTextureWrapType(const achar* name, TextureWrapType wrap) { Material_Imp::SetTextureWrapType(name, wrap); }
 
 		Shader2D* GetShader2D_();
 		void SetShader2D(Shader2D* shader);

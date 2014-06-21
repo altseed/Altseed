@@ -61,10 +61,9 @@ namespace ace
 			weights.Y = ws[1] / total;
 			weights.Z = ws[2] / total;
 
-			src.Filter = TextureFilterType.Linear;
-
 			material2dX.SetTexture2D("g_texture", src);
 			material2dX.SetVector3DF("g_weight", weights);
+			material2dX.SetTextureFilterType("g_texture", TextureFilterType.Linear);
 
 			var size = src.Size;
 			var format = src.Format;
@@ -82,12 +81,11 @@ namespace ace
 				}
 			}
 
-			tempTexture.Filter = TextureFilterType.Linear;
-
 			DrawOnTexture2DWithMaterial(tempTexture, material2dX);
 
 			material2dY.SetTexture2D("g_texture", tempTexture);
 			material2dY.SetVector3DF("g_weight", weights);
+			material2dY.SetTextureFilterType("g_texture", TextureFilterType.Linear);
 
 			DrawOnTexture2DWithMaterial(dst, material2dY);
 		}

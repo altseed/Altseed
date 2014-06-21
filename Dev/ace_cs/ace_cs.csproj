@@ -155,9 +155,7 @@
     <Compile Include="swig\eRenderedObject3DType.cs" />
     <Compile Include="swig\eRotationOrder.cs" />
     <Compile Include="swig\eTextureClassType.cs" />
-    <Compile Include="swig\eTextureFilterType.cs" />
     <Compile Include="swig\eTextureFormat.cs" />
-    <Compile Include="swig\eTextureWrapType.cs" />
     <Compile Include="swig\eVisalizedBuffer.cs" />
     <Compile Include="swig\Font.cs" />
     <Compile Include="swig\Graphics.cs" />
@@ -203,6 +201,8 @@
     <Compile Include="swig\Texture.cs" />
     <Compile Include="swig\Texture2D.cs" />
     <Compile Include="swig\Texture2D_Imp.cs" />
+    <Compile Include="swig\TextureFilterType.cs" />
+    <Compile Include="swig\TextureWrapType.cs" />
     <Compile Include="swig\Window.cs" />
     <Compile Include="swig\Window_Imp.cs" />
     <Compile Include="swig\WritingDirection.cs" />

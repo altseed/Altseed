@@ -43,6 +43,12 @@ namespace ace {
 		virtual void SetTexture2D(const achar* name, Texture2D* value) = 0;
 		virtual void SetShader2D(Shader2D* shader) = 0;
 
+		virtual TextureFilterType GetTextureFilterType(const achar* name) = 0;
+		virtual void SetTextureFilterType(const achar* name, TextureFilterType filter) = 0;
+
+		virtual TextureWrapType GetTextureWrapType(const achar* name) = 0;
+		virtual void SetTextureWrapType(const achar* name, TextureWrapType wrap) = 0;
+
 #if! SWIG
 		std::shared_ptr<Texture2D> GetTexture2D(const achar* name)
 		{
