@@ -12,13 +12,7 @@ namespace test_cs.Input
         public void Run()
         {
 			// 初期設定を行う。
-			var option = new ace.EngineOption
-			{
-				GraphicsType = ace.GraphicsType.DirectX11,
-				IsFullScreen = false
-			};
-
-            var initialized = ace.Engine.Initialize("Keyboard", 640, 480, option);
+            var initialized = ace.Engine.Initialize("Keyboard", 640, 480, new ace.EngineOption());
 
             while (ace.Engine.DoEvents())
             {

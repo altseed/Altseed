@@ -7,18 +7,18 @@ void Keyboard()
 
 	while (ace::Engine::DoEvents())
 	{
-		switch (ace::Engine::GetKeyboard()->GetKeyState(ace::eKeys::ACE_KEY_Z))
+		switch (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::Z))
 		{
-		case ace::KEYBOARD_FREE:
+		case ace::KeyboardButtonState::Free:
 			printf("Z key free\n");
 			break;
-		case ace::KEYBOARD_HOLD:
+		case ace::KeyboardButtonState::Hold:
 			printf("Z key hold\n");
 			break;
-		case ace::KEYBOARD_PULL:
+		case ace::KeyboardButtonState::Pull:
 			printf("Z key pull\n");
 			break;
-		case ace::KEYBOARD_PUSH:
+		case ace::KeyboardButtonState::Push:
 			printf("Z key push\n");
 			break;
 		}

@@ -1,4 +1,5 @@
-﻿#include <Base.h>
+﻿
+#include <Base.h>
 
 void Joystick()
 {
@@ -17,28 +18,24 @@ void Joystick()
 	}
 
 	while (ace::Engine::DoEvents())
-	{
-		
+	{		
 		ace::Joystick* joystick = ace::Engine::GetJoystickContainer()->GetJoystickAt(0);
 		switch (joystick->GetButtonState(0))
 		{
-		case ace::ACE_JOYSTICK_BUTTON_FREE:
+		case ace::JoystickButtonState::Free:
 			printf("FREE\n");
 			break;
-		case ace::ACE_JOYSTICK_BUTTON_HOLD:
+		case ace::JoystickButtonState::Hold:
 			printf("HOLD\n");
 			break;
-		case ace::ACE_JOYSTICK_BUTTON_PULL:
+		case ace::JoystickButtonState::Pull:
 			printf("PULL\n");
 			break;
-		case ace::ACE_JOYSTICK_BUTTON_PUSH:
+		case ace::JoystickButtonState::Push:
 			printf("PUSH\n");
 			break;
 		}
 
-		ace::Sleep(50);
-		
-		
 		ace::Engine::Update();
 	}
 

@@ -13,15 +13,8 @@ namespace test_cs.Sound
 	{
 		public void Run()
 		{
-			// 初期設定を行う。
-			var option = new ace.EngineOption
-			{
-				GraphicsType = ace.GraphicsType.DirectX11,
-				IsFullScreen = false
-			};
-
 			// aceを初期化する。
-			ace.Engine.Initialize("Sound", 640, 480, option);
+			ace.Engine.Initialize("Sound", 640, 480, new ace.EngineOption());
 
 			// ファイルを読み込む
 			ace.SoundSource se1 = ace.Engine.Sound.CreateSoundSource("Data/Sound/se1.wav", true);
