@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace test_cs.Input
 {
-    class MouseSample2:ISample
+    class Mouse2:ISample
     {
         [STAThread]
         public void Run()

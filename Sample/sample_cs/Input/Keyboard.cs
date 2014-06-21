@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace test_cs.Input
 {
-    class KeyboardSample:ISample
+    class Keyboard:ISample
     {
         [STAThread]
         public void Run()

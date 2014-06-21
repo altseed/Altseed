@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace test_cs.Input
 {
-    class JoystickSample:ISample
+    class Joystick:ISample
     {
         [STAThread]
         public void Run()

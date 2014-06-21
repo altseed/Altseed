@@ -9,7 +9,7 @@ namespace test_cs
 	/// <summary>
 	/// ログを Log.html に出力するサンプル。
 	/// </summary>
-	class LogSample : ISample
+	class Log : ISample
 	{
 		public void Run()
 		{

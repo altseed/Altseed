@@ -9,7 +9,7 @@ namespace test_cs.Sound
 	/// <summary>
 	/// 音を鳴らすサンプル
 	/// </summary>
-	class SoundSample : ISample
+	class Sound : ISample
 	{
 		public void Run()
 		{

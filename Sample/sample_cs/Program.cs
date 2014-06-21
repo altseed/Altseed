@@ -16,14 +16,14 @@ namespace test_cs
 				new Window.Empty(),
 				new Window.EmptyExternal(),
 
-				new LogSample(),
+				new Log(),
 
-                new Input.KeyboardSample(),
-                new Input.MouseSample1(),
-                new Input.MouseSample2(),
-                new Input.JoystickSample(),
+                new Input.Keyboard(),
+                new Input.Mouse1(),
+                new Input.Mouse2(),
+                new Input.Joystick(),
 
-				new Sound.SoundSample(),
+				new Sound.Sound(),
 
 				new Graphics.PostEffect.CustomPostEffect(),
 			};
