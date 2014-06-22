@@ -23,21 +23,21 @@ void Joystick()
 
 	// aceが進行可能かチェックする。
 	while (ace::Engine::DoEvents())
-	{		
+	{
 		//一つ目のジョイスティックの0番目のボタンの入力状態を表示する
 		ace::Joystick* joystick = ace::Engine::GetJoystickContainer()->GetJoystickAt(0);
 		switch (joystick->GetButtonState(0))
 		{
-		case ace::JoystickButtonState::Free:
+		case ace::JoystickButtonState::Free: //前フレームと本フレームで非押下
 			printf("FREE\n");
 			break;
-		case ace::JoystickButtonState::Hold:
+		case ace::JoystickButtonState::Hold: //前フレームと本フレームで押下
 			printf("HOLD\n");
 			break;
-		case ace::JoystickButtonState::Pull:
+		case ace::JoystickButtonState::Pull: //前フレームで押下、本フレームで非押下
 			printf("PULL\n");
 			break;
-		case ace::JoystickButtonState::Push:
+		case ace::JoystickButtonState::Push: //前フレームで非押下、本フレームで押下
 			printf("PUSH\n");
 			break;
 		}

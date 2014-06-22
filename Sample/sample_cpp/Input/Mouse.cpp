@@ -14,16 +14,16 @@ static void ClickTest(std::string title, const ace::MouseButtonState state)
 {
 	switch (state)
 	{
-	case ace::MouseButtonState::Free:
+	case ace::MouseButtonState::Free: //前フレームと本フレームで非押下
 		printf("State : %s : Free\n",title.c_str());
 		break;
-	case ace::MouseButtonState::Hold:
+	case ace::MouseButtonState::Hold: //前フレームと本フレームで押下
 		printf("State : %s : Hold\n", title.c_str());
 		break;
-	case ace::MouseButtonState::Pull:
+	case ace::MouseButtonState::Pull: //前フレームで押下、本フレームで非押下
 		printf("State : %s : Pull\n", title.c_str());
 		break;
-	case ace::MouseButtonState::Push:
+	case ace::MouseButtonState::Push: //前フレームで非押下、本フレームで押下
 		printf("State : %s : Push\n", title.c_str());
 		break;
 	}
