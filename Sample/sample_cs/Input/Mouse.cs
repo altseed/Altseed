@@ -6,18 +6,11 @@ using System.Threading.Tasks;
 
 namespace test_cs.Input
 {
-    class Mouse1:ISample
+    class Mouse:ISample
     {
         [STAThread]
         public void Run()
         {
-			// 初期設定を行う。
-			var option = new ace.EngineOption
-			{
-				GraphicsType = ace.GraphicsType.DirectX11,
-				IsFullScreen = false
-			};
-
             // aceを初期化する。
             var initialized = ace.Engine.Initialize("Mouse1", 640, 480, new ace.EngineOption());
 
@@ -46,6 +39,13 @@ namespace test_cs.Input
                         Console.WriteLine("Middle Push");
                         break;
                 }
+
+                /*
+                {
+                    //マウスのカーソルの位置を表示する。
+                    Console.WriteLine("(" + mouse.Position.X + "," + mouse.Position.Y + ")");
+                }
+                */
             }
             //aceを終了する。
             ace.Engine.Terminate();

@@ -53,8 +53,7 @@
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="ISample.cs" />
     <Compile Include="Log.cs" />
-    <Compile Include="Input\Mouse1.cs" />
-    <Compile Include="Input\Mouse2.cs" />
+    <Compile Include="Input\Mouse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
     <Compile Include="Sound\Sound.cs" />

@@ -19,8 +19,7 @@ namespace test_cs
 				new Log(),
 
                 new Input.Keyboard(),
-                new Input.Mouse1(),
-                new Input.Mouse2(),
+                new Input.Mouse(),
                 new Input.Joystick(),
 
 				new Sound.Sound(),
