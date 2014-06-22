@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace test_cs.Input
 {
-    class MouseSample1:ISample
+    class Mouse1:ISample
     {
         [STAThread]
         public void Run()
@@ -18,7 +18,7 @@ namespace test_cs.Input
 				IsFullScreen = false
 			};
 
-            var initialized = ace.Engine.Initialize("Mouse1", 640, 480, option);
+            var initialized = ace.Engine.Initialize("Mouse1", 640, 480, new ace.EngineOption());
 
             while (ace.Engine.DoEvents())
             {

@@ -152,12 +152,12 @@ namespace ace
 		/// <param name="eye">カメラの位置</param>
 		/// <param name="at">カメラの注視点</param>
 		/// <param name="up">カメラの上方向</param>
-		public void SetLookAtRH(ref Vector3DF eye, ref Vector3DF at, ref Vector3DF up)
+		public void SetLookAtRH(Vector3DF eye, Vector3DF at, Vector3DF up)
 		{
 			// F=正面、R=右方向、U=上方向
 			Vector3DF F = (eye - at).Normal;
-			Vector3DF R = Vector3DF.Cross(ref up, ref F).Normal;
-			Vector3DF U = Vector3DF.Cross(ref F, ref R).Normal;
+			Vector3DF R = Vector3DF.Cross(up, F).Normal;
+			Vector3DF U = Vector3DF.Cross(F, R).Normal;
 
 			fixed (float* v = Values)
 			{
@@ -176,9 +176,9 @@ namespace ace
 				v[2 * 4 + 2] = F.Z;
 				v[2 * 4 + 3] = 0.0f;
 
-				v[0 * 4 + 3] = -Vector3DF.Dot(ref R, ref eye);
-				v[1 * 4 + 3] = -Vector3DF.Dot(ref U, ref eye);
-				v[2 * 4 + 3] = -Vector3DF.Dot(ref F, ref eye);
+				v[0 * 4 + 3] = -Vector3DF.Dot(R, eye);
+				v[1 * 4 + 3] = -Vector3DF.Dot(U, eye);
+				v[2 * 4 + 3] = -Vector3DF.Dot(F, eye);
 				v[3 * 4 + 3] = 1.0f;
 			}
 		}
@@ -189,12 +189,12 @@ namespace ace
 		/// <param name="eye">カメラの位置</param>
 		/// <param name="at">カメラの注視点</param>
 		/// <param name="up">カメラの上方向</param>
-		public void SetLookAtLH(ref Vector3DF eye, ref Vector3DF at, ref Vector3DF up)
+		public void SetLookAtLH(Vector3DF eye, Vector3DF at, Vector3DF up)
 		{
 			// F=正面、R=右方向、U=上方向
 			Vector3DF F = (at - eye).Normal;
-			Vector3DF R = Vector3DF.Cross(ref up, ref F).Normal;
-			Vector3DF U = Vector3DF.Cross(ref F, ref R).Normal;
+			Vector3DF R = Vector3DF.Cross(up, F).Normal;
+			Vector3DF U = Vector3DF.Cross(F,  R).Normal;
 
 			fixed (float* v = Values)
 			{
@@ -213,9 +213,9 @@ namespace ace
 				v[2 * 4 + 2] = F.Z;
 				v[2 * 4 + 3] = 0.0f;
 
-				v[0 * 4 + 3] = -Vector3DF.Dot(ref R, ref eye);
-				v[1 * 4 + 3] = -Vector3DF.Dot(ref U, ref eye);
-				v[2 * 4 + 3] = -Vector3DF.Dot(ref F, ref eye);
+				v[0 * 4 + 3] = -Vector3DF.Dot(R, eye);
+				v[1 * 4 + 3] = -Vector3DF.Dot(U, eye);
+				v[2 * 4 + 3] = -Vector3DF.Dot(F, eye);
 				v[3 * 4 + 3] = 1.0f;
 			}
 		}
@@ -643,7 +643,7 @@ namespace ace
 		/// </summary>
 		/// <param name="in_">変形前ベクトル</param>
 		/// <returns>変形後ベクトル</returns>
-		Vector4DF Transform4D(ref Vector4DF in_)
+		Vector4DF Transform4D(Vector4DF in_)
 		{
 			float* values = stackalloc float[4];
 
@@ -681,7 +681,7 @@ namespace ace
 
 		public static Vector4DF operator *(Matrix44 left, Vector4DF right)
 		{
-			return left.Transform4D(ref right);
+			return left.Transform4D(right);
 		}
 
 		/// <summary>

@@ -261,3 +261,11 @@ master.zip
 /Dev/bin/graphics.html
 /Dev/bin/log_test.html
 Dev/bin/Data/Text/sazanami-gothic.ttf
+
+# Sample
+/Sample/cpp/include/
+/Sample/cpp/lib/
+/Sample/sample_cs/ace_cs.dll
+/Sample/sample_cs/ace_cs.XML
+
+

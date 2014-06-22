@@ -41,7 +41,7 @@ namespace ace
 		m_indexBuffer->Unlock();
 
 		// アニメーションテクスチャ
-		auto texture = g->CreateRenderTexture(io.AnimationTexture.TextureWidth, io.AnimationTexture.TextureHeight, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+		auto texture = g->CreateRenderTexture2D(io.AnimationTexture.TextureWidth, io.AnimationTexture.TextureHeight, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
 		TextureLockInfomation info;
 
 		if (texture->Lock(info))

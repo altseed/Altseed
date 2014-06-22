@@ -88,7 +88,7 @@ namespace ace
 		/// </summary>
 		/// <param name="targetIndex">対象ボーンインデックス</param>
 		/// <param name="boneToMesh">ボーンの行列をメッシュの行列に変換する行列</param>
-		public void AddBoneConnector(int targetIndex, ref Matrix44 boneToMesh)
+		public void AddBoneConnector(int targetIndex, Matrix44 boneToMesh)
 		{
 			SwigObject.AddBoneConnector(targetIndex, ref boneToMesh);
 		}

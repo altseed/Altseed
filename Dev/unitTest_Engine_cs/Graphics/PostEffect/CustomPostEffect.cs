@@ -71,31 +71,16 @@ void main()
 
 			public PostEffect(ace.Graphics g)
 			{
-				List<ace.ShaderVariableProperty> props = new List<ShaderVariableProperty>();
-				var prop_tex = new ace.ShaderVariableProperty();
-				prop_tex.Name = "g_texture";
-				prop_tex.Offset = 0;
-				prop_tex.Type = ace.ShaderVariableType.Texture2D;
-				props.Add(prop_tex);
-
-				var prop_v = new ace.ShaderVariableProperty();
-				prop_v.Name = "g_values";
-				prop_v.Offset = 0;
-				prop_v.Type = ace.ShaderVariableType.Vector3DF;
-				props.Add(prop_v);
-
 				if (g.GraphicsType == GraphicsType.DirectX11)
 				{
 					m_shader = g.CreateShader2D(
-						shader2d_dx_ps,
-						props.ToArray()
+						shader2d_dx_ps
 						);
 				}
 				else if (g.GraphicsType == GraphicsType.OpenGL)
 				{
 					m_shader = g.CreateShader2D(
-						shader2d_gl_ps,
-						props.ToArray()
+						shader2d_gl_ps
 						);
 				}
 				else

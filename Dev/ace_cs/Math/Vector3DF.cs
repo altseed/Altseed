@@ -140,7 +140,7 @@ namespace ace
 		/// <param name="v1">値1</param>
 		/// <param name="v2">値2</param>
 		/// <returns>内積</returns>
-		public static float Dot(ref Vector3DF v1, ref Vector3DF v2)
+		public static float Dot(Vector3DF v1, Vector3DF v2)
 		{
 			return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
 		}
@@ -151,7 +151,7 @@ namespace ace
 		/// <param name="v1"></param>
 		/// <param name="v2"></param>
 		/// <returns></returns>
-		public static Vector3DF Cross( ref Vector3DF v1, ref Vector3DF v2 )
+		public static Vector3DF Cross( Vector3DF v1, Vector3DF v2 )
 		{
 			Vector3DF o;
 			float x = v1.Y * v2.Z - v1.Z * v2.Y;
@@ -169,7 +169,7 @@ namespace ace
 		/// <param name="v1">値1</param>
 		/// <param name="v2">値2</param>
 		/// <returns>距離</returns>
-		public static float Distance(ref Vector3DF v1, ref Vector3DF v2)
+		public static float Distance(Vector3DF v1, Vector3DF v2)
 		{
 			float dx = v1.X - v2.X;
 			float dy = v1.Y - v2.Y;

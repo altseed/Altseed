@@ -14,7 +14,6 @@ namespace ace {
 	RenderTexture2D_Imp::RenderTexture2D_Imp(Graphics* graphics, Vector2DI size)
 		: DeviceObject(graphics)
 		, m_size(size)
-		, m_filter(eTextureFilterType::TEXTURE_FILTER_NEAREST)
 	{
 		m_type = TEXTURE_CLASS_RENDERTEXTURE2D;
 	}

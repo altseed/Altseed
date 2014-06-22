@@ -7,6 +7,15 @@
 #include "../../Graphics/Shader/DX/PostEffect/LightBloom_PS.h"
 #include "../../Graphics/Shader/GL/PostEffect/LightBloom_PS.h"
 
+#include "../../Graphics/Shader/DX/PostEffect/GrayScale_PS.h"
+#include "../../Graphics/Shader/GL/PostEffect/GrayScale_PS.h"
+
+#include "../../Graphics/Shader/DX/PostEffect/Sepia_PS.h"
+#include "../../Graphics/Shader/GL/PostEffect/Sepia_PS.h"
+
+#include "../../Graphics/Shader/DX/PostEffect/GaussianBlur_PS.h"
+#include "../../Graphics/Shader/GL/PostEffect/GaussianBlur_PS.h"
+
 namespace ace
 {
 	CorePostEffect_Imp::CorePostEffect_Imp(Graphics* graphics)
@@ -28,6 +37,20 @@ namespace ace
 		m_commands.push_back(command);
 	}
 
+	const char* CorePostEffect_Imp::GetGrayScaleShader(GraphicsType graphicsType) const
+	{
+		if (graphicsType == GraphicsType::DirectX11)
+		{
+			return grayscale_ps_dx;
+		}
+		else if (graphicsType == GraphicsType::OpenGL)
+		{
+			return grayscale_ps_gl;
+		}
+
+		return nullptr;
+	}
+
 	const char* CorePostEffect_Imp::GetLightBloomShader(GraphicsType graphicsType) const
 	{
 		if (graphicsType == GraphicsType::DirectX11)
@@ -41,4 +64,33 @@ namespace ace
 
 		return nullptr;
 	}
+
+	const char* CorePostEffect_Imp::GetSepiaShader(GraphicsType graphicsType) const
+	{
+		if (graphicsType == GraphicsType::DirectX11)
+		{
+			return sepia_ps_dx;
+		}
+		else if (graphicsType == GraphicsType::OpenGL)
+		{
+			return sepia_ps_gl;
+		}
+
+		return nullptr;
+	}
+
+	const char* CorePostEffect_Imp::GetGaussianBlurShader(GraphicsType graphicsType) const
+	{
+		if (graphicsType == GraphicsType::DirectX11)
+		{
+			return gaussianblur_ps_dx;
+		}
+		else if (graphicsType == GraphicsType::OpenGL)
+		{
+			return gaussianblur_ps_gl;
+		}
+
+		return nullptr;
+	}
+
 }

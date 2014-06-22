@@ -105,7 +105,11 @@
     <Compile Include="ObjectSystem\Layer.cs" />
     <Compile Include="ObjectSystem\2D\Layer2D.cs" />
     <Compile Include="ObjectSystem\ObjectSystemFactory.cs" />
-    <Compile Include="ObjectSystem\PostEffect.cs" />
+    <Compile Include="ObjectSystem\PostEffect\PostEffectGrayScale.cs" />
+    <Compile Include="ObjectSystem\PostEffect\PostEffect.cs" />
+    <Compile Include="ObjectSystem\PostEffect\PostEffectGaussianBlur.cs" />
+    <Compile Include="ObjectSystem\PostEffect\PostEffectLightBloom.cs" />
+    <Compile Include="ObjectSystem\PostEffect\PostEffectSepia.cs" />
     <Compile Include="ObjectSystem\Scene.cs" />
     <Compile Include="ObjectSystem\SceneComponent.cs" />
     <Compile Include="ObjectSystem\2D\TextureObject2D.cs" />
@@ -151,9 +155,7 @@
     <Compile Include="swig\eRenderedObject3DType.cs" />
     <Compile Include="swig\eRotationOrder.cs" />
     <Compile Include="swig\eTextureClassType.cs" />
-    <Compile Include="swig\eTextureFilterType.cs" />
     <Compile Include="swig\eTextureFormat.cs" />
-    <Compile Include="swig\eTextureWrapType.cs" />
     <Compile Include="swig\eVisalizedBuffer.cs" />
     <Compile Include="swig\Font.cs" />
     <Compile Include="swig\Graphics.cs" />
@@ -199,6 +201,8 @@
     <Compile Include="swig\Texture.cs" />
     <Compile Include="swig\Texture2D.cs" />
     <Compile Include="swig\Texture2D_Imp.cs" />
+    <Compile Include="swig\TextureFilterType.cs" />
+    <Compile Include="swig\TextureWrapType.cs" />
     <Compile Include="swig\Window.cs" />
     <Compile Include="swig\Window_Imp.cs" />
     <Compile Include="swig\WritingDirection.cs" />

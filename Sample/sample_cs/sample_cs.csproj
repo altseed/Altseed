@@ -49,15 +49,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />
-    <Compile Include="Input\JoystickSample.cs" />
-    <Compile Include="Input\KeyboardSample.cs" />
+    <Compile Include="Input\Joystick.cs" />
+    <Compile Include="Input\Keyboard.cs" />
     <Compile Include="ISample.cs" />
-    <Compile Include="LogSample.cs" />
-    <Compile Include="Input\MouseSample1.cs" />
-    <Compile Include="Input\MouseSample2.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="Input\Mouse1.cs" />
+    <Compile Include="Input\Mouse2.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
-    <Compile Include="Sound\SoundSample.cs" />
+    <Compile Include="Sound\Sound.cs" />
     <Compile Include="Window\Empty.cs" />
     <Compile Include="Window\EmptyExternal.cs" />
   </ItemGroup>

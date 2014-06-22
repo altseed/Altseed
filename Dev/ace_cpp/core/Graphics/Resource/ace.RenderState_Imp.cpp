@@ -28,8 +28,8 @@ void RenderState_Imp::State::Reset()
 
 	for (auto i = 0; i < TextureCount; i++)
 	{
-		TextureFilterTypes[i] = TEXTURE_FILTER_NEAREST;
-		TextureWrapTypes[i] = TEXTURE_WRAP_CLAMP;
+		TextureFilterTypes[i] = TextureFilterType::Nearest;
+		TextureWrapTypes[i] = TextureWrapType::Clamp;
 	}
 }
 

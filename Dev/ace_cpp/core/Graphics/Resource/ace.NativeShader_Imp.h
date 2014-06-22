@@ -65,6 +65,8 @@ namespace ace {
 
 		virtual void SetConstantBuffer(const char* name, const void* data, int32_t size) = 0;
 
+		virtual void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) = 0;
+
 		virtual void AssignConstantBuffer() = 0;
 
 		const achar* GetKey() { return m_key.c_str(); }

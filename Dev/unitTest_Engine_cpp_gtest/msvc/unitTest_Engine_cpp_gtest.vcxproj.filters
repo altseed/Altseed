@@ -12,12 +12,6 @@
     <ClCompile Include="..\Graphics\PostEffect\CustomPostEffect.cpp">
       <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScaleTest.cpp">
-      <Filter>Graphics\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Graphics\PostEffect\PostEffectSepiaTest.cpp">
-      <Filter>Graphics\PostEffect</Filter>
-    </ClCompile>
     <ClCompile Include="..\ObjectSystem\LayerComponent.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
@@ -30,9 +24,6 @@
     <ClCompile Include="..\EngineTest.cpp" />
     <ClCompile Include="..\ObjectSystem\LayerHasNoObject.cpp">
       <Filter>ObjectSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlurTest.cpp">
-      <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
     <ClCompile Include="..\Graphics\3D\SimpleMesh.cpp">
       <Filter>Graphics\3D</Filter>
@@ -85,6 +76,17 @@
     </ClCompile>
     <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp">
       <Filter>Graphics\2D</Filter>
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectLightBloom.cpp">
+      <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlur.cpp">
+      <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScale.cpp">
+      <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\PostEffect\PostEffectSepia.cpp">
+      <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

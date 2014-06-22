@@ -45,6 +45,8 @@ namespace ace {
 		std::map < std::string, ConstantLayout>	m_constantLayouts;
 		uint8_t*								m_constantBuffer;
 
+		std::map<std::string, int32_t> m_textureLayouts;
+
 		NativeShader_Imp_GL(
 			Graphics* graphics, 
 			GLuint program, 
@@ -63,7 +65,8 @@ namespace ace {
 		void CreatePixelConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info);
 
 	public:
-		void SetConstantBuffer(const char* name, const void* data, int32_t size);
+		void SetConstantBuffer(const char* name, const void* data, int32_t size) override;
+		void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) override;
 
 		void AssignConstantBuffer();
 

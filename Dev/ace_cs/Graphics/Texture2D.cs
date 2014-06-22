@@ -84,11 +84,5 @@ namespace ace
 		{
 			get { return (TextureFormat)SwigObject.GetFormat(); }
 		}
-
-		public TextureFilterType Filter
-		{
-			get { return (TextureFilterType)SwigObject.GetFilter();}
-			set { SwigObject.SetFilter((swig.eTextureFilterType)value); }
-		}
 	}
 }

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ace;
 
 namespace test_cs.Graphics.PostEffect
 {
@@ -58,7 +57,7 @@ void main()
 		outputedColor.b = 1.0 - outputedColor.b;
 	}
 
-	gl_FragColor = outputedColor; 
+	outOutput = outputedColor; 
 }
 
 ";
@@ -66,36 +65,21 @@ void main()
 		class PostEffect : ace.PostEffect
 		{
 
-			Shader2D m_shader;
-			Material2D m_material2d;
+			ace.Shader2D m_shader;
+			ace.Material2D m_material2d;
 
 			public PostEffect(ace.Graphics g)
 			{
-				List<ace.ShaderVariableProperty> props = new List<ShaderVariableProperty>();
-				var prop_tex = new ace.ShaderVariableProperty();
-				prop_tex.Name = "g_texture";
-				prop_tex.Offset = 0;
-				prop_tex.Type = ace.ShaderVariableType.Texture2D;
-				props.Add(prop_tex);
-
-				var prop_v = new ace.ShaderVariableProperty();
-				prop_v.Name = "g_values";
-				prop_v.Offset = 0;
-				prop_v.Type = ace.ShaderVariableType.Vector3DF;
-				props.Add(prop_v);
-				
-				if (g.GraphicsType == GraphicsType.DirectX11)
+				if (g.GraphicsType == ace.GraphicsType.DirectX11)
 				{
 					m_shader = g.CreateShader2D(
-						shader2d_dx_ps,
-						props.ToArray()
+						shader2d_dx_ps
 						);
 				}
-				else if (g.GraphicsType == GraphicsType.OpenGL)
+				else if (g.GraphicsType == ace.GraphicsType.OpenGL)
 				{
 					m_shader = g.CreateShader2D(
-						shader2d_gl_ps,
-						props.ToArray()
+						shader2d_gl_ps
 						);
 				}
 				else
@@ -109,7 +93,7 @@ void main()
 			public override void OnDraw(ace.RenderTexture2D dst, ace.RenderTexture2D src)
 			{
 				m_material2d.SetTexture2D("g_texture", src);
-				m_material2d.SetVector3DF("g_values", new Vector3DF(640,480,200));
+				m_material2d.SetVector3DF("g_values", new ace.Vector3DF(640, 480, 200));
 
 				DrawOnTexture2DWithMaterial(dst, m_material2d);
 			}
@@ -117,26 +101,26 @@ void main()
 
 		public void Run()
 		{
-			Engine.Initialize("CustomPostEffect", 640, 480, new EngineOption());
+			ace.Engine.Initialize("CustomPostEffect", 640, 480, new ace.EngineOption());
 
-			var scene = new Scene();
-			var layer = new Layer2D();
-			var obj = new TextureObject2D()
+			var scene = new ace.Scene();
+			var layer = new ace.Layer2D();
+			var obj = new ace.TextureObject2D()
 			{
-				Texture = Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png"),
+				Texture = ace.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png"),
 			};
 
 			layer.AddObject(obj);
-			layer.AddPostEffect(new PostEffect(Engine.Graphics));
+			layer.AddPostEffect(new PostEffect(ace.Engine.Graphics));
 			scene.AddLayer(layer);
-			Engine.ChangeScene(scene);
+			ace.Engine.ChangeScene(scene);
 
-			while (Engine.DoEvents())
+			while (ace.Engine.DoEvents())
 			{
-				Engine.Update();
+				ace.Engine.Update();
 			}
 
-			Engine.Terminate();
+			ace.Engine.Terminate();
 		}
 
 	}

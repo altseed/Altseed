@@ -132,19 +132,16 @@ namespace ace {
 		ALPHA_BLEND_DWORD = 0x7fffffff,
 	};
 
-	enum eTextureFilterType
+	enum class TextureFilterType : int32_t
 	{
-		TEXTURE_FILTER_NEAREST = 0,
-		TEXTURE_FILTER_LINEAR = 1,
-		TEXTURE_FILTER_DWORD = 0x7fffffff,
+		Nearest = 0,
+		Linear = 1,
 	};
 
-	enum eTextureWrapType
+	enum class TextureWrapType : int32_t
 	{
-		TEXTURE_WRAP_REPEAT = 0,
-		TEXTURE_WRAP_CLAMP = 1,
-
-		TEXTURE_WRAP_DWORD = 0x7fffffff,
+		Repeat = 0,
+		Clamp = 1,
 	};
 
 	enum eCullingType
@@ -193,6 +190,7 @@ namespace ace {
 		SHADER_VARIABLE_TYPE_FLOAT,
 		SHADER_VARIABLE_TYPE_VECTOR2DF,
 		SHADER_VARIABLE_TYPE_VECTOR3DF,
+		SHADER_VARIABLE_TYPE_VECTOR4DF,
 		SHADER_VARIABLE_TYPE_TEXTURE2D,
 	};
 

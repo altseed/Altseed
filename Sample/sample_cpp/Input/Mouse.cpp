@@ -8,24 +8,23 @@ static void GetPositionTest(ace::Mouse* mouse)
 	printf("Cursor Position:(%f,%f)\n", v.X, v.Y);
 }
 
-static void ClickTest(std::string title, const ace::eMouseButtonState state)
+static void ClickTest(std::string title, const ace::MouseButtonState state)
 {
 	switch (state)
 	{
-	case ace::eMouseButtonState::MOUSE_FREE:
+	case ace::MouseButtonState::Free:
 		printf("State : %s : Free\n",title.c_str());
 		break;
-	case ace::eMouseButtonState::MOUSE_HOLD:
+	case ace::MouseButtonState::Hold:
 		printf("State : %s : Hold\n", title.c_str());
 		break;
-	case ace::eMouseButtonState::MOUSE_PULL:
+	case ace::MouseButtonState::Pull:
 		printf("State : %s : Pull\n", title.c_str());
 		break;
-	case ace::eMouseButtonState::MOUSE_PUSH:
+	case ace::MouseButtonState::Push:
 		printf("State : %s : Push\n", title.c_str());
 		break;
 	}
-	ace::Sleep(100);
 }
 
 static void WheelTest(ace::Mouse *mouse)

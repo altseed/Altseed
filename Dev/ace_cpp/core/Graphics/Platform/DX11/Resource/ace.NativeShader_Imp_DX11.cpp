@@ -3,6 +3,11 @@
 //
 //----------------------------------------------------------------------------------
 #include "ace.NativeShader_Imp_DX11.h"
+
+#include "../ace.Graphics_Imp_DX11.h"
+
+#include "../../../Resource/ace.RenderState_Imp.h"
+
 #include "../../../../Log/ace.Log.h"
 
 //----------------------------------------------------------------------------------
@@ -276,6 +281,19 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 		m_ps_constantLayouts[l.Name] = l;
 	}
 
+	for (auto i = 0; i < vs_textures.size(); i++)
+	{
+		if (vs_textures[i] == "") continue;
+		m_vs_textureLayouts[vs_textures[i]] = i;
+	}
+
+	for (auto i = 0; i < ps_textures.size(); i++)
+	{
+		if (ps_textures[i] == "") continue;
+		m_ps_textureLayouts[ps_textures[i]] = i;
+	}
+
+
 	if (vs_uniformBufferSize > 0)
 	{
 		vs_uniformBufferSize = (vs_uniformBufferSize / 16 + 1) * 16;
@@ -382,7 +400,7 @@ void NativeShader_Imp_DX11::SetConstantBuffer(const char* name, const void* data
 	if (it_vs != m_vs_constantLayouts.end())
 	{
 		auto size_ = GetBufferSize(it_vs->second.Type, it_vs->second.Count);
-		assert(size == size_);
+		if (size != size_) return;
 
 		memcpy(&(m_vertexConstantBuffer[it_vs->second.Offset]), data, size);
 	}
@@ -390,9 +408,35 @@ void NativeShader_Imp_DX11::SetConstantBuffer(const char* name, const void* data
 	if (it_ps != m_ps_constantLayouts.end())
 	{
 		auto size_ = GetBufferSize(it_ps->second.Type, it_ps->second.Count);
-		assert(size == size_);
+		if (size != size_) return;
 
 		memcpy(&(m_pixelConstantBuffer[it_ps->second.Offset]), data, size);
+	}
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void NativeShader_Imp_DX11::SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType)
+{
+	auto key = std::string(name);
+	auto g = (Graphics_Imp_DX11*) GetGraphics();
+
+	auto it_vs = m_vs_textureLayouts.find(key);
+	auto it_ps = m_ps_textureLayouts.find(key);
+
+	if (it_vs != m_vs_textureLayouts.end())
+	{
+		NativeShader_Imp::SetTexture(name, texture, (*it_vs).second);
+		g->GetRenderState()->GetActiveState().TextureFilterTypes[(*it_vs).second] = filterType;
+		g->GetRenderState()->GetActiveState().TextureWrapTypes[(*it_vs).second] = wrapType;
+	}
+
+	if (it_ps != m_ps_textureLayouts.end())
+	{
+		NativeShader_Imp::SetTexture(name, texture, (*it_ps).second);
+		g->GetRenderState()->GetActiveState().TextureFilterTypes[(*it_ps).second] = filterType;
+		g->GetRenderState()->GetActiveState().TextureWrapTypes[(*it_ps).second] = wrapType;
 	}
 }
 

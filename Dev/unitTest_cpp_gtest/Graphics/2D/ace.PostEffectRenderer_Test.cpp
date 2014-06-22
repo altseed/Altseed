@@ -57,7 +57,7 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log, false);
 	ASSERT_TRUE(graphics != nullptr);
 
-	auto rtex = graphics->CreateRenderTexture(640, 480, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+	auto rtex = graphics->CreateRenderTexture2D(640, 480, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 	ASSERT_TRUE(rtex != nullptr);
 
 	auto renderer = ace::PostEffectRenderer::Create(graphics);
@@ -81,16 +81,14 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	if (graphics->GetGraphicsType() == ace::GraphicsType::DirectX11)
 	{
 		shader = graphics->CreateShader2D(
-			ace::ToAString(shader2d_dx_ps).c_str(),
-			props
+			ace::ToAString(shader2d_dx_ps).c_str()
 			);
 	}
 	else if (graphics->GetGraphicsType() == ace::GraphicsType::OpenGL)
 	{
 		std::vector<ace::ShaderVariableProperty> prop;
 		shader = graphics->CreateShader2D(
-			ace::ToAString(shader2d_gl_ps).c_str(),
-			props
+			ace::ToAString(shader2d_gl_ps).c_str()
 			);
 	}
 	else

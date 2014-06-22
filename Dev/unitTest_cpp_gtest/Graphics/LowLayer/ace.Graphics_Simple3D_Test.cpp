@@ -220,7 +220,7 @@ void Graphics_Simple3D(bool isOpenGLMode)
 		state.DepthTest = true;
 		state.DepthWrite = true;
 		state.CullingType = ace::eCullingType::CULLING_FRONT;
-		state.TextureWrapTypes[0] = ace::eTextureWrapType::TEXTURE_WRAP_CLAMP;
+		state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
 		graphics->GetRenderState()->Update(false);
 
 		graphics->DrawPolygon(2*6);

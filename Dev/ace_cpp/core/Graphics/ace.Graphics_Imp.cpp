@@ -394,21 +394,9 @@ void Graphics_Imp::EndRenderingThread()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Shader2D* Graphics_Imp::CreateShader2D_(
-	const achar* shaderText,
-	ShaderVariableProperty* variableProperties,
-	int32_t variablePropertiesCount)
+Shader2D* Graphics_Imp::CreateShader2D_(const achar* shaderText)
 {
-	std::vector <ShaderVariableProperty> pProp;
-
-	for (int32_t i = 0; i < variablePropertiesCount; i++)
-	{
-		pProp.push_back(variableProperties[i]);
-	}
-
-	return CreateShader2D_Imp(
-		shaderText,
-		pProp);
+	return CreateShader2D_Imp(shaderText);
 }
 
 //----------------------------------------------------------------------------------
@@ -559,17 +547,9 @@ Texture2D_Imp* Graphics_Imp::CreateEmptyTexture2D_Imp(int32_t width, int32_t hei
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Shader2D_Imp* Graphics_Imp::CreateShader2D_Imp(
-	const achar* shaderText,
-	std::vector <ShaderVariableProperty>& variableProperties)
+Shader2D_Imp* Graphics_Imp::CreateShader2D_Imp(const achar* shaderText)
 {
-	auto shader = Shader2D_Imp::Create(
-		this,
-		shaderText,
-		ToAString("").c_str(),
-		variableProperties,
-		m_log
-		);
+	auto shader = Shader2D_Imp::Create(this,shaderText,ToAString("").c_str(),m_log);
 
 	return shader;
 }

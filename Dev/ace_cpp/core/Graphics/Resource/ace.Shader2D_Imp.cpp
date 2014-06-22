@@ -40,14 +40,15 @@ VS_Output main( const VS_Input Input )
 )";
 
 static const char* shader2d_gl_vs = R"(
+#version 330
 
-attribute vec3 Pos;
-attribute vec2 UV;
-attribute vec4 Color;
+in vec3 Pos;
+in vec2 UV;
+in vec4 Color;
 
-varying vec4 inPos;
-varying vec2 inUV;
-varying vec4 inColor;
+out vec4 inPos;
+out vec2 inUV;
+out vec4 inColor;
 
 void main()
 {
@@ -85,11 +86,12 @@ return Output;
 */
 
 static const char* shader2d_gl_ps_pre = R"(
+#version 330
+in vec4 inPos;
+in vec2 inUV;
+in vec4 inColor;
 
-varying vec4 inPos;
-varying vec2 inUV;
-varying vec4 inColor;
-
+out vec4 outOutput;
 
 )";
 
@@ -181,8 +183,8 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 		auto vInfo = genInfo(vertexVariableProperties);
 		auto pInfo = genInfo(pixelVariableProperties);
 
-		shader->CreateVertexConstantBuffer(vConstantSize, vInfo);
-		shader->CreatePixelConstantBuffer(pConstantSize, pInfo);
+		//shader->CreateVertexConstantBuffer(vConstantSize, vInfo);
+		//shader->CreatePixelConstantBuffer(pConstantSize, pInfo);
 
 		m_shader = shader;
 		m_vertexVariableProperties = vertexVariableProperties;
@@ -204,10 +206,10 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 		Graphics* graphics,
 		const achar* shaderText,
 		const achar* shaderFileName,
-		std::vector <ShaderVariableProperty>& pixelVariableProperties,
 		Log* log)
 	{
 		std::vector <ShaderVariableProperty> vertexVariableProperties;
+		std::vector <ShaderVariableProperty> pixelVariableProperties;
 
 		auto g = (Graphics_Imp*) graphics;
 

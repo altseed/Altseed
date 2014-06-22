@@ -32,51 +32,35 @@ namespace ace {
 	void Material2DCommand::SetValueToShader()
 	{
 		auto& shader = m_shader;
-		auto vbuf = m_shader->GetNativeShader()->GetVertexConstantBuffer();
-		auto pbuf = m_shader->GetNativeShader()->GetPixelConstantBuffer();
 
-		auto g = (Graphics_Imp*) shader->GetNativeShader()->GetGraphics();
-		auto& state = g->GetRenderState()->GetActiveState();
-
-		auto setValuesTo = [&](uint8_t* buf, decltype(shader->GetVertexVariableProperties())& props) -> void
+		for (auto& value : m_values)
 		{
-			for (auto& i : props)
+			auto key = ToUtf8String(value.first.c_str());
+			if (value.second.ValueType == SHADER_VARIABLE_TYPE_FLOAT)
 			{
-				if (m_values.count(i.Name) > 0)
-				{
-					auto& v = m_values[i.Name];
-
-					if (i.Type == SHADER_VARIABLE_TYPE_FLOAT &&
-						v.ValueType == SHADER_VARIABLE_TYPE_FLOAT)
-					{
-						memcpy(&(buf[i.Offset]), v.Data.Float4, sizeof(float));
-					}
-					else if (i.Type == SHADER_VARIABLE_TYPE_VECTOR2DF &&
-						v.ValueType == SHADER_VARIABLE_TYPE_VECTOR2DF)
-					{
-						memcpy(&(buf[i.Offset]), v.Data.Float4, sizeof(float) * 2);
-					}
-					else if (i.Type == SHADER_VARIABLE_TYPE_VECTOR3DF &&
-						v.ValueType == SHADER_VARIABLE_TYPE_VECTOR3DF)
-					{
-						memcpy(&(buf[i.Offset]), v.Data.Float4, sizeof(float) * 3);
-					}
-					else if (i.Type == SHADER_VARIABLE_TYPE_TEXTURE2D &&
-						v.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
-					{
-						shader->GetNativeShader()->SetTexture(
-							ToUtf8String(i.Name.c_str()).c_str(),
-							v.Data.TexturePtr,
-							i.Offset);
-
-						state.TextureFilterTypes[i.Offset] = v.Data.TexturePtr->GetFilter();
-					}
-				}
+				shader->GetNativeShader()->SetFloat(key.c_str(), value.second.Data.Float4[0]);
 			}
-		};
-
-		//setValuesTo(vbuf, shader->GetVertexVariableProperties());
-		setValuesTo(pbuf, shader->GetPixelVariableProperties());
+			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_VECTOR2DF)
+			{
+				shader->GetNativeShader()->SetVector2DF(key.c_str(), Vector2DF(value.second.Data.Float4[0], value.second.Data.Float4[1]));
+			}
+			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_VECTOR3DF)
+			{
+				shader->GetNativeShader()->SetVector3DF(key.c_str(), Vector3DF(value.second.Data.Float4[0], value.second.Data.Float4[1], value.second.Data.Float4[2]));
+			}
+			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_VECTOR4DF)
+			{
+				shader->GetNativeShader()->SetVector4DF(key.c_str(), Vector4DF(value.second.Data.Float4[0], value.second.Data.Float4[1], value.second.Data.Float4[2], value.second.Data.Float4[3]));
+			}
+			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
+			{
+				shader->GetNativeShader()->SetTexture(
+					key.c_str(),
+					value.second.Data.Texture2DPtr.Ptr, 
+					value.second.Data.Texture2DPtr.FilterType, 
+					value.second.Data.Texture2DPtr.WrapType);
+			}
+		}
 	}
 
 	//----------------------------------------------------------------------------------

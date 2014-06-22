@@ -39,7 +39,6 @@ namespace ace {
 
 		Vector2DI	m_size;
 
-		eTextureFilterType	m_filter;
 		eTextureFormat		m_format;
 
 		Texture2D_Imp(Graphics* graphics);
@@ -48,9 +47,6 @@ namespace ace {
 
 		Vector2DI GetSize() const { return m_size; }
 		eTextureFormat GetFormat() const override { return m_format; }
-
-		eTextureFilterType GetFilter() const { return m_filter; }
-		void SetFilter(eTextureFilterType filter) { m_filter = filter; }
 
 	// リロード
 #if !SWIG

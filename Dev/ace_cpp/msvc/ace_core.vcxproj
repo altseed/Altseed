@@ -266,7 +266,10 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Screen_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GaussianBlur_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GrayScale_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\Sepia_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\LayerRenderer_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\LayerRenderer_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_PS.h" />
@@ -280,7 +283,10 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Model_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Paste_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Screen_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GaussianBlur_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GrayScale_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\Sepia_PS.h" />
     <ClInclude Include="..\core\Input\ace.IMouseButtonState.h" />
     <ClInclude Include="..\core\Input\ace.IMouseWheelableButtonState.h" />
     <ClInclude Include="..\core\Input\ace.Joystick.h" />

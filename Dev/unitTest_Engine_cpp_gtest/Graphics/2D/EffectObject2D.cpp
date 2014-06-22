@@ -15,7 +15,7 @@ public:
 	}
 
 private:
-	shared_ptr<EffectObject2D> m_effectObj;
+	shared_ptr<EffectObject2D> effectObj;
 
 protected:
 	void OnStart()
@@ -23,18 +23,18 @@ protected:
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 		auto effect = ace::Engine::GetGraphics()->CreateEffect(ace::ToAString("Data/Effect/Laser01.efk").c_str());
-		m_effectObj = make_shared<EffectObject2D>();
+		effectObj = make_shared<EffectObject2D>();
 	
-		layer->AddObject(m_effectObj);
+		layer->AddObject(effectObj);
 		scene->AddLayer(layer);
 		ace::Engine::ChangeScene(scene);
 
-		m_effectObj->SetPosition(ace::Vector2DF(320, 240));
-		m_effectObj->SetScale(ace::Vector2DF(20, 20));
-		m_effectObj->SetEffectRotation(90);
+		effectObj->SetPosition(ace::Vector2DF(320, 240));
+		effectObj->SetScale(ace::Vector2DF(20, 20));
+		effectObj->SetEffectRotation(90);
 
-		m_effectObj->SetEffect(effect);
-		m_effectObj->Play();
+		effectObj->SetEffect(effect);
+		effectObj->Play();
 	}
 
 	void OnUpdating()

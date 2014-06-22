@@ -35,6 +35,9 @@ namespace ace {
 		std::map < std::string, ConstantLayout>	m_vs_constantLayouts;
 		std::map < std::string, ConstantLayout>	m_ps_constantLayouts;
 
+		std::map<std::string, int32_t> m_vs_textureLayouts;
+		std::map<std::string, int32_t> m_ps_textureLayouts;
+
 		static ID3DBlob* CompileVertexShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 		static ID3DBlob* CompilePixelShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 
@@ -59,7 +62,8 @@ namespace ace {
 			);
 		virtual ~NativeShader_Imp_DX11();
 
-		void SetConstantBuffer(const char* name, const void* data, int32_t size);
+		void SetConstantBuffer(const char* name, const void* data, int32_t size) override;
+		void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) override;
 
 		void AssignConstantBuffer();
 
