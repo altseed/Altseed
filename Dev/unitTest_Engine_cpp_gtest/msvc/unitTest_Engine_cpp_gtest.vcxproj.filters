@@ -76,6 +76,7 @@
     </ClCompile>
     <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp">
       <Filter>Graphics\2D</Filter>
+	</ClCompile>
     <ClCompile Include="..\Graphics\PostEffect\PostEffectLightBloom.cpp">
       <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
