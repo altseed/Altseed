@@ -12,7 +12,7 @@ namespace test_cs.Input
         public void Run()
         {
             // aceを初期化する。
-            var initialized = ace.Engine.Initialize("Mouse1", 640, 480, new ace.EngineOption());
+            var initialized = ace.Engine.Initialize("Mouse", 640, 480, new ace.EngineOption());
 
             //aceが続行可能か調べる。
             while (ace.Engine.DoEvents())
