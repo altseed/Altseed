@@ -139,16 +139,29 @@ namespace ace
 			}
 
 			OnUpdating();
-
-			foreach( var item in objects_ )
-			{
-				item.Update();
-			}
-			objects_.RemoveAll( _ => !_.IsAlive );
-
+			UpdateObjects();
 			UpdateComponents();
 
 			OnUpdated();
+		}
+
+		private void UpdateObjects()
+		{
+			foreach (var item in objects_)
+			{
+				item.Update();
+				if(!item.IsAlive)
+				{
+					beVanished.Add(item);
+				}
+			}
+			
+			foreach(var o in beVanished)
+			{
+				RemoveObject(o);
+			}
+
+			beVanished.Clear();
 		}
 
 		private void UpdateComponents()
@@ -190,5 +203,7 @@ namespace ace
 		private List<Object2D> objects_ { get; set; }
 
 		private Dictionary<string, Layer2DComponent> components_ { get; set; }
+
+		List<Object2D> beVanished = new List<Object2D>();
 	}
 }

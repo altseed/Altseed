@@ -103,6 +103,8 @@ namespace ace
 			o->OnRemoving(m_renderer);
 		}
 
+		object->SetLayer(nullptr);
+
 		if (object->GetObjectType() == eObject2DType::RENDERED_OBJECT2D_TYPE_CAMERA)
 		{
 			auto camera = (CoreCameraObject2D*)object;
@@ -114,8 +116,6 @@ namespace ace
 			m_objects.remove(object);
 			SafeRelease(object);
 		}
-
-		object->SetLayer(nullptr);
 	}
 
 	//----------------------------------------------------------------------------------

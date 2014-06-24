@@ -50,8 +50,6 @@ namespace ace
 
 	void Layer2D::UpdateObjects()
 	{
-		auto beVanished = vector<Object2D::Ptr>();
-
 		for (auto& object : m_objects)
 		{
 			object->Update();
@@ -65,6 +63,8 @@ namespace ace
 		{
 			RemoveObject(object);
 		}
+
+		beVanished.clear();
 	}
 
 	//----------------------------------------------------------------------------------

@@ -44,10 +44,15 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreTextureObject2D_Imp::SetTexture(Texture2D* texture)
 	{
-		SafeRelease(m_texture);
-		m_texture = texture;
-		SafeAddRef(texture);
-		SetSrc(RectF(0, 0, texture->GetSize().X, texture->GetSize().Y));
+		SafeSubstitute(m_texture, texture);
+		if (texture != nullptr)
+		{
+			SetSrc(RectF(0, 0, texture->GetSize().X, texture->GetSize().Y));
+		}
+		else
+		{
+			m_src = RectF(0, 0, 1, 1);
+		}
 	}
 
 	RectF CoreTextureObject2D_Imp::GetSrc() const

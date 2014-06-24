@@ -153,12 +153,24 @@ namespace ace
 
 			OnUpdating();
 
+			var beVanished = new List<Object3D>();
+
 			foreach (var item in objects_)
 			{
 				item.Update();
+				if(!item.IsAlive)
+				{
+					beVanished.Add(item);
+				}
 			}
 			
-			objects_.RemoveAll(_ => !_.IsAlive);
+			foreach(var o in beVanished)
+			{
+				RemoveObject(o);
+			}
+
+			beVanished.Clear();
+		
 
 			OnUpdated();
 		}
