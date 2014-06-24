@@ -8,7 +8,7 @@
 * ace\_cs.dll
 * ace\_core.dll
 
-[https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing](Download)
+[Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)
 
 現在、ここからACE本体をダウンロードできます。
 
