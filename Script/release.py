@@ -1,7 +1,10 @@
 
 import aceutils
+import datetime
 
-targetDir = r'ACE140315'
+d = datetime.datetime.today()
+
+targetDir = 'ACE' + str(d.year).zfill(4) + str(d.month).zfill(2) + str(d.day).zfill(2)
 
 aceutils.cdToScript()
 aceutils.cd(r'../')
