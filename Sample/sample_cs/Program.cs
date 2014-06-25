@@ -24,6 +24,7 @@ namespace test_cs
 
 				new Sound.Sound(),
 
+				new Graphics.PostEffect.PostEffect(),
 				new Graphics.PostEffect.CustomPostEffect(),
 			};
 

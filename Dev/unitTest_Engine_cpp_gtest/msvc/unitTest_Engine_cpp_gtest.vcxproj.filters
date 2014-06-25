@@ -43,9 +43,6 @@
     <ClCompile Include="..\ObjectSystem\Camera.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\3D\Effect3D.cpp">
-      <Filter>Graphics\3D</Filter>
-    </ClCompile>
     <ClCompile Include="..\ObjectSystem\SetSourceOfTexture.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
@@ -76,7 +73,7 @@
     </ClCompile>
     <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp">
       <Filter>Graphics\2D</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="..\Graphics\PostEffect\PostEffectLightBloom.cpp">
       <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
@@ -88,6 +85,9 @@
     </ClCompile>
     <ClCompile Include="..\Graphics\PostEffect\PostEffectSepia.cpp">
       <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\3D\EffectObject3D.cpp">
+      <Filter>Graphics\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

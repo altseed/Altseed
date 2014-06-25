@@ -1,12 +1,12 @@
 ﻿
 #include "../../EngineTest.h"
 
-class Graphics_Effect3D : public EngineTest
+class Graphics_EffectObject3D : public EngineTest
 {
 public:
 
-	Graphics_Effect3D(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("Effect3D"), isOpenGLMode, 20)
+	Graphics_EffectObject3D(bool isOpenGLMode) :
+		EngineTest(ace::ToAString("EffectObject3D"), isOpenGLMode, 20)
 	{}
 
 protected:
@@ -41,4 +41,4 @@ protected:
 	}
 };
 
-ENGINE_TEST(Graphics, Effect3D)
+ENGINE_TEST(Graphics, EffectObject3D)

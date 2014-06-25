@@ -36,7 +36,7 @@ extern void ObjectSystem_Text2DTest_(bool isOpenGLMode);
 
 extern void ObjectSystem_Map2DTest_(bool isGL);
 
-EXTERN_ENGINE_TEST(Graphics, Effect3D)
+EXTERN_ENGINE_TEST(Graphics, EffectObject3D)
 EXTERN_ENGINE_TEST(Graphics, SimpleMesh)
 EXTERN_ENGINE_TEST(Graphics, ModelObject3D)
 

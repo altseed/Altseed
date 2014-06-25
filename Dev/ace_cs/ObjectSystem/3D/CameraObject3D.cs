@@ -110,7 +110,7 @@ namespace ace
 		/// <summary>
 		/// ポストエフェクトを全て消去する。
 		/// </summary>
-		public void ClearPostEffect()
+		public void ClearPostEffects()
 		{
 			postEffects.Clear();
 		}

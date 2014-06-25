@@ -21,6 +21,9 @@
     <ClCompile Include="..\Sound\Sound.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\PostEffect\PostEffect.cpp">
+      <Filter>Graphics\PostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">
@@ -31,6 +34,12 @@
     </Filter>
     <Filter Include="Sound">
       <UniqueIdentifier>{430850be-6470-4f64-ae8a-4edb291f8f18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{fda98404-d5cd-4870-bcd2-7ab7cd7b68d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\PostEffect">
+      <UniqueIdentifier>{d7f17293-1e97-4c96-8b32-7d0354c56c8c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

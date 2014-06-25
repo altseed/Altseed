@@ -16,6 +16,8 @@ extern void Mouse();
 extern void Joystick();
 extern void Sound();
 
+extern void PostEffect();
+
 int main(int argc, char** argv)
 {
 #if _WIN32
@@ -33,6 +35,9 @@ int main(int argc, char** argv)
 		INFO(Joystick),
 
 		INFO(Sound),
+
+		INFO(PostEffect),
+
 	};
 
 	auto cui = SampleGuide(samples);

@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />
+    <Compile Include="Graphics\PostEffect\PostEffect.cs" />
     <Compile Include="Input\Joystick.cs" />
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="ISample.cs" />
