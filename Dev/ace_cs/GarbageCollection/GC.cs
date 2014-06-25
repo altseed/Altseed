@@ -148,6 +148,7 @@ namespace ace
 		/// <param name="type"></param>
 		internal static SoundSource GenerateSoundSource(swig.SoundSource o, GenerationType type)
 		{
+			if (o == null) return null;
 			var p = o.GetPtr();
 
 			var existing = GC.SoundSources.GetObject(p);
@@ -166,6 +167,7 @@ namespace ace
 		/// <param name="type"></param>
 		internal static Texture2D GenerateTexture2D(swig.Texture2D o, GenerationType type)
 		{
+			if (o == null) return null;
 			var p = o.GetPtr();
 
 			var existing = GC.Texture2Ds.GetObject(p);
@@ -184,6 +186,7 @@ namespace ace
 		/// <param name="type"></param>
 		internal static RenderTexture2D GenerateRenderTexture2D(swig.RenderTexture2D o, GenerationType type)
 		{
+			if (o == null) return null;
 			var p = o.GetPtr();
 
 			var existing = GC.Texture2Ds.GetObject(p);
@@ -202,6 +205,7 @@ namespace ace
 		/// <param name="type"></param>
 		internal static CubemapTexture GenerateCubemapTexture(swig.CubemapTexture o, GenerationType type)
 		{
+			if (o == null) return null;
 			var p = o.GetPtr();
 
 			var existing = GC.CubemapTextures.GetObject(p);
@@ -220,6 +224,7 @@ namespace ace
 		/// <param name="type"></param>
 		internal static Effect GenerateEffect(swig.Effect o, GenerationType type)
 		{
+			if (o == null) return null;
 			var p = o.GetPtr();
 
 			var existing = GC.Effects.GetObject(p);
@@ -237,7 +242,8 @@ namespace ace
         /// <param name="o"></param>
         /// <param name="type"></param>
         internal static Font GenerateFont(swig.Font o, GenerationType type)
-        {
+		{
+			if (o == null) return null;
             var p = o.GetPtr();
 
             var existing = GC.Fonts.GetObject(p);
@@ -250,7 +256,8 @@ namespace ace
         }
 
         internal static Chip2D GenerateChip2D(swig.Chip2D o,GenerationType type)
-        {
+		{
+			if (o == null) return null;
             var p = o.GetPtr();
 
             var existing = GC.Chip2Ds.GetObject(p);
@@ -269,6 +276,7 @@ namespace ace
         /// <param name="type"></param>
         internal static Mesh GenerateMesh(swig.Mesh o, GenerationType type)
 		{
+			if (o == null) return null;
 			var p = o.GetPtr();
 
 			var existing = GC.Meshs.GetObject(p);
@@ -287,6 +295,7 @@ namespace ace
 		/// <param name="type"></param>
 		internal static Deformer GenerateDeformer(swig.Deformer o, GenerationType type)
 		{
+			if (o == null) return null;
 			var p = o.GetPtr();
 
 			var existing = GC.Deformers.GetObject(p);
@@ -305,6 +314,7 @@ namespace ace
 		/// <param name="type"></param>
 		internal static Model GenerateModel(swig.Model o, GenerationType type)
 		{
+			if (o == null) return null;
 			var p = o.GetPtr();
 
 			var existing = GC.Models.GetObject(p);
@@ -323,6 +333,7 @@ namespace ace
 		/// <param name="type"></param>
 		internal static KeyframeAnimation GenerateKeyframeAnimation(swig.KeyframeAnimation o, GenerationType type)
 		{
+			if (o == null) return null;
 			var p = o.GetPtr();
 
 			var existing = GC.KeyframeAnimations.GetObject(p);
@@ -341,6 +352,7 @@ namespace ace
 		/// <param name="type"></param>
 		internal static AnimationSource GenerateAnimationSource(swig.AnimationSource o, GenerationType type)
 		{
+			if (o == null) return null;
 			var p = o.GetPtr();
 
 			var existing = GC.AnimationSources.GetObject(p);
@@ -359,6 +371,7 @@ namespace ace
 		/// <param name="type"></param>
 		internal static AnimationClip GenerateAnimationClip(swig.AnimationClip o, GenerationType type)
 		{
+			if (o == null) return null;
 			var p = o.GetPtr();
 
 			var existing = GC.AnimationClips.GetObject(p);
