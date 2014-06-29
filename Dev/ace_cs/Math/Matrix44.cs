@@ -615,7 +615,7 @@ namespace ace
 		/// </summary>
 		/// <param name="in_">変形前ベクトル</param>
 		/// <returns>変形後ベクトル</returns>
-		public Vector3DF Transform3D(ref Vector3DF in_)
+		public Vector3DF Transform3D(Vector3DF in_)
 		{
 			float* values = stackalloc float[4];
 
@@ -643,7 +643,7 @@ namespace ace
 		/// </summary>
 		/// <param name="in_">変形前ベクトル</param>
 		/// <returns>変形後ベクトル</returns>
-		Vector4DF Transform4D(Vector4DF in_)
+		public Vector4DF Transform4D(Vector4DF in_)
 		{
 			float* values = stackalloc float[4];
 
