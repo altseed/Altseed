@@ -120,7 +120,7 @@ namespace ace
 		/// 空方向の環境光の色を設定する。
 		/// </summary>
 		/// <param name="color">色</param>
-		void SetSkyAmbientColor(Color color)
+		public void SetSkyAmbientColor(Color color)
 		{
 			coreLayer3D.SetSkyAmbientColor(color);
 		}
@@ -129,7 +129,7 @@ namespace ace
 		/// 地面方向の環境光の色を設定する。
 		/// </summary>
 		/// <param name="color">色</param>
-		void SetGroundAmbientColor(Color color)
+		public void SetGroundAmbientColor(Color color)
 		{
 			coreLayer3D.SetGroundAmbientColor(color);
 		}

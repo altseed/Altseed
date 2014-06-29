@@ -171,6 +171,10 @@ namespace ace
 		/// </summary>
 		public VisualizedBuffer VisualizedBuffer = VisualizedBuffer.FinalImage;
 
+		public RenderSettings()
+		{
+		}
+
 		internal RenderSettings(swig.RenderSettings settings)
 		{
 			IsLightweightMode = settings.IsLightweightMode;
