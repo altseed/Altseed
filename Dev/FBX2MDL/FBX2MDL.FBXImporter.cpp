@@ -260,8 +260,8 @@ namespace FBX2MDL
 		{
 			if (weight.Data.size() == 0)
 			{
-				assert(weight.Indexes[0] == 255);
-				assert(weight.Indexes[1] == 0);
+				assert(weight.Weights[0] == 255);
+				assert(weight.Weights[1] == 0);
 			}
 			else
 			{
@@ -521,6 +521,19 @@ namespace FBX2MDL
 		{
 			mesh->Vertexes[vn.first].Binormal = vn.second.Binormal;
 			//mesh->Vertexes[vn.first].Tangent = vn.second.Tangent;
+
+			// “K“–‚È’l‚ð‘ã“ü‚·‚é
+			if (mesh->Vertexes[vn.first].Binormal.GetLength() == 0.0f)
+			{
+				if (mesh->Vertexes[vn.first].Normal != ace::Vector3DF(1, 0, 0))
+				{
+					mesh->Vertexes[vn.first].Binormal = ace::Vector3DF(1, 0, 0);
+				}
+				else
+				{
+					mesh->Vertexes[vn.first].Binormal = ace::Vector3DF(0, 1, 0);
+				}
+			}
 		}
 
 		return mesh;

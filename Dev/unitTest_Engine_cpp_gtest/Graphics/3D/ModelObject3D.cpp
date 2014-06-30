@@ -7,7 +7,7 @@ class Graphics_ModelObject3D : public EngineGraphics3DTest
 public:
 
 	Graphics_ModelObject3D(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("ModelObject3D"), isOpenGLMode, 15,true)
+		EngineGraphics3DTest(ace::ToAString("ModelObject3D"), isOpenGLMode, 15000,true)
 	{}
 
 protected:
@@ -18,7 +18,7 @@ protected:
 	{
 		ace::RenderSettings settings;
 		settings.IsLightweightMode = false;
-		settings.VisalizedBuffer = ace::eVisalizedBuffer::VISALIZED_BUFFER_DIFFUSE;
+		settings.VisalizedBuffer = ace::eVisalizedBuffer::VISALIZED_BUFFER_NORMAL;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();

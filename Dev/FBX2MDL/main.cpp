@@ -23,7 +23,7 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
-#define TEST 0
+#define TEST 1
 
 #if TEST
 int main(int argc, char** argv)
@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 	sdkManager->SetIOSettings(ios);
 
 	fbxsdk_2015_1::FbxImporter* fbxImporter = fbxsdk_2015_1::FbxImporter::Create(sdkManager, "");
-	if (!fbxImporter->Initialize("Data/Model/Test_Animation.fbx", -1, sdkManager->GetIOSettings()))
+	if (!fbxImporter->Initialize("box3.fbx", -1, sdkManager->GetIOSettings()))
 	{
 		printf("Call to FbxImporter::Initialize() failed.\n");
 		printf("Error returned: %s\n\n", fbxImporter->GetStatus().GetErrorString());
@@ -60,7 +60,7 @@ int main(int argc, char** argv)
 	fbxImporter->Destroy();
 	sdkManager->Destroy();
 
-	writer->WriteOut("Data/Model/Test_Animation.mdl");
+	writer->WriteOut("box2.mdl");
 
 	
 	auto buf = writer->Get();

@@ -204,6 +204,14 @@ namespace FBX2MDL
 		m_writer->Push((int32_t) meshes.size());
 		for (auto& mesh : meshes)
 		{
+			// ボーンが設定されていない場合はメッシュをボーンとして指定
+			if (mesh->BoneConnectors.size() == 0)
+			{
+				BoneConnector bc;
+				bc.Name = mesh->Name;
+				mesh->BoneConnectors.push_back(bc);
+			}
+
 			// 上下方向に面ソート
 			std::sort(mesh->Faces.begin(), mesh->Faces.end(), [mesh](const Face& f1, const Face& f2) -> float {
 				return
