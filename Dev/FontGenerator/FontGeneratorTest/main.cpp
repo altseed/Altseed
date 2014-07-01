@@ -4,6 +4,7 @@
 
 #include "../FontGeneratorCore/Generator.h"
 #include "../FontGeneratorCore/Rendering/Color.h"
+#include "../../ace_cpp/common/Graphics/Font/ace.AffLoader.h"
 
 #pragma comment(lib,"ace_common.lib")
 #pragma comment(lib,"FontGeneratorCore.lib")
@@ -24,7 +25,7 @@ using namespace FontGenerator;
 void Test()
 {
 	Generator gen;
-	auto chars = gen.GetCharactors(ace::ToAString("textFile.txt"));
+	auto chars = gen.GetCharactors(ace::ToAString("test.txt"));
 	for (auto& c : chars)
 	{
 		wprintf(L"%c", c);
@@ -53,6 +54,9 @@ int main()
 		gen.GenerateFontFile(
 			L"C:/Windows/Fonts/Consola.ttf",
 			L"test.txt");
+
+		ace::AffLoader aff(L"result/test.aff");
+		auto gryphs = aff.GetGlyphs();
 	}
 	catch (const char* err)
 	{

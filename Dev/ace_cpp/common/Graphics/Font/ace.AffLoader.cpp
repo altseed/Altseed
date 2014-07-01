@@ -17,7 +17,7 @@ namespace ace
 		array<int16_t, CHARCODE_MAX> result;
 		for (int i = 0; i < result.size(); ++i)
 		{
-			result[i] = reader.Get<int16_t>();
+			result[i] = table.GetIndexes()[(achar)i];
 		}
 		return result;
 	}

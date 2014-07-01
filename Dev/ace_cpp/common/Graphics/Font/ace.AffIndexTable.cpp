@@ -15,7 +15,7 @@ namespace ace
 		m_indexes[charactor] = index;
 	}
 
-	const map<achar, int16_t>& AffIndexTable::GetIndexes() const
+	map<achar, int16_t>& AffIndexTable::GetIndexes()
 	{
 		return m_indexes;
 	}

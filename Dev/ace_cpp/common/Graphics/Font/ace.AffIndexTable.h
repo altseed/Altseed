@@ -19,7 +19,7 @@ namespace ace
 
 		void AppendFontIndex(achar charactor, std::int16_t index);
 
-		const std::map<achar, std::int16_t>& GetIndexes() const;
+		std::map<achar, std::int16_t>& GetIndexes();
 
 		void Push(BinaryWriter& writer);
 

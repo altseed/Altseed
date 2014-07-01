@@ -33,7 +33,7 @@ namespace FontGenerator
 		BinaryWriter writer;
 		PushAff(writer, result);
 
-		ofstream file(m_sheetName + L".aff");
+		ofstream file(m_sheetName + L".aff", ios::out | ios::binary);
 		writer.WriteOut(file);
 	}
 
