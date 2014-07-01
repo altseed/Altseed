@@ -121,7 +121,7 @@ namespace FontGenerator
 				penY += lineHeight;
 			}
 
-			RectI src(penX, penY, advance, lineHeight);
+			RectI src(penX, penY-lineHeight, advance, lineHeight);
 			GlyphData data(glyph->GetCharactor(), 0, src);
 			fontData.push_back(data);
 

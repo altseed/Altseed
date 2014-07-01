@@ -31,18 +31,17 @@ protected:
 
 		auto g = ace::Engine::GetGraphics();
 		
-		auto font = g->CreateFont(ace::ToAString("Data/Text/Tester.aff").c_str());
+		auto font = g->CreateFont(ace::ToAString("Data/Text/textTest.aff").c_str());
 
 		object->SetFont(font);
 		object->SetText(ToAString("Font"));
 
 		//object->SetCenterPosition(Vector2DF(128, 128));
-		object->SetAngle(45);
 		object->SetPosition(Vector2DF(320, 240));
 	}
 };
 
-/*
+
 TEST(ObjectSystem, Text2D_GL)
 {
 	RunTest<ObjectSystem_Text2DTest>(true);
@@ -54,7 +53,7 @@ TEST(ObjectSystem, Text2D_DX)
 	RunTest<ObjectSystem_Text2DTest>(false);
 }
 #endif
-*/
+
 void ObjectSystem_Text2DTest_(bool isGL)
 {
 	ObjectSystem_Text2DTest(isGL).Run();
