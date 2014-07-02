@@ -72,6 +72,11 @@ fromCoreToEngine.readLines("ace_cpp/core/Input/ace.JoystickContainer.h")
 fromCoreToEngine.readLines("ace_cpp/core/Log/ace.Log.h")
 fromCoreToEngine.readLines("ace_cpp/core/Profiler/ace.Profile.h")
 fromCoreToEngine.readLines("ace_cpp/core/Profiler/ace.Profiler.h")
+                                                                       
+fromCoreToEngine.readLines("ace_cpp/core/IO/ace.File.h")
+fromCoreToEngine.readLines("ace_cpp/core/IO/ace.Path.h")
+fromCoreToEngine.readLines("ace_cpp/core/IO/ace.StaticFile.h")
+fromCoreToEngine.readLines("ace_cpp/core/IO/ace.StreamFile.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/Sound/ace.SoundSource.h")
 fromCoreToEngine.readLines("ace_cpp/core/Sound/ace.Sound.h")

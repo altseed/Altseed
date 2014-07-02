@@ -4,11 +4,16 @@
 namespace ace
 {
 	BaseFile_Imp::BaseFile_Imp(const Path& fileName) :
+		BaseFile_Imp(fileName.ToAstring())
+	{
+	}
+
+	BaseFile_Imp::BaseFile_Imp(const astring& path) :
 		m_position(0),
 		m_length(-1)
 	{
 		m_file.open(
-			fileName.ToAstring(),
+			path,
 			std::basic_ios<uint8_t>::in | std::basic_ios<uint8_t>::binary);
 	}
 
@@ -31,7 +36,7 @@ namespace ace
 	void BaseFile_Imp::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count)
 	{
 		const auto size = Size();
-		assert(0 <= count && count < size);
+		assert(0 <= count && count <= size);
 		assert((m_position + count) <= size);
 
 		buffer.resize(count);

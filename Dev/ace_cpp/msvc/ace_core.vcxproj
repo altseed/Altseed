@@ -302,12 +302,12 @@
     <ClInclude Include="..\core\IO\ace.File_Imp.h" />
     <ClInclude Include="..\core\IO\ace.Path.h" />
     <ClInclude Include="..\core\IO\ace.Path_Imp.h" />
+    <ClInclude Include="..\core\IO\ace.RootPath_Imp.h" />
     <ClInclude Include="..\core\IO\ace.StaticFile.h" />
     <ClInclude Include="..\core\IO\ace.StaticFile_Imp.h" />
     <ClInclude Include="..\core\IO\ace.StreamFile.h" />
     <ClInclude Include="..\core\IO\ace.StreamFile_Imp.h" />
     <ClInclude Include="..\core\IO\ace.BaseFile_Imp.h" />
-    <ClInclude Include="..\core\IO\ace.PathIterator.h" />
     <ClInclude Include="..\core\IO\ace.PathIterator_Imp.h" />
     <ClInclude Include="..\core\Log\ace.Log.h" />
     <ClInclude Include="..\core\Log\ace.Log_Imp.h" />
@@ -449,6 +449,7 @@
     <ClCompile Include="..\core\IO\ace.BaseFile.cpp" />
     <ClCompile Include="..\core\IO\ace.File_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.Path_Imp.cpp" />
+    <ClCompile Include="..\core\IO\ace.RootPath_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.StaticFile_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.StreamFile_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.PathIterator_Imp.cpp" />

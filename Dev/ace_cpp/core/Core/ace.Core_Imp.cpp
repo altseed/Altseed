@@ -7,6 +7,7 @@
 #include "../Input/ace.Keyboard_Imp.h"
 #include "../Input/ace.Mouse_Imp.h"
 #include "../Input/ace.JoystickContainer_Imp.h"
+#include "../IO/ace.File_Imp.h"
 #include "../Log/ace.Log_Imp.h"
 #include "../Profiler/ace.Profiler_Imp.h"
 #include "../Profiler/ace.ProfilerViewer_Imp.h"
@@ -35,6 +36,7 @@ namespace ace
 		, m_graphics(nullptr)
 		, m_sound(nullptr)
 		, m_joystickContainer(nullptr)
+		, m_file(nullptr)
 		, m_logger(nullptr)
 		, m_profiler(nullptr)
 		, m_profilerViewer(nullptr)
@@ -140,6 +142,7 @@ namespace ace
 		if (m_keyboard != nullptr) return false;
 		if (m_mouse != nullptr) return false;
 		if (m_joystickContainer != nullptr) return false;
+		if (m_file != nullptr) return false;
 		if (m_logger != nullptr) return false;
 		if (m_profiler != nullptr) return false;
 
@@ -170,6 +173,8 @@ namespace ace
 		m_mouse = Mouse_Imp::Create(m_window);
 		m_joystickContainer = JoystickContainer_Imp::Create();
 
+		m_file = File_Imp::Create();
+
 		m_graphics = Graphics_Imp::Create(m_window, isOpenGLMode, m_logger, isMultithreadingMode);
 		if (m_graphics == nullptr) return false;
 
@@ -195,6 +200,7 @@ namespace ace
 		if (m_keyboard != nullptr) return false;
 		if (m_mouse != nullptr) return false;
 		if (m_joystickContainer != nullptr) return false;
+		if (m_file != nullptr) return false;
 		if (m_logger != nullptr) return false;
 
 		m_isInitializedByExternal = true;
@@ -224,6 +230,7 @@ namespace ace
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, Vector2DI(width,height));
 
+		m_file = File_Imp::Create();
 		m_profiler = Profiler_Imp::Create();
 		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, Vector2DI(width, height));
 
@@ -283,6 +290,7 @@ namespace ace
 		SafeDelete(m_mouse);
 		SafeDelete(m_logger);
 		SafeDelete(m_joystickContainer);
+		SafeDelete(m_file);
 
 		SafeDelete(m_animationSyatem);
 	}
@@ -392,6 +400,10 @@ namespace ace
 		return m_mouse;
 	}
 
+	File* Core_Imp::GetFile()
+	{
+		return m_file;
+	}
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

@@ -29,6 +29,11 @@ namespace ace {
 	class Joystick_Imp;
 	class JoystickContainer_Imp;
 
+	class File_Imp;
+	class Path_Imp;
+	class StaticFile_Imp;
+	class StreamFile_Imp;
+
 	class Sound_Imp;
 	class SoundSource_Imp;
 

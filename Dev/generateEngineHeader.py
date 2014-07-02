@@ -83,6 +83,11 @@ engineHeader.readLines("ace_cpp/core/Input/ace.JoystickContainer.h")
 
 engineHeader.readLines("ace_cpp/core/Log/ace.Log.h")
 engineHeader.readLines("ace_cpp/core/Profiler/ace.Profiler.h")
+        
+engineHeader.readLines("ace_cpp/core/IO/ace.File.h")
+engineHeader.readLines("ace_cpp/core/IO/ace.Path.h")
+engineHeader.readLines("ace_cpp/core/IO/ace.StaticFile.h")
+engineHeader.readLines("ace_cpp/core/IO/ace.StreamFile.h")
 
 engineHeader.readLines("ace_cpp/core/Sound/ace.SoundSource.h")
 engineHeader.readLines("ace_cpp/core/Sound/ace.Sound.h")

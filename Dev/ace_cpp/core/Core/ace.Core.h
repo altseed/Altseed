@@ -144,6 +144,11 @@ namespace ace {
 		virtual JoystickContainer* GetJoystickContainer() = 0;
 
 		/**
+		@brief 通常のファイルとパックファイルに対する読み込みをサポートするFileクラスを取得する。
+		*/
+		virtual File* GetFile() = 0;
+
+		/**
 			@brief	ログ出力を扱うLogクラスを取得する。
 		*/
 		virtual Log* GetLogger() = 0;

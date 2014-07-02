@@ -40,6 +40,8 @@ namespace ace {
 
 		JoystickContainer_Imp* m_joystickContainer;
 
+		File*			m_file;
+
 		CoreScene* m_currentScene;
 
 		std::vector<astring>		m_screenShots;
@@ -101,6 +103,8 @@ namespace ace {
 		Mouse* GetMouse();
 
 		JoystickContainer* GetJoystickContainer();
+
+		File* GetFile();
 
 		Log* GetLogger();
 

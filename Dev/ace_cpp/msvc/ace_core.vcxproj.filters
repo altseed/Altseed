@@ -670,9 +670,6 @@
     <ClInclude Include="..\core\IO\ace.Path_Imp.h">
       <Filter>IO</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\IO\ace.PathIterator.h">
-      <Filter>IO</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\IO\ace.PathIterator_Imp.h">
       <Filter>IO</Filter>
     </ClInclude>
@@ -711,6 +708,9 @@
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GaussianBlur_PS.h">
       <Filter>Graphics\Shader\GL\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.RootPath_Imp.h">
+      <Filter>IO</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1013,6 +1013,9 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.RootPath_Imp.cpp">
+      <Filter>IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

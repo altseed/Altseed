@@ -27,7 +27,6 @@ namespace ace {
 	
 	class File;
 	class Path;
-	class PathIterator;
 	class StaticFile;
 	class StreamFile;
 

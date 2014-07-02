@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "../ace.ReferenceObject.h"
 #include "../ace.Core.Base.h"
 #include "../Core/ace.Core.Base.h"
 #include "ace.Path.h"
@@ -14,7 +15,7 @@ namespace ace
 		End
 	};
 
-	class BaseFile_Imp
+	class BaseFile_Imp : public ReferenceObject
 	{
 	private:
 		std::basic_ifstream<uint8_t> m_file;
@@ -23,7 +24,8 @@ namespace ace
 
 	public:
 		BaseFile_Imp(const Path& fileName);
-		~BaseFile_Imp();
+		BaseFile_Imp(const astring& path);
+		virtual ~BaseFile_Imp();
 
 		int64_t Position() const { return m_position; }
 
@@ -34,5 +36,9 @@ namespace ace
 		void ReadAllText(astring& text);
 		void ReadAllText(astring& text, const std::locale& locale);
 		void Seek(const int64_t offset, const SeekOrigin = SeekOrigin::Begin);
+
+		int GetRef() { return ReferenceObject::GetRef(); }
+		int AddRef() { return ReferenceObject::AddRef(); }
+		int Release() { return ReferenceObject::Release(); }
 	};
 }

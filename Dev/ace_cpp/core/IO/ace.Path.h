@@ -11,7 +11,7 @@ namespace ace
 	public:
 		virtual ~Path() { };
 		virtual astring ToAstring() const = 0;
-		virtual PathIterator begin() const = 0;
-		virtual PathIterator end() const = 0;
+		virtual std::iterator < std::forward_iterator_tag, Path > Begin() const = 0;
+		virtual std::iterator < std::forward_iterator_tag, Path > End() const = 0;
 	};
 }

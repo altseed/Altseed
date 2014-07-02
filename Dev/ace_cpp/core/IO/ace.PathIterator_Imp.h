@@ -6,20 +6,20 @@
 
 namespace ace
 {
-	class PathIterator_Imp : public PathIterator
+	class PathIterator_Imp : public std::iterator < std::forward_iterator_tag, Path >
 	{
 	private:
-		friend class Path_Imp;
-
 		astring::size_type m_pos;
 		astring m_element;
-		std::shared_ptr<Path_Imp> m_ppath;
+		const Path_Imp& m_ppath;
 
 		void Increment(PathIterator_Imp& iterator);
 		void Decrement(PathIterator_Imp& iterator);
 
 	public:
+		PathIterator_Imp(const Path_Imp& path, astring::size_type pos, astring& element);
 		virtual ~PathIterator_Imp(){};
+		virtual int Size() { return m_element.size(); };
 		virtual PathIterator_Imp& operator++();
 		virtual PathIterator_Imp operator++(int);
 		virtual bool operator==(const PathIterator_Imp& itertor);
