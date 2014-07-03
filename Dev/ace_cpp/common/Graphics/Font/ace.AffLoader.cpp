@@ -10,18 +10,6 @@ using namespace std;
 
 namespace ace
 {
-	static array<int16_t, CHARCODE_MAX> GetIndexTable(BinaryReader& reader)
-	{
-		auto table = AffIndexTable::Get(reader);
-
-		array<int16_t, CHARCODE_MAX> result;
-		for (int i = 0; i < result.size(); ++i)
-		{
-			result[i] = table.GetIndexes()[(achar)i];
-		}
-		return result;
-	}
-
 	AffLoader::AffLoader(astring fileName)
 		: m_fileName(fileName)
 	{
@@ -34,7 +22,9 @@ namespace ace
 		reader.ReadIn(bytes.begin(), bytes.end());
 
 		auto header = AffHeader::Get(reader);
-		auto indexes = GetIndexTable(reader);
+		
+		auto table = AffIndexTable::Get(reader);
+		auto indexes = table.GetIndexes();
 	 	auto fontNum = header.GetFontCount();
 
 		map<achar, GlyphData> result;
