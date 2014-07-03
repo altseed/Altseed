@@ -170,10 +170,10 @@
     <Compile Include="swig\JoystickContainer_Imp.cs" />
     <Compile Include="swig\Joystick_Imp.cs" />
     <Compile Include="swig\Keyboard.cs" />
-    <Compile Include="swig\KeyboardButtonState.cs" />
     <Compile Include="swig\Keyboard_Imp.cs" />
     <Compile Include="swig\KeyframeAnimation.cs" />
     <Compile Include="swig\Keys.cs" />
+    <Compile Include="swig\KeyState.cs" />
     <Compile Include="swig\Log.cs" />
     <Compile Include="swig\Log_Imp.cs" />
     <Compile Include="swig\Material2D.cs" />
@@ -198,6 +198,7 @@
     <Compile Include="swig\SideButton.cs" />
     <Compile Include="swig\Sound.cs" />
     <Compile Include="swig\SoundSource.cs" />
+    <Compile Include="swig\SWIGTYPE_p_ace__File.cs" />
     <Compile Include="swig\Texture.cs" />
     <Compile Include="swig\Texture2D.cs" />
     <Compile Include="swig\Texture2D_Imp.cs" />
