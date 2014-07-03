@@ -27,5 +27,15 @@ namespace FontGenerator
 		void SetFontSize(int value);
 
 		int GetFontHeight() const;
+
+		/**
+			@brief	フォントのascenderの値(ベースラインより上の高さ)を取得します。
+		*/
+		int GetAscender() const;
+
+		/**
+			@brief	フォントのdescenderの値(ベースラインより下の高さ)を取得します。戻り値は負の値です。
+		*/
+		int GetDescender() const;
 	};
 }

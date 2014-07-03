@@ -108,24 +108,28 @@ namespace FontGenerator
 			outlineWidth = m_setting.GetBorder()->width;
 		}
 
-		int lineHeight = m_font.GetFontHeight() + outlineWidth*2;
-		int penX = outlineWidth, penY = lineHeight;
+		int baseLineHeight = m_font.GetFontHeight();
+		int ascender = m_font.GetAscender();
+
+		int penX = 0;
+		int baseLine = 0 + ascender;
+
 		for (auto& glyph : m_font.GetGlyphs(charactors))
 		{
 			auto finalGlyph = m_setting.ProcessGlyph(glyph);
-			auto advance = (int)(finalGlyph.GetAdvance() + outlineWidth*2);	// —ÖŠsü‚Ì‘¾‚³‚Ö‚Ì‘Î‰ž‚ÍA‚Æ‚è‚ ‚¦‚¸‘¾‚³*2‚¾‚¯—]—T‚ð‚Æ‚é
+			auto advance = finalGlyph.GetAdvance();
 
 			if (penX + advance > m_sheetSize)
 			{
-				penX = outlineWidth;
-				penY += lineHeight;
+				penX = 0;
+				baseLine += baseLineHeight;
 			}
 
-			RectI src(penX, penY-lineHeight, advance, lineHeight);
+			RectI src(penX, baseLine - ascender, advance, baseLineHeight);
 			GlyphData data(glyph->GetCharactor(), 0, src);
 			fontData.push_back(data);
 
-			finalGlyph.Draw(buffer.data(), m_sheetSize, m_sheetSize, penX, penY);
+			finalGlyph.Draw(buffer.data(), m_sheetSize, m_sheetSize, penX, baseLine);
 
 			penX += advance;
 		}

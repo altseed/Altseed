@@ -36,7 +36,7 @@ void Test()
 
 int main()
 {
-	Test();
+	//Test();
 
 	Generator gen;
 
@@ -49,14 +49,11 @@ int main()
 		//setting.SetBorder(make_shared<BorderSetting>(4, Color(0, 0, 0, 255)));
 		
 		gen.SetSetting(setting);
-		gen.SetSheetName(L"result/test");
+		gen.SetSheetName(L"result/Nac0703");
 
 		gen.GenerateFontFile(
 			L"C:/Windows/Fonts/Consola.ttf",
-			L"test.txt");
-
-		ace::AffLoader aff(L"result/test.aff");
-		auto gryphs = aff.GetGlyphs();
+			L"textFile.txt");
 	}
 	catch (const char* err)
 	{

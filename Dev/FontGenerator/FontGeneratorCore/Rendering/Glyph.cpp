@@ -24,7 +24,7 @@ namespace FontGenerator
 
 		FT_Glyph g;
 		FT_Get_Glyph(face->glyph, &g);
-
+		
 		ACE_ASSERT(g->format == FT_GLYPH_FORMAT_OUTLINE, "ƒOƒŠƒt‚Ì¶¬‚É¸”s");
 
 		m_glyph = reinterpret_cast<FT_OutlineGlyph>(g);

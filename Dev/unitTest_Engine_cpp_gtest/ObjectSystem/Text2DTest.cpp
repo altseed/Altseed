@@ -10,7 +10,7 @@ class ObjectSystem_Text2DTest : public EngineTest
 {
 public:
 	ObjectSystem_Text2DTest(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Text2D"), isOpenGLMode, 30)
+		: EngineTest(ace::ToAString("Text2D"), isOpenGLMode, 60)
 	{
 	}
 
@@ -31,13 +31,13 @@ protected:
 
 		auto g = ace::Engine::GetGraphics();
 		
-		auto font = g->CreateFont(ace::ToAString("Data/Text/textTest.aff").c_str());
+		auto font = g->CreateFont(ace::ToAString("Data/Text/Nac0703.aff").c_str());
 
 		object->SetFont(font);
 		object->SetText(ToAString("Font"));
 
 		//object->SetCenterPosition(Vector2DF(128, 128));
-		object->SetPosition(Vector2DF(320, 240));
+		object->SetPosition(Vector2DF(0, 0));
 	}
 };
 
