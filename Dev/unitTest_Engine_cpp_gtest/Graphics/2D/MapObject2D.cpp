@@ -1,14 +1,14 @@
 ﻿#include <gtest/gtest.h>
 #include <ace.h>
-#include "../EngineTest.h"
+#include "../../EngineTest.h"
 
 using namespace std;
 using namespace ace;
 
-class ObjectSystem_MapObject2D : public EngineTest
+class Graphics_MapObject2D : public EngineTest
 {
 public:
-	ObjectSystem_MapObject2D(bool isOpenGLMode)
+	Graphics_MapObject2D(bool isOpenGLMode)
 		: EngineTest(ace::ToAString("MapObject2D"), isOpenGLMode, 30)
 	{
 	}
@@ -44,4 +44,4 @@ protected:
 	}
 };
 
-ENGINE_TEST(ObjectSystem, MapObject2D)
+ENGINE_TEST(Graphics, MapObject2D)

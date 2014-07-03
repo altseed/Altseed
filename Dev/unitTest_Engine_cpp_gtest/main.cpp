@@ -38,8 +38,8 @@ EXTERN_ENGINE_TEST(Graphics, ModelObject3D)
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
 
-EXTERN_ENGINE_TEST(ObjectSystem, TextObject2D)
-EXTERN_ENGINE_TEST(ObjectSystem, MapObject2D)
+EXTERN_ENGINE_TEST(Graphics, TextObject2D)
+EXTERN_ENGINE_TEST(Graphics, MapObject2D)
 
 /**
 	@brief	単体テストを実行する。

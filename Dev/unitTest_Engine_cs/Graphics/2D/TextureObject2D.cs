@@ -36,7 +36,7 @@ namespace unitTest_Engine_cs.Graphics._2D
             textureObj2.TurnLR = true;
         }
 
-        void OnUpdating()
+        protected override void OnUpdating()
         {
 
         }

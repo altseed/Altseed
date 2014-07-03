@@ -83,11 +83,11 @@
     <ClCompile Include="..\Graphics\3D\EffectObject3D.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\ObjectSystem\TextObject2D.cpp">
-      <Filter>ObjectSystem</Filter>
+    <ClCompile Include="..\Graphics\2D\MapObject2D.cpp">
+      <Filter>Graphics\2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\ObjectSystem\MapObject2D.cpp">
-      <Filter>ObjectSystem</Filter>
+    <ClCompile Include="..\Graphics\2D\TextObject2D.cpp">
+      <Filter>Graphics\2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

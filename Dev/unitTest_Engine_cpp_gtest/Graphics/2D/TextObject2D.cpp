@@ -1,15 +1,15 @@
 ﻿#include <ace.h>
 #include <gtest/gtest.h>
 #include <memory>
-#include "../EngineTest.h"
+#include "../../EngineTest.h"
 
 using namespace std;
 using namespace ace;
 
-class ObjectSystem_TextObject2D : public EngineTest
+class Graphics_TextObject2D : public EngineTest
 {
 public:
-	ObjectSystem_TextObject2D(bool isOpenGLMode)
+	Graphics_TextObject2D(bool isOpenGLMode)
 		: EngineTest(ace::ToAString("TextObject2D"), isOpenGLMode, 60)
 	{
 	}
@@ -42,4 +42,4 @@ protected:
 };
 
 
-ENGINE_TEST(ObjectSystem, TextObject2D)
+ENGINE_TEST(Graphics, TextObject2D)
