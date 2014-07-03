@@ -6,11 +6,11 @@
 using namespace std;
 using namespace ace;
 
-class ObjectSystem_Text2DTest : public EngineTest
+class ObjectSystem_TextObject2D : public EngineTest
 {
 public:
-	ObjectSystem_Text2DTest(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Text2D"), isOpenGLMode, 60)
+	ObjectSystem_TextObject2D(bool isOpenGLMode)
+		: EngineTest(ace::ToAString("TextObject2D"), isOpenGLMode, 60)
 	{
 	}
 
@@ -42,20 +42,4 @@ protected:
 };
 
 
-TEST(ObjectSystem, Text2D_GL)
-{
-	RunTest<ObjectSystem_Text2DTest>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, Text2D_DX)
-{
-	RunTest<ObjectSystem_Text2DTest>(false);
-}
-#endif
-
-void ObjectSystem_Text2DTest_(bool isGL)
-{
-	ObjectSystem_Text2DTest(isGL).Run();
-	AssertMemoryDoesntLeak();
-}
+ENGINE_TEST(ObjectSystem, TextObject2D)

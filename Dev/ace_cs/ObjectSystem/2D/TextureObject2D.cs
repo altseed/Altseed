@@ -108,7 +108,16 @@ namespace ace
 			set { renderedObject.SetAlphaBlendMode( (swig.eAlphaBlend)value ); }
 		}
 
-		internal override swig.CoreObject2D CoreObject
+        ///<summary>
+        /// テクスチャ上の描画範囲を設定する。(フィールドのいずれかが0より小さかったらテクスチャ全体を描画する。)
+        /// </summary>
+        public RectF Src
+        {
+            get { return renderedObject.GetSrc(); }
+            set { renderedObject.SetSrc(value); }
+        }
+
+        internal override swig.CoreObject2D CoreObject
 		{
 			get { return renderedObject; }
 		}

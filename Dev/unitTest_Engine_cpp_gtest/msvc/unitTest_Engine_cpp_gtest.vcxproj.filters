@@ -56,12 +56,6 @@
       <Filter>ObjectSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\EngineGraphics3DTest.cpp" />
-    <ClCompile Include="..\ObjectSystem\Text2DTest.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ObjectSystem\Map2DTest.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
@@ -88,6 +82,12 @@
     </ClCompile>
     <ClCompile Include="..\Graphics\3D\EffectObject3D.cpp">
       <Filter>Graphics\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ObjectSystem\TextObject2D.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ObjectSystem\MapObject2D.cpp">
+      <Filter>ObjectSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

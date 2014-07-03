@@ -47,6 +47,7 @@
     <Compile Include="Assert.cs" />
     <Compile Include="EngineTest.cs" />
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
+    <Compile Include="Graphics\2D\TextureObject2D.cs" />
     <Compile Include="Graphics\3D\Effect3D.cs" />
     <Compile Include="Graphics\3D\SimpleMesh.cs" />
     <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />

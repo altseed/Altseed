@@ -78,8 +78,6 @@ namespace ace {
 		m_glyphs.clear();
 		auto g = (Graphics_Imp*)GetGraphics();
 		g->GetResourceContainer()->Fonts.Unregist(this);
-
-		//SafeDeleteArray(m_textures.data());
 	}
 
 	//----------------------------------------------------------------------------------
