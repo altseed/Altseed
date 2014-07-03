@@ -129,7 +129,7 @@ namespace ace{
 		MAX
 	};
 
-	enum class KeyboardButtonState:int
+	enum class KeyState:int
 	{
 		Push, Pull, Hold, Free
 	};
@@ -137,7 +137,7 @@ namespace ace{
 	class Keyboard
 	{
 	public:
-		virtual const KeyboardButtonState GetKeyState(Keys key) = 0;
+		virtual const KeyState GetKeyState(Keys key) = 0;
 	};
 
 };

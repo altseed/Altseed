@@ -159,12 +159,12 @@ namespace ace{
 		}
 	}
 
-	const KeyboardButtonState Keyboard_Imp::GetKeyState(Keys key)
+	const KeyState Keyboard_Imp::GetKeyState(Keys key)
 	{
 		int index = (int)key;
-		if (m_currentHit[index] && m_preHit[index]) return KeyboardButtonState::Hold;
-		else if (!m_currentHit[index] && m_preHit[index]) return KeyboardButtonState::Pull;
-		else if (m_currentHit[index] && !m_preHit[index]) return KeyboardButtonState::Push;
-		else return KeyboardButtonState::Free;
+		if (m_currentHit[index] && m_preHit[index]) return KeyState::Hold;
+		else if (!m_currentHit[index] && m_preHit[index]) return KeyState::Pull;
+		else if (m_currentHit[index] && !m_preHit[index]) return KeyState::Push;
+		else return KeyState::Free;
 	}
 };
