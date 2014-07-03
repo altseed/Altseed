@@ -58,7 +58,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 
 	ObjectSystem_Text2DTest_(true);
-	return 0;
+	//return 0;
 
 	//TestCamera(true);
 	//TestCamera(false);
