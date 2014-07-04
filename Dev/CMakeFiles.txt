@@ -206,6 +206,8 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
 	unitTest_Engine_cpp_gtest/EngineTest.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/EffectObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/MapObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/TextObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/TextureObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/Camera3DPostEffect.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/EffectObject3D.cpp
@@ -225,13 +227,11 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayerHasNoObject.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayersFlag.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayersMember.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/Map2DTest.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsFlag.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsMember.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ParentObject.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/SetSourceOfTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/SimpleObject2D.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/Text2DTest.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/TrasingCamera.cpp
 	unitTest_Engine_cpp_gtest/PCH/ace.UnitTestEngineCpp.PCH.cpp
 	unitTest_Engine_cpp_gtest/Profiler.cpp
