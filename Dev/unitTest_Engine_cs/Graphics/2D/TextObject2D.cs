@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-/*
+
 namespace unitTest_Engine_cs.Graphics._2D
 {
     class TextObject2D : EngineTest
@@ -27,9 +27,7 @@ namespace unitTest_Engine_cs.Graphics._2D
             scene.AddLayer(layer);
             layer.AddObject(obj);
 
-            var g = ace.Engine.Graphics;
-
-            var font = g.CreateFont("Data/Text/Nac0703.aff");
+            var font = ace.Engine.Graphics.CreateFont("Data/Text/Nac0703.aff");
 
             obj.Font = font;
             obj.Text = "Font";
@@ -44,4 +42,3 @@ namespace unitTest_Engine_cs.Graphics._2D
         }
     }
 }
-*/
