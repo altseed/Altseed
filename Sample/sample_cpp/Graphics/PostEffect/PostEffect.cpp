@@ -45,27 +45,27 @@ void PostEffect()
 		ace::Engine::Update();
 
 		// Aを押したらポストエフェクトを全て破棄する。
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::A) == ace::KeyboardButtonState::Push)
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::A) == ace::KeyState::Push)
 		{
 			layer->ClearPostEffects();
 		}
 
 		// Zを押したらグレースケールを追加する。
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::Z) == ace::KeyboardButtonState::Push)
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::Z) == ace::KeyState::Push)
 		{
 			auto posteffect = std::make_shared<ace::PostEffectGrayScale>();
 			layer->AddPostEffect(posteffect);
 		}
 
 		// Xを押したらセピアを追加する。
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::X) == ace::KeyboardButtonState::Push)
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::X) == ace::KeyState::Push)
 		{
 			auto posteffect = std::make_shared<ace::PostEffectSepia>();
 			layer->AddPostEffect(posteffect);
 		}
 
 		// Cを押したらガウスぼかしを追加する。
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::C) == ace::KeyboardButtonState::Push)
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::C) == ace::KeyState::Push)
 		{
 			auto posteffect = std::make_shared<ace::PostEffectGaussianBlur>();
 			posteffect->SetIntensity(5.0f);
@@ -73,7 +73,7 @@ void PostEffect()
 		}
 
 		// Vを押したらライトブルームを追加する。
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::V) == ace::KeyboardButtonState::Push)
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::V) == ace::KeyState::Push)
 		{
 			auto posteffect = std::make_shared<ace::PostEffectLightBloom>();
 			posteffect->SetIntensity(10.0f);
