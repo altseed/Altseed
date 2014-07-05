@@ -43,37 +43,37 @@ namespace ace
             System.GC.SuppressFinalize(this);
         }
 
-        Texture2D Texture
+        public Texture2D Texture
         {
             get { return GC.GenerateTexture2D(SwigObject.GetTexture(), GC.GenerationType.Get); }
             set { SwigObject.SetTexture(value.SwigObject); }
         }
 
-        RectF Src
+        public RectF Src
         {
             get { return SwigObject.GetSrc(); }
             set { SwigObject.SetSrc(value); }
         }
 
-        Color Color
+        public Color Color
         {
             get { return SwigObject.GetColor(); }
             set { SwigObject.SetColor(value); }
         }
 
-        bool TurnLR
+        public bool TurnLR
         {
             get { return SwigObject.GetTurnLR(); }
             set { SwigObject.SetTurnLR(value); }
         }
 
-        bool TurnUL
+        public bool TurnUL
         {
             get { return SwigObject.GetTurnUL(); }
             set { SwigObject.SetTurnUL(value); }
         }
 
-        AlphaBlendMode AlphaBlendMode
+        public AlphaBlendMode AlphaBlendMode
         {
             get { return (AlphaBlendMode)SwigObject.GetAlphaBlendMode(); }
             set { SwigObject.SetAlphaBlendMode((swig.eAlphaBlend)value); }

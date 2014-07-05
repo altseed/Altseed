@@ -1,15 +1,15 @@
 ﻿#include <gtest/gtest.h>
 #include <ace.h>
-#include "../EngineTest.h"
+#include "../../EngineTest.h"
 
 using namespace std;
 using namespace ace;
 
-class Map2DTest : public EngineTest
+class Graphics_MapObject2D : public EngineTest
 {
 public:
-	Map2DTest(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Map2DTest"), isOpenGLMode, 30)
+	Graphics_MapObject2D(bool isOpenGLMode)
+		: EngineTest(ace::ToAString("MapObject2D"), isOpenGLMode, 30)
 	{
 	}
 
@@ -44,21 +44,4 @@ protected:
 	}
 };
 
-
-TEST(ObjectSystem, Map2D_GL)
-{
-	RunTest<Map2DTest>(true);
-}
-
-#if _WIN32
-TEST(ObjectSystem, Map2D_DX)
-{
-	RunTest<Map2DTest>(false);
-}
-#endif
-
-void ObjectSystem_Map2DTest_(bool isGL)
-{
-	Map2DTest(isGL).Run();
-	AssertMemoryDoesntLeak();
-}
+ENGINE_TEST(Graphics, MapObject2D)

@@ -676,7 +676,7 @@ namespace ace
 
 		public static Vector3DF operator *(Matrix44 left, Vector3DF right)
 		{
-			return left.Transform3D(ref right);
+			return left.Transform3D(right);
 		}
 
 		public static Vector4DF operator *(Matrix44 left, Vector4DF right)

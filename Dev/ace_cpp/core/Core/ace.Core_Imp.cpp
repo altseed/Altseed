@@ -290,7 +290,7 @@ namespace ace
 		SafeDelete(m_mouse);
 		SafeDelete(m_logger);
 		SafeDelete(m_joystickContainer);
-		SafeDelete(m_file);
+		SafeRelease(m_file);
 
 		SafeDelete(m_animationSyatem);
 	}

@@ -8,18 +8,19 @@ namespace ace
 {
 	class AffIndexTable
 	{
-	private:
-		std::map<achar, std::int16_t> m_indexes;
-
 	public:
 		static const int CHARCODE_MAX = 65536;
 		static const int16_t NONAVAILABLE = 0xff;
 
+	private:
+		std::array<int16_t, CHARCODE_MAX> m_indexes;
+
+	public:
 		AffIndexTable();
 
 		void AppendFontIndex(achar charactor, std::int16_t index);
 
-		std::map<achar, std::int16_t>& GetIndexes();
+		std::array<int16_t, CHARCODE_MAX>& GetIndexes();
 
 		void Push(BinaryWriter& writer);
 

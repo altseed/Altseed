@@ -74,27 +74,38 @@ namespace FontGenerator
 	// UTF-16‚ª‘ÎÛ
 	vector<achar> Generator::GetCharactors(astring textPath)
 	{
-		vector<achar> result;
+		std::set<achar> charactors;
 
-		FILE* file;
-		_wfopen_s(&file, textPath.c_str(), L"r");
+		// r‚¾‚Æ“Ç‚İ‚ß‚È‚¢•¶š‚ª‚ ‚é‚Ì‚Årb‚Å“Ç‚İ‚Ş
+		FILE* file = nullptr;
+		_wfopen_s(&file, textPath.c_str(), L"rb");
 
+		// BOMˆ—
 		achar bom;
 		fread(&bom, sizeof(achar), 1, file);
+		if (bom != 65279)
+		{
+			charactors.insert(bom);
+		}
 
+		// •¶š‘ã“ü
 		while (!feof(file))
 		{
 			achar c;
 			if (fread(&c, sizeof(achar), 1, file) == 1)
 			{
-				if (find(result.begin(), result.end(), c) == result.end())
-				{
-					result.push_back(c);
-				}
+				charactors.insert(c);
 			}
 		}
 
 		fclose(file);
+
+		// ŒİŠ·«ˆÛ
+		vector<achar> result;
+		for (auto c : charactors)
+		{
+			result.push_back(c);
+		}
 
 		return result;
 	}

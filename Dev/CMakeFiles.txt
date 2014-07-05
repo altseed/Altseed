@@ -50,9 +50,11 @@ set(core_src
 	ace_cpp/core/Graphics/Animation/ace.AnimationSource_Imp.cpp
 	ace_cpp/core/Graphics/Animation/ace.AnimationSystem_Imp.cpp
 	ace_cpp/core/Graphics/Animation/ace.KeyframeAnimation_Imp.cpp
+	ace_cpp/core/Graphics/Resource/ace.Chip2D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.CubemapTexture_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.DepthBuffer_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Effect_Imp.cpp
+	ace_cpp/core/Graphics/Resource/ace.Font_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.IndexBuffer_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Material2D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Material_Imp.cpp
@@ -69,10 +71,18 @@ set(core_src
 	ace_cpp/core/Input/ace.MiddleButton.cpp
 	ace_cpp/core/Input/ace.Mouse_Imp.cpp
 	ace_cpp/core/Input/ace.SideButton.cpp
+	ace_cpp/core/IO/ace.BaseFile.cpp
+	ace_cpp/core/IO/ace.File_Imp.cpp
+	ace_cpp/core/IO/ace.PathIterator_Imp.cpp
+	ace_cpp/core/IO/ace.Path_Imp.cpp
+	ace_cpp/core/IO/ace.RootPath_Imp.cpp
+	ace_cpp/core/IO/ace.StaticFile_Imp.cpp
+	ace_cpp/core/IO/ace.StreamFile_Imp.cpp
 	ace_cpp/core/Log/ace.Log_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreEffectObject2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D_Imp.cpp
+	ace_cpp/core/ObjectSystem/2D/ace.CoreMapObject2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreTextObject2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D_Imp.cpp
@@ -136,6 +146,8 @@ set(engine_src
 	ace_cpp/engine/ObjectSystem/2D/ace.CameraObject2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.EffectObject2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.cpp
+	ace_cpp/engine/ObjectSystem/2D/ace.MapObject2D.cpp
+	ace_cpp/engine/ObjectSystem/2D/ace.MapObject2D_Imp.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.Object2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.TextObject2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.cpp
@@ -155,6 +167,7 @@ set(engine_src
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffect.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGaussianBlur.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGrayScale.cpp
+	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectLightBloom.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSepia.cpp
 	ace_cpp/engine/PCH/ace.Engine.PCH.cpp
 )
@@ -169,6 +182,7 @@ set(unittest_gtest_src
 	unitTest_cpp_gtest/Graphics/ace.Graphics_Test_Utls.cpp
 	unitTest_cpp_gtest/Graphics/Font/ace.AffHeader_Test.cpp
 	unitTest_cpp_gtest/Graphics/Font/ace.AffIndexTable_Test.cpp
+	unitTest_cpp_gtest/Graphics/Font/ace.AffLoader_Test.cpp
 	unitTest_cpp_gtest/Graphics/Font/ace.GlyphData_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Empty_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_RenderTarget.cpp
@@ -191,14 +205,19 @@ set(unittest_gtest_src
 set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
 	unitTest_Engine_cpp_gtest/EngineTest.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/EffectObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/MapObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/TextObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/TextureObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/Camera3DPostEffect.cpp
-	unitTest_Engine_cpp_gtest/Graphics/3D/Effect3D.cpp
-	unitTest_Engine_cpp_gtest/Graphics/3D/Model.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/EffectObject3D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/ModelObject3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/SimpleMesh.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/CustomPostEffect.cpp
-	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGaussinaBlurTest.cpp
-	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGrayScaleTest.cpp
-	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepiaTest.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGaussinaBlur.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGrayScale.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectLightBloom.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepia.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Camera.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
@@ -208,11 +227,11 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayerHasNoObject.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayersFlag.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayersMember.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/Object2DTest.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsFlag.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsMember.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ParentObject.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/SetSourceOfTexture.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/SimpleObject2D.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/TrasingCamera.cpp
 	unitTest_Engine_cpp_gtest/PCH/ace.UnitTestEngineCpp.PCH.cpp
 	unitTest_Engine_cpp_gtest/Profiler.cpp

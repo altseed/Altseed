@@ -6,8 +6,11 @@ using namespace std;
 namespace ace
 {
 	AffIndexTable::AffIndexTable()
-		: m_indexes(map<achar, int16_t>())
 	{
+		for (int i = 0; i < CHARCODE_MAX; ++i)
+		{
+			m_indexes[i] = NONAVAILABLE;
+		}
 	}
 
 	void AffIndexTable::AppendFontIndex(achar charactor, std::int16_t index)
@@ -15,26 +18,14 @@ namespace ace
 		m_indexes[charactor] = index;
 	}
 
-	map<achar, int16_t>& AffIndexTable::GetIndexes()
+	array<int16_t, AffIndexTable::CHARCODE_MAX>& AffIndexTable::GetIndexes()
 	{
 		return m_indexes;
 	}
 
 	void AffIndexTable::Push(BinaryWriter& writer)
 	{
-		array<int16_t, CHARCODE_MAX> indexes;
-
-		for (int i = 0; i < CHARCODE_MAX; ++i)
-		{
-			indexes[i] = NONAVAILABLE;
-		}
-
 		for (auto& x : m_indexes)
-		{
-			indexes[(int)(x.first)] = x.second;
-		}
-
-		for (auto& x : indexes)
 		{
 			writer.Push(x);
 		}

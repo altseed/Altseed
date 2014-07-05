@@ -50,7 +50,7 @@ namespace ace {
 			const ace::astring strNumber = ace::ToAString(std::to_string(pictureNumber).c_str());
 
 			//PNGファイルへのパス文字列を構成。
-			const ace::astring pngFilePath = (rawFilePath + strNumber + pngExtension);
+			const ace::astring pngFilePath = (rawFilePath + ace::astring(ToAString("_")) + strNumber + pngExtension);
 
 			//この連番のファイルが存在するか否か調べて、存在しなかったらループを抜ける。
 
@@ -75,6 +75,9 @@ namespace ace {
 	Font_Imp::~Font_Imp()
 	{
 		m_textures.clear();
+		m_glyphs.clear();
+		auto g = (Graphics_Imp*)GetGraphics();
+		g->GetResourceContainer()->Fonts.Unregist(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -130,7 +133,7 @@ namespace ace {
 			const ace::astring strNumber = ace::astring(ace::ToAString(std::to_string(pictureNumber).c_str()));
 
 			//PNGファイルへのパス文字列を構成。
-			const ace::astring pngFilePath = (rawFilePath + strNumber + pngExtension);
+			const ace::astring pngFilePath = (rawFilePath + ace::astring(ToAString("_")) + strNumber + pngExtension);
 
 			auto texture = m_graphics->CreateTexture2D(pngFilePath.c_str());
 

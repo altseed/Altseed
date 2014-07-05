@@ -10,7 +10,7 @@ namespace ace{
 	public:
 		static Keyboard_Imp* Create(Window_Imp *window_Imp);
 		void RefreshInputState();
-		const KeyboardButtonState GetKeyState(Keys key);
+		const KeyState GetKeyState(Keys key);
 		Keyboard_Imp(Window_Imp *window_Imp);
 		virtual ~Keyboard_Imp();
 	private:

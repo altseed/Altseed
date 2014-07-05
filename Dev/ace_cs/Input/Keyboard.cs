@@ -14,19 +14,19 @@ namespace ace
         /// <summary>
         ///Pull-キーを離した瞬間のみ返す
         /// </summary>
-        Pull = ace.swig.KeyboardButtonState.Pull,
+        Pull = ace.swig.KeyState.Pull,
         /// <summary>
         /// Push-キーを押した瞬間のみ返す
         /// </summary>
-        Push = ace.swig.KeyboardButtonState.Push,
+        Push = ace.swig.KeyState.Push,
         /// <summary>
         /// Free-キーを押していない時に返す
         /// </summary>
-        Free = ace.swig.KeyboardButtonState.Free,
+        Free = ace.swig.KeyState.Free,
         /// <summary>
         /// Hold-キーを押している時に返す
         /// </summary>
-        Hold = ace.swig.KeyboardButtonState.Hold
+        Hold = ace.swig.KeyState.Hold
     };
 
     /// <summary>

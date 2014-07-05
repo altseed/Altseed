@@ -115,10 +115,10 @@ def copytree(src,dst,change=False):
 	if not os.path.exists(dst):
 		shutil.copytree(src,dst)
 
-def editCmakeForACE(path):
+def editCmakeForACE(path,enc='utf-8'):
 	# This script edits a cmake file for ACE.
 	# The script appends fPIC to compile on 64bit *nix OS.
-	f = open(path)
+	f = open(path, 'r', encoding=enc)
 	lines = f.read()
 	f.close()
 

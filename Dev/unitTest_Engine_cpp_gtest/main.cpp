@@ -32,15 +32,14 @@ EXTERN_ENGINE_TEST(Graphics, CustomPostEffect)
 
 extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
 
-extern void ObjectSystem_Text2DTest_(bool isOpenGLMode);
-
-extern void ObjectSystem_Map2DTest_(bool isGL);
-
 EXTERN_ENGINE_TEST(Graphics, EffectObject3D)
 EXTERN_ENGINE_TEST(Graphics, SimpleMesh)
 EXTERN_ENGINE_TEST(Graphics, ModelObject3D)
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
+
+EXTERN_ENGINE_TEST(Graphics, TextObject2D)
+EXTERN_ENGINE_TEST(Graphics, MapObject2D)
 
 /**
 	@brief	単体テストを実行する。
@@ -57,8 +56,8 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	ObjectSystem_Text2DTest_(true);
-	return 0;
+	//Test_ObjectSystem_TextObject2D(true);
+	//return 0;
 
 	//TestCamera(true);
 	//TestCamera(false);
