@@ -63,7 +63,8 @@ namespace FontGenerator
 		{
 			while(true)
 			{
-				var result = byte.TryParse(Console.ReadLine(), out byte b);
+				byte b;
+				var result = byte.TryParse(Console.ReadLine(), out b);
 				if(result)
 				{
 					return b;

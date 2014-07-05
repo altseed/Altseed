@@ -9,7 +9,7 @@ aceutils.rmdir(r'Effekseer-master')
 aceutils.wget(r'https://github.com/effekseer/Effekseer/archive/master.zip')
 aceutils.unzip(r'master.zip')
 
-aceutils.editCmakeForACE(r'Effekseer-master/Dev/Cpp/CMakeLists.txt')
+aceutils.editCmakeForACE(r'Effekseer-master/Dev/Cpp/CMakeLists.txt','cp932')
 
 aceutils.mkdir(r"effekseer_bin")
 aceutils.cd(r"effekseer_bin")

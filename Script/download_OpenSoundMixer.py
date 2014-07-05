@@ -9,7 +9,7 @@ aceutils.rmdir(r'OpenSoundMixer-master')
 aceutils.wget(r'https://github.com/ac-engine/OpenSoundMixer/archive/master.zip')
 aceutils.unzip(r'master.zip')
 
-aceutils.editCmakeForACE(r'OpenSoundMixer-master/CMakeLists.txt')
+aceutils.editCmakeForACE(r'OpenSoundMixer-master/CMakeLists.txt','cp932')
 
 if aceutils.isWin():
 	aceutils.cd(r"OpenSoundMixer-master")

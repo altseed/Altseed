@@ -31,10 +31,10 @@ protected:
 
 		auto g = ace::Engine::GetGraphics();
 		
-		auto font = g->CreateFont(ace::ToAString("Data/Text/Nac0703.aff").c_str());
+		auto font = g->CreateFont(ace::ToAString("Data/Text/Nac0703b.aff").c_str());
 
 		object->SetFont(font);
-		object->SetText(ToAString("Font"));
+		object->SetText(ToAString("DPは依存関係"));
 
 		//object->SetCenterPosition(Vector2DF(128, 128));
 		object->SetPosition(Vector2DF(0, 0));
