@@ -193,12 +193,29 @@ namespace ace
 		color.at(2) = m_color;
 		color.at(3) = m_color;
 
+		int offset = 0;
 		Font_Imp *font_Imp = (Font_Imp*)m_font;
 
 		for (int textIndex = 0; textIndex < m_text.length(); ++textIndex)
 		{
-			if (!font_Imp->HasGlyphData(m_text[textIndex]))
+			if (m_text[textIndex] != '\n' && !font_Imp->HasGlyphData(m_text[textIndex]))
 			{
+				continue;
+			}
+			else if (m_text[textIndex] == '\n')
+			{
+				if (m_writingDirection == WritingDirection::Horizontal)
+				{
+					drawPosition.X = 0;
+					drawPosition.Y += offset;
+				}
+				else
+				{
+					drawPosition.X += offset;
+					drawPosition.Y = 0;
+				}
+				offset = 0;
+
 				continue;
 			}
 
@@ -263,10 +280,12 @@ namespace ace
 			if (m_writingDirection == WritingDirection::Horizontal)
 			{
 				drawPosition += ace::Vector2DF(glyphSrc.Width, 0);
+				offset = max(glyphSrc.Width, offset);
 			}
 			else
 			{
 				drawPosition += ace::Vector2DF(0, glyphSrc.Height);
+				offset = max(glyphSrc.Height, offset);
 			}
 		}
 
