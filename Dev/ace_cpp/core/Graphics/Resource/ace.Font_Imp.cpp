@@ -83,6 +83,40 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	Vector2DI Font_Imp::CalcTextureSize(achar* text, WritingDirection writingDirection)
+	{
+		if (m_glyphs.empty() && m_textures.empty())
+		{
+			return Vector2DI(0, 0);
+		}
+		else
+		{
+			Vector2DI size = Vector2DI(0, 0);
+			astring t = ToAString(text);
+			for (auto c = t.begin(); c != t.end(); ++c)
+			{
+				assert(HasGlyphData(*c));
+
+				auto src = m_glyphs[*c].GetSrc();
+				if (writingDirection == WritingDirection::Horizontal)
+				{
+					size.X += src.Width;
+					size.Y = max(src.Height, size.Y);
+				}
+				else
+				{
+					size.X = max(src.Width, size.X);
+					size.Y += src.Height;
+				}
+			}
+
+			return size;
+		}
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	const std::shared_ptr<Texture2D> Font_Imp::GetTexture(int index) const
 	{
 		if (index < 0 || index >= m_textures.size())
