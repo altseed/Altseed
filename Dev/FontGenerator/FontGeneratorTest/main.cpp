@@ -44,16 +44,16 @@ int main()
 	{
 		SettingForRendering setting;
 		setting.SetFontSize(32);
-		setting.SetFontColor(Color(255, 0, 0, 255));
-		//setting.SetBold(make_shared<BoldSetting>(1));
+		setting.SetFontColor(Color(255, 128, 0, 255));
+		//setting.SetBold(make_shared<BoldSetting>(1));	
 		//setting.SetBorder(make_shared<BorderSetting>(4, Color(0, 0, 0, 255)));
 		
 		gen.SetSetting(setting);
-		gen.SetSheetName(L"result/Nac0703");
+		gen.SetSheetName(L"result/Nac0703b");
 
 		gen.GenerateFontFile(
-			L"C:/Windows/Fonts/Consola.ttf",
-			L"textFile.txt");
+			L"C:/Windows/Fonts/meiryo.ttc",
+			L"test.txt");
 	}
 	catch (const char* err)
 	{
