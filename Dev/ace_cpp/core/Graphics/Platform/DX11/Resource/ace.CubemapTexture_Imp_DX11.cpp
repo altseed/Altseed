@@ -45,12 +45,12 @@ namespace ace
 		uint8_t* buffers [] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
 		const achar* pathes[] = {
-			front,
-			left,
-			back,
 			right,
+			left,
 			top,
 			bottom,
+			front,
+			back,
 		};
 
 		for (int32_t i = 0; i < 6; i++)
@@ -64,7 +64,7 @@ namespace ace
 		for (int32_t i = 0; i < 6; i++)
 		{
 			void* result = nullptr;
-			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), true, widthes[i], heights[i], result))
+			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), false, widthes[i], heights[i], result))
 			{
 				buffers[i] = (uint8_t*) result;
 			}

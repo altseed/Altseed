@@ -481,7 +481,16 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 
 				GLCheckError();
 				glActiveTexture(GL_TEXTURE0 + i);
-				glBindTexture(GL_TEXTURE_2D, buf);
+
+				if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+				{
+					glBindTexture(GL_TEXTURE_CUBE_MAP, buf);
+				}
+				else
+				{
+					glBindTexture(GL_TEXTURE_2D, buf);
+				}
+				
 				GLCheckError();
 
 				auto id = glGetUniformLocation(program, texName);

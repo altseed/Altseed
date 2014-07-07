@@ -82,6 +82,10 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 		{
 			textures.push_back(name);
 		}
+		else if (type == GL_SAMPLER_CUBE)
+		{
+			textures.push_back(name);
+		}
 		else
 		{
 			ConstantLayout l;
