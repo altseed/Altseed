@@ -24,7 +24,7 @@ namespace ace
 		virtual void EnumerateFiles(const astring& path, const astring& searchPattern) const = 0;
 		virtual void EnumerateFiles(const astring& path, const astring& searchPattern, bool isRecursive) const = 0;
 		virtual bool Exists(const astring& path) const = 0;
-		virtual StaticFile* GetStaticFile(const astring& path) = 0;
-		virtual StreamFile* GetStreamFile(const astring& path) = 0;
+		virtual StaticFile* CreateStaticFile(const astring& path) = 0;
+		virtual StreamFile* CreateStreamFile(const astring& path) = 0;
 	};
 }

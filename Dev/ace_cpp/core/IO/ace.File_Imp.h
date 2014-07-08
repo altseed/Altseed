@@ -54,8 +54,8 @@ namespace ace
 		virtual void EnumerateFiles(const astring& path, const astring& searchPattern) const;
 		virtual void EnumerateFiles(const astring& path, const astring& searchPattern, bool isRecursive) const;
 		virtual bool Exists(const astring& path) const;
-		virtual StaticFile* GetStaticFile(const astring& path);
-		virtual StreamFile* GetStreamFile(const astring& path);
+		virtual StaticFile* CreateStaticFile(const astring& path);
+		virtual StreamFile* CreateStreamFile(const astring& path);
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }

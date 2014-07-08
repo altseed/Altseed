@@ -62,7 +62,7 @@ namespace ace
 		return true;
 	}
 
-	StaticFile* File_Imp::GetStaticFile(const astring& path)
+	StaticFile* File_Imp::CreateStaticFile(const astring& path)
 	{
 		if (!Path_Imp::IsAbsolutePath(path))
 		{
@@ -127,7 +127,7 @@ namespace ace
 		}
 	}
 
-	StreamFile* File_Imp::GetStreamFile(const astring& path)
+	StreamFile* File_Imp::CreateStreamFile(const astring& path)
 	{
 		if (!Path_Imp::IsAbsolutePath(path))
 		{
