@@ -1,4 +1,9 @@
 ﻿#include "ace.File_Imp.h"
+#include "ace.BaseFile_Imp.h"
+#include "ace.BaseFile_Imp.h"
+#include "ace.Path_Imp.h"
+#include "ace.StaticFile_Imp.h"
+#include "ace.StreamFile_Imp.h"
 #include <array>
 #include <algorithm>
 #include <sys/stat.h>
