@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "../ace.Core.Base.h"
-#include "../Core/ace.Core.Base.h"
 #include "ace.RootPath_Imp.h"
 #include "ace.BaseFile_Imp.h"
 #include "ace.File.h"
