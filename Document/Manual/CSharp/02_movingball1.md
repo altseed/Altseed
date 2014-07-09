@@ -1,4 +1,4 @@
-ACE Tutorial (C#)
+﻿ACE Tutorial (C#)
 =================
 
 MovingBall
@@ -6,7 +6,7 @@ MovingBall
 
 ### 概要
 
-ここではACEに限らず、ゲームエンジンでのゲーム作成における基本概念、Scene、Layerなどの説明を交えながら、ボールが画面内を動き回るといったごく簡単なアニメーションを作っていきます。
+ここではACEに限らない一般的なゲームエンジンでのゲーム作成における基本概念、Scene、Layerなどの説明を交えながら、ボールが画面内を動き回るといったごく簡単なアニメーションを作っていきます。
 
 ### プロジェクトの用意
 
@@ -29,7 +29,7 @@ namespace MovingBall
 
         static void Main(string[] args)
         {
-            var option = new EngineOption { GraphicsType = GraphicsType.DirectX11, IsFullScreen = false };
+            var option = new EngineOption { IsFullScreen = false };
 
             Engine.Initialize("Moving Ball", WIDTH, HEIGHT, option);
 
@@ -48,13 +48,13 @@ namespace MovingBall
 }
 ```
 
-導入のときと違うことは、他クラスからウィンドウサイズを読み込めるように変数を追加したことと、while文の中に現在のSceneが分かるように`Console.WriteLine()`を追加したことです。
+「ACEの導入」と違う点は、他クラスからウィンドウサイズを読み込めるように変数を追加した点と、while文の中に現在のSceneが分かるように`Console.WriteLine()`を追加した点です。
 
 ### Sceneの追加
 
-Sceneクラスはゲーム画面を構成するクラスです。普通、ゲームにはスタート画面、プレイ画面、ゲームオーバー画面などが存在すると思います。その画面ごとにSceneを継承した新しいクラスを定義してゲーム画面を作っていきます。
+Sceneクラスはゲーム画面を構成するクラスです。普通、ゲームにはスタート画面、プレイ画面、ゲームオーバー画面などが存在します。その画面ごとにSceneを継承した新しいクラスを定義してゲーム画面を作成していきます。
 
-ボールを動かすための画面、`BallScene()`を作成します。ソリューションエクスプローラから「MovingBall」プロジェクトを右クリックして「追加>既存の項目」を選択、名前を「BallScene.cs」にしたクラスファイルを作ってください。そして、その中身を以下のように書き換えます。
+ボールを動かすための画面、`BallScene()`を作成します。ソリューションエクスプローラから「MovingBall」プロジェクトを右クリックして「追加>既存の項目」を選択、名前を「BallScene.cs」にしたクラスファイルを作成してください。そして、その中身を以下のように書き換えます。
 
 ```csharp
 using ace;
@@ -88,7 +88,7 @@ Visual Studioを使っている方はこのソースの`Scene`を選択し、F12
 
 これでとりあえず、Sceneクラスが用意出来ました。これをEngineに反映させます。「Program.cs」の`Engine`を選択してF12で定義を見てみましょう。中に`ChangeScene()`メソッドが含まれているはずです。ACEではこれを使ってSceneの変更を行います。
 
-それでは、以下のコードを「Program.cs」のwhile文の直前に追加し、デバッグで実行してみてください（F5キーでDebugモードで開始）
+それでは、以下のコードを「Program.cs」のwhile文の直前に追加し、デバッグで実行してみてください（F5キーでDebug開始）
 
 ```csharp
 var scene = new BallScene();

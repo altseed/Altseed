@@ -23,7 +23,7 @@ ACEの導入
 5. 追加した「ace\_cs.dll」を右クリックして「プロパティ」を開き、出力ディレクトリを「新しい場合はコピーする」を選択。「ace\_core.dll」に対しても同様の操作を行う。
 6. 「ACEtest>参照設定」を右クリックして「参照の追加」、ここで4で追加したace_cs.dllにチェックを入れて「OK」
 
-以上でACEが使えるようになったはずです。
+以上でACEが使えるようになります。
 
 ※「構築されているプロジェクトのプロセッサ アーキテクチャ “MSIL” と、参照...」のような警告が出る方は「ビルド>構成マネージャー」から「プラットフォーム」をx86とすれば治ります。
 
@@ -43,7 +43,7 @@ namespace ACEtest
         static void Main(string[] args)
         {
             // エンジンのオプション
-            var option = new EngineOption { GraphicsType = GraphicsType.DirectX11, IsFullScreen = false };
+            var option = new EngineOption { IsFullScreen = false };
             
             // エンジンの初期化（タイトル、画面横サイズ、画面縦サイズ、オプション）
             Engine.Initialize("ACエンジンテスト", 800, 600, option);
