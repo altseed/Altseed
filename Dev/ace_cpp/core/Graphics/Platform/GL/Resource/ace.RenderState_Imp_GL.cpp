@@ -71,7 +71,7 @@ void RenderState_Imp_GL::Update(bool forced)
 
 	if (m_active.AlphaBlend != m_next.AlphaBlend || forced)
 	{
-		if (m_next.AlphaBlend == ALPHA_BLEND_OPACITY)
+		if (m_next.AlphaBlend == AlphaBlend::Opacity)
 		{
 			glDisable(GL_BLEND);
 		}
@@ -79,7 +79,7 @@ void RenderState_Imp_GL::Update(bool forced)
 		{
 			glEnable(GL_BLEND);
 
-			if (m_next.AlphaBlend == ALPHA_BLEND_SUB)
+			if (m_next.AlphaBlend == AlphaBlend::Sub)
 			{
 				//glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
 				//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -90,15 +90,15 @@ void RenderState_Imp_GL::Update(bool forced)
 			{
 				//glBlendEquation(GL_FUNC_ADD);
 				glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-				if (m_next.AlphaBlend == ALPHA_BLEND_BLEND)
+				if (m_next.AlphaBlend == AlphaBlend::Blend)
 				{
 					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
 				}
-				else if (m_next.AlphaBlend == ALPHA_BLEND_ADD)
+				else if (m_next.AlphaBlend == AlphaBlend::Add)
 				{
 					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE, GL_ONE, GL_ONE);
 				}
-				else if (m_next.AlphaBlend == ALPHA_BLEND_MUL)
+				else if (m_next.AlphaBlend == AlphaBlend::Mul)
 				{
 					glBlendFuncSeparate(GL_ZERO, GL_SRC_COLOR, GL_ONE, GL_ONE);
 				}

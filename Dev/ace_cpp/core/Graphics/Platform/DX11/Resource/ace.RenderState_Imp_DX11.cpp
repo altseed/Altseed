@@ -53,7 +53,7 @@ RenderState_Imp_DX11::RenderState_Imp_DX11(Graphics_Imp_DX11* graphics)
 
 		for (int32_t k = 0; k < 8; k++)
 		{
-			Desc.RenderTarget[k].BlendEnable = i != ALPHA_BLEND_OPACITY;
+			Desc.RenderTarget[k].BlendEnable = i != (int32_t)AlphaBlend::Opacity;
 			Desc.RenderTarget[k].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 			Desc.RenderTarget[k].SrcBlendAlpha = D3D11_BLEND_ONE;
 			Desc.RenderTarget[k].DestBlendAlpha = D3D11_BLEND_ONE;
@@ -61,28 +61,28 @@ RenderState_Imp_DX11::RenderState_Imp_DX11(Graphics_Imp_DX11* graphics)
 
 			switch (i)
 			{
-			case ALPHA_BLEND_OPACITY:
+			case (int32_t) AlphaBlend::Opacity:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ZERO;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-			case ALPHA_BLEND_BLEND:
+			case (int32_t) AlphaBlend::Blend:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-			case ALPHA_BLEND_ADD:
+			case (int32_t) AlphaBlend::Add:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-			case ALPHA_BLEND_SUB:
+			case (int32_t) AlphaBlend::Sub :
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_REV_SUBTRACT;
 				break;
 
-			case ALPHA_BLEND_MUL:
+			case (int32_t) AlphaBlend::Mul:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_SRC_COLOR;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ZERO;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
@@ -203,7 +203,7 @@ void RenderState_Imp_DX11::Update(bool forced)
 	if (changeBlend)
 	{
 		float blendFactor [] = { 0, 0, 0, 0 };
-		m_graphics->GetContext()->OMSetBlendState(m_bStates[m_next.AlphaBlend], blendFactor, 0xFFFFFFFF);
+		m_graphics->GetContext()->OMSetBlendState(m_bStates[(int32_t)m_next.AlphaBlend], blendFactor, 0xFFFFFFFF);
 	}
 
 	for (int32_t i = 0; i < TextureCount; i++)

@@ -15,7 +15,7 @@ namespace ace
 		{
 		}
 
-		virtual eObject2DType GetObjectType() const = 0;
+		virtual Object2DType GetObjectType() const = 0;
 
 		virtual bool GetIsDrawn() const = 0;
 		virtual void SetIsDrawn(bool value) = 0;

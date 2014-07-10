@@ -78,7 +78,7 @@ namespace ace {
 					color		Colors[4];
 					vector2DF	UV[4];
 					Texture2D*	Texture;
-					eAlphaBlend	AlphaBlend;
+					AlphaBlend	AlphaBlend;
 				} Sprite;
 			} Data;
 		};
@@ -95,7 +95,7 @@ namespace ace {
 		struct SpriteState
 		{
 			Texture2D*	Texture;
-			eAlphaBlend	AlphaBlend;
+			AlphaBlend	AlphaBlend;
 		} m_state;
 
 		/**
@@ -133,7 +133,7 @@ namespace ace {
 
 		void ClearCache();
 
-		void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, eAlphaBlend alphaBlend, int32_t priority);
+		void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
 
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
 

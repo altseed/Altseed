@@ -61,7 +61,7 @@ namespace ace
 		/**
 		@brief	このオブジェクトを描画する際のブレンドモードを取得します。
 		*/
-		const eAlphaBlend GetAlphaBlendMode() const;
+		const AlphaBlend GetAlphaBlendMode() const;
 
 		/**
 		@brief	このオブジェクトを描画する際の描画方向を設定します。
@@ -106,7 +106,7 @@ namespace ace
 		/**
 		@brief	このオブジェクトを描画する際のブレンドモードを設定する。
 		*/
-		void SetAlphaBlendMode(eAlphaBlend alphaBlend);
+		void SetAlphaBlendMode(AlphaBlend alphaBlend);
 
 	};
 }

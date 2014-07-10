@@ -28,7 +28,7 @@ namespace ace
 		CoreEffectObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreEffectObject2D_Imp();
 
-		eObject2DType GetObjectType() const override { return eObject2DType::RENDERED_OBJECT2D_TYPE_EFFECT; }
+		Object2DType GetObjectType() const override { return Object2DType::Effect; }
 
 		void SetEffect(Effect* effect);
 

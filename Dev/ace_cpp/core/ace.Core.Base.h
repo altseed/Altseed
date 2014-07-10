@@ -105,30 +105,31 @@ namespace ace {
 
 	};
 
-	enum eAlphaBlend
+	/**
+		@brief	描画時のブレンドモードを表す列挙体
+	*/
+	enum class AlphaBlend : int32_t
 	{
 		/// <summary>
 		/// 不透明
 		/// </summary>
-		ALPHA_BLEND_OPACITY = 0,
+		Opacity = 0,
 		/// <summary>
 		/// 透明
 		/// </summary>
-		ALPHA_BLEND_BLEND = 1,
+		Blend = 1,
 		/// <summary>
 		/// 加算
 		/// </summary>
-		ALPHA_BLEND_ADD = 2,
+		Add = 2,
 		/// <summary>
 		/// 減算
 		/// </summary>
-		ALPHA_BLEND_SUB = 3,
+		Sub = 3,
 		/// <summary>
 		/// 乗算
 		/// </summary>
-		ALPHA_BLEND_MUL = 4,
-
-		ALPHA_BLEND_DWORD = 0x7fffffff,
+		Mul = 4,
 	};
 
 	enum class TextureFilterType : int32_t
@@ -162,14 +163,14 @@ namespace ace {
 		OpenGL = 2,			///< OpenGL
 	};
 
-	enum eObject2DType
+	enum class Object2DType : int32_t
 	{
-		RENDERED_OBJECT2D_TYPE_UNKNOWN,
-		RENDERED_OBJECT2D_TYPE_TEXTURE,
-		RENDERED_OBJECT2D_TYPE_CAMERA,
-		RENDERED_OBJECT2D_TYPE_EFFECT,
-		RENDERED_OBJECT2D_TYPE_TEXT,
-		RENDERED_OBJECT2D_TYPE_MAP,
+		Unknown,
+		Texture,
+		Camera,
+		Effect,
+		Text,
+		Map,
 	};
 
 	enum eRenderedObject3DType

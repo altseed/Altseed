@@ -60,6 +60,10 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 
+	Graphics_CubemapTexture(true);
+	Graphics_CubemapTexture(false);
+	return 0;
+
 	Font_AffLoader();
 	getchar();
 	return 0;

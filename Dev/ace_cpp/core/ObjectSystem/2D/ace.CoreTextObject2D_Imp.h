@@ -13,7 +13,7 @@ namespace ace
 		CoreTextObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreTextObject2D_Imp();
 
-		eObject2DType GetObjectType() const override { return eObject2DType::RENDERED_OBJECT2D_TYPE_TEXT; }
+		Object2DType GetObjectType() const override { return Object2DType::Text; }
 
 	private:
 		WritingDirection m_writingDirection;
@@ -22,7 +22,7 @@ namespace ace
 		Color m_color;
 		bool m_turnLR;
 		bool m_turnUL;
-		eAlphaBlend m_alphablend;
+		AlphaBlend m_alphablend;
 		int m_drawingPtiority;
 		astring m_text;
 
@@ -52,8 +52,8 @@ namespace ace
 		const int GetDrawingPriority() const override;
 		void SetDrawingPriority(int priority) override;
 
-		const eAlphaBlend GetAlphaBlendMode() const override;
-		void SetAlphaBlendMode(eAlphaBlend alphaBlend) override;
+		const AlphaBlend GetAlphaBlendMode() const override;
+		void SetAlphaBlendMode(AlphaBlend alphaBlend) override;
 #pragma endregion
 
 		void Draw(Renderer2D* renderer, Matrix33 cameraMatrix) override;

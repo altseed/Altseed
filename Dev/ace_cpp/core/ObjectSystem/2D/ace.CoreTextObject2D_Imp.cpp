@@ -13,7 +13,7 @@ namespace ace
 		, m_turnLR(false)
 		, m_turnUL(false)
 		, m_text(ace::ToAString(""))
-		, m_alphablend(eAlphaBlend::ALPHA_BLEND_BLEND)
+		, m_alphablend(AlphaBlend::Blend)
 		, m_drawingPtiority(0)
 		, m_writingDirection(WritingDirection::Horizontal)
 	{
@@ -158,7 +158,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const eAlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
+	const AlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
 	{
 		return m_alphablend;
 	}
@@ -166,7 +166,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetAlphaBlendMode(eAlphaBlend alphablend)
+	void CoreTextObject2D_Imp::SetAlphaBlendMode(AlphaBlend alphablend)
 	{
 		m_alphablend = alphablend;
 	}
