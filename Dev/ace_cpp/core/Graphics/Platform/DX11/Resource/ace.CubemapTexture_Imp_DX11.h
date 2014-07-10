@@ -2,6 +2,7 @@
 #pragma once
 
 #include "../../../Resource/ace.CubemapTexture_Imp.h"
+#include <array>
 
 namespace ace
 {
@@ -12,7 +13,9 @@ namespace ace
 		ID3D11Texture2D*	m_texture;
 		ID3D11ShaderResourceView*	m_textureSRV;
 		
-		CubemapTexture_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV);
+		std::array<std::vector<ID3D11RenderTargetView*>,6>		m_textureRTVs;
+
+		CubemapTexture_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, std::array<std::vector<ID3D11RenderTargetView*>, 6>& textureRTVs);
 		virtual ~CubemapTexture_Imp_DX11();
 
 	public:
