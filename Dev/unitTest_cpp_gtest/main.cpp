@@ -41,6 +41,7 @@ extern void Graphics_PostEffectRenderer(bool isOpenGLMode);
 extern void Graphics_LayerRenderer(bool isOpenGLMode);
 extern void Graphics_Mesh(bool isOpenGLMode);
 extern void Graphics_Empty(bool isOpenGLMode);
+extern void Graphics_CubemapTexture(bool isOpenGLMode);
 
 //extern void Profiler_Profiling();
 

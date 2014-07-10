@@ -57,10 +57,10 @@ namespace ace
 
 		const achar* pathes[] = {
 			left,
-			bottom,
+			top,
 			back,			
 			right,
-			top,
+			bottom,
 			front,
 		};
 
@@ -75,7 +75,7 @@ namespace ace
 		for (int32_t i = 0; i < 6; i++)
 		{
 			void* result = nullptr;
-			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), false, widthes[i], heights[i], result))
+			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), true, widthes[i], heights[i], result))
 			{
 				buffers[i] = (uint8_t*) result;
 			}

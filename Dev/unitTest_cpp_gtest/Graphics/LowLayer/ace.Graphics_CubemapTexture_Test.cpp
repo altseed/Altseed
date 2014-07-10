@@ -1,4 +1,4 @@
-
+Ôªø
 
 #include "../ace.Graphics_Test_Utls.h"
 
@@ -77,7 +77,7 @@ void main()
 	vec2 uv_ = vaTexCoord.xy;
 	//uv_.y = 1.0 - uv_.y;
 
-	vec3 uv = vec3(uv_.x, uv_.y, 1.0 - dot(uv_,uv_));
+	vec3 uv = vec3(uv_.x, -uv_.y, 1.0 - dot(uv_,uv_));
 	uv = normalize(uv);
 
 	gl_FragColor = textureCube(g_texture, uv.xyz);
@@ -103,7 +103,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	StartGraphicsTest();
 	SetGLEnable(isOpenGLMode);
 
-	ace::Log* log = ace::Log_Imp::Create(L"graphics.html", L"ï`âÊ");
+	ace::Log* log = ace::Log_Imp::Create(L"graphics.html", L"ÊèèÁîª");
 
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"CubemapTexture").c_str());
 	ASSERT_TRUE(window != nullptr);
