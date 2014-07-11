@@ -28,7 +28,7 @@ namespace ace {
 		Color m_color;
 		bool m_turnLR;
 		bool m_turnUL;
-		eAlphaBlend m_alphaBlend;
+		AlphaBlend m_alphaBlend;
 
 	public:
 
@@ -47,8 +47,8 @@ namespace ace {
 		const bool GetTurnUL() const override;
 		void SetTurnUL(bool turnUL) override;
 
-		const eAlphaBlend GetAlphaBlendMode() const override;
-		void SetAlphaBlendMode(eAlphaBlend alphaBlend) override;
+		const AlphaBlend GetAlphaBlendMode() const override;
+		void SetAlphaBlendMode(AlphaBlend alphaBlend) override;
 
 		Chip2D_Imp(Graphics* graphics);
 		virtual ~Chip2D_Imp();

@@ -45,5 +45,17 @@ namespace ace
             }
             System.GC.SuppressFinalize(this);
         }
+
+        /// <summary>
+        /// 描画テキストと描画方向を与えると、その文字の描画領域を返す。
+        /// </summary>
+        /// <param name="text">描画テキスト</param>
+        /// <param name="writingDirection">描画方向</param>
+        /// <returns>文字の描画領域</returns>
+        public Vector2DI CalcTextureSize(string text, WritingDirection writingDirection)
+        {
+            return SwigObject.CalcTextureSize(text, (ace.swig.WritingDirection)writingDirection);
+        }
+            
     }
 }

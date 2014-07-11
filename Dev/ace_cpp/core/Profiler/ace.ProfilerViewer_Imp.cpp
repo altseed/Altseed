@@ -75,7 +75,7 @@ namespace ace
 				p->colors,
 				p->uvs,
 				m_materTexture.get(),
-				eAlphaBlend::ALPHA_BLEND_BLEND,
+				AlphaBlend::Blend,
 				0);
 
 			++index;

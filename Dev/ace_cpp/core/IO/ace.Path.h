@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "../ace.Core.Base.h"
-#include "../Core/ace.Core.Base.h"
 #include "ace.PathIterator.h"
 
 namespace ace

@@ -93,10 +93,10 @@ namespace ace
 		/**
 			@brief	このオブジェクトのブレンディング モードを取得する。
 		*/
-		eAlphaBlend GetAlphaBlendMode() const;
+		AlphaBlend GetAlphaBlendMode() const;
 		/**
 			@brief	このオブジェクトのブレンディング モードを設定する。
 		*/
-		void SetAlphaBlendMode(eAlphaBlend alphaBlend);
+		void SetAlphaBlendMode(AlphaBlend alphaBlend);
 	};
 }

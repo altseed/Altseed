@@ -622,7 +622,7 @@ namespace ace
 							state.DepthTest = true;
 							state.DepthWrite = true;
 							state.CullingType = eCullingType::CULLING_FRONT;
-							state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
+							state.AlphaBlend = AlphaBlend::Opacity;
 
 							GetGraphics()->GetRenderState()->Update(false);
 

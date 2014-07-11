@@ -7,28 +7,31 @@ using System.Threading.Tasks;
 namespace ace
 {
 	/// <summary>
-	/// 描画の際のブレンドモードを表す列挙体。
+	/// 描画時のブレンドモードを表す列挙体
 	/// </summary>
 	public enum AlphaBlendMode
 	{
-		Opacity = swig.eAlphaBlend.ALPHA_BLEND_OPACITY,
-		Blend = swig.eAlphaBlend.ALPHA_BLEND_BLEND,
 		/// <summary>
-		/// 加算合成。
+		/// 不透明
 		/// </summary>
-		Add = swig.eAlphaBlend.ALPHA_BLEND_ADD,
+		Opacity = swig.AlphaBlend.Opacity,
 		/// <summary>
-		/// 減算合成。
+		/// 透明
 		/// </summary>
-		Sub = swig.eAlphaBlend.ALPHA_BLEND_SUB,
+		Blend = swig.AlphaBlend.Blend,
 		/// <summary>
-		/// 乗算合成。
+		/// 加算
 		/// </summary>
-		Mul = swig.eAlphaBlend.ALPHA_BLEND_MUL,
-		Dword = swig.eAlphaBlend.ALPHA_BLEND_DWORD,
+		Add = swig.AlphaBlend.Add,
+		/// <summary>
+		/// 減算
+		/// </summary>
+		Sub = swig.AlphaBlend.Sub,
+		/// <summary>
+		/// 乗算
+		/// </summary>
+		Mul = swig.AlphaBlend.Mul,
 	}
-
-
 
 	public enum TextureFormat
 	{

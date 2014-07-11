@@ -119,7 +119,7 @@ namespace ace
 			colors.data(),
 			uvs.data(),
 			m_renderTarget,
-			eAlphaBlend::ALPHA_BLEND_BLEND,
+			AlphaBlend::Blend,
 			0);
 	}
 }

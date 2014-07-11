@@ -120,6 +120,7 @@
     <Compile Include="swig\Accessor.cs" />
     <Compile Include="swig\ace_core_cs.cs" />
     <Compile Include="swig\ace_core_csPINVOKE.cs" />
+    <Compile Include="swig\AlphaBlend.cs" />
     <Compile Include="swig\AnimationClip.cs" />
     <Compile Include="swig\AnimationSource.cs" />
     <Compile Include="swig\AnimationSystem.cs" />
@@ -144,14 +145,12 @@
     <Compile Include="swig\Core_Imp.cs" />
     <Compile Include="swig\CubemapTexture.cs" />
     <Compile Include="swig\Deformer.cs" />
-    <Compile Include="swig\eAlphaBlend.cs" />
     <Compile Include="swig\eChildMode.cs" />
     <Compile Include="swig\eCullingType.cs" />
     <Compile Include="swig\Effect.cs" />
     <Compile Include="swig\eInterpolationType.cs" />
     <Compile Include="swig\eJoystickAxises.cs" />
     <Compile Include="swig\eJoystickButtons.cs" />
-    <Compile Include="swig\eObject2DType.cs" />
     <Compile Include="swig\eRenderedObject3DType.cs" />
     <Compile Include="swig\eRotationOrder.cs" />
     <Compile Include="swig\eTextureClassType.cs" />
@@ -183,6 +182,7 @@
     <Compile Include="swig\Mouse.cs" />
     <Compile Include="swig\MouseButtonState.cs" />
     <Compile Include="swig\Mouse_Imp.cs" />
+    <Compile Include="swig\Object2DType.cs" />
     <Compile Include="swig\ObjectSystemFactory.cs" />
     <Compile Include="swig\Profiler.cs" />
     <Compile Include="swig\Profiler_Imp.cs" />

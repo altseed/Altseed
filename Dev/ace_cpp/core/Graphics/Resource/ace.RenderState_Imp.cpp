@@ -23,7 +23,7 @@ void RenderState_Imp::State::Reset()
 {
 	DepthTest = false;
 	DepthWrite = false;
-	AlphaBlend = ALPHA_BLEND_BLEND;
+	AlphaBlend = AlphaBlend::Blend;
 	CullingType = CULLING_DOUBLE;
 
 	for (auto i = 0; i < TextureCount; i++)

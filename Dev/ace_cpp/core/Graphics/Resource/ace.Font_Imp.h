@@ -41,6 +41,8 @@ namespace ace {
 		Font_Imp(Graphics* graphics, const achar* affFilePath);
 		virtual ~Font_Imp();
 
+		Vector2DI CalcTextureSize(achar* text, WritingDirection writingDirection) override;
+
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
 	public:

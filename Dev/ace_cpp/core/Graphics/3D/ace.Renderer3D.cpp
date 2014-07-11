@@ -499,7 +499,7 @@ namespace ace
 						state.DepthTest = false;
 						state.DepthWrite = false;
 						state.CullingType = CULLING_DOUBLE;
-						state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_ADD;
+						state.AlphaBlend = AlphaBlend::Add;
 						state.TextureFilterTypes[2] = TextureFilterType::Linear;
 						state.TextureFilterTypes[4] = TextureFilterType::Linear;
 						g->GetRenderState()->Update(false);
@@ -548,7 +548,7 @@ namespace ace
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_ADD;
+					state.AlphaBlend = AlphaBlend::Add;
 					state.TextureFilterTypes[2] = TextureFilterType::Linear;
 					state.TextureFilterTypes[4] = TextureFilterType::Linear;
 					g->GetRenderState()->Update(false);
@@ -625,7 +625,7 @@ namespace ace
 				state.DepthTest = false;
 				state.DepthWrite = false;
 				state.CullingType = CULLING_DOUBLE;
-				state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
+				state.AlphaBlend = AlphaBlend::Opacity;
 				state.TextureFilterTypes[2] = TextureFilterType::Linear;
 				state.TextureFilterTypes[4] = TextureFilterType::Linear;
 				g->GetRenderState()->Update(false);
@@ -684,7 +684,7 @@ namespace ace
 			auto& state = m_graphics->GetRenderState()->Push();
 			state.DepthTest = false;
 			state.DepthWrite = false;
-			state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
+			state.AlphaBlend = AlphaBlend::Opacity;
 			state.CullingType = ace::eCullingType::CULLING_DOUBLE;
 			state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
 			m_graphics->GetRenderState()->Update(false);

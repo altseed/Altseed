@@ -34,7 +34,7 @@ namespace ace {
 		, m_graphics(graphics)
 		, m_src(RectF())
 		, m_color(Color())
-		, m_alphaBlend(ALPHA_BLEND_BLEND)
+		, m_alphaBlend(AlphaBlend::Blend)
 		, m_texture(nullptr)
 		, m_turnLR(false)
 		, m_turnUL(false)
@@ -133,7 +133,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const eAlphaBlend Chip2D_Imp::GetAlphaBlendMode() const
+	const AlphaBlend Chip2D_Imp::GetAlphaBlendMode() const
 	{
 		return m_alphaBlend;
 	}
@@ -141,7 +141,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Chip2D_Imp::SetAlphaBlendMode(eAlphaBlend alphaBlend)
+	void Chip2D_Imp::SetAlphaBlendMode(AlphaBlend alphaBlend)
 	{
 		m_alphaBlend = alphaBlend;
 	}

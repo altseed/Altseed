@@ -1,18 +1,20 @@
-﻿# ACE Tutorial (C#)
+﻿ACE Tutorial (C#)
+=================
 
-##ACEの導入
+ACEの導入
+------------------
 
-用意するもの
+### 用意するもの
 
 * Visual Studio 2013
 * ace\_cs.dll
 * ace\_core.dll
 
-[Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)
+[https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing](Download)
 
 現在、ここからACE本体をダウンロードできます。
 
-###導入
+### 導入
 
 1. 「ファイル>新規作成>プロジェクト」を選択
 2. 左のカラムから「インストール済み>テンプレート>Visual C#」を選択して、中央のカラムから「コンソールアプリケーション」を選択
@@ -21,6 +23,43 @@
 5. 追加した「ace\_cs.dll」を右クリックして「プロパティ」を開き、出力ディレクトリを「新しい場合はコピーする」を選択。「ace\_core.dll」に対しても同様の操作を行う。
 6. 「ACEtest>参照設定」を右クリックして「参照の追加」、ここで4で追加したace_cs.dllにチェックを入れて「OK」
 
-以上でACEが使えるようになったはずです。添付したプログラムに従ってProgram.csを書き換えてみてください。「開始」ボタンを押して実行して、画面ウィンドウが出れば成功です。
+以上でACEが使えるようになります。
 
 ※「構築されているプロジェクトのプロセッサ アーキテクチャ “MSIL” と、参照...」のような警告が出る方は「ビルド>構成マネージャー」から「プラットフォーム」をx86とすれば治ります。
+
+### 実行
+
+Program.csを以下のように書き換えてみてください。
+
+```csharp
+// usingディレクティブでace内のクラスを完全修飾名で呼び出さずに済ませる
+using ace;
+using System;
+
+namespace ACEtest
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // エンジンのオプション
+            var option = new EngineOption { IsFullScreen = false };
+            
+            // エンジンの初期化（タイトル、画面横サイズ、画面縦サイズ、オプション）
+            Engine.Initialize("ACエンジンテスト", 800, 600, option);
+
+            // 実行
+            while (Engine.DoEvents())
+            {
+                Engine.Update();
+            }
+
+            // 終了処理
+            Engine.Terminate();
+        }
+    }
+}
+
+```
+
+「開始」ボタンを押して実行しましょう。画面ウィンドウが出れば成功です。

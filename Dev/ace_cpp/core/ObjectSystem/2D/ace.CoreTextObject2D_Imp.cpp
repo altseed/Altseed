@@ -13,7 +13,7 @@ namespace ace
 		, m_turnLR(false)
 		, m_turnUL(false)
 		, m_text(ace::ToAString(""))
-		, m_alphablend(eAlphaBlend::ALPHA_BLEND_BLEND)
+		, m_alphablend(AlphaBlend::Blend)
 		, m_drawingPtiority(0)
 		, m_writingDirection(WritingDirection::Horizontal)
 	{
@@ -158,7 +158,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const eAlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
+	const AlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
 	{
 		return m_alphablend;
 	}
@@ -166,7 +166,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetAlphaBlendMode(eAlphaBlend alphablend)
+	void CoreTextObject2D_Imp::SetAlphaBlendMode(AlphaBlend alphablend)
 	{
 		m_alphablend = alphablend;
 	}
@@ -193,12 +193,29 @@ namespace ace
 		color.at(2) = m_color;
 		color.at(3) = m_color;
 
+		int offset = 0;
 		Font_Imp *font_Imp = (Font_Imp*)m_font;
 
 		for (int textIndex = 0; textIndex < m_text.length(); ++textIndex)
 		{
-			if (!font_Imp->HasGlyphData(m_text[textIndex]))
+			if (m_text[textIndex] != '\n' && !font_Imp->HasGlyphData(m_text[textIndex]))
 			{
+				continue;
+			}
+			else if (m_text[textIndex] == '\n')
+			{
+				if (m_writingDirection == WritingDirection::Horizontal)
+				{
+					drawPosition.X = 0;
+					drawPosition.Y += offset;
+				}
+				else
+				{
+					drawPosition.X += offset;
+					drawPosition.Y = 0;
+				}
+				offset = 0;
+
 				continue;
 			}
 
@@ -263,10 +280,12 @@ namespace ace
 			if (m_writingDirection == WritingDirection::Horizontal)
 			{
 				drawPosition += ace::Vector2DF(glyphSrc.Width, 0);
+				offset = max(glyphSrc.Width, offset);
 			}
 			else
 			{
 				drawPosition += ace::Vector2DF(0, glyphSrc.Height);
+				offset = max(glyphSrc.Height, offset);
 			}
 		}
 

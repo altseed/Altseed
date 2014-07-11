@@ -32,7 +32,7 @@ namespace ace
 		virtual const bool GetTurnUL() const = 0;
 		virtual void SetTurnUL(bool turnUL) = 0;
 
-		virtual const eAlphaBlend GetAlphaBlendMode() const = 0;
-		virtual void SetAlphaBlendMode(eAlphaBlend alphaBlend) = 0;
+		virtual const AlphaBlend GetAlphaBlendMode() const = 0;
+		virtual void SetAlphaBlendMode(AlphaBlend alphaBlend) = 0;
 	};
 }
