@@ -97,7 +97,7 @@ namespace FontGenerator
 	{
 	}
 
-	ResultOfGeneratingPng PngGenerator::Generate_(astring fontPath, vector<achar>& charactors)
+	ResultOfGeneratingPng PngGenerator::Generate(astring fontPath, vector<achar>& charactors)
 	{
 		Font font(fontPath);
 		font.SetFontSize(m_setting.GetFontSize());
@@ -107,6 +107,7 @@ namespace FontGenerator
 
 		for (auto& glyph : font.GetGlyphs(charactors))
 		{
+			auto finalGlyph = m_setting.ProcessGlyph(glyph);
 			auto result = buffer.DrawGlyph(glyph);
 			fontData.push_back(result);
 		}
@@ -123,65 +124,6 @@ namespace FontGenerator
 
 		ResultOfGeneratingPng result;
 		result.sheetCount = buffers.size();
-		result.fonts = fontData;
-		return result;
-	}
-
-	ResultOfGeneratingPng PngGenerator::Generate(astring fontPath, vector<achar>& charactors)
-	{
-		Font m_font(fontPath);
-		m_font.SetFontSize(m_setting.GetFontSize());
-
-		vector<int> buffer(m_sheetSize*m_sheetSize, 0);
-		vector<GlyphData> fontData;
-
-		int outlineWidth = 0;
-		if (m_setting.GetBorder() != nullptr)
-		{
-			outlineWidth = m_setting.GetBorder()->width;
-		}
-
-		int baseLineHeight = m_font.GetFontHeight();
-		int ascender = m_font.GetAscender();
-		int descender = m_font.GetDescender();
-
-		int sheetNum = 0;
-		int penX = 0;
-		int baseLine = 0 + ascender;
-
-		for (auto& glyph : m_font.GetGlyphs(charactors))
-		{
-			auto finalGlyph = m_setting.ProcessGlyph(glyph);
-			auto advance = finalGlyph.GetAdvance();
-
-			if (penX + advance > m_sheetSize)
-			{
-				if (baseLine - descender + baseLineHeight > m_sheetSize)
-				{
-					std::ostringstream os;
-					os << "_" << sheetNum << ".png";
-					auto pngPath = GetSheetName() + ToAString(os.str().c_str());
-					SavePNGImage(pngPath.c_str(), m_sheetSize, m_sheetSize, buffer.data(), false);
-				}
-				else
-				{
-					penX = 0;
-					baseLine += baseLineHeight;
-				}
-			}
-
-			RectI src(penX, baseLine - ascender, advance, baseLineHeight);
-			GlyphData data(glyph->GetCharactor(), 0, src);
-			fontData.push_back(data);
-
-			finalGlyph.Draw(buffer.data(), m_sheetSize, m_sheetSize, penX, baseLine);
-
-			penX += advance;
-		}
-
-
-		ResultOfGeneratingPng result;
-		result.sheetCount = 1;
 		result.fonts = fontData;
 		return result;
 	}

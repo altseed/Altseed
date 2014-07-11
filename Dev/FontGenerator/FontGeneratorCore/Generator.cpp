@@ -42,15 +42,12 @@ namespace FontGenerator
 	{
 		auto charactors = GetCharactors(ToAString(textPath.c_str()));
 
-		auto& color = m_setting.GetFontColor();
-		printf("%d,%d,%d,%d", color.r, color.g, color.b, color.a);
-
 		PngGenerator png;
 		png.SetSetting(m_setting);
 		png.SetSheetName(m_sheetName);
 		png.SetSheetSize(m_sheetSize);
 
-		auto result = png.Generate_(ToAString(fontPath.c_str()), charactors);
+		auto result = png.Generate(ToAString(fontPath.c_str()), charactors);
 		return result;
 	}
 
