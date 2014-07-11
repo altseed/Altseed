@@ -25,8 +25,8 @@ namespace FontGenerator
 	}
 
 	void Generator::GenerateFontFile(
-		wstring fontPath,
-		wstring textPath)
+		astring fontPath,
+		astring textPath)
 	{
 		auto result = RenderPng(fontPath, textPath);
 
@@ -37,16 +37,16 @@ namespace FontGenerator
 		writer.WriteOut(file);
 	}
 
-	ResultOfGeneratingPng Generator::RenderPng(wstring fontPath, wstring textPath)
+	ResultOfGeneratingPng Generator::RenderPng(astring fontPath, astring textPath)
 	{
 		auto charactors = GetCharactors(ToAString(textPath.c_str()));
 
 		PngGenerator png;
 		png.SetSetting(m_setting);
 		png.SetSheetName(m_sheetName);
-		png.SetSheetSize(256);
+		png.SetSheetSize(128);
 
-		auto result = png.Generate(ToAString(fontPath.c_str()), charactors);
+		auto result = png.Generate_(ToAString(fontPath.c_str()), charactors);
 		return result;
 	}
 
@@ -110,12 +110,12 @@ namespace FontGenerator
 		return result;
 	}
 
-	wstring Generator::GetSheetName() const
+	astring Generator::GetSheetName() const
 	{
 		return m_sheetName;
 	}
 
-	void Generator::SetSheetName(wstring value)
+	void Generator::SetSheetName(astring value)
 	{
 		m_sheetName = value;
 	}

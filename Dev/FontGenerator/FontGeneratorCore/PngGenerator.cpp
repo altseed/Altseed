@@ -1,6 +1,9 @@
 
+#include <iostream>
+#include <sstream>
 #include <fstream>
 #include "PngGenerator.h"
+#include "ImageBuffer.h"
 #include <png.h>
 
 #if _DEBUG
@@ -94,6 +97,36 @@ namespace FontGenerator
 	{
 	}
 
+	ResultOfGeneratingPng PngGenerator::Generate_(astring fontPath, vector<achar>& charactors)
+	{
+		Font font(fontPath);
+		font.SetFontSize(m_setting.GetFontSize());
+
+		ImageBuffer buffer(font, m_sheetSize);
+		vector<GlyphData> fontData;
+
+		for (auto& glyph : font.GetGlyphs(charactors))
+		{
+			auto result = buffer.DrawGlyph(glyph);
+			fontData.push_back(result);
+		}
+
+		auto buffers = buffer.GetBuffers();
+
+		for (size_t i = 0; i < buffers.size(); i++)
+		{
+			std::ostringstream os;
+			os << "_" << i << ".png";
+			auto pngPath = GetSheetName() + ToAString(os.str().c_str());
+			SavePNGImage(pngPath.c_str(), m_sheetSize, m_sheetSize, buffers[i]->data(), false);
+		}
+
+		ResultOfGeneratingPng result;
+		result.sheetCount = buffers.size();
+		result.fonts = fontData;
+		return result;
+	}
+
 	ResultOfGeneratingPng PngGenerator::Generate(astring fontPath, vector<achar>& charactors)
 	{
 		Font m_font(fontPath);
@@ -110,7 +143,9 @@ namespace FontGenerator
 
 		int baseLineHeight = m_font.GetFontHeight();
 		int ascender = m_font.GetAscender();
+		int descender = m_font.GetDescender();
 
+		int sheetNum = 0;
 		int penX = 0;
 		int baseLine = 0 + ascender;
 
@@ -121,8 +156,18 @@ namespace FontGenerator
 
 			if (penX + advance > m_sheetSize)
 			{
-				penX = 0;
-				baseLine += baseLineHeight;
+				if (baseLine - descender + baseLineHeight > m_sheetSize)
+				{
+					std::ostringstream os;
+					os << "_" << sheetNum << ".png";
+					auto pngPath = GetSheetName() + ToAString(os.str().c_str());
+					SavePNGImage(pngPath.c_str(), m_sheetSize, m_sheetSize, buffer.data(), false);
+				}
+				else
+				{
+					penX = 0;
+					baseLine += baseLineHeight;
+				}
 			}
 
 			RectI src(penX, baseLine - ascender, advance, baseLineHeight);
@@ -134,8 +179,6 @@ namespace FontGenerator
 			penX += advance;
 		}
 
-		auto pngPath = GetSheetName() + ToAString("_1.png");
-		SavePNGImage(pngPath.c_str(), m_sheetSize, m_sheetSize, buffer.data(), false);
 
 		ResultOfGeneratingPng result;
 		result.sheetCount = 1;
