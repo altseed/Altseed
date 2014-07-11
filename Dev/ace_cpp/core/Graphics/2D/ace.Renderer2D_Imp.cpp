@@ -234,7 +234,7 @@ namespace ace {
 			{
 				if (e.Type == Event::eEventType::Sprite)
 				{
-					SafeRelease(e.Data.Sprite.Texture);
+					SafeRelease(e.Data.Sprite.TexturePtr);
 				}
 			}
 
@@ -253,9 +253,9 @@ namespace ace {
 		memcpy(e.Data.Sprite.Positions, positions, sizeof(ace::Vector2DF) * 4);
 		memcpy(e.Data.Sprite.Colors, colors, sizeof(ace::Color) * 4);
 		memcpy(e.Data.Sprite.UV, uv, sizeof(ace::Vector2DF) * 4);
-		e.Data.Sprite.AlphaBlend = alphaBlend;
-		e.Data.Sprite.Texture = texture;
-		SafeAddRef(e.Data.Sprite.Texture);
+		e.Data.Sprite.AlphaBlendState = alphaBlend;
+		e.Data.Sprite.TexturePtr = texture;
+		SafeAddRef(e.Data.Sprite.TexturePtr);
 
 		AddEvent(priority, e);
 	}
@@ -288,8 +288,8 @@ namespace ace {
 	{
 		auto resetState = [this,e]() -> void
 		{
-			m_state.Texture = e.Data.Sprite.Texture;
-			m_state.AlphaBlend = e.Data.Sprite.AlphaBlend;
+			m_state.TexturePtr = e.Data.Sprite.TexturePtr;
+			m_state.AlphaBlendState = e.Data.Sprite.AlphaBlendState;
 		};
 
 		if (e.Type == Event::eEventType::Sprite)
@@ -303,8 +303,8 @@ namespace ace {
 			{
 				// 同時描画不可のケースかどうか?
 				// もしくはバッファが溢れないかどうか?
-				if (m_state.Texture != e.Data.Sprite.Texture ||
-					m_state.AlphaBlend != e.Data.Sprite.AlphaBlend||
+				if (m_state.TexturePtr != e.Data.Sprite.TexturePtr ||
+					m_state.AlphaBlendState != e.Data.Sprite.AlphaBlendState ||
 					m_drawingSprites.size() >= SpriteCount)
 				{
 					DrawSprite();
@@ -368,7 +368,7 @@ namespace ace {
 
 		// テクスチャの有無でシェーダーを選択
 		std::shared_ptr<NativeShader_Imp> shader;
-		if (m_state.Texture != nullptr)
+		if (m_state.TexturePtr != nullptr)
 		{
 			shader = m_shader;
 		}
@@ -382,9 +382,9 @@ namespace ace {
 		shader->SetVector2DF("Size", windowSize);
 
 		// 描画
-		if (m_state.Texture != nullptr)
+		if (m_state.TexturePtr != nullptr)
 		{
-			shader->SetTexture("g_texture", m_state.Texture, 0);
+			shader->SetTexture("g_texture", m_state.TexturePtr, 0);
 		}
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());

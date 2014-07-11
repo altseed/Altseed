@@ -77,8 +77,8 @@ namespace ace {
 					vector2DF	Positions[4];
 					color		Colors[4];
 					vector2DF	UV[4];
-					Texture2D*	Texture;
-					AlphaBlend	AlphaBlend;
+					Texture2D*	TexturePtr;
+					AlphaBlend	AlphaBlendState;
 				} Sprite;
 			} Data;
 		};
@@ -94,8 +94,8 @@ namespace ace {
 		*/
 		struct SpriteState
 		{
-			Texture2D*	Texture;
-			AlphaBlend	AlphaBlend;
+			Texture2D*	TexturePtr;
+			AlphaBlend	AlphaBlendState;
 		} m_state;
 
 		/**
