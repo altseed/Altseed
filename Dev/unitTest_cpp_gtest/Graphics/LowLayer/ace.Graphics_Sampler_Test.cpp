@@ -180,7 +180,7 @@ void Graphics_Sampler(bool isOpenGLMode)
 			state.DepthWrite = false;
 			state.TextureFilterTypes[0]=filter;
 			state.TextureWrapTypes[0]=wrap;
-			state.AlphaBlend=alphaBlend;
+			state.AlphaBlendState = alphaBlend;
 			graphics->GetRenderState()->Update(false);
 			graphics->DrawPolygon(2);
 			graphics->GetRenderState()->Pop();

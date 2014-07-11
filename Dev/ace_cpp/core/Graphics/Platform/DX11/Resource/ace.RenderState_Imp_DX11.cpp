@@ -195,7 +195,7 @@ void RenderState_Imp_DX11::Update(bool forced)
 		m_graphics->GetContext()->RSSetState(m_rStates[m_next.CullingType]);
 	}
 
-	if (m_active.AlphaBlend != m_next.AlphaBlend || forced)
+	if (m_active.AlphaBlendState != m_next.AlphaBlendState || forced)
 	{
 		changeBlend = true;
 	}
@@ -203,7 +203,7 @@ void RenderState_Imp_DX11::Update(bool forced)
 	if (changeBlend)
 	{
 		float blendFactor [] = { 0, 0, 0, 0 };
-		m_graphics->GetContext()->OMSetBlendState(m_bStates[(int32_t)m_next.AlphaBlend], blendFactor, 0xFFFFFFFF);
+		m_graphics->GetContext()->OMSetBlendState(m_bStates[(int32_t) m_next.AlphaBlendState], blendFactor, 0xFFFFFFFF);
 	}
 
 	for (int32_t i = 0; i < TextureCount; i++)
