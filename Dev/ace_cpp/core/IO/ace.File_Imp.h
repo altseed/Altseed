@@ -3,6 +3,7 @@
 #include "../ace.Core.Base.h"
 #include "ace.RootPath_Imp.h"
 #include "ace.File.h"
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
@@ -10,12 +11,29 @@
 
 namespace std
 {
+#ifndef _WIN32
 	template<>
-	struct std::hash < std::shared_ptr <ace::RootPath_Imp> >
+	struct hash < ace::astring >
 	{
-		size_t operator()(std::shared_ptr<ace::RootPath_Imp> ptr) const
+		size_t operator()(ace::astring str) const
 		{
-			return static_cast<size_t>(std::hash<ace::astring>()(ptr->m_path.ToAstring()));
+			// ToDo
+			// コストの低い計算方法に変えるべき
+			size_t tmp(0);
+			for (auto c : str)
+				tmp ^= c;
+
+			return tmp;
+		}
+	};
+#endif
+
+	template<>
+	struct hash < shared_ptr <ace::RootPath_Imp> >
+	{
+		size_t operator()(shared_ptr<ace::RootPath_Imp> ptr) const
+		{
+			return static_cast<size_t>(hash<ace::astring>()(ptr->m_path.ToAstring()));
 		}
 	};
 }
@@ -43,7 +61,7 @@ namespace ace
 		void SetRootDirectories(_InIt first, _InIt end);
 
 	public:
-		static File_Imp* Create() {	return new File_Imp(); };
+		static File_Imp* Create() { return new File_Imp(); };
 
 		virtual ~File_Imp();
 		virtual void SetRootDirectories(const astring& path);
