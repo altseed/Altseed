@@ -16,6 +16,7 @@ namespace FontGenerator
 {
 	Generator::Generator()
 		: m_sheetName(ToAString(L"font"))
+		, m_sheetSize(DEFAULT_SIZE)
 	{
 		m_setting = SettingForRendering();
 		m_setting.SetBold(nullptr);
@@ -41,10 +42,13 @@ namespace FontGenerator
 	{
 		auto charactors = GetCharactors(ToAString(textPath.c_str()));
 
+		auto& color = m_setting.GetFontColor();
+		printf("%d,%d,%d,%d", color.r, color.g, color.b, color.a);
+
 		PngGenerator png;
 		png.SetSetting(m_setting);
 		png.SetSheetName(m_sheetName);
-		png.SetSheetSize(128);
+		png.SetSheetSize(m_sheetSize);
 
 		auto result = png.Generate_(ToAString(fontPath.c_str()), charactors);
 		return result;
@@ -128,6 +132,16 @@ namespace FontGenerator
 	void Generator::SetSetting(SettingForRendering value)
 	{
 		m_setting = value;
+	}
+
+	int Generator::GetSheetSize() const
+	{
+		return m_sheetSize;
+	}
+
+	void Generator::SetSheetSize(int value)
+	{
+		m_sheetSize = value;
 	}
 
 }

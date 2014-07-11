@@ -231,6 +231,9 @@ public class FontGeneratorPINVOKE {
 
   [global::System.Runtime.InteropServices.DllImport("FontGeneratorCore", EntryPoint="CSharp_DLL_SetExportPath")]
   public static extern void DLL_SetExportPath(global::System.Runtime.InteropServices.HandleRef jarg1, [global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]string jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("FontGeneratorCore", EntryPoint="CSharp_DLL_SetSheetSize")]
+  public static extern void DLL_SetSheetSize(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
 }
 
 }

@@ -14,7 +14,10 @@ namespace FontGenerator
 	{
 	private:
 		const int INDEX_MAX = 65536;
+		const int DEFAULT_SIZE = 256;
+
 		ace::astring m_sheetName;
+		int m_sheetSize;
 		SettingForRendering m_setting;
 
 	public:
@@ -30,6 +33,9 @@ namespace FontGenerator
 
 		ace::astring GetSheetName() const;
 		void SetSheetName(ace::astring value);
+
+		int GetSheetSize() const;
+		void SetSheetSize(int value);
 
 		SettingForRendering GetSetting() const;
 		void SetSetting(SettingForRendering value);

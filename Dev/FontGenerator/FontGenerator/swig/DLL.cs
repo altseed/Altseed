@@ -66,6 +66,10 @@ unsafe partial class DLL : global::System.IDisposable {
     FontGeneratorPINVOKE.DLL_SetExportPath(swigCPtr, path);
   }
 
+  public void SetSheetSize(int sheetSize) {
+    FontGeneratorPINVOKE.DLL_SetSheetSize(swigCPtr, sheetSize);
+  }
+
 }
 
 }
