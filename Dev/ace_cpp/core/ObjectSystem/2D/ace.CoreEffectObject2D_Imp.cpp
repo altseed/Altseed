@@ -106,7 +106,7 @@ namespace ace
 	void CoreEffectObject2D_Imp::OnAdded(Renderer2D* renderer)
 	{
 		assert(m_renderer == nullptr);
-		m_renderer = renderer;
+		m_renderer = (Renderer2D_Imp*)renderer;
 	}
 
 	void CoreEffectObject2D_Imp::OnRemoving(Renderer2D* renderer)

@@ -15,7 +15,7 @@ namespace ace
 		std::vector<Effekseer::Handle>	m_handles;
 		Effect*							m_effect;
 		bool							m_syncEffects = nullptr;
-		Renderer2D*						m_renderer;
+		Renderer2D_Imp*					m_renderer;
 
 		/**
 			@brief	Y軸回転(度)
