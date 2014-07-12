@@ -68,14 +68,10 @@ int main(int argc, char **argv)
 	return 0;
 	*/
 
-	Test_Graphics_TextObject2D(true);
-
-	/*
 	auto result = RUN_ALL_TESTS();
 
 	getchar();
 	return result;
-	*/
 }
 
 
