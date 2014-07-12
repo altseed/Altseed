@@ -20,18 +20,23 @@ protected:
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 		auto object = make_shared<TextObject2D>();
+		auto back = make_shared<TextureObject2D>();
 
 		ASSERT_NE(scene, nullptr);
 		ASSERT_NE(layer, nullptr);
 		ASSERT_NE(object, nullptr);
+		ASSERT_NE(back, nullptr);
 
 		ace::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
-		layer->AddObject(object);
 
 		auto g = ace::Engine::GetGraphics();
-		
-		auto font = g->CreateFont(ace::ToAString("Data/Text/Nac0703b.aff").c_str());
+
+		layer->AddObject(back);
+		back->SetTexture(g->CreateTexture2D(ace::ToAString("Data/Text/back.png").c_str()));
+
+		layer->AddObject(object);
+		auto font = g->CreateFont(ace::ToAString("Data/Text/Nac0711.aff").c_str());
 
 		object->SetFont(font);
 		object->SetText(ToAString("DPは依存関係\nプロパティ"));
