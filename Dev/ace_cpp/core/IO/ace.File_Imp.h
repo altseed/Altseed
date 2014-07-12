@@ -17,11 +17,9 @@ namespace std
 	{
 		size_t operator()(ace::astring str) const
 		{
-			// ToDo
-			// コストの低い計算方法に変えるべき
 			size_t tmp(0);
-			for (auto c : str)
-				tmp ^= c;
+			for (const auto c : str)
+				tmp ^= static_cast<size_t>(c) + 0x9e3779b9 + (tmp<<6) + (tmp>>2);
 
 			return tmp;
 		}
