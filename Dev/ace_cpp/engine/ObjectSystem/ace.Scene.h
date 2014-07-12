@@ -97,7 +97,7 @@ namespace ace
 		void RemoveComponent(astring key);
 
 		/**
-			@brief	シーンの最終的な描画内容を表示する三角形を追加する。
+			@brief	シーンの最終的な描画内容を表示する三角形を追加する。(非推奨)
 			@param	pos1	座標1
 			@param	uv1		UV1
 			@param	col1	色1

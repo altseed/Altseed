@@ -162,11 +162,12 @@ namespace ace
 		/// </summary>
 		/// <returns>画面</returns>
 		/// <remarks>テクスチャの内容はシーンが描画されるたびに変わる。主にシーン遷移の際に使用する。</remarks>
-		public RenderTexture2D GetEffectedScreen()
+		public RenderTexture2D EffectedScreen
 		{
-			var ret = CoreScene.GetBaseTarget();
-			if (ret == null) return null;
-			return GC.GenerateRenderTexture2D(ret, GC.GenerationType.Get);
+			get
+			{
+				return GC.GenerateRenderTexture2D(CoreScene.GetBaseTarget(), GC.GenerationType.Get);
+			}
 		}
 
 		/// <summary>
