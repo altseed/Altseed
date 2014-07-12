@@ -692,7 +692,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_
 
 	XFree(vi);
 
-	glXMakeCurrent(m_x11Display, m_x11Window, m_glx);
+	//glXMakeCurrent(m_x11Display, m_x11Window, m_glx);
 
 	if (glewInit() != GLEW_OK)
 	{

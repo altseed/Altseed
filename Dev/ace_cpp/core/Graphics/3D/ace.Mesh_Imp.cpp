@@ -105,7 +105,7 @@ namespace ace
 		
 		m_dividedMeshes.resize(m_dividedMeshes.size() + 1);
 
-		auto& dividedMesh = (m_dividedMeshes.end() - 1);
+		auto dividedMesh = (m_dividedMeshes.end() - 1);
 		dividedMesh->VertexBufferPtr = vertexBuffer;
 		dividedMesh->IndexBufferPtr = indexBuffer;
 		dividedMesh->VertexBufferOnMM = vertexes;
@@ -131,7 +131,7 @@ namespace ace
 
 		// todo 分割
 		m_dividedMeshes.resize(m_dividedMeshes.size() + 1);
-		auto& dividedMesh = (m_dividedMeshes.end() - 1);
+		auto dividedMesh = (m_dividedMeshes.end() - 1);
 			
 		// 頂点バッファ
 		auto vertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(Vertex), m_vertexBufferOnMM.size(), false);

@@ -334,9 +334,10 @@ namespace ace
 					prop.SkyLightColor.B / 255.0f);
 
 				int32_t lightIndex = 0;
-				for (auto& light : rendering.directionalLightObjects)
+				for (auto& light_ : rendering.directionalLightObjects)
 				{
-					auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
+					//auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
+					auto light = static_cast<RenderedDirectionalLightObject3D*>(light_);
 					RenderTexture2D_Imp* shadowMap = light->GetShadowTexture_RT();
 
 					Matrix44 view, proj;

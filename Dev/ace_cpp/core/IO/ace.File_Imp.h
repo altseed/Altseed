@@ -12,18 +12,18 @@
 namespace std
 {
 #ifndef _WIN32
-	template<>
-	struct hash < ace::astring >
-	{
-		size_t operator()(ace::astring str) const
-		{
-			size_t tmp(0);
-			for (const auto c : str)
-				tmp ^= static_cast<size_t>(c) + 0x9e3779b9 + (tmp<<6) + (tmp>>2);
+	// template<>
+	// struct hash < ace::astring >
+	// {
+	// 	size_t operator()(ace::astring str) const
+	// 	{
+	// 		size_t tmp(0);
+	// 		for (const auto c : str)
+	// 			tmp ^= static_cast<size_t>(c) + 0x9e3779b9 + (tmp<<6) + (tmp>>2);
 
-			return tmp;
-		}
-	};
+	// 		return tmp;
+	// 	}
+	// };
 #endif
 
 	template<>

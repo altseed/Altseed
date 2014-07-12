@@ -17,7 +17,7 @@ namespace ace
 		void Decrement(PathIterator_Imp& iterator);
 
 	public:
-		PathIterator_Imp(const Path_Imp& path, astring::size_type pos, astring& element);
+		PathIterator_Imp(const Path_Imp& path, astring::size_type pos, const astring& element);
 		virtual ~PathIterator_Imp(){};
 		virtual int Size() { return m_element.size(); };
 		virtual PathIterator_Imp& operator++();

@@ -13,7 +13,11 @@ namespace ace
 		m_length(-1)
 	{
 		m_file.open(
+#ifdef _WIN32
 			path,
+#else
+			ToUtf8String(path.c_str()),
+#endif
 			std::basic_ios<uint8_t>::in | std::basic_ios<uint8_t>::binary);
 	}
 
@@ -27,7 +31,11 @@ namespace ace
 		if (m_length < 0)
 		{
 			m_file.seekg(0, m_file.end);
+#ifdef _WIN32
 			m_length = m_file.tellg().seekpos();
+#else
+			m_length = m_file.tellg();
+#endif
 			m_file.seekg(0, m_file.beg);
 		}
 		return m_length;

@@ -31,8 +31,8 @@ namespace ace
 typedef wchar_t achar;
 typedef std::wstring astring;
 #else 
-typedef uint16_t achar;
-typedef std::basic_string<uint16_t> astring;
+typedef char16_t achar;
+typedef std::basic_string<char16_t> astring;
 #endif
 };
 

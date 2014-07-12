@@ -72,7 +72,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreTextObject2D_Imp::SetText(const achar* text)
 	{
-		m_text = ToAString(text);
+		m_text = astring(text);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -280,12 +280,12 @@ namespace ace
 			if (m_writingDirection == WritingDirection::Horizontal)
 			{
 				drawPosition += ace::Vector2DF(glyphSrc.Width, 0);
-				offset = max(glyphSrc.Width, offset);
+				offset = (std::max)(glyphSrc.Width, offset);
 			}
 			else
 			{
 				drawPosition += ace::Vector2DF(0, glyphSrc.Height);
-				offset = max(glyphSrc.Height, offset);
+				offset = (std::max)(glyphSrc.Height, offset);
 			}
 		}
 

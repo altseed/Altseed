@@ -4,7 +4,8 @@
 #include "ace.Profiler_Imp.h"
 
 #if !_WIN32
-#include <sched.h>
+//#include <sched.h>
+#include <thread>
 #endif
 
 using namespace std;
@@ -60,7 +61,8 @@ namespace ace
 #if _WIN32
 		profile->GetCurrent()->SetProcessorNumber(GetCurrentProcessorNumber());
 #else
-		profile->GetCurrent()->SetProcessorNumber(sched_getcpu());
+		profile->GetCurrent()->SetProcessorNumber(std::thread::hardware_concurrency());
+		//profile->GetCurrent()->SetProcessorNumber(sched_getcpu());
 #endif
 	}
 

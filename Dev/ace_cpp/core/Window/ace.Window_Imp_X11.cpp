@@ -109,7 +109,7 @@ void Window_Imp_X11::Close()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void* Window_Imp_Win::GetWindowHandle() const
+void* Window_Imp_X11::GetWindowHandle() const
 {
 	return nullptr;
 }

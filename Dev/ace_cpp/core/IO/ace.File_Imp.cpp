@@ -97,7 +97,7 @@ namespace ace
 						if (!_wstat(normalizedPath.c_str(), &buf))
 #else
 						struct stat buf;
-						if (!wstat(normalizedPath.c_str(), &buf))
+						if (!stat(ToUtf8String(normalizedPath.c_str()).c_str(), &buf))
 #endif
 						{
 							std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(normalizedPath), [](BaseFile_Imp* p){ SafeRelease(p); });
