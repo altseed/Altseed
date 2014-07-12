@@ -15,7 +15,7 @@ namespace ace
 		}
 		else
 		{
-			auto& end = iterator.m_ppath.ImpEnd();
+			const auto& end = iterator.m_ppath.ImpEnd();
 			iterator.m_pos = end.m_pos;
 			iterator.m_element = end.m_element;
 		}
@@ -25,7 +25,7 @@ namespace ace
 	{
 	}
 
-	PathIterator_Imp::PathIterator_Imp(const Path_Imp& path, astring::size_type pos, astring& element) :
+	PathIterator_Imp::PathIterator_Imp(const Path_Imp& path, astring::size_type pos, const astring& element) :
 		m_ppath(path),
 		m_pos(pos),
 		m_element(element)

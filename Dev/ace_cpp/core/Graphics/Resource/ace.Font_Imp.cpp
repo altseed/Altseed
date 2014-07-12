@@ -92,7 +92,7 @@ namespace ace {
 		else
 		{
 			Vector2DI size = Vector2DI(0, 0);
-			astring t = ToAString(text);
+			astring t(text);
 			for (auto c = t.begin(); c != t.end(); ++c)
 			{
 				assert(HasGlyphData(*c));
@@ -101,11 +101,11 @@ namespace ace {
 				if (writingDirection == WritingDirection::Horizontal)
 				{
 					size.X += src.Width;
-					size.Y = max(src.Height, size.Y);
+					size.Y = (std::max)(src.Height, size.Y);
 				}
 				else
 				{
-					size.X = max(src.Width, size.X);
+					size.X = (std::max)(src.Width, size.X);
 					size.Y += src.Height;
 				}
 			}
