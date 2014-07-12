@@ -135,7 +135,7 @@ namespace ace
 		}
 
 		/// <summary>
-		/// シーンの最終的な描画内容を表示する三角形を追加する。
+		/// シーンの最終的な描画内容を表示する三角形を追加する。(非推奨)
 		/// </summary>
 		/// <param name="pos1">座標1</param>
 		/// <param name="uv1">UV1</param>
