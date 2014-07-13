@@ -13,7 +13,7 @@ namespace FontGenerator.Model
 		public static void Save(GenerationConfig config, string path)
 		{
 			var serializer = new DataContractJsonSerializer(typeof(GenerationConfig));
-			using (var file = File.OpenWrite(path))
+			using (var file = File.Create(path))
 			{
 				serializer.WriteObject(file, config);
 			}
