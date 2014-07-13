@@ -189,24 +189,24 @@ namespace ace
 
 		internal void Update()
 		{
-			foreach( var item in layersToUpdate_ )
+			OnUpdating();
+
+			foreach (var item in layersToUpdate_)
 			{
 				item.BeginUpdating();
 			}
-
-			OnUpdating();
 
 			foreach( var item in layersToUpdate_ )
 			{
 				item.Update();
 			}
 
-			OnUpdated();
-
 			foreach( var item in layersToUpdate_ )
 			{
 				item.EndUpdating();
 			}
+
+			OnUpdated();
 
 			UpdateComponents();
 		}
