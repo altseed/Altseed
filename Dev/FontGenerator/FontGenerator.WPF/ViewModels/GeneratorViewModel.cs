@@ -213,6 +213,10 @@ namespace FontGenerator.WPF.ViewModels
 		public GeneratorViewModel()
 		{
 			config = new GenerationConfig();
+			FontPath = "C:\\Windows\\Fonts\\";
+			Alpha = 255;
+			FontSize = 14;
+			TextureSize = 1024;
 			OpenFontFileCommand = new DelegateCommand { CommandHandler = OpenFontFile };
 			OpenTextFileCommand = new DelegateCommand { CommandHandler = OpenTextFile };
 			OpenExportPathCommand = new DelegateCommand { CommandHandler = OpenExportPath };
