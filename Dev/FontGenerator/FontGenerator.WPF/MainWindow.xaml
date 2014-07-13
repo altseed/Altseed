@@ -87,11 +87,11 @@
 					<ColumnDefinition Width="1*"/>
 					<ColumnDefinition Width="1*"/>
 					<ColumnDefinition Width="1*"/>
-					<ColumnDefinition Width="3*"/>
+					<ColumnDefinition Width="1*"/>
 				</Grid.ColumnDefinitions>
 				<Button Content="生成" Click="Button_Click"/>
-				<Button Command="{Binding SaveConfigurationCommand}" Content="設定セーブ" Grid.Column="1"/>
-				<Button Command="{Binding LoadConfigurationCommand}" Content="設定ロード" Grid.Column="2"/>
+				<Button Command="{Binding SaveConfigurationCommand}" Content="設定セーブ..." Grid.Column="1"/>
+				<Button Command="{Binding LoadConfigurationCommand}" Content="設定ロード..." Grid.Column="2"/>
 			</Grid>
 		</StackPanel>
 	</GroupBox>
