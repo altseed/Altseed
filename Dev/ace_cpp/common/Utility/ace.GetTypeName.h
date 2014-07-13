@@ -6,6 +6,7 @@
 #include<cxxabi.h>
 #include<cstdlib>
 #include<cassert>
+#include<typeinfo>
 #if !__has_include(<cxxabi.h>)
 #error "cxxabi.h is not found"
 #endif
@@ -13,6 +14,7 @@
 #include<cxxabi.h>
 #include<cstdlib>
 #include<cassert>
+#include<typeinfo>
 #endif
 
 namespace ace

@@ -56,19 +56,11 @@ TEST(CharSet, ToAString_wchar)
 		ace::astring(L"文字列のAString化"),
 		actual);
 #else
-	// "文字列のAString化"
-	uint16_t expected [] =
-	{
-		0x6587, 0x5b57, 0x5217, 0x306e,
-		0x41, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67,
-		0x5316,
-		0x0
-	};
-
 	auto actual = ace::ToAString(L"文字列のAString化");
 
+	// *nixでは achar は char16_t
 	ASSERT_EQ(
-		ace::astring(expected),
+		ace::astring(u"文字列のAString化"),
 		actual);
 #endif
 }
@@ -83,19 +75,11 @@ TEST(CharSet, ToAString_char)
 		ace::astring(L"文字列のAString化"),
 		actual);
 #else
-	// "文字列のAString化"
-	uint16_t expected [] =
-	{
-		0x6587, 0x5b57, 0x5217, 0x306e,
-		0x41, 0x53, 0x74, 0x72, 0x69, 0x6e, 0x67,
-		0x5316,
-		0x0
-	};
-
 	auto actual = ace::ToAString("文字列のAString化");
 
+	// *nixでは achar は char16_t
 	ASSERT_EQ(
-		ace::astring(expected),
+		ace::astring(u"文字列のAString化"),
 		actual);
 #endif
 }
