@@ -146,7 +146,10 @@ TEST_F(BinaryReaderWriterTest, stdstringTest)
 
 TEST_F(BinaryReaderWriterTest, acharptrTest)
 {
-	std::vector<ace::achar const*> orig = { ace::ToAString(L"これも").c_str(), ace::ToAString(L"テスト").c_str(), ace::ToAString(L"です").c_str() };
+	std::vector<ace::astring> source = { ace::ToAString(L"これも"), ace::ToAString(L"テスト"), ace::ToAString(L"です") };
+	std::vector<ace::achar const*> orig;
+	std::transform(source.begin(), source.end(), std::back_inserter(orig),
+		[](ace::astring const &s){return s.c_str();});
 
 	for (auto const e : orig)
 	{

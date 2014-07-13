@@ -692,7 +692,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_
 
 	XFree(vi);
 
-	glXMakeCurrent(display, window, context_);
+	glXMakeCurrent(display_, window_, context);
 
 	if (glewInit() != GLEW_OK)
 	{
@@ -1160,6 +1160,25 @@ void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
 	{
 		if (m_log != nullptr) m_log->WriteLineStrongly("wglShareLists is failed.");
 	}
+#elif defined(__APPLE__)
+
+	// とりあえず通るまで非対応
+
+	// auto mainContext = glfwGetGLXContext(window);
+	// auto display = glfwGetX11Display();
+	// auto wind = glfwGetX11Window(window);
+
+	// GLint attribute[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+	// XVisualInfo* vi = glXChooseVisual(display, DefaultScreen(display), attribute);
+
+	// GLXContext renderingContext = glXCreateContext(display, vi, mainContext, GL_TRUE);
+	
+	// XFree(vi);
+	
+	// m_renderingThreadGlx = renderingContext;
+	// m_renderingThreadX11Display = display;
+	// m_renderingThreadX11Window = wind;
+
 #else
 
 	auto mainContext = glfwGetGLXContext(window);

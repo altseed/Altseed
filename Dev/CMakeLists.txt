@@ -23,6 +23,10 @@ else()
 	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC" ${CMAKE_CXX_FLAGS})
 endif()
 
+# Effekseerの設定
+option(USE_GLEW_STATIC "Use Glew static library" OFF)
+option(USE_GLEW_DLL "Use Glew DLL" ON)
+option(USE_OPENGLES2 "Use OpenGL ES2" OFF)
 
 # ファイルをソースリストに追加
 INCLUDE(CMakeFiles.txt)
@@ -223,6 +227,23 @@ if (MSVC)
 			endif()
 		endforeach()
 	endif()
+endif()
+
+# Effekseerの設定
+if (USE_INTERNAL_LOADER)
+	add_definitions(-D__EFFEKSEER_RENDERER_INTERNAL_LOADER__)
+endif()
+
+if (USE_GLEW_STATIC)
+	add_definitions(-D__EFFEKSEER_RENDERER_GL_GLEW_S__)
+endif()
+
+if (USE_GLEW_DLL)
+	add_definitions(-D__EFFEKSEER_RENDERER_GL_GLEW__)
+endif()
+
+if (USE_OPENGLES2)
+	add_definitions(-D__EFFEKSEER_RENDERER_GLES2__)
 endif()
 
 # インストール先を決定

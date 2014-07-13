@@ -4,7 +4,7 @@
 #include "ace.Profiler_Imp.h"
 
 #if !_WIN32
-//#include <sched.h>
+#include <sched.h>
 #include <thread>
 #endif
 
@@ -60,9 +60,12 @@ namespace ace
 
 #if _WIN32
 		profile->GetCurrent()->SetProcessorNumber(GetCurrentProcessorNumber());
+#elif defined(__APPLE__)
+		// sched_getcpuがないようなので代用。よりよいものがあれば差し替えてください。
+		profile->GetCurrent()->SetProcessorNumber(
+			std::hash<std::thread::id>()(std::this_thread::get_id()));
 #else
-		profile->GetCurrent()->SetProcessorNumber(std::thread::hardware_concurrency());
-		//profile->GetCurrent()->SetProcessorNumber(sched_getcpu());
+		profile->GetCurrent()->SetProcessorNumber(sched_getcpu());
 #endif
 	}
 
