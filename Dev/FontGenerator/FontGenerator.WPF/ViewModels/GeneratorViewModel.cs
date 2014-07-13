@@ -8,6 +8,7 @@ using FontGenerator.Model;
 using System.ComponentModel.DataAnnotations;
 using System.Windows.Forms;
 using System.IO;
+using System.Runtime.Serialization;
 
 namespace FontGenerator.WPF.ViewModels
 {
@@ -230,7 +231,14 @@ namespace FontGenerator.WPF.ViewModels
 
 			if(dialog.ShowDialog() == DialogResult.OK)
 			{
-				Config = ConfigurationFile.Load(dialog.FileName);
+				try
+				{
+					Config = ConfigurationFile.Load(dialog.FileName);
+				}
+				catch (SerializationException)
+				{
+					MessageBox.Show("選択されたファイルは設定ファイルではないか、壊れています。", "ロード中止", MessageBoxButtons.OK);
+				}
 			}
 		}
 
