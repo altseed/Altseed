@@ -44,20 +44,20 @@ namespace ace
 	/// <summary>
 	/// 描画方法
 	/// </summary>
-	public enum GraphicsType
+	public enum GraphicsDeviceType
 	{
 		/// <summary>
 		/// 実行環境で最も安定している描画方法(初期化時に使用)
 		/// </summary>
-		Default = swig.GraphicsType.Default,
+		Default = swig.GraphicsDeviceType.Default,
 		/// <summary>
 		/// DirectX11
 		/// </summary>
-		DirectX11 = swig.GraphicsType.DirectX11,
+		DirectX11 = swig.GraphicsDeviceType.DirectX11,
 		/// <summary>
 		/// OpenGL
 		/// </summary>
-		OpenGL = swig.GraphicsType.OpenGL,
+		OpenGL = swig.GraphicsDeviceType.OpenGL,
 	}
 
     public enum TextureFilterType

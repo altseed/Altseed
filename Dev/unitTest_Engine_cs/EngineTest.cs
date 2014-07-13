@@ -23,7 +23,7 @@ namespace unitTest_Engine_cs
 		public int ExitTime { get; private set; }
 		public int Time { get; private set; }
 
-		public override void Test(GraphicsType graphicsType)
+		public override void Test(GraphicsDeviceType graphicsType)
 		{
 			Time = 0;
 
@@ -32,7 +32,7 @@ namespace unitTest_Engine_cs
 			var option = new EngineOption
 			{
 				IsFullScreen = false,
-				GraphicsType = graphicsType,
+				GraphicsDevice = graphicsType,
 				IsMultithreadingMode = false,
 			};
 

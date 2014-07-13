@@ -158,7 +158,7 @@
     <Compile Include="swig\eVisalizedBuffer.cs" />
     <Compile Include="swig\Font.cs" />
     <Compile Include="swig\Graphics.cs" />
-    <Compile Include="swig\GraphicsType.cs" />
+    <Compile Include="swig\GraphicsDeviceType.cs" />
     <Compile Include="swig\Graphics_Imp.cs" />
     <Compile Include="swig\IMouseButtonState.cs" />
     <Compile Include="swig\IMouseWheelableButtonState.cs" />

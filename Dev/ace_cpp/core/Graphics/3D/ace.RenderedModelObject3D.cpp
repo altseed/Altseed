@@ -181,7 +181,7 @@ namespace ace
 			constantBuffers_vs[6].Offset = offsetof(VertexConstantBufferLightweight, groundLightColor);
 
 			std::vector<ace::Macro> macro;
-			if (GetGraphics()->GetGraphicsType() == GraphicsType::OpenGL)
+			if (GetGraphics()->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_shaderLightweight = GetGraphics()->GetShaderCache()->CreateFromCode(
 					ToAString("Internal.ModelObject3D.Lightweight").c_str(),
@@ -225,7 +225,7 @@ namespace ace
 			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferDeferredRendering, depthParams);
 
 			std::vector<ace::Macro> macro;
-			if (GetGraphics()->GetGraphicsType() ==  GraphicsType::OpenGL)
+			if (GetGraphics()->GetGraphicsDeviceType() ==  GraphicsDeviceType::OpenGL)
 			{
 				m_shaderDF = GetGraphics()->GetShaderCache()->CreateFromCode(
 					ToAString("Internal.ModelObject3D.DF").c_str(),
@@ -271,7 +271,7 @@ namespace ace
 			std::vector<ace::Macro> macro;
 			macro.push_back(Macro("EXPORT_DEPTH", "1"));
 
-			if (GetGraphics()->GetGraphicsType() == GraphicsType::OpenGL)
+			if (GetGraphics()->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_shaderDF_ND = GetGraphics()->GetShaderCache()->CreateFromCode(
 					ToAString("Internal.ModelObject3D.DF.ND").c_str(),

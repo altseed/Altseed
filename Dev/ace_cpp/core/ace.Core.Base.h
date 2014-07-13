@@ -156,7 +156,7 @@ namespace ace {
 	/**
 		@brief	描画方法
 	*/
-	enum class GraphicsType : int32_t
+	enum class GraphicsDeviceType : int32_t
 	{
 		Default = 0,		///< 実行環境で最も安定している描画方法(初期化時に使用)
 		DirectX11 = 1,		///< DirectX11

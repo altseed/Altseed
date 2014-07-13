@@ -6,7 +6,7 @@ namespace ace{
 	PostEffectGrayScale::PostEffectGrayScale()
 	{
 		auto g = Engine::GetGraphics();
-		auto shader = g->CreateShader2D(ToAString(m_corePostEffect->GetGrayScaleShader(g->GetGraphicsType())).c_str());
+		auto shader = g->CreateShader2D(ToAString(m_corePostEffect->GetGrayScaleShader(g->GetGraphicsDeviceType())).c_str());
 		material2d = g->CreateMaterial2D(shader);
 	}
 

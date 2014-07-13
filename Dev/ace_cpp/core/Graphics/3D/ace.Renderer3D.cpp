@@ -767,7 +767,7 @@ namespace ace
 			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
 
 			std::vector<ace::Macro> macro;
-			if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_pasteShader = m_graphics->GetShaderCache()->CreateFromCode(
 					ToAString("Internal.Paste").c_str(),
@@ -814,7 +814,7 @@ namespace ace
 			std::vector<ace::Macro> macro_y;
 			macro_y.push_back(Macro("BLUR_Y", "1"));
 
-			if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_shadowShaderX = m_graphics->GetShaderCache()->CreateFromCode(
 					ToAString(L"Internal.BlurX").c_str(),
@@ -891,7 +891,7 @@ namespace ace
 			std::vector<ace::Macro> macro_a;
 			macro_a.push_back(Macro("AMBIENT_LIGHT", "1"));
 
-			if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_directionalWithAmbientLightShader = m_graphics->GetShaderCache()->CreateFromCode(
 					ToAString(L"Internal.D_A_Light").c_str(),
@@ -947,7 +947,7 @@ namespace ace
 
 			std::vector<ace::Macro> macro;
 
-			if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_deferredBufferShader = m_graphics->GetShaderCache()->CreateFromCode(
 					ToAString(L"Internal.DeferredBuffer").c_str(),
@@ -1005,7 +1005,7 @@ namespace ace
 			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
 
 			std::vector<ace::Macro> macro;
-			if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				
 			}
@@ -1083,14 +1083,14 @@ namespace ace
 		// エフェクト
 		{
 			m_effectManager = ::Effekseer::Manager::Create(2000, false);
-			if (m_graphics->GetGraphicsType() == GraphicsType::DirectX11)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 			{
 #if _WIN32
 				auto g = (Graphics_Imp_DX11*) m_graphics;
 				m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), 2000);
 #endif
 			}
-			else if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(2000);
 			}
@@ -1153,11 +1153,11 @@ namespace ace
 		m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 		m_windowSize = windowSize;
 
-		if (m_graphics->GetGraphicsType() == GraphicsType::DirectX11)
+		if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
 			m_effectRenderer->SetProjectionMatrix(::Effekseer::Matrix44().PerspectiveFovRH(90.0f / 180.0f * 3.14f, windowSize.X / windowSize.Y, 1.0f, 50.0f));
 		}
-		else if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+		else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
 			m_effectRenderer->SetProjectionMatrix(::Effekseer::Matrix44().PerspectiveFovRH_OpenGL(90.0f / 180.0f * 3.14f, windowSize.X / windowSize.Y, 1.0f, 50.0f));
 		}

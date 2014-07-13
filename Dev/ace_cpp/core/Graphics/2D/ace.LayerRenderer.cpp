@@ -57,7 +57,7 @@ namespace ace {
 		vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
 
 		std::vector<ace::Macro> macro;
-		if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+		if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
 			m_shader = m_graphics->GetShaderCache()->CreateFromCode(
 				ToAString(L"Internal.2D.LayerRenderer").c_str(),

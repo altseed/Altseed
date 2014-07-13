@@ -9,11 +9,11 @@ namespace unitTest_Engine_cs.Window
 	public class EmptyExternal : TestFramework
 	{
 		//[Test]
-		public override void Test(ace.GraphicsType graphicsType)
+		public override void Test(ace.GraphicsDeviceType graphicsType)
 		{
 			var option = new ace.EngineOption
 			{
-				GraphicsType = graphicsType,
+				GraphicsDevice = graphicsType,
 				IsFullScreen = false
 			};
 

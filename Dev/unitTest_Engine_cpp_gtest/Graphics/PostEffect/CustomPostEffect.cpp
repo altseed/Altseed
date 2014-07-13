@@ -63,13 +63,13 @@ public:
 public:
 	CustomPostEffect(ace::Graphics* g)
 	{
-		if (g->GetGraphicsType() == ace::GraphicsType::DirectX11)
+		if (g->GetGraphicsDeviceType() == ace::GraphicsDeviceType::DirectX11)
 		{
 			m_shader = g->CreateShader2D(
 				ace::ToAString(shader2d_dx_ps).c_str()
 				);
 		}
-		else if (g->GetGraphicsType() == ace::GraphicsType::OpenGL)
+		else if (g->GetGraphicsDeviceType() == ace::GraphicsDeviceType::OpenGL)
 		{
 			std::vector<ace::ShaderVariableProperty> prop;
 			m_shader = g->CreateShader2D(

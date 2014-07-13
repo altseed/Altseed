@@ -130,7 +130,7 @@ namespace ace {
 
 		bool SaveTexture(const achar* path, GLuint texture, Vector2DI size);
 
-		GraphicsType GetGraphicsType() const { return GraphicsType::OpenGL; }
+		GraphicsDeviceType GetGraphicsDeviceType() const { return GraphicsDeviceType::OpenGL; }
 
 		/**
 			@brief	現状のスレットに対応したコンテキストを設定する。

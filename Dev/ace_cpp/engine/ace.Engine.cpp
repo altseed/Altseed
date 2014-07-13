@@ -303,17 +303,17 @@ namespace ace
 
 		if (!GenerateCore()) return false;
 
-		auto graphicsType = option.GraphicsType;
-		if (graphicsType == GraphicsType::Default)
+		auto GraphicsDeviceType = option.GraphicsDevice;
+		if (GraphicsDeviceType == GraphicsDeviceType::Default)
 		{
 #if _WIN32
-			graphicsType = GraphicsType::DirectX11;
+			GraphicsDeviceType = GraphicsDeviceType::DirectX11;
 #else
-			graphicsType = GraphicsType::OpenGL;
+			GraphicsDeviceType = GraphicsDeviceType::OpenGL;
 #endif
 		}
 
-		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, graphicsType != GraphicsType::DirectX11, option.IsMultithreadingMode);
+		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, GraphicsDeviceType != GraphicsDeviceType::DirectX11, option.IsMultithreadingMode);
 		if (init)
 		{
 			m_logger = m_core->GetLogger();
@@ -346,17 +346,17 @@ namespace ace
 
 		if (!GenerateCore()) return false;
 
-		auto graphicsType = option.GraphicsType;
-		if (graphicsType == GraphicsType::Default)
+		auto GraphicsDeviceType = option.GraphicsDevice;
+		if (GraphicsDeviceType == GraphicsDeviceType::Default)
 		{
 #if _WIN32
-			graphicsType = GraphicsType::DirectX11;
+			GraphicsDeviceType = GraphicsDeviceType::DirectX11;
 #else
-			graphicsType = GraphicsType::OpenGL;
+			GraphicsDeviceType = GraphicsDeviceType::OpenGL;
 #endif
 		}
 
-		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, graphicsType != GraphicsType::DirectX11, option.IsMultithreadingMode);
+		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, GraphicsDeviceType != GraphicsDeviceType::DirectX11, option.IsMultithreadingMode);
 		if (init)
 		{
 			m_logger = m_core->GetLogger();

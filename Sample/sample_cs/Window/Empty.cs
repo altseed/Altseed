@@ -16,7 +16,6 @@ namespace test_cs.Window
 			// 初期設定を行う。
 			var option = new ace.EngineOption
 			{
-				GraphicsType = ace.GraphicsType.DirectX11,
 				IsFullScreen = false
 			};
 

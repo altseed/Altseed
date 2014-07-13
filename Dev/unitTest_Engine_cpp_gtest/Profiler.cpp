@@ -9,7 +9,7 @@ void Profiler_Profiling(bool isOpenGLMode)
 {
 	int time = 0;
 	ace::EngineOption option;
-	option.GraphicsType = isOpenGLMode ? ace::GraphicsType::OpenGL : ace::GraphicsType::DirectX11;
+	option.GraphicsDevice = isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11;
 
 	{	
 		ace::Engine::Initialize(ace::ToAString("Profiling").c_str(), 640, 480, option);
