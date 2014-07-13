@@ -37,13 +37,13 @@ namespace ace
 		m_commands.push_back(command);
 	}
 
-	const char* CorePostEffect_Imp::GetGrayScaleShader(GraphicsDeviceType GraphicsDeviceType) const
+	const char* CorePostEffect_Imp::GetGrayScaleShader(GraphicsDeviceType graphicsDeviceType) const
 	{
-		if (GraphicsDeviceType == GraphicsDeviceType::DirectX11)
+		if (graphicsDeviceType == GraphicsDeviceType::DirectX11)
 		{
 			return grayscale_ps_dx;
 		}
-		else if (GraphicsDeviceType == GraphicsDeviceType::OpenGL)
+		else if (graphicsDeviceType == GraphicsDeviceType::OpenGL)
 		{
 			return grayscale_ps_gl;
 		}
@@ -51,13 +51,13 @@ namespace ace
 		return nullptr;
 	}
 
-	const char* CorePostEffect_Imp::GetLightBloomShader(GraphicsDeviceType GraphicsDeviceType) const
+	const char* CorePostEffect_Imp::GetLightBloomShader(GraphicsDeviceType graphicsDeviceType) const
 	{
-		if (GraphicsDeviceType == GraphicsDeviceType::DirectX11)
+		if (graphicsDeviceType == GraphicsDeviceType::DirectX11)
 		{
 			return lightbloom_ps_dx;
 		}
-		else if (GraphicsDeviceType == GraphicsDeviceType::OpenGL)
+		else if (graphicsDeviceType == GraphicsDeviceType::OpenGL)
 		{
 			return lightbloom_ps_gl;
 		}
@@ -65,13 +65,13 @@ namespace ace
 		return nullptr;
 	}
 
-	const char* CorePostEffect_Imp::GetSepiaShader(GraphicsDeviceType GraphicsDeviceType) const
+	const char* CorePostEffect_Imp::GetSepiaShader(GraphicsDeviceType graphicsDeviceType) const
 	{
-		if (GraphicsDeviceType == GraphicsDeviceType::DirectX11)
+		if (graphicsDeviceType == GraphicsDeviceType::DirectX11)
 		{
 			return sepia_ps_dx;
 		}
-		else if (GraphicsDeviceType == GraphicsDeviceType::OpenGL)
+		else if (graphicsDeviceType == GraphicsDeviceType::OpenGL)
 		{
 			return sepia_ps_gl;
 		}
@@ -79,13 +79,13 @@ namespace ace
 		return nullptr;
 	}
 
-	const char* CorePostEffect_Imp::GetGaussianBlurShader(GraphicsDeviceType GraphicsDeviceType) const
+	const char* CorePostEffect_Imp::GetGaussianBlurShader(GraphicsDeviceType graphicsDeviceType) const
 	{
-		if (GraphicsDeviceType == GraphicsDeviceType::DirectX11)
+		if (graphicsDeviceType == GraphicsDeviceType::DirectX11)
 		{
 			return gaussianblur_ps_dx;
 		}
-		else if (GraphicsDeviceType == GraphicsDeviceType::OpenGL)
+		else if (graphicsDeviceType == GraphicsDeviceType::OpenGL)
 		{
 			return gaussianblur_ps_gl;
 		}
