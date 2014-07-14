@@ -47,6 +47,9 @@ namespace ace {
 			@return	サイズ
 		*/
 		static int32_t GetPitch(eTextureFormat format);
+
+		static int32_t GetMipmapCount(int32_t width, int32_t height);
+		static void GetMipmapSize(int mipmap, int32_t& width, int32_t& height);
 	};
 
 	class EffectTextureLoader
@@ -371,6 +374,17 @@ namespace ace {
 	textureがnullの場合は無条件で、デフォルトの描画先を使用する。
 	*/
 	virtual void SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer) = 0;
+
+	/**
+	@brief	描画先を設定する。
+	@param	texture	描画先のテクスチャ
+	@param	direction		描画先の方向
+	@param	mipmap			描画先のミップマップ
+	@param	depthBuffer	描画先の深度バッファ
+	@note
+	textureがnullの場合は無条件で、デフォルトの描画先を使用する。
+	*/
+	virtual void SetRenderTarget(CubemapTexture_Imp* texture, int32_t direction, int32_t mipmap, DepthBuffer_Imp* depthBuffer) = 0;
 
 	/**
 		@brief	コンテキストの設定を行う。

@@ -923,6 +923,88 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTextu
 	GLCheckError();
 }
 
+void Graphics_Imp_GL::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direction, int32_t mipmap, DepthBuffer_Imp* depthBuffer)
+{
+	auto tex = (CubemapTexture_Imp_GL*) texture;
+
+	std::lock_guard<std::recursive_mutex> lock(GetMutex());
+	MakeContextCurrent();
+
+	// 強制リセット
+	ResetDrawState();
+	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	glActiveTexture(GL_TEXTURE0);
+	GLCheckError();
+
+	if (texture == nullptr)
+	{
+		UnbindFramebuffer();
+		glDrawBuffer(GL_BACK);
+		GetRenderState()->Update(true);
+		SetViewport(0, 0, m_size.X, m_size.Y);
+		GLCheckError();
+		return;
+	}
+
+	GLuint cb = 0;
+	GLuint db = 0;
+
+	if (texture != nullptr)
+	{
+		cb = tex->GetBuffer();
+	}
+
+	if (depthBuffer != nullptr)
+	{
+		db = ((DepthBuffer_Imp_GL*) depthBuffer)->GetBuffer();
+	}
+
+	static const GLenum target [] = {
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+		GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
+		GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+		GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+	};
+
+	BindFramebuffer();
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, target[direction], cb, mipmap);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, 0, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, 0, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, 0, 0);
+	GLCheckError();
+
+	if (depthBuffer != nullptr)
+	{
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, db, 0);
+	}
+	else
+	{
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
+	}
+	GLCheckError();
+
+	static const GLenum bufs [] = {
+		GL_COLOR_ATTACHMENT0,
+	};
+	glDrawBuffers(1, bufs);
+	GLCheckError();
+
+	GetRenderState()->Update(true);
+	GLCheckError();
+
+	if (texture != nullptr)
+	{
+		SetViewport(0, 0, tex->GetSize().X, tex->GetSize().Y);
+	}
+	GLCheckError();
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

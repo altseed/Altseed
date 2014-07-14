@@ -907,6 +907,68 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTex
 	}
 }
 
+void Graphics_Imp_DX11::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direction, int32_t mipmap, DepthBuffer_Imp* depthBuffer)
+{
+	auto tex = (CubemapTexture_Imp_DX11*) texture;
+
+	// 強制リセット(テクスチャと描画先同時設定不可のため)
+	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	{
+		ID3D11ShaderResourceView* rv = { nullptr };
+		GetContext()->VSSetShaderResources(i, 1, &rv);
+		GetContext()->PSSetShaderResources(i, 1, &rv);
+	}
+
+	if (texture == nullptr)
+	{
+		m_context->OMSetRenderTargets(1, &m_defaultBackRenderTargetView, m_defaultDepthStencilView);
+		SetViewport(0, 0, m_size.X, m_size.Y);
+
+		for (auto i = 0; i < MaxRenderTarget; i++)
+		{
+			SafeRelease(m_currentBackRenderTargetViews[i]);
+		}
+		m_currentBackRenderTargetViews[0] = m_defaultBackRenderTargetView;
+		SafeAddRef(m_currentBackRenderTargetViews[0]);
+
+		SafeRelease(m_currentDepthStencilView);
+		m_currentDepthStencilView = m_defaultDepthStencilView;
+		SafeAddRef(m_currentDepthStencilView);
+
+		return;
+	}
+
+	ID3D11RenderTargetView* rt = nullptr;
+	ID3D11DepthStencilView* ds = nullptr;
+
+	if (texture != nullptr)
+	{
+		rt = tex->GetRenderTargetView(direction, mipmap);
+	}
+
+	if (depthBuffer != nullptr)
+	{
+		ds = ((DepthBuffer_Imp_DX11*) depthBuffer)->GetDepthStencilView();
+	}
+
+	if (rt != nullptr)
+	{
+		m_context->OMSetRenderTargets(1, &rt, ds);
+		SetViewport(0, 0, tex->GetSize().X, tex->GetSize().Y);
+
+		for (auto i = 0; i < MaxRenderTarget; i++)
+		{
+			SafeRelease(m_currentBackRenderTargetViews[i]);
+		}
+		m_currentBackRenderTargetViews[0] = rt;
+		SafeAddRef(m_currentBackRenderTargetViews[0]);
+
+		SafeRelease(m_currentDepthStencilView);
+		m_currentDepthStencilView = ds;
+		SafeAddRef(m_currentDepthStencilView);
+	}
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

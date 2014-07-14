@@ -36,6 +36,8 @@ namespace ace {
 	{
 		GLuint ib;
 		glGenBuffers(1, &ib);
+		GLCheckError();
+
 		return new IndexBuffer_Imp_GL(graphics, ib, maxCount, isDynamic, is32bit);
 	}
 

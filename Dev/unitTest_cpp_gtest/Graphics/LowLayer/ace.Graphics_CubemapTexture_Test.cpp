@@ -43,7 +43,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	float3 uv = float3(Input.UV.x, Input.UV.y, 1.0 - dot(Input.UV,Input.UV));
 	uv = normalize(uv);
 
-	float4 Output = g_texture.Sample(g_sampler, uv);
+	float4 Output = g_texture.SampleLevel(g_sampler, uv, 0);
 	if(Output.a == 0.0f) discard;
 	return Output;
 }
@@ -51,26 +51,25 @@ float4 main( const PS_Input Input ) : SV_Target
 )";
 
 static const char* gl_vs = R"(
+#version 150
+in vec3 Pos;
+in vec2 UV;
 
-attribute vec3 Pos;
-attribute vec2 UV;
-
-varying vec4 vaTexCoord;
+out vec4 vaTexCoord;
 
 void main()
 {
 	gl_Position = vec4(Pos.x,Pos.y,Pos.z,1.0);
-	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
-
-	
+	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);	
 }
 
 )";
 
 static const char* gl_ps = R"(
-
-varying vec4 vaTexCoord;
+#version 150
+in vec4 vaTexCoord;
 uniform samplerCube g_texture;
+out vec4 fragColor;
 
 void main() 
 {
@@ -80,7 +79,7 @@ void main()
 	vec3 uv = vec3(uv_.x, -uv_.y, 1.0 - dot(uv_,uv_));
 	uv = normalize(uv);
 
-	gl_FragColor = textureCube(g_texture, uv.xyz);
+	fragColor = textureLod(g_texture, uv.xyz, 0);
 }
 
 )";

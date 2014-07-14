@@ -47,6 +47,7 @@ namespace ace {
 	class NativeShader_Imp;
 	class RenderState_Imp;
 	class RenderTexture2D_Imp;
+	class CubemapTexture_Imp;
 	class DepthBuffer_Imp;
 	class Shader2D_Imp;
 

@@ -119,8 +119,8 @@ void RenderState_Imp_GL::Update(bool forced)
 
 			glSamplerParameteri(m_samplers[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
 			glSamplerParameteri(m_samplers[i], GL_TEXTURE_MIN_FILTER, glfilter[filter_]);
-			//glSamplerParameteri( m_samplers[i],  GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			//glSamplerParameteri( m_samplers[i],  GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			//glSamplerParameteri(m_samplers[i], GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			//glSamplerParameteri(m_samplers[i], GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 			glBindSampler(i, m_samplers[i]);
 		}
