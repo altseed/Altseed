@@ -49,7 +49,7 @@ int main()
 		//setting.SetBorder(make_shared<BorderSetting>(4, Color(0, 0, 0, 255)));
 		
 		gen.SetSetting(setting);
-		gen.SetSheetName(L"result/Nac0703b");
+		gen.SetSheetName(L"result/Nac0711");
 
 		gen.GenerateFontFile(
 			L"C:/Windows/Fonts/meiryo.ttc",

@@ -7,28 +7,31 @@ using System.Threading.Tasks;
 namespace ace
 {
 	/// <summary>
-	/// 描画の際のブレンドモードを表す列挙体。
+	/// 描画時のブレンドモードを表す列挙体
 	/// </summary>
 	public enum AlphaBlendMode
 	{
-		Opacity = swig.eAlphaBlend.ALPHA_BLEND_OPACITY,
-		Blend = swig.eAlphaBlend.ALPHA_BLEND_BLEND,
 		/// <summary>
-		/// 加算合成。
+		/// 不透明
 		/// </summary>
-		Add = swig.eAlphaBlend.ALPHA_BLEND_ADD,
+		Opacity = swig.AlphaBlend.Opacity,
 		/// <summary>
-		/// 減算合成。
+		/// 透明
 		/// </summary>
-		Sub = swig.eAlphaBlend.ALPHA_BLEND_SUB,
+		Blend = swig.AlphaBlend.Blend,
 		/// <summary>
-		/// 乗算合成。
+		/// 加算
 		/// </summary>
-		Mul = swig.eAlphaBlend.ALPHA_BLEND_MUL,
-		Dword = swig.eAlphaBlend.ALPHA_BLEND_DWORD,
+		Add = swig.AlphaBlend.Add,
+		/// <summary>
+		/// 減算
+		/// </summary>
+		Sub = swig.AlphaBlend.Sub,
+		/// <summary>
+		/// 乗算
+		/// </summary>
+		Mul = swig.AlphaBlend.Mul,
 	}
-
-
 
 	public enum TextureFormat
 	{
@@ -41,20 +44,20 @@ namespace ace
 	/// <summary>
 	/// 描画方法
 	/// </summary>
-	public enum GraphicsType
+	public enum GraphicsDeviceType
 	{
 		/// <summary>
 		/// 実行環境で最も安定している描画方法(初期化時に使用)
 		/// </summary>
-		Default = swig.GraphicsType.Default,
+		Default = swig.GraphicsDeviceType.Default,
 		/// <summary>
 		/// DirectX11
 		/// </summary>
-		DirectX11 = swig.GraphicsType.DirectX11,
+		DirectX11 = swig.GraphicsDeviceType.DirectX11,
 		/// <summary>
 		/// OpenGL
 		/// </summary>
-		OpenGL = swig.GraphicsType.OpenGL,
+		OpenGL = swig.GraphicsDeviceType.OpenGL,
 	}
 
     public enum TextureFilterType

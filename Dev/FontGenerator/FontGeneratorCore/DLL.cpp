@@ -23,6 +23,7 @@ namespace FontGenerator
 
 			gen.SetSetting(setting);
 			gen.SetSheetName(m_exportPath);
+			gen.SetSheetSize(m_sheetSize);
 
 			gen.GenerateFontFile(
 				m_fontName.c_str(),

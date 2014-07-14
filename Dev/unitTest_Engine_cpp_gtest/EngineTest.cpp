@@ -60,7 +60,7 @@ void EngineTest::Run()
 	CreateSSDirectory();
 
 	EngineOption option;
-	option.GraphicsType = m_isOpenGLMode ? ace::GraphicsType::OpenGL : ace::GraphicsType::DirectX11;
+	option.GraphicsDevice = m_isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11;
 	option.IsMultithreadingMode = true;
 
 	auto initialized = ace::Engine::Initialize(m_title.c_str(), WindowWidth, WindowHeight, option);

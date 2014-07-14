@@ -47,7 +47,7 @@ namespace unitTest_Engine_cs
 		{
 			try
 			{
-				target.Test( ace.GraphicsType.OpenGL );
+				target.Test(ace.GraphicsDeviceType.OpenGL);
 			}
 			catch( Exception e )
 			{
@@ -58,7 +58,7 @@ namespace unitTest_Engine_cs
 
 			try
 			{
-				target.Test( ace.GraphicsType.DirectX11 );
+				target.Test(ace.GraphicsDeviceType.DirectX11);
 			}
 			catch( Exception e )
 			{
@@ -71,6 +71,6 @@ namespace unitTest_Engine_cs
 
 	public abstract class TestFramework
 	{
-		public abstract void Test( ace.GraphicsType graphicsType );
+		public abstract void Test(ace.GraphicsDeviceType graphicsType);
 	}
 }

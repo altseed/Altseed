@@ -23,7 +23,7 @@ void RenderState_Imp::State::Reset()
 {
 	DepthTest = false;
 	DepthWrite = false;
-	AlphaBlend = ALPHA_BLEND_BLEND;
+	AlphaBlendState = AlphaBlend::Blend;
 	CullingType = CULLING_DOUBLE;
 
 	for (auto i = 0; i < TextureCount; i++)
@@ -40,7 +40,7 @@ void RenderState_Imp::State::CopyTo(State& state)
 {
 	state.DepthTest = DepthTest;
 	state.DepthWrite = DepthWrite;
-	state.AlphaBlend = AlphaBlend;
+	state.AlphaBlendState = AlphaBlendState;
 	state.CullingType = CullingType;
 
 	for (auto i = 0; i < TextureCount; i++)

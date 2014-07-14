@@ -8,7 +8,7 @@ namespace ace{
 	PostEffectLightBloom::PostEffectLightBloom()
 	{
 		auto g = Engine::GetGraphics();
-		std::string baseCode = m_corePostEffect->GetLightBloomShader(g->GetGraphicsType());
+		std::string baseCode = m_corePostEffect->GetLightBloomShader(g->GetGraphicsDeviceType());
 
 		std::string code = std::string("#define COPY 1\n") + baseCode;
 		std::string codeX = std::string("#define BLUR_X 1\n") + baseCode;

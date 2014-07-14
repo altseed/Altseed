@@ -16,7 +16,7 @@ namespace ace
 		/// <summary>
 		/// 描画に使用するデバイス
 		/// </summary>
-		public GraphicsType GraphicsType;
+		public GraphicsDeviceType GraphicsDevice;
 
 		/// <summary>
 		/// マルチスレッドモードを使用するか?
@@ -72,13 +72,13 @@ namespace ace
 				return false;
 			}
 
-			var graphicsType = option.GraphicsType;
-			if(graphicsType == GraphicsType.Default)
+			var graphicsType = option.GraphicsDevice;
+			if (graphicsType == GraphicsDeviceType.Default)
 			{
-				graphicsType = GraphicsType.DirectX11;
+				graphicsType = GraphicsDeviceType.DirectX11;
 			}
 
-			var result = core.Initialize(title, width, height, option.IsFullScreen, graphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
+			var result = core.Initialize(title, width, height, option.IsFullScreen, graphicsType == GraphicsDeviceType.OpenGL, option.IsMultithreadingMode);
 
 			if (result)
 			{
@@ -119,13 +119,13 @@ namespace ace
 				return false;
 			}
 
-			var graphicsType = option.GraphicsType;
-			if (graphicsType == GraphicsType.Default)
+			var graphicsType = option.GraphicsDevice;
+			if (graphicsType == GraphicsDeviceType.Default)
 			{
-				graphicsType = GraphicsType.DirectX11;
+				graphicsType = GraphicsDeviceType.DirectX11;
 			}
 
-			var result = core.InitializeByExternalWindow(handle1, handle2, width, height, graphicsType == GraphicsType.OpenGL, option.IsMultithreadingMode);
+			var result = core.InitializeByExternalWindow(handle1, handle2, width, height, graphicsType == GraphicsDeviceType.OpenGL, option.IsMultithreadingMode);
 
 			if (result)
 			{

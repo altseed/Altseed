@@ -16,7 +16,7 @@ namespace ace
 		public PostEffectSepia()
 		{
 			var g = Engine.Graphics;
-			var shader = g.CreateShader2D(SwigObject.GetSepiaShader((swig.GraphicsType)g.GraphicsType));
+			var shader = g.CreateShader2D(SwigObject.GetSepiaShader((swig.GraphicsDeviceType)g.GraphicsDeviceType));
 			material2d = g.CreateMaterial2D(shader);
 		}
 

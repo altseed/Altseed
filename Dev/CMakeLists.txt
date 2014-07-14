@@ -23,6 +23,10 @@ else()
 	set(CMAKE_CXX_FLAGS "-std=c++11 -fPIC" ${CMAKE_CXX_FLAGS})
 endif()
 
+# Effekseerの設定
+option(USE_GLEW_STATIC "Use Glew static library" OFF)
+option(USE_GLEW_DLL "Use Glew DLL" ON)
+option(USE_OPENGLES2 "Use OpenGL ES2" OFF)
 
 # ファイルをソースリストに追加
 INCLUDE(CMakeFiles.txt)
@@ -69,8 +73,14 @@ else()
 	list(APPEND common_lib ogg )
 	list(APPEND common_lib vorbisfile )
 	list(APPEND common_lib vorbis )
-	FIND_PACKAGE(PulseAudio REQUIRED)
-	list(APPEND common_lib ${PulseAudio_LIBRARY})
+
+	if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+		FIND_PACKAGE(OpenAL REQUIRED)
+		list(APPEND common_lib ${OPENAL_LIBRARY})
+	else()
+		FIND_PACKAGE(PulseAudio REQUIRED)
+		list(APPEND common_lib ${PulseAudio_LIBRARY})
+	endif()
 
 	list(APPEND common_lib dl )
 
@@ -103,6 +113,24 @@ else()
 
 	list(APPEND common_inc ${X11_xf86vmode_INCLUDE_PATH})
 	list(APPEND common_lib ${X11_Xxf86vm_LIB})
+
+	if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+		# used in GLFW
+		find_library(COCOA_FRAMEWORK Cocoa)
+		find_library(COCOA_FRAMEWORK Cocoa)
+		find_library(IOKIT_FRAMEWORK IOKit)
+		find_library(CORE_FOUNDATION_FRAMEWORK CoreFoundation)
+		find_library(CORE_VIDEO_FRAMEWORK CoreVideo)
+		list(APPEND common_lib
+			${COCOA_FRAMEWORK}
+			${OPENGL_gl_LIBRARY}
+			${OPENGL_glu_LIBRARY}
+			${IOKIT_FRAMEWORK}
+			${CORE_FOUNDATION_FRAMEWORK}
+			${CORE_VIDEO_FRAMEWORK}
+			"-lGL"
+			"-lGLU")
+	endif()
 
 endif()
 
@@ -199,6 +227,23 @@ if (MSVC)
 			endif()
 		endforeach()
 	endif()
+endif()
+
+# Effekseerの設定
+if (USE_INTERNAL_LOADER)
+	add_definitions(-D__EFFEKSEER_RENDERER_INTERNAL_LOADER__)
+endif()
+
+if (USE_GLEW_STATIC)
+	add_definitions(-D__EFFEKSEER_RENDERER_GL_GLEW_S__)
+endif()
+
+if (USE_GLEW_DLL)
+	add_definitions(-D__EFFEKSEER_RENDERER_GL_GLEW__)
+endif()
+
+if (USE_OPENGLES2)
+	add_definitions(-D__EFFEKSEER_RENDERER_GLES2__)
 endif()
 
 # インストール先を決定

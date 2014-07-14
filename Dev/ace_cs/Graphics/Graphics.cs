@@ -189,9 +189,9 @@ namespace ace
 		/// <summary>
 		/// 描画ランタイムの種類を取得する。
 		/// </summary>
-		public GraphicsType GraphicsType
+		public GraphicsDeviceType GraphicsDeviceType
 		{
-			get { return (GraphicsType)graphics.GetGraphicsType(); }
+			get { return (GraphicsDeviceType)graphics.GetGraphicsDeviceType(); }
 		}
 	}
 }

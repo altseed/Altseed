@@ -17,14 +17,14 @@ namespace ace
 		Color m_color;
 		bool m_turnLR;
 		bool m_turnUL;
-		eAlphaBlend m_alphablend;
+		AlphaBlend m_alphablend;
 		int m_drawingPtiority;
 
 	public:
 		CoreTextureObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreTextureObject2D_Imp();
 
-		eObject2DType GetObjectType() const override { return eObject2DType::RENDERED_OBJECT2D_TYPE_TEXTURE; }
+		Object2DType GetObjectType() const override { return Object2DType::Texture; }
 
 #pragma region Parameter
 		Texture2D* GetTexture() const;
@@ -48,8 +48,8 @@ namespace ace
 		int GetDrawingPriority() const;
 		void SetDrawingPriority(int priority);
 
-		eAlphaBlend GetAlphaBlendMode() const;
-		void SetAlphaBlendMode(eAlphaBlend alphaBlend);
+		AlphaBlend GetAlphaBlendMode() const;
+		void SetAlphaBlendMode(AlphaBlend alphaBlend);
 #pragma endregion
 
 		void Draw(Renderer2D* renderer, Matrix33 cameraMatrix);

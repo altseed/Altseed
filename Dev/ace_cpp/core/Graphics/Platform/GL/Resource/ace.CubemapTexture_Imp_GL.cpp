@@ -56,12 +56,12 @@ namespace ace
 		};
 
 		const achar* pathes[] = {
-			front,
 			left,
-			back,
-			right,
 			top,
+			back,			
+			right,
 			bottom,
+			front,
 		};
 
 		for (int32_t i = 0; i < 6; i++)

@@ -93,12 +93,12 @@ namespace ace
 		m_coreObject->SetDrawingPriority(priority);
 	}
 
-	eAlphaBlend TextureObject2D::GetAlphaBlendMode() const
+	AlphaBlend TextureObject2D::GetAlphaBlendMode() const
 	{
 		return m_coreObject->GetAlphaBlendMode();
 	}
 
-	void TextureObject2D::SetAlphaBlendMode(eAlphaBlend alphaBlend)
+	void TextureObject2D::SetAlphaBlendMode(AlphaBlend alphaBlend)
 	{
 		m_coreObject->SetAlphaBlendMode(alphaBlend);
 	}

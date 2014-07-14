@@ -34,7 +34,7 @@ namespace ace
 		public PostEffectGaussianBlur()
 		{
 			var g = Engine.Graphics;
-			var baseShader = SwigObject.GetGaussianBlurShader((swig.GraphicsType)g.GraphicsType);
+			var baseShader = SwigObject.GetGaussianBlurShader((swig.GraphicsDeviceType)g.GraphicsDeviceType);
 			var codeX = "#define BLUR_X 1\n" + baseShader;
 			var codeY = "#define BLUR_Y 1\n" + baseShader;
 

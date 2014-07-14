@@ -15,7 +15,7 @@ namespace ace
 		std::vector<Effekseer::Handle>	m_handles;
 		Effect*							m_effect;
 		bool							m_syncEffects = nullptr;
-		Renderer2D*						m_renderer;
+		Renderer2D_Imp*					m_renderer;
 
 		/**
 			@brief	Y軸回転(度)
@@ -28,7 +28,7 @@ namespace ace
 		CoreEffectObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreEffectObject2D_Imp();
 
-		eObject2DType GetObjectType() const override { return eObject2DType::RENDERED_OBJECT2D_TYPE_EFFECT; }
+		Object2DType GetObjectType() const override { return Object2DType::Effect; }
 
 		void SetEffect(Effect* effect);
 

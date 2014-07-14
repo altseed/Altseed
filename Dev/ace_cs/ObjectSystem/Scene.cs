@@ -135,7 +135,7 @@ namespace ace
 		}
 
 		/// <summary>
-		/// シーンの最終的な描画内容を表示する三角形を追加する。
+		/// シーンの最終的な描画内容を表示する三角形を追加する。(非推奨)
 		/// </summary>
 		/// <param name="pos1">座標1</param>
 		/// <param name="uv1">UV1</param>
@@ -162,11 +162,12 @@ namespace ace
 		/// </summary>
 		/// <returns>画面</returns>
 		/// <remarks>テクスチャの内容はシーンが描画されるたびに変わる。主にシーン遷移の際に使用する。</remarks>
-		public RenderTexture2D GetEffectedScreen()
+		public RenderTexture2D EffectedScreen
 		{
-			var ret = CoreScene.GetBaseTarget();
-			if (ret == null) return null;
-			return GC.GenerateRenderTexture2D(ret, GC.GenerationType.Get);
+			get
+			{
+				return GC.GenerateRenderTexture2D(CoreScene.GetBaseTarget(), GC.GenerationType.Get);
+			}
 		}
 
 		/// <summary>
@@ -188,24 +189,24 @@ namespace ace
 
 		internal void Update()
 		{
-			foreach( var item in layersToUpdate_ )
+			OnUpdating();
+
+			foreach (var item in layersToUpdate_)
 			{
 				item.BeginUpdating();
 			}
-
-			OnUpdating();
 
 			foreach( var item in layersToUpdate_ )
 			{
 				item.Update();
 			}
 
-			OnUpdated();
-
 			foreach( var item in layersToUpdate_ )
 			{
 				item.EndUpdating();
 			}
+
+			OnUpdated();
 
 			UpdateComponents();
 		}

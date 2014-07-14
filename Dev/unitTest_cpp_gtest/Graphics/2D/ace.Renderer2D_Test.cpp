@@ -67,7 +67,7 @@ void Graphics_Renderer2D(bool isOpenGLMode)
 		uvs[3].X = 0;
 		uvs[3].Y = 1;
 
-		renderer->AddSprite(positions, colors, uvs, texture.get(), ace::eAlphaBlend::ALPHA_BLEND_BLEND, 0);
+		renderer->AddSprite(positions, colors, uvs, texture.get(), ace::AlphaBlend::Blend, 0);
 
 		positions[0].X = 128 + 0;
 		positions[0].Y = 128 + 0;
@@ -77,7 +77,7 @@ void Graphics_Renderer2D(bool isOpenGLMode)
 		positions[2].Y = 128 + 128;
 		positions[3].X = 128 + 0;
 		positions[3].Y = 128 + 128;
-		renderer->AddSprite(positions, colors, uvs, nullptr, ace::eAlphaBlend::ALPHA_BLEND_BLEND, 0);
+		renderer->AddSprite(positions, colors, uvs, nullptr, ace::AlphaBlend::Blend, 0);
 
 		positions[0].X = 256 + 0;
 		positions[0].Y = 256 + 0;
@@ -92,7 +92,7 @@ void Graphics_Renderer2D(bool isOpenGLMode)
 		colors[2].B = 0;
 		colors[3].A = 0;
 
-		renderer->AddSprite(positions, colors, uvs, nullptr, ace::eAlphaBlend::ALPHA_BLEND_BLEND, 0);
+		renderer->AddSprite(positions, colors, uvs, nullptr, ace::AlphaBlend::Blend, 0);
 
 		renderer->DrawCache(ace::RectF(0, 0, 640, 480));
 		renderer->ClearCache();

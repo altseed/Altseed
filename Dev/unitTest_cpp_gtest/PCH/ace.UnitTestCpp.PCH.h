@@ -19,6 +19,7 @@
 #include <Graphics/Resource/ace.RenderState_Imp.h>
 #include <Graphics/Resource/ace.RenderTexture2D_Imp.h>
 #include <Graphics/Resource/ace.DepthBuffer_Imp.h>
+#include <Graphics/Resource/ace.CubemapTexture_Imp.h>
 
 #include <cstdint>
 #include <iostream>

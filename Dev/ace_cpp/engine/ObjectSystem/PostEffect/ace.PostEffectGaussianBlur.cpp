@@ -8,7 +8,7 @@ namespace ace{
 	PostEffectGaussianBlur::PostEffectGaussianBlur()
 	{
 		auto g = Engine::GetGraphics();
-		std::string baseShader = m_corePostEffect->GetGaussianBlurShader(g->GetGraphicsType());
+		std::string baseShader = m_corePostEffect->GetGaussianBlurShader(g->GetGraphicsDeviceType());
 
 		std::string codeX = std::string("#define BLUR_X 1\n") + baseShader;
 		std::string codeY = std::string("#define BLUR_Y 1\n") + baseShader;

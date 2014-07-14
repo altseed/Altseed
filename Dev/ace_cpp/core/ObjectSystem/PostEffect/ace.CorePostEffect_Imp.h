@@ -25,10 +25,10 @@ namespace ace
 		void ClearCommands(){ m_commands.clear(); }
 #if !SWIG
 	public:
-		const char* GetGrayScaleShader(GraphicsType graphicsType) const override;
-		const char* GetLightBloomShader(GraphicsType graphicsType) const override;
-		const char* GetSepiaShader(GraphicsType graphicsType) const override;
-		const char* GetGaussianBlurShader(GraphicsType graphicsType) const override;
+		const char* GetGrayScaleShader(GraphicsDeviceType graphicsDeviceType) const override;
+		const char* GetLightBloomShader(GraphicsDeviceType graphicsDeviceType) const override;
+		const char* GetSepiaShader(GraphicsDeviceType graphicsDeviceType) const override;
+		const char* GetGaussianBlurShader(GraphicsDeviceType graphicsDeviceType) const override;
 
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }

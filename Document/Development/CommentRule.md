@@ -4,7 +4,7 @@
 * C#ではXML Commentで書く。これによってIntellisenceに解説が出る。
 
 ||C++|C#|
-|-|-|-|
+|---|---|---|
 |概要|brief|summary|
 |引数||param|
 |戻り値||returns|

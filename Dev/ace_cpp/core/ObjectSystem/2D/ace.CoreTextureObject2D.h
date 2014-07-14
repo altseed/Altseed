@@ -59,7 +59,7 @@ namespace ace
 		/**
 			@brief	このオブジェクトを描画する際のブレンドモードを取得します。
 		*/
-		virtual eAlphaBlend GetAlphaBlendMode() const = 0;
+		virtual AlphaBlend GetAlphaBlendMode() const = 0;
 
 
 		/**
@@ -107,6 +107,6 @@ namespace ace
 		/**
 			@brief	このオブジェクトを描画する際のブレンドモードを設定します。
 		*/
-		virtual void SetAlphaBlendMode(eAlphaBlend alphaBlend) = 0;
+		virtual void SetAlphaBlendMode(AlphaBlend alphaBlend) = 0;
 	};
 }

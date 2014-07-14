@@ -5,6 +5,7 @@
 
 #if !_WIN32
 #include <sched.h>
+#include <thread>
 #endif
 
 using namespace std;
@@ -59,6 +60,10 @@ namespace ace
 
 #if _WIN32
 		profile->GetCurrent()->SetProcessorNumber(GetCurrentProcessorNumber());
+#elif defined(__APPLE__)
+		// sched_getcpuがないようなので代用。よりよいものがあれば差し替えてください。
+		profile->GetCurrent()->SetProcessorNumber(
+			std::hash<std::thread::id>()(std::this_thread::get_id()));
 #else
 		profile->GetCurrent()->SetProcessorNumber(sched_getcpu());
 #endif

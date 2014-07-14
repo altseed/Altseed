@@ -27,10 +27,10 @@ namespace unitTest_Engine_cs.Graphics._2D
             scene.AddLayer(layer);
             layer.AddObject(obj);
 
-            var font = ace.Engine.Graphics.CreateFont("Data/Text/Nac0703.aff");
+			var font = ace.Engine.Graphics.CreateFont("Data/Font/Nac0711.aff");
 
             obj.Font = font;
-            obj.Text = "Font";
+			obj.Text = "DependencyPropertyは\n依存関係プロパティのこと";
 
             //object->SetCenterPosition(Vector2DF(128, 128));
             obj.Position = new ace.Vector2DF(0, 0);

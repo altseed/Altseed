@@ -51,15 +51,15 @@ namespace ace
 
 		switch (obj->GetObjectType())
 		{
-		case eObject2DType::RENDERED_OBJECT2D_TYPE_TEXTURE:
+		case Object2DType::Texture:
 			return (CoreTextureObject2D_Imp*) obj;
-		case eObject2DType::RENDERED_OBJECT2D_TYPE_TEXT:
+		case Object2DType::Text:
 			return (CoreTextObject2D_Imp*) obj;
-		case eObject2DType::RENDERED_OBJECT2D_TYPE_CAMERA:
+		case Object2DType::Camera:
 			return (CoreCameraObject2D_Imp*) obj;
-		case eObject2DType::RENDERED_OBJECT2D_TYPE_MAP:
+		case Object2DType::Map:
 			return (CoreMapObject2D_Imp*) obj;
-		case eObject2DType::RENDERED_OBJECT2D_TYPE_EFFECT:
+		case Object2DType::Effect:
 			return (CoreEffectObject2D_Imp*) obj;
 		default:
 			break;
@@ -73,7 +73,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::AddObject(ObjectPtr object)
 	{
-		if (object->GetObjectType() == eObject2DType::RENDERED_OBJECT2D_TYPE_CAMERA)
+		if (object->GetObjectType() == Object2DType::Camera)
 		{
 			auto camera = (CoreCameraObject2D_Imp*)object;
 			m_cameras.push_back(camera);
@@ -105,7 +105,7 @@ namespace ace
 
 		object->SetLayer(nullptr);
 
-		if (object->GetObjectType() == eObject2DType::RENDERED_OBJECT2D_TYPE_CAMERA)
+		if (object->GetObjectType() == Object2DType::Camera)
 		{
 			auto camera = (CoreCameraObject2D*)object;
 			m_cameras.remove(camera);

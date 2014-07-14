@@ -27,6 +27,9 @@ namespace FontGenerator
 			Console.WriteLine("\nフォントサイズを指定してください。");
 			gen.SetFontSize(ReadInt());
 
+			Console.WriteLine("\n画像のサイズを指定してください。");
+			gen.SetSheetSize(ReadInt());
+
 			Console.WriteLine("\nフォントの色を指定してください[0-255]");
 			Console.Write("  Red> ");
 			var r = ReadByte();

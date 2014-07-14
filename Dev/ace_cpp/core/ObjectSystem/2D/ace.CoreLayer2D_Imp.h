@@ -22,7 +22,7 @@ namespace ace
 		std::list <CoreCameraObject2D*> m_cameras;
 		std::list<ObjectPtr> m_objects;
 
-		Renderer2D*		m_renderer;
+		Renderer2D_Imp*		m_renderer;
 
 		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();

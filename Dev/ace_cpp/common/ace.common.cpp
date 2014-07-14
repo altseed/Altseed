@@ -402,17 +402,17 @@ namespace ace
 #ifdef _WIN32
 			return astring(src);
 #else
-			return astring((uint16_t*) src);
+			return astring(reinterpret_cast<const achar*>(src));
 #endif
 		}
 		if (sizeof(wchar_t) == 4)
 		{
 #ifndef _WIN32
-			uint16_t temp[2048];
+			achar temp[2048];
 			int32_t length = 0;
 			while (src[length] != 0 && length < 2047)
 			{
-				temp[length] = (uint16_t) src[length];
+				temp[length] = static_cast<achar>(src[length]);
 				length++;
 			}
 			temp[length] = 0;

@@ -70,13 +70,13 @@ void main()
 
 			public PostEffect(ace.Graphics g)
 			{
-				if (g.GraphicsType == ace.GraphicsType.DirectX11)
+				if (g.GraphicsDeviceType == ace.GraphicsDeviceType.DirectX11)
 				{
 					m_shader = g.CreateShader2D(
 						shader2d_dx_ps
 						);
 				}
-				else if (g.GraphicsType == ace.GraphicsType.OpenGL)
+				else if (g.GraphicsDeviceType == ace.GraphicsDeviceType.OpenGL)
 				{
 					m_shader = g.CreateShader2D(
 						shader2d_gl_ps

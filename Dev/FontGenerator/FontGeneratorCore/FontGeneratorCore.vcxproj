@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DLL.h" />
+    <ClInclude Include="ImageBuffer.h" />
     <ClInclude Include="Rendering\Color.h" />
     <ClInclude Include="Rendering\Font.h" />
     <ClInclude Include="FontData.h" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="DLL.cpp" />
     <ClCompile Include="dll_cs.cxx" />
+    <ClCompile Include="ImageBuffer.cpp" />
     <ClCompile Include="Rendering\Color.cpp" />
     <ClCompile Include="Rendering\Font.cpp" />
     <ClCompile Include="FontData.cpp" />

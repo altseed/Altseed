@@ -334,9 +334,10 @@ namespace ace
 					prop.SkyLightColor.B / 255.0f);
 
 				int32_t lightIndex = 0;
-				for (auto& light : rendering.directionalLightObjects)
+				for (auto& light_ : rendering.directionalLightObjects)
 				{
-					auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
+					//auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
+					auto light = static_cast<RenderedDirectionalLightObject3D*>(light_);
 					RenderTexture2D_Imp* shadowMap = light->GetShadowTexture_RT();
 
 					Matrix44 view, proj;
@@ -499,7 +500,7 @@ namespace ace
 						state.DepthTest = false;
 						state.DepthWrite = false;
 						state.CullingType = CULLING_DOUBLE;
-						state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_ADD;
+						state.AlphaBlendState = AlphaBlend::Add;
 						state.TextureFilterTypes[2] = TextureFilterType::Linear;
 						state.TextureFilterTypes[4] = TextureFilterType::Linear;
 						g->GetRenderState()->Update(false);
@@ -548,7 +549,7 @@ namespace ace
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_ADD;
+					state.AlphaBlendState = AlphaBlend::Add;
 					state.TextureFilterTypes[2] = TextureFilterType::Linear;
 					state.TextureFilterTypes[4] = TextureFilterType::Linear;
 					g->GetRenderState()->Update(false);
@@ -625,7 +626,7 @@ namespace ace
 				state.DepthTest = false;
 				state.DepthWrite = false;
 				state.CullingType = CULLING_DOUBLE;
-				state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
+				state.AlphaBlendState = AlphaBlend::Opacity;
 				state.TextureFilterTypes[2] = TextureFilterType::Linear;
 				state.TextureFilterTypes[4] = TextureFilterType::Linear;
 				g->GetRenderState()->Update(false);
@@ -684,7 +685,7 @@ namespace ace
 			auto& state = m_graphics->GetRenderState()->Push();
 			state.DepthTest = false;
 			state.DepthWrite = false;
-			state.AlphaBlend = eAlphaBlend::ALPHA_BLEND_OPACITY;
+			state.AlphaBlendState = AlphaBlend::Opacity;
 			state.CullingType = ace::eCullingType::CULLING_DOUBLE;
 			state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
 			m_graphics->GetRenderState()->Update(false);
@@ -766,7 +767,7 @@ namespace ace
 			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
 
 			std::vector<ace::Macro> macro;
-			if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_pasteShader = m_graphics->GetShaderCache()->CreateFromCode(
 					ToAString("Internal.Paste").c_str(),
@@ -813,7 +814,7 @@ namespace ace
 			std::vector<ace::Macro> macro_y;
 			macro_y.push_back(Macro("BLUR_Y", "1"));
 
-			if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_shadowShaderX = m_graphics->GetShaderCache()->CreateFromCode(
 					ToAString(L"Internal.BlurX").c_str(),
@@ -890,7 +891,7 @@ namespace ace
 			std::vector<ace::Macro> macro_a;
 			macro_a.push_back(Macro("AMBIENT_LIGHT", "1"));
 
-			if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_directionalWithAmbientLightShader = m_graphics->GetShaderCache()->CreateFromCode(
 					ToAString(L"Internal.D_A_Light").c_str(),
@@ -946,7 +947,7 @@ namespace ace
 
 			std::vector<ace::Macro> macro;
 
-			if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_deferredBufferShader = m_graphics->GetShaderCache()->CreateFromCode(
 					ToAString(L"Internal.DeferredBuffer").c_str(),
@@ -1004,7 +1005,7 @@ namespace ace
 			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
 
 			std::vector<ace::Macro> macro;
-			if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				
 			}
@@ -1082,14 +1083,14 @@ namespace ace
 		// エフェクト
 		{
 			m_effectManager = ::Effekseer::Manager::Create(2000, false);
-			if (m_graphics->GetGraphicsType() == GraphicsType::DirectX11)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 			{
 #if _WIN32
 				auto g = (Graphics_Imp_DX11*) m_graphics;
 				m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), 2000);
 #endif
 			}
-			else if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(2000);
 			}
@@ -1152,11 +1153,11 @@ namespace ace
 		m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 		m_windowSize = windowSize;
 
-		if (m_graphics->GetGraphicsType() == GraphicsType::DirectX11)
+		if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
 			m_effectRenderer->SetProjectionMatrix(::Effekseer::Matrix44().PerspectiveFovRH(90.0f / 180.0f * 3.14f, windowSize.X / windowSize.Y, 1.0f, 50.0f));
 		}
-		else if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+		else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
 			m_effectRenderer->SetProjectionMatrix(::Effekseer::Matrix44().PerspectiveFovRH_OpenGL(90.0f / 180.0f * 3.14f, windowSize.X / windowSize.Y, 1.0f, 50.0f));
 		}

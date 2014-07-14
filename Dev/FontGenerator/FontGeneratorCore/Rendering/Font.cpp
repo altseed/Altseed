@@ -9,17 +9,11 @@ namespace FontGenerator
 	Font::Font(astring fontPath)
 	{
 		auto error = FT_Init_FreeType(&m_library);
-		if (error)
-		{
-			throw "FreeType‚Ì‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½";
-		}
+		ACE_ASSERT(!error, "FreeType‚Ì‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½")
 
 		auto path = ToUtf8String(fontPath.c_str());
 		error = FT_New_Face(m_library, path.c_str(), 0, &m_face);
-		if (error)
-		{
-			throw "Face‚Ì‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½";
-		}
+		ACE_ASSERT(!error, "Face‚Ì‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½")
 
 		SetFontSize(16);
 	}

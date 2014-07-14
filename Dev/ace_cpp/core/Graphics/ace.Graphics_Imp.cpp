@@ -247,7 +247,7 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path)
 	if (fp == nullptr) return false;
 #else
 	auto fp = fopen(ToUtf8String((const achar*) path).c_str(), "rb");
-	if (fp == nullptr) return false;
+	if (fp == nullptr) return nullptr;
 #endif
 	fseek(fp, 0, SEEK_END);
 	auto size = ftell(fp);

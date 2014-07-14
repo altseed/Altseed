@@ -30,6 +30,9 @@
     <ClInclude Include="ResultOfGeneratingPng.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="DLL.h" />
+    <ClInclude Include="ImageBuffer.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering\Color.cpp">
@@ -52,5 +55,8 @@
     <ClCompile Include="PngGenerator.cpp" />
     <ClCompile Include="DLL.cpp" />
     <ClCompile Include="dll_cs.cxx" />
+    <ClCompile Include="ImageBuffer.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

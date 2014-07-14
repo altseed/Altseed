@@ -8,7 +8,7 @@ namespace ace{
 	PostEffectSepia::PostEffectSepia()
 	{
 		auto g = Engine::GetGraphics();
-		auto shader = g->CreateShader2D(ToAString(m_corePostEffect->GetSepiaShader(g->GetGraphicsType())).c_str());
+		auto shader = g->CreateShader2D(ToAString(m_corePostEffect->GetSepiaShader(g->GetGraphicsDeviceType())).c_str());
 		material2d = g->CreateMaterial2D(shader);
 	}
 

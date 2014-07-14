@@ -59,7 +59,7 @@ namespace ace
 		public PostEffectLightBloom()
 		{
 			var g = Engine.Graphics;
-			var baseCode = SwigObject.GetLightBloomShader((swig.GraphicsType)g.GraphicsType);
+			var baseCode = SwigObject.GetLightBloomShader((swig.GraphicsDeviceType)g.GraphicsDeviceType);
 
 			var code = "#define COPY 1\n" + baseCode;
 			var codeX = "#define BLUR_X 1\n" + baseCode;

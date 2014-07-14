@@ -4,7 +4,7 @@
 #include <Windows.h>
 #else
 #include <unistd.h>
-#include <codecvt>
+//#include <codecvt>
 #endif
 
 namespace ace
@@ -29,12 +29,13 @@ namespace ace
 			// not implimented exception.
 			assert(false);
 			// realpath で正規化できそうだが、char なので変換必要
-#endif
+#else
 			achar buffer[MAX_PATH];
 			GetModuleFileNameW(nullptr, buffer, MAX_PATH);
 
 			m_path.insert(0, L"/../");
 			m_path.insert(0, buffer);
+#endif
 		}
 		if (IsSeparator(m_path[m_path.size() - 1]))
 			m_path.append(m_dotCString);

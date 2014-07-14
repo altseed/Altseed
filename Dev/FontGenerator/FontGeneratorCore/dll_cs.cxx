@@ -403,6 +403,16 @@ SWIGEXPORT void SWIGSTDCALL CSharp_DLL_SetExportPath(void * jarg1, wchar_t * jar
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_DLL_SetSheetSize(void * jarg1, int jarg2) {
+  FontGenerator::DLL *arg1 = (FontGenerator::DLL *) 0 ;
+  int arg2 ;
+  
+  arg1 = (FontGenerator::DLL *)jarg1; 
+  arg2 = (int)jarg2; 
+  (arg1)->SetSheetSize(arg2);
+}
+
+
 #ifdef __cplusplus
 }
 #endif

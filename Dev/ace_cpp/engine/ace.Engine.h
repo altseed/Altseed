@@ -30,7 +30,7 @@ namespace ace {
 		/**
 		@brief	描画に使用するデバイス
 		*/
-		GraphicsType	GraphicsType = GraphicsType::Default;
+		GraphicsDeviceType	GraphicsDevice = GraphicsDeviceType::Default;
 
 		/**
 		@brief	マルチスレッドモードを使用するか?

@@ -1,6 +1,9 @@
 
+#include <iostream>
+#include <sstream>
 #include <fstream>
 #include "PngGenerator.h"
+#include "ImageBuffer.h"
 #include <png.h>
 
 #if _DEBUG
@@ -96,49 +99,31 @@ namespace FontGenerator
 
 	ResultOfGeneratingPng PngGenerator::Generate(astring fontPath, vector<achar>& charactors)
 	{
-		Font m_font(fontPath);
-		m_font.SetFontSize(m_setting.GetFontSize());
+		Font font(fontPath);
+		font.SetFontSize(m_setting.GetFontSize());
 
-		vector<int> buffer(m_sheetSize*m_sheetSize, 0);
+		ImageBuffer buffer(font, m_sheetSize);
 		vector<GlyphData> fontData;
 
-		int outlineWidth = 0;
-		if (m_setting.GetBorder() != nullptr)
-		{
-			outlineWidth = m_setting.GetBorder()->width;
-		}
-
-		int baseLineHeight = m_font.GetFontHeight();
-		int ascender = m_font.GetAscender();
-
-		int penX = 0;
-		int baseLine = 0 + ascender;
-
-		for (auto& glyph : m_font.GetGlyphs(charactors))
+		for (auto& glyph : font.GetGlyphs(charactors))
 		{
 			auto finalGlyph = m_setting.ProcessGlyph(glyph);
-			auto advance = finalGlyph.GetAdvance();
-
-			if (penX + advance > m_sheetSize)
-			{
-				penX = 0;
-				baseLine += baseLineHeight;
-			}
-
-			RectI src(penX, baseLine - ascender, advance, baseLineHeight);
-			GlyphData data(glyph->GetCharactor(), 0, src);
-			fontData.push_back(data);
-
-			finalGlyph.Draw(buffer.data(), m_sheetSize, m_sheetSize, penX, baseLine);
-
-			penX += advance;
+			auto result = buffer.DrawGlyph(glyph);
+			fontData.push_back(result);
 		}
 
-		auto pngPath = GetSheetName() + ToAString("_1.png");
-		SavePNGImage(pngPath.c_str(), m_sheetSize, m_sheetSize, buffer.data(), false);
+		auto buffers = buffer.GetBuffers();
+
+		for (size_t i = 0; i < buffers.size(); i++)
+		{
+			std::ostringstream os;
+			os << "_" << i << ".png";
+			auto pngPath = GetSheetName() + ToAString(os.str().c_str());
+			SavePNGImage(pngPath.c_str(), m_sheetSize, m_sheetSize, buffers[i]->data(), false);
+		}
 
 		ResultOfGeneratingPng result;
-		result.sheetCount = 1;
+		result.sheetCount = buffers.size();
 		result.fonts = fontData;
 		return result;
 	}

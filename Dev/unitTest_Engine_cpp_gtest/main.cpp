@@ -56,7 +56,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//Test_ObjectSystem_TextObject2D(true);
+	//CALL_ENGINE_TEST(Graphics, EffectObject2D, false)
 	//return 0;
 
 	//TestCamera(true);

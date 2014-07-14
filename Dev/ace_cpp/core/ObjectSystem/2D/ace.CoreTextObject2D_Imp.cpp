@@ -13,7 +13,7 @@ namespace ace
 		, m_turnLR(false)
 		, m_turnUL(false)
 		, m_text(ace::ToAString(""))
-		, m_alphablend(eAlphaBlend::ALPHA_BLEND_BLEND)
+		, m_alphablend(AlphaBlend::Blend)
 		, m_drawingPtiority(0)
 		, m_writingDirection(WritingDirection::Horizontal)
 	{
@@ -72,7 +72,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreTextObject2D_Imp::SetText(const achar* text)
 	{
-		m_text = ToAString(text);
+		m_text = astring(text);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -158,7 +158,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const eAlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
+	const AlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
 	{
 		return m_alphablend;
 	}
@@ -166,7 +166,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetAlphaBlendMode(eAlphaBlend alphablend)
+	void CoreTextObject2D_Imp::SetAlphaBlendMode(AlphaBlend alphablend)
 	{
 		m_alphablend = alphablend;
 	}
@@ -280,12 +280,12 @@ namespace ace
 			if (m_writingDirection == WritingDirection::Horizontal)
 			{
 				drawPosition += ace::Vector2DF(glyphSrc.Width, 0);
-				offset = max(glyphSrc.Width, offset);
+				offset = (std::max)(glyphSrc.Width, offset);
 			}
 			else
 			{
 				drawPosition += ace::Vector2DF(0, glyphSrc.Height);
-				offset = max(glyphSrc.Height, offset);
+				offset = (std::max)(glyphSrc.Height, offset);
 			}
 		}
 

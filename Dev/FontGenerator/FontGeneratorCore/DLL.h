@@ -13,6 +13,7 @@ namespace FontGenerator
 		ace::astring	m_fontName;
 		ace::astring	m_textFilePath;
 		ace::astring	m_exportPath;
+		int				m_sheetSize;
 
 	public:
 		DLL();
@@ -43,6 +44,11 @@ namespace FontGenerator
 		void SetExportPath(const ace::achar* path)
 		{
 			m_exportPath = path;
+		}
+
+		void SetSheetSize(int sheetSize)
+		{
+			m_sheetSize = sheetSize;
 		}
 	};
 }

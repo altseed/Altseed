@@ -1,14 +1,9 @@
 ﻿#pragma once
 
 #include "../ace.Core.Base.h"
-#include "../Core/ace.Core.Base.h"
 #include "ace.RootPath_Imp.h"
-#include "ace.BaseFile_Imp.h"
 #include "ace.File.h"
-#include "ace.BaseFile_Imp.h"
-#include "ace.Path_Imp.h"
-#include "ace.StaticFile_Imp.h"
-#include "ace.StreamFile_Imp.h"
+#include <string>
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
@@ -16,12 +11,27 @@
 
 namespace std
 {
+#ifndef _WIN32
+	// template<>
+	// struct hash < ace::astring >
+	// {
+	// 	size_t operator()(ace::astring str) const
+	// 	{
+	// 		size_t tmp(0);
+	// 		for (const auto c : str)
+	// 			tmp ^= static_cast<size_t>(c) + 0x9e3779b9 + (tmp<<6) + (tmp>>2);
+
+	// 		return tmp;
+	// 	}
+	// };
+#endif
+
 	template<>
-	struct std::hash < std::shared_ptr <ace::RootPath_Imp> >
+	struct hash < shared_ptr <ace::RootPath_Imp> >
 	{
-		size_t operator()(std::shared_ptr<ace::RootPath_Imp> ptr) const
+		size_t operator()(shared_ptr<ace::RootPath_Imp> ptr) const
 		{
-			return static_cast<size_t>(std::hash<ace::astring>()(ptr->m_path.ToAstring()));
+			return static_cast<size_t>(hash<ace::astring>()(ptr->m_path.ToAstring()));
 		}
 	};
 }
@@ -49,7 +59,7 @@ namespace ace
 		void SetRootDirectories(_InIt first, _InIt end);
 
 	public:
-		static File_Imp* Create() {	return new File_Imp(); };
+		static File_Imp* Create() { return new File_Imp(); };
 
 		virtual ~File_Imp();
 		virtual void SetRootDirectories(const astring& path);
@@ -60,8 +70,8 @@ namespace ace
 		virtual void EnumerateFiles(const astring& path, const astring& searchPattern) const;
 		virtual void EnumerateFiles(const astring& path, const astring& searchPattern, bool isRecursive) const;
 		virtual bool Exists(const astring& path) const;
-		virtual StaticFile* GetStaticFile(const astring& path);
-		virtual StreamFile* GetStreamFile(const astring& path);
+		virtual StaticFile* CreateStaticFile(const astring& path);
+		virtual StreamFile* CreateStreamFile(const astring& path);
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }

@@ -78,13 +78,13 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	prop_tex.Type = ace::SHADER_VARIABLE_TYPE_TEXTURE2D;
 	props.push_back(prop_tex);
 
-	if (graphics->GetGraphicsType() == ace::GraphicsType::DirectX11)
+	if (graphics->GetGraphicsDeviceType() == ace::GraphicsDeviceType::DirectX11)
 	{
 		shader = graphics->CreateShader2D(
 			ace::ToAString(shader2d_dx_ps).c_str()
 			);
 	}
-	else if (graphics->GetGraphicsType() == ace::GraphicsType::OpenGL)
+	else if (graphics->GetGraphicsDeviceType() == ace::GraphicsDeviceType::OpenGL)
 	{
 		std::vector<ace::ShaderVariableProperty> prop;
 		shader = graphics->CreateShader2D(
@@ -141,7 +141,7 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 		uvs[3].X = 0;
 		uvs[3].Y = 1;
 
-		renderer2d->AddSprite(positions, colors, uvs, rtex.get(), ace::eAlphaBlend::ALPHA_BLEND_BLEND, 0);
+		renderer2d->AddSprite(positions, colors, uvs, rtex.get(), ace::AlphaBlend::Blend, 0);
 
 		renderer2d->DrawCache(ace::RectF(0, 0, 640, 480));
 		renderer2d->ClearCache();

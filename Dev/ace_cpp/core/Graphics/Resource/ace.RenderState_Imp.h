@@ -27,7 +27,7 @@ namespace ace {
 		{
 			bool								DepthTest;
 			bool								DepthWrite;
-			eAlphaBlend							AlphaBlend;
+			AlphaBlend							AlphaBlendState;
 			eCullingType						CullingType;
 			TextureFilterType					TextureFilterTypes[TextureCount];
 			TextureWrapType						TextureWrapTypes[TextureCount];

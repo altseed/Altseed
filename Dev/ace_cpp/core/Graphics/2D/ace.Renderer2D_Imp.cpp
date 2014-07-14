@@ -88,7 +88,7 @@ namespace ace {
 
 		std::vector<ace::Macro> macro;
 
-		if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+		if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
 			m_shader = m_graphics->GetShaderCache()->CreateFromCode(
 				ToAString(L"Internal.2D.Renderer2D.Texture").c_str(),
@@ -107,7 +107,7 @@ namespace ace {
 				macro_tex);
 		}
 
-		if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+		if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
 			m_shader_nt = m_graphics->GetShaderCache()->CreateFromCode(
 				ToAString(L"Internal.2D.Renderer2D").c_str(),
@@ -129,14 +129,14 @@ namespace ace {
 		// エフェクト
 		{
 			m_effectManager = ::Effekseer::Manager::Create(2000, false);
-			if (m_graphics->GetGraphicsType() == GraphicsType::DirectX11)
+			if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 			{
 #if _WIN32
 				auto g = (Graphics_Imp_DX11*) m_graphics;
 				m_effectRenderer = ::EffekseerRendererDX11::Renderer::Create(g->GetDevice(), g->GetContext(), 2000);
 #endif
 			}
-			else if (m_graphics->GetGraphicsType() == GraphicsType::OpenGL)
+			else if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_effectRenderer = ::EffekseerRendererGL::Renderer::Create(2000);
 			}
@@ -234,7 +234,7 @@ namespace ace {
 			{
 				if (e.Type == Event::eEventType::Sprite)
 				{
-					SafeRelease(e.Data.Sprite.Texture);
+					SafeRelease(e.Data.Sprite.TexturePtr);
 				}
 			}
 
@@ -245,7 +245,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Renderer2D_Imp::AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, eAlphaBlend alphaBlend, int32_t priority)
+	void Renderer2D_Imp::AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
 	{
 		Event e;
 		e.Type = Event::eEventType::Sprite;
@@ -253,9 +253,9 @@ namespace ace {
 		memcpy(e.Data.Sprite.Positions, positions, sizeof(ace::Vector2DF) * 4);
 		memcpy(e.Data.Sprite.Colors, colors, sizeof(ace::Color) * 4);
 		memcpy(e.Data.Sprite.UV, uv, sizeof(ace::Vector2DF) * 4);
-		e.Data.Sprite.AlphaBlend = alphaBlend;
-		e.Data.Sprite.Texture = texture;
-		SafeAddRef(e.Data.Sprite.Texture);
+		e.Data.Sprite.AlphaBlendState = alphaBlend;
+		e.Data.Sprite.TexturePtr = texture;
+		SafeAddRef(e.Data.Sprite.TexturePtr);
 
 		AddEvent(priority, e);
 	}
@@ -288,8 +288,8 @@ namespace ace {
 	{
 		auto resetState = [this,e]() -> void
 		{
-			m_state.Texture = e.Data.Sprite.Texture;
-			m_state.AlphaBlend = e.Data.Sprite.AlphaBlend;
+			m_state.TexturePtr = e.Data.Sprite.TexturePtr;
+			m_state.AlphaBlendState = e.Data.Sprite.AlphaBlendState;
 		};
 
 		if (e.Type == Event::eEventType::Sprite)
@@ -303,8 +303,8 @@ namespace ace {
 			{
 				// 同時描画不可のケースかどうか?
 				// もしくはバッファが溢れないかどうか?
-				if (m_state.Texture != e.Data.Sprite.Texture ||
-					m_state.AlphaBlend != e.Data.Sprite.AlphaBlend||
+				if (m_state.TexturePtr != e.Data.Sprite.TexturePtr ||
+					m_state.AlphaBlendState != e.Data.Sprite.AlphaBlendState ||
 					m_drawingSprites.size() >= SpriteCount)
 				{
 					DrawSprite();
@@ -368,7 +368,7 @@ namespace ace {
 
 		// テクスチャの有無でシェーダーを選択
 		std::shared_ptr<NativeShader_Imp> shader;
-		if (m_state.Texture != nullptr)
+		if (m_state.TexturePtr != nullptr)
 		{
 			shader = m_shader;
 		}
@@ -382,9 +382,9 @@ namespace ace {
 		shader->SetVector2DF("Size", windowSize);
 
 		// 描画
-		if (m_state.Texture != nullptr)
+		if (m_state.TexturePtr != nullptr)
 		{
-			shader->SetTexture("g_texture", m_state.Texture, 0);
+			shader->SetTexture("g_texture", m_state.TexturePtr, 0);
 		}
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());

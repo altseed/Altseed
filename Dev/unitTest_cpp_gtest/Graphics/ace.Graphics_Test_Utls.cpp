@@ -18,11 +18,11 @@ void SaveSceenShot_(ace::Graphics_Imp* g, const char* file, int32_t num)
 {
 	const char* testDirectory = "ScreenShotTest";
 
-	auto gtype = g->GetGraphicsType();
+	auto gtype = g->GetGraphicsDeviceType();
 	auto filename = GetFileName(file);
 
 	char ssname[260];
-	if (gtype == ace::GraphicsType::OpenGL)
+	if (gtype == ace::GraphicsDeviceType::OpenGL)
 	{
 #if _WIN32
 		sprintf_s(ssname, "%s/%s_%d_gl.png", testDirectory, filename.c_str(), num);

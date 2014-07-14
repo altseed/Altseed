@@ -222,7 +222,7 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 
 		std::shared_ptr<NativeShader_Imp> shader;
 
-		if (g->GetGraphicsType() == GraphicsType::DirectX11)
+		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
 			shader = g->CreateShader_Imp(
 				shader2d_dx_vs,
@@ -232,7 +232,7 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 				vl,
 				macro);
 		}
-		else if (g->GetGraphicsType() == GraphicsType::OpenGL)
+		else if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
 			shader = g->CreateShader_Imp(
 				shader2d_gl_vs,
