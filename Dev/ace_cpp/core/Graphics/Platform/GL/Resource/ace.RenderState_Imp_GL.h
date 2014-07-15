@@ -25,6 +25,8 @@ namespace ace {
 		virtual ~RenderState_Imp_GL();
 
 		void Update(bool forced);
+
+		GLuint* GetSamplers() { return m_samplers; }
 	};
 
 	//----------------------------------------------------------------------------------

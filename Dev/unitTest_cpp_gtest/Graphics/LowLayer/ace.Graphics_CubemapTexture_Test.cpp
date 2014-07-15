@@ -222,3 +222,15 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	window->Release();
 	delete log;
 }
+
+TEST(Graphics, CubemapTexture_DX)
+{
+	Graphics_CubemapTexture(false);
+}
+
+
+TEST(Graphics, CubemapTexture_GL)
+{
+	Graphics_CubemapTexture(true);
+}
+

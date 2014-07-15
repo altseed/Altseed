@@ -504,6 +504,47 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 
 	// glBindTextureをするたびにテクスチャの値がリセットされるらしいので値を再設定
 	GetRenderState()->Update(true);
+
+	// MIPMAPの処理をするためにRenderStateから移動
+	static const GLint glfilter [] = { GL_NEAREST, GL_LINEAR };
+	static const GLint glfilter_mip [] = { GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR };
+
+	static const GLint glwrap [] = { GL_REPEAT, GL_CLAMP_TO_EDGE };
+	auto renderState = (RenderState_Imp_GL*) GetRenderState();
+
+	auto& state = GetRenderState()->GetActiveState();
+	for (int32_t i = 0; i < RenderState_Imp::TextureCount; i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindSampler(i, renderState->GetSamplers()[i]);
+
+		int32_t filter_ = (int32_t) state.TextureFilterTypes[i];
+
+		Texture* tex = nullptr;
+		char* texName = nullptr;
+		if (shader->GetTexture(texName, tex, i))
+		{
+			if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+			{
+				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
+				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MIN_FILTER, glfilter_mip[filter_]);
+			}
+			else
+			{
+				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
+				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MIN_FILTER, glfilter[filter_]);
+			}
+		}
+
+		glActiveTexture(GL_TEXTURE0 + i);
+
+		glBindSampler(i, renderState->GetSamplers()[i]);
+		int32_t wrap_ = (int32_t) state.TextureWrapTypes[i];
+		glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_WRAP_S, glwrap[wrap_]);
+		glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_WRAP_T, glwrap[wrap_]);
+	}
+
+	glActiveTexture(GL_TEXTURE0);
 }
 
 //----------------------------------------------------------------------------------

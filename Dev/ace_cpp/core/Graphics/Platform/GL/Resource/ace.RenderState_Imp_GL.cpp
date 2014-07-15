@@ -106,6 +106,10 @@ void RenderState_Imp_GL::Update(bool forced)
 		}
 	}
 
+	// ミップマップの処理ができないので一旦Graphicsに移動
+	// 将来的にリファクタリングする
+
+	/*
 	static const GLint glfilter [] = { GL_NEAREST, GL_LINEAR };
 	static const GLint glwrap [] = { GL_REPEAT, GL_CLAMP_TO_EDGE };
 
@@ -120,7 +124,6 @@ void RenderState_Imp_GL::Update(bool forced)
 			glSamplerParameteri(m_samplers[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
 			glSamplerParameteri(m_samplers[i], GL_TEXTURE_MIN_FILTER, glfilter[filter_]);
 			//glSamplerParameteri(m_samplers[i], GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			//glSamplerParameteri(m_samplers[i], GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
 
 			glBindSampler(i, m_samplers[i]);
 		}
@@ -138,6 +141,7 @@ void RenderState_Imp_GL::Update(bool forced)
 	}
 
 	glActiveTexture(GL_TEXTURE0);
+	*/
 
 	m_active = m_next;
 }
