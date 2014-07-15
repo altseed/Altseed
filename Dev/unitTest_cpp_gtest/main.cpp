@@ -59,9 +59,9 @@ int main(int argc, char **argv)
 	GetDirectoryName(current_path, argv[0]);
 	SetCurrentDirectoryA(current_path);
 #endif
-	Graphics_CubemapTexture(true);
-	Graphics_CubemapTexture(false);
-	return 0;
+	//Graphics_CubemapTexture(true);
+	//Graphics_CubemapTexture(false);
+	//return 0;
 
 	//Font_AffLoader();
 	//getchar();
