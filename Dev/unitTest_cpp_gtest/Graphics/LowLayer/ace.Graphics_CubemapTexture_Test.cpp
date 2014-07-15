@@ -207,6 +207,9 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	auto vertexBuffer = graphics->CreateVertexBuffer_Imp(sizeof(Vertex), 4, false);
 	ASSERT_TRUE(vertexBuffer != nullptr);
 
+	auto vertexBufferMip = graphics->CreateVertexBuffer_Imp(sizeof(Vertex), 4, false);
+	ASSERT_TRUE(vertexBufferMip != nullptr);
+
 	auto indexBuffer = graphics->CreateIndexBuffer_Imp(6, false, false);
 	ASSERT_TRUE(indexBuffer != nullptr);
 
@@ -267,6 +270,16 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	}
 
 	{
+		vertexBufferMip->Lock();
+		auto vb = vertexBufferMip->GetBuffer<Vertex>(4);
+		vb[0] = Vertex(ace::Vector3DF(-1.0f, 1.0f, 0.5f), ace::Vector2DF(0.0f, 0.0f));
+		vb[1] = Vertex(ace::Vector3DF(1.0f, 1.0f, 0.5f), ace::Vector2DF(1.0f, 0.0f));
+		vb[2] = Vertex(ace::Vector3DF(1.0f, -1.0f, 0.5f), ace::Vector2DF(1.0f, 1.0f));
+		vb[3] = Vertex(ace::Vector3DF(-1.0f, -1.0f, 0.5f), ace::Vector2DF(0.0f, 1.0f));
+		vertexBufferMip->Unlock();
+	}
+
+	{
 		indexBuffer->Lock();
 		auto ib = indexBuffer->GetBuffer<uint16_t>(6);
 		ib[0] = 0;
@@ -295,7 +308,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 			if (i == 5) shaderMip->SetTexture("g_texture", back.get(), 0);
 
 			graphics->SetRenderTarget((ace::CubemapTexture_Imp*)cubemap, i, 1, nullptr);
-			graphics->SetVertexBuffer(vertexBuffer.get());
+			graphics->SetVertexBuffer(vertexBufferMip.get());
 			graphics->SetIndexBuffer(indexBuffer.get());
 			graphics->SetShader(shaderMip.get());
 
