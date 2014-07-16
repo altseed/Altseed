@@ -954,7 +954,7 @@ void Graphics_Imp_DX11::SetRenderTarget(CubemapTexture_Imp* texture, int32_t dir
 	if (rt != nullptr)
 	{
 		m_context->OMSetRenderTargets(1, &rt, ds);
-		SetViewport(0, 0, tex->GetSize().X, tex->GetSize().Y);
+		SetViewport(0, 0, tex->GetSize().X >> mipmap, tex->GetSize().Y >> mipmap);
 
 		for (auto i = 0; i < MaxRenderTarget; i++)
 		{

@@ -1041,7 +1041,7 @@ void Graphics_Imp_GL::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direc
 
 	if (texture != nullptr)
 	{
-		SetViewport(0, 0, tex->GetSize().X, tex->GetSize().Y);
+		SetViewport(0, 0, tex->GetSize().X >> mipmap, tex->GetSize().Y >> mipmap);
 	}
 	GLCheckError();
 }

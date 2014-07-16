@@ -298,7 +298,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	{
 		graphics->Begin();
 
-		for (int i = 0; i < 1; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			if (i == 0) shaderMip->SetTexture("g_texture", right.get(), 0);
 			if (i == 1) shaderMip->SetTexture("g_texture", left.get(), 0);
