@@ -95,7 +95,10 @@ namespace ace {
 			astring t(text);
 			for (auto c = t.begin(); c != t.end(); ++c)
 			{
-				assert(HasGlyphData(*c));
+				if (!HasGlyphData(*c))
+				{
+					continue;
+				}
 
 				auto src = m_glyphs[*c].GetSrc();
 				if (writingDirection == WritingDirection::Horizontal)
