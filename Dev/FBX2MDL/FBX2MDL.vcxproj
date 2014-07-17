@@ -88,24 +88,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="Deformer.cpp" />
     <ClCompile Include="FBX2MDL.FBXExporter.cpp" />
     <ClCompile Include="FBX2MDL.FBXImporter.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MDLExporter.cpp" />
-    <ClCompile Include="MeshLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="Deformer.h" />
     <ClInclude Include="FBX2MDL.Base.h" />
     <ClInclude Include="FBX2MDL.FBXExporter.h" />
     <ClInclude Include="FBX2MDL.FBXImporter.h" />
-    <ClInclude Include="Material.h" />
-    <ClInclude Include="MDLExporter.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="MeshLoader.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
