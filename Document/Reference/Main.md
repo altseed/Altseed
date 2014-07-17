@@ -37,7 +37,7 @@
 
 * テクスチャ
 * フォント
-* [チップ2D](./Resources/Chip2D.md)
+* [チップ2D](./Resource/Chip2D.md)
 
 音等
 
