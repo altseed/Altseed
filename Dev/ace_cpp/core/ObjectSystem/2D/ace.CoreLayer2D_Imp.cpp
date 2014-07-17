@@ -156,11 +156,11 @@ namespace ace
 		}
 	}
 
-	void CoreLayer2D_Imp::DrawObjects(Renderer2D* renderer, Matrix33 cameraMatrix)
+	void CoreLayer2D_Imp::DrawObjects(Renderer2D* renderer)
 	{
 		for (auto& x : m_objects)
 		{
-			x->Draw(renderer, cameraMatrix);
+			x->Draw(renderer);
 		}
 	}
 
@@ -179,13 +179,13 @@ namespace ace
 			for (auto& c : m_cameras)
 			{
 				c->SetForRenderTarget();
-				DrawObjects(c->GetRenderer(), c->GetCameraMatrix());
+				DrawObjects(c->GetRenderer());
 				c->FlushToBuffer();
 			}
 		}
 		else
 		{
-			DrawObjects(m_renderer, Matrix33());
+			DrawObjects(m_renderer);
 		}
 
 		m_scene->SetRenderTargetForDrawingLayer();
@@ -201,7 +201,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::EndDrawing()
 	{
-		m_renderer->DrawCache(RectF(0,0,m_windowSize.X, m_windowSize.Y));
+		m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y));
+		m_renderer->DrawCache();
 		m_renderer->ClearCache();
 	}
 }

@@ -171,10 +171,15 @@ namespace ace {
 		SafeRelease(m_graphics);
 	}
 
+	void Renderer2D_Imp::SetArea(const RectF& area)
+	{
+		this->area = area;
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Renderer2D_Imp::DrawCache(const RectF& area)
+	void Renderer2D_Imp::DrawCache()
 	{
 		StartDrawing();
 
@@ -378,8 +383,13 @@ namespace ace {
 		}
 
 		// 定数バッファを設定
-		Vector2DF windowSize = Vector2DF(m_windowSize.X, m_windowSize.Y);
-		shader->SetVector2DF("Size", windowSize);
+		Vector4DF area_;
+		area_.X = area.X;
+		area_.Y = area.Y;
+		area_.Z = area.Width;
+		area_.W = area.Height;
+
+		shader->SetVector4DF("area",  area_);
 
 		// 描画
 		if (m_state.TexturePtr != nullptr)

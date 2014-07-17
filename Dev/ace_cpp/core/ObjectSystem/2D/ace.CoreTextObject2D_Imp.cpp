@@ -175,7 +175,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::Draw(Renderer2D* renderer, Matrix33 cameraMatrix)
+	void CoreTextObject2D_Imp::Draw(Renderer2D* renderer)
 	{
 		if (!m_objectInfo.GetIsDrawn() || m_font == nullptr)
 		{
@@ -184,8 +184,8 @@ namespace ace
 
 		Vector2DF drawPosition = Vector2DF(0, 0);
 
-		const auto parentMatrix = m_transform.GetParentsMatrix();
-		const auto matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = m_transform.GetParentsMatrix();
+		auto matrix = m_transform.GetMatrixToTransform();
 
 		std::array<Color, 4> color;
 		color.at(0) = m_color;
@@ -242,7 +242,7 @@ namespace ace
 					pos += drawPosition;
 					pos -= m_centerPosition;
 					auto v3 = Vector3DF(pos.X, pos.Y, 1);
-					auto result = cameraMatrix * parentMatrix * matrix * v3;
+					auto result = parentMatrix * matrix * v3;
 					pos = Vector2DF(result.X, result.Y);
 				}
 

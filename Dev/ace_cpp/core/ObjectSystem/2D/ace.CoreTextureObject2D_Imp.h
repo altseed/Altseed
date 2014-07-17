@@ -52,7 +52,7 @@ namespace ace
 		void SetAlphaBlendMode(AlphaBlend alphaBlend);
 #pragma endregion
 
-		void Draw(Renderer2D* renderer, Matrix33 cameraMatrix);
+		void Draw(Renderer2D* renderer);
 
 		CORE_OBJECT2D_IMP_COMMON
 

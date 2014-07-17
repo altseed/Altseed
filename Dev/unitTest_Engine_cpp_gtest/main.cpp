@@ -40,6 +40,7 @@ EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
 
 EXTERN_ENGINE_TEST(Graphics, TextObject2D)
 EXTERN_ENGINE_TEST(Graphics, MapObject2D)
+EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
 
 /**
 	@brief	単体テストを実行する。
@@ -56,7 +57,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//CALL_ENGINE_TEST(Graphics, EffectObject2D, false)
+	//CALL_ENGINE_TEST(Graphics, CameraObject2D, false)
 	//return 0;
 
 	//TestCamera(true);

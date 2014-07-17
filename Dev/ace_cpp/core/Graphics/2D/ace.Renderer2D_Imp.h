@@ -122,6 +122,8 @@ namespace ace {
 
 		std::map<int32_t, std::vector<Event>>	m_events;
 
+		RectF									area;
+
 		Effekseer::Manager*						m_effectManager = nullptr;
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
 
@@ -129,7 +131,9 @@ namespace ace {
 		Renderer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~Renderer2D_Imp();
 
-		void DrawCache(const RectF& area);
+		void SetArea(const RectF& area) override;
+
+		void DrawCache();
 
 		void ClearCache();
 

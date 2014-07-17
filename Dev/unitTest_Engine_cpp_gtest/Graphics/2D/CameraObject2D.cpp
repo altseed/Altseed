@@ -1,15 +1,15 @@
 ﻿#include <gtest/gtest.h>
 #include <ace.h>
-#include "../EngineTest.h"
+#include "../../EngineTest.h"
 
 using namespace std;
 using namespace ace;
 
-class ObjectSystem_Camera : public EngineTest
+class Graphics_CameraObject2D : public EngineTest
 {
 public:
-	ObjectSystem_Camera(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Camera"), isOpenGLMode, 60)
+	Graphics_CameraObject2D(bool isOpenGLMode)
+		: EngineTest(ace::ToAString("CameraObject2D"), isOpenGLMode, 60)
 	{
 	}
 
@@ -42,4 +42,4 @@ protected:
 	}
 };
 
-ENGINE_TEST(ObjectSystem, Camera)
+ENGINE_TEST(Graphics, CameraObject2D)

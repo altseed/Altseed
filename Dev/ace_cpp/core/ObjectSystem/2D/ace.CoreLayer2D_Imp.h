@@ -34,7 +34,7 @@ namespace ace
 		*/
 		CoreObject2D_Imp* CoreObject2DToImp(ObjectPtr obj);
 
-		void DrawObjects(Renderer2D* renderer, Matrix33 cameraMatrix);
+		void DrawObjects(Renderer2D* renderer);
 
 	public:
 		void AddObject(ObjectPtr object);

@@ -165,7 +165,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextureObject2D_Imp::Draw(Renderer2D* renderer, Matrix33 cameraMatrix)
+	void CoreTextureObject2D_Imp::Draw(Renderer2D* renderer)
 	{
 		if (!m_objectInfo.GetIsDrawn())
 		{
@@ -191,7 +191,7 @@ namespace ace
 		{
 			pos -= m_centerPosition;
 			auto v3 = Vector3DF(pos.X, pos.Y, 1);
-			auto result = cameraMatrix * parentMatrix * matrix * v3;
+			auto result = parentMatrix * matrix * v3;
 			pos = Vector2DF(result.X, result.Y);
 		}
 
