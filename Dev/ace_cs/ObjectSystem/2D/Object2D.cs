@@ -153,17 +153,17 @@ namespace ace
 		/// <summary>
 		/// オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
 		/// </summary>
-		protected abstract void OnStart();
+		protected virtual void OnStart() { }
 
 		/// <summary>
 		/// オーバーライドして、この2Dオブジェクトの更新処理を記述できる。
 		/// </summary>
-		protected abstract void OnUpdate();
+		protected virtual void OnUpdate() { }
 
 		/// <summary>
 		/// オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述できる。
 		/// </summary>
-		protected abstract void OnDrawAdditionally();
+		protected virtual void OnDrawAdditionally() { }
 
 
 		internal abstract swig.CoreObject2D CoreObject { get; }

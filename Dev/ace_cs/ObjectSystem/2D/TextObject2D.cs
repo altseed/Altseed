@@ -27,18 +27,6 @@ namespace ace
 
 			GC.Object2Ds.AddObject( p, this );
 		}
-
-		protected override void OnStart()
-		{
-		}
-
-		protected override void OnUpdate()
-		{
-		}
-
-		protected override void OnDrawAdditionally()
-		{
-		}
 		
 #region GC対策
 		~TextObject2D()

@@ -95,18 +95,6 @@ namespace ace
 			}
 		}
 
-		protected override void OnStart()
-		{
-		}
-
-		protected override void OnUpdate()
-		{
-		}
-
-		protected override void OnDrawAdditionally()
-		{
-		}
-
 #region GC対策
 		~EffectObject2D()
 		{

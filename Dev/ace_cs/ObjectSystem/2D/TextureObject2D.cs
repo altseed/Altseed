@@ -122,27 +122,6 @@ namespace ace
 			get { return renderedObject; }
 		}
 
-		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトの初期化処理を記述することができます。
-		/// </summary>
-		protected override void OnStart()
-		{
-		}
-
-		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトの更新処理を記述することができます。
-		/// </summary>
-		protected override void OnUpdate()
-		{
-		}
-
-		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述することができます。
-		/// </summary>
-		protected override void OnDrawAdditionally()
-		{
-		}
-
 		private swig.CoreTextureObject2D renderedObject { get; set; }
 	}
 }
