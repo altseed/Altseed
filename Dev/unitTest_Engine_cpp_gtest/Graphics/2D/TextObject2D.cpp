@@ -31,10 +31,10 @@ protected:
 		auto g = ace::Engine::GetGraphics();
 
 		layer->AddObject(object);
-		auto font = g->CreateFont(ace::ToAString("Data/Font/Nac0711.aff").c_str());
+		auto font = g->CreateFont(ace::ToAString("Data/Font/meiryoTest.aff").c_str());
 
 		object->SetFont(font);
-		object->SetText(ToAString("DependencyPropertyは\n依存関係プロパティのこと"));
+		object->SetText(ToAString("ABCDE\nたちつてと"));
 
 		//object->SetCenterPosition(Vector2DF(128, 128));
 		object->SetPosition(Vector2DF(0, 0));
