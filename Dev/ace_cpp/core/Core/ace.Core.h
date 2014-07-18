@@ -99,6 +99,11 @@ namespace ace {
 		virtual void ChangeScene(CoreScene* scene) = 0;
 
 		/**
+			@brief	ウインドウを閉じる。
+		*/
+		virtual void Close() = 0;
+
+		/**
 			@brief	スクリーンショットをpngとして保存する。
 			@param	path	出力先
 		*/

@@ -86,6 +86,8 @@ namespace ace {
 
 		void ChangeScene(CoreScene* scene);
 
+		void Close() override;
+
 		void TakeScreenshot(const achar* path);
 
 		float GetCurrentFPS();

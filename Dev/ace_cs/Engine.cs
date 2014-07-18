@@ -229,6 +229,14 @@ namespace ace
 		}
 
 		/// <summary>
+		/// ウインドウを閉じる。
+		/// </summary>
+		public static void Close()
+		{
+			core.Close();
+		}
+
+		/// <summary>
 		/// スクリーンショットをpngとして保存する。
 		/// </summary>
 		/// <param name="path">出力先</param>
