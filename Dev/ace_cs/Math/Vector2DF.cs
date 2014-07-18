@@ -150,7 +150,7 @@ namespace ace
 		/// <param name="v1">値1</param>
 		/// <param name="v2">値2</param>
 		/// <returns>内積</returns>
-		static float Dot(Vector2DF v1, Vector2DF v2)
+		public static float Dot(Vector2DF v1, Vector2DF v2)
 		{
 			return v1.X * v2.X + v1.Y * v2.Y;
 		}
@@ -161,7 +161,7 @@ namespace ace
 		/// <param name="v1">値1</param>
 		/// <param name="v2">値2</param>
 		/// <returns>距離</returns>
-		static float Distance(Vector2DF v1, Vector2DF v2)
+		public static float Distance(Vector2DF v1, Vector2DF v2)
 		{
 			float dx = v1.X - v2.X;
 			float dy = v1.Y - v2.Y;
