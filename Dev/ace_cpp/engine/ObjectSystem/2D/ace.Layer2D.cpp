@@ -117,6 +117,12 @@ namespace ace
 
 	void Layer2D::OnDrawAdditionally()
 	{
+		DrawSpriteAdditionally();
+	}
+
+	void Layer2D::DrawSpriteAdditionally()
+	{
+
 	}
 
 	//----------------------------------------------------------------------------------

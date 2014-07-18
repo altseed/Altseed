@@ -46,6 +46,11 @@ namespace ace
 		*/
 		virtual void OnDrawAdditionally();
 
+		/**
+		@brief	オーバーライドして、追加の描画処理を記述できる。
+		*/
+		virtual void DrawSpriteAdditionally();
+
 	public:
 		/**
 			@brief	コンストラクタ

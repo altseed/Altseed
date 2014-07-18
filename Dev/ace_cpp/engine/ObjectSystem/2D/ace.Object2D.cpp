@@ -70,6 +70,12 @@ namespace ace
 
 	void Object2D::OnDrawAdditionally()
 	{
+		DrawSpriteAdditionally();
+	}
+
+	void Object2D::DrawSpriteAdditionally()
+	{
+
 	}
 
 
