@@ -138,6 +138,11 @@ namespace ace {
 		static void SetTargetFPS(int32_t fps);
 
 		/**
+			@brief	ウインドウを閉じる。
+		*/
+		static void Close();
+
+		/**
 		@brief	Windowsの場合、ウインドウのハンドルを取得する。
 		@return	ウインドウハンドル
 		*/
