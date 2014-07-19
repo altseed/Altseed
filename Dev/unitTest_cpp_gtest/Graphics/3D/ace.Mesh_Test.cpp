@@ -257,7 +257,8 @@ void Graphics_Mesh(bool isOpenGLMode)
 		uvs[3].Y = 1;
 
 		renderer2d->AddSprite(positions, colors, uvs, renderer3d->GetRenderTarget(), ace::AlphaBlend::Blend, 0);
-		renderer2d->DrawCache(ace::RectF(0, 0, 640, 480));
+		renderer2d->SetArea(ace::RectF(0, 0, 640, 480));
+		renderer2d->DrawCache();
 		renderer2d->ClearCache();
 
 		graphics->Present();
