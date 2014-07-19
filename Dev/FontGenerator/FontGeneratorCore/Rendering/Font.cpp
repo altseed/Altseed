@@ -58,11 +58,11 @@ namespace FontGenerator
 
 	int Font::GetAscender() const
 	{
-		return m_face->ascender >> 6;
+		return m_face->size->metrics.ascender >> 6;
 	}
 
 	int Font::GetDescender() const
 	{
-		return m_face->descender >> 6;
+		return m_face->size->metrics.descender >> 6;
 	}
 }
