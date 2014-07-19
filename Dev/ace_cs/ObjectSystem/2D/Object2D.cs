@@ -150,10 +150,36 @@ namespace ace
 			components_.Remove( key );
 		}
 
-		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
-		/// </summary>
-		protected virtual void OnStart() { }
+        /// <summary>
+        /// テクスチャを追加描画する。
+        /// </summary>
+        /// <param name="pos1">描画位置1</param>
+        /// <param name="pos2">描画位置2</param>
+        /// <param name="pos3">描画位置3</param>
+        /// <param name="pos4">描画位置4</param>
+        /// <param name="col1">頂点色1</param>
+        /// <param name="col2">頂点色2</param>
+        /// <param name="col3">頂点色3</param>
+        /// <param name="col4">頂点色4</param>
+        /// <param name="uv1">UV1</param>
+        /// <param name="uv2">UV2</param>
+        /// <param name="uv3">UV3</param>
+        /// <param name="uv4">UV4</param>
+        /// <param name="texture">テクスチャ</param>
+        /// <param name="alphaBlend">アルファブレンドの種類</param>
+        /// <param name="priority">描画優先順位</param>
+        public void DrawSpriteAdditionally(ace.Vector2DF pos1, ace.Vector2DF pos2, ace.Vector2DF pos3, ace.Vector2DF pos4,
+            ace.Color col1, ace.Color col2, ace.Color col3, ace.Color col4,
+            ace.Vector2DF uv1, ace.Vector2DF uv2, ace.Vector2DF uv3,
+            ace.Vector2DF uv4, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+        {
+            Layer.DrawSpriteAdditionally(pos1, pos2, pos3, pos4, col1, col2, col3, col4, uv1, uv2, uv3, uv4, texture, alphaBlend, priority);
+        }
+
+        /// <summary>
+        /// オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
+        /// </summary>
+        protected virtual void OnStart() { }
 
 		/// <summary>
 		/// オーバーライドして、この2Dオブジェクトの更新処理を記述できる。
