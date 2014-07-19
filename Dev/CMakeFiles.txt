@@ -184,6 +184,7 @@ set(unittest_gtest_src
 	unitTest_cpp_gtest/Graphics/Font/ace.AffIndexTable_Test.cpp
 	unitTest_cpp_gtest/Graphics/Font/ace.AffLoader_Test.cpp
 	unitTest_cpp_gtest/Graphics/Font/ace.GlyphData_Test.cpp
+	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_CubemapTexture_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Empty_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_RenderTarget.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Sampler_Test.cpp
@@ -205,6 +206,7 @@ set(unittest_gtest_src
 set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
 	unitTest_Engine_cpp_gtest/EngineTest.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/CameraObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/EffectObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/MapObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/TextObject2D.cpp
@@ -219,7 +221,6 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectLightBloom.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepia.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/Camera.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp
