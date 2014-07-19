@@ -70,6 +70,8 @@
 #include "ObjectSystem/PostEffect/ace.CorePostEffect.h"
 #include "ObjectSystem/ace.ObjectSystemFactory.h"
 
+#include "ObjectSystem/Transition/ace.CoreTransition.h"
+
 #include "Core/ace.Core_Imp.h"
 
 #include "Core/ace.CreateCore.h"
@@ -439,6 +441,8 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/ace.CoreScene.h"
 %include "ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect.h"
 %include "ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory.h"
+
+%include "ace_cpp/core/ObjectSystem/Transition/ace.CoreTransition.h"
 
 %include "ace_cpp/core/Core/ace.Core.h"
 %include "ace_cpp/core/Core/ace.Core_Imp.h"

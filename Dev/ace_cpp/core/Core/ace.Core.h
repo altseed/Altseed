@@ -89,12 +89,22 @@ namespace ace {
 		virtual void EndDrawing() = 0;
 
 		/**
-			@brief	現在のシーンを描画します。
+			@brief	シーンをウインドウに描画する。
+		*/
+		virtual void DrawSceneToWindow(CoreScene* scene) = 0;
+
+		/**
+			@brief	画面遷移しつつシーンをウインドウに描画する。
+		*/
+		virtual void DrawSceneToWindowWithTransition(CoreScene* nextScene, CoreScene* previousScene, CoreTransition* transition) = 0;
+
+		/**
+			@brief	現在のコアの内部情報を描画する。
 		*/
 		virtual void Draw() = 0;
 
 		/**
-			@brief	描画対象となるシーンを変更します。
+			@brief	現在のシーンを変更します。
 		*/
 		virtual void ChangeScene(CoreScene* scene) = 0;
 

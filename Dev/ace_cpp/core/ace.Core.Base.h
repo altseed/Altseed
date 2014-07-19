@@ -78,6 +78,7 @@ namespace ace {
 	class CoreDirectionalLightObject3D;
 
 	class CorePostEffect;
+	class CoreTransition;
 
 	//----------------------------------------------------------------------------------
 	//

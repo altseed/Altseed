@@ -215,6 +215,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreScene_Imp::EndDrawing()
 	{
+		/*
 		m_graphics->SetRenderTarget(nullptr, nullptr);
 
 		m_layerRenderer->SetTexture(GetBaseTarget());
@@ -301,5 +302,6 @@ namespace ace
 		m_layerRenderer->DrawCache();
 		m_layerRenderer->ClearCache();
 		m_triangles.clear();
+		*/
 	}
 }
