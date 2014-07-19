@@ -34,9 +34,6 @@
     <Filter Include="ObjectSystem\PostEffect">
       <UniqueIdentifier>{7a139acb-432a-4ed7-b874-e22886ebb54e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ObjectSystem\Fade">
-      <UniqueIdentifier>{3a995846-38fb-483c-ab45-8592a576b5f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="PCH">
       <UniqueIdentifier>{b5f06827-15ae-427a-94d1-e3f3a2ea4103}</UniqueIdentifier>
     </Filter>
@@ -245,12 +242,6 @@
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect_Imp.h">
       <Filter>ObjectSystem\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn_Imp.h">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut_Imp.h">
-      <Filter>ObjectSystem\Fade</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h">
       <Filter>ObjectSystem\2D</Filter>
@@ -709,12 +700,6 @@
     <ClInclude Include="..\core\IO\ace.RootPath_Imp.h">
       <Filter>IO</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFade.h">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut.h">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition.h">
       <Filter>ObjectSystem\Transition</Filter>
     </ClInclude>
@@ -787,12 +772,6 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect_Imp.cpp">
       <Filter>ObjectSystem\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn_Imp.cpp">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut_Imp.cpp">
-      <Filter>ObjectSystem\Fade</Filter>
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreLayer3D_Imp.cpp">
       <Filter>ObjectSystem\3D</Filter>

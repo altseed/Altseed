@@ -347,10 +347,6 @@
     <ClInclude Include="..\core\ObjectSystem\ace.CoreScene.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.ObjectSystemFactory.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.CoreLayer.h" />
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFade.h" />
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn_Imp.h" />
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut.h" />
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect.h" />
     <ClInclude Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition.h" />
@@ -474,8 +470,6 @@
     <ClCompile Include="..\core\ObjectSystem\ace.CoreLayer_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.ObjectSystemFactory_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.CoreScene_Imp.cpp" />
-    <ClCompile Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn_Imp.cpp" />
-    <ClCompile Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.cpp" />
     <ClCompile Include="..\core\PCH\ace.Core.PCH.cpp">

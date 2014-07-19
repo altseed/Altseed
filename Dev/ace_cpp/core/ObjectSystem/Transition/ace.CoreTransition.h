@@ -17,9 +17,25 @@ namespace ace
 		virtual ~CoreTransition() {}
 
 		/**
+			@brief	シーンが切り替わっているか取得する。
+			@return	シーンが切り替わっているか?
+		*/
+		virtual bool GetIsSceneChanged() const = 0;
+
+		/**
 			@brief	実際にシーンを次のシーンに切り替える。
 		*/
 		virtual void ChangeScene() = 0;
+
+		/**
+			@brief	画面遷移処理が終了したか取得する。
+		*/
+		virtual bool IsFinished() const = 0;
+
+		/**
+			@brief	画面遷移処理を終了する。
+		*/
+		virtual void Finish() = 0;
 
 		/**
 		@brief	次の画面を3角形に貼り付けて描画する。

@@ -29,5 +29,7 @@ namespace ace
 
 		CoreScene* CreateScene() override;
 		CorePostEffect* CreatePostEffect() override;
+
+		CoreTransition* CreateTransition() override;
 	};
 }

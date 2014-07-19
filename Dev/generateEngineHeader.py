@@ -124,6 +124,8 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSep
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGaussianBlur.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectLightBloom.h")
 
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/Transition/ace.Transition.h")
+
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Object2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent.h')

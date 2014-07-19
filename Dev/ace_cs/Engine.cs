@@ -45,8 +45,9 @@ namespace ace
 		public static AnimationSystem AnimationSystem { get; private set; }
 
 		internal static ObjectSystemFactory ObjectSystemFactory { get; private set; }
-		private static Scene NextScene { get; set; }
-
+		private static Scene nextScene;
+		private static Scene previousScene;
+		private static Transition transition;
 
 		/// <summary>
 		/// 初期化を行う。
@@ -158,13 +159,33 @@ namespace ace
 				Mouse.RefreshAllState();
 			}
 
-			if( NextScene != null )
+			if (transition != null)
 			{
-				CurrentScene = NextScene;
-				core.ChangeScene( NextScene.CoreScene );
-				NextScene = null;
-			}
+				if (transition.SwigObject.GetIsSceneChanged())
+				{
+					previousScene = CurrentScene;
+					CurrentScene = nextScene;
+					core.ChangeScene(nextScene.CoreScene);
+					nextScene = null;
+				}
 
+				if (transition.SwigObject.IsFinished())
+				{
+					transition = null;
+					previousScene = null;
+				}
+			}
+			else
+			{
+				if (nextScene != null)
+				{
+					CurrentScene = nextScene;
+					core.ChangeScene(nextScene.CoreScene);
+					nextScene = null;
+				}
+
+			}
+			
 			return mes;
 		}
 
@@ -182,14 +203,32 @@ namespace ace
 				CurrentScene.Update();
 			}
 
+			if(transition != null)
+			{
+				transition.OnUpdate();
+			}
+
 			if (CurrentScene != null)
 			{
 				CurrentScene.Draw();
 			}
 
-			if (CurrentScene != null)
+			if(transition != null)
 			{
-				core.DrawSceneToWindow(CurrentScene.CoreScene);
+				swig.CoreScene prevScene = null;
+				if (previousScene != null)
+				{
+					prevScene = previousScene.CoreScene;
+				}
+
+				core.DrawSceneToWindowWithTransition(CurrentScene.CoreScene, prevScene, transition.SwigObject);
+			}
+			else
+			{
+				if (CurrentScene != null)
+				{
+					core.DrawSceneToWindow(CurrentScene.CoreScene);
+				}
 			}
 
 			core.Draw();
@@ -225,12 +264,23 @@ namespace ace
 		}
 
 		/// <summary>
-		/// 描画の対象となるシーンを変更します。
+		/// 描画する対象となるシーンを変更する。
 		/// </summary>
-		/// <param name="scene">新しく描画の対象となるシーン。</param>
+		/// <param name="scene">次のシーン</param>
 		public static void ChangeScene(Scene scene)
 		{
-			NextScene = scene;
+			nextScene = scene;
+		}
+
+		/// <summary>
+		/// 描画する対象となるシーンを画面遷移効果ありで変更する。
+		/// </summary>
+		/// <param name="scene">次のシーン</param>
+		/// <param name="transition">画面遷移効果</param>
+		public static void ChangeSceneWithTransition(Scene scene, Transition transition)
+		{
+			nextScene = scene;
+			Engine.transition = transition;
 		}
 
 		/// <summary>

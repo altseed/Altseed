@@ -281,6 +281,8 @@ CPP_OBJECT( ace::CoreLayer3D )
 CPP_OBJECT( ace::CorePostEffect )
 CPP_OBJECT( ace::CorePostEffect_Imp )
 
+CPP_OBJECT( ace::CoreTransition )
+
 CPP_OBJECT( ace::SoundSource )
 
 CPP_OBJECT( ace::Texture )

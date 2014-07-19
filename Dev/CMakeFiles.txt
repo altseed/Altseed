@@ -97,8 +97,6 @@ set(core_src
 	ace_cpp/core/ObjectSystem/ace.CoreLayer_Imp.cpp
 	ace_cpp/core/ObjectSystem/ace.CoreScene_Imp.cpp
 	ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory_Imp.cpp
-	ace_cpp/core/ObjectSystem/Fade/ace.CoreFadeIn_Imp.cpp
-	ace_cpp/core/ObjectSystem/Fade/ace.CoreFadeOut_Imp.cpp
 	ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect_Imp.cpp
 	ace_cpp/core/ObjectSystem/Transition/ace.CoreTransition_Imp.cpp
 	ace_cpp/core/PCH/ace.Core.PCH.cpp
@@ -163,13 +161,12 @@ set(engine_src
 	ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.cpp
 	ace_cpp/engine/ObjectSystem/Component/ace.Object2DComponent.cpp
 	ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent.cpp
-	ace_cpp/engine/ObjectSystem/Fade/ace.FadeIn.cpp
-	ace_cpp/engine/ObjectSystem/Fade/ace.FadeOut.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffect.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGaussianBlur.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGrayScale.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectLightBloom.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSepia.cpp
+	ace_cpp/engine/ObjectSystem/Transition/ace.Transition.cpp
 	ace_cpp/engine/PCH/ace.Engine.PCH.cpp
 )
 

@@ -68,6 +68,9 @@ namespace ace
 					if (TryRelease<swig.CoreObject3D>(o)) continue;
 
 					if (TryRelease<swig.CorePostEffect>(o)) continue;
+
+					if (TryRelease<swig.CoreTransition>(o)) continue;
+
 					throw new Exception(string.Format("未登録のクラス{0}を検出しました。", o));
 				}
 
