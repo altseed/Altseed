@@ -51,8 +51,6 @@ namespace ace
 		void AddLayer(LayerPtr layer);
 		void RemoveLayer(LayerPtr layer);
 
-		void Draw();
-
 		void SetRenderTargetForDrawingLayer();
 
 		RenderTexture2D* GetBaseTarget();

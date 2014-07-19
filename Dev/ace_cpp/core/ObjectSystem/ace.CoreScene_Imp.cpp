@@ -122,22 +122,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreScene_Imp::Draw()
-	{
-		m_layers.sort([](CoreLayer* x, CoreLayer* y)
-		{
-			return x->GetDrawingPriority() < y->GetDrawingPriority();
-		});
-
-		for (auto& layer : m_layers)
-		{
-			layer->Draw();
-		}
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	void CoreScene_Imp::SetRenderTargetForDrawingLayer()
 	{
 		m_graphics->SetRenderTarget((RenderTexture2D_Imp*)GetBaseTarget(), nullptr);
