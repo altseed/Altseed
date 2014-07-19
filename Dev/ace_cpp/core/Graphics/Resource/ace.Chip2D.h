@@ -35,4 +35,4 @@ namespace ace
 		virtual const AlphaBlend GetAlphaBlendMode() const = 0;
 		virtual void SetAlphaBlendMode(AlphaBlend alphaBlend) = 0;
 	};
-};
+}
