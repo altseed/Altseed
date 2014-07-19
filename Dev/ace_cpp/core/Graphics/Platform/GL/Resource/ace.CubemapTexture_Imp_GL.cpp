@@ -98,7 +98,8 @@ namespace ace
 			if (heights[i] != height) goto End;
 		}
 
-		auto mipmapCount = ImageHelper::GetMipmapCount(width, height);
+		int32_t mipmapCount;
+		mipmapCount = ImageHelper::GetMipmapCount(width, height);
 		nulldata.resize(width * height * 4);
 		for (size_t i = 0; i < nulldata.size(); i++)
 		{

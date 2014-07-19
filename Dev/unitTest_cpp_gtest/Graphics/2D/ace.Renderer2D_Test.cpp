@@ -94,7 +94,8 @@ void Graphics_Renderer2D(bool isOpenGLMode)
 
 		renderer->AddSprite(positions, colors, uvs, nullptr, ace::AlphaBlend::Blend, 0);
 
-		renderer->DrawCache(ace::RectF(0, 0, 640, 480));
+		renderer->SetArea(ace::RectF(0, 0, 640, 480));
+		renderer->DrawCache();
 		renderer->ClearCache();
 
 		graphics->Present();
