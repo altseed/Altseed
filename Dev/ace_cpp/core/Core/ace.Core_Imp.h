@@ -44,6 +44,8 @@ namespace ace {
 
 		CoreScene* m_currentScene;
 
+		LayerRenderer*				layerRenderer = nullptr;
+
 		std::vector<astring>		m_screenShots;
 
 		int32_t				m_targetFPS;
@@ -81,6 +83,10 @@ namespace ace {
 		void BeginDrawing();
 
 		void EndDrawing();
+
+		void DrawSceneToWindow(CoreScene* scene) override;
+
+		void DrawSceneToWindowWithTransition(CoreScene* nextScene, CoreScene* previousScene, CoreTransition* transition) override;
 
 		void Draw();
 

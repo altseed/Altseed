@@ -406,6 +406,11 @@ namespace ace
 			m_currentScene->Draw();
 		}
 
+		if (m_currentScene != nullptr)
+		{
+			m_core->DrawSceneToWindow(m_currentScene->m_coreScene.get());
+		}
+
 		m_core->Draw();
 
 		m_core->EndDrawing();

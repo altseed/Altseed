@@ -187,6 +187,11 @@ namespace ace
 				CurrentScene.Draw();
 			}
 
+			if (CurrentScene != null)
+			{
+				core.DrawSceneToWindow(CurrentScene.CoreScene);
+			}
+
 			core.Draw();
 
 			core.EndDrawing();

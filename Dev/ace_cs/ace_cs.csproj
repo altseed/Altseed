@@ -142,6 +142,7 @@
     <Compile Include="swig\CoreScene.cs" />
     <Compile Include="swig\CoreTextObject2D.cs" />
     <Compile Include="swig\CoreTextureObject2D.cs" />
+    <Compile Include="swig\CoreTransition.cs" />
     <Compile Include="swig\Core_Imp.cs" />
     <Compile Include="swig\CubemapTexture.cs" />
     <Compile Include="swig\Deformer.cs" />

@@ -118,6 +118,9 @@
     <Filter Include="Graphics\Shader\GL\PostEffect">
       <UniqueIdentifier>{01654490-7041-4665-8199-f04ba738bcf2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ObjectSystem\Transition">
+      <UniqueIdentifier>{81887a82-9eb4-4f72-afd0-3a0dc1cd3f28}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -242,12 +245,6 @@
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect_Imp.h">
       <Filter>ObjectSystem\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut.h">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn.h">
-      <Filter>ObjectSystem\Fade</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn_Imp.h">
       <Filter>ObjectSystem\Fade</Filter>
@@ -712,6 +709,18 @@
     <ClInclude Include="..\core\IO\ace.RootPath_Imp.h">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFade.h">
+      <Filter>ObjectSystem\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut.h">
+      <Filter>ObjectSystem\Fade</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition.h">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.h">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1016,6 +1025,9 @@
     </ClCompile>
     <ClCompile Include="..\core\IO\ace.RootPath_Imp.cpp">
       <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.cpp">
+      <Filter>ObjectSystem\Transition</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

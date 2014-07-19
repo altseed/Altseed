@@ -100,6 +100,7 @@ set(core_src
 	ace_cpp/core/ObjectSystem/Fade/ace.CoreFadeIn_Imp.cpp
 	ace_cpp/core/ObjectSystem/Fade/ace.CoreFadeOut_Imp.cpp
 	ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect_Imp.cpp
+	ace_cpp/core/ObjectSystem/Transition/ace.CoreTransition_Imp.cpp
 	ace_cpp/core/PCH/ace.Core.PCH.cpp
 	ace_cpp/core/Profiler/ace.Profile.cpp
 	ace_cpp/core/Profiler/ace.ProfilerViewer_Imp.cpp
