@@ -48,11 +48,26 @@ namespace ace
 
 		/**
 		@brief	追加のテクスチャを描画する。
+		@param	upperLeftPos	テクスチャの左上の描画位置
+		@param	upperRightPos	テクスチャの右上の描画位置
+		@param	lowerRightPos	テクスチャの右下の描画位置
+		@param	lowerLeftPos	テクスチャの左下の描画位置
+		@param	upperLeftCol	テクスチャの左上の頂点色
+		@param	upperRightCol	テクスチャの右上の頂点色
+		@param	lowerRightCol	テクスチャの右下の頂点色
+		@param	lowerLeftCol	テクスチャの左下の頂点色
+		@param	upperLeftUV		テクスチャの左上のUV値
+		@param	upperRightUV	テクスチャの右上のUV値
+		@param	lowerRightUV	テクスチャの右下のUV値
+		@param	lowerLeftUV		テクスチャの左下のUV値
+		@param	texture			描画するテクスチャ
+		@param	alphaBlend		アルファブレンドの種類
+		@param	priority		描画の優先順位(大きいほど前面に描画される)
 		*/
-		void DrawSpriteAdditionally(Vector2DF pos1, Vector2DF pos2, Vector2DF pos3, Vector2DF pos4,
-			Color col1, Color col2, Color col3, Color col4,
-			Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Vector2DF uv4,
-			Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
+		void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+			std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority);
 
 	public:
 		/**

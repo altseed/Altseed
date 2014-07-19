@@ -58,9 +58,9 @@ namespace ace
 		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
 
 
-		void DrawSpriteAdditionally(Vector2DF pos1, Vector2DF pos2, Vector2DF pos3, Vector2DF pos4,
-			Color col1, Color col2, Color col3, Color col4,
-			Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Vector2DF uv4,
+		void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
 
 #if !SWIG

@@ -164,14 +164,14 @@ namespace ace
 		}
 	}
 
-	void CoreLayer2D_Imp::DrawSpriteAdditionally(Vector2DF pos1, Vector2DF pos2, Vector2DF pos3, Vector2DF pos4,
-		Color col1, Color col2, Color col3, Color col4,
-		Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Vector2DF uv4,
+	void CoreLayer2D_Imp::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 		Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
 	{
-		std::array<Vector2DF, 4> pos = { pos1, pos2, pos3, pos4 };
-		std::array<Color, 4> col = { col1, col2, col3, col4 };
-		std::array<Vector2DF, 4> uv = { uv1, uv2, uv3, uv4 };
+		std::array<Vector2DF, 4> pos = { upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos };
+		std::array<Color, 4> col = { upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol };
+		std::array<Vector2DF, 4> uv = { upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV };
 
 		m_renderer->AddSprite(pos.data(), col.data(), uv.data(), texture, alphaBlend, priority);
 	}

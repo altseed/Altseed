@@ -151,29 +151,29 @@ namespace ace
 		}
 
         /// <summary>
-        /// テクスチャを追加描画する。
+        /// 追加のテクスチャを描画する。
         /// </summary>
-        /// <param name="pos1">描画位置1</param>
-        /// <param name="pos2">描画位置2</param>
-        /// <param name="pos3">描画位置3</param>
-        /// <param name="pos4">描画位置4</param>
-        /// <param name="col1">頂点色1</param>
-        /// <param name="col2">頂点色2</param>
-        /// <param name="col3">頂点色3</param>
-        /// <param name="col4">頂点色4</param>
-        /// <param name="uv1">UV1</param>
-        /// <param name="uv2">UV2</param>
-        /// <param name="uv3">UV3</param>
-        /// <param name="uv4">UV4</param>
-        /// <param name="texture">テクスチャ</param>
+        /// <param name="upperLeftPos">テクスチャの左上の描画位置</param>
+        /// <param name="upperRightPos">テクスチャの右上の描画位置</param>
+        /// <param name="lowerRightPos">テクスチャの右下の描画位置</param>
+        /// <param name="lowerLeftPos">テクスチャの左下の描画位置</param>
+        /// <param name="upperLeftCol">テクスチャの左上の頂点色</param>
+        /// <param name="upperRightCol">テクスチャの右上の頂点色</param>
+        /// <param name="lowerRightCol">テクスチャの右下の頂点色</param>
+        /// <param name="lowerLeftCol">テクスチャの左下の頂点色</param>
+        /// <param name="upperLeftUV">テクスチャの左上のUV値</param>
+        /// <param name="upperRightUV">テクスチャの右上のUV値</param>
+        /// <param name="lowerRightUV">テクスチャの右下のUV値</param>
+        /// <param name="lowerLeftUV">テクスチャの左下のUV値</param>
+        /// <param name="texture">描画するテクスチャ</param>
         /// <param name="alphaBlend">アルファブレンドの種類</param>
-        /// <param name="priority">描画優先順位</param>
-        public void DrawSpriteAdditionally(ace.Vector2DF pos1, ace.Vector2DF pos2, ace.Vector2DF pos3, ace.Vector2DF pos4,
-            ace.Color col1, ace.Color col2, ace.Color col3, ace.Color col4,
-            ace.Vector2DF uv1, ace.Vector2DF uv2, ace.Vector2DF uv3,
-            ace.Vector2DF uv4, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+        /// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
+        public void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+            Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+            Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+            Texture2D texture, AlphaBlendMode alphaBlend, int priority)
         {
-            Layer.DrawSpriteAdditionally(pos1, pos2, pos3, pos4, col1, col2, col3, col4, uv1, uv2, uv3, uv4, texture, alphaBlend, priority);
+            Layer.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture, alphaBlend, priority);
         }
 
         /// <summary>
