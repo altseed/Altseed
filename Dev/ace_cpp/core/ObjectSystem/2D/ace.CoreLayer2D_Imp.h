@@ -57,6 +57,12 @@ namespace ace
 		virtual void AddPostEffect(CorePostEffect* postEffect) { CoreLayer_Imp::AddPostEffect(postEffect); }
 		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
 
+
+		void DrawSpriteAdditionally(Vector2DF pos1, Vector2DF pos2, Vector2DF pos3, Vector2DF pos4,
+			Color col1, Color col2, Color col3, Color col4,
+			Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Vector2DF uv4,
+			Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
+
 #if !SWIG
 	public:
 		Renderer2D* GetRenderer() const { return m_renderer; }

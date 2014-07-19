@@ -117,6 +117,15 @@ namespace ace
 
 	void Layer2D::OnDrawAdditionally()
 	{
+
+	}
+
+	void Layer2D::DrawSpriteAdditionally(Vector2DF pos1, Vector2DF pos2, Vector2DF pos3, Vector2DF pos4,
+		Color col1, Color col2, Color col3, Color col4,
+		Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Vector2DF uv4,
+		Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	{
+		m_coreLayer->DrawSpriteAdditionally(pos1, pos2, pos3, pos4, col1, col2, col3, col4, uv1, uv2, uv3, uv4, texture, alphaBlend, priority);
 	}
 
 	//----------------------------------------------------------------------------------

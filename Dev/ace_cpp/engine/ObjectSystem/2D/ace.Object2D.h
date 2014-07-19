@@ -46,6 +46,14 @@ namespace ace
 		*/
 		virtual void OnDrawAdditionally();
 
+		/**
+		@brief	追加のテクスチャを描画する。
+		*/
+		void DrawSpriteAdditionally(Vector2DF pos1, Vector2DF pos2, Vector2DF pos3, Vector2DF pos4,
+			Color col1, Color col2, Color col3, Color col4,
+			Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Vector2DF uv4,
+			Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
+
 	public:
 		/**
 			@brief	コンストラクタ

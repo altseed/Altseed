@@ -38,6 +38,7 @@ EXTERN_ENGINE_TEST(Graphics, ModelObject3D)
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
 
+EXTERN_ENGINE_TEST(Graphics, TextureObject2D)
 EXTERN_ENGINE_TEST(Graphics, TextObject2D)
 EXTERN_ENGINE_TEST(Graphics, MapObject2D)
 EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
@@ -69,7 +70,7 @@ int main(int argc, char **argv)
 	return 0;
 	*/
 
-	//Test_Graphics_TextObject2D(false);
+	//Test_Graphics_TextureObject2D(false);
 	//return 0;
 
 	auto result = RUN_ALL_TESTS();

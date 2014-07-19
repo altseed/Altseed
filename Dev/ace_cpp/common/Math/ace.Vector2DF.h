@@ -164,6 +164,16 @@ namespace ace
 		}
 
 		/**
+		@brief	外積を取得する。
+		@param	v1	値1
+		@param	v2	値2
+		*/
+		static float Cross(const Vector2DF& v1, const Vector2DF& v2)
+		{
+			return v1.X * v2.Y - v1.Y * v2.X;
+		}
+
+		/**
 		@brief	2点間の距離を取得する。
 		@param	v1	値1
 		@param	v2	値2

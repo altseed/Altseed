@@ -74,15 +74,25 @@ namespace ace
 			@param	key			コンポーネントに関連付けるキー
 		*/
 		void AddComponent(const Layer2DComponent::Ptr& component, astring key);
+
 		/**
 			@brief	指定したキーを持つコンポーネントを取得する。
 			@param	key		取得するコンポーネントを示すキー
 		*/
 		Layer2DComponent::Ptr& GetComponent(astring key);
+
 		/**
 			@brief	指定したコンポーネントをこのインスタンスから削除する。
 			@param	key		削除するコンポーネントを示すキー
 		*/
 		void RemoveComponent(astring key);
+
+		/**
+		@brief	追加のテクスチャを描画する。
+		*/
+		void DrawSpriteAdditionally(Vector2DF pos1, Vector2DF pos2, Vector2DF pos3, Vector2DF pos4,
+			Color col1, Color col2, Color col3, Color col4,
+			Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Vector2DF uv4,
+			Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
 	};
 }
