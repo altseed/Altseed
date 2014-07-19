@@ -38,6 +38,10 @@ protected:
 
 		//object->SetCenterPosition(Vector2DF(128, 128));
 		object->SetPosition(Vector2DF(0, 0));
+
+		auto size = font->CalcTextureSize(ToAString("ABCDE\nたち漢字つてと").c_str(), WritingDirection::Horizontal);
+
+		printf("%d %d\n", size.X,size.Y);
 	}
 };
 
