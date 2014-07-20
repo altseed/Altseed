@@ -1,4 +1,5 @@
 #include "ImageBuffer.h"
+#include "Rendering\Span.h"
 #include <vector>
 #include <Math\ace.RectI.h>
 

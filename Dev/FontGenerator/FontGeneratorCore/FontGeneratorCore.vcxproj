@@ -156,6 +156,7 @@
     <ClInclude Include="Rendering\Glyph.h" />
     <ClInclude Include="PngGenerator.h" />
     <ClInclude Include="Rendering\GlyphWithBorder.h" />
+    <ClInclude Include="Rendering\Span.h" />
     <ClInclude Include="ResultOfGeneratingPng.h" />
     <ClInclude Include="Rendering\Setting.h" />
     <ClInclude Include="Rendering\SettingForRendering.h" />

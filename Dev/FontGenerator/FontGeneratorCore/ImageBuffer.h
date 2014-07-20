@@ -22,5 +22,6 @@ namespace FontGenerator
 		std::vector<vectorPtr> buffers;
 
 		static vectorPtr CreateBuffer(int sheetSize);
+		void DrawRasterizedGlyph(Glyph::Ptr glyph);
 	};
 }

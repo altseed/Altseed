@@ -2,30 +2,19 @@
 #include <vector>
 #include <memory>
 #include "Color.h"
+#include "Setting.h"
 #include <ft2build.h>
 #include FT_GLYPH_H
 
 namespace FontGenerator
 {
-	struct Span
-	{
-		Span() {}
-		Span(int _x, int _y, int _width, int _coverage)
-			: x(_x), y(_y), width(_width), coverage(_coverage)
-		{
-		}
-
-		int x, y, width, coverage;
-	};
-
-	typedef std::vector<Span> Spans;
-
 	class Glyph
 	{
 	private:
 		FT_Library* m_library;
 		FT_OutlineGlyph m_glyph;
 		Color m_color;
+		BorderSetting::Ptr m_border;
 		wchar_t m_charactor;
 
 		/**
@@ -54,16 +43,6 @@ namespace FontGenerator
 		void SetColor(Color color);
 
 		/**
-			@brief	このグリフを輪郭線用に処理したグリフを新しく生成して返す。
-		*/
-		Glyph::Ptr Border(float width, Color color);
-
-		/**
-			@brief	このグリフを太字にしたグリフを新しく生成して返す。
-		*/
-		Glyph::Ptr Enbolden(float weight);
-
-		/**
 			@brief	指定したバッファにこのグリフを描画する。
 			@param	buffer	描画先となるバッファ
 					width	バッファの幅
@@ -72,5 +51,8 @@ namespace FontGenerator
 					y		ベースラインの y座標
 		*/
 		void Draw(int32_t* buffer, int width, int height, int x, int y);
+
+		BorderSetting::Ptr GetBorderSetting() const;
+		void SetBorderSetting(BorderSetting::Ptr value);
 	};
 }

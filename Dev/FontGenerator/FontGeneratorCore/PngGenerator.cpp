@@ -107,7 +107,7 @@ namespace FontGenerator
 
 		for (auto& glyph : font.GetGlyphs(charactors))
 		{
-			auto finalGlyph = m_setting.ProcessGlyph(glyph);
+			m_setting.ProcessGlyph(glyph);
 			auto result = buffer.DrawGlyph(glyph);
 			fontData.push_back(result);
 		}
