@@ -66,7 +66,7 @@ namespace ace {
 
 			++pictureNumber;
 		}
-		
+
 	}
 
 	//----------------------------------------------------------------------------------
@@ -83,38 +83,53 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DI Font_Imp::CalcTextureSize(achar* text, WritingDirection writingDirection)
+	Vector2DI Font_Imp::CalcTextureSize(const achar* text, WritingDirection writingDirection)
 	{
 		if (m_glyphs.empty() && m_textures.empty())
 		{
 			return Vector2DI(0, 0);
 		}
-		else
-		{
-			Vector2DI size = Vector2DI(0, 0);
-			astring t(text);
-			for (auto c = t.begin(); c != t.end(); ++c)
-			{
-				if (!HasGlyphData(*c))
-				{
-					continue;
-				}
 
-				auto src = m_glyphs[*c].GetSrc();
+		Vector2DI sumSize = Vector2DI(0, 0);
+		Vector2DI size = Vector2DI(0, 0);
+		astring t(text);
+		t.append(ToAString("\n"));
+		for (auto c = t.begin(); c != t.end(); ++c)
+		{
+			if (*c != '\n'&&!HasGlyphData(*c))
+			{
+				continue;
+			}
+			else if (*c == '\n')
+			{
 				if (writingDirection == WritingDirection::Horizontal)
 				{
-					size.X += src.Width;
-					size.Y = (std::max)(src.Height, size.Y);
+					sumSize.X = (std::max)(size.X, sumSize.X);
+					sumSize.Y += size.Y;
 				}
 				else
 				{
-					size.X = (std::max)(src.Width, size.X);
-					size.Y += src.Height;
+					sumSize.X += size.X;
+					sumSize.Y = (std::max)(size.Y, sumSize.Y);
 				}
+				size = Vector2DI(0, 0);
+				continue;
 			}
 
-			return size;
+			auto src = m_glyphs[*c].GetSrc();
+			if (writingDirection == WritingDirection::Horizontal)
+			{
+				size.X += src.Width;
+				size.Y = (std::max)(src.Height, size.Y);
+			}
+			else
+			{
+				size.X = (std::max)(src.Width, size.X);
+				size.Y += src.Height;
+			}
 		}
+		return sumSize;
+
 	}
 
 	//----------------------------------------------------------------------------------

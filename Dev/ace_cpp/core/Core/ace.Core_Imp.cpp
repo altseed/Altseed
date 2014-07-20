@@ -9,15 +9,20 @@
 #include "../Input/ace.JoystickContainer_Imp.h"
 #include "../IO/ace.File_Imp.h"
 #include "../Log/ace.Log_Imp.h"
+
 #include "../Profiler/ace.Profiler_Imp.h"
 #include "../Profiler/ace.ProfilerViewer_Imp.h"
+
 #include "../ObjectSystem/ace.ObjectSystemFactory_Imp.h"
+#include "../ObjectSystem/Transition/ace.CoreTransition_Imp.h"
+
+#include "../Sound/ace.Sound_Imp.h"
 
 #include "../Graphics/ace.Graphics_Imp.h"
-#include "../Sound/ace.Sound_Imp.h"
 #include "../Graphics/Resource/ace.RenderState_Imp.h"
-
 #include "../Graphics/Animation/ace.AnimationSystem_Imp.h"
+#include "../Graphics/2D/ace.LayerRenderer.h"
+
 
 #include <Utility/ace.Timer.h>
 
@@ -186,6 +191,23 @@ namespace ace
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
+		auto windowSize = Vector2DI(width, height);
+		layerRenderer = new LayerRenderer(m_graphics);
+		layerRenderer->SetWindowSize(windowSize);
+
+		{
+			ace::Vector2DF lpos[4];
+			lpos[0].X = 0;
+			lpos[0].Y = 0;
+			lpos[1].X = windowSize.X;
+			lpos[1].Y = 0;
+			lpos[2].X = windowSize.X;
+			lpos[2].Y = windowSize.Y;
+			lpos[3].X = 0;
+			lpos[3].Y = windowSize.Y;
+			layerRenderer->SetLayerPosition(lpos);
+		}
+
 		m_logger->WriteLineStrongly(L"コア初期化成功");
 
 		return true;
@@ -236,6 +258,23 @@ namespace ace
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
+		auto windowSize = Vector2DI(width, height);
+		layerRenderer = new LayerRenderer(m_graphics);
+		layerRenderer->SetWindowSize(windowSize);
+
+		{
+			ace::Vector2DF lpos[4];
+			lpos[0].X = 0;
+			lpos[0].Y = 0;
+			lpos[1].X = windowSize.X;
+			lpos[1].Y = 0;
+			lpos[2].X = windowSize.X;
+			lpos[2].Y = windowSize.Y;
+			lpos[3].X = 0;
+			lpos[3].Y = windowSize.Y;
+			layerRenderer->SetLayerPosition(lpos);
+		}
+
 		m_logger->WriteLineStrongly(L"コア初期化成功");
 
 		return true;
@@ -279,6 +318,8 @@ namespace ace
 	{
 		SafeRelease(m_currentScene);
 		SafeDelete(m_objectSystemFactory);
+
+		SafeRelease(layerRenderer);
 
 		SafeRelease(m_profiler);
 		SafeDelete(m_profilerViewer);
@@ -331,6 +372,82 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	
+	void Core_Imp::DrawSceneToWindow(CoreScene* scene)
+	{
+		m_graphics->SetRenderTarget(nullptr, nullptr);
+
+		layerRenderer->SetTexture(scene->GetBaseTarget());
+
+		{
+			{
+				ace::Vector2DF positions[4];
+				ace::Color colors[4];
+				ace::Vector2DF uvs[4];
+
+				colors[0] = ace::Color(255, 255, 255, 255);
+				colors[1] = ace::Color(255, 255, 255, 255);
+				colors[2] = ace::Color(255, 255, 255, 255);
+
+				positions[0].X = 0.0f;
+				positions[0].Y = 0.0f;
+				positions[1].X = 1.0f;
+				positions[1].Y = 0.0f;
+				positions[2].X = 1.0f;
+				positions[2].Y = 1.0f;
+
+
+				uvs[0].X = 0;
+				uvs[0].Y = 0;
+				uvs[1].X = 1;
+				uvs[1].Y = 0;
+				uvs[2].X = 1;
+				uvs[2].Y = 1;
+
+				layerRenderer->AddTriangle(positions, colors, uvs);
+			}
+
+				{
+					ace::Vector2DF positions[4];
+					ace::Color colors[4];
+					ace::Vector2DF uvs[4];
+
+					colors[0] = ace::Color(255, 255, 255, 255);
+					colors[1] = ace::Color(255, 255, 255, 255);
+					colors[2] = ace::Color(255, 255, 255, 255);
+
+					positions[0].X = 0.0f;
+					positions[0].Y = 1.0f;
+					positions[1].X = 1.0f;
+					positions[1].Y = 1.0f;
+					positions[2].X = 0.0f;
+					positions[2].Y = 0.0f;
+
+					uvs[0].X = 0;
+					uvs[0].Y = 1;
+					uvs[1].X = 1;
+					uvs[1].Y = 1;
+					uvs[2].X = 0;
+					uvs[2].Y = 0;
+
+					layerRenderer->AddTriangle(positions, colors, uvs);
+				}
+		}
+
+		layerRenderer->DrawCache();
+		layerRenderer->ClearCache();
+	}
+
+	void Core_Imp::DrawSceneToWindowWithTransition(CoreScene* nextScene, CoreScene* previousScene, CoreTransition* transition)
+	{
+		auto t = (CoreTransition_Imp*) transition;
+
+		m_graphics->SetRenderTarget(nullptr, nullptr);
+
+		t->DrawCache(layerRenderer, nextScene, previousScene);
+		t->ClearCache();
+	}
+
 	void Core_Imp::Draw()
 	{
 		m_profilerViewer->Draw();
@@ -342,6 +459,11 @@ namespace ace
 	void Core_Imp::ChangeScene(CoreScene* scene)
 	{
 		SafeSubstitute(m_currentScene, scene);
+	}
+
+	void Core_Imp::Close()
+	{
+		m_window->Close();
 	}
 
 	//----------------------------------------------------------------------------------

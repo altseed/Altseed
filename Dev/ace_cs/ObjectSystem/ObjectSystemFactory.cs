@@ -135,6 +135,15 @@ namespace ace
 			return factory.CreatePostEffect();
 		}
 
+		/// <summary>
+		/// ネイティブの PostEffect クラスをインスタンス化する。
+		/// </summary>
+		/// <returns></returns>
+		public swig.CoreTransition CreateTransition()
+		{
+			return factory.CreateTransition();
+		}
+
 		private swig.ObjectSystemFactory factory;
 	}
 }

@@ -20,8 +20,6 @@ namespace ace
 		virtual void AddLayer(LayerPtr layer) = 0;
 		virtual void RemoveLayer(LayerPtr layer) = 0;
 
-		virtual void Draw() = 0;
-
 		virtual void SetRenderTargetForDrawingLayer() = 0;
 
 		/**

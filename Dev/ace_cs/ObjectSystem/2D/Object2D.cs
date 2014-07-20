@@ -150,10 +150,37 @@ namespace ace
 			components_.Remove( key );
 		}
 
-		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
-		/// </summary>
-		protected virtual void OnStart() { }
+        /// <summary>
+        /// 通常の描画に加えてテクスチャを描画する。
+        /// </summary>
+        /// <param name="upperLeftPos">テクスチャの左上の描画位置</param>
+        /// <param name="upperRightPos">テクスチャの右上の描画位置</param>
+        /// <param name="lowerRightPos">テクスチャの右下の描画位置</param>
+        /// <param name="lowerLeftPos">テクスチャの左下の描画位置</param>
+        /// <param name="upperLeftCol">テクスチャの左上の頂点色</param>
+        /// <param name="upperRightCol">テクスチャの右上の頂点色</param>
+        /// <param name="lowerRightCol">テクスチャの右下の頂点色</param>
+        /// <param name="lowerLeftCol">テクスチャの左下の頂点色</param>
+        /// <param name="upperLeftUV">テクスチャの左上のUV値</param>
+        /// <param name="upperRightUV">テクスチャの右上のUV値</param>
+        /// <param name="lowerRightUV">テクスチャの右下のUV値</param>
+        /// <param name="lowerLeftUV">テクスチャの左下のUV値</param>
+        /// <param name="texture">描画するテクスチャ</param>
+        /// <param name="alphaBlend">アルファブレンドの種類</param>
+        /// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
+		/// <remarks>OnDrawAdditionallyの中以外では実行してはいけない。</remarks>
+        public void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+            Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+            Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+            Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+        {
+            Layer.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture, alphaBlend, priority);
+        }
+
+        /// <summary>
+        /// オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
+        /// </summary>
+        protected virtual void OnStart() { }
 
 		/// <summary>
 		/// オーバーライドして、この2Dオブジェクトの更新処理を記述できる。

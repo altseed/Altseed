@@ -127,6 +127,9 @@ fromCoreToEngine.readLines("ace_cpp/core/ObjectSystem/3D/ace.CoreEffectObject3D.
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D.h')
 
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect.h')
+
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/Transition/ace.CoreTransition.h')
+
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory.h')
 
 fromCoreToEngine.output('ace_cpp/engine/ace.CoreToEngine.h')

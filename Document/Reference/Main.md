@@ -18,7 +18,7 @@
 
 * [オブジェクト2D](./2D/Object2D.md)
 * [テクスチャオブジェクト2D](./2D/TextureObject2D.md)
-* エフェクトオブジェクト2D
+* [エフェクトオブジェクト2D](./2D/EffectObject2D.md)
 * [テキストオブジェクト2D](./2D/TextObject2D.md)
 * [マップオブジェクト2D](./2D/MapObject2D.md)
 * カメラオブジェクト2D

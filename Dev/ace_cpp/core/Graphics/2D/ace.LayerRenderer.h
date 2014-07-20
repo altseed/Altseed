@@ -87,11 +87,19 @@ namespace ace {
 
 		/**
 		@brief	三角形をキャッシュに追加する。
-		@param	positions	頂点座標(-1.0～1.0)
+		@param	positions	頂点座標(0.0～1.0)
 		@param	colors		頂点色
 		@param	uv			頂点UV
 		*/
 		void AddTriangle(Vector2DF positions[3], Color colors[3], Vector2DF uv[3]);
+
+		/**
+		@brief	三角形をキャッシュに追加する。
+		@param	positions	頂点座標(0.0～1.0)
+		@param	colors		頂点色
+		@param	uv			頂点UV
+		*/
+		void AddRectangle(Vector2DF positions[4], Color colors[4], Vector2DF uv[4]);
 
 		void SetWindowSize(Vector2DI windowSize);
 

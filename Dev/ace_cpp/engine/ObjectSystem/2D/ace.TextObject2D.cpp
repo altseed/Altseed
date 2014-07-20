@@ -101,13 +101,13 @@ namespace ace
 		m_coreObject->SetWritingDirection(writingDirection);
 	}
 
-	const astring TextObject2D::GetText() const
+	const achar* TextObject2D::GetText() const
 	{
 		return m_coreObject->GetText();
 	}
 
-	void TextObject2D::SetText(astring text)
+	void TextObject2D::SetText(const achar* text)
 	{
-		m_coreObject->SetText(text.c_str());
+		m_coreObject->SetText(text);
 	}
 }

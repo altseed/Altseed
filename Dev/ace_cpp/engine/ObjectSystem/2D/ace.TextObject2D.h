@@ -24,14 +24,14 @@ namespace ace
 		const WritingDirection GetWritingDirection() const;
 
 		/**
-		@brief	このオブジェクトを描画する際のフォントハンドルを取得する。
+		@brief	このオブジェクトを描画する際のフォントを取得する。
 		*/
 		const std::shared_ptr<Font> GetFont() const;
 
 		/**
 		@brief 描画するテキストを取得する。
 		*/
-		const astring GetText() const;
+		const const achar* GetText() const;
 
 		/**
 		@brief	このオブジェクトの原点位置を取得する。この位置が、描画する際の描画・拡縮・回転の中心となる。
@@ -69,14 +69,14 @@ namespace ace
 		void SetWritingDirection(WritingDirection writingDirection);
 
 		/**
-		@brief	このオブジェクトを描画する際のフォントハンドルを設定する。
+		@brief	このオブジェクトを描画する際のフォントを設定する。
 		*/
 		void SetFont(std::shared_ptr<Font> font);
 
 		/**
 		@brief 描画するテキストを設定する。
 		*/
-		void SetText(astring text);
+		void SetText(const achar* text);
 
 		/**
 		@brief	このオブジェクトの原点位置を設定する。この位置が、描画する際の描画・拡縮・回転の中心となる。

@@ -89,6 +89,9 @@
     <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\Transition\Transition.cpp">
+      <Filter>Graphics\Transition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -108,6 +111,9 @@
     </Filter>
     <Filter Include="Graphics\2D">
       <UniqueIdentifier>{2c70accc-d708-436f-8ae6-74b4d8a63187}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Transition">
+      <UniqueIdentifier>{f7d85606-375e-40c2-8c9e-81a3bb13ffd3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

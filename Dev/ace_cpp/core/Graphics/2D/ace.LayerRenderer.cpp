@@ -141,6 +141,7 @@ namespace ace {
 			state.DepthWrite = false;
 			state.CullingType = ace::eCullingType::CULLING_DOUBLE;
 			state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
+			state.AlphaBlendState = AlphaBlend::Blend;
 			m_graphics->GetRenderState()->Update(false);
 
 			m_graphics->DrawPolygon(vCount / 3);
@@ -175,6 +176,28 @@ namespace ace {
 			v.Col = colors[i];
 			m_vertecies.push_back(v);
 		}
+	}
+
+	void LayerRenderer::AddRectangle(Vector2DF positions[4], Color colors[4], Vector2DF uv[4])
+	{
+		TriangleVertex v[4];
+		for (int32_t i = 0; i < 4; i++)
+		{
+			v[i].Position.X = positions[i].X;
+			v[i].Position.Y = positions[i].Y;
+			v[i].Position.Z = 0.5f;
+
+			v[i].UV = uv[i];
+			v[i].Col = colors[i];
+		}
+
+		m_vertecies.push_back(v[0]);
+		m_vertecies.push_back(v[1]);
+		m_vertecies.push_back(v[2]);
+
+		m_vertecies.push_back(v[0]);
+		m_vertecies.push_back(v[2]);
+		m_vertecies.push_back(v[3]);
 	}
 
 	//----------------------------------------------------------------------------------

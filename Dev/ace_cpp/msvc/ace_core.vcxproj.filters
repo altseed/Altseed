@@ -34,9 +34,6 @@
     <Filter Include="ObjectSystem\PostEffect">
       <UniqueIdentifier>{7a139acb-432a-4ed7-b874-e22886ebb54e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ObjectSystem\Fade">
-      <UniqueIdentifier>{3a995846-38fb-483c-ab45-8592a576b5f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="PCH">
       <UniqueIdentifier>{b5f06827-15ae-427a-94d1-e3f3a2ea4103}</UniqueIdentifier>
     </Filter>
@@ -117,6 +114,9 @@
     </Filter>
     <Filter Include="Graphics\Shader\GL\PostEffect">
       <UniqueIdentifier>{01654490-7041-4665-8199-f04ba738bcf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\Transition">
+      <UniqueIdentifier>{81887a82-9eb4-4f72-afd0-3a0dc1cd3f28}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -242,18 +242,6 @@
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect_Imp.h">
       <Filter>ObjectSystem\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut.h">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn.h">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn_Imp.h">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut_Imp.h">
-      <Filter>ObjectSystem\Fade</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h">
       <Filter>ObjectSystem\2D</Filter>
@@ -712,6 +700,12 @@
     <ClInclude Include="..\core\IO\ace.RootPath_Imp.h">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition.h">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.h">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -778,12 +772,6 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect_Imp.cpp">
       <Filter>ObjectSystem\PostEffect</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn_Imp.cpp">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut_Imp.cpp">
-      <Filter>ObjectSystem\Fade</Filter>
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreLayer3D_Imp.cpp">
       <Filter>ObjectSystem\3D</Filter>
@@ -1016,6 +1004,9 @@
     </ClCompile>
     <ClCompile Include="..\core\IO\ace.RootPath_Imp.cpp">
       <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.cpp">
+      <Filter>ObjectSystem\Transition</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

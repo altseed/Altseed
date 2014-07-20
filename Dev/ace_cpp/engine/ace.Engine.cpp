@@ -279,6 +279,8 @@ namespace ace
 
 	std::shared_ptr<Scene>	Engine::m_currentScene;
 	std::shared_ptr<Scene>	Engine::m_nextScene;
+	std::shared_ptr<Scene>	Engine::m_previousScene;
+	std::shared_ptr<Transition>	Engine::transition;
 
 	//----------------------------------------------------------------------------------
 	//
@@ -378,12 +380,32 @@ namespace ace
 	{
 		if (m_core == nullptr) return false;
 
-		if (m_nextScene != nullptr)
+		if (transition != nullptr)
 		{
-			m_currentScene = m_nextScene;
-			m_core->ChangeScene(m_nextScene->m_coreScene.get());
+			if (transition->coreTransition->GetIsSceneChanged() && m_nextScene != nullptr)
+			{
+				m_previousScene = m_currentScene;
+				m_currentScene = m_nextScene;
+				m_core->ChangeScene(m_nextScene->m_coreScene.get());
+				m_nextScene = nullptr;
+			}
+			
+			if (transition->coreTransition->IsFinished())
+			{
+				transition = nullptr;
+				m_previousScene = nullptr;
+			}
 		}
-
+		else
+		{
+			if (m_nextScene != nullptr)
+			{
+				m_currentScene = m_nextScene;
+				m_core->ChangeScene(m_nextScene->m_coreScene.get());
+				m_nextScene = nullptr;
+			}
+		}
+		
 		return m_core->DoEvents();
 	}
 
@@ -400,10 +422,47 @@ namespace ace
 		{
 			m_currentScene->Update();
 		}
+
+		if (transition != nullptr)
+		{
+			transition->OnUpdate();
+		}
 		
 		if (m_currentScene != nullptr)
 		{
 			m_currentScene->Draw();
+		}
+
+		if (transition != nullptr)
+		{
+			std::shared_ptr<CoreScene> curScene;
+			if (m_currentScene != nullptr)
+			{
+				curScene = m_currentScene->m_coreScene;
+			}
+
+			std::shared_ptr<CoreScene> prevScene;
+			if (m_previousScene != nullptr)
+			{
+				prevScene = m_previousScene->m_coreScene;
+			}
+
+			if (transition->coreTransition->GetIsSceneChanged())
+			{
+				m_core->DrawSceneToWindowWithTransition(curScene.get(), prevScene.get(), transition->coreTransition.get());
+			}
+			else
+			{
+				m_core->DrawSceneToWindowWithTransition(nullptr, curScene.get(), transition->coreTransition.get());
+			}
+			
+		}
+		else
+		{
+			if (m_currentScene != nullptr)
+			{
+				m_core->DrawSceneToWindow(m_currentScene->m_coreScene.get());
+			}
 		}
 
 		m_core->Draw();
@@ -420,6 +479,8 @@ namespace ace
 
 		m_currentScene.reset();
 		m_nextScene.reset();
+		m_previousScene.reset();
+		transition.reset();
 
 		m_core->Terminate();
 
@@ -432,6 +493,12 @@ namespace ace
 	void Engine::ChangeScene(ScenePtr& scene)
 	{
 		m_nextScene = scene;
+	}
+
+	void Engine::ChangeSceneWithTransition(std::shared_ptr<Scene>& scene, const std::shared_ptr<Transition>& transition)
+	{
+		m_nextScene = scene;
+		Engine::transition = transition;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -464,6 +531,11 @@ namespace ace
 	void Engine::SetTargetFPS(int32_t fps)
 	{
 		m_core->SetTargetFPS(fps);
+	}
+
+	void Engine::Close()
+	{
+		m_core->Close();
 	}
 
 	//----------------------------------------------------------------------------------
