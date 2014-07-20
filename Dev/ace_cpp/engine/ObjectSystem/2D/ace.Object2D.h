@@ -47,7 +47,7 @@ namespace ace
 		virtual void OnDrawAdditionally();
 
 		/**
-		@brief	追加のテクスチャを描画する。
+		@brief	通常の描画に加えてテクスチャを描画する。
 		@param	upperLeftPos	テクスチャの左上の描画位置
 		@param	upperRightPos	テクスチャの右上の描画位置
 		@param	lowerRightPos	テクスチャの右下の描画位置
@@ -63,6 +63,8 @@ namespace ace
 		@param	texture			描画するテクスチャ
 		@param	alphaBlend		アルファブレンドの種類
 		@param	priority		描画の優先順位(大きいほど前面に描画される)
+		@note
+		OnDrawAdditionallyの中以外では実行してはいけない。
 		*/
 		void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,

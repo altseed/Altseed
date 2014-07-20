@@ -21,14 +21,14 @@ namespace ace
 		virtual const WritingDirection GetWritingDirection() const = 0;
 
 		/**
-		@brief	このオブジェクトを描画する際のフォントハンドルを取得する。
+		@brief	このオブジェクトを描画する際のフォントを取得する。
 		*/
 		virtual const Font* GetFont() const = 0;
 
 		/**
 		@brief 描画するテキストを取得する。
 		*/
-		virtual const astring GetText() const = 0;
+		virtual const achar* GetText() const = 0;
 
 		/**
 		@brief	このオブジェクトの原点位置を取得する。この位置が、描画する際の描画・拡縮・回転の中心となる。
@@ -66,7 +66,7 @@ namespace ace
 		virtual void SetWritingDirection(WritingDirection writingDirection) = 0;
 
 		/**
-		@brief	このオブジェクトを描画する際のフォントハンドルを設定する。
+		@brief	このオブジェクトを描画する際のフォントを設定する。
 		*/
 		virtual void SetFont(Font* font) = 0;
 

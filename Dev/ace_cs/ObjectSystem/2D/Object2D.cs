@@ -151,7 +151,7 @@ namespace ace
 		}
 
         /// <summary>
-        /// 追加のテクスチャを描画する。
+        /// 通常の描画に加えてテクスチャを描画する。
         /// </summary>
         /// <param name="upperLeftPos">テクスチャの左上の描画位置</param>
         /// <param name="upperRightPos">テクスチャの右上の描画位置</param>
@@ -168,6 +168,7 @@ namespace ace
         /// <param name="texture">描画するテクスチャ</param>
         /// <param name="alphaBlend">アルファブレンドの種類</param>
         /// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
+		/// <remarks>OnDrawAdditionallyの中以外では実行してはいけない。</remarks>
         public void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
             Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
             Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,

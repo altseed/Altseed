@@ -34,7 +34,7 @@ protected:
 		auto font = g->CreateFont(ace::ToAString("Data/Font/meiryoTest.aff").c_str());
 
 		object->SetFont(font);
-		object->SetText(ToAString("ABCDE\nたち漢字つてと"));
+		object->SetText(ToAString("ABCDE\nたち漢字つてと").c_str());
 
 		//object->SetCenterPosition(Vector2DF(128, 128));
 		object->SetPosition(Vector2DF(0, 0));
