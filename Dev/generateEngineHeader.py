@@ -125,6 +125,7 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGau
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectLightBloom.h")
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/Transition/ace.Transition.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/Transition/ace.TransitionFade.h")
 
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Object2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.h')

@@ -161,7 +161,7 @@ namespace ace
 
 			if (transition != null)
 			{
-				if (transition.SwigObject.GetIsSceneChanged())
+				if (transition.SwigObject.GetIsSceneChanged() && nextScene != null)
 				{
 					previousScene = CurrentScene;
 					CurrentScene = nextScene;
@@ -203,7 +203,7 @@ namespace ace
 				CurrentScene.Update();
 			}
 
-			if(transition != null)
+			if (transition != null)
 			{
 				transition.OnUpdate();
 			}
@@ -213,15 +213,30 @@ namespace ace
 				CurrentScene.Draw();
 			}
 
-			if(transition != null)
+			if (transition != null)
 			{
 				swig.CoreScene prevScene = null;
+				swig.CoreScene curScene = null;
+
+				if (CurrentScene != null)
+				{
+					curScene = CurrentScene.CoreScene;
+				}
+
 				if (previousScene != null)
 				{
 					prevScene = previousScene.CoreScene;
 				}
 
-				core.DrawSceneToWindowWithTransition(CurrentScene.CoreScene, prevScene, transition.SwigObject);
+				if(transition.SwigObject.GetIsSceneChanged())
+				{
+					core.DrawSceneToWindowWithTransition(curScene, prevScene, transition.SwigObject);
+				}
+				else
+				{
+					core.DrawSceneToWindowWithTransition(null, curScene, transition.SwigObject);
+				}
+				
 			}
 			else
 			{
@@ -245,6 +260,9 @@ namespace ace
 			if (core == null) return;
 
 			CurrentScene = null;
+			nextScene = null;
+			previousScene = null;
+			transition = null;
 
 			GC.Terminate();
 

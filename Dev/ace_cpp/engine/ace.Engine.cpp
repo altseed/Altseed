@@ -382,7 +382,7 @@ namespace ace
 
 		if (transition != nullptr)
 		{
-			if (transition->coreTransition->GetIsSceneChanged())
+			if (transition->coreTransition->GetIsSceneChanged() && m_nextScene != nullptr)
 			{
 				m_previousScene = m_currentScene;
 				m_currentScene = m_nextScene;
@@ -435,13 +435,27 @@ namespace ace
 
 		if (transition != nullptr)
 		{
+			std::shared_ptr<CoreScene> curScene;
+			if (m_currentScene != nullptr)
+			{
+				curScene = m_currentScene->m_coreScene;
+			}
+
 			std::shared_ptr<CoreScene> prevScene;
 			if (m_previousScene != nullptr)
 			{
 				prevScene = m_previousScene->m_coreScene;
 			}
 
-			m_core->DrawSceneToWindowWithTransition(m_currentScene->m_coreScene.get(), prevScene.get(), transition->coreTransition.get());
+			if (transition->coreTransition->GetIsSceneChanged())
+			{
+				m_core->DrawSceneToWindowWithTransition(curScene.get(), prevScene.get(), transition->coreTransition.get());
+			}
+			else
+			{
+				m_core->DrawSceneToWindowWithTransition(nullptr, curScene.get(), transition->coreTransition.get());
+			}
+			
 		}
 		else
 		{
@@ -465,6 +479,8 @@ namespace ace
 
 		m_currentScene.reset();
 		m_nextScene.reset();
+		m_previousScene.reset();
+		transition.reset();
 
 		m_core->Terminate();
 
@@ -479,7 +495,7 @@ namespace ace
 		m_nextScene = scene;
 	}
 
-	void Engine::ChangeSceneWithTransition(std::shared_ptr<Scene>& scene, std::shared_ptr<Transition>& transition)
+	void Engine::ChangeSceneWithTransition(std::shared_ptr<Scene>& scene, const std::shared_ptr<Transition>& transition)
 	{
 		m_nextScene = scene;
 		Engine::transition = transition;

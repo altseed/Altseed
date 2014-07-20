@@ -77,6 +77,9 @@
     <ClCompile Include="..\engine\ObjectSystem\Transition\ace.Transition.cpp">
       <Filter>ObjectSystem\Transition</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Transition\ace.TransitionFade.cpp">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -155,6 +158,9 @@
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\Transition\ace.Transition.h">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Transition\ace.TransitionFade.h">
       <Filter>ObjectSystem\Transition</Filter>
     </ClInclude>
   </ItemGroup>

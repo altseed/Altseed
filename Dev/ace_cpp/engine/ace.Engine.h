@@ -123,7 +123,7 @@ namespace ace {
 		@param	scene	次のシーン
 		@param	transition	画面遷移効果
 		*/
-		static void ChangeSceneWithTransition(std::shared_ptr<Scene>& scene, std::shared_ptr<Transition>& transition);
+		static void ChangeSceneWithTransition(std::shared_ptr<Scene>& scene, const std::shared_ptr<Transition>& transition);
 
 		/**
 		@brief	スクリーンショットをpngとして保存する。

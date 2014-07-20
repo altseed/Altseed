@@ -30,25 +30,47 @@ namespace ace
 		coreTransition->Finish();
 	}
 
-	void Transition::DrawNextScene(
-		Vector2DF pos1, Vector2DF uv1, Color col1,
-		Vector2DF pos2, Vector2DF uv2, Color col2,
-		Vector2DF pos3, Vector2DF uv3, Color col3)
+	void Transition::DrawTriangleWithNextScene(
+		Vector2DF pos1, Vector2DF pos2, Vector2DF pos3,
+		Color col1, Color col2, Color col3,
+		Vector2DF uv1, Vector2DF uv2, Vector2DF uv3)
 	{
-		coreTransition->DrawNextScene(
-			pos1, uv1, col1,
-			pos2, uv2, col2,
-			pos3, uv3, col3);
+		coreTransition->DrawTriangleWithNextScene(
+			pos1, pos2, pos3,
+			col1, col2, col3,
+			uv1, uv2, uv3 );
 	}
 
-	void Transition::DrawPreviousScene(
-		Vector2DF pos1, Vector2DF uv1, Color col1,
-		Vector2DF pos2, Vector2DF uv2, Color col2,
-		Vector2DF pos3, Vector2DF uv3, Color col3)
+	void Transition::DrawRectangleWithNextScene(
+		Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV)
 	{
-		coreTransition->DrawPreviousScene(
-			pos1, uv1, col1,
-			pos2, uv2, col2,
-			pos3, uv3, col3);
+		coreTransition->DrawRectangleWithNextScene(
+			upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos,
+			upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol,
+			upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV);
+	}
+
+	void Transition::DrawTriangleWithPreviousScene(
+		Vector2DF pos1, Vector2DF pos2, Vector2DF pos3,
+		Color col1, Color col2, Color col3,
+		Vector2DF uv1, Vector2DF uv2, Vector2DF uv3)
+	{
+		coreTransition->DrawTriangleWithPreviousScene(
+			pos1, pos2, pos3,
+			col1, col2, col3,
+			uv1, uv2, uv3);
+	}
+
+	void Transition::DrawRectangleWithPreviousScene(
+		Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV)
+	{
+		coreTransition->DrawRectangleWithPreviousScene(
+			upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos,
+			upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol,
+			upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV);
 	}
 }
