@@ -270,12 +270,15 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void Renderer2D_Imp::AddEvent(int32_t priority, Event& e)
 	{
-		if (m_events.count(priority) == 0)
+		auto ev = m_events.find(priority);
+		if (ev == m_events.end())
 		{
-			m_events[priority] = std::vector<Event>();
+			m_events[priority] = std::vector<Event>({e});
 		}
-		
-		m_events[priority].push_back(e);
+		else
+		{
+			(*ev).second.push_back(e);
+		}
 	}
 
 	//----------------------------------------------------------------------------------
