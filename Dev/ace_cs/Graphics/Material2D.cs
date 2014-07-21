@@ -93,7 +93,7 @@ namespace ace
 		public void SetTexture2D(string name, Texture2D value)
 		{
 			if (value == null) return;
-			SwigObject.SetTexture2D(name, value.SwigObject);
+			SwigObject.SetTexture2D(name, IG.GetTexture2D(value));
 		}
 
 		public TextureFilterType GetTextureFilterType(string name)

@@ -59,7 +59,7 @@ namespace ace
         public Font Font
         {
             get { return GC.GenerateFont(coreTextObject.GetFont(), GC.GenerationType.Get); }
-            set { coreTextObject.SetFont(value.SwigObject); }
+            set { coreTextObject.SetFont(IG.GetFont(value)); }
         }
 
         /// <summary>

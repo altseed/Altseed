@@ -34,7 +34,7 @@ namespace ace
 		/// <param name="effect">エフェクト</param>
 		public void SetEffect(Effect effect)
 		{
-			coreEffectObject.SetEffect(effect.SwigObject);
+			coreEffectObject.SetEffect(IG.GetEffect(effect));
 		}
 
 		/// <summary>

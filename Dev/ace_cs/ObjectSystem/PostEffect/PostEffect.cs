@@ -63,7 +63,7 @@ namespace ace
 		/// <param name="material">マテリアル</param>
 		public void DrawOnTexture2DWithMaterial(RenderTexture2D target, Material2D material)
 		{
-			SwigObject.DrawOnTexture2DWithMaterial((swig.RenderTexture2D)(target.SwigObject), material.SwigObject);
+			SwigObject.DrawOnTexture2DWithMaterial(IG.GetRenderTexture2D(target), IG.GetMaterial2D(material));
 		}
 	}
 }

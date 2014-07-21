@@ -56,7 +56,7 @@ namespace ace
 		public Texture2D Texture
 		{
 			get { return GC.GenerateTexture2D(renderedObject.GetTexture(), GC.GenerationType.Get); }
-			set { renderedObject.SetTexture(value != null ? value.SwigObject : null); }
+			set { renderedObject.SetTexture(IG.GetTexture2D(value)); }
 		}
 
 		/// <summary>
