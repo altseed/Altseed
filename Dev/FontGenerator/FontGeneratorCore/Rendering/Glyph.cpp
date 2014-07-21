@@ -19,7 +19,10 @@ namespace FontGenerator
 	}
 
 	Glyph::Glyph(FT_Library& library, FT_Face& face, wchar_t ch)
-		: m_color(Color()), m_library(&library), m_charactor(ch)
+		: m_color(Color())
+		, m_library(&library)
+		, m_face(face)
+		, m_charactor(ch)
 	{
 		auto index = FT_Get_Char_Index(face, ch);
 		FT_Load_Glyph(face, index, FT_LOAD_NO_BITMAP);
@@ -40,6 +43,26 @@ namespace FontGenerator
 	void Glyph::SetColor(Color color)
 	{
 		m_color = color;
+	}
+
+	int Glyph::GetAdvance() const
+	{
+		return m_glyph->root.advance.x >> 16;
+	}
+
+	wchar_t Glyph::GetCharactor() const
+	{
+		return m_charactor;
+	}
+
+	BorderSetting::Ptr Glyph::GetBorderSetting() const
+	{
+		return m_border;
+	}
+
+	void Glyph::SetBorderSetting(BorderSetting::Ptr value)
+	{
+		m_border = value;
 	}
 
 	void Glyph::Draw(int32_t* buffer, int width, int height, int x, int y)
@@ -66,24 +89,14 @@ namespace FontGenerator
 		}
 	}
 
-	int Glyph::GetAdvance() const
+	RasterizedGlyph::Ptr Glyph::Rasterize()
 	{
-		return m_glyph->root.advance.x >> 16;
-	}
+		Spans spans;
+		RenderSpans(*m_library, &m_glyph->outline, &spans);
 
-	wchar_t Glyph::GetCharactor() const
-	{
-		return m_charactor;
+		int width = GetAdvance();
+		int height = m_face->size->metrics.height;
+		int baselineY = m_face->size->metrics.ascender;
+		return RasterizedGlyph::FromSpans(spans, width, height, baselineY);
 	}
-
-	BorderSetting::Ptr Glyph::GetBorderSetting() const
-	{
-		return m_border;
-	}
-
-	void Glyph::SetBorderSetting(BorderSetting::Ptr value)
-	{
-		m_border = value;
-	}
-
 }

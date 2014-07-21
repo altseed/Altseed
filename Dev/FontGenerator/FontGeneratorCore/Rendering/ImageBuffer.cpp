@@ -1,5 +1,5 @@
 #include "ImageBuffer.h"
-#include "Rendering\Span.h"
+#include "Span.h"
 #include <vector>
 #include <Math\ace.RectI.h>
 
@@ -58,5 +58,53 @@ namespace FontGenerator
 	vector<ImageBuffer::vectorPtr>& ImageBuffer::GetBuffers()
 	{
 		return buffers;
+	}
+
+	ace::GlyphData ImageBuffer::Draw(Glyph::Ptr glyph)
+	{
+		auto advance = glyph->GetAdvance();
+		if (penX + advance > sheetSize)
+		{
+			if (baseLineY - descender + height > sheetSize)
+			{
+				sheetNum++;
+				buffers.push_back(CreateBuffer(sheetSize));
+				penX = 0;
+				baseLineY = ascender;
+			}
+			else
+			{
+				penX = 0;
+				baseLineY += height;
+			}
+		}
+
+		auto rasterized = glyph->Rasterize();
+		DrawRasterizedGlyph(rasterized);
+
+		auto src = ace::RectI(penX, baseLineY - ascender, advance, height);
+		auto result = ace::GlyphData(glyph->GetCharactor(), sheetNum, src);
+
+		penX += advance;
+
+		return result;
+	}
+
+	void ImageBuffer::DrawRasterizedGlyph(RasterizedGlyph::Ptr glyph)
+	{
+		auto dst = buffers[sheetNum];
+		auto src = glyph->GetBuffer();
+		int width = glyph->GetWidth();
+		int height = glyph->GetHeight();
+
+		for (size_t y = 0; y < height; y++)
+		{
+			for (size_t x = 0; x < width; x++)
+			{
+				int srcIndex = y * width + x;
+				int dstIndex = y * sheetSize + x;
+				(*dst)[dstIndex] = src[srcIndex].GetInt();
+			}
+		}
 	}
 }

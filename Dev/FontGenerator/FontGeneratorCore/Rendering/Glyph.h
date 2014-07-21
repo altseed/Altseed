@@ -3,15 +3,19 @@
 #include <memory>
 #include "Color.h"
 #include "Setting.h"
+#include "RasterizedGlyph.h"
 #include <ft2build.h>
 #include FT_GLYPH_H
 
 namespace FontGenerator
 {
+	class RasterizedGlyph;
+
 	class Glyph
 	{
 	private:
 		FT_Library* m_library;
+		FT_Face m_face;
 		FT_OutlineGlyph m_glyph;
 		Color m_color;
 		BorderSetting::Ptr m_border;
@@ -54,5 +58,7 @@ namespace FontGenerator
 
 		BorderSetting::Ptr GetBorderSetting() const;
 		void SetBorderSetting(BorderSetting::Ptr value);
+
+		RasterizedGlyph::Ptr Rasterize();
 	};
 }

@@ -3,7 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include "PngGenerator.h"
-#include "ImageBuffer.h"
+#include "Rendering/ImageBuffer.h"
 #include <png.h>
 
 #if _DEBUG

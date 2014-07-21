@@ -1,6 +1,8 @@
+#pragma once
 #include <vector>
 #include <memory>
-#include "Rendering\Font.h"
+#include "Font.h"
+#include "RasterizedGlyph.h"
 #include <Graphics\Font\ace.GlyphData.h>
 
 namespace FontGenerator
@@ -14,6 +16,8 @@ namespace FontGenerator
 		ace::GlyphData DrawGlyph(Glyph::Ptr glyph);
 		std::vector<vectorPtr>& GetBuffers();
 
+		ace::GlyphData Draw(Glyph::Ptr glyph);
+
 	private:
 
 		int ascender, descender, height;
@@ -22,6 +26,6 @@ namespace FontGenerator
 		std::vector<vectorPtr> buffers;
 
 		static vectorPtr CreateBuffer(int sheetSize);
-		void DrawRasterizedGlyph(Glyph::Ptr glyph);
+		void DrawRasterizedGlyph(RasterizedGlyph::Ptr glyph);
 	};
 }
