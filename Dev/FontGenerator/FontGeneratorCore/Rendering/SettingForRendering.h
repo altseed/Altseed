@@ -20,7 +20,7 @@ namespace FontGenerator
 
 		SettingForRendering();
 
-		GlyphWithBorder ProcessGlyph(Glyph::Ptr source);
+		void ProcessGlyph(Glyph::Ptr source);
 
 		int GetFontSize() const;
 		void SetFontSize(int value);
