@@ -31,7 +31,7 @@ namespace ace
 		/**
 		@brief 描画するテキストを取得する。
 		*/
-		const const achar* GetText() const;
+		const achar* GetText() const;
 
 		/**
 		@brief	このオブジェクトの原点位置を取得する。この位置が、描画する際の描画・拡縮・回転の中心となる。
