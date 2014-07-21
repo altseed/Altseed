@@ -65,6 +65,10 @@ libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg
 ### 他
 
 パッケージ管理ツールで入手します。
+  - Ubuntu
+```
+libglew-dev
+```
 
 ## GoogleTest
 

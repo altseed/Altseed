@@ -109,7 +109,7 @@ namespace ace
 		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
 		public void SetColorTexture(int materialIndex, Texture2D texture)
 		{
-			SwigObject.SetColorTexture(materialIndex, texture.SwigObject);
+			SwigObject.SetColorTexture(materialIndex, IG.GetTexture2D(texture));
 		}
 
 		/// <summary>
@@ -120,7 +120,7 @@ namespace ace
 		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
 		public void SetNormalTexture(int materialIndex, Texture2D texture)
 		{
-			SwigObject.SetNormalTexture(materialIndex, texture.SwigObject);
+			SwigObject.SetNormalTexture(materialIndex, IG.GetTexture2D(texture));
 		}
 
 		/// <summary>
@@ -131,7 +131,7 @@ namespace ace
 		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
 		public void SetSpecularTexture(int materialIndex, Texture2D texture)
 		{
-			SwigObject.SetSpecularTexture(materialIndex, texture.SwigObject);
+			SwigObject.SetSpecularTexture(materialIndex, IG.GetTexture2D(texture));
 		}
 	}
 }

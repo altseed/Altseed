@@ -75,7 +75,7 @@ namespace ace
         /// </summary>
         public bool AddChip(Chip2D chip)
         {
-            return coreMapObject.AddChip(chip.SwigObject);
+            return coreMapObject.AddChip(IG.GetChip2D(chip));
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace ace
         /// </summary>
         public bool RemoveChip(Chip2D chip)
         {
-            return coreMapObject.RemoveChip(chip.SwigObject);
+            return coreMapObject.RemoveChip(IG.GetChip2D(chip));
         }
 
     }

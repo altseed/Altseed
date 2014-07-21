@@ -67,7 +67,6 @@
     <Compile Include="Graphics\Model.cs" />
     <Compile Include="Graphics\RenderTexture2D.cs" />
     <Compile Include="Graphics\Shader2D.cs" />
-    <Compile Include="Graphics\ShaderVariableProperty.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Input\IMouseButtonState.cs" />
@@ -210,6 +209,7 @@
     <Compile Include="swig\Window.cs" />
     <Compile Include="swig\Window_Imp.cs" />
     <Compile Include="swig\WritingDirection.cs" />
+    <Compile Include="Utils\InternalGetter.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
