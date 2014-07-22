@@ -67,7 +67,7 @@ namespace ace
 
 		void OnRemoving(Renderer2D* renderer) override;
 
-		void Draw(Renderer2D* renderer, Matrix33 cameraMatrix) override;
+		void Draw(Renderer2D* renderer) override;
 
 		CORE_OBJECT2D_IMP_COMMON
 

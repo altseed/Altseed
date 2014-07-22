@@ -347,12 +347,10 @@
     <ClInclude Include="..\core\ObjectSystem\ace.CoreScene.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.ObjectSystemFactory.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.CoreLayer.h" />
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn.h" />
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn_Imp.h" />
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut.h" />
-    <ClInclude Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect.h" />
     <ClInclude Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition.h" />
+    <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.h" />
     <ClInclude Include="..\core\PCH\ace.Core.PCH.h" />
     <ClInclude Include="..\core\Profiler\ace.Profile.h" />
     <ClInclude Include="..\core\Profiler\ace.Profiler.h" />
@@ -472,9 +470,8 @@
     <ClCompile Include="..\core\ObjectSystem\ace.CoreLayer_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.ObjectSystemFactory_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.CoreScene_Imp.cpp" />
-    <ClCompile Include="..\core\ObjectSystem\Fade\ace.CoreFadeIn_Imp.cpp" />
-    <ClCompile Include="..\core\ObjectSystem\Fade\ace.CoreFadeOut_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\PostEffect\ace.CorePostEffect_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.cpp" />
     <ClCompile Include="..\core\PCH\ace.Core.PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'">Create</PrecompiledHeader>

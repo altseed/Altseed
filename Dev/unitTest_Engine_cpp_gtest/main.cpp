@@ -30,6 +30,8 @@ EXTERN_ENGINE_TEST(Graphics, PostEffectGrayScale)
 EXTERN_ENGINE_TEST(Graphics, PostEffectSepia)
 EXTERN_ENGINE_TEST(Graphics, CustomPostEffect)
 
+EXTERN_ENGINE_TEST(Graphics, Transition)
+
 extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject3D)
@@ -38,8 +40,10 @@ EXTERN_ENGINE_TEST(Graphics, ModelObject3D)
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
 
+EXTERN_ENGINE_TEST(Graphics, TextureObject2D)
 EXTERN_ENGINE_TEST(Graphics, TextObject2D)
 EXTERN_ENGINE_TEST(Graphics, MapObject2D)
+EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
 
 /**
 	@brief	単体テストを実行する。
@@ -56,7 +60,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//CALL_ENGINE_TEST(Graphics, EffectObject2D, false)
+	//CALL_ENGINE_TEST(Graphics, Transition, true)
 	//return 0;
 
 	//TestCamera(true);
@@ -67,6 +71,9 @@ int main(int argc, char **argv)
 	ObjectSystem_Text2DTest_(false);
 	return 0;
 	*/
+
+	//Test_Graphics_TextureObject2D(false);
+	//return 0;
 
 	auto result = RUN_ALL_TESTS();
 

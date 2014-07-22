@@ -46,7 +46,7 @@ namespace ace
         public Texture2D Texture
         {
             get { return GC.GenerateTexture2D(SwigObject.GetTexture(), GC.GenerationType.Get); }
-            set { SwigObject.SetTexture(value.SwigObject); }
+            set { SwigObject.SetTexture(IG.GetTexture2D(value)); }
         }
 
         public RectF Src

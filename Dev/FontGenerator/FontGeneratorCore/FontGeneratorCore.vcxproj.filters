@@ -30,7 +30,11 @@
     <ClInclude Include="ResultOfGeneratingPng.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="DLL.h" />
-    <ClInclude Include="ImageBuffer.h">
+    <ClInclude Include="Rendering\Span.h">
+      <Filter>Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\ImageBuffer.h" />
+    <ClInclude Include="Rendering\RasterizedGlyph.h">
       <Filter>Rendering</Filter>
     </ClInclude>
   </ItemGroup>
@@ -55,7 +59,11 @@
     <ClCompile Include="PngGenerator.cpp" />
     <ClCompile Include="DLL.cpp" />
     <ClCompile Include="dll_cs.cxx" />
-    <ClCompile Include="ImageBuffer.cpp">
+    <ClCompile Include="Rendering\ImageBuffer.cpp" />
+    <ClCompile Include="Rendering\Span.cpp">
+      <Filter>Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\RasterizedGlyph.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
   </ItemGroup>

@@ -40,6 +40,8 @@ namespace ace
 
 		internal static IDObjectContainer<PostEffect> PostEffects { get; private set; }
 
+		internal static IDObjectContainer<Transition> Transitions { get; private set; }
+
 		internal static void Initialize()
 		{
 			Collector = new GarbageCollector();
@@ -73,6 +75,8 @@ namespace ace
 			Layer3Ds = new IDObjectContainer<Layer3D>();
 
 			PostEffects = new IDObjectContainer<PostEffect>();
+
+			Transitions = new IDObjectContainer<Transition>();
 		}
 
 		internal static void Update()
@@ -112,6 +116,8 @@ namespace ace
 				Object3Ds.DestroyAll();
 
 				PostEffects.DestroyAll();
+				Transitions.DestroyAll();
+
 				//Profilers.DestroyAll();
 
 				Collector.Collect();

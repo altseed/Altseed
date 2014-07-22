@@ -57,8 +57,9 @@
     <Compile Include="Graphics\PostEffect\PostEffectGrayScale.cs" />
     <Compile Include="Graphics\PostEffect\PostEffectLightBloom.cs" />
     <Compile Include="Graphics\PostEffect\PostEffectSepia.cs" />
+    <Compile Include="Graphics\Transition\Transition.cs" />
     <Compile Include="Log\Log.cs" />
-    <Compile Include="ObjectSystem2D\CameraObject.cs" />
+    <Compile Include="Graphics\2D\CameraObject2D.cs" />
     <Compile Include="ObjectSystem2D\CustomObject.cs" />
     <Compile Include="ObjectSystem2D\LayerComponent.cs" />
     <Compile Include="ObjectSystem2D\LayersFlag.cs" />

@@ -34,7 +34,7 @@ namespace ace
 		const WritingDirection GetWritingDirection() const override;
 		void SetWritingDirection(WritingDirection writingDirection) override;
 
-		const astring GetText() const override;
+		const achar* GetText() const override;
 		void SetText(const achar* text) override;
 
 		const Vector2DF GetCenterPosition() const override;
@@ -56,7 +56,7 @@ namespace ace
 		void SetAlphaBlendMode(AlphaBlend alphaBlend) override;
 #pragma endregion
 
-		void Draw(Renderer2D* renderer, Matrix33 cameraMatrix) override;
+		void Draw(Renderer2D* renderer) override;
 
 		CORE_OBJECT2D_IMP_COMMON
 

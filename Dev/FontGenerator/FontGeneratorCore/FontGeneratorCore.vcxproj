@@ -148,7 +148,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="DLL.h" />
-    <ClInclude Include="ImageBuffer.h" />
     <ClInclude Include="Rendering\Color.h" />
     <ClInclude Include="Rendering\Font.h" />
     <ClInclude Include="FontData.h" />
@@ -156,6 +155,9 @@
     <ClInclude Include="Rendering\Glyph.h" />
     <ClInclude Include="PngGenerator.h" />
     <ClInclude Include="Rendering\GlyphWithBorder.h" />
+    <ClInclude Include="Rendering\ImageBuffer.h" />
+    <ClInclude Include="Rendering\RasterizedGlyph.h" />
+    <ClInclude Include="Rendering\Span.h" />
     <ClInclude Include="ResultOfGeneratingPng.h" />
     <ClInclude Include="Rendering\Setting.h" />
     <ClInclude Include="Rendering\SettingForRendering.h" />
@@ -164,7 +166,6 @@
   <ItemGroup>
     <ClCompile Include="DLL.cpp" />
     <ClCompile Include="dll_cs.cxx" />
-    <ClCompile Include="ImageBuffer.cpp" />
     <ClCompile Include="Rendering\Color.cpp" />
     <ClCompile Include="Rendering\Font.cpp" />
     <ClCompile Include="FontData.cpp" />
@@ -172,7 +173,10 @@
     <ClCompile Include="Rendering\Glyph.cpp" />
     <ClCompile Include="PngGenerator.cpp" />
     <ClCompile Include="Rendering\GlyphWithBorder.cpp" />
+    <ClCompile Include="Rendering\ImageBuffer.cpp" />
+    <ClCompile Include="Rendering\RasterizedGlyph.cpp" />
     <ClCompile Include="Rendering\SettingForRendering.cpp" />
+    <ClCompile Include="Rendering\Span.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ace_cpp\msvc\ace_common.vcxproj">

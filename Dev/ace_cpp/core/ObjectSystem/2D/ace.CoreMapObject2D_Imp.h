@@ -32,7 +32,7 @@ namespace ace
 		const bool RemoveChip(Chip2D* chip);
 #pragma endregion
 
-		void Draw(Renderer2D* renderer, Matrix33 cameraMatrix);
+		void Draw(Renderer2D* renderer);
 
 		CORE_OBJECT2D_IMP_COMMON
 

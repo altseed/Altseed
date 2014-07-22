@@ -4,11 +4,19 @@
 
 namespace ace
 {
-	CubemapTexture_Imp_DX11::CubemapTexture_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, std::array<std::vector<ID3D11RenderTargetView*>, 6>& textureRTVs)
+	CubemapTexture_Imp_DX11::CubemapTexture_Imp_DX11(
+		Graphics* graphics, 
+		ID3D11Texture2D* texture, 
+		ID3D11ShaderResourceView* textureSRV, 
+		std::array<std::vector<ID3D11RenderTargetView*>, 6>& textureRTVs, 
+		Vector2DI size,
+		int32_t mipmapCount)
 		: CubemapTexture_Imp(graphics)
 		, m_texture(texture)
 		, m_textureSRV(textureSRV)
 		, m_textureRTVs(textureRTVs)
+		, size(size)
+		, mipmapCount(mipmapCount)
 	{
 
 	}
@@ -25,6 +33,16 @@ namespace ace
 				v_->Release();
 			}
 		}
+	}
+
+	ID3D11RenderTargetView* CubemapTexture_Imp_DX11::GetRenderTargetView(int32_t direction, int32_t mipmap)
+	{
+		if (direction < 0) return nullptr;
+		if (direction >= 6) return nullptr;
+		if (mipmap < 0) return nullptr;
+		if (m_textureRTVs[direction].size() <= mipmap) return nullptr;
+		
+		return m_textureRTVs[direction][mipmap];
 	}
 
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
@@ -52,6 +70,8 @@ namespace ace
 		int32_t heights[6];
 		std::vector<uint8_t> fileBuffers[6];
 		std::array<std::vector<ID3D11RenderTargetView*>, 6> textureRTVs;
+		std::vector<D3D11_SUBRESOURCE_DATA> data;
+		std::vector<uint8_t> nulldata;
 
 		uint8_t* buffers [] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 
@@ -97,13 +117,15 @@ namespace ace
 			if (heights[i] != height) goto End;
 		}
 
+		auto mipmapCount = ImageHelper::GetMipmapCount(width, height);
+
 		ID3D11Texture2D* texture = nullptr;
 		ID3D11ShaderResourceView* srv = nullptr;
 
 		D3D11_TEXTURE2D_DESC TexDesc;
 		TexDesc.Width = width;
 		TexDesc.Height = height;
-		TexDesc.MipLevels = 1;
+		TexDesc.MipLevels = mipmapCount;
 		TexDesc.ArraySize = 6;
 		TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		TexDesc.SampleDesc.Count = 1;
@@ -122,16 +144,65 @@ namespace ace
 		desc.TextureCube.MipLevels = -1;
 		desc.TextureCube.MostDetailedMip = 0;
 
-		D3D11_SUBRESOURCE_DATA data[6];
+		data.resize(mipmapCount * 6);
+		nulldata.resize(width * height * 4);
+
+		for (size_t i = 0; i < nulldata.size(); i++)
+		{
+			nulldata[i] = 0;
+		}
 
 		for (int32_t i = 0; i < 6; i++)
 		{
-			data[i].pSysMem = buffers[i];
-			data[i].SysMemPitch = width * 4;
-			data[i].SysMemSlicePitch = data[i].SysMemPitch * height;
+			for (int32_t m = 0; m < mipmapCount; m++)
+			{
+				auto w = width;
+				auto h = height;
+				ImageHelper::GetMipmapSize(m, w, h);
+
+				auto ind = i * mipmapCount + m;
+
+				if (m == 0)
+				{
+					data[ind].pSysMem = buffers[i];
+				}
+				else
+				{
+					data[ind].pSysMem = nulldata.data();
+				}
+
+				data[ind].SysMemPitch = w * 4;
+				data[ind].SysMemSlicePitch = data[ind].SysMemPitch * h;
+			}
 		}
 
-		auto hr = g->GetDevice()->CreateTexture2D(&TexDesc, data, &texture);
+		/*
+		for (int32_t m = 0; m < mipmapCount; m++)
+		{
+			auto w = width;
+			auto h = height;
+			ImageHelper::GetMipmapSize(m, w, h);
+
+			for (int32_t i = 0; i < 6; i++)
+			{
+				auto ind = i + m * 6;
+
+				if (m == 0)
+				{
+					data[ind].pSysMem = buffers[i];
+				}
+				else
+				{
+					data[ind].pSysMem = nulldata.data();
+				}
+
+				data[ind].SysMemPitch = w * 4;
+				data[ind].SysMemSlicePitch = data[ind].SysMemPitch * h;
+			}
+		}
+		*/
+
+		auto hr = g->GetDevice()->CreateTexture2D(&TexDesc, data.data(), &texture);
 
 		if (FAILED(hr))
 		{
@@ -173,7 +244,7 @@ namespace ace
 		{
 			SafeDeleteArray(buffers[i]);
 		}
-		return new CubemapTexture_Imp_DX11(graphics, texture, srv, textureRTVs);
+		return new CubemapTexture_Imp_DX11(graphics, texture, srv, textureRTVs, Vector2DI(width, height), mipmapCount);
 
 	End:;
 

@@ -97,9 +97,8 @@ set(core_src
 	ace_cpp/core/ObjectSystem/ace.CoreLayer_Imp.cpp
 	ace_cpp/core/ObjectSystem/ace.CoreScene_Imp.cpp
 	ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory_Imp.cpp
-	ace_cpp/core/ObjectSystem/Fade/ace.CoreFadeIn_Imp.cpp
-	ace_cpp/core/ObjectSystem/Fade/ace.CoreFadeOut_Imp.cpp
 	ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect_Imp.cpp
+	ace_cpp/core/ObjectSystem/Transition/ace.CoreTransition_Imp.cpp
 	ace_cpp/core/PCH/ace.Core.PCH.cpp
 	ace_cpp/core/Profiler/ace.Profile.cpp
 	ace_cpp/core/Profiler/ace.ProfilerViewer_Imp.cpp
@@ -162,13 +161,12 @@ set(engine_src
 	ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.cpp
 	ace_cpp/engine/ObjectSystem/Component/ace.Object2DComponent.cpp
 	ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent.cpp
-	ace_cpp/engine/ObjectSystem/Fade/ace.FadeIn.cpp
-	ace_cpp/engine/ObjectSystem/Fade/ace.FadeOut.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffect.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGaussianBlur.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGrayScale.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectLightBloom.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSepia.cpp
+	ace_cpp/engine/ObjectSystem/Transition/ace.Transition.cpp
 	ace_cpp/engine/PCH/ace.Engine.PCH.cpp
 )
 
@@ -184,6 +182,7 @@ set(unittest_gtest_src
 	unitTest_cpp_gtest/Graphics/Font/ace.AffIndexTable_Test.cpp
 	unitTest_cpp_gtest/Graphics/Font/ace.AffLoader_Test.cpp
 	unitTest_cpp_gtest/Graphics/Font/ace.GlyphData_Test.cpp
+	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_CubemapTexture_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Empty_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_RenderTarget.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Sampler_Test.cpp
@@ -205,6 +204,7 @@ set(unittest_gtest_src
 set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
 	unitTest_Engine_cpp_gtest/EngineTest.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/CameraObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/EffectObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/MapObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/TextObject2D.cpp
@@ -219,7 +219,6 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectLightBloom.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepia.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
-	unitTest_Engine_cpp_gtest/ObjectSystem/Camera.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp

@@ -40,7 +40,7 @@ namespace ace
 		/// <param name="effect">エフェクト</param>
 		public void SetEffect(Effect effect)
 		{
-			coreObject.SetEffect(effect.SwigObject);
+			coreObject.SetEffect(IG.GetEffect(effect));
 		}
 
 		/// <summary>

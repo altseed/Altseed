@@ -14,12 +14,6 @@
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.cpp">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\ObjectSystem\Fade\ace.FadeOut.cpp">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClCompile>
-    <ClCompile Include="..\engine\ObjectSystem\Fade\ace.FadeIn.cpp">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClCompile>
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGrayScale.cpp">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClCompile>
@@ -80,6 +74,12 @@
     <ClCompile Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectLightBloom.cpp">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Transition\ace.Transition.cpp">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Transition\ace.TransitionFade.cpp">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -99,12 +99,6 @@
     <ClInclude Include="..\engine\ace.Engine.Base.h" />
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.h">
       <Filter>ObjectSystem\PostEffect</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\Fade\ace.FadeOut.h">
-      <Filter>ObjectSystem\Fade</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\Fade\ace.FadeIn.h">
-      <Filter>ObjectSystem\Fade</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGrayScale.h">
       <Filter>ObjectSystem\PostEffect</Filter>
@@ -163,6 +157,12 @@
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectLightBloom.h">
       <Filter>ObjectSystem\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Transition\ace.Transition.h">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Transition\ace.TransitionFade.h">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -174,9 +174,6 @@
     <Filter Include="ObjectSystem\PostEffect">
       <UniqueIdentifier>{6b69dfbd-bfde-4093-9f63-22baafbf1fe2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ObjectSystem\Fade">
-      <UniqueIdentifier>{b1960cd6-695f-440c-b350-a43be9298d6b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ObjectSystem\Component">
       <UniqueIdentifier>{4589e34b-0cf8-413e-8a85-2d31d7631e14}</UniqueIdentifier>
     </Filter>
@@ -185,6 +182,9 @@
     </Filter>
     <Filter Include="PCH">
       <UniqueIdentifier>{dc350251-4706-4779-b7e2-fe2e7ac53e8f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\Transition">
+      <UniqueIdentifier>{92c320d5-c099-4101-afee-e9f829c96a16}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

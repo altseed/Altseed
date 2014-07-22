@@ -10,12 +10,18 @@ varying vec4 vaTexCoord;
 
 varying vec4 vaColor;
 
-uniform vec2 Size;
+uniform vec4 area;
 
 void main()
 {
-	gl_Position.x = Pos.x / Size.x * 2.0 - 1.0;
-	gl_Position.y = -(Pos.y / Size.y * 2.0 - 1.0);
+	vec2 pos = vec2(Pos.x,Pos.y);
+	pos.x = (pos.x - area.x) / area.z * 2.0;
+	pos.y = (pos.y - area.y) / area.w * 2.0;
+	pos.x = pos.x - 1.0;
+	pos.y = -pos.y + 1.0;
+
+	gl_Position.x = pos.x;
+	gl_Position.y = pos.y;
 	gl_Position.z = 0.5;
 	gl_Position.w = 1.0;
 

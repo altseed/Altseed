@@ -34,7 +34,7 @@ namespace ace
 		/// <param name="effect">エフェクト</param>
 		public void SetEffect(Effect effect)
 		{
-			coreEffectObject.SetEffect(effect.SwigObject);
+			coreEffectObject.SetEffect(IG.GetEffect(effect));
 		}
 
 		/// <summary>
@@ -93,18 +93,6 @@ namespace ace
 			{
 				coreEffectObject.SetEffectRotation(value);
 			}
-		}
-
-		protected override void OnStart()
-		{
-		}
-
-		protected override void OnUpdate()
-		{
-		}
-
-		protected override void OnDrawAdditionally()
-		{
 		}
 
 #region GC対策

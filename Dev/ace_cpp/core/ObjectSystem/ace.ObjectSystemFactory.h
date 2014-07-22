@@ -35,5 +35,7 @@ namespace ace
 
 		virtual CoreScene* CreateScene() = 0;
 		virtual CorePostEffect* CreatePostEffect() = 0;
+
+		virtual CoreTransition* CreateTransition() = 0;
 	};
 }

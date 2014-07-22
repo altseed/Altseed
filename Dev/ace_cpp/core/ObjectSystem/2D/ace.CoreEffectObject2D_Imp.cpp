@@ -121,7 +121,7 @@ namespace ace
 		m_renderer = nullptr;
 	}
 
-	void CoreEffectObject2D_Imp::Draw(Renderer2D* renderer, Matrix33 cameraMatrix)
+	void CoreEffectObject2D_Imp::Draw(Renderer2D* renderer)
 	{
 		// 一定以上たまったら削除処理
 		if (m_handles.size() > GCThreshold)

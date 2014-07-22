@@ -18,6 +18,8 @@
 
 #include "PostEffect/ace.CorePostEffect_Imp.h"
 
+#include "Transition/ace.CoreTransition_Imp.h"
+
 #include "../Log/ace.Log_Imp.h"
 
 #include "../Graphics/ace.Graphics_Imp.h"
@@ -118,5 +120,11 @@ namespace ace
 	CorePostEffect* ObjectSystemFactory_Imp::CreatePostEffect()
 	{
 		return new CorePostEffect_Imp(m_graphics);
+	}
+
+
+	CoreTransition* ObjectSystemFactory_Imp::CreateTransition()
+	{
+		return new CoreTransition_Imp();
 	}
 }

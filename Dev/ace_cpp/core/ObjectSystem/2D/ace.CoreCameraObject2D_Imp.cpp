@@ -82,14 +82,15 @@ namespace ace
 		m_graphics->Clear(true, false, Color(0, 0, 0, 0));
 	}
 
-	void CoreCameraObject2D_Imp::Draw(Renderer2D* renderer, Matrix33 cameraMatrix)
+	void CoreCameraObject2D_Imp::Draw(Renderer2D* renderer)
 	{
 		throw "CameraObject2D の Draw 関数は無効です。";
 	}
 
 	void CoreCameraObject2D_Imp::FlushToBuffer()
 	{
-		m_renderer->DrawCache(RectF(m_src.X, m_src.Y, m_src.Width, m_src.Height));
+		m_renderer->SetArea(RectF(m_src.X, m_src.Y, m_src.Width, m_src.Height));
+		m_renderer->DrawCache();
 		m_renderer->ClearCache();
 	}
 

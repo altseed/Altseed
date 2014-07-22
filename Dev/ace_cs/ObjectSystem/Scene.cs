@@ -232,7 +232,7 @@ namespace ace
 
 		internal void Draw()
 		{
-			layersToDraw_.Sort((x, y) => y.DrawingPriority - x.DrawingPriority);
+			layersToDraw_.Sort((x, y) => x.DrawingPriority - y.DrawingPriority);
 
 			CoreScene.BeginDrawing();
 

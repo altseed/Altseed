@@ -504,6 +504,47 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 
 	// glBindTextureをするたびにテクスチャの値がリセットされるらしいので値を再設定
 	GetRenderState()->Update(true);
+
+	// MIPMAPの処理をするためにRenderStateから移動
+	static const GLint glfilter [] = { GL_NEAREST, GL_LINEAR };
+	static const GLint glfilter_mip [] = { GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR };
+
+	static const GLint glwrap [] = { GL_REPEAT, GL_CLAMP_TO_EDGE };
+	auto renderState = (RenderState_Imp_GL*) GetRenderState();
+
+	auto& state = GetRenderState()->GetActiveState();
+	for (int32_t i = 0; i < RenderState_Imp::TextureCount; i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindSampler(i, renderState->GetSamplers()[i]);
+
+		int32_t filter_ = (int32_t) state.TextureFilterTypes[i];
+
+		Texture* tex = nullptr;
+		char* texName = nullptr;
+		if (shader->GetTexture(texName, tex, i))
+		{
+			if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+			{
+				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
+				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MIN_FILTER, glfilter_mip[filter_]);
+			}
+			else
+			{
+				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
+				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MIN_FILTER, glfilter[filter_]);
+			}
+		}
+
+		glActiveTexture(GL_TEXTURE0 + i);
+
+		glBindSampler(i, renderState->GetSamplers()[i]);
+		int32_t wrap_ = (int32_t) state.TextureWrapTypes[i];
+		glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_WRAP_S, glwrap[wrap_]);
+		glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_WRAP_T, glwrap[wrap_]);
+	}
+
+	glActiveTexture(GL_TEXTURE0);
 }
 
 //----------------------------------------------------------------------------------
@@ -919,6 +960,88 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTextu
 	if (texture1 != nullptr)
 	{
 		SetViewport(0, 0, texture1->GetSize().X, texture1->GetSize().Y);
+	}
+	GLCheckError();
+}
+
+void Graphics_Imp_GL::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direction, int32_t mipmap, DepthBuffer_Imp* depthBuffer)
+{
+	auto tex = (CubemapTexture_Imp_GL*) texture;
+
+	std::lock_guard<std::recursive_mutex> lock(GetMutex());
+	MakeContextCurrent();
+
+	// 強制リセット
+	ResetDrawState();
+	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	{
+		glActiveTexture(GL_TEXTURE0 + i);
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
+	glActiveTexture(GL_TEXTURE0);
+	GLCheckError();
+
+	if (texture == nullptr)
+	{
+		UnbindFramebuffer();
+		glDrawBuffer(GL_BACK);
+		GetRenderState()->Update(true);
+		SetViewport(0, 0, m_size.X, m_size.Y);
+		GLCheckError();
+		return;
+	}
+
+	GLuint cb = 0;
+	GLuint db = 0;
+
+	if (texture != nullptr)
+	{
+		cb = tex->GetBuffer();
+	}
+
+	if (depthBuffer != nullptr)
+	{
+		db = ((DepthBuffer_Imp_GL*) depthBuffer)->GetBuffer();
+	}
+
+	static const GLenum target [] = {
+		GL_TEXTURE_CUBE_MAP_POSITIVE_X,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+		GL_TEXTURE_CUBE_MAP_POSITIVE_Y,
+		GL_TEXTURE_CUBE_MAP_POSITIVE_Z,
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Z,
+	};
+
+	BindFramebuffer();
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, target[direction], cb, mipmap);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, 0, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, 0, 0);
+	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT3, GL_TEXTURE_2D, 0, 0);
+	GLCheckError();
+
+	if (depthBuffer != nullptr)
+	{
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, db, 0);
+	}
+	else
+	{
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, 0, 0);
+	}
+	GLCheckError();
+
+	static const GLenum bufs [] = {
+		GL_COLOR_ATTACHMENT0,
+	};
+	glDrawBuffers(1, bufs);
+	GLCheckError();
+
+	GetRenderState()->Update(true);
+	GLCheckError();
+
+	if (texture != nullptr)
+	{
+		SetViewport(0, 0, tex->GetSize().X >> mipmap, tex->GetSize().Y >> mipmap);
 	}
 	GLCheckError();
 }

@@ -214,6 +214,28 @@ int32_t ImageHelper::GetPitch(eTextureFormat format)
 	return 0;
 }
 
+int32_t ImageHelper::GetMipmapCount(int32_t width, int32_t height)
+{
+	auto ret = 1;
+	while (width != 1 || height != 1)
+	{
+		if (width > 1) width = width >> 1;
+		if (height > 1) height = height >> 1;
+		ret++;
+	}
+
+	return ret;
+}
+
+void ImageHelper::GetMipmapSize(int mipmap, int32_t& width, int32_t& height)
+{
+	for (auto i = 0; i < mipmap; i++)
+	{
+		if (width > 1) width = width >> 1;
+		if (height > 1) height = height >> 1;
+	}
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

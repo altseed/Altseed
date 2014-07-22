@@ -105,6 +105,8 @@ namespace ace {
 
 		void SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer);
 
+		void SetRenderTarget(CubemapTexture_Imp* texture, int32_t direction, int32_t mipmap, DepthBuffer_Imp* depthBuffer) override;
+
 		void SetViewport(int32_t x, int32_t y, int32_t width, int32_t height);
 
 		void MakeContextCurrent();

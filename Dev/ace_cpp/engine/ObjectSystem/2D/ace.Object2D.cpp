@@ -1,5 +1,6 @@
 ﻿#include <list>
 #include "ace.Object2D.h"
+#include "ace.Layer2D.h"
 using namespace std;
 
 namespace ace
@@ -70,6 +71,16 @@ namespace ace
 
 	void Object2D::OnDrawAdditionally()
 	{
+
+	}
+
+	void Object2D::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority)
+	{
+		auto layer = GetLayer();
+		layer->DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture, alphaBlend, priority);
 	}
 
 

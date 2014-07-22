@@ -34,7 +34,7 @@ namespace ace
 		*/
 		CoreObject2D_Imp* CoreObject2DToImp(ObjectPtr obj);
 
-		void DrawObjects(Renderer2D* renderer, Matrix33 cameraMatrix);
+		void DrawObjects(Renderer2D* renderer);
 
 	public:
 		void AddObject(ObjectPtr object);
@@ -56,6 +56,12 @@ namespace ace
 
 		virtual void AddPostEffect(CorePostEffect* postEffect) { CoreLayer_Imp::AddPostEffect(postEffect); }
 		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
+
+
+		void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+			Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
 
 #if !SWIG
 	public:

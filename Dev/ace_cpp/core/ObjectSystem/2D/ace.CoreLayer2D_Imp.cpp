@@ -156,12 +156,24 @@ namespace ace
 		}
 	}
 
-	void CoreLayer2D_Imp::DrawObjects(Renderer2D* renderer, Matrix33 cameraMatrix)
+	void CoreLayer2D_Imp::DrawObjects(Renderer2D* renderer)
 	{
 		for (auto& x : m_objects)
 		{
-			x->Draw(renderer, cameraMatrix);
+			x->Draw(renderer);
 		}
+	}
+
+	void CoreLayer2D_Imp::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	{
+		std::array<Vector2DF, 4> pos = { upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos };
+		std::array<Color, 4> col = { upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol };
+		std::array<Vector2DF, 4> uv = { upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV };
+
+		m_renderer->AddSprite(pos.data(), col.data(), uv.data(), texture, alphaBlend, priority);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -179,13 +191,13 @@ namespace ace
 			for (auto& c : m_cameras)
 			{
 				c->SetForRenderTarget();
-				DrawObjects(c->GetRenderer(), c->GetCameraMatrix());
+				DrawObjects(c->GetRenderer());
 				c->FlushToBuffer();
 			}
 		}
 		else
 		{
-			DrawObjects(m_renderer, Matrix33());
+			DrawObjects(m_renderer);
 		}
 
 		m_scene->SetRenderTargetForDrawingLayer();
@@ -201,7 +213,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::EndDrawing()
 	{
-		m_renderer->DrawCache(RectF(0,0,m_windowSize.X, m_windowSize.Y));
+		m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y));
+		m_renderer->DrawCache();
 		m_renderer->ClearCache();
 	}
 }

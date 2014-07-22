@@ -99,15 +99,15 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreMapObject2D_Imp::Draw(Renderer2D* renderer, Matrix33 cameraMatrix)
+	void CoreMapObject2D_Imp::Draw(Renderer2D* renderer)
 	{
 		if (!m_objectInfo.GetIsDrawn())
 		{
 			return;
 		}
 
-		const auto parentMatrix = m_transform.GetParentsMatrix();
-		const auto matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = m_transform.GetParentsMatrix();
+		auto matrix = m_transform.GetMatrixToTransform();
 
 		for (auto chip = m_chips.begin(); chip != m_chips.end(); ++chip)
 		{
@@ -127,7 +127,7 @@ namespace ace
 				{
 					pos -= m_centerPosition;
 					auto v3 = Vector3DF(pos.X, pos.Y, 1);
-					auto result = cameraMatrix * parentMatrix * matrix * v3;
+					auto result = parentMatrix * matrix * v3;
 					pos = Vector2DF(result.X, result.Y);
 				}
 

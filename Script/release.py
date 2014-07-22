@@ -15,6 +15,8 @@ if aceutils.isWin():
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/unitTest_Engine_cpp.sln /p:configuration=Release')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/unitTest_Engine_cs.sln /p:configuration=Release')
 
+	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/FontGeneratorWPF.sln /p:configuration=Release')
+
 #remove files
 aceutils.rmdir(targetDir)
 aceutils.rmdir(r'Sample/sample_cs/obj')
@@ -66,4 +68,11 @@ aceutils.copy(r'Dev/bin/ace_cs.XML', cstargetDir)
 aceutils.call(r'doxygen Script/acecppDoxyfile')
 aceutils.copytree(r'Reference_CPP/html/', targetDir+r'/Reference_CPP')
 
+# Tool
+toolDir=targetDir+r'/Tool/'
+aceutils.mkdir(toolDir)
+aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe', toolDir)
+aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe.config', toolDir)
+aceutils.copy(r'Dev/bin/FontGenerator.Model.dll', toolDir)
+aceutils.copy(r'Dev/bin/FontGeneratorCore.dll', toolDir)
 

@@ -27,18 +27,6 @@ namespace ace
 
 			GC.Object2Ds.AddObject( p, this );
 		}
-
-		protected override void OnStart()
-		{
-		}
-
-		protected override void OnUpdate()
-		{
-		}
-
-		protected override void OnDrawAdditionally()
-		{
-		}
 		
 #region GC対策
 		~TextObject2D()
@@ -66,12 +54,12 @@ namespace ace
 
 
         /// <summary>
-        /// この2Dオブジェクトの描画に使用するテクスチャを取得または設定する。
+        /// この2Dオブジェクトの描画に使用するフォントを取得または設定する。
         /// </summary>
         public Font Font
         {
             get { return GC.GenerateFont(coreTextObject.GetFont(), GC.GenerationType.Get); }
-            set { coreTextObject.SetFont(value.SwigObject); }
+            set { coreTextObject.SetFont(IG.GetFont(value)); }
         }
 
         /// <summary>

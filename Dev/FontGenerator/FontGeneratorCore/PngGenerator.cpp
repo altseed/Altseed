@@ -3,7 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include "PngGenerator.h"
-#include "ImageBuffer.h"
+#include "Rendering/ImageBuffer.h"
 #include <png.h>
 
 #if _DEBUG
@@ -107,7 +107,7 @@ namespace FontGenerator
 
 		for (auto& glyph : font.GetGlyphs(charactors))
 		{
-			auto finalGlyph = m_setting.ProcessGlyph(glyph);
+			m_setting.ProcessGlyph(glyph);
 			auto result = buffer.DrawGlyph(glyph);
 			fontData.push_back(result);
 		}

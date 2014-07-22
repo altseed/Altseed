@@ -56,7 +56,7 @@ namespace ace
 		public Texture2D Texture
 		{
 			get { return GC.GenerateTexture2D(renderedObject.GetTexture(), GC.GenerationType.Get); }
-			set { renderedObject.SetTexture(value != null ? value.SwigObject : null); }
+			set { renderedObject.SetTexture(IG.GetTexture2D(value)); }
 		}
 
 		/// <summary>
@@ -120,27 +120,6 @@ namespace ace
         internal override swig.CoreObject2D CoreObject
 		{
 			get { return renderedObject; }
-		}
-
-		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトの初期化処理を記述することができます。
-		/// </summary>
-		protected override void OnStart()
-		{
-		}
-
-		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトの更新処理を記述することができます。
-		/// </summary>
-		protected override void OnUpdate()
-		{
-		}
-
-		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述することができます。
-		/// </summary>
-		protected override void OnDrawAdditionally()
-		{
 		}
 
 		private swig.CoreTextureObject2D renderedObject { get; set; }

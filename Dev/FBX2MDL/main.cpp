@@ -3,8 +3,6 @@
 #include "FBX2MDL.FBXImporter.h"
 #include "FBX2MDL.FBXExporter.h"
 
-#include "MDLExporter.h"
-
 #include <Graphics/3D/ace.Model_IO.h>
 
 #if _DEBUG
@@ -23,7 +21,7 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
-#define TEST 1
+#define TEST 0
 
 #if TEST
 int main(int argc, char** argv)
@@ -124,17 +122,6 @@ int main(int argc, char** argv)
 	sdkManager->Destroy();
 
 	writer->WriteOut(exportPath);
-
-	/*
-    const char* lFilename = argv[1];
-	const char* lExportName = argv[2];
-    
-	MDLExporter *exporter= new MDLExporter(lFilename,lExportName);
-
-	exporter->Convert();
-	
-	delete exporter;
-	*/
 
     return 0;
 }

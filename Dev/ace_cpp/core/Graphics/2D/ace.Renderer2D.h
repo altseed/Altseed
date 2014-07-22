@@ -39,12 +39,15 @@ namespace ace {
 		virtual ~Renderer2D();
 		
 		/**
-			@brief	キャッシュを描画する。
-			@param	area	描画される領域
-			@note
-			現在は描画領域はEffect専用
+			@brief	描画領域を設定する。
+			@param	area	描画領域
 		*/
-		virtual void DrawCache(const RectF& area) = 0;
+		virtual void SetArea(const RectF& area) = 0;
+
+		/**
+			@brief	キャッシュを描画する。
+		*/
+		virtual void DrawCache() = 0;
 
 		/**
 			@brief	キャッシュを消去する。

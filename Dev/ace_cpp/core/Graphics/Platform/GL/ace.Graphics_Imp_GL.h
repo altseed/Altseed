@@ -121,6 +121,8 @@ namespace ace {
 
 		void SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer);
 
+		void SetRenderTarget(CubemapTexture_Imp* texture, int32_t direction, int32_t mipmap, DepthBuffer_Imp* depthBuffer) override;
+
 	public:
 		void Clear(bool isColorTarget, bool isDepthTarget, const Color& color);
 

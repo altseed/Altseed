@@ -411,6 +411,8 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 	std::vector <Macro>& macro,
 	Log* log)
 {
+	GLCheckError();
+
 	char* vs_src[3];
 	char* ps_src[3];
 	int32_t vs_src_len[3];
@@ -581,11 +583,13 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 
 	glDeleteShader(vs_shader);
 	glDeleteShader(ps_shader);
+	GLCheckError();
 
 	std::vector<ConstantLayout> uniformLayouts;
 	int32_t uniformBufferSize = 0;
 	std::vector<std::string> textures;
 	Reflect(program, uniformLayouts, uniformBufferSize, textures);
+	GLCheckError();
 
 	std::vector<Layout> layout_;
 	uint16_t byteOffset = 0;

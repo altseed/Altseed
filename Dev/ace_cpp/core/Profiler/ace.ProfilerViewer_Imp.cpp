@@ -81,7 +81,8 @@ namespace ace
 			++index;
 		}
 
-		m_renderer->DrawCache(RectF(0,0,m_windowSize.X, m_windowSize.Y));
+		m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y));
+		m_renderer->DrawCache();
 		m_renderer->ClearCache();
 	}
 

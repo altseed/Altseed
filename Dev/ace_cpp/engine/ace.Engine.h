@@ -6,6 +6,7 @@
 //----------------------------------------------------------------------------------
 #include "ace.CoreToEngine.h"
 #include "ObjectSystem/ace.Scene.h"
+#include "ObjectSystem/Transition/ace.Transition.h"
 #include "ace.Engine.Base.h"
 
 //----------------------------------------------------------------------------------
@@ -61,6 +62,9 @@ namespace ace {
 
 		static std::shared_ptr<Scene>	m_currentScene;
 		static std::shared_ptr<Scene>	m_nextScene;
+		static std::shared_ptr<Scene>	m_previousScene;
+
+		static std::shared_ptr<Transition>	transition;
 
 	private:
 		static bool HasDLL(const char* path);
@@ -110,8 +114,16 @@ namespace ace {
 
 		/**
 			@brief	描画する対象となるシーンを変更する。
+			@param	scene	次のシーン
 		*/
 		static void ChangeScene(std::shared_ptr<Scene>& scene);
+
+		/**
+		@brief	描画する対象となるシーンを画面遷移効果ありで変更する。
+		@param	scene	次のシーン
+		@param	transition	画面遷移効果
+		*/
+		static void ChangeSceneWithTransition(std::shared_ptr<Scene>& scene, const std::shared_ptr<Transition>& transition);
 
 		/**
 		@brief	スクリーンショットをpngとして保存する。
@@ -136,6 +148,11 @@ namespace ace {
 		@param	fps	FPS
 		*/
 		static void SetTargetFPS(int32_t fps);
+
+		/**
+			@brief	ウインドウを閉じる。
+		*/
+		static void Close();
 
 		/**
 		@brief	Windowsの場合、ウインドウのハンドルを取得する。

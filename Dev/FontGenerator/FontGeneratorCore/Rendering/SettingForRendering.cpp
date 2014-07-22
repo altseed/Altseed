@@ -12,24 +12,10 @@ namespace FontGenerator
 	{
 	}
 
-	GlyphWithBorder SettingForRendering::ProcessGlyph(Glyph::Ptr source)
+	void SettingForRendering::ProcessGlyph(Glyph::Ptr source)
 	{
-		Glyph::Ptr body = source;
-		Glyph::Ptr outline = nullptr;
-
-		body->SetColor(m_fontColor);
-
-		if (m_bold != nullptr)
-		{
-			body = body->Enbolden(m_bold->width);
-		}
-
-		if (m_border != nullptr)
-		{
-			outline = body->Border(m_border->width, m_border->color);
-		}
-
-		return GlyphWithBorder(body, outline);
+		source->SetColor(m_fontColor);
+		source->SetBorderSetting(m_border);
 	}
 
 #pragma region GetSet

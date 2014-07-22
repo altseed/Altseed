@@ -98,7 +98,7 @@ namespace ace
 		void FlushToBuffer();
 		void DrawBuffer(Renderer2D* renderer);
 
-		void Draw(Renderer2D* renderer, Matrix33 cameraMatrix);
+		void Draw(Renderer2D* renderer);
 #endif
 		CORE_OBJECT2D_IMP_COMMON
 	};

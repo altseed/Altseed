@@ -4,9 +4,11 @@
 
 namespace ace
 {
-	CubemapTexture_Imp_GL::CubemapTexture_Imp_GL(Graphics* graphics, GLuint cubemapTexture)
+	CubemapTexture_Imp_GL::CubemapTexture_Imp_GL(Graphics* graphics, GLuint cubemapTexture, Vector2DI size, int32_t mipmapCount)
 		: CubemapTexture_Imp(graphics)
 		, m_cubemapTexture(cubemapTexture)
+		, size(size)
+		, mipmapCount(mipmapCount)
 	{
 
 	}
@@ -40,6 +42,7 @@ namespace ace
 		int32_t width = 0;
 		int32_t height = 0;
 		GLuint cubemapTexture = 0;
+		std::vector<uint8_t> nulldata;
 
 		int32_t widthes[6];
 		int32_t heights[6];
@@ -95,19 +98,44 @@ namespace ace
 			if (heights[i] != height) goto End;
 		}
 
+		int32_t mipmapCount;
+		mipmapCount = ImageHelper::GetMipmapCount(width, height);
+		nulldata.resize(width * height * 4);
+		for (size_t i = 0; i < nulldata.size(); i++)
+		{
+			nulldata[i] = 0;
+		}
+
 		glGenTextures(1, &cubemapTexture);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
 
 		for (int i = 0; i < 6; i++)
 		{
-			glTexImage2D(target[i], 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffers[i]);
+			for (auto m = 0; m < mipmapCount; m++)
+			{
+				auto w = width;
+				auto h = height;
+				ImageHelper::GetMipmapSize(m, w, h);
+				if (m == 0)
+				{
+					glTexImage2D(target[i], m, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffers[i]);
+				}
+				else
+				{
+					glTexImage2D(target[i], m, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, nulldata.data());
+				}
+				GLCheckError();
+			}
 		}
 
 		for (int32_t i = 0; i < 6; i++)
 		{
 			SafeDeleteArray(buffers[i]);
 		}
-		return new CubemapTexture_Imp_GL(graphics, cubemapTexture);
+
+		GLCheckError();
+
+		return new CubemapTexture_Imp_GL(graphics, cubemapTexture, Vector2DI(width, height), mipmapCount);
 
 	End:;
 
@@ -115,6 +143,7 @@ namespace ace
 		{
 			SafeDeleteArray(buffers[i]);
 		}
+		GLCheckError();
 
 		return nullptr;
 	}
