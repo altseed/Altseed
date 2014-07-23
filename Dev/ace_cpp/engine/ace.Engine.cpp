@@ -509,6 +509,16 @@ namespace ace
 		m_core->TakeScreenshot(path);
 	}
 
+	float Engine::GetDeltaTime()
+	{
+		return m_core->GetDeltaTime();
+	}
+
+	void Engine::SetDeltaTime(float deltaTime)
+	{
+		m_core->SetDeltaTime(deltaTime);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -531,6 +541,26 @@ namespace ace
 	void Engine::SetTargetFPS(int32_t fps)
 	{
 		m_core->SetTargetFPS(fps);
+	}
+
+	float Engine::GetTimeSpan()
+	{
+		return m_core->GetTimeSpan();
+	}
+
+	void Engine::SetTimeSpan(float timeSpan)
+	{
+		m_core->SetTimeSpan(timeSpan);
+	}
+
+	FramerateMode Engine::GetFramerateMode()
+	{
+		return m_core->GetFramerateMode();
+	}
+
+	void Engine::SetFramerateMode(FramerateMode framerateMode)
+	{
+		m_core->SetFramerateMode(framerateMode);
 	}
 
 	void Engine::Close()

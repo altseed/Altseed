@@ -300,6 +300,27 @@ namespace ace
 		m_mouse->RefreshInputState();
 		m_joystickContainer->RefreshJoysticks();
 
+		// 経過時間計算
+		{
+			if (deltaTimePreviousTime == 0)
+			{
+				deltaTimePreviousTime = GetTime();
+			}
+
+			auto delta = GetTime() - deltaTimePreviousTime;
+			deltaTimePreviousTime = GetTime();
+			
+			if (framerateMode == FramerateMode::Constant)
+			{
+				deltaTime = (60.0f / (float) m_targetFPS) * timeSpan;
+			}
+			else if (framerateMode == FramerateMode::Variable)
+			{
+				deltaTime = delta / (1000.0f * (1000.0f / 60.0f)) * timeSpan;
+			}
+
+		}
+
 		return m_window->DoEvent();
 	}
 
@@ -474,6 +495,16 @@ namespace ace
 		m_screenShots.push_back(path);
 	}
 
+	float Core_Imp::GetDeltaTime() const
+	{
+		return deltaTime;
+	}
+
+	void Core_Imp::SetDeltaTime(float deltaTime)
+	{
+		this->deltaTime = deltaTime;
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -496,6 +527,27 @@ namespace ace
 	void Core_Imp::SetTargetFPS(int32_t fps)
 	{
 		m_targetFPS = fps;
+	}
+
+	float Core_Imp::GetTimeSpan() const
+	{
+		return timeSpan;
+	}
+
+	void Core_Imp::SetTimeSpan(float timeSpan)
+	{
+		this->timeSpan = timeSpan;
+	}
+
+
+	FramerateMode Core_Imp::GetFramerateMode() const
+	{
+		return framerateMode;
+	}
+
+	void Core_Imp::SetFramerateMode(FramerateMode framerateMode)
+	{
+		this->framerateMode = framerateMode;
 	}
 
 	//----------------------------------------------------------------------------------
