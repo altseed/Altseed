@@ -89,6 +89,22 @@ namespace ace {
 		Horizontal,
 	};
 
+	/**
+		@brief	フレームレートの制御方法
+	*/
+	enum class FramerateMode : int32_t
+	{
+		/**
+			@brief	固定フレームレート
+		*/
+		Constant,
+
+		/**
+			@brief	可変フレームレート
+		*/
+		Variable,
+	};
+
 	enum eTextureFormat
 	{
 		TEXTURE_FORMAT_R8G8B8A8_UNORM = 0,

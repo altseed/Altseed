@@ -6,6 +6,22 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/// <summary>
+	/// フレームレートの制御方法
+	/// </summary>
+	public enum FramerateMode
+	{
+		/// <summary>
+		/// 固定フレームレート
+		/// </summary>
+		Constant = swig.FramerateMode.Constant,
+
+		/// <summary>
+		/// 可変フレームレート
+		/// </summary>
+		Variable = swig.FramerateMode.Variable,
+	}
+
 	public class EngineOption
 	{
 		/// <summary>
@@ -319,6 +335,25 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 1フレームで経過した時間を(1/60s)単位で取得、または設定する。
+		/// </summary>
+		/// <remarks>
+		/// 基本的に開発者は使用する取得のみで設定する必要はない。
+		/// 何らかの理由で無理やり経過時間を指定する場合に使用する。
+		/// </remarks>
+		public static float DeltaTime
+		{
+			get
+			{
+				return core.GetDeltaTime();
+			}
+			set
+			{
+				core.SetDeltaTime(value);
+			}
+		}
+
+		/// <summary>
 		/// 現在のFPSを取得する。
 		/// </summary>
 		public static float CurrentFPS
@@ -341,6 +376,36 @@ namespace ace
 			set
 			{
 				core.SetTargetFPS(value);
+			}
+		}
+
+		/// <summary>
+		/// 間を指定可能なオブジェクトの実時間あたりの進行速度を取得、または設定する。
+		/// </summary>
+		public static float TimeSpan
+		{
+			get
+			{
+				return core.GetTimeSpan();
+			}
+			set
+			{
+				core.SetTimeSpan(value);
+			}
+		}
+
+		/// <summary>
+		/// フレームレートの制御方法を取得、または設定する。
+		/// </summary>
+		public static FramerateMode FramerateMode
+		{
+			get
+			{
+				return (FramerateMode)core.GetFramerateMode();
+			}
+			set
+			{
+				core.SetFramerateMode((swig.FramerateMode)value);
 			}
 		}
 
