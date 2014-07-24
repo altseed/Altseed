@@ -35,10 +35,5 @@ namespace ace
 
 		virtual void BeginDrawing() = 0;
 		virtual void EndDrawing() = 0;
-
-		virtual void AddDrawnTriangle(
-			const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
-			const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
-			const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3) = 0;
 	};
 }

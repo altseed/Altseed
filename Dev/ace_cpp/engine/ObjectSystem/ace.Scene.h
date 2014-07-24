@@ -97,23 +97,6 @@ namespace ace
 		void RemoveComponent(astring key);
 
 		/**
-			@brief	シーンの最終的な描画内容を表示する三角形を追加する。(非推奨)
-			@param	pos1	座標1
-			@param	uv1		UV1
-			@param	col1	色1
-			@param	pos2	座標2
-			@param	uv2		UV2
-			@param	col2	色2
-			@param	pos3	座標3
-			@param	uv3		UV3
-			@param	col3	色3
-		*/
-		void AddDrawnTriangle(
-			const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
-			const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
-			const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3);
-
-		/**
 			@brief	全てのレイヤーとポストエフェクトが描画され終わった画面をテクスチャとして取得する。
 			@return	画面
 			@note

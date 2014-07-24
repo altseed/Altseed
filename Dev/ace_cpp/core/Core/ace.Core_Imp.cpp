@@ -185,7 +185,7 @@ namespace ace
 
 		m_sound = new Sound_Imp();
 
-		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, m_window->GetSize());
+		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
 		m_profiler = Profiler_Imp::Create();
 		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, m_window->GetSize());
 
@@ -250,7 +250,7 @@ namespace ace
 
 		m_sound = new Sound_Imp();
 
-		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, Vector2DI(width,height));
+		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
 		m_file = File_Imp::Create();
 		m_profiler = Profiler_Imp::Create();

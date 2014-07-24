@@ -107,8 +107,8 @@ namespace ace
 			o->CalculateMatrix_RT();
 		}
 
-		// エフェクトの更新 TODO 時間を計算するように
-		rendering.EffectManager->Update(1.0f);
+		// エフェクトの更新
+		rendering.EffectManager->Update(deltaTime);
 
 		RenderingProperty prop;
 		prop.IsLightweightMode = rendering.Settings.IsLightweightMode;
@@ -1264,12 +1264,14 @@ namespace ace
 		rendering.Settings = m_settings;
 	}
 
-	void Renderer3D::BeginRendering()
+	void Renderer3D::BeginRendering(float deltaTime)
 	{
 		assert(m_renderTarget != nullptr);
 
 		// ここで命令を終了させないとフリーズする環境がある
 		m_graphics->FlushCommand();
+
+		this->deltaTime = deltaTime;
 
 		if (m_multithreadingMode)
 		{

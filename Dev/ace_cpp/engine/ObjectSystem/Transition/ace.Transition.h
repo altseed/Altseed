@@ -25,10 +25,23 @@ namespace ace
 		*/
 		virtual void OnUpdate();
 
+
+		/**
+		@brief	シーンが切り替わっているか取得する。
+		@return	シーンが切り替わっているか?
+		*/
+		bool IsSceneChanged() const;
+
 		/**
 		@brief	実際にシーンを次のシーンに切り替える。
 		*/
 		void ChangeScene();
+
+		/**
+		@brief	シーン遷移処理が終了したか取得する。
+		@return	シーン遷移処理が終了したか?
+		*/
+		bool IsFinished() const;
 
 		/**
 		@brief	シーン遷移処理を終了する。

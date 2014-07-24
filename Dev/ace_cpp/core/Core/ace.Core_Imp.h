@@ -55,7 +55,7 @@ namespace ace {
 		int64_t				m_startFrameTime;
 
 		float				deltaTime = 0.0f;
-		float				timeSpan = 0.0f;
+		float				timeSpan = 1.0f;
 		int64_t				deltaTimePreviousTime = 0;
 
 		FramerateMode	framerateMode = FramerateMode::Constant;

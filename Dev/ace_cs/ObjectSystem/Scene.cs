@@ -135,29 +135,6 @@ namespace ace
 		}
 
 		/// <summary>
-		/// シーンの最終的な描画内容を表示する三角形を追加する。(非推奨)
-		/// </summary>
-		/// <param name="pos1">座標1</param>
-		/// <param name="uv1">UV1</param>
-		/// <param name="col1">色1</param>
-		/// <param name="pos2">座標2</param>
-		/// <param name="uv2">UV2</param>
-		/// <param name="col2">色2</param>
-		/// <param name="pos3">座標3</param>
-		/// <param name="uv3">UV2</param>
-		/// <param name="col3">色3</param>
-		public void AddDrawnTriangle(
-			ref Vector2DF pos1, ref Vector2DF uv1, ref Color col1,
-			ref Vector2DF pos2, ref Vector2DF uv2, ref Color col2,
-			ref Vector2DF pos3, ref Vector2DF uv3, ref Color col3)
-		{
-			CoreScene.AddDrawnTriangle(
-				ref pos1, ref uv1, ref col1,
-				ref pos2, ref uv2, ref col2,
-				ref pos3, ref uv3, ref col3);
-		}
-
-		/// <summary>
 		/// 全てのレイヤーとポストエフェクトが描画され終わった画面をテクスチャとして取得する。
 		/// </summary>
 		/// <returns>画面</returns>

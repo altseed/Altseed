@@ -1,6 +1,8 @@
 ﻿
 #pragma once
 
+#include "../../ace.Core.Base.h"
+
 #include "ace.CoreLayer3D.h"
 
 #include "../ace.CoreLayer_Imp.h"
@@ -25,10 +27,12 @@ namespace ace
 		std::set<ObjectPtr> m_objects;
 
 		Renderer3D*		m_renderer;
+		
+		Core*			core = nullptr;
 
 		bool			m_isDrawnTemp;
 
-		CoreLayer3D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize, RenderSettings settings);
+		CoreLayer3D_Imp(Core* core, Graphics* graphics, Log* log, Vector2DI windowSize, RenderSettings settings);
 		virtual ~CoreLayer3D_Imp();
 
 	public:

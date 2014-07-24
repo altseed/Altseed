@@ -1,6 +1,7 @@
 ﻿
 #pragma once
 
+#include "../ace.Core.Base.h"
 #include "2D/ace.CoreObject2D.h"
 #include "2D/ace.CoreTextureObject2D.h"
 #include "2D/ace.CoreCameraObject2D.h"
