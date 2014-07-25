@@ -1,13 +1,14 @@
 ﻿
 #include "ace.TransitionFade.h"
+#include "../../ace.Engine.h"
 
 namespace ace
 {
-	TransitionFade::TransitionFade(int32_t fadeoutDuration, int32_t fadeinDuration)
+	TransitionFade::TransitionFade(float fadeoutDuration, float fadeinDuration)
 		: fadeoutDuration(fadeoutDuration)
 		, fadeinDuration(fadeinDuration)
 	{
-	
+
 	}
 
 	TransitionFade::~TransitionFade()
@@ -22,21 +23,29 @@ namespace ace
 
 		if (time < fadeoutDuration)
 		{
-			cp = 1.0f- (float) time / (float) fadeoutDuration;
+			cp = 1.0f - time / fadeoutDuration;
 		}
-		else if (time < fadeoutDuration + fadeinDuration)
+		else if (time <= fadeoutDuration + fadeinDuration)
 		{
-			cn = (float) (time - fadeoutDuration) / (float) fadeinDuration;
-		}
+			if (!IsSceneChanged())
+			{
+				ChangeScene();
+			}
 
-		if (time == fadeoutDuration)
-		{
-			ChangeScene();
+			cn = (time - fadeoutDuration) / fadeinDuration;
 		}
-		
-		if (time == fadeoutDuration + fadeinDuration)
+		else
 		{
-			Finish();
+			if (!IsSceneChanged())
+			{
+				ChangeScene();
+			}
+
+			if (!IsFinished())
+			{
+				Finish();
+			}
+
 			cn = 1.0f;
 		}
 
@@ -71,6 +80,6 @@ namespace ace
 			Vector2DF(1.0, 1.0),
 			Vector2DF(0.0, 1.0));
 
-		time++;
+		time += Engine::GetDeltaTime();
 	}
 }

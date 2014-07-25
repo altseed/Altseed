@@ -14,6 +14,8 @@
 #include "3D/ace.CoreEffectObject3D_Imp.h"
 #include "3D/ace.CoreModelObject3D_Imp.h"
 
+#include "../Core/ace.Core_Imp.h"
+
 #include "ace.CoreScene_Imp.h"
 
 #include "PostEffect/ace.CorePostEffect_Imp.h"
@@ -29,8 +31,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	ObjectSystemFactory_Imp::ObjectSystemFactory_Imp(Graphics_Imp* graphics, Log_Imp* logger, Vector2DI windowSize)
-		: m_graphics(graphics)
+	ObjectSystemFactory_Imp::ObjectSystemFactory_Imp(Core_Imp* core, Graphics_Imp* graphics, Log_Imp* logger, Vector2DI windowSize)
+		: core(core)
+		, m_graphics(graphics)
 		, m_logger(logger)
 		, m_windowSize(windowSize)
 	{
@@ -78,7 +81,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	CoreLayer2D* ObjectSystemFactory_Imp::CreateLayer2D()
 	{
-		return new CoreLayer2D_Imp(m_graphics, m_logger, m_windowSize);
+		return new CoreLayer2D_Imp(core, m_graphics, m_logger, m_windowSize);
 	}
 
 	CoreModelObject3D* ObjectSystemFactory_Imp::CreateModelObject3D()
@@ -103,7 +106,7 @@ namespace ace
 
 	CoreLayer3D* ObjectSystemFactory_Imp::CreateLayer3D(RenderSettings settings)
 	{
-		return new CoreLayer3D_Imp(m_graphics, m_logger, m_windowSize, settings);
+		return new CoreLayer3D_Imp(core, m_graphics, m_logger, m_windowSize, settings);
 	}
 
 	//----------------------------------------------------------------------------------

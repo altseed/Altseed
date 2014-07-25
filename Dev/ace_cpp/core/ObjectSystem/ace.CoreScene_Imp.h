@@ -15,15 +15,6 @@ namespace ace
 		friend class ObjectSystemFactory_Imp;
 	private:
 
-		struct Triangle
-		{
-			Vector2DF	Pos1, Pos2, Pos3;
-			Vector2DF	UV1, UV2, UV3;
-			Color		Col1, Col2, Col3;
-		};
-
-		std::vector<Triangle>	m_triangles;
-		LayerRenderer*			m_layerRenderer;
 		PostEffectRenderer*		m_postEffectRenderer;
 
 		std::list<LayerPtr> m_layers;
@@ -58,11 +49,6 @@ namespace ace
 		void EndPostEffect(CorePostEffect* postEffect);
 		RenderTexture2D* GetSrcTarget();
 		RenderTexture2D* GetDstTarget();
-
-		void AddDrawnTriangle(
-			const Vector2DF& pos1, const Vector2DF& uv1, const Color& col1,
-			const Vector2DF& pos2, const Vector2DF& uv2, const Color& col2,
-			const Vector2DF& pos3, const Vector2DF& uv3, const Color& col3);
 
 		void BeginDrawing();
 

@@ -11,17 +11,17 @@ namespace ace
 		: public Transition
 	{
 	private:
-		int32_t fadeinDuration = 0;
-		int32_t fadeoutDuration = 0;
-		int32_t time = 0;
+		float fadeinDuration = 0;
+		float fadeoutDuration = 0;
+		float time = 0;
 
 	public:
 		/**
 			@brief	コンストラクタ
-			@param	fadeoutDuration	フェードアウトにかかるフレーム数
-			@param	fadeinDuration	フェードインにかかるフレーム数
+			@param	fadeoutDuration	フェードアウトにかかる時間(1/60秒単位)
+			@param	fadeinDuration	フェードインにかかる時間(1/60秒単位)
 		*/
-		TransitionFade(int32_t fadeoutDuration, int32_t fadeinDuration);
+		TransitionFade(float fadeoutDuration, float fadeinDuration);
 		virtual ~TransitionFade();
 
 		void OnUpdate() override;

@@ -128,6 +128,7 @@ namespace ace
 		std::shared_ptr<Texture2D>				m_dummyTextureNormal;
 		
 		RenderingEvent	m_event;
+		float	deltaTime = 0.0f;
 
 	public:
 		void Rendering();
@@ -145,7 +146,7 @@ namespace ace
 
 		void Flip();
 
-		void BeginRendering();
+		void BeginRendering(float deltaTime);
 		void EndRendering();
 
 		void SetSkyAmbientColor(Color color) { m_skyAmbientColor = color; }

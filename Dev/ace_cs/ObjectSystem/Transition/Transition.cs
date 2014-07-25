@@ -54,11 +54,33 @@ namespace ace
 		internal protected virtual void OnUpdate() { }
 
 		/// <summary>
+		/// シーンが切り替わっているか取得する。
+		/// </summary>
+		public bool IsSceneChanged
+		{
+			get
+			{
+				return SwigObject.GetIsSceneChanged();
+			}
+		}
+
+		/// <summary>
 		/// 実際にシーンを次のシーンに切り替える。
 		/// </summary>
 		public void ChangeScene()
 		{
 			SwigObject.ChangeScene();
+		}
+
+		/// <summary>
+		/// シーン遷移処理が終了したか取得する。
+		/// </summary>
+		public bool IsFinished
+		{
+			get
+			{
+				return SwigObject.IsFinished();
+			}
 		}
 
 		/// <summary>

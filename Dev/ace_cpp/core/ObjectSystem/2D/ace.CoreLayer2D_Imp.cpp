@@ -10,6 +10,8 @@
 #include "ace.CoreMapObject2D_Imp.h"
 #include "ace.CoreEffectObject2D_Imp.h"
 
+#include "../../Core/ace.Core.h"
+
 using namespace std;
 
 namespace ace
@@ -17,8 +19,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	CoreLayer2D_Imp::CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize)
+	CoreLayer2D_Imp::CoreLayer2D_Imp(Core* core, Graphics* graphics, Log* log, Vector2DI windowSize)
 		: CoreLayer_Imp(graphics, windowSize)
+		, core(core)
 		, m_objects(list<ObjectPtr>())
 		, m_cameras(list<CoreCameraObject2D*>())
 		, m_renderer(nullptr)
@@ -131,8 +134,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::EndUpdating()
 	{
-		// エフェクトの更新 TODO 時間を計算するように
-		m_renderer->GetEffectManager()->Update(1.0f);
+		m_renderer->GetEffectManager()->Update(core->GetDeltaTime());
 		m_renderer->GetEffectManager()->Flip();
 	}
 

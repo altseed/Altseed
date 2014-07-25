@@ -20,9 +20,19 @@ namespace ace
 	
 	}
 
+	bool Transition::IsSceneChanged() const
+	{
+		return coreTransition->GetIsSceneChanged();
+	}
+
 	void Transition::ChangeScene()
 	{
 		coreTransition->ChangeScene();
+	}
+
+	bool Transition::IsFinished() const
+	{
+		return coreTransition->IsFinished();
 	}
 
 	void Transition::Finish()
