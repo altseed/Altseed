@@ -60,7 +60,6 @@ namespace ace
 		/// <returns>成否</returns>
 		public bool Lock(ref TextureLockInfomation info)
 		{
-			info.texture = this;
 			return SwigObject.Lock(ref info);
 		}
 
