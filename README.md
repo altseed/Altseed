@@ -1,7 +1,7 @@
 ﻿amusement-creators-engine
 =========================
 
-*** 公式チャット
+### 公式チャット
 
 [Chatwork](https://chatwork.com/g/ac-engine)
 
