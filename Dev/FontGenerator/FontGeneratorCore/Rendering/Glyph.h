@@ -59,6 +59,6 @@ namespace FontGenerator
 		BorderSetting::Ptr GetBorderSetting() const;
 		void SetBorderSetting(BorderSetting::Ptr value);
 
-		RasterizedGlyph::Ptr Rasterize();
+		std::shared_ptr<RasterizedGlyph> Rasterize();
 	};
 }
