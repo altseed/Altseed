@@ -226,6 +226,11 @@ if (!(condition)) { \
 
 #endif
 
+/**
+	@brief	static_castとdynamic_castの値が違う場合に警告するassert
+*/
+#define ASSERT_STATIC_CAST(type,name) assert( static_cast<type>(name) == dynamic_cast<type>(name) )
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

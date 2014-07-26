@@ -65,6 +65,7 @@ namespace ace
 	{
 		if (m_effect == nullptr) return;
 		if (m_renderer == nullptr) return;
+		ASSERT_STATIC_CAST(Effect_Imp*, m_effect);
 
 		auto e = (Effect_Imp*) m_effect;
 		auto ne = e->GetEffect();
@@ -106,13 +107,16 @@ namespace ace
 	void CoreEffectObject2D_Imp::OnAdded(Renderer2D* renderer)
 	{
 		assert(m_renderer == nullptr);
+		ASSERT_STATIC_CAST(Renderer2D_Imp*, renderer);
+
 		m_renderer = (Renderer2D_Imp*)renderer;
 	}
 
 	void CoreEffectObject2D_Imp::OnRemoving(Renderer2D* renderer)
 	{
 		assert(m_renderer != nullptr);
-		
+		ASSERT_STATIC_CAST(Renderer2D_Imp*, renderer);
+
 		for (auto& h : m_handles)
 		{
 			m_renderer->GetEffectManager()->StopEffect(h);
