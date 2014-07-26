@@ -35,6 +35,11 @@
 * [ガウスぼかし](./PostEffect/PostEffectGaussianBlur.md)
 * [ライトブルーム](./PostEffect/PostEffectLightBloom.md)
 
+### シーン遷移
+
+* トランジション
+* フェード
+
 ### 入力
 
 * マウス
