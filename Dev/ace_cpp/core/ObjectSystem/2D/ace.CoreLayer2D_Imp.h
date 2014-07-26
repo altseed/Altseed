@@ -1,4 +1,8 @@
-﻿#pragma once
+﻿
+#pragma once
+
+#include "../../ace.Core.Base.h"
+
 #include "ace.CoreLayer2D.h"
 #include "ace.CoreObject2D.h"
 #include "ace.CoreCameraObject2D.h"
@@ -23,8 +27,9 @@ namespace ace
 		std::list<ObjectPtr> m_objects;
 
 		Renderer2D_Imp*		m_renderer;
+		Core*				core = nullptr;
 
-		CoreLayer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
+		CoreLayer2D_Imp(Core* core, Graphics* graphics, Log* log, Vector2DI windowSize);
 		virtual ~CoreLayer2D_Imp();
 
 		/**

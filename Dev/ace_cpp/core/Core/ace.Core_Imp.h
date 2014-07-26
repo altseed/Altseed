@@ -54,6 +54,12 @@ namespace ace {
 		int64_t				m_previousTime;
 		int64_t				m_startFrameTime;
 
+		float				deltaTime = 0.0f;
+		float				timeSpan = 1.0f;
+		int64_t				deltaTimePreviousTime = 0;
+
+		FramerateMode	framerateMode = FramerateMode::Constant;
+
 		Core_Imp();
 		virtual ~Core_Imp();
 
@@ -96,11 +102,23 @@ namespace ace {
 
 		void TakeScreenshot(const achar* path);
 
-		float GetCurrentFPS();
+		float GetDeltaTime() const override;
 
-		int32_t GetTargetFPS();
+		void SetDeltaTime(float deltaTime) override;
 
-		void SetTargetFPS(int32_t fps);
+		float GetCurrentFPS() override;
+
+		int32_t GetTargetFPS() override;
+
+		void SetTargetFPS(int32_t fps) override;
+
+		float GetTimeSpan() const override;
+
+		void SetTimeSpan(float timeSpan) override;
+
+		FramerateMode GetFramerateMode() const override;
+
+		void SetFramerateMode(FramerateMode framerateMode) override;
 
 		void* GetWindowHandle() const;
 

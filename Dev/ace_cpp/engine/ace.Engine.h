@@ -132,6 +132,21 @@ namespace ace {
 		static void TakeScreenshot(const achar* path);
 
 		/**
+		@brief	1フレームで経過した実時間(1/60秒を1とした値)を取得する。
+		@return	経過時間(1/60s)単位
+		*/
+		static float GetDeltaTime();
+
+		/**
+		@brief	1フレームで経過した時間を外部から設定する。
+		@param	deltaTime	経過時間(1/60秒を1とした値)単位
+		@note
+		基本的に開発者は使用する必要はない。
+		何らかの理由で無理やり経過時間を指定する場合に使用する。
+		*/
+		static void SetDeltaTime(float deltaTime);
+
+		/**
 		@brief	現在のFPSを取得する。
 		@return FPS
 		*/
@@ -148,6 +163,30 @@ namespace ace {
 		@param	fps	FPS
 		*/
 		static void SetTargetFPS(int32_t fps);
+
+		/**
+		@brief	時間を指定可能なオブジェクトの実時間あたりの進行速度を取得する。
+		@return	進行速度
+		*/
+		static float GetTimeSpan();
+
+		/**
+		@brief	時間を指定可能なオブジェクトの実時間あたりの進行速度を設定する。
+		@param	timeSpan	進行速度
+		*/
+		static void SetTimeSpan(float timeSpan);
+
+		/**
+		@brief	フレームレートの制御方法を取得する。
+		@return	制御方法
+		*/
+		static FramerateMode GetFramerateMode();
+
+		/**
+		@brief	フレームレートの制御方法を設定する。
+		@param	framerateMode	制御方法
+		*/
+		static void SetFramerateMode(FramerateMode framerateMode);
 
 		/**
 			@brief	ウインドウを閉じる。

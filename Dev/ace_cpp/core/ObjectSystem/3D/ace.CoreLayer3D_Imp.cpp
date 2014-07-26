@@ -7,10 +7,13 @@
 #include "ace.CoreObject3D.h"
 #include "ace.CoreObject3D_Imp.h"
 
+#include "../../Core/ace.Core.h"
+
 namespace ace
 {
-	CoreLayer3D_Imp::CoreLayer3D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize, RenderSettings settings)
+	CoreLayer3D_Imp::CoreLayer3D_Imp(Core* core, Graphics* graphics, Log* log, Vector2DI windowSize, RenderSettings settings)
 		: CoreLayer_Imp(graphics, windowSize)
+		, core(core)
 		, m_objects(std::set<ObjectPtr>())
 		, m_renderer(nullptr)
 	{
@@ -78,7 +81,7 @@ namespace ace
 
 		if (m_isDrawnTemp)
 		{
-			m_renderer->BeginRendering();
+			m_renderer->BeginRendering(core->GetDeltaTime());
 		}
 	}
 

@@ -151,12 +151,6 @@ namespace ace
 		public IntPtr Pixels;
 		public int Pitch;
 		public Vector2DI Size;
-
-		/// <summary>
-		/// ロックしたテクスチャの参照
-		/// C++側に影響がないよう、最後尾に配置
-		/// </summary>
-		internal Texture2D texture;
 	}
 
 	/// <summary>

@@ -1,4 +1,7 @@
-﻿#pragma once
+﻿
+#pragma once
+
+#include "../ace.Core.Base_Imp.h"
 #include "ace.ObjectSystemFactory.h"
 
 namespace ace
@@ -6,12 +9,13 @@ namespace ace
 	class ObjectSystemFactory_Imp : public ObjectSystemFactory
 	{
 	private:
+		Core_Imp*	core = nullptr;
 		Graphics_Imp* m_graphics;
 		Log_Imp* m_logger;
 		Vector2DI m_windowSize;
 
 	public:
-		ObjectSystemFactory_Imp(Graphics_Imp* graphics, Log_Imp* logger, Vector2DI windowSize);
+		ObjectSystemFactory_Imp(Core_Imp* core, Graphics_Imp* graphics, Log_Imp* logger, Vector2DI windowSize);
 		virtual ~ObjectSystemFactory_Imp();
 
 		CoreTextureObject2D* CreateTextureObject2D() override;

@@ -159,6 +159,7 @@
     <Compile Include="swig\eTextureFormat.cs" />
     <Compile Include="swig\eVisalizedBuffer.cs" />
     <Compile Include="swig\Font.cs" />
+    <Compile Include="swig\FramerateMode.cs" />
     <Compile Include="swig\Graphics.cs" />
     <Compile Include="swig\GraphicsDeviceType.cs" />
     <Compile Include="swig\Graphics_Imp.cs" />

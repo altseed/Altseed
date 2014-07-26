@@ -120,6 +120,21 @@ namespace ace {
 		virtual void TakeScreenshot(const achar* path) = 0;
 
 		/**
+			@brief	1フレームで経過した時間を実時間(1/60秒を1とした値)で取得する。
+			@return	経過時間時間(1/60秒を1とした値)
+		*/
+		virtual float GetDeltaTime() const = 0;
+
+		/**
+		@brief	1フレームで経過した時間を外部から設定する。
+		@param	deltaTime	経過時間(1/60s)単位
+		@note
+		基本的に開発者は使用する必要はない。
+		何らかの理由で無理やり経過時間を指定する場合に使用する。
+		*/
+		virtual void SetDeltaTime(float deltaTime) = 0;
+
+		/**
 			@brief	現在のFPSを取得する。
 			@return FPS
 		*/
@@ -136,6 +151,30 @@ namespace ace {
 			@param	fps	FPS
 		*/
 		virtual void SetTargetFPS(int32_t fps) = 0;
+
+		/**
+		@brief	時間を指定可能なオブジェクトの実時間あたりの進行速度を取得する。
+		@return	進行速度
+		*/
+		virtual float GetTimeSpan() const = 0;
+
+		/**
+		@brief	時間を指定可能なオブジェクトの実時間あたりの進行速度を設定する。
+		@param	timeSpan	進行速度
+		*/
+		virtual void SetTimeSpan(float timeSpan) = 0;
+
+		/**
+		@brief	フレームレートの制御方法を取得する。
+		@return	制御方法
+		*/
+		virtual FramerateMode GetFramerateMode() const = 0;
+
+		/**
+		@brief	フレームレートの制御方法を設定する。
+		@param	framerateMode	制御方法
+		*/
+		virtual void SetFramerateMode(FramerateMode framerateMode) = 0;
 
 		/**
 			@brief	Windowsの場合、ウインドウのハンドルを返す。

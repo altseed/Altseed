@@ -11,16 +11,16 @@ namespace ace
 	/// </summary>
 	public class TransitionFade : Transition
 	{
-		int fadeinDuration = 0;
-		int fadeoutDuration = 0;
-		int time = 0;
+		float fadeinDuration = 0;
+		float fadeoutDuration = 0;
+		float time = 0;
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		/// <param name="fadeoutDuration">フェードアウトにかかるフレーム数</param>
-		/// <param name="fadeinDuration">フェードインにかかるフレーム数</param>
-		public TransitionFade(int fadeoutDuration, int fadeinDuration)
+		/// <param name="fadeoutDuration">フェードアウトにかかる実時間(1/60秒を1とした値)</param>
+		/// <param name="fadeinDuration">フェードインにかかる実時間(1/60秒を1とした値)</param>
+		public TransitionFade(float fadeoutDuration, float fadeinDuration)
 		{
 			this.fadeinDuration = fadeinDuration;
 			this.fadeoutDuration = fadeoutDuration;
@@ -33,21 +33,29 @@ namespace ace
 
 			if (time < fadeoutDuration)
 			{
-				cp = 1.0f - (float)time / (float)fadeoutDuration;
+				cp = 1.0f - time / fadeoutDuration;
 			}
-			else if (time < fadeoutDuration + fadeinDuration)
+			else if (time <= fadeoutDuration + fadeinDuration)
 			{
-				cn = (float)(time - fadeoutDuration) / (float)fadeinDuration;
-			}
+				if (!IsSceneChanged)
+				{
+					ChangeScene();
+				}
 
-			if (time == fadeoutDuration)
-			{
-				ChangeScene();
+				cn = (time - fadeoutDuration) / fadeinDuration;
 			}
-
-			if (time == fadeoutDuration + fadeinDuration)
+			else
 			{
-				Finish();
+				if (!IsSceneChanged)
+				{
+					ChangeScene();
+				}
+
+				if (!IsFinished)
+				{
+					Finish();
+				}
+
 				cn = 1.0f;
 			}
 
@@ -82,7 +90,7 @@ namespace ace
 				new Vector2DF(1.0f, 1.0f),
 				new Vector2DF(0.0f, 1.0f));
 
-			time++;
+			time += Engine.DeltaTime;
 		}
 	}
 }

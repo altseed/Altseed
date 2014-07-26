@@ -185,7 +185,7 @@ namespace ace
 
 		m_sound = new Sound_Imp();
 
-		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, m_window->GetSize());
+		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
 		m_profiler = Profiler_Imp::Create();
 		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, m_window->GetSize());
 
@@ -250,7 +250,7 @@ namespace ace
 
 		m_sound = new Sound_Imp();
 
-		m_objectSystemFactory = new ObjectSystemFactory_Imp(m_graphics, m_logger, Vector2DI(width,height));
+		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
 		m_file = File_Imp::Create();
 		m_profiler = Profiler_Imp::Create();
@@ -299,6 +299,27 @@ namespace ace
 		m_keyboard->RefreshInputState();
 		m_mouse->RefreshInputState();
 		m_joystickContainer->RefreshJoysticks();
+
+		// 経過時間計算
+		{
+			if (deltaTimePreviousTime == 0)
+			{
+				deltaTimePreviousTime = GetTime();
+			}
+
+			auto delta = GetTime() - deltaTimePreviousTime;
+			deltaTimePreviousTime = GetTime();
+			
+			if (framerateMode == FramerateMode::Constant)
+			{
+				deltaTime = (60.0f / (float) m_targetFPS) * timeSpan;
+			}
+			else if (framerateMode == FramerateMode::Variable)
+			{
+				deltaTime = delta / (1000.0f * (1000.0f / 60.0f)) * timeSpan;
+			}
+
+		}
 
 		return m_window->DoEvent();
 	}
@@ -474,6 +495,16 @@ namespace ace
 		m_screenShots.push_back(path);
 	}
 
+	float Core_Imp::GetDeltaTime() const
+	{
+		return deltaTime;
+	}
+
+	void Core_Imp::SetDeltaTime(float deltaTime)
+	{
+		this->deltaTime = deltaTime;
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -496,6 +527,27 @@ namespace ace
 	void Core_Imp::SetTargetFPS(int32_t fps)
 	{
 		m_targetFPS = fps;
+	}
+
+	float Core_Imp::GetTimeSpan() const
+	{
+		return timeSpan;
+	}
+
+	void Core_Imp::SetTimeSpan(float timeSpan)
+	{
+		this->timeSpan = timeSpan;
+	}
+
+
+	FramerateMode Core_Imp::GetFramerateMode() const
+	{
+		return framerateMode;
+	}
+
+	void Core_Imp::SetFramerateMode(FramerateMode framerateMode)
+	{
+		this->framerateMode = framerateMode;
 	}
 
 	//----------------------------------------------------------------------------------
