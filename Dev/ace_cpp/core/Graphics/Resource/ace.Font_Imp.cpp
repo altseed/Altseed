@@ -67,7 +67,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DI Font_Imp::CalcTextureSize(const achar* text, WritingDirection writingDirection)
+	Vector2DI Font_Imp::CalcTextureSize(const achar* text, WritingDirection writingDirection) const
 	{
 		if (m_glyphs.empty() && m_textures.empty())
 		{
@@ -100,7 +100,7 @@ namespace ace {
 				continue;
 			}
 
-			auto src = m_glyphs[*c].GetSrc();
+			auto src = m_glyphs.at(*c).GetSrc();
 			if (writingDirection == WritingDirection::Horizontal)
 			{
 				size.X += src.Width;
@@ -139,9 +139,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Font_Imp::HasGlyphData(achar c)
+	bool Font_Imp::HasGlyphData(achar c) const
 	{
-		return m_glyphs.count(c) == 1;
+		return m_glyphs.find(c) != m_glyphs.end();
 	}
 
 	//----------------------------------------------------------------------------------

@@ -32,7 +32,7 @@ namespace ace {
 
 	public:
 		GlyphData GetGlyphData(achar c);
-		bool HasGlyphData(achar c);
+		bool HasGlyphData(achar c) const;
 
 		std::shared_ptr<Texture2D> GetTexture(int index) const;
 		// リロード
@@ -41,7 +41,7 @@ namespace ace {
 		Font_Imp(Graphics* graphics, const achar* affFilePath);
 		virtual ~Font_Imp();
 
-		Vector2DI CalcTextureSize(const achar* text, WritingDirection writingDirection) override;
+		Vector2DI CalcTextureSize(const achar* text, WritingDirection writingDirection) const override;
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
