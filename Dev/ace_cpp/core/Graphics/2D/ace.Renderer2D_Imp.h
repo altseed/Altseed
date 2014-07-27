@@ -105,7 +105,6 @@ namespace ace {
 
 		Graphics_Imp*	m_graphics;
 		Log*			m_log;
-		Vector2DI		m_windowSize;
 
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_vertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_indexBuffer;
@@ -128,7 +127,7 @@ namespace ace {
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
 
 	public:
-		Renderer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize);
+		Renderer2D_Imp(Graphics* graphics, Log* log);
 		virtual ~Renderer2D_Imp();
 
 		void SetArea(const RectF& area) override;

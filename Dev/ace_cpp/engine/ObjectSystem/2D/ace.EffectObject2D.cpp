@@ -19,6 +19,11 @@ namespace ace
 		return m_coreObject.get();
 	}
 
+	std::shared_ptr<Effect> EffectObject2D::GetEffect()
+	{
+		return m_coreObject->GetEffect();
+	}
+
 	void EffectObject2D::SetEffect(std::shared_ptr<Effect> effect)
 	{
 		m_coreObject->SetEffect(effect.get());

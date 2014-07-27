@@ -4,6 +4,11 @@
 
 namespace ace
 {
+	Effect* CoreEffectObject2D_Imp::GetEffect_() const
+	{
+		return m_effect;
+	}
+
 	Effekseer::Matrix43 CoreEffectObject2D_Imp::CalcEffectMatrix()
 	{
 		auto pos = GetPosition();

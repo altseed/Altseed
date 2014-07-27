@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace test_cs.Graphics.PostEffect
+namespace sample_cs.Graphics.PostEffect
 {
 	class CustomPostEffect : ISample
 	{

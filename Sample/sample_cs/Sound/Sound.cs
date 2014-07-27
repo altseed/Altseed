@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace test_cs.Sound
+namespace sample_cs.Sound
 {
 	/// <summary>
 	/// 音を鳴らすサンプル

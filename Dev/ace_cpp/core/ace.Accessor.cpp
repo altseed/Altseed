@@ -10,6 +10,10 @@
 #include "Graphics/Resource/ace.Shader2D.h"
 #include "Graphics/Resource/ace.Material2D.h"
 
+#include "ObjectSystem/2D/ace.CoreEffectObject2D.h"
+
+
+
 namespace ace
 {
 	SoundSource* Accessor::Sound_CreateSoundSource(Sound* o, const achar* path, bool isDecompressed)
@@ -45,5 +49,10 @@ namespace ace
 	KeyframeAnimation* Accessor::AnimationSyatem_CreateKeyframeAnimation(AnimationSystem* o)
 	{
 		return o->CreateKeyframeAnimation_();
+	}
+
+	Effect* Accessor::CoreEffectObject2D_GetEffect(CoreEffectObject2D* o)
+	{
+		return o->GetEffect_();
 	}
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace test_cs.Window
+namespace sample_cs.Window
 {
 	/// <summary>
 	/// 外部のウインドウにaceの機能で描画を行う。

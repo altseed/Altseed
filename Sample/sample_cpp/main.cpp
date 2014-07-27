@@ -16,6 +16,8 @@ extern void Mouse();
 extern void Joystick();
 extern void Sound();
 
+extern void EffectObject2D();
+
 extern void PostEffect();
 
 int main(int argc, char** argv)
@@ -35,6 +37,8 @@ int main(int argc, char** argv)
 		INFO(Joystick),
 
 		INFO(Sound),
+
+		INFO(EffectObject2D),
 
 		INFO(PostEffect),
 

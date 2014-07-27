@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace test_cs
+namespace sample_cs
 {
 	/// <summary>
 	/// ログを Log.html に出力するサンプル。

@@ -24,6 +24,9 @@
     <ClCompile Include="..\Graphics\PostEffect\PostEffect.cpp">
       <Filter>Graphics\PostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">
@@ -40,6 +43,9 @@
     </Filter>
     <Filter Include="Graphics\PostEffect">
       <UniqueIdentifier>{d7f17293-1e97-4c96-8b32-7d0354c56c8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\2D">
+      <UniqueIdentifier>{66bd8d3a-2abb-4ca1-b2dc-5aa986424124}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

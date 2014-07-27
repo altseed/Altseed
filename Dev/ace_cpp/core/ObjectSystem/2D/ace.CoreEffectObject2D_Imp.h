@@ -24,6 +24,8 @@ namespace ace
 
 		Effekseer::Matrix43 CalcEffectMatrix();
 
+		Effect* GetEffect_() const override;
+
 	public:
 		CoreEffectObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreEffectObject2D_Imp();
