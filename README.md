@@ -9,6 +9,12 @@
 
 定例ミーティング以外も質問等ありましたらどうぞ。
 
+### メーリングリスト
+
+[GoogleGroup](https://groups.google.com/forum/#!forum/amusementcreatorsengine)
+
+### ドキュメント
+
 [コンパイル手順](Document/HowToCompile/HowToCompile.md)
 
 [ロードマップ・現在のタスク](Document/Development/Task.md)
