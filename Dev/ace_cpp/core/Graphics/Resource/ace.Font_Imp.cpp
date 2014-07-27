@@ -26,7 +26,7 @@ namespace ace {
 
 		int pictureNumber = 0;
 
-		ace::astring pngExtension = ace::astring(ToAString(".png"));
+		ace::astring pngExtension = ToAString(".png");
 
 		while (true)
 		{
@@ -34,7 +34,7 @@ namespace ace {
 			ace::astring strNumber = ace::ToAString(std::to_string(pictureNumber).c_str());
 
 			//PNGファイルへのパス文字列を構成。
-			ace::astring pngFilePath = (rawFilePath + ace::astring(ToAString("_")) + strNumber + pngExtension);
+			ace::astring pngFilePath = (rawFilePath + ToAString("_") + strNumber + pngExtension);
 
 			//この連番のファイルが存在するか否か調べて、存在しなかったらループを抜ける。
 
@@ -67,7 +67,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const Vector2DI Font_Imp::CalcTextureSize(const achar* text, WritingDirection writingDirection)
+	Vector2DI Font_Imp::CalcTextureSize(const achar* text, WritingDirection writingDirection)
 	{
 		if (m_glyphs.empty() && m_textures.empty())
 		{
@@ -161,7 +161,7 @@ namespace ace {
 
 		int pictureNumber = 0;
 
-		ace::astring pngExtension = ace::astring(ToAString(".png"));
+		ace::astring pngExtension = ToAString(".png");
 
 		while (true)
 		{
@@ -169,7 +169,7 @@ namespace ace {
 			ace::astring strNumber = ace::astring(ace::ToAString(std::to_string(pictureNumber).c_str()));
 
 			//PNGファイルへのパス文字列を構成。
-			ace::astring pngFilePath = (rawFilePath + ace::astring(ToAString("_")) + strNumber + pngExtension);
+			ace::astring pngFilePath = (rawFilePath + ToAString("_") + strNumber + pngExtension);
 
 			auto texture = m_graphics->CreateTexture2D(pngFilePath.c_str());
 
