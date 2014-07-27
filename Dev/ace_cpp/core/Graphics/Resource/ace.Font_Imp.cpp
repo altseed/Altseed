@@ -67,7 +67,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DI Font_Imp::CalcTextureSize(const achar* text, WritingDirection writingDirection)
+	const Vector2DI Font_Imp::CalcTextureSize(const achar* text, WritingDirection writingDirection)
 	{
 		if (m_glyphs.empty() && m_textures.empty())
 		{

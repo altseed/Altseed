@@ -23,6 +23,6 @@ namespace ace
 		@param	writingDirection	描画方向
 		@return	文字の描画領域
 		*/
-		virtual Vector2DI CalcTextureSize(const achar* text, WritingDirection writingDirection) = 0;
+		virtual const Vector2DI CalcTextureSize(const achar* text, WritingDirection writingDirection) = 0;
 	};
 }
