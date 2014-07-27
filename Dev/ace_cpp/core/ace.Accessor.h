@@ -24,5 +24,7 @@ namespace ace
 		static AnimationClip* AnimationSyatem_CreateAnimationClip(AnimationSystem* o);
 		static AnimationSource* AnimationSyatem_CreateAnimationSource(AnimationSystem* o);
 		static KeyframeAnimation* AnimationSyatem_CreateKeyframeAnimation(AnimationSystem* o);
+
+		static Effect* CoreEffectObject2D_GetEffect(CoreEffectObject2D* o);
 	};
 }

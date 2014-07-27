@@ -27,6 +27,7 @@ namespace ace
 		std::list<ObjectPtr> m_objects;
 
 		Renderer2D_Imp*		m_renderer;
+		Renderer2D_Imp*		m_rendererForCamera;
 		Core*				core = nullptr;
 
 		CoreLayer2D_Imp(Core* core, Graphics* graphics, Log* log, Vector2DI windowSize);

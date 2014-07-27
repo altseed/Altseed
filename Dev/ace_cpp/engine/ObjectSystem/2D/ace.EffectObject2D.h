@@ -18,6 +18,12 @@ namespace ace
 		virtual ~EffectObject2D();
 
 		/**
+		@brief	描画に使用するエフェクトを取得する。
+		@return	エフェクト
+		*/
+		std::shared_ptr<Effect> GetEffect();
+
+		/**
 		@brief	描画に使用するエフェクトを設定する。
 		@param	effect	エフェクト
 		*/

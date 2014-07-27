@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace test_cs.Input
+namespace sample_cs.Input
 {
     class Keyboard:ISample
     {

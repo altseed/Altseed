@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace test_cs
+namespace sample_cs
 {
 	static class Helper
 	{
@@ -61,7 +61,7 @@ namespace test_cs
 			{
 				var type = _.GetType();
 				var title = type.Namespace + "." + type.Name;
-				Console.WriteLine( "[{0}] {1}", i, title.Replace( "test_cs.", "" ) );
+				Console.WriteLine( "[{0}] {1}", i, title.Replace( "sample_cs.", "" ) );
 			} );
 			Console.WriteLine( "[{0}] 終了", samples.Length );
 			Helper.DrawLine();

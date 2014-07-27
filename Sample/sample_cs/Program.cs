@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace test_cs
+namespace sample_cs
 {
 	class Program
 	{
@@ -23,6 +23,8 @@ namespace test_cs
                 new Input.Joystick(),
 
 				new Sound.Sound(),
+
+				new Graphics._2D.EffectObject2D(),
 
 				new Graphics.PostEffect.PostEffect(),
 				new Graphics.PostEffect.CustomPostEffect(),

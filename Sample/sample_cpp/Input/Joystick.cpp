@@ -4,7 +4,7 @@
 void Joystick()
 {
 	// aceを初期化する。
-	ace::Engine::Initialize(L"Joystick", 640, 480, ace::EngineOption());
+	ace::Engine::Initialize(ace::ToAString("Joystick").c_str(), 640, 480, ace::EngineOption());
 
 	// ジョイスティックが最低一つ接続されているかどうかを確認する。
 	if (!ace::Engine::GetJoystickContainer()->IsPresentAt(0))

@@ -7,7 +7,7 @@
 void Empty()
 {
 	// aceを初期化する
-	ace::Engine::Initialize(L"Empty", 640, 480, ace::EngineOption());
+	ace::Engine::Initialize(ace::ToAString("Empty").c_str(), 640, 480, ace::EngineOption());
 
 	// aceが進行可能かチェックする。
 	while (ace::Engine::DoEvents())

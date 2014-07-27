@@ -10,7 +10,6 @@ namespace ace
 		: m_src(RectI(0, 0, 100, 100))
 		, m_dst(RectI(0, 0, 100, 100))
 		, m_renderTarget(nullptr)
-		, m_renderer(nullptr)
 		, CoreObject2D_Imp(graphics)
 	{
 		ResetBuffer();
@@ -19,20 +18,16 @@ namespace ace
 	CoreCameraObject2D_Imp::~CoreCameraObject2D_Imp()
 	{
 		SafeRelease(m_renderTarget);
-		SafeDelete(m_renderer);
 	}
 
 	void CoreCameraObject2D_Imp::ResetBuffer()
 	{
 		SafeRelease(m_renderTarget);
-		SafeDelete(m_renderer);
 
 		m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(
 			m_src.Width,
 			m_src.Height,
 			eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
-
-		m_renderer = new Renderer2D_Imp(m_graphics, nullptr, m_src.GetSize());
 	}
 
 
@@ -70,12 +65,6 @@ namespace ace
 		return translate;
 	}
 
-	Renderer2D* CoreCameraObject2D_Imp::GetRenderer() const
-	{
-		return m_renderer;
-	}
-
-
 	void CoreCameraObject2D_Imp::SetForRenderTarget()
 	{
 		m_graphics->SetRenderTarget(m_renderTarget, nullptr);
@@ -87,11 +76,11 @@ namespace ace
 		throw "CameraObject2D の Draw 関数は無効です。";
 	}
 
-	void CoreCameraObject2D_Imp::FlushToBuffer()
+	void CoreCameraObject2D_Imp::FlushToBuffer(Renderer2D* renderer)
 	{
-		m_renderer->SetArea(RectF(m_src.X, m_src.Y, m_src.Width, m_src.Height));
-		m_renderer->DrawCache();
-		m_renderer->ClearCache();
+		renderer->SetArea(RectF(m_src.X, m_src.Y, m_src.Width, m_src.Height));
+		renderer->DrawCache();
+		renderer->ClearCache();
 	}
 
 	void CoreCameraObject2D_Imp::DrawBuffer(Renderer2D* renderer)

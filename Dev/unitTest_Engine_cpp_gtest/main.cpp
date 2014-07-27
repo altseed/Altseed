@@ -60,7 +60,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//CALL_ENGINE_TEST(Graphics, Transition, true)
+	//CALL_ENGINE_TEST(Graphics, CameraObject2D, false)
 	//return 0;
 
 	//TestCamera(true);

@@ -46,7 +46,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Renderer2D_Imp::Renderer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize)
+	Renderer2D_Imp::Renderer2D_Imp(Graphics* graphics, Log* log)
 		: m_graphics(nullptr)
 		, m_log(nullptr)
 	{
@@ -54,9 +54,6 @@ namespace ace {
 		m_log = log;
 
 		SafeAddRef(graphics);
-
-		m_windowSize = windowSize;
-
 
 		m_vertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(SpriteVertex), SpriteCount * 4, true);
 		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(SpriteCount * 6, false, false);
@@ -198,11 +195,11 @@ namespace ace {
 		{
 			Matrix44 effectProjMat;
 			Matrix44 effectCameraMat;
-			effectProjMat.SetOrthographicRH(area.Width, area.Height, 0.1, 200.0);
+			effectProjMat.SetOrthographicRH(area.Width, area.Height, 0.1, 800.0);
 
 			auto px = area.X + area.Width / 2;
 			auto py = -(area.Y + area.Height / 2);
-			effectCameraMat.SetLookAtRH(Vector3DF(px, py, 100), Vector3DF(px, py, 0), Vector3DF(0, 1, 0));
+			effectCameraMat.SetLookAtRH(Vector3DF(px, py, 400), Vector3DF(px, py, 0), Vector3DF(0, 1, 0));
 
 			// 行列を転置して設定
 			

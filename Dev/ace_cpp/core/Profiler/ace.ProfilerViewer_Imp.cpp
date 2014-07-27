@@ -20,7 +20,7 @@ namespace ace
 	{
 		//auto texture = (Texture2D*)graphics->CreateTexture2D_Imp(ace::ToAString(L"Data/Texture/Sampler.png").c_str());
 		//m_materTexture = CreateSharedPtr(texture);
-		m_renderer = new Renderer2D_Imp(graphics, log, windowSize);
+		m_renderer = new Renderer2D_Imp(graphics, log);
 	}
 
 	//----------------------------------------------------------------------------------

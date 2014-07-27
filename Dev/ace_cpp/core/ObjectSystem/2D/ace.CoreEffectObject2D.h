@@ -1,15 +1,30 @@
 ﻿
 #pragma once
 #include "ace.CoreObject2D.h"
+#include "../../Graphics/Resource/ace.Effect.h"
 
 namespace ace
 {
 	class CoreEffectObject2D
 		: public CoreObject2D
 	{
+		friend class Accessor;
+
+	protected:
+		virtual Effect* GetEffect_() const = 0;
+
 	public:
 		CoreEffectObject2D() {}
 		virtual ~CoreEffectObject2D() {}
+
+#if! SWIG
+		std::shared_ptr<Effect> GetEffect()
+		{
+			auto v = GetEffect_();
+			SafeAddRef(v);
+			return CreateSharedPtrWithReleaseDLL(v);
+		}
+#endif
 
 		virtual void SetEffect(Effect* effect) = 0;
 

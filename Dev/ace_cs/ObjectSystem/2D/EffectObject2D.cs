@@ -29,12 +29,19 @@ namespace ace
 		}
 
 		/// <summary>
-		/// 描画に使用するエフェクトを設定する。
+		/// 描画に使用するエフェクトを取得、または設定する。
 		/// </summary>
-		/// <param name="effect">エフェクト</param>
-		public void SetEffect(Effect effect)
+		public Effect Effect
 		{
-			coreEffectObject.SetEffect(IG.GetEffect(effect));
+			get
+			{
+				return GC.GenerateEffect(swig.Accessor.CoreEffectObject2D_GetEffect(coreEffectObject), GC.GenerationType.Get);
+			}
+			set
+			{
+				coreEffectObject.SetEffect(IG.GetEffect(value));
+			}
+			
 		}
 
 		/// <summary>
