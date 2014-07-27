@@ -31,10 +31,10 @@ namespace ace {
 		std::map<achar, GlyphData> m_glyphs;
 
 	public:
-		const GlyphData GetGlyphData(achar c);
-		const bool HasGlyphData(achar c);
+		GlyphData GetGlyphData(achar c);
+		bool HasGlyphData(achar c);
 
-		const std::shared_ptr<Texture2D> GetTexture(int index) const;
+		std::shared_ptr<Texture2D> GetTexture(int index) const;
 		// リロード
 		void Reload(const achar* affFilePath);
 

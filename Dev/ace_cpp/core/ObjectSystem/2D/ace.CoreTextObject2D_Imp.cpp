@@ -3,6 +3,8 @@
 #include "../../Graphics/Resource/ace.Font_Imp.h"
 #include "../../Graphics/Resource/ace.Texture2D_Imp.h"
 
+#define NOMINMAX
+
 namespace ace
 {
 	CoreTextObject2D_Imp::CoreTextObject2D_Imp(Graphics_Imp* graphics)
@@ -30,7 +32,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const Font* CoreTextObject2D_Imp::GetFont() const
+	Font* CoreTextObject2D_Imp::GetFont() const
 	{
 		return m_font;
 	}
@@ -46,7 +48,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const WritingDirection CoreTextObject2D_Imp::GetWritingDirection() const
+	WritingDirection CoreTextObject2D_Imp::GetWritingDirection() const
 	{
 		return m_writingDirection;
 	}
@@ -78,7 +80,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const Vector2DF CoreTextObject2D_Imp::GetCenterPosition() const
+	Vector2DF CoreTextObject2D_Imp::GetCenterPosition() const
 	{
 		return m_centerPosition;
 	}
@@ -94,7 +96,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const Color CoreTextObject2D_Imp::GetColor() const
+	Color CoreTextObject2D_Imp::GetColor() const
 	{
 		return m_color;
 	}
@@ -110,7 +112,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const bool CoreTextObject2D_Imp::GetTurnLR() const
+	bool CoreTextObject2D_Imp::GetTurnLR() const
 	{
 		return m_turnLR;
 	}
@@ -126,7 +128,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const bool CoreTextObject2D_Imp::GetTurnUL() const
+	bool CoreTextObject2D_Imp::GetTurnUL() const
 	{
 		return m_turnUL;
 	}
@@ -142,7 +144,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const int CoreTextObject2D_Imp::GetDrawingPriority() const
+	int CoreTextObject2D_Imp::GetDrawingPriority() const
 	{
 		return m_drawingPtiority;
 	}
@@ -158,7 +160,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const AlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
+	AlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
 	{
 		return m_alphablend;
 	}
@@ -280,12 +282,12 @@ namespace ace
 			if (m_writingDirection == WritingDirection::Horizontal)
 			{
 				drawPosition += ace::Vector2DF(glyphSrc.Width, 0);
-				offset = (std::max)(glyphSrc.Width, offset);
+				offset = max(glyphSrc.Width, offset);
 			}
 			else
 			{
 				drawPosition += ace::Vector2DF(0, glyphSrc.Height);
-				offset = (std::max)(glyphSrc.Height, offset);
+				offset = max(glyphSrc.Height, offset);
 			}
 		}
 

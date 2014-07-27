@@ -5,22 +5,6 @@
 #include "../ace.Graphics_Imp.h"
 #include "../ace.GraphicsResourceContainer.h"
 
-
-#define Z_SOLO
-#include <png.h>
-#include <pngstruct.h>
-#include <pnginfo.h>
-
-#if _WIN32
-#if _DEBUG
-#pragma comment(lib,"libpng16.Debug.lib")
-#pragma comment(lib,"zlib.Debug.lib")
-#else
-#pragma comment(lib,"libpng16.Release.lib")
-#pragma comment(lib,"zlib.Release.lib")
-#endif
-#endif
-
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -69,7 +53,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const RectF Chip2D_Imp::GetSrc() const
+	RectF Chip2D_Imp::GetSrc() const
 	{
 		return m_src;
 	}
@@ -85,7 +69,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const Color Chip2D_Imp::GetColor() const
+	Color Chip2D_Imp::GetColor() const
 	{
 		return m_color;
 	}
@@ -101,7 +85,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const bool Chip2D_Imp::GetTurnLR() const
+	bool Chip2D_Imp::GetTurnLR() const
 	{
 		return m_turnLR;
 	}
@@ -117,7 +101,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const bool Chip2D_Imp::GetTurnUL() const
+	bool Chip2D_Imp::GetTurnUL() const
 	{
 		return m_turnUL;
 	}
@@ -133,7 +117,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const AlphaBlend Chip2D_Imp::GetAlphaBlendMode() const
+	AlphaBlend Chip2D_Imp::GetAlphaBlendMode() const
 	{
 		return m_alphaBlend;
 	}

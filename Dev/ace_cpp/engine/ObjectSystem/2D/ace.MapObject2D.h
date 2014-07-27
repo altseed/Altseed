@@ -27,12 +27,12 @@ namespace ace
 		/**
 		@brief	このオブジェクトの原点位置を取得する。この位置が、描画する際の描画・拡縮・回転の中心となる。
 		*/
-		const Vector2DF GetCenterPosition() const;
+		Vector2DF GetCenterPosition() const;
 
 		/**
 		@brief	このオブジェクトの描画優先度を取得します。
 		*/
-		const int GetDrawingPriority() const;
+		int GetDrawingPriority() const;
 
 		/**
 		@brief	このオブジェクトの原点位置を設定する。この位置が、描画する際の描画・拡縮・回転の中心となる。
@@ -47,11 +47,11 @@ namespace ace
 		/**
 		@brief	このオブジェクトに描画チップを追加する。
 		*/
-		const bool AddChip(std::shared_ptr<Chip2D> chip);
+		bool AddChip(std::shared_ptr<Chip2D> chip);
 
 		/**
 		@brief	このオブジェクトから描画チップを削除する。
 		*/
-		const bool RemoveChip(std::shared_ptr<Chip2D> chip);
+		bool RemoveChip(std::shared_ptr<Chip2D> chip);
 	};
 }
