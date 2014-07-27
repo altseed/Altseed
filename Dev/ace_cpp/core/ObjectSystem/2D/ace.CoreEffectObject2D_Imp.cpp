@@ -42,7 +42,7 @@ namespace ace
 		// Y軸回転
 		Effekseer::Matrix43 rotyMat;
 		Effekseer::Matrix43 ef2Mat;
-		rotyMat.RotationY(DegreeToRadian(m_rotation));
+		rotyMat.RotationY(DegreeToRadian(-m_rotation));
 		Effekseer::Matrix43::Multiple(ef2Mat, rotyMat, efMat);
 
 		return ef2Mat;
