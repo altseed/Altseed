@@ -4,7 +4,16 @@
 #include "ace.Font_Imp.h"
 #include "../ace.Graphics_Imp.h"
 #include "../ace.GraphicsResourceContainer.h"
-#define NOMINMAX
+
+#ifdef WIN32
+#ifdef min
+#undef min
+#endif 
+#ifdef max
+#undef max
+#endif
+#endif
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -88,13 +97,13 @@ namespace ace {
 			{
 				if (writingDirection == WritingDirection::Horizontal)
 				{
-					sumSize.X = max(size.X, sumSize.X);
+					sumSize.X = std::max(size.X, sumSize.X);
 					sumSize.Y += size.Y;
 				}
 				else
 				{
 					sumSize.X += size.X;
-					sumSize.Y = max(size.Y, sumSize.Y);
+					sumSize.Y = std::max(size.Y, sumSize.Y);
 				}
 				size = Vector2DI(0, 0);
 				continue;
@@ -104,11 +113,11 @@ namespace ace {
 			if (writingDirection == WritingDirection::Horizontal)
 			{
 				size.X += src.Width;
-				size.Y = max(src.Height, size.Y);
+				size.Y = std::max(src.Height, size.Y);
 			}
 			else
 			{
-				size.X = max(src.Width, size.X);
+				size.X = std::max(src.Width, size.X);
 				size.Y += src.Height;
 			}
 		}

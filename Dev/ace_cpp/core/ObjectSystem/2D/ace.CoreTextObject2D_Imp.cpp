@@ -3,7 +3,14 @@
 #include "../../Graphics/Resource/ace.Font_Imp.h"
 #include "../../Graphics/Resource/ace.Texture2D_Imp.h"
 
-#define NOMINMAX
+#ifdef WIN32
+#ifdef min
+#undef min
+#endif 
+#ifdef max
+#undef max
+#endif
+#endif
 
 namespace ace
 {
@@ -282,12 +289,12 @@ namespace ace
 			if (m_writingDirection == WritingDirection::Horizontal)
 			{
 				drawPosition += ace::Vector2DF(glyphSrc.Width, 0);
-				offset = max(glyphSrc.Width, offset);
+				offset = std::max(glyphSrc.Width, offset);
 			}
 			else
 			{
 				drawPosition += ace::Vector2DF(0, glyphSrc.Height);
-				offset = max(glyphSrc.Height, offset);
+				offset = std::max(glyphSrc.Height, offset);
 			}
 		}
 
