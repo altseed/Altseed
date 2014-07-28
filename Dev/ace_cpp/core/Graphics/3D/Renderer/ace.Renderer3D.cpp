@@ -1,39 +1,41 @@
 ﻿
 #include "ace.Renderer3D.h"
-#include "ace.RenderedObject3D.h"
-#include "ace.RenderedCameraObject3D.h"
-#include "ace.RenderedDirectionalLightObject3D.h"
-#include "../ace.Graphics_Imp.h"
 
-#include "../Resource/ace.ShaderCache.h"
-#include "../Resource/ace.NativeShader_Imp.h"
-#include "../Resource/ace.VertexBuffer_Imp.h"
-#include "../Resource/ace.IndexBuffer_Imp.h"
-#include "../Resource/ace.DepthBuffer_Imp.h"
+#include "../../ace.Graphics_Imp.h"
 
-#include "../Shader/DX/3D/Screen_VS.h"
-#include "../Shader/DX/3D/Paste_PS.h"
-#include "../Shader/GL/3D/Screen_VS.h"
-#include "../Shader/GL/3D/Paste_PS.h"
+#include "../Object/ace.RenderedObject3D.h"
+#include "../Object/ace.RenderedCameraObject3D.h"
+#include "../Object/ace.RenderedDirectionalLightObject3D.h"
 
-#include "../Shader/DX/3D/Blur_PS.h"
-#include "../Shader/GL/3D/Blur_PS.h"
+#include "../../Resource/ace.ShaderCache.h"
+#include "../../Resource/ace.NativeShader_Imp.h"
+#include "../../Resource/ace.VertexBuffer_Imp.h"
+#include "../../Resource/ace.IndexBuffer_Imp.h"
+#include "../../Resource/ace.DepthBuffer_Imp.h"
 
-#include "../Shader/DX/3D/PostEffect/SSAO_PS.h"
-#include "../Shader/DX/3D/PostEffect/SSAO_Blur_PS.h"
+#include "../../Shader/DX/3D/Screen_VS.h"
+#include "../../Shader/DX/3D/Paste_PS.h"
+#include "../../Shader/GL/3D/Screen_VS.h"
+#include "../../Shader/GL/3D/Paste_PS.h"
 
-#include "../Shader/DX/3D/Light_PS.h"
-#include "../Shader/GL/3D/Light_PS.h"
+#include "../../Shader/DX/3D/Blur_PS.h"
+#include "../../Shader/GL/3D/Blur_PS.h"
 
-#include "../Shader/DX/3D/DeferredBuffer_PS.h"
-#include "../Shader/GL/3D/DeferredBuffer_PS.h"
+#include "../../Shader/DX/3D/PostEffect/SSAO_PS.h"
+#include "../../Shader/DX/3D/PostEffect/SSAO_Blur_PS.h"
+
+#include "../../Shader/DX/3D/Light_PS.h"
+#include "../../Shader/GL/3D/Light_PS.h"
+
+#include "../../Shader/DX/3D/DeferredBuffer_PS.h"
+#include "../../Shader/GL/3D/DeferredBuffer_PS.h"
 
 #if _WIN32
-#include "../Platform/DX11/ace.Graphics_Imp_DX11.h"
+#include "../../Platform/DX11/ace.Graphics_Imp_DX11.h"
 #endif
-#include "../Platform/GL/ace.Graphics_Imp_GL.h"
+#include "../../Platform/GL/ace.Graphics_Imp_GL.h"
 
-#include "../Shader/ace.Vertices.h"
+#include "../../Shader/ace.Vertices.h"
 
 #include <cstddef>
 

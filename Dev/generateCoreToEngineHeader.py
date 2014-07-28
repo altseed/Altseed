@@ -93,14 +93,14 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Chip2D.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Effect.h")
 
-fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/ace.Deformer.h")
-fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/ace.Mesh.h")
-fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/ace.Model.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Model.h")
 
-fromCoreToEngine.readLines("ace_cpp/core/Graphics/Animation/ace.KeyframeAnimation.h")
-fromCoreToEngine.readLines("ace_cpp/core/Graphics/Animation/ace.AnimationSource.h")
-fromCoreToEngine.readLines("ace_cpp/core/Graphics/Animation/ace.AnimationClip.h")
-fromCoreToEngine.readLines("ace_cpp/core/Graphics/Animation/ace.AnimationSystem.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationClip.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSystem.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/ace.Graphics.h")
 

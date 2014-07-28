@@ -1,6 +1,6 @@
 ﻿
 #include "ace.RenderedObject3D.h"
-#include "../ace.Graphics_Imp.h"
+#include "../../ace.Graphics_Imp.h"
 
 namespace ace
 {

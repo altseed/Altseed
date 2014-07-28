@@ -6,7 +6,7 @@
 #include "ace.CoreLayer3D.h"
 
 #include "../ace.CoreLayer_Imp.h"
-#include "../../Graphics/3D/ace.Renderer3D.h"
+#include "../../Graphics/3D/Renderer/ace.Renderer3D.h"
 #include "../../Graphics/2D/ace.LayerRenderer.h"
 
 #include <Math/ace.Vector2DI.h>

@@ -1,8 +1,8 @@
 ﻿
 #pragma once
 
-#include "../../ace.Core.Base.h"
-#include "../../ace.ReferenceObject.h"
+#include "../../../../ace.Core.Base.h"
+#include "../../../../ace.ReferenceObject.h"
 
 #include <Math/ace.Vector2DF.h>
 #include <Graphics/ace.Graphics.Common.h>

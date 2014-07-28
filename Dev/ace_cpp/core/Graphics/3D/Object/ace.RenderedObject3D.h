@@ -6,10 +6,10 @@
 #include <Math/ace.Matrix44.h>
 #include <Graphics/ace.Color.h>
 
-#include "../../ace.Core.Base.h"
-#include "../../ace.Core.Base_Imp.h"
+#include "../../../ace.Core.Base.h"
+#include "../../../ace.Core.Base_Imp.h"
 
-#include "../../ace.ReferenceObject.h"
+#include "../../../ace.ReferenceObject.h"
 
 
 namespace ace

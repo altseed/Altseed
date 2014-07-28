@@ -1,11 +1,11 @@
 ﻿
 #include "ace.RenderedCameraObject3D.h"
-#include "../ace.Graphics_Imp.h"
+#include "../../ace.Graphics_Imp.h"
 
-#include "../Resource/ace.RenderTexture2D_Imp.h"
-#include "../Resource/ace.DepthBuffer_Imp.h"
+#include "../../Resource/ace.RenderTexture2D_Imp.h"
+#include "../../Resource/ace.DepthBuffer_Imp.h"
 
-#include "../2D/ace.PostEffectRenderer.h"
+#include "../../2D/ace.PostEffectRenderer.h"
 
 namespace ace
 {

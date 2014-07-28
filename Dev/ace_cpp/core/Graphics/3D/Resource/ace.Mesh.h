@@ -3,9 +3,9 @@
 
 #include <ace.common.Base.h>
 
-#include "../../ace.Core.Base.h"
+#include "../../../ace.Core.Base.h"
 
-#include "../../ace.ReferenceObject.h"
+#include "../../../ace.ReferenceObject.h"
 
 namespace ace
 {

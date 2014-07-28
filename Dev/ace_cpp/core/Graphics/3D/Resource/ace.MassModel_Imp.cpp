@@ -1,10 +1,10 @@
 ﻿
 #include "ace.MassModel_Imp.h"
 
-#include "../ace.Graphics_Imp.h"
+#include "../../ace.Graphics_Imp.h"
 
-#include "../Resource/ace.VertexBuffer_Imp.h"
-#include "../Resource/ace.IndexBuffer_Imp.h"
+#include "../../Resource/ace.VertexBuffer_Imp.h"
+#include "../../Resource/ace.IndexBuffer_Imp.h"
 
 namespace ace
 {

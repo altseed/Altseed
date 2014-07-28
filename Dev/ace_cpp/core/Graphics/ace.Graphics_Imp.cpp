@@ -20,9 +20,9 @@
 
 #include "Resource/ace.ShaderCache.h"
 
-#include "3D/ace.Mesh_Imp.h"
-#include "3D/ace.Deformer_Imp.h"
-#include "3D/ace.Model_Imp.h"
+#include "3D/Resource/ace.Mesh_Imp.h"
+#include "3D/Resource/ace.Deformer_Imp.h"
+#include "3D/Resource/ace.Model_Imp.h"
 
 #if _WIN32
 #include "Platform/DX11/ace.Graphics_Imp_DX11.h"

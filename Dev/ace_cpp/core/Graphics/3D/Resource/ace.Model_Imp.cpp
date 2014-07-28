@@ -4,14 +4,14 @@
 #include "ace.Mesh_Imp.h"
 #include "ace.Deformer_Imp.h"
 
-#include "ace.RenderedModelObject3D.h"
+#include "../Object/ace.RenderedModelObject3D.h"
 
-#include "../Animation/ace.AnimationClip_Imp.h"
-#include "../Animation/ace.AnimationSource_Imp.h"
-#include "../Animation/ace.KeyframeAnimation_Imp.h"
+#include "Animation/ace.AnimationClip_Imp.h"
+#include "Animation/ace.AnimationSource_Imp.h"
+#include "Animation/ace.KeyframeAnimation_Imp.h"
 
-#include "../ace.Graphics_Imp.h"
-#include "../ace.GraphicsResourceContainer.h"
+#include "../../ace.Graphics_Imp.h"
+#include "../../ace.GraphicsResourceContainer.h"
 
 namespace ace
 {

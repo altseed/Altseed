@@ -1,10 +1,10 @@
 ﻿
 #include "ace.RenderedEffectObject3D.h"
-#include "ace.Renderer3D.h"
+#include "../Renderer/ace.Renderer3D.h"
 
-#include "../ace.Graphics_Imp.h"
+#include "../../ace.Graphics_Imp.h"
 
-#include "../Resource/ace.Effect_Imp.h"
+#include "../../Resource/ace.Effect_Imp.h"
 
 namespace ace
 {

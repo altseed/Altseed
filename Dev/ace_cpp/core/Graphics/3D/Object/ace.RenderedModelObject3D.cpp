@@ -1,28 +1,28 @@
 ﻿
 #include "ace.RenderedModelObject3D.h"
-#include "ace.Mesh_Imp.h"
-#include "ace.Deformer_Imp.h"
-#include "ace.Model_Imp.h"
-#include "ace.Renderer3D.h"
+#include "../Resource/ace.Mesh_Imp.h"
+#include "../Resource/ace.Deformer_Imp.h"
+#include "../Resource/ace.Model_Imp.h"
+#include "../Renderer/ace.Renderer3D.h"
 
-#include "../Animation/ace.AnimationClip_Imp.h"
-#include "../Animation/ace.AnimationSource_Imp.h"
-#include "../Animation/ace.KeyframeAnimation_Imp.h"
+#include "../Resource/Animation/ace.AnimationClip_Imp.h"
+#include "../Resource/Animation/ace.AnimationSource_Imp.h"
+#include "../Resource/Animation/ace.KeyframeAnimation_Imp.h"
 
-#include "../ace.Graphics_Imp.h"
-#include "../Resource/ace.ShaderCache.h"
-#include "../Resource/ace.NativeShader_Imp.h"
-#include "../Resource/ace.IndexBuffer_Imp.h"
+#include "../../ace.Graphics_Imp.h"
+#include "../../Resource/ace.ShaderCache.h"
+#include "../../Resource/ace.NativeShader_Imp.h"
+#include "../../Resource/ace.IndexBuffer_Imp.h"
 
-#include "../Shader/DX/3D/Lightweight_Model_Internal_VS.h"
-#include "../Shader/DX/3D/Lightweight_Model_Internal_PS.h"
-#include "../Shader/DX/3D/Model_Internal_VS.h"
-#include "../Shader/DX/3D/Model_Internal_PS.h"
+#include "../../Shader/DX/3D/Lightweight_Model_Internal_VS.h"
+#include "../../Shader/DX/3D/Lightweight_Model_Internal_PS.h"
+#include "../../Shader/DX/3D/Model_Internal_VS.h"
+#include "../../Shader/DX/3D/Model_Internal_PS.h"
 
-#include "../Shader/GL/3D/Lightweight_Model_Internal_VS.h"
-#include "../Shader/GL/3D/Lightweight_Model_Internal_PS.h"
-#include "../Shader/GL/3D/Model_Internal_VS.h"
-#include "../Shader/GL/3D/Model_Internal_PS.h"
+#include "../../Shader/GL/3D/Lightweight_Model_Internal_VS.h"
+#include "../../Shader/GL/3D/Lightweight_Model_Internal_PS.h"
+#include "../../Shader/GL/3D/Model_Internal_VS.h"
+#include "../../Shader/GL/3D/Model_Internal_PS.h"
 
 #include <cstddef>
 
