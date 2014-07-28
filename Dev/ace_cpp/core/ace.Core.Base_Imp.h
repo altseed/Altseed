@@ -81,6 +81,36 @@ namespace ace {
 
 	class AnimationSystem_Imp;
 
+
+	struct RenderState
+	{
+		bool								DepthTest;
+		bool								DepthWrite;
+		AlphaBlend							AlphaBlendState;
+		eCullingType						CullingType;
+		
+		void Reset()
+		{
+			DepthTest = false;
+			DepthWrite = false;
+			AlphaBlendState = AlphaBlend::Blend;
+			CullingType = CULLING_DOUBLE;
+		}
+
+		RenderState()
+		{
+			Reset();
+		}
+
+		void CopyTo(RenderState& state)
+		{
+			state.DepthTest = DepthTest;
+			state.DepthWrite = DepthWrite;
+			state.AlphaBlendState = AlphaBlendState;
+			state.CullingType = CullingType;
+		}
+	};
+
 	enum eVertexLayoutFormat
 	{
 		LAYOUT_FORMAT_R32G32B32_FLOAT,

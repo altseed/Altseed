@@ -12,7 +12,6 @@
 #include "../ace.Graphics_Imp.h"
 #include "../Resource/ace.ShaderCache.h"
 #include "../Resource/ace.NativeShader_Imp.h"
-#include "../Resource/ace.RenderState_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
 
 #include "../Shader/DX/3D/Lightweight_Model_Internal_VS.h"
@@ -579,56 +578,53 @@ namespace ace
 							{
 								if (material->ColorTexture != nullptr)
 								{
-									shader->SetTexture("g_colorTexture", material->ColorTexture.get(), 0);
+									shader->SetTexture("g_colorTexture", material->ColorTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 								}
 								else
 								{
-									shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
+									shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 								}
 
 								if (!prop.IsLightweightMode)
 								{
 									if (material->NormalTexture != nullptr)
 									{
-										shader->SetTexture("g_normalTexture", material->NormalTexture.get(), 1);
+										shader->SetTexture("g_normalTexture", material->NormalTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
 									}
 									else
 									{
-										shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), 1);
+										shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
 									}
 
 									if (material->SpecularTexture != nullptr)
 									{
-										shader->SetTexture("g_specularTexture", material->SpecularTexture.get(), 2);
+										shader->SetTexture("g_specularTexture", material->SpecularTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
 									}
 									else
 									{
-										shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), 2);
+										shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
 									}
 								}
 							}
 							else
 							{
-								shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), 0);
-								shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), 1);
-								shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), 2);
+								shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+								shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+								shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
 							}
 
 							GetGraphics()->SetVertexBuffer(mesh.VertexBufferPtr.get());
 							GetGraphics()->SetIndexBuffer(mesh.IndexBufferPtr.get());
 							GetGraphics()->SetShader(shader.get());
 
-							auto& state = GetGraphics()->GetRenderState()->Push();
+							RenderState state;
 							state.DepthTest = true;
 							state.DepthWrite = true;
 							state.CullingType = eCullingType::CULLING_FRONT;
 							state.AlphaBlendState = AlphaBlend::Opacity;
-
-							GetGraphics()->GetRenderState()->Update(false);
+							GetGraphics()->SetRenderState(state);
 
 							GetGraphics()->DrawPolygon(mesh.IndexBufferPtr->GetCount() / 3);
-
-							GetGraphics()->GetRenderState()->Pop();
 
 							fOffset += fCount;
 						}

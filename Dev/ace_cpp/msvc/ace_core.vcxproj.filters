@@ -421,9 +421,6 @@
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.NativeShader_Imp_DX11.h">
       <Filter>Graphics\Platform\DX11\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderState_Imp_DX11.h">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderTexture2D_Imp_DX11.h">
       <Filter>Graphics\Platform\DX11\Resource</Filter>
     </ClInclude>
@@ -443,9 +440,6 @@
       <Filter>Graphics\Platform\GL\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.NativeShader_Imp_GL.h">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.RenderState_Imp_GL.h">
       <Filter>Graphics\Platform\GL\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.RenderTexture2D_Imp_GL.h">
@@ -491,9 +485,6 @@
       <Filter>Graphics\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Resource\ace.NativeShader_Imp.h">
-      <Filter>Graphics\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Resource\ace.RenderState_Imp.h">
       <Filter>Graphics\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Resource\ace.RenderTexture2D.h">
@@ -885,9 +876,6 @@
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.NativeShader_Imp_DX11.cpp">
       <Filter>Graphics\Platform\DX11\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderState_Imp_DX11.cpp">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderTexture2D_Imp_DX11.cpp">
       <Filter>Graphics\Platform\DX11\Resource</Filter>
     </ClCompile>
@@ -907,9 +895,6 @@
       <Filter>Graphics\Platform\GL\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.NativeShader_Imp_GL.cpp">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.RenderState_Imp_GL.cpp">
       <Filter>Graphics\Platform\GL\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.RenderTexture2D_Imp_GL.cpp">
@@ -943,9 +928,6 @@
       <Filter>Graphics\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Resource\ace.NativeShader_Imp.cpp">
-      <Filter>Graphics\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Resource\ace.RenderState_Imp.cpp">
       <Filter>Graphics\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Resource\ace.RenderTexture2D_Imp.cpp">

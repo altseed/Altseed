@@ -12,8 +12,6 @@
 #include "Resource/ace.NativeShader_Imp.h"
 #include "Resource/ace.Effect_Imp.h"
 
-#include "Resource/ace.RenderState_Imp.h"
-
 #include "Resource/ace.Shader2D_Imp.h"
 #include "Resource/ace.Material2D_Imp.h"
 #include "Resource/ace.Chip2D_Imp.h"
@@ -471,7 +469,6 @@ Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, 
 //----------------------------------------------------------------------------------
 Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isMultithreadingMode)
 	: m_size(size)
-	, m_renderState(nullptr)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)
 	, m_shaderPtr(nullptr)
@@ -492,6 +489,13 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isMultithreadingMode)
 
 	m_shaderCache = new ShaderCache(this);
 
+	for (auto i = 0; i < MaxTextureCount; i++)
+	{
+		currentState.textureFilterTypes[i] = TextureFilterType::Nearest;
+		currentState.textureWrapTypes[i] = TextureWrapType::Clamp;
+		nextState.textureFilterTypes[i] = TextureFilterType::Nearest;
+		nextState.textureWrapTypes[i] = TextureWrapType::Clamp;
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -504,7 +508,6 @@ Graphics_Imp::~Graphics_Imp()
 	SafeRelease(m_vertexBufferPtr);
 	SafeRelease(m_indexBufferPtr);
 	SafeRelease(m_shaderPtr);
-	SafeDelete(m_renderState);
 
 	SafeDelete(m_resourceContainer);
 
@@ -736,6 +739,11 @@ void Graphics_Imp::SetShader(NativeShader_Imp* shader)
 	m_shaderPtr = shader;
 }
 
+void Graphics_Imp::SetRenderState(const RenderState& renderState)
+{
+	nextState.renderState = renderState;
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -745,7 +753,7 @@ void Graphics_Imp::DrawPolygon(int32_t count)
 	assert(m_indexBufferPtr != nullptr);
 	assert(m_shaderPtr != nullptr);
 
-	m_renderState->Update(false);
+	CommitRenderState(false);
 
 	DrawPolygonInternal(
 		count, 
@@ -759,8 +767,7 @@ void Graphics_Imp::DrawPolygon(int32_t count)
 //----------------------------------------------------------------------------------
 void Graphics_Imp::Begin()
 {
-	GetRenderState()->GetActiveState().Reset();
-	GetRenderState()->Update(true);
+	CommitRenderState(true);
 
 	ResetDrawState();
 

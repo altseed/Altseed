@@ -47,6 +47,21 @@ namespace ace {
 		ID3D11RenderTargetView*	m_currentBackRenderTargetViews[MaxRenderTarget];
 		ID3D11DepthStencilView*	m_currentDepthStencilView;
 
+
+#pragma region RenderStates
+		static const int32_t		DepthTestCount = 2;
+		static const int32_t		DepthWriteCount = 2;
+		static const int32_t		CulTypeCount = 3;
+		static const int32_t		AlphaTypeCount = 5;
+		static const int32_t		TextureFilterCount = 2;
+		static const int32_t		TextureWrapCount = 2;
+
+		ID3D11RasterizerState*		m_rStates[CulTypeCount];
+		ID3D11DepthStencilState*	m_dStates[DepthTestCount][DepthWriteCount];
+		ID3D11BlendState*			m_bStates[AlphaTypeCount];
+		ID3D11SamplerState*			m_sStates[TextureFilterCount][TextureWrapCount];
+#pragma endregion
+
 		Graphics_Imp_DX11(
 			Window* window,
 			Vector2DI size,
@@ -65,6 +80,8 @@ namespace ace {
 		virtual ~Graphics_Imp_DX11();
 
 		static void WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter, int32_t index);
+
+		void GenerateRenderStates();
 
 	protected:
 		VertexBuffer_Imp* CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic);
@@ -100,6 +117,8 @@ namespace ace {
 		CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) override;
 
 		DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height);
+
+		void CommitRenderState(bool forced) override;
 
 		void SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer);
 

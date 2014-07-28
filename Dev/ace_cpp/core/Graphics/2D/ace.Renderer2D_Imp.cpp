@@ -9,7 +9,6 @@
 #include "../Resource/ace.VertexBuffer_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
 #include "../Resource/ace.NativeShader_Imp.h"
-#include "../Resource/ace.RenderState_Imp.h"
 #include "../Resource/ace.ShaderCache.h"
 
 #include <Utility/ace.TypeErasureCopy.h>
@@ -219,7 +218,7 @@ namespace ace {
 			m_effectRenderer->EndRendering();
 
 			// レンダー設定リセット
-			m_graphics->GetRenderState()->Update(true);
+			m_graphics->CommitRenderState(true);
 
 		}
 
@@ -394,23 +393,20 @@ namespace ace {
 		// 描画
 		if (m_state.TexturePtr != nullptr)
 		{
-			shader->SetTexture("g_texture", m_state.TexturePtr, 0);
+			shader->SetTexture("g_texture", m_state.TexturePtr, ace::TextureFilterType::Nearest, ace::TextureWrapType::Clamp, 0);
 		}
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());
 		m_graphics->SetShader(shader.get());
 
-		auto& state = m_graphics->GetRenderState()->Push();
+		RenderState state;
+		
 		state.DepthTest = false;
 		state.DepthWrite = false;
 		state.CullingType = ace::eCullingType::CULLING_DOUBLE;
-		state.TextureFilterTypes[0] = ace::TextureFilterType::Nearest;
-		state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
-		m_graphics->GetRenderState()->Update(false);
+		m_graphics->SetRenderState(state);
 
 		m_graphics->DrawPolygon(m_drawingSprites.size() * 2);
-
-		m_graphics->GetRenderState()->Pop();
 
 		m_drawingSprites.clear();
 	}

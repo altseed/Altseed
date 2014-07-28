@@ -9,7 +9,6 @@
 #include "../Resource/ace.NativeShader_Imp.h"
 #include "../Resource/ace.VertexBuffer_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
-#include "../Resource/ace.RenderState_Imp.h"
 #include "../Resource/ace.DepthBuffer_Imp.h"
 
 #include "../Shader/DX/3D/Screen_VS.h"
@@ -200,7 +199,7 @@ namespace ace
 					g->SetRenderTarget(c->GetRenderTargetSSAO_RT(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoShader->SetTexture("g_texture", c->GetRenderTargetDepth_RT(), 0);
+					m_ssaoShader->SetTexture("g_texture", c->GetRenderTargetDepth_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
 					auto& cvbuf = m_ssaoShader->GetVertexConstantBuffer<SSAOConstantVertexBuffer>();
 					cvbuf.Size[0] = m_windowSize.X;
@@ -235,60 +234,51 @@ namespace ace
 					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
 					g->SetShader(m_ssaoShader.get());
 
-					auto& state = g->GetRenderState()->Push();
+					RenderState state;
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					state.TextureFilterTypes[0] = TextureFilterType::Linear;
-					g->GetRenderState()->Update(false);
+					m_graphics->SetRenderState(state);
 
 					g->DrawPolygon(2);
-
-					g->GetRenderState()->Pop();
 				}
 
 				{
 					g->SetRenderTarget(c->GetRenderTargetSSAO_Temp_RT(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoBlurXShader->SetTexture("g_texture", c->GetRenderTargetSSAO_RT(), 0);
+					m_ssaoBlurXShader->SetTexture("g_texture", c->GetRenderTargetSSAO_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
 					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
 					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
 					g->SetShader(m_ssaoBlurXShader.get());
 
-					auto& state = g->GetRenderState()->Push();
+					RenderState state;
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					state.TextureFilterTypes[0] = TextureFilterType::Linear;
-					g->GetRenderState()->Update(false);
+					g->SetRenderState(state);
 
 					g->DrawPolygon(2);
-
-					g->GetRenderState()->Pop();
 				}
 
 				{
 					g->SetRenderTarget(c->GetRenderTargetSSAO_RT(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoBlurYShader->SetTexture("g_texture", c->GetRenderTargetSSAO_Temp_RT(), 0);
+					m_ssaoBlurYShader->SetTexture("g_texture", c->GetRenderTargetSSAO_Temp_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
 					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
 					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
 					g->SetShader(m_ssaoBlurYShader.get());
 
-					auto& state = g->GetRenderState()->Push();
+					RenderState state;
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					state.TextureFilterTypes[0] = TextureFilterType::Linear;
-					g->GetRenderState()->Update(false);
+					g->SetRenderState(state);
 
 					g->DrawPolygon(2);
-
-					g->GetRenderState()->Pop();
 				}
 			}
 			
@@ -392,7 +382,7 @@ namespace ace
 							g->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
 							g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-							m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_RT(), 0);
+							m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 							ShadowBlurConstantBuffer& cbufX = m_shadowShaderX->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
 							cbufX.Weights = weights;
 
@@ -400,23 +390,20 @@ namespace ace
 							g->SetIndexBuffer(m_shadowIndexBuffer.get());
 							g->SetShader(m_shadowShaderX.get());
 
-							auto& state = g->GetRenderState()->Push();
+							RenderState state;
 							state.DepthTest = false;
 							state.DepthWrite = false;
 							state.CullingType = CULLING_DOUBLE;
-							state.TextureFilterTypes[0] = TextureFilterType::Linear;
-							g->GetRenderState()->Update(false);
+							m_graphics->SetRenderState(state);
 
 							g->DrawPolygon(2);
-
-							g->GetRenderState()->Pop();
 						}
 
 						{
 							g->SetRenderTarget(light->GetShadowTexture_RT(), nullptr);
 							g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-							m_shadowShaderY->SetTexture("g_texture", m_shadowTempTexture.get(), 0);
+							m_shadowShaderY->SetTexture("g_texture", m_shadowTempTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 							ShadowBlurConstantBuffer& cbufY = m_shadowShaderY->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
 							cbufY.Weights = weights;
 
@@ -424,16 +411,13 @@ namespace ace
 							g->SetIndexBuffer(m_shadowIndexBuffer.get());
 							g->SetShader(m_shadowShaderY.get());
 
-							auto& state = g->GetRenderState()->Push();
+							RenderState state;
 							state.DepthTest = false;
 							state.DepthWrite = false;
 							state.CullingType = CULLING_DOUBLE;
-							state.TextureFilterTypes[0] = TextureFilterType::Linear;
-							g->GetRenderState()->Update(false);
+							m_graphics->SetRenderState(state);
 
 							g->DrawPolygon(2);
-
-							g->GetRenderState()->Pop();
 						}
 					}
 
@@ -454,19 +438,19 @@ namespace ace
 							shader = m_directionalLightShader;
 						}
 
-						shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), 0);
-						shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), 1);
-						shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), 2);
-						shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), 3);
-						shader->SetTexture("g_shadowmapTexture", light->GetShadowTexture_RT(), 4);
+						shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+						shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+						shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
+						shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
+						shader->SetTexture("g_shadowmapTexture", light->GetShadowTexture_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 4);
 
 						if (m_ssaoShader != nullptr)
 						{
-							shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), 5);
+							shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
 						}
 						else
 						{
-							shader->SetTexture("g_ssaoTexture", GetDummyTextureWhite().get(), 5);
+							shader->SetTexture("g_ssaoTexture", GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
 						}
 
 						auto CameraPositionToShadowCameraPosition = (view) * invCameraMat;
@@ -496,18 +480,14 @@ namespace ace
 						g->SetIndexBuffer(m_shadowIndexBuffer.get());
 						g->SetShader(shader.get());
 
-						auto& state = g->GetRenderState()->Push();
+						RenderState state;
 						state.DepthTest = false;
 						state.DepthWrite = false;
 						state.CullingType = CULLING_DOUBLE;
 						state.AlphaBlendState = AlphaBlend::Add;
-						state.TextureFilterTypes[2] = TextureFilterType::Linear;
-						state.TextureFilterTypes[4] = TextureFilterType::Linear;
-						g->GetRenderState()->Update(false);
+						g->SetRenderState(state);
 
 						g->DrawPolygon(2);
-
-						g->GetRenderState()->Pop();
 					}
 
 					lightIndex++;
@@ -520,18 +500,18 @@ namespace ace
 
 					std::shared_ptr<ace::NativeShader_Imp> shader = m_ambientLightShader;
 
-					shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), 0);
-					shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), 1);
-					shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), 2);
-					shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), 3);
+					shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+					shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+					shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
+					shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
 
 					if (m_ssaoShader != nullptr)
 					{
-						shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), 5);
+						shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
 					}
 					else
 					{
-						shader->SetTexture("g_ssaoTexture", GetDummyTextureWhite().get(), 5);
+						shader->SetTexture("g_ssaoTexture", GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
 					}
 
 					shader->SetVector3DF("skyLightColor", skyLightColor);
@@ -545,18 +525,14 @@ namespace ace
 					g->SetIndexBuffer(m_shadowIndexBuffer.get());
 					g->SetShader(shader.get());
 
-					auto& state = g->GetRenderState()->Push();
+					RenderState state;
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
 					state.AlphaBlendState = AlphaBlend::Add;
-					state.TextureFilterTypes[2] = TextureFilterType::Linear;
-					state.TextureFilterTypes[4] = TextureFilterType::Linear;
-					g->GetRenderState()->Update(false);
+					g->SetRenderState(state);
 
 					g->DrawPolygon(2);
-
-					g->GetRenderState()->Pop();
 				}
 			}
 
@@ -580,7 +556,7 @@ namespace ace
 				rendering.EffectRenderer->EndRendering();
 
 				// レンダー設定リセット
-				g->GetRenderState()->Update(true);
+				g->CommitRenderState(true);
 			}
 
 			if (m_settings.IsLightweightMode || rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
@@ -604,36 +580,33 @@ namespace ace
 					shader->SetFloat("flag", 1.0f);
 				}
 
-				shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), 0);
-				shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), 1);
-				shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), 2);
-				shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), 3);
+				shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+				shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+				shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
+				shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
 
 				if (m_ssaoShader != nullptr)
 				{
-					shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), 5);
+					shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
 				}
 				else
 				{
-					shader->SetTexture("g_ssaoTexture", GetDummyTextureWhite().get(), 5);
+					shader->SetTexture("g_ssaoTexture", GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
 				}
 
 				g->SetVertexBuffer(m_shadowVertexBuffer.get());
 				g->SetIndexBuffer(m_shadowIndexBuffer.get());
 				g->SetShader(shader.get());
 
-				auto& state = g->GetRenderState()->Push();
+				RenderState state;
+				
 				state.DepthTest = false;
 				state.DepthWrite = false;
 				state.CullingType = CULLING_DOUBLE;
 				state.AlphaBlendState = AlphaBlend::Opacity;
-				state.TextureFilterTypes[2] = TextureFilterType::Linear;
-				state.TextureFilterTypes[4] = TextureFilterType::Linear;
-				g->GetRenderState()->Update(false);
+				m_graphics->SetRenderState(state);
 
 				g->DrawPolygon(2);
-
-				g->GetRenderState()->Pop();
 			}
 		}
 
@@ -665,11 +638,11 @@ namespace ace
 
 			if (m_settings.IsLightweightMode || rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
 			{
-				m_pasteShader->SetTexture("g_texture", c->GetAffectedRenderTarget_RT(), 0);
+				m_pasteShader->SetTexture("g_texture", c->GetAffectedRenderTarget_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 			}
 			else
 			{
-				m_pasteShader->SetTexture("g_texture", c->GetRenderTarget_RT(), 0);
+				m_pasteShader->SetTexture("g_texture", c->GetRenderTarget_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 			}
 			
 			
@@ -682,17 +655,14 @@ namespace ace
 			m_graphics->SetIndexBuffer(m_pasteIndexBuffer.get());
 			m_graphics->SetShader(m_pasteShader.get());
 
-			auto& state = m_graphics->GetRenderState()->Push();
+			RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
 			state.AlphaBlendState = AlphaBlend::Opacity;
 			state.CullingType = ace::eCullingType::CULLING_DOUBLE;
-			state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
-			m_graphics->GetRenderState()->Update(false);
+			g->SetRenderState(state);
 
 			m_graphics->DrawPolygon(2);
-
-			m_graphics->GetRenderState()->Pop();
 		}
 	}
 

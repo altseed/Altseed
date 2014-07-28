@@ -163,8 +163,6 @@ void Graphics_Sampler(bool isOpenGLMode)
 		indexBuffer->Unlock();
 	}
 
-	shader->SetTexture("g_texture", texture.get(), 0);
-
 	int32_t time = 0;
 	while (window->DoEvent())
 	{
@@ -175,15 +173,14 @@ void Graphics_Sampler(bool isOpenGLMode)
 			graphics->SetIndexBuffer(indexBuffer.get());
 			graphics->SetShader(shader.get());
 		
-			auto& state = graphics->GetRenderState()->Push();
+			shader->SetTexture("g_texture", texture.get(), filter, wrap, 0);
+
+			ace::RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
-			state.TextureFilterTypes[0]=filter;
-			state.TextureWrapTypes[0]=wrap;
 			state.AlphaBlendState = alphaBlend;
-			graphics->GetRenderState()->Update(false);
+			graphics->SetRenderState(state);
 			graphics->DrawPolygon(2);
-			graphics->GetRenderState()->Pop();
 		};
 
 		graphics->Begin();

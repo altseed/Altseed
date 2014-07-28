@@ -55,9 +55,11 @@ namespace ace {
 		, m_vertexConstantBuffer(nullptr)
 		, m_pixelConstantBuffer(nullptr)
 	{
-		for (int32_t i = 0; i < TextureCountMax; i++)
+		for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 		{
 			m_textureSlots[i] = nullptr;
+			textureFilterTypes[i] = TextureFilterType::Nearest;
+			textureWrapTypes[i] = TextureWrapType::Clamp;
 		}
 	}
 
@@ -69,7 +71,7 @@ namespace ace {
 		SafeDeleteArray(m_vertexConstantBuffer);
 		SafeDeleteArray(m_pixelConstantBuffer);
 
-		for (int32_t i = 0; i < TextureCountMax; i++)
+		for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 		{
 			auto t = (Texture2D*) m_textureSlots[i];
 			SafeRelease(t);
@@ -119,9 +121,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void NativeShader_Imp::SetTexture(const char* name, Texture* texture, int32_t index)
+	void NativeShader_Imp::SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType, int32_t index)
 	{
-		if (index >= TextureCountMax) return;
+		if (index >= Graphics_Imp::MaxTextureCount) return;
 		
 		SafeAddRef(texture);
 
@@ -134,19 +136,23 @@ namespace ace {
 			auto t = texture;
 			m_textureSlots[index] = t;
 			m_textureNames[index] = name;
+			textureFilterTypes[index] = filterType;
+			textureWrapTypes[index] = wrapType;
 		}
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool NativeShader_Imp::GetTexture(char*& name, Texture*& texture, int32_t index)
+	bool NativeShader_Imp::GetTexture(char*& name, Texture*& texture, TextureFilterType& filterType, TextureWrapType& wrapType, int32_t index)
 	{
-		if (index >= TextureCountMax) return false;
+		if (index >= Graphics_Imp::MaxTextureCount) return false;
 		if (m_textureSlots[index] == nullptr) return false;
 
 		name = (char*)m_textureNames[index].c_str();
 		texture = m_textureSlots[index];
+		filterType = textureFilterTypes[index];
+		wrapType = textureWrapTypes[index];
 		return true;
 	}
 

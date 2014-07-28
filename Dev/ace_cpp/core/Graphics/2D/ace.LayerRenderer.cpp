@@ -9,7 +9,6 @@
 #include "../Resource/ace.VertexBuffer_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
 #include "../Resource/ace.NativeShader_Imp.h"
-#include "../Resource/ace.RenderState_Imp.h"
 #include "../Resource/ace.ShaderCache.h"
 
 #include <Utility/ace.TypeErasureCopy.h>
@@ -130,23 +129,19 @@ namespace ace {
 			// 描画
 			if (m_texture != nullptr)
 			{
-				shader->SetTexture("g_texture", m_texture, 0);
+				shader->SetTexture("g_texture", m_texture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 			}
 			m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 			m_graphics->SetIndexBuffer(m_indexBuffer.get());
 			m_graphics->SetShader(shader.get());
 
-			auto& state = m_graphics->GetRenderState()->Push();
+			RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
 			state.CullingType = ace::eCullingType::CULLING_DOUBLE;
-			state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
 			state.AlphaBlendState = AlphaBlend::Blend;
-			m_graphics->GetRenderState()->Update(false);
-
+			m_graphics->SetRenderState(state);
 			m_graphics->DrawPolygon(vCount / 3);
-
-			m_graphics->GetRenderState()->Pop();
 
 			offset += (m_vertecies.size() * 3);
 		}

@@ -212,7 +212,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 	renderer3d->AddObject(meshObject2);
 	renderer3d->AddObject(lightObject);
 
-	auto renderer2d = new ace::Renderer2D_Imp(graphics, log, window->GetSize());
+	auto renderer2d = new ace::Renderer2D_Imp(graphics, log);
 
 
 	int32_t time = 0;
@@ -223,7 +223,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 
 		renderer3d->Flip();
 
-		renderer3d->BeginRendering();
+		renderer3d->BeginRendering(1);
 		ace::Sleep(100);
 		renderer3d->EndRendering();
 

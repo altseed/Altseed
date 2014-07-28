@@ -6,7 +6,6 @@
 
 #include "../Resource/ace.VertexBuffer_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
-#include "../Resource/ace.RenderState_Imp.h"
 #include "../Resource/ace.Material2D_Imp.h"
 #include "../Resource/ace.Shader2D_Imp.h"
 
@@ -89,8 +88,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void PostEffectRenderer::DrawOnTexture2DWithMaterialWithCommand(std::shared_ptr<Material2DCommand> command)
 	{
-		auto state = m_graphics->GetRenderState()->Push();
-
+		RenderState state;
 		command->SetValueToShader();
 		m_graphics->SetRenderTarget((RenderTexture2D_Imp*) command->GetTarget(), nullptr);
 
@@ -102,11 +100,8 @@ namespace ace {
 		
 		state.DepthTest = false;
 		state.DepthWrite = false;
-		m_graphics->GetRenderState()->Update(false);
-
+		m_graphics->SetRenderState(state);
 		m_graphics->DrawPolygon(2);
-
-		m_graphics->GetRenderState()->Pop();
 	}
 	
 

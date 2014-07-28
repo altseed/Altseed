@@ -6,8 +6,6 @@
 
 #include "../ace.Graphics_Imp_DX11.h"
 
-#include "../../../Resource/ace.RenderState_Imp.h"
-
 #include "../../../../Log/ace.Log.h"
 
 //----------------------------------------------------------------------------------
@@ -427,16 +425,12 @@ void NativeShader_Imp_DX11::SetTexture(const char* name, Texture* texture, Textu
 
 	if (it_vs != m_vs_textureLayouts.end())
 	{
-		NativeShader_Imp::SetTexture(name, texture, (*it_vs).second);
-		g->GetRenderState()->GetActiveState().TextureFilterTypes[(*it_vs).second] = filterType;
-		g->GetRenderState()->GetActiveState().TextureWrapTypes[(*it_vs).second] = wrapType;
+		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_vs).second);
 	}
 
 	if (it_ps != m_ps_textureLayouts.end())
 	{
-		NativeShader_Imp::SetTexture(name, texture, (*it_ps).second);
-		g->GetRenderState()->GetActiveState().TextureFilterTypes[(*it_ps).second] = filterType;
-		g->GetRenderState()->GetActiveState().TextureWrapTypes[(*it_ps).second] = wrapType;
+		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_ps).second);
 	}
 }
 

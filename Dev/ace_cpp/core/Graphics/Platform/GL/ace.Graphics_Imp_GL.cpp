@@ -10,7 +10,6 @@
 #include "Resource/ace.VertexBuffer_Imp_GL.h"
 #include "Resource/ace.IndexBuffer_Imp_GL.h"
 #include "Resource/ace.NativeShader_Imp_GL.h"
-#include "Resource/ace.RenderState_Imp_GL.h"
 #include "Resource/ace.DepthBuffer_Imp_GL.h"
 
 #include "Resource/ace.Texture2D_Imp_GL.h"
@@ -139,8 +138,10 @@ namespace ace {
 	// 同期しない
 	glfwSwapInterval(0);
 
-	m_renderState = new RenderState_Imp_GL(this);
-
+#pragma region RenderState
+	glGenSamplers(MaxTextureCount, m_samplers);
+#pragma endregion
+	
 	// フレームバッファ生成
 	glGenFramebuffers(1, &m_frameBuffer_main);
 
@@ -206,7 +207,9 @@ namespace ace {
 	m_renderingThreadX11Window = 0;
 #endif
 
-	m_renderState = new RenderState_Imp_GL(this);
+#pragma region RenderState
+	glGenSamplers(MaxTextureCount, m_samplers);
+#pragma endregion
 
 	// フレームバッファ生成
 	glGenFramebuffers(1, &m_frameBuffer_main);
@@ -255,6 +258,10 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 		}
 		m_renderingThread.reset();
 	}
+
+#pragma region RenderState
+	glDeleteSamplers(MaxTextureCount, m_samplers);
+#pragma endregion
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDeleteFramebuffers(1, &m_frameBuffer_main);
@@ -451,11 +458,14 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 		GLCheckError();
 
 		// テクスチャの設定
-		for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+		for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 		{
 			Texture* tex = nullptr;
 			char* texName = nullptr;
-			if (shader->GetTexture(texName, tex, i))
+			TextureFilterType filterType;
+			TextureWrapType wrapType;
+
+			if (shader->GetTexture(texName, tex, filterType, wrapType, i))
 			{
 				GLuint buf = 0;
 				if (tex->GetType() == TEXTURE_CLASS_TEXTURE2D)
@@ -496,52 +506,60 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 				auto id = glGetUniformLocation(program, texName);
 				glUniform1i(id, i);
 				GLCheckError();
+
+				// ステート設定
+				nextState.textureFilterTypes[i] = filterType;
+				nextState.textureWrapTypes[i] = wrapType;
 			}
 		}
 
 		GLCheckError();
 	}
 
-	// glBindTextureをするたびにテクスチャの値がリセットされるらしいので値を再設定
-	GetRenderState()->Update(true);
+	CommitRenderState(false);
 
-	// MIPMAPの処理をするためにRenderStateから移動
+	// MIPMAPの処理(shader依存のためCommitRenderStateでは不可)
 	static const GLint glfilter [] = { GL_NEAREST, GL_LINEAR };
 	static const GLint glfilter_mip [] = { GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR };
 
 	static const GLint glwrap [] = { GL_REPEAT, GL_CLAMP_TO_EDGE };
-	auto renderState = (RenderState_Imp_GL*) GetRenderState();
+	
+	auto& stateFilter = currentState.textureFilterTypes;
+	auto& stateWrap = currentState.textureWrapTypes;
 
-	auto& state = GetRenderState()->GetActiveState();
-	for (int32_t i = 0; i < RenderState_Imp::TextureCount; i++)
+	for (int32_t i = 0; i < MaxTextureCount; i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
-		glBindSampler(i, renderState->GetSamplers()[i]);
+		glBindSampler(i, m_samplers[i]);
 
-		int32_t filter_ = (int32_t) state.TextureFilterTypes[i];
+		int32_t filter_ = (int32_t) stateFilter[i];
 
 		Texture* tex = nullptr;
 		char* texName = nullptr;
-		if (shader->GetTexture(texName, tex, i))
+		TextureFilterType filterType;
+		TextureWrapType wrapType;
+
+		if (shader->GetTexture(texName, tex, filterType, wrapType, i))
 		{
 			if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
 			{
-				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
-				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MIN_FILTER, glfilter_mip[filter_]);
+				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
+				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MIN_FILTER, glfilter_mip[filter_]);
 			}
 			else
 			{
-				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
-				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MIN_FILTER, glfilter[filter_]);
+				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
+				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MIN_FILTER, glfilter[filter_]);
 			}
+
 		}
 
 		glActiveTexture(GL_TEXTURE0 + i);
 
-		glBindSampler(i, renderState->GetSamplers()[i]);
-		int32_t wrap_ = (int32_t) state.TextureWrapTypes[i];
-		glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_WRAP_S, glwrap[wrap_]);
-		glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_WRAP_T, glwrap[wrap_]);
+		glBindSampler(i, m_samplers[i]);
+		int32_t wrap_ = (int32_t) stateWrap[i];
+		glSamplerParameteri(m_samplers[i], GL_TEXTURE_WRAP_S, glwrap[wrap_]);
+		glSamplerParameteri(m_samplers[i], GL_TEXTURE_WRAP_T, glwrap[wrap_]);
 	}
 
 	glActiveTexture(GL_TEXTURE0);
@@ -798,6 +816,96 @@ DepthBuffer_Imp* Graphics_Imp_GL::CreateDepthBuffer_Imp(int32_t width, int32_t h
 	return DepthBuffer_Imp_GL::Create(this, width, height);
 }
 
+void Graphics_Imp_GL::CommitRenderState(bool forced)
+{
+	GLCheckError();
+
+	auto& current = currentState.renderState;
+	auto& next = nextState.renderState;
+
+	auto& currentFilter = currentState.textureFilterTypes;
+	auto& nextFilter = nextState.textureFilterTypes;
+
+	auto& currentWrap = currentState.textureWrapTypes;
+	auto& nextWrap = nextState.textureWrapTypes;
+
+	if (current.DepthTest != next.DepthTest || forced)
+	{
+		if (next.DepthTest)
+		{
+			glEnable(GL_DEPTH_TEST);
+		}
+		else
+		{
+			glDisable(GL_DEPTH_TEST);
+		}
+	}
+
+	if (current.DepthWrite != next.DepthWrite || forced)
+	{
+		glDepthMask(next.DepthWrite);
+		glDepthFunc(GL_LEQUAL);
+	}
+
+	if (current.CullingType != next.CullingType || forced)
+	{
+		if (next.CullingType == CULLING_FRONT)
+		{
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_FRONT);
+		}
+		else if (next.CullingType == CULLING_BACK)
+		{
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+		}
+		else if (next.CullingType == CULLING_DOUBLE)
+		{
+			glDisable(GL_CULL_FACE);
+			glCullFace(GL_FRONT_AND_BACK);
+		}
+	}
+
+	if (current.AlphaBlendState != next.AlphaBlendState || forced)
+	{
+		if (next.AlphaBlendState == AlphaBlend::Opacity)
+		{
+			glDisable(GL_BLEND);
+		}
+		else
+		{
+			glEnable(GL_BLEND);
+
+			if (next.AlphaBlendState == AlphaBlend::Sub)
+			{
+				//glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+				//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+				glBlendEquationSeparate(GL_FUNC_REVERSE_SUBTRACT, GL_FUNC_ADD);
+				glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE, GL_ONE, GL_ONE);
+			}
+			else
+			{
+				//glBlendEquation(GL_FUNC_ADD);
+				glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+				if (next.AlphaBlendState == AlphaBlend::Blend)
+				{
+					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
+				}
+				else if (next.AlphaBlendState == AlphaBlend::Add)
+				{
+					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE, GL_ONE, GL_ONE);
+				}
+				else if (next.AlphaBlendState == AlphaBlend::Mul)
+				{
+					glBlendFuncSeparate(GL_ZERO, GL_SRC_COLOR, GL_ONE, GL_ONE);
+				}
+			}
+		}
+	}
+
+	currentState = nextState;
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -808,7 +916,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_
 
 	// 強制リセット
 	ResetDrawState();
-	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -820,7 +928,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_
 	{
 		UnbindFramebuffer();
 		glDrawBuffer(GL_BACK);
-		GetRenderState()->Update(true);
+		CommitRenderState(true);
 		SetViewport(0, 0, m_size.X, m_size.Y);
 		GLCheckError();
 		return;
@@ -862,7 +970,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_
 	glDrawBuffers(1, bufs);
 	GLCheckError();
 
-	GetRenderState()->Update(true);
+	CommitRenderState(true);
 	GLCheckError();
 
 	if (texture != nullptr)
@@ -882,7 +990,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTextu
 
 	// 強制リセット
 	ResetDrawState();
-	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -894,7 +1002,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTextu
 	{
 		UnbindFramebuffer();
 		glDrawBuffer(GL_BACK);
-		GetRenderState()->Update(true);
+		CommitRenderState(true);
 		SetViewport(0, 0, m_size.X, m_size.Y);
 		GLCheckError();
 		return;
@@ -954,7 +1062,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTextu
 	glDrawBuffers(4, bufs);
 	GLCheckError();
 
-	GetRenderState()->Update(true);
+	CommitRenderState(true);
 	GLCheckError();
 
 	if (texture1 != nullptr)
@@ -973,7 +1081,7 @@ void Graphics_Imp_GL::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direc
 
 	// 強制リセット
 	ResetDrawState();
-	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -985,7 +1093,7 @@ void Graphics_Imp_GL::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direc
 	{
 		UnbindFramebuffer();
 		glDrawBuffer(GL_BACK);
-		GetRenderState()->Update(true);
+		CommitRenderState(true);
 		SetViewport(0, 0, m_size.X, m_size.Y);
 		GLCheckError();
 		return;
@@ -1036,7 +1144,7 @@ void Graphics_Imp_GL::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direc
 	glDrawBuffers(1, bufs);
 	GLCheckError();
 
-	GetRenderState()->Update(true);
+	CommitRenderState(true);
 	GLCheckError();
 
 	if (texture != nullptr)
@@ -1078,7 +1186,7 @@ void Graphics_Imp_GL::Clear(bool isColorTarget, bool isDepthTarget, const Color&
 
 	if (isDepthTarget)
 	{
-		GetRenderState()->Update(true);
+		CommitRenderState(true);
 	}
 
 	GLCheckError();

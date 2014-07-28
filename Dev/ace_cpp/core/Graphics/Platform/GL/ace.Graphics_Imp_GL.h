@@ -69,6 +69,10 @@ namespace ace {
 
 		std::recursive_mutex		m_mutex;
 
+#pragma region RenderState
+		GLuint			m_samplers[MaxTextureCount];
+#pragma endregion
+
 		Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isMultithreadingMode);
 
 		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isMultithreadingMode);
@@ -116,6 +120,8 @@ namespace ace {
 		CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) override;
 
 		DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height);
+
+		void CommitRenderState(bool forced) override;
 
 		void SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer);
 

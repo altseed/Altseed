@@ -165,7 +165,7 @@ void Graphics_SingleTexture(bool isOpenGLMode)
 		indexBuffer->Unlock();
 	}
 
-	shader->SetTexture("g_texture", texture.get(), 0);
+	shader->SetTexture("g_texture", texture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
 	int32_t time = 0;
 	while (window->DoEvent())
@@ -177,14 +177,13 @@ void Graphics_SingleTexture(bool isOpenGLMode)
 		graphics->SetIndexBuffer(indexBuffer.get());
 		graphics->SetShader(shader.get());
 		
-		auto& state = graphics->GetRenderState()->Push();
+		ace::RenderState state;
+
 		state.DepthTest = false;
 		state.DepthWrite = false;
-		graphics->GetRenderState()->Update(false);
+		graphics->SetRenderState(state);
 
 		graphics->DrawPolygon(2);
-
-		graphics->GetRenderState()->Pop();
 
 		graphics->Present();
 

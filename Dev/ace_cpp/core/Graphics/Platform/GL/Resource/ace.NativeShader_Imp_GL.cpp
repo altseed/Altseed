@@ -7,8 +7,6 @@
 
 #include "../ace.Graphics_Imp_GL.h"
 
-#include "../../../Resource/ace.RenderState_Imp.h"
-
 #include "../../../../Log/ace.Log.h"
 
 //----------------------------------------------------------------------------------
@@ -203,10 +201,7 @@ void NativeShader_Imp_GL::SetTexture(const char* name, Texture* texture, Texture
 
 	if (it != m_textureLayouts.end())
 	{
-		NativeShader_Imp::SetTexture(name, texture, (*it).second);
-
-		g->GetRenderState()->GetActiveState().TextureFilterTypes[(*it).second] = filterType;
-		g->GetRenderState()->GetActiveState().TextureWrapTypes[(*it).second] = wrapType;
+		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it).second);
 	}
 }
 

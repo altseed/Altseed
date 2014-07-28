@@ -212,7 +212,6 @@
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.DepthBuffer_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.IndexBuffer_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.NativeShader_Imp_DX11.h" />
-    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderState_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderTexture2D_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.Texture2D_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.VertexBuffer_Imp_DX11.h" />
@@ -222,7 +221,6 @@
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.DepthBuffer_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.IndexBuffer_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.NativeShader_Imp_GL.h" />
-    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.RenderState_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.RenderTexture2D_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.Texture2D_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.VertexBuffer_Imp_GL.h" />
@@ -240,7 +238,6 @@
     <ClInclude Include="..\core\Graphics\Resource\ace.Material2D_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Material_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.NativeShader_Imp.h" />
-    <ClInclude Include="..\core\Graphics\Resource\ace.RenderState_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.RenderTexture2D.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.RenderTexture2D_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Shader2D.h" />
@@ -410,7 +407,6 @@
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.DepthBuffer_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.IndexBuffer_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.NativeShader_Imp_DX11.cpp" />
-    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderState_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderTexture2D_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.Texture2D_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.VertexBuffer_Imp_DX11.cpp" />
@@ -419,7 +415,6 @@
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.DepthBuffer_Imp_GL.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.IndexBuffer_Imp_GL.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.NativeShader_Imp_GL.cpp" />
-    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.RenderState_Imp_GL.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.RenderTexture2D_Imp_GL.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.Texture2D_Imp_GL.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.VertexBuffer_Imp_GL.cpp" />
@@ -432,7 +427,6 @@
     <ClCompile Include="..\core\Graphics\Resource\ace.Material2D_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Material_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.NativeShader_Imp.cpp" />
-    <ClCompile Include="..\core\Graphics\Resource\ace.RenderState_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.RenderTexture2D_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Shader2D_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.ShaderCache.cpp" />
