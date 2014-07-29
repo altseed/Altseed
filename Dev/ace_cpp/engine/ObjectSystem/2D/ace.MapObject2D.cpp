@@ -51,4 +51,10 @@ namespace ace
 		m_chips.erase(chip);
 		return m_coreObject->RemoveChip(chip.get());
 	}
+
+	void MapObject2D::Clear()
+	{
+		m_chips.clear();
+		m_coreObject->Clear();
+	}
 }

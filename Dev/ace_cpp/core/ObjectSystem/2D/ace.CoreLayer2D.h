@@ -28,6 +28,7 @@ namespace ace
 
 		virtual void AddObject(ObjectPtr object2D) = 0;
 		virtual void RemoveObject(ObjectPtr object2D) = 0;
+		virtual void Clear() = 0;
 
 		virtual void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,

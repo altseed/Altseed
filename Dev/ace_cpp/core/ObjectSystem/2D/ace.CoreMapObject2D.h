@@ -45,6 +45,10 @@ namespace ace
 		*/
 		virtual bool RemoveChip(Chip2D* chip) = 0;
 
+		/**
+		@brief	このオブジェクトに追加されている描画チップを全て削除する。
+		*/
+		virtual void Clear() = 0;
 
 	};
 }

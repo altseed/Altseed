@@ -86,5 +86,12 @@ namespace ace
             return coreMapObject.RemoveChip(IG.GetChip2D(chip));
         }
 
+        /// <summary>
+        /// この2Dオブジェクトに追加されている全てのチップを削除する。
+        /// </summary>
+        public void Clear()
+        {
+            coreMapObject.Clear();
+        }
     }
 }
