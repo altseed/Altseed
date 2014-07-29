@@ -63,9 +63,17 @@ namespace ace {
 
 		void SetMatrix44(const char* name, const Matrix44& value);
 
+		virtual int32_t GetConstantBufferID(const char* name) = 0;
+
+		virtual int32_t GetTextureID(const char* name) = 0;
+
 		virtual void SetConstantBuffer(const char* name, const void* data, int32_t size) = 0;
 
+		virtual void SetConstantBuffer(int32_t id, const void* data, int32_t size) = 0;
+
 		virtual void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) = 0;
+
+		virtual void SetTexture(int32_t id, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) = 0;
 
 		virtual void AssignConstantBuffer() = 0;
 
