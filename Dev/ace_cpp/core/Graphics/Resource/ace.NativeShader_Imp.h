@@ -63,6 +63,16 @@ namespace ace {
 
 		void SetMatrix44(const char* name, const Matrix44& value);
 
+		void SetFloat(int32_t id, const float& value);
+
+		void SetVector2DF(int32_t id, const Vector2DF& value);
+
+		void SetVector3DF(int32_t id, const Vector3DF& value);
+
+		void SetVector4DF(int32_t id, const Vector4DF& value);
+
+		void SetMatrix44(int32_t id, const Matrix44& value);
+
 		virtual int32_t GetConstantBufferID(const char* name) = 0;
 
 		virtual int32_t GetTextureID(const char* name) = 0;
@@ -156,6 +166,13 @@ namespace ace {
 		void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType, int32_t index);
 
 		bool GetTexture(char*& name, Texture*& texture, TextureFilterType& filterType, TextureWrapType& wrapType, int32_t index);
+
+		/**
+			@brief	ShaderConstantValueの配列から定数を設定する。
+			@param	constantValues	配列の先頭ポインタ
+			@param	constantValueCount	配列の個数
+		*/
+		void SetConstantValues(ShaderConstantValue* constantValues, int32_t constantValueCount);
 	};
 
 	//----------------------------------------------------------------------------------

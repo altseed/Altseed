@@ -16,41 +16,22 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	class MaterialCommand
 	{
-	public:
-		struct Value
-		{
-			ShaderVariableType ValueType;
-
-			union
-			{
-				float		Float4[4];
-				float		Mat44[16];
-
-				struct
-				{
-					Texture2D*			Ptr;
-					TextureFilterType	FilterType;
-					TextureWrapType		WrapType;
-				} Texture2DPtr;
-				
-			} Data;
-		};
-
 	protected:
-		std::map<astring, Value>		m_values;
-
+		NativeShader_Imp*					shader;
+		std::vector<ShaderConstantValue>	constantValues;
 	public:
-		MaterialCommand(std::map<astring, Value>& values);
+		MaterialCommand(NativeShader_Imp* shader, std::map<astring, ShaderConstantValue>& values);
 		virtual ~MaterialCommand();
 
-		virtual void SetValueToShader() = 0;
+		NativeShader_Imp* GetShader() { return shader; }
+		std::vector<ShaderConstantValue>& GetConstantValues() { return constantValues; }
 	};
 
 	class Material_Imp
 		: public ReferenceObject
 	{
 	protected:
-		std::map<astring, MaterialCommand::Value>		m_values;
+		std::map<astring, ShaderConstantValue>		m_values;
 
 		Material_Imp(){}
 		virtual ~Material_Imp();

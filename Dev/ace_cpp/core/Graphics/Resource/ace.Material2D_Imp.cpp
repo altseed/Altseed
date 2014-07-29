@@ -14,8 +14,8 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Material2DCommand::Material2DCommand(Shader2D_Imp* shader, std::map<astring, Value>& values)
-		: MaterialCommand(values)
+	Material2DCommand::Material2DCommand(Shader2D_Imp* shader, std::map<astring, ShaderConstantValue>& values)
+		: MaterialCommand(shader->GetNativeShader().get(), values)
 		, m_shader(shader)
 		, m_target(nullptr)
 	{
@@ -26,48 +26,6 @@ namespace ace {
 	{
 		SafeRelease(m_shader);
 		SafeRelease(m_target);
-	}
-
-	void Material2DCommand::SetValueToShader()
-	{
-		auto& shader = m_shader;
-
-		for (auto& value : m_values)
-		{
-			auto key = ToUtf8String(value.first.c_str());
-			if (value.second.ValueType == SHADER_VARIABLE_TYPE_FLOAT)
-			{
-				shader->GetNativeShader()->SetFloat(key.c_str(), value.second.Data.Float4[0]);
-			}
-			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_VECTOR2DF)
-			{
-				shader->GetNativeShader()->SetVector2DF(key.c_str(), Vector2DF(value.second.Data.Float4[0], value.second.Data.Float4[1]));
-			}
-			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_VECTOR3DF)
-			{
-				shader->GetNativeShader()->SetVector3DF(key.c_str(), Vector3DF(value.second.Data.Float4[0], value.second.Data.Float4[1], value.second.Data.Float4[2]));
-			}
-			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_VECTOR4DF)
-			{
-				shader->GetNativeShader()->SetVector4DF(key.c_str(), Vector4DF(value.second.Data.Float4[0], value.second.Data.Float4[1], value.second.Data.Float4[2], value.second.Data.Float4[3]));
-			}
-			else if (value.second.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
-			{
-				shader->GetNativeShader()->SetTexture(
-					key.c_str(),
-					value.second.Data.Texture2DPtr.Ptr, 
-					value.second.Data.Texture2DPtr.FilterType, 
-					value.second.Data.Texture2DPtr.WrapType);
-			}
-		}
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	Shader2D_Imp* Material2DCommand::GetShader()
-	{
-		return m_shader;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -100,14 +58,14 @@ namespace ace {
 			{
 				if (i.Type == SHADER_VARIABLE_TYPE_FLOAT)
 				{
-					MaterialCommand::Value v;
+					ShaderConstantValue v;
 					v.ValueType = SHADER_VARIABLE_TYPE_FLOAT;
 					v.Data.Float4[0] = 0.0f;
 					m_values[i.Name] = v;
 				}
 				else if (i.Type == SHADER_VARIABLE_TYPE_VECTOR2DF)
 				{
-					MaterialCommand::Value v;
+					ShaderConstantValue v;
 					v.ValueType = SHADER_VARIABLE_TYPE_VECTOR2DF;
 					v.Data.Float4[0] = 0.0f;
 					v.Data.Float4[1] = 0.0f;
@@ -115,7 +73,7 @@ namespace ace {
 				}
 				else if (i.Type == SHADER_VARIABLE_TYPE_VECTOR3DF)
 				{
-					MaterialCommand::Value v;
+					ShaderConstantValue v;
 					v.ValueType = SHADER_VARIABLE_TYPE_VECTOR3DF;
 					v.Data.Float4[0] = 0.0f;
 					v.Data.Float4[1] = 0.0f;

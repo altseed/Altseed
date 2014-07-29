@@ -238,7 +238,7 @@ void NativeShader_Imp_GL::SetConstantBuffer(const char* name, const void* data, 
 
 void NativeShader_Imp_GL::SetConstantBuffer(int32_t id, const void* data, int32_t size)
 {
-	assert(id < constantLayoutsArray.size());
+	assert(id < (int32_t) constantLayoutsArray.size());
 	if (id < 0) return;
 
 	auto& layout = constantLayoutsArray[id];
@@ -262,7 +262,7 @@ void NativeShader_Imp_GL::SetTexture(const char* name, Texture* texture, Texture
 
 void NativeShader_Imp_GL::SetTexture(int32_t id, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType)
 {
-	assert(id < textureLayoutsArray.size());
+	assert(id < (int32_t) textureLayoutsArray.size());
 	if (id < 0) return;
 
 	auto& layout = textureLayoutsArray[id];
