@@ -126,7 +126,12 @@ namespace ace
         /// </summary>
         public void Clear()
         {
-            components_.Clear();
+            foreach (var obj in objects_)
+            {
+                obj.Layer = null;
+            }
+            coreLayer2D.Clear();
+            objects_.Clear();
         }
 
         /// <summary>
