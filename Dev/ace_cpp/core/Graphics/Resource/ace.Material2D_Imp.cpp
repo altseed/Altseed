@@ -58,27 +58,15 @@ namespace ace {
 			{
 				if (i.Type == SHADER_VARIABLE_TYPE_FLOAT)
 				{
-					ShaderConstantValue v;
-					v.ValueType = SHADER_VARIABLE_TYPE_FLOAT;
-					v.Data.Float4[0] = 0.0f;
-					m_values[i.Name] = v;
+					m_values[i.Name] = ShaderConstantValue(0.0f);
 				}
 				else if (i.Type == SHADER_VARIABLE_TYPE_VECTOR2DF)
 				{
-					ShaderConstantValue v;
-					v.ValueType = SHADER_VARIABLE_TYPE_VECTOR2DF;
-					v.Data.Float4[0] = 0.0f;
-					v.Data.Float4[1] = 0.0f;
-					m_values[i.Name] = v;
+					m_values[i.Name] = ShaderConstantValue(Vector2DF());
 				}
 				else if (i.Type == SHADER_VARIABLE_TYPE_VECTOR3DF)
 				{
-					ShaderConstantValue v;
-					v.ValueType = SHADER_VARIABLE_TYPE_VECTOR3DF;
-					v.Data.Float4[0] = 0.0f;
-					v.Data.Float4[1] = 0.0f;
-					v.Data.Float4[2] = 0.0f;
-					m_values[i.Name] = v;
+					m_values[i.Name] = ShaderConstantValue(Vector3DF());
 				}
 			}
 		};

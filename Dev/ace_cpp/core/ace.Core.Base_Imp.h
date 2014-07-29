@@ -208,6 +208,17 @@ namespace ace {
 			} Texture2DPtr;
 
 		} Data;
+
+		ShaderConstantValue();
+		ShaderConstantValue(const ShaderConstantValue& value);
+		ShaderConstantValue(const float& value);
+		ShaderConstantValue(const Vector2DF& value);
+		ShaderConstantValue(const Vector3DF& value);
+		ShaderConstantValue(const Vector4DF& value);
+		ShaderConstantValue(const Matrix44& value);
+		ShaderConstantValue(Texture2D* value, TextureFilterType filterType, TextureWrapType wrapType);
+		virtual ~ShaderConstantValue();
+		ShaderConstantValue& operator=(const ShaderConstantValue& value);
 	};
 
 	/**

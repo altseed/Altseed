@@ -1002,6 +1002,7 @@
     <ClCompile Include="..\core\Graphics\3D\Resource\Animation\ace.KeyframeAnimation_Imp.cpp">
       <Filter>Graphics\3D\Resource\Animation</Filter>
     </ClCompile>
+    <ClCompile Include="..\core\ace.Core.Base_Imp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Window\ace.Window_Imp_X11.cpp">
