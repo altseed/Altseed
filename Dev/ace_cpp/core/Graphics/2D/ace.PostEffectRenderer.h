@@ -62,6 +62,11 @@ namespace ace {
 			@param	command	描画命令
 		*/
 		void DrawOnTexture2DWithMaterialWithCommand(std::shared_ptr<Material2DCommand> command);
+
+		/**
+		@brief	シェーダーを用いてテクスチャに画像を描画する。
+		*/
+		void DrawOnTexture2DWithNativeShader(RenderTexture2D_Imp* target, NativeShader_Imp* shader, ShaderConstantValue* constantValues, int32_t constantValueCount);
 	};
 
 	//----------------------------------------------------------------------------------
