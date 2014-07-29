@@ -4,6 +4,11 @@
 
 namespace ace
 {
+	Effect* CoreEffectObject2D_Imp::GetEffect_() const
+	{
+		return m_effect;
+	}
+
 	Effekseer::Matrix43 CoreEffectObject2D_Imp::CalcEffectMatrix()
 	{
 		auto pos = GetPosition();
@@ -37,7 +42,7 @@ namespace ace
 		// Y軸回転
 		Effekseer::Matrix43 rotyMat;
 		Effekseer::Matrix43 ef2Mat;
-		rotyMat.RotationY(DegreeToRadian(m_rotation));
+		rotyMat.RotationY(DegreeToRadian(-m_rotation));
 		Effekseer::Matrix43::Multiple(ef2Mat, rotyMat, efMat);
 
 		return ef2Mat;
@@ -65,6 +70,7 @@ namespace ace
 	{
 		if (m_effect == nullptr) return;
 		if (m_renderer == nullptr) return;
+		ASSERT_STATIC_CAST(Effect_Imp*, m_effect);
 
 		auto e = (Effect_Imp*) m_effect;
 		auto ne = e->GetEffect();
@@ -106,13 +112,16 @@ namespace ace
 	void CoreEffectObject2D_Imp::OnAdded(Renderer2D* renderer)
 	{
 		assert(m_renderer == nullptr);
+		ASSERT_STATIC_CAST(Renderer2D_Imp*, renderer);
+
 		m_renderer = (Renderer2D_Imp*)renderer;
 	}
 
 	void CoreEffectObject2D_Imp::OnRemoving(Renderer2D* renderer)
 	{
 		assert(m_renderer != nullptr);
-		
+		ASSERT_STATIC_CAST(Renderer2D_Imp*, renderer);
+
 		for (auto& h : m_handles)
 		{
 			m_renderer->GetEffectManager()->StopEffect(h);

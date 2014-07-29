@@ -132,14 +132,14 @@ namespace ace {
 		static void TakeScreenshot(const achar* path);
 
 		/**
-		@brief	1フレームで経過した時間を(1/60s)単位で取得する。
+		@brief	1フレームで経過した実時間(1/60秒を1とした値)を取得する。
 		@return	経過時間(1/60s)単位
 		*/
 		static float GetDeltaTime();
 
 		/**
 		@brief	1フレームで経過した時間を外部から設定する。
-		@param	deltaTime	経過時間(1/60s)単位
+		@param	deltaTime	経過時間(1/60秒を1とした値)単位
 		@note
 		基本的に開発者は使用する必要はない。
 		何らかの理由で無理やり経過時間を指定する場合に使用する。

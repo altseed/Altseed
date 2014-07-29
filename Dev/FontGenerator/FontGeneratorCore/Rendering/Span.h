@@ -2,7 +2,6 @@
 #include <vector>
 #include <ft2build.h>
 #include "Color.h"
-#include "Glyph.h"
 #include FT_GLYPH_H
 #include FT_OUTLINE_H
 

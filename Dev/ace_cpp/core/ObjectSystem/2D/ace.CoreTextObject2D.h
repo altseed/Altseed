@@ -18,12 +18,12 @@ namespace ace
 		/**
 		@brief	このオブジェクトを描画する際の描画方向を取得する。
 		*/
-		virtual const WritingDirection GetWritingDirection() const = 0;
+		virtual WritingDirection GetWritingDirection() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のフォントを取得する。
 		*/
-		virtual const Font* GetFont() const = 0;
+		virtual Font* GetFont() const = 0;
 
 		/**
 		@brief 描画するテキストを取得する。
@@ -33,32 +33,32 @@ namespace ace
 		/**
 		@brief	このオブジェクトの原点位置を取得する。この位置が、描画する際の描画・拡縮・回転の中心となる。
 		*/
-		virtual const Vector2DF GetCenterPosition() const = 0;
+		virtual Vector2DF GetCenterPosition() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際に文字画像に合成する色を取得する。
 		*/
-		virtual const Color GetColor() const = 0;
+		virtual Color GetColor() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際に左右反転するかどうかの真偽値を取得する。
 		*/
-		virtual const bool GetTurnLR() const = 0;
+		virtual bool GetTurnLR() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際に上下反転するかどうかの真偽値を取得する。
 		*/
-		virtual const bool GetTurnUL() const = 0;
+		virtual bool GetTurnUL() const = 0;
 
 		/**
 		@brief	このオブジェクトの描画優先度を取得します。
 		*/
-		virtual const int GetDrawingPriority() const = 0;
+		virtual int GetDrawingPriority() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際のブレンドモードを取得します。
 		*/
-		virtual const AlphaBlend GetAlphaBlendMode() const = 0;
+		virtual AlphaBlend GetAlphaBlendMode() const = 0;
 
 		/**
 		@brief	このオブジェクトを描画する際の描画方向を設定します。

@@ -82,6 +82,10 @@ namespace ace {
 	{
 		friend class DeviceObject;
 
+	public:
+		static const int32_t		MaxRenderTarget = 4;
+		static const int32_t		MaxTextureCount = 8;
+
 	private:
 		std::set<DeviceObject*>	m_deviceObjects;
 
@@ -100,13 +104,17 @@ namespace ace {
 	protected:
 		void ResetDrawState();
 
-		static const int32_t		MaxRenderTarget = 4;
-
 		Vector2DI					m_size;
-		RenderState_Imp*			m_renderState;
 		GraphicsResourceContainer*	m_resourceContainer;
 
 		Log*						m_log;
+
+		struct
+		{
+			RenderState					renderState;
+			TextureFilterType			textureFilterTypes[MaxTextureCount];
+			TextureWrapType				textureWrapTypes[MaxTextureCount];
+		} currentState, nextState;
 
 		/**
 			@brief	PNGファイルを保存する。
@@ -307,13 +315,6 @@ namespace ace {
 		return CreateSharedPtr(CreateShader_Imp_(vertexShaderText, vertexShaderFileName, pixelShaderText, pixelShaderFileName, layout, macro));
 	}
 
-
-	/**
-		@brief	レンダーステートを取得する。
-		@return	レンダーステート
-	*/
-	RenderState_Imp* GetRenderState() { return m_renderState; };
-
 	/**
 	@brief	シェーダキャッシュを取得する。
 	@return	シェーダキャッシュ
@@ -340,6 +341,17 @@ namespace ace {
 	@brief	描画のためのシェーダーを設定する。
 	*/
 	void SetShader(NativeShader_Imp* shader);
+
+	/**
+	@brief	描画のためのレンダーステートを設定する。
+	*/
+	void SetRenderState(const RenderState& renderState);
+
+	/**
+	@brief	レンダーステートの変更を実際に適用する。
+	@param	forced	設定の変更ありなし関係なく無条件に適用する。
+	*/
+	virtual void CommitRenderState(bool forced) = 0;
 
 	/**
 	@brief	ポリゴンを描画する。

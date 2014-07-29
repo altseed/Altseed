@@ -19,8 +19,8 @@
 #include "../Sound/ace.Sound_Imp.h"
 
 #include "../Graphics/ace.Graphics_Imp.h"
-#include "../Graphics/Resource/ace.RenderState_Imp.h"
-#include "../Graphics/Animation/ace.AnimationSystem_Imp.h"
+
+#include "../Graphics/3D/Resource/Animation/ace.AnimationSystem_Imp.h"
 #include "../Graphics/2D/ace.LayerRenderer.h"
 
 

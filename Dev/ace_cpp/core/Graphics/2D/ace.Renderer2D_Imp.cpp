@@ -9,7 +9,6 @@
 #include "../Resource/ace.VertexBuffer_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
 #include "../Resource/ace.NativeShader_Imp.h"
-#include "../Resource/ace.RenderState_Imp.h"
 #include "../Resource/ace.ShaderCache.h"
 
 #include <Utility/ace.TypeErasureCopy.h>
@@ -46,7 +45,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Renderer2D_Imp::Renderer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize)
+	Renderer2D_Imp::Renderer2D_Imp(Graphics* graphics, Log* log)
 		: m_graphics(nullptr)
 		, m_log(nullptr)
 	{
@@ -54,9 +53,6 @@ namespace ace {
 		m_log = log;
 
 		SafeAddRef(graphics);
-
-		m_windowSize = windowSize;
-
 
 		m_vertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(SpriteVertex), SpriteCount * 4, true);
 		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(SpriteCount * 6, false, false);
@@ -198,11 +194,11 @@ namespace ace {
 		{
 			Matrix44 effectProjMat;
 			Matrix44 effectCameraMat;
-			effectProjMat.SetOrthographicRH(area.Width, area.Height, 0.1, 200.0);
+			effectProjMat.SetOrthographicRH(area.Width, area.Height, 0.1, 800.0);
 
 			auto px = area.X + area.Width / 2;
 			auto py = -(area.Y + area.Height / 2);
-			effectCameraMat.SetLookAtRH(Vector3DF(px, py, 100), Vector3DF(px, py, 0), Vector3DF(0, 1, 0));
+			effectCameraMat.SetLookAtRH(Vector3DF(px, py, 400), Vector3DF(px, py, 0), Vector3DF(0, 1, 0));
 
 			// 行列を転置して設定
 			
@@ -222,7 +218,7 @@ namespace ace {
 			m_effectRenderer->EndRendering();
 
 			// レンダー設定リセット
-			m_graphics->GetRenderState()->Update(true);
+			m_graphics->CommitRenderState(true);
 
 		}
 
@@ -397,23 +393,20 @@ namespace ace {
 		// 描画
 		if (m_state.TexturePtr != nullptr)
 		{
-			shader->SetTexture("g_texture", m_state.TexturePtr, 0);
+			shader->SetTexture("g_texture", m_state.TexturePtr, ace::TextureFilterType::Nearest, ace::TextureWrapType::Clamp, 0);
 		}
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());
 		m_graphics->SetShader(shader.get());
 
-		auto& state = m_graphics->GetRenderState()->Push();
+		RenderState state;
+		
 		state.DepthTest = false;
 		state.DepthWrite = false;
 		state.CullingType = ace::eCullingType::CULLING_DOUBLE;
-		state.TextureFilterTypes[0] = ace::TextureFilterType::Nearest;
-		state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
-		m_graphics->GetRenderState()->Update(false);
+		m_graphics->SetRenderState(state);
 
 		m_graphics->DrawPolygon(m_drawingSprites.size() * 2);
-
-		m_graphics->GetRenderState()->Pop();
 
 		m_drawingSprites.clear();
 	}

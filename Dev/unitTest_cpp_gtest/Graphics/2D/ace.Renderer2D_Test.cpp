@@ -32,7 +32,7 @@ void Graphics_Renderer2D(bool isOpenGLMode)
 	auto texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sample1.png").c_str());
 	ASSERT_TRUE(texture != nullptr);
 
-	auto renderer = new ace::Renderer2D_Imp(graphics, log, window->GetSize());
+	auto renderer = new ace::Renderer2D_Imp(graphics, log);
 
 	int32_t time = 0;
 	while (window->DoEvent())

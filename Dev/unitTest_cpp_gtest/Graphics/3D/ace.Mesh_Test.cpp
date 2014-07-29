@@ -1,20 +1,20 @@
 ﻿
 #include "../ace.Graphics_Test_Utls.h"
 
-#include <Graphics/3D/ace.Renderer3D.h>
-#include <Graphics/3D/ace.RenderedModelObject3D.h>
-#include <Graphics/3D/ace.RenderedCameraObject3D.h>
-#include <Graphics/3D/ace.RenderedDirectionalLightObject3D.h>
+#include <Graphics/3D/Renderer/ace.Renderer3D.h>
+#include <Graphics/3D/Object/ace.RenderedModelObject3D.h>
+#include <Graphics/3D/Object/ace.RenderedCameraObject3D.h>
+#include <Graphics/3D/Object/ace.RenderedDirectionalLightObject3D.h>
 
-#include <Graphics/3D/ace.Mesh.h>
-#include <Graphics/3D/ace.Deformer.h>
+#include <Graphics/3D/Resource/ace.Mesh.h>
+#include <Graphics/3D/Resource/ace.Deformer.h>
 
-#include <Graphics/Animation/ace.AnimationSystem.h>
-#include <Graphics/Animation/ace.AnimationSystem_Imp.h>
+#include <Graphics/3D/Resource/Animation/ace.AnimationSystem.h>
+#include <Graphics/3D/Resource/Animation/ace.AnimationSystem_Imp.h>
 
-#include <Graphics/Animation/ace.AnimationClip.h>
-#include <Graphics/Animation/ace.AnimationSource.h>
-#include <Graphics/Animation/ace.KeyframeAnimation.h>
+#include <Graphics/3D/Resource/Animation/ace.AnimationClip.h>
+#include <Graphics/3D/Resource/Animation/ace.AnimationSource.h>
+#include <Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h>
 
 #include <Graphics/2D/ace.Renderer2D_Imp.h>
 
@@ -212,7 +212,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 	renderer3d->AddObject(meshObject2);
 	renderer3d->AddObject(lightObject);
 
-	auto renderer2d = new ace::Renderer2D_Imp(graphics, log, window->GetSize());
+	auto renderer2d = new ace::Renderer2D_Imp(graphics, log);
 
 
 	int32_t time = 0;
@@ -223,7 +223,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 
 		renderer3d->Flip();
 
-		renderer3d->BeginRendering();
+		renderer3d->BeginRendering(1);
 		ace::Sleep(100);
 		renderer3d->EndRendering();
 

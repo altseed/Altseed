@@ -31,17 +31,17 @@ namespace ace {
 		std::map<achar, GlyphData> m_glyphs;
 
 	public:
-		const GlyphData GetGlyphData(achar c);
-		const bool HasGlyphData(achar c);
+		GlyphData GetGlyphData(achar c);
+		bool HasGlyphData(achar c) const;
 
-		const std::shared_ptr<Texture2D> GetTexture(int index) const;
+		std::shared_ptr<Texture2D> GetTexture(int index) const;
 		// リロード
 		void Reload(const achar* affFilePath);
 
 		Font_Imp(Graphics* graphics, const achar* affFilePath);
 		virtual ~Font_Imp();
 
-		Vector2DI CalcTextureSize(const achar* text, WritingDirection writingDirection) override;
+		Vector2DI CalcTextureSize(const achar* text, WritingDirection writingDirection) const override;
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

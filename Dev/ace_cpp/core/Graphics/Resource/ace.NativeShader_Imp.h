@@ -26,13 +26,13 @@ namespace ace {
 		: public DeviceObject
 	{
 	public:
-		static const int32_t TextureCountMax = 8;
-
 	protected:
-		uint8_t*	m_vertexConstantBuffer;
-		uint8_t*	m_pixelConstantBuffer;
-		Texture*	m_textureSlots[TextureCountMax];
-		std::string	m_textureNames[TextureCountMax];
+		uint8_t*			m_vertexConstantBuffer;
+		uint8_t*			m_pixelConstantBuffer;
+		Texture*			m_textureSlots[Graphics_Imp::MaxTextureCount];
+		std::string			m_textureNames[Graphics_Imp::MaxTextureCount];
+		TextureWrapType		textureWrapTypes[Graphics_Imp::MaxTextureCount];
+		TextureFilterType	textureFilterTypes[Graphics_Imp::MaxTextureCount];
 
 		virtual void CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
 		{
@@ -145,9 +145,9 @@ namespace ace {
 			CreatePixelConstantBufferInternal(size, info);
 		}
 
-		void SetTexture(const char* name, Texture* texture, int32_t index);
+		void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType, int32_t index);
 
-		bool GetTexture(char*& name, Texture*& texture, int32_t index);
+		bool GetTexture(char*& name, Texture*& texture, TextureFilterType& filterType, TextureWrapType& wrapType, int32_t index);
 	};
 
 	//----------------------------------------------------------------------------------

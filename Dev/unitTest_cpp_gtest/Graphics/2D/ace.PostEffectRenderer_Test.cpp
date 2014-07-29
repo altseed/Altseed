@@ -63,7 +63,7 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	auto renderer = ace::PostEffectRenderer::Create(graphics);
 	ASSERT_TRUE(renderer != nullptr);
 
-	auto renderer2d = new ace::Renderer2D_Imp(graphics, log, window->GetSize());
+	auto renderer2d = new ace::Renderer2D_Imp(graphics, log);
 	ASSERT_TRUE(renderer2d != nullptr);
 
 	auto texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sample1.png").c_str());

@@ -212,7 +212,7 @@ namespace ace {
 	{
 		if (m_resource.size() == 0) return false;
 
-		info.Pixels = &(m_resource[0]);
+		info.Pixels = m_resource.data();
 		info.Pitch = ImageHelper::GetPitch(m_format);
 		info.Size = m_size;
 		return true;
@@ -231,7 +231,7 @@ namespace ace {
 			0,
 			NULL,
 			m_resource.data(),
-			m_size.X * m_size.Y * ImageHelper::GetPitch(m_format),
+			m_size.X * ImageHelper::GetPitch(m_format),
 			0);
 	}
 

@@ -23,9 +23,9 @@ namespace ace
 		{
 			for (auto& t : previousTriangles)
 			{
-				ace::Vector2DF positions[4];
-				ace::Color colors[4];
-				ace::Vector2DF uvs[4];
+				ace::Vector2DF positions[3];
+				ace::Color colors[3];
+				ace::Vector2DF uvs[3];
 
 				colors[0] = t.Col1;
 				colors[1] = t.Col2;
@@ -53,9 +53,9 @@ namespace ace
 			{
 				for (auto& t : nextTriangles)
 				{
-					ace::Vector2DF positions[4];
-					ace::Color colors[4];
-					ace::Vector2DF uvs[4];
+					ace::Vector2DF positions[3];
+					ace::Color colors[3];
+					ace::Vector2DF uvs[3];
 
 					colors[0] = t.Col1;
 					colors[1] = t.Col2;

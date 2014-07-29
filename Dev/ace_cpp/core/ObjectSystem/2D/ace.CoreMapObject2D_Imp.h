@@ -22,14 +22,14 @@ namespace ace
 		Object2DType GetObjectType() const override { return Object2DType::Map; }
 
 #pragma region Parameter
-		const Vector2DF GetCenterPosition() const;
+		Vector2DF GetCenterPosition() const;
 		void SetCenterPosition(Vector2DF position);
 
-		const int GetDrawingPriority() const;
+		int GetDrawingPriority() const;
 		void SetDrawingPriority(int priority);
 
-		const bool AddChip(Chip2D* chip);
-		const bool RemoveChip(Chip2D* chip);
+		bool AddChip(Chip2D* chip);
+		bool RemoveChip(Chip2D* chip);
 #pragma endregion
 
 		void Draw(Renderer2D* renderer);

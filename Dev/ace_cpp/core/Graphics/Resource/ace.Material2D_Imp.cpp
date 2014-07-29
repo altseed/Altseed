@@ -5,7 +5,6 @@
 #include "ace.Material2D_Imp.h"
 #include "ace.Shader2D_Imp.h"
 #include "ace.NativeShader_Imp.h"
-#include "ace.RenderState_Imp.h"
 
 //----------------------------------------------------------------------------------
 //

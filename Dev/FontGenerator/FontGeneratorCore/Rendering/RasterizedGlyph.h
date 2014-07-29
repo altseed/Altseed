@@ -6,19 +6,16 @@
 
 namespace FontGenerator
 {
-	struct Span;
-	typedef std::vector<Span> Spans;
-
 	class RasterizedGlyph
 	{
 	private:
 		std::vector<Color> buffer;
 		int width, height;
 
-		RasterizedGlyph(int width, int height);
-
 	public:
 		typedef std::shared_ptr<RasterizedGlyph> Ptr;
+
+		RasterizedGlyph(int width, int height);
 
 		static RasterizedGlyph::Ptr FromSpans(
 			Spans spans,

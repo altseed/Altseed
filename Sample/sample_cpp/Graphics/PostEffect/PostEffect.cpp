@@ -14,27 +14,21 @@ void PostEffect()
 	printf("A : 全てのポストエフェクト消去\n");
 
 	// aceを初期化する
-	ace::Engine::Initialize(L"PostEffect", 640, 480, ace::EngineOption());
+	ace::Engine::Initialize(ace::ToAString("PostEffect").c_str(), 640, 480, ace::EngineOption());
 
-	// シーン等を初期化する(本サンプルのメインの内容には関係なし)
+	// シーン等を初期化する
 	auto scene = std::make_shared<ace::Scene>();
-	auto layer = std::make_shared<ace::Layer3D>();
-	auto effectObj = std::make_shared<ace::EffectObject3D>();
-	auto cameraObj = std::make_shared<ace::CameraObject3D>();
+	auto layer = std::make_shared<ace::Layer2D>();
+	auto effectObj = std::make_shared<ace::EffectObject2D>();
 	auto effect = ace::Engine::GetGraphics()->CreateEffect(ace::ToAString("Data/Effect/magic.efk").c_str());
 
 	scene->SetHDRMode(true);
 	scene->AddLayer(layer);
 	layer->AddObject(effectObj);
-	layer->AddObject(cameraObj);
 	ace::Engine::ChangeScene(scene);
 
-	cameraObj->SetPosition(ace::Vector3DF(2, 2, 20));
-	cameraObj->SetFieldOfView(20);
-	cameraObj->SetZNear(1);
-	cameraObj->SetZFar(40);
-	cameraObj->SetWindowSize(ace::Vector2DI(640, 480));
-
+	effectObj->SetScale(ace::Vector2DF(50, 50));
+	effectObj->SetPosition(ace::Vector2DF(320, 240));
 	effectObj->SetEffect(effect);
 	effectObj->Play();
 

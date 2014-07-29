@@ -4,7 +4,7 @@
 //----------------------------------------------------------------------------------
 #include "ace.GraphicsResourceContainer.h"
 #include "Resource/ace.Texture2D_Imp.h"
-#include "3D/ace.Model_Imp.h"
+#include "3D/Resource/ace.Model_Imp.h"
 #include "Resource/ace.Font_Imp.h"
 
 #if !_WIN32

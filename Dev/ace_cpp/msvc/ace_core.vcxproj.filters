@@ -49,9 +49,6 @@
     <Filter Include="Graphics\3D">
       <UniqueIdentifier>{571212f8-d252-42d6-a34b-86de41297a3e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Animation">
-      <UniqueIdentifier>{79c71194-d8ca-43c7-a9ad-9b6e09ecbd19}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics\Platform">
       <UniqueIdentifier>{7f2db485-b6c8-4b06-a808-01170137c83e}</UniqueIdentifier>
     </Filter>
@@ -117,6 +114,21 @@
     </Filter>
     <Filter Include="ObjectSystem\Transition">
       <UniqueIdentifier>{81887a82-9eb4-4f72-afd0-3a0dc1cd3f28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D\Renderer">
+      <UniqueIdentifier>{3f97eb24-4e6b-4cc2-8bb8-a861e303b623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D\Renderer\Command">
+      <UniqueIdentifier>{49e4e133-2b27-4a6c-89cf-bfbbd91b7282}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D\Object">
+      <UniqueIdentifier>{9a1d750a-5c5a-4040-a540-f28e4e4caa64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D\Resource">
+      <UniqueIdentifier>{58993e92-eff4-4577-ba94-b70c59ff2e2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D\Resource\Animation">
+      <UniqueIdentifier>{018279d9-cf47-40de-a92a-876c1bb5d328}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -337,72 +349,6 @@
     <ClInclude Include="..\core\Graphics\2D\ace.Renderer2D_Imp.h">
       <Filter>Graphics\2D</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.Deformer.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.Deformer_Imp.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.MassModel.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.MassModel_Imp.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.Mesh.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.Mesh_Imp.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.Model.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.Model_Imp.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.RenderedCameraObject3D.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.RenderedDirectionalLightObject3D.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.RenderedEffectObject3D.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.RenderedModelObject3D.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.RenderedObject3D.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\3D\ace.Renderer3D.h">
-      <Filter>Graphics\3D</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Animation\ace.AnimationClip.h">
-      <Filter>Graphics\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Animation\ace.AnimationClip_Imp.h">
-      <Filter>Graphics\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Animation\ace.AnimationSource.h">
-      <Filter>Graphics\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Animation\ace.AnimationSource_Imp.h">
-      <Filter>Graphics\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Animation\ace.AnimationSystem.h">
-      <Filter>Graphics\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Animation\ace.AnimationSystem_Imp.h">
-      <Filter>Graphics\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Animation\ace.KeyframeAnimation.h">
-      <Filter>Graphics\Animation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Animation\ace.KeyframeAnimation_Imp.h">
-      <Filter>Graphics\Animation</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\Platform\DX11\ace.DX11.Base.h">
       <Filter>Graphics\Platform\DX11</Filter>
     </ClInclude>
@@ -419,9 +365,6 @@
       <Filter>Graphics\Platform\DX11\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.NativeShader_Imp_DX11.h">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderState_Imp_DX11.h">
       <Filter>Graphics\Platform\DX11\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderTexture2D_Imp_DX11.h">
@@ -443,9 +386,6 @@
       <Filter>Graphics\Platform\GL\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.NativeShader_Imp_GL.h">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.RenderState_Imp_GL.h">
       <Filter>Graphics\Platform\GL\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.RenderTexture2D_Imp_GL.h">
@@ -491,9 +431,6 @@
       <Filter>Graphics\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Resource\ace.NativeShader_Imp.h">
-      <Filter>Graphics\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Resource\ace.RenderState_Imp.h">
       <Filter>Graphics\Resource</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Resource\ace.RenderTexture2D.h">
@@ -706,6 +643,72 @@
     <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.h">
       <Filter>ObjectSystem\Transition</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedCameraObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedDirectionalLightObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedEffectObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedModelObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\ace.Deformer.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\ace.Deformer_Imp.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\ace.MassModel.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\ace.MassModel_Imp.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\ace.Mesh.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\ace.Mesh_Imp.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\ace.Model.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\ace.Model_Imp.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\ace.AnimationClip_Imp.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\ace.AnimationSource.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\ace.AnimationSource_Imp.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\ace.AnimationSystem.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\ace.AnimationSystem_Imp.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\ace.KeyframeAnimation.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\ace.KeyframeAnimation_Imp.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\ace.AnimationClip.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -828,48 +831,6 @@
     <ClCompile Include="..\core\Graphics\2D\ace.Renderer2D_Imp.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\3D\ace.Deformer_Imp.cpp">
-      <Filter>Graphics\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\3D\ace.MassModel_Imp.cpp">
-      <Filter>Graphics\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\3D\ace.Mesh_Imp.cpp">
-      <Filter>Graphics\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\3D\ace.Model_Imp.cpp">
-      <Filter>Graphics\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\3D\ace.RenderedCameraObject3D.cpp">
-      <Filter>Graphics\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\3D\ace.RenderedDirectionalLightObject3D.cpp">
-      <Filter>Graphics\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\3D\ace.RenderedEffectObject3D.cpp">
-      <Filter>Graphics\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\3D\ace.RenderedModelObject3D.cpp">
-      <Filter>Graphics\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\3D\ace.RenderedObject3D.cpp">
-      <Filter>Graphics\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\3D\ace.Renderer3D.cpp">
-      <Filter>Graphics\3D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Animation\ace.AnimationClip_Imp.cpp">
-      <Filter>Graphics\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Animation\ace.AnimationSource_Imp.cpp">
-      <Filter>Graphics\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Animation\ace.AnimationSystem_Imp.cpp">
-      <Filter>Graphics\Animation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Animation\ace.KeyframeAnimation_Imp.cpp">
-      <Filter>Graphics\Animation</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\Graphics\Platform\DX11\ace.Graphics_Imp_DX11.cpp">
       <Filter>Graphics\Platform\DX11</Filter>
     </ClCompile>
@@ -883,9 +844,6 @@
       <Filter>Graphics\Platform\DX11\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.NativeShader_Imp_DX11.cpp">
-      <Filter>Graphics\Platform\DX11\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderState_Imp_DX11.cpp">
       <Filter>Graphics\Platform\DX11\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.RenderTexture2D_Imp_DX11.cpp">
@@ -907,9 +865,6 @@
       <Filter>Graphics\Platform\GL\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.NativeShader_Imp_GL.cpp">
-      <Filter>Graphics\Platform\GL\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.RenderState_Imp_GL.cpp">
       <Filter>Graphics\Platform\GL\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.RenderTexture2D_Imp_GL.cpp">
@@ -943,9 +898,6 @@
       <Filter>Graphics\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Resource\ace.NativeShader_Imp.cpp">
-      <Filter>Graphics\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\Resource\ace.RenderState_Imp.cpp">
       <Filter>Graphics\Resource</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Resource\ace.RenderTexture2D_Imp.cpp">
@@ -1007,6 +959,48 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.cpp">
       <Filter>ObjectSystem\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedCameraObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedDirectionalLightObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedEffectObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedModelObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\ace.Deformer_Imp.cpp">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\ace.MassModel_Imp.cpp">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\ace.Mesh_Imp.cpp">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\ace.Model_Imp.cpp">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\ace.AnimationClip_Imp.cpp">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\ace.AnimationSource_Imp.cpp">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\ace.AnimationSystem_Imp.cpp">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\ace.KeyframeAnimation_Imp.cpp">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

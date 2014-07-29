@@ -7,8 +7,8 @@
     <ProjectGuid>{1A5DA807-93EC-4566-BA95-778D20F3C47C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>test_cs</RootNamespace>
-    <AssemblyName>test_cs</AssemblyName>
+    <RootNamespace>sample_cs</RootNamespace>
+    <AssemblyName>sample_cs</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Graphics\2D\EffectObject2D.cs" />
     <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />
     <Compile Include="Graphics\PostEffect\PostEffect.cs" />
     <Compile Include="Input\Joystick.cs" />

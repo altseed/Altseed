@@ -38,14 +38,14 @@
 
 #include "Graphics/Resource/ace.Chip2D.h"
 
-#include "Graphics/3D/ace.Mesh.h"
-#include "Graphics/3D/ace.Deformer.h"
-#include "Graphics/3D/ace.Model.h"
+#include "Graphics/3D/Resource/ace.Mesh.h"
+#include "Graphics/3D/Resource/ace.Deformer.h"
+#include "Graphics/3D/Resource/ace.Model.h"
 
-#include "Graphics/Animation/ace.AnimationSystem_Imp.h"
-#include "Graphics/Animation/ace.AnimationClip_Imp.h"
-#include "Graphics/Animation/ace.AnimationSource_Imp.h"
-#include "Graphics/Animation/ace.KeyframeAnimation_Imp.h"
+#include "Graphics/3D/Resource/Animation/ace.AnimationSystem_Imp.h"
+#include "Graphics/3D/Resource/Animation/ace.AnimationClip_Imp.h"
+#include "Graphics/3D/Resource/Animation/ace.AnimationSource_Imp.h"
+#include "Graphics/3D/Resource/Animation/ace.KeyframeAnimation_Imp.h"
 
 #include "ObjectSystem/ace.eChildMode.h"
 #include "ObjectSystem/2D/ace.CoreObject2D.h"
@@ -409,14 +409,14 @@ namespace ace
 
 %include "ace_cpp/core/Graphics/Resource/ace.Chip2D.h"
 
-%include "ace_cpp/core/Graphics/3D/ace.Deformer.h"
-%include "ace_cpp/core/Graphics/3D/ace.Mesh.h"
-%include "ace_cpp/core/Graphics/3D/ace.Model.h"
+%include "ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h"
+%include "ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h"
+%include "ace_cpp/core/Graphics/3D/Resource/ace.Model.h"
 
-%include "ace_cpp/core/Graphics/Animation/ace.KeyframeAnimation.h"
-%include "ace_cpp/core/Graphics/Animation/ace.AnimationSource.h"
-%include "ace_cpp/core/Graphics/Animation/ace.AnimationClip.h"
-%include "ace_cpp/core/Graphics/Animation/ace.AnimationSystem.h"
+%include "ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h"
+%include "ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource.h"
+%include "ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationClip.h"
+%include "ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSystem.h"
 
 %include "ace_cpp/core/Graphics/ace.Graphics.h"
 %include "ace_cpp/core/Graphics/ace.Graphics_Imp.h"

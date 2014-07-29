@@ -25,8 +25,10 @@ namespace ace
 		, m_objects(list<ObjectPtr>())
 		, m_cameras(list<CoreCameraObject2D*>())
 		, m_renderer(nullptr)
+		, m_rendererForCamera(nullptr)
 	{
-		m_renderer = new Renderer2D_Imp(graphics, log, windowSize);
+		m_renderer = new Renderer2D_Imp(graphics, log);
+		m_rendererForCamera = new Renderer2D_Imp(graphics, log);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -35,6 +37,7 @@ namespace ace
 	CoreLayer2D_Imp::~CoreLayer2D_Imp()
 	{
 		SafeDelete(m_renderer);
+		SafeDelete(m_rendererForCamera);
 
 		for (auto& object : m_objects)
 		{
@@ -188,25 +191,24 @@ namespace ace
 			return;
 		}
 
-		if (!m_cameras.empty())
-		{
-			for (auto& c : m_cameras)
-			{
-				c->SetForRenderTarget();
-				DrawObjects(c->GetRenderer());
-				c->FlushToBuffer();
-			}
-		}
-		else
+		if (m_cameras.empty())
 		{
 			DrawObjects(m_renderer);
 		}
-
-		m_scene->SetRenderTargetForDrawingLayer();
-
-		for (auto& c : m_cameras)
+		else
 		{
-			c->DrawBuffer(m_renderer);
+			m_rendererForCamera->ClearCache();
+			for (auto& c : m_cameras)
+			{
+				c->SetForRenderTarget();
+				DrawObjects(m_renderer);
+				c->FlushToBuffer(m_renderer);
+			}
+
+			for (auto& c : m_cameras)
+			{
+				c->DrawBuffer(m_rendererForCamera);
+			}
 		}
 	}
 
@@ -215,8 +217,20 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::EndDrawing()
 	{
-		m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y));
-		m_renderer->DrawCache();
-		m_renderer->ClearCache();
+		m_scene->SetRenderTargetForDrawingLayer();
+
+		if (m_cameras.empty())
+		{
+			m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y));
+			m_renderer->DrawCache();
+			m_renderer->ClearCache();
+		}
+		else
+		{
+			
+			m_rendererForCamera->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y));
+			m_rendererForCamera->DrawCache();
+			m_rendererForCamera->ClearCache();
+		}
 	}
 }

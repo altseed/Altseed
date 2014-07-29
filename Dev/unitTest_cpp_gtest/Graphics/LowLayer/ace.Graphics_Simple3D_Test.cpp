@@ -211,21 +211,19 @@ void Graphics_Simple3D(bool isOpenGLMode)
 		auto& mat_ = shader->GetVertexConstantBuffer<ace::Matrix44>();
 		mat_ = mat;
 
-		shader->SetTexture("g_texture", texture.get(), 0);
+		shader->SetTexture("g_texture", texture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 		graphics->SetVertexBuffer(vertexBuffer.get());
 		graphics->SetIndexBuffer(indexBuffer.get());
 		graphics->SetShader(shader.get());
 
-		auto& state = graphics->GetRenderState()->Push();
+		ace::RenderState state;
+		
 		state.DepthTest = true;
 		state.DepthWrite = true;
 		state.CullingType = ace::eCullingType::CULLING_FRONT;
-		state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
-		graphics->GetRenderState()->Update(false);
+		graphics->SetRenderState(state);
 
 		graphics->DrawPolygon(2*6);
-
-		graphics->GetRenderState()->Pop();
 		
 		graphics->Present();
 

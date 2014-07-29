@@ -104,14 +104,14 @@ engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Effect.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Chip2D.h")
 
-engineHeader.readLines("ace_cpp/core/Graphics/3D/ace.Deformer.h")
-engineHeader.readLines("ace_cpp/core/Graphics/3D/ace.Mesh.h")
-engineHeader.readLines("ace_cpp/core/Graphics/3D/ace.Model.h")
+engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h")
+engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h")
+engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Model.h")
 
-engineHeader.readLines("ace_cpp/core/Graphics/Animation/ace.KeyframeAnimation.h")
-engineHeader.readLines("ace_cpp/core/Graphics/Animation/ace.AnimationSource.h")
-engineHeader.readLines("ace_cpp/core/Graphics/Animation/ace.AnimationClip.h")
-engineHeader.readLines("ace_cpp/core/Graphics/Animation/ace.AnimationSystem.h")
+engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h")
+engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource.h")
+engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationClip.h")
+engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSystem.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/ace.Graphics.h")
 

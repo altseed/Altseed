@@ -120,8 +120,8 @@ namespace ace {
 		virtual void TakeScreenshot(const achar* path) = 0;
 
 		/**
-			@brief	1フレームで経過した時間を(1/60s)単位で取得する。
-			@return	経過時間(1/60s)単位
+			@brief	1フレームで経過した時間を実時間(1/60秒を1とした値)で取得する。
+			@return	経過時間時間(1/60秒を1とした値)
 		*/
 		virtual float GetDeltaTime() const = 0;
 

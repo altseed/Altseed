@@ -32,24 +32,24 @@ set(core_src
 	ace_cpp/core/Graphics/2D/ace.LayerRenderer.cpp
 	ace_cpp/core/Graphics/2D/ace.PostEffectRenderer.cpp
 	ace_cpp/core/Graphics/2D/ace.Renderer2D_Imp.cpp
-	ace_cpp/core/Graphics/3D/ace.Deformer_Imp.cpp
-	ace_cpp/core/Graphics/3D/ace.MassModel_Imp.cpp
-	ace_cpp/core/Graphics/3D/ace.Mesh_Imp.cpp
-	ace_cpp/core/Graphics/3D/ace.Model_Imp.cpp
-	ace_cpp/core/Graphics/3D/ace.RenderedCameraObject3D.cpp
-	ace_cpp/core/Graphics/3D/ace.RenderedDirectionalLightObject3D.cpp
-	ace_cpp/core/Graphics/3D/ace.RenderedEffectObject3D.cpp
-	ace_cpp/core/Graphics/3D/ace.RenderedModelObject3D.cpp
-	ace_cpp/core/Graphics/3D/ace.RenderedObject3D.cpp
-	ace_cpp/core/Graphics/3D/ace.Renderer3D.cpp
+	ace_cpp/core/Graphics/3D/Object/ace.RenderedCameraObject3D.cpp
+	ace_cpp/core/Graphics/3D/Object/ace.RenderedDirectionalLightObject3D.cpp
+	ace_cpp/core/Graphics/3D/Object/ace.RenderedEffectObject3D.cpp
+	ace_cpp/core/Graphics/3D/Object/ace.RenderedModelObject3D.cpp
+	ace_cpp/core/Graphics/3D/Object/ace.RenderedObject3D.cpp
+	ace_cpp/core/Graphics/3D/Renderer/ace.Renderer3D.cpp
+	ace_cpp/core/Graphics/3D/Resource/ace.Deformer_Imp.cpp
+	ace_cpp/core/Graphics/3D/Resource/ace.MassModel_Imp.cpp
+	ace_cpp/core/Graphics/3D/Resource/ace.Mesh_Imp.cpp
+	ace_cpp/core/Graphics/3D/Resource/ace.Model_Imp.cpp
+	ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationClip_Imp.cpp
+	ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource_Imp.cpp
+	ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSystem_Imp.cpp
+	ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation_Imp.cpp
 	ace_cpp/core/Graphics/ace.DeviceObject.cpp
 	ace_cpp/core/Graphics/ace.GraphicsResourceContainer.cpp
 	ace_cpp/core/Graphics/ace.Graphics_Imp.cpp
 	ace_cpp/core/Graphics/ace.RenderingThread.cpp
-	ace_cpp/core/Graphics/Animation/ace.AnimationClip_Imp.cpp
-	ace_cpp/core/Graphics/Animation/ace.AnimationSource_Imp.cpp
-	ace_cpp/core/Graphics/Animation/ace.AnimationSystem_Imp.cpp
-	ace_cpp/core/Graphics/Animation/ace.KeyframeAnimation_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Chip2D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.CubemapTexture_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.DepthBuffer_Imp.cpp
@@ -59,7 +59,6 @@ set(core_src
 	ace_cpp/core/Graphics/Resource/ace.Material2D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Material_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.NativeShader_Imp.cpp
-	ace_cpp/core/Graphics/Resource/ace.RenderState_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.RenderTexture2D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Shader2D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.ShaderCache.cpp
@@ -114,7 +113,6 @@ set(dx11_src
 	ace_cpp/core/Graphics/Platform/DX11/Resource/ace.DepthBuffer_Imp_DX11.cpp
 	ace_cpp/core/Graphics/Platform/DX11/Resource/ace.IndexBuffer_Imp_DX11.cpp
 	ace_cpp/core/Graphics/Platform/DX11/Resource/ace.NativeShader_Imp_DX11.cpp
-	ace_cpp/core/Graphics/Platform/DX11/Resource/ace.RenderState_Imp_DX11.cpp
 	ace_cpp/core/Graphics/Platform/DX11/Resource/ace.RenderTexture2D_Imp_DX11.cpp
 	ace_cpp/core/Graphics/Platform/DX11/Resource/ace.Texture2D_Imp_DX11.cpp
 	ace_cpp/core/Graphics/Platform/DX11/Resource/ace.VertexBuffer_Imp_DX11.cpp
@@ -126,7 +124,6 @@ set(gl_src
 	ace_cpp/core/Graphics/Platform/GL/Resource/ace.DepthBuffer_Imp_GL.cpp
 	ace_cpp/core/Graphics/Platform/GL/Resource/ace.IndexBuffer_Imp_GL.cpp
 	ace_cpp/core/Graphics/Platform/GL/Resource/ace.NativeShader_Imp_GL.cpp
-	ace_cpp/core/Graphics/Platform/GL/Resource/ace.RenderState_Imp_GL.cpp
 	ace_cpp/core/Graphics/Platform/GL/Resource/ace.RenderTexture2D_Imp_GL.cpp
 	ace_cpp/core/Graphics/Platform/GL/Resource/ace.Texture2D_Imp_GL.cpp
 	ace_cpp/core/Graphics/Platform/GL/Resource/ace.VertexBuffer_Imp_GL.cpp
@@ -167,6 +164,7 @@ set(engine_src
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectLightBloom.cpp
 	ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSepia.cpp
 	ace_cpp/engine/ObjectSystem/Transition/ace.Transition.cpp
+	ace_cpp/engine/ObjectSystem/Transition/ace.TransitionFade.cpp
 	ace_cpp/engine/PCH/ace.Engine.PCH.cpp
 )
 
@@ -218,6 +216,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGrayScale.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectLightBloom.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepia.cpp
+	unitTest_Engine_cpp_gtest/Graphics/Transition/Transition.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp

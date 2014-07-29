@@ -20,7 +20,7 @@ namespace ace
 		return m_coreObject.get();
 	}
 
-	const Vector2DF MapObject2D::GetCenterPosition() const
+	Vector2DF MapObject2D::GetCenterPosition() const
 	{
 		return m_coreObject->GetCenterPosition();
 	}
@@ -30,7 +30,7 @@ namespace ace
 		m_coreObject->SetCenterPosition(position);
 	}
 
-	const int MapObject2D::GetDrawingPriority() const
+	int MapObject2D::GetDrawingPriority() const
 	{
 		return m_coreObject->GetDrawingPriority();
 	}
@@ -40,13 +40,13 @@ namespace ace
 		m_coreObject->SetDrawingPriority(priority);
 	}
 
-	const bool MapObject2D::AddChip(std::shared_ptr<Chip2D> chip)
+	bool MapObject2D::AddChip(std::shared_ptr<Chip2D> chip)
 	{
 		m_chips.insert(chip);
 		return m_coreObject->AddChip(chip.get());
 	}
 
-	const bool MapObject2D::RemoveChip(std::shared_ptr<Chip2D> chip)
+	bool MapObject2D::RemoveChip(std::shared_ptr<Chip2D> chip)
 	{
 		m_chips.erase(chip);
 		return m_coreObject->RemoveChip(chip.get());

@@ -13,7 +13,6 @@ namespace ace
 		RectI m_src;
 		RectI m_dst;
 
-		Renderer2D* m_renderer;
 		RenderTexture2D_Imp* m_renderTarget;
 
 		void ResetBuffer();
@@ -91,11 +90,10 @@ namespace ace
 #pragma endregion
 
 #if !SWIG
-		Renderer2D* GetRenderer() const;
 		Matrix33 GetCameraMatrix();
 
 		void SetForRenderTarget();
-		void FlushToBuffer();
+		void FlushToBuffer(Renderer2D* renderer);
 		void DrawBuffer(Renderer2D* renderer);
 
 		void Draw(Renderer2D* renderer);
