@@ -189,6 +189,39 @@ namespace ace {
 	};
 
 	/**
+		@brief	シェーダー内の定数1つを保存する構造体
+	*/
+	struct ShaderConstantValue
+	{
+		ShaderVariableType	ValueType;
+		int32_t				ID;
+		union
+		{
+			float		Float4[4];
+			float		Mat44[16];
+
+			struct
+			{
+				Texture2D*			Ptr;
+				TextureFilterType	FilterType;
+				TextureWrapType		WrapType;
+			} Texture2DPtr;
+
+		} Data;
+
+		ShaderConstantValue();
+		ShaderConstantValue(const ShaderConstantValue& value);
+		ShaderConstantValue(const float& value);
+		ShaderConstantValue(const Vector2DF& value);
+		ShaderConstantValue(const Vector3DF& value);
+		ShaderConstantValue(const Vector4DF& value);
+		ShaderConstantValue(const Matrix44& value);
+		ShaderConstantValue(Texture2D* value, TextureFilterType filterType, TextureWrapType wrapType);
+		virtual ~ShaderConstantValue();
+		ShaderConstantValue& operator=(const ShaderConstantValue& value);
+	};
+
+	/**
 	@brief	リロード情報
 	*/
 	struct Texture2DReloadInformation

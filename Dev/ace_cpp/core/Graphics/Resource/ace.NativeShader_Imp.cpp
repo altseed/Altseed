@@ -121,6 +121,46 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	void NativeShader_Imp::SetFloat(int32_t id, const float& value)
+	{
+		SetConstantBuffer(id, &value, sizeof(float));
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void NativeShader_Imp::SetVector2DF(int32_t id, const Vector2DF& value)
+	{
+		SetConstantBuffer(id, &value, sizeof(Vector2DF));
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void NativeShader_Imp::SetVector3DF(int32_t id, const Vector3DF& value)
+	{
+		SetConstantBuffer(id, &value, sizeof(Vector3DF));
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void NativeShader_Imp::SetVector4DF(int32_t id, const Vector4DF& value)
+	{
+		SetConstantBuffer(id, &value, sizeof(Vector4DF));
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void NativeShader_Imp::SetMatrix44(int32_t id, const Matrix44& value)
+	{
+		SetConstantBuffer(id, &value, sizeof(Matrix44));
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	void NativeShader_Imp::SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType, int32_t index)
 	{
 		if (index >= Graphics_Imp::MaxTextureCount) return;
@@ -154,6 +194,39 @@ namespace ace {
 		filterType = textureFilterTypes[index];
 		wrapType = textureWrapTypes[index];
 		return true;
+	}
+
+	void NativeShader_Imp::SetConstantValues(ShaderConstantValue* constantValues, int32_t constantValueCount)
+	{
+		for (auto i = 0; i < constantValueCount; i++)
+		{
+			auto& value = constantValues[i];
+
+			if (value.ValueType == SHADER_VARIABLE_TYPE_FLOAT)
+			{
+				SetFloat(value.ID, value.Data.Float4[0]);
+			}
+			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR2DF)
+			{
+				SetVector2DF(value.ID, Vector2DF(value.Data.Float4[0], value.Data.Float4[1]));
+			}
+			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR3DF)
+			{
+				SetVector3DF(value.ID, Vector3DF(value.Data.Float4[0], value.Data.Float4[1], value.Data.Float4[2]));
+			}
+			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR4DF)
+			{
+				SetVector4DF(value.ID, Vector4DF(value.Data.Float4[0], value.Data.Float4[1], value.Data.Float4[2], value.Data.Float4[3]));
+			}
+			else if (value.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
+			{
+				SetTexture(
+					value.ID,
+					value.Data.Texture2DPtr.Ptr,
+					value.Data.Texture2DPtr.FilterType,
+					value.Data.Texture2DPtr.WrapType);
+			}
+		}
 	}
 
 	//----------------------------------------------------------------------------------

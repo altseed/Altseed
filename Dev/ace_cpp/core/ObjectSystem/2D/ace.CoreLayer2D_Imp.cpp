@@ -233,4 +233,38 @@ namespace ace
 			m_rendererForCamera->ClearCache();
 		}
 	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::Clear()
+	{
+		for(auto object:m_objects)
+		{
+			{
+				auto o = CoreObject2DToImp(object);
+				o->OnRemoving(m_renderer);
+			}
+			object->SetLayer(nullptr);
+			m_objects.remove(object);
+			SafeRelease(object);
+		}
+
+		m_objects.clear();
+
+		for (auto object : m_cameras)
+		{
+			{
+				auto o = CoreObject2DToImp(object);
+				o->OnRemoving(m_renderer);
+			}
+			object->SetLayer(nullptr);
+			auto camera = (CoreCameraObject2D*)object;
+			m_cameras.remove(camera);
+			SafeRelease(camera);
+
+		}
+
+		m_cameras.clear();
+	}
 }

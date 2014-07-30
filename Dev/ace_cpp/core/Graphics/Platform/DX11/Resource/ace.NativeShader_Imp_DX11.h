@@ -25,6 +25,7 @@ namespace ace {
 
 		struct ConstantLayout
 		{
+			int32_t					Index;
 			std::string				Name;
 			eConstantBufferFormat	Type;
 			//GLint			ID;
@@ -32,16 +33,25 @@ namespace ace {
 			int32_t			Count;
 		};
 
+		struct TextureLayout
+		{
+			int32_t					Index;
+			std::string				Name;
+			int32_t					ID;
+		};
+
 		std::map < std::string, ConstantLayout>	m_vs_constantLayouts;
 		std::map < std::string, ConstantLayout>	m_ps_constantLayouts;
+		std::vector<ConstantLayout*>	constantLayoutsArray;
 
-		std::map<std::string, int32_t> m_vs_textureLayouts;
-		std::map<std::string, int32_t> m_ps_textureLayouts;
+		std::map<std::string, TextureLayout> m_vs_textureLayouts;
+		std::map<std::string, TextureLayout> m_ps_textureLayouts;
+		std::vector<TextureLayout*>	textureLayoutsArray;
 
 		static ID3DBlob* CompileVertexShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 		static ID3DBlob* CompilePixelShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 
-		static void Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<std::string>& textures);
+		static void Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures);
 
 	protected:
 		void CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info);
@@ -55,15 +65,21 @@ namespace ace {
 			ID3D11InputLayout* layout,
 			std::vector<ConstantLayout> vs_uniformLayouts,
 			int32_t vs_uniformBufferSize,
-			std::vector<std::string> vs_textures,
+			std::vector<TextureLayout> vs_textures,
 			std::vector<ConstantLayout> ps_uniformLayouts,
 			int32_t ps_uniformBufferSize,
-			std::vector<std::string> ps_textures
+			std::vector<TextureLayout> ps_textures
 			);
 		virtual ~NativeShader_Imp_DX11();
 
+		int32_t GetConstantBufferID(const char* name) override;
+		int32_t GetTextureID(const char* name) override;
+
 		void SetConstantBuffer(const char* name, const void* data, int32_t size) override;
+		void SetConstantBuffer(int32_t id, const void* data, int32_t size) override;
+
 		void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) override;
+		void SetTexture(int32_t id, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType) override;
 
 		void AssignConstantBuffer();
 

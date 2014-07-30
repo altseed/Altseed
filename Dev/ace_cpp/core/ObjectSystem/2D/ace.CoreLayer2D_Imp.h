@@ -45,6 +45,7 @@ namespace ace
 	public:
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);
+		void Clear();
 
 		void BeginUpdating();
 		void EndUpdating();

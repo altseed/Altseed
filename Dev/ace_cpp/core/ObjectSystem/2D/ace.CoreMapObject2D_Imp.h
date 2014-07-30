@@ -30,6 +30,8 @@ namespace ace
 
 		bool AddChip(Chip2D* chip);
 		bool RemoveChip(Chip2D* chip);
+
+		void Clear();
 #pragma endregion
 
 		void Draw(Renderer2D* renderer);

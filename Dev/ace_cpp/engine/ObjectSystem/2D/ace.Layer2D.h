@@ -69,6 +69,11 @@ namespace ace
 		void RemoveObject(const Object2D::Ptr& object);
 
 		/**
+		@brief	レイヤーが所持する全ての2Dオブジェクトをこのインスタンスから削除する。
+		*/
+		void Clear();
+
+		/**
 			@brief	指定したコンポーネントをこのインスタンスに追加する。
 			@param	component	追加するコンポーネント
 			@param	key			コンポーネントに関連付けるキー

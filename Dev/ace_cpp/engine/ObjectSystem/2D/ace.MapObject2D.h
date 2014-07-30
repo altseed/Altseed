@@ -53,5 +53,10 @@ namespace ace
 		@brief	このオブジェクトから描画チップを削除する。
 		*/
 		bool RemoveChip(std::shared_ptr<Chip2D> chip);
+
+		/**
+		@brief	このオブジェクトに追加されている描画チップを全て削除する。
+		*/
+		void Clear();
 	};
 }

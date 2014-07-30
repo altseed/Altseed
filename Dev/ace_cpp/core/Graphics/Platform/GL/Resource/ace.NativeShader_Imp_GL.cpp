@@ -29,23 +29,34 @@ NativeShader_Imp_GL::NativeShader_Imp_GL(
 	int32_t vertexSize,
 	std::vector<ConstantLayout>& uniformLayouts,
 	int32_t uniformBufferSize,
-	std::vector<std::string>& textures)
+	std::vector<TextureLayout>& textures)
 	: NativeShader_Imp(graphics)
 	, m_program(program)
 	, m_layout(layout)
 	, m_vertexSize(vertexSize)
 {
+	int32_t index = 0;
+
+	index = 0;
 	for (auto& l : uniformLayouts)
 	{
+		l.Index = index;
 		m_constantLayouts[l.Name] = l;
+		constantLayoutsArray.push_back(&(m_constantLayouts[l.Name]));
+		index++;
 	}
+
+	index = 0;
+	for(auto& l : textures)
+	{
+		l.Index = index;
+		m_textureLayouts[l.Name] = l;
+		textureLayoutsArray.push_back(&(m_textureLayouts[l.Name]));
+		index++;
+	}
+
 	m_constantBuffer = new uint8_t[uniformBufferSize];
 
-	for (auto i = 0; i < textures.size(); i++)
-	{
-		if (textures[i] == "") continue;
-		m_textureLayouts[textures[i]] = i;
-	}
 }
 
 //----------------------------------------------------------------------------------
@@ -60,7 +71,7 @@ NativeShader_Imp_GL::~NativeShader_Imp_GL()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<std::string>& textures)
+void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures)
 {
 	int32_t uniformCount = 0;
 	glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &uniformCount);
@@ -78,11 +89,17 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 
 		if (type == GL_SAMPLER_2D)
 		{
-			textures.push_back(name);
+			TextureLayout layout;
+			layout.Name = name;
+			layout.ID = textures.size();
+			textures.push_back(layout);
 		}
 		else if (type == GL_SAMPLER_CUBE)
 		{
-			textures.push_back(name);
+			TextureLayout layout;
+			layout.Name = name;
+			layout.ID = textures.size();
+			textures.push_back(layout);
 		}
 		else
 		{
@@ -177,6 +194,33 @@ void NativeShader_Imp_GL::CreatePixelConstantBufferInternal(int32_t size, std::v
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+
+int32_t NativeShader_Imp_GL::GetConstantBufferID(const char* name)
+{
+	auto key = std::string(name);
+
+	auto it = m_constantLayouts.find(key);
+
+	if (it != m_constantLayouts.end())
+	{
+		return it->second.Index;
+	}
+	return -1;
+}
+
+int32_t NativeShader_Imp_GL::GetTextureID(const char* name)
+{
+	auto key = std::string(name);
+
+	auto it = m_textureLayouts.find(key);
+
+	if (it != m_textureLayouts.end())
+	{
+		return it->second.Index;
+	}
+	return -1;
+}
+
 void NativeShader_Imp_GL::SetConstantBuffer(const char* name, const void* data, int32_t size)
 {
 	auto key = std::string(name);
@@ -192,6 +236,17 @@ void NativeShader_Imp_GL::SetConstantBuffer(const char* name, const void* data, 
 	}
 }
 
+void NativeShader_Imp_GL::SetConstantBuffer(int32_t id, const void* data, int32_t size)
+{
+	assert(id < (int32_t) constantLayoutsArray.size());
+	if (id < 0) return;
+
+	auto& layout = constantLayoutsArray[id];
+	auto size_ = GetBufferSize(layout->Type, layout->Count);
+	assert(size == size_);
+	memcpy(&(m_constantBuffer[layout->Offset]), data, size);
+}
+
 void NativeShader_Imp_GL::SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType)
 {
 	auto key = std::string(name);
@@ -201,8 +256,18 @@ void NativeShader_Imp_GL::SetTexture(const char* name, Texture* texture, Texture
 
 	if (it != m_textureLayouts.end())
 	{
-		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it).second);
+		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it).second.ID);
 	}
+}
+
+void NativeShader_Imp_GL::SetTexture(int32_t id, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType)
+{
+	assert(id < (int32_t) textureLayoutsArray.size());
+	if (id < 0) return;
+
+	auto& layout = textureLayoutsArray[id];
+
+	NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->ID);
 }
 
 //----------------------------------------------------------------------------------
@@ -582,7 +647,7 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 
 	std::vector<ConstantLayout> uniformLayouts;
 	int32_t uniformBufferSize = 0;
-	std::vector<std::string> textures;
+	std::vector<TextureLayout> textures;
 	Reflect(program, uniformLayouts, uniformBufferSize, textures);
 	GLCheckError();
 
