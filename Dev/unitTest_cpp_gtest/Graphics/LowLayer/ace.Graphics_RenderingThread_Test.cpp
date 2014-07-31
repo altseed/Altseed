@@ -104,6 +104,7 @@ static std::shared_ptr<ace::Texture2D> texture;
 static std::shared_ptr<ace::VertexBuffer_Imp> vertexBuffer;
 static std::shared_ptr<ace::IndexBuffer_Imp> indexBuffer;
 static std::shared_ptr<ace::NativeShader_Imp> shader;
+static ace::RenderTexture2D_Imp* renderTexture = nullptr;
 
 static void Rendering()
 {
@@ -113,13 +114,31 @@ static void Rendering()
 
 	helper.Clear(true, false, ace::Color(64, 32, 16, 255));
 
-	ace::RenderState state;
-	state.DepthTest = false;
-	state.DepthWrite = false;
+	helper.SetRenderTarget(renderTexture, nullptr);
 
-	helper.Draw(2, vertexBuffer.get(), indexBuffer.get(), shader.get(), state,
-		h::GenValue("g_texture", h::Texture2DPair(texture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
-		);
+	for (auto i = 0; i < 100; i++)
+	{
+		ace::RenderState state;
+		state.DepthTest = false;
+		state.DepthWrite = false;
+
+		helper.Draw(2, vertexBuffer.get(), indexBuffer.get(), shader.get(), state,
+			h::GenValue("g_texture", h::Texture2DPair(texture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+			);
+	}
+
+	helper.SetRenderTarget(nullptr, nullptr);
+
+	for (auto i = 0; i < 100; i++)
+	{
+		ace::RenderState state;
+		state.DepthTest = false;
+		state.DepthWrite = false;
+	
+		helper.Draw(2, vertexBuffer.get(), indexBuffer.get(), shader.get(), state,
+			h::GenValue("g_texture", h::Texture2DPair(texture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+			);
+	}
 }
 
 class RenderingEvent
@@ -155,6 +174,9 @@ void Graphics_RenderingThread(bool isOpenGLMode)
 
 	indexBuffer = graphics->CreateIndexBuffer_Imp(6, false, false);
 	ASSERT_TRUE(indexBuffer != nullptr);
+
+	renderTexture = graphics->CreateRenderTexture2D_Imp(320, 240, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+	ASSERT_TRUE(renderTexture != nullptr);
 
 	std::vector<ace::VertexLayout> vl;
 	vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
@@ -250,6 +272,7 @@ void Graphics_RenderingThread(bool isOpenGLMode)
 	delete factory;
 	delete executor;
 
+	renderTexture->Release();
 	graphics->Release();
 	texture.reset();
 	vertexBuffer.reset();

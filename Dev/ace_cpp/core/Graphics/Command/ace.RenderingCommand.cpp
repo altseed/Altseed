@@ -64,7 +64,14 @@ namespace ace
 
 	RenderingCommand_SetRenderTarget::RenderingCommand_SetRenderTarget(RenderTexture2D* renderTexture0, DepthBuffer_Imp* depth)
 	{
-		RenderingCommand_SetRenderTarget(renderTexture0, nullptr, nullptr, nullptr, depth);
+		RenderTextures[0] = renderTexture0;
+		RenderTextures[1] = nullptr;
+		RenderTextures[2] = nullptr;
+		RenderTextures[3] = nullptr;
+		Depth = depth;
+
+		SafeAddRef(RenderTextures[0]);
+		SafeAddRef(Depth);
 	}
 
 	RenderingCommand_SetRenderTarget::~RenderingCommand_SetRenderTarget()
