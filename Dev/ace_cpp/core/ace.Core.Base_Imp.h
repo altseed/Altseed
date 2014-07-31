@@ -81,6 +81,10 @@ namespace ace {
 
 	class AnimationSystem_Imp;
 
+	class RenderingCommand;
+	class RenderingCommandExecutor;
+	class RenderingCommandFactory;
+	class RenderingCommandHelper;
 
 	struct RenderState
 	{
