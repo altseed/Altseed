@@ -292,6 +292,8 @@ namespace ace
 			assert(m_shaderDF_ND != nullptr);
 			m_shaderDF_ND->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
 		}
+
+		proxy = new RenderedModelObject3DProxy();
 	}
 
 	RenderedModelObject3D::~RenderedModelObject3D()
@@ -308,6 +310,8 @@ namespace ace
 			a.second->Release();
 		}
 		m_animationClips.clear();
+
+		SafeRelease(proxy);
 	}
 
 	void RenderedModelObject3D::SetModel(Model* model)
@@ -531,13 +535,13 @@ namespace ace
 						{
 							matM[i].SetIndentity();
 							Matrix44::Mul(matM[i], matrices[boneConnectors[i].TargetIndex], boneConnectors[i].BoneToMesh);
-							Matrix44::Mul(matM[i], GetLocalMatrix_RT(), matM[i]);
+							Matrix44::Mul(matM[i], proxy->GetGlobalMatrix(), matM[i]);
 						}
 					}
 					else
 					{
 						// ボーンなし
-						matM[0] = GetLocalMatrix_RT();
+						matM[0] = proxy->GetGlobalMatrix();
 						for (int32_t i = 1; i < 32; i++)
 						{
 							matM[i] = matM[0];

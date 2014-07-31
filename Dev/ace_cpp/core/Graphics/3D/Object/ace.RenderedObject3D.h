@@ -38,6 +38,33 @@ namespace ace
 	};
 
 	/**
+		@brief	描画スレッド上のRenderedObject3D
+		@note
+		実際に描画スレッド上で描画に使用される。
+	*/
+	class RenderedObject3DProxy
+		: public ReferenceObject
+	{
+		friend class RenderedObject3D;
+
+	private:
+		bool		isSRTChanged = false;
+		Matrix44	localMatrix;
+	public:
+		Vector3DF	Position;
+		Vector3DF	Rotation;
+		Vector3DF	Scale;
+		
+		const Matrix44& GetLocalMatrix();
+
+		// 将来的に親子関係実装
+		const Matrix44& GetGlobalMatrix();
+		Vector3DF GetGlobalPosition();
+
+		virtual void OnUpdateAsync() {}
+	};
+
+	/**
 		@brief	描画されるオブジェクトのクラス
 		@note
 		実装は以下の仕様に従う。
@@ -52,34 +79,19 @@ namespace ace
 	class RenderedObject3D
 		: public ReferenceObject
 	{
+		friend class RenderedObject3DProxy;
 	private:
 		Graphics_Imp*	m_graphics;
 
-		struct  
-		{
-			Vector3DF	position;
-			Vector3DF	rotation;
-			Vector3DF	scale;
-			bool		isChanged;
-
-		} m_commonValues;
-
-		struct
-		{
-			Vector3DF	position;
-			Vector3DF	rotation;
-			Vector3DF	scale;
-			Matrix44	localMatrix;
-			bool		isChanged;
-
-		} m_commonValues_RT;
+		Vector3DF	position;
+		Vector3DF	rotation;
+		Vector3DF	scale;
+		Matrix44	localMatrix;
+		bool		isSRTChanged;
 		
-		Matrix44 CalcLocalMatrix(Vector3DF& t, Vector3DF& r, Vector3DF& s);
+		static Matrix44 CalcLocalMatrix(Vector3DF& t, Vector3DF& r, Vector3DF& s);
 
 	protected:
-		
-		Matrix44 CalcLocalMatrix();
-
 		Graphics_Imp* GetGraphics() { return m_graphics;  }
 	
 	public:
@@ -95,6 +107,8 @@ namespace ace
 		Vector3DF GetScale() const;
 		void SetScale(const Vector3DF& scale);
 
+		const Matrix44& GetLocalMatrix();
+
 		/**
 			@brief	レンダラーに追加された時に呼ばれる
 			@param	renderer	レンダラー
@@ -107,17 +121,11 @@ namespace ace
 		*/
 		virtual void OnRemoving(Renderer3D* renderer) {}
 
-		virtual void CalculateMatrix_RT();
+		virtual RenderedObject3DProxy* GetProxy() const = 0;
 
 		virtual void Flip();
 
 		virtual void Rendering(RenderingProperty& prop) = 0;
-
-		Vector3DF GetPosition_RT();
-
-		const Matrix44& GetMatrix_RT();
-
-		const Matrix44& GetLocalMatrix_RT();
 
 		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
 	};

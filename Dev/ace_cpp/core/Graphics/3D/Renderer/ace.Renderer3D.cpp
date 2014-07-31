@@ -95,17 +95,17 @@ namespace ace
 
 		for (auto& o : rendering.objects)
 		{
-			o->CalculateMatrix_RT();
+			o->GetProxy()->OnUpdateAsync();
 		}
 
 		for (auto& o : rendering.cameraObjects)
 		{
-			o->CalculateMatrix_RT();
+			o->GetProxy()->OnUpdateAsync();
 		}
 
 		for (auto& o : rendering.directionalLightObjects)
 		{
-			o->CalculateMatrix_RT();
+			o->GetProxy()->OnUpdateAsync();
 		}
 
 		// エフェクトの更新
@@ -120,8 +120,9 @@ namespace ace
 			if (rendering.directionalLightObjects.size() > 0)
 			{
 				auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
-				prop.DirectionalLightColor = light->GetColor_RT();
-				prop.DirectionalLightDirection = light->GetDirection_RT();
+				auto lightP = (RenderedDirectionalLightObject3DProxy*) light->GetProxy();
+				prop.DirectionalLightColor = lightP->LightColor;
+				prop.DirectionalLightDirection = lightP->GetDirection();
 				prop.DirectionalLightDirection.X = -prop.DirectionalLightDirection.X;
 				prop.DirectionalLightDirection.Y = -prop.DirectionalLightDirection.Y;
 				prop.DirectionalLightDirection.Z = -prop.DirectionalLightDirection.Z;
@@ -140,15 +141,16 @@ namespace ace
 		for (auto& co : rendering.cameraObjects)
 		{
 			auto c = (RenderedCameraObject3D*) co;
+			auto cP = (RenderedCameraObject3DProxy*)c->GetProxy();
 
 			// カメラプロジェクション行列計算
 			Matrix44 cameraProjMat;
-			ace::Matrix44::Mul(cameraProjMat, c->GetProjectionMatrix_RT(), c->GetCameraMatrix_RT());
-			prop.CameraMatrix = c->GetCameraMatrix_RT();
-			prop.ProjectionMatrix = c->GetProjectionMatrix_RT();
-			prop.DepthRange = c->GetZFar_RT() - c->GetZNear_RT();
-			prop.ZFar = c->GetZFar_RT();
-			prop.ZNear = c->GetZNear_RT();
+			ace::Matrix44::Mul(cameraProjMat, cP->ProjectionMatrix, cP->CameraMatrix);
+			prop.CameraMatrix = cP->CameraMatrix;
+			prop.ProjectionMatrix = cP->ProjectionMatrix;
+			prop.DepthRange = cP->ZFar - cP->ZNear;
+			prop.ZFar = cP->ZFar;
+			prop.ZNear = cP->ZNear;
 
 			// 3D描画
 			{
@@ -166,7 +168,7 @@ namespace ace
 				{
 					// 奥行き描画
 					{
-						g->SetRenderTarget(c->GetRenderTargetDepth_RT(), c->GetDepthBuffer_RT());
+						g->SetRenderTarget(cP->GetRenderTargetDepth(), c->GetDepthBuffer_RT());
 						g->Clear(true, true, ace::Color(0, 0, 0, 255));
 						prop.IsDepthMode = true;
 						for (auto& o : m_objects)
@@ -178,10 +180,10 @@ namespace ace
 					// Gバッファ描画
 					{
 						g->SetRenderTarget(
-							c->GetRenderTargetDiffuseColor_RT(),
-							c->GetRenderTargetSpecularColor_Smoothness_RT(),
-							c->GetRenderTargetDepth_RT(),
-							c->GetRenderTargetAO_MatID_RT(),
+							cP->GetRenderTargetDiffuseColor(),
+							cP->GetRenderTargetSpecularColor_Smoothness(),
+							cP->GetRenderTargetDepth(),
+							cP->GetRenderTargetAO_MatID(),
 							c->GetDepthBuffer_RT());
 						g->Clear(true, false, ace::Color(0, 0, 0, 255));
 						prop.IsDepthMode = false;
@@ -198,17 +200,17 @@ namespace ace
 			if (!m_settings.IsLightweightMode && m_ssaoShader != nullptr)
 			{
 				{
-					g->SetRenderTarget(c->GetRenderTargetSSAO_RT(), nullptr);
+					g->SetRenderTarget(cP->GetRenderTargetSSAO(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoShader->SetTexture("g_texture", c->GetRenderTargetDepth_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+					m_ssaoShader->SetTexture("g_texture", cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
 					auto& cvbuf = m_ssaoShader->GetVertexConstantBuffer<SSAOConstantVertexBuffer>();
 					cvbuf.Size[0] = m_windowSize.X;
 					cvbuf.Size[1] = m_windowSize.Y;
 
-					auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
-					auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
+					auto fov = cP->FOV / 180.0f * 3.141592f;
+					auto aspect = (float) cP->WindowSize.X / (float) cP->WindowSize.Y;
 
 					// DirectX
 					float yScale = 1 / tanf(fov / 2);
@@ -222,12 +224,12 @@ namespace ace
 					cpbuf.Intensity = 1.0f;
 
 					/*
-					cpbuf.ReconstructInfo1[0] = c->GetZNear_RT() * c->GetZFar_RT();
-					cpbuf.ReconstructInfo1[1] = c->GetZFar_RT() - c->GetZNear_RT();
-					cpbuf.ReconstructInfo1[2] = -c->GetZFar_RT();
+					cpbuf.ReconstructInfo1[0] = cP->ZNear * cP->ZFar;
+					cpbuf.ReconstructInfo1[1] = cP->ZFar - cP->ZNear;
+					cpbuf.ReconstructInfo1[2] = -cP->ZFar;
 					*/
-					cpbuf.ReconstructInfo1[0] = c->GetZFar_RT() - c->GetZNear_RT();
-					cpbuf.ReconstructInfo1[1] = c->GetZNear_RT();
+					cpbuf.ReconstructInfo1[0] = cP->ZFar - cP->ZNear;
+					cpbuf.ReconstructInfo1[1] = cP->ZNear;
 
 					cpbuf.ReconstructInfo2[0] = 1.0f / xScale;
 					cpbuf.ReconstructInfo2[1] = 1.0f / yScale;
@@ -246,10 +248,10 @@ namespace ace
 				}
 
 				{
-					g->SetRenderTarget(c->GetRenderTargetSSAO_Temp_RT(), nullptr);
+					g->SetRenderTarget(cP->GetRenderTargetSSAO_Temp(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoBlurXShader->SetTexture("g_texture", c->GetRenderTargetSSAO_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+					m_ssaoBlurXShader->SetTexture("g_texture", cP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
 					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
 					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
@@ -265,10 +267,10 @@ namespace ace
 				}
 
 				{
-					g->SetRenderTarget(c->GetRenderTargetSSAO_RT(), nullptr);
+					g->SetRenderTarget(cP->GetRenderTargetSSAO(), nullptr);
 					g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoBlurYShader->SetTexture("g_texture", c->GetRenderTargetSSAO_Temp_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+					m_ssaoBlurYShader->SetTexture("g_texture", cP->GetRenderTargetSSAO_Temp(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
 					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
 					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
@@ -305,8 +307,8 @@ namespace ace
 				Vector4DF ReconstructInfo1;
 				Vector4DF ReconstructInfo2;
 
-				ReconstructInfo1.X = c->GetZFar_RT() - c->GetZNear_RT();
-				ReconstructInfo1.Y = c->GetZNear_RT();
+				ReconstructInfo1.X = cP->ZFar - cP->ZNear;
+				ReconstructInfo1.Y = cP->ZNear;
 				ReconstructInfo2.X = 1.0f / xScale;
 				ReconstructInfo2.Y = 1.0f / yScale;
 
@@ -330,22 +332,24 @@ namespace ace
 				{
 					//auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
 					auto light = static_cast<RenderedDirectionalLightObject3D*>(light_);
-					RenderTexture2D_Imp* shadowMap = light->GetShadowTexture_RT();
+					auto lightP = (RenderedDirectionalLightObject3DProxy*) light->GetProxy();
+
+					RenderTexture2D_Imp* shadowMap = lightP->GetShadowTexture();
 
 					Matrix44 view, proj;
 
-					light->CalcShadowMatrix(
-						c->GetPosition_RT(),
-						c->GetFocus_RT() - c->GetPosition_RT(),
+					lightP->CalcShadowMatrix(
+						cP->GetGlobalPosition(),
+						cP->Focus - cP->GetGlobalPosition(),
 						cameraProjMat,
-						c->GetZNear_RT(),
-						c->GetZFar_RT(),
+						cP->ZNear,
+						cP->ZFar,
 						view,
 						proj);
 
 					// 影マップ作成
 					{
-						g->SetRenderTarget(light->GetShadowTexture_RT(), light->GetShadowDepthBuffer_RT());
+						g->SetRenderTarget(lightP->GetShadowTexture(), lightP->GetShadowDepthBuffer());
 						g->Clear(true, true, ace::Color(0, 0, 0, 255));
 
 						RenderingProperty shadowProp = prop;
@@ -384,7 +388,7 @@ namespace ace
 							g->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
 							g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-							m_shadowShaderX->SetTexture("g_texture", light->GetShadowTexture_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+							m_shadowShaderX->SetTexture("g_texture", lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 							ShadowBlurConstantBuffer& cbufX = m_shadowShaderX->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
 							cbufX.Weights = weights;
 
@@ -402,7 +406,7 @@ namespace ace
 						}
 
 						{
-							g->SetRenderTarget(light->GetShadowTexture_RT(), nullptr);
+							g->SetRenderTarget(lightP->GetShadowTexture(), nullptr);
 							g->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 							m_shadowShaderY->SetTexture("g_texture", m_shadowTempTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
@@ -440,15 +444,15 @@ namespace ace
 							shader = m_directionalLightShader;
 						}
 
-						shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-						shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
-						shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
-						shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
-						shader->SetTexture("g_shadowmapTexture", light->GetShadowTexture_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 4);
+						shader->SetTexture("g_gbuffer0Texture", cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+						shader->SetTexture("g_gbuffer1Texture", cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+						shader->SetTexture("g_gbuffer2Texture", cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
+						shader->SetTexture("g_gbuffer3Texture", cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
+						shader->SetTexture("g_shadowmapTexture", lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 4);
 
 						if (m_ssaoShader != nullptr)
 						{
-							shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
+							shader->SetTexture("g_ssaoTexture", cP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
 						}
 						else
 						{
@@ -502,14 +506,14 @@ namespace ace
 
 					std::shared_ptr<ace::NativeShader_Imp> shader = m_ambientLightShader;
 
-					shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-					shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
-					shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
-					shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
+					shader->SetTexture("g_gbuffer0Texture", cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+					shader->SetTexture("g_gbuffer1Texture", cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+					shader->SetTexture("g_gbuffer2Texture", cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
+					shader->SetTexture("g_gbuffer3Texture", cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
 
 					if (m_ssaoShader != nullptr)
 					{
-						shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
+						shader->SetTexture("g_ssaoTexture", cP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
 					}
 					else
 					{
@@ -547,8 +551,8 @@ namespace ace
 				{
 					for (auto r = 0; r < 4; r++)
 					{
-						cameraMat.Values[c_][r] = c->GetCameraMatrix_RT().Values[r][c_];
-						projMat.Values[c_][r] = c->GetProjectionMatrix_RT().Values[r][c_];
+						cameraMat.Values[c_][r] = cP->CameraMatrix.Values[r][c_];
+						projMat.Values[c_][r] = cP->ProjectionMatrix.Values[r][c_];
 					}
 				}
 				rendering.EffectRenderer->SetCameraMatrix(cameraMat);
@@ -582,14 +586,14 @@ namespace ace
 					shader->SetFloat("flag", 1.0f);
 				}
 
-				shader->SetTexture("g_gbuffer0Texture", c->GetRenderTargetDiffuseColor_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-				shader->SetTexture("g_gbuffer1Texture", c->GetRenderTargetSpecularColor_Smoothness_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
-				shader->SetTexture("g_gbuffer2Texture", c->GetRenderTargetDepth_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
-				shader->SetTexture("g_gbuffer3Texture", c->GetRenderTargetAO_MatID_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
+				shader->SetTexture("g_gbuffer0Texture", cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+				shader->SetTexture("g_gbuffer1Texture", cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+				shader->SetTexture("g_gbuffer2Texture", cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
+				shader->SetTexture("g_gbuffer3Texture", cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
 
 				if (m_ssaoShader != nullptr)
 				{
-					shader->SetTexture("g_ssaoTexture", c->GetRenderTargetSSAO_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
+					shader->SetTexture("g_ssaoTexture", cP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
 				}
 				else
 				{

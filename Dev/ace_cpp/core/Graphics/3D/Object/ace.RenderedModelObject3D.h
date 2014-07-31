@@ -7,6 +7,12 @@
 
 namespace ace
 {
+	class RenderedModelObject3DProxy
+		: public RenderedObject3DProxy
+	{
+	public:
+	};
+
 	class RenderedModelObject3D
 		: public RenderedObject3D
 	{
@@ -86,6 +92,7 @@ namespace ace
 		int32_t									m_animationTime;
 
 		Renderer3D*								m_renderer = nullptr;
+		RenderedModelObject3DProxy*				proxy = nullptr;
 
 		void Flip(AnimationClip* animationClip, int32_t time);
 		void CalculateAnimation(AnimationClip* animationClip, int32_t time);
@@ -107,6 +114,8 @@ namespace ace
 
 		void Flip() override;
 		void Rendering(RenderingProperty& prop) override;
+
+		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 
 		/**
 			@brief	モデルの解除を行わずに、現在設定されているインスタンスを解除する。

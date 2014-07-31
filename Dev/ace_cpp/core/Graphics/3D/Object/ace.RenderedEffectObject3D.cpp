@@ -12,11 +12,13 @@ namespace ace
 		: RenderedObject3D(graphics)
 		, m_effect(nullptr)
 	{
+		proxy = new RenderedEffectObject3DProxy();
 	}
 
 	RenderedEffectObject3D::~RenderedEffectObject3D()
 	{
 		SafeRelease(m_effect);
+		SafeRelease(proxy);
 	}
 
 	void RenderedEffectObject3D::Flip()
@@ -45,7 +47,7 @@ namespace ace
 
 		if (m_syncEffects && m_handles.size() > 0)
 		{
-			auto mat = CalcLocalMatrix();
+			auto mat = GetLocalMatrix();
 			Effekseer::Matrix43 efMat;
 
 			// 転置して代入
@@ -95,7 +97,7 @@ namespace ace
 		auto ne = e->GetEffect();
 
 		auto pos = GetPosition();
-		auto mat = CalcLocalMatrix();
+		auto mat = GetLocalMatrix();
 		Effekseer::Matrix43 efMat;
 
 		// 転置して代入

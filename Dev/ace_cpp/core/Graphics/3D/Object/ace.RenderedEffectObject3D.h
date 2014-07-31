@@ -8,28 +8,24 @@
 
 namespace ace
 {
+	class RenderedEffectObject3DProxy
+		: public RenderedObject3DProxy
+	{
+	public:
+	};
+
 	class RenderedEffectObject3D
 		: public RenderedObject3D
 	{
 	private:
 		static const int32_t GCThreshold = 32;
 
-		struct
-		{
-
-
-		} m_values;
-
-		struct
-		{
-
-
-		} m_values_RT;
-
 		std::vector<Effekseer::Handle>	m_handles;
 		Effect*							m_effect;
 		Renderer3D*						m_renderer = nullptr;
 		bool							m_syncEffects = nullptr;
+
+		RenderedEffectObject3DProxy*				proxy = nullptr;
 
 	public:
 		RenderedEffectObject3D(Graphics* graphics);
@@ -37,6 +33,8 @@ namespace ace
 
 		void Flip() override;
 		void Rendering(RenderingProperty& prop) override;
+
+		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 
 		void SetEffect(Effect* effect);
 

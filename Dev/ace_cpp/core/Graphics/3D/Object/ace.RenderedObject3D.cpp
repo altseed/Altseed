@@ -4,6 +4,32 @@
 
 namespace ace
 {
+	const Matrix44& RenderedObject3DProxy::GetLocalMatrix()
+	{
+		if (isSRTChanged)
+		{
+			localMatrix = RenderedObject3D::CalcLocalMatrix(
+				Position,
+				Rotation,
+				Scale);
+			isSRTChanged = false;
+		}
+
+		return localMatrix;
+	}
+
+
+	const Matrix44& RenderedObject3DProxy::GetGlobalMatrix()
+	{
+		return GetLocalMatrix();
+	}
+
+	Vector3DF RenderedObject3DProxy::GetGlobalPosition()
+	{
+		auto mat = GetLocalMatrix();
+		return Vector3DF(mat.Values[0][3], mat.Values[1][3], mat.Values[2][3]);
+	}
+
 	Matrix44 RenderedObject3D::CalcLocalMatrix(Vector3DF& t, Vector3DF& r, Vector3DF& s)
 	{
 		Matrix44 mat, matt, matrx, matry, matrz, mats;
@@ -21,22 +47,14 @@ namespace ace
 		return mat;
 	}
 
-	Matrix44 RenderedObject3D::CalcLocalMatrix()
-	{
-		return CalcLocalMatrix(
-			m_commonValues.position,
-			m_commonValues.rotation,
-			m_commonValues.scale);
-	}
-
 	RenderedObject3D::RenderedObject3D(Graphics* graphics)
 		: m_graphics(nullptr)
 	{
 		m_graphics = (Graphics_Imp*) graphics;
 		SafeAddRef(m_graphics);
 
-		m_commonValues.scale = Vector3DF(1.0f, 1.0f, 1.0f);
-		m_commonValues.isChanged = true;
+		scale = Vector3DF(1.0f, 1.0f, 1.0f);
+		isSRTChanged = true;
 	}
 
 	RenderedObject3D::~RenderedObject3D()
@@ -46,80 +64,63 @@ namespace ace
 
 	Vector3DF RenderedObject3D::GetPosition() const
 	{
-		return m_commonValues.position;
+		return position;
 	}
 
 	void RenderedObject3D::SetPosition(const Vector3DF& pos)
 	{
-		if (m_commonValues.position != pos) m_commonValues.isChanged = true;
-		m_commonValues.position = pos;
+		if (position != pos) isSRTChanged = true;
+		position = pos;
 	}
 
 	Vector3DF RenderedObject3D::GetRotation() const
 	{
-		return m_commonValues.rotation;
+		return rotation;
 	}
 
 	void RenderedObject3D::SetRotation(const Vector3DF& rot)
 	{
-		if (m_commonValues.rotation != rot) m_commonValues.isChanged = true;
-		m_commonValues.rotation = rot;
+		if (rotation != rot)isSRTChanged = true;
+		rotation = rot;
 	}
 
 	Vector3DF RenderedObject3D::GetScale() const
 	{
-		return m_commonValues.scale;
+		return scale;
 	}
 
 	void RenderedObject3D::SetScale(const Vector3DF& scale)
 	{
-		if (m_commonValues.scale != scale) m_commonValues.isChanged = true;
-		m_commonValues.scale = scale;
+		if (this->scale != scale) isSRTChanged = true;
+		this->scale = scale;
 	}
 
-	void RenderedObject3D::CalculateMatrix_RT()
+	const Matrix44& RenderedObject3D::GetLocalMatrix()
 	{
-		if (m_commonValues_RT.isChanged)
+		if (isSRTChanged)
 		{
-			m_commonValues_RT.localMatrix = CalcLocalMatrix(
-				m_commonValues_RT.position,
-				m_commonValues_RT.rotation,
-				m_commonValues_RT.scale);
-			m_commonValues_RT.isChanged = false;
+			localMatrix = CalcLocalMatrix(
+				position,
+				rotation,
+				scale);
+			isSRTChanged = false;
 		}
+		
+		return localMatrix;
 	}
 
 	void RenderedObject3D::Flip()
 	{
-		if (m_commonValues.isChanged)
+		auto proxy = GetProxy();
+
+		proxy->Position = position;
+		proxy->Rotation = rotation;
+		proxy->Scale = scale;
+		proxy->isSRTChanged = isSRTChanged;
+
+		if (!isSRTChanged)
 		{
-			m_commonValues_RT.position = m_commonValues.position;
-			m_commonValues_RT.rotation = m_commonValues.rotation;
-			m_commonValues_RT.scale = m_commonValues.scale;
-			m_commonValues_RT.isChanged = true;
-
-			m_commonValues.isChanged = false;
+			proxy->localMatrix = localMatrix;
 		}
-		else
-		{
-			m_commonValues_RT.isChanged = false;
-		}
-	}
-
-	Vector3DF RenderedObject3D::GetPosition_RT()
-	{
-		auto& mat = GetMatrix_RT();
-		return Vector3DF(mat.Values[0][3], mat.Values[1][3], mat.Values[2][3]);
-	}
-
-	const Matrix44& RenderedObject3D::GetMatrix_RT()
-	{
-		// そのうち親子関係をもった時に拡張する。
-		return m_commonValues_RT.localMatrix;
-	}
-
-	const Matrix44& RenderedObject3D::GetLocalMatrix_RT()
-	{
-		return m_commonValues_RT.localMatrix;
 	}
 }
