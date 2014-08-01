@@ -402,8 +402,8 @@ namespace ace
 
 					// 影マップ作成
 					{
-						g->SetRenderTarget(lightP->GetShadowTexture(), lightP->GetShadowDepthBuffer());
-						g->Clear(true, true, ace::Color(0, 0, 0, 255));
+						helper->SetRenderTarget(lightP->GetShadowTexture(), lightP->GetShadowDepthBuffer());
+						helper->Clear(true, true, ace::Color(0, 0, 0, 255));
 
 						RenderingProperty shadowProp = prop;
 						shadowProp.IsDepthMode = true;
@@ -420,15 +420,6 @@ namespace ace
 						{
 							o->GetProxy()->Rendering(helper, shadowProp);
 						}
-
-						executor->Execute(g, commands);
-
-						for (auto& c : commands)
-						{
-							c->~RenderingCommand();
-						}
-						commands.clear();
-						factory->Reset();
 
 						float intensity = 5.0f;
 						Vector4DF weights;
@@ -447,47 +438,64 @@ namespace ace
 						weights.W = ws[3] / total;
 
 						{
-							g->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
-							g->Clear(true, false, ace::Color(0, 0, 0, 255));
+							helper->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
+							helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-							m_shadowShaderX->SetTexture("g_texture", lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+							//m_shadowShaderX->SetTexture("g_texture", lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 							ShadowBlurConstantBuffer& cbufX = m_shadowShaderX->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
 							cbufX.Weights = weights;
 
-							g->SetVertexBuffer(m_shadowVertexBuffer.get());
-							g->SetIndexBuffer(m_shadowIndexBuffer.get());
-							g->SetShader(m_shadowShaderX.get());
+							//g->SetVertexBuffer(m_shadowVertexBuffer.get());
+							//g->SetIndexBuffer(m_shadowIndexBuffer.get());
+							//g->SetShader(m_shadowShaderX.get());
 
 							RenderState state;
 							state.DepthTest = false;
 							state.DepthWrite = false;
 							state.CullingType = CULLING_DOUBLE;
-							m_graphics->SetRenderState(state);
+							//m_graphics->SetRenderState(state);
 
-							g->DrawPolygon(2);
+							//g->DrawPolygon(2);
+
+							helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), m_shadowShaderX.get(), state,
+								h::GenValue("g_weight", weights),
+								h::GenValue("g_texture", h::Texture2DPair(lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 						}
 
 						{
-							g->SetRenderTarget(lightP->GetShadowTexture(), nullptr);
-							g->Clear(true, false, ace::Color(0, 0, 0, 255));
+							helper->SetRenderTarget(lightP->GetShadowTexture(), nullptr);
+							helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-							m_shadowShaderY->SetTexture("g_texture", m_shadowTempTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+							//m_shadowShaderY->SetTexture("g_texture", m_shadowTempTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 							ShadowBlurConstantBuffer& cbufY = m_shadowShaderY->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
 							cbufY.Weights = weights;
 
-							g->SetVertexBuffer(m_shadowVertexBuffer.get());
-							g->SetIndexBuffer(m_shadowIndexBuffer.get());
-							g->SetShader(m_shadowShaderY.get());
+							//g->SetVertexBuffer(m_shadowVertexBuffer.get());
+							//g->SetIndexBuffer(m_shadowIndexBuffer.get());
+							//g->SetShader(m_shadowShaderY.get());
 
 							RenderState state;
 							state.DepthTest = false;
 							state.DepthWrite = false;
 							state.CullingType = CULLING_DOUBLE;
-							m_graphics->SetRenderState(state);
+							//m_graphics->SetRenderState(state);
 
-							g->DrawPolygon(2);
+							//g->DrawPolygon(2);
+
+							helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), m_shadowShaderY.get(), state,
+								h::GenValue("g_weight", weights),
+								h::GenValue("g_texture", h::Texture2DPair(m_shadowTempTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 						}
 					}
+
+					executor->Execute(g, commands);
+
+					for (auto& c : commands)
+					{
+						c->~RenderingCommand();
+					}
+					commands.clear();
+					factory->Reset();
 
 					// 光源描画
 					{
