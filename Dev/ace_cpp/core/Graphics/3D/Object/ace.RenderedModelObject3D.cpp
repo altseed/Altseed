@@ -30,6 +30,164 @@ namespace ace
 {
 	RenderedModelObject3DProxy::RenderedModelObject3DProxy(Graphics* graphics)
 	{
+		auto g = (Graphics_Imp*) graphics;
+
+		std::vector<ace::VertexLayout> vl;
+		vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("Normal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("Binormal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("UVSub", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
+		vl.push_back(ace::VertexLayout("BoneWeights", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
+		vl.push_back(ace::VertexLayout("BoneIndexes", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
+		vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
+
+		{
+			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
+			constantBuffers_vs.resize(7);
+			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+			constantBuffers_vs[0].Name = std::string("matM");
+			constantBuffers_vs[0].Offset = 0;
+			constantBuffers_vs[0].Count = 32;
+
+			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[1].Name = std::string("matC");
+			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferLightweight, matC);
+
+			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[2].Name = std::string("matP");
+			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferLightweight, matP);
+
+			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[3].Name = std::string("directionalLightDirection");
+			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferLightweight, directionalLightDirection);
+
+			constantBuffers_vs[4].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[4].Name = std::string("directionalLightColor");
+			constantBuffers_vs[4].Offset = offsetof(VertexConstantBufferLightweight, directionalLightColor);
+
+			constantBuffers_vs[5].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[5].Name = std::string("skyLightColor");
+			constantBuffers_vs[5].Offset = offsetof(VertexConstantBufferLightweight, skyLightColor);
+
+			constantBuffers_vs[6].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[6].Name = std::string("groundLightColor");
+			constantBuffers_vs[6].Offset = offsetof(VertexConstantBufferLightweight, groundLightColor);
+
+			std::vector<ace::Macro> macro;
+			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
+			{
+				m_shaderLightweight = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.Lightweight").c_str(),
+					lightweight_model_internal_vs_gl,
+					lightweight_model_internal_ps_gl,
+					vl,
+					macro);
+			}
+			else
+			{
+				m_shaderLightweight = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.Lightweight").c_str(),
+					lightweight_model_internal_vs_dx,
+					lightweight_model_internal_ps_dx,
+					vl,
+					macro);
+			}
+
+			assert(m_shaderLightweight != nullptr);
+			m_shaderLightweight->CreateVertexConstantBuffer<VertexConstantBufferLightweight>(constantBuffers_vs);
+		}
+
+		{
+			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
+			constantBuffers_vs.resize(4);
+			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+			constantBuffers_vs[0].Name = std::string("matM");
+			constantBuffers_vs[0].Offset = 0;
+			constantBuffers_vs[0].Count = 32;
+
+			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[1].Name = std::string("matC");
+			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferDeferredRendering, matC);
+
+			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[2].Name = std::string("matP");
+			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferDeferredRendering, matP);
+
+			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[3].Name = std::string("depthParams");
+			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferDeferredRendering, depthParams);
+
+			std::vector<ace::Macro> macro;
+			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
+			{
+				m_shaderDF = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.DF").c_str(),
+					model_internal_vs_gl,
+					model_internal_ps_gl,
+					vl,
+					macro);
+			}
+			else
+			{
+				m_shaderDF = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.DF").c_str(),
+					model_internal_vs_dx,
+					model_internal_ps_dx,
+					vl,
+					macro);
+			}
+
+			assert(m_shaderDF != nullptr);
+			m_shaderDF->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
+		}
+
+		{
+			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
+			constantBuffers_vs.resize(4);
+			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+			constantBuffers_vs[0].Name = std::string("matM");
+			constantBuffers_vs[0].Offset = 0;
+			constantBuffers_vs[0].Count = 32;
+
+			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[1].Name = std::string("matC");
+			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferDeferredRendering, matC);
+
+			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
+			constantBuffers_vs[2].Name = std::string("matP");
+			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferDeferredRendering, matP);
+
+			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			constantBuffers_vs[3].Name = std::string("depthParams");
+			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferDeferredRendering, depthParams);
+
+			std::vector<ace::Macro> macro;
+			macro.push_back(Macro("EXPORT_DEPTH", "1"));
+
+			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
+			{
+				m_shaderDF_ND = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.DF.ND").c_str(),
+					model_internal_vs_gl,
+					model_internal_ps_gl,
+					vl,
+					macro);
+			}
+			else
+			{
+				m_shaderDF_ND = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.ModelObject3D.DF.ND").c_str(),
+					model_internal_vs_dx,
+					model_internal_ps_dx,
+					vl,
+					macro);
+			}
+
+			assert(m_shaderDF_ND != nullptr);
+			m_shaderDF_ND->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
+		}
 
 	}
 
@@ -38,9 +196,196 @@ namespace ace
 
 	}
 
-	void RenderedModelObject3DProxy::Rendering(Graphics* graphics, RenderingProperty& prop)
+	void RenderedModelObject3DProxy::Rendering(Graphics* graphics, Renderer3D* renderer, RenderingProperty& prop)
 	{
+		auto g = (Graphics_Imp*) graphics;
 
+		std::shared_ptr<ace::NativeShader_Imp> shader;
+		if (prop.IsLightweightMode)
+		{
+			shader = m_shaderLightweight;
+		}
+		else
+		{
+			if (prop.IsDepthMode)
+			{
+				shader = m_shaderDF_ND;
+			}
+			else
+			{
+				shader = m_shaderDF;
+			}
+		}
+
+		Matrix44* matM = nullptr;
+		Matrix44* matC = nullptr;
+		Matrix44* matP = nullptr;
+		{
+			if (prop.IsLightweightMode)
+			{
+				auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
+				matM = vbuf.matM;
+				matC = &vbuf.matC;
+				matP = &vbuf.matP;
+			}
+			else
+			{
+				auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferDeferredRendering>();
+				matM = vbuf.matM;
+				matC = &vbuf.matC;
+				matP = &vbuf.matP;
+			}
+
+			*matC = prop.CameraMatrix;
+			*matP = prop.ProjectionMatrix;
+		}
+
+		if (prop.IsLightweightMode)
+		{
+			auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
+
+			vbuf.directionalLightDirection = prop.DirectionalLightDirection;
+			vbuf.directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
+			vbuf.directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
+			vbuf.directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
+			vbuf.groundLightColor.X = prop.GroundLightColor.R / 255.0f;
+			vbuf.groundLightColor.Y = prop.GroundLightColor.G / 255.0f;
+			vbuf.groundLightColor.Z = prop.GroundLightColor.B / 255.0f;
+			vbuf.skyLightColor.X = prop.SkyLightColor.R / 255.0f;
+			vbuf.skyLightColor.Y = prop.SkyLightColor.G / 255.0f;
+			vbuf.skyLightColor.Z = prop.SkyLightColor.B / 255.0f;
+		}
+		else
+		{
+			auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferDeferredRendering>();
+			vbuf.depthParams.X = prop.DepthRange;
+			vbuf.depthParams.Y = prop.ZFar;
+			vbuf.depthParams.Z = prop.ZNear;
+		}
+
+		{
+			auto& matrices = m_matrixes_rt;
+
+			for (auto& mesh_ : m_meshes_rt)
+			{
+				auto mesh_root = (Mesh_Imp*) mesh_.get();
+
+				for (auto& mesh : mesh_root->GetDvidedMeshes())
+				{
+					// 有効チェック
+					if (mesh.IndexBufferPtr == nullptr) continue;
+
+					auto& boneConnectors = mesh.BoneConnectors;
+
+					// 行列計算
+					if (boneConnectors.size() > 0)
+					{
+						// ボーンあり
+						for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
+						{
+							matM[i].SetIndentity();
+							Matrix44::Mul(matM[i], matrices[boneConnectors[i].TargetIndex], boneConnectors[i].BoneToMesh);
+							Matrix44::Mul(matM[i], GetGlobalMatrix(), matM[i]);
+						}
+					}
+					else
+					{
+						// ボーンなし
+						matM[0] = GetGlobalMatrix();
+						for (int32_t i = 1; i < 32; i++)
+						{
+							matM[i] = matM[0];
+						}
+					}
+
+					auto& materialOffsets = mesh.MaterialOffsets;
+
+					{
+						// 設定がある場合
+						auto mIndex = 0;
+						auto fOffset = 0;
+						auto fCount = 0;
+						auto mFCount = 0;
+
+						Mesh_Imp::Material* material = nullptr;
+
+						while (fCount < mesh.IndexBufferPtr->GetCount() / 3)
+						{
+							if (materialOffsets.size() > 0)
+							{
+								if (fOffset == mFCount && materialOffsets.size() > mIndex)
+								{
+									mFCount += materialOffsets[mIndex].FaceOffset;
+									material = mesh_root->GetMaterial(materialOffsets[mIndex].MaterialIndex);
+									mIndex++;
+								}
+							}
+							else
+							{
+								mFCount = mesh.IndexBufferPtr->GetCount() / 3;
+							}
+
+							fCount = mFCount - fOffset;
+							if (fCount == 0) break;
+
+							if (material != nullptr)
+							{
+								if (material->ColorTexture != nullptr)
+								{
+									shader->SetTexture("g_colorTexture", material->ColorTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+								}
+								else
+								{
+									shader->SetTexture("g_colorTexture", renderer->GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+								}
+
+								if (!prop.IsLightweightMode)
+								{
+									if (material->NormalTexture != nullptr)
+									{
+										shader->SetTexture("g_normalTexture", material->NormalTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+									}
+									else
+									{
+										shader->SetTexture("g_normalTexture", renderer->GetDummyTextureNormal().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+									}
+
+									if (material->SpecularTexture != nullptr)
+									{
+										shader->SetTexture("g_specularTexture", material->SpecularTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
+									}
+									else
+									{
+										shader->SetTexture("g_specularTexture", renderer->GetDummyTextureBlack().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
+									}
+								}
+							}
+							else
+							{
+								shader->SetTexture("g_colorTexture", renderer->GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+								shader->SetTexture("g_normalTexture", renderer->GetDummyTextureNormal().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+								shader->SetTexture("g_specularTexture", renderer->GetDummyTextureBlack().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
+							}
+
+							g->SetVertexBuffer(mesh.VertexBufferPtr.get());
+							g->SetIndexBuffer(mesh.IndexBufferPtr.get());
+							g->SetShader(shader.get());
+
+							RenderState state;
+							state.DepthTest = true;
+							state.DepthWrite = true;
+							state.CullingType = eCullingType::CULLING_FRONT;
+							state.AlphaBlendState = AlphaBlend::Opacity;
+							g->SetRenderState(state);
+
+							g->DrawPolygon(mesh.IndexBufferPtr->GetCount() / 3);
+
+							fOffset += fCount;
+						}
+					}
+				}
+			}
+		}
 	}
 
 	RenderedModelObject3D::BoneProperty::BoneProperty()
@@ -130,176 +475,11 @@ namespace ace
 			isPlayingAnimation);
 	}
 
-	void RenderedModelObject3D::Flip(AnimationClip* animationClip, int32_t time)
-	{
-		CalculateAnimation(m_boneProps, m_deformer.get(), animationClip, time);
-
-		CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get(), animationClip != nullptr);
-		proxy->m_matrixes_rt = m_matrixes;
-	}
-
 	RenderedModelObject3D::RenderedModelObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
 		, m_animationPlaying(nullptr)
 		, m_animationTime(0)
 	{
-		std::vector<ace::VertexLayout> vl;
-		vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("Normal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("Binormal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		vl.push_back(ace::VertexLayout("UVSub", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
-		vl.push_back(ace::VertexLayout("BoneWeights", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
-		vl.push_back(ace::VertexLayout("BoneIndexes", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
-		vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
-
-		{
-			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
-			constantBuffers_vs.resize(7);
-			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
-			constantBuffers_vs[0].Name = std::string("matM");
-			constantBuffers_vs[0].Offset = 0;
-			constantBuffers_vs[0].Count = 32;
-
-			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[1].Name = std::string("matC");
-			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferLightweight, matC);
-
-			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[2].Name = std::string("matP");
-			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferLightweight, matP);
-
-			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[3].Name = std::string("directionalLightDirection");
-			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferLightweight, directionalLightDirection);
-
-			constantBuffers_vs[4].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[4].Name = std::string("directionalLightColor");
-			constantBuffers_vs[4].Offset = offsetof(VertexConstantBufferLightweight, directionalLightColor);
-
-			constantBuffers_vs[5].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[5].Name = std::string("skyLightColor");
-			constantBuffers_vs[5].Offset = offsetof(VertexConstantBufferLightweight, skyLightColor);
-
-			constantBuffers_vs[6].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[6].Name = std::string("groundLightColor");
-			constantBuffers_vs[6].Offset = offsetof(VertexConstantBufferLightweight, groundLightColor);
-
-			std::vector<ace::Macro> macro;
-			if (GetGraphics()->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
-			{
-				m_shaderLightweight = GetGraphics()->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.Lightweight").c_str(),
-					lightweight_model_internal_vs_gl,
-					lightweight_model_internal_ps_gl,
-					vl,
-					macro);
-			}
-			else
-			{
-				m_shaderLightweight = GetGraphics()->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.Lightweight").c_str(),
-					lightweight_model_internal_vs_dx,
-					lightweight_model_internal_ps_dx,
-					vl,
-					macro);
-			}
-
-			assert(m_shaderLightweight != nullptr);
-			m_shaderLightweight->CreateVertexConstantBuffer<VertexConstantBufferLightweight>(constantBuffers_vs);
-		}
-
-		{
-			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
-			constantBuffers_vs.resize(4);
-			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
-			constantBuffers_vs[0].Name = std::string("matM");
-			constantBuffers_vs[0].Offset = 0;
-			constantBuffers_vs[0].Count = 32;
-
-			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[1].Name = std::string("matC");
-			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferDeferredRendering, matC);
-
-			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[2].Name = std::string("matP");
-			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferDeferredRendering, matP);
-
-			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[3].Name = std::string("depthParams");
-			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferDeferredRendering, depthParams);
-
-			std::vector<ace::Macro> macro;
-			if (GetGraphics()->GetGraphicsDeviceType() ==  GraphicsDeviceType::OpenGL)
-			{
-				m_shaderDF = GetGraphics()->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.DF").c_str(),
-					model_internal_vs_gl,
-					model_internal_ps_gl,
-					vl,
-					macro);
-			}
-			else
-			{
-				m_shaderDF = GetGraphics()->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.DF").c_str(),
-					model_internal_vs_dx,
-					model_internal_ps_dx,
-					vl,
-					macro);
-			}
-
-			assert(m_shaderDF != nullptr);
-			m_shaderDF->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
-		}
-
-		{
-			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
-			constantBuffers_vs.resize(4);
-			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
-			constantBuffers_vs[0].Name = std::string("matM");
-			constantBuffers_vs[0].Offset = 0;
-			constantBuffers_vs[0].Count = 32;
-
-			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[1].Name = std::string("matC");
-			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferDeferredRendering, matC);
-
-			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[2].Name = std::string("matP");
-			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferDeferredRendering, matP);
-
-			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[3].Name = std::string("depthParams");
-			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferDeferredRendering, depthParams);
-
-			std::vector<ace::Macro> macro;
-			macro.push_back(Macro("EXPORT_DEPTH", "1"));
-
-			if (GetGraphics()->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
-			{
-				m_shaderDF_ND = GetGraphics()->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.DF.ND").c_str(),
-					model_internal_vs_gl,
-					model_internal_ps_gl,
-					vl,
-					macro);
-			}
-			else
-			{
-				m_shaderDF_ND = GetGraphics()->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.DF.ND").c_str(),
-					model_internal_vs_dx,
-					model_internal_ps_dx,
-					vl,
-					macro);
-			}
-
-			assert(m_shaderDF_ND != nullptr);
-			m_shaderDF_ND->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
-		}
-
 		proxy = new RenderedModelObject3DProxy(graphics);
 	}
 
@@ -442,7 +622,8 @@ namespace ace
 	{
 		RenderedObject3D::Flip();
 
-		Flip(m_animationPlaying, m_animationTime);
+		CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying, m_animationTime);
+		CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get(), m_animationPlaying != nullptr);
 		
 		// アニメーションの適用
 		if (m_animationPlaying != nullptr)
@@ -451,195 +632,11 @@ namespace ace
 		}
 
 		proxy->m_meshes_rt = m_meshes;
+		proxy->m_matrixes_rt = m_matrixes;
 	}
 
 	void RenderedModelObject3D::Rendering(RenderingProperty& prop)
-	{
-		std::shared_ptr<ace::NativeShader_Imp> shader;
-		if (prop.IsLightweightMode)
-		{
-			shader = m_shaderLightweight;
-		}
-		else
-		{
-			if (prop.IsDepthMode)
-			{
-				shader = m_shaderDF_ND;
-			}
-			else
-			{
-				shader = m_shaderDF;
-			}
-		}
-
-		Matrix44* matM = nullptr;
-		Matrix44* matC = nullptr;
-		Matrix44* matP = nullptr;
-		{
-			if (prop.IsLightweightMode)
-			{
-				auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
-				matM = vbuf.matM;
-				matC = &vbuf.matC;
-				matP = &vbuf.matP;
-			}
-			else
-			{
-				auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferDeferredRendering>();
-				matM = vbuf.matM;
-				matC = &vbuf.matC;
-				matP = &vbuf.matP;
-			}
-
-			*matC = prop.CameraMatrix;
-			*matP = prop.ProjectionMatrix;
-		}
-
-		if (prop.IsLightweightMode)
-		{
-			auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
-
-			vbuf.directionalLightDirection = prop.DirectionalLightDirection;
-			vbuf.directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
-			vbuf.directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
-			vbuf.directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
-			vbuf.groundLightColor.X = prop.GroundLightColor.R / 255.0f;
-			vbuf.groundLightColor.Y = prop.GroundLightColor.G / 255.0f;
-			vbuf.groundLightColor.Z = prop.GroundLightColor.B / 255.0f;
-			vbuf.skyLightColor.X = prop.SkyLightColor.R / 255.0f;
-			vbuf.skyLightColor.Y = prop.SkyLightColor.G / 255.0f;
-			vbuf.skyLightColor.Z = prop.SkyLightColor.B / 255.0f;
-		}
-		else
-		{
-			auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferDeferredRendering>();
-			vbuf.depthParams.X = prop.DepthRange;
-			vbuf.depthParams.Y = prop.ZFar;
-			vbuf.depthParams.Z = prop.ZNear;
-		}
-
-		{
-			auto& matrices = proxy->m_matrixes_rt;
-
-			for (auto& mesh_ : proxy->m_meshes_rt)
-			{
-				auto mesh_root = (Mesh_Imp*)mesh_.get();
-
-				for (auto& mesh : mesh_root->GetDvidedMeshes())
-				{
-					// 有効チェック
-					if (mesh.IndexBufferPtr == nullptr) continue;
-
-					auto& boneConnectors = mesh.BoneConnectors;
-
-					// 行列計算
-					if (boneConnectors.size() > 0)
-					{
-						// ボーンあり
-						for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
-						{
-							matM[i].SetIndentity();
-							Matrix44::Mul(matM[i], matrices[boneConnectors[i].TargetIndex], boneConnectors[i].BoneToMesh);
-							Matrix44::Mul(matM[i], proxy->GetGlobalMatrix(), matM[i]);
-						}
-					}
-					else
-					{
-						// ボーンなし
-						matM[0] = proxy->GetGlobalMatrix();
-						for (int32_t i = 1; i < 32; i++)
-						{
-							matM[i] = matM[0];
-						}
-					}
-					
-					auto& materialOffsets = mesh.MaterialOffsets;
-
-					{
-						// 設定がある場合
-						auto mIndex = 0;
-						auto fOffset = 0;
-						auto fCount = 0;
-						auto mFCount = 0;
-
-						Mesh_Imp::Material* material = nullptr;
-
-						while (fCount < mesh.IndexBufferPtr->GetCount() / 3)
-						{
-							if (materialOffsets.size() > 0)
-							{
-								if (fOffset == mFCount && materialOffsets.size() > mIndex)
-								{
-									mFCount += materialOffsets[mIndex].FaceOffset;
-									material = mesh_root->GetMaterial(materialOffsets[mIndex].MaterialIndex);
-									mIndex++;
-								}
-							}
-							else
-							{
-								mFCount = mesh.IndexBufferPtr->GetCount() / 3;
-							}
-
-							fCount = mFCount - fOffset;
-							if (fCount == 0) break;
-
-							if (material != nullptr)
-							{
-								if (material->ColorTexture != nullptr)
-								{
-									shader->SetTexture("g_colorTexture", material->ColorTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-								}
-								else
-								{
-									shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-								}
-
-								if (!prop.IsLightweightMode)
-								{
-									if (material->NormalTexture != nullptr)
-									{
-										shader->SetTexture("g_normalTexture", material->NormalTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
-									}
-									else
-									{
-										shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
-									}
-
-									if (material->SpecularTexture != nullptr)
-									{
-										shader->SetTexture("g_specularTexture", material->SpecularTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
-									}
-									else
-									{
-										shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
-									}
-								}
-							}
-							else
-							{
-								shader->SetTexture("g_colorTexture", m_renderer->GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-								shader->SetTexture("g_normalTexture", m_renderer->GetDummyTextureNormal().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
-								shader->SetTexture("g_specularTexture", m_renderer->GetDummyTextureBlack().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
-							}
-
-							GetGraphics()->SetVertexBuffer(mesh.VertexBufferPtr.get());
-							GetGraphics()->SetIndexBuffer(mesh.IndexBufferPtr.get());
-							GetGraphics()->SetShader(shader.get());
-
-							RenderState state;
-							state.DepthTest = true;
-							state.DepthWrite = true;
-							state.CullingType = eCullingType::CULLING_FRONT;
-							state.AlphaBlendState = AlphaBlend::Opacity;
-							GetGraphics()->SetRenderState(state);
-
-							GetGraphics()->DrawPolygon(mesh.IndexBufferPtr->GetCount() / 3);
-
-							fOffset += fCount;
-						}
-					}
-				}
-			}
-		}
+	{	
+		proxy->Rendering(GetGraphics(), m_renderer, prop);
 	}
 }

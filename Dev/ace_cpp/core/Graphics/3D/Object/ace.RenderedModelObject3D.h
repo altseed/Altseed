@@ -10,20 +10,7 @@ namespace ace
 	class RenderedModelObject3DProxy
 		: public RenderedObject3DProxy
 	{
-	public:
-		std::vector<Matrix44>					m_matrixes_rt;
-		std::vector<std::shared_ptr<Mesh>>		m_meshes_rt;
-		std::shared_ptr<Deformer>				m_deformer_rt;
-
-		RenderedModelObject3DProxy(Graphics* graphics);
-		virtual ~RenderedModelObject3DProxy();
-
-		void Rendering(Graphics* graphics, RenderingProperty& prop);
-	};
-
-	class RenderedModelObject3D
-		: public RenderedObject3D
-	{
+	private:
 		struct VertexConstantBufferLightweight
 		{
 			Matrix44	matM[32];
@@ -52,6 +39,24 @@ namespace ace
 			float		Padding0;
 		};
 
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF_ND;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;
+
+	public:
+		std::vector<Matrix44>					m_matrixes_rt;
+		std::vector<std::shared_ptr<Mesh>>		m_meshes_rt;
+		std::shared_ptr<Deformer>				m_deformer_rt;
+
+		RenderedModelObject3DProxy(Graphics* graphics);
+		virtual ~RenderedModelObject3DProxy();
+
+		void Rendering(Graphics* graphics, Renderer3D* renderer, RenderingProperty& prop);
+	};
+
+	class RenderedModelObject3D
+		: public RenderedObject3D
+	{
 		struct BoneProperty
 		{
 			float	Position[3];
@@ -86,10 +91,6 @@ namespace ace
 
 		Model_Imp*								m_model = nullptr;
 
-		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF;
-		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF_ND;
-		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;
-		
 		std::map<astring, AnimationClip*>		m_animationClips;
 
 		AnimationClip*							m_animationPlaying;
@@ -100,8 +101,6 @@ namespace ace
 
 		static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, int32_t time);
 		static void CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer, bool isPlayingAnimation);
-
-		void Flip(AnimationClip* animationClip, int32_t time);
 
 	public:
 		RenderedModelObject3D(Graphics* graphics);
