@@ -131,8 +131,24 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 			}
 			else if (type == GL_FLOAT_MAT4)
 			{
-				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
-				offset += sizeof(float) * 16 * l.Count;
+				if (l.Count > 1)
+				{
+					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+					offset += sizeof(float) * 16 * l.Count;
+
+					std::string name_ = name;
+					auto result = name_.find_first_of("[");
+					if (result != std::string::npos)
+					{
+						name_ = name_.substr(0, result);
+						l.Name = name_;
+					}
+				}
+				else
+				{
+					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
+					offset += sizeof(float) * 16 * l.Count;
+				}
 			}
 			else
 			{

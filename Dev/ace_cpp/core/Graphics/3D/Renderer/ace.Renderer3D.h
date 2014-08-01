@@ -130,6 +130,10 @@ namespace ace
 		RenderingEvent	m_event;
 		float	deltaTime = 0.0f;
 
+		RenderingCommandExecutor*				executor = nullptr;
+		RenderingCommandFactory*				factory = nullptr;
+		std::vector<RenderingCommand*>			commands;
+
 	public:
 		void Rendering();
 

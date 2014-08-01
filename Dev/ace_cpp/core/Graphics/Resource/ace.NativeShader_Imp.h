@@ -73,6 +73,8 @@ namespace ace {
 
 		void SetMatrix44(int32_t id, const Matrix44& value);
 
+		void SetMatrix44Array(int32_t id, Matrix44* value, int32_t count);
+
 		virtual int32_t GetConstantBufferID(const char* name) = 0;
 
 		virtual int32_t GetTextureID(const char* name) = 0;

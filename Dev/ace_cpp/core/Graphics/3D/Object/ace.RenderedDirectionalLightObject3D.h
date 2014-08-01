@@ -43,9 +43,6 @@ namespace ace
 
 		static const int32_t ShadowBufferSize = 2048;
 
-#pragma region RenderingThread
-#pragma endregion
-
 		Color		color;
 		RenderedDirectionalLightObject3DProxy* proxy = nullptr;
 
@@ -54,7 +51,6 @@ namespace ace
 		virtual ~RenderedDirectionalLightObject3D();
 
 		void Flip() override;
-		void Rendering(RenderingProperty& prop) override;
 
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 

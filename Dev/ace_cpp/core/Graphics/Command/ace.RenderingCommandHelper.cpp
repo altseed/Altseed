@@ -16,6 +16,11 @@ namespace ace
 		return shader->GetTextureID(name);
 	}
 
+	Matrix44* RenderingCommandHelper::MallocMatrix44ArrayBuffer(int32_t count)
+	{
+		return factory->CreateCommands<Matrix44>(count);
+	}
+
 	RenderingCommandHelper::RenderingCommandHelper(std::vector<RenderingCommand*>& commands, RenderingCommandFactory* factory)
 		: commands(commands)
 		, factory(factory)

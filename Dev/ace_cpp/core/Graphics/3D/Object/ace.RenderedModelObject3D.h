@@ -43,6 +43,8 @@ namespace ace
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF_ND;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;
 
+		std::vector<ShaderConstantValue> shaderConstants;
+
 	public:
 		std::vector<Matrix44>					m_matrixes_rt;
 		std::vector<std::shared_ptr<Mesh>>		m_meshes_rt;
@@ -51,7 +53,7 @@ namespace ace
 		RenderedModelObject3DProxy(Graphics* graphics);
 		virtual ~RenderedModelObject3DProxy();
 
-		void Rendering(Graphics* graphics, Renderer3D* renderer, RenderingProperty& prop);
+		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
 	};
 
 	class RenderedModelObject3D
@@ -67,20 +69,6 @@ namespace ace
 
 			Matrix44 CalcMatrix(eRotationOrder rotationType);
 		};
-
-
-		class MeshGroup
-		{
-		public:
-			std::vector<Matrix44>	m_matrixes_fr;
-			std::vector<Matrix44>	m_matrixes;
-
-			std::vector < BoneProperty>	m_boneProps;
-
-			MeshGroup();
-			~MeshGroup();
-		};
-		
 
 	private:
 		std::vector<std::shared_ptr<Mesh>>		m_meshes;
@@ -117,7 +105,6 @@ namespace ace
 		void OnRemoving(Renderer3D* renderer) override;
 
 		void Flip() override;
-		void Rendering(RenderingProperty& prop) override;
 
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 

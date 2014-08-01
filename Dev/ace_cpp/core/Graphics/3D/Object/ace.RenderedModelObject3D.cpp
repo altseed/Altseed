@@ -24,6 +24,8 @@
 #include "../../Shader/GL/3D/Model_Internal_VS.h"
 #include "../../Shader/GL/3D/Model_Internal_PS.h"
 
+#include "../../Command/ace.RenderingCommandHelper.h"
+
 #include <cstddef>
 
 namespace ace
@@ -96,7 +98,7 @@ namespace ace
 			}
 
 			assert(m_shaderLightweight != nullptr);
-			m_shaderLightweight->CreateVertexConstantBuffer<VertexConstantBufferLightweight>(constantBuffers_vs);
+			//m_shaderLightweight->CreateVertexConstantBuffer<VertexConstantBufferLightweight>(constantBuffers_vs);
 		}
 
 		{
@@ -140,7 +142,7 @@ namespace ace
 			}
 
 			assert(m_shaderDF != nullptr);
-			m_shaderDF->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
+			//m_shaderDF->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
 		}
 
 		{
@@ -186,7 +188,7 @@ namespace ace
 			}
 
 			assert(m_shaderDF_ND != nullptr);
-			m_shaderDF_ND->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
+			//m_shaderDF_ND->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
 		}
 
 	}
@@ -196,11 +198,13 @@ namespace ace
 
 	}
 
-	void RenderedModelObject3DProxy::Rendering(Graphics* graphics, Renderer3D* renderer, RenderingProperty& prop)
+	void RenderedModelObject3DProxy::Rendering(RenderingCommandHelper* helper,RenderingProperty& prop)
 	{
-		auto g = (Graphics_Imp*) graphics;
+		using h = RenderingCommandHelper;
+		shaderConstants.clear();
 
 		std::shared_ptr<ace::NativeShader_Imp> shader;
+		
 		if (prop.IsLightweightMode)
 		{
 			shader = m_shaderLightweight;
@@ -217,10 +221,11 @@ namespace ace
 			}
 		}
 
-		Matrix44* matM = nullptr;
-		Matrix44* matC = nullptr;
-		Matrix44* matP = nullptr;
+		//Matrix44* matM = nullptr;
+		//Matrix44* matC = nullptr;
+		//Matrix44* matP = nullptr;
 		{
+			/*
 			if (prop.IsLightweightMode)
 			{
 				auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
@@ -238,10 +243,15 @@ namespace ace
 
 			*matC = prop.CameraMatrix;
 			*matP = prop.ProjectionMatrix;
+			*/
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
+
 		}
 
 		if (prop.IsLightweightMode)
 		{
+			/*
 			auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
 
 			vbuf.directionalLightDirection = prop.DirectionalLightDirection;
@@ -254,13 +264,29 @@ namespace ace
 			vbuf.skyLightColor.X = prop.SkyLightColor.R / 255.0f;
 			vbuf.skyLightColor.Y = prop.SkyLightColor.G / 255.0f;
 			vbuf.skyLightColor.Z = prop.SkyLightColor.B / 255.0f;
+			*/
+
+			auto direction = prop.DirectionalLightDirection;
+			Vector3DF lightColor(prop.DirectionalLightColor.R / 255.0f, prop.DirectionalLightColor.G / 255.0f, prop.DirectionalLightColor.B / 255.0f);
+			Vector3DF groudLColor(prop.GroundLightColor.R / 255.0f, prop.GroundLightColor.G / 255.0f, prop.GroundLightColor.B / 255.0f);
+			Vector3DF skyLColor(prop.SkyLightColor.R / 255.0f, prop.SkyLightColor.G / 255.0f, prop.SkyLightColor.B / 255.0f);
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightDirection", direction));
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightColor", lightColor));
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "skyLightColor", skyLColor));
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "groundLightColor", groudLColor));
+
 		}
 		else
 		{
+			/*
 			auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferDeferredRendering>();
 			vbuf.depthParams.X = prop.DepthRange;
 			vbuf.depthParams.Y = prop.ZFar;
 			vbuf.depthParams.Z = prop.ZNear;
+			*/
+			Vector3DF depthParams(prop.DepthRange, prop.ZFar, prop.ZNear);
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "depthParams", depthParams));
 		}
 
 		{
@@ -277,6 +303,7 @@ namespace ace
 
 					auto& boneConnectors = mesh.BoneConnectors;
 
+					Matrix44 matM[32];
 					// 行列計算
 					if (boneConnectors.size() > 0)
 					{
@@ -297,6 +324,8 @@ namespace ace
 							matM[i] = matM[0];
 						}
 					}
+
+					shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", h::Array<Matrix44>(matM, 32)));
 
 					auto& materialOffsets = mesh.MaterialOffsets;
 
@@ -328,57 +357,50 @@ namespace ace
 							fCount = mFCount - fOffset;
 							if (fCount == 0) break;
 
+							ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
+							ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
+							ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
+
 							if (material != nullptr)
 							{
+								
 								if (material->ColorTexture != nullptr)
 								{
-									shader->SetTexture("g_colorTexture", material->ColorTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-								}
-								else
-								{
-									shader->SetTexture("g_colorTexture", renderer->GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+									colorTexture = material->ColorTexture.get();
 								}
 
 								if (!prop.IsLightweightMode)
 								{
 									if (material->NormalTexture != nullptr)
 									{
-										shader->SetTexture("g_normalTexture", material->NormalTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
-									}
-									else
-									{
-										shader->SetTexture("g_normalTexture", renderer->GetDummyTextureNormal().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+										normalTexture = material->NormalTexture.get();
 									}
 
 									if (material->SpecularTexture != nullptr)
 									{
-										shader->SetTexture("g_specularTexture", material->SpecularTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
-									}
-									else
-									{
-										shader->SetTexture("g_specularTexture", renderer->GetDummyTextureBlack().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
+										specularTexture = material->SpecularTexture.get();
 									}
 								}
 							}
-							else
-							{
-								shader->SetTexture("g_colorTexture", renderer->GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-								shader->SetTexture("g_normalTexture", renderer->GetDummyTextureNormal().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
-								shader->SetTexture("g_specularTexture", renderer->GetDummyTextureBlack().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
-							}
+							
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
+								h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 
-							g->SetVertexBuffer(mesh.VertexBufferPtr.get());
-							g->SetIndexBuffer(mesh.IndexBufferPtr.get());
-							g->SetShader(shader.get());
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
+								h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
+								h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
 
 							RenderState state;
 							state.DepthTest = true;
 							state.DepthWrite = true;
 							state.CullingType = eCullingType::CULLING_FRONT;
 							state.AlphaBlendState = AlphaBlend::Opacity;
-							g->SetRenderState(state);
 
-							g->DrawPolygon(mesh.IndexBufferPtr->GetCount() / 3);
+							helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
+								shaderConstants.data(), shaderConstants.size());
 
 							fOffset += fCount;
 						}
@@ -412,14 +434,6 @@ namespace ace
 			Rotation,
 			Scale,
 			rotationType);
-	}
-
-	RenderedModelObject3D::MeshGroup::MeshGroup()
-	{
-	}
-
-	RenderedModelObject3D::MeshGroup::~MeshGroup()
-	{
 	}
 
 	void RenderedModelObject3D::CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, int32_t time)
@@ -633,10 +647,5 @@ namespace ace
 
 		proxy->m_meshes_rt = m_meshes;
 		proxy->m_matrixes_rt = m_matrixes;
-	}
-
-	void RenderedModelObject3D::Rendering(RenderingProperty& prop)
-	{	
-		proxy->Rendering(GetGraphics(), m_renderer, prop);
 	}
 }

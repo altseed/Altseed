@@ -152,11 +152,6 @@ namespace ace
 		proxy->m_postEffectCommands_RT = m_postEffectCommands;
 	}
 
-	void RenderedCameraObject3D::Rendering(RenderingProperty& prop)
-	{
-
-	}
-
 	void RenderedCameraObject3D::SetFocus(const Vector3DF& focus)
 	{
 		m_values.focus = focus;

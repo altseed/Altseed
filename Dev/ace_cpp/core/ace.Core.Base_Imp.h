@@ -213,6 +213,17 @@ namespace ace {
 				TextureWrapType		WrapType;
 			} Texture2DPtr;
 
+			/**
+				@brief	行列の配列
+				@note
+				配列の内容自体は保存しないので別領域に確保する必要がある。
+				*/
+			struct
+			{
+				Matrix44*			Ptr;
+				int32_t				Count;
+			} Mat44Array;
+
 		} Data;
 
 		ShaderConstantValue();
@@ -222,6 +233,7 @@ namespace ace {
 		ShaderConstantValue(const Vector3DF& value);
 		ShaderConstantValue(const Vector4DF& value);
 		ShaderConstantValue(const Matrix44& value);
+		ShaderConstantValue(Matrix44* value, int32_t count);
 		ShaderConstantValue(Texture2D* value, TextureFilterType filterType, TextureWrapType wrapType);
 		virtual ~ShaderConstantValue();
 		ShaderConstantValue& operator=(const ShaderConstantValue& value);

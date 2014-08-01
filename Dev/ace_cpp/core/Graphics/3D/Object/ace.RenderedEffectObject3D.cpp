@@ -78,11 +78,6 @@ namespace ace
 		}
 	}
 
-	void RenderedEffectObject3D::Rendering(RenderingProperty& prop)
-	{
-
-	}
-
 	void RenderedEffectObject3D::SetEffect(Effect* effect)
 	{
 		SafeSubstitute(m_effect, effect);

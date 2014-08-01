@@ -1,6 +1,8 @@
 ﻿
 #pragma once
 
+#include <Math/ace.Matrix44.h>
+
 #include "../../ace.Core.Base_Imp.h"
 
 namespace ace
@@ -13,6 +15,7 @@ namespace ace
 
 		int32_t GetConstantBufferID(NativeShader_Imp* shader, const char* name);
 		int32_t GetTextureID(NativeShader_Imp* shader, const char* name);
+		Matrix44* MallocMatrix44ArrayBuffer(int32_t count);
 
 	public:
 
@@ -26,6 +29,19 @@ namespace ace
 				Ptr = ptr;
 				Filter = filter;
 				Wrap = wrap;
+			}
+		};
+
+		template<typename T>
+		struct Array
+		{
+			T* Ptr;
+			int32_t Count;
+			
+			Array(T* ptr, int32_t count)
+				: Ptr(ptr)
+				, Count(count)
+			{
 			}
 		};
 
@@ -71,6 +87,40 @@ namespace ace
 		{
 			auto value = ShaderConstantValue(v.Ptr, v.Filter, v.Wrap);
 			value.ID = GetTextureID(shader, name);
+			return value;
+		}
+
+		template<>
+		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const std::vector<Matrix44>& v)
+		{
+			if (v.size() == 0)
+			{
+				Matrix44* buf_ = nullptr;
+				auto ret = ShaderConstantValue(buf_, 0);
+				ret.ID = -1;
+			}
+
+			auto buf = MallocMatrix44ArrayBuffer(v.size());
+			memcpy(buf, v.data(), v.size() * sizeof(Matrix44));
+			auto value = ShaderConstantValue(buf, v.size());
+			value.ID = GetConstantBufferID(shader, name);
+			return value;
+		}
+
+		template<>
+		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const Array<Matrix44>& v)
+		{
+			if (v.Count == 0)
+			{
+				Matrix44* buf_ = nullptr;
+				auto ret = ShaderConstantValue(buf_, 0);
+				ret.ID = -1;
+			}
+
+			auto buf = MallocMatrix44ArrayBuffer(v.Count);
+			memcpy(buf, v.Ptr, v.Count * sizeof(Matrix44));
+			auto value = ShaderConstantValue(buf, v.Count);
+			value.ID = GetConstantBufferID(shader, name);
 			return value;
 		}
 

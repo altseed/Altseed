@@ -7,6 +7,11 @@
 #include "../Object/ace.RenderedCameraObject3D.h"
 #include "../Object/ace.RenderedDirectionalLightObject3D.h"
 
+#include "../../Command/ace.RenderingCommandExecutor.h"
+#include "../../Command/ace.RenderingCommandFactory.h"
+#include "../../Command/ace.RenderingCommandHelper.h"
+#include "../../Command/ace.RenderingCommand.h"
+
 #include "../../Resource/ace.ShaderCache.h"
 #include "../../Resource/ace.NativeShader_Imp.h"
 #include "../../Resource/ace.VertexBuffer_Imp.h"
@@ -93,6 +98,10 @@ namespace ace
 		auto g = m_graphics;
 		g->MakeContextCurrent();
 
+		RenderingCommandHelper helper_(commands, factory);
+		auto helper = &helper_;
+		using h = RenderingCommandHelper;
+
 		for (auto& o : rendering.objects)
 		{
 			o->GetProxy()->OnUpdateAsync();
@@ -114,7 +123,10 @@ namespace ace
 		RenderingProperty prop;
 		prop.IsLightweightMode = rendering.Settings.IsLightweightMode;
 		prop.IsDepthMode = false;
-		
+		prop.DummyTextureWhite = m_dummyTextureWhite;
+		prop.DummyTextureBlack = m_dummyTextureBlack;
+		prop.DummyTextureNormal = m_dummyTextureNormal;
+
 		// ライトの計算
 		{
 			if (rendering.directionalLightObjects.size() > 0)
@@ -156,43 +168,52 @@ namespace ace
 			{
 				if (prop.IsLightweightMode)
 				{
-					g->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
-					g->Clear(true, true, ace::Color(0, 0, 0, 255));
+					helper->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
+					helper->Clear(true, true, ace::Color(0, 0, 0, 255));
 
 					for (auto& o : m_objects)
 					{
-						o->Rendering(prop);
+						o->GetProxy()->Rendering(helper, prop);
 					}
 				}
 				else
 				{
 					// 奥行き描画
 					{
-						g->SetRenderTarget(cP->GetRenderTargetDepth(), cP->GetDepthBuffer());
-						g->Clear(true, true, ace::Color(0, 0, 0, 255));
+						helper->SetRenderTarget(cP->GetRenderTargetDepth(), cP->GetDepthBuffer());
+						helper->Clear(true, true, ace::Color(0, 0, 0, 255));
 						prop.IsDepthMode = true;
 						for (auto& o : m_objects)
 						{
-							o->Rendering(prop);
+							o->GetProxy()->Rendering(helper, prop);
 						}
 					}
 
 					// Gバッファ描画
 					{
-						g->SetRenderTarget(
+						helper->SetRenderTarget(
 							cP->GetRenderTargetDiffuseColor(),
 							cP->GetRenderTargetSpecularColor_Smoothness(),
 							cP->GetRenderTargetDepth(),
 							cP->GetRenderTargetAO_MatID(),
 							cP->GetDepthBuffer());
-						g->Clear(true, false, ace::Color(0, 0, 0, 255));
+						helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 						prop.IsDepthMode = false;
 						for (auto& o : m_objects)
 						{
-							o->Rendering(prop);
+							o->GetProxy()->Rendering(helper, prop);
 						}
 					}
 				}
+
+				//executor->Execute(g, commands);
+				//
+				//for (auto& c : commands)
+				//{
+				//	c->~RenderingCommand();
+				//}
+				//commands.clear();
+				//factory->Reset();
 			}
 
 
@@ -200,14 +221,15 @@ namespace ace
 			if (!m_settings.IsLightweightMode && m_ssaoShader != nullptr)
 			{
 				{
-					g->SetRenderTarget(cP->GetRenderTargetSSAO(), nullptr);
-					g->Clear(true, false, ace::Color(0, 0, 0, 255));
+					helper->SetRenderTarget(cP->GetRenderTargetSSAO(), nullptr);
+					helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoShader->SetTexture("g_texture", cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+					//m_ssaoShader->SetTexture("g_texture", cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
-					auto& cvbuf = m_ssaoShader->GetVertexConstantBuffer<SSAOConstantVertexBuffer>();
-					cvbuf.Size[0] = m_windowSize.X;
-					cvbuf.Size[1] = m_windowSize.Y;
+					//auto& cvbuf = m_ssaoShader->GetVertexConstantBuffer<SSAOConstantVertexBuffer>();
+					//cvbuf.Size[0] = m_windowSize.X;
+					//cvbuf.Size[1] = m_windowSize.Y;
+					auto size_ = Vector4DF(m_windowSize.X, m_windowSize.Y, 0.0f, 0.0f);
 
 					auto fov = cP->FOV / 180.0f * 3.141592f;
 					auto aspect = (float) cP->WindowSize.X / (float) cP->WindowSize.Y;
@@ -218,88 +240,119 @@ namespace ace
 
 
 					SSAOConstantPixelBuffer& cpbuf = m_ssaoShader->GetPixelConstantBuffer<SSAOConstantPixelBuffer>();
-					cpbuf.Radius = 0.1f;
-					cpbuf.ProjScale = c->GetWindowSize().Y * yScale / 2.0f;
-					cpbuf.Bias = 0.001f;
-					cpbuf.Intensity = 1.0f;
+					//cpbuf.Radius = 0.1f;
+					//cpbuf.ProjScale = cP->WindowSize.Y * yScale / 2.0f;
+					//cpbuf.Bias = 0.001f;
+					//cpbuf.Intensity = 1.0f;
 
 					/*
 					cpbuf.ReconstructInfo1[0] = cP->ZNear * cP->ZFar;
 					cpbuf.ReconstructInfo1[1] = cP->ZFar - cP->ZNear;
 					cpbuf.ReconstructInfo1[2] = -cP->ZFar;
 					*/
+
 					cpbuf.ReconstructInfo1[0] = cP->ZFar - cP->ZNear;
 					cpbuf.ReconstructInfo1[1] = cP->ZNear;
 
-					cpbuf.ReconstructInfo2[0] = 1.0f / xScale;
-					cpbuf.ReconstructInfo2[1] = 1.0f / yScale;
+					//auto reconstructInfo1 = Vector3DF(cP->ZNear * cP->ZFar, cP->ZFar - cP->ZNear, -cP->ZFar);
+					auto reconstructInfo1 = Vector3DF(cP->ZFar - cP->ZNear, cP->ZNear, 0.0f);
 
-					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
-					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
-					g->SetShader(m_ssaoShader.get());
+					//cpbuf.ReconstructInfo2[0] = 1.0f / xScale;
+					//cpbuf.ReconstructInfo2[1] = 1.0f / yScale;
+					auto reconstructInfo2 = Vector4DF(1.0f / xScale, 1.0f / yScale, 0.0f, 0.0f);
+
+					//g->SetVertexBuffer(m_ssaoVertexBuffer.get());
+					//g->SetIndexBuffer(m_ssaoIndexBuffer.get());
+					//g->SetShader(m_ssaoShader.get());
 
 					RenderState state;
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					m_graphics->SetRenderState(state);
+					//m_graphics->SetRenderState(state);
 
-					g->DrawPolygon(2);
+					//g->DrawPolygon(2);
+
+					helper->Draw(2, m_ssaoVertexBuffer.get(), m_ssaoIndexBuffer.get(), m_ssaoShader.get(), state,
+//						h::GenValue("size", size_),
+						h::GenValue("radius", 0.1f),
+						h::GenValue("projScale", cP->WindowSize.Y * yScale / 2.0f),
+						h::GenValue("bias", 0.001f),
+						h::GenValue("intensity", 1.0f),
+						h::GenValue("reconstructInfo1", reconstructInfo1),
+						h::GenValue("reconstructInfo2", reconstructInfo2),
+						h::GenValue("g_texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 				}
 
 				{
-					g->SetRenderTarget(cP->GetRenderTargetSSAO_Temp(), nullptr);
-					g->Clear(true, false, ace::Color(0, 0, 0, 255));
+					helper->SetRenderTarget(cP->GetRenderTargetSSAO_Temp(), nullptr);
+					helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoBlurXShader->SetTexture("g_texture", cP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+					//m_ssaoBlurXShader->SetTexture("g_texture", cP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
-					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
-					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
-					g->SetShader(m_ssaoBlurXShader.get());
+					//g->SetVertexBuffer(m_ssaoVertexBuffer.get());
+					//g->SetIndexBuffer(m_ssaoIndexBuffer.get());
+					//g->SetShader(m_ssaoBlurXShader.get());
 
 					RenderState state;
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					g->SetRenderState(state);
+					//g->SetRenderState(state);
 
-					g->DrawPolygon(2);
+					//g->DrawPolygon(2);
+
+					helper->Draw(2, m_ssaoVertexBuffer.get(), m_ssaoIndexBuffer.get(), m_ssaoBlurXShader.get(), state,
+						h::GenValue("g_texture", h::Texture2DPair(cP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 				}
 
 				{
-					g->SetRenderTarget(cP->GetRenderTargetSSAO(), nullptr);
-					g->Clear(true, false, ace::Color(0, 0, 0, 255));
+					helper->SetRenderTarget(cP->GetRenderTargetSSAO(), nullptr);
+					helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					m_ssaoBlurYShader->SetTexture("g_texture", cP->GetRenderTargetSSAO_Temp(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+					//m_ssaoBlurYShader->SetTexture("g_texture", cP->GetRenderTargetSSAO_Temp(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
-					g->SetVertexBuffer(m_ssaoVertexBuffer.get());
-					g->SetIndexBuffer(m_ssaoIndexBuffer.get());
-					g->SetShader(m_ssaoBlurYShader.get());
+					//g->SetVertexBuffer(m_ssaoVertexBuffer.get());
+					//g->SetIndexBuffer(m_ssaoIndexBuffer.get());
+					//g->SetShader(m_ssaoBlurYShader.get());
 
 					RenderState state;
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					g->SetRenderState(state);
+					//g->SetRenderState(state);
 
-					g->DrawPolygon(2);
+					//g->DrawPolygon(2);
+
+					helper->Draw(2, m_ssaoVertexBuffer.get(), m_ssaoIndexBuffer.get(), m_ssaoBlurYShader.get(), state,
+						h::GenValue("g_texture", h::Texture2DPair(cP->GetRenderTargetSSAO_Temp(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 				}
 			}
 			
 			// 蓄積リセット
 			if (!m_settings.IsLightweightMode)
 			{
-				g->SetRenderTarget(cP->GetRenderTarget(), nullptr);
-				g->Clear(true, false, ace::Color(0, 0, 0, 255));
+				helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
+				helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 			}
+
+			executor->Execute(g, commands);
+
+			for (auto& c : commands)
+			{
+				c->~RenderingCommand();
+			}
+			commands.clear();
+			factory->Reset();
+
 
 			// 直接光描画
 			if (!m_settings.IsLightweightMode)
 			{
 				auto invCameraMat = (prop.CameraMatrix).GetInverted();
 
-				auto fov = c->GetFieldOfView() / 180.0f * 3.141592f;
-				auto aspect = (float) c->GetWindowSize().X / (float) c->GetWindowSize().Y;
+				auto fov = cP->FOV / 180.0f * 3.141592f;
+				auto aspect = (float) cP->WindowSize.X / (float) cP->WindowSize.Y;
 
 				float yScale = 1 / tanf(fov / 2);
 				float xScale = yScale / aspect;
@@ -365,8 +418,17 @@ namespace ace
 
 						for (auto& o : m_objects)
 						{
-							o->Rendering(shadowProp);
+							o->GetProxy()->Rendering(helper, shadowProp);
 						}
+
+						executor->Execute(g, commands);
+
+						for (auto& c : commands)
+						{
+							c->~RenderingCommand();
+						}
+						commands.clear();
+						factory->Reset();
 
 						float intensity = 5.0f;
 						Vector4DF weights;
@@ -1081,6 +1143,9 @@ namespace ace
 
 			m_effectManager->SetSetting(m_graphics->GetEffectSetting());
 		}
+
+		factory = new RenderingCommandFactory();
+		executor = new RenderingCommandExecutor();
 	}
 
 	Renderer3D::~Renderer3D()
@@ -1111,6 +1176,9 @@ namespace ace
 		m_effectManager->Destroy();
 		m_effectRenderer = nullptr;
 		m_effectManager = nullptr;
+
+		SafeDelete(factory);
+		SafeDelete(executor);
 
 		SafeRelease(m_graphics);
 	}

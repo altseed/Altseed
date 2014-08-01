@@ -23,6 +23,10 @@ namespace ace
 		Matrix44	CameraMatrix;
 		Matrix44	ProjectionMatrix;
 
+		std::shared_ptr<Texture2D>	DummyTextureWhite;
+		std::shared_ptr<Texture2D>	DummyTextureBlack;
+		std::shared_ptr<Texture2D>	DummyTextureNormal;
+
 		// 軽量描画用
 		Color		DirectionalLightColor;
 		Vector3DF	DirectionalLightDirection;
@@ -62,6 +66,8 @@ namespace ace
 		Vector3DF GetGlobalPosition();
 
 		virtual void OnUpdateAsync() {}
+
+		virtual void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) {}
 	};
 
 	/**
@@ -124,8 +130,6 @@ namespace ace
 		virtual RenderedObject3DProxy* GetProxy() const = 0;
 
 		virtual void Flip();
-
-		virtual void Rendering(RenderingProperty& prop) = 0;
 
 		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
 	};

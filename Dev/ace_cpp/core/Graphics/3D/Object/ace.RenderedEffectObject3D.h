@@ -32,7 +32,6 @@ namespace ace
 		virtual ~RenderedEffectObject3D();
 
 		void Flip() override;
-		void Rendering(RenderingProperty& prop) override;
 
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 

@@ -340,11 +340,6 @@ namespace ace
 		proxy->LightColor = color;
 	}
 
-	void RenderedDirectionalLightObject3D::Rendering(RenderingProperty& prop)
-	{
-		
-	}
-
 	Color RenderedDirectionalLightObject3D::GetColor()
 	{
 		return color;

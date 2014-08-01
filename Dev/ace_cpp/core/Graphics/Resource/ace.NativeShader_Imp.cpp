@@ -158,6 +158,11 @@ namespace ace {
 		SetConstantBuffer(id, &value, sizeof(Matrix44));
 	}
 
+	void NativeShader_Imp::SetMatrix44Array(int32_t id, Matrix44* value, int32_t count)
+	{
+		SetConstantBuffer(id, value, sizeof(Matrix44) * count);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -217,6 +222,16 @@ namespace ace {
 			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR4DF)
 			{
 				SetVector4DF(value.ID, Vector4DF(value.Data.Float4[0], value.Data.Float4[1], value.Data.Float4[2], value.Data.Float4[3]));
+			}
+			else if (value.ValueType == SHADER_VARIABLE_TYPE_MATRIX44)
+			{
+				Matrix44 mat;
+				memcpy(&mat, value.Data.Mat44, sizeof(Matrix44));
+				SetMatrix44(value.ID, mat);
+			}
+			else if (value.ValueType == SHADER_VARIABLE_TYPE_MATRIX44_ARRAY)
+			{
+				SetMatrix44Array(value.ID, value.Data.Mat44Array.Ptr, value.Data.Mat44Array.Count);
 			}
 			else if (value.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
 			{
