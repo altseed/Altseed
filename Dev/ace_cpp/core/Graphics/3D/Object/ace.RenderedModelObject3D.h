@@ -11,6 +11,14 @@ namespace ace
 		: public RenderedObject3DProxy
 	{
 	public:
+		std::vector<Matrix44>					m_matrixes_rt;
+		std::vector<std::shared_ptr<Mesh>>		m_meshes_rt;
+		std::shared_ptr<Deformer>				m_deformer_rt;
+
+		RenderedModelObject3DProxy(Graphics* graphics);
+		virtual ~RenderedModelObject3DProxy();
+
+		void Rendering(Graphics* graphics, RenderingProperty& prop);
 	};
 
 	class RenderedModelObject3D
@@ -71,13 +79,9 @@ namespace ace
 
 	private:
 		std::vector<std::shared_ptr<Mesh>>		m_meshes;
-		std::vector<std::shared_ptr<Mesh>>		m_meshes_rt;
-
 		std::shared_ptr<Deformer>				m_deformer;
-		std::shared_ptr<Deformer>				m_deformer_rt;
-
-		std::vector<Matrix44>					m_matrixes_rt;
 		std::vector<Matrix44>					m_matrixes;
+
 		std::vector <BoneProperty>				m_boneProps;
 
 		Model_Imp*								m_model = nullptr;
@@ -94,9 +98,10 @@ namespace ace
 		Renderer3D*								m_renderer = nullptr;
 		RenderedModelObject3DProxy*				proxy = nullptr;
 
+		static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, int32_t time);
+		static void CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer, bool isPlayingAnimation);
+
 		void Flip(AnimationClip* animationClip, int32_t time);
-		void CalculateAnimation(AnimationClip* animationClip, int32_t time);
-		void CalclateBoneMatrices(bool isPlayingAnimation);
 
 	public:
 		RenderedModelObject3D(Graphics* graphics);

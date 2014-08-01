@@ -11,6 +11,8 @@ namespace ace
 	class RenderedCameraObject3DProxy
 		: public RenderedObject3DProxy
 	{
+		friend class RenderedCameraObject3D;
+
 	private:
 		GraphicsDeviceType	deviceType;
 
@@ -22,7 +24,13 @@ namespace ace
 		RenderTexture2D_Imp*	m_renderTargetSSAO_RT = nullptr;
 		RenderTexture2D_Imp*	m_renderTargetSSAO_temp_RT = nullptr;
 		RenderTexture2D_Imp*	m_renderTargetShadow_RT = nullptr;
+		DepthBuffer_Imp*		m_depthBuffer_RT = nullptr;
 
+		RenderTexture2D_Imp*	m_renderTarget_FR[2];
+
+		PostEffectRenderer*		m_postEffectRenderer = nullptr;
+		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands_RT;
+		int32_t					postEffectCount = 0;
 	public:
 		float ZFar = 0.0f;
 		float ZNear = 0.0f;
@@ -46,6 +54,10 @@ namespace ace
 		RenderTexture2D_Imp*	GetRenderTargetShadow() { return m_renderTargetShadow_RT; }
 		RenderTexture2D_Imp*	GetRenderTargetSSAO() { return m_renderTargetSSAO_RT; }
 		RenderTexture2D_Imp*	GetRenderTargetSSAO_Temp() { return m_renderTargetSSAO_temp_RT; }
+		DepthBuffer_Imp*		GetDepthBuffer() { return m_depthBuffer_RT; }
+		RenderTexture2D_Imp*	GetRenderTarget();
+		RenderTexture2D_Imp*	GetAffectedRenderTarget();
+		void ApplyPostEffects();
 	};
 
 
@@ -67,20 +79,7 @@ namespace ace
 
 		} m_values;
 
-		struct
-		{
-			Vector2DI	size;
-			int32_t	postEffectCount;
-
-		} m_values_RT;
-
-		RenderTexture2D_Imp*	m_renderTarget_FR[2];
-		DepthBuffer_Imp*	m_depthBuffer_RT;
-
 		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands;
-		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands_RT;
-
-		PostEffectRenderer*								m_postEffectRenderer;
 
 		RenderedCameraObject3DProxy* proxy = nullptr;
 
@@ -126,13 +125,6 @@ namespace ace
 		別スレッドで描画に使用されている可能性が高いので注意する。
 		*/
 		RenderTexture2D* GetSrcForPostEffect(int32_t count);
-
-		void ApplyPostEffects_RT();
-
-		RenderTexture2D_Imp* GetRenderTarget_RT();
-		RenderTexture2D_Imp* GetAffectedRenderTarget_RT();
-
-		DepthBuffer_Imp* GetDepthBuffer_RT() { return m_depthBuffer_RT; }
 
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_CAMERA; }
 	};

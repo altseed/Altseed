@@ -13,6 +13,10 @@ namespace ace
 	RenderedCameraObject3DProxy::RenderedCameraObject3DProxy(Graphics* graphics)
 	{
 		deviceType = graphics->GetGraphicsDeviceType();
+		m_postEffectRenderer = PostEffectRenderer::Create(graphics);
+
+		m_renderTarget_FR[0] = nullptr;
+		m_renderTarget_FR[1] = nullptr;
 	}
 
 	RenderedCameraObject3DProxy::~RenderedCameraObject3DProxy()
@@ -26,6 +30,12 @@ namespace ace
 
 		SafeRelease(m_renderTargetSSAO_RT);
 		SafeRelease(m_renderTargetSSAO_temp_RT);
+
+		SafeRelease(m_renderTarget_FR[0]);
+		SafeRelease(m_renderTarget_FR[1]);
+		SafeRelease(m_depthBuffer_RT);
+
+		SafeRelease(m_postEffectRenderer);
 	}
 
 	void RenderedCameraObject3DProxy::SetWindowSize(Graphics* graphics, Vector2DI windowSize)
@@ -44,6 +54,10 @@ namespace ace
 			SafeRelease(m_renderTargetSSAO_RT);
 			SafeRelease(m_renderTargetSSAO_temp_RT);
 
+			SafeRelease(m_renderTarget_FR[0]);
+			SafeRelease(m_renderTarget_FR[1]);
+			SafeRelease(m_depthBuffer_RT);
+
 			m_renderTargetDiffuseColor_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			m_renderTargetSpecularColor_Smoothness_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			m_renderTargetNormalDepth_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
@@ -53,6 +67,10 @@ namespace ace
 			m_renderTargetSSAO_temp_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 
 			m_renderTargetShadow_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+
+			m_renderTarget_FR[0] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_renderTarget_FR[1] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			m_depthBuffer_RT = g->CreateDepthBuffer_Imp(windowSize.X, windowSize.Y);
 		}
 
 		WindowSize = windowSize;
@@ -84,34 +102,38 @@ namespace ace
 			Vector3DF(0, 1, 0));
 	}
 
+	RenderTexture2D_Imp* RenderedCameraObject3DProxy::GetRenderTarget()
+	{
+		return m_renderTarget_FR[postEffectCount % 2];
+	}
+
+	RenderTexture2D_Imp* RenderedCameraObject3DProxy::GetAffectedRenderTarget()
+	{
+		return m_renderTarget_FR[0];
+	}
+
+	void RenderedCameraObject3DProxy::ApplyPostEffects()
+	{
+		for (auto& c : m_postEffectCommands_RT)
+		{
+			m_postEffectRenderer->DrawOnTexture2DWithMaterialWithCommand(c);
+		}
+	}
+
 	RenderedCameraObject3D::RenderedCameraObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
-		, m_depthBuffer_RT(nullptr)
-		, m_postEffectRenderer(nullptr)
 	{
-		m_renderTarget_FR[0] = nullptr;
-		m_renderTarget_FR[1] = nullptr;
-
 		m_values.size = Vector2DI();
 		m_values.fov = 0.0f;
 		m_values.zfar = 0.0f;
 		m_values.znear = 0.0f;
-
 		m_values.postEffectCount = 0;
-		m_values_RT.postEffectCount = 0;
-
-		m_postEffectRenderer = PostEffectRenderer::Create(graphics);
 
 		proxy = new RenderedCameraObject3DProxy(graphics);
 	}
 
 	RenderedCameraObject3D::~RenderedCameraObject3D()
 	{
-		SafeRelease(m_renderTarget_FR[0]);
-		SafeRelease(m_renderTarget_FR[1]);
-		SafeRelease(m_depthBuffer_RT);
-		SafeRelease(m_postEffectRenderer);
-
 		SafeRelease(proxy);
 	}
 
@@ -119,31 +141,15 @@ namespace ace
 	{
 		RenderedObject3D::Flip();
 
-		if (m_values.size != m_values_RT.size)
-		{
-			m_values_RT.size = m_values.size;
-			SafeRelease(m_renderTarget_FR[0]);
-			SafeRelease(m_renderTarget_FR[1]);
-			SafeRelease(m_depthBuffer_RT);
-
-			m_renderTarget_FR[0] = GetGraphics()->CreateRenderTexture2D_Imp(m_values_RT.size.X, m_values_RT.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
-			m_renderTarget_FR[1] = GetGraphics()->CreateRenderTexture2D_Imp(m_values_RT.size.X, m_values_RT.size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
-			m_depthBuffer_RT = GetGraphics()->CreateDepthBuffer_Imp(m_values_RT.size.X, m_values_RT.size.Y);
-		}
-
-		m_values_RT.size = m_values.size;
-
 		proxy->ZNear = m_values.znear;
 		proxy->ZFar = m_values.zfar;
 		proxy->FOV = m_values.fov;
 		proxy->Focus = m_values.focus;
 		proxy->SetWindowSize(GetGraphics(), m_values.size);
 
-		m_values_RT.postEffectCount = m_values.postEffectCount;
+		proxy->postEffectCount = m_values.postEffectCount;
 
-		m_postEffectCommands_RT.clear();
-		m_postEffectCommands_RT.resize(m_postEffectCommands.size());
-		std::copy(m_postEffectCommands.begin(), m_postEffectCommands.end(), m_postEffectCommands_RT.begin());
+		proxy->m_postEffectCommands_RT = m_postEffectCommands;
 	}
 
 	void RenderedCameraObject3D::Rendering(RenderingProperty& prop)
@@ -192,22 +198,22 @@ namespace ace
 		{
 			if (count % 2 == 1)
 			{
-				return m_renderTarget_FR[0];
+				return proxy->m_renderTarget_FR[0];
 			}
 			else
 			{
-				return m_renderTarget_FR[1];
+				return proxy->m_renderTarget_FR[1];
 			}
 		}
 		else
 		{
 			if (count % 2 == 1)
 			{
-				return m_renderTarget_FR[1];
+				return proxy->m_renderTarget_FR[1];
 			}
 			else
 			{
-				return m_renderTarget_FR[0];
+				return proxy->m_renderTarget_FR[0];
 			}
 		}
 
@@ -220,43 +226,25 @@ namespace ace
 		{
 			if (count % 2 == 1)
 			{
-				return m_renderTarget_FR[1];
+				return proxy->m_renderTarget_FR[1];
 			}
 			else
 			{
-				return m_renderTarget_FR[0];
+				return proxy->m_renderTarget_FR[0];
 			}
 		}
 		else
 		{
 			if (count % 2 == 1)
 			{
-				return m_renderTarget_FR[0];
+				return proxy->m_renderTarget_FR[0];
 			}
 			else
 			{
-				return m_renderTarget_FR[1];
+				return proxy->m_renderTarget_FR[1];
 			}
 		}
 
 		return nullptr;
-	}
-
-	void RenderedCameraObject3D::ApplyPostEffects_RT()
-	{
-		for (auto& c : m_postEffectCommands_RT)
-		{
-			m_postEffectRenderer->DrawOnTexture2DWithMaterialWithCommand(c);
-		}
-	}
-
-	RenderTexture2D_Imp* RenderedCameraObject3D::GetRenderTarget_RT()
-	{ 
-		return m_renderTarget_FR[m_values_RT.postEffectCount % 2]; 
-	}
-
-	RenderTexture2D_Imp* RenderedCameraObject3D::GetAffectedRenderTarget_RT()
-	{ 
-		return m_renderTarget_FR[0];
 	}
 }

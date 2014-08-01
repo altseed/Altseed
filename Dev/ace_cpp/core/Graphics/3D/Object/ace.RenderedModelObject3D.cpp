@@ -28,6 +28,21 @@
 
 namespace ace
 {
+	RenderedModelObject3DProxy::RenderedModelObject3DProxy(Graphics* graphics)
+	{
+
+	}
+
+	RenderedModelObject3DProxy::~RenderedModelObject3DProxy()
+	{
+
+	}
+
+	void RenderedModelObject3DProxy::Rendering(Graphics* graphics, RenderingProperty& prop)
+	{
+
+	}
+
 	RenderedModelObject3D::BoneProperty::BoneProperty()
 	{
 		Position[0] = 0.0f;
@@ -62,29 +77,13 @@ namespace ace
 	{
 	}
 
-	void RenderedModelObject3D::Flip(AnimationClip* animationClip, int32_t time)
-	{
-		CalculateAnimation(animationClip, time);
-
-		CalclateBoneMatrices(animationClip != nullptr);
-
-		// コピー
-		if (m_matrixes_rt.size() != m_matrixes.size())
-		{
-			m_matrixes_rt.resize(m_matrixes.size());
-		}
-
-		std::copy(m_matrixes.begin(), m_matrixes.end(), m_matrixes_rt.begin());
-	}
-
-
-	void RenderedModelObject3D::CalculateAnimation(AnimationClip* animationClip, int32_t time)
+	void RenderedModelObject3D::CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, int32_t time)
 	{
 		if (animationClip == nullptr) return;
 
 		auto source = (AnimationSource_Imp*) animationClip->GetSource().get();
 		auto& animations = source->GetAnimations();
-		auto d = (Deformer_Imp*) m_deformer.get();
+		auto d = (Deformer_Imp*) deformer;
 
 		for (auto& a : animations)
 		{
@@ -98,26 +97,26 @@ namespace ace
 			auto value = a_->GetValue(time);
 
 			ModelUtils::SetBoneValue(
-				m_boneProps[bi].Position,
-				m_boneProps[bi].Rotation,
-				m_boneProps[bi].Scale,
+				boneProps[bi].Position,
+				boneProps[bi].Rotation,
+				boneProps[bi].Scale,
 				type,
 				axis,
 				value);
 		}
 	}
 
-	void RenderedModelObject3D::CalclateBoneMatrices(bool isPlayingAnimation)
+	void RenderedModelObject3D::CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer, bool isPlayingAnimation)
 	{
-		if (m_deformer == nullptr) return;
-		auto d = (Deformer_Imp*) m_deformer.get();
+		if (deformer == nullptr) return;
+		auto d = (Deformer_Imp*) deformer;
 
 		if (isPlayingAnimation)
 		{
 			for (auto i = 0; i < d->GetBones().size(); i++)
 			{
 				auto& b = d->GetBones()[i];
-				m_matrixes[i] = m_boneProps[i].CalcMatrix(b.RotationType);
+				matrixes[i] = boneProps[i].CalcMatrix(b.RotationType);
 			}
 		}
 		else
@@ -125,10 +124,18 @@ namespace ace
 		}
 
 		ModelUtils::CalculateBoneMatrixes(
-			m_matrixes,
+			matrixes,
 			d->GetBones(),
-			m_matrixes,
+			matrixes,
 			isPlayingAnimation);
+	}
+
+	void RenderedModelObject3D::Flip(AnimationClip* animationClip, int32_t time)
+	{
+		CalculateAnimation(m_boneProps, m_deformer.get(), animationClip, time);
+
+		CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get(), animationClip != nullptr);
+		proxy->m_matrixes_rt = m_matrixes;
 	}
 
 	RenderedModelObject3D::RenderedModelObject3D(Graphics* graphics)
@@ -293,7 +300,7 @@ namespace ace
 			m_shaderDF_ND->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
 		}
 
-		proxy = new RenderedModelObject3DProxy();
+		proxy = new RenderedModelObject3DProxy(graphics);
 	}
 
 	RenderedModelObject3D::~RenderedModelObject3D()
@@ -443,9 +450,7 @@ namespace ace
 			m_animationTime++;
 		}
 
-		m_meshes_rt.clear();
-		m_meshes_rt.resize(m_meshes.size());
-		std::copy(m_meshes.begin(), m_meshes.end(), m_meshes_rt.begin());
+		proxy->m_meshes_rt = m_meshes;
 	}
 
 	void RenderedModelObject3D::Rendering(RenderingProperty& prop)
@@ -514,9 +519,9 @@ namespace ace
 		}
 
 		{
-			auto& matrices = m_matrixes_rt;
+			auto& matrices = proxy->m_matrixes_rt;
 
-			for (auto& mesh_ : m_meshes_rt)
+			for (auto& mesh_ : proxy->m_meshes_rt)
 			{
 				auto mesh_root = (Mesh_Imp*)mesh_.get();
 

@@ -156,7 +156,7 @@ namespace ace
 			{
 				if (prop.IsLightweightMode)
 				{
-					g->SetRenderTarget(c->GetRenderTarget_RT(), c->GetDepthBuffer_RT());
+					g->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
 					g->Clear(true, true, ace::Color(0, 0, 0, 255));
 
 					for (auto& o : m_objects)
@@ -168,7 +168,7 @@ namespace ace
 				{
 					// 奥行き描画
 					{
-						g->SetRenderTarget(cP->GetRenderTargetDepth(), c->GetDepthBuffer_RT());
+						g->SetRenderTarget(cP->GetRenderTargetDepth(), cP->GetDepthBuffer());
 						g->Clear(true, true, ace::Color(0, 0, 0, 255));
 						prop.IsDepthMode = true;
 						for (auto& o : m_objects)
@@ -184,7 +184,7 @@ namespace ace
 							cP->GetRenderTargetSpecularColor_Smoothness(),
 							cP->GetRenderTargetDepth(),
 							cP->GetRenderTargetAO_MatID(),
-							c->GetDepthBuffer_RT());
+							cP->GetDepthBuffer());
 						g->Clear(true, false, ace::Color(0, 0, 0, 255));
 						prop.IsDepthMode = false;
 						for (auto& o : m_objects)
@@ -289,7 +289,7 @@ namespace ace
 			// 蓄積リセット
 			if (!m_settings.IsLightweightMode)
 			{
-				g->SetRenderTarget(c->GetRenderTarget_RT(), nullptr);
+				g->SetRenderTarget(cP->GetRenderTarget(), nullptr);
 				g->Clear(true, false, ace::Color(0, 0, 0, 255));
 			}
 
@@ -429,7 +429,7 @@ namespace ace
 
 					// 光源描画
 					{
-						g->SetRenderTarget(c->GetRenderTarget_RT(), nullptr);
+						g->SetRenderTarget(cP->GetRenderTarget(), nullptr);
 
 						std::shared_ptr<ace::NativeShader_Imp> shader;
 
@@ -502,7 +502,7 @@ namespace ace
 				// 環境光
 				if (lightIndex == 0)
 				{
-					g->SetRenderTarget(c->GetRenderTarget_RT(), nullptr);
+					g->SetRenderTarget(cP->GetRenderTarget(), nullptr);
 
 					std::shared_ptr<ace::NativeShader_Imp> shader = m_ambientLightShader;
 
@@ -568,11 +568,11 @@ namespace ace
 			if (m_settings.IsLightweightMode || rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
 			{
 				// ポストエフェクト適用
-				c->ApplyPostEffects_RT();
+				cP->ApplyPostEffects();
 			}
 			else
 			{
-				g->SetRenderTarget(c->GetRenderTarget_RT(), nullptr);
+				g->SetRenderTarget(cP->GetRenderTarget(), nullptr);
 				g->Clear(true, false, Color(0, 0, 0, 0));
 
 				std::shared_ptr<ace::NativeShader_Imp> shader = m_deferredBufferShader;
@@ -619,6 +619,8 @@ namespace ace
 		for (auto& co : rendering.cameraObjects)
 		{
 			auto c = (RenderedCameraObject3D*) co;
+			auto cP = (RenderedCameraObject3DProxy*) c->GetProxy();
+
 			g->SetRenderTarget(GetRenderTarget(), nullptr);
 
 			// 頂点情報をビデオメモリに転送
@@ -644,11 +646,11 @@ namespace ace
 
 			if (m_settings.IsLightweightMode || rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
 			{
-				m_pasteShader->SetTexture("g_texture", c->GetAffectedRenderTarget_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+				m_pasteShader->SetTexture("g_texture", cP->GetAffectedRenderTarget(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 			}
 			else
 			{
-				m_pasteShader->SetTexture("g_texture", c->GetRenderTarget_RT(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+				m_pasteShader->SetTexture("g_texture", cP->GetRenderTarget(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 			}
 			
 			

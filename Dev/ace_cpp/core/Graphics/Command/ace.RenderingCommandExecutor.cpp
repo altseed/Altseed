@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.RenderingCommandExecutor.h"
 #include "ace.RenderingCommand.h"
 
