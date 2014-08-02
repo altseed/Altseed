@@ -82,7 +82,7 @@ namespace ace
 			return value;
 		}
 
-		template<>
+		//template<>
 		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const Texture2DPair& v)
 		{
 			auto value = ShaderConstantValue(v.Ptr, v.Filter, v.Wrap);
@@ -90,7 +90,7 @@ namespace ace
 			return value;
 		}
 
-		template<>
+		//template<>
 		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const std::vector<Matrix44>& v)
 		{
 			if (v.size() == 0)
@@ -107,7 +107,7 @@ namespace ace
 			return value;
 		}
 
-		template<>
+		//template<>
 		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const Array<Matrix44>& v)
 		{
 			if (v.Count == 0)
