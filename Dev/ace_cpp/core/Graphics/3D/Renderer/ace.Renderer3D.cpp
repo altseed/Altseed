@@ -95,9 +95,6 @@ namespace ace
 
 	void Renderer3D::Rendering()
 	{
-		auto g = m_graphics;
-		g->MakeContextCurrent();
-
 		RenderingCommandHelper helper_(commands, factory);
 		auto helper = &helper_;
 		using h = RenderingCommandHelper;
@@ -336,16 +333,6 @@ namespace ace
 				helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 			}
 
-			executor->Execute(g, commands);
-
-			for (auto& c : commands)
-			{
-				c->~RenderingCommand();
-			}
-			commands.clear();
-			factory->Reset();
-
-
 			// 直接光描画
 			if (!m_settings.IsLightweightMode)
 			{
@@ -578,75 +565,48 @@ namespace ace
 				}
 			}
 
-			executor->Execute(g, commands);
-
-			for (auto& c : commands)
-			{
-				c->~RenderingCommand();
-			}
-			commands.clear();
-			factory->Reset();
-
 			// エフェクトの描画
-			{
-				// 行列を転置して設定
-				Effekseer::Matrix44 cameraMat, projMat;
-				for (auto c_ = 0; c_ < 4; c_++)
-				{
-					for (auto r = 0; r < 4; r++)
-					{
-						cameraMat.Values[c_][r] = cP->CameraMatrix.Values[r][c_];
-						projMat.Values[c_][r] = cP->ProjectionMatrix.Values[r][c_];
-					}
-				}
-				rendering.EffectRenderer->SetCameraMatrix(cameraMat);
-				rendering.EffectRenderer->SetProjectionMatrix(projMat);
-				rendering.EffectRenderer->BeginRendering();
-				rendering.EffectManager->Draw();
-				rendering.EffectRenderer->EndRendering();
-
-				// レンダー設定リセット
-				g->CommitRenderState(true);
-			}
+			helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
 
 			if (m_settings.IsLightweightMode || rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
 			{
 				// ポストエフェクト適用
-				cP->ApplyPostEffects();
+				cP->ApplyPostEffects(helper);
 			}
 			else
 			{
-				g->SetRenderTarget(cP->GetRenderTarget(), nullptr);
-				g->Clear(true, false, Color(0, 0, 0, 0));
+				helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
+				helper->Clear(true, false, Color(0, 0, 0, 0));
 
 				std::shared_ptr<ace::NativeShader_Imp> shader = m_deferredBufferShader;
 
+				float flag = 0.0f;
 				if (rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_DIFFUSE)
 				{
-					shader->SetFloat("flag", 0.0f);
+					flag = 0.0f;
 				}
 				else if (rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_NORMAL)
 				{
-					shader->SetFloat("flag", 1.0f);
+					flag = 1.0f;
 				}
 
-				shader->SetTexture("g_gbuffer0Texture", cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-				shader->SetTexture("g_gbuffer1Texture", cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
-				shader->SetTexture("g_gbuffer2Texture", cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
-				shader->SetTexture("g_gbuffer3Texture", cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
+				//shader->SetFloat("flag", flag);
+				//shader->SetTexture("g_gbuffer0Texture", cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+				//shader->SetTexture("g_gbuffer1Texture", cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
+				//shader->SetTexture("g_gbuffer2Texture", cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
+				//shader->SetTexture("g_gbuffer3Texture", cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
 
+				Texture2D* ssaoTexture = GetDummyTextureWhite().get();
 				if (m_ssaoShader != nullptr)
 				{
-					shader->SetTexture("g_ssaoTexture", cP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
-				}
-				else
-				{
-					shader->SetTexture("g_ssaoTexture", GetDummyTextureWhite().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
+					ssaoTexture = cP->GetRenderTargetSSAO();
 				}
 
-				g->SetVertexBuffer(m_shadowVertexBuffer.get());
-				g->SetIndexBuffer(m_shadowIndexBuffer.get());
-				g->SetShader(shader.get());
+				//shader->SetTexture("g_ssaoTexture", ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
+
+				//g->SetVertexBuffer(m_shadowVertexBuffer.get());
+				//g->SetIndexBuffer(m_shadowIndexBuffer.get());
+				//g->SetShader(shader.get());
 
 				RenderState state;
 				
@@ -656,7 +616,16 @@ namespace ace
 				state.AlphaBlendState = AlphaBlend::Opacity;
 				m_graphics->SetRenderState(state);
 
-				g->DrawPolygon(2);
+				//g->DrawPolygon(2);
+
+				helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
+					h::GenValue("flag", flag),
+					h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+					h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+					h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+					h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+					h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+					);
 			}
 		}
 
@@ -665,56 +634,36 @@ namespace ace
 			auto c = (RenderedCameraObject3D*) co;
 			auto cP = (RenderedCameraObject3DProxy*) c->GetProxy();
 
-			g->SetRenderTarget(GetRenderTarget(), nullptr);
+			helper->SetRenderTarget(GetRenderTarget(), nullptr);
 
-			// 頂点情報をビデオメモリに転送
-			if (!m_pasteVertexBuffer->RingBufferLock(6))
-			{
-				assert(0);
-			}
-
-			auto buf = m_pasteVertexBuffer->GetBuffer <ScreenVertexLayout>(6);
-
-			buf[0].Position = Vector3DF(-1.0f, -1.0f, 0.5f);
-			buf[0].UV = Vector2DF(0, 1);
-			buf[1].Position = Vector3DF(1.0f, -1.0f, 0.5f);
-			buf[1].UV = Vector2DF(1, 1);
-			buf[2].Position = Vector3DF(1.0f, 1.0f, 0.5f);
-			buf[2].UV = Vector2DF(1, 0);
-			buf[3].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
-			buf[3].UV = Vector2DF(0, 0);
-			buf[4] = buf[0];
-			buf[5] = buf[2];
-
-			m_pasteVertexBuffer->Unlock();
-
+			Texture2D* texture = nullptr;
 			if (m_settings.IsLightweightMode || rendering.Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
 			{
-				m_pasteShader->SetTexture("g_texture", cP->GetAffectedRenderTarget(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+				texture = cP->GetAffectedRenderTarget();
 			}
 			else
 			{
-				m_pasteShader->SetTexture("g_texture", cP->GetRenderTarget(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+				texture = cP->GetRenderTarget();
 			}
+			//m_pasteShader->SetTexture("g_texture",texture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 			
-			
-			//m_pasteShader->SetTexture("g_texture", c->GetDepthBuffer_RT(), 0);
-			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetDepth_RT(), 0);
-			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetSSAO_RT(), 0);
-			//m_pasteShader->SetTexture("g_texture", c->GetRenderTargetShadow_RT(), 0);
-
-			m_graphics->SetVertexBuffer(m_pasteVertexBuffer.get());
-			m_graphics->SetIndexBuffer(m_pasteIndexBuffer.get());
-			m_graphics->SetShader(m_pasteShader.get());
+			//m_graphics->SetVertexBuffer(m_pasteVertexBuffer.get());
+			//m_graphics->SetIndexBuffer(m_pasteIndexBuffer.get());
+			//m_graphics->SetShader(m_pasteShader.get());
 
 			RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
 			state.AlphaBlendState = AlphaBlend::Opacity;
 			state.CullingType = ace::eCullingType::CULLING_DOUBLE;
-			g->SetRenderState(state);
+			//g->SetRenderState(state);
 
-			m_graphics->DrawPolygon(2);
+			//m_graphics->DrawPolygon(2);
+
+			helper->Draw(2, m_pasteVertexBuffer.get(), m_pasteIndexBuffer.get(), m_pasteShader.get(), state,
+				h::GenValue("g_texture", h::Texture2DPair(texture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+				);
+
 		}
 	}
 
@@ -769,7 +718,25 @@ namespace ace
 
 		// ペースト用シェーダー
 		{
-			m_pasteVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(ScreenVertexLayout), 2 * 3, true);
+			m_pasteVertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(ScreenVertexLayout), 2 * 3, false);
+		
+			{
+				m_pasteVertexBuffer->Lock();
+				auto buf = m_pasteVertexBuffer->GetBuffer <ScreenVertexLayout>(6);
+	
+				buf[0].Position = Vector3DF(-1.0f, -1.0f, 0.5f);
+				buf[0].UV = Vector2DF(0, 1);
+				buf[1].Position = Vector3DF(1.0f, -1.0f, 0.5f);
+				buf[1].UV = Vector2DF(1, 1);
+				buf[2].Position = Vector3DF(1.0f, 1.0f, 0.5f);
+				buf[2].UV = Vector2DF(1, 0);
+				buf[3].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
+				buf[3].UV = Vector2DF(0, 0);
+				buf[4] = buf[0];
+				buf[5] = buf[2];
+	
+				m_pasteVertexBuffer->Unlock();
+			}
 			m_pasteIndexBuffer = m_graphics->CreateIndexBuffer_Imp(2 * 3, false, false);
 
 			m_pasteIndexBuffer->Lock();
@@ -1140,6 +1107,12 @@ namespace ace
 			}
 		}
 
+		for (auto& c : commands)
+		{
+			c->~RenderingCommand();
+		}
+		commands.clear();
+
 		CallRemovingObjects(m_objects, this);
 		ReleaseObjects(m_objects);
 		ReleaseObjects(rendering.objects);
@@ -1320,6 +1293,15 @@ namespace ace
 				Sleep(1);
 			}
 		}
+
+		executor->Execute(m_graphics, rendering.EffectManager, rendering.EffectRenderer, commands);
+
+		for (auto& c : commands)
+		{
+			c->~RenderingCommand();
+		}
+		commands.clear();
+		factory->Reset();
 
 		m_graphics->MakeContextCurrent();
 		m_graphics->FlushCommand();

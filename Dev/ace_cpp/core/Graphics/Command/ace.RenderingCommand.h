@@ -2,6 +2,8 @@
 #pragma once
 
 #include <ace.common.Base.h>
+#include <Math/ace.Matrix44.h>
+
 #include "../../ace.Core.Base_Imp.h"
 
 namespace ace
@@ -12,6 +14,7 @@ namespace ace
 		Draw,
 		SetRenderTarget,
 		Clear,
+		DrawEffect,
 	};
 
 	class RenderingCommand
@@ -69,5 +72,16 @@ namespace ace
 		RenderingCommandType GetType() const override { return RenderingCommandType::Clear; }
 
 		RenderingCommand_Clear(bool isColorTarget, bool isDepthTarget, const Color& color);
+	};
+
+	struct RenderingCommand_DrawEffect
+		: public RenderingCommand
+	{
+		Matrix44 ProjMat;
+		Matrix44 CameraMat;
+
+		RenderingCommandType GetType() const override { return RenderingCommandType::DrawEffect; }
+
+		RenderingCommand_DrawEffect(Matrix44 projMat, Matrix44 cameraMat);
 	};
 }

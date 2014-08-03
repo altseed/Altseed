@@ -102,5 +102,6 @@ namespace ace
 		void SetRenderTarget(std::vector<RenderingCommand*>& commands, RenderTexture2D* renderTexture0, RenderTexture2D* renderTexture1, RenderTexture2D* renderTexture2, RenderTexture2D* renderTexture3, DepthBuffer_Imp* depth);
 		void SetRenderTarget(std::vector<RenderingCommand*>& commands, RenderTexture2D* renderTexture0, DepthBuffer_Imp* depth);
 		void Draw(std::vector<RenderingCommand*>& commands, int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs, std::vector<ShaderConstantValue>& constantValues);
+		void DrawEffect(std::vector<RenderingCommand*>& commands, Matrix44 projMat, Matrix44 cameraMat);
 	};
 }

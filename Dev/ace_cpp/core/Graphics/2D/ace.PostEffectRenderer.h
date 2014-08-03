@@ -58,6 +58,11 @@ namespace ace {
 		static PostEffectRenderer* Create(Graphics* graphics);
 
 		/**
+			@brief	描画処理をコマンドとして出力する。
+		*/
+		void ExportRenderingCommands(RenderingCommandHelper* helper, std::shared_ptr<Material2DCommand> command);
+
+		/**
 			@brief	マテリアルを用いてテクスチャに画像を描画する。
 			@param	command	描画命令
 		*/

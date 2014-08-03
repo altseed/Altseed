@@ -2,6 +2,8 @@
 #include "ace.RenderingCommandFactory.h"
 #include "ace.RenderingCommand.h"
 
+#include <Math/ace.Matrix44.h>
+
 namespace ace
 {
 	RenderingCommandFactory::RenderingCommandFactory()
@@ -57,6 +59,12 @@ namespace ace
 	{
 		auto command = CreateCommand<RenderingCommand_Draw>(polyCount, vb, ib, shader, rs);
 		command->SetConstantValues(this, constantValues.data(), constantValues.size());
+		commands.push_back(command);
+	}
+
+	void RenderingCommandFactory::DrawEffect(std::vector<RenderingCommand*>& commands, Matrix44 projMat, Matrix44 cameraMat)
+	{
+		auto command = CreateCommand<RenderingCommand_DrawEffect>(projMat, cameraMat);
 		commands.push_back(command);
 	}
 }

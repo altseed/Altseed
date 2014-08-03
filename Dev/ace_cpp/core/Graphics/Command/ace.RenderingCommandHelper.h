@@ -73,6 +73,7 @@ namespace ace
 
 		void Draw(int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs);
 
+		void DrawEffect(Matrix44 projMat, Matrix44 cameraMat);
 
 		template<typename T>
 		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const T& v)

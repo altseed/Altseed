@@ -8,7 +8,11 @@
 
 namespace ace
 {
-	void RenderingCommandExecutor::Execute(Graphics* graphics, std::vector<RenderingCommand*>& commands)
+	void RenderingCommandExecutor::Execute(
+		Graphics* graphics, 
+		Effekseer::Manager* effectManager,
+		EffekseerRenderer::Renderer* effectRenderer,
+		std::vector<RenderingCommand*>& commands)
 	{
 		auto commands_ptr = commands.data();
 		auto commands_size = commands.size();
@@ -53,6 +57,29 @@ namespace ace
 						(RenderTexture2D_Imp*) c->RenderTextures[3],
 						c->Depth);
 				}
+			}
+			else if (command->GetType() == RenderingCommandType::DrawEffect)
+			{
+				auto c = (RenderingCommand_DrawEffect*) command;
+
+				// 行列を転置して設定
+				Effekseer::Matrix44 cameraMat, projMat;
+				for (auto c_ = 0; c_ < 4; c_++)
+				{
+					for (auto r = 0; r < 4; r++)
+					{
+						cameraMat.Values[c_][r] = c->CameraMat.Values[r][c_];
+						projMat.Values[c_][r] = c->ProjMat.Values[r][c_];
+					}
+				}
+				effectRenderer->SetCameraMatrix(cameraMat);
+				effectRenderer->SetProjectionMatrix(projMat);
+				effectRenderer->BeginRendering();
+				effectManager->Draw();
+				effectRenderer->EndRendering();
+
+				// レンダー設定リセット
+				g->CommitRenderState(true);
 			}
 		}
 	}

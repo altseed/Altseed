@@ -89,4 +89,10 @@ namespace ace
 		IsDepthTarget = isDepthTarget;
 		Color_ = color;
 	}
+
+	RenderingCommand_DrawEffect::RenderingCommand_DrawEffect(Matrix44 projMat, Matrix44 cameraMat)
+		: ProjMat(projMat)
+		, CameraMat(cameraMat)
+	{
+	}
 }

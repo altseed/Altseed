@@ -57,7 +57,7 @@ namespace ace
 		DepthBuffer_Imp*		GetDepthBuffer() { return m_depthBuffer_RT; }
 		RenderTexture2D_Imp*	GetRenderTarget();
 		RenderTexture2D_Imp*	GetAffectedRenderTarget();
-		void ApplyPostEffects();
+		void ApplyPostEffects(RenderingCommandHelper* helper);
 	};
 
 

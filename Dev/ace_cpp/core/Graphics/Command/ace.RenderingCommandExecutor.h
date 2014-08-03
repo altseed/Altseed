@@ -12,6 +12,9 @@ namespace ace
 	private:
 
 	public:
-		void Execute(Graphics* graphics, std::vector<RenderingCommand*>& commands);
+		void Execute(Graphics* graphics, 
+			Effekseer::Manager* effectManager,
+			EffekseerRenderer::Renderer* effectRenderer,
+			std::vector<RenderingCommand*>& commands);
 	};
 }

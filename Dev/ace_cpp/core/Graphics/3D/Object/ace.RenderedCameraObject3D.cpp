@@ -112,11 +112,11 @@ namespace ace
 		return m_renderTarget_FR[0];
 	}
 
-	void RenderedCameraObject3DProxy::ApplyPostEffects()
+	void RenderedCameraObject3DProxy::ApplyPostEffects(RenderingCommandHelper* helper)
 	{
 		for (auto& c : m_postEffectCommands_RT)
 		{
-			m_postEffectRenderer->DrawOnTexture2DWithMaterialWithCommand(c);
+			m_postEffectRenderer->ExportRenderingCommands(helper, c);
 		}
 	}
 

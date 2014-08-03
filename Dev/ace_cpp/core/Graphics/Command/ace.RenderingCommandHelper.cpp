@@ -55,4 +55,10 @@ namespace ace
 		auto command = factory->CreateCommand<RenderingCommand_Draw>(polyCount, vb, ib, shader, rs);
 		commands.push_back(command);
 	}
+
+	void  RenderingCommandHelper::DrawEffect(Matrix44 projMat, Matrix44 cameraMat)
+	{
+		auto command = factory->CreateCommand<RenderingCommand_DrawEffect>(projMat, cameraMat);
+		commands.push_back(command);
+	}
 }
