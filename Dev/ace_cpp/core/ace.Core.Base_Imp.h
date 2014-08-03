@@ -66,6 +66,8 @@ namespace ace {
 	class ObjectSystemFactory_Imp;
 
 	class Renderer3D;
+	class Renderer3DProxy;
+
 	class RenderedObject3D;
 	class RenderedEffectObject3D;
 	class RenderedModelObject3D;
@@ -168,28 +170,6 @@ namespace ace {
 		Macro(const char* name, const char* definition)
 			: Name(name)
 			, Definition(definition)
-		{
-		}
-	};
-
-	/**
-	@brief	シェーダーの定数バッファ向け情報
-	*/
-	struct ConstantBufferInformation
-	{
-		std::string		Name;
-		int32_t			Offset;
-		eConstantBufferFormat	Format;
-		
-		/**
-			@brief	定数バッファが配列だった際の配列の個数
-		*/
-		int32_t			Count;
-
-		ConstantBufferInformation()
-			: Offset(0)
-			, Format(CONSTANT_BUFFER_FORMAT_FLOAT4)
-			, Count(0)
 		{
 		}
 	};

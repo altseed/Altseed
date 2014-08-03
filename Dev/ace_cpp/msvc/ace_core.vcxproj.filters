@@ -721,6 +721,9 @@
     <ClInclude Include="..\core\Graphics\Command\ace.RenderingCommandHelper.h">
       <Filter>Graphics\Command</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1026,6 +1029,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Command\ace.RenderingCommandHelper.cpp">
       <Filter>Graphics\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
