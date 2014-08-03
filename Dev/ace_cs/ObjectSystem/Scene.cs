@@ -211,6 +211,11 @@ namespace ace
 		{
 			layersToDraw_.Sort((x, y) => x.DrawingPriority - y.DrawingPriority);
 
+			foreach (var item in layersToDraw_)
+			{
+				item.DrawAdditionally();
+			}
+
 			CoreScene.BeginDrawing();
 
 			foreach (var item in layersToDraw_)
@@ -221,11 +226,6 @@ namespace ace
 			foreach (var item in layersToDraw_)
 			{
 				item.Draw();
-			}
-
-			foreach (var item in layersToDraw_)
-			{
-				item.DrawAdditionally();
 			}
 
 			foreach (var item in layersToDraw_)

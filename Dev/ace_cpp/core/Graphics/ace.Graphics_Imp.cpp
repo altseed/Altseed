@@ -284,7 +284,7 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path)
 		return nullptr;
 	}
 
-	void* img = InternalLoad(m_graphics, imageDst.data(), imageWidth, imageHeight);
+	void* img = InternalLoad(m_graphics, imageDst, imageWidth, imageHeight);
 
 	SafeDeleteArray(data);
 

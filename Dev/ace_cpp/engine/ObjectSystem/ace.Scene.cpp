@@ -87,6 +87,11 @@ namespace ace
 			return x->GetDrawingPriority() < y->GetDrawingPriority();
 		});
 
+		for (auto& layer : m_layersToDraw)
+		{
+			layer->DrawAdditionally();
+		}
+
 		m_coreScene->BeginDrawing();
 
 		for (auto& layer : m_layersToDraw)
@@ -97,11 +102,6 @@ namespace ace
 		for (auto& layer : m_layersToDraw)
 		{
 			layer->Draw();
-		}
-
-		for (auto& layer : m_layersToDraw)
-		{
-			layer->DrawAdditionally();
 		}
 
 		for (auto& layer : m_layersToDraw)
