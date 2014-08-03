@@ -39,7 +39,7 @@ namespace ace {
 			@param	imagedst		出力結果(newで確保される)
 			@return	成否
 		*/
-		static bool LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, void*& imagedst);
+		static bool LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst);
 
 		/**
 			@brief	1ピクセルのサイズを取得する。

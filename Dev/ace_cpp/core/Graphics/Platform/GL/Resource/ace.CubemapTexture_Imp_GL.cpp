@@ -47,7 +47,7 @@ namespace ace
 		int32_t widthes[6];
 		int32_t heights[6];
 		std::vector<uint8_t> fileBuffers[6];
-		uint8_t* buffers[] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+		std::vector<uint8_t> buffers[6];
 
 		static const GLenum target[] = {
 			GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
@@ -77,10 +77,8 @@ namespace ace
 
 		for (int32_t i = 0; i < 6; i++)
 		{
-			void* result = nullptr;
-			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), true, widthes[i], heights[i], result))
+			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), true, widthes[i], heights[i], buffers[i]))
 			{
-				buffers[i] = (uint8_t*) result;
 			}
 			else
 			{
@@ -118,7 +116,7 @@ namespace ace
 				ImageHelper::GetMipmapSize(m, w, h);
 				if (m == 0)
 				{
-					glTexImage2D(target[i], m, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffers[i]);
+					glTexImage2D(target[i], m, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffers[i].data());
 				}
 				else
 				{
@@ -128,21 +126,12 @@ namespace ace
 			}
 		}
 
-		for (int32_t i = 0; i < 6; i++)
-		{
-			SafeDeleteArray(buffers[i]);
-		}
-
 		GLCheckError();
 
 		return new CubemapTexture_Imp_GL(graphics, cubemapTexture, Vector2DI(width, height), mipmapCount);
 
 	End:;
 
-		for (int32_t i = 0; i < 6; i++)
-		{
-			SafeDeleteArray(buffers[i]);
-		}
 		GLCheckError();
 
 		return nullptr;

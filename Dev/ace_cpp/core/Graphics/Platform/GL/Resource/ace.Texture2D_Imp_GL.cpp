@@ -62,7 +62,7 @@ namespace ace {
 			0, 
 			GL_RGBA, 
 			GL_UNSIGNED_BYTE, 
-			m_internalTextureData);
+			m_internalTextureData.data());
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 

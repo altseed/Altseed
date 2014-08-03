@@ -64,7 +64,7 @@ namespace ace {
 		TexDesc.MiscFlags = 0;
 
 		D3D11_SUBRESOURCE_DATA data;
-		data.pSysMem = m_internalTextureData;
+		data.pSysMem = m_internalTextureData.data();
 		data.SysMemPitch = m_internalTextureWidth * 4;
 		data.SysMemSlicePitch = m_internalTextureWidth * m_internalTextureHeight * 4;
 

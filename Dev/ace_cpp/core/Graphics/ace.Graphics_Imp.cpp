@@ -94,11 +94,11 @@ static void PngReadData(png_structp png_ptr, png_bytep data, png_size_t length)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, void*& imagedst)
+bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst)
 {
 	imagewidth = 0;
 	imageheight = 0;
-	imagedst = nullptr;
+	imagedst.clear();
 
 	uint8_t* data_ = (uint8_t*) data;
 
@@ -170,7 +170,8 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 
 	imagewidth = png_info->width;
 	imageheight = png_info->height;
-	uint8_t* imagedst_ = new uint8_t[imagewidth * imageheight * 4];
+	imagedst.resize(imagewidth * imageheight * 4);
+	auto imagedst_ = imagedst.data();
 
 	if (pixelBytes == 4)
 	{
@@ -191,8 +192,6 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 			}
 		}
 	}
-
-	imagedst = imagedst_;
 
 	delete[] image;
 	png_destroy_read_struct(&png, &png_info, NULL);
@@ -278,14 +277,14 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path)
 
 	int32_t imageWidth = 0;
 	int32_t imageHeight = 0;
-	void* imageDst = nullptr;
+	std::vector<uint8_t> imageDst;
 	if (!ImageHelper::LoadPNGImage(data, size, IsReversed(), imageWidth, imageHeight, imageDst))
 	{
 		SafeDeleteArray(data);
 		return nullptr;
 	}
 
-	void* img = InternalLoad(m_graphics, imageDst, imageWidth, imageHeight);
+	void* img = InternalLoad(m_graphics, imageDst.data(), imageWidth, imageHeight);
 
 	SafeDeleteArray(data);
 
