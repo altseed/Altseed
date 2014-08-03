@@ -49,9 +49,6 @@ namespace ace {
 		std::vector<Layout> m_layout;
 		int32_t		m_vertexSize;
 
-		std::vector<ConstantLayout>	m_vertexConstantLayouts;
-		std::vector<ConstantLayout>	m_pixelConstantLayouts;
-
 		uint8_t*								m_constantBuffer;
 
 		std::map < std::string, ConstantLayout>	m_constantLayouts;
@@ -72,11 +69,6 @@ namespace ace {
 		virtual ~NativeShader_Imp_GL();
 
 		static void Reflect(GLuint program, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures);
-
-	protected:
-		void CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info);
-		void CreatePixelConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info);
-
 	public:
 
 		int32_t GetConstantBufferID(const char* name) override;

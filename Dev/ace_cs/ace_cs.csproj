@@ -195,8 +195,6 @@
     <Compile Include="swig\RenderTexture2D_Imp.cs" />
     <Compile Include="swig\Shader2D.cs" />
     <Compile Include="swig\Shader2D_Imp.cs" />
-    <Compile Include="swig\ShaderVariableProperty.cs" />
-    <Compile Include="swig\ShaderVariablePropertyVector.cs" />
     <Compile Include="swig\ShaderVariableType.cs" />
     <Compile Include="swig\SideButton.cs" />
     <Compile Include="swig\Sound.cs" />

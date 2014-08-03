@@ -202,15 +202,6 @@ namespace ace
 						}
 					}
 				}
-
-				//executor->Execute(g, commands);
-				//
-				//for (auto& c : commands)
-				//{
-				//	c->~RenderingCommand();
-				//}
-				//commands.clear();
-				//factory->Reset();
 			}
 
 
@@ -221,13 +212,7 @@ namespace ace
 					helper->SetRenderTarget(cP->GetRenderTargetSSAO(), nullptr);
 					helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					//m_ssaoShader->SetTexture("g_texture", cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-
-					//auto& cvbuf = m_ssaoShader->GetVertexConstantBuffer<SSAOConstantVertexBuffer>();
-					//cvbuf.Size[0] = m_windowSize.X;
-					//cvbuf.Size[1] = m_windowSize.Y;
 					auto size_ = Vector4DF(m_windowSize.X, m_windowSize.Y, 0.0f, 0.0f);
-
 					auto fov = cP->FOV / 180.0f * 3.141592f;
 					auto aspect = (float) cP->WindowSize.X / (float) cP->WindowSize.Y;
 
@@ -235,43 +220,17 @@ namespace ace
 					float yScale = 1 / tanf(fov / 2);
 					float xScale = yScale / aspect;
 
-
-					SSAOConstantPixelBuffer& cpbuf = m_ssaoShader->GetPixelConstantBuffer<SSAOConstantPixelBuffer>();
-					//cpbuf.Radius = 0.1f;
-					//cpbuf.ProjScale = cP->WindowSize.Y * yScale / 2.0f;
-					//cpbuf.Bias = 0.001f;
-					//cpbuf.Intensity = 1.0f;
-
-					/*
-					cpbuf.ReconstructInfo1[0] = cP->ZNear * cP->ZFar;
-					cpbuf.ReconstructInfo1[1] = cP->ZFar - cP->ZNear;
-					cpbuf.ReconstructInfo1[2] = -cP->ZFar;
-					*/
-
-					cpbuf.ReconstructInfo1[0] = cP->ZFar - cP->ZNear;
-					cpbuf.ReconstructInfo1[1] = cP->ZNear;
-
 					//auto reconstructInfo1 = Vector3DF(cP->ZNear * cP->ZFar, cP->ZFar - cP->ZNear, -cP->ZFar);
 					auto reconstructInfo1 = Vector3DF(cP->ZFar - cP->ZNear, cP->ZNear, 0.0f);
 
-					//cpbuf.ReconstructInfo2[0] = 1.0f / xScale;
-					//cpbuf.ReconstructInfo2[1] = 1.0f / yScale;
 					auto reconstructInfo2 = Vector4DF(1.0f / xScale, 1.0f / yScale, 0.0f, 0.0f);
-
-					//g->SetVertexBuffer(m_ssaoVertexBuffer.get());
-					//g->SetIndexBuffer(m_ssaoIndexBuffer.get());
-					//g->SetShader(m_ssaoShader.get());
 
 					RenderState state;
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					//m_graphics->SetRenderState(state);
-
-					//g->DrawPolygon(2);
 
 					helper->Draw(2, m_ssaoVertexBuffer.get(), m_ssaoIndexBuffer.get(), m_ssaoShader.get(), state,
-//						h::GenValue("size", size_),
 						h::GenValue("radius", 0.1f),
 						h::GenValue("projScale", cP->WindowSize.Y * yScale / 2.0f),
 						h::GenValue("bias", 0.001f),
@@ -285,19 +244,10 @@ namespace ace
 					helper->SetRenderTarget(cP->GetRenderTargetSSAO_Temp(), nullptr);
 					helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					//m_ssaoBlurXShader->SetTexture("g_texture", cP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-
-					//g->SetVertexBuffer(m_ssaoVertexBuffer.get());
-					//g->SetIndexBuffer(m_ssaoIndexBuffer.get());
-					//g->SetShader(m_ssaoBlurXShader.get());
-
 					RenderState state;
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					//g->SetRenderState(state);
-
-					//g->DrawPolygon(2);
 
 					helper->Draw(2, m_ssaoVertexBuffer.get(), m_ssaoIndexBuffer.get(), m_ssaoBlurXShader.get(), state,
 						h::GenValue("g_texture", h::Texture2DPair(cP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
@@ -307,19 +257,10 @@ namespace ace
 					helper->SetRenderTarget(cP->GetRenderTargetSSAO(), nullptr);
 					helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-					//m_ssaoBlurYShader->SetTexture("g_texture", cP->GetRenderTargetSSAO_Temp(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-
-					//g->SetVertexBuffer(m_ssaoVertexBuffer.get());
-					//g->SetIndexBuffer(m_ssaoIndexBuffer.get());
-					//g->SetShader(m_ssaoBlurYShader.get());
-
 					RenderState state;
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.CullingType = CULLING_DOUBLE;
-					//g->SetRenderState(state);
-
-					//g->DrawPolygon(2);
 
 					helper->Draw(2, m_ssaoVertexBuffer.get(), m_ssaoIndexBuffer.get(), m_ssaoBlurYShader.get(), state,
 						h::GenValue("g_texture", h::Texture2DPair(cP->GetRenderTargetSSAO_Temp(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
@@ -370,7 +311,6 @@ namespace ace
 				int32_t lightIndex = 0;
 				for (auto& light_ : rendering.directionalLightObjects)
 				{
-					//auto light = (RenderedDirectionalLightObject3D*) (*(rendering.directionalLightObjects.begin()));
 					auto light = static_cast<RenderedDirectionalLightObject3D*>(light_);
 					auto lightP = (RenderedDirectionalLightObject3DProxy*) light->GetProxy();
 
@@ -428,22 +368,11 @@ namespace ace
 							helper->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
 							helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-							//m_shadowShaderX->SetTexture("g_texture", lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-							ShadowBlurConstantBuffer& cbufX = m_shadowShaderX->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
-							cbufX.Weights = weights;
-
-							//g->SetVertexBuffer(m_shadowVertexBuffer.get());
-							//g->SetIndexBuffer(m_shadowIndexBuffer.get());
-							//g->SetShader(m_shadowShaderX.get());
-
 							RenderState state;
 							state.DepthTest = false;
 							state.DepthWrite = false;
 							state.CullingType = CULLING_DOUBLE;
-							//m_graphics->SetRenderState(state);
-
-							//g->DrawPolygon(2);
-
+		
 							helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), m_shadowShaderX.get(), state,
 								h::GenValue("g_weight", weights),
 								h::GenValue("g_texture", h::Texture2DPair(lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
@@ -453,22 +382,11 @@ namespace ace
 							helper->SetRenderTarget(lightP->GetShadowTexture(), nullptr);
 							helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-							//m_shadowShaderY->SetTexture("g_texture", m_shadowTempTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-							ShadowBlurConstantBuffer& cbufY = m_shadowShaderY->GetPixelConstantBuffer<ShadowBlurConstantBuffer>();
-							cbufY.Weights = weights;
-
-							//g->SetVertexBuffer(m_shadowVertexBuffer.get());
-							//g->SetIndexBuffer(m_shadowIndexBuffer.get());
-							//g->SetShader(m_shadowShaderY.get());
-
 							RenderState state;
 							state.DepthTest = false;
 							state.DepthWrite = false;
 							state.CullingType = CULLING_DOUBLE;
-							//m_graphics->SetRenderState(state);
-
-							//g->DrawPolygon(2);
-
+	
 							helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), m_shadowShaderY.get(), state,
 								h::GenValue("g_weight", weights),
 								h::GenValue("g_texture", h::Texture2DPair(m_shadowTempTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
@@ -490,30 +408,14 @@ namespace ace
 							shader = m_directionalLightShader;
 						}
 
-						//shader->SetVector3DF("skyLightColor", skyLightColor);
-						//shader->SetVector3DF("groundLightColor", groundLightColor);
-						//shader->SetTexture("g_gbuffer0Texture", cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-						//shader->SetTexture("g_gbuffer1Texture", cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
-						//shader->SetTexture("g_gbuffer2Texture", cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
-						//shader->SetTexture("g_gbuffer3Texture", cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
-						//shader->SetTexture("g_shadowmapTexture", lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 4);
-
 						Texture2D* ssaoTexture = GetDummyTextureWhite().get();
 						if (m_ssaoShader != nullptr)
 						{
 							ssaoTexture = cP->GetRenderTargetSSAO();
 						}
 
-						//shader->SetTexture("g_ssaoTexture", ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
-
 						auto CameraPositionToShadowCameraPosition = (view) * invCameraMat;
-						//shader->SetMatrix44("g_cameraPositionToShadowCameraPosition", CameraPositionToShadowCameraPosition);
-
 						auto ShadowProjection = proj;
-						//shader->SetMatrix44("g_shadowProjection", ShadowProjection);
-
-						//shader->SetVector4DF("reconstructInfo1", ReconstructInfo1);
-						//shader->SetVector4DF("reconstructInfo2", ReconstructInfo2);
 
 						Vector3DF directionalLightDirection;
 						Vector3DF directionalLightColor;
@@ -525,22 +427,11 @@ namespace ace
 						directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
 						directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
 
-						//shader->SetVector3DF("directionalLightDirection", directionalLightDirection);
-						//shader->SetVector3DF("directionalLightColor", directionalLightColor);
-						//shader->SetVector3DF("upDir", upDir);
-
-						//g->SetVertexBuffer(m_shadowVertexBuffer.get());
-						//g->SetIndexBuffer(m_shadowIndexBuffer.get());
-						//g->SetShader(shader.get());
-
 						RenderState state;
 						state.DepthTest = false;
 						state.DepthWrite = false;
 						state.CullingType = CULLING_DOUBLE;
 						state.AlphaBlendState = AlphaBlend::Add;
-						//g->SetRenderState(state);
-
-						//g->DrawPolygon(2);
 
 						helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
 							h::GenValue("skyLightColor", skyLightColor),
@@ -590,33 +481,18 @@ namespace ace
 					flag = 1.0f;
 				}
 
-				//shader->SetFloat("flag", flag);
-				//shader->SetTexture("g_gbuffer0Texture", cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-				//shader->SetTexture("g_gbuffer1Texture", cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 1);
-				//shader->SetTexture("g_gbuffer2Texture", cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 2);
-				//shader->SetTexture("g_gbuffer3Texture", cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 3);
-
 				Texture2D* ssaoTexture = GetDummyTextureWhite().get();
 				if (m_ssaoShader != nullptr)
 				{
 					ssaoTexture = cP->GetRenderTargetSSAO();
 				}
 
-				//shader->SetTexture("g_ssaoTexture", ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 5);
-
-				//g->SetVertexBuffer(m_shadowVertexBuffer.get());
-				//g->SetIndexBuffer(m_shadowIndexBuffer.get());
-				//g->SetShader(shader.get());
-
 				RenderState state;
-				
 				state.DepthTest = false;
 				state.DepthWrite = false;
 				state.CullingType = CULLING_DOUBLE;
 				state.AlphaBlendState = AlphaBlend::Opacity;
 				m_graphics->SetRenderState(state);
-
-				//g->DrawPolygon(2);
 
 				helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
 					h::GenValue("flag", flag),
@@ -645,20 +521,12 @@ namespace ace
 			{
 				texture = cP->GetRenderTarget();
 			}
-			//m_pasteShader->SetTexture("g_texture",texture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-			
-			//m_graphics->SetVertexBuffer(m_pasteVertexBuffer.get());
-			//m_graphics->SetIndexBuffer(m_pasteIndexBuffer.get());
-			//m_graphics->SetShader(m_pasteShader.get());
 
 			RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
 			state.AlphaBlendState = AlphaBlend::Opacity;
 			state.CullingType = ace::eCullingType::CULLING_DOUBLE;
-			//g->SetRenderState(state);
-
-			//m_graphics->DrawPolygon(2);
 
 			helper->Draw(2, m_pasteVertexBuffer.get(), m_pasteIndexBuffer.get(), m_pasteShader.get(), state,
 				h::GenValue("g_texture", h::Texture2DPair(texture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
@@ -835,15 +703,6 @@ namespace ace
 					vl,
 					macro_y);
 			}
-
-			std::vector<ace::ConstantBufferInformation> constantBuffers;
-			constantBuffers.resize(1);
-			constantBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
-			constantBuffers[0].Name = std::string("g_weight");
-			constantBuffers[0].Offset = 0;
-
-			m_shadowShaderX->CreatePixelConstantBuffer<ShadowBlurConstantBuffer>(constantBuffers);
-			m_shadowShaderY->CreatePixelConstantBuffer<ShadowBlurConstantBuffer>(constantBuffers);
 
 			m_shadowTempTexture = m_graphics->CreateRenderTexture2D(2048, 2048, ace::eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
 
@@ -1028,44 +887,6 @@ namespace ace
 					vl,
 					macro);
 
-			}
-
-			std::vector<ace::ConstantBufferInformation> constantVBuffers;
-			constantVBuffers.resize(1);
-			constantVBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
-			constantVBuffers[0].Name = std::string("Size");
-			constantVBuffers[0].Offset = 0;
-
-			std::vector<ace::ConstantBufferInformation> constantPBuffers;
-			constantPBuffers.resize(6);
-			constantPBuffers[0].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
-			constantPBuffers[0].Name = std::string("Radius");
-			constantPBuffers[0].Offset = 0;
-
-			constantPBuffers[1].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
-			constantPBuffers[1].Name = std::string("ProjScale");
-			constantPBuffers[1].Offset = sizeof(float) * 4;
-
-			constantPBuffers[2].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
-			constantPBuffers[2].Name = std::string("Bias");
-			constantPBuffers[2].Offset = sizeof(float) * 8;
-
-			constantPBuffers[3].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
-			constantPBuffers[3].Name = std::string("Intensity");
-			constantPBuffers[3].Offset = sizeof(float) * 12;
-
-			constantPBuffers[4].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantPBuffers[4].Name = std::string("ReconstructInfo1");
-			constantPBuffers[4].Offset = sizeof(float) * 16;
-
-			constantPBuffers[5].Format = ace::eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
-			constantPBuffers[5].Name = std::string("ReconstructInfo2");
-			constantPBuffers[5].Offset = sizeof(float) * 20;
-
-			if (m_ssaoShader != nullptr)
-			{
-				m_ssaoShader->CreateVertexConstantBuffer<SSAOConstantVertexBuffer>(constantVBuffers);
-				m_ssaoShader->CreatePixelConstantBuffer<SSAOConstantPixelBuffer>(constantPBuffers);
 			}
 		}
 

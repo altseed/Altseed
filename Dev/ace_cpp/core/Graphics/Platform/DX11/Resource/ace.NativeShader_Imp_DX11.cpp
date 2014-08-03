@@ -364,46 +364,6 @@ NativeShader_Imp_DX11::~NativeShader_Imp_DX11()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void NativeShader_Imp_DX11::CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
-{
-	SafeRelease(m_constantBufferToVS);
-
-	auto g = (Graphics_Imp_DX11*)GetGraphics();
-
-	D3D11_BUFFER_DESC hBufferDesc;
-	hBufferDesc.ByteWidth = size;
-	hBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	hBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	hBufferDesc.CPUAccessFlags = 0;
-	hBufferDesc.MiscFlags = 0;
-	hBufferDesc.StructureByteStride = sizeof(float) ;
-
-	g->GetDevice()->CreateBuffer(&hBufferDesc, NULL, &m_constantBufferToVS);
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void NativeShader_Imp_DX11::CreatePixelConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
-{
-	SafeRelease(m_constantBufferToPS);
-
-	auto g = (Graphics_Imp_DX11*) GetGraphics();
-
-	D3D11_BUFFER_DESC hBufferDesc;
-	hBufferDesc.ByteWidth = size;
-	hBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	hBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	hBufferDesc.CPUAccessFlags = 0;
-	hBufferDesc.MiscFlags = 0;
-	hBufferDesc.StructureByteStride = sizeof(float) ;
-
-	g->GetDevice()->CreateBuffer(&hBufferDesc, NULL, &m_constantBufferToPS);
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 
 int32_t NativeShader_Imp_DX11::GetConstantBufferID(const char* name)
 {

@@ -11,34 +11,6 @@ namespace ace
 		: public RenderedObject3DProxy
 	{
 	private:
-		struct VertexConstantBufferLightweight
-		{
-			Matrix44	matM[32];
-			Matrix44	matC;
-			Matrix44	matP;
-			Vector3DF	directionalLightDirection;
-			float		Padding1;
-
-			Vector3DF	directionalLightColor;
-			float		Padding2;
-
-			Vector3DF	skyLightColor;
-			float		Padding3;
-
-			Vector3DF	groundLightColor;
-			float		Padding4;
-		};
-
-		struct VertexConstantBufferDeferredRendering
-		{
-			Matrix44	matM[32];
-			Matrix44	matC;
-			Matrix44	matP;
-
-			Vector3DF	depthParams;
-			float		Padding0;
-		};
-
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF_ND;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;

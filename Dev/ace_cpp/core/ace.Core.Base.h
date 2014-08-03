@@ -215,28 +215,6 @@ namespace ace {
 	};
 
 	/**
-		@brief	シェーダーに対して外部から設定可能なプロパティの情報
-	*/
-	class ShaderVariableProperty
-	{
-	public:
-		/**
-			@brief	名称
-		*/
-		astring	Name;
-
-		/**
-			@brief	種類
-		*/
-		ShaderVariableType Type;
-
-		/**
-			@brief	定数バッファ上での先頭からのオフセット
-		*/
-		int32_t	Offset;
-	};
-
-	/**
 	@brief	3D描画時に表示されるバッファ
 	*/
 	enum eVisalizedBuffer

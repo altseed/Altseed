@@ -26,8 +26,6 @@
 
 #include "../../Command/ace.RenderingCommandHelper.h"
 
-#include <cstddef>
-
 namespace ace
 {
 	RenderedModelObject3DProxy::RenderedModelObject3DProxy(Graphics* graphics)
@@ -46,37 +44,6 @@ namespace ace
 		vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
 
 		{
-			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
-			constantBuffers_vs.resize(7);
-			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
-			constantBuffers_vs[0].Name = std::string("matM");
-			constantBuffers_vs[0].Offset = 0;
-			constantBuffers_vs[0].Count = 32;
-
-			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[1].Name = std::string("matC");
-			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferLightweight, matC);
-
-			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[2].Name = std::string("matP");
-			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferLightweight, matP);
-
-			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[3].Name = std::string("directionalLightDirection");
-			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferLightweight, directionalLightDirection);
-
-			constantBuffers_vs[4].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[4].Name = std::string("directionalLightColor");
-			constantBuffers_vs[4].Offset = offsetof(VertexConstantBufferLightweight, directionalLightColor);
-
-			constantBuffers_vs[5].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[5].Name = std::string("skyLightColor");
-			constantBuffers_vs[5].Offset = offsetof(VertexConstantBufferLightweight, skyLightColor);
-
-			constantBuffers_vs[6].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[6].Name = std::string("groundLightColor");
-			constantBuffers_vs[6].Offset = offsetof(VertexConstantBufferLightweight, groundLightColor);
-
 			std::vector<ace::Macro> macro;
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
@@ -98,29 +65,9 @@ namespace ace
 			}
 
 			assert(m_shaderLightweight != nullptr);
-			//m_shaderLightweight->CreateVertexConstantBuffer<VertexConstantBufferLightweight>(constantBuffers_vs);
 		}
 
 		{
-			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
-			constantBuffers_vs.resize(4);
-			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
-			constantBuffers_vs[0].Name = std::string("matM");
-			constantBuffers_vs[0].Offset = 0;
-			constantBuffers_vs[0].Count = 32;
-
-			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[1].Name = std::string("matC");
-			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferDeferredRendering, matC);
-
-			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[2].Name = std::string("matP");
-			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferDeferredRendering, matP);
-
-			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[3].Name = std::string("depthParams");
-			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferDeferredRendering, depthParams);
-
 			std::vector<ace::Macro> macro;
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
@@ -142,29 +89,9 @@ namespace ace
 			}
 
 			assert(m_shaderDF != nullptr);
-			//m_shaderDF->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
 		}
 
 		{
-			std::vector<ace::ConstantBufferInformation> constantBuffers_vs;
-			constantBuffers_vs.resize(4);
-			constantBuffers_vs[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
-			constantBuffers_vs[0].Name = std::string("matM");
-			constantBuffers_vs[0].Offset = 0;
-			constantBuffers_vs[0].Count = 32;
-
-			constantBuffers_vs[1].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[1].Name = std::string("matC");
-			constantBuffers_vs[1].Offset = offsetof(VertexConstantBufferDeferredRendering, matC);
-
-			constantBuffers_vs[2].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-			constantBuffers_vs[2].Name = std::string("matP");
-			constantBuffers_vs[2].Offset = offsetof(VertexConstantBufferDeferredRendering, matP);
-
-			constantBuffers_vs[3].Format = ace::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			constantBuffers_vs[3].Name = std::string("depthParams");
-			constantBuffers_vs[3].Offset = offsetof(VertexConstantBufferDeferredRendering, depthParams);
-
 			std::vector<ace::Macro> macro;
 			macro.push_back(Macro("EXPORT_DEPTH", "1"));
 
@@ -188,7 +115,6 @@ namespace ace
 			}
 
 			assert(m_shaderDF_ND != nullptr);
-			//m_shaderDF_ND->CreateVertexConstantBuffer<VertexConstantBufferDeferredRendering>(constantBuffers_vs);
 		}
 
 	}
@@ -221,51 +147,11 @@ namespace ace
 			}
 		}
 
-		//Matrix44* matM = nullptr;
-		//Matrix44* matC = nullptr;
-		//Matrix44* matP = nullptr;
-		{
-			/*
-			if (prop.IsLightweightMode)
-			{
-				auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
-				matM = vbuf.matM;
-				matC = &vbuf.matC;
-				matP = &vbuf.matP;
-			}
-			else
-			{
-				auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferDeferredRendering>();
-				matM = vbuf.matM;
-				matC = &vbuf.matC;
-				matP = &vbuf.matP;
-			}
-
-			*matC = prop.CameraMatrix;
-			*matP = prop.ProjectionMatrix;
-			*/
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
-
-		}
+		shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
+		shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
 
 		if (prop.IsLightweightMode)
 		{
-			/*
-			auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferLightweight>();
-
-			vbuf.directionalLightDirection = prop.DirectionalLightDirection;
-			vbuf.directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
-			vbuf.directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
-			vbuf.directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
-			vbuf.groundLightColor.X = prop.GroundLightColor.R / 255.0f;
-			vbuf.groundLightColor.Y = prop.GroundLightColor.G / 255.0f;
-			vbuf.groundLightColor.Z = prop.GroundLightColor.B / 255.0f;
-			vbuf.skyLightColor.X = prop.SkyLightColor.R / 255.0f;
-			vbuf.skyLightColor.Y = prop.SkyLightColor.G / 255.0f;
-			vbuf.skyLightColor.Z = prop.SkyLightColor.B / 255.0f;
-			*/
-
 			auto direction = prop.DirectionalLightDirection;
 			Vector3DF lightColor(prop.DirectionalLightColor.R / 255.0f, prop.DirectionalLightColor.G / 255.0f, prop.DirectionalLightColor.B / 255.0f);
 			Vector3DF groudLColor(prop.GroundLightColor.R / 255.0f, prop.GroundLightColor.G / 255.0f, prop.GroundLightColor.B / 255.0f);
@@ -279,12 +165,6 @@ namespace ace
 		}
 		else
 		{
-			/*
-			auto& vbuf = shader->GetVertexConstantBuffer<VertexConstantBufferDeferredRendering>();
-			vbuf.depthParams.X = prop.DepthRange;
-			vbuf.depthParams.Y = prop.ZFar;
-			vbuf.depthParams.Z = prop.ZNear;
-			*/
 			Vector3DF depthParams(prop.DepthRange, prop.ZFar, prop.ZNear);
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "depthParams", depthParams));
 		}

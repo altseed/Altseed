@@ -71,13 +71,6 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 
 	std::shared_ptr<ace::Shader2D> shader;
 
-	std::vector<ace::ShaderVariableProperty> props;
-	auto prop_tex = ace::ShaderVariableProperty();
-	prop_tex.Name = ace::ToAString("g_texture").c_str();
-	prop_tex.Offset = 0;
-	prop_tex.Type = ace::SHADER_VARIABLE_TYPE_TEXTURE2D;
-	props.push_back(prop_tex);
-
 	if (graphics->GetGraphicsDeviceType() == ace::GraphicsDeviceType::DirectX11)
 	{
 		shader = graphics->CreateShader2D(
@@ -86,7 +79,6 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	}
 	else if (graphics->GetGraphicsDeviceType() == ace::GraphicsDeviceType::OpenGL)
 	{
-		std::vector<ace::ShaderVariableProperty> prop;
 		shader = graphics->CreateShader2D(
 			ace::ToAString(shader2d_gl_ps).c_str()
 			);

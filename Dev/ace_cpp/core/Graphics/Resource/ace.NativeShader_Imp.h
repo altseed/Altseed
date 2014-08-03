@@ -34,14 +34,6 @@ namespace ace {
 		TextureWrapType		textureWrapTypes[Graphics_Imp::MaxTextureCount];
 		TextureFilterType	textureFilterTypes[Graphics_Imp::MaxTextureCount];
 
-		virtual void CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
-		{
-		}
-
-		virtual void CreatePixelConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
-		{
-		}
-
 		int32_t GetBufferSize(eConstantBufferFormat type, int32_t count);
 
 		/**
@@ -114,55 +106,6 @@ namespace ace {
 		uint8_t* GetPixelConstantBuffer()
 		{
 			return m_pixelConstantBuffer;
-		}
-
-		/**
-		@brief	定数バッファを生成する。[廃止予定]
-		*/
-		template<typename T>
-		void CreateVertexConstantBuffer(std::vector<ConstantBufferInformation>& info)
-		{
-			assert((sizeof(T)%(sizeof(float) * 4)) == 0);
-			SafeDeleteArray(m_vertexConstantBuffer);
-
-			m_vertexConstantBuffer = new uint8_t[sizeof(T)];
-			CreateVertexConstantBufferInternal(sizeof(T), info);
-		}
-
-		/**
-		@brief	定数バッファを生成する。[廃止予定]
-		*/
-		void CreateVertexConstantBuffer(int32_t size, std::vector<ConstantBufferInformation>& info)
-		{
-			SafeDeleteArray(m_vertexConstantBuffer);
-
-			if (size == 0) return;
-			m_vertexConstantBuffer = new uint8_t[size];
-			CreateVertexConstantBufferInternal(size, info);
-		}
-
-		/**
-		@brief	定数バッファを生成する。[廃止予定]
-		*/
-		template<typename T>
-		void CreatePixelConstantBuffer(std::vector<ConstantBufferInformation>& info)
-		{
-			SafeDeleteArray(m_pixelConstantBuffer);
-
-			m_pixelConstantBuffer = new uint8_t[sizeof(T)];
-			CreatePixelConstantBufferInternal(sizeof(T), info);
-		}
-
-		/**
-			@brief	定数バッファを生成する。[廃止予定]
-		*/
-		void CreatePixelConstantBuffer(int32_t size, std::vector<ConstantBufferInformation>& info)
-		{
-			SafeDeleteArray(m_pixelConstantBuffer);
-
-			if (size == 0) return;
-			m_pixelConstantBuffer = new uint8_t[size];
-			CreatePixelConstantBufferInternal(size, info);
 		}
 
 		void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType, int32_t index);

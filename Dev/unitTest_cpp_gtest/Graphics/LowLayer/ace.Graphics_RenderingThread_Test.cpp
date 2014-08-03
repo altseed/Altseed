@@ -244,7 +244,7 @@ void Graphics_RenderingThread(bool isOpenGLMode)
 			ace::Sleep(1);
 		}
 
-		executor->Execute(graphics, commands);
+		executor->Execute(graphics, nullptr, nullptr, commands);
 
 		for (auto& command : commands)
 		{

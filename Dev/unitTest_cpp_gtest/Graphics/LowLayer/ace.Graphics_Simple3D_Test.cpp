@@ -146,14 +146,6 @@ void Graphics_Simple3D(bool isOpenGLMode)
 
 	ASSERT_TRUE(shader != nullptr);
 
-	std::vector<ace::ConstantBufferInformation> constantBuffers;
-	constantBuffers.resize(1);
-	constantBuffers[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-	constantBuffers[0].Name = std::string("matMCP");
-	constantBuffers[0].Offset = 0;
-	
-	shader->CreateVertexConstantBuffer<ace::Matrix44>(constantBuffers);
-
 	{
 		vertexBuffer->Lock();
 		auto vb = vertexBuffer->GetBuffer<Vertex>(8);
@@ -208,10 +200,8 @@ void Graphics_Simple3D(bool isOpenGLMode)
 		ace::Matrix44::Mul(mat, matC, matM);
 		ace::Matrix44::Mul(mat, matP, mat);
 
-		auto& mat_ = shader->GetVertexConstantBuffer<ace::Matrix44>();
-		mat_ = mat;
-
 		shader->SetTexture("g_texture", texture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+		shader->SetMatrix44("matMCP", mat);
 		graphics->SetVertexBuffer(vertexBuffer.get());
 		graphics->SetIndexBuffer(indexBuffer.get());
 		graphics->SetShader(shader.get());

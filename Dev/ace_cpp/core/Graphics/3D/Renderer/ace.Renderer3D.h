@@ -37,36 +37,6 @@ namespace ace
 			void Event() override;
 		};
 
-		struct ShadowBlurConstantBuffer
-		{
-			Vector4DF	Weights;
-		};
-
-		struct SSAOConstantVertexBuffer
-		{
-			float Size[4];
-		};
-
-		struct SSAOConstantPixelBuffer
-		{
-			float Radius;
-			float Padding1[3];
-
-			float ProjScale;
-			float Padding2[3];
-
-			float Bias;
-			float Padding3[3];
-
-			float Intensity;
-			float Padding4[3];
-
-			float ReconstructInfo1[4];
-
-			float ReconstructInfo2[4];
-
-		};
-
 		struct
 		{
 			std::set<RenderedObject3D*>		objects;
