@@ -73,7 +73,7 @@ namespace ace
 		std::vector<D3D11_SUBRESOURCE_DATA> data;
 		std::vector<uint8_t> nulldata;
 
-		uint8_t* buffers [] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+		std::vector<uint8_t> buffers[6];
 
 		const achar* pathes[] = {
 			right,
@@ -96,10 +96,8 @@ namespace ace
 
 		for (int32_t i = 0; i < 6; i++)
 		{
-			void* result = nullptr;
-			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), false, widthes[i], heights[i], result))
+			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), false, widthes[i], heights[i], buffers[i]))
 			{
-				buffers[i] = (uint8_t*) result;
 			}
 			else
 			{
@@ -164,7 +162,7 @@ namespace ace
 
 				if (m == 0)
 				{
-					data[ind].pSysMem = buffers[i];
+					data[ind].pSysMem = buffers[i].data();
 				}
 				else
 				{
@@ -240,18 +238,9 @@ namespace ace
 			}
 		}
 
-		for (int32_t i = 0; i < 6; i++)
-		{
-			SafeDeleteArray(buffers[i]);
-		}
 		return new CubemapTexture_Imp_DX11(graphics, texture, srv, textureRTVs, Vector2DI(width, height), mipmapCount);
 
 	End:;
-
-		for (int32_t i = 0; i < 6; i++)
-		{
-			SafeDeleteArray(buffers[i]);
-		}
 
 		for (auto& v : textureRTVs)
 		{

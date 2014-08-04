@@ -80,7 +80,6 @@ namespace ace
 	{
 		renderer->SetArea(RectF(m_src.X, m_src.Y, m_src.Width, m_src.Height));
 		renderer->DrawCache();
-		renderer->ClearCache();
 	}
 
 	void CoreCameraObject2D_Imp::DrawBuffer(Renderer2D* renderer)

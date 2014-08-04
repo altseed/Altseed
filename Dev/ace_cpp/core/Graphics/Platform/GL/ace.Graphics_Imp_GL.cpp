@@ -83,10 +83,10 @@ namespace ace {
 		{}
 
 	public:
-		void* InternalLoad(Graphics_Imp* graphics, void* data, int32_t width, int32_t height)
+		void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height)
 		{
 			GLuint texture = 0;
-			GraphicsHelper_GL::LoadTexture((Graphics_Imp_GL*) m_graphics, data, width, height, texture);
+			GraphicsHelper_GL::LoadTexture((Graphics_Imp_GL*) m_graphics, data.data(), width, height, texture);
 
 			return (void*) texture;
 		}
