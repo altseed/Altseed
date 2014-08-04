@@ -23,7 +23,6 @@
 #include "../Graphics/3D/Resource/Animation/ace.AnimationSystem_Imp.h"
 #include "../Graphics/2D/ace.LayerRenderer.h"
 
-
 #include <Utility/ace.Timer.h>
 
 //----------------------------------------------------------------------------------
@@ -55,6 +54,7 @@ namespace ace
 		, m_nextFPS(60)
 		, m_previousTime(0)
 		, m_startFrameTime(0)
+		, m_windowSize(Vector2DI(0,0))
 	{
 		m_previousTime = GetTime();
 	}
@@ -191,20 +191,20 @@ namespace ace
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
-		auto windowSize = Vector2DI(width, height);
+		m_windowSize = Vector2DI(width, height);
 		layerRenderer = new LayerRenderer(m_graphics);
-		layerRenderer->SetWindowSize(windowSize);
+		layerRenderer->SetWindowSize(m_windowSize);
 
 		{
 			ace::Vector2DF lpos[4];
 			lpos[0].X = 0;
 			lpos[0].Y = 0;
-			lpos[1].X = windowSize.X;
+			lpos[1].X = m_windowSize.X;
 			lpos[1].Y = 0;
-			lpos[2].X = windowSize.X;
-			lpos[2].Y = windowSize.Y;
+			lpos[2].X = m_windowSize.X;
+			lpos[2].Y = m_windowSize.Y;
 			lpos[3].X = 0;
-			lpos[3].Y = windowSize.Y;
+			lpos[3].Y = m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
 
@@ -258,20 +258,20 @@ namespace ace
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
-		auto windowSize = Vector2DI(width, height);
+		m_windowSize = Vector2DI(width, height);
 		layerRenderer = new LayerRenderer(m_graphics);
-		layerRenderer->SetWindowSize(windowSize);
+		layerRenderer->SetWindowSize(m_windowSize);
 
 		{
 			ace::Vector2DF lpos[4];
 			lpos[0].X = 0;
 			lpos[0].Y = 0;
-			lpos[1].X = windowSize.X;
+			lpos[1].X = m_windowSize.X;
 			lpos[1].Y = 0;
-			lpos[2].X = windowSize.X;
-			lpos[2].Y = windowSize.Y;
+			lpos[2].X = m_windowSize.X;
+			lpos[2].Y = m_windowSize.Y;
 			lpos[3].X = 0;
-			lpos[3].Y = windowSize.Y;
+			lpos[3].Y = m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
 
@@ -640,5 +640,13 @@ namespace ace
 	AnimationSystem* Core_Imp::GetAnimationSyatem()
 	{
 		return m_animationSyatem;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	Vector2DI Core_Imp::GetWindowSize()
+	{
+		return m_windowSize;
 	}
 };

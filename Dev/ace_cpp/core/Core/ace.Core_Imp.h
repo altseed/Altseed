@@ -57,6 +57,7 @@ namespace ace {
 		float				deltaTime = 0.0f;
 		float				timeSpan = 1.0f;
 		int64_t				deltaTimePreviousTime = 0;
+		Vector2DI			m_windowSize;
 
 		FramerateMode	framerateMode = FramerateMode::Constant;
 
@@ -145,6 +146,8 @@ namespace ace {
 		ObjectSystemFactory* GetObjectSystemFactory();
 
 		AnimationSystem* GetAnimationSyatem();
+
+		Vector2DI GetWindowSize();
 	};
 	//----------------------------------------------------------------------------------
 	//

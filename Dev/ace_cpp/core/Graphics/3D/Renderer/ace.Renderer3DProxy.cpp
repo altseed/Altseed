@@ -1,4 +1,4 @@
-
+ï»¿
 #include "ace.Renderer3DProxy.h"
 
 #include "../../Command/ace.RenderingCommandFactory.h"
@@ -56,7 +56,7 @@ namespace ace
 	{
 		auto g = (Graphics_Imp*)graphics;
 
-		// ƒeƒNƒXƒ`ƒƒ
+		// ãƒ†ã‚¯ã‚¹ãƒãƒ£
 		{
 			dummyTextureWhite = g->CreateEmptyTexture2D(1, 1, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
 			TextureLockInfomation info;
@@ -90,7 +90,7 @@ namespace ace
 			}
 		}
 
-		// ƒy[ƒXƒg—pƒVƒF[ƒ_[
+		// ãƒšãƒ¼ã‚¹ãƒˆç”¨ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
 		{
 			m_pasteVertexBuffer = g->CreateVertexBuffer_Imp(sizeof(ScreenVertexLayout), 2 * 3, false);
 
@@ -150,7 +150,7 @@ namespace ace
 			}
 		}
 
-		// ƒVƒƒƒh[—pƒVƒF[ƒ_[
+		// ã‚·ãƒ£ãƒ‰ãƒ¼ç”¨ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
 		{
 			m_shadowVertexBuffer = g->CreateVertexBuffer_Imp(sizeof(ScreenVertexLayout), 2 * 3, true);
 			m_shadowIndexBuffer = g->CreateIndexBuffer_Imp(2 * 3, false, false);
@@ -229,7 +229,7 @@ namespace ace
 			m_shadowVertexBuffer->Unlock();
 		}
 
-		// ƒ‰ƒCƒg—pƒVƒF[ƒ_
+		// ãƒ©ã‚¤ãƒˆç”¨ã‚·ã‚§ãƒ¼ãƒ€
 		{
 			std::vector<ace::VertexLayout> vl;
 			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
@@ -293,7 +293,7 @@ namespace ace
 			}
 		}
 
-		// ’x‰„ƒoƒbƒtƒ@—pƒVƒF[ƒ_
+		// é…å»¶ãƒãƒƒãƒ•ã‚¡ç”¨ã‚·ã‚§ãƒ¼ãƒ€
 		{
 			std::vector<ace::VertexLayout> vl;
 			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
@@ -321,7 +321,7 @@ namespace ace
 			}
 		}
 
-		// SSAO—pƒVƒF[ƒ_[
+		// SSAOç”¨ã‚·ã‚§ãƒ¼ãƒ€ãƒ¼
 		{
 			m_ssaoVertexBuffer = g->CreateVertexBuffer_Imp(sizeof(ScreenVertexLayout), 2 * 3, true);
 			m_ssaoIndexBuffer = g->CreateIndexBuffer_Imp(2 * 3, false, false);
@@ -430,7 +430,7 @@ namespace ace
 			o->OnUpdateAsync();
 		}
 
-		// ƒGƒtƒFƒNƒg‚ÌXV
+		// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æ›´æ–°
 		effectManager->Update(DeltaTime);
 
 		RenderingProperty prop;
@@ -440,7 +440,7 @@ namespace ace
 		prop.DummyTextureBlack = dummyTextureBlack;
 		prop.DummyTextureNormal = dummyTextureNormal;
 
-		// ƒ‰ƒCƒg‚ÌŒvZ
+		// ãƒ©ã‚¤ãƒˆã®è¨ˆç®—
 		{
 			if (directionalLightObjects.size() > 0)
 			{
@@ -466,7 +466,7 @@ namespace ace
 		{
 			auto cP = (RenderedCameraObject3DProxy*) co;
 
-			// ƒJƒƒ‰ƒvƒƒWƒFƒNƒVƒ‡ƒ“s—ñŒvZ
+			// ã‚«ãƒ¡ãƒ©ãƒ—ãƒ­ã‚¸ã‚§ã‚¯ã‚·ãƒ§ãƒ³è¡Œåˆ—è¨ˆç®—
 			Matrix44 cameraProjMat;
 			ace::Matrix44::Mul(cameraProjMat, cP->ProjectionMatrix, cP->CameraMatrix);
 			prop.CameraMatrix = cP->CameraMatrix;
@@ -475,7 +475,7 @@ namespace ace
 			prop.ZFar = cP->ZFar;
 			prop.ZNear = cP->ZNear;
 
-			// 3D•`‰æ
+			// 3Dæç”»
 			{
 				if (prop.IsLightweightMode)
 				{
@@ -489,7 +489,7 @@ namespace ace
 				}
 				else
 				{
-					// ‰œs‚«•`‰æ
+					// å¥¥è¡Œãæç”»
 					{
 						helper->SetRenderTarget(cP->GetRenderTargetDepth(), cP->GetDepthBuffer());
 						helper->Clear(true, true, ace::Color(0, 0, 0, 255));
@@ -500,7 +500,7 @@ namespace ace
 						}
 					}
 
-					// Gƒoƒbƒtƒ@•`‰æ
+					// Gãƒãƒƒãƒ•ã‚¡æç”»
 					{
 						helper->SetRenderTarget(
 							cP->GetRenderTargetDiffuseColor(),
@@ -581,14 +581,14 @@ namespace ace
 				}
 			}
 
-			// ’~ÏƒŠƒZƒbƒg
+			// è“„ç©ãƒªã‚»ãƒƒãƒˆ
 			if (!Settings.IsLightweightMode)
 			{
 				helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
 				helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 			}
 
-			// ’¼ÚŒõ•`‰æ
+			// ç›´æ¥å…‰æç”»
 			if (!Settings.IsLightweightMode)
 			{
 				auto invCameraMat = (prop.CameraMatrix).GetInverted();
@@ -640,7 +640,7 @@ namespace ace
 						view,
 						proj);
 
-					// ‰eƒ}ƒbƒvì¬
+					// å½±ãƒãƒƒãƒ—ä½œæˆ
 					{
 						helper->SetRenderTarget(lightP->GetShadowTexture(), lightP->GetShadowDepthBuffer());
 						helper->Clear(true, true, ace::Color(0, 0, 0, 255));
@@ -706,7 +706,7 @@ namespace ace
 						}
 					}
 
-					// ŒõŒ¹•`‰æ
+					// å…‰æºæç”»
 					{
 						helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
 
@@ -769,12 +769,12 @@ namespace ace
 				}
 			}
 
-			// ƒGƒtƒFƒNƒg‚Ì•`‰æ
+			// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®æç”»
 			helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
 
 			if (Settings.IsLightweightMode || Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
 			{
-				// ƒ|ƒXƒgƒGƒtƒFƒNƒg“K—p
+				// ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆé©ç”¨
 				cP->ApplyPostEffects(helper);
 			}
 			else
