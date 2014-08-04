@@ -36,9 +36,6 @@ namespace ace
 		float		DepthRange;
 		float		ZFar;
 		float		ZNear;
-
-		Matrix44	LightCameraMatrix;
-		Matrix44	LightProjectionMatrix;
 	};
 
 	/**

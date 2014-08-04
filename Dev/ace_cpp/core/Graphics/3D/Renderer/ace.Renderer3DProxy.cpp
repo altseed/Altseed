@@ -534,9 +534,8 @@ namespace ace
 					float yScale = 1 / tanf(fov / 2);
 					float xScale = yScale / aspect;
 
-					//auto reconstructInfo1 = Vector3DF(cP->ZNear * cP->ZFar, cP->ZFar - cP->ZNear, -cP->ZFar);
-					auto reconstructInfo1 = Vector3DF(cP->ZFar - cP->ZNear, cP->ZNear, 0.0f);
-
+					auto reconstructInfo1 = Vector3DF(cP->ZNear * cP->ZFar, cP->ZFar - cP->ZNear, -cP->ZFar);
+					//auto reconstructInfo1 = Vector3DF(cP->ZFar - cP->ZNear, cP->ZNear, 0.0f);
 					auto reconstructInfo2 = Vector4DF(1.0f / xScale, 1.0f / yScale, 0.0f, 0.0f);
 
 					RenderState state;
@@ -599,13 +598,9 @@ namespace ace
 				float yScale = 1 / tanf(fov / 2);
 				float xScale = yScale / aspect;
 
-				Vector4DF ReconstructInfo1;
-				Vector4DF ReconstructInfo2;
-
-				ReconstructInfo1.X = cP->ZFar - cP->ZNear;
-				ReconstructInfo1.Y = cP->ZNear;
-				ReconstructInfo2.X = 1.0f / xScale;
-				ReconstructInfo2.Y = 1.0f / yScale;
+				auto reconstructInfo1 = Vector3DF(cP->ZNear * cP->ZFar, cP->ZFar - cP->ZNear, -cP->ZFar);
+				//auto reconstructInfo1 = Vector3DF(cP->ZFar - cP->ZNear, cP->ZNear, 0.0f);
+				auto reconstructInfo2 = Vector4DF(1.0f / xScale, 1.0f / yScale, 0.0f, 0.0f);
 
 				Vector3DF upDir = Vector3DF(0, 1, 0);
 				Vector3DF zero;
@@ -653,15 +648,12 @@ namespace ace
 						shadowProp.ZFar = prop.ZFar;
 						shadowProp.ZNear = prop.ZNear;
 
-						prop.LightCameraMatrix = shadowProp.CameraMatrix;
-						prop.LightProjectionMatrix = shadowProp.ProjectionMatrix;
-
 						for (auto& o : objects)
 						{
 							o->Rendering(helper, shadowProp);
 						}
 
-						float intensity = 5.0f;
+						float intensity = 2.0f;
 						Vector4DF weights;
 						float ws[4];
 						float total = 0.0f;
@@ -752,8 +744,8 @@ namespace ace
 							h::GenValue("directionalLightDirection", directionalLightDirection),
 							h::GenValue("directionalLightColor", directionalLightColor),
 							h::GenValue("upDir", upDir),
-							h::GenValue("reconstructInfo1", ReconstructInfo1),
-							h::GenValue("reconstructInfo2", ReconstructInfo2),
+							h::GenValue("reconstructInfo1", reconstructInfo1),
+							h::GenValue("reconstructInfo2", reconstructInfo2),
 							h::GenValue("g_shadowProjection", ShadowProjection),
 							h::GenValue("g_cameraPositionToShadowCameraPosition", CameraPositionToShadowCameraPosition),
 							h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),

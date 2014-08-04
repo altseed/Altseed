@@ -15,6 +15,7 @@ struct PS_Input
 	float4 SV_Position		: SV_POSITION;
 
 	float4 Position			: POSITION0;
+	float4 ProjPosition		: PROJPOSITION0;
 	float4 Color			: Color0;
 	half2 UV				: TEXCOORD0;
 	half3 Normal			: NORMAL0;
@@ -55,17 +56,21 @@ PS_Output main( const PS_Input Input )
 
 	PS_Output Output;
 
+	float projDepth = (Input.ProjPosition.z / Input.ProjPosition.w);
 #ifdef EXPORT_DEPTH
 	// VSM用二乗バッファ含む
-	Output.Depth.x = Input.Depth;
-	Output.Depth.y = Input.Depth * Input.Depth;
+
+	float dx = ddx(projDepth);
+	float dy = ddy(projDepth);
+	Output.Depth.x = projDepth;
+	Output.Depth.y = projDepth * projDepth + 0.25*(dx*dx+dy*dy);
 	Output.Depth.z = 0.0;
-	Output.Depth.w = Input.Depth;
+	Output.Depth.w = projDepth;
 #else
 	Output.DiffuseColor = diffuseColor;
 
 	Output.NormalDepth.xyz = CalculateNormal( Input.Normal, Input.Tangent, Input.Binormal, g_normalTexture.Sample(g_normalSampler, Input.UV).xyz );
-	Output.NormalDepth.w = Input.Depth;
+	Output.NormalDepth.w = projDepth;
 
 	//Output.NormalDepth.xy = Input.UV.xy;
 	//Output.NormalDepth.z = 0.0;

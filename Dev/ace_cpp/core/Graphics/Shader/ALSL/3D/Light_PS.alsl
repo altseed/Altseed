@@ -26,7 +26,7 @@ float VSM(float2 moments, float t)
 	if (t <= ex) p = 1.0;
 
 	float variance = ex2 - ex * ex;
-	variance = max(variance, 0.4 / (reconstructInfo1.x * reconstructInfo1.x));
+	variance = max(variance, 0.00002);
 
 	float d = t - ex;
 	float p_max = variance / (variance + d * d);

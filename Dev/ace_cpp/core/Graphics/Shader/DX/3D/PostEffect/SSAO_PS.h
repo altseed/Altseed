@@ -52,8 +52,8 @@ float GetZ(float2 uv)
 
 float ReconstructDepth(float z)
 {
-	//return reconstructInfo1.x / (reconstructInfo1.y * z + reconstructInfo1.z);
-	return -((z * reconstructInfo1.x) + reconstructInfo1.y);
+	return reconstructInfo1.x / (reconstructInfo1.y * z + reconstructInfo1.z);
+	//return -((z * reconstructInfo1.x) + reconstructInfo1.y);
 }
 
 float3 ReconstructPosition(float2 screenXY, float depth)
