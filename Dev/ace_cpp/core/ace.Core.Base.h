@@ -210,29 +210,8 @@ namespace ace {
 		SHADER_VARIABLE_TYPE_VECTOR3DF,
 		SHADER_VARIABLE_TYPE_VECTOR4DF,
 		SHADER_VARIABLE_TYPE_MATRIX44,
+		SHADER_VARIABLE_TYPE_MATRIX44_ARRAY,
 		SHADER_VARIABLE_TYPE_TEXTURE2D,
-	};
-
-	/**
-		@brief	シェーダーに対して外部から設定可能なプロパティの情報
-	*/
-	class ShaderVariableProperty
-	{
-	public:
-		/**
-			@brief	名称
-		*/
-		astring	Name;
-
-		/**
-			@brief	種類
-		*/
-		ShaderVariableType Type;
-
-		/**
-			@brief	定数バッファ上での先頭からのオフセット
-		*/
-		int32_t	Offset;
 	};
 
 	/**

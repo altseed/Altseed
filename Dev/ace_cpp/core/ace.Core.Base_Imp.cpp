@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.Core.Base_Imp.h"
 
 #include "Graphics/Resource/ace.Shader2D.h"
@@ -61,6 +61,13 @@ namespace ace
 	{
 		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_MATRIX44;
 		memcpy(Data.Mat44, value.Values, sizeof(float) * 16);
+	}
+
+	ShaderConstantValue::ShaderConstantValue(Matrix44* value, int32_t count)
+	{
+		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_MATRIX44_ARRAY;
+		Data.Mat44Array.Ptr = value;
+		Data.Mat44Array.Count = count;
 	}
 
 	ShaderConstantValue::ShaderConstantValue(Texture2D* value, TextureFilterType filterType, TextureWrapType wrapType)

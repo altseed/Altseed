@@ -174,11 +174,21 @@ namespace ace
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 		Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
 	{
+		Sprite sprite;
 		std::array<Vector2DF, 4> pos = { upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos };
 		std::array<Color, 4> col = { upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol };
 		std::array<Vector2DF, 4> uv = { upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV };
 
-		m_renderer->AddSprite(pos.data(), col.data(), uv.data(), texture, alphaBlend, priority);
+		SafeAddRef(texture);
+
+		sprite.pos = pos;
+		sprite.col = col;
+		sprite.uv = uv;
+		sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+		sprite.AlphaBlend_ = alphaBlend;
+		sprite.Priority = priority;
+
+		sprites.push_back(sprite);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -191,9 +201,23 @@ namespace ace
 			return;
 		}
 
+		for (auto& sprite : sprites)
+		{
+			m_renderer->AddSprite(
+				sprite.pos.data(),
+				sprite.col.data(),
+				sprite.uv.data(),
+				sprite.Texture_.get(),
+				sprite.AlphaBlend_,
+				sprite.Priority);
+		}
+		sprites.clear();
+
+		DrawObjects(m_renderer);
+
 		if (m_cameras.empty())
 		{
-			DrawObjects(m_renderer);
+			
 		}
 		else
 		{
@@ -201,7 +225,6 @@ namespace ace
 			for (auto& c : m_cameras)
 			{
 				c->SetForRenderTarget();
-				DrawObjects(m_renderer);
 				c->FlushToBuffer(m_renderer);
 			}
 
@@ -232,6 +255,9 @@ namespace ace
 			m_rendererForCamera->DrawCache();
 			m_rendererForCamera->ClearCache();
 		}
+
+		m_renderer->ClearCache();
+		m_rendererForCamera->ClearCache();
 	}
 
 	//----------------------------------------------------------------------------------

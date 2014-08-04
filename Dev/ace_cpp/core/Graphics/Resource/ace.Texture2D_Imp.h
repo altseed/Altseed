@@ -33,7 +33,7 @@ namespace ace {
 		*/
 		void InternalUnload();
 
-		uint8_t*	m_internalTextureData;
+		std::vector<uint8_t>	m_internalTextureData;
 		int32_t		m_internalTextureWidth;
 		int32_t		m_internalTextureHeight;
 

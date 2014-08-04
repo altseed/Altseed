@@ -39,7 +39,7 @@ namespace ace {
 			@param	imagedst		出力結果(newで確保される)
 			@return	成否
 		*/
-		static bool LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, void*& imagedst);
+		static bool LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst);
 
 		/**
 			@brief	1ピクセルのサイズを取得する。
@@ -60,7 +60,7 @@ namespace ace {
 
 		std::map<astring, void*>		m_caches;
 
-		virtual void* InternalLoad(Graphics_Imp* graphics, void* data, int32_t width, int32_t height ) = 0;
+		virtual void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height ) = 0;
 		virtual void InternalUnload(void* data) = 0;
 		virtual bool IsReversed() = 0;
 	public:

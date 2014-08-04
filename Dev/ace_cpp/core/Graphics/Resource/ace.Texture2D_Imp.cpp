@@ -33,9 +33,8 @@ namespace ace {
 		InternalUnload();
 
 		void* imagedata = nullptr;
-		if (ImageHelper::LoadPNGImage(data, size, rev, m_internalTextureWidth, m_internalTextureHeight, imagedata))
+		if (ImageHelper::LoadPNGImage(data, size, rev, m_internalTextureWidth, m_internalTextureHeight, m_internalTextureData))
 		{
-			m_internalTextureData = (uint8_t*)imagedata;
 			return true;
 		}
 
@@ -49,7 +48,7 @@ namespace ace {
 	{
 		m_internalTextureWidth = 0;
 		m_internalTextureHeight = 0;
-		SafeDeleteArray(m_internalTextureData);
+		std::vector<uint8_t>().swap(m_internalTextureData);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -57,7 +56,6 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	Texture2D_Imp::Texture2D_Imp(Graphics* graphics)
 		: DeviceObject(graphics)
-		, m_internalTextureData(nullptr)
 		, m_internalTextureWidth(0)
 		, m_internalTextureHeight(0)
 	{
@@ -71,8 +69,6 @@ namespace ace {
 	{
 		auto g = (Graphics_Imp*)GetGraphics();
 		g->GetResourceContainer()->Texture2Ds.Unregist(this);
-
-		SafeDeleteArray(m_internalTextureData);
 	}
 
 	//----------------------------------------------------------------------------------

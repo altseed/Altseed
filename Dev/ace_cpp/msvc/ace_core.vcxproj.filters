@@ -118,9 +118,6 @@
     <Filter Include="Graphics\3D\Renderer">
       <UniqueIdentifier>{3f97eb24-4e6b-4cc2-8bb8-a861e303b623}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\3D\Renderer\Command">
-      <UniqueIdentifier>{49e4e133-2b27-4a6c-89cf-bfbbd91b7282}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics\3D\Object">
       <UniqueIdentifier>{9a1d750a-5c5a-4040-a540-f28e4e4caa64}</UniqueIdentifier>
     </Filter>
@@ -129,6 +126,9 @@
     </Filter>
     <Filter Include="Graphics\3D\Resource\Animation">
       <UniqueIdentifier>{018279d9-cf47-40de-a92a-876c1bb5d328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Command">
+      <UniqueIdentifier>{905b64d8-ea5e-4fe9-b3f7-fb22f21a7335}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -709,6 +709,21 @@
     <ClInclude Include="..\core\Graphics\3D\Resource\Animation\ace.AnimationClip.h">
       <Filter>Graphics\3D\Resource\Animation</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Command\ace.RenderingCommand.h">
+      <Filter>Graphics\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Command\ace.RenderingCommandExecutor.h">
+      <Filter>Graphics\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Command\ace.RenderingCommandFactory.h">
+      <Filter>Graphics\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Command\ace.RenderingCommandHelper.h">
+      <Filter>Graphics\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1003,6 +1018,21 @@
       <Filter>Graphics\3D\Resource\Animation</Filter>
     </ClCompile>
     <ClCompile Include="..\core\ace.Core.Base_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Command\ace.RenderingCommandExecutor.cpp">
+      <Filter>Graphics\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Command\ace.RenderingCommandFactory.cpp">
+      <Filter>Graphics\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Command\ace.RenderingCommand.cpp">
+      <Filter>Graphics\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Command\ace.RenderingCommandHelper.cpp">
+      <Filter>Graphics\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Window\ace.Window_Imp_X11.cpp">

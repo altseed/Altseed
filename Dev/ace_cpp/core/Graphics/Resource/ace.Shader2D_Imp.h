@@ -25,14 +25,10 @@ namespace ace {
 	{
 	protected:
 		std::shared_ptr<NativeShader_Imp>	m_shader;
-		std::vector<ShaderVariableProperty>	m_vertexVariableProperties;
-		std::vector<ShaderVariableProperty>	m_pixelVariableProperties;
 
 		Shader2D_Imp(
 			Graphics* graphics,
-			std::shared_ptr<NativeShader_Imp> shader,
-			std::vector<ShaderVariableProperty> vertexVariableProperties,
-			std::vector<ShaderVariableProperty> pixelVariableProperties);
+			std::shared_ptr<NativeShader_Imp> shader);
 		virtual ~Shader2D_Imp();
 
 	public:
@@ -44,8 +40,6 @@ namespace ace {
 
 #if !SWIG
 		std::shared_ptr<NativeShader_Imp> GetNativeShader() { return m_shader; }
-		std::vector<ShaderVariableProperty>& GetVertexVariableProperties() { return m_vertexVariableProperties; }
-		std::vector<ShaderVariableProperty>& GetPixelVariableProperties() { return m_pixelVariableProperties; }
 #endif
 
 		// IReferenceを継承したデバイスオブジェクト向け定義

@@ -23,6 +23,18 @@ namespace ace
 	friend class ObjectSystemFactory_Imp;
 
 	private:
+		struct Sprite
+		{
+			std::array<Vector2DF, 4> pos;
+			std::array<Color, 4> col;
+			std::array<Vector2DF, 4> uv;
+			std::shared_ptr<Texture2D> Texture_;
+			AlphaBlend AlphaBlend_;
+			int32_t Priority;
+		};
+
+		std::vector<Sprite>		sprites;
+
 		std::list <CoreCameraObject2D*> m_cameras;
 		std::list<ObjectPtr> m_objects;
 

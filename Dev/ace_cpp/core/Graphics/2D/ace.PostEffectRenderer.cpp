@@ -12,6 +12,8 @@
 
 #include "../ace.Graphics_Imp.h"
 
+#include "../Command/ace.RenderingCommandHelper.h"
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -87,6 +89,17 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	void PostEffectRenderer::ExportRenderingCommands(RenderingCommandHelper* helper, std::shared_ptr<Material2DCommand> command)
+	{
+		helper->SetRenderTarget(command->GetTarget(), nullptr);
+
+		RenderState state;
+		state.DepthTest = false;
+		state.DepthWrite = false;
+
+		helper->DrawWithPtr(2, m_vertexBuffer.get(), m_indexBuffer.get(), command->GetShader(), state, command->GetConstantValues().data(), command->GetConstantValues().size());
+	}
+
 	void PostEffectRenderer::DrawOnTexture2DWithMaterialWithCommand(std::shared_ptr<Material2DCommand> command)
 	{
 		DrawOnTexture2DWithNativeShader(

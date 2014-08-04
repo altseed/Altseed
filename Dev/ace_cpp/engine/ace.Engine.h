@@ -245,6 +245,12 @@ namespace ace {
 		*/
 		static AnimationSystem* GetAnimationSyatem();
 
+		/**
+		@brief	ウィンドウのサイズを取得する。
+		preturn	ウィンドウのサイズ
+		*/
+		static Vector2DI GetWindowSize();
+
 #if _WIN32
 
 #else

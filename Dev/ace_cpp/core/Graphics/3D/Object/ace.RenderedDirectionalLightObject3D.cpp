@@ -8,34 +8,29 @@
 
 namespace ace
 {
-	RenderedDirectionalLightObject3D::RenderedDirectionalLightObject3D(Graphics* graphics)
-		: RenderedObject3D(graphics)
+	RenderedDirectionalLightObject3DProxy::RenderedDirectionalLightObject3DProxy(Graphics* graphics)
 	{
-		m_values.color = Color(255, 255, 255, 255);
-		m_values_RT.color = Color(255, 255, 255, 255);
+		auto g = (Graphics_Imp*) graphics;
 
-		m_shadowTexture = GetGraphics()->CreateRenderTexture2D_Imp(ShadowBufferSize, ShadowBufferSize, eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
-		m_shadowDepthBuffer = GetGraphics()->CreateDepthBuffer_Imp(ShadowBufferSize, ShadowBufferSize);
+		deviceType = g->GetGraphicsDeviceType();
+		LightColor = Color(255, 255, 255, 255);
+		m_shadowTexture = g->CreateRenderTexture2D_Imp(RenderedDirectionalLightObject3D::ShadowBufferSize, RenderedDirectionalLightObject3D::ShadowBufferSize, eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
+		m_shadowDepthBuffer = g->CreateDepthBuffer_Imp(RenderedDirectionalLightObject3D::ShadowBufferSize, RenderedDirectionalLightObject3D::ShadowBufferSize);
 	}
 
-	RenderedDirectionalLightObject3D::~RenderedDirectionalLightObject3D()
+	RenderedDirectionalLightObject3DProxy::~RenderedDirectionalLightObject3DProxy()
 	{
 		SafeRelease(m_shadowTexture);
 		SafeRelease(m_shadowDepthBuffer);
 	}
 
-	void RenderedDirectionalLightObject3D::Flip()
+	Vector3DF RenderedDirectionalLightObject3DProxy::GetDirection()
 	{
-		RenderedObject3D::Flip();
-		m_values_RT.color = m_values.color;
+		auto& mat = GetGlobalMatrix();
+		return Vector3DF(mat.Values[0][2], mat.Values[1][2], mat.Values[2][2]);
 	}
 
-	void RenderedDirectionalLightObject3D::Rendering(RenderingProperty& prop)
-	{
-		
-	}
-
-	void RenderedDirectionalLightObject3D::CalcShadowMatrix(Vector3DF viewPosition, Vector3DF viewDirection, Matrix44 matCameraProj, float zn, float zf, Matrix44& lightView, Matrix44& lightProjection)
+	void RenderedDirectionalLightObject3DProxy::CalcShadowMatrix(Vector3DF viewPosition, Vector3DF viewDirection, Matrix44 matCameraProj, float zn, float zf, Matrix44& lightView, Matrix44& lightProjection)
 	{
 		auto calcAABB = [](std::vector<Vector3DF>& points, Vector3DF& max_, Vector3DF& min_) -> void
 		{
@@ -68,7 +63,7 @@ namespace ace
 			matCubeClip.Values[1][3] = -(max_.Y + min_.Y) / (max_.Y - min_.Y);
 
 			// もしかしたら符号が逆の可能性あり
-			if (GetGraphics()->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
+			if (deviceType == GraphicsDeviceType::DirectX11)
 			{
 				matCubeClip.Values[2][0] = 0.0f;
 				matCubeClip.Values[2][1] = 0.0f;
@@ -89,7 +84,7 @@ namespace ace
 		// LiSPSMで行列を計算する。
 
 		// 初期化
-		auto lightDirection = GetDirection_RT();
+		auto lightDirection = GetDirection();
 		viewDirection.Normalize();
 		lightDirection.Normalize();
 
@@ -98,7 +93,7 @@ namespace ace
 		// ライトビューに含むオブジェクトの座標算出
 		auto matCPInv = matCameraProj.GetInverted();
 
-		if (GetGraphics()->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
+		if (deviceType == GraphicsDeviceType::DirectX11)
 		{
 			Vector3DF points[8] = {
 				Vector3DF(1.0f, 1.0f, 0.0f),
@@ -169,35 +164,35 @@ namespace ace
 			/*
 			for (auto i = 0; i < m_shadowObjectPoints.size(); i++)
 			{
-				m_shadowObjectPoints[i] = lightProjection.Transform3D(m_shadowObjectPoints[i]);
+			m_shadowObjectPoints[i] = lightProjection.Transform3D(m_shadowObjectPoints[i]);
 			}
-			
+
 
 			{
-				Vector3DF points[8] = {
-					Vector3DF(0.5f, 0.5f, -0.5f),
-					Vector3DF(-0.5f, 0.5f, -0.5f),
-					Vector3DF(0.5f, -0.5f, -0.5f),
-					Vector3DF(-0.5f, -0.5f, -0.5f),
-					Vector3DF(0.5f, 0.5f, 0.5f),
-					Vector3DF(-0.5f, 0.5f, 0.5f),
-					Vector3DF(0.5f, -0.5f, 0.5f),
-					Vector3DF(-0.5f, -0.5f, 0.5f),
-				};
+			Vector3DF points[8] = {
+			Vector3DF(0.5f, 0.5f, -0.5f),
+			Vector3DF(-0.5f, 0.5f, -0.5f),
+			Vector3DF(0.5f, -0.5f, -0.5f),
+			Vector3DF(-0.5f, -0.5f, -0.5f),
+			Vector3DF(0.5f, 0.5f, 0.5f),
+			Vector3DF(-0.5f, 0.5f, 0.5f),
+			Vector3DF(0.5f, -0.5f, 0.5f),
+			Vector3DF(-0.5f, -0.5f, 0.5f),
+			};
 
-				for (int32_t i = 0; i < 8; i++)
-				{
-					back2.push_back(points[i]);
-				}
+			for (int32_t i = 0; i < 8; i++)
+			{
+			back2.push_back(points[i]);
+			}
 			}
 
 			auto back = back2;
 			auto lvp = lightProjection * lightView;
 			{
-				for (auto i = 0; i < back2.size(); i++)
-				{
-					back2[i] = lvp.Transform3D(back2[i]);
-				}
+			for (auto i = 0; i < back2.size(); i++)
+			{
+			back2[i] = lvp.Transform3D(back2[i]);
+			}
 			}
 			*/
 			return;
@@ -206,7 +201,7 @@ namespace ace
 		auto sinGamma = sqrtf(1.0f - vlC * vlC);
 
 		// Upの計算
-		auto upLeft = Vector3DF::Cross(lightDirection, viewDirection );
+		auto upLeft = Vector3DF::Cross(lightDirection, viewDirection);
 		auto up = Vector3DF::Cross(upLeft, lightDirection);
 		up.Normalize();
 
@@ -249,7 +244,7 @@ namespace ace
 
 		// Y方向への射影行列を取得
 		Matrix44 matPerspective;
-		if (GetGraphics()->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
+		if (deviceType == GraphicsDeviceType::DirectX11)
 		{
 			// [1,	0,	0,	0]
 			// [0,	a,	0,	b]
@@ -261,7 +256,7 @@ namespace ace
 			matPerspective.SetIndentity();
 			matPerspective.Values[1][1] = f / (f - n);
 			matPerspective.Values[3][1] = 1.0f;
-			matPerspective.Values[1][3] = - n * f / (f - n);
+			matPerspective.Values[1][3] = -n * f / (f - n);
 			matPerspective.Values[3][3] = 0.0f;
 		}
 		else
@@ -299,52 +294,59 @@ namespace ace
 		// デバッグ用コード
 		/*
 		{
-			Vector3DF points[8] = {
-				Vector3DF(0.5f, 0.5f, -0.5f),
-				Vector3DF(-0.5f, 0.5f, -0.5f),
-				Vector3DF(0.5f, -0.5f, -0.5f),
-				Vector3DF(-0.5f, -0.5f, -0.5f),
-				Vector3DF(0.5f, 0.5f, 0.5f),
-				Vector3DF(-0.5f, 0.5f, 0.5f),
-				Vector3DF(0.5f, -0.5f, 0.5f),
-				Vector3DF(-0.5f, -0.5f, 0.5f),
-			};
+		Vector3DF points[8] = {
+		Vector3DF(0.5f, 0.5f, -0.5f),
+		Vector3DF(-0.5f, 0.5f, -0.5f),
+		Vector3DF(0.5f, -0.5f, -0.5f),
+		Vector3DF(-0.5f, -0.5f, -0.5f),
+		Vector3DF(0.5f, 0.5f, 0.5f),
+		Vector3DF(-0.5f, 0.5f, 0.5f),
+		Vector3DF(0.5f, -0.5f, 0.5f),
+		Vector3DF(-0.5f, -0.5f, 0.5f),
+		};
 
-			for (int32_t i = 0; i < 8; i++)
-			{
-				back2.push_back(points[i]);
-			}
+		for (int32_t i = 0; i < 8; i++)
+		{
+		back2.push_back(points[i]);
+		}
 		}
 
 		auto back = back2;
 		auto lvp = lightProjection * lightView;
 		{
-			for (auto i = 0; i < back2.size(); i++)
-			{
-				back2[i] = lvp.Transform3D(back2[i]);
-			}
+		for (auto i = 0; i < back2.size(); i++)
+		{
+		back2[i] = lvp.Transform3D(back2[i]);
+		}
 		}
 		*/
 	}
 
-	Color RenderedDirectionalLightObject3D::GetColor_RT()
+	RenderedDirectionalLightObject3D::RenderedDirectionalLightObject3D(Graphics* graphics)
+		: RenderedObject3D(graphics)
 	{
-		return m_values_RT.color;
+		color = Color(255, 255, 255, 255);
+		proxy = new RenderedDirectionalLightObject3DProxy(graphics);
 	}
 
-	Vector3DF RenderedDirectionalLightObject3D::GetDirection_RT()
+	RenderedDirectionalLightObject3D::~RenderedDirectionalLightObject3D()
 	{
-		auto& mat = GetLocalMatrix_RT();
-		return Vector3DF(mat.Values[0][2], mat.Values[1][2], mat.Values[2][2]);
+		SafeRelease(proxy);
+	}
+
+	void RenderedDirectionalLightObject3D::Flip()
+	{
+		RenderedObject3D::Flip();
+		proxy->LightColor = color;
 	}
 
 	Color RenderedDirectionalLightObject3D::GetColor()
 	{
-		return m_values.color;
+		return color;
 	}
 
 	void RenderedDirectionalLightObject3D::SetColor(Color color)
 	{
-		m_values.color = color;
+		this->color = color;
 	}
 }

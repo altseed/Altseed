@@ -6,6 +6,7 @@
 #include <ace.common.Base.h>
 #include "../ace.Core.Base.h"
 #include "../ace.ReferenceObject.h"
+#include "../common/Math/ace.Vector2DI.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -222,6 +223,11 @@ namespace ace {
 		virtual ObjectSystemFactory* GetObjectSystemFactory() = 0;
 
 		virtual AnimationSystem* GetAnimationSyatem() = 0;
+
+		/**
+		@brief	ウィンドウサイズを取得する。
+		*/
+		virtual Vector2DI GetWindowSize() = 0;
 	};
 	//----------------------------------------------------------------------------------
 	//

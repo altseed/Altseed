@@ -5,6 +5,30 @@
 
 namespace ace
 {
+	class RenderedDirectionalLightObject3DProxy
+		: public RenderedObject3DProxy
+	{
+	private:
+		RenderTexture2D_Imp*	m_shadowTexture = nullptr;
+		DepthBuffer_Imp*		m_shadowDepthBuffer = nullptr;
+		std::vector<Vector3DF>	m_shadowObjectPoints;
+		std::vector<Vector3DF>	m_shadowObjectPointsBack;
+		GraphicsDeviceType		deviceType;
+
+	public:
+		Color		LightColor;
+
+		RenderTexture2D_Imp* GetShadowTexture() { return m_shadowTexture; }
+		DepthBuffer_Imp* GetShadowDepthBuffer()  { return m_shadowDepthBuffer; }
+
+		RenderedDirectionalLightObject3DProxy(Graphics* graphics);
+		virtual ~RenderedDirectionalLightObject3DProxy();
+
+		Vector3DF GetDirection();
+
+		void CalcShadowMatrix(Vector3DF viewPosition, Vector3DF viewDirection, Matrix44 matCameraProj, float zn, float zf, Matrix44& lightView, Matrix44& lightProjection);
+	};
+
 	/**
 		@brief	無限遠から注ぐ光源オブジェクトのクラス
 		@note
@@ -13,43 +37,22 @@ namespace ace
 	class RenderedDirectionalLightObject3D
 		: public RenderedObject3D
 	{
+		friend class RenderedDirectionalLightObject3DProxy;
+
 	private:
 
-		const int32_t ShadowBufferSize = 2048;
+		static const int32_t ShadowBufferSize = 2048;
 
-#pragma region RenderingThread
-		RenderTexture2D_Imp*	m_shadowTexture = nullptr;
-		DepthBuffer_Imp*	m_shadowDepthBuffer = nullptr;
-		std::vector<Vector3DF>	m_shadowObjectPoints;
-		std::vector<Vector3DF>	m_shadowObjectPointsBack;
-
-#pragma endregion
-
-		struct
-		{
-			Color		color;
-		} m_values;
-
-		struct
-		{
-			Color		color;
-
-		} m_values_RT;
+		Color		color;
+		RenderedDirectionalLightObject3DProxy* proxy = nullptr;
 
 	public:
 		RenderedDirectionalLightObject3D(Graphics* graphics);
 		virtual ~RenderedDirectionalLightObject3D();
 
 		void Flip() override;
-		void Rendering(RenderingProperty& prop) override;
 
-		void CalcShadowMatrix(Vector3DF viewPosition, Vector3DF viewDirection, Matrix44 matCameraProj, float zn, float zf, Matrix44& lightView, Matrix44& lightProjection);
-
-		Color GetColor_RT();
-		Vector3DF GetDirection_RT();
-
-		RenderTexture2D_Imp* GetShadowTexture_RT() { return m_shadowTexture; }
-		DepthBuffer_Imp* GetShadowDepthBuffer_RT()  { return m_shadowDepthBuffer; }
+		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 
 		Color GetColor();
 		void SetColor(Color color);

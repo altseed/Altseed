@@ -66,11 +66,15 @@ namespace ace {
 	class ObjectSystemFactory_Imp;
 
 	class Renderer3D;
+	class Renderer3DProxy;
+
 	class RenderedObject3D;
 	class RenderedEffectObject3D;
 	class RenderedModelObject3D;
 	class RenderedDirectionalLightObject3D;
 	class RenderedCameraObject3D;
+
+	class RenderedObject3DProxy;
 
 	class Model_Imp;
 
@@ -81,6 +85,10 @@ namespace ace {
 
 	class AnimationSystem_Imp;
 
+	class RenderingCommand;
+	class RenderingCommandExecutor;
+	class RenderingCommandFactory;
+	class RenderingCommandHelper;
 
 	struct RenderState
 	{
@@ -167,28 +175,6 @@ namespace ace {
 	};
 
 	/**
-	@brief	シェーダーの定数バッファ向け情報
-	*/
-	struct ConstantBufferInformation
-	{
-		std::string		Name;
-		int32_t			Offset;
-		eConstantBufferFormat	Format;
-		
-		/**
-			@brief	定数バッファが配列だった際の配列の個数
-		*/
-		int32_t			Count;
-
-		ConstantBufferInformation()
-			: Offset(0)
-			, Format(CONSTANT_BUFFER_FORMAT_FLOAT4)
-			, Count(0)
-		{
-		}
-	};
-
-	/**
 		@brief	シェーダー内の定数1つを保存する構造体
 	*/
 	struct ShaderConstantValue
@@ -207,6 +193,17 @@ namespace ace {
 				TextureWrapType		WrapType;
 			} Texture2DPtr;
 
+			/**
+				@brief	行列の配列
+				@note
+				配列の内容自体は保存しないので別領域に確保する必要がある。
+				*/
+			struct
+			{
+				Matrix44*			Ptr;
+				int32_t				Count;
+			} Mat44Array;
+
 		} Data;
 
 		ShaderConstantValue();
@@ -216,6 +213,7 @@ namespace ace {
 		ShaderConstantValue(const Vector3DF& value);
 		ShaderConstantValue(const Vector4DF& value);
 		ShaderConstantValue(const Matrix44& value);
+		ShaderConstantValue(Matrix44* value, int32_t count);
 		ShaderConstantValue(Texture2D* value, TextureFilterType filterType, TextureWrapType wrapType);
 		virtual ~ShaderConstantValue();
 		ShaderConstantValue& operator=(const ShaderConstantValue& value);

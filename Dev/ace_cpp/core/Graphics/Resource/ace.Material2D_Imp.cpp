@@ -51,29 +51,6 @@ namespace ace {
 		: m_shader(shader)
 	{
 		SafeAddRef(m_shader);
-
-		auto setValuesTo = [&](decltype(shader->GetVertexVariableProperties())& props) -> void
-		{
-			for (auto& i : props)
-			{
-				if (i.Type == SHADER_VARIABLE_TYPE_FLOAT)
-				{
-					m_values[i.Name] = ShaderConstantValue(0.0f);
-				}
-				else if (i.Type == SHADER_VARIABLE_TYPE_VECTOR2DF)
-				{
-					m_values[i.Name] = ShaderConstantValue(Vector2DF());
-				}
-				else if (i.Type == SHADER_VARIABLE_TYPE_VECTOR3DF)
-				{
-					m_values[i.Name] = ShaderConstantValue(Vector3DF());
-				}
-			}
-		};
-
-		setValuesTo(shader->GetVertexVariableProperties());
-		setValuesTo(shader->GetVertexVariableProperties());
-
 	}
 
 	//----------------------------------------------------------------------------------

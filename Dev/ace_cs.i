@@ -190,8 +190,6 @@ STRUCT_OBJECT( ace::TextureLockInfomation, ace::TextureLockInfomation_R, ace.Tex
 
 STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 
-%template(ShaderVariablePropertyVector) std::vector<ace::ShaderVariableProperty>;
-
 //-----------------------------------------------------------------------------------
 // Dispose–³Ž‹
 //-----------------------------------------------------------------------------------

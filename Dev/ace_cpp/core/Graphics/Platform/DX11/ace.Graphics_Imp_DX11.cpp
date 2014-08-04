@@ -92,19 +92,18 @@ namespace ace {
 		{}
 
 	public:
-		void* InternalLoad(Graphics_Imp* graphics, void* data, int32_t width, int32_t height)
+		void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height)
 		{
 			ID3D11Texture2D* texture = nullptr;
 			ID3D11ShaderResourceView* textureSRV = nullptr;
 
 			GraphicsHelper_DX11::LoadTexture(
 				(Graphics_Imp_DX11*) m_graphics,
-				data, 
+				data.data(), 
 				width,
 				height, 
 				texture, 
 				textureSRV);
-			SafeDeleteArray(data);
 
 			SafeRelease(texture);
 			return textureSRV;

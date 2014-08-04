@@ -471,5 +471,17 @@ namespace ace
 			}
 			return false;
 		}
+
+        /// <summary>
+        /// ウィンドウのサイズを取得する。
+        /// </summary>
+        /// <returns>ウィンドウのサイズ</returns>
+        public static Vector2DI WindowSize
+        {
+            get
+            {
+                return core.GetWindowSize();
+            }
+        }
 	}
 }

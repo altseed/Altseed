@@ -131,8 +131,24 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 			}
 			else if (type == GL_FLOAT_MAT4)
 			{
-				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
-				offset += sizeof(float) * 16 * l.Count;
+				if (l.Count > 1)
+				{
+					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+					offset += sizeof(float) * 16 * l.Count;
+
+					std::string name_ = name;
+					auto result = name_.find_first_of("[");
+					if (result != std::string::npos)
+					{
+						name_ = name_.substr(0, result);
+						l.Name = name_;
+					}
+				}
+				else
+				{
+					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
+					offset += sizeof(float) * 16 * l.Count;
+				}
 			}
 			else
 			{
@@ -145,50 +161,6 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 	}
 
 	uniformBufferSize = offset;
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void NativeShader_Imp_GL::CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
-{
-	m_vertexConstantLayouts.clear();
-
-	for (auto& i : info)
-	{
-		auto id = glGetUniformLocation(m_program, i.Name.c_str());
-
-		ConstantLayout c;
-		c.ID = id;
-		c.Type = i.Format;
-		c.Offset = i.Offset;
-		c.Count = i.Count;
-		m_vertexConstantLayouts.push_back(c);
-	}
-
-	GLCheckError();
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void NativeShader_Imp_GL::CreatePixelConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
-{
-	m_pixelConstantLayouts.clear();
-
-	for (auto& i : info)
-	{
-		auto id = glGetUniformLocation(m_program, i.Name.c_str());
-
-		ConstantLayout c;
-		c.ID = id;
-		c.Type = i.Format;
-		c.Offset = i.Offset;
-		c.Count = i.Count;
-		m_pixelConstantLayouts.push_back(c);
-	}
-
-	GLCheckError();
 }
 
 //----------------------------------------------------------------------------------
@@ -329,126 +301,6 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT3)
 		{
 			uint8_t* data = (uint8_t*) m_constantBuffer;
-			data += l.Offset;
-			glUniform3fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-	}
-
-	for (auto& l : m_vertexConstantLayouts)
-	{
-		if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniformMatrix4fv(
-				l.ID,
-				1,
-				GL_TRUE,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniformMatrix4fv(
-				l.ID,
-				l.Count,
-				GL_TRUE,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT4)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniform4fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT1)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniform1fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT2)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniform2fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT3)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniform3fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-	}
-
-	for (auto& l : m_pixelConstantLayouts)
-	{
-		if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
-			data += l.Offset;
-			glUniformMatrix4fv(
-				l.ID,
-				1,
-				GL_TRUE,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
-			data += l.Offset;
-			glUniformMatrix4fv(
-				l.ID,
-				l.Count,
-				GL_TRUE,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT4)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
-			data += l.Offset;
-			glUniform4fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT1)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
-			data += l.Offset;
-			glUniform1fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT2)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
-			data += l.Offset;
-			glUniform2fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT3)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
 			data += l.Offset;
 			glUniform3fv(
 				l.ID,

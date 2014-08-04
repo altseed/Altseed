@@ -8,6 +8,59 @@
 
 namespace ace
 {
+	class RenderedCameraObject3DProxy
+		: public RenderedObject3DProxy
+	{
+		friend class RenderedCameraObject3D;
+
+	private:
+		GraphicsDeviceType	deviceType;
+
+		RenderTexture2D_Imp*	m_renderTargetDiffuseColor_RT = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetSpecularColor_Smoothness_RT = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetNormalDepth_RT = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetAO_MatID_RT = nullptr;
+
+		RenderTexture2D_Imp*	m_renderTargetSSAO_RT = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetSSAO_temp_RT = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetShadow_RT = nullptr;
+		DepthBuffer_Imp*		m_depthBuffer_RT = nullptr;
+
+		RenderTexture2D_Imp*	m_renderTarget_FR[2];
+
+		PostEffectRenderer*		m_postEffectRenderer = nullptr;
+		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands_RT;
+		int32_t					postEffectCount = 0;
+	public:
+		float ZFar = 0.0f;
+		float ZNear = 0.0f;
+		float FOV = 0.0f;
+		Vector3DF Focus;
+		Matrix44	CameraMatrix;
+		Matrix44	ProjectionMatrix;
+		Vector2DI	WindowSize;
+
+		RenderedCameraObject3DProxy(Graphics* graphics);
+		virtual ~RenderedCameraObject3DProxy();
+
+		void SetWindowSize(Graphics* graphics, Vector2DI windowSize);
+
+		void OnUpdateAsync() override;
+
+		RenderTexture2D_Imp*	GetRenderTargetDiffuseColor() { return m_renderTargetDiffuseColor_RT; }
+		RenderTexture2D_Imp*	GetRenderTargetSpecularColor_Smoothness() { return m_renderTargetSpecularColor_Smoothness_RT; }
+		RenderTexture2D_Imp*	GetRenderTargetDepth() { return m_renderTargetNormalDepth_RT; }
+		RenderTexture2D_Imp*	GetRenderTargetAO_MatID() { return m_renderTargetAO_MatID_RT; }
+		RenderTexture2D_Imp*	GetRenderTargetShadow() { return m_renderTargetShadow_RT; }
+		RenderTexture2D_Imp*	GetRenderTargetSSAO() { return m_renderTargetSSAO_RT; }
+		RenderTexture2D_Imp*	GetRenderTargetSSAO_Temp() { return m_renderTargetSSAO_temp_RT; }
+		DepthBuffer_Imp*		GetDepthBuffer() { return m_depthBuffer_RT; }
+		RenderTexture2D_Imp*	GetRenderTarget();
+		RenderTexture2D_Imp*	GetAffectedRenderTarget();
+		void ApplyPostEffects(RenderingCommandHelper* helper);
+	};
+
+
 	class RenderedCameraObject3D
 		: public RenderedObject3D
 	{
@@ -26,43 +79,17 @@ namespace ace
 
 		} m_values;
 
-		struct
-		{
-			float	zfar;
-			float	znear;
-			float	fov;
-			Vector2DI	size;
-			Vector3DF	focus;
-			Matrix44	cameraMatrix;
-			Matrix44	projectionMatrix;
-
-			int32_t	postEffectCount;
-
-		} m_values_RT;
-
-		RenderTexture2D_Imp*	m_renderTargetDiffuseColor_RT = nullptr;
-		RenderTexture2D_Imp*	m_renderTargetSpecularColor_Smoothness_RT = nullptr;
-		RenderTexture2D_Imp*	m_renderTargetNormalDepth_RT = nullptr;
-		RenderTexture2D_Imp*	m_renderTargetAO_MatID_RT = nullptr;
-
-		RenderTexture2D_Imp*	m_renderTargetSSAO_RT;
-		RenderTexture2D_Imp*	m_renderTargetSSAO_temp_RT;
-		RenderTexture2D_Imp*	m_renderTargetShadow_RT;
-
-		RenderTexture2D_Imp*	m_renderTarget_FR[2];
-		DepthBuffer_Imp*	m_depthBuffer_RT;
-
 		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands;
-		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands_RT;
 
-		PostEffectRenderer*								m_postEffectRenderer;
+		RenderedCameraObject3DProxy* proxy = nullptr;
 
 	public:
 		RenderedCameraObject3D(Graphics* graphics);
 		virtual ~RenderedCameraObject3D();
 
 		void Flip() override;
-		void Rendering(RenderingProperty& prop) override;
+
+		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 
 		Vector2DI GetWindowSize() const { return m_values.size; }
 		void SetWindowSize( const Vector2DI& size );
@@ -97,37 +124,6 @@ namespace ace
 		別スレッドで描画に使用されている可能性が高いので注意する。
 		*/
 		RenderTexture2D* GetSrcForPostEffect(int32_t count);
-
-		void CalculateMatrix_RT() override;
-
-		void ApplyPostEffects_RT();
-
-		RenderTexture2D_Imp* GetRenderTarget_RT();
-		RenderTexture2D_Imp* GetAffectedRenderTarget_RT();
-
-		DepthBuffer_Imp* GetDepthBuffer_RT() { return m_depthBuffer_RT; }
-
-		RenderTexture2D_Imp*	GetRenderTargetDiffuseColor_RT() { return m_renderTargetDiffuseColor_RT; }
-		RenderTexture2D_Imp*	GetRenderTargetSpecularColor_Smoothness_RT() { return m_renderTargetSpecularColor_Smoothness_RT; }
-		RenderTexture2D_Imp*	GetRenderTargetDepth_RT() { return m_renderTargetNormalDepth_RT; }
-		RenderTexture2D_Imp*	GetRenderTargetAO_MatID_RT() { return m_renderTargetAO_MatID_RT; }
-
-
-		RenderTexture2D_Imp*	GetRenderTargetShadow_RT() { return m_renderTargetShadow_RT; }
-
-		RenderTexture2D_Imp*	GetRenderTargetSSAO_RT() { return m_renderTargetSSAO_RT; }
-		RenderTexture2D_Imp*	GetRenderTargetSSAO_Temp_RT() { return m_renderTargetSSAO_temp_RT; }
-
-		const Matrix44& GetCameraMatrix_RT() { return m_values_RT.cameraMatrix; }
-		const Matrix44& GetProjectionMatrix_RT() { return m_values_RT.projectionMatrix; }
-
-		Vector3DF GetFocus_RT(){ return m_values_RT.focus; }
-
-		float GetZFar_RT() { return m_values_RT.zfar; }
-
-		float GetZNear_RT(){ return m_values_RT.znear; }
-
-		float GetFov_RT(){ return m_values_RT.fov; }
 
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_CAMERA; }
 	};
