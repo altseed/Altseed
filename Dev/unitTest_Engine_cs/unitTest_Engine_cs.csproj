@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Assert.cs" />
     <Compile Include="EngineTest.cs" />
+    <Compile Include="Graphics\2D\Camera2DSecond.cs" />
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
     <Compile Include="Graphics\2D\MapObject2D.cs" />
     <Compile Include="Graphics\2D\TextObject2D.cs" />
