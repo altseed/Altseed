@@ -22,7 +22,7 @@ float2 GetCompressedDepth(float2 uv)
 
 float DecompressValue(float2 compressed)
 {
-	return compressed.x * (256.0 / 257.0) + compressed.y * (1.0 / 257.0);
+	return compressed.x * (255.0/256.0) + compressed.y * (1.0 / 256.0);
 }
 
 float GetDepth(float2 uv)
@@ -48,29 +48,32 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float baseDepth = GetDepth( Input.UV );
 
-	float sum = 0.0;
-	float weightSum = 0.0;
+	float sum = GetValue( Input.UV ) * gaussian[0];
+	float weightSum = gaussian[0];
 
 	[unroll]
 	for(int r = -radius; r <= radius; r++)
 	{
-#if BLUR_X
-		float2 uv = Input.UV + float2(r * scaleX + centerOffsetX, 0.0 + centerOffsetY);
-#endif
-
-#if BLUR_Y
-		float2 uv = Input.UV + float2(0.0 + centerOffsetX, r * scaleY + centerOffsetY);
-#endif
-
-		float depth = GetDepth( uv );
-		
-		float weight =  gaussian[abs(r)];
-		weight = weight * max(0.0, 1.0 - intensity * abs(depth-baseDepth) );
-		
-		float value = GetValue(uv);
-		
-		sum += value * weight;
-		weightSum += weight;
+		if(r != 0)
+		{
+	#if BLUR_X
+			float2 uv = Input.UV + float2(r * scaleX + centerOffsetX, 0.0 + centerOffsetY);
+	#endif
+	
+	#if BLUR_Y
+			float2 uv = Input.UV + float2(0.0 + centerOffsetX, r * scaleY + centerOffsetY);
+	#endif
+	
+			float depth = GetDepth( uv );
+			
+			float weight =  gaussian[abs(r)];
+			weight = weight * max(0.0, 1.0 - intensity * abs(depth-baseDepth) );
+			
+			float value = GetValue(uv);
+			
+			sum += value * weight;
+			weightSum += weight;
+		}
 	}
 
 	const float epsilon = 0.0001;

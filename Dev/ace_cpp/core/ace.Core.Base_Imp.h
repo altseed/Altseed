@@ -75,6 +75,7 @@ namespace ace {
 	class RenderedCameraObject3D;
 
 	class RenderedObject3DProxy;
+	class RenderedCameraObject3DProxy;
 
 	class Model_Imp;
 

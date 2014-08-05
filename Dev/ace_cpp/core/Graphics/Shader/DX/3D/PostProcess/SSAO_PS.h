@@ -9,6 +9,7 @@ float radius		: register( c0 );
 float projScale		: register( c1 );
 float bias			: register( c2 );
 float intensity		: register( c3 );
+float farPlain;
 
 // 座標再構成情報
 // perspective
@@ -110,8 +111,11 @@ float4 SampleAO(float3 centerPos, float2 centerUV, float3 normal, float sRadius,
 
 float2 CompressValue(float value)
 {
-	float temp = floor(value * 256.0);
-	return float2( temp * (1.0 / 256.0), value * 256.0 - temp );
+	value = max(0.0,value);
+	value = min(1.0,value);
+
+	float temp = floor(value * 255.0);
+	return float2( temp * (1.0 / 255.0), value * 255.0 - temp );
 }
 
 
@@ -147,7 +151,7 @@ float4 main( const PS_Input Input ) : SV_Target
 		A -= ddy(A) * ((sPos.y & 1) - 0.5);
 	}
 
-	float2 compressedDepth = CompressValue(centerPos.z);
+	float2 compressedDepth = CompressValue(-centerPos.z / farPlain);
 	return float4(A,compressedDepth.x,compressedDepth.y,1.0);
 }
 

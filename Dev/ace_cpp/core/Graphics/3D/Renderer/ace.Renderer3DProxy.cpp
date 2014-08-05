@@ -23,9 +23,6 @@
 #include "../../Shader/DX/3D/Blur_PS.h"
 #include "../../Shader/GL/3D/Blur_PS.h"
 
-#include "../../Shader/DX/3D/PostEffect/SSAO_PS.h"
-#include "../../Shader/DX/3D/PostEffect/SSAO_Blur_PS.h"
-
 #include "../../Shader/DX/3D/Light_PS.h"
 #include "../../Shader/GL/3D/Light_PS.h"
 
@@ -354,46 +351,7 @@ namespace ace
 
 			m_ssaoVertexBuffer->Unlock();
 
-			std::vector<ace::VertexLayout> vl;
-			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-
-			std::vector<ace::Macro> macro;
-			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
-			{
-
-			}
-			else
-			{
-				m_ssaoShader = g->GetShaderCache()->CreateFromCode(
-					ToAString(L"Internal.SSAO").c_str(),
-					screen_vs_dx,
-					ssao_ps_dx,
-					vl,
-					macro);
-
-				const char* BLUR_X = "BLUR_X";
-				const char* BLUR_Y = "BLUR_Y";
-				const char* ONE = "1";
-
-				macro.push_back(Macro(BLUR_X, ONE));
-				m_ssaoBlurXShader = g->GetShaderCache()->CreateFromCode(
-					ToAString(L"Internal.SSAO.BlurX").c_str(),
-					screen_vs_dx,
-					ssao_blur_ps_dx,
-					vl,
-					macro);
-
-				macro.clear();
-				macro.push_back(Macro(BLUR_Y, ONE));
-				m_ssaoBlurYShader = g->GetShaderCache()->CreateFromCode(
-					ToAString(L"Internal.SSAO.BlurY").c_str(),
-					screen_vs_dx,
-					ssao_blur_ps_dx,
-					vl,
-					macro);
-
-			}
+			ssao = std::make_shared<SSAO>(g);
 		}
 
 		factory = new RenderingCommandFactory();
@@ -520,64 +478,9 @@ namespace ace
 
 
 			// SSAO
-			if (!Settings.IsLightweightMode && m_ssaoShader != nullptr)
+			if (!Settings.IsLightweightMode && ssao->IsEnabled())
 			{
-				{
-					helper->SetRenderTarget(cP->GetRenderTargetSSAO(), nullptr);
-					helper->Clear(true, false, ace::Color(0, 0, 0, 255));
-
-					auto size_ = Vector4DF(cP->WindowSize.X, cP->WindowSize.Y, 0.0f, 0.0f);
-					auto fov = cP->FOV / 180.0f * 3.141592f;
-					auto aspect = (float) cP->WindowSize.X / (float) cP->WindowSize.Y;
-
-					// DirectX
-					float yScale = 1 / tanf(fov / 2);
-					float xScale = yScale / aspect;
-
-					auto reconstructInfo1 = Vector3DF(cP->ZNear * cP->ZFar, cP->ZFar - cP->ZNear, -cP->ZFar);
-					//auto reconstructInfo1 = Vector3DF(cP->ZFar - cP->ZNear, cP->ZNear, 0.0f);
-					auto reconstructInfo2 = Vector4DF(1.0f / xScale, 1.0f / yScale, 0.0f, 0.0f);
-
-					RenderState state;
-					state.DepthTest = false;
-					state.DepthWrite = false;
-					state.CullingType = CULLING_DOUBLE;
-
-					helper->Draw(2, m_ssaoVertexBuffer.get(), m_ssaoIndexBuffer.get(), m_ssaoShader.get(), state,
-						h::GenValue("radius", 0.1f),
-						h::GenValue("projScale", cP->WindowSize.Y * yScale / 2.0f),
-						h::GenValue("bias", 0.001f),
-						h::GenValue("intensity", 1.0f),
-						h::GenValue("reconstructInfo1", reconstructInfo1),
-						h::GenValue("reconstructInfo2", reconstructInfo2),
-						h::GenValue("g_texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
-				}
-
-				{
-					helper->SetRenderTarget(cP->GetRenderTargetSSAO_Temp(), nullptr);
-					helper->Clear(true, false, ace::Color(0, 0, 0, 255));
-
-					RenderState state;
-					state.DepthTest = false;
-					state.DepthWrite = false;
-					state.CullingType = CULLING_DOUBLE;
-
-					helper->Draw(2, m_ssaoVertexBuffer.get(), m_ssaoIndexBuffer.get(), m_ssaoBlurXShader.get(), state,
-						h::GenValue("g_texture", h::Texture2DPair(cP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
-				}
-
-				{
-					helper->SetRenderTarget(cP->GetRenderTargetSSAO(), nullptr);
-					helper->Clear(true, false, ace::Color(0, 0, 0, 255));
-
-					RenderState state;
-					state.DepthTest = false;
-					state.DepthWrite = false;
-					state.CullingType = CULLING_DOUBLE;
-
-					helper->Draw(2, m_ssaoVertexBuffer.get(), m_ssaoIndexBuffer.get(), m_ssaoBlurYShader.get(), state,
-						h::GenValue("g_texture", h::Texture2DPair(cP->GetRenderTargetSSAO_Temp(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
-				}
+				ssao->Draw(helper, cP, m_ssaoVertexBuffer, m_ssaoIndexBuffer);
 			}
 
 			// 蓄積リセット
@@ -714,7 +617,7 @@ namespace ace
 						}
 
 						Texture2D* ssaoTexture = dummyTextureWhite.get();
-						if (m_ssaoShader != nullptr)
+						if (ssao->IsEnabled())
 						{
 							ssaoTexture = cP->GetRenderTargetSSAO();
 						}
@@ -759,6 +662,8 @@ namespace ace
 
 					lightIndex++;
 				}
+
+				// TODO 一切光源がない場合の環境光
 			}
 
 			// エフェクトの描画
@@ -787,7 +692,7 @@ namespace ace
 				}
 
 				Texture2D* ssaoTexture = dummyTextureWhite.get();
-				if (m_ssaoShader != nullptr)
+				if (ssao->IsEnabled())
 				{
 					ssaoTexture = cP->GetRenderTargetSSAO();
 				}

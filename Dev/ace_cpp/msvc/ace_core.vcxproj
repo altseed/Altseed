@@ -184,6 +184,7 @@
     <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedEffectObject3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedModelObject3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedObject3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\PostProcess\ace.SSAO.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.h" />
     <ClInclude Include="..\core\Graphics\3D\Resource\ace.Deformer.h" />
@@ -395,6 +396,7 @@
     <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedEffectObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedModelObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedObject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\PostProcess\ace.SSAO.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Resource\ace.Deformer_Imp.cpp" />
