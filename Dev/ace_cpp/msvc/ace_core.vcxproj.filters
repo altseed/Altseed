@@ -730,6 +730,9 @@
     <ClInclude Include="..\core\Graphics\3D\PostProcess\ace.SSAO.h">
       <Filter>Graphics\3D\PostProcess</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\ace.LightRendering.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1041,6 +1044,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\3D\PostProcess\ace.SSAO.cpp">
       <Filter>Graphics\3D\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\ace.LightRendering.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
