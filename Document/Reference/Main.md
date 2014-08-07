@@ -14,6 +14,12 @@
 
 ### 描画
 
+* グラフィックス
+* テクスチャ2D
+* フォント
+* エフェクト
+
+
 #### 2D
 
 * [レイヤー2D](./2D/Layer2D.md)
@@ -23,6 +29,8 @@
 * [テキストオブジェクト2D](./2D/TextObject2D.md)
 * [マップオブジェクト2D](./2D/MapObject2D.md)
 * [カメラオブジェクト2D](./2D/CameraObject2D.md)
+
+* [チップ2D](./2D/Chip2D.md)
 
 #### 3D
 
@@ -51,13 +59,6 @@
 
 * [サウンド](./Sound/Sound.md)
 * [音源](./Sound/SoundSource.md)
-
-### リソース
-
-* テクスチャ2D
-* フォント
-* [チップ2D](./Resource/Chip2D.md)
-* エフェクト
 
 ### ツール
 
