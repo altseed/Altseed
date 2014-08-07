@@ -6,6 +6,8 @@ AmusementCreatorsEngine(以下ACE)の機能を提供します。初期化、終�
 
 エンジンでACEの初期化を行えます。その時、様々なオプションを指定できます。例えば、フルスクリーンかどうかなどです。シーンの変更や終了処理もエンジンで行います。
 
+フレームレート、及びゲーム内時間に関する詳細に関しては[基本設計](./BasicDesign.md)を参照してください。
+
 
 ### 主なメソッド
 
@@ -31,8 +33,8 @@ AmusementCreatorsEngine(以下ACE)の機能を提供します。初期化、終�
 |---|---|
 | CurrentFPS | 現在のFPS |
 | TargetFPS | 目標のFPS。このFPSに近づくように内部の更新が実行されます。 |
-| DeltaTime |  |
-| TimeSpan |  |
+| DeltaTime | 1フレームの処理にかかった時間 |
+| TimeSpan | 処理にかかった時間に対する時間指定可能な機能が進行する時間の倍率 |
 | FramerateMode | フレームレート制御方法 |
 
 ### 主なイベント
