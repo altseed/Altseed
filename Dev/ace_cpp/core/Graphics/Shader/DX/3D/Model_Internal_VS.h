@@ -28,12 +28,12 @@ struct VS_Output
 	float4 SV_Position		: SV_POSITION;
 
 	float4 Position			: POSITION0;
+	float4 ProjPosition		: PROJPOSITION0;
 	float4 Color			: Color0;
 	half2 UV				: TEXCOORD0;
 	half3 Normal			: NORMAL0;
 	half3 Binormal			: BINORMAL0;
 	half3 Tangent			: TANGENT0;
-	float Depth				: DEPTH0;
 };
 
 //<|| モデル共通関数
@@ -79,7 +79,7 @@ VS_Output main( const VS_Input Input )
 	Output.Tangent = (half3)cTangent;
 	Output.UV = Input.UV;
 	Output.Color = Input.Color;
-	Output.Depth = (-cPosition.z - depthParams.z) / depthParams.x;
+	Output.ProjPosition = Output.SV_Position;
 
 	return Output;
 }

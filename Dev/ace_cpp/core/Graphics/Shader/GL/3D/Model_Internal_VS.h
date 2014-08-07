@@ -22,12 +22,12 @@ in vec4 BoneIndexesOriginal;
 //||>
 
 out vec4 voutPosition;
+out vec4 voutProjPosition;
 out vec4 voutColor;
 out vec2 voutUV;
 out vec3 voutNormal;
 out vec3 voutBinormal;
 out vec3 voutTangent;
-out	float voutDepth;
 
 //<|| モデル共通関数
 mat4 calcMatrix(vec4 weights, vec4 indexes)
@@ -67,7 +67,7 @@ void main()
 	voutTangent = cTangent;
 	voutUV = UV;
 	voutColor = Color;
-	voutDepth = (-cPosition.z - depthParams.z) / depthParams.x;
+	voutProjPosition = voutPosition;
 
 	gl_Position = voutPosition;
 }

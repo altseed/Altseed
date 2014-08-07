@@ -16,7 +16,7 @@ uniform sampler2D		g_ssaoTexture;
 uniform mat4			g_cameraPositionToShadowCameraPosition;
 uniform mat4			g_shadowProjection;
 
-uniform vec4			reconstructInfo1;
+uniform vec3			reconstructInfo1;
 uniform vec4			reconstructInfo2;
 
 uniform vec3			directionalLightDirection;
@@ -56,7 +56,7 @@ float VSM(vec2 moments, float t)
 	float p = 0.000000;
 	if(t <= ex) p = 1.00000;
 	float variance = ex2 - ex * ex;
-	variance = max(variance, 0.400000 / (reconstructInfo1.x * reconstructInfo1.x));
+	variance = max(variance, 0.00002);
 	float d = t - ex;
 	float p_max = variance / (variance + d * d);
 	return max(p, p_max);
@@ -82,7 +82,7 @@ float GetNormalizedDepth(vec2 uv)
 
 float ReconstructDepth(float z)
 {
-	return -((z * reconstructInfo1.x) + reconstructInfo1.y);
+	return reconstructInfo1.x / (reconstructInfo1.y * z + reconstructInfo1.z);
 }
 
 vec3 ReconstructPosition(vec2 screenXY, float depth)
@@ -124,7 +124,11 @@ void main()
 	vec4 projShadowmapPos = ReconstructProjectedShadowmapPosition(shadowmapPos);
 	vec2 shadowmapUV = GetShadowmapUV(projShadowmapPos);
 
-	float depth = (-shadowmapPos.z - reconstructInfo1.y) / reconstructInfo1.x;
+	float depth = projShadowmapPos.z;
+	
+	// GL
+	depth = depth * 0.5 + 0.5;
+
 	vec2 shadowParam = texture2D(g_shadowmapTexture, shadowmapUV).xy;
 
 	float shadow = VSM(shadowParam, depth);

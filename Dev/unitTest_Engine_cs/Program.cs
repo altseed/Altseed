@@ -13,12 +13,12 @@ namespace unitTest_Engine_cs
 		static void Main( string[] args )
 		{
 			/*
-			TestSequencially( new Graphics.Transition.Transition() );
+            TestSequencially( new ObjectSystem2D.CameraObject2D() );
 			Console.ReadKey();
 			return;
-			//*/
+			*/
 
-			TestAll();
+            TestAll();
 
 			Console.ReadKey();
 		}

@@ -130,6 +130,9 @@
     <Filter Include="Graphics\Command">
       <UniqueIdentifier>{905b64d8-ea5e-4fe9-b3f7-fb22f21a7335}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\3D\PostProcess">
+      <UniqueIdentifier>{87845abd-b80c-4488-9743-d553de23d5f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -724,6 +727,12 @@
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.h">
       <Filter>Graphics\3D\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\PostProcess\ace.SSAO.h">
+      <Filter>Graphics\3D\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\ace.LightRendering.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1031,6 +1040,12 @@
       <Filter>Graphics\Command</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\PostProcess\ace.SSAO.cpp">
+      <Filter>Graphics\3D\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\ace.LightRendering.cpp">
       <Filter>Graphics\3D\Renderer</Filter>
     </ClCompile>
   </ItemGroup>

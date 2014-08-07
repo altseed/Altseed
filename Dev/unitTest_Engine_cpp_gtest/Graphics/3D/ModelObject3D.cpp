@@ -18,7 +18,6 @@ protected:
 	{
 		ace::RenderSettings settings;
 		settings.IsLightweightMode = false;
-		settings.VisalizedBuffer = ace::eVisalizedBuffer::VISALIZED_BUFFER_NORMAL;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
@@ -38,6 +37,8 @@ protected:
 		GetLayer3D()->AddObject(lightObj);
 
 		SetCameraParameter(30, 0, 0, 1, 60, 20);
+		GetLayer3D()->SetSkyAmbientColor(ace::Color(50, 50, 70, 255));
+		GetLayer3D()->SetGroundAmbientColor(ace::Color(70, 70, 50, 255));
 
 		meshObj->PlayAnimation(ace::ToAString("anime1").c_str());
 		
