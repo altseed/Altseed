@@ -14,11 +14,10 @@
 
 ### 描画
 
-* グラフィックス
-* テクスチャ2D
+* [グラフィックス](./Graphics/Graphics.md)
+* [テクスチャ2D](./Graphics/Texture2D.md)
+* [エフェクト](./Graphics/Effect.md)
 * フォント
-* エフェクト
-
 
 #### 2D
 
@@ -49,16 +48,18 @@
 * [トランジション](./Transition/Transition.md)
 * [フェード](./Transition/TransitionFade.md)
 
+### 音
+
+* [サウンド](./Sound/Sound.md)
+* [音源](./Sound/SoundSource.md)
+
 ### 入力
 
 * マウス
 * キーボード
 * ジョイスティック
 
-### 音
-
-* [サウンド](./Sound/Sound.md)
-* [音源](./Sound/SoundSource.md)
+### ファイル
 
 ### ツール
 
