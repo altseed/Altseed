@@ -19,11 +19,6 @@ namespace ace
 		SafeRelease(m_manager);
 	}
 
-	void SoundSource_Imp::SetLoopPoint(float loopStart, float loopEnd)
-	{
-		m_sound->SetLoopPoint(loopStart, loopEnd);
-	}
-
 	float SoundSource_Imp::GetLength()
 	{
 		return m_sound->GetLength();

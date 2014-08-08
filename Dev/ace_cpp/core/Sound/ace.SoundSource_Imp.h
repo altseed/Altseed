@@ -20,7 +20,17 @@ namespace ace
 		SoundSource_Imp(Sound* manager, osm::Sound* sound);
 		virtual ~SoundSource_Imp();
 
-		void SetLoopPoint(float loopStart, float loopEnd) override;
+		float GetLoopStartingPoint() const override { return m_sound->GetLoopStartingPoint(); }
+
+		void SetLoopStartingPoint(float startingPoint) override { m_sound->SetLoopStartingPoint(startingPoint); }
+
+		float GetLoopEndPoint() const override { return m_sound->GetLoopEndPoint(); }
+
+		void SetLoopEndPoint(float endPoint) override { m_sound->SetLoopEndPoint(endPoint); }
+
+		bool GetIsLoopingMode() const override { return m_sound->GetIsLoopingMode(); }
+
+		void SetIsLoopingMode(bool isLoopingMode) override { m_sound->SetIsLoopingMode(isLoopingMode); }
 
 		float GetLength() override;
 
