@@ -18,8 +18,8 @@ void Keyboard()
 		case ace::KeyState::Hold: //前フレームと本フレームで押下
 			printf("Z key hold\n");
 			break;
-		case ace::KeyState::Pull: //前フレームで押下、本フレームで非押下
-			printf("Z key pull\n");
+		case ace::KeyState::Release: //前フレームで押下、本フレームで非押下
+			printf("Z key release\n");
 			break;
 		case ace::KeyState::Push: //前フレームで非押下、本フレームで押下
 			printf("Z key push\n");

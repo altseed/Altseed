@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.LightRendering.h"
 
 #include "../../ace.Graphics_Imp.h"

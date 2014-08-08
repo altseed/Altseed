@@ -12,9 +12,9 @@ namespace ace
     public enum KeyState : int
     {
         /// <summary>
-        ///Pull-キーを離した瞬間のみ返す
+        ///Release-キーを離した瞬間のみ返す
         /// </summary>
-        Pull = ace.swig.KeyState.Pull,
+        Release = ace.swig.KeyState.Release,
         /// <summary>
         /// Push-キーを押した瞬間のみ返す
         /// </summary>

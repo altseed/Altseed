@@ -5,7 +5,7 @@ namespace ace{
 	enum class JoystickButtonState:int
 	{
 		Push,
-		Pull,
+		Release,
 		Free,
 		Hold
 	};

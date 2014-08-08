@@ -34,8 +34,8 @@ void Joystick()
 		case ace::JoystickButtonState::Hold: //前フレームと本フレームで押下
 			printf("HOLD\n");
 			break;
-		case ace::JoystickButtonState::Pull: //前フレームで押下、本フレームで非押下
-			printf("PULL\n");
+		case ace::JoystickButtonState::Release: //前フレームで押下、本フレームで非押下
+			printf("RELEASE\n");
 			break;
 		case ace::JoystickButtonState::Push: //前フレームで非押下、本フレームで押下
 			printf("PUSH\n");

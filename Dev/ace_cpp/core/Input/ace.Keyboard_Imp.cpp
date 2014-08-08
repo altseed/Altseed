@@ -163,7 +163,7 @@ namespace ace{
 	{
 		int index = (int)key;
 		if (m_currentHit[index] && m_preHit[index]) return KeyState::Hold;
-		else if (!m_currentHit[index] && m_preHit[index]) return KeyState::Pull;
+		else if (!m_currentHit[index] && m_preHit[index]) return KeyState::Release;
 		else if (m_currentHit[index] && !m_preHit[index]) return KeyState::Push;
 		else return KeyState::Free;
 	}

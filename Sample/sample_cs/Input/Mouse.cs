@@ -39,8 +39,8 @@ namespace sample_cs.Input
                     case ace.MouseButtonState.Hold: //前フレーム、現フレーム共に押下。
                         Console.Write("Middle Hold");
                         break;
-                    case ace.MouseButtonState.Pull: //前フレームで押下、現フレームで非押下。
-                        Console.Write("Middle Pull");
+                    case ace.MouseButtonState.Release: //前フレームで押下、現フレームで非押下。
+                        Console.Write("Middle Release");
                         break;
                     case ace.MouseButtonState.Push: //前フレームで非押下、現フレームで押下。
                         Console.Write("Middle Push");

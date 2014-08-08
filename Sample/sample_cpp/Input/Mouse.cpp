@@ -29,8 +29,8 @@ void Mouse()
 			case ace::MouseButtonState::Hold: //前フレームと本フレームで押下
 				printf("Middle Hold");
 				break;
-			case ace::MouseButtonState::Pull: //前フレームで押下、本フレームで非押下
-				printf("Middle Pull");
+			case ace::MouseButtonState::Release: //前フレームで押下、本フレームで非押下
+				printf("Middle Release");
 				break;
 			case ace::MouseButtonState::Push: //前フレームで非押下、本フレームで押下
 				printf("Middle Push");
