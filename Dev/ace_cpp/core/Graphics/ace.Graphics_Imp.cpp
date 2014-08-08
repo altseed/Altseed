@@ -421,21 +421,21 @@ Shader2D* Graphics_Imp::CreateShader2D_(const achar* shaderText)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(Window* window, bool isOpenGLMode, Log* log, bool isMultithreadingMode)
+Graphics_Imp* Graphics_Imp::Create(Window* window, bool isOpenGLMode, Log* log)
 {
 #if _WIN32
 	if (isOpenGLMode)
 	{
-		return Graphics_Imp_GL::Create(window, log, isMultithreadingMode);
+		return Graphics_Imp_GL::Create(window, log);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create(window, log, isMultithreadingMode);
+		return Graphics_Imp_DX11::Create(window, log);
 	}
 #else
 	if (isOpenGLMode)
 	{
-		return Graphics_Imp_GL::Create(window, log, isMultithreadingMode);
+		return Graphics_Imp_GL::Create(window, log);
 	}
 	else
 	{
@@ -447,41 +447,36 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, bool isOpenGLMode, Log* log, 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log, bool isMultithreadingMode)
+Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log)
 {
 #if _WIN32
 	if (isOpenGLMode)
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isMultithreadingMode);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isMultithreadingMode);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log);
 	}
 #else 
-	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, isMultithreadingMode);
+	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log);
 #endif
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isMultithreadingMode)
+Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log)
 	: m_size(size)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)
 	, m_shaderPtr(nullptr)
 	, m_log(log)
-	, m_isMultithreadingMode(isMultithreadingMode)
 {
 	//SafeAddRef(m_log);
 	m_resourceContainer = new GraphicsResourceContainer();
-
-	if (IsMultithreadingMode())
-	{
-		m_renderingThread = std::make_shared<RenderingThread>();
-	}
-
+	m_renderingThread = std::make_shared<RenderingThread>();
+	
 	m_effectSetting = Effekseer::Setting::Create();
 	m_effectSetting->SetCoordinateSystem(Effekseer::eCoordinateSystem::COORDINATE_SYSTEM_RH);
 	m_effectSetting->SetEffectLoader(new EffectLoader());

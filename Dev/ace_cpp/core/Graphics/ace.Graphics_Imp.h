@@ -92,7 +92,6 @@ namespace ace {
 		VertexBuffer_Imp*	m_vertexBufferPtr;
 		IndexBuffer_Imp*	m_indexBufferPtr;
 		NativeShader_Imp*	m_shaderPtr;
-		bool				m_isMultithreadingMode;
 
 		Effekseer::Setting*	m_effectSetting = nullptr;
 
@@ -162,14 +161,12 @@ namespace ace {
 		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format) = 0;
 
 	public:
-		Graphics_Imp(Vector2DI size, Log* log, bool isMultithreadingMode);
+		Graphics_Imp(Vector2DI size, Log* log);
 		virtual ~Graphics_Imp();
 
-		static Graphics_Imp* Create(Window* window, bool isOpenGLMode, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp* Create(Window* window, bool isOpenGLMode, Log* log);
 
-		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log, bool isMultithreadingMode);
-
-		bool IsMultithreadingMode() { return m_isMultithreadingMode; }
+		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log);
 
 		/**
 		@brief	画面をクリアする。

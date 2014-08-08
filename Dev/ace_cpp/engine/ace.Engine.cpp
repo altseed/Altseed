@@ -315,7 +315,7 @@ namespace ace
 #endif
 		}
 
-		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, graphicsDeviceType != GraphicsDeviceType::DirectX11, option.IsMultithreadingMode);
+		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, graphicsDeviceType != GraphicsDeviceType::DirectX11);
 		if (init)
 		{
 			m_logger = m_core->GetLogger();
@@ -358,7 +358,7 @@ namespace ace
 #endif
 		}
 
-		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, graphicsDeviceType != GraphicsDeviceType::DirectX11, option.IsMultithreadingMode);
+		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, graphicsDeviceType != GraphicsDeviceType::DirectX11);
 		if (init)
 		{
 			m_logger = m_core->GetLogger();

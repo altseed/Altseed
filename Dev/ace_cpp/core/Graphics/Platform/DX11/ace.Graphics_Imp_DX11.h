@@ -66,7 +66,6 @@ namespace ace {
 			Window* window,
 			Vector2DI size,
 			Log* log,
-			bool isMultithreadingMode,
 			ID3D11Device* device,
 			ID3D11DeviceContext* context,
 			IDXGIDevice1* dxgiDevice,
@@ -100,13 +99,13 @@ namespace ace {
 
 		void BeginInternal();
 
-		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log);
 
 	public:
 		
-		static Graphics_Imp_DX11* Create(Window* window, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp_DX11* Create(Window* window, Log* log);
 
-		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log);
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 

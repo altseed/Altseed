@@ -141,7 +141,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode, bool isMultithreadingMode)
+	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode)
 	{
 		if (m_window != nullptr) return false;
 		if (m_keyboard != nullptr) return false;
@@ -180,7 +180,7 @@ namespace ace
 
 		m_file = File_Imp::Create();
 
-		m_graphics = Graphics_Imp::Create(m_window, isOpenGLMode, m_logger, isMultithreadingMode);
+		m_graphics = Graphics_Imp::Create(m_window, isOpenGLMode, m_logger);
 		if (m_graphics == nullptr) return false;
 
 		m_sound = new Sound_Imp();
@@ -216,7 +216,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Core_Imp::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, bool isMultithreadingMode)
+	bool Core_Imp::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode)
 	{
 		if (m_window != nullptr) return false;
 		if (m_keyboard != nullptr) return false;
@@ -245,7 +245,7 @@ namespace ace
 
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
-		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, false, m_logger, isMultithreadingMode);
+		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, false, m_logger);
 		if (m_graphics == nullptr) return false;
 
 		m_sound = new Sound_Imp();

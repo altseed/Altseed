@@ -73,9 +73,9 @@ namespace ace {
 		GLuint			m_samplers[MaxTextureCount];
 #pragma endregion
 
-		Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isMultithreadingMode);
+		Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log);
 
-		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isMultithreadingMode);
+		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log);
 
 		virtual ~Graphics_Imp_GL();
 
@@ -107,10 +107,10 @@ namespace ace {
 
 	public:
 		
-		static Graphics_Imp_GL* Create(::ace::Window* window, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp_GL* Create(::ace::Window* window, Log* log);
 
 #if !_WIN32
-		static Graphics_Imp_GL* Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp_GL* Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log);
 #endif
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);

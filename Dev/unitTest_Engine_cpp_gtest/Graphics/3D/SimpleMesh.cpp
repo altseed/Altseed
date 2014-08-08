@@ -102,7 +102,7 @@ class Graphics_SimpleMesh : public EngineGraphics3DTest
 public:
 	
 	Graphics_SimpleMesh(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("SimpleMesh"), isOpenGLMode, 150000, true)
+		EngineGraphics3DTest(ace::ToAString("SimpleMesh"), isOpenGLMode, 15, true)
 	{}
 
 protected:
