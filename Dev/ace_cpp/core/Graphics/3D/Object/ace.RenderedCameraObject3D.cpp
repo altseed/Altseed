@@ -177,9 +177,10 @@ namespace ace
 		m_values.znear = znear;
 	}
 
-	void RenderedCameraObject3D::SetPostEffectCount(int32_t postEffectCount)
+	void RenderedCameraObject3D::StartAddingPostEffect(int32_t postEffectCount)
 	{
 		m_values.postEffectCount = postEffectCount;
+		m_postEffectCommands.clear();
 	}
 
 	void RenderedCameraObject3D::AddPostEffectCommand(std::shared_ptr<Material2DCommand> command)

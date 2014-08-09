@@ -106,7 +106,7 @@ namespace ace
 		float GetZNear(){ return m_values.znear; }
 		void SetZNear(float znear);
 
-		void SetPostEffectCount(int32_t postEffectCount);
+		void StartAddingPostEffect(int32_t postEffectCount);
 		void AddPostEffectCommand(std::shared_ptr<Material2DCommand> command);
 
 		/**

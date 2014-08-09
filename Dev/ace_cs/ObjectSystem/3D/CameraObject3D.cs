@@ -32,7 +32,7 @@ namespace ace
 
 		protected override void OnUpdateInternal()
 		{
-			coreObject.SetPostEffectCount(postEffects.Count);
+			coreObject.StartAddingPostEffect(postEffects.Count);
 
 			int count = 0;
 			foreach (var p in postEffects)
