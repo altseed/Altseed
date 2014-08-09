@@ -37,6 +37,8 @@ namespace ace
 		void Update();
 		void UpdateComponents();
 
+		void CallTransitionFinished();
+
 	protected:
 		/**
 			@brief	オーバーライドして、このシーンを更新する直前の処理を記述できる。
@@ -50,6 +52,11 @@ namespace ace
 		@brief	オーバーライドして、最初のシーン更新時に実行する処理を記述する。
 		*/
 		virtual void OnUpdateForTheFirstTime();
+
+		/**
+		@brief	オーバーライドして、トランジション終了時に実行する処理を記述する。
+		*/
+		virtual void OnTransitionFinished();
 
 	public:
 		/**

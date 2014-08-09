@@ -404,6 +404,7 @@ namespace ace
 			{
 				transition = nullptr;
 				m_previousScene = nullptr;
+				m_currentScene->CallTransitionFinished();
 			}
 		}
 		else

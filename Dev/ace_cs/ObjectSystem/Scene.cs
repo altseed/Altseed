@@ -170,6 +170,17 @@ namespace ace
         {
         }
 
+        /// <summary>
+        /// オーバーライドして、トランジション終了時に実行する処理を記述する。(※DoEvents関数内で実行される。)
+        /// </summary>
+        protected virtual void OnTransitionFinished()
+        {
+        }
+
+        internal void CallTransitionFinished()
+        {
+            OnTransitionFinished();
+        }
 
         internal unsafe swig.CoreScene CoreScene { get; private set; }
 

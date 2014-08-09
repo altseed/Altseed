@@ -196,6 +196,7 @@ namespace ace
 				{
 					transition = null;
 					previousScene = null;
+                    CurrentScene.CallTransitionFinished();
 				}
 			}
 			else
