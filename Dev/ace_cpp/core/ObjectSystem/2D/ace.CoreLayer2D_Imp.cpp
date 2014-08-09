@@ -272,7 +272,6 @@ namespace ace
 				o->OnRemoving(m_renderer);
 			}
 			object->SetLayer(nullptr);
-			m_objects.remove(object);
 			SafeRelease(object);
 		}
 
@@ -286,7 +285,6 @@ namespace ace
 			}
 			object->SetLayer(nullptr);
 			auto camera = (CoreCameraObject2D*)object;
-			m_cameras.remove(camera);
 			SafeRelease(camera);
 
 		}
