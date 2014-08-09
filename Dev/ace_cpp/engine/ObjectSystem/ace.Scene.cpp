@@ -14,6 +14,7 @@ namespace ace
 		, m_layersToUpdate(list<Layer::Ptr>())
 		, m_coreScene(nullptr)
 		, m_components(map<astring, SceneComponent::Ptr>())
+		, m_firstUpdate(true)
 	{
 		m_coreScene = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateScene());
 	}
@@ -55,6 +56,12 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::Update()
 	{
+		if (m_firstUpdate)
+		{
+			OnUpdateForTheFirstTime();
+			m_firstUpdate = false;
+		}
+
 		OnUpdating();
 
 		for (auto& layer : m_layersToUpdate)
@@ -123,6 +130,13 @@ namespace ace
 	//
 	//----------------------------------------------------------------------------------
 	void Scene::OnUpdated()
+	{
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Scene::OnUpdateForTheFirstTime()
 	{
 	}
 

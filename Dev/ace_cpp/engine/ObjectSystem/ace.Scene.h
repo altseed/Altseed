@@ -30,6 +30,7 @@ namespace ace
 		std::list<LayerPtr> m_layersToDraw;
 		std::list<LayerPtr> m_layersToUpdate;
 		std::map<astring, SceneComponent::Ptr> m_components;
+		bool m_firstUpdate;
 
 		void Draw();
 
@@ -45,6 +46,10 @@ namespace ace
 			@brief	オーバーライドして、このシーンを更新した直後の処理を記述できる。
 		*/
 		virtual void OnUpdated();
+		/**
+		@brief	オーバーライドして、最初のシーン更新時に実行する処理を記述する。
+		*/
+		virtual void OnUpdateForTheFirstTime();
 
 	public:
 		/**

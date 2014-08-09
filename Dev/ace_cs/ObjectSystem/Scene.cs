@@ -31,6 +31,8 @@ namespace ace
 			layersToDraw_ = new List<Layer>();
 			layersToUpdate_ = new List<Layer>();
 			components_ = new Dictionary<string, SceneComponent>();
+
+            firstUpdate_ = true;
 		}
 
 		#region GC対策
@@ -161,11 +163,24 @@ namespace ace
 		{
 		}
 
+        /// <summary>
+        /// オーバーライドして、最初のシーン更新時に実行する処理を記述する。
+        /// </summary>
+        protected virtual void OnUpdateForTheFirstTime()
+        {
+        }
 
-		internal unsafe swig.CoreScene CoreScene { get; private set; }
+
+        internal unsafe swig.CoreScene CoreScene { get; private set; }
 
 		internal void Update()
 		{
+            if(firstUpdate_)
+            {
+                OnUpdateForTheFirstTime();
+                firstUpdate_ = false;
+            }
+
 			OnUpdating();
 
 			foreach (var item in layersToUpdate_)
@@ -241,5 +256,7 @@ namespace ace
 		private List<Layer> layersToUpdate_;
 
 		private Dictionary<string, SceneComponent> components_;
+
+        private bool firstUpdate_;
 	}
 }
