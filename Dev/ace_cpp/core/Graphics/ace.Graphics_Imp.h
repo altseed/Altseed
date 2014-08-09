@@ -97,6 +97,9 @@ namespace ace {
 
 		ShaderCache*		m_shaderCache = nullptr;
 
+		int32_t				drawCallCount = 0;
+		int32_t				drawCallCountCurrent = 0;
+
 		void AddDeviceObject(DeviceObject* o);
 		void RemoveDeviceObject(DeviceObject* o);
 
@@ -193,6 +196,8 @@ namespace ace {
 		使用できるのはDoEventsかPresent近辺のみである。
 		*/
 		virtual void SaveScreenshot(const achar* path) = 0;
+
+		int32_t GetDrawCallCount() const override { return drawCallCount; };
 
 		/**
 		@brief	テクスチャを生成する。

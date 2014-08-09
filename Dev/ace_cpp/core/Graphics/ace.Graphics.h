@@ -173,6 +173,14 @@ public:
 #endif
 
 	/**
+	@brief	1フレーム間に実行された描画命令の回数を取得する。
+	@return	描画命令の回数
+	@note
+	現在、エフェクトの描画回数はカウントされない。
+	*/
+	virtual int32_t GetDrawCallCount() const = 0;
+
+	/**
 	@brief	描画ランタイムの種類を取得する。
 	@return	種類
 	*/

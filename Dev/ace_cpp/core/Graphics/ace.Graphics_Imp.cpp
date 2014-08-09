@@ -613,7 +613,7 @@ Effect* Graphics_Imp::CreateEffect_(const achar* path)
 {
 	auto effect = Effekseer::Effect::Create(m_effectSetting, (const EFK_CHAR*)path, 1.0f);
 	if (effect == nullptr) return nullptr;
-
+	
 	auto ret = Effect_Imp::CreateEffect(this, effect);
 	return ret;
 }
@@ -723,6 +723,8 @@ void Graphics_Imp::DrawPolygon(int32_t count)
 		m_vertexBufferPtr,
 		m_indexBufferPtr,
 		m_shaderPtr);
+
+	drawCallCountCurrent++;
 }
 
 //----------------------------------------------------------------------------------
@@ -730,6 +732,9 @@ void Graphics_Imp::DrawPolygon(int32_t count)
 //----------------------------------------------------------------------------------
 void Graphics_Imp::Begin()
 {
+	drawCallCount = drawCallCountCurrent;
+	drawCallCountCurrent = 0;
+
 	CommitRenderState(true);
 
 	ResetDrawState();

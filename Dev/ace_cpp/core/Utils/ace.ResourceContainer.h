@@ -5,6 +5,10 @@
 #include <time.h>
 #include <functional>
 
+#if !_WIN32
+#include <sys/stat.h>
+#endif
+
 namespace ace
 {
 	template <class RESOURCE>

@@ -187,6 +187,17 @@ namespace ace
         }
 
 		/// <summary>
+		/// 1フレーム間に実行された描画命令の回数を取得する。
+		/// </summary>
+		/// <remarks>
+		/// 現在、エフェクトの描画回数はカウントされない。
+		/// </remarks>
+		int DrawCallCount
+		{
+			get { return graphics.GetDrawCallCount(); }
+		}
+
+		/// <summary>
 		/// 描画ランタイムの種類を取得する。
 		/// </summary>
 		public GraphicsDeviceType GraphicsDeviceType

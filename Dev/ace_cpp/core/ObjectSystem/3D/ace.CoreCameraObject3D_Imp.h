@@ -41,7 +41,7 @@ namespace ace
 		void BeginPostEffect(CorePostEffect* postEffect) override;
 		void EndPostEffect(CorePostEffect* postEffect) override;
 
-		void SetPostEffectCount(int count) override;
+		void StartAddingPostEffect(int count) override;
 		RenderTexture2D* GetDstForPostEffect(int count) override;
 		RenderTexture2D* GetSrcForPostEffect(int count) override;
 

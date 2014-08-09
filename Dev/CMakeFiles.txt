@@ -112,6 +112,7 @@ set(core_src
 	ace_cpp/core/Profiler/ace.Profiler_Imp.cpp
 	ace_cpp/core/Sound/ace.SoundSource_Imp.cpp
 	ace_cpp/core/Sound/ace.Sound_Imp.cpp
+	ace_cpp/core/Utils/ace.ResourceContainer.cpp
 	ace_cpp/core/Window/ace.Window_Imp.cpp
 )
 
