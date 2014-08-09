@@ -19,6 +19,14 @@ namespace ace {
 	typedef void(ACE_STDCALL *CoreFuncPtr)(Core*);
 #endif
 
+	class CoreOption
+	{
+	public:
+		bool IsFullScreen;
+		GraphicsDeviceType GraphicsDevice;
+		bool IsReloadingEnabled;
+	};
+
 	class Core
 		: public ReferenceObject
 	{
@@ -43,7 +51,7 @@ namespace ace {
 		@param	isOpenGLMode	OpenGLで起動するかどうか?
 		@return	成否
 		*/
-		virtual bool Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode) = 0;
+		virtual bool Initialize(const achar* title, int32_t width, int32_t height, CoreOption option) = 0;
 
 		/**
 		@brief	初期化を行う。
@@ -54,7 +62,7 @@ namespace ace {
 		@param	isOpenGLMode	OpenGLで起動するかどうか?
 		@return	成否
 		*/
-		virtual bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode) = 0;
+		virtual bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, CoreOption option) = 0;
 
 		/**
 		@brief	イベントを実行し、進行可否を判断する。

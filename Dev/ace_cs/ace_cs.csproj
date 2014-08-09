@@ -139,6 +139,7 @@
     <Compile Include="swig\CoreModelObject3D.cs" />
     <Compile Include="swig\CoreObject2D.cs" />
     <Compile Include="swig\CoreObject3D.cs" />
+    <Compile Include="swig\CoreOption.cs" />
     <Compile Include="swig\CorePostEffect.cs" />
     <Compile Include="swig\CoreScene.cs" />
     <Compile Include="swig\CoreTextObject2D.cs" />

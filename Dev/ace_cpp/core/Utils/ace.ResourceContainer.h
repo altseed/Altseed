@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include <ace.common.Base.h>
@@ -144,8 +144,8 @@ namespace ace
 		}
 
 		/**
-		@brief	ƒtƒ@ƒCƒ‹XVŠÔ‚ğæ“¾‚·‚éB
-		@param	path	ƒpƒX
+		@brief	ãƒ•ã‚¡ã‚¤ãƒ«æ›´æ–°æ™‚é–“ã‚’å–å¾—ã™ã‚‹ã€‚
+		@param	path	ãƒ‘ã‚¹
 		*/
 		time_t GetModifiedTime(const achar* path)
 		{

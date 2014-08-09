@@ -9,6 +9,20 @@
 //
 //----------------------------------------------------------------------------------
 namespace ace {
+
+void Window_Imp_X11::CallbackOnFocus(GLFWwindow* window, int b)
+{
+	auto w = (Window_Imp_X11*) glfwGetWindowUserPointer(window);
+	if (b == GL_TRUE)
+	{
+		w->OnFocused();
+	}
+	else
+	{
+
+	}
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -60,6 +74,7 @@ Window_Imp_X11::Window_Imp_X11(GLFWwindow* window, int32_t width, int32_t height
 {
 	m_size.X = width;
 	m_size.Y = height;
+	glfwSetWindowUserPointer(window, this);
 }
 
 //----------------------------------------------------------------------------------

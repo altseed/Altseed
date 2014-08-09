@@ -27,12 +27,17 @@ namespace ace
 		/// <summary>
 		/// フルスクリーンで起動するか?
 		/// </summary>
-		public bool IsFullScreen;
+		public bool IsFullScreen = false;
 
 		/// <summary>
 		/// 描画に使用するデバイス
 		/// </summary>
-		public GraphicsDeviceType GraphicsDevice;
+		public GraphicsDeviceType GraphicsDevice = GraphicsDeviceType.Default;
+
+		/// <summary>
+		/// リソースの再読み込みを有効にするかどうか?
+		/// </summary>
+		public bool IsReloadingEnabled = false;
 	};
 
 	public class Engine
@@ -87,7 +92,12 @@ namespace ace
 				graphicsType = GraphicsDeviceType.DirectX11;
 			}
 
-			var result = core.Initialize(title, width, height, option.IsFullScreen, graphicsType == GraphicsDeviceType.OpenGL);
+			var coreOption = new swig.CoreOption();
+			coreOption.GraphicsDevice = (swig.GraphicsDeviceType)option.GraphicsDevice;
+			coreOption.IsFullScreen = option.IsFullScreen;
+			coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
+
+			var result = core.Initialize(title, width, height, coreOption);
 
 			if (result)
 			{
@@ -134,7 +144,12 @@ namespace ace
 				graphicsType = GraphicsDeviceType.DirectX11;
 			}
 
-			var result = core.InitializeByExternalWindow(handle1, handle2, width, height, graphicsType == GraphicsDeviceType.OpenGL);
+			var coreOption = new swig.CoreOption();
+			coreOption.GraphicsDevice = (swig.GraphicsDeviceType)option.GraphicsDevice;
+			coreOption.IsFullScreen = option.IsFullScreen;
+			coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
+
+			var result = core.InitializeByExternalWindow(handle1, handle2, width, height, coreOption);
 
 			if (result)
 			{

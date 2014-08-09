@@ -315,7 +315,12 @@ namespace ace
 #endif
 		}
 
-		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, graphicsDeviceType != GraphicsDeviceType::DirectX11);
+		CoreOption coreOption;
+		coreOption.GraphicsDevice = option.GraphicsDevice;
+		coreOption.IsFullScreen = option.IsFullScreen;
+		coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
+
+		bool init = m_core->Initialize(title, width, height, coreOption);
 		if (init)
 		{
 			m_logger = m_core->GetLogger();
@@ -358,7 +363,12 @@ namespace ace
 #endif
 		}
 
-		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, graphicsDeviceType != GraphicsDeviceType::DirectX11);
+		CoreOption coreOption;
+		coreOption.GraphicsDevice = option.GraphicsDevice;
+		coreOption.IsFullScreen = option.IsFullScreen;
+		coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
+
+		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, coreOption);
 		if (init)
 		{
 			m_logger = m_core->GetLogger();

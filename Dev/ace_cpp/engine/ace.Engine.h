@@ -32,6 +32,11 @@ namespace ace {
 		@brief	描画に使用するデバイス
 		*/
 		GraphicsDeviceType	GraphicsDevice = GraphicsDeviceType::Default;
+
+		/**
+		@brief	リソースの再読み込みを有効にするかどうか?
+		*/
+		bool IsReloadingEnabled;
 	};
 
 

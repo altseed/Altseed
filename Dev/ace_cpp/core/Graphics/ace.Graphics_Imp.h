@@ -161,7 +161,9 @@ namespace ace {
 		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) = 0;
 
 	public:
+#if !SWIG
 		std::shared_ptr<ResourceContainer<Texture2D_Imp>> Texture2DContainer;
+#endif
 
 		Graphics_Imp(Vector2DI size, Log* log);
 		virtual ~Graphics_Imp();
