@@ -30,7 +30,7 @@ namespace ace
 		std::list<LayerPtr> m_layersToDraw;
 		std::list<LayerPtr> m_layersToUpdate;
 		std::map<astring, SceneComponent::Ptr> m_components;
-		bool m_firstUpdate;
+		bool alreadyFirstUpdate;
 
 		void Draw();
 

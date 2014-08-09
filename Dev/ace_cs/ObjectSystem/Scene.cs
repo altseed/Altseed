@@ -32,7 +32,7 @@ namespace ace
 			layersToUpdate_ = new List<Layer>();
 			components_ = new Dictionary<string, SceneComponent>();
 
-            firstUpdate_ = true;
+            alreadyFirstUpdate = false;
 		}
 
 		#region GC対策
@@ -175,10 +175,10 @@ namespace ace
 
 		internal void Update()
 		{
-            if(firstUpdate_)
+            if(!alreadyFirstUpdate)
             {
                 OnUpdateForTheFirstTime();
-                firstUpdate_ = false;
+                alreadyFirstUpdate = true;
             }
 
 			OnUpdating();
@@ -257,6 +257,6 @@ namespace ace
 
 		private Dictionary<string, SceneComponent> components_;
 
-        private bool firstUpdate_;
+        private bool alreadyFirstUpdate;
 	}
 }
