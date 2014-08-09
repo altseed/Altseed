@@ -80,6 +80,25 @@ namespace ace {
 		}
 	};
 
+	static void GetParentDir(EFK_CHAR* dst, const EFK_CHAR* src)
+	{
+		int i, last = -1;
+		for (i = 0; src[i] != L'\0'; i++)
+		{
+			if (src[i] == L'/' || src[i] == L'\\')
+				last = i;
+		}
+		if (last >= 0)
+		{
+			memcpy(dst, src, last * sizeof(EFK_CHAR));
+			dst[last] = L'\0';
+		}
+		else
+		{
+			dst[0] = L'\0';
+		}
+	}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -246,11 +265,7 @@ EffectTextureLoader::EffectTextureLoader(Graphics_Imp* graphics)
 //----------------------------------------------------------------------------------
 EffectTextureLoader::~EffectTextureLoader()
 {
-	for (auto& c : m_caches)
-	{
-		Unload(c.second);
-	}
-	m_caches.clear();
+	assert(m_caches.size() == 0);
 }
 
 //----------------------------------------------------------------------------------
@@ -258,9 +273,14 @@ EffectTextureLoader::~EffectTextureLoader()
 //----------------------------------------------------------------------------------
 void* EffectTextureLoader::Load(const EFK_CHAR* path)
 {
-	auto cache = m_caches.find(astring((const achar*)path));
-	if (cache != m_caches.end()) return cache->second;
-	
+	auto key = astring((const achar*) path);
+	auto cache = m_caches.find(key);
+	if (cache != m_caches.end())
+	{
+		cache->second.Count++;
+		return cache->second.Ptr;
+	}
+
 #if _WIN32
 	auto fp = _wfopen((const achar*) path, L"rb");
 	if (fp == nullptr) return false;
@@ -288,6 +308,11 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path)
 
 	SafeDeleteArray(data);
 
+	Cache c;
+	c.Ptr = img;
+	c.Count = 1;
+	m_caches[key] = c;
+	dataToKey[img] = key;
 	return img;
 }
 
@@ -297,6 +322,18 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path)
 void EffectTextureLoader::Unload(void* data)
 {
 	InternalUnload(data);
+
+	if (data == nullptr) return;
+
+	auto key = dataToKey[data];
+	auto cache = m_caches.find(key);
+	cache->second.Count--;
+
+	if (cache->second.Count == 0)
+	{
+		m_caches.erase(key);
+		dataToKey.erase(data);
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -474,6 +511,7 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled)
 	, m_log(log)
 {
 	Texture2DContainer = std::make_shared<ResourceContainer<Texture2D_Imp>>();
+	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>();
 
 	//SafeAddRef(m_log);
 	m_resourceContainer = new GraphicsResourceContainer();
@@ -611,10 +649,16 @@ Model* Graphics_Imp::CreateModel_(const achar* path)
 //----------------------------------------------------------------------------------
 Effect* Graphics_Imp::CreateEffect_(const achar* path)
 {
-	auto effect = Effekseer::Effect::Create(m_effectSetting, (const EFK_CHAR*)path, 1.0f);
-	if (effect == nullptr) return nullptr;
+	auto ret = EffectContainer->TryLoad(path, [this,path](uint8_t* data, int32_t size) -> Effect_Imp*
+	{
+		EFK_CHAR parentDir[512];	
+		GetParentDir(parentDir, (const EFK_CHAR*) path);
 	
-	auto ret = Effect_Imp::CreateEffect(this, effect);
+		auto effect = Effekseer::Effect::Create(m_effectSetting, data, size, 1.0, parentDir);
+		if (effect == nullptr) return nullptr;
+		Effect_Imp::CreateEffect(this, effect);
+	});
+
 	return ret;
 }
 
@@ -754,11 +798,23 @@ void Graphics_Imp::End()
 
 void Graphics_Imp::Reload()
 {
-	GetResourceContainer()->Reload();
-	Texture2DContainer->Reload([this](Texture2D_Imp* o, uint8_t* data, int32_t size) -> void
+	Texture2DContainer->Reload([this](std::shared_ptr<ResourceContainer<Texture2D_Imp>::LoadingInformation> o, uint8_t* data, int32_t size) -> void
 	{
-		o->Reload(data, size);
+		o->ResourcePtr->Reload(data, size);
 	});
+
+	EffectContainer->Reload([this](std::shared_ptr<ResourceContainer<Effect_Imp>::LoadingInformation> o, uint8_t* data, int32_t size) -> void
+	{
+		o->ResourcePtr->Reload(o->LoadedPath.c_str(), m_effectSetting, data, size);
+	});
+
+	GetResourceContainer()->Reload();
+
+	for (auto& r : EffectContainer->GetAllResources())
+	{
+		auto e = r.second;
+		e->ReloadResources(r.first.c_str());
+	}
 }
 
 //----------------------------------------------------------------------------------

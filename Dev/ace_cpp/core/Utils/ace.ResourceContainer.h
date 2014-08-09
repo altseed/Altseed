@@ -14,9 +14,8 @@ namespace ace
 	template <class RESOURCE>
 	class ResourceContainer
 	{
-	private:
-
-		class AdditionalInformation
+	public:
+		class LoadingInformation
 		{
 		private:
 		public:
@@ -26,10 +25,11 @@ namespace ace
 			RESOURCE* ResourcePtr;
 		};
 
+	private:
 		std::map<astring, RESOURCE*>	keyToResource;
 		std::map<RESOURCE*, astring>	resourceToKeys;
 
-		std::map <RESOURCE*, std::shared_ptr <AdditionalInformation> >	loadInfo;
+		std::map <RESOURCE*, std::shared_ptr <LoadingInformation> >	loadInfo;
 
 	public:
 
@@ -38,6 +38,10 @@ namespace ace
 
 		}
 
+		const std::map<astring, RESOURCE*>& GetAllResources()
+		{
+			return keyToResource;
+		}
 
 		RESOURCE* Get(const achar* key)
 		{
@@ -82,8 +86,7 @@ namespace ace
 				return nullptr;
 			}
 
-			std::shared_ptr<AdditionalInformation> info;
-			info = std::make_shared<AdditionalInformation>();
+			auto info = std::make_shared<LoadingInformation>(); 
 			info->ModifiedTime = GetModifiedTime(path);
 			info->LoadedPath = path;
 			info->ResourcePtr = ret;
@@ -94,7 +97,7 @@ namespace ace
 			return ret;
 		}
 
-		void Register(const achar* key, RESOURCE* target, std::shared_ptr<AdditionalInformation> info = nullptr)
+		void Register(const achar* key, RESOURCE* target, std::shared_ptr<LoadingInformation> info = nullptr)
 		{
 			keyToResource[key] = target;
 			resourceToKeys[target] = key;
@@ -112,13 +115,13 @@ namespace ace
 			loadInfo.erase(target);
 		}
 
-		void Reload(const std::function<void(RESOURCE*,uint8_t*, int32_t)>& reloadFunc)
+		void Reload(const std::function<void(std::shared_ptr <LoadingInformation>, uint8_t*, int32_t)>& reloadFunc)
 		{
 			for (auto info : loadInfo)
 			{
 				if (info.second == nullptr) continue;
 
-				auto info_ = info.second.get();
+				auto info_ = info.second;
 
 				auto time = GetModifiedTime(info_->LoadedPath.c_str());
 
@@ -140,7 +143,7 @@ namespace ace
 				fread(data, 1, size, fp);
 				fclose(fp);
 
-				reloadFunc(info_->ResourcePtr, data, size);
+				reloadFunc(info_, data, size);
 
 				SafeDeleteArray(data);
 			}

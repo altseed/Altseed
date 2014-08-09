@@ -50,7 +50,7 @@ namespace ace {
 	class CubemapTexture_Imp;
 	class DepthBuffer_Imp;
 	class Shader2D_Imp;
-
+	class Effect_Imp;
 	class ShaderCache;
 
 	class MaterialCommand;

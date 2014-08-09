@@ -61,6 +61,7 @@ void EngineTest::Run()
 
 	EngineOption option;
 	option.GraphicsDevice = m_isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11;
+	option.IsReloadingEnabled = true;
 
 	auto initialized = ace::Engine::Initialize(m_title.c_str(), WindowWidth, WindowHeight, option);
 	ASSERT_EQ(true, initialized);

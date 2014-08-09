@@ -58,7 +58,13 @@ namespace ace {
 	protected:
 		Graphics_Imp*	m_graphics = nullptr;
 
-		std::map<astring, void*>		m_caches;
+		struct Cache
+		{
+			int32_t Count;
+			void* Ptr;
+		};
+		std::map<astring, Cache>		m_caches;
+		std::map<void*, astring>		dataToKey;
 
 		virtual void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height ) = 0;
 		virtual void InternalUnload(void* data) = 0;
@@ -166,6 +172,7 @@ namespace ace {
 	public:
 #if !SWIG
 		std::shared_ptr<ResourceContainer<Texture2D_Imp>> Texture2DContainer;
+		std::shared_ptr<ResourceContainer<Effect_Imp>> EffectContainer;
 #endif
 
 		Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled);
