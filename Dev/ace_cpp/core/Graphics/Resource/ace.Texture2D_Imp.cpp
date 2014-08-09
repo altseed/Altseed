@@ -68,7 +68,7 @@ namespace ace {
 	Texture2D_Imp::~Texture2D_Imp()
 	{
 		auto g = (Graphics_Imp*)GetGraphics();
-		g->GetResourceContainer()->Texture2Ds.Unregist(this);
+		g->Texture2DContainer->Unregister(this);
 	}
 
 	//----------------------------------------------------------------------------------

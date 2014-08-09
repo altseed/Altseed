@@ -59,9 +59,9 @@ namespace ace
 				cn = 1.0f;
 			}
 
-			byte cp_ = (byte)Math.Max(Math.Min(cp * 255, 255), 0);
-			byte cn_ = (byte)Math.Max(Math.Min(cn * 255, 255), 0);
-
+			byte cp_ = (byte)MathHelper.Clamp(cp * 255, 255, 0);
+			byte cn_ = (byte)MathHelper.Clamp(cn * 255, 255, 0);
+		
 			DrawRectangleWithPreviousScene(
 				new Vector2DF(0.0f, 0.0f),
 				new Vector2DF(1.0f, 0.0f),

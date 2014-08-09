@@ -15,7 +15,7 @@
 #include <Graphics/ace.Color.h>
 #include <Math/ace.Vector2DI.h>
 
-
+#include "../Utils/ace.ResourceContainer.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -161,6 +161,8 @@ namespace ace {
 		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) = 0;
 
 	public:
+		std::shared_ptr<ResourceContainer<Texture2D_Imp>> Texture2DContainer;
+
 		Graphics_Imp(Vector2DI size, Log* log);
 		virtual ~Graphics_Imp();
 
@@ -365,6 +367,11 @@ namespace ace {
 	@brief	描画終了後のリセット処理を行う。
 	*/
 	void End();
+
+	/** 
+	@brief	リロード処理を行う。
+	*/
+	void Reload();
 
 	/**
 		@brief	描画先を設定する。

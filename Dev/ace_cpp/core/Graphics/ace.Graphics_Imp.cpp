@@ -473,6 +473,8 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log)
 	, m_shaderPtr(nullptr)
 	, m_log(log)
 {
+	Texture2DContainer = std::make_shared<ResourceContainer<Texture2D_Imp>>();
+
 	//SafeAddRef(m_log);
 	m_resourceContainer = new GraphicsResourceContainer();
 	m_renderingThread = std::make_shared<RenderingThread>();
@@ -514,45 +516,12 @@ Graphics_Imp::~Graphics_Imp()
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 {
+	auto ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
 	{
-		auto existing = GetResourceContainer()->Texture2Ds.Get(path);
-		if (existing != nullptr)
-		{
-			SafeAddRef(existing);
-			return existing;
-		}
-	}
+		return CreateTexture2D_Imp_Internal(this, data, size);
+	});
 
-#if _WIN32
-	auto fp = _wfopen(path, L"rb");
-	if (fp == nullptr) return nullptr;
-#else
-	auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-	if (fp == nullptr) return nullptr;
-#endif
-	fseek(fp, 0, SEEK_END);
-	auto size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	auto data = new uint8_t[size];
-	fread(data, 1, size, fp);
-	fclose(fp);
-
-	auto texture = CreateTexture2D_Imp_Internal(this, data, size);
-	if (texture == nullptr)
-	{
-		SafeDeleteArray(data);
-		return nullptr;
-	}
-
-	SafeDeleteArray(data);
-
-	std::shared_ptr<Texture2DReloadInformation> info;
-	info.reset( new Texture2DReloadInformation() );
-	info->ModifiedTime = GetResourceContainer()->GetModifiedTime(path);
-	info->Path = path;
-	
-	GetResourceContainer()->Texture2Ds.Regist(path, info, texture);
-	return texture;
+	return ret;
 }
 
 //----------------------------------------------------------------------------------
@@ -776,6 +745,15 @@ void Graphics_Imp::End()
 	ResetDrawState();
 
 	EndInternal();
+}
+
+void Graphics_Imp::Reload()
+{
+	GetResourceContainer()->Reload();
+	Texture2DContainer->Reload([this](Texture2D_Imp* o, uint8_t* data, int32_t size) -> void
+	{
+		o->Reload(data, size);
+	});
 }
 
 //----------------------------------------------------------------------------------
