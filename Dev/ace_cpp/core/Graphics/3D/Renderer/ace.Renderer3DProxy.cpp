@@ -55,7 +55,7 @@ namespace ace
 
 		// テクスチャ
 		{
-			dummyTextureWhite = g->CreateEmptyTexture2D(1, 1, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			dummyTextureWhite = g->CreateEmptyTexture2D(1, 1, TextureFormat::R8G8B8A8_UNORM);
 			TextureLockInfomation info;
 			if (dummyTextureWhite->Lock(info))
 			{
@@ -66,7 +66,7 @@ namespace ace
 		}
 
 		{
-			dummyTextureBlack = g->CreateEmptyTexture2D(1, 1, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			dummyTextureBlack = g->CreateEmptyTexture2D(1, 1, TextureFormat::R8G8B8A8_UNORM);
 			TextureLockInfomation info;
 			if (dummyTextureBlack->Lock(info))
 			{
@@ -77,7 +77,7 @@ namespace ace
 		}
 
 		{
-			dummyTextureNormal = g->CreateEmptyTexture2D(1, 1, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+			dummyTextureNormal = g->CreateEmptyTexture2D(1, 1, TextureFormat::R8G8B8A8_UNORM);
 			TextureLockInfomation info;
 			if (dummyTextureNormal->Lock(info))
 			{
@@ -207,7 +207,7 @@ namespace ace
 					macro_y);
 			}
 
-			m_shadowTempTexture = g->CreateRenderTexture2D(2048, 2048, ace::eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
+			m_shadowTempTexture = g->CreateRenderTexture2D(2048, 2048, ace::TextureFormat::R16G16_FLOAT);
 
 			m_shadowVertexBuffer->Lock();
 			auto buf = m_shadowVertexBuffer->GetBuffer <ScreenVertexLayout>(6);
@@ -579,7 +579,7 @@ namespace ace
 							RenderState state;
 							state.DepthTest = false;
 							state.DepthWrite = false;
-							state.CullingType = CULLING_DOUBLE;
+							state.Culling = CullingType::Double;
 
 							helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), m_shadowShaderX.get(), state,
 								h::GenValue("g_weight", weights),
@@ -593,7 +593,7 @@ namespace ace
 							RenderState state;
 							state.DepthTest = false;
 							state.DepthWrite = false;
-							state.CullingType = CULLING_DOUBLE;
+							state.Culling = CullingType::Double;
 
 							helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), m_shadowShaderY.get(), state,
 								h::GenValue("g_weight", weights),
@@ -638,7 +638,7 @@ namespace ace
 						RenderState state;
 						state.DepthTest = false;
 						state.DepthWrite = false;
-						state.CullingType = CULLING_DOUBLE;
+						state.Culling = CullingType::Double;
 						state.AlphaBlendState = AlphaBlend::Add;
 
 						helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
@@ -700,7 +700,7 @@ namespace ace
 				RenderState state;
 				state.DepthTest = false;
 				state.DepthWrite = false;
-				state.CullingType = CULLING_DOUBLE;
+				state.Culling = CullingType::Double;
 				state.AlphaBlendState = AlphaBlend::Opacity;
 
 				helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
@@ -734,7 +734,7 @@ namespace ace
 			state.DepthTest = false;
 			state.DepthWrite = false;
 			state.AlphaBlendState = AlphaBlend::Opacity;
-			state.CullingType = ace::eCullingType::CULLING_DOUBLE;
+			state.Culling = ace::CullingType::Double;
 
 			helper->Draw(2, m_pasteVertexBuffer.get(), m_pasteIndexBuffer.get(), m_pasteShader.get(), state,
 				h::GenValue("g_texture", h::Texture2DPair(texture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))

@@ -35,7 +35,7 @@ namespace ace
 		/// <returns>テクスチャ</returns>
 		public Texture2D CreateEmptyTexture2D(int width, int height, TextureFormat format)
 		{
-			var texture = graphics.CreateEmptyTexture2D_Imp(width, height, (swig.eTextureFormat)format);
+			var texture = graphics.CreateEmptyTexture2D_Imp(width, height, (swig.TextureFormat)format);
 			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
 		}
 
@@ -48,7 +48,7 @@ namespace ace
 		/// <returns>テクスチャ</returns>
 		public RenderTexture2D CreateRenderTexture2D(int width, int height, TextureFormat format)
 		{
-			var rt = graphics.CreateRenderTexture2D_Imp(width,height, (swig.eTextureFormat)format);
+			var rt = graphics.CreateRenderTexture2D_Imp(width,height, (swig.TextureFormat)format);
 			var p = rt.GetPtr();
 
 			var existing = GC.Texture2Ds.GetObject(p);

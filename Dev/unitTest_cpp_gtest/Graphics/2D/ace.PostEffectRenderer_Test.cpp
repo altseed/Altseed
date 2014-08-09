@@ -57,7 +57,7 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log);
 	ASSERT_TRUE(graphics != nullptr);
 
-	auto rtex = graphics->CreateRenderTexture2D(640, 480, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+	auto rtex = graphics->CreateRenderTexture2D(640, 480, ace::TextureFormat::R8G8B8A8_UNORM);
 	ASSERT_TRUE(rtex != nullptr);
 
 	auto renderer = ace::PostEffectRenderer::Create(graphics);

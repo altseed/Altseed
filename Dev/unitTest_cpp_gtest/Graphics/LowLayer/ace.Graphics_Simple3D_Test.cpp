@@ -210,7 +210,7 @@ void Graphics_Simple3D(bool isOpenGLMode)
 		
 		state.DepthTest = true;
 		state.DepthWrite = true;
-		state.CullingType = ace::eCullingType::CULLING_FRONT;
+		state.Culling = ace::CullingType::Front;
 		graphics->SetRenderState(state);
 
 		graphics->DrawPolygon(2*6);

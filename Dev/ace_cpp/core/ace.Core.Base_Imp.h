@@ -97,27 +97,19 @@ namespace ace {
 		bool								DepthTest;
 		bool								DepthWrite;
 		AlphaBlend							AlphaBlendState;
-		eCullingType						CullingType;
+		CullingType							Culling;
 		
 		void Reset()
 		{
 			DepthTest = false;
 			DepthWrite = false;
 			AlphaBlendState = AlphaBlend::Blend;
-			CullingType = CULLING_DOUBLE;
+			Culling = CullingType::Double;
 		}
 
 		RenderState()
 		{
 			Reset();
-		}
-
-		void CopyTo(RenderState& state)
-		{
-			state.DepthTest = DepthTest;
-			state.DepthWrite = DepthWrite;
-			state.AlphaBlendState = AlphaBlendState;
-			state.CullingType = CullingType;
 		}
 	};
 

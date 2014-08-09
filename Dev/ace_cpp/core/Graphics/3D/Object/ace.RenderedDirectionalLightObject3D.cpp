@@ -14,7 +14,7 @@ namespace ace
 
 		deviceType = g->GetGraphicsDeviceType();
 		LightColor = Color(255, 255, 255, 255);
-		m_shadowTexture = g->CreateRenderTexture2D_Imp(RenderedDirectionalLightObject3D::ShadowBufferSize, RenderedDirectionalLightObject3D::ShadowBufferSize, eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
+		m_shadowTexture = g->CreateRenderTexture2D_Imp(RenderedDirectionalLightObject3D::ShadowBufferSize, RenderedDirectionalLightObject3D::ShadowBufferSize, TextureFormat::R16G16_FLOAT);
 		m_shadowDepthBuffer = g->CreateDepthBuffer_Imp(RenderedDirectionalLightObject3D::ShadowBufferSize, RenderedDirectionalLightObject3D::ShadowBufferSize);
 	}
 

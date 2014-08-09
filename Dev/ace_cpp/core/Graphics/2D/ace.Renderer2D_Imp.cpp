@@ -403,7 +403,7 @@ namespace ace {
 		
 		state.DepthTest = false;
 		state.DepthWrite = false;
-		state.CullingType = ace::eCullingType::CULLING_DOUBLE;
+		state.Culling = CullingType::Double;
 		m_graphics->SetRenderState(state);
 
 		m_graphics->DrawPolygon(m_drawingSprites.size() * 2);

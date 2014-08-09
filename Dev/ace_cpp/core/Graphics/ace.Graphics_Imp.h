@@ -46,7 +46,7 @@ namespace ace {
 			@param	format	フォーマット
 			@return	サイズ
 		*/
-		static int32_t GetPitch(eTextureFormat format);
+		static int32_t GetPitch(TextureFormat format);
 
 		static int32_t GetMipmapCount(int32_t width, int32_t height);
 		static void GetMipmapSize(int mipmap, int32_t& width, int32_t& height);
@@ -136,9 +136,9 @@ namespace ace {
 
 	protected:
 		Texture2D* CreateTexture2D_(const achar* path) { return CreateTexture2D_Imp(path); }
-		Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, eTextureFormat format) { return CreateEmptyTexture2D_Imp(width, height, format); }
+		Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateEmptyTexture2D_Imp(width, height, format); }
 
-		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, eTextureFormat format) { return CreateRenderTexture2D_Imp(width, height, format); }
+		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateRenderTexture2D_Imp(width, height, format); }
 		Shader2D* CreateShader2D_( const achar* shaderText);
 		
 	protected:
@@ -158,7 +158,7 @@ namespace ace {
 			*/
 		virtual Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
 
-		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format) = 0;
+		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) = 0;
 
 	public:
 		Graphics_Imp(Vector2DI size, Log* log);
@@ -204,7 +204,7 @@ namespace ace {
 		@param	format	フォーマット
 		@return	テクスチャ
 		*/
-		Texture2D_Imp* CreateEmptyTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format);
+		Texture2D_Imp* CreateEmptyTexture2D_Imp(int32_t width, int32_t height, TextureFormat format);
 
 		/**
 		@brief	描画先として指定可能なテクスチャを生成する。
@@ -212,7 +212,7 @@ namespace ace {
 		@param	height	縦幅
 		@param	format	フォーマット
 		*/
-		virtual RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format) = 0;
+		virtual RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format) = 0;
 
 		/**
 			@brief	SWIG向けに記述

@@ -276,7 +276,7 @@ namespace ace
 							RenderState state;
 							state.DepthTest = true;
 							state.DepthWrite = true;
-							state.CullingType = eCullingType::CULLING_FRONT;
+							state.Culling = CullingType::Front;
 							state.AlphaBlendState = AlphaBlend::Opacity;
 
 							helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,

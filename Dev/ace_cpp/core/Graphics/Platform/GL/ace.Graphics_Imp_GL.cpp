@@ -782,7 +782,7 @@ Texture2D_Imp* Graphics_Imp_GL::CreateTexture2D_Imp_Internal(Graphics* graphics,
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Texture2D_Imp* Graphics_Imp_GL::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
+Texture2D_Imp* Graphics_Imp_GL::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format)
 {
 	auto ret = Texture2D_Imp_GL::Create(this, width, height, format);
 	return ret;
@@ -796,7 +796,7 @@ CubemapTexture* Graphics_Imp_GL::CreateCubemapTextureFrom6ImageFiles_(const acha
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-RenderTexture2D_Imp* Graphics_Imp_GL::CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format)
+RenderTexture2D_Imp* Graphics_Imp_GL::CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format)
 {
 	return RenderTexture2D_Imp_GL::Create(this, width, height, format);
 }
@@ -840,19 +840,19 @@ void Graphics_Imp_GL::CommitRenderState(bool forced)
 		glDepthFunc(GL_LEQUAL);
 	}
 
-	if (current.CullingType != next.CullingType || forced)
+	if (current.Culling != next.Culling || forced)
 	{
-		if (next.CullingType == CULLING_FRONT)
+		if (next.Culling == CullingType::Front)
 		{
 			glEnable(GL_CULL_FACE);
 			glCullFace(GL_FRONT);
 		}
-		else if (next.CullingType == CULLING_BACK)
+		else if (next.Culling == CullingType::Back)
 		{
 			glEnable(GL_CULL_FACE);
 			glCullFace(GL_BACK);
 		}
-		else if (next.CullingType == CULLING_DOUBLE)
+		else if (next.Culling == CullingType::Double)
 		{
 			glDisable(GL_CULL_FACE);
 			glCullFace(GL_FRONT_AND_BACK);

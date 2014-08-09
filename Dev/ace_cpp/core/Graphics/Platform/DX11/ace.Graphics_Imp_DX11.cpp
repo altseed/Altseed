@@ -884,7 +884,7 @@ Texture2D_Imp* Graphics_Imp_DX11::CreateTexture2D_Imp_Internal(Graphics* graphic
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
+Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format)
 {
 	auto ret = Texture2D_Imp_DX11::Create(this, width, height, format);
 	return ret;
@@ -893,7 +893,7 @@ Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* gr
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-RenderTexture2D_Imp* Graphics_Imp_DX11::CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format)
+RenderTexture2D_Imp* Graphics_Imp_DX11::CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format)
 {
 	return RenderTexture2D_Imp_DX11::Create(this, width, height, format);
 }
@@ -942,14 +942,14 @@ void Graphics_Imp_DX11::CommitRenderState(bool forced)
 		GetContext()->OMSetDepthStencilState(m_dStates[next.DepthTest][next.DepthWrite], 0);
 	}
 
-	if (current.CullingType != next.CullingType || forced)
+	if (current.Culling != next.Culling || forced)
 	{
 		changeRasterizer = true;
 	}
 
 	if (changeRasterizer)
 	{
-		GetContext()->RSSetState(m_rStates[next.CullingType]);
+		GetContext()->RSSetState(m_rStates[(int32_t)next.Culling]);
 	}
 
 	if (current.AlphaBlendState != next.AlphaBlendState || forced)

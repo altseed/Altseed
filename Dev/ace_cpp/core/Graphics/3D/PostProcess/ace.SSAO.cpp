@@ -99,7 +99,7 @@ namespace ace
 		RenderState state;
 		state.DepthTest = false;
 		state.DepthWrite = false;
-		state.CullingType = CULLING_DOUBLE;
+		state.Culling = CullingType::Double;
 
 		helper->Draw(2, vb.get(), ib.get(), ssaoShader.get(), state,
 			h::GenValue("radius", Radius),
@@ -118,7 +118,7 @@ namespace ace
 			RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
-			state.CullingType = CULLING_DOUBLE;
+			state.Culling = CullingType::Double;
 
 			helper->Draw(2, vb.get(), ib.get(), ssaoBlurXShader.get(), state,
 				h::GenValue("g_texture", h::Texture2DPair(cameraP->GetRenderTargetSSAO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
@@ -131,7 +131,7 @@ namespace ace
 			RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
-			state.CullingType = CULLING_DOUBLE;
+			state.Culling = CullingType::Double;
 
 			helper->Draw(2, vb.get(), ib.get(), ssaoBlurYShader.get(), state,
 				h::GenValue("g_texture", h::Texture2DPair(cameraP->GetRenderTargetSSAO_Temp(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));

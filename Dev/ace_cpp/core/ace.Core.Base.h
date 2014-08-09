@@ -105,12 +105,12 @@ namespace ace {
 		Variable,
 	};
 
-	enum eTextureFormat
+	enum class TextureFormat : int32_t
 	{
-		TEXTURE_FORMAT_R8G8B8A8_UNORM = 0,
-		TEXTURE_FORMAT_R32G32B32A32_FLOAT = 1,
-		TEXTURE_FORMAT_R8G8B8A8_UNORM_SRGB = 2,
-		TEXTURE_FORMAT_GL_R16G16_FLOAT = 3,
+		R8G8B8A8_UNORM = 0,
+		R32G32B32A32_FLOAT = 1,
+		R8G8B8A8_UNORM_SRGB = 2,
+		R16G16_FLOAT = 3,
 	};
 
 	enum eTextureClassType
@@ -161,13 +161,11 @@ namespace ace {
 		Clamp = 1,
 	};
 
-	enum eCullingType
+	enum class CullingType : int32_t
 	{
-		CULLING_FRONT = 0,
-		CULLING_BACK = 1,
-		CULLING_DOUBLE = 2,
-
-		CULLING_DWORD = 0x7fffffff,
+		Front = 0,
+		Back = 1,
+		Double = 2,
 	};
 
 	/**

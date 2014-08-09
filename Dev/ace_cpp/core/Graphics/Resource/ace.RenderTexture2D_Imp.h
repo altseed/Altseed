@@ -24,14 +24,14 @@ namespace ace {
 	{
 	protected:
 		Vector2DI	m_size;
-		eTextureFormat		m_format;
+		TextureFormat		m_format;
 
 		RenderTexture2D_Imp(Graphics* graphics, Vector2DI size);
 		virtual ~RenderTexture2D_Imp();
 	public:
 
 		Vector2DI GetSize() const override { return m_size; }
-		eTextureFormat GetFormat() const override { return m_format; }
+		TextureFormat GetFormat() const override { return m_format; }
 
 	public:
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
