@@ -163,7 +163,7 @@ namespace ace
 			glfwMakeOpenGLDisabled();
 		}
 #else
-		if (!isOpenGLMode)
+		if (option.GraphicsDevice != GraphicsDeviceType::OpenGL)
 		{
 			return false;
 		}
@@ -246,7 +246,7 @@ namespace ace
 			glfwMakeOpenGLDisabled();
 		}
 #else
-		if (!isOpenGLMode)
+		if (option.GraphicsDevice != GraphicsDeviceType::OpenGL)
 		{
 			return false;
 		}
