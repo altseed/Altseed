@@ -15,9 +15,11 @@ namespace ace
 	private:
 		Sound*			m_manager;
 		osm::Sound*		m_sound;
+		bool			isDecompressed = false;
+
 	public:
 
-		SoundSource_Imp(Sound* manager, osm::Sound* sound);
+		SoundSource_Imp(Sound* manager, osm::Sound* sound, bool isDecomporessed);
 		virtual ~SoundSource_Imp();
 
 		float GetLoopStartingPoint() const override { return m_sound->GetLoopStartingPoint(); }
@@ -35,6 +37,8 @@ namespace ace
 		float GetLength() override;
 
 		osm::Sound* GetSound() { return m_sound; }
+
+		void Reload(uint8_t* data, int32_t size);
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

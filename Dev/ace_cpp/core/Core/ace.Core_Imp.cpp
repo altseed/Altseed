@@ -183,7 +183,7 @@ namespace ace
 		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, option.IsReloadingEnabled);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp();
+		m_sound = new Sound_Imp(option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
 		m_profiler = Profiler_Imp::Create();
@@ -257,7 +257,7 @@ namespace ace
 		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger, option.IsReloadingEnabled);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp();
+		m_sound = new Sound_Imp(option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
@@ -374,6 +374,7 @@ namespace ace
 		if (isReloadingEnabeld)
 		{
 			GetGraphics_Imp()->Reload();
+			m_sound->Reload();
 		}
 	}
 

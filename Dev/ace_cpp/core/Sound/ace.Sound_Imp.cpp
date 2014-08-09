@@ -4,7 +4,7 @@
 
 namespace ace
 {
-	Sound_Imp::Sound_Imp()
+	Sound_Imp::Sound_Imp(bool isReloadingEnabled)
 		: m_manager(nullptr)
 	{
 		m_manager = osm::Manager::Create();
@@ -15,6 +15,8 @@ namespace ace
 		{
 			SafeRelease(m_manager);
 		}
+
+		SoundSourcesContainer = std::make_shared<ResourceContainer<SoundSource_Imp>>();
 	}
 
 	Sound_Imp::~Sound_Imp()
@@ -31,30 +33,14 @@ namespace ace
 	{
 		if (m_manager == nullptr) return nullptr;
 
-#if _WIN32
-		auto fp = _wfopen(path, L"rb");
-		if (fp == nullptr) return nullptr;
-#else
-		auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-		if (fp == nullptr) return nullptr;
-#endif
-		fseek(fp, 0, SEEK_END);
-		auto size = ftell(fp);
-		fseek(fp, 0, SEEK_SET);
-		auto data = new uint8_t[size];
-		fread(data, 1, size, fp);
-		fclose(fp);
-
-		auto source = m_manager->CreateSound(data, size, isDecompressed); 
-		if (source == nullptr)
+		auto ret = SoundSourcesContainer->TryLoad(path, [this, isDecompressed](uint8_t* data, int32_t size) -> SoundSource_Imp*
 		{
-			SafeDeleteArray(data);
-			return nullptr;
-		}
+			auto source = m_manager->CreateSound(data, size, isDecompressed);
+			if (source == nullptr) return nullptr;
+			return new SoundSource_Imp(this, source, isDecompressed);
+		});
 
-		SafeDeleteArray(data);
-
-		return new SoundSource_Imp(this, source);
+		return ret;
 	}
 
 	int32_t Sound_Imp::Play(SoundSource* soundSource)
@@ -112,5 +98,13 @@ namespace ace
 	{
 		if (m_manager == nullptr) return;
 		return m_manager->FadeOut(id, second);
+	}
+
+	void Sound_Imp::Reload()
+	{
+		SoundSourcesContainer->Reload([this](std::shared_ptr<ResourceContainer<SoundSource_Imp>::LoadingInformation> r, uint8_t* data, int32_t size) -> void
+		{
+			r->ResourcePtr->Reload(data, size);
+		});
 	}
 }
