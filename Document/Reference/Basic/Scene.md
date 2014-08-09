@@ -25,6 +25,7 @@
 |---|---|
 | OnUpdating | ObjectのOnUpdateとLayerのOnUpdatingが実行される前に毎フレーム実行される更新イベント |
 | OnUpdated | ObjectのOnUpdateとLayerのOnUpdatedが実行された後に毎フレーム実行される更新イベント |
+| OnUpdateForTheFirstTime | 最初のObjectのOnUpdateとLayerのOnUpdatingが実行される前に一度だけ実行されるイベント |
 
 ### 使用方法
 
