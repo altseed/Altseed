@@ -110,8 +110,8 @@ namespace ace {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log)
-	: Graphics_Imp(size, log)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isReloadingEnabled)
+	: Graphics_Imp(size, log, isReloadingEnabled)
 	, m_window(window)
 	, m_endStarting(false)
 	, m_frameBuffer_main(0)
@@ -172,8 +172,8 @@ namespace ace {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log)
-	: Graphics_Imp(size, log)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isReloadingEnabled)
+	: Graphics_Imp(size, log, isReloadingEnabled)
 	, m_window(nullptr)
 	, m_endStarting(false)
 	, m_frameBuffer_main(0)
@@ -666,7 +666,7 @@ void Graphics_Imp_GL::SetViewport(int32_t x, int32_t y, int32_t width, int32_t h
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log)
+Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool isReloadingEnabled)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -700,7 +700,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log)
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL(window->GetSize(), window, log);
+	return new Graphics_Imp_GL(window->GetSize(), window, log, isReloadingEnabled);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));
@@ -712,7 +712,7 @@ End:;
 //
 //----------------------------------------------------------------------------------
 #if !_WIN32
-Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log )
+Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled )
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -761,7 +761,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL( ace::Vector2DI(width,height), display, window, context_, log );
+	return new Graphics_Imp_GL( ace::Vector2DI(width,height), display, window, context_, log, isReloadingEnabled);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));

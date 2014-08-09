@@ -165,12 +165,12 @@ namespace ace {
 		std::shared_ptr<ResourceContainer<Texture2D_Imp>> Texture2DContainer;
 #endif
 
-		Graphics_Imp(Vector2DI size, Log* log);
+		Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled);
 		virtual ~Graphics_Imp();
 
-		static Graphics_Imp* Create(Window* window, bool isOpenGLMode, Log* log);
+		static Graphics_Imp* Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled);
 
-		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log);
+		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled);
 
 		/**
 		@brief	画面をクリアする。

@@ -421,21 +421,21 @@ Shader2D* Graphics_Imp::CreateShader2D_(const achar* shaderText)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(Window* window, bool isOpenGLMode, Log* log)
+Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled)
 {
 #if _WIN32
-	if (isOpenGLMode)
+	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log);
+		return Graphics_Imp_GL::Create(window, log, isReloadingEnabled);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create(window, log);
+		return Graphics_Imp_DX11::Create(window, log, isReloadingEnabled);
 	}
 #else
-	if (isOpenGLMode)
+	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log);
+		return Graphics_Imp_GL::Create(window, log, isReloadingEnabled);
 	}
 	else
 	{
@@ -447,26 +447,26 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, bool isOpenGLMode, Log* log)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log)
+Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled)
 {
 #if _WIN32
-	if (isOpenGLMode)
+	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isReloadingEnabled);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isReloadingEnabled);
 	}
 #else 
-	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log);
+	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, isReloadingEnabled);
 #endif
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log)
+Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled)
 	: m_size(size)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)

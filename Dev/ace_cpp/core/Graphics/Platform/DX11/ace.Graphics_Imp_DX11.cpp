@@ -131,6 +131,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	Window* window,
 	Vector2DI size,
 	Log* log,
+	bool isReloadingEnabled,
 	ID3D11Device* device,
 	ID3D11DeviceContext* context,
 	IDXGIDevice1* dxgiDevice,
@@ -141,7 +142,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11RenderTargetView*	defaultBackRenderTargetView,
 	ID3D11Texture2D* defaultDepthBuffer,
 	ID3D11DepthStencilView* defaultDepthStencilView)
-	: Graphics_Imp(size, log)
+	: Graphics_Imp(size, log, isReloadingEnabled)
 	, m_window(window)
 	, m_device(device)
 	, m_context(context)
@@ -635,7 +636,7 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -827,6 +828,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		window,
 		Vector2DI(width, height),
 		log,
+		isReloadingEnabled,
 		device,
 		context,
 		dxgiDevice,
@@ -857,19 +859,19 @@ End:
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, bool isReloadingEnabled)
 {
 	auto size = window->GetSize();
 	auto handle = glfwGetWin32Window(((Window_Imp*) window)->GetWindow());
-	return Create(handle, size.X, size.Y, log);
+	return Create(handle, size.X, size.Y, log, isReloadingEnabled);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled)
 {
-	return Create(nullptr, handle, width, height, log);
+	return Create(nullptr, handle, width, height, log, isReloadingEnabled);
 }
 
 //----------------------------------------------------------------------------------

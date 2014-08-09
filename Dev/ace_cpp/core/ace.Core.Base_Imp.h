@@ -216,12 +216,6 @@ namespace ace {
 	/**
 	@brief	リロード情報
 	*/
-	struct Texture2DReloadInformation
-	{
-		time_t ModifiedTime;
-		astring	Path;
-	};
-
 	struct ModelReloadInformation
 	{
 		time_t ModifiedTime;

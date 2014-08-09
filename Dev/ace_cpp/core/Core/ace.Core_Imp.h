@@ -150,6 +150,8 @@ namespace ace {
 		AnimationSystem* GetAnimationSyatem();
 
 		Vector2DI GetWindowSize();
+
+		bool IsReloadingEnabeld() const { return isReloadingEnabeld; }
 	};
 	//----------------------------------------------------------------------------------
 	//
