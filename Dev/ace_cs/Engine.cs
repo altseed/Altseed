@@ -187,6 +187,7 @@ namespace ace
 				if (transition.SwigObject.GetIsSceneChanged() && nextScene != null)
 				{
 					previousScene = CurrentScene;
+                    previousScene.CallChanging();
 					CurrentScene = nextScene;
 					core.ChangeScene(nextScene.CoreScene);
 					nextScene = null;
@@ -203,6 +204,7 @@ namespace ace
 			{
 				if (nextScene != null)
 				{
+                    CurrentScene.CallChanging();
 					CurrentScene = nextScene;
 					core.ChangeScene(nextScene.CoreScene);
 					nextScene = null;
@@ -282,6 +284,22 @@ namespace ace
 		public static void Terminate()
 		{
 			if (core == null) return;
+
+            if (CurrentScene != null)
+            {
+                CurrentScene.CallDestroy();
+            }
+
+            if (nextScene != null)
+            {
+                nextScene.CallDestroy();
+            }
+
+            if (previousScene != null)
+            {
+                previousScene.CallDestroy();
+            }
+
 
 			CurrentScene = null;
 			nextScene = null;

@@ -38,6 +38,8 @@ namespace ace
 		void UpdateComponents();
 
 		void CallTransitionFinished();
+		void CallChanging();
+		void CallDestroy();
 
 	protected:
 		/**
@@ -57,6 +59,16 @@ namespace ace
 		@brief	オーバーライドして、トランジション終了時に実行する処理を記述する。
 		*/
 		virtual void OnTransitionFinished();
+
+		/**
+		@brief	オーバーライドして、このシーンから別のシーンに切り替わる際に実行される処理を記述する。
+		*/
+		virtual void OnChanging();
+
+		/**
+		@brief	オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
+		*/
+		virtual void OnDestroy();
 
 	public:
 		/**

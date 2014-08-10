@@ -177,9 +177,33 @@ namespace ace
         {
         }
 
+        /// <summary>
+        /// オーバーライドして、このシーンから別のシーンに切り替わる際に実行される処理を記述する。
+        /// </summary>
+        protected virtual void OnChanging()
+        {
+        }
+
+        /**
+		@brief	オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
+		*/
+        protected virtual void OnDestroy()
+        {
+        }
+
         internal void CallTransitionFinished()
         {
             OnTransitionFinished();
+        }
+
+        internal void CallChanging()
+        {
+            OnChanging();
+        }
+
+        internal void CallDestroy()
+        {
+            OnDestroy();
         }
 
         internal unsafe swig.CoreScene CoreScene { get; private set; }

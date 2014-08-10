@@ -395,6 +395,7 @@ namespace ace
 			if (transition->coreTransition->GetIsSceneChanged() && m_nextScene != nullptr)
 			{
 				m_previousScene = m_currentScene;
+				m_previousScene->CallChanging();
 				m_currentScene = m_nextScene;
 				m_core->ChangeScene(m_nextScene->m_coreScene.get());
 				m_nextScene = nullptr;
@@ -411,6 +412,7 @@ namespace ace
 		{
 			if (m_nextScene != nullptr)
 			{
+				m_currentScene->CallChanging();
 				m_currentScene = m_nextScene;
 				m_core->ChangeScene(m_nextScene->m_coreScene.get());
 				m_nextScene = nullptr;
@@ -487,6 +489,21 @@ namespace ace
 	void Engine::Terminate()
 	{
 		if (m_core == nullptr) return;
+
+		if (m_currentScene != nullptr)
+		{
+			m_currentScene->CallDestroy();
+		}
+
+		if (m_nextScene != nullptr)
+		{
+			m_nextScene->CallDestroy();
+		}
+
+		if (m_previousScene != nullptr)
+		{
+			m_previousScene->CallDestroy();
+		}
 
 		m_currentScene.reset();
 		m_nextScene.reset();
