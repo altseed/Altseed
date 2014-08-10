@@ -30,7 +30,7 @@ namespace unitTest_Engine_cs.Graphics.Transition
 			layer.AddObject(obj);
 			scene.AddLayer(layer);
 
-			var transition = new ace.TransitionFade(3, 3);
+			var transition = new ace.TransitionFade(3.0f / 60.0f, 3.0f / 60.0f);
 			ace.Engine.ChangeSceneWithTransition(scene, transition);
 		}
 		}

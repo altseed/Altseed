@@ -18,8 +18,8 @@ namespace ace
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		/// <param name="fadeoutDuration">フェードアウトにかかる実時間(1/60秒を1とした値)</param>
-		/// <param name="fadeinDuration">フェードインにかかる実時間(1/60秒を1とした値)</param>
+		/// <param name="fadeoutDuration">フェードアウトにかかる実時間(秒)</param>
+		/// <param name="fadeinDuration">フェードインにかかる実時間(秒)</param>
 		public TransitionFade(float fadeoutDuration, float fadeinDuration)
 		{
 			this.fadeinDuration = fadeinDuration;

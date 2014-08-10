@@ -321,11 +321,11 @@ namespace ace
 			
 			if (framerateMode == FramerateMode::Constant)
 			{
-				deltaTime = (60.0f / (float) m_targetFPS) * timeSpan;
+				deltaTime = (1.0f / (float) m_targetFPS) * timeSpan;
 			}
 			else if (framerateMode == FramerateMode::Variable)
 			{
-				deltaTime = delta / (1000.0f * (1000.0f / 60.0f)) * timeSpan;
+				deltaTime = delta / (1000.0f) * timeSpan;
 			}
 
 		}
