@@ -394,8 +394,11 @@ namespace ace
 		{
 			if (transition->coreTransition->GetIsSceneChanged() && m_nextScene != nullptr)
 			{
+				if (m_currentScene != nullptr)
+				{
+					m_currentScene->CallChanging();
+				}
 				m_previousScene = m_currentScene;
-				m_previousScene->CallChanging();
 				m_currentScene = m_nextScene;
 				m_core->ChangeScene(m_nextScene->m_coreScene.get());
 				m_nextScene = nullptr;
