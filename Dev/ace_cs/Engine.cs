@@ -204,7 +204,10 @@ namespace ace
 			{
 				if (nextScene != null)
 				{
-                    CurrentScene.CallChanging();
+                    if (CurrentScene != null)
+                    {
+                        CurrentScene.CallChanging();
+                    }
 					CurrentScene = nextScene;
 					core.ChangeScene(nextScene.CoreScene);
 					nextScene = null;
