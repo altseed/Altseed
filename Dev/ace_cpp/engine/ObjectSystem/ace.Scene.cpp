@@ -147,6 +147,24 @@ namespace ace
 	{
 	}
 
+	void Scene::OnChanging()
+	{
+	}
+
+	void Scene::OnDestroy()
+	{
+	}
+
+	void Scene::CallChanging()
+	{
+		OnChanging();
+	}
+
+	void Scene::CallDestroy()
+	{
+		OnDestroy();
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
