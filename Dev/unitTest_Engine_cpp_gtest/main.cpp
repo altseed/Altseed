@@ -45,6 +45,8 @@ EXTERN_ENGINE_TEST(Graphics, TextObject2D)
 EXTERN_ENGINE_TEST(Graphics, MapObject2D)
 EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
 
+EXTERN_ENGINE_TEST(Sound, Sound)
+
 /**
 	@brief	単体テストを実行する。
 	@note
