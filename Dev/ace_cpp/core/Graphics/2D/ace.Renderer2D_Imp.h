@@ -80,6 +80,14 @@ namespace ace {
 					Texture2D*	TexturePtr;
 					AlphaBlend	AlphaBlendState;
 				} Sprite;
+
+				/**
+				@brief	エフェクト描画イベント
+				*/
+				struct DrawEffect
+				{
+					::Effekseer::Handle EffectHandle;
+				} Effect;
 			} Data;
 		};
 
@@ -102,6 +110,8 @@ namespace ace {
 			@brief	描画中のスプライト
 		*/
 		std::vector<Event*>	m_drawingSprites;
+
+		std::vector<Event*>	drawingEffects;
 
 		Graphics_Imp*	m_graphics;
 		Log*			m_log;
@@ -138,6 +148,8 @@ namespace ace {
 
 		void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
 
+		void AddEffect(::Effekseer::Handle handle, int32_t priority);
+
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
 
 	private:
@@ -150,6 +162,8 @@ namespace ace {
 		void EndDrawing();
 
 		void DrawSprite();
+
+		void DrawEffect();
 	};
 
 	//----------------------------------------------------------------------------------

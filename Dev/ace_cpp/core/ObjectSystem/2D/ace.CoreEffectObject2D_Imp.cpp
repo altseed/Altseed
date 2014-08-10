@@ -52,6 +52,7 @@ namespace ace
 		: CoreObject2D_Imp(graphics)
 		, m_effect(nullptr)
 		, m_renderer(nullptr)
+		, m_drawingPtiority(0)
 	{
 
 	}
@@ -173,5 +174,23 @@ namespace ace
 				}
 			}
 		}
+
+		for (size_t i = 0; i < m_handles.size(); i++)
+		{
+			if (m_renderer->GetEffectManager()->Exists(m_handles[i]))
+			{
+				m_renderer->AddEffect(m_handles[i], m_drawingPtiority);
+			}
+		}
+	}
+
+	int CoreEffectObject2D_Imp::GetDrawingPriority() const
+	{
+		return m_drawingPtiority;
+	}
+
+	void CoreEffectObject2D_Imp::SetDrawingPriority(int priority)
+	{
+		m_drawingPtiority = priority;
 	}
 }

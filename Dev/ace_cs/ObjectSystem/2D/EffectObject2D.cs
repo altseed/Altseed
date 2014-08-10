@@ -102,6 +102,15 @@ namespace ace
 			}
 		}
 
+		/// <summary>
+		/// この2Dオブジェクトを描画する際の描画優先度を取得または設定する。描画優先度が高いほど手前に描画される。
+		/// </summary>
+		public int DrawingPriority
+		{
+			get { return coreEffectObject.GetDrawingPriority(); }
+			set { coreEffectObject.SetDrawingPriority(value); }
+		}
+
 #region GC対策
 		~EffectObject2D()
 		{

@@ -69,5 +69,15 @@ namespace ace
 		そのため、Y軸を中心にエフェクトを回転させ2Dとして違和感のない表示ができるようにする。
 		*/
 		virtual void SetEffectRotation(float value) = 0;
+
+		/**
+		@brief	このオブジェクトの描画優先度を取得する。
+		*/
+		virtual int GetDrawingPriority() const = 0;
+
+		/**
+		@brief	このオブジェクトの描画優先度を設定する。
+		*/
+		virtual void SetDrawingPriority(int priority) = 0;
 	};
 }
