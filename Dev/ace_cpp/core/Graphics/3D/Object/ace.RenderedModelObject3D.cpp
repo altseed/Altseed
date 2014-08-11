@@ -165,8 +165,6 @@ namespace ace
 		}
 		else
 		{
-			Vector3DF depthParams(prop.DepthRange, prop.ZFar, prop.ZNear);
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "depthParams", depthParams));
 		}
 
 		{

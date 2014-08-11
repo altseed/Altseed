@@ -15,6 +15,11 @@ namespace ace
 		std::vector<Vector3DF>	m_shadowObjectPointsBack;
 		GraphicsDeviceType		deviceType;
 
+		/**
+			@brief	点群の各要素の最大と最小を計算する。
+		*/
+		void CalcAABB(std::vector<Vector3DF>& points, Vector3DF& max_, Vector3DF& min_);
+
 	public:
 		Color		LightColor;
 
@@ -26,7 +31,7 @@ namespace ace
 
 		Vector3DF GetDirection();
 
-		void CalcShadowMatrix(Vector3DF viewPosition, Vector3DF viewDirection, Matrix44 matCameraProj, float zn, float zf, Matrix44& lightView, Matrix44& lightProjection);
+		void CalcShadowMatrix(Vector3DF viewPosition, Vector3DF viewDirection, Vector3DF viewUp, Matrix44 matCameraProj, float zn, float zf, Matrix44& lightView, Matrix44& lightProjection);
 	};
 
 	/**

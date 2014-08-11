@@ -17,6 +17,8 @@ namespace ace
 
 		m_renderTarget_FR[0] = nullptr;
 		m_renderTarget_FR[1] = nullptr;
+
+		Up = Vector3DF(0, 1, 0);
 	}
 
 	RenderedCameraObject3DProxy::~RenderedCameraObject3DProxy()

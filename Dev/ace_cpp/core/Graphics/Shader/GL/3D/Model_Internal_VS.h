@@ -7,8 +7,6 @@ uniform mat4	matC;
 uniform mat4	matP;
 //||>
 
-uniform vec3		depthParams;
-
 //<|| モデル共通頂点入力
 in vec3 Position;
 in vec3 Normal;

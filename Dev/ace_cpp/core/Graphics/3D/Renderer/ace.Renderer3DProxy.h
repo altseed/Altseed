@@ -7,6 +7,7 @@
 #include "../../../ace.Core.Base_Imp.h"
 
 #include "../PostProcess/ace.SSAO.h"
+#include "../Object/ace.RenderedObject3D.h"
 
 namespace ace
 {
@@ -55,6 +56,12 @@ namespace ace
 		virtual ~Renderer3DProxy();
 
 		void Rendering(RenderTexture2D_Imp* renderTarget);
+		
+	private:
+		void RenderCamera(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
+		void RenderCameraOnLightweight(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
+
+	public:
 
 		Color							SkyAmbientColor;
 		Color							GroundAmbientColor;

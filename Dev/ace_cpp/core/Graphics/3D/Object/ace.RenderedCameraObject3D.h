@@ -39,6 +39,7 @@ namespace ace
 		Matrix44	CameraMatrix;
 		Matrix44	ProjectionMatrix;
 		Vector2DI	WindowSize;
+		Vector3DF	Up;
 
 		RenderedCameraObject3DProxy(Graphics* graphics);
 		virtual ~RenderedCameraObject3DProxy();
