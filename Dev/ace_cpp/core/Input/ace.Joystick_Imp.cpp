@@ -75,7 +75,7 @@ namespace ace{
 	{
 		if (m_currentButtonHit[at] && m_preButtonHit[at]) return JoystickButtonState::Hold;
 		else if (m_currentButtonHit[at] && !m_preButtonHit[at]) return JoystickButtonState::Push;
-		else if (!m_currentButtonHit[at] && m_preButtonHit[at]) return JoystickButtonState::Pull;
+		else if (!m_currentButtonHit[at] && m_preButtonHit[at]) return JoystickButtonState::Release;
 		else return JoystickButtonState::Free;
 	}
 

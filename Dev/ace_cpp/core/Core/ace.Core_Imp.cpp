@@ -19,10 +19,9 @@
 #include "../Sound/ace.Sound_Imp.h"
 
 #include "../Graphics/ace.Graphics_Imp.h"
-#include "../Graphics/Resource/ace.RenderState_Imp.h"
-#include "../Graphics/Animation/ace.AnimationSystem_Imp.h"
-#include "../Graphics/2D/ace.LayerRenderer.h"
 
+#include "../Graphics/3D/Resource/Animation/ace.AnimationSystem_Imp.h"
+#include "../Graphics/2D/ace.LayerRenderer.h"
 
 #include <Utility/ace.Timer.h>
 
@@ -55,6 +54,7 @@ namespace ace
 		, m_nextFPS(60)
 		, m_previousTime(0)
 		, m_startFrameTime(0)
+		, m_windowSize(Vector2DI(0,0))
 	{
 		m_previousTime = GetTime();
 	}
@@ -141,7 +141,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode, bool isMultithreadingMode)
+	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, CoreOption option)
 	{
 		if (m_window != nullptr) return false;
 		if (m_keyboard != nullptr) return false;
@@ -154,7 +154,7 @@ namespace ace
 		m_isInitializedByExternal = false;
 
 #if _WIN32
-		if (isOpenGLMode)
+		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
 			glfwMakeOpenGLEnabled();
 		}
@@ -163,7 +163,7 @@ namespace ace
 			glfwMakeOpenGLDisabled();
 		}
 #else
-		if (!isOpenGLMode)
+		if (option.GraphicsDevice != GraphicsDeviceType::OpenGL)
 		{
 			return false;
 		}
@@ -180,10 +180,10 @@ namespace ace
 
 		m_file = File_Imp::Create();
 
-		m_graphics = Graphics_Imp::Create(m_window, isOpenGLMode, m_logger, isMultithreadingMode);
+		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, option.IsReloadingEnabled);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp();
+		m_sound = new Sound_Imp(option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
 		m_profiler = Profiler_Imp::Create();
@@ -191,24 +191,33 @@ namespace ace
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
-		auto windowSize = Vector2DI(width, height);
+		m_windowSize = Vector2DI(width, height);
 		layerRenderer = new LayerRenderer(m_graphics);
-		layerRenderer->SetWindowSize(windowSize);
+		layerRenderer->SetWindowSize(m_windowSize);
 
 		{
 			ace::Vector2DF lpos[4];
 			lpos[0].X = 0;
 			lpos[0].Y = 0;
-			lpos[1].X = windowSize.X;
+			lpos[1].X = m_windowSize.X;
 			lpos[1].Y = 0;
-			lpos[2].X = windowSize.X;
-			lpos[2].Y = windowSize.Y;
+			lpos[2].X = m_windowSize.X;
+			lpos[2].Y = m_windowSize.Y;
 			lpos[3].X = 0;
-			lpos[3].Y = windowSize.Y;
+			lpos[3].Y = m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
 
 		m_logger->WriteLineStrongly(L"コア初期化成功");
+
+		isReloadingEnabeld = option.IsReloadingEnabled;
+		m_window->OnFocused = [this]() ->void
+		{
+			if (this->isReloadingEnabeld)
+			{
+				this->Reload();
+			}
+		};
 
 		return true;
 	}
@@ -216,7 +225,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Core_Imp::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, bool isMultithreadingMode)
+	bool Core_Imp::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, CoreOption option)
 	{
 		if (m_window != nullptr) return false;
 		if (m_keyboard != nullptr) return false;
@@ -228,7 +237,7 @@ namespace ace
 		m_isInitializedByExternal = true;
 
 #if _WIN32
-		if (isOpenGLMode)
+		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
 			glfwMakeOpenGLEnabled();
 		}
@@ -237,7 +246,7 @@ namespace ace
 			glfwMakeOpenGLDisabled();
 		}
 #else
-		if (!isOpenGLMode)
+		if (option.GraphicsDevice != GraphicsDeviceType::OpenGL)
 		{
 			return false;
 		}
@@ -245,10 +254,10 @@ namespace ace
 
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
-		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, false, m_logger, isMultithreadingMode);
+		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger, option.IsReloadingEnabled);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp();
+		m_sound = new Sound_Imp(option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
@@ -258,20 +267,20 @@ namespace ace
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
-		auto windowSize = Vector2DI(width, height);
+		m_windowSize = Vector2DI(width, height);
 		layerRenderer = new LayerRenderer(m_graphics);
-		layerRenderer->SetWindowSize(windowSize);
+		layerRenderer->SetWindowSize(m_windowSize);
 
 		{
 			ace::Vector2DF lpos[4];
 			lpos[0].X = 0;
 			lpos[0].Y = 0;
-			lpos[1].X = windowSize.X;
+			lpos[1].X = m_windowSize.X;
 			lpos[1].Y = 0;
-			lpos[2].X = windowSize.X;
-			lpos[2].Y = windowSize.Y;
+			lpos[2].X = m_windowSize.X;
+			lpos[2].Y = m_windowSize.Y;
 			lpos[3].X = 0;
-			lpos[3].Y = windowSize.Y;
+			lpos[3].Y = m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
 
@@ -312,11 +321,11 @@ namespace ace
 			
 			if (framerateMode == FramerateMode::Constant)
 			{
-				deltaTime = (60.0f / (float) m_targetFPS) * timeSpan;
+				deltaTime = (1.0f / (float) m_targetFPS) * timeSpan;
 			}
 			else if (framerateMode == FramerateMode::Variable)
 			{
-				deltaTime = delta / (1000.0f * (1000.0f / 60.0f)) * timeSpan;
+				deltaTime = delta / (1000.0f) * timeSpan;
 			}
 
 		}
@@ -362,7 +371,11 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Core_Imp::Reload()
 	{
-		GetGraphics_Imp()->GetResourceContainer()->Reload();
+		if (isReloadingEnabeld)
+		{
+			GetGraphics_Imp()->Reload();
+			m_sound->Reload();
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -640,5 +653,13 @@ namespace ace
 	AnimationSystem* Core_Imp::GetAnimationSyatem()
 	{
 		return m_animationSyatem;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	Vector2DI Core_Imp::GetWindowSize()
+	{
+		return m_windowSize;
 	}
 };

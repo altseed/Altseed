@@ -16,6 +16,7 @@ namespace ace
 		Effect*							m_effect;
 		bool							m_syncEffects = nullptr;
 		Renderer2D_Imp*					m_renderer;
+		int								m_drawingPtiority;
 
 		/**
 			@brief	Y軸回転(度)
@@ -23,6 +24,8 @@ namespace ace
 		float							m_rotation = 0.0f;
 
 		Effekseer::Matrix43 CalcEffectMatrix();
+
+		Effect* GetEffect_() const override;
 
 	public:
 		CoreEffectObject2D_Imp(Graphics_Imp* graphics);
@@ -68,6 +71,9 @@ namespace ace
 		void OnRemoving(Renderer2D* renderer) override;
 
 		void Draw(Renderer2D* renderer) override;
+
+		int GetDrawingPriority() const override;
+		void SetDrawingPriority(int priority) override;
 
 		CORE_OBJECT2D_IMP_COMMON
 

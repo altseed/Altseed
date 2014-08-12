@@ -27,7 +27,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const Vector2DF CoreMapObject2D_Imp::GetCenterPosition() const
+	Vector2DF CoreMapObject2D_Imp::GetCenterPosition() const
 	{
 		return m_centerPosition;
 	}
@@ -43,7 +43,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const int CoreMapObject2D_Imp::GetDrawingPriority() const
+	int CoreMapObject2D_Imp::GetDrawingPriority() const
 	{
 		return m_drawingPtiority;
 	}
@@ -61,7 +61,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const bool CoreMapObject2D_Imp::AddChip(Chip2D* chip)
+	bool CoreMapObject2D_Imp::AddChip(Chip2D* chip)
 	{
 		if (chip == nullptr)
 		{
@@ -80,7 +80,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const bool CoreMapObject2D_Imp::RemoveChip(Chip2D* chip)
+	bool CoreMapObject2D_Imp::RemoveChip(Chip2D* chip)
 	{
 		if (chip == nullptr)
 		{
@@ -96,6 +96,19 @@ namespace ace
 		}
 		return (prevSize != newSize);
 	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreMapObject2D_Imp::Clear()
+	{
+		for (auto chip : m_chips)
+		{
+			SafeRelease(chip);
+		}
+		m_chips.clear();
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

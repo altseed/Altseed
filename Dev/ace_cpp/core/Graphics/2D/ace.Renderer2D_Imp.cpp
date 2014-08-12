@@ -9,7 +9,6 @@
 #include "../Resource/ace.VertexBuffer_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
 #include "../Resource/ace.NativeShader_Imp.h"
-#include "../Resource/ace.RenderState_Imp.h"
 #include "../Resource/ace.ShaderCache.h"
 
 #include <Utility/ace.TypeErasureCopy.h>
@@ -46,7 +45,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Renderer2D_Imp::Renderer2D_Imp(Graphics* graphics, Log* log, Vector2DI windowSize)
+	Renderer2D_Imp::Renderer2D_Imp(Graphics* graphics, Log* log)
 		: m_graphics(nullptr)
 		, m_log(nullptr)
 	{
@@ -54,9 +53,6 @@ namespace ace {
 		m_log = log;
 
 		SafeAddRef(graphics);
-
-		m_windowSize = windowSize;
-
 
 		m_vertexBuffer = m_graphics->CreateVertexBuffer_Imp(sizeof(SpriteVertex), SpriteCount * 4, true);
 		m_indexBuffer = m_graphics->CreateIndexBuffer_Imp(SpriteCount * 6, false, false);
@@ -181,6 +177,31 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void Renderer2D_Imp::DrawCache()
 	{
+		// エフェクト設定
+		{
+			Matrix44 effectProjMat;
+			Matrix44 effectCameraMat;
+			effectProjMat.SetOrthographicRH(area.Width, area.Height, 0.1, 800.0);
+
+			auto px = area.X + area.Width / 2;
+			auto py = -(area.Y + area.Height / 2);
+			effectCameraMat.SetLookAtRH(Vector3DF(px, py, 400), Vector3DF(px, py, 0), Vector3DF(0, 1, 0));
+
+			// 行列を転置して設定
+
+			Effekseer::Matrix44 cameraMat, projMat;
+			for (auto c_ = 0; c_ < 4; c_++)
+			{
+				for (auto r = 0; r < 4; r++)
+				{
+					cameraMat.Values[c_][r] = effectCameraMat.Values[r][c_];
+					projMat.Values[c_][r] = effectProjMat.Values[r][c_];
+				}
+			}
+			m_effectRenderer->SetCameraMatrix(cameraMat);
+			m_effectRenderer->SetProjectionMatrix(projMat);
+		}
+
 		StartDrawing();
 
 		for (auto& c : m_events)
@@ -193,39 +214,6 @@ namespace ace {
 
 
 		EndDrawing();
-
-		// エフェクトの描画
-		{
-			Matrix44 effectProjMat;
-			Matrix44 effectCameraMat;
-			effectProjMat.SetOrthographicRH(area.Width, area.Height, 0.1, 200.0);
-
-			auto px = area.X + area.Width / 2;
-			auto py = -(area.Y + area.Height / 2);
-			effectCameraMat.SetLookAtRH(Vector3DF(px, py, 100), Vector3DF(px, py, 0), Vector3DF(0, 1, 0));
-
-			// 行列を転置して設定
-			
-			Effekseer::Matrix44 cameraMat, projMat;
-			for (auto c_ = 0; c_ < 4; c_++)
-			{
-				for (auto r = 0; r < 4; r++)
-				{
-					cameraMat.Values[c_][r] = effectCameraMat.Values[r][c_];
-					projMat.Values[c_][r] = effectProjMat.Values[r][c_];
-				}
-			}
-			m_effectRenderer->SetCameraMatrix(cameraMat);
-			m_effectRenderer->SetProjectionMatrix(projMat);
-			m_effectRenderer->BeginRendering();
-			m_effectManager->Draw();
-			m_effectRenderer->EndRendering();
-
-			// レンダー設定リセット
-			m_graphics->GetRenderState()->Update(true);
-
-		}
-
 	}
 
 	//----------------------------------------------------------------------------------
@@ -240,6 +228,9 @@ namespace ace {
 				if (e.Type == Event::eEventType::Sprite)
 				{
 					SafeRelease(e.Data.Sprite.TexturePtr);
+				}
+				else if (e.Type == Event::eEventType::Effect)
+				{
 				}
 			}
 
@@ -261,6 +252,15 @@ namespace ace {
 		e.Data.Sprite.AlphaBlendState = alphaBlend;
 		e.Data.Sprite.TexturePtr = texture;
 		SafeAddRef(e.Data.Sprite.TexturePtr);
+
+		AddEvent(priority, e);
+	}
+
+	void Renderer2D_Imp::AddEffect(::Effekseer::Handle handle, int32_t priority)
+	{
+		Event e;
+		e.Type = Event::eEventType::Effect;
+		e.Data.Effect.EffectHandle = handle;
 
 		AddEvent(priority, e);
 	}
@@ -302,6 +302,8 @@ namespace ace {
 
 		if (e.Type == Event::eEventType::Sprite)
 		{
+			DrawEffect();
+
 			if (m_drawingSprites.size() == 0)
 			{
 				// 初期値設定
@@ -323,9 +325,17 @@ namespace ace {
 			// 書き込み
 			m_drawingSprites.push_back(&e);
 		}
+		else if (e.Type == Event::eEventType::Effect)
+		{
+			DrawSprite();
+
+			// 書き込み
+			drawingEffects.push_back(&e);
+		}
 		else
 		{
-			if (m_drawingSprites.size() != 0) DrawSprite();
+			DrawSprite();
+			DrawEffect();
 		}
 
 	}
@@ -336,6 +346,7 @@ namespace ace {
 	void Renderer2D_Imp::EndDrawing()
 	{
 		DrawSprite();
+		DrawEffect();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -397,25 +408,42 @@ namespace ace {
 		// 描画
 		if (m_state.TexturePtr != nullptr)
 		{
-			shader->SetTexture("g_texture", m_state.TexturePtr, 0);
+			shader->SetTexture("g_texture", m_state.TexturePtr, ace::TextureFilterType::Nearest, ace::TextureWrapType::Clamp, 0);
 		}
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());
 		m_graphics->SetShader(shader.get());
 
-		auto& state = m_graphics->GetRenderState()->Push();
+		RenderState state;
+		
 		state.DepthTest = false;
 		state.DepthWrite = false;
-		state.CullingType = ace::eCullingType::CULLING_DOUBLE;
-		state.TextureFilterTypes[0] = ace::TextureFilterType::Nearest;
-		state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
-		m_graphics->GetRenderState()->Update(false);
+		state.Culling = CullingType::Double;
+		m_graphics->SetRenderState(state);
 
 		m_graphics->DrawPolygon(m_drawingSprites.size() * 2);
 
-		m_graphics->GetRenderState()->Pop();
-
 		m_drawingSprites.clear();
+	}
+
+
+	void Renderer2D_Imp::DrawEffect()
+	{
+		if (drawingEffects.size() == 0) return;
+
+		m_effectRenderer->BeginRendering();
+		
+		for (auto& e : drawingEffects)
+		{
+			m_effectManager->DrawHandle(e->Data.Effect.EffectHandle);
+		}
+
+		m_effectRenderer->EndRendering();
+
+		// レンダー設定リセット
+		m_graphics->CommitRenderState(true);
+
+		drawingEffects.clear();
 	}
 
 	//----------------------------------------------------------------------------------

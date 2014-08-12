@@ -154,6 +154,15 @@ namespace ace
 		object->SetLayer(nullptr);
 	}
 
+	void Layer2D::Clear()
+	{
+		for (auto object : m_objects)
+		{
+			object->SetLayer(nullptr);
+		}
+		m_objects.clear();
+		m_coreLayer->Clear();
+	}
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

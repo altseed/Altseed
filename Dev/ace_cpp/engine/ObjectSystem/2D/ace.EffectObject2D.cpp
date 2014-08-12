@@ -19,6 +19,11 @@ namespace ace
 		return m_coreObject.get();
 	}
 
+	std::shared_ptr<Effect> EffectObject2D::GetEffect()
+	{
+		return m_coreObject->GetEffect();
+	}
+
 	void EffectObject2D::SetEffect(std::shared_ptr<Effect> effect)
 	{
 		m_coreObject->SetEffect(effect.get());
@@ -57,5 +62,15 @@ namespace ace
 	void EffectObject2D::SetEffectRotation(float value)
 	{
 		m_coreObject->SetEffectRotation(value);
+	}
+
+	int EffectObject2D::GetDrawingPriority() const
+	{
+		return m_coreObject->GetDrawingPriority();
+	}
+
+	void EffectObject2D::SetDrawingPriority(int priority)
+	{
+		m_coreObject->SetDrawingPriority(priority);
 	}
 }

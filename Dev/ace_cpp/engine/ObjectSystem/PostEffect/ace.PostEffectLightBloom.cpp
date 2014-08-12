@@ -50,26 +50,26 @@ namespace ace{
 		if (tempTexture == nullptr ||
 			(tempTexture->GetSize() != size || tempTexture->GetFormat() != format))
 		{
-			if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
+			if (format ==TextureFormat::R32G32B32A32_FLOAT)
 			{
-				tempTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+				tempTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, TextureFormat::R32G32B32A32_FLOAT);
 			}
 			else
 			{
-				tempTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+				tempTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, TextureFormat::R8G8B8A8_UNORM);
 			}
 		}
 
 		if (copiedTexture == nullptr ||
 			(copiedTexture->GetSize() != size || copiedTexture->GetFormat() != format))
 		{
-			if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
+			if (format == TextureFormat::R32G32B32A32_FLOAT)
 			{
-				copiedTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT);
+				copiedTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, TextureFormat::R32G32B32A32_FLOAT);
 			}
 			else
 			{
-				copiedTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+				copiedTexture = Engine::GetGraphics()->CreateRenderTexture2D(size.X, size.Y, TextureFormat::R8G8B8A8_UNORM);
 			}
 		}
 

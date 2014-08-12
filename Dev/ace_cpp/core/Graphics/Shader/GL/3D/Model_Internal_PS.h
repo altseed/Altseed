@@ -9,12 +9,12 @@ uniform sampler2D g_normalTexture;
 uniform sampler2D g_specularTexture;
 
 in vec4 voutPosition;
+in vec4 voutProjPosition;
 in vec4 voutColor;
 in vec2 voutUV;
 in vec3 voutNormal;
 in vec3 voutBinormal;
 in vec3 voutTangent;
-in	float voutDepth;
 
 #ifdef EXPORT_DEPTH
 out vec4 Depth;
@@ -46,19 +46,27 @@ void main()
 	diffuseColor = diffuseColor * texture2D(g_colorTexture, voutUV_);
 	if(diffuseColor.a == 0.0f) discard;	
 
+	float projDepth = (voutProjPosition.z / voutProjPosition.w);
+
+	// GL
+	projDepth = projDepth * 0.5 + 0.5;
+
 #ifdef EXPORT_DEPTH
 	// VSM用二乗バッファ含む
-	Depth.x = voutDepth;
-	Depth.y = voutDepth * voutDepth;
+
+	float dx = dFdx(projDepth);
+	float dy = dFdy(projDepth);
+	Depth.x = projDepth;
+	Depth.y = projDepth * projDepth + 0.25*(dx*dx+dy*dy);
 	Depth.z = 0.0;
-	Depth.w = voutDepth;
+	Depth.w = projDepth;
 #else
 
 	DiffuseColor = diffuseColor;
 
 	NormalDepth.xyz = CalculateNormal( voutNormal, voutTangent, voutBinormal, texture2D(g_normalTexture, voutUV_).xyz );
 	//NormalDepth.xyz = texture2D(g_normalTexture, voutUV_).xyz;
-	NormalDepth.w = voutDepth;
+	NormalDepth.w = projDepth;
 	//NormalDepth.xyz = voutNormal;
 
 	//NormalDepth.x = 1.0;

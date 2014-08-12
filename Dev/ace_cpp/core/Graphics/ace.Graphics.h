@@ -21,8 +21,8 @@ class Graphics
 {
 protected:
 	virtual Texture2D* CreateTexture2D_(const achar* path) = 0;
-	virtual Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, eTextureFormat format) = 0;
-	virtual RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, eTextureFormat format) = 0;
+	virtual Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
+	virtual RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
 	virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) = 0;
 	virtual Shader2D* CreateShader2D_( const achar* shaderText) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
@@ -53,7 +53,7 @@ public:
 	@param	format	フォーマット
 	@return	テクスチャ
 	*/
-	std::shared_ptr<Texture2D> CreateEmptyTexture2D(int32_t width, int32_t height, eTextureFormat format)
+	std::shared_ptr<Texture2D> CreateEmptyTexture2D(int32_t width, int32_t height, TextureFormat format)
 	{
 		return CreateSharedPtrWithReleaseDLL(CreateEmptyTexture2D_(width, height, format));
 	}
@@ -65,7 +65,7 @@ public:
 	@param	format	フォーマット
 	@return	テクスチャ
 	*/
-	std::shared_ptr<RenderTexture2D> CreateRenderTexture2D(int32_t width, int32_t height, eTextureFormat format){ return CreateSharedPtrWithReleaseDLL(CreateRenderTexture2D_(width, height, format)); }
+	std::shared_ptr<RenderTexture2D> CreateRenderTexture2D(int32_t width, int32_t height, TextureFormat format){ return CreateSharedPtrWithReleaseDLL(CreateRenderTexture2D_(width, height, format)); }
 
 	/**
 	@brief	6枚の画像ファイルからキューブマップテクスチャを生成する。
@@ -171,6 +171,14 @@ public:
 	}
 
 #endif
+
+	/**
+	@brief	1フレーム間に実行された描画命令の回数を取得する。
+	@return	描画命令の回数
+	@note
+	現在、エフェクトの描画回数はカウントされない。
+	*/
+	virtual int32_t GetDrawCallCount() const = 0;
 
 	/**
 	@brief	描画ランタイムの種類を取得する。

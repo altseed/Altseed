@@ -24,6 +24,7 @@
     <ClCompile Include="..\Graphics\Font\ace.GlyphData_Test.cpp" />
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_CubemapTexture_Test.cpp" />
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Empty_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_RenderingThread_Test.cpp" />
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_RenderTarget.cpp" />
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Sampler_Test.cpp" />
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Simple3D_Test.cpp" />

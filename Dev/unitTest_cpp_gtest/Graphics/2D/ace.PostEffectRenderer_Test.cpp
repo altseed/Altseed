@@ -54,29 +54,22 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"PostEffect").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log, false);
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false);
 	ASSERT_TRUE(graphics != nullptr);
 
-	auto rtex = graphics->CreateRenderTexture2D(640, 480, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+	auto rtex = graphics->CreateRenderTexture2D(640, 480, ace::TextureFormat::R8G8B8A8_UNORM);
 	ASSERT_TRUE(rtex != nullptr);
 
 	auto renderer = ace::PostEffectRenderer::Create(graphics);
 	ASSERT_TRUE(renderer != nullptr);
 
-	auto renderer2d = new ace::Renderer2D_Imp(graphics, log, window->GetSize());
+	auto renderer2d = new ace::Renderer2D_Imp(graphics, log);
 	ASSERT_TRUE(renderer2d != nullptr);
 
 	auto texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sample1.png").c_str());
 	ASSERT_TRUE(texture != nullptr);
 
 	std::shared_ptr<ace::Shader2D> shader;
-
-	std::vector<ace::ShaderVariableProperty> props;
-	auto prop_tex = ace::ShaderVariableProperty();
-	prop_tex.Name = ace::ToAString("g_texture").c_str();
-	prop_tex.Offset = 0;
-	prop_tex.Type = ace::SHADER_VARIABLE_TYPE_TEXTURE2D;
-	props.push_back(prop_tex);
 
 	if (graphics->GetGraphicsDeviceType() == ace::GraphicsDeviceType::DirectX11)
 	{
@@ -86,7 +79,6 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	}
 	else if (graphics->GetGraphicsDeviceType() == ace::GraphicsDeviceType::OpenGL)
 	{
-		std::vector<ace::ShaderVariableProperty> prop;
 		shader = graphics->CreateShader2D(
 			ace::ToAString(shader2d_gl_ps).c_str()
 			);

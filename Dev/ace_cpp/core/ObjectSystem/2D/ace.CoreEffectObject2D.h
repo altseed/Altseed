@@ -1,15 +1,30 @@
 ﻿
 #pragma once
 #include "ace.CoreObject2D.h"
+#include "../../Graphics/Resource/ace.Effect.h"
 
 namespace ace
 {
 	class CoreEffectObject2D
 		: public CoreObject2D
 	{
+		friend class Accessor;
+
+	protected:
+		virtual Effect* GetEffect_() const = 0;
+
 	public:
 		CoreEffectObject2D() {}
 		virtual ~CoreEffectObject2D() {}
+
+#if! SWIG
+		std::shared_ptr<Effect> GetEffect()
+		{
+			auto v = GetEffect_();
+			SafeAddRef(v);
+			return CreateSharedPtrWithReleaseDLL(v);
+		}
+#endif
 
 		virtual void SetEffect(Effect* effect) = 0;
 
@@ -54,5 +69,15 @@ namespace ace
 		そのため、Y軸を中心にエフェクトを回転させ2Dとして違和感のない表示ができるようにする。
 		*/
 		virtual void SetEffectRotation(float value) = 0;
+
+		/**
+		@brief	このオブジェクトの描画優先度を取得する。
+		*/
+		virtual int GetDrawingPriority() const = 0;
+
+		/**
+		@brief	このオブジェクトの描画優先度を設定する。
+		*/
+		virtual void SetDrawingPriority(int priority) = 0;
 	};
 }

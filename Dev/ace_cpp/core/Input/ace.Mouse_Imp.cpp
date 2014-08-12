@@ -40,7 +40,7 @@ namespace ace{
 			m_preHitLeft = true;
 		}
 		else{
-			m_leftButton = new SideButton((m_preHitLeft) ? MouseButtonState::Pull : MouseButtonState::Free , false);
+			m_leftButton = new SideButton((m_preHitLeft) ? MouseButtonState::Release : MouseButtonState::Free , false);
 			m_preHitLeft = false;
 		}
 
@@ -50,7 +50,7 @@ namespace ace{
 			m_preHitMiddle = true;
 		}
 		else{
-			m_middleButton = new MiddleButton((m_preHitMiddle) ? MouseButtonState::Pull : MouseButtonState::Free, (wheelCalled) ? yWheel : 0);
+			m_middleButton = new MiddleButton((m_preHitMiddle) ? MouseButtonState::Release : MouseButtonState::Free, (wheelCalled) ? yWheel : 0);
 			m_preHitMiddle = false;
 		}
 		
@@ -61,7 +61,7 @@ namespace ace{
 			m_preHitRight = true;
 		}
 		else{
-			m_rightButton = new SideButton((m_preHitRight) ? MouseButtonState::Pull : MouseButtonState::Free, false);
+			m_rightButton = new SideButton((m_preHitRight) ? MouseButtonState::Release : MouseButtonState::Free, false);
 			m_preHitRight = false;
 		}
 

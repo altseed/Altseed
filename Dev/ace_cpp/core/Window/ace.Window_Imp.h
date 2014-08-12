@@ -31,7 +31,6 @@ namespace ace {
 		Window_Imp(Log* logger);
 		virtual ~Window_Imp();
 	public:
-
 		/**
 			@brief	ウインドウを生成する。
 			@param	width	クライアント領域の横幅
@@ -45,6 +44,8 @@ namespace ace {
 		Vector2DI GetSize() const { return m_size; }
 
 #ifndef SWIG
+		std::function<void()> OnFocused;
+
 		virtual GLFWwindow* GetWindow() = 0;
 #endif
 

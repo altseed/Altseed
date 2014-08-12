@@ -10,7 +10,6 @@
 #include "Resource/ace.VertexBuffer_Imp_GL.h"
 #include "Resource/ace.IndexBuffer_Imp_GL.h"
 #include "Resource/ace.NativeShader_Imp_GL.h"
-#include "Resource/ace.RenderState_Imp_GL.h"
 #include "Resource/ace.DepthBuffer_Imp_GL.h"
 
 #include "Resource/ace.Texture2D_Imp_GL.h"
@@ -84,10 +83,10 @@ namespace ace {
 		{}
 
 	public:
-		void* InternalLoad(Graphics_Imp* graphics, void* data, int32_t width, int32_t height)
+		void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height)
 		{
 			GLuint texture = 0;
-			GraphicsHelper_GL::LoadTexture((Graphics_Imp_GL*) m_graphics, data, width, height, texture);
+			GraphicsHelper_GL::LoadTexture((Graphics_Imp_GL*) m_graphics, data.data(), width, height, texture);
 
 			return (void*) texture;
 		}
@@ -111,8 +110,8 @@ namespace ace {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isMultithreadingMode)
-	: Graphics_Imp(size, log, isMultithreadingMode)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isReloadingEnabled)
+	: Graphics_Imp(size, log, isReloadingEnabled)
 	, m_window(window)
 	, m_endStarting(false)
 	, m_frameBuffer_main(0)
@@ -139,8 +138,10 @@ namespace ace {
 	// 同期しない
 	glfwSwapInterval(0);
 
-	m_renderState = new RenderState_Imp_GL(this);
-
+#pragma region RenderState
+	glGenSamplers(MaxTextureCount, m_samplers);
+#pragma endregion
+	
 	// フレームバッファ生成
 	glGenFramebuffers(1, &m_frameBuffer_main);
 
@@ -151,17 +152,15 @@ namespace ace {
 	// スレッド生成
 	MakeContextNone();
 
-	if (IsMultithreadingMode())
-	{
-		CreateContextBeforeThreading(window_);
+	CreateContextBeforeThreading(window_);
 
-		m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
-		while (!m_endStarting)
-		{
-			Sleep(1);
-		}
-		CreateContextAfterThreading(window_);
+	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
+	while (!m_endStarting)
+	{
+		Sleep(1);
 	}
+	CreateContextAfterThreading(window_);
+	
 
 	MakeContextCurrent();
 	WriteInitializedLog(m_log);
@@ -173,8 +172,8 @@ namespace ace {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isMultithreadingMode)
-	: Graphics_Imp(size, log, isMultithreadingMode)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isReloadingEnabled)
+	: Graphics_Imp(size, log, isReloadingEnabled)
 	, m_window(nullptr)
 	, m_endStarting(false)
 	, m_frameBuffer_main(0)
@@ -206,7 +205,9 @@ namespace ace {
 	m_renderingThreadX11Window = 0;
 #endif
 
-	m_renderState = new RenderState_Imp_GL(this);
+#pragma region RenderState
+	glGenSamplers(MaxTextureCount, m_samplers);
+#pragma endregion
 
 	// フレームバッファ生成
 	glGenFramebuffers(1, &m_frameBuffer_main);
@@ -218,17 +219,16 @@ namespace ace {
 	// スレッド生成
 	MakeContextNone();
 
-	if (IsMultithreadingMode())
-	{
-		CreateContextBeforeThreading(nullptr);
 
-		m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
-		while (!m_endStarting)
-		{
-			Sleep(1);
-		}
-		CreateContextAfterThreading(nullptr);
+	CreateContextBeforeThreading(nullptr);
+
+	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
+	while (!m_endStarting)
+	{
+		Sleep(1);
 	}
+	CreateContextAfterThreading(nullptr);
+	
 
 
 	MakeContextCurrent();
@@ -246,23 +246,24 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 	// 必要なし
 	//SafeRelease(m_currentShader);
 
-	if (IsMultithreadingMode())
+	m_renderingThread->AddEvent(nullptr);
+	while (m_renderingThread->IsRunning())
 	{
-		m_renderingThread->AddEvent(nullptr);
-		while (m_renderingThread->IsRunning())
-		{
-			Sleep(1);
-		}
-		m_renderingThread.reset();
+		Sleep(1);
 	}
+	m_renderingThread.reset();
+	
+
+#pragma region RenderState
+	glDeleteSamplers(MaxTextureCount, m_samplers);
+#pragma endregion
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDeleteFramebuffers(1, &m_frameBuffer_main);
 
-	if (IsMultithreadingMode())
-	{
-		glDeleteFramebuffers(1, &m_frameBuffer_rendering);
-	}
+	
+	glDeleteFramebuffers(1, &m_frameBuffer_rendering);
+	
 
 #if !_WIN32
 	if( m_x11Mode )
@@ -272,31 +273,30 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 	}
 #endif
 
-	if (IsMultithreadingMode())
-	{
+	
 #if _WIN32
-		if (m_renderingThreadRC)
-		{
-			wglMakeCurrent(NULL, NULL);
-			wglDeleteContext(m_renderingThreadRC);
-			m_renderingThreadRC = NULL;
-		}
-		if (m_renderingThreadDC)
-		{
-			ReleaseDC(m_renderingThreadHWND, m_renderingThreadDC);
-			m_renderingThreadDC = NULL;
-			m_renderingThreadHWND = NULL;
-		}
+	if (m_renderingThreadRC)
+	{
+		wglMakeCurrent(NULL, NULL);
+		wglDeleteContext(m_renderingThreadRC);
+		m_renderingThreadRC = NULL;
+	}
+	if (m_renderingThreadDC)
+	{
+		ReleaseDC(m_renderingThreadHWND, m_renderingThreadDC);
+		m_renderingThreadDC = NULL;
+		m_renderingThreadHWND = NULL;
+	}
 
 #else
-		if(m_renderingThreadX11Display != nullptr)
-		{
-			glXMakeCurrent(m_renderingThreadX11Display, 0, NULL);
-			glXDestroyContext(m_renderingThreadX11Display, m_renderingThreadGlx);
-			m_renderingThreadX11Display = nullptr;
-		}
-#endif
+	if(m_renderingThreadX11Display != nullptr)
+	{
+		glXMakeCurrent(m_renderingThreadX11Display, 0, NULL);
+		glXDestroyContext(m_renderingThreadX11Display, m_renderingThreadGlx);
+		m_renderingThreadX11Display = nullptr;
 	}
+#endif
+	
 
 	SafeRelease(m_window);
 }
@@ -451,11 +451,14 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 		GLCheckError();
 
 		// テクスチャの設定
-		for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+		for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 		{
 			Texture* tex = nullptr;
 			char* texName = nullptr;
-			if (shader->GetTexture(texName, tex, i))
+			TextureFilterType filterType;
+			TextureWrapType wrapType;
+
+			if (shader->GetTexture(texName, tex, filterType, wrapType, i))
 			{
 				GLuint buf = 0;
 				if (tex->GetType() == TEXTURE_CLASS_TEXTURE2D)
@@ -496,52 +499,60 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 				auto id = glGetUniformLocation(program, texName);
 				glUniform1i(id, i);
 				GLCheckError();
+
+				// ステート設定
+				nextState.textureFilterTypes[i] = filterType;
+				nextState.textureWrapTypes[i] = wrapType;
 			}
 		}
 
 		GLCheckError();
 	}
 
-	// glBindTextureをするたびにテクスチャの値がリセットされるらしいので値を再設定
-	GetRenderState()->Update(true);
+	CommitRenderState(false);
 
-	// MIPMAPの処理をするためにRenderStateから移動
+	// MIPMAPの処理(shader依存のためCommitRenderStateでは不可)
 	static const GLint glfilter [] = { GL_NEAREST, GL_LINEAR };
 	static const GLint glfilter_mip [] = { GL_NEAREST_MIPMAP_LINEAR, GL_LINEAR_MIPMAP_LINEAR };
 
 	static const GLint glwrap [] = { GL_REPEAT, GL_CLAMP_TO_EDGE };
-	auto renderState = (RenderState_Imp_GL*) GetRenderState();
+	
+	auto& stateFilter = currentState.textureFilterTypes;
+	auto& stateWrap = currentState.textureWrapTypes;
 
-	auto& state = GetRenderState()->GetActiveState();
-	for (int32_t i = 0; i < RenderState_Imp::TextureCount; i++)
+	for (int32_t i = 0; i < MaxTextureCount; i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
-		glBindSampler(i, renderState->GetSamplers()[i]);
+		glBindSampler(i, m_samplers[i]);
 
-		int32_t filter_ = (int32_t) state.TextureFilterTypes[i];
+		int32_t filter_ = (int32_t) stateFilter[i];
 
 		Texture* tex = nullptr;
 		char* texName = nullptr;
-		if (shader->GetTexture(texName, tex, i))
+		TextureFilterType filterType;
+		TextureWrapType wrapType;
+
+		if (shader->GetTexture(texName, tex, filterType, wrapType, i))
 		{
 			if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
 			{
-				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
-				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MIN_FILTER, glfilter_mip[filter_]);
+				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
+				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MIN_FILTER, glfilter_mip[filter_]);
 			}
 			else
 			{
-				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
-				glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_MIN_FILTER, glfilter[filter_]);
+				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
+				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MIN_FILTER, glfilter[filter_]);
 			}
+
 		}
 
 		glActiveTexture(GL_TEXTURE0 + i);
 
-		glBindSampler(i, renderState->GetSamplers()[i]);
-		int32_t wrap_ = (int32_t) state.TextureWrapTypes[i];
-		glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_WRAP_S, glwrap[wrap_]);
-		glSamplerParameteri(renderState->GetSamplers()[i], GL_TEXTURE_WRAP_T, glwrap[wrap_]);
+		glBindSampler(i, m_samplers[i]);
+		int32_t wrap_ = (int32_t) stateWrap[i];
+		glSamplerParameteri(m_samplers[i], GL_TEXTURE_WRAP_S, glwrap[wrap_]);
+		glSamplerParameteri(m_samplers[i], GL_TEXTURE_WRAP_T, glwrap[wrap_]);
 	}
 
 	glActiveTexture(GL_TEXTURE0);
@@ -655,7 +666,7 @@ void Graphics_Imp_GL::SetViewport(int32_t x, int32_t y, int32_t width, int32_t h
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool isMultithreadingMode)
+Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool isReloadingEnabled)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -689,7 +700,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool i
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL(window->GetSize(), window, log, isMultithreadingMode);
+	return new Graphics_Imp_GL(window->GetSize(), window, log, isReloadingEnabled);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));
@@ -701,7 +712,7 @@ End:;
 //
 //----------------------------------------------------------------------------------
 #if !_WIN32
-Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isMultithreadingMode )
+Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled )
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -750,7 +761,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL( ace::Vector2DI(width,height), display, window, context_, log, isMultithreadingMode );
+	return new Graphics_Imp_GL( ace::Vector2DI(width,height), display, window, context_, log, isReloadingEnabled);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));
@@ -771,7 +782,7 @@ Texture2D_Imp* Graphics_Imp_GL::CreateTexture2D_Imp_Internal(Graphics* graphics,
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Texture2D_Imp* Graphics_Imp_GL::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
+Texture2D_Imp* Graphics_Imp_GL::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format)
 {
 	auto ret = Texture2D_Imp_GL::Create(this, width, height, format);
 	return ret;
@@ -785,7 +796,7 @@ CubemapTexture* Graphics_Imp_GL::CreateCubemapTextureFrom6ImageFiles_(const acha
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-RenderTexture2D_Imp* Graphics_Imp_GL::CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format)
+RenderTexture2D_Imp* Graphics_Imp_GL::CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format)
 {
 	return RenderTexture2D_Imp_GL::Create(this, width, height, format);
 }
@@ -798,6 +809,96 @@ DepthBuffer_Imp* Graphics_Imp_GL::CreateDepthBuffer_Imp(int32_t width, int32_t h
 	return DepthBuffer_Imp_GL::Create(this, width, height);
 }
 
+void Graphics_Imp_GL::CommitRenderState(bool forced)
+{
+	GLCheckError();
+
+	auto& current = currentState.renderState;
+	auto& next = nextState.renderState;
+
+	auto& currentFilter = currentState.textureFilterTypes;
+	auto& nextFilter = nextState.textureFilterTypes;
+
+	auto& currentWrap = currentState.textureWrapTypes;
+	auto& nextWrap = nextState.textureWrapTypes;
+
+	if (current.DepthTest != next.DepthTest || forced)
+	{
+		if (next.DepthTest)
+		{
+			glEnable(GL_DEPTH_TEST);
+		}
+		else
+		{
+			glDisable(GL_DEPTH_TEST);
+		}
+	}
+
+	if (current.DepthWrite != next.DepthWrite || forced)
+	{
+		glDepthMask(next.DepthWrite);
+		glDepthFunc(GL_LEQUAL);
+	}
+
+	if (current.Culling != next.Culling || forced)
+	{
+		if (next.Culling == CullingType::Front)
+		{
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_FRONT);
+		}
+		else if (next.Culling == CullingType::Back)
+		{
+			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
+		}
+		else if (next.Culling == CullingType::Double)
+		{
+			glDisable(GL_CULL_FACE);
+			glCullFace(GL_FRONT_AND_BACK);
+		}
+	}
+
+	if (current.AlphaBlendState != next.AlphaBlendState || forced)
+	{
+		if (next.AlphaBlendState == AlphaBlend::Opacity)
+		{
+			glDisable(GL_BLEND);
+		}
+		else
+		{
+			glEnable(GL_BLEND);
+
+			if (next.AlphaBlendState == AlphaBlend::Sub)
+			{
+				//glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+				//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+				glBlendEquationSeparate(GL_FUNC_REVERSE_SUBTRACT, GL_FUNC_ADD);
+				glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE, GL_ONE, GL_ONE);
+			}
+			else
+			{
+				//glBlendEquation(GL_FUNC_ADD);
+				glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
+				if (next.AlphaBlendState == AlphaBlend::Blend)
+				{
+					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
+				}
+				else if (next.AlphaBlendState == AlphaBlend::Add)
+				{
+					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE, GL_ONE, GL_ONE);
+				}
+				else if (next.AlphaBlendState == AlphaBlend::Mul)
+				{
+					glBlendFuncSeparate(GL_ZERO, GL_SRC_COLOR, GL_ONE, GL_ONE);
+				}
+			}
+		}
+	}
+
+	currentState = nextState;
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -808,7 +909,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_
 
 	// 強制リセット
 	ResetDrawState();
-	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -820,7 +921,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_
 	{
 		UnbindFramebuffer();
 		glDrawBuffer(GL_BACK);
-		GetRenderState()->Update(true);
+		CommitRenderState(true);
 		SetViewport(0, 0, m_size.X, m_size.Y);
 		GLCheckError();
 		return;
@@ -862,7 +963,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_
 	glDrawBuffers(1, bufs);
 	GLCheckError();
 
-	GetRenderState()->Update(true);
+	CommitRenderState(true);
 	GLCheckError();
 
 	if (texture != nullptr)
@@ -882,7 +983,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTextu
 
 	// 強制リセット
 	ResetDrawState();
-	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -894,7 +995,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTextu
 	{
 		UnbindFramebuffer();
 		glDrawBuffer(GL_BACK);
-		GetRenderState()->Update(true);
+		CommitRenderState(true);
 		SetViewport(0, 0, m_size.X, m_size.Y);
 		GLCheckError();
 		return;
@@ -954,7 +1055,7 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTextu
 	glDrawBuffers(4, bufs);
 	GLCheckError();
 
-	GetRenderState()->Update(true);
+	CommitRenderState(true);
 	GLCheckError();
 
 	if (texture1 != nullptr)
@@ -973,7 +1074,7 @@ void Graphics_Imp_GL::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direc
 
 	// 強制リセット
 	ResetDrawState();
-	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 	{
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, 0);
@@ -985,7 +1086,7 @@ void Graphics_Imp_GL::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direc
 	{
 		UnbindFramebuffer();
 		glDrawBuffer(GL_BACK);
-		GetRenderState()->Update(true);
+		CommitRenderState(true);
 		SetViewport(0, 0, m_size.X, m_size.Y);
 		GLCheckError();
 		return;
@@ -1036,7 +1137,7 @@ void Graphics_Imp_GL::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direc
 	glDrawBuffers(1, bufs);
 	GLCheckError();
 
-	GetRenderState()->Update(true);
+	CommitRenderState(true);
 	GLCheckError();
 
 	if (texture != nullptr)
@@ -1078,7 +1179,7 @@ void Graphics_Imp_GL::Clear(bool isColorTarget, bool isDepthTarget, const Color&
 
 	if (isDepthTarget)
 	{
-		GetRenderState()->Update(true);
+		CommitRenderState(true);
 	}
 
 	GLCheckError();
@@ -1174,7 +1275,7 @@ bool Graphics_Imp_GL::SaveTexture(const achar* path, GLuint texture, Vector2DI s
 
 void Graphics_Imp_GL::MakeContextCurrent()
 {
-	if (!IsMultithreadingMode() || GetThreadID() != m_renderingThread->GetThreadID())
+	if (GetThreadID() != m_renderingThread->GetThreadID())
 	{
 		// コンテキストが変わるときは命令処理し終える
 		if (m_contextState != 1)
@@ -1351,7 +1452,7 @@ void Graphics_Imp_GL::CreateContextAfterThreading(GLFWwindow* window)
 
 void Graphics_Imp_GL::BindFramebuffer()
 {
-	if (!IsMultithreadingMode() || GetThreadID() != m_renderingThread->GetThreadID())
+	if (GetThreadID() != m_renderingThread->GetThreadID())
 	{
 		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_main);
 		GLCheckError();

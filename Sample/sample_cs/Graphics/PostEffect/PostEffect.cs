@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace test_cs.Graphics.PostEffect
+namespace sample_cs.Graphics.PostEffect
 {
 	/// <summary>
 	/// ポストエフェクトを適用する。
@@ -23,25 +23,19 @@ namespace test_cs.Graphics.PostEffect
 			// aceを初期化する
 			ace.Engine.Initialize("PostEffect", 640, 480, new ace.EngineOption());
 
-			// シーン等を初期化する(本サンプルのメインの内容には関係なし)
+			// シーン等を初期化する
 			var scene = new ace.Scene();
-			var layer = new ace.Layer3D();
-			var effectObj = new ace.EffectObject3D();
-			var cameraObj = new ace.CameraObject3D();
+			var layer = new ace.Layer2D();
+			var effectObj = new ace.EffectObject2D();
 			var effect = ace.Engine.Graphics.CreateEffect("Data/Effect/magic.efk");
 
 			scene.HDRMode = true; ;
 			scene.AddLayer(layer);
 			layer.AddObject(effectObj);
-			layer.AddObject(cameraObj);
 			ace.Engine.ChangeScene(scene);
 
-			cameraObj.Position = new ace.Vector3DF(2, 2, 20);
-			cameraObj.FieldOfView = 20;
-			cameraObj.ZNear = 1;
-			cameraObj.ZFar = 40;
-			cameraObj.WindowSize = new ace.Vector2DI(640, 480);
-
+			effectObj.Scale = new ace.Vector2DF(50, 50);
+			effectObj.Position = new ace.Vector2DF(320, 240);
 			effectObj.SetEffect(effect);
 			effectObj.Play();
 

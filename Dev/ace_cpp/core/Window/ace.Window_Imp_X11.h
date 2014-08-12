@@ -23,6 +23,7 @@ private:
 
 	GLFWwindow*	m_window;
 
+	static void CallbackOnFocus(GLFWwindow* window, int b);
 	void Unregist();
 public:
 

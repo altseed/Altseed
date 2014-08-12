@@ -50,7 +50,7 @@ namespace ace {
 	class CubemapTexture_Imp;
 	class DepthBuffer_Imp;
 	class Shader2D_Imp;
-
+	class Effect_Imp;
 	class ShaderCache;
 
 	class MaterialCommand;
@@ -66,11 +66,17 @@ namespace ace {
 	class ObjectSystemFactory_Imp;
 
 	class Renderer3D;
+	class Renderer3DProxy;
+
 	class RenderedObject3D;
 	class RenderedEffectObject3D;
 	class RenderedModelObject3D;
 	class RenderedDirectionalLightObject3D;
 	class RenderedCameraObject3D;
+
+	class RenderedObject3DProxy;
+	class RenderedCameraObject3DProxy;
+	class RenderedDirectionalLightObject3DProxy;
 
 	class Model_Imp;
 
@@ -80,6 +86,32 @@ namespace ace {
 	class Font_Imp;
 
 	class AnimationSystem_Imp;
+
+	class RenderingCommand;
+	class RenderingCommandExecutor;
+	class RenderingCommandFactory;
+	class RenderingCommandHelper;
+
+	struct RenderState
+	{
+		bool								DepthTest;
+		bool								DepthWrite;
+		AlphaBlend							AlphaBlendState;
+		CullingType							Culling;
+		
+		void Reset()
+		{
+			DepthTest = false;
+			DepthWrite = false;
+			AlphaBlendState = AlphaBlend::Blend;
+			Culling = CullingType::Double;
+		}
+
+		RenderState()
+		{
+			Reset();
+		}
+	};
 
 	enum eVertexLayoutFormat
 	{
@@ -137,36 +169,53 @@ namespace ace {
 	};
 
 	/**
-	@brief	シェーダーの定数バッファ向け情報
+		@brief	シェーダー内の定数1つを保存する構造体
 	*/
-	struct ConstantBufferInformation
+	struct ShaderConstantValue
 	{
-		std::string		Name;
-		int32_t			Offset;
-		eConstantBufferFormat	Format;
-		
-		/**
-			@brief	定数バッファが配列だった際の配列の個数
-		*/
-		int32_t			Count;
-
-		ConstantBufferInformation()
-			: Offset(0)
-			, Format(CONSTANT_BUFFER_FORMAT_FLOAT4)
-			, Count(0)
+		ShaderVariableType	ValueType;
+		int32_t				ID;
+		union
 		{
-		}
+			float		Float4[4];
+			float		Mat44[16];
+
+			struct
+			{
+				Texture2D*			Ptr;
+				TextureFilterType	FilterType;
+				TextureWrapType		WrapType;
+			} Texture2DPtr;
+
+			/**
+				@brief	行列の配列
+				@note
+				配列の内容自体は保存しないので別領域に確保する必要がある。
+				*/
+			struct
+			{
+				Matrix44*			Ptr;
+				int32_t				Count;
+			} Mat44Array;
+
+		} Data;
+
+		ShaderConstantValue();
+		ShaderConstantValue(const ShaderConstantValue& value);
+		ShaderConstantValue(const float& value);
+		ShaderConstantValue(const Vector2DF& value);
+		ShaderConstantValue(const Vector3DF& value);
+		ShaderConstantValue(const Vector4DF& value);
+		ShaderConstantValue(const Matrix44& value);
+		ShaderConstantValue(Matrix44* value, int32_t count);
+		ShaderConstantValue(Texture2D* value, TextureFilterType filterType, TextureWrapType wrapType);
+		virtual ~ShaderConstantValue();
+		ShaderConstantValue& operator=(const ShaderConstantValue& value);
 	};
 
 	/**
 	@brief	リロード情報
 	*/
-	struct Texture2DReloadInformation
-	{
-		time_t ModifiedTime;
-		astring	Path;
-	};
-
 	struct ModelReloadInformation
 	{
 		time_t ModifiedTime;

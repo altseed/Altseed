@@ -4,6 +4,8 @@
 #include "ace.Sound.h"
 #include "../ace.ReferenceObject.h"
 
+#include "../Utils/ace.ResourceContainer.h"
+
 #include <OpenSoundMixer.h>
 
 #if _DEBUG
@@ -25,12 +27,11 @@ namespace ace
 		, public ReferenceObject
 	{
 	private:
-
 		osm::Manager*	m_manager;
 
 	public:
 
-		Sound_Imp();
+		Sound_Imp(bool isReloadingEnabled);
 		virtual ~Sound_Imp();
 
 		SoundSource* CreateSoundSource_(const achar* path, bool isDecompressed) override;
@@ -53,6 +54,13 @@ namespace ace
 
 		void FadeOut(int32_t id, float second) override;
 
+#if !SWIG
+		std::shared_ptr<ResourceContainer<SoundSource_Imp>>	SoundSourcesContainer;
+
+		void Reload();
+
+		osm::Manager* GetManager() { return m_manager; }
+#endif
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
 	public:

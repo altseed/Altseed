@@ -30,7 +30,7 @@ namespace unitTest_Engine_cs.Graphics._2D
 			m_effectObj.Scale = new ace.Vector2DF(20, 20);
 			m_effectObj.EffectRotation = 90;
 
-			m_effectObj.SetEffect(effect);
+			m_effectObj.Effect = effect;
 			m_effectObj.Play();
 		}
 

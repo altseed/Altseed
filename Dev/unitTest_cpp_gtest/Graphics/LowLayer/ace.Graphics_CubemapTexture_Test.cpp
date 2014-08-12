@@ -185,7 +185,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"CubemapTexture").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log, false);
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto cubemap = graphics->CreateCubemapTextureFrom6ImageFiles_(
@@ -291,7 +291,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 		indexBuffer->Unlock();
 	}
 
-	shader->SetTexture("g_texture", cubemap, 0);
+	shader->SetTexture("g_texture", cubemap, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 	
 	int32_t time = 0;
 	while (window->DoEvent())
@@ -300,26 +300,24 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 
 		for (int i = 0; i < 6; i++)
 		{
-			if (i == 0) shaderMip->SetTexture("g_texture", right.get(), 0);
-			if (i == 1) shaderMip->SetTexture("g_texture", left.get(), 0);
-			if (i == 2) shaderMip->SetTexture("g_texture", top.get(), 0);
-			if (i == 3) shaderMip->SetTexture("g_texture", bottom.get(), 0);
-			if (i == 4) shaderMip->SetTexture("g_texture", front.get(), 0);
-			if (i == 5) shaderMip->SetTexture("g_texture", back.get(), 0);
+			if (i == 0) shaderMip->SetTexture("g_texture", right.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+			if (i == 1) shaderMip->SetTexture("g_texture", left.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+			if (i == 2) shaderMip->SetTexture("g_texture", top.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+			if (i == 3) shaderMip->SetTexture("g_texture", bottom.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+			if (i == 4) shaderMip->SetTexture("g_texture", front.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+			if (i == 5) shaderMip->SetTexture("g_texture", back.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
 			graphics->SetRenderTarget((ace::CubemapTexture_Imp*)cubemap, i, 1, nullptr);
 			graphics->SetVertexBuffer(vertexBufferMip.get());
 			graphics->SetIndexBuffer(indexBuffer.get());
 			graphics->SetShader(shaderMip.get());
 
-			auto& state = graphics->GetRenderState()->Push();
+			ace::RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
-			state.TextureFilterTypes[0] = ace::TextureFilterType::Linear;
-			graphics->GetRenderState()->Update(false);
+			graphics->SetRenderState(state);
 
 			graphics->DrawPolygon(2);
-			graphics->GetRenderState()->Pop();
 		}
 		
 
@@ -330,15 +328,12 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 		graphics->SetIndexBuffer(indexBuffer.get());
 		graphics->SetShader(shader.get());
 
-		auto& state = graphics->GetRenderState()->Push();
+		ace::RenderState state;
 		state.DepthTest = false;
 		state.DepthWrite = false;
-		state.TextureFilterTypes[0] = ace::TextureFilterType::Linear;
-		graphics->GetRenderState()->Update(false);
+		graphics->SetRenderState(state);
 
 		graphics->DrawPolygon(2);
-
-		graphics->GetRenderState()->Pop();
 
 		graphics->Present();
 

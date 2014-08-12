@@ -6,11 +6,13 @@
 
 #include "../Resource/ace.VertexBuffer_Imp.h"
 #include "../Resource/ace.IndexBuffer_Imp.h"
-#include "../Resource/ace.RenderState_Imp.h"
 #include "../Resource/ace.Material2D_Imp.h"
 #include "../Resource/ace.Shader2D_Imp.h"
+#include "../Resource/ace.NativeShader_Imp.h"
 
 #include "../ace.Graphics_Imp.h"
+
+#include "../Command/ace.RenderingCommandHelper.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -87,28 +89,40 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void PostEffectRenderer::DrawOnTexture2DWithMaterialWithCommand(std::shared_ptr<Material2DCommand> command)
+	void PostEffectRenderer::ExportRenderingCommands(RenderingCommandHelper* helper, std::shared_ptr<Material2DCommand> command)
 	{
-		auto state = m_graphics->GetRenderState()->Push();
+		helper->SetRenderTarget(command->GetTarget(), nullptr);
 
-		command->SetValueToShader();
-		m_graphics->SetRenderTarget((RenderTexture2D_Imp*) command->GetTarget(), nullptr);
-
-		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
-		m_graphics->SetIndexBuffer(m_indexBuffer.get());
-
-		auto shader = command->GetShader();
-		m_graphics->SetShader(shader->GetNativeShader().get());
-		
+		RenderState state;
 		state.DepthTest = false;
 		state.DepthWrite = false;
-		m_graphics->GetRenderState()->Update(false);
 
-		m_graphics->DrawPolygon(2);
+		helper->DrawWithPtr(2, m_vertexBuffer.get(), m_indexBuffer.get(), command->GetShader(), state, command->GetConstantValues().data(), command->GetConstantValues().size());
+	}
 
-		m_graphics->GetRenderState()->Pop();
+	void PostEffectRenderer::DrawOnTexture2DWithMaterialWithCommand(std::shared_ptr<Material2DCommand> command)
+	{
+		DrawOnTexture2DWithNativeShader(
+			(RenderTexture2D_Imp*) command->GetTarget(),
+			command->GetShader(),
+			command->GetConstantValues().data(),
+			command->GetConstantValues().size());
 	}
 	
+	void PostEffectRenderer::DrawOnTexture2DWithNativeShader(RenderTexture2D_Imp* target, NativeShader_Imp* shader, ShaderConstantValue* constantValues, int32_t constantValueCount)
+	{
+		m_graphics->SetRenderTarget(target, nullptr);
+		shader->SetConstantValues(constantValues, constantValueCount);
+		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
+		m_graphics->SetIndexBuffer(m_indexBuffer.get());
+		m_graphics->SetShader(shader);
+
+		RenderState state;
+		state.DepthTest = false;
+		state.DepthWrite = false;
+		m_graphics->SetRenderState(state);
+		m_graphics->DrawPolygon(2);
+	}
 
 	//----------------------------------------------------------------------------------
 	//

@@ -29,12 +29,19 @@ namespace ace
 		}
 
 		/// <summary>
-		/// 描画に使用するエフェクトを設定する。
+		/// 描画に使用するエフェクトを取得、または設定する。
 		/// </summary>
-		/// <param name="effect">エフェクト</param>
-		public void SetEffect(Effect effect)
+		public Effect Effect
 		{
-			coreEffectObject.SetEffect(IG.GetEffect(effect));
+			get
+			{
+				return GC.GenerateEffect(swig.Accessor.CoreEffectObject2D_GetEffect(coreEffectObject), GC.GenerationType.Get);
+			}
+			set
+			{
+				coreEffectObject.SetEffect(IG.GetEffect(value));
+			}
+			
 		}
 
 		/// <summary>
@@ -93,6 +100,15 @@ namespace ace
 			{
 				coreEffectObject.SetEffectRotation(value);
 			}
+		}
+
+		/// <summary>
+		/// この2Dオブジェクトを描画する際の描画優先度を取得または設定する。描画優先度が高いほど手前に描画される。
+		/// </summary>
+		public int DrawingPriority
+		{
+			get { return coreEffectObject.GetDrawingPriority(); }
+			set { coreEffectObject.SetDrawingPriority(value); }
 		}
 
 #region GC対策

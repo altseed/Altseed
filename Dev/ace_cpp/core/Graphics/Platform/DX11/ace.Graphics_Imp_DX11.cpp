@@ -10,7 +10,6 @@
 #include "Resource/ace.VertexBuffer_Imp_DX11.h"
 #include "Resource/ace.IndexBuffer_Imp_DX11.h"
 #include "Resource/ace.NativeShader_Imp_DX11.h"
-#include "Resource/ace.RenderState_Imp_DX11.h"
 #include "Resource/ace.DepthBuffer_Imp_DX11.h"
 
 #include "Resource/ace.Texture2D_Imp_DX11.h"
@@ -93,19 +92,18 @@ namespace ace {
 		{}
 
 	public:
-		void* InternalLoad(Graphics_Imp* graphics, void* data, int32_t width, int32_t height)
+		void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height)
 		{
 			ID3D11Texture2D* texture = nullptr;
 			ID3D11ShaderResourceView* textureSRV = nullptr;
 
 			GraphicsHelper_DX11::LoadTexture(
 				(Graphics_Imp_DX11*) m_graphics,
-				data, 
+				data.data(), 
 				width,
 				height, 
 				texture, 
 				textureSRV);
-			SafeDeleteArray(data);
 
 			SafeRelease(texture);
 			return textureSRV;
@@ -133,7 +131,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	Window* window,
 	Vector2DI size,
 	Log* log,
-	bool isMultithreadingMode,
+	bool isReloadingEnabled,
 	ID3D11Device* device,
 	ID3D11DeviceContext* context,
 	IDXGIDevice1* dxgiDevice,
@@ -144,7 +142,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11RenderTargetView*	defaultBackRenderTargetView,
 	ID3D11Texture2D* defaultDepthBuffer,
 	ID3D11DepthStencilView* defaultDepthStencilView)
-	: Graphics_Imp(size, log, isMultithreadingMode)
+	: Graphics_Imp(size, log, isReloadingEnabled)
 	, m_window(window)
 	, m_device(device)
 	, m_context(context)
@@ -165,13 +163,10 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 		m_currentBackRenderTargetViews[i] = nullptr;
 	}
 
-	m_renderState = new RenderState_Imp_DX11(this);
+	GenerateRenderStates();
 
-	if (IsMultithreadingMode())
-	{
-		m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
-	}
-
+	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
+	
 	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_DX11(this));
 }
 
@@ -180,20 +175,46 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 //----------------------------------------------------------------------------------
 Graphics_Imp_DX11::~Graphics_Imp_DX11()
 {
-	if (IsMultithreadingMode())
+	m_renderingThread->AddEvent(nullptr);
+	while (m_renderingThread->IsRunning())
 	{
-		m_renderingThread->AddEvent(nullptr);
-		while (m_renderingThread->IsRunning())
-		{
-			Sleep(1);
-		}
-		m_renderingThread.reset();
+		Sleep(1);
 	}
-
+	m_renderingThread.reset();
+	
 	for (auto i = 0; i < MaxRenderTarget; i++)
 	{
 		SafeRelease(m_currentBackRenderTargetViews[i]);
 	}
+
+#pragma region RenderStates
+	for (int32_t ct = 0; ct < CulTypeCount; ct++)
+	{
+		SafeRelease(m_rStates[ct]);
+	}
+
+	for (int32_t dt = 0; dt < DepthTestCount; dt++)
+	{
+		for (int32_t dw = 0; dw < DepthWriteCount; dw++)
+		{
+			SafeRelease(m_dStates[dt][dw]);
+		}
+	}
+
+	for (int32_t i = 0; i < AlphaTypeCount; i++)
+	{
+		SafeRelease(m_bStates[i]);
+	}
+
+	for (int32_t f = 0; f < TextureFilterCount; f++)
+	{
+		for (int32_t w = 0; w < TextureWrapCount; w++)
+		{
+			SafeRelease(m_sStates[f][w]);
+		}
+	}
+#pragma endregion
+
 
 	SafeRelease(m_currentDepthStencilView);
 
@@ -311,6 +332,123 @@ void Graphics_Imp_DX11::WriteAdapterInformation(Log* log, IDXGIAdapter1* adapter
 	}
 }
 
+void Graphics_Imp_DX11::GenerateRenderStates()
+{
+	D3D11_CULL_MODE cullTbl [] =
+	{
+		D3D11_CULL_BACK,
+		D3D11_CULL_FRONT,
+		D3D11_CULL_NONE,
+	};
+
+	for (int32_t ct = 0; ct < CulTypeCount; ct++)
+	{
+		D3D11_RASTERIZER_DESC rsDesc;
+		ZeroMemory(&rsDesc, sizeof(D3D11_RASTERIZER_DESC));
+		rsDesc.CullMode = cullTbl[ct];
+		rsDesc.FillMode = D3D11_FILL_SOLID;
+		rsDesc.DepthClipEnable = TRUE;
+		GetDevice()->CreateRasterizerState(&rsDesc, &m_rStates[ct]);
+	}
+
+	for (int32_t dt = 0; dt < DepthTestCount; dt++)
+	{
+		for (int32_t dw = 0; dw < DepthWriteCount; dw++)
+		{
+			D3D11_DEPTH_STENCIL_DESC dsDesc;
+			ZeroMemory(&dsDesc, sizeof(D3D11_DEPTH_STENCIL_DESC));
+			dsDesc.DepthEnable = dt;
+			dsDesc.DepthWriteMask = (D3D11_DEPTH_WRITE_MASK) dw;
+			dsDesc.DepthFunc = D3D11_COMPARISON_LESS_EQUAL;
+			dsDesc.StencilEnable = FALSE;
+			GetDevice()->CreateDepthStencilState(&dsDesc, &m_dStates[dt][dw]);
+		}
+	}
+
+	for (int32_t i = 0; i < AlphaTypeCount; i++)
+	{
+		D3D11_BLEND_DESC Desc;
+		ZeroMemory(&Desc, sizeof(Desc));
+		Desc.AlphaToCoverageEnable = false;
+
+		for (int32_t k = 0; k < 8; k++)
+		{
+			Desc.RenderTarget[k].BlendEnable = i != (int32_t) AlphaBlend::Opacity;
+			Desc.RenderTarget[k].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+			Desc.RenderTarget[k].SrcBlendAlpha = D3D11_BLEND_ONE;
+			Desc.RenderTarget[k].DestBlendAlpha = D3D11_BLEND_ONE;
+			Desc.RenderTarget[k].BlendOpAlpha = D3D11_BLEND_OP_MAX;
+
+			switch (i)
+			{
+			case (int32_t) AlphaBlend::Opacity:
+				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ZERO;
+				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ONE;
+				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
+				break;
+			case (int32_t) AlphaBlend::Blend:
+				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
+				break;
+			case (int32_t) AlphaBlend::Add:
+				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
+				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
+				break;
+			case (int32_t) AlphaBlend::Sub:
+				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
+				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_REV_SUBTRACT;
+				break;
+
+			case (int32_t) AlphaBlend::Mul:
+				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_SRC_COLOR;
+				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ZERO;
+				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
+				break;
+
+			}
+		}
+
+		GetDevice()->CreateBlendState(&Desc, &m_bStates[i]);
+	}
+
+	for (int32_t f = 0; f < TextureFilterCount; f++)
+	{
+		for (int32_t w = 0; w < TextureWrapCount; w++)
+		{
+			D3D11_TEXTURE_ADDRESS_MODE Addres [] = {
+				D3D11_TEXTURE_ADDRESS_WRAP,
+				D3D11_TEXTURE_ADDRESS_CLAMP,
+			};
+
+			D3D11_FILTER Filter [] = {
+				D3D11_FILTER_MIN_MAG_MIP_POINT,
+				D3D11_FILTER_MIN_MAG_MIP_LINEAR,
+			};
+
+			uint32_t Anisotropic [] = {
+				0, 0,
+			};
+
+			D3D11_SAMPLER_DESC SamlerDesc = {
+				Filter[f],
+				Addres[w],
+				Addres[w],
+				Addres[w],
+				0.0f,
+				Anisotropic[f],
+				D3D11_COMPARISON_ALWAYS,
+				{ 0.0f, 0.0f, 0.0f, 0.0f },
+				0.0f,
+				D3D11_FLOAT32_MAX, };
+
+			GetDevice()->CreateSamplerState(&SamlerDesc, &m_sStates[f][w]);
+		}
+	}
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -393,11 +531,14 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 		shaderPtr->AssignConstantBuffer();
 
 		// テクスチャの設定
-		for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+		for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 		{
 			Texture* tex = nullptr;
 			char* texName = nullptr;
-			if (shader->GetTexture(texName, tex, i))
+			TextureFilterType filterType;
+			TextureWrapType wrapType;
+
+			if (shader->GetTexture(texName, tex, filterType, wrapType, i))
 			{
 				ID3D11ShaderResourceView* rv = nullptr;
 
@@ -427,9 +568,15 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 
 				// ピクセルシェーダーに設定
 				GetContext()->PSSetShaderResources(i, 1, &rv);
+
+				// ステート設定
+				nextState.textureFilterTypes[i] = filterType;
+				nextState.textureWrapTypes[i] = wrapType;
 			}
 		}
 	}
+
+	CommitRenderState(false);
 }
 
 //----------------------------------------------------------------------------------
@@ -489,7 +636,7 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -681,7 +828,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		window,
 		Vector2DI(width, height),
 		log,
-		isMultithreadingMode,
+		isReloadingEnabled,
 		device,
 		context,
 		dxgiDevice,
@@ -712,19 +859,19 @@ End:
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, bool isMultithreadingMode)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, bool isReloadingEnabled)
 {
 	auto size = window->GetSize();
 	auto handle = glfwGetWin32Window(((Window_Imp*) window)->GetWindow());
-	return Create(handle, size.X, size.Y, log, isMultithreadingMode);
+	return Create(handle, size.X, size.Y, log, isReloadingEnabled);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled)
 {
-	return Create(nullptr, handle, width, height, log, isMultithreadingMode);
+	return Create(nullptr, handle, width, height, log, isReloadingEnabled);
 }
 
 //----------------------------------------------------------------------------------
@@ -739,7 +886,7 @@ Texture2D_Imp* Graphics_Imp_DX11::CreateTexture2D_Imp_Internal(Graphics* graphic
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
+Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format)
 {
 	auto ret = Texture2D_Imp_DX11::Create(this, width, height, format);
 	return ret;
@@ -748,7 +895,7 @@ Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* gr
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-RenderTexture2D_Imp* Graphics_Imp_DX11::CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format)
+RenderTexture2D_Imp* Graphics_Imp_DX11::CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format)
 {
 	return RenderTexture2D_Imp_DX11::Create(this, width, height, format);
 }
@@ -766,13 +913,89 @@ DepthBuffer_Imp* Graphics_Imp_DX11::CreateDepthBuffer_Imp(int32_t width, int32_t
 	return DepthBuffer_Imp_DX11::Create(this, width, height);
 }
 
+void Graphics_Imp_DX11::CommitRenderState(bool forced)
+{
+	bool changeDepth = forced;
+	bool changeRasterizer = forced;
+	bool changeBlend = forced;
+
+	auto& current = currentState.renderState;
+	auto& next = nextState.renderState;
+
+	auto& currentFilter = currentState.textureFilterTypes;
+	auto& nextFilter = nextState.textureFilterTypes;
+
+	auto& currentWrap = currentState.textureWrapTypes;
+	auto& nextWrap = nextState.textureWrapTypes;
+
+
+	if (current.DepthTest != next.DepthTest || forced)
+	{
+		changeDepth = true;
+	}
+
+	if (current.DepthWrite != next.DepthWrite || forced)
+	{
+		changeDepth = true;
+	}
+
+	if (changeDepth)
+	{
+		GetContext()->OMSetDepthStencilState(m_dStates[next.DepthTest][next.DepthWrite], 0);
+	}
+
+	if (current.Culling != next.Culling || forced)
+	{
+		changeRasterizer = true;
+	}
+
+	if (changeRasterizer)
+	{
+		GetContext()->RSSetState(m_rStates[(int32_t)next.Culling]);
+	}
+
+	if (current.AlphaBlendState != next.AlphaBlendState || forced)
+	{
+		changeBlend = true;
+	}
+
+	if (changeBlend)
+	{
+		float blendFactor [] = { 0, 0, 0, 0 };
+		GetContext()->OMSetBlendState(m_bStates[(int32_t) next.AlphaBlendState], blendFactor, 0xFFFFFFFF);
+	}
+
+	for (int32_t i = 0; i < MaxTextureCount; i++)
+	{
+		bool changeSampler = forced;
+
+		if (currentFilter[i] != nextFilter[i] || forced)
+		{
+			changeSampler = true;
+		}
+
+		if (currentWrap[i] != nextWrap[i] || forced)
+		{
+			changeSampler = true;
+		}
+
+		if (changeSampler)
+		{
+			ID3D11SamplerState* samplerTbl [] = { m_sStates[(int32_t) nextFilter[i]][(int32_t) nextWrap[i]] };
+			GetContext()->PSSetSamplers(i, 1, samplerTbl);
+		}
+	}
+
+	currentState = nextState;
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer)
 {
 	// 強制リセット(テクスチャと描画先同時設定不可のため)
-	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 	{
 		ID3D11ShaderResourceView* rv = { nullptr };
 		GetContext()->VSSetShaderResources(i, 1, &rv);
@@ -835,7 +1058,7 @@ void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffe
 void Graphics_Imp_DX11::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer)
 {
 	// 強制リセット(テクスチャと描画先同時設定不可のため)
-	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 	{
 		ID3D11ShaderResourceView* rv = { nullptr };
 		GetContext()->VSSetShaderResources(i, 1, &rv);
@@ -912,7 +1135,7 @@ void Graphics_Imp_DX11::SetRenderTarget(CubemapTexture_Imp* texture, int32_t dir
 	auto tex = (CubemapTexture_Imp_DX11*) texture;
 
 	// 強制リセット(テクスチャと描画先同時設定不可のため)
-	for (int32_t i = 0; i < NativeShader_Imp::TextureCountMax; i++)
+	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 	{
 		ID3D11ShaderResourceView* rv = { nullptr };
 		GetContext()->VSSetShaderResources(i, 1, &rv);

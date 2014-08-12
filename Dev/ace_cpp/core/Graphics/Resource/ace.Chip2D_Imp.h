@@ -35,19 +35,19 @@ namespace ace {
 		Texture2D* GetTexture() const override;
 		void SetTexture(Texture2D* texture) override;
 
-		const RectF GetSrc() const override;
+		RectF GetSrc() const override;
 		void SetSrc(RectF src) override;
 
-		const Color GetColor() const override;
+		Color GetColor() const override;
 		void SetColor(Color color) override;
 
-		const bool GetTurnLR() const override;
+		bool GetTurnLR() const override;
 		void SetTurnLR(bool turnLR) override;
 
-		const bool GetTurnUL() const override;
+		bool GetTurnUL() const override;
 		void SetTurnUL(bool turnUL) override;
 
-		const AlphaBlend GetAlphaBlendMode() const override;
+		AlphaBlend GetAlphaBlendMode() const override;
 		void SetAlphaBlendMode(AlphaBlend alphaBlend) override;
 
 		Chip2D_Imp(Graphics* graphics);

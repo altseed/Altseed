@@ -20,6 +20,13 @@ namespace ace
 		
 		Effekseer::Effect* GetEffect() { return m_effect; }
 
+		// リロード
+#if !SWIG
+	public:
+		void Reload(const achar* path, Effekseer::Setting* setting, void* data, int32_t size);
+		void ReloadResources(const achar* path);
+#endif
+
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
 	public:

@@ -4,7 +4,7 @@
 //----------------------------------------------------------------------------------
 #include "ace.GraphicsResourceContainer.h"
 #include "Resource/ace.Texture2D_Imp.h"
-#include "3D/ace.Model_Imp.h"
+#include "3D/Resource/ace.Model_Imp.h"
 #include "Resource/ace.Font_Imp.h"
 
 #if !_WIN32
@@ -82,37 +82,6 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void GraphicsResourceContainer::Reload()
 	{
-		for (auto info : Texture2Ds.m_reloadInfo)
-		{
-			if (info.second == nullptr) continue;
-
-			auto info_ = info.second.get();
-
-			auto time = GetModifiedTime(info_->Path.c_str());
-
-			if (info_->ModifiedTime == time) continue;
-			info_->ModifiedTime = time;
-
-			// リロード処理
-#if _WIN32
-			auto fp = _wfopen(info_->Path.c_str(), L"rb");
-			if (fp == nullptr) continue;
-#else
-			auto fp = fopen(ToUtf8String(info_->Path.c_str()).c_str(), "rb");
-			if (fp == nullptr) continue;
-#endif
-
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			auto data = new uint8_t[size];
-			fread(data, 1, size, fp);
-			fclose(fp);
-			
-			info.first->Reload(data, size);
-			SafeDeleteArray(data);
-		}
-
 		for (auto info : Models.m_reloadInfo)
 		{
 			if (info.second == nullptr) continue;

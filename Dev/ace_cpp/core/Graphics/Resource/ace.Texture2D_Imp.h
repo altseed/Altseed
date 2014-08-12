@@ -33,20 +33,20 @@ namespace ace {
 		*/
 		void InternalUnload();
 
-		uint8_t*	m_internalTextureData;
+		std::vector<uint8_t>	m_internalTextureData;
 		int32_t		m_internalTextureWidth;
 		int32_t		m_internalTextureHeight;
 
 		Vector2DI	m_size;
 
-		eTextureFormat		m_format;
+		TextureFormat		m_format;
 
 		Texture2D_Imp(Graphics* graphics);
 		virtual ~Texture2D_Imp();
 	public:
 
 		Vector2DI GetSize() const { return m_size; }
-		eTextureFormat GetFormat() const override { return m_format; }
+		TextureFormat GetFormat() const override { return m_format; }
 
 	// リロード
 #if !SWIG

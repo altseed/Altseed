@@ -139,6 +139,7 @@
     <Compile Include="swig\CoreModelObject3D.cs" />
     <Compile Include="swig\CoreObject2D.cs" />
     <Compile Include="swig\CoreObject3D.cs" />
+    <Compile Include="swig\CoreOption.cs" />
     <Compile Include="swig\CorePostEffect.cs" />
     <Compile Include="swig\CoreScene.cs" />
     <Compile Include="swig\CoreTextObject2D.cs" />
@@ -146,9 +147,9 @@
     <Compile Include="swig\CoreTransition.cs" />
     <Compile Include="swig\Core_Imp.cs" />
     <Compile Include="swig\CubemapTexture.cs" />
+    <Compile Include="swig\CullingType.cs" />
     <Compile Include="swig\Deformer.cs" />
     <Compile Include="swig\eChildMode.cs" />
-    <Compile Include="swig\eCullingType.cs" />
     <Compile Include="swig\Effect.cs" />
     <Compile Include="swig\eInterpolationType.cs" />
     <Compile Include="swig\eJoystickAxises.cs" />
@@ -156,7 +157,6 @@
     <Compile Include="swig\eRenderedObject3DType.cs" />
     <Compile Include="swig\eRotationOrder.cs" />
     <Compile Include="swig\eTextureClassType.cs" />
-    <Compile Include="swig\eTextureFormat.cs" />
     <Compile Include="swig\eVisalizedBuffer.cs" />
     <Compile Include="swig\Font.cs" />
     <Compile Include="swig\FramerateMode.cs" />
@@ -195,8 +195,6 @@
     <Compile Include="swig\RenderTexture2D_Imp.cs" />
     <Compile Include="swig\Shader2D.cs" />
     <Compile Include="swig\Shader2D_Imp.cs" />
-    <Compile Include="swig\ShaderVariableProperty.cs" />
-    <Compile Include="swig\ShaderVariablePropertyVector.cs" />
     <Compile Include="swig\ShaderVariableType.cs" />
     <Compile Include="swig\SideButton.cs" />
     <Compile Include="swig\Sound.cs" />
@@ -206,6 +204,7 @@
     <Compile Include="swig\Texture2D.cs" />
     <Compile Include="swig\Texture2D_Imp.cs" />
     <Compile Include="swig\TextureFilterType.cs" />
+    <Compile Include="swig\TextureFormat.cs" />
     <Compile Include="swig\TextureWrapType.cs" />
     <Compile Include="swig\Window.cs" />
     <Compile Include="swig\Window_Imp.cs" />

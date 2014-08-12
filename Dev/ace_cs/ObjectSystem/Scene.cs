@@ -31,6 +31,8 @@ namespace ace
 			layersToDraw_ = new List<Layer>();
 			layersToUpdate_ = new List<Layer>();
 			components_ = new Dictionary<string, SceneComponent>();
+
+            alreadyFirstUpdate = false;
 		}
 
 		#region GC対策
@@ -161,11 +163,59 @@ namespace ace
 		{
 		}
 
+        /// <summary>
+        /// オーバーライドして、最初のシーン更新時に実行する処理を記述する。
+        /// </summary>
+        protected virtual void OnUpdateForTheFirstTime()
+        {
+        }
 
-		internal unsafe swig.CoreScene CoreScene { get; private set; }
+        /// <summary>
+        /// オーバーライドして、トランジション終了時に実行する処理を記述する。(※DoEvents関数内で実行される。)
+        /// </summary>
+        protected virtual void OnTransitionFinished()
+        {
+        }
+
+        /// <summary>
+        /// オーバーライドして、このシーンから別のシーンに切り替わる際に実行される処理を記述する。
+        /// </summary>
+        protected virtual void OnChanging()
+        {
+        }
+
+        /**
+		@brief	オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
+		*/
+        protected virtual void OnDestroy()
+        {
+        }
+
+        internal void CallTransitionFinished()
+        {
+            OnTransitionFinished();
+        }
+
+        internal void CallChanging()
+        {
+            OnChanging();
+        }
+
+        internal void CallDestroy()
+        {
+            OnDestroy();
+        }
+
+        internal unsafe swig.CoreScene CoreScene { get; private set; }
 
 		internal void Update()
 		{
+            if(!alreadyFirstUpdate)
+            {
+                OnUpdateForTheFirstTime();
+                alreadyFirstUpdate = true;
+            }
+
 			OnUpdating();
 
 			foreach (var item in layersToUpdate_)
@@ -211,6 +261,11 @@ namespace ace
 		{
 			layersToDraw_.Sort((x, y) => x.DrawingPriority - y.DrawingPriority);
 
+			foreach (var item in layersToDraw_)
+			{
+				item.DrawAdditionally();
+			}
+
 			CoreScene.BeginDrawing();
 
 			foreach (var item in layersToDraw_)
@@ -221,11 +276,6 @@ namespace ace
 			foreach (var item in layersToDraw_)
 			{
 				item.Draw();
-			}
-
-			foreach (var item in layersToDraw_)
-			{
-				item.DrawAdditionally();
 			}
 
 			foreach (var item in layersToDraw_)
@@ -241,5 +291,7 @@ namespace ace
 		private List<Layer> layersToUpdate_;
 
 		private Dictionary<string, SceneComponent> components_;
+
+        private bool alreadyFirstUpdate;
 	}
 }

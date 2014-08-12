@@ -6,8 +6,6 @@
 
 #include "../ace.Graphics_Imp_DX11.h"
 
-#include "../../../Resource/ace.RenderState_Imp.h"
-
 #include "../../../../Log/ace.Log.h"
 
 //----------------------------------------------------------------------------------
@@ -142,7 +140,7 @@ ID3DBlob* NativeShader_Imp_DX11::CompilePixelShader(Graphics_Imp_DX11* g, const 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<std::string>& textures)
+void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures)
 {
 	auto getBufferType = [](D3D11_SHADER_TYPE_DESC typeDesc, eConstantBufferFormat& format, int32_t& elements) -> void
 	{
@@ -203,8 +201,10 @@ void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& 
 		if (!getResourceType(bindDesc, format, bindPoint)) continue;
 		auto name = bindDesc.Name;
 
-		if (textures.size() <= bindPoint) textures.resize(bindPoint + 1);
-		textures[bindPoint] = name;
+		TextureLayout layout;
+		layout.Name = name;
+		layout.ID = bindPoint;
+		textures.push_back(layout);
 	}
 
 	for (int32_t i = 0; i < shaderDesc.ConstantBuffers; i++)
@@ -260,10 +260,10 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 	ID3D11InputLayout* layout,
 	std::vector<ConstantLayout> vs_uniformLayouts,
 	int32_t vs_uniformBufferSize,
-	std::vector<std::string> vs_textures,
+	std::vector<TextureLayout> vs_textures,
 	std::vector<ConstantLayout> ps_uniformLayouts,
 	int32_t ps_uniformBufferSize,
-	std::vector<std::string> ps_textures)
+	std::vector<TextureLayout> ps_textures)
 	: NativeShader_Imp(graphics)
 	, m_vertexShader(vertexShader)
 	, m_pixelShader(pixelShader)
@@ -271,26 +271,40 @@ NativeShader_Imp_DX11::NativeShader_Imp_DX11(
 	, m_constantBufferToVS(nullptr)
 	, m_constantBufferToPS(nullptr)
 {
+	int32_t index = 0;
+
+	index = 0;
 	for (auto& l : vs_uniformLayouts)
 	{
+		l.Index = index;
 		m_vs_constantLayouts[l.Name] = l;
+		constantLayoutsArray.push_back(&(m_vs_constantLayouts[l.Name]));
+		index++;
 	}
 
 	for (auto& l : ps_uniformLayouts)
 	{
+		l.Index = index;
 		m_ps_constantLayouts[l.Name] = l;
+		constantLayoutsArray.push_back(&(m_ps_constantLayouts[l.Name]));
+		index++;
 	}
 
-	for (auto i = 0; i < vs_textures.size(); i++)
+	index = 0;
+	for (auto& l : vs_textures)
 	{
-		if (vs_textures[i] == "") continue;
-		m_vs_textureLayouts[vs_textures[i]] = i;
+		l.Index = index;
+		m_vs_textureLayouts[l.Name] = l;
+		textureLayoutsArray.push_back(&(m_vs_textureLayouts[l.Name]));
+		index++;
 	}
 
-	for (auto i = 0; i < ps_textures.size(); i++)
+	for (auto& l : ps_textures)
 	{
-		if (ps_textures[i] == "") continue;
-		m_ps_textureLayouts[ps_textures[i]] = i;
+		l.Index = index;
+		m_ps_textureLayouts[l.Name] = l;
+		textureLayoutsArray.push_back(&(m_ps_textureLayouts[l.Name]));
+		index++;
 	}
 
 
@@ -350,46 +364,45 @@ NativeShader_Imp_DX11::~NativeShader_Imp_DX11()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void NativeShader_Imp_DX11::CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
+
+int32_t NativeShader_Imp_DX11::GetConstantBufferID(const char* name)
 {
-	SafeRelease(m_constantBufferToVS);
+	auto key = std::string(name);
 
-	auto g = (Graphics_Imp_DX11*)GetGraphics();
+	auto it_vs = m_vs_constantLayouts.find(key);
+	auto it_ps = m_ps_constantLayouts.find(key);
 
-	D3D11_BUFFER_DESC hBufferDesc;
-	hBufferDesc.ByteWidth = size;
-	hBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	hBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	hBufferDesc.CPUAccessFlags = 0;
-	hBufferDesc.MiscFlags = 0;
-	hBufferDesc.StructureByteStride = sizeof(float) ;
+	if (it_vs != m_vs_constantLayouts.end())
+	{
+		return it_vs->second.Index;
+	}
 
-	g->GetDevice()->CreateBuffer(&hBufferDesc, NULL, &m_constantBufferToVS);
+	if (it_ps != m_ps_constantLayouts.end())
+	{
+		return it_ps->second.Index;
+	}
+	return -1;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void NativeShader_Imp_DX11::CreatePixelConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
+int32_t NativeShader_Imp_DX11::GetTextureID(const char* name)
 {
-	SafeRelease(m_constantBufferToPS);
+	auto key = std::string(name);
+	
+	auto it_vs = m_vs_textureLayouts.find(key);
+	auto it_ps = m_ps_textureLayouts.find(key);
 
-	auto g = (Graphics_Imp_DX11*) GetGraphics();
+	if (it_vs != m_vs_textureLayouts.end())
+	{
+		return it_vs->second.Index;
+	}
 
-	D3D11_BUFFER_DESC hBufferDesc;
-	hBufferDesc.ByteWidth = size;
-	hBufferDesc.Usage = D3D11_USAGE_DEFAULT;
-	hBufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	hBufferDesc.CPUAccessFlags = 0;
-	hBufferDesc.MiscFlags = 0;
-	hBufferDesc.StructureByteStride = sizeof(float) ;
-
-	g->GetDevice()->CreateBuffer(&hBufferDesc, NULL, &m_constantBufferToPS);
+	if (it_ps != m_ps_textureLayouts.end())
+	{
+		return it_ps->second.Index;
+	}
+	return -1;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 void NativeShader_Imp_DX11::SetConstantBuffer(const char* name, const void* data, int32_t size)
 {
 	auto key = std::string(name);
@@ -414,6 +427,29 @@ void NativeShader_Imp_DX11::SetConstantBuffer(const char* name, const void* data
 	}
 }
 
+void NativeShader_Imp_DX11::SetConstantBuffer(int32_t id, const void* data, int32_t size)
+{
+	assert(id < (int32_t) constantLayoutsArray.size());
+	if (id < 0) return;
+
+	auto& layout = constantLayoutsArray[id];
+
+	if (id < m_vs_constantLayouts.size())
+	{
+		auto size_ = GetBufferSize(layout->Type, layout->Count);
+		if (size != size_) return;
+
+		memcpy(&(m_vertexConstantBuffer[layout->Offset]), data, size);
+	}
+	else
+	{
+		auto size_ = GetBufferSize(layout->Type, layout->Count);
+		if (size != size_) return;
+
+		memcpy(&(m_pixelConstantBuffer[layout->Offset]), data, size);
+	}
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -427,16 +463,29 @@ void NativeShader_Imp_DX11::SetTexture(const char* name, Texture* texture, Textu
 
 	if (it_vs != m_vs_textureLayouts.end())
 	{
-		NativeShader_Imp::SetTexture(name, texture, (*it_vs).second);
-		g->GetRenderState()->GetActiveState().TextureFilterTypes[(*it_vs).second] = filterType;
-		g->GetRenderState()->GetActiveState().TextureWrapTypes[(*it_vs).second] = wrapType;
+		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_vs).second.ID);
 	}
 
 	if (it_ps != m_ps_textureLayouts.end())
 	{
-		NativeShader_Imp::SetTexture(name, texture, (*it_ps).second);
-		g->GetRenderState()->GetActiveState().TextureFilterTypes[(*it_ps).second] = filterType;
-		g->GetRenderState()->GetActiveState().TextureWrapTypes[(*it_ps).second] = wrapType;
+		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_ps).second.ID);
+	}
+}
+
+void NativeShader_Imp_DX11::SetTexture(int32_t id, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType)
+{
+	assert(id < (int32_t) textureLayoutsArray.size());
+	if (id < 0) return;
+
+	auto& layout = textureLayoutsArray[id];
+
+	if (id < m_vs_textureLayouts.size())
+	{
+		NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->ID);
+	}
+	else
+	{
+		NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->ID);
 	}
 }
 
@@ -482,11 +531,11 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 
 	std::vector<ConstantLayout> vs_uniformLayouts;
 	int32_t vs_uniformBufferSize;
-	std::vector<std::string> vs_textures;
+	std::vector<TextureLayout> vs_textures;
 
 	std::vector<ConstantLayout> ps_uniformLayouts;
 	int32_t ps_uniformBufferSize;
-	std::vector<std::string> ps_textures;
+	std::vector<TextureLayout> ps_textures;
 
 	auto vertexShader = CompileVertexShader(
 		(Graphics_Imp_DX11*) graphics,

@@ -71,7 +71,6 @@ public:
 		}
 		else if (g->GetGraphicsDeviceType() == ace::GraphicsDeviceType::OpenGL)
 		{
-			std::vector<ace::ShaderVariableProperty> prop;
 			m_shader = g->CreateShader2D(
 				ace::ToAString(shader2d_gl_ps).c_str()
 				);

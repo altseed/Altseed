@@ -31,7 +31,7 @@ protected:
 			layer->AddObject(obj);
 			scene->AddLayer(layer);
 
-			auto transition = std::make_shared<ace::TransitionFade>(3, 3);
+			auto transition = std::make_shared<ace::TransitionFade>(3.0f/60.0f, 3.0f/60.0f);
 			ace::Engine::ChangeSceneWithTransition(scene, transition);
 		}
 	}

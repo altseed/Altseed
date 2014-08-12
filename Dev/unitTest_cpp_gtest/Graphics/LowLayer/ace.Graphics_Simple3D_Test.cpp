@@ -105,7 +105,7 @@ void Graphics_Simple3D(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"Simple3D").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log, false);
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sample1.png").c_str());
@@ -145,14 +145,6 @@ void Graphics_Simple3D(bool isOpenGLMode)
 	}
 
 	ASSERT_TRUE(shader != nullptr);
-
-	std::vector<ace::ConstantBufferInformation> constantBuffers;
-	constantBuffers.resize(1);
-	constantBuffers[0].Format = ace::CONSTANT_BUFFER_FORMAT_MATRIX44;
-	constantBuffers[0].Name = std::string("matMCP");
-	constantBuffers[0].Offset = 0;
-	
-	shader->CreateVertexConstantBuffer<ace::Matrix44>(constantBuffers);
 
 	{
 		vertexBuffer->Lock();
@@ -208,24 +200,20 @@ void Graphics_Simple3D(bool isOpenGLMode)
 		ace::Matrix44::Mul(mat, matC, matM);
 		ace::Matrix44::Mul(mat, matP, mat);
 
-		auto& mat_ = shader->GetVertexConstantBuffer<ace::Matrix44>();
-		mat_ = mat;
-
-		shader->SetTexture("g_texture", texture.get(), 0);
+		shader->SetTexture("g_texture", texture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
+		shader->SetMatrix44("matMCP", mat);
 		graphics->SetVertexBuffer(vertexBuffer.get());
 		graphics->SetIndexBuffer(indexBuffer.get());
 		graphics->SetShader(shader.get());
 
-		auto& state = graphics->GetRenderState()->Push();
+		ace::RenderState state;
+		
 		state.DepthTest = true;
 		state.DepthWrite = true;
-		state.CullingType = ace::eCullingType::CULLING_FRONT;
-		state.TextureWrapTypes[0] = ace::TextureWrapType::Clamp;
-		graphics->GetRenderState()->Update(false);
+		state.Culling = ace::CullingType::Front;
+		graphics->SetRenderState(state);
 
 		graphics->DrawPolygon(2*6);
-
-		graphics->GetRenderState()->Pop();
 		
 		graphics->Present();
 

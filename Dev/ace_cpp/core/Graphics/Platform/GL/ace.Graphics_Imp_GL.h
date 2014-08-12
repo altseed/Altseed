@@ -69,9 +69,13 @@ namespace ace {
 
 		std::recursive_mutex		m_mutex;
 
-		Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isMultithreadingMode);
+#pragma region RenderState
+		GLuint			m_samplers[MaxTextureCount];
+#pragma endregion
 
-		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isMultithreadingMode);
+		Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isReloadingEnabled);
+
+		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isReloadingEnabled);
 
 		virtual ~Graphics_Imp_GL();
 
@@ -103,19 +107,21 @@ namespace ace {
 
 	public:
 		
-		static Graphics_Imp_GL* Create(::ace::Window* window, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp_GL* Create(::ace::Window* window, Log* log, bool isReloadingEnabled);
 
 #if !_WIN32
-		static Graphics_Imp_GL* Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp_GL* Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled);
 #endif
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
-		Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format) override;
-		RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format);
+		Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) override;
+		RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format);
 
 		CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) override;
 
 		DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height);
+
+		void CommitRenderState(bool forced) override;
 
 		void SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer);
 

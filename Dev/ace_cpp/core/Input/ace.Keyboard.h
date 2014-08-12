@@ -131,7 +131,7 @@ namespace ace{
 
 	enum class KeyState:int
 	{
-		Push, Pull, Hold, Free
+		Push, Release, Hold, Free
 	};
 
 	class Keyboard

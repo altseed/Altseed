@@ -32,7 +32,7 @@ namespace ace
 		virtual void BeginPostEffect(CorePostEffect* postEffect) = 0;
 		virtual void EndPostEffect(CorePostEffect* postEffect) = 0;
 		
-		virtual void SetPostEffectCount(int count) = 0;
+		virtual void StartAddingPostEffect(int count) = 0;
 		virtual RenderTexture2D* GetDstForPostEffect(int count) = 0;
 		virtual RenderTexture2D* GetSrcForPostEffect(int count) = 0;
 

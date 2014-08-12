@@ -122,6 +122,19 @@ namespace ace
 		}
 
         /// <summary>
+        /// 保持している全ての2Dオブジェクトをこのレイヤーから削除する。
+        /// </summary>
+        public void Clear()
+        {
+            foreach (var obj in objects_)
+            {
+                obj.Layer = null;
+            }
+            coreLayer2D.Clear();
+            objects_.Clear();
+        }
+
+        /// <summary>
 		/// 通常の描画に加えてテクスチャを描画する。
         /// </summary>
         /// <param name="upperLeftPos">テクスチャの左上の描画位置</param>

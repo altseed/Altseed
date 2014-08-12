@@ -22,7 +22,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D_Imp_GL::Texture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, eTextureFormat format)
+	Texture2D_Imp_GL::Texture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, TextureFormat format)
 		: Texture2D_Imp(graphics)
 		, m_texture(texture)
 	{
@@ -62,7 +62,7 @@ namespace ace {
 			0, 
 			GL_RGBA, 
 			GL_UNSIGNED_BYTE, 
-			m_internalTextureData);
+			m_internalTextureData.data());
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 
@@ -106,7 +106,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D_Imp_GL* Texture2D_Imp_GL::Create(Graphics_Imp_GL* graphics, int32_t width, int32_t height, eTextureFormat format)
+	Texture2D_Imp_GL* Texture2D_Imp_GL::Create(Graphics_Imp_GL* graphics, int32_t width, int32_t height, TextureFormat format)
 	{
 		GLuint texture = 0;
 		glGenTextures(1, &texture);
@@ -118,22 +118,22 @@ namespace ace {
 		int32_t intrenalFormat_;
 		int32_t format_ = GL_RGBA;
 		int32_t type;
-		if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
+		if (format == TextureFormat::R8G8B8A8_UNORM)
 		{
 			intrenalFormat_ = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
 		}
-		else if(format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
+		else if(format == TextureFormat::R32G32B32A32_FLOAT)
 		{
 			intrenalFormat_ = GL_RGBA32F;
 			type = GL_FLOAT;
 		}
-		else if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
+		else if (format == TextureFormat::R8G8B8A8_UNORM)
 		{
 			intrenalFormat_ = GL_SRGB8_ALPHA8;
 			type = GL_UNSIGNED_BYTE;
 		}
-		else if (format == eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT)
+		else if (format == TextureFormat::R16G16_FLOAT)
 		{
 			intrenalFormat_ = GL_RG16F;
 			format_ = GL_RG;
@@ -200,22 +200,22 @@ namespace ace {
 		int32_t intrenalFormat_;
 		int32_t format_ = GL_RGBA;
 		int32_t type;
-		if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
+		if (format == TextureFormat::R8G8B8A8_UNORM)
 		{
 			intrenalFormat_ = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
 		}
-		else if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
+		else if (format == TextureFormat::R32G32B32A32_FLOAT)
 		{
 			intrenalFormat_ = GL_RGBA32F;
 			type = GL_FLOAT;
 		}
-		else if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
+		else if (format == TextureFormat::R8G8B8A8_UNORM)
 		{
 			intrenalFormat_ = GL_SRGB8_ALPHA8;
 			type = GL_UNSIGNED_BYTE;
 		}
-		else if (format == eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT)
+		else if (format == TextureFormat::R16G16_FLOAT)
 		{
 			intrenalFormat_ = GL_RG16F;
 			format_ = GL_RG;

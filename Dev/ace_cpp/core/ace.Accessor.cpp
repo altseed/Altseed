@@ -3,12 +3,16 @@
 
 #include "Sound/ace.Sound_Imp.h"
 
-#include "Graphics/Animation/ace.AnimationSystem.h"
-#include "Graphics/Animation/ace.AnimationClip.h"
-#include "Graphics/Animation/ace.AnimationSource.h"
+#include "Graphics/3D/Resource/Animation/ace.AnimationSystem.h"
+#include "Graphics/3D/Resource/Animation/ace.AnimationClip.h"
+#include "Graphics/3D/Resource/Animation/ace.AnimationSource.h"
 
 #include "Graphics/Resource/ace.Shader2D.h"
 #include "Graphics/Resource/ace.Material2D.h"
+
+#include "ObjectSystem/2D/ace.CoreEffectObject2D.h"
+
+
 
 namespace ace
 {
@@ -45,5 +49,10 @@ namespace ace
 	KeyframeAnimation* Accessor::AnimationSyatem_CreateKeyframeAnimation(AnimationSystem* o)
 	{
 		return o->CreateKeyframeAnimation_();
+	}
+
+	Effect* Accessor::CoreEffectObject2D_GetEffect(CoreEffectObject2D* o)
+	{
+		return o->GetEffect_();
 	}
 }

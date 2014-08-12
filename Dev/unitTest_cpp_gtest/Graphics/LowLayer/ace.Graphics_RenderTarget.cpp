@@ -96,7 +96,7 @@ void Graphics_RenderTarget(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"SingleTexture").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log, false);
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sample1.png").c_str());
@@ -115,7 +115,7 @@ void Graphics_RenderTarget(bool isOpenGLMode)
 	vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
 	vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
 
-	auto renderTexture = graphics->CreateRenderTexture2D_Imp(320, 240, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+	auto renderTexture = graphics->CreateRenderTexture2D_Imp(320, 240, ace::TextureFormat::R8G8B8A8_UNORM);
 	ASSERT_TRUE(renderTexture != nullptr);
 
 	auto depthBuffer = graphics->CreateDepthBuffer_Imp(320, 240);
@@ -178,7 +178,7 @@ void Graphics_RenderTarget(bool isOpenGLMode)
 		indexBuffer->Unlock();
 	}
 
-	shader->SetTexture("g_texture", texture.get(), 0);
+	shader->SetTexture("g_texture", texture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 
 	int32_t time = 0;
 	while (window->DoEvent())
@@ -189,39 +189,35 @@ void Graphics_RenderTarget(bool isOpenGLMode)
 		{
 			graphics->Clear(true, false, ace::Color(64, 32, time % 255, 255));
 
-			shader->SetTexture("g_texture", texture.get(), 0);
+			shader->SetTexture("g_texture", texture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 			
 			graphics->SetVertexBuffer(vertexBuffer.get());
 			graphics->SetIndexBuffer(indexBuffer.get());
 			graphics->SetShader(shader.get());
 
-			auto& state = graphics->GetRenderState()->Push();
+			ace::RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
-			graphics->GetRenderState()->Update(false);
+			graphics->SetRenderState(state);
 
 			graphics->DrawPolygon(2);
-
-			graphics->GetRenderState()->Pop();
 		}
 
 		
 		graphics->SetRenderTarget(nullptr,nullptr);
 		{
 			graphics->Clear(true, false, ace::Color(0, 0, 0, 255));
-			shader->SetTexture("g_texture", renderTexture, 0);
+			shader->SetTexture("g_texture", renderTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
 			graphics->SetVertexBuffer(vertexBufferSmall.get());
 			graphics->SetIndexBuffer(indexBuffer.get());
 			graphics->SetShader(shader.get());
 
-			auto& state = graphics->GetRenderState()->Push();
+			ace::RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
-			graphics->GetRenderState()->Update(false);
 
+			graphics->SetRenderState(state);
 			graphics->DrawPolygon(2);
-
-			graphics->GetRenderState()->Pop();
 		}
 
 		graphics->Present();

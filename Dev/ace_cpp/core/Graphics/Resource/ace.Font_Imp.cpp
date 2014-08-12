@@ -5,19 +5,12 @@
 #include "../ace.Graphics_Imp.h"
 #include "../ace.GraphicsResourceContainer.h"
 
-
-#define Z_SOLO
-#include <png.h>
-#include <pngstruct.h>
-#include <pnginfo.h>
-
-#if _WIN32
-#if _DEBUG
-#pragma comment(lib,"libpng16.Debug.lib")
-#pragma comment(lib,"zlib.Debug.lib")
-#else
-#pragma comment(lib,"libpng16.Release.lib")
-#pragma comment(lib,"zlib.Release.lib")
+#ifdef WIN32
+#ifdef min
+#undef min
+#endif 
+#ifdef max
+#undef max
 #endif
 #endif
 
@@ -33,24 +26,24 @@ namespace ace {
 		: DeviceObject(graphics)
 		, m_graphics(graphics)
 	{
-		const ace::astring affFilePathStr = ace::astring(affFilePath);
+		ace::astring affFilePathStr = ace::astring(affFilePath);
 		AffLoader affLoader = AffLoader(affFilePathStr);
 		m_glyphs = affLoader.GetGlyphs();
 
 		//AFFファイルの拡張子以前のパスを取得。
-		const ace::astring rawFilePath = affFilePathStr.substr(0, affFilePathStr.length() - 4);
+		ace::astring rawFilePath = affFilePathStr.substr(0, affFilePathStr.length() - 4);
 
 		int pictureNumber = 0;
 
-		const ace::astring pngExtension = ace::astring(ToAString(".png"));
+		ace::astring pngExtension = ToAString(".png");
 
 		while (true)
 		{
 			//連番を文字列化。
-			const ace::astring strNumber = ace::ToAString(std::to_string(pictureNumber).c_str());
+			ace::astring strNumber = ace::ToAString(std::to_string(pictureNumber).c_str());
 
 			//PNGファイルへのパス文字列を構成。
-			const ace::astring pngFilePath = (rawFilePath + ace::astring(ToAString("_")) + strNumber + pngExtension);
+			ace::astring pngFilePath = (rawFilePath + ToAString("_") + strNumber + pngExtension);
 
 			//この連番のファイルが存在するか否か調べて、存在しなかったらループを抜ける。
 
@@ -83,7 +76,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DI Font_Imp::CalcTextureSize(const achar* text, WritingDirection writingDirection)
+	Vector2DI Font_Imp::CalcTextureSize(const achar* text, WritingDirection writingDirection) const
 	{
 		if (m_glyphs.empty() && m_textures.empty())
 		{
@@ -104,27 +97,27 @@ namespace ace {
 			{
 				if (writingDirection == WritingDirection::Horizontal)
 				{
-					sumSize.X = (std::max)(size.X, sumSize.X);
+					sumSize.X = std::max(size.X, sumSize.X);
 					sumSize.Y += size.Y;
 				}
 				else
 				{
 					sumSize.X += size.X;
-					sumSize.Y = (std::max)(size.Y, sumSize.Y);
+					sumSize.Y = std::max(size.Y, sumSize.Y);
 				}
 				size = Vector2DI(0, 0);
 				continue;
 			}
 
-			auto src = m_glyphs[*c].GetSrc();
+			auto src = m_glyphs.at(*c).GetSrc();
 			if (writingDirection == WritingDirection::Horizontal)
 			{
 				size.X += src.Width;
-				size.Y = (std::max)(src.Height, size.Y);
+				size.Y = std::max(src.Height, size.Y);
 			}
 			else
 			{
-				size.X = (std::max)(src.Width, size.X);
+				size.X = std::max(src.Width, size.X);
 				size.Y += src.Height;
 			}
 		}
@@ -135,7 +128,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const std::shared_ptr<Texture2D> Font_Imp::GetTexture(int index) const
+	std::shared_ptr<Texture2D> Font_Imp::GetTexture(int index) const
 	{
 		if (index < 0 || index >= m_textures.size())
 		{
@@ -147,7 +140,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const GlyphData Font_Imp::GetGlyphData(achar c)
+	GlyphData Font_Imp::GetGlyphData(achar c)
 	{
 		return m_glyphs[c];
 	}
@@ -155,9 +148,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	const bool Font_Imp::HasGlyphData(achar c)
+	bool Font_Imp::HasGlyphData(achar c) const
 	{
-		return m_glyphs.count(c) == 1;
+		return m_glyphs.find(c) != m_glyphs.end();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -168,24 +161,24 @@ namespace ace {
 		m_glyphs.clear();
 		m_textures.clear();
 
-		const ace::astring affFilePathStr = ace::astring(affFilePath);
+		ace::astring affFilePathStr = ace::astring(affFilePath);
 		AffLoader affLoader = AffLoader(affFilePathStr);
 		m_glyphs = affLoader.GetGlyphs();
 
 		//AFFファイルの拡張子以前のパスを取得。
-		const ace::astring rawFilePath = affFilePathStr.substr(0, affFilePathStr.length() - 4);
+		ace::astring rawFilePath = affFilePathStr.substr(0, affFilePathStr.length() - 4);
 
 		int pictureNumber = 0;
 
-		const ace::astring pngExtension = ace::astring(ToAString(".png"));
+		ace::astring pngExtension = ToAString(".png");
 
 		while (true)
 		{
 			//連番を文字列化。
-			const ace::astring strNumber = ace::astring(ace::ToAString(std::to_string(pictureNumber).c_str()));
+			ace::astring strNumber = ace::astring(ace::ToAString(std::to_string(pictureNumber).c_str()));
 
 			//PNGファイルへのパス文字列を構成。
-			const ace::astring pngFilePath = (rawFilePath + ace::astring(ToAString("_")) + strNumber + pngExtension);
+			ace::astring pngFilePath = (rawFilePath + ToAString("_") + strNumber + pngExtension);
 
 			auto texture = m_graphics->CreateTexture2D(pngFilePath.c_str());
 

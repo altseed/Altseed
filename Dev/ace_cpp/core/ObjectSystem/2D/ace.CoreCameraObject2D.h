@@ -17,7 +17,6 @@ namespace ace
 		virtual void SetDst(RectI value) = 0;
 
 #if !SWIG
-		virtual Renderer2D* GetRenderer() const = 0;
 		virtual Matrix33 GetCameraMatrix() = 0;
 
 		/**
@@ -28,7 +27,7 @@ namespace ace
 		/**
 			@brief	Rendererに登録された内容を、このカメラのバッファに描画します。
 		*/
-		virtual void FlushToBuffer() = 0;
+		virtual void FlushToBuffer(Renderer2D* renderer) = 0;
 
 		/**
 			@brief	このカメラのバッファの内容に対する描画を、指定したRendererに登録します。

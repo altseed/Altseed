@@ -105,12 +105,12 @@ namespace ace {
 		Variable,
 	};
 
-	enum eTextureFormat
+	enum class TextureFormat : int32_t
 	{
-		TEXTURE_FORMAT_R8G8B8A8_UNORM = 0,
-		TEXTURE_FORMAT_R32G32B32A32_FLOAT = 1,
-		TEXTURE_FORMAT_R8G8B8A8_UNORM_SRGB = 2,
-		TEXTURE_FORMAT_GL_R16G16_FLOAT = 3,
+		R8G8B8A8_UNORM = 0,
+		R32G32B32A32_FLOAT = 1,
+		R8G8B8A8_UNORM_SRGB = 2,
+		R16G16_FLOAT = 3,
 	};
 
 	enum eTextureClassType
@@ -161,13 +161,11 @@ namespace ace {
 		Clamp = 1,
 	};
 
-	enum eCullingType
+	enum class CullingType : int32_t
 	{
-		CULLING_FRONT = 0,
-		CULLING_BACK = 1,
-		CULLING_DOUBLE = 2,
-
-		CULLING_DWORD = 0x7fffffff,
+		Front = 0,
+		Back = 1,
+		Double = 2,
 	};
 
 	/**
@@ -204,33 +202,14 @@ namespace ace {
 	*/
 	enum ShaderVariableType
 	{
+		SHADER_VARIABLE_TYPE_UNKNOWN,
 		SHADER_VARIABLE_TYPE_FLOAT,
 		SHADER_VARIABLE_TYPE_VECTOR2DF,
 		SHADER_VARIABLE_TYPE_VECTOR3DF,
 		SHADER_VARIABLE_TYPE_VECTOR4DF,
+		SHADER_VARIABLE_TYPE_MATRIX44,
+		SHADER_VARIABLE_TYPE_MATRIX44_ARRAY,
 		SHADER_VARIABLE_TYPE_TEXTURE2D,
-	};
-
-	/**
-		@brief	シェーダーに対して外部から設定可能なプロパティの情報
-	*/
-	class ShaderVariableProperty
-	{
-	public:
-		/**
-			@brief	名称
-		*/
-		astring	Name;
-
-		/**
-			@brief	種類
-		*/
-		ShaderVariableType Type;
-
-		/**
-			@brief	定数バッファ上での先頭からのオフセット
-		*/
-		int32_t	Offset;
 	};
 
 	/**

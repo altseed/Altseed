@@ -7,7 +7,7 @@
 void Sound()
 {
 	// aceを初期化する。
-	ace::Engine::Initialize(L"Sound", 640, 480, ace::EngineOption());
+	ace::Engine::Initialize(ace::ToAString("Sound").c_str(), 640, 480, ace::EngineOption());
 
 	// ファイルを読み込む。
 	std::shared_ptr<ace::SoundSource> se1 = ace::Engine::GetSound()->CreateSoundSource(ace::ToAString("Data/Sound/se1.wav").c_str(), true);

@@ -6,6 +6,7 @@
 #include <ace.common.Base.h>
 #include "../ace.Core.Base.h"
 #include "../ace.ReferenceObject.h"
+#include "../common/Math/ace.Vector2DI.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -17,6 +18,14 @@ namespace ace {
 #if !SWIG
 	typedef void(ACE_STDCALL *CoreFuncPtr)(Core*);
 #endif
+
+	class CoreOption
+	{
+	public:
+		bool IsFullScreen;
+		GraphicsDeviceType GraphicsDevice;
+		bool IsReloadingEnabled;
+	};
 
 	class Core
 		: public ReferenceObject
@@ -40,10 +49,9 @@ namespace ace {
 		@param	height	縦幅
 		@param	isFullScreen	フルスクリーンで起動するかどうか?
 		@param	isOpenGLMode	OpenGLで起動するかどうか?
-		@param	isMultithreadingMode	マルチスレッドモードを使用するかどうか?
 		@return	成否
 		*/
-		virtual bool Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode, bool isMultithreadingMode) = 0;
+		virtual bool Initialize(const achar* title, int32_t width, int32_t height, CoreOption option) = 0;
 
 		/**
 		@brief	初期化を行う。
@@ -52,10 +60,9 @@ namespace ace {
 		@param	width	横幅
 		@param	height	縦幅
 		@param	isOpenGLMode	OpenGLで起動するかどうか?
-		@param	isMultithreadingMode	マルチスレッドモードを使用するかどうか?
 		@return	成否
 		*/
-		virtual bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, bool isMultithreadingMode) = 0;
+		virtual bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, CoreOption option) = 0;
 
 		/**
 		@brief	イベントを実行し、進行可否を判断する。
@@ -120,14 +127,14 @@ namespace ace {
 		virtual void TakeScreenshot(const achar* path) = 0;
 
 		/**
-			@brief	1フレームで経過した時間を実時間(1/60秒を1とした値)で取得する。
-			@return	経過時間時間(1/60秒を1とした値)
+			@brief	1フレームで経過した時間を実時間(秒)で取得する。
+			@return	経過時間時間(秒)
 		*/
 		virtual float GetDeltaTime() const = 0;
 
 		/**
 		@brief	1フレームで経過した時間を外部から設定する。
-		@param	deltaTime	経過時間(1/60s)単位
+		@param	deltaTime	経過時間(秒)
 		@note
 		基本的に開発者は使用する必要はない。
 		何らかの理由で無理やり経過時間を指定する場合に使用する。
@@ -222,6 +229,11 @@ namespace ace {
 		virtual ObjectSystemFactory* GetObjectSystemFactory() = 0;
 
 		virtual AnimationSystem* GetAnimationSyatem() = 0;
+
+		/**
+		@brief	ウィンドウサイズを取得する。
+		*/
+		virtual Vector2DI GetWindowSize() = 0;
 	};
 	//----------------------------------------------------------------------------------
 	//

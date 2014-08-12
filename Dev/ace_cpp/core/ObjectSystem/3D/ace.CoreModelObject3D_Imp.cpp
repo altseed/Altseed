@@ -2,7 +2,7 @@
 #include "ace.CoreModelObject3D_Imp.h"
 #include "ace.CoreLayer3D_Imp.h"
 
-#include "../../Graphics/3D/ace.RenderedModelObject3D.h"
+#include "../../Graphics/3D/Object/ace.RenderedModelObject3D.h"
 
 namespace ace
 {

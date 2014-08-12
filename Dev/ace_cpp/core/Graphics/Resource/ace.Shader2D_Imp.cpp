@@ -107,88 +107,9 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 	//----------------------------------------------------------------------------------
 	Shader2D_Imp::Shader2D_Imp(
 		Graphics* graphics,
-		std::shared_ptr<NativeShader_Imp> shader,
-		std::vector<ShaderVariableProperty> vertexVariableProperties,
-		std::vector<ShaderVariableProperty> pixelVariableProperties)
+		std::shared_ptr<NativeShader_Imp> shader)
 	{
-		auto calcSize = [](decltype(vertexVariableProperties)& prop)->int32_t
-		{
-			int32_t constantSize = 0;
-			for (auto p : prop)
-			{
-				if (p.Type == SHADER_VARIABLE_TYPE_FLOAT)
-				{
-					auto s = p.Offset + sizeof(float) * 4;
-					constantSize = Max(constantSize, s);
-				}
-				else if (p.Type == SHADER_VARIABLE_TYPE_VECTOR2DF)
-				{
-					auto s = p.Offset + sizeof(float) * 4;
-					constantSize = Max(constantSize, s);
-				}
-				else if (p.Type == SHADER_VARIABLE_TYPE_VECTOR3DF)
-				{
-					auto s = p.Offset + sizeof(float) * 4;
-					constantSize = Max(constantSize, s);
-				}
-			}
-
-			return constantSize;
-		};
-
-		int32_t vConstantSize = calcSize(vertexVariableProperties);
-		int32_t pConstantSize = calcSize(pixelVariableProperties);
-
-		auto genInfo = [](decltype(vertexVariableProperties)& prop)->std::vector<ConstantBufferInformation>
-		{
-			std::vector<ConstantBufferInformation> info;
-			for (auto p : prop)
-			{
-				if (p.Type == SHADER_VARIABLE_TYPE_FLOAT)
-				{
-					ConstantBufferInformation i;
-					i.Name = ToUtf8String(p.Name.c_str());
-					i.Offset = p.Offset;
-					i.Format = CONSTANT_BUFFER_FORMAT_FLOAT1;
-					info.push_back(i);
-				}
-				else if (p.Type == SHADER_VARIABLE_TYPE_VECTOR2DF)
-				{
-					ConstantBufferInformation i;
-					i.Name = ToUtf8String(p.Name.c_str());
-					i.Offset = p.Offset;
-					i.Format = CONSTANT_BUFFER_FORMAT_FLOAT2;
-					info.push_back(i);
-				}
-				else if (p.Type == SHADER_VARIABLE_TYPE_VECTOR3DF)
-				{
-					ConstantBufferInformation i;
-					i.Name = ToUtf8String(p.Name.c_str());
-					i.Offset = p.Offset;
-					i.Format = CONSTANT_BUFFER_FORMAT_FLOAT3;
-					info.push_back(i);
-				}
-				else if (p.Type == SHADER_VARIABLE_TYPE_TEXTURE2D)
-				{
-					ConstantBufferInformation i;
-					i.Name = ToUtf8String(p.Name.c_str());
-					i.Offset = p.Offset;
-					i.Format = CONSTANT_BUFFER_FORMAT_UNKNOWN;
-					info.push_back(i);
-				}
-			}
-			return info;
-		};
-	
-		auto vInfo = genInfo(vertexVariableProperties);
-		auto pInfo = genInfo(pixelVariableProperties);
-
-		//shader->CreateVertexConstantBuffer(vConstantSize, vInfo);
-		//shader->CreatePixelConstantBuffer(pConstantSize, pInfo);
-
 		m_shader = shader;
-		m_vertexVariableProperties = vertexVariableProperties;
-		m_pixelVariableProperties = pixelVariableProperties;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -208,9 +129,6 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 		const achar* shaderFileName,
 		Log* log)
 	{
-		std::vector <ShaderVariableProperty> vertexVariableProperties;
-		std::vector <ShaderVariableProperty> pixelVariableProperties;
-
 		auto g = (Graphics_Imp*) graphics;
 
 		std::vector<ace::VertexLayout> vl;
@@ -251,9 +169,7 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 
 		return new Shader2D_Imp(
 			g, 
-			shader, 
-			vertexVariableProperties,
-			pixelVariableProperties);
+			shader);
 	}
 
 	//----------------------------------------------------------------------------------

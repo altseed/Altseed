@@ -20,5 +20,20 @@ namespace ace
 		{
 			return degree * Reverse180 * (float)Math.PI;
 		}
+
+		public static T Clamp<T>(T v, T max, T min) where T : System.IComparable<T>
+		{
+			if (v.CompareTo(max) > 0)
+			{
+				v = max;
+			}
+
+			if (v.CompareTo(min) < 0)
+			{
+				v = min;
+			}
+
+			return v;
+		}
 	}
 }

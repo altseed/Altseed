@@ -18,12 +18,12 @@ namespace ace
 		/**
 		@brief	このオブジェクトの原点位置を取得する。この位置が、描画する際の描画・拡縮・回転の中心となる。
 		*/
-		virtual const Vector2DF GetCenterPosition() const = 0;
+		virtual Vector2DF GetCenterPosition() const = 0;
 
 		/**
 		@brief	このオブジェクトの描画優先度を取得します。
 		*/
-		virtual const int GetDrawingPriority() const = 0;
+		virtual int GetDrawingPriority() const = 0;
 
 		/**
 		@brief	このオブジェクトの原点位置を設定する。この位置が、描画する際の描画・拡縮・回転の中心となる。
@@ -38,13 +38,17 @@ namespace ace
 		/**
 		@brief	このオブジェクトに描画チップを追加する。
 		*/
-		virtual const bool AddChip(Chip2D* chip) = 0;
+		virtual bool AddChip(Chip2D* chip) = 0;
 
 		/**
 		@brief	このオブジェクトから描画チップを削除する。
 		*/
-		virtual const bool RemoveChip(Chip2D* chip) = 0;
+		virtual bool RemoveChip(Chip2D* chip) = 0;
 
+		/**
+		@brief	このオブジェクトに追加されている描画チップを全て削除する。
+		*/
+		virtual void Clear() = 0;
 
 	};
 }

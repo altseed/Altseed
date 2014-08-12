@@ -7,8 +7,6 @@
 
 #include "../ace.Graphics_Imp_GL.h"
 
-#include "../../../Resource/ace.RenderState_Imp.h"
-
 #include "../../../../Log/ace.Log.h"
 
 //----------------------------------------------------------------------------------
@@ -31,23 +29,34 @@ NativeShader_Imp_GL::NativeShader_Imp_GL(
 	int32_t vertexSize,
 	std::vector<ConstantLayout>& uniformLayouts,
 	int32_t uniformBufferSize,
-	std::vector<std::string>& textures)
+	std::vector<TextureLayout>& textures)
 	: NativeShader_Imp(graphics)
 	, m_program(program)
 	, m_layout(layout)
 	, m_vertexSize(vertexSize)
 {
+	int32_t index = 0;
+
+	index = 0;
 	for (auto& l : uniformLayouts)
 	{
+		l.Index = index;
 		m_constantLayouts[l.Name] = l;
+		constantLayoutsArray.push_back(&(m_constantLayouts[l.Name]));
+		index++;
 	}
+
+	index = 0;
+	for(auto& l : textures)
+	{
+		l.Index = index;
+		m_textureLayouts[l.Name] = l;
+		textureLayoutsArray.push_back(&(m_textureLayouts[l.Name]));
+		index++;
+	}
+
 	m_constantBuffer = new uint8_t[uniformBufferSize];
 
-	for (auto i = 0; i < textures.size(); i++)
-	{
-		if (textures[i] == "") continue;
-		m_textureLayouts[textures[i]] = i;
-	}
 }
 
 //----------------------------------------------------------------------------------
@@ -62,7 +71,7 @@ NativeShader_Imp_GL::~NativeShader_Imp_GL()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<std::string>& textures)
+void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures)
 {
 	int32_t uniformCount = 0;
 	glGetProgramiv(program, GL_ACTIVE_UNIFORMS, &uniformCount);
@@ -80,11 +89,17 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 
 		if (type == GL_SAMPLER_2D)
 		{
-			textures.push_back(name);
+			TextureLayout layout;
+			layout.Name = name;
+			layout.ID = textures.size();
+			textures.push_back(layout);
 		}
 		else if (type == GL_SAMPLER_CUBE)
 		{
-			textures.push_back(name);
+			TextureLayout layout;
+			layout.Name = name;
+			layout.ID = textures.size();
+			textures.push_back(layout);
 		}
 		else
 		{
@@ -116,8 +131,24 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 			}
 			else if (type == GL_FLOAT_MAT4)
 			{
-				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
-				offset += sizeof(float) * 16 * l.Count;
+				if (l.Count > 1)
+				{
+					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+					offset += sizeof(float) * 16 * l.Count;
+
+					std::string name_ = name;
+					auto result = name_.find_first_of("[");
+					if (result != std::string::npos)
+					{
+						name_ = name_.substr(0, result);
+						l.Name = name_;
+					}
+				}
+				else
+				{
+					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
+					offset += sizeof(float) * 16 * l.Count;
+				}
 			}
 			else
 			{
@@ -135,50 +166,33 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void NativeShader_Imp_GL::CreateVertexConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
+
+int32_t NativeShader_Imp_GL::GetConstantBufferID(const char* name)
 {
-	m_vertexConstantLayouts.clear();
+	auto key = std::string(name);
 
-	for (auto& i : info)
+	auto it = m_constantLayouts.find(key);
+
+	if (it != m_constantLayouts.end())
 	{
-		auto id = glGetUniformLocation(m_program, i.Name.c_str());
-
-		ConstantLayout c;
-		c.ID = id;
-		c.Type = i.Format;
-		c.Offset = i.Offset;
-		c.Count = i.Count;
-		m_vertexConstantLayouts.push_back(c);
+		return it->second.Index;
 	}
-
-	GLCheckError();
+	return -1;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void NativeShader_Imp_GL::CreatePixelConstantBufferInternal(int32_t size, std::vector <ConstantBufferInformation>& info)
+int32_t NativeShader_Imp_GL::GetTextureID(const char* name)
 {
-	m_pixelConstantLayouts.clear();
+	auto key = std::string(name);
 
-	for (auto& i : info)
+	auto it = m_textureLayouts.find(key);
+
+	if (it != m_textureLayouts.end())
 	{
-		auto id = glGetUniformLocation(m_program, i.Name.c_str());
-
-		ConstantLayout c;
-		c.ID = id;
-		c.Type = i.Format;
-		c.Offset = i.Offset;
-		c.Count = i.Count;
-		m_pixelConstantLayouts.push_back(c);
+		return it->second.Index;
 	}
-
-	GLCheckError();
+	return -1;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 void NativeShader_Imp_GL::SetConstantBuffer(const char* name, const void* data, int32_t size)
 {
 	auto key = std::string(name);
@@ -194,6 +208,17 @@ void NativeShader_Imp_GL::SetConstantBuffer(const char* name, const void* data, 
 	}
 }
 
+void NativeShader_Imp_GL::SetConstantBuffer(int32_t id, const void* data, int32_t size)
+{
+	assert(id < (int32_t) constantLayoutsArray.size());
+	if (id < 0) return;
+
+	auto& layout = constantLayoutsArray[id];
+	auto size_ = GetBufferSize(layout->Type, layout->Count);
+	assert(size == size_);
+	memcpy(&(m_constantBuffer[layout->Offset]), data, size);
+}
+
 void NativeShader_Imp_GL::SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType)
 {
 	auto key = std::string(name);
@@ -203,11 +228,18 @@ void NativeShader_Imp_GL::SetTexture(const char* name, Texture* texture, Texture
 
 	if (it != m_textureLayouts.end())
 	{
-		NativeShader_Imp::SetTexture(name, texture, (*it).second);
-
-		g->GetRenderState()->GetActiveState().TextureFilterTypes[(*it).second] = filterType;
-		g->GetRenderState()->GetActiveState().TextureWrapTypes[(*it).second] = wrapType;
+		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it).second.ID);
 	}
+}
+
+void NativeShader_Imp_GL::SetTexture(int32_t id, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType)
+{
+	assert(id < (int32_t) textureLayoutsArray.size());
+	if (id < 0) return;
+
+	auto& layout = textureLayoutsArray[id];
+
+	NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->ID);
 }
 
 //----------------------------------------------------------------------------------
@@ -269,126 +301,6 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT3)
 		{
 			uint8_t* data = (uint8_t*) m_constantBuffer;
-			data += l.Offset;
-			glUniform3fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-	}
-
-	for (auto& l : m_vertexConstantLayouts)
-	{
-		if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniformMatrix4fv(
-				l.ID,
-				1,
-				GL_TRUE,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniformMatrix4fv(
-				l.ID,
-				l.Count,
-				GL_TRUE,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT4)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniform4fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT1)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniform1fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT2)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniform2fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT3)
-		{
-			uint8_t* data = (uint8_t*) m_vertexConstantBuffer;
-			data += l.Offset;
-			glUniform3fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-	}
-
-	for (auto& l : m_pixelConstantLayouts)
-	{
-		if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
-			data += l.Offset;
-			glUniformMatrix4fv(
-				l.ID,
-				1,
-				GL_TRUE,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
-			data += l.Offset;
-			glUniformMatrix4fv(
-				l.ID,
-				l.Count,
-				GL_TRUE,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT4)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
-			data += l.Offset;
-			glUniform4fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT1)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
-			data += l.Offset;
-			glUniform1fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT2)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
-			data += l.Offset;
-			glUniform2fv(
-				l.ID,
-				1,
-				(const GLfloat*) data);
-		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT3)
-		{
-			uint8_t* data = (uint8_t*) m_pixelConstantBuffer;
 			data += l.Offset;
 			glUniform3fv(
 				l.ID,
@@ -587,7 +499,7 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 
 	std::vector<ConstantLayout> uniformLayouts;
 	int32_t uniformBufferSize = 0;
-	std::vector<std::string> textures;
+	std::vector<TextureLayout> textures;
 	Reflect(program, uniformLayouts, uniformBufferSize, textures);
 	GLCheckError();
 

@@ -140,7 +140,7 @@ protected:
 
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
 
-		SetCameraParameter(10, 15, -15, 1, 20, 20);
+		SetCameraParameter(10, 15, -15, 1, 2000, 20);
 	}
 
 	void OnUpdating()

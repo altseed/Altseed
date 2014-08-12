@@ -8,7 +8,7 @@ namespace ace
 
 	void CameraObject3D::OnUpdateInternal()
 	{
-		m_coreObject->SetPostEffectCount(m_postEffects.size());
+		m_coreObject->StartAddingPostEffect(m_postEffects.size());
 
 		int32_t count = 0;
 		for (auto& p : m_postEffects)
