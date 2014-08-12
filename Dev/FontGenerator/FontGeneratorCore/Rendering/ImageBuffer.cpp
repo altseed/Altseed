@@ -40,12 +40,12 @@ namespace FontGenerator
 			}
 		}
 
-		glyph->Draw(buffers[sheetNum]->data(), sheetSize, sheetSize, penX, baseLineY);
+		glyph->Draw(buffers[sheetNum]->data(), sheetSize, sheetSize, penX + 1, baseLineY);
 
 		auto src = ace::RectI(penX, baseLineY - ascender, advance, height);
 		auto result = ace::GlyphData(glyph->GetCharactor(), sheetNum, src);
 
-		penX += advance;
+		penX += advance + 1;
 
 		return result;
 	}
