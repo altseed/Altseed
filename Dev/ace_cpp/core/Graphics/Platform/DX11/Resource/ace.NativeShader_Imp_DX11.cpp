@@ -21,6 +21,17 @@ ID3DBlob* NativeShader_Imp_DX11::CompileVertexShader(Graphics_Imp_DX11* g, const
 	ID3DBlob* shader = nullptr;
 	ID3DBlob* error = nullptr;
 
+	// DirectX
+	const char* device = "DIRECTX";
+	const char* one = "1";
+
+	{
+		Macro m;
+		m.Name = device;
+		m.Definition = one;
+		macro.push_back(m);
+	}
+
 	if (macro.size() > 0)
 	{
 		Macro m;
@@ -45,6 +56,7 @@ ID3DBlob* NativeShader_Imp_DX11::CompileVertexShader(Graphics_Imp_DX11* g, const
 
 	if (macro.size() > 0)
 	{
+		macro.pop_back();
 		macro.pop_back();
 	}
 
@@ -83,6 +95,17 @@ ID3DBlob* NativeShader_Imp_DX11::CompilePixelShader(Graphics_Imp_DX11* g, const 
 	ID3DBlob* shader = nullptr;
 	ID3DBlob* error = nullptr;
 
+	// DirectX
+	const char* device = "DIRECTX";
+	const char* one = "1";
+
+	{
+		Macro m;
+		m.Name = device;
+		m.Definition = one;
+		macro.push_back(m);
+	}
+
 	if (macro.size() > 0)
 	{
 		Macro m;
@@ -107,6 +130,7 @@ ID3DBlob* NativeShader_Imp_DX11::CompilePixelShader(Graphics_Imp_DX11* g, const 
 
 	if (macro.size() > 0)
 	{
+		macro.pop_back();
 		macro.pop_back();
 	}
 

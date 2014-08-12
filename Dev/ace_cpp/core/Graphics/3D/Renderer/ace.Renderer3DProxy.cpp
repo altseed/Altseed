@@ -389,7 +389,7 @@ namespace ace
 		}
 
 		// エフェクトの更新
-		effectManager->Update(DeltaTime);
+		effectManager->Update(DeltaTime / (1.0f/60.0f));
 
 		RenderingProperty prop;
 		prop.IsLightweightMode = Settings.IsLightweightMode;

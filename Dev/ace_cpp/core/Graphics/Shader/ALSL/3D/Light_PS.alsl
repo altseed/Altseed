@@ -1,5 +1,50 @@
 
 
+/*
+	optimized-ggx.hlsl
+	AUTHOR: John Hable
+
+	F0はフレネル反射係数　非金属なら0.05程度、金属なら0.9程度
+*/
+float calcLightingGGX(float3 N, float3 V, float3 L, float roughness, float F0)
+{
+	float alpha = roughness*roughness;
+
+	float3 H = normalize(V+L);
+
+	#ifdef OPENGL
+	float dotNL = clamp( dot(N,L), 0.0, 1.0);
+	float dotLH = clamp( dot(L,H), 0.0, 1.0);
+	float dotNH = clamp( dot(N,H), 0.0, 1.0);
+	#endif
+
+	#ifdef DIRECTX
+	float dotNL = saturate( dot(N,L) );
+	float dotLH = saturate( dot(L,H) );
+	float dotNH = saturate( dot(N,H) );
+	#endif
+
+	// D
+	float alphaSqr = alpha*alpha;
+	float pi = 3.14159f;
+	float denom = dotNH * dotNH *(alphaSqr-1.0) + 1.0f;
+	float D = alphaSqr/(pi * denom * denom);
+
+	// F
+	float dotLH5 = pow(1.0f-dotLH,5);
+	float F = F0 + (1.0-F0)*(dotLH5);
+
+	// V
+	float k = alpha/2.0f;
+	float k2 = k*k;
+	float invK2 = 1.0f-k2;
+	//float vis = rcp(dotLH*dotLH*invK2 + k2);	// 対応している環境ならこちら推奨(現在分岐がないのでコメントアウト)
+	float vis = 1.0 / (dotLH*dotLH*invK2 + k2);
+
+	float specular = dotNL * D * F * vis;
+	return specular;
+}
+
 float3 calcAmbientColor(float3 upDir, float3 normal)
 {
 	float3 color = float3(0.0,0.0,0.0);
@@ -9,12 +54,24 @@ float3 calcAmbientColor(float3 upDir, float3 normal)
 	return color;
 }
 
-float3 calcDirectionalLightColor(float3 normal, float3 lightDir, float shadow)
+float3 calcDirectionalLightDiffuseColor(float3 diffuseColor, float3 normal, float3 lightDir, float shadow, float ao)
 {
 	float3 color = float3(0.0,0.0,0.0);
+
 	float NoL = dot(normal,lightDir);
-	color.xyz = directionalLightColor * max(NoL,0.0) * shadow;
+	color.xyz = directionalLightColor * max(NoL,0.0) * shadow * ao;
+	color.xyz = color.xyz * diffuseColor.xyz;
 	return color;
+}
+
+float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, float3 lightDir, float smoothness, float fresnel, float shadow, float ao)
+{
+	float3 viewDir = float3(0.0,0.0,1.0);
+	float specular = calcLightingGGX(normal, viewDir, lightDir, smoothness, fresnel);
+	specular = specular * shadow * ao;
+
+	float3 color = float3(specular, specular, specular);
+	return color * specularColor;
 }
 
 float VSM(float2 moments, float t)
