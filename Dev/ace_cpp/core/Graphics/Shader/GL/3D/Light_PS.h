@@ -184,6 +184,8 @@ void main()
 	float ao = texture2D(g_ssaoTexture, uv).x;
 
 	lightColor.xyz += calcDirectionalLightDiffuseColor(diffuseColor, normal, directionalLightDirection, shadow, ao);
+
+	lightColor.xyz += calcDirectionalLightSpecularColor(specularColor, normal, directionalLightDirection, smoothness, 0.06, shadow, ao);
 #endif
 
 #ifdef AMBIENT_LIGHT

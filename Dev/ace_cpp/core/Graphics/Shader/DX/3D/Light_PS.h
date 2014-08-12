@@ -188,6 +188,8 @@ float4 main( const PS_Input Input ) : SV_Target
 	float ao = g_ssaoTexture.Sample(g_ssaoSampler, uv).x;
 
 	lightColor.xyz += calcDirectionalLightDiffuseColor(diffuseColor, normal, directionalLightDirection, shadow, ao);
+
+	lightColor.xyz += calcDirectionalLightSpecularColor(specularColor, normal, directionalLightDirection, smoothness, 0.06, shadow, ao);
 #endif
 
 #ifdef AMBIENT_LIGHT
