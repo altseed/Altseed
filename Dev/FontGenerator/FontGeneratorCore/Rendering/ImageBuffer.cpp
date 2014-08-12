@@ -23,6 +23,8 @@ namespace FontGenerator
 
 	ace::GlyphData ImageBuffer::DrawGlyph(Glyph::Ptr glyph)
 	{
+		const int SPACE_WIDTH = 1;
+
 		auto advance = glyph->GetAdvance();
 		if (penX + advance > sheetSize)
 		{
@@ -40,12 +42,12 @@ namespace FontGenerator
 			}
 		}
 
-		glyph->Draw(buffers[sheetNum]->data(), sheetSize, sheetSize, penX + 1, baseLineY);
+		glyph->Draw(buffers[sheetNum]->data(), sheetSize, sheetSize, penX, baseLineY);
 
 		auto src = ace::RectI(penX, baseLineY - ascender, advance, height);
 		auto result = ace::GlyphData(glyph->GetCharactor(), sheetNum, src);
 
-		penX += advance + 1;
+		penX += advance + SPACE_WIDTH;
 
 		return result;
 	}
