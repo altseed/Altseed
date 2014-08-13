@@ -354,6 +354,8 @@ namespace ace
 			ssao = std::make_shared<SSAO>(g);
 		}
 
+		environmentRendering = std::make_shared<EnvironmentRendering>(g, m_shadowVertexBuffer, m_shadowIndexBuffer);
+
 		factory = new RenderingCommandFactory();
 	}
 
@@ -504,6 +506,11 @@ namespace ace
 			}
 		}
 
+		// 環境描画
+		environmentRendering->Render(
+			cP, helper,
+			cP->GetRenderTargetDiffuseColor(), cP->GetRenderTargetSpecularColor_Smoothness(), cP->GetRenderTargetDepth(), cP->GetRenderTargetAO_MatID(),
+			EnvironmentDiffuseColor.get(), EnvironmentSpecularColor.get());
 
 		// SSAO
 		if (ssao->IsEnabled())
@@ -520,21 +527,7 @@ namespace ace
 		// 直接光描画
 		{
 			auto invCameraMat = (prop.CameraMatrix).GetInverted();
-
-			auto fov = cP->FOV / 180.0f * 3.141592f;
-			auto aspect = (float) cP->WindowSize.X / (float) cP->WindowSize.Y;
-
-			float yScale = 1 / tanf(fov / 2);
-			float xScale = yScale / aspect;
-
-			auto reconstructInfo1 = Vector3DF(cP->ZNear * cP->ZFar, cP->ZFar - cP->ZNear, -cP->ZFar);
-			//auto reconstructInfo1 = Vector3DF(cP->ZFar - cP->ZNear, cP->ZNear, 0.0f);
-			auto reconstructInfo2 = Vector4DF(1.0f / xScale, 1.0f / yScale, 0.0f, 0.0f);
-
-			Vector3DF upDir = Vector3DF(0, 1, 0);
-			Vector3DF zero;
-			zero = prop.CameraMatrix.Transform3D(zero);
-			upDir = prop.CameraMatrix.Transform3D(upDir) - zero;
+			auto zero = prop.CameraMatrix.Transform3D(Vector3DF());
 
 			Vector3DF groundLightColor(
 				prop.GroundLightColor.R / 255.0f,
@@ -670,9 +663,9 @@ namespace ace
 							h::GenValue("groundLightColor", groundLightColor),
 							h::GenValue("directionalLightDirection", directionalLightDirection),
 							h::GenValue("directionalLightColor", directionalLightColor),
-							h::GenValue("upDir", upDir),
-							h::GenValue("reconstructInfo1", reconstructInfo1),
-							h::GenValue("reconstructInfo2", reconstructInfo2),
+							h::GenValue("upDir", cP->UpDir),
+							h::GenValue("reconstructInfo1", cP->ReconstructInfo1),
+							h::GenValue("reconstructInfo2", cP->ReconstructInfo2),
 							h::GenValue("g_shadowProjection", ShadowProjection),
 							h::GenValue("g_cameraPositionToShadowCameraPosition", CameraPositionToShadowCameraPosition),
 							h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
@@ -721,9 +714,9 @@ namespace ace
 					h::GenValue("groundLightColor", groundLightColor),
 					h::GenValue("directionalLightDirection", directionalLightDirection),
 					h::GenValue("directionalLightColor", directionalLightColor),
-					h::GenValue("upDir", upDir),
-					h::GenValue("reconstructInfo1", reconstructInfo1),
-					h::GenValue("reconstructInfo2", reconstructInfo2),
+					h::GenValue("upDir", cP->UpDir),
+					h::GenValue("reconstructInfo1", cP->ReconstructInfo1),
+					h::GenValue("reconstructInfo2", cP->ReconstructInfo2),
 					h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 					h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 					h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
@@ -765,6 +758,10 @@ namespace ace
 			{
 				flag = 3.0f;
 			}
+			else if (Settings.VisualizedBuffer == VisualizedBufferType::Environment)
+			{
+				flag = 4.0f;
+			}
 
 			Texture2D* ssaoTexture = dummyTextureWhite.get();
 			if (ssao->IsEnabled())
@@ -784,7 +781,8 @@ namespace ace
 				h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 				h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 				h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-				h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+				h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+				h::GenValue("g_environmentTexture", h::Texture2DPair(cP->GetRenderTargetEnvironment(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
 				);
 		}
 	}

@@ -9,6 +9,8 @@
 #include "../PostProcess/ace.SSAO.h"
 #include "../Object/ace.RenderedObject3D.h"
 
+#include "ace.EnvironmentRendering.h"
+
 namespace ace
 {
 	class Renderer3DProxy
@@ -49,7 +51,7 @@ namespace ace
 		EffekseerRenderer::Renderer*			effectRenderer = nullptr;
 
 		std::shared_ptr<SSAO>					ssao;
-
+		std::shared_ptr<EnvironmentRendering>	environmentRendering;
 	public:
 
 		Renderer3DProxy(Graphics* graphics);

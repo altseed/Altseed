@@ -101,6 +101,7 @@ namespace ace
 		SpecularColor = swig.VisualizedBufferType.SpecularColor,
 		Smoothness = swig.VisualizedBufferType.Smoothness,
 		Normal = swig.VisualizedBufferType.Normal,
+		Environment = swig.VisualizedBufferType.Environment,
 	}
 
     ///<summary>

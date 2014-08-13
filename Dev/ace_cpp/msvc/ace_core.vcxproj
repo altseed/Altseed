@@ -185,6 +185,7 @@
     <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedModelObject3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedObject3D.h" />
     <ClInclude Include="..\core\Graphics\3D\PostProcess\ace.SSAO.h" />
+    <ClInclude Include="..\core\Graphics\3D\Renderer\ace.EnvironmentRendering.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.LightRendering.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.h" />
@@ -261,6 +262,7 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\2D\Renderer2D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\DeferredBuffer_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Environment_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Light_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_VS.h" />
@@ -399,6 +401,7 @@
     <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedModelObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\PostProcess\ace.SSAO.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Renderer\ace.EnvironmentRendering.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.LightRendering.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.cpp" />

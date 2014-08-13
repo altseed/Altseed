@@ -187,6 +187,13 @@ namespace ace {
 				TextureWrapType		WrapType;
 			} Texture2DPtr;
 
+			struct
+			{
+				CubemapTexture*		Ptr;
+				TextureFilterType	FilterType;
+				TextureWrapType		WrapType;
+			} CubemapTexturePtr;
+
 			/**
 				@brief	行列の配列
 				@note
@@ -209,6 +216,8 @@ namespace ace {
 		ShaderConstantValue(const Matrix44& value);
 		ShaderConstantValue(Matrix44* value, int32_t count);
 		ShaderConstantValue(Texture2D* value, TextureFilterType filterType, TextureWrapType wrapType);
+		ShaderConstantValue(CubemapTexture* value, TextureFilterType filterType, TextureWrapType wrapType);
+
 		virtual ~ShaderConstantValue();
 		ShaderConstantValue& operator=(const ShaderConstantValue& value);
 	};

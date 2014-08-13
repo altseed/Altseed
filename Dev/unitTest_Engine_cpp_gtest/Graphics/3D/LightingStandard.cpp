@@ -18,10 +18,27 @@ protected:
 	{
 		ace::RenderSettings settings;
 		//settings.IsLightweightMode = true;
-		//settings.VisualizedBuffer = ace::VisualizedBufferType::Smoothness;
+		//settings.VisualizedBuffer = ace::VisualizedBufferType::Environment;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
+
+		// リソース
+		luTexs[0] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/White.png").c_str());
+		luTexs[1] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/LightGray.png").c_str());
+		luTexs[2] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Gray.png").c_str());
+		luTexs[3] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/DarkGray.png").c_str());
+		luTexs[4] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Black.png").c_str());
+
+		auto cubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFrom6ImageFiles(
+			ace::ToAString("Data/Cubemap/Sky1/Front.png").c_str(),
+			ace::ToAString("Data/Cubemap/Sky1/Left.png").c_str(),
+			ace::ToAString("Data/Cubemap/Sky1/Back.png").c_str(),
+			ace::ToAString("Data/Cubemap/Sky1/Right.png").c_str(),
+			ace::ToAString("Data/Cubemap/Sky1/Top.png").c_str(),
+			ace::ToAString("Data/Cubemap/Sky1/Bottom.png").c_str()
+			);
+
 
 		auto plainObj = std::make_shared<ace::ModelObject3D>();
 		auto sphereObj = std::make_shared<ace::ModelObject3D>();
@@ -44,19 +61,14 @@ protected:
 
 		mainMesh = sphereModel->GetMesh(0);
 
-		// テクスチャ
-		luTexs[0] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/White.png").c_str());
-		luTexs[1] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/LightGray.png").c_str());
-		luTexs[2] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Gray.png").c_str());
-		luTexs[3] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/DarkGray.png").c_str());
-		luTexs[4] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Black.png").c_str());
-
 		// 球素材
 		auto mesh = sphereModel->GetMesh(0);
 		mesh->SetColorTexture(0,luTexs[0]);
 		mesh->SetSpecularTexture(0, luTexs[2]);
 		mesh->SetSmoothnessTexture(0, luTexs[2]);
 
+		// 環境
+		GetLayer3D()->SetEnvironmentColor(cubemap, std::shared_ptr<ace::CubemapTexture>());
 		// 環境光
 #if 0
 		GetLayer3D()->SetSkyAmbientColor(ace::Color(80, 80, 120, 255));

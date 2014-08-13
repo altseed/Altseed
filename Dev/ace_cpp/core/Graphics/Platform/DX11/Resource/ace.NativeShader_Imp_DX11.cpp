@@ -101,9 +101,9 @@ ID3DBlob* NativeShader_Imp_DX11::CompilePixelShader(Graphics_Imp_DX11* g, const 
 
 	{
 		Macro m;
-		m.Name = device;
-		m.Definition = one;
-		macro.push_back(m);
+m.Name = device;
+m.Definition = one;
+macro.push_back(m);
 	}
 
 	if (macro.size() > 0)
@@ -195,13 +195,25 @@ void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& 
 			}
 		}
 	};
-	
+
 	auto getResourceType = [](D3D11_SHADER_INPUT_BIND_DESC bindDesc, eConstantBufferFormat& format, int32_t& bindPoint) -> bool
 	{
-		if (bindDesc.Type == D3D_SIT_TEXTURE && bindDesc.Dimension == D3D_SRV_DIMENSION_TEXTURE2D)
+		if (bindDesc.Type == D3D_SIT_TEXTURE)
 		{
-			bindPoint = bindDesc.BindPoint;
-			return true;
+			if (bindDesc.Dimension == D3D_SRV_DIMENSION_TEXTURE2D)
+			{
+				bindPoint = bindDesc.BindPoint;
+				return true;
+			}
+			else if (bindDesc.Dimension == D3D_SRV_DIMENSION_TEXTURECUBE)
+			{
+				bindPoint = bindDesc.BindPoint;
+				return true;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 		return false;

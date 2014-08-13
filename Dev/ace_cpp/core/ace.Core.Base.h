@@ -210,6 +210,7 @@ namespace ace {
 		SHADER_VARIABLE_TYPE_MATRIX44,
 		SHADER_VARIABLE_TYPE_MATRIX44_ARRAY,
 		SHADER_VARIABLE_TYPE_TEXTURE2D,
+		SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE,
 	};
 
 	/**
@@ -222,6 +223,7 @@ namespace ace {
 		SpecularColor,
 		Normal,
 		Smoothness,
+		Environment,
 	};
 
 	/**
