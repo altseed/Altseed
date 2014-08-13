@@ -11,10 +11,14 @@ public:
 
 protected:
 
+	std::shared_ptr<ace::Texture2D> luTexs[5];
+	std::shared_ptr<ace::Mesh> mainMesh;
+
 	void OnStart() override
 	{
 		ace::RenderSettings settings;
 		//settings.IsLightweightMode = true;
+		//settings.VisualizedBuffer = ace::VisualizedBufferType::Smoothness;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
@@ -38,14 +42,21 @@ protected:
 
 		SetCameraParameter(10, 15, -15, 1, 200, 20);
 
+		mainMesh = sphereModel->GetMesh(0);
+
 		// テクスチャ
-		auto texWhite = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/White.png").c_str());
-		auto texBlack = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Black.png").c_str());
+		luTexs[0] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/White.png").c_str());
+		luTexs[1] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/LightGray.png").c_str());
+		luTexs[2] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Gray.png").c_str());
+		luTexs[3] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/DarkGray.png").c_str());
+		luTexs[4] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Black.png").c_str());
 
 		// 球素材
 		auto mesh = sphereModel->GetMesh(0);
-		mesh->SetColorTexture(0,texWhite);
-		mesh->SetSpecularTexture(0, texWhite);
+		mesh->SetColorTexture(0,luTexs[0]);
+		mesh->SetSpecularTexture(0, luTexs[2]);
+		mesh->SetSmoothnessTexture(0, luTexs[2]);
+
 		// 環境光
 #if 0
 		GetLayer3D()->SetSkyAmbientColor(ace::Color(80, 80, 120, 255));
@@ -60,6 +71,25 @@ protected:
 	void OnUpdating()
 	{
 		EngineGraphics3DTest::OnUpdating();
+
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::Q) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[0]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::W) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[1]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::E) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[2]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::R) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[3]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::T) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[4]);
+
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::A) == ace::KeyState::Push) mainMesh->SetSpecularTexture(0, luTexs[0]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::S) == ace::KeyState::Push) mainMesh->SetSpecularTexture(0, luTexs[1]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::D) == ace::KeyState::Push) mainMesh->SetSpecularTexture(0, luTexs[2]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::F) == ace::KeyState::Push) mainMesh->SetSpecularTexture(0, luTexs[3]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::G) == ace::KeyState::Push) mainMesh->SetSpecularTexture(0, luTexs[4]);
+
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::Z) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[0]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::X) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[1]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::C) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[2]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::V) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[3]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::B) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[4]);
+
 	}
 };
 

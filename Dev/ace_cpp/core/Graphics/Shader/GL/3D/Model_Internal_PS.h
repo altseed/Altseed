@@ -6,6 +6,7 @@ uniform sampler2D g_colorTexture;
 
 uniform sampler2D g_normalTexture;
 uniform sampler2D g_specularTexture;
+uniform sampler2D g_smoothnessTexture;
 
 in vec4 voutPosition;
 in vec4 voutProjPosition;
@@ -75,7 +76,7 @@ void main()
 	//NormalDepth = diffuseColor;
 
 	SpecularColor_Smoothness.xyz = texture2D(g_specularTexture, voutUV_).xyz;
-	SpecularColor_Smoothness.w = 0.5;
+	SpecularColor_Smoothness.w = texture2D(g_smoothnessTexture, voutUV_).x;
 
 	AO_MatID.x = 1.0;
 	AO_MatID.y = 0;

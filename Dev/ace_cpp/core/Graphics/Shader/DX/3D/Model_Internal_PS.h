@@ -10,6 +10,9 @@ SamplerState	g_normalSampler		: register( s1 );
 Texture2D		g_specularTexture		: register( t2 );
 SamplerState	g_specularSampler		: register( s2 );
 
+Texture2D		g_smoothnessTexture		: register( t3 );
+SamplerState	g_smoothnessSampler		: register( s3 );
+
 struct PS_Input
 {
 	float4 SV_Position		: SV_POSITION;
@@ -75,7 +78,7 @@ PS_Output main( const PS_Input Input )
 	//Output.NormalDepth.z = 0.0;
 
 	Output.SpecularColor_Smoothness.xyz = g_specularTexture.Sample(g_specularSampler, Input.UV).xyz;
-	Output.SpecularColor_Smoothness.w = 0.5;
+	Output.SpecularColor_Smoothness.w = g_smoothnessTexture.Sample(g_smoothnessSampler, Input.UV).x;
 
 	Output.AO_MatID.x = 1.0;
 	Output.AO_MatID.y = 0;
