@@ -41,6 +41,25 @@ unsafe partial class DLL : global::System.IDisposable {
   public DLL() : this(FontGeneratorPINVOKE.new_DLL(), true) {
   }
 
+  public void LoadFontNames() {
+    FontGeneratorPINVOKE.DLL_LoadFontNames(swigCPtr);
+  }
+
+  public int GetFontCount() {
+    int ret = FontGeneratorPINVOKE.DLL_GetFontCount(swigCPtr);
+    return ret;
+  }
+
+  public string GetFontName(int index) {
+    string ret = FontGeneratorPINVOKE.DLL_GetFontName(swigCPtr, index);
+    return ret;
+  }
+
+  public string GetFontPath(int index) {
+    string ret = FontGeneratorPINVOKE.DLL_GetFontPath(swigCPtr, index);
+    return ret;
+  }
+
   public bool Run() {
     bool ret = FontGeneratorPINVOKE.DLL_Run(swigCPtr);
     return ret;

@@ -47,6 +47,7 @@
     <Compile Include="ConfigurationFile.cs" />
     <Compile Include="GenerationConfig.cs" />
     <Compile Include="Generator.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="swig\DLL.cs" />
     <Compile Include="swig\FontGenerator.cs" />

@@ -214,6 +214,18 @@ public class FontGeneratorPINVOKE {
   [global::System.Runtime.InteropServices.DllImport("FontGeneratorCore", EntryPoint="CSharp_delete_DLL")]
   public static extern void delete_DLL(global::System.Runtime.InteropServices.HandleRef jarg1);
 
+  [global::System.Runtime.InteropServices.DllImport("FontGeneratorCore", EntryPoint="CSharp_DLL_LoadFontNames")]
+  public static extern void DLL_LoadFontNames(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("FontGeneratorCore", EntryPoint="CSharp_DLL_GetFontCount")]
+  public static extern int DLL_GetFontCount(global::System.Runtime.InteropServices.HandleRef jarg1);
+
+  [global::System.Runtime.InteropServices.DllImport("FontGeneratorCore", EntryPoint="CSharp_DLL_GetFontName")]
+  public static extern string DLL_GetFontName(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
+  [global::System.Runtime.InteropServices.DllImport("FontGeneratorCore", EntryPoint="CSharp_DLL_GetFontPath")]
+  public static extern string DLL_GetFontPath(global::System.Runtime.InteropServices.HandleRef jarg1, int jarg2);
+
   [global::System.Runtime.InteropServices.DllImport("FontGeneratorCore", EntryPoint="CSharp_DLL_Run")]
   public static extern bool DLL_Run(global::System.Runtime.InteropServices.HandleRef jarg1);
 
