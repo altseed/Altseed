@@ -12,12 +12,6 @@ namespace FontGenerator
 	{
 	}
 
-	void SettingForRendering::ProcessGlyph(Glyph::Ptr source)
-	{
-		source->SetColor(m_fontColor);
-		source->SetBorderSetting(m_border);
-	}
-
 #pragma region GetSet
 	int SettingForRendering::GetFontSize() const
 	{

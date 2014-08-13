@@ -3,7 +3,6 @@
 #include <vector>
 #include "Setting.h"
 #include "Glyph.h"
-#include "GlyphWithBorder.h"
 
 namespace FontGenerator
 {
@@ -19,8 +18,6 @@ namespace FontGenerator
 		typedef std::shared_ptr<SettingForRendering> Ptr;
 
 		SettingForRendering();
-
-		void ProcessGlyph(Glyph::Ptr source);
 
 		int GetFontSize() const;
 		void SetFontSize(int value);
