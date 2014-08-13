@@ -46,6 +46,8 @@ namespace ace
 		void SetSkyAmbientColor(Color color);
 		void SetGroundAmbientColor(Color color);
 
+		void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) override;
+
 		void BeginUpdating();
 		void EndUpdating();
 

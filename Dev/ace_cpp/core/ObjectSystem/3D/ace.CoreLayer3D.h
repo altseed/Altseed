@@ -36,5 +36,6 @@ namespace ace
 		virtual void SetSkyAmbientColor(Color color) = 0;
 		virtual void SetGroundAmbientColor(Color color) = 0;
 
+		virtual void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) = 0;
 	};
 }

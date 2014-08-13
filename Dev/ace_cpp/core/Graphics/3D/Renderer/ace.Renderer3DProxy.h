@@ -65,6 +65,8 @@ namespace ace
 
 		Color							SkyAmbientColor;
 		Color							GroundAmbientColor;
+		std::shared_ptr<CubemapTexture>	EnvironmentDiffuseColor;
+		std::shared_ptr<CubemapTexture>	EnvironmentSpecularColor;
 		RenderSettings					Settings;
 		float							DeltaTime;
 

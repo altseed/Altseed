@@ -134,6 +134,16 @@ namespace ace
 			coreLayer3D.SetGroundAmbientColor(color);
 		}
 
+		/// <summary>
+		/// テクスチャによる環境の色を設定する。
+		/// </summary>
+		/// <param name="diffuseColor">拡散色</param>
+		/// <param name="specularColor">スペキュラ色</param>
+		public void SetEnvironmentColor(CubemapTexture diffuseColor, CubemapTexture specularColor)
+		{
+			coreLayer3D.SetEnvironmentColor(IG.GetCubemapTexture(diffuseColor), IG.GetCubemapTexture(specularColor));
+		}
+
 		internal override void BeginUpdating()
 		{
 			coreLayer3D.BeginUpdating();
