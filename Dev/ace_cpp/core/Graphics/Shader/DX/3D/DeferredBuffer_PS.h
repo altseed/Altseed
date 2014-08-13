@@ -35,7 +35,7 @@ float3 GetDiffuse(float2 uv)
 
 float4 GetSpecularColorAndSmoothness(float2 uv)
 {
-	return g_gbuffer0Texture.Sample(g_gbuffer1Sampler, uv).xyzw;
+	return g_gbuffer1Texture.Sample(g_gbuffer1Sampler, uv).xyzw;
 }
 
 float3 GetNormal(float2 uv)
