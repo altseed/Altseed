@@ -62,7 +62,6 @@ namespace ace
 			matCubeClip.Values[1][2] = 0.0f;
 			matCubeClip.Values[1][3] = -(max_.Y + min_.Y) / (max_.Y - min_.Y);
 
-			// もしかしたら符号が逆の可能性あり
 			if (deviceType == GraphicsDeviceType::DirectX11)
 			{
 				matCubeClip.Values[2][0] = 0.0f;
@@ -92,7 +91,7 @@ namespace ace
 
 		// ライトビューに含むオブジェクトの座標算出
 		auto matCPInv = matCameraProj.GetInverted();
-
+		/*
 		if (deviceType == GraphicsDeviceType::DirectX11)
 		{
 			Vector3DF points[8] = {
@@ -113,6 +112,7 @@ namespace ace
 			}
 		}
 		else
+		*/
 		{
 			Vector3DF points[8] = {
 				Vector3DF(1.0f, 1.0f, -1.0f),
@@ -242,22 +242,6 @@ namespace ace
 
 		// Y方向への射影行列を取得
 		Matrix44 matPerspective;
-		if (deviceType == GraphicsDeviceType::DirectX11)
-		{
-			// [1,	0,	0,	0]
-			// [0,	a,	0,	b]
-			// [0,	0,	1,	0]
-			// [0,	1,	0,	0]
-			// a = f / (f - n);
-			// b = - n * f / (f - n)
-
-			matPerspective.SetIndentity();
-			matPerspective.Values[1][1] = f / (f - n);
-			matPerspective.Values[3][1] = 1.0f;
-			matPerspective.Values[1][3] = -n * f / (f - n);
-			matPerspective.Values[3][3] = 0.0f;
-		}
-		else
 		{
 			// [1,	0,	0,	0]
 			// [0,	a,	0,	b]
