@@ -215,11 +215,12 @@ namespace ace {
 	/**
 	@brief	3D描画時に表示されるバッファ
 	*/
-	enum eVisalizedBuffer
+	enum class VisalizedBufferType : int32_t
 	{
-		VISALIZED_BUFFER_FINALIMAGE,
-		VISALIZED_BUFFER_DIFFUSE,
-		VISALIZED_BUFFER_NORMAL,
+		FinalImage,
+		DiffuseColor,
+		SpecularColor,
+		Normal,
 	};
 
 	/**
@@ -236,12 +237,12 @@ namespace ace {
 		/**
 			@brief	画面に表示されるバッファ
 		*/
-		eVisalizedBuffer VisalizedBuffer;
+		VisalizedBufferType VisalizedBuffer;
 
 		RenderSettings()
 		{
 			IsLightweightMode = false;
-			VisalizedBuffer = VISALIZED_BUFFER_FINALIMAGE;
+			VisalizedBuffer = VisalizedBufferType::FinalImage;
 		}
 	};
 

@@ -20,7 +20,7 @@ namespace ace
 			if(settings != null)
 			{
 				settings_.IsLightweightMode = settings.IsLightweightMode;
-				settings_.VisalizedBuffer = (swig.eVisalizedBuffer)settings.VisualizedBuffer;
+				settings_.VisalizedBuffer = (swig.VisalizedBufferType)settings.VisualizedBuffer;
 			}
 
 			coreLayer3D = Engine.ObjectSystemFactory.CreateLayer3D(settings_);
@@ -84,7 +84,7 @@ namespace ace
 			{
 				swig.RenderSettings settings_ = new swig.RenderSettings();
 				settings_.IsLightweightMode = value.IsLightweightMode;
-				settings_.VisalizedBuffer = (swig.eVisalizedBuffer)value.VisualizedBuffer;
+				settings_.VisalizedBuffer = (swig.VisalizedBufferType)value.VisualizedBuffer;
 				coreLayer3D.SetRenderSettings(settings_);
 			}
 		}

@@ -24,6 +24,11 @@ vec3 GetDiffuse(vec2 uv)
 	return texture2D(g_gbuffer0Texture, uv).xyz;
 }
 
+vec4 GetSpecularColorAndSmoothness(vec2 uv)
+{
+	return texture2D(g_gbuffer1Texture, uv).xyzw;
+}
+
 vec3 GetNormal(vec2 uv)
 {
 	return texture2D(g_gbuffer2Texture, uv).xyz;
@@ -43,6 +48,10 @@ void main()
 	else if(flag == 1.0)
 	{
 		color.xyz = GetNormal(uv);
+	}
+	else if(flag == 2.0)
+	{
+		color.xyz = GetSpecularColorAndSmoothness(uv).xyz;
 	}
 
 	outOutput0 = color;

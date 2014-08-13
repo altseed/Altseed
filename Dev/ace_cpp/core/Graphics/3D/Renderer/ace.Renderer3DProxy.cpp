@@ -441,7 +441,7 @@ namespace ace
 			helper->SetRenderTarget(renderTarget, nullptr);
 
 			Texture2D* texture = nullptr;
-			if (Settings.IsLightweightMode || Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
+			if (Settings.IsLightweightMode || Settings.VisalizedBuffer == VisalizedBufferType::FinalImage)
 			{
 				texture = cP->GetAffectedRenderTarget();
 			}
@@ -736,7 +736,7 @@ namespace ace
 		// エフェクトの描画
 		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
 
-		if (Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
+		if (Settings.VisalizedBuffer == VisalizedBufferType::FinalImage)
 		{
 			// ポストエフェクト適用
 			cP->ApplyPostEffects(helper);
@@ -749,13 +749,17 @@ namespace ace
 			std::shared_ptr<ace::NativeShader_Imp> shader = m_deferredBufferShader;
 
 			float flag = 0.0f;
-			if (Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_DIFFUSE)
+			if (Settings.VisalizedBuffer == VisalizedBufferType::DiffuseColor)
 			{
 				flag = 0.0f;
 			}
-			else if (Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_NORMAL)
+			else if (Settings.VisalizedBuffer == VisalizedBufferType::Normal)
 			{
 				flag = 1.0f;
+			}
+			else if (Settings.VisalizedBuffer == VisalizedBufferType::SpecularColor)
+			{
+				flag = 2.0f;
 			}
 
 			Texture2D* ssaoTexture = dummyTextureWhite.get();
