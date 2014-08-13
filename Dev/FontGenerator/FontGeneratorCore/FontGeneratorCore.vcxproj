@@ -154,7 +154,6 @@
     <ClInclude Include="Generator.h" />
     <ClInclude Include="Rendering\Glyph.h" />
     <ClInclude Include="PngGenerator.h" />
-    <ClInclude Include="Rendering\GlyphWithBorder.h" />
     <ClInclude Include="Rendering\ImageBuffer.h" />
     <ClInclude Include="Rendering\RasterizedGlyph.h" />
     <ClInclude Include="Rendering\Span.h" />
@@ -172,7 +171,6 @@
     <ClCompile Include="Generator.cpp" />
     <ClCompile Include="Rendering\Glyph.cpp" />
     <ClCompile Include="PngGenerator.cpp" />
-    <ClCompile Include="Rendering\GlyphWithBorder.cpp" />
     <ClCompile Include="Rendering\ImageBuffer.cpp" />
     <ClCompile Include="Rendering\RasterizedGlyph.cpp" />
     <ClCompile Include="Rendering\SettingForRendering.cpp" />

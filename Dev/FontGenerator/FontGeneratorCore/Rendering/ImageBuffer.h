@@ -13,7 +13,6 @@ namespace FontGenerator
 
 	public:
 		ImageBuffer(Font& font, int sheetSize);
-		ace::GlyphData DrawGlyph(Glyph::Ptr glyph);
 		std::vector<vectorPtr>& GetBuffers();
 
 		ace::GlyphData Draw(Glyph::Ptr glyph, Color color, BorderSetting::Ptr border);

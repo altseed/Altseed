@@ -21,37 +21,6 @@ namespace FontGenerator
 		buffers.push_back(CreateBuffer(sheetSize));
 	}
 
-	ace::GlyphData ImageBuffer::DrawGlyph(Glyph::Ptr glyph)
-	{
-		const int SPACE_SIZE = 1;
-
-		auto advance = glyph->GetAdvance();
-		if (penX + advance > sheetSize)
-		{
-			if (baseLineY - descender + height > sheetSize)
-			{
-				sheetNum++;
-				buffers.push_back(CreateBuffer(sheetSize));
-				penX = 0;
-				baseLineY = ascender;
-			}
-			else
-			{
-				penX = 0;
-				baseLineY += height + SPACE_SIZE;
-			}
-		}
-
-		glyph->Draw(buffers[sheetNum]->data(), sheetSize, sheetSize, penX, baseLineY);
-
-		auto src = ace::RectI(penX, baseLineY - ascender, advance, height);
-		auto result = ace::GlyphData(glyph->GetCharactor(), sheetNum, src);
-
-		penX += advance + SPACE_SIZE;
-
-		return result;
-	}
-
 	ImageBuffer::vectorPtr ImageBuffer::CreateBuffer(int sheetSize)
 	{
 		return make_shared<vector<int>>(sheetSize*sheetSize, 0);
