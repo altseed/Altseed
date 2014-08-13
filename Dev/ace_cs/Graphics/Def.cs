@@ -99,6 +99,7 @@ namespace ace
 		FinalImage = swig.VisualizedBufferType.FinalImage,
 		DiffuseColor = swig.VisualizedBufferType.DiffuseColor,
 		SpecularColor = swig.VisualizedBufferType.SpecularColor,
+		Smoothness = swig.VisualizedBufferType.Smoothness,
 		Normal = swig.VisualizedBufferType.Normal,
 	}
 

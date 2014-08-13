@@ -761,6 +761,10 @@ namespace ace
 			{
 				flag = 2.0f;
 			}
+			else if (Settings.VisualizedBuffer == VisualizedBufferType::Smoothness)
+			{
+				flag = 3.0f;
+			}
 
 			Texture2D* ssaoTexture = dummyTextureWhite.get();
 			if (ssao->IsEnabled())

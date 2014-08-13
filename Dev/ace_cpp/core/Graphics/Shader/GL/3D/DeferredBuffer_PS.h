@@ -53,6 +53,11 @@ void main()
 	{
 		color.xyz = GetSpecularColorAndSmoothness(uv).xyz;
 	}
+	else if(flag == 3.0)
+	{
+		float s = GetSpecularColorAndSmoothness(uv).w;
+		color.xyz = vec3(s,s,s);
+	}
 
 	outOutput0 = color;
 }

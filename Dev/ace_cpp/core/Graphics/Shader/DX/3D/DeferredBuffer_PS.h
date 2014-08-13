@@ -62,6 +62,11 @@ float4 main( const PS_Input Input ) : SV_Target
 	{
 		color.xyz = GetSpecularColorAndSmoothness(uv).xyz;
 	}
+	else if(flag == 3.0)
+	{
+		float s = GetSpecularColorAndSmoothness(uv).w;
+		color.xyz = float3(s,s,s);
+	}
 
 	return color;
 }

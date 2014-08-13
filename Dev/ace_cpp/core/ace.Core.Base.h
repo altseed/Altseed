@@ -221,6 +221,7 @@ namespace ace {
 		DiffuseColor,
 		SpecularColor,
 		Normal,
+		Smoothness,
 	};
 
 	/**
