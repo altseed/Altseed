@@ -687,7 +687,50 @@ namespace ace
 				lightIndex++;
 			}
 
-			// TODO 一切光源がない場合の環境光
+			// 一切光源がない場合の環境光
+			if (lightIndex == 0)
+			{
+				helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
+
+				std::shared_ptr<ace::NativeShader_Imp> shader = m_ambientLightShader;
+
+				Texture2D* ssaoTexture = dummyTextureWhite.get();
+				if (ssao->IsEnabled())
+				{
+					ssaoTexture = cP->GetRenderTargetSSAO();
+				}
+
+				Vector3DF directionalLightDirection;
+				Vector3DF directionalLightColor;
+
+				directionalLightDirection = prop.DirectionalLightDirection;
+				directionalLightDirection = prop.CameraMatrix.Transform3D(directionalLightDirection) - zero;
+
+				directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
+				directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
+				directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
+
+				RenderState state;
+				state.DepthTest = false;
+				state.DepthWrite = false;
+				state.Culling = CullingType::Double;
+				state.AlphaBlendState = AlphaBlend::Add;
+
+				helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
+					h::GenValue("skyLightColor", skyLightColor),
+					h::GenValue("groundLightColor", groundLightColor),
+					h::GenValue("directionalLightDirection", directionalLightDirection),
+					h::GenValue("directionalLightColor", directionalLightColor),
+					h::GenValue("upDir", upDir),
+					h::GenValue("reconstructInfo1", reconstructInfo1),
+					h::GenValue("reconstructInfo2", reconstructInfo2),
+					h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+					h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+					h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+					h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+					h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+					);
+			}
 		}
 
 		// エフェクトの描画

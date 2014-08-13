@@ -45,5 +45,23 @@ namespace ace
 			}
 			System.GC.SuppressFinalize(this);
 		}
+
+		/// <summary>
+		/// メッシュを取得する。
+		/// </summary>
+		/// <param name="index">メッシュのインデックス</param>
+		/// <returns></returns>
+		public Mesh GetMesh(int index)
+		{
+			return GC.GenerateMesh(swig.Accessor.Model_GetMesh(SwigObject, index), GC.GenerationType.Get);
+		}
+
+		/// <summary>
+		/// モデルが持つメッシュの個数を取得する。
+		/// </summary>
+		public int MeshCount
+		{
+			get { return SwigObject.GetMeshCount(); }
+		}
 	}
 }

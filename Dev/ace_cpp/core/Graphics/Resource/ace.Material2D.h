@@ -7,7 +7,7 @@
 #include <ace.common.Base.h>
 #include "../../ace.ReferenceObject.h"
 #include "ace.Texture2D.h"
-#include "ace.RenderTexture2D_Imp.h"
+#include "ace.RenderTexture2D.h"
 
 //----------------------------------------------------------------------------------
 //

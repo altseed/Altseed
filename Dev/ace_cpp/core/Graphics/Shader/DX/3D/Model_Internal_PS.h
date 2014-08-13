@@ -21,7 +21,6 @@ struct PS_Input
 	half3 Normal			: NORMAL0;
 	half3 Binormal			: BINORMAL0;
 	half3 Tangent			: TANGENT0;
-	float Depth				: DEPTH0;
 };
 
 #ifdef EXPORT_DEPTH
