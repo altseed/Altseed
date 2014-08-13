@@ -1,5 +1,4 @@
 ﻿static const char* paste_ps_gl = R"(
-#version 130
 
 in vec4 voutPosition;
 in vec2 voutUV;

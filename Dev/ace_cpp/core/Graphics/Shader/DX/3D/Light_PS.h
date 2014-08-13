@@ -39,6 +39,34 @@ struct PS_Input
 };
 
 //<|| ALSL
+float calcLightingGGX(float3 N, float3 V, float3 L, float roughness, float F0)
+{
+	float alpha = roughness * roughness;
+	float3 H = normalize(V + L);
+#ifdef OPENGL
+	float dotNL = clamp(dot(N, L), 0.000000, 1.00000);
+	float dotLH = clamp(dot(L, H), 0.000000, 1.00000);
+	float dotNH = clamp(dot(N, H), 0.000000, 1.00000);
+#endif
+#ifdef DIRECTX
+	float dotNL = saturate(dot(N, L));
+	float dotLH = saturate(dot(L, H));
+	float dotNH = saturate(dot(N, H));
+#endif
+	float alphaSqr = alpha * alpha;
+	float pi = 3.14159f;
+	float denom = dotNH * dotNH * (alphaSqr - 1.00000) + 1.00000f;
+	float D = alphaSqr / (pi * denom * denom);
+	float dotLH5 = pow(1.00000f - dotLH, 5);
+	float F = F0 + (1.00000 - F0) * (dotLH5);
+	float k = alpha / 2.00000f;
+	float k2 = k * k;
+	float invK2 = 1.00000f - k2;
+	float vis = 1.00000 / (dotLH * dotLH * invK2 + k2);
+	float specular = dotNL * D * F * vis;
+	return specular;
+}
+
 float3 calcAmbientColor(float3 upDir, float3 normal)
 {
 	float3 color = float3(0.000000, 0.000000, 0.000000);
@@ -48,12 +76,22 @@ float3 calcAmbientColor(float3 upDir, float3 normal)
 	return color;
 }
 
-float3 calcDirectionalLightColor(float3 normal, float3 lightDir, float shadow)
+float3 calcDirectionalLightDiffuseColor(float3 diffuseColor, float3 normal, float3 lightDir, float shadow, float ao)
 {
 	float3 color = float3(0.000000, 0.000000, 0.000000);
 	float NoL = dot(normal, lightDir);
-	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow;
+	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao;
+	color.xyz = color.xyz * diffuseColor.xyz;
 	return color;
+}
+
+float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, float3 lightDir, float smoothness, float fresnel, float shadow, float ao)
+{
+	float3 viewDir = float3(0.000000, 0.000000, 1.00000);
+	float specular = calcLightingGGX(normal, viewDir, lightDir, smoothness, fresnel);
+	specular = specular * shadow * ao;
+	float3 color = float3(specular, specular, specular);
+	return color * specularColor;
 }
 
 float VSM(float2 moments, float t)
@@ -63,11 +101,12 @@ float VSM(float2 moments, float t)
 	float p = 0.000000;
 	if(t <= ex) p = 1.00000;
 	float variance = ex2 - ex * ex;
-	variance = max(variance, 0.00002);
+	variance = max(variance, 2.00000e-005);
 	float d = t - ex;
 	float p_max = variance / (variance + d * d);
 	return max(p, p_max);
 }
+
 
 
 //||>
@@ -75,6 +114,11 @@ float VSM(float2 moments, float t)
 float3 GetDiffuseColor(float2 uv)
 {
 	return g_gbuffer0Texture.Sample(g_gbuffer0Sampler, uv).xyz;
+}
+
+float4 GetSpecularColorAndSmoothness(float2 uv)
+{
+	return g_gbuffer0Texture.Sample(g_gbuffer1Sampler, uv).xyzw;
 }
 
 float3 GetNormal(float2 uv)
@@ -125,7 +169,12 @@ float4 main( const PS_Input Input ) : SV_Target
 	float3 cameraPos = ReconstructPosition(Input.Position.xy, ReconstructDepth(GetNormalizedDepth(uv)));
 
 	float4 lightColor = float4(0.0,0.0,0.0,1.0);
+
+	float3 diffuseColor = GetDiffuseColor(uv);
 	float3 normal = GetNormal(uv);
+	float4 specularColorAndSmoothness = GetSpecularColorAndSmoothness(uv);
+	float3 specularColor = specularColorAndSmoothness.xyz;
+	float smoothness = specularColorAndSmoothness.w;
 
 #ifdef DIRECTIONAL_LIGHT
 	float4 shadowmapPos = ReconstructShadowmapPosition(cameraPos);
@@ -136,18 +185,16 @@ float4 main( const PS_Input Input ) : SV_Target
 	float2 shadowParam = g_shadowmapTexture.Sample(g_shadowmapSampler, shadowmapUV).xy;
 
 	float shadow = VSM(shadowParam, depth );
+	float ao = g_ssaoTexture.Sample(g_ssaoSampler, uv).x;
 
-	lightColor.xyz += calcDirectionalLightColor(normal, directionalLightDirection, shadow);
+	lightColor.xyz += calcDirectionalLightDiffuseColor(diffuseColor, normal, directionalLightDirection, shadow, ao);
+
+	lightColor.xyz += calcDirectionalLightSpecularColor(specularColor, normal, directionalLightDirection, smoothness, 0.06, shadow, ao);
 #endif
 
 #ifdef AMBIENT_LIGHT
-	lightColor.xyz += calcAmbientColor(upDir, normal);
+	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor;
 #endif
-
-	float ao = g_ssaoTexture.Sample(g_ssaoSampler, uv).x;
-	lightColor.xyz *= ao;
-
-	lightColor.xyz *= GetDiffuseColor(uv);
 
 	return lightColor;
 }

@@ -1,5 +1,4 @@
 ﻿static const char* model_internal_vs_gl = R"(
-#version 330
 
 //<|| モデル共通レジスタ
 uniform mat4	matM[32];

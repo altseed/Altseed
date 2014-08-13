@@ -1,5 +1,4 @@
 ﻿static const char* light_ps_gl = R"(
-#version 330
 
 uniform sampler2D		g_gbuffer0Texture;
 
@@ -32,6 +31,34 @@ out vec4 outOutput0;
 
 
 //<|| ALSL
+float calcLightingGGX(vec3 N, vec3 V, vec3 L, float roughness, float F0)
+{
+	float alpha = roughness * roughness;
+	vec3 H = normalize(V + L);
+#ifdef OPENGL
+	float dotNL = clamp(dot(N, L), 0.000000, 1.00000);
+	float dotLH = clamp(dot(L, H), 0.000000, 1.00000);
+	float dotNH = clamp(dot(N, H), 0.000000, 1.00000);
+#endif
+#ifdef DIRECTX
+	float dotNL = saturate(dot(N, L));
+	float dotLH = saturate(dot(L, H));
+	float dotNH = saturate(dot(N, H));
+#endif
+	float alphaSqr = alpha * alpha;
+	float pi = 3.14159;
+	float denom = dotNH * dotNH * (alphaSqr - 1.00000) + 1.00000;
+	float D = alphaSqr / (pi * denom * denom);
+	float dotLH5 = pow(1.00000 - dotLH, 5);
+	float F = F0 + (1.00000 - F0) * (dotLH5);
+	float k = alpha / 2.00000;
+	float k2 = k * k;
+	float invK2 = 1.00000 - k2;
+	float vis = 1.00000 / (dotLH * dotLH * invK2 + k2);
+	float specular = dotNL * D * F * vis;
+	return specular;
+}
+
 vec3 calcAmbientColor(vec3 upDir, vec3 normal)
 {
 	vec3 color = vec3(0.000000, 0.000000, 0.000000);
@@ -41,12 +68,22 @@ vec3 calcAmbientColor(vec3 upDir, vec3 normal)
 	return color;
 }
 
-vec3 calcDirectionalLightColor(vec3 normal, vec3 lightDir, float shadow)
+vec3 calcDirectionalLightDiffuseColor(vec3 diffuseColor, vec3 normal, vec3 lightDir, float shadow, float ao)
 {
 	vec3 color = vec3(0.000000, 0.000000, 0.000000);
 	float NoL = dot(normal, lightDir);
-	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow;
+	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao;
+	color.xyz = color.xyz * diffuseColor.xyz;
 	return color;
+}
+
+vec3 calcDirectionalLightSpecularColor(vec3 specularColor, vec3 normal, vec3 lightDir, float smoothness, float fresnel, float shadow, float ao)
+{
+	vec3 viewDir = vec3(0.000000, 0.000000, 1.00000);
+	float specular = calcLightingGGX(normal, viewDir, lightDir, smoothness, fresnel);
+	specular = specular * shadow * ao;
+	vec3 color = vec3(specular, specular, specular);
+	return color * specularColor;
 }
 
 float VSM(vec2 moments, float t)
@@ -56,11 +93,13 @@ float VSM(vec2 moments, float t)
 	float p = 0.000000;
 	if(t <= ex) p = 1.00000;
 	float variance = ex2 - ex * ex;
-	variance = max(variance, 0.00002);
+	variance = max(variance, 2.00000e-005);
 	float d = t - ex;
 	float p_max = variance / (variance + d * d);
 	return max(p, p_max);
 }
+
+
 
 
 //||>
@@ -68,6 +107,11 @@ float VSM(vec2 moments, float t)
 vec3 GetDiffuseColor(vec2 uv)
 {
 	return texture2D(g_gbuffer0Texture, uv).xyz;
+}
+
+vec4 GetSpecularColorAndSmoothness(vec2 uv)
+{
+	return texture2D(g_gbuffer1Texture, uv).xyzw;
 }
 
 vec3 GetNormal(vec2 uv)
@@ -119,6 +163,11 @@ void main()
 	vec4 lightColor = vec4(0.0,0.0,0.0,1.0);
 	vec3 normal = GetNormal(uv);
 
+	vec3 diffuseColor = GetDiffuseColor(uv);
+	vec4 specularColorAndSmoothness = GetSpecularColorAndSmoothness(uv);
+	vec3 specularColor = specularColorAndSmoothness.xyz;
+	float smoothness = specularColorAndSmoothness.w;
+
 #ifdef DIRECTIONAL_LIGHT
 	vec4 shadowmapPos = ReconstructShadowmapPosition(cameraPos);
 	vec4 projShadowmapPos = ReconstructProjectedShadowmapPosition(shadowmapPos);
@@ -132,18 +181,16 @@ void main()
 	vec2 shadowParam = texture2D(g_shadowmapTexture, shadowmapUV).xy;
 
 	float shadow = VSM(shadowParam, depth);
+	float ao = texture2D(g_ssaoTexture, uv).x;
 
-	lightColor.xyz += calcDirectionalLightColor(normal, directionalLightDirection, shadow);
+	lightColor.xyz += calcDirectionalLightDiffuseColor(diffuseColor, normal, directionalLightDirection, shadow, ao);
+
+	lightColor.xyz += calcDirectionalLightSpecularColor(specularColor, normal, directionalLightDirection, smoothness, 0.06, shadow, ao);
 #endif
 
 #ifdef AMBIENT_LIGHT
-	lightColor.xyz += calcAmbientColor(upDir, normal);
+	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor;
 #endif
-
-	float ao = texture2D(g_ssaoTexture, uv).x;
-	lightColor.xyz *= ao;
-
-	lightColor.xyz *= GetDiffuseColor(uv);
 
 	outOutput0 = lightColor;
 }

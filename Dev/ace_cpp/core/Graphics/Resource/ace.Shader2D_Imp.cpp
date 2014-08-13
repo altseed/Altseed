@@ -40,7 +40,6 @@ VS_Output main( const VS_Input Input )
 )";
 
 static const char* shader2d_gl_vs = R"(
-#version 330
 
 in vec3 Pos;
 in vec2 UV;
@@ -86,7 +85,7 @@ return Output;
 */
 
 static const char* shader2d_gl_ps_pre = R"(
-#version 330
+
 in vec4 inPos;
 in vec2 inUV;
 in vec4 inColor;
