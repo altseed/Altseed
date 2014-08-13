@@ -215,7 +215,7 @@ namespace ace {
 	/**
 	@brief	3D描画時に表示されるバッファ
 	*/
-	enum class VisalizedBufferType : int32_t
+	enum class VisualizedBufferType : int32_t
 	{
 		FinalImage,
 		DiffuseColor,
@@ -237,12 +237,12 @@ namespace ace {
 		/**
 			@brief	画面に表示されるバッファ
 		*/
-		VisalizedBufferType VisalizedBuffer;
+		VisualizedBufferType VisualizedBuffer;
 
 		RenderSettings()
 		{
 			IsLightweightMode = false;
-			VisalizedBuffer = VisalizedBufferType::FinalImage;
+			VisualizedBuffer = VisualizedBufferType::FinalImage;
 		}
 	};
 

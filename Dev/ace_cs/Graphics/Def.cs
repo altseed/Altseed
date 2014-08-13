@@ -96,10 +96,10 @@ namespace ace
 	/// </summary>
 	public enum VisualizedBufferType : int 
 	{
-		FinalImage = swig.VisalizedBufferType.FinalImage,
-		DiffuseColor = swig.VisalizedBufferType.DiffuseColor,
-		SpecularColor = swig.VisalizedBufferType.SpecularColor,
-		Normal = swig.VisalizedBufferType.Normal,
+		FinalImage = swig.VisualizedBufferType.FinalImage,
+		DiffuseColor = swig.VisualizedBufferType.DiffuseColor,
+		SpecularColor = swig.VisualizedBufferType.SpecularColor,
+		Normal = swig.VisualizedBufferType.Normal,
 	}
 
     ///<summary>
@@ -176,7 +176,7 @@ namespace ace
 		internal RenderSettings(swig.RenderSettings settings)
 		{
 			IsLightweightMode = settings.IsLightweightMode;
-			VisualizedBuffer = (VisualizedBufferType)settings.VisalizedBuffer;
+			VisualizedBuffer = (VisualizedBufferType)settings.VisualizedBuffer;
 		}
 	}
 }

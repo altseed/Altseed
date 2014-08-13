@@ -441,7 +441,7 @@ namespace ace
 			helper->SetRenderTarget(renderTarget, nullptr);
 
 			Texture2D* texture = nullptr;
-			if (Settings.IsLightweightMode || Settings.VisalizedBuffer == VisalizedBufferType::FinalImage)
+			if (Settings.IsLightweightMode || Settings.VisualizedBuffer == VisualizedBufferType::FinalImage)
 			{
 				texture = cP->GetAffectedRenderTarget();
 			}
@@ -736,7 +736,7 @@ namespace ace
 		// エフェクトの描画
 		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
 
-		if (Settings.VisalizedBuffer == VisalizedBufferType::FinalImage)
+		if (Settings.VisualizedBuffer == VisualizedBufferType::FinalImage)
 		{
 			// ポストエフェクト適用
 			cP->ApplyPostEffects(helper);
@@ -749,15 +749,15 @@ namespace ace
 			std::shared_ptr<ace::NativeShader_Imp> shader = m_deferredBufferShader;
 
 			float flag = 0.0f;
-			if (Settings.VisalizedBuffer == VisalizedBufferType::DiffuseColor)
+			if (Settings.VisualizedBuffer == VisualizedBufferType::DiffuseColor)
 			{
 				flag = 0.0f;
 			}
-			else if (Settings.VisalizedBuffer == VisalizedBufferType::Normal)
+			else if (Settings.VisualizedBuffer == VisualizedBufferType::Normal)
 			{
 				flag = 1.0f;
 			}
-			else if (Settings.VisalizedBuffer == VisalizedBufferType::SpecularColor)
+			else if (Settings.VisualizedBuffer == VisualizedBufferType::SpecularColor)
 			{
 				flag = 2.0f;
 			}

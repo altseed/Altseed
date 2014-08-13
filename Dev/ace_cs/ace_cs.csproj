@@ -205,7 +205,7 @@
     <Compile Include="swig\TextureFilterType.cs" />
     <Compile Include="swig\TextureFormat.cs" />
     <Compile Include="swig\TextureWrapType.cs" />
-    <Compile Include="swig\VisalizedBufferType.cs" />
+    <Compile Include="swig\VisualizedBufferType.cs" />
     <Compile Include="swig\Window.cs" />
     <Compile Include="swig\Window_Imp.cs" />
     <Compile Include="swig\WritingDirection.cs" />
