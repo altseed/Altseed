@@ -5,7 +5,7 @@ using namespace std;
 namespace FontGenerator
 {
 	Color::Color()
-		: Color(0, 0, 0, 255)
+		: Color(0, 0, 0, 0)
 	{
 	}
 

@@ -62,8 +62,9 @@ namespace FontGenerator
 		return buffers;
 	}
 
-	ace::GlyphData ImageBuffer::Draw(Glyph::Ptr glyph)
+	ace::GlyphData ImageBuffer::Draw(Glyph::Ptr glyph, Color color, BorderSetting::Ptr border)
 	{
+		const int SPACE_SIZE = 1;
 		auto advance = glyph->GetAdvance();
 		if (penX + advance > sheetSize)
 		{
@@ -77,34 +78,35 @@ namespace FontGenerator
 			else
 			{
 				penX = 0;
-				baseLineY += height;
+				baseLineY += height + SPACE_SIZE;
 			}
 		}
 
 		auto rasterized = glyph->Rasterize();
-		DrawRasterizedGlyph(rasterized);
+		rasterized = rasterized->PaintColor(color);
+		DrawRasterizedGlyph(rasterized, penX, baseLineY - ascender);
 
 		auto src = ace::RectI(penX, baseLineY - ascender, advance, height);
 		auto result = ace::GlyphData(glyph->GetCharactor(), sheetNum, src);
 
-		penX += advance;
+		penX += advance + SPACE_SIZE;
 
 		return result;
 	}
 
-	void ImageBuffer::DrawRasterizedGlyph(RasterizedGlyph::Ptr glyph)
+	void ImageBuffer::DrawRasterizedGlyph(RasterizedGlyph::Ptr glyph, int penX, int penY)
 	{
 		auto dst = buffers[sheetNum];
 		auto src = glyph->GetBuffer();
 		int width = glyph->GetWidth();
 		int height = glyph->GetHeight();
 
-		for (size_t y = 0; y < height; y++)
+		for (size_t y = 0; y < height && y + penY < sheetSize; y++)
 		{
-			for (size_t x = 0; x < width; x++)
+			for (size_t x = 0; x < width && x + penX < sheetSize; x++)
 			{
 				int srcIndex = y * width + x;
-				int dstIndex = y * sheetSize + x;
+				int dstIndex = (penY + y) * sheetSize + penX + x;
 				(*dst)[dstIndex] = src[srcIndex].GetInt();
 			}
 		}

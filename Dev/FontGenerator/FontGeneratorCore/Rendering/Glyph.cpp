@@ -95,8 +95,8 @@ namespace FontGenerator
 		RenderSpans(*m_library, &m_glyph->outline, &spans);
 
 		int width = GetAdvance();
-		int height = m_face->size->metrics.height;
-		int baselineY = m_face->size->metrics.ascender;
+		int height = m_face->size->metrics.height >> 6;
+		int baselineY = m_face->size->metrics.ascender >> 6;
 		return RasterizedGlyph::FromSpans(spans, width, height, baselineY);
 	}
 }

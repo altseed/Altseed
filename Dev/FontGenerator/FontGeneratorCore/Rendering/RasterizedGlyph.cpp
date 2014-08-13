@@ -9,6 +9,7 @@ namespace FontGenerator
 		, width(width)
 		, height(height)
 	{
+
 	}
 
 	RasterizedGlyph::Ptr RasterizedGlyph::FromSpans(
