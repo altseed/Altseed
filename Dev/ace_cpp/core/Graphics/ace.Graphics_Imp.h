@@ -29,6 +29,15 @@ namespace ace {
 	class ImageHelper
 	{
 	public:
+		/**
+		@brief	PNGファイルを保存する。
+		@param	filepath	保存先
+		@param	width	横幅
+		@param	height	縦幅
+		@param	data	隙間なく敷き詰められた画素データ(1画素4byte固定)
+		@param	rev		上下反転で保存する。
+		*/
+		static void SavePNGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev);
 
 		/**
 			@brief	PNGファイルを読み込む。
@@ -123,16 +132,6 @@ namespace ace {
 			TextureFilterType			textureFilterTypes[MaxTextureCount];
 			TextureWrapType				textureWrapTypes[MaxTextureCount];
 		} currentState, nextState;
-
-		/**
-			@brief	PNGファイルを保存する。
-			@param	filepath	保存先
-			@param	width	横幅
-			@param	height	縦幅
-			@param	data	隙間なく敷き詰められた画素データ(1画素4byte固定)
-			@param	rev		上下反転で保存する。
-			*/
-		void SavePNGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev);
 
 	protected:
 		std::shared_ptr<RenderingThread>	m_renderingThread;

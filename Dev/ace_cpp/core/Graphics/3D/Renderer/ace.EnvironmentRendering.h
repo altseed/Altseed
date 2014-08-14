@@ -16,6 +16,12 @@ namespace ace
 		std::shared_ptr<ace::VertexBuffer_Imp>	vertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	indexBuffer;
 
+		float G1V(float dotNV, float k);
+		void CalcGGX_WithoutF0(const Vector3DF& normal, const Vector3DF& light, const Vector3DF& view, float roughness, float& v1, float& v2);
+		void IntegrateGGX_WithoutF0(float NoV, float roughness, float& v1, float& v2);
+
+		void CalcIntegratedGGX_WithoutF0(int32_t width, int32_t height, std::vector<Color>& dst);
+
 	public:
 		EnvironmentRendering(Graphics* graphics, std::shared_ptr<ace::VertexBuffer_Imp> vb, std::shared_ptr<ace::IndexBuffer_Imp> ib);
 		virtual ~EnvironmentRendering();

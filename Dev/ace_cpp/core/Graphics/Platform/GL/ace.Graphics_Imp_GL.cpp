@@ -1238,7 +1238,7 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 		GL_UNSIGNED_BYTE,
 		(void*)buf);
 
-	SavePNGImage(path, m_size.X, m_size.Y, buf, true);
+	ImageHelper::SavePNGImage(path, m_size.X, m_size.Y, buf, true);
 
 	SafeDeleteArray(buf);
 
@@ -1264,7 +1264,7 @@ bool Graphics_Imp_GL::SaveTexture(const achar* path, GLuint texture, Vector2DI s
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 
-	SavePNGImage(path, size.X, size.Y, buf, true);
+	ImageHelper::SavePNGImage(path, size.X, size.Y, buf, true);
 
 	SafeDeleteArray(buf);
 

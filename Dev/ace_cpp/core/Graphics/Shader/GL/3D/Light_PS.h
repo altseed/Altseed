@@ -12,6 +12,8 @@ uniform sampler2D		g_shadowmapTexture;
 
 uniform sampler2D		g_ssaoTexture;
 
+uniform sampler2D		g_environmentDiffuseTexture;
+
 uniform mat4			g_cameraPositionToShadowCameraPosition;
 uniform mat4			g_shadowProjection;
 
@@ -190,6 +192,7 @@ void main()
 
 #ifdef AMBIENT_LIGHT
 	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor;
+	lightColor.xyz += texture2D(g_environmentDiffuseTexture, uv).xyz * diffuseColor;
 #endif
 
 	outOutput0 = lightColor;

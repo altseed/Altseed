@@ -18,6 +18,9 @@ SamplerState	g_shadowmapSampler		: register( s4 );
 Texture2D		g_ssaoTexture		: register( t5 );
 SamplerState	g_ssaoSampler		: register( s5 );
 
+Texture2D		g_environmentDiffuseTexture;
+SamplerState	g_environmentDiffuseSampler;
+
 float4x4		g_cameraPositionToShadowCameraPosition;
 float4x4		g_shadowProjection;
 
@@ -194,6 +197,7 @@ float4 main( const PS_Input Input ) : SV_Target
 
 #ifdef AMBIENT_LIGHT
 	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor;
+	lightColor.xyz += g_environmentDiffuseTexture.Sample(g_environmentDiffuseSampler, uv).xyz * diffuseColor;
 #endif
 
 	return lightColor;
