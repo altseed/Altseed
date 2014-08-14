@@ -168,7 +168,7 @@ namespace ace
 		}
 
 		//std::vector<Color> dst;
-		/CalcIntegratedGGX_WithoutF0(32, 32, dst);
+		//CalcIntegratedGGX_WithoutF0(32, 32, dst);
 
 		//ImageHelper::SavePNGImage(L"test.png", 32, 32, dst.data(), false);
 	}
