@@ -1,11 +1,12 @@
 ﻿## 変更点
 
-### 2014/08/xx
+### 2014/08/14
 
 #### 機能追加
 * テクスチャ、音源、エフェクトのリロード対応
 * ドローコール取得
-* シーンに、OnTransitionFinished、OnUpdateForTheFirstTimeを追加
+* シーンに、OnTransitionFinished、OnUpdateForTheFirstTime、OnChanging、OnDestroyを追加
+* ツールによる生成される文字を改善
 
 #### 破壊的変更
 * エフェクトオブジェクト2Dに描画優先順位が追加されたため、テクスチャの前にエフェクトが表示されるとは限らなくなった。DrawingPriorityの設定が必要。
