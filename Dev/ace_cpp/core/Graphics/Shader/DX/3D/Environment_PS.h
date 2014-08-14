@@ -70,8 +70,9 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float3 normal = GetNormal(uv);
 
-	float3 globalNormal = rightDir * normal.x + upDir * normal.y + frontDir * normal.z;
-	float4 diffuseColor = g_diffuseTexture.Sample(g_diffuseSampler, globalNormal);
+	float3 globalNormal = float3(dot(rightDir,normal), dot(upDir,normal), dot(frontDir,normal));
+
+	float4 diffuseColor = g_diffuseTexture.SampleLevel(g_diffuseSampler, globalNormal, 0.0);
 
 	float4 Output = diffuseColor;
 	

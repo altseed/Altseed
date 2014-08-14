@@ -18,7 +18,7 @@ protected:
 	{
 		ace::RenderSettings settings;
 		//settings.IsLightweightMode = true;
-		//settings.VisualizedBuffer = ace::VisualizedBufferType::Environment;
+		settings.VisualizedBuffer = ace::VisualizedBufferType::Environment;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();

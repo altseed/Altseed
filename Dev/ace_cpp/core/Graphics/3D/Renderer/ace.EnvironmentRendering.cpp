@@ -6,7 +6,9 @@
 
 #include "../../Shader/DX/3D/Screen_VS.h"
 #include "../../Shader/GL/3D/Screen_VS.h"
+
 #include "../../Shader/DX/3D/Environment_PS.h"
+#include "../../Shader/GL/3D/Environment_PS.h"
 
 #include "../../Command/ace.RenderingCommandHelper.h"
 
@@ -28,6 +30,12 @@ namespace ace
 	
 		if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 		{
+			environmentShader = g->GetShaderCache()->CreateFromCode(
+				ToAString(L"Internal.Environment").c_str(),
+				screen_vs_gl,
+				environment_ps_gl,
+				vl,
+				macro);
 		}
 		else
 		{
@@ -53,7 +61,7 @@ namespace ace
 		using h = RenderingCommandHelper;
 
 		helper->SetRenderTarget(cameraP->GetRenderTargetEnvironment(), nullptr);
-		helper->Clear(true, false, Color(0, 0, 0, 0));
+		helper->Clear(true, false, Color(0, 0, 0, 255));
 
 		RenderState state;
 		state.DepthTest = false;

@@ -745,6 +745,9 @@
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.EnvironmentRendering.h">
       <Filter>Graphics\3D\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Environment_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
