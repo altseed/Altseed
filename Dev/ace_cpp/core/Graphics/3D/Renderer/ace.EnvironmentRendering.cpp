@@ -14,115 +14,125 @@
 
 #include "../Object/ace.RenderedCameraObject3D.h"
 
+#include "ace.BRDF.h"
+
+#include <fstream>
+
 namespace ace
 {
-	float EnvironmentRendering::G1V(float dotNV, float k)
+	/**
+	参考　http://holger.dammertz.org/stuff/notes_HammersleyOnHemisphere.html
+	C++11化 and ACEの規約に変更
+	*/
+	Vector2DF EnvironmentRendering::Hammersley(uint32_t ind, uint32_t Count)
 	{
-		return 1.0f / (dotNV*(1.0f - k) + k);
+		auto radicalInverse_VdC = [](uint32_t bits) -> float {
+			bits = (bits << 16u) | (bits >> 16u);
+			bits = ((bits & 0x55555555u) << 1u) | ((bits & 0xAAAAAAAAu) >> 1u);
+			bits = ((bits & 0x33333333u) << 2u) | ((bits & 0xCCCCCCCCu) >> 2u);
+			bits = ((bits & 0x0F0F0F0Fu) << 4u) | ((bits & 0xF0F0F0F0u) >> 4u);
+			bits = ((bits & 0x00FF00FFu) << 8u) | ((bits & 0xFF00FF00u) >> 8u);
+			return float(bits) * 2.3283064365386963e-10; // / 0x100000000
+		};
+
+		return Vector2DF(float(ind) / float(Count), radicalInverse_VdC(ind));
 	}
 
-	void EnvironmentRendering::CalcGGX_WithoutF0(const Vector3DF& normal, const Vector3DF& light, const Vector3DF& view, float roughness, float& v1, float& v2)
+	float EnvironmentRendering::Frac(float v)
 	{
-		auto alpha = roughness*roughness;
-		auto V = view;
-		auto L = light;
-		auto N = normal;
-
-		auto H = (V + L).GetNormal();
-
-		float dotNL = Clamp(Vector3DF::Dot(N, L), 1.0f, 0.0f);
-		float dotNV = Clamp(Vector3DF::Dot(N, V), 1.0f, 0.0f);
-		float dotNH = Clamp(Vector3DF::Dot(N, H), 1.0f, 0.0f);
-		float dotLH = Clamp(Vector3DF::Dot(L, H), 1.0f, 0.0f);
-
-		float F, D, vis;
-
-		// D
-		float alphaSqr = alpha*alpha;
-		float pi = 3.14159f;
-		float denom = dotNH * dotNH *(alphaSqr - 1.0) + 1.0f;
-		D = alphaSqr / (pi * denom * denom);
-
-		// F
-		float dotLH5 = pow(1.0f - dotLH, 5);
-
-		// V
-		float k = alpha / 2.0f;
-		vis = G1V(dotNL, k)*G1V(dotNV, k);
-
-		v1 = D * vis * (1 - dotLH5);
-		v2 = D * vis * (dotLH5);
+		auto v_ = (int32_t) v;
+		return v - v_;
 	}
 
-	void EnvironmentRendering::IntegrateGGX_WithoutF0(float NoV, float roughness, float& v1, float& v2)
+	float EnvironmentRendering::GGX_Smith1(float roughness, float dot)
 	{
-		const int32_t sampleMax = 1024;
-		
-		roughness = (roughness + 1.0f) / 2.0f;
+		float a2 = roughness * roughness * roughness * roughness;
+		return 2.0f / (dot + sqrt(dot * (dot - dot * a2) + a2));
+	}
 
-		v1 = 0.0f;
-		v2 = 0.0f;
+	float EnvironmentRendering::GGX_Smith(float roughness, float NoV, float NoL)
+	{
+		return GGX_Smith1(roughness, NoV) * GGX_Smith1(roughness, NoL);
+	}
 
+	/**
+		参考　http://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf
+	*/
+	Vector3DF EnvironmentRendering::ImportanceSampleGGX(Vector2DF Xi, float Roughness, Vector3DF N)
+	{
+		float a = Roughness * Roughness;
+		float Phi = 2 * PI * Xi.X;
+		float CosTheta = sqrt((1 - Xi.Y) / (1 + (a*a - 1) * Xi.Y));
+		float SinTheta = sqrt(1 - CosTheta * CosTheta);
+		Vector3DF H;
+		H.X = SinTheta * cos(Phi);
+		H.Y = SinTheta * sin(Phi);
+		H.Z = CosTheta;
+		Vector3DF UpVector = abs(N.Z) < 0.999 ? Vector3DF(0, 0, 1) : Vector3DF(1, 0, 0);
+		Vector3DF TangentX = (Vector3DF::Cross(UpVector, N)).GetNormal();
+		Vector3DF TangentY = Vector3DF::Cross(N, TangentX);
+		// Tangent to world space
+		return TangentX * H.X + TangentY * H.Y + N * H.Z;
+	}
+
+	/**
+		参考　http://blog.selfshadow.com/publications/s2013-shading-course/karis/s2013_pbs_epic_notes_v2.pdf
+	*/
+	Vector2DF EnvironmentRendering::IntegrateBRDF(float Roughness, float NoV)
+	{
 		Vector3DF V;
-		V.X = sqrt(1.0f - NoV * NoV);
+		V.X = sqrt(1.0f - NoV * NoV); // sin
 		V.Y = 0;
-		V.Z = NoV;
+		V.Z = NoV; // cos
 
-		Vector3DF N(0.0f, 0.0f, 1.0f);
+		Vector3DF N(0, 0, 1);
+		float A = 0;
+		float B = 0;
+		const uint32_t NumSamples = 128;
 
-		for (auto i = 0; i < sampleMax; i++)
+		int32_t r1 = rand();
+		int32_t r2 = rand();
+
+		for (uint32_t i = 0; i < NumSamples; i++)
 		{
-			float a = roughness * roughness;
+			Vector2DF Xi = Hammersley(i, NumSamples);
 
-			auto xix = rand() / (float) RAND_MAX * 2.0f - 1.0f;
-			auto xiy = rand() / (float) RAND_MAX * 2.0f - 1.0f;
-
-			float Phi = 2 * 3.14f * xix;
-			float CosTheta = sqrt((1 - xiy) / (1 + (a*a - 1) * xiy));
-			float SinTheta = sqrt(1 - CosTheta * CosTheta);
-			Vector3DF H;
-			H.X = SinTheta * cos(Phi);
-			H.Y = SinTheta * sin(Phi);
-			H.Z = CosTheta;
-			Vector3DF UpVector = abs(N.Z) < 0.999 ? Vector3DF(0, 0, 1) : Vector3DF(1, 0, 0);
-			Vector3DF TangentX = Vector3DF::Cross(UpVector, N).GetNormal();
-			Vector3DF TangentY = Vector3DF::Cross(N, TangentX);
-			// Tangent to world space
-			H = TangentX * H.X + TangentY * H.Y + N * H.Z;
-
+			Vector3DF H = ImportanceSampleGGX(Xi, Roughness, N);
 			Vector3DF L = H * 2 * Vector3DF::Dot(V, H) - V;
-		
-			if (L.Z > 0.0f)
+			float NoL = Clamp(L.Z, 1.0f, 0.0f);
+			float NoH = Clamp(H.Z, 1.0f, 0.0f);
+			float VoH = Clamp(Vector3DF::Dot(V, H), 1.0f, 0.0f);
+			if (NoL > 0)
 			{
-				float v1_ = 0.0f;
-				float v2_ = 0.0f;
-				CalcGGX_WithoutF0(N, L, V, roughness, v1_, v2_);
+				float G = GGX_Smith(Roughness, NoV, NoL);
+				//float G_Vis = G * VoH / (NoH * NoV) / 4.0;	// /4.0はSmithに*4を加えた補正
+				float G_Vis = G * VoH * (NoL / NoH);
 
-				v1 += v1_;
-				v2 += v2_;
+				float Fc = pow(1 - VoH, 5);
+				A += (1 - Fc) * G_Vis;
+				B += Fc * G_Vis;
 			}
-			
 		}
-
-		v1 /= (float)sampleMax;
-		v2 /= (float)sampleMax;
+		return Vector2DF(A, B) / NumSamples;
 	}
 
 	void EnvironmentRendering::CalcIntegratedGGX_WithoutF0(int32_t width, int32_t height, std::vector<Color>& dst)
 	{
 		dst.resize(width * height);
 
-		for (auto y = 1; y < height; y++)
+		for (auto y = 0; y < height; y++)
 		{
-			for (auto x = 1; x < width; x++)
+			for (auto x = 0; x < width; x++)
 			{
-				auto x_ = (float) x / (float) width;
-				auto y_ = (float) y / (float) height;
+				auto x_ = (float) x / (float) width + 0.5f / (float) width;
+				auto y_ = (float) y / (float) height + 0.5f / (float) height;
 
 				float v1 = 0;
 				float v2 = 0;
 
-				IntegrateGGX_WithoutF0(x_, y_, v1, v2);
+				auto ret = IntegrateBRDF(y_, x_);
+				v1 = ret.X;
+				v2 = ret.Y;
 				uint8_t v1__ = Clamp(v1 * 255, 255, 0);
 				uint8_t v2__ = Clamp(v2 * 255, 255, 0);
 
@@ -166,11 +176,39 @@ namespace ace
 				vl,
 				macro);
 		}
+		
+		std::vector<Color> brdfTextureBuf;
+#if 0
+		// 外部出力
+		CalcIntegratedGGX_WithoutF0(128, 128, brdfTextureBuf);
 
-		//std::vector<Color> dst;
-		//CalcIntegratedGGX_WithoutF0(32, 32, dst);
+		ImageHelper::SavePNGImage(L"brdf.png", 128, 128, brdfTextureBuf.data(), false);
 
-		//ImageHelper::SavePNGImage(L"test.png", 32, 32, dst.data(), false);
+		std::ofstream ofs("brdf.h");
+
+		ofs << "static const uint8_t g_brdf[] = {";
+		for (int32_t y = 0; y < 128; y++)
+		{
+			for (int32_t x = 0; x < 128; x++)
+			{
+				ofs << (int) brdfTextureBuf[x + y * 128].R << ", " << (int) brdfTextureBuf[x + y * 128].G << ", " << (int) brdfTextureBuf[x + y * 128].B << ", " << (int) brdfTextureBuf[x + y * 128].A << ",";
+			}
+			ofs << std::endl;
+		}
+		ofs << "0x00 };";
+		ofs.close();
+
+#else
+		brdfTextureBuf.resize(128 * 128);
+		memcpy(brdfTextureBuf.data(), g_brdf, 128 * 128 * 4);
+#endif
+		brdfTexture = g->CreateEmptyTexture2D(128, 128, TextureFormat::R8G8B8A8_UNORM);
+		TextureLockInfomation info;
+		if (brdfTexture->Lock(info))
+		{
+			memcpy(info.Pixels, brdfTextureBuf.data(), 128 * 128 * 4);
+			brdfTexture->Unlock();
+		}
 	}
 
 	EnvironmentRendering::~EnvironmentRendering()

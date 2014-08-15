@@ -6,7 +6,7 @@ class Graphics_LightingStandard : public EngineGraphics3DTest
 public:
 
 	Graphics_LightingStandard(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("LightingStandard"), isOpenGLMode, 15, true)
+		EngineGraphics3DTest(ace::ToAString("LightingStandard"), isOpenGLMode, 15000, true)
 	{}
 
 protected:
@@ -18,7 +18,7 @@ protected:
 	{
 		ace::RenderSettings settings;
 		//settings.IsLightweightMode = true;
-		settings.VisualizedBuffer = ace::VisualizedBufferType::Environment;
+		//settings.VisualizedBuffer = ace::VisualizedBufferType::Environment;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
@@ -31,12 +31,12 @@ protected:
 		luTexs[4] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Black.png").c_str());
 
 		auto cubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFrom6ImageFiles(
-			ace::ToAString("Data/Cubemap/Sky1/Front.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Left.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Back.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Right.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Top.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Bottom.png").c_str()
+			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Front.png").c_str(),
+			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Left.png").c_str(),
+			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Back.png").c_str(),
+			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Right.png").c_str(),
+			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Top.png").c_str(),
+			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Bottom.png").c_str()
 			);
 
 
@@ -54,8 +54,6 @@ protected:
 		plainObj->SetModel(plainModel);
 		sphereObj->SetModel(sphereModel);
 		sphereObj->SetPosition(ace::Vector3DF(0.0f, 1.0f, 0.0f));
-		
-		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
 
 		SetCameraParameter(10, 15, -15, 1, 200, 20);
 
@@ -67,10 +65,14 @@ protected:
 		mesh->SetSpecularTexture(0, luTexs[2]);
 		mesh->SetSmoothnessTexture(0, luTexs[2]);
 
+		// 直接光
+		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
+		lightObj->SetColor(ace::Color(200,200,200,200));
+
 		// 環境
 		GetLayer3D()->SetEnvironmentColor(cubemap, std::shared_ptr<ace::CubemapTexture>());
 		// 環境光
-#if 0
+#if 1
 		GetLayer3D()->SetSkyAmbientColor(ace::Color(80, 80, 120, 255));
 		GetLayer3D()->SetGroundAmbientColor(ace::Color(120, 80, 80, 255));
 #else

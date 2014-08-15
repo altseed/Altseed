@@ -16,9 +16,15 @@ namespace ace
 		std::shared_ptr<ace::VertexBuffer_Imp>	vertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	indexBuffer;
 
-		float G1V(float dotNV, float k);
-		void CalcGGX_WithoutF0(const Vector3DF& normal, const Vector3DF& light, const Vector3DF& view, float roughness, float& v1, float& v2);
-		void IntegrateGGX_WithoutF0(float NoV, float roughness, float& v1, float& v2);
+		std::shared_ptr<Texture2D>				brdfTexture;
+		
+		Vector2DF Hammersley(uint32_t ind, uint32_t Count);
+		float Frac(float v);
+
+		float GGX_Smith1(float roughness, float dot);
+		float GGX_Smith(float roughness, float NoV, float NoL);
+		Vector3DF ImportanceSampleGGX(Vector2DF Xi, float Roughness, Vector3DF N);
+		Vector2DF IntegrateBRDF(float Roughness, float NoV);
 
 		void CalcIntegratedGGX_WithoutF0(int32_t width, int32_t height, std::vector<Color>& dst);
 
