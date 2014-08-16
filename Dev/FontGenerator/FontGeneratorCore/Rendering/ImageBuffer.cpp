@@ -52,7 +52,10 @@ namespace FontGenerator
 		}
 
 		auto rasterized = glyph->Rasterize();
-		rasterized = rasterized->PaintColor(color);
+		//auto outlineSize = 2;
+		//auto rasterized = glyph->RasterizeWithOutline(outlineSize, 1);
+
+		rasterized = rasterized->PaintColor(color, Color(0,0,0,255));
 		DrawRasterizedGlyph(rasterized, penX, baseLineY - ascender);
 
 		auto src = ace::RectI(penX, baseLineY - ascender, advance, height);

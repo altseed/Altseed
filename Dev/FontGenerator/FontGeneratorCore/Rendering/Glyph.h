@@ -42,5 +42,7 @@ namespace FontGenerator
 		void Draw(int32_t* buffer, int width, int height, int x, int y);
 
 		std::shared_ptr<RasterizedGlyph> Rasterize();
+
+		std::shared_ptr<RasterizedGlyph> RasterizeWithOutline(int32_t outline, int32_t msaa);
 	};
 }
