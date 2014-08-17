@@ -38,7 +38,7 @@ namespace FontGenerator
 			ACE_ASSERT(g->format == FT_GLYPH_FORMAT_OUTLINE, "ƒOƒŠƒt‚Ì¶¬‚É¸”s");
 
 			auto og = reinterpret_cast<FT_OutlineGlyph>(g);
-			glyphs.push_back(make_shared<Glyph>(*this, og));
+			glyphs.push_back(make_shared<Glyph>(*this, c, og));
 		}
 		return glyphs;
 

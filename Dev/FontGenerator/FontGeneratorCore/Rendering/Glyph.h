@@ -21,7 +21,7 @@ namespace FontGenerator
 	public:
 		typedef std::shared_ptr<Glyph> Ptr;
 
-		Glyph(Font& font, FT_OutlineGlyph glyph);
+		Glyph(Font& font, wchar_t charctor, FT_OutlineGlyph glyph);
 		~Glyph();
 
 		wchar_t GetCharactor() const;

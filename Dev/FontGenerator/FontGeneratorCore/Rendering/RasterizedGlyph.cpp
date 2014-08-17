@@ -49,9 +49,10 @@ namespace FontGenerator
 	{
 		auto result = make_shared<RasterizedGlyph>(width + outline * 2, height + outline * 2);
 
-		vector<Color> temp((width + outline * 2) * (height + outline * 2) * msaa * msaa);
 		auto width_msaa = (width + outline * 2) * msaa;
 		auto height_msaa = (height + outline * 2) * msaa;
+
+		vector<Color> temp(width_msaa*height_msaa);
 		auto outline_msaa = outline * msaa;
 
 		// Šg‘åƒRƒs[
@@ -68,13 +69,13 @@ namespace FontGenerator
 
 				Color color(255, 0, 0, s.coverage);
 
-				int index = ((yIndex + outline) * msaa) * ((width + outline * 2) * msaa) + (xIndex + outline) * msaa;
+				int index = ((yIndex + outline) * msaa) * width_msaa + (xIndex + outline) * msaa;
 
 				for (auto y_ = 0; y_ < msaa; y_++)
 				{
 					for (auto x_ = 0; x_ < msaa; x_++)
 					{
-						auto index_ = index + x_ + y_ * ((width + outline * 2) * msaa);
+						auto index_ = index + x_ + y_ * width_msaa;
 						temp[index_] = color;
 					}
 				}
@@ -127,10 +128,10 @@ namespace FontGenerator
 					}
 				}
 
-				r /= (msaa);
-				g /= (msaa);
-				b /= (msaa);
-				a /= (msaa);
+				r /= (msaa * msaa);
+				g /= (msaa * msaa);
+				b /= (msaa * msaa);
+				a /= (msaa * msaa);
 
 				int index = x + y * (width + outline * 2);
 				result->buffer[index].r = r;
