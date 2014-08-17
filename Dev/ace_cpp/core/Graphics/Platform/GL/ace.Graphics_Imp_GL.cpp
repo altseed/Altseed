@@ -630,6 +630,9 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool i
 	auto window_ = ((Window_Imp*) window)->GetWindow();
 	glfwMakeContextCurrent(window_);
 
+#ifdef __APPLE__
+	glewExperimental = GL_TRUE;
+#endif
 	if (glewInit() != GLEW_OK)
 	{
 		writeLog(ToAString("GLEWの初期化に失敗"));

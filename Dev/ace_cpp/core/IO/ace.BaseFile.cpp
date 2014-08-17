@@ -48,7 +48,7 @@ namespace ace
 		assert((m_position + count) <= size);
 
 		buffer.resize(count);
-		m_file.read(&buffer[0], count);
+		m_file.read(reinterpret_cast<char*>(&buffer[0]), count);
 
 		m_position += count;
 	}

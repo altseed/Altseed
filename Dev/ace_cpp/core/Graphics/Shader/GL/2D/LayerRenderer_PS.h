@@ -3,6 +3,8 @@
 in vec4 vaTexCoord;
 in vec4 vaColor;
 
+out vec4 outColor;
+
 uniform sampler2D g_texture;
 
 void main() 
@@ -13,7 +15,7 @@ void main()
 	vec4 vaTexCoord_ = vaTexCoord;
 	vaTexCoord_.y = 1.0 - vaTexCoord_.y;
 
-	gl_FragColor = texture2D(g_texture, vaTexCoord_.xy) * vaColor;
+	outColor = texture(g_texture, vaTexCoord_.xy) * vaColor;
 }
 
 )";

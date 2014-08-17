@@ -47,6 +47,13 @@ Window_Imp* Window_Imp_X11::Create(int32_t width, int32_t height, const achar* t
 		return nullptr;
 	}
 
+#ifdef __APPLE__
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+#endif
+
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	auto titleUTF8 = ToUtf8String(title);

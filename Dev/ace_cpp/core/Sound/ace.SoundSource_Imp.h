@@ -15,11 +15,11 @@ namespace ace
 	private:
 		Sound*			m_manager;
 		osm::Sound*		m_sound;
-		bool			isDecompressed = false;
+		bool			m_isDecompressed = false;
 
 	public:
 
-		SoundSource_Imp(Sound* manager, osm::Sound* sound, bool isDecomporessed);
+		SoundSource_Imp(Sound* manager, osm::Sound* sound, bool isDecompressed);
 		virtual ~SoundSource_Imp();
 
 		float GetLoopStartingPoint() const override { return m_sound->GetLoopStartingPoint(); }
