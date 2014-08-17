@@ -114,22 +114,10 @@ namespace ace {
 	: Graphics_Imp(size, log, isReloadingEnabled)
 	, m_window(window)
 	, m_endStarting(false)
-	, m_frameBuffer_main(0)
-	, m_frameBuffer_rendering(0)
-	, m_contextState(0)
 {
 	assert(window != nullptr);
 	SafeAddRef(m_window);
 
-#if _WIN32
-	m_renderingThreadDC = 0;
-	m_renderingThreadRC = 0;
-	m_renderingThreadHWND = nullptr;
-#else
-	m_renderingThreadGlx = nullptr;
-	m_renderingThreadX11Display = nullptr;
-	m_renderingThreadX11Window = 0;
-#endif
 
 	auto window_ = ((Window_Imp*)window)->GetWindow();
 
@@ -143,10 +131,10 @@ namespace ace {
 #pragma endregion
 	
 	// フレームバッファ生成
-	glGenFramebuffers(1, &m_frameBuffer_main);
+	glGenFramebuffers(1, &m_frameBuffer);
 
 	// バグ対策？
-	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_main);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// スレッド生成
@@ -176,9 +164,6 @@ namespace ace {
 	: Graphics_Imp(size, log, isReloadingEnabled)
 	, m_window(nullptr)
 	, m_endStarting(false)
-	, m_frameBuffer_main(0)
-	, m_frameBuffer_rendering(0)
-	, m_contextState(0)
 {
 #if !_WIN32
 	GLXContext* context_ = (GLXContext*)context;
@@ -195,25 +180,15 @@ namespace ace {
 	m_x11Mode = true;
 #endif
 
-#if _WIN32
-	m_renderingThreadDC = 0;
-	m_renderingThreadRC = 0;
-	m_renderingThreadHWND = nullptr;
-#else
-	m_renderingThreadGlx = nullptr;
-	m_renderingThreadX11Display = nullptr;
-	m_renderingThreadX11Window = 0;
-#endif
-
 #pragma region RenderState
 	glGenSamplers(MaxTextureCount, m_samplers);
 #pragma endregion
 
 	// フレームバッファ生成
-	glGenFramebuffers(1, &m_frameBuffer_main);
+	glGenFramebuffers(1, &m_frameBuffer);
 
 	// バグ対策？
-	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_main);
+	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	// スレッド生成
@@ -259,11 +234,8 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 #pragma endregion
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-	glDeleteFramebuffers(1, &m_frameBuffer_main);
+	glDeleteFramebuffers(1, &m_frameBuffer);
 
-	
-	glDeleteFramebuffers(1, &m_frameBuffer_rendering);
-	
 
 #if !_WIN32
 	if( m_x11Mode )
@@ -272,31 +244,6 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 		glXDestroyContext(m_x11Display, m_glx);
 	}
 #endif
-
-	
-#if _WIN32
-	if (m_renderingThreadRC)
-	{
-		wglMakeCurrent(NULL, NULL);
-		wglDeleteContext(m_renderingThreadRC);
-		m_renderingThreadRC = NULL;
-	}
-	if (m_renderingThreadDC)
-	{
-		ReleaseDC(m_renderingThreadHWND, m_renderingThreadDC);
-		m_renderingThreadDC = NULL;
-		m_renderingThreadHWND = NULL;
-	}
-
-#else
-	if(m_renderingThreadX11Display != nullptr)
-	{
-		glXMakeCurrent(m_renderingThreadX11Display, 0, NULL);
-		glXDestroyContext(m_renderingThreadX11Display, m_renderingThreadGlx);
-		m_renderingThreadX11Display = nullptr;
-	}
-#endif
-	
 
 	SafeRelease(m_window);
 }
@@ -632,7 +579,6 @@ void Graphics_Imp_GL::DrawPolygonInstancedInternal(int32_t count, VertexBuffer_I
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::BeginInternal()
 {
-	std::lock_guard<std::recursive_mutex> lock(GetMutex());
 	MakeContextCurrent();
 
 	GLCheckError();
@@ -657,7 +603,6 @@ void Graphics_Imp_GL::EndInternal()
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::SetViewport(int32_t x, int32_t y, int32_t width, int32_t height)
 {
-	std::lock_guard<std::recursive_mutex> lock(GetMutex());
 	MakeContextCurrent();
 
 	glViewport(x, y, width, height);
@@ -904,9 +849,6 @@ void Graphics_Imp_GL::CommitRenderState(bool forced)
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_Imp* depthBuffer)
 {
-	std::lock_guard<std::recursive_mutex> lock(GetMutex());
-	MakeContextCurrent();
-
 	// 強制リセット
 	ResetDrawState();
 	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
@@ -978,9 +920,6 @@ void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture, DepthBuffer_
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::SetRenderTarget(RenderTexture2D_Imp* texture1, RenderTexture2D_Imp* texture2, RenderTexture2D_Imp* texture3, RenderTexture2D_Imp* texture4, DepthBuffer_Imp* depthBuffer)
 {
-	std::lock_guard<std::recursive_mutex> lock(GetMutex());
-	MakeContextCurrent();
-
 	// 強制リセット
 	ResetDrawState();
 	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
@@ -1069,9 +1008,6 @@ void Graphics_Imp_GL::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direc
 {
 	auto tex = (CubemapTexture_Imp_GL*) texture;
 
-	std::lock_guard<std::recursive_mutex> lock(GetMutex());
-	MakeContextCurrent();
-
 	// 強制リセット
 	ResetDrawState();
 	for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
@@ -1152,9 +1088,6 @@ void Graphics_Imp_GL::SetRenderTarget(CubemapTexture_Imp* texture, int32_t direc
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::Clear(bool isColorTarget, bool isDepthTarget, const Color& color)
 {
-	std::lock_guard<std::recursive_mutex> lock(GetMutex());
-	MakeContextCurrent();
-	
 	GLbitfield bit = 0;
 	if (isColorTarget)
 	{
@@ -1190,9 +1123,6 @@ void Graphics_Imp_GL::Clear(bool isColorTarget, bool isDepthTarget, const Color&
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::Present()
 {
-	std::lock_guard<std::recursive_mutex> lock(GetMutex());
-	MakeContextCurrent();
-
 	GLCheckError();
 
 	if (m_window != nullptr)
@@ -1215,9 +1145,6 @@ void Graphics_Imp_GL::Present()
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 {
-	std::lock_guard<std::recursive_mutex> lock(GetMutex());
-	MakeContextCurrent();
-
 	GLCheckError();
 
 	glFlush();
@@ -1250,9 +1177,6 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 //----------------------------------------------------------------------------------
 bool Graphics_Imp_GL::SaveTexture(const achar* path, GLuint texture, Vector2DI size)
 {
-	std::lock_guard<std::recursive_mutex> lock(GetMutex());
-	MakeContextCurrent();
-
 	GLCheckError();
 
 	auto buf = new uint8_t[size.X * size.Y * 4];
@@ -1275,47 +1199,17 @@ bool Graphics_Imp_GL::SaveTexture(const achar* path, GLuint texture, Vector2DI s
 
 void Graphics_Imp_GL::MakeContextCurrent()
 {
-	if (GetThreadID() != m_renderingThread->GetThreadID())
+	if (m_window != nullptr)
 	{
-		// コンテキストが変わるときは命令処理し終える
-		if (m_contextState != 1)
-		{
-			FlushCommand();
-		}
-		m_contextState = 1;
-
-		if (m_window != nullptr)
-		{
-			auto window_ = ((Window_Imp*) m_window)->GetWindow();
-			glfwMakeContextCurrent(window_);
-		}
-		else
-		{
-			assert(0);
-		}
-
-		GLCheckError();
+		auto window_ = ((Window_Imp*) m_window)->GetWindow();
+		glfwMakeContextCurrent(window_);
 	}
 	else
 	{
-		// コンテキストが変わるときは命令処理し終える
-		if (m_contextState != 2)
-		{
-			FlushCommand();
-		}
-		m_contextState = 2;
-
-#if _WIN32
-		if (!wglMakeCurrent(m_renderingThreadDC, m_renderingThreadRC))
-		{
-			m_log->WriteLineStrongly("wglMakeCurrent is failed.");
-		}
-#else
-		glXMakeCurrent(m_renderingThreadX11Display, m_renderingThreadX11Window, m_renderingThreadGlx);
-#endif
-
-		GLCheckError();
+		assert(0);
 	}
+
+	GLCheckError();	
 }
 
 void Graphics_Imp_GL::MakeContextNone()
@@ -1328,8 +1222,6 @@ void Graphics_Imp_GL::MakeContextNone()
 	{
 		assert(0);
 	}
-
-	m_contextState = 0;
 }
 
 void Graphics_Imp_GL::FlushCommand()
@@ -1340,87 +1232,6 @@ void Graphics_Imp_GL::FlushCommand()
 
 void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
 {
-	if (window == nullptr) return;
-
-#if _WIN32
-	m_renderingThreadHWND = glfwGetWin32Window(window);
-	HGLRC mainRC = glfwGetWGLContext(window);
-
-	PIXELFORMATDESCRIPTOR pformat = {
-		sizeof(PIXELFORMATDESCRIPTOR),
-		1,
-		0 |
-		PFD_DRAW_TO_WINDOW |
-		PFD_SUPPORT_OPENGL |
-		PFD_DOUBLEBUFFER,
-		PFD_TYPE_RGBA,
-		32,				// color
-		0, 0,			// R
-		0, 0,			// G
-		0, 0,			// B
-		0, 0,			// A
-		0, 0, 0, 0, 0,      // AC R G B A
-		24,				// depth
-		8,				// stencil
-		0,				// aux
-		0,				// layertype
-		0,			// reserved
-		0,			// layermask
-		0,			// visiblemask
-		0			// damagemask
-	};
-
-	m_renderingThreadDC = GetDC(m_renderingThreadHWND);
-
-	wglMakeCurrent(NULL, NULL);
-	int pfmt = ChoosePixelFormat(m_renderingThreadDC, &pformat);
-	if (!SetPixelFormat(m_renderingThreadDC, pfmt, &pformat))
-	{
-		if (m_log != nullptr) m_log->WriteLineStrongly("SetPixelFormat is failed.");
-	}
-
-	m_renderingThreadRC = wglCreateContext(m_renderingThreadDC);
-	if (!wglShareLists(mainRC, m_renderingThreadRC))
-	{
-		if (m_log != nullptr) m_log->WriteLineStrongly("wglShareLists is failed.");
-	}
-#elif defined(__APPLE__)
-
-	// とりあえず通るまで非対応
-
-	// auto mainContext = glfwGetGLXContext(window);
-	// auto display = glfwGetX11Display();
-	// auto wind = glfwGetX11Window(window);
-
-	// GLint attribute[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
-	// XVisualInfo* vi = glXChooseVisual(display, DefaultScreen(display), attribute);
-
-	// GLXContext renderingContext = glXCreateContext(display, vi, mainContext, GL_TRUE);
-	
-	// XFree(vi);
-	
-	// m_renderingThreadGlx = renderingContext;
-	// m_renderingThreadX11Display = display;
-	// m_renderingThreadX11Window = wind;
-
-#else
-
-	auto mainContext = glfwGetGLXContext(window);
-	auto display = glfwGetX11Display();
-	auto wind = glfwGetX11Window(window);
-
-	GLint attribute[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
-	XVisualInfo* vi = glXChooseVisual(display, DefaultScreen(display), attribute);
-
-	GLXContext renderingContext = glXCreateContext(display, vi, mainContext, GL_TRUE);
-	
-	XFree(vi);
-	
-	m_renderingThreadGlx = renderingContext;
-	m_renderingThreadX11Display = display;
-	m_renderingThreadX11Window = wind;
-
-#endif
 }
 
 void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
@@ -1432,17 +1243,6 @@ void Graphics_Imp_GL::CreateContextOnThread(GLFWwindow* window)
 
 #endif
 
-	MakeContextCurrent();
-
-	// フレームバッファ生成
-	glGenFramebuffers(1, &m_frameBuffer_rendering);
-
-	// バグ対策？
-	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_rendering);
-	glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
-	GLCheckError();
-
 	m_endStarting = true;
 }
 
@@ -1452,16 +1252,8 @@ void Graphics_Imp_GL::CreateContextAfterThreading(GLFWwindow* window)
 
 void Graphics_Imp_GL::BindFramebuffer()
 {
-	if (GetThreadID() != m_renderingThread->GetThreadID())
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_main);
-		GLCheckError();
-	}
-	else
-	{
-		glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer_rendering);
-		GLCheckError();
-	}
+	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
+	GLCheckError();
 }
 
 void Graphics_Imp_GL::UnbindFramebuffer()
