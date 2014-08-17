@@ -51,6 +51,7 @@ namespace FontGenerator
 			}
 		}
 
+		auto outlineSize = 0;
 		auto rasterized = glyph->Rasterize();
 		//auto outlineSize = 2;
 		//auto rasterized = glyph->RasterizeWithOutline(outlineSize, 1);
@@ -58,10 +59,10 @@ namespace FontGenerator
 		rasterized = rasterized->PaintColor(color, Color(0,0,0,255));
 		DrawRasterizedGlyph(rasterized, penX, baseLineY - ascender);
 
-		auto src = ace::RectI(penX, baseLineY - ascender, advance, height);
+		auto src = ace::RectI(penX, baseLineY - ascender, advance + outlineSize * 2, height + outlineSize * 2);
 		auto result = ace::GlyphData(glyph->GetCharactor(), sheetNum, src);
 
-		penX += advance + SPACE_SIZE;
+		penX += advance + outlineSize * 2 + SPACE_SIZE;
 
 		return result;
 	}

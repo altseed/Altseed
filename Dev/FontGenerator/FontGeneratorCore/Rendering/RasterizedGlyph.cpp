@@ -87,9 +87,9 @@ namespace FontGenerator
 			for (auto x = 0; x < width_msaa; x++)
 			{
 				if (temp[x + width_msaa * y].a > 0) continue;
-				for (auto y_ = y - outline_msaa; y_ < y + outline_msaa; y_++)
+				for (auto y_ = y - outline_msaa; y_ <= y + outline_msaa; y_++)
 				{
-					for (auto x_ = x - outline_msaa; x_ < x + outline_msaa; x_++)
+					for (auto x_ = x - outline_msaa; x_ <= x + outline_msaa; x_++)
 					{
 						if (x_ < 0) continue;
 						if (x_ >= width_msaa) continue;
@@ -155,14 +155,17 @@ namespace FontGenerator
 
 				if (buffer[index].a == 0) continue;
 
-				if (buffer[index].r == 255)
+				auto a = buffer[index].a;
+				if (buffer[index].r > 0)
 				{
 					result->buffer[index] = color;
+					result->buffer[index].a = a;
 				}
 
 				if (buffer[index].g == 255)
 				{
 					result->buffer[index] = outlineColor;
+					result->buffer[index].a = a;
 				}
 			}
 		}
