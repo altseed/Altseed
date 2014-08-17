@@ -656,7 +656,7 @@ Effect* Graphics_Imp::CreateEffect_(const achar* path)
 	
 		auto effect = Effekseer::Effect::Create(m_effectSetting, data, size, 1.0, parentDir);
 		if (effect == nullptr) return nullptr;
-		Effect_Imp::CreateEffect(this, effect);
+		return Effect_Imp::CreateEffect(this, effect);
 	});
 
 	return ret;

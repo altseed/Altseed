@@ -1,6 +1,8 @@
 ﻿
 #include "PCH/ace.UnitTestCpp.PCH.h"
 
+#pragma clang diagnostic ignored "-Wc++11-narrowing"
+
 using namespace std;
 
 TEST(CharSet, Utf16ToUtf8)

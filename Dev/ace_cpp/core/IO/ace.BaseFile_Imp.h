@@ -17,7 +17,7 @@ namespace ace
 	class BaseFile_Imp : public ReferenceObject
 	{
 	private:
-		std::basic_ifstream<uint8_t> m_file;
+		std::basic_ifstream<char> m_file;
 		int64_t m_position;
 		int64_t m_length;
 
