@@ -1,7 +1,7 @@
 ﻿static const char* layerrenderer_ps_gl = R"(
 
-varying vec4 vaTexCoord;
-varying vec4 vaColor;
+in vec4 vaTexCoord;
+in vec4 vaColor;
 
 uniform sampler2D g_texture;
 

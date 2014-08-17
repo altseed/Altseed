@@ -1,9 +1,9 @@
 ﻿static const char* renderer2d_ps_gl = R"(
 
 #ifdef HAS_TEXTURE
-varying vec4 vaTexCoord;
+in vec4 vaTexCoord;
 #endif
-varying vec4 vaColor;
+in vec4 vaColor;
 
 uniform sampler2D g_texture;
 
