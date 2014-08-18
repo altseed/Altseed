@@ -66,7 +66,7 @@ namespace ace {
 			Window* window,
 			Vector2DI size,
 			Log* log,
-			bool isMultithreadingMode,
+			bool isReloadingEnabled,
 			ID3D11Device* device,
 			ID3D11DeviceContext* context,
 			IDXGIDevice1* dxgiDevice,
@@ -100,19 +100,19 @@ namespace ace {
 
 		void BeginInternal();
 
-		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled);
 
 	public:
 		
-		static Graphics_Imp_DX11* Create(Window* window, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp_DX11* Create(Window* window, Log* log, bool isReloadingEnabled);
 
-		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled);
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 
-		Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format) override;
+		Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) override;
 
-		RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format);
+		RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format);
 
 		CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) override;
 

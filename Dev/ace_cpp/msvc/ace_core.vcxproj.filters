@@ -133,6 +133,9 @@
     <Filter Include="Graphics\3D\PostProcess">
       <UniqueIdentifier>{87845abd-b80c-4488-9743-d553de23d5f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{738ee52d-79cc-410a-b7b3-3a7215246838}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -733,6 +736,18 @@
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.LightRendering.h">
       <Filter>Graphics\3D\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Utils\ace.ResourceContainer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Environment_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\ace.EnvironmentRendering.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Environment_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1046,6 +1061,12 @@
       <Filter>Graphics\3D\PostProcess</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.LightRendering.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Utils\ace.ResourceContainer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\ace.EnvironmentRendering.cpp">
       <Filter>Graphics\3D\Renderer</Filter>
     </ClCompile>
   </ItemGroup>

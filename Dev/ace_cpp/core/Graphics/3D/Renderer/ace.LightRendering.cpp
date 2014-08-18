@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.LightRendering.h"
 
 #include "../../ace.Graphics_Imp.h"
@@ -12,6 +12,12 @@
 
 #include "../../Shader/DX/3D/Blur_PS.h"
 #include "../../Shader/GL/3D/Blur_PS.h"
+
+#include "../Object/ace.RenderedObject3D.h"
+#include "../Object/ace.RenderedCameraObject3D.h"
+#include "../Object/ace.RenderedDirectionalLightObject3D.h"
+
+#include "../../Command/ace.RenderingCommandHelper.h"
 
 namespace ace
 {
@@ -134,7 +140,11 @@ namespace ace
 	}
 
 
-	void LightRendering::Draw(RenderedDirectionalLightObject3DProxy* lightP)
+	void LightRendering::Draw(RenderingCommandHelper* helper, std::set<RenderedObject3DProxy*>& objects, RenderedCameraObject3DProxy* cameraP, RenderedDirectionalLightObject3DProxy* lightP, Color skyColor, Color groundColor)
+	{
+	}
+
+	void LightRendering::Draw(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cameraP, Color skyColor, Color groundColor)
 	{
 
 	}

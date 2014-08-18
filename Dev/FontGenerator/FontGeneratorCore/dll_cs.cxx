@@ -335,6 +335,54 @@ SWIGEXPORT void SWIGSTDCALL CSharp_delete_DLL(void * jarg1) {
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_DLL_LoadFontNames(void * jarg1) {
+  FontGenerator::DLL *arg1 = (FontGenerator::DLL *) 0 ;
+  
+  arg1 = (FontGenerator::DLL *)jarg1; 
+  (arg1)->LoadFontNames();
+}
+
+
+SWIGEXPORT int SWIGSTDCALL CSharp_DLL_GetFontCount(void * jarg1) {
+  int jresult ;
+  FontGenerator::DLL *arg1 = (FontGenerator::DLL *) 0 ;
+  int32_t result;
+  
+  arg1 = (FontGenerator::DLL *)jarg1; 
+  result = (int32_t)(arg1)->GetFontCount();
+  jresult = result; 
+  return jresult;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_DLL_GetFontName(void * jarg1, int jarg2) {
+  char * jresult ;
+  FontGenerator::DLL *arg1 = (FontGenerator::DLL *) 0 ;
+  int32_t arg2 ;
+  char *result = 0 ;
+  
+  arg1 = (FontGenerator::DLL *)jarg1; 
+  arg2 = (int32_t)jarg2; 
+  result = (char *)(arg1)->GetFontName(arg2);
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  return jresult;
+}
+
+
+SWIGEXPORT char * SWIGSTDCALL CSharp_DLL_GetFontPath(void * jarg1, int jarg2) {
+  char * jresult ;
+  FontGenerator::DLL *arg1 = (FontGenerator::DLL *) 0 ;
+  int32_t arg2 ;
+  char *result = 0 ;
+  
+  arg1 = (FontGenerator::DLL *)jarg1; 
+  arg2 = (int32_t)jarg2; 
+  result = (char *)(arg1)->GetFontPath(arg2);
+  jresult = SWIG_csharp_string_callback((const char *)result); 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_DLL_Run(void * jarg1) {
   unsigned int jresult ;
   FontGenerator::DLL *arg1 = (FontGenerator::DLL *) 0 ;

@@ -16,6 +16,8 @@
 
 #include "ace.Renderer3DProxy.h"
 
+#include "../../Resource/ace.CubemapTexture.h"
+
 namespace ace
 {
 	//----------------------------------------------------------------------------------
@@ -144,7 +146,7 @@ namespace ace
 	void Renderer3D::SetWindowSize(Vector2DI windowSize)
 	{
 		SafeRelease(m_renderTarget);
-		m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+		m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 		m_windowSize = windowSize;
 
 		if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
@@ -224,6 +226,8 @@ namespace ace
 		proxy->SetEffect(m_effectManager, m_effectRenderer);
 		proxy->SkyAmbientColor = m_skyAmbientColor;
 		proxy->GroundAmbientColor = m_groundAmbientColor;
+		proxy->EnvironmentDiffuseColor = environment_diffuseColor;
+		proxy->EnvironmentSpecularColor = environment_specularColor;
 		proxy->Settings = m_settings;
 	}
 
@@ -231,7 +235,6 @@ namespace ace
 	{
 		assert(m_renderTarget != nullptr);
 
-		this->deltaTime = deltaTime;
 		proxy->DeltaTime = deltaTime;
 		m_graphics->GetRenderingThread()->AddEvent(&m_event);
 	
@@ -246,6 +249,15 @@ namespace ace
 		
 		executor->Execute(m_graphics, m_effectManager, m_effectRenderer, proxy->GetCommands());
 		proxy->ResetCommands();
+	}
+
+	void Renderer3D::SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor)
+	{
+		SafeAddRef(diffuseColor);
+		SafeAddRef(specularColor);
+
+		environment_diffuseColor = CreateSharedPtrWithReleaseDLL(diffuseColor);
+		environment_specularColor = CreateSharedPtrWithReleaseDLL(specularColor);
 	}
 
 	RenderTexture2D_Imp* Renderer3D::GetRenderTarget()

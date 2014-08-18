@@ -123,4 +123,9 @@ namespace ace
 	{
 		m_coreLayer->SetGroundAmbientColor(color);
 	}
+
+	void Layer3D::SetEnvironmentColor(std::shared_ptr<CubemapTexture> diffuseColor, std::shared_ptr<CubemapTexture> specularColor)
+	{
+		m_coreLayer->SetEnvironmentColor(diffuseColor.get(), specularColor.get());
+	}
 };

@@ -137,7 +137,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::EndUpdating()
 	{
-		m_renderer->GetEffectManager()->Update(core->GetDeltaTime());
+		m_renderer->GetEffectManager()->Update(core->GetDeltaTime() / (1.0f / 60.0f));
 		m_renderer->GetEffectManager()->Flip();
 	}
 
@@ -272,7 +272,6 @@ namespace ace
 				o->OnRemoving(m_renderer);
 			}
 			object->SetLayer(nullptr);
-			m_objects.remove(object);
 			SafeRelease(object);
 		}
 
@@ -286,7 +285,6 @@ namespace ace
 			}
 			object->SetLayer(nullptr);
 			auto camera = (CoreCameraObject2D*)object;
-			m_cameras.remove(camera);
 			SafeRelease(camera);
 
 		}

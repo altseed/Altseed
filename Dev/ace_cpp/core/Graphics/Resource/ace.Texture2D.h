@@ -40,7 +40,7 @@ namespace ace {
 			@brief	テクスチャのフォーマットを取得する。
 			@return	フォーマット
 		*/
-		virtual eTextureFormat GetFormat() const = 0;
+		virtual TextureFormat GetFormat() const = 0;
 
 		/**
 		@brief	テクスチャをファイルに保存する。

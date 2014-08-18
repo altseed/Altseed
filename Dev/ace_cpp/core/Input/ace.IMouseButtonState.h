@@ -4,7 +4,7 @@ namespace ace{
 
 	enum class MouseButtonState:int
 	{
-		Push,Pull,Hold,Free
+		Push,Release,Hold,Free
 	};
 
 	class IMouseButtonState

@@ -96,7 +96,7 @@ void Graphics_RenderTarget(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"SingleTexture").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log, false);
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sample1.png").c_str());
@@ -115,7 +115,7 @@ void Graphics_RenderTarget(bool isOpenGLMode)
 	vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
 	vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
 
-	auto renderTexture = graphics->CreateRenderTexture2D_Imp(320, 240, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+	auto renderTexture = graphics->CreateRenderTexture2D_Imp(320, 240, ace::TextureFormat::R8G8B8A8_UNORM);
 	ASSERT_TRUE(renderTexture != nullptr);
 
 	auto depthBuffer = graphics->CreateDepthBuffer_Imp(320, 240);

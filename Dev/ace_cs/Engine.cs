@@ -27,20 +27,17 @@ namespace ace
 		/// <summary>
 		/// フルスクリーンで起動するか?
 		/// </summary>
-		public bool IsFullScreen;
+		public bool IsFullScreen = false;
 
 		/// <summary>
 		/// 描画に使用するデバイス
 		/// </summary>
-		public GraphicsDeviceType GraphicsDevice;
+		public GraphicsDeviceType GraphicsDevice = GraphicsDeviceType.Default;
 
 		/// <summary>
-		/// マルチスレッドモードを使用するか?
+		/// リソースの再読み込みを有効にするかどうか?
 		/// </summary>
-		/// <remarks>
-		/// 現在、マルチスレッドモードは開発中であり、実行速度は上昇するが、バグが多発する可能性がある。
-		/// </remarks>
-		public bool IsMultithreadingMode = false;
+		public bool IsReloadingEnabled = false;
 	};
 
 	public class Engine
@@ -95,7 +92,12 @@ namespace ace
 				graphicsType = GraphicsDeviceType.DirectX11;
 			}
 
-			var result = core.Initialize(title, width, height, option.IsFullScreen, graphicsType == GraphicsDeviceType.OpenGL, option.IsMultithreadingMode);
+			var coreOption = new swig.CoreOption();
+			coreOption.GraphicsDevice = (swig.GraphicsDeviceType)option.GraphicsDevice;
+			coreOption.IsFullScreen = option.IsFullScreen;
+			coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
+
+			var result = core.Initialize(title, width, height, coreOption);
 
 			if (result)
 			{
@@ -142,7 +144,12 @@ namespace ace
 				graphicsType = GraphicsDeviceType.DirectX11;
 			}
 
-			var result = core.InitializeByExternalWindow(handle1, handle2, width, height, graphicsType == GraphicsDeviceType.OpenGL, option.IsMultithreadingMode);
+			var coreOption = new swig.CoreOption();
+			coreOption.GraphicsDevice = (swig.GraphicsDeviceType)option.GraphicsDevice;
+			coreOption.IsFullScreen = option.IsFullScreen;
+			coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
+
+			var result = core.InitializeByExternalWindow(handle1, handle2, width, height, coreOption);
 
 			if (result)
 			{
@@ -179,6 +186,10 @@ namespace ace
 			{
 				if (transition.SwigObject.GetIsSceneChanged() && nextScene != null)
 				{
+                    if (CurrentScene != null)
+                    {
+                        CurrentScene.CallChanging();
+                    }
 					previousScene = CurrentScene;
 					CurrentScene = nextScene;
 					core.ChangeScene(nextScene.CoreScene);
@@ -189,12 +200,17 @@ namespace ace
 				{
 					transition = null;
 					previousScene = null;
+                    CurrentScene.CallTransitionFinished();
 				}
 			}
 			else
 			{
 				if (nextScene != null)
 				{
+                    if (CurrentScene != null)
+                    {
+                        CurrentScene.CallChanging();
+                    }
 					CurrentScene = nextScene;
 					core.ChangeScene(nextScene.CoreScene);
 					nextScene = null;
@@ -275,6 +291,22 @@ namespace ace
 		{
 			if (core == null) return;
 
+            if (CurrentScene != null)
+            {
+                CurrentScene.CallDestroy();
+            }
+
+            if (nextScene != null)
+            {
+                nextScene.CallDestroy();
+            }
+
+            if (previousScene != null)
+            {
+                previousScene.CallDestroy();
+            }
+
+
 			CurrentScene = null;
 			nextScene = null;
 			previousScene = null;
@@ -335,7 +367,7 @@ namespace ace
 		}
 
 		/// <summary>
-		/// 1フレームで経過した実時間(1/60秒を1とした値)を取得、または設定する。
+		/// 1フレームで経過した実時間(秒)を取得、または設定する。
 		/// </summary>
 		/// <remarks>
 		/// 基本的に開発者は使用する取得のみで設定する必要はない。

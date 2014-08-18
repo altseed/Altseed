@@ -131,7 +131,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	Window* window,
 	Vector2DI size,
 	Log* log,
-	bool isMultithreadingMode,
+	bool isReloadingEnabled,
 	ID3D11Device* device,
 	ID3D11DeviceContext* context,
 	IDXGIDevice1* dxgiDevice,
@@ -142,7 +142,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11RenderTargetView*	defaultBackRenderTargetView,
 	ID3D11Texture2D* defaultDepthBuffer,
 	ID3D11DepthStencilView* defaultDepthStencilView)
-	: Graphics_Imp(size, log, isMultithreadingMode)
+	: Graphics_Imp(size, log, isReloadingEnabled)
 	, m_window(window)
 	, m_device(device)
 	, m_context(context)
@@ -165,11 +165,8 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 
 	GenerateRenderStates();
 
-	if (IsMultithreadingMode())
-	{
-		m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
-	}
-
+	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
+	
 	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_DX11(this));
 }
 
@@ -178,16 +175,13 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 //----------------------------------------------------------------------------------
 Graphics_Imp_DX11::~Graphics_Imp_DX11()
 {
-	if (IsMultithreadingMode())
+	m_renderingThread->AddEvent(nullptr);
+	while (m_renderingThread->IsRunning())
 	{
-		m_renderingThread->AddEvent(nullptr);
-		while (m_renderingThread->IsRunning())
-		{
-			Sleep(1);
-		}
-		m_renderingThread.reset();
+		Sleep(1);
 	}
-
+	m_renderingThread.reset();
+	
 	for (auto i = 0; i < MaxRenderTarget; i++)
 	{
 		SafeRelease(m_currentBackRenderTargetViews[i]);
@@ -642,7 +636,7 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -834,7 +828,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		window,
 		Vector2DI(width, height),
 		log,
-		isMultithreadingMode,
+		isReloadingEnabled,
 		device,
 		context,
 		dxgiDevice,
@@ -865,19 +859,19 @@ End:
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, bool isMultithreadingMode)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, bool isReloadingEnabled)
 {
 	auto size = window->GetSize();
 	auto handle = glfwGetWin32Window(((Window_Imp*) window)->GetWindow());
-	return Create(handle, size.X, size.Y, log, isMultithreadingMode);
+	return Create(handle, size.X, size.Y, log, isReloadingEnabled);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log, bool isMultithreadingMode)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled)
 {
-	return Create(nullptr, handle, width, height, log, isMultithreadingMode);
+	return Create(nullptr, handle, width, height, log, isReloadingEnabled);
 }
 
 //----------------------------------------------------------------------------------
@@ -892,7 +886,7 @@ Texture2D_Imp* Graphics_Imp_DX11::CreateTexture2D_Imp_Internal(Graphics* graphic
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
+Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format)
 {
 	auto ret = Texture2D_Imp_DX11::Create(this, width, height, format);
 	return ret;
@@ -901,7 +895,7 @@ Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* gr
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-RenderTexture2D_Imp* Graphics_Imp_DX11::CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format)
+RenderTexture2D_Imp* Graphics_Imp_DX11::CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format)
 {
 	return RenderTexture2D_Imp_DX11::Create(this, width, height, format);
 }
@@ -950,14 +944,14 @@ void Graphics_Imp_DX11::CommitRenderState(bool forced)
 		GetContext()->OMSetDepthStencilState(m_dStates[next.DepthTest][next.DepthWrite], 0);
 	}
 
-	if (current.CullingType != next.CullingType || forced)
+	if (current.Culling != next.Culling || forced)
 	{
 		changeRasterizer = true;
 	}
 
 	if (changeRasterizer)
 	{
-		GetContext()->RSSetState(m_rStates[next.CullingType]);
+		GetContext()->RSSetState(m_rStates[(int32_t)next.Culling]);
 	}
 
 	if (current.AlphaBlendState != next.AlphaBlendState || forced)
@@ -1323,7 +1317,7 @@ bool Graphics_Imp_DX11::SaveTexture(const achar* path, ID3D11Resource* texture, 
 		memcpy(dst, src, size.X * 4);
 	}
 
-	SavePNGImage(path, size.X, size.Y, data, false);
+	ImageHelper::SavePNGImage(path, size.X, size.Y, data, false);
 
 	SafeDeleteArray(data);
 

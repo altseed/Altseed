@@ -163,7 +163,7 @@ void Graphics_RenderingThread(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"SingleTexture").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log, true);
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sample1.png").c_str());
@@ -175,7 +175,7 @@ void Graphics_RenderingThread(bool isOpenGLMode)
 	indexBuffer = graphics->CreateIndexBuffer_Imp(6, false, false);
 	ASSERT_TRUE(indexBuffer != nullptr);
 
-	renderTexture = graphics->CreateRenderTexture2D_Imp(320, 240, ace::eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM);
+	renderTexture = graphics->CreateRenderTexture2D_Imp(320, 240, ace::TextureFormat::R8G8B8A8_UNORM);
 	ASSERT_TRUE(renderTexture != nullptr);
 
 	std::vector<ace::VertexLayout> vl;

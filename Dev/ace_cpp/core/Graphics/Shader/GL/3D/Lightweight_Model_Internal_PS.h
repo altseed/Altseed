@@ -1,5 +1,4 @@
 ﻿static const char* lightweight_model_internal_ps_gl = R"(
-#version 330
 
 //<|| モデル共通レジスタ
 uniform sampler2D g_colorTexture;

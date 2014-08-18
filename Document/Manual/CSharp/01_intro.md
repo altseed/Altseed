@@ -10,7 +10,7 @@ ACEの導入
 * ace\_cs.dll
 * ace\_core.dll
 
-[https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing](Download)
+[Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)
 
 現在、ここからACE本体をダウンロードできます。
 
@@ -24,6 +24,8 @@ ACEの導入
 6. 「ACEtest>参照設定」を右クリックして「参照の追加」、ここで4で追加したace_cs.dllにチェックを入れて「OK」
 
 以上でACEが使えるようになります。
+
+また、ace_cs.XMLをace_cs.dllと同じディレクトリに配置すると関数等の説明がVisualC#上で表示されるようになります。
 
 ※「構築されているプロジェクトのプロセッサ アーキテクチャ “MSIL” と、参照...」のような警告が出る方は「ビルド>構成マネージャー」から「プラットフォーム」をx86とすれば治ります。
 

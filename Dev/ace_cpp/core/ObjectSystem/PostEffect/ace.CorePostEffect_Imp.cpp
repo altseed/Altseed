@@ -4,6 +4,8 @@
 #include "../../Graphics/Resource/ace.Shader2D_Imp.h"
 #include "../../Graphics/Resource/ace.Material2D_Imp.h"
 
+#include "../../Graphics/Resource/ace.RenderTexture2D_Imp.h"
+
 #include "../../Graphics/Shader/DX/PostEffect/LightBloom_PS.h"
 #include "../../Graphics/Shader/GL/PostEffect/LightBloom_PS.h"
 

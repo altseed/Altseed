@@ -64,7 +64,6 @@ namespace ace {
 		GraphicsResourceContainer();
 		~GraphicsResourceContainer();
 
-		Resource<Texture2D_Imp, Texture2DReloadInformation>	Texture2Ds;
 		Resource<Model_Imp, ModelReloadInformation>			Models;
 		Resource<Font_Imp, FontReloadInformation>			Fonts;
 		/**

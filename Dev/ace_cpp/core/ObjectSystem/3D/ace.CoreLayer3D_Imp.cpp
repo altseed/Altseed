@@ -73,6 +73,11 @@ namespace ace
 		m_renderer->SetGroundAmbientColor(color);
 	}
 
+	void CoreLayer3D_Imp::SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor)
+	{
+		m_renderer->SetEnvironmentColor(diffuseColor, specularColor);
+	}
+
 	void CoreLayer3D_Imp::BeginUpdating()
 	{
 		m_renderer->Flip();

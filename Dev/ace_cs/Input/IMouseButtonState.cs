@@ -14,7 +14,7 @@ namespace ace
         /// <summary>
         /// ボタンを離した瞬間のみ返す
         /// </summary>
-        Pull =ace.swig.MouseButtonState.Pull,
+        Release =ace.swig.MouseButtonState.Release,
         /// <summary>
         /// ボタンを押した瞬間のみ返す
         /// </summary>

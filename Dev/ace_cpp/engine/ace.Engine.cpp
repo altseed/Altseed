@@ -315,7 +315,12 @@ namespace ace
 #endif
 		}
 
-		bool init = m_core->Initialize(title, width, height, option.IsFullScreen, graphicsDeviceType != GraphicsDeviceType::DirectX11, option.IsMultithreadingMode);
+		CoreOption coreOption;
+		coreOption.GraphicsDevice = option.GraphicsDevice;
+		coreOption.IsFullScreen = option.IsFullScreen;
+		coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
+
+		bool init = m_core->Initialize(title, width, height, coreOption);
 		if (init)
 		{
 			m_logger = m_core->GetLogger();
@@ -358,7 +363,12 @@ namespace ace
 #endif
 		}
 
-		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, graphicsDeviceType != GraphicsDeviceType::DirectX11, option.IsMultithreadingMode);
+		CoreOption coreOption;
+		coreOption.GraphicsDevice = option.GraphicsDevice;
+		coreOption.IsFullScreen = option.IsFullScreen;
+		coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
+
+		bool init = m_core->InitializeByExternalWindow(handle1, handle2, width, height, coreOption);
 		if (init)
 		{
 			m_logger = m_core->GetLogger();
@@ -384,6 +394,10 @@ namespace ace
 		{
 			if (transition->coreTransition->GetIsSceneChanged() && m_nextScene != nullptr)
 			{
+				if (m_currentScene != nullptr)
+				{
+					m_currentScene->CallChanging();
+				}
 				m_previousScene = m_currentScene;
 				m_currentScene = m_nextScene;
 				m_core->ChangeScene(m_nextScene->m_coreScene.get());
@@ -394,12 +408,17 @@ namespace ace
 			{
 				transition = nullptr;
 				m_previousScene = nullptr;
+				m_currentScene->CallTransitionFinished();
 			}
 		}
 		else
 		{
 			if (m_nextScene != nullptr)
 			{
+				if (m_currentScene != nullptr)
+				{
+					m_currentScene->CallChanging();
+				}
 				m_currentScene = m_nextScene;
 				m_core->ChangeScene(m_nextScene->m_coreScene.get());
 				m_nextScene = nullptr;
@@ -476,6 +495,21 @@ namespace ace
 	void Engine::Terminate()
 	{
 		if (m_core == nullptr) return;
+
+		if (m_currentScene != nullptr)
+		{
+			m_currentScene->CallDestroy();
+		}
+
+		if (m_nextScene != nullptr)
+		{
+			m_nextScene->CallDestroy();
+		}
+
+		if (m_previousScene != nullptr)
+		{
+			m_previousScene->CallDestroy();
+		}
 
 		m_currentScene.reset();
 		m_nextScene.reset();

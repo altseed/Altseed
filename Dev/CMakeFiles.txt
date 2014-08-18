@@ -25,6 +25,7 @@ set(tool_src
 
 set(core_src
 	ace_cpp/core/ace.Accessor.cpp
+	ace_cpp/core/ace.Core.Base_Imp.cpp
 	ace_cpp/core/ace.ReferenceObject.cpp
 	ace_cpp/core/Core/ace.Core_Imp.cpp
 	ace_cpp/core/Core/ace.CreateCore.cpp
@@ -37,7 +38,10 @@ set(core_src
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedEffectObject3D.cpp
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedModelObject3D.cpp
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedObject3D.cpp
+	ace_cpp/core/Graphics/3D/PostProcess/ace.SSAO.cpp
+	ace_cpp/core/Graphics/3D/Renderer/ace.LightRendering.cpp
 	ace_cpp/core/Graphics/3D/Renderer/ace.Renderer3D.cpp
+	ace_cpp/core/Graphics/3D/Renderer/ace.Renderer3DProxy.cpp
 	ace_cpp/core/Graphics/3D/Resource/ace.Deformer_Imp.cpp
 	ace_cpp/core/Graphics/3D/Resource/ace.MassModel_Imp.cpp
 	ace_cpp/core/Graphics/3D/Resource/ace.Mesh_Imp.cpp
@@ -50,6 +54,10 @@ set(core_src
 	ace_cpp/core/Graphics/ace.GraphicsResourceContainer.cpp
 	ace_cpp/core/Graphics/ace.Graphics_Imp.cpp
 	ace_cpp/core/Graphics/ace.RenderingThread.cpp
+	ace_cpp/core/Graphics/Command/ace.RenderingCommand.cpp
+	ace_cpp/core/Graphics/Command/ace.RenderingCommandExecutor.cpp
+	ace_cpp/core/Graphics/Command/ace.RenderingCommandFactory.cpp
+	ace_cpp/core/Graphics/Command/ace.RenderingCommandHelper.cpp
 	ace_cpp/core/Graphics/Resource/ace.Chip2D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.CubemapTexture_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.DepthBuffer_Imp.cpp
@@ -104,6 +112,7 @@ set(core_src
 	ace_cpp/core/Profiler/ace.Profiler_Imp.cpp
 	ace_cpp/core/Sound/ace.SoundSource_Imp.cpp
 	ace_cpp/core/Sound/ace.Sound_Imp.cpp
+	ace_cpp/core/Utils/ace.ResourceContainer.cpp
 	ace_cpp/core/Window/ace.Window_Imp.cpp
 )
 
@@ -182,6 +191,7 @@ set(unittest_gtest_src
 	unitTest_cpp_gtest/Graphics/Font/ace.GlyphData_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_CubemapTexture_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Empty_Test.cpp
+	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_RenderingThread_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_RenderTarget.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Sampler_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Simple3D_Test.cpp

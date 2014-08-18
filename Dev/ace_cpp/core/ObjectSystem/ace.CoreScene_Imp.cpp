@@ -17,7 +17,7 @@ namespace ace
 	void CoreScene_Imp::RenewRenderTarget(Vector2DI windowSize, bool isHDRMode)
 	{
 		// typeで比較するのは間違い
-		auto isHDRMode_ = m_baseTarget0 != nullptr && m_baseTarget0->GetFormat() == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT;
+		auto isHDRMode_ = m_baseTarget0 != nullptr && m_baseTarget0->GetFormat() == TextureFormat::R32G32B32A32_FLOAT;
 		auto windowSize_ = m_baseTarget0 != nullptr ? m_baseTarget0->GetSize() : Vector2DI();
 
 		if (windowSize == windowSize_ && isHDRMode == isHDRMode_) return;
@@ -25,7 +25,7 @@ namespace ace
 		SafeRelease(m_baseTarget0);
 		SafeRelease(m_baseTarget1);
 
-		auto format = isHDRMode ? eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT : eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM;
+		auto format = isHDRMode ? TextureFormat::R32G32B32A32_FLOAT : TextureFormat::R8G8B8A8_UNORM;
 
 		m_baseTarget0 = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, format);
 		m_baseTarget1 = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, format);

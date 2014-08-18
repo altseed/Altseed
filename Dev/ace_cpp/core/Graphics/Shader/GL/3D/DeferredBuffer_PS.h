@@ -1,5 +1,4 @@
 ﻿static const char* deferred_buffer_ps_gl = R"(
-#version 330
 
 uniform sampler2D		g_gbuffer0Texture;
 
@@ -13,6 +12,8 @@ uniform sampler2D		g_shadowmapTexture;
 
 uniform sampler2D		g_ssaoTexture;
 
+uniform sampler2D		g_environmentTexture;
+
 in vec4 voutPosition;
 in vec2 voutUV;
 
@@ -25,9 +26,19 @@ vec3 GetDiffuse(vec2 uv)
 	return texture2D(g_gbuffer0Texture, uv).xyz;
 }
 
+vec4 GetSpecularColorAndSmoothness(vec2 uv)
+{
+	return texture2D(g_gbuffer1Texture, uv).xyzw;
+}
+
 vec3 GetNormal(vec2 uv)
 {
 	return texture2D(g_gbuffer2Texture, uv).xyz;
+}
+
+vec3 GetEnvironment(vec2 uv)
+{
+	return texture2D(g_environmentTexture, uv).xyz;
 }
 
 void main()
@@ -45,7 +56,19 @@ void main()
 	{
 		color.xyz = GetNormal(uv);
 	}
-
+	else if(flag == 2.0)
+	{
+		color.xyz = GetSpecularColorAndSmoothness(uv).xyz;
+	}
+	else if(flag == 3.0)
+	{
+		float s = GetSpecularColorAndSmoothness(uv).w;
+		color.xyz = vec3(s,s,s);
+	}
+	else if(flag == 4.0)
+	{
+		color.xyz = GetEnvironment(uv).xyz;
+	}
 	outOutput0 = color;
 }
 

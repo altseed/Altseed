@@ -10,7 +10,7 @@ namespace ace
 {
 	enum class RenderingCommandType
 	{
-		None,
+		Unknown,
 		Draw,
 		SetRenderTarget,
 		Clear,

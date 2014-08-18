@@ -1,4 +1,4 @@
-
+﻿
 #pragma once
 
 #include <ace.common.Base.h>
@@ -22,6 +22,8 @@ namespace ace
 		LightRendering(Graphics* graphics);
 		virtual ~LightRendering();
 
-		void Draw(RenderedDirectionalLightObject3DProxy* lightP);
+		void Draw(RenderingCommandHelper* helper, std::set<RenderedObject3DProxy*>& objects, RenderedCameraObject3DProxy* cameraP, RenderedDirectionalLightObject3DProxy* lightP, Color skyColor, Color groundColor);
+		void Draw(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cameraP, Color skyColor, Color groundColor);
+
 	};
 }

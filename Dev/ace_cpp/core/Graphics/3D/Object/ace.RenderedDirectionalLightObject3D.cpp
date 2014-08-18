@@ -8,13 +8,29 @@
 
 namespace ace
 {
+	void RenderedDirectionalLightObject3DProxy::CalcAABB(std::vector<Vector3DF>& points, Vector3DF& max_, Vector3DF& min_)
+	{
+		min_ = Vector3DF(FLT_MAX, FLT_MAX, FLT_MAX);
+		max_ = Vector3DF(-FLT_MAX, -FLT_MAX, -FLT_MAX);
+		for (auto p : points)
+		{
+			if (min_.X > p.X) min_.X = p.X;
+			if (min_.Y > p.Y) min_.Y = p.Y;
+			if (min_.Z > p.Z) min_.Z = p.Z;
+
+			if (max_.X < p.X) max_.X = p.X;
+			if (max_.Y < p.Y) max_.Y = p.Y;
+			if (max_.Z < p.Z) max_.Z = p.Z;
+		}
+	}
+
 	RenderedDirectionalLightObject3DProxy::RenderedDirectionalLightObject3DProxy(Graphics* graphics)
 	{
 		auto g = (Graphics_Imp*) graphics;
 
 		deviceType = g->GetGraphicsDeviceType();
 		LightColor = Color(255, 255, 255, 255);
-		m_shadowTexture = g->CreateRenderTexture2D_Imp(RenderedDirectionalLightObject3D::ShadowBufferSize, RenderedDirectionalLightObject3D::ShadowBufferSize, eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT);
+		m_shadowTexture = g->CreateRenderTexture2D_Imp(RenderedDirectionalLightObject3D::ShadowBufferSize, RenderedDirectionalLightObject3D::ShadowBufferSize, TextureFormat::R16G16_FLOAT);
 		m_shadowDepthBuffer = g->CreateDepthBuffer_Imp(RenderedDirectionalLightObject3D::ShadowBufferSize, RenderedDirectionalLightObject3D::ShadowBufferSize);
 	}
 
@@ -30,24 +46,8 @@ namespace ace
 		return Vector3DF(mat.Values[0][2], mat.Values[1][2], mat.Values[2][2]);
 	}
 
-	void RenderedDirectionalLightObject3DProxy::CalcShadowMatrix(Vector3DF viewPosition, Vector3DF viewDirection, Matrix44 matCameraProj, float zn, float zf, Matrix44& lightView, Matrix44& lightProjection)
+	void RenderedDirectionalLightObject3DProxy::CalcShadowMatrix(Vector3DF viewPosition, Vector3DF viewDirection, Vector3DF viewUp, Matrix44 matCameraProj, float zn, float zf, Matrix44& lightView, Matrix44& lightProjection)
 	{
-		auto calcAABB = [](std::vector<Vector3DF>& points, Vector3DF& max_, Vector3DF& min_) -> void
-		{
-			min_ = Vector3DF(100000.0f, 100000.0f, 100000.0f);
-			max_ = Vector3DF(-100000.0f, -100000.0f, -100000.0f);
-			for (auto p : points)
-			{
-				if (min_.X > p.X) min_.X = p.X;
-				if (min_.Y > p.Y) min_.Y = p.Y;
-				if (min_.Z > p.Z) min_.Z = p.Z;
-
-				if (max_.X < p.X) max_.X = p.X;
-				if (max_.Y < p.Y) max_.Y = p.Y;
-				if (max_.Z < p.Z) max_.Z = p.Z;
-			}
-		};
-
 		auto calcCubeClipMatrix = [this](Vector3DF& max_, Vector3DF& min_)->Matrix44
 		{
 			Matrix44 matCubeClip;
@@ -62,7 +62,6 @@ namespace ace
 			matCubeClip.Values[1][2] = 0.0f;
 			matCubeClip.Values[1][3] = -(max_.Y + min_.Y) / (max_.Y - min_.Y);
 
-			// もしかしたら符号が逆の可能性あり
 			if (deviceType == GraphicsDeviceType::DirectX11)
 			{
 				matCubeClip.Values[2][0] = 0.0f;
@@ -92,7 +91,7 @@ namespace ace
 
 		// ライトビューに含むオブジェクトの座標算出
 		auto matCPInv = matCameraProj.GetInverted();
-
+		/*
 		if (deviceType == GraphicsDeviceType::DirectX11)
 		{
 			Vector3DF points[8] = {
@@ -113,6 +112,7 @@ namespace ace
 			}
 		}
 		else
+		*/
 		{
 			Vector3DF points[8] = {
 				Vector3DF(1.0f, 1.0f, -1.0f),
@@ -136,10 +136,8 @@ namespace ace
 		auto back2 = m_shadowObjectPoints;
 
 		// LiSPSMかUSMか
-		auto vlCross = Vector3DF::Cross(viewDirection, lightDirection);
-		auto vlS = vlCross.GetLength();
 		auto vlC = Vector3DF::Dot(viewDirection, lightDirection);
-		auto vlAngle = atan2(vlS, vlC);
+		auto vlAngle = acos(vlC);
 
 		if (fabsf(vlAngle) < 0.01f || fabsf(vlAngle - PI) < 0.01f)
 		{
@@ -147,7 +145,7 @@ namespace ace
 
 			// ライトビューの計算
 			auto eye = viewPosition;
-			lightView.SetLookAtRH(eye, eye + lightDirection, viewDirection);
+			lightView.SetLookAtRH(eye, eye + lightDirection, viewUp);
 
 			// AABB計算
 			for (auto i = 0; i < m_shadowObjectPoints.size(); i++)
@@ -156,7 +154,7 @@ namespace ace
 			}
 
 			Vector3DF min_, max_;
-			calcAABB(m_shadowObjectPoints, max_, min_);
+			CalcAABB(m_shadowObjectPoints, max_, min_);
 
 			lightProjection = calcCubeClipMatrix(max_, min_);
 
@@ -218,7 +216,7 @@ namespace ace
 		}
 
 		Vector3DF min_, max_;
-		calcAABB(m_shadowObjectPoints, max_, min_);
+		CalcAABB(m_shadowObjectPoints, max_, min_);
 
 
 		// 視錐台計算
@@ -244,22 +242,6 @@ namespace ace
 
 		// Y方向への射影行列を取得
 		Matrix44 matPerspective;
-		if (deviceType == GraphicsDeviceType::DirectX11)
-		{
-			// [1,	0,	0,	0]
-			// [0,	a,	0,	b]
-			// [0,	0,	1,	0]
-			// [0,	1,	0,	0]
-			// a = f / (f - n);
-			// b = - n * f / (f - n)
-
-			matPerspective.SetIndentity();
-			matPerspective.Values[1][1] = f / (f - n);
-			matPerspective.Values[3][1] = 1.0f;
-			matPerspective.Values[1][3] = -n * f / (f - n);
-			matPerspective.Values[3][3] = 0.0f;
-		}
-		else
 		{
 			// [1,	0,	0,	0]
 			// [0,	a,	0,	b]
@@ -285,7 +267,7 @@ namespace ace
 		}
 
 		Vector3DF min__, max__;
-		calcAABB(m_shadowObjectPointsBack, max__, min__);
+		CalcAABB(m_shadowObjectPointsBack, max__, min__);
 
 		Matrix44 matCubeClip = calcCubeClipMatrix(max__, min__);
 

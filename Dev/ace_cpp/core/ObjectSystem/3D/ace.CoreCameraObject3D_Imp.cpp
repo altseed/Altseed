@@ -87,9 +87,9 @@ namespace ace
 		pe->ClearCommands();
 	}
 
-	void CoreCameraObject3D_Imp::SetPostEffectCount(int count)
+	void CoreCameraObject3D_Imp::StartAddingPostEffect(int count)
 	{
-		m_object->SetPostEffectCount(count);
+		m_object->StartAddingPostEffect(count);
 	}
 
 	RenderTexture2D* CoreCameraObject3D_Imp::GetDstForPostEffect(int count)

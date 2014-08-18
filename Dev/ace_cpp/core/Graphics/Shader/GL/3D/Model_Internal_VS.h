@@ -1,13 +1,10 @@
 ﻿static const char* model_internal_vs_gl = R"(
-#version 330
 
 //<|| モデル共通レジスタ
 uniform mat4	matM[32];
 uniform mat4	matC;
 uniform mat4	matP;
 //||>
-
-uniform vec3		depthParams;
 
 //<|| モデル共通頂点入力
 in vec3 Position;

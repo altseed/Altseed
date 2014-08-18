@@ -20,11 +20,11 @@ namespace ace {
 	protected:
 		GLuint	m_texture;
 
-		RenderTexture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, eTextureFormat format);
+		RenderTexture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, TextureFormat format);
 		virtual ~RenderTexture2D_Imp_GL();
 	public:
 
-		static RenderTexture2D_Imp_GL* Create(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format);
+		static RenderTexture2D_Imp_GL* Create(Graphics* graphics, int32_t width, int32_t height, TextureFormat format);
 
 		bool Save(const achar* path) override;
 

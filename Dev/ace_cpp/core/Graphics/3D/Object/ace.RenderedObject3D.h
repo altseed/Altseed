@@ -32,10 +32,6 @@ namespace ace
 		Vector3DF	DirectionalLightDirection;
 		Color		SkyLightColor;
 		Color		GroundLightColor;
-
-		float		DepthRange;
-		float		ZFar;
-		float		ZNear;
 	};
 
 	/**

@@ -50,7 +50,7 @@ namespace ace {
 	class CubemapTexture_Imp;
 	class DepthBuffer_Imp;
 	class Shader2D_Imp;
-
+	class Effect_Imp;
 	class ShaderCache;
 
 	class MaterialCommand;
@@ -97,27 +97,19 @@ namespace ace {
 		bool								DepthTest;
 		bool								DepthWrite;
 		AlphaBlend							AlphaBlendState;
-		eCullingType						CullingType;
+		CullingType							Culling;
 		
 		void Reset()
 		{
 			DepthTest = false;
 			DepthWrite = false;
 			AlphaBlendState = AlphaBlend::Blend;
-			CullingType = CULLING_DOUBLE;
+			Culling = CullingType::Double;
 		}
 
 		RenderState()
 		{
 			Reset();
-		}
-
-		void CopyTo(RenderState& state)
-		{
-			state.DepthTest = DepthTest;
-			state.DepthWrite = DepthWrite;
-			state.AlphaBlendState = AlphaBlendState;
-			state.CullingType = CullingType;
 		}
 	};
 
@@ -195,6 +187,13 @@ namespace ace {
 				TextureWrapType		WrapType;
 			} Texture2DPtr;
 
+			struct
+			{
+				CubemapTexture*		Ptr;
+				TextureFilterType	FilterType;
+				TextureWrapType		WrapType;
+			} CubemapTexturePtr;
+
 			/**
 				@brief	行列の配列
 				@note
@@ -217,6 +216,8 @@ namespace ace {
 		ShaderConstantValue(const Matrix44& value);
 		ShaderConstantValue(Matrix44* value, int32_t count);
 		ShaderConstantValue(Texture2D* value, TextureFilterType filterType, TextureWrapType wrapType);
+		ShaderConstantValue(CubemapTexture* value, TextureFilterType filterType, TextureWrapType wrapType);
+
 		virtual ~ShaderConstantValue();
 		ShaderConstantValue& operator=(const ShaderConstantValue& value);
 	};
@@ -224,12 +225,6 @@ namespace ace {
 	/**
 	@brief	リロード情報
 	*/
-	struct Texture2DReloadInformation
-	{
-		time_t ModifiedTime;
-		astring	Path;
-	};
-
 	struct ModelReloadInformation
 	{
 		time_t ModifiedTime;

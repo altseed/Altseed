@@ -18,8 +18,8 @@ namespace ace
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		/// <param name="fadeoutDuration">フェードアウトにかかる実時間(1/60秒を1とした値)</param>
-		/// <param name="fadeinDuration">フェードインにかかる実時間(1/60秒を1とした値)</param>
+		/// <param name="fadeoutDuration">フェードアウトにかかる実時間(秒)</param>
+		/// <param name="fadeinDuration">フェードインにかかる実時間(秒)</param>
 		public TransitionFade(float fadeoutDuration, float fadeinDuration)
 		{
 			this.fadeinDuration = fadeinDuration;
@@ -59,9 +59,9 @@ namespace ace
 				cn = 1.0f;
 			}
 
-			byte cp_ = (byte)Math.Max(Math.Min(cp * 255, 255), 0);
-			byte cn_ = (byte)Math.Max(Math.Min(cn * 255, 255), 0);
-
+			byte cp_ = (byte)MathHelper.Clamp(cp * 255, 255, 0);
+			byte cn_ = (byte)MathHelper.Clamp(cn * 255, 255, 0);
+		
 			DrawRectangleWithPreviousScene(
 				new Vector2DF(0.0f, 0.0f),
 				new Vector2DF(1.0f, 0.0f),

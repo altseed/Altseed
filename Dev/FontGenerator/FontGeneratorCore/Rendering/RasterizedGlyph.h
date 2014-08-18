@@ -23,7 +23,16 @@ namespace FontGenerator
 			int height,
 			int baselineY);
 
-		RasterizedGlyph::Ptr PaintColor(Color color);
+		static RasterizedGlyph::Ptr FromSpansWithOutline(
+			Spans spans,
+			int width,
+			int height,
+			int baselineY,
+			int outline,
+			int msaa);
+
+
+		RasterizedGlyph::Ptr PaintColor(Color color, Color outlineColor);
 
 		std::vector<Color> GetBuffer() const
 		{

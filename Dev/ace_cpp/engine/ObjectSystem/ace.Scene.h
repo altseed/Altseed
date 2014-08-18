@@ -30,11 +30,16 @@ namespace ace
 		std::list<LayerPtr> m_layersToDraw;
 		std::list<LayerPtr> m_layersToUpdate;
 		std::map<astring, SceneComponent::Ptr> m_components;
+		bool alreadyFirstUpdate;
 
 		void Draw();
 
 		void Update();
 		void UpdateComponents();
+
+		void CallTransitionFinished();
+		void CallChanging();
+		void CallDestroy();
 
 	protected:
 		/**
@@ -45,6 +50,25 @@ namespace ace
 			@brief	オーバーライドして、このシーンを更新した直後の処理を記述できる。
 		*/
 		virtual void OnUpdated();
+		/**
+		@brief	オーバーライドして、最初のシーン更新時に実行する処理を記述する。
+		*/
+		virtual void OnUpdateForTheFirstTime();
+
+		/**
+		@brief	オーバーライドして、トランジション終了時に実行する処理を記述する。
+		*/
+		virtual void OnTransitionFinished();
+
+		/**
+		@brief	オーバーライドして、このシーンから別のシーンに切り替わる際に実行される処理を記述する。
+		*/
+		virtual void OnChanging();
+
+		/**
+		@brief	オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
+		*/
+		virtual void OnDestroy();
 
 	public:
 		/**

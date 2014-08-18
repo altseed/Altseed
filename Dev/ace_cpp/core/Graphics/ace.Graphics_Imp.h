@@ -15,7 +15,7 @@
 #include <Graphics/ace.Color.h>
 #include <Math/ace.Vector2DI.h>
 
-
+#include "../Utils/ace.ResourceContainer.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -29,6 +29,15 @@ namespace ace {
 	class ImageHelper
 	{
 	public:
+		/**
+		@brief	PNGファイルを保存する。
+		@param	filepath	保存先
+		@param	width	横幅
+		@param	height	縦幅
+		@param	data	隙間なく敷き詰められた画素データ(1画素4byte固定)
+		@param	rev		上下反転で保存する。
+		*/
+		static void SavePNGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev);
 
 		/**
 			@brief	PNGファイルを読み込む。
@@ -46,7 +55,7 @@ namespace ace {
 			@param	format	フォーマット
 			@return	サイズ
 		*/
-		static int32_t GetPitch(eTextureFormat format);
+		static int32_t GetPitch(TextureFormat format);
 
 		static int32_t GetMipmapCount(int32_t width, int32_t height);
 		static void GetMipmapSize(int mipmap, int32_t& width, int32_t& height);
@@ -58,7 +67,13 @@ namespace ace {
 	protected:
 		Graphics_Imp*	m_graphics = nullptr;
 
-		std::map<astring, void*>		m_caches;
+		struct Cache
+		{
+			int32_t Count;
+			void* Ptr;
+		};
+		std::map<astring, Cache>		m_caches;
+		std::map<void*, astring>		dataToKey;
 
 		virtual void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height ) = 0;
 		virtual void InternalUnload(void* data) = 0;
@@ -92,11 +107,13 @@ namespace ace {
 		VertexBuffer_Imp*	m_vertexBufferPtr;
 		IndexBuffer_Imp*	m_indexBufferPtr;
 		NativeShader_Imp*	m_shaderPtr;
-		bool				m_isMultithreadingMode;
 
 		Effekseer::Setting*	m_effectSetting = nullptr;
 
 		ShaderCache*		m_shaderCache = nullptr;
+
+		int32_t				drawCallCount = 0;
+		int32_t				drawCallCountCurrent = 0;
 
 		void AddDeviceObject(DeviceObject* o);
 		void RemoveDeviceObject(DeviceObject* o);
@@ -116,16 +133,6 @@ namespace ace {
 			TextureWrapType				textureWrapTypes[MaxTextureCount];
 		} currentState, nextState;
 
-		/**
-			@brief	PNGファイルを保存する。
-			@param	filepath	保存先
-			@param	width	横幅
-			@param	height	縦幅
-			@param	data	隙間なく敷き詰められた画素データ(1画素4byte固定)
-			@param	rev		上下反転で保存する。
-			*/
-		void SavePNGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev);
-
 	protected:
 		std::shared_ptr<RenderingThread>	m_renderingThread;
 
@@ -137,9 +144,9 @@ namespace ace {
 
 	protected:
 		Texture2D* CreateTexture2D_(const achar* path) { return CreateTexture2D_Imp(path); }
-		Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, eTextureFormat format) { return CreateEmptyTexture2D_Imp(width, height, format); }
+		Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateEmptyTexture2D_Imp(width, height, format); }
 
-		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, eTextureFormat format) { return CreateRenderTexture2D_Imp(width, height, format); }
+		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateRenderTexture2D_Imp(width, height, format); }
 		Shader2D* CreateShader2D_( const achar* shaderText);
 		
 	protected:
@@ -159,17 +166,20 @@ namespace ace {
 			*/
 		virtual Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
 
-		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format) = 0;
+		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) = 0;
 
 	public:
-		Graphics_Imp(Vector2DI size, Log* log, bool isMultithreadingMode);
+#if !SWIG
+		std::shared_ptr<ResourceContainer<Texture2D_Imp>> Texture2DContainer;
+		std::shared_ptr<ResourceContainer<Effect_Imp>> EffectContainer;
+#endif
+
+		Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled);
 		virtual ~Graphics_Imp();
 
-		static Graphics_Imp* Create(Window* window, bool isOpenGLMode, Log* log, bool isMultithreadingMode);
+		static Graphics_Imp* Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled);
 
-		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log, bool isMultithreadingMode);
-
-		bool IsMultithreadingMode() { return m_isMultithreadingMode; }
+		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled);
 
 		/**
 		@brief	画面をクリアする。
@@ -193,6 +203,8 @@ namespace ace {
 		*/
 		virtual void SaveScreenshot(const achar* path) = 0;
 
+		int32_t GetDrawCallCount() const override { return drawCallCount; };
+
 		/**
 		@brief	テクスチャを生成する。
 		@param	path	パス
@@ -207,7 +219,7 @@ namespace ace {
 		@param	format	フォーマット
 		@return	テクスチャ
 		*/
-		Texture2D_Imp* CreateEmptyTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format);
+		Texture2D_Imp* CreateEmptyTexture2D_Imp(int32_t width, int32_t height, TextureFormat format);
 
 		/**
 		@brief	描画先として指定可能なテクスチャを生成する。
@@ -215,7 +227,7 @@ namespace ace {
 		@param	height	縦幅
 		@param	format	フォーマット
 		*/
-		virtual RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format) = 0;
+		virtual RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format) = 0;
 
 		/**
 			@brief	SWIG向けに記述
@@ -368,6 +380,11 @@ namespace ace {
 	@brief	描画終了後のリセット処理を行う。
 	*/
 	void End();
+
+	/** 
+	@brief	リロード処理を行う。
+	*/
+	void Reload();
 
 	/**
 		@brief	描画先を設定する。

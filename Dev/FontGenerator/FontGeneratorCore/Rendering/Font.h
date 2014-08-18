@@ -37,5 +37,7 @@ namespace FontGenerator
 			@brief	フォントのdescenderの値(ベースラインより下の高さ)を取得します。戻り値は負の値です。
 		*/
 		int GetDescender() const;
+
+		FT_Library GetLibrary() const;
 	};
 }

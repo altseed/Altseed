@@ -63,4 +63,14 @@ namespace ace
 	{
 		m_coreObject->SetEffectRotation(value);
 	}
+
+	int EffectObject2D::GetDrawingPriority() const
+	{
+		return m_coreObject->GetDrawingPriority();
+	}
+
+	void EffectObject2D::SetDrawingPriority(int priority)
+	{
+		m_coreObject->SetDrawingPriority(priority);
+	}
 }

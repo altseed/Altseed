@@ -185,7 +185,7 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"CubemapTexture").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode, log, false);
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto cubemap = graphics->CreateCubemapTextureFrom6ImageFiles_(

@@ -23,6 +23,12 @@ namespace ace
 			return (swig.RenderTexture2D)o.SwigObject;
 		}
 
+		static public swig.CubemapTexture GetCubemapTexture(CubemapTexture o)
+		{
+			if (o == null) return null;
+			return (swig.CubemapTexture)o.SwigObject;
+		}
+
 		static public swig.Material2D GetMaterial2D(Material2D o)
 		{
 			if (o == null) return null;

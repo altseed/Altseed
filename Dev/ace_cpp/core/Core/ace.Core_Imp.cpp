@@ -141,7 +141,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode, bool isMultithreadingMode)
+	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, CoreOption option)
 	{
 		if (m_window != nullptr) return false;
 		if (m_keyboard != nullptr) return false;
@@ -154,7 +154,7 @@ namespace ace
 		m_isInitializedByExternal = false;
 
 #if _WIN32
-		if (isOpenGLMode)
+		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
 			glfwMakeOpenGLEnabled();
 		}
@@ -163,7 +163,7 @@ namespace ace
 			glfwMakeOpenGLDisabled();
 		}
 #else
-		if (!isOpenGLMode)
+		if (option.GraphicsDevice != GraphicsDeviceType::OpenGL)
 		{
 			return false;
 		}
@@ -180,10 +180,10 @@ namespace ace
 
 		m_file = File_Imp::Create();
 
-		m_graphics = Graphics_Imp::Create(m_window, isOpenGLMode, m_logger, isMultithreadingMode);
+		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, option.IsReloadingEnabled);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp();
+		m_sound = new Sound_Imp(option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
 		m_profiler = Profiler_Imp::Create();
@@ -210,13 +210,22 @@ namespace ace
 
 		m_logger->WriteLineStrongly(L"コア初期化成功");
 
+		isReloadingEnabeld = option.IsReloadingEnabled;
+		m_window->OnFocused = [this]() ->void
+		{
+			if (this->isReloadingEnabeld)
+			{
+				this->Reload();
+			}
+		};
+
 		return true;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Core_Imp::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, bool isMultithreadingMode)
+	bool Core_Imp::InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, CoreOption option)
 	{
 		if (m_window != nullptr) return false;
 		if (m_keyboard != nullptr) return false;
@@ -228,7 +237,7 @@ namespace ace
 		m_isInitializedByExternal = true;
 
 #if _WIN32
-		if (isOpenGLMode)
+		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
 			glfwMakeOpenGLEnabled();
 		}
@@ -237,7 +246,7 @@ namespace ace
 			glfwMakeOpenGLDisabled();
 		}
 #else
-		if (!isOpenGLMode)
+		if (option.GraphicsDevice != GraphicsDeviceType::OpenGL)
 		{
 			return false;
 		}
@@ -245,10 +254,10 @@ namespace ace
 
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
-		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, false, m_logger, isMultithreadingMode);
+		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger, option.IsReloadingEnabled);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp();
+		m_sound = new Sound_Imp(option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
@@ -312,11 +321,11 @@ namespace ace
 			
 			if (framerateMode == FramerateMode::Constant)
 			{
-				deltaTime = (60.0f / (float) m_targetFPS) * timeSpan;
+				deltaTime = (1.0f / (float) m_targetFPS) * timeSpan;
 			}
 			else if (framerateMode == FramerateMode::Variable)
 			{
-				deltaTime = delta / (1000.0f * (1000.0f / 60.0f)) * timeSpan;
+				deltaTime = delta / (1000.0f) * timeSpan;
 			}
 
 		}
@@ -362,7 +371,11 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Core_Imp::Reload()
 	{
-		GetGraphics_Imp()->GetResourceContainer()->Reload();
+		if (isReloadingEnabeld)
+		{
+			GetGraphics_Imp()->Reload();
+			m_sound->Reload();
+		}
 	}
 
 	//----------------------------------------------------------------------------------

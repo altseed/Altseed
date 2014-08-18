@@ -21,7 +21,7 @@ namespace ace {
 		std::vector<uint8_t>		m_resource;
 
 		Texture2D_Imp_GL(Graphics* graphics);
-		Texture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, eTextureFormat format);
+		Texture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, TextureFormat format);
 
 		virtual ~Texture2D_Imp_GL();
 
@@ -29,7 +29,7 @@ namespace ace {
 	public:
 		static Texture2D_Imp_GL* Create(Graphics_Imp_GL* graphics, uint8_t* data, int32_t size);
 
-		static Texture2D_Imp_GL* Create(Graphics_Imp_GL* graphics, int32_t width, int32_t height, eTextureFormat format);
+		static Texture2D_Imp_GL* Create(Graphics_Imp_GL* graphics, int32_t width, int32_t height, TextureFormat format);
 
 		bool Save(const achar* path) override;
 

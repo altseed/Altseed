@@ -171,5 +171,6 @@ namespace ace
 				}
 			}
 		}
+		return nullptr;
 	}
 }

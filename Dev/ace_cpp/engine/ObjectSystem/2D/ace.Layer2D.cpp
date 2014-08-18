@@ -158,7 +158,6 @@ namespace ace
 	{
 		for (auto object : m_objects)
 		{
-			m_objects.remove(object);
 			object->SetLayer(nullptr);
 		}
 		m_objects.clear();

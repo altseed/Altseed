@@ -30,6 +30,10 @@ namespace ace {
 			{
 				v_.ID = shader->GetTextureID(str.c_str());
 			}
+			else if (v.second.ValueType == SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+			{
+				v_.ID = shader->GetTextureID(str.c_str());
+			}
 			else
 			{
 				v_.ID = shader->GetConstantBufferID(str.c_str());
@@ -226,7 +230,8 @@ namespace ace {
 		}
 		else
 		{
-			m_values[name] = ShaderConstantValue(nullptr, TextureFilterType::Nearest, TextureWrapType::Clamp);
+			Texture2D* texture = nullptr;
+			m_values[name] = ShaderConstantValue(texture, TextureFilterType::Nearest, TextureWrapType::Clamp);
 		}
 
 		m_values[name].Data.Texture2DPtr.FilterType = filter;
@@ -251,7 +256,8 @@ namespace ace {
 		}
 		else
 		{
-			m_values[name] = ShaderConstantValue(nullptr, TextureFilterType::Nearest, TextureWrapType::Clamp);
+			Texture2D* texture = nullptr;
+			m_values[name] = ShaderConstantValue(texture, TextureFilterType::Nearest, TextureWrapType::Clamp);
 		}
 
 		m_values[name].Data.Texture2DPtr.WrapType = wrap;

@@ -138,7 +138,7 @@ namespace ace {
 			RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
-			state.CullingType = ace::eCullingType::CULLING_DOUBLE;
+			state.Culling = CullingType::Double;
 			state.AlphaBlendState = AlphaBlend::Blend;
 			m_graphics->SetRenderState(state);
 			m_graphics->DrawPolygon(vCount / 3);

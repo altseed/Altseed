@@ -25,6 +25,8 @@ namespace ace
 		static AnimationSource* AnimationSyatem_CreateAnimationSource(AnimationSystem* o);
 		static KeyframeAnimation* AnimationSyatem_CreateKeyframeAnimation(AnimationSystem* o);
 
+		static Mesh* Model_GetMesh(Model* o, int32_t index);
+
 		static Effect* CoreEffectObject2D_GetEffect(CoreEffectObject2D* o);
 	};
 }

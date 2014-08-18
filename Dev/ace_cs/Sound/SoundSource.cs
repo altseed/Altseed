@@ -47,23 +47,38 @@ namespace ace
 		}
 
 		/// <summary>
-		/// ループポイントを設定する。
+		/// ループポイントの開始地点(秒)を取得、または設定する。
 		/// </summary>
-		/// <param name="loopStart">ループ戻り地点(秒)</param>
-		/// <param name="loopEnd">ループ開始地点(秒)</param>
-		public void SetLoopPoint(float loopStart, float loopEnd)
+		public float LoopStartingPoint
 		{
-			SwigObject.SetLoopPoint(loopStart, loopEnd);
+			get { return SwigObject.GetLoopStartingPoint(); }
+			set { SwigObject.SetLoopEndPoint(value); }
+		}
+
+		/// <summary>
+		/// ループポイントの終了地点(秒)を取得、または設定する。
+		/// </summary>
+		public float LoopEndPoint
+		{
+			get { return SwigObject.GetLoopEndPoint(); }
+			set { SwigObject.SetLoopEndPoint(value); }
+		}
+
+		/// <summary>
+		/// ループするかを取得、または設定する。
+		/// </summary>
+		public bool IsLoopingMode
+		{
+			get { return SwigObject.GetIsLoopingMode(); }
+			set { SwigObject.SetIsLoopingMode(value); }
 		}
 
 		/// <summary>
 		/// 音の長さを取得する。
 		/// </summary>
-		/// <returns>長さ(秒)</returns>
-		public float GetLength()
+		public float Length
 		{
-			float ret = SwigObject.GetLength();
-			return ret;
+			get { return SwigObject.GetLength(); }
 		}
 	}
 }

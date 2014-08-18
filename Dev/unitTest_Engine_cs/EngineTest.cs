@@ -33,7 +33,6 @@ namespace unitTest_Engine_cs
 			{
 				IsFullScreen = false,
 				GraphicsDevice = graphicsType,
-				IsMultithreadingMode = false,
 			};
 
 			var result = Engine.Initialize(Title, 640, 480, option);

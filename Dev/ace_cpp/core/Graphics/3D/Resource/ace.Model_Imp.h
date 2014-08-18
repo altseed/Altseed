@@ -64,11 +64,16 @@ namespace ace
 		AnimationSource* LoadAnimationSource(Model_IO::AnimationSource& io);
 		KeyframeAnimation* LoadKeyframeAnimation(Model_IO::KeyframeAnimation& io);
 
+	protected:
+		Mesh* GetMesh_(int32_t index) override;
+
 	public:
 		std::vector<AnimationClip*>& GetAnimationClips() { return m_animationClips; }
 		std::vector<astring>& GetAnimationClipNames() { return m_animationClipNames; }
 		MeshGroup* GetMeshGroup() { return m_meshGroup; }
 		
+		int32_t GetMeshCount() const override { return m_meshGroup->Meshes.size(); }
+
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
 	public:

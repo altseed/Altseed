@@ -6,8 +6,6 @@ float4x4	matC						: register( c128 );
 float4x4	matP						: register( c132 );
 //||>
 
-float3		depthParams					: register( c136 );
-
 //<|| モデル共通頂点入力
 struct VS_Input
 {

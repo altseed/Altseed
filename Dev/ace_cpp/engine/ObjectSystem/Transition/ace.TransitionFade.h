@@ -18,8 +18,8 @@ namespace ace
 	public:
 		/**
 			@brief	コンストラクタ
-			@param	fadeoutDuration	フェードアウトにかかる実時間(1/60秒を1とした値)
-			@param	fadeinDuration	フェードインにかかる実時間(1/60秒を1とした値)
+			@param	fadeoutDuration	フェードアウトにかかる実時間(秒)
+			@param	fadeinDuration	フェードインにかかる実時間(秒)
 		*/
 		TransitionFade(float fadeoutDuration, float fadeinDuration);
 		virtual ~TransitionFade();

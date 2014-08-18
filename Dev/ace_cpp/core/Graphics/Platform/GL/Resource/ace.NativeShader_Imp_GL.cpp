@@ -338,7 +338,9 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 
 	std::string macros;
 
-	if (macro.size() > 0)
+	macros += std::string("#version 330\n");
+	macros += std::string("#define OPENGL 1\n");
+
 	{
 		for ( auto& m : macro)
 		{
@@ -359,17 +361,6 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 		
 		vs_src_count = 2;
 		ps_src_count = 2;
-	}
-	else
-	{
-		vs_src[0] = (char*)vertexShaderText;
-		vs_src_len[0] = strlen(vs_src[0]);
-		
-		ps_src[0] = (char*) pixelShaderText;
-		ps_src_len[0] = strlen(ps_src[0]);
-
-		vs_src_count = 1;
-		ps_src_count = 1;
 	}
 
 	/* 頂点シェーダーコンパイル */

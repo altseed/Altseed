@@ -28,6 +28,8 @@ namespace ace
 
 		RenderTexture2D_Imp*	m_renderTarget_FR[2];
 
+		RenderTexture2D_Imp*	m_renderTargetEnvironment = nullptr;
+
 		PostEffectRenderer*		m_postEffectRenderer = nullptr;
 		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands_RT;
 		int32_t					postEffectCount = 0;
@@ -39,6 +41,21 @@ namespace ace
 		Matrix44	CameraMatrix;
 		Matrix44	ProjectionMatrix;
 		Vector2DI	WindowSize;
+		Vector3DF	Up;
+
+		/**
+		@brief	シェーダー内の画像からカメラ座標復元
+		*/
+		Vector3DF	ReconstructInfo1;
+
+		/**
+		@brief	シェーダー内の画像からカメラ座標復元
+		*/
+		Vector4DF	ReconstructInfo2;
+
+		Vector3DF	FrontDir;
+		Vector3DF	UpDir;
+		Vector3DF	RightDir;
 
 		RenderedCameraObject3DProxy(Graphics* graphics);
 		virtual ~RenderedCameraObject3DProxy();
@@ -54,6 +71,9 @@ namespace ace
 		RenderTexture2D_Imp*	GetRenderTargetShadow() { return m_renderTargetShadow_RT; }
 		RenderTexture2D_Imp*	GetRenderTargetSSAO() { return m_renderTargetSSAO_RT; }
 		RenderTexture2D_Imp*	GetRenderTargetSSAO_Temp() { return m_renderTargetSSAO_temp_RT; }
+
+		RenderTexture2D_Imp*	GetRenderTargetEnvironment() { return m_renderTargetEnvironment; }
+
 		DepthBuffer_Imp*		GetDepthBuffer() { return m_depthBuffer_RT; }
 		RenderTexture2D_Imp*	GetRenderTarget();
 		RenderTexture2D_Imp*	GetAffectedRenderTarget();
@@ -106,7 +126,7 @@ namespace ace
 		float GetZNear(){ return m_values.znear; }
 		void SetZNear(float znear);
 
-		void SetPostEffectCount(int32_t postEffectCount);
+		void StartAddingPostEffect(int32_t postEffectCount);
 		void AddPostEffectCommand(std::shared_ptr<Material2DCommand> command);
 
 		/**

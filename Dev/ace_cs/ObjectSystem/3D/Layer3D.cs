@@ -20,7 +20,7 @@ namespace ace
 			if(settings != null)
 			{
 				settings_.IsLightweightMode = settings.IsLightweightMode;
-				settings_.VisalizedBuffer = (swig.eVisalizedBuffer)settings.VisualizedBuffer;
+				settings_.VisualizedBuffer = (swig.VisualizedBufferType)settings.VisualizedBuffer;
 			}
 
 			coreLayer3D = Engine.ObjectSystemFactory.CreateLayer3D(settings_);
@@ -84,7 +84,7 @@ namespace ace
 			{
 				swig.RenderSettings settings_ = new swig.RenderSettings();
 				settings_.IsLightweightMode = value.IsLightweightMode;
-				settings_.VisalizedBuffer = (swig.eVisalizedBuffer)value.VisualizedBuffer;
+				settings_.VisualizedBuffer = (swig.VisualizedBufferType)value.VisualizedBuffer;
 				coreLayer3D.SetRenderSettings(settings_);
 			}
 		}
@@ -132,6 +132,16 @@ namespace ace
 		public void SetGroundAmbientColor(Color color)
 		{
 			coreLayer3D.SetGroundAmbientColor(color);
+		}
+
+		/// <summary>
+		/// テクスチャによる環境の色を設定する。
+		/// </summary>
+		/// <param name="diffuseColor">拡散色</param>
+		/// <param name="specularColor">スペキュラ色</param>
+		public void SetEnvironmentColor(CubemapTexture diffuseColor, CubemapTexture specularColor)
+		{
+			coreLayer3D.SetEnvironmentColor(IG.GetCubemapTexture(diffuseColor), IG.GetCubemapTexture(specularColor));
 		}
 
 		internal override void BeginUpdating()

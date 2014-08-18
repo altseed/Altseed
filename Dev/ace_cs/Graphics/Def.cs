@@ -35,10 +35,10 @@ namespace ace
 
 	public enum TextureFormat
 	{
-		R8G8B8A8_UNORM = swig.eTextureFormat.TEXTURE_FORMAT_R8G8B8A8_UNORM,
-		R32G32B32A32_FLOAT = swig.eTextureFormat.TEXTURE_FORMAT_R32G32B32A32_FLOAT,
-		R8G8B8A8_UNORM_SRGB = swig.eTextureFormat.TEXTURE_FORMAT_R8G8B8A8_UNORM_SRGB,
-		R16G16_FLOAT = swig.eTextureFormat.TEXTURE_FORMAT_GL_R16G16_FLOAT,
+		R8G8B8A8_UNORM = swig.TextureFormat.R8G8B8A8_UNORM,
+		R32G32B32A32_FLOAT = swig.TextureFormat.R32G32B32A32_FLOAT,
+		R8G8B8A8_UNORM_SRGB = swig.TextureFormat.R8G8B8A8_UNORM_SRGB,
+		R16G16_FLOAT = swig.TextureFormat.R16G16_FLOAT,
 	}
 
 	/// <summary>
@@ -94,11 +94,14 @@ namespace ace
 	/// <summary>
 	/// 3D描画時に表示されるバッファ
 	/// </summary>
-	public enum VisualizedBuffer : int 
+	public enum VisualizedBufferType : int 
 	{
-		FinalImage = swig.eVisalizedBuffer.VISALIZED_BUFFER_FINALIMAGE,
-		Diffuse = swig.eVisalizedBuffer.VISALIZED_BUFFER_DIFFUSE,
-		Normal = swig.eVisalizedBuffer.VISALIZED_BUFFER_NORMAL,
+		FinalImage = swig.VisualizedBufferType.FinalImage,
+		DiffuseColor = swig.VisualizedBufferType.DiffuseColor,
+		SpecularColor = swig.VisualizedBufferType.SpecularColor,
+		Smoothness = swig.VisualizedBufferType.Smoothness,
+		Normal = swig.VisualizedBufferType.Normal,
+		Environment = swig.VisualizedBufferType.Environment,
 	}
 
     ///<summary>
@@ -166,7 +169,7 @@ namespace ace
 		/// <summary>
 		/// 画面に表示されるバッファ
 		/// </summary>
-		public VisualizedBuffer VisualizedBuffer = VisualizedBuffer.FinalImage;
+		public VisualizedBufferType VisualizedBuffer = VisualizedBufferType.FinalImage;
 
 		public RenderSettings()
 		{
@@ -175,7 +178,7 @@ namespace ace
 		internal RenderSettings(swig.RenderSettings settings)
 		{
 			IsLightweightMode = settings.IsLightweightMode;
-			VisualizedBuffer = (VisualizedBuffer)settings.VisalizedBuffer;
+			VisualizedBuffer = (VisualizedBufferType)settings.VisualizedBuffer;
 		}
 	}
 }

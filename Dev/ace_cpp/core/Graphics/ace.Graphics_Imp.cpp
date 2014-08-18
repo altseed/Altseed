@@ -80,6 +80,25 @@ namespace ace {
 		}
 	};
 
+	static void GetParentDir(EFK_CHAR* dst, const EFK_CHAR* src)
+	{
+		int i, last = -1;
+		for (i = 0; src[i] != L'\0'; i++)
+		{
+			if (src[i] == L'/' || src[i] == L'\\')
+				last = i;
+		}
+		if (last >= 0)
+		{
+			memcpy(dst, src, last * sizeof(EFK_CHAR));
+			dst[last] = L'\0';
+		}
+		else
+		{
+			dst[0] = L'\0';
+		}
+	}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -89,6 +108,66 @@ static void PngReadData(png_structp png_ptr, png_bytep data, png_size_t length)
 
 	memcpy(data, *d, length);
 	(*d) += length;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+void ImageHelper::SavePNGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev)
+{
+	png_bytep raw1D;
+	png_bytepp raw2D;
+
+	/* 構造体確保 */
+#if _WIN32
+	FILE *fp = _wfopen(filepath, L"wb");
+#else
+	FILE *fp = fopen(ToUtf8String(filepath).c_str(), "wb");
+#endif
+
+	if (fp == nullptr) return;
+
+	png_structp pp = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	png_infop ip = png_create_info_struct(pp);
+
+	/* 書き込み準備 */
+	png_init_io(pp, fp);
+	png_set_IHDR(pp, ip, width, height,
+		8, /* 8bit以外にするなら変える */
+		PNG_COLOR_TYPE_RGBA, /* RGBA以外にするなら変える */
+		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+
+	/* ピクセル領域確保 */
+	raw1D = (png_bytep) malloc(height * png_get_rowbytes(pp, ip));
+	raw2D = (png_bytepp) malloc(height * sizeof(png_bytep));
+	for (int32_t i = 0; i < height; i++)
+	{
+		raw2D[i] = &raw1D[i*png_get_rowbytes(pp, ip)];
+	}
+
+	memcpy((void*) raw1D, data, width * height * 4);
+
+	/* 上下反転 */
+	if (rev)
+	{
+		for (int32_t i = 0; i < height / 2; i++)
+		{
+			png_bytep swp = raw2D[i];
+			raw2D[i] = raw2D[height - i - 1];
+			raw2D[height - i - 1] = swp;
+		}
+	}
+
+	/* 書き込み */
+	png_write_info(pp, ip);
+	png_write_image(pp, raw2D);
+	png_write_end(pp, ip);
+
+	/* 開放 */
+	png_destroy_write_struct(&pp, &ip);
+	fclose(fp);
+	free(raw1D);
+	free(raw2D);
 }
 
 //----------------------------------------------------------------------------------
@@ -202,12 +281,12 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-int32_t ImageHelper::GetPitch(eTextureFormat format)
+int32_t ImageHelper::GetPitch(TextureFormat format)
 {
-	if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM) return 4;
-	if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT) return 4 * 4;
-	if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM_SRGB) return 4;
-	if (format == eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT) return 2 * 2;
+	if (format == TextureFormat::R8G8B8A8_UNORM) return 4;
+	if (format == TextureFormat::R32G32B32A32_FLOAT) return 4 * 4;
+	if (format == TextureFormat::R8G8B8A8_UNORM_SRGB) return 4;
+	if (format == TextureFormat::R16G16_FLOAT) return 2 * 2;
 	return 0;
 }
 
@@ -246,11 +325,7 @@ EffectTextureLoader::EffectTextureLoader(Graphics_Imp* graphics)
 //----------------------------------------------------------------------------------
 EffectTextureLoader::~EffectTextureLoader()
 {
-	for (auto& c : m_caches)
-	{
-		Unload(c.second);
-	}
-	m_caches.clear();
+	assert(m_caches.size() == 0);
 }
 
 //----------------------------------------------------------------------------------
@@ -258,9 +333,14 @@ EffectTextureLoader::~EffectTextureLoader()
 //----------------------------------------------------------------------------------
 void* EffectTextureLoader::Load(const EFK_CHAR* path)
 {
-	auto cache = m_caches.find(astring((const achar*)path));
-	if (cache != m_caches.end()) return cache->second;
-	
+	auto key = astring((const achar*) path);
+	auto cache = m_caches.find(key);
+	if (cache != m_caches.end())
+	{
+		cache->second.Count++;
+		return cache->second.Ptr;
+	}
+
 #if _WIN32
 	auto fp = _wfopen((const achar*) path, L"rb");
 	if (fp == nullptr) return false;
@@ -288,6 +368,11 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path)
 
 	SafeDeleteArray(data);
 
+	Cache c;
+	c.Ptr = img;
+	c.Count = 1;
+	m_caches[key] = c;
+	dataToKey[img] = key;
 	return img;
 }
 
@@ -297,6 +382,18 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path)
 void EffectTextureLoader::Unload(void* data)
 {
 	InternalUnload(data);
+
+	if (data == nullptr) return;
+
+	auto key = dataToKey[data];
+	auto cache = m_caches.find(key);
+	cache->second.Count--;
+
+	if (cache->second.Count == 0)
+	{
+		m_caches.erase(key);
+		dataToKey.erase(data);
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -325,66 +422,6 @@ void Graphics_Imp::ResetDrawState()
 	SafeRelease(m_vertexBufferPtr);
 	SafeRelease(m_indexBufferPtr);
 	SafeRelease(m_shaderPtr);
-}
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void Graphics_Imp::SavePNGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev)
-{
-	png_bytep raw1D;
-	png_bytepp raw2D;
-
-	/* 構造体確保 */
-#if _WIN32
-	FILE *fp = _wfopen(filepath, L"wb");
-#else
-	FILE *fp = fopen(ToUtf8String(filepath).c_str(), "wb");
-#endif
-
-	if (fp == nullptr) return;
-
-	png_structp pp = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	png_infop ip = png_create_info_struct(pp);
-
-	/* 書き込み準備 */
-	png_init_io(pp, fp);
-	png_set_IHDR(pp, ip, width, height,
-		8, /* 8bit以外にするなら変える */
-		PNG_COLOR_TYPE_RGBA, /* RGBA以外にするなら変える */
-		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
-
-	/* ピクセル領域確保 */
-	raw1D = (png_bytep) malloc(height * png_get_rowbytes(pp, ip));
-	raw2D = (png_bytepp) malloc(height * sizeof(png_bytep));
-	for (int32_t i = 0; i < height; i++)
-	{
-		raw2D[i] = &raw1D[i*png_get_rowbytes(pp, ip)];
-	}
-
-	memcpy((void*) raw1D, data, width * height * 4);
-
-	/* 上下反転 */
-	if (rev)
-	{
-		for (int32_t i = 0; i < height / 2; i++)
-		{
-			png_bytep swp = raw2D[i];
-			raw2D[i] = raw2D[height - i - 1];
-			raw2D[height - i - 1] = swp;
-		}
-	}
-	
-	/* 書き込み */
-	png_write_info(pp, ip);
-	png_write_image(pp, raw2D);
-	png_write_end(pp, ip);
-	
-	/* 開放 */
-	png_destroy_write_struct(&pp, &ip);
-	fclose(fp);
-	free(raw1D);
-	free(raw2D);
 }
 
 void Graphics_Imp::StartRenderingThreadFunc(void* self)
@@ -421,21 +458,21 @@ Shader2D* Graphics_Imp::CreateShader2D_(const achar* shaderText)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(Window* window, bool isOpenGLMode, Log* log, bool isMultithreadingMode)
+Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled)
 {
 #if _WIN32
-	if (isOpenGLMode)
+	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, isMultithreadingMode);
+		return Graphics_Imp_GL::Create(window, log, isReloadingEnabled);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create(window, log, isMultithreadingMode);
+		return Graphics_Imp_DX11::Create(window, log, isReloadingEnabled);
 	}
 #else
-	if (isOpenGLMode)
+	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, isMultithreadingMode);
+		return Graphics_Imp_GL::Create(window, log, isReloadingEnabled);
 	}
 	else
 	{
@@ -447,41 +484,39 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, bool isOpenGLMode, Log* log, 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, Log* log, bool isMultithreadingMode)
+Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled)
 {
 #if _WIN32
-	if (isOpenGLMode)
+	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isMultithreadingMode);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isReloadingEnabled);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isMultithreadingMode);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isReloadingEnabled);
 	}
 #else 
-	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, isMultithreadingMode);
+	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, isReloadingEnabled);
 #endif
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isMultithreadingMode)
+Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled)
 	: m_size(size)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)
 	, m_shaderPtr(nullptr)
 	, m_log(log)
-	, m_isMultithreadingMode(isMultithreadingMode)
 {
+	Texture2DContainer = std::make_shared<ResourceContainer<Texture2D_Imp>>();
+	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>();
+
 	//SafeAddRef(m_log);
 	m_resourceContainer = new GraphicsResourceContainer();
-
-	if (IsMultithreadingMode())
-	{
-		m_renderingThread = std::make_shared<RenderingThread>();
-	}
-
+	m_renderingThread = std::make_shared<RenderingThread>();
+	
 	m_effectSetting = Effekseer::Setting::Create();
 	m_effectSetting->SetCoordinateSystem(Effekseer::eCoordinateSystem::COORDINATE_SYSTEM_RH);
 	m_effectSetting->SetEffectLoader(new EffectLoader());
@@ -519,51 +554,18 @@ Graphics_Imp::~Graphics_Imp()
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 {
+	auto ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
 	{
-		auto existing = GetResourceContainer()->Texture2Ds.Get(path);
-		if (existing != nullptr)
-		{
-			SafeAddRef(existing);
-			return existing;
-		}
-	}
+		return CreateTexture2D_Imp_Internal(this, data, size);
+	});
 
-#if _WIN32
-	auto fp = _wfopen(path, L"rb");
-	if (fp == nullptr) return nullptr;
-#else
-	auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-	if (fp == nullptr) return nullptr;
-#endif
-	fseek(fp, 0, SEEK_END);
-	auto size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	auto data = new uint8_t[size];
-	fread(data, 1, size, fp);
-	fclose(fp);
-
-	auto texture = CreateTexture2D_Imp_Internal(this, data, size);
-	if (texture == nullptr)
-	{
-		SafeDeleteArray(data);
-		return nullptr;
-	}
-
-	SafeDeleteArray(data);
-
-	std::shared_ptr<Texture2DReloadInformation> info;
-	info.reset( new Texture2DReloadInformation() );
-	info->ModifiedTime = GetResourceContainer()->GetModifiedTime(path);
-	info->Path = path;
-	
-	GetResourceContainer()->Texture2Ds.Regist(path, info, texture);
-	return texture;
+	return ret;
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Texture2D_Imp* Graphics_Imp::CreateEmptyTexture2D_Imp(int32_t width, int32_t height, eTextureFormat format)
+Texture2D_Imp* Graphics_Imp::CreateEmptyTexture2D_Imp(int32_t width, int32_t height, TextureFormat format)
 {
 	return CreateEmptyTexture2D_Imp_Internal(this, width, height, format);
 }
@@ -647,10 +649,16 @@ Model* Graphics_Imp::CreateModel_(const achar* path)
 //----------------------------------------------------------------------------------
 Effect* Graphics_Imp::CreateEffect_(const achar* path)
 {
-	auto effect = Effekseer::Effect::Create(m_effectSetting, (const EFK_CHAR*)path, 1.0f);
-	if (effect == nullptr) return nullptr;
+	auto ret = EffectContainer->TryLoad(path, [this,path](uint8_t* data, int32_t size) -> Effect_Imp*
+	{
+		EFK_CHAR parentDir[512];	
+		GetParentDir(parentDir, (const EFK_CHAR*) path);
+	
+		auto effect = Effekseer::Effect::Create(m_effectSetting, data, size, 1.0, parentDir);
+		if (effect == nullptr) return nullptr;
+		return Effect_Imp::CreateEffect(this, effect);
+	});
 
-	auto ret = Effect_Imp::CreateEffect(this, effect);
 	return ret;
 }
 
@@ -759,6 +767,8 @@ void Graphics_Imp::DrawPolygon(int32_t count)
 		m_vertexBufferPtr,
 		m_indexBufferPtr,
 		m_shaderPtr);
+
+	drawCallCountCurrent++;
 }
 
 //----------------------------------------------------------------------------------
@@ -766,6 +776,9 @@ void Graphics_Imp::DrawPolygon(int32_t count)
 //----------------------------------------------------------------------------------
 void Graphics_Imp::Begin()
 {
+	drawCallCount = drawCallCountCurrent;
+	drawCallCountCurrent = 0;
+
 	CommitRenderState(true);
 
 	ResetDrawState();
@@ -781,6 +794,27 @@ void Graphics_Imp::End()
 	ResetDrawState();
 
 	EndInternal();
+}
+
+void Graphics_Imp::Reload()
+{
+	Texture2DContainer->Reload([this](std::shared_ptr<ResourceContainer<Texture2D_Imp>::LoadingInformation> o, uint8_t* data, int32_t size) -> void
+	{
+		o->ResourcePtr->Reload(data, size);
+	});
+
+	EffectContainer->Reload([this](std::shared_ptr<ResourceContainer<Effect_Imp>::LoadingInformation> o, uint8_t* data, int32_t size) -> void
+	{
+		o->ResourcePtr->Reload(o->LoadedPath.c_str(), m_effectSetting, data, size);
+	});
+
+	GetResourceContainer()->Reload();
+
+	for (auto& r : EffectContainer->GetAllResources())
+	{
+		auto e = r.second;
+		e->ReloadResources(r.first.c_str());
+	}
 }
 
 //----------------------------------------------------------------------------------

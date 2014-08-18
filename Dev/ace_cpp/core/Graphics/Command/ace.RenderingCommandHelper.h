@@ -32,6 +32,19 @@ namespace ace
 			}
 		};
 
+		struct CubemapTexturePair
+		{
+			CubemapTexture* Ptr;
+			TextureFilterType Filter;
+			TextureWrapType Wrap;
+			CubemapTexturePair(CubemapTexture* ptr, TextureFilterType filter, TextureWrapType wrap)
+			{
+				Ptr = ptr;
+				Filter = filter;
+				Wrap = wrap;
+			}
+		};
+
 		template<typename T>
 		struct Array
 		{
@@ -85,6 +98,14 @@ namespace ace
 
 		//template<>
 		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const Texture2DPair& v)
+		{
+			auto value = ShaderConstantValue(v.Ptr, v.Filter, v.Wrap);
+			value.ID = GetTextureID(shader, name);
+			return value;
+		}
+
+		//template<>
+		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const CubemapTexturePair& v)
 		{
 			auto value = ShaderConstantValue(v.Ptr, v.Filter, v.Wrap);
 			value.ID = GetTextureID(shader, name);

@@ -61,6 +61,8 @@ namespace ace {
 
 		FramerateMode	framerateMode = FramerateMode::Constant;
 
+		bool isReloadingEnabeld = false;
+
 		Core_Imp();
 		virtual ~Core_Imp();
 
@@ -75,9 +77,9 @@ namespace ace {
 		void SetRemovedFunctionPpointer(CoreFuncPtr func);
 #endif
 
-		bool Initialize(const achar* title, int32_t width, int32_t height, bool isFullScreen, bool isOpenGLMode, bool isMultithreadingMode);
+		bool Initialize(const achar* title, int32_t width, int32_t height, CoreOption option);
 
-		bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, bool isOpenGLMode, bool isMultithreadingMode);
+		bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, CoreOption option);
 
 		bool DoEvents();
 
@@ -148,6 +150,8 @@ namespace ace {
 		AnimationSystem* GetAnimationSyatem();
 
 		Vector2DI GetWindowSize();
+
+		bool IsReloadingEnabeld() const { return isReloadingEnabeld; }
 	};
 	//----------------------------------------------------------------------------------
 	//

@@ -14,6 +14,7 @@ namespace ace
 		, m_layersToUpdate(list<Layer::Ptr>())
 		, m_coreScene(nullptr)
 		, m_components(map<astring, SceneComponent::Ptr>())
+		, alreadyFirstUpdate(false)
 	{
 		m_coreScene = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateScene());
 	}
@@ -55,6 +56,12 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::Update()
 	{
+		if (!alreadyFirstUpdate)
+		{
+			OnUpdateForTheFirstTime();
+			alreadyFirstUpdate = true;
+		}
+
 		OnUpdating();
 
 		for (auto& layer : m_layersToUpdate)
@@ -126,6 +133,49 @@ namespace ace
 	{
 	}
 
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Scene::OnUpdateForTheFirstTime()
+	{
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Scene::OnTransitionFinished()
+	{
+	}
+
+	void Scene::OnChanging()
+	{
+	}
+
+	void Scene::OnDestroy()
+	{
+	}
+
+	void Scene::CallChanging()
+	{
+		OnChanging();
+	}
+
+	void Scene::CallDestroy()
+	{
+		OnDestroy();
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Scene::CallTransitionFinished()
+	{
+		OnTransitionFinished();
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	bool Scene::GetHDRMode() const
 	{
 		return m_coreScene->GetHDRMode();

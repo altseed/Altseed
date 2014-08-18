@@ -46,6 +46,8 @@ namespace ace
 
 		Color						m_skyAmbientColor;
 		Color						m_groundAmbientColor;
+		std::shared_ptr<CubemapTexture>	environment_diffuseColor = nullptr;
+		std::shared_ptr<CubemapTexture>	environment_specularColor = nullptr;
 
 		Vector2DI					m_windowSize;
 
@@ -56,7 +58,6 @@ namespace ace
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
 
 		RenderingEvent	m_event;
-		float	deltaTime = 0.0f;
 
 		RenderingCommandExecutor*				executor = nullptr;
 		Renderer3DProxy*						proxy = nullptr;
@@ -81,6 +82,7 @@ namespace ace
 
 		void SetSkyAmbientColor(Color color) { m_skyAmbientColor = color; }
 		void SetGroundAmbientColor(Color color) { m_groundAmbientColor = color; }
+		void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor);
 
 		RenderTexture2D_Imp* GetRenderTarget();
 

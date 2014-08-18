@@ -1,14 +1,14 @@
 ﻿static const char* renderer2d_vs_gl = R"(
 
-attribute vec3 Pos;
-attribute vec2 UV;
-attribute vec4 Color;
+in vec3 Pos;
+in vec2 UV;
+in vec4 Color;
 
 #ifdef HAS_TEXTURE
-varying vec4 vaTexCoord;
+out vec4 vaTexCoord;
 #endif
 
-varying vec4 vaColor;
+out vec4 vaColor;
 
 uniform vec4 area;
 

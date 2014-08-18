@@ -14,7 +14,7 @@ namespace ace
         /// <summary>
         /// キーを離した瞬間のみ返す
         /// </summary>
-        Pull =ace.swig.JoystickButtonState.Pull,
+        Release =ace.swig.JoystickButtonState.Release,
         /// <summary>
         /// キーを押した瞬間のみ返す
         /// </summary>

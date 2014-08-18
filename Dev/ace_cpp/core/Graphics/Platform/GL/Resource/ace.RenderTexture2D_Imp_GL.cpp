@@ -12,7 +12,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture2D_Imp_GL::RenderTexture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, eTextureFormat format)
+	RenderTexture2D_Imp_GL::RenderTexture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, TextureFormat format)
 		: RenderTexture2D_Imp(graphics, size)
 		, m_texture(texture)
 	{
@@ -30,7 +30,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	RenderTexture2D_Imp_GL* RenderTexture2D_Imp_GL::Create(Graphics* graphics, int32_t width, int32_t height, eTextureFormat format)
+	RenderTexture2D_Imp_GL* RenderTexture2D_Imp_GL::Create(Graphics* graphics, int32_t width, int32_t height, TextureFormat format)
 	{
 		GLuint texture = 0;
 		glGenTextures(1, &texture);
@@ -39,7 +39,7 @@ namespace ace {
 
 		glBindTexture(GL_TEXTURE_2D, texture);
 
-		if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM)
+		if (format == TextureFormat::R8G8B8A8_UNORM)
 		{
 			glTexImage2D(
 				GL_TEXTURE_2D,
@@ -52,7 +52,7 @@ namespace ace {
 				GL_UNSIGNED_BYTE,
 				nullptr);
 		}
-		else if (format == eTextureFormat::TEXTURE_FORMAT_R32G32B32A32_FLOAT)
+		else if (format == TextureFormat::R32G32B32A32_FLOAT)
 		{
 			glTexImage2D(
 				GL_TEXTURE_2D,
@@ -65,7 +65,7 @@ namespace ace {
 				GL_FLOAT,
 				nullptr);
 		}
-		else if (format == eTextureFormat::TEXTURE_FORMAT_R8G8B8A8_UNORM_SRGB)
+		else if (format == TextureFormat::R8G8B8A8_UNORM_SRGB)
 		{
 			glTexImage2D(
 				GL_TEXTURE_2D,
@@ -78,7 +78,7 @@ namespace ace {
 				GL_UNSIGNED_BYTE,
 				nullptr);
 		}
-		else if (format == eTextureFormat::TEXTURE_FORMAT_GL_R16G16_FLOAT)
+		else if (format == TextureFormat::R16G16_FLOAT)
 		{
 			glTexImage2D(
 				GL_TEXTURE_2D,

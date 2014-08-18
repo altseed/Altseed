@@ -15,9 +15,6 @@
     <ClInclude Include="Rendering\Glyph.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\GlyphWithBorder.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="Rendering\Setting.h">
       <Filter>Rendering</Filter>
     </ClInclude>
@@ -46,9 +43,6 @@
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\Glyph.cpp">
-      <Filter>Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\GlyphWithBorder.cpp">
       <Filter>Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\SettingForRendering.cpp">

@@ -4,6 +4,7 @@
 //----------------------------------------------------------------------------------
 #include "ace.NativeShader_Imp.h"
 #include "ace.Texture2D_Imp.h"
+#include "ace.CubemapTexture.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -240,6 +241,14 @@ namespace ace {
 					value.Data.Texture2DPtr.Ptr,
 					value.Data.Texture2DPtr.FilterType,
 					value.Data.Texture2DPtr.WrapType);
+			}
+			else if (value.ValueType == SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+			{
+				SetTexture(
+					value.ID,
+					value.Data.CubemapTexturePtr.Ptr,
+					value.Data.CubemapTexturePtr.FilterType,
+					value.Data.CubemapTexturePtr.WrapType);
 			}
 		}
 	}
