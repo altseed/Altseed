@@ -51,12 +51,12 @@ float4 main( const PS_Input Input ) : SV_Target
 
 static const char* gl_vs = R"(
 
-attribute vec3 Pos;
-attribute vec2 UV;
+in vec3 Pos;
+in vec2 UV;
 
 uniform mat4 matMCP;
 
-varying vec4 vaTexCoord;
+out vec4 vaTexCoord;
 
 void main()
 {
