@@ -5,7 +5,7 @@
 #include "../../Command/ace.RenderingCommandHelper.h"
 #include "../../Command/ace.RenderingCommand.h"
 
-#include "../Object/ace.RenderedObject3D.h"
+
 #include "../Object/ace.RenderedCameraObject3D.h"
 #include "../Object/ace.RenderedDirectionalLightObject3D.h"
 
@@ -354,6 +354,8 @@ namespace ace
 			ssao = std::make_shared<SSAO>(g);
 		}
 
+		environmentRendering = std::make_shared<EnvironmentRendering>(g, m_shadowVertexBuffer, m_shadowIndexBuffer);
+
 		factory = new RenderingCommandFactory();
 	}
 
@@ -389,7 +391,7 @@ namespace ace
 		}
 
 		// エフェクトの更新
-		effectManager->Update(DeltaTime);
+		effectManager->Update(DeltaTime / (1.0f/60.0f));
 
 		RenderingProperty prop;
 		prop.IsLightweightMode = Settings.IsLightweightMode;
@@ -424,167 +426,182 @@ namespace ace
 		{
 			auto cP = (RenderedCameraObject3DProxy*) co;
 
-			// カメラプロジェクション行列計算
-			Matrix44 cameraProjMat;
-			ace::Matrix44::Mul(cameraProjMat, cP->ProjectionMatrix, cP->CameraMatrix);
-			prop.CameraMatrix = cP->CameraMatrix;
-			prop.ProjectionMatrix = cP->ProjectionMatrix;
-			prop.DepthRange = cP->ZFar - cP->ZNear;
-			prop.ZFar = cP->ZFar;
-			prop.ZNear = cP->ZNear;
-
-			// 3D描画
+			if (Settings.IsLightweightMode)
 			{
-				if (prop.IsLightweightMode)
+				RenderCameraOnLightweight(helper, cP, prop);
+			}
+			else
+			{
+				RenderCamera(helper, cP, prop);
+			}
+		}
+
+		for (auto& co : cameraObjects)
+		{
+			auto cP = (RenderedCameraObject3DProxy*)co;
+
+			helper->SetRenderTarget(renderTarget, nullptr);
+
+			Texture2D* texture = nullptr;
+			if (Settings.IsLightweightMode || Settings.VisualizedBuffer == VisualizedBufferType::FinalImage)
+			{
+				texture = cP->GetAffectedRenderTarget();
+			}
+			else
+			{
+				texture = cP->GetRenderTarget();
+			}
+
+			RenderState state;
+			state.DepthTest = false;
+			state.DepthWrite = false;
+			state.AlphaBlendState = AlphaBlend::Opacity;
+			state.Culling = ace::CullingType::Double;
+
+			helper->Draw(2, m_pasteVertexBuffer.get(), m_pasteIndexBuffer.get(), m_pasteShader.get(), state,
+				h::GenValue("g_texture", h::Texture2DPair(texture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+				);
+		}
+
+		SafeRelease(renderTarget);
+	}
+
+	void Renderer3DProxy::RenderCamera(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop)
+	{
+		using h = RenderingCommandHelper;
+
+		// カメラプロジェクション行列計算
+		Matrix44 cameraProjMat;
+		ace::Matrix44::Mul(cameraProjMat, cP->ProjectionMatrix, cP->CameraMatrix);
+		prop.CameraMatrix = cP->CameraMatrix;
+		prop.ProjectionMatrix = cP->ProjectionMatrix;
+
+		// 3D描画
+		{
+			// 奥行き描画
+			{
+				helper->SetRenderTarget(cP->GetRenderTargetDepth(), cP->GetDepthBuffer());
+				helper->Clear(true, true, ace::Color(0, 0, 0, 255));
+				prop.IsDepthMode = true;
+				for (auto& o : objects)
 				{
-					helper->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
+					o->Rendering(helper, prop);
+				}
+			}
+
+			// Gバッファ描画
+			{
+				helper->SetRenderTarget(
+					cP->GetRenderTargetDiffuseColor(),
+					cP->GetRenderTargetSpecularColor_Smoothness(),
+					cP->GetRenderTargetDepth(),
+					cP->GetRenderTargetAO_MatID(),
+					cP->GetDepthBuffer());
+				helper->Clear(true, false, ace::Color(0, 0, 0, 255));
+				prop.IsDepthMode = false;
+				for (auto& o : objects)
+				{
+					o->Rendering(helper, prop);
+				}
+			}
+		}
+
+		// 環境描画
+		environmentRendering->Render(
+			cP, helper,
+			cP->GetRenderTargetDiffuseColor(), cP->GetRenderTargetSpecularColor_Smoothness(), cP->GetRenderTargetDepth(), cP->GetRenderTargetAO_MatID(),
+			EnvironmentDiffuseColor.get(), EnvironmentSpecularColor.get());
+
+		// SSAO
+		if (ssao->IsEnabled())
+		{
+			ssao->Draw(helper, cP, m_ssaoVertexBuffer, m_ssaoIndexBuffer);
+		}
+
+		// 蓄積リセット
+		{
+			helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
+			helper->Clear(true, false, ace::Color(0, 0, 0, 255));
+		}
+
+		// 直接光描画
+		{
+			auto invCameraMat = (prop.CameraMatrix).GetInverted();
+			auto zero = prop.CameraMatrix.Transform3D(Vector3DF());
+
+			Vector3DF groundLightColor(
+				prop.GroundLightColor.R / 255.0f,
+				prop.GroundLightColor.G / 255.0f,
+				prop.GroundLightColor.B / 255.0f);
+
+			Vector3DF skyLightColor(
+				prop.SkyLightColor.R / 255.0f,
+				prop.SkyLightColor.G / 255.0f,
+				prop.SkyLightColor.B / 255.0f);
+
+			int32_t lightIndex = 0;
+			for (auto& light_ : directionalLightObjects)
+			{
+				auto lightP = static_cast<RenderedDirectionalLightObject3DProxy*>(light_);
+
+				RenderTexture2D_Imp* shadowMap = lightP->GetShadowTexture();
+
+				Matrix44 view, proj;
+
+				lightP->CalcShadowMatrix(
+					cP->GetGlobalPosition(),
+					cP->Focus - cP->GetGlobalPosition(),
+					cP->Up,
+					cameraProjMat,
+					cP->ZNear,
+					cP->ZFar,
+					view,
+					proj);
+
+				// 影マップ作成
+				{
+					helper->SetRenderTarget(lightP->GetShadowTexture(), lightP->GetShadowDepthBuffer());
 					helper->Clear(true, true, ace::Color(0, 0, 0, 255));
+
+					RenderingProperty shadowProp = prop;
+					shadowProp.IsDepthMode = true;
+					shadowProp.CameraMatrix = view;
+					shadowProp.ProjectionMatrix = proj;
 
 					for (auto& o : objects)
 					{
-						o->Rendering(helper, prop);
-					}
-				}
-				else
-				{
-					// 奥行き描画
-					{
-						helper->SetRenderTarget(cP->GetRenderTargetDepth(), cP->GetDepthBuffer());
-						helper->Clear(true, true, ace::Color(0, 0, 0, 255));
-						prop.IsDepthMode = true;
-						for (auto& o : objects)
-						{
-							o->Rendering(helper, prop);
-						}
+						o->Rendering(helper, shadowProp);
 					}
 
-					// Gバッファ描画
+					float intensity = 2.0f;
+					Vector4DF weights;
+					float ws[4];
+					float total = 0.0f;
+					float const dispersion = intensity * intensity;
+					for (int32_t i = 0; i < 4; i++)
 					{
-						helper->SetRenderTarget(
-							cP->GetRenderTargetDiffuseColor(),
-							cP->GetRenderTargetSpecularColor_Smoothness(),
-							cP->GetRenderTargetDepth(),
-							cP->GetRenderTargetAO_MatID(),
-							cP->GetDepthBuffer());
+						float pos = 1.0f + 2.0f * i;
+						ws[i] = expf(-0.5f * pos * pos / dispersion);
+						total += ws[i] * 2.0f;
+					}
+					weights.X = ws[0] / total;
+					weights.Y = ws[1] / total;
+					weights.Z = ws[2] / total;
+					weights.W = ws[3] / total;
+
+					{
+						helper->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
 						helper->Clear(true, false, ace::Color(0, 0, 0, 255));
-						prop.IsDepthMode = false;
-						for (auto& o : objects)
-						{
-							o->Rendering(helper, prop);
-						}
+
+						RenderState state;
+						state.DepthTest = false;
+						state.DepthWrite = false;
+						state.Culling = CullingType::Double;
+
+						helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), m_shadowShaderX.get(), state,
+							h::GenValue("g_weight", weights),
+							h::GenValue("g_texture", h::Texture2DPair(lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 					}
-				}
-			}
-
-
-			// SSAO
-			if (!Settings.IsLightweightMode && ssao->IsEnabled())
-			{
-				ssao->Draw(helper, cP, m_ssaoVertexBuffer, m_ssaoIndexBuffer);
-			}
-
-			// 蓄積リセット
-			if (!Settings.IsLightweightMode)
-			{
-				helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
-				helper->Clear(true, false, ace::Color(0, 0, 0, 255));
-			}
-
-			// 直接光描画
-			if (!Settings.IsLightweightMode)
-			{
-				auto invCameraMat = (prop.CameraMatrix).GetInverted();
-
-				auto fov = cP->FOV / 180.0f * 3.141592f;
-				auto aspect = (float) cP->WindowSize.X / (float) cP->WindowSize.Y;
-
-				float yScale = 1 / tanf(fov / 2);
-				float xScale = yScale / aspect;
-
-				auto reconstructInfo1 = Vector3DF(cP->ZNear * cP->ZFar, cP->ZFar - cP->ZNear, -cP->ZFar);
-				//auto reconstructInfo1 = Vector3DF(cP->ZFar - cP->ZNear, cP->ZNear, 0.0f);
-				auto reconstructInfo2 = Vector4DF(1.0f / xScale, 1.0f / yScale, 0.0f, 0.0f);
-
-				Vector3DF upDir = Vector3DF(0, 1, 0);
-				Vector3DF zero;
-				zero = prop.CameraMatrix.Transform3D(zero);
-				upDir = prop.CameraMatrix.Transform3D(upDir) - zero;
-
-				Vector3DF groundLightColor(
-					prop.GroundLightColor.R / 255.0f,
-					prop.GroundLightColor.G / 255.0f,
-					prop.GroundLightColor.B / 255.0f);
-
-				Vector3DF skyLightColor(
-					prop.SkyLightColor.R / 255.0f,
-					prop.SkyLightColor.G / 255.0f,
-					prop.SkyLightColor.B / 255.0f);
-
-				int32_t lightIndex = 0;
-				for (auto& light_ : directionalLightObjects)
-				{
-					auto lightP = static_cast<RenderedDirectionalLightObject3DProxy*>(light_);
-					
-					RenderTexture2D_Imp* shadowMap = lightP->GetShadowTexture();
-
-					Matrix44 view, proj;
-
-					lightP->CalcShadowMatrix(
-						cP->GetGlobalPosition(),
-						cP->Focus - cP->GetGlobalPosition(),
-						cameraProjMat,
-						cP->ZNear,
-						cP->ZFar,
-						view,
-						proj);
-
-					// 影マップ作成
-					{
-						helper->SetRenderTarget(lightP->GetShadowTexture(), lightP->GetShadowDepthBuffer());
-						helper->Clear(true, true, ace::Color(0, 0, 0, 255));
-
-						RenderingProperty shadowProp = prop;
-						shadowProp.IsDepthMode = true;
-						shadowProp.CameraMatrix = view;
-						shadowProp.ProjectionMatrix = proj;
-						shadowProp.DepthRange = prop.DepthRange;
-						shadowProp.ZFar = prop.ZFar;
-						shadowProp.ZNear = prop.ZNear;
-
-						for (auto& o : objects)
-						{
-							o->Rendering(helper, shadowProp);
-						}
-
-						float intensity = 2.0f;
-						Vector4DF weights;
-						float ws[4];
-						float total = 0.0f;
-						float const dispersion = intensity * intensity;
-						for (int32_t i = 0; i < 4; i++)
-						{
-							float pos = 1.0f + 2.0f * i;
-							ws[i] = expf(-0.5f * pos * pos / dispersion);
-							total += ws[i] * 2.0f;
-						}
-						weights.X = ws[0] / total;
-						weights.Y = ws[1] / total;
-						weights.Z = ws[2] / total;
-						weights.W = ws[3] / total;
-
-						{
-							helper->SetRenderTarget((RenderTexture2D_Imp*) m_shadowTempTexture.get(), nullptr);
-							helper->Clear(true, false, ace::Color(0, 0, 0, 255));
-
-							RenderState state;
-							state.DepthTest = false;
-							state.DepthWrite = false;
-							state.Culling = CullingType::Double;
-
-							helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), m_shadowShaderX.get(), state,
-								h::GenValue("g_weight", weights),
-								h::GenValue("g_texture", h::Texture2DPair(lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
-						}
 
 						{
 							helper->SetRenderTarget(lightP->GetShadowTexture(), nullptr);
@@ -599,9 +616,9 @@ namespace ace
 								h::GenValue("g_weight", weights),
 								h::GenValue("g_texture", h::Texture2DPair(m_shadowTempTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 						}
-					}
+				}
 
-					// 光源描画
+				// 光源描画
 					{
 						helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
 
@@ -646,9 +663,9 @@ namespace ace
 							h::GenValue("groundLightColor", groundLightColor),
 							h::GenValue("directionalLightDirection", directionalLightDirection),
 							h::GenValue("directionalLightColor", directionalLightColor),
-							h::GenValue("upDir", upDir),
-							h::GenValue("reconstructInfo1", reconstructInfo1),
-							h::GenValue("reconstructInfo2", reconstructInfo2),
+							h::GenValue("upDir", cP->UpDir),
+							h::GenValue("reconstructInfo1", cP->ReconstructInfo1),
+							h::GenValue("reconstructInfo2", cP->ReconstructInfo2),
 							h::GenValue("g_shadowProjection", ShadowProjection),
 							h::GenValue("g_cameraPositionToShadowCameraPosition", CameraPositionToShadowCameraPosition),
 							h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
@@ -656,40 +673,22 @@ namespace ace
 							h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 							h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 							h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-							h::GenValue("g_shadowmapTexture", h::Texture2DPair(lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+							h::GenValue("g_shadowmapTexture", h::Texture2DPair(lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+							h::GenValue("g_environmentDiffuseTexture", h::Texture2DPair(cP->GetRenderTargetEnvironment(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
 							);
+
+						
 					}
 
-					lightIndex++;
-				}
-
-				// TODO 一切光源がない場合の環境光
+				lightIndex++;
 			}
 
-			// エフェクトの描画
-			helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
-
-			if (Settings.IsLightweightMode || Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
-			{
-				// ポストエフェクト適用
-				cP->ApplyPostEffects(helper);
-			}
-			else
+			// 一切光源がない場合の環境光
+			if (lightIndex == 0)
 			{
 				helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
-				helper->Clear(true, false, Color(0, 0, 0, 0));
 
-				std::shared_ptr<ace::NativeShader_Imp> shader = m_deferredBufferShader;
-
-				float flag = 0.0f;
-				if (Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_DIFFUSE)
-				{
-					flag = 0.0f;
-				}
-				else if (Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_NORMAL)
-				{
-					flag = 1.0f;
-				}
+				std::shared_ptr<ace::NativeShader_Imp> shader = m_ambientLightShader;
 
 				Texture2D* ssaoTexture = dummyTextureWhite.get();
 				if (ssao->IsEnabled())
@@ -697,53 +696,128 @@ namespace ace
 					ssaoTexture = cP->GetRenderTargetSSAO();
 				}
 
+				Vector3DF directionalLightDirection;
+				Vector3DF directionalLightColor;
+
+				directionalLightDirection = prop.DirectionalLightDirection;
+				directionalLightDirection = prop.CameraMatrix.Transform3D(directionalLightDirection) - zero;
+
+				directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
+				directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
+				directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
+
 				RenderState state;
 				state.DepthTest = false;
 				state.DepthWrite = false;
 				state.Culling = CullingType::Double;
-				state.AlphaBlendState = AlphaBlend::Opacity;
+				state.AlphaBlendState = AlphaBlend::Add;
 
 				helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
-					h::GenValue("flag", flag),
+					h::GenValue("skyLightColor", skyLightColor),
+					h::GenValue("groundLightColor", groundLightColor),
+					h::GenValue("directionalLightDirection", directionalLightDirection),
+					h::GenValue("directionalLightColor", directionalLightColor),
+					h::GenValue("upDir", cP->UpDir),
+					h::GenValue("reconstructInfo1", cP->ReconstructInfo1),
+					h::GenValue("reconstructInfo2", cP->ReconstructInfo2),
 					h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 					h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 					h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 					h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-					h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+					h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+					h::GenValue("g_environmentDiffuseTexture", h::Texture2DPair(cP->GetRenderTargetEnvironment(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
 					);
 			}
 		}
 
-		for (auto& co : cameraObjects)
+		// エフェクトの描画
+		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
+
+		if (Settings.VisualizedBuffer == VisualizedBufferType::FinalImage)
 		{
-			auto cP = (RenderedCameraObject3DProxy*)co;
+			// ポストエフェクト適用
+			cP->ApplyPostEffects(helper);
+		}
+		else
+		{
+			helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
+			helper->Clear(true, false, Color(0, 0, 0, 0));
 
-			helper->SetRenderTarget(renderTarget, nullptr);
+			std::shared_ptr<ace::NativeShader_Imp> shader = m_deferredBufferShader;
 
-			Texture2D* texture = nullptr;
-			if (Settings.IsLightweightMode || Settings.VisalizedBuffer == eVisalizedBuffer::VISALIZED_BUFFER_FINALIMAGE)
+			float flag = 0.0f;
+			if (Settings.VisualizedBuffer == VisualizedBufferType::DiffuseColor)
 			{
-				texture = cP->GetAffectedRenderTarget();
+				flag = 0.0f;
 			}
-			else
+			else if (Settings.VisualizedBuffer == VisualizedBufferType::Normal)
 			{
-				texture = cP->GetRenderTarget();
+				flag = 1.0f;
+			}
+			else if (Settings.VisualizedBuffer == VisualizedBufferType::SpecularColor)
+			{
+				flag = 2.0f;
+			}
+			else if (Settings.VisualizedBuffer == VisualizedBufferType::Smoothness)
+			{
+				flag = 3.0f;
+			}
+			else if (Settings.VisualizedBuffer == VisualizedBufferType::Environment)
+			{
+				flag = 4.0f;
+			}
+
+			Texture2D* ssaoTexture = dummyTextureWhite.get();
+			if (ssao->IsEnabled())
+			{
+				ssaoTexture = cP->GetRenderTargetSSAO();
 			}
 
 			RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
+			state.Culling = CullingType::Double;
 			state.AlphaBlendState = AlphaBlend::Opacity;
-			state.Culling = ace::CullingType::Double;
 
-			helper->Draw(2, m_pasteVertexBuffer.get(), m_pasteIndexBuffer.get(), m_pasteShader.get(), state,
-				h::GenValue("g_texture", h::Texture2DPair(texture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+			helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
+				h::GenValue("flag", flag),
+				h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+				h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+				h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+				h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+				h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+				h::GenValue("g_environmentTexture", h::Texture2DPair(cP->GetRenderTargetEnvironment(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
 				);
 		}
-
-		SafeRelease(renderTarget);
 	}
 
+	void Renderer3DProxy::RenderCameraOnLightweight(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop)
+	{
+		using h = RenderingCommandHelper;
+
+		// カメラプロジェクション行列計算
+		Matrix44 cameraProjMat;
+		ace::Matrix44::Mul(cameraProjMat, cP->ProjectionMatrix, cP->CameraMatrix);
+		prop.CameraMatrix = cP->CameraMatrix;
+		prop.ProjectionMatrix = cP->ProjectionMatrix;
+
+		// 3D描画
+		{
+			helper->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
+			helper->Clear(true, true, ace::Color(0, 0, 0, 255));
+
+			for (auto& o : objects)
+			{
+				o->Rendering(helper, prop);
+			}
+		}
+
+		// エフェクトの描画
+		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
+
+		// ポストエフェクト適用
+		cP->ApplyPostEffects(helper);
+	}
 
 	void Renderer3DProxy::SetEffect(Effekseer::Manager* manager, EffekseerRenderer::Renderer* renderer)
 	{

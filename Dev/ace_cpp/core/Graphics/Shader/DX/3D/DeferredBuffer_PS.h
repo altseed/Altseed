@@ -18,6 +18,9 @@ SamplerState	g_shadowmapSampler		: register( s4 );
 Texture2D		g_ssaoTexture		: register( t5 );
 SamplerState	g_ssaoSampler		: register( s5 );
 
+Texture2D		g_environmentTexture		: register( t6 );
+SamplerState	g_environmentSampler		: register( s6 );
+
 struct PS_Input
 {
 	float4 SV_Position		: SV_POSITION;
@@ -33,9 +36,19 @@ float3 GetDiffuse(float2 uv)
 	return g_gbuffer0Texture.Sample(g_gbuffer0Sampler, uv).xyz;
 }
 
+float4 GetSpecularColorAndSmoothness(float2 uv)
+{
+	return g_gbuffer1Texture.Sample(g_gbuffer1Sampler, uv).xyzw;
+}
+
 float3 GetNormal(float2 uv)
 {
 	return g_gbuffer2Texture.Sample(g_gbuffer2Sampler, uv).xyz;
+}
+
+float3 GetEnvironment(float2 uv)
+{
+	return g_environmentTexture.Sample(g_environmentSampler, uv).xyz;
 }
 
 float4 main( const PS_Input Input ) : SV_Target
@@ -53,7 +66,19 @@ float4 main( const PS_Input Input ) : SV_Target
 	{
 		color.xyz = GetNormal(uv);
 	}
-	
+	else if(flag == 2.0)
+	{
+		color.xyz = GetSpecularColorAndSmoothness(uv).xyz;
+	}
+	else if(flag == 3.0)
+	{
+		float s = GetSpecularColorAndSmoothness(uv).w;
+		color.xyz = float3(s,s,s);
+	}
+	else if(flag == 4.0)
+	{
+		color.xyz = GetEnvironment(uv).xyz;
+	}
 	return color;
 }
 

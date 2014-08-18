@@ -23,6 +23,7 @@ namespace ace
 			std::shared_ptr<Texture2D>	ColorTexture;
 			std::shared_ptr<Texture2D>	NormalTexture;
 			std::shared_ptr<Texture2D>	SpecularTexture;
+			std::shared_ptr<Texture2D>	SmoothnessTexture;
 
 			Material();
 			~Material();
@@ -117,6 +118,7 @@ namespace ace
 		void SetColorTexture(int32_t materialIndex, Texture2D* texture) override;
 		void SetNormalTexture(int32_t materialIndex, Texture2D* texture) override;
 		void SetSpecularTexture(int32_t materialIndex, Texture2D* texture) override;
+		void SetSmoothnessTexture(int32_t materialIndex, Texture2D* texture) override;
 
 		Material* GetMaterial(int32_t materialIndex);
 

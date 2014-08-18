@@ -3,6 +3,16 @@
 
 #include "Generator.h"
 
+#include <string>
+#include <vector>
+#include <stdint.h>
+
+#ifdef _WIN32
+#include <Windows.h>
+#include <Shlwapi.h>
+#pragma comment(lib,"Shlwapi.lib")
+#endif
+
 namespace FontGenerator
 {
 	class DLL
@@ -15,9 +25,18 @@ namespace FontGenerator
 		ace::astring	m_exportPath;
 		int				m_sheetSize;
 
+		
+		std::vector < std::string > fontNames;
+		std::vector < std::string > fontPathes;
+
 	public:
 		DLL();
 		virtual ~DLL();
+
+		void LoadFontNames();
+		int32_t GetFontCount();
+		const char* GetFontName(int32_t index);
+		const char* GetFontPath(int32_t index);
 
 		bool Run();
 

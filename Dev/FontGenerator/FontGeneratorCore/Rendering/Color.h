@@ -13,7 +13,7 @@ namespace FontGenerator
 			std::uint8_t a);
 		Color(std::int32_t color);
 
-		std::uint8_t r, g, b, a;
+		std::uint8_t a, r, g, b;
 
 		std::int32_t GetInt() const;
 

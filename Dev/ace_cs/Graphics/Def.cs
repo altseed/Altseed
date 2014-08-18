@@ -94,11 +94,14 @@ namespace ace
 	/// <summary>
 	/// 3D描画時に表示されるバッファ
 	/// </summary>
-	public enum VisualizedBuffer : int 
+	public enum VisualizedBufferType : int 
 	{
-		FinalImage = swig.eVisalizedBuffer.VISALIZED_BUFFER_FINALIMAGE,
-		Diffuse = swig.eVisalizedBuffer.VISALIZED_BUFFER_DIFFUSE,
-		Normal = swig.eVisalizedBuffer.VISALIZED_BUFFER_NORMAL,
+		FinalImage = swig.VisualizedBufferType.FinalImage,
+		DiffuseColor = swig.VisualizedBufferType.DiffuseColor,
+		SpecularColor = swig.VisualizedBufferType.SpecularColor,
+		Smoothness = swig.VisualizedBufferType.Smoothness,
+		Normal = swig.VisualizedBufferType.Normal,
+		Environment = swig.VisualizedBufferType.Environment,
 	}
 
     ///<summary>
@@ -166,7 +169,7 @@ namespace ace
 		/// <summary>
 		/// 画面に表示されるバッファ
 		/// </summary>
-		public VisualizedBuffer VisualizedBuffer = VisualizedBuffer.FinalImage;
+		public VisualizedBufferType VisualizedBuffer = VisualizedBufferType.FinalImage;
 
 		public RenderSettings()
 		{
@@ -175,7 +178,7 @@ namespace ace
 		internal RenderSettings(swig.RenderSettings settings)
 		{
 			IsLightweightMode = settings.IsLightweightMode;
-			VisualizedBuffer = (VisualizedBuffer)settings.VisalizedBuffer;
+			VisualizedBuffer = (VisualizedBufferType)settings.VisualizedBuffer;
 		}
 	}
 }

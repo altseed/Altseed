@@ -233,6 +233,15 @@ namespace ace
 		m_materials[materialIndex].SpecularTexture = t;
 	}
 
+	void Mesh_Imp::SetSmoothnessTexture(int32_t materialIndex, Texture2D* texture)
+	{
+		if (m_materials.size() <= materialIndex) return;
+
+		SafeAddRef(texture);
+		auto t = CreateSharedPtrWithReleaseDLL(texture);
+		m_materials[materialIndex].SmoothnessTexture = t;
+	}
+
 	Mesh_Imp::Material* Mesh_Imp::GetMaterial(int32_t materialIndex)
 	{
 		if (m_materials.size() <= materialIndex) return nullptr;

@@ -38,8 +38,7 @@ namespace ace {
 	private:
 		Window*			m_window;
 		
-		GLuint			m_frameBuffer_main;
-		GLuint			m_frameBuffer_rendering;
+		GLuint			m_frameBuffer;
 
 		bool			m_endStarting;
 #if !_WIN32
@@ -49,25 +48,6 @@ namespace ace {
 		::Window		m_x11Window;
 #endif
 
-#if _WIN32
-		HDC				m_renderingThreadDC;
-		HGLRC			m_renderingThreadRC;
-		HWND			m_renderingThreadHWND;
-#else
-		GLXContext		m_renderingThreadGlx;
-		Display*		m_renderingThreadX11Display;
-		::Window		m_renderingThreadX11Window;
-#endif
-		/**
-			@brief		コンテキストの状態
-			@note
-			0-コンテキストなし
-			1-メインスレッド
-			2-描画スレッド
-		*/
-		int32_t			m_contextState;
-
-		std::recursive_mutex		m_mutex;
 
 #pragma region RenderState
 		GLuint			m_samplers[MaxTextureCount];
@@ -152,11 +132,6 @@ namespace ace {
 
 		void FlushCommand() override;
 
-		/**
-			@brief	制御用のミューテックスを取得する。
-			@return	ミューテックス
-		*/
-		std::recursive_mutex& GetMutex(){ return m_mutex; }
 	private:
 
 		/**

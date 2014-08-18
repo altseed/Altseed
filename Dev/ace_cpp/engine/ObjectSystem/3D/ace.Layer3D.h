@@ -81,5 +81,11 @@ namespace ace
 		*/
 		void SetGroundAmbientColor(Color color);
 
+		/**
+			@brief	テクスチャによる環境の色を設定する。
+			@param	diffuseColor	拡散色
+			@param	specularColor	スペキュラ色
+		*/
+		void SetEnvironmentColor(std::shared_ptr<CubemapTexture> diffuseColor, std::shared_ptr<CubemapTexture> specularColor);
 	};
 }

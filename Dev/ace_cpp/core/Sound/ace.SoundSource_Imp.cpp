@@ -4,8 +4,8 @@
 
 namespace ace
 {
-	SoundSource_Imp::SoundSource_Imp(Sound* manager, osm::Sound* sound, bool isDecomporessed)
-		: isDecompressed(isDecompressed)
+	SoundSource_Imp::SoundSource_Imp(Sound* manager, osm::Sound* sound, bool isDecompressed)
+		: m_isDecompressed(isDecompressed)
 	{
 		m_manager = manager;
 		m_sound = sound;
@@ -35,7 +35,7 @@ namespace ace
 		auto lm = GetIsLoopingMode();
 
 		auto s = (Sound_Imp*) m_manager;
-		auto source = s->GetManager()->CreateSound(data, size, isDecompressed);
+		auto source = s->GetManager()->CreateSound(data, size, m_isDecompressed);
 		if (source == nullptr) return;
 
 		SafeRelease(m_sound);

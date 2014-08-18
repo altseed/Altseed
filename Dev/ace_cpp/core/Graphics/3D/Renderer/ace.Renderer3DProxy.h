@@ -7,6 +7,9 @@
 #include "../../../ace.Core.Base_Imp.h"
 
 #include "../PostProcess/ace.SSAO.h"
+#include "../Object/ace.RenderedObject3D.h"
+
+#include "ace.EnvironmentRendering.h"
 
 namespace ace
 {
@@ -48,16 +51,24 @@ namespace ace
 		EffekseerRenderer::Renderer*			effectRenderer = nullptr;
 
 		std::shared_ptr<SSAO>					ssao;
-
+		std::shared_ptr<EnvironmentRendering>	environmentRendering;
 	public:
 
 		Renderer3DProxy(Graphics* graphics);
 		virtual ~Renderer3DProxy();
 
 		void Rendering(RenderTexture2D_Imp* renderTarget);
+		
+	private:
+		void RenderCamera(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
+		void RenderCameraOnLightweight(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
+
+	public:
 
 		Color							SkyAmbientColor;
 		Color							GroundAmbientColor;
+		std::shared_ptr<CubemapTexture>	EnvironmentDiffuseColor;
+		std::shared_ptr<CubemapTexture>	EnvironmentSpecularColor;
 		RenderSettings					Settings;
 		float							DeltaTime;
 

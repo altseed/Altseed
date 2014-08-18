@@ -210,16 +210,20 @@ namespace ace {
 		SHADER_VARIABLE_TYPE_MATRIX44,
 		SHADER_VARIABLE_TYPE_MATRIX44_ARRAY,
 		SHADER_VARIABLE_TYPE_TEXTURE2D,
+		SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE,
 	};
 
 	/**
 	@brief	3D描画時に表示されるバッファ
 	*/
-	enum eVisalizedBuffer
+	enum class VisualizedBufferType : int32_t
 	{
-		VISALIZED_BUFFER_FINALIMAGE,
-		VISALIZED_BUFFER_DIFFUSE,
-		VISALIZED_BUFFER_NORMAL,
+		FinalImage,
+		DiffuseColor,
+		SpecularColor,
+		Normal,
+		Smoothness,
+		Environment,
 	};
 
 	/**
@@ -236,12 +240,12 @@ namespace ace {
 		/**
 			@brief	画面に表示されるバッファ
 		*/
-		eVisalizedBuffer VisalizedBuffer;
+		VisualizedBufferType VisualizedBuffer;
 
 		RenderSettings()
 		{
 			IsLightweightMode = false;
-			VisalizedBuffer = VISALIZED_BUFFER_FINALIMAGE;
+			VisualizedBuffer = VisualizedBufferType::FinalImage;
 		}
 	};
 

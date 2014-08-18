@@ -12,7 +12,8 @@
 
 #include "ObjectSystem/2D/ace.CoreEffectObject2D.h"
 
-
+#include "Graphics/3D/Resource/ace.Mesh.h"
+#include "Graphics/3D//Resource/ace.Model.h"
 
 namespace ace
 {
@@ -49,6 +50,11 @@ namespace ace
 	KeyframeAnimation* Accessor::AnimationSyatem_CreateKeyframeAnimation(AnimationSystem* o)
 	{
 		return o->CreateKeyframeAnimation_();
+	}
+
+	Mesh* Accessor::Model_GetMesh(Model* o, int32_t index)
+	{
+		return o->GetMesh_(index);
 	}
 
 	Effect* Accessor::CoreEffectObject2D_GetEffect(CoreEffectObject2D* o)

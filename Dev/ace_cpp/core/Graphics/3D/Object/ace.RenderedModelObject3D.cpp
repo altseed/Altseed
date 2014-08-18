@@ -165,8 +165,6 @@ namespace ace
 		}
 		else
 		{
-			Vector3DF depthParams(prop.DepthRange, prop.ZFar, prop.ZNear);
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "depthParams", depthParams));
 		}
 
 		{
@@ -240,6 +238,7 @@ namespace ace
 							ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
 							ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
 							ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
+							ace::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
 
 							if (material != nullptr)
 							{
@@ -260,6 +259,11 @@ namespace ace
 									{
 										specularTexture = material->SpecularTexture.get();
 									}
+
+									if (material->SmoothnessTexture != nullptr)
+									{
+										smoothnessTexture = material->SmoothnessTexture.get();
+									}
 								}
 							}
 							
@@ -272,6 +276,8 @@ namespace ace
 							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
 								h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
+								h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 
 							RenderState state;
 							state.DepthTest = true;

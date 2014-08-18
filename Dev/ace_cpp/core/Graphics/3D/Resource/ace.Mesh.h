@@ -94,5 +94,65 @@ namespace ace
 		AddMaterialCountを実行した後でないと無効になる。
 		*/
 		virtual void SetSpecularTexture(int32_t materialIndex, Texture2D* texture) = 0;
+
+		/**
+		@brief	内部シェーダーを使用する場合の面平滑度テクスチャを設定する。
+		@param	materialIndex	材質のインデックス
+		@param	テクスチャ
+		@note
+		AddMaterialCountを実行した後でないと無効になる。
+		*/
+		virtual void SetSmoothnessTexture(int32_t materialIndex, Texture2D* texture) = 0;
+
+#if !SWIG
+		/**
+		@brief	内部シェーダーを使用する場合のカラーテクスチャを設定する。
+		@param	materialIndex	材質のインデックス
+		@param	テクスチャ
+		@note
+		AddMaterialCountを実行した後でないと無効になる。
+		*/
+		void SetColorTexture(int32_t materialIndex, std::shared_ptr<Texture2D> texture)
+		{
+			SetColorTexture(materialIndex, texture.get());
+		}
+
+		/**
+		@brief	内部シェーダーを使用する場合の法線テクスチャを設定する。
+		@param	materialIndex	材質のインデックス
+		@param	テクスチャ
+		@note
+		AddMaterialCountを実行した後でないと無効になる。
+		*/
+		void SetNormalTexture(int32_t materialIndex, std::shared_ptr<Texture2D> texture)
+		{
+			SetNormalTexture(materialIndex, texture.get());
+		}
+
+		/**
+		@brief	内部シェーダーを使用する場合のスペキュラテクスチャを設定する。
+		@param	materialIndex	材質のインデックス
+		@param	テクスチャ
+		@note
+		AddMaterialCountを実行した後でないと無効になる。
+		*/
+		void SetSpecularTexture(int32_t materialIndex, std::shared_ptr<Texture2D> texture)
+		{
+			SetSpecularTexture(materialIndex, texture.get());
+		}
+
+
+		/**
+		@brief	内部シェーダーを使用する場合の面平滑度テクスチャを設定する。
+		@param	materialIndex	材質のインデックス
+		@param	テクスチャ
+		@note
+		AddMaterialCountを実行した後でないと無効になる。
+		*/
+		void SetSmoothnessTexture(int32_t materialIndex, std::shared_ptr<Texture2D> texture)
+		{
+			SetSmoothnessTexture(materialIndex, texture.get());
+		}
+#endif
 	};
 };

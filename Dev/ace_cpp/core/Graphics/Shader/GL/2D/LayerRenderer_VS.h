@@ -1,11 +1,11 @@
 ﻿static const char* layerrenderer_vs_gl = R"(
 
-attribute vec3 Pos;
-attribute vec2 UV;
-attribute vec4 Color;
+in vec3 Pos;
+in vec2 UV;
+in vec4 Color;
 
-varying vec4 vaTexCoord;
-varying vec4 vaColor;
+out vec4 vaTexCoord;
+out vec4 vaColor;
 
 uniform vec2 Size;
 uniform vec4 LayerPosU;

@@ -113,6 +113,66 @@ static void PngReadData(png_structp png_ptr, png_bytep data, png_size_t length)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+void ImageHelper::SavePNGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev)
+{
+	png_bytep raw1D;
+	png_bytepp raw2D;
+
+	/* 構造体確保 */
+#if _WIN32
+	FILE *fp = _wfopen(filepath, L"wb");
+#else
+	FILE *fp = fopen(ToUtf8String(filepath).c_str(), "wb");
+#endif
+
+	if (fp == nullptr) return;
+
+	png_structp pp = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+	png_infop ip = png_create_info_struct(pp);
+
+	/* 書き込み準備 */
+	png_init_io(pp, fp);
+	png_set_IHDR(pp, ip, width, height,
+		8, /* 8bit以外にするなら変える */
+		PNG_COLOR_TYPE_RGBA, /* RGBA以外にするなら変える */
+		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
+
+	/* ピクセル領域確保 */
+	raw1D = (png_bytep) malloc(height * png_get_rowbytes(pp, ip));
+	raw2D = (png_bytepp) malloc(height * sizeof(png_bytep));
+	for (int32_t i = 0; i < height; i++)
+	{
+		raw2D[i] = &raw1D[i*png_get_rowbytes(pp, ip)];
+	}
+
+	memcpy((void*) raw1D, data, width * height * 4);
+
+	/* 上下反転 */
+	if (rev)
+	{
+		for (int32_t i = 0; i < height / 2; i++)
+		{
+			png_bytep swp = raw2D[i];
+			raw2D[i] = raw2D[height - i - 1];
+			raw2D[height - i - 1] = swp;
+		}
+	}
+
+	/* 書き込み */
+	png_write_info(pp, ip);
+	png_write_image(pp, raw2D);
+	png_write_end(pp, ip);
+
+	/* 開放 */
+	png_destroy_write_struct(&pp, &ip);
+	fclose(fp);
+	free(raw1D);
+	free(raw2D);
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst)
 {
 	imagewidth = 0;
@@ -364,66 +424,6 @@ void Graphics_Imp::ResetDrawState()
 	SafeRelease(m_shaderPtr);
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-void Graphics_Imp::SavePNGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev)
-{
-	png_bytep raw1D;
-	png_bytepp raw2D;
-
-	/* 構造体確保 */
-#if _WIN32
-	FILE *fp = _wfopen(filepath, L"wb");
-#else
-	FILE *fp = fopen(ToUtf8String(filepath).c_str(), "wb");
-#endif
-
-	if (fp == nullptr) return;
-
-	png_structp pp = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-	png_infop ip = png_create_info_struct(pp);
-
-	/* 書き込み準備 */
-	png_init_io(pp, fp);
-	png_set_IHDR(pp, ip, width, height,
-		8, /* 8bit以外にするなら変える */
-		PNG_COLOR_TYPE_RGBA, /* RGBA以外にするなら変える */
-		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
-
-	/* ピクセル領域確保 */
-	raw1D = (png_bytep) malloc(height * png_get_rowbytes(pp, ip));
-	raw2D = (png_bytepp) malloc(height * sizeof(png_bytep));
-	for (int32_t i = 0; i < height; i++)
-	{
-		raw2D[i] = &raw1D[i*png_get_rowbytes(pp, ip)];
-	}
-
-	memcpy((void*) raw1D, data, width * height * 4);
-
-	/* 上下反転 */
-	if (rev)
-	{
-		for (int32_t i = 0; i < height / 2; i++)
-		{
-			png_bytep swp = raw2D[i];
-			raw2D[i] = raw2D[height - i - 1];
-			raw2D[height - i - 1] = swp;
-		}
-	}
-	
-	/* 書き込み */
-	png_write_info(pp, ip);
-	png_write_image(pp, raw2D);
-	png_write_end(pp, ip);
-	
-	/* 開放 */
-	png_destroy_write_struct(&pp, &ip);
-	fclose(fp);
-	free(raw1D);
-	free(raw2D);
-}
-
 void Graphics_Imp::StartRenderingThreadFunc(void* self)
 {
 	auto self_ = (Graphics_Imp*) self;
@@ -656,7 +656,7 @@ Effect* Graphics_Imp::CreateEffect_(const achar* path)
 	
 		auto effect = Effekseer::Effect::Create(m_effectSetting, data, size, 1.0, parentDir);
 		if (effect == nullptr) return nullptr;
-		Effect_Imp::CreateEffect(this, effect);
+		return Effect_Imp::CreateEffect(this, effect);
 	});
 
 	return ret;

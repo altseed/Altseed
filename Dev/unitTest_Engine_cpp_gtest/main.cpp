@@ -37,6 +37,7 @@ extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
 EXTERN_ENGINE_TEST(Graphics, EffectObject3D)
 EXTERN_ENGINE_TEST(Graphics, SimpleMesh)
 EXTERN_ENGINE_TEST(Graphics, ModelObject3D)
+EXTERN_ENGINE_TEST(Graphics, LightingStandard)
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
 
@@ -62,7 +63,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//CALL_ENGINE_TEST(Graphics, SimpleMesh, false)
+	//CALL_ENGINE_TEST(Graphics, LightingStandard, false)
 	//return 0;
 
 	//TestCamera(true);

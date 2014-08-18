@@ -13,10 +13,9 @@ namespace FontGenerator
 
 	public:
 		ImageBuffer(Font& font, int sheetSize);
-		ace::GlyphData DrawGlyph(Glyph::Ptr glyph);
 		std::vector<vectorPtr>& GetBuffers();
 
-		ace::GlyphData Draw(Glyph::Ptr glyph);
+		ace::GlyphData Draw(Glyph::Ptr glyph, Color color, BorderSetting::Ptr border);
 
 	private:
 
@@ -26,6 +25,6 @@ namespace FontGenerator
 		std::vector<vectorPtr> buffers;
 
 		static vectorPtr CreateBuffer(int sheetSize);
-		void DrawRasterizedGlyph(RasterizedGlyph::Ptr glyph);
+		void DrawRasterizedGlyph(RasterizedGlyph::Ptr glyph, int penX, int penY);
 	};
 }

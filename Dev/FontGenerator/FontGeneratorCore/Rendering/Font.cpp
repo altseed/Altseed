@@ -29,10 +29,19 @@ namespace FontGenerator
 		vector<Glyph::Ptr> glyphs;
 		for (auto& c : charactors)
 		{
-			auto g = make_shared<Glyph>(m_library, m_face, c);
-			glyphs.push_back(g);
+			auto index = FT_Get_Char_Index(m_face, c);
+			FT_Load_Glyph(m_face, index, FT_LOAD_NO_BITMAP);
+
+			FT_Glyph g;
+			FT_Get_Glyph(m_face->glyph, &g);
+
+			ACE_ASSERT(g->format == FT_GLYPH_FORMAT_OUTLINE, "ÉOÉäÉtÇÃê∂ê¨Ç…é∏îs");
+
+			auto og = reinterpret_cast<FT_OutlineGlyph>(g);
+			glyphs.push_back(make_shared<Glyph>(*this, c, og));
 		}
 		return glyphs;
+
 	}
 
 	int Font::GetFontSize() const
@@ -64,5 +73,10 @@ namespace FontGenerator
 	int Font::GetDescender() const
 	{
 		return m_face->size->metrics.descender >> 6;
+	}
+
+	FT_Library Font::GetLibrary() const
+	{
+		return m_library;
 	}
 }

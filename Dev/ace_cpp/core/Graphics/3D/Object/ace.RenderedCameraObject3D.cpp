@@ -17,6 +17,8 @@ namespace ace
 
 		m_renderTarget_FR[0] = nullptr;
 		m_renderTarget_FR[1] = nullptr;
+
+		Up = Vector3DF(0, 1, 0);
 	}
 
 	RenderedCameraObject3DProxy::~RenderedCameraObject3DProxy()
@@ -36,6 +38,8 @@ namespace ace
 		SafeRelease(m_depthBuffer_RT);
 
 		SafeRelease(m_postEffectRenderer);
+
+		SafeRelease(m_renderTargetEnvironment);
 	}
 
 	void RenderedCameraObject3DProxy::SetWindowSize(Graphics* graphics, Vector2DI windowSize)
@@ -58,6 +62,8 @@ namespace ace
 			SafeRelease(m_renderTarget_FR[1]);
 			SafeRelease(m_depthBuffer_RT);
 
+			SafeRelease(m_renderTargetEnvironment);
+
 			m_renderTargetDiffuseColor_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 			m_renderTargetSpecularColor_Smoothness_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 			m_renderTargetNormalDepth_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
@@ -71,6 +77,8 @@ namespace ace
 			m_renderTarget_FR[0] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 			m_renderTarget_FR[1] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 			m_depthBuffer_RT = g->CreateDepthBuffer_Imp(windowSize.X, windowSize.Y);
+
+			m_renderTargetEnvironment = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 		}
 
 		WindowSize = windowSize;
@@ -100,6 +108,25 @@ namespace ace
 			pos,
 			Focus,
 			Vector3DF(0, 1, 0));
+
+		
+		auto invCameraMat = (CameraMatrix).GetInverted();
+
+		auto fov = FOV / 180.0f * 3.141592f;
+		auto aspect = (float)WindowSize.X / (float)WindowSize.Y;
+
+		float yScale = 1 / tanf(fov / 2);
+		float xScale = yScale / aspect;
+
+		ReconstructInfo1 = Vector3DF(ZNear * ZFar, ZFar - ZNear, -ZFar);
+		//ReconstructInfo1 = Vector3DF(cP->ZFar - cP->ZNear, cP->ZNear, 0.0f);
+		ReconstructInfo2 = Vector4DF(1.0f / xScale, 1.0f / yScale, 0.0f, 0.0f);
+
+		Vector3DF zero;
+		zero = CameraMatrix.Transform3D(zero);
+		UpDir = CameraMatrix.Transform3D(Vector3DF(0, 1, 0)) - zero;
+		RightDir = CameraMatrix.Transform3D(Vector3DF(1, 0, 0)) - zero;
+		FrontDir = CameraMatrix.Transform3D(Vector3DF(0, 0, 1)) - zero;		
 	}
 
 	RenderTexture2D_Imp* RenderedCameraObject3DProxy::GetRenderTarget()

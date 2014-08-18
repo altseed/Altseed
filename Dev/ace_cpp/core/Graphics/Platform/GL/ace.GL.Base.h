@@ -25,8 +25,17 @@ namespace ace{
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+static std::vector<GLenum> GLCheckError_Imp(const char *file, const int line)
+{
+    std::vector<GLenum> codes;
+    GLenum __code = glGetError();
+    while (__code != GL_NO_ERROR) {
+        codes.push_back(__code);
 #ifdef _DEBUG
-#define GLCheckError()		{ int __code = glGetError(); if(__code != GL_NO_ERROR) { printf("GLError filename = %s , line = %d, error = %s\n", __FILE__, __LINE__, (const char*)gluErrorString(__code) ); }  }
-#else
-#define GLCheckError()
+        printf("GLError filename = %s , line = %d, error = %s\n", file, line, (const char*)gluErrorString(__code) );
 #endif
+        __code = glGetError();
+    }
+    return codes;
+} 
+#define GLCheckError() GLCheckError_Imp(__FILE__, __LINE__)

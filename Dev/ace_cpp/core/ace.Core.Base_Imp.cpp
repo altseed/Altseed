@@ -3,6 +3,7 @@
 
 #include "Graphics/Resource/ace.Shader2D.h"
 #include "Graphics/Resource/ace.Material2D.h"
+#include "Graphics/Resource/ace.CubemapTexture.h"
 
 #include <Math/ace.Matrix44.h>
 
@@ -24,6 +25,11 @@ namespace ace
 		if (value.ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_TEXTURE2D)
 		{
 			SafeAddRef(Data.Texture2DPtr.Ptr);
+		}
+
+		if (value.ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+		{
+			SafeAddRef(Data.CubemapTexturePtr.Ptr);
 		}
 	}
 
@@ -80,11 +86,26 @@ namespace ace
 		SafeAddRef(Data.Texture2DPtr.Ptr);
 	}
 
+	ShaderConstantValue::ShaderConstantValue(CubemapTexture* value, TextureFilterType filterType, TextureWrapType wrapType)
+	{
+		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE;
+		Data.CubemapTexturePtr.Ptr = value;
+		Data.CubemapTexturePtr.FilterType = filterType;
+		Data.CubemapTexturePtr.WrapType = wrapType;
+
+		SafeAddRef(Data.CubemapTexturePtr.Ptr);
+	}
+
 	ShaderConstantValue::~ShaderConstantValue()
 	{
 		if (ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_TEXTURE2D)
 		{
 			SafeRelease(Data.Texture2DPtr.Ptr);
+		}
+
+		if (ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+		{
+			SafeRelease(Data.CubemapTexturePtr.Ptr);
 		}
 	}
 
@@ -95,9 +116,19 @@ namespace ace
 			SafeAddRef(value.Data.Texture2DPtr.Ptr);
 		}
 
+		if (value.ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+		{
+			SafeAddRef(value.Data.CubemapTexturePtr.Ptr);
+		}
+
 		if (ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_TEXTURE2D)
 		{
 			SafeRelease(Data.Texture2DPtr.Ptr);
+		}
+
+		if (ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+		{
+			SafeRelease(Data.CubemapTexturePtr.Ptr);
 		}
 
 		ValueType = value.ValueType;

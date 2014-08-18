@@ -1,5 +1,4 @@
 ﻿static const char* screen_vs_gl = R"(
-#version 130
 
 in vec3 Position;
 in vec2 UV;

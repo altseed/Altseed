@@ -252,4 +252,10 @@ namespace ace
 
 		return keyframeAnimation;
 	}
+
+	Mesh* Model_Imp::GetMesh_(int32_t index)
+	{
+		if (!(0 <= index && index < m_meshGroup->Meshes.size())) return nullptr;
+		return m_meshGroup->Meshes[index];
+	}
 }
