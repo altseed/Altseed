@@ -63,12 +63,13 @@ void main()
 
 static const char* gl_ps = R"(
 
-varying vec4 vaTexCoord;
+in vec4 vaTexCoord;
+out vec4 outColor;
 uniform sampler2D g_texture;
 
 void main() 
 {
-gl_FragColor = texture2D(g_texture, vaTexCoord.xy);
+outColor = texture(g_texture, vaTexCoord.xy);
 }
 
 )";
