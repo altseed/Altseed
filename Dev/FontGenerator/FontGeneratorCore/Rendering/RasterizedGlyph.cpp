@@ -76,7 +76,7 @@ namespace FontGenerator
 					for (auto x_ = 0; x_ < msaa; x_++)
 					{
 						auto index_ = index + x_ + y_ * width_msaa;
-						temp[index_] = color;
+						temp[index_] = temp[index_].Blend(color);
 					}
 				}
 			}
@@ -87,22 +87,34 @@ namespace FontGenerator
 		{
 			for (auto x = 0; x < width_msaa; x++)
 			{
-				if (temp[x + width_msaa * y].a > 0) continue;
-				for (auto y_ = y - outline_msaa; y_ <= y + outline_msaa; y_++)
+				auto area = outline_msaa;
+				if (msaa >= 2) area -= 1;
+
+				auto br = false;
+
+				for (auto y_ = y - area; y_ <= y + area; y_++)
 				{
-					for (auto x_ = x - outline_msaa; x_ <= x + outline_msaa; x_++)
+					for (auto x_ = x - area; x_ <= x + area; x_++)
 					{
 						if (x_ < 0) continue;
 						if (x_ >= width_msaa) continue;
 						if (y_ < 0) continue;
 						if (y_ >= height_msaa) continue;
 
-						if (temp[x_ + width_msaa * y_].r == 255)
+						if (temp[x_ + width_msaa * y_].a > 192)
 						{
-							temp[x + width_msaa * y].a = 255;
-							temp[x + width_msaa * y].g = 255;
+							auto a_ = temp[x_ + width_msaa * y_].a;
+							
+							if (temp[x + width_msaa * y].g < a_)
+							{
+								temp[x + width_msaa * y].g = a_;
+							}
+							
+							if (temp[x + width_msaa * y].g == 255) br = true;
 						}
+						if (br) break;
 					}
+					if (br) break;
 				}
 			}
 		}
@@ -119,7 +131,7 @@ namespace FontGenerator
 
 				for (auto y_ = y * msaa; y_ < y * msaa + msaa; y_++)
 				{
-					for (auto x_ = x; x_ < x * msaa + msaa; x_++)
+					for (auto x_ = x * msaa; x_ < x * msaa + msaa; x_++)
 					{
 						r += temp[x_ + width_msaa * y_].r;
 						g += temp[x_ + width_msaa * y_].g;
@@ -154,19 +166,29 @@ namespace FontGenerator
 			{
 				int index = y * width + x;
 
-				if (buffer[index].a == 0) continue;
-
 				auto a = buffer[index].a;
-				if (buffer[index].r > 0)
+
+				if (buffer[index].r > 0 && buffer[index].g > 0)
+				{
+					auto a_outline = buffer[index].g;
+					auto color_in = color;
+					color_in.a = a;
+					auto color_out = outlineColor;
+					color_out.a = a_outline;
+
+					result->buffer[index] = color_out;
+					result->buffer[index] = result->buffer[index].Blend(color_in);
+				}
+				else if(buffer[index].r > 0)
 				{
 					result->buffer[index] = color;
 					result->buffer[index].a = a;
 				}
-
-				if (buffer[index].g == 255)
+				else if(buffer[index].g > 0)
 				{
+					auto a_outline = buffer[index].g;
 					result->buffer[index] = outlineColor;
-					result->buffer[index].a = a;
+					result->buffer[index].a = a_outline;
 				}
 			}
 		}

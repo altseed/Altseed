@@ -20,6 +20,9 @@ namespace FontGenerator
 	private:
 		int32_t			m_fontSize = 32;
 		Color			m_fontColor = Color(255, 255, 255, 255);
+		Color			m_outlineColor = Color(255, 255, 255, 255);
+		int32_t			m_outlineSize = 0;
+		int32_t			m_outlineSampling = 1;
 		ace::astring	m_fontName;
 		ace::astring	m_textFilePath;
 		ace::astring	m_exportPath;
@@ -68,6 +71,21 @@ namespace FontGenerator
 		void SetSheetSize(int sheetSize)
 		{
 			m_sheetSize = sheetSize;
+		}
+
+		void SetOutlineColor(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
+		{
+			m_outlineColor = Color(r, g, b, a);
+		}
+
+		void SetOutlineSize(int32_t size)
+		{
+			m_outlineSize = size;
+		}
+
+		void SetOutlineSampling(int32_t sampling)
+		{
+			m_outlineSampling = sampling;
 		}
 	};
 }

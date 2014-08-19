@@ -24,5 +24,11 @@ namespace FontGenerator.Model
 		public int TextureSize { get; set; }
 		[DataMember]
 		public Color FontColor;
+		[DataMember]
+		public Color OutlineColor;
+		[DataMember]
+		public int OutlineSize { get; set; }
+		[DataMember]
+		public int OutlineSampling { get; set; }
 	}
 }

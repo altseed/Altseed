@@ -6,16 +6,17 @@ namespace FontGenerator
 {
 	struct BorderSetting
 	{
-		float width;
+		int32_t size;
+		int32_t sampling;
 		Color color;
 
 		BorderSetting()
-			: width(0), color(Color())
+			: size(0), color(Color()), sampling(1)
 		{
 		}
 
-		BorderSetting(float width, Color color)
-			: width(width), color(color)
+		BorderSetting(float size, Color color, int32_t sampling)
+			: size(size), color(color), sampling(1)
 		{
 		}
 

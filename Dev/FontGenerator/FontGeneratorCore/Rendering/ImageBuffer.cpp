@@ -51,12 +51,26 @@ namespace FontGenerator
 			}
 		}
 
-		auto outlineSize = 0;
-		auto rasterized = glyph->Rasterize();
-		//auto outlineSize = 2;
-		//auto rasterized = glyph->RasterizeWithOutline(outlineSize, 1);
+		int32_t outlineSize = 0;
+		
+		if (border != nullptr)
+		{
+			outlineSize = border->size;
+		}
 
-		rasterized = rasterized->PaintColor(color, Color(128,128,128,255));
+		std::shared_ptr<RasterizedGlyph> rasterized;
+
+		if (outlineSize == 0)
+		{
+			rasterized = glyph->Rasterize();
+			rasterized = rasterized->PaintColor(color, Color());
+		}
+		else
+		{
+			rasterized = glyph->RasterizeWithOutline(border->size, border->sampling);
+			rasterized = rasterized->PaintColor(color, border->color);
+		}
+		
 		DrawRasterizedGlyph(rasterized, penX, baseLineY - ascender);
 
 		auto src = ace::RectI(penX, baseLineY - ascender, advance + outlineSize * 2, height + outlineSize * 2);

@@ -37,11 +37,12 @@ namespace FontGenerator
 		Color result = *this;
 		float srca = src.a / 255.0f;
 		float dsta = a / 255.0f;
-		float outa = srca + dsta * (1 - srca);
+		float outa = srca + dsta;
+		if (outa > 1.0f) outa = 1.0f;
 
-		result.r = (int)((src.r * srca + r * dsta * (1 - srca)) / outa);
-		result.g = (int)((src.g * srca + g * dsta * (1 - srca)) / outa);
-		result.b = (int)((src.b * srca + b * dsta * (1 - srca)) / outa);
+		result.r = (int)((src.r * srca + r * dsta * (1 - srca)));
+		result.g = (int)((src.g * srca + g * dsta * (1 - srca)));
+		result.b = (int)((src.b * srca + b * dsta * (1 - srca)));
 		result.a = (int)(outa * 255);
 
 		return result;
