@@ -16,7 +16,7 @@ namespace FontGenerator
 		}
 
 		BorderSetting(float size, Color color, int32_t sampling)
-			: size(size), color(color), sampling(1)
+			: size(size), color(color), sampling(sampling)
 		{
 		}
 

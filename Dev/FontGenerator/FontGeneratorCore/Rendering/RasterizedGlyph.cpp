@@ -88,7 +88,7 @@ namespace FontGenerator
 			for (auto x = 0; x < width_msaa; x++)
 			{
 				auto area = outline_msaa;
-				if (msaa >= 2) area -= 1;
+				if (msaa >= 2) area -= msaa / 4;
 
 				auto br = false;
 
@@ -101,7 +101,7 @@ namespace FontGenerator
 						if (y_ < 0) continue;
 						if (y_ >= height_msaa) continue;
 
-						if (temp[x_ + width_msaa * y_].a > 192)
+						if (temp[x_ + width_msaa * y_].a > 128)
 						{
 							auto a_ = temp[x_ + width_msaa * y_].a;
 							
