@@ -18,6 +18,9 @@ SamplerState	g_gbuffer2Sampler;
 Texture2D		g_gbuffer3Texture;
 SamplerState	g_gbuffer3Sampler;
 
+Texture2D		g_brdfTexture;
+SamplerState	g_brdfSampler;
+
 float3 reconstructInfo1;
 float4 reconstructInfo2;
 
@@ -70,11 +73,24 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float3 normal = GetNormal(uv);
 
+	float4 specColorAndSmoothness = GetSpecularColorAndSmoothness(uv);
+	float3 specColor = specColorAndSmoothness.xyz;
+	float smoothness = specColorAndSmoothness.w;
+
 	float3 globalNormal = float3(dot(rightDir,normal), dot(upDir,normal), dot(frontDir,normal));
 
-	float4 diffuseColor = g_diffuseTexture.SampleLevel(g_diffuseSampler, globalNormal, 0.0);
+	float4 diffuseEnvColor = g_diffuseTexture.SampleLevel(g_diffuseSampler, globalNormal, 0.0);
 
-	float4 Output = diffuseColor;
+	float NoV = saturate( dot( normal, float3(0,0,1.0) ) );
+	float3 R = 2.0 * NoV * normal - float3(0,0,1.0);
+
+	float4 specEnvColor = g_specularTexture.SampleLevel(g_specularSampler, globalNormal, R);
+
+	float2 brdfColor = g_brdfTexture.Sample(g_brdfSampler, float2(smoothness,NoV)).xy;
+
+	float4 spec = specEnvColor * ( specColor * brdfColor.x + brdfColor.y );
+
+	float4 Output = diffuseColor + spec;
 	
 	//Output.xyz = globalNormal;
 	Output.w = 1.0;
