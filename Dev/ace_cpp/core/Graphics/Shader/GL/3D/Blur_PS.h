@@ -28,20 +28,20 @@ void main()
 	vec2 adder = vec2(0.0, 2.0 / textureSize.y);
 #endif
 
-	vec4 output_ = (texture2D(g_texture, voutUV.xy + half_ + accum)  +
-	               texture2D(g_texture, voutUV.xy + half_ - accum)) *
+	vec4 output_ = (texture(g_texture, voutUV.xy + half_ + accum)  +
+	               texture(g_texture, voutUV.xy + half_ - accum)) *
 	               g_weight.x;
 	accum += adder;
-	output_ += (texture2D(g_texture, voutUV.xy + half_ + accum)  +
-	          texture2D(g_texture, voutUV.xy + half_ - accum)) *
+	output_ += (texture(g_texture, voutUV.xy + half_ + accum)  +
+	          texture(g_texture, voutUV.xy + half_ - accum)) *
 	          g_weight.y;
 	accum += adder;
-	output_ += (texture2D(g_texture, voutUV.xy + half_ + accum)  +
-	          texture2D(g_texture, voutUV.xy + half_ - accum)) *
+	output_ += (texture(g_texture, voutUV.xy + half_ + accum)  +
+	          texture(g_texture, voutUV.xy + half_ - accum)) *
 	          g_weight.z;
 	accum += adder;
-	output_ += (texture2D(g_texture, voutUV.xy + half_ + accum)  +
-	          texture2D(g_texture, voutUV.xy + half_ - accum)) *
+	output_ += (texture(g_texture, voutUV.xy + half_ + accum)  +
+	          texture(g_texture, voutUV.xy + half_ - accum)) *
 	          g_weight.w;
 
 	outOutput0 = output_; 

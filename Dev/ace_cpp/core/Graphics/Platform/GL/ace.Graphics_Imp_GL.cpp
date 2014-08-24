@@ -122,25 +122,38 @@ namespace ace {
 	auto window_ = ((Window_Imp*)window)->GetWindow();
 
 	glfwMakeContextCurrent(window_);
+	GLCheckError();
 	
 	// 同期しない
 	glfwSwapInterval(0);
+	GLCheckError();
 
 #pragma region RenderState
 	glGenSamplers(MaxTextureCount, m_samplers);
+	GLCheckError();
 #pragma endregion
 	
 	// フレームバッファ生成
 	glGenFramebuffers(1, &m_frameBuffer);
+	GLCheckError();
 
 	// バグ対策？
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	GLCheckError();
+
+#ifdef __APPLE__
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
+	GLCheckError();
+#endif
 
 	// スレッド生成
 	MakeContextNone();
+	GLCheckError();
 
 	CreateContextBeforeThreading(window_);
+	GLCheckError();
 
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	while (!m_endStarting)
@@ -148,6 +161,7 @@ namespace ace {
 		Sleep(1);
 	}
 	CreateContextAfterThreading(window_);
+	GLCheckError();
 	
 
 	MakeContextCurrent();
@@ -165,7 +179,9 @@ namespace ace {
 	, m_window(nullptr)
 	, m_endStarting(false)
 {
-#if !_WIN32
+#if _WIN32
+#elif __APPLE__
+#else
 	GLXContext* context_ = (GLXContext*)context;
 	m_glx = *context_;
 
@@ -176,6 +192,7 @@ namespace ace {
 	m_x11Window = window_;
 
 	glXMakeCurrent(m_x11Display, m_x11Window, m_glx);
+	GLCheckError();
 
 	m_x11Mode = true;
 #endif
@@ -183,19 +200,30 @@ namespace ace {
 #pragma region RenderState
 	glGenSamplers(MaxTextureCount, m_samplers);
 #pragma endregion
+	GLCheckError();
 
 	// フレームバッファ生成
 	glGenFramebuffers(1, &m_frameBuffer);
+	GLCheckError();
 
 	// バグ対策？
 	glBindFramebuffer(GL_FRAMEBUFFER, m_frameBuffer);
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	GLCheckError();
+
+#ifdef __APPLE__
+	glGenVertexArrays(1, &m_vao);
+	glBindVertexArray(m_vao);
+	GLCheckError();
+#endif
 
 	// スレッド生成
 	MakeContextNone();
+	GLCheckError();
 
 
 	CreateContextBeforeThreading(nullptr);
+	GLCheckError();
 
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	while (!m_endStarting)
@@ -203,6 +231,7 @@ namespace ace {
 		Sleep(1);
 	}
 	CreateContextAfterThreading(nullptr);
+	GLCheckError();
 	
 
 
@@ -236,8 +265,15 @@ Graphics_Imp_GL::~Graphics_Imp_GL()
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDeleteFramebuffers(1, &m_frameBuffer);
 
+#ifdef __APPLE__
+	glBindVertexArray(0);
+	glDeleteVertexArrays(1, &m_vao);
+	GLCheckError();
+#endif
 
-#if !_WIN32
+#if _WIN32
+#elif __APPLE__
+#else
 	if( m_x11Mode )
 	{
 		glXMakeCurrent(m_x11Display, 0, NULL);
@@ -279,6 +315,7 @@ void Graphics_Imp_GL::WriteDeviceInformation(Log* log)
 	log->Write(ToAString("バージョン").c_str());
 	log->ChangeColumn();
 
+#ifndef __APPLE__
 	if (GLEW_VERSION_4_0) { log->Write(ToAString("4.0").c_str()); }
 	else if (GLEW_VERSION_3_3) { log->Write(ToAString("3.3").c_str()); }
 	else if (GLEW_VERSION_3_2) { log->Write(ToAString("3.2").c_str()); }
@@ -286,6 +323,7 @@ void Graphics_Imp_GL::WriteDeviceInformation(Log* log)
 	else if (GLEW_VERSION_3_0) { log->Write(ToAString("3.0").c_str()); }
 	else if (GLEW_VERSION_2_1) { log->Write(ToAString("2.1").c_str()); }
 	else  { log->Write(ToAString("Unknown").c_str()); }
+#endif
 	log->EndTable();
 }
 
@@ -388,6 +426,7 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 
 		// シェーダーの設定
 		glUseProgram(program);
+		GLCheckError();
 
 		// レイアウトの設定
 		shader->SetLayout();
@@ -519,6 +558,7 @@ void Graphics_Imp_GL::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* verte
 	auto ib = (IndexBuffer_Imp_GL*) indexBuffer;
 
 	UpdateStatus(vb, ib, shader);
+	GLCheckError();
 
 	if (indexBuffer->Is32Bit())
 	{
@@ -528,6 +568,7 @@ void Graphics_Imp_GL::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* verte
 	{
 		glDrawElements(GL_TRIANGLES, count * 3, GL_UNSIGNED_SHORT, NULL);
 	}
+	GLCheckError();
 
 	{
 		auto shader = (NativeShader_Imp_GL*) shaderPtr;
@@ -629,10 +670,9 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool i
 
 	auto window_ = ((Window_Imp*) window)->GetWindow();
 	glfwMakeContextCurrent(window_);
+	GLCheckError();
 
-#ifdef __APPLE__
-	glewExperimental = GL_TRUE;
-#endif
+#ifndef __APPLE__
 	if (glewInit() != GLEW_OK)
 	{
 		writeLog(ToAString("GLEWの初期化に失敗"));
@@ -644,6 +684,9 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool i
 		writeLog(ToAString("OpenGL3.3に未対応"));
 		goto End;
 	}
+
+	GLCheckError();
+#endif
 
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
@@ -659,7 +702,9 @@ End:;
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-#if !_WIN32
+#if _WIN32
+#elif __APPLE__
+#else
 Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled )
 {
 	auto writeLogHeading = [log](const astring s) -> void
@@ -1135,7 +1180,9 @@ void Graphics_Imp_GL::Present()
 	}
 	else
 	{
-#if !_WIN32
+#if _WIN32
+#elif __APPLE__
+#else
 		glXSwapBuffers(m_x11Display, m_x11Window);
 #endif
 	}

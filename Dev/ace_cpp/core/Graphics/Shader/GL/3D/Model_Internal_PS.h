@@ -43,7 +43,7 @@ void main()
 	vec4 diffuseColor = voutColor;
 	if(diffuseColor.a == 0.0f) discard;
 
-	diffuseColor = diffuseColor * texture2D(g_colorTexture, voutUV_);
+	diffuseColor = diffuseColor * texture(g_colorTexture, voutUV_);
 	if(diffuseColor.a == 0.0f) discard;	
 
 	float projDepth = (voutProjPosition.z / voutProjPosition.w);
@@ -64,8 +64,8 @@ void main()
 
 	DiffuseColor = diffuseColor;
 
-	NormalDepth.xyz = CalculateNormal( voutNormal, voutTangent, voutBinormal, texture2D(g_normalTexture, voutUV_).xyz );
-	//NormalDepth.xyz = texture2D(g_normalTexture, voutUV_).xyz;
+	NormalDepth.xyz = CalculateNormal( voutNormal, voutTangent, voutBinormal, texture(g_normalTexture, voutUV_).xyz );
+	//NormalDepth.xyz = texture(g_normalTexture, voutUV_).xyz;
 	NormalDepth.w = projDepth;
 	//NormalDepth.xyz = voutNormal;
 
@@ -75,8 +75,8 @@ void main()
 	//NormalDepth.w = 1.0;
 	//NormalDepth = diffuseColor;
 
-	SpecularColor_Smoothness.xyz = texture2D(g_specularTexture, voutUV_).xyz;
-	SpecularColor_Smoothness.w = texture2D(g_smoothnessTexture, voutUV_).x;
+	SpecularColor_Smoothness.xyz = texture(g_specularTexture, voutUV_).xyz;
+	SpecularColor_Smoothness.w = texture(g_smoothnessTexture, voutUV_).x;
 
 	AO_MatID.x = 1.0;
 	AO_MatID.y = 0;

@@ -25,22 +25,22 @@ out vec4 outOutput0;
 
 vec3 GetDiffuseColor(vec2 uv)
 {
-	return texture2D(g_gbuffer0Texture, uv).xyz;
+	return texture(g_gbuffer0Texture, uv).xyz;
 }
 
 vec4 GetSpecularColorAndSmoothness(vec2 uv)
 {
-	return texture2D(g_gbuffer1Texture, uv).xyzw;
+	return texture(g_gbuffer1Texture, uv).xyzw;
 }
 
 vec3 GetNormal(vec2 uv)
 {
-	return texture2D(g_gbuffer2Texture, uv).xyz;
+	return texture(g_gbuffer2Texture, uv).xyz;
 }
 
 float GetNormalizedDepth(vec2 uv)
 {
-	return texture2D(g_gbuffer2Texture, uv).w;
+	return texture(g_gbuffer2Texture, uv).w;
 }
 
 float ReconstructDepth(float z)

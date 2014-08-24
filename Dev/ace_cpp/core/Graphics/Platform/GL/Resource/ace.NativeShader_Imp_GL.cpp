@@ -566,7 +566,9 @@ void NativeShader_Imp_GL::SetLayout()
 			auto& layout = m_layout[i];
 
 			glEnableVertexAttribArray(m_layout[i].attribute);
+			GLCheckError();
 			glVertexAttribPointer(layout.attribute, layout.count, layout.type, layout.normalized, m_vertexSize, (uint8_t*) vertices + layout.offset);
+			GLCheckError();
 		}
 	}
 

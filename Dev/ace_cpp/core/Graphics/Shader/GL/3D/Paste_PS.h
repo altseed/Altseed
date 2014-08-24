@@ -12,7 +12,7 @@ void main()
 	vec2 uv = voutUV;
 	uv.y = 1.0 - uv.y;
 
-	outOutput0 = texture2D(g_texture, uv);
+	outOutput0 = texture(g_texture, uv);
 	if(outOutput0.a == 0.0f) discard;
 }
 
