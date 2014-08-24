@@ -9,8 +9,13 @@
 #include <Graphics/ace.Color.h>
 
 // GLEW
+#ifdef __APPLE__
+#include <OpenGL/gl3.h>
+#define GLFW_INCLUDE_GLCOREARB
+#else
 #define GLEW_STATIC
 #include <GL/glew.h>
+#endif
 
 #if _WIN32
 #if _DEBUG
@@ -27,6 +32,9 @@
 #if _WIN32
 #define GLFW_EXPOSE_NATIVE_WIN32
 #define GLFW_EXPOSE_NATIVE_WGL
+#elif __APPLE__
+#define GLFW_EXPOSE_NATIVE_COCOA
+#define GLFW_EXPOSE_NATIVE_NSGL
 #else
 #define GLFW_EXPOSE_NATIVE_X11
 #define GLFW_EXPOSE_NATIVE_GLX

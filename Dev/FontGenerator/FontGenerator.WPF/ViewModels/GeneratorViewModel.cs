@@ -31,11 +31,21 @@ namespace FontGenerator.WPF.ViewModels
 				PropertyChanged.Raise(this, () => SheetName);
 				PropertyChanged.Raise(this, () => FontSize);
 				PropertyChanged.Raise(this, () => TextureSize);
+
+				PropertyChanged.Raise(this, () => OutlineSize);
+				PropertyChanged.Raise(this, () => OutlineSampling);
+
 				PropertyChanged.Raise(this, () => Red);
 				PropertyChanged.Raise(this, () => Green);
 				PropertyChanged.Raise(this, () => Blue);
 				PropertyChanged.Raise(this, () => Alpha);
 				PropertyChanged.Raise(this, () => ColorString);
+
+				PropertyChanged.Raise(this, () => OutlineRed);
+				PropertyChanged.Raise(this, () => OutlineGreen);
+				PropertyChanged.Raise(this, () => OutlineBlue);
+				PropertyChanged.Raise(this, () => OutlineAlpha);
+				PropertyChanged.Raise(this, () => OutlineColorString);
 			}
 		}
 
@@ -124,6 +134,34 @@ namespace FontGenerator.WPF.ViewModels
 			}
 		}
 
+		[Required]
+		public int OutlineSize
+		{
+			get { return config.OutlineSize; }
+			set
+			{
+				if (!value.Equals(config.OutlineSize))
+				{
+					config.OutlineSize = value;
+					PropertyChanged.Raise(this);
+				}
+			}
+		}
+
+		[Required]
+		public int OutlineSampling
+		{
+			get { return config.OutlineSampling; }
+			set
+			{
+				if (!value.Equals(config.OutlineSampling))
+				{
+					config.OutlineSampling = value;
+					PropertyChanged.Raise(this);
+				}
+			}
+		}
+
 		public byte Red
 		{
 			get { return config.FontColor.Red; }
@@ -184,6 +222,69 @@ namespace FontGenerator.WPF.ViewModels
 		{
 			get { return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", Alpha, Red, Green, Blue); }
 		}
+
+
+		public byte OutlineRed
+		{
+			get { return config.OutlineColor.Red; }
+			set
+			{
+				if (!value.Equals(config.OutlineColor.Red))
+				{
+					config.OutlineColor.Red = value;
+					PropertyChanged.Raise(this);
+					PropertyChanged.Raise(this, () => OutlineColorString);
+				}
+			}
+		}
+
+		public byte OutlineGreen
+		{
+			get { return config.OutlineColor.Green; }
+			set
+			{
+				if (!value.Equals(config.OutlineColor.Green))
+				{
+					config.OutlineColor.Green = value;
+					PropertyChanged.Raise(this);
+					PropertyChanged.Raise(this, () => OutlineColorString);
+				}
+			}
+		}
+
+		public byte OutlineBlue
+		{
+			get { return config.OutlineColor.Blue; }
+			set
+			{
+				if (!value.Equals(config.OutlineColor.Blue))
+				{
+					config.OutlineColor.Blue = value;
+					PropertyChanged.Raise(this);
+					PropertyChanged.Raise(this, () => OutlineColorString);
+				}
+			}
+		}
+
+		public byte OutlineAlpha
+		{
+			get { return config.OutlineColor.Alpha; }
+			set
+			{
+				if (!value.Equals(config.OutlineColor.Alpha))
+				{
+					config.OutlineColor.Alpha = value;
+					PropertyChanged.Raise(this);
+					PropertyChanged.Raise(this, () => OutlineColorString);
+				}
+			}
+		}
+
+		public string OutlineColorString
+		{
+			get { return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", OutlineAlpha, OutlineRed, OutlineGreen, OutlineBlue); }
+		}
+
 		#endregion
 
 		public string Error
@@ -215,7 +316,12 @@ namespace FontGenerator.WPF.ViewModels
 		{
 			config = new GenerationConfig();
 			FontPath = "C:\\Windows\\Fonts\\";
+
+			Red = 255;
+			Green = 255;
+			Blue = 255;
 			Alpha = 255;
+
 			FontSize = 14;
 			TextureSize = 1024;
 			OpenFontFileCommand = new DelegateCommand { CommandHandler = OpenFontFile };
@@ -223,6 +329,10 @@ namespace FontGenerator.WPF.ViewModels
 			OpenExportPathCommand = new DelegateCommand { CommandHandler = OpenExportPath };
 			SaveConfigurationCommand = new DelegateCommand { CommandHandler = SaveConfiguration };
 			LoadConfigurationCommand = new DelegateCommand { CommandHandler = LoadConfiguration };
+
+			OutlineAlpha = 255;
+			OutlineSize = 0;
+			OutlineSampling = 1;
 		}
 
 		private void LoadConfiguration(object obj)

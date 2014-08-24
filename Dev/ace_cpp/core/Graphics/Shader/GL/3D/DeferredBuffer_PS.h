@@ -23,22 +23,22 @@ uniform float	flag;
 
 vec3 GetDiffuse(vec2 uv)
 {
-	return texture2D(g_gbuffer0Texture, uv).xyz;
+	return texture(g_gbuffer0Texture, uv).xyz;
 }
 
 vec4 GetSpecularColorAndSmoothness(vec2 uv)
 {
-	return texture2D(g_gbuffer1Texture, uv).xyzw;
+	return texture(g_gbuffer1Texture, uv).xyzw;
 }
 
 vec3 GetNormal(vec2 uv)
 {
-	return texture2D(g_gbuffer2Texture, uv).xyz;
+	return texture(g_gbuffer2Texture, uv).xyz;
 }
 
 vec3 GetEnvironment(vec2 uv)
 {
-	return texture2D(g_environmentTexture, uv).xyz;
+	return texture(g_environmentTexture, uv).xyz;
 }
 
 void main()

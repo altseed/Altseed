@@ -10,7 +10,7 @@ uniform sampler2D g_originalTexture;
 uniform int g_originalSampler;
 
 vec4 SampleTexture(sampler2D texture_, int sampler_, vec2 uv_){
-	return texture2D(texture_, uv_);
+	return texture(texture_, uv_);
 }
 uvec2 GetTextureSize(sampler2D texture_, int sampler_){
 	return uvec2(textureSize(texture_, 0));

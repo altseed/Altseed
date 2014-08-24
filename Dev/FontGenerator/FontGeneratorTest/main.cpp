@@ -46,7 +46,7 @@ int main()
 		setting.SetFontSize(32);
 		setting.SetFontColor(Color(255, 128, 0, 255));
 		//setting.SetBold(make_shared<BoldSetting>(1));	
-		//setting.SetBorder(make_shared<BorderSetting>(4, Color(0, 0, 0, 255)));
+		setting.SetBorder(make_shared<BorderSetting>(4, Color(0, 0, 0, 255), 3));
 		
 		gen.SetSetting(setting);
 		gen.SetSheetName(L"result/Nac0813");

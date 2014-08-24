@@ -37,6 +37,11 @@ namespace FontGenerator.Model
 			var c = config.FontColor;
 			gen.SetFontColor(c.Red, c.Green, c.Blue, c.Alpha);
 
+			var co = config.OutlineColor;
+			gen.SetOutlineColor(co.Red, co.Green, co.Blue, co.Alpha);
+			gen.SetOutlineSize(config.OutlineSize);
+			gen.SetOutlineSampling(config.OutlineSampling);
+
 			await Task.Run(() => gen.Run());
 		}
 	}

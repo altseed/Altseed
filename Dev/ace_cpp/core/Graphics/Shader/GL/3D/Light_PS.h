@@ -108,22 +108,22 @@ float VSM(vec2 moments, float t)
 
 vec3 GetDiffuseColor(vec2 uv)
 {
-	return texture2D(g_gbuffer0Texture, uv).xyz;
+	return texture(g_gbuffer0Texture, uv).xyz;
 }
 
 vec4 GetSpecularColorAndSmoothness(vec2 uv)
 {
-	return texture2D(g_gbuffer1Texture, uv).xyzw;
+	return texture(g_gbuffer1Texture, uv).xyzw;
 }
 
 vec3 GetNormal(vec2 uv)
 {
-	return texture2D(g_gbuffer2Texture, uv).xyz;
+	return texture(g_gbuffer2Texture, uv).xyz;
 }
 
 float GetNormalizedDepth(vec2 uv)
 {
-	return texture2D(g_gbuffer2Texture, uv).w;
+	return texture(g_gbuffer2Texture, uv).w;
 }
 
 float ReconstructDepth(float z)
@@ -180,10 +180,10 @@ void main()
 	// GL
 	depth = depth * 0.5 + 0.5;
 
-	vec2 shadowParam = texture2D(g_shadowmapTexture, shadowmapUV).xy;
+	vec2 shadowParam = texture(g_shadowmapTexture, shadowmapUV).xy;
 
 	float shadow = VSM(shadowParam, depth);
-	float ao = texture2D(g_ssaoTexture, uv).x;
+	float ao = texture(g_ssaoTexture, uv).x;
 
 	lightColor.xyz += calcDirectionalLightDiffuseColor(diffuseColor, normal, directionalLightDirection, shadow, ao);
 
@@ -192,7 +192,7 @@ void main()
 
 #ifdef AMBIENT_LIGHT
 	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor;
-	lightColor.xyz += texture2D(g_environmentDiffuseTexture, uv).xyz * diffuseColor;
+	lightColor.xyz += texture(g_environmentDiffuseTexture, uv).xyz * diffuseColor;
 #endif
 
 	outOutput0 = lightColor;

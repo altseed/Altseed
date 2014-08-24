@@ -8,7 +8,9 @@
 
 #include <mutex>
 
-#if !_WIN32
+#if _WIN32
+#elif __APPLE__
+#else
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <GL/glx.h>
@@ -40,8 +42,14 @@ namespace ace {
 		
 		GLuint			m_frameBuffer;
 
+#ifdef __APPLE__
+		GLuint			m_vao;
+#endif
+
 		bool			m_endStarting;
-#if !_WIN32
+#if _WIN32
+#elif __APPLE__
+#else
 		bool			m_x11Mode = false;
 		GLXContext		m_glx;
 		Display*		m_x11Display;
@@ -89,7 +97,9 @@ namespace ace {
 		
 		static Graphics_Imp_GL* Create(::ace::Window* window, Log* log, bool isReloadingEnabled);
 
-#if !_WIN32
+#if _WIN32
+#elif __APPLE__
+#else
 		static Graphics_Imp_GL* Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled);
 #endif
 

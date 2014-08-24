@@ -24,8 +24,13 @@ else()
 endif()
 
 # Effekseerの設定
-option(USE_GLEW_STATIC "Use Glew static library" OFF)
-option(USE_GLEW_DLL "Use Glew DLL" ON)
+if (APPLE)
+	option(USE_GLEW_STATIC "Use Glew static library" OFF)
+	option(USE_GLEW_DLL "Use Glew DLL" OFF)
+else()
+	option(USE_GLEW_STATIC "Use Glew static library" OFF)
+	option(USE_GLEW_DLL "Use Glew DLL" ON)
+endif()
 option(USE_OPENGLES2 "Use OpenGL ES2" OFF)
 
 # ファイルをソースリストに追加
@@ -51,6 +56,17 @@ include_directories(
 #ライブラリの設定
 link_directories(${PROJECT_SOURCE_DIR}/lib/)
 
+if(APPLE)
+	include_directories(
+		/opt/local/include/
+		/opt/X11/include/
+		)
+	link_directories(
+		/opt/local/lib/
+		/opt/X11/lib/
+		)
+endif()
+
 # パッケージの設定
 set(common_lib)
 set(common_inc)
@@ -59,7 +75,9 @@ if(MSVC)
 
 else()
 	list(APPEND common_lib glfw3 )
-	list(APPEND common_lib GLEW )
+	if(APPLE)
+		list(APPEND common_lib GLEW )
+	endif()
 	list(APPEND common_lib png16 )
 	list(APPEND common_lib z )
 	list(APPEND common_lib gtest )

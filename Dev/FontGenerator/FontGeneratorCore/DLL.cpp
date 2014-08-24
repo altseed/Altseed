@@ -84,6 +84,11 @@ namespace FontGenerator
 			setting.SetFontSize(m_fontSize);
 			setting.SetFontColor(m_fontColor);
 
+			if (m_outlineSize > 0)
+			{
+				setting.SetBorder(std::make_shared<BorderSetting>(m_outlineSize, m_outlineColor, m_outlineSampling));
+			}
+
 			gen.SetSetting(setting);
 			gen.SetSheetName(m_exportPath);
 			gen.SetSheetSize(m_sheetSize);
