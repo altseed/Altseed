@@ -51,7 +51,7 @@ float4 main( const PS_Input Input ) : SV_Target
 )";
 
 static const char* gl_vs = R"(
-#version 150
+//#version 150
 in vec3 Pos;
 in vec2 UV;
 
@@ -66,7 +66,7 @@ void main()
 )";
 
 static const char* gl_ps = R"(
-#version 150
+//#version 150
 in vec4 vaTexCoord;
 uniform samplerCube g_texture;
 out vec4 fragColor;
@@ -132,7 +132,7 @@ float4 main( const PS_Input Input ) : SV_Target
 )";
 
 static const char* gl_writemip_vs = R"(
-#version 150
+//#version 150
 in vec3 Pos;
 in vec2 UV;
 
@@ -147,7 +147,7 @@ void main()
 )";
 
 static const char* gl_writemip_ps = R"(
-#version 150
+//#version 150
 in vec4 vaTexCoord;
 uniform sampler2D g_texture;
 out vec4 fragColor;

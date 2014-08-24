@@ -19,7 +19,7 @@ void main()
 	outOutput0 = voutColor;
 	if(outOutput0.a == 0.0f) discard;
 
-	outOutput0 = outOutput0 * texture2D(g_colorTexture, voutUV_);
+	outOutput0 = outOutput0 * texture(g_colorTexture, voutUV_);
 	if(outOutput0.a == 0.0f) discard;
 }
 

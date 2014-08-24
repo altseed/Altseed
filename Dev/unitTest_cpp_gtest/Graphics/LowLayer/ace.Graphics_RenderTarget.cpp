@@ -48,10 +48,10 @@ float4 main( const PS_Input Input ) : SV_Target
 
 static const char* gl_vs = R"(
 
-attribute vec3 Pos;
-attribute vec2 UV;
+in vec3 Pos;
+in vec2 UV;
 
-varying vec4 vaTexCoord;
+out vec4 vaTexCoord;
 
 void main()
 {
@@ -63,12 +63,13 @@ void main()
 
 static const char* gl_ps = R"(
 
-varying vec4 vaTexCoord;
+in vec4 vaTexCoord;
+out vec4 outColor;
 uniform sampler2D g_texture;
 
 void main() 
 {
-gl_FragColor = texture2D(g_texture, vaTexCoord.xy);
+outColor = texture(g_texture, vaTexCoord.xy);
 }
 
 )";

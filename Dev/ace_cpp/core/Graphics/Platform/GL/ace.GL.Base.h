@@ -32,7 +32,11 @@ static std::vector<GLenum> GLCheckError_Imp(const char *file, const int line)
     while (__code != GL_NO_ERROR) {
         codes.push_back(__code);
 #ifdef _DEBUG
+#ifdef __APPLE__
+        printf("GLError filename = %s , line = %d, error = %d\n", file, line, __code );
+#else
         printf("GLError filename = %s , line = %d, error = %s\n", file, line, (const char*)gluErrorString(__code) );
+#endif
 #endif
         __code = glGetError();
     }

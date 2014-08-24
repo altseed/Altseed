@@ -24,9 +24,11 @@ static const char* shader2d_gl_ps = R"(
 
 uniform sampler2D g_texture;
 
+out vec4 outColor;
+
 void main()
 {
-	gl_FragColor = texture2D(g_texture, inUV.xy) * vec4(1.0,(inPos.x+1.0)/2.0,(inPos.y+1.0)/2.0,1.0);
+	outColor = texture(g_texture, inUV.xy) * vec4(1.0,(inPos.x+1.0)/2.0,(inPos.y+1.0)/2.0,1.0);
 }
 
 )";

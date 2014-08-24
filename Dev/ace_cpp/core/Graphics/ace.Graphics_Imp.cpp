@@ -495,7 +495,9 @@ Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, 
 	{
 		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isReloadingEnabled);
 	}
-#else 
+#elif __APPLE__
+	return nullptr; // not supported
+#else
 	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, isReloadingEnabled);
 #endif
 }
