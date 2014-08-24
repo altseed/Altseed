@@ -75,7 +75,7 @@ if(MSVC)
 
 else()
 	list(APPEND common_lib glfw3 )
-	if(APPLE)
+	if(NOT APPLE)
 		list(APPEND common_lib GLEW )
 	endif()
 	list(APPEND common_lib png16 )
