@@ -61,9 +61,9 @@ namespace ace {
 		GLuint			m_samplers[MaxTextureCount];
 #pragma endregion
 
-		Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isReloadingEnabled);
+		Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen);
 
-		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isReloadingEnabled);
+		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isReloadingEnabled, bool isFullScreen);
 
 		virtual ~Graphics_Imp_GL();
 
@@ -95,7 +95,7 @@ namespace ace {
 
 	public:
 		
-		static Graphics_Imp_GL* Create(::ace::Window* window, Log* log, bool isReloadingEnabled);
+		static Graphics_Imp_GL* Create(::ace::Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen);
 
 #if _WIN32
 #elif __APPLE__

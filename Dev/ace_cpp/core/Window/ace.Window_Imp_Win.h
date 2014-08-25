@@ -34,9 +34,9 @@ private:
 
 public:
 
-	static Window_Imp* Create(int32_t width, int32_t height, const achar* title, Log* logger);
+	static Window_Imp* Create(int32_t width, int32_t height, const achar* title, Log* logger, bool isFullScreen);
 
-	Window_Imp_Win(GLFWwindow* window, int32_t width, int32_t height, Log* logger);
+	Window_Imp_Win(GLFWwindow* window, int32_t width, int32_t height, Log* logger, bool isFullScreen);
 	virtual ~Window_Imp_Win();
 
 	bool DoEvent();

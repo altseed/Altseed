@@ -29,16 +29,16 @@ Window_Imp::~Window_Imp()
 
 }
 
-Window_Imp* Window_Imp::Create(int32_t width, int32_t height, const achar* title, Log* logger)
+Window_Imp* Window_Imp::Create(int32_t width, int32_t height, const achar* title, Log* logger, bool isFullScreen)
 {
 	Window_Imp* ret = nullptr;
 
 	if (logger != nullptr) logger->WriteHeading("ウインドウ");
 
 #ifdef _WIN32
-	ret = Window_Imp_Win::Create(width, height, title, logger);
+	ret = Window_Imp_Win::Create(width, height, title, logger, isFullScreen);
 #else
-	ret = Window_Imp_X11::Create( width, height, title, logger);
+	ret = Window_Imp_X11::Create( width, height, title, logger, isFullScreen);
 #endif
 	if (ret != nullptr)
 	{

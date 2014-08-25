@@ -110,8 +110,8 @@ namespace ace {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isReloadingEnabled)
-	: Graphics_Imp(size, log, isReloadingEnabled)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen)
+		: Graphics_Imp(size, log, isReloadingEnabled, isFullScreen)
 	, m_window(window)
 	, m_endStarting(false)
 {
@@ -150,10 +150,16 @@ namespace ace {
 
 	// スレッド生成
 	MakeContextNone();
+
+#ifdef __APPLE__
 	GLCheckError();
+#endif
 
 	CreateContextBeforeThreading(window_);
+
+#ifdef __APPLE__
 	GLCheckError();
+#endif
 
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	while (!m_endStarting)
@@ -161,8 +167,10 @@ namespace ace {
 		Sleep(1);
 	}
 	CreateContextAfterThreading(window_);
+
+#ifdef __APPLE__
 	GLCheckError();
-	
+#endif
 
 	MakeContextCurrent();
 	WriteInitializedLog(m_log);
@@ -174,8 +182,8 @@ namespace ace {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isReloadingEnabled)
-	: Graphics_Imp(size, log, isReloadingEnabled)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isReloadingEnabled, bool isFullScreen)
+		: Graphics_Imp(size, log, isReloadingEnabled, isFullScreen)
 	, m_window(nullptr)
 	, m_endStarting(false)
 {
@@ -652,7 +660,7 @@ void Graphics_Imp_GL::SetViewport(int32_t x, int32_t y, int32_t width, int32_t h
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool isReloadingEnabled)
+Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -691,7 +699,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool i
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL(window->GetSize(), window, log, isReloadingEnabled);
+	return new Graphics_Imp_GL(window->GetSize(), window, log, isReloadingEnabled, isFullScreen);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));

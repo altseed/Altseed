@@ -171,7 +171,7 @@ namespace ace
 
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), title);
 
-		m_window = Window_Imp::Create(width, height, title, m_logger);
+		m_window = Window_Imp::Create(width, height, title, m_logger, option.IsFullScreen);
 		if (m_window == nullptr) return false;
 
 		m_keyboard = Keyboard_Imp::Create(m_window);
@@ -180,7 +180,7 @@ namespace ace
 
 		m_file = File_Imp::Create();
 
-		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, option.IsReloadingEnabled);
+		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, option.IsReloadingEnabled, option.IsFullScreen);
 		if (m_graphics == nullptr) return false;
 
 		m_sound = new Sound_Imp(option.IsReloadingEnabled);
@@ -254,7 +254,7 @@ namespace ace
 
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
-		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger, option.IsReloadingEnabled);
+		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger, option.IsReloadingEnabled, option.IsFullScreen);
 		if (m_graphics == nullptr) return false;
 
 		m_sound = new Sound_Imp(option.IsReloadingEnabled);
