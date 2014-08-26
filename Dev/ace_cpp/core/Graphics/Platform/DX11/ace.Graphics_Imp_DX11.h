@@ -67,6 +67,7 @@ namespace ace {
 			Vector2DI size,
 			Log* log,
 			bool isReloadingEnabled,
+			bool isFullScreen,
 			ID3D11Device* device,
 			ID3D11DeviceContext* context,
 			IDXGIDevice1* dxgiDevice,
@@ -100,13 +101,13 @@ namespace ace {
 
 		void BeginInternal();
 
-		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled);
+		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen);
 
 	public:
 		
-		static Graphics_Imp_DX11* Create(Window* window, Log* log, bool isReloadingEnabled);
+		static Graphics_Imp_DX11* Create(Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen);
 
-		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled);
+		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen);
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 

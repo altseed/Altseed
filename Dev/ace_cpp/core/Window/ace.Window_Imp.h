@@ -39,7 +39,7 @@ namespace ace {
 			@param	logger	ログ
 			@return	ウインドウ
 		*/
-		static Window_Imp* Create(int32_t width, int32_t height, const achar* title, Log* logger = nullptr);
+		static Window_Imp* Create(int32_t width, int32_t height, const achar* title, Log* logger = nullptr, bool isFullScreen = false);
 
 		Vector2DI GetSize() const { return m_size; }
 

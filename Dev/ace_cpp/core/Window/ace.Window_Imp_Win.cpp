@@ -40,7 +40,7 @@ void Window_Imp_Win::Unregist()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Window_Imp* Window_Imp_Win::Create(int32_t width, int32_t height, const achar* title, Log* logger)
+Window_Imp* Window_Imp_Win::Create(int32_t width, int32_t height, const achar* title, Log* logger, bool isFullScreen)
 {
 	if (!glfwInit())
 	{
@@ -52,7 +52,13 @@ Window_Imp* Window_Imp_Win::Create(int32_t width, int32_t height, const achar* t
 
 	auto titleUTF8 = ToUtf8String(title);
 
-	auto window = glfwCreateWindow(width, height, titleUTF8.c_str(), NULL, NULL);
+	GLFWmonitor* monitor = nullptr;
+	if (isFullScreen)
+	{
+		monitor = glfwGetPrimaryMonitor();
+	}
+
+	auto window = glfwCreateWindow(width, height, titleUTF8.c_str(), monitor, NULL);
 	if (window == nullptr)
 	{
 		if (logger != nullptr) logger->WriteLine("ウインドウの作成に失敗");
@@ -62,13 +68,13 @@ Window_Imp* Window_Imp_Win::Create(int32_t width, int32_t height, const achar* t
 
 	glfwSwapInterval(1);
 
-	return new Window_Imp_Win( window, width, height, logger );
+	return new Window_Imp_Win(window, width, height, logger, isFullScreen);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Window_Imp_Win::Window_Imp_Win(GLFWwindow* window, int32_t width, int32_t height, Log* logger)
+Window_Imp_Win::Window_Imp_Win(GLFWwindow* window, int32_t width, int32_t height, Log* logger, bool isFullScreen)
 	: Window_Imp(logger)
 	, m_window(window)
 	, m_closed(false)
