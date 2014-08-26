@@ -213,6 +213,12 @@ namespace ace
 #else
 			const char* path = "ace_core.dll";
 #endif
+#elif __APPLE__
+#if _DEBUG
+			const char* path = "libace_core.dylib";
+#else
+			const char* path = "libace_core.dylib";
+#endif
 #else
 #if _DEBUG
 			const char* path = "libace_core.so";

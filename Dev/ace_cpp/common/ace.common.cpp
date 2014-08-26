@@ -269,17 +269,12 @@ namespace ace_x11
 
 namespace ace
 {
-	int32_t Utf16ToUtf8(int8_t* dst, int32_t dst_size, const int16_t* src)
+	int32_t Utf16ToUtf8(std::vector<int8_t> &dst, const int16_t* src)
 	{
-		int32_t cnt = 0;
 		const int16_t* wp = src;
-		int8_t* cp = dst;
+		dst.resize(0);
 
-		if (dst_size == 0) return 0;
-
-		dst_size -= 3;
-
-		for (cnt = 0; cnt < dst_size;)
+		for (;;)
 		{
 			int16_t wc = *wp++;
 			if (wc == 0)
@@ -288,37 +283,31 @@ namespace ace
 			}
 			if ((wc & ~0x7f) == 0)
 			{
-				*cp++ = wc & 0x7f;
-				cnt += 1;
+				dst.push_back(wc & 0x7f);
 			}
 			else if ((wc & ~0x7ff) == 0)
 			{
-				*cp++ = ((wc >> 6) & 0x1f) | 0xc0;
-				*cp++ = ((wc) & 0x3f) | 0x80;
-				cnt += 2;
+				dst.push_back(((wc >> 6) & 0x1f) | 0xc0);
+				dst.push_back(((wc) & 0x3f) | 0x80);
 			}
 			else
 			{
-				*cp++ = ((wc >> 12) & 0xf) | 0xe0;
-				*cp++ = ((wc >> 6) & 0x3f) | 0x80;
-				*cp++ = ((wc) & 0x3f) | 0x80;
-				cnt += 3;
+				dst.push_back(((wc >> 12) & 0xf) | 0xe0);
+				dst.push_back(((wc >> 6) & 0x3f) | 0x80);
+				dst.push_back(((wc) & 0x3f) | 0x80);
 			}
 		}
-		*cp = '\0';
-		return cnt;
+		dst.push_back('\0');
+		return static_cast<int32_t>(dst.size()) - 1;
 	}
 
-	int32_t Utf8ToUtf16(int16_t* dst, int32_t dst_size, const int8_t* src)
+	int32_t Utf8ToUtf16(std::vector<int16_t> &dst, const int8_t* src)
 	{
 		int32_t i, code;
 		int8_t c0, c1, c2;
+		dst.resize(0);
 
-		if (dst_size == 0) return 0;
-
-		dst_size -= 1;
-
-		for (i = 0; i < dst_size; i++)
+		for (;;)
 		{
 			int16_t wc;
 
@@ -351,10 +340,10 @@ namespace ace
 			{
 				continue;
 			}
-			dst[i] = wc;
+			dst.push_back(wc);
 		}
-		dst[i] = 0;
-		return i;
+		dst.push_back(0);
+		return static_cast<int32_t>(dst.size()) - 1;
 	}
 
 	std::wstring ToWide(const char* pText)
@@ -368,27 +357,21 @@ namespace ace
 		delete[] pOut;
 		return Out;
 #else
-		int16_t result[4096];
+		std::vector<int16_t> result;
+		result.reserve(4096);
 		std::wstring temp;
 
-		Utf8ToUtf16(result, 4096, (int8_t*) pText);
+		Utf8ToUtf16(result, (int8_t*) pText);
 
 		if (sizeof(wchar_t) == 2)
 		{
-			temp = std::wstring((const wchar_t*) result);
+			temp = std::wstring((const wchar_t*) result.data());
 		}
 		else if (sizeof(wchar_t) == 4)
 		{
-			wchar_t buf[4096];
-			for (int i = 0; i < 4096; i++)
-			{
-				buf[i] = (int32_t) result[i];
-				if (result[i] == 0)
-				{
-					break;
-				}
-			}
-			temp = std::wstring(buf);
+			std::vector<wchar_t> buf(result.size());
+			std::copy(result.begin(), result.end(), buf.begin());
+			temp = std::wstring(buf.data());
 		}
 
 		return temp;
@@ -408,15 +391,16 @@ namespace ace
 		if (sizeof(wchar_t) == 4)
 		{
 #ifndef _WIN32
-			achar temp[2048];
+			std::vector<achar> temp;
+			temp.reserve(2048);
 			int32_t length = 0;
-			while (src[length] != 0 && length < 2047)
+			while (src[length] != 0)
 			{
-				temp[length] = static_cast<achar>(src[length]);
+				temp.push_back(static_cast<achar>(src[length]));
 				length++;
 			}
-			temp[length] = 0;
-			return astring(temp);
+			temp.push_back(0);
+			return astring(temp.data());
 #endif
 		}
 		return astring();
@@ -429,12 +413,11 @@ namespace ace
 
 	std::string ToUtf8String(const achar* src)
 	{
-		int8_t result[4096];
-		std::string temp;
+		std::vector<int8_t> result;
+		result.reserve(4096);
+		Utf16ToUtf8(result, (int16_t*) src);
 
-		Utf16ToUtf8(result, 4096, (int16_t*) src);
-		temp = std::string((const char*) result);
-
+		std::string temp((const char*) result.data());
 		return temp;
 	}
 

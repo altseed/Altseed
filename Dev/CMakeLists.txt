@@ -45,17 +45,6 @@ else()
 	list(APPEND core_src ${gl_src})
 endif()
 
-# インクルードの設定
-include_directories(
-	include/
-	ace_cpp/common/
-	ace_cpp/tool/
-	ace_cpp/core/
-	)
-
-#ライブラリの設定
-link_directories(${PROJECT_SOURCE_DIR}/lib/)
-
 if(APPLE)
 	include_directories(
 		/opt/local/include/
@@ -67,6 +56,17 @@ if(APPLE)
 		)
 endif()
 
+# インクルードの設定
+include_directories(
+	include/
+	ace_cpp/common/
+	ace_cpp/tool/
+	ace_cpp/core/
+	)
+
+#ライブラリの設定
+link_directories(${PROJECT_SOURCE_DIR}/lib/)
+
 # パッケージの設定
 set(common_lib)
 set(common_inc)
@@ -75,7 +75,8 @@ if(MSVC)
 
 else()
 	list(APPEND common_lib glfw3 )
-	if(APPLE)
+	if(NOT APPLE)
+		# MacではGLEW不使用
 		list(APPEND common_lib GLEW )
 	endif()
 	list(APPEND common_lib png16 )
