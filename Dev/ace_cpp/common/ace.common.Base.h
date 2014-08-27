@@ -161,21 +161,19 @@ inline void SinCos(float x, float& s, float& c)
 
 /**
 @brief	文字コードを変換する。(UTF16 -> UTF8)
-@param	dst	[out]	出力配列の先頭ポインタ
-@param	dst_size	[in]	出力配列の長さ
+@param	dst	[out]	出力vector
 @param	src			[in]	入力配列の先頭ポインタ
 @return	文字数
 */
-int32_t Utf16ToUtf8(int8_t* dst, int32_t dst_size, const int16_t* src);
+int32_t Utf16ToUtf8(std::vector<int8_t> &dst, const int16_t* src);
 
 /**
 	@brief	文字コードを変換する。(UTF8 -> UTF16)
-	@param	dst			[out]	出力配列の先頭ポインタ
-	@param	dst_size	[in]	出力配列の長さ
+	@param	dst			[out]	出力vector
 	@param	src			[in]	入力配列の先頭ポインタ
 	@return	文字数
 */
-int32_t Utf8ToUtf16(int16_t* dst, int32_t dst_size, const int8_t* src);
+int32_t Utf8ToUtf16(std::vector<int16_t> &dst, const int8_t* src);
 
 std::wstring ToWide(const char* pText);
 

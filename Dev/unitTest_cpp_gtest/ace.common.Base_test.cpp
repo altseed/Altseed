@@ -10,8 +10,8 @@ TEST(CharSet, Utf16ToUtf8)
 	// "UTF16文字列"
 	int16_t source [] = { 0x55, 0x54, 0x46, 0x31, 0x36, 0x6587, 0x5b57, 0x5217, 0x00 };
 
-	int8_t actual[4096];
-	ace::Utf16ToUtf8(actual, 4096, source);
+	std::vector<int8_t> actual;
+	ace::Utf16ToUtf8(actual, source);
 
 	int8_t expected [] = {
 		0x55, 0x54, 0x46, 0x31, 0x36,
@@ -19,7 +19,7 @@ TEST(CharSet, Utf16ToUtf8)
 
 	ASSERT_EQ(
 		basic_string<int8_t>(expected),
-		basic_string<int8_t>(actual));
+		basic_string<int8_t>(actual.data()));
 }
 
 TEST(CharSet, Utf8ToUtf16)
@@ -29,14 +29,14 @@ TEST(CharSet, Utf8ToUtf16)
 		0x55, 0x54, 0x46, 0x38,
 		0xe6, 0x96, 0x87, 0xe5, 0xad, 0x97, 0xe5, 0x88, 0x97, 0x00 };
 
-	int16_t actual[4096];
-	ace::Utf8ToUtf16(actual, 4096, source);
+	std::vector<int16_t> actual;
+	ace::Utf8ToUtf16(actual, source);
 
 	int16_t expected [] = { 0x55, 0x54, 0x46, 0x38, 0x6587, 0x5b57, 0x5217, 0 };
 
 	ASSERT_EQ(
 		basic_string<int16_t>(expected),
-		basic_string<int16_t>(actual));
+		basic_string<int16_t>(actual.data()));
 }
 
 TEST(CharSet, ToWide)

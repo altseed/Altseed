@@ -22,7 +22,7 @@ vec4 GetOriginalColor(vec2 uv)
 
 vec4 GetColor(vec2 uv)
 {
-#if BLUR_X
+#ifdef BLUR_X
 	return max(SampleTexture(g_blurredTexture, g_blurredSampler, uv)-vec4(g_threshold,g_threshold,g_threshold,0.0), vec4(0.0,0.0,0.0,0.0));
 #endif
 	return SampleTexture( g_blurredTexture, g_blurredSampler, uv );
@@ -31,17 +31,17 @@ vec4 GetColor(vec2 uv)
 vec4 CalcBlurredColor(vec2 uv)
 {
 	vec2 size = GetTextureSize(g_blurredTexture, g_blurredSampler);
-#if COPY
+#ifdef COPY
 	vec2 shift_p = vec2(0.000000, 0.000000);
 	vec2 shift_m = vec2(0.000000, 0.000000);
 	vec2 adder = vec2(0.000000, 0.000000);
 #endif
-#if BLUR_X
+#ifdef BLUR_X
 	vec2 shift_p = vec2(0.500000 / size.x, 0.500000 / size.y);
 	vec2 shift_m = vec2(-0.500000 / size.x, 0.500000 / size.y);
 	vec2 adder = vec2(2.00000 / size.x, 0.000000);
 #endif
-#if BLUR_Y
+#ifdef BLUR_Y
 	vec2 shift_p = vec2(0.500000 / size.x, 0.500000 / size.y);
 	vec2 shift_m = vec2(0.500000 / size.x, -0.500000 / size.y);
 	vec2 adder = vec2(0.000000, 2.00000 / size.y);
@@ -63,13 +63,13 @@ vec4 CalcBlurredColor(vec2 uv)
 
 vec4 Main_(vec2 uv)
 {
-#if COPY
+#ifdef COPY
 	return GetOriginalColor(uv);
 #endif
-#if BLUR_X
+#ifdef BLUR_X
 	return CalcBlurredColor(uv);
 #endif
-#if BLUR_Y
+#ifdef BLUR_Y
 	return max(CalcBlurredColor(uv) * g_power, vec4(0.000000, 0.000000, 0.000000, 0.000000)) + GetOriginalColor(uv);
 #endif
 }
