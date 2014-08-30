@@ -328,14 +328,6 @@ namespace ace
 		auto width = widthes[0];
 		auto height = heights[0];
 
-		for (int32_t i = 0; i < 6; i++)
-		{
-			if (widthes[i] != width) goto End;
-			if (heights[i] != height) goto End;
-		}
-
-		auto mipmapCount = ImageHelper::GetMipmapCount(width, height);
-
 		ID3D11Texture2D* texture = nullptr;
 		ID3D11ShaderResourceView* srv = nullptr;
 
