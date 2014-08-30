@@ -34,6 +34,7 @@ Lockを実行し成功すると引数からTextureLockInfomationを取得でき�
 これは書き込みを行うサンプルコードの1つです。textureにdataにある情報を書き込みます。
 
 * C++
+```
 ace::TextureLockInfomation info = ace::TextureLockInfomation();
 if (texture->Lock(info))
 {
@@ -48,9 +49,10 @@ if (texture->Lock(info))
 
 	texture->Unlock();
 }
+```
 
 * C#
-'''
+```
 ace.TextureLockInfomation info = new ace.TextureLockInfomation();
 if (texture.Lock(ref info))
 {
@@ -67,5 +69,5 @@ if (texture.Lock(ref info))
 
 	texture.Unlock();
 }
-'''
+```
 
