@@ -25,7 +25,7 @@ namespace FontGenerator.WPF.ViewModels
 			set
 			{
 				config = value;
-				PropertyChanged.Raise(this, () => FontPath);
+				PropertyChanged.Raise(this, () => FontIndex);
 				PropertyChanged.Raise(this, () => TextPath);
 				PropertyChanged.Raise(this, () => ExportPath);
 				PropertyChanged.Raise(this, () => SheetName);
@@ -51,14 +51,14 @@ namespace FontGenerator.WPF.ViewModels
 
 
 		[Required]
-		public string FontPath
+		public int FontIndex
 		{
-			get { return config.FontPath; }
+			get { return config.FontIndex; }
 			set
 			{
-				if(!value.Equals(config.FontPath))
+				if (!value.Equals(config.FontIndex))
 				{
-					config.FontPath = value;
+					config.FontIndex = value;
 					PropertyChanged.Raise(this);
 				}
 			}
@@ -315,8 +315,7 @@ namespace FontGenerator.WPF.ViewModels
 		public GeneratorViewModel()
 		{
 			config = new GenerationConfig();
-			FontPath = "C:\\Windows\\Fonts\\";
-
+			
 			Red = 255;
 			Green = 255;
 			Blue = 255;

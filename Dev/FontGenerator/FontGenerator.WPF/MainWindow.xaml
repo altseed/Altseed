@@ -47,7 +47,9 @@
                 <Label Content="枠線太さ：" HorizontalAlignment="Right" Grid.Row="6"/>
                 <Label Content="枠線サンプリング：" HorizontalAlignment="Right" Grid.Row="7"/>
 
-                <TextBox Text="{Binding FontPath, ValidatesOnDataErrors=True}" Grid.Column="1"/>
+
+                <ComboBox Name="fontPathes" SelectedIndex="{Binding FontIndex, ValidatesOnDataErrors=True}" Grid.Column="1"/>
+                
 				<TextBox Text="{Binding TextPath, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="1"/>
 				<TextBox Text="{Binding ExportPath, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="2"/>
 				<TextBox Text="{Binding SheetName, ValidatesOnDataErrors=True}" Grid.Column="1" Grid.Row="3"/>
