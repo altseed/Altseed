@@ -235,6 +235,11 @@ namespace ace {
 		virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) { return nullptr; }
 		
 		/**
+		@brief	SWIG向けに記述
+		*/
+		virtual CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) { return nullptr; }
+
+		/**
 			@brief	シェーダー(2D)を生成する。
 			@param	shaderText						シェーダーのコード
 			@return	シェーダー(2D)

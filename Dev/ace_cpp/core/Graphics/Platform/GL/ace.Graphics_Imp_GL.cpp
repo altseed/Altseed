@@ -794,6 +794,11 @@ CubemapTexture* Graphics_Imp_GL::CreateCubemapTextureFrom6ImageFiles_(const acha
 	return CubemapTexture_Imp_GL::Create(this, front, left, back, right, top, bottom);
 }
 
+CubemapTexture* Graphics_Imp_GL::CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount)
+{
+	return CubemapTexture_Imp_GL::Create(this, path, mipmapCount);
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

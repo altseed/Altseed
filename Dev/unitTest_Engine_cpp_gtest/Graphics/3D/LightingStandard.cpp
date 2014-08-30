@@ -39,6 +39,7 @@ protected:
 			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Bottom.png").c_str()
 			);
 
+		auto specCubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFromMipmapImageFiles(ace::ToAString("Data/Cubemap/Sky1/Spec/sky").c_str(), 8);
 
 		auto plainObj = std::make_shared<ace::ModelObject3D>();
 		auto sphereObj = std::make_shared<ace::ModelObject3D>();
@@ -70,7 +71,7 @@ protected:
 		lightObj->SetColor(ace::Color(200,200,200,200));
 
 		// 環境
-		GetLayer3D()->SetEnvironmentColor(cubemap, std::shared_ptr<ace::CubemapTexture>());
+		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);
 		// 環境光
 #if 1
 		GetLayer3D()->SetSkyAmbientColor(ace::Color(80, 80, 120, 255));
