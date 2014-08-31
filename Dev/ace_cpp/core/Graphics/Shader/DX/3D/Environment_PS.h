@@ -88,9 +88,10 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float2 brdfColor = g_brdfTexture.Sample(g_brdfSampler, float2(smoothness,NoV)).xy;
 
-	float4 spec = specEnvColor * ( specColor * brdfColor.x + brdfColor.y );
+	float3 spec = specEnvColor.xyz * ( specColor * brdfColor.x + float3(brdfColor.y,brdfColor.y,brdfColor.y) );
 
-	float4 Output = diffuseColor + spec;
+	float4 Output = float4(0.0,0.0,0.0,1.0);
+	Output.xyz = diffuseEnvColor.xyz + spec;
 	
 	//Output.xyz = globalNormal;
 	Output.w = 1.0;

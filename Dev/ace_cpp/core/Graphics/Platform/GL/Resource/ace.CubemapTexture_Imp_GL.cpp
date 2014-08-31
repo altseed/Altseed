@@ -205,6 +205,11 @@ namespace ace
 			{
 				if (ImageHelper::LoadPNGImage(fileBuffers[i][m].data(), fileBuffers[i].size(), true, widthes[i], heights[i], buffers[i][m]))
 				{
+					if (m == 0)
+					{
+						width = widthes[0];
+						height = heights[0];
+					}
 				}
 				else
 				{
@@ -212,10 +217,6 @@ namespace ace
 				}
 			}
 		}
-
-
-		width = widthes[0];
-		height = heights[0];
 
 		for (int32_t i = 0; i < 6; i++)
 		{

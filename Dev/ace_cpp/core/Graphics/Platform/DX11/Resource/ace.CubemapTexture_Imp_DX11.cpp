@@ -309,12 +309,20 @@ namespace ace
 			}
 		}
 
+		int width = 0;
+		int height = 0;
+
 		for (int32_t m = 0; m < mipmapCount; m++)
 		{
 			for (int32_t i = 0; i < 6; i++)
 			{
-				if (ImageHelper::LoadPNGImage(fileBuffers[i][m].data(), fileBuffers[i].size(), true, widthes[i], heights[i], buffers[i][m]))
+				if (ImageHelper::LoadPNGImage(fileBuffers[i][m].data(), fileBuffers[i].size(), false, widthes[i], heights[i], buffers[i][m]))
 				{
+					if (m == 0)
+					{
+						width = widthes[0];
+						height = heights[0];
+					}
 				}
 				else
 				{
@@ -322,10 +330,6 @@ namespace ace
 				}
 			}
 		}
-
-
-		auto width = widthes[0];
-		auto height = heights[0];
 
 		ID3D11Texture2D* texture = nullptr;
 		ID3D11ShaderResourceView* srv = nullptr;
