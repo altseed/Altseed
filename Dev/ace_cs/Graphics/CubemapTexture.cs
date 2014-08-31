@@ -45,5 +45,16 @@ namespace ace
 			}
 			System.GC.SuppressFinalize(this);
 		}
+
+		/// <summary>
+		/// ミップマップ数
+		/// </summary>
+		public int MipmapCount
+		{
+			get
+			{
+				return SwigObject.GetMipmapCount();
+			}
+		}
 	}
 }

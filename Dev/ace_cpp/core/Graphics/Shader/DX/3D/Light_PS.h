@@ -90,11 +90,14 @@ float3 calcDirectionalLightDiffuseColor(float3 diffuseColor, float3 normal, floa
 
 float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, float3 lightDir, float smoothness, float fresnel, float shadow, float ao)
 {
+	float roughness = 1.00000 - smoothness;
 	float3 viewDir = float3(0.000000, 0.000000, 1.00000);
-	float specular = calcLightingGGX(normal, viewDir, lightDir, smoothness, fresnel);
+	float3 specular;
+	specular.x = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.x);
+	specular.y = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.y);
+	specular.z = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.z);
 	specular = specular * shadow * ao;
-	float3 color = float3(specular, specular, specular);
-	return color * specularColor;
+	return specular;
 }
 
 float VSM(float2 moments, float t)
@@ -109,6 +112,8 @@ float VSM(float2 moments, float t)
 	float p_max = variance / (variance + d * d);
 	return max(p, p_max);
 }
+
+
 
 
 

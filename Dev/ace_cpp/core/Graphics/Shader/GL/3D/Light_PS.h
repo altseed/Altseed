@@ -81,11 +81,14 @@ vec3 calcDirectionalLightDiffuseColor(vec3 diffuseColor, vec3 normal, vec3 light
 
 vec3 calcDirectionalLightSpecularColor(vec3 specularColor, vec3 normal, vec3 lightDir, float smoothness, float fresnel, float shadow, float ao)
 {
+	float roughness = 1.00000 - smoothness;
 	vec3 viewDir = vec3(0.000000, 0.000000, 1.00000);
-	float specular = calcLightingGGX(normal, viewDir, lightDir, smoothness, fresnel);
+	vec3 specular;
+	specular.x = calcLightingGGX(normal, viewDir, lightDir, roughness, fresnel.x);
+	specular.y = calcLightingGGX(normal, viewDir, lightDir, roughness, fresnel.y);
+	specular.z = calcLightingGGX(normal, viewDir, lightDir, roughness, fresnel.z);
 	specular = specular * shadow * ao;
-	vec3 color = vec3(specular, specular, specular);
-	return color * specularColor;
+	return specular;
 }
 
 float VSM(vec2 moments, float t)
@@ -100,6 +103,7 @@ float VSM(vec2 moments, float t)
 	float p_max = variance / (variance + d * d);
 	return max(p, p_max);
 }
+
 
 
 
