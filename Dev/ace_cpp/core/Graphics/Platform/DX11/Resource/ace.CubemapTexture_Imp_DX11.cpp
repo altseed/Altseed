@@ -280,7 +280,6 @@ namespace ace
 		int32_t heights[6];
 		std::array<std::vector<ID3D11RenderTargetView*>, 6> textureRTVs;
 		std::vector<D3D11_SUBRESOURCE_DATA> data;
-		std::vector<uint8_t> nulldata;
 
 		std::vector<std::vector<uint8_t>> fileBuffers[6];
 		std::vector<std::vector<uint8_t>> buffers[6];
@@ -299,7 +298,7 @@ namespace ace
 			{
 				auto path_ = astring(path);
 				auto indStr = ToAString(std::to_string(i).c_str());
-				auto mipStr = ToAString(std::to_string(i).c_str());
+				auto mipStr = ToAString(std::to_string(m).c_str());
 
 				auto path__ = path_ + ToAString("_m") + mipStr + ToAString("_c") + indStr + ToAString(".png");
 
@@ -350,16 +349,10 @@ namespace ace
 		desc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
 
 		// 全てのミップマップを使用
-		desc.TextureCube.MipLevels = -1;
+		desc.TextureCube.MipLevels = mipmapCount;
 		desc.TextureCube.MostDetailedMip = 0;
 
 		data.resize(mipmapCount * 6);
-		nulldata.resize(width * height * 4);
-
-		for (size_t i = 0; i < nulldata.size(); i++)
-		{
-			nulldata[i] = 0;
-		}
 
 		for (int32_t i = 0; i < 6; i++)
 		{

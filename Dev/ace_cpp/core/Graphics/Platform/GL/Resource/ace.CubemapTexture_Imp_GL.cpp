@@ -188,7 +188,7 @@ namespace ace
 			{
 				auto path_ = astring(path);
 				auto indStr = ToAString(std::to_string(i).c_str());
-				auto mipStr = ToAString(std::to_string(i).c_str());
+				auto mipStr = ToAString(std::to_string(m).c_str());
 
 				auto path__ = path_ + ToAString("_m") + mipStr + ToAString("_c") + indStr + ToAString(".png");
 
