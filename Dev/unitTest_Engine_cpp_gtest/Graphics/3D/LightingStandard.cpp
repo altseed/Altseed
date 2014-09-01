@@ -68,14 +68,14 @@ protected:
 
 		// 直接光
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
-		lightObj->SetColor(ace::Color(200,200,200,200));
+		lightObj->SetColor(ace::Color(255 / 4, 255 / 4, 255 / 4, 200));
 
 		// 環境
 		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);
 		// 環境光
 #if 1
-		GetLayer3D()->SetSkyAmbientColor(ace::Color(80, 80, 120, 255));
-		GetLayer3D()->SetGroundAmbientColor(ace::Color(120, 80, 80, 255));
+		GetLayer3D()->SetSkyAmbientColor(ace::Color(10, 10, 20, 255));
+		GetLayer3D()->SetGroundAmbientColor(ace::Color(20, 10, 10, 255));
 #else
 		GetLayer3D()->SetSkyAmbientColor(ace::Color(0, 0, 0, 255));
 		GetLayer3D()->SetGroundAmbientColor(ace::Color(0, 0, 0, 255));

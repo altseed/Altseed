@@ -53,7 +53,9 @@ float calcLightingGGX(vec3 N, vec3 V, vec3 L, float roughness, float F0)
 	float D = alphaSqr / (pi * denom * denom);
 	float dotLH5 = pow(1.00000 - dotLH, 5);
 	float F = F0 + (1.00000 - F0) * (dotLH5);
-	float k = alpha / 2.00000;
+	float roughnessNorm = (roughness + 1.00000) / 2.00000;
+	float alphaNorm = roughnessNorm * roughnessNorm;
+	float k = alphaNorm / 2.00000;
 	float k2 = k * k;
 	float invK2 = 1.00000 - k2;
 	float vis = 1.00000 / (dotLH * dotLH * invK2 + k2);
@@ -84,10 +86,11 @@ vec3 calcDirectionalLightSpecularColor(vec3 specularColor, vec3 normal, vec3 lig
 	float roughness = 1.00000 - smoothness;
 	vec3 viewDir = vec3(0.000000, 0.000000, 1.00000);
 	vec3 specular;
-	specular.x = calcLightingGGX(normal, viewDir, lightDir, roughness, fresnel.x);
-	specular.y = calcLightingGGX(normal, viewDir, lightDir, roughness, fresnel.y);
-	specular.z = calcLightingGGX(normal, viewDir, lightDir, roughness, fresnel.z);
+	specular.x = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.x);
+	specular.y = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.y);
+	specular.z = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.z);
 	specular = specular * shadow * ao;
+	specular.xyz = directionalLightColor * specular.xyz;
 	return specular;
 }
 
@@ -103,6 +106,7 @@ float VSM(vec2 moments, float t)
 	float p_max = variance / (variance + d * d);
 	return max(p, p_max);
 }
+
 
 
 

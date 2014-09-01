@@ -62,7 +62,9 @@ float calcLightingGGX(float3 N, float3 V, float3 L, float roughness, float F0)
 	float D = alphaSqr / (pi * denom * denom);
 	float dotLH5 = pow(1.00000f - dotLH, 5);
 	float F = F0 + (1.00000 - F0) * (dotLH5);
-	float k = alpha / 2.00000f;
+	float roughnessNorm = (roughness + 1.00000) / 2.00000;
+	float alphaNorm = roughnessNorm * roughnessNorm;
+	float k = alphaNorm / 2.00000f;
 	float k2 = k * k;
 	float invK2 = 1.00000f - k2;
 	float vis = 1.00000 / (dotLH * dotLH * invK2 + k2);
@@ -97,6 +99,7 @@ float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, fl
 	specular.y = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.y);
 	specular.z = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.z);
 	specular = specular * shadow * ao;
+	specular.xyz = directionalLightColor * specular.xyz;
 	return specular;
 }
 
