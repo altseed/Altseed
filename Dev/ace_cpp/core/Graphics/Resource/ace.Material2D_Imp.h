@@ -22,7 +22,7 @@ namespace ace {
 		RenderTexture2D*	m_target;
 		Shader2D_Imp*		m_shader;
 	public:
-		Material2DCommand(Shader2D_Imp* shader, std::map<astring, ShaderConstantValue>& values);
+		Material2DCommand(Shader2D_Imp* shader, std::shared_ptr<MaterialPropertyBlock>& values);
 		virtual ~Material2DCommand();
 
 		RenderTexture2D* GetTarget();

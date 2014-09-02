@@ -20,7 +20,7 @@ namespace ace {
 		NativeShader_Imp*					shader;
 		std::vector<ShaderConstantValue>	constantValues;
 	public:
-		MaterialCommand(NativeShader_Imp* shader, std::map<astring, ShaderConstantValue>& values);
+		MaterialCommand(NativeShader_Imp* shader, std::shared_ptr<MaterialPropertyBlock>& block);
 		virtual ~MaterialCommand();
 
 		NativeShader_Imp* GetShader() { return shader; }
@@ -31,9 +31,9 @@ namespace ace {
 		: public ReferenceObject
 	{
 	protected:
-		std::map<astring, ShaderConstantValue>		m_values;
-
-		Material_Imp(){}
+		std::shared_ptr<MaterialPropertyBlock>	block;
+		
+		Material_Imp();
 		virtual ~Material_Imp();
 	public:
 
@@ -52,8 +52,6 @@ namespace ace {
 		/**
 			@brief	テクスチャを取得する。
 			@name	名称
-			@note
-			テクスチャを取得した際にテクスチャの参照カウンタが1加算される。
 		*/
 		Texture2D* GetTexture2D_(const achar* name);
 		void SetTexture2D_(const achar* name, Texture2D* value);

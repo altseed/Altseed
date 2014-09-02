@@ -17,6 +17,8 @@ namespace ace
 		MaterialPropertyBlock_Imp();
 		virtual ~MaterialPropertyBlock_Imp();
 
+		std::map<astring, ShaderConstantValue>& GetValues() { return values; }
+
 		float GetFloat(const achar* name) override;
 		void SetFloat(const achar* name, float value) override;
 

@@ -39,6 +39,7 @@ set(core_src
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedModelObject3D.cpp
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedObject3D.cpp
 	ace_cpp/core/Graphics/3D/PostProcess/ace.SSAO.cpp
+	ace_cpp/core/Graphics/3D/Renderer/ace.EnvironmentRendering.cpp
 	ace_cpp/core/Graphics/3D/Renderer/ace.LightRendering.cpp
 	ace_cpp/core/Graphics/3D/Renderer/ace.Renderer3D.cpp
 	ace_cpp/core/Graphics/3D/Renderer/ace.Renderer3DProxy.cpp
@@ -65,6 +66,7 @@ set(core_src
 	ace_cpp/core/Graphics/Resource/ace.Font_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.IndexBuffer_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Material2D_Imp.cpp
+	ace_cpp/core/Graphics/Resource/ace.MaterialPropertyBlock_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Material_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.NativeShader_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.RenderTexture2D_Imp.cpp
@@ -219,6 +221,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/2D/TextureObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/Camera3DPostEffect.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/EffectObject3D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/LightingStandard.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/ModelObject3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/SimpleMesh.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/CustomPostEffect.cpp
@@ -243,5 +246,6 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/ObjectSystem/TrasingCamera.cpp
 	unitTest_Engine_cpp_gtest/PCH/ace.UnitTestEngineCpp.PCH.cpp
 	unitTest_Engine_cpp_gtest/Profiler.cpp
+	unitTest_Engine_cpp_gtest/Sound/Sound.cpp
 )
 
