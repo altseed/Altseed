@@ -19,6 +19,7 @@
 #include "Resource/ace.Effect_Imp.h"
 
 #include "Resource/ace.ShaderCache.h"
+#include "Resource/ace.MaterialPropertyBlock_Imp.h"
 
 #include "3D/Resource/ace.Mesh_Imp.h"
 #include "3D/Resource/ace.Deformer_Imp.h"
@@ -590,6 +591,12 @@ Material2D* Graphics_Imp::CreateMaterial2D_(Shader2D* shader)
 	auto material = Material2D_Imp::Create((Shader2D_Imp*) shader);
 	auto material2d = (Material2D*) material;
 	return material2d;
+}
+
+MaterialPropertyBlock* Graphics_Imp::CreateMaterialPropertyBlock_()
+{
+	auto block = new MaterialPropertyBlock_Imp();
+	return block;
 }
 
 //----------------------------------------------------------------------------------

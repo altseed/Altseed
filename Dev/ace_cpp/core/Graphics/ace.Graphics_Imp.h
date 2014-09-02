@@ -253,6 +253,8 @@ namespace ace {
 		*/
 		Material2D* CreateMaterial2D_(Shader2D* shader);
 
+		MaterialPropertyBlock* CreateMaterialPropertyBlock_() override;
+
 		/**
 		@brief	メッシュを生成する。
 		@return	メッシュ

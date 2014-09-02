@@ -40,6 +40,7 @@ namespace ace {
 
 	class Shader2D;
 	class Material2D;
+	class MaterialPropertyBlock;
 
 	class Effect;
 

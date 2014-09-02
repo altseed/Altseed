@@ -98,6 +98,7 @@ engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.RenderTexture2D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.CubemapTexture.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Shader2D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Material2D.h")
+engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.MaterialPropertyBlock.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Font.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Effect.h")

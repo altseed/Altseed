@@ -28,6 +28,8 @@ protected:
 
 	virtual Shader2D* CreateShader2D_( const achar* shaderText) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
+	virtual MaterialPropertyBlock* CreateMaterialPropertyBlock_() = 0;
+
 	virtual Mesh* CreateMesh_() = 0;
 	virtual Deformer* CreateDeformer_() = 0;
 	virtual Model* CreateModel_(const achar* path) = 0;
@@ -118,6 +120,16 @@ public:
 	{
 		auto material = CreateMaterial2D_(shader.get());
 		return CreateSharedPtrWithReleaseDLL(material);
+	}
+
+	/**
+	@brief	マテリアルプロパティブロックを生成する。
+	@return	マテリアルプロパティブロック
+	*/
+	std::shared_ptr<MaterialPropertyBlock> CreateMaterialPropertyBlock()
+	{
+		auto block = CreateMaterialPropertyBlock_();
+		return CreateSharedPtrWithReleaseDLL(block);
 	}
 
 	/**

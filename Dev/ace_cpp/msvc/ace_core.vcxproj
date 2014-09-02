@@ -244,6 +244,8 @@
     <ClInclude Include="..\core\Graphics\Resource\ace.IndexBuffer_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Material2D.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Material2D_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\ace.MaterialPropertyBlock.h" />
+    <ClInclude Include="..\core\Graphics\Resource\ace.MaterialPropertyBlock_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Material_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.NativeShader_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.RenderTexture2D.h" />
@@ -445,6 +447,7 @@
     <ClCompile Include="..\core\Graphics\Resource\ace.Font_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.IndexBuffer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Material2D_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\ace.MaterialPropertyBlock_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Material_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.NativeShader_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.RenderTexture2D_Imp.cpp" />
