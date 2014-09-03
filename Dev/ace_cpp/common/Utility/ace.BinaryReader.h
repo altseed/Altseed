@@ -162,41 +162,41 @@ template<> inline ace::astring BinaryReader::Get()
 	return astr;
 }
 
-template<> inline ace::achar* BinaryReader::Get()
-{
-	int8_t lenCs[4];
-	for (int i = 0; i < 4; i++)
-	{
-		assert(!data.empty());
-		if (data.empty()){
-			return nullptr;
-		}
-		lenCs[i] = data.front();
-		data.pop_front();
-	}
-
-	int32_t const len = *(static_cast<int32_t*>(static_cast<void*>(lenCs)));
-
-	ace::achar *achs = static_cast<ace::achar*>(calloc(len + 1, sizeof(ace::achar)));
-	int8_t charCs[2];
-
-	for (int32_t i = 0; i < len; i++)
-	{
-		for (int j = 0; j < 2; j++)
-		{
-			assert(!data.empty());
-			if (data.empty()){
-				return achs;
-			}
-			charCs[j] = data.front();
-			data.pop_front();
-		}
-
-		achs[i] = *(static_cast<ace::achar*>(static_cast<void*>(charCs)));
-
-	}
-	return achs;
-}
+//template<> inline ace::achar* BinaryReader::Get()
+//{
+//	int8_t lenCs[4];
+//	for (int i = 0; i < 4; i++)
+//	{
+//		assert(!data.empty());
+//		if (data.empty()){
+//			return nullptr;
+//		}
+//		lenCs[i] = data.front();
+//		data.pop_front();
+//	}
+//
+//	int32_t const len = *(static_cast<int32_t*>(static_cast<void*>(lenCs)));
+//
+//	ace::achar *achs = static_cast<ace::achar*>(calloc(len + 1, sizeof(ace::achar)));
+//	int8_t charCs[2];
+//
+//	for (int32_t i = 0; i < len; i++)
+//	{
+//		for (int j = 0; j < 2; j++)
+//		{
+//			assert(!data.empty());
+//			if (data.empty()){
+//				return achs;
+//			}
+//			charCs[j] = data.front();
+//			data.pop_front();
+//		}
+//
+//		achs[i] = *(static_cast<ace::achar*>(static_cast<void*>(charCs)));
+//
+//	}
+//	return achs;
+//}
 
 template<> inline float BinaryReader::Get()
 {
