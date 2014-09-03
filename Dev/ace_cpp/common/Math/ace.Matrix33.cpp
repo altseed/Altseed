@@ -128,7 +128,7 @@ namespace ace
 	{
 		float values[2];
 
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			values[i] = 0;
 			values[i] += in.X * Values[i][0];
