@@ -100,6 +100,9 @@ float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, fl
 	specular.z = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.z);
 	specular = specular * shadow * ao;
 	specular.xyz = directionalLightColor * specular.xyz;
+
+	float NoL = dot(normal, lightDir);
+	specular.xyz = specular.xyz  * max(NoL, 0.000000);
 	return specular;
 }
 

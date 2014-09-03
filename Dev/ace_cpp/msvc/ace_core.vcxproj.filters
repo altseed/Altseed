@@ -754,6 +754,18 @@
     <ClInclude Include="..\core\Graphics\Resource\ace.MaterialPropertyBlock.h">
       <Filter>Graphics\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\ace.Material3D_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\ace.Material3D.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\ace.Shader3D_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\ace.Shader3D.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1076,6 +1088,12 @@
       <Filter>Graphics\3D\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Resource\ace.MaterialPropertyBlock_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\ace.Material3D_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\ace.Shader3D_Imp.cpp">
       <Filter>Graphics\Resource</Filter>
     </ClCompile>
   </ItemGroup>

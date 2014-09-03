@@ -28,9 +28,11 @@
 #include "Graphics/Resource/ace.CubemapTexture_Imp.h"
 
 #include "Graphics/Resource/ace.Shader2D_Imp.h"
+#include "Graphics/Resource/ace.Shader3D_Imp.h"
 
 #include "Graphics/Resource/ace.Material_Imp.h"
 #include "Graphics/Resource/ace.Material2D_Imp.h"
+#include "Graphics/Resource/ace.Material3D_Imp.h"
 #include "Graphics/Resource/ace.MaterialPropertyBlock.h"
 
 #include "Graphics/Resource/ace.Effect.h"
@@ -395,6 +397,10 @@ namespace ace
 %include "ace_cpp/core/Graphics/Resource/ace.Shader2D_Imp.h"
 
 %include "ace_cpp/core/Graphics/Resource/ace.Material2D.h"
+
+%include "ace_cpp/core/Graphics/Resource/ace.Shader3D.h"
+%include "ace_cpp/core/Graphics/Resource/ace.Material3D.h"
+
 %include "ace_cpp/core/Graphics/Resource/ace.MaterialPropertyBlock.h"
 
 %include "ace_cpp/core/Graphics/Resource/ace.Texture.h"
