@@ -31,5 +31,7 @@ namespace ace
 		ID3D11ShaderResourceView* GetShaderResourceView() { return m_textureSRV; }
 		
 		static CubemapTexture_Imp* Create(Graphics_Imp* graphics, const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom);
+
+		static CubemapTexture_Imp* Create(Graphics_Imp* graphics, const achar* path, int32_t mipmapCount);
 	};
 }

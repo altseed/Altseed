@@ -35,7 +35,10 @@ float calcLightingGGX(float3 N, float3 V, float3 L, float roughness, float F0)
 	float F = F0 + (1.0-F0)*(dotLH5);
 
 	// V
-	float k = alpha/2.0f;
+	float roughnessNorm = (roughness + 1.0) / 2.0;
+	float alphaNorm = roughnessNorm*roughnessNorm;
+
+	float k = alphaNorm/2.0f;
 	float k2 = k*k;
 	float invK2 = 1.0f-k2;
 	//float vis = rcp(dotLH*dotLH*invK2 + k2);	// 対応している環境ならこちら推奨(現在分岐がないのでコメントアウト)
@@ -66,12 +69,17 @@ float3 calcDirectionalLightDiffuseColor(float3 diffuseColor, float3 normal, floa
 
 float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, float3 lightDir, float smoothness, float fresnel, float shadow, float ao)
 {
-	float3 viewDir = float3(0.0,0.0,1.0);
-	float specular = calcLightingGGX(normal, viewDir, lightDir, smoothness, fresnel);
-	specular = specular * shadow * ao;
+	float roughness = 1.0 - smoothness;
 
-	float3 color = float3(specular, specular, specular);
-	return color * specularColor;
+	float3 viewDir = float3(0.0,0.0,1.0);
+	float3 specular;
+	specular.x = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.x);
+	specular.y = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.y);
+	specular.z = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.z);
+
+	specular = specular * shadow * ao;
+	specular.xyz = directionalLightColor * specular.xyz;
+	return specular;
 }
 
 float VSM(float2 moments, float t)

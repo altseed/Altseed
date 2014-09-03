@@ -11,7 +11,7 @@ namespace FontGenerator.Model
 	public class GenerationConfig
 	{
 		[DataMember]
-		public string FontPath { get; set; }
+		public int FontIndex { get; set; }
 		[DataMember]
 		public string TextPath { get; set; }
 		[DataMember]

@@ -56,6 +56,7 @@ namespace ace {
 	class MaterialCommand;
 	class Material2DCommand;
 	class Material2D_Imp;
+	class MaterialPropertyBlock_Imp;
 
 	class PostEffectRenderer;
 	class Renderer2D_Imp;

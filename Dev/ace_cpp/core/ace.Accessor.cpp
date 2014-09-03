@@ -9,6 +9,7 @@
 
 #include "Graphics/Resource/ace.Shader2D.h"
 #include "Graphics/Resource/ace.Material2D.h"
+#include "Graphics/Resource/ace.MaterialPropertyBlock.h"
 
 #include "ObjectSystem/2D/ace.CoreEffectObject2D.h"
 
@@ -35,6 +36,11 @@ namespace ace
 	Shader2D* Accessor::Material2D_GetShader2D(Material2D* o)
 	{
 		return o->GetShader2D_();
+	}
+
+	Texture2D* Accessor::MaterialPropertyBlock_GetTexture2D(MaterialPropertyBlock* o, const achar* name)
+	{
+		return o->GetTexture2D_(name);
 	}
 
 	AnimationClip* Accessor::AnimationSyatem_CreateAnimationClip(AnimationSystem* o)

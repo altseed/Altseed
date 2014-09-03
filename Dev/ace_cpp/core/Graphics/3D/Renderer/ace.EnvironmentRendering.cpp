@@ -2,7 +2,9 @@
 #include "ace.EnvironmentRendering.h"
 
 #include "../../ace.Graphics_Imp.h"
+
 #include "../../Resource/ace.ShaderCache.h"
+#include "../../Resource/ace.CubemapTexture.h"
 
 #include "../../Shader/DX/3D/Screen_VS.h"
 #include "../../Shader/GL/3D/Screen_VS.h"
@@ -238,9 +240,9 @@ namespace ace
 			h::GenValue("frontDir", cameraP->FrontDir),
 			h::GenValue("reconstructInfo1", cameraP->ReconstructInfo1),
 			h::GenValue("reconstructInfo2", cameraP->ReconstructInfo2),
+			h::GenValue("mipmapCount", (float)specularColor->GetMipmapCount()),
 			h::GenValue("g_diffuseTexture", h::CubemapTexturePair(diffuseColor, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-			//h::GenValue("g_specularTexture", h::CubemapTexturePair(specularColor, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-			h::GenValue("g_specularTexture", h::CubemapTexturePair(diffuseColor, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+			h::GenValue("g_specularTexture", h::CubemapTexturePair(specularColor, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 			h::GenValue("g_brdfTexture", h::Texture2DPair(brdfTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 			h::GenValue("g_gbuffer0Texture", h::Texture2DPair(gb0, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 			h::GenValue("g_gbuffer1Texture", h::Texture2DPair(gb1, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),

@@ -14,7 +14,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Material2DCommand::Material2DCommand(Shader2D_Imp* shader, std::map<astring, ShaderConstantValue>& values)
+	Material2DCommand::Material2DCommand(Shader2D_Imp* shader, std::shared_ptr<MaterialPropertyBlock>& values)
 		: MaterialCommand(shader->GetNativeShader().get(), values)
 		, m_shader(shader)
 		, m_target(nullptr)
@@ -83,7 +83,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	std::shared_ptr <Material2DCommand> Material2D_Imp::GenerateShaderCommand()
 	{
-		auto command = std::make_shared < Material2DCommand>(m_shader, m_values);
+		auto command = std::make_shared < Material2DCommand>(m_shader, block);
 		return command;
 	}
 

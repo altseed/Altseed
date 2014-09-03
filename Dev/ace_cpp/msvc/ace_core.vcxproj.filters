@@ -748,6 +748,12 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Environment_PS.h">
       <Filter>Graphics\Shader\GL\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\ace.MaterialPropertyBlock_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\ace.MaterialPropertyBlock.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1068,6 +1074,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.EnvironmentRendering.cpp">
       <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\ace.MaterialPropertyBlock_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

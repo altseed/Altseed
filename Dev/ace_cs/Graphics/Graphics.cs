@@ -122,6 +122,15 @@ namespace ace
 		}
 
 		/// <summary>
+		/// マテリアルプロパティブロックを生成する。
+		/// </summary>
+		/// <returns>マテリアルプロパティブロック</returns>
+		public MaterialPropertyBlock CreateMaterialPropertyBlock()
+		{
+			return GC.GenerateMaterialPropertyBlock(graphics.CreateMaterialPropertyBlock_(), GC.GenerationType.Create);
+		}
+
+		/// <summary>
 		/// メッシュを生成する。
 		/// </summary>
 		/// <returns>メッシュ</returns>

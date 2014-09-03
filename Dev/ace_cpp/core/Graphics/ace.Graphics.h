@@ -24,8 +24,12 @@ protected:
 	virtual Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
 	virtual RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
 	virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) = 0;
+	virtual CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) = 0;
+
 	virtual Shader2D* CreateShader2D_( const achar* shaderText) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
+	virtual MaterialPropertyBlock* CreateMaterialPropertyBlock_() = 0;
+
 	virtual Mesh* CreateMesh_() = 0;
 	virtual Deformer* CreateDeformer_() = 0;
 	virtual Model* CreateModel_(const achar* path) = 0;
@@ -85,6 +89,19 @@ public:
 	}
 
 	/**
+	@brief	複数の画像ファイルからミップマップ付のキューブマップテクスチャを生成する。
+	@param	path		ファイルの名称の先頭
+	@param	mipmapCount	ミップマップ数
+	@return	キューブマップ
+	*/
+	std::shared_ptr<CubemapTexture> CreateCubemapTextureFromMipmapImageFiles(const achar* path, int32_t mipmapCount)
+	{
+		return CreateSharedPtrWithReleaseDLL(
+			CreateCubemapTextureFromMipmapImageFiles_(
+			path, mipmapCount));
+	}
+
+	/**
 	@brief	シェーダー(2D)を生成する。
 	@param	shaderText						シェーダーのコード
 	@return	シェーダー(2D)
@@ -103,6 +120,16 @@ public:
 	{
 		auto material = CreateMaterial2D_(shader.get());
 		return CreateSharedPtrWithReleaseDLL(material);
+	}
+
+	/**
+	@brief	マテリアルプロパティブロックを生成する。
+	@return	マテリアルプロパティブロック
+	*/
+	std::shared_ptr<MaterialPropertyBlock> CreateMaterialPropertyBlock()
+	{
+		auto block = CreateMaterialPropertyBlock_();
+		return CreateSharedPtrWithReleaseDLL(block);
 	}
 
 	/**

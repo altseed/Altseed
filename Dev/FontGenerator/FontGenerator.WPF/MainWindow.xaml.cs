@@ -26,6 +26,12 @@ namespace FontGenerator.WPF
 		{
 			InitializeComponent();
 			DataContext = new GeneratorViewModel();
+
+			var name2path = Model.Helper.GetFontNameToPathDictonary();
+			foreach(var n2p in name2path)
+			{
+				fontPathes.Items.Add(new FontPair(n2p.Key, n2p.Value));
+			}
 		}
 
 		private async void Button_Click(object sender, RoutedEventArgs e)
@@ -42,6 +48,23 @@ namespace FontGenerator.WPF
 				{
 					MessageBox.Show(error.Message, "出力エラー", MessageBoxButton.OK);
 				}
+			}
+		}
+
+		class FontPair
+		{
+			public string Name = string.Empty;
+			public string Path = string.Empty;
+
+			public FontPair(string name, string path)
+			{
+				Name = name;
+				Path = path;
+			}
+
+			public override string ToString()
+			{
+				return Name;
 			}
 		}
 	}

@@ -12,9 +12,19 @@ namespace FontGenerator.Model
 	{
 		public static async Task GenerateAsync(GenerationConfig config)
 		{
-			if(!File.Exists(config.FontPath))
+			var name2path = Helper.GetFontNameToPathDictonary();
+			List<string> pathes = new List<string>();
+			foreach (var n2p in name2path)
 			{
-				throw new FileNotFoundException("指定されたフォントファイルは存在しません。", config.FontPath);
+				pathes.Add(n2p.Value);
+			}
+
+			var path = @"C:\Windows\Fonts\";
+			path += pathes[config.FontIndex];
+
+			if(!File.Exists(path))
+			{
+				throw new FileNotFoundException("指定されたフォントファイルは存在しません。", path);
 			}
 
 			if(!File.Exists(config.TextPath))
@@ -28,7 +38,7 @@ namespace FontGenerator.Model
 			}
 
 			var gen = new DLL();
-			gen.SetFontName(config.FontPath);
+			gen.SetFontName(path);
 			gen.SetTextFilePath(config.TextPath);
 			gen.SetExportPath(Path.Combine(config.ExportPath, config.SheetName));
 			gen.SetFontSize(config.FontSize);

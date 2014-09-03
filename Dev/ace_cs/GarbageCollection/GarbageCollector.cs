@@ -42,6 +42,7 @@ namespace ace
 					if (TryRelease<swig.CubemapTexture>(o)) continue;
 					if (TryRelease<swig.Shader2D>(o)) continue;
 					if (TryRelease<swig.Material2D>(o)) continue;
+					if (TryRelease<swig.MaterialPropertyBlock>(o)) continue;
 
 					if (TryRelease<swig.Effect>(o)) continue;
                     if (TryRelease<swig.Chip2D>(o)) continue;

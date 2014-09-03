@@ -19,6 +19,7 @@ namespace ace
 
         internal static IDObjectContainer<Shader2D> Shader2Ds { get; private set; }
 		internal static IDObjectContainer<Material2D> Material2Ds { get; private set; }
+		internal static IDObjectContainer<MaterialPropertyBlock> MaterialPropertyBlocks { get; private set; }
 
 		internal static IDObjectContainer<Effect> Effects { get; private set; }
 
@@ -55,6 +56,7 @@ namespace ace
 
 			Shader2Ds = new IDObjectContainer<Shader2D>();
 			Material2Ds = new IDObjectContainer<Material2D>();
+			MaterialPropertyBlocks = new IDObjectContainer<MaterialPropertyBlock>();
 
 			Effects = new IDObjectContainer<Effect>();
 
@@ -97,6 +99,7 @@ namespace ace
 
 				Shader2Ds.DestroyAll();
 				Material2Ds.DestroyAll();
+				MaterialPropertyBlocks.DestroyAll();
 
 				Effects.DestroyAll();
 
@@ -239,6 +242,20 @@ namespace ace
 
 			var ret = new Effect(o);
 			GC.Effects.AddObject(p, ret);
+			return ret;
+		}
+
+		internal static MaterialPropertyBlock GenerateMaterialPropertyBlock(swig.MaterialPropertyBlock o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.MaterialPropertyBlocks.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new MaterialPropertyBlock(o);
+			GC.MaterialPropertyBlocks.AddObject(p, ret);
 			return ret;
 		}
 

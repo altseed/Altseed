@@ -87,6 +87,7 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.RenderTexture2D.h
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.CubemapTexture.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Shader2D.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Material2D.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.MaterialPropertyBlock.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Font.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Chip2D.h")

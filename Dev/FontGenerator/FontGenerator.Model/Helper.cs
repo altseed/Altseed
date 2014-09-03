@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FontGenerator.Model
 {
-	class Helper
+	public class Helper
 	{
 		public static Dictionary<string, string> GetFontNameToPathDictonary()
 		{
