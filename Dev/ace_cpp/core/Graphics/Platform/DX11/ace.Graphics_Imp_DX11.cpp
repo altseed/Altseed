@@ -1264,7 +1264,7 @@ void Graphics_Imp_DX11::Present()
 //----------------------------------------------------------------------------------
 void Graphics_Imp_DX11::SaveScreenshot(const achar* path)
 {
-	HRESULT hr;
+	//HRESULT hr;
 
 	ID3D11Resource* resource = nullptr;
 
@@ -1273,7 +1273,7 @@ void Graphics_Imp_DX11::SaveScreenshot(const achar* path)
 
 	SaveTexture(path, resource, m_size);
 	
-END:;
+//END:;
 	SafeRelease(resource);
 }
 

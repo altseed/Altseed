@@ -159,7 +159,7 @@ namespace ace
 #if _WIN32
 			HANDLE file = nullptr;
 			FILETIME time;
-			SYSTEMTIME st;
+			//SYSTEMTIME st;
 
 			file = CreateFileW(path,
 				GENERIC_READ,
