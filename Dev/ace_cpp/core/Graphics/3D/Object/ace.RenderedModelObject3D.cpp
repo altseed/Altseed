@@ -13,6 +13,9 @@
 #include "../../Resource/ace.ShaderCache.h"
 #include "../../Resource/ace.NativeShader_Imp.h"
 #include "../../Resource/ace.IndexBuffer_Imp.h"
+#include "../../Resource/ace.MaterialPropertyBlock_Imp.h"
+#include "../../Resource/ace.Shader3D_Imp.h"
+#include "../../Resource/ace.Material3D_Imp.h"
 
 #include "../../Shader/DX/3D/Lightweight_Model_Internal_VS.h"
 #include "../../Shader/DX/3D/Lightweight_Model_Internal_PS.h"
@@ -169,6 +172,7 @@ namespace ace
 
 		{
 			auto& matrices = m_matrixes_rt;
+			int32_t currentMeshIndex = 0;
 
 			for (auto& mesh_ : m_meshes_rt)
 			{
@@ -215,6 +219,7 @@ namespace ace
 						auto mFCount = 0;
 
 						Mesh_Imp::Material* material = nullptr;
+						int32_t currentMaterialIndex = -1;
 
 						while (fCount < mesh.IndexBufferPtr->GetCount() / 3)
 						{
@@ -224,6 +229,7 @@ namespace ace
 								{
 									mFCount += materialOffsets[mIndex].FaceOffset;
 									material = mesh_root->GetMaterial(materialOffsets[mIndex].MaterialIndex);
+									currentMaterialIndex = materialOffsets[mIndex].MaterialIndex;
 									mIndex++;
 								}
 							}
@@ -235,63 +241,99 @@ namespace ace
 							fCount = mFCount - fOffset;
 							if (fCount == 0) break;
 
-							ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
-							ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
-							ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
-							ace::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
-
-							if (material != nullptr)
+							if (material != nullptr && material->Material_.get() != nullptr)
 							{
+								auto mat = (Material3D_Imp*)(material->Material_.get());
+								auto shader = (Shader3D_Imp*)(mat->GetShader3D().get());
+								auto nativeShader = shader->GetNativeShader().get();
+
+								// 定数設定
+								std::shared_ptr<MaterialPropertyBlock> block;
+								if (
+									currentMaterialIndex >= 0 &&
+									materialPropertyBlocks.size() > currentMeshIndex &&
+									materialPropertyBlocks[currentMeshIndex].size() > currentMaterialIndex &&
+									materialPropertyBlocks[currentMeshIndex][currentMaterialIndex].get() != nullptr)
+								{
+									block = materialPropertyBlocks[currentMeshIndex][currentMaterialIndex];
+								}
+								else
+								{
+									block = mat->GetMaterialPropertyBlock();
+								}
 								
-								if (material->ColorTexture != nullptr)
-								{
-									colorTexture = material->ColorTexture.get();
-								}
+								((MaterialPropertyBlock_Imp*) block.get())->AddValuesTo(nativeShader, shaderConstants);
 
-								if (!prop.IsLightweightMode)
-								{
-									if (material->NormalTexture != nullptr)
-									{
-										normalTexture = material->NormalTexture.get();
-									}
+								RenderState state;
+								state.DepthTest = true;
+								state.DepthWrite = true;
+								state.Culling = CullingType::Front;
+								state.AlphaBlendState = AlphaBlend::Opacity;
 
-									if (material->SpecularTexture != nullptr)
-									{
-										specularTexture = material->SpecularTexture.get();
-									}
-
-									if (material->SmoothnessTexture != nullptr)
-									{
-										smoothnessTexture = material->SmoothnessTexture.get();
-									}
-								}
+								helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), nativeShader, state,
+									shaderConstants.data(), shaderConstants.size());
 							}
-							
-							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
-								h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+							else
+							{
+								ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
+								ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
+								ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
+								ace::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
 
-							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
-								h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+								if (material != nullptr)
+								{
+									if (material->ColorTexture != nullptr)
+									{
+										colorTexture = material->ColorTexture.get();
+									}
 
-							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
-								h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+									if (!prop.IsLightweightMode)
+									{
+										if (material->NormalTexture != nullptr)
+										{
+											normalTexture = material->NormalTexture.get();
+										}
 
-							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
-								h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+										if (material->SpecularTexture != nullptr)
+										{
+											specularTexture = material->SpecularTexture.get();
+										}
 
-							RenderState state;
-							state.DepthTest = true;
-							state.DepthWrite = true;
-							state.Culling = CullingType::Front;
-							state.AlphaBlendState = AlphaBlend::Opacity;
+										if (material->SmoothnessTexture != nullptr)
+										{
+											smoothnessTexture = material->SmoothnessTexture.get();
+										}
+									}
+								}
 
-							helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
-								shaderConstants.data(), shaderConstants.size());
+								shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
+									h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+								shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
+									h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+								shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
+									h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+								shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
+									h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+								RenderState state;
+								state.DepthTest = true;
+								state.DepthWrite = true;
+								state.Culling = CullingType::Front;
+								state.AlphaBlendState = AlphaBlend::Opacity;
+
+								helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
+									shaderConstants.data(), shaderConstants.size());
+							}
 
 							fOffset += fCount;
 						}
 					}
 				}
+
+				currentMeshIndex++;
 			}
 		}
 	}
@@ -450,6 +492,22 @@ namespace ace
 		}
 	}
 
+	void RenderedModelObject3D::SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, MaterialPropertyBlock* block)
+	{
+		if (materialPropertyBlocks.size() <= meshIndex)
+		{
+			materialPropertyBlocks.resize(meshIndex+1);
+		}
+
+		if (materialPropertyBlocks[meshIndex].size() <= materialIndex)
+		{
+			materialPropertyBlocks[meshIndex].resize(materialIndex + 1);
+		}
+
+		SafeAddRef(block);
+		materialPropertyBlocks[meshIndex][materialIndex] = CreateSharedPtrWithReleaseDLL(block);
+	}
+
 	void RenderedModelObject3D::UnloadModel()
 	{
 		// 描画中以外のオブジェクトをリセット
@@ -533,5 +591,10 @@ namespace ace
 
 		proxy->m_meshes_rt = m_meshes;
 		proxy->m_matrixes_rt = m_matrixes;
+
+		if (materialPropertyBlocks.size() != proxy->materialPropertyBlocks.size() || materialPropertyBlocks.size() > 0)
+		{
+			proxy->materialPropertyBlocks = materialPropertyBlocks;
+		}
 	}
 }

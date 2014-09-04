@@ -40,6 +40,8 @@ namespace ace
 		TextureWrapType GetTextureWrapType(const achar* name) override;
 		void SetTextureWrapType(const achar* name, TextureWrapType wrap) override;
 
+		void AddValuesTo(NativeShader_Imp* shader, std::vector<ShaderConstantValue>& dst);
+
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
 	public:

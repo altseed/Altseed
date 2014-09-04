@@ -21,6 +21,7 @@ namespace ace
 		std::vector<Matrix44>					m_matrixes_rt;
 		std::vector<std::shared_ptr<Mesh>>		m_meshes_rt;
 		std::shared_ptr<Deformer>				m_deformer_rt;
+		std::vector<std::vector<std::shared_ptr<MaterialPropertyBlock>>>	materialPropertyBlocks;
 
 		RenderedModelObject3DProxy(Graphics* graphics);
 		virtual ~RenderedModelObject3DProxy();
@@ -47,6 +48,8 @@ namespace ace
 		std::shared_ptr<Deformer>				m_deformer;
 		std::vector<Matrix44>					m_matrixes;
 
+		std::vector<std::vector<std::shared_ptr<MaterialPropertyBlock>>>	materialPropertyBlocks;
+
 		std::vector <BoneProperty>				m_boneProps;
 
 		Model_Imp*								m_model = nullptr;
@@ -71,6 +74,8 @@ namespace ace
 		void AddMesh(Mesh* mesh);
 
 		void SetDeformer(Deformer* deformer);
+
+		void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, MaterialPropertyBlock* block);
 
 		void OnAdded(Renderer3D* renderer) override;
 
@@ -99,6 +104,11 @@ namespace ace
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
 
 #if !SWIG
+		void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, std::shared_ptr<MaterialPropertyBlock> block)
+		{
+			SetMaterialPropertyBlock(meshIndex, materialIndex, block);
+		}
+
 		void AddMesh(std::shared_ptr<Mesh>& mesh)
 		{
 			AddMesh(mesh.get());

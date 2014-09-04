@@ -18,7 +18,9 @@ namespace ace
         internal static IDObjectContainer<Chip2D> Chip2Ds { get; private set; }
 
         internal static IDObjectContainer<Shader2D> Shader2Ds { get; private set; }
+		internal static IDObjectContainer<Shader3D> Shader3Ds { get; private set; }
 		internal static IDObjectContainer<Material2D> Material2Ds { get; private set; }
+		internal static IDObjectContainer<Material3D> Material3Ds { get; private set; }
 		internal static IDObjectContainer<MaterialPropertyBlock> MaterialPropertyBlocks { get; private set; }
 
 		internal static IDObjectContainer<Effect> Effects { get; private set; }
@@ -55,7 +57,9 @@ namespace ace
             Chip2Ds = new IDObjectContainer<Chip2D>();
 
 			Shader2Ds = new IDObjectContainer<Shader2D>();
+			Shader3Ds = new IDObjectContainer<Shader3D>();
 			Material2Ds = new IDObjectContainer<Material2D>();
+			Material3Ds = new IDObjectContainer<Material3D>();
 			MaterialPropertyBlocks = new IDObjectContainer<MaterialPropertyBlock>();
 
 			Effects = new IDObjectContainer<Effect>();
@@ -98,7 +102,9 @@ namespace ace
                 Chip2Ds.DestroyAll();
 
 				Shader2Ds.DestroyAll();
+				Shader3Ds.DestroyAll();
 				Material2Ds.DestroyAll();
+				Material3Ds.DestroyAll();
 				MaterialPropertyBlocks.DestroyAll();
 
 				Effects.DestroyAll();
@@ -242,6 +248,34 @@ namespace ace
 
 			var ret = new Effect(o);
 			GC.Effects.AddObject(p, ret);
+			return ret;
+		}
+
+		internal static Shader3D GenerateShader3D(swig.Shader3D o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.Shader3Ds.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new Shader3D(o);
+			GC.Shader3Ds.AddObject(p, ret);
+			return ret;
+		}
+
+		internal static Material3D GenerateMaterial3D(swig.Material3D o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.Material3Ds.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new Material3D(o);
+			GC.Material3Ds.AddObject(p, ret);
 			return ret;
 		}
 

@@ -1,5 +1,6 @@
 ﻿
 #include "ace.MaterialPropertyBlock_Imp.h"
+#include "ace.NativeShader_Imp.h"
 
 namespace ace
 {
@@ -185,5 +186,29 @@ namespace ace
 		}
 
 		values[name].Data.Texture2DPtr.WrapType = wrap;
+	}
+
+	void MaterialPropertyBlock_Imp::AddValuesTo(NativeShader_Imp* shader, std::vector<ShaderConstantValue>& dst)
+	{
+		for (auto& v : GetValues())
+		{
+			auto v_ = v.second;
+			auto str = ToUtf8String(v.first.c_str());
+
+			if (v.second.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
+			{
+				v_.ID = shader->GetTextureID(str.c_str());
+			}
+			else if (v.second.ValueType == SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+			{
+				v_.ID = shader->GetTextureID(str.c_str());
+			}
+			else
+			{
+				v_.ID = shader->GetConstantBufferID(str.c_str());
+			}
+
+			dst.push_back(v_);
+		}
 	}
 }

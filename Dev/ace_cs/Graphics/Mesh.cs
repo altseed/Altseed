@@ -144,5 +144,16 @@ namespace ace
 		{
 			SwigObject.SetSmoothnessTexture(materialIndex, IG.GetTexture2D(texture));
 		}
+
+		/// <summary>
+		/// 材質を設定する。
+		/// </summary>
+		/// <param name="materialIndex">材質のインデックス</param>
+		/// <param name="material">材質</param>
+		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
+		public void SetMaterial(int materialIndex, Material3D material)
+		{
+			SwigObject.SetMaterial(materialIndex, IG.GetMaterial3D(material));
+		}
 	}
 }

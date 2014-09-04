@@ -77,6 +77,8 @@ namespace ace {
 		*/
 		std::shared_ptr <Material3DCommand> GenerateShaderCommand();
 
+		std::shared_ptr<MaterialPropertyBlock> GetMaterialPropertyBlock() { return block; }
+
 #if !SWIG
 		static Material3D_Imp* Create(Shader3D_Imp* shader);
 #endif

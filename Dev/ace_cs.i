@@ -293,9 +293,11 @@ CPP_OBJECT( ace::RenderTexture2D )
 CPP_OBJECT( ace::RenderTexture2D_Imp )
 CPP_OBJECT( ace::CubemapTexture )
 CPP_OBJECT( ace::Material2D )
+CPP_OBJECT( ace::Material3D )
 CPP_OBJECT( ace::MaterialPropertyBlock )
 CPP_OBJECT( ace::Shader2D )
 CPP_OBJECT( ace::Shader2D_Imp )
+CPP_OBJECT( ace::Shader3D )
 
 CPP_OBJECT( ace::Effect )
 

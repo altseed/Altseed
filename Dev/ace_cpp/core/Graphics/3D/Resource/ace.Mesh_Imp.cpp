@@ -6,6 +6,9 @@
 #include "../../Resource/ace.VertexBuffer_Imp.h"
 #include "../../Resource/ace.IndexBuffer_Imp.h"
 
+#include "../../Resource/ace.Material3D.h"
+#include "../../Resource/ace.Shader3D.h"
+
 namespace ace
 {
 	Mesh_Imp::Material::Material()
@@ -240,6 +243,15 @@ namespace ace
 		SafeAddRef(texture);
 		auto t = CreateSharedPtrWithReleaseDLL(texture);
 		m_materials[materialIndex].SmoothnessTexture = t;
+	}
+
+	void Mesh_Imp::SetMaterial(int32_t materialIndex, Material3D* material)
+	{
+		if (m_materials.size() <= materialIndex) return;
+
+		SafeAddRef(material);
+		auto t = CreateSharedPtrWithReleaseDLL(material);
+		m_materials[materialIndex].Material_ = t;
 	}
 
 	Mesh_Imp::Material* Mesh_Imp::GetMaterial(int32_t materialIndex)
