@@ -226,6 +226,8 @@ namespace ace
 		helper->SetRenderTarget(cameraP->GetRenderTargetEnvironment(), nullptr);
 		helper->Clear(true, false, Color(0, 0, 0, 255));
 
+		if (diffuseColor == nullptr) return;
+		if (specularColor == nullptr) return;
 		if (environmentShader.get() == nullptr) return;
 
 		RenderState state;
