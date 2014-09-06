@@ -65,5 +65,19 @@ namespace ace
 		{
 			coreObject.PlayAnimation(name);
 		}
+
+		/// <summary>
+		/// 材質個別に描画時のパラメーターを設定する。
+		/// </summary>
+		/// <param name="meshIndex">メッシュのインデックス</param>
+		/// <param name="materialIndex">材質のインデックス</param>
+		/// <param name="block">プロパティ</param>
+		/// <remarks>
+		/// 通常描画する場合、材質に設定されたパラメーターを元に描画するがモデルごとに個別のパラメーターを使用する場合、この関数を使用する。
+		/// </remarks>
+		public void SetMaterialPropertyBlock(int meshIndex, int materialIndex, MaterialPropertyBlock block)
+		{
+			coreObject.SetMaterialPropertyBlock(meshIndex, materialIndex, IG.GetMaterialPropertyBlock(block));
+		}
 	}
 }

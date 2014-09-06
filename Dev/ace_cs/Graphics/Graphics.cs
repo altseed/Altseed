@@ -128,7 +128,7 @@ namespace ace
 		/// <returns></returns>
 		public Shader3D CreateShader3D(string shaderText)
 		{
-			var shader = graphics.CreateShader3D_Imp(shaderText);
+			var shader = graphics.CreateShader3D_(shaderText);
 			return GC.GenerateShader3D(shader, GC.GenerationType.Create);
 		}
 
@@ -137,7 +137,7 @@ namespace ace
 		/// </summary>
 		/// <param name="shader">シェーダー</param>
 		/// <returns>マテリアル(3D)</returns>
-		public Material2D CreateMaterial3D(Shader3D shader)
+		public Material3D CreateMaterial3D(Shader3D shader)
 		{
 			var material = graphics.CreateMaterial3D_(shader.SwigObject);
 			return GC.GenerateMaterial3D(material, GC.GenerationType.Create);

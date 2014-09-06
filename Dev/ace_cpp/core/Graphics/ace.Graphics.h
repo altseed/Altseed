@@ -28,6 +28,10 @@ protected:
 
 	virtual Shader2D* CreateShader2D_( const achar* shaderText) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
+
+	virtual Shader3D* CreateShader3D_(const achar* shaderText) = 0;
+	virtual Material3D* CreateMaterial3D_(Shader3D* shader) = 0;
+
 	virtual MaterialPropertyBlock* CreateMaterialPropertyBlock_() = 0;
 
 	virtual Mesh* CreateMesh_() = 0;
@@ -119,6 +123,27 @@ public:
 	std::shared_ptr<Material2D> CreateMaterial2D(std::shared_ptr<Shader2D> shader)
 	{
 		auto material = CreateMaterial2D_(shader.get());
+		return CreateSharedPtrWithReleaseDLL(material);
+	}
+
+	/**
+	@brief	シェーダー(3D)を生成する。
+	@param	shaderText						シェーダーのコード
+	@return	シェーダー(3D)
+	*/
+	std::shared_ptr<Shader3D> CreateShader3D(const achar* shaderText)
+	{
+		return CreateSharedPtrWithReleaseDLL(CreateShader3D_(shaderText));
+	}
+
+	/**
+	@brief	マテリアル(3D)を生成する。
+	@param	shader	シェーダー
+	@return	マテリアル(3D)
+	*/
+	std::shared_ptr<Material3D> CreateMaterial3D(std::shared_ptr<Shader3D> shader)
+	{
+		auto material = CreateMaterial3D_(shader.get());
 		return CreateSharedPtrWithReleaseDLL(material);
 	}
 

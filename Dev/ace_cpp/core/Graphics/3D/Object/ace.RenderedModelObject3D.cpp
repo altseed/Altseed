@@ -127,214 +127,242 @@ namespace ace
 
 	}
 
-	void RenderedModelObject3DProxy::Rendering(RenderingCommandHelper* helper,RenderingProperty& prop)
+	void RenderedModelObject3DProxy::Rendering(RenderingCommandHelper* helper, RenderingProperty& prop)
 	{
 		using h = RenderingCommandHelper;
 		shaderConstants.clear();
 
-		std::shared_ptr<ace::NativeShader_Imp> shader;
+		auto lightDirection = prop.DirectionalLightDirection;
+		Vector3DF lightColor(prop.DirectionalLightColor.R / 255.0f, prop.DirectionalLightColor.G / 255.0f, prop.DirectionalLightColor.B / 255.0f);
+		Vector3DF groudLColor(prop.GroundLightColor.R / 255.0f, prop.GroundLightColor.G / 255.0f, prop.GroundLightColor.B / 255.0f);
+		Vector3DF skyLColor(prop.SkyLightColor.R / 255.0f, prop.SkyLightColor.G / 255.0f, prop.SkyLightColor.B / 255.0f);
+		Matrix44 matM[32];
+
 		
-		if (prop.IsLightweightMode)
+		auto& matrices = m_matrixes_rt;
+		int32_t currentMeshIndex = 0;
+
+		for (auto& mesh_ : m_meshes_rt)
 		{
-			shader = m_shaderLightweight;
-		}
-		else
-		{
-			if (prop.IsDepthMode)
+			auto mesh_root = (Mesh_Imp*) mesh_.get();
+
+			for (auto& mesh : mesh_root->GetDvidedMeshes())
 			{
-				shader = m_shaderDF_ND;
-			}
-			else
-			{
-				shader = m_shaderDF;
-			}
-		}
+				// 有効チェック
+				if (mesh.IndexBufferPtr == nullptr) continue;
 
-		shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
-		shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
+				auto& boneConnectors = mesh.BoneConnectors;
 
-		if (prop.IsLightweightMode)
-		{
-			auto direction = prop.DirectionalLightDirection;
-			Vector3DF lightColor(prop.DirectionalLightColor.R / 255.0f, prop.DirectionalLightColor.G / 255.0f, prop.DirectionalLightColor.B / 255.0f);
-			Vector3DF groudLColor(prop.GroundLightColor.R / 255.0f, prop.GroundLightColor.G / 255.0f, prop.GroundLightColor.B / 255.0f);
-			Vector3DF skyLColor(prop.SkyLightColor.R / 255.0f, prop.SkyLightColor.G / 255.0f, prop.SkyLightColor.B / 255.0f);
-
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightDirection", direction));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightColor", lightColor));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "skyLightColor", skyLColor));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "groundLightColor", groudLColor));
-
-		}
-		else
-		{
-		}
-
-		{
-			auto& matrices = m_matrixes_rt;
-			int32_t currentMeshIndex = 0;
-
-			for (auto& mesh_ : m_meshes_rt)
-			{
-				auto mesh_root = (Mesh_Imp*) mesh_.get();
-
-				for (auto& mesh : mesh_root->GetDvidedMeshes())
+				// 行列計算
+				if (boneConnectors.size() > 0)
 				{
-					// 有効チェック
-					if (mesh.IndexBufferPtr == nullptr) continue;
-
-					auto& boneConnectors = mesh.BoneConnectors;
-
-					Matrix44 matM[32];
-					// 行列計算
-					if (boneConnectors.size() > 0)
+					// ボーンあり
+					for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
 					{
-						// ボーンあり
-						for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
-						{
-							matM[i].SetIndentity();
-							Matrix44::Mul(matM[i], matrices[boneConnectors[i].TargetIndex], boneConnectors[i].BoneToMesh);
-							Matrix44::Mul(matM[i], GetGlobalMatrix(), matM[i]);
-						}
+						matM[i].SetIndentity();
+						Matrix44::Mul(matM[i], matrices[boneConnectors[i].TargetIndex], boneConnectors[i].BoneToMesh);
+						Matrix44::Mul(matM[i], GetGlobalMatrix(), matM[i]);
 					}
-					else
+				}
+				else
+				{
+					// ボーンなし
+					matM[0] = GetGlobalMatrix();
+					for (int32_t i = 1; i < 32; i++)
 					{
-						// ボーンなし
-						matM[0] = GetGlobalMatrix();
-						for (int32_t i = 1; i < 32; i++)
-						{
-							matM[i] = matM[0];
-						}
-					}
-
-					shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", h::Array<Matrix44>(matM, 32)));
-
-					auto& materialOffsets = mesh.MaterialOffsets;
-
-					{
-						// 設定がある場合
-						auto mIndex = 0;
-						auto fOffset = 0;
-						auto fCount = 0;
-						auto mFCount = 0;
-
-						Mesh_Imp::Material* material = nullptr;
-						int32_t currentMaterialIndex = -1;
-
-						while (fCount < mesh.IndexBufferPtr->GetCount() / 3)
-						{
-							if (materialOffsets.size() > 0)
-							{
-								if (fOffset == mFCount && materialOffsets.size() > mIndex)
-								{
-									mFCount += materialOffsets[mIndex].FaceOffset;
-									material = mesh_root->GetMaterial(materialOffsets[mIndex].MaterialIndex);
-									currentMaterialIndex = materialOffsets[mIndex].MaterialIndex;
-									mIndex++;
-								}
-							}
-							else
-							{
-								mFCount = mesh.IndexBufferPtr->GetCount() / 3;
-							}
-
-							fCount = mFCount - fOffset;
-							if (fCount == 0) break;
-
-							if (material != nullptr && material->Material_.get() != nullptr)
-							{
-								auto mat = (Material3D_Imp*)(material->Material_.get());
-								auto shader = (Shader3D_Imp*)(mat->GetShader3D().get());
-								auto nativeShader = shader->GetNativeShader().get();
-
-								// 定数設定
-								std::shared_ptr<MaterialPropertyBlock> block;
-								if (
-									currentMaterialIndex >= 0 &&
-									materialPropertyBlocks.size() > currentMeshIndex &&
-									materialPropertyBlocks[currentMeshIndex].size() > currentMaterialIndex &&
-									materialPropertyBlocks[currentMeshIndex][currentMaterialIndex].get() != nullptr)
-								{
-									block = materialPropertyBlocks[currentMeshIndex][currentMaterialIndex];
-								}
-								else
-								{
-									block = mat->GetMaterialPropertyBlock();
-								}
-								
-								((MaterialPropertyBlock_Imp*) block.get())->AddValuesTo(nativeShader, shaderConstants);
-
-								RenderState state;
-								state.DepthTest = true;
-								state.DepthWrite = true;
-								state.Culling = CullingType::Front;
-								state.AlphaBlendState = AlphaBlend::Opacity;
-
-								helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), nativeShader, state,
-									shaderConstants.data(), shaderConstants.size());
-							}
-							else
-							{
-								ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
-								ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
-								ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
-								ace::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
-
-								if (material != nullptr)
-								{
-									if (material->ColorTexture != nullptr)
-									{
-										colorTexture = material->ColorTexture.get();
-									}
-
-									if (!prop.IsLightweightMode)
-									{
-										if (material->NormalTexture != nullptr)
-										{
-											normalTexture = material->NormalTexture.get();
-										}
-
-										if (material->SpecularTexture != nullptr)
-										{
-											specularTexture = material->SpecularTexture.get();
-										}
-
-										if (material->SmoothnessTexture != nullptr)
-										{
-											smoothnessTexture = material->SmoothnessTexture.get();
-										}
-									}
-								}
-
-								shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
-									h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
-
-								shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
-									h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
-
-								shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
-									h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
-
-								shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
-									h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
-
-								RenderState state;
-								state.DepthTest = true;
-								state.DepthWrite = true;
-								state.Culling = CullingType::Front;
-								state.AlphaBlendState = AlphaBlend::Opacity;
-
-								helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
-									shaderConstants.data(), shaderConstants.size());
-							}
-
-							fOffset += fCount;
-						}
+						matM[i] = matM[0];
 					}
 				}
 
-				currentMeshIndex++;
+				auto& materialOffsets = mesh.MaterialOffsets;
+
+				{
+					// 設定がある場合
+					auto mIndex = 0;
+					auto fOffset = 0;
+					auto fCount = 0;
+					auto mFCount = 0;
+
+					Mesh_Imp::Material* material = nullptr;
+					int32_t currentMaterialIndex = -1;
+
+					while (fCount < mesh.IndexBufferPtr->GetCount() / 3)
+					{
+						if (materialOffsets.size() > 0)
+						{
+							if (fOffset == mFCount && materialOffsets.size() > mIndex)
+							{
+								mFCount += materialOffsets[mIndex].FaceOffset;
+								material = mesh_root->GetMaterial(materialOffsets[mIndex].MaterialIndex);
+								currentMaterialIndex = materialOffsets[mIndex].MaterialIndex;
+								mIndex++;
+							}
+						}
+						else
+						{
+							mFCount = mesh.IndexBufferPtr->GetCount() / 3;
+						}
+
+						fCount = mFCount - fOffset;
+						if (fCount == 0) break;
+
+						std::shared_ptr<ace::NativeShader_Imp> shader;
+
+						if (material != nullptr && material->Material_.get() != nullptr)
+						{
+							auto mat = (Material3D_Imp*) (material->Material_.get());
+							auto shader_ = (Shader3D_Imp*) (mat->GetShader3D().get());
+
+							if (prop.IsLightweightMode)
+							{
+								if (prop.IsDepthMode)
+								{
+									shader = shader_->GetNativeShaderLightDepth();
+								}
+								else
+								{
+									shader = shader_->GetNativeShaderLight();
+								}
+							}
+							else
+							{
+								if (prop.IsDepthMode)
+								{
+									shader = shader_->GetNativeShaderDepth();
+								}
+								else
+								{
+									shader = shader_->GetNativeShader();
+								}
+							}
+						}
+						else
+						{
+							if (prop.IsLightweightMode)
+							{
+								shader = m_shaderLightweight;
+							}
+							else
+							{
+								if (prop.IsDepthMode)
+								{
+									shader = m_shaderDF_ND;
+								}
+								else
+								{
+									shader = m_shaderDF;
+								}
+							}
+						}
+
+						shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
+						shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
+						shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", h::Array<Matrix44>(matM, 32)));
+
+						if (prop.IsLightweightMode)
+						{
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightDirection", lightDirection));
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightColor", lightColor));
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "skyLightColor", skyLColor));
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "groundLightColor", groudLColor));
+						}
+						else
+						{
+						}
+
+						if (material != nullptr && material->Material_.get() != nullptr)
+						{
+							auto mat = (Material3D_Imp*) (material->Material_.get());
+				
+							// 定数設定
+							std::shared_ptr<MaterialPropertyBlock> block;
+							if (
+								currentMaterialIndex >= 0 &&
+								materialPropertyBlocks.size() > currentMeshIndex &&
+								materialPropertyBlocks[currentMeshIndex].size() > currentMaterialIndex &&
+								materialPropertyBlocks[currentMeshIndex][currentMaterialIndex].get() != nullptr)
+							{
+								// ユーザー定義ブロック使用
+								block = materialPropertyBlocks[currentMeshIndex][currentMaterialIndex];
+							}
+							else
+							{
+								block = mat->GetMaterialPropertyBlock();
+							}
+
+							((MaterialPropertyBlock_Imp*) block.get())->AddValuesTo(shader.get(), shaderConstants);
+
+							RenderState state;
+							state.DepthTest = true;
+							state.DepthWrite = true;
+							state.Culling = CullingType::Front;
+							state.AlphaBlendState = AlphaBlend::Opacity;
+
+							helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
+								shaderConstants.data(), shaderConstants.size());
+						}
+						else
+						{
+							ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
+							ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
+							ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
+							ace::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
+
+							if (material != nullptr)
+							{
+								if (material->ColorTexture != nullptr)
+								{
+									colorTexture = material->ColorTexture.get();
+								}
+
+								if (!prop.IsLightweightMode)
+								{
+									if (material->NormalTexture != nullptr)
+									{
+										normalTexture = material->NormalTexture.get();
+									}
+
+									if (material->SpecularTexture != nullptr)
+									{
+										specularTexture = material->SpecularTexture.get();
+									}
+
+									if (material->SmoothnessTexture != nullptr)
+									{
+										smoothnessTexture = material->SmoothnessTexture.get();
+									}
+								}
+							}
+
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
+								h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
+								h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
+								h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
+								h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+							RenderState state;
+							state.DepthTest = true;
+							state.DepthWrite = true;
+							state.Culling = CullingType::Front;
+							state.AlphaBlendState = AlphaBlend::Opacity;
+
+							helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
+								shaderConstants.data(), shaderConstants.size());
+						}
+
+						shaderConstants.clear();
+						fOffset += fCount;
+					}
+				}
 			}
+
+			currentMeshIndex++;
 		}
 	}
 

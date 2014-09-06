@@ -253,6 +253,10 @@ namespace ace {
 		*/
 		Material2D* CreateMaterial2D_(Shader2D* shader);
 
+		Shader3D* CreateShader3D_(const achar* shaderText) override;
+
+		Material3D* CreateMaterial3D_(Shader3D* shader) override;
+
 		MaterialPropertyBlock* CreateMaterialPropertyBlock_() override;
 
 		/**

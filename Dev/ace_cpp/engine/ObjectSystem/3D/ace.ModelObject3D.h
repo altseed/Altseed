@@ -59,5 +59,15 @@ namespace ace
 		@param	name	アニメーションの名称
 		*/
 		void PlayAnimation(const achar* name);
+
+		/**
+		@brief	材質個別に描画時のパラメーターを設定する。
+		@param	meshIndex	メッシュのインデックス
+		@param	materialIndex	材質のインデックス
+		@param	block	プロパティ
+		@note
+		通常描画する場合、材質に設定されたパラメーターを元に描画するがモデルごとに個別のパラメーターを使用する場合、この関数を使用する。
+		*/
+		void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, std::shared_ptr<MaterialPropertyBlock> block);
 	};
 }

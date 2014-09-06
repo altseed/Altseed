@@ -37,4 +37,9 @@ namespace ace
 	{
 		m_object->PlayAnimation(name);
 	}
+
+	void CoreModelObject3D_Imp::SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, MaterialPropertyBlock* block)
+	{
+		m_object->SetMaterialPropertyBlock(meshIndex, materialIndex, block);
+	}
 }

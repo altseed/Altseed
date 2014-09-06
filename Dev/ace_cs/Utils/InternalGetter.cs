@@ -41,6 +41,12 @@ namespace ace
 			return o.SwigObject;
 		}
 
+		static public swig.MaterialPropertyBlock GetMaterialPropertyBlock(MaterialPropertyBlock o)
+		{
+			if (o == null) return null;
+			return o.SwigObject;
+		}
+
 		static public swig.Effect GetEffect(Effect o)
 		{
 			if (o == null) return null;

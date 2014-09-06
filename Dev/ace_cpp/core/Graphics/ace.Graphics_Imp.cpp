@@ -14,6 +14,10 @@
 
 #include "Resource/ace.Shader2D_Imp.h"
 #include "Resource/ace.Material2D_Imp.h"
+
+#include "Resource/ace.Shader3D_Imp.h"
+#include "Resource/ace.Material3D_Imp.h"
+
 #include "Resource/ace.Chip2D_Imp.h"
 
 #include "Resource/ace.Effect_Imp.h"
@@ -591,6 +595,19 @@ Material2D* Graphics_Imp::CreateMaterial2D_(Shader2D* shader)
 	auto material = Material2D_Imp::Create((Shader2D_Imp*) shader);
 	auto material2d = (Material2D*) material;
 	return material2d;
+}
+
+Shader3D* Graphics_Imp::CreateShader3D_(const achar* shaderText)
+{
+	auto shader = Shader3D_Imp::Create(this, shaderText, ToAString("").c_str(), m_log);
+	return shader;
+}
+
+Material3D* Graphics_Imp::CreateMaterial3D_(Shader3D* shader)
+{
+	auto material = Material3D_Imp::Create((Shader3D_Imp*) shader);
+	auto material3d = (Material3D*) material;
+	return material3d;
 }
 
 MaterialPropertyBlock* Graphics_Imp::CreateMaterialPropertyBlock_()

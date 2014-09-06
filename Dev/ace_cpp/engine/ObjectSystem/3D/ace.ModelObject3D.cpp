@@ -35,4 +35,9 @@ namespace ace
 	{
 		m_coreObject->PlayAnimation(name);
 	}
+
+	void ModelObject3D::SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, std::shared_ptr<MaterialPropertyBlock> block)
+	{
+		m_coreObject->SetMaterialPropertyBlock(meshIndex, materialIndex, block.get());
+	}
 }

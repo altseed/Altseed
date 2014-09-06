@@ -29,8 +29,9 @@ namespace ace
 
 		void PlayAnimation(const achar* name) override;
 
-		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MESH; }
+		void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, MaterialPropertyBlock* block) override;
 
+		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MESH; }
 
 		// 共通部分
 		virtual bool GetIsDrawn() const { return CoreObject3D_Imp::GetIsDrawn(); }

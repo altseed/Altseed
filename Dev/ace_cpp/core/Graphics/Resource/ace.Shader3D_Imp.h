@@ -24,11 +24,17 @@ namespace ace {
 		, public ReferenceObject
 	{
 	protected:
-		std::shared_ptr<NativeShader_Imp>	m_shader;
+		std::shared_ptr<NativeShader_Imp>	shader;
+		std::shared_ptr<NativeShader_Imp>	shader_light;
+		std::shared_ptr<NativeShader_Imp>	shader_depth;
+		std::shared_ptr<NativeShader_Imp>	shader_light_depth;
 
 		Shader3D_Imp(
 			Graphics* graphics,
-			std::shared_ptr<NativeShader_Imp> shader);
+			std::shared_ptr<NativeShader_Imp> shader,
+			std::shared_ptr<NativeShader_Imp> shader_light,
+			std::shared_ptr<NativeShader_Imp> shader_depth,
+			std::shared_ptr<NativeShader_Imp> shader_light_depth);
 		virtual ~Shader3D_Imp();
 
 	public:
@@ -39,7 +45,10 @@ namespace ace {
 			Log* log);
 
 #if !SWIG
-		std::shared_ptr<NativeShader_Imp> GetNativeShader() { return m_shader; }
+		std::shared_ptr<NativeShader_Imp> GetNativeShader() { return shader; }
+		std::shared_ptr<NativeShader_Imp> GetNativeShaderLight() { return shader_light; }
+		std::shared_ptr<NativeShader_Imp> GetNativeShaderDepth() { return shader_depth; }
+		std::shared_ptr<NativeShader_Imp> GetNativeShaderLightDepth() { return shader_light_depth; }
 #endif
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
