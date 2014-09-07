@@ -264,6 +264,41 @@ namespace ace
 		return true;
 	}
 
+	bool Model_IO::Save(BinaryWriter& writer, const achar* path)
+	{
+		// ヘッダー
+		uint8_t header[] = "MDL";
+		for (int32_t i = 0; i < 4; i++)
+		{
+			writer.Push(header[i]);
+		}
+
+		// バージョン
+		writer.Push(0);
+
+		// ボーン
+		SaveDeformer(Deformer_, writer, path);
+
+		// メッシュ
+		SaveMeshes(Meshes, writer, path);
+
+		// アニメーション
+		writer.Push((int32_t)AnimationSources.size());
+		
+		for (int32_t i = 0; i < AnimationSources.size(); i++)
+		{
+			SaveAnimationSource(AnimationSources[i], writer, path);
+		}
+
+		writer.Push((int32_t) AnimationClips.size());
+		for (int32_t i = 0; i <AnimationClips.size(); i++)
+		{
+			SaveAnimationClip(AnimationClips[i], writer, path);
+		}
+
+		return true;
+	}
+
 	void Model_IO::LoadMeshes(std::vector<Mesh>& meshes, BinaryReader& reader, const achar* path)
 	{
 		auto mcount = reader.Get<int32_t>();
@@ -388,20 +423,20 @@ namespace ace
 
 	void Model_IO::LoadMaterial(Material& material, BinaryReader& reader, const achar* path)
 	{
-		auto type = reader.Get<int32_t>();
-		if (type == 1)
+		material.Type = reader.Get<int32_t>();
+		if (material.Type == 1)
 		{
 			auto path = reader.Get<ace::astring>();
 		}
 		else
 		{
-			auto pathColor = reader.Get<ace::astring>();
-			auto pathNormal = reader.Get<ace::astring>();
-			auto pathSpecular = reader.Get<ace::astring>();
+			material.OriginalColorTexture = reader.Get<ace::astring>();
+			material.OriginalNormalTexture = reader.Get<ace::astring>();
+			material.OriginalSpecularTexture = reader.Get<ace::astring>();
 
-			if (pathColor != astring()) material.ColorTexture = CombinePath(path, pathColor.c_str());
-			if (pathNormal != astring()) material.NormalTexture = CombinePath(path, pathNormal.c_str());
-			if (pathSpecular != astring()) material.SpecularTexture = CombinePath(path, pathSpecular.c_str());
+			if (material.OriginalColorTexture != astring()) material.ColorTexture = CombinePath(path, material.OriginalColorTexture.c_str());
+			if (material.OriginalNormalTexture != astring()) material.NormalTexture = CombinePath(path, material.OriginalNormalTexture.c_str());
+			if (material.OriginalSpecularTexture != astring()) material.SpecularTexture = CombinePath(path, material.OriginalSpecularTexture.c_str());
 		}
 	}
 
@@ -443,6 +478,160 @@ namespace ace
 
 		ac.Name = clipName;
 		ac.Index = sourceIndex;
+	}
+
+	void Model_IO::SaveDeformer(Deformer& deformer, BinaryWriter& writer, const achar* path)
+	{
+		writer.Push((int32_t)deformer.Bones.size());
+
+		for (auto i = 0; i < deformer.Bones.size(); i++)
+		{
+			auto& bone = deformer.Bones[i];
+			writer.Push(deformer.Bones[i].Name);
+			writer.Push(deformer.Bones[i].ParentBoneIndex);
+			writer.Push(deformer.Bones[i].RotationType);
+			writer.Push(deformer.Bones[i].LocalMat);
+		}
+	}
+
+	void Model_IO::SaveMeshes(std::vector<Mesh>& meshes, BinaryWriter& writer, const achar* path)
+	{
+		writer.Push((int32_t) meshes.size());
+
+		for (auto i = 0; i < meshes.size(); i++)
+		{
+			SaveMesh(meshes[i], writer, path);
+		}
+	}
+
+	void Model_IO::SaveMesh(Mesh& mesh, BinaryWriter& writer, const achar* path)
+	{
+		writer.Push((int32_t)mesh.DividedMeshes.size());
+
+		for (auto i = 0; i < mesh.DividedMeshes.size(); i++)
+		{
+			SaveDividedMesh(mesh.DividedMeshes[i], writer, path);
+		}
+
+		SaveMaterials(mesh.Materials, writer, path);
+	}
+
+	void Model_IO::SaveDividedMesh(DividedMesh& mesh, BinaryWriter& writer, const achar* path)
+	{
+		writer.Push((int32_t) mesh.Vertices.size());
+
+		for (int32_t i = 0; i < mesh.Vertices.size(); i++)
+		{
+			auto& v = mesh.Vertices[i];
+			writer.Push(v.Position);
+			writer.Push(v.Normal);
+			writer.Push(v.Binormal);
+			writer.Push(v.UV1);
+			writer.Push(v.UV2);
+			writer.Push(v.VColor.R);
+			writer.Push(v.VColor.G);
+			writer.Push(v.VColor.B);
+			writer.Push(v.VColor.A);
+
+			writer.Push(v.BoneWeights[0]);
+			writer.Push(v.BoneWeights[1]);
+			writer.Push(v.BoneWeights[2]);
+			writer.Push(v.BoneWeights[3]);
+
+			writer.Push(v.BoneIndexes[0]);
+			writer.Push(v.BoneIndexes[1]);
+			writer.Push(v.BoneIndexes[2]);
+			writer.Push(v.BoneIndexes[3]);
+
+			writer.Push(v.BoneIndexesOriginal[0]);
+			writer.Push(v.BoneIndexesOriginal[1]);
+			writer.Push(v.BoneIndexesOriginal[2]);
+			writer.Push(v.BoneIndexesOriginal[3]);
+		}
+
+		writer.Push((int32_t) mesh.Faces.size());
+
+		for (auto i = 0; i < mesh.Faces.size(); i++)
+		{
+			auto& f = mesh.Faces[i];
+			writer.Push(f.Indexes[0]);
+			writer.Push(f.Indexes[1]);
+			writer.Push(f.Indexes[2]);
+		}
+
+		writer.Push((int32_t) mesh.MaterialOffsets.size());
+
+		for (int32_t i = 0; i < mesh.MaterialOffsets.size(); i++)
+		{
+			writer.Push(mesh.MaterialOffsets[i].MaterialIndex);
+			writer.Push(mesh.MaterialOffsets[i].FaceOffset);
+		}
+
+		writer.Push((int32_t) mesh.BoneConnectors.size());
+
+		for (int32_t i = 0; i < mesh.BoneConnectors.size(); i++)
+		{
+			writer.Push(mesh.BoneConnectors[i].TargetIndex);
+			writer.Push(mesh.BoneConnectors[i].OffsetMatrix);
+		}
+	}
+
+	void Model_IO::SaveMaterials(std::vector<Material>& materials, BinaryWriter& writer, const achar* path)
+	{
+		writer.Push((int32_t) materials.size());
+
+		for (int32_t i = 0; i < materials.size(); i++)
+		{
+			SaveMaterial(materials[i], writer, path);
+		}
+	}
+
+	void Model_IO::SaveMaterial(Material& material, BinaryWriter& writer, const achar* path)
+	{
+		if (material.Type == 1)
+		{
+			writer.Push((int32_t)1);
+			ace::astring path;
+			writer.Push(path);
+		}
+		else
+		{
+			writer.Push((int32_t) 0);
+			writer.Push(material.OriginalColorTexture.c_str());
+			writer.Push(material.OriginalNormalTexture.c_str());
+			writer.Push(material.OriginalSpecularTexture.c_str());
+		}
+	}
+
+	void Model_IO::SaveAnimationSource(AnimationSource& as, BinaryWriter& writer, const achar* path)
+	{
+		writer.Push(as.Name);
+		writer.Push((int32_t) as.KeyframeAnimations.size());
+
+		for (int32_t i = 0; i < as.KeyframeAnimations.size(); i++)
+		{
+			SaveKeyframeAnimation(as.KeyframeAnimations[i], writer, path);
+		}
+	}
+
+	void Model_IO::SaveKeyframeAnimation(KeyframeAnimation& ka, BinaryWriter& writer, const achar* path)
+	{
+		writer.Push(ka.Name);
+		writer.Push((int32_t) ka.Keyframes.size());
+
+		for (int32_t i = 0; i < ka.Keyframes.size(); i++)
+		{
+			writer.Push(ka.Keyframes[i].KeyValue);
+			writer.Push(ka.Keyframes[i].LeftHandle);
+			writer.Push(ka.Keyframes[i].RightHandle);
+			writer.Push((int32_t)ka.Keyframes[i].InterpolationType);
+		}
+	}
+
+	void Model_IO::SaveAnimationClip(AnimationClip& ac, BinaryWriter& writer, const achar* path)
+	{
+		writer.Push(ac.Name);
+		writer.Push(ac.Index);
 	}
 
 	void ModelUtils::CalculateBoneMatrixes(std::vector<Matrix44>& dst, const std::vector<Model_IO::Bone>& bones, const std::vector<Matrix44>& localMatrixes, bool isPlayingAnimation)
