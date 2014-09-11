@@ -1,4 +1,4 @@
-
+ï»¿
 #include "../../EngineGraphics3DTest.h"
 
 static const char* shader3d_dx_ps = R"(
@@ -74,7 +74,7 @@ PS_Output main( const PS_Input Input )
 #endif
 
 #ifdef EXPORT_DEPTH
-	// VSM—p“ñæƒoƒbƒtƒ@ŠÜ‚Ş
+	// VSMç”¨äºŒä¹—ãƒãƒƒãƒ•ã‚¡å«ã‚€
 
 	float dx = ddx(projDepth);
 	float dy = ddy(projDepth);
@@ -158,7 +158,7 @@ void main()
 	projDepth = projDepth * 0.5 + 0.5;
 
 #ifdef EXPORT_DEPTH
-	// VSM—p“ñæƒoƒbƒtƒ@ŠÜ‚Ş
+	// VSMç”¨äºŒä¹—ãƒãƒƒãƒ•ã‚¡å«ã‚€
 
 	float dx = dFdx(projDepth);
 	float dy = dFdy(projDepth);
@@ -205,7 +205,7 @@ protected:
 
 		EngineGraphics3DTest::OnStart();
 
-		// ƒŠƒ\[ƒX
+		// ãƒªã‚½ãƒ¼ã‚¹
 		auto gray = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Gray.png").c_str());
 
 		auto sphereObj = std::make_shared<ace::ModelObject3D>();
@@ -223,7 +223,7 @@ protected:
 
 		auto mainMesh = sphereModel->GetMesh(0);
 
-		// ‹…‘fŞ
+		// çƒç´ æ
 		std::shared_ptr<ace::Shader3D> matShader;
 		
 		if (ace::Engine::GetGraphics()->GetGraphicsDeviceType() == ace::GraphicsDeviceType::DirectX11)
@@ -245,11 +245,11 @@ protected:
 		block->SetVector4DF(ace::ToAString("extColor").c_str(), ace::Vector4DF(1.0f, 1.0f, 0.0f, 1.0f));
 		sphereObj->SetMaterialPropertyBlock(0, 0, block);
 
-		// ’¼ÚŒõ
+		// ç›´æ¥å…‰
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
 		lightObj->SetColor(ace::Color(255 / 1, 255 / 1, 255 / 1, 200));
 
-		// ŠÂ‹«Œõ
+		// ç’°å¢ƒå…‰
 		GetLayer3D()->SetSkyAmbientColor(ace::Color(10, 10, 20, 255));
 		GetLayer3D()->SetGroundAmbientColor(ace::Color(20, 10, 10, 255));
 
