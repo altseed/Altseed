@@ -38,7 +38,7 @@ EXTERN_ENGINE_TEST(Graphics, EffectObject3D)
 EXTERN_ENGINE_TEST(Graphics, SimpleMesh)
 EXTERN_ENGINE_TEST(Graphics, ModelObject3D)
 EXTERN_ENGINE_TEST(Graphics, LightingStandard)
-//EXTERN_ENGINE_TEST(Graphics, ModelObject3DCustomMaterial)
+EXTERN_ENGINE_TEST(Graphics, ModelObject3DCustomMaterial)
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
 
