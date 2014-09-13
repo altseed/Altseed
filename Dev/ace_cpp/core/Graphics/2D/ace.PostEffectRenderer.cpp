@@ -120,6 +120,10 @@ namespace ace {
 		RenderState state;
 		state.DepthTest = false;
 		state.DepthWrite = false;
+#ifdef __APPLE__
+		// LightBloomで画面が崩れるのを回避。原因は不明。。。
+		state.AlphaBlendState = AlphaBlend::Opacity;
+#endif
 		m_graphics->SetRenderState(state);
 		m_graphics->DrawPolygon(2);
 	}
