@@ -12,6 +12,7 @@ in vec4 voutPosition;
 in vec4 voutProjPosition;
 in vec4 voutColor;
 in vec2 voutUV;
+in vec2 voutUVSub;
 in vec3 voutNormal;
 in vec3 voutBinormal;
 in vec3 voutTangent;
