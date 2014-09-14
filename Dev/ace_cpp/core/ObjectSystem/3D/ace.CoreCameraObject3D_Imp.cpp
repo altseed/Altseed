@@ -70,6 +70,16 @@ namespace ace
 		m_object->SetZNear(znear);
 	}
 
+	bool CoreCameraObject3D_Imp::GetHDRMode() const
+	{
+		return m_object->GetHDRMode();
+	}
+
+	void CoreCameraObject3D_Imp::SetHDRMode(bool value)
+	{
+		m_object->SetHDRMode(value);
+	}
+
 	void CoreCameraObject3D_Imp::BeginPostEffect(CorePostEffect* postEffect)
 	{
 

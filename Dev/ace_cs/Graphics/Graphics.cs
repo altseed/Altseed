@@ -72,9 +72,20 @@ namespace ace
 		/// <param name="top">上方向の画像ファイルへの相対パス</param>
 		/// <param name="bottom">下方向の画像ファイルへの相対パス</param>
 		/// <returns>キューブマップ</returns>
-		CubemapTexture CreateCubemapTextureFrom6ImageFiles(string front, string left, string back, string right, string top, string bottom)
+		public CubemapTexture CreateCubemapTextureFrom6ImageFiles(string front, string left, string back, string right, string top, string bottom)
 		{
 			return GC.GenerateCubemapTexture(graphics.CreateCubemapTextureFrom6ImageFiles_(front, left, back, right, top, bottom), GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// 複数の画像ファイルからミップマップ付のキューブマップテクスチャを生成する。
+		/// </summary>
+		/// <param name="path">ファイルの名称の先頭</param>
+		/// <param name="mipmapCount">ミップマップ数</param>
+		/// <returns>キューブマップ</returns>
+		public CubemapTexture CreateCubemapTextureFromMipmapImageFiles(string path, int mipmapCount)
+		{
+			return GC.GenerateCubemapTexture(graphics.CreateCubemapTextureFromMipmapImageFiles_(path, mipmapCount), GC.GenerationType.Create);
 		}
 
 		/// <summary>

@@ -48,6 +48,9 @@ namespace ace
 
 		void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) override;
 
+		bool GetHDRMode() const override;
+		void SetHDRMode(bool value) override;
+
 		float GetSSAO_Radius() override;
 		void SetSSAO_Radius(float value) override;
 		float GetSSAO_Bias()  override;

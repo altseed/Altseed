@@ -89,6 +89,18 @@ namespace ace
 		void SetEnvironmentColor(std::shared_ptr<CubemapTexture> diffuseColor, std::shared_ptr<CubemapTexture> specularColor);
 
 		/**
+		@brief	描画先のフォーマットがHDRか取得する。
+		@return	HDRか?
+		*/
+		bool GetHDRMode() const;
+
+		/**
+		@brief	描画先のフォーマットをHDRにするか設定する。
+		@param	value	HDRか?
+		*/
+		void SetHDRMode(bool value);
+
+		/**
 			@brief	SSAOのサンプリングする半径を取得する。
 			@return	SSAOのサンプリングする半径
 		*/

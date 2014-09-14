@@ -78,6 +78,16 @@ namespace ace
 		m_renderer->SetEnvironmentColor(diffuseColor, specularColor);
 	}
 
+	bool CoreLayer3D_Imp::GetHDRMode() const
+	{
+		return m_renderer->GetHDRMode();
+	}
+
+	void CoreLayer3D_Imp::SetHDRMode(bool value)
+	{
+		m_renderer->SetHDRMode(value);
+	}
+
 	float CoreLayer3D_Imp::GetSSAO_Radius()
 	{
 		return m_renderer->SSAO_Radius;

@@ -54,6 +54,15 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 描画先がHDRかどうか、取得、または設定する。
+		/// </summary>
+		public bool HDRMode
+		{
+			get { return coreObject.GetHDRMode(); }
+			set { coreObject.SetHDRMode(value); }
+		}
+
+		/// <summary>
 		/// 画面サイズを取得または設定する。
 		/// </summary>
 		public Vector2DI WindowSize

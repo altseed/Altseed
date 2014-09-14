@@ -33,6 +33,7 @@ namespace ace
 		PostEffectRenderer*		m_postEffectRenderer = nullptr;
 		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands_RT;
 		int32_t					postEffectCount = 0;
+
 	public:
 		float ZFar = 0.0f;
 		float ZNear = 0.0f;
@@ -42,6 +43,8 @@ namespace ace
 		Matrix44	ProjectionMatrix;
 		Vector2DI	WindowSize;
 		Vector3DF	Up;
+
+		bool	HDRMode;
 
 		/**
 		@brief	シェーダー内の画像からカメラ座標復元
@@ -60,7 +63,7 @@ namespace ace
 		RenderedCameraObject3DProxy(Graphics* graphics);
 		virtual ~RenderedCameraObject3DProxy();
 
-		void SetWindowSize(Graphics* graphics, Vector2DI windowSize);
+		void SetWindow(Graphics* graphics, Vector2DI windowSize, bool hdrMode);
 
 		void OnUpdateAsync() override;
 
@@ -95,6 +98,8 @@ namespace ace
 			Vector2DI	size;
 			Vector3DF	focus;
 
+			bool	hdrMode;
+
 			int32_t	postEffectCount;
 
 		} m_values;
@@ -125,6 +130,9 @@ namespace ace
 
 		float GetZNear(){ return m_values.znear; }
 		void SetZNear(float znear);
+
+		bool GetHDRMode() const;
+		void SetHDRMode(bool value);
 
 		void StartAddingPostEffect(int32_t postEffectCount);
 		void AddPostEffectCommand(std::shared_ptr<Material2DCommand> command);

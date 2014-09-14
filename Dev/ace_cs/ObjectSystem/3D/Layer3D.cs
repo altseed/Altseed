@@ -145,6 +145,15 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 描画先がHDRかどうか、取得、または設定する。
+		/// </summary>
+		public bool HDRMode
+		{
+			get { return coreLayer3D.GetHDRMode(); }
+			set { coreLayer3D.SetHDRMode(value); }
+		}
+
+		/// <summary>
 		/// SSAOのサンプリングする半径
 		/// </summary>
 		public float SSAO_Radius

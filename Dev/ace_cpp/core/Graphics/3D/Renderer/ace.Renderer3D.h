@@ -62,6 +62,8 @@ namespace ace
 		RenderingCommandExecutor*				executor = nullptr;
 		Renderer3DProxy*						proxy = nullptr;
 
+		bool									hdrMode = false;
+
 	public:
 
 		Renderer3D(Graphics* graphics, RenderSettings settings);
@@ -69,6 +71,9 @@ namespace ace
 
 		RenderSettings GetRenderSettings() const;
 		void SetRenderSettings(RenderSettings settings);
+
+		bool GetHDRMode() const;
+		void SetHDRMode(bool value);
 
 		void SetWindowSize(Vector2DI windowSize);
 

@@ -143,12 +143,42 @@ namespace ace
 		m_settings = settings;
 	}
 
+	bool Renderer3D::GetHDRMode() const
+	{
+		return hdrMode;
+	}
+
+	void Renderer3D::SetHDRMode(bool value)
+	{
+		hdrMode = value;
+
+		SafeRelease(m_renderTarget);
+
+		if (hdrMode)
+		{
+			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(m_windowSize.X, m_windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
+		}
+		else
+		{
+			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(m_windowSize.X, m_windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
+		}
+	}
+
 	void Renderer3D::SetWindowSize(Vector2DI windowSize)
 	{
-		SafeRelease(m_renderTarget);
-		m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 		m_windowSize = windowSize;
 
+		SafeRelease(m_renderTarget);
+
+		if (hdrMode)
+		{
+			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
+		}
+		else
+		{
+			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
+		}
+		
 		if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
 			m_effectRenderer->SetProjectionMatrix(::Effekseer::Matrix44().PerspectiveFovRH(90.0f / 180.0f * 3.14f, windowSize.X / windowSize.Y, 1.0f, 50.0f));
