@@ -37,5 +37,14 @@ namespace ace
 		virtual void SetGroundAmbientColor(Color color) = 0;
 
 		virtual void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) = 0;
+
+		virtual float GetSSAO_Radius() = 0;
+		virtual void SetSSAO_Radius(float value) = 0;
+		virtual float GetSSAO_Bias() = 0;
+		virtual void SetSSAO_Bias(float value) = 0;
+		virtual float GetSSAO_Intensity() = 0;
+		virtual void SetSSAO_Intensity(float value) = 0;
+		virtual float GetSSAO_FarPlain() = 0;
+		virtual void SetSSAO_FarPlain(float value) = 0;
 	};
 }

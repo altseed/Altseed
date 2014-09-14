@@ -370,6 +370,14 @@ namespace ace
 
 	void Renderer3DProxy::Rendering(RenderTexture2D_Imp* renderTarget)
 	{
+		if (ssao != nullptr)
+		{
+			ssao->Bias = SSAO_Bias;
+			ssao->FarPlain = SSAO_FarPlain;
+			ssao->Intensity = SSAO_Intensity;
+			ssao->Radius = SSAO_Radius;
+		}
+
 		RenderingCommandHelper helper_(commands, factory);
 		auto helper = &helper_;
 		using h = RenderingCommandHelper;
@@ -765,6 +773,10 @@ namespace ace
 			else if (Settings.VisualizedBuffer == VisualizedBufferType::Environment)
 			{
 				flag = 4.0f;
+			}
+			else if (Settings.VisualizedBuffer == VisualizedBufferType::Occlusion)
+			{
+				flag = 5.0f;
 			}
 
 			Texture2D* ssaoTexture = dummyTextureWhite.get();

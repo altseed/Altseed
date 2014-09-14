@@ -50,7 +50,7 @@ protected:
 		GetLayer3D()->AddObject(lightObj);
 
 		auto plainModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Plain1.mdl").c_str());
-		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Sphere1.mdl").c_str());
+		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("BL_HER_HC.mdl").c_str());
 
 		plainObj->SetModel(plainModel);
 		sphereObj->SetModel(sphereModel);

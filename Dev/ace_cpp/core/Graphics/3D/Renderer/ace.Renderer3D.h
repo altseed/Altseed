@@ -84,6 +84,11 @@ namespace ace
 		void SetGroundAmbientColor(Color color) { m_groundAmbientColor = color; }
 		void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor);
 
+		float SSAO_Radius = 0.1f;
+		float SSAO_Bias = 0.001f;
+		float SSAO_Intensity = 1.0f;
+		float SSAO_FarPlain = 800.0f;
+
 		RenderTexture2D_Imp* GetRenderTarget();
 
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }

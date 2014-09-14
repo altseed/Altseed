@@ -128,4 +128,44 @@ namespace ace
 	{
 		m_coreLayer->SetEnvironmentColor(diffuseColor.get(), specularColor.get());
 	}
+
+	float Layer3D::GetSSAO_Radius()
+	{
+		return m_coreLayer->GetSSAO_Radius();
+	}
+
+	void Layer3D::SetSSAO_Radius(float value)
+	{
+		m_coreLayer->SetSSAO_Radius(value);
+	}
+
+	float Layer3D::GetSSAO_Bias()
+	{
+		return m_coreLayer->GetSSAO_Bias();
+	}
+
+	void Layer3D::SetSSAO_Bias(float value)
+	{
+		m_coreLayer->SetSSAO_Bias(value);
+	}
+
+	float Layer3D::GetSSAO_Intensity()
+	{
+		return m_coreLayer->GetSSAO_Intensity();
+	}
+
+	void Layer3D::SetSSAO_Intensity(float value)
+	{
+		m_coreLayer->SetSSAO_Intensity(value);
+	}
+
+	float Layer3D::GetSSAO_FarPlain()
+	{
+		return m_coreLayer->GetSSAO_FarPlain();
+	}
+
+	void Layer3D::SetSSAO_FarPlain(float value)
+	{
+		m_coreLayer->SetSSAO_FarPlain(value);
+	}
 };

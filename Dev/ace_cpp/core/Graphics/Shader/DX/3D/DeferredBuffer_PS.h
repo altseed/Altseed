@@ -51,6 +51,12 @@ float3 GetEnvironment(float2 uv)
 	return g_environmentTexture.Sample(g_environmentSampler, uv).xyz;
 }
 
+float3 GetAO(float2 uv)
+{
+	float ao = g_ssaoTexture.Sample(g_ssaoSampler, uv).x;
+	return float3(ao,ao,ao);
+}
+
 float4 main( const PS_Input Input ) : SV_Target
 {
 	float2 uv = Input.UV;
@@ -79,6 +85,11 @@ float4 main( const PS_Input Input ) : SV_Target
 	{
 		color.xyz = GetEnvironment(uv).xyz;
 	}
+	else if(flag == 5.0)
+	{
+		color.xyz = GetAO(uv).xyz;
+	}
+
 	return color;
 }
 

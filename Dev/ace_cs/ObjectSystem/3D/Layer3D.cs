@@ -144,6 +144,42 @@ namespace ace
 			coreLayer3D.SetEnvironmentColor(IG.GetCubemapTexture(diffuseColor), IG.GetCubemapTexture(specularColor));
 		}
 
+		/// <summary>
+		/// SSAOのサンプリングする半径
+		/// </summary>
+		public float SSAO_Radius
+		{
+			get { return coreLayer3D.GetSSAO_Radius(); }
+			set { coreLayer3D.SetSSAO_Radius(value); }
+		}
+
+		/// <summary>
+		/// SSAOのバイアス
+		/// </summary>
+		public float SSAO_Bias
+		{
+			get { return coreLayer3D.GetSSAO_Bias(); }
+			set { coreLayer3D.SetSSAO_Bias(value); }
+		}
+
+		/// <summary>
+		/// SSAOの強さ
+		/// </summary>
+		public float SSAO_Intensity
+		{
+			get { return coreLayer3D.GetSSAO_Intensity(); }
+			set { coreLayer3D.SetSSAO_Intensity(value); }
+		}
+
+		/// <summary>
+		/// SSAOの最大距離
+		/// </summary>
+		public float SSAO_FarPlain
+		{
+			get { return coreLayer3D.GetSSAO_FarPlain(); }
+			set { coreLayer3D.SetSSAO_FarPlain(value); }
+		}
+
 		internal override void BeginUpdating()
 		{
 			coreLayer3D.BeginUpdating();

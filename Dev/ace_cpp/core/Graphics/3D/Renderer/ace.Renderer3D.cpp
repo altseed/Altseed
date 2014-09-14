@@ -229,6 +229,11 @@ namespace ace
 		proxy->EnvironmentDiffuseColor = environment_diffuseColor;
 		proxy->EnvironmentSpecularColor = environment_specularColor;
 		proxy->Settings = m_settings;
+
+		proxy->SSAO_Radius = SSAO_Radius;
+		proxy->SSAO_FarPlain = SSAO_FarPlain;
+		proxy->SSAO_Intensity = SSAO_Intensity;
+		proxy->SSAO_Bias = SSAO_Bias;
 	}
 
 	void Renderer3D::BeginRendering(float deltaTime)

@@ -87,5 +87,53 @@ namespace ace
 			@param	specularColor	スペキュラ色
 		*/
 		void SetEnvironmentColor(std::shared_ptr<CubemapTexture> diffuseColor, std::shared_ptr<CubemapTexture> specularColor);
+
+		/**
+			@brief	SSAOのサンプリングする半径を取得する。
+			@return	SSAOのサンプリングする半径
+		*/
+		float GetSSAO_Radius();
+		
+		/**
+		@brief	SSAOのサンプリングする半径を設定すする。
+		@param	value	SSAOのサンプリングする半径
+		*/
+		void SetSSAO_Radius(float value);
+
+		/**
+		@brief	SSAOのバイアスを取得する。
+		@return	SSAOのバイアス
+		*/
+		float GetSSAO_Bias();
+
+		/**
+		@brief	SSAOのバイアスを設定すする。
+		@param	value	SSAOのバイアス
+		*/
+		void SetSSAO_Bias(float value);
+
+		/**
+		@brief	SSAOの強さを取得する。
+		@return	SSAOの強さ
+		*/
+		float GetSSAO_Intensity();
+
+		/**
+		@brief	SSAOの強さを設定すする。
+		@param	value	SSAOの強さ
+		*/
+		void SetSSAO_Intensity(float value);
+
+		/**
+		@brief	SSAOの最大距離を取得する。
+		@return	SSAOの最大距離
+		*/
+		float GetSSAO_FarPlain();
+
+		/**
+		@brief	SSAOの最大距離を設定すする。
+		@param	value	SSAOの最大距離
+		*/
+		void SetSSAO_FarPlain(float value);
 	};
 }

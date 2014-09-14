@@ -48,6 +48,15 @@ namespace ace
 
 		void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) override;
 
+		float GetSSAO_Radius() override;
+		void SetSSAO_Radius(float value) override;
+		float GetSSAO_Bias()  override;
+		void SetSSAO_Bias(float value) override;
+		float GetSSAO_Intensity() override;
+		void SetSSAO_Intensity(float value)  override;
+		float GetSSAO_FarPlain()  override;
+		void SetSSAO_FarPlain(float value) override;
+
 		void BeginUpdating();
 		void EndUpdating();
 

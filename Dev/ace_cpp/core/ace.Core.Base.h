@@ -227,6 +227,7 @@ namespace ace {
 		Normal,
 		Smoothness,
 		Environment,
+		Occlusion,
 	};
 
 	/**

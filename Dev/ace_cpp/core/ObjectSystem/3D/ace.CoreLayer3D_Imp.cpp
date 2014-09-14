@@ -78,6 +78,46 @@ namespace ace
 		m_renderer->SetEnvironmentColor(diffuseColor, specularColor);
 	}
 
+	float CoreLayer3D_Imp::GetSSAO_Radius()
+	{
+		return m_renderer->SSAO_Radius;
+	}
+
+	void CoreLayer3D_Imp::SetSSAO_Radius(float value)
+	{
+		m_renderer->SSAO_Radius = value;
+	}
+
+	float CoreLayer3D_Imp::GetSSAO_Bias()
+	{
+		return m_renderer->SSAO_Bias;
+	}
+
+	void CoreLayer3D_Imp::SetSSAO_Bias(float value)
+	{
+		m_renderer->SSAO_Bias = value;
+	}
+
+	float CoreLayer3D_Imp::GetSSAO_Intensity()
+	{
+		return m_renderer->SSAO_Intensity;
+	}
+
+	void CoreLayer3D_Imp::SetSSAO_Intensity(float value)
+	{
+		m_renderer->SSAO_Intensity = value;
+	}
+
+	float CoreLayer3D_Imp::GetSSAO_FarPlain()
+	{
+		return m_renderer->SSAO_FarPlain;
+	}
+
+	void CoreLayer3D_Imp::SetSSAO_FarPlain(float value)
+	{
+		m_renderer->SSAO_FarPlain = value;
+	}
+
 	void CoreLayer3D_Imp::BeginUpdating()
 	{
 		m_renderer->Flip();
