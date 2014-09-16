@@ -757,6 +757,76 @@ namespace ace
 
 		if (keyframes[keyframes.size() - 1].KeyValue.X <= time) return keyframes[keyframes.size() - 1].KeyValue.Y;
 
+		int32_t left = 0;
+		int32_t right = keyframes.size() - 1;
+		int32_t middle = (left + right) / 2;
+
+		while (true)
+		{
+			if (keyframes[left].KeyValue.X <= time && time < keyframes[middle].KeyValue.X)
+			{
+				right = middle;
+				middle = (left + right) / 2;
+			}
+			else
+			{
+				left = middle;
+				middle = (left + right) / 2;
+			}
+
+			if (left == middle) break;
+		}
+
+
+		if (keyframes[left].KeyValue.X <= time && time < keyframes[left + 1].KeyValue.X)
+		{
+			if (keyframes[left].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_CONSTANT)
+			{
+				return keyframes[left].KeyValue.Y;
+			}
+			else if (keyframes[left].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_LINEAR)
+			{
+				auto d = time - keyframes[left].KeyValue.X;
+				auto dx = keyframes[left + 1].KeyValue.X - keyframes[left].KeyValue.X;
+				auto dy = keyframes[left + 1].KeyValue.Y - keyframes[left].KeyValue.Y;
+
+				return keyframes[left].KeyValue.Y + dy / dx * d;
+			}
+			else if (keyframes[left].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_CUBIC)
+			{
+				float k1[2];
+				float k1rh[2];
+				float k2lh[2];
+				float k2[2];
+
+				k1[0] = keyframes[left].KeyValue.X;
+				k1[1] = keyframes[left].KeyValue.Y;
+
+				k1rh[0] = keyframes[left].RightHandle.X;
+				k1rh[1] = keyframes[left].RightHandle.Y;
+
+				k2lh[0] = keyframes[left + 1].LeftHandle.X;
+				k2lh[1] = keyframes[left + 1].LeftHandle.Y;
+
+				k2[0] = keyframes[left + 1].KeyValue.X;
+				k2[1] = keyframes[left + 1].KeyValue.Y;
+
+				NormalizeValues(k1, k1rh, k2lh, k2);
+				float t = 0;
+				auto getT = CalcT(time, k1[0], k1rh[0], k2lh[0], k2[0], t);
+				if (getT)
+				{
+					return CalcBezierValue(k1[1], k1rh[1], k2lh[1], k2[1], t);
+				}
+				else
+				{
+					return 0;
+				}
+			}
+			return 0;
+		}
+
+		/*
 		for (int32_t i = 0; i < keyframes.size() - 1; i++)
 		{
 			if (keyframes[i].KeyValue.X <= time && time < keyframes[i + 1].KeyValue.X)
@@ -807,6 +877,7 @@ namespace ace
 				return 0;
 			}
 		}
+		*/
 
 		return 0;
 	}
