@@ -57,12 +57,12 @@ namespace ace
 		std::map<astring, AnimationClip*>		m_animationClips;
 
 		AnimationClip*							m_animationPlaying;
-		int32_t									m_animationTime;
+		float									m_animationTime;
 
 		Renderer3D*								m_renderer = nullptr;
 		RenderedModelObject3DProxy*				proxy = nullptr;
 
-		static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, int32_t time);
+		static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time);
 		static void CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer, bool isPlayingAnimation);
 
 	public:
@@ -81,7 +81,7 @@ namespace ace
 
 		void OnRemoving(Renderer3D* renderer) override;
 
-		void Flip() override;
+		void Flip(float deltaTime) override;
 
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 

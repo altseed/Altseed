@@ -21,9 +21,9 @@ namespace ace
 		SafeRelease(proxy);
 	}
 
-	void RenderedEffectObject3D::Flip()
+	void RenderedEffectObject3D::Flip(float deltaTime)
 	{
-		RenderedObject3D::Flip();
+		RenderedObject3D::Flip(deltaTime);
 
 		// 一定以上たまったら削除処理
 		if (m_handles.size() > GCThreshold)

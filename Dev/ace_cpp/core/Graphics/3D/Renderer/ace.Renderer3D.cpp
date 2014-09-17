@@ -231,7 +231,7 @@ namespace ace
 		}
 	}
 
-	void Renderer3D::Flip()
+	void Renderer3D::Flip(float deltaTime)
 	{
 		for (auto& o : newObjects)
 		{
@@ -250,7 +250,7 @@ namespace ace
 
 		for (auto& o : objects)
 		{
-			o->Flip();
+			o->Flip(deltaTime);
 		}
 
 		proxy->SetEffect(m_effectManager, m_effectRenderer);

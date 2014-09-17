@@ -55,7 +55,7 @@ namespace ace
 		RenderedDirectionalLightObject3D(Graphics* graphics);
 		virtual ~RenderedDirectionalLightObject3D();
 
-		void Flip() override;
+		void Flip(float deltaTime) override;
 
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 

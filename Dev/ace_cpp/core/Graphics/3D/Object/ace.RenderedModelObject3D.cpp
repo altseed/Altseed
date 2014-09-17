@@ -392,7 +392,7 @@ namespace ace
 			rotationType);
 	}
 
-	void RenderedModelObject3D::CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, int32_t time)
+	void RenderedModelObject3D::CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time)
 	{
 		if (animationClip == nullptr) return;
 
@@ -604,9 +604,9 @@ namespace ace
 		m_renderer = nullptr;
 	}
 
-	void RenderedModelObject3D::Flip()
+	void RenderedModelObject3D::Flip(float deltaTime)
 	{
-		RenderedObject3D::Flip();
+		RenderedObject3D::Flip(deltaTime);
 
 		CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying, m_animationTime);
 		CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get(), m_animationPlaying != nullptr);
@@ -614,7 +614,7 @@ namespace ace
 		// アニメーションの適用
 		if (m_animationPlaying != nullptr)
 		{
-			m_animationTime++;
+			m_animationTime += (deltaTime / (1.0/60.0));
 		}
 
 		proxy->m_meshes_rt = m_meshes;

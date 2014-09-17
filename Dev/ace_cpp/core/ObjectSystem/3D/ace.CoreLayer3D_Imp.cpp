@@ -130,7 +130,7 @@ namespace ace
 
 	void CoreLayer3D_Imp::BeginUpdating()
 	{
-		m_renderer->Flip();
+		m_renderer->Flip(core->GetDeltaTime());
 
 		m_isDrawnTemp = m_isDrawn;
 

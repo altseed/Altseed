@@ -112,7 +112,7 @@ namespace ace
 		RenderedCameraObject3D(Graphics* graphics);
 		virtual ~RenderedCameraObject3D();
 
-		void Flip() override;
+		void Flip(float deltaTime) override;
 
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 

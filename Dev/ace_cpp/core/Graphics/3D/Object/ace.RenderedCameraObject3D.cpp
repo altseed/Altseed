@@ -175,9 +175,9 @@ namespace ace
 		SafeRelease(proxy);
 	}
 
-	void RenderedCameraObject3D::Flip()
+	void RenderedCameraObject3D::Flip(float deltaTime)
 	{
-		RenderedObject3D::Flip();
+		RenderedObject3D::Flip(deltaTime);
 
 		proxy->ZNear = m_values.znear;
 		proxy->ZFar = m_values.zfar;

@@ -777,7 +777,6 @@ namespace ace
 			if (left == middle) break;
 		}
 
-
 		if (keyframes[left].KeyValue.X <= time && time < keyframes[left + 1].KeyValue.X)
 		{
 			if (keyframes[left].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_CONSTANT)

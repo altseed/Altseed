@@ -80,7 +80,7 @@ namespace ace
 		void AddObject(RenderedObject3D* o);
 		void RemoveObject(RenderedObject3D* o);
 
-		void Flip();
+		void Flip(float deltaTime);
 
 		void BeginRendering(float deltaTime);
 		void EndRendering();
