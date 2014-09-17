@@ -7,6 +7,17 @@
 
 namespace ace
 {
+	struct BoneProperty
+	{
+		float	Position[3];
+		float	Rotation[4];
+		float	Scale[3];
+
+		BoneProperty();
+
+		Matrix44 CalcMatrix(eRotationOrder rotationType);
+	};
+
 	class RenderedModelObject3DProxy
 		: public RenderedObject3DProxy
 	{
@@ -18,13 +29,20 @@ namespace ace
 		std::vector<ShaderConstantValue> shaderConstants;
 
 	public:
-		std::vector<Matrix44>					m_matrixes_rt;
-		std::vector<std::shared_ptr<Mesh>>		m_meshes_rt;
-		std::shared_ptr<Deformer>				m_deformer_rt;
+		bool									calcAnimationOnProxy = false;
+		std::vector<Matrix44>					m_matrixes;
+		std::vector<std::shared_ptr<Mesh>>		m_meshes;
+		std::shared_ptr<Deformer>				m_deformer;
+		std::vector <BoneProperty>				m_boneProps;
+		float									m_animationTime;
+		std::shared_ptr<AnimationClip>			m_animationPlaying;
+
 		std::vector<std::vector<std::shared_ptr<MaterialPropertyBlock>>>	materialPropertyBlocks;
 
 		RenderedModelObject3DProxy(Graphics* graphics);
 		virtual ~RenderedModelObject3DProxy();
+
+		void OnUpdateAsync() override;
 
 		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
 	};
@@ -32,17 +50,6 @@ namespace ace
 	class RenderedModelObject3D
 		: public RenderedObject3D
 	{
-		struct BoneProperty
-		{
-			float	Position[3];
-			float	Rotation[4];
-			float	Scale[3];
-
-			BoneProperty();
-
-			Matrix44 CalcMatrix(eRotationOrder rotationType);
-		};
-
 	private:
 		std::vector<std::shared_ptr<Mesh>>		m_meshes;
 		std::shared_ptr<Deformer>				m_deformer;
@@ -56,14 +63,11 @@ namespace ace
 
 		std::map<astring, AnimationClip*>		m_animationClips;
 
-		AnimationClip*							m_animationPlaying;
+		std::shared_ptr<AnimationClip>			m_animationPlaying;
 		float									m_animationTime;
 
 		Renderer3D*								m_renderer = nullptr;
 		RenderedModelObject3DProxy*				proxy = nullptr;
-
-		static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time);
-		static void CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer, bool isPlayingAnimation);
 
 	public:
 		RenderedModelObject3D(Graphics* graphics);

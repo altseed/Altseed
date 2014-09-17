@@ -31,6 +31,85 @@
 
 namespace ace
 {
+	static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time)
+	{
+		if (animationClip == nullptr) return;
+
+		auto source = (AnimationSource_Imp*) animationClip->GetSource().get();
+		auto& animations = source->GetAnimations();
+		auto d = (Deformer_Imp*) deformer;
+
+		for (auto& a : animations)
+		{
+			auto a_ = (KeyframeAnimation_Imp*) a;
+
+			auto type = a_->GetTargetType();
+			auto axis = a_->GetTargetAxis();
+			auto bi = d->GetBoneIndex(a_->GetTargetName());
+
+			if (bi < 0) continue;
+			auto value = a_->GetValue(time);
+
+			ModelUtils::SetBoneValue(
+				boneProps[bi].Position,
+				boneProps[bi].Rotation,
+				boneProps[bi].Scale,
+				type,
+				axis,
+				value);
+		}
+	}
+
+	static void CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer, bool isPlayingAnimation)
+	{
+		if (deformer == nullptr) return;
+		auto d = (Deformer_Imp*) deformer;
+
+		if (isPlayingAnimation)
+		{
+			for (auto i = 0; i < d->GetBones().size(); i++)
+			{
+				auto& b = d->GetBones()[i];
+				matrixes[i] = boneProps[i].CalcMatrix(b.RotationType);
+			}
+		}
+		else
+		{
+		}
+
+		ModelUtils::CalculateBoneMatrixes(
+			matrixes,
+			d->GetBones(),
+			matrixes,
+			isPlayingAnimation);
+	}
+
+	BoneProperty::BoneProperty()
+	{
+		Position[0] = 0.0f;
+		Position[1] = 0.0f;
+		Position[2] = 0.0f;
+
+		Rotation[0] = 0.0f;
+		Rotation[1] = 0.0f;
+		Rotation[2] = 0.0f;
+		Rotation[3] = 0.0f;
+
+		Scale[0] = 1.0f;
+		Scale[1] = 1.0f;
+		Scale[2] = 1.0f;
+	}
+
+
+	Matrix44 BoneProperty::CalcMatrix(eRotationOrder rotationType)
+	{
+		return ModelUtils::CalcMatrix(
+			Position,
+			Rotation,
+			Scale,
+			rotationType);
+	}
+
 	RenderedModelObject3DProxy::RenderedModelObject3DProxy(Graphics* graphics)
 	{
 		auto g = (Graphics_Imp*) graphics;
@@ -127,6 +206,15 @@ namespace ace
 
 	}
 
+	void RenderedModelObject3DProxy::OnUpdateAsync()
+	{
+		if (calcAnimationOnProxy)
+		{
+			CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying.get(), m_animationTime);
+			CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get(), m_animationPlaying != nullptr);
+		}
+	}
+
 	void RenderedModelObject3DProxy::Rendering(RenderingCommandHelper* helper, RenderingProperty& prop)
 	{
 		using h = RenderingCommandHelper;
@@ -139,10 +227,10 @@ namespace ace
 		Matrix44 matM[32];
 
 		
-		auto& matrices = m_matrixes_rt;
+		auto& matrices = m_matrixes;
 		int32_t currentMeshIndex = 0;
 
-		for (auto& mesh_ : m_meshes_rt)
+		for (auto& mesh_ : m_meshes)
 		{
 			auto mesh_root = (Mesh_Imp*) mesh_.get();
 
@@ -366,85 +454,6 @@ namespace ace
 		}
 	}
 
-	RenderedModelObject3D::BoneProperty::BoneProperty()
-	{
-		Position[0] = 0.0f;
-		Position[1] = 0.0f;
-		Position[2] = 0.0f;
-
-		Rotation[0] = 0.0f;
-		Rotation[1] = 0.0f;
-		Rotation[2] = 0.0f;
-		Rotation[3] = 0.0f;
-
-		Scale[0] = 1.0f;
-		Scale[1] = 1.0f;
-		Scale[2] = 1.0f;
-	}
-
-
-	Matrix44 RenderedModelObject3D::BoneProperty::CalcMatrix(eRotationOrder rotationType)
-	{
-		return ModelUtils::CalcMatrix(
-			Position,
-			Rotation,
-			Scale,
-			rotationType);
-	}
-
-	void RenderedModelObject3D::CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time)
-	{
-		if (animationClip == nullptr) return;
-
-		auto source = (AnimationSource_Imp*) animationClip->GetSource().get();
-		auto& animations = source->GetAnimations();
-		auto d = (Deformer_Imp*) deformer;
-
-		for (auto& a : animations)
-		{
-			auto a_ = (KeyframeAnimation_Imp*) a;
-
-			auto type = a_->GetTargetType();
-			auto axis = a_->GetTargetAxis();
-			auto bi = d->GetBoneIndex(a_->GetTargetName());
-
-			if (bi < 0) continue;
-			auto value = a_->GetValue(time);
-
-			ModelUtils::SetBoneValue(
-				boneProps[bi].Position,
-				boneProps[bi].Rotation,
-				boneProps[bi].Scale,
-				type,
-				axis,
-				value);
-		}
-	}
-
-	void RenderedModelObject3D::CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer, bool isPlayingAnimation)
-	{
-		if (deformer == nullptr) return;
-		auto d = (Deformer_Imp*) deformer;
-
-		if (isPlayingAnimation)
-		{
-			for (auto i = 0; i < d->GetBones().size(); i++)
-			{
-				auto& b = d->GetBones()[i];
-				matrixes[i] = boneProps[i].CalcMatrix(b.RotationType);
-			}
-		}
-		else
-		{
-		}
-
-		ModelUtils::CalculateBoneMatrixes(
-			matrixes,
-			d->GetBones(),
-			matrixes,
-			isPlayingAnimation);
-	}
-
 	RenderedModelObject3D::RenderedModelObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
 		, m_animationPlaying(nullptr)
@@ -588,7 +597,10 @@ namespace ace
 		auto it = m_animationClips.find(name);
 		if (it == m_animationClips.end()) return;
 
-		m_animationPlaying = (*it).second;
+		auto anim = (*it).second;
+		SafeAddRef(anim);
+
+		m_animationPlaying = CreateSharedPtrWithReleaseDLL(anim);
 		m_animationTime = 0;
 	}
 
@@ -608,21 +620,36 @@ namespace ace
 	{
 		RenderedObject3D::Flip(deltaTime);
 
-		CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying, m_animationTime);
-		CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get(), m_animationPlaying != nullptr);
-		
-		// アニメーションの適用
-		if (m_animationPlaying != nullptr)
+		bool calcAnimationOnProxy = true;
+
+		if (calcAnimationOnProxy)
 		{
-			m_animationTime += (deltaTime / (1.0/60.0));
+			proxy->m_boneProps.resize(m_boneProps.size());
+			proxy->m_matrixes.resize(m_matrixes.size());
+			proxy->m_animationTime = m_animationTime;
+			proxy->m_animationPlaying = m_animationPlaying;
+			proxy->m_deformer = m_deformer;
+		}
+		else
+		{
+			CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying.get(), m_animationTime);
+			CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get(), m_animationPlaying != nullptr);
+			proxy->m_matrixes = m_matrixes;
 		}
 
-		proxy->m_meshes_rt = m_meshes;
-		proxy->m_matrixes_rt = m_matrixes;
+		proxy->m_meshes = m_meshes;
+		proxy->calcAnimationOnProxy = calcAnimationOnProxy;
 
 		if (materialPropertyBlocks.size() != proxy->materialPropertyBlocks.size() || materialPropertyBlocks.size() > 0)
 		{
 			proxy->materialPropertyBlocks = materialPropertyBlocks;
+		}
+		
+
+		// アニメーションの時間を進める
+		if (m_animationPlaying != nullptr)
+		{
+			m_animationTime += (deltaTime / (1.0 / 60.0));
 		}
 	}
 }
