@@ -31,6 +31,24 @@
 
 namespace ace
 {
+	static void ResetAnimation(std::vector <BoneProperty>& boneProps)
+	{
+		for (auto i = 0; i < boneProps.size(); i++)
+		{
+			boneProps[i].IsAnimationPlaying = false;
+			boneProps[i].Position[0] = 0.0f;
+			boneProps[i].Position[1] = 0.0f;
+			boneProps[i].Position[2] = 0.0f;
+			boneProps[i].Rotation[0] = 0.0f;
+			boneProps[i].Rotation[1] = 0.0f;
+			boneProps[i].Rotation[2] = 0.0f;
+			boneProps[i].Rotation[3] = 0.0f;
+			boneProps[i].Scale[0] = 1.0f;
+			boneProps[i].Scale[1] = 1.0f;
+			boneProps[i].Scale[2] = 1.0f;
+		}
+	}
+
 	static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time)
 	{
 		if (animationClip == nullptr) return;
@@ -57,31 +75,34 @@ namespace ace
 				type,
 				axis,
 				value);
+
+			boneProps[bi].IsAnimationPlaying = true;
 		}
 	}
 
-	static void CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer, bool isPlayingAnimation)
+	static void CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer)
 	{
 		if (deformer == nullptr) return;
 		auto d = (Deformer_Imp*) deformer;
 
-		if (isPlayingAnimation)
+		for (auto i = 0; i < d->GetBones().size(); i++)
 		{
-			for (auto i = 0; i < d->GetBones().size(); i++)
+			auto& b = d->GetBones()[i];
+
+			if (boneProps[i].IsAnimationPlaying)
 			{
-				auto& b = d->GetBones()[i];
 				matrixes[i] = boneProps[i].CalcMatrix(b.RotationType);
 			}
+			else
+			{
+				matrixes[i] = b.LocalMat;
+			}
 		}
-		else
-		{
-		}
-
+		
 		ModelUtils::CalculateBoneMatrixes(
 			matrixes,
 			d->GetBones(),
-			matrixes,
-			isPlayingAnimation);
+			matrixes);
 	}
 
 	BoneProperty::BoneProperty()
@@ -210,8 +231,25 @@ namespace ace
 	{
 		if (calcAnimationOnProxy)
 		{
-			CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying.get(), m_animationTime);
-			CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get(), m_animationPlaying != nullptr);
+			ResetAnimation(m_boneProps);
+
+			for (int32_t i = 0; i < AnimationCount; i++)
+			{
+				if (m_animationPlaying[i] == nullptr) continue;
+
+				auto anim = m_animationPlaying[i].get();
+				auto loop = anim->GetIsLoopingMode();
+				auto src = (AnimationSource_Imp*) anim->GetSource().get();
+				auto length = src->GetLength();
+				auto time = m_animationTime[i];
+				if (loop)
+				{
+					time = fmodf(time, length);
+				}
+				CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying[i].get(), time);
+			}
+			
+			CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
 		}
 	}
 
@@ -456,10 +494,14 @@ namespace ace
 
 	RenderedModelObject3D::RenderedModelObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
-		, m_animationPlaying(nullptr)
-		, m_animationTime(0)
 	{
 		proxy = new RenderedModelObject3DProxy(graphics);
+
+		for (int32_t i = 0; i < AnimationCount; i++)
+		{
+			m_animationPlaying[i].reset();
+			m_animationTime[i] = 0;
+		}
 	}
 
 	RenderedModelObject3D::~RenderedModelObject3D()
@@ -581,6 +623,16 @@ namespace ace
 		LoadModel();
 	}
 
+	AnimationClip* RenderedModelObject3D::GetAnimationClip(const achar* name)
+	{
+		if (m_animationClips.find(name) != m_animationClips.end())
+		{
+			return m_animationClips[name];
+		}
+
+		return nullptr;
+	}
+
 	void RenderedModelObject3D::AddAnimationClip(const achar* name, AnimationClip* animationClip)
 	{
 		if (animationClip == nullptr) return;
@@ -592,16 +644,48 @@ namespace ace
 		}
 	}
 
-	void RenderedModelObject3D::PlayAnimation(const achar* name)
+	void RenderedModelObject3D::PlayAnimation(int32_t index, const achar* name)
 	{
+		if (index >= AnimationCount) return;
+		if (index < 0) return;
+
 		auto it = m_animationClips.find(name);
 		if (it == m_animationClips.end()) return;
 
 		auto anim = (*it).second;
 		SafeAddRef(anim);
 
-		m_animationPlaying = CreateSharedPtrWithReleaseDLL(anim);
-		m_animationTime = 0;
+		m_animationPlaying[index] = CreateSharedPtrWithReleaseDLL(anim);
+		m_animationTime[index] = 0;
+	}
+
+	void RenderedModelObject3D::StopAnimation(int32_t index)
+	{
+		if (index >= AnimationCount) return;
+		if (index < 0) return;
+
+		m_animationPlaying[index].reset();
+		m_animationTime[index] = 0;
+	}
+
+	bool RenderedModelObject3D::IsAnimationPlaying(int32_t index)
+	{
+		if (index >= AnimationCount) return false;
+		if (index < 0) return false;
+		if (m_animationPlaying[index]) return false;
+
+		auto& anim = m_animationPlaying[index];
+		if (anim->GetIsLoopingMode())
+		{
+			return true;
+		}
+		else
+		{
+			auto src = (AnimationSource_Imp*)anim->GetSource().get();
+			return src->GetLength() > m_animationTime[index];
+		}
+
+		return true;
 	}
 
 	void RenderedModelObject3D::OnAdded(Renderer3D* renderer)
@@ -626,14 +710,37 @@ namespace ace
 		{
 			proxy->m_boneProps.resize(m_boneProps.size());
 			proxy->m_matrixes.resize(m_matrixes.size());
-			proxy->m_animationTime = m_animationTime;
-			proxy->m_animationPlaying = m_animationPlaying;
+
+			for (auto i = 0; i < AnimationCount; i++)
+			{
+				proxy->m_animationTime[i] = m_animationTime[i];
+				proxy->m_animationPlaying[i] = m_animationPlaying[i];
+			}
+			
 			proxy->m_deformer = m_deformer;
 		}
 		else
 		{
-			CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying.get(), m_animationTime);
-			CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get(), m_animationPlaying != nullptr);
+			ResetAnimation(m_boneProps);
+
+			for (int32_t i = 0; i < AnimationCount; i++)
+			{
+				if (m_animationPlaying[i] == nullptr) continue;
+
+				auto anim = m_animationPlaying[i].get();
+				auto loop = anim->GetIsLoopingMode();
+				auto src = (AnimationSource_Imp*) anim->GetSource().get();
+				auto length = src->GetLength();
+				auto time = m_animationTime[i];
+				if (loop)
+				{
+					time = fmodf(time, length);
+				}
+				CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying[i].get(), time);
+			}
+
+			CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
+
 			proxy->m_matrixes = m_matrixes;
 		}
 
@@ -647,9 +754,12 @@ namespace ace
 		
 
 		// アニメーションの時間を進める
-		if (m_animationPlaying != nullptr)
+		for (auto i = 0; i < AnimationCount; i++)
 		{
-			m_animationTime += (deltaTime / (1.0 / 60.0));
+			if (m_animationPlaying[i] != nullptr)
+			{
+				m_animationTime[i] += (deltaTime / (1.0 / 60.0));
+			}
 		}
 	}
 }

@@ -634,24 +634,15 @@ namespace ace
 		writer.Push(ac.Index);
 	}
 
-	void ModelUtils::CalculateBoneMatrixes(std::vector<Matrix44>& dst, const std::vector<Model_IO::Bone>& bones, const std::vector<Matrix44>& localMatrixes, bool isPlayingAnimation)
+	void ModelUtils::CalculateBoneMatrixes(std::vector<Matrix44>& dst, const std::vector<Model_IO::Bone>& bones, const std::vector<Matrix44>& localMatrixes)
 	{
 		// 計算
 		for (auto i = 0; i < bones.size(); i++)
 		{
 			auto& b = bones[i];
 
-			// ローカル行列の計算
-
-			if (isPlayingAnimation)
-			{
-				dst[i] = localMatrixes[i];
-			}
-			else
-			{
-				dst[i] = b.LocalMat;
-			}
-
+			dst[i] = localMatrixes[i];
+	
 			if (b.ParentBoneIndex >= 0)
 			{
 				Matrix44::Mul(dst[i], dst[b.ParentBoneIndex], dst[i]);

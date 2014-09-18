@@ -31,9 +31,27 @@ namespace ace
 		m_coreObject->SetDeformer(deformer.get());
 	}
 
-	void ModelObject3D::PlayAnimation(const achar* name)
+	std::shared_ptr<AnimationClip> ModelObject3D::GetAnimationClip(const achar* name)
 	{
-		m_coreObject->PlayAnimation(name);
+		auto anim = m_coreObject->GetAnimationClip(name);
+		if (anim == nullptr) return nullptr;
+		SafeAddRef(anim);
+		return CreateSharedPtrWithReleaseDLL(anim);
+	}
+
+	void ModelObject3D::PlayAnimation(int32_t index, const achar* name)
+	{
+		m_coreObject->PlayAnimation(index, name);
+	}
+
+	void ModelObject3D::StopAnimation(int32_t index)
+	{
+		m_coreObject->StopAnimation(index);
+	}
+
+	bool ModelObject3D::IsAnimationPlaying(int32_t index)
+	{
+		return m_coreObject->IsAnimationPlaying(index);
 	}
 
 	void ModelObject3D::SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, std::shared_ptr<MaterialPropertyBlock> block)

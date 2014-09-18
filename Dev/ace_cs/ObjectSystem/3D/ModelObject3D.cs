@@ -58,12 +58,42 @@ namespace ace
 		}
 
 		/// <summary>
+		/// アニメーションクリップを取得する。
+		/// </summary>
+		/// <param name="name">アニメーションクリップの名称</param>
+		/// <returns>アニメーションクリップ</returns>
+		public AnimationClip GetAnimationClip(string name)
+		{
+			return GC.GenerateAnimationClip(coreObject.GetAnimationClip(name), GC.GenerationType.Get);
+		}
+
+		/// <summary>
 		/// アニメーションを再生する。
 		/// </summary>
+		/// <param name="index">対象のインデックス</param>
 		/// <param name="name">アニメーションの名称</param>
-		public void PlayAnimation(string name)
+		public void PlayAnimation(int index, string name)
 		{
-			coreObject.PlayAnimation(name);
+			coreObject.PlayAnimation(index, name);
+		}
+
+		/// <summary>
+		/// アニメーションを停止する。
+		/// </summary>
+		/// <param name="index">対象のインデックス</param>
+		public void StopAnimation(int index)
+		{
+			coreObject.StopAnimation(index);
+		}
+
+		/**
+		@brief	アニメーションが再生中か取得する。
+		@param	index	対象のインデックス
+		@return	再生中か?
+		*/
+		public bool IsAnimationPlaying(int index)
+		{
+			return coreObject.IsAnimationPlaying(index);
 		}
 
 		/// <summary>

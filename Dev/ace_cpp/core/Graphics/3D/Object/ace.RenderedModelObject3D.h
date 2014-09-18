@@ -12,6 +12,7 @@ namespace ace
 		float	Position[3];
 		float	Rotation[4];
 		float	Scale[3];
+		bool	IsAnimationPlaying;
 
 		BoneProperty();
 
@@ -22,6 +23,8 @@ namespace ace
 		: public RenderedObject3DProxy
 	{
 	private:
+		static const int32_t					AnimationCount = 4;
+
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF_ND;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;
@@ -34,8 +37,9 @@ namespace ace
 		std::vector<std::shared_ptr<Mesh>>		m_meshes;
 		std::shared_ptr<Deformer>				m_deformer;
 		std::vector <BoneProperty>				m_boneProps;
-		float									m_animationTime;
-		std::shared_ptr<AnimationClip>			m_animationPlaying;
+
+		std::shared_ptr<AnimationClip>			m_animationPlaying[AnimationCount];
+		float									m_animationTime[AnimationCount];
 
 		std::vector<std::vector<std::shared_ptr<MaterialPropertyBlock>>>	materialPropertyBlocks;
 
@@ -51,6 +55,8 @@ namespace ace
 		: public RenderedObject3D
 	{
 	private:
+		static const int32_t					AnimationCount = 4;
+
 		std::vector<std::shared_ptr<Mesh>>		m_meshes;
 		std::shared_ptr<Deformer>				m_deformer;
 		std::vector<Matrix44>					m_matrixes;
@@ -63,8 +69,8 @@ namespace ace
 
 		std::map<astring, AnimationClip*>		m_animationClips;
 
-		std::shared_ptr<AnimationClip>			m_animationPlaying;
-		float									m_animationTime;
+		std::shared_ptr<AnimationClip>			m_animationPlaying[AnimationCount];
+		float									m_animationTime[AnimationCount];
 
 		Renderer3D*								m_renderer = nullptr;
 		RenderedModelObject3DProxy*				proxy = nullptr;
@@ -101,9 +107,15 @@ namespace ace
 
 		void ReloadModel();
 
+		AnimationClip* GetAnimationClip(const achar* name);
+
 		void AddAnimationClip(const achar* name, AnimationClip* animationClip);
 
-		void PlayAnimation(const achar* name);
+		void PlayAnimation(int32_t index, const achar* name);
+
+		void StopAnimation(int32_t index);
+
+		bool IsAnimationPlaying(int32_t index);
 
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
 

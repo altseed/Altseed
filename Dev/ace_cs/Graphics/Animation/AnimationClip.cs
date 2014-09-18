@@ -60,5 +60,14 @@ namespace ace
 				SwigObject.SetSource(value.SwigObject);
 			}
 		}
+
+		/// <summary>
+		/// ループするかを取得、または設定する。
+		/// </summary>
+		public bool IsLoopingMode
+		{
+			get { return SwigObject.GetIsLoopingMode(); }
+			set { SwigObject.SetIsLoopingMode(value); }
+		}
 	}
 }

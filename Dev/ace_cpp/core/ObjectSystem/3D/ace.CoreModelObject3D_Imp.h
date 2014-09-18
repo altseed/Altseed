@@ -27,7 +27,13 @@ namespace ace
 
 		void SetDeformer(Deformer* deformer) override;
 
-		void PlayAnimation(const achar* name) override;
+		AnimationClip* GetAnimationClip(const achar* name) override;
+
+		void PlayAnimation(int32_t index, const achar* name) override;
+
+		void StopAnimation(int32_t index) override;
+
+		bool IsAnimationPlaying(int32_t index) override;
 
 		void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, MaterialPropertyBlock* block) override;
 

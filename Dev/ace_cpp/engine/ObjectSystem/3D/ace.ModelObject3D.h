@@ -54,11 +54,33 @@ namespace ace
 		*/
 		void SetDeformer(std::shared_ptr<Deformer> deformer);
 
+		
+		/**
+		@brief	アニメーションクリップを取得する。
+		@param	name	アニメーションクリップの名称
+		@return	アニメーションクリップ
+		*/
+		std::shared_ptr<AnimationClip> GetAnimationClip(const achar* name);
+
 		/**
 		@brief	アニメーションを再生する。
+		@param	index	対象のインデックス
 		@param	name	アニメーションの名称
 		*/
-		void PlayAnimation(const achar* name);
+		void PlayAnimation(int32_t index, const achar* name);
+
+		/**
+		@brief	アニメーションを停止する。
+		@param	index	対象のインデックス
+		*/
+		void StopAnimation(int32_t index);
+
+		/**
+		@brief	アニメーションが再生中か取得する。
+		@param	index	対象のインデックス
+		@return	再生中か?
+		*/
+		bool IsAnimationPlaying(int32_t index);
 
 		/**
 		@brief	材質個別に描画時のパラメーターを設定する。

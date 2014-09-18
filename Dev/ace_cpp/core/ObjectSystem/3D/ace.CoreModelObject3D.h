@@ -19,7 +19,13 @@ namespace ace
 
 		virtual void SetDeformer(Deformer* deformer) = 0;
 
-		virtual void PlayAnimation(const achar* name) = 0;
+		virtual AnimationClip* GetAnimationClip(const achar* name) = 0;
+
+		virtual void PlayAnimation(int32_t index, const achar* name) = 0;
+
+		virtual void StopAnimation(int32_t index) = 0;
+
+		virtual bool IsAnimationPlaying(int32_t index) = 0;
 
 		virtual void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, MaterialPropertyBlock* block) = 0;
 	};
