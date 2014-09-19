@@ -102,9 +102,9 @@ namespace ace
 		/// <param name="index">対象のインデックス</param>
 		/// <param name="name">アニメーションの名称</param>
 		/// <param name="time">クロスフェードにかかる時間(秒)</param>
-		public void CrossFade(int index, string name, float time)
+		public void CrossFadeAnimation(int index, string name, float time)
 		{
-			coreObject.CrossFade(index, name, time);
+			coreObject.CrossFadeAnimation(index, name, time);
 		}
 
 		/**

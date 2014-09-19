@@ -49,6 +49,16 @@ namespace ace
 		m_coreObject->StopAnimation(index);
 	}
 
+	void ModelObject3D::SetAnimationWeight(int32_t index, float weight)
+	{
+		m_coreObject->SetAnimationWeight(index, weight);
+	}
+
+	void ModelObject3D::CrossFadeAnimation(int32_t index, const achar* name, float time)
+	{
+		m_coreObject->CrossFadeAnimation(index, name, time);
+	}
+
 	bool ModelObject3D::IsAnimationPlaying(int32_t index)
 	{
 		return m_coreObject->IsAnimationPlaying(index);

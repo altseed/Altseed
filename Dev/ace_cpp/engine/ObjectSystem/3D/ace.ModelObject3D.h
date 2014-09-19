@@ -88,7 +88,7 @@ namespace ace
 		@param	name	アニメーションの名称
 		@param	time	クロスフェードにかかる時間(秒)
 		*/
-		void CrossFade(int32_t index, const achar* name, float time);
+		void CrossFadeAnimation(int32_t index, const achar* name, float time);
 
 		/**
 		@brief	アニメーションが再生中か取得する。

@@ -53,9 +53,9 @@ namespace ace
 		m_object->SetAnimationWeight(index, weight);
 	}
 
-	void CoreModelObject3D_Imp::CrossFade(int32_t index, const achar* name, float time)
+	void CoreModelObject3D_Imp::CrossFadeAnimation(int32_t index, const achar* name, float time)
 	{
-		m_object->CrossFade(index, name, time);
+		m_object->CrossFadeAnimation(index, name, time);
 	}
 
 	bool CoreModelObject3D_Imp::IsAnimationPlaying(int32_t index)

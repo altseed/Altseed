@@ -687,7 +687,7 @@ namespace ace
 		m_animationWeight[index] = weight;
 	}
 
-	void RenderedModelObject3D::CrossFade(int32_t index, const achar* name, float time)
+	void RenderedModelObject3D::CrossFadeAnimation(int32_t index, const achar* name, float time)
 	{
 		if (index >= AnimationCount) return;
 		if (index < 0) return;

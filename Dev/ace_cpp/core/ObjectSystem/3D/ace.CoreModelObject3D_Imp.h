@@ -35,7 +35,7 @@ namespace ace
 
 		void SetAnimationWeight(int32_t index, float weight)  override;
 
-		void CrossFade(int32_t index, const achar* name, float time) override;
+		void CrossFadeAnimation(int32_t index, const achar* name, float time) override;
 
 		bool IsAnimationPlaying(int32_t index) override;
 

@@ -125,7 +125,7 @@ namespace ace
 
 		void SetAnimationWeight(int32_t index, float weight);
 
-		void CrossFade(int32_t index, const achar* name, float time);
+		void CrossFadeAnimation(int32_t index, const achar* name, float time);
 
 		bool IsAnimationPlaying(int32_t index);
 
