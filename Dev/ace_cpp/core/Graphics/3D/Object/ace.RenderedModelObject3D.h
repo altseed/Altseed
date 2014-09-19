@@ -19,6 +19,14 @@ namespace ace
 		Matrix44 CalcMatrix(eRotationOrder rotationType);
 	};
 
+	struct PlayedAnimation
+	{
+		std::shared_ptr<AnimationClip>		Animation;
+		float								CurrentWeight;
+		float								Variation;
+		int32_t								Time;
+	};
+
 	class RenderedModelObject3DProxy
 		: public RenderedObject3DProxy
 	{
@@ -38,8 +46,8 @@ namespace ace
 		std::shared_ptr<Deformer>				m_deformer;
 		std::vector <BoneProperty>				m_boneProps;
 
-		std::shared_ptr<AnimationClip>			m_animationPlaying[AnimationCount];
-		float									m_animationTime[AnimationCount];
+		std::vector<PlayedAnimation>			m_animationPlaying[AnimationCount];
+		float									m_animationWeight[AnimationCount];
 
 		std::vector<std::vector<std::shared_ptr<MaterialPropertyBlock>>>	materialPropertyBlocks;
 
@@ -69,8 +77,8 @@ namespace ace
 
 		std::map<astring, AnimationClip*>		m_animationClips;
 
-		std::shared_ptr<AnimationClip>			m_animationPlaying[AnimationCount];
-		float									m_animationTime[AnimationCount];
+		std::vector<PlayedAnimation>			m_animationPlaying[AnimationCount];
+		float									m_animationWeight[AnimationCount];
 
 		Renderer3D*								m_renderer = nullptr;
 		RenderedModelObject3DProxy*				proxy = nullptr;
@@ -114,6 +122,10 @@ namespace ace
 		void PlayAnimation(int32_t index, const achar* name);
 
 		void StopAnimation(int32_t index);
+
+		void SetAnimationWeight(int32_t index, float weight);
+
+		void CrossFade(int32_t index, const achar* name, float time);
 
 		bool IsAnimationPlaying(int32_t index);
 

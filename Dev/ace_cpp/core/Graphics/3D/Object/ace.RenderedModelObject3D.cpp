@@ -49,7 +49,7 @@ namespace ace
 		}
 	}
 
-	static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time)
+	static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time, float weight, float lerp)
 	{
 		if (animationClip == nullptr) return;
 
@@ -68,13 +68,16 @@ namespace ace
 			if (bi < 0) continue;
 			auto value = a_->GetValue(time);
 
+			value *= weight;
+
 			ModelUtils::SetBoneValue(
 				boneProps[bi].Position,
 				boneProps[bi].Rotation,
 				boneProps[bi].Scale,
 				type,
 				axis,
-				value);
+				value,
+				lerp);
 
 			boneProps[bi].IsAnimationPlaying = true;
 		}
@@ -235,20 +238,23 @@ namespace ace
 
 			for (int32_t i = 0; i < AnimationCount; i++)
 			{
-				if (m_animationPlaying[i] == nullptr) continue;
+				if (m_animationPlaying[i].size() == 0) continue;
 
-				auto anim = m_animationPlaying[i].get();
-				auto loop = anim->GetIsLoopingMode();
-				auto src = (AnimationSource_Imp*) anim->GetSource().get();
-				auto length = src->GetLength();
-				auto time = m_animationTime[i];
-				if (loop)
+				for (auto& anim_ : m_animationPlaying[i])
 				{
-					time = fmodf(time, length);
+					auto anim = anim_.Animation.get();
+					auto loop = anim->GetIsLoopingMode();
+					auto src = (AnimationSource_Imp*) anim->GetSource().get();
+					auto length = src->GetLength();
+					auto time = anim_.Time;
+					if (loop)
+					{
+						time = fmodf(time, length);
+					}
+					CalculateAnimation(m_boneProps, m_deformer.get(), anim, time, anim_.CurrentWeight, m_animationWeight[i]);
 				}
-				CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying[i].get(), time);
 			}
-			
+
 			CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
 		}
 	}
@@ -499,8 +505,8 @@ namespace ace
 
 		for (int32_t i = 0; i < AnimationCount; i++)
 		{
-			m_animationPlaying[i].reset();
-			m_animationTime[i] = 0;
+			m_animationPlaying[i].clear();
+			m_animationWeight[i] = 1.0f;
 		}
 	}
 
@@ -655,8 +661,14 @@ namespace ace
 		auto anim = (*it).second;
 		SafeAddRef(anim);
 
-		m_animationPlaying[index] = CreateSharedPtrWithReleaseDLL(anim);
-		m_animationTime[index] = 0;
+		PlayedAnimation panim;
+		panim.Animation = CreateSharedPtrWithReleaseDLL(anim);
+		panim.CurrentWeight = 1.0f;
+		panim.Variation = 0.0f;
+		panim.Time = 0;
+
+		m_animationPlaying[index].resize(1);
+		m_animationPlaying[index][0] = panim;
 	}
 
 	void RenderedModelObject3D::StopAnimation(int32_t index)
@@ -664,25 +676,63 @@ namespace ace
 		if (index >= AnimationCount) return;
 		if (index < 0) return;
 
-		m_animationPlaying[index].reset();
-		m_animationTime[index] = 0;
+		m_animationPlaying[index].clear();
+	}
+
+	void RenderedModelObject3D::SetAnimationWeight(int32_t index, float weight)
+	{
+		if (index >= AnimationCount) return;
+		if (index < 0) return;
+
+		m_animationWeight[index] = weight;
+	}
+
+	void RenderedModelObject3D::CrossFade(int32_t index, const achar* name, float time)
+	{
+		if (index >= AnimationCount) return;
+		if (index < 0) return;
+
+		auto it = m_animationClips.find(name);
+		if (it == m_animationClips.end()) return;
+
+		auto anim = (*it).second;
+		SafeAddRef(anim);
+
+		PlayedAnimation panim;
+		panim.Animation = CreateSharedPtrWithReleaseDLL(anim);
+		panim.CurrentWeight = 0.0f;
+		panim.Variation = 1.0f / time;
+		panim.Time = 0;
+
+		for (auto& a : m_animationPlaying[index])
+		{
+			a.Variation = -(1.0f / time) * a.CurrentWeight;
+		}
+
+		m_animationPlaying[index].push_back(panim);
 	}
 
 	bool RenderedModelObject3D::IsAnimationPlaying(int32_t index)
 	{
 		if (index >= AnimationCount) return false;
 		if (index < 0) return false;
-		if (m_animationPlaying[index]) return false;
+		if (m_animationPlaying[index].size() == 0) return false;
 
-		auto& anim = m_animationPlaying[index];
-		if (anim->GetIsLoopingMode())
+		auto& anims = m_animationPlaying[index];
+		
+		for (auto& anim : anims)
 		{
-			return true;
-		}
-		else
-		{
-			auto src = (AnimationSource_Imp*)anim->GetSource().get();
-			return src->GetLength() > m_animationTime[index];
+			if (anim.CurrentWeight == 0.0f) continue;
+
+			if (anim.Animation->GetIsLoopingMode())
+			{
+				return true;
+			}
+			else
+			{
+				auto src = (AnimationSource_Imp*) anim.Animation->GetSource().get();
+				return src->GetLength() > anim.Time;
+			}
 		}
 
 		return true;
@@ -713,8 +763,8 @@ namespace ace
 
 			for (auto i = 0; i < AnimationCount; i++)
 			{
-				proxy->m_animationTime[i] = m_animationTime[i];
 				proxy->m_animationPlaying[i] = m_animationPlaying[i];
+				proxy->m_animationWeight[i] = m_animationWeight[i];
 			}
 			
 			proxy->m_deformer = m_deformer;
@@ -725,18 +775,21 @@ namespace ace
 
 			for (int32_t i = 0; i < AnimationCount; i++)
 			{
-				if (m_animationPlaying[i] == nullptr) continue;
+				if (m_animationPlaying[i].size() == 0) continue;
 
-				auto anim = m_animationPlaying[i].get();
-				auto loop = anim->GetIsLoopingMode();
-				auto src = (AnimationSource_Imp*) anim->GetSource().get();
-				auto length = src->GetLength();
-				auto time = m_animationTime[i];
-				if (loop)
+				for (auto& anim_ : m_animationPlaying[i])
 				{
-					time = fmodf(time, length);
+					auto anim = anim_.Animation.get();
+					auto loop = anim->GetIsLoopingMode();
+					auto src = (AnimationSource_Imp*) anim->GetSource().get();
+					auto length = src->GetLength();
+					auto time = anim_.Time;
+					if (loop)
+					{
+						time = fmodf(time, length);
+					}
+					CalculateAnimation(m_boneProps, m_deformer.get(), anim, time, anim_.CurrentWeight, m_animationWeight[i]);
 				}
-				CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying[i].get(), time);
 			}
 
 			CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
@@ -756,9 +809,27 @@ namespace ace
 		// アニメーションの時間を進める
 		for (auto i = 0; i < AnimationCount; i++)
 		{
-			if (m_animationPlaying[i] != nullptr)
+			bool rm = false;
+
+			for (auto& anim : m_animationPlaying[i])
 			{
-				m_animationTime[i] += (deltaTime / (1.0 / 60.0));
+				anim.Time += (deltaTime / (1.0 / 60.0));
+				anim.CurrentWeight += anim.Variation * deltaTime;
+
+				if (anim.CurrentWeight > 1.0f) anim.CurrentWeight = 1.0f;
+				if (anim.CurrentWeight <= 0.0f)
+				{
+					anim.CurrentWeight = 0.0f;
+					rm = true;
+				}
+			}
+
+			if (rm)
+			{
+				auto it_ = std::remove_if(m_animationPlaying[i].begin(), m_animationPlaying[i].end(), 
+					[](const PlayedAnimation& v)->bool { return v.CurrentWeight == 0.0f; });
+
+				m_animationPlaying[i].erase(it_, m_animationPlaying[i].end());
 			}
 		}
 	}

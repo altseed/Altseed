@@ -227,7 +227,8 @@ namespace ace
 			float scale[3], 
 			eAnimationCurveTargetType targetType, 
 			eAnimationCurveTargetAxis targetAxis, 
-			float value);
+			float value,
+			float lerp);
 
 	};
 }

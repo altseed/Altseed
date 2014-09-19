@@ -25,6 +25,10 @@ namespace ace
 
 		virtual void StopAnimation(int32_t index) = 0;
 
+		virtual void SetAnimationWeight(int32_t index, float weight) = 0;
+
+		virtual void CrossFade(int32_t index, const achar* name, float time) = 0;
+
 		virtual bool IsAnimationPlaying(int32_t index) = 0;
 
 		virtual void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, MaterialPropertyBlock* block) = 0;

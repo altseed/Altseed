@@ -76,6 +76,21 @@ namespace ace
 		void StopAnimation(int32_t index);
 
 		/**
+		@brief	アニメーションの合成比率を設定する。
+		@param	index	対象のインデックス
+		@param	weight	合成比率
+		*/
+		void SetAnimationWeight(int32_t index, float weight);
+
+		/**
+		@brief	アニメーションをクロスフェードで再生する。
+		@param	index	対象のインデックス
+		@param	name	アニメーションの名称
+		@param	time	クロスフェードにかかる時間(秒)
+		*/
+		void CrossFade(int32_t index, const achar* name, float time);
+
+		/**
 		@brief	アニメーションが再生中か取得する。
 		@param	index	対象のインデックス
 		@return	再生中か?

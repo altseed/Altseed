@@ -937,22 +937,23 @@ namespace ace
 		float scale[3],
 		eAnimationCurveTargetType targetType,
 		eAnimationCurveTargetAxis targetAxis,
-		float value)
+		float value,
+		float lerp)
 	{
 		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_NONE) return;
 		if (targetAxis == eAnimationCurveTargetAxis::ANIMATION_CURVE_TARGET_AXIS_NONE) return;
 		
 		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_POSITON)
 		{
-			position[targetAxis] = value;
+			position[targetAxis] = value * lerp + position[targetAxis] * (1.0f - lerp);
 		}
 		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_ROTATION)
 		{
-			rotation[targetAxis] = value / 180.0f * 3.141592f;
+			rotation[targetAxis] = value / 180.0f * 3.141592f * lerp + rotation[targetAxis] * (1.0f - lerp);
 		}
 		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_SCALE)
 		{
-			scale[targetAxis] = value;
+			scale[targetAxis] = value * lerp + scale[targetAxis] * (1.0f - lerp);
 		}
 	}
 }

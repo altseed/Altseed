@@ -86,6 +86,27 @@ namespace ace
 			coreObject.StopAnimation(index);
 		}
 
+		/// <summary>
+		/// アニメーションの合成比率を設定する。
+		/// </summary>
+		/// <param name="index">対象のインデックス</param>
+		/// <param name="weight">合成比率</param>
+		public void SetAnimationWeight(int index, float weight)
+		{
+			coreObject.SetAnimationWeight(index, weight);
+		}
+
+		/// <summary>
+		/// アニメーションをクロスフェードで再生する。
+		/// </summary>
+		/// <param name="index">対象のインデックス</param>
+		/// <param name="name">アニメーションの名称</param>
+		/// <param name="time">クロスフェードにかかる時間(秒)</param>
+		public void CrossFade(int index, string name, float time)
+		{
+			coreObject.CrossFade(index, name, time);
+		}
+
 		/**
 		@brief	アニメーションが再生中か取得する。
 		@param	index	対象のインデックス
