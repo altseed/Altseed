@@ -133,8 +133,7 @@ namespace ace
 						boneValues[index].Scale,
 						targetType,
 						targetAxis,
-						value,
-						1.0f);
+						value);
 
 					localMatrixes[index] = ModelUtils::CalcMatrix(
 						boneValues[index].Position,

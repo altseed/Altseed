@@ -937,23 +937,54 @@ namespace ace
 		float scale[3],
 		eAnimationCurveTargetType targetType,
 		eAnimationCurveTargetAxis targetAxis,
-		float value,
-		float lerp)
+		float value)
 	{
 		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_NONE) return;
 		if (targetAxis == eAnimationCurveTargetAxis::ANIMATION_CURVE_TARGET_AXIS_NONE) return;
 		
 		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_POSITON)
 		{
-			position[targetAxis] = value * lerp + position[targetAxis] * (1.0f - lerp);
+			position[targetAxis] = value;
 		}
 		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_ROTATION)
 		{
-			rotation[targetAxis] = value / 180.0f * 3.141592f * lerp + rotation[targetAxis] * (1.0f - lerp);
+			rotation[targetAxis] = value / 180.0f * 3.141592f;
 		}
 		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_SCALE)
 		{
-			scale[targetAxis] = value * lerp + scale[targetAxis] * (1.0f - lerp);
+			scale[targetAxis] = value;
+		}
+	}
+
+	void ModelUtils::AddBoneValue(
+		float position[3],
+		float rotation[4],
+		float scale[3],
+		float positionW[3],
+		float rotationW[4],
+		float scaleW[3],
+		eAnimationCurveTargetType targetType,
+		eAnimationCurveTargetAxis targetAxis,
+		float value,
+		float weight)
+	{
+		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_NONE) return;
+		if (targetAxis == eAnimationCurveTargetAxis::ANIMATION_CURVE_TARGET_AXIS_NONE) return;
+
+		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_POSITON)
+		{
+			position[targetAxis] += value * weight;
+			positionW[targetAxis] += weight;
+		}
+		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_ROTATION)
+		{
+			rotation[targetAxis] += value / 180.0f * 3.141592f * weight;
+			rotationW[targetAxis] += weight;
+		}
+		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_SCALE)
+		{
+			scale[targetAxis] += value * weight;
+			scaleW[targetAxis] += weight;
 		}
 	}
 }

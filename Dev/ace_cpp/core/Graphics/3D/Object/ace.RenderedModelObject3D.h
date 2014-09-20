@@ -12,6 +12,11 @@ namespace ace
 		float	Position[3];
 		float	Rotation[4];
 		float	Scale[3];
+
+		float	PositionWeight[3];
+		float	RotationWeight[4];
+		float	ScaleWeight[3];
+
 		bool	IsAnimationPlaying;
 
 		BoneProperty();
@@ -42,6 +47,8 @@ namespace ace
 	public:
 		bool									calcAnimationOnProxy = false;
 		std::vector<Matrix44>					m_matrixes;
+		std::vector<Matrix44>					m_matrixes_temp;
+
 		std::vector<std::shared_ptr<Mesh>>		m_meshes;
 		std::shared_ptr<Deformer>				m_deformer;
 		std::vector <BoneProperty>				m_boneProps;
@@ -68,6 +75,7 @@ namespace ace
 		std::vector<std::shared_ptr<Mesh>>		m_meshes;
 		std::shared_ptr<Deformer>				m_deformer;
 		std::vector<Matrix44>					m_matrixes;
+		std::vector<Matrix44>					m_matrixes_temp;
 
 		std::vector<std::vector<std::shared_ptr<MaterialPropertyBlock>>>	materialPropertyBlocks;
 
