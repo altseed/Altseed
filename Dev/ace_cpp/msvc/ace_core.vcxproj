@@ -189,6 +189,7 @@
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.LightRendering.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.h" />
+    <ClInclude Include="..\core\Graphics\3D\Renderer\ace.SpriteRenderer3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Resource\ace.Deformer.h" />
     <ClInclude Include="..\core\Graphics\3D\Resource\ace.Deformer_Imp.h" />
     <ClInclude Include="..\core\Graphics\3D\Resource\ace.MassModel.h" />
@@ -278,6 +279,8 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Screen_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GaussianBlur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GrayScale_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h" />
@@ -296,6 +299,8 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Model_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Paste_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Screen_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\SpriteRenderer3D_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\SpriteRenderer3D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GaussianBlur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GrayScale_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h" />
@@ -412,6 +417,7 @@
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.LightRendering.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3DProxy.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Renderer\ace.SpriteRenderer3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Resource\ace.Deformer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Resource\ace.MassModel_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Resource\ace.Mesh_Imp.cpp" />

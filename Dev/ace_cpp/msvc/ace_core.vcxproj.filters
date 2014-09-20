@@ -766,6 +766,21 @@
     <ClInclude Include="..\core\Graphics\Resource\ace.Shader3D.h">
       <Filter>Graphics\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\ace.SpriteRenderer3D.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\SpriteRenderer3D_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\SpriteRenderer3D_VS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1095,6 +1110,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Resource\ace.Shader3D_Imp.cpp">
       <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\ace.SpriteRenderer3D.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
