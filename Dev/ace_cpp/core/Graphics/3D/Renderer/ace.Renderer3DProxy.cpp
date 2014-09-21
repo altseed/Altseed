@@ -740,6 +740,9 @@ namespace ace
 
 		// エフェクトの描画
 		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
+		
+		// スプライトの描画
+		helper->DrawSprite(cP->ProjectionMatrix, cP->CameraMatrix);
 
 		if (Settings.VisualizedBuffer == VisualizedBufferType::FinalImage)
 		{

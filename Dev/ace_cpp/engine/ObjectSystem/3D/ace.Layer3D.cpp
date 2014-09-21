@@ -114,6 +114,18 @@ namespace ace
 		object->SetLayer(nullptr);
 	}
 
+	void Layer3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
+		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		std::shared_ptr<Texture2D>  texture, AlphaBlend alphaBlend)
+	{
+		m_coreLayer->DrawSpriteAdditionally(
+			upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos,
+			upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol,
+			upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV,
+			texture.get(), alphaBlend);
+	}
+
 	void Layer3D::SetSkyAmbientColor(Color color)
 	{
 		m_coreLayer->SetSkyAmbientColor(color);

@@ -51,7 +51,7 @@ namespace ace
 		virtual void OnUpdate() = 0;
 
 		/**
-			@brief	将来的に削除予定
+			@brief	オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述できる。
 		*/
 		virtual void OnDrawAdditionally() = 0;
 

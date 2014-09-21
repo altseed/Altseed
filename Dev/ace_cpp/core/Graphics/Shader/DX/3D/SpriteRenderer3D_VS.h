@@ -17,21 +17,17 @@ struct VS_Output
 	float4 Color	: COLOR0;
 };
 
-float4 area;
+float4x4	cameraMatrix;
+float4x4	projectionMatrix;
 
 VS_Output main( const VS_Input Input )
 {
-	float2 pos = float2(Input.Pos.x,Input.Pos.y);
-	pos.x = (pos.x - area.x) / area.z * 2.0;
-	pos.y = (pos.y - area.y) / area.w * 2.0;
-	pos.x = pos.x - 1.0;
-	pos.y = -pos.y + 1.0;
-
 	VS_Output Output = (VS_Output)0;
-	Output.Pos.x = pos.x;
-	Output.Pos.y = pos.y;
-	Output.Pos.z = 0.5;
-	Output.Pos.w = 1.0;
+
+	float4x4 cameraProjMat =mul(projectionMatrix, cameraMatrix);
+	float4 pos = mul(cameraProjMat, float4(Input.Pos,1.0));
+
+	Output.Pos = pos;
 
 #ifdef HAS_TEXTURE
 	Output.UV = Input.UV;

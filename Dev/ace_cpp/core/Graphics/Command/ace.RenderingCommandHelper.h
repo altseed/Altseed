@@ -88,6 +88,8 @@ namespace ace
 
 		void DrawEffect(Matrix44 projMat, Matrix44 cameraMat);
 
+		void DrawSprite(Matrix44 projMat, Matrix44 cameraMat);
+
 		template<typename T>
 		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const T& v)
 		{

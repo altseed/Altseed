@@ -28,7 +28,6 @@ namespace ace
 
 		protected override void OnStart() { }
 		protected override void OnUpdate() { }
-		internal protected override void OnDrawAdditionally() { }
 
 		/// <summary>
 		/// 描画に使用するモデルを設定する。

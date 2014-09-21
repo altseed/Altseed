@@ -128,6 +128,18 @@ namespace ace
 		m_renderer->SSAO_FarPlain = value;
 	}
 
+	void CoreLayer3D_Imp::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
+		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		Texture2D* texture, AlphaBlend alphaBlend)
+	{
+		m_renderer->DrawSpriteAdditionally(
+			upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos,
+			upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol,
+			upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV,
+			texture, alphaBlend);
+	}
+
 	void CoreLayer3D_Imp::BeginUpdating()
 	{
 		m_renderer->Flip(core->GetDeltaTime());

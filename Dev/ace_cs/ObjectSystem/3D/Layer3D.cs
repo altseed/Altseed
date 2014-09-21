@@ -117,6 +117,32 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 通常の描画に加えてテクスチャを描画する。
+		/// </summary>
+		/// <param name="upperLeftPos">テクスチャの左上の描画位置</param>
+		/// <param name="upperRightPos">テクスチャの右上の描画位置</param>
+		/// <param name="lowerRightPos">テクスチャの右下の描画位置</param>
+		/// <param name="lowerLeftPos">テクスチャの左下の描画位置</param>
+		/// <param name="upperLeftCol">テクスチャの左上の頂点色</param>
+		/// <param name="upperRightCol">テクスチャの右上の頂点色</param>
+		/// <param name="lowerRightCol">テクスチャの右下の頂点色</param>
+		/// <param name="lowerLeftCol">テクスチャの左下の頂点色</param>
+		/// <param name="upperLeftUV">テクスチャの左上のUV値</param>
+		/// <param name="upperRightUV">テクスチャの右上のUV値</param>
+		/// <param name="lowerRightUV">テクスチャの右下のUV値</param>
+		/// <param name="lowerLeftUV">テクスチャの左下のUV値</param>
+		/// <param name="texture">描画するテクスチャ</param>
+		/// <param name="alphaBlend">アルファブレンドの種類</param>
+		/// <remarks>OnDrawAdditionallyの中以外では実行してはいけない。</remarks>
+		public void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+			Texture2D texture, AlphaBlendMode alphaBlend)
+		{
+			coreLayer3D.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlend)alphaBlend);
+		}
+
+		/// <summary>
 		/// 空方向の環境光の色を設定する。
 		/// </summary>
 		/// <param name="color">色</param>
@@ -239,7 +265,7 @@ namespace ace
 
 			foreach (var item in objects_)
 			{
-				item.OnDrawAdditionally();
+				item.DrawAdditionally();
 			}
 
 			OnDrawAdditionally();

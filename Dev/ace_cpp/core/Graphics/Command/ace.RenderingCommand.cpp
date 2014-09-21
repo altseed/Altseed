@@ -95,4 +95,10 @@ namespace ace
 		, CameraMat(cameraMat)
 	{
 	}
+
+	RenderingCommand_DrawSprite::RenderingCommand_DrawSprite(Matrix44 projMat, Matrix44 cameraMat)
+		: ProjMat(projMat)
+		, CameraMat(cameraMat)
+	{
+	}
 }

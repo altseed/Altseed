@@ -25,12 +25,10 @@
 
 namespace ace {
 
-	SpriteRenderer3D::SpriteRenderer3D(Graphics* graphics, Log* log)
+	SpriteRenderer3D::SpriteRenderer3D(Graphics* graphics)
 		: m_graphics(nullptr)
-		, m_log(nullptr)
 	{
 		m_graphics = (Graphics_Imp*) graphics;
-		m_log = log;
 
 		SafeAddRef(graphics);
 
@@ -150,6 +148,12 @@ namespace ace {
 		sprites.push_back(s);
 	}
 
+	void SpriteRenderer3D::SetMatrixes(Matrix44 cameraMatrix, Matrix44 projectionMatrix)
+	{
+		this->cameraMatrix = cameraMatrix;
+		this->projectionMatrix = projectionMatrix;
+	}
+
 	void SpriteRenderer3D::StartDrawing()
 	{
 		
@@ -233,6 +237,9 @@ namespace ace {
 		{
 			shader = m_shader_nt;
 		}
+
+		shader->SetMatrix44("cameraMatrix", cameraMatrix);
+		shader->SetMatrix44("projectionMatrix", projectionMatrix);
 
 		// 描画
 		if (m_state.TexturePtr != nullptr)

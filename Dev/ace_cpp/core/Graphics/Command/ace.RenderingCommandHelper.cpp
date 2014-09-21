@@ -56,9 +56,15 @@ namespace ace
 		commands.push_back(command);
 	}
 
-	void  RenderingCommandHelper::DrawEffect(Matrix44 projMat, Matrix44 cameraMat)
+	void RenderingCommandHelper::DrawEffect(Matrix44 projMat, Matrix44 cameraMat)
 	{
 		auto command = factory->CreateCommand<RenderingCommand_DrawEffect>(projMat, cameraMat);
+		commands.push_back(command);
+	}
+
+	void RenderingCommandHelper::DrawSprite(Matrix44 projMat, Matrix44 cameraMat)
+	{
+		auto command = factory->CreateCommand<RenderingCommand_DrawSprite>(projMat, cameraMat);
 		commands.push_back(command);
 	}
 }

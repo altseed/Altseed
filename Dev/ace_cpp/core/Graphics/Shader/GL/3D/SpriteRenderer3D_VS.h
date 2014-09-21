@@ -10,20 +10,15 @@ out vec4 vaTexCoord;
 
 out vec4 vaColor;
 
-uniform vec4 area;
+uniform mat4	cameraMatrix;
+uniform mat4	projectionMatrix;
 
 void main()
 {
-	vec2 pos = vec2(Pos.x,Pos.y);
-	pos.x = (pos.x - area.x) / area.z * 2.0;
-	pos.y = (pos.y - area.y) / area.w * 2.0;
-	pos.x = pos.x - 1.0;
-	pos.y = -pos.y + 1.0;
+	mat4 cameraProjMat = mul(projectionMatrix, cameraMatrix);
+	vec4 pos = cameraProjMat * vec4(Input.Pos,1.0);
 
-	gl_Position.x = pos.x;
-	gl_Position.y = pos.y;
-	gl_Position.z = 0.5;
-	gl_Position.w = 1.0;
+	gl_Position = pos;
 
 #ifdef HAS_TEXTURE
 	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);

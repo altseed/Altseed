@@ -28,7 +28,6 @@ namespace ace
 
 		protected override void OnStart() { }
 		protected override void OnUpdate() { }
-		internal protected override void OnDrawAdditionally() { }
 
 		/// <summary>
 		/// 光源の色を取得または設定する。

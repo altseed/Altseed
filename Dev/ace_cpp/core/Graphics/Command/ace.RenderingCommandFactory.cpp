@@ -67,4 +67,10 @@ namespace ace
 		auto command = CreateCommand<RenderingCommand_DrawEffect>(projMat, cameraMat);
 		commands.push_back(command);
 	}
+
+	void RenderingCommandFactory::DrawSprite(std::vector<RenderingCommand*>& commands, Matrix44 projMat, Matrix44 cameraMat)
+	{
+		auto command = CreateCommand<RenderingCommand_DrawSprite>(projMat, cameraMat);
+		commands.push_back(command);
+	}
 }

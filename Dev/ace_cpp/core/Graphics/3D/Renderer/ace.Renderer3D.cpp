@@ -18,6 +18,8 @@
 
 #include "../../Resource/ace.CubemapTexture.h"
 
+#include "ace.SpriteRenderer3D.h"
+
 namespace ace
 {
 	//----------------------------------------------------------------------------------
@@ -102,6 +104,9 @@ namespace ace
 			m_effectManager->SetSetting(m_graphics->GetEffectSetting());
 		}
 
+		// スプライト
+		spriteRenderer = new SpriteRenderer3D(graphics);
+
 		executor = new RenderingCommandExecutor();
 
 		proxy = new Renderer3DProxy(graphics);
@@ -126,6 +131,8 @@ namespace ace
 		m_effectManager->Destroy();
 		m_effectRenderer = nullptr;
 		m_effectManager = nullptr;
+
+		SafeDelete(spriteRenderer);
 
 		SafeDelete(executor);
 
@@ -282,8 +289,20 @@ namespace ace
 			Sleep(1);
 		}
 		
-		executor->Execute(m_graphics, m_effectManager, m_effectRenderer, proxy->GetCommands());
+		executor->Execute(m_graphics, m_effectManager, m_effectRenderer, spriteRenderer, proxy->GetCommands());
 		proxy->ResetCommands();
+	}
+
+	void Renderer3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
+		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		Texture2D* texture, AlphaBlend alphaBlend)
+	{
+		Vector3DF positions [] = { upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos };
+		Color colors [] = {upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol };
+		Vector2DF uvs [] = {upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV};
+
+		spriteRenderer->AddSprite(positions, colors, uvs, texture, alphaBlend);
 	}
 
 	void Renderer3D::SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor)

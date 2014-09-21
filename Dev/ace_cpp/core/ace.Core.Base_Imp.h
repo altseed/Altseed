@@ -72,6 +72,7 @@ namespace ace {
 
 	class Renderer3D;
 	class Renderer3DProxy;
+	class SpriteRenderer3D;
 
 	class RenderedObject3D;
 	class RenderedEffectObject3D;
