@@ -13,12 +13,7 @@ public:
 protected:
 	void OnStart() override
 	{
-		EngineGraphics3DTest::OnStart();
-
-		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
-		
-		GetLayer3D()->AddObject(lightObj);
-		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));		
+		EngineGraphics3DTest::OnStart();	
 	}
 
 	void OnUpdating() override
