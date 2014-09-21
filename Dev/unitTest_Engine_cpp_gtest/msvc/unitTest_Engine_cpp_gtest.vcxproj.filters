@@ -101,6 +101,9 @@
     <ClCompile Include="..\Graphics\3D\ModelObject3DCustomMaterial.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\3D\DrawSpriteAdditionally3D.cpp">
+      <Filter>Graphics\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

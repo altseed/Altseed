@@ -15,8 +15,8 @@ uniform mat4	projectionMatrix;
 
 void main()
 {
-	mat4 cameraProjMat = mul(projectionMatrix, cameraMatrix);
-	vec4 pos = cameraProjMat * vec4(Input.Pos,1.0);
+	mat4 cameraProjMat = projectionMatrix * cameraMatrix;
+	vec4 pos = cameraProjMat * vec4(Pos,1.0);
 
 	gl_Position = pos;
 

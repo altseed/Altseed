@@ -141,7 +141,7 @@ namespace ace {
 		s.TexturePtr = texture;
 		SafeAddRef(s.TexturePtr);
 		s.AlphaBlendState = alphaBlend;
-		memcpy(s.Positions, positions, sizeof(ace::Vector2DF) * 4);
+		memcpy(s.Positions, positions, sizeof(ace::Vector3DF) * 4);
 		memcpy(s.Colors, colors, sizeof(ace::Color) * 4);
 		memcpy(s.UV, uv, sizeof(ace::Vector2DF) * 4);
 
