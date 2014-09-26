@@ -25,26 +25,7 @@ namespace ace {
 
 		auto b = (MaterialPropertyBlock_Imp*) block.get();
 
-		for (auto& v : b->GetValues())
-		{
-			auto v_ = v.second;
-			auto str = ToUtf8String(v.first.c_str());
-
-			if (v.second.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
-			{
-				v_.ID = shader->GetTextureID(str.c_str());
-			}
-			else if (v.second.ValueType == SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
-			{
-				v_.ID = shader->GetTextureID(str.c_str());
-			}
-			else
-			{
-				v_.ID = shader->GetConstantBufferID(str.c_str());
-			}
-			
-			constantValues.push_back(v_);
-		}
+		b->AddValuesTo(shader, constantValues);
 	}
 
 	//----------------------------------------------------------------------------------

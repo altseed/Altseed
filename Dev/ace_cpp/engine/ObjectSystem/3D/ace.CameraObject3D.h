@@ -101,6 +101,18 @@ namespace ace
 		void SetZNear(float znear);
 
 		/**
+		@brief	描画先のフォーマットがHDRか取得する。
+		@return	HDRか?
+		*/
+		bool GetHDRMode() const;
+
+		/**
+		@brief	描画先のフォーマットをHDRにするか設定する。
+		@param	value	HDRか?
+		*/
+		void SetHDRMode(bool value);
+
+		/**
 		@brief	ポストエフェクトを追加する。
 		@param	postEffect	ポストエフェクト
 		*/

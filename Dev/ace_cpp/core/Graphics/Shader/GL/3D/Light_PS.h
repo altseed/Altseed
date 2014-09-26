@@ -91,6 +91,10 @@ vec3 calcDirectionalLightSpecularColor(vec3 specularColor, vec3 normal, vec3 lig
 	specular.z = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.z);
 	specular = specular * shadow * ao;
 	specular.xyz = directionalLightColor * specular.xyz;
+
+	float NoL = dot(normal, lightDir);
+	specular.xyz = specular.xyz  * max(NoL, 0.000000);
+
 	return specular;
 }
 

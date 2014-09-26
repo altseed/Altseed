@@ -79,6 +79,10 @@ float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, fl
 
 	specular = specular * shadow * ao;
 	specular.xyz = directionalLightColor * specular.xyz;
+
+	float NoL = dot(normal, lightDir);
+	specular.xyz = specular.xyz  * max(NoL, 0.000000);
+
 	return specular;
 }
 

@@ -13,6 +13,9 @@
 #include "../../Resource/ace.ShaderCache.h"
 #include "../../Resource/ace.NativeShader_Imp.h"
 #include "../../Resource/ace.IndexBuffer_Imp.h"
+#include "../../Resource/ace.MaterialPropertyBlock_Imp.h"
+#include "../../Resource/ace.Shader3D_Imp.h"
+#include "../../Resource/ace.Material3D_Imp.h"
 
 #include "../../Shader/DX/3D/Lightweight_Model_Internal_VS.h"
 #include "../../Shader/DX/3D/Lightweight_Model_Internal_PS.h"
@@ -28,6 +31,145 @@
 
 namespace ace
 {
+	static void ResetAnimation(std::vector <BoneProperty>& boneProps)
+	{
+		for (auto i = 0; i < boneProps.size(); i++)
+		{
+			boneProps[i].IsAnimationPlaying = false;
+			boneProps[i].Position[0] = 0.0f;
+			boneProps[i].Position[1] = 0.0f;
+			boneProps[i].Position[2] = 0.0f;
+			boneProps[i].Rotation[0] = 0.0f;
+			boneProps[i].Rotation[1] = 0.0f;
+			boneProps[i].Rotation[2] = 0.0f;
+			boneProps[i].Rotation[3] = 0.0f;
+			boneProps[i].Scale[0] = 0.0f;
+			boneProps[i].Scale[1] = 0.0f;
+			boneProps[i].Scale[2] = 0.0f;
+
+			boneProps[i].PositionWeight[0] = 0.0f;
+			boneProps[i].PositionWeight[1] = 0.0f;
+			boneProps[i].PositionWeight[2] = 0.0f;
+			boneProps[i].RotationWeight[0] = 0.0f;
+			boneProps[i].RotationWeight[1] = 0.0f;
+			boneProps[i].RotationWeight[2] = 0.0f;
+			boneProps[i].RotationWeight[3] = 0.0f;
+			boneProps[i].ScaleWeight[0] = 0.0f;
+			boneProps[i].ScaleWeight[1] = 0.0f;
+			boneProps[i].ScaleWeight[2] = 0.0f;
+		}
+	}
+
+	static void NormalizeAnimation(std::vector <BoneProperty>& boneProps)
+	{
+		for (auto i = 0; i < boneProps.size(); i++)
+		{
+			if (boneProps[i].PositionWeight[0] != 0.0f) boneProps[i].Position[0] /= boneProps[i].PositionWeight[0];
+			if (boneProps[i].PositionWeight[1] != 0.0f) boneProps[i].Position[1] /= boneProps[i].PositionWeight[1];
+			if (boneProps[i].PositionWeight[2] != 0.0f) boneProps[i].Position[2] /= boneProps[i].PositionWeight[2];
+
+			if (boneProps[i].RotationWeight[0] != 0.0f) boneProps[i].Rotation[0] /= boneProps[i].RotationWeight[0];
+			if (boneProps[i].RotationWeight[1] != 0.0f) boneProps[i].Rotation[1] /= boneProps[i].RotationWeight[1];
+			if (boneProps[i].RotationWeight[2] != 0.0f) boneProps[i].Rotation[2] /= boneProps[i].RotationWeight[2];
+			if (boneProps[i].RotationWeight[3] != 0.0f) boneProps[i].Rotation[3] /= boneProps[i].RotationWeight[3];
+
+			if (boneProps[i].ScaleWeight[0] != 0.0f) boneProps[i].Scale[0] /= boneProps[i].ScaleWeight[0];
+			if (boneProps[i].ScaleWeight[1] != 0.0f) boneProps[i].Scale[1] /= boneProps[i].ScaleWeight[1];
+			if (boneProps[i].ScaleWeight[2] != 0.0f) boneProps[i].Scale[2] /= boneProps[i].ScaleWeight[2];
+
+			if (boneProps[i].ScaleWeight[0] == 0.0f) boneProps[i].Scale[0] = 1.0f;
+			if (boneProps[i].ScaleWeight[1] == 0.0f) boneProps[i].Scale[1] = 1.0f;
+			if (boneProps[i].ScaleWeight[2] == 0.0f) boneProps[i].Scale[2] = 1.0f;
+		}
+	}
+
+	static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time, float weight)
+	{
+		if (animationClip == nullptr) return;
+
+		auto source = (AnimationSource_Imp*) animationClip->GetSource().get();
+		auto& animations = source->GetAnimations();
+		auto d = (Deformer_Imp*) deformer;
+
+		for (auto& a : animations)
+		{
+			auto a_ = (KeyframeAnimation_Imp*) a;
+
+			auto type = a_->GetTargetType();
+			auto axis = a_->GetTargetAxis();
+			auto bi = d->GetBoneIndex(a_->GetTargetName());
+
+			if (bi < 0) continue;
+			auto value = a_->GetValue(time);
+
+			ModelUtils::AddBoneValue(
+				boneProps[bi].Position,
+				boneProps[bi].Rotation,
+				boneProps[bi].Scale,
+				boneProps[bi].PositionWeight,
+				boneProps[bi].RotationWeight,
+				boneProps[bi].ScaleWeight,
+				type,
+				axis,
+				value,
+				weight
+				);
+
+			boneProps[bi].IsAnimationPlaying = true;
+		}
+	}
+
+	static void CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer)
+	{
+		if (deformer == nullptr) return;
+		auto d = (Deformer_Imp*) deformer;
+
+		for (auto i = 0; i < d->GetBones().size(); i++)
+		{
+			auto& b = d->GetBones()[i];
+
+			if (boneProps[i].IsAnimationPlaying)
+			{
+				matrixes[i] = boneProps[i].CalcMatrix(b.RotationType);
+			}
+			else
+			{
+				matrixes[i] = b.LocalMat;
+			}
+		}
+		
+		ModelUtils::CalculateBoneMatrixes(
+			matrixes,
+			d->GetBones(),
+			matrixes);
+	}
+
+	BoneProperty::BoneProperty()
+	{
+		Position[0] = 0.0f;
+		Position[1] = 0.0f;
+		Position[2] = 0.0f;
+
+		Rotation[0] = 0.0f;
+		Rotation[1] = 0.0f;
+		Rotation[2] = 0.0f;
+		Rotation[3] = 0.0f;
+
+		Scale[0] = 1.0f;
+		Scale[1] = 1.0f;
+		Scale[2] = 1.0f;
+	}
+
+
+	Matrix44 BoneProperty::CalcMatrix(eRotationOrder rotationType)
+	{
+		return ModelUtils::CalcMatrix(
+			Position,
+			Rotation,
+			Scale,
+			rotationType);
+	}
+
 	RenderedModelObject3DProxy::RenderedModelObject3DProxy(Graphics* graphics)
 	{
 		auto g = (Graphics_Imp*) graphics;
@@ -124,117 +266,241 @@ namespace ace
 
 	}
 
-	void RenderedModelObject3DProxy::Rendering(RenderingCommandHelper* helper,RenderingProperty& prop)
+	void RenderedModelObject3DProxy::OnUpdateAsync()
+	{
+		if (calcAnimationOnProxy)
+		{
+			ResetAnimation(m_boneProps);
+			bool calcAnim = false;
+
+			for (int32_t i = 0; i < AnimationCount; i++)
+			{
+				if (m_animationPlaying[i].size() == 0) continue;
+
+				if (i != 0) m_matrixes_temp.resize(m_matrixes.size());
+
+				for (auto& anim_ : m_animationPlaying[i])
+				{
+					auto anim = anim_.Animation.get();
+					auto loop = anim->GetIsLoopingMode();
+					auto src = (AnimationSource_Imp*) anim->GetSource().get();
+					auto length = src->GetLength();
+					auto time = anim_.Time;
+					if (loop)
+					{
+						time = fmodf(time, length);
+					}
+					CalculateAnimation(m_boneProps, m_deformer.get(), anim, time, anim_.CurrentWeight);
+				}
+
+				NormalizeAnimation(m_boneProps);
+
+				if (!calcAnim)
+				{
+					CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
+				}
+				else
+				{
+					CalclateBoneMatrices(m_matrixes_temp, m_boneProps, m_deformer.get());
+
+					for (auto j = 0; j < m_matrixes.size(); j++)
+					{
+						for (auto r = 0; r < 4; r++)
+						{
+							for (auto c = 0; c < 4; c++)
+							{
+								m_matrixes[j].Values[r][c] = m_matrixes[j].Values[r][c] * (1.0f - m_animationWeight[j]) + m_matrixes_temp[j].Values[r][c] * (m_animationWeight[j]);
+							}
+						}
+					}
+				}
+
+				calcAnim = true;
+			}
+
+			if (!calcAnim)
+			{
+				CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
+			}
+		}
+	}
+
+	void RenderedModelObject3DProxy::Rendering(RenderingCommandHelper* helper, RenderingProperty& prop)
 	{
 		using h = RenderingCommandHelper;
 		shaderConstants.clear();
 
-		std::shared_ptr<ace::NativeShader_Imp> shader;
+		auto lightDirection = prop.DirectionalLightDirection;
+		Vector3DF lightColor(prop.DirectionalLightColor.R / 255.0f, prop.DirectionalLightColor.G / 255.0f, prop.DirectionalLightColor.B / 255.0f);
+		Vector3DF groudLColor(prop.GroundLightColor.R / 255.0f, prop.GroundLightColor.G / 255.0f, prop.GroundLightColor.B / 255.0f);
+		Vector3DF skyLColor(prop.SkyLightColor.R / 255.0f, prop.SkyLightColor.G / 255.0f, prop.SkyLightColor.B / 255.0f);
+		Matrix44 matM[32];
+
 		
-		if (prop.IsLightweightMode)
+		auto& matrices = m_matrixes;
+		int32_t currentMeshIndex = 0;
+
+		for (auto& mesh_ : m_meshes)
 		{
-			shader = m_shaderLightweight;
-		}
-		else
-		{
-			if (prop.IsDepthMode)
+			auto mesh_root = (Mesh_Imp*) mesh_.get();
+
+			for (auto& mesh : mesh_root->GetDvidedMeshes())
 			{
-				shader = m_shaderDF_ND;
-			}
-			else
-			{
-				shader = m_shaderDF;
-			}
-		}
+				// 有効チェック
+				if (mesh.IndexBufferPtr == nullptr) continue;
 
-		shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
-		shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
+				auto& boneConnectors = mesh.BoneConnectors;
 
-		if (prop.IsLightweightMode)
-		{
-			auto direction = prop.DirectionalLightDirection;
-			Vector3DF lightColor(prop.DirectionalLightColor.R / 255.0f, prop.DirectionalLightColor.G / 255.0f, prop.DirectionalLightColor.B / 255.0f);
-			Vector3DF groudLColor(prop.GroundLightColor.R / 255.0f, prop.GroundLightColor.G / 255.0f, prop.GroundLightColor.B / 255.0f);
-			Vector3DF skyLColor(prop.SkyLightColor.R / 255.0f, prop.SkyLightColor.G / 255.0f, prop.SkyLightColor.B / 255.0f);
-
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightDirection", direction));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightColor", lightColor));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "skyLightColor", skyLColor));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "groundLightColor", groudLColor));
-
-		}
-		else
-		{
-		}
-
-		{
-			auto& matrices = m_matrixes_rt;
-
-			for (auto& mesh_ : m_meshes_rt)
-			{
-				auto mesh_root = (Mesh_Imp*) mesh_.get();
-
-				for (auto& mesh : mesh_root->GetDvidedMeshes())
+				// 行列計算
+				if (boneConnectors.size() > 0)
 				{
-					// 有効チェック
-					if (mesh.IndexBufferPtr == nullptr) continue;
-
-					auto& boneConnectors = mesh.BoneConnectors;
-
-					Matrix44 matM[32];
-					// 行列計算
-					if (boneConnectors.size() > 0)
+					// ボーンあり
+					for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
 					{
-						// ボーンあり
-						for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
-						{
-							matM[i].SetIndentity();
-							Matrix44::Mul(matM[i], matrices[boneConnectors[i].TargetIndex], boneConnectors[i].BoneToMesh);
-							Matrix44::Mul(matM[i], GetGlobalMatrix(), matM[i]);
-						}
+						matM[i].SetIndentity();
+						Matrix44::Mul(matM[i], matrices[boneConnectors[i].TargetIndex], boneConnectors[i].BoneToMesh);
+						Matrix44::Mul(matM[i], GetGlobalMatrix(), matM[i]);
 					}
-					else
+				}
+				else
+				{
+					// ボーンなし
+					matM[0] = GetGlobalMatrix();
+					for (int32_t i = 1; i < 32; i++)
 					{
-						// ボーンなし
-						matM[0] = GetGlobalMatrix();
-						for (int32_t i = 1; i < 32; i++)
-						{
-							matM[i] = matM[0];
-						}
+						matM[i] = matM[0];
 					}
+				}
 
-					shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", h::Array<Matrix44>(matM, 32)));
+				auto& materialOffsets = mesh.MaterialOffsets;
 
-					auto& materialOffsets = mesh.MaterialOffsets;
+				{
+					// 設定がある場合
+					auto mIndex = 0;
+					auto fOffset = 0;
+					auto fCount = 0;
+					auto mFCount = 0;
 
+					Mesh_Imp::Material* material = nullptr;
+					int32_t currentMaterialIndex = -1;
+
+					while (fCount < mesh.IndexBufferPtr->GetCount() / 3)
 					{
-						// 設定がある場合
-						auto mIndex = 0;
-						auto fOffset = 0;
-						auto fCount = 0;
-						auto mFCount = 0;
-
-						Mesh_Imp::Material* material = nullptr;
-
-						while (fCount < mesh.IndexBufferPtr->GetCount() / 3)
+						if (materialOffsets.size() > 0)
 						{
-							if (materialOffsets.size() > 0)
+							if (fOffset == mFCount && materialOffsets.size() > mIndex)
 							{
-								if (fOffset == mFCount && materialOffsets.size() > mIndex)
+								mFCount += materialOffsets[mIndex].FaceOffset;
+								material = mesh_root->GetMaterial(materialOffsets[mIndex].MaterialIndex);
+								currentMaterialIndex = materialOffsets[mIndex].MaterialIndex;
+								mIndex++;
+							}
+						}
+						else
+						{
+							mFCount = mesh.IndexBufferPtr->GetCount() / 3;
+						}
+
+						fCount = mFCount - fOffset;
+						if (fCount == 0) break;
+
+						std::shared_ptr<ace::NativeShader_Imp> shader;
+
+						if (material != nullptr && material->Material_.get() != nullptr)
+						{
+							auto mat = (Material3D_Imp*) (material->Material_.get());
+							auto shader_ = (Shader3D_Imp*) (mat->GetShader3D().get());
+
+							if (prop.IsLightweightMode)
+							{
+								if (prop.IsDepthMode)
 								{
-									mFCount += materialOffsets[mIndex].FaceOffset;
-									material = mesh_root->GetMaterial(materialOffsets[mIndex].MaterialIndex);
-									mIndex++;
+									shader = shader_->GetNativeShaderLightDepth();
+								}
+								else
+								{
+									shader = shader_->GetNativeShaderLight();
 								}
 							}
 							else
 							{
-								mFCount = mesh.IndexBufferPtr->GetCount() / 3;
+								if (prop.IsDepthMode)
+								{
+									shader = shader_->GetNativeShaderDepth();
+								}
+								else
+								{
+									shader = shader_->GetNativeShader();
+								}
+							}
+						}
+						else
+						{
+							if (prop.IsLightweightMode)
+							{
+								shader = m_shaderLightweight;
+							}
+							else
+							{
+								if (prop.IsDepthMode)
+								{
+									shader = m_shaderDF_ND;
+								}
+								else
+								{
+									shader = m_shaderDF;
+								}
+							}
+						}
+
+						shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
+						shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
+						shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", h::Array<Matrix44>(matM, 32)));
+
+						if (prop.IsLightweightMode)
+						{
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightDirection", lightDirection));
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightColor", lightColor));
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "skyLightColor", skyLColor));
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "groundLightColor", groudLColor));
+						}
+						else
+						{
+						}
+
+						if (material != nullptr && material->Material_.get() != nullptr)
+						{
+							auto mat = (Material3D_Imp*) (material->Material_.get());
+				
+							// 定数設定
+							std::shared_ptr<MaterialPropertyBlock> block;
+							if (
+								currentMaterialIndex >= 0 &&
+								materialPropertyBlocks.size() > currentMeshIndex &&
+								materialPropertyBlocks[currentMeshIndex].size() > currentMaterialIndex &&
+								materialPropertyBlocks[currentMeshIndex][currentMaterialIndex].get() != nullptr)
+							{
+								// ユーザー定義ブロック使用
+								block = materialPropertyBlocks[currentMeshIndex][currentMaterialIndex];
+							}
+							else
+							{
+								block = mat->GetMaterialPropertyBlock();
 							}
 
-							fCount = mFCount - fOffset;
-							if (fCount == 0) break;
+							((MaterialPropertyBlock_Imp*) block.get())->AddValuesTo(shader.get(), shaderConstants);
 
+							RenderState state;
+							state.DepthTest = true;
+							state.DepthWrite = true;
+							state.Culling = CullingType::Front;
+							state.AlphaBlendState = AlphaBlend::Opacity;
+
+							helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
+								shaderConstants.data(), shaderConstants.size());
+						}
+						else
+						{
 							ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
 							ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
 							ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
@@ -242,7 +508,6 @@ namespace ace
 
 							if (material != nullptr)
 							{
-								
 								if (material->ColorTexture != nullptr)
 								{
 									colorTexture = material->ColorTexture.get();
@@ -266,7 +531,7 @@ namespace ace
 									}
 								}
 							}
-							
+
 							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
 								h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 
@@ -287,100 +552,28 @@ namespace ace
 
 							helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
 								shaderConstants.data(), shaderConstants.size());
-
-							fOffset += fCount;
 						}
+
+						shaderConstants.clear();
+						fOffset += fCount;
 					}
 				}
 			}
+
+			currentMeshIndex++;
 		}
-	}
-
-	RenderedModelObject3D::BoneProperty::BoneProperty()
-	{
-		Position[0] = 0.0f;
-		Position[1] = 0.0f;
-		Position[2] = 0.0f;
-
-		Rotation[0] = 0.0f;
-		Rotation[1] = 0.0f;
-		Rotation[2] = 0.0f;
-		Rotation[3] = 0.0f;
-
-		Scale[0] = 1.0f;
-		Scale[1] = 1.0f;
-		Scale[2] = 1.0f;
-	}
-
-
-	Matrix44 RenderedModelObject3D::BoneProperty::CalcMatrix(eRotationOrder rotationType)
-	{
-		return ModelUtils::CalcMatrix(
-			Position,
-			Rotation,
-			Scale,
-			rotationType);
-	}
-
-	void RenderedModelObject3D::CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, int32_t time)
-	{
-		if (animationClip == nullptr) return;
-
-		auto source = (AnimationSource_Imp*) animationClip->GetSource().get();
-		auto& animations = source->GetAnimations();
-		auto d = (Deformer_Imp*) deformer;
-
-		for (auto& a : animations)
-		{
-			auto a_ = (KeyframeAnimation_Imp*) a;
-
-			auto type = a_->GetTargetType();
-			auto axis = a_->GetTargetAxis();
-			auto bi = d->GetBoneIndex(a_->GetTargetName());
-
-			if (bi < 0) continue;
-			auto value = a_->GetValue(time);
-
-			ModelUtils::SetBoneValue(
-				boneProps[bi].Position,
-				boneProps[bi].Rotation,
-				boneProps[bi].Scale,
-				type,
-				axis,
-				value);
-		}
-	}
-
-	void RenderedModelObject3D::CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer, bool isPlayingAnimation)
-	{
-		if (deformer == nullptr) return;
-		auto d = (Deformer_Imp*) deformer;
-
-		if (isPlayingAnimation)
-		{
-			for (auto i = 0; i < d->GetBones().size(); i++)
-			{
-				auto& b = d->GetBones()[i];
-				matrixes[i] = boneProps[i].CalcMatrix(b.RotationType);
-			}
-		}
-		else
-		{
-		}
-
-		ModelUtils::CalculateBoneMatrixes(
-			matrixes,
-			d->GetBones(),
-			matrixes,
-			isPlayingAnimation);
 	}
 
 	RenderedModelObject3D::RenderedModelObject3D(Graphics* graphics)
 		: RenderedObject3D(graphics)
-		, m_animationPlaying(nullptr)
-		, m_animationTime(0)
 	{
 		proxy = new RenderedModelObject3DProxy(graphics);
+
+		for (int32_t i = 0; i < AnimationCount; i++)
+		{
+			m_animationPlaying[i].clear();
+			m_animationWeight[i] = 1.0f;
+		}
 	}
 
 	RenderedModelObject3D::~RenderedModelObject3D()
@@ -450,6 +643,22 @@ namespace ace
 		}
 	}
 
+	void RenderedModelObject3D::SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, MaterialPropertyBlock* block)
+	{
+		if (materialPropertyBlocks.size() <= meshIndex)
+		{
+			materialPropertyBlocks.resize(meshIndex+1);
+		}
+
+		if (materialPropertyBlocks[meshIndex].size() <= materialIndex)
+		{
+			materialPropertyBlocks[meshIndex].resize(materialIndex + 1);
+		}
+
+		SafeAddRef(block);
+		materialPropertyBlocks[meshIndex][materialIndex] = CreateSharedPtrWithReleaseDLL(block);
+	}
+
 	void RenderedModelObject3D::UnloadModel()
 	{
 		// 描画中以外のオブジェクトをリセット
@@ -486,6 +695,16 @@ namespace ace
 		LoadModel();
 	}
 
+	AnimationClip* RenderedModelObject3D::GetAnimationClip(const achar* name)
+	{
+		if (m_animationClips.find(name) != m_animationClips.end())
+		{
+			return m_animationClips[name];
+		}
+
+		return nullptr;
+	}
+
 	void RenderedModelObject3D::AddAnimationClip(const achar* name, AnimationClip* animationClip)
 	{
 		if (animationClip == nullptr) return;
@@ -497,13 +716,92 @@ namespace ace
 		}
 	}
 
-	void RenderedModelObject3D::PlayAnimation(const achar* name)
+	void RenderedModelObject3D::PlayAnimation(int32_t index, const achar* name)
 	{
+		if (index >= AnimationCount) return;
+		if (index < 0) return;
+
 		auto it = m_animationClips.find(name);
 		if (it == m_animationClips.end()) return;
 
-		m_animationPlaying = (*it).second;
-		m_animationTime = 0;
+		auto anim = (*it).second;
+		SafeAddRef(anim);
+
+		PlayedAnimation panim;
+		panim.Animation = CreateSharedPtrWithReleaseDLL(anim);
+		panim.CurrentWeight = 1.0f;
+		panim.Variation = 0.0f;
+		panim.Time = 0;
+
+		m_animationPlaying[index].resize(1);
+		m_animationPlaying[index][0] = panim;
+	}
+
+	void RenderedModelObject3D::StopAnimation(int32_t index)
+	{
+		if (index >= AnimationCount) return;
+		if (index < 0) return;
+
+		m_animationPlaying[index].clear();
+	}
+
+	void RenderedModelObject3D::SetAnimationWeight(int32_t index, float weight)
+	{
+		if (index >= AnimationCount) return;
+		if (index < 0) return;
+
+		m_animationWeight[index] = weight;
+	}
+
+	void RenderedModelObject3D::CrossFadeAnimation(int32_t index, const achar* name, float time)
+	{
+		if (index >= AnimationCount) return;
+		if (index < 0) return;
+
+		auto it = m_animationClips.find(name);
+		if (it == m_animationClips.end()) return;
+
+		auto anim = (*it).second;
+		SafeAddRef(anim);
+
+		PlayedAnimation panim;
+		panim.Animation = CreateSharedPtrWithReleaseDLL(anim);
+		panim.CurrentWeight = 0.0f;
+		panim.Variation = 1.0f / time;
+		panim.Time = 0;
+
+		for (auto& a : m_animationPlaying[index])
+		{
+			a.Variation = -(1.0f / time) * a.CurrentWeight;
+		}
+
+		m_animationPlaying[index].push_back(panim);
+	}
+
+	bool RenderedModelObject3D::IsAnimationPlaying(int32_t index)
+	{
+		if (index >= AnimationCount) return false;
+		if (index < 0) return false;
+		if (m_animationPlaying[index].size() == 0) return false;
+
+		auto& anims = m_animationPlaying[index];
+		
+		for (auto& anim : anims)
+		{
+			if (anim.CurrentWeight == 0.0f) continue;
+
+			if (anim.Animation->GetIsLoopingMode())
+			{
+				return true;
+			}
+			else
+			{
+				auto src = (AnimationSource_Imp*) anim.Animation->GetSource().get();
+				return src->GetLength() > anim.Time;
+			}
+		}
+
+		return true;
 	}
 
 	void RenderedModelObject3D::OnAdded(Renderer3D* renderer)
@@ -518,20 +816,117 @@ namespace ace
 		m_renderer = nullptr;
 	}
 
-	void RenderedModelObject3D::Flip()
+	void RenderedModelObject3D::Flip(float deltaTime)
 	{
-		RenderedObject3D::Flip();
+		RenderedObject3D::Flip(deltaTime);
 
-		CalculateAnimation(m_boneProps, m_deformer.get(), m_animationPlaying, m_animationTime);
-		CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get(), m_animationPlaying != nullptr);
-		
-		// アニメーションの適用
-		if (m_animationPlaying != nullptr)
+		bool calcAnimationOnProxy = true;
+
+		if (calcAnimationOnProxy)
 		{
-			m_animationTime++;
+			proxy->m_boneProps.resize(m_boneProps.size());
+			proxy->m_matrixes.resize(m_matrixes.size());
+
+			for (auto i = 0; i < AnimationCount; i++)
+			{
+				proxy->m_animationPlaying[i] = m_animationPlaying[i];
+				proxy->m_animationWeight[i] = m_animationWeight[i];
+			}
+			
+			proxy->m_deformer = m_deformer;
+		}
+		else
+		{
+			ResetAnimation(m_boneProps);
+			bool calcAnim = false;
+
+			for (int32_t i = 0; i < AnimationCount; i++)
+			{
+				if (m_animationPlaying[i].size() == 0) continue;
+
+				if (i != 0) m_matrixes_temp.resize(m_matrixes.size());
+
+				for (auto& anim_ : m_animationPlaying[i])
+				{
+					auto anim = anim_.Animation.get();
+					auto loop = anim->GetIsLoopingMode();
+					auto src = (AnimationSource_Imp*) anim->GetSource().get();
+					auto length = src->GetLength();
+					auto time = anim_.Time;
+					if (loop)
+					{
+						time = fmodf(time, length);
+					}
+					CalculateAnimation(m_boneProps, m_deformer.get(), anim, time, anim_.CurrentWeight);
+				}
+
+				if (!calcAnim)
+				{
+					CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
+				}
+				else
+				{
+					CalclateBoneMatrices(m_matrixes_temp, m_boneProps, m_deformer.get());
+				
+					for (auto j = 0; j < m_matrixes.size(); j++)
+					{
+						for (auto r = 0; r < 4; r++)
+						{
+							for (auto c = 0; c < 4; c++)
+							{
+								m_matrixes[j].Values[r][c] = m_matrixes[j].Values[r][c] * (1.0f - m_animationWeight[j]) + m_matrixes_temp[j].Values[r][c] * (m_animationWeight[j]);
+							}
+						}
+					}
+				}
+
+				calcAnim = true;
+			}
+
+			NormalizeAnimation(m_boneProps);
+
+			if (!calcAnim)
+			{
+				CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
+			}
+
+			proxy->m_matrixes = m_matrixes;
 		}
 
-		proxy->m_meshes_rt = m_meshes;
-		proxy->m_matrixes_rt = m_matrixes;
+		proxy->m_meshes = m_meshes;
+		proxy->calcAnimationOnProxy = calcAnimationOnProxy;
+
+		if (materialPropertyBlocks.size() != proxy->materialPropertyBlocks.size() || materialPropertyBlocks.size() > 0)
+		{
+			proxy->materialPropertyBlocks = materialPropertyBlocks;
+		}
+		
+
+		// アニメーションの時間を進める
+		for (auto i = 0; i < AnimationCount; i++)
+		{
+			bool rm = false;
+
+			for (auto& anim : m_animationPlaying[i])
+			{
+				anim.Time += (deltaTime / (1.0 / 60.0));
+				anim.CurrentWeight += anim.Variation * deltaTime;
+
+				if (anim.CurrentWeight > 1.0f) anim.CurrentWeight = 1.0f;
+				if (anim.CurrentWeight <= 0.0f)
+				{
+					anim.CurrentWeight = 0.0f;
+					rm = true;
+				}
+			}
+
+			if (rm)
+			{
+				auto it_ = std::remove_if(m_animationPlaying[i].begin(), m_animationPlaying[i].end(), 
+					[](const PlayedAnimation& v)->bool { return v.CurrentWeight == 0.0f; });
+
+				m_animationPlaying[i].erase(it_, m_animationPlaying[i].end());
+			}
+		}
 	}
 }

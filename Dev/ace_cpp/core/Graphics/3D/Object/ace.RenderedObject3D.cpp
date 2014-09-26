@@ -109,7 +109,7 @@ namespace ace
 		return localMatrix;
 	}
 
-	void RenderedObject3D::Flip()
+	void RenderedObject3D::Flip(float deltaTime)
 	{
 		auto proxy = GetProxy();
 

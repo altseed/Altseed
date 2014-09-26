@@ -24,4 +24,15 @@ namespace ace
 	{
 		SafeSubstitute(m_source, source);
 	}
+
+	bool AnimationClip_Imp::GetIsLoopingMode() const
+	{
+		return isLoopingMode;
+	}
+
+	void AnimationClip_Imp::SetIsLoopingMode(bool isLoopingMode)
+	{
+		this->isLoopingMode = isLoopingMode;
+	}
+
 }

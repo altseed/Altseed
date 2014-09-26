@@ -12,6 +12,7 @@ namespace ace
 	{
 	private:
 		std::set<KeyframeAnimation*>	m_animations;
+		float							length = 0;
 
 	public:
 		AnimationSource_Imp();
@@ -20,6 +21,8 @@ namespace ace
 		void RemoveAnimation(KeyframeAnimation* keyframeAnimation) override;
 
 		std::set<KeyframeAnimation*>& GetAnimations() { return m_animations; }
+
+		float GetLength() { return length; }
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

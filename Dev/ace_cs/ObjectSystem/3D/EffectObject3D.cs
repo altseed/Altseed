@@ -28,7 +28,6 @@ namespace ace
 
 		protected override void OnStart() { }
 		protected override void OnUpdate() { }
-		internal protected override void OnDrawAdditionally() { }
 
 		protected override void OnUpdateInternal()
 		{

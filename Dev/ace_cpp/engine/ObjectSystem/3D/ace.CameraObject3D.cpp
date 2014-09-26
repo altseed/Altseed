@@ -90,6 +90,16 @@ namespace ace
 		m_coreObject->SetZNear(znear);
 	}
 
+	bool CameraObject3D::GetHDRMode() const
+	{
+		return m_coreObject->GetHDRMode();
+	}
+
+	void CameraObject3D::SetHDRMode(bool value)
+	{
+		m_coreObject->SetHDRMode(value);
+	}
+
 	void CameraObject3D::AddPostEffect(const std::shared_ptr<PostEffect>& postEffect)
 	{
 		m_postEffects.push_back(postEffect);

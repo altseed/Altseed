@@ -17,9 +17,11 @@
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp" />
     <ClCompile Include="..\Graphics\3D\Camera3DPostEffect.cpp" />
+    <ClCompile Include="..\Graphics\3D\DrawSpriteAdditionally3D.cpp" />
     <ClCompile Include="..\Graphics\3D\EffectObject3D.cpp" />
     <ClCompile Include="..\Graphics\3D\LightingStandard.cpp" />
     <ClCompile Include="..\Graphics\3D\ModelObject3D.cpp" />
+    <ClCompile Include="..\Graphics\3D\ModelObject3DCustomMaterial.cpp" />
     <ClCompile Include="..\Graphics\3D\SimpleMesh.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\CustomPostEffect.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlur.cpp" />

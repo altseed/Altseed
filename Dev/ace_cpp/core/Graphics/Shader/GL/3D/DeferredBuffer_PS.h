@@ -41,6 +41,13 @@ vec3 GetEnvironment(vec2 uv)
 	return texture(g_environmentTexture, uv).xyz;
 }
 
+vec3 GetAO(float2 uv)
+{
+	float ao = texture(g_ssaoTexture, uv).x;
+	return vec3(ao,ao,ao);
+}
+
+
 void main()
 {
 	vec2 uv = voutUV;
@@ -69,6 +76,11 @@ void main()
 	{
 		color.xyz = GetEnvironment(uv).xyz;
 	}
+	else if(flag == 5.0)
+	{
+		color.xyz = GetAO(uv).xyz;
+	}
+
 	outOutput0 = color;
 }
 

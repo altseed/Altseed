@@ -40,6 +40,8 @@ namespace ace {
 
 	class Shader2D;
 	class Material2D;
+	class Shader3D;
+	class Material3D;
 	class MaterialPropertyBlock;
 
 	class Effect;
@@ -225,6 +227,7 @@ namespace ace {
 		Normal,
 		Smoothness,
 		Environment,
+		Occlusion,
 	};
 
 	/**

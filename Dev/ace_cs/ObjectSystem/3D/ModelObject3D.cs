@@ -28,7 +28,6 @@ namespace ace
 
 		protected override void OnStart() { }
 		protected override void OnUpdate() { }
-		internal protected override void OnDrawAdditionally() { }
 
 		/// <summary>
 		/// 描画に使用するモデルを設定する。
@@ -58,12 +57,77 @@ namespace ace
 		}
 
 		/// <summary>
+		/// アニメーションクリップを取得する。
+		/// </summary>
+		/// <param name="name">アニメーションクリップの名称</param>
+		/// <returns>アニメーションクリップ</returns>
+		public AnimationClip GetAnimationClip(string name)
+		{
+			return GC.GenerateAnimationClip(coreObject.GetAnimationClip(name), GC.GenerationType.Get);
+		}
+
+		/// <summary>
 		/// アニメーションを再生する。
 		/// </summary>
+		/// <param name="index">対象のインデックス</param>
 		/// <param name="name">アニメーションの名称</param>
-		public void PlayAnimation(string name)
+		public void PlayAnimation(int index, string name)
 		{
-			coreObject.PlayAnimation(name);
+			coreObject.PlayAnimation(index, name);
+		}
+
+		/// <summary>
+		/// アニメーションを停止する。
+		/// </summary>
+		/// <param name="index">対象のインデックス</param>
+		public void StopAnimation(int index)
+		{
+			coreObject.StopAnimation(index);
+		}
+
+		/// <summary>
+		/// アニメーションの合成比率を設定する。
+		/// </summary>
+		/// <param name="index">対象のインデックス</param>
+		/// <param name="weight">合成比率</param>
+		public void SetAnimationWeight(int index, float weight)
+		{
+			coreObject.SetAnimationWeight(index, weight);
+		}
+
+		/// <summary>
+		/// アニメーションをクロスフェードで再生する。
+		/// </summary>
+		/// <param name="index">対象のインデックス</param>
+		/// <param name="name">アニメーションの名称</param>
+		/// <param name="time">クロスフェードにかかる時間(秒)</param>
+		public void CrossFadeAnimation(int index, string name, float time)
+		{
+			coreObject.CrossFadeAnimation(index, name, time);
+		}
+
+		/**
+		@brief	アニメーションが再生中か取得する。
+		@param	index	対象のインデックス
+		@return	再生中か?
+		*/
+		public bool IsAnimationPlaying(int index)
+		{
+			return coreObject.IsAnimationPlaying(index);
+		}
+
+		/// <summary>
+		/// 材質個別に描画時のパラメーターを設定する。
+		/// </summary>
+		/// <param name="meshIndex">メッシュのインデックス</param>
+		/// <param name="materialIndex">材質のインデックス</param>
+		/// <param name="block">プロパティ</param>
+		/// <remarks>
+		/// 通常描画する場合、材質に設定されたパラメーターを元に描画するがモデルごとに個別のパラメーターを使用する場合、この関数を使用する。
+		/// </remarks>
+		public void SetMaterialPropertyBlock(int meshIndex, int materialIndex, MaterialPropertyBlock block)
+		{
+			coreObject.SetMaterialPropertyBlock(meshIndex, materialIndex, IG.GetMaterialPropertyBlock(block));
 		}
 	}
 }

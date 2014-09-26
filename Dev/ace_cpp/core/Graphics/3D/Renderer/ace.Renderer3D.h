@@ -57,10 +57,14 @@ namespace ace
 		Effekseer::Manager*						m_effectManager = nullptr;
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
 
+		SpriteRenderer3D*						spriteRenderer = nullptr;
+
 		RenderingEvent	m_event;
 
 		RenderingCommandExecutor*				executor = nullptr;
 		Renderer3DProxy*						proxy = nullptr;
+
+		bool									hdrMode = false;
 
 	public:
 
@@ -70,19 +74,32 @@ namespace ace
 		RenderSettings GetRenderSettings() const;
 		void SetRenderSettings(RenderSettings settings);
 
+		bool GetHDRMode() const;
+		void SetHDRMode(bool value);
+
 		void SetWindowSize(Vector2DI windowSize);
 
 		void AddObject(RenderedObject3D* o);
 		void RemoveObject(RenderedObject3D* o);
 
-		void Flip();
+		void Flip(float deltaTime);
 
 		void BeginRendering(float deltaTime);
 		void EndRendering();
 
+		void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+			Texture2D* texture, AlphaBlend alphaBlend);
+
 		void SetSkyAmbientColor(Color color) { m_skyAmbientColor = color; }
 		void SetGroundAmbientColor(Color color) { m_groundAmbientColor = color; }
 		void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor);
+
+		float SSAO_Radius = 0.1f;
+		float SSAO_Bias = 0.001f;
+		float SSAO_Intensity = 1.0f;
+		float SSAO_FarPlain = 800.0f;
 
 		RenderTexture2D_Imp* GetRenderTarget();
 

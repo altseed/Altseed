@@ -22,6 +22,7 @@ out vec4 voutPosition;
 out vec4 voutProjPosition;
 out vec4 voutColor;
 out vec2 voutUV;
+out vec2 voutUVSub;
 out vec3 voutNormal;
 out vec3 voutBinormal;
 out vec3 voutTangent;
@@ -63,6 +64,7 @@ void main()
 	voutBinormal = cBinormal;
 	voutTangent = cTangent;
 	voutUV = UV;
+	voutUVSub = UVSub;
 	voutColor = Color;
 	voutProjPosition = voutPosition;
 

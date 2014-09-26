@@ -51,7 +51,7 @@ namespace ace
 		virtual void OnUpdate() = 0;
 
 		/**
-			@brief	将来的に削除予定
+			@brief	オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述できる。
 		*/
 		virtual void OnDrawAdditionally() = 0;
 
@@ -138,5 +138,29 @@ namespace ace
 		@param	scale	拡大率
 		*/
 		void SetScale(Vector3DF scale);
+
+		/**
+		@brief	通常の描画に加えてテクスチャを描画する。
+		@param	upperLeftPos	テクスチャの左上の描画位置
+		@param	upperRightPos	テクスチャの右上の描画位置
+		@param	lowerRightPos	テクスチャの右下の描画位置
+		@param	lowerLeftPos	テクスチャの左下の描画位置
+		@param	upperLeftCol	テクスチャの左上の頂点色
+		@param	upperRightCol	テクスチャの右上の頂点色
+		@param	lowerRightCol	テクスチャの右下の頂点色
+		@param	lowerLeftCol	テクスチャの左下の頂点色
+		@param	upperLeftUV		テクスチャの左上のUV値
+		@param	upperRightUV	テクスチャの右上のUV値
+		@param	lowerRightUV	テクスチャの右下のUV値
+		@param	lowerLeftUV		テクスチャの左下のUV値
+		@param	texture			描画するテクスチャ
+		@param	alphaBlend		アルファブレンドの種類
+		@note
+		OnDrawAdditionallyの中以外では実行してはいけない。
+		*/
+		void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+			std::shared_ptr<Texture2D>  texture, AlphaBlend alphaBlend);
 	};
 }

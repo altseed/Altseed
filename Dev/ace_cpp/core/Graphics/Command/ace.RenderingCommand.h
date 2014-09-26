@@ -15,6 +15,7 @@ namespace ace
 		SetRenderTarget,
 		Clear,
 		DrawEffect,
+		DrawSprite,
 	};
 
 	class RenderingCommand
@@ -83,5 +84,16 @@ namespace ace
 		RenderingCommandType GetType() const override { return RenderingCommandType::DrawEffect; }
 
 		RenderingCommand_DrawEffect(Matrix44 projMat, Matrix44 cameraMat);
+	};
+
+	struct RenderingCommand_DrawSprite
+		: public RenderingCommand
+	{
+		Matrix44 ProjMat;
+		Matrix44 CameraMat;
+
+		RenderingCommandType GetType() const override { return RenderingCommandType::DrawSprite; }
+
+		RenderingCommand_DrawSprite(Matrix44 projMat, Matrix44 cameraMat);
 	};
 }

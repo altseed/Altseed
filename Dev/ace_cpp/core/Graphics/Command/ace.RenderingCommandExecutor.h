@@ -15,6 +15,7 @@ namespace ace
 		void Execute(Graphics* graphics, 
 			Effekseer::Manager* effectManager,
 			EffekseerRenderer::Renderer* effectRenderer,
+			SpriteRenderer3D* spriteRenerer3D,
 			std::vector<RenderingCommand*>& commands);
 	};
 }

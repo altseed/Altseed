@@ -322,6 +322,8 @@ namespace FBX2MDL
 				if (texture != nullptr)
 				{
 					m.DiffuseTexturePath = ace::ToAString(texture->GetRelativeFileName());
+					std::replace(m.DiffuseTexturePath.begin(), m.DiffuseTexturePath.end(), '\\', '/');
+
 				}
 			}
 

@@ -5,6 +5,7 @@
 #include "../ace.Graphics_Imp.h"
 
 #include "../Resource/ace.NativeShader_Imp.h"
+#include "../3D/Renderer/ace.SpriteRenderer3D.h"
 
 namespace ace
 {
@@ -12,6 +13,7 @@ namespace ace
 		Graphics* graphics, 
 		Effekseer::Manager* effectManager,
 		EffekseerRenderer::Renderer* effectRenderer,
+		SpriteRenderer3D* spriteRenerer3D,
 		std::vector<RenderingCommand*>& commands)
 	{
 		auto commands_ptr = commands.data();
@@ -80,6 +82,13 @@ namespace ace
 
 				// レンダー設定リセット
 				g->CommitRenderState(true);
+			}
+			else if (command->GetType() == RenderingCommandType::DrawSprite)
+			{
+				auto c = (RenderingCommand_DrawSprite*) command;
+
+				spriteRenerer3D->SetMatrixes(c->CameraMat, c->ProjMat);
+				spriteRenerer3D->DrawCache();
 			}
 		}
 	}

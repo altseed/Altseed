@@ -27,10 +27,21 @@ namespace ace
 
 		void SetDeformer(Deformer* deformer) override;
 
-		void PlayAnimation(const achar* name) override;
+		AnimationClip* GetAnimationClip(const achar* name) override;
+
+		void PlayAnimation(int32_t index, const achar* name) override;
+
+		void StopAnimation(int32_t index) override;
+
+		void SetAnimationWeight(int32_t index, float weight)  override;
+
+		void CrossFadeAnimation(int32_t index, const achar* name, float time) override;
+
+		bool IsAnimationPlaying(int32_t index) override;
+
+		void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, MaterialPropertyBlock* block) override;
 
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MESH; }
-
 
 		// 共通部分
 		virtual bool GetIsDrawn() const { return CoreObject3D_Imp::GetIsDrawn(); }

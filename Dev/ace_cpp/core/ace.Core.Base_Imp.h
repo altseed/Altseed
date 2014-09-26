@@ -50,12 +50,16 @@ namespace ace {
 	class CubemapTexture_Imp;
 	class DepthBuffer_Imp;
 	class Shader2D_Imp;
+	class Shader3D_Imp;
 	class Effect_Imp;
 	class ShaderCache;
 
 	class MaterialCommand;
 	class Material2DCommand;
+	class Material3DCommand;
+
 	class Material2D_Imp;
+	class Material3D_Imp;
 	class MaterialPropertyBlock_Imp;
 
 	class PostEffectRenderer;
@@ -68,6 +72,7 @@ namespace ace {
 
 	class Renderer3D;
 	class Renderer3DProxy;
+	class SpriteRenderer3D;
 
 	class RenderedObject3D;
 	class RenderedEffectObject3D;

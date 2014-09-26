@@ -118,7 +118,7 @@ namespace ace
 
 		virtual RenderedObject3DProxy* GetProxy() const = 0;
 
-		virtual void Flip();
+		virtual void Flip(float deltaTime);
 
 		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
 	};

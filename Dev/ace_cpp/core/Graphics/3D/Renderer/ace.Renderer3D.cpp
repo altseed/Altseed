@@ -18,6 +18,8 @@
 
 #include "../../Resource/ace.CubemapTexture.h"
 
+#include "ace.SpriteRenderer3D.h"
+
 namespace ace
 {
 	//----------------------------------------------------------------------------------
@@ -102,6 +104,9 @@ namespace ace
 			m_effectManager->SetSetting(m_graphics->GetEffectSetting());
 		}
 
+		// スプライト
+		spriteRenderer = new SpriteRenderer3D(graphics);
+
 		executor = new RenderingCommandExecutor();
 
 		proxy = new Renderer3DProxy(graphics);
@@ -127,6 +132,8 @@ namespace ace
 		m_effectRenderer = nullptr;
 		m_effectManager = nullptr;
 
+		SafeDelete(spriteRenderer);
+
 		SafeDelete(executor);
 
 		SafeDelete(proxy);
@@ -143,12 +150,42 @@ namespace ace
 		m_settings = settings;
 	}
 
+	bool Renderer3D::GetHDRMode() const
+	{
+		return hdrMode;
+	}
+
+	void Renderer3D::SetHDRMode(bool value)
+	{
+		hdrMode = value;
+
+		SafeRelease(m_renderTarget);
+
+		if (hdrMode)
+		{
+			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(m_windowSize.X, m_windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
+		}
+		else
+		{
+			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(m_windowSize.X, m_windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
+		}
+	}
+
 	void Renderer3D::SetWindowSize(Vector2DI windowSize)
 	{
-		SafeRelease(m_renderTarget);
-		m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 		m_windowSize = windowSize;
 
+		SafeRelease(m_renderTarget);
+
+		if (hdrMode)
+		{
+			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
+		}
+		else
+		{
+			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
+		}
+		
 		if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
 			m_effectRenderer->SetProjectionMatrix(::Effekseer::Matrix44().PerspectiveFovRH(90.0f / 180.0f * 3.14f, windowSize.X / windowSize.Y, 1.0f, 50.0f));
@@ -201,7 +238,7 @@ namespace ace
 		}
 	}
 
-	void Renderer3D::Flip()
+	void Renderer3D::Flip(float deltaTime)
 	{
 		for (auto& o : newObjects)
 		{
@@ -220,7 +257,7 @@ namespace ace
 
 		for (auto& o : objects)
 		{
-			o->Flip();
+			o->Flip(deltaTime);
 		}
 
 		proxy->SetEffect(m_effectManager, m_effectRenderer);
@@ -229,6 +266,11 @@ namespace ace
 		proxy->EnvironmentDiffuseColor = environment_diffuseColor;
 		proxy->EnvironmentSpecularColor = environment_specularColor;
 		proxy->Settings = m_settings;
+
+		proxy->SSAO_Radius = SSAO_Radius;
+		proxy->SSAO_FarPlain = SSAO_FarPlain;
+		proxy->SSAO_Intensity = SSAO_Intensity;
+		proxy->SSAO_Bias = SSAO_Bias;
 	}
 
 	void Renderer3D::BeginRendering(float deltaTime)
@@ -247,8 +289,20 @@ namespace ace
 			Sleep(1);
 		}
 		
-		executor->Execute(m_graphics, m_effectManager, m_effectRenderer, proxy->GetCommands());
+		executor->Execute(m_graphics, m_effectManager, m_effectRenderer, spriteRenderer, proxy->GetCommands());
 		proxy->ResetCommands();
+	}
+
+	void Renderer3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
+		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		Texture2D* texture, AlphaBlend alphaBlend)
+	{
+		Vector3DF positions [] = { upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos };
+		Color colors [] = {upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol };
+		Vector2DF uvs [] = {upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV};
+
+		spriteRenderer->AddSprite(positions, colors, uvs, texture, alphaBlend);
 	}
 
 	void Renderer3D::SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor)

@@ -72,9 +72,20 @@ namespace ace
 		/// <param name="top">上方向の画像ファイルへの相対パス</param>
 		/// <param name="bottom">下方向の画像ファイルへの相対パス</param>
 		/// <returns>キューブマップ</returns>
-		CubemapTexture CreateCubemapTextureFrom6ImageFiles(string front, string left, string back, string right, string top, string bottom)
+		public CubemapTexture CreateCubemapTextureFrom6ImageFiles(string front, string left, string back, string right, string top, string bottom)
 		{
 			return GC.GenerateCubemapTexture(graphics.CreateCubemapTextureFrom6ImageFiles_(front, left, back, right, top, bottom), GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// 複数の画像ファイルからミップマップ付のキューブマップテクスチャを生成する。
+		/// </summary>
+		/// <param name="path">ファイルの名称の先頭</param>
+		/// <param name="mipmapCount">ミップマップ数</param>
+		/// <returns>キューブマップ</returns>
+		public CubemapTexture CreateCubemapTextureFromMipmapImageFiles(string path, int mipmapCount)
+		{
+			return GC.GenerateCubemapTexture(graphics.CreateCubemapTextureFromMipmapImageFiles_(path, mipmapCount), GC.GenerationType.Create);
 		}
 
 		/// <summary>
@@ -119,6 +130,28 @@ namespace ace
 			var ret = new Material2D(material);
 			GC.Material2Ds.AddObject(p, ret);
 			return ret;
+		}
+
+		/// <summary>
+		/// シェーダー(3D)を生成する。
+		/// </summary>
+		/// <param name="shaderText">シェーダーのコード</param>
+		/// <returns></returns>
+		public Shader3D CreateShader3D(string shaderText)
+		{
+			var shader = graphics.CreateShader3D_(shaderText);
+			return GC.GenerateShader3D(shader, GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// マテリアル(3D)を生成する。
+		/// </summary>
+		/// <param name="shader">シェーダー</param>
+		/// <returns>マテリアル(3D)</returns>
+		public Material3D CreateMaterial3D(Shader3D shader)
+		{
+			var material = graphics.CreateMaterial3D_(shader.SwigObject);
+			return GC.GenerateMaterial3D(material, GC.GenerationType.Create);
 		}
 
 		/// <summary>

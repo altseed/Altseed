@@ -39,6 +39,12 @@ namespace ace
 
 		float GetValue(float time) override;
 
+		float GetLength()
+		{
+			if (m_keyframes.size() == 0) return 0;
+			return (*(m_keyframes.end() - 1)).KeyValue.X;
+		}
+
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
 	public:

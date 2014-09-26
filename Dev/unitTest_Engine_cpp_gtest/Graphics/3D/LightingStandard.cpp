@@ -50,7 +50,7 @@ protected:
 		GetLayer3D()->AddObject(lightObj);
 
 		auto plainModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Plain1.mdl").c_str());
-		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Sphere1.mdl").c_str());
+		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("BL_HER_HC.mdl").c_str());
 
 		plainObj->SetModel(plainModel);
 		sphereObj->SetModel(sphereModel);
@@ -68,7 +68,7 @@ protected:
 
 		// 直接光
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
-		lightObj->SetColor(ace::Color(255 / 4, 255 / 4, 255 / 4, 200));
+		lightObj->SetColor(ace::Color(255 / 9, 255 / 9, 255 / 9, 200));
 
 		// 環境
 		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);

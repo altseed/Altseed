@@ -102,6 +102,7 @@ namespace ace
 		Smoothness = swig.VisualizedBufferType.Smoothness,
 		Normal = swig.VisualizedBufferType.Normal,
 		Environment = swig.VisualizedBufferType.Environment,
+		Occulusion = swig.VisualizedBufferType.Occlusion,
 	}
 
     ///<summary>

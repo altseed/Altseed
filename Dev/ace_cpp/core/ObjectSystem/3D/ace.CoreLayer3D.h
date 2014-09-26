@@ -37,5 +37,22 @@ namespace ace
 		virtual void SetGroundAmbientColor(Color color) = 0;
 
 		virtual void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) = 0;
+
+		virtual bool GetHDRMode() const = 0;
+		virtual void SetHDRMode(bool value) = 0;
+
+		virtual float GetSSAO_Radius() = 0;
+		virtual void SetSSAO_Radius(float value) = 0;
+		virtual float GetSSAO_Bias() = 0;
+		virtual void SetSSAO_Bias(float value) = 0;
+		virtual float GetSSAO_Intensity() = 0;
+		virtual void SetSSAO_Intensity(float value) = 0;
+		virtual float GetSSAO_FarPlain() = 0;
+		virtual void SetSSAO_FarPlain(float value) = 0;
+
+		virtual void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+			Texture2D* texture, AlphaBlend alphaBlend) = 0;
 	};
 }

@@ -28,7 +28,6 @@ namespace ace
 
 		protected override void OnStart() { }
 		protected override void OnUpdate() { }
-		internal protected override void OnDrawAdditionally() { }
 
 		protected override void OnUpdateInternal()
 		{
@@ -51,6 +50,15 @@ namespace ace
 
 				count++;
 			}
+		}
+
+		/// <summary>
+		/// 描画先がHDRかどうか、取得、または設定する。
+		/// </summary>
+		public bool HDRMode
+		{
+			get { return coreObject.GetHDRMode(); }
+			set { coreObject.SetHDRMode(value); }
 		}
 
 		/// <summary>

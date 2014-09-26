@@ -31,7 +31,7 @@ namespace ace
 		RenderedEffectObject3D(Graphics* graphics);
 		virtual ~RenderedEffectObject3D();
 
-		void Flip() override;
+		void Flip(float deltaTime) override;
 
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 

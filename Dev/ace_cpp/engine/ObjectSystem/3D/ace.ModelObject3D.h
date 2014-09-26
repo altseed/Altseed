@@ -54,10 +54,57 @@ namespace ace
 		*/
 		void SetDeformer(std::shared_ptr<Deformer> deformer);
 
+		
+		/**
+		@brief	アニメーションクリップを取得する。
+		@param	name	アニメーションクリップの名称
+		@return	アニメーションクリップ
+		*/
+		std::shared_ptr<AnimationClip> GetAnimationClip(const achar* name);
+
 		/**
 		@brief	アニメーションを再生する。
+		@param	index	対象のインデックス
 		@param	name	アニメーションの名称
 		*/
-		void PlayAnimation(const achar* name);
+		void PlayAnimation(int32_t index, const achar* name);
+
+		/**
+		@brief	アニメーションを停止する。
+		@param	index	対象のインデックス
+		*/
+		void StopAnimation(int32_t index);
+
+		/**
+		@brief	アニメーションの合成比率を設定する。
+		@param	index	対象のインデックス
+		@param	weight	合成比率
+		*/
+		void SetAnimationWeight(int32_t index, float weight);
+
+		/**
+		@brief	アニメーションをクロスフェードで再生する。
+		@param	index	対象のインデックス
+		@param	name	アニメーションの名称
+		@param	time	クロスフェードにかかる時間(秒)
+		*/
+		void CrossFadeAnimation(int32_t index, const achar* name, float time);
+
+		/**
+		@brief	アニメーションが再生中か取得する。
+		@param	index	対象のインデックス
+		@return	再生中か?
+		*/
+		bool IsAnimationPlaying(int32_t index);
+
+		/**
+		@brief	材質個別に描画時のパラメーターを設定する。
+		@param	meshIndex	メッシュのインデックス
+		@param	materialIndex	材質のインデックス
+		@param	block	プロパティ
+		@note
+		通常描画する場合、材質に設定されたパラメーターを元に描画するがモデルごとに個別のパラメーターを使用する場合、この関数を使用する。
+		*/
+		void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, std::shared_ptr<MaterialPropertyBlock> block);
 	};
 }

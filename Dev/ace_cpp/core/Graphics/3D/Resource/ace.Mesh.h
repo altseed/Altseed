@@ -104,6 +104,15 @@ namespace ace
 		*/
 		virtual void SetSmoothnessTexture(int32_t materialIndex, Texture2D* texture) = 0;
 
+		/**
+		@brief	材質を設定する。
+		@param	materialIndex	材質のインデックス
+		@param	material		材質
+		@note
+		AddMaterialCountを実行した後でないと無効になる。
+		*/
+		virtual void SetMaterial(int32_t materialIndex, Material3D* material) = 0;
+
 #if !SWIG
 		/**
 		@brief	内部シェーダーを使用する場合のカラーテクスチャを設定する。
@@ -152,6 +161,18 @@ namespace ace
 		void SetSmoothnessTexture(int32_t materialIndex, std::shared_ptr<Texture2D> texture)
 		{
 			SetSmoothnessTexture(materialIndex, texture.get());
+		}
+
+		/**
+		@brief	材質を設定する。
+		@param	materialIndex	材質のインデックス
+		@param	material		材質
+		@note
+		AddMaterialCountを実行した後でないと無効になる。
+		*/
+		void SetMaterial(int32_t materialIndex, std::shared_ptr<Material3D> material)
+		{
+			SetMaterial(materialIndex, material.get());
 		}
 #endif
 	};

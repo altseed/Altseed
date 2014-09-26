@@ -27,6 +27,18 @@ namespace ace
 		*/
 		virtual void SetSource(AnimationSource* source) = 0;
 
+		/**
+		@brief	ループするかを取得する。
+		@return	ループするか?
+		*/
+		virtual bool GetIsLoopingMode() const = 0;
+
+		/**
+		@brief	ループするかを設定する。
+		@return	isLoopingMode	ループするか?
+		*/
+		virtual void SetIsLoopingMode(bool isLoopingMode) = 0;
+
 #if !SWIG
 		/**
 		@brief	ソースを取得する。

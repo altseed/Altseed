@@ -40,7 +40,7 @@ protected:
 		GetLayer3D()->SetSkyAmbientColor(ace::Color(50, 50, 70, 255));
 		GetLayer3D()->SetGroundAmbientColor(ace::Color(70, 70, 50, 255));
 
-		meshObj->PlayAnimation(ace::ToAString("anime1").c_str());
+		meshObj->PlayAnimation(0, ace::ToAString("anime1").c_str());
 		
 	}
 
@@ -49,6 +49,11 @@ protected:
 		EngineGraphics3DTest::OnUpdating();
 		//auto rot = meshObj->GetRotation();
 		//meshObj->SetRotation(rot+ace::Vector3DF(5,0,0));
+
+		if (GetTime() == 60)
+		{
+			meshObj->CrossFadeAnimation(0, ace::ToAString("anime1").c_str(), 1.0f);
+		}
 	}
 
 

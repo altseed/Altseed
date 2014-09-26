@@ -114,6 +114,18 @@ namespace ace
 		object->SetLayer(nullptr);
 	}
 
+	void Layer3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
+		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		std::shared_ptr<Texture2D>  texture, AlphaBlend alphaBlend)
+	{
+		m_coreLayer->DrawSpriteAdditionally(
+			upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos,
+			upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol,
+			upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV,
+			texture.get(), alphaBlend);
+	}
+
 	void Layer3D::SetSkyAmbientColor(Color color)
 	{
 		m_coreLayer->SetSkyAmbientColor(color);
@@ -127,5 +139,55 @@ namespace ace
 	void Layer3D::SetEnvironmentColor(std::shared_ptr<CubemapTexture> diffuseColor, std::shared_ptr<CubemapTexture> specularColor)
 	{
 		m_coreLayer->SetEnvironmentColor(diffuseColor.get(), specularColor.get());
+	}
+
+	bool Layer3D::GetHDRMode() const
+	{
+		return m_coreLayer->GetHDRMode();
+	}
+
+	void Layer3D::SetHDRMode(bool value)
+	{
+		m_coreLayer->SetHDRMode(value);
+	}
+
+	float Layer3D::GetSSAO_Radius()
+	{
+		return m_coreLayer->GetSSAO_Radius();
+	}
+
+	void Layer3D::SetSSAO_Radius(float value)
+	{
+		m_coreLayer->SetSSAO_Radius(value);
+	}
+
+	float Layer3D::GetSSAO_Bias()
+	{
+		return m_coreLayer->GetSSAO_Bias();
+	}
+
+	void Layer3D::SetSSAO_Bias(float value)
+	{
+		m_coreLayer->SetSSAO_Bias(value);
+	}
+
+	float Layer3D::GetSSAO_Intensity()
+	{
+		return m_coreLayer->GetSSAO_Intensity();
+	}
+
+	void Layer3D::SetSSAO_Intensity(float value)
+	{
+		m_coreLayer->SetSSAO_Intensity(value);
+	}
+
+	float Layer3D::GetSSAO_FarPlain()
+	{
+		return m_coreLayer->GetSSAO_FarPlain();
+	}
+
+	void Layer3D::SetSSAO_FarPlain(float value)
+	{
+		m_coreLayer->SetSSAO_FarPlain(value);
 	}
 };

@@ -42,11 +42,11 @@ namespace ace
 		SafeRelease(m_renderTargetEnvironment);
 	}
 
-	void RenderedCameraObject3DProxy::SetWindowSize(Graphics* graphics, Vector2DI windowSize)
+	void RenderedCameraObject3DProxy::SetWindow(Graphics* graphics, Vector2DI windowSize, bool hdrMode)
 	{
 		auto g = (Graphics_Imp*) graphics;
 
-		if (WindowSize != windowSize)
+		if (WindowSize != windowSize || HDRMode != hdrMode)
 		{
 			SafeRelease(m_renderTargetDiffuseColor_RT);
 			SafeRelease(m_renderTargetSpecularColor_Smoothness_RT);
@@ -74,14 +74,24 @@ namespace ace
 
 			m_renderTargetShadow_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 
-			m_renderTarget_FR[0] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
-			m_renderTarget_FR[1] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
+			if (hdrMode)
+			{
+				m_renderTarget_FR[0] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
+				m_renderTarget_FR[1] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
+			}
+			else
+			{
+				m_renderTarget_FR[0] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
+				m_renderTarget_FR[1] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
+			}
+			
 			m_depthBuffer_RT = g->CreateDepthBuffer_Imp(windowSize.X, windowSize.Y);
 
 			m_renderTargetEnvironment = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 		}
 
 		WindowSize = windowSize;
+		HDRMode = hdrMode;
 	}
 
 	void RenderedCameraObject3DProxy::OnUpdateAsync()
@@ -154,8 +164,9 @@ namespace ace
 		m_values.fov = 0.0f;
 		m_values.zfar = 0.0f;
 		m_values.znear = 0.0f;
+		m_values.hdrMode = false;
 		m_values.postEffectCount = 0;
-
+		
 		proxy = new RenderedCameraObject3DProxy(graphics);
 	}
 
@@ -164,15 +175,15 @@ namespace ace
 		SafeRelease(proxy);
 	}
 
-	void RenderedCameraObject3D::Flip()
+	void RenderedCameraObject3D::Flip(float deltaTime)
 	{
-		RenderedObject3D::Flip();
+		RenderedObject3D::Flip(deltaTime);
 
 		proxy->ZNear = m_values.znear;
 		proxy->ZFar = m_values.zfar;
 		proxy->FOV = m_values.fov;
 		proxy->Focus = m_values.focus;
-		proxy->SetWindowSize(GetGraphics(), m_values.size);
+		proxy->SetWindow(GetGraphics(), m_values.size, m_values.hdrMode);
 
 		proxy->postEffectCount = m_values.postEffectCount;
 
@@ -202,6 +213,16 @@ namespace ace
 	void RenderedCameraObject3D::SetZNear(float znear)
 	{
 		m_values.znear = znear;
+	}
+
+	bool RenderedCameraObject3D::GetHDRMode() const
+	{
+		return m_values.hdrMode;
+	}
+
+	void RenderedCameraObject3D::SetHDRMode(bool value)
+	{
+		m_values.hdrMode = value;
 	}
 
 	void RenderedCameraObject3D::StartAddingPostEffect(int32_t postEffectCount)

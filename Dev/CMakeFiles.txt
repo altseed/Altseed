@@ -66,11 +66,13 @@ set(core_src
 	ace_cpp/core/Graphics/Resource/ace.Font_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.IndexBuffer_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Material2D_Imp.cpp
+	ace_cpp/core/Graphics/Resource/ace.Material3D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.MaterialPropertyBlock_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Material_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.NativeShader_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.RenderTexture2D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Shader2D_Imp.cpp
+	ace_cpp/core/Graphics/Resource/ace.Shader3D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.ShaderCache.cpp
 	ace_cpp/core/Graphics/Resource/ace.Texture2D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.VertexBuffer_Imp.cpp
@@ -223,6 +225,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/3D/EffectObject3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/LightingStandard.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/ModelObject3D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/ModelObject3DCustomMaterial.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/SimpleMesh.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/CustomPostEffect.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGaussinaBlur.cpp

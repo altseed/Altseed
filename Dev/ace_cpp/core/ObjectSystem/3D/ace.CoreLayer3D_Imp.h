@@ -48,6 +48,23 @@ namespace ace
 
 		void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) override;
 
+		bool GetHDRMode() const override;
+		void SetHDRMode(bool value) override;
+
+		float GetSSAO_Radius() override;
+		void SetSSAO_Radius(float value) override;
+		float GetSSAO_Bias()  override;
+		void SetSSAO_Bias(float value) override;
+		float GetSSAO_Intensity() override;
+		void SetSSAO_Intensity(float value)  override;
+		float GetSSAO_FarPlain()  override;
+		void SetSSAO_FarPlain(float value) override;
+
+		void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+			Texture2D* texture, AlphaBlend alphaBlend) override;
+
 		void BeginUpdating();
 		void EndUpdating();
 

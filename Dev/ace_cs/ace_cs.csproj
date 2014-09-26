@@ -63,11 +63,13 @@
     <Compile Include="Graphics\Font.cs" />
     <Compile Include="Graphics\Graphics.cs" />
     <Compile Include="Graphics\Material2D.cs" />
+    <Compile Include="Graphics\Material3D.cs" />
     <Compile Include="Graphics\MaterialPropertyBlock.cs" />
     <Compile Include="Graphics\Mesh.cs" />
     <Compile Include="Graphics\Model.cs" />
     <Compile Include="Graphics\RenderTexture2D.cs" />
     <Compile Include="Graphics\Shader2D.cs" />
+    <Compile Include="Graphics\Shader3D.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Input\IMouseButtonState.cs" />
@@ -179,6 +181,7 @@
     <Compile Include="swig\Log.cs" />
     <Compile Include="swig\Log_Imp.cs" />
     <Compile Include="swig\Material2D.cs" />
+    <Compile Include="swig\Material3D.cs" />
     <Compile Include="swig\MaterialPropertyBlock.cs" />
     <Compile Include="swig\Mesh.cs" />
     <Compile Include="swig\MiddleButton.cs" />
@@ -196,6 +199,7 @@
     <Compile Include="swig\RenderTexture2D_Imp.cs" />
     <Compile Include="swig\Shader2D.cs" />
     <Compile Include="swig\Shader2D_Imp.cs" />
+    <Compile Include="swig\Shader3D.cs" />
     <Compile Include="swig\ShaderVariableType.cs" />
     <Compile Include="swig\SideButton.cs" />
     <Compile Include="swig\Sound.cs" />

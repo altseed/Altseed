@@ -71,6 +71,12 @@ namespace ace
 		std::shared_ptr<CubemapTexture>	EnvironmentSpecularColor;
 		RenderSettings					Settings;
 		float							DeltaTime;
+		bool							HDRMode = false;
+
+		float SSAO_Radius = 0.1f;
+		float SSAO_Bias = 0.001f;
+		float SSAO_Intensity = 1.0f;
+		float SSAO_FarPlain = 800.0f;
 
 		void SetEffect(Effekseer::Manager* manager, EffekseerRenderer::Renderer* renderer);
 		void AddObject(RenderedObject3D* o);

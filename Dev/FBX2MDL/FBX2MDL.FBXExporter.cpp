@@ -212,7 +212,8 @@ namespace FBX2MDL
 				mesh->BoneConnectors.push_back(bc);
 			}
 
-			// 上下方向に面ソート
+			// 上下方向に面ソート(将来的にonoffつける)
+#if 1
 			std::sort(mesh->Faces.begin(), mesh->Faces.end(), [mesh](const Face& f1, const Face& f2) -> float {
 				return
 					(mesh->Vertexes[f1.Index[0]].Position.Y +
@@ -222,6 +223,7 @@ namespace FBX2MDL
 					mesh->Vertexes[f2.Index[1]].Position.Y +
 					mesh->Vertexes[f2.Index[2]].Position.Y);
 			});
+#endif
 
 			// 材質ソート
 			std::sort(mesh->Faces.begin(), mesh->Faces.end(), [](const Face& f1, const Face& f2) -> int32_t { return f1.MaterialIndex > f2.MaterialIndex; });

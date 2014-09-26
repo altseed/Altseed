@@ -38,6 +38,9 @@ namespace ace
 		float GetZNear();
 		void SetZNear(float znear);
 
+		bool GetHDRMode() const override;
+		void SetHDRMode(bool value) override;
+
 		void BeginPostEffect(CorePostEffect* postEffect) override;
 		void EndPostEffect(CorePostEffect* postEffect) override;
 

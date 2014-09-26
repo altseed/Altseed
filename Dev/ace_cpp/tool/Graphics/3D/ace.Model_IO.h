@@ -11,6 +11,7 @@
 #include <Graphics/ace.Graphics.Common.h>
 
 #include <Utility/ace.BinaryReader.h>
+#include <Utility/ace.BinaryWriter.h>
 
 namespace ace
 {
@@ -19,9 +20,14 @@ namespace ace
 	public:
 		struct Material
 		{
+			int32_t Type;
 			astring	ColorTexture;
 			astring	NormalTexture;
 			astring	SpecularTexture;
+
+			astring	OriginalColorTexture;
+			astring	OriginalNormalTexture;
+			astring	OriginalSpecularTexture;
 		};
 
 		struct Vertex
@@ -157,7 +163,9 @@ namespace ace
 
 		static void Int32ToUInt8Array(uint8_t dst[4], int32_t src);
 
-		bool Load(std::vector<uint8_t>&	data, const achar* path);
+		bool Load(std::vector<uint8_t>& data, const achar* path);
+
+		bool Save(BinaryWriter& writer, const achar* path);
 
 	private:
 		void LoadMeshes(std::vector<Mesh>& meshes, BinaryReader& reader, const achar* path);
@@ -170,6 +178,19 @@ namespace ace
 		void LoadAnimationSource(AnimationSource& as, BinaryReader& reader, const achar* path);
 		void LoadKeyframeAnimation(KeyframeAnimation& ka, BinaryReader& reader, const achar* path);
 		void LoadAnimationClip(AnimationClip& ac, BinaryReader& reader, const achar* path);
+
+		void SaveDeformer(Deformer& deformer, BinaryWriter& writer, const achar* path);
+
+		void SaveMeshes(std::vector<Mesh>& meshes, BinaryWriter& writer, const achar* path);
+		void SaveMesh(Mesh& mesh, BinaryWriter& writer, const achar* path);
+		void SaveDividedMesh(DividedMesh& mesh, BinaryWriter& writer, const achar* path);
+
+		void SaveMaterials(std::vector<Material>& materials, BinaryWriter& writer, const achar* path);
+		void SaveMaterial(Material& material, BinaryWriter& writer, const achar* path);
+
+		void SaveAnimationSource(AnimationSource& as, BinaryWriter& writer, const achar* path);
+		void SaveKeyframeAnimation(KeyframeAnimation& ka, BinaryWriter& writer, const achar* path);
+		void SaveAnimationClip(AnimationClip& ac, BinaryWriter& writer, const achar* path);
 	};
 
 	enum eAnimationCurveTargetType
@@ -192,7 +213,7 @@ namespace ace
 	class ModelUtils
 	{
 	public:
-		static void CalculateBoneMatrixes(std::vector<Matrix44>& dst, const std::vector<Model_IO::Bone>& bones, const std::vector<Matrix44>& localMatrixes, bool isPlayingAnimation);
+		static void CalculateBoneMatrixes(std::vector<Matrix44>& dst, const std::vector<Model_IO::Bone>& bones, const std::vector<Matrix44>& localMatrixes);
 
 		static Matrix44 CalcMatrix(float position[3], float rotation[4], float scale[3], eRotationOrder rotationType);
 
@@ -208,5 +229,16 @@ namespace ace
 			eAnimationCurveTargetAxis targetAxis, 
 			float value);
 
+		static void AddBoneValue(
+			float position[3],
+			float rotation[4],
+			float scale[3],
+			float positionW[3],
+			float rotationW[4],
+			float scaleW[3],
+			eAnimationCurveTargetType targetType,
+			eAnimationCurveTargetAxis targetAxis,
+			float value,
+			float weight);
 	};
 }

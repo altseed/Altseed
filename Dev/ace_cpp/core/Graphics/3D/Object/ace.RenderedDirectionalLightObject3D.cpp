@@ -316,9 +316,9 @@ namespace ace
 		SafeRelease(proxy);
 	}
 
-	void RenderedDirectionalLightObject3D::Flip()
+	void RenderedDirectionalLightObject3D::Flip(float deltaTime)
 	{
-		RenderedObject3D::Flip();
+		RenderedObject3D::Flip(deltaTime);
 		proxy->LightColor = color;
 	}
 
