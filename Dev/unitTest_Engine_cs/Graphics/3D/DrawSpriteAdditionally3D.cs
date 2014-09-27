@@ -36,7 +36,9 @@ namespace unitTest_Engine_cs.Graphics._3D
 			new ace.Vector2DF(0, 0),
 			new ace.Vector2DF(0, 0),
 			null,
-			ace.AlphaBlendMode.Blend
+			ace.AlphaBlendMode.Blend,
+			false,
+			false
 			);
 		}
 	}

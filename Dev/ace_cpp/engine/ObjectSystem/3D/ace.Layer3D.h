@@ -85,13 +85,15 @@ namespace ace
 		@param	lowerLeftUV		テクスチャの左下のUV値
 		@param	texture			描画するテクスチャ
 		@param	alphaBlend		アルファブレンドの種類
+		@param	depthWrite		深度を書き込むか?
+		@param	depthTest		深度を比較するか?
 		@note
 		OnDrawAdditionallyの中以外では実行してはいけない。
 		*/
 		void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-			std::shared_ptr<Texture2D>  texture, AlphaBlend alphaBlend);
+			std::shared_ptr<Texture2D>  texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest);
 
 		/**
 			@brief	空方向の環境光の色を設定する。

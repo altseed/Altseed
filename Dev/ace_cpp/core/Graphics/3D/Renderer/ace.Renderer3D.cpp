@@ -291,18 +291,19 @@ namespace ace
 		
 		executor->Execute(m_graphics, m_effectManager, m_effectRenderer, spriteRenderer, proxy->GetCommands());
 		proxy->ResetCommands();
+		spriteRenderer->ClearCache();
 	}
 
 	void Renderer3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-		Texture2D* texture, AlphaBlend alphaBlend)
+		Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest)
 	{
 		Vector3DF positions [] = { upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos };
 		Color colors [] = {upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol };
 		Vector2DF uvs [] = {upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV};
 
-		spriteRenderer->AddSprite(positions, colors, uvs, texture, alphaBlend);
+		spriteRenderer->AddSprite(positions, colors, uvs, texture, alphaBlend, depthWrite, depthTest);
 	}
 
 	void Renderer3D::SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor)
