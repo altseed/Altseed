@@ -38,7 +38,7 @@ namespace unitTest_Engine_cs.Graphics._3D
 			null,
 			ace.AlphaBlendMode.Blend,
 			false,
-			false
+			true
 			);
 		}
 	}

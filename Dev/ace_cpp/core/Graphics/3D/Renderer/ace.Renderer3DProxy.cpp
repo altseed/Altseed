@@ -738,11 +738,21 @@ namespace ace
 			}
 		}
 
+		// 深度復帰
+		{
+			helper->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
+		}
+
 		// エフェクトの描画
 		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
 		
 		// スプライトの描画
 		helper->DrawSprite(cP->ProjectionMatrix, cP->CameraMatrix);
+
+		// 深度リセット
+		{
+			helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
+		}
 
 		if (Settings.VisualizedBuffer == VisualizedBufferType::FinalImage)
 		{
@@ -826,6 +836,9 @@ namespace ace
 				o->Rendering(helper, prop);
 			}
 		}
+
+		// スプライトの描画
+		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
 
 		// エフェクトの描画
 		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);

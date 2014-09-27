@@ -36,7 +36,7 @@ protected:
 			nullptr,
 			ace::AlphaBlend::Blend,
 			false,
-			false
+			true
 			);
 	}
 };
