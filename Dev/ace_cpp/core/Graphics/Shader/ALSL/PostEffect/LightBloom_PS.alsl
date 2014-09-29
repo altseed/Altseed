@@ -44,17 +44,29 @@ float4 CalcBlurredColor(float2 uv)
 
 	float4 sum = float4(0.0,0.0,0.0,0.0);
 
-	sum += g_weight.x * GetColor( uv + shift_p + adder * 0.0 );
-	sum += g_weight.x * GetColor( uv + shift_m - adder * 0.0 );
+	sum += g_weight1.x * GetColor( uv + shift_p + adder * 0.0 );
+	sum += g_weight1.x * GetColor( uv + shift_m - adder * 0.0 );
 	
-	sum += g_weight.y * GetColor( uv + shift_p + adder * 1.0 );
-	sum += g_weight.y * GetColor( uv + shift_m - adder * 1.0 );
+	sum += g_weight1.y * GetColor( uv + shift_p + adder * 1.0 );
+	sum += g_weight1.y * GetColor( uv + shift_m - adder * 1.0 );
 	
-	sum += g_weight.z * GetColor( uv + shift_p + adder * 2.0 );
-	sum += g_weight.z * GetColor( uv + shift_m - adder * 2.0 );
+	sum += g_weight1.z * GetColor( uv + shift_p + adder * 2.0 );
+	sum += g_weight1.z * GetColor( uv + shift_m - adder * 2.0 );
 	
-	sum += g_weight.w * GetColor( uv + shift_p + adder * 3.0 );
-	sum += g_weight.w * GetColor( uv + shift_m - adder * 3.0 );
+	sum += g_weight1.w * GetColor( uv + shift_p + adder * 3.0 );
+	sum += g_weight1.w * GetColor( uv + shift_m - adder * 3.0 );
+
+	sum += g_weight2.x * GetColor( uv + shift_p + adder * 4.0 );
+	sum += g_weight2.x * GetColor( uv + shift_m - adder * 4.0 );
+	
+	sum += g_weight2.y * GetColor( uv + shift_p + adder * 5.0 );
+	sum += g_weight2.y * GetColor( uv + shift_m - adder * 5.0 );
+	
+	sum += g_weight2.z * GetColor( uv + shift_p + adder * 6.0 );
+	sum += g_weight2.z * GetColor( uv + shift_m - adder * 6.0 );
+	
+	sum += g_weight2.w * GetColor( uv + shift_p + adder * 7.0 );
+	sum += g_weight2.w * GetColor( uv + shift_m - adder * 7.0 );
 
 	sum.a = 1.0;
 
