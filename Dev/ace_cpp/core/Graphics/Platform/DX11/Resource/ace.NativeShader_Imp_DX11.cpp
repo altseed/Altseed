@@ -40,6 +40,11 @@ ID3DBlob* NativeShader_Imp_DX11::CompileVertexShader(Graphics_Imp_DX11* g, const
 		macro.push_back(m);
 	}
 
+	UINT flag = D3D10_SHADER_PACK_MATRIX_ROW_MAJOR;
+#if !_DEBUG
+	flag = flag | D3D10_SHADER_OPTIMIZATION_LEVEL3;
+#endif
+
 	/* この方法だとVS4.0以上でのコンパイルが要求 */
 	auto hr = D3DCompile(
 		vertexShaderText,
@@ -49,7 +54,7 @@ ID3DBlob* NativeShader_Imp_DX11::CompileVertexShader(Graphics_Imp_DX11* g, const
 		NULL,
 		"main",
 		"vs_4_0",
-		D3D10_SHADER_PACK_MATRIX_ROW_MAJOR,
+		flag,
 		0,
 		&shader,
 		&error);
@@ -114,6 +119,11 @@ macro.push_back(m);
 		macro.push_back(m);
 	}
 
+	UINT flag = D3D10_SHADER_PACK_MATRIX_ROW_MAJOR;
+#if !_DEBUG
+	flag = flag | D3D10_SHADER_OPTIMIZATION_LEVEL3;
+#endif
+
 	/* この方法だとPS4.0以上でのコンパイルが要求 */
 	auto hr = D3DCompile(
 		vertexShaderText,
@@ -123,7 +133,7 @@ macro.push_back(m);
 		NULL,
 		"main",
 		"ps_4_0",
-		D3D10_SHADER_PACK_MATRIX_ROW_MAJOR,
+		flag,
 		0,
 		&shader,
 		&error);
