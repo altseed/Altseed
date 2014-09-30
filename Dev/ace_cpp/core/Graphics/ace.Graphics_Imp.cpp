@@ -53,6 +53,32 @@
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+#if _WIN32
+#include <shlwapi.h>
+#pragma comment(lib, "shlwapi.lib")
+#else
+#include <sys/stat.h>
+#endif
+
+static void CreateShaderCacheDirectory()
+{
+	const char* shaderCacheDirectory = "ShaderCache";
+#if _WIN32
+	if (!PathIsDirectoryA(shaderCacheDirectory))
+	{
+		CreateDirectoryA(shaderCacheDirectory, NULL);
+	}
+#else
+	mkdir(shaderCacheDirectory,
+		S_IRUSR | S_IWUSR | S_IXUSR |
+		S_IRGRP | S_IWGRP | S_IXGRP |
+		S_IROTH | S_IXOTH | S_IXOTH);
+#endif
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 namespace ace {
 
 	class EffectLoader
@@ -517,6 +543,8 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled, bo
 	, m_shaderPtr(nullptr)
 	, m_log(log)
 {
+	CreateShaderCacheDirectory();
+
 	Texture2DContainer = std::make_shared<ResourceContainer<Texture2D_Imp>>();
 	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>();
 

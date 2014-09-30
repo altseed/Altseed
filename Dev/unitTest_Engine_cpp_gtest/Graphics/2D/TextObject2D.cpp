@@ -10,7 +10,7 @@ class Graphics_TextObject2D : public EngineTest
 {
 public:
 	Graphics_TextObject2D(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("TextObject2D"), isOpenGLMode, 360)
+		: EngineTest(ace::ToAString("TextObject2D"), isOpenGLMode, 10)
 	{
 	}
 

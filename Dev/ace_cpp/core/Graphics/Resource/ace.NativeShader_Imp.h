@@ -41,6 +41,8 @@ namespace ace {
 		*/
 		astring		m_key;
 
+		static uint32_t CalcHash(const char* text);
+
 	public:
 		NativeShader_Imp(Graphics* graphics);
 		virtual ~NativeShader_Imp();

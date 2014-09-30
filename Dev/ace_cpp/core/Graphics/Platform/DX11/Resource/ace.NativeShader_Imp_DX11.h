@@ -51,7 +51,7 @@ namespace ace {
 		static ID3DBlob* CompileVertexShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 		static ID3DBlob* CompilePixelShader(Graphics_Imp_DX11* g, const char* vertexShaderText, const char* vertexShaderFileName, std::vector <Macro>& macro, Log* log);
 
-		static void Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures);
+		static void Reflect(void* buf, int32_t bufSize, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures);
 	public:
 		NativeShader_Imp_DX11(
 			Graphics* graphics, 

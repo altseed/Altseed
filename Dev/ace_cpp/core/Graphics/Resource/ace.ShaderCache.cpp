@@ -21,7 +21,6 @@ namespace ace
 	ShaderCache::ShaderCache(Graphics_Imp* graphics)
 		: m_graphics(graphics)
 	{
-
 	}
 
 	ShaderCache::~ShaderCache()

@@ -65,7 +65,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//CALL_ENGINE_TEST(Graphics, DrawSpriteAdditionally3D, true)
+	//CALL_ENGINE_TEST(Graphics, LightingStandard, false)
 	//return 0;
 
 	//TestCamera(true);
