@@ -10,6 +10,19 @@
 
 namespace ace
 {
+	RenderingCommand_Draw::RenderingCommand_Draw(int32_t polyOffset, int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs)
+		: PolyOffset(polyOffset)
+		, PolyCount(polyCount)
+		, VB(vb)
+		, IB(ib)
+		, Shader(shader)
+	{
+		SafeAddRef(vb);
+		SafeAddRef(ib);
+		SafeAddRef(shader);
+
+		RS = rs;
+	}
 
 	RenderingCommand_Draw::RenderingCommand_Draw(int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs)
 		: PolyCount(polyCount)

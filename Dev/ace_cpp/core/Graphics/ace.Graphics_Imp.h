@@ -154,6 +154,8 @@ namespace ace {
 		virtual IndexBuffer_Imp* CreateIndexBuffer_Imp_(int maxCount, bool isDynamic, bool is32bit) = 0;
 
 		virtual void DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr) = 0;
+		virtual void DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr) = 0;
+
 		virtual void DrawPolygonInstancedInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr, int32_t instanceCount) = 0;
 		virtual void BeginInternal() = 0;
 		virtual void EndInternal() {}
@@ -381,6 +383,14 @@ namespace ace {
 	@param	count	ポリゴン数
 	*/
 	void DrawPolygon(int32_t count);
+
+	/**
+	@brief	ポリゴンを描画する。
+	@param	offset	ポリゴン数オフセット
+	@param	count	ポリゴン数
+	*/
+	void DrawPolygon(int32_t offset, int32_t count);
+
 
 	/**
 	@brief	描画開始前のリセット処理を行う。

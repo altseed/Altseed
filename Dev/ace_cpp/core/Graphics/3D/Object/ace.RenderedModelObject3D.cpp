@@ -496,8 +496,24 @@ namespace ace
 							state.Culling = CullingType::Front;
 							state.AlphaBlendState = AlphaBlend::Opacity;
 
-							helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
-								shaderConstants.data(), shaderConstants.size());
+							helper->DrawWithPtr(
+								fOffset,
+								fCount,
+								mesh.VertexBufferPtr.get(),
+								mesh.IndexBufferPtr.get(),
+								shader.get(),
+								state,
+								shaderConstants.data(),
+								shaderConstants.size());
+
+							//helper->DrawWithPtr(
+							//	mesh.IndexBufferPtr->GetCount() / 3, 
+							//	mesh.VertexBufferPtr.get(), 
+							//	mesh.IndexBufferPtr.get(), 
+							//	shader.get(), 
+							//	state,
+							//	shaderConstants.data(), 
+							//	shaderConstants.size());
 						}
 						else
 						{
@@ -550,8 +566,24 @@ namespace ace
 							state.Culling = CullingType::Front;
 							state.AlphaBlendState = AlphaBlend::Opacity;
 
-							helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
-								shaderConstants.data(), shaderConstants.size());
+							helper->DrawWithPtr(
+								fOffset,
+								fCount,
+								mesh.VertexBufferPtr.get(),
+								mesh.IndexBufferPtr.get(),
+								shader.get(),
+								state,
+								shaderConstants.data(),
+								shaderConstants.size());
+
+							//helper->DrawWithPtr(
+							//	mesh.IndexBufferPtr->GetCount() / 3, 
+							//	mesh.VertexBufferPtr.get(), 
+							//	mesh.IndexBufferPtr.get(), 
+							//	shader.get(), 
+							//	state,
+							//	shaderConstants.data(), 
+							//	shaderConstants.size());
 						}
 
 						shaderConstants.clear();

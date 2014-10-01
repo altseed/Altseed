@@ -38,7 +38,15 @@ namespace ace
 				g->SetIndexBuffer(c->IB);
 				g->SetShader(c->Shader);
 				g->SetRenderState(c->RS);
-				g->DrawPolygon(c->PolyCount);
+
+				if (c->PolyOffset == 0)
+				{
+					g->DrawPolygon(c->PolyCount);
+				}
+				else
+				{
+					g->DrawPolygon(c->PolyOffset, c->PolyCount);
+				}
 			}
 			else if (command->GetType() == RenderingCommandType::SetRenderTarget)
 			{

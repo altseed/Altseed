@@ -828,6 +828,27 @@ void Graphics_Imp::DrawPolygon(int32_t count)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+void Graphics_Imp::DrawPolygon(int32_t offset, int32_t count)
+{
+	assert(m_vertexBufferPtr != nullptr);
+	assert(m_indexBufferPtr != nullptr);
+	assert(m_shaderPtr != nullptr);
+
+	CommitRenderState(false);
+
+	DrawPolygonInternal(
+		offset,
+		count,
+		m_vertexBufferPtr,
+		m_indexBufferPtr,
+		m_shaderPtr);
+
+	drawCallCountCurrent++;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 void Graphics_Imp::Begin()
 {
 	drawCallCount = drawCallCountCurrent;

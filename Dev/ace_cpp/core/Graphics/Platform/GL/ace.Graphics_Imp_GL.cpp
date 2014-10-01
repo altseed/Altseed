@@ -588,6 +588,39 @@ void Graphics_Imp_GL::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* verte
 	GLCheckError();
 }
 
+void Graphics_Imp_GL::DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr)
+{
+	assert(vertexBuffer != nullptr);
+	assert(indexBuffer != nullptr);
+	assert(shaderPtr != nullptr);
+
+	auto shader = (NativeShader_Imp_GL*) shaderPtr;
+	auto vb = (VertexBuffer_Imp_GL*) vertexBuffer;
+	auto ib = (IndexBuffer_Imp_GL*) indexBuffer;
+
+	UpdateStatus(vb, ib, shader);
+	GLCheckError();
+
+	if (indexBuffer->Is32Bit())
+	{
+		glDrawElements(GL_TRIANGLES, count * 3, GL_UNSIGNED_INT, (void*) (offset * 3 * sizeof(uint32_t)));
+	}
+	else
+	{
+		glDrawElements(GL_TRIANGLES, count * 3, GL_UNSIGNED_SHORT, (void*) (offset * 3 * sizeof(uint16_t)));
+	}
+	GLCheckError();
+
+	{
+		auto shader = (NativeShader_Imp_GL*) shaderPtr;
+		shader->Disable();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	GLCheckError();
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

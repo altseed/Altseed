@@ -594,6 +594,17 @@ void Graphics_Imp_DX11::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* ver
 		vertexBufferOffset);
 }
 
+void Graphics_Imp_DX11::DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr)
+{
+	int32_t vertexBufferOffset = 0;
+
+	UpdateDrawStates(vertexBuffer, indexBuffer, shaderPtr, vertexBufferOffset);
+	GetContext()->DrawIndexed(
+		count * 3,
+		offset * 3,
+		vertexBufferOffset);
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
