@@ -261,10 +261,15 @@ namespace ace
 		}
 
 		proxy->SetEffect(m_effectManager, m_effectRenderer);
+		proxy->AmbientColorIntensity = ambientColorIntensity;
 		proxy->SkyAmbientColor = m_skyAmbientColor;
 		proxy->GroundAmbientColor = m_groundAmbientColor;
+
+		proxy->EnvironmentDiffuseColorIntensity = environmentDiffuseColorIntensity;
+		proxy->EnvironmentSpecularColorIntensity = environmentSpecularColorIntensity;
 		proxy->EnvironmentDiffuseColor = environment_diffuseColor;
 		proxy->EnvironmentSpecularColor = environment_specularColor;
+		
 		proxy->Settings = m_settings;
 
 		proxy->SSAO_Radius = SSAO_Radius;

@@ -29,6 +29,8 @@ float3		rightDir;
 float3		upDir;
 
 float		mipmapCount;
+float		diffuseIntensity;
+float		specularIntensity;
 
 struct PS_Input
 {
@@ -83,13 +85,13 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float3 globalNormal = float3(dot(rightDir,normal), dot(upDir,normal), dot(frontDir,normal));
 
-	float4 diffuseEnvColor = g_diffuseTexture.SampleLevel(g_diffuseSampler, globalNormal, 0.0);
+	float4 diffuseEnvColor = g_diffuseTexture.SampleLevel(g_diffuseSampler, globalNormal, 0.0) * diffuseIntensity;
 
 	float NoV = saturate( dot( normal, view) );
 	float3 R = 2.0 * NoV * normal - view;
 	float3 globalR = float3(dot(rightDir,R), dot(upDir,R), dot(frontDir,R));
 
-	float4 specEnvColor = g_specularTexture.SampleLevel(g_specularSampler, globalR, roughness * mipmapCount);
+	float4 specEnvColor = g_specularTexture.SampleLevel(g_specularSampler, globalR, roughness * mipmapCount) * specularIntensity;
 
 	float2 brdfColor = g_brdfTexture.Sample(g_brdfSampler, float2(roughness,NoV)).xy;
 

@@ -320,6 +320,17 @@ namespace ace
 	{
 		RenderedObject3D::Flip(deltaTime);
 		proxy->LightColor = color;
+		proxy->Intensity = intensity;
+	}
+
+	float RenderedDirectionalLightObject3D::GetIntensity()
+	{
+		return intensity;
+	}
+
+	void RenderedDirectionalLightObject3D::SetIntensity(float intensity)
+	{
+		this->intensity = intensity;
 	}
 
 	Color RenderedDirectionalLightObject3D::GetColor()

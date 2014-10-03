@@ -37,5 +37,17 @@ namespace ace
 			get { return coreObject.GetColor(); }
 			set { coreObject.SetColor(ref value); }
 		}
+
+		/// <summary>
+		/// 光源の強さを取得または設定する。
+		/// </summary>
+		/// <remarks>
+		/// デフォルトは1.0である。
+		/// </remarks>
+		public float Intensity
+		{
+			get { return coreObject.GetIntensity(); }
+			set { coreObject.SetIntensity(value); }
+		}
 	}
 }

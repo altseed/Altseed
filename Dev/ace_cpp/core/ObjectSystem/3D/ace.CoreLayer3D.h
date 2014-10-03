@@ -33,8 +33,13 @@ namespace ace
 		virtual void AddObject(ObjectPtr object3D) = 0;
 		virtual void RemoveObject(ObjectPtr object3D) = 0;
 
+		virtual float GetAmbientColorIntensity() = 0;
+		virtual void SetAmbientColorIntensity(float ambientColorIntensity) = 0;
+
 		virtual void SetSkyAmbientColor(Color color) = 0;
 		virtual void SetGroundAmbientColor(Color color) = 0;
+
+		virtual void SetEnvironmentColorIntensity(float environmentDiffuseColorIntensity, float environmentSpecularColorIntensity) = 0;
 
 		virtual void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) = 0;
 

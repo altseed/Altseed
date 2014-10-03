@@ -63,6 +63,16 @@ namespace ace
 		}
 	}
 
+	float CoreLayer3D_Imp::GetAmbientColorIntensity()
+	{
+		return m_renderer->GetAmbientColorIntensity();
+	}
+
+	void CoreLayer3D_Imp::SetAmbientColorIntensity(float ambientColorIntensity)
+	{
+		m_renderer->SetAmbientColorIntensity(ambientColorIntensity);
+	}
+
 	void CoreLayer3D_Imp::SetSkyAmbientColor(Color color)
 	{
 		m_renderer->SetSkyAmbientColor(color);
@@ -71,6 +81,11 @@ namespace ace
 	void CoreLayer3D_Imp::SetGroundAmbientColor(Color color)
 	{
 		m_renderer->SetGroundAmbientColor(color);
+	}
+
+	void CoreLayer3D_Imp::SetEnvironmentColorIntensity(float environmentDiffuseColorIntensity, float environmentSpecularColorIntensity)
+	{
+		m_renderer->SetEnvironmentColorIntensity(environmentDiffuseColorIntensity, environmentSpecularColorIntensity);
 	}
 
 	void CoreLayer3D_Imp::SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor)

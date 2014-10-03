@@ -43,8 +43,13 @@ namespace ace
 		void AddObject(ObjectPtr object3D);
 		void RemoveObject(ObjectPtr object3D);
 
-		void SetSkyAmbientColor(Color color);
-		void SetGroundAmbientColor(Color color);
+		float GetAmbientColorIntensity() override;
+		void SetAmbientColorIntensity(float ambientColorIntensity) override;
+
+		void SetSkyAmbientColor(Color color) override;
+		void SetGroundAmbientColor(Color color) override;
+
+		void SetEnvironmentColorIntensity(float environmentDiffuseColorIntensity, float environmentSpecularColorIntensity) override;
 
 		void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) override;
 

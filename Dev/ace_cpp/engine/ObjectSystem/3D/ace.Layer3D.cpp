@@ -126,6 +126,16 @@ namespace ace
 			texture.get(), alphaBlend, depthWrite, depthTest);
 	}
 
+	float Layer3D::GetAmbientColorIntensity()
+	{
+		return m_coreLayer->GetAmbientColorIntensity();
+	}
+
+	void Layer3D::SetAmbientColorIntensity(float ambientColorIntensity)
+	{
+		m_coreLayer->SetAmbientColorIntensity(ambientColorIntensity);
+	}
+
 	void Layer3D::SetSkyAmbientColor(Color color)
 	{
 		m_coreLayer->SetSkyAmbientColor(color);
@@ -134,6 +144,13 @@ namespace ace
 	void Layer3D::SetGroundAmbientColor(Color color)
 	{
 		m_coreLayer->SetGroundAmbientColor(color);
+	}
+
+	void Layer3D::SetEnvironmentColorIntensity(float environmentDiffuseColorIntensity, float environmentSpecularColorIntensity)
+	{
+		m_coreLayer->SetEnvironmentColorIntensity(
+			environmentDiffuseColorIntensity,
+			environmentSpecularColorIntensity);
 	}
 
 	void Layer3D::SetEnvironmentColor(std::shared_ptr<CubemapTexture> diffuseColor, std::shared_ptr<CubemapTexture> specularColor)

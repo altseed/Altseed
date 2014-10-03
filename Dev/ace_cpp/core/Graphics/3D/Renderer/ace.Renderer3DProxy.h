@@ -67,8 +67,15 @@ namespace ace
 
 		Color							SkyAmbientColor;
 		Color							GroundAmbientColor;
+		float							AmbientColorIntensity = 1.0f;
+
 		std::shared_ptr<CubemapTexture>	EnvironmentDiffuseColor;
 		std::shared_ptr<CubemapTexture>	EnvironmentSpecularColor;
+
+		float							EnvironmentDiffuseColorIntensity = 1.0f;
+		float							EnvironmentSpecularColorIntensity = 1.0f;
+
+
 		RenderSettings					Settings;
 		float							DeltaTime;
 		bool							HDRMode = false;

@@ -518,7 +518,7 @@ namespace ace
 		environmentRendering->Render(
 			cP, helper,
 			cP->GetRenderTargetDiffuseColor(), cP->GetRenderTargetSpecularColor_Smoothness(), cP->GetRenderTargetDepth(), cP->GetRenderTargetAO_MatID(),
-			EnvironmentDiffuseColor.get(), EnvironmentSpecularColor.get());
+			EnvironmentDiffuseColorIntensity, EnvironmentSpecularColorIntensity, EnvironmentDiffuseColor.get(), EnvironmentSpecularColor.get());
 
 		// SSAO
 		if (ssao->IsEnabled())
@@ -538,14 +538,14 @@ namespace ace
 			auto zero = prop.CameraMatrix.Transform3D(Vector3DF());
 
 			Vector3DF groundLightColor(
-				prop.GroundLightColor.R / 255.0f,
-				prop.GroundLightColor.G / 255.0f,
-				prop.GroundLightColor.B / 255.0f);
+				prop.GroundLightColor.R / 255.0f * AmbientColorIntensity,
+				prop.GroundLightColor.G / 255.0f * AmbientColorIntensity,
+				prop.GroundLightColor.B / 255.0f * AmbientColorIntensity);
 
 			Vector3DF skyLightColor(
-				prop.SkyLightColor.R / 255.0f,
-				prop.SkyLightColor.G / 255.0f,
-				prop.SkyLightColor.B / 255.0f);
+				prop.SkyLightColor.R / 255.0f * AmbientColorIntensity,
+				prop.SkyLightColor.G / 255.0f * AmbientColorIntensity,
+				prop.SkyLightColor.B / 255.0f * AmbientColorIntensity);
 
 			int32_t lightIndex = 0;
 			for (auto& light_ : directionalLightObjects)
@@ -656,9 +656,10 @@ namespace ace
 						directionalLightDirection = prop.DirectionalLightDirection;
 						directionalLightDirection = prop.CameraMatrix.Transform3D(directionalLightDirection) - zero;
 
-						directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
-						directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
-						directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
+						auto directionalLightIntensity = lightP->Intensity;
+						directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f * directionalLightIntensity;
+						directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f * directionalLightIntensity;
+						directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f * directionalLightIntensity;
 
 						RenderState state;
 						state.DepthTest = false;

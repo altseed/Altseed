@@ -27,4 +27,14 @@ namespace ace
 	{
 		m_object->SetColor(color);
 	}
+
+	float CoreDirectionalLightObject3D_Imp::GetIntensity()
+	{
+		return m_object->GetIntensity();
+	}
+
+	void CoreDirectionalLightObject3D_Imp::SetIntensity(float intensity)
+	{
+		m_object->SetIntensity(intensity);
+	}
 }

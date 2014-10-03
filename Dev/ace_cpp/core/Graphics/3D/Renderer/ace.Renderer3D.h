@@ -66,6 +66,11 @@ namespace ace
 
 		bool									hdrMode = false;
 
+		float									ambientColorIntensity = 1.0f;
+
+		float									environmentDiffuseColorIntensity = 1.0f;
+		float									environmentSpecularColorIntensity = 1.0f;
+
 	public:
 
 		Renderer3D(Graphics* graphics, RenderSettings settings);
@@ -92,8 +97,18 @@ namespace ace
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest);
 
+		float GetAmbientColorIntensity() { return ambientColorIntensity; }
+		void SetAmbientColorIntensity(float ambientColorIntensity) { this->ambientColorIntensity = ambientColorIntensity; }
+
 		void SetSkyAmbientColor(Color color) { m_skyAmbientColor = color; }
 		void SetGroundAmbientColor(Color color) { m_groundAmbientColor = color; }
+	
+		void SetEnvironmentColorIntensity(float environmentDiffuseColorIntensity, float environmentSpecularColorIntensity)
+		{
+			this->environmentDiffuseColorIntensity = environmentDiffuseColorIntensity;
+			this->environmentSpecularColorIntensity = environmentSpecularColorIntensity;
+		}
+
 		void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor);
 
 		float SSAO_Radius = 0.1f;

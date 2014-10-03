@@ -33,6 +33,6 @@ namespace ace
 		virtual ~EnvironmentRendering();
 
 		void Render(RenderedCameraObject3DProxy* cameraP, RenderingCommandHelper* helper, RenderTexture2D_Imp* gb0, RenderTexture2D_Imp* gb1, RenderTexture2D_Imp* gb2, RenderTexture2D_Imp* gb3,
-			CubemapTexture* diffuseColor, CubemapTexture* specularColor);
+			float diffuseColorIntensity, float specularColorIntensity, CubemapTexture* diffuseColor, CubemapTexture* specularColor);
 	};
 }

@@ -146,6 +146,18 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 環境光の強さを設定する。
+		/// </summary>
+		/// <param name="ambientColorIntensity">環境光の強さ</param>
+		/// <remarks>
+		/// デフォルトは1.0である。
+		/// </remarks>
+		public void SetAmbientColorIntensity(float ambientColorIntensity)
+		{
+			coreLayer3D.SetAmbientColorIntensity(ambientColorIntensity);
+		}
+
+		/// <summary>
 		/// 空方向の環境光の色を設定する。
 		/// </summary>
 		/// <param name="color">色</param>
@@ -161,6 +173,19 @@ namespace ace
 		public void SetGroundAmbientColor(Color color)
 		{
 			coreLayer3D.SetGroundAmbientColor(color);
+		}
+
+		/// <summary>
+		/// テクスチャによる環境の色の強さを設定する。
+		/// </summary>
+		/// <param name="environmentDiffuseColorIntensity">拡散色の強さ</param>
+		/// <param name="environmentSpecularColorIntensity">スペキュラ色の強さ</param>
+		/// <remarks>
+		/// デフォルトは1.0である。
+		/// </remarks>
+		public void SetEnvironmentColorIntensity(float environmentDiffuseColorIntensity, float environmentSpecularColorIntensity)
+		{
+			coreLayer3D.SetEnvironmentColorIntensity(environmentDiffuseColorIntensity, environmentSpecularColorIntensity);
 		}
 
 		/// <summary>
