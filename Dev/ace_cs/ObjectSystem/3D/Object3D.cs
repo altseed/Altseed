@@ -66,7 +66,7 @@ namespace ace
 		/// <summary>
 		/// オブジェクトを破棄する。
 		/// </summary>
-		void Vanish()
+		public void Vanish()
 		{
 			IsAlive = false;
 		}
