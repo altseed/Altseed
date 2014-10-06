@@ -50,6 +50,8 @@ namespace ace
 		*/
 		void StopRoot();
 
+		bool IsPlaying() override;
+
 		/**
 		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得する。
 		@return	フラグ

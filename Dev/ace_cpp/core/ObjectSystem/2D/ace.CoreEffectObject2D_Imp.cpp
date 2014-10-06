@@ -100,6 +100,19 @@ namespace ace
 		}
 	}
 
+	bool CoreEffectObject2D_Imp::IsPlaying()
+	{
+		for (size_t i = 0; i < m_handles.size(); i++)
+		{
+			if (m_renderer->GetEffectManager()->Exists(m_handles[i]))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	float CoreEffectObject2D_Imp::GetEffectRotation() const
 	{
 		return m_rotation;

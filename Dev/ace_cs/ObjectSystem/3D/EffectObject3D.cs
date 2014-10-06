@@ -66,7 +66,14 @@ namespace ace
 			coreObject.StopRoot();
 		}
 
-		
+		/// <summary>
+		/// このオブジェクトから再生されたエフェクトが再生中か取得する。
+		/// </summary>
+		/// <returns>再生中か?</returns>
+		public bool IsPlaying()
+		{
+			return coreObject.IsPlaying();
+		}
 
 		/// <summary>
 		/// このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得、または設定する。
