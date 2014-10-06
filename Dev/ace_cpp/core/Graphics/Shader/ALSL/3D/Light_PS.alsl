@@ -44,7 +44,7 @@ float calcLightingGGX(float3 N, float3 V, float3 L, float roughness, float F0)
 	//float vis = rcp(dotLH*dotLH*invK2 + k2);	// 対応している環境ならこちら推奨(現在分岐がないのでコメントアウト)
 	float vis = 1.0 / (dotLH*dotLH*invK2 + k2);
 
-	float specular = dotNL * D * F * vis;
+	float specular = dotNL * D * F * vis / 4.0;
 	return specular;
 }
 
@@ -62,7 +62,7 @@ float3 calcDirectionalLightDiffuseColor(float3 diffuseColor, float3 normal, floa
 	float3 color = float3(0.0,0.0,0.0);
 
 	float NoL = dot(normal,lightDir);
-	color.xyz = directionalLightColor * max(NoL,0.0) * shadow * ao;
+	color.xyz = directionalLightColor * max(NoL,0.0) * shadow * ao / 3.14;
 	color.xyz = color.xyz * diffuseColor.xyz;
 	return color;
 }

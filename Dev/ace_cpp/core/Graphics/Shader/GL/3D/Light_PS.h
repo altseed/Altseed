@@ -59,7 +59,7 @@ float calcLightingGGX(vec3 N, vec3 V, vec3 L, float roughness, float F0)
 	float k2 = k * k;
 	float invK2 = 1.00000 - k2;
 	float vis = 1.00000 / (dotLH * dotLH * invK2 + k2);
-	float specular = dotNL * D * F * vis;
+	float specular = dotNL * D * F * vis / 4.0;
 	return specular;
 }
 
@@ -76,7 +76,7 @@ vec3 calcDirectionalLightDiffuseColor(vec3 diffuseColor, vec3 normal, vec3 light
 {
 	vec3 color = vec3(0.000000, 0.000000, 0.000000);
 	float NoL = dot(normal, lightDir);
-	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao;
+	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao / 3.14;
 	color.xyz = color.xyz * diffuseColor.xyz;
 	return color;
 }
@@ -204,7 +204,7 @@ void main()
 
 #ifdef AMBIENT_LIGHT
 	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor;
-	lightColor.xyz += texture(g_environmentDiffuseTexture, uv).xyz * diffuseColor;
+	lightColor.xyz += texture(g_environmentDiffuseTexture, uv).xyz;
 #endif
 
 	outOutput0 = lightColor;

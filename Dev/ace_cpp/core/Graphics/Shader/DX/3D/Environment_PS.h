@@ -75,6 +75,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	float2 uv = Input.UV;
 	// uv.y = 1.0 - uv.y;
 
+	float3 diffuse = GetDiffuseColor(uv);
 	float3 normal = GetNormal(uv);
 	float3 view = float3(0.0,0.0,1.0);
 
@@ -98,7 +99,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	float3 spec = specEnvColor.xyz * ( specColor * brdfColor.x + float3(brdfColor.y,brdfColor.y,brdfColor.y) );
 
 	float4 Output = float4(0.0,0.0,0.0,1.0);
-	Output.xyz = diffuseEnvColor.xyz + spec;
+	Output.xyz = diffuseEnvColor.xyz * diffuse + spec;
 	//Output.xyz = spec;
 	
 	//Output.xyz = globalNormal;

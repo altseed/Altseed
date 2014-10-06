@@ -68,7 +68,7 @@ float calcLightingGGX(float3 N, float3 V, float3 L, float roughness, float F0)
 	float k2 = k * k;
 	float invK2 = 1.00000f - k2;
 	float vis = 1.00000 / (dotLH * dotLH * invK2 + k2);
-	float specular = dotNL * D * F * vis;
+	float specular = dotNL * D * F * vis / 4.0;
 	return specular;
 }
 
@@ -85,7 +85,7 @@ float3 calcDirectionalLightDiffuseColor(float3 diffuseColor, float3 normal, floa
 {
 	float3 color = float3(0.000000, 0.000000, 0.000000);
 	float NoL = dot(normal, lightDir);
-	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao;
+	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao / 3.14;
 	color.xyz = color.xyz * diffuseColor.xyz;
 	return color;
 }
@@ -208,7 +208,7 @@ float4 main( const PS_Input Input ) : SV_Target
 
 #ifdef AMBIENT_LIGHT
 	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor;
-	lightColor.xyz += g_environmentDiffuseTexture.Sample(g_environmentDiffuseSampler, uv).xyz * diffuseColor;
+	lightColor.xyz += g_environmentDiffuseTexture.Sample(g_environmentDiffuseSampler, uv).xyz;
 #endif
 
 	return lightColor;
