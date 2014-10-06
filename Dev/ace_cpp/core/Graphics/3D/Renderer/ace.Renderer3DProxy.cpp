@@ -839,7 +839,7 @@ namespace ace
 		}
 
 		// スプライトの描画
-		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
+		helper->DrawSprite(cP->ProjectionMatrix, cP->CameraMatrix);
 
 		// エフェクトの描画
 		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
