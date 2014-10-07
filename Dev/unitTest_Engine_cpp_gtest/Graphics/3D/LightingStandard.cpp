@@ -68,7 +68,7 @@ protected:
 
 		// 直接光
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
-		lightObj->SetColor(ace::Color(255 / 9, 255 / 9, 255 / 9, 200));
+		lightObj->SetColor(ace::Color(255 / 3, 255 / 3, 255 / 3, 200));
 
 		// 環境
 		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);

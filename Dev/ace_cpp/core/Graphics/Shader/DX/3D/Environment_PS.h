@@ -94,7 +94,7 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float4 specEnvColor = g_specularTexture.SampleLevel(g_specularSampler, globalR, roughness * mipmapCount) * specularIntensity;
 
-	float2 brdfColor = g_brdfTexture.Sample(g_brdfSampler, float2(roughness,NoV)).xy;
+	float2 brdfColor = g_brdfTexture.Sample(g_brdfSampler, float2(NoV,roughness)).xy;
 
 	float3 spec = specEnvColor.xyz * ( specColor * brdfColor.x + float3(brdfColor.y,brdfColor.y,brdfColor.y) );
 
