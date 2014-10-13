@@ -7,8 +7,8 @@
 
 namespace ace
 {
-	class MassObject_Imp
-		: public MassObject
+	class MassModel_Imp
+		: public MassModel
 		, public ReferenceObject
 	{
 	private:
@@ -17,11 +17,12 @@ namespace ace
 
 		std::shared_ptr<Texture2D_Imp>		m_animationTexture;
 
-		bool Load(Graphics_Imp* g, MassModel_IO& io);
-
+		
 	public:
-		MassObject_Imp();
-			virtual ~MassObject_Imp();
+		MassModel_Imp();
+		virtual ~MassModel_Imp();
+
+		bool Load(Graphics_Imp* g, MassModel_IO& io);
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

@@ -60,6 +60,43 @@ namespace ace
 		}
 	}
 
+	RenderingCommand_DrawInstanced::RenderingCommand_DrawInstanced(int32_t polyCount, int32_t instanceCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs)
+		: PolyCount(polyCount)
+		, InstanceCount(instanceCount)
+		, VB(vb)
+		, IB(ib)
+		, Shader(shader)
+	{
+		SafeAddRef(vb);
+		SafeAddRef(ib);
+		SafeAddRef(shader);
+
+		RS = rs;
+	}
+
+	RenderingCommand_DrawInstanced::~RenderingCommand_DrawInstanced()
+	{
+		for (auto i = 0; i < ConstantValueCount; i++)
+		{
+			ConstantValues[i].~ShaderConstantValue();
+		}
+
+		SafeRelease(VB);
+		SafeRelease(IB);
+		SafeRelease(Shader);
+	}
+
+	void RenderingCommand_DrawInstanced::SetConstantValues(RenderingCommandFactory* factory, ShaderConstantValue* values, int32_t count)
+	{
+		ConstantValues = factory->CreateCommands<ShaderConstantValue>(count);
+		ConstantValueCount = count;
+
+		for (auto i = 0; i < ConstantValueCount; i++)
+		{
+			ConstantValues[i] = values[i];
+		}
+	}
+
 	RenderingCommand_SetRenderTarget::RenderingCommand_SetRenderTarget(RenderTexture2D* renderTexture0, RenderTexture2D* renderTexture1, RenderTexture2D* renderTexture2, RenderTexture2D* renderTexture3, DepthBuffer_Imp* depth)
 	{
 		RenderTextures[0] = renderTexture0;

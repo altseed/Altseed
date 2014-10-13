@@ -48,6 +48,18 @@ namespace ace
 					g->DrawPolygon(c->PolyOffset, c->PolyCount);
 				}
 			}
+			else if (command->GetType() == RenderingCommandType::DrawInstanced)
+			{
+				auto c = (RenderingCommand_DrawInstanced*) command;
+				c->Shader->SetConstantValues(c->ConstantValues, c->ConstantValueCount);
+
+				g->SetVertexBuffer(c->VB);
+				g->SetIndexBuffer(c->IB);
+				g->SetShader(c->Shader);
+				g->SetRenderState(c->RS);
+
+				g->DrawPolygonInstanced(c->PolyCount, c->InstanceCount);
+			}
 			else if (command->GetType() == RenderingCommandType::SetRenderTarget)
 			{
 				auto c = (RenderingCommand_SetRenderTarget*) command;

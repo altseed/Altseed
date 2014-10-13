@@ -781,6 +781,9 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_VS.h">
       <Filter>Graphics\Shader\DX\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedMassModelObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1113,6 +1116,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.SpriteRenderer3D.cpp">
       <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedMassModelObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

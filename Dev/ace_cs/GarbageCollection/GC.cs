@@ -28,6 +28,7 @@ namespace ace
 		internal static IDObjectContainer<Mesh> Meshs { get; private set; }
 		internal static IDObjectContainer<Deformer> Deformers { get; private set; }
 		internal static IDObjectContainer<Model> Models { get; private set; }
+		internal static IDObjectContainer<MassModel> MassModels { get; private set; }
 
 		internal static IDObjectContainer<KeyframeAnimation> KeyframeAnimations { get; private set; }
 		internal static IDObjectContainer<AnimationSource> AnimationSources { get; private set; }
@@ -380,6 +381,25 @@ namespace ace
 
 			var ret = new Model(o);
 			GC.Models.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static MassModel GenerateMassModel(swig.MassModel o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.MassModels.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new MassModel(o);
+			GC.MassModels.AddObject(p, ret);
 			return ret;
 		}
 

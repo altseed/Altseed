@@ -44,6 +44,7 @@
 #include "Graphics/3D/Resource/ace.Mesh.h"
 #include "Graphics/3D/Resource/ace.Deformer.h"
 #include "Graphics/3D/Resource/ace.Model.h"
+#include "Graphics/3D/Resource/ace.MassModel.h"
 
 #include "Graphics/3D/Resource/Animation/ace.AnimationSystem_Imp.h"
 #include "Graphics/3D/Resource/Animation/ace.AnimationClip_Imp.h"
@@ -308,6 +309,8 @@ CPP_OBJECT( ace::Chip2D )
 CPP_OBJECT( ace::Mesh )
 CPP_OBJECT( ace::Deformer )
 CPP_OBJECT( ace::Model )
+CPP_OBJECT( ace::MassModel )
+
 CPP_OBJECT( ace::KeyframeAnimation )
 CPP_OBJECT( ace::AnimationSource )
 CPP_OBJECT( ace::AnimationClip )
@@ -421,6 +424,7 @@ namespace ace
 %include "ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h"
 %include "ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h"
 %include "ace_cpp/core/Graphics/3D/Resource/ace.Model.h"
+%include "ace_cpp/core/Graphics/3D/Resource/ace.MassModel.h"
 
 %include "ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h"
 %include "ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource.h"

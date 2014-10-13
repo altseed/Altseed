@@ -53,6 +53,7 @@ namespace ace
 					if (TryRelease<swig.Mesh>(o)) continue;
 					if (TryRelease<swig.Deformer>(o)) continue;
 					if (TryRelease<swig.Model>(o)) continue;
+					if (TryRelease<swig.MassModel>(o)) continue;
 
 					if (TryRelease<swig.KeyframeAnimation>(o)) continue;
 					if (TryRelease<swig.AnimationSource>(o)) continue;

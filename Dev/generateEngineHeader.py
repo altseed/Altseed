@@ -110,6 +110,7 @@ engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Chip2D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Model.h")
+engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.MassModel.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource.h")

@@ -86,6 +86,8 @@ namespace ace
 
 		void DrawWithPtr(int32_t polyOffset, int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs, ShaderConstantValue* values, int32_t count);
 
+		void DrawInstancedWithPtr(int32_t polyCount, int32_t instanceCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs, ShaderConstantValue* values, int32_t count);
+
 		void Draw(int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs);
 
 		void DrawEffect(Matrix44 projMat, Matrix44 cameraMat);
@@ -171,6 +173,14 @@ namespace ace
 			ShaderConstantValue values[sizeof...(Ts)];
 			setValues_impl(shader, values, 0, args...);
 			DrawWithPtr(polyCount, vb, ib, shader, rs, values, sizeof...(Ts));
+		}
+
+		template<typename... Ts>
+		void DrawInstanced(int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs, Ts... args)
+		{
+			ShaderConstantValue values[sizeof...(Ts)];
+			setValues_impl(shader, values, 0, args...);
+			DrawInstancedWithPtr(polyCount, vb, ib, shader, rs, values, sizeof...(Ts));
 		}
 	};
 }

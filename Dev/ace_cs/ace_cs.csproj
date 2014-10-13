@@ -62,6 +62,7 @@
     <Compile Include="Graphics\Effect.cs" />
     <Compile Include="Graphics\Font.cs" />
     <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\MassModel.cs" />
     <Compile Include="Graphics\Material2D.cs" />
     <Compile Include="Graphics\Material3D.cs" />
     <Compile Include="Graphics\MaterialPropertyBlock.cs" />
@@ -180,6 +181,7 @@
     <Compile Include="swig\KeyState.cs" />
     <Compile Include="swig\Log.cs" />
     <Compile Include="swig\Log_Imp.cs" />
+    <Compile Include="swig\MassModel.cs" />
     <Compile Include="swig\Material2D.cs" />
     <Compile Include="swig\Material3D.cs" />
     <Compile Include="swig\MaterialPropertyBlock.cs" />

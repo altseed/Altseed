@@ -44,8 +44,11 @@ namespace ace
 		std::vector<RenderingCommand*>			commands;
 
 		std::set<RenderedObject3DProxy*>		objects;
+		std::set<RenderedObject3DProxy*>		massModelObjects;
 		std::set<RenderedObject3DProxy*>		cameraObjects;
 		std::set<RenderedObject3DProxy*>		directionalLightObjects;
+		
+		std::vector<RenderedMassModelObject3DProxy*>		sortedMassModelObjects;
 
 		Effekseer::Manager*						effectManager = nullptr;
 		EffekseerRenderer::Renderer*			effectRenderer = nullptr;

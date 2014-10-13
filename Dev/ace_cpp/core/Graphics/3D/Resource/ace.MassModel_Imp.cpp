@@ -8,7 +8,15 @@
 
 namespace ace
 {
-	bool MassObject_Imp::Load(Graphics_Imp* g, MassModel_IO& io)
+	MassModel_Imp::MassModel_Imp()
+	{
+	}
+
+	MassModel_Imp::~MassModel_Imp()
+	{
+	}
+
+	bool MassModel_Imp::Load(Graphics_Imp* g, MassModel_IO& io)
 	{
 		m_vertexBuffer.reset();
 		m_indexBuffer.reset();
@@ -46,19 +54,9 @@ namespace ace
 
 		if (texture->Lock(info))
 		{
-			memcpy(info.Pixels, &(io.AnimationTexture.Buffer[0]), io.AnimationTexture.Buffer.size() * 4);
+			memcpy(info.Pixels, io.AnimationTexture.Buffer.data(), io.AnimationTexture.Buffer.size() * sizeof(float));
 			texture->Unlock();
 		}
 		return true;
-	}
-
-	MassObject_Imp::MassObject_Imp()
-	{
-
-	}
-
-	MassObject_Imp::~MassObject_Imp()
-	{
-
 	}
 }

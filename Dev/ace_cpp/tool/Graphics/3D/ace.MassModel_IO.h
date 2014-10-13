@@ -47,9 +47,14 @@ namespace ace
 
 		struct Material
 		{
+			int32_t Type;
 			astring	ColorTexture;
 			astring	NormalTexture;
 			astring	SpecularTexture;
+
+			astring	OriginalColorTexture;
+			astring	OriginalNormalTexture;
+			astring	OriginalSpecularTexture;
 		};
 
 		struct AnimationClip

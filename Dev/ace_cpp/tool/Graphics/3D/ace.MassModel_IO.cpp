@@ -21,8 +21,8 @@ namespace ace
 			v_.Position = v.Position;
 			v_.Normal = v.Normal;
 			v_.Binormal = v.Binormal;
-			//v_.BoneIndexes = v.BoneIndexes;
-			//v_.BoneWeights = v.BoneWeights;
+			v_.BoneIndexes = *((int32_t*)v.BoneIndexes);
+			v_.BoneWeights = *((int32_t*) v.BoneWeights);
 			v_.UV1 = v.UV1;
 			v_.UV2 = v.UV2;
 			v_.VColor = v.VColor;

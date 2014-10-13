@@ -271,6 +271,8 @@ namespace ace {
 
 		Model* CreateModel_(const achar* path);
 
+		MassModel* CreateMassModelFromModelFile_(const achar* path) override;
+
 		Effect* CreateEffect_(const achar* path);
 
 		Font* CreateFont_(const achar* path);
@@ -391,6 +393,12 @@ namespace ace {
 	*/
 	void DrawPolygon(int32_t offset, int32_t count);
 
+	/**
+	@brief	ポリゴンを描画する。
+	@param	count			ポリゴン数
+	@param	instanceCount	インスタンス数
+	*/
+	void DrawPolygonInstanced(int32_t count, int32_t instanceCount);
 
 	/**
 	@brief	描画開始前のリセット処理を行う。

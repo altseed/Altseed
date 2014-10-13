@@ -8,6 +8,7 @@
 
 #include "../Object/ace.RenderedCameraObject3D.h"
 #include "../Object/ace.RenderedDirectionalLightObject3D.h"
+#include "../Object/ace.RenderedMassModelObject3D.h"
 
 #include "../../Resource/ace.ShaderCache.h"
 #include "../../Resource/ace.NativeShader_Imp.h"
@@ -388,6 +389,11 @@ namespace ace
 			o->OnUpdateAsync();
 		}
 
+		for (auto& o : massModelObjects)
+		{
+			o->OnUpdateAsync();
+		}
+
 		for (auto& o : cameraObjects)
 		{
 			o->OnUpdateAsync();
@@ -397,6 +403,18 @@ namespace ace
 		{
 			o->OnUpdateAsync();
 		}
+
+		// ソート
+		sortedMassModelObjects.clear();
+
+		for (auto& o : massModelObjects)
+		{
+			sortedMassModelObjects.push_back((RenderedMassModelObject3DProxy*)o);
+		}
+		std::sort(
+			sortedMassModelObjects.begin(),
+			sortedMassModelObjects.end(),
+			[](const RenderedObject3DProxy* a, const RenderedObject3DProxy* b) -> bool { return a > b; });
 
 		// エフェクトの更新
 		effectManager->Update(DeltaTime / (1.0f/60.0f));
@@ -491,9 +509,41 @@ namespace ace
 				helper->SetRenderTarget(cP->GetRenderTargetDepth(), cP->GetDepthBuffer());
 				helper->Clear(true, true, ace::Color(0, 0, 0, 255));
 				prop.IsDepthMode = true;
+
+				// 通常モデル
 				for (auto& o : objects)
 				{
 					o->Rendering(helper, prop);
+				}
+			
+				MassModel* currentModel = nullptr;
+				int32_t offset = 0;
+
+				// 大量描画モデル
+				auto drawMass = [&](int32_t current)-> void
+				{
+					auto count = current - offset + 1;
+					sortedMassModelObjects[0]->Draw(helper, prop, sortedMassModelObjects, offset, count);
+				};
+
+				if (sortedMassModelObjects.size() > 0)
+				{
+					currentModel = sortedMassModelObjects[0]->ModelPtr;
+				}
+
+				for (auto i = 0; i < sortedMassModelObjects.size(); i++)
+				{
+					if (sortedMassModelObjects[i]->ModelPtr != currentModel)
+					{
+						drawMass(i);
+						currentModel = sortedMassModelObjects[i]->ModelPtr;
+						offset = i;
+					}
+				}
+
+				if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size() - 1)
+				{
+					drawMass(sortedMassModelObjects.size() - 1);
 				}
 			}
 
@@ -510,6 +560,36 @@ namespace ace
 				for (auto& o : objects)
 				{
 					o->Rendering(helper, prop);
+				}
+
+				MassModel* currentModel = nullptr;
+				int32_t offset = 0;
+
+				// 大量描画モデル
+				auto drawMass = [&](int32_t current)-> void
+				{
+					auto count = current - offset + 1;
+					sortedMassModelObjects[0]->Draw(helper, prop, sortedMassModelObjects, offset, count);
+				};
+
+				if (sortedMassModelObjects.size() > 0)
+				{
+					currentModel = sortedMassModelObjects[0]->ModelPtr;
+				}
+
+				for (auto i = 0; i < sortedMassModelObjects.size(); i++)
+				{
+					if (sortedMassModelObjects[i]->ModelPtr != currentModel)
+					{
+						drawMass(i);
+						currentModel = sortedMassModelObjects[i]->ModelPtr;
+						offset = i;
+					}
+				}
+
+				if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size() - 1)
+				{
+					drawMass(sortedMassModelObjects.size() - 1);
 				}
 			}
 		}
@@ -836,6 +916,36 @@ namespace ace
 			{
 				o->Rendering(helper, prop);
 			}
+
+			MassModel* currentModel = nullptr;
+			int32_t offset = 0;
+
+			// 大量描画モデル
+			auto drawMass = [&](int32_t current)-> void
+			{
+				auto count = current - offset + 1;
+				sortedMassModelObjects[0]->Draw(helper, prop, sortedMassModelObjects, offset, count);
+			};
+
+			if (sortedMassModelObjects.size() > 0)
+			{
+				currentModel = sortedMassModelObjects[0]->ModelPtr;
+			}
+
+			for (auto i = 0; i < sortedMassModelObjects.size(); i++)
+			{
+				if (sortedMassModelObjects[i]->ModelPtr != currentModel)
+				{
+					drawMass(i);
+					currentModel = sortedMassModelObjects[i]->ModelPtr;
+					offset = i;
+				}
+			}
+
+			if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size() - 1)
+			{
+				drawMass(sortedMassModelObjects.size() - 1);
+			}
 		}
 
 		// スプライトの描画
@@ -873,6 +983,14 @@ namespace ace
 				directionalLightObjects.insert(proxy);
 			}
 		}
+		else if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MASSOBJECT)
+		{
+			if (massModelObjects.count(proxy) == 0)
+			{
+				SafeAddRef(proxy);
+				massModelObjects.insert(proxy);
+			}
+		}
 		else
 		{
 			if (objects.count(proxy) == 0)
@@ -899,6 +1017,14 @@ namespace ace
 			if (directionalLightObjects.count(proxy) > 0)
 			{
 				directionalLightObjects.erase(proxy);
+				SafeRelease(proxy);
+			}
+		}
+		else if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MASSOBJECT)
+		{
+			if (massModelObjects.count(proxy) > 0)
+			{
+				massModelObjects.erase(proxy);
 				SafeRelease(proxy);
 			}
 		}

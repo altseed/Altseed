@@ -28,6 +28,10 @@
 #include "3D/Resource/ace.Mesh_Imp.h"
 #include "3D/Resource/ace.Deformer_Imp.h"
 #include "3D/Resource/ace.Model_Imp.h"
+#include "3D/Resource/ace.MassModel_Imp.h"
+
+#include <Graphics/3D/ace.Model_IO.h>
+#include <Graphics/3D/ace.MassModel_IO.h>
 
 #if _WIN32
 #include "Platform/DX11/ace.Graphics_Imp_DX11.h"
@@ -698,6 +702,47 @@ Model* Graphics_Imp::CreateModel_(const achar* path)
 	return model;
 }
 
+MassModel* Graphics_Imp::CreateMassModelFromModelFile_(const achar* path)
+{
+#if _WIN32
+	auto fp = _wfopen(path, L"rb");
+	if (fp == nullptr) return nullptr;
+#else
+	auto fp = fopen(ToUtf8String(path).c_str(), "rb");
+	if (fp == nullptr) return nullptr;
+#endif
+	fseek(fp, 0, SEEK_END);
+	auto size = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+
+	std::vector<uint8_t> data;
+	data.resize(size);
+
+	fread(&(data[0]), 1, size, fp);
+	fclose(fp);
+
+	Model_IO model_io;
+	if (!model_io.Load(data, path))
+	{
+		return nullptr;
+	}
+
+	MassModel_IO massmodel_io;
+	if (!massmodel_io.Convert(model_io))
+	{
+		return nullptr;
+	}
+
+	auto massmodel = new MassModel_Imp();
+
+	if (!massmodel->Load(this, massmodel_io))
+	{
+		SafeDelete(massmodel);
+	}
+
+	return massmodel;
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -842,6 +887,24 @@ void Graphics_Imp::DrawPolygon(int32_t offset, int32_t count)
 		m_vertexBufferPtr,
 		m_indexBufferPtr,
 		m_shaderPtr);
+
+	drawCallCountCurrent++;
+}
+
+void Graphics_Imp::DrawPolygonInstanced(int32_t count, int32_t instanceCount)
+{
+	assert(m_vertexBufferPtr != nullptr);
+	assert(m_indexBufferPtr != nullptr);
+	assert(m_shaderPtr != nullptr);
+
+	CommitRenderState(false);
+
+	DrawPolygonInstancedInternal(
+		count,
+		m_vertexBufferPtr,
+		m_indexBufferPtr,
+		m_shaderPtr,
+		instanceCount);
 
 	drawCallCountCurrent++;
 }

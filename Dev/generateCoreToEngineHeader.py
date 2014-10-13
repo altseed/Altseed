@@ -99,6 +99,7 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Effect.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Model.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.MassModel.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource.h")

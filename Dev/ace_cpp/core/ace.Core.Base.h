@@ -46,6 +46,7 @@ namespace ace {
 
 	class Effect;
 
+	class MassModel;
 	class Model;
 
 	class Font;
@@ -198,6 +199,7 @@ namespace ace {
 		RENDERED_OBJECT3D_TYPE_CAMERA,
 		RENDERED_OBJECT3D_TYPE_EFFECT,
 		RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT,
+		RENDERED_OBJECT3D_TYPE_MASSOBJECT,
 	};
 
 	/**

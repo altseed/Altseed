@@ -57,6 +57,13 @@ namespace ace
 		commands.push_back(command);
 	}
 
+	void RenderingCommandHelper::DrawInstancedWithPtr(int32_t polyCount, int32_t instanceCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs, ShaderConstantValue* values, int32_t count)
+	{
+		auto command = factory->CreateCommand<RenderingCommand_DrawInstanced>(polyCount, instanceCount, vb, ib, shader, rs);
+		command->SetConstantValues(factory, values, count);
+		commands.push_back(command);
+	}
+
 	void RenderingCommandHelper::Draw(int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs)
 	{
 		auto command = factory->CreateCommand<RenderingCommand_Draw>(polyCount, vb, ib, shader, rs);
