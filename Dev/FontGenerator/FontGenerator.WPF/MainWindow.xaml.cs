@@ -27,10 +27,11 @@ namespace FontGenerator.WPF
 			InitializeComponent();
 			DataContext = new GeneratorViewModel();
 
-			var name2path = Model.Helper.GetFontNameToPathDictonary();
+			var name2path = Model.Helper.GetFontPairs();
+
 			foreach(var n2p in name2path)
 			{
-				fontPathes.Items.Add(new FontPair(n2p.Key, n2p.Value));
+				fontPathes.Items.Add(n2p);
 			}
 		}
 
@@ -51,21 +52,5 @@ namespace FontGenerator.WPF
 			}
 		}
 
-		class FontPair
-		{
-			public string Name = string.Empty;
-			public string Path = string.Empty;
-
-			public FontPair(string name, string path)
-			{
-				Name = name;
-				Path = path;
-			}
-
-			public override string ToString()
-			{
-				return Name;
-			}
-		}
 	}
 }

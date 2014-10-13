@@ -12,12 +12,9 @@ namespace FontGenerator.Model
 	{
 		public static async Task GenerateAsync(GenerationConfig config)
 		{
-			var name2path = Helper.GetFontNameToPathDictonary();
-			List<string> pathes = new List<string>();
-			foreach (var n2p in name2path)
-			{
-				pathes.Add(n2p.Value);
-			}
+			var pathes = Helper.GetFontPairs()
+				.Select(x => x.Path)
+				.ToArray();
 
 			var path = @"C:\Windows\Fonts\";
 			path += pathes[config.FontIndex];
