@@ -11,7 +11,7 @@ public:
 	{}
 
 protected:
-	std::shared_ptr<ace::MassModelObject3D> meshObjs;
+	std::vector<std::shared_ptr<ace::MassModelObject3D>> meshObjs;
 
 
 	void OnStart() override
@@ -27,12 +27,16 @@ protected:
 
 		auto massModel = graphics->CreateMassModelFromModelFile(ace::ToAString("Data/Model/MassTest1.mdl").c_str());
 		
-		
-		auto m = std::make_shared<ace::MassModelObject3D>();
-		m->SetModel(massModel);
-		
-		m->SetPosition(ace::Vector3DF(0, 0, 0));
-		GetLayer3D()->AddObject(m);
+		for (int32_t i = -1; i <= 1; i++)
+		{
+			auto m = std::make_shared<ace::MassModelObject3D>();
+			m->SetModel(massModel);
+
+			m->SetPosition(ace::Vector3DF(3 * i, 0, 0));
+			GetLayer3D()->AddObject(m);
+
+			meshObjs.push_back(m);
+		}
 		
 		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
 		lightObj->SetRotation(ace::Vector3DF(120, 50, 0));

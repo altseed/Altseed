@@ -276,6 +276,8 @@ namespace ace
 
 	void RenderedMassModelObject3D::Flip(float deltaTime)
 	{
+		RenderedObject3D::Flip(deltaTime);
+
 		SafeSubstitute(proxy->ModelPtr, model);
 	}
 }

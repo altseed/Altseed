@@ -670,7 +670,7 @@ namespace ace
 					auto drawMass = [&](int32_t current)-> void
 					{
 						auto count = current - offset + 1;
-						sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
+						sortedMassModelObjects[offset]->Draw(helper, shadowProp, sortedMassModelObjects, offset, count);
 					};
 
 					if (sortedMassModelObjects.size() > 0)

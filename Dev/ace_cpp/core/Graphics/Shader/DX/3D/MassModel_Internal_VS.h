@@ -98,25 +98,7 @@ VS_Output main( const VS_Input Input )
 	float4x4 matLocal1 = mul( calcMatrix(animIndex1, animTime1, Input.BoneWeights,Input.BoneIndexes), matM[Input.InstanceId]);
 	float4x4 matLocal = matLocal0 * animWeight + matLocal1 * (1.0 - animWeight);
 
-	matLocal._m00 = 1.0;
-	matLocal._m01 = 0.0;
-	matLocal._m02 = 0.0;
-	matLocal._m03 = 0.0;
-
-	matLocal._m10 = 0.0;
-	matLocal._m11 = 1.0;
-	matLocal._m12 = 0.0;
-	matLocal._m13 = 0.0;
-
-	matLocal._m20 = 0.0;
-	matLocal._m21 = 0.0;
-	matLocal._m22 = 1.0;
-	matLocal._m23 = 0.0;
-
-	matLocal._m30 = 0.0;
-	matLocal._m31 = 0.0;
-	matLocal._m32 = 0.0;
-	matLocal._m33 = 1.0;
+	matLocal = matM[Input.InstanceId];
 
 	float4x4 matMC = mul(matC, matLocal);
 	float3x3 matC33 = convert44to33(matC);
