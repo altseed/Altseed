@@ -1,4 +1,4 @@
-
+﻿
 #pragma once
 
 #include "ace.RenderedObject3D.h"
@@ -13,6 +13,14 @@ namespace ace
 	private:
 		GraphicsDeviceType		deviceType;
 		
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF_ND;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;
+
+		std::vector<ShaderConstantValue> shaderConstants;
+
+		static const int32_t MaxObject = 32;
+
 	public:
 		RenderedMassModelObject3DProxy(Graphics* graphics);
 		virtual ~RenderedMassModelObject3DProxy();

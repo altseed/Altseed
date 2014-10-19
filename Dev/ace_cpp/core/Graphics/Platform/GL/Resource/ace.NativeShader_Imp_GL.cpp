@@ -111,8 +111,24 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 
 			if (type == GL_FLOAT)
 			{
-				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
-				offset += sizeof(float) * 1 * l.Count;
+				if (l.Count > 1)
+				{
+					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1_ARRAY;
+					offset += sizeof(float) * 1 * l.Count;
+
+					std::string name_ = name;
+					auto result = name_.find_first_of("[");
+					if (result != std::string::npos)
+					{
+						name_ = name_.substr(0, result);
+						l.Name = name_;
+					}
+				}
+				else
+				{
+					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
+					offset += sizeof(float) * 1 * l.Count;
+				}
 			}
 			else if (type == GL_FLOAT_VEC2)
 			{
@@ -287,6 +303,15 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 			glUniform1fv(
 				l.ID,
 				1,
+				(const GLfloat*) data);
+		}
+		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT1_ARRAY)
+		{
+			uint8_t* data = (uint8_t*) m_constantBuffer;
+			data += l.Offset;
+			glUniform1fv(
+				l.ID,
+				l.Count,
 				(const GLfloat*) data);
 		}
 		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT2)

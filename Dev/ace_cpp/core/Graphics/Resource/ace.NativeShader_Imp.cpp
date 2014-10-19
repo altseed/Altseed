@@ -231,6 +231,11 @@ namespace ace {
 			return sizeof(float) * 16 * count;
 		}
 
+		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1_ARRAY)
+		{
+			return sizeof(float) * 1 * count;
+		}
+
 		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
 		{
 			return sizeof(float) * 16 * count;
@@ -324,6 +329,11 @@ namespace ace {
 		SetConstantBuffer(id, &value, sizeof(float));
 	}
 
+	void NativeShader_Imp::SetFloatArray(int32_t id, float* value, int32_t count)
+	{
+		SetConstantBuffer(id, value, sizeof(float) * count);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -408,6 +418,10 @@ namespace ace {
 			if (value.ValueType == SHADER_VARIABLE_TYPE_FLOAT)
 			{
 				SetFloat(value.ID, value.Data.Float4[0]);
+			}
+			else if (value.ValueType == SHADER_VARIABLE_TYPE_FLOAT_ARRAY)
+			{
+				SetFloatArray(value.ID, value.Data.FloatArray.Ptr, value.Data.FloatArray.Count);
 			}
 			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR2DF)
 			{

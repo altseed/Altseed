@@ -182,7 +182,18 @@ void NativeShader_Imp_DX11::Reflect(void* buf, int32_t bufSize, std::vector<Cons
 
 		if (typeDesc.Class == D3D_SHADER_VARIABLE_CLASS::D3D10_SVC_SCALAR && typeDesc.Type == D3D_SHADER_VARIABLE_TYPE::D3D10_SVT_FLOAT)
 		{
-			if (typeDesc.Columns == 1) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
+			if (typeDesc.Elements == 0)
+			{
+				if (typeDesc.Columns == 1) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
+			}
+			else if (typeDesc.Elements > 0)
+			{
+				if (typeDesc.Columns == 1)
+				{
+					elements = typeDesc.Elements;
+					format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1_ARRAY;
+				}
+			}
 		}
 
 		if (typeDesc.Class == D3D_SHADER_VARIABLE_CLASS::D3D_SVC_VECTOR && typeDesc.Type == D3D_SHADER_VARIABLE_TYPE::D3D10_SVT_FLOAT)

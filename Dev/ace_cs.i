@@ -68,6 +68,7 @@
 #include "ObjectSystem/3D/ace.CoreDirectionalLightObject3D.h"
 #include "ObjectSystem/3D/ace.CoreCameraObject3D.h"
 #include "ObjectSystem/3D/ace.CoreEffectObject3D.h"
+#include "ObjectSystem/3D/ace.CoreMassModelObject3D.h"
 #include "ObjectSystem/3D/ace.CoreLayer3D.h"
 
 #include "ObjectSystem/ace.CoreScene.h"
@@ -451,6 +452,7 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreEffectObject3D.h"
+%include "ace_cpp/core/ObjectSystem/3D/ace.CoreMassModelObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.CoreScene.h"

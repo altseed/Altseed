@@ -59,6 +59,8 @@ namespace ace {
 
 		void SetFloat(int32_t id, const float& value);
 
+		void SetFloatArray(int32_t id, float* value, int32_t count);
+
 		void SetVector2DF(int32_t id, const Vector2DF& value);
 
 		void SetVector3DF(int32_t id, const Vector3DF& value);

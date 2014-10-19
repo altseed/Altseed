@@ -85,8 +85,8 @@ namespace ace
 			frameMax = Max(frameMax, f);
 		}
 
-		AnimationTexture.TextureWidth = frameMax * 4;
-		AnimationTexture.TextureHeight = AnimationTexture.AnimationCount * 32;
+		AnimationTexture.TextureWidth = frameMax;
+		AnimationTexture.TextureHeight = AnimationTexture.AnimationCount * 32 * 4;
 
 		AnimationTexture.Buffer.resize(AnimationTexture.TextureWidth * AnimationTexture.TextureHeight);
 
@@ -148,16 +148,16 @@ namespace ace
 					localMatrixes);
 				
 				for (auto j = 0; j < deformer.Bones.size(); j++)
-				{
-					int32_t x = t * 4;
-					int32_t y = i * 32 + j;
-
+				{					
 					for (auto k = 0; k < 4; k++)
 					{
-						AnimationTexture.Buffer[x + k + y * AnimationTexture.TextureWidth].X = localMatrixes[j].Values[k][0];
-						AnimationTexture.Buffer[x + k + y * AnimationTexture.TextureWidth].X = localMatrixes[j].Values[k][1];
-						AnimationTexture.Buffer[x + k + y * AnimationTexture.TextureWidth].X = localMatrixes[j].Values[k][2];
-						AnimationTexture.Buffer[x + k + y * AnimationTexture.TextureWidth].X = localMatrixes[j].Values[k][3];
+						int32_t x = t;
+						int32_t y = i * 32 * 4 + j * 4 + k;
+
+						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].X = localMatrixes[j].Values[k][0];
+						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Y = localMatrixes[j].Values[k][1];
+						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Z = localMatrixes[j].Values[k][2];
+						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].W = localMatrixes[j].Values[k][3];
 					}
 				}
 			}

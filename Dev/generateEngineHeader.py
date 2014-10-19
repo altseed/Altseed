@@ -150,7 +150,7 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.CameraObject3D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.DirectionalLightObject3D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.EffectObject3D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.ModelObject3D.h")
-
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.MassModelObject3D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.Layer3D.h")
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Scene.h")

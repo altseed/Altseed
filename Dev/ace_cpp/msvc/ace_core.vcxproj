@@ -271,9 +271,11 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\DeferredBuffer_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Environment_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_MassModel_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Light_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\MassModel_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Model_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Paste_PS.h" />
@@ -355,6 +357,8 @@
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreEffectObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreLayer3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreLayer3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMassModelObject3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMassModelObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreObject3D.h" />
@@ -496,6 +500,7 @@
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreDirectionalLightObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreEffectObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreLayer3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreMassModelObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.CoreLayer_Imp.cpp" />

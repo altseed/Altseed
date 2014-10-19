@@ -784,6 +784,18 @@
     <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedMassModelObject3D.h">
       <Filter>Graphics\3D\Object</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\MassModel_Internal_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_MassModel_Internal_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMassModelObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreMassModelObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1119,6 +1131,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedMassModelObject3D.cpp">
       <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreMassModelObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

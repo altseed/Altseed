@@ -80,6 +80,7 @@ namespace ace {
 	class CoreCameraObject3D;
 	class CoreEffectObject3D;
 	class CoreDirectionalLightObject3D;
+	class CoreMassModelObject3D;
 
 	class CorePostEffect;
 	class CoreTransition;
@@ -209,6 +210,7 @@ namespace ace {
 	{
 		SHADER_VARIABLE_TYPE_UNKNOWN,
 		SHADER_VARIABLE_TYPE_FLOAT,
+		SHADER_VARIABLE_TYPE_FLOAT_ARRAY,
 		SHADER_VARIABLE_TYPE_VECTOR2DF,
 		SHADER_VARIABLE_TYPE_VECTOR3DF,
 		SHADER_VARIABLE_TYPE_VECTOR4DF,

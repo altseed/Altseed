@@ -99,6 +99,7 @@
     <Compile Include="ObjectSystem\3D\DirectionalLightObject3D.cs" />
     <Compile Include="ObjectSystem\3D\EffectObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Layer3D.cs" />
+    <Compile Include="ObjectSystem\3D\MassModelObject3D.cs" />
     <Compile Include="ObjectSystem\3D\ModelObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Object3D.cs" />
     <Compile Include="ObjectSystem\ChildMode.cs" />
@@ -140,6 +141,7 @@
     <Compile Include="swig\CoreLayer2D.cs" />
     <Compile Include="swig\CoreLayer3D.cs" />
     <Compile Include="swig\CoreMapObject2D.cs" />
+    <Compile Include="swig\CoreMassModelObject3D.cs" />
     <Compile Include="swig\CoreModelObject3D.cs" />
     <Compile Include="swig\CoreObject2D.cs" />
     <Compile Include="swig\CoreObject3D.cs" />

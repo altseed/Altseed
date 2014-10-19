@@ -152,6 +152,40 @@ namespace ace
 			return value;
 		}
 
+		//template<>
+		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const std::vector<float>& v)
+		{
+			if (v.size() == 0)
+			{
+				float* buf_ = nullptr;
+				auto ret = ShaderConstantValue(buf_, 0);
+				ret.ID = -1;
+			}
+
+			auto buf = MallocMatrix44ArrayBuffer(v.size());
+			memcpy(buf, v.data(), v.size() * sizeof(float));
+			auto value = ShaderConstantValue(buf, v.size());
+			value.ID = GetConstantBufferID(shader, name);
+			return value;
+		}
+
+		//template<>
+		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const Array<float>& v)
+		{
+			if (v.Count == 0)
+			{
+				float* buf_ = nullptr;
+				auto ret = ShaderConstantValue(buf_, 0);
+				ret.ID = -1;
+			}
+
+			auto buf = MallocMatrix44ArrayBuffer(v.Count);
+			memcpy(buf, v.Ptr, v.Count * sizeof(float));
+			auto value = ShaderConstantValue(buf, v.Count);
+			value.ID = GetConstantBufferID(shader, name);
+			return value;
+		}
+
 	private:
 		template <typename T>
 		void setValues_impl(NativeShader_Imp* shader, ShaderConstantValue* values, int32_t index, const T& v)

@@ -22,6 +22,9 @@ namespace ace
 		MassModel_Imp();
 		virtual ~MassModel_Imp();
 
+		std::shared_ptr<VertexBuffer_Imp> GetVertexBuffer() { return m_vertexBuffer; }
+		std::shared_ptr<IndexBuffer_Imp> GetIndexBuffer() { return m_indexBuffer; }
+
 		bool Load(Graphics_Imp* g, MassModel_IO& io);
 
 		// IReferenceを継承したデバイスオブジェクト向け定義

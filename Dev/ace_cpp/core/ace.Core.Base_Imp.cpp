@@ -39,6 +39,13 @@ namespace ace
 		Data.Float4[0] = value;
 	}
 
+	ShaderConstantValue::ShaderConstantValue(float* value, int32_t count)
+	{
+		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_FLOAT_ARRAY;
+		Data.FloatArray.Ptr = value;
+		Data.FloatArray.Count = count;
+	}
+
 	ShaderConstantValue::ShaderConstantValue(const Vector2DF& value)
 	{
 		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_VECTOR2DF;
