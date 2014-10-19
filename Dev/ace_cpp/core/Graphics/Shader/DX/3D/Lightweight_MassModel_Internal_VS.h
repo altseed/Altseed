@@ -62,10 +62,10 @@ float4x4 getMatrix(uint animationIndex, uint boneIndex, float time)
 	float y2 = (yind + 2) / g_animationTextureHeight;
 	float y3 = (yind + 3) / g_animationTextureHeight;
 
-	float4 y0v = g_animationTexture.Sample(g_animationSampler, float2(x,y0));
-	float4 y1v = g_animationTexture.Sample(g_animationSampler, float2(x,y1));
-	float4 y2v = g_animationTexture.Sample(g_animationSampler, float2(x,y2));
-	float4 y3v = g_animationTexture.Sample(g_animationSampler, float2(x,y3));
+	float4 y0v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y0), 0);
+	float4 y1v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y1), 0);
+	float4 y2v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y2), 0);
+	float4 y3v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y3), 0);
 
 	return float4x4( y0v, y1v, y2v, y3v );
 }

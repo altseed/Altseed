@@ -16,6 +16,11 @@ namespace ace
 		return shader->GetTextureID(name);
 	}
 
+	float* RenderingCommandHelper::MallocFloatArrayBuffer(int32_t count)
+	{
+		return factory->CreateCommands<float>(count);
+	}
+
 	Matrix44* RenderingCommandHelper::MallocMatrix44ArrayBuffer(int32_t count)
 	{
 		return factory->CreateCommands<Matrix44>(count);

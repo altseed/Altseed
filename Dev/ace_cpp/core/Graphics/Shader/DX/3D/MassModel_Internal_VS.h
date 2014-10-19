@@ -62,10 +62,10 @@ float4x4 getMatrix(uint animationIndex, uint boneIndex, float time)
 	float y2 = (yind + 2) / g_animationTextureHeight;
 	float y3 = (yind + 3) / g_animationTextureHeight;
 
-	float4 y0v = g_animationTexture.Sample(g_animationSampler, float2(x,y0));
-	float4 y1v = g_animationTexture.Sample(g_animationSampler, float2(x,y1));
-	float4 y2v = g_animationTexture.Sample(g_animationSampler, float2(x,y2));
-	float4 y3v = g_animationTexture.Sample(g_animationSampler, float2(x,y3));
+	float4 y0v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y0), 0);
+	float4 y1v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y1), 0);
+	float4 y2v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y2), 0);
+	float4 y3v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y3), 0);
 
 	return float4x4( y0v, y1v, y2v, y3v );
 }
@@ -97,6 +97,27 @@ VS_Output main( const VS_Input Input )
 	float4x4 matLocal0 = mul( calcMatrix(animIndex0, animTime0, Input.BoneWeights,Input.BoneIndexes), matM[Input.InstanceId]);
 	float4x4 matLocal1 = mul( calcMatrix(animIndex1, animTime1, Input.BoneWeights,Input.BoneIndexes), matM[Input.InstanceId]);
 	float4x4 matLocal = matLocal0 * animWeight + matLocal1 * (1.0 - animWeight);
+
+	matLocal._m00 = 1.0;
+	matLocal._m01 = 0.0;
+	matLocal._m02 = 0.0;
+	matLocal._m03 = 0.0;
+
+	matLocal._m10 = 0.0;
+	matLocal._m11 = 1.0;
+	matLocal._m12 = 0.0;
+	matLocal._m13 = 0.0;
+
+	matLocal._m20 = 0.0;
+	matLocal._m21 = 0.0;
+	matLocal._m22 = 1.0;
+	matLocal._m23 = 0.0;
+
+	matLocal._m30 = 0.0;
+	matLocal._m31 = 0.0;
+	matLocal._m32 = 0.0;
+	matLocal._m33 = 1.0;
+
 	float4x4 matMC = mul(matC, matLocal);
 	float3x3 matC33 = convert44to33(matC);
 	float3x3 matMC33 = convert44to33(matMC);

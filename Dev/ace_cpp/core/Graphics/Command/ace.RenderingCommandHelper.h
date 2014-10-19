@@ -15,6 +15,7 @@ namespace ace
 
 		int32_t GetConstantBufferID(NativeShader_Imp* shader, const char* name);
 		int32_t GetTextureID(NativeShader_Imp* shader, const char* name);
+		float* MallocFloatArrayBuffer(int32_t count);
 		Matrix44* MallocMatrix44ArrayBuffer(int32_t count);
 
 	public:
@@ -162,7 +163,7 @@ namespace ace
 				ret.ID = -1;
 			}
 
-			auto buf = MallocMatrix44ArrayBuffer(v.size());
+			auto buf = MallocFloatArrayBuffer(v.size());
 			memcpy(buf, v.data(), v.size() * sizeof(float));
 			auto value = ShaderConstantValue(buf, v.size());
 			value.ID = GetConstantBufferID(shader, name);
@@ -179,7 +180,7 @@ namespace ace
 				ret.ID = -1;
 			}
 
-			auto buf = MallocMatrix44ArrayBuffer(v.Count);
+			auto buf = MallocFloatArrayBuffer(v.Count);
 			memcpy(buf, v.Ptr, v.Count * sizeof(float));
 			auto value = ShaderConstantValue(buf, v.Count);
 			value.ID = GetConstantBufferID(shader, name);

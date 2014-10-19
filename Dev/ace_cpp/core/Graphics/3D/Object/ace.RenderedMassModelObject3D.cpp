@@ -150,6 +150,8 @@ namespace ace
 
 		auto draw = [&]()-> void
 		{
+			shaderConstants.clear();
+
 			std::shared_ptr<ace::NativeShader_Imp> shader;
 
 			if (prop.IsLightweightMode)
@@ -188,6 +190,23 @@ namespace ace
 			{
 			}
 
+			ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
+			ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
+			ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
+			ace::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
+				h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
+				h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
+				h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
+				h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
 			auto modelPtr = (MassModel_Imp*)ModelPtr;
 			auto vb = modelPtr->GetVertexBuffer();
 			auto ib = modelPtr->GetIndexBuffer();
@@ -199,7 +218,7 @@ namespace ace
 			state.AlphaBlendState = AlphaBlend::Opacity;
 
 			helper->DrawInstancedWithPtr(
-				ib->GetIndexSize() / 3,
+				ib->GetCount() / 3,
 				prop_count,
 				vb.get(),
 				ib.get(),

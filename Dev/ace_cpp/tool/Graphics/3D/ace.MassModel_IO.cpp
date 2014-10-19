@@ -9,7 +9,7 @@ namespace ace
 		Reset();
 
 		if (model.Meshes.size() != 1) return false;
-		if (model.Meshes[0].DividedMeshes.size() != 2) return false;
+		if (model.Meshes[0].DividedMeshes.size() != 1) return false;
 		
 		auto& materials = model.Meshes[0].Materials;
 		auto& mesh = model.Meshes[0].DividedMeshes[0];

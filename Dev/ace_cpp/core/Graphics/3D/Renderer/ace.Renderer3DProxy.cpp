@@ -367,6 +367,7 @@ namespace ace
 		ReleaseObjects(objects);
 		ReleaseObjects(cameraObjects);
 		ReleaseObjects(directionalLightObjects);
+		ReleaseObjects(massModelObjects);
 	}
 
 	void Renderer3DProxy::Rendering(RenderTexture2D_Imp* renderTarget)
@@ -523,7 +524,7 @@ namespace ace
 				auto drawMass = [&](int32_t current)-> void
 				{
 					auto count = current - offset + 1;
-					sortedMassModelObjects[0]->Draw(helper, prop, sortedMassModelObjects, offset, count);
+					sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
 				};
 
 				if (sortedMassModelObjects.size() > 0)
@@ -537,11 +538,11 @@ namespace ace
 					{
 						drawMass(i);
 						currentModel = sortedMassModelObjects[i]->ModelPtr;
-						offset = i;
+						offset = i + 1;
 					}
 				}
 
-				if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size() - 1)
+				if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
 				{
 					drawMass(sortedMassModelObjects.size() - 1);
 				}
@@ -569,7 +570,7 @@ namespace ace
 				auto drawMass = [&](int32_t current)-> void
 				{
 					auto count = current - offset + 1;
-					sortedMassModelObjects[0]->Draw(helper, prop, sortedMassModelObjects, offset, count);
+					sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
 				};
 
 				if (sortedMassModelObjects.size() > 0)
@@ -583,11 +584,11 @@ namespace ace
 					{
 						drawMass(i);
 						currentModel = sortedMassModelObjects[i]->ModelPtr;
-						offset = i;
+						offset = i + 1;
 					}
 				}
 
-				if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size() - 1)
+				if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
 				{
 					drawMass(sortedMassModelObjects.size() - 1);
 				}
@@ -656,9 +657,40 @@ namespace ace
 					shadowProp.CameraMatrix = view;
 					shadowProp.ProjectionMatrix = proj;
 
+
 					for (auto& o : objects)
 					{
 						o->Rendering(helper, shadowProp);
+					}
+
+					MassModel* currentModel = nullptr;
+					int32_t offset = 0;
+
+					// 大量描画モデル
+					auto drawMass = [&](int32_t current)-> void
+					{
+						auto count = current - offset + 1;
+						sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
+					};
+
+					if (sortedMassModelObjects.size() > 0)
+					{
+						currentModel = sortedMassModelObjects[0]->ModelPtr;
+					}
+
+					for (auto i = 0; i < sortedMassModelObjects.size(); i++)
+					{
+						if (sortedMassModelObjects[i]->ModelPtr != currentModel)
+						{
+							drawMass(i);
+							currentModel = sortedMassModelObjects[i]->ModelPtr;
+							offset = i + 1;
+						}
+					}
+
+					if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
+					{
+						drawMass(sortedMassModelObjects.size() - 1);
 					}
 
 					float intensity = 2.0f;
@@ -924,7 +956,7 @@ namespace ace
 			auto drawMass = [&](int32_t current)-> void
 			{
 				auto count = current - offset + 1;
-				sortedMassModelObjects[0]->Draw(helper, prop, sortedMassModelObjects, offset, count);
+				sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
 			};
 
 			if (sortedMassModelObjects.size() > 0)
@@ -938,11 +970,11 @@ namespace ace
 				{
 					drawMass(i);
 					currentModel = sortedMassModelObjects[i]->ModelPtr;
-					offset = i;
+					offset = i + 1;
 				}
 			}
 
-			if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size() - 1)
+			if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
 			{
 				drawMass(sortedMassModelObjects.size() - 1);
 			}
