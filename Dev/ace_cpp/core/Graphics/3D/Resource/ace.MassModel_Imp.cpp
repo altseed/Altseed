@@ -5,6 +5,7 @@
 
 #include "../../Resource/ace.VertexBuffer_Imp.h"
 #include "../../Resource/ace.IndexBuffer_Imp.h"
+#include "../../Resource/ace.RenderTexture2D_Imp.h"
 
 namespace ace
 {
@@ -49,14 +50,17 @@ namespace ace
 		m_indexBuffer->Unlock();
 
 		// アニメーションテクスチャ
-		auto texture = g->CreateRenderTexture2D(io.AnimationTexture.TextureWidth, io.AnimationTexture.TextureHeight, TextureFormat::R32G32B32A32_FLOAT);
+		auto texture = g->CreateEmptyTexture2D(io.AnimationTexture.TextureWidth, io.AnimationTexture.TextureHeight, TextureFormat::R32G32B32A32_FLOAT);
 		TextureLockInfomation info;
 
 		if (texture->Lock(info))
 		{
-			memcpy(info.Pixels, io.AnimationTexture.Buffer.data(), io.AnimationTexture.Buffer.size() * sizeof(float));
+			memcpy(info.Pixels, io.AnimationTexture.Buffer.data(), io.AnimationTexture.Buffer.size() * sizeof(float) * 4);
 			texture->Unlock();
 		}
+
+		m_animationTexture = texture;
+
 		return true;
 	}
 }

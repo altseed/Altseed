@@ -140,6 +140,8 @@ namespace ace
 						boneValues[index].Rotation,
 						boneValues[index].Scale,
 						deformer.Bones[index].RotationType);
+
+					localMatrixes[index] = Matrix44();
 				}
 
 				ModelUtils::CalculateBoneMatrixes(

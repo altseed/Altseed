@@ -170,6 +170,8 @@ namespace ace
 				}
 			}
 
+			auto modelPtr = (MassModel_Imp*) ModelPtr;
+
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", h::Array<Matrix44>(matM, 32)));
@@ -178,6 +180,9 @@ namespace ace
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationTime0", h::Array<float>(animationTime0, 32)));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationTime1", h::Array<float>(animationTime1, 32)));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationWeight", h::Array<float>(animationWeight, 32)));
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_animationTexture",
+				h::Texture2DPair(modelPtr->GetAnimationTexture().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 
 			if (prop.IsLightweightMode)
 			{
@@ -207,7 +212,6 @@ namespace ace
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
 				h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 
-			auto modelPtr = (MassModel_Imp*)ModelPtr;
 			auto vb = modelPtr->GetVertexBuffer();
 			auto ib = modelPtr->GetIndexBuffer();
 

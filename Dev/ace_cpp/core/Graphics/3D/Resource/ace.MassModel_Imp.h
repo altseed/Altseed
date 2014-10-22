@@ -15,7 +15,7 @@ namespace ace
 		std::shared_ptr<VertexBuffer_Imp>	m_vertexBuffer;
 		std::shared_ptr<IndexBuffer_Imp>	m_indexBuffer;
 
-		std::shared_ptr<Texture2D_Imp>		m_animationTexture;
+		std::shared_ptr<Texture2D>		m_animationTexture;
 
 		
 	public:
@@ -24,7 +24,7 @@ namespace ace
 
 		std::shared_ptr<VertexBuffer_Imp> GetVertexBuffer() { return m_vertexBuffer; }
 		std::shared_ptr<IndexBuffer_Imp> GetIndexBuffer() { return m_indexBuffer; }
-
+		std::shared_ptr<Texture2D> GetAnimationTexture() { return m_animationTexture; }
 		bool Load(Graphics_Imp* g, MassModel_IO& io);
 
 		// IReferenceを継承したデバイスオブジェクト向け定義

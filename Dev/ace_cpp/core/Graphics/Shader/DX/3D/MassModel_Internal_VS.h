@@ -50,23 +50,46 @@ struct VS_Output
 Texture2D		g_animationTexture;
 SamplerState	g_animationSampler;
 
-float			g_animationTextureWidth;
-float			g_animationTextureHeight;
-
 float4x4 getMatrix(uint animationIndex, uint boneIndex, float time)
 {
-	float x = time / g_animationTextureWidth;
+	uint width, height;
+	g_animationTexture.GetDimensions(width, height);
+
+	float x = time / (float)width;
 	uint yind = animationIndex * 32 * 4 + boneIndex * 4;
-	float y0 = (yind + 0) / g_animationTextureHeight;
-	float y1 = (yind + 1) / g_animationTextureHeight;
-	float y2 = (yind + 2) / g_animationTextureHeight;
-	float y3 = (yind + 3) / g_animationTextureHeight;
+	float y0 = (yind + 0 + 0.5) / (float)height;
+	float y1 = (yind + 1 + 0.5) / (float)height;
+	float y2 = (yind + 2 + 0.5) / (float)height;
+	float y3 = (yind + 3 + 0.5) / (float)height;
+
+	x = 0;
 
 	float4 y0v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y0), 0);
 	float4 y1v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y1), 0);
 	float4 y2v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y2), 0);
 	float4 y3v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y3), 0);
+/*
+	y0v.x = 1.0;
+	y0v.y = 0.0;
+	y0v.z = 0.0;
+	y0v.w = 0.0;
+*/
+/*
+	y1v.x = 0.0;
+	y1v.y = 1.0;
+	y1v.z = 0.0;
+	y1v.w = 0.0;
 
+	y2v.x = 0.0;
+	y2v.y = 0.0;
+	y2v.z = 1.0;
+	y2v.w = 0.0;
+
+	y3v.x = 0.0;
+	y3v.y = 0.0;
+	y3v.z = 0.0;
+	y3v.w = 1.0;
+*/
 	return float4x4( y0v, y1v, y2v, y3v );
 }
 
@@ -98,7 +121,8 @@ VS_Output main( const VS_Input Input )
 	float4x4 matLocal1 = mul( calcMatrix(animIndex1, animTime1, Input.BoneWeights,Input.BoneIndexes), matM[Input.InstanceId]);
 	float4x4 matLocal = matLocal0 * animWeight + matLocal1 * (1.0 - animWeight);
 
-	matLocal = matM[Input.InstanceId];
+	//matLocal = matLocal0;
+	//matLocal = matM[Input.InstanceId];
 
 	float4x4 matMC = mul(matC, matLocal);
 	float3x3 matC33 = convert44to33(matC);
