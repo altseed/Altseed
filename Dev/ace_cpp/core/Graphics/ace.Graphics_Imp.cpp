@@ -568,6 +568,11 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled, bo
 		currentState.textureWrapTypes[i] = TextureWrapType::Clamp;
 		nextState.textureFilterTypes[i] = TextureFilterType::Nearest;
 		nextState.textureWrapTypes[i] = TextureWrapType::Clamp;
+
+		currentState.textureFilterTypes_vs[i] = TextureFilterType::Nearest;
+		currentState.textureWrapTypes_vs[i] = TextureWrapType::Clamp;
+		nextState.textureFilterTypes_vs[i] = TextureFilterType::Nearest;
+		nextState.textureWrapTypes_vs[i] = TextureWrapType::Clamp;
 	}
 }
 

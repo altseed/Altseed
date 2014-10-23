@@ -520,7 +520,7 @@ void NativeShader_Imp_DX11::SetTexture(const char* name, Texture* texture, Textu
 
 	if (it_vs != m_vs_textureLayouts.end())
 	{
-		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_vs).second.ID);
+		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_vs).second.ID + 0xff);
 	}
 
 	if (it_ps != m_ps_textureLayouts.end())
@@ -538,7 +538,7 @@ void NativeShader_Imp_DX11::SetTexture(int32_t id, Texture* texture, TextureFilt
 
 	if (id < m_vs_textureLayouts.size())
 	{
-		NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->ID);
+		NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->ID + 0xff);
 	}
 	else
 	{

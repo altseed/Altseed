@@ -532,6 +532,55 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 		shaderPtr->AssignConstantBuffer();
 
 		// テクスチャの設定
+		for (auto& bt : shader->GetBindingTextures())
+		{
+			if (bt.second.TexturePtr == nullptr) continue;
+			auto tex = bt.second.TexturePtr.get();
+			auto id = bt.first;
+
+			ID3D11ShaderResourceView* rv = nullptr;
+
+			if (bt.second.TexturePtr->GetType() == TEXTURE_CLASS_TEXTURE2D)
+			{
+				auto t = (Texture2D_Imp_DX11*) tex;
+				rv = t->GetShaderResourceView();
+			}
+			else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE2D)
+			{
+				auto t = (RenderTexture2D_Imp_DX11*) tex;
+				rv = t->GetShaderResourceView();
+			}
+			else if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+			{
+				auto t = (CubemapTexture_Imp_DX11*) tex;
+				rv = t->GetShaderResourceView();
+			}
+			else if (tex->GetType() == TEXTURE_CLASS_DEPTHBUFFER)
+			{
+				auto t = (DepthBuffer_Imp_DX11*) tex;
+				rv = t->GetShaderResourceView();
+			}
+
+			if (id >= 0xff)
+			{
+				// 頂点シェーダーに設定
+				GetContext()->VSSetShaderResources(id - 0xff, 1, &rv);
+
+				nextState.textureFilterTypes_vs[id - 0xff] = bt.second.FilterType;
+				nextState.textureWrapTypes_vs[id - 0xff] = bt.second.WrapType;
+			}
+			else
+			{
+				// ピクセルシェーダーに設定
+				GetContext()->PSSetShaderResources(id, 1, &rv);
+
+				// ステート設定
+				nextState.textureFilterTypes[id] = bt.second.FilterType;
+				nextState.textureWrapTypes[id] = bt.second.WrapType;
+			}
+		}
+
+		/*
 		for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 		{
 			Texture* tex = nullptr;
@@ -575,6 +624,7 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 				nextState.textureWrapTypes[i] = wrapType;
 			}
 		}
+		*/
 	}
 
 	CommitRenderState(false);
@@ -946,6 +996,11 @@ void Graphics_Imp_DX11::CommitRenderState(bool forced)
 	auto& currentWrap = currentState.textureWrapTypes;
 	auto& nextWrap = nextState.textureWrapTypes;
 
+	auto& currentFilter_vs = currentState.textureFilterTypes_vs;
+	auto& nextFilter_vs = nextState.textureFilterTypes_vs;
+
+	auto& currentWrap_vs = currentState.textureWrapTypes_vs;
+	auto& nextWrap_vs = nextState.textureWrapTypes_vs;
 
 	if (current.DepthTest != next.DepthTest || forced)
 	{
@@ -981,6 +1036,27 @@ void Graphics_Imp_DX11::CommitRenderState(bool forced)
 	{
 		float blendFactor [] = { 0, 0, 0, 0 };
 		GetContext()->OMSetBlendState(m_bStates[(int32_t) next.AlphaBlendState], blendFactor, 0xFFFFFFFF);
+	}
+
+	for (int32_t i = 0; i < MaxTextureCount; i++)
+	{
+		bool changeSampler = forced;
+
+		if (currentFilter_vs[i] != nextFilter_vs[i] || forced)
+		{
+			changeSampler = true;
+		}
+
+		if (currentWrap_vs[i] != nextWrap_vs[i] || forced)
+		{
+			changeSampler = true;
+		}
+
+		if (changeSampler)
+		{
+			ID3D11SamplerState* samplerTbl [] = { m_sStates[(int32_t) nextFilter_vs[i]][(int32_t) nextWrap_vs[i]] };
+			GetContext()->VSSetSamplers(i, 1, samplerTbl);
+		}
 	}
 
 	for (int32_t i = 0; i < MaxTextureCount; i++)

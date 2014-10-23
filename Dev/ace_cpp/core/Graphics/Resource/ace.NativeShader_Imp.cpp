@@ -376,6 +376,18 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void NativeShader_Imp::SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType, int32_t index)
 	{
+		{
+			SafeAddRef(texture);
+
+			BindingTexture bt;
+			bt.TexturePtr = CreateSharedPtrWithReleaseDLL(texture);
+			bt.FilterType = filterType;
+			bt.WrapType = wrapType;
+			bt.Name = name;
+
+			bindingTextures[index] = bt;
+		}
+
 		if (index >= Graphics_Imp::MaxTextureCount) return;
 		
 		SafeAddRef(texture);

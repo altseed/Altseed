@@ -131,6 +131,10 @@ namespace ace {
 			RenderState					renderState;
 			TextureFilterType			textureFilterTypes[MaxTextureCount];
 			TextureWrapType				textureWrapTypes[MaxTextureCount];
+
+			TextureFilterType			textureFilterTypes_vs[MaxTextureCount];
+			TextureWrapType				textureWrapTypes_vs[MaxTextureCount];
+
 		} currentState, nextState;
 
 	protected:
