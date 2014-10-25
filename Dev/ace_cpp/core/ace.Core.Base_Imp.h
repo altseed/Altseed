@@ -133,10 +133,10 @@ namespace ace {
 	enum eConstantBufferFormat
 	{
 		CONSTANT_BUFFER_FORMAT_FLOAT1,
-		CONSTANT_BUFFER_FORMAT_FLOAT1_ARRAY,
 		CONSTANT_BUFFER_FORMAT_FLOAT2,
 		CONSTANT_BUFFER_FORMAT_FLOAT3,
 		CONSTANT_BUFFER_FORMAT_FLOAT4,
+		CONSTANT_BUFFER_FORMAT_FLOAT4_ARRAY,
 		CONSTANT_BUFFER_FORMAT_MATRIX44,
 		CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY,
 		CONSTANT_BUFFER_FORMAT_UNKNOWN,
@@ -206,9 +206,9 @@ namespace ace {
 
 			struct
 			{
-				float*			Ptr;
+				Vector4DF*			Ptr;
 				int32_t				Count;
-			} FloatArray;
+			} Vector4DFArray;
 
 			/**
 				@brief	行列の配列
@@ -226,10 +226,10 @@ namespace ace {
 		ShaderConstantValue();
 		ShaderConstantValue(const ShaderConstantValue& value);
 		ShaderConstantValue(const float& value);
-		ShaderConstantValue(float* value, int32_t count);
 		ShaderConstantValue(const Vector2DF& value);
 		ShaderConstantValue(const Vector3DF& value);
 		ShaderConstantValue(const Vector4DF& value);
+		ShaderConstantValue(Vector4DF* value, int32_t count);
 		ShaderConstantValue(const Matrix44& value);
 		ShaderConstantValue(Matrix44* value, int32_t count);
 		ShaderConstantValue(Texture2D* value, TextureFilterType filterType, TextureWrapType wrapType);

@@ -49,6 +49,14 @@ namespace ace
 		MassModel* GetModel();
 		void SetModel(MassModel* model);
 
+		void PlayAnimation(const achar* name);
+
+		void StopAnimation();
+
+		void CrossFadeAnimation(const achar* name, float time);
+
+		bool IsAnimationPlaying();
+
 		void Flip(float deltaTime) override;
 
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }

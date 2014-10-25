@@ -61,6 +61,14 @@ namespace ace
 
 		m_animationTexture = texture;
 
+		frameCount = io.AnimationTexture.FrameCount;
+		frameSkip = io.AnimationTexture.FrameSkip;
+
+		for (auto& clip : io.AnimationClips)
+		{
+			animationClips[clip.Name] = clip.Index;
+		}
+
 		return true;
 	}
 }

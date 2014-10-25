@@ -12,6 +12,12 @@ namespace ace
 		, public ReferenceObject
 	{
 	private:
+
+		int32_t					frameSkip = 1;
+		std::vector<int32_t>	frameCount;
+
+		std::map<astring, int32_t>	animationClips;
+
 		std::shared_ptr<VertexBuffer_Imp>	m_vertexBuffer;
 		std::shared_ptr<IndexBuffer_Imp>	m_indexBuffer;
 
@@ -26,6 +32,20 @@ namespace ace
 		std::shared_ptr<IndexBuffer_Imp> GetIndexBuffer() { return m_indexBuffer; }
 		std::shared_ptr<Texture2D> GetAnimationTexture() { return m_animationTexture; }
 		bool Load(Graphics_Imp* g, MassModel_IO& io);
+
+		int32_t GetFrameSkip() { return frameSkip; }
+		int32_t GetFrameCount(int32_t index) { return frameCount[index]; }
+		int32_t GetClipIndex(const achar* name)
+		{
+			auto key = astring(name);
+			auto it = animationClips.find(key);
+
+			if (it != animationClips.end())
+			{
+				return (*it).second;
+			}
+			return -1;
+		}
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

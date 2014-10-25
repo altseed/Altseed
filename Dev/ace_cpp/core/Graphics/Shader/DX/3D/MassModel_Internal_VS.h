@@ -4,11 +4,8 @@
 float4x4	matM[32];
 float4x4	matC;
 float4x4	matP;
-float		animationIndex0[32];
-float		animationIndex1[32];
-float		animationTime0[32];
-float		animationTime1[32];
-float		animationWeight[32];
+float4		animationParam0[32];
+float4		animationParam1[32];
 
 //||>
 
@@ -107,11 +104,11 @@ VS_Output main( const VS_Input Input )
 {
 	VS_Output Output = (VS_Output)0;
 
-	float animIndex0 = animationIndex0[Input.InstanceId];
-	float animIndex1 = animationIndex1[Input.InstanceId];
-	float animTime0 = animationTime0[Input.InstanceId];
-	float animTime1 = animationTime1[Input.InstanceId];
-	float animWeight = animationWeight[Input.InstanceId];
+	float animIndex0 = animationParam0[Input.InstanceId].x;
+	float animIndex1 = animationParam0[Input.InstanceId].y;
+	float animTime0 = animationParam0[Input.InstanceId].z;
+	float animTime1 = animationParam0[Input.InstanceId].w;
+	float animWeight = animationParam1[Input.InstanceId].x;
 	float4x4 matModel = matM[Input.InstanceId];
 
 	float4x4 matLocal0 = calcMatrix(animIndex0, animTime0, Input.BoneWeights,Input.BoneIndexes);

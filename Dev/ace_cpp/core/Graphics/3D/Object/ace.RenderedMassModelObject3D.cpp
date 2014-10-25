@@ -140,11 +140,14 @@ namespace ace
 		
 		Matrix44 matM[MaxObject];
 
-		float animationIndex0[MaxObject];
-		float animationIndex1[MaxObject];
-		float animationTime0[MaxObject];
-		float animationTime1[MaxObject];
-		float animationWeight[MaxObject];
+		//float animationIndex0[MaxObject];
+		//float animationIndex1[MaxObject];
+		//float animationTime0[MaxObject];
+		//float animationTime1[MaxObject];
+		//float animationWeight[MaxObject];
+
+		Vector4DF animationParam0[MaxObject];
+		Vector4DF animationParam1[MaxObject];
 
 		int32_t prop_count = 0;
 
@@ -175,11 +178,15 @@ namespace ace
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", h::Array<Matrix44>(matM, 32)));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationIndex0", h::Array<float>(animationIndex0, 32)));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationIndex1", h::Array<float>(animationIndex1, 32)));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationTime0", h::Array<float>(animationTime0, 32)));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationTime1", h::Array<float>(animationTime1, 32)));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationWeight", h::Array<float>(animationWeight, 32)));
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationParam0", h::Array<Vector4DF>(animationParam0, 32)));
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationParam1", h::Array<Vector4DF>(animationParam1, 32)));
+
+			//shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationIndex0", h::Array<float>(animationIndex0, 32)));
+			//shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationIndex1", h::Array<float>(animationIndex1, 32)));
+			//shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationTime0", h::Array<float>(animationTime0, 32)));
+			//shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationTime1", h::Array<float>(animationTime1, 32)));
+			//shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationWeight", h::Array<float>(animationWeight, 32)));
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_animationTexture",
 				h::Texture2DPair(modelPtr->GetAnimationTexture().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
@@ -235,11 +242,12 @@ namespace ace
 		for (auto i = offset; i < offset + count; i++)
 		{
 			matM[prop_count] = proxies[i]->GetGlobalMatrix();
-			animationIndex0[prop_count] = 0;
-			animationIndex1[prop_count] = 0;
-			animationTime0[prop_count] = 0;
-			animationTime1[prop_count] = 0;
-			animationWeight[prop_count] = 0;
+			
+			animationParam0[prop_count].X = 1;
+			animationParam0[prop_count].Y = 0;
+			animationParam0[prop_count].Z = 20;
+			animationParam0[prop_count].W = 20;
+			animationParam1[prop_count].X = 0.5;
 
 			prop_count++;
 
@@ -276,6 +284,26 @@ namespace ace
 	void RenderedMassModelObject3D::SetModel(MassModel* model)
 	{
 		SafeSubstitute(this->model, model);
+	}
+
+	void RenderedMassModelObject3D::PlayAnimation(const achar* name)
+	{
+	
+	}
+
+	void RenderedMassModelObject3D::StopAnimation()
+	{
+
+	}
+
+	void RenderedMassModelObject3D::CrossFadeAnimation(const achar* name, float time)
+	{
+
+	}
+
+	bool RenderedMassModelObject3D::IsAnimationPlaying()
+	{
+		return false;
 	}
 
 	void RenderedMassModelObject3D::Flip(float deltaTime)

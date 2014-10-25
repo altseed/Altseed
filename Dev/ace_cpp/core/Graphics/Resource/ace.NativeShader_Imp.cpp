@@ -231,9 +231,9 @@ namespace ace {
 			return sizeof(float) * 16 * count;
 		}
 
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1_ARRAY)
+		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4_ARRAY)
 		{
-			return sizeof(float) * 1 * count;
+			return sizeof(float) * 4 * count;
 		}
 
 		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
@@ -329,11 +329,6 @@ namespace ace {
 		SetConstantBuffer(id, &value, sizeof(float));
 	}
 
-	void NativeShader_Imp::SetFloatArray(int32_t id, float* value, int32_t count)
-	{
-		SetConstantBuffer(id, value, sizeof(float) * count);
-	}
-
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -356,6 +351,11 @@ namespace ace {
 	void NativeShader_Imp::SetVector4DF(int32_t id, const Vector4DF& value)
 	{
 		SetConstantBuffer(id, &value, sizeof(Vector4DF));
+	}
+
+	void NativeShader_Imp::SetVector4DFArray(int32_t id, Vector4DF* value, int32_t count)
+	{
+		SetConstantBuffer(id, value, sizeof(Vector4DF) * count);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -431,10 +431,6 @@ namespace ace {
 			{
 				SetFloat(value.ID, value.Data.Float4[0]);
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_FLOAT_ARRAY)
-			{
-				SetFloatArray(value.ID, value.Data.FloatArray.Ptr, value.Data.FloatArray.Count);
-			}
 			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR2DF)
 			{
 				SetVector2DF(value.ID, Vector2DF(value.Data.Float4[0], value.Data.Float4[1]));
@@ -446,6 +442,10 @@ namespace ace {
 			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR4DF)
 			{
 				SetVector4DF(value.ID, Vector4DF(value.Data.Float4[0], value.Data.Float4[1], value.Data.Float4[2], value.Data.Float4[3]));
+			}
+			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR4DF_ARRAY)
+			{
+				SetVector4DFArray(value.ID, value.Data.Vector4DFArray.Ptr, value.Data.Vector4DFArray.Count);
 			}
 			else if (value.ValueType == SHADER_VARIABLE_TYPE_MATRIX44)
 			{

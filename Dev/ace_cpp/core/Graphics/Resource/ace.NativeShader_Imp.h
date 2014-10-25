@@ -71,13 +71,13 @@ namespace ace {
 
 		void SetFloat(int32_t id, const float& value);
 
-		void SetFloatArray(int32_t id, float* value, int32_t count);
-
 		void SetVector2DF(int32_t id, const Vector2DF& value);
 
 		void SetVector3DF(int32_t id, const Vector3DF& value);
 
 		void SetVector4DF(int32_t id, const Vector4DF& value);
+
+		void SetVector4DFArray(int32_t id, Vector4DF* value, int32_t count);
 
 		void SetMatrix44(int32_t id, const Matrix44& value);
 

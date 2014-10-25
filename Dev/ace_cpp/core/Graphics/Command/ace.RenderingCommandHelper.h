@@ -15,7 +15,7 @@ namespace ace
 
 		int32_t GetConstantBufferID(NativeShader_Imp* shader, const char* name);
 		int32_t GetTextureID(NativeShader_Imp* shader, const char* name);
-		float* MallocFloatArrayBuffer(int32_t count);
+		Vector4DF* MallocVector4DFArrayBuffer(int32_t count);
 		Matrix44* MallocMatrix44ArrayBuffer(int32_t count);
 
 	public:
@@ -154,34 +154,34 @@ namespace ace
 		}
 
 		//template<>
-		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const std::vector<float>& v)
+		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const std::vector<Vector4DF>& v)
 		{
 			if (v.size() == 0)
 			{
-				float* buf_ = nullptr;
+				Vector4DF* buf_ = nullptr;
 				auto ret = ShaderConstantValue(buf_, 0);
 				ret.ID = -1;
 			}
 
-			auto buf = MallocFloatArrayBuffer(v.size());
-			memcpy(buf, v.data(), v.size() * sizeof(float));
+			auto buf = MallocVector4DFArrayBuffer(v.size());
+			memcpy(buf, v.data(), v.size() * sizeof(Vector4DF));
 			auto value = ShaderConstantValue(buf, v.size());
 			value.ID = GetConstantBufferID(shader, name);
 			return value;
 		}
 
 		//template<>
-		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const Array<float>& v)
+		ShaderConstantValue CreateConstantValue(NativeShader_Imp* shader, const char* name, const Array<Vector4DF>& v)
 		{
 			if (v.Count == 0)
 			{
-				float* buf_ = nullptr;
+				Vector4DF* buf_ = nullptr;
 				auto ret = ShaderConstantValue(buf_, 0);
 				ret.ID = -1;
 			}
 
-			auto buf = MallocFloatArrayBuffer(v.Count);
-			memcpy(buf, v.Ptr, v.Count * sizeof(float));
+			auto buf = MallocVector4DFArrayBuffer(v.Count);
+			memcpy(buf, v.Ptr, v.Count * sizeof(Vector4DF));
 			auto value = ShaderConstantValue(buf, v.Count);
 			value.ID = GetConstantBufferID(shader, name);
 			return value;
