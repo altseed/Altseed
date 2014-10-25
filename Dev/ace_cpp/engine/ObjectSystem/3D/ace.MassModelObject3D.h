@@ -39,5 +39,29 @@ namespace ace
 		@param	model	モデル
 		*/
 		void SetModel(std::shared_ptr<MassModel>& model);
+
+		/**
+		@brief	アニメーションを再生する。
+		@param	name	アニメーションの名称
+		*/
+		void PlayAnimation(const achar* name);
+
+		/**
+		@brief	アニメーションを停止する。
+		*/
+		void StopAnimation();
+
+		/**
+		@brief	アニメーションをクロスフェードで再生する。
+		@param	name	アニメーションの名称
+		@param	time	クロスフェードにかかる時間(秒)
+		*/
+		void CrossFadeAnimation(const achar* name, float time);
+
+		/**
+		@brief	アニメーションが再生中か取得する。
+		@return	再生中か?
+		*/
+		bool IsAnimationPlaying();
 	};
 }

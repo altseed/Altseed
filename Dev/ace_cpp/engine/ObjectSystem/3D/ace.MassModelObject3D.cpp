@@ -19,4 +19,25 @@ namespace ace
 	{
 		m_coreObject->SetModel(model.get());
 	}
+
+	void MassModelObject3D::PlayAnimation(const achar* name)
+	{
+		m_coreObject->PlayAnimation(name);
+	}
+
+	void MassModelObject3D::StopAnimation()
+	{
+		m_coreObject->StopAnimation();
+	}
+
+	void MassModelObject3D::CrossFadeAnimation(const achar* name, float time)
+	{
+		m_coreObject->CrossFadeAnimation(name, time);
+	}
+
+	bool MassModelObject3D::IsAnimationPlaying()
+	{
+		return m_coreObject->IsAnimationPlaying();
+	}
+
 }

@@ -37,5 +37,41 @@ namespace ace
 		{
 			coreObject.SetModel(model.SwigObject);
 		}
+
+		/// <summary>
+		/// アニメーションを再生する。
+		/// </summary>
+		/// <param name="name">アニメーションの名称</param>
+		public void PlayAnimation(string name)
+		{
+			coreObject.PlayAnimation(name);
+		}
+
+		/// <summary>
+		/// アニメーションを停止する。
+		/// </summary>
+		public void StopAnimation()
+		{
+			coreObject.StopAnimation();
+		}
+
+		/// <summary>
+		/// アニメーションをクロスフェードで再生する。
+		/// </summary>
+		/// <param name="name">アニメーションの名称</param>
+		/// <param name="time">クロスフェードにかかる時間(秒)</param>
+		public void CrossFadeAnimation(string name, float time)
+		{
+			coreObject.CrossFadeAnimation(name, time);
+		}
+
+		/**
+		@brief	アニメーションが再生中か取得する。
+		@return	再生中か?
+		*/
+		public bool IsAnimationPlaying()
+		{
+			return coreObject.IsAnimationPlaying();
+		}
 	}
 }

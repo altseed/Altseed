@@ -22,4 +22,24 @@ namespace ace
 	{
 		m_object->SetModel(model);
 	}
+
+	void CoreMassModelObject3D_Imp::PlayAnimation(const achar* name)
+	{
+		m_object->PlayAnimation(name);
+	}
+
+	void CoreMassModelObject3D_Imp::StopAnimation()
+	{
+		m_object->StopAnimation();
+	}
+
+	void CoreMassModelObject3D_Imp::CrossFadeAnimation(const achar* name, float time)
+	{
+		m_object->CrossFadeAnimation(name, time);
+	}
+
+	bool CoreMassModelObject3D_Imp::IsAnimationPlaying()
+	{
+		return m_object->IsAnimationPlaying();
+	}
 }

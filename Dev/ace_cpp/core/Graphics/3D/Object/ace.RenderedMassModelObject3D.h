@@ -26,6 +26,12 @@ namespace ace
 		virtual ~RenderedMassModelObject3DProxy();
 
 		MassModel*				ModelPtr = nullptr;
+		
+		int32_t					AnimationIndex0 = 0;
+		int32_t					AnimationIndex1 = 0;
+		float					AnimationTime0 = 0.0;
+		float					AnimationTime1 = 0.0;
+		float					AnimationWeight = 0.0f;
 
 		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
 		void Draw(RenderingCommandHelper* helper, RenderingProperty& prop, std::vector<RenderedMassModelObject3DProxy*>& proxies, int32_t offset, int32_t count);
@@ -41,6 +47,13 @@ namespace ace
 		RenderedMassModelObject3DProxy* proxy = nullptr;
 
 		MassModel*						model = nullptr;
+
+		int32_t					animationIndex0 = 0;
+		int32_t					animationIndex1 = 0;
+		float					animationTime0 = 0.0;
+		float					animationTime1 = 0.0;
+		float					animationWeight = 0.0f;
+		bool					isAnimationPlaying = false;
 
 	public:
 		RenderedMassModelObject3D(Graphics* graphics);

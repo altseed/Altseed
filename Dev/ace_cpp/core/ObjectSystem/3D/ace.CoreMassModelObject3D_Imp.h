@@ -25,6 +25,14 @@ namespace ace
 	public:
 		void SetModel(MassModel* model) override;
 
+		void PlayAnimation(const achar* name) override;
+
+		void StopAnimation() override;
+
+		void CrossFadeAnimation(const achar* name, float time) override;
+
+		bool IsAnimationPlaying() override;
+
 		eRenderedObject3DType GetObjectType() override { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MASSOBJECT; }
 
 		// 共通部分

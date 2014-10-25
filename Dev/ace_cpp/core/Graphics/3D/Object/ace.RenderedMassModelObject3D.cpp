@@ -182,12 +182,6 @@ namespace ace
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationParam0", h::Array<Vector4DF>(animationParam0, 32)));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationParam1", h::Array<Vector4DF>(animationParam1, 32)));
 
-			//shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationIndex0", h::Array<float>(animationIndex0, 32)));
-			//shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationIndex1", h::Array<float>(animationIndex1, 32)));
-			//shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationTime0", h::Array<float>(animationTime0, 32)));
-			//shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationTime1", h::Array<float>(animationTime1, 32)));
-			//shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationWeight", h::Array<float>(animationWeight, 32)));
-
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_animationTexture",
 				h::Texture2DPair(modelPtr->GetAnimationTexture().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 
@@ -243,11 +237,11 @@ namespace ace
 		{
 			matM[prop_count] = proxies[i]->GetGlobalMatrix();
 			
-			animationParam0[prop_count].X = 1;
-			animationParam0[prop_count].Y = 0;
-			animationParam0[prop_count].Z = 20;
-			animationParam0[prop_count].W = 20;
-			animationParam1[prop_count].X = 0.5;
+			animationParam0[prop_count].X = proxies[i]->AnimationIndex0;
+			animationParam0[prop_count].Y = proxies[i]->AnimationIndex1;
+			animationParam0[prop_count].Z = proxies[i]->AnimationTime0;
+			animationParam0[prop_count].W = proxies[i]->AnimationTime1;
+			animationParam1[prop_count].X = proxies[i]->AnimationWeight;
 
 			prop_count++;
 
@@ -288,12 +282,28 @@ namespace ace
 
 	void RenderedMassModelObject3D::PlayAnimation(const achar* name)
 	{
-	
+		if (model == nullptr) return;
+
+		auto modelPtr = (MassModel_Imp*)model;
+		auto index = modelPtr->GetClipIndex(name);
+		if (index < 0) return;
+
+		animationIndex0 = index;
+		animationIndex1 = 0;
+		animationTime0 = 0;
+		animationTime0 = 0;
+		animationWeight = 0.0f;
+		isAnimationPlaying = true;
 	}
 
 	void RenderedMassModelObject3D::StopAnimation()
 	{
-
+		animationIndex0 = 0;
+		animationIndex1 = 0;
+		animationTime0 = 0;
+		animationTime0 = 0;
+		animationWeight = 0.0f;
+		isAnimationPlaying = false;
 	}
 
 	void RenderedMassModelObject3D::CrossFadeAnimation(const achar* name, float time)
@@ -303,7 +313,7 @@ namespace ace
 
 	bool RenderedMassModelObject3D::IsAnimationPlaying()
 	{
-		return false;
+		return isAnimationPlaying;
 	}
 
 	void RenderedMassModelObject3D::Flip(float deltaTime)
@@ -311,5 +321,17 @@ namespace ace
 		RenderedObject3D::Flip(deltaTime);
 
 		SafeSubstitute(proxy->ModelPtr, model);
+
+		proxy->AnimationIndex0 = animationIndex0;
+		proxy->AnimationIndex1 = animationIndex1;
+		proxy->AnimationTime0 = animationTime0;
+		proxy->AnimationTime1 = animationTime1;
+		proxy->AnimationWeight = animationWeight;
+
+		if (isAnimationPlaying)
+		{
+			animationTime0 += (deltaTime / (1.0 / 60.0));
+			animationTime1 += (deltaTime / (1.0 / 60.0));
+		}
 	}
 }

@@ -14,5 +14,13 @@ namespace ace
 
 	public:
 		virtual void SetModel(MassModel* model) = 0;
+
+		virtual void PlayAnimation(const achar* name) = 0;
+
+		virtual void StopAnimation() = 0;
+
+		virtual void CrossFadeAnimation(const achar* name, float time) = 0;
+
+		virtual bool IsAnimationPlaying() = 0;
 	};
 }

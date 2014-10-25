@@ -1,4 +1,4 @@
-
+﻿
 #include "../../EngineGraphics3DTest.h"
 
 class Graphics_MassModelObject3D : public EngineGraphics3DTest
@@ -36,6 +36,9 @@ protected:
 			GetLayer3D()->AddObject(m);
 
 			meshObjs.push_back(m);
+
+			if (i == 0) m->PlayAnimation(ace::ToAString("Anime1").c_str());
+			if (i == 1) m->PlayAnimation(ace::ToAString("Anime2").c_str());
 		}
 		
 		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
