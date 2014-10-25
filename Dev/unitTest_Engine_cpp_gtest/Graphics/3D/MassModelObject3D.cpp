@@ -7,7 +7,7 @@ class Graphics_MassModelObject3D : public EngineGraphics3DTest
 public:
 
 	Graphics_MassModelObject3D(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("MassModelObject3D"), isOpenGLMode, 1500, true)
+		EngineGraphics3DTest(ace::ToAString("MassModelObject3D"), isOpenGLMode, 15, true)
 	{}
 
 protected:
@@ -57,4 +57,4 @@ protected:
 	}
 };
 
-//ENGINE_TEST(Graphics, MassModelObject3D)
+ENGINE_TEST(Graphics, MassModelObject3D)

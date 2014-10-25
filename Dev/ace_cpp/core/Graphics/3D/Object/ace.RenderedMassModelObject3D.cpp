@@ -17,6 +17,12 @@
 #include "../../Shader/DX/3D/MassModel_Internal_VS.h"
 #include "../../Shader/DX/3D/Model_Internal_PS.h"
 
+#include "../../Shader/GL/3D/Lightweight_MassModel_Internal_VS.h"
+#include "../../Shader/GL/3D/Lightweight_Model_Internal_PS.h"
+
+#include "../../Shader/GL/3D/MassModel_Internal_VS.h"
+#include "../../Shader/GL/3D/Model_Internal_PS.h"
+
 #include "../../Command/ace.RenderingCommandHelper.h"
 
 namespace ace
@@ -42,14 +48,12 @@ namespace ace
 			std::vector<ace::Macro> macro;
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				/*
 				m_shaderLightweight = g->GetShaderCache()->CreateFromCode(
 					ToAString("Internal.MassModelObject3D.Lightweight").c_str(),
-					lightweight_model_internal_vs_gl,
+					lightweight_mass_model_internal_vs_gl,
 					lightweight_model_internal_ps_gl,
 					vl,
 					macro);
-				*/
 			}
 			else
 			{
@@ -68,14 +72,12 @@ namespace ace
 			std::vector<ace::Macro> macro;
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				/*
 				m_shaderDF = g->GetShaderCache()->CreateFromCode(
 					ToAString("Internal.MassModelObject3D.DF").c_str(),
-					model_internal_vs_gl,
+					mass_model_internal_vs_gl,
 					model_internal_ps_gl,
 					vl,
 					macro);
-				*/
 			}
 			else
 			{
@@ -96,14 +98,12 @@ namespace ace
 
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				/*
 				m_shaderDF_ND = g->GetShaderCache()->CreateFromCode(
 					ToAString("Internal.ModelObject3D.DF.ND").c_str(),
-					model_internal_vs_gl,
+					mass_model_internal_vs_gl,
 					model_internal_ps_gl,
 					vl,
 					macro);
-				*/
 			}
 			else
 			{
@@ -139,13 +139,6 @@ namespace ace
 		Vector3DF skyLColor(prop.SkyLightColor.R / 255.0f, prop.SkyLightColor.G / 255.0f, prop.SkyLightColor.B / 255.0f);
 		
 		Matrix44 matM[MaxObject];
-
-		//float animationIndex0[MaxObject];
-		//float animationIndex1[MaxObject];
-		//float animationTime0[MaxObject];
-		//float animationTime1[MaxObject];
-		//float animationWeight[MaxObject];
-
 		Vector4DF animationParam0[MaxObject];
 		Vector4DF animationParam1[MaxObject];
 
