@@ -18,7 +18,7 @@ in vec2 UVSub;
 in vec4 Color;
 in vec4 BoneWeights;
 in vec4 BoneIndexes;
-in vec4 BoneIndexesOriginal;
+//in vec4 BoneIndexesOriginal;
 //||>
 
 out vec4 voutPosition;
@@ -54,7 +54,7 @@ mat4 getMatrix(int animationIndex, int boneIndex, float time)
 	vec4 y2v = textureLod(g_animationTexture, vec2(x,y2), 0);
 	vec4 y3v = textureLod(g_animationTexture, vec2(x,y3), 0);
 
-	return mat4( y0v, y1v, y2v, y3v );
+	return transpose(mat4( y0v, y1v, y2v, y3v ));
 }
 
 mat4 calcMatrix(int animationIndex, float time, vec4 weights, vec4 indexes)

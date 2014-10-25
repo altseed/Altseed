@@ -24,7 +24,7 @@ struct VS_Input
 	float4 Color		: Color0;
 	float4 BoneWeights	: BoneWeights0;
 	uint4 BoneIndexes	: BoneIndexes0;
-	uint4 BoneIndexesOriginal	: BoneIndexesOriginal0;
+	//uint4 BoneIndexesOriginal	: BoneIndexesOriginal0;
 
 	uint InstanceId		: SV_InstanceID;
 };
