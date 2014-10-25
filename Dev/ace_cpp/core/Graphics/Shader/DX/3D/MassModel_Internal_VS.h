@@ -119,7 +119,7 @@ VS_Output main( const VS_Input Input )
 	//float4x4 matLocal = matLocal0 * (1.0-animWeight) + matLocal1 * animWeight;	// error
 	//float4x4 matLocal = matLocal0 + (matLocal1 - matLocal0) * animWeight;			// ok
 	float4x4 matLocal = lerp(matLocal0, matLocal1, animWeight);						// ok
-	matLocal = mul(matLocal,matModel);
+	matLocal = mul(matModel,matLocal);
 
 	float4x4 matMC = mul(matC, matLocal);
 	float3x3 matC33 = convert44to33(matC);

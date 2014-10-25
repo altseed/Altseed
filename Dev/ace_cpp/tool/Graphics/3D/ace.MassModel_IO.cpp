@@ -98,12 +98,23 @@ namespace ace
 		};
 
 		std::vector<Matrix44> localMatrixes;
+		std::vector<Matrix44> boneMatrixes;
 		std::vector<BoneValue> boneValues;
 		std::map<astring, int32_t> nameToBoneIndex;
 
 		localMatrixes.resize(deformer.Bones.size());
 		boneValues.resize(deformer.Bones.size());
 
+		auto& boneConnectors = mesh.BoneConnectors;
+		if (boneConnectors.size() > 0)
+		{
+			boneMatrixes.resize(boneConnectors.size());
+		}
+		else
+		{
+			boneMatrixes.resize(1);
+		}
+		
 		for (auto i = 0; i < deformer.Bones.size(); i++)
 		{
 			auto& b = deformer.Bones[i];
@@ -140,8 +151,6 @@ namespace ace
 						boneValues[index].Rotation,
 						boneValues[index].Scale,
 						deformer.Bones[index].RotationType);
-
-					localMatrixes[index] = Matrix44();
 				}
 
 				ModelUtils::CalculateBoneMatrixes(
@@ -149,17 +158,33 @@ namespace ace
 					deformer.Bones,
 					localMatrixes);
 				
-				for (auto j = 0; j < deformer.Bones.size(); j++)
+				// 行列計算
+				if (boneConnectors.size() > 0)
+				{
+					// ボーンあり
+					for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
+					{
+						boneMatrixes[i].SetIndentity();
+						Matrix44::Mul(boneMatrixes[i], localMatrixes[boneConnectors[i].TargetIndex], boneConnectors[i].OffsetMatrix);
+					}
+				}
+				else
+				{
+					// ボーンなし
+					boneMatrixes[0].SetIndentity();
+				}
+
+				for (auto j = 0; j < boneMatrixes.size(); j++)
 				{					
 					for (auto k = 0; k < 4; k++)
 					{
 						int32_t x = t;
 						int32_t y = i * 32 * 4 + j * 4 + k;
 
-						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].X = localMatrixes[j].Values[k][0];
-						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Y = localMatrixes[j].Values[k][1];
-						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Z = localMatrixes[j].Values[k][2];
-						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].W = localMatrixes[j].Values[k][3];
+						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].X = boneMatrixes[j].Values[k][0];
+						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Y = boneMatrixes[j].Values[k][1];
+						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Z = boneMatrixes[j].Values[k][2];
+						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].W = boneMatrixes[j].Values[k][3];
 					}
 				}
 			}
