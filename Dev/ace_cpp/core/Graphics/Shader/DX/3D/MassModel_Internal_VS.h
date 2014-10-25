@@ -63,27 +63,7 @@ float4x4 getMatrix(uint animationIndex, uint boneIndex, float time)
 	float4 y1v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y1), 0);
 	float4 y2v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y2), 0);
 	float4 y3v = g_animationTexture.SampleLevel(g_animationSampler, float2(x,y3), 0);
-/*
-	y0v.x = 1.0;
-	y0v.y = 0.0;
-	y0v.z = 0.0;
-	y0v.w = 0.0;
 
-	y1v.x = 0.0;
-	y1v.y = 1.0;
-	y1v.z = 0.0;
-	y1v.w = 0.0;
-
-	y2v.x = 0.0;
-	y2v.y = 0.0;
-	y2v.z = 1.0;
-	y2v.w = 0.0;
-
-	y3v.x = 0.0;
-	y3v.y = 0.0;
-	y3v.z = 0.0;
-	y3v.w = 1.0;
-*/
 	return float4x4( y0v, y1v, y2v, y3v );
 }
 
@@ -113,9 +93,7 @@ VS_Output main( const VS_Input Input )
 
 	float4x4 matLocal0 = calcMatrix(animIndex0, animTime0, Input.BoneWeights,Input.BoneIndexes);
 	float4x4 matLocal1 = calcMatrix(animIndex1, animTime1, Input.BoneWeights,Input.BoneIndexes);
-	//float4x4 matLocal = matLocal0 * (1.0-animWeight) + matLocal1 * animWeight;	// error
-	//float4x4 matLocal = matLocal0 + (matLocal1 - matLocal0) * animWeight;			// ok
-	float4x4 matLocal = lerp(matLocal0, matLocal1, animWeight);						// ok
+	float4x4 matLocal = lerp(matLocal0, matLocal1, animWeight);
 	matLocal = mul(matModel,matLocal);
 
 	float4x4 matMC = mul(matC, matLocal);
