@@ -103,7 +103,6 @@ float3x3 convert44to33(float4x4 mat)
 	return (float3x3)mat;
 }
 
-
 VS_Output main( const VS_Input Input )
 {
 	VS_Output Output = (VS_Output)0;
@@ -113,13 +112,14 @@ VS_Output main( const VS_Input Input )
 	float animTime0 = animationTime0[Input.InstanceId];
 	float animTime1 = animationTime1[Input.InstanceId];
 	float animWeight = animationWeight[Input.InstanceId];
+	float4x4 matModel = matM[Input.InstanceId];
 
-	float4x4 matLocal0 = mul( calcMatrix(animIndex0, animTime0, Input.BoneWeights,Input.BoneIndexes), matM[Input.InstanceId]);
-	float4x4 matLocal1 = mul( calcMatrix(animIndex1, animTime1, Input.BoneWeights,Input.BoneIndexes), matM[Input.InstanceId]);
-	float4x4 matLocal = matLocal0 * animWeight + matLocal1 * (1.0 - animWeight);
-
-	matLocal = matLocal1;
-	//matLocal = matM[Input.InstanceId];
+	float4x4 matLocal0 = calcMatrix(animIndex0, animTime0, Input.BoneWeights,Input.BoneIndexes);
+	float4x4 matLocal1 = calcMatrix(animIndex1, animTime1, Input.BoneWeights,Input.BoneIndexes);
+	//float4x4 matLocal = matLocal0 * (1.0-animWeight) + matLocal1 * animWeight;	// error
+	//float4x4 matLocal = matLocal0 + (matLocal1 - matLocal0) * animWeight;			// ok
+	float4x4 matLocal = lerp(matLocal0, matLocal1, animWeight);						// ok
+	matLocal = mul(matLocal,matModel);
 
 	float4x4 matMC = mul(matC, matLocal);
 	float3x3 matC33 = convert44to33(matC);
