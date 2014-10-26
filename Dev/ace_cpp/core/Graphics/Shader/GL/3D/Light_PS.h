@@ -203,8 +203,8 @@ void main()
 #endif
 
 #ifdef AMBIENT_LIGHT
-	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor;
-	lightColor.xyz += texture(g_environmentDiffuseTexture, uv).xyz;
+	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor * ao;
+	lightColor.xyz += texture(g_environmentDiffuseTexture, uv).xyz * ao;
 #endif
 
 	outOutput0 = lightColor;

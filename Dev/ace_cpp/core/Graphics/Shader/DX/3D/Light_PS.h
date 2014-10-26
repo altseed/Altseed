@@ -207,8 +207,8 @@ float4 main( const PS_Input Input ) : SV_Target
 #endif
 
 #ifdef AMBIENT_LIGHT
-	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor;
-	lightColor.xyz += g_environmentDiffuseTexture.Sample(g_environmentDiffuseSampler, uv).xyz;
+	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor * ao;
+	lightColor.xyz += g_environmentDiffuseTexture.Sample(g_environmentDiffuseSampler, uv).xyz * ao;
 #endif
 
 	return lightColor;
