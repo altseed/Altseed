@@ -249,8 +249,23 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 	switch (png_info->color_type)
 	{
 	case PNG_COLOR_TYPE_PALETTE:
-		png_set_palette_to_rgb(png);
-		pixelBytes = 4;
+		{
+			png_set_palette_to_rgb(png);
+
+			png_bytep trans_alpha = NULL;
+			int num_trans = 0;
+			png_color_16p trans_color = NULL;
+
+			png_get_tRNS(png, png_info, &trans_alpha, &num_trans, &trans_color);
+			if (trans_alpha != NULL)
+			{
+				pixelBytes = 4;
+			}
+			else
+			{
+				pixelBytes = 3;
+			}
+		}
 		break;
 	case PNG_COLOR_TYPE_GRAY:
 		png_set_expand_gray_1_2_4_to_8(png);
