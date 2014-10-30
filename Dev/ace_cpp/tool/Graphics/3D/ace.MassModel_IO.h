@@ -39,12 +39,6 @@ namespace ace
 			int32_t		Index3;
 		};
 
-		struct MaterialOffset
-		{
-			int32_t		MaterialIndex;
-			int32_t		FaceOffset;
-		};
-
 		struct Material
 		{
 			int32_t Type;
@@ -75,8 +69,7 @@ namespace ace
 
 		std::vector<Vertex>				Vertices;
 		std::vector<Face>				Faces;
-		std::vector<MaterialOffset>		MaterialOffsets;
-		std::vector<Material>			Materials;
+		Material						Material_;
 		std::vector<AnimationClip>		AnimationClips;
 		AnimationTexture				AnimationTexture;
 

@@ -38,21 +38,17 @@ namespace ace
 			Faces.push_back(f_);
 		}
 
-		for (auto& mo : mesh.MaterialOffsets)
+		if (materials.size() > 0)
 		{
-			MaterialOffset mo_;
-			mo_.FaceOffset = mo.FaceOffset;
-			mo_.MaterialIndex = mo.MaterialIndex;
-			MaterialOffsets.push_back(mo_);
-		}
+			Material_.ColorTexture = materials[0].ColorTexture;
+			Material_.NormalTexture = materials[0].NormalTexture;
+			Material_.SpecularTexture = materials[0].SpecularTexture;
 
-		for (auto& m : materials)
-		{
-			Material m_;
-			m_.ColorTexture = m.ColorTexture;
-			m_.NormalTexture = m.NormalTexture;
-			m_.SpecularTexture = m.SpecularTexture;
-			Materials.push_back(m_);
+			Material_.OriginalColorTexture = materials[0].OriginalColorTexture;
+			Material_.OriginalNormalTexture = materials[0].OriginalNormalTexture;
+			Material_.OriginalSpecularTexture = materials[0].OriginalSpecularTexture;
+
+			Material_.Type = materials[0].Type;
 		}
 
 		for (auto& ac : model.AnimationClips)
@@ -197,8 +193,6 @@ namespace ace
 	{
 		Vertices.clear();
 		Faces.clear();
-		MaterialOffsets.clear();
-		Materials.clear();
 		AnimationClips.clear();
 		AnimationTexture.FrameCount.clear();
 		AnimationTexture.Buffer.clear();
