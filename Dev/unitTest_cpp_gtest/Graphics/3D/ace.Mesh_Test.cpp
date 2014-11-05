@@ -202,7 +202,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 	meshObject2->SetPosition(ace::Vector3DF(-1, 0, 0));
 	meshObject2->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
 	meshObject2->AddAnimationClip(ace::ToAString("anime1").c_str(), animation.get());
-	meshObject2->PlayAnimation(ace::ToAString("anime1").c_str());
+	meshObject2->PlayAnimation(0, ace::ToAString("anime1").c_str());
 
 	auto lightObject = new ace::RenderedDirectionalLightObject3D(graphics);
 	lightObject->SetRotation(ace::Vector3DF(30, 160, 0));
@@ -221,7 +221,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 		graphics->Begin();
 		graphics->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-		renderer3d->Flip();
+		renderer3d->Flip(1);
 
 		renderer3d->BeginRendering(1);
 		ace::Sleep(100);
