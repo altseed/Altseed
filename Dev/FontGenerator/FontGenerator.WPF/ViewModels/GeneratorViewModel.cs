@@ -336,7 +336,10 @@ namespace FontGenerator.WPF.ViewModels
 
 		private void LoadConfiguration(object obj)
 		{
-			var dialog = new OpenFileDialog();
+			var dialog = new OpenFileDialog()
+			{
+				Filter = "Aceフォント設定ファイル|*.afcfg",
+			};
 
 			if(dialog.ShowDialog() == DialogResult.OK)
 			{
@@ -355,8 +358,9 @@ namespace FontGenerator.WPF.ViewModels
 		{
 			var dialog = new SaveFileDialog()
 			{
-				DefaultExt = "json",
+				DefaultExt = "afcfg",
 				FileName = "FontSetting",
+				Filter = "Aceフォント設定ファイル|*.afcfg",
 			};
 
 			if(dialog.ShowDialog() == DialogResult.OK)
