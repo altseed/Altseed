@@ -242,10 +242,12 @@ void Graphics_Simple3D(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, Simple3D_DX)
 {
 	Graphics_Simple3D(false);
 }
+#endif
 
 TEST(Graphics, Simple3D_GL)
 {

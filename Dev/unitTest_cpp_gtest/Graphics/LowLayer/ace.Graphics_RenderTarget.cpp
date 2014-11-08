@@ -249,10 +249,12 @@ void Graphics_RenderTarget(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, RenderTarget_DX)
 {
 	Graphics_RenderTarget(false);
 }
+#endif
 
 TEST(Graphics, RenderTarget_GL)
 {
