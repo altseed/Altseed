@@ -181,6 +181,7 @@ void main()
 	vec4 specularColorAndSmoothness = GetSpecularColorAndSmoothness(uv);
 	vec3 specularColor = specularColorAndSmoothness.xyz;
 	float smoothness = specularColorAndSmoothness.w;
+	float ao = texture(g_ssaoTexture, uv).x;
 
 #ifdef DIRECTIONAL_LIGHT
 	vec4 shadowmapPos = ReconstructShadowmapPosition(cameraPos);
@@ -195,8 +196,6 @@ void main()
 	vec2 shadowParam = texture(g_shadowmapTexture, shadowmapUV).xy;
 
 	float shadow = VSM(shadowParam, depth);
-	float ao = texture(g_ssaoTexture, uv).x;
-
 	lightColor.xyz += calcDirectionalLightDiffuseColor(diffuseColor, normal, directionalLightDirection, shadow, ao);
 
 	lightColor.xyz += calcDirectionalLightSpecularColor(specularColor, normal, directionalLightDirection, smoothness, 0.06, shadow, ao);

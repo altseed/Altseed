@@ -4,6 +4,9 @@
 #include "../../Graphics/ace.Graphics_Imp.h"
 #include "../../Graphics/2D/ace.LayerRenderer.h"
 
+#include "../../Graphics/Resource/ace.Font_Imp.h"
+#include "../../Graphics/Resource/ace.Texture2D_Imp.h"
+
 #include "ace.CoreTextureObject2D_Imp.h"
 #include "ace.CoreTextObject2D_Imp.h"
 #include "ace.CoreCameraObject2D_Imp.h"
@@ -191,6 +194,22 @@ namespace ace
 		sprites.push_back(sprite);
 	}
 
+	void CoreLayer2D_Imp::DrawTextAdditionally(Vector2DF pos, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority)
+	{
+		SafeAddRef(font);
+
+		Text text_;
+		text_.Position_ = pos;
+		text_.Color_ = color;
+		text_.Font_ = CreateSharedPtrWithReleaseDLL(font);
+		text_.Text_ = text;
+		text_.WritingDirection_ = writingDirection;
+		text_.AlphaBlend_ = alphaBlend;
+		text_.Priority_ = priority;
+
+		texts.push_back(text_);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -212,6 +231,27 @@ namespace ace
 				sprite.Priority);
 		}
 		sprites.clear();
+
+		for (auto& text : texts)
+		{
+			Matrix33 matP;
+			Matrix33 mat;
+			mat.SetTranslation(text.Position_.X, text.Position_.Y);
+
+			m_renderer->AddText(
+				matP,
+				mat,
+				Vector2DF(),
+				false,
+				false,
+				text.Color_,
+				text.Font_.get(),
+				text.Text_.c_str(),
+				text.WritingDirection_,
+				text.AlphaBlend_,
+				text.Priority_);
+		}
+		texts.clear();
 
 		DrawObjects(m_renderer);
 

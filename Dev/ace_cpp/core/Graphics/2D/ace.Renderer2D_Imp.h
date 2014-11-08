@@ -148,6 +148,8 @@ namespace ace {
 
 		void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
 
+		void AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority) override;
+
 		void AddEffect(::Effekseer::Handle handle, int32_t priority);
 
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }

@@ -33,7 +33,19 @@ namespace ace
 			int32_t Priority;
 		};
 
+		struct Text
+		{
+			Vector2DF				Position_;
+			Color					Color_;
+			std::shared_ptr<Font>	Font_;
+			astring					Text_;
+			WritingDirection		WritingDirection_;
+			AlphaBlend				AlphaBlend_;
+			int32_t					Priority_;
+		};
+
 		std::vector<Sprite>		sprites;
+		std::vector<Text>		texts;
 
 		std::list <CoreCameraObject2D*> m_cameras;
 		std::list<ObjectPtr> m_objects;
@@ -81,6 +93,8 @@ namespace ace
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
+
+		void DrawTextAdditionally(Vector2DF pos, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority) override;
 
 #if !SWIG
 	public:

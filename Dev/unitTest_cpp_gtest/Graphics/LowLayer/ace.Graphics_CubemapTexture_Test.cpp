@@ -362,11 +362,12 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, CubemapTexture_DX)
 {
 	Graphics_CubemapTexture(false);
 }
-
+#endif
 
 TEST(Graphics, CubemapTexture_GL)
 {

@@ -1,4 +1,5 @@
-﻿#include "../common/ace.common.Base.h"
+﻿
+#include "../common/ace.common.Base.h"
 #include "ace.CoreTextObject2D_Imp.h"
 #include "../../Graphics/Resource/ace.Font_Imp.h"
 #include "../../Graphics/Resource/ace.Texture2D_Imp.h"
@@ -191,112 +192,20 @@ namespace ace
 			return;
 		}
 
-		Vector2DF drawPosition = Vector2DF(0, 0);
-
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
 
-		std::array<Color, 4> color;
-		color.at(0) = m_color;
-		color.at(1) = m_color;
-		color.at(2) = m_color;
-		color.at(3) = m_color;
-
-		int offset = 0;
-		Font_Imp *font_Imp = (Font_Imp*)m_font;
-
-		for (int textIndex = 0; textIndex < m_text.length(); ++textIndex)
-		{
-			if (m_text[textIndex] != '\n' && !font_Imp->HasGlyphData(m_text[textIndex]))
-			{
-				continue;
-			}
-			else if (m_text[textIndex] == '\n')
-			{
-				if (m_writingDirection == WritingDirection::Horizontal)
-				{
-					drawPosition.X = 0;
-					drawPosition.Y += offset;
-				}
-				else
-				{
-					drawPosition.X += offset;
-					drawPosition.Y = 0;
-				}
-				offset = 0;
-
-				continue;
-			}
-
-			const GlyphData glyphData = font_Imp->GetGlyphData(m_text[textIndex]);
-			auto texture = font_Imp->GetTexture(glyphData.GetSheetNum());
-
-			if (texture == nullptr)
-			{
-				continue;
-			}
-
-			const auto glyphSrc = glyphData.GetSrc();
-
-			std::array<Vector2DF, 4> position;
-
-			{
-				position.at(0) = Vector2DF(0, 0);
-				position.at(1) = Vector2DF(glyphSrc.Width, 0);
-				position.at(2) = Vector2DF(glyphSrc.Width, glyphSrc.Height);
-				position.at(3) = Vector2DF(0, glyphSrc.Height);
-
-				for (auto& pos : position)
-				{
-					pos += drawPosition;
-					pos -= m_centerPosition;
-					auto v3 = Vector3DF(pos.X, pos.Y, 1);
-					auto result = parentMatrix * matrix * v3;
-					pos = Vector2DF(result.X, result.Y);
-				}
-
-			}
-
-			std::array<Vector2DF, 4> uvs;
-			{
-				const auto textureSize = Vector2DF(texture->GetSize().X, texture->GetSize().Y);
-
-				uvs.at(0) = Vector2DF(glyphSrc.X, glyphSrc.Y);
-				uvs.at(1) = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y);
-				uvs.at(2) = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y + glyphSrc.Height);
-				uvs.at(3) = Vector2DF(glyphSrc.X, glyphSrc.Y + glyphSrc.Height);
-
-				for (auto& uv : uvs)
-				{
-					uv /= textureSize;
-				}
-
-				if (m_turnLR)
-				{
-					std::swap(uvs.at(0), uvs.at(1));
-					std::swap(uvs.at(2), uvs.at(3));
-				}
-
-				if (m_turnUL)
-				{
-					std::swap(uvs.at(0), uvs.at(3));
-					std::swap(uvs.at(1), uvs.at(2));
-				}
-			}
-
-			renderer->AddSprite(position.data(), &color[0], uvs.data(), texture.get(), m_alphablend, m_drawingPtiority);
-
-			if (m_writingDirection == WritingDirection::Horizontal)
-			{
-				drawPosition += ace::Vector2DF(glyphSrc.Width, 0);
-				offset = std::max(glyphSrc.Width, offset);
-			}
-			else
-			{
-				drawPosition += ace::Vector2DF(0, glyphSrc.Height);
-				offset = std::max(glyphSrc.Height, offset);
-			}
-		}
-
+		renderer->AddText(
+			parentMatrix,
+			matrix,
+			m_centerPosition,
+			m_turnLR,
+			m_turnUL,
+			m_color,
+			m_font,
+			m_text.c_str(),
+			m_writingDirection,
+			m_alphablend,
+			m_drawingPtiority);
 	}
 }

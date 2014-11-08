@@ -36,6 +36,7 @@ set(core_src
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedCameraObject3D.cpp
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedDirectionalLightObject3D.cpp
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedEffectObject3D.cpp
+	ace_cpp/core/Graphics/3D/Object/ace.RenderedMassModelObject3D.cpp
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedModelObject3D.cpp
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedObject3D.cpp
 	ace_cpp/core/Graphics/3D/PostProcess/ace.SSAO.cpp
@@ -43,6 +44,7 @@ set(core_src
 	ace_cpp/core/Graphics/3D/Renderer/ace.LightRendering.cpp
 	ace_cpp/core/Graphics/3D/Renderer/ace.Renderer3D.cpp
 	ace_cpp/core/Graphics/3D/Renderer/ace.Renderer3DProxy.cpp
+	ace_cpp/core/Graphics/3D/Renderer/ace.SpriteRenderer3D.cpp
 	ace_cpp/core/Graphics/3D/Resource/ace.Deformer_Imp.cpp
 	ace_cpp/core/Graphics/3D/Resource/ace.MassModel_Imp.cpp
 	ace_cpp/core/Graphics/3D/Resource/ace.Mesh_Imp.cpp
@@ -103,6 +105,7 @@ set(core_src
 	ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreEffectObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D_Imp.cpp
+	ace_cpp/core/ObjectSystem/3D/ace.CoreMassModelObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreModelObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/ace.CoreLayer_Imp.cpp
@@ -164,6 +167,7 @@ set(engine_src
 	ace_cpp/engine/ObjectSystem/3D/ace.DirectionalLightObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.EffectObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.Layer3D.cpp
+	ace_cpp/engine/ObjectSystem/3D/ace.MassModelObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.ModelObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.Object3D.cpp
 	ace_cpp/engine/ObjectSystem/ace.Layer.cpp
@@ -222,8 +226,10 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/2D/TextObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/TextureObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/Camera3DPostEffect.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/DrawSpriteAdditionally3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/EffectObject3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/LightingStandard.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/MassModelObject3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/ModelObject3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/ModelObject3DCustomMaterial.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/SimpleMesh.cpp

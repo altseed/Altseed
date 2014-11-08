@@ -124,10 +124,12 @@ void Graphics_LayerRenderer(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, LayerRenderer_DX)
 {
 	Graphics_LayerRenderer(false);
 }
+#endif
 
 TEST(Graphics, LayerRenderer_GL)
 {

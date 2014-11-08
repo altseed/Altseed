@@ -123,10 +123,12 @@ void Graphics_Renderer2D(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, Renderer2D_DX)
 {
 	Graphics_Renderer2D(false);
 }
+#endif
 
 TEST(Graphics, Renderer2D_GL)
 {
