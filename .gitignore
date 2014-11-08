@@ -216,6 +216,8 @@ $RECYCLE.BIN/
 /Effekseer-master/
 /effekseer_bin/
 /OpenSoundMixer-master/
+/culling2d_bin/
+/Culling2D-master/
 
 libpng-1.6.6.tar.gz
 zlib-1.2.8.tar.gz
@@ -233,6 +235,7 @@ master.zip
 /Dev/include/EffekseerRendererDX11.h
 /Dev/include/EffekseerRendererGL.h
 /Dev/include/OpenSoundMixer.h
+/Dev/include/Culling2D.h
 
 /Dev/ace_cpp/engine/ace.CoreToEngine.h
 
