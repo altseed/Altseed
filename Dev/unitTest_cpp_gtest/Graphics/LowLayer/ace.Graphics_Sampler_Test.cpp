@@ -268,10 +268,12 @@ void Graphics_Sampler(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, Sampler_DX)
 {
 	Graphics_Sampler(false);
 }
+#endif
 
 TEST(Graphics, Sampler_GL)
 {
