@@ -128,6 +128,18 @@ namespace ace
 		m_coreLayer->DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture.get(), alphaBlend, priority);
 	}
 
+	void Layer2D::DrawTextAdditionally(Vector2DF pos, Color color, std::shared_ptr<Font> font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority)
+	{
+		m_coreLayer->DrawTextAdditionally(
+			pos,
+			color,
+			font.get(),
+			text,
+			writingDirection,
+			alphaBlend,
+			priority);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

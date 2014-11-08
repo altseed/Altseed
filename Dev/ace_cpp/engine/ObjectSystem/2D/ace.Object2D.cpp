@@ -83,6 +83,11 @@ namespace ace
 		layer->DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture, alphaBlend, priority);
 	}
 
+	void Object2D::DrawTextAdditionally(Vector2DF pos, Color color, std::shared_ptr<Font> font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority)
+	{
+		auto layer = GetLayer();
+		layer->DrawTextAdditionally(pos, color, font, text, writingDirection, alphaBlend, priority);
+	}
 
 	bool Object2D::GetIsAlive() const
 	{

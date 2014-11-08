@@ -35,6 +35,8 @@ namespace ace
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) = 0;
 
+		virtual void DrawTextAdditionally(Vector2DF pos, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority) = 0;
+
 #if !SWIG
 		virtual Renderer2D* GetRenderer() const = 0;
 		virtual Graphics* GetGraphicsImp() = 0;

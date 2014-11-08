@@ -88,7 +88,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	enum class WritingDirection :int
+	enum class WritingDirection :int32_t
 	{
 		Vertical,
 		Horizontal,
