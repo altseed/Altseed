@@ -8,6 +8,9 @@
 #include "../../Resource/ace.ShaderCache.h"
 #include "../../Resource/ace.NativeShader_Imp.h"
 #include "../../Resource/ace.IndexBuffer_Imp.h"
+#include "../../Resource/ace.MaterialPropertyBlock_Imp.h"
+#include "../../Resource/ace.Shader3D_Imp.h"
+#include "../../Resource/ace.Material3D_Imp.h"
 
 #include "../../3D/Resource/ace.MassModel_Imp.h"
 
@@ -147,26 +150,59 @@ namespace ace
 		{
 			shaderConstants.clear();
 
+			auto modelPtr = (MassModel_Imp*) ModelPtr;
+			auto& material = modelPtr->GetMaterial();
+
 			std::shared_ptr<ace::NativeShader_Imp> shader;
 
-			if (prop.IsLightweightMode)
+			if (material.Material_.get() != nullptr)
 			{
-				shader = m_shaderLightweight;
-			}
-			else
-			{
-				if (prop.IsDepthMode)
+				auto mat = (Material3D_Imp*) (material.Material_.get());
+
+				auto shader_ = (Shader3D_Imp*) (mat->GetShader3D().get());
+
+				if (prop.IsLightweightMode)
 				{
-					shader = m_shaderDF_ND;
+					if (prop.IsDepthMode)
+					{
+						shader = shader_->GetNativeShaderMassLightDepth();
+					}
+					else
+					{
+						shader = shader_->GetNativeShaderMassLight();
+					}
 				}
 				else
 				{
-					shader = m_shaderDF;
+					if (prop.IsDepthMode)
+					{
+						shader = shader_->GetNativeShaderMassDepth();
+					}
+					else
+					{
+						shader = shader_->GetNativeShaderMass();
+					}
 				}
 			}
-
-			auto modelPtr = (MassModel_Imp*) ModelPtr;
-
+			else
+			{
+				if (prop.IsLightweightMode)
+				{
+					shader = m_shaderLightweight;
+				}
+				else
+				{
+					if (prop.IsDepthMode)
+					{
+						shader = m_shaderDF_ND;
+					}
+					else
+					{
+						shader = m_shaderDF;
+					}
+				}
+			}
+			
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", h::Array<Matrix44>(matM, 32)));
@@ -188,41 +224,104 @@ namespace ace
 			{
 			}
 
-			ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
-			ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
-			ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
-			ace::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
+			if (material.Material_.get() != nullptr)
+			{
+				auto mat = (Material3D_Imp*) (material.Material_.get());
 
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
-				h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+				// 定数設定
+				std::shared_ptr<MaterialPropertyBlock> block;
+				if (materialPropertyBlock.get() != nullptr)
+				{
+					// ユーザー定義ブロック使用
+					block = materialPropertyBlock;
+				}
+				else
+				{
+					block = mat->GetMaterialPropertyBlock();
+				}
 
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
-				h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+				((MaterialPropertyBlock_Imp*) block.get())->AddValuesTo(shader.get(), shaderConstants);
 
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
-				h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+				auto vb = modelPtr->GetVertexBuffer();
+				auto ib = modelPtr->GetIndexBuffer();
 
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
-				h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+				RenderState state;
+				state.DepthTest = true;
+				state.DepthWrite = true;
+				state.Culling = CullingType::Front;
+				state.AlphaBlendState = AlphaBlend::Opacity;
 
-			auto vb = modelPtr->GetVertexBuffer();
-			auto ib = modelPtr->GetIndexBuffer();
+				helper->DrawInstancedWithPtr(
+					ib->GetCount() / 3,
+					prop_count,
+					vb.get(),
+					ib.get(),
+					shader.get(),
+					state,
+					shaderConstants.data(),
+					shaderConstants.size());
+			}
+			else
+			{
+				ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
+				ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
+				ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
+				ace::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
 
-			RenderState state;
-			state.DepthTest = true;
-			state.DepthWrite = true;
-			state.Culling = CullingType::Front;
-			state.AlphaBlendState = AlphaBlend::Opacity;
+				if (material.ColorTexture != nullptr)
+				{
+					colorTexture = material.ColorTexture.get();
+				}
 
-			helper->DrawInstancedWithPtr(
-				ib->GetCount() / 3,
-				prop_count,
-				vb.get(),
-				ib.get(),
-				shader.get(),
-				state,
-				shaderConstants.data(),
-				shaderConstants.size());
+				if (!prop.IsLightweightMode)
+				{
+					if (material.NormalTexture != nullptr)
+					{
+						normalTexture = material.NormalTexture.get();
+					}
+
+					if (material.SpecularTexture != nullptr)
+					{
+						specularTexture = material.SpecularTexture.get();
+					}
+
+					if (material.SmoothnessTexture != nullptr)
+					{
+						smoothnessTexture = material.SmoothnessTexture.get();
+					}
+				}
+
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
+					h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
+					h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
+					h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
+					h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
+				auto vb = modelPtr->GetVertexBuffer();
+				auto ib = modelPtr->GetIndexBuffer();
+
+				RenderState state;
+				state.DepthTest = true;
+				state.DepthWrite = true;
+				state.Culling = CullingType::Front;
+				state.AlphaBlendState = AlphaBlend::Opacity;
+
+				helper->DrawInstancedWithPtr(
+					ib->GetCount() / 3,
+					prop_count,
+					vb.get(),
+					ib.get(),
+					shader.get(),
+					state,
+					shaderConstants.data(),
+					shaderConstants.size());
+			}
 		};
 
 		for (auto i = offset; i < offset + count; i++)
@@ -260,6 +359,12 @@ namespace ace
 	{
 		SafeRelease(model);
 		SafeRelease(proxy);
+	}
+
+	void RenderedMassModelObject3D::SetMaterialPropertyBlock(MaterialPropertyBlock* block)
+	{
+		SafeAddRef(block);
+		materialPropertyBlock = CreateSharedPtrWithReleaseDLL(block);
 	}
 
 	MassModel* RenderedMassModelObject3D::GetModel()
@@ -313,6 +418,8 @@ namespace ace
 		RenderedObject3D::Flip(deltaTime);
 
 		SafeSubstitute(proxy->ModelPtr, model);
+
+		proxy->materialPropertyBlock = materialPropertyBlock;
 
 		proxy->AnimationIndex0 = animationIndex0;
 		proxy->AnimationIndex1 = animationIndex1;

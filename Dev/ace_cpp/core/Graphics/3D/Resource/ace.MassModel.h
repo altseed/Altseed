@@ -23,6 +23,21 @@ namespace ace
 		virtual ~MassModel(){}
 	public:
 
+		/**
+		@brief	材質を設定する。
+		@param	material		材質
+		*/
+		virtual void SetMaterial(Material3D* material) = 0;
 
+#if !SWIG
+		/**
+		@brief	材質を設定する。
+		@param	material		材質
+		*/
+		void SetMaterial(std::shared_ptr<Material3D> material)
+		{
+			SetMaterial(material.get());
+		}
+#endif
 	};
 }

@@ -415,7 +415,11 @@ namespace ace
 		std::sort(
 			sortedMassModelObjects.begin(),
 			sortedMassModelObjects.end(),
-			[](const RenderedObject3DProxy* a, const RenderedObject3DProxy* b) -> bool { return a > b; });
+			[](const RenderedMassModelObject3DProxy* a, const RenderedMassModelObject3DProxy* b) -> bool {
+			if (a != b) return a > b;
+
+			return a->materialPropertyBlock.get() > b->materialPropertyBlock.get();
+		});
 
 		// エフェクトの更新
 		effectManager->Update(DeltaTime / (1.0f/60.0f));
@@ -518,6 +522,8 @@ namespace ace
 				}
 			
 				MassModel* currentModel = nullptr;
+				MaterialPropertyBlock* currentBlock = nullptr;
+
 				int32_t offset = 0;
 
 				// 大量描画モデル
@@ -534,10 +540,13 @@ namespace ace
 
 				for (auto i = 0; i < sortedMassModelObjects.size(); i++)
 				{
-					if (sortedMassModelObjects[i]->ModelPtr != currentModel)
+					if (
+						sortedMassModelObjects[i]->ModelPtr != currentModel ||
+						sortedMassModelObjects[i]->materialPropertyBlock.get() != currentBlock)
 					{
 						drawMass(i);
 						currentModel = sortedMassModelObjects[i]->ModelPtr;
+						currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
 						offset = i + 1;
 					}
 				}
@@ -564,6 +573,7 @@ namespace ace
 				}
 
 				MassModel* currentModel = nullptr;
+				MaterialPropertyBlock* currentBlock = nullptr;
 				int32_t offset = 0;
 
 				// 大量描画モデル
@@ -580,10 +590,13 @@ namespace ace
 
 				for (auto i = 0; i < sortedMassModelObjects.size(); i++)
 				{
-					if (sortedMassModelObjects[i]->ModelPtr != currentModel)
+					if (
+						sortedMassModelObjects[i]->ModelPtr != currentModel ||
+						sortedMassModelObjects[i]->materialPropertyBlock.get() != currentBlock)
 					{
 						drawMass(i);
 						currentModel = sortedMassModelObjects[i]->ModelPtr;
+						currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
 						offset = i + 1;
 					}
 				}
@@ -664,6 +677,7 @@ namespace ace
 					}
 
 					MassModel* currentModel = nullptr;
+					MaterialPropertyBlock* currentBlock = nullptr;
 					int32_t offset = 0;
 
 					// 大量描画モデル
@@ -680,10 +694,13 @@ namespace ace
 
 					for (auto i = 0; i < sortedMassModelObjects.size(); i++)
 					{
-						if (sortedMassModelObjects[i]->ModelPtr != currentModel)
+						if (
+							sortedMassModelObjects[i]->ModelPtr != currentModel ||
+							sortedMassModelObjects[i]->materialPropertyBlock.get() != currentBlock)
 						{
 							drawMass(i);
 							currentModel = sortedMassModelObjects[i]->ModelPtr;
+							currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
 							offset = i + 1;
 						}
 					}
@@ -950,6 +967,7 @@ namespace ace
 			}
 
 			MassModel* currentModel = nullptr;
+			MaterialPropertyBlock* currentBlock = nullptr;
 			int32_t offset = 0;
 
 			// 大量描画モデル
@@ -966,10 +984,13 @@ namespace ace
 
 			for (auto i = 0; i < sortedMassModelObjects.size(); i++)
 			{
-				if (sortedMassModelObjects[i]->ModelPtr != currentModel)
+				if (
+					sortedMassModelObjects[i]->ModelPtr != currentModel ||
+					sortedMassModelObjects[i]->materialPropertyBlock.get() != currentBlock)
 				{
 					drawMass(i);
 					currentModel = sortedMassModelObjects[i]->ModelPtr;
+					currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
 					offset = i + 1;
 				}
 			}

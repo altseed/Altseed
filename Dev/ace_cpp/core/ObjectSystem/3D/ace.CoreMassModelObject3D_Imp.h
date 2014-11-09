@@ -23,6 +23,8 @@ namespace ace
 		virtual ~CoreMassModelObject3D_Imp();
 
 	public:
+		void SetMaterialPropertyBlock(MaterialPropertyBlock* block) override;
+
 		void SetModel(MassModel* model) override;
 
 		void PlayAnimation(const achar* name) override;

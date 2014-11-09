@@ -18,6 +18,11 @@ namespace ace
 		SafeRelease(m_object);
 	}
 
+	void CoreMassModelObject3D_Imp::SetMaterialPropertyBlock(MaterialPropertyBlock* block)
+	{
+		m_object->SetMaterialPropertyBlock(block);
+	}
+
 	void CoreMassModelObject3D_Imp::SetModel(MassModel* model)
 	{
 		m_object->SetModel(model);

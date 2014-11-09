@@ -40,4 +40,8 @@ namespace ace
 		return m_coreObject->IsAnimationPlaying();
 	}
 
+	void MassModelObject3D::SetMaterialPropertyBlock(std::shared_ptr<MaterialPropertyBlock> block)
+	{
+		m_coreObject->SetMaterialPropertyBlock(block.get());
+	}
 }

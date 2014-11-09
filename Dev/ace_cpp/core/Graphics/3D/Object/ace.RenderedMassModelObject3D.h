@@ -33,6 +33,8 @@ namespace ace
 		float					AnimationTime1 = 0.0;
 		float					AnimationWeight = 0.0f;
 
+		std::shared_ptr<MaterialPropertyBlock>	materialPropertyBlock;
+
 		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
 		void Draw(RenderingCommandHelper* helper, RenderingProperty& prop, std::vector<RenderedMassModelObject3DProxy*>& proxies, int32_t offset, int32_t count);
 	};
@@ -55,9 +57,13 @@ namespace ace
 		float					animationWeight = 0.0f;
 		bool					isAnimationPlaying = false;
 
+		std::shared_ptr<MaterialPropertyBlock>	materialPropertyBlock;
+
 	public:
 		RenderedMassModelObject3D(Graphics* graphics);
 		virtual ~RenderedMassModelObject3D();
+
+		void SetMaterialPropertyBlock(MaterialPropertyBlock* block);
 
 		MassModel* GetModel();
 		void SetModel(MassModel* model);
