@@ -212,10 +212,12 @@ void Graphics_SingleTexture(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, SingleTexture_DX)
 {
 	Graphics_SingleTexture(false);
 }
+#endif
 
 TEST(Graphics, SingleTexture_GL)
 {

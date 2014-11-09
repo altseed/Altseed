@@ -22,11 +22,12 @@ void Graphics_Empty(bool isOpenGLMode)
 	window->Release();
 }
 
+#ifdef _WIN32
 TEST(Graphics, Empty_DX)
 {
 	Graphics_Empty(false);
 }
-
+#endif
 
 TEST(Graphics, Empty_GL)
 {
