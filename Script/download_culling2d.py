@@ -31,7 +31,7 @@ if aceutils.isWin():
 	aceutils.copy(r'culling2d_bin/Debug/Culling2D_debug.lib', r'Dev/lib/Debug/Culling2D.lib')
 	aceutils.copy(r'culling2d_bin/Release/Culling2D.lib', r'Dev/lib/Release/')
 else:
-	aceutils.copy(r'Culling2D-master/Culling2D/Effekseer.h', r'Dev/include/')
+	aceutils.copy(r'Culling2D-master/Culling2D/Culling2D.h', r'Dev/include/')
 	aceutils.copy(r'culling2d_bin/bin/libCulling2D.a', r'Dev/lib/')
 
 
