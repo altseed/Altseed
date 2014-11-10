@@ -1,5 +1,5 @@
-#!/bin/env python
-#coding: utf8
+#!/usr/bin/env python
+#coding: UTF-8
 """
 convert Document/*.md to DocumentHtml/*.html.
 requirement: pandoc(http://johnmacfarlane.net/pandoc/)
@@ -147,17 +147,17 @@ aceutils.cd('./DocumentHtml')
 
 files = aceutils.get_files('.')
 
-with open('template.html', "w") as f:
+with open('template.html', mode='w',  encoding='utf-8') as f:
   f.write(template)
 
 for file in files:
   if os.path.splitext(file)[1] != ".md":
     continue
   ls = []
-  with open(file, 'r') as f:
+  with open(file, mode='r',  encoding='utf-8') as f:
     ls = f.readlines()
     ls = [s.replace('.md', '.html') for s in ls]
-  with open(file, 'w') as f:
+  with open(file, mode='w',  encoding='utf-8') as f:
     f.writelines(ls)
   aceutils.call('pandoc -f markdown_github -t html5 -s --template=template.html -o {0}.html {0}.md'.format(os.path.splitext(file)[0]))
   aceutils.rm(file)
