@@ -236,7 +236,7 @@ protected:
 
 		auto block2 = ace::Engine::GetGraphics()->CreateMaterialPropertyBlock();
 		block2->SetTexture2D(ace::ToAString("g_colorTexture").c_str(), gray);
-		block2->SetVector4DF(ace::ToAString("extColor").c_str(), ace::Vector4DF(1.0f, 1.0f, 0.0f, 1.0f));
+		block2->SetVector4DF(ace::ToAString("extColor").c_str(), ace::Vector4DF(1.0f, 1.0f, 1.0f, 1.0f));
 
 		//massModel->SetMaterial(mat);
 

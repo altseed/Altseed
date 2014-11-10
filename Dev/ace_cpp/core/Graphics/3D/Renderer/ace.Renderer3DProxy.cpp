@@ -416,7 +416,7 @@ namespace ace
 			sortedMassModelObjects.begin(),
 			sortedMassModelObjects.end(),
 			[](const RenderedMassModelObject3DProxy* a, const RenderedMassModelObject3DProxy* b) -> bool {
-			if (a != b) return a > b;
+			if (a->ModelPtr != b->ModelPtr) return a->ModelPtr > b->ModelPtr;
 
 			return a->materialPropertyBlock.get() > b->materialPropertyBlock.get();
 		});
@@ -529,13 +529,14 @@ namespace ace
 				// 大量描画モデル
 				auto drawMass = [&](int32_t current)-> void
 				{
-					auto count = current - offset + 1;
+					auto count = current - offset;
 					sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
 				};
 
 				if (sortedMassModelObjects.size() > 0)
 				{
 					currentModel = sortedMassModelObjects[0]->ModelPtr;
+					currentBlock = sortedMassModelObjects[0]->materialPropertyBlock.get();
 				}
 
 				for (auto i = 0; i < sortedMassModelObjects.size(); i++)
@@ -547,13 +548,13 @@ namespace ace
 						drawMass(i);
 						currentModel = sortedMassModelObjects[i]->ModelPtr;
 						currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
-						offset = i + 1;
+						offset = i;
 					}
 				}
 
 				if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
 				{
-					drawMass(sortedMassModelObjects.size() - 1);
+					drawMass(sortedMassModelObjects.size());
 				}
 			}
 
@@ -579,13 +580,14 @@ namespace ace
 				// 大量描画モデル
 				auto drawMass = [&](int32_t current)-> void
 				{
-					auto count = current - offset + 1;
+					auto count = current - offset;
 					sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
 				};
 
 				if (sortedMassModelObjects.size() > 0)
 				{
 					currentModel = sortedMassModelObjects[0]->ModelPtr;
+					currentBlock = sortedMassModelObjects[0]->materialPropertyBlock.get();
 				}
 
 				for (auto i = 0; i < sortedMassModelObjects.size(); i++)
@@ -597,13 +599,13 @@ namespace ace
 						drawMass(i);
 						currentModel = sortedMassModelObjects[i]->ModelPtr;
 						currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
-						offset = i + 1;
+						offset = i;
 					}
 				}
 
 				if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
 				{
-					drawMass(sortedMassModelObjects.size() - 1);
+					drawMass(sortedMassModelObjects.size());
 				}
 			}
 		}
@@ -683,8 +685,9 @@ namespace ace
 					// 大量描画モデル
 					auto drawMass = [&](int32_t current)-> void
 					{
-						auto count = current - offset + 1;
+						auto count = current - offset;
 						sortedMassModelObjects[offset]->Draw(helper, shadowProp, sortedMassModelObjects, offset, count);
+						currentBlock = sortedMassModelObjects[0]->materialPropertyBlock.get();
 					};
 
 					if (sortedMassModelObjects.size() > 0)
@@ -701,13 +704,13 @@ namespace ace
 							drawMass(i);
 							currentModel = sortedMassModelObjects[i]->ModelPtr;
 							currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
-							offset = i + 1;
+							offset = i;
 						}
 					}
 
 					if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
 					{
-						drawMass(sortedMassModelObjects.size() - 1);
+						drawMass(sortedMassModelObjects.size());
 					}
 
 					float intensity = 2.0f;
@@ -973,13 +976,14 @@ namespace ace
 			// 大量描画モデル
 			auto drawMass = [&](int32_t current)-> void
 			{
-				auto count = current - offset + 1;
+				auto count = current - offset;
 				sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
 			};
 
 			if (sortedMassModelObjects.size() > 0)
 			{
 				currentModel = sortedMassModelObjects[0]->ModelPtr;
+				currentBlock = sortedMassModelObjects[0]->materialPropertyBlock.get();
 			}
 
 			for (auto i = 0; i < sortedMassModelObjects.size(); i++)
@@ -991,13 +995,13 @@ namespace ace
 					drawMass(i);
 					currentModel = sortedMassModelObjects[i]->ModelPtr;
 					currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
-					offset = i + 1;
+					offset = i;
 				}
 			}
 
 			if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
 			{
-				drawMass(sortedMassModelObjects.size() - 1);
+				drawMass(sortedMassModelObjects.size());
 			}
 		}
 

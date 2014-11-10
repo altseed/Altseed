@@ -229,11 +229,14 @@ namespace ace
 				auto mat = (Material3D_Imp*) (material.Material_.get());
 
 				// 定数設定
+
+				auto currentP = proxies[offset];
+
 				std::shared_ptr<MaterialPropertyBlock> block;
-				if (materialPropertyBlock.get() != nullptr)
+				if (currentP->materialPropertyBlock.get() != nullptr)
 				{
 					// ユーザー定義ブロック使用
-					block = materialPropertyBlock;
+					block = currentP->materialPropertyBlock;
 				}
 				else
 				{
