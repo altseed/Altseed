@@ -238,7 +238,7 @@ protected:
 		block2->SetTexture2D(ace::ToAString("g_colorTexture").c_str(), gray);
 		block2->SetVector4DF(ace::ToAString("extColor").c_str(), ace::Vector4DF(1.0f, 1.0f, 1.0f, 1.0f));
 
-		//massModel->SetMaterial(mat);
+		massModel->SetMaterial(mat);
 
 		for (int32_t i = -2; i <= 2; i++)
 		{
@@ -255,11 +255,11 @@ protected:
 
 			if (i == -1)
 			{
-				//m->SetMaterialPropertyBlock(block1);
+				m->SetMaterialPropertyBlock(block1);
 			}
 			else
 			{
-				//m->SetMaterialPropertyBlock(block2);
+				m->SetMaterialPropertyBlock(block2);
 			}
 		}
 		
