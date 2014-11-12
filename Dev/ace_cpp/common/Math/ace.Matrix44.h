@@ -43,7 +43,7 @@ public:
 		@brief	単位行列を設定する。
 		@return	このインスタンスへの参照
 	*/
-	Matrix44& SetIndentity();
+	Matrix44& SetIdentity();
 
 	/**
 		@brief	転置行列を設定する。

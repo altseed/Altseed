@@ -16,13 +16,13 @@ namespace ace {
 //----------------------------------------------------------------------------------
 Matrix44::Matrix44()
 {
-	SetIndentity();
+	SetIdentity();
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44& Matrix44::SetIndentity()
+Matrix44& Matrix44::SetIdentity()
 {
 	memset( Values, 0, sizeof(float) * 16 );
 	Values[0][0] = 1.0f;
@@ -348,7 +348,7 @@ Matrix44& Matrix44::SetOrthographicLH(float width, float height, float zn, float
 //----------------------------------------------------------------------------------
 Matrix44& Matrix44::SetTranslation(float x, float y, float z)
 {
-	SetIndentity();
+	SetIdentity();
 	Values[0][3] = x;
 	Values[1][3] = y;
 	Values[2][3] = z;

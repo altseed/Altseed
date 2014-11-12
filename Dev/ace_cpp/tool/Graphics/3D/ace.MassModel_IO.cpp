@@ -160,14 +160,14 @@ namespace ace
 					// ボーンあり
 					for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
 					{
-						boneMatrixes[i].SetIndentity();
+						boneMatrixes[i].SetIdentity();
 						Matrix44::Mul(boneMatrixes[i], localMatrixes[boneConnectors[i].TargetIndex], boneConnectors[i].OffsetMatrix);
 					}
 				}
 				else
 				{
 					// ボーンなし
-					boneMatrixes[0].SetIndentity();
+					boneMatrixes[0].SetIdentity();
 				}
 
 				for (auto j = 0; j < boneMatrixes.size(); j++)
