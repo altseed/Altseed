@@ -27,6 +27,20 @@ namespace ace
 		}
 
 		/// <summary>
+		/// テクスチャを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>テクスチャ</returns>
+		/// <remarks>
+		/// 画素がRGB空間にマッピングされている時に使用する。(ノーマルマップ等)
+		/// </remarks>
+		public Texture2D CreateTexture2DAsRawData(string path)
+		{
+			var texture = graphics.CreateTexture2DAsRawData_Imp(path);
+			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
+		}
+
+		/// <summary>
 		/// 空のテクスチャを生成する。
 		/// </summary>
 		/// <param name="width">横幅</param>

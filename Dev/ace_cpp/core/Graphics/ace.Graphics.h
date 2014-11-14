@@ -21,6 +21,7 @@ class Graphics
 {
 protected:
 	virtual Texture2D* CreateTexture2D_(const achar* path) = 0;
+	virtual Texture2D* CreateTexture2DAsRawData_(const achar* path) = 0;
 	virtual Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
 	virtual RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
 	virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) = 0;
@@ -54,6 +55,15 @@ public:
 	@return	テクスチャ
 	*/
 	std::shared_ptr<Texture2D> CreateTexture2D(const achar* path) { return CreateSharedPtrWithReleaseDLL(CreateTexture2D_(path)); }
+
+	/**
+	@brief	テクスチャを生成する。
+	@param	path	パス
+	@return	テクスチャ
+	@note
+	画素がRGB空間にマッピングされている時に使用する。(ノーマルマップ等)
+	*/
+	std::shared_ptr<Texture2D> CreateTexture2DAsRawData(const achar* path) { return CreateSharedPtrWithReleaseDLL(CreateTexture2DAsRawData_(path)); }
 
 	/**
 	@brief	テクスチャを生成する。

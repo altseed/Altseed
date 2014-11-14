@@ -621,6 +621,16 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 	return ret;
 }
 
+Texture2D_Imp* Graphics_Imp::CreateTexture2DAsRawData_Imp(const achar* path)
+{
+	auto ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
+	{
+		return CreateTexture2DAsRawData_Imp_Internal(this, data, size);
+	});
+
+	return ret;
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

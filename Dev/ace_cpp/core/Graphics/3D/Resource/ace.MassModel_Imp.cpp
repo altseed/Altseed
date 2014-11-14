@@ -96,8 +96,8 @@ namespace ace
 
 		// マテリアル
 		if (io.Material_.ColorTexture != astring()) material.ColorTexture = g->CreateTexture2D(io.Material_.ColorTexture.c_str());
-		if (io.Material_.NormalTexture != astring()) material.NormalTexture = g->CreateTexture2D(io.Material_.NormalTexture.c_str());
-		if (io.Material_.SpecularTexture != astring()) material.SpecularTexture = g->CreateTexture2D(io.Material_.SpecularTexture.c_str());
+		if (io.Material_.NormalTexture != astring()) material.NormalTexture = g->CreateTexture2DAsRawData(io.Material_.NormalTexture.c_str());
+		if (io.Material_.SpecularTexture != astring()) material.SpecularTexture = g->CreateTexture2DAsRawData(io.Material_.SpecularTexture.c_str());
 
 		return true;
 	}

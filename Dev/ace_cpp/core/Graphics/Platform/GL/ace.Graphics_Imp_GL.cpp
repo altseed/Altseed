@@ -42,7 +42,7 @@ namespace ace {
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
-			GL_RGBA,
+			GL_SRGB8_ALPHA8,
 			width,
 			height,
 			0,
@@ -124,6 +124,8 @@ namespace ace {
 	glfwMakeContextCurrent(window_);
 	GLCheckError();
 	
+	glEnable(GL_FRAMEBUFFER_SRGB);
+
 	// 同期しない
 	glfwSwapInterval(0);
 	GLCheckError();
@@ -229,6 +231,7 @@ namespace ace {
 	MakeContextNone();
 	GLCheckError();
 
+	glEnable(GL_FRAMEBUFFER_SRGB);
 
 	CreateContextBeforeThreading(nullptr);
 	GLCheckError();
@@ -809,7 +812,13 @@ End:;
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp_GL::CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
 {
-	auto ret = Texture2D_Imp_GL::Create(this, data, size);
+	auto ret = Texture2D_Imp_GL::Create(this, data, size, true);
+	return ret;
+}
+
+Texture2D_Imp* Graphics_Imp_GL::CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
+{
+	auto ret = Texture2D_Imp_GL::Create(this, data, size, false);
 	return ret;
 }
 

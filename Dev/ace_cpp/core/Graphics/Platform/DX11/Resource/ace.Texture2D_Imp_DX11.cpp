@@ -45,7 +45,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Texture2D_Imp_DX11::GenerateTextureFromInternal()
+	bool Texture2D_Imp_DX11::GenerateTextureFromInternal(bool isSRGB)
 	{
 		ID3D11Texture2D* texture = nullptr;
 		ID3D11ShaderResourceView* srv = nullptr;
@@ -55,7 +55,16 @@ namespace ace {
 		TexDesc.Height = m_internalTextureHeight;
 		TexDesc.MipLevels = 1;
 		TexDesc.ArraySize = 1;
-		TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+		if (isSRGB)
+		{
+			TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+		}
+		else
+		{
+			TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		}
+		
 		TexDesc.SampleDesc.Count = 1;
 		TexDesc.SampleDesc.Quality = 0;
 		TexDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -72,7 +81,15 @@ namespace ace {
 
 		m_size.X = m_internalTextureWidth;
 		m_size.Y = m_internalTextureHeight;
-		m_format = TextureFormat::R8G8B8A8_UNORM;
+
+		if (isSRGB)
+		{
+			m_format = TextureFormat::R8G8B8A8_UNORM_SRGB;
+		}
+		else
+		{
+			m_format = TextureFormat::R8G8B8A8_UNORM;
+		}
 
 		InternalUnload();
 		if (FAILED(hr))
@@ -104,7 +121,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D_Imp_DX11* Texture2D_Imp_DX11::Create(Graphics_Imp_DX11* graphics, uint8_t* data, int32_t size)
+	Texture2D_Imp_DX11* Texture2D_Imp_DX11::Create(Graphics_Imp_DX11* graphics, uint8_t* data, int32_t size, bool isSRGB)
 	{
 		if (size == 0) return nullptr;
 		
@@ -116,7 +133,7 @@ namespace ace {
 			return nullptr;
 		}
 
-		if (!texture->GenerateTextureFromInternal())
+		if (!texture->GenerateTextureFromInternal(isSRGB))
 		{
 			SafeRelease(texture);
 			return nullptr;
@@ -249,7 +266,7 @@ namespace ace {
 			return;
 		}
 		
-		GenerateTextureFromInternal();
+		GenerateTextureFromInternal(m_format == TextureFormat::R8G8B8A8_UNORM_SRGB);
 
 		InternalUnload();
 	}

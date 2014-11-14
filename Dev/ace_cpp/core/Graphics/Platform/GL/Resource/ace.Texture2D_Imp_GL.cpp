@@ -42,7 +42,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Texture2D_Imp_GL::GenerateTextureFromInternal()
+	bool Texture2D_Imp_GL::GenerateTextureFromInternal(bool isSRGB)
 	{
 		GLuint texture = 0;
 		glGenTextures(1, &texture);
@@ -53,18 +53,44 @@ namespace ace {
 
 		glBindTexture(GL_TEXTURE_2D, texture);
 
-		glTexImage2D(
-			GL_TEXTURE_2D, 
-			0, 
-			GL_RGBA,
-			m_internalTextureWidth, 
-			m_internalTextureHeight,
-			0, 
-			GL_RGBA, 
-			GL_UNSIGNED_BYTE, 
-			m_internalTextureData.data());
+		if (isSRGB)
+		{
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_SRGB8_ALPHA8,
+				m_internalTextureWidth,
+				m_internalTextureHeight,
+				0,
+				GL_RGBA,
+				GL_UNSIGNED_BYTE,
+				m_internalTextureData.data());
+		}
+		else
+		{
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_RGBA,
+				m_internalTextureWidth,
+				m_internalTextureHeight,
+				0,
+				GL_RGBA,
+				GL_UNSIGNED_BYTE,
+				m_internalTextureData.data());
+		}
+		
 
 		glBindTexture(GL_TEXTURE_2D, 0);
+
+		if (isSRGB)
+		{
+			m_format = TextureFormat::R8G8B8A8_UNORM_SRGB;
+		}
+		else
+		{
+			m_format = TextureFormat::R8G8B8A8_UNORM;
+		}
 
 		if (glGetError() != GL_NO_ERROR)
 		{
@@ -76,13 +102,15 @@ namespace ace {
 		m_size.X = m_internalTextureWidth;
 		m_size.Y = m_internalTextureHeight;
 
+		InternalUnload();
+
 		return true;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D_Imp_GL* Texture2D_Imp_GL::Create(Graphics_Imp_GL* graphics, uint8_t* data, int32_t size)
+	Texture2D_Imp_GL* Texture2D_Imp_GL::Create(Graphics_Imp_GL* graphics, uint8_t* data, int32_t size, bool isSRGB)
 	{
 		if (size == 0) return nullptr;
 
@@ -94,11 +122,14 @@ namespace ace {
 			return nullptr;
 		}
 
-		if (!texture->GenerateTextureFromInternal())
+		if (!texture->GenerateTextureFromInternal(isSRGB))
 		{
 			SafeRelease(texture);
 			return nullptr;
 		}
+
+		/* 必要ないので消す */
+		texture->InternalUnload();
 
 		return texture;
 	}
@@ -128,7 +159,7 @@ namespace ace {
 			intrenalFormat_ = GL_RGBA32F;
 			type = GL_FLOAT;
 		}
-		else if (format == TextureFormat::R8G8B8A8_UNORM)
+		else if (format == TextureFormat::R8G8B8A8_UNORM_SRGB)
 		{
 			intrenalFormat_ = GL_SRGB8_ALPHA8;
 			type = GL_UNSIGNED_BYTE;
@@ -210,7 +241,7 @@ namespace ace {
 			intrenalFormat_ = GL_RGBA32F;
 			type = GL_FLOAT;
 		}
-		else if (format == TextureFormat::R8G8B8A8_UNORM)
+		else if (format == TextureFormat::R8G8B8A8_UNORM_SRGB)
 		{
 			intrenalFormat_ = GL_SRGB8_ALPHA8;
 			type = GL_UNSIGNED_BYTE;
@@ -249,7 +280,7 @@ namespace ace {
 			return;
 		}
 
-		GenerateTextureFromInternal();
+		GenerateTextureFromInternal(m_format == TextureFormat::R8G8B8A8_UNORM_SRGB);
 
 		InternalUnload();
 	}
