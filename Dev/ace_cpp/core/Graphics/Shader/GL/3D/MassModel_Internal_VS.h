@@ -1,6 +1,6 @@
-static const char* mass_model_internal_vs_gl = R"(
+ï»¿static const char* mass_model_internal_vs_gl = R"(
 
-//<|| ƒ‚ƒfƒ‹‹¤’ÊƒŒƒWƒXƒ^
+//<|| ãƒ¢ãƒ‡ãƒ«å…±é€šãƒ¬ã‚¸ã‚¹ã‚¿
 uniform mat4	matM[32];
 uniform mat4	matC;
 uniform mat4	matP;
@@ -9,7 +9,7 @@ uniform mat4	matP;
 uniform vec4	animationParam0[32];
 uniform vec4	animationParam1[32];
 
-//<|| ƒ‚ƒfƒ‹‹¤’Ê’¸“_“ü—Í
+//<|| ãƒ¢ãƒ‡ãƒ«å…±é€šé ‚ç‚¹å…¥åŠ›
 in vec3 Position;
 in vec3 Normal;
 in vec3 Binormal;
@@ -30,7 +30,7 @@ out vec3 voutNormal;
 out vec3 voutBinormal;
 out vec3 voutTangent;
 
-//<|| ƒ‚ƒfƒ‹‹¤’ÊŠÖ”
+//<|| ãƒ¢ãƒ‡ãƒ«å…±é€šé–¢æ•°
 //||>
 
 
