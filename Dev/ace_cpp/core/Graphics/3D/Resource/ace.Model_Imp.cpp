@@ -188,8 +188,8 @@ namespace ace
 			auto ind = mesh->AddMaterial();
 	
 			if (material.ColorTexture != astring()) mesh->SetColorTexture(ind, g->CreateTexture2D(material.ColorTexture.c_str()).get());
-			if (material.NormalTexture != astring()) mesh->SetNormalTexture(ind, g->CreateTexture2D(material.NormalTexture.c_str()).get());
-			if (material.SpecularTexture != astring()) mesh->SetSpecularTexture(ind, g->CreateTexture2D(material.SpecularTexture.c_str()).get());
+			if (material.NormalTexture != astring()) mesh->SetNormalTexture(ind, g->CreateTexture2DAsRawData(material.NormalTexture.c_str()).get());
+			if (material.SpecularTexture != astring()) mesh->SetSpecularTexture(ind, g->CreateTexture2DAsRawData(material.SpecularTexture.c_str()).get());
 		}
 
 		return mesh;

@@ -7,14 +7,39 @@
 #include "../../Resource/ace.IndexBuffer_Imp.h"
 #include "../../Resource/ace.RenderTexture2D_Imp.h"
 
+#include "../../Resource/ace.Material3D.h"
+#include "../../Resource/ace.Shader3D.h"
+#include "../../Resource/ace.Shader3D_Imp.h"
+
 namespace ace
 {
+	MassModel_Imp::Material::Material()
+	{
+	}
+
+	MassModel_Imp::Material::~Material()
+	{
+	}
+
 	MassModel_Imp::MassModel_Imp()
 	{
 	}
 
 	MassModel_Imp::~MassModel_Imp()
 	{
+	}
+
+	void MassModel_Imp::SetMaterial(Material3D* material)
+	{
+		SafeAddRef(material);
+		auto t = CreateSharedPtrWithReleaseDLL(material);
+		this->material.Material_ = t;
+
+		if (this->material.Material_ != nullptr)
+		{
+			auto shader = (Shader3D_Imp*)(this->material.Material_->GetShader3D().get());
+			shader->CompileMass();
+		}
 	}
 
 	bool MassModel_Imp::Load(Graphics_Imp* g, MassModel_IO& io)
@@ -68,6 +93,11 @@ namespace ace
 		{
 			animationClips[clip.Name] = clip.Index;
 		}
+
+		// マテリアル
+		if (io.Material_.ColorTexture != astring()) material.ColorTexture = g->CreateTexture2D(io.Material_.ColorTexture.c_str());
+		if (io.Material_.NormalTexture != astring()) material.NormalTexture = g->CreateTexture2DAsRawData(io.Material_.NormalTexture.c_str());
+		if (io.Material_.SpecularTexture != astring()) material.SpecularTexture = g->CreateTexture2DAsRawData(io.Material_.SpecularTexture.c_str());
 
 		return true;
 	}

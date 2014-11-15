@@ -13,6 +13,8 @@ namespace ace
 		virtual ~CoreMassModelObject3D(){}
 
 	public:
+		virtual void SetMaterialPropertyBlock(MaterialPropertyBlock* block) = 0;
+
 		virtual void SetModel(MassModel* model) = 0;
 
 		virtual void PlayAnimation(const achar* name) = 0;
@@ -22,5 +24,7 @@ namespace ace
 		virtual void CrossFadeAnimation(const achar* name, float time) = 0;
 
 		virtual bool IsAnimationPlaying() = 0;
+
+
 	};
 }

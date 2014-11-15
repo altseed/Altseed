@@ -148,6 +148,7 @@ namespace ace {
 
 	protected:
 		Texture2D* CreateTexture2D_(const achar* path) { return CreateTexture2D_Imp(path); }
+		Texture2D* CreateTexture2DAsRawData_(const achar* path) { return CreateTexture2DAsRawData_Imp(path); }
 		Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateEmptyTexture2D_Imp(width, height, format); }
 
 		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateRenderTexture2D_Imp(width, height, format); }
@@ -171,6 +172,8 @@ namespace ace {
 			@param	size		データサイズ
 			*/
 		virtual Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
+
+		virtual Texture2D_Imp* CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
 
 		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) = 0;
 
@@ -217,6 +220,13 @@ namespace ace {
 		@return	テクスチャ
 		*/
 		Texture2D_Imp* CreateTexture2D_Imp(const achar* path);
+
+		/**
+		@brief	テクスチャを生成する。
+		@param	path	パス
+		@return	テクスチャ
+		*/
+		Texture2D_Imp* CreateTexture2DAsRawData_Imp(const achar* path);
 
 		/**
 		@brief	空のテクスチャを生成する。

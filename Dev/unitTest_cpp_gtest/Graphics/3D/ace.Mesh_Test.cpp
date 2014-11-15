@@ -292,10 +292,12 @@ void Graphics_Mesh(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, Mesh_DX)
 {
 	Graphics_Mesh(false);
 }
+#endif
 
 TEST(Graphics, Mesh_GL)
 {

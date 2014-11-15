@@ -189,6 +189,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	float4 specularColorAndSmoothness = GetSpecularColorAndSmoothness(uv);
 	float3 specularColor = specularColorAndSmoothness.xyz;
 	float smoothness = specularColorAndSmoothness.w;
+	float ao = g_ssaoTexture.Sample(g_ssaoSampler, uv).x;
 
 #ifdef DIRECTIONAL_LIGHT
 	float4 shadowmapPos = ReconstructShadowmapPosition(cameraPos);
@@ -199,7 +200,6 @@ float4 main( const PS_Input Input ) : SV_Target
 	float2 shadowParam = g_shadowmapTexture.Sample(g_shadowmapSampler, shadowmapUV).xy;
 
 	float shadow = VSM(shadowParam, depth );
-	float ao = g_ssaoTexture.Sample(g_ssaoSampler, uv).x;
 
 	lightColor.xyz += calcDirectionalLightDiffuseColor(diffuseColor, normal, directionalLightDirection, shadow, ao);
 

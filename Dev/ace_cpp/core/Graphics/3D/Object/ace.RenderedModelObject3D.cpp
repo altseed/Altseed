@@ -357,7 +357,7 @@ namespace ace
 					// ボーンあり
 					for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
 					{
-						matM[i].SetIndentity();
+						matM[i].SetIdentity();
 						Matrix44::Mul(matM[i], matrices[boneConnectors[i].TargetIndex], boneConnectors[i].BoneToMesh);
 						Matrix44::Mul(matM[i], GetGlobalMatrix(), matM[i]);
 					}

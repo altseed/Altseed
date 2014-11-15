@@ -71,6 +71,20 @@ namespace ace
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority);
 
+		/**
+		@brief	通常の描画に加えて文字列を描画する。
+		@param	pos					描画位置
+		@param	color				頂点色
+		@param	font				フォント
+		@param	text				文字列
+		@param	writingDirection	行方向
+		@param	alphaBlend		アルファブレンドの種類
+		@param	priority		描画の優先順位(大きいほど前面に描画される)
+		@note
+		OnDrawAdditionallyの中以外では実行してはいけない。
+		*/
+		void DrawTextAdditionally(Vector2DF pos, Color color, std::shared_ptr<Font> font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority);
+
 	public:
 		/**
 			@brief	コンストラクタ

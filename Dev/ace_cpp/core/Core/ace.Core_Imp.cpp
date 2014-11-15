@@ -294,20 +294,27 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	bool Core_Imp::DoEvents()
 	{
-		if (m_isInitializedByExternal) return true;
-
-		assert(m_window != nullptr);
-		assert(m_keyboard != nullptr);
-		assert(m_mouse != nullptr);
-		assert(m_logger != nullptr);
-		assert(m_joystickContainer != nullptr);
+		if (!m_isInitializedByExternal)
+		{
+			assert(m_window != nullptr);
+			assert(m_keyboard != nullptr);
+			assert(m_mouse != nullptr);
+			assert(m_logger != nullptr);
+			assert(m_joystickContainer != nullptr);
+		}
 
 		ControlFPS();
 		ComputeFPS();
 
-		m_keyboard->RefreshInputState();
-		m_mouse->RefreshInputState();
-		m_joystickContainer->RefreshJoysticks();
+		if (m_isInitializedByExternal)
+		{
+		}
+		else
+		{
+			m_keyboard->RefreshInputState();
+			m_mouse->RefreshInputState();
+			m_joystickContainer->RefreshJoysticks();
+		}
 
 		// 経過時間計算
 		{
@@ -327,7 +334,11 @@ namespace ace
 			{
 				deltaTime = delta / (1000.0f) * timeSpan;
 			}
+		}
 
+		if (m_isInitializedByExternal)
+		{
+			return true;
 		}
 
 		return m_window->DoEvent();

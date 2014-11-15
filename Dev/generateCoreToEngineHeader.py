@@ -1,5 +1,13 @@
 import re
 import codecs
+import os
+import os.path
+
+def cd(path):
+	os.chdir(path)
+
+def cdToScript():
+	cd(os.path.dirname(__file__))
 
 class CreateHeader:
 	def __init__(self):
@@ -38,6 +46,8 @@ class CreateHeader:
 		for line in self.lines:
 			f.write(line)
 		f.close()
+
+cdToScript()
 
 fromCoreToEngine = CreateHeader()
 fromCoreToEngine.append('#pragma once')

@@ -11,8 +11,21 @@ namespace ace
 		: public MassModel
 		, public ReferenceObject
 	{
-	private:
+	public:
+		struct Material
+		{
+			std::shared_ptr<Texture2D>	ColorTexture;
+			std::shared_ptr<Texture2D>	NormalTexture;
+			std::shared_ptr<Texture2D>	SpecularTexture;
+			std::shared_ptr<Texture2D>	SmoothnessTexture;
 
+			std::shared_ptr<Material3D>	Material_;
+
+			Material();
+			~Material();
+		};
+
+	private:
 		int32_t					frameSkip = 1;
 		std::vector<int32_t>	frameCount;
 
@@ -23,14 +36,19 @@ namespace ace
 
 		std::shared_ptr<Texture2D>		m_animationTexture;
 
-		
+		Material				material;
+
 	public:
 		MassModel_Imp();
 		virtual ~MassModel_Imp();
 
+		void SetMaterial(Material3D* material) override;
+
 		std::shared_ptr<VertexBuffer_Imp> GetVertexBuffer() { return m_vertexBuffer; }
 		std::shared_ptr<IndexBuffer_Imp> GetIndexBuffer() { return m_indexBuffer; }
 		std::shared_ptr<Texture2D> GetAnimationTexture() { return m_animationTexture; }
+		Material& GetMaterial() { return material; }
+
 		bool Load(Graphics_Imp* g, MassModel_IO& io);
 
 		int32_t GetFrameSkip() { return frameSkip; }

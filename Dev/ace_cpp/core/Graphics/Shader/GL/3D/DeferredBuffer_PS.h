@@ -41,7 +41,7 @@ vec3 GetEnvironment(vec2 uv)
 	return texture(g_environmentTexture, uv).xyz;
 }
 
-vec3 GetAO(float2 uv)
+vec3 GetAO(vec2 uv)
 {
 	float ao = texture(g_ssaoTexture, uv).x;
 	return vec3(ao,ao,ao);

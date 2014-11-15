@@ -35,7 +35,7 @@ namespace ace {
 		TexDesc.Height = height;
 		TexDesc.MipLevels = 1;
 		TexDesc.ArraySize = 1;
-		TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 		TexDesc.SampleDesc.Count = 1;
 		TexDesc.SampleDesc.Quality = 0;
 		TexDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -815,7 +815,8 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	hDXGISwapChainDesc.BufferDesc.Height = height;
 	hDXGISwapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 	hDXGISwapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-	hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	//hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	hDXGISwapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	hDXGISwapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	hDXGISwapChainDesc.SampleDesc.Count = 1;
@@ -942,7 +943,13 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp_DX11::CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
 {
-	auto ret = Texture2D_Imp_DX11::Create(this, data, size);
+	auto ret = Texture2D_Imp_DX11::Create(this, data, size, true);
+	return ret;
+}
+
+Texture2D_Imp* Graphics_Imp_DX11::CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
+{
+	auto ret = Texture2D_Imp_DX11::Create(this, data, size, false);
 	return ret;
 }
 

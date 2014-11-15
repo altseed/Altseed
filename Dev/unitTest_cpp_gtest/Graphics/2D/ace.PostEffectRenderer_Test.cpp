@@ -165,10 +165,12 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, PostEffectRenderer_DX)
 {
 	Graphics_PostEffectRenderer(false);
 }
+#endif
 
 TEST(Graphics, PostEffectRenderer_GL)
 {
