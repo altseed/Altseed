@@ -1,6 +1,7 @@
 
 import aceutils
 import datetime
+import makeDocumentHtml
 
 d = datetime.datetime.today()
 
@@ -75,4 +76,10 @@ aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe', toolDir)
 aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe.config', toolDir)
 aceutils.copy(r'Dev/bin/FontGenerator.Model.dll', toolDir)
 aceutils.copy(r'Dev/bin/FontGeneratorCore.dll', toolDir)
+
+#Document
+
+makeDocumentHtml.make_document_html()
+aceutils.copytree('DocumentHtml',targetDir + '/Document', True)
+aceutils.rmdir('DocumentHtml')
 
