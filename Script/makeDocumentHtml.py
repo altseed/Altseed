@@ -8,7 +8,7 @@ import os.path
 import aceutils
 
 def make_document_html():
-  exclude_ext = [".txt", .psd. .BAK, ]
+  exclude_ext = [".txt", ".psd", ".BAK"]
 
   template="""<!DOCTYPE html>
   <html>
