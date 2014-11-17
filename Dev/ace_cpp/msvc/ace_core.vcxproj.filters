@@ -802,6 +802,12 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\MassModel_Internal_VS.h">
       <Filter>Graphics\Shader\GL\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\ace.Terrain3D_Imp.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\ace.Terrain3D.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1140,6 +1146,9 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreMassModelObject3D_Imp.cpp">
       <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\ace.Terrain3D_Imp.cpp">
+      <Filter>Graphics\3D\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
