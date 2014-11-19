@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "../../../ace.Core.Base.h"
@@ -7,7 +7,7 @@
 namespace ace
 {
 	/**
-	@brief	’nŒ`ƒNƒ‰ƒX
+	@brief	åœ°å½¢ã‚¯ãƒ©ã‚¹
 	*/
 	class Terrain3D
 		: public IReference

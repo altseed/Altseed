@@ -80,11 +80,13 @@ namespace ace {
 	class RenderedDirectionalLightObject3D;
 	class RenderedCameraObject3D;
 	class RenderedMassModelObject3D;
+	class RenderedTerrainObject3D;
 
 	class RenderedObject3DProxy;
 	class RenderedCameraObject3DProxy;
 	class RenderedDirectionalLightObject3DProxy;
 	class RenderedMassModelObject3DProxy;
+	class RenderedTerrainObject3DProxy;
 
 	class Model_Imp;
 	class MassModel_Imp;
