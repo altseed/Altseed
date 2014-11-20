@@ -170,6 +170,12 @@ namespace ace {
 			format_ = GL_RG;
 			type = GL_FLOAT;
 		}
+		else if (format == TextureFormat::R8_UNORM)
+		{
+			intrenalFormat_ = GL_R8;
+			format_ = GL_R;
+			type = GL_UNSIGNED_BYTE;
+		}
 
 		glTexImage2D(
 			GL_TEXTURE_2D,
@@ -251,6 +257,12 @@ namespace ace {
 			intrenalFormat_ = GL_RG16F;
 			format_ = GL_RG;
 			type = GL_FLOAT;
+		}
+		else if (format == TextureFormat::R8_UNORM)
+		{
+			intrenalFormat_ = GL_R8;
+			format_ = GL_R;
+			type = GL_UNSIGNED_BYTE;
 		}
 
 		glTexSubImage2D(

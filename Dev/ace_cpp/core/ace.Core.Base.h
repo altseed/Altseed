@@ -48,6 +48,7 @@ namespace ace {
 
 	class MassModel;
 	class Model;
+	class Terrain3D;
 
 	class Font;
 
@@ -116,6 +117,7 @@ namespace ace {
 		R32G32B32A32_FLOAT = 1,
 		R8G8B8A8_UNORM_SRGB = 2,
 		R16G16_FLOAT = 3,
+		R8_UNORM = 4,
 	};
 
 	enum eTextureClassType
@@ -201,6 +203,7 @@ namespace ace {
 		RENDERED_OBJECT3D_TYPE_EFFECT,
 		RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT,
 		RENDERED_OBJECT3D_TYPE_MASSOBJECT,
+		RENDERED_OBJECT3D_TYPE_TERRAIN,
 	};
 
 	/**

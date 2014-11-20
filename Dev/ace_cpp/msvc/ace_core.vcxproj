@@ -185,6 +185,7 @@
     <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedMassModelObject3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedModelObject3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedObject3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\Object\ace.RenderedTerrainObject3D.h" />
     <ClInclude Include="..\core\Graphics\3D\PostProcess\ace.SSAO.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.EnvironmentRendering.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.LightRendering.h" />
@@ -274,6 +275,8 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\DeferredBuffer_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Environment_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_MassModel_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Terrain_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Terrain_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Light_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_VS.h" />
@@ -286,6 +289,8 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Screen_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Terrain_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Terrain_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GaussianBlur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GrayScale_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h" />
@@ -298,6 +303,8 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\DeferredBuffer_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Environment_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_MassModel_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Terrain_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Terrain_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Light_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Model_Internal_VS.h" />
@@ -308,6 +315,8 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Screen_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\SpriteRenderer3D_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\SpriteRenderer3D_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Terrain_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Terrain_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GaussianBlur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GrayScale_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h" />
@@ -367,6 +376,8 @@
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreObject3D.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreObject3D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreTerrainObject3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreTerrainObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.CoreLayer_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.eChildMode.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.ObjectSystemFactory_Imp.h" />
@@ -422,6 +433,7 @@
     <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedMassModelObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedModelObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedObject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Object\ace.RenderedTerrainObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\PostProcess\ace.SSAO.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.EnvironmentRendering.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.LightRendering.cpp" />
@@ -508,6 +520,7 @@
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreMassModelObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreModelObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreObject3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreTerrainObject3D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.CoreLayer_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.ObjectSystemFactory_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\ace.CoreScene_Imp.cpp" />

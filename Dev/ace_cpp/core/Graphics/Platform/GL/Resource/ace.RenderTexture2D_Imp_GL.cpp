@@ -91,6 +91,19 @@ namespace ace {
 				GL_FLOAT,
 				nullptr);
 		}
+		else if (format == TextureFormat::R8_UNORM)
+		{
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_R8,
+				width,
+				height,
+				0,
+				GL_R,
+				GL_UNSIGNED_BYTE,
+				nullptr);
+		}
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 
