@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "ace.Terrain3D.h"
@@ -31,7 +31,7 @@ namespace ace
 		void AssignTextureWithCircle(int32_t textureIndex, float x, float y, float radius, float value, float fallout);
 
 
-		// IReference‚ğŒp³‚µ‚½ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒgŒü‚¯’è‹`
+		// IReferenceã‚’ç¶™æ‰¿ã—ãŸãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‘ã‘å®šç¾©
 #if !SWIG
 	public:
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
