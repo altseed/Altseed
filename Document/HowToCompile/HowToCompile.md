@@ -109,5 +109,5 @@ Dev/unitTest_Engine_cs.sln
 
 # リリース
 
-Doxygenをインストールします。
+DoxygenとPandocをインストールします。
 ```Script/release.py``` を実行します。現在、Windowsのみ対応しております。
