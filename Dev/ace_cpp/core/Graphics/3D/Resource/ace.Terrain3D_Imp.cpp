@@ -28,6 +28,61 @@ namespace ace
 		Proxy.GridHeightCount = gridHeightCount;
 		Proxy.GridSize = gridSize;
 
+		{
+			Proxy.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), (gridWidthCount + 1) * (gridHeightCount + 1), false);
+			Proxy.IB = g->CreateIndexBuffer_Imp((gridWidthCount) * (gridHeightCount) * 2 * 3, false, true);
+
+			{
+				Proxy.VB->Lock();
+				auto buf = Proxy.VB->GetBuffer<Vertex>((gridWidthCount + 1) * (gridHeightCount + 1));
+				for (auto y = 0; y < gridHeightCount + 1; y++)
+				{
+					for (auto x = 0; x < gridWidthCount + 1; x++)
+					{
+						Vertex v;
+
+						v.Position.X = (x - (gridWidthCount + 1) / 2) * gridSize;
+						v.Position.Y = 0.0f;
+						v.Position.Z = (y - (gridHeightCount + 1) / 2) * gridSize;
+
+						v.Normal.X = 0.0f;
+						v.Normal.Y = 1.0f;
+						v.Normal.Z = 0.0f;
+
+						v.Binormal.X = 0.0f;
+						v.Binormal.Y = 0.0f;
+						v.Binormal.Z = 1.0f;
+
+						v.VColor = Color(0, 0, 0, 255);
+
+						buf[x + y * gridWidthCount] = v;
+					}
+				}
+
+				Proxy.VB->Unlock();
+			}
+
+			{
+				Proxy.IB->Lock();
+				auto buf = Proxy.IB->GetBuffer<int32_t>((gridWidthCount) * (gridHeightCount) * 2 * 3);
+				for (auto y = 0; y < gridHeightCount; y++)
+				{
+					for (auto x = 0; x < gridWidthCount; x++)
+					{
+						auto w = gridWidthCount + 1;
+
+						buf[(x + y * gridWidthCount) * 6 + 0] = (x) +(y) * w;
+						buf[(x + y * gridWidthCount) * 6 + 1] = (x + 1) + (y + 1) * w;
+						buf[(x + y * gridWidthCount) * 6 + 2] = (x + 1) + (y) * w;
+						buf[(x + y * gridWidthCount) * 6 + 3] = (x) +(y) * w;
+						buf[(x + y * gridWidthCount) * 6 + 4] = (x + 1) + (y + 1) * w;
+						buf[(x + y * gridWidthCount) * 6 + 5] = (x) +(y + 1) * w;
+					}
+				}
+				Proxy.IB->Unlock();
+			}
+		}
+
 		Polygons.clear();
 
 		for (auto& kv : surfaceNameToSurface)
@@ -81,12 +136,6 @@ namespace ace
 						v.Binormal.X = 0.0f;
 						v.Binormal.Y = 0.0f;
 						v.Binormal.Z = 1.0f;
-
-						v.BoneIndexes = 0.0f;
-						v.BoneWeights = 0.0f;
-						uint8_t* bi = (uint8_t*) (&(v.BoneIndexes));
-						uint8_t* bw = (uint8_t*) (&(v.BoneWeights));
-						bw[0] = 255;
 
 						v.VColor = Color(255, 255, 255, 255);
 

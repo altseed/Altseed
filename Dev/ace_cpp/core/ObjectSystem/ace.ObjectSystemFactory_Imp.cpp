@@ -14,6 +14,7 @@
 #include "3D/ace.CoreEffectObject3D_Imp.h"
 #include "3D/ace.CoreModelObject3D_Imp.h"
 #include "3D/ace.CoreMassModelObject3D_Imp.h"
+#include "3D/ace.CoreTerrainObject3D_Imp.h"
 
 #include "../Core/ace.Core_Imp.h"
 
@@ -108,6 +109,11 @@ namespace ace
 	CoreMassModelObject3D* ObjectSystemFactory_Imp::CreateCoreMassModelObject3D()
 	{
 		return new CoreMassModelObject3D_Imp(m_graphics);
+	}
+
+	CoreTerrainObject3D* ObjectSystemFactory_Imp::CreateCoreTerrainObject3D()
+	{
+		return new CoreTerrainObject3D_Imp(m_graphics);
 	}
 
 	CoreLayer3D* ObjectSystemFactory_Imp::CreateLayer3D(RenderSettings settings)

@@ -21,8 +21,6 @@ namespace ace
 			Vector2DF	UV1;
 			Vector2DF	UV2;
 			Color		VColor;
-			int32_t		BoneWeights;
-			int32_t		BoneIndexes;
 		};
 
 		struct Face
@@ -49,6 +47,8 @@ namespace ace
 
 		struct
 		{
+			std::shared_ptr<VertexBuffer_Imp> VB;
+			std::shared_ptr<IndexBuffer_Imp> IB;
 			float			GridSize = 0.0f;
 			int32_t			GridWidthCount = 0;
 			int32_t			GridHeightCount = 0;

@@ -109,6 +109,7 @@
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.MassModelObject3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.ModelObject3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.Object3D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\ace.TerrainObject3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\ace.Layer.h" />
     <ClInclude Include="..\engine\ObjectSystem\ace.Scene.h" />
     <ClInclude Include="..\engine\ObjectSystem\Component\ace.Layer2DComponent.h" />
@@ -139,6 +140,7 @@
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.MassModelObject3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.ModelObject3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.Object3D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\ace.TerrainObject3D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\ace.Layer.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\ace.Scene.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\Component\ace.Layer2DComponent.cpp" />

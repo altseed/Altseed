@@ -33,6 +33,7 @@ namespace ace
 		virtual CoreCameraObject3D* CreateCameraObject3D() = 0;
 		virtual CoreDirectionalLightObject3D* CreateDirectionalLightObject3D() = 0;
 		virtual CoreMassModelObject3D* CreateCoreMassModelObject3D() = 0;
+		virtual CoreTerrainObject3D* CreateCoreTerrainObject3D() = 0;
 		virtual CoreLayer3D* CreateLayer3D(RenderSettings settings) = 0;
 
 		virtual CoreScene* CreateScene() = 0;

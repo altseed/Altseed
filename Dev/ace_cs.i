@@ -45,6 +45,7 @@
 #include "Graphics/3D/Resource/ace.Deformer.h"
 #include "Graphics/3D/Resource/ace.Model.h"
 #include "Graphics/3D/Resource/ace.MassModel.h"
+#include "Graphics/3D/Resource/ace.Terrain3D.h"
 
 #include "Graphics/3D/Resource/Animation/ace.AnimationSystem_Imp.h"
 #include "Graphics/3D/Resource/Animation/ace.AnimationClip_Imp.h"
@@ -69,6 +70,8 @@
 #include "ObjectSystem/3D/ace.CoreCameraObject3D.h"
 #include "ObjectSystem/3D/ace.CoreEffectObject3D.h"
 #include "ObjectSystem/3D/ace.CoreMassModelObject3D.h"
+#include "ObjectSystem/3D/ace.CoreTerrainObject3D.h"
+
 #include "ObjectSystem/3D/ace.CoreLayer3D.h"
 
 #include "ObjectSystem/ace.CoreScene.h"
@@ -426,6 +429,7 @@ namespace ace
 %include "ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h"
 %include "ace_cpp/core/Graphics/3D/Resource/ace.Model.h"
 %include "ace_cpp/core/Graphics/3D/Resource/ace.MassModel.h"
+%include "ace_cpp/core/Graphics/3D/Resource/ace.Terrain3D.h"
 
 %include "ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h"
 %include "ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource.h"
@@ -453,6 +457,8 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreEffectObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreMassModelObject3D.h"
+%include "ace_cpp/core/ObjectSystem/3D/ace.CoreTerrainObject3D.h"
+
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.CoreScene.h"

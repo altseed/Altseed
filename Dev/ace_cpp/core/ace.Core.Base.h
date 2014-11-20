@@ -82,6 +82,7 @@ namespace ace {
 	class CoreEffectObject3D;
 	class CoreDirectionalLightObject3D;
 	class CoreMassModelObject3D;
+	class CoreTerrainObject3D;
 
 	class CorePostEffect;
 	class CoreTransition;

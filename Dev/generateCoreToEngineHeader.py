@@ -110,6 +110,7 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Model.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.MassModel.h")
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Terrain3D.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource.h")
@@ -139,6 +140,8 @@ fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLigh
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D.h')
 fromCoreToEngine.readLines("ace_cpp/core/ObjectSystem/3D/ace.CoreEffectObject3D.h")
 fromCoreToEngine.readLines("ace_cpp/core/ObjectSystem/3D/ace.CoreMassModelObject3D.h")
+fromCoreToEngine.readLines("ace_cpp/core/ObjectSystem/3D/ace.CoreTerrainObject3D.h")
+
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D.h')
 
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/PostEffect/ace.CorePostEffect.h')
