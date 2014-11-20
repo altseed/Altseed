@@ -25,18 +25,13 @@ using namespace FontGenerator;
 void Test()
 {
 	Generator gen;
-	auto chars = gen.GetCharactors(ace::ToAString("test.txt"));
-	for (auto& c : chars)
-	{
-		wprintf(L"%c", c);
-	}
-
-
+	auto chars = gen.GetCharactors(ace::ToAString("test2.txt"));
 }
 
 int main()
 {
-	//Test();
+	Test();
+	return 0;
 
 	Generator gen;
 

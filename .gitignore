@@ -185,12 +185,16 @@ $RECYCLE.BIN/
 *.pyc
 
 /Dev/bin/*.png
-/Dev/bin/*.dll
 /Dev/bin/*.exp
 /Dev/bin/*.ilk
 /Dev/bin/*.exe
 /Dev/bin/*.lib
 /Dev/bin/*.XML
+
+/Dev/bin/ace_core.Debug.dll
+/Dev/bin/ace_cs.dll
+/Dev/bin/FontGenerator.Model.dll
+/Dev/bin/FontGeneratorCore.dll
 
 /Dev/lib/ace_common.Debug.lib
 /Dev/lib/ace_core.UnitTest.Debug_Lib.lib
@@ -240,6 +244,7 @@ master.zip
 /Dev/ace_cpp/engine/ace.CoreToEngine.h
 
 /Dev/ace_cs/swig/
+/Dev/FontGenerator/FontGenerator.Model/swig/
 
 /Dev/lib/ace_common.Debug.lib
 /Dev/lib/ace_common.Release.lib
