@@ -32,10 +32,16 @@ namespace ace
 		std::map<astring, SceneComponent::Ptr> m_components;
 		bool alreadyFirstUpdate;
 
+		std::list<LayerPtr> addingLayer;
+		std::list<LayerPtr> removingLayer;
+		bool executing = false;
+
 		void Draw();
 
 		void Update();
 		void UpdateComponents();
+
+		void CommitChanges();
 
 		void CallTransitionFinished();
 		void CallChanging();

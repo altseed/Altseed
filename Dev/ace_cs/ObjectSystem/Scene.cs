@@ -93,6 +93,12 @@ namespace ace
 		/// <param name="layer">追加されるレイヤー</param>
 		public void AddLayer( Layer layer )
 		{
+			if(executing)
+			{
+				addingLayer.AddLast(layer);
+				return;
+			}
+
 			if( layer.Scene != null )
 			{
 				throw new InvalidOperationException( "指定したレイヤーは、既に別のシーンに所属しています。" );
@@ -109,6 +115,12 @@ namespace ace
 		/// <param name="layer">削除されるレイヤー</param>
 		public void RemoveLayer( Layer layer )
 		{
+			if(executing)
+			{
+				removingLayer.AddLast(layer);
+				return;
+			}
+
 			layersToDraw_.Remove( layer );
 			layersToUpdate_.Remove( layer );
 			CoreScene.RemoveLayer( layer.CoreLayer );
@@ -210,6 +222,8 @@ namespace ace
 
 		internal void Update()
 		{
+			executing = true;
+
             if(!alreadyFirstUpdate)
             {
                 OnUpdateForTheFirstTime();
@@ -236,6 +250,10 @@ namespace ace
 			OnUpdated();
 
 			UpdateComponents();
+
+			executing = false;
+
+			CommitChanges();
 		}
 
 		private void UpdateComponents()
@@ -257,8 +275,26 @@ namespace ace
 			}
 		}
 
+		void CommitChanges()
+		{
+			foreach (var layer in addingLayer)
+			{
+				AddLayer(layer);
+			}
+
+			foreach (var layer in removingLayer)
+			{
+				RemoveLayer(layer);
+			}
+
+			addingLayer.Clear();
+			removingLayer.Clear();
+		}
+
 		internal void Draw()
 		{
+			executing = true;
+
 			layersToDraw_.Sort((x, y) => x.DrawingPriority - y.DrawingPriority);
 
 			foreach (var item in layersToDraw_)
@@ -284,6 +320,10 @@ namespace ace
 			}
 
 			CoreScene.EndDrawing();
+
+			executing = false;
+
+			CommitChanges();
 		}
 
 		private List<Layer> layersToDraw_;
@@ -293,5 +333,9 @@ namespace ace
 		private Dictionary<string, SceneComponent> components_;
 
         private bool alreadyFirstUpdate;
+
+		LinkedList<Layer> addingLayer = new LinkedList<Layer>();
+		LinkedList<Layer> removingLayer = new LinkedList<Layer>();
+		bool executing = false;
 	}
 }
