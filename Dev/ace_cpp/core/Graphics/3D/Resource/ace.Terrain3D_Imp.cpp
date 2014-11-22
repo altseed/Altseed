@@ -282,7 +282,7 @@ namespace ace
 				}
 				else
 				{
-					variation = value * (distance - radius * (1.0f - fallout)) / (radius * fallout);
+					variation = value * (1.0f - (distance - radius * (1.0f - fallout)) / (radius * fallout));
 					
 				}
 					

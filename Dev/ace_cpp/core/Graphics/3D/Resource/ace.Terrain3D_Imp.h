@@ -10,7 +10,7 @@ namespace ace
 		, public ReferenceObject
 	{
 	private:
-		const int32_t pixelInGrid = 4;
+		const int32_t pixelInGrid = 8;
 
 	public:
 		struct Vertex

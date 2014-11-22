@@ -303,7 +303,7 @@ namespace ace
 				h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_densityTexture",
-				h::Texture2DPair(polygon->DensityTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
+				h::Texture2DPair(polygon->DensityTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 
 			auto vb = polygon->VB;
 			auto ib = polygon->IB;

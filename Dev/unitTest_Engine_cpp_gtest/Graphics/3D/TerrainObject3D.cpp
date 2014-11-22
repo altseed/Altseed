@@ -14,7 +14,7 @@ protected:
 	{
 		ace::RenderSettings settings;
 		settings.IsLightweightMode = false;
-		settings.VisualizedBuffer = ace::VisualizedBufferType::FinalImage;
+		settings.VisualizedBuffer = ace::VisualizedBufferType::DiffuseColor;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
@@ -39,7 +39,7 @@ protected:
 			ace::ToAString("Data/Texture/Surface/Cloud_Spec.png").c_str());
 
 		auto sf2ind = t->GetSurfaceIndex(ace::ToAString("sf2").c_str());
-		t->AssignSurfaceWithCircle(sf2ind, 0, 0, 2, 255, 1.0);
+		t->AssignSurfaceWithCircle(sf2ind, 0, 0, 2, 255, 0.5);
 
 		auto tObj = std::make_shared<ace::TerrainObject3D>();
 		tObj->SetTerrain(t);
@@ -50,7 +50,7 @@ protected:
 		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Sphere1.mdl").c_str());
 		sphereObj->SetModel(sphereModel);
 		sphereObj->SetPosition(ace::Vector3DF(0.0f, 1.0f, 0.0f));
-		GetLayer3D()->AddObject(sphereObj);
+		//GetLayer3D()->AddObject(sphereObj);
 
 		// 環境
 		auto cubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFrom6ImageFiles(
