@@ -43,6 +43,7 @@ float3x3 convert44to33(float4x4 mat)
 }
 //||>
 
+#ifndef BLACK
 float4 calcLightColor(float3 upDir, float3 normal, float3 lightDir)
 {
 	float4 color = float4(0.0,0.0,0.0,1.0);
@@ -53,6 +54,7 @@ float4 calcLightColor(float3 upDir, float3 normal, float3 lightDir)
 	color.xyz = color.xyz + groundLightColor * max(-NoU+1,0.0) / 2.0;
 	return color;
 }
+#endif
 
 VS_Output main( const VS_Input Input )
 {

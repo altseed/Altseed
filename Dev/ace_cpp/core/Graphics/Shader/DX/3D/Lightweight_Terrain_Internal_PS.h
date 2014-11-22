@@ -5,9 +5,6 @@ Texture2D		g_colorTexture		: register( t0 );
 SamplerState	g_colorSampler		: register( s0 );
 //>||
 
-Texture2D		g_colorTexture		: register( t0 );
-SamplerState	g_colorSampler		: register( s0 );
-
 struct PS_Input
 {
 	float4 SV_Position		: SV_POSITION;

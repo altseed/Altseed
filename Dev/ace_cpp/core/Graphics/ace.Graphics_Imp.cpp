@@ -29,6 +29,7 @@
 #include "3D/Resource/ace.Deformer_Imp.h"
 #include "3D/Resource/ace.Model_Imp.h"
 #include "3D/Resource/ace.MassModel_Imp.h"
+#include "3D/Resource/ace.Terrain3D_Imp.h"
 
 #include <Graphics/3D/ace.Model_IO.h>
 #include <Graphics/3D/ace.MassModel_IO.h>
@@ -772,6 +773,11 @@ MassModel* Graphics_Imp::CreateMassModelFromModelFile_(const achar* path)
 	}
 
 	return massmodel;
+}
+
+Terrain3D* Graphics_Imp::CreateTerrain3D_()
+{
+	return new Terrain3D_Imp(this);
 }
 
 //----------------------------------------------------------------------------------

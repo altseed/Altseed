@@ -12,6 +12,8 @@ namespace ace
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF_ND;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;
+
+		std::shared_ptr<ace::NativeShader_Imp>	m_shaderBlackLightweight;
 		std::shared_ptr<ace::NativeShader_Imp>	m_shaderBlack;
 
 		std::vector<ShaderConstantValue> shaderConstants;

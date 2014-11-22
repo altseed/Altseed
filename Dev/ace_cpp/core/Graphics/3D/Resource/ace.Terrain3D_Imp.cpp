@@ -28,6 +28,9 @@ namespace ace
 		Proxy.GridHeightCount = gridHeightCount;
 		Proxy.GridSize = gridSize;
 
+		if (Proxy.GridWidthCount == 0) return;
+		if (Proxy.GridHeightCount == 0) return;
+
 		{
 			Proxy.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), (gridWidthCount + 1) * (gridHeightCount + 1), false);
 			Proxy.IB = g->CreateIndexBuffer_Imp((gridWidthCount) * (gridHeightCount) * 2 * 3, false, true);
@@ -55,7 +58,7 @@ namespace ace
 
 						v.VColor = Color(0, 0, 0, 255);
 
-						buf[x + y * gridWidthCount] = v;
+						buf[x + y * (gridWidthCount + 1)] = v;
 					}
 				}
 
@@ -72,8 +75,8 @@ namespace ace
 						auto w = gridWidthCount + 1;
 
 						buf[(x + y * gridWidthCount) * 6 + 0] = (x) +(y) * w;
-						buf[(x + y * gridWidthCount) * 6 + 1] = (x + 1) + (y + 1) * w;
-						buf[(x + y * gridWidthCount) * 6 + 2] = (x + 1) + (y) * w;
+						buf[(x + y * gridWidthCount) * 6 + 1] = (x + 1) + (y) * w;
+						buf[(x + y * gridWidthCount) * 6 + 2] = (x + 1) + (y + 1) * w;
 						buf[(x + y * gridWidthCount) * 6 + 3] = (x) +(y) * w;
 						buf[(x + y * gridWidthCount) * 6 + 4] = (x + 1) + (y + 1) * w;
 						buf[(x + y * gridWidthCount) * 6 + 5] = (x) +(y + 1) * w;
@@ -139,7 +142,7 @@ namespace ace
 
 						v.VColor = Color(255, 255, 255, 255);
 
-						buf[x + y * gridWidthCount] = v;
+						buf[x + y * (gridWidthCount+1)] = v;
 					}
 				}
 
@@ -156,8 +159,8 @@ namespace ace
 						auto w = gridWidthCount + 1;
 
 						buf[(x + y * gridWidthCount) * 6 + 0] = (x) +(y) * w;
-						buf[(x + y * gridWidthCount) * 6 + 1] = (x + 1) + (y + 1) * w;
-						buf[(x + y * gridWidthCount) * 6 + 2] = (x + 1) + (y) * w;
+						buf[(x + y * gridWidthCount) * 6 + 1] = (x + 1) + (y) * w;
+						buf[(x + y * gridWidthCount) * 6 + 2] = (x + 1) + (y + 1) * w;
 						buf[(x + y * gridWidthCount) * 6 + 3] = (x) +(y) * w;
 						buf[(x + y * gridWidthCount) * 6 + 4] = (x + 1) + (y + 1) * w;
 						buf[(x + y * gridWidthCount) * 6 + 5] = (x) +(y + 1) * w;

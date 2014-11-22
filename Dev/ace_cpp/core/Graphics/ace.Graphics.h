@@ -39,6 +39,8 @@ protected:
 	virtual Deformer* CreateDeformer_() = 0;
 	virtual Model* CreateModel_(const achar* path) = 0;
 	virtual MassModel* CreateMassModelFromModelFile_(const achar* path) = 0;
+	virtual Terrain3D* CreateTerrain3D_() = 0;
+
 	virtual Effect* CreateEffect_(const achar* path) = 0;
 	virtual Font* CreateFont_(const achar* path) = 0;
 	virtual Chip2D* CreateChip2D_() = 0;
@@ -208,6 +210,16 @@ public:
 	{
 		auto model = CreateMassModelFromModelFile_(path);
 		return CreateSharedPtrWithReleaseDLL(model);
+	}
+
+	/**
+	@brief	地形を生成する。
+	@return	地形
+	*/
+	std::shared_ptr<Terrain3D> CreateTerrain3D()
+	{
+		auto terrain = CreateTerrain3D_();
+		return CreateSharedPtrWithReleaseDLL(terrain);
 	}
 
 	/**

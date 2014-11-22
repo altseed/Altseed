@@ -112,7 +112,32 @@ namespace ace
 
 		{
 			std::vector<ace::Macro> macro;
-			macro.push_back(Macro("EXPORT_DEPTH", "1"));
+			macro.push_back(Macro("BLACK", "1"));
+			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
+			{
+				//m_shaderBlackLightweight = g->GetShaderCache()->CreateFromCode(
+				//	ToAString("Internal.TerrainObject3D.Lightweight.Black").c_str(),
+				//	lightweight_model_internal_vs_gl,
+				//	lightweight_model_internal_ps_gl,
+				//	vl,
+				//	macro);
+			}
+			else
+			{
+				m_shaderBlackLightweight = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.TerrainObject3D.Lightweight.Black").c_str(),
+					lightweight_terrain_internal_vs_dx,
+					lightweight_terrain_internal_ps_dx,
+					vl,
+					macro);
+			}
+
+			assert(m_shaderBlackLightweight != nullptr);
+		}
+
+		{
+			std::vector<ace::Macro> macro;
+			macro.push_back(Macro("BLACK", "1"));
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				//m_shaderBlack = g->GetShaderCache()->CreateFromCode(
@@ -126,8 +151,8 @@ namespace ace
 			{
 				m_shaderBlack = g->GetShaderCache()->CreateFromCode(
 					ToAString("Internal.TerrainObject3D.Black").c_str(),
-					lightweight_terrain_internal_vs_dx,
-					lightweight_terrain_internal_ps_dx,
+					terrain_internal_vs_dx,
+					terrain_internal_ps_dx,
 					vl,
 					macro);
 			}
@@ -148,6 +173,9 @@ namespace ace
 		if (TerrainPtr == nullptr) return;
 		auto terrain = (Terrain3D_Imp*)TerrainPtr;
 
+		if (terrain->Proxy.GridWidthCount == 0) return;
+		if (terrain->Proxy.GridHeightCount == 0) return;
+
 		auto lightDirection = prop.DirectionalLightDirection;
 		Vector3DF lightColor(prop.DirectionalLightColor.R / 255.0f, prop.DirectionalLightColor.G / 255.0f, prop.DirectionalLightColor.B / 255.0f);
 		Vector3DF groudLColor(prop.GroundLightColor.R / 255.0f, prop.GroundLightColor.G / 255.0f, prop.GroundLightColor.B / 255.0f);
@@ -159,7 +187,23 @@ namespace ace
 		{
 			shaderConstants.clear();
 
-			std::shared_ptr<ace::NativeShader_Imp> shader = m_shaderBlack;
+			std::shared_ptr<ace::NativeShader_Imp> shader;
+
+			if (prop.IsLightweightMode)
+			{
+				shader = m_shaderBlackLightweight;
+			}
+			else
+			{
+				if (prop.IsDepthMode)
+				{
+					shader = m_shaderDF_ND;
+				}
+				else
+				{
+					shader = m_shaderBlack;
+				}
+			}
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
@@ -168,11 +212,16 @@ namespace ace
 			auto vb = terrain->Proxy.VB;
 			auto ib = terrain->Proxy.IB;
 
+			ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
+			
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
+				h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
 			RenderState state;
 			state.DepthTest = true;
 			state.DepthWrite = true;
 			state.Culling = CullingType::Front;
-			state.AlphaBlendState = AlphaBlend::Blend;
+			state.AlphaBlendState = AlphaBlend::Opacity;
 
 			helper->DrawWithPtr(
 				ib->GetCount() / 3,
@@ -183,6 +232,8 @@ namespace ace
 				shaderConstants.data(),
 				shaderConstants.size());
 		}
+
+		if (prop.IsDepthMode) return;
 
 		// サーフェース描画
 		for (auto& polygon : terrain->Polygons)
@@ -197,14 +248,7 @@ namespace ace
 			}
 			else
 			{
-				if (prop.IsDepthMode)
-				{
-					shader = m_shaderDF_ND;
-				}
-				else
-				{
-					shader = m_shaderDF;
-				}
+				shader = m_shaderDF;
 			}
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));

@@ -82,7 +82,7 @@ namespace ace
 
 		
 
-		bool isChanged = false;
+		bool isChanged = true;
 
 	public:
 		Terrain3D_Imp(Graphics* graphics);
@@ -92,13 +92,13 @@ namespace ace
 
 		void Commit();
 
-		void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount);
+		void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount) override;
 
-		void AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* specular);
+		void AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* specular) override;
 
-		int32_t GetSurfaceIndex(const achar* name);
+		int32_t GetSurfaceIndex(const achar* name) override;
 
-		void AssignSurfaceWithCircle(int32_t surfaceIndex, float x, float y, float radius, float value, float fallout);
+		void AssignSurfaceWithCircle(int32_t surfaceIndex, float x, float y, float radius, float value, float fallout) override;
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

@@ -85,6 +85,14 @@ PS_Output main( const PS_Input Input )
 	Output.AO_MatID.y = 0;
 	Output.AO_MatID.z = 0;
 	Output.AO_MatID.w = 0;
+
+#ifdef BLACK
+	Output.DiffuseColor = float4(0.0,0.0,0.0,0.0);
+	Output.NormalDepth = float4(0.0,0.0,0.0,0.0);
+	Output.SpecularColor_Smoothness = float4(0.0,0.0,0.0,0.0);
+	Output.AO_MatID = float4(0.0,0.0,0.0,0.0);
+#endif
+
 #endif
 
 	return Output;
