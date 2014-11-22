@@ -13,6 +13,9 @@ SamplerState	g_specularSampler		: register( s2 );
 Texture2D		g_smoothnessTexture		: register( t3 );
 SamplerState	g_smoothnessSampler		: register( s3 );
 
+Texture2D		g_densityTexture		: register( t4 );
+SamplerState	g_densitySampler		: register( s4 );
+
 struct PS_Input
 {
 	float4 SV_Position		: SV_POSITION;
@@ -70,6 +73,7 @@ PS_Output main( const PS_Input Input )
 	Output.Depth.z = 0.0;
 	Output.Depth.w = projDepth;
 #else
+
 	Output.DiffuseColor = diffuseColor;
 
 	Output.NormalDepth.xyz = CalculateNormal( Input.Normal, Input.Tangent, Input.Binormal, g_normalTexture.Sample(g_normalSampler, Input.UV).xyz );
@@ -85,6 +89,12 @@ PS_Output main( const PS_Input Input )
 	Output.AO_MatID.y = 0;
 	Output.AO_MatID.z = 0;
 	Output.AO_MatID.w = 0;
+
+	float density = g_densityTexture.Sample(g_densitySampler, Input.UVSub).x;
+	Output.DiffuseColor = Output.DiffuseColor * density;
+	Output.NormalDepth = Output.NormalDepth * density;
+	Output.SpecularColor_Smoothness = Output.SpecularColor_Smoothness * density;
+	Output.AO_MatID = Output.AO_MatID * density;
 
 #ifdef BLACK
 	Output.DiffuseColor = float4(0.0,0.0,0.0,0.0);

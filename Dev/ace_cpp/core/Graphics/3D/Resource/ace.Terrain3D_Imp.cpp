@@ -196,7 +196,7 @@ namespace ace
 		sf.SpecularPath = specular;
 
 		sf.ColorTexture = m_graphics->CreateTexture2D(color);
-		sf.NormalTexture = m_graphics->CreateTexture2D(normal);
+		sf.NormalTexture = m_graphics->CreateTexture2DAsRawData(normal);
 		sf.SpecularTexture = m_graphics->CreateTexture2D(specular);
 
 		auto it = surfaceNameToIndex.find(name);
@@ -212,9 +212,19 @@ namespace ace
 			surfaces.push_back(std::vector<uint8_t>());
 			surfaces[surfaces.size() - 1].resize((gridWidthCount * pixelInGrid) * (gridHeightCount * pixelInGrid));
 
-			for (auto i = 0; i < (gridWidthCount * pixelInGrid) * (gridHeightCount * pixelInGrid); i++)
+			if (surfaces.size() == 1)
 			{
-				surfaces[surfaces.size() - 1][i] = 0;
+				for (auto i = 0; i < (gridWidthCount * pixelInGrid) * (gridHeightCount * pixelInGrid); i++)
+				{
+					surfaces[surfaces.size() - 1][i] = 255;
+				}
+			}
+			else
+			{
+				for (auto i = 0; i < (gridWidthCount * pixelInGrid) * (gridHeightCount * pixelInGrid); i++)
+				{
+					surfaces[surfaces.size() - 1][i] = 0;
+				}
 			}
 		}
 	}
@@ -239,6 +249,9 @@ namespace ace
 		if (fallout > 1.0f) fallout = 1.0f;
 		if (fallout < 0.0f) fallout = 0.0f;
 
+		x += gridWidthCount * gridSize / 2;
+		y += gridHeightCount * gridSize / 2;
+
 		x *= pixelInGrid;
 		y *= pixelInGrid;
 		radius *= pixelInGrid;
@@ -258,6 +271,9 @@ namespace ace
 
 				// ブラシの値を計算
 				auto distance = sqrt((x_ - x) * (x_ - x) + (y_ - y) * (y_ - y));
+
+				if (distance > radius) continue;
+
 				auto variation = 0.0f;
 
 				if (distance < radius * (1.0f-fallout))

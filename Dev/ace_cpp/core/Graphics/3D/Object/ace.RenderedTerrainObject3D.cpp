@@ -215,7 +215,7 @@ namespace ace
 			ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
 			
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
-				h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+				h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
 
 			RenderState state;
 			state.DepthTest = true;
@@ -286,20 +286,24 @@ namespace ace
 				if (polygon->SpecularTexture != nullptr)
 				{
 					specularTexture = polygon->SpecularTexture.get();
+					//smoothnessTexture = polygon->SpecularTexture.get();
 				}
 			}
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
-				h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+				h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
-				h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+				h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
-				h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+				h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
-				h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+				h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_densityTexture",
+				h::Texture2DPair(polygon->DensityTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
 
 			auto vb = polygon->VB;
 			auto ib = polygon->IB;

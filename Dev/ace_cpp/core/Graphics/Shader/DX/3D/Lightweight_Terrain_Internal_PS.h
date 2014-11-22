@@ -5,6 +5,9 @@ Texture2D		g_colorTexture		: register( t0 );
 SamplerState	g_colorSampler		: register( s0 );
 //>||
 
+Texture2D		g_densityTexture		: register( t4 );
+SamplerState	g_densitySampler		: register( s4 );
+
 struct PS_Input
 {
 	float4 SV_Position		: SV_POSITION;
@@ -27,6 +30,9 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	Output = Output * g_colorTexture.Sample(g_colorSampler, Input.UV);
 	if(Output.a == 0.0f) discard;
+
+	float density = g_densityTexture.Sample(g_densitySampler, Input.UVSub).x;
+	Output = Output * density;
 
 	return Output;
 }

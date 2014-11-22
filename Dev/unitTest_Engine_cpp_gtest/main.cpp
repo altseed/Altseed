@@ -41,7 +41,7 @@ EXTERN_ENGINE_TEST(Graphics, MassModelObject3D)
 EXTERN_ENGINE_TEST(Graphics, LightingStandard)
 EXTERN_ENGINE_TEST(Graphics, ModelObject3DCustomMaterial)
 EXTERN_ENGINE_TEST(Graphics, DrawSpriteAdditionally3D)
-//EXTERN_ENGINE_TEST(Graphics, TerrainObject3D)
+EXTERN_ENGINE_TEST(Graphics, TerrainObject3D)
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
 
