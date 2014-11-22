@@ -408,7 +408,11 @@ void Graphics_Imp_DX11::GenerateRenderStates()
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ZERO;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-
+			case (int32_t) AlphaBlend::AddAll:
+				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
+				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ONE;
+				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
+				break;
 			}
 		}
 

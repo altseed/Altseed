@@ -220,6 +220,17 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 地形を生成する。
+		/// </summary>
+		/// <returns>地形</returns>
+		public Terrain3D CreateTerrain3D()
+		{
+			var terrain = graphics.CreateTerrain3D_();
+			if (terrain == null) return null;
+			return GC.GenerateTerrain3D(terrain, GC.GenerationType.Create);
+		}
+
+		/// <summary>
 		/// エフェクトを生成する。
 		/// </summary>
 		/// <param name="path">パス</param>

@@ -40,12 +40,12 @@ namespace ace
 			std::vector<ace::Macro> macro;
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				//m_shaderLightweight = g->GetShaderCache()->CreateFromCode(
-				//	ToAString("Internal.TerrainObject3D.Lightweight").c_str(),
-				//	lightweight_model_internal_vs_gl,
-				//	lightweight_model_internal_ps_gl,
-				//	vl,
-				//	macro);
+				m_shaderLightweight = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.TerrainObject3D.Lightweight").c_str(),
+					lightweight_terrain_internal_vs_gl,
+					lightweight_terrain_internal_ps_gl,
+					vl,
+					macro);
 			}
 			else
 			{
@@ -64,12 +64,12 @@ namespace ace
 			std::vector<ace::Macro> macro;
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				//m_shaderDF = g->GetShaderCache()->CreateFromCode(
-				//	ToAString("Internal.TerrainObject3D.DF").c_str(),
-				//	model_internal_vs_gl,
-				//	model_internal_ps_gl,
-				//	vl,
-				//	macro);
+				m_shaderDF = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.TerrainObject3D.DF").c_str(),
+					terrain_internal_vs_gl,
+					terrain_internal_ps_gl,
+					vl,
+					macro);
 			}
 			else
 			{
@@ -90,12 +90,12 @@ namespace ace
 
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				//m_shaderDF_ND = g->GetShaderCache()->CreateFromCode(
-				//	ToAString("Internal.TerrainObject3D.DF.ND").c_str(),
-				//	model_internal_vs_gl,
-				//	model_internal_ps_gl,
-				//	vl,
-				//	macro);
+				m_shaderDF_ND = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.TerrainObject3D.DF.ND").c_str(),
+					terrain_internal_vs_gl,
+					terrain_internal_ps_gl,
+					vl,
+					macro);
 			}
 			else
 			{
@@ -115,12 +115,12 @@ namespace ace
 			macro.push_back(Macro("BLACK", "1"));
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				//m_shaderBlackLightweight = g->GetShaderCache()->CreateFromCode(
-				//	ToAString("Internal.TerrainObject3D.Lightweight.Black").c_str(),
-				//	lightweight_model_internal_vs_gl,
-				//	lightweight_model_internal_ps_gl,
-				//	vl,
-				//	macro);
+				m_shaderBlackLightweight = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.TerrainObject3D.Lightweight.Black").c_str(),
+					lightweight_terrain_internal_vs_gl,
+					lightweight_terrain_internal_ps_gl,
+					vl,
+					macro);
 			}
 			else
 			{
@@ -140,12 +140,12 @@ namespace ace
 			macro.push_back(Macro("BLACK", "1"));
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				//m_shaderBlack = g->GetShaderCache()->CreateFromCode(
-				//	ToAString("Internal.TerrainObject3D.Black").c_str(),
-				//	lightweight_model_internal_vs_gl,
-				//	lightweight_model_internal_ps_gl,
-				//	vl,
-				//	macro);
+				m_shaderBlack = g->GetShaderCache()->CreateFromCode(
+					ToAString("Internal.TerrainObject3D.Black").c_str(),
+					lightweight_terrain_internal_vs_gl,
+					lightweight_terrain_internal_ps_gl,
+					vl,
+					macro);
 			}
 			else
 			{
@@ -312,7 +312,7 @@ namespace ace
 			state.DepthTest = true;
 			state.DepthWrite = true;
 			state.Culling = CullingType::Front;
-			state.AlphaBlendState = AlphaBlend::Add;
+			state.AlphaBlendState = AlphaBlend::AddAll;
 
 			helper->DrawWithPtr(
 				ib->GetCount() / 3,

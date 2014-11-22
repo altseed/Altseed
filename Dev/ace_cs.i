@@ -314,6 +314,7 @@ CPP_OBJECT( ace::Mesh )
 CPP_OBJECT( ace::Deformer )
 CPP_OBJECT( ace::Model )
 CPP_OBJECT( ace::MassModel )
+CPP_OBJECT( ace::Terrain3D )
 
 CPP_OBJECT( ace::KeyframeAnimation )
 CPP_OBJECT( ace::AnimationSource )

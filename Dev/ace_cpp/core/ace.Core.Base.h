@@ -155,6 +155,10 @@ namespace ace {
 		/// 乗算
 		/// </summary>
 		Mul = 4,
+		/// <summary>
+		/// 全加算(内部処理用)
+		/// </summary>
+		AddAll = 5,
 	};
 
 	enum class TextureFilterType : int32_t

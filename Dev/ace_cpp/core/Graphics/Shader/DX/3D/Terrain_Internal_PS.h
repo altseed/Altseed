@@ -92,13 +92,13 @@ PS_Output main( const PS_Input Input )
 
 	float density = g_densityTexture.Sample(g_densitySampler, Input.UVSub).x;
 	Output.DiffuseColor = Output.DiffuseColor * density;
-	Output.NormalDepth = Output.NormalDepth * density;
+	Output.NormalDepth.xyz = Output.NormalDepth.xyz * density;
 	Output.SpecularColor_Smoothness = Output.SpecularColor_Smoothness * density;
 	Output.AO_MatID = Output.AO_MatID * density;
 
 #ifdef BLACK
 	Output.DiffuseColor = float4(0.0,0.0,0.0,0.0);
-	Output.NormalDepth = float4(0.0,0.0,0.0,0.0);
+	Output.NormalDepth.xyz = float3(0.0,0.0,0.0);
 	Output.SpecularColor_Smoothness = float4(0.0,0.0,0.0,0.0);
 	Output.AO_MatID = float4(0.0,0.0,0.0,0.0);
 #endif

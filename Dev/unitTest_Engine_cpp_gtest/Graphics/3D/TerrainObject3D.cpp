@@ -6,7 +6,7 @@ class Graphics_TerrainObject3D : public EngineGraphics3DTest
 public:
 
 	Graphics_TerrainObject3D(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("TerrainObject3D"), isOpenGLMode, 20000, true)
+		EngineGraphics3DTest(ace::ToAString("TerrainObject3D"), isOpenGLMode, 20, true)
 	{}
 
 protected:
@@ -14,7 +14,7 @@ protected:
 	{
 		ace::RenderSettings settings;
 		settings.IsLightweightMode = false;
-		settings.VisualizedBuffer = ace::VisualizedBufferType::DiffuseColor;
+		//settings.VisualizedBuffer = ace::VisualizedBufferType::SpecularColor;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
@@ -44,13 +44,6 @@ protected:
 		auto tObj = std::make_shared<ace::TerrainObject3D>();
 		tObj->SetTerrain(t);
 		GetLayer3D()->AddObject(tObj);
-
-		// 球
-		auto sphereObj = std::make_shared<ace::ModelObject3D>();
-		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Sphere1.mdl").c_str());
-		sphereObj->SetModel(sphereModel);
-		sphereObj->SetPosition(ace::Vector3DF(0.0f, 1.0f, 0.0f));
-		//GetLayer3D()->AddObject(sphereObj);
 
 		// 環境
 		auto cubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFrom6ImageFiles(
@@ -84,4 +77,4 @@ protected:
 	}
 };
 
-//ENGINE_TEST(Graphics, TerrainObject3D)
+ENGINE_TEST(Graphics, TerrainObject3D)

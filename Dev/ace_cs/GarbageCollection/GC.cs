@@ -29,6 +29,7 @@ namespace ace
 		internal static IDObjectContainer<Deformer> Deformers { get; private set; }
 		internal static IDObjectContainer<Model> Models { get; private set; }
 		internal static IDObjectContainer<MassModel> MassModels { get; private set; }
+		internal static IDObjectContainer<Terrain3D> Terrain3Ds { get; private set; }
 
 		internal static IDObjectContainer<KeyframeAnimation> KeyframeAnimations { get; private set; }
 		internal static IDObjectContainer<AnimationSource> AnimationSources { get; private set; }
@@ -68,6 +69,8 @@ namespace ace
 			Meshs = new IDObjectContainer<Mesh>();
 			Deformers = new IDObjectContainer<Deformer>();
 			Models = new IDObjectContainer<Model>();
+			MassModels = new IDObjectContainer<MassModel>();
+			Terrain3Ds = new IDObjectContainer<Terrain3D>();
 
 			KeyframeAnimations = new IDObjectContainer<KeyframeAnimation>();
 			AnimationSources = new IDObjectContainer<AnimationSource>();
@@ -113,7 +116,9 @@ namespace ace
 				Meshs.DestroyAll();
 				Deformers.DestroyAll();
 				Models.DestroyAll();
-                
+				MassModels.DestroyAll();
+				Terrain3Ds.DestroyAll();
+
 				KeyframeAnimations.DestroyAll();
 				AnimationSources.DestroyAll();
 
@@ -400,6 +405,25 @@ namespace ace
 
 			var ret = new MassModel(o);
 			GC.MassModels.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static Terrain3D GenerateTerrain3D(swig.Terrain3D o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.Terrain3Ds.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new Terrain3D(o);
+			GC.Terrain3Ds.AddObject(p, ret);
 			return ret;
 		}
 

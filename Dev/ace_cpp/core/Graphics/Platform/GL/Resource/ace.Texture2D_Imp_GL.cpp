@@ -172,8 +172,8 @@ namespace ace {
 		}
 		else if (format == TextureFormat::R8_UNORM)
 		{
-			intrenalFormat_ = GL_R8;
-			format_ = GL_R;
+			intrenalFormat_ = GL_LUMINANCE;
+			format_ = GL_LUMINANCE;
 			type = GL_UNSIGNED_BYTE;
 		}
 
@@ -260,8 +260,8 @@ namespace ace {
 		}
 		else if (format == TextureFormat::R8_UNORM)
 		{
-			intrenalFormat_ = GL_R8;
-			format_ = GL_R;
+			intrenalFormat_ = GL_LUMINANCE;
+			format_ = GL_LUMINANCE;
 			type = GL_UNSIGNED_BYTE;
 		}
 

@@ -940,6 +940,10 @@ void Graphics_Imp_GL::CommitRenderState(bool forced)
 				{
 					glBlendFuncSeparate(GL_ZERO, GL_SRC_COLOR, GL_ONE, GL_ONE);
 				}
+				else if (next.AlphaBlendState == AlphaBlend::AddAll)
+				{
+					glBlendFuncSeparate(GL_ONE, GL_ONE, GL_ONE, GL_ONE);
+				}
 			}
 		}
 	}

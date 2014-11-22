@@ -13,9 +13,9 @@ namespace unitTest_Engine_cs
 		static void Main( string[] args )
 		{
 			
-            //TestSequencially( new Graphics._3D.DrawSpriteAdditionally3D() );
-			//Console.ReadKey();
-			//return;
+            TestSequencially( new Graphics._3D.TerrainObject3D() );
+			Console.ReadKey();
+			return;
 			
 
             TestAll();
