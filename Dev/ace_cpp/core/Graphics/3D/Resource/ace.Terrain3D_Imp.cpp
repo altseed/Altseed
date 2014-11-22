@@ -5,6 +5,10 @@
 #include "../../Resource/ace.VertexBuffer_Imp.h"
 #include "../../Resource/ace.IndexBuffer_Imp.h"
 
+#include "../../Resource/ace.Material3D.h"
+#include "../../Resource/ace.Shader3D.h"
+#include "../../Resource/ace.Shader3D_Imp.h"
+
 namespace ace
 {
 	Terrain3D_Imp::Terrain3D_Imp(Graphics* graphics)
@@ -27,6 +31,7 @@ namespace ace
 		Proxy.GridWidthCount = gridWidthCount;
 		Proxy.GridHeightCount = gridHeightCount;
 		Proxy.GridSize = gridSize;
+		Proxy.Material_ = material_;
 
 		if (Proxy.GridWidthCount == 0) return;
 		if (Proxy.GridHeightCount == 0) return;
@@ -322,6 +327,21 @@ namespace ace
 
 				surfaces[surfaceIndex][ind] = 255 - sum;
 			}
+		}
+
+		isChanged = true;
+	}
+
+	void Terrain3D_Imp::SetMaterial(Material3D* material)
+	{
+		SafeAddRef(material);
+		auto t = CreateSharedPtrWithReleaseDLL(material);
+		material_ = t;
+
+		if (material_ != nullptr)
+		{
+			auto shader = (Shader3D_Imp*) (material_->GetShader3D().get());
+			shader->CompileTerrain();
 		}
 
 		isChanged = true;

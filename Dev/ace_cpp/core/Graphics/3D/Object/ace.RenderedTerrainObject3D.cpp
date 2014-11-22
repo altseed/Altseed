@@ -9,6 +9,9 @@
 
 #include "../../Resource/ace.ShaderCache.h"
 #include "../../Resource/ace.IndexBuffer_Imp.h"
+#include "../../Resource/ace.MaterialPropertyBlock_Imp.h"
+#include "../../Resource/ace.Shader3D_Imp.h"
+#include "../../Resource/ace.Material3D_Imp.h"
 
 #include "../../Shader/DX/3D/Lightweight_Terrain_Internal_VS.h"
 #include "../../Shader/DX/3D/Lightweight_Terrain_Internal_PS.h"
@@ -242,14 +245,31 @@ namespace ace
 
 			std::shared_ptr<ace::NativeShader_Imp> shader;
 
-			if (prop.IsLightweightMode)
+			if (terrain->Proxy.Material_ != nullptr)
 			{
-				shader = m_shaderLightweight;
+				auto shader_ = (Shader3D_Imp*) terrain->Proxy.Material_->GetShader3D().get();
+
+				if (prop.IsLightweightMode)
+				{
+					shader = shader_->GetNativeShaderTerrainLight();
+				}
+				else
+				{
+					shader = shader_->GetNativeShaderTerrain();
+				}
 			}
 			else
 			{
-				shader = m_shaderDF;
+				if (prop.IsLightweightMode)
+				{
+					shader = m_shaderLightweight;
+				}
+				else
+				{
+					shader = m_shaderDF;
+				}
 			}
+			
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
@@ -265,6 +285,10 @@ namespace ace
 			else
 			{
 			}
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_densityTexture",
+				h::Texture2DPair(polygon->DensityTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+
 
 			ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
 			ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
@@ -302,8 +326,26 @@ namespace ace
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
 				h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
 
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_densityTexture",
-				h::Texture2DPair(polygon->DensityTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+			if (terrain->Proxy.Material_ != nullptr)
+			{
+				auto mat = (Material3D_Imp*) (terrain->Proxy.Material_.get());
+
+				std::shared_ptr<MaterialPropertyBlock> block;
+				if (materialPropertyBlock.get() != nullptr)
+				{
+					// ユーザー定義ブロック使用
+					block = materialPropertyBlock;
+				}
+				else
+				{
+					block = mat->GetMaterialPropertyBlock();
+				}
+
+				((MaterialPropertyBlock_Imp*) block.get())->AddValuesTo(shader.get(), shaderConstants);
+			}
+			else
+			{
+			}
 
 			auto vb = polygon->VB;
 			auto ib = polygon->IB;
@@ -337,6 +379,12 @@ namespace ace
 		SafeRelease(proxy);
 	}
 
+	void RenderedTerrainObject3D::SetMaterialPropertyBlock(MaterialPropertyBlock* block)
+	{
+		SafeAddRef(block);
+		materialPropertyBlock = CreateSharedPtrWithReleaseDLL(block);
+	}
+
 	void RenderedTerrainObject3D::SetTerrain(Terrain3D* terrain)
 	{
 		SafeSubstitute(this->terrain, terrain);
@@ -350,5 +398,7 @@ namespace ace
 		t->Commit();
 
 		SafeSubstitute(proxy->TerrainPtr, terrain);
+
+		proxy->materialPropertyBlock = materialPropertyBlock;
 	}
 }

@@ -37,5 +37,17 @@ namespace ace
 		{
 			coreObject.SetTerrain(IG.GetTerrain3D(terrain));
 		}
+
+		/// <summary>
+		/// 材質個別に描画時のパラメーターを設定する。
+		/// </summary>
+		/// <param name="block">プロパティ</param>
+		/// <remarks>
+		/// 通常描画する場合、材質に設定されたパラメーターを元に描画するがモデルごとに個別のパラメーターを使用する場合、この関数を使用する。
+		/// </remarks>
+		public void SetMaterialPropertyBlock(MaterialPropertyBlock block)
+		{
+			coreObject.SetMaterialPropertyBlock(IG.GetMaterialPropertyBlock(block));
+		}
 	}
 }

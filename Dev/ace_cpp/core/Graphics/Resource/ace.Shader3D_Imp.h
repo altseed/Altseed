@@ -39,6 +39,9 @@ namespace ace {
 		std::shared_ptr<NativeShader_Imp>	mass_shader_depth;
 		std::shared_ptr<NativeShader_Imp>	mass_shader_light_depth;
 
+		std::shared_ptr<NativeShader_Imp>	terrain_shader;
+		std::shared_ptr<NativeShader_Imp>	terrain_shader_light;
+
 		Shader3D_Imp(
 			Graphics* graphics,
 			std::shared_ptr<NativeShader_Imp> shader,
@@ -56,6 +59,7 @@ namespace ace {
 			Log* log);
 
 		void CompileMass();
+		void CompileTerrain();
 
 #if !SWIG
 		std::shared_ptr<NativeShader_Imp> GetNativeShader() { return shader; }
@@ -67,6 +71,9 @@ namespace ace {
 		std::shared_ptr<NativeShader_Imp> GetNativeShaderMassLight() { return mass_shader_light; }
 		std::shared_ptr<NativeShader_Imp> GetNativeShaderMassDepth() { return mass_shader_depth; }
 		std::shared_ptr<NativeShader_Imp> GetNativeShaderMassLightDepth() { return mass_shader_light_depth; }
+
+		std::shared_ptr<NativeShader_Imp> GetNativeShaderTerrain() { return terrain_shader; }
+		std::shared_ptr<NativeShader_Imp> GetNativeShaderTerrainLight() { return terrain_shader_light; }
 #endif
 
 		// IReferenceを継承したデバイスオブジェクト向け定義

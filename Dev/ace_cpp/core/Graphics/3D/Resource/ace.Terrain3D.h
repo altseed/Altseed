@@ -54,5 +54,21 @@ namespace ace
 		*/
 		virtual void AssignSurfaceWithCircle(int32_t surfaceIndex, float x, float y, float radius, float value, float fallout) = 0;
 
+		/**
+		@brief	材質を設定する。
+		@param	material		材質
+		*/
+		virtual void SetMaterial(Material3D* material) = 0;
+
+#if !SWIG
+		/**
+		@brief	材質を設定する。
+		@param	material		材質
+		*/
+		void SetMaterial(std::shared_ptr<Material3D> material)
+		{
+			SetMaterial(material.get());
+		}
+#endif
 	};
 }

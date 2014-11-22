@@ -52,6 +52,7 @@ namespace ace
 			float			GridSize = 0.0f;
 			int32_t			GridWidthCount = 0;
 			int32_t			GridHeightCount = 0;
+			std::shared_ptr<Material3D>	Material_;
 		} Proxy;
 
 	private:
@@ -80,7 +81,7 @@ namespace ace
 		std::map<astring, int32_t>			surfaceNameToIndex;
 		std::map<astring, Surface>			surfaceNameToSurface;
 
-		
+		std::shared_ptr<Material3D>			material_;
 
 		bool isChanged = true;
 
@@ -99,6 +100,8 @@ namespace ace
 		int32_t GetSurfaceIndex(const achar* name) override;
 
 		void AssignSurfaceWithCircle(int32_t surfaceIndex, float x, float y, float radius, float value, float fallout) override;
+
+		void SetMaterial(Material3D* material) override;
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

@@ -20,4 +20,9 @@ namespace ace
 	{
 		m_coreObject->SetTerrain(terrain.get());
 	}
+
+	void TerrainObject3D::SetMaterialPropertyBlock(std::shared_ptr<MaterialPropertyBlock> block)
+	{
+		m_coreObject->SetMaterialPropertyBlock(block.get());
+	}
 }

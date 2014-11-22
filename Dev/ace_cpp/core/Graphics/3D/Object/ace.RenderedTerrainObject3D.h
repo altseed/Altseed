@@ -24,6 +24,8 @@ namespace ace
 
 		Terrain3D* TerrainPtr = nullptr;
 			
+		std::shared_ptr<MaterialPropertyBlock>	materialPropertyBlock;
+
 		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
 	};
 
@@ -40,9 +42,13 @@ namespace ace
 
 		Terrain3D*	terrain = nullptr;
 
+		std::shared_ptr<MaterialPropertyBlock>	materialPropertyBlock;
+
 	public:
 		RenderedTerrainObject3D(Graphics* graphics);
 		virtual ~RenderedTerrainObject3D();
+
+		void SetMaterialPropertyBlock(MaterialPropertyBlock* block);
 
 		void SetTerrain(Terrain3D* terrain);
 

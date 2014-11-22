@@ -93,5 +93,14 @@ namespace ace
 		{
 			SwigObject.AssignSurfaceWithCircle(surfaceIndex, x, y, radius, value, fallout);
 		}
+
+		/// <summary>
+		/// 材質を設定する。
+		/// </summary>
+		/// <param name="material">材質</param>
+		public void SetMaterial(int materialIndex, Material3D material)
+		{
+			SwigObject.SetMaterial(IG.GetMaterial3D(material));
+		}
 	}
 }

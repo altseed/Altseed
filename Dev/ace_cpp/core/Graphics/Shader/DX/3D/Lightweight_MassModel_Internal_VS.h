@@ -37,6 +37,7 @@ struct VS_Output
 	float4 Position			: POSITION0;
 	float4 Color			: Color0;
 	half2 UV				: TEXCOORD0;
+	half2 UVSub				: UVSub0;
 	half3 Normal			: NORMAL0;
 };
 
@@ -128,6 +129,7 @@ VS_Output main( const VS_Input Input )
 	Output.Position = Output.SV_Position;
 	Output.Normal = (half3)cNormal.xyz;
 	Output.UV = Input.UV;
+	Output.UVSub = Input.UVSub;
 	Output.Color = Input.Color * calcLightColor(upDir,cNormal,cDirectionalLightDirection);
 
 	return Output;
