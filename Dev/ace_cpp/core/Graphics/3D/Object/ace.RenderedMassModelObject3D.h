@@ -55,7 +55,11 @@ namespace ace
 		float					animationTime0 = 0.0;
 		float					animationTime1 = 0.0;
 		float					animationWeight = 0.0f;
-		bool					isAnimationPlaying = false;
+		bool					isAnimationPlaying0 = false;
+		bool					isAnimationPlaying1 = false;
+
+		bool					isFading = false;
+		float					variation = 0.0f;
 
 		std::shared_ptr<MaterialPropertyBlock>	materialPropertyBlock;
 

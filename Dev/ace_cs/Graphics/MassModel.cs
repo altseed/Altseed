@@ -47,6 +47,27 @@ namespace ace
 		}
 
 		/// <summary>
+		/// ループするかを取得する。
+		/// </summary>
+		/// <param name="name">アニメーション名</param>
+		/// <returns>ループするか?</returns>
+		public bool GetIsLoopingMode(string name)
+		{
+			return SwigObject.GetIsLoopingMode(name);
+		}
+
+		/// <summary>
+		/// ループするかを設定する。
+		/// </summary>
+		/// <param name="name">アニメーション名</param>
+		/// <param name="isLoopingMode">ループするか?</param>
+		/// <returns></returns>
+		public void SetIsLoopingMode(string name, bool isLoopingMode)
+		{
+			SwigObject.SetIsLoopingMode(name, isLoopingMode);
+		}
+
+		/// <summary>
 		/// 材質を設定する。
 		/// </summary>
 		/// <param name="material">材質</param>

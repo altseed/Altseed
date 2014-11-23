@@ -60,7 +60,6 @@ namespace ace
 		}
 
 		AnimationTexture.AnimationCount = model.AnimationSources.size();
-		AnimationTexture.FrameSkip = 1;
 
 		for (auto& as : model.AnimationSources)
 		{

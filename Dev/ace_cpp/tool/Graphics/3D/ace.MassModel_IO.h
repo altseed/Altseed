@@ -60,7 +60,6 @@ namespace ace
 		struct AnimationTexture
 		{
 			int32_t	AnimationCount;
-			int32_t	FrameSkip;
 			std::vector<int32_t> FrameCount;
 			int32_t	TextureWidth;
 			int32_t	TextureHeight;
