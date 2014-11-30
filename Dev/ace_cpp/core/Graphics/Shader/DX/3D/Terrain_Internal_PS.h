@@ -101,6 +101,8 @@ PS_Output main( const PS_Input Input )
 	Output.NormalDepth.xyz = float3(0.0,0.0,0.0);
 	Output.SpecularColor_Smoothness = float4(0.0,0.0,0.0,0.0);
 	Output.AO_MatID = float4(0.0,0.0,0.0,0.0);
+#else
+	Output.NormalDepth.w = 0.0;
 #endif
 
 #endif

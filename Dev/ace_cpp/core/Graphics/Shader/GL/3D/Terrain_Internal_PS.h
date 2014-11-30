@@ -100,6 +100,8 @@ void main()
 	NormalDepth.xyz = vec3(0.0,0.0,0.0);
 	SpecularColor_Smoothness = vec4(0.0,0.0,0.0,0.0);
 	AO_MatID = vec4(0.0,0.0,0.0,0.0);
+#else
+	NormalDepth.w = 0.0;
 #endif
 
 #endif
