@@ -131,8 +131,8 @@ namespace ace
 						v.Position.Y = 0.0f;
 						v.Position.Z = (y - (gridHeightCount + 1) / 2) * gridSize;
 
-						v.UV1.X = x / kv.second.Size;
-						v.UV1.Y = y / kv.second.Size;
+						v.UV1.X = x * gridSize / kv.second.Size;
+						v.UV1.Y = y * gridSize / kv.second.Size;
 
 						v.UV2.X = (float) x / (float) (gridWidthCount);
 						v.UV2.Y = (float) y / (float) (gridHeightCount);
