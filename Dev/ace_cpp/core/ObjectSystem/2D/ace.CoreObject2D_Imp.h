@@ -4,6 +4,13 @@
 #include "ace.CoreObject2D.h"
 #include "ace.ObjectInfo2D.h"
 #include "ace.TransformInfo2D.h"
+#include <Culling2D.h>
+
+#if _DEBUG
+#pragma comment(lib,"Debug/Culling2D.lib")
+#else
+#pragma comment(lib,"Release/Culling2D.lib")
+#endif
 
 #include "../../ace.ReferenceObject.h"
 
@@ -58,7 +65,12 @@ namespace ace
 		ObjectInfo2D	m_objectInfo;
 		TransformInfo2D m_transform;
 		Graphics_Imp*	m_graphics;
-		
+		culling2d::Circle m_boundingCircle;
+
+		virtual void CalculateBoundingCircle()
+		{
+
+		}
 	public:
 		CoreObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreObject2D_Imp();
@@ -90,6 +102,7 @@ namespace ace
 		void SetPosition(Vector2DF value)
 		{
 			m_transform.SetPosition(value);
+			CalculateBoundingCircle();
 		}
 
 		Vector2DF GetGlobalPosition()
@@ -104,6 +117,7 @@ namespace ace
 		void SetAngle(float value)
 		{
 			m_transform.SetAngle(value);
+			CalculateBoundingCircle();
 		}
 
 		Vector2DF GetScale() const
@@ -113,6 +127,7 @@ namespace ace
 		void SetScale(Vector2DF value)
 		{
 			m_transform.SetScale(value);
+			CalculateBoundingCircle();
 		}
 
 		void SetLayer(CoreLayer2D* layer)
@@ -143,5 +158,7 @@ namespace ace
 		virtual void OnAdded(Renderer2D* renderer) {}
 
 		virtual void OnRemoving(Renderer2D* renderer) {}
+
+		culling2d::Circle& GetBoundingCircle();
 	};
 }

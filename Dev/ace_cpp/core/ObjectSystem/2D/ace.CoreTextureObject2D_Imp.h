@@ -52,6 +52,8 @@ namespace ace
 		void SetAlphaBlendMode(AlphaBlend alphaBlend);
 #pragma endregion
 
+		virtual void CalculateBoundingCircle();
+
 		void Draw(Renderer2D* renderer);
 
 		CORE_OBJECT2D_IMP_COMMON
