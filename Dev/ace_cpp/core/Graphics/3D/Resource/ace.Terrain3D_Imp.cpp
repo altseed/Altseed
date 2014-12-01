@@ -257,6 +257,10 @@ namespace ace
 		x += gridWidthCount * gridSize / 2;
 		y += gridHeightCount * gridSize / 2;
 
+		x /= gridSize;
+		y /= gridSize;
+		radius /= gridSize;
+
 		x *= pixelInGrid;
 		y *= pixelInGrid;
 		radius *= pixelInGrid;
