@@ -10,6 +10,9 @@ namespace ace
 		, public CoreObject2D_Imp
 		, public ReferenceObject
 	{
+
+	protected:
+		virtual void CalculateBoundingCircle();
 	private:
 		Texture2D* m_texture;
 		RectF m_src;
@@ -51,8 +54,6 @@ namespace ace
 		AlphaBlend GetAlphaBlendMode() const;
 		void SetAlphaBlendMode(AlphaBlend alphaBlend);
 #pragma endregion
-
-		virtual void CalculateBoundingCircle();
 
 		void Draw(Renderer2D* renderer);
 
