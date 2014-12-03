@@ -21,6 +21,7 @@ namespace ace
 			SafeRelease(chip);
 		}
 		m_chips.clear();
+		m_drawChips.clear();
 	}
 
 	void CoreMapObject2D_Imp::CalculateBoundingCircle()
