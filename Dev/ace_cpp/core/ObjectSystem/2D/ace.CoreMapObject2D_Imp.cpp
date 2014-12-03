@@ -77,22 +77,29 @@ namespace ace
 		if (pair.second)
 		{
 			SafeAddRef(chip);
-			auto src = chip->GetSrc();
-			RectF currentDrawSrc = RectF(m_currentDrawSrc.X, m_currentDrawSrc.Y, m_currentDrawSrc.Width, m_currentDrawSrc.Height);
-
-			Vector2DF center = (currentDrawSrc.GetPosition() + currentDrawSrc.GetSize() / 2);
-			float radius = sqrt((src.Width / 2)*(src.Width / 2) + (src.Height / 2)*(src.Height / 2));
-			Vector2DF upLeft = currentDrawSrc.GetPosition() - Vector2DF(radius, radius);
-			Vector2DF downRight = currentDrawSrc.GetPosition() + currentDrawSrc.GetSize() + Vector2DF(radius, radius);
-			if (upLeft.X <= center.X&&upLeft.Y <= center.Y&&downRight.X >= center.X&&downRight.Y >= center.Y)
-			{
-				m_drawChips.insert(chip);
-			}
+			addChipToDraw(chip);
 
 		}
 		return pair.second;
 	}
 
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreMapObject2D_Imp::addChipToDraw(Chip2D* chip)
+	{
+		auto src = chip->GetSrc();
+		RectF currentDrawSrc = RectF(m_currentDrawSrc.X, m_currentDrawSrc.Y, m_currentDrawSrc.Width, m_currentDrawSrc.Height);
+
+		Vector2DF center = (currentDrawSrc.GetPosition() + currentDrawSrc.GetSize() / 2);
+		float radius = sqrt((src.Width / 2)*(src.Width / 2) + (src.Height / 2)*(src.Height / 2));
+		Vector2DF upLeft = currentDrawSrc.GetPosition() - Vector2DF(radius, radius);
+		Vector2DF downRight = currentDrawSrc.GetPosition() + currentDrawSrc.GetSize() + Vector2DF(radius, radius);
+		if (upLeft.X <= center.X&&upLeft.Y <= center.Y&&downRight.X >= center.X&&downRight.Y >= center.Y)
+		{
+			m_drawChips.insert(chip);
+		}
+	}
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -220,17 +227,7 @@ namespace ace
 		m_drawChips.clear();
 		for (auto chip : m_chips)
 		{
-			auto src = chip->GetSrc();
-			RectF currentDrawSrc = RectF(m_currentDrawSrc.X, m_currentDrawSrc.Y, m_currentDrawSrc.Width, m_currentDrawSrc.Height);
-
-			Vector2DF center = (currentDrawSrc.GetPosition() + currentDrawSrc.GetSize() / 2);
-			float radius = sqrt((src.Width / 2)*(src.Width / 2) + (src.Height / 2)*(src.Height / 2));
-			Vector2DF upLeft = currentDrawSrc.GetPosition() - Vector2DF(radius, radius);
-			Vector2DF downRight = currentDrawSrc.GetPosition() + currentDrawSrc.GetSize() + Vector2DF(radius, radius);
-			if (upLeft.X <= center.X&&upLeft.Y <= center.Y&&downRight.X >= center.X&&downRight.Y >= center.Y)
-			{
-				m_drawChips.insert(chip);
-			}
+			addChipToDraw(chip);
 		}
 	}
 }

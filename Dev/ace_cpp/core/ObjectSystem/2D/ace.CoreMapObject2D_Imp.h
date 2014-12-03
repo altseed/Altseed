@@ -18,6 +18,8 @@ namespace ace
 		Vector2DF m_centerPosition;
 		int m_drawingPtiority;
 		culling2d::RectF m_currentDrawSrc;
+
+		void addChipToDraw(Chip2D* chip);
 	public:
 		CoreMapObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreMapObject2D_Imp();
