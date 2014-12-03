@@ -19,9 +19,13 @@ namespace ace
 
 		std::vector<ShaderConstantValue> shaderConstants;
 
+		RenderedObject3DCullingProxy	cullingProxy;
+
 		static const int32_t MaxObject = 32;
 
 	public:
+		Culling3D::Object*						CullingObject = nullptr;
+
 		RenderedMassModelObject3DProxy(Graphics* graphics);
 		virtual ~RenderedMassModelObject3DProxy();
 
@@ -35,8 +39,13 @@ namespace ace
 
 		std::shared_ptr<MaterialPropertyBlock>	materialPropertyBlock;
 
+		void OnAdded(Renderer3DProxy* renderer) override;
+		void OnRemoving(Renderer3DProxy* renderer) override;
+
 		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
 		void Draw(RenderingCommandHelper* helper, RenderingProperty& prop, std::vector<RenderedMassModelObject3DProxy*>& proxies, int32_t offset, int32_t count);
+
+		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MASSOBJECT; }
 	};
 
 	class RenderedMassModelObject3D
@@ -79,6 +88,8 @@ namespace ace
 		void CrossFadeAnimation(const achar* name, float time);
 
 		bool IsAnimationPlaying();
+
+		void OnApplyingNextSRT(Matrix44& nextMat) override;
 
 		void Flip(float deltaTime) override;
 

@@ -2,6 +2,9 @@
 #include "ace.RenderedMassModelObject3D.h"
 #include "../Resource/ace.MassModel.h"
 
+#include "../Renderer/ace.Renderer3D.h"
+#include "../Renderer/ace.Renderer3DProxy.h"
+
 #include "../../ace.Graphics_Imp.h"
 
 #include "../../ace.Graphics_Imp.h"
@@ -119,11 +122,27 @@ namespace ace
 
 			assert(m_shaderDF_ND != nullptr);
 		}
+
+		cullingProxy.ProxyPtr = this;
+
+		CullingObject = Culling3D::Object::Create();
+		CullingObject->SetUserData(&cullingProxy);
 	}
 
 	RenderedMassModelObject3DProxy::~RenderedMassModelObject3DProxy()
 	{
 		SafeRelease(ModelPtr);
+		Culling3D::SafeRelease(CullingObject);
+	}
+
+	void RenderedMassModelObject3DProxy::OnAdded(Renderer3DProxy* renderer)
+	{
+		renderer->CullingWorld->AddObject(CullingObject);
+	}
+
+	void RenderedMassModelObject3DProxy::OnRemoving(Renderer3DProxy* renderer)
+	{
+		renderer->CullingWorld->RemoveObject(CullingObject);
 	}
 
 	void RenderedMassModelObject3DProxy::Rendering(RenderingCommandHelper* helper, RenderingProperty& prop)
@@ -434,6 +453,15 @@ namespace ace
 	bool RenderedMassModelObject3D::IsAnimationPlaying()
 	{
 		return isAnimationPlaying0 || isAnimationPlaying1;
+	}
+
+	void RenderedMassModelObject3D::OnApplyingNextSRT(Matrix44& nextMat)
+	{
+		auto pos = this->GetPosition();
+		proxy->CullingObject->SetPosition(Culling3D::Vector3DF(pos.X, pos.Y, pos.Z));
+		proxy->CullingObject->SetShapeType(Culling3D::eObjectShapeType::OBJECT_SHAPE_TYPE_SPHERE);
+		// 仮の数値
+		proxy->CullingObject->SetRadius(200.0f);
 	}
 
 	void RenderedMassModelObject3D::Flip(float deltaTime)

@@ -358,6 +358,9 @@ namespace ace
 		environmentRendering = std::make_shared<EnvironmentRendering>(g, m_shadowVertexBuffer, m_shadowIndexBuffer);
 
 		factory = new RenderingCommandFactory();
+
+		// とりあえず適当にレイヤー生成
+		CullingWorld = Culling3D::World::Create(10000.0f, 500.0f, 10000.0f, 6);
 	}
 
 	Renderer3DProxy::~Renderer3DProxy()
@@ -368,6 +371,8 @@ namespace ace
 		ReleaseObjects(cameraObjects);
 		ReleaseObjects(directionalLightObjects);
 		ReleaseObjects(massModelObjects);
+
+		Culling3D::SafeRelease(CullingWorld);
 	}
 
 	void Renderer3DProxy::Rendering(RenderTexture2D_Imp* renderTarget)
@@ -1030,6 +1035,7 @@ namespace ace
 			{
 				SafeAddRef(proxy);
 				cameraObjects.insert(proxy);
+				proxy->OnAdded(this);
 			}
 		}
 		else if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT)
@@ -1038,6 +1044,7 @@ namespace ace
 			{
 				SafeAddRef(proxy);
 				directionalLightObjects.insert(proxy);
+				proxy->OnAdded(this);
 			}
 		}
 		else if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MASSOBJECT)
@@ -1046,6 +1053,7 @@ namespace ace
 			{
 				SafeAddRef(proxy);
 				massModelObjects.insert(proxy);
+				proxy->OnAdded(this);
 			}
 		}
 		else
@@ -1054,6 +1062,7 @@ namespace ace
 			{
 				SafeAddRef(proxy);
 				objects.insert(proxy);
+				proxy->OnAdded(this);
 			}
 		}
 	}
@@ -1065,6 +1074,7 @@ namespace ace
 		{
 			if (cameraObjects.count(proxy) > 0)
 			{
+				proxy->OnRemoving(this);
 				cameraObjects.erase(proxy);
 				SafeRelease(proxy);
 			}
@@ -1073,6 +1083,7 @@ namespace ace
 		{
 			if (directionalLightObjects.count(proxy) > 0)
 			{
+				proxy->OnRemoving(this);
 				directionalLightObjects.erase(proxy);
 				SafeRelease(proxy);
 			}
@@ -1081,6 +1092,7 @@ namespace ace
 		{
 			if (massModelObjects.count(proxy) > 0)
 			{
+				proxy->OnRemoving(this);
 				massModelObjects.erase(proxy);
 				SafeRelease(proxy);
 			}
@@ -1089,6 +1101,7 @@ namespace ace
 		{
 			if (objects.count(proxy) > 0)
 			{
+				proxy->OnRemoving(this);
 				objects.erase(proxy);
 				SafeRelease(proxy);
 			}

@@ -3,7 +3,9 @@
 #include "../Resource/ace.Mesh_Imp.h"
 #include "../Resource/ace.Deformer_Imp.h"
 #include "../Resource/ace.Model_Imp.h"
+
 #include "../Renderer/ace.Renderer3D.h"
+#include "../Renderer/ace.Renderer3DProxy.h"
 
 #include "../Resource/Animation/ace.AnimationClip_Imp.h"
 #include "../Resource/Animation/ace.AnimationSource_Imp.h"
@@ -259,11 +261,15 @@ namespace ace
 			assert(m_shaderDF_ND != nullptr);
 		}
 
+		cullingProxy.ProxyPtr = this;
+
+		CullingObject = Culling3D::Object::Create();
+		CullingObject->SetUserData(&cullingProxy);
 	}
 
 	RenderedModelObject3DProxy::~RenderedModelObject3DProxy()
 	{
-
+		Culling3D::SafeRelease(CullingObject);
 	}
 
 	void RenderedModelObject3DProxy::OnUpdateAsync()
@@ -323,6 +329,16 @@ namespace ace
 				CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
 			}
 		}
+	}
+
+	void RenderedModelObject3DProxy::OnAdded(Renderer3DProxy* renderer)
+	{
+		renderer->CullingWorld->AddObject(CullingObject);
+	}
+
+	void RenderedModelObject3DProxy::OnRemoving(Renderer3DProxy* renderer)
+	{
+		renderer->CullingWorld->RemoveObject(CullingObject);
 	}
 
 	void RenderedModelObject3DProxy::Rendering(RenderingCommandHelper* helper, RenderingProperty& prop)
@@ -846,6 +862,15 @@ namespace ace
 	{
 		assert(m_renderer == renderer);
 		m_renderer = nullptr;
+	}
+
+	void RenderedModelObject3D::OnApplyingNextSRT(Matrix44& nextMat)
+	{
+		auto pos = this->GetPosition();
+		proxy->CullingObject->SetPosition(Culling3D::Vector3DF(pos.X, pos.Y, pos.Z));
+		proxy->CullingObject->SetShapeType(Culling3D::eObjectShapeType::OBJECT_SHAPE_TYPE_SPHERE);
+		// 仮の数値
+		proxy->CullingObject->SetRadius(200.0f);
 	}
 
 	void RenderedModelObject3D::Flip(float deltaTime)

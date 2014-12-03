@@ -121,6 +121,7 @@ namespace ace
 		if (!isSRTChanged)
 		{
 			proxy->localMatrix = localMatrix;
+			OnApplyingNextSRT(localMatrix);
 		}
 	}
 }

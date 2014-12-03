@@ -30,6 +30,29 @@ namespace ace
 			int32_t		Index3;
 		};
 
+		struct SurfacePolygon
+		{
+			int32_t	SurfaceIndex;
+			std::shared_ptr<VertexBuffer_Imp> VB;
+			std::shared_ptr<IndexBuffer_Imp> IB;
+		};
+
+		struct ClusterProxy
+		{
+			SurfacePolygon Black;
+			std::vector<SurfacePolygon>	Surfaces;
+			Vector3DF	Center;
+			Vector3DF	Size;
+		};
+
+		struct SurfaceProxy
+		{
+			std::shared_ptr<Texture2D>	ColorTexture;
+			std::shared_ptr<Texture2D>	NormalTexture;
+			std::shared_ptr<Texture2D>	SpecularTexture;
+			std::shared_ptr<Texture2D>	DensityTexture;
+		};
+
 		class Polygon
 		{
 		public:
@@ -47,6 +70,13 @@ namespace ace
 
 		struct
 		{
+			std::vector<SurfaceProxy>					Surfaces;
+			std::vector<std::shared_ptr<ClusterProxy>>	Clusters;
+			
+
+			int32_t			ClusterWidthCount = 0;
+			int32_t			ClusterHeightCount = 0;
+
 			std::shared_ptr<VertexBuffer_Imp> VB;
 			std::shared_ptr<IndexBuffer_Imp> IB;
 			float			GridSize = 0.0f;

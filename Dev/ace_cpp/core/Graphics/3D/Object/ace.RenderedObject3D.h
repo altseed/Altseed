@@ -11,6 +11,7 @@
 
 #include "../../../ace.ReferenceObject.h"
 
+#include <Culling3D.h>
 
 namespace ace
 {
@@ -60,7 +61,23 @@ namespace ace
 
 		virtual void OnUpdateAsync() {}
 
+		virtual void OnAdded(Renderer3DProxy* renderer) {}
+
+		virtual void OnRemoving(Renderer3DProxy* renderer) {}
+
 		virtual void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) {}
+
+		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
+	};
+
+	/**
+		@brief	カリングに格納されるクラス
+	*/
+	class RenderedObject3DCullingProxy
+	{
+	public:
+		RenderedObject3DProxy* ProxyPtr = nullptr;
+		int32_t	TerrainIndex = -1;
 	};
 
 	/**
@@ -119,6 +136,14 @@ namespace ace
 		virtual RenderedObject3DProxy* GetProxy() const = 0;
 
 		virtual void Flip(float deltaTime);
+
+		/**
+			@brief	新しいSRT行列が適用される時に呼ばれる
+			@param	nextMat	SRT行列
+			@note
+			Flip内で呼ばれる。
+		*/
+		virtual void OnApplyingNextSRT(Matrix44& nextMat) {}
 
 		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
 	};

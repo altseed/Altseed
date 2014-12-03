@@ -23,7 +23,7 @@ protected:
 
 		// 地形
 		auto t = graphics->CreateTerrain3D();
-		t->New(1, 16, 16);
+		t->New(1, 34, 34);
 		t->AddSurface(
 			ace::ToAString("sf1").c_str(), 
 			2,

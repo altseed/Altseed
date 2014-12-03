@@ -18,6 +18,12 @@ namespace ace
 
 		std::vector<ShaderConstantValue> shaderConstants;
 
+		std::vector<RenderedObject3DCullingProxy>	cullingProxies;
+		std::vector<Culling3D::Object*>				cullingObjects;
+
+		bool	isCullingRegistered = false;
+		Renderer3DProxy*	renderer = nullptr;
+
 	public:
 		RenderedTerrainObject3DProxy(Graphics* graphics);
 		virtual ~RenderedTerrainObject3DProxy();
@@ -26,7 +32,19 @@ namespace ace
 			
 		std::shared_ptr<MaterialPropertyBlock>	materialPropertyBlock;
 
+		void RegisterCulling();
+
+		void UnregisterCulling();
+
+		void UpdateCullingMatrix(const Matrix44& mat);
+
+		void OnAdded(Renderer3DProxy* renderer) override;
+
+		void OnRemoving(Renderer3DProxy* renderer) override;
+
 		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
+
+		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_TERRAIN; }
 	};
 
 	/**
@@ -51,6 +69,8 @@ namespace ace
 		void SetMaterialPropertyBlock(MaterialPropertyBlock* block);
 
 		void SetTerrain(Terrain3D* terrain);
+
+		void OnApplyingNextSRT(Matrix44& nextMat) override;
 
 		void Flip(float deltaTime) override;
 

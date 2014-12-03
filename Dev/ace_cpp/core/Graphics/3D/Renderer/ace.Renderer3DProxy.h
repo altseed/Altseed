@@ -11,6 +11,14 @@
 
 #include "ace.EnvironmentRendering.h"
 
+#include <Culling3D.h>
+
+#if _DEBUG
+#pragma comment(lib,"Debug/Culling3D.lib")
+#else
+#pragma comment(lib,"Release/Culling3D.lib")
+#endif
+
 namespace ace
 {
 	class Renderer3DProxy
@@ -67,6 +75,8 @@ namespace ace
 		void RenderCameraOnLightweight(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
 
 	public:
+
+		Culling3D::World*				CullingWorld = nullptr;
 
 		Color							SkyAmbientColor;
 		Color							GroundAmbientColor;
