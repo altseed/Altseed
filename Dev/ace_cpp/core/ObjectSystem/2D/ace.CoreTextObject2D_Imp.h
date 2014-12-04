@@ -9,6 +9,8 @@ namespace ace
 		, public CoreObject2D_Imp
 		, public ReferenceObject
 	{
+	protected:
+		virtual void CalculateBoundingCircle();
 	public:
 		CoreTextObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreTextObject2D_Imp();

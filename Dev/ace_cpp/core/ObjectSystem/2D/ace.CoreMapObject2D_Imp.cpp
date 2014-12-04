@@ -11,6 +11,7 @@ namespace ace
 		, m_drawingPtiority(0)
 	{
 		m_chips.clear();
+		m_drawChips.clear();
 	}
 
 	CoreMapObject2D_Imp::~CoreMapObject2D_Imp()
@@ -20,9 +21,13 @@ namespace ace
 			SafeRelease(chip);
 		}
 		m_chips.clear();
+		m_drawChips.clear();
 	}
 
+	void CoreMapObject2D_Imp::CalculateBoundingCircle()
+	{
 
+	}
 #pragma region Parameter
 	//----------------------------------------------------------------------------------
 	//
@@ -73,10 +78,29 @@ namespace ace
 		if (pair.second)
 		{
 			SafeAddRef(chip);
+			addChipToDraw(chip);
+
 		}
 		return pair.second;
 	}
 
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreMapObject2D_Imp::addChipToDraw(Chip2D* chip)
+	{
+		auto src = chip->GetSrc();
+		RectF currentDrawSrc = RectF(m_currentDrawSrc.X, m_currentDrawSrc.Y, m_currentDrawSrc.Width, m_currentDrawSrc.Height);
+
+		Vector2DF center = (currentDrawSrc.GetPosition() + currentDrawSrc.GetSize() / 2);
+		float radius = sqrt((src.Width / 2)*(src.Width / 2) + (src.Height / 2)*(src.Height / 2));
+		Vector2DF upLeft = currentDrawSrc.GetPosition() - Vector2DF(radius, radius);
+		Vector2DF downRight = currentDrawSrc.GetPosition() + currentDrawSrc.GetSize() + Vector2DF(radius, radius);
+		if (upLeft.X <= center.X&&upLeft.Y <= center.Y&&downRight.X >= center.X&&downRight.Y >= center.Y)
+		{
+			m_drawChips.insert(chip);
+		}
+	}
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -89,6 +113,7 @@ namespace ace
 
 		auto prevSize = m_chips.size();
 		auto newSize = m_chips.erase(chip);
+		m_drawChips.erase(chip);
 
 		if (prevSize != newSize)
 		{
@@ -183,5 +208,27 @@ namespace ace
 			renderer->AddSprite(position.data(), color.data(), uvs.data(), texture, (*chip)->GetAlphaBlendMode(), m_drawingPtiority);
 		}
 
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	culling2d::RectF& CoreMapObject2D_Imp::GetCurrentDrawSrc()
+	{
+		return m_currentDrawSrc;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreMapObject2D_Imp::SetCurrentDrawSrc(culling2d::RectF currentDrawSrc)
+	{
+		m_currentDrawSrc = currentDrawSrc;
+
+		m_drawChips.clear();
+		for (auto chip : m_chips)
+		{
+			addChipToDraw(chip);
+		}
 	}
 }

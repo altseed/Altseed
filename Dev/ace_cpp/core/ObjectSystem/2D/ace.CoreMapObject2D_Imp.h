@@ -10,11 +10,16 @@ namespace ace
 		, public CoreObject2D_Imp
 		, public ReferenceObject
 	{
+	protected:
+		virtual void CalculateBoundingCircle();
 	private:
 		std::set<Chip2D*> m_chips;
+		std::set<Chip2D*> m_drawChips;
 		Vector2DF m_centerPosition;
 		int m_drawingPtiority;
+		culling2d::RectF m_currentDrawSrc;
 
+		void addChipToDraw(Chip2D* chip);
 	public:
 		CoreMapObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreMapObject2D_Imp();
@@ -33,6 +38,8 @@ namespace ace
 
 		void Clear();
 #pragma endregion
+		culling2d::RectF &GetCurrentDrawSrc();
+		void SetCurrentDrawSrc(culling2d::RectF currentDrawSrc);
 
 		void Draw(Renderer2D* renderer);
 
