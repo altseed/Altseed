@@ -22,9 +22,9 @@ namespace ace
 		SafeRelease(m_graphics);
 	}
 
-	void Terrain3D_Imp::Commit()
+	bool Terrain3D_Imp::Commit()
 	{
-		if (!isChanged) return;
+		if (!isChanged) return false;
 		isChanged = false;
 
 		auto g = (Graphics_Imp*) m_graphics;
@@ -61,8 +61,8 @@ namespace ace
 			Proxy.Surfaces.push_back(p);
 		}
 
-		if (Proxy.GridWidthCount == 0) return;
-		if (Proxy.GridHeightCount == 0) return;
+		if (Proxy.GridWidthCount == 0) return true;
+		if (Proxy.GridHeightCount == 0) return true;
 
 
 		const int32_t ClusterCount = 16;
@@ -396,6 +396,8 @@ namespace ace
 
 			Polygons.push_back(polygon);
 		}
+
+		return true;
 	}
 
 	void Terrain3D_Imp::New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount)

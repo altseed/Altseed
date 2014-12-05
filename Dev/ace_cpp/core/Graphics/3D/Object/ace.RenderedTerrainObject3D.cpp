@@ -175,6 +175,33 @@ namespace ace
 		if (isCullingRegistered) return;
 		if (TerrainPtr == nullptr) return;
 
+		auto terrainPtr = (Terrain3D_Imp*) TerrainPtr;
+
+		cullingProxies.resize(terrainPtr->Proxy.Clusters.size());
+
+		for (auto i = 0; i < cullingProxies.size(); i++)
+		{
+			cullingProxies[i].ProxyPtr = this;
+			cullingProxies[i].TerrainIndex = i;
+		}
+
+		int32_t ind = 0;
+		for (auto& cluster : terrainPtr->Proxy.Clusters)
+		{
+			auto o = Culling3D::Object::Create();
+			auto center = cluster->Center;
+			auto size = cluster->Size;
+
+			o->SetShapeType(Culling3D::eObjectShapeType::OBJECT_SHAPE_TYPE_CUBOID);
+
+			o->SetPosition(Culling3D::Vector3DF(center.X, center.Y, center.Z));
+			o->SetCuboidSize(Culling3D::Vector3DF(size.X, size.Y, size.Z));
+			o->SetUserData(&(cullingProxies[ind]));
+			
+			cullingObjects.push_back(o);
+			renderer->CullingWorld->AddObject(o);
+			ind++;
+		}
 	}
 
 	void RenderedTerrainObject3DProxy::UnregisterCulling()

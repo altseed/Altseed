@@ -24,6 +24,39 @@ namespace ace
 	class Renderer3DProxy
 	{
 	private:
+		template<class T>
+		void DrawObjects(T& objects_, RenderingCommandHelper* helper, RenderingProperty prop)
+		{
+			for (auto& o : objects_)
+			{
+				o->Rendering(helper, prop);
+			}
+		}
+
+		void DrawMassObjects(RenderingCommandHelper* helper, RenderingProperty prop);
+
+		template<class T>
+		void SortAndSetMassObjects(T& objects_)
+		{
+			sortedMassModelObjects.clear();
+
+			for (auto& o : objects_)
+			{
+				sortedMassModelObjects.push_back((RenderedMassModelObject3DProxy*) o);
+			}
+			std::sort(
+				sortedMassModelObjects.begin(),
+				sortedMassModelObjects.end(),
+				[](const RenderedMassModelObject3DProxy* a, const RenderedMassModelObject3DProxy* b) -> bool {
+				if (a->ModelPtr != b->ModelPtr) return a->ModelPtr > b->ModelPtr;
+
+				return a->materialPropertyBlock.get() > b->materialPropertyBlock.get();
+			});
+		}
+
+	private:
+		Graphics*								graphics = nullptr;
+
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_pasteVertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_pasteIndexBuffer;
 		std::shared_ptr<ace::NativeShader_Imp>	m_pasteShader;
@@ -74,6 +107,15 @@ namespace ace
 		void RenderCamera(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
 		void RenderCameraOnLightweight(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
 
+	private:
+		std::vector<RenderedObject3DProxy*>				culledObjects;
+		std::vector<RenderedObject3DCullingProxy*>		culledTerrainObjects;
+		std::vector<RenderedObject3DProxy*>				culledMassModelObjects;
+
+		void Culling(const Matrix44& viewProjectionMat);
+
+	private:
+		
 	public:
 
 		Culling3D::World*				CullingWorld = nullptr;

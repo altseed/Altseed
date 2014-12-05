@@ -121,7 +121,7 @@ namespace ace
 
 	public:
 
-		void Commit();
+		bool Commit();
 
 		void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount) override;
 

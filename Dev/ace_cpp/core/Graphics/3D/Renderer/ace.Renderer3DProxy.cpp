@@ -50,7 +50,47 @@ namespace ace
 		os.clear();
 	}
 
+	void Renderer3DProxy::DrawMassObjects(RenderingCommandHelper* helper, RenderingProperty prop)
+	{
+		MassModel* currentModel = nullptr;
+		MaterialPropertyBlock* currentBlock = nullptr;
+
+		int32_t offset = 0;
+
+		// 大量描画モデル
+		auto drawMass = [&](int32_t current)-> void
+		{
+			auto count = current - offset;
+			sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
+		};
+
+		if (sortedMassModelObjects.size() > 0)
+		{
+			currentModel = sortedMassModelObjects[0]->ModelPtr;
+			currentBlock = sortedMassModelObjects[0]->materialPropertyBlock.get();
+		}
+
+		for (auto i = 0; i < sortedMassModelObjects.size(); i++)
+		{
+			if (
+				sortedMassModelObjects[i]->ModelPtr != currentModel ||
+				sortedMassModelObjects[i]->materialPropertyBlock.get() != currentBlock)
+			{
+				drawMass(i);
+				currentModel = sortedMassModelObjects[i]->ModelPtr;
+				currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
+				offset = i;
+			}
+		}
+
+		if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
+		{
+			drawMass(sortedMassModelObjects.size());
+		}
+	}
+
 	Renderer3DProxy::Renderer3DProxy(Graphics* graphics)
+		: graphics(graphics)
 	{
 		auto g = (Graphics_Imp*)graphics;
 
@@ -512,6 +552,9 @@ namespace ace
 		prop.CameraMatrix = cP->CameraMatrix;
 		prop.ProjectionMatrix = cP->ProjectionMatrix;
 
+		// カリング
+		Culling(cameraProjMat);
+
 		// 3D描画
 		{
 			// 奥行き描画
@@ -521,46 +564,10 @@ namespace ace
 				prop.IsDepthMode = true;
 
 				// 通常モデル
-				for (auto& o : objects)
-				{
-					o->Rendering(helper, prop);
-				}
-			
-				MassModel* currentModel = nullptr;
-				MaterialPropertyBlock* currentBlock = nullptr;
-
-				int32_t offset = 0;
+				DrawObjects(objects, helper, prop);
 
 				// 大量描画モデル
-				auto drawMass = [&](int32_t current)-> void
-				{
-					auto count = current - offset;
-					sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
-				};
-
-				if (sortedMassModelObjects.size() > 0)
-				{
-					currentModel = sortedMassModelObjects[0]->ModelPtr;
-					currentBlock = sortedMassModelObjects[0]->materialPropertyBlock.get();
-				}
-
-				for (auto i = 0; i < sortedMassModelObjects.size(); i++)
-				{
-					if (
-						sortedMassModelObjects[i]->ModelPtr != currentModel ||
-						sortedMassModelObjects[i]->materialPropertyBlock.get() != currentBlock)
-					{
-						drawMass(i);
-						currentModel = sortedMassModelObjects[i]->ModelPtr;
-						currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
-						offset = i;
-					}
-				}
-
-				if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
-				{
-					drawMass(sortedMassModelObjects.size());
-				}
+				DrawMassObjects(helper, prop);
 			}
 
 			// Gバッファ描画
@@ -573,45 +580,12 @@ namespace ace
 					cP->GetDepthBuffer());
 				helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 				prop.IsDepthMode = false;
-				for (auto& o : objects)
-				{
-					o->Rendering(helper, prop);
-				}
 
-				MassModel* currentModel = nullptr;
-				MaterialPropertyBlock* currentBlock = nullptr;
-				int32_t offset = 0;
+				// 通常モデル
+				DrawObjects(objects, helper, prop);
 
 				// 大量描画モデル
-				auto drawMass = [&](int32_t current)-> void
-				{
-					auto count = current - offset;
-					sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
-				};
-
-				if (sortedMassModelObjects.size() > 0)
-				{
-					currentModel = sortedMassModelObjects[0]->ModelPtr;
-					currentBlock = sortedMassModelObjects[0]->materialPropertyBlock.get();
-				}
-
-				for (auto i = 0; i < sortedMassModelObjects.size(); i++)
-				{
-					if (
-						sortedMassModelObjects[i]->ModelPtr != currentModel ||
-						sortedMassModelObjects[i]->materialPropertyBlock.get() != currentBlock)
-					{
-						drawMass(i);
-						currentModel = sortedMassModelObjects[i]->ModelPtr;
-						currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
-						offset = i;
-					}
-				}
-
-				if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
-				{
-					drawMass(sortedMassModelObjects.size());
-				}
+				DrawMassObjects(helper, prop);
 			}
 		}
 
@@ -677,46 +651,10 @@ namespace ace
 					shadowProp.CameraMatrix = view;
 					shadowProp.ProjectionMatrix = proj;
 
+					DrawObjects(objects, helper, shadowProp);
 
-					for (auto& o : objects)
-					{
-						o->Rendering(helper, shadowProp);
-					}
+					DrawMassObjects(helper, shadowProp);
 
-					MassModel* currentModel = nullptr;
-					MaterialPropertyBlock* currentBlock = nullptr;
-					int32_t offset = 0;
-
-					// 大量描画モデル
-					auto drawMass = [&](int32_t current)-> void
-					{
-						auto count = current - offset;
-						sortedMassModelObjects[offset]->Draw(helper, shadowProp, sortedMassModelObjects, offset, count);
-						currentBlock = sortedMassModelObjects[0]->materialPropertyBlock.get();
-					};
-
-					if (sortedMassModelObjects.size() > 0)
-					{
-						currentModel = sortedMassModelObjects[0]->ModelPtr;
-					}
-
-					for (auto i = 0; i < sortedMassModelObjects.size(); i++)
-					{
-						if (
-							sortedMassModelObjects[i]->ModelPtr != currentModel ||
-							sortedMassModelObjects[i]->materialPropertyBlock.get() != currentBlock)
-						{
-							drawMass(i);
-							currentModel = sortedMassModelObjects[i]->ModelPtr;
-							currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
-							offset = i;
-						}
-					}
-
-					if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
-					{
-						drawMass(sortedMassModelObjects.size());
-					}
 
 					float intensity = 2.0f;
 					Vector4DF weights;
@@ -969,45 +907,11 @@ namespace ace
 			helper->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
 			helper->Clear(true, true, ace::Color(0, 0, 0, 255));
 
-			for (auto& o : objects)
-			{
-				o->Rendering(helper, prop);
-			}
-
-			MassModel* currentModel = nullptr;
-			MaterialPropertyBlock* currentBlock = nullptr;
-			int32_t offset = 0;
+			// 通常モデル
+			DrawObjects(objects, helper, prop);
 
 			// 大量描画モデル
-			auto drawMass = [&](int32_t current)-> void
-			{
-				auto count = current - offset;
-				sortedMassModelObjects[offset]->Draw(helper, prop, sortedMassModelObjects, offset, count);
-			};
-
-			if (sortedMassModelObjects.size() > 0)
-			{
-				currentModel = sortedMassModelObjects[0]->ModelPtr;
-				currentBlock = sortedMassModelObjects[0]->materialPropertyBlock.get();
-			}
-
-			for (auto i = 0; i < sortedMassModelObjects.size(); i++)
-			{
-				if (
-					sortedMassModelObjects[i]->ModelPtr != currentModel ||
-					sortedMassModelObjects[i]->materialPropertyBlock.get() != currentBlock)
-				{
-					drawMass(i);
-					currentModel = sortedMassModelObjects[i]->ModelPtr;
-					currentBlock = sortedMassModelObjects[i]->materialPropertyBlock.get();
-					offset = i;
-				}
-			}
-
-			if (sortedMassModelObjects.size() > 0 && offset != sortedMassModelObjects.size())
-			{
-				drawMass(sortedMassModelObjects.size());
-			}
+			DrawMassObjects(helper, prop);
 		}
 
 		// スプライトの描画
@@ -1018,6 +922,34 @@ namespace ace
 
 		// ポストエフェクト適用
 		cP->ApplyPostEffects(helper);
+	}
+
+	void Renderer3DProxy::Culling(const Matrix44& viewProjectionMat)
+	{
+		culledObjects.clear();
+		culledTerrainObjects.clear();
+		culledMassModelObjects.clear();
+
+		Matrix44 viewProjectionMat_ = viewProjectionMat;
+		CullingWorld->Culling(*((Culling3D::Matrix44*)(&viewProjectionMat_)), graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL);
+
+		for (auto i = 0; i < CullingWorld->GetObjectCount(); i++)
+		{
+			auto cp = (RenderedObject3DCullingProxy*)(CullingWorld->GetObject(i)->GetUserData());
+
+			if (cp->ProxyPtr->GetObjectType() == RENDERED_OBJECT3D_TYPE_MESH)
+			{
+				culledObjects.push_back(cp->ProxyPtr);
+			}
+			else if (cp->ProxyPtr->GetObjectType() == RENDERED_OBJECT3D_TYPE_MASSOBJECT)
+			{
+				culledMassModelObjects.push_back(cp->ProxyPtr);
+			}
+			else if (cp->ProxyPtr->GetObjectType() == RENDERED_OBJECT3D_TYPE_TERRAIN)
+			{
+				culledTerrainObjects.push_back(cp);
+			}
+		}
 	}
 
 	void Renderer3DProxy::SetEffect(Effekseer::Manager* manager, EffekseerRenderer::Renderer* renderer)
