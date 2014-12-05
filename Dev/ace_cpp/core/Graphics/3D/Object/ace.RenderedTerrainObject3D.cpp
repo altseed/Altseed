@@ -146,8 +146,8 @@ namespace ace
 			{
 				m_shaderBlack = g->GetShaderCache()->CreateFromCode(
 					ToAString("Internal.TerrainObject3D.Black").c_str(),
-					lightweight_terrain_internal_vs_gl,
-					lightweight_terrain_internal_ps_gl,
+					terrain_internal_vs_gl,
+					terrain_internal_ps_gl,
 					vl,
 					macro);
 			}
