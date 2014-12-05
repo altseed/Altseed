@@ -44,6 +44,8 @@ namespace ace
 
 		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
 
+		void Rendering(int32_t index, RenderingCommandHelper* helper, RenderingProperty& prop);
+
 		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_TERRAIN; }
 	};
 

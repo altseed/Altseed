@@ -9,6 +9,7 @@
 #include "../Object/ace.RenderedCameraObject3D.h"
 #include "../Object/ace.RenderedDirectionalLightObject3D.h"
 #include "../Object/ace.RenderedMassModelObject3D.h"
+#include "../Object/ace.RenderedTerrainObject3D.h"
 
 #include "../../Resource/ace.ShaderCache.h"
 #include "../../Resource/ace.NativeShader_Imp.h"
@@ -36,6 +37,8 @@
 #include "../../Platform/GL/ace.Graphics_Imp_GL.h"
 
 #include "../../Shader/ace.Vertices.h"
+
+#define __CULLING__ 1
 
 namespace ace
 {
@@ -451,6 +454,8 @@ namespace ace
 		}
 
 		// ソート
+#if __CULLING__
+#else
 		sortedMassModelObjects.clear();
 
 		for (auto& o : massModelObjects)
@@ -465,6 +470,7 @@ namespace ace
 
 			return a->materialPropertyBlock.get() > b->materialPropertyBlock.get();
 		});
+#endif	
 
 		// エフェクトの更新
 		effectManager->Update(DeltaTime / (1.0f/60.0f));
@@ -552,8 +558,13 @@ namespace ace
 		prop.CameraMatrix = cP->CameraMatrix;
 		prop.ProjectionMatrix = cP->ProjectionMatrix;
 
+#if __CULLING__
 		// カリング
 		Culling(cameraProjMat);
+
+		// 大量描画ソート
+		SortAndSetMassObjects(culledMassModelObjects);
+#endif
 
 		// 3D描画
 		{
@@ -564,10 +575,23 @@ namespace ace
 				prop.IsDepthMode = true;
 
 				// 通常モデル
+#if __CULLING__
+				DrawObjects(culledObjects, helper, prop);
+#else
 				DrawObjects(objects, helper, prop);
+#endif			
 
 				// 大量描画モデル
 				DrawMassObjects(helper, prop);
+
+#if __CULLING__
+				// 地形
+				for (auto& terrain : culledTerrainObjects)
+				{
+					auto p = (RenderedTerrainObject3DProxy*)(terrain->ProxyPtr);
+					p->Rendering(terrain->TerrainIndex, helper, prop);
+				}
+#endif
 			}
 
 			// Gバッファ描画
@@ -582,10 +606,23 @@ namespace ace
 				prop.IsDepthMode = false;
 
 				// 通常モデル
+#if __CULLING__
+				DrawObjects(culledObjects, helper, prop);
+#else
 				DrawObjects(objects, helper, prop);
+#endif			
 
 				// 大量描画モデル
 				DrawMassObjects(helper, prop);
+
+#if __CULLING__
+				// 地形
+				for (auto& terrain : culledTerrainObjects)
+				{
+					auto p = (RenderedTerrainObject3DProxy*) (terrain->ProxyPtr);
+					p->Rendering(terrain->TerrainIndex, helper, prop);
+				}
+#endif
 			}
 		}
 
@@ -641,6 +678,14 @@ namespace ace
 					view,
 					proj);
 
+#if __CULLING__
+				// カリング
+				Culling(proj * view);
+
+				// 大量描画ソート
+				SortAndSetMassObjects(culledMassModelObjects);
+#endif
+
 				// 影マップ作成
 				{
 					helper->SetRenderTarget(lightP->GetShadowTexture(), lightP->GetShadowDepthBuffer());
@@ -651,10 +696,21 @@ namespace ace
 					shadowProp.CameraMatrix = view;
 					shadowProp.ProjectionMatrix = proj;
 
+#if __CULLING__
+					DrawObjects(culledObjects, helper, shadowProp);
+#else
 					DrawObjects(objects, helper, shadowProp);
-
+#endif
 					DrawMassObjects(helper, shadowProp);
 
+#if __CULLING__
+					// 地形
+					for (auto& terrain : culledTerrainObjects)
+					{
+						auto p = (RenderedTerrainObject3DProxy*) (terrain->ProxyPtr);
+						p->Rendering(terrain->TerrainIndex, helper, shadowProp);
+					}
+#endif
 
 					float intensity = 2.0f;
 					Vector4DF weights;
@@ -902,16 +958,37 @@ namespace ace
 		prop.CameraMatrix = cP->CameraMatrix;
 		prop.ProjectionMatrix = cP->ProjectionMatrix;
 
+#if __CULLING__
+		// カリング
+		Culling(cameraProjMat);
+
+		// 大量描画ソート
+		SortAndSetMassObjects(culledMassModelObjects);
+#endif
+
 		// 3D描画
 		{
 			helper->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
 			helper->Clear(true, true, ace::Color(0, 0, 0, 255));
 
 			// 通常モデル
+#if __CULLING__
+			DrawObjects(culledObjects, helper, prop);
+#else
 			DrawObjects(objects, helper, prop);
+#endif			
 
 			// 大量描画モデル
 			DrawMassObjects(helper, prop);
+
+#if __CULLING__
+			// 地形
+			for (auto& terrain : culledTerrainObjects)
+			{
+				auto p = (RenderedTerrainObject3DProxy*) (terrain->ProxyPtr);
+				p->Rendering(terrain->TerrainIndex, helper, prop);
+			}
+#endif
 		}
 
 		// スプライトの描画
