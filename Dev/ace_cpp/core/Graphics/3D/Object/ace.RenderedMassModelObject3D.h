@@ -89,7 +89,7 @@ namespace ace
 
 		bool IsAnimationPlaying();
 
-		void OnApplyingNextSRT(Matrix44& nextMat) override;
+		void OnApplyingNextSRT() override;
 
 		void Flip(float deltaTime) override;
 

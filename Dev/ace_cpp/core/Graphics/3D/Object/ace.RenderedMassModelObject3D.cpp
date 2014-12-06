@@ -455,7 +455,7 @@ namespace ace
 		return isAnimationPlaying0 || isAnimationPlaying1;
 	}
 
-	void RenderedMassModelObject3D::OnApplyingNextSRT(Matrix44& nextMat)
+	void RenderedMassModelObject3D::OnApplyingNextSRT()
 	{
 		auto pos = this->GetPosition();
 		proxy->CullingObject->SetPosition(Culling3D::Vector3DF(pos.X, pos.Y, pos.Z));

@@ -117,7 +117,7 @@ namespace ace
 
 		void OnRemoving(Renderer3D* renderer) override;
 
-		void OnApplyingNextSRT(Matrix44& nextMat) override;
+		void OnApplyingNextSRT() override;
 
 		void Flip(float deltaTime) override;
 

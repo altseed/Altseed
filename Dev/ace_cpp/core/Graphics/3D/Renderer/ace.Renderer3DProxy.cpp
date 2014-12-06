@@ -561,6 +561,7 @@ namespace ace
 #if __CULLING__
 		// カリング
 		Culling(cameraProjMat);
+		//CullingWorld->Dump("dump.csv", *((Culling3D::Matrix44*)(&cameraProjMat)), false);
 
 		// 大量描画ソート
 		SortAndSetMassObjects(culledMassModelObjects);

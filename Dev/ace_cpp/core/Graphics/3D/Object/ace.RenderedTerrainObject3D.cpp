@@ -191,10 +191,11 @@ namespace ace
 			auto o = Culling3D::Object::Create();
 			auto center = cluster->Center;
 			auto size = cluster->Size;
+			auto pos = Culling3D::Vector3DF(center.X, center.Y, center.Z);
 
 			o->SetShapeType(Culling3D::eObjectShapeType::OBJECT_SHAPE_TYPE_CUBOID);
 
-			o->SetPosition(Culling3D::Vector3DF(center.X, center.Y, center.Z));
+			o->SetPosition(pos);
 			o->SetCuboidSize(Culling3D::Vector3DF(size.X, size.Y, size.Z));
 			o->SetUserData(&(cullingProxies[ind]));
 			
@@ -202,6 +203,8 @@ namespace ace
 			renderer->CullingWorld->AddObject(o);
 			ind++;
 		}
+
+		isCullingRegistered = true;
 	}
 
 	void RenderedTerrainObject3DProxy::UnregisterCulling()
@@ -216,12 +219,30 @@ namespace ace
 
 		cullingProxies.clear();
 		cullingObjects.clear();
+
+		isCullingRegistered = false;
 	}
 
 	void RenderedTerrainObject3DProxy::UpdateCullingMatrix(const Matrix44& mat)
 	{
 		if (!isCullingRegistered) return;
 
+		auto x = mat.Values[0][3];
+		auto y = mat.Values[1][3];
+		auto z = mat.Values[2][3];
+	
+		if (TerrainPtr == nullptr) return;
+
+		auto terrainPtr = (Terrain3D_Imp*) TerrainPtr;
+
+		int32_t ind = 0;
+		for (auto& cluster : terrainPtr->Proxy.Clusters)
+		{
+			auto center = cluster->Center;
+			auto pos = Culling3D::Vector3DF(center.X + x, center.Y + y, center.Z + z);
+			cullingObjects[ind]->SetPosition(pos);
+			ind++;
+		}
 	}
 
 	void RenderedTerrainObject3DProxy::OnAdded(Renderer3DProxy* renderer)
@@ -676,11 +697,11 @@ namespace ace
 		SafeSubstitute(this->terrain, terrain);
 	}
 
-	void RenderedTerrainObject3D::OnApplyingNextSRT(Matrix44& nextMat)
+	void RenderedTerrainObject3D::OnApplyingNextSRT()
 	{
 		auto pos = this->GetPosition();
 		
-		proxy->UpdateCullingMatrix(nextMat);
+		proxy->UpdateCullingMatrix(GetLocalMatrix());
 	}
 
 	void RenderedTerrainObject3D::Flip(float deltaTime)

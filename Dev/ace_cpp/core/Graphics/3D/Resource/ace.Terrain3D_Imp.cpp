@@ -91,10 +91,10 @@ namespace ace
 				auto height = Min(ClusterCount, Proxy.GridHeightCount - yoffset);
 
 				cluster->Size.X = width * gridSize;
-				cluster->Size.Y = height * gridSize;
+				cluster->Size.Z = height * gridSize;
 
 				cluster->Center.X = (xoffset + width / 2) * gridSize - gridWidthCount * gridSize / 2.0f;
-				cluster->Center.Y = (yoffset + height / 2) * gridSize - gridHeightCount * gridSize / 2.0f;
+				cluster->Center.Z = (yoffset + height / 2) * gridSize - gridHeightCount * gridSize / 2.0f;
 
 				// 下地
 				cluster->Black.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), (width + 1) * (height + 1), false);

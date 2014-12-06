@@ -72,7 +72,7 @@ namespace ace
 
 		void SetTerrain(Terrain3D* terrain);
 
-		void OnApplyingNextSRT(Matrix44& nextMat) override;
+		void OnApplyingNextSRT() override;
 
 		void Flip(float deltaTime) override;
 

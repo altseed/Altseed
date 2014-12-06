@@ -55,6 +55,7 @@ namespace ace
 
 		scale = Vector3DF(1.0f, 1.0f, 1.0f);
 		isSRTChanged = true;
+		callSRTChanged = true;
 	}
 
 	RenderedObject3D::~RenderedObject3D()
@@ -69,7 +70,11 @@ namespace ace
 
 	void RenderedObject3D::SetPosition(const Vector3DF& pos)
 	{
-		if (position != pos) isSRTChanged = true;
+		if (position != pos)
+		{
+			isSRTChanged = true;
+			callSRTChanged = true;
+		}
 		position = pos;
 	}
 
@@ -80,7 +85,11 @@ namespace ace
 
 	void RenderedObject3D::SetRotation(const Vector3DF& rot)
 	{
-		if (rotation != rot)isSRTChanged = true;
+		if (rotation != rot)
+		{
+			isSRTChanged = true;
+			callSRTChanged = true;
+		}
 		rotation = rot;
 	}
 
@@ -91,7 +100,11 @@ namespace ace
 
 	void RenderedObject3D::SetScale(const Vector3DF& scale)
 	{
-		if (this->scale != scale) isSRTChanged = true;
+		if (this->scale != scale)
+		{
+			isSRTChanged = true;
+			callSRTChanged = true;
+		}
 		this->scale = scale;
 	}
 
@@ -121,7 +134,12 @@ namespace ace
 		if (!isSRTChanged)
 		{
 			proxy->localMatrix = localMatrix;
-			OnApplyingNextSRT(localMatrix);
+		}
+
+		if (callSRTChanged)
+		{
+			OnApplyingNextSRT();
+			callSRTChanged = false;
 		}
 	}
 }

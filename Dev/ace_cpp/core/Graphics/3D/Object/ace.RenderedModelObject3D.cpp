@@ -864,7 +864,7 @@ namespace ace
 		m_renderer = nullptr;
 	}
 
-	void RenderedModelObject3D::OnApplyingNextSRT(Matrix44& nextMat)
+	void RenderedModelObject3D::OnApplyingNextSRT()
 	{
 		auto pos = this->GetPosition();
 		proxy->CullingObject->SetPosition(Culling3D::Vector3DF(pos.X, pos.Y, pos.Z));

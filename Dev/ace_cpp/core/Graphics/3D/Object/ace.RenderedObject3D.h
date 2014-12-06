@@ -100,7 +100,8 @@ namespace ace
 		Vector3DF	scale;
 		Matrix44	localMatrix;
 		bool		isSRTChanged;
-		
+		bool		callSRTChanged = false;
+
 		static Matrix44 CalcLocalMatrix(Vector3DF& t, Vector3DF& r, Vector3DF& s);
 
 	protected:
@@ -139,11 +140,10 @@ namespace ace
 
 		/**
 			@brief	新しいSRT行列が適用される時に呼ばれる
-			@param	nextMat	SRT行列
 			@note
 			Flip内で呼ばれる。
 		*/
-		virtual void OnApplyingNextSRT(Matrix44& nextMat) {}
+		virtual void OnApplyingNextSRT() {}
 
 		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
 	};
