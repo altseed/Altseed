@@ -32,6 +32,6 @@ if aceutils.isWin():
 	aceutils.copy(r'culling3d_bin/Release/Culling3D.lib', r'Dev/lib/Release/')
 else:
 	aceutils.copy(r'Culling3D-master/Culling3D/Culling3D.h', r'Dev/include/')
-	aceutils.copy(r'culling3d_bin/bin/libCulling3D.a', r'Dev/lib/')
+	aceutils.copy(r'culling3d_bin/libCulling3D.a', r'Dev/lib/')
 
 
