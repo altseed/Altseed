@@ -44,15 +44,9 @@ namespace ace
 			{
 				sortedMassModelObjects.push_back((RenderedMassModelObject3DProxy*) o);
 			}
-			std::sort(
-				sortedMassModelObjects.begin(),
-				sortedMassModelObjects.end(),
-				[](const RenderedMassModelObject3DProxy* a, const RenderedMassModelObject3DProxy* b) -> bool {
-				if (a->ModelPtr != b->ModelPtr) return a->ModelPtr > b->ModelPtr;
-
-				return a->materialPropertyBlock.get() > b->materialPropertyBlock.get();
-			});
+			SortAndSetMassObjects_Imp();
 		}
+		void SortAndSetMassObjects_Imp();
 
 	private:
 		Graphics*								graphics = nullptr;
