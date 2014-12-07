@@ -51,140 +51,225 @@ namespace ace
 			Material_.Type = materials[0].Type;
 		}
 
-		for (auto& ac : model.AnimationClips)
+		if (model.AnimationClips.size() > 0)
 		{
-			AnimationClip ac_;
-			ac_.Index = ac.Index;
-			ac_.Name = ac.Name;
-			AnimationClips.push_back(ac_);
-		}
-
-		AnimationTexture.AnimationCount = model.AnimationSources.size();
-
-		for (auto& as : model.AnimationSources)
-		{
-			float frame = 0;
-
-			for (auto& ks : as.KeyframeAnimations)
+			// アニメーションあり
+			for (auto& ac : model.AnimationClips)
 			{
-				if (ks.Keyframes.size() == 0) continue;
-				auto lastTime = (*(ks.Keyframes.end() - 1)).KeyValue.X;
-				frame = Max(lastTime, frame);
+				AnimationClip ac_;
+				ac_.Index = ac.Index;
+				ac_.Name = ac.Name;
+				AnimationClips.push_back(ac_);
 			}
-			AnimationTexture.FrameCount.push_back(frame);
-		}
 
-		int32_t frameMax = 0;
-		for (auto& f : AnimationTexture.FrameCount)
-		{
-			frameMax = Max(frameMax, f);
-		}
+			AnimationTexture.AnimationCount = model.AnimationSources.size();
 
-		AnimationTexture.TextureWidth = frameMax;
-		AnimationTexture.TextureHeight = AnimationTexture.AnimationCount * 32 * 4;
+			for (auto& as : model.AnimationSources)
+			{
+				float frame = 0;
 
-		AnimationTexture.Buffer.resize(AnimationTexture.TextureWidth * AnimationTexture.TextureHeight);
+				for (auto& ks : as.KeyframeAnimations)
+				{
+					if (ks.Keyframes.size() == 0) continue;
+					auto lastTime = (*(ks.Keyframes.end() - 1)).KeyValue.X;
+					frame = Max(lastTime, frame);
+				}
+				AnimationTexture.FrameCount.push_back(frame);
+			}
 
-		struct BoneValue
-		{
-			float Position[3];
-			float Rotation[4];
-			float Scale[3];
-		};
+			int32_t frameMax = 0;
+			for (auto& f : AnimationTexture.FrameCount)
+			{
+				frameMax = Max(frameMax, f);
+			}
 
-		std::vector<Matrix44> localMatrixes;
-		std::vector<Matrix44> boneMatrixes;
-		std::vector<BoneValue> boneValues;
-		std::map<astring, int32_t> nameToBoneIndex;
+			AnimationTexture.TextureWidth = frameMax;
+			AnimationTexture.TextureHeight = AnimationTexture.AnimationCount * 32 * 4;
 
-		localMatrixes.resize(deformer.Bones.size());
-		boneValues.resize(deformer.Bones.size());
+			AnimationTexture.Buffer.resize(AnimationTexture.TextureWidth * AnimationTexture.TextureHeight);
 
-		auto& boneConnectors = mesh.BoneConnectors;
-		if (boneConnectors.size() > 0)
-		{
-			boneMatrixes.resize(boneConnectors.size());
+			struct BoneValue
+			{
+				float Position[3];
+				float Rotation[4];
+				float Scale[3];
+			};
+
+			std::vector<Matrix44> localMatrixes;
+			std::vector<Matrix44> boneMatrixes;
+			std::vector<BoneValue> boneValues;
+			std::map<astring, int32_t> nameToBoneIndex;
+
+			localMatrixes.resize(deformer.Bones.size());
+			boneValues.resize(deformer.Bones.size());
+
+			auto& boneConnectors = mesh.BoneConnectors;
+			if (boneConnectors.size() > 0)
+			{
+				boneMatrixes.resize(boneConnectors.size());
+			}
+			else
+			{
+				boneMatrixes.resize(1);
+			}
+
+			for (auto i = 0; i < deformer.Bones.size(); i++)
+			{
+				auto& b = deformer.Bones[i];
+				nameToBoneIndex[b.Name] = i;
+			}
+
+			for (auto i = 0; i < AnimationTexture.AnimationCount; i++)
+			{
+				auto& as = model.AnimationSources[i];
+
+				for (auto t = 0; t < AnimationTexture.FrameCount[i]; t++)
+				{
+					for (auto& kf : as.KeyframeAnimations)
+					{
+						astring targetName;
+						eAnimationCurveTargetType targetType;
+						eAnimationCurveTargetAxis targetAxis;
+
+						ModelUtils::GetAnimationTarget(targetName, targetType, targetAxis, kf.Name);
+
+						if (nameToBoneIndex.find(targetName) == nameToBoneIndex.end()) continue;
+						auto index = nameToBoneIndex[targetName];
+						auto value = ModelUtils::GetKeyframeValue(t, kf.Keyframes);
+						ModelUtils::SetBoneValue(
+							boneValues[index].Position,
+							boneValues[index].Rotation,
+							boneValues[index].Scale,
+							targetType,
+							targetAxis,
+							value);
+
+						localMatrixes[index] = ModelUtils::CalcMatrix(
+							boneValues[index].Position,
+							boneValues[index].Rotation,
+							boneValues[index].Scale,
+							deformer.Bones[index].RotationType);
+					}
+
+					ModelUtils::CalculateBoneMatrixes(
+						localMatrixes,
+						deformer.Bones,
+						localMatrixes);
+
+					// 行列計算
+					if (boneConnectors.size() > 0)
+					{
+						// ボーンあり
+						for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
+						{
+							boneMatrixes[i].SetIdentity();
+							Matrix44::Mul(boneMatrixes[i], localMatrixes[boneConnectors[i].TargetIndex], boneConnectors[i].OffsetMatrix);
+						}
+					}
+					else
+					{
+						// ボーンなし
+						boneMatrixes[0].SetIdentity();
+					}
+
+					for (auto j = 0; j < boneMatrixes.size(); j++)
+					{
+						for (auto k = 0; k < 4; k++)
+						{
+							int32_t x = t;
+							int32_t y = i * 32 * 4 + j * 4 + k;
+
+							AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].X = boneMatrixes[j].Values[k][0];
+							AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Y = boneMatrixes[j].Values[k][1];
+							AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Z = boneMatrixes[j].Values[k][2];
+							AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].W = boneMatrixes[j].Values[k][3];
+						}
+					}
+				}
+			}
 		}
 		else
 		{
-			boneMatrixes.resize(1);
-		}
-		
-		for (auto i = 0; i < deformer.Bones.size(); i++)
-		{
-			auto& b = deformer.Bones[i];
-			nameToBoneIndex[b.Name] = i;
-		}
+			// アニメーションなし
+			AnimationTexture.AnimationCount = 0;
+			AnimationTexture.TextureWidth = 1;
+			AnimationTexture.TextureHeight = 1 * 32 * 4;
 
-		for (auto i = 0; i < AnimationTexture.AnimationCount; i++)
-		{
-			auto& as = model.AnimationSources[i];
+			AnimationTexture.Buffer.resize(AnimationTexture.TextureWidth * AnimationTexture.TextureHeight);
 
-			for (auto t = 0; t < AnimationTexture.FrameCount[i]; t++)
+			struct BoneValue
 			{
-				for (auto& kf : as.KeyframeAnimations)
+				float Position[3];
+				float Rotation[4];
+				float Scale[3];
+			};
+
+			std::vector<Matrix44> localMatrixes;
+			std::vector<Matrix44> boneMatrixes;
+			std::vector<BoneValue> boneValues;
+			std::map<astring, int32_t> nameToBoneIndex;
+
+			localMatrixes.resize(deformer.Bones.size());
+			boneValues.resize(deformer.Bones.size());
+
+			auto& boneConnectors = mesh.BoneConnectors;
+			if (boneConnectors.size() > 0)
+			{
+				boneMatrixes.resize(boneConnectors.size());
+			}
+			else
+			{
+				boneMatrixes.resize(1);
+			}
+
+			for (auto i = 0; i < deformer.Bones.size(); i++)
+			{
+				auto& b = deformer.Bones[i];
+				nameToBoneIndex[b.Name] = i;
+			}
+
+			for (auto i = 0; i < deformer.Bones.size(); i++)
+			{
+				auto& b = deformer.Bones[i];
+				localMatrixes[i] = b.LocalMat;			
+			}
+
+			ModelUtils::CalculateBoneMatrixes(
+				localMatrixes,
+				deformer.Bones,
+				localMatrixes);
+
+			// 行列計算
+			if (boneConnectors.size() > 0)
+			{
+				// ボーンあり
+				for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
 				{
-					astring targetName;
-					eAnimationCurveTargetType targetType;
-					eAnimationCurveTargetAxis targetAxis;
-
-					ModelUtils::GetAnimationTarget(targetName, targetType, targetAxis, kf.Name);
-
-					if(nameToBoneIndex.find(targetName) == nameToBoneIndex.end()) continue;
-					auto index = nameToBoneIndex[targetName];
-					auto value = ModelUtils::GetKeyframeValue(t, kf.Keyframes);
-					ModelUtils::SetBoneValue(
-						boneValues[index].Position,
-						boneValues[index].Rotation,
-						boneValues[index].Scale,
-						targetType,
-						targetAxis,
-						value);
-
-					localMatrixes[index] = ModelUtils::CalcMatrix(
-						boneValues[index].Position,
-						boneValues[index].Rotation,
-						boneValues[index].Scale,
-						deformer.Bones[index].RotationType);
+					boneMatrixes[i].SetIdentity();
+					Matrix44::Mul(boneMatrixes[i], localMatrixes[boneConnectors[i].TargetIndex], boneConnectors[i].OffsetMatrix);
 				}
+			}
+			else
+			{
+				// ボーンなし
+				boneMatrixes[0].SetIdentity();
+			}
 
-				ModelUtils::CalculateBoneMatrixes(
-					localMatrixes,
-					deformer.Bones,
-					localMatrixes);
-				
-				// 行列計算
-				if (boneConnectors.size() > 0)
+			for (auto j = 0; j < boneMatrixes.size(); j++)
+			{
+				for (auto k = 0; k < 4; k++)
 				{
-					// ボーンあり
-					for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
-					{
-						boneMatrixes[i].SetIdentity();
-						Matrix44::Mul(boneMatrixes[i], localMatrixes[boneConnectors[i].TargetIndex], boneConnectors[i].OffsetMatrix);
-					}
-				}
-				else
-				{
-					// ボーンなし
-					boneMatrixes[0].SetIdentity();
-				}
+					int32_t x = 0;
+					int32_t y = 0 * 32 * 4 + j * 4 + k;
 
-				for (auto j = 0; j < boneMatrixes.size(); j++)
-				{					
-					for (auto k = 0; k < 4; k++)
-					{
-						int32_t x = t;
-						int32_t y = i * 32 * 4 + j * 4 + k;
-
-						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].X = boneMatrixes[j].Values[k][0];
-						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Y = boneMatrixes[j].Values[k][1];
-						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Z = boneMatrixes[j].Values[k][2];
-						AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].W = boneMatrixes[j].Values[k][3];
-					}
+					AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].X = boneMatrixes[j].Values[k][0];
+					AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Y = boneMatrixes[j].Values[k][1];
+					AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].Z = boneMatrixes[j].Values[k][2];
+					AnimationTexture.Buffer[x + y * AnimationTexture.TextureWidth].W = boneMatrixes[j].Values[k][3];
 				}
 			}
 		}
-
+		
 		return true;
 	}
 
