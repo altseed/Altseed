@@ -92,6 +92,17 @@ namespace ace
 		}
 	}
 
+	void Renderer3DProxy::SortAndSetMassObjects_Imp() {
+		std::sort(
+			sortedMassModelObjects.begin(),
+			sortedMassModelObjects.end(),
+			[](const RenderedMassModelObject3DProxy* a, const RenderedMassModelObject3DProxy* b) -> bool {
+			if (a->ModelPtr != b->ModelPtr) return a->ModelPtr > b->ModelPtr;
+
+			return a->materialPropertyBlock.get() > b->materialPropertyBlock.get();
+		});
+	}
+
 	Renderer3DProxy::Renderer3DProxy(Graphics* graphics)
 		: graphics(graphics)
 	{

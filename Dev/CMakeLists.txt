@@ -45,17 +45,6 @@ else()
 	list(APPEND core_src ${gl_src})
 endif()
 
-if(APPLE)
-	include_directories(
-		/opt/local/include/
-		/opt/X11/include/
-		)
-	link_directories(
-		/opt/local/lib/
-		/opt/X11/lib/
-		)
-endif()
-
 # インクルードの設定
 include_directories(
 	include/
@@ -92,6 +81,9 @@ else()
 	list(APPEND common_lib ogg )
 	list(APPEND common_lib vorbisfile )
 	list(APPEND common_lib vorbis )
+
+	list(APPEND common_lib Culling2D )
+	list(APPEND common_lib Culling3D )
 
 	if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 		FIND_PACKAGE(OpenAL REQUIRED)
