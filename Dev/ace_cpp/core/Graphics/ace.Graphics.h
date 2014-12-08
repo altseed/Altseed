@@ -39,6 +39,7 @@ protected:
 	virtual Deformer* CreateDeformer_() = 0;
 	virtual Model* CreateModel_(const achar* path) = 0;
 	virtual MassModel* CreateMassModelFromModelFile_(const achar* path) = 0;
+	virtual MassModel* CreateMassModel_(const achar* path) = 0;
 	virtual Terrain3D* CreateTerrain3D_() = 0;
 
 	virtual Effect* CreateEffect_(const achar* path) = 0;
@@ -209,6 +210,17 @@ public:
 	std::shared_ptr<MassModel> CreateMassModelFromModelFile(const achar* path)
 	{
 		auto model = CreateMassModelFromModelFile_(path);
+		return CreateSharedPtrWithReleaseDLL(model);
+	}
+
+	/**
+	@brief	大量描画用モデルを生成する。
+	@param	path	パス
+	@return	大量描画用モデル
+	*/
+	std::shared_ptr<MassModel> CreateMassModel(const achar* path)
+	{
+		auto model = CreateMassModel_(path);
 		return CreateSharedPtrWithReleaseDLL(model);
 	}
 

@@ -12,6 +12,7 @@
 #include <Graphics/ace.Graphics.Common.h>
 
 #include <Utility/ace.BinaryReader.h>
+#include <Utility/ace.BinaryWriter.h>
 
 namespace ace
 {
@@ -70,10 +71,14 @@ namespace ace
 		std::vector<Face>				Faces;
 		Material						Material_;
 		std::vector<AnimationClip>		AnimationClips;
-		AnimationTexture				AnimationTexture;
+		AnimationTexture				AnimationTexture_;
 
 		bool Convert(Model_IO& model);
 
 		void Reset();
+
+		bool Load(std::vector<uint8_t>& data, const achar* path);
+
+		bool Save(BinaryWriter& writer, const achar* path);
 	};
 }

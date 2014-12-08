@@ -287,6 +287,8 @@ namespace ace {
 
 		MassModel* CreateMassModelFromModelFile_(const achar* path) override;
 
+		MassModel* CreateMassModel_(const achar* path) override;
+
 		Terrain3D* CreateTerrain3D_() override;
 
 		Effect* CreateEffect_(const achar* path);

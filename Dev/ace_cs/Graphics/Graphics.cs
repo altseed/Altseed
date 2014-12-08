@@ -220,6 +220,18 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 大量描画用モデルを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>大量描画用モデル</returns>
+		public MassModel CreateMassModel(string path)
+		{
+			var model = graphics.CreateMassModel_(path);
+			if (model == null) return null;
+			return GC.GenerateMassModel(model, GC.GenerationType.Create);
+		}
+
+		/// <summary>
 		/// 地形を生成する。
 		/// </summary>
 		/// <returns>地形</returns>
