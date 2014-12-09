@@ -244,6 +244,7 @@ master.zip
 /Dev/ace_cpp/engine/ace.CoreToEngine.h
 
 /Dev/ace_cs/swig/
+/Dev/FontGenerator/FontGenerator/swig/
 /Dev/FontGenerator/FontGenerator.Model/swig/
 
 /Dev/lib/ace_common.Debug.lib
