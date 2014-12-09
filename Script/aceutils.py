@@ -45,6 +45,9 @@ def copytreeWithExt(src,dst,exts):
 def isWin():
 	return platform.system() == 'Windows'
 
+def isMac():
+	return platform.system() == 'Darwin'
+
 def call( cmd ):
 	""" call command line.
 	"""
