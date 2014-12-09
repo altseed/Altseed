@@ -7,6 +7,7 @@ uniform sampler2D g_colorTexture;
 in vec4 voutPosition;
 in vec4 voutColor;
 in vec2 voutUV;
+in vec2 voutUVSub;
 in vec3 voutNormal;
 
 out vec4 outOutput0;

@@ -12,6 +12,7 @@ namespace ace
 		: public RenderedObject3DProxy
 	{
 	public:
+		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_EFFECT; }
 	};
 
 	class RenderedEffectObject3D

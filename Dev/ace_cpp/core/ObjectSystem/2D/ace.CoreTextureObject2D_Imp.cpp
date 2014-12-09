@@ -165,6 +165,41 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	void CoreTextureObject2D_Imp::CalculateBoundingCircle()
+	{
+		std::array<Vector2DF, 4> position = m_src.GetVertexes();
+
+		{
+			Vector2DF origin = position[0];
+			for (int i = 0; i < 4; ++i)
+			{
+				position[i] -= origin;
+			}
+		}
+
+		auto textureSize = m_texture != nullptr ? m_texture->GetSize() : Vector2DI(1, 1);
+
+		auto parentMatrix = m_transform.GetParentsMatrix();
+		auto matrix = m_transform.GetMatrixToTransform();
+
+		for (auto& pos : position)
+		{
+			pos -= m_centerPosition;
+			auto v3 = Vector3DF(pos.X, pos.Y, 1);
+			auto result = parentMatrix * matrix * v3;
+			pos = Vector2DF(result.X, result.Y);
+		}
+
+		Vector2DF center = (position[0] + position[1] + position[2] + position[3]) / 4;
+		float len = (center - position[0]).GetLength();
+		culling2d::Vector2DF cent = culling2d::Vector2DF(center.X, center.Y);
+		m_boundingCircle.Position = cent;
+		m_boundingCircle.Radius = len;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	void CoreTextureObject2D_Imp::Draw(Renderer2D* renderer)
 	{
 		if (!m_objectInfo.GetIsDrawn())

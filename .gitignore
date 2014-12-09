@@ -240,6 +240,7 @@ master.zip
 /Dev/include/EffekseerRendererGL.h
 /Dev/include/OpenSoundMixer.h
 /Dev/include/Culling2D.h
+/Dev/include/Culling3D.h
 
 /Dev/ace_cpp/engine/ace.CoreToEngine.h
 
@@ -280,3 +281,5 @@ Dev/bin/Data/Text/sazanami-gothic.ttf
 
 
 /Dev/FontGenerator/FontGeneratorTest/result
+/culling3d_bin/
+/Culling3D-master/

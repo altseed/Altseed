@@ -15,6 +15,8 @@
 #include "../../../ace.Core.Base.h"
 #include "../../../ace.Core.Base_Imp.h"
 
+#include <Culling3D.h>
+
 namespace ace
 {
 	/**

@@ -44,6 +44,8 @@ namespace ace
 
 		std::vector<ShaderConstantValue> shaderConstants;
 
+		RenderedObject3DCullingProxy	cullingProxy;
+
 	public:
 		bool									calcAnimationOnProxy = false;
 		std::vector<Matrix44>					m_matrixes;
@@ -58,12 +60,20 @@ namespace ace
 
 		std::vector<std::vector<std::shared_ptr<MaterialPropertyBlock>>>	materialPropertyBlocks;
 
+		Culling3D::Object*						CullingObject = nullptr;
+
 		RenderedModelObject3DProxy(Graphics* graphics);
 		virtual ~RenderedModelObject3DProxy();
 
 		void OnUpdateAsync() override;
 
+		void OnAdded(Renderer3DProxy* renderer) override;
+
+		void OnRemoving(Renderer3DProxy* renderer) override;
+
 		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
+
+		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
 	};
 
 	class RenderedModelObject3D
@@ -106,6 +116,8 @@ namespace ace
 		void OnAdded(Renderer3D* renderer) override;
 
 		void OnRemoving(Renderer3D* renderer) override;
+
+		void OnApplyingNextSRT() override;
 
 		void Flip(float deltaTime) override;
 

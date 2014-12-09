@@ -20,6 +20,7 @@ namespace ace
 	private:
 		virtual ~CoreTerrainObject3D_Imp();
 	public:
+		void SetMaterialPropertyBlock(MaterialPropertyBlock* block) override;
 
 		void SetTerrain(Terrain3D* terrain) override;
 

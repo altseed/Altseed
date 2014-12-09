@@ -29,6 +29,20 @@ namespace ace
 	{
 	}
 
+	bool MassModel_Imp::GetIsLoopingMode(const achar* name) const
+	{
+		auto ind = GetClipIndex(name);
+		if (ind == -1) return false;
+		return loopingMode[ind];
+	}
+
+	void MassModel_Imp::SetIsLoopingMode(const achar* name, bool isLoopingMode)
+	{
+		auto ind = GetClipIndex(name);
+		if (ind == -1) return;
+		loopingMode[ind] = isLoopingMode;
+	}
+
 	void MassModel_Imp::SetMaterial(Material3D* material)
 	{
 		SafeAddRef(material);
@@ -75,19 +89,24 @@ namespace ace
 		m_indexBuffer->Unlock();
 
 		// アニメーションテクスチャ
-		auto texture = g->CreateEmptyTexture2D(io.AnimationTexture.TextureWidth, io.AnimationTexture.TextureHeight, TextureFormat::R32G32B32A32_FLOAT);
+		auto texture = g->CreateEmptyTexture2D(io.AnimationTexture_.TextureWidth, io.AnimationTexture_.TextureHeight, TextureFormat::R32G32B32A32_FLOAT);
 		TextureLockInfomation info;
 
 		if (texture->Lock(info))
 		{
-			memcpy(info.Pixels, io.AnimationTexture.Buffer.data(), io.AnimationTexture.Buffer.size() * sizeof(float) * 4);
+			memcpy(info.Pixels, io.AnimationTexture_.Buffer.data(), io.AnimationTexture_.Buffer.size() * sizeof(float) * 4);
 			texture->Unlock();
 		}
 
 		m_animationTexture = texture;
 
-		frameCount = io.AnimationTexture.FrameCount;
-		frameSkip = io.AnimationTexture.FrameSkip;
+		frameCount = io.AnimationTexture_.FrameCount;
+
+		loopingMode.resize(frameCount.size());
+		for (auto i = 0; i < loopingMode.size(); i++)
+		{
+			loopingMode[i] = false;
+		}
 
 		for (auto& clip : io.AnimationClips)
 		{

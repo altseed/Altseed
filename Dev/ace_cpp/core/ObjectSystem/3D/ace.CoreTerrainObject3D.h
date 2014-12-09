@@ -13,6 +13,7 @@ namespace ace
 		virtual ~CoreTerrainObject3D(){}
 
 	public:
+		virtual void SetMaterialPropertyBlock(MaterialPropertyBlock* block) = 0;
 
 		virtual void SetTerrain(Terrain3D* terrain) = 0;
 	};

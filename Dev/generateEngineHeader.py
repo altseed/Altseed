@@ -121,6 +121,7 @@ engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Model.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.MassModel.h")
+engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Terrain3D.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource.h")
@@ -161,6 +162,8 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.DirectionalLightObjec
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.EffectObject3D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.ModelObject3D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.MassModelObject3D.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.TerrainObject3D.h")
+
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.Layer3D.h")
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Scene.h")

@@ -107,6 +107,9 @@
     <ClCompile Include="..\Graphics\3D\MassModelObject3D.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\3D\TerrainObject3D.cpp">
+      <Filter>Graphics\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

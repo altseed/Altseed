@@ -82,6 +82,7 @@ namespace ace {
 	class CoreEffectObject3D;
 	class CoreDirectionalLightObject3D;
 	class CoreMassModelObject3D;
+	class CoreTerrainObject3D;
 
 	class CorePostEffect;
 	class CoreTransition;
@@ -154,6 +155,10 @@ namespace ace {
 		/// 乗算
 		/// </summary>
 		Mul = 4,
+		/// <summary>
+		/// 全加算(内部処理用)
+		/// </summary>
+		AddAll = 5,
 	};
 
 	enum class TextureFilterType : int32_t

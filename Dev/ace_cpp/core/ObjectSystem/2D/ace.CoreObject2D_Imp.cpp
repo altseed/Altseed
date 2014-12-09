@@ -16,4 +16,9 @@ namespace ace
 	{
 		SafeRelease(m_graphics);
 	}
+
+	culling2d::Circle& CoreObject2D_Imp::GetBoundingCircle()
+	{
+		return m_boundingCircle;
+	}
 }

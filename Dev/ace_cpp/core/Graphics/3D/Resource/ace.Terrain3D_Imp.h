@@ -10,7 +10,7 @@ namespace ace
 		, public ReferenceObject
 	{
 	private:
-		const int32_t pixelInGrid = 4;
+		const int32_t pixelInGrid = 8;
 
 	public:
 		struct Vertex
@@ -21,8 +21,6 @@ namespace ace
 			Vector2DF	UV1;
 			Vector2DF	UV2;
 			Color		VColor;
-			int32_t		BoneWeights;
-			int32_t		BoneIndexes;
 		};
 
 		struct Face
@@ -30,6 +28,29 @@ namespace ace
 			int32_t		Index1;
 			int32_t		Index2;
 			int32_t		Index3;
+		};
+
+		struct SurfacePolygon
+		{
+			int32_t	SurfaceIndex;
+			std::shared_ptr<VertexBuffer_Imp> VB;
+			std::shared_ptr<IndexBuffer_Imp> IB;
+		};
+
+		struct ClusterProxy
+		{
+			SurfacePolygon Black;
+			std::vector<SurfacePolygon>	Surfaces;
+			Vector3DF	Center;
+			Vector3DF	Size;
+		};
+
+		struct SurfaceProxy
+		{
+			std::shared_ptr<Texture2D>	ColorTexture;
+			std::shared_ptr<Texture2D>	NormalTexture;
+			std::shared_ptr<Texture2D>	SpecularTexture;
+			std::shared_ptr<Texture2D>	DensityTexture;
 		};
 
 		class Polygon
@@ -49,9 +70,19 @@ namespace ace
 
 		struct
 		{
+			std::vector<SurfaceProxy>					Surfaces;
+			std::vector<std::shared_ptr<ClusterProxy>>	Clusters;
+			
+
+			int32_t			ClusterWidthCount = 0;
+			int32_t			ClusterHeightCount = 0;
+
+			std::shared_ptr<VertexBuffer_Imp> VB;
+			std::shared_ptr<IndexBuffer_Imp> IB;
 			float			GridSize = 0.0f;
 			int32_t			GridWidthCount = 0;
 			int32_t			GridHeightCount = 0;
+			std::shared_ptr<Material3D>	Material_;
 		} Proxy;
 
 	private:
@@ -80,9 +111,9 @@ namespace ace
 		std::map<astring, int32_t>			surfaceNameToIndex;
 		std::map<astring, Surface>			surfaceNameToSurface;
 
-		
+		std::shared_ptr<Material3D>			material_;
 
-		bool isChanged = false;
+		bool isChanged = true;
 
 	public:
 		Terrain3D_Imp(Graphics* graphics);
@@ -90,15 +121,17 @@ namespace ace
 
 	public:
 
-		void Commit();
+		bool Commit();
 
-		void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount);
+		void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount) override;
 
-		void AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* specular);
+		void AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* specular) override;
 
-		int32_t GetSurfaceIndex(const achar* name);
+		int32_t GetSurfaceIndex(const achar* name) override;
 
-		void AssignSurfaceWithCircle(int32_t surfaceIndex, float x, float y, float radius, float value, float fallout);
+		void AssignSurfaceWithCircle(int32_t surfaceIndex, float x, float y, float radius, float value, float fallout) override;
+
+		void SetMaterial(Material3D* material) override;
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

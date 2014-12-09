@@ -17,6 +17,11 @@ namespace ace
 		SafeRelease(m_object);
 	}
 
+	void CoreTerrainObject3D_Imp::SetMaterialPropertyBlock(MaterialPropertyBlock* block)
+	{
+		m_object->SetMaterialPropertyBlock(block);
+	}
+
 	void CoreTerrainObject3D_Imp::SetTerrain(Terrain3D* terrain)
 	{
 		m_object->SetTerrain(terrain);

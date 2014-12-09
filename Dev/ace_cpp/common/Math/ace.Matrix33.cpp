@@ -126,7 +126,7 @@ namespace ace
 
 	Vector2DF Matrix33::Transform2D(const Vector2DF& in) const
 	{
-		float values[2];
+		float values[3];
 
 		for (int i = 0; i < 3; i++)
 		{

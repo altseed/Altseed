@@ -30,6 +30,7 @@ namespace ace
 		CoreEffectObject3D* CreateEffectObject3D() override;
 		CoreDirectionalLightObject3D* CreateDirectionalLightObject3D() override;
 		CoreMassModelObject3D* CreateCoreMassModelObject3D() override;
+		CoreTerrainObject3D* CreateCoreTerrainObject3D() override;
 		CoreLayer3D* CreateLayer3D(RenderSettings settings) override;
 
 		CoreScene* CreateScene() override;

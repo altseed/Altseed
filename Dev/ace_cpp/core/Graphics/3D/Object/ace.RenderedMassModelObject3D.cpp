@@ -2,6 +2,9 @@
 #include "ace.RenderedMassModelObject3D.h"
 #include "../Resource/ace.MassModel.h"
 
+#include "../Renderer/ace.Renderer3D.h"
+#include "../Renderer/ace.Renderer3DProxy.h"
+
 #include "../../ace.Graphics_Imp.h"
 
 #include "../../ace.Graphics_Imp.h"
@@ -119,11 +122,27 @@ namespace ace
 
 			assert(m_shaderDF_ND != nullptr);
 		}
+
+		cullingProxy.ProxyPtr = this;
+
+		CullingObject = Culling3D::Object::Create();
+		CullingObject->SetUserData(&cullingProxy);
 	}
 
 	RenderedMassModelObject3DProxy::~RenderedMassModelObject3DProxy()
 	{
 		SafeRelease(ModelPtr);
+		Culling3D::SafeRelease(CullingObject);
+	}
+
+	void RenderedMassModelObject3DProxy::OnAdded(Renderer3DProxy* renderer)
+	{
+		renderer->CullingWorld->AddObject(CullingObject);
+	}
+
+	void RenderedMassModelObject3DProxy::OnRemoving(Renderer3DProxy* renderer)
+	{
+		renderer->CullingWorld->RemoveObject(CullingObject);
 	}
 
 	void RenderedMassModelObject3DProxy::Rendering(RenderingCommandHelper* helper, RenderingProperty& prop)
@@ -391,9 +410,13 @@ namespace ace
 		animationIndex0 = index;
 		animationIndex1 = 0;
 		animationTime0 = 0;
-		animationTime0 = 0;
+		animationTime1 = 0;
 		animationWeight = 0.0f;
-		isAnimationPlaying = true;
+		isAnimationPlaying0 = true;
+		isAnimationPlaying1 = false;
+
+		isFading = false;
+		variation = 0.0f;
 	}
 
 	void RenderedMassModelObject3D::StopAnimation()
@@ -401,24 +424,51 @@ namespace ace
 		animationIndex0 = 0;
 		animationIndex1 = 0;
 		animationTime0 = 0;
-		animationTime0 = 0;
+		animationTime1 = 0;
 		animationWeight = 0.0f;
-		isAnimationPlaying = false;
+		isAnimationPlaying0 = false;
+		isAnimationPlaying1 = false;
+
+		isFading = false;
+		variation = 0.0f;
 	}
 
 	void RenderedMassModelObject3D::CrossFadeAnimation(const achar* name, float time)
 	{
+		if (model == nullptr) return;
 
+		auto modelPtr = (MassModel_Imp*) model;
+		auto index = modelPtr->GetClipIndex(name);
+		if (index < 0) return;
+
+		animationIndex1 = index;
+		animationTime1 = 0;
+		animationWeight = 0.0f;
+		isAnimationPlaying1 = true;
+
+		isFading = true;
+		variation = time;
 	}
 
 	bool RenderedMassModelObject3D::IsAnimationPlaying()
 	{
-		return isAnimationPlaying;
+		return isAnimationPlaying0 || isAnimationPlaying1;
+	}
+
+	void RenderedMassModelObject3D::OnApplyingNextSRT()
+	{
+		auto pos = this->GetPosition();
+		proxy->CullingObject->SetPosition(Culling3D::Vector3DF(pos.X, pos.Y, pos.Z));
+		proxy->CullingObject->SetShapeType(Culling3D::eObjectShapeType::OBJECT_SHAPE_TYPE_SPHERE);
+		// 仮の数値
+		proxy->CullingObject->SetRadius(200.0f);
 	}
 
 	void RenderedMassModelObject3D::Flip(float deltaTime)
 	{
 		RenderedObject3D::Flip(deltaTime);
+
+		auto modelPtr = (MassModel_Imp*) model;
 
 		SafeSubstitute(proxy->ModelPtr, model);
 
@@ -430,10 +480,52 @@ namespace ace
 		proxy->AnimationTime1 = animationTime1;
 		proxy->AnimationWeight = animationWeight;
 
-		if (isAnimationPlaying)
+		if (isFading)
+		{
+			if (variation == 0)
+			{
+				animationWeight = 1.0f;
+			}
+			else
+			{
+				animationWeight += (deltaTime / variation);
+			}
+
+			if (animationWeight >= 1.0f)
+			{
+				animationWeight = 0.0f;
+				animationIndex0 = animationIndex1;
+				animationTime0 = animationTime1;
+				isAnimationPlaying0 = isAnimationPlaying1;
+				animationWeight = 0.0f;
+				isFading = false;
+			}
+		}
+
+		if (isAnimationPlaying0)
 		{
 			animationTime0 += (deltaTime / (1.0 / 60.0));
+
+			if (modelPtr->GetIsLoopingMode(animationIndex0))
+			{
+				if (animationTime0 >= modelPtr->GetFrameCount(animationIndex0))
+				{
+					animationTime0 -= modelPtr->GetFrameCount(animationIndex0);
+				}
+			}
+		}
+
+		if (isAnimationPlaying1)
+		{
 			animationTime1 += (deltaTime / (1.0 / 60.0));
+
+			if (modelPtr->GetIsLoopingMode(animationIndex1))
+			{
+				if (animationTime1 >= modelPtr->GetFrameCount(animationIndex1))
+				{
+					animationTime1 -= modelPtr->GetFrameCount(animationIndex1);
+				}
+			}
 		}
 	}
 }

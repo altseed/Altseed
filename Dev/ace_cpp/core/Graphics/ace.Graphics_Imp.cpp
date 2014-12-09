@@ -29,6 +29,7 @@
 #include "3D/Resource/ace.Deformer_Imp.h"
 #include "3D/Resource/ace.Model_Imp.h"
 #include "3D/Resource/ace.MassModel_Imp.h"
+#include "3D/Resource/ace.Terrain3D_Imp.h"
 
 #include <Graphics/3D/ace.Model_IO.h>
 #include <Graphics/3D/ace.MassModel_IO.h>
@@ -772,6 +773,46 @@ MassModel* Graphics_Imp::CreateMassModelFromModelFile_(const achar* path)
 	}
 
 	return massmodel;
+}
+
+MassModel* Graphics_Imp::CreateMassModel_(const achar* path)
+{
+#if _WIN32
+	auto fp = _wfopen(path, L"rb");
+	if (fp == nullptr) return nullptr;
+#else
+	auto fp = fopen(ToUtf8String(path).c_str(), "rb");
+	if (fp == nullptr) return nullptr;
+#endif
+	fseek(fp, 0, SEEK_END);
+	auto size = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+
+	std::vector<uint8_t> data;
+	data.resize(size);
+
+	fread(&(data[0]), 1, size, fp);
+	fclose(fp);
+
+	MassModel_IO massmodel_io;
+	if (!massmodel_io.Load(data, path))
+	{
+		return nullptr;
+	}
+
+	auto massmodel = new MassModel_Imp();
+
+	if (!massmodel->Load(this, massmodel_io))
+	{
+		SafeDelete(massmodel);
+	}
+
+	return massmodel;
+}
+
+Terrain3D* Graphics_Imp::CreateTerrain3D_()
+{
+	return new Terrain3D_Imp(this);
 }
 
 //----------------------------------------------------------------------------------

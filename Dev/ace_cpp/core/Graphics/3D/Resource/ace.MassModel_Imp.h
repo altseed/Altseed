@@ -26,8 +26,8 @@ namespace ace
 		};
 
 	private:
-		int32_t					frameSkip = 1;
 		std::vector<int32_t>	frameCount;
+		std::vector<bool>		loopingMode;
 
 		std::map<astring, int32_t>	animationClips;
 
@@ -42,6 +42,10 @@ namespace ace
 		MassModel_Imp();
 		virtual ~MassModel_Imp();
 
+		bool GetIsLoopingMode(const achar* name) const override;
+
+		void SetIsLoopingMode(const achar* name, bool isLoopingMode) override;
+
 		void SetMaterial(Material3D* material) override;
 
 		std::shared_ptr<VertexBuffer_Imp> GetVertexBuffer() { return m_vertexBuffer; }
@@ -51,9 +55,9 @@ namespace ace
 
 		bool Load(Graphics_Imp* g, MassModel_IO& io);
 
-		int32_t GetFrameSkip() { return frameSkip; }
+		bool GetIsLoopingMode(int32_t index) { return loopingMode[index]; }
 		int32_t GetFrameCount(int32_t index) { return frameCount[index]; }
-		int32_t GetClipIndex(const achar* name)
+		int32_t GetClipIndex(const achar* name) const
 		{
 			auto key = astring(name);
 			auto it = animationClips.find(key);

@@ -10,6 +10,9 @@ namespace ace
 		, public CoreObject2D_Imp
 		, public ReferenceObject
 	{
+
+	protected:
+		virtual void CalculateBoundingCircle();
 	private:
 		Texture2D* m_texture;
 		RectF m_src;
