@@ -222,6 +222,8 @@ $RECYCLE.BIN/
 /OpenSoundMixer-master/
 /culling2d_bin/
 /Culling2D-master/
+/culling3d_bin/
+/Culling3D-master/
 
 libpng-1.6.6.tar.gz
 zlib-1.2.8.tar.gz
@@ -281,5 +283,3 @@ Dev/bin/Data/Text/sazanami-gothic.ttf
 
 
 /Dev/FontGenerator/FontGeneratorTest/result
-/culling3d_bin/
-/Culling3D-master/
