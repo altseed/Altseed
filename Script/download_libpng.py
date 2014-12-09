@@ -40,3 +40,12 @@ else:
 	aceutils.rm(r'Dev/lib/libpng16.so')
 	aceutils.rm(r'Dev/lib/libpng16.so.16')
 	aceutils.rm(r'Dev/lib/libpng16.so.16.6.0')
+
+	aceutils.rm(r'Dev/lib/libz.dylib')
+	aceutils.rm(r'Dev/lib/libz.1.dylib')
+	aceutils.rm(r'Dev/lib/libz.1.2.8.dylib')
+
+	aceutils.rm(r'Dev/lib/libpng.dylib')
+	aceutils.rm(r'Dev/lib/libpng16.dylib')
+	aceutils.rm(r'Dev/lib/libpng16.16.dylib')
+	aceutils.rm(r'Dev/lib/libpng16.16.6.0.dylib')

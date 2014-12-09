@@ -138,9 +138,7 @@ else()
 			${OPENGL_glu_LIBRARY}
 			${IOKIT_FRAMEWORK}
 			${CORE_FOUNDATION_FRAMEWORK}
-			${CORE_VIDEO_FRAMEWORK}
-			"-lGL"
-			"-lGLU")
+			${CORE_VIDEO_FRAMEWORK})
 	endif()
 
 endif()
