@@ -37,7 +37,13 @@ libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg
 
 ## Mac
 
-不明
+* Xcode コマンドラインツール
+
+* 各種ライブラリ
+MacPorts等を用いてインストールします。
+```
+libogg libvorbis libvorbisfiles libSM libICE libX11 libXext libXrandr libXi libXxf86vm
+```
 
 # 外部ライブラリの導入
 
@@ -62,13 +68,17 @@ libx11-dev libgl1-mesa-dev libxrandr-dev libxi-dev x11proto-xf86vidmode-dev xorg
 
 自動化できないため最初から追加済み
 
-### 他
+### Linux
 
 パッケージ管理ツールで入手します。
   - Ubuntu
 ```
 libglew-dev
 ```
+
+### Mac
+
+使用しません。
 
 ## GoogleTest
 
@@ -81,6 +91,15 @@ libglew-dev
 ## OpenSoundMixer
 
 ```Script/download_OpenSoundMixer.py``` を実行します。
+
+## カリング
+
+以下のスクリプトを実行します。
+
+```
+Script/download_culling2d.py
+Script/download_culling3d.py
+```
 
 # ヘッダの生成
 
