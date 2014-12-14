@@ -49,7 +49,7 @@ struct PS_Output
 struct PS_Output
 {
 	float4 DiffuseColor					: SV_Target0;
-	float4 SpecularColor_Smoothness		: SV_Target1;
+	float4 SmoothnessMetalnessAO		: SV_Target1;
 	float4 NormalDepth					: SV_Target2;
 	float4 AO_MatID						: SV_Target3;
 };
@@ -90,8 +90,8 @@ PS_Output main( const PS_Input Input )
 	Output.NormalDepth.xyz = Input.Normal;
 	Output.NormalDepth.w = projDepth;
 
-	Output.SpecularColor_Smoothness.xyz = float3(0.0,0.0,0.0);
-	Output.SpecularColor_Smoothness.w = 0.0;
+	Output.SmoothnessMetalnessAO.xyz = float3(0.0,0.0,1.0);
+	Output.SmoothnessMetalnessAO.w = 0.0;
 
 	Output.AO_MatID.x = 1.0;
 	Output.AO_MatID.y = 0;
@@ -131,7 +131,7 @@ out vec4 Depth;
 layout(location = 0) out vec4 DiffuseColor;
 #else
 layout(location = 0) out vec4 DiffuseColor;
-layout(location = 1) out vec4 SpecularColor_Smoothness;
+layout(location = 1) out vec4 SmoothnessMetalnessAO;
 layout(location = 2) out vec4 NormalDepth;
 layout(location = 3) out vec4 AO_MatID;
 #endif
@@ -176,8 +176,8 @@ void main()
 	NormalDepth.xyz = voutNormal;
 	NormalDepth.w = projDepth;
 
-	SpecularColor_Smoothness.xyz = vec3(0.0,0.0,0.0);
-	SpecularColor_Smoothness.w = 0.0;
+	SmoothnessMetalnessAO.xyz = vec3(0.0,0.0,1.0);
+	SmoothnessMetalnessAO.w = 0.0;
 
 	AO_MatID.x = 1.0;
 	AO_MatID.y = 0;
