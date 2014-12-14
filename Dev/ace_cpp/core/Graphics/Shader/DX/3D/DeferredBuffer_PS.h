@@ -31,12 +31,12 @@ struct PS_Input
 
 float	flag;
 
-float3 GetDiffuse(float2 uv)
+float3 GetBaseColor(float2 uv)
 {
 	return g_gbuffer0Texture.Sample(g_gbuffer0Sampler, uv).xyz;
 }
 
-float4 GetSpecularColorAndSmoothness(float2 uv)
+float4 GetSmoothnessMetalnessAO(float2 uv)
 {
 	return g_gbuffer1Texture.Sample(g_gbuffer1Sampler, uv).xyzw;
 }
@@ -57,6 +57,17 @@ float3 GetAO(float2 uv)
 	return float3(ao,ao,ao);
 }
 
+float3 CalcDiffuseColor(float3 baseColor, float metalness)
+{
+	return baseColor * (1.00000 - metalness);
+}
+
+float3 CalcSpecularColor(float3 baseColor, float metalness)
+{
+	float3 minColor = float3(0.0400000, 0.0400000, 0.0400000);
+	return minColor.xyz * (1.0-metalness) + baseColor.xyz * metalness;
+}
+
 float4 main( const PS_Input Input ) : SV_Target
 {
 	float2 uv = Input.UV;
@@ -66,7 +77,9 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	if(flag == 0.0)
 	{
-		color.xyz = GetDiffuse(uv);
+		float3 baseColor = GetBaseColor(uv);
+		float metalness = GetSmoothnessMetalnessAO(uv).y;
+		color.xyz = CalcDiffuseColor(baseColor,metalness);
 	}
 	else if(flag == 1.0)
 	{
@@ -74,11 +87,13 @@ float4 main( const PS_Input Input ) : SV_Target
 	}
 	else if(flag == 2.0)
 	{
-		color.xyz = GetSpecularColorAndSmoothness(uv).xyz;
+		float3 baseColor = GetBaseColor(uv);
+		float metalness = GetSmoothnessMetalnessAO(uv).y;
+		color.xyz = CalcSpecularColor(baseColor,metalness);
 	}
 	else if(flag == 3.0)
 	{
-		float s = GetSpecularColorAndSmoothness(uv).w;
+		float s = GetSmoothnessMetalnessAO(uv).x;
 		color.xyz = float3(s,s,s);
 	}
 	else if(flag == 4.0)

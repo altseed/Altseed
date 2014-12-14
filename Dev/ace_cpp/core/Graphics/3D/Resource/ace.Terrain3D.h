@@ -32,9 +32,9 @@ namespace ace
 			@param	size	素材のテクスチャ1枚あたりの大きさ
 			@param	color	色テクスチャのパス
 			@param	normal	法線テクスチャのパス
-			@param	specular	スペキュラテクスチャのパス
+			@param	metalness	スペキュラテクスチャのパス
 		*/
-		virtual void AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* specular) = 0;
+		virtual void AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* metalness) = 0;
 
 		/**
 			@brief	素材インデックスを取得する。

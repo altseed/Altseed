@@ -7,8 +7,8 @@ SamplerState	g_colorSampler		: register( s0 );
 Texture2D		g_normalTexture		: register( t1 );
 SamplerState	g_normalSampler		: register( s1 );
 
-Texture2D		g_specularTexture		: register( t2 );
-SamplerState	g_specularSampler		: register( s2 );
+Texture2D		g_metalnessTexture		: register( t2 );
+SamplerState	g_metalnessSampler		: register( s2 );
 
 Texture2D		g_smoothnessTexture		: register( t3 );
 SamplerState	g_smoothnessSampler		: register( s3 );
@@ -36,7 +36,7 @@ struct PS_Output
 struct PS_Output
 {
 	float4 DiffuseColor					: SV_Target0;
-	float4 SpecularColor_Smoothness		: SV_Target1;
+	float4 SmoothnessMetalnessAO		: SV_Target1;
 	float4 NormalDepth					: SV_Target2;
 	float4 AO_MatID						: SV_Target3;
 };
@@ -78,8 +78,9 @@ PS_Output main( const PS_Input Input )
 	//Output.NormalDepth.xy = Input.UV.xy;
 	//Output.NormalDepth.z = 0.0;
 
-	Output.SpecularColor_Smoothness.xyz = g_specularTexture.Sample(g_specularSampler, Input.UV).xyz;
-	Output.SpecularColor_Smoothness.w = g_smoothnessTexture.Sample(g_smoothnessSampler, Input.UV).x;
+	Output.SmoothnessMetalnessAO.x = g_smoothnessTexture.Sample(g_smoothnessSampler, Input.UV).x;
+	Output.SmoothnessMetalnessAO.y = g_metalnessTexture.Sample(g_metalnessSampler, Input.UV).x;
+	Output.SmoothnessMetalnessAO.z = 1.0;
 
 	Output.AO_MatID.x = 1.0;
 	Output.AO_MatID.y = 0;

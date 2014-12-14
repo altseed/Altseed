@@ -17,7 +17,7 @@ namespace ace
 		GraphicsDeviceType	deviceType;
 
 		RenderTexture2D_Imp*	m_renderTargetDiffuseColor_RT = nullptr;
-		RenderTexture2D_Imp*	m_renderTargetSpecularColor_Smoothness_RT = nullptr;
+		RenderTexture2D_Imp*	m_renderTargetSmoothness_Metalness_AO_RT = nullptr;
 		RenderTexture2D_Imp*	m_renderTargetNormalDepth_RT = nullptr;
 		RenderTexture2D_Imp*	m_renderTargetAO_MatID_RT = nullptr;
 
@@ -68,7 +68,7 @@ namespace ace
 		void OnUpdateAsync() override;
 
 		RenderTexture2D_Imp*	GetRenderTargetDiffuseColor() { return m_renderTargetDiffuseColor_RT; }
-		RenderTexture2D_Imp*	GetRenderTargetSpecularColor_Smoothness() { return m_renderTargetSpecularColor_Smoothness_RT; }
+		RenderTexture2D_Imp*	GetRenderTargetSmoothness_Metalness_AO() { return m_renderTargetSmoothness_Metalness_AO_RT; }
 		RenderTexture2D_Imp*	GetRenderTargetDepth() { return m_renderTargetNormalDepth_RT; }
 		RenderTexture2D_Imp*	GetRenderTargetAO_MatID() { return m_renderTargetAO_MatID_RT; }
 		RenderTexture2D_Imp*	GetRenderTargetShadow() { return m_renderTargetShadow_RT; }

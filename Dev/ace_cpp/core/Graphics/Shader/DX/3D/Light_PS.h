@@ -68,7 +68,7 @@ float calcLightingGGX(float3 N, float3 V, float3 L, float roughness, float F0)
 	float k2 = k * k;
 	float invK2 = 1.00000f - k2;
 	float vis = 1.00000 / (dotLH * dotLH * invK2 + k2);
-	float specular = dotNL * D * F * vis / 4.0;
+	float specular = dotNL * D * F * vis / 4.00000;
 	return specular;
 }
 
@@ -85,7 +85,7 @@ float3 calcDirectionalLightDiffuseColor(float3 diffuseColor, float3 normal, floa
 {
 	float3 color = float3(0.000000, 0.000000, 0.000000);
 	float NoL = dot(normal, lightDir);
-	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao / 3.14;
+	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao / 3.14000;
 	color.xyz = color.xyz * diffuseColor.xyz;
 	return color;
 }
@@ -100,9 +100,8 @@ float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, fl
 	specular.z = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.z);
 	specular = specular * shadow * ao;
 	specular.xyz = directionalLightColor * specular.xyz;
-
 	float NoL = dot(normal, lightDir);
-	specular.xyz = specular.xyz  * max(NoL, 0.000000);
+	specular.xyz = specular.xyz * max(NoL, 0.000000);
 	return specular;
 }
 
@@ -119,18 +118,28 @@ float VSM(float2 moments, float t)
 	return max(p, p_max);
 }
 
+float3 CalcDiffuseColor(float3 baseColor, float metalness)
+{
+	return baseColor * (1.00000 - metalness);
+}
+
+float3 CalcSpecularColor(float3 baseColor, float metalness)
+{
+	float3 minColor = float3(0.0400000, 0.0400000, 0.0400000);
+	return minColor.xyz * (1.0-metalness) + baseColor.xyz * metalness;
+}
 
 
 
 
 //||>
 
-float3 GetDiffuseColor(float2 uv)
+float3 GetBaseColor(float2 uv)
 {
 	return g_gbuffer0Texture.Sample(g_gbuffer0Sampler, uv).xyz;
 }
 
-float4 GetSpecularColorAndSmoothness(float2 uv)
+float4 GetSmoothnessMetalnessAO(float2 uv)
 {
 	return g_gbuffer1Texture.Sample(g_gbuffer1Sampler, uv).xyzw;
 }
@@ -138,6 +147,12 @@ float4 GetSpecularColorAndSmoothness(float2 uv)
 float3 GetNormal(float2 uv)
 {
 	return g_gbuffer2Texture.Sample(g_gbuffer2Sampler, uv).xyz;
+}
+
+float3 GetAO(float2 uv)
+{
+	float ao = g_ssaoTexture.Sample(g_ssaoSampler, uv).x;
+	return float3(ao,ao,ao);
 }
 
 float GetNormalizedDepth(float2 uv)
@@ -184,12 +199,17 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float4 lightColor = float4(0.0,0.0,0.0,1.0);
 
-	float3 diffuseColor = GetDiffuseColor(uv);
+	float3 baseColor = GetBaseColor(uv);
 	float3 normal = GetNormal(uv);
-	float4 specularColorAndSmoothness = GetSpecularColorAndSmoothness(uv);
-	float3 specularColor = specularColorAndSmoothness.xyz;
-	float smoothness = specularColorAndSmoothness.w;
-	float ao = g_ssaoTexture.Sample(g_ssaoSampler, uv).x;
+	float4 smoothnessMetalnessAO = GetSmoothnessMetalnessAO(uv);
+	float smoothness = smoothnessMetalnessAO .x;
+	float metalness = smoothnessMetalnessAO .y;
+	float bakedAO = smoothnessMetalnessAO .z;
+
+	float3 diffuseColor = CalcDiffuseColor(baseColor,metalness);
+	float3 specularColor = CalcSpecularColor(baseColor,metalness);
+
+	float ao = GetAO(uv).x * bakedAO;
 
 #ifdef DIRECTIONAL_LIGHT
 	float4 shadowmapPos = ReconstructShadowmapPosition(cameraPos);

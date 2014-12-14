@@ -227,13 +227,13 @@ namespace ace
 		m_materials[materialIndex].NormalTexture = t;
 	}
 
-	void Mesh_Imp::SetSpecularTexture(int32_t materialIndex, Texture2D* texture)
+	void Mesh_Imp::SetMetalnessTexture(int32_t materialIndex, Texture2D* texture)
 	{
 		if (m_materials.size() <= materialIndex) return;
 		
 		SafeAddRef(texture);
 		auto t = CreateSharedPtrWithReleaseDLL(texture);
-		m_materials[materialIndex].SpecularTexture = t;
+		m_materials[materialIndex].MetalnessTexture = t;
 	}
 
 	void Mesh_Imp::SetSmoothnessTexture(int32_t materialIndex, Texture2D* texture)

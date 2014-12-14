@@ -49,7 +49,7 @@ namespace ace
 		{
 			std::shared_ptr<Texture2D>	ColorTexture;
 			std::shared_ptr<Texture2D>	NormalTexture;
-			std::shared_ptr<Texture2D>	SpecularTexture;
+			std::shared_ptr<Texture2D>	MetalnessTexture;
 			std::shared_ptr<Texture2D>	DensityTexture;
 		};
 
@@ -61,7 +61,7 @@ namespace ace
 
 			std::shared_ptr<Texture2D>	ColorTexture;
 			std::shared_ptr<Texture2D>	NormalTexture;
-			std::shared_ptr<Texture2D>	SpecularTexture;
+			std::shared_ptr<Texture2D>	MetalnessTexture;
 
 			std::shared_ptr<Texture2D>	DensityTexture;
 		};
@@ -94,11 +94,11 @@ namespace ace
 
 			astring	ColorPath;
 			astring	NormalPath;
-			astring	SpecularPath;
+			astring	MetalnessPath;
 
 			std::shared_ptr<Texture2D>	ColorTexture;
 			std::shared_ptr<Texture2D>	NormalTexture;
-			std::shared_ptr<Texture2D>	SpecularTexture;
+			std::shared_ptr<Texture2D>	MetalnessTexture;
 		};
 
 		Graphics*		m_graphics;
@@ -125,7 +125,7 @@ namespace ace
 
 		void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount) override;
 
-		void AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* specular) override;
+		void AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* metalness) override;
 
 		int32_t GetSurfaceIndex(const achar* name) override;
 

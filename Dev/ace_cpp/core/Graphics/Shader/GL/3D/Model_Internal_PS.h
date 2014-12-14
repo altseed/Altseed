@@ -5,7 +5,7 @@ uniform sampler2D g_colorTexture;
 //>||
 
 uniform sampler2D g_normalTexture;
-uniform sampler2D g_specularTexture;
+uniform sampler2D g_metalnessTexture;
 uniform sampler2D g_smoothnessTexture;
 
 in vec4 voutPosition;
@@ -21,7 +21,7 @@ in vec3 voutTangent;
 out vec4 Depth;
 #else
 layout(location = 0) out vec4 DiffuseColor;
-layout(location = 1) out vec4 SpecularColor_Smoothness;
+layout(location = 1) out vec4 SmoothnessMetalnessAO;
 layout(location = 2) out vec4 NormalDepth;
 layout(location = 3) out vec4 AO_MatID;
 #endif
@@ -76,8 +76,9 @@ void main()
 	//NormalDepth.w = 1.0;
 	//NormalDepth = diffuseColor;
 
-	SpecularColor_Smoothness.xyz = texture(g_specularTexture, voutUV_).xyz;
-	SpecularColor_Smoothness.w = texture(g_smoothnessTexture, voutUV_).x;
+	SmoothnessMetalnessAO.x = texture(g_smoothnessTexture, voutUV_).x;
+	SmoothnessMetalnessAO.y = texture(g_metalnessTexture, voutUV_).x;
+	SmoothnessMetalnessAO.z = 1.0;
 
 	AO_MatID.x = 1.0;
 	AO_MatID.y = 0;

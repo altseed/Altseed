@@ -101,3 +101,14 @@ float VSM(float2 moments, float t)
 	float p_max = variance / (variance + d * d);
 	return max(p, p_max);
 }
+
+float3 CalcDiffuseColor(float3 baseColor, float metalness)
+{
+	return baseColor * (1.0-metalness);
+}
+
+float3 CalcSpecularColor(float3 baseColor, float metalness)
+{
+	float3 minColor = float3(0.04, 0.04, 0.04);
+	return minColor.xyz * (1.0-metalness) + baseColor.xyz * metalness;
+}
