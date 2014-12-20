@@ -30,24 +30,25 @@ void Test()
 
 int main()
 {
-	Test();
-	return 0;
+	//Test();
+	//return 0;
 
 	Generator gen;
 
 	try
 	{
 		SettingForRendering setting;
-		setting.SetFontSize(32);
+		setting.SetFontSize(20);
 		setting.SetFontColor(Color(255, 128, 0, 255));
-		//setting.SetBold(make_shared<BoldSetting>(1));	
-		setting.SetBorder(make_shared<BorderSetting>(4, Color(0, 0, 0, 255), 3));
+		setting.SetBorder(make_shared<BorderSetting>(1, Color(0, 0, 0, 255), 3));
 		
 		gen.SetSetting(setting);
-		gen.SetSheetName(L"result/Nac0813");
+		gen.SetSheetName(L"result/Nac1220_1");
 
 		gen.GenerateFontFile(
-			L"C:/Windows/Fonts/meiryo.ttc",
+			L"C:/Windows/Fonts/FlopDesignFONT.otf",
+			//L"C:/Windows/Fonts/KozGoPr6N-Regular.otf",
+			//L"C:/Windows/Fonts/meiryo.ttc",
 			L"test.txt");
 	}
 	catch (const char* err)
