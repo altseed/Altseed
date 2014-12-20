@@ -21,12 +21,12 @@ out vec4 outOutput0;
 
 uniform float	flag;
 
-vec3 GetDiffuse(vec2 uv)
+vec3 GetBaseColor(vec2 uv)
 {
 	return texture(g_gbuffer0Texture, uv).xyz;
 }
 
-vec4 GetSpecularColorAndSmoothness(vec2 uv)
+vec4 GetSmoothnessMetalnessAO(vec2 uv)
 {
 	return texture(g_gbuffer1Texture, uv).xyzw;
 }
@@ -47,6 +47,16 @@ vec3 GetAO(vec2 uv)
 	return vec3(ao,ao,ao);
 }
 
+vec3 CalcDiffuseColor(vec3 baseColor, float metalness)
+{
+	return baseColor * (1.00000 - metalness);
+}
+
+vec3 CalcSpecularColor(vec3 baseColor, float metalness)
+{
+	vec3 minColor = vec3(0.0400000, 0.0400000, 0.0400000);
+	return lerp(minColor.xyz, baseColor.xyz, metalness);
+}
 
 void main()
 {
@@ -57,7 +67,9 @@ void main()
 
 	if(flag == 0.0)
 	{
-		color.xyz = GetDiffuse(uv);
+		vec3 baseColor = GetBaseColor(uv);
+		float metalness = GetSmoothnessMetalnessAO(uv).y;
+		color.xyz = CalcDiffuseColor(baseColor,metalness);
 	}
 	else if(flag == 1.0)
 	{
@@ -65,11 +77,13 @@ void main()
 	}
 	else if(flag == 2.0)
 	{
-		color.xyz = GetSpecularColorAndSmoothness(uv).xyz;
+		vec3 baseColor = GetBaseColor(uv);
+		float metalness = GetSmoothnessMetalnessAO(uv).y;
+		color.xyz = CalcSpecularColor(baseColor,metalness);
 	}
 	else if(flag == 3.0)
 	{
-		float s = GetSpecularColorAndSmoothness(uv).w;
+		float s = GetSmoothnessMetalnessAO(uv).x;
 		color.xyz = vec3(s,s,s);
 	}
 	else if(flag == 4.0)

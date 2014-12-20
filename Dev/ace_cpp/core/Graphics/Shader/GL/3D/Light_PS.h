@@ -59,7 +59,7 @@ float calcLightingGGX(vec3 N, vec3 V, vec3 L, float roughness, float F0)
 	float k2 = k * k;
 	float invK2 = 1.00000 - k2;
 	float vis = 1.00000 / (dotLH * dotLH * invK2 + k2);
-	float specular = dotNL * D * F * vis / 4.0;
+	float specular = dotNL * D * F * vis / 4.00000;
 	return specular;
 }
 
@@ -76,7 +76,7 @@ vec3 calcDirectionalLightDiffuseColor(vec3 diffuseColor, vec3 normal, vec3 light
 {
 	vec3 color = vec3(0.000000, 0.000000, 0.000000);
 	float NoL = dot(normal, lightDir);
-	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao / 3.14;
+	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao / 3.14000;
 	color.xyz = color.xyz * diffuseColor.xyz;
 	return color;
 }
@@ -91,10 +91,8 @@ vec3 calcDirectionalLightSpecularColor(vec3 specularColor, vec3 normal, vec3 lig
 	specular.z = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.z);
 	specular = specular * shadow * ao;
 	specular.xyz = directionalLightColor * specular.xyz;
-
 	float NoL = dot(normal, lightDir);
-	specular.xyz = specular.xyz  * max(NoL, 0.000000);
-
+	specular.xyz = specular.xyz * max(NoL, 0.000000);
 	return specular;
 }
 
@@ -111,19 +109,27 @@ float VSM(vec2 moments, float t)
 	return max(p, p_max);
 }
 
+vec3 CalcDiffuseColor(vec3 baseColor, float metalness)
+{
+	return baseColor * (1.00000 - metalness);
+}
 
-
-
+vec3 CalcSpecularColor(vec3 baseColor, float metalness)
+{
+	vec3 minColor = vec3(0.0400000, 0.0400000, 0.0400000);
+	return minColor.xyz * (1.0-metalness) + baseColor.xyz * metalness;
+}
 
 
 //||>
 
-vec3 GetDiffuseColor(vec2 uv)
+
+vec3 GetBaseColor(vec2 uv)
 {
 	return texture(g_gbuffer0Texture, uv).xyz;
 }
 
-vec4 GetSpecularColorAndSmoothness(vec2 uv)
+vec4 GetSmoothnessMetalnessAO(vec2 uv)
 {
 	return texture(g_gbuffer1Texture, uv).xyzw;
 }
@@ -131,6 +137,12 @@ vec4 GetSpecularColorAndSmoothness(vec2 uv)
 vec3 GetNormal(vec2 uv)
 {
 	return texture(g_gbuffer2Texture, uv).xyz;
+}
+
+vec3 GetAO(vec2 uv)
+{
+	float ao = texture(g_ssaoTexture, uv).x;
+	return vec3(ao,ao,ao);
 }
 
 float GetNormalizedDepth(vec2 uv)
@@ -175,13 +187,18 @@ void main()
 	vec3 cameraPos = ReconstructPosition(voutPosition.xy, ReconstructDepth(GetNormalizedDepth(uv)));
 
 	vec4 lightColor = vec4(0.0,0.0,0.0,1.0);
-	vec3 normal = GetNormal(uv);
 
-	vec3 diffuseColor = GetDiffuseColor(uv);
-	vec4 specularColorAndSmoothness = GetSpecularColorAndSmoothness(uv);
-	vec3 specularColor = specularColorAndSmoothness.xyz;
-	float smoothness = specularColorAndSmoothness.w;
-	float ao = texture(g_ssaoTexture, uv).x;
+	vec3 baseColor = GetBaseColor(uv);
+	vec3 normal = GetNormal(uv);
+	vec4 smoothnessMetalnessAO = GetSmoothnessMetalnessAO(uv);
+	float smoothness = smoothnessMetalnessAO .x;
+	float metalness = smoothnessMetalnessAO .y;
+	float bakedAO = smoothnessMetalnessAO .z;
+
+	vec3 diffuseColor = CalcDiffuseColor(baseColor,metalness);
+	vec3 specularColor = CalcSpecularColor(baseColor,metalness);
+
+	float ao = GetAO(uv).x * bakedAO;
 
 #ifdef DIRECTIONAL_LIGHT
 	vec4 shadowmapPos = ReconstructShadowmapPosition(cameraPos);

@@ -189,7 +189,7 @@ namespace ace
 	
 			if (material.ColorTexture != astring()) mesh->SetColorTexture(ind, g->CreateTexture2D(material.ColorTexture.c_str()).get());
 			if (material.NormalTexture != astring()) mesh->SetNormalTexture(ind, g->CreateTexture2DAsRawData(material.NormalTexture.c_str()).get());
-			if (material.SpecularTexture != astring()) mesh->SetSpecularTexture(ind, g->CreateTexture2DAsRawData(material.SpecularTexture.c_str()).get());
+			if (material.MetalnessTexture != astring()) mesh->SetMetalnessTexture(ind, g->CreateTexture2DAsRawData(material.MetalnessTexture.c_str()).get());
 		}
 
 		return mesh;

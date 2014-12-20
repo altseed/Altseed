@@ -124,14 +124,14 @@ namespace ace
 		}
 
 		/// <summary>
-		/// 内部シェーダーを使用する場合のスペキュラテクスチャを設定する。
+		/// 内部シェーダーを使用する場合の金属度テクスチャを設定する。
 		/// </summary>
 		/// <param name="materialIndex">材質のインデックス</param>
 		/// <param name="texture">テクスチャ</param>
 		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
-		public void SetSpecularTexture(int materialIndex, Texture2D texture)
+		public void SetMetalnessTexture(int materialIndex, Texture2D texture)
 		{
-			SwigObject.SetSpecularTexture(materialIndex, IG.GetTexture2D(texture));
+			SwigObject.SetMetalnessTexture(materialIndex, IG.GetTexture2D(texture));
 		}
 
 		/// <summary>

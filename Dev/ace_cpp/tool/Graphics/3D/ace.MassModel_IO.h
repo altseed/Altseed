@@ -45,11 +45,11 @@ namespace ace
 			int32_t Type;
 			astring	ColorTexture;
 			astring	NormalTexture;
-			astring	SpecularTexture;
+			astring	MetalnessTexture;
 
 			astring	OriginalColorTexture;
 			astring	OriginalNormalTexture;
-			astring	OriginalSpecularTexture;
+			astring	OriginalMetalnessTexture;
 		};
 
 		struct AnimationClip

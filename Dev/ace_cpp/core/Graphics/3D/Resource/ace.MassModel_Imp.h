@@ -16,7 +16,7 @@ namespace ace
 		{
 			std::shared_ptr<Texture2D>	ColorTexture;
 			std::shared_ptr<Texture2D>	NormalTexture;
-			std::shared_ptr<Texture2D>	SpecularTexture;
+			std::shared_ptr<Texture2D>	MetalnessTexture;
 			std::shared_ptr<Texture2D>	SmoothnessTexture;
 
 			std::shared_ptr<Material3D>	Material_;

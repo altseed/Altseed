@@ -1,6 +1,7 @@
 ﻿
 #include "../../EngineGraphics3DTest.h"
 
+
 class Graphics_LightingStandard : public EngineGraphics3DTest
 {
 public:

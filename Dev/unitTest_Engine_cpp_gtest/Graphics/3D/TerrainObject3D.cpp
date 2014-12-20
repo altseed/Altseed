@@ -14,7 +14,7 @@ protected:
 	{
 		ace::RenderSettings settings;
 		settings.IsLightweightMode = false;
-		//settings.VisualizedBuffer = ace::VisualizedBufferType::SpecularColor;
+		//settings.VisualizedBuffer = ace::VisualizedBufferType::Smoothness;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();

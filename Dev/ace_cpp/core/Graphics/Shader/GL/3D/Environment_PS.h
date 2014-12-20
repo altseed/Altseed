@@ -23,12 +23,12 @@ in vec2 voutUV;
 
 out vec4 outOutput0;
 
-vec3 GetDiffuseColor(vec2 uv)
+vec3 GetBaseColor(vec2 uv)
 {
 	return texture(g_gbuffer0Texture, uv).xyz;
 }
 
-vec4 GetSpecularColorAndSmoothness(vec2 uv)
+vec4 GetSmoothnessMetalnessAO(vec2 uv)
 {
 	return texture(g_gbuffer1Texture, uv).xyzw;
 }
@@ -53,6 +53,16 @@ vec3 ReconstructPosition(vec2 screenXY, float depth)
 	return vec3( reconstructInfo2.xy * screenXY * (-depth), depth );
 }
 
+vec3 CalcDiffuseColor(vec3 baseColor, float metalness)
+{
+	return baseColor * (1.00000 - metalness);
+}
+
+vec3 CalcSpecularColor(vec3 baseColor, float metalness)
+{
+	vec3 minColor = vec3(0.0400000, 0.0400000, 0.0400000);
+	return minColor.xyz * (1.0-metalness) + baseColor.xyz * metalness;
+}
 
 void main()
 {

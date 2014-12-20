@@ -598,7 +598,7 @@ namespace ace
 
 			ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
 			ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
-			ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
+			ace::Texture2D* metalnessTexture = prop.DummyTextureBlack.get();
 			ace::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
 
 			if (surface.ColorTexture != nullptr)
@@ -613,9 +613,9 @@ namespace ace
 					normalTexture = surface.NormalTexture.get();
 				}
 
-				if (surface.SpecularTexture != nullptr)
+				if (surface.MetalnessTexture != nullptr)
 				{
-					specularTexture = surface.SpecularTexture.get();
+					metalnessTexture = surface.MetalnessTexture.get();
 					//smoothnessTexture = polygon->SpecularTexture.get();
 				}
 			}
@@ -626,8 +626,8 @@ namespace ace
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
 				h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
 
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
-				h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_metalnessTexture",
+				h::Texture2DPair(metalnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
 				h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));

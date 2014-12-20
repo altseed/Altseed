@@ -42,11 +42,11 @@ namespace ace
 		{
 			Material_.ColorTexture = materials[0].ColorTexture;
 			Material_.NormalTexture = materials[0].NormalTexture;
-			Material_.SpecularTexture = materials[0].SpecularTexture;
+			Material_.MetalnessTexture = materials[0].MetalnessTexture;
 
 			Material_.OriginalColorTexture = materials[0].OriginalColorTexture;
 			Material_.OriginalNormalTexture = materials[0].OriginalNormalTexture;
-			Material_.OriginalSpecularTexture = materials[0].OriginalSpecularTexture;
+			Material_.OriginalMetalnessTexture = materials[0].OriginalMetalnessTexture;
 
 			Material_.Type = materials[0].Type;
 		}
@@ -349,11 +349,11 @@ namespace ace
 		{
 			Material_.OriginalColorTexture = reader.Get<ace::astring>();
 			Material_.OriginalNormalTexture = reader.Get<ace::astring>();
-			Material_.OriginalSpecularTexture = reader.Get<ace::astring>();
+			Material_.OriginalMetalnessTexture = reader.Get<ace::astring>();
 
 			if (Material_.OriginalColorTexture != astring()) Material_.ColorTexture = CombinePath(path, Material_.OriginalColorTexture.c_str());
 			if (Material_.OriginalNormalTexture != astring()) Material_.NormalTexture = CombinePath(path, Material_.OriginalNormalTexture.c_str());
-			if (Material_.OriginalSpecularTexture != astring()) Material_.SpecularTexture = CombinePath(path, Material_.OriginalSpecularTexture.c_str());
+			if (Material_.OriginalMetalnessTexture != astring()) Material_.MetalnessTexture = CombinePath(path, Material_.OriginalMetalnessTexture.c_str());
 		}
 
 		// アニメーション
@@ -443,7 +443,7 @@ namespace ace
 			writer.Push((int32_t) 0);
 			writer.Push(Material_.OriginalColorTexture.c_str());
 			writer.Push(Material_.OriginalNormalTexture.c_str());
-			writer.Push(Material_.OriginalSpecularTexture.c_str());
+			writer.Push(Material_.OriginalMetalnessTexture.c_str());
 		}
 
 		// アニメーション

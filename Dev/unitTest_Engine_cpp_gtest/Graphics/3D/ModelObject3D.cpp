@@ -1,6 +1,7 @@
 ﻿
 #include "../../EngineGraphics3DTest.h"
 
+
 class Graphics_ModelObject3D : public EngineGraphics3DTest
 {
 

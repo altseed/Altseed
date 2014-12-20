@@ -41,7 +41,7 @@ namespace ace
 
 			p.ColorTexture = surface.second.ColorTexture;
 			p.NormalTexture = surface.second.NormalTexture;
-			p.SpecularTexture = surface.second.SpecularTexture;
+			p.MetalnessTexture = surface.second.MetalnessTexture;
 
 			auto ind = surfaceNameToIndex[surface.first];
 			auto& surface_ = surfaces[ind];
@@ -322,7 +322,7 @@ namespace ace
 
 			polygon->ColorTexture = kv.second.ColorTexture;
 			polygon->NormalTexture = kv.second.NormalTexture;
-			polygon->SpecularTexture = kv.second.SpecularTexture;
+			polygon->MetalnessTexture = kv.second.MetalnessTexture;
 			polygon->DensityTexture = g->CreateEmptyTexture2D(
 				gridWidthCount * pixelInGrid, 
 				gridHeightCount * pixelInGrid, 
@@ -413,18 +413,18 @@ namespace ace
 		isChanged = true;
 	}
 
-	void Terrain3D_Imp::AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* specular)
+	void Terrain3D_Imp::AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* metalness)
 	{
 		Surface sf;
 		sf.Size = size;
 
 		sf.ColorPath = color;
 		sf.NormalPath = normal;
-		sf.SpecularPath = specular;
+		sf.MetalnessPath = metalness;
 
 		sf.ColorTexture = m_graphics->CreateTexture2D(color);
 		sf.NormalTexture = m_graphics->CreateTexture2DAsRawData(normal);
-		sf.SpecularTexture = m_graphics->CreateTexture2D(specular);
+		sf.MetalnessTexture = m_graphics->CreateTexture2D(metalness);
 
 		auto it = surfaceNameToIndex.find(name);
 

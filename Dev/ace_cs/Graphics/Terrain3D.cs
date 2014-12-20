@@ -64,10 +64,10 @@ namespace ace
 		/// <param name="size">素材のテクスチャ1枚あたりの大きさ</param>
 		/// <param name="color">色テクスチャのパス</param>
 		/// <param name="normal">法線テクスチャのパス</param>
-		/// <param name="specular">スペキュラテクスチャのパス</param>
-		public void AddSurface(string name, float size, string color, string normal, string specular)
+		/// <param name="metalness">金属度テクスチャのパス</param>
+		public void AddSurface(string name, float size, string color, string normal, string metalness)
 		{
-			SwigObject.AddSurface(name, size, color, normal, specular);
+			SwigObject.AddSurface(name, size, color, normal, metalness);
 		}
 
 		/// <summary>

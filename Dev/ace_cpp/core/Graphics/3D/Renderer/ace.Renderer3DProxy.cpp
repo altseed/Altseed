@@ -610,7 +610,7 @@ namespace ace
 			{
 				helper->SetRenderTarget(
 					cP->GetRenderTargetDiffuseColor(),
-					cP->GetRenderTargetSpecularColor_Smoothness(),
+					cP->GetRenderTargetSmoothness_Metalness_AO(),
 					cP->GetRenderTargetDepth(),
 					cP->GetRenderTargetAO_MatID(),
 					cP->GetDepthBuffer());
@@ -641,7 +641,7 @@ namespace ace
 		// 環境描画
 		environmentRendering->Render(
 			cP, helper,
-			cP->GetRenderTargetDiffuseColor(), cP->GetRenderTargetSpecularColor_Smoothness(), cP->GetRenderTargetDepth(), cP->GetRenderTargetAO_MatID(),
+			cP->GetRenderTargetDiffuseColor(), cP->GetRenderTargetSmoothness_Metalness_AO(), cP->GetRenderTargetDepth(), cP->GetRenderTargetAO_MatID(),
 			EnvironmentDiffuseColorIntensity, EnvironmentSpecularColorIntensity, EnvironmentDiffuseColor.get(), EnvironmentSpecularColor.get());
 
 		// SSAO
@@ -822,7 +822,7 @@ namespace ace
 							h::GenValue("g_cameraPositionToShadowCameraPosition", CameraPositionToShadowCameraPosition),
 							h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 							h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-							h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+							h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSmoothness_Metalness_AO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 							h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 							h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 							h::GenValue("g_shadowmapTexture", h::Texture2DPair(lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
@@ -874,7 +874,7 @@ namespace ace
 					h::GenValue("reconstructInfo2", cP->ReconstructInfo2),
 					h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 					h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-					h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+					h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSmoothness_Metalness_AO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 					h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 					h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 					h::GenValue("g_environmentDiffuseTexture", h::Texture2DPair(cP->GetRenderTargetEnvironment(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
@@ -952,7 +952,7 @@ namespace ace
 				h::GenValue("flag", flag),
 				h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 				h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-				h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSpecularColor_Smoothness(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+				h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSmoothness_Metalness_AO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 				h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 				h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 				h::GenValue("g_environmentTexture", h::Texture2DPair(cP->GetRenderTargetEnvironment(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
