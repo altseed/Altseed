@@ -67,8 +67,8 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
-	//CALL_ENGINE_TEST(Graphics, TerrainObject3D, true)
-	//return 0;
+	CALL_ENGINE_TEST(Graphics, TextObject2D, true)
+	return 0;
 
 	//TestCamera(true);
 	//TestCamera(false);
