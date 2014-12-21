@@ -42,6 +42,29 @@ struct PS_Input
 };
 
 //<|| ALSL
+float calcD_GGX(float roughness, float dotNH)
+{
+	float alpha = roughness * roughness;
+	float alphaSqr = alpha * alpha;
+	float pi = 3.14159;
+	float denom = dotNH * dotNH * (alphaSqr - 1.00000) + 1.00000;
+	return alphaSqr / (pi * denom * denom);
+}
+
+float calcF(float F0, float dotLH)
+{
+	float dotLH5 = pow(1.00000f - dotLH, 5);
+	return F0 + (1.00000 - F0) * (dotLH5);
+}
+
+float calcG_Schlick(float roughness, float dotNV, float dotNL)
+{
+	float k = (roughness + 1.00000) * (roughness + 1.00000) / 8.00000;
+	float gV = dotNV * (1.00000 - k) + k;
+	float gL = dotNL * (1.00000 - k) + k;
+	return 1.00000 / (gV * gL);
+}
+
 float calcLightingGGX(float3 N, float3 V, float3 L, float roughness, float F0)
 {
 	float alpha = roughness * roughness;
@@ -50,26 +73,18 @@ float calcLightingGGX(float3 N, float3 V, float3 L, float roughness, float F0)
 	float dotNL = clamp(dot(N, L), 0.000000, 1.00000);
 	float dotLH = clamp(dot(L, H), 0.000000, 1.00000);
 	float dotNH = clamp(dot(N, H), 0.000000, 1.00000);
+	float dotNV = clamp(dot(N, V), 0.000000, 1.00000);
 #endif
 #ifdef DIRECTX
 	float dotNL = saturate(dot(N, L));
 	float dotLH = saturate(dot(L, H));
 	float dotNH = saturate(dot(N, H));
+	float dotNV = saturate(dot(N, V));
 #endif
-	float alphaSqr = alpha * alpha;
-	float pi = 3.14159f;
-	float denom = dotNH * dotNH * (alphaSqr - 1.00000) + 1.00000f;
-	float D = alphaSqr / (pi * denom * denom);
-	float dotLH5 = pow(1.00000f - dotLH, 5);
-	float F = F0 + (1.00000 - F0) * (dotLH5);
-	float roughnessNorm = (roughness + 1.00000) / 2.00000;
-	float alphaNorm = roughnessNorm * roughnessNorm;
-	float k = alphaNorm / 2.00000f;
-	float k2 = k * k;
-	float invK2 = 1.00000f - k2;
-	float vis = 1.00000 / (dotLH * dotLH * invK2 + k2);
-	float specular = dotNL * D * F * vis / 4.00000;
-	return specular;
+	float D = calcD_GGX(roughness, dotNH);
+	float F = calcF(F0, dotLH);
+	float G = calcG_Schlick(roughness, dotNV, dotNL);
+	return dotNL * D * F * G / 4.00000;
 }
 
 float3 calcAmbientColor(float3 upDir, float3 normal)
@@ -93,6 +108,8 @@ float3 calcDirectionalLightDiffuseColor(float3 diffuseColor, float3 normal, floa
 float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, float3 lightDir, float smoothness, float fresnel, float shadow, float ao)
 {
 	float roughness = 1.00000 - smoothness;
+	roughness = max(roughness, 0.08);
+
 	float3 viewDir = float3(0.000000, 0.000000, 1.00000);
 	float3 specular;
 	specular.x = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.x);
@@ -126,8 +143,10 @@ float3 CalcDiffuseColor(float3 baseColor, float metalness)
 float3 CalcSpecularColor(float3 baseColor, float metalness)
 {
 	float3 minColor = float3(0.0400000, 0.0400000, 0.0400000);
-	return minColor.xyz * (1.0-metalness) + baseColor.xyz * metalness;
+	return minColor.xyz * (1.00000 - metalness) + baseColor.xyz * metalness;
 }
+
+
 
 
 
