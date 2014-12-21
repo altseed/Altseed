@@ -48,7 +48,7 @@ float calcD_GGX(float roughness, float dotNH)
 	float alphaSqr = alpha * alpha;
 	float pi = 3.14159;
 	float denom = dotNH * dotNH * (alphaSqr - 1.00000) + 1.00000;
-	return alphaSqr / (pi * denom * denom);
+	return (alpha / denom) * (alpha / denom) / pi;
 }
 
 float calcF(float F0, float dotLH)
@@ -84,6 +84,9 @@ float calcLightingGGX(float3 N, float3 V, float3 L, float roughness, float F0)
 	float D = calcD_GGX(roughness, dotNH);
 	float F = calcF(F0, dotLH);
 	float G = calcG_Schlick(roughness, dotNV, dotNL);
+
+	D = min(32.0,D);
+
 	return dotNL * D * F * G / 4.00000;
 }
 
@@ -109,6 +112,7 @@ float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, fl
 {
 	float roughness = 1.00000 - smoothness;
 	roughness = max(roughness, 0.08);
+	roughness = min(roughness, 0.92);
 
 	float3 viewDir = float3(0.000000, 0.000000, 1.00000);
 	float3 specular;
