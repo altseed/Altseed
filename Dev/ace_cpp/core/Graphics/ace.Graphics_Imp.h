@@ -59,6 +59,8 @@ namespace ace {
 
 		static int32_t GetMipmapCount(int32_t width, int32_t height);
 		static void GetMipmapSize(int mipmap, int32_t& width, int32_t& height);
+
+		static bool IsDDS(const void* data, int32_t size);
 	};
 
 	class EffectTextureLoader
@@ -254,6 +256,11 @@ namespace ace {
 		@brief	SWIG向けに記述
 		*/
 		virtual CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) { return nullptr; }
+
+		/**
+		@brief	SWIG向けに記述
+		*/
+		virtual CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path)  { return nullptr; }
 
 		/**
 			@brief	シェーダー(2D)を生成する。

@@ -136,6 +136,9 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{738ee52d-79cc-410a-b7b3-3a7215246838}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Platform\DX11\DirectXToolKit">
+      <UniqueIdentifier>{ffbbcee5-e1ed-4029-9020-bb07561a6913}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -841,6 +844,18 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Terrain_Internal_VS.h">
       <Filter>Graphics\Shader\GL\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.h">
+      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DirectXHelpers.h">
+      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\PlatformHelpers.h">
+      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\dds.h">
+      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1188,6 +1203,9 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\3D\ace.CoreTerrainObject3D_Imp.cpp">
       <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.cpp">
+      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

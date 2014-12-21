@@ -10,7 +10,7 @@ namespace ace
 		: public CubemapTexture_Imp
 	{
 	private:
-		ID3D11Texture2D*	m_texture;
+		ID3D11Resource*	m_texture;
 		ID3D11ShaderResourceView*	m_textureSRV;
 		
 		std::array<std::vector<ID3D11RenderTargetView*>,6>		m_textureRTVs;
@@ -18,7 +18,7 @@ namespace ace
 		Vector2DI	size;
 		int32_t		mipmapCount;
 
-		CubemapTexture_Imp_DX11(Graphics* graphics, ID3D11Texture2D* texture, ID3D11ShaderResourceView* textureSRV, std::array<std::vector<ID3D11RenderTargetView*>, 6>& textureRTVs, Vector2DI size, int32_t mipmapCount);
+		CubemapTexture_Imp_DX11(Graphics* graphics, ID3D11Resource* texture, ID3D11ShaderResourceView* textureSRV, std::array<std::vector<ID3D11RenderTargetView*>, 6>& textureRTVs, Vector2DI size, int32_t mipmapCount);
 		virtual ~CubemapTexture_Imp_DX11();
 
 	public:
@@ -33,5 +33,7 @@ namespace ace
 		static CubemapTexture_Imp* Create(Graphics_Imp* graphics, const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom);
 
 		static CubemapTexture_Imp* Create(Graphics_Imp* graphics, const achar* path, int32_t mipmapCount);
+
+		static CubemapTexture_Imp* Create(Graphics_Imp* graphics, const achar* path);
 	};
 }

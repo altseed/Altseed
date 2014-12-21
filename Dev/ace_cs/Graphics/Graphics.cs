@@ -103,6 +103,16 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 1つのファイルからミップマップ付のキューブマップテクスチャを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>キューブマップ</returns>
+		public CubemapTexture CreateCubemapTextureFromSingleImageFile(string path)
+		{
+			return GC.GenerateCubemapTexture(graphics.CreateCubemapTextureFromSingleImageFile_(path), GC.GenerationType.Create);
+		}
+
+		/// <summary>
 		/// シェーダー(2D)を生成する。
 		/// </summary>
 		/// <param name="shaderText">シェーダーのコード</param>

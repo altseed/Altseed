@@ -987,6 +987,11 @@ CubemapTexture* Graphics_Imp_DX11::CreateCubemapTextureFromMipmapImageFiles_(con
 	return CubemapTexture_Imp_DX11::Create(this, path, mipmapCount);
 }
 
+CubemapTexture* Graphics_Imp_DX11::CreateCubemapTextureFromSingleImageFile_(const achar* path)
+{
+	return CubemapTexture_Imp_DX11::Create(this, path);
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

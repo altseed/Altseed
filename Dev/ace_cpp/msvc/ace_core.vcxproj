@@ -221,6 +221,10 @@
     <ClInclude Include="..\core\Graphics\Command\ace.RenderingCommandHelper.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\ace.DX11.Base.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\ace.Graphics_Imp_DX11.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\dds.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DirectXHelpers.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\PlatformHelpers.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.CubemapTexture_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.DepthBuffer_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.IndexBuffer_Imp_DX11.h" />
@@ -458,6 +462,7 @@
     <ClCompile Include="..\core\Graphics\Command\ace.RenderingCommandFactory.cpp" />
     <ClCompile Include="..\core\Graphics\Command\ace.RenderingCommandHelper.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\ace.Graphics_Imp_DX11.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.CubemapTexture_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.DepthBuffer_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.IndexBuffer_Imp_DX11.cpp" />

@@ -26,6 +26,7 @@ protected:
 	virtual RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
 	virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) = 0;
 	virtual CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) = 0;
+	virtual CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path) = 0;
 
 	virtual Shader2D* CreateShader2D_( const achar* shaderText) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
@@ -117,6 +118,18 @@ public:
 		return CreateSharedPtrWithReleaseDLL(
 			CreateCubemapTextureFromMipmapImageFiles_(
 			path, mipmapCount));
+	}
+
+	/**
+	@brief	1つのファイルからミップマップ付のキューブマップテクスチャを生成する。
+	@param	path		パス
+	@return	キューブマップ
+	*/
+	std::shared_ptr<CubemapTexture> CreateCubemapTextureFromSingleImageFile(const achar* path)
+	{
+		return CreateSharedPtrWithReleaseDLL(
+			CreateCubemapTextureFromSingleImageFile_(
+			path));
 	}
 
 	/**
