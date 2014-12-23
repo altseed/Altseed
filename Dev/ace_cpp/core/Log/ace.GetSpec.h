@@ -5,6 +5,7 @@
 #include <Windows.h>
 #endif
 
+
 #include <cstdint>
 #include <cstring>
 
@@ -15,7 +16,7 @@
 
 namespace ace
 {
-	
+
 
 std::string GetCPUName()
 {

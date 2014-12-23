@@ -9,6 +9,7 @@
 #include "../Input/ace.JoystickContainer_Imp.h"
 #include "../IO/ace.File_Imp.h"
 #include "../Log/ace.Log_Imp.h"
+#include "../Log/ace.GetSpec.h"
 
 #include "../Profiler/ace.Profiler_Imp.h"
 #include "../Profiler/ace.ProfilerViewer_Imp.h"
@@ -141,6 +142,37 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	void WriteSystemSpecToLog(Log* log) {
+		log->WriteLineStrongly("システム情報");
+
+		log->BeginTable();
+
+		log->Write("CPU名");
+		log->ChangeColumn();
+		log->Write(GetCPUName().c_str());
+		log->ChangeRow();
+		
+		log->Write("OS情報");
+		log->ChangeColumn();
+#if defined(_WIN32)
+		log->Write("OS: Windows\n");
+		log->Write(GetWindowsVersion().c_str());
+#elif
+		log->Write("Unavailable");
+#endif
+		log->ChangeRow();
+		
+		log->Write("メモリ情報");
+		log->ChangeColumn();
+		log->Write(GetMemoryInfo().c_str());
+
+		log->EndTable();
+	}
+
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, CoreOption option)
 	{
 		if (m_window != nullptr) return false;
@@ -207,7 +239,7 @@ namespace ace
 			lpos[3].Y = m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
-
+		WriteSystemSpecToLog(m_logger);
 		m_logger->WriteLineStrongly(L"コア初期化成功");
 
 		isReloadingEnabeld = option.IsReloadingEnabled;
@@ -283,7 +315,7 @@ namespace ace
 			lpos[3].Y = m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
-
+		WriteSystemSpecToLog(m_logger);
 		m_logger->WriteLineStrongly(L"コア初期化成功");
 
 		return true;
