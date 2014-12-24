@@ -26,7 +26,7 @@ def isX11(file):
 	return file.count('_X11.cpp') > 0
 
 def isDX11(file):
-	return file.count('_DX11.cpp') > 0
+	return file.count('_DX11.cpp') > 0 or file.count('DirectXToolKit') > 0
 
 def isGL(file):
 	return file.count('_GL.cpp') > 0
