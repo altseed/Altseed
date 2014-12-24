@@ -59,7 +59,7 @@ std::string GetCPUName()
 		inst++;
 	}
 	return std::string(std::find_if(procName, procName + 64, [](std::uint8_t const ch){return ch != ' ';}), procName + 64);
-#elif
+#else
 	return std::string("Not implemented");
 #endif
 }
