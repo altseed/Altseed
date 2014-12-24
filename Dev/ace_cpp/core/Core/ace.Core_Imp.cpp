@@ -157,7 +157,7 @@ namespace ace
 #if defined(_WIN32)
 		log->Write("OS: Windows\n");
 		log->Write(GetWindowsVersion().c_str());
-#elif
+#else
 		log->Write("Unavailable");
 #endif
 		log->ChangeRow();
