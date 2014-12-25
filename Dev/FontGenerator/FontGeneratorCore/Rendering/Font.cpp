@@ -58,7 +58,7 @@ namespace FontGenerator
 
 	int Font::GetFontHeight() const
 	{
-		return (m_face->size->metrics.height >> 6);
+		return m_face->size->metrics.height >> 6;
 	}
 
 	int Font::GetAscender() const

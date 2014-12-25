@@ -154,6 +154,10 @@ namespace ace
 		return *this;
 	}
 
+	bool Path_Imp::operator==(const Path_Imp& path) const
+	{
+		return m_path == path.m_path;
+	}
 
 	bool Path_Imp::IsAbsolutePath(const astring& path)
 	{
