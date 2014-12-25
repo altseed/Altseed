@@ -38,9 +38,9 @@ int main()
 	try
 	{
 		SettingForRendering setting;
-		setting.SetFontSize(20);
+		setting.SetFontSize(32);
 		setting.SetFontColor(Color(255, 128, 0, 255));
-		setting.SetBorder(make_shared<BorderSetting>(1, Color(0, 0, 0, 255), 3));
+		setting.SetBorder(make_shared<BorderSetting>(1, Color(0, 0, 0, 255), 1));
 		
 		gen.SetSetting(setting);
 		gen.SetSheetName(L"result/Nac1220_1");
