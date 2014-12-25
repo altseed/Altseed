@@ -868,6 +868,9 @@
     <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\dds.h">
       <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Log\ace.GetSpec.h">
+      <Filter>Log</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
