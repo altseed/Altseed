@@ -10,5 +10,6 @@ namespace ace
 	private:
 	public:
 		virtual ~StreamFile() { };
+		virtual void ReadAllByte(std::vector<uint8_t>& buffer) = 0;
 	};
 }

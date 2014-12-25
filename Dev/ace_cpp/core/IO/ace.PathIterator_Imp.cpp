@@ -38,14 +38,6 @@ namespace ace
 
 		return *this;
 	}
-	PathIterator_Imp PathIterator_Imp::operator++(int)
-	{
-		PathIterator_Imp tmp(*this);
-
-		Increment(*this);
-
-		return tmp;
-	}
 
 	bool PathIterator_Imp::operator==(const PathIterator_Imp& iterator)
 	{

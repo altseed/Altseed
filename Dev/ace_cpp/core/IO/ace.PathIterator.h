@@ -6,9 +6,14 @@
 
 namespace ace
 {
-	class PathIterator : public std::iterator < std::forward_iterator_tag, Path >
+	class PathIterator
 	{
 	public:
 		virtual ~PathIterator(){ };
+
+		virtual PathIterator& operator++() { return PathIterator(); }
+		virtual bool operator==(const PathIterator& itertor) { return false; }
+		virtual bool operator!=(const PathIterator& iterator) { return !(*this == iterator); };
+		virtual astring operator*() { return ToAString(""); }
 	};
 }

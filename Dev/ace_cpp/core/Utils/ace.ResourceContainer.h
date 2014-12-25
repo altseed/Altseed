@@ -2,6 +2,7 @@
 #pragma once
 
 #include <ace.common.Base.h>
+#include "../Core/ace.Core.Base_Imp.h"
 #include <time.h>
 #include <functional>
 
@@ -63,26 +64,36 @@ namespace ace
 					return existing;
 				}
 			}
+			ace::Core* core = nullptr;
+			auto file = core->GetFile();
 
-#if _WIN32
-			auto fp = _wfopen(path, L"rb");
-			if (fp == nullptr) return nullptr;
-#else
-			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-			if (fp == nullptr) return nullptr;
-#endif
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			auto data = new uint8_t[size];
-			fread(data, 1, size, fp);
-			fclose(fp);
+			if (file->Exists(astring(path)))
+				return nullptr;
 
-			auto ret = loadFunc(data, size);
+			std::vector<uint8_t> buffer;
+			file->CreateStreamFile(astring(path))->ReadAllByte(buffer);
+
+// When this code run correctly, thease lines are removed.
+//#if _WIN32
+//			auto fp = _wfopen(path, L"rb");
+//			if (fp == nullptr) return nullptr;
+//#else
+//			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
+//			if (fp == nullptr) return nullptr;
+//#endif
+//			fseek(fp, 0, SEEK_END);
+//			auto size = ftell(fp);
+//			fseek(fp, 0, SEEK_SET);
+//			auto data = new uint8_t[size];
+//			fread(data, 1, size, fp);
+//			fclose(fp);
+
+			auto data = buffer.data();
+			auto ret = loadFunc(buffer.data(), buffer.size());
 
 			if (ret == nullptr)
 			{
-				SafeDeleteArray(data);
+				//SafeDeleteArray(data);
 				return nullptr;
 			}
 
@@ -92,7 +103,7 @@ namespace ace
 			info->ResourcePtr = ret;
 			Register(path, ret, info);
 
-			SafeDeleteArray(data);
+			//SafeDeleteArray(data);
 
 			return ret;
 		}
