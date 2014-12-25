@@ -6,7 +6,7 @@
 
 namespace ace
 {
-	class PathIterator_Imp : public PathIterator
+	class PathIterator_Imp : public std::iterator < std::forward_iterator_tag, Path >
 	{
 	private:
 		astring::size_type m_pos;
@@ -21,10 +21,9 @@ namespace ace
 		virtual ~PathIterator_Imp(){};
 		virtual int Size() { return m_element.size(); };
 		virtual PathIterator_Imp& operator++();
+		virtual PathIterator_Imp operator++(int);
 		virtual bool operator==(const PathIterator_Imp& itertor);
 		virtual bool operator!=(const PathIterator_Imp& iterator);
-		virtual bool operator==(const PathIterator& itertor) { return *this == *dynamic_cast<const PathIterator_Imp*>(&itertor); }
-		virtual bool operator!=(const PathIterator& iterator) { return *this != *dynamic_cast<const PathIterator_Imp*>(&iterator); };
 		virtual astring operator*();
 	};
 }

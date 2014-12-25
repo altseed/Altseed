@@ -10,12 +10,6 @@ namespace ace
 
 	struct RootPath_Imp
 	{
-	private:
-		bool IsPack(const astring& file)
-		{
-			return file.find(ToAString(".pack")) != astring::npos;
-		}
-
 	public:
 		Path_Imp m_path;
 		astring m_key;
@@ -25,28 +19,27 @@ namespace ace
 		{
 		}
 
-
 		RootPath_Imp(const astring& path, const astring& key = astring()) :
 			m_path(path),
 			m_key(key),
 			m_isPackFile(false)
 		{
-			
-			for (const auto& elem : m_path)
+			for (const auto& elem : path)
 			{
-				if (IsPack(elem))
-				{
-				   m_isPackFile = true;
-				   break;
-				}
+				// if (IsPack(elem))
+				// {
+				//    m_isPackFile = true;
+				//    break;
+				// }
 			}
 		}
 
 		bool operator==(const RootPath_Imp& target) const
 		{
-			return m_key == target.m_key &&
-				m_isPackFile == target.m_isPackFile &&
-				m_path == target.m_path;
+			//return m_key == target.m_key &&
+			//	m_isPackFile == target.m_isPackFile &&
+			//	m_path == target.m_path;
+			return true;
 		}
 	};
 }

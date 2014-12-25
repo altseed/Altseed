@@ -127,72 +127,47 @@ namespace ace
 		}
 	}
 
-	StreamFile* File_Imp::CreateStreamFileDirectly(const astring& normalizedPath)
-	{
-		auto fileCash = m_streamFileCash.find(normalizedPath);
-		if (fileCash != m_streamFileCash.end() &&
-			Valid(fileCash->second))
-		{
-			return fileCash->second;
-		}
-
-		auto baseFileCash = m_fileCash.find(normalizedPath);
-		StreamFile_Imp* pstreamFile(nullptr);
-
-		if (baseFileCash == m_fileCash.end())
-		{
-			std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(normalizedPath), [](BaseFile_Imp* p){ SafeRelease(p); });
-			m_fileCash.emplace(normalizedPath, pBaseFile);
-
-			pstreamFile = new StreamFile_Imp(pBaseFile);
-		}
-		else
-		{
-			pstreamFile = new StreamFile_Imp(baseFileCash->second);
-		}
-
-		m_streamFileCash.emplace(normalizedPath, pstreamFile);
-		return pstreamFile;
-	}
-
 	StreamFile* File_Imp::CreateStreamFile(const astring& path)
 	{
 		if (!Path_Imp::IsAbsolutePath(path))
 		{
-			std::vector<astring> ignoreFiles;
-
 			for (const auto& root : m_rootPathes)
 			{
 				if (root->m_isPackFile)
 				{
-					const auto& packPath = root->m_path;
-
-					if (m_packFileCash[packPath.ToAstring()]->HaveFile(path))
-					{
-						const auto internalHeader = m_packFileCash[packPath.ToAstring()]->GetInternalHeader(path);
-
-						ace::Path_Imp fullPath(root->m_path.ToAstring());
-						fullPath /= path;
-						fullPath.Normalize();
-
-						auto streamFile = CreateStreamFileDirectly(fullPath.ToAstring());
-						if (streamFile)
-							return streamFile;
-					}
-					else
-					{
-						m_packFileCash[packPath.ToAstring()]->GetTopHeader()->AddIgnoreFiles(ignoreFiles);
-					}
+					assert(false);
 				}
 				else
 				{
 					ace::Path_Imp fullPath(root->m_path.ToAstring());
 					fullPath /= path;
 					fullPath.Normalize();
+					const auto normalizedPath(fullPath.ToAstring());
 
-					auto streamFile = CreateStreamFileDirectly(fullPath.ToAstring());
-					if (streamFile)
-						return streamFile;
+					auto fileCash = m_streamFileCash.find(normalizedPath);
+					if (fileCash != m_streamFileCash.end() &&
+						Valid(fileCash->second))
+					{
+						return fileCash->second;
+					}
+
+					auto baseFileCash = m_fileCash.find(normalizedPath);
+					StreamFile_Imp* pstreamFile(nullptr);
+
+					if (baseFileCash == m_fileCash.end())
+					{
+						std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(normalizedPath), [](BaseFile_Imp* p){ SafeRelease(p); });
+						m_fileCash.emplace(normalizedPath, pBaseFile);
+
+						pstreamFile = new StreamFile_Imp(pBaseFile);
+					}
+					else
+					{
+						pstreamFile = new StreamFile_Imp(baseFileCash->second);
+					}
+
+					m_streamFileCash.emplace(normalizedPath, pstreamFile);
+					return pstreamFile;
 				}
 			}
 		}

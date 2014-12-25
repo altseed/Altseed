@@ -3,7 +3,6 @@
 #include "../ace.Core.Base.h"
 #include "ace.RootPath_Imp.h"
 #include "ace.File.h"
-#include "ace.PackFile_Imp.h"
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -12,6 +11,21 @@
 
 namespace std
 {
+#ifndef _WIN32
+	// template<>
+	// struct hash < ace::astring >
+	// {
+	// 	size_t operator()(ace::astring str) const
+	// 	{
+	// 		size_t tmp(0);
+	// 		for (const auto c : str)
+	// 			tmp ^= static_cast<size_t>(c) + 0x9e3779b9 + (tmp<<6) + (tmp>>2);
+
+	// 		return tmp;
+	// 	}
+	// };
+#endif
+
 	template<>
 	struct hash < shared_ptr <ace::RootPath_Imp> >
 	{
@@ -35,8 +49,6 @@ namespace ace
 		std::unordered_map<astring, StaticFile_Imp*> m_staticFileCash;
 		std::unordered_map<astring, StreamFile_Imp*> m_streamFileCash;
 
-		std::unordered_map<astring, PackFile_Imp*> m_packFileCash;
-
 		template<typename _T>
 		inline bool Valid(_T* ptr) { return ptr && (0 < ptr->GetRef()); }
 
@@ -45,7 +57,6 @@ namespace ace
 	protected:
 		template<typename _InIt>
 		void SetRootDirectories(_InIt first, _InIt end);
-		StreamFile* CreateStreamFileDirectly(const astring& normalizedPath);
 
 	public:
 		static File_Imp* Create() { return new File_Imp(); };
