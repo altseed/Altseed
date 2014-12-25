@@ -11,5 +11,6 @@ namespace ace
 	private:
 	public:
 		virtual ~StaticFile() { };
+		virtual const std::vector<uint8_t>& ReadAllBytes() const = 0;
 	};
 }

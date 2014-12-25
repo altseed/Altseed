@@ -221,6 +221,10 @@
     <ClInclude Include="..\core\Graphics\Command\ace.RenderingCommandHelper.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\ace.DX11.Base.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\ace.Graphics_Imp_DX11.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\dds.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DirectXHelpers.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\PlatformHelpers.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.CubemapTexture_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.DepthBuffer_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\ace.IndexBuffer_Imp_DX11.h" />
@@ -333,8 +337,12 @@
     <ClInclude Include="..\core\Input\ace.Mouse_Imp.h" />
     <ClInclude Include="..\core\Input\ace.SideButton.h" />
     <ClInclude Include="..\core\IO\ace.File.h" />
+    <ClInclude Include="..\core\IO\ace.FileUtility.h" />
     <ClInclude Include="..\core\IO\ace.File_Imp.h" />
+    <ClInclude Include="..\core\IO\ace.PackFile_Imp.h" />
+    <ClInclude Include="..\core\IO\ace.PackFile.Header_Imp.h" />
     <ClInclude Include="..\core\IO\ace.Path.h" />
+    <ClInclude Include="..\core\IO\ace.PathIterator.h" />
     <ClInclude Include="..\core\IO\ace.Path_Imp.h" />
     <ClInclude Include="..\core\IO\ace.RootPath_Imp.h" />
     <ClInclude Include="..\core\IO\ace.StaticFile.h" />
@@ -343,6 +351,7 @@
     <ClInclude Include="..\core\IO\ace.StreamFile_Imp.h" />
     <ClInclude Include="..\core\IO\ace.BaseFile_Imp.h" />
     <ClInclude Include="..\core\IO\ace.PathIterator_Imp.h" />
+    <ClInclude Include="..\core\Log\ace.GetSpec.h" />
     <ClInclude Include="..\core\Log\ace.Log.h" />
     <ClInclude Include="..\core\Log\ace.Log_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D.h" />
@@ -458,6 +467,7 @@
     <ClCompile Include="..\core\Graphics\Command\ace.RenderingCommandFactory.cpp" />
     <ClCompile Include="..\core\Graphics\Command\ace.RenderingCommandHelper.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\ace.Graphics_Imp_DX11.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.CubemapTexture_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.DepthBuffer_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\ace.IndexBuffer_Imp_DX11.cpp" />
@@ -498,6 +508,8 @@
     <ClCompile Include="..\core\Input\ace.SideButton.cpp" />
     <ClCompile Include="..\core\IO\ace.BaseFile.cpp" />
     <ClCompile Include="..\core\IO\ace.File_Imp.cpp" />
+    <ClCompile Include="..\core\IO\ace.PackFile_Imp.cpp" />
+    <ClCompile Include="..\core\IO\ace.PackFile.Header_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.Path_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.RootPath_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.StaticFile_Imp.cpp" />

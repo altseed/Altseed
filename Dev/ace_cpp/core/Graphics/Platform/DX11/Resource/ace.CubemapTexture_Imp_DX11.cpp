@@ -1,12 +1,13 @@
 ﻿
 #include "ace.CubemapTexture_Imp_DX11.h"
 #include "../ace.Graphics_Imp_DX11.h"
+#include "../DirectXToolKit/DDSTextureLoader.h"
 
 namespace ace
 {
 	CubemapTexture_Imp_DX11::CubemapTexture_Imp_DX11(
 		Graphics* graphics, 
-		ID3D11Texture2D* texture, 
+		ID3D11Resource* texture,
 		ID3D11ShaderResourceView* textureSRV, 
 		std::array<std::vector<ID3D11RenderTargetView*>, 6>& textureRTVs, 
 		Vector2DI size,
@@ -426,5 +427,74 @@ namespace ace
 		}
 
 		return nullptr;
+	}
+
+
+	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* path)
+	{
+		auto loadFile = [](const achar* path, std::vector<uint8_t>& dst)-> bool
+		{
+#if _WIN32
+			auto fp = _wfopen(path, L"rb");
+			if (fp == nullptr) return false;
+#else
+			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
+			if (fp == nullptr) return false;
+#endif
+			fseek(fp, 0, SEEK_END);
+			auto size = ftell(fp);
+			fseek(fp, 0, SEEK_SET);
+			dst.resize(size);
+			fread(dst.data(), 1, size, fp);
+			fclose(fp);
+
+			return true;
+		};
+
+		std::vector<uint8_t> data;
+
+		if (!loadFile(path, data))
+		{
+			return nullptr;
+		}
+
+		if (!ImageHelper::IsDDS(data.data(), data.size())) return nullptr;
+
+		auto g = (Graphics_Imp_DX11*) graphics;
+
+		ID3D11Resource* texture = nullptr;
+		ID3D11ShaderResourceView* textureSRV = nullptr;
+
+		auto hr = DirectX::CreateDDSTextureFromMemory(
+			g->GetDevice(),
+			data.data(),
+			data.size(),
+			&texture,
+			&textureSRV);
+
+		if (FAILED(hr)) return nullptr;
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC cubeDesc;
+
+		textureSRV->GetDesc(&cubeDesc);
+
+		if (cubeDesc.ViewDimension != D3D_SRV_DIMENSION_TEXTURECUBE)
+		{
+			SafeRelease(texture);
+			SafeRelease(textureSRV);
+			return nullptr;
+		}
+
+		ID3D11Texture2D* texture_ = (ID3D11Texture2D*) texture;
+		D3D11_TEXTURE2D_DESC desc;
+		texture_->GetDesc(&desc);
+		
+		return new CubemapTexture_Imp_DX11(
+			graphics, 
+			texture, 
+			textureSRV, 
+			std::array<std::vector<ID3D11RenderTargetView*>, 6>(), 
+			Vector2DI(desc.Width, desc.Height), 
+			cubeDesc.TextureCube.MipLevels);
 	}
 }

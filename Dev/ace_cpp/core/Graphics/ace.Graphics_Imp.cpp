@@ -364,6 +364,20 @@ void ImageHelper::GetMipmapSize(int mipmap, int32_t& width, int32_t& height)
 	}
 }
 
+
+bool ImageHelper::IsDDS(const void* data, int32_t size)
+{
+	if (size < 4) return false;
+
+	auto d = (uint8_t*) data;
+
+	if (d[0] != 'D') return false;
+	if (d[1] != 'D') return false;
+	if (d[2] != 'S') return false;
+
+	return true;
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

@@ -250,4 +250,10 @@ namespace ace
 
 		return nullptr;
 	}
+
+
+	CubemapTexture_Imp* CubemapTexture_Imp_GL::Create(Graphics_Imp* graphics, const achar* path)
+	{
+		return nullptr;
+	}
 }

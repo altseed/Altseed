@@ -123,6 +123,8 @@ namespace ace {
 
 		CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) override;
 
+		CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path) override;
+
 		DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height);
 
 		void CommitRenderState(bool forced) override;
