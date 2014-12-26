@@ -14,55 +14,71 @@ namespace ace
 	{
 	}
 
-	void File_Imp::SetRootDirectories(const astring& path)
+	void File_Imp::AddRootDirectories(const achar* path)
 	{
 		std::array<astring, 1> args = { path };
-		SetRootDirectories(args.begin(), args.end());
+		AddRootDirectories(args.begin(), args.end());
 	}
 
-	void File_Imp::SetRootDirectories(const astring& path, const astring& path2)
+	void File_Imp::AddRootPackage(const achar* path, const achar* key)
 	{
-		std::array<astring, 2> args = { path, path2 };
-		SetRootDirectories(args.begin(), args.end());
+		std::array<astring, 1> args = { path };
+		AddRootDirectories(args.begin(), args.end());
 	}
-	void File_Imp::SetRootDirectories(const astring& path, const astring& path2, const astring& path3)
-	{
-		std::array<astring, 3> args = { path, path2, path3 };
-		SetRootDirectories(args.begin(), args.end());
-	}
-	template<typename _InIt>
-	void File_Imp::SetRootDirectories(_InIt first, _InIt end)
+	
+	void File_Imp::ClearRootDirectories()
 	{
 		m_rootPathes.clear();
+	}
+	//void File_Imp::SetRootDirectories(const achar* path)
+	//{
+	//	std::array<astring, 1> args = { path };
+	//	SetRootDirectories(args.begin(), args.end());
+	//}
+	//
+	//void File_Imp::SetRootDirectories(const achar* path, const achar* path2)
+	//{
+	//	std::array<astring, 2> args = { path, path2 };
+	//	SetRootDirectories(args.begin(), args.end());
+	//}
+	//void File_Imp::SetRootDirectories(const achar* path, const achar* path2, const achar* path3)
+	//{
+	//	std::array<astring, 3> args = { path, path2, path3 };
+	//	SetRootDirectories(args.begin(), args.end());
+	//}
+	template<typename _InIt>
+	void File_Imp::AddRootDirectories(_InIt first, _InIt end)
+	{
+		//m_rootPathes.clear();
 		std::for_each(first, end, [&](const astring& path)
 		{
 			m_rootPathes.emplace(std::shared_ptr<RootPath_Imp>(new RootPath_Imp(path)));
 		});
 	}
-	void File_Imp::GetRootDirectories(std::vector<std::reference_wrapper<Path>>& rootPathes) const
-	{
-		rootPathes.clear();
-		for (const auto& root : m_rootPathes)
-		{
-			rootPathes.push_back(root->m_path);
-		}
-	}
-	void File_Imp::EnumerateFiles(const astring& path) const
-	{
-	}
-	void File_Imp::EnumerateFiles(const astring& path, const astring& searchPattern) const
-	{
-	}
-	void File_Imp::EnumerateFiles(const astring& path, const astring& searchPattern, bool isRecursive) const
-	{
-	}
-	bool File_Imp::Exists(const astring& path) const
+	//void File_Imp::GetRootDirectories(std::vector<std::reference_wrapper<Path>>& rootPathes) const
+	//{
+	//	rootPathes.clear();
+	//	for (const auto& root : m_rootPathes)
+	//	{
+	//		rootPathes.push_back(root->m_path);
+	//	}
+	//}
+	//void File_Imp::EnumerateFiles(const achar* path) const
+	//{
+	//}
+	//void File_Imp::EnumerateFiles(const achar* path, const achar* searchPattern) const
+	//{
+	//}
+	//void File_Imp::EnumerateFiles(const achar* path, const achar* searchPattern, bool isRecursive) const
+	//{
+	//}
+	bool File_Imp::Exists(const achar* path) const
 	{
 		assert(false);
 		return true;
 	}
 
-	StaticFile* File_Imp::CreateStaticFile(const astring& path)
+	StaticFile* File_Imp::CreateStaticFile(const achar* path)
 	{
 		if (!Path_Imp::IsAbsolutePath(path))
 		{
@@ -172,7 +188,7 @@ namespace ace
 		}
 	}
 
-	StreamFile* File_Imp::CreateStreamFileDirectly(const astring& normalizedPath)
+	StreamFile* File_Imp::CreateStreamFileDirectly(const achar* normalizedPath)
 	{
 		auto fileCash = m_streamFileCash.find(normalizedPath);
 		if (fileCash != m_streamFileCash.end() &&
@@ -200,7 +216,7 @@ namespace ace
 		return pstreamFile;
 	}
 
-	StreamFile* File_Imp::CreateStreamFile(const astring& path)
+	StreamFile* File_Imp::CreateStreamFile(const achar* path)
 	{
 		if (!Path_Imp::IsAbsolutePath(path))
 		{
@@ -220,7 +236,7 @@ namespace ace
 						fullPath /= path;
 						fullPath.Normalize();
 
-						auto streamFile = CreateStreamFileDirectly(fullPath.ToAstring());
+						auto streamFile = CreateStreamFileDirectly(fullPath.ToAstring().c_str());
 						if (streamFile)
 							return streamFile;
 					}
@@ -235,7 +251,7 @@ namespace ace
 					fullPath /= path;
 					fullPath.Normalize();
 
-					auto streamFile = CreateStreamFileDirectly(fullPath.ToAstring());
+					auto streamFile = CreateStreamFileDirectly(fullPath.ToAstring().c_str());
 					if (streamFile)
 						return streamFile;
 				}

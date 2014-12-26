@@ -16,15 +16,15 @@ namespace ace
 		// static ファイルとstream ファイルの参照を持つ
 	public:
 		virtual ~File() { }
-		virtual void SetRootDirectories(const astring& path) = 0;
-		virtual void SetRootDirectories(const astring& path, const astring& path2) = 0;
-		virtual void SetRootDirectories(const astring& path, const astring& path2, const astring& path3) = 0;
-		virtual void GetRootDirectories(std::vector<std::reference_wrapper<Path>>& rootPathes) const = 0;
-		virtual void EnumerateFiles(const astring& path) const = 0;
-		virtual void EnumerateFiles(const astring& path, const astring& searchPattern) const = 0;
-		virtual void EnumerateFiles(const astring& path, const astring& searchPattern, bool isRecursive) const = 0;
-		virtual bool Exists(const astring& path) const = 0;
-		virtual StaticFile* CreateStaticFile(const astring& path) = 0;
-		virtual StreamFile* CreateStreamFile(const astring& path) = 0;
+		virtual void AddRootDirectories(const achar* path) = 0;
+		virtual void AddRootPackage(const achar* path, const achar* key) = 0;
+		virtual void ClearRootDirectories() = 0;
+		//virtual void GetRootDirectories(std::vector<std::reference_wrapper<Path>>& rootPathes) const = 0;
+		//virtual void EnumerateFiles(const achar* path) const = 0;
+		//virtual void EnumerateFiles(const achar* path, const achar* searchPattern) const = 0;
+		//virtual void EnumerateFiles(const achar* path, const achar* searchPattern, bool isRecursive) const = 0;
+		virtual bool Exists(const achar* path) const = 0;
+		virtual StaticFile* CreateStaticFile(const achar* path) = 0;
+		virtual StreamFile* CreateStreamFile(const achar* path) = 0;
 	};
 }
