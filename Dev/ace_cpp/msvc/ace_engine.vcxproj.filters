@@ -86,9 +86,6 @@
     <ClCompile Include="..\engine\ObjectSystem\3D\ace.TerrainObject3D.cpp">
       <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\IO\ace.File.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -178,9 +175,6 @@
     <ClInclude Include="..\engine\ObjectSystem\3D\ace.TerrainObject3D.h">
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\IO\ace.File.h">
-      <Filter>IO</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -203,9 +197,6 @@
     </Filter>
     <Filter Include="ObjectSystem\Transition">
       <UniqueIdentifier>{92c320d5-c099-4101-afee-e9f829c96a16}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="IO">
-      <UniqueIdentifier>{e741020f-c651-475d-9aa1-d25f3600d5a8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
