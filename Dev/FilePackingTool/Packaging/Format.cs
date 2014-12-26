@@ -12,7 +12,7 @@ namespace umw.Packaging
 		/// <summary>
 		/// ヘッダサイズ
 		/// </summary>
-		public uint HeaderSize
+		public UInt64 HeaderSize
 		{
 			get;
 			private set;
@@ -20,7 +20,7 @@ namespace umw.Packaging
 		/// <summary>
 		/// 無視するファイルを入れている領域サイズ
 		/// </summary>
-		public uint FilePathHeaderLength
+		public UInt64 FilePathHeaderLength
 		{
 			get;
 			private set;
@@ -37,7 +37,7 @@ namespace umw.Packaging
 		/// <summary>
 		/// ファイル数
 		/// </summary>
-		public uint FileCount
+		public UInt64 FileCount
 		{
 			get;
 			private set;
