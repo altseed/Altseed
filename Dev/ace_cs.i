@@ -330,6 +330,8 @@ CPP_OBJECT( ace::Profiler )
 CPP_OBJECT( ace::Profiler_Imp )
 CPP_OBJECT( ace::Log )
 CPP_OBJECT( ace::Log_Imp )
+CPP_OBJECT( ace::File )
+CPP_OBJECT( ace::File_Imp )
 
 //-----------------------------------------------------------------------------------
 //
