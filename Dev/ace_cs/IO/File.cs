@@ -55,6 +55,7 @@ namespace ace
         public StaticFile CreateStaticFile(string path)
         {
             var staticFile = file.CreateStaticFile(path);
+            if (staticFile == null) return null;
             return GC.GenerateStaticFile(staticFile, GC.GenerationType.Create);
         }
 
