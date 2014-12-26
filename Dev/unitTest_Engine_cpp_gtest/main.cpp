@@ -52,6 +52,8 @@ EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
 
 EXTERN_ENGINE_TEST(Sound, Sound)
 
+EXTERN_ENGINE_TEST(File, StaticFile_NonePackage)
+
 /**
 	@brief	単体テストを実行する。
 	@note
@@ -67,9 +69,10 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 
+	/*
 	CALL_ENGINE_TEST(Graphics, TextObject2D, true)
 	return 0;
-
+	*/
 	//TestCamera(true);
 	//TestCamera(false);
 	//return 0;
@@ -82,10 +85,16 @@ int main(int argc, char **argv)
 	//Test_Graphics_TextureObject2D(false);
 	//return 0;
 
+	CALL_ENGINE_TEST(File, StaticFile_NonePackage, true)
+
+	return 0;
+
+	/*
 	auto result = RUN_ALL_TESTS();
 
 	getchar();
 	return result;
+	*/
 }
 
 
