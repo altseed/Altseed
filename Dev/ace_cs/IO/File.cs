@@ -54,8 +54,8 @@ namespace ace
 
         public StaticFile CreateStaticFile(string path)
         {
-            var staticFile = new StaticFile(file.CreateStaticFile(path));
-            return staticFile;
+            var staticFile = file.CreateStaticFile(path);
+            return GC.GenerateStaticFile(staticFile, GC.GenerationType.Create);
         }
 
 
