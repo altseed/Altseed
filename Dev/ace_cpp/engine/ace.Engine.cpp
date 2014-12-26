@@ -381,6 +381,7 @@ namespace ace
 			m_profiler = m_core->GetProfiler();
 			m_objectSystemFactory = m_core->GetObjectSystemFactory();
 			m_sound = m_core->GetSound();
+			m_file = m_core->GetFile();
 			m_graphics = m_core->GetGraphics();
 			m_animationSyatem = m_core->GetAnimationSyatem();
 
@@ -670,6 +671,14 @@ namespace ace
 	Sound* Engine::GetSound()
 	{
 		return m_sound;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	File* Engine::GetFile()
+	{
+		return m_file;
 	}
 
 	//----------------------------------------------------------------------------------
