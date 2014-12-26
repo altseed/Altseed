@@ -35,7 +35,7 @@ namespace unitTest_Engine_cs.IO
             int cnt = 0;
             while (!reader.IsEmpty())
             {
-                byte byteFromRaw = reader.Get<int8_t>();
+                byte byteFromRaw = loadData[cnt];
 
                 byte byteFromFile = staticFileData[cnt++];
 
