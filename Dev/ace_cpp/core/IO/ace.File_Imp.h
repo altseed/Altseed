@@ -47,6 +47,8 @@ namespace ace
 		void SetRootDirectories(_InIt first, _InIt end);
 		StreamFile* CreateStreamFileDirectly(const astring& normalizedPath);
 
+		bool ConsistOf(const std::vector<astring>& vec, const astring& element) const { for (const auto& v : vec) { if (v == element) return true; } return false; }
+
 	public:
 		static File_Imp* Create() { return new File_Imp(); };
 

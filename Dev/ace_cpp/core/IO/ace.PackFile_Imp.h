@@ -2,6 +2,7 @@
 
 #include "ace.PackFile.Header_Imp.h"
 #include "ace.Path_Imp.h"
+#include "ace.BaseFile_Imp.h"
 #include <memory>
 #include <unordered_map>
 #include <cassert>
@@ -13,9 +14,12 @@ namespace ace
 	private:
 		std::shared_ptr<TopHeader> m_TopHeader;
 		std::unordered_map<astring, std::shared_ptr<InternalHeader>> m_InternalHeaderDictionaly;
-		
+		std::shared_ptr<BaseFile_Imp> m_RawFile;
+
 	public:
-		PackFile_Imp(const astring& path);
+		decltype(m_RawFile) RawFile() { return m_RawFile; }
+
+		PackFile_Imp(std::shared_ptr<BaseFile_Imp> packedFile);
 		bool HaveFile(const astring& path);
 		std::shared_ptr<TopHeader> GetTopHeader();
 		std::shared_ptr<InternalHeader> GetInternalHeader(const astring& path);
