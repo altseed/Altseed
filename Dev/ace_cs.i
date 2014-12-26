@@ -23,8 +23,8 @@
 #include "IO/ace.File.h"
 //#include "IO/ace.PathIterator.h"
 //#include "IO/ace.Path.h"
-//#include "IO/ace.StaticFile.h"
-//#include "IO/ace.StreamFile.h"
+#include "IO/ace.StaticFile.h"
+#include "IO/ace.StreamFile.h"
 
 #include "Sound/ace.SoundSource_Imp.h"
 #include "Sound/ace.Sound_Imp.h"
@@ -332,6 +332,8 @@ CPP_OBJECT( ace::Log )
 CPP_OBJECT( ace::Log_Imp )
 CPP_OBJECT( ace::File )
 CPP_OBJECT( ace::File_Imp )
+CPP_OBJECT( ace::StaticFile )
+CPP_OBJECT( ace::StreamFile )
 
 //-----------------------------------------------------------------------------------
 //
@@ -411,8 +413,8 @@ namespace ace
 %include "ace_cpp/core/IO/ace.File.h"
 //%include "ace_cpp/core/IO/ace.PathIterator.h"
 //%include "ace_cpp/core/IO/ace.Path.h"
-//%include "ace_cpp/core/IO/ace.StaticFile.h"
-//%include "ace_cpp/core/IO/ace.StreamFile.h"
+%include "ace_cpp/core/IO/ace.StaticFile.h"
+%include "ace_cpp/core/IO/ace.StreamFile.h"
 
 %include "ace_cpp/core/Sound/ace.SoundSource.h"
 %include "ace_cpp/core/Sound/ace.Sound.h"

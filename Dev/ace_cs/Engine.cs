@@ -56,6 +56,7 @@ namespace ace
 		public static Sound Sound { get; private set; }
 		public static Graphics Graphics { get; private set; }
 		public static AnimationSystem AnimationSystem { get; private set; }
+        public static File File { get; private set; }
 
 		internal static ObjectSystemFactory ObjectSystemFactory { get; private set; }
 		private static Scene nextScene;
@@ -462,6 +463,11 @@ namespace ace
 			{
 				Mouse = new Mouse(core.GetMouse());
 			}
+
+            if (core.GetFile() != null)
+            {
+                File = new File(core.GetFile());
+            }
 
 			if (core.GetJoystickContainer() != null)
 			{

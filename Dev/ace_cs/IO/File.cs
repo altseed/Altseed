@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ace.IO
+namespace ace
 {
     public class File
     {
@@ -17,17 +17,7 @@ namespace ace.IO
 
         public void AddRootDirectories(string path)
         {
-            file.SetRootDirectories(path);
-        }
-
-        public void AddRootDirectories(string path, string path2)
-        {
-            file.SetRootDirectories(path, path2);
-        }
-
-        public void AddRootDirectories(string path, string path2, string path3)
-        {
-            file.SetRootDirectories(path, path2, path3);
+            file.AddRootDirectories(path);
         }
         
         /*
@@ -54,20 +44,19 @@ namespace ace.IO
 
         public void ClearRootDirectories()
         {
-
-        }
-
-        public void AddRootPackage(string path)
-        {
-
+            file.ClearRootDirectories();
         }
 
         public void AddRootPackageWithPassword(string path, string password)
         {
-
+            file.AddRootPackage(path, password);
         }
 
-        //CreateStaticFileを追加しなければいけない。
+        public StaticFile CreateStaticFile(string path)
+        {
+            var staticFile = new StaticFile(file.CreateStaticFile(path));
+            return staticFile;
+        }
 
 
     }
