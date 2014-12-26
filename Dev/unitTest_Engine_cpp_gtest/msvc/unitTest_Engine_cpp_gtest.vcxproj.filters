@@ -110,6 +110,12 @@
     <ClCompile Include="..\Graphics\3D\TerrainObject3D.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
+    <ClCompile Include="..\File\StaticFile_NonePackage.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\File\StaticFile_Package.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -135,6 +141,9 @@
     </Filter>
     <Filter Include="Sound">
       <UniqueIdentifier>{dfc51f79-a8ea-4d16-afa6-21357b9cafc4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{3f3a6be5-ba90-473b-a2dc-fb8bf9368c28}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
