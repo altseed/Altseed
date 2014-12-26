@@ -10,7 +10,7 @@ class File_StaticFile_Package : public EngineTest
 {
 public:
 	File_StaticFile_Package(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("StaticFile_Package"), isOpenGLMode, 120)
+		: EngineTest(ace::ToAString("StaticFile_Package"), isOpenGLMode, 1)
 	{
 
 	}
@@ -32,15 +32,8 @@ protected:
 
 			int8_t byteFromFile = 0;//ファイルから逐次読み込んで代入する
 
-			if (byteFromRaw != byteFromFile)
-			{
-				printf("Reading failed!!\n");
-				return;
-			}
+			ASSERT_EQ(byteFromRaw, byteFromFile);
 		}
-
-
-		printf("Successfully read!!");
 	}
 };
 
