@@ -21,10 +21,10 @@
 #include "Input/ace.JoystickContainer_Imp.h"
 
 #include "IO/ace.File.h"
-#include "IO/ace.PathIterator.h"
-#include "IO/ace.Path.h"
-#include "IO/ace.StaticFile.h"
-#include "IO/ace.StreamFile.h"
+//#include "IO/ace.PathIterator.h"
+//#include "IO/ace.Path.h"
+//#include "IO/ace.StaticFile.h"
+//#include "IO/ace.StreamFile.h"
 
 #include "Sound/ace.SoundSource_Imp.h"
 #include "Sound/ace.Sound_Imp.h"
@@ -407,10 +407,10 @@ namespace ace
 %include "ace_cpp/core/Input/ace.JoystickContainer_Imp.h"
 
 %include "ace_cpp/core/IO/ace.File.h"
-%include "ace_cpp/core/IO/ace.PathIterator.h"
-%include "ace_cpp/core/IO/ace.Path.h"
-%include "ace_cpp/core/IO/ace.StaticFile.h"
-%include "ace_cpp/core/IO/ace.StreamFile.h"
+//%include "ace_cpp/core/IO/ace.PathIterator.h"
+//%include "ace_cpp/core/IO/ace.Path.h"
+//%include "ace_cpp/core/IO/ace.StaticFile.h"
+//%include "ace_cpp/core/IO/ace.StreamFile.h"
 
 %include "ace_cpp/core/Sound/ace.SoundSource.h"
 %include "ace_cpp/core/Sound/ace.Sound.h"
