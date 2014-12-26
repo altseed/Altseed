@@ -282,6 +282,7 @@ namespace ace
 	Graphics* Engine::m_graphics = nullptr;
 	ObjectSystemFactory* Engine::m_objectSystemFactory = nullptr;
 	AnimationSystem* Engine::m_animationSyatem = nullptr;
+	File* Engine::m_file = nullptr;
 
 	std::shared_ptr<Scene>	Engine::m_currentScene;
 	std::shared_ptr<Scene>	Engine::m_nextScene;

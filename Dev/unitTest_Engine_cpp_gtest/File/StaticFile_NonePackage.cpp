@@ -5,7 +5,6 @@
 
 using namespace std;
 using namespace ace;
-
 class File_StaticFile_NonePackage : public EngineTest
 {
 public:
@@ -25,6 +24,7 @@ protected:
 		reader.ReadIn(data.begin(), data.end());
 
 		//ファイル機能で読み込んだバイナリ
+		auto file = ace::Engine::GetFile();
 
 		while (!reader.IsEmpty())
 		{

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "../ace.CoreToEngine.h"
 #include "../core/IO/ace.File.h"
@@ -11,7 +11,7 @@ namespace ace
 	class File : public IReference
 	{
 	private:
-		// static ƒtƒ@ƒCƒ‹‚Æstream ƒtƒ@ƒCƒ‹‚ÌQÆ‚ğ‚Â
+		// static ãƒ•ã‚¡ã‚¤ãƒ«ã¨stream ãƒ•ã‚¡ã‚¤ãƒ«ã®å‚ç…§ã‚’æŒã¤
 		std::shared_ptr<CoreFile> m_coreFile;
 
 	public:
