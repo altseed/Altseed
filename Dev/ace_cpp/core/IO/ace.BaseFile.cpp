@@ -53,6 +53,14 @@ namespace ace
 		m_position += count;
 	}
 
+	uint32_t BaseFile_Imp::ReadUInt32()
+	{
+		std::vector<uint8_t> buffer;
+		ReadBytes(buffer, sizeof(uint32_t));
+
+		return *reinterpret_cast<const uint32_t*>(buffer.data());
+	}
+
 	void BaseFile_Imp::ReadAllBytes(std::vector<uint8_t>& buffer)
 	{
 		const auto tmp = m_position;

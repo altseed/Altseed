@@ -4,6 +4,58 @@
 
 namespace ace
 {
+	TopHeader::TopHeader(std::shared_ptr<BaseFile_Imp>& packedFile)
+	{
+		std::vector<uint8_t> buffer;
+		packedFile->Seek(0);
+		packedFile->ReadBytes(buffer, TopHeader::Signature.size());
+		assert(reinterpret_cast<achar*>(buffer.data()) == TopHeader::Signature);
+
+		uint64_t fileCount = packedFile->ReadUInt32();
+		uint64_t filePathHeaderLength = packedFile->ReadUInt32();
+
+		packedFile->ReadBytes(buffer, filePathHeaderLength);
+		std::vector<int16_t> strBuffer;
+		Utf8ToUtf16(strBuffer, reinterpret_cast<const int8_t*>(buffer.data()));
+
+		astring str(reinterpret_cast<achar*>(strBuffer.data()));
+		std::vector<int> tabIndices;
+		{
+			int i(0);
+			for (const auto c : strBuffer)
+			{
+				if (static_cast<achar>(c) == '\t')
+					tabIndices.push_back(i);
+
+				++i;
+			}
+		}
+		std::vector<astring> ignoreFiles;
+		{
+			ignoreFiles.reserve(tabIndices.size() + 1);
+			int currentIndex(0);
+
+			for (const auto tabIndex : tabIndices)
+			{
+				ignoreFiles.push_back(str.substr(currentIndex, tabIndex + 1 - currentIndex));
+			}
+		}
+
+		m_fileCount = fileCount;
+		m_ignoreFiles = ignoreFiles;
+		for (const auto& current : m_ignoreFiles)
+		{
+			m_filePathHeaderLength += (current.length() + 1u);
+		}
+		m_headerSize = sizeof(m_fileCount) + sizeof(m_headerSize) + sizeof(m_filePathHeaderLength) + m_filePathHeaderLength;
+
+		m_internalHeaders;
+		for (const auto header : m_internalHeaders)
+		{
+			m_internalHeaders.push_back(InternalHeader(packedFile));
+		}
+	}
+
 	TopHeader::TopHeader(uint64_t fileCounnt, const std::vector<astring>& const ignoreFiles)
 	{
 		m_fileCount = fileCounnt;

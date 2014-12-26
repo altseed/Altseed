@@ -1,10 +1,12 @@
 ﻿#include "ace.PackFile_Imp.h"
+#include <vector>
+#include <cassert>
 
 namespace ace
 {
-	PackFile_Imp::PackFile_Imp(const astring& path)
+	PackFile_Imp::PackFile_Imp(std::shared_ptr<BaseFile_Imp> packedFile)
 	{
-
+		m_TopHeader = std::make_shared<TopHeader>(packedFile);
 	}
 
 	bool PackFile_Imp::HaveFile(const astring& path)

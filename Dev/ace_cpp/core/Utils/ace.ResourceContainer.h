@@ -64,14 +64,6 @@ namespace ace
 					return existing;
 				}
 			}
-			//ace::Core* core = nullptr;
-			//auto file = core->GetFile();
-			//
-			//if (file->Exists(astring(path)))
-			//	return nullptr;
-			//
-			//std::vector<uint8_t> buffer;
-			//file->CreateStreamFile(astring(path))->ReadAllByte(buffer);
 
 #if _WIN32
 			auto fp = _wfopen(path, L"rb");

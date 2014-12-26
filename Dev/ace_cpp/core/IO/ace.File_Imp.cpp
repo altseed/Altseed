@@ -66,11 +66,56 @@ namespace ace
 	{
 		if (!Path_Imp::IsAbsolutePath(path))
 		{
+			std::vector<astring> ignoreFiles;
 			for (const auto& root : m_rootPathes)
 			{
 				if (root->m_isPackFile)
 				{
-					assert(false);
+					const auto& packPath = root->m_path;
+
+					// ToDo O(1)に変更すべし
+					if (m_packFileCash[packPath.ToAstring()]->HaveFile(path) && ConsistOf(ignoreFiles, path))
+					{
+						const auto internalHeader = m_packFileCash[packPath.ToAstring()]->GetInternalHeader(path);
+
+						ace::Path_Imp fullPath(root->m_path.ToAstring());
+						fullPath /= path;
+						fullPath.Normalize();
+						const auto normalizedPath(fullPath.ToAstring());
+
+						auto fileCash = m_staticFileCash.find(normalizedPath);
+						if (fileCash != m_staticFileCash.end() &&
+							Valid(fileCash->second))
+						{
+							return fileCash->second;
+						}
+
+						auto baseFileCash = m_fileCash.find(normalizedPath);
+						StaticFile_Imp* pstaticFile(nullptr);
+
+						if (baseFileCash == m_fileCash.end())
+						{
+							std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(packPath), [](BaseFile_Imp* p){ SafeRelease(p); });
+							m_fileCash.emplace(normalizedPath, pBaseFile);
+
+							pstaticFile = new StaticFile_Imp(pBaseFile, *internalHeader);
+
+							m_staticFileCash.emplace(normalizedPath, pstaticFile);
+
+							return pstaticFile;
+						}
+						else
+						{
+							pstaticFile = new StaticFile_Imp(baseFileCash->second);
+							m_staticFileCash.emplace(normalizedPath, pstaticFile);
+
+							return pstaticFile;
+						}
+					}
+					else
+					{
+						m_packFileCash[packPath.ToAstring()]->GetTopHeader()->AddIgnoreFiles(ignoreFiles);
+					}
 				}
 				else
 				{
