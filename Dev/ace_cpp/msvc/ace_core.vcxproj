@@ -337,8 +337,12 @@
     <ClInclude Include="..\core\Input\ace.Mouse_Imp.h" />
     <ClInclude Include="..\core\Input\ace.SideButton.h" />
     <ClInclude Include="..\core\IO\ace.File.h" />
+    <ClInclude Include="..\core\IO\ace.FileUtility.h" />
     <ClInclude Include="..\core\IO\ace.File_Imp.h" />
+    <ClInclude Include="..\core\IO\ace.PackFile_Imp.h" />
+    <ClInclude Include="..\core\IO\ace.PackFile.Header_Imp.h" />
     <ClInclude Include="..\core\IO\ace.Path.h" />
+    <ClInclude Include="..\core\IO\ace.PathIterator.h" />
     <ClInclude Include="..\core\IO\ace.Path_Imp.h" />
     <ClInclude Include="..\core\IO\ace.RootPath_Imp.h" />
     <ClInclude Include="..\core\IO\ace.StaticFile.h" />
@@ -504,6 +508,8 @@
     <ClCompile Include="..\core\Input\ace.SideButton.cpp" />
     <ClCompile Include="..\core\IO\ace.BaseFile.cpp" />
     <ClCompile Include="..\core\IO\ace.File_Imp.cpp" />
+    <ClCompile Include="..\core\IO\ace.PackFile_Imp.cpp" />
+    <ClCompile Include="..\core\IO\ace.PackFile.Header_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.Path_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.RootPath_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.StaticFile_Imp.cpp" />
