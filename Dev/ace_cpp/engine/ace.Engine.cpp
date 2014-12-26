@@ -336,6 +336,7 @@ namespace ace
 			m_sound = m_core->GetSound();
 			m_graphics = m_core->GetGraphics();
 			m_animationSyatem = m_core->GetAnimationSyatem();
+			m_file = m_core->GetFile();
 
 			m_keyboard = m_core->GetKeyboard();
 			m_mouse = m_core->GetMouse();
