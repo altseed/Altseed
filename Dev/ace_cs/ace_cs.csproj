@@ -215,10 +215,6 @@
     <Compile Include="swig\Sound.cs" />
     <Compile Include="swig\SoundSource.cs" />
     <Compile Include="swig\StaticFile.cs" />
-    <Compile Include="swig\StreamFile.cs" />
-    <Compile Include="swig\SWIGTYPE_p_ace__StaticFile.cs" />
-    <Compile Include="swig\SWIGTYPE_p_ace__StreamFile.cs" />
-    <Compile Include="swig\SWIGTYPE_p_std__vectorT_std__reference_wrapperT_ace__Path_t_t.cs" />
     <Compile Include="swig\SWIGTYPE_p_std__vectorT_unsigned_char_t.cs" />
     <Compile Include="swig\Terrain3D.cs" />
     <Compile Include="swig\Texture.cs" />

@@ -25,6 +25,6 @@ namespace ace
 		//virtual void EnumerateFiles(const achar* path, const achar* searchPattern, bool isRecursive) const = 0;
 		virtual bool Exists(const achar* path) const = 0;
 		virtual StaticFile* CreateStaticFile(const achar* path) = 0;
-		virtual StreamFile* CreateStreamFile(const achar* path) = 0;
+		//virtual StreamFile* CreateStreamFile(const achar* path) = 0;
 	};
 }

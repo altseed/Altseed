@@ -216,6 +216,7 @@ namespace ace
 		return pstreamFile;
 	}
 
+	/*
 	StreamFile* File_Imp::CreateStreamFile(const achar* path)
 	{
 		if (!Path_Imp::IsAbsolutePath(path))
@@ -259,4 +260,5 @@ namespace ace
 		}
 		return nullptr;
 	}
+	*/
 }

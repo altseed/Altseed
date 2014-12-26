@@ -7,7 +7,7 @@ using System.IO;
 
 namespace unitTest_Engine_cs.IO
 {
-    public class StaticFile_NonPackage : EngineTest
+    class StaticFile_NonPackage : EngineTest
     {
 
         public StaticFile_NonPackage()
