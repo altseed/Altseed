@@ -18,6 +18,8 @@ namespace ace
 		StaticFile_Imp(std::shared_ptr<BaseFile_Imp>& packedFile, InternalHeader& internalHeader);
 		virtual ~StaticFile_Imp();
 		virtual const std::vector<uint8_t>& ReadAllBytes() const { return m_buffer; }
+		virtual void* GetData() { return static_cast<void*>(m_buffer.data()); }
+		virtual int32_t GetSize() { return static_cast<int32_t>(m_buffer.size()); }
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }

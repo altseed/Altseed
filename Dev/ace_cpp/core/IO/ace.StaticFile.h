@@ -14,6 +14,9 @@ namespace ace
 
 #ifndef SWIG
 		virtual const std::vector<uint8_t>& ReadAllBytes() const = 0;
+#else
+		virtual void* GetData() = 0;
+		virtual int32_t GetSize() = 0;
 #endif
 	};
 }
