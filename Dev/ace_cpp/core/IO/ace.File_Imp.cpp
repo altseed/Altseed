@@ -78,7 +78,7 @@ namespace ace
 		return true;
 	}
 
-	StaticFile* File_Imp::CreateStaticFile(const achar* path)
+	StaticFile* File_Imp::CreateStaticFile_(const achar* path)
 	{
 		if (!Path_Imp::IsAbsolutePath(path))
 		{

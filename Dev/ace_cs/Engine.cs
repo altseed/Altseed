@@ -466,7 +466,7 @@ namespace ace
 
             if (core.GetFile() != null)
             {
-                File = new File(core.GetFile());
+                File = new File(core.GetFile_Imp());
             }
 
 			if (core.GetJoystickContainer() != null)

@@ -10,11 +10,11 @@ namespace ace
     {
         internal swig.StaticFile SwigObject;
 
-        internal StaticFile(swig.StaticFile swigObject)
+        internal StaticFile(swig.StaticFile swig)
         {
-            //if (GC..GetObject(swig.GetPtr()) != null) throw new Exception();
+            if (GC.StaticFiles.GetObject(swig.GetPtr()) != null) throw new Exception();
 
-            SwigObject = swigObject;
+            SwigObject = swig;
         }
 
         ~StaticFile()

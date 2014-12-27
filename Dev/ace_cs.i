@@ -21,6 +21,7 @@
 #include "Input/ace.JoystickContainer_Imp.h"
 
 #include "IO/ace.File.h"
+#include "IO/ace.File_Imp.h"
 //#include "IO/ace.PathIterator.h"
 //#include "IO/ace.Path.h"
 #include "IO/ace.StaticFile.h"
@@ -353,6 +354,8 @@ CPP_OBJECT( ace::StaticFile )
 %newobject ace::Graphics_Imp::CreateFont_;
 %newobject ace::Graphics_Imp::CreateChip2D_;
 
+%newobject ace::File_Imp::CreateStaticFile_;
+
 %newobject ace::ObjectSystemFactory::CreateObject2D;
 %newobject ace::ObjectSystemFactory::CreateTextureObject2D;
 %newobject ace::ObjectSystemFactory::CreateFont;
@@ -411,6 +414,7 @@ namespace ace
 %include "ace_cpp/core/Input/ace.JoystickContainer_Imp.h"
 
 %include "ace_cpp/core/IO/ace.File.h"
+%include "ace_cpp/core/IO/ace.File_Imp.h"
 //%include "ace_cpp/core/IO/ace.PathIterator.h"
 //%include "ace_cpp/core/IO/ace.Path.h"
 %include "ace_cpp/core/IO/ace.StaticFile.h"

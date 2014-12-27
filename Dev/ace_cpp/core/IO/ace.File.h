@@ -12,6 +12,8 @@ namespace ace
 {
 	class File : public IReference
 	{
+	protected:
+		virtual StaticFile* CreateStaticFile_(const achar* path) = 0;
 	private:
 		// static ファイルとstream ファイルの参照を持つ
 	public:
@@ -24,7 +26,13 @@ namespace ace
 		//virtual void EnumerateFiles(const achar* path, const achar* searchPattern) const = 0;
 		//virtual void EnumerateFiles(const achar* path, const achar* searchPattern, bool isRecursive) const = 0;
 		virtual bool Exists(const achar* path) const = 0;
-		virtual StaticFile* CreateStaticFile(const achar* path) = 0;
+
 		//virtual StreamFile* CreateStreamFile(const achar* path) = 0;
+#ifndef SWIG
+		std::shared_ptr<StaticFile> CreateStaticFile(const achar* path)
+		{
+			return CreateSharedPtrWithReleaseDLL(CreateStaticFile_(path));
+		}
+#endif
 	};
 }

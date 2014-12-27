@@ -8,9 +8,9 @@ namespace ace
 {
     public class File
     {
-        private swig.File file;
+        private swig.File_Imp file;
 
-        internal File(swig.File swig)
+        internal File(swig.File_Imp swig)
 		{
 			file = swig;
 		}
@@ -54,7 +54,7 @@ namespace ace
 
         public StaticFile CreateStaticFile(string path)
         {
-            var staticFile = file.CreateStaticFile(path);
+            var staticFile = file.CreateStaticFile_(path);
             if (staticFile == null) return null;
             return GC.GenerateStaticFile(staticFile, GC.GenerationType.Create);
         }

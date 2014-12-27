@@ -169,6 +169,7 @@
     <Compile Include="swig\eRotationOrder.cs" />
     <Compile Include="swig\eTextureClassType.cs" />
     <Compile Include="swig\File.cs" />
+    <Compile Include="swig\File_Imp.cs" />
     <Compile Include="swig\Font.cs" />
     <Compile Include="swig\FramerateMode.cs" />
     <Compile Include="swig\Graphics.cs" />

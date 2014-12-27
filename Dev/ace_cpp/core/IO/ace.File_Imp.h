@@ -48,6 +48,7 @@ namespace ace
 		StreamFile* CreateStreamFileDirectly(const achar* normalizedPath);
 
 		bool ConsistOf(const std::vector<astring>& vec, const achar* element) const { for (const auto& v : vec) { if (v == element) return true; } return false; }
+		
 
 	public:
 		static File_Imp* Create() { return new File_Imp(); };
@@ -64,8 +65,9 @@ namespace ace
 		//virtual void EnumerateFiles(const achar* path, const achar* searchPattern) const;
 		//virtual void EnumerateFiles(const achar* path, const achar* searchPattern, bool isRecursive) const;
 		virtual bool Exists(const achar* path) const;
-		virtual StaticFile* CreateStaticFile(const achar* path);
 		//virtual StreamFile* CreateStreamFile(const achar* path);
+		virtual StaticFile* CreateStaticFile_(const achar* path);
+
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }
