@@ -12,12 +12,17 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
+            /*
 			TestSequencially( new ObjectSystem2D.ParentObject() );
 			Console.ReadKey();
 			return;
+            
+             */
+            TestSequencially(new IO.StaticFile_Package());
+            Console.ReadKey();
+            return;
 
-
-			TestAll();
+            TestAll();
 
 			Console.ReadKey();
 		}

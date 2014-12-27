@@ -27,7 +27,7 @@ namespace unitTest_Engine_cs.Graphics._2D
             scene.AddLayer(layer);
             layer.AddObject(obj);
 
-			var font = ace.Engine.Graphics.CreateFont("Data/Font/Nac0711.aff");
+			var font = ace.Engine.Graphics.CreateFont("Data/Font/Nac0812.aff");
 
             obj.Font = font;
 			obj.Text = "DependencyPropertyは\n依存関係プロパティのこと";
