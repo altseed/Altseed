@@ -21,12 +21,12 @@ protected:
 	{
 		//普通に読み込んだバイナリ
 		BinaryReader reader;
-		auto data = GetBinaryData(ace::ToAString("Data/Texture/Sample1.png"));
+		auto data = GetBinaryData(ace::ToAString("Data/Texture/Surface/Tile_Normal.png"));
 		reader.ReadIn(data.begin(), data.end());
 
 		//ファイル機能で読み込んだバイナリ
 		ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data/Texture.pack").c_str());
-		auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Sample1.png").c_str());
+		auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Surface/Tile_Normal.png").c_str());
 		auto staticFileData = staticFile->ReadAllBytes();
 
 		int cnt = 0;
