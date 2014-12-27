@@ -13,6 +13,23 @@ namespace ace
 {
 	File_Imp::~File_Imp()
 	{
+		//for (auto tpl : m_staticFileCash)
+		//{
+		//	int ref = tpl.second->GetRef();
+		//	for (; ref < 0; --ref)
+		//		tpl.second->Release();
+		//}
+		//for (auto tpl : m_streamFileCash)
+		//{
+		//	int ref = tpl.second->GetRef();
+		//	for (; ref < 0; --ref)
+		//		tpl.second->Release();
+		//}
+		for (auto tpl : m_packFileCash)
+		{
+			if (tpl.second)
+				delete tpl.second;
+		}
 	}
 
 	void File_Imp::AddRootDirectories(const achar* path)
