@@ -38,7 +38,7 @@ namespace ace {
 		// リロード
 		void Reload(const achar* affFilePath);
 
-		Font_Imp(Graphics* graphics, const achar* affFilePath);
+		Font_Imp(Graphics* graphics, const ace::achar* affFilePathStr, std::vector<uint8_t> data);
 		virtual ~Font_Imp();
 
 		Vector2DI CalcTextureSize(const achar* text, WritingDirection writingDirection) const override;

@@ -2,10 +2,12 @@
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+#include <vector>
 #include "ace.Graphics_Imp.h"
 #include "ace.RenderingThread.h"
 
 #include "../Log/ace.Log.h"
+#include "../IO/ace.File_Imp.h"
 
 #include "Resource/ace.VertexBuffer_Imp.h"
 #include "Resource/ace.IndexBuffer_Imp.h"
@@ -585,7 +587,7 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log,File* file, bool isReloading
 	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>(file);
 
 	//SafeAddRef(m_log);
-	m_resourceContainer = new GraphicsResourceContainer();
+	m_resourceContainer = new GraphicsResourceContainer(m_file);
 	m_renderingThread = std::make_shared<RenderingThread>();
 	
 	m_effectSetting = Effekseer::Setting::Create();
@@ -862,23 +864,12 @@ Font* Graphics_Imp::CreateFont_(const achar* path)
 		}
 	}
 
-	FILE *fp;
-#if _WIN32
-	if ((fp = _wfopen(path, L"rb")) == nullptr)
-	{
-		fclose(fp);
-		return nullptr;
-	}
-#else
-	if ((fp =fopen(ToUtf8String(path).c_str(), "rb")) == nullptr)
-	{
-		fclose(fp);
-		return nullptr;
-	}
-#endif
-	fclose(fp);
+	auto affFile = m_file->CreateStaticFile(path);
 
-	auto font = new Font_Imp(this,path);
+	if (affFile == nullptr) return nullptr;
+
+	auto &data = affFile->ReadAllBytes();
+	Font_Imp* font = new Font_Imp(this,path,data);
 
 	std::shared_ptr<FontReloadInformation> info;
 	info.reset(new FontReloadInformation());

@@ -184,6 +184,7 @@ namespace ace {
 #if !SWIG
 		std::shared_ptr<ResourceContainer<Texture2D_Imp>> Texture2DContainer;
 		std::shared_ptr<ResourceContainer<Effect_Imp>> EffectContainer;
+		std::shared_ptr<ResourceContainer<Font_Imp>> FontContainer;
 #endif
 
 		Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);

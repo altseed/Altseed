@@ -19,7 +19,8 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	GraphicsResourceContainer::GraphicsResourceContainer()
+	GraphicsResourceContainer::GraphicsResourceContainer(File* file)
+		:m_file(file)
 	{
 	
 	}

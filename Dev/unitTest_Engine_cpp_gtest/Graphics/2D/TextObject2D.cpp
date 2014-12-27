@@ -30,8 +30,10 @@ protected:
 
 		auto g = ace::Engine::GetGraphics();
 
+		ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data").c_str());
+
 		layer->AddObject(object);
-		auto font = g->CreateFont(ace::ToAString("Data/Font/Nac1220.aff").c_str());
+		auto font = g->CreateFont(ace::ToAString("Font/Nac0812.aff").c_str());
 
 		object->SetFont(font);
 		object->SetText(ToAString("DependencyPropertyとは").c_str());

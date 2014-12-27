@@ -5,6 +5,7 @@
 //----------------------------------------------------------------------------------
 #include "../ace.Core.Base_Imp.h"
 #include "ace.Graphics.h"
+#include "../core/IO/ace.File.h"
 
 #include <time.h>
 
@@ -22,6 +23,7 @@ namespace ace {
 	class GraphicsResourceContainer
 	{
 	private:
+		File* m_file;
 
 		template<typename TARGET, typename INFO>
 		class Resource
@@ -61,7 +63,7 @@ namespace ace {
 
 	public:
 
-		GraphicsResourceContainer();
+		GraphicsResourceContainer(File* file);
 		~GraphicsResourceContainer();
 
 		Resource<Model_Imp, ModelReloadInformation>			Models;

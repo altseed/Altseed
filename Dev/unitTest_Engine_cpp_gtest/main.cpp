@@ -26,6 +26,7 @@ extern void TestCamera(bool openGL);
 
 EXTERN_ENGINE_TEST(Graphics, PostEffectGaussianBlur)
 EXTERN_ENGINE_TEST(Graphics, PostEffectLightBloom)
+EXTERN_ENGINE_TEST(Graphics, TextObject2D)
 EXTERN_ENGINE_TEST(Graphics, PostEffectGrayScale)
 EXTERN_ENGINE_TEST(Graphics, PostEffectSepia)
 EXTERN_ENGINE_TEST(Graphics, CustomPostEffect)
@@ -86,8 +87,7 @@ int main(int argc, char **argv)
 	//Test_Graphics_TextureObject2D(false);
 	//return 0;
 
-	CALL_ENGINE_TEST(File, StaticFile_Package, true)
-		system("pause");
+	CALL_ENGINE_TEST(Graphics, TextObject2D,true)
 	return 0;
 
 	/*
