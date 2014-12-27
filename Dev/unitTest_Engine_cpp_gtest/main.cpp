@@ -53,6 +53,7 @@ EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
 EXTERN_ENGINE_TEST(Sound, Sound)
 
 EXTERN_ENGINE_TEST(File, StaticFile_NonePackage)
+EXTERN_ENGINE_TEST(File, StaticFile_Package)
 
 /**
 	@brief	単体テストを実行する。
@@ -85,7 +86,7 @@ int main(int argc, char **argv)
 	//Test_Graphics_TextureObject2D(false);
 	//return 0;
 
-	CALL_ENGINE_TEST(File, StaticFile_NonePackage, true)
+	CALL_ENGINE_TEST(File, StaticFile_Package, true)
 
 	return 0;
 

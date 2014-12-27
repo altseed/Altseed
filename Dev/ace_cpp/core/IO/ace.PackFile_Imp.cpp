@@ -7,11 +7,21 @@ namespace ace
 	PackFile_Imp::PackFile_Imp(std::shared_ptr<BaseFile_Imp> packedFile)
 	{
 		m_TopHeader = std::make_shared<TopHeader>(packedFile);
+		auto internalHeaders = m_TopHeader->GetInternalHeaders();
+
+		for (auto header : internalHeaders)
+		{
+			m_InternalHeaderDictionaly.emplace(header.GetFileName(), std::shared_ptr<InternalHeader>(&header));
+		}
+
+		m_RawFile = packedFile;
 	}
 
 	bool PackFile_Imp::HaveFile(const astring& path)
 	{
-		return m_InternalHeaderDictionaly.find(path) != m_InternalHeaderDictionaly.end();
+		astring tmp(path);
+		std::transform(path.begin(), path.end(), tmp.begin(), ::towlower);
+		return m_InternalHeaderDictionaly.find(tmp) != m_InternalHeaderDictionaly.end();
 	}
 	std::shared_ptr<TopHeader> PackFile_Imp::GetTopHeader()
 	{

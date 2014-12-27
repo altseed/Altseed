@@ -9,10 +9,10 @@ namespace ace
 		std::vector<uint8_t> buffer;
 		packedFile->Seek(0);
 		packedFile->ReadBytes(buffer, TopHeader::Signature.size());
-		assert(reinterpret_cast<achar*>(buffer.data()) == TopHeader::Signature);
+		assert(ace::ToAString(reinterpret_cast<achar*>(buffer.data())).compare(TopHeader::Signature) != 0);
 
-		uint64_t fileCount = packedFile->ReadUInt32();
-		uint64_t filePathHeaderLength = packedFile->ReadUInt32();
+		uint64_t fileCount = packedFile->ReadUInt64();
+		uint64_t filePathHeaderLength = packedFile->ReadUInt64();
 
 		packedFile->ReadBytes(buffer, filePathHeaderLength);
 		std::vector<int16_t> strBuffer;
@@ -24,6 +24,9 @@ namespace ace
 			int i(0);
 			for (const auto c : strBuffer)
 			{
+				if (i <= filePathHeaderLength)
+					break;
+
 				if (static_cast<achar>(c) == '\t')
 					tabIndices.push_back(i);
 
@@ -43,14 +46,10 @@ namespace ace
 
 		m_fileCount = fileCount;
 		m_ignoreFiles = ignoreFiles;
-		for (const auto& current : m_ignoreFiles)
-		{
-			m_filePathHeaderLength += (current.length() + 1u);
-		}
+		m_filePathHeaderLength = filePathHeaderLength;
 		m_headerSize = sizeof(m_fileCount) + sizeof(m_headerSize) + sizeof(m_filePathHeaderLength) + m_filePathHeaderLength;
 
-		m_internalHeaders;
-		for (const auto header : m_internalHeaders)
+		for (int i = 0; i < fileCount; ++i)
 		{
 			m_internalHeaders.push_back(InternalHeader(packedFile));
 		}

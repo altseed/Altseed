@@ -44,6 +44,14 @@ namespace ace
 	void BaseFile_Imp::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count)
 	{
 		const auto size = Size();
+
+		if (!count)
+		{
+			buffer.resize(0);
+			buffer.clear();
+			return;
+		}
+
 		assert(0 <= count && count <= size);
 		assert((m_position + count) <= size);
 
@@ -59,6 +67,14 @@ namespace ace
 		ReadBytes(buffer, sizeof(uint32_t));
 
 		return *reinterpret_cast<const uint32_t*>(buffer.data());
+	}
+
+	uint64_t BaseFile_Imp::ReadUInt64()
+	{
+		std::vector<uint8_t> buffer;
+		ReadBytes(buffer, sizeof(uint64_t));
+
+		return *reinterpret_cast<const uint64_t*>(buffer.data());
 	}
 
 	void BaseFile_Imp::ReadAllBytes(std::vector<uint8_t>& buffer)

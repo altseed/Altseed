@@ -32,6 +32,7 @@ namespace ace
 			m_offset = packedFile->ReadUInt32();
 			packedFile->ReadBytes(buffer, m_fileNameLength);
 			Utf8ToUtf16(strBuffer, reinterpret_cast<const int8_t*>(buffer.data()));
+			m_fileName = ToAString(reinterpret_cast<const achar*>(strBuffer.data()));
 		}
 	};
 

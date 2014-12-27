@@ -89,8 +89,22 @@ namespace ace
 				{
 					const auto& packPath = root->m_path;
 
+					if (m_packFileCash.find(packPath.ToAstring()) == m_packFileCash.end())
+					{
+						auto baseFileCash = m_fileCash.find(packPath.ToAstring());
+						StaticFile_Imp* pstaticFile(nullptr);
+
+						if (baseFileCash == m_fileCash.end())
+						{
+							std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(packPath), [](BaseFile_Imp* p){ SafeRelease(p); });
+							m_fileCash.emplace(packPath.ToAstring(), pBaseFile);
+
+							m_packFileCash.emplace(packPath.ToAstring(), new PackFile_Imp(pBaseFile));
+						}
+					}
+
 					// ToDo O(1)に変更すべし
-					if (m_packFileCash[packPath.ToAstring()]->HaveFile(path) && ConsistOf(ignoreFiles, path))
+					if (m_packFileCash[packPath.ToAstring()]->HaveFile(path) && !ConsistOf(ignoreFiles, path))
 					{
 						const auto internalHeader = m_packFileCash[packPath.ToAstring()]->GetInternalHeader(path);
 

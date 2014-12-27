@@ -31,6 +31,7 @@ namespace ace
 		int64_t Size();
 		void ReadBytes(std::vector<uint8_t>& buffer, const int64_t count);
 		uint32_t ReadUInt32();
+		uint64_t ReadUInt64();
 		void ReadAllBytes(std::vector<uint8_t>& buffer);
 		void ReadAllLines(std::vector<astring>& lines);
 		void ReadAllText(astring& text);
