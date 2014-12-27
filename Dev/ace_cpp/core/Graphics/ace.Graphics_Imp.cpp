@@ -581,8 +581,8 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log,File* file, bool isReloading
 {
 	CreateShaderCacheDirectory();
 
-	Texture2DContainer = std::make_shared<ResourceContainer<Texture2D_Imp>>();
-	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>();
+	Texture2DContainer = std::make_shared<ResourceContainer<Texture2D_Imp>>(file);
+	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>(file);
 
 	//SafeAddRef(m_log);
 	m_resourceContainer = new GraphicsResourceContainer();

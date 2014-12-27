@@ -32,7 +32,7 @@ namespace ace
 
 	public:
 
-		Sound_Imp(bool isReloadingEnabled,File *file);
+		Sound_Imp(File *file, bool isReloadingEnabled);
 		virtual ~Sound_Imp();
 
 		SoundSource* CreateSoundSource_(const achar* path, bool isDecompressed) override;

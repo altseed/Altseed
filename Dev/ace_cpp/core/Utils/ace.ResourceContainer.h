@@ -3,6 +3,10 @@
 
 #include <ace.common.Base.h>
 #include "../Core/ace.Core.Base_Imp.h"
+
+#include "../IO/ace.File.h"
+#include "../IO/ace.StaticFile.h"
+
 #include <time.h>
 #include <functional>
 
@@ -32,9 +36,11 @@ namespace ace
 
 		std::map <RESOURCE*, std::shared_ptr <LoadingInformation> >	loadInfo;
 
+		File*	file;
 	public:
 
-		ResourceContainer()
+		ResourceContainer(File* file)
+			: file(file)
 		{
 
 		}
@@ -65,6 +71,10 @@ namespace ace
 				}
 			}
 
+			auto staticFile = file->CreateStaticFile(path);
+			if (staticFile.get() == nullptr) return nullptr;
+
+			/*
 #if _WIN32
 			auto fp = _wfopen(path, L"rb");
 			if (fp == nullptr) return nullptr;
@@ -78,12 +88,13 @@ namespace ace
 			auto data = new uint8_t[size];
 			fread(data, 1, size, fp);
 			fclose(fp);
+			*/
 
-			auto ret = loadFunc(data, size);
+			auto ret = loadFunc((uint8_t*)staticFile->GetData(), staticFile->GetSize());
 
 			if (ret == nullptr)
 			{
-				SafeDeleteArray(data);
+				//SafeDeleteArray(data);
 				return nullptr;
 			}
 
@@ -93,7 +104,7 @@ namespace ace
 			info->ResourcePtr = ret;
 			Register(path, ret, info);
 
-			SafeDeleteArray(data);
+			//SafeDeleteArray(data);
 
 			return ret;
 		}
