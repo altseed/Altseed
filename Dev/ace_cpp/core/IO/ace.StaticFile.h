@@ -11,6 +11,9 @@ namespace ace
 	private:
 	public:
 		virtual ~StaticFile() { };
+
+#ifndef SWIG
 		virtual const std::vector<uint8_t>& ReadAllBytes() const = 0;
+#endif
 	};
 }
