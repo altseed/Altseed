@@ -127,6 +127,7 @@ namespace ace {
 		GraphicsResourceContainer*	m_resourceContainer;
 
 		Log*						m_log;
+		File*						m_file;
 
 		struct
 		{
@@ -185,12 +186,12 @@ namespace ace {
 		std::shared_ptr<ResourceContainer<Effect_Imp>> EffectContainer;
 #endif
 
-		Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);
 		virtual ~Graphics_Imp();
 
-		static Graphics_Imp* Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp* Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);
 
-		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, File *file, bool isReloadingEnabled, bool isFullScreen);
 
 		/**
 		@brief	画面をクリアする。

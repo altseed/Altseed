@@ -4,8 +4,9 @@
 
 namespace ace
 {
-	Sound_Imp::Sound_Imp(bool isReloadingEnabled)
-		: m_manager(nullptr)
+	Sound_Imp::Sound_Imp(bool isReloadingEnabled,File *file)
+		: m_manager(nullptr),
+		m_file(file)
 	{
 		m_manager = osm::Manager::Create();
 		if (m_manager->Initialize())

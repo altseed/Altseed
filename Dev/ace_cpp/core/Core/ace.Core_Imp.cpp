@@ -212,10 +212,10 @@ namespace ace
 
 		m_file = File_Imp::Create();
 
-		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, option.IsReloadingEnabled, option.IsFullScreen);
+		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger,m_file, option.IsReloadingEnabled, option.IsFullScreen);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp(option.IsReloadingEnabled);
+		m_sound = new Sound_Imp(option.IsReloadingEnabled,m_file);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
 		m_profiler = Profiler_Imp::Create();
@@ -284,16 +284,16 @@ namespace ace
 		}
 #endif
 
+		m_file = File_Imp::Create();
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
-		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger, option.IsReloadingEnabled, option.IsFullScreen);
+		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger,m_file, option.IsReloadingEnabled, option.IsFullScreen);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp(option.IsReloadingEnabled);
+		m_sound = new Sound_Imp(option.IsReloadingEnabled,m_file);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
-		m_file = File_Imp::Create();
 		m_profiler = Profiler_Imp::Create();
 		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, Vector2DI(width, height));
 

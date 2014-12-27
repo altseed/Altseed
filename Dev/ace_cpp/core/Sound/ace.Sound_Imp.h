@@ -28,10 +28,11 @@ namespace ace
 	{
 	private:
 		osm::Manager*	m_manager;
+		File*			m_file;
 
 	public:
 
-		Sound_Imp(bool isReloadingEnabled);
+		Sound_Imp(bool isReloadingEnabled,File *file);
 		virtual ~Sound_Imp();
 
 		SoundSource* CreateSoundSource_(const achar* path, bool isDecompressed) override;
