@@ -82,12 +82,10 @@ namespace ace
 		files = m_ignoreFiles;
 	}
 
-	void TopHeader::AddIgnoreFiles(std::vector<astring>& files)
+	void TopHeader::AddIgnoreFiles(std::unordered_set<astring>& files)
 	{
-		auto index = files.size();
-		files.resize(index + m_ignoreFiles.size());
 		for (const auto& ig : m_ignoreFiles)
-			files[index++] = ig;
+			files.emplace(ig);
 	}
 
 	const astring TopHeader::Signature = ToAString("pack");

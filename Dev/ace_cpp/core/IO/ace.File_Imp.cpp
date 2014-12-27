@@ -7,6 +7,7 @@
 #include <array>
 #include <algorithm>
 #include <sys/stat.h>
+#include <unordered_set>
 
 namespace ace
 {
@@ -82,7 +83,8 @@ namespace ace
 	{
 		if (!Path_Imp::IsAbsolutePath(path))
 		{
-			std::vector<astring> ignoreFiles;
+			std::unordered_set<astring> ignoreFiles;
+			
 			for (const auto& root : m_rootPathes)
 			{
 				if (root->m_isPackFile)
@@ -103,8 +105,7 @@ namespace ace
 						}
 					}
 
-					// ToDo O(1)に変更すべし
-					if (m_packFileCash[packPath.ToAstring()]->HaveFile(path) && !ConsistOf(ignoreFiles, path))
+					if (m_packFileCash[packPath.ToAstring()]->HaveFile(path) && ignoreFiles.find(path) == ignoreFiles.end() )
 					{
 						const auto internalHeader = m_packFileCash[packPath.ToAstring()]->GetInternalHeader(path);
 

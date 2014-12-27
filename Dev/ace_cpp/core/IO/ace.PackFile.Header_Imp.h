@@ -3,6 +3,7 @@
 #include "../common/ace.common.Base.h"
 #include "ace.BaseFile_Imp.h"
 #include <vector>
+#include <unordered_set>
 
 namespace ace
 {
@@ -57,6 +58,6 @@ namespace ace
 		void ToByteArray(std::vector<uint8_t>& buffer);
 		void GetIgnoreFiles(std::vector<astring>& files);
 		std::vector<std::shared_ptr<InternalHeader>>& GetInternalHeaders() { return m_internalHeaders; };
-		void AddIgnoreFiles(std::vector<astring>& files);
+		void AddIgnoreFiles(std::unordered_set<astring>& files);
 	};
 }
