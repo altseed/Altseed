@@ -87,7 +87,7 @@ int main(int argc, char **argv)
 	//return 0;
 
 	CALL_ENGINE_TEST(File, StaticFile_Package, true)
-
+		system("pause");
 	return 0;
 
 	/*
