@@ -3,16 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
 
 namespace ace
 {
     public class StaticFile : IDestroy
     {
-        internal swig.StaticFile SwigObject;
+        internal swig.StaticFile SwigObject { get; set; }
+
+        private List<byte> data;
 
         internal StaticFile(swig.StaticFile swig)
         {
+            
+#if DEBUG
             if (GC.StaticFiles.GetObject(swig.GetPtr()) != null) throw new Exception();
+#endif
 
             SwigObject = swig;
         }
@@ -23,6 +29,9 @@ namespace ace
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
         public bool IsDestroyed
         {
             get
@@ -31,6 +40,9 @@ namespace ace
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Destroy()
         {
             lock (this)
@@ -42,11 +54,21 @@ namespace ace
             System.GC.SuppressFinalize(this);
         }
 
-        public List<byte> ReadAllBytes()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        unsafe public List<byte> ReadAllBytes()
         {
-            List<byte> bytes = new List<byte>();
-
-            return bytes;
+            if (data == null)
+            {
+                System.IntPtr raw = SwigObject.GetData();
+                byte[] bytes = new byte[SwigObject.GetSize()];
+                Marshal.Copy(raw, bytes, 0, SwigObject.GetSize());
+                data = new List<byte>(bytes);
+            }
+                
+            return data;
         }
     }
 }

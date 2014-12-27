@@ -8,7 +8,7 @@ namespace ace
 {
     public class File
     {
-        private swig.File_Imp file;
+        swig.File_Imp file;
 
         internal File(swig.File_Imp swig)
 		{

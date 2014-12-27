@@ -18,30 +18,29 @@ namespace unitTest_Engine_cs.IO
         protected override void OnStart()
         {
             //普通に読み込んだバイナリ
-            byte[] loadData;
+            List<byte> loadData;
 
-            using (FileStream fileStream = new FileStream("Data/Texture/Sample1.png", FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream("Data/Texture/Surface/Tile_Spec.png", FileMode.Open, FileAccess.Read))
             {
 
-                loadData = new byte[fileStream.Length];
-                fileStream.Read(loadData, 0, loadData.Length);
+                byte[] buf = new byte[fileStream.Length];
+                fileStream.Read(buf, 0, buf.Length);
+                loadData=new List<byte>(buf);
             }
 
-            /*
-            ace.Engine.File.AddRootDirectories("Data/Texture");
-            var staticFile = ace.Engine.File.CreateStaticFile("Sample1.png");
+            //ファイル機能から読み込んだバイナリ
+            ace.Engine.File.AddRootDirectories("Data/Texture/Surface");
+            var staticFile = ace.Engine.File.CreateStaticFile("Tile_Spec.png");
             var staticFileData = staticFile.ReadAllBytes();
-            
-            int cnt = 0;
-            while (!reader.IsEmpty())
+
+            for (int i = 0; i < loadData.Count;++i )
             {
-                byte byteFromRaw = loadData[cnt];
+                byte byteFromRaw = loadData[i];
 
-                byte byteFromFile = staticFileData[cnt++];
+                byte byteFromFile = staticFileData[i];
 
-                Assert(byteFromRaw == byteFromFile);
+                Assert.Equals(byteFromRaw, byteFromFile);
             }
-             */
         }
     }
 }
