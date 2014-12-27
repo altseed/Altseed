@@ -33,6 +33,8 @@ namespace unitTest_Engine_cs.IO
             var staticFile = ace.Engine.File.CreateStaticFile("Surface/Tile_Spec.png");
             var staticFileData = staticFile.ReadAllBytes();
 
+            Assert.Equals(loadData.Count, staticFileData.Count);
+
             for (int i = 0; i < loadData.Count; ++i)
             {
                 byte byteFromRaw = loadData[i];

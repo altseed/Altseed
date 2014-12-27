@@ -38,6 +38,8 @@ protected:
 
 			ASSERT_EQ(byteFromRaw, byteFromFile);
 		}
+
+		ASSERT_EQ(cnt, staticFileData.size());
 	}
 };
 
