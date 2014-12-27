@@ -183,6 +183,7 @@ $RECYCLE.BIN/
 *.exe.config
 *.manifest
 *.pyc
+*.ch
 
 /Dev/bin/*.png
 /Dev/bin/*.exp
