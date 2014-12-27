@@ -37,6 +37,7 @@ protected:
 
 			ASSERT_EQ(byteFromRaw,byteFromFile);
 		}
+		staticFile->Release();
 	}
 };
 

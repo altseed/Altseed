@@ -31,15 +31,24 @@ namespace ace
 			m_key(key),
 			m_isPackFile(false)
 		{
-			
-			for (const auto& elem : m_path)
+			for (auto iter = m_path.ImpBegin();
+				iter != m_path.ImpEnd();
+				++iter)
 			{
-				if (IsPack(elem))
+				if (IsPack(*iter))
 				{
-				   m_isPackFile = true;
-				   break;
+					m_isPackFile = true;
+					break;
 				}
 			}
+			//for (const auto& elem : m_path)
+			//{
+			//	if (IsPack(elem))
+			//	{
+			//	   m_isPackFile = true;
+			//	   break;
+			//	}
+			//}
 		}
 
 		bool operator==(const RootPath_Imp& target) const
