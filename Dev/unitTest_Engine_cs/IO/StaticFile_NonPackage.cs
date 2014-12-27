@@ -20,7 +20,7 @@ namespace unitTest_Engine_cs.IO
             //普通に読み込んだバイナリ
             List<byte> loadData;
 
-            using (FileStream fileStream = new FileStream("Data/Texture/Sample1.png", FileMode.Open, FileAccess.Read))
+            using (FileStream fileStream = new FileStream("Data/Texture/Surface/Tile_Spec.png", FileMode.Open, FileAccess.Read))
             {
 
                 byte[] buf = new byte[fileStream.Length];
@@ -29,8 +29,8 @@ namespace unitTest_Engine_cs.IO
             }
 
             //ファイル機能から読み込んだバイナリ
-            ace.Engine.File.AddRootDirectories("Data/Texture");
-            var staticFile = ace.Engine.File.CreateStaticFile("Sample1.png");
+            ace.Engine.File.AddRootDirectories("Data/Texture/Surface");
+            var staticFile = ace.Engine.File.CreateStaticFile("Tile_Spec.png");
             var staticFileData = staticFile.ReadAllBytes();
 
             for (int i = 0; i < loadData.Count;++i )
