@@ -43,7 +43,7 @@ namespace umw.Packaging
 				TopHeader = new TopHeader(reader);
 
 				InternalHeader = new Dictionary<string, InternalHeader>((int)TopHeader.FileCount);
-				for (int i = 0; i < TopHeader.FileCount; i++)
+				for (ulong i = 0; i < TopHeader.FileCount; i++)
 				{
 					var tmp = new InternalHeader(reader);
 					InternalHeader.Add(tmp.FileName, tmp);

@@ -43,7 +43,7 @@ namespace ace
 		uint64_t m_fileCount;
 		uint64_t m_filePathHeaderLength;
 		std::vector<astring> m_ignoreFiles;
-		std::vector<InternalHeader> m_internalHeaders;
+		std::vector<std::shared_ptr<InternalHeader>> m_internalHeaders;
 
 	public:
 		static const astring Signature;
@@ -54,7 +54,7 @@ namespace ace
 
 		void ToByteArray(std::vector<uint8_t>& buffer);
 		void GetIgnoreFiles(std::vector<astring>& files);
-		std::vector<InternalHeader>& GetInternalHeaders() { return m_internalHeaders; };
+		std::vector<std::shared_ptr<InternalHeader>>& GetInternalHeaders() { return m_internalHeaders; };
 		void AddIgnoreFiles(std::vector<astring>& files);
 	};
 }

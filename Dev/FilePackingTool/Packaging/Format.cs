@@ -12,7 +12,7 @@ namespace umw.Packaging
 		/// <summary>
 		/// ヘッダサイズ
 		/// </summary>
-		public UInt64 HeaderSize
+		public UInt32 HeaderSize
 		{
 			get;
 			private set;
@@ -58,7 +58,7 @@ namespace umw.Packaging
 			FileCount = reader.ReadUInt32();
 			FilePathHeaderLength = reader.ReadUInt32();
 			ignoreFiles = Encoding.UTF8.GetString(reader.ReadBytes((int)FilePathHeaderLength)).Split(new char[] { FilePathSeparator }, StringSplitOptions.RemoveEmptyEntries);
-			HeaderSize = (uint)(4 + 4 + 4 + FilePathHeaderLength);
+			HeaderSize = (uint)(4 + 8 + 8 + FilePathHeaderLength);
 		}
 		/// <summary>
 		/// 書き込み用コンストラクタ
@@ -77,7 +77,7 @@ namespace umw.Packaging
 			{
 				FilePathHeaderLength += (uint)(path + FilePathSeparator).Length;
 			}
-			HeaderSize = (uint)(4 + 4 + 4 + FilePathHeaderLength);
+			HeaderSize = (uint)(4 + 8 + 8 + FilePathHeaderLength);
 		}
 
 		public byte[] ToByteArray()

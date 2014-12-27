@@ -51,7 +51,7 @@ namespace ace
 
 		for (int i = 0; i < fileCount; ++i)
 		{
-			m_internalHeaders.push_back(InternalHeader(packedFile));
+			m_internalHeaders.push_back(std::make_shared<InternalHeader>(packedFile));
 		}
 	}
 

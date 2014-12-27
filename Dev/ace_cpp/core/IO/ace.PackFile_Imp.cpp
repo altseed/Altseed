@@ -11,7 +11,7 @@ namespace ace
 
 		for (auto header : internalHeaders)
 		{
-			m_InternalHeaderDictionaly.emplace(header.GetFileName(), std::shared_ptr<InternalHeader>(&header));
+			m_InternalHeaderDictionaly.emplace(header->GetFileName(), header);
 		}
 
 		m_RawFile = packedFile;
@@ -30,7 +30,12 @@ namespace ace
 	std::shared_ptr<InternalHeader> PackFile_Imp::GetInternalHeader(const astring& path)
 	{
 		if (HaveFile(path))
-			return m_InternalHeaderDictionaly[path];
+		{
+			// todo これはひどい
+			astring tmp(path);
+			std::transform(path.begin(), path.end(), tmp.begin(), ::towlower);
+			return m_InternalHeaderDictionaly[tmp];
+		}
 		else
 			assert(false);
 	}
