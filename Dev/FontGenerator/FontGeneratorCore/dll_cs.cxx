@@ -383,6 +383,18 @@ SWIGEXPORT char * SWIGSTDCALL CSharp_DLL_GetFontPath(void * jarg1, int jarg2) {
 }
 
 
+SWIGEXPORT wchar_t * SWIGSTDCALL CSharp_DLL_SavePreview(void * jarg1) {
+  wchar_t * jresult ;
+  FontGenerator::DLL *arg1 = (FontGenerator::DLL *) 0 ;
+  wchar_t *result = 0 ;
+  
+  arg1 = (FontGenerator::DLL *)jarg1; 
+  result = (wchar_t *)(arg1)->SavePreview();
+  jresult = (wchar_t *)result; 
+  return jresult;
+}
+
+
 SWIGEXPORT unsigned int SWIGSTDCALL CSharp_DLL_Run(void * jarg1) {
   unsigned int jresult ;
   FontGenerator::DLL *arg1 = (FontGenerator::DLL *) 0 ;

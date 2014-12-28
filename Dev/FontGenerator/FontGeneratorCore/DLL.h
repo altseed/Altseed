@@ -40,6 +40,7 @@ namespace FontGenerator
 		int32_t GetFontCount();
 		const char* GetFontName(int32_t index);
 		const char* GetFontPath(int32_t index);
+		const wchar_t* SavePreview();
 
 		bool Run();
 

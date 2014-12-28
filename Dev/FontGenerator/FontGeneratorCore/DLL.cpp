@@ -73,6 +73,30 @@ namespace FontGenerator
 		return fontPathes[index].c_str();
 	}
 
+	const wchar_t* DLL::SavePreview()
+	{
+		wchar_t dirPath[256];
+		GetTempPath(256, dirPath);
+
+		wchar_t filePath[256];
+		GetTempFileName(dirPath, L"aff", 0, filePath);
+
+		PngGenerator png;
+		SettingForRendering setting;
+		setting.SetFontSize(m_fontSize);
+		setting.SetFontColor(m_fontColor);
+
+		if (m_outlineSize > 0)
+		{
+			setting.SetBorder(std::make_shared<BorderSetting>(m_outlineSize, m_outlineColor, m_outlineSampling));
+		}
+
+		png.SetSetting(setting);
+		png.GeneratePreview(m_fontName, filePath);
+
+		return filePath;
+	}
+
 
 	bool DLL::Run()
 	{

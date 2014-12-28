@@ -9,6 +9,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Reactive.Linq;
+using System.Reactive;
+using System.Windows.Media.Imaging;
 
 namespace FontGenerator.WPF.ViewModels
 {
@@ -116,6 +119,7 @@ namespace FontGenerator.WPF.ViewModels
 				{
 					config.FontSize = value;
 					PropertyChanged.Raise(this);
+					GeneratePreviewAsync();
 				}
 			}
 		}
@@ -285,6 +289,22 @@ namespace FontGenerator.WPF.ViewModels
 			get { return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", OutlineAlpha, OutlineRed, OutlineGreen, OutlineBlue); }
 		}
 
+		BitmapImage PreviewImage_;
+
+		public BitmapImage PreviewImage
+		{
+			get { return PreviewImage_; }
+			set
+			{
+				if(!value.Equals(PreviewImage_))
+				{
+					PreviewImage_ = value;
+					PropertyChanged.Raise(this);
+				}
+			}
+		}
+
+
 		#endregion
 
 		public string Error
@@ -332,6 +352,11 @@ namespace FontGenerator.WPF.ViewModels
 			OutlineAlpha = 255;
 			OutlineSize = 0;
 			OutlineSampling = 1;
+
+			Observable.FromEventPattern<PropertyChangedEventArgs>(this, "PropertyChanged")
+				.Where(x => x.EventArgs.PropertyName != "PreviewImage")
+				.Throttle(TimeSpan.FromMilliseconds(500))
+				.Subscribe(x => GeneratePreviewAsync());
 		}
 
 		private void LoadConfiguration(object obj)
@@ -406,6 +431,25 @@ namespace FontGenerator.WPF.ViewModels
 		public async Task GenerateAsync()
 		{
 			await Generator.GenerateAsync(config);
+		}
+
+		public async Task GeneratePreviewAsync()
+		{
+			var imagePath = await Generator.GeneratePreviewAsync(config);
+
+			var image = new BitmapImage();
+			using (var file = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
+			{
+				image.BeginInit();
+				image.CacheOption = BitmapCacheOption.OnLoad;
+				image.StreamSource = file;
+				image.EndInit();
+				image.Freeze();
+			}
+
+			PreviewImage = image;
+
+			File.Delete(imagePath);
 		}
 	}
 }
