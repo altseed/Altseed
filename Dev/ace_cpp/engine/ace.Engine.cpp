@@ -282,6 +282,7 @@ namespace ace
 	Graphics* Engine::m_graphics = nullptr;
 	ObjectSystemFactory* Engine::m_objectSystemFactory = nullptr;
 	AnimationSystem* Engine::m_animationSyatem = nullptr;
+	File* Engine::m_file = nullptr;
 
 	std::shared_ptr<Scene>	Engine::m_currentScene;
 	std::shared_ptr<Scene>	Engine::m_nextScene;
@@ -335,6 +336,7 @@ namespace ace
 			m_sound = m_core->GetSound();
 			m_graphics = m_core->GetGraphics();
 			m_animationSyatem = m_core->GetAnimationSyatem();
+			m_file = m_core->GetFile();
 
 			m_keyboard = m_core->GetKeyboard();
 			m_mouse = m_core->GetMouse();
@@ -381,6 +383,7 @@ namespace ace
 			m_profiler = m_core->GetProfiler();
 			m_objectSystemFactory = m_core->GetObjectSystemFactory();
 			m_sound = m_core->GetSound();
+			m_file = m_core->GetFile();
 			m_graphics = m_core->GetGraphics();
 			m_animationSyatem = m_core->GetAnimationSyatem();
 
@@ -670,6 +673,14 @@ namespace ace
 	Sound* Engine::GetSound()
 	{
 		return m_sound;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	File* Engine::GetFile()
+	{
+		return m_file;
 	}
 
 	//----------------------------------------------------------------------------------

@@ -13,6 +13,8 @@
   <ItemGroup>
     <ClCompile Include="..\EngineGraphics3DTest.cpp" />
     <ClCompile Include="..\EngineTest.cpp" />
+    <ClCompile Include="..\File\StaticFile_NonePackage.cpp" />
+    <ClCompile Include="..\File\StaticFile_Package.cpp" />
     <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp" />

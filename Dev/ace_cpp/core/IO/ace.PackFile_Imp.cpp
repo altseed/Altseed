@@ -1,15 +1,27 @@
 ﻿#include "ace.PackFile_Imp.h"
+#include <vector>
+#include <cassert>
 
 namespace ace
 {
-	PackFile_Imp::PackFile_Imp(const astring& path)
+	PackFile_Imp::PackFile_Imp(std::shared_ptr<BaseFile_Imp> packedFile)
 	{
+		m_TopHeader = std::make_shared<TopHeader>(packedFile);
+		auto internalHeaders = m_TopHeader->GetInternalHeaders();
 
+		for (auto header : internalHeaders)
+		{
+			m_InternalHeaderDictionaly.emplace(header->GetFileName(), header);
+		}
+
+		m_RawFile = packedFile;
 	}
 
 	bool PackFile_Imp::HaveFile(const astring& path)
 	{
-		return m_InternalHeaderDictionaly.find(path) != m_InternalHeaderDictionaly.end();
+		astring tmp(path);
+		std::transform(path.begin(), path.end(), tmp.begin(), ::towlower);
+		return m_InternalHeaderDictionaly.find(tmp) != m_InternalHeaderDictionaly.end();
 	}
 	std::shared_ptr<TopHeader> PackFile_Imp::GetTopHeader()
 	{
@@ -18,7 +30,12 @@ namespace ace
 	std::shared_ptr<InternalHeader> PackFile_Imp::GetInternalHeader(const astring& path)
 	{
 		if (HaveFile(path))
-			return m_InternalHeaderDictionaly[path];
+		{
+			// todo これはひどい
+			astring tmp(path);
+			std::transform(path.begin(), path.end(), tmp.begin(), ::towlower);
+			return m_InternalHeaderDictionaly[tmp];
+		}
 		else
 			assert(false);
 	}

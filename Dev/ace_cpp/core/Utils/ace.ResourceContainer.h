@@ -3,6 +3,10 @@
 
 #include <ace.common.Base.h>
 #include "../Core/ace.Core.Base_Imp.h"
+
+#include "../IO/ace.File.h"
+#include "../IO/ace.StaticFile.h"
+
 #include <time.h>
 #include <functional>
 
@@ -32,9 +36,11 @@ namespace ace
 
 		std::map <RESOURCE*, std::shared_ptr <LoadingInformation> >	loadInfo;
 
+		File*	file;
 	public:
 
-		ResourceContainer()
+		ResourceContainer(File* file)
+			: file(file)
 		{
 
 		}
@@ -64,32 +70,27 @@ namespace ace
 					return existing;
 				}
 			}
-			ace::Core* core = nullptr;
-			auto file = core->GetFile();
 
-			if (file->Exists(astring(path)))
-				return nullptr;
+			auto staticFile = file->CreateStaticFile(path);
+			if (staticFile.get() == nullptr) return nullptr;
 
-			std::vector<uint8_t> buffer;
-			file->CreateStreamFile(astring(path))->ReadAllByte(buffer);
+			/*
+#if _WIN32
+			auto fp = _wfopen(path, L"rb");
+			if (fp == nullptr) return nullptr;
+#else
+			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
+			if (fp == nullptr) return nullptr;
+#endif
+			fseek(fp, 0, SEEK_END);
+			auto size = ftell(fp);
+			fseek(fp, 0, SEEK_SET);
+			auto data = new uint8_t[size];
+			fread(data, 1, size, fp);
+			fclose(fp);
+			*/
 
-// When this code run correctly, thease lines are removed.
-//#if _WIN32
-//			auto fp = _wfopen(path, L"rb");
-//			if (fp == nullptr) return nullptr;
-//#else
-//			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-//			if (fp == nullptr) return nullptr;
-//#endif
-//			fseek(fp, 0, SEEK_END);
-//			auto size = ftell(fp);
-//			fseek(fp, 0, SEEK_SET);
-//			auto data = new uint8_t[size];
-//			fread(data, 1, size, fp);
-//			fclose(fp);
-
-			auto data = buffer.data();
-			auto ret = loadFunc(buffer.data(), buffer.size());
+			auto ret = loadFunc((uint8_t*)staticFile->GetData(), staticFile->GetSize());
 
 			if (ret == nullptr)
 			{

@@ -40,7 +40,7 @@ namespace ace {
 
 		JoystickContainer_Imp* m_joystickContainer;
 
-		File*			m_file;
+		File_Imp*			m_file;
 
 		CoreScene* m_currentScene;
 
@@ -134,6 +134,8 @@ namespace ace {
 		JoystickContainer* GetJoystickContainer();
 
 		File* GetFile();
+
+		File_Imp* GetFile_Imp();
 
 		Log* GetLogger();
 

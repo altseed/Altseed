@@ -76,6 +76,8 @@ namespace ace
 
 					if (TryRelease<swig.CoreTransition>(o)) continue;
 
+                    if (TryRelease<swig.StaticFile>(o)) continue;
+
 					throw new Exception(string.Format("未登録のクラス{0}を検出しました。", o));
 				}
 

@@ -10,30 +10,26 @@ using namespace std;
 
 namespace ace
 {
-	AffLoader::AffLoader(astring fileName)
-		: m_fileName(fileName)
-	{
-	}
-
-	map<achar, GlyphData> AffLoader::GetGlyphs()
+	AffLoader::AffLoader(std::vector<uint8_t> &data)
 	{
 		BinaryReader reader;
-		vector<int8_t> bytes = GetBinaryData(m_fileName);
-		reader.ReadIn(bytes.begin(), bytes.end());
+		reader.ReadIn(data.begin(), data.end());
 
 		auto header = AffHeader::Get(reader);
-		
+
 		auto table = AffIndexTable::Get(reader);
 		auto indexes = table.GetIndexes();
-	 	auto fontNum = header.GetFontCount();
-
-		map<achar, GlyphData> result;
+		auto fontNum = header.GetFontCount();
 
 		for (int16_t i = 0; i < fontNum; ++i)
 		{
 			auto charactor = distance(indexes.begin(), find(indexes.begin(), indexes.end(), i));
 			result[charactor] = GlyphData::Get(reader, charactor);
 		}
+	}
+
+	map<achar, GlyphData> AffLoader::GetGlyphs()
+	{
 
 		return result;
 	}

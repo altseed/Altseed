@@ -46,6 +46,7 @@ namespace ace
 		internal static IDObjectContainer<PostEffect> PostEffects { get; private set; }
 
 		internal static IDObjectContainer<Transition> Transitions { get; private set; }
+        internal static IDObjectContainer<StaticFile> StaticFiles { get; private set; }
 
 		internal static void Initialize()
 		{
@@ -87,6 +88,8 @@ namespace ace
 			PostEffects = new IDObjectContainer<PostEffect>();
 
 			Transitions = new IDObjectContainer<Transition>();
+
+            StaticFiles = new IDObjectContainer<StaticFile>();
 		}
 
 		internal static void Update()
@@ -132,6 +135,8 @@ namespace ace
 
 				PostEffects.DestroyAll();
 				Transitions.DestroyAll();
+
+                StaticFiles.DestroyAll();
 
 				//Profilers.DestroyAll();
 
@@ -315,6 +320,25 @@ namespace ace
 
             var ret = new Font(o);
             GC.Fonts.AddObject(p, ret);
+            return ret;
+        }
+
+        /// <summary>
+        /// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="type"></param>
+        internal static StaticFile GenerateStaticFile(swig.StaticFile o, GenerationType type)
+        {
+            if (o == null) return null;
+            var p = o.GetPtr();
+
+            var existing = GC.StaticFiles.GetObject(p);
+            existing = GenerateInternal(existing, o, type);
+            if (existing != null) return existing;
+
+            var ret = new StaticFile(o);
+            GC.StaticFiles.AddObject(p, ret);
             return ret;
         }
 

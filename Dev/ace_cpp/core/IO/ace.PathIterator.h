@@ -11,9 +11,9 @@ namespace ace
 	public:
 		virtual ~PathIterator(){ };
 
-		virtual PathIterator& operator++() { return PathIterator(); }
-		virtual bool operator==(const PathIterator& itertor) { return false; }
-		virtual bool operator!=(const PathIterator& iterator) { return !(*this == iterator); };
-		virtual astring operator*() { return ToAString(""); }
+		virtual PathIterator& operator++() = 0;
+		virtual bool operator==(const PathIterator& itertor) = 0;
+		virtual bool operator!=(const PathIterator& iterator) = 0;
+		virtual astring operator*() = 0;
 	};
 }

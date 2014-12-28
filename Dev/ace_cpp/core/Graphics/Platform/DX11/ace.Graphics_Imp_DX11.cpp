@@ -131,6 +131,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	Window* window,
 	Vector2DI size,
 	Log* log,
+	File* file,
 	bool isReloadingEnabled,
 	bool isFullScreen,
 	ID3D11Device* device,
@@ -143,7 +144,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11RenderTargetView*	defaultBackRenderTargetView,
 	ID3D11Texture2D* defaultDepthBuffer,
 	ID3D11DepthStencilView* defaultDepthStencilView)
-	: Graphics_Imp(size, log, isReloadingEnabled, isFullScreen)
+	: Graphics_Imp(size, log,file, isReloadingEnabled, isFullScreen)
 	, m_window(window)
 	, m_device(device)
 	, m_context(context)
@@ -705,7 +706,7 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, File* file,bool isReloadingEnabled, bool isFullScreen)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -898,6 +899,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		window,
 		Vector2DI(width, height),
 		log,
+		file,
 		isReloadingEnabled,
 		isFullScreen,
 		device,
@@ -930,19 +932,19 @@ End:
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
 {
 	auto size = window->GetSize();
 	auto handle = glfwGetWin32Window(((Window_Imp*) window)->GetWindow());
-	return Create(handle, size.X, size.Y, log, isReloadingEnabled, isFullScreen);
+	return Create(handle, size.X, size.Y, log, file,isReloadingEnabled, isFullScreen);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
 {
-	return Create(nullptr, handle, width, height, log, isReloadingEnabled, isFullScreen);
+	return Create(nullptr, handle, width, height, log,file, isReloadingEnabled, isFullScreen);
 }
 
 //----------------------------------------------------------------------------------

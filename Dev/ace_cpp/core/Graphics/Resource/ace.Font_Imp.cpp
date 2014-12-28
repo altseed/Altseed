@@ -22,12 +22,12 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Font_Imp::Font_Imp(Graphics* graphics, const achar* affFilePath)
+	Font_Imp::Font_Imp(Graphics* graphics, const ace::achar* affFilePathChar, std::vector<uint8_t> data)
 		: DeviceObject(graphics)
 		, m_graphics(graphics)
 	{
-		ace::astring affFilePathStr = ace::astring(affFilePath);
-		AffLoader affLoader = AffLoader(affFilePathStr);
+		ace::astring affFilePathStr = ace::astring(affFilePathChar);
+		AffLoader affLoader = AffLoader(data);
 		m_glyphs = affLoader.GetGlyphs();
 
 		//AFFファイルの拡張子以前のパスを取得。
@@ -158,6 +158,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void Font_Imp::Reload(const achar* affFilePath)
 	{
+		/*
 		m_glyphs.clear();
 		m_textures.clear();
 
@@ -192,6 +193,7 @@ namespace ace {
 
 			++pictureNumber;
 		}
+		*/
 
 	}
 }

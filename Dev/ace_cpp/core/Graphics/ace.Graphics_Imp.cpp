@@ -2,10 +2,12 @@
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+#include <vector>
 #include "ace.Graphics_Imp.h"
 #include "ace.RenderingThread.h"
 
 #include "../Log/ace.Log.h"
+#include "../IO/ace.File_Imp.h"
 
 #include "Resource/ace.VertexBuffer_Imp.h"
 #include "Resource/ace.IndexBuffer_Imp.h"
@@ -524,21 +526,21 @@ Shader2D* Graphics_Imp::CreateShader2D_(const achar* shaderText)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
 {
 #if _WIN32
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_GL::Create(window, log, file,isReloadingEnabled, isFullScreen);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create(window, log, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create(window, log, file,isReloadingEnabled, isFullScreen);
 	}
 #else
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_GL::Create(window, log, file, isReloadingEnabled, isFullScreen);
 	}
 	else
 	{
@@ -550,41 +552,42 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDe
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
 {
 #if _WIN32
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file,isReloadingEnabled, isFullScreen);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file,isReloadingEnabled, isFullScreen);
 	}
 #elif __APPLE__
 	return nullptr; // not supported
 #else
-	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, isReloadingEnabled, isFullScreen);
+	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, file,isReloadingEnabled, isFullScreen);
 #endif
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
 	: m_size(size)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)
 	, m_shaderPtr(nullptr)
 	, m_log(log)
+	, m_file(file)
 {
 	CreateShaderCacheDirectory();
 
-	Texture2DContainer = std::make_shared<ResourceContainer<Texture2D_Imp>>();
-	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>();
+	Texture2DContainer = std::make_shared<ResourceContainer<Texture2D_Imp>>(file);
+	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>(file);
 
 	//SafeAddRef(m_log);
-	m_resourceContainer = new GraphicsResourceContainer();
+	m_resourceContainer = new GraphicsResourceContainer(m_file);
 	m_renderingThread = std::make_shared<RenderingThread>();
 	
 	m_effectSetting = Effekseer::Setting::Create();
@@ -861,23 +864,12 @@ Font* Graphics_Imp::CreateFont_(const achar* path)
 		}
 	}
 
-	FILE *fp;
-#if _WIN32
-	if ((fp = _wfopen(path, L"rb")) == nullptr)
-	{
-		fclose(fp);
-		return nullptr;
-	}
-#else
-	if ((fp =fopen(ToUtf8String(path).c_str(), "rb")) == nullptr)
-	{
-		fclose(fp);
-		return nullptr;
-	}
-#endif
-	fclose(fp);
+	auto affFile = m_file->CreateStaticFile(path);
 
-	auto font = new Font_Imp(this,path);
+	if (affFile == nullptr) return nullptr;
+
+	auto &data = affFile->ReadAllBytes();
+	Font_Imp* font = new Font_Imp(this,path,data);
 
 	std::shared_ptr<FontReloadInformation> info;
 	info.reset(new FontReloadInformation());

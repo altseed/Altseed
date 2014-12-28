@@ -95,11 +95,11 @@ namespace ace
 
 		public static bool operator ==(Vector3DF left, Vector3DF right)
 		{
-			return left.X == right.X && left.Y == right.Y;
+			return left.X == right.X && left.Y == right.Y && left.Z == right.Z;
 		}
 		public static bool operator !=(Vector3DF left, Vector3DF right)
 		{
-			return left.X != right.X || left.Y != right.Y;
+			return left.X != right.X || left.Y != right.Y || left.Z != right.Z;
 		}
 		public static Vector3DF operator +(Vector3DF left, Vector3DF right)
 		{
