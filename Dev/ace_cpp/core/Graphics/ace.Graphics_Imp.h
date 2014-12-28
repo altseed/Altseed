@@ -12,6 +12,8 @@
 #include "Resource/ace.Font_Imp.h"
 #include "Resource/ace.RenderTexture2D_Imp.h"
 
+#include "../IO/ace.File_Imp.h"
+
 #include <Graphics/ace.Color.h>
 #include <Math/ace.Vector2DI.h>
 
@@ -185,6 +187,8 @@ namespace ace {
 		std::shared_ptr<ResourceContainer<Texture2D_Imp>> Texture2DContainer;
 		std::shared_ptr<ResourceContainer<Effect_Imp>> EffectContainer;
 		std::shared_ptr<ResourceContainer<Font_Imp>> FontContainer;
+
+		File* GetFile() { return m_file; }
 #endif
 
 		Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);

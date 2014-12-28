@@ -409,32 +409,18 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path)
 		return cache->second.Ptr;
 	}
 
-#if _WIN32
-	auto fp = _wfopen((const achar*) path, L"rb");
-	if (fp == nullptr) return false;
-#else
-	auto fp = fopen(ToUtf8String((const achar*) path).c_str(), "rb");
-	if (fp == nullptr) return nullptr;
-#endif
-	fseek(fp, 0, SEEK_END);
-	auto size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	auto data = new uint8_t[size];
-	fread(data, 1, size, fp);
-	fclose(fp);
+	auto staticFile = m_graphics->GetFile()->CreateStaticFile((const achar*) path);
+	if (staticFile.get() == nullptr) return nullptr;
 
 	int32_t imageWidth = 0;
 	int32_t imageHeight = 0;
 	std::vector<uint8_t> imageDst;
-	if (!ImageHelper::LoadPNGImage(data, size, IsReversed(), imageWidth, imageHeight, imageDst))
+	if (!ImageHelper::LoadPNGImage(staticFile->GetData(), staticFile->GetSize(), IsReversed(), imageWidth, imageHeight, imageDst))
 	{
-		SafeDeleteArray(data);
 		return nullptr;
 	}
 
 	void* img = InternalLoad(m_graphics, imageDst, imageWidth, imageHeight);
-
-	SafeDeleteArray(data);
 
 	Cache c;
 	c.Ptr = img;
@@ -721,22 +707,13 @@ Model* Graphics_Imp::CreateModel_(const achar* path)
 		}
 	}
 
-#if _WIN32
-	auto fp = _wfopen(path, L"rb");
-	if (fp == nullptr) return nullptr;
-#else
-	auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-	if (fp == nullptr) return nullptr;
-#endif
-	fseek(fp, 0, SEEK_END);
-	auto size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
+	auto staticFile = GetFile()->CreateStaticFile(path);
+	if (staticFile.get() == nullptr) return nullptr;
 	
 	std::vector<uint8_t> data;
-	data.resize(size);
+	data.resize(staticFile->GetSize());
 
-	fread(&(data[0]), 1, size, fp);
-	fclose(fp);
+	memcpy(data.data(), staticFile->GetData(), staticFile->GetSize());
 
 	auto model = new Model_Imp(this);
 	model->Load(this, data, path);
@@ -753,22 +730,13 @@ Model* Graphics_Imp::CreateModel_(const achar* path)
 
 MassModel* Graphics_Imp::CreateMassModelFromModelFile_(const achar* path)
 {
-#if _WIN32
-	auto fp = _wfopen(path, L"rb");
-	if (fp == nullptr) return nullptr;
-#else
-	auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-	if (fp == nullptr) return nullptr;
-#endif
-	fseek(fp, 0, SEEK_END);
-	auto size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
+	auto staticFile = GetFile()->CreateStaticFile(path);
+	if (staticFile.get() == nullptr) return nullptr;
 
 	std::vector<uint8_t> data;
-	data.resize(size);
+	data.resize(staticFile->GetSize());
 
-	fread(&(data[0]), 1, size, fp);
-	fclose(fp);
+	memcpy(data.data(), staticFile->GetData(), staticFile->GetSize());
 
 	Model_IO model_io;
 	if (!model_io.Load(data, path))
@@ -794,22 +762,13 @@ MassModel* Graphics_Imp::CreateMassModelFromModelFile_(const achar* path)
 
 MassModel* Graphics_Imp::CreateMassModel_(const achar* path)
 {
-#if _WIN32
-	auto fp = _wfopen(path, L"rb");
-	if (fp == nullptr) return nullptr;
-#else
-	auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-	if (fp == nullptr) return nullptr;
-#endif
-	fseek(fp, 0, SEEK_END);
-	auto size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
+	auto staticFile = GetFile()->CreateStaticFile(path);
+	if (staticFile.get() == nullptr) return nullptr;
 
 	std::vector<uint8_t> data;
-	data.resize(size);
+	data.resize(staticFile->GetSize());
 
-	fread(&(data[0]), 1, size, fp);
-	fclose(fp);
+	memcpy(data.data(), staticFile->GetData(), staticFile->GetSize());
 
 	MassModel_IO massmodel_io;
 	if (!massmodel_io.Load(data, path))

@@ -48,21 +48,13 @@ namespace ace
 
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
 	{
-		auto loadFile = [](const achar* path, std::vector<uint8_t>& dst)-> bool
+		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
-#if _WIN32
-			auto fp = _wfopen(path, L"rb");
-			if (fp == nullptr) return false;
-#else
-			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-			if (fp == nullptr) return false;
-#endif
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			dst.resize(size);
-			fread(dst.data(), 1, size, fp);
-			fclose(fp);
+			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
+			if (staticFile.get() == nullptr) return false;
+
+			dst.resize(staticFile->GetSize());
+			memcpy(dst.data(), staticFile->GetData(), staticFile->GetSize());
 
 			return true;
 		};
@@ -258,21 +250,13 @@ namespace ace
 
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* path, int32_t mipmapCount)
 	{
-		auto loadFile = [](const achar* path, std::vector<uint8_t>& dst)-> bool
+		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
-#if _WIN32
-			auto fp = _wfopen(path, L"rb");
-			if (fp == nullptr) return false;
-#else
-			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-			if (fp == nullptr) return false;
-#endif
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			dst.resize(size);
-			fread(dst.data(), 1, size, fp);
-			fclose(fp);
+			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
+			if (staticFile.get() == nullptr) return false;
+
+			dst.resize(staticFile->GetSize());
+			memcpy(dst.data(), staticFile->GetData(), staticFile->GetSize());
 
 			return true;
 		};
@@ -432,21 +416,13 @@ namespace ace
 
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* path)
 	{
-		auto loadFile = [](const achar* path, std::vector<uint8_t>& dst)-> bool
+		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
-#if _WIN32
-			auto fp = _wfopen(path, L"rb");
-			if (fp == nullptr) return false;
-#else
-			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-			if (fp == nullptr) return false;
-#endif
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			dst.resize(size);
-			fread(dst.data(), 1, size, fp);
-			fclose(fp);
+			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
+			if (staticFile.get() == nullptr) return false;
+
+			dst.resize(staticFile->GetSize());
+			memcpy(dst.data(), staticFile->GetData(), staticFile->GetSize());
 
 			return true;
 		};
