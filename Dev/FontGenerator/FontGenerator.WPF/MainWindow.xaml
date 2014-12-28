@@ -37,7 +37,7 @@
 					<ColumnDefinition Width="*"/>
 				</Grid.ColumnDefinitions>
 
-				<Label Content="フォントファイル：" HorizontalAlignment="Right" />
+				<Label Content="フォント：" HorizontalAlignment="Right" />
 				<Label Content="テキストファイル：" HorizontalAlignment="Right" Grid.Row="1"/>
 				<Label Content="出力先ディレクトリ：" HorizontalAlignment="Right" Grid.Row="2"/>
 				<Label Content="シート名：" HorizontalAlignment="Right" Grid.Row="3"/>
