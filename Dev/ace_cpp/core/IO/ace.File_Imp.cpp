@@ -98,15 +98,10 @@ namespace ace
 
 					if (m_packFileCash.find(packPath.ToAstring()) == m_packFileCash.end())
 					{
-						auto baseFileCash = m_fileCash.find(packPath.ToAstring());
 						StaticFile_Imp* pstaticFile(nullptr);
 
-						if (baseFileCash == m_fileCash.end())
 						{
 							std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(packPath), [](BaseFile_Imp* p){ SafeRelease(p); });
-							m_fileCash.emplace(packPath.ToAstring(), pBaseFile);
-
-							m_packFileCash.emplace(packPath.ToAstring(), new PackFile_Imp(pBaseFile));
 						}
 					}
 
@@ -119,31 +114,21 @@ namespace ace
 						fullPath.Normalize();
 						const auto normalizedPath(fullPath.ToAstring());
 
-						auto fileCash = m_staticFileCash.find(normalizedPath);
-						if (fileCash != m_staticFileCash.end() &&
-							Valid(fileCash->second))
-						{
-							return fileCash->second;
-						}
+						//auto fileCash = m_staticFileCash.find(normalizedPath);
+						//if (fileCash != m_staticFileCash.end() &&
+						//	Valid(fileCash->second))
+						//{
+						//	return fileCash->second;
+						//}
 
-						auto baseFileCash = m_fileCash.find(normalizedPath);
 						StaticFile_Imp* pstaticFile(nullptr);
 
-						if (baseFileCash == m_fileCash.end())
 						{
 							std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(packPath), [](BaseFile_Imp* p){ SafeRelease(p); });
-							m_fileCash.emplace(normalizedPath, pBaseFile);
 
 							pstaticFile = new StaticFile_Imp(pBaseFile, *internalHeader);
 
-							m_staticFileCash.emplace(normalizedPath, pstaticFile);
-
-							return pstaticFile;
-						}
-						else
-						{
-							pstaticFile = new StaticFile_Imp(baseFileCash->second);
-							m_staticFileCash.emplace(normalizedPath, pstaticFile);
+							//m_staticFileCash.emplace(normalizedPath, pstaticFile);
 
 							return pstaticFile;
 						}
@@ -160,17 +145,15 @@ namespace ace
 					fullPath.Normalize();
 					const auto normalizedPath(fullPath.ToAstring());
 
-					auto fileCash = m_staticFileCash.find(normalizedPath);
-					if (fileCash != m_staticFileCash.end() &&
-						Valid(fileCash->second))
-					{
-						return fileCash->second;
-					}
+					//auto fileCash = m_staticFileCash.find(normalizedPath);
+					//if (fileCash != m_staticFileCash.end() &&
+					//	Valid(fileCash->second))
+					//{
+					//	return fileCash->second;
+					//}
 
-					auto baseFileCash = m_fileCash.find(normalizedPath);
 					StaticFile_Imp* pstaticFile(nullptr);
 
-					if (baseFileCash == m_fileCash.end())
 					{
 						// ToDo あとで Exist何とか 関数に移動
 #ifdef _WIN32
@@ -182,21 +165,13 @@ namespace ace
 #endif
 						{
 							std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(normalizedPath), [](BaseFile_Imp* p){ SafeRelease(p); });
-							m_fileCash.emplace(normalizedPath, pBaseFile);
 
 							pstaticFile = new StaticFile_Imp(pBaseFile);
 
-							m_staticFileCash.emplace(normalizedPath, pstaticFile);
+							//m_staticFileCash.emplace(normalizedPath, pstaticFile);
 
 							return pstaticFile;
 						}
-					}
-					else
-					{
-						pstaticFile = new StaticFile_Imp(baseFileCash->second);
-						m_staticFileCash.emplace(normalizedPath, pstaticFile);
-
-						return pstaticFile;
 					}
 				}
 			}
@@ -217,22 +192,14 @@ namespace ace
 			return fileCash->second;
 		}
 
-		auto baseFileCash = m_fileCash.find(normalizedPath);
 		StreamFile_Imp* pstreamFile(nullptr);
 
-		if (baseFileCash == m_fileCash.end())
 		{
 			std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(normalizedPath), [](BaseFile_Imp* p){ SafeRelease(p); });
-			m_fileCash.emplace(normalizedPath, pBaseFile);
 
 			pstreamFile = new StreamFile_Imp(pBaseFile);
 		}
-		else
-		{
-			pstreamFile = new StreamFile_Imp(baseFileCash->second);
-		}
 
-		m_streamFileCash.emplace(normalizedPath, pstreamFile);
 		return pstreamFile;
 	}
 

@@ -29,10 +29,10 @@ namespace ace
 	class File_Imp : public File, public ReferenceObject
 	{
 	private:
-		std::unordered_map<astring, std::shared_ptr<BaseFile_Imp>> m_fileCash;
+		//std::unordered_map<astring, std::shared_ptr<BaseFile_Imp>> m_fileCash;
 		std::unordered_set<std::shared_ptr<RootPath_Imp>> m_rootPathes;
 
-		std::unordered_map<astring, StaticFile_Imp*> m_staticFileCash;
+		//std::unordered_map<astring, StaticFile_Imp*> m_staticFileCash;
 		std::unordered_map<astring, StreamFile_Imp*> m_streamFileCash;
 
 		std::unordered_map<astring, PackFile_Imp*> m_packFileCash;
