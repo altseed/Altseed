@@ -87,6 +87,10 @@ namespace ace
 		{
 			throw "CameraObject2D の GetMatrixToTransform は無効です。";
 		}
+		Matrix33 GetParentsMatrix()
+		{
+			throw "CameraObject2D の GetMatrixToTransform は無効です。";
+		}
 #pragma endregion
 
 #if !SWIG

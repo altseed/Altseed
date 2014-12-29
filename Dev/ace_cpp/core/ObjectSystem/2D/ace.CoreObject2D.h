@@ -45,6 +45,7 @@ namespace ace
 
 		virtual Matrix33 GetMatrixToTranslate() = 0;
 		virtual Matrix33 GetMatrixToTransform() = 0;
+		virtual Matrix33 GetParentsMatrix() = 0;
 #endif
 	};
 }

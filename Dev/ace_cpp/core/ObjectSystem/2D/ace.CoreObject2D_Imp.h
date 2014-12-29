@@ -41,6 +41,7 @@
 	virtual void ClearParent() override { return CoreObject2D_Imp::ClearParent(); }\
 	virtual Matrix33 GetMatrixToTranslate() override { return CoreObject2D_Imp::GetMatrixToTranslate(); }\
 	virtual Matrix33 GetMatrixToTransform() override { return CoreObject2D_Imp::GetMatrixToTransform(); }\
+	virtual Matrix33 GetParentsMatrix() override { return CoreObject2D_Imp::GetParentsMatrix(); }\
 	\
 
 
@@ -153,6 +154,11 @@ namespace ace
 		Matrix33 GetMatrixToTransform()
 		{
 			return m_transform.GetMatrixToTransform();
+		}
+
+		Matrix33 GetParentsMatrix()
+		{
+			return m_transform.GetParentsMatrix();
 		}
 
 		virtual void OnAdded(Renderer2D* renderer) {}

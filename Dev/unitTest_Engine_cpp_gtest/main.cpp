@@ -50,6 +50,7 @@ EXTERN_ENGINE_TEST(Graphics, TextureObject2D)
 EXTERN_ENGINE_TEST(Graphics, TextObject2D)
 EXTERN_ENGINE_TEST(Graphics, MapObject2D)
 EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
+EXTERN_ENGINE_TEST(ObjectSystem, ParentObject)
 
 EXTERN_ENGINE_TEST(Sound, Sound)
 
@@ -87,7 +88,7 @@ int main(int argc, char **argv)
 	//Test_Graphics_TextureObject2D(false);
 	//return 0;
 
-	CALL_ENGINE_TEST(Graphics, TextObject2D,true)
+	CALL_ENGINE_TEST(ObjectSystem, ParentObject, true)
 	return 0;
 
 	/*
