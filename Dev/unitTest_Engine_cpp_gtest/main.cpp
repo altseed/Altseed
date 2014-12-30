@@ -55,7 +55,9 @@ EXTERN_ENGINE_TEST(ObjectSystem, ParentObject)
 EXTERN_ENGINE_TEST(Sound, Sound)
 
 EXTERN_ENGINE_TEST(File, StaticFile_NonePackage)
+EXTERN_ENGINE_TEST(File, StaticFile_NonePackage_Cache)
 EXTERN_ENGINE_TEST(File, StaticFile_Package)
+EXTERN_ENGINE_TEST(File, StaticFile_Package_Cache)
 
 /**
 	@brief	単体テストを実行する。
@@ -71,25 +73,16 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 	::testing::InitGoogleTest(&argc, argv);
-
-	/*
-	CALL_ENGINE_TEST(Graphics, TextObject2D, true)
-	return 0;
-	*/
-	//TestCamera(true);
-	//TestCamera(false);
+	
+	//CALL_ENGINE_TEST(File, StaticFile_Package_Cache, true)
 	//return 0;
-
-	/*
-	ObjectSystem_Text2DTest_(false);
-	return 0;
-	*/
+	
 
 	//Test_Graphics_TextureObject2D(false);
 	//return 0;
 
-	CALL_ENGINE_TEST(ObjectSystem, ParentObject, true)
-	return 0;
+	//CALL_ENGINE_TEST(ObjectSystem, ParentObject, true)
+	//return 0;
 
 	/*
 	auto result = RUN_ALL_TESTS();

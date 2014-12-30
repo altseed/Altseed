@@ -116,6 +116,12 @@
     <ClCompile Include="..\File\StaticFile_Package.cpp">
       <Filter>File</Filter>
     </ClCompile>
+    <ClCompile Include="..\File\StaticFile_Package_Cache.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\File\StaticFile_NonePackage_Cache.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
