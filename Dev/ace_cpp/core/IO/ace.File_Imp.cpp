@@ -99,9 +99,10 @@ namespace ace
 					if (m_packFileCash.find(packPath.ToAstring()) == m_packFileCash.end())
 					{
 						StaticFile_Imp* pstaticFile(nullptr);
-
 						{
 							std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(packPath), [](BaseFile_Imp* p){ SafeRelease(p); });
+
+							m_packFileCash.emplace(packPath.ToAstring(), new PackFile_Imp(pBaseFile));
 						}
 					}
 
@@ -200,6 +201,7 @@ namespace ace
 			pstreamFile = new StreamFile_Imp(pBaseFile);
 		}
 
+		m_streamFileCash.emplace(normalizedPath, pstreamFile);
 		return pstreamFile;
 	}
 
