@@ -35,6 +35,7 @@ namespace ace
 	void File_Imp::ClearRootDirectories()
 	{
 		m_rootPathes.clear();
+		AddDefaultRootDirectory();
 	}
 	//void File_Imp::SetRootDirectories(const achar* path)
 	//{
@@ -58,7 +59,7 @@ namespace ace
 		//m_rootPathes.clear();
 		std::for_each(first, end, [&](const astring& path)
 		{
-			m_rootPathes.emplace(std::shared_ptr<RootPath_Imp>(new RootPath_Imp(path)));
+			m_rootPathes.insert(m_rootPathes.begin(), std::shared_ptr<RootPath_Imp>(new RootPath_Imp(path)));
 		});
 	}
 	//void File_Imp::GetRootDirectories(std::vector<std::reference_wrapper<Path>>& rootPathes) const

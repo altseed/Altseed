@@ -30,7 +30,7 @@ namespace ace
 	{
 	private:
 		//std::unordered_map<astring, std::shared_ptr<BaseFile_Imp>> m_fileCash;
-		std::unordered_set<std::shared_ptr<RootPath_Imp>> m_rootPathes;
+		std::vector<std::shared_ptr<RootPath_Imp>> m_rootPathes;
 
 		//std::unordered_map<astring, StaticFile_Imp*> m_staticFileCash;
 		std::unordered_map<astring, StreamFile_Imp*> m_streamFileCash;
@@ -40,14 +40,14 @@ namespace ace
 		template<typename _T>
 		inline bool Valid(_T* ptr) { return ptr && (0 < ptr->GetRef()); }
 
-		File_Imp() { };
+		File_Imp() { AddDefaultRootDirectory(); };
 
 	protected:
 		template<typename _InIt>
 		void AddRootDirectories(_InIt first, _InIt end);
 		StreamFile* CreateStreamFileDirectly(const achar* normalizedPath);
 
-
+		void AddDefaultRootDirectory() { m_rootPathes.push_back(std::shared_ptr<RootPath_Imp>(new RootPath_Imp(ToAString("./")))); }
 	public:
 		static File_Imp* Create() { return new File_Imp(); };
 
