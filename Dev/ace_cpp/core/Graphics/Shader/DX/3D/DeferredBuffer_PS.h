@@ -84,6 +84,8 @@ float4 main( const PS_Input Input ) : SV_Target
 	else if(flag == 1.0)
 	{
 		color.xyz = GetNormal(uv);
+		color.xyz = (color.xyz + float3(1.0,1.0,1.0)) * float3(0.5,0.5,0.5);
+		color.xyz = pow(color.xyz, 2.2f);
 	}
 	else if(flag == 2.0)
 	{

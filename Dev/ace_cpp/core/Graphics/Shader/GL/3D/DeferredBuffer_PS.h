@@ -55,7 +55,7 @@ vec3 CalcDiffuseColor(vec3 baseColor, float metalness)
 vec3 CalcSpecularColor(vec3 baseColor, float metalness)
 {
 	vec3 minColor = vec3(0.0400000, 0.0400000, 0.0400000);
-	return lerp(minColor.xyz, baseColor.xyz, metalness);
+	return minColor.xyz * (1.00000 - metalness) + baseColor.xyz * metalness;
 }
 
 void main()
@@ -74,6 +74,8 @@ void main()
 	else if(flag == 1.0)
 	{
 		color.xyz = GetNormal(uv);
+		color.xyz = (color.xyz + vec3(1.0,1.0,1.0)) * vec3(0.5,0.5,0.5);
+		color.xyz = pow(color.xyz, vec3(2.2,2.2,2.2));
 	}
 	else if(flag == 2.0)
 	{
