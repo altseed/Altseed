@@ -40,6 +40,11 @@ void EngineGraphics3DTest::SetCameraParameter(float distance, float rotX, float 
 void EngineGraphics3DTest::SetRenderSettings(ace::RenderSettings settings)
 {
 	m_settings = settings;
+
+	if (m_layer3d.get() != nullptr)
+	{
+		m_layer3d->SetRenderSettings(settings);
+	}
 }
 
 void EngineGraphics3DTest::OnStart()
