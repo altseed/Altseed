@@ -192,6 +192,8 @@ namespace ace
 		int offset = 0;
 		Font_Imp* font_Imp = (Font_Imp*)m_font;
 
+		if (font_Imp == nullptr) return;
+
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
 

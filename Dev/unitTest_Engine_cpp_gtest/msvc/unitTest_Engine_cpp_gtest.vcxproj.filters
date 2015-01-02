@@ -122,6 +122,9 @@
     <ClCompile Include="..\File\StaticFile_NonePackage_Cache.cpp">
       <Filter>File</Filter>
     </ClCompile>
+    <ClCompile Include="StaticFile_NonePackage_AddDefaultRootDirectory.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
