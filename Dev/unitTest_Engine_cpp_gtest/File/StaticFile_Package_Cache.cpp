@@ -1,4 +1,4 @@
-#include <ace.h>
+ï»¿#include <ace.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../EngineTest.h"
@@ -23,12 +23,12 @@ protected:
 
 		for (auto loop = 0; loop < 2; loop++)
 		{
-			//•’Ê‚É“Ç‚Ýž‚ñ‚¾ƒoƒCƒiƒŠ
+			//æ™®é€šã«èª­ã¿è¾¼ã‚“ã ãƒã‚¤ãƒŠãƒª
 			BinaryReader reader;
 			auto data = GetBinaryData(ace::ToAString("Data/Texture/Surface/Tile_Normal.png"));
 			reader.ReadIn(data.begin(), data.end());
 
-			//ƒtƒ@ƒCƒ‹‹@”\‚Å“Ç‚Ýž‚ñ‚¾ƒoƒCƒiƒŠ
+			//ãƒ•ã‚¡ã‚¤ãƒ«æ©Ÿèƒ½ã§èª­ã¿è¾¼ã‚“ã ãƒã‚¤ãƒŠãƒª
 			auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Surface/Tile_Normal.png").c_str());
 			auto staticFileData = staticFile->ReadAllBytes();
 
