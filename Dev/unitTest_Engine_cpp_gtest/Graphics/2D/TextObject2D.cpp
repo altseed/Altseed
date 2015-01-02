@@ -35,11 +35,11 @@ protected:
 		layer->AddObject(object);
 		auto font = g->CreateFont(ace::ToAString("Font/Nac0812.aff").c_str());
 
-		object->SetFont(font);
 		object->SetText(ToAString("DependencyPropertyとは").c_str());
 
 		//object->SetCenterPosition(Vector2DF(128, 128));
 		object->SetPosition(Vector2DF(0, 0));
+		object->SetFont(font);
 
 		auto size = font->CalcTextureSize(ToAString("DependencyPropertyとは").c_str(), WritingDirection::Horizontal);
 
