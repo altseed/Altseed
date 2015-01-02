@@ -94,6 +94,16 @@ namespace ace
 	{
 	}
 
+	RenderSettings Layer3D::GetRenderSettings() const
+	{
+		return m_coreLayer->GetRenderSettings();
+	}
+
+	void Layer3D::SetRenderSettings(RenderSettings settings)
+	{
+		m_coreLayer->SetRenderSettings(settings);
+	}
+
 	void Layer3D::AddObject(const ObjectPtr& object)
 	{
 		if (object->GetLayer() != nullptr)
