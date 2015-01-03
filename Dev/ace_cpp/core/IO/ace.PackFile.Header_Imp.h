@@ -35,7 +35,7 @@ namespace ace
 			Utf8ToUtf16(strBuffer, reinterpret_cast<const int8_t*>(buffer.data()));
 			if (m_fileNameLength < strBuffer.size())
 				strBuffer[m_fileNameLength] = 0;
-			m_fileName = ToAString(reinterpret_cast<const achar*>(strBuffer.data()));
+			m_fileName = astring(reinterpret_cast<const achar*>(strBuffer.data()));
 		}
 	};
 
