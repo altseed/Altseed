@@ -52,7 +52,7 @@ namespace ace
 		static const astring Signature;
 
 		TopHeader();
-		TopHeader(uint64_t fileCounnt, const std::vector<astring>& const ignoreFiles);
+		TopHeader(uint64_t fileCounnt, const std::vector<astring>& ignoreFiles);
 		TopHeader(std::shared_ptr<BaseFile_Imp>& packedFile);
 
 		void ToByteArray(std::vector<uint8_t>& buffer);
