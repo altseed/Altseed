@@ -74,6 +74,7 @@
     <Compile Include="ObjectSystem2D\ObjectSimple.cs" />
     <Compile Include="ObjectSystem2D\ObjectsMembers.cs" />
     <Compile Include="ObjectSystem2D\ParentObject.cs" />
+    <Compile Include="ObjectSystem2D\VanishInComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sound\Sound.cs" />

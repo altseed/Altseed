@@ -125,6 +125,9 @@
     <ClCompile Include="StaticFile_NonePackage_AddDefaultRootDirectory.cpp">
       <Filter>File</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\VanishInComponent.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

@@ -12,7 +12,7 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-            TestSequencially(new Graphics._2D.SetPositionWhenFontIsNull());
+            TestSequencially(new ObjectSystem2D.VanishInComponent());
             Console.ReadKey();
             return;
 

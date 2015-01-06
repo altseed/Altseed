@@ -51,6 +51,7 @@ EXTERN_ENGINE_TEST(Graphics, TextObject2D)
 EXTERN_ENGINE_TEST(Graphics, MapObject2D)
 EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
 EXTERN_ENGINE_TEST(ObjectSystem, ParentObject)
+EXTERN_ENGINE_TEST(ObjectSystem, VanishInComponent)
 
 EXTERN_ENGINE_TEST(Sound, Sound)
 
@@ -75,15 +76,8 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(File, StaticFile_NonePackage_AddRootDirectory, true)
+	CALL_ENGINE_TEST(ObjectSystem, VanishInComponent, true)
 	return 0;
-	
-
-	//Test_Graphics_TextureObject2D(false);
-	//return 0;
-
-	//CALL_ENGINE_TEST(ObjectSystem, ParentObject, true)
-	//return 0;
 
 	/*
 	auto result = RUN_ALL_TESTS();
