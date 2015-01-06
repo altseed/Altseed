@@ -3,50 +3,63 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ace;
 
 namespace unitTest_Engine_cs.ObjectSystem2D
 {
 	class VanishInComponent : EngineTest
 	{
-		class MyComponent : Object2DComponent
-		{
-			private TextureObject2D vanish;
-
-			public MyComponent(TextureObject2D vanish)
-			{
-				this.vanish = vanish;
-			}
-
-			protected override void OnUpdate()
-			{
-				vanish.Vanish();
-			}
-		}
-
-		private TextureObject2D obj2;
+		ace.Layer2D layer = null;
+		ace.Object2D obj = null;
 
 		public VanishInComponent()
-			: base(60)
+			: base(40)
 		{
 		}
 
 		protected override void OnStart()
 		{
 			var scene = new ace.Scene();
-			var layer = new ace.Layer2D();
-			var obj = new ace.TextureObject2D();
-			obj2 = new ace.TextureObject2D();
+			layer = new ace.Layer2D();
+			obj = new ace.TextureObject2D();
 
 			ace.Engine.ChangeScene(scene);
 			scene.AddLayer(layer);
 			layer.AddObject(obj);
+		}
 
-			var texture = Engine.Graphics.CreateTexture2D("Data/Texture/Cloud1.png");
-			obj.Texture = texture;
-			obj2.Texture = texture;
+		protected override void OnUpdating()
+		{
+			if(Time % 2 == 0)
+			{
+				var temp = obj;
+				obj = new ace.TextureObject2D();
+				layer.AddObject(obj);
+				obj.AddComponent(new VanishingComponent(temp, 3), "v");
+			}
+		}
 
-			obj.AddComponent(new MyComponent(obj2), "Hoge");
+		class VanishingComponent : ace.Object2DComponent
+		{
+			int time = 0;
+
+			ace.Object2D vanishedObject = null;
+			int etime = 0;
+
+			public VanishingComponent(ace.Object2D vanishedObject, int etime)
+			{
+				this.vanishedObject = vanishedObject;
+				this.etime = etime;
+			}
+
+			protected override void OnUpdate()
+			{
+				if(time == etime)
+				{
+					vanishedObject.Vanish();
+				}
+
+				time++;
+			}
 		}
 	}
 }
