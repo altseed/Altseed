@@ -69,7 +69,7 @@ namespace ace
 
 		for (int32_t i = 0; i < 6; i++)
 		{
-			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), true, widthes[i], heights[i], buffers[i]))
+			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), true, widthes[i], heights[i], buffers[i], graphics->GetLog()))
 			{
 			}
 			else
@@ -187,7 +187,7 @@ namespace ace
 		{
 			for (int32_t i = 0; i < 6; i++)
 			{
-				if (ImageHelper::LoadPNGImage(fileBuffers[i][m].data(), fileBuffers[i].size(), true, widthes[i], heights[i], buffers[i][m]))
+				if (ImageHelper::LoadPNGImage(fileBuffers[i][m].data(), fileBuffers[i].size(), true, widthes[i], heights[i], buffers[i][m], graphics->GetLog()))
 				{
 					if (m == 0)
 					{

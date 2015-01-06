@@ -4,6 +4,9 @@
 //----------------------------------------------------------------------------------
 #include "ace.Texture2D_Imp_DX11.h"
 #include "../ace.Graphics_Imp_DX11.h"
+#include "../../../../Log/ace.Log_Imp.h"
+
+#include <sstream>
 
 //----------------------------------------------------------------------------------
 //
@@ -47,6 +50,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	bool Texture2D_Imp_DX11::GenerateTextureFromInternal(bool isSRGB)
 	{
+		auto g = (Graphics_Imp_DX11*) GetGraphics();
+		auto log = g->GetLog();
+
 		ID3D11Texture2D* texture = nullptr;
 		ID3D11ShaderResourceView* srv = nullptr;
 
@@ -77,7 +83,7 @@ namespace ace {
 		data.SysMemPitch = m_internalTextureWidth * 4;
 		data.SysMemSlicePitch = m_internalTextureWidth * m_internalTextureHeight * 4;
 
-		auto hr = ((Graphics_Imp_DX11*)GetGraphics())->GetDevice()->CreateTexture2D(&TexDesc, &data, &texture);
+		auto hr = (g)->GetDevice()->CreateTexture2D(&TexDesc, &data, &texture);
 
 		m_size.X = m_internalTextureWidth;
 		m_size.Y = m_internalTextureHeight;
@@ -94,6 +100,13 @@ namespace ace {
 		InternalUnload();
 		if (FAILED(hr))
 		{
+			if (log != nullptr)
+			{
+				std::ostringstream err;
+
+				err << "DirectX11 : CreateTexture2Dに失敗。(" << (int32_t) hr << "," << TexDesc.Format << "," << TexDesc.Width << "," << TexDesc.Height << ")";
+				log->WriteLineStrongly(ToAString(err.str().c_str()).c_str());
+			}
 			return false;
 		}
 			
@@ -104,10 +117,19 @@ namespace ace {
 		desc.Texture2D.MostDetailedMip = 0;
 		desc.Texture2D.MipLevels = TexDesc.MipLevels;
 
-		hr = ((Graphics_Imp_DX11*) GetGraphics())->GetDevice()->CreateShaderResourceView(texture, &desc, &srv);
+		hr = (g)->GetDevice()->CreateShaderResourceView(texture, &desc, &srv);
 		if (FAILED(hr))
 		{
 			SafeRelease(texture);
+
+			if (log != nullptr)
+			{
+				std::ostringstream err;
+
+				err << "DirectX11 : CreateShaderResourceViewに失敗。(" << (int32_t) hr << "," << TexDesc.Format << "," << TexDesc.Width << "," << TexDesc.Height << ")";
+				log->WriteLineStrongly(ToAString(err.str().c_str()).c_str());
+			}
+
 			return false;
 		}
 

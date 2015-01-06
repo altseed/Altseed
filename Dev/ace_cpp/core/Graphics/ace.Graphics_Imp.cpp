@@ -211,7 +211,7 @@ void ImageHelper::SavePNGImage(const achar* filepath, int32_t width, int32_t hei
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst)
+bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst, Log* log)
 {
 	imagewidth = 0;
 	imageheight = 0;
@@ -232,6 +232,12 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 	if (setjmp(png_jmpbuf(png)))
 	{
 		png_destroy_read_struct(&png, &png_info, NULL);
+
+		if (log != nullptr)
+		{
+			log->WriteLineStrongly("pngファイルのヘッダの読み込みに失敗しました。");
+		}
+		
 		return false;
 	}
 
@@ -419,7 +425,7 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path)
 	int32_t imageWidth = 0;
 	int32_t imageHeight = 0;
 	std::vector<uint8_t> imageDst;
-	if (!ImageHelper::LoadPNGImage(staticFile->GetData(), staticFile->GetSize(), IsReversed(), imageWidth, imageHeight, imageDst))
+	if (!ImageHelper::LoadPNGImage(staticFile->GetData(), staticFile->GetSize(), IsReversed(), imageWidth, imageHeight, imageDst, m_graphics->GetLog()))
 	{
 		return nullptr;
 	}

@@ -50,7 +50,7 @@ namespace ace {
 			@param	imagedst		出力結果(newで確保される)
 			@return	成否
 		*/
-		static bool LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst);
+		static bool LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst, Log* log);
 
 		/**
 			@brief	1ピクセルのサイズを取得する。
@@ -189,6 +189,7 @@ namespace ace {
 		std::shared_ptr<ResourceContainer<Font_Imp>> FontContainer;
 
 		File* GetFile() { return m_file; }
+		Log* GetLog() { return m_log; }
 #endif
 
 		Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);

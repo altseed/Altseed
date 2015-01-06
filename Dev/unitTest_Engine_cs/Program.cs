@@ -12,11 +12,11 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-            TestSequencially(new ObjectSystem2D.VanishInComponent());
-            Console.ReadKey();
-            return;
+			//TestSequencially(new ObjectSystem2D.VanishInComponent());
+			//Console.ReadKey();
+			//return;
 
-            TestAll();
+			TestAll();
 
 			Console.ReadKey();
 		}
@@ -44,8 +44,6 @@ namespace unitTest_Engine_cs
 		/// <param name="target">対象のテストクラス。</param>
 		private static void TestSequencially(TestFramework target)
 		{
-			target.Test(ace.GraphicsDeviceType.DirectX11);
-
 			try
 			{
 				target.Test(ace.GraphicsDeviceType.OpenGL);
