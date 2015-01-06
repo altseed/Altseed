@@ -8,6 +8,30 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 {
 	class VanishInComponent : EngineTest
 	{
+		class VanishingComponent : ace.Object2DComponent
+		{
+			int time = 0;
+
+			ace.Object2D vanishedObject = null;
+			int etime = 0;
+
+			public VanishingComponent(ace.Object2D vanishedObject, int etime)
+			{
+				this.vanishedObject = vanishedObject;
+				this.etime = etime;
+			}
+
+			protected override void OnUpdate()
+			{
+				if (time == etime)
+				{
+					vanishedObject.Vanish();
+				}
+
+				time++;
+			}
+		}
+
 		ace.Layer2D layer = null;
 		ace.Object2D obj = null;
 
@@ -35,30 +59,6 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				obj = new ace.TextureObject2D();
 				layer.AddObject(obj);
 				obj.AddComponent(new VanishingComponent(temp, 3), "v");
-			}
-		}
-
-		class VanishingComponent : ace.Object2DComponent
-		{
-			int time = 0;
-
-			ace.Object2D vanishedObject = null;
-			int etime = 0;
-
-			public VanishingComponent(ace.Object2D vanishedObject, int etime)
-			{
-				this.vanishedObject = vanishedObject;
-				this.etime = etime;
-			}
-
-			protected override void OnUpdate()
-			{
-				if(time == etime)
-				{
-					vanishedObject.Vanish();
-				}
-
-				time++;
 			}
 		}
 	}

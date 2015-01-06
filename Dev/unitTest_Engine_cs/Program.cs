@@ -44,6 +44,8 @@ namespace unitTest_Engine_cs
 		/// <param name="target">対象のテストクラス。</param>
 		private static void TestSequencially(TestFramework target)
 		{
+			target.Test(ace.GraphicsDeviceType.DirectX11);
+
 			try
 			{
 				target.Test(ace.GraphicsDeviceType.OpenGL);

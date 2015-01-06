@@ -8,49 +8,63 @@ using namespace ace;
 
 class ObjectSystem_VanishInComponent : public EngineTest
 {
-	class MyComponent : public Object2DComponent
+	class VanishingComponent 
+		: public ace::Object2DComponent
 	{
-		Object2D::Ptr forVanish;
+		int time = 0;
 
-	public:
-		MyComponent(Object2D::Ptr object)
+		ace::Object2D::Ptr vanishedObject = nullptr;
+		int etime = 0;
+
+	public :
+		VanishingComponent(ace::Object2D::Ptr vanishedObject, int etime)
 		{
-			forVanish = object;
+			this->vanishedObject = vanishedObject;
+			this->etime = etime;
 		}
 
+	protected:
 		void OnUpdate()
 		{
-			forVanish->Vanish();
+			if (time == etime)
+			{
+				vanishedObject->Vanish();
+			}
+
+			time++;
 		}
 	};
 
+	std::shared_ptr<ace::Layer2D> layer = nullptr;
+	std::shared_ptr<ace::Object2D> obj = nullptr;
+
 public:
 	ObjectSystem_VanishInComponent(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("ObjectSystem_VanishInComponent"), isOpenGLMode, 30)
+		: EngineTest(ace::ToAString("ObjectSystem_VanishInComponent"), isOpenGLMode, 40)
 	{
 	}
 
-protected:
+protected :
 	void OnStart()
 	{
-		auto scene = make_shared<Scene>();
-		auto layer = make_shared<Layer2D>();
-		auto object = make_shared<TextureObject2D>();
-		auto object2 = make_shared<TextureObject2D>();
+		auto scene = std::make_shared<ace::Scene>();
+		layer = std::make_shared<ace::Layer2D>();
+		obj = std::make_shared<ace::TextureObject2D>();
 
 		ace::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
+		layer->AddObject(obj);
+	}
 
-		auto g = ace::Engine::GetGraphics();
-
-		ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data").c_str());
-
-		auto texture = g->CreateTexture2D(L"Texture/Cloud1.png");
-		object->SetTexture(texture);
-		object2->SetTexture(texture);
-
-		auto component = make_shared<MyComponent>(object2);
-		object->AddComponent(component, ace::ToAString("Component"));
+	void OnUpdating()
+	{
+		if (GetTime() % 2 == 0)
+		{
+			auto temp = obj;
+			obj = std::make_shared<ace::TextureObject2D>();
+			layer->AddObject(obj);
+			obj->AddComponent(std::make_shared<VanishingComponent>(temp, 3), ace::ToAString("v").c_str());
+		}
 	}
 };
 
