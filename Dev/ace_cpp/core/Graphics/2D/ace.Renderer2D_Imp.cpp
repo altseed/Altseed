@@ -157,6 +157,9 @@ namespace ace {
 
 			m_effectManager->SetSetting(m_graphics->GetEffectSetting());
 		}
+
+		//カリング
+		CullingWorld = new culling2d::World(10, culling2d::RectF(-50000, -50000, 100000, 100000));
 	}
 
 	//----------------------------------------------------------------------------------
@@ -177,6 +180,8 @@ namespace ace {
 		m_effectManager = nullptr;
 
 		SafeRelease(m_graphics);
+
+		culling2d::SafeRelease(CullingWorld);
 	}
 
 	void Renderer2D_Imp::SetArea(const RectF& area)
