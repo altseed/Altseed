@@ -141,7 +141,7 @@ namespace ace
         Keypad9 = ace.swig.Keys.Keypad9,
         KeypadDecimal = ace.swig.Keys.KeypadDecimal,
         KeypadDivide = ace.swig.Keys.KeypadDivide,
-        KeypadSubtract = ace.swig.Keys.KeypadSubstract,
+        KeypadSubstract = ace.swig.Keys.KeypadSubstract,
         KeypadAdd = ace.swig.Keys.KeypadAdd,
         KeypadEnter = ace.swig.Keys.KeypadEnter,
         KeypadEqual = ace.swig.Keys.KeypadEqual,
