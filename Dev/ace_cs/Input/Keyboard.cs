@@ -88,7 +88,7 @@ namespace ace
         Escape = ace.swig.Keys.Escape,
         Enter = ace.swig.Keys.Enter,
         Tab = ace.swig.Keys.Tab,
-        BackSpace = ace.swig.Keys.Backspace,
+        Backspace = ace.swig.Keys.Backspace,
         Insert = ace.swig.Keys.Insert,
         Delete = ace.swig.Keys.Delete,
         Right = ace.swig.Keys.Right,
@@ -155,7 +155,7 @@ namespace ace
         RightWin = ace.swig.Keys.RightWin,
         Menu = ace.swig.Keys.Menu,
         Last = ace.swig.Keys.Last,
-        Max = ace.swig.Keys.MAX
+        MAX = ace.swig.Keys.MAX
     };
 
     /// <summary>
