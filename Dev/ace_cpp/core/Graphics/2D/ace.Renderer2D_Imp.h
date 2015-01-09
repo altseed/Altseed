@@ -176,6 +176,8 @@ namespace ace {
 		void DrawSprite();
 
 		void DrawEffect();
+
+		void Culling(const RectF& cullingRange);
 	};
 
 	//----------------------------------------------------------------------------------

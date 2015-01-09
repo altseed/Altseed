@@ -35,6 +35,8 @@
 #endif
 #endif
 
+#define __CULLING_2D__ 0
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -159,7 +161,9 @@ namespace ace {
 		}
 
 		//カリング
+#if __CULLING_2D__
 		CullingWorld = new culling2d::World(10, culling2d::RectF(-50000, -50000, 100000, 100000));
+#endif
 	}
 
 	//----------------------------------------------------------------------------------
@@ -181,7 +185,9 @@ namespace ace {
 
 		SafeRelease(m_graphics);
 
+#if __CULLING_2D__
 		culling2d::SafeRelease(CullingWorld);
+#endif
 	}
 
 	void Renderer2D_Imp::SetArea(const RectF& area)
@@ -269,6 +275,17 @@ namespace ace {
 		e.Data.Sprite.AlphaBlendState = alphaBlend;
 		e.Data.Sprite.TexturePtr = texture;
 		SafeAddRef(e.Data.Sprite.TexturePtr);
+
+#if __CULLING_2D__
+
+		Vector2DF center = (positions[0] + positions[2]) / 2;
+		float radius = (positions[0] - center).GetLength();
+
+		culling2d::Circle boundingCircle = culling2d::Circle(culling2d::Vector2DF(center.X, center.Y), radius);
+
+		CullingWorld->AddObject(new culling2d::Object(boundingCircle, nullptr, CullingWorld, 0));
+
+#endif
 
 		AddEvent(priority, e);
 	}
