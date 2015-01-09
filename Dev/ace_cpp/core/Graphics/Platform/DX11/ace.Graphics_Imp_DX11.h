@@ -19,6 +19,10 @@ namespace ace {
 	{
 	public:
 		static void LoadTexture(Graphics_Imp_DX11* graphics, void* imgdata, int32_t width, int32_t height, ID3D11Texture2D*& texture, ID3D11ShaderResourceView*& textureSRV);
+
+		static astring GetErrorMessage(Graphics_Imp_DX11* graphics, HRESULT hr);
+
+		static std::string GetFormatName(Graphics_Imp_DX11* graphics, DXGI_FORMAT format);
 	};
 #endif
 

@@ -12,7 +12,13 @@ namespace ace
 		CubemapTexture_Imp(Graphics* graphics);
 		virtual ~CubemapTexture_Imp();
 
+
+		Vector2DI	size;
+		int32_t		mipmapCount = 0;
 	public:
+
+		Vector2DI GetSize() const { return size; }
+		int32_t GetMipmapCount() const { return mipmapCount; }
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

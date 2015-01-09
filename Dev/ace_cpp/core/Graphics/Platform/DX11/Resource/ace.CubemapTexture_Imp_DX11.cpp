@@ -16,10 +16,9 @@ namespace ace
 		, m_texture(texture)
 		, m_textureSRV(textureSRV)
 		, m_textureRTVs(textureRTVs)
-		, size(size)
-		, mipmapCount(mipmapCount)
 	{
-
+		this->size = size;
+		this->mipmapCount = mipmapCount;
 	}
 
 	CubemapTexture_Imp_DX11::~CubemapTexture_Imp_DX11()

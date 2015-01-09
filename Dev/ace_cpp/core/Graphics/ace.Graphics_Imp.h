@@ -67,6 +67,12 @@ namespace ace {
 		static bool IsDDS(const void* data, int32_t size);
 	};
 
+	class GraphicsHelper
+	{
+	public:
+		static std::string GetFormatName(Graphics_Imp* graphics, TextureFormat format);
+	};
+
 	class EffectTextureLoader
 		: public ::Effekseer::TextureLoader
 	{

@@ -108,10 +108,12 @@ namespace ace {
 		{
 			if (log != nullptr)
 			{
-				std::ostringstream err;
+				log->WriteLineStrongly("DirectX11 : CreateTexture2D");
+				log->WriteLine(GraphicsHelper_DX11::GetErrorMessage(g, hr).c_str());
 
-				err << "DirectX11 : CreateTexture2Dに失敗。(" << (int32_t) hr << "," << TexDesc.Format << "," << TexDesc.Width << "," << TexDesc.Height << ")";
-				log->WriteLineStrongly(ToAString(err.str().c_str()).c_str());
+				std::ostringstream state;
+				state << "フォーマット : " << GraphicsHelper_DX11::GetFormatName(g, TexDesc.Format) << ", 横幅 : " << TexDesc.Width << ", 縦幅 : " << TexDesc.Height;
+				log->WriteLine(ToAString(state.str().c_str()).c_str());
 			}
 			return false;
 		}
@@ -130,10 +132,12 @@ namespace ace {
 
 			if (log != nullptr)
 			{
-				std::ostringstream err;
+				log->WriteLineStrongly("DirectX11 : CreateShaderResourceView");
+				log->WriteLine(GraphicsHelper_DX11::GetErrorMessage(g, hr).c_str());
 
-				err << "DirectX11 : CreateShaderResourceViewに失敗。(" << (int32_t) hr << "," << TexDesc.Format << "," << TexDesc.Width << "," << TexDesc.Height << ")";
-				log->WriteLineStrongly(ToAString(err.str().c_str()).c_str());
+				std::ostringstream state;
+				state << "フォーマット : " << GraphicsHelper_DX11::GetFormatName(g, TexDesc.Format) << ", 横幅 : " << TexDesc.Width << ", 縦幅 : " << TexDesc.Height;
+				log->WriteLine(ToAString(state.str().c_str()).c_str());
 			}
 
 			return false;

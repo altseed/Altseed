@@ -7,10 +7,9 @@ namespace ace
 	CubemapTexture_Imp_GL::CubemapTexture_Imp_GL(Graphics* graphics, GLuint cubemapTexture, Vector2DI size, int32_t mipmapCount)
 		: CubemapTexture_Imp(graphics)
 		, m_cubemapTexture(cubemapTexture)
-		, size(size)
-		, mipmapCount(mipmapCount)
 	{
-
+		this->size = size;
+		this->mipmapCount = mipmapCount;
 	}
 
 	CubemapTexture_Imp_GL::~CubemapTexture_Imp_GL()

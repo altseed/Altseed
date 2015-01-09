@@ -77,6 +77,35 @@ namespace ace {
 		textureSRV = srv;
 	}
 
+	astring GraphicsHelper_DX11::GetErrorMessage(Graphics_Imp_DX11* graphics, HRESULT hr)
+	{
+		if (hr == D3D11_ERROR_FILE_NOT_FOUND) return ToAString("ファイルが見つかりませんでした。");
+		if (hr == D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS) return ToAString("特定の種類のステート オブジェクトの一意のインスタンスが多すぎます。");
+		if (hr == D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS) return ToAString("特定の種類のビュー オブジェクトの一意のインスタンスが多すぎます。");
+		if (hr == D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD) return ToAString("D3D11_MAP_WRITE_DISCARD ではありませんでした。");
+
+		if (hr == E_INVALIDARG) return ToAString("戻り関数に無効なパラメーターが渡されました。");
+		
+		if (hr == E_OUTOFMEMORY)
+		{
+			std::ostringstream err;
+
+			err << "メモリが不足しています。(推定使用VRAM " << graphics->GetUsedVRAMSize() << "byte)";
+			return ToAString(err.str().c_str());
+		}
+
+		return ToAString("不明なエラーです。");
+	}
+
+	std::string GraphicsHelper_DX11::GetFormatName(Graphics_Imp_DX11* graphics, DXGI_FORMAT format)
+	{
+		if (format == DXGI_FORMAT_R8G8B8A8_UNORM_SRGB) return std::string("DXGI_FORMAT_R8G8B8A8_UNORM_SRGB");
+		if (format == DXGI_FORMAT_R8G8B8A8_UNORM) return std::string("DXGI_FORMAT_R8G8B8A8_UNORM");
+
+		return std::string("Unknown");
+	}
+
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
