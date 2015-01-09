@@ -292,6 +292,14 @@ public:
 	virtual int32_t GetDrawCallCount() const = 0;
 
 	/**
+		@brief	現在使用済みのVRAM容量を取得する。
+		@return	VRAM容量
+		@note
+		値は推測値である。
+	*/
+	virtual int32_t GetUsedVRAMSize() const = 0;
+
+	/**
 	@brief	描画ランタイムの種類を取得する。
 	@return	種類
 	*/

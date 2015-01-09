@@ -43,6 +43,7 @@ namespace ace {
 
 		Texture2D_Imp(Graphics* graphics);
 		virtual ~Texture2D_Imp();
+
 	public:
 
 		Vector2DI GetSize() const { return m_size; }

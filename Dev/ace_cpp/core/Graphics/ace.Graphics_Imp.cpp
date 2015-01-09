@@ -354,6 +354,11 @@ int32_t ImageHelper::GetPitch(TextureFormat format)
 	return 0;
 }
 
+int32_t ImageHelper::GetVRAMSize(TextureFormat format, int32_t width, int32_t height)
+{
+	return GetPitch(format) * width * height;
+}
+
 int32_t ImageHelper::GetMipmapCount(int32_t width, int32_t height)
 {
 	auto ret = 1;

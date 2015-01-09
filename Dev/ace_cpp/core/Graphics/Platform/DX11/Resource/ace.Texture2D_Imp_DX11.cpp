@@ -34,6 +34,9 @@ namespace ace {
 		m_format = format;
 		m_size = size;
 		m_resource.resize(size.X * size.Y * ImageHelper::GetPitch(m_format));
+
+		auto g = (Graphics_Imp*) GetGraphics();
+		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
 	}
 
 	//----------------------------------------------------------------------------------
@@ -41,6 +44,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	Texture2D_Imp_DX11::~Texture2D_Imp_DX11()
 	{
+		auto g = (Graphics_Imp*) GetGraphics();
+		g->DecVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
+
 		SafeRelease(m_texture);
 		SafeRelease(m_textureSRV);
 	}
@@ -136,7 +142,7 @@ namespace ace {
 		m_texture = texture;
 		m_textureSRV = srv;
 
-
+		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
 		return true;
 	}
 
@@ -146,10 +152,10 @@ namespace ace {
 	Texture2D_Imp_DX11* Texture2D_Imp_DX11::Create(Graphics_Imp_DX11* graphics, uint8_t* data, int32_t size, bool isSRGB)
 	{
 		if (size == 0) return nullptr;
-		
+
 		/* ロードしてみる */
 		Texture2D_Imp_DX11* texture = new Texture2D_Imp_DX11(graphics);
-		if (!texture->InternalLoad(data, size,false))
+		if (!texture->InternalLoad(data, size, false))
 		{
 			SafeRelease(texture);
 			return nullptr;
@@ -283,6 +289,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void Texture2D_Imp_DX11::Reload(void* data, int32_t size)
 	{
+		auto g = (Graphics_Imp*) GetGraphics();
+		g->DecVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
+
 		SafeRelease(m_texture);
 		SafeRelease(m_textureSRV);
 

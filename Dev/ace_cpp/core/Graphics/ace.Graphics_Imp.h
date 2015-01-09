@@ -59,6 +59,8 @@ namespace ace {
 		*/
 		static int32_t GetPitch(TextureFormat format);
 
+		static int32_t GetVRAMSize(TextureFormat format, int32_t width, int32_t height);
+
 		static int32_t GetMipmapCount(int32_t width, int32_t height);
 		static void GetMipmapSize(int mipmap, int32_t& width, int32_t& height);
 
@@ -118,6 +120,8 @@ namespace ace {
 
 		int32_t				drawCallCount = 0;
 		int32_t				drawCallCountCurrent = 0;
+
+		int32_t				vramCount = 0;
 
 		void AddDeviceObject(DeviceObject* o);
 		void RemoveDeviceObject(DeviceObject* o);
@@ -190,6 +194,10 @@ namespace ace {
 
 		File* GetFile() { return m_file; }
 		Log* GetLog() { return m_log; }
+
+		void IncVRAM(int32_t size) { vramCount += size; }
+		void DecVRAM(int32_t size) { vramCount -= size; }
+
 #endif
 
 		Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);
@@ -222,6 +230,8 @@ namespace ace {
 		virtual void SaveScreenshot(const achar* path) = 0;
 
 		int32_t GetDrawCallCount() const override { return drawCallCount; };
+
+		int32_t GetUsedVRAMSize() const override { return vramCount; }
 
 		/**
 		@brief	テクスチャを生成する。

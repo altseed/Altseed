@@ -299,6 +299,20 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 現在使用済みのVRAM容量を取得する。
+		/// </summary>
+		/// <remarks>
+		/// 値は推測値である。
+		/// </remarks>
+		public int UsedVRAMSize
+		{
+			get
+			{
+				return graphics.GetUsedVRAMSize();
+			}
+		}
+
+		/// <summary>
 		/// 描画ランタイムの種類を取得する。
 		/// </summary>
 		public GraphicsDeviceType GraphicsDeviceType

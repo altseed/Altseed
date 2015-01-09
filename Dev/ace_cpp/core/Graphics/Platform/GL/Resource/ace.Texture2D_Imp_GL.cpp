@@ -29,6 +29,9 @@ namespace ace {
 		m_format = format;
 		m_size = size;
 		m_resource.resize(size.X * size.Y * ImageHelper::GetPitch(m_format));
+
+		auto g = (Graphics_Imp*) GetGraphics();
+		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
 	}
 
 	//----------------------------------------------------------------------------------
@@ -36,6 +39,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	Texture2D_Imp_GL::~Texture2D_Imp_GL()
 	{
+		auto g = (Graphics_Imp*) GetGraphics();
+		g->DecVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
+
 		glDeleteTextures(1, &m_texture);
 	}
 
@@ -44,6 +50,8 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	bool Texture2D_Imp_GL::GenerateTextureFromInternal(bool isSRGB)
 	{
+		auto g = (Graphics_Imp*) GetGraphics();
+
 		GLuint texture = 0;
 		glGenTextures(1, &texture);
 
@@ -104,6 +112,7 @@ namespace ace {
 
 		InternalUnload();
 
+		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
 		return true;
 	}
 
@@ -294,6 +303,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void Texture2D_Imp_GL::Reload(void* data, int32_t size)
 	{
+		auto g = (Graphics_Imp*) GetGraphics();
+		g->DecVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
+
 		glDeleteTextures(1, &m_texture);
 
 		if (!InternalLoad(data, size, false))
