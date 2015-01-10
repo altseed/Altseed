@@ -66,7 +66,7 @@ AmusementCreatorsEngineの名称はドキュメント中ではACEと省略され
 
 ### ツール
 
-* フォントジェネレーター
+* [フォントジェネレーター](./Tool/FontGenerator.md)
 * パッケージ化ツール
 
 ### 他
