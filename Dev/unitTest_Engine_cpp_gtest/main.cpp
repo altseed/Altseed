@@ -60,6 +60,7 @@ EXTERN_ENGINE_TEST(File, StaticFile_NonePackage_AddRootDirectory)
 EXTERN_ENGINE_TEST(File, StaticFile_NonePackage_Cache)
 EXTERN_ENGINE_TEST(File, StaticFile_Package)
 EXTERN_ENGINE_TEST(File, StaticFile_Package_Cache)
+EXTERN_ENGINE_TEST(File, StaticFile_Package_Priority)
 
 /**
 	@brief	単体テストを実行する。
@@ -76,7 +77,15 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
+<<<<<<< Updated upstream
 	//CALL_ENGINE_TEST(ObjectSystem, VanishInComponent, true)
+=======
+	CALL_ENGINE_TEST(File, StaticFile_Package_Priority, true)
+	return 0;
+	
+
+	//Test_Graphics_TextureObject2D(false);
+>>>>>>> Stashed changes
 	//return 0;
 
 	
