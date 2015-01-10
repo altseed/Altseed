@@ -7,6 +7,8 @@
 このクラスには音のループポイントを設定できます。音をループさせるにはIsLoopingModeをtrueにします。ループポイントを設定していない場合、音を最後まで再生したら最初に戻ってループします。
 LoopStartingPoint及び、LoopEndPointを設定すると、先頭から音を再生しLoopEndPointに到達したらLoopStartPointの位置に戻って再開します。
 
+![ループ](img/Loop.png)
+
 ### 主なメソッド
 
 なし
