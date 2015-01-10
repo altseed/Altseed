@@ -59,6 +59,7 @@
     <ClCompile Include="..\Profiler.cpp" />
     <ClCompile Include="..\Sound\Sound.cpp" />
     <ClCompile Include="StaticFile_NonePackage_AddDefaultRootDirectory.cpp" />
+    <ClCompile Include="StaticFile_Package_Priority.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\EngineGraphics3DTest.h" />
