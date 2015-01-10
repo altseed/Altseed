@@ -77,15 +77,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-<<<<<<< Updated upstream
 	//CALL_ENGINE_TEST(ObjectSystem, VanishInComponent, true)
-=======
-	CALL_ENGINE_TEST(File, StaticFile_Package_Priority, true)
-	return 0;
-	
-
-	//Test_Graphics_TextureObject2D(false);
->>>>>>> Stashed changes
 	//return 0;
 
 	
