@@ -165,7 +165,10 @@ void Graphics_Mesh(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"メッシュ").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false, false);
+	auto file = ace::File_Imp::Create();
+	ASSERT_TRUE(file != nullptr);
+
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, file, false, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto renderer3d = new ace::Renderer3D(graphics, ace::RenderSettings());
@@ -287,6 +290,7 @@ void Graphics_Mesh(bool isOpenGLMode)
 	delete renderer3d;
 
 	graphics->Release();
+	file->Release();
 
 	window->Release();
 	delete log;

@@ -56,7 +56,10 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"PostEffect").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false, false);
+	auto file = ace::File_Imp::Create();
+	ASSERT_TRUE(file != nullptr);
+
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, file, false, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto rtex = graphics->CreateRenderTexture2D(640, 480, ace::TextureFormat::R8G8B8A8_UNORM);
@@ -160,7 +163,8 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	delete renderer2d;
 	renderer->Release();
 	graphics->Release();
-	
+	file->Release();
+
 	window->Release();
 	delete log;
 }
