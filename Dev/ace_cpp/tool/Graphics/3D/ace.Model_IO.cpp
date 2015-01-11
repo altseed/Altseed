@@ -222,7 +222,7 @@ namespace ace
 		memcpy(dst, &src, sizeof(int32_t));
 	}
 
-	bool Model_IO::Load(std::vector<uint8_t>& data, const achar* path)
+	bool Model_IO::Load(const std::vector<uint8_t>& data, const achar* path)
 	{
 		Meshes.clear();
 

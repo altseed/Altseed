@@ -11,7 +11,6 @@
 #include "Animation/ace.KeyframeAnimation_Imp.h"
 
 #include "../../ace.Graphics_Imp.h"
-#include "../../ace.GraphicsResourceContainer.h"
 
 namespace ace
 {
@@ -47,12 +46,12 @@ namespace ace
 		Reset();
 
 		auto g = (Graphics_Imp*) m_graphics;
-		g->GetResourceContainer()->Models.Unregist(this);
+		g->ModelContainer->Unregister(this);
 
 		SafeRelease(m_graphics);
 	}
 
-	bool Model_Imp::Load(Graphics* g, std::vector<uint8_t>&	data, const achar* path)
+	bool Model_Imp::Load(Graphics* g, const std::vector<uint8_t>&	data, const achar* path)
 	{
 		Reset();
 
@@ -97,7 +96,7 @@ namespace ace
 		m_observers.erase(model);
 	}
 
-	void Model_Imp::Reload(std::vector<uint8_t>& data, const achar* path)
+	void Model_Imp::Reload(const std::vector<uint8_t>& data, const achar* path)
 	{
 		Load(m_graphics, data, path);
 

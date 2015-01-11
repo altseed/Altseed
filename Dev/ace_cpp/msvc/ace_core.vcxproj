@@ -212,7 +212,6 @@
     <ClInclude Include="..\core\Graphics\3D\Resource\Animation\ace.KeyframeAnimation_Imp.h" />
     <ClInclude Include="..\core\Graphics\ace.DeviceObject.h" />
     <ClInclude Include="..\core\Graphics\ace.Graphics.h" />
-    <ClInclude Include="..\core\Graphics\ace.GraphicsResourceContainer.h" />
     <ClInclude Include="..\core\Graphics\ace.Graphics_Imp.h" />
     <ClInclude Include="..\core\Graphics\ace.RenderingThread.h" />
     <ClInclude Include="..\core\Graphics\Command\ace.RenderingCommand.h" />
@@ -459,7 +458,6 @@
     <ClCompile Include="..\core\Graphics\3D\Resource\Animation\ace.AnimationSystem_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Resource\Animation\ace.KeyframeAnimation_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\ace.DeviceObject.cpp" />
-    <ClCompile Include="..\core\Graphics\ace.GraphicsResourceContainer.cpp" />
     <ClCompile Include="..\core\Graphics\ace.Graphics_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\ace.RenderingThread.cpp" />
     <ClCompile Include="..\core\Graphics\Command\ace.RenderingCommand.cpp" />

@@ -596,9 +596,11 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log,File* file, bool isReloading
 
 	Texture2DContainer = std::make_shared<ResourceContainer<Texture2D_Imp>>(file);
 	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>(file);
+	FontContainer = std::make_shared<ResourceContainer<Font_Imp>>(file);
+	ModelContainer = std::make_shared<ResourceContainer<Model_Imp>>(file);
 
 	//SafeAddRef(m_log);
-	m_resourceContainer = new GraphicsResourceContainer(m_file);
+	//m_resourceContainer = new GraphicsResourceContainer(m_file);
 	m_renderingThread = std::make_shared<RenderingThread>();
 	
 	m_effectSetting = Effekseer::Setting::Create();
@@ -632,7 +634,7 @@ Graphics_Imp::~Graphics_Imp()
 	SafeRelease(m_indexBufferPtr);
 	SafeRelease(m_shaderPtr);
 
-	SafeDelete(m_resourceContainer);
+	//SafeDelete(m_resourceContainer);
 
 	SafeRelease(m_effectSetting);
 	//SafeRelease(m_log);
@@ -723,34 +725,14 @@ Deformer* Graphics_Imp::CreateDeformer_()
 
 Model* Graphics_Imp::CreateModel_(const achar* path)
 {
+	auto ret = ModelContainer->TryLoadWithVector(path, [this, &path](const std::vector<uint8_t>& data) -> Model_Imp*
 	{
-		auto existing = GetResourceContainer()->Models.Get(path);
-		if (existing != nullptr)
-		{
-			SafeAddRef(existing);
-			return existing;
-		}
-	}
-
-	auto staticFile = GetFile()->CreateStaticFile(path);
-	if (staticFile.get() == nullptr) return nullptr;
+		auto model = new Model_Imp(this);
+		model->Load(this, data, path);
+		return model;
+	});
 	
-	std::vector<uint8_t> data;
-	data.resize(staticFile->GetSize());
-
-	memcpy(data.data(), staticFile->GetData(), staticFile->GetSize());
-
-	auto model = new Model_Imp(this);
-	model->Load(this, data, path);
-
-	std::shared_ptr<ModelReloadInformation> info;
-	info.reset(new ModelReloadInformation());
-	info->ModifiedTime = GetResourceContainer()->GetModifiedTime(path);
-	info->Path = path;
-
-	GetResourceContainer()->Models.Regist(path, info, model);
-	
-	return model;
+	return ret;
 }
 
 MassModel* Graphics_Imp::CreateMassModelFromModelFile_(const achar* path)
@@ -839,30 +821,13 @@ Effect* Graphics_Imp::CreateEffect_(const achar* path)
 //----------------------------------------------------------------------------------
 Font* Graphics_Imp::CreateFont_(const achar* path)
 {
+	auto ret = FontContainer->TryLoadWithVector(path, [this, &path](const std::vector<uint8_t>& data) -> Font_Imp*
 	{
-		auto existing = GetResourceContainer()->Fonts.Get(path);
-		if (existing != nullptr)
-		{
-			SafeAddRef(existing);
-			return existing;
-		}
-	}
-
-	auto affFile = m_file->CreateStaticFile(path);
-
-	if (affFile == nullptr) return nullptr;
-
-	auto &data = affFile->ReadAllBytes();
-	Font_Imp* font = new Font_Imp(this,path,data);
-
-	std::shared_ptr<FontReloadInformation> info;
-	info.reset(new FontReloadInformation());
-	info->ModifiedTime = GetResourceContainer()->GetModifiedTime(path);
-	info->Path = path;
-
-	GetResourceContainer()->Fonts.Regist(path, info, font);
-
-	return font;
+		Font_Imp* font = new Font_Imp(this, path, data);
+		return font;
+	});
+	
+	return ret;
 }
 
 //----------------------------------------------------------------------------------
@@ -1008,7 +973,16 @@ void Graphics_Imp::Reload()
 		o->ResourcePtr->Reload(o->LoadedPath.c_str(), m_effectSetting, data, size);
 	});
 
-	GetResourceContainer()->Reload();
+	ModelContainer->ReloadWithVector([this](std::shared_ptr<ResourceContainer<Model_Imp>::LoadingInformation> o, const std::vector<uint8_t>& data) -> void
+	{
+		o->ResourcePtr->Reload(data, o->LoadedPath.c_str());
+	});
+
+	FontContainer->ReloadWithVector([this](std::shared_ptr<ResourceContainer<Font_Imp>::LoadingInformation> o, const std::vector<uint8_t>& data) -> void
+	{
+		o->ResourcePtr->Reload(o->LoadedPath.c_str());
+	});
+
 
 	for (auto& r : EffectContainer->GetAllResources())
 	{

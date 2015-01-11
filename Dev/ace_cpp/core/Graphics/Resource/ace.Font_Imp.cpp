@@ -3,7 +3,6 @@
 //----------------------------------------------------------------------------------
 #include "ace.Font_Imp.h"
 #include "../ace.Graphics_Imp.h"
-#include "../ace.GraphicsResourceContainer.h"
 
 #ifdef WIN32
 #ifdef min
@@ -22,7 +21,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Font_Imp::Font_Imp(Graphics* graphics, const ace::achar* affFilePathChar, std::vector<uint8_t> data)
+	Font_Imp::Font_Imp(Graphics* graphics, const achar* affFilePathChar, std::vector<uint8_t> data)
 		: DeviceObject(graphics)
 		, m_graphics(graphics)
 	{
@@ -70,7 +69,7 @@ namespace ace {
 		m_textures.clear();
 		m_glyphs.clear();
 		auto g = (Graphics_Imp*)GetGraphics();
-		g->GetResourceContainer()->Fonts.Unregist(this);
+		g->FontContainer->Unregister(this);
 	}
 
 	//----------------------------------------------------------------------------------

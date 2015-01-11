@@ -541,9 +541,6 @@
     <ClInclude Include="..\core\Graphics\ace.Graphics_Imp.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\ace.GraphicsResourceContainer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\ace.RenderingThread.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -1081,9 +1078,6 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\ace.Graphics_Imp.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\ace.GraphicsResourceContainer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\ace.RenderingThread.cpp">

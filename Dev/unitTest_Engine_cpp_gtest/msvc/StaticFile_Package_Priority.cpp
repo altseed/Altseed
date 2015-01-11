@@ -1,4 +1,4 @@
-#include <ace.h>
+ï»¿#include <ace.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../EngineTest.h"
@@ -20,12 +20,12 @@ protected:
 	void OnStart()
 	{
 		{
-			//•’Ê‚É“Ç‚Ýž‚ñ‚¾ƒoƒCƒiƒŠ
+			//æ™®é€šã«èª­ã¿è¾¼ã‚“ã ãƒã‚¤ãƒŠãƒª
 			BinaryReader reader1;
 			auto data1 = GetBinaryData(ace::ToAString("Data/Texture/Cloud1.png"));
 			reader1.ReadIn(data1.begin(), data1.end());
 
-			//ƒtƒ@ƒCƒ‹‹@”\‚Å“Ç‚Ýž‚ñ‚¾ƒoƒCƒiƒŠ
+			//ãƒ•ã‚¡ã‚¤ãƒ«æ©Ÿèƒ½ã§èª­ã¿è¾¼ã‚“ã ãƒã‚¤ãƒŠãƒª
 			ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data/Texture2.pack").c_str());
 			ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data/Texture.pack").c_str());
 			auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Cloud1.png").c_str());
@@ -45,12 +45,12 @@ protected:
 			ace::Engine::GetFile()->ClearRootDirectories();
 		}
 		{
-			//•’Ê‚É“Ç‚Ýž‚ñ‚¾ƒoƒCƒiƒŠ
+			//æ™®é€šã«èª­ã¿è¾¼ã‚“ã ãƒã‚¤ãƒŠãƒª
 			BinaryReader reader2;
 			auto data2 = GetBinaryData(ace::ToAString("Sample1.png"));
 			reader2.ReadIn(data2.begin(), data2.end());
 
-			//ƒtƒ@ƒCƒ‹‹@”\‚Å“Ç‚Ýž‚ñ‚¾ƒoƒCƒiƒŠ
+			//ãƒ•ã‚¡ã‚¤ãƒ«æ©Ÿèƒ½ã§èª­ã¿è¾¼ã‚“ã ãƒã‚¤ãƒŠãƒª
 			ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data/Texture.pack").c_str());
 			ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data/Texture2.pack").c_str());
 			auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Cloud1.png").c_str());
