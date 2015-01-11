@@ -14,9 +14,11 @@
     <ClCompile Include="..\EngineGraphics3DTest.cpp" />
     <ClCompile Include="..\EngineTest.cpp" />
     <ClCompile Include="..\File\StaticFile_NonePackage.cpp" />
+    <ClCompile Include="..\File\StaticFile_NonePackage_AddDefaultRootDirectory.cpp" />
     <ClCompile Include="..\File\StaticFile_NonePackage_Cache.cpp" />
     <ClCompile Include="..\File\StaticFile_Package.cpp" />
     <ClCompile Include="..\File\StaticFile_Package_Cache.cpp" />
+    <ClCompile Include="..\File\StaticFile_Package_Priority.cpp" />
     <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp" />
@@ -58,8 +60,6 @@
     </ClCompile>
     <ClCompile Include="..\Profiler.cpp" />
     <ClCompile Include="..\Sound\Sound.cpp" />
-    <ClCompile Include="StaticFile_NonePackage_AddDefaultRootDirectory.cpp" />
-    <ClCompile Include="StaticFile_Package_Priority.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\EngineGraphics3DTest.h" />
