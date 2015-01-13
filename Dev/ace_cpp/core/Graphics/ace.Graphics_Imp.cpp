@@ -980,7 +980,7 @@ void Graphics_Imp::Reload()
 
 	FontContainer->ReloadWithVector([this](std::shared_ptr<ResourceContainer<Font_Imp>::LoadingInformation> o, const std::vector<uint8_t>& data) -> void
 	{
-		o->ResourcePtr->Reload(o->LoadedPath.c_str());
+		o->ResourcePtr->Reload(o->LoadedPath.c_str(), data);
 	});
 
 

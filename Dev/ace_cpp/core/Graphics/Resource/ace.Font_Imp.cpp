@@ -155,14 +155,13 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Font_Imp::Reload(const achar* affFilePath)
+	void Font_Imp::Reload(const achar* affFilePathChar, std::vector<uint8_t> data)
 	{
-		/*
 		m_glyphs.clear();
 		m_textures.clear();
 
-		ace::astring affFilePathStr = ace::astring(affFilePath);
-		AffLoader affLoader = AffLoader(affFilePathStr);
+		ace::astring affFilePathStr = ace::astring(affFilePathChar);
+		AffLoader affLoader = AffLoader(data);
 		m_glyphs = affLoader.GetGlyphs();
 
 		//AFFファイルの拡張子以前のパスを取得。
@@ -192,7 +191,5 @@ namespace ace {
 
 			++pictureNumber;
 		}
-		*/
-
 	}
 }
