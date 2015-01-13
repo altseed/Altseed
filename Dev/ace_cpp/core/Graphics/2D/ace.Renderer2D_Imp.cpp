@@ -35,8 +35,6 @@
 #endif
 #endif
 
-#define __CULLING_2D__ 0
-
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -159,11 +157,6 @@ namespace ace {
 
 			m_effectManager->SetSetting(m_graphics->GetEffectSetting());
 		}
-
-		//カリング
-#if __CULLING_2D__
-		CullingWorld = new culling2d::World(10, culling2d::RectF(-50000, -50000, 100000, 100000));
-#endif
 	}
 
 	//----------------------------------------------------------------------------------
@@ -184,15 +177,12 @@ namespace ace {
 		m_effectManager = nullptr;
 
 		SafeRelease(m_graphics);
-
-#if __CULLING_2D__
-		culling2d::SafeRelease(CullingWorld);
-#endif
 	}
 
-	void Renderer2D_Imp::SetArea(const RectF& area)
+	void Renderer2D_Imp::SetArea(const RectF& area, float angle)
 	{
 		this->area = area;
+		this->angle = angle;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -200,6 +190,8 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void Renderer2D_Imp::DrawCache()
 	{
+		auto ang = DegreeToRadian(angle);
+
 		// エフェクト設定
 		{
 			Matrix44 effectProjMat;
@@ -208,7 +200,10 @@ namespace ace {
 
 			auto px = area.X + area.Width / 2;
 			auto py = -(area.Y + area.Height / 2);
-			effectCameraMat.SetLookAtRH(Vector3DF(px, py, 400), Vector3DF(px, py, 0), Vector3DF(0, 1, 0));
+
+			Vector3DF up = Vector3DF(sin(ang), cos(ang), 0);
+
+			effectCameraMat.SetLookAtRH(Vector3DF(px, py, 400), Vector3DF(px, py, 0), up);
 
 			// 行列を転置して設定
 
@@ -275,17 +270,6 @@ namespace ace {
 		e.Data.Sprite.AlphaBlendState = alphaBlend;
 		e.Data.Sprite.TexturePtr = texture;
 		SafeAddRef(e.Data.Sprite.TexturePtr);
-
-#if __CULLING_2D__
-
-		Vector2DF center = (positions[0] + positions[2]) / 2;
-		float radius = (positions[0] - center).GetLength();
-
-		culling2d::Circle boundingCircle = culling2d::Circle(culling2d::Vector2DF(center.X, center.Y), radius);
-
-		CullingWorld->AddObject(new culling2d::Object(boundingCircle, nullptr, CullingWorld, 0));
-
-#endif
 
 		AddEvent(priority, e);
 	}
@@ -540,13 +524,15 @@ namespace ace {
 		}
 
 		// 定数バッファを設定
-		Vector4DF area_;
-		area_.X = area.X;
-		area_.Y = area.Y;
-		area_.Z = area.Width;
-		area_.W = area.Height;
+		Matrix44 mat, mat_t, mat_scale, mat_rot;
 
-		shader->SetVector4DF("area",  area_);
+		mat_t.SetTranslation(-(area.X + area.Width / 2.0f), -(area.Y + area.Height / 2.0f), 0);
+		mat_scale.SetScale(2.0f / area.Width, - 2.0f / area.Height, 1.0f);
+		mat_rot.SetRotationZ(DegreeToRadian(angle));
+
+		mat = mat_rot * mat_scale * mat_t;
+
+		shader->SetMatrix44("mat", mat);
 
 		// 描画
 		if (m_state.TexturePtr != nullptr)

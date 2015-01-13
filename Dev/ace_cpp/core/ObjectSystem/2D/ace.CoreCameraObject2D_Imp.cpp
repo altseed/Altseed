@@ -78,7 +78,7 @@ namespace ace
 
 	void CoreCameraObject2D_Imp::FlushToBuffer(Renderer2D* renderer)
 	{
-		renderer->SetArea(RectF(m_src.X, m_src.Y, m_src.Width, m_src.Height));
+		renderer->SetArea(RectF(m_src.X, m_src.Y, m_src.Width, m_src.Height), 0.0f);
 		renderer->DrawCache();
 	}
 

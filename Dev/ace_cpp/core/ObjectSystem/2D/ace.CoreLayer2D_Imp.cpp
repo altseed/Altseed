@@ -284,14 +284,14 @@ namespace ace
 
 		if (m_cameras.empty())
 		{
-			m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y));
+			m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
 			m_renderer->DrawCache();
 			m_renderer->ClearCache();
 		}
 		else
 		{
 			
-			m_rendererForCamera->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y));
+			m_rendererForCamera->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
 			m_rendererForCamera->DrawCache();
 			m_rendererForCamera->ClearCache();
 		}
