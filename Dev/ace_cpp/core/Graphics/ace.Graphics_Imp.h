@@ -58,11 +58,15 @@ namespace ace {
 		*/
 		static int32_t GetPitch(TextureFormat format);
 
+		/**
+			@brief	画像が消費する推定VRAMサイズを取得する。
+		*/
 		static int32_t GetVRAMSize(TextureFormat format, int32_t width, int32_t height);
 
 		static int32_t GetMipmapCount(int32_t width, int32_t height);
 		static void GetMipmapSize(int mipmap, int32_t& width, int32_t& height);
 
+		static bool IsPNG(const void* data, int32_t size);
 		static bool IsDDS(const void* data, int32_t size);
 	};
 

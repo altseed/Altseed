@@ -119,6 +119,14 @@ namespace ace {
 		R8G8B8A8_UNORM_SRGB = 2,
 		R16G16_FLOAT = 3,
 		R8_UNORM = 4,
+
+		BC1 = 5,
+		BC2 = 6,
+		BC3 = 7,
+		BC1_SRGB = 8,
+		BC2_SRGB = 9,
+		BC3_SRGB = 10,
+
 	};
 
 	enum eTextureClassType

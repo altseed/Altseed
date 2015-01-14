@@ -351,12 +351,35 @@ int32_t ImageHelper::GetPitch(TextureFormat format)
 	if (format == TextureFormat::R8G8B8A8_UNORM_SRGB) return 4;
 	if (format == TextureFormat::R16G16_FLOAT) return 2 * 2;
 	if (format == TextureFormat::R8_UNORM) return 1;
+
+	// 1ピクセル単位で返せない
+	if (format == TextureFormat::BC1) return 0;
+	if (format == TextureFormat::BC1_SRGB) return 0;
+	if (format == TextureFormat::BC2) return 0;
+	if (format == TextureFormat::BC2_SRGB) return 0;
+	if (format == TextureFormat::BC3) return 0;
+	if (format == TextureFormat::BC3_SRGB) return 0;
+
 	return 0;
 }
 
 int32_t ImageHelper::GetVRAMSize(TextureFormat format, int32_t width, int32_t height)
 {
-	return GetPitch(format) * width * height;
+	auto pitch = GetPitch(format);
+
+	if (pitch == 0)
+	{
+		if (format == TextureFormat::BC1 ||
+			format == TextureFormat::BC1_SRGB) return width * height * 4 / 6;
+		
+		if (format == TextureFormat::BC2 ||
+			format == TextureFormat::BC2_SRGB) return width * height * 4 / 4;
+
+		if (format == TextureFormat::BC3 ||
+			format == TextureFormat::BC3_SRGB) return width * height * 4 / 4;
+	}
+
+	return pitch * width * height;
 }
 
 int32_t ImageHelper::GetMipmapCount(int32_t width, int32_t height)
@@ -381,6 +404,20 @@ void ImageHelper::GetMipmapSize(int mipmap, int32_t& width, int32_t& height)
 	}
 }
 
+
+bool ImageHelper::IsPNG(const void* data, int32_t size)
+{
+	if (size < 4) return false;
+
+	auto d = (uint8_t*) data;
+
+	if (d[0] != 0x89) return false;
+	if (d[1] != 'P') return false;
+	if (d[2] != 'N') return false;
+	if (d[3] != 'G') return false;
+
+	return true;
+}
 
 bool ImageHelper::IsDDS(const void* data, int32_t size)
 {

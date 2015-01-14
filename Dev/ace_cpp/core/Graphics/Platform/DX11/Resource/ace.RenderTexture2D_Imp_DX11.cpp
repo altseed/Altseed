@@ -67,6 +67,10 @@ namespace ace {
 		{
 			TexDesc.Format = DXGI_FORMAT_R8_UNORM;
 		}
+		else
+		{
+			return nullptr;
+		}
 
 		TexDesc.SampleDesc.Count = 1;
 		TexDesc.SampleDesc.Quality = 0;

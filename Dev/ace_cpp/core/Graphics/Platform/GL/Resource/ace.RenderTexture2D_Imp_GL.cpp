@@ -108,6 +108,10 @@ namespace ace {
 				GL_UNSIGNED_BYTE,
 				nullptr);
 		}
+		else
+		{
+			return nullptr;
+		}
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 
