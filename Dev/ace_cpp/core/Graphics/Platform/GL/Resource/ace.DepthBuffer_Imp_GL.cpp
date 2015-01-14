@@ -13,10 +13,9 @@ namespace ace {
 	//
 	//----------------------------------------------------------------------------------
 	DepthBuffer_Imp_GL::DepthBuffer_Imp_GL(Graphics* graphics, GLuint buffer, Vector2DI size)
-		: DepthBuffer_Imp(graphics)
+		: DepthBuffer_Imp(graphics, size)
 		, m_buffer(buffer)
 	{
-		m_size = size;
 	}
 
 	//----------------------------------------------------------------------------------

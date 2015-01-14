@@ -13,12 +13,11 @@ namespace ace {
 	//
 	//----------------------------------------------------------------------------------
 	DepthBuffer_Imp_DX11::DepthBuffer_Imp_DX11(Graphics* graphics, ID3D11Texture2D* depthBuffer, ID3D11DepthStencilView* depthStencilView, ID3D11ShaderResourceView* depthSRV, Vector2DI size)
-		: DepthBuffer_Imp(graphics)
+		: DepthBuffer_Imp(graphics, size)
 		, m_depthBuffer(depthBuffer)
 		, m_depthStencilView(depthStencilView)
 		, m_depthSRV(depthSRV)
 	{
-		m_size = size;
 	}
 
 	//----------------------------------------------------------------------------------

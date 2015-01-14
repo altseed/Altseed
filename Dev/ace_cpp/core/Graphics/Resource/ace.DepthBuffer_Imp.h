@@ -23,7 +23,7 @@ namespace ace {
 	protected:
 		Vector2DI	m_size;
 
-		DepthBuffer_Imp(Graphics* graphics);
+		DepthBuffer_Imp(Graphics* graphics, Vector2DI size);
 		virtual ~DepthBuffer_Imp();
 	public:
 
