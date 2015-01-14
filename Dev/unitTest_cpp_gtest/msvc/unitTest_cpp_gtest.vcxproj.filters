@@ -114,6 +114,9 @@
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_RenderingThread_Test.cpp">
       <Filter>Graphics\LowLayer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_TextureFormat_Test.cpp">
+      <Filter>Graphics\LowLayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Graphics\ace.Graphics_Test_Utls.h">
