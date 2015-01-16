@@ -86,6 +86,8 @@ namespace ace {
 		{
 			int32_t Count;
 			void* Ptr;
+			int32_t Width;
+			int32_t Height;
 		};
 		std::map<astring, Cache>		m_caches;
 		std::map<void*, astring>		dataToKey;

@@ -12,7 +12,7 @@ namespace ace
 	private:
 		GLuint	m_cubemapTexture;
 
-		CubemapTexture_Imp_GL(Graphics* graphics, GLuint cubemapTexture, Vector2DI size, int32_t mipmapCount);
+		CubemapTexture_Imp_GL(Graphics* graphics, TextureFormat format, GLuint cubemapTexture, Vector2DI size, int32_t mipmapCount);
 		virtual ~CubemapTexture_Imp_GL();
 
 	public:

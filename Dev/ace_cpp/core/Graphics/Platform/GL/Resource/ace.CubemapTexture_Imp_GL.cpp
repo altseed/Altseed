@@ -4,12 +4,10 @@
 
 namespace ace
 {
-	CubemapTexture_Imp_GL::CubemapTexture_Imp_GL(Graphics* graphics, GLuint cubemapTexture, Vector2DI size, int32_t mipmapCount)
-		: CubemapTexture_Imp(graphics)
+	CubemapTexture_Imp_GL::CubemapTexture_Imp_GL(Graphics* graphics, TextureFormat format, GLuint cubemapTexture, Vector2DI size, int32_t mipmapCount)
+		: CubemapTexture_Imp(graphics, format, size, mipmapCount)
 		, m_cubemapTexture(cubemapTexture)
 	{
-		this->size = size;
-		this->mipmapCount = mipmapCount;
 	}
 
 	CubemapTexture_Imp_GL::~CubemapTexture_Imp_GL()
@@ -119,7 +117,7 @@ namespace ace
 
 		GLCheckError();
 
-		return new CubemapTexture_Imp_GL(graphics, cubemapTexture, Vector2DI(width, height), mipmapCount);
+		return new CubemapTexture_Imp_GL(graphics, TextureFormat::R8G8B8A8_UNORM, cubemapTexture, Vector2DI(width, height), mipmapCount);
 
 	End:;
 
@@ -225,7 +223,7 @@ namespace ace
 
 		GLCheckError();
 
-		return new CubemapTexture_Imp_GL(graphics, cubemapTexture, Vector2DI(width, height), mipmapCount);
+		return new CubemapTexture_Imp_GL(graphics, TextureFormat::R8G8B8A8_UNORM, cubemapTexture, Vector2DI(width, height), mipmapCount);
 
 	End:;
 

@@ -487,8 +487,13 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path)
 	Cache c;
 	c.Ptr = img;
 	c.Count = 1;
+	c.Width = imageWidth;
+	c.Height = imageHeight;
 	m_caches[key] = c;
 	dataToKey[img] = key;
+
+	m_graphics->IncVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, imageWidth, imageHeight));
+
 	return img;
 }
 
@@ -507,6 +512,8 @@ void EffectTextureLoader::Unload(void* data)
 
 	if (cache->second.Count == 0)
 	{
+		m_graphics->DecVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, cache->second.Width, cache->second.Height));
+
 		m_caches.erase(key);
 		dataToKey.erase(data);
 	}
