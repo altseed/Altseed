@@ -1,4 +1,4 @@
-
+ï»¿
 #include "../ace.Graphics_Test_Utls.h"
 
 static const char* dx_vs = R"(
@@ -69,7 +69,7 @@ uniform sampler2D g_texture;
 
 void main() 
 {
-	// varying(in) ‚Í•ÏX•s‰Â(Radeon)
+	// varying(in) ã¯å¤‰æ›´ä¸å¯(Radeon)
 
 	vec4 uv = vaTexCoord;
 	uv.y = 1.0 - uv.y; 
@@ -96,7 +96,7 @@ void Graphics_TextureFormat(bool isOpenGLMode)
 	StartGraphicsTest();
 	SetGLEnable(isOpenGLMode);
 
-	ace::Log* log = ace::Log_Imp::Create(L"graphics.html", L"•`‰æ");
+	ace::Log* log = ace::Log_Imp::Create(L"graphics.html", L"æç”»");
 
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"TextureFormat").c_str());
 	ASSERT_TRUE(window != nullptr);
