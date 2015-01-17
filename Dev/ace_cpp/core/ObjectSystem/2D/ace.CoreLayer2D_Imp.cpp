@@ -149,26 +149,16 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::BeginDrawing()
 	{
-		auto vanished = vector<ObjectPtr>();
-		for (auto& x : m_objects)
-		{
-			if (!x->GetIsAlive())
-			{
-				vanished.push_back(x);
-			}
-		}
-
-		for (auto& x : vanished)
-		{
-			RemoveObject(x);
-		}
 	}
 
 	void CoreLayer2D_Imp::DrawObjects(Renderer2D* renderer)
 	{
 		for (auto& x : m_objects)
 		{
-			x->Draw(renderer);
+			if (x->GetIsAlive())
+			{
+				x->Draw(renderer);
+			}
 		}
 	}
 
