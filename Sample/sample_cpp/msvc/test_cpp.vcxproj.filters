@@ -27,6 +27,9 @@
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">
@@ -46,6 +49,9 @@
     </Filter>
     <Filter Include="Graphics\2D">
       <UniqueIdentifier>{66bd8d3a-2abb-4ca1-b2dc-5aa986424124}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem">
+      <UniqueIdentifier>{f166ded0-24df-46b8-9df6-7a84de854163}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
