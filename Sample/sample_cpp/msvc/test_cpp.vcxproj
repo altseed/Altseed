@@ -17,6 +17,7 @@
     <ClCompile Include="..\Input\Keyboard.cpp" />
     <ClCompile Include="..\Input\Mouse.cpp" />
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />
     <ClCompile Include="..\Sound\Sound.cpp" />
     <ClCompile Include="..\Window\Empty.cpp" />

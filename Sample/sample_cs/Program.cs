@@ -24,6 +24,8 @@ namespace sample_cs
 
 				new Sound.Sound(),
 
+				new ObjectSystem.Object2DComponent(),
+
 				new Graphics._2D.EffectObject2D(),
 
 				new Graphics.PostEffect.PostEffect(),

@@ -56,6 +56,7 @@
     <Compile Include="ISample.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Input\Mouse.cs" />
+    <Compile Include="ObjectSystem\Object2DComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
     <Compile Include="Sound\Sound.cs" />
