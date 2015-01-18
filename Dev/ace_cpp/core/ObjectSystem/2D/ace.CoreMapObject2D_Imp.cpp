@@ -301,9 +301,6 @@ namespace ace
 
 		Texture2D* texture = chip->GetTexture();
 
-		if (m_chips.find(chip) == m_chips.end() || texture == nullptr) return circle;
-
-
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
 
