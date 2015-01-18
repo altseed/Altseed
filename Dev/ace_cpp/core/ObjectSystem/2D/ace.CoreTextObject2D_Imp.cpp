@@ -51,6 +51,14 @@ namespace ace
 	void CoreTextObject2D_Imp::SetFont(Font* font)
 	{
 		SafeSubstitute(m_font, font);
+#if __CULLING_2D__
+		if (!alreadyCullingUpdated&&m_objectInfo.GetLayer() != nullptr)
+		{
+			auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
+			layerImp->TransformedObjects.push_back(cullingObject);
+			alreadyCullingUpdated = true;
+		}
+#endif
 	}
 
 	//----------------------------------------------------------------------------------
@@ -67,6 +75,14 @@ namespace ace
 	void CoreTextObject2D_Imp::SetWritingDirection(WritingDirection writingDirection)
 	{
 		m_writingDirection = writingDirection;
+#if __CULLING_2D__
+		if (!alreadyCullingUpdated&&m_objectInfo.GetLayer() != nullptr)
+		{
+			auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
+			layerImp->TransformedObjects.push_back(cullingObject);
+			alreadyCullingUpdated = true;
+		}
+#endif
 	}
 
 	//----------------------------------------------------------------------------------
@@ -83,6 +99,14 @@ namespace ace
 	void CoreTextObject2D_Imp::SetText(const achar* text)
 	{
 		m_text = astring(text);
+#if __CULLING_2D__
+		if (!alreadyCullingUpdated&&m_objectInfo.GetLayer() != nullptr)
+		{
+			auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
+			layerImp->TransformedObjects.push_back(cullingObject);
+			alreadyCullingUpdated = true;
+		}
+#endif
 	}
 
 	//----------------------------------------------------------------------------------

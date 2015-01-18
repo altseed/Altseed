@@ -88,7 +88,7 @@ namespace ace
 
 				auto userData = new Culling2DUserData(this, chip);
 
-				auto cObj = new culling2d::Object(culling2d::Circle(), userData, layer->GetCullingWorld());
+				auto cObj = new culling2d::Object(userData, layer->GetCullingWorld());
 				chip_Imp->SetCullingObject(cObj);
 				layer->GetCullingWorld()->AddObject(cObj);
 				chip_Imp->SetMapObject2D(this);
@@ -313,7 +313,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	culling2d::Circle CoreMapObject2D_Imp::GetChipBoundingCircle(Chip2D* chip)
 	{
-		culling2d::Circle circle;
+		culling2d::Circle circle=culling2d::Circle();
 
 		Texture2D* texture = chip->GetTexture();
 

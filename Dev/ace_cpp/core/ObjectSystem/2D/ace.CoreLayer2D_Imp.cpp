@@ -49,6 +49,36 @@ namespace ace
 
 		for (auto& object : m_objects)
 		{
+#if __CULLING_2D__
+			if (object->GetObjectType() == Object2DType::Map)
+			{
+				auto mapObj = (CoreMapObject2D_Imp*)CoreObject2DToImp(object);
+				auto &chips = mapObj->GetChips();
+				for (auto c : chips)
+				{
+					auto chipImp = (Chip2D_Imp*)c;
+
+					auto cObj = chipImp->GetCullingObject();
+
+					auto userData = (Culling2DUserData*)cObj->GetUserData();
+
+					SafeDelete(userData);
+
+					world->RemoveObject(cObj);
+				}
+			}
+			else if (object->GetObjectType() != Object2DType::Camera)
+			{
+				auto o = CoreObject2DToImp(object);
+				auto cObj = o->GetCullingObject();
+				auto userData = (Culling2DUserData*)cObj->GetUserData();
+
+				SafeDelete(userData);
+
+				world->RemoveObject(cObj);
+			}
+#endif
+			
 			object->SetLayer(nullptr);
 			SafeRelease(object);
 		}
@@ -118,7 +148,10 @@ namespace ace
 			else if (object->GetObjectType() != Object2DType::Camera)
 			{
 				auto userData = new Culling2DUserData(object);
-				auto cObj = new culling2d::Object(culling2d::Circle(), userData, world);
+
+				o->CalculateBoundingCircle();
+
+				auto cObj = new culling2d::Object(o->GetBoundingCircle() , userData, world);
 
 				o->SetCullingObject(cObj);
 
@@ -195,9 +228,6 @@ namespace ace
 			o->SetAlreadyCullingUpdated(false);
 		}
 
-#if __CULLING_2D__
-		TransformedObjects.clear();
-#endif
 	}
 
 	//----------------------------------------------------------------------------------
@@ -246,6 +276,8 @@ namespace ace
 			}
 
 			world->Update();
+
+			TransformedObjects.clear();
 		}
 #endif
 	}
@@ -279,7 +311,6 @@ namespace ace
 
 		if (m_cameras.size() > 0)
 		{
-
 			for (auto& camera : m_cameras)
 			{
 				auto src = camera->GetSrc();
@@ -322,6 +353,16 @@ namespace ace
 			}
 
 		}
+
+		//一時的にエフェクトは無条件に描画
+		for (auto& x : m_objects)
+		{
+			if (x->GetIsAlive() && x->GetObjectType() == Object2DType::Effect)
+			{
+				x->Draw(renderer);
+			}
+		}
+
 #else
 		for (auto& x : m_objects)
 		{
