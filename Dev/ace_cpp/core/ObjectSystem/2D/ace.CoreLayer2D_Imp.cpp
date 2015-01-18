@@ -225,7 +225,7 @@ namespace ace
 		for (auto&x : m_objects)
 		{
 			auto o = CoreObject2DToImp(x);
-			o->SetAlreadyCullingUpdated(false);
+			o->SetAlreadyCullingUpdated(x->GetObjectType() == Object2DType::Map);
 		}
 
 	}
@@ -253,6 +253,7 @@ namespace ace
 		{
 			for (auto& x : TransformedObjects)
 			{
+
 				auto userData = (Culling2DUserData*)x->GetUserData();
 
 				if (userData->IsObject)

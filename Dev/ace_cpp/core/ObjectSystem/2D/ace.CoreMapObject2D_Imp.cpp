@@ -13,7 +13,7 @@ namespace ace
 		, m_drawingPtiority(0)
 	{
 		m_chips.clear();
-
+		alreadyCullingUpdated = true;
 	}
 
 	CoreMapObject2D_Imp::~CoreMapObject2D_Imp()
@@ -85,13 +85,13 @@ namespace ace
 			if (layer != nullptr)
 			{
 				auto chip_Imp = (Chip2D_Imp*)chip;
-
+				chip_Imp->SetMapObject2D(this);
 				auto userData = new Culling2DUserData(this, chip);
+				auto c = chip_Imp->GetBoundingCircle();
 
-				auto cObj = new culling2d::Object(userData, layer->GetCullingWorld());
+				auto cObj = new culling2d::Object(c,userData, layer->GetCullingWorld());
 				chip_Imp->SetCullingObject(cObj);
 				layer->GetCullingWorld()->AddObject(cObj);
-				chip_Imp->SetMapObject2D(this);
 			}
 #endif
 
