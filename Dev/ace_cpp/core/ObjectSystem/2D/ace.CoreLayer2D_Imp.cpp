@@ -277,9 +277,24 @@ namespace ace
 
 		std::vector<culling2d::Object*> allCulledObjects;
 
-		for (auto& camera : m_cameras)
+		if (m_cameras.size() > 0)
 		{
-			auto src = camera->GetSrc();
+
+			for (auto& camera : m_cameras)
+			{
+				auto src = camera->GetSrc();
+				auto cullingSrc = culling2d::RectF(src.X, src.Y, src.Width, src.Height);
+				auto cullingObjects = world->GetCullingObjects(cullingSrc);
+
+				for (auto& cullingObject : cullingObjects)
+				{
+					allCulledObjects.push_back(cullingObject);
+				}
+			}
+		}
+		else
+		{
+			auto src = RectF(0, 0, m_windowSize.X, m_windowSize.Y);
 			auto cullingSrc = culling2d::RectF(src.X, src.Y, src.Width, src.Height);
 			auto cullingObjects = world->GetCullingObjects(cullingSrc);
 
@@ -456,6 +471,35 @@ namespace ace
 			{
 				auto o = CoreObject2DToImp(object);
 				o->OnRemoving(m_renderer);
+
+#if __CULLING_2D__
+				if (object->GetObjectType() == Object2DType::Map)
+				{
+					auto mapObj = (CoreMapObject2D_Imp*)o;
+					auto &chips = mapObj->GetChips();
+					for (auto c : chips)
+					{
+						auto chipImp = (Chip2D_Imp*)c;
+
+						auto cObj = chipImp->GetCullingObject();
+
+						auto userData = (Culling2DUserData*)cObj->GetUserData();
+
+						SafeDelete(userData);
+
+						world->RemoveObject(cObj);
+					}
+				}
+				else if (object->GetObjectType() != Object2DType::Camera)
+				{
+					auto cObj = o->GetCullingObject();
+					auto userData = (Culling2DUserData*)cObj->GetUserData();
+
+					SafeDelete(userData);
+
+					world->RemoveObject(cObj);
+				}
+#endif
 			}
 			object->SetLayer(nullptr);
 			SafeRelease(object);
