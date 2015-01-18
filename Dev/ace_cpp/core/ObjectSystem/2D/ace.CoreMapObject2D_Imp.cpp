@@ -126,7 +126,7 @@ namespace ace
 				auto chip_Imp = (Chip2D_Imp*)chip;
 				auto cObj = chip_Imp->GetCullingObject();
 
-				auto userData = (Culling2DUserData*)cObj->GetUserData();
+				auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 				SafeDelete(userData);
 
@@ -151,7 +151,7 @@ namespace ace
 				auto chip_Imp = (Chip2D_Imp*)chip;
 				auto cObj = chip_Imp->GetCullingObject();
 
-				auto userData = (Culling2DUserData*)cObj->GetUserData();
+				auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 				SafeDelete(userData);
 

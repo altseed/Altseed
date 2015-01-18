@@ -60,7 +60,7 @@ namespace ace
 
 					auto cObj = chipImp->GetCullingObject();
 
-					auto userData = (Culling2DUserData*)cObj->GetUserData();
+					auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 					SafeDelete(userData);
 
@@ -71,7 +71,7 @@ namespace ace
 			{
 				auto o = CoreObject2DToImp(object);
 				auto cObj = o->GetCullingObject();
-				auto userData = (Culling2DUserData*)cObj->GetUserData();
+				auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 				SafeDelete(userData);
 
@@ -145,7 +145,7 @@ namespace ace
 				auto map = (CoreMapObject2D_Imp*)o;
 				map->RegisterObjectToCulling();
 			}
-			else if (object->GetObjectType() != Object2DType::Camera)
+			else
 			{
 				auto userData = new Culling2DUserData(object);
 
@@ -183,17 +183,17 @@ namespace ace
 
 					auto cObj = chipImp->GetCullingObject();
 
-					auto userData = (Culling2DUserData*)cObj->GetUserData();
+					auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 					SafeDelete(userData);
 
 					world->RemoveObject(cObj);
 				}
 			}
-			else if (object->GetObjectType() != Object2DType::Camera)
+			else
 			{
 				auto cObj = o->GetCullingObject();
-				auto userData = (Culling2DUserData*)cObj->GetUserData();
+				auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 				SafeDelete(userData);
 
@@ -254,7 +254,7 @@ namespace ace
 			for (auto& x : TransformedObjects)
 			{
 
-				auto userData = (Culling2DUserData*)x->GetUserData();
+				auto userData = (Culling2DUserData*)(x->GetUserData());
 
 				if (userData->IsObject)
 				{
@@ -525,7 +525,7 @@ namespace ace
 
 						auto cObj = chipImp->GetCullingObject();
 
-						auto userData = (Culling2DUserData*)cObj->GetUserData();
+						auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 						SafeDelete(userData);
 
@@ -535,7 +535,7 @@ namespace ace
 				else if (object->GetObjectType() != Object2DType::Camera)
 				{
 					auto cObj = o->GetCullingObject();
-					auto userData = (Culling2DUserData*)cObj->GetUserData();
+					auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 					SafeDelete(userData);
 

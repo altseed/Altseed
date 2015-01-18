@@ -8,6 +8,7 @@ namespace ace
 		: m_graphics(graphics)
 		, m_objectInfo(ObjectInfo2D())
 		, m_transform(TransformInfo2D())
+		, cullingObject(nullptr)
 	{
 		SafeAddRef(m_graphics);
 		alreadyCullingUpdated = false;
