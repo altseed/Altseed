@@ -14,11 +14,22 @@
 
 namespace ace
 {
-	struct Culling2DUserData
+	class Culling2DUserData
 	{
+	public:
 		bool IsObject;
 		CoreObject2D* Object;
 		Chip2D* Chip;
+
+		~Culling2DUserData(){}
+
+		Culling2DUserData()
+		{
+			IsObject = false;
+
+			Object = nullptr;
+			Chip = nullptr;
+		}
 
 		Culling2DUserData(CoreObject2D *mapObject,Chip2D* chip)
 		{
