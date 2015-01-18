@@ -64,6 +64,18 @@ namespace ace
 		culling2d::Object *cullingObject;
 		bool alreadyCullingUpdated;
 
+		void SetCullingUpdate()
+		{
+#if __CULLING_2D__
+			if (!alreadyCullingUpdated&&m_objectInfo.GetLayer() != nullptr)
+			{
+				auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
+				layerImp->TransformedObjects.push_back(cullingObject);
+				alreadyCullingUpdated = true;
+			}
+#endif
+		}
+
 	public:
 		CoreObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreObject2D_Imp();
@@ -119,16 +131,9 @@ namespace ace
 		void SetPosition(Vector2DF value)
 		{
 			m_transform.SetPosition(value);
-
-#if __CULLING_2D__
-			if (!alreadyCullingUpdated&&m_objectInfo.GetLayer() != nullptr)
-			{
-				auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
-				layerImp->TransformedObjects.push_back(cullingObject);
-				alreadyCullingUpdated = true;
-			}
-#endif
+			SetCullingUpdate();
 		}
+
 
 		Vector2DF GetGlobalPosition()
 		{
@@ -142,15 +147,7 @@ namespace ace
 		void SetAngle(float value)
 		{
 			m_transform.SetAngle(value);
-
-#if __CULLING_2D__
-			if (!alreadyCullingUpdated&&m_objectInfo.GetLayer() != nullptr)
-			{
-				auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
-				layerImp->TransformedObjects.push_back(cullingObject);
-				alreadyCullingUpdated = true;
-			}
-#endif
+			SetCullingUpdate();
 		}
 
 		Vector2DF GetScale() const
@@ -160,15 +157,7 @@ namespace ace
 		void SetScale(Vector2DF value)
 		{
 			m_transform.SetScale(value);
-
-#if __CULLING_2D__
-			if (!alreadyCullingUpdated&&m_objectInfo.GetLayer() != nullptr)
-			{
-				auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
-				layerImp->TransformedObjects.push_back(cullingObject);
-				alreadyCullingUpdated = true;
-			}
-#endif
+			SetCullingUpdate();
 		}
 
 		void SetLayer(CoreLayer2D* layer)

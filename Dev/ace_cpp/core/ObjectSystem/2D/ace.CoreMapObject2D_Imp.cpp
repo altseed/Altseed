@@ -20,20 +20,6 @@ namespace ace
 	{
 		for (auto chip : m_chips)
 		{
-#if __CULLING_2D__
-			auto layer = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
-			if (layer != nullptr)
-			{
-				auto chip_Imp = (Chip2D_Imp*)chip;
-				auto cObj = chip_Imp->GetCullingObject();
-
-				auto userData = (Culling2DUserData*)(cObj->GetUserData());
-
-				SafeDelete(userData);
-
-				layer->GetCullingWorld()->RemoveObject(cObj);
-			}
-#endif
 			SafeRelease(chip);
 		}
 		m_chips.clear();
