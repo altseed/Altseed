@@ -42,7 +42,7 @@ namespace sample_cs.Graphics._2D
 			effectObj.Scale = new ace.Vector2DF(50, 50);
 
 			// エフェクトを設定する
-			effectObj.SetEffect(effect);
+			effectObj.Effect = effect;
 
 			// エフェクトを再生する
 			effectObj.Play();

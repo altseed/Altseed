@@ -16,8 +16,8 @@ namespace ace
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
 		auto mat = parentMatrix * matrix;
-		auto v3 = Vector3DF(pos.X, pos.Y, 1);
-		auto pos_ = parentMatrix * matrix * v3;
+		//auto v3 = Vector3DF(pos.X, pos.Y, 1);
+		//auto pos_ = parentMatrix * matrix * v3;
 
 		Effekseer::Matrix43 efMat;
 		efMat.Indentity();

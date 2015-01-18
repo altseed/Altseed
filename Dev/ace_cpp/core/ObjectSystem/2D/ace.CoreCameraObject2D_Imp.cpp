@@ -78,7 +78,41 @@ namespace ace
 
 	void CoreCameraObject2D_Imp::FlushToBuffer(Renderer2D* renderer)
 	{
-		renderer->SetArea(RectF(m_src.X, m_src.Y, m_src.Width, m_src.Height), 0.0f);
+		auto pos = GetPosition();
+
+		auto parentMatrix = m_transform.GetParentsMatrix();
+		auto matrix = m_transform.GetMatrixToTransform();
+		auto mat = parentMatrix * matrix;
+
+		Vector2DF t;
+		t.X = mat.Values[0][2];
+		t.Y = mat.Values[1][2];
+
+		float sc[2];
+		for (int m = 0; m < 2; m++)
+		{
+			sc[m] = sqrt(mat.Values[0][m] * mat.Values[0][m] + mat.Values[1][m] * mat.Values[1][m]);
+		}
+
+		Vector2DF s;
+		s.X = sc[0];
+		s.Y = sc[1];
+		
+		auto r = mat;
+		for (int m = 0; m < 2; m++)
+		{
+			for (int n = 0; n < 2; n++)
+			{
+				r.Values[n][m] = mat.Values[n][m] / sc[n];
+			}
+		}
+
+		r.Values[0][2] = 0.0f;
+		r.Values[1][2] = 0.0f;
+		
+		float angle = -atan2(r.Values[1][0], r.Values[0][0]);
+
+		renderer->SetArea(RectF(m_src.X + t.X, m_src.Y + t.Y, m_src.Width * s.X, m_src.Height * s.Y), angle);
 		renderer->DrawCache();
 	}
 

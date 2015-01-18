@@ -36,7 +36,7 @@ namespace sample_cs.Graphics.PostEffect
 
 			effectObj.Scale = new ace.Vector2DF(50, 50);
 			effectObj.Position = new ace.Vector2DF(320, 240);
-			effectObj.SetEffect(effect);
+			effectObj.Effect = effect;
 			effectObj.Play();
 
 			// aceが進行可能かチェックする。

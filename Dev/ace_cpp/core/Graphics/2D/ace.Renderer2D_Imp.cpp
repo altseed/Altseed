@@ -190,7 +190,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void Renderer2D_Imp::DrawCache()
 	{
-		auto ang = DegreeToRadian(angle);
+		auto ang = angle;
 
 		// エフェクト設定
 		{
@@ -528,7 +528,7 @@ namespace ace {
 
 		mat_t.SetTranslation(-(area.X + area.Width / 2.0f), -(area.Y + area.Height / 2.0f), 0);
 		mat_scale.SetScale(2.0f / area.Width, - 2.0f / area.Height, 1.0f);
-		mat_rot.SetRotationZ(DegreeToRadian(angle));
+		mat_rot.SetRotationZ(angle);
 
 		mat = mat_rot * mat_scale * mat_t;
 

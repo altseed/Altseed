@@ -293,12 +293,12 @@ namespace ace
 		{
 			auto userData = (Culling2DUserData*)(culledObj->GetUserData());
 
-			if (userData->IsObject)
+			if (userData->IsObject&&userData->Object->GetIsAlive())
 			{
 				auto obj = userData->Object;
 				obj->Draw(renderer);
 			}
-			else
+			else if(userData->Object->GetIsAlive())
 			{
 				auto mapObj = (CoreMapObject2D_Imp*)CoreObject2DToImp(userData->Object);
 				auto chip = userData->Chip;
@@ -310,7 +310,10 @@ namespace ace
 #else
 		for (auto& x : m_objects)
 		{
-			x->Draw(renderer);
+			if (x->GetIsAlive())
+			{
+				x->Draw(renderer);
+			}
 		}
 #endif
 	}
