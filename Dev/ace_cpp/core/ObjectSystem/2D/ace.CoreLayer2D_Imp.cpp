@@ -145,7 +145,7 @@ namespace ace
 				auto map = (CoreMapObject2D_Imp*)o;
 				map->RegisterObjectToCulling();
 			}
-			else
+			else if (object->GetObjectType() != Object2DType::Camera)
 			{
 				auto userData = new Culling2DUserData(object);
 
@@ -190,7 +190,7 @@ namespace ace
 					world->RemoveObject(cObj);
 				}
 			}
-			else
+			else if (object->GetObjectType() != Object2DType::Camera)
 			{
 				auto cObj = o->GetCullingObject();
 				auto userData = (Culling2DUserData*)(cObj->GetUserData());
