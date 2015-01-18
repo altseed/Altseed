@@ -16,6 +16,7 @@ namespace ace
 {
 	class CoreScene;
 	class CoreObject2D_Imp;
+	class Chip2D_Imp;
 
 	class CoreLayer2D_Imp
 		: public CoreLayer2D
@@ -75,6 +76,9 @@ namespace ace
 #if __CULLING_2D__
 		culling2d::World *GetCullingWorld() const;
 		std::deque<culling2d::Object*> TransformedObjects;
+
+		void AddChipCullingObject(Chip2D_Imp *chip);
+		void RemoveChipCullingObject(Chip2D_Imp *chip);
 #endif
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);

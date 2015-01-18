@@ -15,6 +15,7 @@
 #include "ace.CoreEffectObject2D_Imp.h"
 #include "ace.CoreObject2D_Imp.h"
 #include "../../Core/ace.Core.h"
+#include "../../Graphics/Resource/ace.Chip2D_Imp.h"
 
 using namespace std;
 
@@ -114,6 +115,33 @@ namespace ace
 		}
 
 		return nullptr;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::AddChipCullingObject(Chip2D_Imp *chip)
+	{
+		auto userData = new Culling2DUserData(chip->GetMapObject2D(), (Chip2D*)chip);
+		auto c = chip->GetBoundingCircle();
+
+		auto cObj = new culling2d::Object(c, userData, world);
+		chip->SetCullingObject(cObj);
+		world->AddObject(cObj);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::RemoveChipCullingObject(Chip2D_Imp *chip)
+	{
+		auto cObj = chip->GetCullingObject();
+
+		auto userData = (Culling2DUserData*)(cObj->GetUserData());
+
+		SafeDelete(userData);
+
+		world->RemoveObject(cObj);
 	}
 
 	//----------------------------------------------------------------------------------

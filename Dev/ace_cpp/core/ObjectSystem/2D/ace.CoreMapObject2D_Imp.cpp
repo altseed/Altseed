@@ -80,18 +80,14 @@ namespace ace
 		{
 			SafeAddRef(chip);
 
+			auto chip_Imp = (Chip2D_Imp*)chip;
+			chip_Imp->SetMapObject2D(this);
+
 #if __CULLING_2D__
 			auto layer = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
 			if (layer != nullptr)
 			{
-				auto chip_Imp = (Chip2D_Imp*)chip;
-				chip_Imp->SetMapObject2D(this);
-				auto userData = new Culling2DUserData(this, chip);
-				auto c = chip_Imp->GetBoundingCircle();
-
-				auto cObj = new culling2d::Object(c,userData, layer->GetCullingWorld());
-				chip_Imp->SetCullingObject(cObj);
-				layer->GetCullingWorld()->AddObject(cObj);
+				layer->AddChipCullingObject(chip_Imp);
 			}
 #endif
 
@@ -120,17 +116,11 @@ namespace ace
 			SafeRelease(chip);
 
 #if __CULLING_2D__
-			auto layer = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
+			auto layer = (CoreLayer2D_Imp*)(m_objectInfo.GetLayer());
 			if (layer != nullptr)
 			{
 				auto chip_Imp = (Chip2D_Imp*)chip;
-				auto cObj = chip_Imp->GetCullingObject();
-
-				auto userData = (Culling2DUserData*)(cObj->GetUserData());
-
-				SafeDelete(userData);
-
-				layer->GetCullingWorld()->RemoveObject(cObj);
+				layer->RemoveChipCullingObject(chip_Imp);
 			}
 #endif
 		}
@@ -143,19 +133,13 @@ namespace ace
 	void CoreMapObject2D_Imp::Clear()
 	{
 #if __CULLING_2D__
-		auto layer = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
+		auto layer = (CoreLayer2D_Imp*)(m_objectInfo.GetLayer());
 		if (layer != nullptr)
 		{
 			for (auto chip : m_chips)
 			{
 				auto chip_Imp = (Chip2D_Imp*)chip;
-				auto cObj = chip_Imp->GetCullingObject();
-
-				auto userData = (Culling2DUserData*)(cObj->GetUserData());
-
-				SafeDelete(userData);
-
-				layer->GetCullingWorld()->RemoveObject(cObj);
+				layer->RemoveChipCullingObject(chip_Imp);
 			}
 		}
 #endif
@@ -313,7 +297,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	culling2d::Circle CoreMapObject2D_Imp::GetChipBoundingCircle(Chip2D* chip)
 	{
-		culling2d::Circle circle=culling2d::Circle();
+		culling2d::Circle circle = culling2d::Circle();
 
 		Texture2D* texture = chip->GetTexture();
 
