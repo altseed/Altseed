@@ -2,6 +2,7 @@
 #include "../common/Math/ace.RectF.h"
 #include "ace.CoreMapObject2D.h"
 #include "ace.CoreObject2D_Imp.h"
+#include "ace.Culling2D.h"
 
 namespace ace
 {
@@ -14,12 +15,8 @@ namespace ace
 		virtual void CalculateBoundingCircle();
 	private:
 		std::set<Chip2D*> m_chips;
-		std::set<Chip2D*> m_drawChips;
 		Vector2DF m_centerPosition;
 		int m_drawingPtiority;
-		culling2d::RectF m_currentDrawSrc;
-
-		void addChipToDraw(Chip2D* chip);
 	public:
 		CoreMapObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreMapObject2D_Imp();
@@ -36,12 +33,22 @@ namespace ace
 		bool AddChip(Chip2D* chip);
 		bool RemoveChip(Chip2D* chip);
 
+		std::set<Chip2D*>& GetChips()
+		{
+			return m_chips;
+		}
+
 		void Clear();
 #pragma endregion
-		culling2d::RectF &GetCurrentDrawSrc();
-		void SetCurrentDrawSrc(culling2d::RectF currentDrawSrc);
 
+#if __CULLING_2D__
+		void RegisterObjectToCulling();
+#endif
 		void Draw(Renderer2D* renderer);
+
+		void DrawChip(Renderer2D* renderer, Chip2D* chip);
+
+		culling2d::Circle GetChipBoundingCircle(Chip2D* chip);
 
 		CORE_OBJECT2D_IMP_COMMON
 

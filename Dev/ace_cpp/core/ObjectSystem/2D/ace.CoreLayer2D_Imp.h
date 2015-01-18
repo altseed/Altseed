@@ -6,14 +6,16 @@
 #include "ace.CoreLayer2D.h"
 #include "ace.CoreObject2D.h"
 #include "ace.CoreCameraObject2D.h"
-#include "ace.CoreObject2D_Imp.h"
 #include "../ace.CoreLayer_Imp.h"
 #include "../../Graphics/2D/ace.Renderer2D_Imp.h"
 #include "../../Graphics/ace.Graphics_Imp.h"
+#include "ace.Culling2D.h"
+#include <queue>
 
 namespace ace
 {
 	class CoreScene;
+	class CoreObject2D_Imp;
 
 	class CoreLayer2D_Imp
 		: public CoreLayer2D
@@ -66,7 +68,14 @@ namespace ace
 
 		void DrawObjects(Renderer2D* renderer);
 
+#if __CULLING_2D__
+		culling2d::World *world = nullptr;
+#endif
 	public:
+#if __CULLING_2D__
+		culling2d::World *GetCullingWorld() const;
+		std::deque<culling2d::Object*> TransformedObjects;
+#endif
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);
 		void Clear();

@@ -7,11 +7,13 @@
 #include <Math/ace.RectF.h>
 #include "ace.Chip2D.h"
 #include "../ace.DeviceObject.h"
+#include "../../ObjectSystem/2D/ace.Culling2D.h"
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
 namespace ace {
+	class CoreMapObject2D_Imp;
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -19,7 +21,7 @@ namespace ace {
 		: public Chip2D
 		, public DeviceObject
 	{
-	protected:
+	private:
 
 		Graphics *m_graphics;
 
@@ -30,7 +32,21 @@ namespace ace {
 		bool m_turnUL;
 		AlphaBlend m_alphaBlend;
 
+#if __CULLING_2D__
+		culling2d::Object *cullingObject;
+		bool alreadyCullingUpdated;
+#endif
+		CoreMapObject2D_Imp* mapObject2D;
+
 	public:
+
+		CoreMapObject2D_Imp* GetMapObject2D() const;
+		void SetMapObject2D(CoreMapObject2D_Imp* mapObject);
+
+#if __CULLING_2D__
+		bool GetAlreadyCullingUpdated() const;
+		void SetAlreadyCullingUpdated(bool cullingUpdated);
+#endif
 
 		Texture2D* GetTexture() const override;
 		void SetTexture(Texture2D* texture) override;
@@ -52,6 +68,13 @@ namespace ace {
 
 		Chip2D_Imp(Graphics* graphics);
 		virtual ~Chip2D_Imp();
+
+#if __CULLING_2D__
+		void SetCullingObject(culling2d::Object *cullingObj);
+		culling2d::Object* GetCullingObject() const;
+
+		culling2d::Circle GetBoundingCircle();
+#endif
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

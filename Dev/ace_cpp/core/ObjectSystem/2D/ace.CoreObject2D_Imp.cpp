@@ -10,6 +10,7 @@ namespace ace
 		, m_transform(TransformInfo2D())
 	{
 		SafeAddRef(m_graphics);
+		alreadyCullingUpdated = false;
 	}
 
 	CoreObject2D_Imp::~CoreObject2D_Imp()
