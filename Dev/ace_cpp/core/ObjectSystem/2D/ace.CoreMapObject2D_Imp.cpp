@@ -338,16 +338,14 @@ namespace ace
 	{
 		auto layer = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
 
-		for (auto chip : m_chips)
+		if (layer != nullptr)
 		{
-			auto chip_Imp = (Chip2D_Imp*)chip;
+			for (auto chip : m_chips)
+			{
+				auto chip_Imp = (Chip2D_Imp*)chip;
 
-			auto cObj = new culling2d::Object(culling2d::Circle(), (void*)chip_Imp, layer->GetCullingWorld());
-
-			chip_Imp->SetCullingObject(cObj);
-
-			layer->GetCullingWorld()->AddObject(cObj);
-
+				layer->AddChipCullingObject(chip_Imp);
+			}
 		}
 	}
 #endif
