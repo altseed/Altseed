@@ -121,7 +121,7 @@ namespace ace
 			m_transform.SetPosition(value);
 
 #if __CULLING_2D__
-			if (!alreadyCullingUpdated)
+			if (!alreadyCullingUpdated&&m_objectInfo.GetLayer() != nullptr)
 			{
 				auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
 				layerImp->TransformedObjects.push_back(cullingObject);
@@ -144,7 +144,7 @@ namespace ace
 			m_transform.SetAngle(value);
 
 #if __CULLING_2D__
-			if (!alreadyCullingUpdated)
+			if (!alreadyCullingUpdated&&m_objectInfo.GetLayer() != nullptr)
 			{
 				auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
 				layerImp->TransformedObjects.push_back(cullingObject);
@@ -162,7 +162,7 @@ namespace ace
 			m_transform.SetScale(value);
 
 #if __CULLING_2D__
-			if (!alreadyCullingUpdated)
+			if (!alreadyCullingUpdated&&m_objectInfo.GetLayer() != nullptr)
 			{
 				auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
 				layerImp->TransformedObjects.push_back(cullingObject);
