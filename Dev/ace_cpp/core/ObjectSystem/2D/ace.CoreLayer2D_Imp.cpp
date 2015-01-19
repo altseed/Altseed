@@ -325,7 +325,18 @@ namespace ace
 
 		std::vector<culling2d::Object*> allCulledObjects;
 
-		if (m_cameras.size() > 0)
+		if (m_cameras.empty())
+		{
+			auto src = RectF(0, 0, m_windowSize.X, m_windowSize.Y);
+			auto cullingSrc = culling2d::RectF(src.X, src.Y, src.Width, src.Height);
+			auto cullingObjects = world->GetCullingObjects(cullingSrc);
+
+			for (auto& cullingObject : cullingObjects)
+			{
+				allCulledObjects.push_back(cullingObject);
+			}
+		}
+		else
 		{
 			for (auto& camera : m_cameras)
 			{
@@ -337,17 +348,6 @@ namespace ace
 				{
 					allCulledObjects.push_back(cullingObject);
 				}
-			}
-		}
-		else
-		{
-			auto src = RectF(0, 0, m_windowSize.X, m_windowSize.Y);
-			auto cullingSrc = culling2d::RectF(src.X, src.Y, src.Width, src.Height);
-			auto cullingObjects = world->GetCullingObjects(cullingSrc);
-
-			for (auto& cullingObject : cullingObjects)
-			{
-				allCulledObjects.push_back(cullingObject);
 			}
 		}
 
