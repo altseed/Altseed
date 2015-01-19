@@ -40,6 +40,7 @@ namespace ace
 		virtual void Draw(Renderer2D* renderer) = 0;
 
 		virtual void SetLayer(CoreLayer2D* layer) = 0;
+		virtual CoreLayer2D* GetLayer() = 0;
 		virtual void SetParent(CoreObject2D& parent, eChildMode mode) = 0;
 		virtual void ClearParent() = 0;
 

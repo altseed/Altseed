@@ -4,7 +4,10 @@
 //----------------------------------------------------------------------------------
 #include "ace.Texture2D_Imp_DX11.h"
 #include "../ace.Graphics_Imp_DX11.h"
+
 #include "../../../../Log/ace.Log_Imp.h"
+
+#include "../DirectXToolKit/DDSTextureLoader.h"
 
 #include <sstream>
 
@@ -157,24 +160,94 @@ namespace ace {
 	{
 		if (size == 0) return nullptr;
 
-		/* ロードしてみる */
-		Texture2D_Imp_DX11* texture = new Texture2D_Imp_DX11(graphics);
-		if (!texture->InternalLoad(data, size, false))
+		if (ImageHelper::IsPNG(data, size))
 		{
-			SafeRelease(texture);
-			return nullptr;
+			/* ロードしてみる */
+			Texture2D_Imp_DX11* texture = new Texture2D_Imp_DX11(graphics);
+			if (!texture->InternalLoad(data, size, false))
+			{
+				SafeRelease(texture);
+				return nullptr;
+			}
+
+			if (!texture->GenerateTextureFromInternal(isSRGB))
+			{
+				SafeRelease(texture);
+				return nullptr;
+			}
+
+			/* 必要ないので消す */
+			texture->InternalUnload();
+
+			return texture;
+		}
+		if (ImageHelper::IsDDS(data, size))
+		{
+			ID3D11Resource* texture = nullptr;
+			ID3D11ShaderResourceView* textureSRV = nullptr;
+
+			auto hr = DirectX::CreateDDSTextureFromMemory(
+				graphics->GetDevice(),
+				data,
+				size,
+				&texture,
+				&textureSRV);
+
+			if (texture == nullptr || textureSRV == nullptr)
+			{
+				SafeRelease(texture);
+				SafeRelease(textureSRV);
+				return nullptr;
+			}
+
+			D3D11_SHADER_RESOURCE_VIEW_DESC desc;
+			textureSRV->GetDesc(&desc);
+
+			auto texture_ = (ID3D11Texture2D*) texture;
+			D3D11_TEXTURE2D_DESC desc_;
+			texture_->GetDesc(&desc_);
+
+			if (desc.ViewDimension != D3D_SRV_DIMENSION_TEXTURE2D)
+			{
+				SafeRelease(texture);
+				SafeRelease(textureSRV);
+				return nullptr;
+			}
+
+			if (desc.Format == DXGI_FORMAT_BC1_UNORM)
+			{
+				return  new Texture2D_Imp_DX11(graphics, texture_, textureSRV, Vector2DI(desc_.Width, desc_.Height), TextureFormat::BC1);
+			}
+			else if (desc.Format == DXGI_FORMAT_BC1_UNORM_SRGB)
+			{
+				return  new Texture2D_Imp_DX11(graphics, texture_, textureSRV, Vector2DI(desc_.Width, desc_.Height), TextureFormat::BC1_SRGB);
+			}
+			else if (desc.Format == DXGI_FORMAT_BC2_UNORM)
+			{
+				return  new Texture2D_Imp_DX11(graphics, texture_, textureSRV, Vector2DI(desc_.Width, desc_.Height), TextureFormat::BC2);
+			}
+			else if (desc.Format == DXGI_FORMAT_BC2_UNORM_SRGB)
+			{
+				return  new Texture2D_Imp_DX11(graphics, texture_, textureSRV, Vector2DI(desc_.Width, desc_.Height), TextureFormat::BC2_SRGB);
+			}
+			else if (desc.Format == DXGI_FORMAT_BC3_UNORM)
+			{
+				return  new Texture2D_Imp_DX11(graphics, texture_, textureSRV, Vector2DI(desc_.Width, desc_.Height), TextureFormat::BC3);
+			}
+			else if (desc.Format == DXGI_FORMAT_BC3_UNORM_SRGB)
+			{
+				return  new Texture2D_Imp_DX11(graphics, texture_, textureSRV, Vector2DI(desc_.Width, desc_.Height), TextureFormat::BC3_SRGB);
+			}
+			else
+			{
+				SafeRelease(texture);
+				SafeRelease(textureSRV);
+				return nullptr;
+			}
+
 		}
 
-		if (!texture->GenerateTextureFromInternal(isSRGB))
-		{
-			SafeRelease(texture);
-			return nullptr;
-		}
-
-		/* 必要ないので消す */
-		texture->InternalUnload();
-
-		return texture;
+		return nullptr;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -212,6 +285,10 @@ namespace ace {
 		else if (format == TextureFormat::R8_UNORM)
 		{
 			TexDesc.Format = DXGI_FORMAT_R8_UNORM;
+		}
+		else
+		{
+			return nullptr;
 		}
 
 		TexDesc.SampleDesc.Count = 1;

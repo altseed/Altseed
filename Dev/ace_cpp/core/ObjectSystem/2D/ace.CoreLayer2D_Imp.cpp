@@ -5,6 +5,7 @@
 #include "../../Graphics/2D/ace.LayerRenderer.h"
 
 #include "../../Graphics/Resource/ace.Font_Imp.h"
+#include "../../Graphics/Resource/ace.Chip2D_Imp.h"
 #include "../../Graphics/Resource/ace.Texture2D_Imp.h"
 
 #include "ace.CoreTextureObject2D_Imp.h"
@@ -12,8 +13,9 @@
 #include "ace.CoreCameraObject2D_Imp.h"
 #include "ace.CoreMapObject2D_Imp.h"
 #include "ace.CoreEffectObject2D_Imp.h"
-
+#include "ace.CoreObject2D_Imp.h"
 #include "../../Core/ace.Core.h"
+#include "../../Graphics/Resource/ace.Chip2D_Imp.h"
 
 using namespace std;
 
@@ -32,6 +34,10 @@ namespace ace
 	{
 		m_renderer = new Renderer2D_Imp(graphics, log);
 		m_rendererForCamera = new Renderer2D_Imp(graphics, log);
+
+#if __CULLING_2D__
+		world = new culling2d::World(6, culling2d::RectF(0, 0, 100000, 100000));
+#endif
 	}
 
 	//----------------------------------------------------------------------------------
@@ -44,14 +50,48 @@ namespace ace
 
 		for (auto& object : m_objects)
 		{
+#if __CULLING_2D__
+			if (object->GetObjectType() == Object2DType::Map)
+			{
+				auto mapObj = (CoreMapObject2D_Imp*)CoreObject2DToImp(object);
+				auto &chips = mapObj->GetChips();
+				for (auto c : chips)
+				{
+					auto chipImp = (Chip2D_Imp*)c;
+
+					auto cObj = chipImp->GetCullingObject();
+
+					auto userData = (Culling2DUserData*)(cObj->GetUserData());
+
+					SafeDelete(userData);
+
+					world->RemoveObject(cObj);
+				}
+			}
+			else if (object->GetObjectType() != Object2DType::Camera)
+			{
+				auto o = CoreObject2DToImp(object);
+				auto cObj = o->GetCullingObject();
+				auto userData = (Culling2DUserData*)(cObj->GetUserData());
+
+				SafeDelete(userData);
+
+				world->RemoveObject(cObj);
+			}
+#endif
+			
 			object->SetLayer(nullptr);
 			SafeRelease(object);
 		}
+
 		for (auto& camera : m_cameras)
 		{
 			camera->SetLayer(nullptr);
 			SafeRelease(camera);
 		}
+#if __CULLING_2D__
+		culling2d::SafeDelete(world);
+#endif
 	}
 
 	CoreObject2D_Imp* CoreLayer2D_Imp::CoreObject2DToImp(ObjectPtr obj)
@@ -80,6 +120,33 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::AddChipCullingObject(Chip2D_Imp *chip)
+	{
+		auto userData = new Culling2DUserData(chip->GetMapObject2D(), (Chip2D*)chip);
+		auto c = chip->GetBoundingCircle();
+
+		auto cObj = new culling2d::Object(c, userData, world);
+		chip->SetCullingObject(cObj);
+		world->AddObject(cObj);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::RemoveChipCullingObject(Chip2D_Imp *chip)
+	{
+		auto cObj = chip->GetCullingObject();
+
+		auto userData = (Culling2DUserData*)(cObj->GetUserData());
+
+		SafeDelete(userData);
+
+		world->RemoveObject(cObj);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::AddObject(ObjectPtr object)
 	{
 		if (object->GetObjectType() == Object2DType::Camera)
@@ -99,7 +166,29 @@ namespace ace
 		{
 			auto o = CoreObject2DToImp(object);
 			o->OnAdded(m_renderer);
+
+#if __CULLING_2D__
+			if (object->GetObjectType() == Object2DType::Map)
+			{
+				auto map = (CoreMapObject2D_Imp*)o;
+				map->RegisterObjectToCulling();
+			}
+			else if (object->GetObjectType() != Object2DType::Camera)
+			{
+				auto userData = new Culling2DUserData(object);
+
+				o->CalculateBoundingCircle();
+
+				auto cObj = new culling2d::Object(o->GetBoundingCircle() , userData, world);
+
+				o->SetCullingObject(cObj);
+
+				world->AddObject(cObj);
+			}
+#endif
 		}
+
+
 	}
 
 	//----------------------------------------------------------------------------------
@@ -110,6 +199,35 @@ namespace ace
 		{
 			auto o = CoreObject2DToImp(object);
 			o->OnRemoving(m_renderer);
+
+#if __CULLING_2D__
+			if (object->GetObjectType() == Object2DType::Map)
+			{
+				auto mapObj = (CoreMapObject2D_Imp*)o;
+				auto &chips = mapObj->GetChips();
+				for (auto c : chips)
+				{
+					auto chipImp = (Chip2D_Imp*)c;
+
+					auto cObj = chipImp->GetCullingObject();
+
+					auto userData = (Culling2DUserData*)(cObj->GetUserData());
+
+					SafeDelete(userData);
+
+					world->RemoveObject(cObj);
+				}
+			}
+			else if (object->GetObjectType() != Object2DType::Camera)
+			{
+				auto cObj = o->GetCullingObject();
+				auto userData = (Culling2DUserData*)(cObj->GetUserData());
+
+				SafeDelete(userData);
+
+				world->RemoveObject(cObj);
+			}
+#endif
 		}
 
 		object->SetLayer(nullptr);
@@ -132,8 +250,23 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::BeginUpdating()
 	{
+		for (auto&x : m_objects)
+		{
+			auto o = CoreObject2DToImp(x);
+			o->SetAlreadyCullingUpdated(x->GetObjectType() == Object2DType::Map);
+		}
 
 	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+#if __CULLING_2D__
+	culling2d::World *CoreLayer2D_Imp::GetCullingWorld() const
+	{
+		return world;
+	}
+#endif
 
 	//----------------------------------------------------------------------------------
 	//
@@ -142,6 +275,40 @@ namespace ace
 	{
 		m_renderer->GetEffectManager()->Update(core->GetDeltaTime() / (1.0f / 60.0f));
 		m_renderer->GetEffectManager()->Flip();
+
+#if __CULLING_2D__
+		//グリッド更新処理
+		{
+			for (auto& x : TransformedObjects)
+			{
+
+				auto userData = (Culling2DUserData*)(x->GetUserData());
+
+				if (userData->IsObject)
+				{
+					auto impObj = CoreObject2DToImp(userData->Object);
+					impObj->CalculateBoundingCircle();
+					auto newCircle = impObj->GetBoundingCircle();
+					x->SetCircle(newCircle);
+					world->NotifyMoved(x);
+					impObj->SetAlreadyCullingUpdated(true);
+				}
+				else
+				{
+					auto impObj = CoreObject2DToImp(userData->Object);
+					auto chip = (Chip2D_Imp*)userData->Chip;
+					auto newCircle = chip->GetBoundingCircle();
+					x->SetCircle(newCircle);
+					world->NotifyMoved(x);
+					chip->SetAlreadyCullingUpdated(true);
+				}
+			}
+
+			world->Update();
+
+			TransformedObjects.clear();
+		}
+#endif
 	}
 
 	//----------------------------------------------------------------------------------
@@ -149,27 +316,79 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::BeginDrawing()
 	{
-		auto vanished = vector<ObjectPtr>();
-		for (auto& x : m_objects)
-		{
-			if (!x->GetIsAlive())
-			{
-				vanished.push_back(x);
-			}
-		}
 
-		for (auto& x : vanished)
-		{
-			RemoveObject(x);
-		}
 	}
 
 	void CoreLayer2D_Imp::DrawObjects(Renderer2D* renderer)
 	{
+#if __CULLING_2D__
+
+		std::vector<culling2d::Object*> allCulledObjects;
+
+		if (m_cameras.empty())
+		{
+			auto cullingSrc = culling2d::RectF(0, 0, m_windowSize.X, m_windowSize.Y);
+			auto cullingObjects = world->GetCullingObjects(cullingSrc);
+
+			for (auto& cullingObject : cullingObjects)
+			{
+				allCulledObjects.push_back(cullingObject);
+			}
+		}
+		else
+		{
+			for (auto& camera : m_cameras)
+			{
+				auto src = camera->GetSrc();
+				auto cullingSrc = culling2d::RectF(src.X, src.Y, src.Width, src.Height);
+				auto cullingObjects = world->GetCullingObjects(cullingSrc);
+
+				for (auto& cullingObject : cullingObjects)
+				{
+					allCulledObjects.push_back(cullingObject);
+				}
+			}
+		}
+
+		for (auto& culledObj : allCulledObjects)
+		{
+			auto userData = (Culling2DUserData*)(culledObj->GetUserData());
+
+			if (!(userData->Object->GetIsAlive())) return;
+
+			if (userData->IsObject)
+			{
+				auto obj = userData->Object;
+				obj->Draw(renderer);
+			}
+			else
+			{
+				auto mapObj = (CoreMapObject2D_Imp*)CoreObject2DToImp(userData->Object);
+				auto chip = userData->Chip;
+
+				mapObj->DrawChip(renderer, chip);
+			}
+
+		}
+
+		//一時的にエフェクトは無条件に描画
 		for (auto& x : m_objects)
 		{
-			x->Draw(renderer);
+			if (x->GetIsAlive() && x->GetObjectType() == Object2DType::Effect)
+			{
+				x->Draw(renderer);
+			}
 		}
+
+#else
+		for (auto& x : m_objects)
+		{
+			if (x->GetIsAlive())
+			{
+				x->Draw(renderer);
+			}
+		}
+#endif
 	}
 
 	void CoreLayer2D_Imp::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
@@ -284,14 +503,14 @@ namespace ace
 
 		if (m_cameras.empty())
 		{
-			m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y));
+			m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
 			m_renderer->DrawCache();
 			m_renderer->ClearCache();
 		}
 		else
 		{
 			
-			m_rendererForCamera->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y));
+			m_rendererForCamera->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
 			m_rendererForCamera->DrawCache();
 			m_rendererForCamera->ClearCache();
 		}
@@ -310,6 +529,35 @@ namespace ace
 			{
 				auto o = CoreObject2DToImp(object);
 				o->OnRemoving(m_renderer);
+
+#if __CULLING_2D__
+				if (object->GetObjectType() == Object2DType::Map)
+				{
+					auto mapObj = (CoreMapObject2D_Imp*)o;
+					auto &chips = mapObj->GetChips();
+					for (auto c : chips)
+					{
+						auto chipImp = (Chip2D_Imp*)c;
+
+						auto cObj = chipImp->GetCullingObject();
+
+						auto userData = (Culling2DUserData*)(cObj->GetUserData());
+
+						SafeDelete(userData);
+
+						world->RemoveObject(cObj);
+					}
+				}
+				else if (object->GetObjectType() != Object2DType::Camera)
+				{
+					auto cObj = o->GetCullingObject();
+					auto userData = (Culling2DUserData*)(cObj->GetUserData());
+
+					SafeDelete(userData);
+
+					world->RemoveObject(cObj);
+				}
+#endif
 			}
 			object->SetLayer(nullptr);
 			SafeRelease(object);

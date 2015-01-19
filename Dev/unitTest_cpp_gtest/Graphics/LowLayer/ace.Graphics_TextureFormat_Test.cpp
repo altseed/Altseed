@@ -57,8 +57,6 @@ void main()
 {
 	gl_Position = vec4(Pos.x,Pos.y,Pos.z,1.0);
 	vaTexCoord = vec4(UV.x,UV.y,0.0,0.0);
-
-	
 }
 
 )";
@@ -93,14 +91,14 @@ struct Vertex
 	}
 };
 
-void Graphics_SingleTexture(bool isOpenGLMode)
+void Graphics_TextureFormat(bool isOpenGLMode)
 {
 	StartGraphicsTest();
 	SetGLEnable(isOpenGLMode);
 
 	ace::Log* log = ace::Log_Imp::Create(L"graphics.html", L"描画");
-	
-	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"SingleTexture").c_str());
+
+	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"TextureFormat").c_str());
 	ASSERT_TRUE(window != nullptr);
 
 	auto file = ace::File_Imp::Create();
@@ -109,15 +107,31 @@ void Graphics_SingleTexture(bool isOpenGLMode)
 	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, file, false, false);
 	ASSERT_TRUE(graphics != nullptr);
 
-	auto texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sample1.png").c_str());
-	ASSERT_TRUE(texture != nullptr);
+	const int32_t textureCount = 4;
+	std::shared_ptr<ace::Texture2D> textures[textureCount];
+
+	textures[0] = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Format_PNG.png").c_str());
+	ASSERT_TRUE(textures[0] != nullptr);
+
+	if (!isOpenGLMode)
+	{
+		textures[1] = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Format_DDS_DXT1.dds").c_str());
+		ASSERT_TRUE(textures[1] != nullptr);
+
+		textures[2] = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Format_DDS_DXT3.dds").c_str());
+		ASSERT_TRUE(textures[2] != nullptr);
+
+		textures[3] = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Format_DDS_DXT5.dds").c_str());
+		ASSERT_TRUE(textures[3] != nullptr);
+
+	}
 
 	auto vertexBuffer = graphics->CreateVertexBuffer_Imp(sizeof(Vertex), 4, false);
 	ASSERT_TRUE(vertexBuffer != nullptr);
 
 	auto indexBuffer = graphics->CreateIndexBuffer_Imp(6, false, false);
 	ASSERT_TRUE(indexBuffer != nullptr);
-	
+
 	std::vector<ace::VertexLayout> vl;
 	vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
 	vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
@@ -144,19 +158,19 @@ void Graphics_SingleTexture(bool isOpenGLMode)
 			vl,
 			macro);
 	}
-	
+
 	ASSERT_TRUE(shader != nullptr);
-	
+
 	{
 		vertexBuffer->Lock();
 		auto vb = vertexBuffer->GetBuffer<Vertex>(4);
 		vb[0] = Vertex(ace::Vector3DF(-1.0f, 1.0f, 0.5f), ace::Vector2DF(0.0f, 0.0f));
-		vb[1] = Vertex(ace::Vector3DF(0.5f, 1.0f, 0.5f), ace::Vector2DF(1.0f, 0.0f));
-		vb[2] = Vertex(ace::Vector3DF(0.5f, -1.0f, 0.5f), ace::Vector2DF(1.0f, 1.0f));
-		vb[3] = Vertex(ace::Vector3DF(-1.0f, -1.0f, 0.5f), ace::Vector2DF(0.0f, 1.0f));
+		vb[1] = Vertex(ace::Vector3DF(0.5f, 1.0f, 0.5f), ace::Vector2DF(2.0f, 0.0f));
+		vb[2] = Vertex(ace::Vector3DF(0.5f, -1.0f, 0.5f), ace::Vector2DF(2.0f, 2.0f));
+		vb[3] = Vertex(ace::Vector3DF(-1.0f, -1.0f, 0.5f), ace::Vector2DF(0.0f, 2.0f));
 		vertexBuffer->Unlock();
 	}
-	
+
 	{
 		indexBuffer->Lock();
 		auto ib = indexBuffer->GetBuffer<uint16_t>(6);
@@ -169,36 +183,94 @@ void Graphics_SingleTexture(bool isOpenGLMode)
 		indexBuffer->Unlock();
 	}
 
-	shader->SetTexture("g_texture", texture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp, 0);
-
 	int32_t time = 0;
 	while (window->DoEvent())
 	{
+		auto draw = [&](int32_t index, ace::TextureFilterType filter, ace::TextureWrapType wrap, ace::AlphaBlend alphaBlend) -> void
+		{
+			graphics->Clear(true, false, ace::Color(0,0,0,255));
+			graphics->SetVertexBuffer(vertexBuffer.get());
+			graphics->SetIndexBuffer(indexBuffer.get());
+			graphics->SetShader(shader.get());
+
+			shader->SetTexture("g_texture", textures[index].get(), filter, wrap, 0);
+
+			ace::RenderState state;
+			state.DepthTest = false;
+			state.DepthWrite = false;
+			state.AlphaBlendState = alphaBlend;
+			graphics->SetRenderState(state);
+			graphics->DrawPolygon(2);
+		};
+
 		graphics->Begin();
-		graphics->Clear(true, false, ace::Color(64, 32, 16, 255));
 
-		graphics->SetVertexBuffer(vertexBuffer.get());
-		graphics->SetIndexBuffer(indexBuffer.get());
-		graphics->SetShader(shader.get());
-		
-		ace::RenderState state;
-
-		state.DepthTest = false;
-		state.DepthWrite = false;
-		graphics->SetRenderState(state);
-
-		graphics->DrawPolygon(2);
+		if (time < 4)
+		{
+			draw(0,
+				ace::TextureFilterType::Linear,
+				ace::TextureWrapType::Repeat,
+				ace::AlphaBlend::Blend);
+		}
+		else if (time  < 8)
+		{
+			draw(1,
+				ace::TextureFilterType::Linear,
+				ace::TextureWrapType::Repeat,
+				ace::AlphaBlend::Blend);
+		}
+		else if (time < 12)
+		{
+			draw(2,
+				ace::TextureFilterType::Linear,
+				ace::TextureWrapType::Repeat,
+				ace::AlphaBlend::Blend);
+		}
+		else if (time < 16)
+		{
+			draw(3,
+				ace::TextureFilterType::Linear,
+				ace::TextureWrapType::Repeat,
+				ace::AlphaBlend::Blend);
+		}
+		else if (time < 20)
+		{
+			//draw(10, 10, 100, 255,
+			//	ace::TextureFilterType::Linear,
+			//	ace::TextureWrapType::Clamp,
+			//	ace::AlphaBlend::Opacity);
+		}
 
 		graphics->Present();
 
 		graphics->End();
 
-		if (time == 10)
+		if (time == 2)
 		{
-			SAVE_SCREEN_SHOT(graphics,0);
+			SAVE_SCREEN_SHOT(graphics, 0);
 		}
 
-		if (time == 11)
+		if (time == 6)
+		{
+			SAVE_SCREEN_SHOT(graphics, 1);
+		}
+
+		if (time == 10)
+		{
+			SAVE_SCREEN_SHOT(graphics, 2);
+		}
+
+		if (time == 14)
+		{
+			SAVE_SCREEN_SHOT(graphics, 3);
+		}
+
+		if (time == 18)
+		{
+			//SAVE_SCREEN_SHOT(graphics, 4);
+		}
+
+		if (time == 20)
 		{
 			window->Close();
 		}
@@ -208,7 +280,8 @@ void Graphics_SingleTexture(bool isOpenGLMode)
 	graphics->Release();
 	file->Release();
 
-	texture.reset();
+	for (int32_t i = 0; i < textureCount; i++) textures[i].reset();
+
 	vertexBuffer.reset();
 	indexBuffer.reset();
 	shader.reset();
@@ -218,14 +291,14 @@ void Graphics_SingleTexture(bool isOpenGLMode)
 }
 
 #ifdef _WIN32
-TEST(Graphics, SingleTexture_DX)
+TEST(Graphics, TextureFormat_DX)
 {
-	Graphics_SingleTexture(false);
+	Graphics_TextureFormat(false);
 }
 #endif
 
-TEST(Graphics, SingleTexture_GL)
+TEST(Graphics, TextureFormat_GL)
 {
-	Graphics_SingleTexture(true);
+	Graphics_TextureFormat(true);
 }
 

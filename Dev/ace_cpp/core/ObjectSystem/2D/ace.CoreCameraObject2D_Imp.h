@@ -29,70 +29,6 @@ namespace ace
 		RectI GetDst() const;
 		void SetDst(RectI value);
 
-#pragma region 無効な機能
-		Vector2DF GetPosition() const
-		{
-			throw "CameraObject2D の GetPosition は無効です。";
-		}
-		void SetPosition(Vector2DF value)
-		{
-			throw "CameraObject2D の SetPosition は無効です。";
-		}
-		Vector2DF GetGlobalPosition()
-		{
-			throw "CameraObject2D の GetGlobalPosition は無効です。";
-		}
-
-		float GetAngle() const
-		{
-			throw "CameraObject2D の GetAngle は無効です。";
-		}
-		void SetAngle(float value)
-		{
-			throw "CameraObject2D の SetAngle は無効です。";
-		}
-
-		Vector2DF GetScale() const
-		{
-			throw "CameraObject2D の GetScale は無効です。";
-		}
-		void SetScale(Vector2DF value)
-		{
-			throw "CameraObject2D の SetScale は無効です。";
-		}
-
-		void AddChild(CoreObject2D& chlid, eChildMode mode)
-		{
-			throw "CameraObject2D の AddChild は無効です。";
-		}
-		void RemoveChild(CoreObject2D& chlid)
-		{
-			throw "CameraObject2D の RemoveChild は無効です。";
-		}
-
-		void SetParent(CoreObject2D& parent, eChildMode mode)
-		{
-			throw "CameraObject2D の SetParent は無効です。";
-		}
-		void ClearParent()
-		{
-			throw "CameraObject2D の ClearParent は無効です。";
-		}
-
-		Matrix33 GetMatrixToTranslate()
-		{
-			throw "CameraObject2D の GetMatrixToTranslate は無効です。";
-		}
-		Matrix33 GetMatrixToTransform()
-		{
-			throw "CameraObject2D の GetMatrixToTransform は無効です。";
-		}
-		Matrix33 GetParentsMatrix()
-		{
-			throw "CameraObject2D の GetMatrixToTransform は無効です。";
-		}
-#pragma endregion
-
 #if !SWIG
 		Matrix33 GetCameraMatrix();
 
@@ -103,5 +39,9 @@ namespace ace
 		void Draw(Renderer2D* renderer);
 #endif
 		CORE_OBJECT2D_IMP_COMMON
+
+		CORE_OBJECT2D_IMP_TRANSFORM
+
+		CORE_OBJECT2D_IMP_CHILD
 	};
 }

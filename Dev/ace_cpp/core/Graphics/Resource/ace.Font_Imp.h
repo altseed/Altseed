@@ -36,9 +36,9 @@ namespace ace {
 
 		std::shared_ptr<Texture2D> GetTexture(int index) const;
 		// リロード
-		void Reload(const achar* affFilePath);
+		void Reload(const achar* affFilePathChar, std::vector<uint8_t> data);
 
-		Font_Imp(Graphics* graphics, const ace::achar* affFilePathStr, std::vector<uint8_t> data);
+		Font_Imp(Graphics* graphics, const achar* affFilePathChar, std::vector<uint8_t> data);
 		virtual ~Font_Imp();
 
 		Vector2DI CalcTextureSize(const achar* text, WritingDirection writingDirection) const override;

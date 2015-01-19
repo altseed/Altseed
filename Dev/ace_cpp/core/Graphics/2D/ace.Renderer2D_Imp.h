@@ -12,14 +12,6 @@
 #include <Math/ace.Matrix44.h>
 #include <Math/ace.RectF.h>
 
-#include <Culling2D.h>
-
-#if _DEBUG
-#pragma comment(lib,"Debug/Culling2D.lib")
-#else
-#pragma comment(lib,"Release/Culling2D.lib")
-#endif
-
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -140,6 +132,7 @@ namespace ace {
 		std::map<int32_t, std::vector<Event>>	m_events;
 
 		RectF									area;
+		float									angle = 0;
 
 		Effekseer::Manager*						m_effectManager = nullptr;
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
@@ -148,7 +141,7 @@ namespace ace {
 		Renderer2D_Imp(Graphics* graphics, Log* log);
 		virtual ~Renderer2D_Imp();
 
-		void SetArea(const RectF& area) override;
+		void SetArea(const RectF& area, float angle) override;
 
 		void DrawCache();
 
@@ -161,8 +154,6 @@ namespace ace {
 		void AddEffect(::Effekseer::Handle handle, int32_t priority);
 
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
-
-		culling2d::World* CullingWorld = nullptr;
 
 	private:
 		void AddEvent(int32_t priority, Event& e);

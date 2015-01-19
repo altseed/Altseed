@@ -541,9 +541,6 @@
     <ClInclude Include="..\core\Graphics\ace.Graphics_Imp.h">
       <Filter>Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\ace.GraphicsResourceContainer.h">
-      <Filter>Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\ace.RenderingThread.h">
       <Filter>Graphics</Filter>
     </ClInclude>
@@ -871,6 +868,9 @@
     <ClInclude Include="..\core\Log\ace.GetSpec.h">
       <Filter>Log</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.Culling2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1081,9 +1081,6 @@
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\ace.Graphics_Imp.cpp">
-      <Filter>Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Graphics\ace.GraphicsResourceContainer.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\ace.RenderingThread.cpp">

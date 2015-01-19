@@ -23,6 +23,8 @@ namespace ace {
 		static astring GetErrorMessage(Graphics_Imp_DX11* graphics, HRESULT hr);
 
 		static std::string GetFormatName(Graphics_Imp_DX11* graphics, DXGI_FORMAT format);
+
+		static TextureFormat GetTextureFormat(DXGI_FORMAT format);
 	};
 #endif
 

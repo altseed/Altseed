@@ -44,6 +44,9 @@ extern void Graphics_Empty(bool isOpenGLMode);
 extern void Graphics_CubemapTexture(bool isOpenGLMode);
 extern void Graphics_RenderingThread(bool isOpenGLMode);
 
+extern void Graphics_TextureFormat(bool isOpenGLMode);
+
+
 //extern void Profiler_Profiling();
 
 
@@ -68,7 +71,7 @@ int main(int argc, char **argv)
 	//getchar();
 	//return 0;
 
-	//Graphics_RenderingThread(false);
+	//Graphics_TextureFormat(false);
 	//return 0;
 
 	::testing::InitGoogleTest(&argc, argv);

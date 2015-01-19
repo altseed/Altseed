@@ -43,8 +43,9 @@ namespace ace {
 		/**
 			@brief	描画領域を設定する。
 			@param	area	描画領域
+			@param	angle	描画領域を中心とした回転
 		*/
-		virtual void SetArea(const RectF& area) = 0;
+		virtual void SetArea(const RectF& area, float angle) = 0;
 
 		/**
 			@brief	キャッシュを描画する。

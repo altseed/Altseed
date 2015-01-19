@@ -6,7 +6,6 @@
 #include "../ace.Core.Base_Imp.h"
 
 #include "ace.Graphics.h"
-#include "ace.GraphicsResourceContainer.h"
 
 #include "Resource/ace.Texture2D_Imp.h"
 #include "Resource/ace.Font_Imp.h"
@@ -59,11 +58,15 @@ namespace ace {
 		*/
 		static int32_t GetPitch(TextureFormat format);
 
+		/**
+			@brief	画像が消費する推定VRAMサイズを取得する。
+		*/
 		static int32_t GetVRAMSize(TextureFormat format, int32_t width, int32_t height);
 
 		static int32_t GetMipmapCount(int32_t width, int32_t height);
 		static void GetMipmapSize(int mipmap, int32_t& width, int32_t& height);
 
+		static bool IsPNG(const void* data, int32_t size);
 		static bool IsDDS(const void* data, int32_t size);
 	};
 
@@ -83,6 +86,8 @@ namespace ace {
 		{
 			int32_t Count;
 			void* Ptr;
+			int32_t Width;
+			int32_t Height;
 		};
 		std::map<astring, Cache>		m_caches;
 		std::map<void*, astring>		dataToKey;
@@ -136,7 +141,7 @@ namespace ace {
 		void ResetDrawState();
 
 		Vector2DI					m_size;
-		GraphicsResourceContainer*	m_resourceContainer;
+		//GraphicsResourceContainer*	m_resourceContainer;
 
 		Log*						m_log;
 		File*						m_file;
@@ -197,6 +202,7 @@ namespace ace {
 		std::shared_ptr<ResourceContainer<Texture2D_Imp>> Texture2DContainer;
 		std::shared_ptr<ResourceContainer<Effect_Imp>> EffectContainer;
 		std::shared_ptr<ResourceContainer<Font_Imp>> FontContainer;
+		std::shared_ptr<ResourceContainer<Model_Imp>> ModelContainer;
 
 		File* GetFile() { return m_file; }
 		Log* GetLog() { return m_log; }
@@ -400,7 +406,7 @@ namespace ace {
 		@brief	リソースコンテナを取得する。
 		@return	リソースコンテナ
 	*/
-	GraphicsResourceContainer* GetResourceContainer() { return m_resourceContainer; }
+	//GraphicsResourceContainer* GetResourceContainer() { return m_resourceContainer; }
 
 	/**
 		@brief	描画のための頂点バッファを設定する。

@@ -4,7 +4,6 @@
 //----------------------------------------------------------------------------------
 #include "ace.Texture2D_Imp.h"
 #include "../ace.Graphics_Imp.h"
-#include "../ace.GraphicsResourceContainer.h"
 
 #define Z_SOLO
 #include <png.h>

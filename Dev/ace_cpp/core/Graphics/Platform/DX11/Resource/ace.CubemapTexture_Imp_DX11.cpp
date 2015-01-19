@@ -6,19 +6,18 @@
 namespace ace
 {
 	CubemapTexture_Imp_DX11::CubemapTexture_Imp_DX11(
-		Graphics* graphics, 
+		Graphics* graphics,
+		TextureFormat format,
 		ID3D11Resource* texture,
 		ID3D11ShaderResourceView* textureSRV, 
 		std::array<std::vector<ID3D11RenderTargetView*>, 6>& textureRTVs, 
 		Vector2DI size,
 		int32_t mipmapCount)
-		: CubemapTexture_Imp(graphics)
+		: CubemapTexture_Imp(graphics, format, size, mipmapCount)
 		, m_texture(texture)
 		, m_textureSRV(textureSRV)
 		, m_textureRTVs(textureRTVs)
 	{
-		this->size = size;
-		this->mipmapCount = mipmapCount;
 	}
 
 	CubemapTexture_Imp_DX11::~CubemapTexture_Imp_DX11()
@@ -230,7 +229,7 @@ namespace ace
 			}
 		}
 
-		return new CubemapTexture_Imp_DX11(graphics, texture, srv, textureRTVs, Vector2DI(width, height), mipmapCount);
+		return new CubemapTexture_Imp_DX11(graphics, TextureFormat::R8G8B8A8_UNORM, texture, srv, textureRTVs, Vector2DI(width, height), mipmapCount);
 
 	End:;
 
@@ -396,7 +395,7 @@ namespace ace
 			}
 		}
 
-		return new CubemapTexture_Imp_DX11(graphics, texture, srv, textureRTVs, Vector2DI(width, height), mipmapCount);
+		return new CubemapTexture_Imp_DX11(graphics, TextureFormat::R8G8B8A8_UNORM, texture, srv, textureRTVs, Vector2DI(width, height), mipmapCount);
 
 	End:;
 
@@ -466,6 +465,7 @@ namespace ace
 		
 		return new CubemapTexture_Imp_DX11(
 			graphics, 
+			GraphicsHelper_DX11::GetTextureFormat(desc.Format),
 			texture, 
 			textureSRV, 
 			std::array<std::vector<ID3D11RenderTargetView*>, 6>(), 

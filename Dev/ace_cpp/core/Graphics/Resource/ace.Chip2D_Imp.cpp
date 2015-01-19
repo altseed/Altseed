@@ -1,9 +1,9 @@
 ﻿//----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-#include "ace.Chip2D_Imp.h"
 #include "../ace.Graphics_Imp.h"
-#include "../ace.GraphicsResourceContainer.h"
+#include "../../ObjectSystem/2D/ace.CoreMapObject2D_Imp.h"
+#include "ace.Chip2D_Imp.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -22,8 +22,29 @@ namespace ace {
 		, m_texture(nullptr)
 		, m_turnLR(false)
 		, m_turnUL(false)
+#if __CULLING_2D__
+		, cullingObject(nullptr)
+		, alreadyCullingUpdated(false)
+#endif
+		, mapObject2D(nullptr)
 	{
 
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	CoreMapObject2D_Imp* Chip2D_Imp::GetMapObject2D() const
+	{
+		return mapObject2D;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Chip2D_Imp::SetMapObject2D(CoreMapObject2D_Imp* mapObject)
+	{
+		mapObject2D = mapObject;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -34,6 +55,47 @@ namespace ace {
 		SafeRelease(m_texture);
 	}
 
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+#if __CULLING_2D__
+	bool Chip2D_Imp::GetAlreadyCullingUpdated() const
+	{
+		return alreadyCullingUpdated;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Chip2D_Imp::SetCullingObject(culling2d::Object *cullingObj)
+	{
+		cullingObject = cullingObj;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	culling2d::Object* Chip2D_Imp::GetCullingObject() const
+	{
+		return cullingObject;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Chip2D_Imp::SetAlreadyCullingUpdated(bool cullingUpdated)
+	{
+		alreadyCullingUpdated = cullingUpdated;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	culling2d::Circle Chip2D_Imp::GetBoundingCircle()
+	{
+		return mapObject2D->GetChipBoundingCircle(this);
+	}
+#endif
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -64,6 +126,15 @@ namespace ace {
 	void Chip2D_Imp::SetSrc(RectF src)
 	{
 		m_src = src;
+
+#if __CULLING_2D__
+		if (!alreadyCullingUpdated&&mapObject2D != nullptr&&mapObject2D->GetLayer() != nullptr)
+		{
+			auto layerImp = (CoreLayer2D_Imp*)mapObject2D->GetLayer();
+			layerImp->TransformedObjects.push_back(cullingObject);
+			alreadyCullingUpdated = true;
+		}
+#endif
 	}
 
 	//----------------------------------------------------------------------------------

@@ -74,27 +74,10 @@ namespace ace
 			auto staticFile = file->CreateStaticFile(path);
 			if (staticFile.get() == nullptr) return nullptr;
 
-			/*
-#if _WIN32
-			auto fp = _wfopen(path, L"rb");
-			if (fp == nullptr) return nullptr;
-#else
-			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-			if (fp == nullptr) return nullptr;
-#endif
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			auto data = new uint8_t[size];
-			fread(data, 1, size, fp);
-			fclose(fp);
-			*/
-
 			auto ret = loadFunc((uint8_t*)staticFile->GetData(), staticFile->GetSize());
 
 			if (ret == nullptr)
 			{
-				//SafeDeleteArray(data);
 				return nullptr;
 			}
 
@@ -104,7 +87,35 @@ namespace ace
 			info->ResourcePtr = ret;
 			Register(path, ret, info);
 
-			//SafeDeleteArray(data);
+			return ret;
+		}
+
+		RESOURCE* TryLoadWithVector(const achar* path, const std::function<RESOURCE*(const std::vector<uint8_t>&)>& loadFunc)
+		{
+			{
+				auto existing = Get(path);
+				if (existing != nullptr)
+				{
+					SafeAddRef(existing);
+					return existing;
+				}
+			}
+
+			auto staticFile = file->CreateStaticFile(path);
+			if (staticFile.get() == nullptr) return nullptr;
+
+			auto ret = loadFunc(staticFile->ReadAllBytes());
+
+			if (ret == nullptr)
+			{
+				return nullptr;
+			}
+
+			auto info = std::make_shared<LoadingInformation>();
+			info->ModifiedTime = GetModifiedTime(path);
+			info->LoadedPath = path;
+			info->ResourcePtr = ret;
+			Register(path, ret, info);
 
 			return ret;
 		}
@@ -159,7 +170,39 @@ namespace ace
 
 				SafeDeleteArray(data);
 			}
+		}
 
+		void ReloadWithVector(const std::function<void(std::shared_ptr <LoadingInformation>, const std::vector<uint8_t>&)>& reloadFunc)
+		{
+			for (auto info : loadInfo)
+			{
+				if (info.second == nullptr) continue;
+
+				auto info_ = info.second;
+
+				auto time = GetModifiedTime(info_->LoadedPath.c_str());
+
+				if (info_->ModifiedTime == time) continue;
+				info_->ModifiedTime = time;
+
+				auto path = info_->LoadedPath.c_str();
+#if _WIN32
+				auto fp = _wfopen(path, L"rb");
+				if (fp == nullptr) return;
+#else
+				auto fp = fopen(ToUtf8String(path).c_str(), "rb");
+				if (fp == nullptr) return;
+#endif
+				fseek(fp, 0, SEEK_END);
+				auto size = ftell(fp);
+				fseek(fp, 0, SEEK_SET);
+				std::vector<uint8_t> data;
+				data.resize(size);
+				fread(data.data(), 1, size, fp);
+				fclose(fp);
+
+				reloadFunc(info_, data);
+			}
 		}
 
 		/**

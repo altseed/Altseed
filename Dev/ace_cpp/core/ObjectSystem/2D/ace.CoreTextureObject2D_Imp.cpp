@@ -2,6 +2,7 @@
 #include "../common/ace.common.Base.h"
 #include "ace.CoreTextureObject2D_Imp.h"
 #include <array>
+#include "ace.Culling2D.h"
 
 namespace ace
 {
@@ -62,7 +63,8 @@ namespace ace
 
 	void CoreTextureObject2D_Imp::SetSrc(RectF value)
 	{
-		m_src = value;
+		m_src = value; 
+		SetCullingUpdate();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -176,8 +178,6 @@ namespace ace
 				position[i] -= origin;
 			}
 		}
-
-		auto textureSize = m_texture != nullptr ? m_texture->GetSize() : Vector2DI(1, 1);
 
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();

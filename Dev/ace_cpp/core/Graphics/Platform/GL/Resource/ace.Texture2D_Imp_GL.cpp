@@ -123,24 +123,29 @@ namespace ace {
 	{
 		if (size == 0) return nullptr;
 
-		/* ロードしてみる */
-		Texture2D_Imp_GL* texture = new Texture2D_Imp_GL(graphics);
-		if (!texture->InternalLoad(data, size,true))
+		if (ImageHelper::IsPNG(data, size))
 		{
-			SafeRelease(texture);
-			return nullptr;
+			/* ロードしてみる */
+			Texture2D_Imp_GL* texture = new Texture2D_Imp_GL(graphics);
+			if (!texture->InternalLoad(data, size, true))
+			{
+				SafeRelease(texture);
+				return nullptr;
+			}
+
+			if (!texture->GenerateTextureFromInternal(isSRGB))
+			{
+				SafeRelease(texture);
+				return nullptr;
+			}
+
+			/* 必要ないので消す */
+			texture->InternalUnload();
+
+			return texture;
 		}
 
-		if (!texture->GenerateTextureFromInternal(isSRGB))
-		{
-			SafeRelease(texture);
-			return nullptr;
-		}
-
-		/* 必要ないので消す */
-		texture->InternalUnload();
-
-		return texture;
+		return nullptr;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -189,6 +194,10 @@ namespace ace {
 			format_ = GL_LUMINANCE;
 #endif
 			type = GL_UNSIGNED_BYTE;
+		}
+		else
+		{
+			return nullptr;
 		}
 
 		glTexImage2D(

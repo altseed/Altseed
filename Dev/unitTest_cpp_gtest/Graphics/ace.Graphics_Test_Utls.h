@@ -18,4 +18,3 @@ void SetGLEnable(bool value);
 void StartGraphicsTest();
 
 #define SAVE_SCREEN_SHOT(g,num) { SaveSceenShot_(g,__FILE__, num); }
-
