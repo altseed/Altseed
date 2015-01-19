@@ -45,7 +45,6 @@ namespace ace
 	protected:
 		template<typename _InIt>
 		void AddRootDirectories(_InIt first, _InIt end);
-		StreamFile* CreateStreamFileDirectly(const achar* normalizedPath);
 
 		void AddDefaultRootDirectory() { m_rootPathes.push_back(std::shared_ptr<RootPath_Imp>(new RootPath_Imp(ToAString("./")))); }
 	public:

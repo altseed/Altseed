@@ -10,7 +10,8 @@ namespace ace
 
 	BaseFile_Imp::BaseFile_Imp(const astring& path) :
 		m_position(0),
-		m_length(-1)
+		m_length(-1),
+		m_filePath(path)
 	{
 		m_file.open(
 #ifdef _WIN32

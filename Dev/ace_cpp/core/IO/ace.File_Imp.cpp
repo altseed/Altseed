@@ -166,7 +166,7 @@ namespace ace
 						if (!stat(ToUtf8String(normalizedPath.c_str()).c_str(), &buf))
 #endif
 						{
-							std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(normalizedPath), [](BaseFile_Imp* p){ SafeRelease(p); });
+							std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(fullPath), [](BaseFile_Imp* p){ SafeRelease(p); });
 
 							pstaticFile = new StaticFile_Imp(pBaseFile);
 
@@ -183,27 +183,6 @@ namespace ace
 		{
 			assert(false);
 		}
-	}
-
-	StreamFile* File_Imp::CreateStreamFileDirectly(const achar* normalizedPath)
-	{
-		auto fileCash = m_streamFileCash.find(normalizedPath);
-		if (fileCash != m_streamFileCash.end() &&
-			Valid(fileCash->second))
-		{
-			return fileCash->second;
-		}
-
-		StreamFile_Imp* pstreamFile(nullptr);
-
-		{
-			std::shared_ptr<BaseFile_Imp> pBaseFile(new BaseFile_Imp(normalizedPath), [](BaseFile_Imp* p){ SafeRelease(p); });
-
-			pstreamFile = new StreamFile_Imp(pBaseFile);
-		}
-
-		m_streamFileCash.emplace(normalizedPath, pstreamFile);
-		return pstreamFile;
 	}
 
 	/*
