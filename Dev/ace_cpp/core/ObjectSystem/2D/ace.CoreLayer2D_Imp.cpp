@@ -354,12 +354,14 @@ namespace ace
 		{
 			auto userData = (Culling2DUserData*)(culledObj->GetUserData());
 
-			if (userData->IsObject&&userData->Object->GetIsAlive())
+			if (!(userData->Object->GetIsAlive())) return;
+
+			if (userData->IsObject)
 			{
 				auto obj = userData->Object;
 				obj->Draw(renderer);
 			}
-			else if(userData->Object->GetIsAlive())
+			else
 			{
 				auto mapObj = (CoreMapObject2D_Imp*)CoreObject2DToImp(userData->Object);
 				auto chip = userData->Chip;
