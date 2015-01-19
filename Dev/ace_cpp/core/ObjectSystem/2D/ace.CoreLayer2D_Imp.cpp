@@ -327,8 +327,7 @@ namespace ace
 
 		if (m_cameras.empty())
 		{
-			auto src = RectF(0, 0, m_windowSize.X, m_windowSize.Y);
-			auto cullingSrc = culling2d::RectF(src.X, src.Y, src.Width, src.Height);
+			auto cullingSrc = culling2d::RectF(0, 0, m_windowSize.X, m_windowSize.Y);
 			auto cullingObjects = world->GetCullingObjects(cullingSrc);
 
 			for (auto& cullingObject : cullingObjects)
