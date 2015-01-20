@@ -58,9 +58,10 @@ AmusementCreatorsEngineの名称はドキュメント中ではACEと省略され
 
 ### 入力
 
-* マウス
-* キーボード
-* ジョイスティック
+* [マウス](./Input/Mouse.md)
+* [キーボード](./Input/Keyboard.md)
+* [ジョイスティック](./Input/Joystick.md)
+* [ジョイスティックコンテナ](./Input/JoystickContainer.md)
 
 ### ファイル
 
