@@ -76,11 +76,14 @@ namespace ace
 
 		int GetDrawingPriority() const override;
 		void SetDrawingPriority(int priority) override;
-
+		/*
 		CORE_OBJECT2D_IMP_COMMON
 
 		CORE_OBJECT2D_IMP_TRANSFORM
 
 		CORE_OBJECT2D_IMP_CHILD
+		*/
+
+#include "ace.CoreObject2D_Imp_Methods.h"
 	};
 }

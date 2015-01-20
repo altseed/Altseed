@@ -59,11 +59,14 @@ namespace ace
 #pragma endregion
 
 		void Draw(Renderer2D* renderer) override;
-
+		/*
 		CORE_OBJECT2D_IMP_COMMON
 
 		CORE_OBJECT2D_IMP_TRANSFORM
 
 		CORE_OBJECT2D_IMP_CHILD
+		*/
+
+#include "ace.CoreObject2D_Imp_Methods.h"
 	};
 }

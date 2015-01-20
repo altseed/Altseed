@@ -361,6 +361,7 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp_Methods.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.Culling2D.h" />
