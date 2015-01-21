@@ -9,10 +9,17 @@ namespace ace
 		, public DeviceObject
 	{
 	protected:
-		CubemapTexture_Imp(Graphics* graphics);
+		CubemapTexture_Imp(Graphics* graphics, TextureFormat format, Vector2DI size, int32_t mipmapCount);
 		virtual ~CubemapTexture_Imp();
 
+
+		Vector2DI	size;
+		int32_t		mipmapCount = 0;
+		TextureFormat	format;
 	public:
+
+		Vector2DI GetSize() const { return size; }
+		int32_t GetMipmapCount() const { return mipmapCount; }
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

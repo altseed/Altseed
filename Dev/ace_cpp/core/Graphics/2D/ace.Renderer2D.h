@@ -8,6 +8,8 @@
 
 #include <Math/ace.Vector2DF.h>
 #include <Math/ace.Vector2DI.h>
+#include <Math/ace.Matrix33.h>
+
 #include <Graphics/ace.Color.h>
 
 #include "../../ace.Core.Base.h"
@@ -41,8 +43,9 @@ namespace ace {
 		/**
 			@brief	描画領域を設定する。
 			@param	area	描画領域
+			@param	angle	描画領域を中心とした回転
 		*/
-		virtual void SetArea(const RectF& area) = 0;
+		virtual void SetArea(const RectF& area, float angle) = 0;
 
 		/**
 			@brief	キャッシュを描画する。
@@ -63,6 +66,8 @@ namespace ace {
 			@param	priority	描画優先度
 		*/
 		virtual void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) = 0;
+
+		virtual void AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority) = 0;
 	};
 
 	//----------------------------------------------------------------------------------

@@ -11,11 +11,46 @@
 
 #include "ace.EnvironmentRendering.h"
 
+#include <Culling3D.h>
+
+#if _DEBUG
+#pragma comment(lib,"Debug/Culling3D.lib")
+#else
+#pragma comment(lib,"Release/Culling3D.lib")
+#endif
+
 namespace ace
 {
 	class Renderer3DProxy
 	{
 	private:
+		template<class T>
+		void DrawObjects(T& objects_, RenderingCommandHelper* helper, RenderingProperty prop)
+		{
+			for (auto& o : objects_)
+			{
+				o->Rendering(helper, prop);
+			}
+		}
+
+		void DrawMassObjects(RenderingCommandHelper* helper, RenderingProperty prop);
+
+		template<class T>
+		void SortAndSetMassObjects(T& objects_)
+		{
+			sortedMassModelObjects.clear();
+
+			for (auto& o : objects_)
+			{
+				sortedMassModelObjects.push_back((RenderedMassModelObject3DProxy*) o);
+			}
+			SortAndSetMassObjects_Imp();
+		}
+		void SortAndSetMassObjects_Imp();
+
+	private:
+		Graphics*								graphics = nullptr;
+
 		std::shared_ptr<ace::VertexBuffer_Imp>	m_pasteVertexBuffer;
 		std::shared_ptr<ace::IndexBuffer_Imp>	m_pasteIndexBuffer;
 		std::shared_ptr<ace::NativeShader_Imp>	m_pasteShader;
@@ -44,8 +79,11 @@ namespace ace
 		std::vector<RenderingCommand*>			commands;
 
 		std::set<RenderedObject3DProxy*>		objects;
+		std::set<RenderedObject3DProxy*>		massModelObjects;
 		std::set<RenderedObject3DProxy*>		cameraObjects;
 		std::set<RenderedObject3DProxy*>		directionalLightObjects;
+		
+		std::vector<RenderedMassModelObject3DProxy*>		sortedMassModelObjects;
 
 		Effekseer::Manager*						effectManager = nullptr;
 		EffekseerRenderer::Renderer*			effectRenderer = nullptr;
@@ -63,12 +101,30 @@ namespace ace
 		void RenderCamera(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
 		void RenderCameraOnLightweight(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
 
+	private:
+		std::vector<RenderedObject3DProxy*>				culledObjects;
+		std::vector<RenderedObject3DCullingProxy*>		culledTerrainObjects;
+		std::vector<RenderedObject3DProxy*>				culledMassModelObjects;
+
+		void Culling(const Matrix44& viewProjectionMat);
+
+	private:
+		
 	public:
+
+		Culling3D::World*				CullingWorld = nullptr;
 
 		Color							SkyAmbientColor;
 		Color							GroundAmbientColor;
+		float							AmbientColorIntensity = 1.0f;
+
 		std::shared_ptr<CubemapTexture>	EnvironmentDiffuseColor;
 		std::shared_ptr<CubemapTexture>	EnvironmentSpecularColor;
+
+		float							EnvironmentDiffuseColorIntensity = 1.0f;
+		float							EnvironmentSpecularColorIntensity = 1.0f;
+
+
 		RenderSettings					Settings;
 		float							DeltaTime;
 		bool							HDRMode = false;

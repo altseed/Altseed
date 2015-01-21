@@ -35,9 +35,17 @@ namespace FontGenerator
 	{
 		const int SPACE_SIZE = 1;
 		auto advance = glyph->GetAdvance();
-		if (penX + advance > sheetSize)
+
+		int32_t outlineSize = 0;
+
+		if (border != nullptr)
 		{
-			if (baseLineY - descender + height > sheetSize)
+			outlineSize = border->size;
+		}
+
+		if (penX + advance + outlineSize * 2 > sheetSize)
+		{
+			if (baseLineY - descender + height + outlineSize * 2 > sheetSize)
 			{
 				sheetNum++;
 				buffers.push_back(CreateBuffer(sheetSize));
@@ -47,15 +55,8 @@ namespace FontGenerator
 			else
 			{
 				penX = 0;
-				baseLineY += height + SPACE_SIZE;
+				baseLineY += height + outlineSize * 2 + SPACE_SIZE;
 			}
-		}
-
-		int32_t outlineSize = 0;
-		
-		if (border != nullptr)
-		{
-			outlineSize = border->size;
 		}
 
 		std::shared_ptr<RasterizedGlyph> rasterized;

@@ -10,6 +10,9 @@ namespace ace
 		, public CoreObject2D_Imp
 		, public ReferenceObject
 	{
+
+	protected:
+		virtual void CalculateBoundingCircle();
 	private:
 		Texture2D* m_texture;
 		RectF m_src;
@@ -53,11 +56,14 @@ namespace ace
 #pragma endregion
 
 		void Draw(Renderer2D* renderer);
-
+		/*
 		CORE_OBJECT2D_IMP_COMMON
 
 		CORE_OBJECT2D_IMP_TRANSFORM
 
 		CORE_OBJECT2D_IMP_CHILD
+		*/
+
+#include "ace.CoreObject2D_Imp_Methods.h"
 	};
 }

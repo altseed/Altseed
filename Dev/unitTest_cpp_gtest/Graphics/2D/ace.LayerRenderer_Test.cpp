@@ -14,7 +14,10 @@ void Graphics_LayerRenderer(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"レイヤー").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false, false);
+	auto file = ace::File_Imp::Create();
+	ASSERT_TRUE(file != nullptr);
+
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, file, false, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto renderer = new ace::LayerRenderer(graphics);
@@ -120,14 +123,17 @@ void Graphics_LayerRenderer(bool isOpenGLMode)
 	texture.reset();
 	renderer->Release();
 	graphics->Release();
+	file->Release();
 	window->Release();
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, LayerRenderer_DX)
 {
 	Graphics_LayerRenderer(false);
 }
+#endif
 
 TEST(Graphics, LayerRenderer_GL)
 {

@@ -17,6 +17,7 @@ extern void Joystick();
 extern void Sound();
 
 extern void EffectObject2D();
+extern void Object2DComponent();
 
 extern void PostEffect();
 
@@ -38,6 +39,7 @@ int main(int argc, char** argv)
 
 		INFO(Sound),
 
+		INFO(Object2DComponent),
 		INFO(EffectObject2D),
 
 		INFO(PostEffect),

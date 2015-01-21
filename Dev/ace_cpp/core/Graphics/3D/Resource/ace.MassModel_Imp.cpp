@@ -5,10 +5,58 @@
 
 #include "../../Resource/ace.VertexBuffer_Imp.h"
 #include "../../Resource/ace.IndexBuffer_Imp.h"
+#include "../../Resource/ace.RenderTexture2D_Imp.h"
+
+#include "../../Resource/ace.Material3D.h"
+#include "../../Resource/ace.Shader3D.h"
+#include "../../Resource/ace.Shader3D_Imp.h"
 
 namespace ace
 {
-	bool MassObject_Imp::Load(Graphics_Imp* g, MassModel_IO& io)
+	MassModel_Imp::Material::Material()
+	{
+	}
+
+	MassModel_Imp::Material::~Material()
+	{
+	}
+
+	MassModel_Imp::MassModel_Imp()
+	{
+	}
+
+	MassModel_Imp::~MassModel_Imp()
+	{
+	}
+
+	bool MassModel_Imp::GetIsLoopingMode(const achar* name) const
+	{
+		auto ind = GetClipIndex(name);
+		if (ind == -1) return false;
+		return loopingMode[ind];
+	}
+
+	void MassModel_Imp::SetIsLoopingMode(const achar* name, bool isLoopingMode)
+	{
+		auto ind = GetClipIndex(name);
+		if (ind == -1) return;
+		loopingMode[ind] = isLoopingMode;
+	}
+
+	void MassModel_Imp::SetMaterial(Material3D* material)
+	{
+		SafeAddRef(material);
+		auto t = CreateSharedPtrWithReleaseDLL(material);
+		this->material.Material_ = t;
+
+		if (this->material.Material_ != nullptr)
+		{
+			auto shader = (Shader3D_Imp*)(this->material.Material_->GetShader3D().get());
+			shader->CompileMass();
+		}
+	}
+
+	bool MassModel_Imp::Load(Graphics_Imp* g, MassModel_IO& io)
 	{
 		m_vertexBuffer.reset();
 		m_indexBuffer.reset();
@@ -41,24 +89,35 @@ namespace ace
 		m_indexBuffer->Unlock();
 
 		// アニメーションテクスチャ
-		auto texture = g->CreateRenderTexture2D(io.AnimationTexture.TextureWidth, io.AnimationTexture.TextureHeight, TextureFormat::R32G32B32A32_FLOAT);
+		auto texture = g->CreateEmptyTexture2D(io.AnimationTexture_.TextureWidth, io.AnimationTexture_.TextureHeight, TextureFormat::R32G32B32A32_FLOAT);
 		TextureLockInfomation info;
 
 		if (texture->Lock(info))
 		{
-			memcpy(info.Pixels, &(io.AnimationTexture.Buffer[0]), io.AnimationTexture.Buffer.size() * 4);
+			memcpy(info.Pixels, io.AnimationTexture_.Buffer.data(), io.AnimationTexture_.Buffer.size() * sizeof(float) * 4);
 			texture->Unlock();
 		}
+
+		m_animationTexture = texture;
+
+		frameCount = io.AnimationTexture_.FrameCount;
+
+		loopingMode.resize(frameCount.size());
+		for (auto i = 0; i < loopingMode.size(); i++)
+		{
+			loopingMode[i] = false;
+		}
+
+		for (auto& clip : io.AnimationClips)
+		{
+			animationClips[clip.Name] = clip.Index;
+		}
+
+		// マテリアル
+		if (io.Material_.ColorTexture != astring()) material.ColorTexture = g->CreateTexture2D(io.Material_.ColorTexture.c_str());
+		if (io.Material_.NormalTexture != astring()) material.NormalTexture = g->CreateTexture2DAsRawData(io.Material_.NormalTexture.c_str());
+		if (io.Material_.MetalnessTexture != astring()) material.MetalnessTexture = g->CreateTexture2DAsRawData(io.Material_.MetalnessTexture.c_str());
+
 		return true;
-	}
-
-	MassObject_Imp::MassObject_Imp()
-	{
-
-	}
-
-	MassObject_Imp::~MassObject_Imp()
-	{
-
 	}
 }

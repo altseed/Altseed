@@ -22,6 +22,7 @@ namespace ace
 
 	public:
 		Color		LightColor;
+		float		Intensity;
 
 		RenderTexture2D_Imp* GetShadowTexture() { return m_shadowTexture; }
 		DepthBuffer_Imp* GetShadowDepthBuffer()  { return m_shadowDepthBuffer; }
@@ -32,6 +33,8 @@ namespace ace
 		Vector3DF GetDirection();
 
 		void CalcShadowMatrix(Vector3DF viewPosition, Vector3DF viewDirection, Vector3DF viewUp, Matrix44 matCameraProj, float zn, float zf, Matrix44& lightView, Matrix44& lightProjection);
+	
+		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT; }
 	};
 
 	/**
@@ -49,6 +52,7 @@ namespace ace
 		static const int32_t ShadowBufferSize = 2048;
 
 		Color		color;
+		float		intensity = 1.0f;
 		RenderedDirectionalLightObject3DProxy* proxy = nullptr;
 
 	public:
@@ -58,6 +62,9 @@ namespace ace
 		void Flip(float deltaTime) override;
 
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }
+
+		float GetIntensity();
+		void SetIntensity(float intensity);
 
 		Color GetColor();
 		void SetColor(Color color);

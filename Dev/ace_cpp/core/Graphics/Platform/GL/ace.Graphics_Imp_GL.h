@@ -61,9 +61,9 @@ namespace ace {
 		GLuint			m_samplers[MaxTextureCount];
 #pragma endregion
 
-		Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen);
 
-		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen);
 
 		virtual ~Graphics_Imp_GL();
 
@@ -86,6 +86,7 @@ namespace ace {
 
 		void UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr);
 		void DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr);
+		void DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr) override;
 		void DrawPolygonInstancedInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr, int32_t instanceCount);
 
 		void BeginInternal();
@@ -95,21 +96,25 @@ namespace ace {
 
 	public:
 		
-		static Graphics_Imp_GL* Create(::ace::Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp_GL* Create(::ace::Window* window, Log* log, File* file,bool isReloadingEnabled, bool isFullScreen);
 
 #if _WIN32
 #elif __APPLE__
 #else
-		static Graphics_Imp_GL* Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled);
+		static Graphics_Imp_GL* Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen);
 #endif
 
-		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
+		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) override;
+		Texture2D_Imp* CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) override;
+
 		Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) override;
 		RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format);
 
 		CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) override;
 
 		CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) override;
+
+		CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path) override;
 
 		DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height);
 

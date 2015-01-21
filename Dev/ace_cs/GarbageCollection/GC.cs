@@ -28,6 +28,8 @@ namespace ace
 		internal static IDObjectContainer<Mesh> Meshs { get; private set; }
 		internal static IDObjectContainer<Deformer> Deformers { get; private set; }
 		internal static IDObjectContainer<Model> Models { get; private set; }
+		internal static IDObjectContainer<MassModel> MassModels { get; private set; }
+		internal static IDObjectContainer<Terrain3D> Terrain3Ds { get; private set; }
 
 		internal static IDObjectContainer<KeyframeAnimation> KeyframeAnimations { get; private set; }
 		internal static IDObjectContainer<AnimationSource> AnimationSources { get; private set; }
@@ -44,6 +46,7 @@ namespace ace
 		internal static IDObjectContainer<PostEffect> PostEffects { get; private set; }
 
 		internal static IDObjectContainer<Transition> Transitions { get; private set; }
+        internal static IDObjectContainer<StaticFile> StaticFiles { get; private set; }
 
 		internal static void Initialize()
 		{
@@ -67,6 +70,8 @@ namespace ace
 			Meshs = new IDObjectContainer<Mesh>();
 			Deformers = new IDObjectContainer<Deformer>();
 			Models = new IDObjectContainer<Model>();
+			MassModels = new IDObjectContainer<MassModel>();
+			Terrain3Ds = new IDObjectContainer<Terrain3D>();
 
 			KeyframeAnimations = new IDObjectContainer<KeyframeAnimation>();
 			AnimationSources = new IDObjectContainer<AnimationSource>();
@@ -83,6 +88,8 @@ namespace ace
 			PostEffects = new IDObjectContainer<PostEffect>();
 
 			Transitions = new IDObjectContainer<Transition>();
+
+            StaticFiles = new IDObjectContainer<StaticFile>();
 		}
 
 		internal static void Update()
@@ -112,7 +119,9 @@ namespace ace
 				Meshs.DestroyAll();
 				Deformers.DestroyAll();
 				Models.DestroyAll();
-                
+				MassModels.DestroyAll();
+				Terrain3Ds.DestroyAll();
+
 				KeyframeAnimations.DestroyAll();
 				AnimationSources.DestroyAll();
 
@@ -126,6 +135,8 @@ namespace ace
 
 				PostEffects.DestroyAll();
 				Transitions.DestroyAll();
+
+                StaticFiles.DestroyAll();
 
 				//Profilers.DestroyAll();
 
@@ -312,6 +323,25 @@ namespace ace
             return ret;
         }
 
+        /// <summary>
+        /// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+        /// </summary>
+        /// <param name="o"></param>
+        /// <param name="type"></param>
+        internal static StaticFile GenerateStaticFile(swig.StaticFile o, GenerationType type)
+        {
+            if (o == null) return null;
+            var p = o.GetPtr();
+
+            var existing = GC.StaticFiles.GetObject(p);
+            existing = GenerateInternal(existing, o, type);
+            if (existing != null) return existing;
+
+            var ret = new StaticFile(o);
+            GC.StaticFiles.AddObject(p, ret);
+            return ret;
+        }
+
         internal static Chip2D GenerateChip2D(swig.Chip2D o,GenerationType type)
 		{
 			if (o == null) return null;
@@ -380,6 +410,44 @@ namespace ace
 
 			var ret = new Model(o);
 			GC.Models.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static MassModel GenerateMassModel(swig.MassModel o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.MassModels.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new MassModel(o);
+			GC.MassModels.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static Terrain3D GenerateTerrain3D(swig.Terrain3D o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.Terrain3Ds.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new Terrain3D(o);
+			GC.Terrain3Ds.AddObject(p, ret);
 			return ret;
 		}
 

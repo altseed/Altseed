@@ -4,13 +4,10 @@
 
 namespace ace
 {
-	CubemapTexture_Imp_GL::CubemapTexture_Imp_GL(Graphics* graphics, GLuint cubemapTexture, Vector2DI size, int32_t mipmapCount)
-		: CubemapTexture_Imp(graphics)
+	CubemapTexture_Imp_GL::CubemapTexture_Imp_GL(Graphics* graphics, TextureFormat format, GLuint cubemapTexture, Vector2DI size, int32_t mipmapCount)
+		: CubemapTexture_Imp(graphics, format, size, mipmapCount)
 		, m_cubemapTexture(cubemapTexture)
-		, size(size)
-		, mipmapCount(mipmapCount)
 	{
-
 	}
 
 	CubemapTexture_Imp_GL::~CubemapTexture_Imp_GL()
@@ -20,21 +17,13 @@ namespace ace
 
 	CubemapTexture_Imp* CubemapTexture_Imp_GL::Create(Graphics_Imp* graphics, const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
 	{
-		auto loadFile = [](const achar* path, std::vector<uint8_t>& dst)-> bool
+		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
-#if _WIN32
-			auto fp = _wfopen(path, L"rb");
-			if (fp == nullptr) return false;
-#else
-			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-			if (fp == nullptr) return false;
-#endif
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			dst.resize(size);
-			fread(dst.data(), 1, size, fp);
-			fclose(fp);
+			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
+			if (staticFile.get() == nullptr) return false;
+
+			dst.resize(staticFile->GetSize());
+			memcpy(dst.data(), staticFile->GetData(), staticFile->GetSize());
 
 			return true;
 		};
@@ -77,7 +66,7 @@ namespace ace
 
 		for (int32_t i = 0; i < 6; i++)
 		{
-			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), true, widthes[i], heights[i], buffers[i]))
+			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), true, widthes[i], heights[i], buffers[i], graphics->GetLog()))
 			{
 			}
 			else
@@ -128,7 +117,7 @@ namespace ace
 
 		GLCheckError();
 
-		return new CubemapTexture_Imp_GL(graphics, cubemapTexture, Vector2DI(width, height), mipmapCount);
+		return new CubemapTexture_Imp_GL(graphics, TextureFormat::R8G8B8A8_UNORM, cubemapTexture, Vector2DI(width, height), mipmapCount);
 
 	End:;
 
@@ -139,21 +128,13 @@ namespace ace
 
 	CubemapTexture_Imp* CubemapTexture_Imp_GL::Create(Graphics_Imp* graphics, const achar* path, int32_t mipmapCount)
 	{
-		auto loadFile = [](const achar* path, std::vector<uint8_t>& dst)-> bool
+		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
-#if _WIN32
-			auto fp = _wfopen(path, L"rb");
-			if (fp == nullptr) return false;
-#else
-			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-			if (fp == nullptr) return false;
-#endif
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			dst.resize(size);
-			fread(dst.data(), 1, size, fp);
-			fclose(fp);
+			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
+			if (staticFile.get() == nullptr) return false;
+
+			dst.resize(staticFile->GetSize());
+			memcpy(dst.data(), staticFile->GetData(), staticFile->GetSize());
 
 			return true;
 		};
@@ -203,7 +184,7 @@ namespace ace
 		{
 			for (int32_t i = 0; i < 6; i++)
 			{
-				if (ImageHelper::LoadPNGImage(fileBuffers[i][m].data(), fileBuffers[i].size(), true, widthes[i], heights[i], buffers[i][m]))
+				if (ImageHelper::LoadPNGImage(fileBuffers[i][m].data(), fileBuffers[i].size(), true, widthes[i], heights[i], buffers[i][m], graphics->GetLog()))
 				{
 					if (m == 0)
 					{
@@ -242,12 +223,18 @@ namespace ace
 
 		GLCheckError();
 
-		return new CubemapTexture_Imp_GL(graphics, cubemapTexture, Vector2DI(width, height), mipmapCount);
+		return new CubemapTexture_Imp_GL(graphics, TextureFormat::R8G8B8A8_UNORM, cubemapTexture, Vector2DI(width, height), mipmapCount);
 
 	End:;
 
 		GLCheckError();
 
+		return nullptr;
+	}
+
+
+	CubemapTexture_Imp* CubemapTexture_Imp_GL::Create(Graphics_Imp* graphics, const achar* path)
+	{
 		return nullptr;
 	}
 }

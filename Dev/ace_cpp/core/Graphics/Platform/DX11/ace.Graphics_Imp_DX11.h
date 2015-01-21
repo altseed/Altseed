@@ -19,6 +19,12 @@ namespace ace {
 	{
 	public:
 		static void LoadTexture(Graphics_Imp_DX11* graphics, void* imgdata, int32_t width, int32_t height, ID3D11Texture2D*& texture, ID3D11ShaderResourceView*& textureSRV);
+
+		static astring GetErrorMessage(Graphics_Imp_DX11* graphics, HRESULT hr);
+
+		static std::string GetFormatName(Graphics_Imp_DX11* graphics, DXGI_FORMAT format);
+
+		static TextureFormat GetTextureFormat(DXGI_FORMAT format);
 	};
 #endif
 
@@ -52,7 +58,7 @@ namespace ace {
 		static const int32_t		DepthTestCount = 2;
 		static const int32_t		DepthWriteCount = 2;
 		static const int32_t		CulTypeCount = 3;
-		static const int32_t		AlphaTypeCount = 5;
+		static const int32_t		AlphaTypeCount = 6;
 		static const int32_t		TextureFilterCount = 2;
 		static const int32_t		TextureWrapCount = 2;
 
@@ -66,6 +72,7 @@ namespace ace {
 			Window* window,
 			Vector2DI size,
 			Log* log,
+			File* file,
 			bool isReloadingEnabled,
 			bool isFullScreen,
 			ID3D11Device* device,
@@ -97,19 +104,23 @@ namespace ace {
 
 		void UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr, int32_t& vertexBufferOffset);
 		void DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr);
+		void DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr) override;
+
 		void DrawPolygonInstancedInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr, int32_t instanceCount);
 
 		void BeginInternal();
 
-		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log,File *file, bool isReloadingEnabled, bool isFullScreen);
 
 	public:
 		
-		static Graphics_Imp_DX11* Create(Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp_DX11* Create(Window* window, Log* log, File* file,bool isReloadingEnabled, bool isFullScreen);
 
-		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen);
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
+
+		Texture2D_Imp* CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 
 		Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) override;
 
@@ -118,6 +129,8 @@ namespace ace {
 		CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) override;
 
 		CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) override;
+
+		CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path) override;
 
 		DepthBuffer_Imp* CreateDepthBuffer_Imp(int32_t width, int32_t height);
 

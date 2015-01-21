@@ -78,20 +78,24 @@ namespace ace
 		public override void OnDraw(RenderTexture2D dst, RenderTexture2D src)
 		{
 
-			Vector4DF weights;
-			float[] ws = new float[4];
+			Vector4DF weights1, weights2;
+			float[] ws = new float[8];
 			float total = 0.0f;
 			float dispersion = intensity * intensity;
-			for (int i = 0; i < 4; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				float pos = 1.0f + 2.0f * i;
 				ws[i] = (float)Math.Exp(-0.5f * pos * pos / dispersion);
 				total += ws[i] * 2.0f;
 			}
-			weights.X = ws[0] / total;
-			weights.Y = ws[1] / total;
-			weights.Z = ws[2] / total;
-			weights.W = ws[3] / total;
+			weights1.X = ws[0] / total;
+			weights1.Y = ws[1] / total;
+			weights1.Z = ws[2] / total;
+			weights1.W = ws[3] / total;
+			weights2.X = ws[4] / total;
+			weights2.Y = ws[5] / total;
+			weights2.Z = ws[6] / total;
+			weights2.W = ws[7] / total;
 
 			var size = src.Size;
 			var format = src.Format;
@@ -126,7 +130,8 @@ namespace ace
 			DrawOnTexture2DWithMaterial(copiedTexture, material);
 
 			material2dX.SetTexture2D("g_blurredTexture", src);
-			material2dX.SetVector4DF("g_weight", weights);
+			material2dX.SetVector4DF("g_weight1", weights1);
+			material2dX.SetVector4DF("g_weight2", weights2);
 			material2dX.SetFloat("g_threshold", threshold);
 			material2dX.SetFloat("g_power", power);
 			material2dX.SetTextureFilterType("g_blurredTexture", TextureFilterType.Linear);
@@ -135,7 +140,8 @@ namespace ace
 
 			material2dY.SetTexture2D("g_blurredTexture", tempTexture);
 			material2dY.SetTexture2D("g_originalTexture", copiedTexture);
-			material2dY.SetVector4DF("g_weight", weights);
+			material2dY.SetVector4DF("g_weight1", weights1);
+			material2dY.SetVector4DF("g_weight2", weights2);
 			material2dY.SetFloat("g_threshold", threshold);
 			material2dY.SetFloat("g_power", power);
 			material2dY.SetTextureFilterType("g_blurredTexture", TextureFilterType.Linear);

@@ -9,6 +9,7 @@
 #include "../Input/ace.JoystickContainer_Imp.h"
 #include "../IO/ace.File_Imp.h"
 #include "../Log/ace.Log_Imp.h"
+#include "../Log/ace.GetSpec.h"
 
 #include "../Profiler/ace.Profiler_Imp.h"
 #include "../Profiler/ace.ProfilerViewer_Imp.h"
@@ -141,6 +142,37 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	void WriteSystemSpecToLog(Log* log) {
+		log->WriteLineStrongly("システム情報");
+
+		log->BeginTable();
+
+		log->Write("CPU名");
+		log->ChangeColumn();
+		log->Write(GetCPUName().c_str());
+		log->ChangeRow();
+		
+		log->Write("OS情報");
+		log->ChangeColumn();
+#if defined(_WIN32)
+		log->Write("OS: Windows\n");
+		log->Write(GetWindowsVersion().c_str());
+#else
+		log->Write("Unavailable");
+#endif
+		log->ChangeRow();
+		
+		log->Write("メモリ情報");
+		log->ChangeColumn();
+		log->Write(GetMemoryInfo().c_str());
+
+		log->EndTable();
+	}
+
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	bool Core_Imp::Initialize(const achar* title, int32_t width, int32_t height, CoreOption option)
 	{
 		if (m_window != nullptr) return false;
@@ -180,10 +212,10 @@ namespace ace
 
 		m_file = File_Imp::Create();
 
-		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, option.IsReloadingEnabled, option.IsFullScreen);
+		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger,m_file, option.IsReloadingEnabled, option.IsFullScreen);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp(option.IsReloadingEnabled);
+		m_sound = new Sound_Imp(m_file, option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
 		m_profiler = Profiler_Imp::Create();
@@ -207,7 +239,7 @@ namespace ace
 			lpos[3].Y = m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
-
+		WriteSystemSpecToLog(m_logger);
 		m_logger->WriteLineStrongly(L"コア初期化成功");
 
 		isReloadingEnabeld = option.IsReloadingEnabled;
@@ -252,16 +284,16 @@ namespace ace
 		}
 #endif
 
+		m_file = File_Imp::Create();
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
-		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger, option.IsReloadingEnabled, option.IsFullScreen);
+		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger,m_file, option.IsReloadingEnabled, option.IsFullScreen);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp(option.IsReloadingEnabled);
+		m_sound = new Sound_Imp(m_file, option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
-		m_file = File_Imp::Create();
 		m_profiler = Profiler_Imp::Create();
 		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, Vector2DI(width, height));
 
@@ -283,7 +315,7 @@ namespace ace
 			lpos[3].Y = m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
-
+		WriteSystemSpecToLog(m_logger);
 		m_logger->WriteLineStrongly(L"コア初期化成功");
 
 		return true;
@@ -294,20 +326,27 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	bool Core_Imp::DoEvents()
 	{
-		if (m_isInitializedByExternal) return true;
-
-		assert(m_window != nullptr);
-		assert(m_keyboard != nullptr);
-		assert(m_mouse != nullptr);
-		assert(m_logger != nullptr);
-		assert(m_joystickContainer != nullptr);
+		if (!m_isInitializedByExternal)
+		{
+			assert(m_window != nullptr);
+			assert(m_keyboard != nullptr);
+			assert(m_mouse != nullptr);
+			assert(m_logger != nullptr);
+			assert(m_joystickContainer != nullptr);
+		}
 
 		ControlFPS();
 		ComputeFPS();
 
-		m_keyboard->RefreshInputState();
-		m_mouse->RefreshInputState();
-		m_joystickContainer->RefreshJoysticks();
+		if (m_isInitializedByExternal)
+		{
+		}
+		else
+		{
+			m_keyboard->RefreshInputState();
+			m_mouse->RefreshInputState();
+			m_joystickContainer->RefreshJoysticks();
+		}
 
 		// 経過時間計算
 		{
@@ -327,7 +366,11 @@ namespace ace
 			{
 				deltaTime = delta / (1000.0f) * timeSpan;
 			}
+		}
 
+		if (m_isInitializedByExternal)
+		{
+			return true;
 		}
 
 		return m_window->DoEvent();
@@ -587,7 +630,19 @@ namespace ace
 		return m_mouse;
 	}
 
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	File* Core_Imp::GetFile()
+	{
+		return m_file;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	File_Imp* Core_Imp::GetFile_Imp()
 	{
 		return m_file;
 	}

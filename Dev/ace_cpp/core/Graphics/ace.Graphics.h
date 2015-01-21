@@ -21,10 +21,12 @@ class Graphics
 {
 protected:
 	virtual Texture2D* CreateTexture2D_(const achar* path) = 0;
+	virtual Texture2D* CreateTexture2DAsRawData_(const achar* path) = 0;
 	virtual Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
 	virtual RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
 	virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) = 0;
 	virtual CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) = 0;
+	virtual CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path) = 0;
 
 	virtual Shader2D* CreateShader2D_( const achar* shaderText) = 0;
 	virtual Material2D* CreateMaterial2D_(Shader2D* shader) = 0;
@@ -37,6 +39,10 @@ protected:
 	virtual Mesh* CreateMesh_() = 0;
 	virtual Deformer* CreateDeformer_() = 0;
 	virtual Model* CreateModel_(const achar* path) = 0;
+	virtual MassModel* CreateMassModelFromModelFile_(const achar* path) = 0;
+	virtual MassModel* CreateMassModel_(const achar* path) = 0;
+	virtual Terrain3D* CreateTerrain3D_() = 0;
+
 	virtual Effect* CreateEffect_(const achar* path) = 0;
 	virtual Font* CreateFont_(const achar* path) = 0;
 	virtual Chip2D* CreateChip2D_() = 0;
@@ -53,6 +59,15 @@ public:
 	@return	テクスチャ
 	*/
 	std::shared_ptr<Texture2D> CreateTexture2D(const achar* path) { return CreateSharedPtrWithReleaseDLL(CreateTexture2D_(path)); }
+
+	/**
+	@brief	テクスチャを生成する。
+	@param	path	パス
+	@return	テクスチャ
+	@note
+	画素がRGB空間にマッピングされている時に使用する。(ノーマルマップ等)
+	*/
+	std::shared_ptr<Texture2D> CreateTexture2DAsRawData(const achar* path) { return CreateSharedPtrWithReleaseDLL(CreateTexture2DAsRawData_(path)); }
 
 	/**
 	@brief	テクスチャを生成する。
@@ -103,6 +118,18 @@ public:
 		return CreateSharedPtrWithReleaseDLL(
 			CreateCubemapTextureFromMipmapImageFiles_(
 			path, mipmapCount));
+	}
+
+	/**
+	@brief	1つのファイルからミップマップ付のキューブマップテクスチャを生成する。
+	@param	path		パス
+	@return	キューブマップ
+	*/
+	std::shared_ptr<CubemapTexture> CreateCubemapTextureFromSingleImageFile(const achar* path)
+	{
+		return CreateSharedPtrWithReleaseDLL(
+			CreateCubemapTextureFromSingleImageFile_(
+			path));
 	}
 
 	/**
@@ -189,6 +216,38 @@ public:
 	}
 
 	/**
+	@brief	大量描画用モデルを生成する。
+	@param	path	パス
+	@return	大量描画用モデル
+	*/
+	std::shared_ptr<MassModel> CreateMassModelFromModelFile(const achar* path)
+	{
+		auto model = CreateMassModelFromModelFile_(path);
+		return CreateSharedPtrWithReleaseDLL(model);
+	}
+
+	/**
+	@brief	大量描画用モデルを生成する。
+	@param	path	パス
+	@return	大量描画用モデル
+	*/
+	std::shared_ptr<MassModel> CreateMassModel(const achar* path)
+	{
+		auto model = CreateMassModel_(path);
+		return CreateSharedPtrWithReleaseDLL(model);
+	}
+
+	/**
+	@brief	地形を生成する。
+	@return	地形
+	*/
+	std::shared_ptr<Terrain3D> CreateTerrain3D()
+	{
+		auto terrain = CreateTerrain3D_();
+		return CreateSharedPtrWithReleaseDLL(terrain);
+	}
+
+	/**
 	@brief	エフェクトを生成する。
 	@param	path	パス
 	@return	エフェクト
@@ -231,6 +290,14 @@ public:
 	現在、エフェクトの描画回数はカウントされない。
 	*/
 	virtual int32_t GetDrawCallCount() const = 0;
+
+	/**
+		@brief	現在使用済みのVRAM容量を取得する。
+		@return	VRAM容量
+		@note
+		値は推測値である。
+	*/
+	virtual int32_t GetUsedVRAMSize() const = 0;
 
 	/**
 	@brief	描画ランタイムの種類を取得する。

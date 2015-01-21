@@ -88,7 +88,7 @@ namespace ace
         Escape = ace.swig.Keys.Escape,
         Enter = ace.swig.Keys.Enter,
         Tab = ace.swig.Keys.Tab,
-        BackSpace = ace.swig.Keys.Backspace,
+        Backspace = ace.swig.Keys.Backspace,
         Insert = ace.swig.Keys.Insert,
         Delete = ace.swig.Keys.Delete,
         Right = ace.swig.Keys.Right,
@@ -141,7 +141,7 @@ namespace ace
         Keypad9 = ace.swig.Keys.Keypad9,
         KeypadDecimal = ace.swig.Keys.KeypadDecimal,
         KeypadDivide = ace.swig.Keys.KeypadDivide,
-        KeypadSubtract = ace.swig.Keys.KeypadSubstract,
+        KeypadSubstract = ace.swig.Keys.KeypadSubstract,
         KeypadAdd = ace.swig.Keys.KeypadAdd,
         KeypadEnter = ace.swig.Keys.KeypadEnter,
         KeypadEqual = ace.swig.Keys.KeypadEqual,
@@ -155,7 +155,7 @@ namespace ace
         RightWin = ace.swig.Keys.RightWin,
         Menu = ace.swig.Keys.Menu,
         Last = ace.swig.Keys.Last,
-        Max = ace.swig.Keys.MAX
+        MAX = ace.swig.Keys.MAX
     };
 
     /// <summary>

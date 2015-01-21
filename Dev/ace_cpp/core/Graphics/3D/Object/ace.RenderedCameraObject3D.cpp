@@ -24,7 +24,7 @@ namespace ace
 	RenderedCameraObject3DProxy::~RenderedCameraObject3DProxy()
 	{
 		SafeRelease(m_renderTargetDiffuseColor_RT);
-		SafeRelease(m_renderTargetSpecularColor_Smoothness_RT);
+		SafeRelease(m_renderTargetSmoothness_Metalness_AO_RT);
 		SafeRelease(m_renderTargetNormalDepth_RT);
 		SafeRelease(m_renderTargetAO_MatID_RT);
 
@@ -49,7 +49,7 @@ namespace ace
 		if (WindowSize != windowSize || HDRMode != hdrMode)
 		{
 			SafeRelease(m_renderTargetDiffuseColor_RT);
-			SafeRelease(m_renderTargetSpecularColor_Smoothness_RT);
+			SafeRelease(m_renderTargetSmoothness_Metalness_AO_RT);
 			SafeRelease(m_renderTargetNormalDepth_RT);
 			SafeRelease(m_renderTargetAO_MatID_RT);
 
@@ -65,7 +65,7 @@ namespace ace
 			SafeRelease(m_renderTargetEnvironment);
 
 			m_renderTargetDiffuseColor_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
-			m_renderTargetSpecularColor_Smoothness_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
+			m_renderTargetSmoothness_Metalness_AO_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 			m_renderTargetNormalDepth_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
 			m_renderTargetAO_MatID_RT = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 

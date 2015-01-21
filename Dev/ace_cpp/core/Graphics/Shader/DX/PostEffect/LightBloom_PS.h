@@ -1,6 +1,8 @@
 ﻿static const char* lightbloom_ps_dx = R"(
 
-float4 g_weight;
+float4 g_weight1;
+float4 g_weight2;
+
 float g_threshold;
 float g_power;
 
@@ -50,14 +52,22 @@ float4 CalcBlurredColor(float2 uv)
 	float2 adder = float2(0.000000, 2.00000 / size.y);
 #endif
 	float4 sum = float4(0.000000, 0.000000, 0.000000, 0.000000);
-	sum += g_weight.x * GetColor(uv + shift_p + adder * 0.000000);
-	sum += g_weight.x * GetColor(uv + shift_m - adder * 0.000000);
-	sum += g_weight.y * GetColor(uv + shift_p + adder * 1.00000);
-	sum += g_weight.y * GetColor(uv + shift_m - adder * 1.00000);
-	sum += g_weight.z * GetColor(uv + shift_p + adder * 2.00000);
-	sum += g_weight.z * GetColor(uv + shift_m - adder * 2.00000);
-	sum += g_weight.w * GetColor(uv + shift_p + adder * 3.00000);
-	sum += g_weight.w * GetColor(uv + shift_m - adder * 3.00000);
+	sum += g_weight1.x * GetColor(uv + shift_p + adder * 0.000000);
+	sum += g_weight1.x * GetColor(uv + shift_m - adder * 0.000000);
+	sum += g_weight1.y * GetColor(uv + shift_p + adder * 1.00000);
+	sum += g_weight1.y * GetColor(uv + shift_m - adder * 1.00000);
+	sum += g_weight1.z * GetColor(uv + shift_p + adder * 2.00000);
+	sum += g_weight1.z * GetColor(uv + shift_m - adder * 2.00000);
+	sum += g_weight1.w * GetColor(uv + shift_p + adder * 3.00000);
+	sum += g_weight1.w * GetColor(uv + shift_m - adder * 3.00000);
+	sum += g_weight2.x * GetColor(uv + shift_p + adder * 4.000000);
+	sum += g_weight2.x * GetColor(uv + shift_m - adder * 4.000000);
+	sum += g_weight2.y * GetColor(uv + shift_p + adder * 5.00000);
+	sum += g_weight2.y * GetColor(uv + shift_m - adder * 5.00000);
+	sum += g_weight2.z * GetColor(uv + shift_p + adder * 6.00000);
+	sum += g_weight2.z * GetColor(uv + shift_m - adder * 6.00000);
+	sum += g_weight2.w * GetColor(uv + shift_p + adder * 7.00000);
+	sum += g_weight2.w * GetColor(uv + shift_m - adder * 7.00000);
 
 	sum.a = 1.0;
 

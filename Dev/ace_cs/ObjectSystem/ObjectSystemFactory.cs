@@ -80,6 +80,16 @@ namespace ace
 			return factory.CreateModelObject3D();
 		}
 
+		public swig.CoreMassModelObject3D CreateMassModelObject3D()
+		{
+			return factory.CreateCoreMassModelObject3D();
+		}
+
+		public swig.CoreTerrainObject3D CreateTerrainObject3D()
+		{
+			return factory.CreateCoreTerrainObject3D();
+		}
+
 		/// <summary>
 		/// ネイティブの CameraObject3D クラスをインスタンス化する。
 		/// </summary>

@@ -101,7 +101,10 @@ void Graphics_Sampler(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"SingleTexture").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false, false);
+	auto file = ace::File_Imp::Create();
+	ASSERT_TRUE(file != nullptr);
+
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, file, false, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto texture = graphics->CreateTexture2D(ace::ToAString(L"Data/Texture/Sampler.png").c_str());
@@ -259,6 +262,7 @@ void Graphics_Sampler(bool isOpenGLMode)
 	}
 
 	graphics->Release();
+	file->Release();
 	texture.reset();
 	vertexBuffer.reset();
 	indexBuffer.reset();
@@ -268,10 +272,12 @@ void Graphics_Sampler(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, Sampler_DX)
 {
 	Graphics_Sampler(false);
 }
+#endif
 
 TEST(Graphics, Sampler_GL)
 {

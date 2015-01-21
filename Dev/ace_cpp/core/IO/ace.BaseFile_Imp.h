@@ -20,16 +20,20 @@ namespace ace
 		std::basic_ifstream<char> m_file;
 		int64_t m_position;
 		int64_t m_length;
+		astring m_filePath;
 
+		BaseFile_Imp(const astring& path);
 	public:
 		BaseFile_Imp(const Path& fileName);
-		BaseFile_Imp(const astring& path);
 		virtual ~BaseFile_Imp();
 
 		int64_t Position() const { return m_position; }
+		const astring& FullPath() const { return m_filePath; }
 
 		int64_t Size();
 		void ReadBytes(std::vector<uint8_t>& buffer, const int64_t count);
+		uint32_t ReadUInt32();
+		uint64_t ReadUInt64();
 		void ReadAllBytes(std::vector<uint8_t>& buffer);
 		void ReadAllLines(std::vector<astring>& lines);
 		void ReadAllText(astring& text);

@@ -4,8 +4,9 @@
 
 namespace ace
 {
-	Sound_Imp::Sound_Imp(bool isReloadingEnabled)
+	Sound_Imp::Sound_Imp(File *file, bool isReloadingEnabled)
 		: m_manager(nullptr)
+		, m_file(file)
 	{
 		m_manager = osm::Manager::Create();
 		if (m_manager->Initialize())
@@ -16,7 +17,7 @@ namespace ace
 			SafeRelease(m_manager);
 		}
 
-		SoundSourcesContainer = std::make_shared<ResourceContainer<SoundSource_Imp>>();
+		SoundSourcesContainer = std::make_shared<ResourceContainer<SoundSource_Imp>>(file);
 	}
 
 	Sound_Imp::~Sound_Imp()

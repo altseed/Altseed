@@ -222,7 +222,7 @@ namespace ace
 		memcpy(dst, &src, sizeof(int32_t));
 	}
 
-	bool Model_IO::Load(std::vector<uint8_t>& data, const achar* path)
+	bool Model_IO::Load(const std::vector<uint8_t>& data, const achar* path)
 	{
 		Meshes.clear();
 
@@ -432,11 +432,11 @@ namespace ace
 		{
 			material.OriginalColorTexture = reader.Get<ace::astring>();
 			material.OriginalNormalTexture = reader.Get<ace::astring>();
-			material.OriginalSpecularTexture = reader.Get<ace::astring>();
+			material.OriginalMetalnessTexture = reader.Get<ace::astring>();
 
 			if (material.OriginalColorTexture != astring()) material.ColorTexture = CombinePath(path, material.OriginalColorTexture.c_str());
 			if (material.OriginalNormalTexture != astring()) material.NormalTexture = CombinePath(path, material.OriginalNormalTexture.c_str());
-			if (material.OriginalSpecularTexture != astring()) material.SpecularTexture = CombinePath(path, material.OriginalSpecularTexture.c_str());
+			if (material.OriginalMetalnessTexture != astring()) material.MetalnessTexture = CombinePath(path, material.OriginalMetalnessTexture.c_str());
 		}
 	}
 
@@ -599,7 +599,7 @@ namespace ace
 			writer.Push((int32_t) 0);
 			writer.Push(material.OriginalColorTexture.c_str());
 			writer.Push(material.OriginalNormalTexture.c_str());
-			writer.Push(material.OriginalSpecularTexture.c_str());
+			writer.Push(material.OriginalMetalnessTexture.c_str());
 		}
 	}
 

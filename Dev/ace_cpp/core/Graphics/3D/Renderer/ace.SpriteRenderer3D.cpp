@@ -135,12 +135,15 @@ namespace ace {
 		sprites.clear();
 	}
 
-	void SpriteRenderer3D::AddSprite(Vector3DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend)
+	void SpriteRenderer3D::AddSprite(Vector3DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest)
 	{
 		Sprite s;
 		s.TexturePtr = texture;
 		SafeAddRef(s.TexturePtr);
 		s.AlphaBlendState = alphaBlend;
+		s.DepthWrite = depthWrite;
+		s.DepthTest = depthTest;
+
 		memcpy(s.Positions, positions, sizeof(ace::Vector3DF) * 4);
 		memcpy(s.Colors, colors, sizeof(ace::Color) * 4);
 		memcpy(s.UV, uv, sizeof(ace::Vector2DF) * 4);
@@ -165,6 +168,8 @@ namespace ace {
 		{
 			m_state.TexturePtr = s.TexturePtr;
 			m_state.AlphaBlendState = s.AlphaBlendState;
+			m_state.DepthTest = s.DepthTest;
+			m_state.DepthWrite = s.DepthWrite;
 		};
 
 		if (drawingSprites.size() == 0)
@@ -178,6 +183,8 @@ namespace ace {
 			// もしくはバッファが溢れないかどうか?
 			if (m_state.TexturePtr != s.TexturePtr ||
 				m_state.AlphaBlendState != s.AlphaBlendState ||
+				m_state.DepthTest != s.DepthTest ||
+				m_state.DepthWrite != s.DepthWrite ||
 				drawingSprites.size() >= SpriteCount)
 			{
 				DrawSprite();
@@ -252,8 +259,8 @@ namespace ace {
 
 		RenderState state;
 		
-		state.DepthTest = false;
-		state.DepthWrite = false;
+		state.DepthTest = m_state.DepthTest;
+		state.DepthWrite = m_state.DepthWrite;
 		state.Culling = CullingType::Double;
 		m_graphics->SetRenderState(state);
 

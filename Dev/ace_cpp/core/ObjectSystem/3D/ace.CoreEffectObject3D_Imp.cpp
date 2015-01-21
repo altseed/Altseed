@@ -38,6 +38,11 @@ namespace ace
 		m_object->StopRoot();
 	}
 
+	bool CoreEffectObject3D_Imp::IsPlaying()
+	{
+		return m_object->IsPlaying();
+	}
+
 	bool CoreEffectObject3D_Imp::GetSyncEffects()
 	{
 		return m_object->GetSyncEffects();

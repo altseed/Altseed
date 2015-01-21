@@ -56,6 +56,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::Update()
 	{
+		executing = true;
+
 		if (!alreadyFirstUpdate)
 		{
 			OnUpdateForTheFirstTime();
@@ -82,6 +84,25 @@ namespace ace
 		UpdateComponents();
 
 		OnUpdated();
+
+		executing = false;
+
+		CommitChanges();
+	}
+
+	void Scene::CommitChanges()
+	{
+		for (auto layer : addingLayer)
+		{
+			AddLayer(layer);
+		}
+
+		for (auto layer : removingLayer)
+		{
+			RemoveLayer(layer);
+		}
+		addingLayer.clear();
+		removingLayer.clear();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -89,6 +110,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::Draw()
 	{
+		executing = true;
+
 		m_layersToDraw.sort([](const Layer::Ptr& x, const Layer::Ptr& y) -> bool
 		{
 			return x->GetDrawingPriority() < y->GetDrawingPriority();
@@ -117,6 +140,10 @@ namespace ace
 		}
 
 		m_coreScene->EndDrawing();
+
+		executing = false;
+
+		CommitChanges();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -191,6 +218,12 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::AddLayer(const Layer::Ptr& layer)
 	{
+		if (executing)
+		{
+			addingLayer.push_back(layer);
+			return;
+		}
+
 		if (layer->GetScene() != nullptr)
 		{
 			throw "追加しようとしたレイヤーは、すでに別のシーンに所属しています。";
@@ -206,6 +239,12 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::RemoveLayer(const Layer::Ptr& layer)
 	{
+		if (executing)
+		{
+			removingLayer.push_back(layer);
+			return;
+		}
+
 		m_layersToDraw.remove(layer);
 		m_layersToUpdate.remove(layer);
 		m_coreScene->RemoveLayer(layer->GetCoreLayer().get());

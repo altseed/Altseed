@@ -29,6 +29,8 @@ namespace ace
 
 		void StopRoot() override;
 
+		bool IsPlaying() override;
+
 		bool GetSyncEffects() override;
 
 		void SetSyncEffects(bool value) override;

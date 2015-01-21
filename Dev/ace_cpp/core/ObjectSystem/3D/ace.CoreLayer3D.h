@@ -33,8 +33,13 @@ namespace ace
 		virtual void AddObject(ObjectPtr object3D) = 0;
 		virtual void RemoveObject(ObjectPtr object3D) = 0;
 
+		virtual float GetAmbientColorIntensity() = 0;
+		virtual void SetAmbientColorIntensity(float ambientColorIntensity) = 0;
+
 		virtual void SetSkyAmbientColor(Color color) = 0;
 		virtual void SetGroundAmbientColor(Color color) = 0;
+
+		virtual void SetEnvironmentColorIntensity(float environmentDiffuseColorIntensity, float environmentSpecularColorIntensity) = 0;
 
 		virtual void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) = 0;
 
@@ -53,6 +58,6 @@ namespace ace
 		virtual void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-			Texture2D* texture, AlphaBlend alphaBlend) = 0;
+			Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest) = 0;
 	};
 }

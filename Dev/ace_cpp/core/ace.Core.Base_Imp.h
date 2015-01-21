@@ -79,12 +79,17 @@ namespace ace {
 	class RenderedModelObject3D;
 	class RenderedDirectionalLightObject3D;
 	class RenderedCameraObject3D;
+	class RenderedMassModelObject3D;
+	class RenderedTerrainObject3D;
 
 	class RenderedObject3DProxy;
 	class RenderedCameraObject3DProxy;
 	class RenderedDirectionalLightObject3DProxy;
+	class RenderedMassModelObject3DProxy;
+	class RenderedTerrainObject3DProxy;
 
 	class Model_Imp;
+	class MassModel_Imp;
 
 	class Mesh_Imp;
 	class Deformer_Imp;
@@ -133,6 +138,7 @@ namespace ace {
 		CONSTANT_BUFFER_FORMAT_FLOAT2,
 		CONSTANT_BUFFER_FORMAT_FLOAT3,
 		CONSTANT_BUFFER_FORMAT_FLOAT4,
+		CONSTANT_BUFFER_FORMAT_FLOAT4_ARRAY,
 		CONSTANT_BUFFER_FORMAT_MATRIX44,
 		CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY,
 		CONSTANT_BUFFER_FORMAT_UNKNOWN,
@@ -200,6 +206,12 @@ namespace ace {
 				TextureWrapType		WrapType;
 			} CubemapTexturePtr;
 
+			struct
+			{
+				Vector4DF*			Ptr;
+				int32_t				Count;
+			} Vector4DFArray;
+
 			/**
 				@brief	行列の配列
 				@note
@@ -219,6 +231,7 @@ namespace ace {
 		ShaderConstantValue(const Vector2DF& value);
 		ShaderConstantValue(const Vector3DF& value);
 		ShaderConstantValue(const Vector4DF& value);
+		ShaderConstantValue(Vector4DF* value, int32_t count);
 		ShaderConstantValue(const Matrix44& value);
 		ShaderConstantValue(Matrix44* value, int32_t count);
 		ShaderConstantValue(Texture2D* value, TextureFilterType filterType, TextureWrapType wrapType);

@@ -44,6 +44,11 @@ namespace ace
 		m_coreObject->StopRoot();
 	}
 
+	bool EffectObject2D::IsPlaying()
+	{
+		return m_coreObject->IsPlaying();
+	}
+
 	bool EffectObject2D::GetSyncEffects()
 	{
 		return m_coreObject->GetSyncEffects();

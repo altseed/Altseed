@@ -219,7 +219,7 @@ namespace ace
 	}
 
 	void EnvironmentRendering::Render(RenderedCameraObject3DProxy* cameraP, RenderingCommandHelper* helper, RenderTexture2D_Imp* gb0, RenderTexture2D_Imp* gb1, RenderTexture2D_Imp* gb2, RenderTexture2D_Imp* gb3,
-		CubemapTexture* diffuseColor, CubemapTexture* specularColor)
+		float diffuseColorIntensity, float specularColorIntensity, CubemapTexture* diffuseColor, CubemapTexture* specularColor)
 	{
 		using h = RenderingCommandHelper;
 
@@ -243,6 +243,8 @@ namespace ace
 			h::GenValue("reconstructInfo1", cameraP->ReconstructInfo1),
 			h::GenValue("reconstructInfo2", cameraP->ReconstructInfo2),
 			h::GenValue("mipmapCount", (float)specularColor->GetMipmapCount()),
+			h::GenValue("diffuseIntensity", diffuseColorIntensity),
+			h::GenValue("specularIntensity", specularColorIntensity),
 			h::GenValue("g_diffuseTexture", h::CubemapTexturePair(diffuseColor, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 			h::GenValue("g_specularTexture", h::CubemapTexturePair(specularColor, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
 			h::GenValue("g_brdfTexture", h::Texture2DPair(brdfTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),

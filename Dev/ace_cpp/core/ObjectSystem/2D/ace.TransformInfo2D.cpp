@@ -89,16 +89,17 @@ namespace ace
 	{
 		if (m_parentInfo != nullptr)
 		{
+			auto& parent = m_parentInfo->GetParent();
 			switch (m_parentInfo->GetChildMode())
 			{
 			case eChildMode::CHILD_MODE_POSITION:
-				return m_parentInfo->GetParent().GetMatrixToTranslate();
+				return parent.GetParentsMatrix() * parent.GetMatrixToTranslate();
 
 			case eChildMode::CHILD_MODE_ALL:
-				return m_parentInfo->GetParent().GetMatrixToTransform();
+				return parent.GetParentsMatrix() * parent.GetMatrixToTransform();
 
 			case eChildMode::CHILD_MODE_NOTHING:
-				return Matrix33();
+				return parent.GetParentsMatrix() * Matrix33();
 			}
 			assert(false);
 		}

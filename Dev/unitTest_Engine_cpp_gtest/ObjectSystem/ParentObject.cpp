@@ -23,23 +23,31 @@ protected:
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 		auto child = make_shared<TextureObject2D>();
+		auto child2 = make_shared<TextureObject2D>();
 		m_parent = make_shared<TextureObject2D>();
+
+		auto file = ace::Engine::GetFile();
+		file->AddRootDirectories(ace::ToAString("Data/Texture").c_str());
 
 		ace::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(m_parent);
 		layer->AddObject(child);
+		layer->AddObject(child2);
 		m_parent->AddChild(child, eChildMode::CHILD_MODE_ALL);
+		child->AddChild(child2, eChildMode::CHILD_MODE_NOTHING);
 
 		auto g = ace::Engine::GetGraphics();
-		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Cloud1.png").c_str());
+		auto texture = g->CreateTexture2D(ace::ToAString("Cloud1.png").c_str());
 		m_parent->SetTexture(texture);
 		child->SetTexture(texture);
+		child2->SetTexture(texture);
 
 		m_parent->SetPosition(Vector2DF(320, 240));
 		m_parent->SetCenterPosition(Vector2DF(128, 128));
 		m_parent->SetColor(Color(255, 255, 128, 255));
 		child->SetPosition(Vector2DF(50, 50));
+		child2->SetPosition(Vector2DF(60, 60));
 	}
 
 	void OnUpdating()

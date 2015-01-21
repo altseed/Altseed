@@ -2,8 +2,10 @@
 #pragma once
 
 #include "ace.CoreObject2D.h"
+#include "ace.CoreLayer2D_Imp.h"
 #include "ace.ObjectInfo2D.h"
 #include "ace.TransformInfo2D.h"
+#include "ace.Culling2D.h"
 
 #include "../../ace.ReferenceObject.h"
 
@@ -18,8 +20,8 @@
 	virtual bool GetIsAlive() const override { return CoreObject2D_Imp::GetIsAlive(); }\
 	virtual void SetIsAlive(bool value) override { return CoreObject2D_Imp::SetIsAlive(value); }\
 	virtual void SetLayer(CoreLayer2D* layer) override { return CoreObject2D_Imp::SetLayer(layer); }\
+	virtual CoreLayer2D* GetLayer() override { return CoreObject2D_Imp::GetLayer(); }\
 	\
-
 
 
 #define CORE_OBJECT2D_IMP_TRANSFORM	\
@@ -34,8 +36,8 @@
 	virtual void ClearParent() override { return CoreObject2D_Imp::ClearParent(); }\
 	virtual Matrix33 GetMatrixToTranslate() override { return CoreObject2D_Imp::GetMatrixToTranslate(); }\
 	virtual Matrix33 GetMatrixToTransform() override { return CoreObject2D_Imp::GetMatrixToTransform(); }\
+	virtual Matrix33 GetParentsMatrix() override { return CoreObject2D_Imp::GetParentsMatrix(); }\
 	\
-
 
 #define CORE_OBJECT2D_IMP_CHILD	\
 	void AddChild(CoreObject2D& child, eChildMode mode) {	\
@@ -58,10 +60,49 @@ namespace ace
 		ObjectInfo2D	m_objectInfo;
 		TransformInfo2D m_transform;
 		Graphics_Imp*	m_graphics;
-		
+		culling2d::Circle m_boundingCircle;
+		culling2d::Object *cullingObject;
+		bool alreadyCullingUpdated;
+
+		void SetCullingUpdate()
+		{
+#if __CULLING_2D__
+			if (!alreadyCullingUpdated&&m_objectInfo.GetLayer() != nullptr)
+			{
+				auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
+				layerImp->TransformedObjects.push_back(cullingObject);
+				alreadyCullingUpdated = true;
+			}
+#endif
+		}
+
 	public:
 		CoreObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreObject2D_Imp();
+
+		virtual void CalculateBoundingCircle()
+		{
+		}
+
+		void SetCullingObject(culling2d::Object *cullingObj)
+		{
+			cullingObject = cullingObj;
+		}
+
+		culling2d::Object* GetCullingObject() const
+		{
+			return cullingObject;
+		}
+
+		bool GetAlreadyCullingUpdated() const
+		{
+			return alreadyCullingUpdated;
+		}
+
+		void SetAlreadyCullingUpdated(bool cullingUpdated)
+		{
+			alreadyCullingUpdated = cullingUpdated;
+		}
 
 		bool GetIsDrawn() const
 		{
@@ -90,7 +131,9 @@ namespace ace
 		void SetPosition(Vector2DF value)
 		{
 			m_transform.SetPosition(value);
+			SetCullingUpdate();
 		}
+
 
 		Vector2DF GetGlobalPosition()
 		{
@@ -104,6 +147,7 @@ namespace ace
 		void SetAngle(float value)
 		{
 			m_transform.SetAngle(value);
+			SetCullingUpdate();
 		}
 
 		Vector2DF GetScale() const
@@ -113,11 +157,17 @@ namespace ace
 		void SetScale(Vector2DF value)
 		{
 			m_transform.SetScale(value);
+			SetCullingUpdate();
 		}
 
 		void SetLayer(CoreLayer2D* layer)
 		{
 			m_objectInfo.SetLayer(layer);
+		}
+
+		CoreLayer2D* GetLayer()
+		{
+			return m_objectInfo.GetLayer();
 		}
 
 		void SetParent(CoreObject2D& parent, eChildMode mode)
@@ -140,8 +190,15 @@ namespace ace
 			return m_transform.GetMatrixToTransform();
 		}
 
+		Matrix33 GetParentsMatrix()
+		{
+			return m_transform.GetParentsMatrix();
+		}
+
 		virtual void OnAdded(Renderer2D* renderer) {}
 
 		virtual void OnRemoving(Renderer2D* renderer) {}
+
+		culling2d::Circle& GetBoundingCircle();
 	};
 }

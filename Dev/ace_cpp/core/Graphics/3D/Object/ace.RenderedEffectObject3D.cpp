@@ -125,6 +125,19 @@ namespace ace
 		}
 	}
 
+	bool RenderedEffectObject3D::IsPlaying()
+	{
+		for (size_t i = 0; i < m_handles.size(); i++)
+		{
+			if (m_renderer->GetEffectManager()->Exists(m_handles[i]))
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	void RenderedEffectObject3D::OnAdded(Renderer3D* renderer)
 	{
 		assert(m_renderer == nullptr);

@@ -7,21 +7,67 @@
 
 namespace ace
 {
-	class MassObject_Imp
-		: public MassObject
+	class MassModel_Imp
+		: public MassModel
 		, public ReferenceObject
 	{
+	public:
+		struct Material
+		{
+			std::shared_ptr<Texture2D>	ColorTexture;
+			std::shared_ptr<Texture2D>	NormalTexture;
+			std::shared_ptr<Texture2D>	MetalnessTexture;
+			std::shared_ptr<Texture2D>	SmoothnessTexture;
+
+			std::shared_ptr<Material3D>	Material_;
+
+			Material();
+			~Material();
+		};
+
 	private:
+		std::vector<int32_t>	frameCount;
+		std::vector<bool>		loopingMode;
+
+		std::map<astring, int32_t>	animationClips;
+
 		std::shared_ptr<VertexBuffer_Imp>	m_vertexBuffer;
 		std::shared_ptr<IndexBuffer_Imp>	m_indexBuffer;
 
-		std::shared_ptr<Texture2D_Imp>		m_animationTexture;
+		std::shared_ptr<Texture2D>		m_animationTexture;
+
+		Material				material;
+
+	public:
+		MassModel_Imp();
+		virtual ~MassModel_Imp();
+
+		bool GetIsLoopingMode(const achar* name) const override;
+
+		void SetIsLoopingMode(const achar* name, bool isLoopingMode) override;
+
+		void SetMaterial(Material3D* material) override;
+
+		std::shared_ptr<VertexBuffer_Imp> GetVertexBuffer() { return m_vertexBuffer; }
+		std::shared_ptr<IndexBuffer_Imp> GetIndexBuffer() { return m_indexBuffer; }
+		std::shared_ptr<Texture2D> GetAnimationTexture() { return m_animationTexture; }
+		Material& GetMaterial() { return material; }
 
 		bool Load(Graphics_Imp* g, MassModel_IO& io);
 
-	public:
-		MassObject_Imp();
-			virtual ~MassObject_Imp();
+		bool GetIsLoopingMode(int32_t index) { return loopingMode[index]; }
+		int32_t GetFrameCount(int32_t index) { return frameCount[index]; }
+		int32_t GetClipIndex(const achar* name) const
+		{
+			auto key = astring(name);
+			auto it = animationClips.find(key);
+
+			if (it != animationClips.end())
+			{
+				return (*it).second;
+			}
+			return -1;
+		}
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

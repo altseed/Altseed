@@ -16,6 +16,11 @@ namespace ace
 		return shader->GetTextureID(name);
 	}
 
+	Vector4DF* RenderingCommandHelper::MallocVector4DFArrayBuffer(int32_t count)
+	{
+		return factory->CreateCommands<Vector4DF>(count);
+	}
+
 	Matrix44* RenderingCommandHelper::MallocMatrix44ArrayBuffer(int32_t count)
 	{
 		return factory->CreateCommands<Matrix44>(count);
@@ -46,6 +51,20 @@ namespace ace
 	void RenderingCommandHelper::DrawWithPtr(int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs, ShaderConstantValue* values, int32_t count)
 	{
 		auto command = factory->CreateCommand<RenderingCommand_Draw>(polyCount, vb, ib, shader, rs);
+		command->SetConstantValues(factory, values, count);
+		commands.push_back(command);
+	}
+
+	void RenderingCommandHelper::DrawWithPtr(int32_t polyOffset, int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs, ShaderConstantValue* values, int32_t count)
+	{
+		auto command = factory->CreateCommand<RenderingCommand_Draw>(polyOffset, polyCount, vb, ib, shader, rs);
+		command->SetConstantValues(factory, values, count);
+		commands.push_back(command);
+	}
+
+	void RenderingCommandHelper::DrawInstancedWithPtr(int32_t polyCount, int32_t instanceCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs, ShaderConstantValue* values, int32_t count)
+	{
+		auto command = factory->CreateCommand<RenderingCommand_DrawInstanced>(polyCount, instanceCount, vb, ib, shader, rs);
 		command->SetConstantValues(factory, values, count);
 		commands.push_back(command);
 	}

@@ -2,10 +2,12 @@
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+#include <vector>
 #include "ace.Graphics_Imp.h"
 #include "ace.RenderingThread.h"
 
 #include "../Log/ace.Log.h"
+#include "../IO/ace.File_Imp.h"
 
 #include "Resource/ace.VertexBuffer_Imp.h"
 #include "Resource/ace.IndexBuffer_Imp.h"
@@ -28,6 +30,11 @@
 #include "3D/Resource/ace.Mesh_Imp.h"
 #include "3D/Resource/ace.Deformer_Imp.h"
 #include "3D/Resource/ace.Model_Imp.h"
+#include "3D/Resource/ace.MassModel_Imp.h"
+#include "3D/Resource/ace.Terrain3D_Imp.h"
+
+#include <Graphics/3D/ace.Model_IO.h>
+#include <Graphics/3D/ace.MassModel_IO.h>
 
 #if _WIN32
 #include "Platform/DX11/ace.Graphics_Imp_DX11.h"
@@ -49,6 +56,32 @@
 #pragma comment(lib,"zlib.Release.lib")
 #endif
 #endif
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
+#if _WIN32
+#include <shlwapi.h>
+#pragma comment(lib, "shlwapi.lib")
+#else
+#include <sys/stat.h>
+#endif
+
+static void CreateShaderCacheDirectory()
+{
+	const char* shaderCacheDirectory = "ShaderCache";
+#if _WIN32
+	if (!PathIsDirectoryA(shaderCacheDirectory))
+	{
+		CreateDirectoryA(shaderCacheDirectory, NULL);
+	}
+#else
+	mkdir(shaderCacheDirectory,
+		S_IRUSR | S_IWUSR | S_IXUSR |
+		S_IRGRP | S_IWGRP | S_IXGRP |
+		S_IROTH | S_IXOTH | S_IXOTH);
+#endif
+}
 
 //----------------------------------------------------------------------------------
 //
@@ -173,7 +206,7 @@ void ImageHelper::SavePNGImage(const achar* filepath, int32_t width, int32_t hei
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst)
+bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst, Log* log)
 {
 	imagewidth = 0;
 	imageheight = 0;
@@ -194,6 +227,12 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 	if (setjmp(png_jmpbuf(png)))
 	{
 		png_destroy_read_struct(&png, &png_info, NULL);
+
+		if (log != nullptr)
+		{
+			log->WriteLineStrongly("pngファイルのヘッダの読み込みに失敗しました。");
+		}
+		
 		return false;
 	}
 
@@ -214,12 +253,31 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 	switch (png_info->color_type)
 	{
 	case PNG_COLOR_TYPE_PALETTE:
-		png_set_palette_to_rgb(png);
-		pixelBytes = 4;
+		{
+			png_set_palette_to_rgb(png);
+
+			png_bytep trans_alpha = NULL;
+			int num_trans = 0;
+			png_color_16p trans_color = NULL;
+
+			png_get_tRNS(png, png_info, &trans_alpha, &num_trans, &trans_color);
+			if (trans_alpha != NULL)
+			{
+				pixelBytes = 4;
+			}
+			else
+			{
+				pixelBytes = 3;
+			}
+		}
 		break;
 	case PNG_COLOR_TYPE_GRAY:
 		png_set_expand_gray_1_2_4_to_8(png);
 		pixelBytes = 3;
+		break;
+	case PNG_COLOR_TYPE_GRAY_ALPHA:
+		png_set_gray_to_rgb(png);
+		pixelBytes = 4;
 		break;
 	case PNG_COLOR_TYPE_RGB:
 		pixelBytes = 3;
@@ -287,7 +345,36 @@ int32_t ImageHelper::GetPitch(TextureFormat format)
 	if (format == TextureFormat::R32G32B32A32_FLOAT) return 4 * 4;
 	if (format == TextureFormat::R8G8B8A8_UNORM_SRGB) return 4;
 	if (format == TextureFormat::R16G16_FLOAT) return 2 * 2;
+	if (format == TextureFormat::R8_UNORM) return 1;
+
+	// 1ピクセル単位で返せない
+	if (format == TextureFormat::BC1) return 0;
+	if (format == TextureFormat::BC1_SRGB) return 0;
+	if (format == TextureFormat::BC2) return 0;
+	if (format == TextureFormat::BC2_SRGB) return 0;
+	if (format == TextureFormat::BC3) return 0;
+	if (format == TextureFormat::BC3_SRGB) return 0;
+
 	return 0;
+}
+
+int32_t ImageHelper::GetVRAMSize(TextureFormat format, int32_t width, int32_t height)
+{
+	auto pitch = GetPitch(format);
+
+	if (pitch == 0)
+	{
+		if (format == TextureFormat::BC1 ||
+			format == TextureFormat::BC1_SRGB) return width * height * 4 / 6;
+		
+		if (format == TextureFormat::BC2 ||
+			format == TextureFormat::BC2_SRGB) return width * height * 4 / 4;
+
+		if (format == TextureFormat::BC3 ||
+			format == TextureFormat::BC3_SRGB) return width * height * 4 / 4;
+	}
+
+	return pitch * width * height;
 }
 
 int32_t ImageHelper::GetMipmapCount(int32_t width, int32_t height)
@@ -310,6 +397,44 @@ void ImageHelper::GetMipmapSize(int mipmap, int32_t& width, int32_t& height)
 		if (width > 1) width = width >> 1;
 		if (height > 1) height = height >> 1;
 	}
+}
+
+
+bool ImageHelper::IsPNG(const void* data, int32_t size)
+{
+	if (size < 4) return false;
+
+	auto d = (uint8_t*) data;
+
+	if (d[0] != 0x89) return false;
+	if (d[1] != 'P') return false;
+	if (d[2] != 'N') return false;
+	if (d[3] != 'G') return false;
+
+	return true;
+}
+
+bool ImageHelper::IsDDS(const void* data, int32_t size)
+{
+	if (size < 4) return false;
+
+	auto d = (uint8_t*) data;
+
+	if (d[0] != 'D') return false;
+	if (d[1] != 'D') return false;
+	if (d[2] != 'S') return false;
+
+	return true;
+}
+
+std::string GraphicsHelper::GetFormatName(Graphics_Imp* graphics, TextureFormat format)
+{
+	if (format == TextureFormat::R8_UNORM) return std::string("R8_UNORM");
+	if (format == TextureFormat::R32G32B32A32_FLOAT) return std::string("R32G32B32A32_FLOAT");
+	if (format == TextureFormat::R8G8B8A8_UNORM) return std::string("R8G8B8A8_UNORM");
+	if (format == TextureFormat::R8G8B8A8_UNORM_SRGB) return std::string("R8G8B8A8_UNORM_SRGB");
+	if (format == TextureFormat::R16G16_FLOAT) return std::string("R16G16_FLOAT");
+	return std::string("Unknown");
 }
 
 //----------------------------------------------------------------------------------
@@ -341,38 +466,29 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path)
 		return cache->second.Ptr;
 	}
 
-#if _WIN32
-	auto fp = _wfopen((const achar*) path, L"rb");
-	if (fp == nullptr) return false;
-#else
-	auto fp = fopen(ToUtf8String((const achar*) path).c_str(), "rb");
-	if (fp == nullptr) return nullptr;
-#endif
-	fseek(fp, 0, SEEK_END);
-	auto size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	auto data = new uint8_t[size];
-	fread(data, 1, size, fp);
-	fclose(fp);
+	auto staticFile = m_graphics->GetFile()->CreateStaticFile((const achar*) path);
+	if (staticFile.get() == nullptr) return nullptr;
 
 	int32_t imageWidth = 0;
 	int32_t imageHeight = 0;
 	std::vector<uint8_t> imageDst;
-	if (!ImageHelper::LoadPNGImage(data, size, IsReversed(), imageWidth, imageHeight, imageDst))
+	if (!ImageHelper::LoadPNGImage(staticFile->GetData(), staticFile->GetSize(), IsReversed(), imageWidth, imageHeight, imageDst, m_graphics->GetLog()))
 	{
-		SafeDeleteArray(data);
 		return nullptr;
 	}
 
 	void* img = InternalLoad(m_graphics, imageDst, imageWidth, imageHeight);
 
-	SafeDeleteArray(data);
-
 	Cache c;
 	c.Ptr = img;
 	c.Count = 1;
+	c.Width = imageWidth;
+	c.Height = imageHeight;
 	m_caches[key] = c;
 	dataToKey[img] = key;
+
+	m_graphics->IncVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, imageWidth, imageHeight));
+
 	return img;
 }
 
@@ -391,6 +507,8 @@ void EffectTextureLoader::Unload(void* data)
 
 	if (cache->second.Count == 0)
 	{
+		m_graphics->DecVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, cache->second.Width, cache->second.Height));
+
 		m_caches.erase(key);
 		dataToKey.erase(data);
 	}
@@ -458,21 +576,21 @@ Shader2D* Graphics_Imp::CreateShader2D_(const achar* shaderText)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
 {
 #if _WIN32
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_GL::Create(window, log, file,isReloadingEnabled, isFullScreen);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create(window, log, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create(window, log, file,isReloadingEnabled, isFullScreen);
 	}
 #else
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_GL::Create(window, log, file, isReloadingEnabled, isFullScreen);
 	}
 	else
 	{
@@ -484,39 +602,44 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDe
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
 {
 #if _WIN32
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file,isReloadingEnabled, isFullScreen);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file,isReloadingEnabled, isFullScreen);
 	}
 #elif __APPLE__
 	return nullptr; // not supported
 #else
-	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, isReloadingEnabled, isFullScreen);
+	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, file,isReloadingEnabled, isFullScreen);
 #endif
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
 	: m_size(size)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)
 	, m_shaderPtr(nullptr)
 	, m_log(log)
+	, m_file(file)
 {
-	Texture2DContainer = std::make_shared<ResourceContainer<Texture2D_Imp>>();
-	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>();
+	CreateShaderCacheDirectory();
+
+	Texture2DContainer = std::make_shared<ResourceContainer<Texture2D_Imp>>(file);
+	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>(file);
+	FontContainer = std::make_shared<ResourceContainer<Font_Imp>>(file);
+	ModelContainer = std::make_shared<ResourceContainer<Model_Imp>>(file);
 
 	//SafeAddRef(m_log);
-	m_resourceContainer = new GraphicsResourceContainer();
+	//m_resourceContainer = new GraphicsResourceContainer(m_file);
 	m_renderingThread = std::make_shared<RenderingThread>();
 	
 	m_effectSetting = Effekseer::Setting::Create();
@@ -531,6 +654,11 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled, bo
 		currentState.textureWrapTypes[i] = TextureWrapType::Clamp;
 		nextState.textureFilterTypes[i] = TextureFilterType::Nearest;
 		nextState.textureWrapTypes[i] = TextureWrapType::Clamp;
+
+		currentState.textureFilterTypes_vs[i] = TextureFilterType::Nearest;
+		currentState.textureWrapTypes_vs[i] = TextureWrapType::Clamp;
+		nextState.textureFilterTypes_vs[i] = TextureFilterType::Nearest;
+		nextState.textureWrapTypes_vs[i] = TextureWrapType::Clamp;
 	}
 }
 
@@ -545,7 +673,7 @@ Graphics_Imp::~Graphics_Imp()
 	SafeRelease(m_indexBufferPtr);
 	SafeRelease(m_shaderPtr);
 
-	SafeDelete(m_resourceContainer);
+	//SafeDelete(m_resourceContainer);
 
 	SafeRelease(m_effectSetting);
 	//SafeRelease(m_log);
@@ -559,6 +687,16 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 	auto ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
 	{
 		return CreateTexture2D_Imp_Internal(this, data, size);
+	});
+
+	return ret;
+}
+
+Texture2D_Imp* Graphics_Imp::CreateTexture2DAsRawData_Imp(const achar* path)
+{
+	auto ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
+	{
+		return CreateTexture2DAsRawData_Imp_Internal(this, data, size);
 	});
 
 	return ret;
@@ -626,43 +764,77 @@ Deformer* Graphics_Imp::CreateDeformer_()
 
 Model* Graphics_Imp::CreateModel_(const achar* path)
 {
+	auto ret = ModelContainer->TryLoadWithVector(path, [this, &path](const std::vector<uint8_t>& data) -> Model_Imp*
 	{
-		auto existing = GetResourceContainer()->Models.Get(path);
-		if (existing != nullptr)
-		{
-			SafeAddRef(existing);
-			return existing;
-		}
+		auto model = new Model_Imp(this);
+		model->Load(this, data, path);
+		return model;
+	});
+	
+	return ret;
+}
+
+MassModel* Graphics_Imp::CreateMassModelFromModelFile_(const achar* path)
+{
+	auto staticFile = GetFile()->CreateStaticFile(path);
+	if (staticFile.get() == nullptr) return nullptr;
+
+	std::vector<uint8_t> data;
+	data.resize(staticFile->GetSize());
+
+	memcpy(data.data(), staticFile->GetData(), staticFile->GetSize());
+
+	Model_IO model_io;
+	if (!model_io.Load(data, path))
+	{
+		return nullptr;
 	}
 
-#if _WIN32
-	auto fp = _wfopen(path, L"rb");
-	if (fp == nullptr) return nullptr;
-#else
-	auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-	if (fp == nullptr) return nullptr;
-#endif
-	fseek(fp, 0, SEEK_END);
-	auto size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	
+	MassModel_IO massmodel_io;
+	if (!massmodel_io.Convert(model_io))
+	{
+		return nullptr;
+	}
+
+	auto massmodel = new MassModel_Imp();
+
+	if (!massmodel->Load(this, massmodel_io))
+	{
+		SafeDelete(massmodel);
+	}
+
+	return massmodel;
+}
+
+MassModel* Graphics_Imp::CreateMassModel_(const achar* path)
+{
+	auto staticFile = GetFile()->CreateStaticFile(path);
+	if (staticFile.get() == nullptr) return nullptr;
+
 	std::vector<uint8_t> data;
-	data.resize(size);
+	data.resize(staticFile->GetSize());
 
-	fread(&(data[0]), 1, size, fp);
-	fclose(fp);
+	memcpy(data.data(), staticFile->GetData(), staticFile->GetSize());
 
-	auto model = new Model_Imp(this);
-	model->Load(this, data, path);
+	MassModel_IO massmodel_io;
+	if (!massmodel_io.Load(data, path))
+	{
+		return nullptr;
+	}
 
-	std::shared_ptr<ModelReloadInformation> info;
-	info.reset(new ModelReloadInformation());
-	info->ModifiedTime = GetResourceContainer()->GetModifiedTime(path);
-	info->Path = path;
+	auto massmodel = new MassModel_Imp();
 
-	GetResourceContainer()->Models.Regist(path, info, model);
-	
-	return model;
+	if (!massmodel->Load(this, massmodel_io))
+	{
+		SafeDelete(massmodel);
+	}
+
+	return massmodel;
+}
+
+Terrain3D* Graphics_Imp::CreateTerrain3D_()
+{
+	return new Terrain3D_Imp(this);
 }
 
 //----------------------------------------------------------------------------------
@@ -688,41 +860,13 @@ Effect* Graphics_Imp::CreateEffect_(const achar* path)
 //----------------------------------------------------------------------------------
 Font* Graphics_Imp::CreateFont_(const achar* path)
 {
+	auto ret = FontContainer->TryLoadWithVector(path, [this, &path](const std::vector<uint8_t>& data) -> Font_Imp*
 	{
-		auto existing = GetResourceContainer()->Fonts.Get(path);
-		if (existing != nullptr)
-		{
-			SafeAddRef(existing);
-			return existing;
-		}
-	}
-
-	FILE *fp;
-#if _WIN32
-	if ((fp = _wfopen(path, L"rb")) == nullptr)
-	{
-		fclose(fp);
-		return nullptr;
-	}
-#else
-	if ((fp =fopen(ToUtf8String(path).c_str(), "rb")) == nullptr)
-	{
-		fclose(fp);
-		return nullptr;
-	}
-#endif
-	fclose(fp);
-
-	auto font = new Font_Imp(this,path);
-
-	std::shared_ptr<FontReloadInformation> info;
-	info.reset(new FontReloadInformation());
-	info->ModifiedTime = GetResourceContainer()->GetModifiedTime(path);
-	info->Path = path;
-
-	GetResourceContainer()->Fonts.Regist(path, info, font);
-
-	return font;
+		Font_Imp* font = new Font_Imp(this, path, data);
+		return font;
+	});
+	
+	return ret;
 }
 
 //----------------------------------------------------------------------------------
@@ -795,6 +939,45 @@ void Graphics_Imp::DrawPolygon(int32_t count)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+void Graphics_Imp::DrawPolygon(int32_t offset, int32_t count)
+{
+	assert(m_vertexBufferPtr != nullptr);
+	assert(m_indexBufferPtr != nullptr);
+	assert(m_shaderPtr != nullptr);
+
+	CommitRenderState(false);
+
+	DrawPolygonInternal(
+		offset,
+		count,
+		m_vertexBufferPtr,
+		m_indexBufferPtr,
+		m_shaderPtr);
+
+	drawCallCountCurrent++;
+}
+
+void Graphics_Imp::DrawPolygonInstanced(int32_t count, int32_t instanceCount)
+{
+	assert(m_vertexBufferPtr != nullptr);
+	assert(m_indexBufferPtr != nullptr);
+	assert(m_shaderPtr != nullptr);
+
+	CommitRenderState(false);
+
+	DrawPolygonInstancedInternal(
+		count,
+		m_vertexBufferPtr,
+		m_indexBufferPtr,
+		m_shaderPtr,
+		instanceCount);
+
+	drawCallCountCurrent++;
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 void Graphics_Imp::Begin()
 {
 	drawCallCount = drawCallCountCurrent;
@@ -829,7 +1012,16 @@ void Graphics_Imp::Reload()
 		o->ResourcePtr->Reload(o->LoadedPath.c_str(), m_effectSetting, data, size);
 	});
 
-	GetResourceContainer()->Reload();
+	ModelContainer->ReloadWithVector([this](std::shared_ptr<ResourceContainer<Model_Imp>::LoadingInformation> o, const std::vector<uint8_t>& data) -> void
+	{
+		o->ResourcePtr->Reload(data, o->LoadedPath.c_str());
+	});
+
+	FontContainer->ReloadWithVector([this](std::shared_ptr<ResourceContainer<Font_Imp>::LoadingInformation> o, const std::vector<uint8_t>& data) -> void
+	{
+		o->ResourcePtr->Reload(o->LoadedPath.c_str(), data);
+	});
+
 
 	for (auto& r : EffectContainer->GetAllResources())
 	{

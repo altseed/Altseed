@@ -27,6 +27,7 @@ in vec4 BoneIndexesOriginal;
 out vec4 voutPosition;
 out vec4 voutColor;
 out vec2 voutUV;
+out vec2 voutUVSub;
 out vec3 voutNormal;
 
 
@@ -75,6 +76,8 @@ void main()
 	voutPosition = matP * cPosition;
 	voutNormal = cNormal.xyz;
 	voutUV = UV;
+	voutUVSub = UVSub;
+
 	voutColor = Color * calcLightColor(upDir,cNormal,cDirectionalLightDirection);
 
 	gl_Position = voutPosition;

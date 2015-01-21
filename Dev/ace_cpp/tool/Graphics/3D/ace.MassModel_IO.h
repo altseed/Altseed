@@ -12,6 +12,7 @@
 #include <Graphics/ace.Graphics.Common.h>
 
 #include <Utility/ace.BinaryReader.h>
+#include <Utility/ace.BinaryWriter.h>
 
 namespace ace
 {
@@ -39,17 +40,16 @@ namespace ace
 			int32_t		Index3;
 		};
 
-		struct MaterialOffset
-		{
-			int32_t		MaterialIndex;
-			int32_t		FaceOffset;
-		};
-
 		struct Material
 		{
+			int32_t Type;
 			astring	ColorTexture;
 			astring	NormalTexture;
-			astring	SpecularTexture;
+			astring	MetalnessTexture;
+
+			astring	OriginalColorTexture;
+			astring	OriginalNormalTexture;
+			astring	OriginalMetalnessTexture;
 		};
 
 		struct AnimationClip
@@ -61,7 +61,6 @@ namespace ace
 		struct AnimationTexture
 		{
 			int32_t	AnimationCount;
-			int32_t	FrameSkip;
 			std::vector<int32_t> FrameCount;
 			int32_t	TextureWidth;
 			int32_t	TextureHeight;
@@ -70,13 +69,16 @@ namespace ace
 
 		std::vector<Vertex>				Vertices;
 		std::vector<Face>				Faces;
-		std::vector<MaterialOffset>		MaterialOffsets;
-		std::vector<Material>			Materials;
+		Material						Material_;
 		std::vector<AnimationClip>		AnimationClips;
-		AnimationTexture				AnimationTexture;
+		AnimationTexture				AnimationTexture_;
 
 		bool Convert(Model_IO& model);
 
 		void Reset();
+
+		bool Load(std::vector<uint8_t>& data, const achar* path);
+
+		bool Save(BinaryWriter& writer, const achar* path);
 	};
 }

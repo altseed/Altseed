@@ -17,5 +17,8 @@ namespace ace
 	public:
 		virtual Color GetColor() = 0;
 		virtual void SetColor(const Color& color) = 0;
+
+		virtual float GetIntensity() = 0;
+		virtual void SetIntensity(float intensity) = 0;
 	};
 }

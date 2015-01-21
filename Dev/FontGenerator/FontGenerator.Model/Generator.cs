@@ -12,12 +12,9 @@ namespace FontGenerator.Model
 	{
 		public static async Task GenerateAsync(GenerationConfig config)
 		{
-			var name2path = Helper.GetFontNameToPathDictonary();
-			List<string> pathes = new List<string>();
-			foreach (var n2p in name2path)
-			{
-				pathes.Add(n2p.Value);
-			}
+			var pathes = Helper.GetFontPairs()
+				.Select(x => x.Path)
+				.ToArray();
 
 			var path = @"C:\Windows\Fonts\";
 			path += pathes[config.FontIndex];
@@ -53,6 +50,30 @@ namespace FontGenerator.Model
 			gen.SetOutlineSampling(config.OutlineSampling);
 
 			await Task.Run(() => gen.Run());
+		}
+
+		public static async Task<string> GeneratePreviewAsync(GenerationConfig config)
+		{
+			var pathes = Helper.GetFontPairs()
+				.Select(x => x.Path)
+				.ToArray();
+
+			var path = @"C:\Windows\Fonts\";
+			path += pathes[config.FontIndex];
+
+			var gen = new DLL();
+			gen.SetFontName(path);
+			gen.SetFontSize(config.FontSize);
+
+			var c = config.FontColor;
+			gen.SetFontColor(c.Red, c.Green, c.Blue, c.Alpha);
+
+			var co = config.OutlineColor;
+			gen.SetOutlineColor(co.Red, co.Green, co.Blue, co.Alpha);
+			gen.SetOutlineSize(config.OutlineSize);
+			gen.SetOutlineSampling(config.OutlineSampling);
+
+			return await Task.Run(() => gen.SavePreview());
 		}
 	}
 }

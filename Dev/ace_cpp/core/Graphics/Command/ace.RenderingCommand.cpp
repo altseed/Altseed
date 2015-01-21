@@ -10,6 +10,19 @@
 
 namespace ace
 {
+	RenderingCommand_Draw::RenderingCommand_Draw(int32_t polyOffset, int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs)
+		: PolyOffset(polyOffset)
+		, PolyCount(polyCount)
+		, VB(vb)
+		, IB(ib)
+		, Shader(shader)
+	{
+		SafeAddRef(vb);
+		SafeAddRef(ib);
+		SafeAddRef(shader);
+
+		RS = rs;
+	}
 
 	RenderingCommand_Draw::RenderingCommand_Draw(int32_t polyCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs)
 		: PolyCount(polyCount)
@@ -37,6 +50,43 @@ namespace ace
 	}
 
 	void RenderingCommand_Draw::SetConstantValues(RenderingCommandFactory* factory, ShaderConstantValue* values, int32_t count)
+	{
+		ConstantValues = factory->CreateCommands<ShaderConstantValue>(count);
+		ConstantValueCount = count;
+
+		for (auto i = 0; i < ConstantValueCount; i++)
+		{
+			ConstantValues[i] = values[i];
+		}
+	}
+
+	RenderingCommand_DrawInstanced::RenderingCommand_DrawInstanced(int32_t polyCount, int32_t instanceCount, VertexBuffer_Imp* vb, IndexBuffer_Imp* ib, NativeShader_Imp* shader, RenderState rs)
+		: PolyCount(polyCount)
+		, InstanceCount(instanceCount)
+		, VB(vb)
+		, IB(ib)
+		, Shader(shader)
+	{
+		SafeAddRef(vb);
+		SafeAddRef(ib);
+		SafeAddRef(shader);
+
+		RS = rs;
+	}
+
+	RenderingCommand_DrawInstanced::~RenderingCommand_DrawInstanced()
+	{
+		for (auto i = 0; i < ConstantValueCount; i++)
+		{
+			ConstantValues[i].~ShaderConstantValue();
+		}
+
+		SafeRelease(VB);
+		SafeRelease(IB);
+		SafeRelease(Shader);
+	}
+
+	void RenderingCommand_DrawInstanced::SetConstantValues(RenderingCommandFactory* factory, ShaderConstantValue* values, int32_t count)
 	{
 		ConstantValues = factory->CreateCommands<ShaderConstantValue>(count);
 		ConstantValueCount = count;

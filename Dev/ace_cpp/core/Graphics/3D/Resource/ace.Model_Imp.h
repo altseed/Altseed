@@ -39,7 +39,7 @@ namespace ace
 		Model_Imp(Graphics* graphics);
 		virtual ~Model_Imp();
 
-		bool Load(Graphics* g, std::vector<uint8_t>& data, const achar* path);
+		bool Load(Graphics* g, const std::vector<uint8_t>& data, const achar* path);
 
 		/**
 			@brief	モデルに変更が発生したことを伝える先を登録する。
@@ -53,7 +53,7 @@ namespace ace
 		*/
 		void Detach(RenderedModelObject3D* model);
 
-		void Reload(std::vector<uint8_t>& data, const achar* path);
+		void Reload(const std::vector<uint8_t>& data, const achar* path);
 
 	private:
 		MeshGroup* LoadMeshGroup(Graphics* g, Model_IO& io, const achar* path);

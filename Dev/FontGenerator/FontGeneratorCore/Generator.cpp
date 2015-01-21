@@ -14,6 +14,67 @@ using namespace ace;
 
 namespace FontGenerator
 {
+	typedef BOOL(__stdcall *funcNkfConvertSafe)(LPSTR, DWORD, LPDWORD, LPCSTR, DWORD);
+	typedef int(__stdcall *funcSetNkfOption)(LPCSTR);
+
+	static void Convert(const char* mode, char* outBuffer, int outBufferSize, const char* inStr, int inStrlength)
+	{
+		HINSTANCE dll = LoadLibrary(L"nkf32.dll");
+
+		funcSetNkfOption setNkfOption = (funcSetNkfOption)GetProcAddress(dll, "SetNkfOption");
+		setNkfOption(mode);
+
+		DWORD returnedBytes = 0;
+
+		funcNkfConvertSafe nkfConvertSafe = (funcNkfConvertSafe)GetProcAddress(dll, "NkfConvertSafe");
+		nkfConvertSafe(outBuffer, outBufferSize, &returnedBytes, inStr, inStrlength);
+	}
+
+	static vector<achar> ToUtf16(const char* str, int length)
+	{
+		char buffer[65536];
+		int bufferSize = sizeof(buffer);
+		memset(buffer, 0, bufferSize);
+
+		Convert("-w16", buffer, bufferSize, str, length);
+
+		vector<achar> result;
+		for (size_t i = 0; i <= bufferSize - 2; i += 2)
+		{
+			char c[2] = { buffer[i + 1], buffer[i] };
+			achar* w = reinterpret_cast <achar*>(c);
+			if (w[0] != 0 && w[0] != 65279)
+			{
+				result.push_back(w[0]);
+			}
+		}
+
+		return result;
+	}
+
+	static vector<char> GetBytes(astring filePath)
+	{
+		vector<char> bytes;
+		ifstream fin(filePath.c_str(), ios::binary | ios::in);
+
+		ACE_ASSERT(!fin.fail(), "ファイルは開けませんでした");
+
+		while (!fin.eof())
+		{
+			char byte;
+			fin.read(&byte, 1);
+			if (!fin.eof())
+			{
+				bytes.push_back(byte);
+			}
+		}
+
+		fin.close();
+
+		return bytes;
+	}
+
+
 	Generator::Generator()
 		: m_sheetName(ToAString(L"font"))
 		, m_sheetSize(DEFAULT_SIZE)
@@ -72,43 +133,25 @@ namespace FontGenerator
 		}
 	}
 
-	// UTF-16が対象
 	vector<achar> Generator::GetCharactors(astring textPath)
 	{
-		std::set<achar> charactors;
+		std::vector<achar> charactors;
+		auto bytes = GetBytes(textPath);
+		auto chars = ToUtf16(bytes.data(), bytes.size());
 
-		// rだと読み込めない文字があるのでrbで読み込む
-		FILE* file = nullptr;
-		_wfopen_s(&file, textPath.c_str(), L"rb");
-
-		// BOM処理
-		achar bom;
-		fread(&bom, sizeof(achar), 1, file);
-		if (bom != 65279)
+		std::set<achar> charactorSet;
+		for (auto& c : chars)
 		{
-			charactors.insert(bom);
+			charactorSet.insert(c);
 		}
 
-		// 文字代入
-		while (!feof(file))
+		std::vector<achar> charactorVector;
+		for (auto& c : charactorSet)
 		{
-			achar c;
-			if (fread(&c, sizeof(achar), 1, file) == 1)
-			{
-				charactors.insert(c);
-			}
+			charactorVector.push_back(c);
 		}
 
-		fclose(file);
-
-		// 互換性維持
-		vector<achar> result;
-		for (auto c : charactors)
-		{
-			result.push_back(c);
-		}
-
-		return result;
+		return charactorVector;
 	}
 
 	astring Generator::GetSheetName() const

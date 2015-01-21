@@ -1,5 +1,13 @@
 import re
 import codecs
+import os
+import os.path
+
+def cd(path):
+	os.chdir(path)
+
+def cdToScript():
+	cd(os.path.dirname(__file__))
 
 class CreateHeader:
 	def __init__(self):
@@ -42,6 +50,8 @@ class CreateHeader:
 		for line in self.lines:
 			f.write(line)
 		f.close()
+
+cdToScript()
 
 engineHeader = CreateHeader()
 engineHeader.append('#pragma once')
@@ -110,6 +120,8 @@ engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Chip2D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Model.h")
+engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.MassModel.h")
+engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Terrain3D.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource.h")
@@ -149,6 +161,8 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.CameraObject3D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.DirectionalLightObject3D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.EffectObject3D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.ModelObject3D.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.MassModelObject3D.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.TerrainObject3D.h")
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.Layer3D.h")
 

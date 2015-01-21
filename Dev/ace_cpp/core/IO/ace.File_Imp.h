@@ -3,6 +3,7 @@
 #include "../ace.Core.Base.h"
 #include "ace.RootPath_Imp.h"
 #include "ace.File.h"
+#include "ace.PackFile_Imp.h"
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
@@ -11,21 +12,6 @@
 
 namespace std
 {
-#ifndef _WIN32
-	// template<>
-	// struct hash < ace::astring >
-	// {
-	// 	size_t operator()(ace::astring str) const
-	// 	{
-	// 		size_t tmp(0);
-	// 		for (const auto c : str)
-	// 			tmp ^= static_cast<size_t>(c) + 0x9e3779b9 + (tmp<<6) + (tmp>>2);
-
-	// 		return tmp;
-	// 	}
-	// };
-#endif
-
 	template<>
 	struct hash < shared_ptr <ace::RootPath_Imp> >
 	{
@@ -43,35 +29,42 @@ namespace ace
 	class File_Imp : public File, public ReferenceObject
 	{
 	private:
-		std::unordered_map<astring, std::shared_ptr<BaseFile_Imp>> m_fileCash;
-		std::unordered_set<std::shared_ptr<RootPath_Imp>> m_rootPathes;
+		//std::unordered_map<astring, std::shared_ptr<BaseFile_Imp>> m_fileCash;
+		std::vector<std::shared_ptr<RootPath_Imp>> m_rootPathes;
 
-		std::unordered_map<astring, StaticFile_Imp*> m_staticFileCash;
+		//std::unordered_map<astring, StaticFile_Imp*> m_staticFileCash;
 		std::unordered_map<astring, StreamFile_Imp*> m_streamFileCash;
+
+		std::unordered_map<astring, PackFile_Imp*> m_packFileCash;
 
 		template<typename _T>
 		inline bool Valid(_T* ptr) { return ptr && (0 < ptr->GetRef()); }
 
-		File_Imp() { };
+		File_Imp() { AddDefaultRootDirectory(); };
 
 	protected:
 		template<typename _InIt>
-		void SetRootDirectories(_InIt first, _InIt end);
+		void AddRootDirectories(_InIt first, _InIt end);
 
+		void AddDefaultRootDirectory() { m_rootPathes.push_back(std::shared_ptr<RootPath_Imp>(new RootPath_Imp(ToAString("./")))); }
 	public:
 		static File_Imp* Create() { return new File_Imp(); };
 
 		virtual ~File_Imp();
-		virtual void SetRootDirectories(const astring& path);
-		virtual void SetRootDirectories(const astring& path, const astring& path2);
-		virtual void SetRootDirectories(const astring& path, const astring& path2, const astring& path3);
-		virtual void GetRootDirectories(std::vector<std::reference_wrapper<Path>>& rootPathes) const;
-		virtual void EnumerateFiles(const astring& path) const;
-		virtual void EnumerateFiles(const astring& path, const astring& searchPattern) const;
-		virtual void EnumerateFiles(const astring& path, const astring& searchPattern, bool isRecursive) const;
-		virtual bool Exists(const astring& path) const;
-		virtual StaticFile* CreateStaticFile(const astring& path);
-		virtual StreamFile* CreateStreamFile(const astring& path);
+		virtual void AddRootDirectories(const achar* path);
+		virtual void AddRootPackage(const achar* path, const achar* key);
+		virtual void ClearRootDirectories();
+		//virtual void SetRootDirectories(const achar* path);
+		//virtual void SetRootDirectories(const achar* path, const achar* path2);
+		//virtual void SetRootDirectories(const achar* path, const achar* path2, const achar* path3);
+		//virtual void GetRootDirectories(std::vector<std::reference_wrapper<Path>>& rootPathes) const;
+		//virtual void EnumerateFiles(const achar* path) const;
+		//virtual void EnumerateFiles(const achar* path, const achar* searchPattern) const;
+		//virtual void EnumerateFiles(const achar* path, const achar* searchPattern, bool isRecursive) const;
+		virtual bool Exists(const achar* path) const;
+		//virtual StreamFile* CreateStreamFile(const achar* path);
+		virtual StaticFile* CreateStaticFile_(const achar* path);
+
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }

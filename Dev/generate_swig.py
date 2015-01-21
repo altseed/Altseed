@@ -1,8 +1,13 @@
 import subprocess
+import sys
 import os
 import os.path
-import sys
 
+def cd(path):
+	os.chdir(path)
+
+def cdToScript():
+	cd(os.path.dirname(__file__))
 
 def conv(path):
 	temp = open(path,mode='rb')
@@ -54,6 +59,8 @@ def exec_sync( cmd ):
 	p = subprocess.Popen(cmd, shell=True)
 	ret = p.wait()
 	print('')
+
+cdToScript()
 
 conv_dir(r'ace_cpp/')
 conv_dir(r'unitTest_cpp_gtest/')

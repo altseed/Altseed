@@ -133,13 +133,28 @@ namespace ace
 		/// <param name="lowerLeftUV">テクスチャの左下のUV値</param>
 		/// <param name="texture">描画するテクスチャ</param>
 		/// <param name="alphaBlend">アルファブレンドの種類</param>
+		/// <param name="depthWrite">深度を比較するか?</param>
+		/// <param name="depthTest">深度を書き込むか?</param>
 		/// <remarks>OnDrawAdditionallyの中以外では実行してはいけない。</remarks>
 		public void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-			Texture2D texture, AlphaBlendMode alphaBlend)
+			Texture2D texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 		{
-			coreLayer3D.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlend)alphaBlend);
+			coreLayer3D.DrawSpriteAdditionally(
+				upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlend)alphaBlend, depthWrite, depthTest);
+		}
+
+		/// <summary>
+		/// 環境光の強さを設定する。
+		/// </summary>
+		/// <param name="ambientColorIntensity">環境光の強さ</param>
+		/// <remarks>
+		/// デフォルトは1.0である。
+		/// </remarks>
+		public void SetAmbientColorIntensity(float ambientColorIntensity)
+		{
+			coreLayer3D.SetAmbientColorIntensity(ambientColorIntensity);
 		}
 
 		/// <summary>
@@ -158,6 +173,19 @@ namespace ace
 		public void SetGroundAmbientColor(Color color)
 		{
 			coreLayer3D.SetGroundAmbientColor(color);
+		}
+
+		/// <summary>
+		/// テクスチャによる環境の色の強さを設定する。
+		/// </summary>
+		/// <param name="environmentDiffuseColorIntensity">拡散色の強さ</param>
+		/// <param name="environmentSpecularColorIntensity">スペキュラ色の強さ</param>
+		/// <remarks>
+		/// デフォルトは1.0である。
+		/// </remarks>
+		public void SetEnvironmentColorIntensity(float environmentDiffuseColorIntensity, float environmentSpecularColorIntensity)
+		{
+			coreLayer3D.SetEnvironmentColorIntensity(environmentDiffuseColorIntensity, environmentSpecularColorIntensity);
 		}
 
 		/// <summary>

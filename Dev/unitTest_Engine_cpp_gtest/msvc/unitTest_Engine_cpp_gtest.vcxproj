@@ -13,6 +13,12 @@
   <ItemGroup>
     <ClCompile Include="..\EngineGraphics3DTest.cpp" />
     <ClCompile Include="..\EngineTest.cpp" />
+    <ClCompile Include="..\File\StaticFile_NonePackage.cpp" />
+    <ClCompile Include="..\File\StaticFile_NonePackage_AddDefaultRootDirectory.cpp" />
+    <ClCompile Include="..\File\StaticFile_NonePackage_Cache.cpp" />
+    <ClCompile Include="..\File\StaticFile_Package.cpp" />
+    <ClCompile Include="..\File\StaticFile_Package_Cache.cpp" />
+    <ClCompile Include="..\File\StaticFile_Package_Priority.cpp" />
     <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp" />
@@ -20,9 +26,11 @@
     <ClCompile Include="..\Graphics\3D\DrawSpriteAdditionally3D.cpp" />
     <ClCompile Include="..\Graphics\3D\EffectObject3D.cpp" />
     <ClCompile Include="..\Graphics\3D\LightingStandard.cpp" />
+    <ClCompile Include="..\Graphics\3D\MassModelObject3D.cpp" />
     <ClCompile Include="..\Graphics\3D\ModelObject3D.cpp" />
     <ClCompile Include="..\Graphics\3D\ModelObject3DCustomMaterial.cpp" />
     <ClCompile Include="..\Graphics\3D\SimpleMesh.cpp" />
+    <ClCompile Include="..\Graphics\3D\TerrainObject3D.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\CustomPostEffect.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGaussinaBlur.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScale.cpp" />
@@ -45,6 +53,7 @@
     <ClCompile Include="..\ObjectSystem\SetSourceOfTexture.cpp" />
     <ClCompile Include="..\Graphics\2D\TextObject2D.cpp" />
     <ClCompile Include="..\ObjectSystem\TrasingCamera.cpp" />
+    <ClCompile Include="..\ObjectSystem\VanishInComponent.cpp" />
     <ClCompile Include="..\PCH\ace.UnitTestEngineCpp.PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

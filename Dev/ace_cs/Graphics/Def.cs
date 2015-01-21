@@ -39,6 +39,13 @@ namespace ace
 		R32G32B32A32_FLOAT = swig.TextureFormat.R32G32B32A32_FLOAT,
 		R8G8B8A8_UNORM_SRGB = swig.TextureFormat.R8G8B8A8_UNORM_SRGB,
 		R16G16_FLOAT = swig.TextureFormat.R16G16_FLOAT,
+		R8_UNORM = swig.TextureFormat.R8_UNORM,
+		BC1 = swig.TextureFormat.BC1,
+		BC1_SRGB = swig.TextureFormat.BC1_SRGB,
+		BC2 = swig.TextureFormat.BC2,
+		BC2_SRGB = swig.TextureFormat.BC2_SRGB,
+		BC3 = swig.TextureFormat.BC3,
+		BC3_SRGB = swig.TextureFormat.BC3_SRGB,
 	}
 
 	/// <summary>

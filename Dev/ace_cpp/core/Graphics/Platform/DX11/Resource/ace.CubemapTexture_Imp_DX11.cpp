@@ -1,24 +1,23 @@
 ﻿
 #include "ace.CubemapTexture_Imp_DX11.h"
 #include "../ace.Graphics_Imp_DX11.h"
+#include "../DirectXToolKit/DDSTextureLoader.h"
 
 namespace ace
 {
 	CubemapTexture_Imp_DX11::CubemapTexture_Imp_DX11(
-		Graphics* graphics, 
-		ID3D11Texture2D* texture, 
+		Graphics* graphics,
+		TextureFormat format,
+		ID3D11Resource* texture,
 		ID3D11ShaderResourceView* textureSRV, 
 		std::array<std::vector<ID3D11RenderTargetView*>, 6>& textureRTVs, 
 		Vector2DI size,
 		int32_t mipmapCount)
-		: CubemapTexture_Imp(graphics)
+		: CubemapTexture_Imp(graphics, format, size, mipmapCount)
 		, m_texture(texture)
 		, m_textureSRV(textureSRV)
 		, m_textureRTVs(textureRTVs)
-		, size(size)
-		, mipmapCount(mipmapCount)
 	{
-
 	}
 
 	CubemapTexture_Imp_DX11::~CubemapTexture_Imp_DX11()
@@ -47,21 +46,13 @@ namespace ace
 
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
 	{
-		auto loadFile = [](const achar* path, std::vector<uint8_t>& dst)-> bool
+		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
-#if _WIN32
-			auto fp = _wfopen(path, L"rb");
-			if (fp == nullptr) return false;
-#else
-			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-			if (fp == nullptr) return false;
-#endif
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			dst.resize(size);
-			fread(dst.data(), 1, size, fp);
-			fclose(fp);
+			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
+			if (staticFile.get() == nullptr) return false;
+
+			dst.resize(staticFile->GetSize());
+			memcpy(dst.data(), staticFile->GetData(), staticFile->GetSize());
 
 			return true;
 		};
@@ -96,7 +87,7 @@ namespace ace
 
 		for (int32_t i = 0; i < 6; i++)
 		{
-			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), false, widthes[i], heights[i], buffers[i]))
+			if (ImageHelper::LoadPNGImage(fileBuffers[i].data(), fileBuffers[i].size(), false, widthes[i], heights[i], buffers[i], g->GetLog()))
 			{
 			}
 			else
@@ -238,7 +229,7 @@ namespace ace
 			}
 		}
 
-		return new CubemapTexture_Imp_DX11(graphics, texture, srv, textureRTVs, Vector2DI(width, height), mipmapCount);
+		return new CubemapTexture_Imp_DX11(graphics, TextureFormat::R8G8B8A8_UNORM, texture, srv, textureRTVs, Vector2DI(width, height), mipmapCount);
 
 	End:;
 
@@ -257,21 +248,13 @@ namespace ace
 
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* path, int32_t mipmapCount)
 	{
-		auto loadFile = [](const achar* path, std::vector<uint8_t>& dst)-> bool
+		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
 		{
-#if _WIN32
-			auto fp = _wfopen(path, L"rb");
-			if (fp == nullptr) return false;
-#else
-			auto fp = fopen(ToUtf8String(path).c_str(), "rb");
-			if (fp == nullptr) return false;
-#endif
-			fseek(fp, 0, SEEK_END);
-			auto size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			dst.resize(size);
-			fread(dst.data(), 1, size, fp);
-			fclose(fp);
+			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
+			if (staticFile.get() == nullptr) return false;
+
+			dst.resize(staticFile->GetSize());
+			memcpy(dst.data(), staticFile->GetData(), staticFile->GetSize());
 
 			return true;
 		};
@@ -316,7 +299,7 @@ namespace ace
 		{
 			for (int32_t i = 0; i < 6; i++)
 			{
-				if (ImageHelper::LoadPNGImage(fileBuffers[i][m].data(), fileBuffers[i].size(), false, widthes[i], heights[i], buffers[i][m]))
+				if (ImageHelper::LoadPNGImage(fileBuffers[i][m].data(), fileBuffers[i].size(), false, widthes[i], heights[i], buffers[i][m], g->GetLog()))
 				{
 					if (m == 0)
 					{
@@ -412,7 +395,7 @@ namespace ace
 			}
 		}
 
-		return new CubemapTexture_Imp_DX11(graphics, texture, srv, textureRTVs, Vector2DI(width, height), mipmapCount);
+		return new CubemapTexture_Imp_DX11(graphics, TextureFormat::R8G8B8A8_UNORM, texture, srv, textureRTVs, Vector2DI(width, height), mipmapCount);
 
 	End:;
 
@@ -426,5 +409,67 @@ namespace ace
 		}
 
 		return nullptr;
+	}
+
+
+	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* path)
+	{
+		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
+		{
+			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
+			if (staticFile.get() == nullptr) return false;
+
+			dst.resize(staticFile->GetSize());
+			memcpy(dst.data(), staticFile->GetData(), staticFile->GetSize());
+
+			return true;
+		};
+
+		std::vector<uint8_t> data;
+
+		if (!loadFile(path, data))
+		{
+			return nullptr;
+		}
+
+		if (!ImageHelper::IsDDS(data.data(), data.size())) return nullptr;
+
+		auto g = (Graphics_Imp_DX11*) graphics;
+
+		ID3D11Resource* texture = nullptr;
+		ID3D11ShaderResourceView* textureSRV = nullptr;
+
+		auto hr = DirectX::CreateDDSTextureFromMemory(
+			g->GetDevice(),
+			data.data(),
+			data.size(),
+			&texture,
+			&textureSRV);
+
+		if (FAILED(hr)) return nullptr;
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC cubeDesc;
+
+		textureSRV->GetDesc(&cubeDesc);
+
+		if (cubeDesc.ViewDimension != D3D_SRV_DIMENSION_TEXTURECUBE)
+		{
+			SafeRelease(texture);
+			SafeRelease(textureSRV);
+			return nullptr;
+		}
+
+		ID3D11Texture2D* texture_ = (ID3D11Texture2D*) texture;
+		D3D11_TEXTURE2D_DESC desc;
+		texture_->GetDesc(&desc);
+		
+		return new CubemapTexture_Imp_DX11(
+			graphics, 
+			GraphicsHelper_DX11::GetTextureFormat(desc.Format),
+			texture, 
+			textureSRV, 
+			std::array<std::vector<ID3D11RenderTargetView*>, 6>(), 
+			Vector2DI(desc.Width, desc.Height), 
+			cubeDesc.TextureCube.MipLevels);
 	}
 }

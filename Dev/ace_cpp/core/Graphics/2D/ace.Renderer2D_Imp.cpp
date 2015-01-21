@@ -11,6 +11,9 @@
 #include "../Resource/ace.NativeShader_Imp.h"
 #include "../Resource/ace.ShaderCache.h"
 
+#include "../Resource/ace.Font_Imp.h"
+#include "../Resource/ace.Texture2D_Imp.h"
+
 #include <Utility/ace.TypeErasureCopy.h>
 
 #include "../Shader/DX/2D/Renderer2D_PS.h"
@@ -22,6 +25,15 @@
 #include "../Platform/DX11/ace.Graphics_Imp_DX11.h"
 #endif
 #include "../Platform/GL/ace.Graphics_Imp_GL.h"
+
+#ifdef WIN32
+#ifdef min
+#undef min
+#endif 
+#ifdef max
+#undef max
+#endif
+#endif
 
 //----------------------------------------------------------------------------------
 //
@@ -167,9 +179,10 @@ namespace ace {
 		SafeRelease(m_graphics);
 	}
 
-	void Renderer2D_Imp::SetArea(const RectF& area)
+	void Renderer2D_Imp::SetArea(const RectF& area, float angle)
 	{
 		this->area = area;
+		this->angle = angle;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -177,6 +190,8 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void Renderer2D_Imp::DrawCache()
 	{
+		auto ang = angle;
+
 		// エフェクト設定
 		{
 			Matrix44 effectProjMat;
@@ -185,7 +200,10 @@ namespace ace {
 
 			auto px = area.X + area.Width / 2;
 			auto py = -(area.Y + area.Height / 2);
-			effectCameraMat.SetLookAtRH(Vector3DF(px, py, 400), Vector3DF(px, py, 0), Vector3DF(0, 1, 0));
+
+			Vector3DF up = Vector3DF(sin(ang), cos(ang), 0);
+
+			effectCameraMat.SetLookAtRH(Vector3DF(px, py, 400), Vector3DF(px, py, 0), up);
 
 			// 行列を転置して設定
 
@@ -254,6 +272,115 @@ namespace ace {
 		SafeAddRef(e.Data.Sprite.TexturePtr);
 
 		AddEvent(priority, e);
+	}
+
+	void Renderer2D_Imp::AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority)
+	{
+		Vector2DF drawPosition = Vector2DF(0, 0);
+
+		std::array<Color, 4> colors;
+		colors.at(0) = color;
+		colors.at(1) = color;
+		colors.at(2) = color;
+		colors.at(3) = color;
+
+		int offset = 0;
+		Font_Imp* font_Imp = (Font_Imp*)font;
+
+		for (int textIndex = 0;; ++textIndex)
+		{
+			if (text[textIndex] == 0) break;
+
+			if (text[textIndex] != '\n' && !font_Imp->HasGlyphData(text[textIndex]))
+			{
+				continue;
+			}
+			else if (text[textIndex] == '\n')
+			{
+				if (writingDirection == WritingDirection::Horizontal)
+				{
+					drawPosition.X = 0;
+					drawPosition.Y += offset;
+				}
+				else
+				{
+					drawPosition.X += offset;
+					drawPosition.Y = 0;
+				}
+				offset = 0;
+
+				continue;
+			}
+
+			const GlyphData glyphData = font_Imp->GetGlyphData(text[textIndex]);
+			auto texture = font_Imp->GetTexture(glyphData.GetSheetNum());
+
+			if (texture == nullptr)
+			{
+				continue;
+			}
+
+			const auto glyphSrc = glyphData.GetSrc();
+
+			std::array<Vector2DF, 4> position;
+
+			{
+				position.at(0) = Vector2DF(0, 0);
+				position.at(1) = Vector2DF(glyphSrc.Width, 0);
+				position.at(2) = Vector2DF(glyphSrc.Width, glyphSrc.Height);
+				position.at(3) = Vector2DF(0, glyphSrc.Height);
+
+				for (auto& pos : position)
+				{
+					pos += drawPosition;
+					pos -= centerPosition;
+					auto v3 = Vector3DF(pos.X, pos.Y, 1);
+					auto result = parentMatrix * matrix * v3;
+					pos = Vector2DF(result.X, result.Y);
+				}
+
+			}
+
+			std::array<Vector2DF, 4> uvs;
+			{
+				const auto textureSize = Vector2DF(texture->GetSize().X, texture->GetSize().Y);
+
+				uvs.at(0) = Vector2DF(glyphSrc.X, glyphSrc.Y);
+				uvs.at(1) = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y);
+				uvs.at(2) = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y + glyphSrc.Height);
+				uvs.at(3) = Vector2DF(glyphSrc.X, glyphSrc.Y + glyphSrc.Height);
+
+				for (auto& uv : uvs)
+				{
+					uv /= textureSize;
+				}
+
+				if (turnLR)
+				{
+					std::swap(uvs.at(0), uvs.at(1));
+					std::swap(uvs.at(2), uvs.at(3));
+				}
+
+				if (turnUL)
+				{
+					std::swap(uvs.at(0), uvs.at(3));
+					std::swap(uvs.at(1), uvs.at(2));
+				}
+			}
+
+			AddSprite(position.data(), &colors[0], uvs.data(), texture.get(), alphaBlend, priority);
+
+			if (writingDirection == WritingDirection::Horizontal)
+			{
+				drawPosition += ace::Vector2DF(glyphSrc.Width, 0);
+				offset = std::max(glyphSrc.Width, offset);
+			}
+			else
+			{
+				drawPosition += ace::Vector2DF(0, glyphSrc.Height);
+				offset = std::max(glyphSrc.Height, offset);
+			}
+		}
 	}
 
 	void Renderer2D_Imp::AddEffect(::Effekseer::Handle handle, int32_t priority)
@@ -397,13 +524,15 @@ namespace ace {
 		}
 
 		// 定数バッファを設定
-		Vector4DF area_;
-		area_.X = area.X;
-		area_.Y = area.Y;
-		area_.Z = area.Width;
-		area_.W = area.Height;
+		Matrix44 mat, mat_t, mat_scale, mat_rot;
 
-		shader->SetVector4DF("area",  area_);
+		mat_t.SetTranslation(-(area.X + area.Width / 2.0f), -(area.Y + area.Height / 2.0f), 0);
+		mat_scale.SetScale(2.0f / area.Width, - 2.0f / area.Height, 1.0f);
+		mat_rot.SetRotationZ(angle);
+
+		mat = mat_rot * mat_scale * mat_t;
+
+		shader->SetMatrix44("mat", mat);
 
 		// 描画
 		if (m_state.TexturePtr != nullptr)

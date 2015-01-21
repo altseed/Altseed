@@ -47,6 +47,12 @@ namespace ace
 			return o.SwigObject;
 		}
 
+		static public swig.Terrain3D GetTerrain3D(Terrain3D o)
+		{
+			if (o == null) return null;
+			return o.SwigObject;
+		}
+
 		static public swig.Effect GetEffect(Effect o)
 		{
 			if (o == null) return null;

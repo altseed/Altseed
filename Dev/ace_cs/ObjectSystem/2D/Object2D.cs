@@ -177,6 +177,24 @@ namespace ace
             Layer.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture, alphaBlend, priority);
         }
 
+		/// <summary>
+		/// 通常の描画に加えて文字列を描画する。
+		/// </summary>
+		/// <param name="pos">描画位置</param>
+		/// <param name="color">頂点色</param>
+		/// <param name="font">フォント</param>
+		/// <param name="text">文字列</param>
+		/// <param name="writingDirection">行方向</param>
+		/// <param name="alphaBlend">アルファブレンドの種類</param>
+		/// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
+		/// <remarks>
+		/// OnDrawAdditionallyの中以外では実行してはいけない。
+		/// </remarks>
+		public void DrawTextAdditionally(Vector2DF pos, Color color, Font font, string text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int priority)
+		{
+			Layer.DrawTextAdditionally(pos, color, font, text, writingDirection, alphaBlend, priority);
+		}
+
         /// <summary>
         /// オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
         /// </summary>

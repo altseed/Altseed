@@ -33,11 +33,12 @@ namespace ace
 		void Normalize();
 		virtual astring ToAstring() const {	return m_path; };
 		virtual PathIterator_Imp ImpBegin() const;
-		virtual std::iterator < std::forward_iterator_tag, Path > Begin() const { return ImpBegin(); }
+		virtual PathIterator& begin() const { return ImpBegin(); }
 		virtual PathIterator_Imp ImpEnd() const;
-		virtual std::iterator < std::forward_iterator_tag, Path > End() const { return ImpEnd(); }
+		virtual PathIterator& end() const { return ImpEnd(); }
 
 		virtual Path_Imp& operator/=(const astring& leaf);
+		virtual bool operator==(const Path_Imp& path) const;
 
 		static bool IsSeparator(astring::value_type c) { return c == m_windowsSeparator || c == m_separator; };
 		static bool IsAbsolutePath(const astring& path);

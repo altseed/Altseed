@@ -35,7 +35,7 @@ namespace ace {
 		TexDesc.Height = height;
 		TexDesc.MipLevels = 1;
 		TexDesc.ArraySize = 1;
-		TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 		TexDesc.SampleDesc.Count = 1;
 		TexDesc.SampleDesc.Quality = 0;
 		TexDesc.Usage = D3D11_USAGE_DEFAULT;
@@ -75,6 +75,52 @@ namespace ace {
 
 		texture = texture;
 		textureSRV = srv;
+	}
+
+	astring GraphicsHelper_DX11::GetErrorMessage(Graphics_Imp_DX11* graphics, HRESULT hr)
+	{
+		if (hr == D3D11_ERROR_FILE_NOT_FOUND) return ToAString("ファイルが見つかりませんでした。");
+		if (hr == D3D11_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS) return ToAString("特定の種類のステート オブジェクトの一意のインスタンスが多すぎます。");
+		if (hr == D3D11_ERROR_TOO_MANY_UNIQUE_VIEW_OBJECTS) return ToAString("特定の種類のビュー オブジェクトの一意のインスタンスが多すぎます。");
+		if (hr == D3D11_ERROR_DEFERRED_CONTEXT_MAP_WITHOUT_INITIAL_DISCARD) return ToAString("D3D11_MAP_WRITE_DISCARD ではありませんでした。");
+
+		if (hr == E_INVALIDARG) return ToAString("戻り関数に無効なパラメーターが渡されました。");
+		
+		if (hr == E_OUTOFMEMORY)
+		{
+			std::ostringstream err;
+
+			err << "メモリが不足しています。(推定使用VRAM " << graphics->GetUsedVRAMSize() << "byte)";
+			return ToAString(err.str().c_str());
+		}
+
+		return ToAString("不明なエラーです。");
+	}
+
+	std::string GraphicsHelper_DX11::GetFormatName(Graphics_Imp_DX11* graphics, DXGI_FORMAT format)
+	{
+		if (format == DXGI_FORMAT_R8G8B8A8_UNORM_SRGB) return std::string("DXGI_FORMAT_R8G8B8A8_UNORM_SRGB");
+		if (format == DXGI_FORMAT_R8G8B8A8_UNORM) return std::string("DXGI_FORMAT_R8G8B8A8_UNORM");
+
+		return std::string("Unknown");
+	}
+
+
+	TextureFormat GraphicsHelper_DX11::GetTextureFormat(DXGI_FORMAT format)
+	{
+		if (format == DXGI_FORMAT_R8G8B8A8_UNORM) return TextureFormat::R8G8B8A8_UNORM;
+		if (format == DXGI_FORMAT_R8G8B8A8_UNORM_SRGB) return TextureFormat::R8G8B8A8_UNORM_SRGB;
+		if (format == DXGI_FORMAT_R32G32B32A32_FLOAT) return TextureFormat::R32G32B32A32_FLOAT;
+		if (format == DXGI_FORMAT_R16G16_FLOAT) return TextureFormat::R16G16_FLOAT;
+		if (format == DXGI_FORMAT_R8_UNORM) return TextureFormat::R8_UNORM;
+		if (format == DXGI_FORMAT_BC1_UNORM) return TextureFormat::BC1;
+		if (format == DXGI_FORMAT_BC1_UNORM_SRGB) return TextureFormat::BC1_SRGB;
+		if (format == DXGI_FORMAT_BC2_UNORM) return TextureFormat::BC2;
+		if (format == DXGI_FORMAT_BC2_UNORM_SRGB) return TextureFormat::BC2_SRGB;
+		if (format == DXGI_FORMAT_BC3_UNORM) return TextureFormat::BC3;
+		if (format == DXGI_FORMAT_BC3_UNORM_SRGB) return TextureFormat::BC3_SRGB;
+
+		assert(0);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -131,6 +177,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	Window* window,
 	Vector2DI size,
 	Log* log,
+	File* file,
 	bool isReloadingEnabled,
 	bool isFullScreen,
 	ID3D11Device* device,
@@ -143,7 +190,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11RenderTargetView*	defaultBackRenderTargetView,
 	ID3D11Texture2D* defaultDepthBuffer,
 	ID3D11DepthStencilView* defaultDepthStencilView)
-	: Graphics_Imp(size, log, isReloadingEnabled, isFullScreen)
+	: Graphics_Imp(size, log,file, isReloadingEnabled, isFullScreen)
 	, m_window(window)
 	, m_device(device)
 	, m_context(context)
@@ -408,7 +455,14 @@ void Graphics_Imp_DX11::GenerateRenderStates()
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ZERO;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-
+			case (int32_t) AlphaBlend::AddAll:
+				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
+				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ONE;
+				Desc.RenderTarget[k].SrcBlendAlpha = D3D11_BLEND_ONE;
+				Desc.RenderTarget[k].DestBlendAlpha = D3D11_BLEND_ONE;
+				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
+				Desc.RenderTarget[k].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+				break;
 			}
 		}
 
@@ -532,6 +586,55 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 		shaderPtr->AssignConstantBuffer();
 
 		// テクスチャの設定
+		for (auto& bt : shader->GetBindingTextures())
+		{
+			if (bt.second.TexturePtr == nullptr) continue;
+			auto tex = bt.second.TexturePtr.get();
+			auto id = bt.first;
+
+			ID3D11ShaderResourceView* rv = nullptr;
+
+			if (bt.second.TexturePtr->GetType() == TEXTURE_CLASS_TEXTURE2D)
+			{
+				auto t = (Texture2D_Imp_DX11*) tex;
+				rv = t->GetShaderResourceView();
+			}
+			else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE2D)
+			{
+				auto t = (RenderTexture2D_Imp_DX11*) tex;
+				rv = t->GetShaderResourceView();
+			}
+			else if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+			{
+				auto t = (CubemapTexture_Imp_DX11*) tex;
+				rv = t->GetShaderResourceView();
+			}
+			else if (tex->GetType() == TEXTURE_CLASS_DEPTHBUFFER)
+			{
+				auto t = (DepthBuffer_Imp_DX11*) tex;
+				rv = t->GetShaderResourceView();
+			}
+
+			if (id >= 0xff)
+			{
+				// 頂点シェーダーに設定
+				GetContext()->VSSetShaderResources(id - 0xff, 1, &rv);
+
+				nextState.textureFilterTypes_vs[id - 0xff] = bt.second.FilterType;
+				nextState.textureWrapTypes_vs[id - 0xff] = bt.second.WrapType;
+			}
+			else
+			{
+				// ピクセルシェーダーに設定
+				GetContext()->PSSetShaderResources(id, 1, &rv);
+
+				// ステート設定
+				nextState.textureFilterTypes[id] = bt.second.FilterType;
+				nextState.textureWrapTypes[id] = bt.second.WrapType;
+			}
+		}
+
+		/*
 		for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
 		{
 			Texture* tex = nullptr;
@@ -575,6 +678,7 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 				nextState.textureWrapTypes[i] = wrapType;
 			}
 		}
+		*/
 	}
 
 	CommitRenderState(false);
@@ -591,6 +695,17 @@ void Graphics_Imp_DX11::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* ver
 	GetContext()->DrawIndexed(
 		count * 3,
 		0,
+		vertexBufferOffset);
+}
+
+void Graphics_Imp_DX11::DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr)
+{
+	int32_t vertexBufferOffset = 0;
+
+	UpdateDrawStates(vertexBuffer, indexBuffer, shaderPtr, vertexBufferOffset);
+	GetContext()->DrawIndexed(
+		count * 3,
+		offset * 3,
 		vertexBufferOffset);
 }
 
@@ -637,7 +752,7 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, File* file,bool isReloadingEnabled, bool isFullScreen)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -754,7 +869,8 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	hDXGISwapChainDesc.BufferDesc.Height = height;
 	hDXGISwapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 	hDXGISwapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
-	hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	//hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
 	hDXGISwapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	hDXGISwapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	hDXGISwapChainDesc.SampleDesc.Count = 1;
@@ -829,6 +945,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		window,
 		Vector2DI(width, height),
 		log,
+		file,
 		isReloadingEnabled,
 		isFullScreen,
 		device,
@@ -861,19 +978,19 @@ End:
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
 {
 	auto size = window->GetSize();
 	auto handle = glfwGetWin32Window(((Window_Imp*) window)->GetWindow());
-	return Create(handle, size.X, size.Y, log, isReloadingEnabled, isFullScreen);
+	return Create(handle, size.X, size.Y, log, file,isReloadingEnabled, isFullScreen);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
 {
-	return Create(nullptr, handle, width, height, log, isReloadingEnabled, isFullScreen);
+	return Create(nullptr, handle, width, height, log,file, isReloadingEnabled, isFullScreen);
 }
 
 //----------------------------------------------------------------------------------
@@ -881,7 +998,13 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp_DX11::CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
 {
-	auto ret = Texture2D_Imp_DX11::Create(this, data, size);
+	auto ret = Texture2D_Imp_DX11::Create(this, data, size, true);
+	return ret;
+}
+
+Texture2D_Imp* Graphics_Imp_DX11::CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
+{
+	auto ret = Texture2D_Imp_DX11::Create(this, data, size, false);
 	return ret;
 }
 
@@ -912,6 +1035,11 @@ CubemapTexture* Graphics_Imp_DX11::CreateCubemapTextureFromMipmapImageFiles_(con
 	return CubemapTexture_Imp_DX11::Create(this, path, mipmapCount);
 }
 
+CubemapTexture* Graphics_Imp_DX11::CreateCubemapTextureFromSingleImageFile_(const achar* path)
+{
+	return CubemapTexture_Imp_DX11::Create(this, path);
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -935,6 +1063,11 @@ void Graphics_Imp_DX11::CommitRenderState(bool forced)
 	auto& currentWrap = currentState.textureWrapTypes;
 	auto& nextWrap = nextState.textureWrapTypes;
 
+	auto& currentFilter_vs = currentState.textureFilterTypes_vs;
+	auto& nextFilter_vs = nextState.textureFilterTypes_vs;
+
+	auto& currentWrap_vs = currentState.textureWrapTypes_vs;
+	auto& nextWrap_vs = nextState.textureWrapTypes_vs;
 
 	if (current.DepthTest != next.DepthTest || forced)
 	{
@@ -970,6 +1103,27 @@ void Graphics_Imp_DX11::CommitRenderState(bool forced)
 	{
 		float blendFactor [] = { 0, 0, 0, 0 };
 		GetContext()->OMSetBlendState(m_bStates[(int32_t) next.AlphaBlendState], blendFactor, 0xFFFFFFFF);
+	}
+
+	for (int32_t i = 0; i < MaxTextureCount; i++)
+	{
+		bool changeSampler = forced;
+
+		if (currentFilter_vs[i] != nextFilter_vs[i] || forced)
+		{
+			changeSampler = true;
+		}
+
+		if (currentWrap_vs[i] != nextWrap_vs[i] || forced)
+		{
+			changeSampler = true;
+		}
+
+		if (changeSampler)
+		{
+			ID3D11SamplerState* samplerTbl [] = { m_sStates[(int32_t) nextFilter_vs[i]][(int32_t) nextWrap_vs[i]] };
+			GetContext()->VSSetSamplers(i, 1, samplerTbl);
+		}
 	}
 
 	for (int32_t i = 0; i < MaxTextureCount; i++)

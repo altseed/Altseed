@@ -33,6 +33,29 @@ out vec4 outOutput0;
 
 
 //<|| ALSL
+float calcD_GGX(float roughness, float dotNH)
+{
+	float alpha = roughness * roughness;
+	float alphaSqr = alpha * alpha;
+	float pi = 3.14159;
+	float denom = dotNH * dotNH * (alphaSqr - 1.00000) + 1.00000;
+	return (alpha / denom) * (alpha / denom) / pi;
+}
+
+float calcF(float F0, float dotLH)
+{
+	float dotLH5 = pow(1.00000 - dotLH, 5);
+	return F0 + (1.00000 - F0) * (dotLH5);
+}
+
+float calcG_Schlick(float roughness, float dotNV, float dotNL)
+{
+	float k = (roughness + 1.00000) * (roughness + 1.00000) / 8.00000;
+	float gV = dotNV * (1.00000 - k) + k;
+	float gL = dotNL * (1.00000 - k) + k;
+	return 1.00000 / (gV * gL);
+}
+
 float calcLightingGGX(vec3 N, vec3 V, vec3 L, float roughness, float F0)
 {
 	float alpha = roughness * roughness;
@@ -41,26 +64,21 @@ float calcLightingGGX(vec3 N, vec3 V, vec3 L, float roughness, float F0)
 	float dotNL = clamp(dot(N, L), 0.000000, 1.00000);
 	float dotLH = clamp(dot(L, H), 0.000000, 1.00000);
 	float dotNH = clamp(dot(N, H), 0.000000, 1.00000);
+	float dotNV = clamp(dot(N, V), 0.000000, 1.00000);
 #endif
 #ifdef DIRECTX
 	float dotNL = saturate(dot(N, L));
 	float dotLH = saturate(dot(L, H));
 	float dotNH = saturate(dot(N, H));
+	float dotNV = saturate(dot(N, V));
 #endif
-	float alphaSqr = alpha * alpha;
-	float pi = 3.14159;
-	float denom = dotNH * dotNH * (alphaSqr - 1.00000) + 1.00000;
-	float D = alphaSqr / (pi * denom * denom);
-	float dotLH5 = pow(1.00000 - dotLH, 5);
-	float F = F0 + (1.00000 - F0) * (dotLH5);
-	float roughnessNorm = (roughness + 1.00000) / 2.00000;
-	float alphaNorm = roughnessNorm * roughnessNorm;
-	float k = alphaNorm / 2.00000;
-	float k2 = k * k;
-	float invK2 = 1.00000 - k2;
-	float vis = 1.00000 / (dotLH * dotLH * invK2 + k2);
-	float specular = dotNL * D * F * vis;
-	return specular;
+	float D = calcD_GGX(roughness, dotNH);
+	float F = calcF(F0, dotLH);
+	float G = calcG_Schlick(roughness, dotNV, dotNL);
+
+	D = min(32.0,D);
+
+	return dotNL * D * F * G / 4.00000;
 }
 
 vec3 calcAmbientColor(vec3 upDir, vec3 normal)
@@ -76,7 +94,7 @@ vec3 calcDirectionalLightDiffuseColor(vec3 diffuseColor, vec3 normal, vec3 light
 {
 	vec3 color = vec3(0.000000, 0.000000, 0.000000);
 	float NoL = dot(normal, lightDir);
-	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao;
+	color.xyz = directionalLightColor * max(NoL, 0.000000) * shadow * ao / 3.14000;
 	color.xyz = color.xyz * diffuseColor.xyz;
 	return color;
 }
@@ -84,6 +102,9 @@ vec3 calcDirectionalLightDiffuseColor(vec3 diffuseColor, vec3 normal, vec3 light
 vec3 calcDirectionalLightSpecularColor(vec3 specularColor, vec3 normal, vec3 lightDir, float smoothness, float fresnel, float shadow, float ao)
 {
 	float roughness = 1.00000 - smoothness;
+	roughness = max(roughness, 0.08);
+	roughness = min(roughness, 0.92);
+
 	vec3 viewDir = vec3(0.000000, 0.000000, 1.00000);
 	vec3 specular;
 	specular.x = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.x);
@@ -91,10 +112,8 @@ vec3 calcDirectionalLightSpecularColor(vec3 specularColor, vec3 normal, vec3 lig
 	specular.z = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.z);
 	specular = specular * shadow * ao;
 	specular.xyz = directionalLightColor * specular.xyz;
-
 	float NoL = dot(normal, lightDir);
-	specular.xyz = specular.xyz  * max(NoL, 0.000000);
-
+	specular.xyz = specular.xyz * max(NoL, 0.000000);
 	return specular;
 }
 
@@ -111,6 +130,16 @@ float VSM(vec2 moments, float t)
 	return max(p, p_max);
 }
 
+vec3 CalcDiffuseColor(vec3 baseColor, float metalness)
+{
+	return baseColor * (1.00000 - metalness);
+}
+
+vec3 CalcSpecularColor(vec3 baseColor, float metalness)
+{
+	vec3 minColor = vec3(0.0400000, 0.0400000, 0.0400000);
+	return minColor.xyz * (1.00000 - metalness) + baseColor.xyz * metalness;
+}
 
 
 
@@ -118,12 +147,13 @@ float VSM(vec2 moments, float t)
 
 //||>
 
-vec3 GetDiffuseColor(vec2 uv)
+
+vec3 GetBaseColor(vec2 uv)
 {
 	return texture(g_gbuffer0Texture, uv).xyz;
 }
 
-vec4 GetSpecularColorAndSmoothness(vec2 uv)
+vec4 GetSmoothnessMetalnessAO(vec2 uv)
 {
 	return texture(g_gbuffer1Texture, uv).xyzw;
 }
@@ -131,6 +161,12 @@ vec4 GetSpecularColorAndSmoothness(vec2 uv)
 vec3 GetNormal(vec2 uv)
 {
 	return texture(g_gbuffer2Texture, uv).xyz;
+}
+
+vec3 GetAO(vec2 uv)
+{
+	float ao = texture(g_ssaoTexture, uv).x;
+	return vec3(ao,ao,ao);
 }
 
 float GetNormalizedDepth(vec2 uv)
@@ -175,12 +211,18 @@ void main()
 	vec3 cameraPos = ReconstructPosition(voutPosition.xy, ReconstructDepth(GetNormalizedDepth(uv)));
 
 	vec4 lightColor = vec4(0.0,0.0,0.0,1.0);
-	vec3 normal = GetNormal(uv);
 
-	vec3 diffuseColor = GetDiffuseColor(uv);
-	vec4 specularColorAndSmoothness = GetSpecularColorAndSmoothness(uv);
-	vec3 specularColor = specularColorAndSmoothness.xyz;
-	float smoothness = specularColorAndSmoothness.w;
+	vec3 baseColor = GetBaseColor(uv);
+	vec3 normal = GetNormal(uv);
+	vec4 smoothnessMetalnessAO = GetSmoothnessMetalnessAO(uv);
+	float smoothness = smoothnessMetalnessAO .x;
+	float metalness = smoothnessMetalnessAO .y;
+	float bakedAO = smoothnessMetalnessAO .z;
+
+	vec3 diffuseColor = CalcDiffuseColor(baseColor,metalness);
+	vec3 specularColor = CalcSpecularColor(baseColor,metalness);
+
+	float ao = GetAO(uv).x * bakedAO;
 
 #ifdef DIRECTIONAL_LIGHT
 	vec4 shadowmapPos = ReconstructShadowmapPosition(cameraPos);
@@ -195,16 +237,14 @@ void main()
 	vec2 shadowParam = texture(g_shadowmapTexture, shadowmapUV).xy;
 
 	float shadow = VSM(shadowParam, depth);
-	float ao = texture(g_ssaoTexture, uv).x;
-
 	lightColor.xyz += calcDirectionalLightDiffuseColor(diffuseColor, normal, directionalLightDirection, shadow, ao);
 
 	lightColor.xyz += calcDirectionalLightSpecularColor(specularColor, normal, directionalLightDirection, smoothness, 0.06, shadow, ao);
 #endif
 
 #ifdef AMBIENT_LIGHT
-	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor;
-	lightColor.xyz += texture(g_environmentDiffuseTexture, uv).xyz * diffuseColor;
+	lightColor.xyz += calcAmbientColor(upDir, normal) * diffuseColor * ao;
+	lightColor.xyz += texture(g_environmentDiffuseTexture, uv).xyz * ao;
 #endif
 
 	outOutput0 = lightColor;

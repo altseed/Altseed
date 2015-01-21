@@ -12,6 +12,7 @@ namespace ace
 		: public RenderedObject3DProxy
 	{
 	public:
+		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_EFFECT; }
 	};
 
 	class RenderedEffectObject3D
@@ -51,6 +52,11 @@ namespace ace
 		@brief	このオブジェクトから再生されたエフェクトのルートを全て停止する。
 		*/
 		void StopRoot();
+
+		/**
+		@brief	このオブジェクトから再生されたエフェクトが再生中か取得する。
+		*/
+		bool IsPlaying();
 
 		/**
 		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得する。

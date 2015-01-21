@@ -24,7 +24,9 @@ namespace FontGenerator
 
 		ResultOfGeneratingPng Generate(
 			ace::astring fontPath,
-			std::vector<ace::achar>& textPath);
+			std::vector<ace::achar>& charactors);
+
+		void GeneratePreview(ace::astring fontPath, ace::astring path);
 
 #pragma region GetSet
 		ace::astring GetSheetName() const;

@@ -16,8 +16,8 @@ namespace ace
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
 		auto mat = parentMatrix * matrix;
-		auto v3 = Vector3DF(pos.X, pos.Y, 1);
-		auto pos_ = parentMatrix * matrix * v3;
+		//auto v3 = Vector3DF(pos.X, pos.Y, 1);
+		//auto pos_ = parentMatrix * matrix * v3;
 
 		Effekseer::Matrix43 efMat;
 		efMat.Indentity();
@@ -98,6 +98,19 @@ namespace ace
 		{
 			m_renderer->GetEffectManager()->StopRoot(h);
 		}
+	}
+
+	bool CoreEffectObject2D_Imp::IsPlaying()
+	{
+		for (size_t i = 0; i < m_handles.size(); i++)
+		{
+			if (m_renderer->GetEffectManager()->Exists(m_handles[i]))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	float CoreEffectObject2D_Imp::GetEffectRotation() const

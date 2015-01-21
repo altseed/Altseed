@@ -20,6 +20,13 @@
 #include "Input/ace.Joystick_Imp.h"
 #include "Input/ace.JoystickContainer_Imp.h"
 
+#include "IO/ace.File.h"
+#include "IO/ace.File_Imp.h"
+//#include "IO/ace.PathIterator.h"
+//#include "IO/ace.Path.h"
+#include "IO/ace.StaticFile.h"
+//#include "IO/ace.StreamFile.h"
+
 #include "Sound/ace.SoundSource_Imp.h"
 #include "Sound/ace.Sound_Imp.h"
 
@@ -44,6 +51,8 @@
 #include "Graphics/3D/Resource/ace.Mesh.h"
 #include "Graphics/3D/Resource/ace.Deformer.h"
 #include "Graphics/3D/Resource/ace.Model.h"
+#include "Graphics/3D/Resource/ace.MassModel.h"
+#include "Graphics/3D/Resource/ace.Terrain3D.h"
 
 #include "Graphics/3D/Resource/Animation/ace.AnimationSystem_Imp.h"
 #include "Graphics/3D/Resource/Animation/ace.AnimationClip_Imp.h"
@@ -67,6 +76,9 @@
 #include "ObjectSystem/3D/ace.CoreDirectionalLightObject3D.h"
 #include "ObjectSystem/3D/ace.CoreCameraObject3D.h"
 #include "ObjectSystem/3D/ace.CoreEffectObject3D.h"
+#include "ObjectSystem/3D/ace.CoreMassModelObject3D.h"
+#include "ObjectSystem/3D/ace.CoreTerrainObject3D.h"
+
 #include "ObjectSystem/3D/ace.CoreLayer3D.h"
 
 #include "ObjectSystem/ace.CoreScene.h"
@@ -308,6 +320,9 @@ CPP_OBJECT( ace::Chip2D )
 CPP_OBJECT( ace::Mesh )
 CPP_OBJECT( ace::Deformer )
 CPP_OBJECT( ace::Model )
+CPP_OBJECT( ace::MassModel )
+CPP_OBJECT( ace::Terrain3D )
+
 CPP_OBJECT( ace::KeyframeAnimation )
 CPP_OBJECT( ace::AnimationSource )
 CPP_OBJECT( ace::AnimationClip )
@@ -316,6 +331,10 @@ CPP_OBJECT( ace::Profiler )
 CPP_OBJECT( ace::Profiler_Imp )
 CPP_OBJECT( ace::Log )
 CPP_OBJECT( ace::Log_Imp )
+CPP_OBJECT( ace::File )
+CPP_OBJECT( ace::File_Imp )
+CPP_OBJECT( ace::StaticFile )
+//CPP_OBJECT( ace::StreamFile )
 
 //-----------------------------------------------------------------------------------
 //
@@ -334,6 +353,8 @@ CPP_OBJECT( ace::Log_Imp )
 
 %newobject ace::Graphics_Imp::CreateFont_;
 %newobject ace::Graphics_Imp::CreateChip2D_;
+
+%newobject ace::File_Imp::CreateStaticFile_;
 
 %newobject ace::ObjectSystemFactory::CreateObject2D;
 %newobject ace::ObjectSystemFactory::CreateTextureObject2D;
@@ -392,6 +413,13 @@ namespace ace
 %include "ace_cpp/core/Input/ace.JoystickContainer_Imp.h"
 %include "ace_cpp/core/Input/ace.JoystickContainer_Imp.h"
 
+%include "ace_cpp/core/IO/ace.File.h"
+%include "ace_cpp/core/IO/ace.File_Imp.h"
+//%include "ace_cpp/core/IO/ace.PathIterator.h"
+//%include "ace_cpp/core/IO/ace.Path.h"
+%include "ace_cpp/core/IO/ace.StaticFile.h"
+//%include "ace_cpp/core/IO/ace.StreamFile.h"
+
 %include "ace_cpp/core/Sound/ace.SoundSource.h"
 %include "ace_cpp/core/Sound/ace.Sound.h"
 
@@ -421,6 +449,8 @@ namespace ace
 %include "ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h"
 %include "ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h"
 %include "ace_cpp/core/Graphics/3D/Resource/ace.Model.h"
+%include "ace_cpp/core/Graphics/3D/Resource/ace.MassModel.h"
+%include "ace_cpp/core/Graphics/3D/Resource/ace.Terrain3D.h"
 
 %include "ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation.h"
 %include "ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource.h"
@@ -447,6 +477,9 @@ namespace ace
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreCameraObject3D.h"
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreEffectObject3D.h"
+%include "ace_cpp/core/ObjectSystem/3D/ace.CoreMassModelObject3D.h"
+%include "ace_cpp/core/ObjectSystem/3D/ace.CoreTerrainObject3D.h"
+
 %include "ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.CoreScene.h"

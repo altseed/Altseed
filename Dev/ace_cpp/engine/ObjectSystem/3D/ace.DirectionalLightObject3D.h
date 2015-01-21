@@ -39,10 +39,27 @@ namespace ace
 			@return	光源の色
 		*/
 		Color GetColor();
+
 		/**
 		@brief	光源の色を設定する。
 		@param	color	光源の色
 		*/
 		void SetColor(const Color& color);
+
+		/**
+			@brief	光源の強さを取得する。
+			@return	光源の強さ
+			@note
+			デフォルトは1.0である。
+		*/
+		float GetIntensity();
+
+		/**
+		@brief	光源の強さを設定する。
+		@param	intensity	光源の強さ
+		@note
+		デフォルトは1.0である。
+		*/
+		void SetIntensity(float intensity);
 	};
 }

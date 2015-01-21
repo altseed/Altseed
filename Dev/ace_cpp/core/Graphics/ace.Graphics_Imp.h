@@ -6,11 +6,12 @@
 #include "../ace.Core.Base_Imp.h"
 
 #include "ace.Graphics.h"
-#include "ace.GraphicsResourceContainer.h"
 
 #include "Resource/ace.Texture2D_Imp.h"
 #include "Resource/ace.Font_Imp.h"
 #include "Resource/ace.RenderTexture2D_Imp.h"
+
+#include "../IO/ace.File_Imp.h"
 
 #include <Graphics/ace.Color.h>
 #include <Math/ace.Vector2DI.h>
@@ -48,7 +49,7 @@ namespace ace {
 			@param	imagedst		出力結果(newで確保される)
 			@return	成否
 		*/
-		static bool LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst);
+		static bool LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imagewidth, int32_t& imageheight, std::vector<uint8_t>& imagedst, Log* log);
 
 		/**
 			@brief	1ピクセルのサイズを取得する。
@@ -57,8 +58,22 @@ namespace ace {
 		*/
 		static int32_t GetPitch(TextureFormat format);
 
+		/**
+			@brief	画像が消費する推定VRAMサイズを取得する。
+		*/
+		static int32_t GetVRAMSize(TextureFormat format, int32_t width, int32_t height);
+
 		static int32_t GetMipmapCount(int32_t width, int32_t height);
 		static void GetMipmapSize(int mipmap, int32_t& width, int32_t& height);
+
+		static bool IsPNG(const void* data, int32_t size);
+		static bool IsDDS(const void* data, int32_t size);
+	};
+
+	class GraphicsHelper
+	{
+	public:
+		static std::string GetFormatName(Graphics_Imp* graphics, TextureFormat format);
 	};
 
 	class EffectTextureLoader
@@ -71,6 +86,8 @@ namespace ace {
 		{
 			int32_t Count;
 			void* Ptr;
+			int32_t Width;
+			int32_t Height;
 		};
 		std::map<astring, Cache>		m_caches;
 		std::map<void*, astring>		dataToKey;
@@ -115,6 +132,8 @@ namespace ace {
 		int32_t				drawCallCount = 0;
 		int32_t				drawCallCountCurrent = 0;
 
+		int32_t				vramCount = 0;
+
 		void AddDeviceObject(DeviceObject* o);
 		void RemoveDeviceObject(DeviceObject* o);
 
@@ -122,15 +141,20 @@ namespace ace {
 		void ResetDrawState();
 
 		Vector2DI					m_size;
-		GraphicsResourceContainer*	m_resourceContainer;
+		//GraphicsResourceContainer*	m_resourceContainer;
 
 		Log*						m_log;
+		File*						m_file;
 
 		struct
 		{
 			RenderState					renderState;
 			TextureFilterType			textureFilterTypes[MaxTextureCount];
 			TextureWrapType				textureWrapTypes[MaxTextureCount];
+
+			TextureFilterType			textureFilterTypes_vs[MaxTextureCount];
+			TextureWrapType				textureWrapTypes_vs[MaxTextureCount];
+
 		} currentState, nextState;
 
 	protected:
@@ -144,6 +168,7 @@ namespace ace {
 
 	protected:
 		Texture2D* CreateTexture2D_(const achar* path) { return CreateTexture2D_Imp(path); }
+		Texture2D* CreateTexture2DAsRawData_(const achar* path) { return CreateTexture2DAsRawData_Imp(path); }
 		Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateEmptyTexture2D_Imp(width, height, format); }
 
 		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateRenderTexture2D_Imp(width, height, format); }
@@ -154,6 +179,8 @@ namespace ace {
 		virtual IndexBuffer_Imp* CreateIndexBuffer_Imp_(int maxCount, bool isDynamic, bool is32bit) = 0;
 
 		virtual void DrawPolygonInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr) = 0;
+		virtual void DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr) = 0;
+
 		virtual void DrawPolygonInstancedInternal(int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr, int32_t instanceCount) = 0;
 		virtual void BeginInternal() = 0;
 		virtual void EndInternal() {}
@@ -166,20 +193,31 @@ namespace ace {
 			*/
 		virtual Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
 
+		virtual Texture2D_Imp* CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
+
 		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) = 0;
 
 	public:
 #if !SWIG
 		std::shared_ptr<ResourceContainer<Texture2D_Imp>> Texture2DContainer;
 		std::shared_ptr<ResourceContainer<Effect_Imp>> EffectContainer;
+		std::shared_ptr<ResourceContainer<Font_Imp>> FontContainer;
+		std::shared_ptr<ResourceContainer<Model_Imp>> ModelContainer;
+
+		File* GetFile() { return m_file; }
+		Log* GetLog() { return m_log; }
+
+		void IncVRAM(int32_t size) { vramCount += size; }
+		void DecVRAM(int32_t size) { vramCount -= size; }
+
 #endif
 
-		Graphics_Imp(Vector2DI size, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);
 		virtual ~Graphics_Imp();
 
-		static Graphics_Imp* Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp* Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);
 
-		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, File *file, bool isReloadingEnabled, bool isFullScreen);
 
 		/**
 		@brief	画面をクリアする。
@@ -205,12 +243,21 @@ namespace ace {
 
 		int32_t GetDrawCallCount() const override { return drawCallCount; };
 
+		int32_t GetUsedVRAMSize() const override { return vramCount; }
+
 		/**
 		@brief	テクスチャを生成する。
 		@param	path	パス
 		@return	テクスチャ
 		*/
 		Texture2D_Imp* CreateTexture2D_Imp(const achar* path);
+
+		/**
+		@brief	テクスチャを生成する。
+		@param	path	パス
+		@return	テクスチャ
+		*/
+		Texture2D_Imp* CreateTexture2DAsRawData_Imp(const achar* path);
 
 		/**
 		@brief	空のテクスチャを生成する。
@@ -238,6 +285,11 @@ namespace ace {
 		@brief	SWIG向けに記述
 		*/
 		virtual CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) { return nullptr; }
+
+		/**
+		@brief	SWIG向けに記述
+		*/
+		virtual CubemapTexture* CreateCubemapTextureFromSingleImageFile_(const achar* path)  { return nullptr; }
 
 		/**
 			@brief	シェーダー(2D)を生成する。
@@ -268,6 +320,12 @@ namespace ace {
 		Deformer* CreateDeformer_();
 
 		Model* CreateModel_(const achar* path);
+
+		MassModel* CreateMassModelFromModelFile_(const achar* path) override;
+
+		MassModel* CreateMassModel_(const achar* path) override;
+
+		Terrain3D* CreateTerrain3D_() override;
 
 		Effect* CreateEffect_(const achar* path);
 
@@ -348,7 +406,7 @@ namespace ace {
 		@brief	リソースコンテナを取得する。
 		@return	リソースコンテナ
 	*/
-	GraphicsResourceContainer* GetResourceContainer() { return m_resourceContainer; }
+	//GraphicsResourceContainer* GetResourceContainer() { return m_resourceContainer; }
 
 	/**
 		@brief	描画のための頂点バッファを設定する。
@@ -381,6 +439,20 @@ namespace ace {
 	@param	count	ポリゴン数
 	*/
 	void DrawPolygon(int32_t count);
+
+	/**
+	@brief	ポリゴンを描画する。
+	@param	offset	ポリゴン数オフセット
+	@param	count	ポリゴン数
+	*/
+	void DrawPolygon(int32_t offset, int32_t count);
+
+	/**
+	@brief	ポリゴンを描画する。
+	@param	count			ポリゴン数
+	@param	instanceCount	インスタンス数
+	*/
+	void DrawPolygonInstanced(int32_t count, int32_t instanceCount);
 
 	/**
 	@brief	描画開始前のリセット処理を行う。

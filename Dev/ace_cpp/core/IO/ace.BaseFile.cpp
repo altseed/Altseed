@@ -10,7 +10,8 @@ namespace ace
 
 	BaseFile_Imp::BaseFile_Imp(const astring& path) :
 		m_position(0),
-		m_length(-1)
+		m_length(-1),
+		m_filePath(path)
 	{
 		m_file.open(
 #ifdef _WIN32
@@ -44,6 +45,14 @@ namespace ace
 	void BaseFile_Imp::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count)
 	{
 		const auto size = Size();
+
+		if (!count)
+		{
+			buffer.resize(0);
+			buffer.clear();
+			return;
+		}
+
 		assert(0 <= count && count <= size);
 		assert((m_position + count) <= size);
 
@@ -51,6 +60,22 @@ namespace ace
 		m_file.read(reinterpret_cast<char*>(&buffer[0]), count);
 
 		m_position += count;
+	}
+
+	uint32_t BaseFile_Imp::ReadUInt32()
+	{
+		std::vector<uint8_t> buffer;
+		ReadBytes(buffer, sizeof(uint32_t));
+
+		return *reinterpret_cast<const uint32_t*>(buffer.data());
+	}
+
+	uint64_t BaseFile_Imp::ReadUInt64()
+	{
+		std::vector<uint8_t> buffer;
+		ReadBytes(buffer, sizeof(uint64_t));
+
+		return *reinterpret_cast<const uint64_t*>(buffer.data());
 	}
 
 	void BaseFile_Imp::ReadAllBytes(std::vector<uint8_t>& buffer)

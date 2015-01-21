@@ -23,11 +23,11 @@ namespace ace
 			int32_t Type;
 			astring	ColorTexture;
 			astring	NormalTexture;
-			astring	SpecularTexture;
+			astring	MetalnessTexture;
 
 			astring	OriginalColorTexture;
 			astring	OriginalNormalTexture;
-			astring	OriginalSpecularTexture;
+			astring	OriginalMetalnessTexture;
 		};
 
 		struct Vertex
@@ -163,7 +163,7 @@ namespace ace
 
 		static void Int32ToUInt8Array(uint8_t dst[4], int32_t src);
 
-		bool Load(std::vector<uint8_t>& data, const achar* path);
+		bool Load(const std::vector<uint8_t>& data, const achar* path);
 
 		bool Save(BinaryWriter& writer, const achar* path);
 

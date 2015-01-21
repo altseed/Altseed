@@ -62,6 +62,7 @@
     <Compile Include="Graphics\Effect.cs" />
     <Compile Include="Graphics\Font.cs" />
     <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\MassModel.cs" />
     <Compile Include="Graphics\Material2D.cs" />
     <Compile Include="Graphics\Material3D.cs" />
     <Compile Include="Graphics\MaterialPropertyBlock.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="Graphics\RenderTexture2D.cs" />
     <Compile Include="Graphics\Shader2D.cs" />
     <Compile Include="Graphics\Shader3D.cs" />
+    <Compile Include="Graphics\Terrain3D.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
     <Compile Include="Input\IMouseButtonState.cs" />
@@ -80,6 +82,8 @@
     <Compile Include="Input\MiddleButton.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="Input\SideButton.cs" />
+    <Compile Include="IO\File.cs" />
+    <Compile Include="IO\StaticFile.cs" />
     <Compile Include="Log.cs" />
     <Compile Include="Math\Math.cs" />
     <Compile Include="Math\Matrix33.cs" />
@@ -98,8 +102,10 @@
     <Compile Include="ObjectSystem\3D\DirectionalLightObject3D.cs" />
     <Compile Include="ObjectSystem\3D\EffectObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Layer3D.cs" />
+    <Compile Include="ObjectSystem\3D\MassModelObject3D.cs" />
     <Compile Include="ObjectSystem\3D\ModelObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Object3D.cs" />
+    <Compile Include="ObjectSystem\3D\TerrainObject3D.cs" />
     <Compile Include="ObjectSystem\ChildMode.cs" />
     <Compile Include="ObjectSystem\2D\Layer2DComponent.cs" />
     <Compile Include="ObjectSystem\2D\Object2DComponent.cs" />
@@ -139,12 +145,14 @@
     <Compile Include="swig\CoreLayer2D.cs" />
     <Compile Include="swig\CoreLayer3D.cs" />
     <Compile Include="swig\CoreMapObject2D.cs" />
+    <Compile Include="swig\CoreMassModelObject3D.cs" />
     <Compile Include="swig\CoreModelObject3D.cs" />
     <Compile Include="swig\CoreObject2D.cs" />
     <Compile Include="swig\CoreObject3D.cs" />
     <Compile Include="swig\CoreOption.cs" />
     <Compile Include="swig\CorePostEffect.cs" />
     <Compile Include="swig\CoreScene.cs" />
+    <Compile Include="swig\CoreTerrainObject3D.cs" />
     <Compile Include="swig\CoreTextObject2D.cs" />
     <Compile Include="swig\CoreTextureObject2D.cs" />
     <Compile Include="swig\CoreTransition.cs" />
@@ -160,6 +168,8 @@
     <Compile Include="swig\eRenderedObject3DType.cs" />
     <Compile Include="swig\eRotationOrder.cs" />
     <Compile Include="swig\eTextureClassType.cs" />
+    <Compile Include="swig\File.cs" />
+    <Compile Include="swig\File_Imp.cs" />
     <Compile Include="swig\Font.cs" />
     <Compile Include="swig\FramerateMode.cs" />
     <Compile Include="swig\Graphics.cs" />
@@ -180,6 +190,7 @@
     <Compile Include="swig\KeyState.cs" />
     <Compile Include="swig\Log.cs" />
     <Compile Include="swig\Log_Imp.cs" />
+    <Compile Include="swig\MassModel.cs" />
     <Compile Include="swig\Material2D.cs" />
     <Compile Include="swig\Material3D.cs" />
     <Compile Include="swig\MaterialPropertyBlock.cs" />
@@ -204,7 +215,8 @@
     <Compile Include="swig\SideButton.cs" />
     <Compile Include="swig\Sound.cs" />
     <Compile Include="swig\SoundSource.cs" />
-    <Compile Include="swig\SWIGTYPE_p_ace__File.cs" />
+    <Compile Include="swig\StaticFile.cs" />
+    <Compile Include="swig\Terrain3D.cs" />
     <Compile Include="swig\Texture.cs" />
     <Compile Include="swig\Texture2D.cs" />
     <Compile Include="swig\Texture2D_Imp.cs" />

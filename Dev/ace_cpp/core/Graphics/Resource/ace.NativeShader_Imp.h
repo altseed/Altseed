@@ -26,6 +26,16 @@ namespace ace {
 		: public DeviceObject
 	{
 	public:
+
+		class BindingTexture
+		{
+		public:
+			std::shared_ptr<Texture>	TexturePtr;
+			TextureWrapType				WrapType;
+			TextureFilterType			FilterType;
+			std::string					Name;
+		};
+
 	protected:
 		uint8_t*			m_vertexConstantBuffer;
 		uint8_t*			m_pixelConstantBuffer;
@@ -34,12 +44,16 @@ namespace ace {
 		TextureWrapType		textureWrapTypes[Graphics_Imp::MaxTextureCount];
 		TextureFilterType	textureFilterTypes[Graphics_Imp::MaxTextureCount];
 
+		std::map<int32_t, BindingTexture> bindingTextures;
+
 		int32_t GetBufferSize(eConstantBufferFormat type, int32_t count);
 
 		/**
 			@note	キャッシュ用キー
 		*/
 		astring		m_key;
+
+		static uint32_t CalcHash(const char* text);
 
 	public:
 		NativeShader_Imp(Graphics* graphics);
@@ -62,6 +76,8 @@ namespace ace {
 		void SetVector3DF(int32_t id, const Vector3DF& value);
 
 		void SetVector4DF(int32_t id, const Vector4DF& value);
+
+		void SetVector4DFArray(int32_t id, Vector4DF* value, int32_t count);
 
 		void SetMatrix44(int32_t id, const Matrix44& value);
 
@@ -111,6 +127,8 @@ namespace ace {
 		void SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType, int32_t index);
 
 		bool GetTexture(char*& name, Texture*& texture, TextureFilterType& filterType, TextureWrapType& wrapType, int32_t index);
+
+		std::map<int32_t, BindingTexture>& GetBindingTextures() { return bindingTextures; }
 
 		/**
 			@brief	ShaderConstantValueの配列から定数を設定する。

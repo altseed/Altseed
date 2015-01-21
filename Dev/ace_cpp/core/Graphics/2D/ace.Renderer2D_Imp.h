@@ -132,6 +132,7 @@ namespace ace {
 		std::map<int32_t, std::vector<Event>>	m_events;
 
 		RectF									area;
+		float									angle = 0;
 
 		Effekseer::Manager*						m_effectManager = nullptr;
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
@@ -140,13 +141,15 @@ namespace ace {
 		Renderer2D_Imp(Graphics* graphics, Log* log);
 		virtual ~Renderer2D_Imp();
 
-		void SetArea(const RectF& area) override;
+		void SetArea(const RectF& area, float angle) override;
 
 		void DrawCache();
 
 		void ClearCache();
 
 		void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
+
+		void AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority) override;
 
 		void AddEffect(::Effekseer::Handle handle, int32_t priority);
 
@@ -164,6 +167,8 @@ namespace ace {
 		void DrawSprite();
 
 		void DrawEffect();
+
+		void Culling(const RectF& cullingRange);
 	};
 
 	//----------------------------------------------------------------------------------

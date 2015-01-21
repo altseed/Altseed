@@ -38,7 +38,27 @@ namespace ace
 				g->SetIndexBuffer(c->IB);
 				g->SetShader(c->Shader);
 				g->SetRenderState(c->RS);
-				g->DrawPolygon(c->PolyCount);
+
+				if (c->PolyOffset == 0)
+				{
+					g->DrawPolygon(c->PolyCount);
+				}
+				else
+				{
+					g->DrawPolygon(c->PolyOffset, c->PolyCount);
+				}
+			}
+			else if (command->GetType() == RenderingCommandType::DrawInstanced)
+			{
+				auto c = (RenderingCommand_DrawInstanced*) command;
+				c->Shader->SetConstantValues(c->ConstantValues, c->ConstantValueCount);
+
+				g->SetVertexBuffer(c->VB);
+				g->SetIndexBuffer(c->IB);
+				g->SetShader(c->Shader);
+				g->SetRenderState(c->RS);
+
+				g->DrawPolygonInstanced(c->PolyCount, c->InstanceCount);
 			}
 			else if (command->GetType() == RenderingCommandType::SetRenderTarget)
 			{

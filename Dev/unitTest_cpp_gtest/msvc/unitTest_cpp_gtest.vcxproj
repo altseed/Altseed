@@ -29,6 +29,7 @@
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Sampler_Test.cpp" />
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Simple3D_Test.cpp" />
     <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_SingleTexture_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_TextureFormat_Test.cpp" />
     <ClCompile Include="..\Log\ace.Log_Test.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\PCH\ace.UnitTestCpp.PCH.cpp">

@@ -40,6 +40,11 @@ ID3DBlob* NativeShader_Imp_DX11::CompileVertexShader(Graphics_Imp_DX11* g, const
 		macro.push_back(m);
 	}
 
+	UINT flag = D3D10_SHADER_PACK_MATRIX_ROW_MAJOR;
+#if !_DEBUG
+	flag = flag | D3D10_SHADER_OPTIMIZATION_LEVEL3;
+#endif
+
 	/* この方法だとVS4.0以上でのコンパイルが要求 */
 	auto hr = D3DCompile(
 		vertexShaderText,
@@ -49,7 +54,7 @@ ID3DBlob* NativeShader_Imp_DX11::CompileVertexShader(Graphics_Imp_DX11* g, const
 		NULL,
 		"main",
 		"vs_4_0",
-		D3D10_SHADER_PACK_MATRIX_ROW_MAJOR,
+		flag,
 		0,
 		&shader,
 		&error);
@@ -114,6 +119,11 @@ macro.push_back(m);
 		macro.push_back(m);
 	}
 
+	UINT flag = D3D10_SHADER_PACK_MATRIX_ROW_MAJOR;
+#if !_DEBUG
+	flag = flag | D3D10_SHADER_OPTIMIZATION_LEVEL3;
+#endif
+
 	/* この方法だとPS4.0以上でのコンパイルが要求 */
 	auto hr = D3DCompile(
 		vertexShaderText,
@@ -123,7 +133,7 @@ macro.push_back(m);
 		NULL,
 		"main",
 		"ps_4_0",
-		D3D10_SHADER_PACK_MATRIX_ROW_MAJOR,
+		flag,
 		0,
 		&shader,
 		&error);
@@ -164,7 +174,7 @@ macro.push_back(m);
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures)
+void NativeShader_Imp_DX11::Reflect(void* buf, int32_t bufSize, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures)
 {
 	auto getBufferType = [](D3D11_SHADER_TYPE_DESC typeDesc, eConstantBufferFormat& format, int32_t& elements) -> void
 	{
@@ -179,7 +189,19 @@ void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& 
 		{
 			if (typeDesc.Columns == 2) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT2;
 			if (typeDesc.Columns == 3) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
-			if (typeDesc.Columns == 4) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
+
+			else if (typeDesc.Elements > 0)
+			{
+				if (typeDesc.Columns == 4)
+				{
+					elements = typeDesc.Elements;
+					format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4_ARRAY;
+				}
+			}
+			else
+			{
+				if (typeDesc.Columns == 4) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
+			}
 		}
 
 		if (typeDesc.Class == D3D_SHADER_VARIABLE_CLASS::D3D_SVC_MATRIX_ROWS && typeDesc.Type == D3D_SHADER_VARIABLE_TYPE::D3D10_SVT_FLOAT)
@@ -222,7 +244,7 @@ void NativeShader_Imp_DX11::Reflect(ID3DBlob* buf, std::vector<ConstantLayout>& 
 	int32_t offset = 0;
 
 	ID3D11ShaderReflection*	reflection = nullptr;
-	D3DReflect(buf->GetBufferPointer(), buf->GetBufferSize(), IID_ID3D11ShaderReflection, (void**) &reflection);
+	D3DReflect(buf, bufSize, IID_ID3D11ShaderReflection, (void**) &reflection);
 
 	D3D11_SHADER_DESC shaderDesc;
 	reflection->GetDesc(&shaderDesc);
@@ -499,7 +521,7 @@ void NativeShader_Imp_DX11::SetTexture(const char* name, Texture* texture, Textu
 
 	if (it_vs != m_vs_textureLayouts.end())
 	{
-		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_vs).second.ID);
+		NativeShader_Imp::SetTexture(name, texture, filterType, wrapType, (*it_vs).second.ID + 0xff);
 	}
 
 	if (it_ps != m_ps_textureLayouts.end())
@@ -517,7 +539,7 @@ void NativeShader_Imp_DX11::SetTexture(int32_t id, Texture* texture, TextureFilt
 
 	if (id < m_vs_textureLayouts.size())
 	{
-		NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->ID);
+		NativeShader_Imp::SetTexture(layout->Name.c_str(), texture, filterType, wrapType, layout->ID + 0xff);
 	}
 	else
 	{
@@ -558,8 +580,23 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	std::vector <Macro>& macro,
 	Log* log)
 {
+	// Hash
+	std::string macroStr;
+	for (auto& macro_ : macro)
+	{
+		macroStr = macroStr + macro_.Definition;
+		macroStr = macroStr + macro_.Name;
+	}
+
+	auto hashMacro = CalcHash(macroStr.c_str());
+	auto hashVS = CalcHash(vertexShaderText);
+	auto hashPS = CalcHash(pixelShaderText);
+
+	char cacheFile[256];
+	sprintf(cacheFile, "ShaderCache/dx_%d_%d_%d.ch", hashMacro, hashVS, hashPS);
+
 	HRESULT hr;
-	auto g = (Graphics_Imp_DX11*)graphics;
+	auto g = (Graphics_Imp_DX11*) graphics;
 	ID3D11VertexShader* vs = nullptr;
 	ID3D11PixelShader* ps = nullptr;
 	ID3D11InputLayout* il = nullptr;
@@ -573,31 +610,78 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	int32_t ps_uniformBufferSize;
 	std::vector<TextureLayout> ps_textures;
 
-	auto vertexShader = CompileVertexShader(
-		(Graphics_Imp_DX11*) graphics,
-		vertexShaderText,
-		vertexShaderFileName,
-		macro,
-		log
-		);
-	
-	auto pixelShader = CompilePixelShader(
-		(Graphics_Imp_DX11*) graphics,
-		pixelShaderText,
-		pixelShaderFileName,
-		macro,
-		log
-		);
+	ID3D10Blob* vertexShader = nullptr;
+	ID3D10Blob* pixelShader = nullptr;
+	std::vector<uint8_t> vertexShaderBuf;
+	std::vector<uint8_t> pixelShaderBuf;
 
-	if (vertexShader == nullptr ||
-		pixelShader == nullptr)
+	void* vertexShaderPtr = nullptr;
+	int32_t vertexShaderSize = 0;
+
+	void* pixelShaderPtr = nullptr;
+	int32_t pixelShaderSize = 0;
+
+	FILE* fp = nullptr;
+	fopen_s(&fp, cacheFile, "rb");
+	if (fp == nullptr)
 	{
-		goto End;
+		vertexShader = CompileVertexShader(
+			(Graphics_Imp_DX11*) graphics,
+			vertexShaderText,
+			vertexShaderFileName,
+			macro,
+			log
+			);
+
+		pixelShader = CompilePixelShader(
+			(Graphics_Imp_DX11*) graphics,
+			pixelShaderText,
+			pixelShaderFileName,
+			macro,
+			log
+			);
+
+		if (vertexShader == nullptr ||
+			pixelShader == nullptr)
+		{
+			goto End;
+		}
+
+		vertexShaderPtr = vertexShader->GetBufferPointer();
+		vertexShaderSize = vertexShader->GetBufferSize();
+
+		pixelShaderPtr = pixelShader->GetBufferPointer();
+		pixelShaderSize = pixelShader->GetBufferSize();
+
+		// 書き込み
+		fopen_s(&fp, cacheFile, "wb");
+		if (fp != nullptr)
+		{
+			fwrite(&vertexShaderSize, sizeof(int32_t), 1, fp);
+			fwrite(&pixelShaderSize, sizeof(int32_t), 1, fp);
+			fwrite(vertexShaderPtr, 1, vertexShaderSize, fp);
+			fwrite(pixelShaderPtr, 1, pixelShaderSize, fp);
+
+			fclose(fp);
+		}
+	}
+	else
+	{
+		// 読み込み
+		fread(&vertexShaderSize, sizeof(int32_t), 1, fp);
+		fread(&pixelShaderSize, sizeof(int32_t), 1, fp);
+		vertexShaderBuf.resize(vertexShaderSize);
+		pixelShaderBuf.resize(pixelShaderSize);
+		fread(vertexShaderBuf.data(), 1, vertexShaderSize, fp);
+		fread(pixelShaderBuf.data(), 1, pixelShaderSize, fp);
+		vertexShaderPtr = vertexShaderBuf.data();
+		pixelShaderPtr = pixelShaderBuf.data();
+		fclose(fp);
 	}
 
 	hr = g->GetDevice()->CreateVertexShader(
-		vertexShader->GetBufferPointer(),
-		vertexShader->GetBufferSize(),
+		vertexShaderPtr,
+		vertexShaderSize,
 		NULL,
 		&vs
 		);
@@ -610,8 +694,8 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	}
 
 	hr = g->GetDevice()->CreatePixelShader(
-		pixelShader->GetBufferPointer(),
-		pixelShader->GetBufferSize(),
+		pixelShaderPtr,
+		pixelShaderSize,
 		NULL,
 		&ps
 		);
@@ -664,14 +748,14 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		decl.push_back(d);
 	}
 
-	Reflect(vertexShader, vs_uniformLayouts, vs_uniformBufferSize, vs_textures);
-	Reflect(pixelShader, ps_uniformLayouts, ps_uniformBufferSize, ps_textures);
+	Reflect(vertexShaderPtr, vertexShaderSize, vs_uniformLayouts, vs_uniformBufferSize, vs_textures);
+	Reflect(pixelShaderPtr, pixelShaderSize, ps_uniformLayouts, ps_uniformBufferSize, ps_textures);
 
 	hr = g->GetDevice()->CreateInputLayout(
 		&(decl[0]),
 		decl.size(),
-		vertexShader->GetBufferPointer(),
-		vertexShader->GetBufferSize(),
+		vertexShaderPtr,
+		vertexShaderSize,
 		&il);
 
 	SafeRelease(vertexShader);

@@ -24,9 +24,10 @@ namespace ace
 		Color GetColor();
 		void SetColor(const Color& color);
 
+		float GetIntensity() override;
+		void SetIntensity(float intensity) override;
+
 		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT; }
-
-
 
 		// 共通部分
 		virtual bool GetIsDrawn() const { return CoreObject3D_Imp::GetIsDrawn(); }

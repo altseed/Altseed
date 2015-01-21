@@ -4,7 +4,6 @@
 //----------------------------------------------------------------------------------
 #include "ace.Texture2D_Imp.h"
 #include "../ace.Graphics_Imp.h"
-#include "../ace.GraphicsResourceContainer.h"
 
 #define Z_SOLO
 #include <png.h>
@@ -33,7 +32,8 @@ namespace ace {
 		InternalUnload();
 
 		void* imagedata = nullptr;
-		if (ImageHelper::LoadPNGImage(data, size, rev, m_internalTextureWidth, m_internalTextureHeight, m_internalTextureData))
+		auto g = (Graphics_Imp*) GetGraphics();
+		if (ImageHelper::LoadPNGImage(data, size, rev, m_internalTextureWidth, m_internalTextureHeight, m_internalTextureData, g->GetLog()))
 		{
 			return true;
 		}

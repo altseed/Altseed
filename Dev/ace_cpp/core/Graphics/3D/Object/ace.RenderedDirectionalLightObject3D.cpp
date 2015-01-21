@@ -51,7 +51,7 @@ namespace ace
 		auto calcCubeClipMatrix = [this](Vector3DF& max_, Vector3DF& min_)->Matrix44
 		{
 			Matrix44 matCubeClip;
-			matCubeClip.SetIndentity();
+			matCubeClip.SetIdentity();
 			matCubeClip.Values[0][0] = 2.0f / (max_.X - min_.X);
 			matCubeClip.Values[0][1] = 0.0f;
 			matCubeClip.Values[0][2] = 0.0f;
@@ -250,7 +250,7 @@ namespace ace
 			// a = (f + n) / (f - n)
 			// b = -2.0f * n * f / (f - n)
 
-			matPerspective.SetIndentity();
+			matPerspective.SetIdentity();
 			matPerspective.Values[1][1] = (f + n) / (f - n);
 			matPerspective.Values[3][1] = 1.0f;
 			matPerspective.Values[1][3] = -2.0f * n * f / (f - n);
@@ -320,6 +320,17 @@ namespace ace
 	{
 		RenderedObject3D::Flip(deltaTime);
 		proxy->LightColor = color;
+		proxy->Intensity = intensity;
+	}
+
+	float RenderedDirectionalLightObject3D::GetIntensity()
+	{
+		return intensity;
+	}
+
+	void RenderedDirectionalLightObject3D::SetIntensity(float intensity)
+	{
+		this->intensity = intensity;
 	}
 
 	Color RenderedDirectionalLightObject3D::GetColor()

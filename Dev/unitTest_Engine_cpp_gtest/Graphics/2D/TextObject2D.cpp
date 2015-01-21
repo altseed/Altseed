@@ -10,7 +10,7 @@ class Graphics_TextObject2D : public EngineTest
 {
 public:
 	Graphics_TextObject2D(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("TextObject2D"), isOpenGLMode, 360)
+		: EngineTest(ace::ToAString("TextObject2D"), isOpenGLMode, 10)
 	{
 	}
 
@@ -30,16 +30,18 @@ protected:
 
 		auto g = ace::Engine::GetGraphics();
 
-		layer->AddObject(object);
-		auto font = g->CreateFont(ace::ToAString("Data/Font/Nac0812.aff").c_str());
+		ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data").c_str());
 
-		object->SetFont(font);
-		object->SetText(ToAString("Dependency\nPropertyとは").c_str());
+		layer->AddObject(object);
+		auto font = g->CreateFont(ace::ToAString("Font/Nac0812.aff").c_str());
+
+		object->SetText(ToAString("DependencyPropertyとは").c_str());
 
 		//object->SetCenterPosition(Vector2DF(128, 128));
 		object->SetPosition(Vector2DF(0, 0));
+		object->SetFont(font);
 
-		auto size = font->CalcTextureSize(ToAString("Dependency\nPropertyとは").c_str(), WritingDirection::Horizontal);
+		auto size = font->CalcTextureSize(ToAString("DependencyPropertyとは").c_str(), WritingDirection::Horizontal);
 
 		printf("%d %d\n", size.X,size.Y);
 	}

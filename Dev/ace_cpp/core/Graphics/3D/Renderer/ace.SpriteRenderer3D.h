@@ -33,6 +33,9 @@ namespace ace {
 
 			Texture2D*	TexturePtr;
 			AlphaBlend	AlphaBlendState;
+
+			bool DepthTest;
+			bool DepthWrite;
 		};
 
 	private:
@@ -48,6 +51,8 @@ namespace ace {
 		{
 			Texture2D*	TexturePtr;
 			AlphaBlend	AlphaBlendState;
+			bool		DepthTest;
+			bool		DepthWrite;
 		} m_state;
 
 		std::vector<Sprite> sprites;
@@ -79,7 +84,7 @@ namespace ace {
 
 		void ClearCache();
 
-		void AddSprite(Vector3DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend);
+		void AddSprite(Vector3DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest);
 
 		void SetMatrixes(Matrix44 cameraMatrix, Matrix44 projectionMatrix);
 

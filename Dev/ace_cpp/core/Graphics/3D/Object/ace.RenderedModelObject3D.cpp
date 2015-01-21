@@ -3,7 +3,9 @@
 #include "../Resource/ace.Mesh_Imp.h"
 #include "../Resource/ace.Deformer_Imp.h"
 #include "../Resource/ace.Model_Imp.h"
+
 #include "../Renderer/ace.Renderer3D.h"
+#include "../Renderer/ace.Renderer3DProxy.h"
 
 #include "../Resource/Animation/ace.AnimationClip_Imp.h"
 #include "../Resource/Animation/ace.AnimationSource_Imp.h"
@@ -259,11 +261,15 @@ namespace ace
 			assert(m_shaderDF_ND != nullptr);
 		}
 
+		cullingProxy.ProxyPtr = this;
+
+		CullingObject = Culling3D::Object::Create();
+		CullingObject->SetUserData(&cullingProxy);
 	}
 
 	RenderedModelObject3DProxy::~RenderedModelObject3DProxy()
 	{
-
+		Culling3D::SafeRelease(CullingObject);
 	}
 
 	void RenderedModelObject3DProxy::OnUpdateAsync()
@@ -325,6 +331,16 @@ namespace ace
 		}
 	}
 
+	void RenderedModelObject3DProxy::OnAdded(Renderer3DProxy* renderer)
+	{
+		renderer->CullingWorld->AddObject(CullingObject);
+	}
+
+	void RenderedModelObject3DProxy::OnRemoving(Renderer3DProxy* renderer)
+	{
+		renderer->CullingWorld->RemoveObject(CullingObject);
+	}
+
 	void RenderedModelObject3DProxy::Rendering(RenderingCommandHelper* helper, RenderingProperty& prop)
 	{
 		using h = RenderingCommandHelper;
@@ -357,7 +373,7 @@ namespace ace
 					// ボーンあり
 					for (int32_t i = 0; i < Min(32, boneConnectors.size()); i++)
 					{
-						matM[i].SetIndentity();
+						matM[i].SetIdentity();
 						Matrix44::Mul(matM[i], matrices[boneConnectors[i].TargetIndex], boneConnectors[i].BoneToMesh);
 						Matrix44::Mul(matM[i], GetGlobalMatrix(), matM[i]);
 					}
@@ -496,14 +512,30 @@ namespace ace
 							state.Culling = CullingType::Front;
 							state.AlphaBlendState = AlphaBlend::Opacity;
 
-							helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
-								shaderConstants.data(), shaderConstants.size());
+							helper->DrawWithPtr(
+								fOffset,
+								fCount,
+								mesh.VertexBufferPtr.get(),
+								mesh.IndexBufferPtr.get(),
+								shader.get(),
+								state,
+								shaderConstants.data(),
+								shaderConstants.size());
+
+							//helper->DrawWithPtr(
+							//	mesh.IndexBufferPtr->GetCount() / 3, 
+							//	mesh.VertexBufferPtr.get(), 
+							//	mesh.IndexBufferPtr.get(), 
+							//	shader.get(), 
+							//	state,
+							//	shaderConstants.data(), 
+							//	shaderConstants.size());
 						}
 						else
 						{
 							ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
 							ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
-							ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
+							ace::Texture2D* metalnessTexture = prop.DummyTextureBlack.get();
 							ace::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
 
 							if (material != nullptr)
@@ -520,9 +552,9 @@ namespace ace
 										normalTexture = material->NormalTexture.get();
 									}
 
-									if (material->SpecularTexture != nullptr)
+									if (material->MetalnessTexture != nullptr)
 									{
-										specularTexture = material->SpecularTexture.get();
+										metalnessTexture = material->MetalnessTexture.get();
 									}
 
 									if (material->SmoothnessTexture != nullptr)
@@ -538,8 +570,8 @@ namespace ace
 							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
 								h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 
-							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
-								h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_metalnessTexture",
+								h::Texture2DPair(metalnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 
 							shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
 								h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
@@ -550,8 +582,24 @@ namespace ace
 							state.Culling = CullingType::Front;
 							state.AlphaBlendState = AlphaBlend::Opacity;
 
-							helper->DrawWithPtr(mesh.IndexBufferPtr->GetCount() / 3, mesh.VertexBufferPtr.get(), mesh.IndexBufferPtr.get(), shader.get(), state,
-								shaderConstants.data(), shaderConstants.size());
+							helper->DrawWithPtr(
+								fOffset,
+								fCount,
+								mesh.VertexBufferPtr.get(),
+								mesh.IndexBufferPtr.get(),
+								shader.get(),
+								state,
+								shaderConstants.data(),
+								shaderConstants.size());
+
+							//helper->DrawWithPtr(
+							//	mesh.IndexBufferPtr->GetCount() / 3, 
+							//	mesh.VertexBufferPtr.get(), 
+							//	mesh.IndexBufferPtr.get(), 
+							//	shader.get(), 
+							//	state,
+							//	shaderConstants.data(), 
+							//	shaderConstants.size());
 						}
 
 						shaderConstants.clear();
@@ -814,6 +862,15 @@ namespace ace
 	{
 		assert(m_renderer == renderer);
 		m_renderer = nullptr;
+	}
+
+	void RenderedModelObject3D::OnApplyingNextSRT()
+	{
+		auto pos = this->GetPosition();
+		proxy->CullingObject->SetPosition(Culling3D::Vector3DF(pos.X, pos.Y, pos.Z));
+		proxy->CullingObject->SetShapeType(Culling3D::eObjectShapeType::OBJECT_SHAPE_TYPE_SPHERE);
+		// 仮の数値
+		proxy->CullingObject->SetRadius(200.0f);
 	}
 
 	void RenderedModelObject3D::Flip(float deltaTime)

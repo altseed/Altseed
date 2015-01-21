@@ -161,6 +161,24 @@ namespace ace
             coreLayer2D.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlend)alphaBlend, priority);
         }
 
+		/// <summary>
+		/// 通常の描画に加えて文字列を描画する。
+		/// </summary>
+		/// <param name="pos">描画位置</param>
+		/// <param name="color">頂点色</param>
+		/// <param name="font">フォント</param>
+		/// <param name="text">文字列</param>
+		/// <param name="writingDirection">行方向</param>
+		/// <param name="alphaBlend">アルファブレンドの種類</param>
+		/// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
+		/// <remarks>
+		/// OnDrawAdditionallyの中以外では実行してはいけない。
+		/// </remarks>
+		public void DrawTextAdditionally(Vector2DF pos, Color color, Font font, string text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int priority)
+		{
+			coreLayer2D.DrawTextAdditionally(pos, color, IG.GetFont(font), text, (swig.WritingDirection)writingDirection, (swig.AlphaBlend)alphaBlend, priority);
+		}
+
         internal override void BeginUpdating()
 		{
 			coreLayer2D.BeginUpdating();

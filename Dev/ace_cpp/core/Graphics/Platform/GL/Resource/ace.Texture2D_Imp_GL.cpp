@@ -29,6 +29,9 @@ namespace ace {
 		m_format = format;
 		m_size = size;
 		m_resource.resize(size.X * size.Y * ImageHelper::GetPitch(m_format));
+
+		auto g = (Graphics_Imp*) GetGraphics();
+		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
 	}
 
 	//----------------------------------------------------------------------------------
@@ -36,14 +39,19 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	Texture2D_Imp_GL::~Texture2D_Imp_GL()
 	{
+		auto g = (Graphics_Imp*) GetGraphics();
+		g->DecVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
+
 		glDeleteTextures(1, &m_texture);
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Texture2D_Imp_GL::GenerateTextureFromInternal()
+	bool Texture2D_Imp_GL::GenerateTextureFromInternal(bool isSRGB)
 	{
+		auto g = (Graphics_Imp*) GetGraphics();
+
 		GLuint texture = 0;
 		glGenTextures(1, &texture);
 
@@ -53,18 +61,44 @@ namespace ace {
 
 		glBindTexture(GL_TEXTURE_2D, texture);
 
-		glTexImage2D(
-			GL_TEXTURE_2D, 
-			0, 
-			GL_RGBA,
-			m_internalTextureWidth, 
-			m_internalTextureHeight,
-			0, 
-			GL_RGBA, 
-			GL_UNSIGNED_BYTE, 
-			m_internalTextureData.data());
+		if (isSRGB)
+		{
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_SRGB8_ALPHA8,
+				m_internalTextureWidth,
+				m_internalTextureHeight,
+				0,
+				GL_RGBA,
+				GL_UNSIGNED_BYTE,
+				m_internalTextureData.data());
+		}
+		else
+		{
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_RGBA,
+				m_internalTextureWidth,
+				m_internalTextureHeight,
+				0,
+				GL_RGBA,
+				GL_UNSIGNED_BYTE,
+				m_internalTextureData.data());
+		}
+		
 
 		glBindTexture(GL_TEXTURE_2D, 0);
+
+		if (isSRGB)
+		{
+			m_format = TextureFormat::R8G8B8A8_UNORM_SRGB;
+		}
+		else
+		{
+			m_format = TextureFormat::R8G8B8A8_UNORM;
+		}
 
 		if (glGetError() != GL_NO_ERROR)
 		{
@@ -76,31 +110,42 @@ namespace ace {
 		m_size.X = m_internalTextureWidth;
 		m_size.Y = m_internalTextureHeight;
 
+		InternalUnload();
+
+		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
 		return true;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D_Imp_GL* Texture2D_Imp_GL::Create(Graphics_Imp_GL* graphics, uint8_t* data, int32_t size)
+	Texture2D_Imp_GL* Texture2D_Imp_GL::Create(Graphics_Imp_GL* graphics, uint8_t* data, int32_t size, bool isSRGB)
 	{
 		if (size == 0) return nullptr;
 
-		/* ロードしてみる */
-		Texture2D_Imp_GL* texture = new Texture2D_Imp_GL(graphics);
-		if (!texture->InternalLoad(data, size,true))
+		if (ImageHelper::IsPNG(data, size))
 		{
-			SafeRelease(texture);
-			return nullptr;
+			/* ロードしてみる */
+			Texture2D_Imp_GL* texture = new Texture2D_Imp_GL(graphics);
+			if (!texture->InternalLoad(data, size, true))
+			{
+				SafeRelease(texture);
+				return nullptr;
+			}
+
+			if (!texture->GenerateTextureFromInternal(isSRGB))
+			{
+				SafeRelease(texture);
+				return nullptr;
+			}
+
+			/* 必要ないので消す */
+			texture->InternalUnload();
+
+			return texture;
 		}
 
-		if (!texture->GenerateTextureFromInternal())
-		{
-			SafeRelease(texture);
-			return nullptr;
-		}
-
-		return texture;
+		return nullptr;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -128,7 +173,7 @@ namespace ace {
 			intrenalFormat_ = GL_RGBA32F;
 			type = GL_FLOAT;
 		}
-		else if (format == TextureFormat::R8G8B8A8_UNORM)
+		else if (format == TextureFormat::R8G8B8A8_UNORM_SRGB)
 		{
 			intrenalFormat_ = GL_SRGB8_ALPHA8;
 			type = GL_UNSIGNED_BYTE;
@@ -138,6 +183,21 @@ namespace ace {
 			intrenalFormat_ = GL_RG16F;
 			format_ = GL_RG;
 			type = GL_FLOAT;
+		}
+		else if (format == TextureFormat::R8_UNORM)
+		{
+#ifdef __APPLE__
+			intrenalFormat_ = GL_RED;
+			format_ = GL_RED;
+#else
+			intrenalFormat_ = GL_LUMINANCE;
+			format_ = GL_LUMINANCE;
+#endif
+			type = GL_UNSIGNED_BYTE;
+		}
+		else
+		{
+			return nullptr;
 		}
 
 		glTexImage2D(
@@ -210,7 +270,7 @@ namespace ace {
 			intrenalFormat_ = GL_RGBA32F;
 			type = GL_FLOAT;
 		}
-		else if (format == TextureFormat::R8G8B8A8_UNORM)
+		else if (format == TextureFormat::R8G8B8A8_UNORM_SRGB)
 		{
 			intrenalFormat_ = GL_SRGB8_ALPHA8;
 			type = GL_UNSIGNED_BYTE;
@@ -220,6 +280,17 @@ namespace ace {
 			intrenalFormat_ = GL_RG16F;
 			format_ = GL_RG;
 			type = GL_FLOAT;
+		}
+		else if (format == TextureFormat::R8_UNORM)
+		{
+#ifdef __APPLE__
+			intrenalFormat_ = GL_RED;
+			format_ = GL_RED;
+#else
+			intrenalFormat_ = GL_LUMINANCE;
+			format_ = GL_LUMINANCE;
+#endif
+			type = GL_UNSIGNED_BYTE;
 		}
 
 		glTexSubImage2D(
@@ -241,6 +312,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void Texture2D_Imp_GL::Reload(void* data, int32_t size)
 	{
+		auto g = (Graphics_Imp*) GetGraphics();
+		g->DecVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
+
 		glDeleteTextures(1, &m_texture);
 
 		if (!InternalLoad(data, size, false))
@@ -249,7 +323,7 @@ namespace ace {
 			return;
 		}
 
-		GenerateTextureFromInternal();
+		GenerateTextureFromInternal(m_format == TextureFormat::R8G8B8A8_UNORM_SRGB);
 
 		InternalUnload();
 	}

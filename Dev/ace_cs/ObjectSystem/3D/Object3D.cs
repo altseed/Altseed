@@ -66,7 +66,7 @@ namespace ace
 		/// <summary>
 		/// オブジェクトを破棄する。
 		/// </summary>
-		void Vanish()
+		public void Vanish()
 		{
 			IsAlive = false;
 		}
@@ -179,13 +179,16 @@ namespace ace
 		/// <param name="lowerLeftUV">テクスチャの左下のUV値</param>
 		/// <param name="texture">描画するテクスチャ</param>
 		/// <param name="alphaBlend">アルファブレンドの種類</param>
+		/// <param name="depthTest">深度を書き込むか?</param>
+		/// <param name="depthWrite">深度を比較するか?</param>
 		/// <remarks>OnDrawAdditionallyの中以外では実行してはいけない。</remarks>
 		public void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-			Texture2D texture, AlphaBlendMode alphaBlend)
+			Texture2D texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 		{
-			Layer.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture, alphaBlend);
+			Layer.DrawSpriteAdditionally(
+				upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture, alphaBlend, depthWrite, depthTest);
 		}
 	}
 }

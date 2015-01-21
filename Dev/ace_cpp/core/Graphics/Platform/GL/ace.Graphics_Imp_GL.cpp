@@ -42,7 +42,7 @@ namespace ace {
 		glTexImage2D(
 			GL_TEXTURE_2D,
 			0,
-			GL_RGBA,
+			GL_SRGB8_ALPHA8,
 			width,
 			height,
 			0,
@@ -110,8 +110,8 @@ namespace ace {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen)
-		: Graphics_Imp(size, log, isReloadingEnabled, isFullScreen)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::ace::Window* window, Log* log,File *file, bool isReloadingEnabled, bool isFullScreen)
+		: Graphics_Imp(size, log,file, isReloadingEnabled, isFullScreen)
 	, m_window(window)
 	, m_endStarting(false)
 {
@@ -124,6 +124,8 @@ namespace ace {
 	glfwMakeContextCurrent(window_);
 	GLCheckError();
 	
+	glEnable(GL_FRAMEBUFFER_SRGB);
+
 	// 同期しない
 	glfwSwapInterval(0);
 	GLCheckError();
@@ -182,8 +184,8 @@ namespace ace {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, bool isReloadingEnabled, bool isFullScreen)
-		: Graphics_Imp(size, log, isReloadingEnabled, isFullScreen)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
+		: Graphics_Imp(size, log,file, isReloadingEnabled, isFullScreen)
 	, m_window(nullptr)
 	, m_endStarting(false)
 {
@@ -229,6 +231,7 @@ namespace ace {
 	MakeContextNone();
 	GLCheckError();
 
+	glEnable(GL_FRAMEBUFFER_SRGB);
 
 	CreateContextBeforeThreading(nullptr);
 	GLCheckError();
@@ -588,6 +591,39 @@ void Graphics_Imp_GL::DrawPolygonInternal(int32_t count, VertexBuffer_Imp* verte
 	GLCheckError();
 }
 
+void Graphics_Imp_GL::DrawPolygonInternal(int32_t offset, int32_t count, VertexBuffer_Imp* vertexBuffer, IndexBuffer_Imp* indexBuffer, NativeShader_Imp* shaderPtr)
+{
+	assert(vertexBuffer != nullptr);
+	assert(indexBuffer != nullptr);
+	assert(shaderPtr != nullptr);
+
+	auto shader = (NativeShader_Imp_GL*) shaderPtr;
+	auto vb = (VertexBuffer_Imp_GL*) vertexBuffer;
+	auto ib = (IndexBuffer_Imp_GL*) indexBuffer;
+
+	UpdateStatus(vb, ib, shader);
+	GLCheckError();
+
+	if (indexBuffer->Is32Bit())
+	{
+		glDrawElements(GL_TRIANGLES, count * 3, GL_UNSIGNED_INT, (void*) (offset * 3 * sizeof(uint32_t)));
+	}
+	else
+	{
+		glDrawElements(GL_TRIANGLES, count * 3, GL_UNSIGNED_SHORT, (void*) (offset * 3 * sizeof(uint16_t)));
+	}
+	GLCheckError();
+
+	{
+		auto shader = (NativeShader_Imp_GL*) shaderPtr;
+		shader->Disable();
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+	}
+
+	GLCheckError();
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -660,7 +696,7 @@ void Graphics_Imp_GL::SetViewport(int32_t x, int32_t y, int32_t width, int32_t h
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log,File *file, bool isReloadingEnabled, bool isFullScreen)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -699,7 +735,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log, bool i
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL(window->GetSize(), window, log, isReloadingEnabled, isFullScreen);
+	return new Graphics_Imp_GL(window->GetSize(), window, log, file, isReloadingEnabled, isFullScreen);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));
@@ -713,7 +749,7 @@ End:;
 #if _WIN32
 #elif __APPLE__
 #else
-Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled )
+Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen )
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -776,7 +812,13 @@ End:;
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp_GL::CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
 {
-	auto ret = Texture2D_Imp_GL::Create(this, data, size);
+	auto ret = Texture2D_Imp_GL::Create(this, data, size, true);
+	return ret;
+}
+
+Texture2D_Imp* Graphics_Imp_GL::CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
+{
+	auto ret = Texture2D_Imp_GL::Create(this, data, size, false);
 	return ret;
 }
 
@@ -797,6 +839,11 @@ CubemapTexture* Graphics_Imp_GL::CreateCubemapTextureFrom6ImageFiles_(const acha
 CubemapTexture* Graphics_Imp_GL::CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount)
 {
 	return CubemapTexture_Imp_GL::Create(this, path, mipmapCount);
+}
+
+CubemapTexture* Graphics_Imp_GL::CreateCubemapTextureFromSingleImageFile_(const achar* path)
+{
+	return CubemapTexture_Imp_GL::Create(this, path);
 }
 
 //----------------------------------------------------------------------------------
@@ -897,6 +944,10 @@ void Graphics_Imp_GL::CommitRenderState(bool forced)
 				else if (next.AlphaBlendState == AlphaBlend::Mul)
 				{
 					glBlendFuncSeparate(GL_ZERO, GL_SRC_COLOR, GL_ONE, GL_ONE);
+				}
+				else if (next.AlphaBlendState == AlphaBlend::AddAll)
+				{
+					glBlendFuncSeparate(GL_ONE, GL_ONE, GL_ONE, GL_ONE);
 				}
 			}
 		}

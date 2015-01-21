@@ -60,8 +60,8 @@ namespace sample_cs
 			samples.ForEach( ( _, i ) =>
 			{
 				var type = _.GetType();
-				var title = type.Namespace + "." + type.Name;
-				Console.WriteLine( "[{0}] {1}", i, title.Replace( "sample_cs.", "" ) );
+				var title = type.Name;
+				Console.WriteLine( "[{0}] {1}", i, title );
 			} );
 			Console.WriteLine( "[{0}] 終了", samples.Length );
 			Helper.DrawLine();

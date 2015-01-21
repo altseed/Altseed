@@ -185,7 +185,10 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	auto window = ace::Window_Imp::Create(640, 480, ace::ToAString(L"CubemapTexture").c_str());
 	ASSERT_TRUE(window != nullptr);
 
-	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, false, false);
+	auto file = ace::File_Imp::Create();
+	ASSERT_TRUE(file != nullptr);
+
+	auto graphics = ace::Graphics_Imp::Create(window, isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11, log, file, false, false);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto cubemap = graphics->CreateCubemapTextureFrom6ImageFiles_(
@@ -354,6 +357,8 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	front.reset();
 	cubemap->Release();
 	graphics->Release();
+	file->Release();
+
 	vertexBuffer.reset();
 	indexBuffer.reset();
 	shader.reset();
@@ -362,11 +367,12 @@ void Graphics_CubemapTexture(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, CubemapTexture_DX)
 {
 	Graphics_CubemapTexture(false);
 }
-
+#endif
 
 TEST(Graphics, CubemapTexture_GL)
 {

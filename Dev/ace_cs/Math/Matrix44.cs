@@ -17,7 +17,7 @@ namespace ace
 		/// <summary>
 		/// 単位行列を設定する。
 		/// </summary>
-		public void SetIndentity()
+		public void SetIdentity()
 		{
 			fixed (float* v = Values)
 			{
@@ -403,7 +403,7 @@ namespace ace
 		/// <param name="z">Z方向移動量</param>
 		public void SetTranslation(float x, float y, float z)
 		{
-			SetIndentity();
+			SetIdentity();
 
 			fixed (float* v = Values)
 			{
@@ -599,7 +599,7 @@ namespace ace
 		/// <param name="z">Z方向拡大率</param>
 		public void SetScale(float x, float y, float z)
 		{
-			SetIndentity();
+			SetIdentity();
 
 			fixed (float* v = Values)
 			{

@@ -52,7 +52,7 @@ namespace ace
 		public float LoopStartingPoint
 		{
 			get { return SwigObject.GetLoopStartingPoint(); }
-			set { SwigObject.SetLoopEndPoint(value); }
+			set { SwigObject.SetLoopStartingPoint(value); }
 		}
 
 		/// <summary>

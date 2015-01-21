@@ -27,6 +27,20 @@ namespace ace
 		}
 
 		/// <summary>
+		/// テクスチャを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>テクスチャ</returns>
+		/// <remarks>
+		/// 画素がRGB空間にマッピングされている時に使用する。(ノーマルマップ等)
+		/// </remarks>
+		public Texture2D CreateTexture2DAsRawData(string path)
+		{
+			var texture = graphics.CreateTexture2DAsRawData_Imp(path);
+			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
+		}
+
+		/// <summary>
 		/// 空のテクスチャを生成する。
 		/// </summary>
 		/// <param name="width">横幅</param>
@@ -86,6 +100,16 @@ namespace ace
 		public CubemapTexture CreateCubemapTextureFromMipmapImageFiles(string path, int mipmapCount)
 		{
 			return GC.GenerateCubemapTexture(graphics.CreateCubemapTextureFromMipmapImageFiles_(path, mipmapCount), GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// 1つのファイルからミップマップ付のキューブマップテクスチャを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>キューブマップ</returns>
+		public CubemapTexture CreateCubemapTextureFromSingleImageFile(string path)
+		{
+			return GC.GenerateCubemapTexture(graphics.CreateCubemapTextureFromSingleImageFile_(path), GC.GenerationType.Create);
 		}
 
 		/// <summary>
@@ -194,6 +218,41 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 大量描画用モデルを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>大量描画用モデル</returns>
+		public MassModel CreateMassModelFromModelFile(string path)
+		{
+			var model = graphics.CreateMassModelFromModelFile_(path);
+			if (model == null) return null;
+			return GC.GenerateMassModel(model, GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// 大量描画用モデルを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>大量描画用モデル</returns>
+		public MassModel CreateMassModel(string path)
+		{
+			var model = graphics.CreateMassModel_(path);
+			if (model == null) return null;
+			return GC.GenerateMassModel(model, GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// 地形を生成する。
+		/// </summary>
+		/// <returns>地形</returns>
+		public Terrain3D CreateTerrain3D()
+		{
+			var terrain = graphics.CreateTerrain3D_();
+			if (terrain == null) return null;
+			return GC.GenerateTerrain3D(terrain, GC.GenerationType.Create);
+		}
+
+		/// <summary>
 		/// エフェクトを生成する。
 		/// </summary>
 		/// <param name="path">パス</param>
@@ -237,6 +296,20 @@ namespace ace
 		int DrawCallCount
 		{
 			get { return graphics.GetDrawCallCount(); }
+		}
+
+		/// <summary>
+		/// 現在使用済みのVRAM容量を取得する。
+		/// </summary>
+		/// <remarks>
+		/// 値は推測値である。
+		/// </remarks>
+		public int UsedVRAMSize
+		{
+			get
+			{
+				return graphics.GetUsedVRAMSize();
+			}
 		}
 
 		/// <summary>

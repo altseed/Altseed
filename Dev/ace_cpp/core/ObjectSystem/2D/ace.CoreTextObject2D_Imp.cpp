@@ -1,4 +1,5 @@
-﻿#include "../common/ace.common.Base.h"
+﻿
+#include "../common/ace.common.Base.h"
 #include "ace.CoreTextObject2D_Imp.h"
 #include "../../Graphics/Resource/ace.Font_Imp.h"
 #include "../../Graphics/Resource/ace.Texture2D_Imp.h"
@@ -50,6 +51,7 @@ namespace ace
 	void CoreTextObject2D_Imp::SetFont(Font* font)
 	{
 		SafeSubstitute(m_font, font);
+		SetCullingUpdate();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -66,6 +68,7 @@ namespace ace
 	void CoreTextObject2D_Imp::SetWritingDirection(WritingDirection writingDirection)
 	{
 		m_writingDirection = writingDirection;
+		SetCullingUpdate();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -82,6 +85,7 @@ namespace ace
 	void CoreTextObject2D_Imp::SetText(const achar* text)
 	{
 		m_text = astring(text);
+		SetCullingUpdate();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -184,29 +188,25 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::Draw(Renderer2D* renderer)
+	void CoreTextObject2D_Imp::CalculateBoundingCircle()
 	{
-		if (!m_objectInfo.GetIsDrawn() || m_font == nullptr)
-		{
-			return;
-		}
-
 		Vector2DF drawPosition = Vector2DF(0, 0);
+
+		int offset = 0;
+		Font_Imp* font_Imp = (Font_Imp*)m_font;
+
+		if (font_Imp == nullptr) return;
 
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
 
-		std::array<Color, 4> color;
-		color.at(0) = m_color;
-		color.at(1) = m_color;
-		color.at(2) = m_color;
-		color.at(3) = m_color;
+		Vector2DF min = Vector2DF(FLT_MAX, FLT_MAX);
+		Vector2DF max = Vector2DF(-FLT_MAX, -FLT_MAX);
 
-		int offset = 0;
-		Font_Imp *font_Imp = (Font_Imp*)m_font;
-
-		for (int textIndex = 0; textIndex < m_text.length(); ++textIndex)
+		for (int textIndex = 0;; ++textIndex)
 		{
+			if (m_text[textIndex] == 0) break;
+
 			if (m_text[textIndex] != '\n' && !font_Imp->HasGlyphData(m_text[textIndex]))
 			{
 				continue;
@@ -255,36 +255,17 @@ namespace ace
 					pos = Vector2DF(result.X, result.Y);
 				}
 
+				if (min.X >= position.at(0).X || min.Y >= position.at(0).Y)
+				{
+					min = position.at(0);
+				}
+
+				if (max.X <= position.at(2).X || min.Y <= position.at(2).Y)
+				{
+					max = position.at(2);
+				}
+
 			}
-
-			std::array<Vector2DF, 4> uvs;
-			{
-				const auto textureSize = Vector2DF(texture->GetSize().X, texture->GetSize().Y);
-
-				uvs.at(0) = Vector2DF(glyphSrc.X, glyphSrc.Y);
-				uvs.at(1) = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y);
-				uvs.at(2) = Vector2DF(glyphSrc.X + glyphSrc.Width, glyphSrc.Y + glyphSrc.Height);
-				uvs.at(3) = Vector2DF(glyphSrc.X, glyphSrc.Y + glyphSrc.Height);
-
-				for (auto& uv : uvs)
-				{
-					uv /= textureSize;
-				}
-
-				if (m_turnLR)
-				{
-					std::swap(uvs.at(0), uvs.at(1));
-					std::swap(uvs.at(2), uvs.at(3));
-				}
-
-				if (m_turnUL)
-				{
-					std::swap(uvs.at(0), uvs.at(3));
-					std::swap(uvs.at(1), uvs.at(2));
-				}
-			}
-
-			renderer->AddSprite(position.data(), &color[0], uvs.data(), texture.get(), m_alphablend, m_drawingPtiority);
 
 			if (m_writingDirection == WritingDirection::Horizontal)
 			{
@@ -298,5 +279,36 @@ namespace ace
 			}
 		}
 
+		Vector2DF center = (min + max) / 2;
+		float rad = (center - min).GetLength();
+		m_boundingCircle.Position = culling2d::Vector2DF(center.X, center.Y);
+		m_boundingCircle.Radius = rad;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreTextObject2D_Imp::Draw(Renderer2D* renderer)
+	{
+		if (!m_objectInfo.GetIsDrawn() || m_font == nullptr)
+		{
+			return;
+		}
+
+		auto parentMatrix = m_transform.GetParentsMatrix();
+		auto matrix = m_transform.GetMatrixToTransform();
+
+		renderer->AddText(
+			parentMatrix,
+			matrix,
+			m_centerPosition,
+			m_turnLR,
+			m_turnUL,
+			m_color,
+			m_font,
+			m_text.c_str(),
+			m_writingDirection,
+			m_alphablend,
+			m_drawingPtiority);
 	}
 }

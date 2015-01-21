@@ -26,6 +26,7 @@ extern void TestCamera(bool openGL);
 
 EXTERN_ENGINE_TEST(Graphics, PostEffectGaussianBlur)
 EXTERN_ENGINE_TEST(Graphics, PostEffectLightBloom)
+EXTERN_ENGINE_TEST(Graphics, TextObject2D)
 EXTERN_ENGINE_TEST(Graphics, PostEffectGrayScale)
 EXTERN_ENGINE_TEST(Graphics, PostEffectSepia)
 EXTERN_ENGINE_TEST(Graphics, CustomPostEffect)
@@ -37,9 +38,11 @@ extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
 EXTERN_ENGINE_TEST(Graphics, EffectObject3D)
 EXTERN_ENGINE_TEST(Graphics, SimpleMesh)
 EXTERN_ENGINE_TEST(Graphics, ModelObject3D)
+EXTERN_ENGINE_TEST(Graphics, MassModelObject3D)
 EXTERN_ENGINE_TEST(Graphics, LightingStandard)
 EXTERN_ENGINE_TEST(Graphics, ModelObject3DCustomMaterial)
 EXTERN_ENGINE_TEST(Graphics, DrawSpriteAdditionally3D)
+EXTERN_ENGINE_TEST(Graphics, TerrainObject3D)
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
 
@@ -47,8 +50,17 @@ EXTERN_ENGINE_TEST(Graphics, TextureObject2D)
 EXTERN_ENGINE_TEST(Graphics, TextObject2D)
 EXTERN_ENGINE_TEST(Graphics, MapObject2D)
 EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
+EXTERN_ENGINE_TEST(ObjectSystem, ParentObject)
+EXTERN_ENGINE_TEST(ObjectSystem, VanishInComponent)
 
 EXTERN_ENGINE_TEST(Sound, Sound)
+
+EXTERN_ENGINE_TEST(File, StaticFile_NonePackage)
+EXTERN_ENGINE_TEST(File, StaticFile_NonePackage_AddRootDirectory)
+EXTERN_ENGINE_TEST(File, StaticFile_NonePackage_Cache)
+EXTERN_ENGINE_TEST(File, StaticFile_Package)
+EXTERN_ENGINE_TEST(File, StaticFile_Package_Cache)
+EXTERN_ENGINE_TEST(File, StaticFile_Package_Priority)
 
 /**
 	@brief	単体テストを実行する。
@@ -64,22 +76,11 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 	::testing::InitGoogleTest(&argc, argv);
-
-	//CALL_ENGINE_TEST(Graphics, DrawSpriteAdditionally3D, true)
+	
+	//CALL_ENGINE_TEST(ObjectSystem, VanishInComponent, true)
 	//return 0;
 
-	//TestCamera(true);
-	//TestCamera(false);
-	//return 0;
-
-	/*
-	ObjectSystem_Text2DTest_(false);
-	return 0;
-	*/
-
-	//Test_Graphics_TextureObject2D(false);
-	//return 0;
-
+	
 	auto result = RUN_ALL_TESTS();
 
 	getchar();

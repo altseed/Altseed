@@ -41,7 +41,6 @@ namespace FontGenerator
 			glyphs.push_back(make_shared<Glyph>(*this, c, og));
 		}
 		return glyphs;
-
 	}
 
 	int Font::GetFontSize() const
@@ -52,12 +51,9 @@ namespace FontGenerator
 	void Font::SetFontSize(int value)
 	{
 		m_fontSize = value;
-		//auto error = FT_Set_Char_Size(m_face, 0, value * 64, 96, 96);
-		auto error = FT_Set_Pixel_Sizes(m_face, 0, value);
-		if (error)
-		{
-			throw "フォントサイズの設定に失敗しました";
-		}
+		//auto error = FT_Set_Char_Size(m_face, value << 6, value << 6, 96, 96);
+		auto error = FT_Set_Pixel_Sizes(m_face, value, value);
+		ACE_ASSERT(!error, "フォントサイズの設定に失敗しました")
 	}
 
 	int Font::GetFontHeight() const

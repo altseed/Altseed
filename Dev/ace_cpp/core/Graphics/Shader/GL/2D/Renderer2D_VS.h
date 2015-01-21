@@ -10,15 +10,12 @@ out vec4 vaTexCoord;
 
 out vec4 vaColor;
 
-uniform vec4 area;
+uniform mat4 mat;
 
 void main()
 {
-	vec2 pos = vec2(Pos.x,Pos.y);
-	pos.x = (pos.x - area.x) / area.z * 2.0;
-	pos.y = (pos.y - area.y) / area.w * 2.0;
-	pos.x = pos.x - 1.0;
-	pos.y = -pos.y + 1.0;
+	vec4 pos = vec4(Pos.x,Pos.y,0.0,1.0);
+	pos = mat * pos;
 
 	gl_Position.x = pos.x;
 	gl_Position.y = pos.y;

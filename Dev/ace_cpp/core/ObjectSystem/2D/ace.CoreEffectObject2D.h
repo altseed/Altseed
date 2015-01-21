@@ -44,6 +44,11 @@ namespace ace
 		virtual void StopRoot() = 0;
 
 		/**
+		@brief	このオブジェクトから再生されたエフェクトが再生中か取得する。
+		*/
+		virtual bool IsPlaying() = 0;
+
+		/**
 		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得する。
 		@return	フラグ
 		*/

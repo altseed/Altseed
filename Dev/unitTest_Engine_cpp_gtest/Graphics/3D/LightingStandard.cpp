@@ -1,6 +1,7 @@
 ﻿
 #include "../../EngineGraphics3DTest.h"
 
+
 class Graphics_LightingStandard : public EngineGraphics3DTest
 {
 public:
@@ -50,7 +51,7 @@ protected:
 		GetLayer3D()->AddObject(lightObj);
 
 		auto plainModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Plain1.mdl").c_str());
-		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("BL_HER_HC.mdl").c_str());
+		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Sphere1.mdl").c_str());
 
 		plainObj->SetModel(plainModel);
 		sphereObj->SetModel(sphereModel);
@@ -63,12 +64,12 @@ protected:
 		// 球素材
 		auto mesh = sphereModel->GetMesh(0);
 		mesh->SetColorTexture(0,luTexs[0]);
-		mesh->SetSpecularTexture(0, luTexs[2]);
+		mesh->SetMetalnessTexture(0, luTexs[2]);
 		mesh->SetSmoothnessTexture(0, luTexs[2]);
 
 		// 直接光
 		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
-		lightObj->SetColor(ace::Color(255 / 9, 255 / 9, 255 / 9, 200));
+		lightObj->SetColor(ace::Color(255 / 3, 255 / 3, 255 / 3, 200));
 
 		// 環境
 		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);
@@ -93,11 +94,11 @@ protected:
 		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::R) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[3]);
 		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::T) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[4]);
 
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::A) == ace::KeyState::Push) mainMesh->SetSpecularTexture(0, luTexs[0]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::S) == ace::KeyState::Push) mainMesh->SetSpecularTexture(0, luTexs[1]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::D) == ace::KeyState::Push) mainMesh->SetSpecularTexture(0, luTexs[2]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::F) == ace::KeyState::Push) mainMesh->SetSpecularTexture(0, luTexs[3]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::G) == ace::KeyState::Push) mainMesh->SetSpecularTexture(0, luTexs[4]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::A) == ace::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[0]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::S) == ace::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[1]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::D) == ace::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[2]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::F) == ace::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[3]);
+		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::G) == ace::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[4]);
 
 		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::Z) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[0]);
 		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::X) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[1]);

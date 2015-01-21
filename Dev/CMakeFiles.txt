@@ -36,23 +36,26 @@ set(core_src
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedCameraObject3D.cpp
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedDirectionalLightObject3D.cpp
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedEffectObject3D.cpp
+	ace_cpp/core/Graphics/3D/Object/ace.RenderedMassModelObject3D.cpp
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedModelObject3D.cpp
 	ace_cpp/core/Graphics/3D/Object/ace.RenderedObject3D.cpp
+	ace_cpp/core/Graphics/3D/Object/ace.RenderedTerrainObject3D.cpp
 	ace_cpp/core/Graphics/3D/PostProcess/ace.SSAO.cpp
 	ace_cpp/core/Graphics/3D/Renderer/ace.EnvironmentRendering.cpp
 	ace_cpp/core/Graphics/3D/Renderer/ace.LightRendering.cpp
 	ace_cpp/core/Graphics/3D/Renderer/ace.Renderer3D.cpp
 	ace_cpp/core/Graphics/3D/Renderer/ace.Renderer3DProxy.cpp
+	ace_cpp/core/Graphics/3D/Renderer/ace.SpriteRenderer3D.cpp
 	ace_cpp/core/Graphics/3D/Resource/ace.Deformer_Imp.cpp
 	ace_cpp/core/Graphics/3D/Resource/ace.MassModel_Imp.cpp
 	ace_cpp/core/Graphics/3D/Resource/ace.Mesh_Imp.cpp
 	ace_cpp/core/Graphics/3D/Resource/ace.Model_Imp.cpp
+	ace_cpp/core/Graphics/3D/Resource/ace.Terrain3D_Imp.cpp
 	ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationClip_Imp.cpp
 	ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSource_Imp.cpp
 	ace_cpp/core/Graphics/3D/Resource/Animation/ace.AnimationSystem_Imp.cpp
 	ace_cpp/core/Graphics/3D/Resource/Animation/ace.KeyframeAnimation_Imp.cpp
 	ace_cpp/core/Graphics/ace.DeviceObject.cpp
-	ace_cpp/core/Graphics/ace.GraphicsResourceContainer.cpp
 	ace_cpp/core/Graphics/ace.Graphics_Imp.cpp
 	ace_cpp/core/Graphics/ace.RenderingThread.cpp
 	ace_cpp/core/Graphics/Command/ace.RenderingCommand.cpp
@@ -84,6 +87,8 @@ set(core_src
 	ace_cpp/core/Input/ace.SideButton.cpp
 	ace_cpp/core/IO/ace.BaseFile.cpp
 	ace_cpp/core/IO/ace.File_Imp.cpp
+	ace_cpp/core/IO/ace.PackFile.Header_Imp.cpp
+	ace_cpp/core/IO/ace.PackFile_Imp.cpp
 	ace_cpp/core/IO/ace.PathIterator_Imp.cpp
 	ace_cpp/core/IO/ace.Path_Imp.cpp
 	ace_cpp/core/IO/ace.RootPath_Imp.cpp
@@ -103,8 +108,10 @@ set(core_src
 	ace_cpp/core/ObjectSystem/3D/ace.CoreDirectionalLightObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreEffectObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreLayer3D_Imp.cpp
+	ace_cpp/core/ObjectSystem/3D/ace.CoreMassModelObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreModelObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D_Imp.cpp
+	ace_cpp/core/ObjectSystem/3D/ace.CoreTerrainObject3D_Imp.cpp
 	ace_cpp/core/ObjectSystem/ace.CoreLayer_Imp.cpp
 	ace_cpp/core/ObjectSystem/ace.CoreScene_Imp.cpp
 	ace_cpp/core/ObjectSystem/ace.ObjectSystemFactory_Imp.cpp
@@ -122,6 +129,7 @@ set(core_src
 
 set(dx11_src
 	ace_cpp/core/Graphics/Platform/DX11/ace.Graphics_Imp_DX11.cpp
+	ace_cpp/core/Graphics/Platform/DX11/DirectXToolKit/DDSTextureLoader.cpp
 	ace_cpp/core/Graphics/Platform/DX11/Resource/ace.CubemapTexture_Imp_DX11.cpp
 	ace_cpp/core/Graphics/Platform/DX11/Resource/ace.DepthBuffer_Imp_DX11.cpp
 	ace_cpp/core/Graphics/Platform/DX11/Resource/ace.IndexBuffer_Imp_DX11.cpp
@@ -152,6 +160,7 @@ set(x11_src
 
 set(engine_src
 	ace_cpp/engine/ace.Engine.cpp
+	ace_cpp/engine/IO/ace.File.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.CameraObject2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.EffectObject2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.cpp
@@ -164,8 +173,10 @@ set(engine_src
 	ace_cpp/engine/ObjectSystem/3D/ace.DirectionalLightObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.EffectObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.Layer3D.cpp
+	ace_cpp/engine/ObjectSystem/3D/ace.MassModelObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.ModelObject3D.cpp
 	ace_cpp/engine/ObjectSystem/3D/ace.Object3D.cpp
+	ace_cpp/engine/ObjectSystem/3D/ace.TerrainObject3D.cpp
 	ace_cpp/engine/ObjectSystem/ace.Layer.cpp
 	ace_cpp/engine/ObjectSystem/ace.Scene.cpp
 	ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.cpp
@@ -216,17 +227,24 @@ set(unittest_gtest_src
 set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
 	unitTest_Engine_cpp_gtest/EngineTest.cpp
+	unitTest_Engine_cpp_gtest/File/StaticFile_NonePackage.cpp
+	unitTest_Engine_cpp_gtest/File/StaticFile_NonePackage_Cache.cpp
+	unitTest_Engine_cpp_gtest/File/StaticFile_Package.cpp
+	unitTest_Engine_cpp_gtest/File/StaticFile_Package_Cache.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/CameraObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/EffectObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/MapObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/TextObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/TextureObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/Camera3DPostEffect.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/DrawSpriteAdditionally3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/EffectObject3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/LightingStandard.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/MassModelObject3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/ModelObject3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/ModelObject3DCustomMaterial.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/SimpleMesh.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/TerrainObject3D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/CustomPostEffect.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGaussinaBlur.cpp
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGrayScale.cpp
@@ -234,6 +252,8 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepia.cpp
 	unitTest_Engine_cpp_gtest/Graphics/Transition/Transition.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
+	unitTest_Engine_cpp_gtest/msvc/StaticFile_NonePackage_AddDefaultRootDirectory.cpp
+	unitTest_Engine_cpp_gtest/msvc/StaticFile_Package_Priority.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp
@@ -247,6 +267,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/ObjectSystem/SetSourceOfTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/SimpleObject2D.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/TrasingCamera.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/VanishInComponent.cpp
 	unitTest_Engine_cpp_gtest/PCH/ace.UnitTestEngineCpp.PCH.cpp
 	unitTest_Engine_cpp_gtest/Profiler.cpp
 	unitTest_Engine_cpp_gtest/Sound/Sound.cpp

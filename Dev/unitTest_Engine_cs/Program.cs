@@ -10,15 +10,13 @@ namespace unitTest_Engine_cs
 	class Program
 	{
 		[STAThread]
-		static void Main( string[] args )
+		static void Main(string[] args)
 		{
-			
-            //TestSequencially( new Graphics._3D.DrawSpriteAdditionally3D() );
+			//TestSequencially(new ObjectSystem2D.VanishInComponent());
 			//Console.ReadKey();
 			//return;
-			
 
-            TestAll();
+			TestAll();
 
 			Console.ReadKey();
 		}
@@ -28,14 +26,15 @@ namespace unitTest_Engine_cs
 		/// </summary>
 		private static void TestAll()
 		{
-			Assembly.GetAssembly( typeof( Program ) )
+			Assembly.GetAssembly(typeof(Program))
 				.GetTypes()
-				.Where( _ => !_.IsAbstract )
-				.Where( _ => _.IsSubclassOf( typeof( TestFramework ) ) )
-				.Select( _ => Activator.CreateInstance( _ ) as TestFramework )
-				.Where( _ => _ != null )
+				.Where(_ => !_.IsAbstract)
+				.Where(_ => _.IsSubclassOf(typeof(TestFramework)))
+				.Where(x => x.GetConstructor(new Type[0]) != null)
+				.Select(_ => Activator.CreateInstance(_) as TestFramework)
+				.Where(_ => _ != null)
 				.ToList()
-				.ForEach( TestSequencially );
+				.ForEach(TestSequencially);
 		}
 
 		/// <summary>
@@ -43,29 +42,29 @@ namespace unitTest_Engine_cs
 		/// </summary>
 		/// <remarks>個別にテストしたい場合に利用してください。</remarks>
 		/// <param name="target">対象のテストクラス。</param>
-		private static void TestSequencially( TestFramework target )
+		private static void TestSequencially(TestFramework target)
 		{
 			try
 			{
 				target.Test(ace.GraphicsDeviceType.OpenGL);
 			}
-			catch( Exception e )
+			catch (Exception e)
 			{
-				Console.WriteLine( e.ToString() );
+				Console.WriteLine(e.ToString());
 			}
 
-			Task.Delay( 50 ).Wait();
+			Task.Delay(50).Wait();
 
 			try
 			{
 				target.Test(ace.GraphicsDeviceType.DirectX11);
 			}
-			catch( Exception e )
+			catch (Exception e)
 			{
-				Console.WriteLine( e.ToString() );
+				Console.WriteLine(e.ToString());
 			}
 
-			Task.Delay( 50 ).Wait();
+			Task.Delay(50).Wait();
 		}
 	}
 

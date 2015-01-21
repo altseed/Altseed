@@ -46,7 +46,9 @@ namespace ace {
 
 	class Effect;
 
+	class MassModel;
 	class Model;
+	class Terrain3D;
 
 	class Font;
 
@@ -79,6 +81,8 @@ namespace ace {
 	class CoreCameraObject3D;
 	class CoreEffectObject3D;
 	class CoreDirectionalLightObject3D;
+	class CoreMassModelObject3D;
+	class CoreTerrainObject3D;
 
 	class CorePostEffect;
 	class CoreTransition;
@@ -86,7 +90,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	enum class WritingDirection :int
+	enum class WritingDirection :int32_t
 	{
 		Vertical,
 		Horizontal,
@@ -114,6 +118,15 @@ namespace ace {
 		R32G32B32A32_FLOAT = 1,
 		R8G8B8A8_UNORM_SRGB = 2,
 		R16G16_FLOAT = 3,
+		R8_UNORM = 4,
+
+		BC1 = 5,
+		BC2 = 6,
+		BC3 = 7,
+		BC1_SRGB = 8,
+		BC2_SRGB = 9,
+		BC3_SRGB = 10,
+
 	};
 
 	enum eTextureClassType
@@ -150,6 +163,10 @@ namespace ace {
 		/// 乗算
 		/// </summary>
 		Mul = 4,
+		/// <summary>
+		/// 全加算(内部処理用)
+		/// </summary>
+		AddAll = 5,
 	};
 
 	enum class TextureFilterType : int32_t
@@ -198,6 +215,8 @@ namespace ace {
 		RENDERED_OBJECT3D_TYPE_CAMERA,
 		RENDERED_OBJECT3D_TYPE_EFFECT,
 		RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT,
+		RENDERED_OBJECT3D_TYPE_MASSOBJECT,
+		RENDERED_OBJECT3D_TYPE_TERRAIN,
 	};
 
 	/**
@@ -210,6 +229,7 @@ namespace ace {
 		SHADER_VARIABLE_TYPE_VECTOR2DF,
 		SHADER_VARIABLE_TYPE_VECTOR3DF,
 		SHADER_VARIABLE_TYPE_VECTOR4DF,
+		SHADER_VARIABLE_TYPE_VECTOR4DF_ARRAY,
 		SHADER_VARIABLE_TYPE_MATRIX44,
 		SHADER_VARIABLE_TYPE_MATRIX44_ARRAY,
 		SHADER_VARIABLE_TYPE_TEXTURE2D,

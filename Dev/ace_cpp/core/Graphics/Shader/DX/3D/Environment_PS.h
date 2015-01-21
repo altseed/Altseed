@@ -29,6 +29,8 @@ float3		rightDir;
 float3		upDir;
 
 float		mipmapCount;
+float		diffuseIntensity;
+float		specularIntensity;
 
 struct PS_Input
 {
@@ -37,12 +39,12 @@ struct PS_Input
 	float2 UV				: UV0;
 };
 
-float3 GetDiffuseColor(float2 uv)
+float3 GetBaseColor(float2 uv)
 {
 	return g_gbuffer0Texture.Sample(g_gbuffer0Sampler, uv).xyz;
 }
 
-float4 GetSpecularColorAndSmoothness(float2 uv)
+float4 GetSmoothnessMetalnessAO(float2 uv)
 {
 	return g_gbuffer1Texture.Sample(g_gbuffer1Sampler, uv).xyzw;
 }
@@ -68,35 +70,52 @@ float3 ReconstructPosition(float2 screenXY, float depth)
 	return float3( reconstructInfo2.xy * screenXY * (-depth), depth );
 }
 
+float3 CalcDiffuseColor(float3 baseColor, float metalness)
+{
+	return baseColor * (1.00000 - metalness);
+}
+
+float3 CalcSpecularColor(float3 baseColor, float metalness)
+{
+	float3 minColor = float3(0.0400000, 0.0400000, 0.0400000);
+	return minColor.xyz * (1.0-metalness) + baseColor.xyz * metalness;
+}
+
+
 float4 main( const PS_Input Input ) : SV_Target
 {
 	float2 uv = Input.UV;
 	// uv.y = 1.0 - uv.y;
 
+	float3 baseColor = GetBaseColor(uv);
+	float4 smoothnessMetalnessAO = GetSmoothnessMetalnessAO(uv);
+	float smoothness = smoothnessMetalnessAO.x;
+	float metalness = smoothnessMetalnessAO.y;
+	float3 diffuseColor = CalcDiffuseColor(baseColor, metalness);
+
+	float3 diffuse = CalcDiffuseColor(baseColor, metalness);
 	float3 normal = GetNormal(uv);
 	float3 view = float3(0.0,0.0,1.0);
 
-	float4 specColorAndSmoothness = GetSpecularColorAndSmoothness(uv);
-	float3 specColor = specColorAndSmoothness.xyz;
-	float smoothness = specColorAndSmoothness.w;
+	float3 specColor = CalcSpecularColor(baseColor, metalness);
 	float roughness = 1.0 - smoothness;
 
 	float3 globalNormal = float3(dot(rightDir,normal), dot(upDir,normal), dot(frontDir,normal));
 
-	float4 diffuseEnvColor = g_diffuseTexture.SampleLevel(g_diffuseSampler, globalNormal, 0.0);
+	float4 diffuseEnvColor = g_diffuseTexture.SampleLevel(g_diffuseSampler, globalNormal, 0.0) * diffuseIntensity;
 
 	float NoV = saturate( dot( normal, view) );
 	float3 R = 2.0 * NoV * normal - view;
 	float3 globalR = float3(dot(rightDir,R), dot(upDir,R), dot(frontDir,R));
 
-	float4 specEnvColor = g_specularTexture.SampleLevel(g_specularSampler, globalR, roughness * mipmapCount);
+	float4 specEnvColor = g_specularTexture.SampleLevel(g_specularSampler, globalR, roughness * mipmapCount) * specularIntensity;
 
-	float2 brdfColor = g_brdfTexture.Sample(g_brdfSampler, float2(roughness,NoV)).xy;
+	float2 brdfColor = g_brdfTexture.Sample(g_brdfSampler, float2(NoV,roughness)).xy;
 
 	float3 spec = specEnvColor.xyz * ( specColor * brdfColor.x + float3(brdfColor.y,brdfColor.y,brdfColor.y) );
 
 	float4 Output = float4(0.0,0.0,0.0,1.0);
-	Output.xyz = diffuseEnvColor.xyz + spec;
+	Output.xyz = diffuseEnvColor.xyz * diffuse + spec;
 	//Output.xyz = spec;
 	
 	//Output.xyz = globalNormal;

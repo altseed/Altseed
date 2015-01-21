@@ -57,6 +57,12 @@ namespace ace
 		void StopRoot();
 
 		/**
+		@brief	このオブジェクトから再生されたエフェクトが再生中か取得する。
+		@return	再生中か?
+		*/
+		bool IsPlaying();
+
+		/**
 		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得する。
 		@return	フラグ
 		*/
