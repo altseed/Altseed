@@ -35,7 +35,7 @@ namespace ace
 			Utf8ToUtf16(strBuffer, reinterpret_cast<const int8_t*>(buffer.data()));
 			if (m_fileNameLength < strBuffer.size())
 				strBuffer[m_fileNameLength] = 0;
-			m_fileName = ToAString(reinterpret_cast<const achar*>(strBuffer.data()));
+			m_fileName = astring(reinterpret_cast<const achar*>(strBuffer.data()));
 		}
 	};
 
@@ -52,7 +52,7 @@ namespace ace
 		static const astring Signature;
 
 		TopHeader();
-		TopHeader(uint64_t fileCounnt, const std::vector<astring>& const ignoreFiles);
+		TopHeader(uint64_t fileCounnt, const std::vector<astring>& ignoreFiles);
 		TopHeader(std::shared_ptr<BaseFile_Imp>& packedFile);
 
 		void ToByteArray(std::vector<uint8_t>& buffer);

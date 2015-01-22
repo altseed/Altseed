@@ -12,7 +12,7 @@ namespace ace
 	public:
 		virtual ~Path() { };
 		virtual astring ToAstring() const = 0;
-		virtual PathIterator& begin() const = 0;
-		virtual PathIterator& end() const = 0;
+		virtual PathIterator begin() const = 0;
+		virtual PathIterator end() const = 0;
 	};
 }
