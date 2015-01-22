@@ -288,11 +288,12 @@ void Graphics_RenderingThread(bool isOpenGLMode)
 	delete log;
 }
 
+#ifdef _WIN32
 TEST(Graphics, RenderingThread_DX)
 {
 	Graphics_RenderingThread(false);
 }
-
+#endif
 
 TEST(Graphics, RenderingThread_GL)
 {

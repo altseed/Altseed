@@ -303,7 +303,7 @@ namespace ace
 
 	int32_t Utf8ToUtf16(std::vector<int16_t> &dst, const int8_t* src)
 	{
-		int32_t i, code;
+		int32_t code;
 		int8_t c0, c1, c2;
 		dst.resize(0);
 

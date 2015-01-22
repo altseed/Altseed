@@ -59,7 +59,7 @@ namespace ace
 		if (fp == nullptr) return std::vector<uint8_t>();
 #else
 		fp = fopen(ToUtf8String(filePath.c_str()).c_str(), "rb");
-		if (fp == nullptr) return std::vector<int8_t>();
+		if (fp == nullptr) return std::vector<uint8_t>();
 #endif
 
 		fseek(fp, 0, SEEK_END);

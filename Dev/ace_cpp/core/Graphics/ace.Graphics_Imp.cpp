@@ -153,9 +153,6 @@ static void PngReadData(png_structp png_ptr, png_bytep data, png_size_t length)
 //----------------------------------------------------------------------------------
 void ImageHelper::SavePNGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev)
 {
-	png_bytep raw1D;
-	png_bytepp raw2D;
-
 	/* 構造体確保 */
 #if _WIN32
 	FILE *fp = _wfopen(filepath, L"wb");
@@ -176,14 +173,14 @@ void ImageHelper::SavePNGImage(const achar* filepath, int32_t width, int32_t hei
 		PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
 	/* ピクセル領域確保 */
-	raw1D = (png_bytep) malloc(height * png_get_rowbytes(pp, ip));
-	raw2D = (png_bytepp) malloc(height * sizeof(png_bytep));
+	std::vector<png_byte>  raw1D(height * png_get_rowbytes(pp, ip));
+	std::vector<png_bytep> raw2D(height * sizeof(png_bytep));
 	for (int32_t i = 0; i < height; i++)
 	{
 		raw2D[i] = &raw1D[i*png_get_rowbytes(pp, ip)];
 	}
 
-	memcpy((void*) raw1D, data, width * height * 4);
+	memcpy((void*) raw1D.data(), data, width * height * 4);
 
 	/* 上下反転 */
 	if (rev)
@@ -198,14 +195,12 @@ void ImageHelper::SavePNGImage(const achar* filepath, int32_t width, int32_t hei
 
 	/* 書き込み */
 	png_write_info(pp, ip);
-	png_write_image(pp, raw2D);
+	png_write_image(pp, raw2D.data());
 	png_write_end(pp, ip);
 
 	/* 開放 */
 	png_destroy_write_struct(&pp, &ip);
 	fclose(fp);
-	free(raw1D);
-	free(raw2D);
 }
 
 //----------------------------------------------------------------------------------
