@@ -120,6 +120,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+#if __CULLING_2D__
 	void CoreLayer2D_Imp::AddChipCullingObject(Chip2D_Imp *chip)
 	{
 		auto userData = new Culling2DUserData(chip->GetMapObject2D(), (Chip2D*)chip);
@@ -143,6 +144,7 @@ namespace ace
 
 		world->RemoveObject(cObj);
 	}
+#endif
 
 	//----------------------------------------------------------------------------------
 	//
