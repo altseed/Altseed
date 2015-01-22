@@ -7,6 +7,8 @@
 //#include <codecvt>
 #endif
 
+//#include <iostream>
+
 namespace ace
 {
 	const achar Path_Imp::m_dotCString[2] = { Path_Imp::m_dot, achar('\0') };
@@ -26,9 +28,13 @@ namespace ace
 		if (!IsAbsolutePath(m_path))
 		{
 #ifndef _WIN32
-			// not implimented exception.
-			assert(false);
-			// realpath で正規化できそうだが、char なので変換必要
+			// realpath で正規化
+			std::string u8 = ToUtf8String(m_path.c_str());
+			//std::cerr<<"dbg Normalize in:"<<u8<<std::endl;
+			std::vector<int8_t> res(4096); //
+			realpath(u8.c_str(), reinterpret_cast<char*>(res.data()));
+			//std::cerr<<"dbg Normalize res:"<<(char*)res.data()<<std::endl;
+			m_path = ToAString(reinterpret_cast<char*>(res.data()));
 #else
 			achar buffer[MAX_PATH];
 			GetModuleFileNameW(nullptr, buffer, MAX_PATH);
@@ -40,16 +46,16 @@ namespace ace
 		if (IsSeparator(m_path[m_path.size() - 1]))
 			m_path.append(m_dotCString);
 
-		auto begin(ImpBegin());
-		auto end(ImpEnd());
+		auto begin_(begin());
+		auto end_(end());
 
 		Path_Imp tmp;
-		for (auto itr(begin); itr != end; ++itr)
+		for (auto itr(begin_); itr != end_; ++itr)
 		{
 			if (itr.Size() == 1	&&
 				(*itr)[0] == m_dot &&
-				itr != begin &&
-				itr != end)
+				itr != begin_ &&
+				itr != end_)
 			{
 				continue;
 			}
@@ -70,6 +76,7 @@ namespace ace
 	}
 	void Path_Imp::FirstElement(astring::size_type& start, astring::size_type& count) const
 	{
+		//std::cerr<<"dbg FirstElement in:"<<ToUtf8String(this->m_path.c_str())<<std::endl;
 		assert(IsAbsolutePath(this->m_path));
 		// windows
 		if (2 <= m_path.size() && m_path[1] == m_colon)
@@ -124,18 +131,18 @@ namespace ace
 			m_path.erase(size - 1);
 	}
 
-	PathIterator_Imp Path_Imp::ImpBegin() const
+	PathIterator Path_Imp::begin() const
 	{
 		astring::size_type size;
 		astring::size_type pos;
 		FirstElement(pos, size);
 
-		return PathIterator_Imp(*this, pos, m_path.substr(pos, size));
+		return PathIterator(*this, pos, m_path.substr(pos, size));
 	}
 
-	PathIterator_Imp Path_Imp::ImpEnd() const
+	PathIterator Path_Imp::end() const
 	{
-		return PathIterator_Imp(*this, m_path.size(), astring());
+		return PathIterator(*this, m_path.size(), astring());
 	}
 
 	Path_Imp& Path_Imp::operator/=(const astring& leaf)
@@ -168,7 +175,7 @@ namespace ace
 				return true;
 		}
 		// linux
-		else if (1 < path.size())
+		if (1 < path.size())
 		{
 			if (path[0] == m_separator)
 				return true;

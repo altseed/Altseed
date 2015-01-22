@@ -1,7 +1,12 @@
 ﻿
 #include "PCH/ace.UnitTestCpp.PCH.h"
 
+#ifdef __llvm__
 #pragma clang diagnostic ignored "-Wc++11-narrowing"
+#endif
+#ifdef _WIN32
+#pragma warning( disable: 4309 )
+#endif
 
 using namespace std;
 

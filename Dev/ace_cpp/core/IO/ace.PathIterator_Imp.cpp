@@ -3,7 +3,7 @@
 
 namespace ace
 {
-	void PathIterator_Imp::Increment(PathIterator_Imp& iterator)
+	void PathIterator::Increment(PathIterator& iterator)
 	{
 		astring::size_type count;
 		iterator.m_pos += m_element.size() + 1;
@@ -15,31 +15,36 @@ namespace ace
 		}
 		else
 		{
-			const auto& end = iterator.m_ppath.ImpEnd();
-			iterator.m_pos = end.m_pos;
-			iterator.m_element = end.m_element;
+			const auto& end_ = iterator.m_ppath.end();
+			iterator.m_pos = end_.m_pos;
+			iterator.m_element = end_.m_element;
 		}
 	}
 
-	void PathIterator_Imp::Decrement(PathIterator_Imp& iterator)
+	void PathIterator::Decrement(PathIterator& iterator)
 	{
 	}
 
-	PathIterator_Imp::PathIterator_Imp(const Path_Imp& path, astring::size_type pos, const astring& element) :
+	PathIterator::PathIterator(const Path_Imp& path, astring::size_type pos, const astring& element) :
 		m_ppath(path),
 		m_pos(pos),
 		m_element(element)
 	{
 	}
 
-	PathIterator_Imp& PathIterator_Imp::operator++()
+	int PathIterator::Size() const
+	{
+		return m_element.size();
+	}
+
+	PathIterator& PathIterator::operator++()
 	{
 		Increment(*this);
 
 		return *this;
 	}
 
-	bool PathIterator_Imp::operator==(const PathIterator_Imp& iterator)
+	bool PathIterator::operator==(const PathIterator& iterator) const
 	{
 		if (&this->m_ppath == &iterator.m_ppath &&
 			this->m_element == iterator.m_element &&
@@ -51,12 +56,12 @@ namespace ace
 			return false;
 	}
 
-	bool PathIterator_Imp::operator!=(const PathIterator_Imp& iterator)
+	bool PathIterator::operator!=(const PathIterator& iterator) const
 	{
 		return !(*this == iterator);
 	}
 
-	astring PathIterator_Imp::operator*()
+	astring PathIterator::operator*() const
 	{
 		return m_element;
 	}

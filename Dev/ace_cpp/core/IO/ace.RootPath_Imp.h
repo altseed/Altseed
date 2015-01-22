@@ -31,8 +31,8 @@ namespace ace
 			m_key(key),
 			m_isPackFile(false)
 		{
-			for (auto iter = m_path.ImpBegin();
-				iter != m_path.ImpEnd();
+			for (auto iter = m_path.begin();
+				iter != m_path.end();
 				++iter)
 			{
 				if (IsPack(*iter))

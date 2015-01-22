@@ -8,12 +8,21 @@ namespace ace
 {
 	class PathIterator
 	{
-	public:
-		virtual ~PathIterator(){ };
+	private:
+		astring::size_type m_pos;
+		astring m_element;
+		const Path_Imp& m_ppath;
 
-		virtual PathIterator& operator++() = 0;
-		virtual bool operator==(const PathIterator& itertor) = 0;
-		virtual bool operator!=(const PathIterator& iterator) = 0;
-		virtual astring operator*() = 0;
+		void Increment(PathIterator& iterator);
+		void Decrement(PathIterator& iterator);
+
+	public:
+		PathIterator(const Path_Imp& path, astring::size_type pos, const astring& element);
+		virtual ~PathIterator(){}
+		virtual int Size() const;
+		virtual PathIterator& operator++();
+		virtual bool operator==(const PathIterator& itertor) const;
+		virtual bool operator!=(const PathIterator& iterator) const;
+		virtual astring operator*() const;
 	};
 }

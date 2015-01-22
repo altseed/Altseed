@@ -9,7 +9,7 @@ namespace ace
 		std::vector<uint8_t> buffer;
 		packedFile->Seek(0);
 		packedFile->ReadBytes(buffer, TopHeader::Signature.size());
-		assert(ace::ToAString(reinterpret_cast<achar*>(buffer.data())).compare(TopHeader::Signature) != 0);
+		assert(astring(reinterpret_cast<achar*>(buffer.data())).compare(TopHeader::Signature) != 0);
 
 		uint64_t fileCount = packedFile->ReadUInt64();
 		uint64_t filePathHeaderLength = packedFile->ReadUInt64();
@@ -55,7 +55,7 @@ namespace ace
 		}
 	}
 
-	TopHeader::TopHeader(uint64_t fileCounnt, const std::vector<astring>& const ignoreFiles)
+	TopHeader::TopHeader(uint64_t fileCounnt, const std::vector<astring>& ignoreFiles)
 	{
 		m_fileCount = fileCounnt;
 		m_ignoreFiles = ignoreFiles;

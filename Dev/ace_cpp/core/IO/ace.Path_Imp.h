@@ -8,7 +8,7 @@ namespace ace
 {
 	class Path_Imp : public Path
 	{
-		friend class PathIterator_Imp;
+		friend class PathIterator;
 
 	protected:
 		astring m_path;
@@ -31,11 +31,9 @@ namespace ace
 		virtual ~Path_Imp() { };
 
 		void Normalize();
-		virtual astring ToAstring() const {	return m_path; };
-		virtual PathIterator_Imp ImpBegin() const;
-		virtual PathIterator& begin() const { return ImpBegin(); }
-		virtual PathIterator_Imp ImpEnd() const;
-		virtual PathIterator& end() const { return ImpEnd(); }
+		virtual astring ToAstring() const override { return m_path; }
+		virtual PathIterator begin() const override;
+		virtual PathIterator end() const override;
 
 		virtual Path_Imp& operator/=(const astring& leaf);
 		virtual bool operator==(const Path_Imp& path) const;

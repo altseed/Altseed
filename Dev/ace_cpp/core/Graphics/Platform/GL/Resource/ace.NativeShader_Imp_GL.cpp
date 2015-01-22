@@ -238,7 +238,6 @@ void NativeShader_Imp_GL::SetConstantBuffer(int32_t id, const void* data, int32_
 void NativeShader_Imp_GL::SetTexture(const char* name, Texture* texture, TextureFilterType filterType, TextureWrapType wrapType)
 {
 	auto key = std::string(name);
-	auto g = (Graphics_Imp_GL*) GetGraphics();
 
 	auto it = m_textureLayouts.find(key);
 
@@ -605,13 +604,11 @@ void NativeShader_Imp_GL::SetLayout()
 //----------------------------------------------------------------------------------
 void NativeShader_Imp_GL::Disable()
 {
-	for (size_t i = 0; i < m_layout.size(); i++)
+	for (auto& layout : m_layout)
 	{
-		if (m_layout[i].attribute >= 0)
+		if (layout.attribute >= 0)
 		{
-			auto& layout = m_layout[i];
-
-			glDisableVertexAttribArray(m_layout[i].attribute);
+			glDisableVertexAttribArray(layout.attribute);
 		}
 	}
 
