@@ -51,7 +51,7 @@ namespace ace
 	void CoreTextObject2D_Imp::SetFont(Font* font)
 	{
 		SafeSubstitute(m_font, font);
-		SetCullingUpdate();
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ namespace ace
 	void CoreTextObject2D_Imp::SetWritingDirection(WritingDirection writingDirection)
 	{
 		m_writingDirection = writingDirection;
-		SetCullingUpdate();
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -85,7 +85,7 @@ namespace ace
 	void CoreTextObject2D_Imp::SetText(const achar* text)
 	{
 		m_text = astring(text);
-		SetCullingUpdate();
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------

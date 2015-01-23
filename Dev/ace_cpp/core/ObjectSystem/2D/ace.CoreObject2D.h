@@ -33,8 +33,8 @@ namespace ace
 		virtual Vector2DF GetScale() const = 0;
 		virtual void SetScale(Vector2DF value) = 0;
 
-		virtual void AddChild(CoreObject2D& chlid, eChildMode mode) = 0;
-		virtual void RemoveChild(CoreObject2D& chlid) = 0;
+		virtual void AddChild(CoreObject2D* chlid, eChildMode mode) = 0;
+		virtual void RemoveChild(CoreObject2D* chlid) = 0;
 
 #if !SWIG
 		virtual void Draw(Renderer2D* renderer) = 0;

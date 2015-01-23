@@ -64,7 +64,7 @@ namespace ace
 	void CoreTextureObject2D_Imp::SetSrc(RectF value)
 	{
 		m_src = value; 
-		SetCullingUpdate();
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------
