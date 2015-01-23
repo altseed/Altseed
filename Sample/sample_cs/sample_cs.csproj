@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
     <Compile Include="Graphics\2D\TextObject2D.cs" />
+    <Compile Include="Graphics\2D\TextureObject2D.cs" />
     <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />
     <Compile Include="Graphics\PostEffect\PostEffect.cs" />
     <Compile Include="Input\Joystick.cs" />

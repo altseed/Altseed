@@ -28,6 +28,7 @@ namespace sample_cs
 
 				new Graphics._2D.EffectObject2D(),
                 new Graphics._2D.TextObject2D(),
+                new Graphics._2D.TextureObject2D(),
 
                 new Graphics.PostEffect.PostEffect(),
 				new Graphics.PostEffect.CustomPostEffect(),
