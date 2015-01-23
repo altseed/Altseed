@@ -13,10 +13,6 @@ namespace ace
 		float	Rotation[4];
 		float	Scale[3];
 
-		float	PositionWeight[3];
-		float	RotationWeight[4];
-		float	ScaleWeight[3];
-
 		bool	IsAnimationPlaying;
 
 		BoneProperty();

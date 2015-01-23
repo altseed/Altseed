@@ -228,17 +228,5 @@ namespace ace
 			eAnimationCurveTargetType targetType, 
 			eAnimationCurveTargetAxis targetAxis, 
 			float value);
-
-		static void AddBoneValue(
-			float position[3],
-			float rotation[4],
-			float scale[3],
-			float positionW[3],
-			float rotationW[4],
-			float scaleW[3],
-			eAnimationCurveTargetType targetType,
-			eAnimationCurveTargetAxis targetAxis,
-			float value,
-			float weight);
 	};
 }
