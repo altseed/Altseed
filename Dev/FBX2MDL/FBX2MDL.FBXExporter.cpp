@@ -228,6 +228,54 @@ namespace FBX2MDL
 			// 材質ソート
 			std::sort(mesh->Faces.begin(), mesh->Faces.end(), [](const Face& f1, const Face& f2) -> int32_t { return f1.MaterialIndex > f2.MaterialIndex; });
 
+			// 不要マテリアル削除
+			{
+				std::vector<int32_t> materialCounts;
+				std::vector<int32_t> newIndexes;
+
+				materialCounts.resize(mesh->Materials.size());
+				newIndexes.resize(mesh->Materials.size());
+
+				for (auto& f : mesh->Faces)
+				{
+					materialCounts[f.MaterialIndex]++;
+				}
+
+				auto nind = 0;
+				for (size_t i = 0; i < materialCounts.size(); i++)
+				{
+					if (materialCounts[i] > 0)
+					{
+						if (mesh->Materials[i].Name == ace::astring())
+						{
+							mesh->Materials[i].Name = ace::ToAString("Noname");
+						}
+
+						newIndexes[i] = nind;
+						nind++;
+					}
+					else
+					{
+						mesh->Materials[i].Name = ace::astring();
+					}
+				}
+
+				for (auto& f : mesh->Faces)
+				{
+					f.MaterialIndex = newIndexes[f.MaterialIndex];
+				}
+
+				{
+					auto it = std::remove_if(mesh->Materials.begin(), mesh->Materials.end(), 
+						[](Material mat)->bool { 
+						return mat.Name == ace::astring(); 
+					});
+
+					mesh->Materials.erase(it, mesh->Materials.end());
+				}
+
+			}
+
 			// ボーン数が一定ごとになるように分割
 			std::vector<ace::Model_IO::DividedMesh> dividedMeshes;
 
