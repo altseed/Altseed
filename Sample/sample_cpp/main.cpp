@@ -18,6 +18,7 @@ extern void Sound();
 
 extern void EffectObject2D();
 extern void Object2DComponent();
+extern void TextObject2D();
 
 extern void PostEffect();
 
@@ -41,6 +42,7 @@ int main(int argc, char** argv)
 
 		INFO(Object2DComponent),
 		INFO(EffectObject2D),
+		INFO(TextObject2D),
 
 		INFO(PostEffect),
 
