@@ -30,6 +30,12 @@
     <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\2D\TextObject2D.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">
