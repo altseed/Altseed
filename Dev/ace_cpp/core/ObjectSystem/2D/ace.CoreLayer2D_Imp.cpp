@@ -124,11 +124,11 @@ namespace ace
 	void CoreLayer2D_Imp::AddChipCullingObject(Chip2D_Imp *chip)
 	{
 		auto userData = new Culling2DUserData(chip->GetMapObject2D(), (Chip2D*)chip);
-		auto c = chip->GetBoundingCircle();
 
-		auto cObj = new culling2d::Object(c, userData, world);
+		auto cObj = culling2d::Object::Create(userData, world);
 		chip->SetCullingObject(cObj);
 		world->AddObject(cObj);
+		TransformedObjects.push_back(cObj);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -179,13 +179,13 @@ namespace ace
 			{
 				auto userData = new Culling2DUserData(object);
 
-				o->CalculateBoundingCircle();
-
-				auto cObj = new culling2d::Object(o->GetBoundingCircle() , userData, world);
+				auto cObj = culling2d::Object::Create(userData, world);
 
 				o->SetCullingObject(cObj);
 
 				world->AddObject(cObj);
+
+				TransformedObjects.push_back(cObj);
 			}
 #endif
 		}
@@ -292,7 +292,6 @@ namespace ace
 					impObj->CalculateBoundingCircle();
 					auto newCircle = impObj->GetBoundingCircle();
 					x->SetCircle(newCircle);
-					world->NotifyMoved(x);
 					impObj->SetAlreadyCullingUpdated(true);
 				}
 				else
@@ -301,7 +300,6 @@ namespace ace
 					auto chip = (Chip2D_Imp*)userData->Chip;
 					auto newCircle = chip->GetBoundingCircle();
 					x->SetCircle(newCircle);
-					world->NotifyMoved(x);
 					chip->SetAlreadyCullingUpdated(true);
 				}
 			}
