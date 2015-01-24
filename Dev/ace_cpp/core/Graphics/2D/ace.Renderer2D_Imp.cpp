@@ -259,7 +259,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Renderer2D_Imp::AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void Renderer2D_Imp::AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority, TextureFilterType filter, TextureWrapType wrap)
 	{
 		Event e;
 		e.Type = Event::eEventType::Sprite;
@@ -269,12 +269,14 @@ namespace ace {
 		memcpy(e.Data.Sprite.UV, uv, sizeof(ace::Vector2DF) * 4);
 		e.Data.Sprite.AlphaBlendState = alphaBlend;
 		e.Data.Sprite.TexturePtr = texture;
+		e.Data.Sprite.Filter = filter;
+		e.Data.Sprite.Wrap = wrap;
 		SafeAddRef(e.Data.Sprite.TexturePtr);
 
 		AddEvent(priority, e);
 	}
 
-	void Renderer2D_Imp::AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority)
+	void Renderer2D_Imp::AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority, TextureFilterType filter, TextureWrapType wrap)
 	{
 		Vector2DF drawPosition = Vector2DF(0, 0);
 
@@ -368,7 +370,7 @@ namespace ace {
 				}
 			}
 
-			AddSprite(position.data(), &colors[0], uvs.data(), texture.get(), alphaBlend, priority);
+			AddSprite(position.data(), &colors[0], uvs.data(), texture.get(), alphaBlend, priority, filter, wrap);
 
 			if (writingDirection == WritingDirection::Horizontal)
 			{
@@ -425,6 +427,8 @@ namespace ace {
 		{
 			m_state.TexturePtr = e.Data.Sprite.TexturePtr;
 			m_state.AlphaBlendState = e.Data.Sprite.AlphaBlendState;
+			m_state.Filter = e.Data.Sprite.Filter;
+			m_state.Wrap = e.Data.Sprite.Wrap;
 		};
 
 		if (e.Type == Event::eEventType::Sprite)
@@ -442,6 +446,9 @@ namespace ace {
 				// もしくはバッファが溢れないかどうか?
 				if (m_state.TexturePtr != e.Data.Sprite.TexturePtr ||
 					m_state.AlphaBlendState != e.Data.Sprite.AlphaBlendState ||
+					m_state.Filter != e.Data.Sprite.Filter ||
+					m_state.Wrap != e.Data.Sprite.Wrap ||
+
 					m_drawingSprites.size() >= SpriteCount)
 				{
 					DrawSprite();
@@ -537,7 +544,7 @@ namespace ace {
 		// 描画
 		if (m_state.TexturePtr != nullptr)
 		{
-			shader->SetTexture("g_texture", m_state.TexturePtr, ace::TextureFilterType::Nearest, ace::TextureWrapType::Clamp, 0);
+			shader->SetTexture("g_texture", m_state.TexturePtr, m_state.Filter, m_state.Wrap, 0);
 		}
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());
