@@ -73,6 +73,7 @@ namespace sample_cs.Graphics._2D
             {
                 // aceを更新する。
                 ace.Engine.Update();
+                ace.Engine.TakeScreenshot("TextObject2D.png");
             }
 
             // aceを終了する。

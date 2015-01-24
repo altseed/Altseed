@@ -32,7 +32,7 @@ void TextureObject2D()
 		obj0->SetTexture(tex0);
 
 		//•`‰æˆÊ’u‚ðŽw’è‚·‚é
-		obj0->SetPosition(ace::Vector2DF(100, 100));
+		obj0->SetPosition(ace::Vector2DF(100, 400));
 
 		//ƒŒƒCƒ„[‚Ö’Ç‰Á‚·‚é
 		layer->AddObject(obj0);
@@ -45,7 +45,7 @@ void TextureObject2D()
 
 		obj1->SetTexture(tex1);
 
-		obj1->SetPosition(ace::Vector2DF(100, 350));
+		obj1->SetPosition(ace::Vector2DF(500, 400));
 
 		//‰æ‘œ‚ðã‰º‚É”½“]‚·‚é
 		obj1->SetTurnUL(true);
@@ -60,7 +60,7 @@ void TextureObject2D()
 
 		obj2->SetTexture(tex2);
 
-		obj2->SetPosition(ace::Vector2DF(500, 120));
+		obj2->SetPosition(ace::Vector2DF(500, 50));
 
 		layer->AddObject(obj2);
 	}
@@ -84,6 +84,18 @@ void TextureObject2D()
 		obj3->SetScale(ace::Vector2DF(0.4, 0.4));
 
 		layer->AddObject(obj3);
+	}
+
+	{
+		auto obj4 = std::make_shared<ace::TextureObject2D>();
+
+		auto tex4 = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Character.png").c_str());
+
+		obj4->SetTexture(tex4);
+
+		obj4->SetPosition(ace::Vector2DF(50, 50));
+
+		layer->AddObject(obj4);
 	}
 
 

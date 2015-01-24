@@ -39,7 +39,7 @@ namespace sample_cs.Graphics._2D
                 obj0.Texture = tex0;
 
                 //描画位置を指定する
-                obj0.Position = new ace.Vector2DF(100, 100);
+                obj0.Position = new ace.Vector2DF(100, 400);
 
                 //レイヤーへ追加する
                 layer.AddObject(obj0);
@@ -52,7 +52,7 @@ namespace sample_cs.Graphics._2D
 
                 obj1.Texture= tex1;
 
-                obj1.Position=new ace.Vector2DF(100, 350);
+                obj1.Position=new ace.Vector2DF(500, 400);
 
                 //画像を上下に反転する
                 obj1.TurnUL = true;
@@ -67,7 +67,7 @@ namespace sample_cs.Graphics._2D
 
                 obj2.Texture = tex2;
 
-                obj2.Position = new ace.Vector2DF(500, 120);
+                obj2.Position = new ace.Vector2DF(500, 50);
 
                 layer.AddObject(obj2);
             }
@@ -91,6 +91,18 @@ namespace sample_cs.Graphics._2D
                 obj3.Scale = new ace.Vector2DF(0.4f, 0.4f);
 
                 layer.AddObject(obj3);
+            }
+
+            {
+                var obj4 = new ace.TextureObject2D();
+
+                var tex4 = ace.Engine.Graphics.CreateTexture2D("Data/Texture/Character.png");
+
+                obj4.Texture = tex4;
+
+                obj4.Position = new ace.Vector2DF(50, 20);
+
+                layer.AddObject(obj4);
             }
 
 
