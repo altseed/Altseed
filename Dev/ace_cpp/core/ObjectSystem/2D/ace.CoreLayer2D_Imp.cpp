@@ -121,12 +121,19 @@ namespace ace
 	//
 	//----------------------------------------------------------------------------------
 #if __CULLING_2D__
-	void CoreLayer2D_Imp::AddChipCullingObject(Chip2D_Imp *chip)
+	void CoreLayer2D_Imp::AddChipCullingObject(Chip2D_Imp *chip, uint32_t firstSortKey)
 	{
-		auto userData = new Culling2DUserData(chip->GetMapObject2D(), (Chip2D*)chip);
+		auto mapObject = chip->GetMapObject2D();
+		auto userData = new Culling2DUserData(mapObject, (Chip2D*)chip);
 
 		auto cObj = culling2d::Object::Create(userData, world);
 		chip->SetCullingObject(cObj);
+
+		cObj->SetFirstSortedKey(firstSortKey);
+		cObj->SetSecondSortedKey(world->GetNextSecondSortedKey());
+
+		world->IncNextSecondSortedKey();
+
 		world->AddObject(cObj);
 		TransformedObjects.push_back(cObj);
 	}
@@ -174,12 +181,17 @@ namespace ace
 			{
 				auto map = (CoreMapObject2D_Imp*)o;
 				map->RegisterObjectToCulling();
+				map->SetFirstSortedKey(world->GetNextFirstSortedKey());
+				world->IncNextFirstSortedKey();
 			}
 			else if (object->GetObjectType() != Object2DType::Camera)
 			{
 				auto userData = new Culling2DUserData(object);
 
 				auto cObj = culling2d::Object::Create(userData, world);
+
+				cObj->SetFirstSortedKey(world->GetNextFirstSortedKey());
+				world->IncNextFirstSortedKey();
 
 				o->SetCullingObject(cObj);
 
@@ -562,6 +574,11 @@ namespace ace
 			object->SetLayer(nullptr);
 			SafeRelease(object);
 		}
+
+#if __CULLING_2D__
+		world->ResetNextFirstSortedKey();
+		world->ResetNextSecondSortedKey();
+#endif
 
 		m_objects.clear();
 

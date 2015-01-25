@@ -17,6 +17,7 @@ namespace ace
 		std::set<Chip2D*> m_chips;
 		Vector2DF m_centerPosition;
 		int m_drawingPtiority;
+		uint32_t firstSortedKey;
 	public:
 		CoreMapObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreMapObject2D_Imp();
@@ -43,6 +44,9 @@ namespace ace
 
 #if __CULLING_2D__
 		void RegisterObjectToCulling();
+
+		uint32_t GetFirstSortedKey();
+		void SetFirstSortedKey(uint32_t sortedKey);
 #endif
 		void Draw(Renderer2D* renderer);
 
