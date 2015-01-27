@@ -23,12 +23,16 @@ virtual Matrix33 GetMatrixToTransform() override { return CoreObject2D_Imp::GetM
 virtual Matrix33 GetParentsMatrix() override { return CoreObject2D_Imp::GetParentsMatrix(); }
 
 
-void AddChild(CoreObject2D& child, eChildMode mode)
+void AddChild(CoreObject2D* child, eChildMode mode)
 {
-	child.SetParent(*this, mode);
+	if (child == nullptr || children.find(child) != children.end()) return;
+	children.insert(child);
+	child->SetParent(*this, mode);
 }
 
-void RemoveChild(CoreObject2D& child)
+void RemoveChild(CoreObject2D* child)
 {
-	child.ClearParent();
+	if (child == nullptr) return;
+	children.erase(child);
+	child->ClearParent();
 }

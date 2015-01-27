@@ -11,6 +11,7 @@ namespace ace
 		: CoreObject2D_Imp(graphics)
 		, m_centerPosition(Vector2DF())
 		, m_drawingPtiority(0)
+		, firstSortedKey(0)
 	{
 		m_chips.clear();
 		alreadyCullingUpdated = true;
@@ -87,7 +88,7 @@ namespace ace
 			auto layer = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
 			if (layer != nullptr)
 			{
-				layer->AddChipCullingObject(chip_Imp);
+				layer->AddChipCullingObject(chip_Imp,firstSortedKey);
 			}
 #endif
 
@@ -341,9 +342,20 @@ namespace ace
 			{
 				auto chip_Imp = (Chip2D_Imp*)chip;
 
-				layer->AddChipCullingObject(chip_Imp);
+				layer->AddChipCullingObject(chip_Imp, firstSortedKey);
 			}
 		}
 	}
+
+	uint32_t CoreMapObject2D_Imp::GetFirstSortedKey()
+	{
+		return firstSortedKey;
+	}
+
+	void CoreMapObject2D_Imp::SetFirstSortedKey(uint32_t sortedKey)
+	{
+		firstSortedKey = sortedKey;
+	}
+
 #endif
 }

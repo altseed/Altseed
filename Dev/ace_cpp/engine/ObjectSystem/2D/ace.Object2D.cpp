@@ -111,13 +111,13 @@ namespace ace
 
 	void Object2D::AddChild(const Object2D::Ptr& child, eChildMode mode)
 	{
-		GetCoreObject()->AddChild(*(child->GetCoreObject()), mode);
+		GetCoreObject()->AddChild((child->GetCoreObject()), mode);
 		m_children.push_back(child);
 	}
 
 	void Object2D::RemoveChild(const Object2D::Ptr& child)
 	{
-		GetCoreObject()->RemoveChild(*(child->GetCoreObject()));
+		GetCoreObject()->RemoveChild((child->GetCoreObject()));
 		m_children.remove(child);
 	}
 

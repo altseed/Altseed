@@ -77,7 +77,7 @@ namespace ace
 		culling2d::World *GetCullingWorld() const;
 		std::deque<culling2d::Object*> TransformedObjects;
 
-		void AddChipCullingObject(Chip2D_Imp *chip);
+		void AddChipCullingObject(Chip2D_Imp *chip, uint32_t firstSortKey);
 		void RemoveChipCullingObject(Chip2D_Imp *chip);
 #endif
 		void AddObject(ObjectPtr object);

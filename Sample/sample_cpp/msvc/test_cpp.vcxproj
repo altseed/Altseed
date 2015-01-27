@@ -12,6 +12,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
+    <ClCompile Include="..\Graphics\2D\TextObject2D.cpp" />
+    <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffect.cpp" />
     <ClCompile Include="..\Input\Joystick.cpp" />
     <ClCompile Include="..\Input\Keyboard.cpp" />

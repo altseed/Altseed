@@ -121,14 +121,21 @@ namespace ace
 	//
 	//----------------------------------------------------------------------------------
 #if __CULLING_2D__
-	void CoreLayer2D_Imp::AddChipCullingObject(Chip2D_Imp *chip)
+	void CoreLayer2D_Imp::AddChipCullingObject(Chip2D_Imp *chip, uint32_t firstSortKey)
 	{
-		auto userData = new Culling2DUserData(chip->GetMapObject2D(), (Chip2D*)chip);
-		auto c = chip->GetBoundingCircle();
+		auto mapObject = chip->GetMapObject2D();
+		auto userData = new Culling2DUserData(mapObject, (Chip2D*)chip);
 
-		auto cObj = new culling2d::Object(c, userData, world);
+		auto cObj = culling2d::Object::Create(userData, world);
 		chip->SetCullingObject(cObj);
+
+		cObj->SetFirstSortedKey(firstSortKey);
+		cObj->SetSecondSortedKey(world->GetNextSecondSortedKey());
+
+		world->IncNextSecondSortedKey();
+
 		world->AddObject(cObj);
+		TransformedObjects.push_back(cObj);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -174,18 +181,23 @@ namespace ace
 			{
 				auto map = (CoreMapObject2D_Imp*)o;
 				map->RegisterObjectToCulling();
+				map->SetFirstSortedKey(world->GetNextFirstSortedKey());
+				world->IncNextFirstSortedKey();
 			}
 			else if (object->GetObjectType() != Object2DType::Camera)
 			{
 				auto userData = new Culling2DUserData(object);
 
-				o->CalculateBoundingCircle();
+				auto cObj = culling2d::Object::Create(userData, world);
 
-				auto cObj = new culling2d::Object(o->GetBoundingCircle() , userData, world);
+				cObj->SetFirstSortedKey(world->GetNextFirstSortedKey());
+				world->IncNextFirstSortedKey();
 
 				o->SetCullingObject(cObj);
 
 				world->AddObject(cObj);
+
+				TransformedObjects.push_back(cObj);
 			}
 #endif
 		}
@@ -292,7 +304,6 @@ namespace ace
 					impObj->CalculateBoundingCircle();
 					auto newCircle = impObj->GetBoundingCircle();
 					x->SetCircle(newCircle);
-					world->NotifyMoved(x);
 					impObj->SetAlreadyCullingUpdated(true);
 				}
 				else
@@ -301,7 +312,6 @@ namespace ace
 					auto chip = (Chip2D_Imp*)userData->Chip;
 					auto newCircle = chip->GetBoundingCircle();
 					x->SetCircle(newCircle);
-					world->NotifyMoved(x);
 					chip->SetAlreadyCullingUpdated(true);
 				}
 			}
@@ -564,6 +574,11 @@ namespace ace
 			object->SetLayer(nullptr);
 			SafeRelease(object);
 		}
+
+#if __CULLING_2D__
+		world->ResetNextFirstSortedKey();
+		world->ResetNextSecondSortedKey();
+#endif
 
 		m_objects.clear();
 
