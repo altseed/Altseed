@@ -59,7 +59,7 @@ namespace FontGenerator.WPF.ViewModels
 			get { return config.FontIndex; }
 			set
 			{
-				if (!value.Equals(config.FontIndex))
+				if(!value.Equals(config.FontIndex))
 				{
 					config.FontIndex = value;
 					PropertyChanged.Raise(this);
@@ -144,7 +144,7 @@ namespace FontGenerator.WPF.ViewModels
 			get { return config.OutlineSize; }
 			set
 			{
-				if (!value.Equals(config.OutlineSize))
+				if(!value.Equals(config.OutlineSize))
 				{
 					config.OutlineSize = value;
 					PropertyChanged.Raise(this);
@@ -158,7 +158,7 @@ namespace FontGenerator.WPF.ViewModels
 			get { return config.OutlineSampling; }
 			set
 			{
-				if (!value.Equals(config.OutlineSampling))
+				if(!value.Equals(config.OutlineSampling))
 				{
 					config.OutlineSampling = value;
 					PropertyChanged.Raise(this);
@@ -233,7 +233,7 @@ namespace FontGenerator.WPF.ViewModels
 			get { return config.OutlineColor.Red; }
 			set
 			{
-				if (!value.Equals(config.OutlineColor.Red))
+				if(!value.Equals(config.OutlineColor.Red))
 				{
 					config.OutlineColor.Red = value;
 					PropertyChanged.Raise(this);
@@ -247,7 +247,7 @@ namespace FontGenerator.WPF.ViewModels
 			get { return config.OutlineColor.Green; }
 			set
 			{
-				if (!value.Equals(config.OutlineColor.Green))
+				if(!value.Equals(config.OutlineColor.Green))
 				{
 					config.OutlineColor.Green = value;
 					PropertyChanged.Raise(this);
@@ -261,7 +261,7 @@ namespace FontGenerator.WPF.ViewModels
 			get { return config.OutlineColor.Blue; }
 			set
 			{
-				if (!value.Equals(config.OutlineColor.Blue))
+				if(!value.Equals(config.OutlineColor.Blue))
 				{
 					config.OutlineColor.Blue = value;
 					PropertyChanged.Raise(this);
@@ -275,7 +275,7 @@ namespace FontGenerator.WPF.ViewModels
 			get { return config.OutlineColor.Alpha; }
 			set
 			{
-				if (!value.Equals(config.OutlineColor.Alpha))
+				if(!value.Equals(config.OutlineColor.Alpha))
 				{
 					config.OutlineColor.Alpha = value;
 					PropertyChanged.Raise(this);
@@ -299,6 +299,36 @@ namespace FontGenerator.WPF.ViewModels
 				if(!value.Equals(PreviewImage_))
 				{
 					PreviewImage_ = value;
+					PropertyChanged.Raise(this);
+				}
+			}
+		}
+
+		private string statusString_;
+
+		public string StatusString
+		{
+			get { return statusString_; }
+			set
+			{
+				if(!value.Equals(statusString_))
+				{
+					statusString_ = value;
+					PropertyChanged.Raise(this);
+				}
+			}
+		}
+
+		private bool canGenerate_;
+
+		public bool CanGenerate
+		{
+			get { return canGenerate_; }
+			set
+			{
+				if(!value.Equals(canGenerate_))
+				{
+					canGenerate_ = value;
 					PropertyChanged.Raise(this);
 				}
 			}
@@ -335,7 +365,7 @@ namespace FontGenerator.WPF.ViewModels
 		public GeneratorViewModel()
 		{
 			config = new GenerationConfig();
-			
+
 			Red = 255;
 			Green = 255;
 			Blue = 255;
@@ -357,6 +387,8 @@ namespace FontGenerator.WPF.ViewModels
 				.Where(x => x.EventArgs.PropertyName != "PreviewImage")
 				.Throttle(TimeSpan.FromMilliseconds(500))
 				.Subscribe(x => GeneratePreviewAsync());
+
+			CanGenerate = true;
 		}
 
 		private void LoadConfiguration(object obj)
@@ -430,7 +462,22 @@ namespace FontGenerator.WPF.ViewModels
 
 		public async Task GenerateAsync()
 		{
-			await Generator.GenerateAsync(config);
+			CanGenerate = false;
+			StatusString = "フォントを生成中…";
+
+			try
+			{
+				await Generator.GenerateAsync(config);
+			}
+			catch (Exception)
+			{
+				CanGenerate = true;
+				StatusString = "生成エラー";
+				throw;
+			}
+
+			CanGenerate = true;
+			StatusString = "生成完了";
 		}
 
 		public async Task GeneratePreviewAsync()
