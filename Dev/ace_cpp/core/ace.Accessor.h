@@ -36,6 +36,5 @@ namespace ace
 		static Effect* CoreEffectObject2D_GetEffect(CoreEffectObject2D* o);
 
 		static Texture2D* Chip2D_GetTexture(Chip2D* chip);
-		static void Chip2D_SetTexture(Chip2D* chip,Texture2D* texture);
 	};
 }

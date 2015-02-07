@@ -93,9 +93,4 @@ namespace ace
 	{
 		return chip->GetTexture_();
 	}
-
-	void Accessor::Chip2D_SetTexture(Chip2D* chip, Texture2D* texture)
-	{
-		chip->SetTexture_(texture);
-	}
 }

@@ -56,6 +56,7 @@ namespace ace {
 		void SetTexture(std::shared_ptr<Texture2D> texture);
 		std::shared_ptr<Texture2D> GetTexture();
 #endif
+		void SetTexture(Texture2D* texture);
 
 
 		RectF GetSrc() const override;
