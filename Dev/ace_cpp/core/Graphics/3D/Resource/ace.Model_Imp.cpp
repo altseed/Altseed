@@ -257,4 +257,16 @@ namespace ace
 		if (!(0 <= index && index < m_meshGroup->Meshes.size())) return nullptr;
 		return m_meshGroup->Meshes[index];
 	}
+
+	AnimationClip* Model_Imp::GetAnimationClip_(int32_t index)
+	{
+		if (!(0 <= index && index < m_animationClips.size())) return nullptr;
+		return m_animationClips[index];
+	}
+
+	const achar* Model_Imp::GetAnimationClipName(int32_t index)
+	{
+		if (!(0 <= index && index < m_animationClipNames.size())) return nullptr;
+		return m_animationClipNames[index].c_str();
+	}
 }

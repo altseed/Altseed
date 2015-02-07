@@ -47,6 +47,37 @@ namespace ace
 		}
 
 		/// <summary>
+		/// モデルが持つアニメーションクリップを取得する。
+		/// </summary>
+		/// <param name="index">アニメーションクリップのインデックス</param>
+		/// <returns>アニメーションクリップ</returns>
+		public AnimationClip GetAnimationClip(int index)
+		{
+			return GC.GenerateAnimationClip(SwigObject.GetAnimationClip(index), GC.GenerationType.Get);
+		}
+
+		/// <summary>
+		/// モデルが持つアニメーションクリップの名称を取得する。
+		/// </summary>
+		/// <param name="index">アニメーションクリップのインデックス</param>
+		/// <returns>アニメーションクリップの名称</returns>
+		public string GetAnimationClipName(int index)
+		{
+			return SwigObject.GetAnimationClipName(index);
+		}
+
+		/// <summary>
+		/// モデルが持つアニメーションクリップの個数を取得する。
+		/// </summary>
+		public int AnimationClipCount
+		{
+			get
+			{
+				return SwigObject.GetAnimationClipCount();
+			}
+		}
+
+		/// <summary>
 		/// メッシュを取得する。
 		/// </summary>
 		/// <param name="index">メッシュのインデックス</param>

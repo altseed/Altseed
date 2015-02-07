@@ -28,6 +28,12 @@ namespace ace
 		*/
 		virtual void RemoveAnimation(KeyframeAnimation* keyframeAnimation) = 0;
 
+		/**
+		@brief	アニメーションの長さ(60フレーム単位)を取得する。
+		@return	アニメーションの長さ
+		*/
+		virtual float GetLength() const = 0;
+
 #if !SWIG
 		/**
 		@brief	ボーンごとのアニメーションを追加する。

@@ -47,31 +47,49 @@ namespace ace
 		}
 
 		/// <summary>
-		/// ループするかを取得する。
+		/// モデルが持つアニメーションの個数を取得する。
 		/// </summary>
-		/// <param name="name">アニメーション名</param>
-		/// <returns>ループするか?</returns>
-		public bool GetIsLoopingMode(string name)
+		public int AnimationCount
 		{
-			return SwigObject.GetIsLoopingMode(name);
+			get { return SwigObject.GetAnimationCount();}
 		}
 
 		/// <summary>
-		/// ループするかを設定する。
+		/// モデルが持つアニメーションの名称を取得する。
+		/// </summary>
+		/// <param name="index">アニメーションのインデックス</param>
+		/// <returns>アニメーションの名称</returns>
+		public string GetAnimationName(int index)
+		{
+			return SwigObject.GetAnimationName(index);
+		}
+
+		/// <summary>
+		/// アニメーションがループするかを取得する。
+		/// </summary>
+		/// <param name="name">アニメーション名</param>
+		/// <returns>ループするか?</returns>
+		public bool GetIsAnimationLoopingMode(string name)
+		{
+			return SwigObject.GetIsAnimationLoopingMode(name);
+		}
+
+		/// <summary>
+		/// アニメーションがループするかを設定する。
 		/// </summary>
 		/// <param name="name">アニメーション名</param>
 		/// <param name="isLoopingMode">ループするか?</param>
 		/// <returns></returns>
-		public void SetIsLoopingMode(string name, bool isLoopingMode)
+		public void SetIsAnimationLoopingMode(string name, bool isLoopingMode)
 		{
-			SwigObject.SetIsLoopingMode(name, isLoopingMode);
+			SwigObject.SetIsAnimationLoopingMode(name, isLoopingMode);
 		}
 
 		/// <summary>
 		/// 材質を設定する。
 		/// </summary>
 		/// <param name="material">材質</param>
-		public void SetMaterial(int materialIndex, Material3D material)
+		public void SetMaterial(Material3D material)
 		{
 			SwigObject.SetMaterial(IG.GetMaterial3D(material));
 		}

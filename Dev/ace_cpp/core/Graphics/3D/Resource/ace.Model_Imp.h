@@ -66,8 +66,13 @@ namespace ace
 
 	protected:
 		Mesh* GetMesh_(int32_t index) override;
+		AnimationClip* GetAnimationClip_(int32_t index) override;
+		const achar* GetAnimationClipName(int32_t index) override;
 
 	public:
+
+		int32_t GetAnimationClipCount() const { return m_animationClips.size(); }
+
 		std::vector<AnimationClip*>& GetAnimationClips() { return m_animationClips; }
 		std::vector<astring>& GetAnimationClipNames() { return m_animationClipNames; }
 		MeshGroup* GetMeshGroup() { return m_meshGroup; }
