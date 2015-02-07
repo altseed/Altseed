@@ -29,14 +29,28 @@ namespace ace
 	{
 	}
 
-	bool MassModel_Imp::GetIsLoopingMode(const achar* name) const
+	const achar* MassModel_Imp::GetAnimationName(int32_t index) const
+	{
+		if (AnimationClipNames.size() <= index) return nullptr;
+		if (index < 0) return nullptr;
+		return AnimationClipNames[index].c_str();
+	}
+
+	float MassModel_Imp::GetAnimationLength(const achar* name) const
+	{
+		auto ind = GetClipIndex(name);
+		if (ind == -1) return false;
+		return frameCount[ind];
+	}
+
+	bool MassModel_Imp::GetIsAnimationLoopingMode(const achar* name) const
 	{
 		auto ind = GetClipIndex(name);
 		if (ind == -1) return false;
 		return loopingMode[ind];
 	}
 
-	void MassModel_Imp::SetIsLoopingMode(const achar* name, bool isLoopingMode)
+	void MassModel_Imp::SetIsAnimationLoopingMode(const achar* name, bool isLoopingMode)
 	{
 		auto ind = GetClipIndex(name);
 		if (ind == -1) return;
@@ -111,6 +125,12 @@ namespace ace
 		for (auto& clip : io.AnimationClips)
 		{
 			animationClips[clip.Name] = clip.Index;
+
+			if (AnimationClipNames.size() <= clip.Index)
+			{
+				AnimationClipNames.resize(clip.Index + 1);
+				AnimationClipNames[clip.Index] = clip.Name;
+			}
 		}
 
 		// マテリアル

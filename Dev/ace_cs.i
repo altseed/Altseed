@@ -256,6 +256,36 @@ DISABLE_DISPOSE( ace::ReferenceObject )
 //-----------------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------------
+%define SHARED_PTR( TYPE )
+
+%typemap(ctype) std::shared_ptr< TYPE > "void*"
+%typemap(imtype, out="global::System.IntPtr") std::shared_ptr< TYPE > "global::System.Runtime.InteropServices.HandleRef"
+%typemap(cstype) std::shared_ptr< TYPE > "$typemap(cstype, TYPE)"
+
+%typemap(in) std::shared_ptr< TYPE > { $1 = $input; }
+%typemap(out) std::shared_ptr< TYPE > { $result = $1.get(); }
+
+%typemap(csin) std::shared_ptr< TYPE > "$csinput"
+
+%typemap(csout, excode=SWIGEXCODE) std::shared_ptr< TYPE > {
+    global::System.IntPtr cPtr = $imcall;
+    $typemap(cstype, TYPE) ret = (cPtr == global::System.IntPtr.Zero) ? null : new $typemap(cstype, TYPE)(cPtr, true);$excode
+    return ret;
+  }
+
+%typemap(csvarin) std::shared_ptr< TYPE > "set { $imcall; }"
+%typemap(csvarout) std::shared_ptr< TYPE > "get { return $imcall; }" 
+
+%enddef
+
+//-----------------------------------------------------------------------------------
+//
+//-----------------------------------------------------------------------------------
+//SHARED_PTR( ace::AnimationClip )
+
+//-----------------------------------------------------------------------------------
+//
+//-----------------------------------------------------------------------------------
 %define CPP_OBJECT( CTYPE )
 /* 未開放バグが怖いが、ラッパークラスとswigのクラスのGCが同時に動作したときに、swigのクラスのGCを止める手段がないため */
 DISABLE_DISPOSE( CTYPE )

@@ -33,6 +33,9 @@
 #include "3D/Resource/ace.MassModel_Imp.h"
 #include "3D/Resource/ace.Terrain3D_Imp.h"
 
+#include "3D/Resource/Animation/ace.AnimationClip.h"
+#include "3D/Resource/Animation/ace.AnimationSource.h"
+
 #include <Graphics/3D/ace.Model_IO.h>
 #include <Graphics/3D/ace.MassModel_IO.h>
 

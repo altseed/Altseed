@@ -11,14 +11,21 @@ namespace ace
 	class Chip2D
 		:public IReference
 	{
+		friend class Accessor;
 	private:
 
 	protected:
 		Chip2D(){}
 		virtual ~Chip2D(){}
-	public:
-		virtual Texture2D* GetTexture() const = 0;
+
+		virtual Texture2D* GetTexture_() const = 0;
 		virtual void SetTexture(Texture2D* texture) = 0;
+	public:
+
+#if !SWIG
+		virtual void SetTexture(std::shared_ptr<Texture2D> texture) = 0;
+		virtual std::shared_ptr<Texture2D> GetTexture() = 0;
+#endif
 
 		virtual RectF GetSrc() const = 0;
 		virtual void SetSrc(RectF src) = 0;

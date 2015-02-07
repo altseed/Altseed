@@ -24,18 +24,38 @@ namespace ace
 	public:
 
 		/**
-		@brief	ループするかを取得する。
+		@brief	モデルが持つアニメーションの個数を取得する。
+		@return	アニメーションの個数
+		*/
+		virtual int32_t GetAnimationCount() const = 0;
+
+		/**
+		@brief	モデルが持つアニメーションの名称を取得する。
+		@param	index	アニメーションのインデックス
+		@return	アニメーションの名称
+		*/
+		virtual const achar* GetAnimationName(int32_t index) const = 0;
+
+		/**
+		@brief	モデルが持つアニメーションの長さ(60フレーム単位)を取得する。
+		@param	name	アニメーション名
+		@return	アニメーションの長さ
+		*/
+		virtual float GetAnimationLength(const achar* name) const = 0;
+
+		/**
+		@brief	アニメーションがループするかを取得する。
 		@param	name	アニメーション名
 		@return	ループするか?
 		*/
-		virtual bool GetIsLoopingMode(const achar* name) const = 0;
+		virtual bool GetIsAnimationLoopingMode(const achar* name) const = 0;
 
 		/**
-		@brief	ループするかを設定する。
+		@brief	アニメーションがループするかを設定する。
 		@param	name	アニメーション名
 		@return	isLoopingMode	ループするか?
 		*/
-		virtual void SetIsLoopingMode(const achar* name, bool isLoopingMode) = 0;
+		virtual void SetIsAnimationLoopingMode(const achar* name, bool isLoopingMode) = 0;
 
 		/**
 		@brief	材質を設定する。

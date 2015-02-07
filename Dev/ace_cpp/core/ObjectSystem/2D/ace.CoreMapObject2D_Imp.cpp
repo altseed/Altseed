@@ -167,7 +167,7 @@ namespace ace
 		for (auto chip = m_chips.begin(); chip != m_chips.end(); ++chip)
 		{
 
-			Texture2D* texture = (*chip)->GetTexture();
+			auto texture = (*chip)->GetTexture();
 
 			if (texture == nullptr)
 			{
@@ -222,7 +222,7 @@ namespace ace
 			color[2] = (*chip)->GetColor();
 			color[3] = (*chip)->GetColor();
 
-			renderer->AddSprite(position.data(), color.data(), uvs.data(), texture, (*chip)->GetAlphaBlendMode(), m_drawingPtiority);
+			renderer->AddSprite(position.data(), color.data(), uvs.data(), texture.get(), (*chip)->GetAlphaBlendMode(), m_drawingPtiority);
 		}
 
 	}
@@ -233,7 +233,7 @@ namespace ace
 	void CoreMapObject2D_Imp::DrawChip(Renderer2D* renderer, Chip2D* chip)
 	{
 
-		Texture2D* texture = chip->GetTexture();
+		auto texture = chip->GetTexture();
 
 		if (m_chips.find(chip) == m_chips.end() || texture == nullptr) return;
 
@@ -289,7 +289,7 @@ namespace ace
 		color[2] = chip->GetColor();
 		color[3] = chip->GetColor();
 
-		renderer->AddSprite(position.data(), color.data(), uvs.data(), texture, chip->GetAlphaBlendMode(), m_drawingPtiority);
+		renderer->AddSprite(position.data(), color.data(), uvs.data(), texture.get(), chip->GetAlphaBlendMode(), m_drawingPtiority);
 
 	}
 
@@ -300,7 +300,7 @@ namespace ace
 	{
 		culling2d::Circle circle = culling2d::Circle();
 
-		Texture2D* texture = chip->GetTexture();
+		auto texture = chip->GetTexture();
 
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();

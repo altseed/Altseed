@@ -47,6 +47,14 @@ namespace ace
 		}
 
 		/// <summary>
+		/// アニメーションの長さ(60フレーム単位)を取得する。
+		/// </summary>
+		public float Length
+		{
+			get { return SwigObject.GetLength(); }
+		}
+
+		/// <summary>
 		/// ボーンごとのアニメーションを追加する。
 		/// </summary>
 		/// <param name="keyframeAnimation">アニメーション</param>

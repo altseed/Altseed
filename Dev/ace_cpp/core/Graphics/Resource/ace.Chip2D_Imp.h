@@ -38,6 +38,8 @@ namespace ace {
 #endif
 		CoreMapObject2D_Imp* mapObject2D;
 
+		Texture2D* GetTexture_() const;
+		void SetTexture(Texture2D* texture);
 	public:
 
 		CoreMapObject2D_Imp* GetMapObject2D() const;
@@ -48,8 +50,13 @@ namespace ace {
 		void SetAlreadyCullingUpdated(bool cullingUpdated);
 #endif
 
-		Texture2D* GetTexture() const override;
-		void SetTexture(Texture2D* texture) override;
+	public:
+
+#if !SWIG
+		void SetTexture(std::shared_ptr<Texture2D> texture);
+		std::shared_ptr<Texture2D> GetTexture();
+#endif
+
 
 		RectF GetSrc() const override;
 		void SetSrc(RectF src) override;

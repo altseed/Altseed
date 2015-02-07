@@ -96,10 +96,11 @@ namespace ace {
 		return mapObject2D->GetChipBoundingCircle(this);
 	}
 #endif
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D* Chip2D_Imp::GetTexture() const
+	Texture2D* Chip2D_Imp::GetTexture_() const
 	{
 		return m_texture;
 	}
@@ -111,6 +112,27 @@ namespace ace {
 	{
 		SafeSubstitute(m_texture, texture);
 	}
+
+#if !SWIG
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Chip2D_Imp::SetTexture(std::shared_ptr<Texture2D> texture)
+	{
+		SetTexture(texture.get());
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	std::shared_ptr<Texture2D> Chip2D_Imp::GetTexture()
+	{
+		auto v = GetTexture_();
+		SafeAddRef(v);
+		return CreateSharedPtrWithReleaseDLL(v);
+	}
+
+#endif
 
 	//----------------------------------------------------------------------------------
 	//

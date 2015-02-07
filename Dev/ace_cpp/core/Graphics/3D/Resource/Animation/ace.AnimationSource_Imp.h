@@ -22,7 +22,7 @@ namespace ace
 
 		std::set<KeyframeAnimation*>& GetAnimations() { return m_animations; }
 
-		float GetLength() { return length; }
+		float GetLength() const override { return length; }
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
