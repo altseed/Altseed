@@ -20,6 +20,8 @@
 #include "Graphics/3D/Resource/ace.Mesh.h"
 #include "Graphics/3D//Resource/ace.Model.h"
 
+#include "Graphics/Resource/ace.Chip2D.h"
+
 namespace ace
 {
 	SoundSource* Accessor::Sound_CreateSoundSource(Sound* o, const achar* path, bool isDecompressed)
@@ -80,5 +82,15 @@ namespace ace
 	Effect* Accessor::CoreEffectObject2D_GetEffect(CoreEffectObject2D* o)
 	{
 		return o->GetEffect_();
+	}
+
+	Texture2D* Accessor::Chip2D_GetTexture(Chip2D* chip)
+	{
+		return chip->GetTexture_();
+	}
+
+	void Accessor::Chip2D_SetTexture(Chip2D* chip, Texture2D* texture)
+	{
+		chip->SetTexture(texture);
 	}
 }
