@@ -110,4 +110,14 @@ namespace ace
 	{
 		m_coreObject->SetText(text);
 	}
+
+	void TextObject2D::SetTextureFilterType(TextureFilterType textureFilterType)
+	{
+		m_coreObject->SetTextureFilterType(textureFilterType);
+	}
+
+	TextureFilterType TextObject2D::GetTextureFilterType() const
+	{
+		return m_coreObject->GetTextureFilterType();
+	}
 }

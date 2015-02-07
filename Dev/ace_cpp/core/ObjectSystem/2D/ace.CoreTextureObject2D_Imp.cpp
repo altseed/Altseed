@@ -16,6 +16,7 @@ namespace ace
 		, m_drawingPtiority(0)
 		, m_src(RectF(0, 0, 1, 1))
 		, CoreObject2D_Imp(graphics)
+		, m_textureFilterType(TextureFilterType::Nearest)
 	{
 	}
 
@@ -197,6 +198,17 @@ namespace ace
 		m_boundingCircle.Radius = len;
 	}
 
+
+	void CoreTextureObject2D_Imp::SetTextureFilterType(TextureFilterType textureFilterType)
+	{
+		m_textureFilterType = textureFilterType;
+	}
+
+	TextureFilterType CoreTextureObject2D_Imp::GetTextureFilterType() const
+	{
+		return m_textureFilterType;
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -276,6 +288,7 @@ namespace ace
 			uvs.data(),
 			m_texture,
 			m_alphablend,
-			m_drawingPtiority);
+			m_drawingPtiority,
+			m_textureFilterType);
 	}
 }

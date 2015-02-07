@@ -117,6 +117,15 @@ namespace ace
             set { renderedObject.SetSrc(value); }
         }
 
+        ///<summary>
+        /// この2Dオブジェクトを描画する際のテクスチャフィルタを取得または設定する。
+        /// </summary>
+        public TextureFilterType TextureFilterType
+        {
+            get { return (TextureFilterType)renderedObject.GetTextureFilterType(); }
+            set { renderedObject.SetTextureFilterType((swig.TextureFilterType)value); }
+        }
+
         internal override swig.CoreObject2D CoreObject
 		{
 			get { return renderedObject; }

@@ -27,6 +27,7 @@ namespace ace
 		AlphaBlend m_alphablend;
 		int m_drawingPtiority;
 		astring m_text;
+		TextureFilterType m_textureFilterType;
 
 	public:
 #pragma region Parameter
@@ -56,6 +57,9 @@ namespace ace
 
 		AlphaBlend GetAlphaBlendMode() const override;
 		void SetAlphaBlendMode(AlphaBlend alphaBlend) override;
+
+		void SetTextureFilterType(TextureFilterType textureFilterType) override;
+		TextureFilterType GetTextureFilterType() const override;
 #pragma endregion
 
 		void Draw(Renderer2D* renderer) override;

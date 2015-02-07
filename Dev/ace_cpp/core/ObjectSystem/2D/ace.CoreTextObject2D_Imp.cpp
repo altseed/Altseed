@@ -26,6 +26,7 @@ namespace ace
 		, m_alphablend(AlphaBlend::Blend)
 		, m_drawingPtiority(0)
 		, m_writingDirection(WritingDirection::Horizontal)
+		, m_textureFilterType(TextureFilterType::Nearest)
 	{
 
 	}
@@ -309,6 +310,23 @@ namespace ace
 			m_text.c_str(),
 			m_writingDirection,
 			m_alphablend,
-			m_drawingPtiority);
+			m_drawingPtiority,
+			m_textureFilterType);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreTextObject2D_Imp::SetTextureFilterType(TextureFilterType textureFilterType)
+	{
+		m_textureFilterType = textureFilterType;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	TextureFilterType CoreTextObject2D_Imp::GetTextureFilterType() const
+	{
+		return m_textureFilterType;
 	}
 }

@@ -108,7 +108,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Chip2D_Imp::SetTexture(Texture2D* texture)
+	void Chip2D_Imp::SetTexture_(Texture2D* texture)
 	{
 		SafeSubstitute(m_texture, texture);
 	}
@@ -119,7 +119,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	void Chip2D_Imp::SetTexture(std::shared_ptr<Texture2D> texture)
 	{
-		SetTexture(texture.get());
+		SetTexture_(texture.get());
 	}
 
 	//----------------------------------------------------------------------------------

@@ -39,7 +39,7 @@ namespace ace {
 		CoreMapObject2D_Imp* mapObject2D;
 
 		Texture2D* GetTexture_() const;
-		void SetTexture(Texture2D* texture);
+		void SetTexture_(Texture2D* texture);
 	public:
 
 		CoreMapObject2D_Imp* GetMapObject2D() const;

@@ -108,5 +108,14 @@ namespace ace
 		*/
 		void SetAlphaBlendMode(AlphaBlend alphaBlend);
 
+		/**
+		@brief　このオブジェクトを描画する際のテクスチャフィルタの種類を設定する。
+		*/
+		void SetTextureFilterType(TextureFilterType textureFilterType);
+
+		/**
+		@brief　このオブジェクトを描画する際のテクスチャフィルタの種類を取得する。
+		*/
+		TextureFilterType GetTextureFilterType() const;
 	};
 }

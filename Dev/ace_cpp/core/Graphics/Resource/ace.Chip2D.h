@@ -19,7 +19,7 @@ namespace ace
 		virtual ~Chip2D(){}
 
 		virtual Texture2D* GetTexture_() const = 0;
-		virtual void SetTexture(Texture2D* texture) = 0;
+		virtual void SetTexture_(Texture2D* texture) = 0;
 	public:
 
 #if !SWIG

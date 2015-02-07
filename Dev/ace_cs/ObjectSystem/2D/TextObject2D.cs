@@ -130,5 +130,14 @@ namespace ace
             get { return (AlphaBlendMode)coreTextObject.GetAlphaBlendMode(); }
             set { coreTextObject.SetAlphaBlendMode((swig.AlphaBlend)value); }
         }
+
+        ///<summary>
+        /// この2Dオブジェクトを描画する際のテクスチャフィルタを取得または設定する。
+        /// </summary>
+        public TextureFilterType TextureFilterType
+        {
+            get { return (TextureFilterType)coreTextObject.GetTextureFilterType();}
+            set { coreTextObject.SetTextureFilterType((swig.TextureFilterType)value); }
+        }
     }
 }

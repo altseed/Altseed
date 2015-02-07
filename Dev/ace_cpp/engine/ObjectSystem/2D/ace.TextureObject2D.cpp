@@ -102,4 +102,14 @@ namespace ace
 	{
 		m_coreObject->SetAlphaBlendMode(alphaBlend);
 	}
+
+	void TextureObject2D::SetTextureFilterType(TextureFilterType textureFilterType)
+	{
+		m_coreObject->SetTextureFilterType(textureFilterType);
+	}
+
+	TextureFilterType TextureObject2D::GetTextureFilterType() const
+	{
+		return m_coreObject->GetTextureFilterType();
+	}
 }

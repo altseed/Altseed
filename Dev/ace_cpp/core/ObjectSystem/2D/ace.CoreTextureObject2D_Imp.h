@@ -22,6 +22,7 @@ namespace ace
 		bool m_turnUL;
 		AlphaBlend m_alphablend;
 		int m_drawingPtiority;
+		TextureFilterType m_textureFilterType;
 
 	public:
 		CoreTextureObject2D_Imp(Graphics_Imp* graphics);
@@ -53,6 +54,9 @@ namespace ace
 
 		AlphaBlend GetAlphaBlendMode() const;
 		void SetAlphaBlendMode(AlphaBlend alphaBlend);
+
+		void SetTextureFilterType(TextureFilterType textureFilterType) override;
+		TextureFilterType GetTextureFilterType() const override;
 #pragma endregion
 
 		void Draw(Renderer2D* renderer);
