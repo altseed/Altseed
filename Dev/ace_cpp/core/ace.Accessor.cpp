@@ -72,6 +72,11 @@ namespace ace
 		return o->CreateKeyframeAnimation_();
 	}
 
+	AnimationClip* Accessor::Model_GetAnimationClip(Model* o, int32_t index)
+	{
+		return o->GetAnimationClip_(index);
+	}
+
 	Mesh* Accessor::Model_GetMesh(Model* o, int32_t index)
 	{
 		return o->GetMesh_(index);

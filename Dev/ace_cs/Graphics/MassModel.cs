@@ -65,6 +65,16 @@ namespace ace
 		}
 
 		/// <summary>
+		/// モデルが持つアニメーションの長さ(60フレーム単位)を取得する。
+		/// </summary>
+		/// <param name="name">アニメーション名</param>
+		/// <returns>アニメーションの長さ</returns>
+		public float GetAnimationLength(string name)
+		{
+			return SwigObject.GetAnimationLength(name);
+		}
+
+		/// <summary>
 		/// アニメーションがループするかを取得する。
 		/// </summary>
 		/// <param name="name">アニメーション名</param>

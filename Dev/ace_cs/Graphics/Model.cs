@@ -53,7 +53,7 @@ namespace ace
 		/// <returns>アニメーションクリップ</returns>
 		public AnimationClip GetAnimationClip(int index)
 		{
-			return GC.GenerateAnimationClip(SwigObject.GetAnimationClip(index), GC.GenerationType.Get);
+			return GC.GenerateAnimationClip(swig.Accessor.Model_GetAnimationClip(SwigObject, index), GC.GenerationType.Get);
 		}
 
 		/// <summary>

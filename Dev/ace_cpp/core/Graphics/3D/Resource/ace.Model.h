@@ -22,6 +22,14 @@ namespace ace
 	public:
 		
 		/**
+		@brief	モデルが持つアニメーションクリップの名称を取得する。
+		@param	index	アニメーションクリップのインデックス
+		@return	アニメーションクリップの名称
+		*/
+		virtual const achar* GetAnimationClipName(int32_t index) = 0;
+
+#if! SWIG
+		/**
 		@brief	モデルが持つアニメーションクリップを取得する。
 		@param	index	アニメーションクリップのインデックス
 		@return	アニメーションクリップ
@@ -33,14 +41,6 @@ namespace ace
 			return CreateSharedPtrWithReleaseDLL(v);
 		}
 
-		/**
-		@brief	モデルが持つアニメーションクリップの名称を取得する。
-		@param	index	アニメーションクリップのインデックス
-		@return	アニメーションクリップの名称
-		*/
-		virtual const achar* GetAnimationClipName(int32_t index) = 0;
-
-#if! SWIG
 		/**
 			@brief	メッシュを取得する。
 			@param	index	メッシュのインデックス

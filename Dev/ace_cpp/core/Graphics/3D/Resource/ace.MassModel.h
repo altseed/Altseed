@@ -37,6 +37,13 @@ namespace ace
 		virtual const achar* GetAnimationName(int32_t index) const = 0;
 
 		/**
+		@brief	モデルが持つアニメーションの長さ(60フレーム単位)を取得する。
+		@param	name	アニメーション名
+		@return	アニメーションの長さ
+		*/
+		virtual float GetAnimationLength(const achar* name) const = 0;
+
+		/**
 		@brief	アニメーションがループするかを取得する。
 		@param	name	アニメーション名
 		@return	ループするか?

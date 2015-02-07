@@ -36,6 +36,13 @@ namespace ace
 		return AnimationClipNames[index].c_str();
 	}
 
+	float MassModel_Imp::GetAnimationLength(const achar* name) const
+	{
+		auto ind = GetClipIndex(name);
+		if (ind == -1) return false;
+		return frameCount[ind];
+	}
+
 	bool MassModel_Imp::GetIsAnimationLoopingMode(const achar* name) const
 	{
 		auto ind = GetClipIndex(name);

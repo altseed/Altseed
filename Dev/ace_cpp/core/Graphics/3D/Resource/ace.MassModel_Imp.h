@@ -47,6 +47,8 @@ namespace ace
 
 		const achar* GetAnimationName(int32_t index) const override;
 
+		float GetAnimationLength(const achar* name) const override;
+
 		bool GetIsAnimationLoopingMode(const achar* name) const override;
 		void SetIsAnimationLoopingMode(const achar* name, bool isLoopingMode) override;
 
