@@ -40,7 +40,6 @@
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\CameraAndSetTexture.cpp" />
     <ClCompile Include="..\ObjectSystem\Component.cpp" />
-    <ClCompile Include="..\ObjectSystem\Culling2D.cpp" />
     <ClCompile Include="..\ObjectSystem\CustomObject.cpp" />
     <ClCompile Include="..\ObjectSystem\LayerComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\LayerHasNoObject.cpp" />
