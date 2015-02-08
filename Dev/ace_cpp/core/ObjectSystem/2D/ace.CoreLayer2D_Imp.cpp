@@ -36,7 +36,7 @@ namespace ace
 		m_rendererForCamera = new Renderer2D_Imp(graphics, log);
 
 #if __CULLING_2D__
-		world = new culling2d::World(6, culling2d::RectF(0, 0, 100000, 100000));
+		world = new culling2d::World(6, culling2d::RectF(-50000, -50000, 100000, 100000));
 #endif
 	}
 
@@ -346,6 +346,7 @@ namespace ace
 			{
 				allCulledObjects.push_back(cullingObject);
 			}
+
 		}
 		else
 		{
