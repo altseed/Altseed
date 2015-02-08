@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace sample_cs.Graphics._2D
 {
     /// <summary>
-    /// エフェクトを表示する。
+    /// テクスチャを表示する。
     /// </summary>
     class TextureObject2D : ISample
     {
