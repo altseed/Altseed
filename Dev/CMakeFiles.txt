@@ -29,7 +29,8 @@ set(core_src
 	ace_cpp/core/ace.ReferenceObject.cpp
 	ace_cpp/core/Core/ace.Core_Imp.cpp
 	ace_cpp/core/Core/ace.CreateCore.cpp
-	ace_cpp/core/dll_cs.cxx
+	ace_cpp/core/dll.cxx
+	ace_cpp/core/dll_java.cxx
 	ace_cpp/core/Graphics/2D/ace.LayerRenderer.cpp
 	ace_cpp/core/Graphics/2D/ace.PostEffectRenderer.cpp
 	ace_cpp/core/Graphics/2D/ace.Renderer2D_Imp.cpp
@@ -160,7 +161,6 @@ set(x11_src
 
 set(engine_src
 	ace_cpp/engine/ace.Engine.cpp
-	ace_cpp/engine/IO/ace.File.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.CameraObject2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.EffectObject2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.cpp
@@ -211,6 +211,7 @@ set(unittest_gtest_src
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Sampler_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_Simple3D_Test.cpp
 	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_SingleTexture_Test.cpp
+	unitTest_cpp_gtest/Graphics/LowLayer/ace.Graphics_TextureFormat_Test.cpp
 	unitTest_cpp_gtest/Log/ace.Log_Test.cpp
 	unitTest_cpp_gtest/main.cpp
 	unitTest_cpp_gtest/PCH/ace.UnitTestCpp.PCH.cpp
@@ -228,9 +229,11 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
 	unitTest_Engine_cpp_gtest/EngineTest.cpp
 	unitTest_Engine_cpp_gtest/File/StaticFile_NonePackage.cpp
+	unitTest_Engine_cpp_gtest/File/StaticFile_NonePackage_AddDefaultRootDirectory.cpp
 	unitTest_Engine_cpp_gtest/File/StaticFile_NonePackage_Cache.cpp
 	unitTest_Engine_cpp_gtest/File/StaticFile_Package.cpp
 	unitTest_Engine_cpp_gtest/File/StaticFile_Package_Cache.cpp
+	unitTest_Engine_cpp_gtest/File/StaticFile_Package_Priority.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/CameraObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/EffectObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/MapObject2D.cpp
@@ -252,8 +255,6 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepia.cpp
 	unitTest_Engine_cpp_gtest/Graphics/Transition/Transition.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
-	unitTest_Engine_cpp_gtest/msvc/StaticFile_NonePackage_AddDefaultRootDirectory.cpp
-	unitTest_Engine_cpp_gtest/msvc/StaticFile_Package_Priority.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp

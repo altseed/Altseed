@@ -254,7 +254,7 @@ master.zip
 /Dev/lib/ace_common.Debug.lib
 /Dev/lib/ace_common.Release.lib
 
-/Dev/ace_cpp/core/dll_cs.cxx
+/Dev/ace_cpp/core/dll.cxx
 
 /Product/bin/
 /Product/inlude/
