@@ -16,13 +16,13 @@
 #define ACE_DLLEXPORT 
 #define ACE_STDCALL 
 
-// 通常の定義
-//namespace ace {
-//	typedef wchar_t achar;
-//	typedef std::wstring astring;
-//}
-//%include "wchar.i"
-//%include "std_wstring.i"
+//-----------------------------------------------------------------------------------
+// csharp
+//-----------------------------------------------------------------------------------
+
+#if SWIGCSHARP
+%include "arrays_csharp.i"
+
 
 // 独自の定義を使用
 namespace ace {
@@ -30,24 +30,20 @@ namespace ace {
 	class astring;
 }
 
-//-----------------------------------------------------------------------------------
-// csharp
-//-----------------------------------------------------------------------------------
-
-#if SWIGCSHARP
-%include "arrays_csharp.i"
-#endif
-
-#if SWIGJAVA
-%include "arrays_java.i"
-#endif
-
-
-#if SWIGCSHARP
 %include "swig/Lib/csharp/achar.i"
 %include "swig/Lib/csharp/astring.i"
 #endif
 
+#if SWIGJAVA
+%include "arrays_java.i"
+
+namespace ace {
+	typedef wchar_t achar;
+	class astring;
+}
+
+%include "swig/Lib/java/astring.i"
+#endif
 
 // セキュリティチェックを外して高速化
 %pragma(csharp) imclassclassmodifiers="
@@ -198,6 +194,9 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 //-----------------------------------------------------------------------------------
 // Dispose無視
 //-----------------------------------------------------------------------------------
+
+#if SWIGCSHARP
+
 %define DISABLE_DISPOSE( SWIGTYPE )
 %typemap(csdestruct, methodname="Dispose", methodmodifiers="public") SWIGTYPE
 {
@@ -217,9 +216,30 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 
 %enddef
 
+#endif
+
+#if SWIGJAVA
+
+%define DISABLE_DISPOSE( SWIGTYPE )
+
+%typemap(javadestruct, methodname="delete", methodmodifiers="public") SWIGTYPE
+{
+}
+
+%typemap(javadestruct_derived, methodname="delete", methodmodifiers="public") SWIGTYPE
+{
+}
+
+%enddef
+
+#endif
+
 //-----------------------------------------------------------------------------------
 // IReference,ReferenceObject向け拡張
 //-----------------------------------------------------------------------------------
+
+#if SWIGCSHARP
+
 %typemap(csout) int ace::IReference::Release()
 %{
 {
@@ -240,12 +260,41 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
 }
 %}
 
+#endif
+
+#if SWIGJAVA
+
+%typemap(javaout) int ace::IReference::Release()
+%{
+{
+	int result = $jnicall;
+	swigCMemOwn = false;
+	swigCPtr = 0;
+	return result;
+}
+%}
+
+%typemap(javaout) int ace::ReferenceObject::Release()
+%{
+{
+	int result = $jnicall;
+	swigCMemOwn = false;
+	swigCPtr = 0;
+	return result;
+}
+%}
+
+#endif
+
 DISABLE_DISPOSE( ace::IReference )
 DISABLE_DISPOSE( ace::ReferenceObject )
 
 //-----------------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------------
+
+#if SWIGCSHARP
+
 %define CPP_OBJECT( CTYPE )
 /* 未開放バグが怖いが、ラッパークラスとswigのクラスのGCが同時に動作したときに、swigのクラスのGCを止める手段がないため */
 DISABLE_DISPOSE( CTYPE )
@@ -258,6 +307,24 @@ DISABLE_DISPOSE( CTYPE )
 %}
 %enddef
 
+#endif
+
+
+#if SWIGJAVA
+
+%define CPP_OBJECT( CTYPE )
+/* 未開放バグが怖いが、ラッパークラスとswigのクラスのGCが同時に動作したときに、swigのクラスのGCを止める手段がないため */
+DISABLE_DISPOSE( CTYPE )
+%typemap(javacode) CTYPE
+%{
+    public long GetPtr()
+    {
+    return  swigCPtr;
+    }
+%}
+%enddef
+
+#endif
 
 //-----------------------------------------------------------------------------------
 //
