@@ -874,6 +874,7 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp_Methods.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\dll.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -909,7 +910,6 @@
     <ClCompile Include="..\core\Core\ace.CreateCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\dll_cs.cxx" />
     <ClCompile Include="..\core\Input\ace.Joystick_Imp.cpp">
       <Filter>Input</Filter>
     </ClCompile>
@@ -1228,6 +1228,7 @@
     <ClCompile Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.cpp">
       <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
     </ClCompile>
+    <ClCompile Include="..\core\dll.cxx" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Window\ace.Window_Imp_X11.cpp">

@@ -1,4 +1,4 @@
-%module ace_core_cs
+%module ace_core
 %{
 
 #include "dll.h"
@@ -137,43 +137,43 @@ unsafe class"
 #if SWIGJAVA
 
 %define STRUCT_OBJECT( CTYPE, RCTYPE, CSTYPE )
+/*
 %ignore CTYPE;
 
 // àÍêÿâΩÇ‡ïtÇ¢ÇƒÇ¢Ç»Ç¢Ç∆Ç´ÇÃèàóùÇ™Ç®Ç©ÇµÇ¢â¬î\ê´Ç†ÇË
 %typemap(jni)		CTYPE	"CTYPE"
-%typemap(imtype)	CTYPE	"CSTYPE"
-%typemap(cstype)	CTYPE	"CSTYPE"
-%typemap(in)		CTYPE	{ assert(sizeof(CTYPE)==sizeof(RCTYPE)); memcpy(&$1, &$input, sizeof(RCTYPE)); }
-%typemap(out)		CTYPE	{ assert(sizeof(CTYPE)==sizeof(RCTYPE)); memcpy(&$result, &$1, sizeof(RCTYPE)); }
-%typemap(csin)		CTYPE	"$csinput"
-%typemap(csout)		CTYPE	{ return $imcall; }
-%typemap(csvarin)	CTYPE	{ set { $imcall; } }
-%typemap(csvarout)	CTYPE	{ get { return $imcall; } } 
+%typemap(jtype)		CTYPE	"CSTYPE"
+%typemap(jstype)	CTYPE	"CSTYPE"
+%typemap(in)		CTYPE	{ $1 = $input; }
+%typemap(out)		CTYPE	{ $result = $1; }
+%typemap(javasin)		CTYPE	"$javainput"
+%typemap(javasout)		CTYPE	{ return $imcall; }
 
-%typemap(ctype)		CTYPE* "void*"
-%typemap(imtype)	CTYPE* "ref CSTYPE"
-%typemap(cstype)	CTYPE* "ref CSTYPE"
+%typemap(jni)		CTYPE* "void*"
+%typemap(jtype)		CTYPE* "ref CSTYPE"
+%typemap(jstype)	CTYPE* "ref CSTYPE"
 %typemap(in)		CTYPE* "$1 = (CTYPE*)$input;"
-%typemap(csin)		CTYPE* "ref $csinput"
+%typemap(javain)		CTYPE* "ref $javainput"
 
-
-%typemap(ctype)		const CTYPE* "void*"
-%typemap(imtype)	const CTYPE* "ref CSTYPE"
-%typemap(cstype)	const CTYPE* "ref CSTYPE"
+%typemap(jni)		const CTYPE* "void*"
+%typemap(jtype)		const CTYPE* "ref CSTYPE"
+%typemap(jstype)	const CTYPE* "ref CSTYPE"
 %typemap(in)		const CTYPE* "$1 = (CTYPE*)$input;"
-%typemap(csin)		const CTYPE* "ref $csinput"
+%typemap(javain)	const CTYPE* "ref $javainput"
 
-%typemap(ctype)		CTYPE& "void*"
-%typemap(imtype)	CTYPE& "ref CSTYPE"
-%typemap(cstype)	CTYPE& "ref CSTYPE"
+%typemap(jni)		CTYPE& "void*"
+%typemap(jtype)		CTYPE& "ref CSTYPE"
+%typemap(jstype)	CTYPE& "ref CSTYPE"
 %typemap(in)		CTYPE& "$1 = (CTYPE*)$input;"
-%typemap(csin)		CTYPE& "ref $csinput"
+%typemap(javain)	CTYPE& "ref $javainput"
 
-%typemap(ctype)		const CTYPE& "void*"
-%typemap(imtype)	const CTYPE& "ref CSTYPE"
-%typemap(cstype)	const CTYPE& "ref CSTYPE"
+%typemap(jni)		const CTYPE& "void*"
+%typemap(jtype)		const CTYPE& "ref CSTYPE"
+%typemap(jstype)	const CTYPE& "ref CSTYPE"
 %typemap(in)		const CTYPE& "$1 = (CTYPE*)$input;"
-%typemap(csin)		const CTYPE& "ref $csinput"
+%typemap(javain)	const CTYPE& "ref $javainput"
+*/
+
 %enddef
 
 #endif

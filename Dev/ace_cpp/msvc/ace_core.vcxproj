@@ -175,6 +175,7 @@
     <ClInclude Include="..\core\Core\ace.Core.h" />
     <ClInclude Include="..\core\Core\ace.Core_Imp.h" />
     <ClInclude Include="..\core\Core\ace.CreateCore.h" />
+    <ClInclude Include="..\core\dll.h" />
     <ClInclude Include="..\core\Graphics\2D\ace.LayerRenderer.h" />
     <ClInclude Include="..\core\Graphics\2D\ace.PostEffectRenderer.h" />
     <ClInclude Include="..\core\Graphics\2D\ace.Renderer2D.h" />
@@ -433,7 +434,7 @@
     <ClCompile Include="..\core\ace.ReferenceObject.cpp" />
     <ClCompile Include="..\core\Core\ace.Core_Imp.cpp" />
     <ClCompile Include="..\core\Core\ace.CreateCore.cpp" />
-    <ClCompile Include="..\core\dll_cs.cxx" />
+    <ClCompile Include="..\core\dll.cxx" />
     <ClCompile Include="..\core\Graphics\2D\ace.LayerRenderer.cpp" />
     <ClCompile Include="..\core\Graphics\2D\ace.PostEffectRenderer.cpp" />
     <ClCompile Include="..\core\Graphics\2D\ace.Renderer2D_Imp.cpp" />
