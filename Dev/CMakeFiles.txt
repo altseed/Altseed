@@ -30,7 +30,6 @@ set(core_src
 	ace_cpp/core/Core/ace.Core_Imp.cpp
 	ace_cpp/core/Core/ace.CreateCore.cpp
 	ace_cpp/core/dll.cxx
-	ace_cpp/core/dll_java.cxx
 	ace_cpp/core/Graphics/2D/ace.LayerRenderer.cpp
 	ace_cpp/core/Graphics/2D/ace.PostEffectRenderer.cpp
 	ace_cpp/core/Graphics/2D/ace.Renderer2D_Imp.cpp
