@@ -77,7 +77,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	//CALL_ENGINE_TEST(ObjectSystem, Culling2D, true)
+	//CALL_ENGINE_TEST(ObjectSystem, ParentObject, true)
 	//return 0;
 
 	

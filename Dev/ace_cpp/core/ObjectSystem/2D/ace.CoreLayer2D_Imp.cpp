@@ -310,7 +310,6 @@ namespace ace
 					impObj->CalculateBoundingCircle();
 					auto newCircle = impObj->GetBoundingCircle();
 					x->SetCircle(newCircle);
-					impObj->SetAlreadyCullingUpdated(true);
 				}
 				else
 				{
@@ -318,7 +317,6 @@ namespace ace
 					auto chip = (Chip2D_Imp*)userData->Chip;
 					auto newCircle = chip->GetBoundingCircle();
 					x->SetCircle(newCircle);
-					chip->SetAlreadyCullingUpdated(true);
 				}
 			}
 
