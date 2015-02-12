@@ -321,7 +321,7 @@ namespace ace
 
 			Mouse = null;
 
-			var refCount = swig.ace_core_cs.GetGlobalReferenceCount__();
+			var refCount = swig.ace_core.GetGlobalReferenceCount__();
 
 			if (refCount > 0)
 			{

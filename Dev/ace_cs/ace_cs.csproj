@@ -128,8 +128,8 @@
     <Compile Include="Sound\Sound.cs" />
     <Compile Include="Sound\SoundSource.cs" />
     <Compile Include="swig\Accessor.cs" />
-    <Compile Include="swig\ace_core_cs.cs" />
-    <Compile Include="swig\ace_core_csPINVOKE.cs" />
+    <Compile Include="swig\ace_core.cs" />
+    <Compile Include="swig\ace_corePINVOKE.cs" />
     <Compile Include="swig\AlphaBlend.cs" />
     <Compile Include="swig\AnimationClip.cs" />
     <Compile Include="swig\AnimationSource.cs" />
