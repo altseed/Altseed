@@ -27,34 +27,7 @@ namespace ace
 		bool alreadyCullingUpdated;
 		std::set<CoreObject2D*> children;
 
-		void SetCullingUpdate(CoreObject2D_Imp* obj)
-		{
-#if __CULLING_2D__
-
-			if (children.find(nullptr) != children.end())
-			{
-				children.erase(nullptr);
-			}
-
-			if (m_objectInfo.GetLayer() == nullptr) return;
-
-			auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
-
-			if (!alreadyCullingUpdated)
-			{
-				layerImp->TransformedObjects.push_back(cullingObject);
-				alreadyCullingUpdated = true;
-			}
-
-			auto cldrn = obj->children;
-
-			for (auto& cld : cldrn)
-			{
-				auto cld_Imp = CoreObject2DToImp(cld);
-				SetCullingUpdate(cld_Imp);
-			}
-#endif
-		}
+		void SetCullingUpdate(CoreObject2D_Imp* obj);
 
 	public:
 		CoreObject2D_Imp(Graphics_Imp* graphics);

@@ -25,6 +25,35 @@ namespace ace
 		SafeRelease(m_graphics);
 	}
 
+	void CoreObject2D_Imp::SetCullingUpdate(CoreObject2D_Imp* obj)
+	{
+#if __CULLING_2D__
+
+		if (children.find(nullptr) != children.end())
+		{
+			children.erase(nullptr);
+		}
+
+		if (m_objectInfo.GetLayer() == nullptr) return;
+
+		auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
+
+		if (!obj->GetAlreadyCullingUpdated())
+		{
+			layerImp->TransformedObjects.push_back(obj->GetCullingObject());
+			obj->SetAlreadyCullingUpdated(true);
+		}
+
+		auto cldrn = obj->children;
+
+		for (auto& cld : cldrn)
+		{
+			auto cld_Imp = CoreObject2DToImp(cld);
+			SetCullingUpdate(cld_Imp);
+		}
+#endif
+	}
+
 	culling2d::Circle& CoreObject2D_Imp::GetBoundingCircle()
 	{
 		return m_boundingCircle;

@@ -134,8 +134,10 @@ namespace ace
 
 		world->IncNextSecondSortedKey();
 
-		world->AddObject(cObj);
 		TransformedObjects.push_back(cObj);
+
+		chip->SetAlreadyCullingUpdated(true);
+		world->AddObject(cObj);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -195,9 +197,12 @@ namespace ace
 
 				o->SetCullingObject(cObj);
 
-				world->AddObject(cObj);
 
 				TransformedObjects.push_back(cObj);
+				o->SetAlreadyCullingUpdated(true);
+
+
+				world->AddObject(cObj);
 			}
 #endif
 		}
@@ -264,12 +269,13 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::BeginUpdating()
 	{
+		
 		for (auto&x : m_objects)
 		{
 			auto o = CoreObject2DToImp(x);
 			o->SetAlreadyCullingUpdated(x->GetObjectType() == Object2DType::Map);
 		}
-
+		
 	}
 
 	//----------------------------------------------------------------------------------
