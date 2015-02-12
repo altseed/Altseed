@@ -67,7 +67,13 @@ namespace ace
 		*/
 		CoreObject2D_Imp* CoreObject2DToImp(ObjectPtr obj);
 
-		void DrawObjects(Renderer2D* renderer);
+		void DrawAdditionalObjects();
+
+#if __CULLING_2D__
+		void DrawObjectsWithCulling(RectF drawRange);
+#else
+		void DrawObjectsWithoutCulling();
+#endif
 
 #if __CULLING_2D__
 		culling2d::World *world = nullptr;

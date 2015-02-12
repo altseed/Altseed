@@ -330,56 +330,32 @@ namespace ace
 	{
 
 	}
-
-	void CoreLayer2D_Imp::DrawObjects(Renderer2D* renderer)
-	{
 #if __CULLING_2D__
+	void CoreLayer2D_Imp::DrawObjectsWithCulling(RectF drawRange)
+	{
 
-		std::vector<culling2d::Object*> allCulledObjects;
+		auto cullingSrc = culling2d::RectF(drawRange.X, drawRange.Y, drawRange.Width, drawRange.Height);
+		auto cullingObjects = world->GetCullingObjects(cullingSrc);
 
-		if (m_cameras.empty())
-		{
-			auto cullingSrc = culling2d::RectF(0, 0, m_windowSize.X, m_windowSize.Y);
-			auto cullingObjects = world->GetCullingObjects(cullingSrc);
-
-			for (auto& cullingObject : cullingObjects)
-			{
-				allCulledObjects.push_back(cullingObject);
-			}
-
-		}
-		else
-		{
-			for (auto& camera : m_cameras)
-			{
-				auto src = camera->GetSrc();
-				auto cullingSrc = culling2d::RectF(src.X, src.Y, src.Width, src.Height);
-				auto cullingObjects = world->GetCullingObjects(cullingSrc);
-
-				for (auto& cullingObject : cullingObjects)
-				{
-					allCulledObjects.push_back(cullingObject);
-				}
-			}
-		}
-
-		for (auto& culledObj : allCulledObjects)
+		for (auto& culledObj : cullingObjects)
 		{
 			auto userData = (Culling2DUserData*)(culledObj->GetUserData());
 
-			if (!(userData->Object->GetIsAlive())) return;
+			if (!(userData->Object->GetIsAlive())) continue;
 
-			if (userData->IsObject)
+			auto obj_Imp = CoreObject2DToImp(userData->Object);
+
+			if (userData->IsObject&&userData->Object->GetObjectType() != Object2DType::Effect)
 			{
 				auto obj = userData->Object;
-				obj->Draw(renderer);
+				obj->Draw(m_renderer);
 			}
-			else
+			else if (userData->Object->GetObjectType() == Object2DType::Map)
 			{
 				auto mapObj = (CoreMapObject2D_Imp*)CoreObject2DToImp(userData->Object);
 				auto chip = userData->Chip;
 
-				mapObj->DrawChip(renderer, chip);
+				mapObj->DrawChip(m_renderer, chip);
 			}
 
 		}
@@ -389,19 +365,59 @@ namespace ace
 		{
 			if (x->GetIsAlive() && x->GetObjectType() == Object2DType::Effect)
 			{
-				x->Draw(renderer);
+				x->Draw(m_renderer);
 			}
 		}
+	}
 
 #else
+	void CoreLayer2D_Imp::DrawObjectsWithoutCulling()
+	{
 		for (auto& x : m_objects)
 		{
 			if (x->GetIsAlive())
 			{
-				x->Draw(renderer);
+				x->Draw(m_renderer);
 			}
 		}
+	}
 #endif
+
+	void CoreLayer2D_Imp::DrawAdditionalObjects()
+	{
+
+		for (auto& sprite : sprites)
+		{
+			m_renderer->AddSprite(
+				sprite.pos.data(),
+				sprite.col.data(),
+				sprite.uv.data(),
+				sprite.Texture_.get(),
+				sprite.AlphaBlend_,
+				sprite.Priority);
+		}
+		sprites.clear();
+
+		for (auto& text : texts)
+		{
+			Matrix33 matP;
+			Matrix33 mat;
+			mat.SetTranslation(text.Position_.X, text.Position_.Y);
+
+			m_renderer->AddText(
+				matP,
+				mat,
+				Vector2DF(),
+				false,
+				false,
+				text.Color_,
+				text.Font_.get(),
+				text.Text_.c_str(),
+				text.WritingDirection_,
+				text.AlphaBlend_,
+				text.Priority_);
+		}
+		texts.clear();
 	}
 
 	void CoreLayer2D_Imp::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
@@ -452,47 +468,34 @@ namespace ace
 			return;
 		}
 
-		for (auto& sprite : sprites)
-		{
-			m_renderer->AddSprite(
-				sprite.pos.data(),
-				sprite.col.data(),
-				sprite.uv.data(),
-				sprite.Texture_.get(),
-				sprite.AlphaBlend_,
-				sprite.Priority);
-		}
-		sprites.clear();
-
-		for (auto& text : texts)
-		{
-			Matrix33 matP;
-			Matrix33 mat;
-			mat.SetTranslation(text.Position_.X, text.Position_.Y);
-
-			m_renderer->AddText(
-				matP,
-				mat,
-				Vector2DF(),
-				false,
-				false,
-				text.Color_,
-				text.Font_.get(),
-				text.Text_.c_str(),
-				text.WritingDirection_,
-				text.AlphaBlend_,
-				text.Priority_);
-		}
-		texts.clear();
-
-		DrawObjects(m_renderer);
-
 		if (m_cameras.empty())
 		{
-			
+
+#if __CULLING_2D__
+			auto range = RectF(0, 0, m_windowSize.X, m_windowSize.Y);
+			DrawObjectsWithCulling(range);
+#else
+			DrawObjectsWithoutCulling();
+#endif
+
+			DrawAdditionalObjects();
 		}
 		else
 		{
+			for (auto& c : m_cameras)
+			{
+
+#if __CULLING_2D__
+				auto src = c->GetSrc();
+				DrawObjectsWithCulling(ace::RectF(src.X, src.Y, src.Width, src.Height));
+#else
+				DrawObjectsWithoutCulling();
+#endif
+
+			}
+
+			DrawAdditionalObjects();
+
 			m_rendererForCamera->ClearCache();
 			for (auto& c : m_cameras)
 			{

@@ -36,7 +36,7 @@ protected:
 
 		textureObj2->SetTexture(texture);
 		textureObj2->SetSrc(ace::RectF(0, 0, 256, 256));
-		textureObj2->SetPosition(ace::Vector2DF(0, 0));
+		textureObj2->SetPosition(ace::Vector2DF(400, 320));
 		textureObj2->SetTurnLR(true);
 	}
 
