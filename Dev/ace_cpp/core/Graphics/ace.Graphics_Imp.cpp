@@ -94,23 +94,23 @@ namespace ace {
 	class EffectLoader
 		: public Effekseer::EffectLoader
 	{
+	private:
+		File*	file = nullptr;
 	public:
+
+		EffectLoader(File* file)
+			: file(file)
+		{
+		}
+
 		bool Load(const EFK_CHAR* path, void*& data, int32_t& size)
 		{
-#if _WIN32
-			auto fp = _wfopen((const achar*)path, L"rb");
-			if (fp == nullptr) return false;
-#else
-			auto fp = fopen(ToUtf8String((const achar*)path).c_str(), "rb");
-			if (fp == nullptr) return false;
-#endif
-			fseek(fp, 0, SEEK_END);
-			size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			data = new uint8_t[size];
-			fread(data, 1, size, fp);
-			fclose(fp);
+			auto sf = file->CreateStaticFile((const achar*) path);
+			if (sf.get() == nullptr) return false;
 
+			size = sf->GetSize();
+			data = new uint8_t[size];
+			memcpy(data, sf->GetData(), size);
 			return true;
 		}
 
@@ -626,7 +626,7 @@ Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen)
 	: m_size(size)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)
@@ -644,10 +644,10 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log,File* file, bool isReloading
 	//SafeAddRef(m_log);
 	//m_resourceContainer = new GraphicsResourceContainer(m_file);
 	m_renderingThread = std::make_shared<RenderingThread>();
-	
+
 	m_effectSetting = Effekseer::Setting::Create();
 	m_effectSetting->SetCoordinateSystem(Effekseer::eCoordinateSystem::COORDINATE_SYSTEM_RH);
-	m_effectSetting->SetEffectLoader(new EffectLoader());
+	m_effectSetting->SetEffectLoader(new EffectLoader(file));
 
 	m_shaderCache = new ShaderCache(this);
 
