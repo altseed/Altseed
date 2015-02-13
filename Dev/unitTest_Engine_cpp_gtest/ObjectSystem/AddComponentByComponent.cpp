@@ -34,6 +34,7 @@ class ObjectSystem_AddComponentByComponent : public EngineTest
 			if (count == 10)
 			{
 				GetOwner()->AddComponent(make_shared<AddingLayerComponent>(), ToAString("Add"));
+				printf("vanish layer component.\n");
 				Vanish();
 			}
 		}
@@ -49,6 +50,7 @@ class ObjectSystem_AddComponentByComponent : public EngineTest
 			if (count == 10)
 			{
 				GetOwner()->AddComponent(make_shared<AddingSceneComponent>(), ToAString("Add"));
+				printf("vanish scene component.\n");
 				Vanish();
 			}
 		}
@@ -71,8 +73,8 @@ protected:
 		scene->AddLayer(layer);
 		layer->AddObject(obj);
 
-		//scene->AddComponent(make_shared<AddingSceneComponent>(), ToAString("Add"));
-		//layer->AddComponent(make_shared<AddingLayerComponent>(), ToAString("Add"));
+		scene->AddComponent(make_shared<AddingSceneComponent>(), ToAString("Add"));
+		layer->AddComponent(make_shared<AddingLayerComponent>(), ToAString("Add"));
 		obj->AddComponent(make_shared<AddingObjectComponent>(), ToAString("Add"));
 	}
 };

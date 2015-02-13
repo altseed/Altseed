@@ -14,6 +14,7 @@ namespace ace
 		, m_layersToUpdate(list<Layer::Ptr>())
 		, m_coreScene(nullptr)
 		, m_components(map<astring, SceneComponent::Ptr>())
+		, m_componentsToBeAdded(map<astring, SceneComponent::Ptr>())
 		, alreadyFirstUpdate(false)
 	{
 		m_coreScene = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateScene());
@@ -35,6 +36,12 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::UpdateComponents()
 	{
+		for (auto& c : m_componentsToBeAdded)
+		{
+			m_components.insert(c);
+		}
+		m_componentsToBeAdded.clear();
+
 		auto beVanished = vector<astring>();
 		for (auto& component : m_components)
 		{
@@ -256,7 +263,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::AddComponent(const SceneComponent::Ptr& component, astring key)
 	{
-		m_components[key] = component;
+		m_componentsToBeAdded[key] = component;
 		component->SetOwner(this);
 	}
 

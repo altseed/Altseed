@@ -23,6 +23,7 @@ namespace ace
 		std::shared_ptr<CoreLayer2D>	m_coreLayer;
 		std::list<Object2D::Ptr>		m_objects;
 		std::map<astring, Layer2DComponent::Ptr> m_components;
+		std::map<astring, Layer2DComponent::Ptr> m_componentsToBeAdded;
 		std::vector<Object2D::Ptr>		beVanished;
 
 		void BeginUpdateting();

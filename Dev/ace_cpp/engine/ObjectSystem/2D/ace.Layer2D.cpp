@@ -14,6 +14,7 @@ namespace ace
 		: m_coreLayer(nullptr)
 		, m_objects(list<Object2D::Ptr>())
 		, m_components(map<astring, Layer2DComponent::Ptr>())
+		, m_componentsToBeAdded(map<astring, Layer2DComponent::Ptr>())
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer2D());
 		m_commonObject = m_coreLayer;
@@ -32,6 +33,12 @@ namespace ace
 
 	void Layer2D::UpdateComponents()
 	{
+		for (auto& c : m_componentsToBeAdded)
+		{
+			m_components.insert(c);
+		}
+		m_componentsToBeAdded.clear();
+
 		auto beVanished = vector<astring>();
 		for (auto& component : m_components)
 		{
@@ -145,10 +152,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Layer2D::AddObject(const Object2D::Ptr& object)
 	{
-		if (object->GetLayer() != nullptr)
-		{
-			throw "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。";
-		}
+		ACE_ASSERT(object->GetLayer() == nullptr, "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。")
 		m_objects.push_back(object);
 		auto coreObj = object->GetCoreObject();
 		m_coreLayer->AddObject(coreObj);
@@ -180,7 +184,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Layer2D::AddComponent(const Layer2DComponent::Ptr& component, astring key)
 	{
-		m_components[key] = component;
+		m_componentsToBeAdded[key] = component;
 		component->SetOwner(this);
 	}
 

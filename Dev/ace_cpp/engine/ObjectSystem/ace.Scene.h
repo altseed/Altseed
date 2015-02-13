@@ -21,19 +21,18 @@ namespace ace
 		friend class Layer;
 
 	public:
-		typedef std::shared_ptr<Layer> LayerPtr;
-		typedef std::shared_ptr<SceneComponent> ComponentPtr;
 		typedef std::shared_ptr<Scene> Ptr;
 
 	private:
 		std::shared_ptr<CoreScene> m_coreScene;
-		std::list<LayerPtr> m_layersToDraw;
-		std::list<LayerPtr> m_layersToUpdate;
+		std::list<Layer::Ptr> m_layersToDraw;
+		std::list<Layer::Ptr> m_layersToUpdate;
 		std::map<astring, SceneComponent::Ptr> m_components;
+		std::map<astring, SceneComponent::Ptr> m_componentsToBeAdded;
 		bool alreadyFirstUpdate;
 
-		std::list<LayerPtr> addingLayer;
-		std::list<LayerPtr> removingLayer;
+		std::list<Layer::Ptr> addingLayer;
+		std::list<Layer::Ptr> removingLayer;
 		bool executing = false;
 
 		void Draw();
@@ -119,7 +118,7 @@ namespace ace
 			@brief	キーの示すコンポーネントをこのインスタンスから取得する。
 			@param	key		取得するコンポーネントを示すキー
 		*/
-		ComponentPtr& GetComponent(astring key);
+		SceneComponent::Ptr& GetComponent(astring key);
 		/**
 			@brief	キーの示すコンポーネントをこのインスタンスから削除する。
 			@param	key		削除するコンポーネントを示すキー
