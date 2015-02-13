@@ -10,16 +10,6 @@ namespace ace{
 		Hold
 	};
 
-	enum eJoystickButtons
-	{
-		BUTTON_1
-	};
-
-	enum eJoystickAxises
-	{
-		AXIS_1
-	};
-
 	class Joystick
 	{
 	public:

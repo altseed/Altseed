@@ -378,6 +378,12 @@ namespace ace
 	}
 #endif
 
+	void CoreLayer2D_Imp::ClearAdditionalObjects()
+	{
+		sprites.clear();
+		texts.clear();
+	}
+
 	void CoreLayer2D_Imp::DrawAdditionalObjects()
 	{
 
@@ -402,7 +408,6 @@ namespace ace
 				sprite.AlphaBlend_,
 				sprite.Priority);
 		}
-		sprites.clear();
 
 		for (auto& text : texts)
 		{
@@ -423,7 +428,6 @@ namespace ace
 				text.AlphaBlend_,
 				text.Priority_);
 		}
-		texts.clear();
 	}
 
 	void CoreLayer2D_Imp::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
@@ -485,34 +489,67 @@ namespace ace
 #endif
 
 			DrawAdditionalObjects();
+			ClearAdditionalObjects();
+
+
+			m_scene->SetRenderTargetForDrawingLayer();
+			m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
+			m_renderer->DrawCache();
+			m_renderer->ClearCache();
 		}
 		else
 		{
+#if __CULLING_2D__
 			for (auto& c : m_cameras)
 			{
+				//レンダラのキャッシュをリセット
+				m_renderer->ClearCache();
 
-#if __CULLING_2D__
+				//通常のオブジェクト摘み取りと描画
 				auto src = c->GetSrc();
 				DrawObjectsWithCulling(ace::RectF(src.X, src.Y, src.Width, src.Height));
-#else
-				DrawObjectsWithoutCulling();
-#endif
 
-			}
+				//追加オブジェクト描画
+				DrawAdditionalObjects();
 
-			DrawAdditionalObjects();
-
-			m_rendererForCamera->ClearCache();
-			for (auto& c : m_cameras)
-			{
+				//カメラバッファに内容をセット
 				c->SetForRenderTarget();
 				c->FlushToBuffer(m_renderer);
+
+				m_renderer->ClearCache();
+
+				c->DrawBuffer(m_renderer);
+
+				m_scene->SetRenderTargetForDrawingLayer();
+				m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
+				m_renderer->DrawCache();
 			}
+			m_renderer->ClearCache();
+
+			ClearAdditionalObjects();
+#else
+
+			DrawObjectsWithoutCulling();
+
+			DrawAdditionalObjects();
+			ClearAdditionalObjects();
 
 			for (auto& c : m_cameras)
 			{
+
+
+				c->SetForRenderTarget();
+				c->FlushToBuffer(m_renderer);
+
 				c->DrawBuffer(m_rendererForCamera);
+
+				m_scene->SetRenderTargetForDrawingLayer();
+				m_rendererForCamera->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
+				m_rendererForCamera->DrawCache();
+				m_rendererForCamera->ClearCache();
 			}
+
+#endif
 		}
 	}
 
@@ -521,24 +558,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::EndDrawing()
 	{
-		m_scene->SetRenderTargetForDrawingLayer();
-
-		if (m_cameras.empty())
-		{
-			m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
-			m_renderer->DrawCache();
-			m_renderer->ClearCache();
-		}
-		else
-		{
-			
-			m_rendererForCamera->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
-			m_rendererForCamera->DrawCache();
-			m_rendererForCamera->ClearCache();
-		}
-
-		m_renderer->ClearCache();
-		m_rendererForCamera->ClearCache();
 	}
 
 	//----------------------------------------------------------------------------------

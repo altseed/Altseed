@@ -68,6 +68,7 @@ namespace ace
 		CoreObject2D_Imp* CoreObject2DToImp(ObjectPtr obj);
 
 		void DrawAdditionalObjects();
+		void ClearAdditionalObjects();
 
 #if __CULLING_2D__
 		void DrawObjectsWithCulling(RectF drawRange);
