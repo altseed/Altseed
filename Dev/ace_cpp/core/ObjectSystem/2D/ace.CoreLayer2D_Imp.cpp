@@ -230,6 +230,8 @@ namespace ace
 
 					auto cObj = chipImp->GetCullingObject();
 
+					TransformedObjects.erase(std::remove(TransformedObjects.begin(), TransformedObjects.end(), cObj), TransformedObjects.end());
+
 					auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 					SafeDelete(userData);
@@ -240,6 +242,9 @@ namespace ace
 			else if (object->GetObjectType() != Object2DType::Camera)
 			{
 				auto cObj = o->GetCullingObject();
+
+				TransformedObjects.erase(std::remove(TransformedObjects.begin(), TransformedObjects.end(), cObj), TransformedObjects.end());
+
 				auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 				SafeDelete(userData);
