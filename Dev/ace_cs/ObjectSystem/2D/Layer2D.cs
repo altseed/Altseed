@@ -19,7 +19,7 @@ namespace ace
 			coreLayer2D = Engine.ObjectSystemFactory.CreateLayer2D();
 
 			var p = coreLayer2D.GetPtr();
-			if( GC.Layer2Ds.GetObject(p) != null)
+			if(GC.Layer2Ds.GetObject(p) != null)
 			{
 				throw new Exception();
 			}
@@ -27,9 +27,8 @@ namespace ace
 			GC.Layer2Ds.AddObject(p, this);
 
 			objects_ = new List<Object2D>();
-			
-			components_ = new Dictionary<string, Layer2DComponent>();
-			componentsToBeAdded_ = new Dictionary<string, Layer2DComponent>();
+
+			componentManager_ = new ComponentManager<Layer2D, Layer2DComponent>(this);
 
 			commonObject = coreLayer2D;
 		}
@@ -47,16 +46,16 @@ namespace ace
 
 		public void Destroy()
 		{
-			lock( this )
+			lock (this)
 			{
-				if( coreLayer2D == null ) return;
-				GC.Collector.AddObject( coreLayer2D );
+				if(coreLayer2D == null) return;
+				GC.Collector.AddObject(coreLayer2D);
 				coreLayer2D = null;
 			}
-			System.GC.SuppressFinalize( this );
-		} 
+			System.GC.SuppressFinalize(this);
+		}
 		#endregion
-		
+
 
 		/// <summary>
 		/// このレイヤーが管理している2Dオブジェクトのコレクションを取得する。
@@ -67,22 +66,14 @@ namespace ace
 		}
 
 		/// <summary>
-		/// このレイヤーに登録されているコンポーネントのコレクションを取得する。
-		/// </summary>
-		public IDictionary<string, Layer2DComponent> Components
-		{
-			get { return components_; }
-		}
-
-		/// <summary>
 		/// 指定した2Dオブジェクトをこのレイヤーに追加する。
 		/// </summary>
 		/// <param name="object2D">追加する2Dオブジェクト</param>
 		public void AddObject(Object2D object2D)
 		{
-			if( object2D.Layer != null )
+			if(object2D.Layer != null)
 			{
-				throw new InvalidOperationException( "指定したオブジェクトは既に別のレイヤーに所属しています。" );
+				throw new InvalidOperationException("指定したオブジェクトは既に別のレイヤーに所属しています。");
 			}
 			objects_.Add(object2D);
 			coreLayer2D.AddObject(object2D.CoreObject);
@@ -108,59 +99,68 @@ namespace ace
 		/// <param name="key">コンポーネントに関連付けるキー</param>
 		public void AddComponent(Layer2DComponent component, string key)
 		{
-			componentsToBeAdded_[key] = component;
-			component.Owner = this;
+			componentManager_.Add(component, key);
+		}
+
+		/// <summary>
+		/// 指定したキーを持つコンポーネントを取得する。
+		/// </summary>
+		/// <param name="key">取得するコンポーネントのキー</param>
+		/// <returns>コンポーネント</returns>
+		public Layer2DComponent GetComponent(string key)
+		{
+			return componentManager_.Get(key);
 		}
 
 		/// <summary>
 		/// 指定したコンポーネントをこのレイヤーから削除する。
 		/// </summary>
 		/// <param name="key">削除するコンポーネントを示すキー</param>
-		public void RemoveComponent(string key)
+		/// <returns>削除が成功したか否か。キーに対応するコンポーネントがなかった場合は false。</returns>
+		public bool RemoveComponent(string key)
 		{
-			components_[key].Owner = null;
-			components_.Remove( key );
+			return componentManager_.Remove(key);
 		}
 
-        /// <summary>
-        /// 保持している全ての2Dオブジェクトをこのレイヤーから削除する。
-        /// </summary>
-        public void Clear()
-        {
-            foreach (var obj in objects_)
-            {
-                obj.Layer = null;
-            }
-            coreLayer2D.Clear();
-            objects_.Clear();
-        }
+		/// <summary>
+		/// 保持している全ての2Dオブジェクトをこのレイヤーから削除する。
+		/// </summary>
+		public void Clear()
+		{
+			foreach(var obj in objects_)
+			{
+				obj.Layer = null;
+			}
+			coreLayer2D.Clear();
+			objects_.Clear();
+		}
 
-        /// <summary>
+		/// <summary>
 		/// 通常の描画に加えてテクスチャを描画する。
-        /// </summary>
-        /// <param name="upperLeftPos">テクスチャの左上の描画位置</param>
-        /// <param name="upperRightPos">テクスチャの右上の描画位置</param>
-        /// <param name="lowerRightPos">テクスチャの右下の描画位置</param>
-        /// <param name="lowerLeftPos">テクスチャの左下の描画位置</param>
-        /// <param name="upperLeftCol">テクスチャの左上の頂点色</param>
-        /// <param name="upperRightCol">テクスチャの右上の頂点色</param>
-        /// <param name="lowerRightCol">テクスチャの右下の頂点色</param>
-        /// <param name="lowerLeftCol">テクスチャの左下の頂点色</param>
-        /// <param name="upperLeftUV">テクスチャの左上のUV値</param>
-        /// <param name="upperRightUV">テクスチャの右上のUV値</param>
-        /// <param name="lowerRightUV">テクスチャの右下のUV値</param>
-        /// <param name="lowerLeftUV">テクスチャの左下のUV値</param>
-        /// <param name="texture">描画するテクスチャ</param>
-        /// <param name="alphaBlend">アルファブレンドの種類</param>
-        /// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
+		/// </summary>
+		/// <param name="upperLeftPos">テクスチャの左上の描画位置</param>
+		/// <param name="upperRightPos">テクスチャの右上の描画位置</param>
+		/// <param name="lowerRightPos">テクスチャの右下の描画位置</param>
+		/// <param name="lowerLeftPos">テクスチャの左下の描画位置</param>
+		/// <param name="upperLeftCol">テクスチャの左上の頂点色</param>
+		/// <param name="upperRightCol">テクスチャの右上の頂点色</param>
+		/// <param name="lowerRightCol">テクスチャの右下の頂点色</param>
+		/// <param name="lowerLeftCol">テクスチャの左下の頂点色</param>
+		/// <param name="upperLeftUV">テクスチャの左上のUV値</param>
+		/// <param name="upperRightUV">テクスチャの右上のUV値</param>
+		/// <param name="lowerRightUV">テクスチャの右下のUV値</param>
+		/// <param name="lowerLeftUV">テクスチャの左下のUV値</param>
+		/// <param name="texture">描画するテクスチャ</param>
+		/// <param name="alphaBlend">アルファブレンドの種類</param>
+		/// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
 		/// <remarks>OnDrawAdditionallyの中以外では実行してはいけない。</remarks>
-        public void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-            Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-            Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-            Texture2D texture, AlphaBlendMode alphaBlend, int priority)
-        {
-            coreLayer2D.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlend)alphaBlend, priority);
-        }
+		public void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+			Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+		{
+			coreLayer2D.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlend)alphaBlend, priority);
+		}
 
 		/// <summary>
 		/// 通常の描画に加えて文字列を描画する。
@@ -180,7 +180,7 @@ namespace ace
 			coreLayer2D.DrawTextAdditionally(pos, color, IG.GetFont(font), text, (swig.WritingDirection)writingDirection, (swig.AlphaBlend)alphaBlend, priority);
 		}
 
-        internal override void BeginUpdating()
+		internal override void BeginUpdating()
 		{
 			coreLayer2D.BeginUpdating();
 		}
@@ -192,21 +192,21 @@ namespace ace
 
 		internal override void Update()
 		{
-			if( !IsUpdated )
+			if(!IsUpdated)
 			{
 				return;
 			}
 
 			OnUpdating();
 			UpdateObjects();
-			UpdateComponents();
+			componentManager_.Update();
 
 			OnUpdated();
 		}
 
 		private void UpdateObjects()
 		{
-			foreach (var item in objects_)
+			foreach(var item in objects_)
 			{
 				item.Update();
 				if(!item.IsAlive)
@@ -214,7 +214,7 @@ namespace ace
 					beVanished.Add(item);
 				}
 			}
-			
+
 			foreach(var o in beVanished)
 			{
 				RemoveObject(o);
@@ -223,39 +223,14 @@ namespace ace
 			beVanished.Clear();
 		}
 
-		private void UpdateComponents()
-		{
-			foreach(var item in componentsToBeAdded_)
-			{
-				components_.Add(item.Key, item.Value);
-			}
-			componentsToBeAdded_.Clear();
-
-			var vanished = new List<string>();
-
-			foreach( var item in components_ )
-			{
-				item.Value.Update();
-				if( !item.Value.IsAlive )
-				{
-					vanished.Add( item.Key );
-				}
-			}
-
-			foreach( var item in vanished )
-			{
-				components_.Remove( item );
-			}
-		}
-
 		internal override void DrawAdditionally()
 		{
-			if( !IsDrawn )
+			if(!IsDrawn)
 			{
 				return;
 			}
 
-			foreach( var item in objects_ )
+			foreach(var item in objects_)
 			{
 				item.DrawAdditionally();
 			}
@@ -267,9 +242,7 @@ namespace ace
 
 		private List<Object2D> objects_ { get; set; }
 
-		private Dictionary<string, Layer2DComponent> components_ { get; set; }
-
-		private Dictionary<string, Layer2DComponent> componentsToBeAdded_ { get; set; }
+		private ComponentManager<Layer2D, Layer2DComponent> componentManager_ { get; set; }
 
 		List<Object2D> beVanished = new List<Object2D>();
 	}

@@ -15,8 +15,7 @@ namespace ace
 		/// </summary>
 		public Object2D()
 		{
-			components_ = new Dictionary<string, Object2DComponent>();
-			componentsToBeAdded_ = new Dictionary<string, Object2DComponent>();
+			componentManager_ = new ComponentManager<Object2D, Object2DComponent>(this);
 			children_ = new List<Object2D>();
 			IsUpdated = true;
 		}
@@ -32,7 +31,7 @@ namespace ace
 		public bool IsDrawn
 		{
 			get { return CoreObject.GetIsDrawn(); }
-			set { CoreObject.SetIsDrawn( value ); }
+			set { CoreObject.SetIsDrawn(value); }
 		}
 
 		/// <summary>
@@ -41,21 +40,13 @@ namespace ace
 		public bool IsAlive
 		{
 			get { return CoreObject.GetIsAlive(); }
-			private set { CoreObject.SetIsAlive( value ); }
+			private set { CoreObject.SetIsAlive(value); }
 		}
 
 		/// <summary>
 		/// このインスタンスを管理している ace.Layer2D クラスのインスタンスを取得する。
 		/// </summary>
 		public Layer2D Layer { get; internal set; }
-
-		/// <summary>
-		/// このオブジェクトに登録されているコンポーネントのディクショナリを取得する。
-		/// </summary>
-		public IDictionary<string, Object2DComponent> Components
-		{
-			get { return components_; }
-		}
 
 		/// <summary>
 		/// このオブジェクトが持っている子オブジェクトのコレクションを取得する。
@@ -71,7 +62,7 @@ namespace ace
 		public Vector2DF Position
 		{
 			get { return CoreObject.GetPosition(); }
-			set { CoreObject.SetPosition( value ); }
+			set { CoreObject.SetPosition(value); }
 		}
 
 		/// <summary>
@@ -80,7 +71,7 @@ namespace ace
 		public float Angle
 		{
 			get { return CoreObject.GetAngle(); }
-			set { CoreObject.SetAngle( value ); }
+			set { CoreObject.SetAngle(value); }
 		}
 
 		/// <summary>
@@ -89,7 +80,7 @@ namespace ace
 		public Vector2DF Scale
 		{
 			get { return CoreObject.GetScale(); }
-			set { CoreObject.SetScale( value ); }
+			set { CoreObject.SetScale(value); }
 		}
 
 		/// <summary>
@@ -114,20 +105,20 @@ namespace ace
 		/// </summary>
 		/// <param name="child">追加する子オブジェクト</param>
 		/// <param name="mode">子オブジェクトの同期モード</param>
-		public void AddChild( Object2D child, ChildMode mode )
+		public void AddChild(Object2D child, ChildMode mode)
 		{
-			CoreObject.AddChild( child.CoreObject, (swig.eChildMode)mode );
-			children_.Add( child );
+			CoreObject.AddChild(child.CoreObject, (swig.eChildMode)mode);
+			children_.Add(child);
 		}
 
 		/// <summary>
 		/// 指定した子オブジェクトをこのインスタンスから削除する。
 		/// </summary>
 		/// <param name="child"></param>
-		public void RemoveChild( Object2D child )
+		public void RemoveChild(Object2D child)
 		{
-			CoreObject.RemoveChild( child.CoreObject );
-			children_.Remove( child );
+			CoreObject.RemoveChild(child.CoreObject);
+			children_.Remove(child);
 		}
 
 		/// <summary>
@@ -135,48 +126,57 @@ namespace ace
 		/// </summary>
 		/// <param name="component">追加するコンポーネント</param>
 		/// <param name="key">コンポーネントに関連付けるキー</param>
-		public void AddComponent( Object2DComponent component, string key )
+		public void AddComponent(Object2DComponent component, string key)
 		{
-			componentsToBeAdded_[key] = component;
-			component.Owner = this;
+			componentManager_.Add(component, key);
+		}
+
+		/// <summary>
+		/// 指定したキーを持つコンポーネントを取得する。
+		/// </summary>
+		/// <param name="key">取得するコンポーネントのキー</param>
+		/// <returns>コンポーネント</returns>
+		public Object2DComponent GetComponent(string key)
+		{
+			return componentManager_.Get(key);
 		}
 
 		/// <summary>
 		/// 指定したコンポーネントをこの2Dオブジェクトから削除する。
 		/// </summary>
 		/// <param name="key">削除するコンポーネントを示すキー</param>
-		public void RemoveComponent( string key )
+		/// <returns>削除が成功したか否か。キーに対応するコンポーネントがなかった場合は false。</returns>
+		public bool RemoveComponent(string key)
 		{
-			components_[key].Owner = null;
-			components_.Remove( key );
+			return componentManager_.Remove(key);
 		}
 
-        /// <summary>
-        /// 通常の描画に加えてテクスチャを描画する。
-        /// </summary>
-        /// <param name="upperLeftPos">テクスチャの左上の描画位置</param>
-        /// <param name="upperRightPos">テクスチャの右上の描画位置</param>
-        /// <param name="lowerRightPos">テクスチャの右下の描画位置</param>
-        /// <param name="lowerLeftPos">テクスチャの左下の描画位置</param>
-        /// <param name="upperLeftCol">テクスチャの左上の頂点色</param>
-        /// <param name="upperRightCol">テクスチャの右上の頂点色</param>
-        /// <param name="lowerRightCol">テクスチャの右下の頂点色</param>
-        /// <param name="lowerLeftCol">テクスチャの左下の頂点色</param>
-        /// <param name="upperLeftUV">テクスチャの左上のUV値</param>
-        /// <param name="upperRightUV">テクスチャの右上のUV値</param>
-        /// <param name="lowerRightUV">テクスチャの右下のUV値</param>
-        /// <param name="lowerLeftUV">テクスチャの左下のUV値</param>
-        /// <param name="texture">描画するテクスチャ</param>
-        /// <param name="alphaBlend">アルファブレンドの種類</param>
-        /// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
+		/// <summary>
+		/// 通常の描画に加えてテクスチャを描画する。
+		/// </summary>
+		/// <param name="upperLeftPos">テクスチャの左上の描画位置</param>
+		/// <param name="upperRightPos">テクスチャの右上の描画位置</param>
+		/// <param name="lowerRightPos">テクスチャの右下の描画位置</param>
+		/// <param name="lowerLeftPos">テクスチャの左下の描画位置</param>
+		/// <param name="upperLeftCol">テクスチャの左上の頂点色</param>
+		/// <param name="upperRightCol">テクスチャの右上の頂点色</param>
+		/// <param name="lowerRightCol">テクスチャの右下の頂点色</param>
+		/// <param name="lowerLeftCol">テクスチャの左下の頂点色</param>
+		/// <param name="upperLeftUV">テクスチャの左上のUV値</param>
+		/// <param name="upperRightUV">テクスチャの右上のUV値</param>
+		/// <param name="lowerRightUV">テクスチャの右下のUV値</param>
+		/// <param name="lowerLeftUV">テクスチャの左下のUV値</param>
+		/// <param name="texture">描画するテクスチャ</param>
+		/// <param name="alphaBlend">アルファブレンドの種類</param>
+		/// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
 		/// <remarks>OnDrawAdditionallyの中以外では実行してはいけない。</remarks>
-        public void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
-            Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
-            Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-            Texture2D texture, AlphaBlendMode alphaBlend, int priority)
-        {
-            Layer.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture, alphaBlend, priority);
-        }
+		public void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+			Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+		{
+			Layer.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture, alphaBlend, priority);
+		}
 
 		/// <summary>
 		/// 通常の描画に加えて文字列を描画する。
@@ -196,10 +196,10 @@ namespace ace
 			Layer.DrawTextAdditionally(pos, color, font, text, writingDirection, alphaBlend, priority);
 		}
 
-        /// <summary>
-        /// オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
-        /// </summary>
-        protected virtual void OnStart() { }
+		/// <summary>
+		/// オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
+		/// </summary>
+		protected virtual void OnStart() { }
 
 		/// <summary>
 		/// オーバーライドして、この2Dオブジェクトの更新処理を記述できる。
@@ -221,52 +221,25 @@ namespace ace
 
 		internal void Update()
 		{
-			if( !IsUpdated || !IsAlive )
+			if(!IsUpdated || !IsAlive)
 			{
 				return;
 			}
 
 			OnUpdate();
-			UpdateComponents();
-		}
-
-		private void UpdateComponents()
-		{
-			foreach(var item in componentsToBeAdded_)
-			{
-				components_.Add(item.Key, item.Value);
-			}
-			componentsToBeAdded_.Clear();
-
-			var vanished = new List<string>();
-
-			foreach( var item in components_ )
-			{
-				item.Value.Update();
-				if( !item.Value.IsAlive )
-				{
-					vanished.Add( item.Key );
-				}
-			}
-
-			foreach( var item in vanished )
-			{
-				components_.Remove( item );
-			}
+			componentManager_.Update();
 		}
 
 		internal void DrawAdditionally()
 		{
-			if( !IsDrawn || !IsAlive )
+			if(!IsDrawn || !IsAlive)
 			{
 				return;
 			}
 			OnDrawAdditionally();
 		}
 
-		private Dictionary<string, Object2DComponent> components_ { get; set; }
-
-		private Dictionary<string, Object2DComponent> componentsToBeAdded_ { get;set; }
+		private ComponentManager<Object2D, Object2DComponent> componentManager_ { get; set; }
 
 		private List<Object2D> children_ { get; set; }
 
