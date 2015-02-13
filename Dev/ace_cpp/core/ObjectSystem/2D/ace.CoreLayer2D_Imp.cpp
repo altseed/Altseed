@@ -363,15 +363,6 @@ namespace ace
 			}
 
 		}
-
-		//一時的にエフェクトは無条件に描画
-		for (auto& x : m_objects)
-		{
-			if (x->GetIsAlive() && x->GetObjectType() == Object2DType::Effect)
-			{
-				x->Draw(m_renderer);
-			}
-		}
 	}
 
 #else
@@ -389,6 +380,17 @@ namespace ace
 
 	void CoreLayer2D_Imp::DrawAdditionalObjects()
 	{
+
+#if __CULLING_2D__
+		//一時的にエフェクトは無条件に描画(本来ここではない)
+		for (auto& x : m_objects)
+		{
+			if (x->GetIsAlive() && x->GetObjectType() == Object2DType::Effect)
+			{
+				x->Draw(m_renderer);
+			}
+		}
+#endif
 
 		for (auto& sprite : sprites)
 		{
