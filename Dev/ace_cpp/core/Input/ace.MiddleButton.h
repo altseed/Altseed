@@ -1,17 +1,17 @@
 ﻿#pragma once
 
-#include "ace.IMouseWheelableButtonState.h"
+#include "ace.MouseButtonState.h"
 
 namespace ace{
 
-	class MiddleButton : public IMouseWheelableButtonState
+	class MiddleButton
 	{
 	private:
 		MouseButtonState m_mouseButtonState;
 		double m_rotation;
 	public:
-		const MouseButtonState GetButtonState() const;
-		const double GetRotation() const;
+		virtual const MouseButtonState GetButtonState() const;
+		virtual const double GetRotation() const;
 		MiddleButton(MouseButtonState mouseButtonState,double rotation);
 		MiddleButton(){}
 	};

@@ -21,6 +21,10 @@ namespace ace{
 		m_preHitMiddle = false;
 		m_preHitRight = false;
 
+		m_leftButton = NULL;
+		m_rightButton = NULL;
+		m_middleButton = NULL;
+
 		GLFWwindow *window = window_Imp->GetWindow();
 		glfwSetScrollCallback(window, GetWheel);
 
@@ -33,6 +37,10 @@ namespace ace{
 		double mx, my;
 		glfwGetCursorPos(m_window, &mx, &my);
 		m_position = Vector2DF((float) mx, (float) my);
+
+		SafeDelete(m_leftButton);
+		SafeDelete(m_rightButton);
+		SafeDelete(m_middleButton);
 
 		int leftState = glfwGetMouseButton(m_window, GLFW_MOUSE_BUTTON_LEFT);
 		if (leftState == GLFW_PRESS){
