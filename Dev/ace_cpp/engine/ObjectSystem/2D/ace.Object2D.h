@@ -3,6 +3,7 @@
 #include <list>
 #include "../../ace.CoreToEngine.h"
 #include "../Component/ace.Object2DComponent.h"
+#include "../Component/ace.ComponentManager.h"
 
 namespace ace
 {
@@ -23,6 +24,7 @@ namespace ace
 		std::list<Object2D::Ptr> m_children;
 		std::map<astring, Object2DComponent::Ptr> m_components;
 		std::map<astring, Object2DComponent::Ptr> m_componentsToBeAdded;
+		ComponentManager<Object2D, Object2DComponent::Ptr> m_componentManager;
 		bool m_isUpdated;
 		bool m_isDrawn;
 
@@ -30,8 +32,6 @@ namespace ace
 		void Update();
 		void SetLayer(Layer2D* layer);
 		virtual CoreObject2D* GetCoreObject() const = 0;
-
-		void UpdateComponents();
 
 	protected:
 		/**
@@ -161,7 +161,7 @@ namespace ace
 			@brief	指定したコンポーネントを削除する。
 			@param	key		削除するコンポーネントを示すキー
 		*/
-		void RemoveComponent(astring key);
+		bool RemoveComponent(astring key);
 
 
 		/**

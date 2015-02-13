@@ -2,6 +2,7 @@
 #pragma once
 
 #include <ace.common.Base.h>
+#include "ace.ComponentManager.h"
 
 namespace ace
 {
@@ -12,7 +13,11 @@ namespace ace
 	*/
 	class Object2DComponent
 	{
+	public:
+		typedef std::shared_ptr<Object2DComponent> Ptr;
+
 		friend class Object2D;
+		friend class ComponentManager<Object2D, Object2DComponent::Ptr>;
 
 	private:
 		Object2D* m_owner;
@@ -29,8 +34,6 @@ namespace ace
 		virtual void OnUpdate() = 0;
 
 	public:
-		typedef std::shared_ptr<Object2DComponent> Ptr;
-
 		/**
 			@brief	コンストラクタ
 		*/
