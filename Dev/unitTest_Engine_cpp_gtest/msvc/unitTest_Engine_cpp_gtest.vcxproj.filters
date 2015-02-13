@@ -131,6 +131,9 @@
     <ClCompile Include="..\File\StaticFile_NonePackage_AddDefaultRootDirectory.cpp">
       <Filter>File</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\VanishOwnerInComponent.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
