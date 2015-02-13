@@ -78,7 +78,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(ObjectSystem, VanishOwnerInComponent, true)
+	CALL_ENGINE_TEST(ObjectSystem, ParentObject, true)
 	return 0;
 
 	
