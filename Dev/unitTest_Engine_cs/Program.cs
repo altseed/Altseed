@@ -12,9 +12,11 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-			//TestSequencially(new ObjectSystem2D.VanishInComponent());
-			//Console.ReadKey();
-			//return;
+			/*
+			TestSequencially(new ObjectSystem2D.AddComponentByComponent());
+			Console.ReadKey();
+			return;
+			//*/
 
 			TestAll();
 

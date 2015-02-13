@@ -31,6 +31,7 @@ namespace ace
 			layersToDraw_ = new List<Layer>();
 			layersToUpdate_ = new List<Layer>();
 			components_ = new Dictionary<string, SceneComponent>();
+			componentsToBeAdded_ = new Dictionary<string, SceneComponent>();
 
             alreadyFirstUpdate = false;
 		}
@@ -134,8 +135,8 @@ namespace ace
 		/// <param name="key">コンポーネントに関連付けるキー</param>
 		public void AddComponent( SceneComponent component, string key )
 		{
+			componentsToBeAdded_[key] = component;
 			component.Owner = this;
-			components_[key] = component;
 		}
 
 		/// <summary>
@@ -258,6 +259,12 @@ namespace ace
 
 		private void UpdateComponents()
 		{
+			foreach(var item in componentsToBeAdded_)
+			{
+				components_.Add(item.Key, item.Value);
+			}
+			componentsToBeAdded_.Clear();
+
 			var vanished = new List<string>();
 
 			foreach( var item in components_ )
@@ -330,7 +337,9 @@ namespace ace
 
 		private List<Layer> layersToUpdate_;
 
-		private Dictionary<string, SceneComponent> components_;
+		private Dictionary<string, SceneComponent> components_ { get; set; }
+
+		private Dictionary<string, SceneComponent> componentsToBeAdded_ { get; set; }
 
         private bool alreadyFirstUpdate;
 

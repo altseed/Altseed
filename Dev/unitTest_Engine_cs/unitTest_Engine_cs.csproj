@@ -66,6 +66,7 @@
     <Compile Include="IO\StaticFile_Package.cs" />
     <Compile Include="Log\Log.cs" />
     <Compile Include="Graphics\2D\CameraObject2D.cs" />
+    <Compile Include="ObjectSystem2D\AddComponentByComponent.cs" />
     <Compile Include="ObjectSystem2D\CustomObject.cs" />
     <Compile Include="ObjectSystem2D\LayerComponent.cs" />
     <Compile Include="ObjectSystem2D\LayersFlag.cs" />

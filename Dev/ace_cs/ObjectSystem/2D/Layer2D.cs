@@ -29,6 +29,7 @@ namespace ace
 			objects_ = new List<Object2D>();
 			
 			components_ = new Dictionary<string, Layer2DComponent>();
+			componentsToBeAdded_ = new Dictionary<string, Layer2DComponent>();
 
 			commonObject = coreLayer2D;
 		}
@@ -107,7 +108,7 @@ namespace ace
 		/// <param name="key">コンポーネントに関連付けるキー</param>
 		public void AddComponent(Layer2DComponent component, string key)
 		{
-			components_[key] = component;
+			componentsToBeAdded_[key] = component;
 			component.Owner = this;
 		}
 
@@ -224,6 +225,12 @@ namespace ace
 
 		private void UpdateComponents()
 		{
+			foreach(var item in componentsToBeAdded_)
+			{
+				components_.Add(item.Key, item.Value);
+			}
+			componentsToBeAdded_.Clear();
+
 			var vanished = new List<string>();
 
 			foreach( var item in components_ )
@@ -261,6 +268,8 @@ namespace ace
 		private List<Object2D> objects_ { get; set; }
 
 		private Dictionary<string, Layer2DComponent> components_ { get; set; }
+
+		private Dictionary<string, Layer2DComponent> componentsToBeAdded_ { get; set; }
 
 		List<Object2D> beVanished = new List<Object2D>();
 	}

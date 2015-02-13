@@ -16,6 +16,7 @@ namespace ace
 		public Object2D()
 		{
 			components_ = new Dictionary<string, Object2DComponent>();
+			componentsToBeAdded_ = new Dictionary<string, Object2DComponent>();
 			children_ = new List<Object2D>();
 			IsUpdated = true;
 		}
@@ -136,8 +137,8 @@ namespace ace
 		/// <param name="key">コンポーネントに関連付けるキー</param>
 		public void AddComponent( Object2DComponent component, string key )
 		{
+			componentsToBeAdded_[key] = component;
 			component.Owner = this;
-			components_[key] = component;
 		}
 
 		/// <summary>
@@ -231,6 +232,12 @@ namespace ace
 
 		private void UpdateComponents()
 		{
+			foreach(var item in componentsToBeAdded_)
+			{
+				components_.Add(item.Key, item.Value);
+			}
+			componentsToBeAdded_.Clear();
+
 			var vanished = new List<string>();
 
 			foreach( var item in components_ )
@@ -258,6 +265,8 @@ namespace ace
 		}
 
 		private Dictionary<string, Object2DComponent> components_ { get; set; }
+
+		private Dictionary<string, Object2DComponent> componentsToBeAdded_ { get;set; }
 
 		private List<Object2D> children_ { get; set; }
 
