@@ -22,6 +22,7 @@ namespace ace
 		Layer2D* m_owner;
 		std::list<Object2D::Ptr> m_children;
 		std::map<astring, Object2DComponent::Ptr> m_components;
+		std::map<astring, Object2DComponent::Ptr> m_componentsToBeAdded;
 		bool m_isUpdated;
 		bool m_isDrawn;
 

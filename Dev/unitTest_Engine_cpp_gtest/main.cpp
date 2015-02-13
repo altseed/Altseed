@@ -53,6 +53,7 @@ EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
 EXTERN_ENGINE_TEST(ObjectSystem, ParentObject)
 EXTERN_ENGINE_TEST(ObjectSystem, VanishInComponent)
 EXTERN_ENGINE_TEST(ObjectSystem, VanishOwnerInComponent)
+//EXTERN_ENGINE_TEST(ObjectSystem, AddComponentByComponent)
 
 EXTERN_ENGINE_TEST(Sound, Sound)
 
@@ -78,7 +79,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(ObjectSystem, VanishOwnerInComponent, true)
+	CALL_ENGINE_TEST(ObjectSystem, ParentObject, false)
 	return 0;
 
 	
