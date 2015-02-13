@@ -12,6 +12,7 @@ namespace ace
 		: m_owner(nullptr)
 		, m_children(list<Object2D::Ptr>())
 		, m_components(map<astring, Object2DComponent::Ptr>())
+		, m_componentsToBeAdded(map<astring, Object2DComponent::Ptr>())
 		, m_isUpdated(true)
 		, m_isDrawn(true)
 	{
@@ -34,6 +35,12 @@ namespace ace
 
 	void Object2D::UpdateComponents()
 	{
+		for (auto& c : m_componentsToBeAdded)
+		{
+			m_components.insert(c);
+		}
+		m_componentsToBeAdded.clear();
+
 		auto beVanished = vector<astring>();
 		for (auto& x : m_components)
 		{
@@ -128,7 +135,7 @@ namespace ace
 
 	void Object2D::AddComponent(const Object2DComponent::Ptr& component, astring key)
 	{
-		m_components[key] = component;
+		m_componentsToBeAdded[key] = component;
 		component->SetOwner(this);
 	}
 

@@ -134,6 +134,9 @@
     <ClCompile Include="..\ObjectSystem\VanishOwnerInComponent.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\AddComponentByComponent.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
