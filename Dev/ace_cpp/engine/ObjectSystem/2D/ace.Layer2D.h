@@ -91,7 +91,7 @@ namespace ace
 			@brief	指定したコンポーネントをこのインスタンスから削除する。
 			@param	key		削除するコンポーネントを示すキー
 		*/
-		void RemoveComponent(astring key);
+		bool RemoveComponent(astring key);
 
 		/**
 			@brief	通常の描画に加えてテクスチャを描画する。

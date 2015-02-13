@@ -15,7 +15,6 @@ namespace ace
 		, m_componentsToBeAdded(map<astring, Object2DComponent::Ptr>())
 		, m_isUpdated(true)
 		, m_isDrawn(true)
-		, m_componentManager(ComponentManager<Object2D, Object2DComponent::Ptr>(this))
 	{
 	}
 
@@ -34,6 +33,30 @@ namespace ace
 		OnStart();
 	}
 
+	void Object2D::UpdateComponents()
+	{
+		for (auto& c : m_componentsToBeAdded)
+		{
+			m_components.insert(c);
+		}
+		m_componentsToBeAdded.clear();
+
+		auto beVanished = vector<astring>();
+		for (auto& x : m_components)
+		{
+			x.second->Update();
+			if (!x.second->GetIsAlive())
+			{
+				beVanished.push_back(x.first);
+			}
+		}
+
+		for (auto& x : beVanished)
+		{
+			RemoveComponent(x);
+		}
+	}
+
 	void Object2D::Update()
 	{
 		if (!m_isUpdated)
@@ -42,7 +65,7 @@ namespace ace
 		}
 
 		OnUpdate();
-		m_componentManager.Update();
+		UpdateComponents();
 	}
 
 	void Object2D::OnStart()
@@ -112,17 +135,40 @@ namespace ace
 
 	void Object2D::AddComponent(const Object2DComponent::Ptr& component, astring key)
 	{
-		m_componentManager.Add(component, key);
+		m_componentsToBeAdded[key] = component;
+		component->SetOwner(this);
 	}
 
 	Object2DComponent::Ptr& Object2D::GetComponent(astring key)
 	{
-		return m_componentManager.Get(key);
+		if (m_components.find(key) != m_components.end())
+		{
+			return m_components[key];
+		}
+		else
+		{
+			return m_componentsToBeAdded[key];
+		}
 	}
 
 	bool Object2D::RemoveComponent(astring key)
 	{
-		return m_componentManager.Remove(key);
+		if (m_components.find(key) != m_components.end())
+		{
+			m_components[key]->SetOwner(nullptr);
+			m_components.erase(key);
+			return true;
+		}
+		else if (m_componentsToBeAdded.find(key) != m_componentsToBeAdded.end())
+		{
+			m_componentsToBeAdded[key]->SetOwner(nullptr);
+			m_componentsToBeAdded.erase(key);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 #pragma region Get/Set

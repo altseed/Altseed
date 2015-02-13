@@ -123,7 +123,7 @@ namespace ace
 			@brief	キーの示すコンポーネントをこのインスタンスから削除する。
 			@param	key		削除するコンポーネントを示すキー
 		*/
-		void RemoveComponent(astring key);
+		bool RemoveComponent(astring key);
 
 		/**
 			@brief	全てのレイヤーとポストエフェクトが描画され終わった画面をテクスチャとして取得する。

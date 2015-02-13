@@ -272,17 +272,37 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	SceneComponent::Ptr& Scene::GetComponent(astring key)
 	{
-		return m_components[key];
+		if (m_components.find(key) != m_components.end())
+		{
+			return m_components[key];
+		}
+		else
+		{
+			return m_componentsToBeAdded[key];
+		}
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Scene::RemoveComponent(astring key)
+	bool Scene::RemoveComponent(astring key)
 	{
-		auto it = m_components.find(key);
-		it->second->SetOwner(nullptr);
-		m_components.erase(it);
+		if (m_components.find(key) != m_components.end())
+		{
+			m_components[key]->SetOwner(nullptr);
+			m_components.erase(key);
+			return true;
+		}
+		else if (m_componentsToBeAdded.find(key) != m_componentsToBeAdded.end())
+		{
+			m_componentsToBeAdded[key]->SetOwner(nullptr);
+			m_componentsToBeAdded.erase(key);
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 
 	//----------------------------------------------------------------------------------
