@@ -54,6 +54,7 @@
     <ClCompile Include="..\Graphics\2D\TextObject2D.cpp" />
     <ClCompile Include="..\ObjectSystem\TrasingCamera.cpp" />
     <ClCompile Include="..\ObjectSystem\VanishInComponent.cpp" />
+    <ClCompile Include="..\ObjectSystem\VanishOwnerInComponent.cpp" />
     <ClCompile Include="..\PCH\ace.UnitTestEngineCpp.PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
