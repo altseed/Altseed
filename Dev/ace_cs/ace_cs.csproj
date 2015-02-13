@@ -177,8 +177,6 @@
     <Compile Include="swig\Graphics.cs" />
     <Compile Include="swig\GraphicsDeviceType.cs" />
     <Compile Include="swig\Graphics_Imp.cs" />
-    <Compile Include="swig\IMouseButtonState.cs" />
-    <Compile Include="swig\IMouseWheelableButtonState.cs" />
     <Compile Include="swig\IReference.cs" />
     <Compile Include="swig\Joystick.cs" />
     <Compile Include="swig\JoystickButtonState.cs" />
