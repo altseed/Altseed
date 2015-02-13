@@ -169,9 +169,6 @@
       <Filter>Profiler</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ace.ReferenceObject.h" />
-    <ClInclude Include="..\core\Input\ace.IMouseButtonState.h">
-      <Filter>Input</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Input\ace.Keyboard.h">
       <Filter>Input</Filter>
     </ClInclude>
@@ -201,9 +198,6 @@
     </ClInclude>
     <ClInclude Include="..\core\ace.Core.Base.h" />
     <ClInclude Include="..\core\ace.Core.Base_Imp.h" />
-    <ClInclude Include="..\core\Input\ace.IMouseWheelableButtonState.h">
-      <Filter>Input</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Input\ace.Joystick.h">
       <Filter>Input</Filter>
     </ClInclude>
@@ -875,6 +869,9 @@
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
     <ClInclude Include="..\core\dll.h" />
+    <ClInclude Include="..\core\Input\ace.MouseButtonState.h">
+      <Filter>Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">

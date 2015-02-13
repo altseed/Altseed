@@ -325,8 +325,6 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GrayScale_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\Sepia_PS.h" />
-    <ClInclude Include="..\core\Input\ace.IMouseButtonState.h" />
-    <ClInclude Include="..\core\Input\ace.IMouseWheelableButtonState.h" />
     <ClInclude Include="..\core\Input\ace.Joystick.h" />
     <ClInclude Include="..\core\Input\ace.JoystickContainer_Imp.h" />
     <ClInclude Include="..\core\Input\ace.Joystick_Imp.h" />
@@ -334,6 +332,7 @@
     <ClInclude Include="..\core\Input\ace.Keyboard_Imp.h" />
     <ClInclude Include="..\core\Input\ace.MiddleButton.h" />
     <ClInclude Include="..\core\Input\ace.Mouse.h" />
+    <ClInclude Include="..\core\Input\ace.MouseButtonState.h" />
     <ClInclude Include="..\core\Input\ace.Mouse_Imp.h" />
     <ClInclude Include="..\core\Input\ace.SideButton.h" />
     <ClInclude Include="..\core\IO\ace.File.h" />

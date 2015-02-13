@@ -81,8 +81,7 @@ engineHeader.readLines("ace_cpp/common/Utility/ace.BinaryWriter.h")
 engineHeader.readLines("ace_cpp/core/ace.Core.Base.h")
 engineHeader.readLines("ace_cpp/core/ace.ReferenceObject.h")
 
-engineHeader.readLines("ace_cpp/core/Input/ace.IMouseButtonState.h")
-engineHeader.readLines("ace_cpp/core/Input/ace.IMouseWheelableButtonState.h");
+engineHeader.readLines("ace_cpp/core/Input/ace.MouseButtonState.h")
 engineHeader.readLines("ace_cpp/core/Input/ace.SideButton.h")
 engineHeader.readLines("ace_cpp/core/Input/ace.MiddleButton.h")
 engineHeader.readLines("ace_cpp/core/Input/ace.Mouse.h")
