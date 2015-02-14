@@ -22,16 +22,16 @@ namespace ace
         internal SideButton() { }
 
         /// <summary>
-        /// 押下状態をセットする関数
+        /// ボタンの押し状態をセットする関数
         /// </summary>
-        /// <param name="mButtonState">押下状態</param>
+        /// <param name="mButtonState">押し状態</param>
         internal void SetState(MouseButtonState mButtonState)
         {
             mouseButtonState=mButtonState;
         }
 
         /// <summary>
-        /// 押下状態を返すプロパティ
+        /// ボタンの押し状態を返すプロパティ
         /// </summary>
         public MouseButtonState ButtonState
         {

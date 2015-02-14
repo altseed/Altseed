@@ -46,7 +46,7 @@ namespace ace
         }
 
         /// <summary>
-        /// 押し状態を返すプロパティ
+        /// ボタンの押し状態を返すプロパティ
         /// </summary>
         public MouseButtonState ButtonState
         {
