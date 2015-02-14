@@ -225,7 +225,10 @@ $RECYCLE.BIN/
 /Culling2D-master/
 /culling3d_bin/
 /Culling3D-master/
+/box2d_bin/
+/Box2D_v2.3.0/
 
+Box2D_v2.3.0.7z
 libpng-1.6.6.tar.gz
 zlib-1.2.8.tar.gz
 master.zip
@@ -237,6 +240,7 @@ master.zip
 /Dev/amcr-glfw/
 /Dev/include/GLFW/
 /Dev/include/gtest/
+/Dev/include/Box2D/
 /Dev/include/ace.h
 /Dev/include/Effekseer.h
 /Dev/include/EffekseerRendererDX11.h
