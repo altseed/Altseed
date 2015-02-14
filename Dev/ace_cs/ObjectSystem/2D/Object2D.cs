@@ -8,7 +8,7 @@ namespace ace
 	/// <summary>
 	/// 更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
 	/// </summary>
-	public abstract class Object2D : IDestroy
+	public abstract class Object2D : Content, IDestroy
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -47,6 +47,7 @@ namespace ace
 		/// このインスタンスを管理している ace.Layer2D クラスのインスタンスを取得する。
 		/// </summary>
 		public Layer2D Layer { get; internal set; }
+
 
 		/// <summary>
 		/// このオブジェクトが持っている子オブジェクトのコレクションを取得する。
@@ -219,15 +220,18 @@ namespace ace
 			OnStart();
 		}
 
-		internal void Update()
+		internal override bool GetIsAlive()
 		{
-			if(!IsUpdated || !IsAlive)
-			{
-				return;
-			}
+			return IsAlive;
+		}
 
-			OnUpdate();
-			componentManager_.Update();
+		internal override void Update()
+		{
+			if(IsUpdated && IsAlive)
+			{
+				OnUpdate();
+				componentManager_.Update();
+			}
 		}
 
 		internal void DrawAdditionally()

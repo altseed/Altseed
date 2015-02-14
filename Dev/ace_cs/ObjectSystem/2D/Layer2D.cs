@@ -26,9 +26,8 @@ namespace ace
 
 			GC.Layer2Ds.AddObject(p, this);
 
-			objects_ = new List<Object2D>();
-
-			componentManager_ = new ComponentManager<Layer2D, Layer2DComponent>(this);
+			contentsManager = new ContentsManager<Object2D>();
+			componentManager = new ComponentManager<Layer2D, Layer2DComponent>(this);
 
 			commonObject = coreLayer2D;
 		}
@@ -62,7 +61,7 @@ namespace ace
 		/// </summary>
 		public IEnumerable<Object2D> Objects
 		{
-			get { return objects_; }
+			get { return contentsManager.Contents; }
 		}
 
 		/// <summary>
@@ -75,7 +74,8 @@ namespace ace
 			{
 				throw new InvalidOperationException("指定したオブジェクトは既に別のレイヤーに所属しています。");
 			}
-			objects_.Add(object2D);
+
+			contentsManager.Add(object2D);
 			coreLayer2D.AddObject(object2D.CoreObject);
 			object2D.Layer = this;
 			object2D.Start();
@@ -87,7 +87,7 @@ namespace ace
 		/// <param name="object2D">削除される2Dオブジェクト</param>
 		public void RemoveObject(Object2D object2D)
 		{
-			objects_.Remove(object2D);
+			contentsManager.Remove(object2D);
 			coreLayer2D.RemoveObject(object2D.CoreObject);
 			object2D.Layer = null;
 		}
@@ -99,7 +99,7 @@ namespace ace
 		/// <param name="key">コンポーネントに関連付けるキー</param>
 		public void AddComponent(Layer2DComponent component, string key)
 		{
-			componentManager_.Add(component, key);
+			componentManager.Add(component, key);
 		}
 
 		/// <summary>
@@ -109,7 +109,7 @@ namespace ace
 		/// <returns>コンポーネント</returns>
 		public Layer2DComponent GetComponent(string key)
 		{
-			return componentManager_.Get(key);
+			return componentManager.Get(key);
 		}
 
 		/// <summary>
@@ -119,7 +119,7 @@ namespace ace
 		/// <returns>削除が成功したか否か。キーに対応するコンポーネントがなかった場合は false。</returns>
 		public bool RemoveComponent(string key)
 		{
-			return componentManager_.Remove(key);
+			return componentManager.Remove(key);
 		}
 
 		/// <summary>
@@ -127,12 +127,12 @@ namespace ace
 		/// </summary>
 		public void Clear()
 		{
-			foreach(var obj in objects_)
+			foreach(var obj in contentsManager.Contents)
 			{
 				obj.Layer = null;
 			}
 			coreLayer2D.Clear();
-			objects_.Clear();
+			contentsManager.Clear();
 		}
 
 		/// <summary>
@@ -198,29 +198,10 @@ namespace ace
 			}
 
 			OnUpdating();
-			UpdateObjects();
-			componentManager_.Update();
+			contentsManager.Update();
+			componentManager.Update();
 
 			OnUpdated();
-		}
-
-		private void UpdateObjects()
-		{
-			foreach(var item in objects_)
-			{
-				item.Update();
-				if(!item.IsAlive)
-				{
-					beVanished.Add(item);
-				}
-			}
-
-			foreach(var o in beVanished)
-			{
-				RemoveObject(o);
-			}
-
-			beVanished.Clear();
 		}
 
 		internal override void DrawAdditionally()
@@ -230,7 +211,7 @@ namespace ace
 				return;
 			}
 
-			foreach(var item in objects_)
+			foreach(var item in contentsManager.Contents)
 			{
 				item.DrawAdditionally();
 			}
@@ -240,10 +221,8 @@ namespace ace
 
 		private swig.CoreLayer2D coreLayer2D { get; set; }
 
-		private List<Object2D> objects_ { get; set; }
+		private ContentsManager<Object2D> contentsManager { get; set; }
 
-		private ComponentManager<Layer2D, Layer2DComponent> componentManager_ { get; set; }
-
-		List<Object2D> beVanished = new List<Object2D>();
+		private ComponentManager<Layer2D, Layer2DComponent> componentManager { get; set; }
 	}
 }

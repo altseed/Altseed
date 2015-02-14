@@ -8,15 +8,21 @@ namespace ace
 	/// <summary>
 	/// オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス
 	/// </summary>
-	public abstract class Layer
+	public abstract class Layer : Content
 	{
 		internal swig.CoreLayer commonObject = null;
 
 		public Layer()
 		{
+			IsAlive = true;
 			IsUpdated = true;
 			postEffects = new List<PostEffect>();
 		}
+
+		/// <summary>
+		/// このレイヤーが有効化どうかを取得する。Vanishメソッドを呼び出した後なら false。
+		/// </summary>
+		public bool IsAlive { get; private set; }
 
 		/// <summary>
 		/// レイヤーの更新を実行するかどうか取得または設定する。
@@ -63,9 +69,9 @@ namespace ace
 		{
 			commonObject.EndDrawing();
 
-			if (postEffects.Count > 0)
+			if(postEffects.Count > 0)
 			{
-				foreach (var p in postEffects)
+				foreach(var p in postEffects)
 				{
 					Scene.CoreScene.BeginPostEffect(p.SwigObject);
 

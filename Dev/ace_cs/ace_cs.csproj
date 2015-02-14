@@ -112,6 +112,8 @@
     <Compile Include="ObjectSystem\2D\Object2D.cs" />
     <Compile Include="ObjectSystem\ComponentManager.cs" />
     <Compile Include="ObjectSystem\Component.cs" />
+    <Compile Include="ObjectSystem\Contents.cs" />
+    <Compile Include="ObjectSystem\ContentsManager.cs" />
     <Compile Include="ObjectSystem\Layer.cs" />
     <Compile Include="ObjectSystem\2D\Layer2D.cs" />
     <Compile Include="ObjectSystem\ObjectSystemFactory.cs" />

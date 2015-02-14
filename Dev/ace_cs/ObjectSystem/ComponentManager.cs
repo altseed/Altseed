@@ -11,14 +11,18 @@ namespace ace
 		where TComponent : Component<TOwner>
 	{
 		private TOwner owner { get; set; }
-		private Dictionary<string, TComponent> components_ { get;set; }
-		private Dictionary<string, TComponent> componentsToBeAdded_ { get;set; }
+		private Dictionary<string, TComponent> components { get;set; }
+		private Dictionary<string, TComponent> beAdded { get;set; }
+		private List<string> beRemoved { get; set; }
+		private bool IsUpdating { get;set; }
 
 		public ComponentManager(TOwner owner)
 		{
 			this.owner = owner;
-			components_ = new Dictionary<string, TComponent>();
-			componentsToBeAdded_ = new Dictionary<string, TComponent>();
+			components = new Dictionary<string, TComponent>();
+			beAdded = new Dictionary<string, TComponent>();
+			beRemoved = new List<string>();
+			IsUpdating = false;
 		}
 
 		public void Add(TComponent component, string key)
@@ -28,34 +32,47 @@ namespace ace
 				throw new ArgumentNullException("component");
 			}
 
+			if(IsUpdating)
+			{
+				beAdded[key] = component;
+			}
+			else
+			{
+				components[key] = component;
+			}
 			component.Owner = owner;
-			componentsToBeAdded_[key] = component;
 		}
 
 		public TComponent Get(string key)
 		{
-			if(components_.ContainsKey(key))
+			if(components.ContainsKey(key))
 			{
-				return components_[key];
+				return components[key];
+			}
+			else if(beAdded.ContainsKey(key))
+			{
+				return beAdded[key];
 			}
 			else
 			{
-				return componentsToBeAdded_[key];
+				return null;
 			}
 		}
 
 		public bool Remove(string key)
 		{
-			if(components_.ContainsKey(key))
+			var c = Get(key);
+			if(c != null)
 			{
-				components_[key].Owner = null;
-                components_.Remove(key);
-				return true;
-			}
-			else if(componentsToBeAdded_.ContainsKey(key))
-			{
-				componentsToBeAdded_[key].Owner = null;
-                componentsToBeAdded_.Remove(key);
+				if(IsUpdating)
+				{
+					beRemoved.Add(key);
+				}
+				else
+				{
+					components.Remove(key);
+				}
+				c.Owner = null;
 				return true;
 			}
 			else
@@ -66,14 +83,9 @@ namespace ace
 
 		public void Update()
 		{
-			foreach(var item in componentsToBeAdded_)
-			{
-				components_.Add(item.Key, item.Value);
-			}
-			componentsToBeAdded_.Clear();
-
+			IsUpdating = true;
 			var beVanished = new List<string>();
-			foreach(var item in components_)
+			foreach(var item in components)
 			{
 				item.Value.Update();
 				if(!item.Value.IsAlive)
@@ -81,11 +93,25 @@ namespace ace
 					beVanished.Add(item.Key);
 				}
 			}
+			IsUpdating = false;
 
 			foreach(var item in beVanished)
 			{
-				components_.Remove(item);
+				components.Remove(item);
 			}
+
+			foreach(var item in beAdded)
+			{
+				components.Add(item.Key, item.Value);
+			}
+
+			foreach(var item in beRemoved)
+			{
+				components.Remove(item);
+			}
+
+			beAdded.Clear();
+			beRemoved.Clear();
 		}
 	}
 }

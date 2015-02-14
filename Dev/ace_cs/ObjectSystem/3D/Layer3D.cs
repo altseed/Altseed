@@ -33,7 +33,7 @@ namespace ace
 
 			GC.Layer3Ds.AddObject(p, this);
 
-			objects_ = new List<Object3D>();
+			contentsManager = new ContentsManager<Object3D>();
 
 			commonObject = coreLayer3D;
 		}
@@ -68,7 +68,7 @@ namespace ace
 		/// </summary>
 		public IEnumerable<Object3D> Objects
 		{
-			get { return objects_; }
+			get { return contentsManager.Contents; }
 		}
 
 		/// <summary>
@@ -99,7 +99,7 @@ namespace ace
 			{
 				throw new InvalidOperationException("指定したオブジェクトは既に別のレイヤーに所属しています。");
 			}
-			objects_.Add(object3D);
+			contentsManager.Add(object3D);
 			coreLayer3D.AddObject(object3D.CoreObject);
 			object3D.Layer = this;
 			object3D.Start();
@@ -111,7 +111,7 @@ namespace ace
 		/// <param name="object3D">削除される3Dオブジェクト</param>
 		public void RemoveObject(Object3D object3D)
 		{
-			objects_.Remove(object3D);
+			contentsManager.Remove(object3D);
 			coreLayer3D.RemoveObject(object3D.CoreObject);
 			object3D.Layer = null;
 		}
@@ -262,24 +262,7 @@ namespace ace
 
 			OnUpdating();
 
-			var beVanished = new List<Object3D>();
-
-			foreach (var item in objects_)
-			{
-				item.Update();
-				if(!item.IsAlive)
-				{
-					beVanished.Add(item);
-				}
-			}
-			
-			foreach(var o in beVanished)
-			{
-				RemoveObject(o);
-			}
-
-			beVanished.Clear();
-		
+			contentsManager.Update();
 
 			OnUpdated();
 		}
@@ -291,7 +274,7 @@ namespace ace
 				return;
 			}
 
-			foreach (var item in objects_)
+			foreach (var item in contentsManager.Contents)
 			{
 				item.DrawAdditionally();
 			}
@@ -299,6 +282,7 @@ namespace ace
 			OnDrawAdditionally();
 		}
 
-		private List<Object3D> objects_ { get; set; }
+
+		private ContentsManager<Object3D> contentsManager { get;set; }
 	}
 }
