@@ -7,9 +7,24 @@ namespace ace{
 	*/
 	enum class JoystickButtonState:int
 	{
+		/**
+		@brief	ボタンをこのフレームで押した状態
+		*/
 		Push,
+
+		/**
+		@brief	ボタンをこのフレームで離した状態
+		*/
 		Release,
+
+		/**
+		@brief	ボタンを離し続けている状態
+		*/
 		Free,
+
+		/**
+		@brief	ボタンを押し続けている状態
+		*/
 		Hold
 	};
 

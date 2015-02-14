@@ -136,7 +136,25 @@ namespace ace{
 	*/
 	enum class KeyState:int
 	{
-		Push, Release, Hold, Free
+		/**
+		@brief キーをこのフレームで押した状態
+		*/
+		Push,
+
+		/**
+		@brief キーをこのフレームで離した状態
+		*/
+		Release,
+
+		/**
+		@brief キーを押し続けている状態
+		*/
+		Hold,
+
+		/**
+		@brief キーを離し続けている状態
+		*/
+		Free
 	};
 
 	/**
