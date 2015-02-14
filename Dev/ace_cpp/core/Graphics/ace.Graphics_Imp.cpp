@@ -646,7 +646,7 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadin
 	m_renderingThread = std::make_shared<RenderingThread>();
 
 	m_effectSetting = Effekseer::Setting::Create();
-	m_effectSetting->SetCoordinateSystem(Effekseer::eCoordinateSystem::COORDINATE_SYSTEM_RH);
+	m_effectSetting->SetCoordinateSystem(Effekseer::CoordinateSystem::RH);
 	m_effectSetting->SetEffectLoader(new EffectLoader(file));
 
 	m_shaderCache = new ShaderCache(this);
