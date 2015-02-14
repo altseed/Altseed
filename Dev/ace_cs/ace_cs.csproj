@@ -74,8 +74,7 @@
     <Compile Include="Graphics\Terrain3D.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
-    <Compile Include="Input\IMouseButtonState.cs" />
-    <Compile Include="Input\IMouseWheelableButtonState.cs" />
+    <Compile Include="Input\MouseButtonState.cs" />
     <Compile Include="Input\Joystick.cs" />
     <Compile Include="Input\JoystickContainer.cs" />
     <Compile Include="Input\Keyboard.cs" />
