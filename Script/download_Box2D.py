@@ -8,7 +8,12 @@ aceutils.rm(r'Box2D_V2.3.0.7z')
 aceutils.rmdir(r'Box2D_V2.3.0')
 
 aceutils.wget(r'https://box2d.googlecode.com/files/Box2D_v2.3.0.7z')
-aceutils.Uncompress7zip(r'Box2D_v2.3.0.7z')
+
+if aceutils.isWin():
+	aceutils.call('7za x -y Box2D_v2.3.0.7z')
+else:
+	aceutils.call('7za x -y Box2D_v2.3.0.7z')
+
 
 aceutils.editCmakeForACE(r'Box2D_v2.3.0/Box2D/CMakeLists.txt','cp932')
 
