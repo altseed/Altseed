@@ -1,7 +1,9 @@
 ﻿#pragma once
 
 namespace ace{
-
+	/**
+	@brief	ACEで扱うキーボードのキー一覧
+	*/
 	enum class Keys:int
 	{
 		Unknown,
@@ -129,14 +131,43 @@ namespace ace{
 		MAX
 	};
 
+	/**
+	@brief キーボードの押下状態を示す列挙型
+	*/
 	enum class KeyState:int
 	{
-		Push, Release, Hold, Free
+		/**
+		@brief キーをこのフレームで押した状態
+		*/
+		Push,
+
+		/**
+		@brief キーをこのフレームで離した状態
+		*/
+		Release,
+
+		/**
+		@brief キーを押し続けている状態
+		*/
+		Hold,
+
+		/**
+		@brief キーを離し続けている状態
+		*/
+		Free
 	};
 
+	/**
+	@brief キーボードからの入力を取得するクラス
+	*/
 	class Keyboard
 	{
 	public:
+		/**
+		@brief 特定のキーの押し状態をKeyState列挙型で返す
+		@param 押し状態を調べたいキー
+		@return 押し状態
+		*/
 		virtual const KeyState GetKeyState(Keys key) = 0;
 	};
 

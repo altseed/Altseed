@@ -71,8 +71,7 @@ fromCoreToEngine.readLines("ace_cpp/common/Graphics/ace.Color.h")
 fromCoreToEngine.readLines("ace_cpp/core/ace.Core.Base.h")
 fromCoreToEngine.readLines("ace_cpp/core/ace.ReferenceObject.h")
 
-fromCoreToEngine.readLines("ace_cpp/core/Input/ace.IMouseButtonState.h")
-fromCoreToEngine.readLines("ace_cpp/core/Input/ace.IMouseWheelableButtonState.h");
+fromCoreToEngine.readLines("ace_cpp/core/Input/ace.MouseButtonState.h")
 fromCoreToEngine.readLines("ace_cpp/core/Input/ace.SideButton.h")
 fromCoreToEngine.readLines("ace_cpp/core/Input/ace.MiddleButton.h")
 fromCoreToEngine.readLines("ace_cpp/core/Input/ace.Mouse.h")

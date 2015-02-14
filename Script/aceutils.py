@@ -85,7 +85,6 @@ def unzip(zip_filename):
 				unzip_file.close();
 	zip_file.close()
 
-
 def rm(path):
 	if os.path.exists(path):
 		os.remove(path)
@@ -111,12 +110,13 @@ def copy(src,dst):
 	print("copying from {0} to {1}".format(src, dst))
 	shutil.copy(src,dst)
 
-def copytree(src,dst,change=False):
+	
+def copytree(src,dst,change=False,ignoreList = None):
 	if change and os.path.exists(dst):
 		rmdir(dst)
 
 	if not os.path.exists(dst):
-		shutil.copytree(src,dst)
+		shutil.copytree(src,dst,ignore=ignoreList)
 
 def editCmakeForACE(path,enc='utf-8'):
 	# This script edits a cmake file for ACE.

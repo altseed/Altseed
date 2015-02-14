@@ -7,8 +7,7 @@
 #include "Profiler/ace.Profiler.h"
 #include "Profiler/ace.Profiler_Imp.h"
 
-#include "Input/ace.IMouseButtonState.h"
-#include "Input/ace.IMouseWheelableButtonState.h"
+#include "Input/ace.MouseButtonState.h"
 #include "Input/ace.MiddleButton.h"
 #include "Input/ace.SideButton.h"
 #include "Input/ace.Mouse_Imp.h"

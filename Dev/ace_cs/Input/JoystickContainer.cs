@@ -39,8 +39,8 @@ namespace ace
         /// <summary>
         /// 引数に指定した番目のジョイスティッククラスを返す
         /// </summary>
-        /// <param name="at">何番目のジョイスティッククラスをとるか</param>
-        /// <returns>ジョイスティッククラス</returns>
+        /// <param name="at">何番目のジョイスティッククラスを取得するか</param>
+        /// <returns>該当するジョイスティッククラス</returns>
         public ace.Joystick GetJoystickAt(int at)
         {
             return joysticks[at];

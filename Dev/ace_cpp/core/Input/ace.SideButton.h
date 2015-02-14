@@ -1,15 +1,23 @@
 ﻿#pragma once
 
-#include "ace.IMouseButtonState.h"
+#include "ace.MouseButtonState.h"
 
 namespace ace{
 
-	class SideButton:public IMouseButtonState
+	/**
+	@brief マウスの左右ボタンの状態を扱うクラス
+	*/
+	class SideButton
 	{
 	private:
 		MouseButtonState m_mouseButtonState;
 	public:
-		const MouseButtonState GetButtonState() const;
+		/**
+		@brief ボタンの押し状態を返す
+		@return ボタンの押し状態
+		*/
+		virtual const MouseButtonState GetButtonState() const;
+
 		SideButton(){}
 		SideButton(MouseButtonState mouseButtonState,bool doubleClicked);
 	};

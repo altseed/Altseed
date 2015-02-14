@@ -12,19 +12,19 @@ namespace ace
     public enum KeyState : int
     {
         /// <summary>
-        ///Release-キーを離した瞬間のみ返す
+        /// キーをこのフレームで離した状態
         /// </summary>
         Release = ace.swig.KeyState.Release,
         /// <summary>
-        /// Push-キーを押した瞬間のみ返す
+        /// キーをこのフレームで押した状態
         /// </summary>
         Push = ace.swig.KeyState.Push,
         /// <summary>
-        /// Free-キーを押していない時に返す
+        /// キーを離し続けている状態
         /// </summary>
         Free = ace.swig.KeyState.Free,
         /// <summary>
-        /// Hold-キーを押している時に返す
+        /// キーを押し続けている状態
         /// </summary>
         Hold = ace.swig.KeyState.Hold
     };
@@ -175,10 +175,10 @@ namespace ace
         }
 
         /// <summary>
-        /// 特定のキーの押下状態をKeyState列挙型で返す
+        /// 特定のキーの押し状態をKeyState列挙型で返す
         /// </summary>
-        /// <param name="key">押下状態を調べたいキー</param>
-        /// <returns>押下状態</returns>
+        /// <param name="key">押し状態を調べたいキー</param>
+        /// <returns>押し状態</returns>
         public KeyState GetKeyState(Keys key)
         {
             return (KeyState)keyboard.GetKeyState((swig.Keys)key);

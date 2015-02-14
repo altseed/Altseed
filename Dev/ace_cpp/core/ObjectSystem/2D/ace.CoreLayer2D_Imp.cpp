@@ -230,6 +230,8 @@ namespace ace
 
 					auto cObj = chipImp->GetCullingObject();
 
+					TransformedObjects.erase(std::remove(TransformedObjects.begin(), TransformedObjects.end(), cObj), TransformedObjects.end());
+
 					auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 					SafeDelete(userData);
@@ -240,6 +242,9 @@ namespace ace
 			else if (object->GetObjectType() != Object2DType::Camera)
 			{
 				auto cObj = o->GetCullingObject();
+
+				TransformedObjects.erase(std::remove(TransformedObjects.begin(), TransformedObjects.end(), cObj), TransformedObjects.end());
+
 				auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
 				SafeDelete(userData);
@@ -378,6 +383,12 @@ namespace ace
 	}
 #endif
 
+	void CoreLayer2D_Imp::ClearAdditionalObjects()
+	{
+		sprites.clear();
+		texts.clear();
+	}
+
 	void CoreLayer2D_Imp::DrawAdditionalObjects()
 	{
 
@@ -402,7 +413,6 @@ namespace ace
 				sprite.AlphaBlend_,
 				sprite.Priority);
 		}
-		sprites.clear();
 
 		for (auto& text : texts)
 		{
@@ -423,7 +433,6 @@ namespace ace
 				text.AlphaBlend_,
 				text.Priority_);
 		}
-		texts.clear();
 	}
 
 	void CoreLayer2D_Imp::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
@@ -485,34 +494,47 @@ namespace ace
 #endif
 
 			DrawAdditionalObjects();
+			ClearAdditionalObjects();
 		}
 		else
 		{
+#if __CULLING_2D__
 			for (auto& c : m_cameras)
 			{
+				//レンダラのキャッシュをリセット
+				m_renderer->ClearCache();
 
-#if __CULLING_2D__
+				//通常のオブジェクト摘み取りと描画
 				auto src = c->GetSrc();
 				DrawObjectsWithCulling(ace::RectF(src.X, src.Y, src.Width, src.Height));
-#else
-				DrawObjectsWithoutCulling();
-#endif
 
+				//追加オブジェクト描画
+				DrawAdditionalObjects();
+
+				//カメラバッファに内容をセット
+				c->SetForRenderTarget();
+				c->FlushToBuffer(m_renderer);
+
+				c->DrawBuffer(m_rendererForCamera);
 			}
 
-			DrawAdditionalObjects();
+			ClearAdditionalObjects();
+#else
 
-			m_rendererForCamera->ClearCache();
+			DrawObjectsWithoutCulling();
+
+			DrawAdditionalObjects();
+			ClearAdditionalObjects();
+
 			for (auto& c : m_cameras)
 			{
 				c->SetForRenderTarget();
 				c->FlushToBuffer(m_renderer);
-			}
 
-			for (auto& c : m_cameras)
-			{
 				c->DrawBuffer(m_rendererForCamera);
 			}
+
+#endif
 		}
 	}
 
@@ -531,7 +553,7 @@ namespace ace
 		}
 		else
 		{
-			
+
 			m_rendererForCamera->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
 			m_rendererForCamera->DrawCache();
 			m_rendererForCamera->ClearCache();
@@ -539,6 +561,7 @@ namespace ace
 
 		m_renderer->ClearCache();
 		m_rendererForCamera->ClearCache();
+
 	}
 
 	//----------------------------------------------------------------------------------

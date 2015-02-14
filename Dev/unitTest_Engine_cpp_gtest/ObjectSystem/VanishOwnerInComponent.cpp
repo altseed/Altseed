@@ -21,6 +21,8 @@ class ObjectSystem_VanishOwnerInComponent : public EngineTest
 	protected:
 		void OnUpdate()
 		{
+			GetOwner()->SetPosition(GetOwner()->GetPosition() + ace::Vector2DF(1, 0));
+
 			count++;
 			if (eTime == count)
 			{
@@ -30,8 +32,8 @@ class ObjectSystem_VanishOwnerInComponent : public EngineTest
 		}
 	};
 
-	shared_ptr<Layer2D> layer = nullptr;
-	shared_ptr<TextureObject2D> obj = nullptr;
+	//shared_ptr<Layer2D> layer = nullptr;
+	//shared_ptr<TextureObject2D> obj = nullptr;
 
 public:
 	ObjectSystem_VanishOwnerInComponent(bool isOpenGLMode)
@@ -43,8 +45,8 @@ protected:
 	void OnStart()
 	{
 		auto scene = std::make_shared<ace::Scene>();
-		layer = std::make_shared<ace::Layer2D>();
-		obj = std::make_shared<TextureObject2D>();
+		auto layer = std::make_shared<ace::Layer2D>();
+		auto obj = std::make_shared<TextureObject2D>();
 
 		ace::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
