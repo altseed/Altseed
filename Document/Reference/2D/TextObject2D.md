@@ -30,6 +30,7 @@
 | TurnLR | 個々の文字の描画左右反転フラグ|
 | TurnUL | 個々の文字の描画上下反転フラグ|
 | WritingDirection | 文字列の描画する方向(左から右:Horizontalもしくは上から下:Vertical) |
+| TextureFilterType | 描画時のテクスチャフィルタ(近傍補間:Nearestもしくは線形補間:Linear) |
 
 ### 主なイベント
 
