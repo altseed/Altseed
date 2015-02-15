@@ -110,10 +110,17 @@ namespace ace
 							auto x = x_ + xoffset;
 							auto y = y_ + yoffset;
 
+							auto h00 = heights[Max(0, x - 1) + gridWidthCount * Max(0, y - 1)];
+							auto h10 = heights[(x + 0) + gridWidthCount * Max(0, y - 1)];
+							auto h01 = heights[Max(0, x - 1) + gridWidthCount * (y + 0)];
+							auto h11 = heights[(x + 0) + gridWidthCount * (y + 0)];
+							auto h = 
+								(h00 + h10 + h01 + h11) / 4.0f;
+
 							Vertex v;
 
 							v.Position.X = (x - (gridWidthCount + 1) / 2) * gridSize;
-							v.Position.Y = 0.0f;
+							v.Position.Y = h;
 							v.Position.Z = (y - (gridHeightCount + 1) / 2) * gridSize;
 
 							v.Normal.X = 0.0f;
@@ -256,147 +263,6 @@ namespace ace
 			}
 		}
 
-		{
-			Proxy.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), (gridWidthCount + 1) * (gridHeightCount + 1), false);
-			Proxy.IB = g->CreateIndexBuffer_Imp((gridWidthCount) * (gridHeightCount) * 2 * 3, false, true);
-
-			{
-				Proxy.VB->Lock();
-				auto buf = Proxy.VB->GetBuffer<Vertex>((gridWidthCount + 1) * (gridHeightCount + 1));
-				for (auto y = 0; y < gridHeightCount + 1; y++)
-				{
-					for (auto x = 0; x < gridWidthCount + 1; x++)
-					{
-						Vertex v;
-
-						v.Position.X = (x - (gridWidthCount + 1) / 2) * gridSize;
-						v.Position.Y = 0.0f;
-						v.Position.Z = (y - (gridHeightCount + 1) / 2) * gridSize;
-
-						v.Normal.X = 0.0f;
-						v.Normal.Y = 1.0f;
-						v.Normal.Z = 0.0f;
-
-						v.Binormal.X = 0.0f;
-						v.Binormal.Y = 0.0f;
-						v.Binormal.Z = 1.0f;
-
-						v.VColor = Color(0, 0, 0, 255);
-
-						buf[x + y * (gridWidthCount + 1)] = v;
-					}
-				}
-
-				Proxy.VB->Unlock();
-			}
-
-			{
-				Proxy.IB->Lock();
-				auto buf = Proxy.IB->GetBuffer<int32_t>((gridWidthCount) * (gridHeightCount) * 2 * 3);
-				for (auto y = 0; y < gridHeightCount; y++)
-				{
-					for (auto x = 0; x < gridWidthCount; x++)
-					{
-						auto w = gridWidthCount + 1;
-
-						buf[(x + y * gridWidthCount) * 6 + 0] = (x) +(y) * w;
-						buf[(x + y * gridWidthCount) * 6 + 1] = (x + 1) + (y) * w;
-						buf[(x + y * gridWidthCount) * 6 + 2] = (x + 1) + (y + 1) * w;
-						buf[(x + y * gridWidthCount) * 6 + 3] = (x) +(y) * w;
-						buf[(x + y * gridWidthCount) * 6 + 4] = (x + 1) + (y + 1) * w;
-						buf[(x + y * gridWidthCount) * 6 + 5] = (x) +(y + 1) * w;
-					}
-				}
-				Proxy.IB->Unlock();
-			}
-		}
-
-		Polygons.clear();
-
-		for (auto& kv : surfaceNameToSurface)
-		{
-			auto ind = surfaceNameToIndex[kv.first];
-			auto& surface = surfaces[ind];
-
-			auto polygon = std::make_shared<Polygon>();
-
-			polygon->ColorTexture = kv.second.ColorTexture;
-			polygon->NormalTexture = kv.second.NormalTexture;
-			polygon->MetalnessTexture = kv.second.MetalnessTexture;
-			polygon->DensityTexture = g->CreateEmptyTexture2D(
-				gridWidthCount * pixelInGrid, 
-				gridHeightCount * pixelInGrid, 
-				TextureFormat::R8_UNORM);
-
-			TextureLockInfomation info;
-			if (polygon->DensityTexture->Lock(info))
-			{
-				memcpy(info.Pixels, surface.data(), (gridWidthCount * pixelInGrid) * (gridHeightCount * pixelInGrid));
-				polygon->DensityTexture->Unlock();
-			}
-
-			polygon->VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), (gridWidthCount + 1) * (gridHeightCount + 1), false);
-			polygon->IB = g->CreateIndexBuffer_Imp((gridWidthCount) * (gridHeightCount) * 2 * 3, false, true);
-
-			{
-				polygon->VB->Lock();
-				auto buf = polygon->VB->GetBuffer<Vertex>((gridWidthCount + 1) * (gridHeightCount + 1));
-				for (auto y = 0; y < gridHeightCount + 1; y++)
-				{
-					for (auto x = 0; x < gridWidthCount + 1; x++)
-					{
-						Vertex v;
-
-						v.Position.X = (x - (gridWidthCount + 1) / 2) * gridSize;
-						v.Position.Y = 0.0f;
-						v.Position.Z = (y - (gridHeightCount + 1) / 2) * gridSize;
-
-						v.UV1.X = x * gridSize / kv.second.Size;
-						v.UV1.Y = y * gridSize / kv.second.Size;
-
-						v.UV2.X = (float) x / (float) (gridWidthCount);
-						v.UV2.Y = (float) y / (float) (gridHeightCount);
-
-						v.Normal.X = 0.0f;
-						v.Normal.Y = 1.0f;
-						v.Normal.Z = 0.0f;
-
-						v.Binormal.X = 0.0f;
-						v.Binormal.Y = 0.0f;
-						v.Binormal.Z = 1.0f;
-
-						v.VColor = Color(255, 255, 255, 255);
-
-						buf[x + y * (gridWidthCount+1)] = v;
-					}
-				}
-
-				polygon->VB->Unlock();
-			}
-
-			{
-				polygon->IB->Lock();
-				auto buf = polygon->IB->GetBuffer<int32_t>((gridWidthCount) * (gridHeightCount) * 2 * 3);
-				for (auto y = 0; y < gridHeightCount; y++)
-				{
-					for (auto x = 0; x < gridWidthCount; x++)
-					{
-						auto w = gridWidthCount + 1;
-
-						buf[(x + y * gridWidthCount) * 6 + 0] = (x) +(y) * w;
-						buf[(x + y * gridWidthCount) * 6 + 1] = (x + 1) + (y) * w;
-						buf[(x + y * gridWidthCount) * 6 + 2] = (x + 1) + (y + 1) * w;
-						buf[(x + y * gridWidthCount) * 6 + 3] = (x) +(y) * w;
-						buf[(x + y * gridWidthCount) * 6 + 4] = (x + 1) + (y + 1) * w;
-						buf[(x + y * gridWidthCount) * 6 + 5] = (x) +(y + 1) * w;
-					}
-				}
-				polygon->IB->Unlock();
-			}
-
-			Polygons.push_back(polygon);
-		}
-
 		return true;
 	}
 
@@ -409,6 +275,13 @@ namespace ace
 		this->surfaceNameToIndex.clear();
 		this->surfaceNameToSurface.clear();
 		this->surfaces.clear();
+
+		this->heights.resize(gridWidthCount * gridHeightCount);
+
+		for (size_t i = 0; i < this->heights.size(); i++)
+		{
+			this->heights[i] = 0.0f;
+		}
 
 		isChanged = true;
 	}
@@ -568,6 +441,55 @@ namespace ace
 		{
 			auto shader = (Shader3D_Imp*) (material_->GetShader3D().get());
 			shader->CompileTerrain();
+		}
+
+		isChanged = true;
+	}
+
+	void Terrain3D_Imp::RaiseWithCircle(float x, float y, float radius, float value, float fallout)
+	{
+		if (fallout > 1.0f) fallout = 1.0f;
+		if (fallout < 0.0f) fallout = 0.0f;
+
+		x += gridWidthCount * gridSize / 2;
+		y += gridHeightCount * gridSize / 2;
+
+		x /= gridSize;
+		y /= gridSize;
+		radius /= gridSize;
+
+		for (float y_ = y - radius; y_ < y + radius; y_ += 1.0f)
+		{
+			for (float x_ = x - radius; x_ < x + radius; x_ += 1.0f)
+			{
+				int32_t x_ind = (int32_t) x_;
+				int32_t y_ind = (int32_t) y_;
+				int32_t ind = x_ind + y_ind * (gridWidthCount);
+
+				if (x_ind < 0) continue;
+				if (x_ind >= gridWidthCount) continue;
+				if (y_ind < 0) continue;
+				if (y_ind >= gridHeightCount) continue;
+
+				// ブラシの値を計算
+				auto distance = sqrt((x_ - x) * (x_ - x) + (y_ - y) * (y_ - y));
+
+				if (distance > radius) continue;
+
+				auto variation = 0.0f;
+
+				if (distance < radius * (1.0f - fallout))
+				{
+					variation = value;
+				}
+				else
+				{
+					variation = value * (1.0f - (distance - radius * (1.0f - fallout)) / (radius * fallout));
+
+				}
+
+				heights[ind] += variation;
+			}
 		}
 
 		isChanged = true;

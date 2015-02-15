@@ -66,19 +66,15 @@ namespace ace
 			std::shared_ptr<Texture2D>	DensityTexture;
 		};
 
-		std::vector<std::shared_ptr<Polygon>>	Polygons;
-
 		struct
 		{
 			std::vector<SurfaceProxy>					Surfaces;
 			std::vector<std::shared_ptr<ClusterProxy>>	Clusters;
-			
+
 
 			int32_t			ClusterWidthCount = 0;
 			int32_t			ClusterHeightCount = 0;
 
-			std::shared_ptr<VertexBuffer_Imp> VB;
-			std::shared_ptr<IndexBuffer_Imp> IB;
 			float			GridSize = 0.0f;
 			int32_t			GridWidthCount = 0;
 			int32_t			GridHeightCount = 0;
@@ -113,6 +109,8 @@ namespace ace
 
 		std::shared_ptr<Material3D>			material_;
 
+		std::vector<float>					heights;
+
 		bool isChanged = true;
 
 	public:
@@ -132,6 +130,8 @@ namespace ace
 		void AssignSurfaceWithCircle(int32_t surfaceIndex, float x, float y, float radius, float value, float fallout) override;
 
 		void SetMaterial(Material3D* material) override;
+
+		void RaiseWithCircle(float x, float y, float radius, float value, float fallout);
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
