@@ -141,6 +141,8 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectLig
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/Transition/ace.Transition.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/Transition/ace.TransitionFade.h")
 
+engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.ComponentManager.h')
+
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Object2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent.h')
