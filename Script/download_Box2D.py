@@ -10,9 +10,9 @@ aceutils.rmdir(r'Box2D_V2.3.0')
 aceutils.wget(r'https://box2d.googlecode.com/files/Box2D_v2.3.0.7z')
 
 if aceutils.isWin():
-	aceutils.call('7za x -y Box2D_v2.3.0.7z')
+	aceutils.call(r'7za x -y Box2D_v2.3.0.7z')
 else:
-	aceutils.call('7za x -y Box2D_v2.3.0.7z')
+	aceutils.call(r'7za x -y Box2D_v2.3.0.7z')
 
 
 aceutils.editCmakeForACE(r'Box2D_v2.3.0/Box2D/CMakeLists.txt','cp932')
@@ -33,7 +33,7 @@ aceutils.cd(r"../")
 if aceutils.isWin():
 	aceutils.mkdir(r'Dev/lib/Debug')
 	aceutils.mkdir(r'Dev/lib/Release')
-	aceutils.copytree(r'Box2D_v2.3.0/Box2D/Box2D', r'Dev/include/Box2D/',ignoreList=shutil.ignore_patterns('*.txt','*.cpp','*.cmake'))
+	aceutils.copytree(r'Box2D_v2.3.0/Box2D/Box2D', r'Dev/include/Box2D/',ignoreList=shutil.ignore_patterns(r'*.txt',r'*.cpp',r'*.cmake'))
 	
 	aceutils.copy(r'box2d_bin/Box2D/Debug/Box2D.lib', r'Dev/lib/Debug/')
 	aceutils.copy(r'box2d_bin/Box2D/Release/Box2D.lib', r'Dev/lib/Release/')
