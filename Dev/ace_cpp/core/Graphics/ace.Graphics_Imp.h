@@ -100,8 +100,8 @@ namespace ace {
 		EffectTextureLoader(Graphics_Imp* graphics);
 		virtual ~EffectTextureLoader();
 
-		void* Load(const EFK_CHAR* path);
-		void Unload(void* data);
+		void* Load(const EFK_CHAR* path, Effekseer::TextureType textureType) override;
+		void Unload(void* data) override;
 	};
 #endif
 
