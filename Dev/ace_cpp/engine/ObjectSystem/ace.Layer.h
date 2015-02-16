@@ -23,6 +23,7 @@ namespace ace
 		std::shared_ptr<CoreLayer>	m_commonObject;
 		bool m_isUpdated;
 		bool m_isDrawn;
+		bool m_isAlive;
 
 		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
 
@@ -79,6 +80,11 @@ namespace ace
 		void SetIsDrawn(bool value);
 
 		/**
+			@brief	このレイヤーが有効かどうかを取得する。
+		*/
+		bool GetIsAlive() const;
+
+		/**
 		@brief	このレイヤーの描画優先度を取得する。この値が大きいほど手前に描画される。
 		*/
 		int GetDrawingPriority() const;
@@ -100,5 +106,9 @@ namespace ace
 		*/
 		void ClearPostEffects();
 
+		/**
+			@brief	このレイヤーを破棄する。
+		*/
+		void Vanish();
 	};
 }

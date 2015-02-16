@@ -223,6 +223,8 @@ namespace ace
 
 		internal void Update()
 		{
+			var beVanished = new List<Layer>();
+
 			executing = true;
 
 			if(!alreadyFirstUpdate)
@@ -241,6 +243,10 @@ namespace ace
 			foreach(var item in layersToUpdate_)
 			{
 				item.Update();
+				if(!item.IsAlive)
+				{
+					beVanished.Add(item);
+				}
 			}
 
 			foreach(var item in layersToUpdate_)
@@ -253,6 +259,11 @@ namespace ace
 			componentManager_.Update();
 
 			executing = false;
+
+			foreach(var item in beVanished)
+			{
+				RemoveLayer(item);
+			}
 
 			CommitChanges();
 		}

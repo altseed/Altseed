@@ -1,4 +1,5 @@
 ﻿#include <exception>
+#include <list>
 #include "ace.Scene.h"
 using namespace std;
 
@@ -36,6 +37,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::Update()
 	{
+		auto beVanished = list<Layer::Ptr>();
+
 		executing = true;
 
 		if (!alreadyFirstUpdate)
@@ -54,6 +57,10 @@ namespace ace
 		for (auto& layer : m_layersToUpdate)
 		{
 			layer->Update();
+			if (!layer->GetIsAlive())
+			{
+				beVanished.push_back(layer);
+			}
 		}
 
 		for (auto& layer : m_layersToUpdate)
@@ -66,6 +73,11 @@ namespace ace
 		OnUpdated();
 
 		executing = false;
+
+		for (auto& layer : beVanished)
+		{
+			RemoveLayer(layer);
+		}
 
 		CommitChanges();
 	}

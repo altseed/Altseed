@@ -44,6 +44,7 @@ namespace ace
 		: m_scene(nullptr)
 		, m_isUpdated(true)
 		, m_isDrawn(true)
+		, m_isAlive(true)
 	{
 	}
 
@@ -88,6 +89,11 @@ namespace ace
 		m_commonObject->SetIsDrawn(value);
 	}
 
+	bool Layer::GetIsAlive() const
+	{
+		return m_isAlive;
+	}
+
 	int Layer::GetDrawingPriority() const
 	{
 		return m_commonObject->GetDrawingPriority();
@@ -110,4 +116,8 @@ namespace ace
 		m_commonObject->ClearPostEffects();
 	}
 
+	void Layer::Vanish()
+	{
+		m_isAlive = false;
+	}
 }
