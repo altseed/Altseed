@@ -459,7 +459,7 @@ EffectTextureLoader::~EffectTextureLoader()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void* EffectTextureLoader::Load(const EFK_CHAR* path)
+void* EffectTextureLoader::Load(const EFK_CHAR* path, Effekseer::TextureType textureType)
 {
 	auto key = astring((const achar*) path);
 	auto cache = m_caches.find(key);
