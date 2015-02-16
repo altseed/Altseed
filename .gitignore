@@ -191,6 +191,7 @@ $RECYCLE.BIN/
 /Dev/bin/*.exe
 /Dev/bin/*.lib
 /Dev/bin/*.XML
+/Dev/bin/test.aff
 
 /Dev/bin/ace_core.Debug.dll
 /Dev/bin/ace_cs.dll
@@ -285,6 +286,7 @@ Dev/bin/Data/Text/sazanami-gothic.ttf
 /Sample/sample_cs/ace_cs.dll
 /Sample/sample_cs/ace_cs.XML
 /Sample/bin/Log.html
+/Sample/bin/ace_cs.xml
 
 
 /Dev/FontGenerator/FontGeneratorTest/result
