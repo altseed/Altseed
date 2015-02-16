@@ -84,6 +84,8 @@ else()
 
 	list(APPEND common_lib Culling2D )
 	list(APPEND common_lib Culling3D )
+	
+	list(APPEND common_lib Box2D )
 
 	if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 		FIND_PACKAGE(OpenAL REQUIRED)
