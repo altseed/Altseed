@@ -2,6 +2,7 @@
 #pragma once
 
 #include "../../ace.CoreToEngine.h"
+#include "../ace.ContentsManager.h"
 
 namespace ace
 {
@@ -13,6 +14,7 @@ namespace ace
 	class Object3D
 	{
 		friend class Layer3D;
+		friend class ContentsManager < Object3D > ;
 
 	public:
 		typedef std::shared_ptr<Object3D> Object3DPtr;

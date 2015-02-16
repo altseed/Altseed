@@ -142,13 +142,13 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/Transition/ace.Transition.h"
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/Transition/ace.TransitionFade.h")
 
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.ComponentManager.h')
-
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Object2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent.h')
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Layer.h")
 
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.ContentsManager.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Object2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.CameraObject2D.h")

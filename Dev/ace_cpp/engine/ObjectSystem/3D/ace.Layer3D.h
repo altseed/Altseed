@@ -21,7 +21,7 @@ namespace ace
 	private:
 
 		std::shared_ptr<CoreLayer3D>	m_coreLayer;
-		std::list<ObjectPtr>			m_objects;
+		ContentsManager<Object3D>		m_objects;
 
 		void BeginUpdateting();
 		void EndUpdateting();

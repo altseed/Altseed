@@ -12,7 +12,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	Layer2D::Layer2D()
 		: m_coreLayer(nullptr)
-		, m_objects(list<Object2D::Ptr>())
+		, m_objects()
 		, m_components(this)
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer2D());
@@ -24,29 +24,10 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	Layer2D::~Layer2D()
 	{
-		for (auto& object : m_objects)
+		for (auto& object : m_objects.GetContents())
 		{
 			object->SetLayer(nullptr);
 		}
-	}
-
-	void Layer2D::UpdateObjects()
-	{
-		for (auto& object : m_objects)
-		{
-			object->Update();
-			if (!object->GetIsAlive())
-			{
-				beVanished.push_back(object);
-			}
-		}
-
-		for (auto& object : beVanished)
-		{
-			RemoveObject(object);
-		}
-
-		beVanished.clear();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -60,7 +41,7 @@ namespace ace
 		}
 
 		OnUpdating();
-		UpdateObjects();
+		m_objects.Update();
 		m_components.Update();
 		OnUpdated();
 	}
@@ -82,7 +63,7 @@ namespace ace
 			return;
 		}
 
-		for (auto& object : m_objects)
+		for (auto& object : m_objects.GetContents())
 		{
 			object->OnDrawAdditionally();
 		}
@@ -127,8 +108,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Layer2D::AddObject(const Object2D::Ptr& object)
 	{
-		ACE_ASSERT(object->GetLayer() == nullptr, "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。")
-		m_objects.push_back(object);
+		ACE_ASSERT(object->GetLayer() == nullptr, "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。");
+		m_objects.Add(object);
 		auto coreObj = object->GetCoreObject();
 		m_coreLayer->AddObject(coreObj);
 		object->SetLayer(this);
@@ -140,18 +121,18 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Layer2D::RemoveObject(const Object2D::Ptr& object)
 	{
-		m_objects.remove(object);
+		m_objects.Remove(object);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 		object->SetLayer(nullptr);
 	}
 
 	void Layer2D::Clear()
 	{
-		for (auto object : m_objects)
+		for (auto object : m_objects.GetContents())
 		{
 			object->SetLayer(nullptr);
 		}
-		m_objects.clear();
+		m_objects.Clear();
 		m_coreLayer->Clear();
 	}
 	//----------------------------------------------------------------------------------

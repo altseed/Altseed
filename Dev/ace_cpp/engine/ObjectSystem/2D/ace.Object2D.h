@@ -4,6 +4,7 @@
 #include "../../ace.CoreToEngine.h"
 #include "../Component/ace.Object2DComponent.h"
 #include "../Component/ace.ComponentManager.h"
+#include "../ace.ContentsManager.h"
 
 namespace ace
 {
@@ -15,6 +16,7 @@ namespace ace
 	class Object2D
 	{
 		friend class Layer2D;
+		friend class ContentsManager < Object2D > ;
 
 	public:
 		typedef std::shared_ptr<Object2D> Ptr;

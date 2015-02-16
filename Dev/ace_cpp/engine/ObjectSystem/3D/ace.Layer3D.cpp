@@ -8,6 +8,7 @@ namespace ace
 
 	Layer3D::Layer3D(RenderSettings settings)
 		: m_coreLayer(nullptr)
+		, m_objects()
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer3D(settings));
 		m_commonObject = m_coreLayer;
@@ -15,7 +16,7 @@ namespace ace
 
 	Layer3D::~Layer3D()
 	{
-		for (auto& object : m_objects)
+		for (auto& object : m_objects.GetContents())
 		{
 			object->SetLayer(nullptr);
 		}
@@ -30,22 +31,7 @@ namespace ace
 
 		OnUpdating();
 
-		
-		auto beVanished = std::vector<ObjectPtr>();
-
-		for (auto& object : m_objects)
-		{
-			object->Update();
-			if (!object->GetIsAlive())
-			{
-				beVanished.push_back(object);
-			}
-		}
-
-		for (auto& object : beVanished)
-		{
-			RemoveObject(object);
-		}
+		m_objects.Update();
 
 		/*
 		for (auto& component : m_components)
@@ -74,7 +60,7 @@ namespace ace
 			return;
 		}
 
-		for (auto& object : m_objects)
+		for (auto& object : m_objects.GetContents())
 		{
 			object->OnDrawAdditionally();
 		}
@@ -110,7 +96,7 @@ namespace ace
 		{
 			throw "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。";
 		}
-		m_objects.push_back(object);
+		m_objects.Add(object);
 		auto coreObj = object->GetCoreObject();
 		m_coreLayer->AddObject(coreObj);
 		object->SetLayer(this);
@@ -119,7 +105,7 @@ namespace ace
 
 	void Layer3D::RemoveObject(const ObjectPtr& object)
 	{
-		m_objects.remove(object);
+		m_objects.Remove(object);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 		object->SetLayer(nullptr);
 	}

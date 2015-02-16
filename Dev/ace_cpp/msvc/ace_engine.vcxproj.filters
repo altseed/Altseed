@@ -178,6 +178,9 @@
     <ClInclude Include="..\engine\ObjectSystem\Component\ace.ComponentManager.h">
       <Filter>ObjectSystem\Component</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\ace.ContentsManager.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

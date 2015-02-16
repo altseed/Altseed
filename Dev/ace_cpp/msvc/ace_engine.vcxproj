@@ -116,6 +116,7 @@
     <ClInclude Include="..\engine\ObjectSystem\Component\ace.Layer2DComponent.h" />
     <ClInclude Include="..\engine\ObjectSystem\Component\ace.Object2DComponent.h" />
     <ClInclude Include="..\engine\ObjectSystem\Component\ace.SceneComponent.h" />
+    <ClInclude Include="..\engine\ObjectSystem\ace.ContentsManager.h" />
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffect.h" />
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGaussianBlur.h" />
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\ace.PostEffectGrayScale.h" />

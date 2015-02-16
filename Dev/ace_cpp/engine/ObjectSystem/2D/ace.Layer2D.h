@@ -22,7 +22,7 @@ namespace ace
 
 	private:
 		std::shared_ptr<CoreLayer2D>	m_coreLayer;
-		std::list<Object2D::Ptr>		m_objects;
+		ContentsManager<Object2D> m_objects;
 		ComponentManager<Layer2D, Layer2DComponent> m_components;
 		std::vector<Object2D::Ptr>		beVanished;
 
@@ -31,7 +31,6 @@ namespace ace
 
 		void DrawAdditionally();
 		void Update();
-		void UpdateObjects();
 		void UpdateComponents();
 
 	protected:
