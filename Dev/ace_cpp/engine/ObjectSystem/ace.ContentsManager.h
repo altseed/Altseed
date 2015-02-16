@@ -20,6 +20,7 @@ namespace ace
 			: m_contents(std::list<ContentPtr>())
 			, m_beAdded(std::list<ContentPtr>())
 			, m_beRemoved(std::list<ContentPtr>())
+			, m_isUpdating(false)
 		{
 		}
 

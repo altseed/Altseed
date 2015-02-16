@@ -23,6 +23,7 @@ namespace ace
 			contents_ = new LinkedList<TContent>();
 			beAdded = new LinkedList<TContent>();
 			beRemoved = new LinkedList<TContent>();
+			isUpdating = false;
 		}
 
 		public void Add(TContent content)

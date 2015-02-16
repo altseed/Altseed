@@ -35,6 +35,7 @@ namespace ace
 		, m_components(std::map<astring, ComponentPtr>())
 		, m_beAdded(std::map<astring, ComponentPtr>())
 		, m_beRemoved(std::list<astring>())
+		, m_isUpdating(false)
 	{
 	}
 
