@@ -6,6 +6,7 @@
 #include "ace.Layer.h"
 #include "2D/ace.Layer2D.h"
 #include "Component/ace.SceneComponent.h"
+#include "Component/ace.ComponentManager.h"
 
 namespace ace
 {
@@ -27,8 +28,7 @@ namespace ace
 		std::shared_ptr<CoreScene> m_coreScene;
 		std::list<Layer::Ptr> m_layersToDraw;
 		std::list<Layer::Ptr> m_layersToUpdate;
-		std::map<astring, SceneComponent::Ptr> m_components;
-		std::map<astring, SceneComponent::Ptr> m_componentsToBeAdded;
+		ComponentManager<Scene, SceneComponent> m_componentManager;
 		bool alreadyFirstUpdate;
 
 		std::list<Layer::Ptr> addingLayer;

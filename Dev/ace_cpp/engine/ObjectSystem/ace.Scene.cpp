@@ -13,9 +13,8 @@ namespace ace
 		: m_layersToDraw(list<Layer::Ptr>())
 		, m_layersToUpdate(list<Layer::Ptr>())
 		, m_coreScene(nullptr)
-		, m_components(map<astring, SceneComponent::Ptr>())
-		, m_componentsToBeAdded(map<astring, SceneComponent::Ptr>())
 		, alreadyFirstUpdate(false)
+		, m_componentManager(this)
 	{
 		m_coreScene = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateScene());
 	}
@@ -31,32 +30,6 @@ namespace ace
 		}
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Scene::UpdateComponents()
-	{
-		for (auto& c : m_componentsToBeAdded)
-		{
-			m_components.insert(c);
-		}
-		m_componentsToBeAdded.clear();
-
-		auto beVanished = vector<astring>();
-		for (auto& component : m_components)
-		{
-			component.second->Update();
-			if (!component.second->GetIsAlive())
-			{
-				beVanished.push_back(component.first);
-			}
-		}
-
-		for (auto& x : beVanished)
-		{
-			RemoveComponent(x);
-		}
-	}
 
 	//----------------------------------------------------------------------------------
 	//
@@ -88,7 +61,7 @@ namespace ace
 			layer->EndUpdateting();
 		}
 
-		UpdateComponents();
+		m_componentManager.Update();
 
 		OnUpdated();
 
@@ -263,8 +236,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::AddComponent(const SceneComponent::Ptr& component, astring key)
 	{
-		m_componentsToBeAdded[key] = component;
-		component->SetOwner(this);
+		m_componentManager.Add(component, key);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -272,14 +244,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	SceneComponent::Ptr& Scene::GetComponent(astring key)
 	{
-		if (m_components.find(key) != m_components.end())
-		{
-			return m_components[key];
-		}
-		else
-		{
-			return m_componentsToBeAdded[key];
-		}
+		return m_componentManager.Get(key);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -287,22 +252,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	bool Scene::RemoveComponent(astring key)
 	{
-		if (m_components.find(key) != m_components.end())
-		{
-			m_components[key]->SetOwner(nullptr);
-			m_components.erase(key);
-			return true;
-		}
-		else if (m_componentsToBeAdded.find(key) != m_componentsToBeAdded.end())
-		{
-			m_componentsToBeAdded[key]->SetOwner(nullptr);
-			m_componentsToBeAdded.erase(key);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return m_componentManager.Remove(key);
 	}
 
 	//----------------------------------------------------------------------------------

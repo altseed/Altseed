@@ -2,6 +2,7 @@
 #pragma once
 
 #include <ace.common.Base.h>
+#include "ace.ComponentManager.h"
 
 namespace ace
 {
@@ -13,6 +14,7 @@ namespace ace
 	class SceneComponent
 	{
 		friend class Scene;
+		friend class ComponentManager < Scene, SceneComponent > ;
 
 	private:
 		Scene* m_scene;

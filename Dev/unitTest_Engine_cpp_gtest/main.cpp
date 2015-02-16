@@ -80,7 +80,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(ObjectSystem, VanishInComponent, false)
+	CALL_ENGINE_TEST(ObjectSystem, AddComponentByComponent, false)
 	return 0;
 
 	

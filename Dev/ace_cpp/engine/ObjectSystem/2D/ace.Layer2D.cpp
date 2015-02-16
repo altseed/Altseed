@@ -13,8 +13,7 @@ namespace ace
 	Layer2D::Layer2D()
 		: m_coreLayer(nullptr)
 		, m_objects(list<Object2D::Ptr>())
-		, m_components(map<astring, Layer2DComponent::Ptr>())
-		, m_componentsToBeAdded(map<astring, Layer2DComponent::Ptr>())
+		, m_components(this)
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer2D());
 		m_commonObject = m_coreLayer;
@@ -28,30 +27,6 @@ namespace ace
 		for (auto& object : m_objects)
 		{
 			object->SetLayer(nullptr);
-		}
-	}
-
-	void Layer2D::UpdateComponents()
-	{
-		for (auto& c : m_componentsToBeAdded)
-		{
-			m_components.insert(c);
-		}
-		m_componentsToBeAdded.clear();
-
-		auto beVanished = vector<astring>();
-		for (auto& component : m_components)
-		{
-			component.second->Update();
-			if (!component.second->GetIsAlive())
-			{
-				beVanished.push_back(component.first);
-			}
-		}
-
-		for (auto& x : beVanished)
-		{
-			RemoveComponent(x);
 		}
 	}
 
@@ -86,7 +61,7 @@ namespace ace
 
 		OnUpdating();
 		UpdateObjects();
-		UpdateComponents();
+		m_components.Update();
 		OnUpdated();
 	}
 
@@ -184,8 +159,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Layer2D::AddComponent(const Layer2DComponent::Ptr& component, astring key)
 	{
-		m_componentsToBeAdded[key] = component;
-		component->SetOwner(this);
+		m_components.Add(component, key);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -193,14 +167,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	Layer2DComponent::Ptr& Layer2D::GetComponent(astring key)
 	{
-		if (m_components.find(key) != m_components.end())
-		{
-			return m_components[key];
-		}
-		else
-		{
-			return m_componentsToBeAdded[key];
-		}
+		return m_components.Get(key);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -208,22 +175,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	bool Layer2D::RemoveComponent(astring key)
 	{
-		if (m_components.find(key) != m_components.end())
-		{
-			m_components[key]->SetOwner(nullptr);
-			m_components.erase(key);
-			return true;
-		}
-		else if (m_componentsToBeAdded.find(key) != m_componentsToBeAdded.end())
-		{
-			m_componentsToBeAdded[key]->SetOwner(nullptr);
-			m_componentsToBeAdded.erase(key);
-			return true;
-		}
-		else
-		{
-			return false;
-		}
+		return m_components.Remove(key);
 	}
 
 }

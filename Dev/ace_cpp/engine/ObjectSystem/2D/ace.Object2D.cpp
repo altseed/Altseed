@@ -11,7 +11,7 @@ namespace ace
 	Object2D::Object2D()
 		: m_owner(nullptr)
 		, m_children(list<Object2D::Ptr>())
-		, m_componentManager(ComponentManager<Object2D, Object2DComponent>(this))
+		, m_componentManager(this)
 		, m_isUpdated(true)
 		, m_isDrawn(true)
 	{

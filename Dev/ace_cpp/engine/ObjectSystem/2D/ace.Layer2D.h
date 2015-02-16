@@ -6,6 +6,7 @@
 #include "../../ace.CoreToEngine.h"
 #include "../ace.Layer.h"
 #include "../Component/ace.Layer2DComponent.h"
+#include "../Component/ace.ComponentManager.h"
 
 namespace ace
 {
@@ -22,8 +23,7 @@ namespace ace
 	private:
 		std::shared_ptr<CoreLayer2D>	m_coreLayer;
 		std::list<Object2D::Ptr>		m_objects;
-		std::map<astring, Layer2DComponent::Ptr> m_components;
-		std::map<astring, Layer2DComponent::Ptr> m_componentsToBeAdded;
+		ComponentManager<Layer2D, Layer2DComponent> m_components;
 		std::vector<Object2D::Ptr>		beVanished;
 
 		void BeginUpdateting();
