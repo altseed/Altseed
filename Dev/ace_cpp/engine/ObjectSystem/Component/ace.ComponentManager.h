@@ -1,71 +1,95 @@
 ﻿#pragma once
+#include <memory>
 #include <map>
 #include <list>
 #include "../../ace.CoreToEngine.h"
 
 namespace ace
 {
-	template<typename TOwner, typename TComponentPtr>
+	template<typename TOwner, typename TComponent>
 	class ComponentManager
 	{
 	private:
+		typedef std::shared_ptr<TComponent> ComponentPtr;
 		TOwner* m_owner;
-		std::map<astring, TComponentPtr> m_components;
-		std::map<astring, TComponentPtr> m_componentsToBeAdded;
+		std::map<astring, ComponentPtr> m_components;
+		std::map<astring, ComponentPtr> m_beAdded;
+		std::list<astring> m_beRemoved;
+		bool m_isUpdating;
 
 	public:
 		ComponentManager(TOwner* owner);
 
-		void Add(const TComponentPtr& component, astring key);
+		void Add(const ComponentPtr& component, astring key);
 
-		TComponentPtr Get(astring key);
+		ComponentPtr Get(astring key);
 
 		bool Remove(astring key);
 
 		void Update();
 	};
 
-	template<typename TOwner, typename TComponentPtr>
-	ComponentManager<TOwner, TComponentPtr>::ComponentManager(TOwner* owner)
+	template<typename TOwner, typename TComponent>
+	ComponentManager<TOwner, TComponent>::ComponentManager(TOwner* owner)
 		: m_owner(owner)
-		, m_components(std::map<astring, Object2DComponent::Ptr>())
-		, m_componentsToBeAdded(std::map<astring, Object2DComponent::Ptr>())
+		, m_components(std::map<astring, ComponentPtr>())
+		, m_beAdded(std::map<astring, ComponentPtr>())
+		, m_beRemoved(std::list<astring>())
 	{
 	}
 
-	template<typename TOwner, typename TComponentPtr>
-	void ComponentManager<TOwner, TComponentPtr>::Add(const TComponentPtr& component, astring key)
+	template<typename TOwner, typename TComponent>
+	void ComponentManager<TOwner, TComponent>::Add(const ComponentPtr& component, astring key)
 	{
-		m_componentsToBeAdded[key] = component;
 		component->SetOwner(m_owner);
-	}
-
-	template<typename TOwner, typename TComponentPtr>
-	TComponentPtr ComponentManager<TOwner, TComponentPtr>::Get(astring key)
-	{
-		if (m_components.find(key) != m_components.end())
+		if (m_isUpdating)
 		{
-			return m_components[key];
+			m_beAdded[key] = component;
 		}
 		else
 		{
-			return m_componentsToBeAdded[key];
+			m_components[key] = component;
 		}
 	}
 
-	template<typename TOwner, typename TComponentPtr>
-	bool ComponentManager<TOwner, TComponentPtr>::Remove(astring key)
+	template<typename TOwner, typename TComponent>
+	std::shared_ptr<TComponent> ComponentManager<TOwner, TComponent>::Get(astring key)
 	{
-		if (m_components.find(key) != m_components.end())
+		if (std::find(m_beRemoved.begin(), m_beRemoved.end(), key) != m_beRemoved.end())
 		{
-			m_components[key]->SetOwner(nullptr);
-			m_components.erase(key);
-			return true;
+			return nullptr;
 		}
-		else if (m_componentsToBeAdded.find(key) != m_componentsToBeAdded.end())
+
+		auto it = m_components.find(key);
+		if (it != m_components.end())
 		{
-			m_componentsToBeAdded[key]->SetOwner(nullptr);
-			m_componentsToBeAdded.erase(key);
+			return it->second;
+		}
+
+		it = m_beAdded.find(key);
+		if (it != m_beAdded.end())
+		{
+			return it->second;
+		}
+
+		return nullptr;
+	}
+
+	template<typename TOwner, typename TComponent>
+	bool ComponentManager<TOwner, TComponent>::Remove(astring key)
+	{
+		auto c = Get(key);
+		if (c != nullptr)
+		{
+			c->SetOwner(nullptr);
+			if (m_isUpdating)
+			{
+				m_beRemoved.push_back(key);
+			}
+			else
+			{
+				m_components.erase(key);
+			}
 			return true;
 		}
 		else
@@ -74,15 +98,10 @@ namespace ace
 		}
 	}
 
-	template<typename TOwner, typename TComponentPtr>
-	void ComponentManager<TOwner, TComponentPtr>::Update()
+	template<typename TOwner, typename TComponent>
+	void ComponentManager<TOwner, TComponent>::Update()
 	{
-		for (auto& c : m_componentsToBeAdded)
-		{
-			m_components.insert(c);
-		}
-		m_componentsToBeAdded.clear();
-
+		m_isUpdating = true;
 		auto beVanished = std::list<astring>();
 		for (auto& c : m_components)
 		{
@@ -92,10 +111,24 @@ namespace ace
 				beVanished.push_back(c.first);
 			}
 		}
+		m_isUpdating = false;
 
 		for (auto& key : beVanished)
 		{
 			m_components.erase(key);
 		}
+
+		for (auto& c : m_beAdded)
+		{
+			m_components.insert(c);
+		}
+
+		for (auto& key : m_beRemoved)
+		{
+			m_components.erase(key);
+		}
+
+		m_beAdded.clear();
+		m_beRemoved.clear();
 	}
 }
