@@ -8,7 +8,7 @@ namespace ace
 	/// <summary>
 	/// オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス
 	/// </summary>
-	public abstract class Layer : Content
+	public abstract class Layer
 	{
 		internal swig.CoreLayer commonObject = null;
 
@@ -124,6 +124,14 @@ namespace ace
 		{
 			postEffects.Clear();
 			commonObject.ClearPostEffects();
+		}
+
+		/// <summary>
+		/// このレイヤーを破棄する。
+		/// </summary>
+		public void Vanish()
+		{
+			IsAlive = false;
 		}
 
 		protected List<PostEffect> postEffects;

@@ -9,7 +9,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 {
 	class AddComponentByComponent : EngineTest
 	{
-		class AddingObjectComponent : Object2DComponent
+		class ComponentAddingObject : Object2DComponent
 		{
 			int count = 0;
 			protected override void OnUpdate()
@@ -17,14 +17,14 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				count++;
 				if(count == 10)
 				{
-					Owner.AddComponent(new AddingObjectComponent(), "Add");
+					Owner.AddComponent(new ComponentAddingObject(), "Add");
 					Console.WriteLine("vanish object component.");
 					Vanish();
 				}
 			}
 		}
 
-		class AddingLayerComponent : Layer2DComponent
+		class ComponentAddingLayer : Layer2DComponent
 		{
 			int count = 0;
 			protected override void OnUpdated()
@@ -32,14 +32,14 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				count++;
 				if(count == 10)
 				{
-					Owner.AddComponent(new AddingLayerComponent(), "Add");
+					Owner.AddComponent(new ComponentAddingLayer(), "Add");
 					Console.WriteLine("vanish layer component.");
 					Vanish();
 				}
 			}
 		}
 
-		class AddingSceneComponent : SceneComponent
+		class ComponentAddingScene : SceneComponent
 		{
 			int count = 0;
 			protected override void OnUpdated()
@@ -47,8 +47,23 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				count++;
 				if(count == 10)
 				{
-					Owner.AddComponent(new AddingSceneComponent(), "Add");
+					Owner.AddComponent(new ComponentAddingScene(), "Add");
 					Console.WriteLine("vanish scene component.");
+					Vanish();
+				}
+			}
+		}
+
+		class ObjectAddingObject : TextureObject2D
+		{
+			int count = 0;
+			protected override void OnUpdate()
+			{
+				count++;
+				if(count == 10)
+				{
+					Layer.AddObject(new ObjectAddingObject());
+					Console.WriteLine("vanish object.");
 					Vanish();
 				}
 			}
@@ -64,15 +79,15 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 		{
 			var scene = new Scene();
 			var layer = new Layer2D();
-			var obj = new TextureObject2D();
+			var obj = new ObjectAddingObject();
 
 			Engine.ChangeScene(scene);
 			scene.AddLayer(layer);
 			layer.AddObject(obj);
 
-			scene.AddComponent(new AddingSceneComponent(), "Add");
-			layer.AddComponent(new AddingLayerComponent(), "Add");
-			obj.AddComponent(new AddingObjectComponent(), "Add");
+			scene.AddComponent(new ComponentAddingScene(), "Add");
+			layer.AddComponent(new ComponentAddingLayer(), "Add");
+			obj.AddComponent(new ComponentAddingObject(), "Add");
 		}
 	}
 }

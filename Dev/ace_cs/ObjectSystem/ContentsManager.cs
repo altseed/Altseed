@@ -57,9 +57,18 @@ namespace ace
 
 		public void Clear()
 		{
-			contents_.Clear();
-			beAdded.Clear();
-			beRemoved.Clear();
+			if(isUpdating)
+			{
+				foreach(var item in contents_)
+				{
+					beRemoved.AddLast(item);
+				}
+				beAdded.Clear();
+			}
+			else
+			{
+				contents_.Clear();
+			}
 		}
 
 		public void Update()
