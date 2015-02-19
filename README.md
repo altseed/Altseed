@@ -26,3 +26,5 @@
 [コメント規約](./Document/Development/CommentRule.md)
 
 
+### 他
+Java版のswigファイルにはjirrlicht(https://code.google.com/p/jirrlicht/)のコードを一部使用しています。

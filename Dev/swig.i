@@ -37,11 +37,12 @@ namespace ace {
 #if SWIGJAVA
 %include "arrays_java.i"
 
+// “ÆŽ©‚Ì’è‹`‚ðŽg—p
 namespace ace {
-	typedef wchar_t achar;
+	class achar;
 	class astring;
 }
-
+%include "swig/Lib/java/achar.i"
 %include "swig/Lib/java/astring.i"
 #endif
 
