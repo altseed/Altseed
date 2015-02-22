@@ -113,9 +113,28 @@ namespace ace
 
 		bool isChanged = true;
 
+		class ChipFace
+		{
+		public:
+			int32_t		Indexes[3];
+			Vector3DF	Normal;
+			Vector3DF	Binormal;
+		};
+
+		class Chip
+		{
+		public:
+			std::vector<Vector3DF>	Vertecies;
+			std::vector<ChipFace>	Faces;
+		};
+
+		std::vector<Chip>	Chips;
+
 	public:
 		Terrain3D_Imp(Graphics* graphics);
 		virtual ~Terrain3D_Imp();
+
+		void GenerateTerrainChips();
 
 	public:
 

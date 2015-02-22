@@ -22,6 +22,93 @@ namespace ace
 		SafeRelease(m_graphics);
 	}
 
+	void Terrain3D_Imp::GenerateTerrainChips()
+	{
+		for (int32_t y = 0; y < gridHeightCount; y++)
+		{
+			for (int32_t x = 0; x < gridWidthCount; x++)
+			{
+				auto& chip = Chips[x + y * gridWidthCount];
+
+				chip.Vertecies.clear();
+				chip.Faces.clear();
+
+				auto getHeight = [this](int32_t x_, int32_t y_) -> float
+				{
+					x_ = Clamp(x_, this->gridWidthCount - 1, 0);
+					y_ = Clamp(y_, this->gridHeightCount - 1, 0);
+
+					return this->heights[x_ + y_ * this->gridWidthCount];
+				};
+
+				auto v0 = Vector3DF(
+					x * gridSize,
+					(getHeight(x - 1, y - 1) + getHeight(x + 0, y - 1) + getHeight(x - 1, y + 0) + getHeight(x + 0, y + 0)) / 4.0f,
+					y * gridSize);
+
+				auto v1 = Vector3DF(
+					(x + 1) * gridSize,
+					(getHeight(x + 0, y - 1) + getHeight(x + 1, y - 1) + getHeight(x + 0, y + 0) + getHeight(x + 1, y + 0)) / 4.0f,
+					y * gridSize);
+
+				auto v2 = Vector3DF(
+					x * gridSize,
+					(getHeight(x - 1, y + 0) + getHeight(x + 0, y + 0) + getHeight(x - 1, y + 1) + getHeight(x + 0, y + 1)) / 4.0f,
+					(y + 1) * gridSize);
+
+				auto v3 = Vector3DF(
+					(x + 1) * gridSize,
+					(getHeight(x + 0, y + 0) + getHeight(x + 1, y + 0) + getHeight(x + 0, y + 1) + getHeight(x + 1, y + 1)) / 4.0f,
+					(y + 1) * gridSize);
+
+				chip.Vertecies.push_back(v0);
+				chip.Vertecies.push_back(v1);
+				chip.Vertecies.push_back(v2);
+				chip.Vertecies.push_back(v3);
+
+				ChipFace f1;
+				f1.Indexes[0] = 0;
+				f1.Indexes[1] = 1;
+				f1.Indexes[2] = 3;
+
+				ChipFace f2;
+				f2.Indexes[0] = 0;
+				f2.Indexes[1] = 3;
+				f2.Indexes[2] = 2;
+
+				chip.Faces.push_back(f1);
+				chip.Faces.push_back(f2);
+			}
+		}
+
+		for (int32_t y = 0; y < gridHeightCount; y++)
+		{
+			for (int32_t x = 0; x < gridWidthCount; x++)
+			{
+				auto& chip = Chips[x + y * gridWidthCount];
+
+				for (size_t i = 0; i < chip.Faces.size(); i++)
+				{
+					auto& face = chip.Faces[i];
+
+					auto normal = Vector3DF::Cross(
+						(chip.Vertecies[face.Indexes[2]] - chip.Vertecies[face.Indexes[0]]),
+						(chip.Vertecies[face.Indexes[1]] - chip.Vertecies[face.Indexes[0]]));
+
+					normal.Normalize();
+
+					face.Normal = normal;
+
+					auto tangent = Vector3DF::Cross(normal, Vector3DF(0, 0, 1));
+					tangent.Normalize();
+
+					face.Binormal = Vector3DF::Cross(tangent, normal);
+					face.Binormal.Normalize();
+				}
+			}
+		}
+	}
+
 	bool Terrain3D_Imp::Commit()
 	{
 		if (!isChanged) return false;
@@ -110,17 +197,10 @@ namespace ace
 							auto x = x_ + xoffset;
 							auto y = y_ + yoffset;
 
-							auto h00 = heights[Max(0, x - 1) + gridWidthCount * Max(0, y - 1)];
-							auto h10 = heights[Min(gridWidthCount -1,x + 0) + gridWidthCount * Max(0, y - 1)];
-							auto h01 = heights[Max(0, x - 1) + gridWidthCount * Min(gridHeightCount -1, y + 0)];
-							auto h11 = heights[Min(gridWidthCount - 1, x + 0) + gridWidthCount * Min(gridHeightCount - 1, y + 0)];
-							auto h = 
-								(h00 + h10 + h01 + h11) / 4.0f;
-
 							Vertex v;
 
 							v.Position.X = (x - (gridWidthCount + 1) / 2) * gridSize;
-							v.Position.Y = h;
+							v.Position.Y = 0;
 							v.Position.Z = (y - (gridHeightCount + 1) / 2) * gridSize;
 
 							v.Normal.X = 0.0f;
@@ -277,6 +357,8 @@ namespace ace
 		this->surfaces.clear();
 
 		this->heights.resize(gridWidthCount * gridHeightCount);
+
+		this->Chips.resize(gridWidthCount * gridHeightCount);
 
 		for (size_t i = 0; i < this->heights.size(); i++)
 		{
