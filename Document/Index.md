@@ -11,7 +11,9 @@
 ### ユーザー向け
 
 * [リファレンス](./Reference/Main.md)
-* [FAQ](./FAQ.md)
+* [よくある質問](./FAQ.md)
+* [機能の逆引き](./ReverseDictionary.md)
+
 
 * [C#による開発第1回](./Manual/CSharp/01_intro.md)
 * [C#による開発第2回](./Manual/CSharp/02_movingball1.md)
