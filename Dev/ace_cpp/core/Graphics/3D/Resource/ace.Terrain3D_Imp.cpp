@@ -111,9 +111,9 @@ namespace ace
 							auto y = y_ + yoffset;
 
 							auto h00 = heights[Max(0, x - 1) + gridWidthCount * Max(0, y - 1)];
-							auto h10 = heights[(x + 0) + gridWidthCount * Max(0, y - 1)];
-							auto h01 = heights[Max(0, x - 1) + gridWidthCount * (y + 0)];
-							auto h11 = heights[(x + 0) + gridWidthCount * (y + 0)];
+							auto h10 = heights[Min(gridWidthCount -1,x + 0) + gridWidthCount * Max(0, y - 1)];
+							auto h01 = heights[Max(0, x - 1) + gridWidthCount * Min(gridHeightCount -1, y + 0)];
+							auto h11 = heights[Min(gridWidthCount - 1, x + 0) + gridWidthCount * Min(gridHeightCount - 1, y + 0)];
 							auto h = 
 								(h00 + h10 + h01 + h11) / 4.0f;
 

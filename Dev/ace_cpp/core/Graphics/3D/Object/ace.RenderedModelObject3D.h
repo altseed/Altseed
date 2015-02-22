@@ -7,6 +7,22 @@
 
 namespace ace
 {
+	struct ModelObject3DAnimationCache
+	{
+		struct Pair
+		{
+			KeyframeAnimation*	Anim;
+			int32_t				BoneIndex;
+		};
+
+		std::vector<Pair> Pairs;
+
+		void SetObjects(AnimationSource* source_, Deformer* deformer);
+
+		AnimationSource*	CurrentAnimationSource = nullptr;
+		Deformer*			CurrentAnimationDeformer = nullptr;
+	};
+
 	struct BoneProperty
 	{
 		float	Position[3];
@@ -54,6 +70,8 @@ namespace ace
 		std::vector<PlayedAnimation>			m_animationPlaying[AnimationCount];
 		float									m_animationWeight[AnimationCount];
 
+		ModelObject3DAnimationCache				animationCache;
+
 		std::vector<std::vector<std::shared_ptr<MaterialPropertyBlock>>>	materialPropertyBlocks;
 
 		Culling3D::Object*						CullingObject = nullptr;
@@ -93,6 +111,8 @@ namespace ace
 
 		std::vector<PlayedAnimation>			m_animationPlaying[AnimationCount];
 		float									m_animationWeight[AnimationCount];
+
+		ModelObject3DAnimationCache				animationCache;
 
 		Renderer3D*								m_renderer = nullptr;
 		RenderedModelObject3DProxy*				proxy = nullptr;

@@ -58,43 +58,27 @@ namespace ace
 		}
 	}
 
-	static void SetAnimationPlaying(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time)
+	static void SetAnimationPlaying(std::vector <BoneProperty>& boneProps, ModelObject3DAnimationCache& cache, float time)
 	{
-		if (animationClip == nullptr) return;
-
-		auto source = (AnimationSource_Imp*) animationClip->GetSource().get();
-		auto& animations = source->GetAnimations();
-		auto d = (Deformer_Imp*) deformer;
-
-		for (auto& a : animations)
+		for (size_t i = 0; i < cache.Pairs.size(); i++)
 		{
-			auto a_ = (KeyframeAnimation_Imp*) a;
+			auto& pair = cache.Pairs[i];
 
-			auto type = a_->GetTargetType();
-			auto axis = a_->GetTargetAxis();
-			auto bi = d->GetBoneIndex(a_->GetTargetName());
-
-			if (bi < 0) continue;
-
-			boneProps[bi].IsAnimationPlaying = true;
+			boneProps[pair.BoneIndex].IsAnimationPlaying = true;
 		}
 	}
 
-	static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time)
+	static void CalculateAnimation(std::vector <BoneProperty>& boneProps, ModelObject3DAnimationCache& cache, float time)
 	{
-		if (animationClip == nullptr) return;
-
-		auto source = (AnimationSource_Imp*) animationClip->GetSource().get();
-		auto& animations = source->GetAnimations();
-		auto d = (Deformer_Imp*) deformer;
-
-		for (auto& a : animations)
+		for (size_t i = 0; i < cache.Pairs.size(); i++)
 		{
-			auto a_ = (KeyframeAnimation_Imp*) a;
+			auto& pair = cache.Pairs[i];
+
+			auto a_ = (KeyframeAnimation_Imp*) pair.Anim;
 
 			auto type = a_->GetTargetType();
 			auto axis = a_->GetTargetAxis();
-			auto bi = d->GetBoneIndex(a_->GetTargetName());
+			auto bi = pair.BoneIndex;
 
 			if (bi < 0) continue;
 			auto value = a_->GetValue(time);
@@ -146,6 +130,33 @@ namespace ace
 			matrixes,
 			d->GetBones(),
 			matrixes);
+	}
+
+	void ModelObject3DAnimationCache::SetObjects(AnimationSource* source_, Deformer* deformer)
+	{
+		Pairs.clear();
+		CurrentAnimationSource = source_;
+		CurrentAnimationDeformer = deformer;
+
+		auto source = (AnimationSource_Imp*)source_;
+		auto& animations = source->GetAnimations();
+		auto d = (Deformer_Imp*) deformer;
+
+		for (auto& a : animations)
+		{
+			auto a_ = (KeyframeAnimation_Imp*) a;
+
+			auto type = a_->GetTargetType();
+			auto axis = a_->GetTargetAxis();
+			auto bi = d->GetBoneIndex(a_->GetTargetName());
+		
+			if (bi < 0) continue;
+
+			Pair p;
+			p.Anim = a;
+			p.BoneIndex = bi;
+			Pairs.push_back(p);
+		}
 	}
 
 	BoneProperty::BoneProperty()
@@ -295,7 +306,13 @@ namespace ace
 					auto anim = anim_.Animation.get();
 					auto time = anim_.Time;
 
-					SetAnimationPlaying(m_boneProps, m_deformer.get(), anim, time);
+					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
+						animationCache.CurrentAnimationDeformer != m_deformer.get())
+					{
+						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+					}
+
+					SetAnimationPlaying(m_boneProps, animationCache, time);
 				}
 
 				for (int32_t j = 0; j < m_boneProps.size(); j++)
@@ -323,7 +340,13 @@ namespace ace
 						time = fmodf(time, length);
 					}
 
-					CalculateAnimation(m_boneProps, m_deformer.get(), anim, time);
+					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
+						animationCache.CurrentAnimationDeformer != m_deformer.get())
+					{
+						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+					}
+
+					CalculateAnimation(m_boneProps, animationCache, time);
 					CalclateBoneMatrices(m_matrixes_temp, m_boneProps, m_deformer.get());
 
 					for (auto j = 0; j < m_matrixes.size(); j++)
@@ -921,7 +944,13 @@ namespace ace
 					auto anim = anim_.Animation.get();
 					auto time = anim_.Time;
 
-					SetAnimationPlaying(m_boneProps, m_deformer.get(), anim, time);
+					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
+						animationCache.CurrentAnimationDeformer != m_deformer.get())
+					{
+						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+					}
+
+					SetAnimationPlaying(m_boneProps, animationCache, time);
 				}
 
 				for (int32_t j = 0; j < m_boneProps.size(); j++)
@@ -949,7 +978,13 @@ namespace ace
 						time = fmodf(time, length);
 					}
 
-					CalculateAnimation(m_boneProps, m_deformer.get(), anim, time);
+					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
+						animationCache.CurrentAnimationDeformer != m_deformer.get())
+					{
+						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+					}
+
+					CalculateAnimation(m_boneProps, animationCache, time);
 					CalclateBoneMatrices(m_matrixes_temp, m_boneProps, m_deformer.get());
 
 					for (auto j = 0; j < m_matrixes.size(); j++)
