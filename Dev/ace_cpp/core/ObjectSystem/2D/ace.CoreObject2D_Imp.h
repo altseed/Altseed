@@ -123,7 +123,7 @@ namespace ace
 			return m_objectInfo.GetLayer();
 		}
 
-		void SetParent(CoreObject2D& parent, eChildMode mode)
+		void SetParent(CoreObject2D& parent, ChildMode mode)
 		{
 			m_transform.SetParent(parent, mode);
 		}

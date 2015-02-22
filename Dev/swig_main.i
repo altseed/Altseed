@@ -195,7 +195,7 @@ CPP_OBJECT( ace::StaticFile )
 %include "ace_cpp/core/Graphics/ace.Graphics.h"
 %include "ace_cpp/core/Graphics/ace.Graphics_Imp.h"
 
-%include "ace_cpp/core/ObjectSystem/ace.eChildMode.h"
+%include "ace_cpp/core/ObjectSystem/ace.ChildMode.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D.h"

@@ -389,7 +389,7 @@
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreTerrainObject3D.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreTerrainObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.CoreLayer_Imp.h" />
-    <ClInclude Include="..\core\ObjectSystem\ace.eChildMode.h" />
+    <ClInclude Include="..\core\ObjectSystem\ace.ChildMode.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.ObjectSystemFactory_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.CoreScene_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.CoreScene.h" />

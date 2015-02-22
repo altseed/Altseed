@@ -91,7 +91,7 @@ namespace ace
 		m_owner = layer;
 	}
 
-	void Object2D::AddChild(const Object2D::Ptr& child, eChildMode mode)
+	void Object2D::AddChild(const Object2D::Ptr& child, ChildMode mode)
 	{
 		GetCoreObject()->AddChild((child->GetCoreObject()), mode);
 		m_children.push_back(child);
