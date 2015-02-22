@@ -690,6 +690,7 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	{
 		log->WriteHeading("頂点シェーダー生成失敗");
 		log->WriteLine(vertexShaderFileName);
+		log->WriteLine(GraphicsHelper_DX11::GetErrorMessage(g, hr).c_str());
 		goto End;
 	}
 
@@ -704,6 +705,7 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	{
 		log->WriteHeading("ピクセルシェーダー生成失敗");
 		log->WriteLine(pixelShaderFileName);
+		log->WriteLine(GraphicsHelper_DX11::GetErrorMessage(g, hr).c_str());
 		goto End;
 	}
 

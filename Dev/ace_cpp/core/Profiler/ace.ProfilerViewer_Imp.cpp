@@ -12,15 +12,12 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	ProfilerViewer_Imp::ProfilerViewer_Imp(Graphics_Imp* graphics, Log* log, Vector2DI windowSize)
-		: m_profiler(nullptr)
-		, m_renderer(nullptr)
+	ProfilerViewer_Imp::ProfilerViewer_Imp(Graphics_Imp* graphics, Renderer2D* renderer, Log* log, Profiler_Imp* profiler, Vector2DI windowSize)
+		: m_profiler(profiler)
+		, m_renderer(renderer)
 		, m_materTexture(nullptr)
 		, m_windowSize(windowSize)
 	{
-		//auto texture = (Texture2D*)graphics->CreateTexture2D_Imp(ace::ToAString(L"Data/Texture/Sampler.png").c_str());
-		//m_materTexture = CreateSharedPtr(texture);
-		m_renderer = new Renderer2D_Imp(graphics, log);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -40,8 +37,13 @@ namespace ace
 		Log* logger,
 		Vector2DI windowSize)
 	{
-		auto temp = new ProfilerViewer_Imp(graphics, logger, windowSize);
-		temp->SetProfiler(profiler);
+		logger->WriteHeading("プロファイラビュアー");
+
+		auto renderer = new Renderer2D_Imp(graphics, logger);
+		auto temp = new ProfilerViewer_Imp(graphics, renderer, logger, profiler, windowSize);
+		
+		logger->WriteLine("初期化成功");
+
 		return temp;
 	}
 

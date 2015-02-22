@@ -26,10 +26,11 @@ namespace ace
 		Sprite* CreatePolygonOfMater(int index, int time);
 
 	public:
-		ProfilerViewer_Imp(Graphics_Imp* graphics, Log* log, Vector2DI windowSize);
+		ProfilerViewer_Imp(Graphics_Imp* graphics, Renderer2D* renderer, Log* log, Profiler_Imp* profiler, Vector2DI windowSize);
 		virtual ~ProfilerViewer_Imp();
 
-		static ProfilerViewer_Imp* Create(Profiler_Imp* profiler,
+		static ProfilerViewer_Imp* Create(
+			Profiler_Imp* profiler,
 			Graphics_Imp* graphics,
 			Log* logger,
 			Vector2DI windowSize);

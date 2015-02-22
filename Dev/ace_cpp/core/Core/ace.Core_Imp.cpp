@@ -215,15 +215,18 @@ namespace ace
 		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger,m_file, option.IsReloadingEnabled, option.IsFullScreen);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp(m_file, option.IsReloadingEnabled);
+		m_sound = new Sound_Imp(m_file, m_logger, option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
+
 		m_profiler = Profiler_Imp::Create();
+
 		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, m_window->GetSize());
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
 		m_windowSize = Vector2DI(width, height);
+
 		layerRenderer = new LayerRenderer(m_graphics);
 		layerRenderer->SetWindowSize(m_windowSize);
 
@@ -239,7 +242,11 @@ namespace ace
 			lpos[3].Y = m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
+		
+		m_logger->WriteHeading(L"システム");
+
 		WriteSystemSpecToLog(m_logger);
+		
 		m_logger->WriteLineStrongly(L"コア初期化成功");
 
 		isReloadingEnabeld = option.IsReloadingEnabled;
@@ -290,7 +297,7 @@ namespace ace
 		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger,m_file, option.IsReloadingEnabled, option.IsFullScreen);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp(m_file, option.IsReloadingEnabled);
+		m_sound = new Sound_Imp(m_file, m_logger, option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
@@ -315,6 +322,9 @@ namespace ace
 			lpos[3].Y = m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
+		
+		m_logger->WriteHeading(L"システム");
+
 		WriteSystemSpecToLog(m_logger);
 		m_logger->WriteLineStrongly(L"コア初期化成功");
 

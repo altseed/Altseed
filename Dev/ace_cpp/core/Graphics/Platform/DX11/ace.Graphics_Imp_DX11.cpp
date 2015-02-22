@@ -766,7 +766,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		log->WriteLine(s.c_str());
 	};
 
-	writeLogHeading(ToAString("DirectX11"));
+	writeLogHeading(ToAString("描画(DirectX11)"));
 
 	/* DirectX初期化 */
 	ID3D11Device*			device = NULL;

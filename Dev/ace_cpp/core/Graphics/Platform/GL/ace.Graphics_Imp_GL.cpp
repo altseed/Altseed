@@ -710,7 +710,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log,File *f
 		log->WriteLine(s.c_str());
 	};
 
-	writeLogHeading(ToAString("OpenGL"));
+	writeLogHeading(ToAString("描画(OpenGL)"));
 
 	auto window_ = ((Window_Imp*) window)->GetWindow();
 	glfwMakeContextCurrent(window_);

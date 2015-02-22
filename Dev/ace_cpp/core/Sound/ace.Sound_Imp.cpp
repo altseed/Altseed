@@ -2,18 +2,25 @@
 #include "ace.Sound_Imp.h"
 #include "ace.SoundSource_Imp.h"
 
+#include "../Log/ace.Log.h"
+
 namespace ace
 {
-	Sound_Imp::Sound_Imp(File *file, bool isReloadingEnabled)
+	Sound_Imp::Sound_Imp(File *file, Log* log, bool isReloadingEnabled)
 		: m_manager(nullptr)
 		, m_file(file)
+		, log(log)
 	{
+		log->WriteHeading("音");
+
 		m_manager = osm::Manager::Create();
 		if (m_manager->Initialize())
 		{
+			log->WriteLine("音初期化成功");
 		}
 		else
 		{
+			log->WriteLine("音初期化失敗");
 			SafeRelease(m_manager);
 		}
 
