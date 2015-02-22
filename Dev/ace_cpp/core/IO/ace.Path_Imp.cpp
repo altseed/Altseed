@@ -77,7 +77,9 @@ namespace ace
 	void Path_Imp::FirstElement(astring::size_type& start, astring::size_type& count) const
 	{
 		//std::cerr<<"dbg FirstElement in:"<<ToUtf8String(this->m_path.c_str())<<std::endl;
-		assert(IsAbsolutePath(this->m_path));
+
+		ACE_ASSERT_A(IsAbsolutePath(this->m_path), (ToAString("InvalidDirectory : ") + this->m_path).c_str());
+
 		// windows
 		if (2 <= m_path.size() && m_path[1] == m_colon)
 		{
