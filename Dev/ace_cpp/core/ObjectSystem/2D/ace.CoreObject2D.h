@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../common/Math/ace.Vector2DF.h"
 #include "../common/Math/ace.Matrix33.h"
-#include "../ace.eChildMode.h"
+#include "../ace.ChildMode.h"
 #include "../../Graphics/2D/ace.Renderer2D.h"
 #include "ace.CoreLayer2D.h"
 
@@ -33,7 +33,7 @@ namespace ace
 		virtual Vector2DF GetScale() const = 0;
 		virtual void SetScale(Vector2DF value) = 0;
 
-		virtual void AddChild(CoreObject2D* chlid, eChildMode mode) = 0;
+		virtual void AddChild(CoreObject2D* chlid, ChildMode mode) = 0;
 		virtual void RemoveChild(CoreObject2D* chlid) = 0;
 
 #if !SWIG
@@ -41,7 +41,7 @@ namespace ace
 
 		virtual void SetLayer(CoreLayer2D* layer) = 0;
 		virtual CoreLayer2D* GetLayer() = 0;
-		virtual void SetParent(CoreObject2D& parent, eChildMode mode) = 0;
+		virtual void SetParent(CoreObject2D& parent, ChildMode mode) = 0;
 		virtual void ClearParent() = 0;
 
 		virtual Matrix33 GetMatrixToTranslate() = 0;

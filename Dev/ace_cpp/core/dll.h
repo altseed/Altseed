@@ -55,7 +55,7 @@
 #include "Graphics/3D/Resource/Animation/ace.AnimationSource_Imp.h"
 #include "Graphics/3D/Resource/Animation/ace.KeyframeAnimation_Imp.h"
 
-#include "ObjectSystem/ace.eChildMode.h"
+#include "ObjectSystem/ace.ChildMode.h"
 #include "ObjectSystem/2D/ace.CoreObject2D.h"
 #include "ObjectSystem/2D/ace.CoreTextureObject2D.h"
 #include "ObjectSystem/2D/ace.CoreCameraObject2D.h"

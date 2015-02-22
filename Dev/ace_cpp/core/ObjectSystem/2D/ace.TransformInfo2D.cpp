@@ -92,13 +92,13 @@ namespace ace
 			auto& parent = m_parentInfo->GetParent();
 			switch (m_parentInfo->GetChildMode())
 			{
-			case eChildMode::CHILD_MODE_POSITION:
+			case ChildMode::Position:
 				return parent.GetParentsMatrix() * parent.GetMatrixToTranslate();
 
-			case eChildMode::CHILD_MODE_ALL:
+			case ChildMode::All:
 				return parent.GetParentsMatrix() * parent.GetMatrixToTransform();
 
-			case eChildMode::CHILD_MODE_NOTHING:
+			case ChildMode::Nothing:
 				return parent.GetParentsMatrix() * Matrix33();
 			}
 			assert(false);
@@ -115,7 +115,7 @@ namespace ace
 		return m_parentInfo->GetParent();
 	}
 
-	void TransformInfo2D::SetParent(CoreObject2D& parent, eChildMode mode)
+	void TransformInfo2D::SetParent(CoreObject2D& parent, ChildMode mode)
 	{
 		if (m_parentInfo != nullptr)
 		{
@@ -129,12 +129,12 @@ namespace ace
 		m_parentInfo = nullptr;
 	}
 
-	eChildMode TransformInfo2D::GetChildMode() const
+	ChildMode TransformInfo2D::GetChildMode() const
 	{
 		return m_parentInfo->GetChildMode();
 	}
 
-	void TransformInfo2D::SetChildMode(eChildMode value)
+	void TransformInfo2D::SetChildMode(ChildMode value)
 	{
 		m_parentInfo->SetChildMode(value);
 	}

@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "ace.CoreObject2D.h"
-#include "../ace.eChildMode.h"
+#include "../ace.ChildMode.h"
 
 namespace ace
 {
@@ -8,10 +8,10 @@ namespace ace
 	{
 	private:
 		CoreObject2D* m_parent;
-		eChildMode m_childMode;
+		ChildMode m_childMode;
 
 	public:
-		ParentInfo2D(CoreObject2D* parent, eChildMode mode)
+		ParentInfo2D(CoreObject2D* parent, ChildMode mode)
 			: m_parent(parent)
 			, m_childMode(mode)
 		{
@@ -29,12 +29,12 @@ namespace ace
 			return *m_parent;
 		}
 
-		eChildMode GetChildMode() const
+		ChildMode GetChildMode() const
 		{
 			return m_childMode;
 		}
 
-		void SetChildMode(eChildMode mode)
+		void SetChildMode(ChildMode mode)
 		{
 			m_childMode = mode;
 		}

@@ -121,7 +121,7 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/ace.Graphics.h")
 fromCoreToEngine.readLines("ace_cpp/core/Core/ace.Core.h")
 fromCoreToEngine.readLines("ace_cpp/core/Core/ace.CreateCore.h")
 
-fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.eChildMode.h')
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.ChildMode.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.CoreLayer.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.CoreScene.h')
 

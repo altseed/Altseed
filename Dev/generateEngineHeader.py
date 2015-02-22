@@ -131,7 +131,7 @@ engineHeader.readLines("ace_cpp/core/Graphics/ace.Graphics.h")
 
 engineHeader.readLines("ace_cpp/core/Core/ace.Core.h")
 
-engineHeader.readLines("ace_cpp/core/ObjectSystem/ace.eChildMode.h")
+engineHeader.readLines("ace_cpp/core/ObjectSystem/ace.ChildMode.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffect.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGrayScale.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSepia.h")
