@@ -243,11 +243,11 @@ namespace ace {
 		{
 			for (auto& e : c.second)
 			{
-				if (e.Type == Event::eEventType::Sprite)
+				if (e.Type == Event::EventType::Sprite)
 				{
 					SafeRelease(e.Data.Sprite.TexturePtr);
 				}
-				else if (e.Type == Event::eEventType::Effect)
+				else if (e.Type == Event::EventType::Effect)
 				{
 				}
 			}
@@ -262,7 +262,7 @@ namespace ace {
 	void Renderer2D_Imp::AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority, TextureFilterType filter, TextureWrapType wrap)
 	{
 		Event e;
-		e.Type = Event::eEventType::Sprite;
+		e.Type = Event::EventType::Sprite;
 
 		memcpy(e.Data.Sprite.Positions, positions, sizeof(ace::Vector2DF) * 4);
 		memcpy(e.Data.Sprite.Colors, colors, sizeof(ace::Color) * 4);
@@ -388,7 +388,7 @@ namespace ace {
 	void Renderer2D_Imp::AddEffect(::Effekseer::Handle handle, int32_t priority)
 	{
 		Event e;
-		e.Type = Event::eEventType::Effect;
+		e.Type = Event::EventType::Effect;
 		e.Data.Effect.EffectHandle = handle;
 
 		AddEvent(priority, e);
@@ -431,7 +431,7 @@ namespace ace {
 			m_state.Wrap = e.Data.Sprite.Wrap;
 		};
 
-		if (e.Type == Event::eEventType::Sprite)
+		if (e.Type == Event::EventType::Sprite)
 		{
 			DrawEffect();
 
@@ -459,7 +459,7 @@ namespace ace {
 			// 書き込み
 			m_drawingSprites.push_back(&e);
 		}
-		else if (e.Type == Event::eEventType::Effect)
+		else if (e.Type == Event::EventType::Effect)
 		{
 			DrawSprite();
 

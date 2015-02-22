@@ -82,7 +82,7 @@ namespace ace
 		RenderTexture2D_Imp*	GetAffectedRenderTarget();
 		void ApplyPostEffects(RenderingCommandHelper* helper);
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_CAMERA; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Camera; }
 	};
 
 
@@ -155,6 +155,6 @@ namespace ace
 		*/
 		RenderTexture2D* GetSrcForPostEffect(int32_t count);
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_CAMERA; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Camera; }
 	};
 }

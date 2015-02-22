@@ -22,7 +22,7 @@ namespace ace
 		Deformer_Imp();
 		virtual ~Deformer_Imp();
 
-		void AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationOrder, const Matrix44& localMat) override;
+		void AddBone(const achar* name, int32_t parentBoneIndex, RotationOrder rotationOrder, const Matrix44& localMat) override;
 
 		std::vector<Model_IO::Bone>& GetBones() { return m_bones; }
 

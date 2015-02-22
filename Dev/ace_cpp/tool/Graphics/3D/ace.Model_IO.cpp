@@ -400,7 +400,7 @@ namespace ace
 		{
 			auto name = reader.Get<ace::astring>();
 			auto parent = reader.Get<int32_t>();
-			eRotationOrder rotationOrder = reader.Get<eRotationOrder>();
+			RotationOrder rotationOrder = reader.Get<RotationOrder>();
 			auto localMat = reader.Get<Matrix44>();
 
 			deformer.Bones[i].Name = name;
@@ -467,7 +467,7 @@ namespace ace
 			ka.Keyframes[i].KeyValue = reader.Get<Vector2DF>();
 			ka.Keyframes[i].LeftHandle = reader.Get<Vector2DF>();
 			ka.Keyframes[i].RightHandle = reader.Get<Vector2DF>();
-			ka.Keyframes[i].InterpolationType = (eInterpolationType) reader.Get<int32_t>();
+			ka.Keyframes[i].InterpolationType = (InterpolationType) reader.Get<int32_t>();
 		}
 	}
 
@@ -489,7 +489,7 @@ namespace ace
 			auto& bone = deformer.Bones[i];
 			writer.Push(deformer.Bones[i].Name);
 			writer.Push(deformer.Bones[i].ParentBoneIndex);
-			writer.Push(deformer.Bones[i].RotationType);
+			writer.Push((int32_t)deformer.Bones[i].RotationType);
 			writer.Push(deformer.Bones[i].LocalMat);
 		}
 	}
@@ -650,9 +650,9 @@ namespace ace
 		}
 	}
 
-	Matrix44 ModelUtils::CalcMatrix(float position[3], float rotation [4], float scale[3], eRotationOrder rotationType)
+	Matrix44 ModelUtils::CalcMatrix(float position[3], float rotation [4], float scale[3], RotationOrder rotationType)
 	{
-		if (rotationType == ROTATION_ORDER_QUATERNION)
+		if (rotationType == RotationOrder::QUATERNION)
 		{
 			Matrix44 mat, matS, matR, matT;
 			matS.SetScale(scale[0], scale[1], scale[2]);
@@ -664,7 +664,7 @@ namespace ace
 
 			return mat;
 		}
-		else if (rotationType == ROTATION_ORDER_AXIS)
+		else if (rotationType == RotationOrder::AXIS)
 		{
 			Matrix44 mat, matS, matR, matT;
 			matS.SetScale(scale[0], scale[1], scale[2]);
@@ -685,7 +685,7 @@ namespace ace
 			matRy.SetRotationY(rotation[1]);
 			matRz.SetRotationZ(rotation[2]);
 
-			if (rotationType == ROTATION_ORDER_XZY)
+			if (rotationType == RotationOrder::XZY)
 			{
 				mat = Matrix44::Mul(mat, matRx, matS);
 				mat = Matrix44::Mul(mat, matRz, mat);
@@ -693,7 +693,7 @@ namespace ace
 				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
-			if (rotationType == ROTATION_ORDER_XYZ)
+			if (rotationType == RotationOrder::XYZ)
 			{
 				mat = Matrix44::Mul(mat, matRx, matS);
 				mat = Matrix44::Mul(mat, matRy, mat);
@@ -701,7 +701,7 @@ namespace ace
 				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
-			if (rotationType == ROTATION_ORDER_ZXY)
+			if (rotationType == RotationOrder::ZXY)
 			{
 				mat = Matrix44::Mul(mat, matRz, matS);
 				mat = Matrix44::Mul(mat, matRx, mat);
@@ -709,7 +709,7 @@ namespace ace
 				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
-			if (rotationType == ROTATION_ORDER_ZYX)
+			if (rotationType == RotationOrder::ZYX)
 			{
 				mat = Matrix44::Mul(mat, matRz, matS);
 				mat = Matrix44::Mul(mat, matRy, mat);
@@ -717,7 +717,7 @@ namespace ace
 				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
-			if (rotationType == ROTATION_ORDER_YXZ)
+			if (rotationType == RotationOrder::YXZ)
 			{
 				mat = Matrix44::Mul(mat, matRy, matS);
 				mat = Matrix44::Mul(mat, matRx, mat);
@@ -725,7 +725,7 @@ namespace ace
 				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
-			if (rotationType == ROTATION_ORDER_YZX)
+			if (rotationType == RotationOrder::YZX)
 			{
 				mat = Matrix44::Mul(mat, matRy, matS);
 				mat = Matrix44::Mul(mat, matRz, mat);
@@ -770,11 +770,11 @@ namespace ace
 
 		if (keyframes[left].KeyValue.X <= time && time < keyframes[left + 1].KeyValue.X)
 		{
-			if (keyframes[left].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_CONSTANT)
+			if (keyframes[left].InterpolationType == InterpolationType::Constant)
 			{
 				return keyframes[left].KeyValue.Y;
 			}
-			else if (keyframes[left].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_LINEAR)
+			else if (keyframes[left].InterpolationType == InterpolationType::Linear)
 			{
 				auto d = time - keyframes[left].KeyValue.X;
 				auto dx = keyframes[left + 1].KeyValue.X - keyframes[left].KeyValue.X;
@@ -782,7 +782,7 @@ namespace ace
 
 				return keyframes[left].KeyValue.Y + dy / dx * d;
 			}
-			else if (keyframes[left].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_CUBIC)
+			else if (keyframes[left].InterpolationType == InterpolationType::Cubic)
 			{
 				float k1[2];
 				float k1rh[2];

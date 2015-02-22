@@ -12,7 +12,7 @@ namespace ace
 	{
 	}
 
-	void Deformer_Imp::AddBone(const achar* name, int32_t parentBoneIndex, eRotationOrder rotationOrder, const Matrix44& localMat)
+	void Deformer_Imp::AddBone(const achar* name, int32_t parentBoneIndex, RotationOrder rotationOrder, const Matrix44& localMat)
 	{
 		auto bone = Model_IO::Bone();
 

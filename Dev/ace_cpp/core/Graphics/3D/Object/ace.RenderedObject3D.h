@@ -67,7 +67,7 @@ namespace ace
 
 		virtual void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) {}
 
-		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
+		virtual RenderedObject3DType GetObjectType() const { return RenderedObject3DType::Unknown; }
 	};
 
 	/**
@@ -145,6 +145,6 @@ namespace ace
 		*/
 		virtual void OnApplyingNextSRT() {}
 
-		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
+		virtual RenderedObject3DType GetObjectType() const { return RenderedObject3DType::Unknown; }
 	};
 }

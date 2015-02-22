@@ -35,7 +35,7 @@ namespace ace
 
 		bool IsAnimationPlaying() override;
 
-		eRenderedObject3DType GetObjectType() override { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MASSOBJECT; }
+		RenderedObject3DType GetObjectType() override { return RenderedObject3DType::MassObject; }
 
 		// 共通部分
 		virtual bool GetIsDrawn() const { return CoreObject3D_Imp::GetIsDrawn(); }

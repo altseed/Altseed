@@ -12,7 +12,7 @@ namespace ace
 		: public RenderedObject3DProxy
 	{
 	public:
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_EFFECT; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Effect; }
 	};
 
 	class RenderedEffectObject3D
@@ -74,6 +74,6 @@ namespace ace
 
 		void OnRemoving(Renderer3D* renderer) override;
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_EFFECT; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Effect; }
 	};
 }

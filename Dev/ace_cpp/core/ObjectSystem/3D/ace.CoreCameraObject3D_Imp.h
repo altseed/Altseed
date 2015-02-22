@@ -48,7 +48,7 @@ namespace ace
 		RenderTexture2D* GetDstForPostEffect(int count) override;
 		RenderTexture2D* GetSrcForPostEffect(int count) override;
 
-		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_CAMERA; }
+		RenderedObject3DType GetObjectType() { return RenderedObject3DType::Camera; }
 
 
 // 共通部分

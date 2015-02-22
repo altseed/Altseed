@@ -81,21 +81,21 @@ namespace ace
 
 	public enum RotationOrder
 	{
-		Quaternion = swig.eRotationOrder.ROTATION_ORDER_QUATERNION,
-		XZY  = swig.eRotationOrder.ROTATION_ORDER_XZY,
-		XYZ  = swig.eRotationOrder.ROTATION_ORDER_XYZ,
-		ZXY  = swig.eRotationOrder.ROTATION_ORDER_ZXY,
-		ZYX  = swig.eRotationOrder.ROTATION_ORDER_ZYX,
-		YXZ  = swig.eRotationOrder.ROTATION_ORDER_YXZ,
-		YZX  = swig.eRotationOrder.ROTATION_ORDER_YZX,
-		Axis = swig.eRotationOrder.ROTATION_ORDER_AXIS,
+		Quaternion = swig.RotationOrder.QUATERNION,
+		XZY  = swig.RotationOrder.XZY,
+		XYZ  = swig.RotationOrder.XYZ,
+		ZXY  = swig.RotationOrder.ZXY,
+		ZYX  = swig.RotationOrder.ZYX,
+		YXZ  = swig.RotationOrder.YXZ,
+		YZX  = swig.RotationOrder.YZX,
+		Axis = swig.RotationOrder.AXIS,
 	}
 
 	public enum InterpolationType : int
 	{
-		Constant = swig.eInterpolationType.INTERPOLATION_TYPE_CONSTANT,
-		Linear = swig.eInterpolationType.INTERPOLATION_TYPE_LINEAR,
-		Cubic = swig.eInterpolationType.INTERPOLATION_TYPE_CUBIC,
+		Constant = swig.InterpolationType.Constant,
+		Linear = swig.InterpolationType.Linear,
+		Cubic = swig.InterpolationType.Cubic,
 	}
 
 	/// <summary>

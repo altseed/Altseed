@@ -176,7 +176,7 @@ namespace ace
 	}
 
 
-	Matrix44 BoneProperty::CalcMatrix(eRotationOrder rotationType)
+	Matrix44 BoneProperty::CalcMatrix(RotationOrder rotationType)
 	{
 		return ModelUtils::CalcMatrix(
 			Position,

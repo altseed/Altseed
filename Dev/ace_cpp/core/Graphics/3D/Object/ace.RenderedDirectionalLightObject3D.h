@@ -34,7 +34,7 @@ namespace ace
 
 		void CalcShadowMatrix(Vector3DF viewPosition, Vector3DF viewDirection, Vector3DF viewUp, Matrix44 matCameraProj, float zn, float zf, Matrix44& lightView, Matrix44& lightProjection);
 	
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::DirectionalLight; }
 	};
 
 	/**
@@ -69,6 +69,6 @@ namespace ace
 		Color GetColor();
 		void SetColor(Color color);
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::DirectionalLight; }
 	};
 }

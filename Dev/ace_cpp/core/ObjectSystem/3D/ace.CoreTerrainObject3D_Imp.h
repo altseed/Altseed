@@ -24,7 +24,7 @@ namespace ace
 
 		void SetTerrain(Terrain3D* terrain) override;
 
-		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_TERRAIN; }
+		RenderedObject3DType GetObjectType() { return RenderedObject3DType::Terrain; }
 
 		// 共通部分
 		virtual bool GetIsDrawn() const { return CoreObject3D_Imp::GetIsDrawn(); }

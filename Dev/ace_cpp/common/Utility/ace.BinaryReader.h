@@ -253,16 +253,16 @@ template<> inline FCurveKeyframe BinaryReader::Get()
 	keyframe.KeyValue = Get<Vector2DF>();
 	keyframe.LeftHandle = Get<Vector2DF>();
 	keyframe.RightHandle = Get<Vector2DF>();
-	keyframe.InterpolationType = (ace::eInterpolationType)Get<int32_t>();
+	keyframe.InterpolationType = (ace::InterpolationType)Get<int32_t>();
 
 	return keyframe;
 }
 
-template<> inline eRotationOrder BinaryReader::Get()
+template<> inline RotationOrder BinaryReader::Get()
 {
-	eRotationOrder rotationOrder;
+	RotationOrder rotationOrder;
 
-	rotationOrder = (ace::eRotationOrder)Get<int32_t>();
+	rotationOrder = (ace::RotationOrder)Get<int32_t>();
 
 	return rotationOrder;
 }

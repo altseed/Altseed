@@ -46,7 +46,7 @@ namespace ace
 
 		void Rendering(int32_t index, RenderingCommandHelper* helper, RenderingProperty& prop);
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_TERRAIN; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Terrain; }
 	};
 
 	/**
@@ -78,6 +78,6 @@ namespace ace
 
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_TERRAIN; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Terrain; }
 	};
 }

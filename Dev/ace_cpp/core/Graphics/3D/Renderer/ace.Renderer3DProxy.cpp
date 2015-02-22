@@ -1026,15 +1026,15 @@ namespace ace
 		{
 			auto cp = (RenderedObject3DCullingProxy*)(CullingWorld->GetObject(i)->GetUserData());
 
-			if (cp->ProxyPtr->GetObjectType() == RENDERED_OBJECT3D_TYPE_MESH)
+			if (cp->ProxyPtr->GetObjectType() == RenderedObject3DType::Mesh)
 			{
 				culledObjects.push_back(cp->ProxyPtr);
 			}
-			else if (cp->ProxyPtr->GetObjectType() == RENDERED_OBJECT3D_TYPE_MASSOBJECT)
+			else if (cp->ProxyPtr->GetObjectType() == RenderedObject3DType::MassObject)
 			{
 				culledMassModelObjects.push_back(cp->ProxyPtr);
 			}
-			else if (cp->ProxyPtr->GetObjectType() == RENDERED_OBJECT3D_TYPE_TERRAIN)
+			else if (cp->ProxyPtr->GetObjectType() == RenderedObject3DType::Terrain)
 			{
 				culledTerrainObjects.push_back(cp);
 			}
@@ -1050,7 +1050,7 @@ namespace ace
 	void Renderer3DProxy::AddObject(RenderedObject3D* o)
 	{
 		auto proxy = o->GetProxy();
-		if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_CAMERA)
+		if (o->GetObjectType() == RenderedObject3DType::Camera)
 		{
 			if (cameraObjects.count(proxy) == 0)
 			{
@@ -1059,7 +1059,7 @@ namespace ace
 				proxy->OnAdded(this);
 			}
 		}
-		else if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT)
+		else if (o->GetObjectType() == RenderedObject3DType::DirectionalLight)
 		{
 			if (directionalLightObjects.count(proxy) == 0)
 			{
@@ -1068,7 +1068,7 @@ namespace ace
 				proxy->OnAdded(this);
 			}
 		}
-		else if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MASSOBJECT)
+		else if (o->GetObjectType() == RenderedObject3DType::MassObject)
 		{
 			if (massModelObjects.count(proxy) == 0)
 			{
@@ -1091,7 +1091,7 @@ namespace ace
 	void Renderer3DProxy::RemoveObject(RenderedObject3D* o)
 	{
 		auto proxy = o->GetProxy();
-		if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_CAMERA)
+		if (o->GetObjectType() == RenderedObject3DType::Camera)
 		{
 			if (cameraObjects.count(proxy) > 0)
 			{
@@ -1100,7 +1100,7 @@ namespace ace
 				SafeRelease(proxy);
 			}
 		}
-		else if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT)
+		else if (o->GetObjectType() == RenderedObject3DType::DirectionalLight)
 		{
 			if (directionalLightObjects.count(proxy) > 0)
 			{
@@ -1109,7 +1109,7 @@ namespace ace
 				SafeRelease(proxy);
 			}
 		}
-		else if (o->GetObjectType() == eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MASSOBJECT)
+		else if (o->GetObjectType() == RenderedObject3DType::MassObject)
 		{
 			if (massModelObjects.count(proxy) > 0)
 			{

@@ -59,7 +59,7 @@ namespace ace {
 		*/
 		struct Event
 		{
-			enum class eEventType
+			enum class EventType : int32_t
 			{
 				Sprite,
 				Effect,

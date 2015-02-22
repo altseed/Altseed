@@ -165,11 +165,6 @@
     <Compile Include="swig\Deformer.cs" />
     <Compile Include="swig\eChildMode.cs" />
     <Compile Include="swig\Effect.cs" />
-    <Compile Include="swig\eInterpolationType.cs" />
-    <Compile Include="swig\eJoystickAxises.cs" />
-    <Compile Include="swig\eJoystickButtons.cs" />
-    <Compile Include="swig\eRenderedObject3DType.cs" />
-    <Compile Include="swig\eRotationOrder.cs" />
     <Compile Include="swig\eTextureClassType.cs" />
     <Compile Include="swig\File.cs" />
     <Compile Include="swig\File_Imp.cs" />
@@ -178,6 +173,7 @@
     <Compile Include="swig\Graphics.cs" />
     <Compile Include="swig\GraphicsDeviceType.cs" />
     <Compile Include="swig\Graphics_Imp.cs" />
+    <Compile Include="swig\InterpolationType.cs" />
     <Compile Include="swig\IReference.cs" />
     <Compile Include="swig\Joystick.cs" />
     <Compile Include="swig\JoystickButtonState.cs" />
@@ -206,9 +202,11 @@
     <Compile Include="swig\Profiler.cs" />
     <Compile Include="swig\Profiler_Imp.cs" />
     <Compile Include="swig\ReferenceObject.cs" />
+    <Compile Include="swig\RenderedObject3DType.cs" />
     <Compile Include="swig\RenderSettings.cs" />
     <Compile Include="swig\RenderTexture2D.cs" />
     <Compile Include="swig\RenderTexture2D_Imp.cs" />
+    <Compile Include="swig\RotationOrder.cs" />
     <Compile Include="swig\Shader2D.cs" />
     <Compile Include="swig\Shader2D_Imp.cs" />
     <Compile Include="swig\Shader3D.cs" />

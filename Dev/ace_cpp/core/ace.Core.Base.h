@@ -208,15 +208,15 @@ namespace ace {
 		Map,
 	};
 
-	enum eRenderedObject3DType
+	enum class RenderedObject3DType : int32_t
 	{
-		RENDERED_OBJECT3D_TYPE_UNKNOWN,
-		RENDERED_OBJECT3D_TYPE_MESH,
-		RENDERED_OBJECT3D_TYPE_CAMERA,
-		RENDERED_OBJECT3D_TYPE_EFFECT,
-		RENDERED_OBJECT3D_TYPE_DIRECTIONALLIGHT,
-		RENDERED_OBJECT3D_TYPE_MASSOBJECT,
-		RENDERED_OBJECT3D_TYPE_TERRAIN,
+		Unknown,
+		Mesh,
+		Camera,
+		Effect,
+		DirectionalLight,
+		MassObject,
+		Terrain,
 	};
 
 	/**

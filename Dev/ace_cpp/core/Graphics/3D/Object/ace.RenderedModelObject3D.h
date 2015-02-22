@@ -33,7 +33,7 @@ namespace ace
 
 		BoneProperty();
 
-		Matrix44 CalcMatrix(eRotationOrder rotationType);
+		Matrix44 CalcMatrix(RotationOrder rotationType);
 	};
 
 	struct PlayedAnimation
@@ -87,7 +87,7 @@ namespace ace
 
 		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Mesh; }
 	};
 
 	class RenderedModelObject3D
@@ -165,7 +165,7 @@ namespace ace
 
 		bool IsAnimationPlaying(int32_t index);
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Mesh; }
 
 #if !SWIG
 		void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, std::shared_ptr<MaterialPropertyBlock> block)

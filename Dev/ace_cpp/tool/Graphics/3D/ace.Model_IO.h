@@ -94,7 +94,7 @@ namespace ace
 		{
 			astring				Name;
 			int32_t				ParentBoneIndex;
-			eRotationOrder		RotationType;
+			RotationOrder		RotationType;
 			Matrix44			LocalMat;
 		};
 
@@ -215,7 +215,7 @@ namespace ace
 	public:
 		static void CalculateBoneMatrixes(std::vector<Matrix44>& dst, const std::vector<Model_IO::Bone>& bones, const std::vector<Matrix44>& localMatrixes);
 
-		static Matrix44 CalcMatrix(float position[3], float rotation[4], float scale[3], eRotationOrder rotationType);
+		static Matrix44 CalcMatrix(float position[3], float rotation[4], float scale[3], RotationOrder rotationType);
 
 		static float GetKeyframeValue(float time, const std::vector<FCurveKeyframe>& keyframes);
 
