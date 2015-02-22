@@ -128,8 +128,8 @@ namespace ace
 					for (auto& kf : as.KeyframeAnimations)
 					{
 						astring targetName;
-						eAnimationCurveTargetType targetType;
-						eAnimationCurveTargetAxis targetAxis;
+						AnimationCurveTargetType targetType;
+						AnimationCurveTargetAxis targetAxis;
 
 						ModelUtils::GetAnimationTarget(targetName, targetType, targetAxis, kf.Name);
 

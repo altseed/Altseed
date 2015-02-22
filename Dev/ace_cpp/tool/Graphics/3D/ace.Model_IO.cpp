@@ -872,14 +872,14 @@ namespace ace
 		return 0;
 	}
 
-	bool ModelUtils::GetAnimationTarget(astring& targetName, eAnimationCurveTargetType& targetType, eAnimationCurveTargetAxis& targetAxis, const astring& name)
+	bool ModelUtils::GetAnimationTarget(astring& targetName, AnimationCurveTargetType& targetType, AnimationCurveTargetAxis& targetAxis, const astring& name)
 	{
 		auto strs = split(astring(name), ToAString("."));
 
 		// ボーン向け設定の取得
 		targetName = astring();
-		targetType = ANIMATION_CURVE_TARGET_TYPE_NONE;
-		targetAxis = ANIMATION_CURVE_TARGET_AXIS_NONE;
+		targetType = AnimationCurveTargetType::None;
+		targetAxis = AnimationCurveTargetAxis::None;
 
 		if (strs.size() < 3) return false;
 
@@ -895,37 +895,37 @@ namespace ace
 
 		if (strs[strs.size() - 2] == ToAString("pos"))
 		{
-			targetType = ANIMATION_CURVE_TARGET_TYPE_POSITON;
+			targetType = AnimationCurveTargetType::Position;
 		}
 
 		if (strs[strs.size() - 2] == ToAString("rot"))
 		{
-			targetType = ANIMATION_CURVE_TARGET_TYPE_ROTATION;
+			targetType = AnimationCurveTargetType::Rotation;
 		}
 
 		if (strs[strs.size() - 2] == ToAString("scl"))
 		{
-			targetType = ANIMATION_CURVE_TARGET_TYPE_SCALE;
+			targetType = AnimationCurveTargetType::Scale;
 		}
 
 		if (strs[strs.size() - 1] == ToAString("x"))
 		{
-			targetAxis = ANIMATION_CURVE_TARGET_AXIS_X;
+			targetAxis = AnimationCurveTargetAxis::X;
 		}
 
 		if (strs[strs.size() - 1] == ToAString("y"))
 		{
-			targetAxis = ANIMATION_CURVE_TARGET_AXIS_Y;
+			targetAxis = AnimationCurveTargetAxis::Y;
 		}
 
 		if (strs[strs.size() - 1] == ToAString("z"))
 		{
-			targetAxis = ANIMATION_CURVE_TARGET_AXIS_Z;
+			targetAxis = AnimationCurveTargetAxis::Z;
 		}
 
 		if (strs[strs.size() - 1] == ToAString("w"))
 		{
-			targetAxis = ANIMATION_CURVE_TARGET_AXIS_W;
+			targetAxis = AnimationCurveTargetAxis::W;
 		}
 
 		return true;
@@ -935,24 +935,24 @@ namespace ace
 		float position[3],
 		float rotation[4],
 		float scale[3],
-		eAnimationCurveTargetType targetType,
-		eAnimationCurveTargetAxis targetAxis,
+		AnimationCurveTargetType targetType,
+		AnimationCurveTargetAxis targetAxis,
 		float value)
 	{
-		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_NONE) return;
-		if (targetAxis == eAnimationCurveTargetAxis::ANIMATION_CURVE_TARGET_AXIS_NONE) return;
+		if (targetType == AnimationCurveTargetType::None) return;
+		if (targetAxis == AnimationCurveTargetAxis::None) return;
 		
-		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_POSITON)
+		if (targetType == AnimationCurveTargetType::Position)
 		{
-			position[targetAxis] = value;
+			position[(int32_t)targetAxis] = value;
 		}
-		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_ROTATION)
+		else if (targetType == AnimationCurveTargetType::Rotation)
 		{
-			rotation[targetAxis] = value / 180.0f * 3.141592f;
+			rotation[(int32_t) targetAxis] = value / 180.0f * 3.141592f;
 		}
-		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_SCALE)
+		else if (targetType == AnimationCurveTargetType::Scale)
 		{
-			scale[targetAxis] = value;
+			scale[(int32_t) targetAxis] = value;
 		}
 	}
 }
