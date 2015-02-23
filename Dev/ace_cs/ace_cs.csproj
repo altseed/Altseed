@@ -137,6 +137,7 @@
     <Compile Include="swig\AnimationClip.cs" />
     <Compile Include="swig\AnimationSource.cs" />
     <Compile Include="swig\AnimationSystem.cs" />
+    <Compile Include="swig\ChildMode.cs" />
     <Compile Include="swig\Chip2D.cs" />
     <Compile Include="swig\Core.cs" />
     <Compile Include="swig\CoreCameraObject2D.cs" />
@@ -163,9 +164,7 @@
     <Compile Include="swig\CubemapTexture.cs" />
     <Compile Include="swig\CullingType.cs" />
     <Compile Include="swig\Deformer.cs" />
-    <Compile Include="swig\eChildMode.cs" />
     <Compile Include="swig\Effect.cs" />
-    <Compile Include="swig\eTextureClassType.cs" />
     <Compile Include="swig\File.cs" />
     <Compile Include="swig\File_Imp.cs" />
     <Compile Include="swig\Font.cs" />
@@ -219,6 +218,7 @@
     <Compile Include="swig\Texture.cs" />
     <Compile Include="swig\Texture2D.cs" />
     <Compile Include="swig\Texture2D_Imp.cs" />
+    <Compile Include="swig\TextureClassType.cs" />
     <Compile Include="swig\TextureFilterType.cs" />
     <Compile Include="swig\TextureFormat.cs" />
     <Compile Include="swig\TextureWrapType.cs" />

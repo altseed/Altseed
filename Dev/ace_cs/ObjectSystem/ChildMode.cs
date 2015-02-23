@@ -14,14 +14,14 @@ namespace ace
 		/// <summary>
 		/// 位置のみを同期する。
 		/// </summary>
-		Position = swig.eChildMode.CHILD_MODE_POSITION,
+		Position = swig.ChildMode.Position,
 		/// <summary>
 		/// 位置・角度・拡大率を同期する。
 		/// </summary>
-		All = swig.eChildMode.CHILD_MODE_ALL,
+		All = swig.ChildMode.All,
 		/// <summary>
 		/// 同期を行わない。
 		/// </summary>
-		Nothing = swig.eChildMode.CHILD_MODE_NOTHING
+		Nothing = swig.ChildMode.Nothing,
 	}
 }

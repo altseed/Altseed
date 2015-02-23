@@ -108,7 +108,7 @@ namespace ace
 		/// <param name="mode">子オブジェクトの同期モード</param>
 		public void AddChild(Object2D child, ChildMode mode)
 		{
-			CoreObject.AddChild(child.CoreObject, (swig.eChildMode)mode);
+			CoreObject.AddChild(child.CoreObject, (swig.ChildMode)mode);
 			children_.Add(child);
 		}
 
