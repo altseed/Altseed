@@ -11,7 +11,7 @@
 
 namespace ace
 {
-	#define _NEW 0
+	#define _NEW 1
 
 	Terrain3D_Imp::Terrain3D_Imp(Graphics* graphics)
 		: m_graphics(graphics)
@@ -149,7 +149,7 @@ namespace ace
 					{
 						auto v = chip.Vertecies[f.Indexes[i]];
 						f_.Indexes[i] = chipVertexPositionToVertexIndexes[v];
-						chipVertexPositionToFaceIndexes[v].push_back(faces.size());
+						chipVertexPositionToFaceIndexes[v].push_back(chipFaces.size());
 					}
 
 					chipFaces.push_back(f_);
