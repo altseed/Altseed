@@ -28,6 +28,6 @@ namespace ace
 		@brief	テクスチャのクラスの種類を取得する。
 		@return	種類
 		*/
-		virtual eTextureClassType GetType() override { return TEXTURE_CLASS_CUBEMAPTEXTURE; }
+		virtual TextureClassType GetType() override { return TextureClassType::CubemapTexture; }
 	};
 }

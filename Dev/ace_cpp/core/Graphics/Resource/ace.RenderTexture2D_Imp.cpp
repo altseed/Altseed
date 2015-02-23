@@ -15,7 +15,7 @@ namespace ace {
 		: DeviceObject(graphics)
 		, m_size(size)
 	{
-		m_type = TEXTURE_CLASS_RENDERTEXTURE2D;
+		m_type = TextureClassType::RenderTexture2D;
 	}
 
 	//----------------------------------------------------------------------------------

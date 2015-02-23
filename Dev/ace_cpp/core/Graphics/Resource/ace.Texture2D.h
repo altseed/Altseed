@@ -24,7 +24,7 @@ namespace ace {
 		: public Texture
 	{
 	protected:
-		eTextureClassType	m_type;
+		TextureClassType	m_type;
 		
 	public:
 		Texture2D(){}
@@ -65,7 +65,7 @@ namespace ace {
 		@brief	テクスチャのクラスの種類を取得する。
 		@return	種類
 		*/
-		virtual eTextureClassType GetType() { return TEXTURE_CLASS_TEXTURE2D; }
+		virtual TextureClassType GetType() { return TextureClassType::Texture2D; }
 	};
 
 	//----------------------------------------------------------------------------------

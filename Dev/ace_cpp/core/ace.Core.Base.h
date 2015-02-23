@@ -129,13 +129,12 @@ namespace ace {
 
 	};
 
-	enum eTextureClassType
+	enum class TextureClassType : int32_t
 	{
-		TEXTURE_CLASS_TEXTURE2D = 0,
-		TEXTURE_CLASS_RENDERTEXTURE2D = 1,
-		TEXTURE_CLASS_CUBEMAPTEXTURE = 2,
-		TEXTURE_CLASS_DEPTHBUFFER = 3,
-
+		Texture2D = 0,
+		RenderTexture2D = 1,
+		CubemapTexture = 2,
+		DepthBuffer = 3,
 	};
 
 	/**
@@ -222,18 +221,18 @@ namespace ace {
 	/**
 		@brief	シェーダーに対して外部から設定可能なプロパティの変数の種類
 	*/
-	enum ShaderVariableType
+	enum class ShaderVariableType : int32_t
 	{
-		SHADER_VARIABLE_TYPE_UNKNOWN,
-		SHADER_VARIABLE_TYPE_FLOAT,
-		SHADER_VARIABLE_TYPE_VECTOR2DF,
-		SHADER_VARIABLE_TYPE_VECTOR3DF,
-		SHADER_VARIABLE_TYPE_VECTOR4DF,
-		SHADER_VARIABLE_TYPE_VECTOR4DF_ARRAY,
-		SHADER_VARIABLE_TYPE_MATRIX44,
-		SHADER_VARIABLE_TYPE_MATRIX44_ARRAY,
-		SHADER_VARIABLE_TYPE_TEXTURE2D,
-		SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE,
+		Unknown,
+		Float,
+		Vector2DF,
+		Vector3DF,
+		Vector4DF,
+		Vector4DF_Array,
+		Matrix44,
+		Matrix44_Array,
+		Texture2D,
+		CubemapTexture,
 	};
 
 	/**

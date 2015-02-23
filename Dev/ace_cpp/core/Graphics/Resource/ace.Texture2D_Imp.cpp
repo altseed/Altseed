@@ -59,7 +59,7 @@ namespace ace {
 		, m_internalTextureWidth(0)
 		, m_internalTextureHeight(0)
 	{
-		m_type = TEXTURE_CLASS_TEXTURE2D;
+		m_type = TextureClassType::Texture2D;
 	}
 
 	//----------------------------------------------------------------------------------

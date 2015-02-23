@@ -20,6 +20,6 @@ namespace ace
 		@brief	テクスチャのクラスの種類を取得する。
 		@return	種類
 		*/
-		virtual eTextureClassType GetType() = 0;
+		virtual TextureClassType GetType() = 0;
 	};
 }

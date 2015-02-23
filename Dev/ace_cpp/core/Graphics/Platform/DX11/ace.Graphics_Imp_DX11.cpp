@@ -594,22 +594,22 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 
 			ID3D11ShaderResourceView* rv = nullptr;
 
-			if (bt.second.TexturePtr->GetType() == TEXTURE_CLASS_TEXTURE2D)
+			if (bt.second.TexturePtr->GetType() == TextureClassType::Texture2D)
 			{
 				auto t = (Texture2D_Imp_DX11*) tex;
 				rv = t->GetShaderResourceView();
 			}
-			else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE2D)
+			else if (tex->GetType() == TextureClassType::RenderTexture2D)
 			{
 				auto t = (RenderTexture2D_Imp_DX11*) tex;
 				rv = t->GetShaderResourceView();
 			}
-			else if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+			else if (tex->GetType() == TextureClassType::CubemapTexture)
 			{
 				auto t = (CubemapTexture_Imp_DX11*) tex;
 				rv = t->GetShaderResourceView();
 			}
-			else if (tex->GetType() == TEXTURE_CLASS_DEPTHBUFFER)
+			else if (tex->GetType() == TextureClassType::DepthBuffer)
 			{
 				auto t = (DepthBuffer_Imp_DX11*) tex;
 				rv = t->GetShaderResourceView();

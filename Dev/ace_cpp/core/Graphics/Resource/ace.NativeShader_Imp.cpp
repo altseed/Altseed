@@ -427,37 +427,37 @@ namespace ace {
 		{
 			auto& value = constantValues[i];
 
-			if (value.ValueType == SHADER_VARIABLE_TYPE_FLOAT)
+			if (value.ValueType == ShaderVariableType::Float)
 			{
 				SetFloat(value.ID, value.Data.Float4[0]);
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR2DF)
+			else if (value.ValueType == ShaderVariableType::Vector2DF)
 			{
 				SetVector2DF(value.ID, Vector2DF(value.Data.Float4[0], value.Data.Float4[1]));
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR3DF)
+			else if (value.ValueType == ShaderVariableType::Vector3DF)
 			{
 				SetVector3DF(value.ID, Vector3DF(value.Data.Float4[0], value.Data.Float4[1], value.Data.Float4[2]));
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR4DF)
+			else if (value.ValueType == ShaderVariableType::Vector4DF)
 			{
 				SetVector4DF(value.ID, Vector4DF(value.Data.Float4[0], value.Data.Float4[1], value.Data.Float4[2], value.Data.Float4[3]));
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR4DF_ARRAY)
+			else if (value.ValueType == ShaderVariableType::Vector4DF_Array)
 			{
 				SetVector4DFArray(value.ID, value.Data.Vector4DFArray.Ptr, value.Data.Vector4DFArray.Count);
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_MATRIX44)
+			else if (value.ValueType == ShaderVariableType::Matrix44)
 			{
 				Matrix44 mat;
 				memcpy(&mat, value.Data.Mat44, sizeof(Matrix44));
 				SetMatrix44(value.ID, mat);
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_MATRIX44_ARRAY)
+			else if (value.ValueType == ShaderVariableType::Matrix44_Array)
 			{
 				SetMatrix44Array(value.ID, value.Data.Mat44Array.Ptr, value.Data.Mat44Array.Count);
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
+			else if (value.ValueType == ShaderVariableType::Texture2D)
 			{
 				SetTexture(
 					value.ID,
@@ -465,7 +465,7 @@ namespace ace {
 					value.Data.Texture2DPtr.FilterType,
 					value.Data.Texture2DPtr.WrapType);
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+			else if (value.ValueType == ShaderVariableType::CubemapTexture)
 			{
 				SetTexture(
 					value.ID,

@@ -458,22 +458,22 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 			if (shader->GetTexture(texName, tex, filterType, wrapType, i))
 			{
 				GLuint buf = 0;
-				if (tex->GetType() == TEXTURE_CLASS_TEXTURE2D)
+				if (tex->GetType() == TextureClassType::Texture2D)
 				{
 					auto t = (Texture2D_Imp_GL*) tex;
 					buf = t->GetBuffer();
 				}
-				else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE2D)
+				else if (tex->GetType() == TextureClassType::RenderTexture2D)
 				{
 					auto t = (RenderTexture2D_Imp_GL*) tex;
 					buf = t->GetBuffer();
 				}
-				else if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+				else if (tex->GetType() == TextureClassType::CubemapTexture)
 				{
 					auto t = (CubemapTexture_Imp_GL*) tex;
 					buf = t->GetBuffer();
 				}
-				else if (tex->GetType() == TEXTURE_CLASS_DEPTHBUFFER)
+				else if (tex->GetType() == TextureClassType::DepthBuffer)
 				{
 					auto t = (DepthBuffer_Imp_GL*) tex;
 					buf = t->GetBuffer();
@@ -482,7 +482,7 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 				GLCheckError();
 				glActiveTexture(GL_TEXTURE0 + i);
 
-				if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+				if (tex->GetType() == TextureClassType::CubemapTexture)
 				{
 					glBindTexture(GL_TEXTURE_CUBE_MAP, buf);
 				}
@@ -531,7 +531,7 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 
 		if (shader->GetTexture(texName, tex, filterType, wrapType, i))
 		{
-			if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+			if (tex->GetType() == TextureClassType::CubemapTexture)
 			{
 				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
 				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MIN_FILTER, glfilter_mip[filter_]);
