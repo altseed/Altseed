@@ -135,7 +135,7 @@ namespace ace
 		virtual ~Terrain3D_Imp();
 
 		void GenerateTerrainChips();
-
+		void GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces);
 	public:
 
 		bool Commit();
@@ -150,7 +150,7 @@ namespace ace
 
 		void SetMaterial(Material3D* material) override;
 
-		void RaiseWithCircle(float x, float y, float radius, float value, float fallout);
+		void RaiseWithCircle(float x, float y, float radius, float value, float fallout) override;
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

@@ -60,6 +60,16 @@ namespace ace
 		*/
 		virtual void SetMaterial(Material3D* material) = 0;
 
+		/**
+		@brief	円形に地形を上下せる。
+		@param	x	円形の中心座標
+		@param	y	円形の中心座標
+		@param	radius	円形の半径
+		@param	value	値
+		@param	fallout	周囲のぼかし(0～1)
+		*/
+		virtual void RaiseWithCircle(float x, float y, float radius, float value, float fallout) = 0;
+
 #if !SWIG
 		/**
 		@brief	材質を設定する。

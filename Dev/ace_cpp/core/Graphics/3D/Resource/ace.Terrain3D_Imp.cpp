@@ -11,6 +11,8 @@
 
 namespace ace
 {
+	#define _NEW 0
+
 	Terrain3D_Imp::Terrain3D_Imp(Graphics* graphics)
 		: m_graphics(graphics)
 	{
@@ -42,24 +44,24 @@ namespace ace
 				};
 
 				auto v0 = Vector3DF(
-					x * gridSize,
+					x * gridSize - gridWidthCount * gridSize / 2.0f,
 					(getHeight(x - 1, y - 1) + getHeight(x + 0, y - 1) + getHeight(x - 1, y + 0) + getHeight(x + 0, y + 0)) / 4.0f,
-					y * gridSize);
+					y * gridSize - gridHeightCount * gridSize / 2.0f);
 
 				auto v1 = Vector3DF(
-					(x + 1) * gridSize,
+					(x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
 					(getHeight(x + 0, y - 1) + getHeight(x + 1, y - 1) + getHeight(x + 0, y + 0) + getHeight(x + 1, y + 0)) / 4.0f,
-					y * gridSize);
+					y * gridSize - gridHeightCount * gridSize / 2.0f);
 
 				auto v2 = Vector3DF(
-					x * gridSize,
+					x * gridSize - gridWidthCount * gridSize / 2.0f,
 					(getHeight(x - 1, y + 0) + getHeight(x + 0, y + 0) + getHeight(x - 1, y + 1) + getHeight(x + 0, y + 1)) / 4.0f,
-					(y + 1) * gridSize);
+					(y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
 
 				auto v3 = Vector3DF(
-					(x + 1) * gridSize,
+					(x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
 					(getHeight(x + 0, y + 0) + getHeight(x + 1, y + 0) + getHeight(x + 0, y + 1) + getHeight(x + 1, y + 1)) / 4.0f,
-					(y + 1) * gridSize);
+					(y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
 
 				chip.Vertecies.push_back(v0);
 				chip.Vertecies.push_back(v1);
@@ -109,10 +111,158 @@ namespace ace
 		}
 	}
 
+	void Terrain3D_Imp::GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces)
+	{
+		std::vector<Vector3DF> chipVertices;
+		std::vector<ChipFace> chipFaces;
+		std::map<Vector3DF, int32_t> chipVertexPositionToVertexIndexes;
+		std::map<Vector3DF, std::vector<int32_t>> chipVertexPositionToFaceIndexes;
+
+		auto cx_min = Clamp(chip_x - 1, gridWidthCount - 1, 0);
+		auto cy_min = Clamp(chip_y - 1, gridHeightCount - 1, 0);
+		auto cx_max = Clamp(chip_x + chip_width + 1, gridWidthCount - 1, 0);
+		auto cy_max = Clamp(chip_y + chip_height + 1, gridHeightCount - 1, 0);
+
+		for (size_t y = cy_min; y < cy_max; y++)
+		{
+			for (size_t x = cx_min; x < cx_max; x++)
+			{
+				auto indexOffset = chipVertices.size();
+
+				auto& chip = Chips[x + y * gridWidthCount];
+
+				for (auto& v : chip.Vertecies)
+				{
+					auto ind = chipVertexPositionToFaceIndexes.find(v);
+					if (ind == chipVertexPositionToFaceIndexes.end())
+					{
+						chipVertices.push_back(v);
+						chipVertexPositionToVertexIndexes[v] = (int32_t) (chipVertices.size() - 1);
+						chipVertexPositionToFaceIndexes[v] = std::vector<int32_t>();
+					}
+				}
+
+				for (auto& f : chip.Faces)
+				{
+					auto f_ = f;
+					for (size_t i = 0; i < 3; i++)
+					{
+						auto v = chip.Vertecies[f.Indexes[i]];
+						f_.Indexes[i] = chipVertexPositionToVertexIndexes[v];
+						chipVertexPositionToFaceIndexes[v].push_back(faces.size());
+					}
+
+					chipFaces.push_back(f_);
+				}
+			}
+		}
+
+		vertices.clear();
+		faces.clear();
+
+		for (size_t i = 0; i < chipVertices.size(); i++)
+		{
+			auto v = chipVertices[i];
+			Vertex cv;
+
+			cv.Position = v;
+
+			Vector3DF normal;
+			Vector3DF binormal;
+			for (auto ind : chipVertexPositionToFaceIndexes[v])
+			{
+				auto f = chipFaces[ind];
+				normal += f.Normal;
+				binormal += f.Binormal;
+			}
+
+			normal /= (float) chipVertexPositionToFaceIndexes[v].size();
+			binormal /= (float) chipVertexPositionToFaceIndexes[v].size();
+
+			cv.Normal = normal;
+			cv.Binormal = binormal;
+
+			vertices.push_back(cv);
+		}
+
+		for (size_t i = 0; i < chipFaces.size(); i++)
+		{
+			auto f = chipFaces[i];
+			Face face;
+			face.Index1 = f.Indexes[0];
+			face.Index2 = f.Indexes[1];
+			face.Index3 = f.Indexes[2];
+			faces.push_back(face);
+		}
+
+		std::map<int32_t, int32_t> indToNewInd;
+
+		auto tempV = vertices;
+		vertices.clear();
+		
+		for (size_t i = 0; i < tempV.size(); i++)
+		{
+			auto v = tempV[i];
+
+			if (v.Position.X < chip_x * gridSize - gridWidthCount * gridSize / 2.0f ||
+				v.Position.X >(chip_x + chip_width) * gridSize - gridWidthCount * gridSize / 2.0f ||
+				v.Position.Z < chip_y * gridSize - gridHeightCount * gridSize / 2.0f ||
+				v.Position.Z >(chip_y + chip_height) * gridSize - gridHeightCount * gridSize / 2.0f)
+			{
+			}
+			else
+			{
+				indToNewInd[i] = vertices.size();
+				vertices.push_back(v);
+			}
+		}
+
+		auto tempF = faces;
+		faces.clear();
+
+		for (size_t i = 0; i < tempF.size(); i++)
+		{
+			auto f = tempF[i];
+
+			if (indToNewInd.count(f.Index1) > 0)
+			{
+				f.Index1 = indToNewInd[f.Index1];
+			}
+			else
+			{
+				continue;
+			}
+
+			if (indToNewInd.count(f.Index2) > 0)
+			{
+				f.Index2 = indToNewInd[f.Index2];
+			}
+			else
+			{
+				continue;
+			}
+
+			if (indToNewInd.count(f.Index3) > 0)
+			{
+				f.Index3 = indToNewInd[f.Index3];
+			}
+			else
+			{
+				continue;
+			}
+
+			faces.push_back(f);
+		}
+	}
+
 	bool Terrain3D_Imp::Commit()
 	{
 		if (!isChanged) return false;
 		isChanged = false;
+
+#if _NEW
+		GenerateTerrainChips();
+#endif
 
 		auto g = (Graphics_Imp*) m_graphics;
 
@@ -177,6 +327,12 @@ namespace ace
 				auto width = Min(ClusterCount, Proxy.GridWidthCount - xoffset);
 				auto height = Min(ClusterCount, Proxy.GridHeightCount - yoffset);
 
+#if _NEW
+				std::vector<Vertex> vs;
+				std::vector<Face> fs;
+				GenerateTerrainMesh(xoffset, yoffset, width, height, vs, fs);
+#endif
+
 				cluster->Size.X = width * gridSize;
 				cluster->Size.Z = height * gridSize;
 
@@ -184,6 +340,35 @@ namespace ace
 				cluster->Center.Z = (yoffset + height / 2) * gridSize - gridHeightCount * gridSize / 2.0f;
 
 				// 下地
+#if _NEW
+				cluster->Black.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs.size(), false);
+				cluster->Black.IB = g->CreateIndexBuffer_Imp(fs.size() * 3, false, true);
+
+				{
+					cluster->Black.VB->Lock();
+					auto buf = cluster->Black.VB->GetBuffer<Vertex>(vs.size());
+					for (auto i = 0; i < vs.size(); i++)
+					{
+						Vertex v = vs[i];
+						v.VColor = Color(0, 0, 0, 255);
+						buf[i] = v;
+					}
+
+					cluster->Black.VB->Unlock();
+				}
+
+				{
+					cluster->Black.IB->Lock();
+					auto buf = cluster->Black.IB->GetBuffer<int32_t>(fs.size() * 3);
+					for (auto i = 0; i < fs.size(); i++)
+					{
+						buf[i * 3 + 0] = fs[i].Index1;
+						buf[i * 3 + 1] = fs[i].Index2;
+						buf[i * 3 + 2] = fs[i].Index3;
+					}
+					cluster->Black.IB->Unlock();
+				}
+#else
 				cluster->Black.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), (width + 1) * (height + 1), false);
 				cluster->Black.IB = g->CreateIndexBuffer_Imp((width) * (height) * 2 * 3, false, true);
 
@@ -242,6 +427,7 @@ namespace ace
 					}
 					cluster->Black.IB->Unlock();
 				}
+#endif
 
 				// サーフェイス
 				int32_t surfaceInd = 0;
@@ -267,6 +453,49 @@ namespace ace
 
 					if (hasPixel)
 					{
+#if _NEW
+						SurfacePolygon p;
+						p.SurfaceIndex = surfaceInd;
+
+						p.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs.size(), false);
+						p.IB = g->CreateIndexBuffer_Imp(fs.size() * 3, false, true);
+
+						{
+							p.VB->Lock();
+							auto buf = p.VB->GetBuffer<Vertex>(vs.size());
+							for (auto i = 0; i < vs.size(); i++)
+							{
+								Vertex v = vs[i];
+
+								v.UV1.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / surface.second.Size;
+								v.UV1.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / surface.second.Size;
+
+								v.UV2.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridWidthCount);
+								v.UV2.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridHeightCount);
+							
+								v.VColor = Color(255, 255, 255, 255);
+
+								buf[i] = v;
+							}
+
+							p.VB->Unlock();
+						}
+
+						{
+							p.IB->Lock();
+							auto buf = p.IB->GetBuffer<int32_t>(fs.size() * 3);
+							for (auto i = 0; i < fs.size(); i++)
+							{
+								buf[i * 3 + 0] = fs[i].Index1;
+								buf[i * 3 + 1] = fs[i].Index2;
+								buf[i * 3 + 2] = fs[i].Index3;
+							}
+							p.IB->Unlock();
+						}
+
+						cluster->Surfaces.push_back(p);
+#else
+						
 						SurfacePolygon p;
 						p.SurfaceIndex = surfaceInd;
 						
@@ -336,6 +565,7 @@ namespace ace
 						}
 
 						cluster->Surfaces.push_back(p);
+#endif
 					}
 
 					surfaceInd++;
