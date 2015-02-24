@@ -5,7 +5,7 @@ namespace ace
 	/**
 	@brief マウスボタンの押し状態を示す列挙型
 	*/
-	enum class MouseButtonState :int
+	enum class MouseButtonState : int32_t
 	{
 		/**
 		@brief	ボタンをこのフレームで押した状態

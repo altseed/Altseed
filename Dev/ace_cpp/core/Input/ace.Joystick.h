@@ -5,7 +5,7 @@ namespace ace{
 	/**
 	@brief	ジョイスティックのボタンの押し状態を示す列挙型
 	*/
-	enum class JoystickButtonState:int
+	enum class JoystickButtonState : int32_t
 	{
 		/**
 		@brief	ボタンをこのフレームで押した状態

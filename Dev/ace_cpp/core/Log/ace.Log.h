@@ -5,7 +5,7 @@
 
 namespace ace
 {
-	enum class LogLevel
+	enum class LogLevel : int32_t
 	{
 		Error = 1 << 1,
 		Critical = 1 << 2,

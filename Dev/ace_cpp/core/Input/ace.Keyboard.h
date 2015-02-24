@@ -4,7 +4,7 @@ namespace ace{
 	/**
 	@brief	ACEで扱うキーボードのキー一覧
 	*/
-	enum class Keys:int
+	enum class Keys : int32_t
 	{
 		Unknown,
 		Space,
@@ -134,7 +134,7 @@ namespace ace{
 	/**
 	@brief キーボードの押下状態を示す列挙型
 	*/
-	enum class KeyState:int
+	enum class KeyState : int32_t
 	{
 		/**
 		@brief キーをこのフレームで押した状態

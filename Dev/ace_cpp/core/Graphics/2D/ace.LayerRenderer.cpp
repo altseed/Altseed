@@ -51,9 +51,9 @@ namespace ace {
 	}
 
 		std::vector<ace::VertexLayout> vl;
-		vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
+		vl.push_back(ace::VertexLayout("Pos", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("UV", ace::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("Color", ace::VertexLayoutFormat::R8G8B8A8_UNORM));
 
 		std::vector<ace::Macro> macro;
 		if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)

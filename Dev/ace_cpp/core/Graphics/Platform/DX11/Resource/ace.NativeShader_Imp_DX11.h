@@ -27,7 +27,7 @@ namespace ace {
 		{
 			int32_t					Index;
 			std::string				Name;
-			eConstantBufferFormat	Type;
+			ConstantBufferFormat	Type;
 			//GLint			ID;
 			int32_t			Offset;
 			int32_t			Count;
