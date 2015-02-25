@@ -12,13 +12,13 @@
 
 #### 導入
 
-**最新版 2015/02/26**
+**最新版 2015/02/25**
 
 [Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)
 
 [導入方法(Windows)](./HowToIntroduce/Windows.md)
 
-*Mac,Linuxの場合、現在、自分でソースコードからコンパイルする必要があります。
+* Mac,Linuxの場合、現在、自分でソースコードからコンパイルする必要があります。
 
 #### 資料
 
