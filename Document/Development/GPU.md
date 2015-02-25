@@ -19,7 +19,7 @@ CodeXL[http://developer.amd.com/tools-and-sdks/heterogeneous-computing/codexl/]
 Intel HD Graphics4000,4400で確認
 ドライバのバージョン不明
 
-FRAGが定義されていると落ちる。
+FLAGが定義されていると落ちる。
 
 ```
 vec4 SampleTexture(sampler2D texture_, int sampler_, vec2 uv_){
