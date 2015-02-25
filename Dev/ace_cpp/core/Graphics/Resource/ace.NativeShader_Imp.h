@@ -46,7 +46,7 @@ namespace ace {
 
 		std::map<int32_t, BindingTexture> bindingTextures;
 
-		int32_t GetBufferSize(eConstantBufferFormat type, int32_t count);
+		int32_t GetBufferSize(ConstantBufferFormat type, int32_t count);
 
 		/**
 			@note	キャッシュ用キー

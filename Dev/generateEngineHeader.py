@@ -90,7 +90,6 @@ engineHeader.readLines("ace_cpp/core/Input/ace.Keyboard.h")
 engineHeader.readLines("ace_cpp/core/Input/ace.Joystick.h")
 engineHeader.readLines("ace_cpp/core/Input/ace.JoystickContainer.h")
 
-engineHeader.readLines("ace_cpp/core/Log/ace.LogLevel.h")
 engineHeader.readLines("ace_cpp/core/Log/ace.Log.h")
 engineHeader.readLines("ace_cpp/core/Profiler/ace.Profiler.h")
         

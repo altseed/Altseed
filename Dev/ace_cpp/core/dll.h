@@ -2,7 +2,6 @@
 #include <Math/ace.RectF.h>
 
 #include "Window/ace.Window_Imp.h"
-#include "Log/ace.LogLevel.h"
 #include "Log/ace.Log_Imp.h"
 
 #include "Profiler/ace.Profiler.h"

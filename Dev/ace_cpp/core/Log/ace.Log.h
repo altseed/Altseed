@@ -2,10 +2,18 @@
 #include <string>
 #include <memory>
 #include <ace.common.Base.h>
-#include "ace.LogLevel.h"
 
 namespace ace
 {
+	enum class LogLevel : int32_t
+	{
+		Error = 1 << 1,
+		Critical = 1 << 2,
+		Warning = 1 << 3,
+		Information = 1 << 4,
+		All = 2147483647	// INT_MAXと等しい
+	};
+
 	class Log
 	{
 	public:

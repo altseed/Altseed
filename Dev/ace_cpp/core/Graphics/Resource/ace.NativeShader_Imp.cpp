@@ -204,39 +204,39 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	int32_t NativeShader_Imp::GetBufferSize(eConstantBufferFormat type, int32_t count)
+	int32_t NativeShader_Imp::GetBufferSize(ConstantBufferFormat type, int32_t count)
 	{
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1)
+		if (type == ConstantBufferFormat::Float1)
 		{
 			return sizeof(float) * 1 * count;
 		}
 		
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT2)
+		if (type == ConstantBufferFormat::Float2)
 		{
 			return sizeof(float) * 2 * count;
 		}
 
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3)
+		if (type == ConstantBufferFormat::Float3)
 		{
 			return sizeof(float) * 3 * count;
 		}
 
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4)
+		if (type == ConstantBufferFormat::Float4)
 		{
 			return sizeof(float) * 4 * count;
 		}
 
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44)
+		if (type == ConstantBufferFormat::Matrix44)
 		{
 			return sizeof(float) * 16 * count;
 		}
 
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4_ARRAY)
+		if (type == ConstantBufferFormat::Float4_ARRAY)
 		{
 			return sizeof(float) * 4 * count;
 		}
 
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
+		if (type == ConstantBufferFormat::Matrix44_ARRAY)
 		{
 			return sizeof(float) * 16 * count;
 		}

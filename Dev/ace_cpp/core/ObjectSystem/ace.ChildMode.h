@@ -2,7 +2,7 @@
 
 namespace ace
 {
-	enum class ChildMode
+	enum class ChildMode : int32_t
 	{
 		Position = 0,
 		All = 1,

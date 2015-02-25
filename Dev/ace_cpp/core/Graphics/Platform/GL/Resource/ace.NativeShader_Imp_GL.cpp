@@ -111,24 +111,24 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 
 			if (type == GL_FLOAT)
 			{
-				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
+				l.Type = ConstantBufferFormat::Float1;
 				offset += sizeof(float) * 1 * l.Count;	
 			}
 			else if (type == GL_FLOAT_VEC2)
 			{
-				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT2;
+				l.Type = ConstantBufferFormat::Float2;
 				offset += sizeof(float) * 2 * l.Count;
 			}
 			else if (type == GL_FLOAT_VEC3)
 			{
-				l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
+				l.Type = ConstantBufferFormat::Float3;
 				offset += sizeof(float) * 3 * l.Count;
 			}
 			else if (type == GL_FLOAT_VEC4)
 			{
 				if (l.Count > 1)
 				{
-					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4_ARRAY;
+					l.Type = ConstantBufferFormat::Float4_ARRAY;
 					offset += sizeof(float) * 4 * l.Count;
 
 					std::string name_ = name;
@@ -141,7 +141,7 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 				}
 				else
 				{
-					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
+					l.Type = ConstantBufferFormat::Float4;
 					offset += sizeof(float) * 4 * l.Count;
 				}
 			}
@@ -149,7 +149,7 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 			{
 				if (l.Count > 1)
 				{
-					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+					l.Type = ConstantBufferFormat::Matrix44_ARRAY;
 					offset += sizeof(float) * 16 * l.Count;
 
 					std::string name_ = name;
@@ -162,7 +162,7 @@ void NativeShader_Imp_GL::Reflect(GLuint program, std::vector<ConstantLayout>& u
 				}
 				else
 				{
-					l.Type = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
+					l.Type = ConstantBufferFormat::Matrix44;
 					offset += sizeof(float) * 16 * l.Count;
 				}
 			}
@@ -266,7 +266,7 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 	{
 		auto& l = l_->second;
 
-		if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44)
+		if (l.Type == ConstantBufferFormat::Matrix44)
 		{
 			uint8_t* data = (uint8_t*) m_constantBuffer;
 			data += l.Offset;
@@ -276,7 +276,7 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 				GL_TRUE,
 				(const GLfloat*) data);
 		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
+		else if (l.Type == ConstantBufferFormat::Matrix44_ARRAY)
 		{
 			uint8_t* data = (uint8_t*) m_constantBuffer;
 			data += l.Offset;
@@ -286,7 +286,7 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 				GL_TRUE,
 				(const GLfloat*) data);
 		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT4)
+		else if (l.Type == ConstantBufferFormat::Float4)
 		{
 			uint8_t* data = (uint8_t*) m_constantBuffer;
 			data += l.Offset;
@@ -295,7 +295,7 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 				1,
 				(const GLfloat*) data);
 		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT4_ARRAY)
+		else if (l.Type == ConstantBufferFormat::Float4_ARRAY)
 		{
 			uint8_t* data = (uint8_t*) m_constantBuffer;
 			data += l.Offset;
@@ -304,7 +304,7 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 				l.Count,
 				(const GLfloat*) data);
 		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT1)
+		else if (l.Type == ConstantBufferFormat::Float1)
 		{
 			uint8_t* data = (uint8_t*) m_constantBuffer;
 			data += l.Offset;
@@ -313,7 +313,7 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 				1,
 				(const GLfloat*) data);
 		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT2)
+		else if (l.Type == ConstantBufferFormat::Float2)
 		{
 			uint8_t* data = (uint8_t*) m_constantBuffer;
 			data += l.Offset;
@@ -322,7 +322,7 @@ void NativeShader_Imp_GL::AssignConstantBuffer()
 				1,
 				(const GLfloat*) data);
 		}
-		else if (l.Type == CONSTANT_BUFFER_FORMAT_FLOAT3)
+		else if (l.Type == ConstantBufferFormat::Float3)
 		{
 			uint8_t* data = (uint8_t*) m_constantBuffer;
 			data += l.Offset;
@@ -527,7 +527,7 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 		Layout l_;
 		l_.attribute = att;
 	
-		if (l.LayoutFormat == LAYOUT_FORMAT_R32G32B32_FLOAT)
+		if (l.LayoutFormat == VertexLayoutFormat::R32G32B32_FLOAT)
 		{
 			l_.type = GL_FLOAT;
 			l_.count = 3;
@@ -535,7 +535,7 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 			l_.offset = byteOffset;
 			byteOffset += sizeof(float) * 3;
 		}
-		else if (l.LayoutFormat == LAYOUT_FORMAT_R8G8B8A8_UNORM)
+		else if (l.LayoutFormat == VertexLayoutFormat::R8G8B8A8_UNORM)
 		{
 			l_.type = GL_UNSIGNED_BYTE;
 			l_.count = 4;
@@ -543,7 +543,7 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 			l_.offset = byteOffset;
 			byteOffset += sizeof(float) * 1;
 		}
-		else if (l.LayoutFormat == LAYOUT_FORMAT_R8G8B8A8_UINT)
+		else if (l.LayoutFormat == VertexLayoutFormat::R8G8B8A8_UINT)
 		{
 			l_.type = GL_UNSIGNED_BYTE;
 			l_.count = 4;
@@ -551,7 +551,7 @@ NativeShader_Imp_GL* NativeShader_Imp_GL::Create(
 			l_.offset = byteOffset;
 			byteOffset += sizeof(float) * 1;
 		}
-		else if (l.LayoutFormat == LAYOUT_FORMAT_R32G32_FLOAT)
+		else if (l.LayoutFormat == VertexLayoutFormat::R32G32_FLOAT)
 		{
 			l_.type = GL_FLOAT;
 			l_.count = 2;

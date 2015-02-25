@@ -352,7 +352,6 @@
     <ClInclude Include="..\core\IO\ace.PathIterator_Imp.h" />
     <ClInclude Include="..\core\Log\ace.GetSpec.h" />
     <ClInclude Include="..\core\Log\ace.Log.h" />
-    <ClInclude Include="..\core\Log\ace.LogLevel.h" />
     <ClInclude Include="..\core\Log\ace.Log_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.h" />

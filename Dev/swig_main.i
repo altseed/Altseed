@@ -131,7 +131,6 @@ CPP_OBJECT( ace::StaticFile )
 
 %include "ace_cpp/core/Window/ace.Window.h"
 %include "ace_cpp/core/Window/ace.Window_Imp.h"
-%include "ace_cpp/core/Log/ace.LogLevel.h"
 %include "ace_cpp/core/Log/ace.Log.h"
 %include "ace_cpp/core/Log/ace.Log_Imp.h"
 %include "ace_cpp/core/Profiler/ace.Profiler.h"
