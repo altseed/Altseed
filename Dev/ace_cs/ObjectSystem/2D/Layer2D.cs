@@ -219,6 +219,18 @@ namespace ace
 			OnDrawAdditionally();
 		}
 
+		internal override void CallDestroy()
+		{
+			foreach(var item in Objects)
+			{
+				if(item.IsAlive)
+				{
+					item.OnDispose();
+				}
+			}
+			OnDispose();
+		}
+
 		private swig.CoreLayer2D coreLayer2D { get; set; }
 
 		private ContentsManager<Object2D> contentsManager { get; set; }

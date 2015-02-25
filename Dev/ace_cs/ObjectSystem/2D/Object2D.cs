@@ -99,6 +99,7 @@ namespace ace
 		public void Vanish()
 		{
 			IsAlive = false;
+			OnVanish();
 		}
 
 		/// <summary>
@@ -211,6 +212,20 @@ namespace ace
 		/// オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述できる。
 		/// </summary>
 		protected virtual void OnDrawAdditionally() { }
+
+		/// <summary>
+		/// オーバーライドして、この2DオブジェクトがVanishメソッドによって破棄される際の処理を記述できる。
+		/// </summary>
+		protected virtual void OnVanish()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、この2Dオブジェクトが破棄される際の処理を記述できる。
+		/// </summary>
+		protected internal virtual void OnDispose()
+		{
+		}
 
 
 		internal abstract swig.CoreObject2D CoreObject { get; }

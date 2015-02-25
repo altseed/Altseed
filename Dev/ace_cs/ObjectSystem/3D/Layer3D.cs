@@ -282,6 +282,18 @@ namespace ace
 			OnDrawAdditionally();
 		}
 
+		internal override void CallDestroy()
+		{
+			foreach(var item in Objects)
+			{
+				if(item.IsAlive)
+				{
+					item.OnDispose();
+				}
+			}
+			OnDispose();
+		}
+
 
 		private ContentsManager<Object3D> contentsManager { get;set; }
 	}

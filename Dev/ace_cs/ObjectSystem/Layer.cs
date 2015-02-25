@@ -57,6 +57,8 @@ namespace ace
 
 		internal abstract void Update();
 
+		internal abstract void CallDestroy();
+
 		internal abstract void DrawAdditionally();
 
 		internal void BeginDrawing()
@@ -95,15 +97,38 @@ namespace ace
 
 		internal swig.CoreLayer CoreLayer { get { return commonObject; } }
 
+		/// <summary>
+		/// オーバーライドして、このレイヤーが更新される前の処理を記述できる。
+		/// </summary>
 		protected virtual void OnUpdating()
 		{
 		}
 
+		/// <summary>
+		/// オーバーライドして、このレイヤーが更新された後の処理を記述できる。
+		/// </summary>
 		protected virtual void OnUpdated()
 		{
 		}
 
+		/// <summary>
+		/// オーバーライドして、このレイヤーの追加の描画処理を記述できる。
+		/// </summary>
 		protected virtual void OnDrawAdditionally()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このレイヤーがVansihメソッドによって破棄されるときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnVanish()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このレイヤーが破棄されるときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnDispose()
 		{
 		}
 
@@ -132,6 +157,7 @@ namespace ace
 		public void Vanish()
 		{
 			IsAlive = false;
+			OnVanish();
 		}
 
 		protected List<PostEffect> postEffects;

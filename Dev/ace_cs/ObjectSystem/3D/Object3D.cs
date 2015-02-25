@@ -36,7 +36,7 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (commonObject == null) return;
+				if(commonObject == null) return;
 				GC.Collector.AddObject(commonObject);
 				commonObject = null;
 			}
@@ -69,6 +69,8 @@ namespace ace
 		public void Vanish()
 		{
 			IsAlive = false;
+			OnVanish();
+			OnDispose();
 		}
 
 		internal void Start()
@@ -83,7 +85,7 @@ namespace ace
 
 		internal override void Update()
 		{
-			if (!IsUpdated || !IsAlive)
+			if(!IsUpdated || !IsAlive)
 			{
 				return;
 			}
@@ -102,7 +104,7 @@ namespace ace
 
 		internal void DrawAdditionally()
 		{
-			if (!IsDrawn || !IsAlive)
+			if(!IsDrawn || !IsAlive)
 			{
 				return;
 			}
@@ -122,14 +124,28 @@ namespace ace
 		protected abstract void OnStart();
 
 		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトの更新処理を記述することができる。
+		/// オーバーライドして、この3Dオブジェクトの更新処理を記述することができる。
 		/// </summary>
 		protected abstract void OnUpdate();
 
 		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述できる。
+		/// オーバーライドして、この3Dオブジェクトに関する追加の描画処理を記述できる。
 		/// </summary>
-		protected void OnDrawAdditionally() { }
+		protected virtual void OnDrawAdditionally() { }
+
+		/// <summary>
+		/// オーバーライドして、この3DオブジェクトがVanishメソッドによって破棄される時の処理を記述できる。
+		/// </summary>
+		protected virtual void OnVanish()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、この3Dオブジェクトが破棄されるときの処理を記述できる。
+		/// </summary>
+		protected internal virtual void OnDispose()
+		{
+		}
 
 		/// <summary>
 		/// このインスタンスを管理している ace.Layer3D クラスのインスタンスを取得する。

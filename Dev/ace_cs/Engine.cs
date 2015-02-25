@@ -199,6 +199,7 @@ namespace ace
 
 				if (transition.SwigObject.IsFinished())
 				{
+					previousScene.CallDestroy();
 					transition = null;
 					previousScene = null;
                     CurrentScene.CallTransitionFinished();
@@ -212,6 +213,7 @@ namespace ace
                     {
                         CurrentScene.CallChanging();
                     }
+					CurrentScene.CallDestroy();
 					CurrentScene = nextScene;
 					core.ChangeScene(nextScene.CoreScene);
 					nextScene = null;
