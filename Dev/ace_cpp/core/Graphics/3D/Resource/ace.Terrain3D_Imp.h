@@ -3,6 +3,16 @@
 
 #include "ace.Terrain3D.h"
 
+#include <btBulletCollisionCommon.h>
+
+#ifdef _DEBUG
+#pragma comment(lib,"Debug/BulletCollision_Debug.lib")
+#pragma comment(lib,"Debug/LinearMath_Debug.lib")
+#else
+#pragma comment(lib,"Release/BulletCollision.lib")
+#pragma comment(lib,"Release/LinearMath.lib")
+#endif
+
 namespace ace
 {
 	class Terrain3D_Imp
@@ -126,9 +136,23 @@ namespace ace
 		public:
 			std::vector<Vector3DF>	Vertecies;
 			std::vector<ChipFace>	Faces;
+
+			btTriangleMesh*				CollisionMesh;
+			btBvhTriangleMeshShape*		CollisionMeshShape;
+			btCollisionObject*			CollisionObject;
+
+			Chip();
+			virtual ~Chip();
+
+			void GenerateCollision();
 		};
 
 		std::vector<Chip>	Chips;
+
+		btCollisionWorld*					collisionWorld = nullptr;
+		btDefaultCollisionConfiguration*	collisionConfiguration = nullptr;
+		btCollisionDispatcher*				collisionDispatcher = nullptr;
+		btAxisSweep3*						collisionOverlappingPairCache = nullptr;
 
 	public:
 		Terrain3D_Imp(Graphics* graphics);

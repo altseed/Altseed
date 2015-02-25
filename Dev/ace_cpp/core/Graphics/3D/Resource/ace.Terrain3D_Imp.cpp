@@ -13,14 +13,75 @@ namespace ace
 {
 	#define _NEW 1
 
+	Terrain3D_Imp::Chip::Chip()
+	{
+		CollisionMesh = nullptr;
+		CollisionMeshShape = nullptr;
+		CollisionObject = nullptr;
+	}
+
+	Terrain3D_Imp::Chip::~Chip()
+	{
+		SafeDelete(CollisionMesh);
+		SafeDelete(CollisionMeshShape);
+		SafeDelete(CollisionObject);
+	}
+
+	void Terrain3D_Imp::Chip::GenerateCollision()
+	{
+		SafeDelete(CollisionMesh);
+		SafeDelete(CollisionMeshShape);
+		SafeDelete(CollisionObject);
+
+		CollisionMesh = new btTriangleMesh();
+
+		for (size_t i = 0; i < Faces.size(); i++)
+		{
+			const auto& pos0 = Vertecies[Faces[i].Indexes[0]];
+			const auto& pos1 = Vertecies[Faces[i].Indexes[1]];
+			const auto& pos2 = Vertecies[Faces[i].Indexes[2]];
+
+			CollisionMesh->addTriangle(
+				btVector3(pos0.X, pos0.Y, pos0.Z),
+				btVector3(pos1.X, pos1.Y, pos1.Z),
+				btVector3(pos2.X, pos2.Y, pos2.Z));
+		}
+
+		CollisionMeshShape = new btBvhTriangleMeshShape(CollisionMesh, true, true);
+		CollisionObject = new btCollisionObject();
+		CollisionObject->setCollisionShape(CollisionMeshShape);
+	}
+
 	Terrain3D_Imp::Terrain3D_Imp(Graphics* graphics)
 		: m_graphics(graphics)
 	{
 		SafeAddRef(graphics);
+
+		collisionConfiguration = new btDefaultCollisionConfiguration();
+		collisionDispatcher = new btCollisionDispatcher(collisionConfiguration);
+		btVector3 btv3WorldAabbMin(-10000.0f, -10000.0f, -10000.0f);
+		btVector3 btv3WorldAabbMax(10000.0f, 10000.0f, 10000.0f);
+		int32_t maxProxies = 10240;
+		collisionOverlappingPairCache = new btAxisSweep3(btv3WorldAabbMin, btv3WorldAabbMax, maxProxies);
+
+		collisionWorld = new btCollisionWorld(
+			collisionDispatcher,
+			collisionOverlappingPairCache,
+			collisionConfiguration);
 	}
 
 	Terrain3D_Imp::~Terrain3D_Imp()
 	{
+		for (auto& c : Chips)
+		{
+			collisionWorld->removeCollisionObject(c.CollisionObject);
+		}
+
+		SafeDelete(collisionWorld);
+		SafeDelete(collisionOverlappingPairCache);
+		SafeDelete(collisionDispatcher);
+		SafeDelete(collisionConfiguration);
+
 		SafeRelease(m_graphics);
 	}
 
@@ -595,6 +656,16 @@ namespace ace
 			this->heights[i] = 0.0f;
 		}
 
+		GenerateTerrainChips();
+
+		// Todo 複数チップで1コリジョンにまとめる
+		for (auto& c : Chips)
+		{
+			c.GenerateCollision();
+			collisionWorld->addCollisionObject(c.CollisionObject, 1, 1);
+		}
+		collisionWorld->updateAabbs();
+		
 		isChanged = true;
 	}
 

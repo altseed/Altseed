@@ -29,47 +29,12 @@ else:
 
 aceutils.cd(r"../")
 
+
+aceutils.copytreeWithExt(r'bullet-2.82-r2704/src/',r'Dev/include/',['.h'])
+
 if aceutils.isWin():
 	aceutils.mkdir(r'Dev/lib/Debug')
 	aceutils.mkdir(r'Dev/lib/Release')
-
-	aceutils.mkdir(r'Dev/include/BulletCollision')
-	aceutils.mkdir(r'Dev/include/BulletCollision/CollisionDispatch/')
-	aceutils.mkdir(r'Dev/include/BulletCollision/BroadphaseCollision/')
-	aceutils.mkdir(r'Dev/include/BulletCollision/NarrowPhaseCollision/')
-
-	aceutils.mkdir(r'Dev/include/LinearMath')
-
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/CollisionDispatch/btCollisionWorld.h', r'Dev/include/BulletCollision/CollisionDispatch/')
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/CollisionDispatch/btCollisionObject.h', r'Dev/include/BulletCollision/CollisionDispatch/')
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/CollisionDispatch/btCollisionDispatcher.h', r'Dev/include/BulletCollision/CollisionDispatch/')
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h', r'Dev/include/BulletCollision/CollisionDispatch/')
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/CollisionDispatch/btManifoldResult.h', r'Dev/include/BulletCollision/CollisionDispatch/')
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h', r'Dev/include/BulletCollision/CollisionDispatch/')
-
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/BroadphaseCollision/btDispatcher.h', r'Dev/include/BulletCollision/BroadphaseCollision/')
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h', r'Dev/include/BulletCollision/BroadphaseCollision/')
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h', r'Dev/include/BulletCollision/BroadphaseCollision/')
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h', r'Dev/include/BulletCollision/BroadphaseCollision/')
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/BroadphaseCollision/btOverlappingPairCallback.h', r'Dev/include/BulletCollision/BroadphaseCollision/')
-
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h', r'Dev/include/BulletCollision/NarrowPhaseCollision/')
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/NarrowPhaseCollision/btManifoldPoint.h', r'Dev/include/BulletCollision/NarrowPhaseCollision/')
-	aceutils.copy(r'bullet-2.82-r2704/src/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h', r'Dev/include/BulletCollision/NarrowPhaseCollision/')
-
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btVector3.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btAlignedObjectArray.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btTransform.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btScalar.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btMinMax.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btAlignedAllocator.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btMatrix3x3.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btQuaternion.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btQuadWord.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btMotionState.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btAlignedAllocator.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btAlignedObjectArray.h', r'Dev/include/LinearMath/')
-	aceutils.copy(r'bullet-2.82-r2704/src/LinearMath/btTransformUtil.h', r'Dev/include/LinearMath/')
 
 	aceutils.copy(r'bullet_bin/lib/Debug/BulletCollision_Debug.lib', r'Dev/lib/Debug/')
 	aceutils.copy(r'bullet_bin/lib/Debug/LinearMath_Debug.lib', r'Dev/lib/Debug/')
@@ -80,5 +45,3 @@ if aceutils.isWin():
 else:
 	aceutils.copy(r'Culling3D-master/Culling3D/Culling3D.h', r'Dev/include/')
 	aceutils.copy(r'culling3d_bin/libCulling3D.a', r'Dev/lib/')
-
-
