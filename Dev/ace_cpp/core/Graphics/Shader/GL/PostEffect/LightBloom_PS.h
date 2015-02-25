@@ -26,8 +26,9 @@ vec4 GetColor(vec2 uv)
 {
 #ifdef BLUR_X
 	return max(SampleTexture(g_blurredTexture, g_blurredSampler, uv)-vec4(g_threshold,g_threshold,g_threshold,0.0), vec4(0.0,0.0,0.0,0.0));
-#endif
+#else
 	return SampleTexture( g_blurredTexture, g_blurredSampler, uv );
+#endif
 }
 
 vec4 CalcBlurredColor(vec2 uv)
