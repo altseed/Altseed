@@ -2,14 +2,18 @@
 
 ### デバッガー
 
-*DirectX11の場合
+* DirectX11の場合
+* 
 VisualStudio付属のツール(Professional以上)
+
 デバッグ->グラフィックス->診断の開始
 
-*Nvidiaのビデオカードの場合
+* Nvidiaのビデオカードの場合
+* 
 (Nsight)[http://www.nvidia.co.jp/object/parallel-nsight-jp.html]
 
-*AMDの場合
+* AMDの場合
+* 
 CodeXL[http://developer.amd.com/tools-and-sdks/heterogeneous-computing/codexl/]
 
 ### OpenGL(Intel)の不具合
@@ -17,6 +21,7 @@ CodeXL[http://developer.amd.com/tools-and-sdks/heterogeneous-computing/codexl/]
 * 同じ関数内でtextureで取得した値を2回returnすると落ちる。
 
 Intel HD Graphics4000,4400で確認
+
 ドライバのバージョン不明
 
 FLAGが定義されていると落ちる。
