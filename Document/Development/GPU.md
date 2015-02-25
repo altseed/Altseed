@@ -3,17 +3,17 @@
 ### デバッガー
 
 * DirectX11の場合
-* 
+
 VisualStudio付属のツール(Professional以上)
 
 デバッグ->グラフィックス->診断の開始
 
 * Nvidiaのビデオカードの場合
-* 
+
 (Nsight)[http://www.nvidia.co.jp/object/parallel-nsight-jp.html]
 
 * AMDの場合
-* 
+
 CodeXL[http://developer.amd.com/tools-and-sdks/heterogeneous-computing/codexl/]
 
 ### OpenGL(Intel)の不具合
