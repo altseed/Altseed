@@ -18,7 +18,7 @@
 
 [導入方法(Windows)](./HowToIntroduce/Windows.md)
 
-*Mac,Linuxの場合、現在、自分でソースコードからコンパイルする必要があります。
+* Mac,Linuxの場合、現在、自分でソースコードからコンパイルする必要があります。
 
 #### 資料
 
