@@ -28,6 +28,11 @@ namespace ace
 		*/
 	}
 
+	void Object3D::CallDestroy()
+	{
+		OnDispose();
+	}
+
 	void Object3D::SetLayer(Layer3D* layer)
 	{
 		m_owner = layer;
@@ -36,6 +41,14 @@ namespace ace
 	CoreObject3D* Object3D::GetCoreObject() const
 	{
 		return m_commonObject;
+	}
+
+	void Object3D::OnVanish()
+	{
+	}
+
+	void Object3D::OnDispose()
+	{
 	}
 
 	Object3D::Object3D()
@@ -88,6 +101,7 @@ namespace ace
 	void Object3D::Vanish()
 	{
 		m_isAlive = false;
+		OnVanish();
 	}
 
 	Vector3DF Object3D::GetPosition() const

@@ -30,6 +30,7 @@ namespace ace
 
 		void Start();
 		void Update();
+		void CallDestroy();
 		void SetLayer(Layer2D* layer);
 		virtual CoreObject2D* GetCoreObject() const = 0;
 
@@ -46,6 +47,13 @@ namespace ace
 			@brief	オーバーライドして、このオブジェクトに対する追加の描画処理を記述できる。
 		*/
 		virtual void OnDrawAdditionally();
+
+		/**
+			@brief	オーバーライドして、このオブジェクトがVanishメソッドによって破棄される際の処理を記述できる。
+		*/
+		virtual void OnVanish();
+
+		virtual void OnDispose();
 
 		/**
 		@brief	通常の描画に加えてテクスチャを描画する。

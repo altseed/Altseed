@@ -43,6 +43,11 @@ namespace ace
 		m_componentManager.Update();
 	}
 
+	void Object2D::CallDestroy()
+	{
+		OnDispose();
+	}
+
 	void Object2D::OnStart()
 	{
 	}
@@ -53,7 +58,14 @@ namespace ace
 
 	void Object2D::OnDrawAdditionally()
 	{
+	}
 
+	void Object2D::OnVanish()
+	{
+	}
+
+	void Object2D::OnDispose()
+	{
 	}
 
 	void Object2D::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
@@ -79,6 +91,7 @@ namespace ace
 	void Object2D::Vanish()
 	{
 		GetCoreObject()->SetIsAlive(false);
+		OnVanish();
 	}
 
 	Layer2D* Object2D::GetLayer() const

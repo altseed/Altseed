@@ -70,6 +70,19 @@ namespace ace
 		OnDrawAdditionally();
 	}
 
+	void Layer2D::CallDestroy()
+	{
+		for (auto& o : m_objects.GetContents())
+		{
+			if (o->GetIsAlive())
+			{
+				o->CallDestroy();
+			}
+		}
+		OnDispose();
+	}
+
+
 	void Layer2D::OnUpdating()
 	{
 	}

@@ -181,6 +181,13 @@ namespace ace
 
 	void Scene::CallDestroy()
 	{
+		for (auto& l : m_layersToUpdate)
+		{
+			if (l->GetIsAlive())
+			{
+				l->CallDestroy();
+			}
+		}
 		OnDestroy();
 	}
 

@@ -415,6 +415,7 @@ namespace ace
 			
 			if (transition->coreTransition->IsFinished())
 			{
+				m_previousScene->CallDestroy();
 				transition = nullptr;
 				m_previousScene = nullptr;
 				m_currentScene->CallTransitionFinished();
@@ -428,6 +429,7 @@ namespace ace
 				{
 					m_currentScene->CallChanging();
 				}
+				m_currentScene->CallDestroy();
 				m_currentScene = m_nextScene;
 				m_core->ChangeScene(m_nextScene->m_coreScene.get());
 				m_nextScene = nullptr;

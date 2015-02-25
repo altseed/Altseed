@@ -28,6 +28,7 @@ namespace ace
 
 		void DrawAdditionally();
 		void Update();
+		void CallDestroy();
 
 	protected:
 		virtual void OnUpdating();

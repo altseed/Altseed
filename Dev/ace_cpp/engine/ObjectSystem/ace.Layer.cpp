@@ -40,6 +40,14 @@ namespace ace
 		m_commonObject->Draw();
 	}
 
+	void Layer::OnVanish()
+	{
+	}
+
+	void Layer::OnDispose()
+	{
+	}
+
 	Layer::Layer()
 		: m_scene(nullptr)
 		, m_isUpdated(true)
@@ -119,5 +127,6 @@ namespace ace
 	void Layer::Vanish()
 	{
 		m_isAlive = false;
+		OnVanish();
 	}
 }
