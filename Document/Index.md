@@ -10,6 +10,18 @@
 
 ### ユーザー向け
 
+#### 導入
+
+**最新版 2015/02/26**
+
+[Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)
+
+[導入方法(Windows)](./HowToIntroduce/Windows.md)
+
+*Mac,Linuxの場合、現在、自分でソースコードからコンパイルする必要があります。
+
+#### 資料
+
 * [リファレンス](./Reference/Main.md)
 * [よくある質問](./FAQ.md)
 * [機能の逆引き](./ReverseDictionary.md)
@@ -18,11 +30,7 @@
 * [C#による開発第1回](./Manual/CSharp/01_intro.md)
 * [C#による開発第2回](./Manual/CSharp/02_movingball1.md)
 
-#### 導入方法
-
-記述中
-
-### 開発者向け
+### コミッター向け
 
 記述中
 
