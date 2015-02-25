@@ -29,6 +29,7 @@ namespace ace
 		
 		void Start();
 		void Update();
+		void CallDestroy();
 		void SetLayer(Layer3D* layer);
 		CoreObject3D* GetCoreObject() const;
 
@@ -48,14 +49,21 @@ namespace ace
 		virtual void OnStart() = 0;
 
 		/**
-			@brief	オーバーライドして、この2Dオブジェクトの更新処理を記述することができる。
+			@brief	オーバーライドして、この3Dオブジェクトの更新処理を記述することができる。
 		*/
 		virtual void OnUpdate() = 0;
 
 		/**
-			@brief	オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述できる。
+			@brief	オーバーライドして、この3Dオブジェクトに関する追加の描画処理を記述できる。
 		*/
 		virtual void OnDrawAdditionally() = 0;
+
+		/**
+			@brief	オーバーライドして、この3DオブジェクトがVanishメソッドによって破棄される際の処理を記述できる。
+		*/
+		virtual void OnVanish();
+
+		virtual void OnDispose();
 
 	public:
 		/**

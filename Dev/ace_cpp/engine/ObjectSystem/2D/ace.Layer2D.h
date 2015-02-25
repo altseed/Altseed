@@ -31,7 +31,7 @@ namespace ace
 
 		void DrawAdditionally();
 		void Update();
-		void UpdateComponents();
+		void CallDestroy();
 
 	protected:
 		/**

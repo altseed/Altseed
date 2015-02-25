@@ -43,6 +43,18 @@ namespace ace
 		OnUpdated();
 	}
 
+	void Layer3D::CallDestroy()
+	{
+		for (auto& o : m_objects.GetContents())
+		{
+			if (o->GetIsAlive())
+			{
+				o->CallDestroy();
+			}
+		}
+		OnDispose();
+	}
+
 	void Layer3D::BeginUpdateting()
 	{
 		m_coreLayer->BeginUpdating();

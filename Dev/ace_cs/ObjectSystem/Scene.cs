@@ -216,6 +216,13 @@ namespace ace
 
 		internal void CallDestroy()
 		{
+			foreach(var item in layersToUpdate_)
+			{
+				if(item.IsAlive)
+				{
+					item.CallDestroy();
+				}
+			}
 			OnDestroy();
 		}
 

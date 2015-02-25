@@ -39,6 +39,7 @@ namespace ace
 
 		virtual void Update() = 0;
 		virtual void DrawAdditionally() = 0;
+		virtual void CallDestroy() = 0;
 
 		void BeginDrawing();
 		void EndDrawing();
@@ -47,6 +48,8 @@ namespace ace
 	protected:
 		virtual void OnUpdated() = 0;
 		virtual void OnUpdating() = 0;
+		virtual void OnVanish();
+		virtual void OnDispose();
 
 	public:
 		Layer();
