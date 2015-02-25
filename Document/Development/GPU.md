@@ -1,4 +1,4 @@
-﻿## GPU
+## GPU
 
 ### デバッガー
 
@@ -10,11 +10,11 @@ VisualStudio付属のツール(Professional以上)
 
 * Nvidiaのビデオカードの場合
 
-(Nsight)[http://www.nvidia.co.jp/object/parallel-nsight-jp.html]
+[Nsight](http://www.nvidia.co.jp/object/parallel-nsight-jp.html)
 
 * AMDの場合
 
-CodeXL[http://developer.amd.com/tools-and-sdks/heterogeneous-computing/codexl/]
+[CodeXL](http://developer.amd.com/tools-and-sdks/heterogeneous-computing/codexl/)
 
 ### OpenGL(Intel)の不具合
 
