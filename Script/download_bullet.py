@@ -3,7 +3,6 @@ import aceutils
 
 aceutils.cdToScript()
 
-'''
 aceutils.cd(r'../')
 aceutils.rm(r'bullet-2.82-r2704.zip')
 aceutils.rmdir(r'bullet-2.82-r2704')
@@ -25,7 +24,6 @@ else:
 	aceutils.call(r'make')
 
 
-'''
 
 aceutils.cd(r"../")
 
@@ -43,5 +41,6 @@ if aceutils.isWin():
 	aceutils.copy(r'bullet_bin/lib/Release/LinearMath.lib', r'Dev/lib/Release/')
 
 else:
-	aceutils.copy(r'Culling3D-master/Culling3D/Culling3D.h', r'Dev/include/')
-	aceutils.copy(r'culling3d_bin/libCulling3D.a', r'Dev/lib/')
+
+	aceutils.copy(r'bullet_bin/libBulletCollision.a', r'Dev/lib/')
+	aceutils.copy(r'bullet_bin/libLinearMath.a', r'Dev/lib/')
