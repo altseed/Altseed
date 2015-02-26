@@ -450,7 +450,7 @@ namespace ace
 		variation = time;
 	}
 
-	bool RenderedMassModelObject3D::IsAnimationPlaying()
+	bool RenderedMassModelObject3D::GetIsAnimationPlaying()
 	{
 		return isAnimationPlaying0 || isAnimationPlaying1;
 	}

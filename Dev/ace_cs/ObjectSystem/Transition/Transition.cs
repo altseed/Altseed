@@ -79,7 +79,7 @@ namespace ace
 		{
 			get
 			{
-				return SwigObject.IsFinished();
+				return SwigObject.GetIsFinished();
 			}
 		}
 

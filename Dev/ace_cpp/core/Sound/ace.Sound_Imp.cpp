@@ -60,7 +60,7 @@ namespace ace
 		return m_manager->Play(s->GetSound());
 	}
 
-	bool Sound_Imp::IsPlaying(int32_t id)
+	bool Sound_Imp::GetIsPlaying(int32_t id)
 	{
 		if (m_manager == nullptr) return false;
 		return m_manager->IsPlaying(id);

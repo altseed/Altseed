@@ -41,7 +41,7 @@ namespace ace
 		@brief	シーン遷移処理が終了したか取得する。
 		@return	シーン遷移処理が終了したか?
 		*/
-		bool IsFinished() const;
+		bool GetIsFinished() const;
 
 		/**
 		@brief	シーン遷移処理を終了する。

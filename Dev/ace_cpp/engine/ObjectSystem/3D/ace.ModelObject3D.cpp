@@ -59,9 +59,9 @@ namespace ace
 		m_coreObject->CrossFadeAnimation(index, name, time);
 	}
 
-	bool ModelObject3D::IsAnimationPlaying(int32_t index)
+	bool ModelObject3D::GetIsAnimationPlaying(int32_t index)
 	{
-		return m_coreObject->IsAnimationPlaying(index);
+		return m_coreObject->GetIsAnimationPlaying(index);
 	}
 
 	void ModelObject3D::SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, std::shared_ptr<MaterialPropertyBlock> block)

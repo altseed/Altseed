@@ -40,7 +40,7 @@ namespace ace
 
 		int32_t Play(SoundSource* soundSource) override;
 
-		bool IsPlaying(int32_t id) override;
+		bool GetIsPlaying(int32_t id) override;
 
 		void StopAll() override;
 

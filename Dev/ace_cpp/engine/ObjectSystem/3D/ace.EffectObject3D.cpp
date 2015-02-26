@@ -36,9 +36,9 @@ namespace ace
 		m_coreObject->StopRoot();
 	}
 
-	bool EffectObject3D::IsPlaying()
+	bool EffectObject3D::GetIsPlaying()
 	{
-		return m_coreObject->IsPlaying();
+		return m_coreObject->GetIsPlaying();
 	}
 
 	bool EffectObject3D::GetSyncEffects()

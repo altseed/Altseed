@@ -43,8 +43,8 @@ namespace ace
 		m_object->CrossFadeAnimation(name, time);
 	}
 
-	bool CoreMassModelObject3D_Imp::IsAnimationPlaying()
+	bool CoreMassModelObject3D_Imp::GetIsAnimationPlaying()
 	{
-		return m_object->IsAnimationPlaying();
+		return m_object->GetIsAnimationPlaying();
 	}
 }

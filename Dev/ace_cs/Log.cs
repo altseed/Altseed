@@ -158,7 +158,7 @@ namespace ace
 		/// <returns></returns>
 		public bool IsValid()
 		{
-			return log.IsValid();
+			return log.GetIsValid();
 		}
 
 		/// <summary>

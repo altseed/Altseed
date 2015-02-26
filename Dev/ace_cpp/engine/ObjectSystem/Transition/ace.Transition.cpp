@@ -30,9 +30,9 @@ namespace ace
 		coreTransition->ChangeScene();
 	}
 
-	bool Transition::IsFinished() const
+	bool Transition::GetIsFinished() const
 	{
-		return coreTransition->IsFinished();
+		return coreTransition->GetIsFinished();
 	}
 
 	void Transition::Finish()

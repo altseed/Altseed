@@ -113,7 +113,7 @@ namespace ace
 		*/
 		public bool IsAnimationPlaying(int index)
 		{
-			return coreObject.IsAnimationPlaying(index);
+			return coreObject.GetIsAnimationPlaying(index);
 		}
 
 		/// <summary>

@@ -22,7 +22,7 @@ namespace ace{
 	{
 		for (int i = 0; i < MAX_CONTAINER_SIZE; ++i)
 		{
-			if (IsPresentAt(i)) m_joystickContainer[i]->RefreshInputState();
+			if (GetIsPresentAt(i)) m_joystickContainer[i]->RefreshInputState();
 		}
 	}
 
@@ -31,12 +31,12 @@ namespace ace{
 		return new JoystickContainer_Imp();
 	}
 
-	const bool JoystickContainer_Imp::IsPresentAt(int at)
+	const bool JoystickContainer_Imp::GetIsPresentAt(int at)
 	{
 		return glfwJoystickPresent(at) == GL_TRUE;
 	}
 	Joystick* JoystickContainer_Imp::GetJoystickAt(int at)
 	{
-		return (IsPresentAt(at)) ? m_joystickContainer[at] : nullptr;
+		return (GetIsPresentAt(at)) ? m_joystickContainer[at] : nullptr;
 	}
 };

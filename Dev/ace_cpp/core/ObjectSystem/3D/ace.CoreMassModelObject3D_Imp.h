@@ -33,7 +33,7 @@ namespace ace
 
 		void CrossFadeAnimation(const achar* name, float time) override;
 
-		bool IsAnimationPlaying() override;
+		bool GetIsAnimationPlaying() override;
 
 		RenderedObject3DType GetObjectType() override { return RenderedObject3DType::MassObject; }
 

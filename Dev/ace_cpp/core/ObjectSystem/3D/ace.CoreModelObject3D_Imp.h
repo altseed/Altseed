@@ -37,7 +37,7 @@ namespace ace
 
 		void CrossFadeAnimation(int32_t index, const achar* name, float time) override;
 
-		bool IsAnimationPlaying(int32_t index) override;
+		bool GetIsAnimationPlaying(int32_t index) override;
 
 		void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, MaterialPropertyBlock* block) override;
 

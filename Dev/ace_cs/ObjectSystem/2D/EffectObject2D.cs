@@ -72,9 +72,12 @@ namespace ace
 		/// このオブジェクトから再生されたエフェクトが再生中か取得する。
 		/// </summary>
 		/// <returns>再生中か?</returns>
-		public bool IsPlaying()
+		public bool IsPlaying
 		{
-			return coreEffectObject.IsPlaying();
+			get
+			{
+				return coreEffectObject.GetIsPlaying();
+			}
 		}
 
 		/// <summary>

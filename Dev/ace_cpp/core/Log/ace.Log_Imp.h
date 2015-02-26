@@ -31,7 +31,7 @@ namespace ace
 		void EndTable(LogLevel level = LogLevel::All);
 		void ChangeRow(LogLevel level = LogLevel::All);
 		void ChangeColumn(LogLevel level = LogLevel::All);
-		bool IsValid();
+		bool GetIsValid() override;
 		void SetOutputLevel(LogLevel level);
 
 #if !_WIN32 && !SWIG

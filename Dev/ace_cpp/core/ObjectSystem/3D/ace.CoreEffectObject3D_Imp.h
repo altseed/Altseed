@@ -29,7 +29,7 @@ namespace ace
 
 		void StopRoot() override;
 
-		bool IsPlaying() override;
+		bool GetIsPlaying() override;
 
 		bool GetSyncEffects() override;
 

@@ -56,7 +56,7 @@ namespace ace
 		/**
 		@brief	このオブジェクトから再生されたエフェクトが再生中か取得する。
 		*/
-		bool IsPlaying();
+		bool GetIsPlaying();
 
 		/**
 		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得する。

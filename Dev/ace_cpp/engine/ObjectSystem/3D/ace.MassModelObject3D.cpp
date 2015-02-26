@@ -35,9 +35,9 @@ namespace ace
 		m_coreObject->CrossFadeAnimation(name, time);
 	}
 
-	bool MassModelObject3D::IsAnimationPlaying()
+	bool MassModelObject3D::GetIsAnimationPlaying()
 	{
-		return m_coreObject->IsAnimationPlaying();
+		return m_coreObject->GetIsAnimationPlaying();
 	}
 
 	void MassModelObject3D::SetMaterialPropertyBlock(std::shared_ptr<MaterialPropertyBlock> block)

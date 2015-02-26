@@ -87,7 +87,7 @@ namespace ace
 
 		void CrossFadeAnimation(const achar* name, float time);
 
-		bool IsAnimationPlaying();
+		bool GetIsAnimationPlaying();
 
 		void OnApplyingNextSRT() override;
 

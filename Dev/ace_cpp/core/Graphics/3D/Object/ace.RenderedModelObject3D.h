@@ -163,7 +163,7 @@ namespace ace
 
 		void CrossFadeAnimation(int32_t index, const achar* name, float time);
 
-		bool IsAnimationPlaying(int32_t index);
+		bool GetIsAnimationPlaying(int32_t index);
 
 		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Mesh; }
 

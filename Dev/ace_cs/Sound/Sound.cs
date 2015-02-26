@@ -47,7 +47,7 @@ namespace ace
 		/// <returns>再生中か?</returns>
 		public bool IsPlaying(int id)
 		{
-			bool ret = SwigObject.IsPlaying(id);
+			bool ret = SwigObject.GetIsPlaying(id);
 			return ret;
 		}
 

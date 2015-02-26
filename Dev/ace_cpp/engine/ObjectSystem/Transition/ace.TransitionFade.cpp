@@ -41,7 +41,7 @@ namespace ace
 				ChangeScene();
 			}
 
-			if (!IsFinished())
+			if (!GetIsFinished())
 			{
 				Finish();
 			}

@@ -165,7 +165,7 @@ namespace ace
 			@brief	ログの出力が可能であるかどうかを表す真偽値を取得する。
 			@param	level	[in]	ログの出力が可能か?
 		*/
-		virtual bool IsValid() = 0;
+		virtual bool GetIsValid() = 0;
 
 		/**
 			@brief	ログの出力レベルを設定する。ログ出力メソッドに指定した出力レベルがこの値より小さければログが出力される。

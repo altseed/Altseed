@@ -23,7 +23,7 @@ namespace ace
 
 		virtual void CrossFadeAnimation(const achar* name, float time) = 0;
 
-		virtual bool IsAnimationPlaying() = 0;
+		virtual bool GetIsAnimationPlaying() = 0;
 
 
 	};

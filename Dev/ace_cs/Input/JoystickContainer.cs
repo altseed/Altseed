@@ -27,13 +27,13 @@ namespace ace
         }
 
         /// <summary>
-        /// 引数に指定した番目のジョイスティックが接続されているかを返す
+        /// 引数に指定した番目のジョイスティックが接続されているかを取得する。
         /// </summary>
         /// <param name="at">何番目のジョイスティックの接続を確認するか</param>
         /// <returns>接続されているか否か</returns>
         public bool IsPresentAt(int at)
         {
-            return joystickContainer.IsPresentAt(at);
+			return joystickContainer.GetIsPresentAt(at);
         }
 
         /// <summary>

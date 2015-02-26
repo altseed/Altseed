@@ -413,7 +413,7 @@ namespace ace
 				m_nextScene = nullptr;
 			}
 			
-			if (transition->coreTransition->IsFinished())
+			if (transition->coreTransition->GetIsFinished())
 			{
 				m_previousScene->CallDestroy();
 				transition = nullptr;

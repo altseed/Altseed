@@ -861,7 +861,7 @@ namespace ace
 		m_animationPlaying[index].push_back(panim);
 	}
 
-	bool RenderedModelObject3D::IsAnimationPlaying(int32_t index)
+	bool RenderedModelObject3D::GetIsAnimationPlaying(int32_t index)
 	{
 		if (index >= AnimationCount) return false;
 		if (index < 0) return false;
