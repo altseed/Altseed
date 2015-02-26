@@ -42,5 +42,5 @@ if aceutils.isWin():
 
 else:
 
-	aceutils.copy(r'bullet_bin/libBulletCollision.a', r'Dev/lib/')
-	aceutils.copy(r'bullet_bin/libLinearMath.a', r'Dev/lib/')
+	aceutils.copy(r'bullet_bin/src/BulletCollision/libBulletCollision.a', r'Dev/lib/')
+	aceutils.copy(r'bullet_bin/src/LinearMath/libLinearMath.a', r'Dev/lib/')
