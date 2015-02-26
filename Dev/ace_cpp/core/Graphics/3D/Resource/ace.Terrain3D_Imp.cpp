@@ -15,41 +15,96 @@ namespace ace
 
 	Terrain3D_Imp::Chip::Chip()
 	{
-		CollisionMesh = nullptr;
-		CollisionMeshShape = nullptr;
-		CollisionObject = nullptr;
+		IsChanged = true;
+		IsMeshGenerated = false;
+		IsCollisionGenerated = false;
 	}
 
 	Terrain3D_Imp::Chip::~Chip()
 	{
+	}
+
+	Terrain3D_Imp::CollisionCluster::CollisionCluster(Terrain3D_Imp* terrain, int32_t x, int32_t y, int32_t width, int32_t height)
+	{
+		CollisionMesh = nullptr;
+		CollisionMeshShape = nullptr;
+		CollisionObject = nullptr;
+
+		this->terrain = terrain;
+		this->x = x;
+		this->y = y;
+		this->width = width;
+		this->height = height;
+	}
+
+	Terrain3D_Imp::CollisionCluster::~CollisionCluster()
+	{
+		if (CollisionObject != nullptr)
+		{
+			terrain->collisionWorld->removeCollisionObject(CollisionObject);
+		}
+
 		SafeDelete(CollisionMesh);
 		SafeDelete(CollisionMeshShape);
 		SafeDelete(CollisionObject);
 	}
 
-	void Terrain3D_Imp::Chip::GenerateCollision()
+	void Terrain3D_Imp::CollisionCluster::GenerateCollision()
 	{
+		// 変更チェック
+		bool isChanged = false;
+		for (int32_t y_ = y; y_ < y + height; y_++)
+		{
+			for (int32_t x_ = x; x_ < x + width; x_++)
+			{
+				auto& chip = terrain->Chips[x_ + y_ * terrain->gridWidthCount];
+				if (!chip.IsCollisionGenerated)
+				{
+					isChanged = true;
+					break;
+				}
+			}
+		}
+
+		if (!isChanged) return;
+
+		if (CollisionObject != nullptr)
+		{
+			terrain->collisionWorld->removeCollisionObject(CollisionObject);
+		}
+		
 		SafeDelete(CollisionMesh);
 		SafeDelete(CollisionMeshShape);
 		SafeDelete(CollisionObject);
 
 		CollisionMesh = new btTriangleMesh();
 
-		for (size_t i = 0; i < Faces.size(); i++)
+		for (int32_t y_ = y; y_ < y + height; y_++)
 		{
-			const auto& pos0 = Vertecies[Faces[i].Indexes[0]];
-			const auto& pos1 = Vertecies[Faces[i].Indexes[1]];
-			const auto& pos2 = Vertecies[Faces[i].Indexes[2]];
+			for (int32_t x_ = x; x_ < x + width; x_++)
+			{
+				auto& chip = terrain->Chips[x_ + y_ * terrain->gridWidthCount];
+				chip.IsCollisionGenerated = true;
 
-			CollisionMesh->addTriangle(
-				btVector3(pos0.X, pos0.Y, pos0.Z),
-				btVector3(pos1.X, pos1.Y, pos1.Z),
-				btVector3(pos2.X, pos2.Y, pos2.Z));
+				for (size_t i = 0; i < chip.Faces.size(); i++)
+				{
+					const auto& pos0 = chip.Vertecies[chip.Faces[i].Indexes[0]];
+					const auto& pos1 = chip.Vertecies[chip.Faces[i].Indexes[1]];
+					const auto& pos2 = chip.Vertecies[chip.Faces[i].Indexes[2]];
+
+					CollisionMesh->addTriangle(
+						btVector3(pos0.X, pos0.Y, pos0.Z),
+						btVector3(pos1.X, pos1.Y, pos1.Z),
+						btVector3(pos2.X, pos2.Y, pos2.Z));
+				}
+			}
 		}
 
 		CollisionMeshShape = new btBvhTriangleMeshShape(CollisionMesh, true, true);
 		CollisionObject = new btCollisionObject();
 		CollisionObject->setCollisionShape(CollisionMeshShape);
+
+		terrain->collisionWorld->addCollisionObject(CollisionObject, 1, 1);
 	}
 
 	Terrain3D_Imp::Terrain3D_Imp(Graphics* graphics)
@@ -61,7 +116,7 @@ namespace ace
 		collisionDispatcher = new btCollisionDispatcher(collisionConfiguration);
 		btVector3 btv3WorldAabbMin(-10000.0f, -10000.0f, -10000.0f);
 		btVector3 btv3WorldAabbMax(10000.0f, 10000.0f, 10000.0f);
-		int32_t maxProxies = 10240;
+		int32_t maxProxies = 1024;
 		collisionOverlappingPairCache = new btAxisSweep3(btv3WorldAabbMin, btv3WorldAabbMax, maxProxies);
 
 		collisionWorld = new btCollisionWorld(
@@ -72,10 +127,7 @@ namespace ace
 
 	Terrain3D_Imp::~Terrain3D_Imp()
 	{
-		for (auto& c : Chips)
-		{
-			collisionWorld->removeCollisionObject(c.CollisionObject);
-		}
+		collisionClusters.clear();
 
 		SafeDelete(collisionWorld);
 		SafeDelete(collisionOverlappingPairCache);
@@ -92,6 +144,9 @@ namespace ace
 			for (int32_t x = 0; x < gridWidthCount; x++)
 			{
 				auto& chip = Chips[x + y * gridWidthCount];
+
+				if (!chip.IsChanged) continue;
+				chip.IsChanged = false;
 
 				chip.Vertecies.clear();
 				chip.Faces.clear();
@@ -141,15 +196,8 @@ namespace ace
 
 				chip.Faces.push_back(f1);
 				chip.Faces.push_back(f2);
-			}
-		}
 
-		for (int32_t y = 0; y < gridHeightCount; y++)
-		{
-			for (int32_t x = 0; x < gridWidthCount; x++)
-			{
-				auto& chip = Chips[x + y * gridWidthCount];
-
+				// 面計算
 				for (size_t i = 0; i < chip.Faces.size(); i++)
 				{
 					auto& face = chip.Faces[i];
@@ -323,6 +371,13 @@ namespace ace
 
 #if _NEW
 		GenerateTerrainChips();
+
+		for (auto& c : collisionClusters)
+		{
+			c->GenerateCollision();
+		}
+
+		collisionWorld->updateAabbs();
 #endif
 
 		auto g = (Graphics_Imp*) m_graphics;
@@ -362,31 +417,42 @@ namespace ace
 		if (Proxy.GridWidthCount == 0) return true;
 		if (Proxy.GridHeightCount == 0) return true;
 
-
-		const int32_t ClusterCount = 16;
-
 		Proxy.ClusterWidthCount = Proxy.GridWidthCount / ClusterCount;
 		Proxy.ClusterHeightCount = Proxy.GridHeightCount / ClusterCount;
 		if (Proxy.ClusterWidthCount * ClusterCount != Proxy.GridWidthCount) Proxy.ClusterWidthCount++;
 		if (Proxy.ClusterHeightCount * ClusterCount != Proxy.GridHeightCount) Proxy.ClusterHeightCount++;
 
-		Proxy.Clusters.resize(Proxy.ClusterWidthCount*Proxy.ClusterHeightCount);
-
-		for (auto c = 0; c < Proxy.ClusterWidthCount*Proxy.ClusterHeightCount; c++)
+		if (Proxy.ClusterWidthCount*Proxy.ClusterHeightCount != Proxy.Clusters.size())
 		{
-			Proxy.Clusters[c] = std::make_shared<ClusterProxy>();
+			Proxy.Clusters.resize(Proxy.ClusterWidthCount*Proxy.ClusterHeightCount);
 		}
-
+		
 		for (auto cy = 0; cy < Proxy.ClusterHeightCount; cy++)
 		{
 			for (auto cx = 0; cx < Proxy.ClusterWidthCount; cx++)
 			{
-				auto& cluster = Proxy.Clusters[cx + cy * Proxy.ClusterWidthCount];
-
 				auto xoffset = cx * ClusterCount;
 				auto yoffset = cy * ClusterCount;
 				auto width = Min(ClusterCount, Proxy.GridWidthCount - xoffset);
 				auto height = Min(ClusterCount, Proxy.GridHeightCount - yoffset);
+
+				bool isChanged = false;
+				for (int32_t y = Max(yoffset - 1, 0); y < Min(yoffset + height + 1, gridHeightCount); y++)
+				{
+					for (int32_t x = Max(xoffset - 1, 0); x < Min(xoffset + width + 1, gridWidthCount); x++)
+					{
+						auto& chip = Chips[x + gridWidthCount * y];
+						if (!chip.IsMeshGenerated)
+						{
+							isChanged = true;
+						}
+					}
+				}
+
+				if (!isChanged) continue;
+
+				Proxy.Clusters[cx + cy * Proxy.ClusterWidthCount] = std::make_shared<ClusterProxy>();
+				auto& cluster = Proxy.Clusters[cx + cy * Proxy.ClusterWidthCount];
 
 #if _NEW
 				std::vector<Vertex> vs;
@@ -658,12 +724,27 @@ namespace ace
 
 		GenerateTerrainChips();
 
-		// Todo 複数チップで1コリジョンにまとめる
-		for (auto& c : Chips)
+		collisionClusters.clear();
+		for (size_t y = 0; y < gridHeightCount; y += ClusterCount)
 		{
-			c.GenerateCollision();
-			collisionWorld->addCollisionObject(c.CollisionObject, 1, 1);
+			for (size_t x = 0; x < gridWidthCount; x += ClusterCount)
+			{
+				collisionClusters.push_back(
+					std::make_shared<CollisionCluster>(
+					this,
+					x,
+					y,
+					Min(gridWidthCount - x, ClusterCount),
+					Min(gridHeightCount - y, ClusterCount)
+					));
+			}
 		}
+
+		for (auto& c : collisionClusters)
+		{
+			c->GenerateCollision();
+		}
+
 		collisionWorld->updateAabbs();
 		
 		isChanged = true;
@@ -854,6 +935,19 @@ namespace ace
 				if (y_ind < 0) continue;
 				if (y_ind >= gridHeightCount) continue;
 
+				// 周囲に変更を通知
+				for (int32_t cy = Max(y_ind - 1, 0); cy < Min(y_ind + 2, gridHeightCount); cy++)
+				{
+					for (int32_t cx = Max(x_ind - 1, 0); cx < Min(x_ind + 2, gridWidthCount); cx++)
+					{
+						int32_t cind = cx + cy * (gridWidthCount);
+
+						Chips[cind].IsChanged = true;
+						Chips[cind].IsMeshGenerated = false;
+						Chips[cind].IsCollisionGenerated = false;
+					}
+				}
+
 				// ブラシの値を計算
 				auto distance = sqrt((x_ - x) * (x_ - x) + (y_ - y) * (y_ - y));
 
@@ -876,5 +970,33 @@ namespace ace
 		}
 
 		isChanged = true;
+	}
+
+	Vector3DF Terrain3D_Imp::CastRay(const Vector3DF& from, const Vector3DF& to)
+	{
+		auto ret = Vector3DF();
+		
+		btVector3 from_(from.X, from.Y, from.Z);
+		btVector3 to_(to.X, to.Y, to.Z);
+
+		btCollisionWorld::ClosestRayResultCallback resultCallback(from_, to_);
+		resultCallback.m_collisionFilterGroup = 1;
+		resultCallback.m_collisionFilterMask = 1;
+
+		collisionWorld->rayTest(from_, to_, resultCallback);
+		if (resultCallback.hasHit())
+		{
+			ret.X = resultCallback.m_hitPointWorld.getX();
+			ret.Y = resultCallback.m_hitPointWorld.getY();
+			ret.Z = resultCallback.m_hitPointWorld.getZ();
+		}
+		else
+		{
+			ret.X = std::numeric_limits<float>::quiet_NaN();
+			ret.Y = std::numeric_limits<float>::quiet_NaN();
+			ret.Z = std::numeric_limits<float>::quiet_NaN();
+		}
+
+		return ret;
 	}
 }

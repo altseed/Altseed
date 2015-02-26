@@ -21,6 +21,7 @@ namespace ace
 	{
 	private:
 		const int32_t pixelInGrid = 8;
+		const int32_t ClusterCount = 16;
 
 	public:
 		struct Vertex
@@ -136,18 +137,36 @@ namespace ace
 		public:
 			std::vector<Vector3DF>	Vertecies;
 			std::vector<ChipFace>	Faces;
+			
+			bool	IsChanged;
+			bool	IsMeshGenerated;
+			bool	IsCollisionGenerated;
+			Chip();
+			virtual ~Chip();
+
+		};
+
+		class CollisionCluster
+		{
+			Terrain3D_Imp* terrain;
+			int32_t x;
+			int32_t y;
+			int32_t width;
+			int32_t height;
+
+		public:
 
 			btTriangleMesh*				CollisionMesh;
 			btBvhTriangleMeshShape*		CollisionMeshShape;
 			btCollisionObject*			CollisionObject;
 
-			Chip();
-			virtual ~Chip();
-
+			CollisionCluster(Terrain3D_Imp* terrain, int32_t x, int32_t y, int32_t width, int32_t height);
+			virtual ~CollisionCluster();
 			void GenerateCollision();
 		};
 
-		std::vector<Chip>	Chips;
+		std::vector<Chip>								Chips;
+		std::vector<std::shared_ptr<CollisionCluster>>	collisionClusters;
 
 		btCollisionWorld*					collisionWorld = nullptr;
 		btDefaultCollisionConfiguration*	collisionConfiguration = nullptr;
@@ -158,6 +177,7 @@ namespace ace
 		Terrain3D_Imp(Graphics* graphics);
 		virtual ~Terrain3D_Imp();
 
+		void GenerateCollision();
 		void GenerateTerrainChips();
 		void GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces);
 	public:
@@ -175,6 +195,8 @@ namespace ace
 		void SetMaterial(Material3D* material) override;
 
 		void RaiseWithCircle(float x, float y, float radius, float value, float fallout) override;
+
+		Vector3DF CastRay(const Vector3DF& from, const Vector3DF& to);
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

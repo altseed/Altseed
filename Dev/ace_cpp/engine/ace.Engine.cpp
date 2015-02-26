@@ -428,8 +428,9 @@ namespace ace
 				if (m_currentScene != nullptr)
 				{
 					m_currentScene->CallChanging();
+					m_currentScene->CallDestroy();
 				}
-				m_currentScene->CallDestroy();
+				
 				m_currentScene = m_nextScene;
 				m_core->ChangeScene(m_nextScene->m_coreScene.get());
 				m_nextScene = nullptr;
