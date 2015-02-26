@@ -61,7 +61,7 @@ namespace ace
 		virtual void SetMaterial(Material3D* material) = 0;
 
 		/**
-		@brief	円形に地形を上下せる。
+		@brief	円形に地形を上下させる。
 		@param	x	円形の中心座標
 		@param	y	円形の中心座標
 		@param	radius	円形の半径
@@ -70,6 +70,13 @@ namespace ace
 		*/
 		virtual void RaiseWithCircle(float x, float y, float radius, float value, float fallout) = 0;
 
+		/**
+		@brief	光線を飛ばし、衝突した位置を取得する。
+		@param	from	光線を飛ばす元の位置
+		@param	to		光線を飛ばす先の位置
+		@return	光線が地形に衝突した位置。衝突しない場合、NaNを返す。
+		*/
+		virtual Vector3DF CastRay(const Vector3DF& from, const Vector3DF& to) = 0;
 #if !SWIG
 		/**
 		@brief	材質を設定する。

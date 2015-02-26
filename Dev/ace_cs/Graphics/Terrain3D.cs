@@ -102,5 +102,29 @@ namespace ace
 		{
 			SwigObject.SetMaterial(IG.GetMaterial3D(material));
 		}
+
+		/// <summary>
+		/// 円形に地形を上下させる。
+		/// </summary>
+		/// <param name="x">円形の中心座標</param>
+		/// <param name="y">円形の中心座標</param>
+		/// <param name="radius">円形の半径</param>
+		/// <param name="value">値</param>
+		/// <param name="fallout">周囲のぼかし(0～1)</param>
+		public void RaiseWithCircle(float x, float y, float radius, float value, float fallout)
+		{
+			SwigObject.RaiseWithCircle(x, y, radius, value, fallout);
+		}
+
+		/// <summary>
+		/// 光線を飛ばし、衝突した位置を取得する。
+		/// </summary>
+		/// <param name="from">光線を飛ばす元の位置</param>
+		/// <param name="to">光線を飛ばす先の位置</param>
+		/// <returns>光線が地形に衝突した位置。衝突しない場合、NaNを返す。</returns>
+		public Vector3DF CastRay(Vector3DF from, Vector3DF to)
+		{
+			return SwigObject.CastRay(ref from, ref to);
+		}
 	}
 }

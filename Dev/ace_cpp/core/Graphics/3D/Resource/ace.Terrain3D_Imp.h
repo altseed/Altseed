@@ -196,7 +196,7 @@ namespace ace
 
 		void RaiseWithCircle(float x, float y, float radius, float value, float fallout) override;
 
-		Vector3DF CastRay(const Vector3DF& from, const Vector3DF& to);
+		Vector3DF CastRay(const Vector3DF& from, const Vector3DF& to) override;
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
