@@ -7,7 +7,7 @@ void Joystick()
 	ace::Engine::Initialize(ace::ToAString("Joystick").c_str(), 640, 480, ace::EngineOption());
 
 	// ジョイスティックが最低一つ接続されているかどうかを確認する。
-	if (!ace::Engine::GetJoystickContainer()->IsPresentAt(0))
+	if (!ace::Engine::GetJoystickContainer()->GetIsPresentAt(0))
 	{
 		//一つも接続されていない場合は終了する
 		printf("No joystick are connected.\n");

@@ -536,12 +536,12 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Engine::ChangeScene(ScenePtr& scene)
+	void Engine::ChangeScene(ScenePtr scene)
 	{
 		m_nextScene = scene;
 	}
 
-	void Engine::ChangeSceneWithTransition(std::shared_ptr<Scene>& scene, const std::shared_ptr<Transition>& transition)
+	void Engine::ChangeSceneWithTransition(std::shared_ptr<Scene> scene, const std::shared_ptr<Transition>& transition)
 	{
 		m_nextScene = scene;
 		Engine::transition = transition;
