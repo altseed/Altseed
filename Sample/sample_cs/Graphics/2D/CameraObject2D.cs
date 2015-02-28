@@ -29,30 +29,36 @@ namespace sample_cs.Graphics._2D
             {
                 // テクスチャを生成する。
                 var tex0 = ace.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
-
-                //TextureObject2Dを生成する。
                 var obj0 = new ace.TextureObject2D();
-
-                //描画に使うテクスチャを設定する。
                 obj0.Texture = tex0;
+                obj0.CenterPosition = new ace.Vector2DF(256, 256);
+                obj0.Position = new ace.Vector2DF(320, 240);
+                obj0.Scale = new ace.Vector2DF(0.5f, 0.5f);
 
-                //描画位置を指定する。
-                obj0.Position = new ace.Vector2DF(100, 100);
-
-                //レイヤーへ追加する。
                 layer.AddObject(obj0);
             }
 
             //画面全体を写すカメラ。(オブジェクトをそのまま描画)
-            var camera1 = new ace.CameraObject2D();
-            camera1.Src = new ace.RectI(0, 0, 640, 480);
-            camera1.Dst = new ace.RectI(0, 0, 640, 480);
-            layer.AddObject(camera1);
+            {
+                var camera1 = new ace.CameraObject2D();
+                camera1.Src = new ace.RectI(0, 0, 640, 480);
+                camera1.Dst = new ace.RectI(0, 0, 640, 480);
+                layer.AddObject(camera1);
+            }
 
             //マウスポインタの周辺を拡大して表示するカメラ。
             var camera2 = new ace.CameraObject2D();
             layer.AddObject(camera2);
 
+            //フレーム用テクスチャ画像
+            var frame = new ace.TextureObject2D();
+            {
+                var tex = ace.Engine.Graphics.CreateTexture2D("Data/Texture/Frame.png");
+                frame.Texture = tex;
+                frame.CenterPosition = new ace.Vector2DF(55.0f, 55.0f);
+
+                layer.AddObject(frame);
+            }
 
             // aceが進行可能かチェックする。
             while (ace.Engine.DoEvents())
@@ -65,6 +71,9 @@ namespace sample_cs.Graphics._2D
 
                 //ポインタを中心に100x100の拡大画像を表示する。
                 camera2.Dst = new ace.RectI((int)(pos.X) - 50, (int)(pos.Y) - 50, 100, 100);
+
+                //フレーム画像の描画中心をマウスポインタの位置に合わせる。
+                frame.Position = pos;
 
                 // aceを更新する。
                 ace.Engine.Update();
