@@ -88,6 +88,10 @@ libglew-dev
 
 ```Script/download_Box2D.py``` を実行します。
 
+## bullet
+
+```Script/download_bullet.py``` を実行します。
+
 ## GoogleTest
 
 ```Script/download_gtest.py``` を実行します。
