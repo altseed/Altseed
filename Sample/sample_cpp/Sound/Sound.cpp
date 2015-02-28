@@ -24,7 +24,7 @@ void Sound()
 		ace::Engine::Update();
 
 		// ‰¹‚ªÄ¶I—¹‚µ‚Ä‚é‚©’²‚×‚éB
-		if (!ace::Engine::GetSound()->IsPlaying(id_bgm1))
+		if (!ace::Engine::GetSound()->GetIsPlaying(id_bgm1))
 		{
 			break;
 		}

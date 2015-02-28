@@ -42,7 +42,7 @@ namespace ace {
 
 	class Engine
 	{
-	public:
+	private:
 		typedef std::shared_ptr<Scene> ScenePtr;
 
 		static Core*					m_core;
@@ -65,7 +65,6 @@ namespace ace {
 
 		static std::shared_ptr<Transition>	transition;
 
-	private:
 		static bool HasDLL(const char* path);
 		static bool CheckDLL();
 		static bool GenerateCore();
@@ -112,17 +111,23 @@ namespace ace {
 		static void Terminate();
 
 		/**
+		@brief	描画する対象となるシーンを変更する。
+		@param	scene	次のシーン
+		*/
+		static ScenePtr GetCurrentScene();
+
+		/**
 			@brief	描画する対象となるシーンを変更する。
 			@param	scene	次のシーン
 		*/
-		static void ChangeScene(std::shared_ptr<Scene>& scene);
+		static void ChangeScene(std::shared_ptr<Scene> scene);
 
 		/**
 		@brief	描画する対象となるシーンを画面遷移効果ありで変更する。
 		@param	scene	次のシーン
 		@param	transition	画面遷移効果
 		*/
-		static void ChangeSceneWithTransition(std::shared_ptr<Scene>& scene, const std::shared_ptr<Transition>& transition);
+		static void ChangeSceneWithTransition(std::shared_ptr<Scene> scene, const std::shared_ptr<Transition>& transition);
 
 		/**
 		@brief	スクリーンショットをpngとして保存する。

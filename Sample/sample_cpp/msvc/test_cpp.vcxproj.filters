@@ -39,6 +39,12 @@
     <ClCompile Include="..\Graphics\2D\MapObject2D.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ObjectSystem\Transition.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">
