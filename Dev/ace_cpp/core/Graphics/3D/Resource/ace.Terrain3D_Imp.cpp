@@ -172,9 +172,9 @@ namespace ace
 					{
 						int32_t m = INT_MAX;
 
-						for (int32_t oy_ = 0; oy_ < 2; oy++)
+						for (int32_t oy_ = 0; oy_ < 2; oy_++)
 						{
-							for (int32_t ox_ = 0; ox_ < 2; ox++)
+							for (int32_t ox_ = 0; ox_ < 2; ox_++)
 							{
 								m = Min(m, clsh[(ox + ox_) + (oy + oy_) * 3]);
 							}

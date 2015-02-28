@@ -35,6 +35,8 @@ static std::vector<GLenum> GLCheckError_Imp(const char *file, const int line)
         printf("GLError filename = %s , line = %d, error = %d\n", file, line, __code );
 #endif
         __code = glGetError();
+
+		if (codes.size() > 128) break;
     }
     return codes;
 } 

@@ -199,9 +199,13 @@ namespace ace
 
 				if (transition.SwigObject.GetIsFinished())
 				{
-					previousScene.CallDestroy();
+					if(previousScene != null)
+					{
+						previousScene.CallDestroy();
+						previousScene = null;
+					}
+					
 					transition = null;
-					previousScene = null;
                     CurrentScene.CallTransitionFinished();
 				}
 			}

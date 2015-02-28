@@ -415,9 +415,13 @@ namespace ace
 			
 			if (transition->coreTransition->GetIsFinished())
 			{
-				m_previousScene->CallDestroy();
+				if (m_previousScene != nullptr)
+				{
+					m_previousScene->CallDestroy();
+					m_previousScene = nullptr;
+				}
+				
 				transition = nullptr;
-				m_previousScene = nullptr;
 				m_currentScene->CallTransitionFinished();
 			}
 		}
