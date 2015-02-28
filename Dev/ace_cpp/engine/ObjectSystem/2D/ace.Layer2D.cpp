@@ -159,7 +159,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Layer2DComponent::Ptr& Layer2D::GetComponent(astring key)
+	const Layer2DComponent::Ptr& Layer2D::GetComponent(astring key)
 	{
 		return m_components.Get(key);
 	}

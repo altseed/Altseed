@@ -118,7 +118,7 @@ namespace ace
 			@brief	キーの示すコンポーネントをこのインスタンスから取得する。
 			@param	key		取得するコンポーネントを示すキー
 		*/
-		SceneComponent::Ptr& GetComponent(astring key);
+		const SceneComponent::Ptr& GetComponent(astring key);
 		/**
 			@brief	キーの示すコンポーネントをこのインスタンスから削除する。
 			@param	key		削除するコンポーネントを示すキー

@@ -126,7 +126,7 @@ namespace ace
 		m_componentManager.Add(component, key);
 	}
 
-	Object2DComponent::Ptr& Object2D::GetComponent(astring key)
+	const Object2DComponent::Ptr& Object2D::GetComponent(astring key)
 	{
 		return m_componentManager.Get(key);
 	}

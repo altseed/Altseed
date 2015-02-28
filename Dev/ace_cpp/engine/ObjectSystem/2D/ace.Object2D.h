@@ -164,7 +164,7 @@ namespace ace
 			@brief	指定したキーを持つコンポーネントを取得する。
 			@param	key		取得するコンポーネントを示すキー
 		*/
-		Object2DComponent::Ptr& GetComponent(astring key);
+		const Object2DComponent::Ptr& GetComponent(astring key);
 		/**
 			@brief	指定したコンポーネントを削除する。
 			@param	key		削除するコンポーネントを示すキー
