@@ -11,8 +11,6 @@
 
 namespace ace
 {
-	#define _NEW 1
-
 	Terrain3D_Imp::Chip::Chip()
 	{
 		IsChanged = true;
@@ -151,6 +149,41 @@ namespace ace
 				chip.Vertecies.clear();
 				chip.Faces.clear();
 
+				int32_t cls[9];
+				int32_t clsh[9];
+
+				for (int32_t oy = -1; oy <= 1; oy++)
+				{
+					for (int32_t ox = -1; ox <= 1; ox++)
+					{
+						auto x_ = Clamp(x + ox, gridWidthCount - 1, 0);
+						auto y_ = Clamp(y + oy, gridHeightCount - 1, 0);
+
+						cls[(ox + 1) + (oy + 1) * 3] = (cliffes[x_ + y_ * gridWidthCount] - cliffes[x + y * gridWidthCount]) / 2;
+						clsh[(ox + 1) + (oy + 1) * 3] = cliffes[x_ + y_ * gridWidthCount];
+					}
+				}
+
+				// 崖による4点の高度を決める
+				int32_t clheight[4];
+				for (int32_t oy = 0; oy < 2; oy++)
+				{
+					for (int32_t ox = 0; ox < 2; ox++)
+					{
+						int32_t m = INT_MAX;
+
+						for (int32_t oy_ = 0; oy_ < 2; oy++)
+						{
+							for (int32_t ox_ = 0; ox_ < 2; ox++)
+							{
+								m = Min(m, clsh[(ox + ox_) + (oy + oy_) * 3]);
+							}
+						}
+
+						clheight[ox + oy * 2] = m;
+					}
+				}
+
 				auto getHeight = [this](int32_t x_, int32_t y_) -> float
 				{
 					x_ = Clamp(x_, this->gridWidthCount - 1, 0);
@@ -161,22 +194,22 @@ namespace ace
 
 				auto v0 = Vector3DF(
 					x * gridSize - gridWidthCount * gridSize / 2.0f,
-					(getHeight(x - 1, y - 1) + getHeight(x + 0, y - 1) + getHeight(x - 1, y + 0) + getHeight(x + 0, y + 0)) / 4.0f,
+					(getHeight(x - 1, y - 1) + getHeight(x + 0, y - 1) + getHeight(x - 1, y + 0) + getHeight(x + 0, y + 0)) / 4.0f + clheight[0] * gridSize / 2.0f,
 					y * gridSize - gridHeightCount * gridSize / 2.0f);
 
 				auto v1 = Vector3DF(
 					(x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
-					(getHeight(x + 0, y - 1) + getHeight(x + 1, y - 1) + getHeight(x + 0, y + 0) + getHeight(x + 1, y + 0)) / 4.0f,
+					(getHeight(x + 0, y - 1) + getHeight(x + 1, y - 1) + getHeight(x + 0, y + 0) + getHeight(x + 1, y + 0)) / 4.0f + clheight[1] * gridSize / 2.0f,
 					y * gridSize - gridHeightCount * gridSize / 2.0f);
 
 				auto v2 = Vector3DF(
 					x * gridSize - gridWidthCount * gridSize / 2.0f,
-					(getHeight(x - 1, y + 0) + getHeight(x + 0, y + 0) + getHeight(x - 1, y + 1) + getHeight(x + 0, y + 1)) / 4.0f,
+					(getHeight(x - 1, y + 0) + getHeight(x + 0, y + 0) + getHeight(x - 1, y + 1) + getHeight(x + 0, y + 1)) / 4.0f + clheight[2] * gridSize / 2.0f,
 					(y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
 
 				auto v3 = Vector3DF(
 					(x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
-					(getHeight(x + 0, y + 0) + getHeight(x + 1, y + 0) + getHeight(x + 0, y + 1) + getHeight(x + 1, y + 1)) / 4.0f,
+					(getHeight(x + 0, y + 0) + getHeight(x + 1, y + 0) + getHeight(x + 0, y + 1) + getHeight(x + 1, y + 1)) / 4.0f + clheight[3] * gridSize / 2.0f,
 					(y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
 
 				chip.Vertecies.push_back(v0);
@@ -366,10 +399,10 @@ namespace ace
 
 	bool Terrain3D_Imp::Commit()
 	{
-		if (!isChanged) return false;
-		isChanged = false;
+		if (!isSurfaceChanged && !isMeshChanged) return false;
+		
+		isMeshChanged = false;
 
-#if _NEW
 		GenerateTerrainChips();
 
 		for (auto& c : collisionClusters)
@@ -378,7 +411,6 @@ namespace ace
 		}
 
 		collisionWorld->updateAabbs();
-#endif
 
 		auto g = (Graphics_Imp*) m_graphics;
 
@@ -387,32 +419,38 @@ namespace ace
 		Proxy.GridSize = gridSize;
 		Proxy.Material_ = material_;
 
-		Proxy.Surfaces.clear();
-		for (auto& surface : surfaceNameToSurface)
+		if (isSurfaceChanged)
 		{
-			SurfaceProxy p;
-
-			p.ColorTexture = surface.second.ColorTexture;
-			p.NormalTexture = surface.second.NormalTexture;
-			p.MetalnessTexture = surface.second.MetalnessTexture;
-
-			auto ind = surfaceNameToIndex[surface.first];
-			auto& surface_ = surfaces[ind];
-
-			p.DensityTexture = g->CreateEmptyTexture2D(
-				gridWidthCount * pixelInGrid,
-				gridHeightCount * pixelInGrid,
-				TextureFormat::R8_UNORM);
-
-			TextureLockInfomation info;
-			if (p.DensityTexture->Lock(info))
+			Proxy.Surfaces.clear();
+			for (auto& surface : surfaceNameToSurface)
 			{
-				memcpy(info.Pixels, surface_.data(), (gridWidthCount * pixelInGrid) * (gridHeightCount * pixelInGrid));
-				p.DensityTexture->Unlock();
+				SurfaceProxy p;
+
+				p.ColorTexture = surface.second.ColorTexture;
+				p.NormalTexture = surface.second.NormalTexture;
+				p.MetalnessTexture = surface.second.MetalnessTexture;
+
+				auto ind = surfaceNameToIndex[surface.first];
+				auto& surface_ = surfaces[ind];
+
+				p.DensityTexture = g->CreateEmptyTexture2D(
+					gridWidthCount * pixelInGrid,
+					gridHeightCount * pixelInGrid,
+					TextureFormat::R8_UNORM);
+
+				TextureLockInfomation info;
+				if (p.DensityTexture->Lock(info))
+				{
+					memcpy(info.Pixels, surface_.data(), (gridWidthCount * pixelInGrid) * (gridHeightCount * pixelInGrid));
+					p.DensityTexture->Unlock();
+				}
+
+				Proxy.Surfaces.push_back(p);
 			}
-			
-			Proxy.Surfaces.push_back(p);
+
+			isSurfaceChanged = false;
 		}
+		
 
 		if (Proxy.GridWidthCount == 0) return true;
 		if (Proxy.GridHeightCount == 0) return true;
@@ -446,6 +484,7 @@ namespace ace
 						{
 							isChanged = true;
 						}
+						chip.IsMeshGenerated = true;
 					}
 				}
 
@@ -454,11 +493,9 @@ namespace ace
 				Proxy.Clusters[cx + cy * Proxy.ClusterWidthCount] = std::make_shared<ClusterProxy>();
 				auto& cluster = Proxy.Clusters[cx + cy * Proxy.ClusterWidthCount];
 
-#if _NEW
 				std::vector<Vertex> vs;
 				std::vector<Face> fs;
 				GenerateTerrainMesh(xoffset, yoffset, width, height, vs, fs);
-#endif
 
 				cluster->Size.X = width * gridSize;
 				cluster->Size.Z = height * gridSize;
@@ -467,7 +504,6 @@ namespace ace
 				cluster->Center.Z = (yoffset + height / 2) * gridSize - gridHeightCount * gridSize / 2.0f;
 
 				// 下地
-#if _NEW
 				cluster->Black.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs.size(), false);
 				cluster->Black.IB = g->CreateIndexBuffer_Imp(fs.size() * 3, false, true);
 
@@ -495,66 +531,6 @@ namespace ace
 					}
 					cluster->Black.IB->Unlock();
 				}
-#else
-				cluster->Black.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), (width + 1) * (height + 1), false);
-				cluster->Black.IB = g->CreateIndexBuffer_Imp((width) * (height) * 2 * 3, false, true);
-
-				{
-					cluster->Black.VB->Lock();
-					auto buf = cluster->Black.VB->GetBuffer<Vertex>((width + 1) * (height + 1));
-					for (auto y_ = 0; y_ < height + 1; y_++)
-					{
-						for (auto x_ = 0; x_ < width + 1; x_++)
-						{
-							auto x = x_ + xoffset;
-							auto y = y_ + yoffset;
-
-							Vertex v;
-
-							v.Position.X = (x - (gridWidthCount + 1) / 2) * gridSize;
-							v.Position.Y = 0;
-							v.Position.Z = (y - (gridHeightCount + 1) / 2) * gridSize;
-
-							v.Normal.X = 0.0f;
-							v.Normal.Y = 1.0f;
-							v.Normal.Z = 0.0f;
-
-							v.Binormal.X = 0.0f;
-							v.Binormal.Y = 0.0f;
-							v.Binormal.Z = 1.0f;
-
-							v.VColor = Color(0, 0, 0, 255);
-
-							buf[x_ + y_ * (width + 1)] = v;
-						}
-					}
-
-					cluster->Black.VB->Unlock();
-				}
-
-				{
-					cluster->Black.IB->Lock();
-					auto buf = cluster->Black.IB->GetBuffer<int32_t>((width) * (height) * 2 * 3);
-					for (auto y_ = 0; y_ < height; y_++)
-					{
-						for (auto x_ = 0; x_ < width; x_++)
-						{
-							auto x = x_;
-							auto y = y_;
-
-							auto w = width + 1;
-
-							buf[(x_ + y_ * width) * 6 + 0] = (x) +(y) * w;
-							buf[(x_ + y_ * width) * 6 + 1] = (x + 1) + (y) * w;
-							buf[(x_ + y_ * width) * 6 + 2] = (x + 1) + (y + 1) * w;
-							buf[(x_ + y_ * width) * 6 + 3] = (x) +(y) * w;
-							buf[(x_ + y_ * width) * 6 + 4] = (x + 1) + (y + 1) * w;
-							buf[(x_ + y_ * width) * 6 + 5] = (x) +(y + 1) * w;
-						}
-					}
-					cluster->Black.IB->Unlock();
-				}
-#endif
 
 				// サーフェイス
 				int32_t surfaceInd = 0;
@@ -580,7 +556,6 @@ namespace ace
 
 					if (hasPixel)
 					{
-#if _NEW
 						SurfacePolygon p;
 						p.SurfaceIndex = surfaceInd;
 
@@ -621,78 +596,6 @@ namespace ace
 						}
 
 						cluster->Surfaces.push_back(p);
-#else
-						
-						SurfacePolygon p;
-						p.SurfaceIndex = surfaceInd;
-						
-						p.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), (width + 1) * (height + 1), false);
-						p.IB = g->CreateIndexBuffer_Imp((width) * (height) * 2 * 3, false, true);
-
-						{
-							p.VB->Lock();
-							auto buf = p.VB->GetBuffer<Vertex>((width + 1) * (height + 1));
-							for (auto y_ = 0; y_ < height + 1; y_++)
-							{
-								for (auto x_ = 0; x_ < width + 1; x_++)
-								{
-									auto x = x_ + xoffset;
-									auto y = y_ + yoffset;
-
-									Vertex v;
-
-									v.Position.X = (x - (gridWidthCount + 1) / 2) * gridSize;
-									v.Position.Y = 0.0f;
-									v.Position.Z = (y - (gridHeightCount + 1) / 2) * gridSize;
-
-									v.UV1.X = x * gridSize / surface.second.Size;
-									v.UV1.Y = y * gridSize / surface.second.Size;
-
-									v.UV2.X = (float) x / (float) (gridWidthCount);
-									v.UV2.Y = (float) y / (float) (gridHeightCount);
-
-									v.Normal.X = 0.0f;
-									v.Normal.Y = 1.0f;
-									v.Normal.Z = 0.0f;
-
-									v.Binormal.X = 0.0f;
-									v.Binormal.Y = 0.0f;
-									v.Binormal.Z = 1.0f;
-
-									v.VColor = Color(255, 255, 255, 255);
-
-									buf[x_ + y_ * (width + 1)] = v;
-								}
-							}
-
-							p.VB->Unlock();
-						}
-
-						{
-							p.IB->Lock();
-							auto buf = p.IB->GetBuffer<int32_t>((width) * (height) * 2 * 3);
-							for (auto y_ = 0; y_ < height; y_++)
-							{
-								for (auto x_ = 0; x_ < width; x_++)
-								{
-									auto x = x_;
-									auto y = y_;
-
-									auto w = width + 1;
-
-									buf[(x_ + y_ * width) * 6 + 0] = (x) +(y) * w;
-									buf[(x_ + y_ * width) * 6 + 1] = (x + 1) + (y) * w;
-									buf[(x_ + y_ * width) * 6 + 2] = (x + 1) + (y + 1) * w;
-									buf[(x_ + y_ * width) * 6 + 3] = (x) +(y) * w;
-									buf[(x_ + y_ * width) * 6 + 4] = (x + 1) + (y + 1) * w;
-									buf[(x_ + y_ * width) * 6 + 5] = (x) +(y + 1) * w;
-								}
-							}
-							p.IB->Unlock();
-						}
-
-						cluster->Surfaces.push_back(p);
-#endif
 					}
 
 					surfaceInd++;
@@ -714,12 +617,13 @@ namespace ace
 		this->surfaces.clear();
 
 		this->heights.resize(gridWidthCount * gridHeightCount);
-
+		this->cliffes.resize(gridWidthCount * gridHeightCount);
 		this->Chips.resize(gridWidthCount * gridHeightCount);
 
 		for (size_t i = 0; i < this->heights.size(); i++)
 		{
 			this->heights[i] = 0.0f;
+			this->cliffes[i] = 0;
 		}
 
 		GenerateTerrainChips();
@@ -747,7 +651,8 @@ namespace ace
 
 		collisionWorld->updateAabbs();
 		
-		isChanged = true;
+		isMeshChanged = true;
+		isSurfaceChanged = true;
 	}
 
 	void Terrain3D_Imp::AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* metalness)
@@ -892,7 +797,7 @@ namespace ace
 			}
 		}
 
-		isChanged = true;
+		isSurfaceChanged = true;
 	}
 
 	void Terrain3D_Imp::SetMaterial(Material3D* material)
@@ -907,7 +812,7 @@ namespace ace
 			shader->CompileTerrain();
 		}
 
-		isChanged = true;
+		isSurfaceChanged = true;
 	}
 
 	void Terrain3D_Imp::RaiseWithCircle(float x, float y, float radius, float value, float fallout)
@@ -969,7 +874,59 @@ namespace ace
 			}
 		}
 
-		isChanged = true;
+		isMeshChanged = true;
+	}
+
+	void Terrain3D_Imp::ChangeCliffesWithCircle(float x, float y, float radius, int32_t value)
+	{
+		x += gridWidthCount * gridSize / 2;
+		y += gridHeightCount * gridSize / 2;
+
+		x /= gridSize;
+		y /= gridSize;
+		radius /= gridSize;
+
+		for (float y_ = y - radius; y_ < y + radius; y_ += 1.0f)
+		{
+			for (float x_ = x - radius; x_ < x + radius; x_ += 1.0f)
+			{
+				int32_t x_ind = (int32_t) x_;
+				int32_t y_ind = (int32_t) y_;
+				int32_t ind = x_ind + y_ind * (gridWidthCount);
+
+				if (x_ind < 0) continue;
+				if (x_ind >= gridWidthCount) continue;
+				if (y_ind < 0) continue;
+				if (y_ind >= gridHeightCount) continue;
+
+				// 周囲に変更を通知
+				for (int32_t cy = Max(y_ind - 1, 0); cy < Min(y_ind + 2, gridHeightCount); cy++)
+				{
+					for (int32_t cx = Max(x_ind - 1, 0); cx < Min(x_ind + 2, gridWidthCount); cx++)
+					{
+						int32_t cind = cx + cy * (gridWidthCount);
+
+						Chips[cind].IsChanged = true;
+						Chips[cind].IsMeshGenerated = false;
+						Chips[cind].IsCollisionGenerated = false;
+					}
+				}
+
+				// ブラシの値を計算
+				auto distance = sqrt((x_ - x) * (x_ - x) + (y_ - y) * (y_ - y));
+
+				if (distance > radius) continue;
+
+				auto variation = 0.0f;
+
+				if (distance < radius)
+				{
+					cliffes[ind] = value;
+				}
+			}
+		}
+
+		isMeshChanged = true;
 	}
 
 	Vector3DF Terrain3D_Imp::CastRay(const Vector3DF& from, const Vector3DF& to)

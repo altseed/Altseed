@@ -121,8 +121,10 @@ namespace ace
 		std::shared_ptr<Material3D>			material_;
 
 		std::vector<float>					heights;
+		std::vector<int32_t>				cliffes;
 
-		bool isChanged = true;
+		bool isMeshChanged = true;
+		bool isSurfaceChanged = true;
 
 		class ChipFace
 		{
@@ -195,6 +197,8 @@ namespace ace
 		void SetMaterial(Material3D* material) override;
 
 		void RaiseWithCircle(float x, float y, float radius, float value, float fallout) override;
+
+		void ChangeCliffesWithCircle(float x, float y, float radius, int32_t value);
 
 		Vector3DF CastRay(const Vector3DF& from, const Vector3DF& to) override;
 
