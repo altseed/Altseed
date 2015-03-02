@@ -872,6 +872,7 @@
     <ClInclude Include="..\core\ObjectSystem\ace.ChildMode.h">
       <Filter>ObjectSystem</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ace.StructTranslator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1226,6 +1227,7 @@
       <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
     </ClCompile>
     <ClCompile Include="..\core\dll.cxx" />
+    <ClCompile Include="..\core\ace.StructTranslator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Window\ace.Window_Imp_X11.cpp">

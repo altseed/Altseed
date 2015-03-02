@@ -172,6 +172,7 @@
     <ClInclude Include="..\core\ace.Core.Base_Imp.h" />
     <ClInclude Include="..\core\ace.Accessor.h" />
     <ClInclude Include="..\core\ace.ReferenceObject.h" />
+    <ClInclude Include="..\core\ace.StructTranslator.h" />
     <ClInclude Include="..\core\Core\ace.Core.h" />
     <ClInclude Include="..\core\Core\ace.Core_Imp.h" />
     <ClInclude Include="..\core\Core\ace.CreateCore.h" />
@@ -431,6 +432,7 @@
     <ClCompile Include="..\core\ace.Accessor.cpp" />
     <ClCompile Include="..\core\ace.Core.Base_Imp.cpp" />
     <ClCompile Include="..\core\ace.ReferenceObject.cpp" />
+    <ClCompile Include="..\core\ace.StructTranslator.cpp" />
     <ClCompile Include="..\core\Core\ace.Core_Imp.cpp" />
     <ClCompile Include="..\core\Core\ace.CreateCore.cpp" />
     <ClCompile Include="..\core\dll.cxx" />

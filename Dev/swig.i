@@ -133,6 +133,38 @@ unsafe class"
 
 #if SWIGJAVA
 
+%ignore ace::Vector2DF;
+
+%typemap(jni) ace::Vector2DF	"jobject"
+%typemap(jtype) ace::Vector2DF	"ace.Vector2DF"
+%typemap(jstype) ace::Vector2DF	"ace.Vector2DF"
+
+%typemap(in) ace::Vector2DF { 
+	$1 = ace::Vector2DF();
+	if ($input != nullptr) {
+		$1 = ace::StructTranslator::DequeueVector2DF();
+	}
+}
+
+%typemap(out) ace::Vector2DF { ::ace::StructTranslator::EnqueueVector2DF($1); }
+
+%typemap(javain) ace::Vector2DF "StructBridge.EnqueueVector2DF_($javainput)"
+%typemap(javaout) ace::Vector2DF { return StructTranslator.DequeueVector2DF($jnicall); }
+
+%typemap(javacode) ace::StructTranslator
+%{
+	public static Vector2D DequeueVector2DF_(Vector2DF v)
+	{
+		return new Vector2DF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	}
+
+	public static Vector2DF EnqueueVector2DF_(Vector2DF v)
+	{
+		StructBridge.EnqueueVector2DF(v.X, v.Y);
+		return v;
+	}
+%}
+
 %define STRUCT_OBJECT( CTYPE, RCTYPE, CSTYPE )
 /*
 %ignore CTYPE;
