@@ -99,13 +99,12 @@ vec3 calcDirectionalLightDiffuseColor(vec3 diffuseColor, vec3 normal, vec3 light
 	return color;
 }
 
-vec3 calcDirectionalLightSpecularColor(vec3 specularColor, vec3 normal, vec3 lightDir, float smoothness, float fresnel, float shadow, float ao)
+vec3 calcDirectionalLightSpecularColor(vec3 specularColor, vec3 normal, vec3 viewDir, vec3 lightDir, float smoothness, float fresnel, float shadow, float ao)
 {
 	float roughness = 1.00000 - smoothness;
 	roughness = max(roughness, 0.08);
 	roughness = min(roughness, 0.92);
 
-	vec3 viewDir = vec3(0.000000, 0.000000, 1.00000);
 	vec3 specular;
 	specular.x = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.x);
 	specular.y = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.y);
@@ -210,6 +209,8 @@ void main()
 
 	vec3 cameraPos = ReconstructPosition(voutPosition.xy, ReconstructDepth(GetNormalizedDepth(uv)));
 
+	vec3 viewDir = normalize(-cameraPos);
+
 	vec4 lightColor = vec4(0.0,0.0,0.0,1.0);
 
 	vec3 baseColor = GetBaseColor(uv);
@@ -239,7 +240,7 @@ void main()
 	float shadow = VSM(shadowParam, depth);
 	lightColor.xyz += calcDirectionalLightDiffuseColor(diffuseColor, normal, directionalLightDirection, shadow, ao);
 
-	lightColor.xyz += calcDirectionalLightSpecularColor(specularColor, normal, directionalLightDirection, smoothness, 0.06, shadow, ao);
+	lightColor.xyz += calcDirectionalLightSpecularColor(specularColor, normal, viewDir, directionalLightDirection, smoothness, 0.06, shadow, ao);
 #endif
 
 #ifdef AMBIENT_LIGHT

@@ -180,6 +180,7 @@ namespace ace
 		virtual ~Terrain3D_Imp();
 
 		void GenerateCollision();
+		void GenerateTerrainChip(int32_t chip_x, int32_t chip_y);
 		void GenerateTerrainChips();
 		void GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces);
 	public:

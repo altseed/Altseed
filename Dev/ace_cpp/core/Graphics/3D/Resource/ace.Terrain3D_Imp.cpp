@@ -135,120 +135,379 @@ namespace ace
 		SafeRelease(m_graphics);
 	}
 
+	void Terrain3D_Imp::GenerateTerrainChip(int32_t chip_x, int32_t chip_y)
+	{
+		auto& chip = Chips[chip_x + chip_y * gridWidthCount];
+
+		if (!chip.IsChanged) return;
+		chip.IsChanged = false;
+
+		chip.Vertecies.clear();
+		chip.Faces.clear();
+
+		int32_t clsh[9];
+
+		for (int32_t oy = -1; oy <= 1; oy++)
+		{
+			for (int32_t ox = -1; ox <= 1; ox++)
+			{
+				auto x_ = Clamp(chip_x + ox, gridWidthCount - 1, 0);
+				auto y_ = Clamp(chip_y + oy, gridHeightCount - 1, 0);
+				clsh[(ox + 1) + (oy + 1) * 3] = cliffes[x_ + y_ * gridWidthCount];
+			}
+		}
+
+		// 崖による4点の高度を決める
+		int32_t clheight[4];
+		for (int32_t oy = 0; oy < 2; oy++)
+		{
+			for (int32_t ox = 0; ox < 2; ox++)
+			{
+				int32_t m = INT_MAX;
+
+				for (int32_t oy_ = 0; oy_ < 2; oy_++)
+				{
+					for (int32_t ox_ = 0; ox_ < 2; ox_++)
+					{
+						m = Min(m, clsh[(ox + ox_) + (oy + oy_) * 3]);
+					}
+				}
+
+				clheight[ox + oy * 2] = m;
+			}
+		}
+
+		auto getHeight = [this](int32_t x_, int32_t y_) -> float
+		{
+			x_ = Clamp(x_, this->gridWidthCount - 1, 0);
+			y_ = Clamp(y_, this->gridHeightCount - 1, 0);
+
+			return this->heights[x_ + y_ * this->gridWidthCount];
+		};
+
+		auto v0 = Vector3DF(
+			chip_x * gridSize - gridWidthCount * gridSize / 2.0f,
+			(getHeight(chip_x - 1, chip_y - 1) + getHeight(chip_x + 0, chip_y - 1) + getHeight(chip_x - 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 0)) / 4.0f + clheight[0] * gridSize / 2.0f,
+			chip_y * gridSize - gridHeightCount * gridSize / 2.0f);
+
+		auto v1 = Vector3DF(
+			(chip_x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
+			(getHeight(chip_x + 0, chip_y - 1) + getHeight(chip_x + 1, chip_y - 1) + getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x + 1, chip_y + 0)) / 4.0f + clheight[1] * gridSize / 2.0f,
+			chip_y * gridSize - gridHeightCount * gridSize / 2.0f);
+
+		auto v2 = Vector3DF(
+			chip_x * gridSize - gridWidthCount * gridSize / 2.0f,
+			(getHeight(chip_x - 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x - 1, chip_y + 1) + getHeight(chip_x + 0, chip_y + 1)) / 4.0f + clheight[2] * gridSize / 2.0f,
+			(chip_y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
+
+		auto v3 = Vector3DF(
+			(chip_x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
+			(getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x + 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 1) + getHeight(chip_x + 1, chip_y + 1)) / 4.0f + clheight[3] * gridSize / 2.0f,
+			(chip_y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
+
+
+		bool isFlat = true;
+
+		for (int32_t i = 0; i < 9; i++)
+		{
+			if (abs(clsh[4] - clsh[i]) >= 2)
+			{
+				isFlat = false;
+				break;
+			}
+		}
+
+		if (isFlat)
+		{
+			chip.Vertecies.push_back(v0);
+			chip.Vertecies.push_back(v1);
+			chip.Vertecies.push_back(v2);
+			chip.Vertecies.push_back(v3);
+
+			ChipFace f1;
+			f1.Indexes[0] = 0;
+			f1.Indexes[1] = 1;
+			f1.Indexes[2] = 3;
+
+			ChipFace f2;
+			f2.Indexes[0] = 0;
+			f2.Indexes[1] = 3;
+			f2.Indexes[2] = 2;
+
+			chip.Faces.push_back(f1);
+			chip.Faces.push_back(f2);
+		}
+		else
+		{
+			enum class DivisionDirection
+			{
+				None,
+				Filled,
+				FilledHalf,
+				Slash_Upper,
+				Slash_Lower,
+				Backslash_Upper,
+				Backslash_Lower,
+			};
+
+			int32_t minclh = INT_MAX;
+			int32_t maxclh = INT_MIN;
+			for (int32_t oy = 0; oy < 3; oy++)
+			{
+				for (int32_t ox = 0; ox < 3; ox++)
+				{
+					minclh = Min(clsh[ox + oy * 3], minclh);
+					maxclh = Max(clsh[ox + oy * 3], maxclh);
+				}
+			}
+
+			std::array<DivisionDirection, 16> divisions;
+			divisions.fill(DivisionDirection::None);
+			std::array<int32_t, 16> indexes;
+			indexes.fill(-1);
+
+			std::array<DivisionDirection, 16> divisionsNext;
+			divisionsNext.fill(DivisionDirection::None);
+			std::array<int32_t, 16> indexesNext;
+			indexesNext.fill(-1);
+
+			for (int32_t h = maxclh; h >= minclh; h--)
+			{
+				auto isCliff = [&clsh, h](int32_t i) -> bool
+				{
+					auto from = Min(clsh[4], h);
+					auto to = Min(clsh[i], h);
+					if (from <= to) return false;
+					return from - to > 2;
+				};
+
+				auto isInclinedPlane = [&clsh, h](int32_t i) -> bool
+				{
+					auto from = Min(clsh[4], h);
+					auto to = Min(clsh[i], h);
+					if (from <= to) return false;
+					return from - to == 1;
+				};
+				
+
+				auto rot = [](int32_t ind, int32_t angle) -> int32_t
+				{
+					int32_t lut[9];
+					lut[0] = 2;
+					lut[1] = 5;
+					lut[2] = 8;
+					lut[3] = 1;
+					lut[4] = 4;
+					lut[5] = 7;
+					lut[6] = 0;
+					lut[7] = 3;
+					lut[8] = 6;
+
+					for (int32_t i = 0; i < angle; i++)
+					{
+						ind = lut[ind];
+					}
+					return ind;
+				};
+
+				auto rot_16 = [](int32_t ind, int32_t angle) -> int32_t
+				{
+					auto x = ind % 4;
+					auto y = ind / 4;
+
+					for (int32_t i = 0; i < angle; i++)
+					{
+						auto x_ = 3 - y;
+						auto y_ = x;
+						x = x_;
+						y = y_;
+					}
+					return x + y * 4;
+				};
+
+				auto rotDiv = [](DivisionDirection d, int32_t angle) -> DivisionDirection
+				{
+					if (d == DivisionDirection::Filled) return d;
+					if (d == DivisionDirection::FilledHalf) return d;
+					if (d == DivisionDirection::None) return d;
+
+					for (int32_t i = 0; i < angle; i++)
+					{
+						if (d == DivisionDirection::Backslash_Lower)
+						{
+							d = DivisionDirection::Slash_Upper;
+						}
+						else if (d == DivisionDirection::Backslash_Upper)
+						{
+							d = DivisionDirection::Slash_Lower;
+						}
+						else if (d == DivisionDirection::Slash_Lower)
+						{
+							d = DivisionDirection::Backslash_Upper;
+						}
+						else if (d == DivisionDirection::Slash_Upper)
+						{
+							d = DivisionDirection::Backslash_Lower;
+						}
+					}
+					
+					return d;
+				};
+
+				divisionsNext.fill(DivisionDirection::Filled);
+				indexesNext.fill(-1);
+
+				// 特殊
+				if (isCliff(1) && isCliff(3) && isCliff(6) && isCliff(8))
+				{
+					divisionsNext[0 + 4 * 0] = DivisionDirection::None;
+					divisionsNext[1 + 4 * 0] = DivisionDirection::None;
+					divisionsNext[2 + 4 * 0] = DivisionDirection::None;
+					divisionsNext[3 + 4 * 0] = DivisionDirection::None;
+
+					divisionsNext[0 + 4 * 1] = DivisionDirection::None;
+					divisionsNext[1 + 4 * 1] = DivisionDirection::Slash_Lower;
+					divisionsNext[2 + 4 * 1] = DivisionDirection::Backslash_Lower;
+					divisionsNext[3 + 4 * 1] = DivisionDirection::None;
+
+					divisionsNext[0 + 4 * 2] = DivisionDirection::None;
+					divisionsNext[1 + 4 * 2] = DivisionDirection::Slash_Upper;
+					divisionsNext[2 + 4 * 2] = DivisionDirection::Backslash_Upper;
+					divisionsNext[3 + 4 * 2] = DivisionDirection::None;
+
+					divisionsNext[0 + 4 * 3] = DivisionDirection::None;
+					divisionsNext[1 + 4 * 3] = DivisionDirection::None;
+					divisionsNext[2 + 4 * 3] = DivisionDirection::None;
+					divisionsNext[3 + 4 * 3] = DivisionDirection::None;
+				}
+				else
+				{
+					// 3
+					for (int32_t dir = 0; dir < 4; dir++)
+					{
+						if (isCliff(rot(3, dir)) && isCliff(rot(1, dir)) && isCliff(rot(5, dir)))
+						{
+							divisionsNext[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+							divisionsNext[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+							divisionsNext[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+							divisionsNext[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+
+							divisionsNext[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+							divisionsNext[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
+							divisionsNext[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::Backslash_Upper, dir);
+							divisionsNext[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+
+							divisionsNext[rot_16(0 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
+							divisionsNext[rot_16(1 + 4 * 2, dir)] = rotDiv(DivisionDirection::Filled, dir);
+							divisionsNext[rot_16(2 + 4 * 2, dir)] = rotDiv(DivisionDirection::Filled, dir);
+							divisionsNext[rot_16(3 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
+						}
+					}
+
+					// 3
+					for (int32_t dir = 0; dir < 4; dir++)
+					{
+						if (!isCliff(rot(3, dir)) && isCliff(rot(0, dir)) && !isCliff(rot(1, dir)))
+						{
+							divisionsNext[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
+						}
+					}
+
+					// 3
+					for (int32_t dir = 0; dir < 4; dir++)
+					{
+						if (!isCliff(rot(3, dir)) && !isCliff(rot(0, dir)) && !isCliff(rot(1, dir)))
+						{
+							divisionsNext[0 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+							divisionsNext[1 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+							divisionsNext[2 + 4 * 0] = rotDiv(DivisionDirection::Slash_Lower, dir);
+
+							divisionsNext[0 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
+							divisionsNext[1 + 4 * 1] = rotDiv(DivisionDirection::Slash_Lower, dir);
+
+							divisionsNext[0 + 4 * 2] = rotDiv(DivisionDirection::Slash_Lower, dir);
+						}
+					}
+
+					for (int32_t dir = 0; dir < 4; dir++)
+					{
+						if (isCliff(rot(0, dir)) && isCliff(rot(1, dir)) && isCliff(rot(2, dir)) && !isCliff(rot(3, dir)) && !isCliff(rot(5, dir)))
+						{
+							divisionsNext[0 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+							divisionsNext[1 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+							divisionsNext[2 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+							divisionsNext[3 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+
+							if (isInclinedPlane(rot(3, dir)) && !isInclinedPlane(rot(5, dir)))
+							{
+							}
+							else if (!isInclinedPlane(rot(3, dir)) && isInclinedPlane(rot(5, dir)))
+							{
+								divisionsNext[0 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+								divisionsNext[1 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+								//divisionsNext[2 + 4 * 1] = DivisionDirection::None;
+								//divisionsNext[3 + 4 * 1] = DivisionDirection::None;
+							}
+							else if (isInclinedPlane(rot(3, dir)) && !isInclinedPlane(rot(5, dir)))
+							{
+								divisionsNext[0 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
+								divisionsNext[1 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
+								divisionsNext[2 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+								divisionsNext[3 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+							}
+							else if (isInclinedPlane(rot(3, dir)) && isInclinedPlane(rot(5, dir)))
+							{
+								divisionsNext[0 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+								divisionsNext[1 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+								divisionsNext[2 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+								divisionsNext[3 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+							}
+						}
+					}
+				}
+
+				// 面を貼る
+
+				// 輪郭抽出
+				std::vector<std::pair<int32_t, int32_t>> lines;
+
+				for (int32_t i = 0; i < 16; i++)
+				{
+
+				}
+
+				divisions = divisionsNext;
+			}
+		}
+
+		// 面計算
+		for (size_t i = 0; i < chip.Faces.size(); i++)
+		{
+			auto& face = chip.Faces[i];
+
+			auto normal = Vector3DF::Cross(
+				(chip.Vertecies[face.Indexes[2]] - chip.Vertecies[face.Indexes[0]]),
+				(chip.Vertecies[face.Indexes[1]] - chip.Vertecies[face.Indexes[0]]));
+
+			normal.Normalize();
+
+			face.Normal = normal;
+
+			auto tangent = Vector3DF::Cross(normal, Vector3DF(0, 0, 1));
+			tangent.Normalize();
+
+			face.Binormal = Vector3DF::Cross(tangent, normal);
+			face.Binormal.Normalize();
+		}
+	}
+
 	void Terrain3D_Imp::GenerateTerrainChips()
 	{
 		for (int32_t y = 0; y < gridHeightCount; y++)
 		{
 			for (int32_t x = 0; x < gridWidthCount; x++)
 			{
-				auto& chip = Chips[x + y * gridWidthCount];
-
-				if (!chip.IsChanged) continue;
-				chip.IsChanged = false;
-
-				chip.Vertecies.clear();
-				chip.Faces.clear();
-
-				int32_t cls[9];
-				int32_t clsh[9];
-
-				for (int32_t oy = -1; oy <= 1; oy++)
-				{
-					for (int32_t ox = -1; ox <= 1; ox++)
-					{
-						auto x_ = Clamp(x + ox, gridWidthCount - 1, 0);
-						auto y_ = Clamp(y + oy, gridHeightCount - 1, 0);
-
-						cls[(ox + 1) + (oy + 1) * 3] = (cliffes[x_ + y_ * gridWidthCount] - cliffes[x + y * gridWidthCount]) / 2;
-						clsh[(ox + 1) + (oy + 1) * 3] = cliffes[x_ + y_ * gridWidthCount];
-					}
-				}
-
-				// 崖による4点の高度を決める
-				int32_t clheight[4];
-				for (int32_t oy = 0; oy < 2; oy++)
-				{
-					for (int32_t ox = 0; ox < 2; ox++)
-					{
-						int32_t m = INT_MAX;
-
-						for (int32_t oy_ = 0; oy_ < 2; oy_++)
-						{
-							for (int32_t ox_ = 0; ox_ < 2; ox_++)
-							{
-								m = Min(m, clsh[(ox + ox_) + (oy + oy_) * 3]);
-							}
-						}
-
-						clheight[ox + oy * 2] = m;
-					}
-				}
-
-				auto getHeight = [this](int32_t x_, int32_t y_) -> float
-				{
-					x_ = Clamp(x_, this->gridWidthCount - 1, 0);
-					y_ = Clamp(y_, this->gridHeightCount - 1, 0);
-
-					return this->heights[x_ + y_ * this->gridWidthCount];
-				};
-
-				auto v0 = Vector3DF(
-					x * gridSize - gridWidthCount * gridSize / 2.0f,
-					(getHeight(x - 1, y - 1) + getHeight(x + 0, y - 1) + getHeight(x - 1, y + 0) + getHeight(x + 0, y + 0)) / 4.0f + clheight[0] * gridSize / 2.0f,
-					y * gridSize - gridHeightCount * gridSize / 2.0f);
-
-				auto v1 = Vector3DF(
-					(x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
-					(getHeight(x + 0, y - 1) + getHeight(x + 1, y - 1) + getHeight(x + 0, y + 0) + getHeight(x + 1, y + 0)) / 4.0f + clheight[1] * gridSize / 2.0f,
-					y * gridSize - gridHeightCount * gridSize / 2.0f);
-
-				auto v2 = Vector3DF(
-					x * gridSize - gridWidthCount * gridSize / 2.0f,
-					(getHeight(x - 1, y + 0) + getHeight(x + 0, y + 0) + getHeight(x - 1, y + 1) + getHeight(x + 0, y + 1)) / 4.0f + clheight[2] * gridSize / 2.0f,
-					(y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
-
-				auto v3 = Vector3DF(
-					(x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
-					(getHeight(x + 0, y + 0) + getHeight(x + 1, y + 0) + getHeight(x + 0, y + 1) + getHeight(x + 1, y + 1)) / 4.0f + clheight[3] * gridSize / 2.0f,
-					(y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
-
-				chip.Vertecies.push_back(v0);
-				chip.Vertecies.push_back(v1);
-				chip.Vertecies.push_back(v2);
-				chip.Vertecies.push_back(v3);
-
-				ChipFace f1;
-				f1.Indexes[0] = 0;
-				f1.Indexes[1] = 1;
-				f1.Indexes[2] = 3;
-
-				ChipFace f2;
-				f2.Indexes[0] = 0;
-				f2.Indexes[1] = 3;
-				f2.Indexes[2] = 2;
-
-				chip.Faces.push_back(f1);
-				chip.Faces.push_back(f2);
-
-				// 面計算
-				for (size_t i = 0; i < chip.Faces.size(); i++)
-				{
-					auto& face = chip.Faces[i];
-
-					auto normal = Vector3DF::Cross(
-						(chip.Vertecies[face.Indexes[2]] - chip.Vertecies[face.Indexes[0]]),
-						(chip.Vertecies[face.Indexes[1]] - chip.Vertecies[face.Indexes[0]]));
-
-					normal.Normalize();
-
-					face.Normal = normal;
-
-					auto tangent = Vector3DF::Cross(normal, Vector3DF(0, 0, 1));
-					tangent.Normalize();
-
-					face.Binormal = Vector3DF::Cross(tangent, normal);
-					face.Binormal.Normalize();
-				}
+				GenerateTerrainChip(x, y);
 			}
 		}
 	}

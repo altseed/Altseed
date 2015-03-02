@@ -108,13 +108,12 @@ float3 calcDirectionalLightDiffuseColor(float3 diffuseColor, float3 normal, floa
 	return color;
 }
 
-float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, float3 lightDir, float smoothness, float fresnel, float shadow, float ao)
+float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, float3 viewDir, float3 lightDir, float smoothness, float fresnel, float shadow, float ao)
 {
 	float roughness = 1.00000 - smoothness;
 	roughness = max(roughness, 0.08);
 	roughness = min(roughness, 0.92);
 
-	float3 viewDir = float3(0.000000, 0.000000, 1.00000);
 	float3 specular;
 	specular.x = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.x);
 	specular.y = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.y);
@@ -220,6 +219,8 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float3 cameraPos = ReconstructPosition(Input.Position.xy, ReconstructDepth(GetNormalizedDepth(uv)));
 
+	float3 viewDir = normalize(-cameraPos)
+
 	float4 lightColor = float4(0.0,0.0,0.0,1.0);
 
 	float3 baseColor = GetBaseColor(uv);
@@ -246,7 +247,7 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	lightColor.xyz += calcDirectionalLightDiffuseColor(diffuseColor, normal, directionalLightDirection, shadow, ao);
 
-	lightColor.xyz += calcDirectionalLightSpecularColor(specularColor, normal, directionalLightDirection, smoothness, 0.06, shadow, ao);
+	lightColor.xyz += calcDirectionalLightSpecularColor(specularColor, normal, viewDir, directionalLightDirection, smoothness, 0.06, shadow, ao);
 #endif
 
 #ifdef AMBIENT_LIGHT
