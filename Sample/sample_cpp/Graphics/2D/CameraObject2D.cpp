@@ -20,9 +20,8 @@ void CameraObject2D()
 	// シーンを切り替える。
 	ace::Engine::ChangeScene(scene);
 
-
+	// テクスチャ画像を準備する。
 	{
-		// テクスチャ画像を準備する。
 		auto tex0 = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
 		auto obj0 = std::make_shared<ace::TextureObject2D>();
 		obj0->SetTexture(tex0);
@@ -33,7 +32,7 @@ void CameraObject2D()
 		layer->AddObject(obj0);
 	}
 
-	//画面全体を写すカメラ。(オブジェクトをそのまま描画)
+	//一つ目の画面全体を写すカメラを設定する。(オブジェクトをそのまま描画する。)
 	{
 		auto camera1 = std::make_shared<ace::CameraObject2D>();
 		camera1->SetSrc(ace::RectI(0, 0, 640, 480));
@@ -41,7 +40,7 @@ void CameraObject2D()
 		layer->AddObject(camera1);
 	}
 
-	//マウスポインタの周辺を拡大して表示するカメラ。
+	//二つ目のマウスポインタの周辺を拡大して表示するカメラを設定する。
 	auto camera2 = std::make_shared<ace::CameraObject2D>();
 
 	layer->AddObject(camera2);
@@ -59,7 +58,7 @@ void CameraObject2D()
 	// aceが進行可能かチェックする。
 	while (ace::Engine::DoEvents())
 	{
-		//マウスポインタの位置を取得。
+		//マウスポインタの位置を取得する。
 		auto pos = ace::Engine::GetMouse()->GetPosition();
 
 		//拡大用カメラの描画元を指定する。
