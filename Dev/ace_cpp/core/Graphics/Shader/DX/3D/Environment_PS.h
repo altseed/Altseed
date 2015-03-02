@@ -87,6 +87,10 @@ float4 main( const PS_Input Input ) : SV_Target
 	float2 uv = Input.UV;
 	// uv.y = 1.0 - uv.y;
 
+	float3 cameraPos = ReconstructPosition(Input.Position.xy, ReconstructDepth(GetNormalizedDepth(uv)));
+
+	float3 viewDir = normalize(-cameraPos);
+
 	float3 baseColor = GetBaseColor(uv);
 	float4 smoothnessMetalnessAO = GetSmoothnessMetalnessAO(uv);
 	float smoothness = smoothnessMetalnessAO.x;
@@ -95,7 +99,6 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float3 diffuse = CalcDiffuseColor(baseColor, metalness);
 	float3 normal = GetNormal(uv);
-	float3 view = float3(0.0,0.0,1.0);
 
 	float3 specColor = CalcSpecularColor(baseColor, metalness);
 	float roughness = 1.0 - smoothness;
@@ -104,8 +107,8 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float4 diffuseEnvColor = g_diffuseTexture.SampleLevel(g_diffuseSampler, globalNormal, 0.0) * diffuseIntensity;
 
-	float NoV = saturate( dot( normal, view) );
-	float3 R = 2.0 * NoV * normal - view;
+	float NoV = saturate( dot( normal, viewDir) );
+	float3 R = 2.0 * NoV * normal - viewDir;
 	float3 globalR = float3(dot(rightDir,R), dot(upDir,R), dot(frontDir,R));
 
 	float4 specEnvColor = g_specularTexture.SampleLevel(g_specularSampler, globalR, roughness * mipmapCount) * specularIntensity;

@@ -219,7 +219,7 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float3 cameraPos = ReconstructPosition(Input.Position.xy, ReconstructDepth(GetNormalizedDepth(uv)));
 
-	float3 viewDir = normalize(-cameraPos)
+	float3 viewDir = normalize(-cameraPos);
 
 	float4 lightColor = float4(0.0,0.0,0.0,1.0);
 
