@@ -78,8 +78,8 @@ unsafe class"
 %typemap(jstype) void * "com.sun.jna.ptr.IntByReference"
 %typemap(in) void * { $1 = $input; }
 %typemap(out) void * { $result = $1; }
-%typemap(javasin) void * "$csinput"
-%typemap(javasout) void * { return $imcall; }
+%typemap(javain) void * "$csinput"
+%typemap(javaout) void * { return $imcall; }
 #endif
 
 //-----------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ unsafe class"
 
 #if SWIGCSHARP
 
-%define STRUCT_OBJECT( CTYPE, RCTYPE, CSTYPE )
+%define STRUCT_OBJECT( CTYPE, RCTYPE, CSTYPE, NAME )
 %ignore CTYPE;
 
 // 一切何も付いていないときの処理がおかしい可能性あり
@@ -133,77 +133,109 @@ unsafe class"
 
 #if SWIGJAVA
 
-%ignore ace::Vector2DF;
+%define STRUCT_OBJECT( CTYPE, RCTYPE, CSTYPE, NAME )
 
-%typemap(jni) ace::Vector2DF	"jobject"
-%typemap(jtype) ace::Vector2DF	"ace.Vector2DF"
-%typemap(jstype) ace::Vector2DF	"ace.Vector2DF"
+%ignore CTYPE;
 
-%typemap(in) ace::Vector2DF { 
-	$1 = ace::Vector2DF();
+//------------------------ CTYPE ------------------------
+%typemap(jni) CTYPE		"jobject"
+%typemap(jtype) CTYPE	"CSTYPE"
+%typemap(jstype) CTYPE	"CSTYPE"
+
+%typemap(in) CTYPE { 
+	$1 = ##CTYPE ();
 	if ($input != nullptr) {
-		$1 = ace::StructTranslator::DequeueVector2DF();
+		$1 = ace::StructTranslator::Dequeue ##NAME();
 	}
 }
 
-%typemap(out) ace::Vector2DF { ::ace::StructTranslator::EnqueueVector2DF($1); }
+%typemap(out) CTYPE { ::ace::StructTranslator::Enqueue ##NAME($1); }
 
-%typemap(javain) ace::Vector2DF "StructBridge.EnqueueVector2DF_($javainput)"
-%typemap(javaout) ace::Vector2DF { return StructTranslator.DequeueVector2DF($jnicall); }
+%typemap(javain)	CTYPE { StructBridge.Enqueue_##NAME($javainput) }
+%typemap(javaout)	CTYPE { return StructTranslator.Dequeue_##NAME($jnicall); }
+
+//------------------------ CTYPE* ------------------------
+%typemap(jni) CTYPE*		"jobject"
+%typemap(jtype) CTYPE*		"CSTYPE"
+%typemap(jstype) CTYPE*		"CSTYPE"
+
+%typemap(in) CTYPE* { 
+	$1 = ##CTYPE ();
+	if ($input != nullptr) {
+		$1 = ace::StructTranslator::Dequeue ##NAME();
+	}
+}
+
+%typemap(out) CTYPE* { ::ace::StructTranslator::Enqueue ##NAME($1); }
+
+%typemap(javain)	CTYPE* { StructBridge.Enqueue_##NAME($javainput) }
+%typemap(javaout)	CTYPE* { return StructTranslator.Dequeue_##NAME($jnicall); }
+
+//------------------------ const CTYPE* ------------------------
+%typemap(jni)		const CTYPE*		"jobject"
+%typemap(jtype)		const CTYPE*		"CSTYPE"
+%typemap(jstype)	const CTYPE*		"CSTYPE"
+
+%typemap(in) const CTYPE* { 
+	$1 = ##CTYPE ();
+	if ($input != nullptr) {
+		$1 = ace::StructTranslator::Dequeue ##NAME();
+	}
+}
+
+%typemap(out) const CTYPE* { ::ace::StructTranslator::Enqueue ##NAME($1); }
+
+%typemap(javain)	const CTYPE* { StructBridge.Enqueue_##NAME($javainput) }
+%typemap(javaout)	const CTYPE* { return StructTranslator.Dequeue_##NAME($jnicall); }
+
+//------------------------ CTYPE& ------------------------
+%typemap(jni)		CTYPE&		"jobject"
+%typemap(jtype)		CTYPE&		"CSTYPE"
+%typemap(jstype)	CTYPE&		"CSTYPE"
+
+%typemap(in) CTYPE& { 
+	$1 = ##CTYPE ();
+	if ($input != nullptr) {
+		$1 = ace::StructTranslator::Dequeue ##NAME();
+	}
+}
+
+%typemap(out) CTYPE& { ::ace::StructTranslator::Enqueue ##NAME($1); }
+
+%typemap(javain)	CTYPE& { StructBridge.Enqueue_##NAME($javainput) }
+%typemap(javaout)	CTYPE& { return StructTranslator.Dequeue_##NAME($jnicall); }
+
+
+//------------------------ const CTYPE& ------------------------
+%typemap(jni)		const CTYPE&		"jobject"
+%typemap(jtype)		const CTYPE&		"CSTYPE"
+%typemap(jstype)	const CTYPE&		"CSTYPE"
+
+%typemap(in) const CTYPE& { 
+	$1 = ##CTYPE ();
+	if ($input != nullptr) {
+		$1 = ace::StructTranslator::Dequeue ##NAME();
+	}
+}
+
+%typemap(out) const CTYPE& { ::ace::StructTranslator::Enqueue ##NAME($1); }
+
+%typemap(javain)	const CTYPE& { StructBridge.Enqueue_##NAME($javainput) }
+%typemap(javaout)	const CTYPE& { return StructTranslator.Dequeue_##NAME($jnicall); }
+
+%enddef
 
 %typemap(javacode) ace::StructTranslator
 %{
-	public static Vector2D DequeueVector2DF_(Vector2DF v)
-	{
+	public static Vector2D DequeueVector_2DF(Vector2DF v) {
 		return new Vector2DF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
 	}
 
-	public static Vector2DF EnqueueVector2DF_(Vector2DF v)
-	{
+	public static Vector2DF EnqueueVector_2DF(Vector2DF v) {
 		StructBridge.EnqueueVector2DF(v.X, v.Y);
 		return v;
 	}
 %}
-
-%define STRUCT_OBJECT( CTYPE, RCTYPE, CSTYPE )
-/*
-%ignore CTYPE;
-
-// 一切何も付いていないときの処理がおかしい可能性あり
-%typemap(jni)		CTYPE	"CTYPE"
-%typemap(jtype)		CTYPE	"CSTYPE"
-%typemap(jstype)	CTYPE	"CSTYPE"
-%typemap(in)		CTYPE	{ $1 = $input; }
-%typemap(out)		CTYPE	{ $result = $1; }
-%typemap(javasin)		CTYPE	"$javainput"
-%typemap(javasout)		CTYPE	{ return $imcall; }
-
-%typemap(jni)		CTYPE* "void*"
-%typemap(jtype)		CTYPE* "ref CSTYPE"
-%typemap(jstype)	CTYPE* "ref CSTYPE"
-%typemap(in)		CTYPE* "$1 = (CTYPE*)$input;"
-%typemap(javain)		CTYPE* "ref $javainput"
-
-%typemap(jni)		const CTYPE* "void*"
-%typemap(jtype)		const CTYPE* "ref CSTYPE"
-%typemap(jstype)	const CTYPE* "ref CSTYPE"
-%typemap(in)		const CTYPE* "$1 = (CTYPE*)$input;"
-%typemap(javain)	const CTYPE* "ref $javainput"
-
-%typemap(jni)		CTYPE& "void*"
-%typemap(jtype)		CTYPE& "ref CSTYPE"
-%typemap(jstype)	CTYPE& "ref CSTYPE"
-%typemap(in)		CTYPE& "$1 = (CTYPE*)$input;"
-%typemap(javain)	CTYPE& "ref $javainput"
-
-%typemap(jni)		const CTYPE& "void*"
-%typemap(jtype)		const CTYPE& "ref CSTYPE"
-%typemap(jstype)	const CTYPE& "ref CSTYPE"
-%typemap(in)		const CTYPE& "$1 = (CTYPE*)$input;"
-%typemap(javain)	const CTYPE& "ref $javainput"
-*/
-
-%enddef
 
 #endif
 
@@ -211,18 +243,18 @@ unsafe class"
 //-----------------------------------------------------------------------------------
 // 構造体定義
 //-----------------------------------------------------------------------------------
-STRUCT_OBJECT( ace::Vector2DF, ace::Vector2DF_R, ace.Vector2DF )
-STRUCT_OBJECT( ace::Vector2DI, ace::Vector2DI_R, ace.Vector2DI )
-STRUCT_OBJECT( ace::Vector3DF, ace::Vector3DF_R, ace.Vector3DF )
-STRUCT_OBJECT( ace::Vector4DF, ace::Vector4DF_R, ace.Vector4DF )
-STRUCT_OBJECT( ace::RectI, ace::RectI_R, ace.RectI )
-STRUCT_OBJECT( ace::RectF, ace::RectF_R, ace.RectF )
-STRUCT_OBJECT( ace::Matrix33, ace::Matrix33_R, ace.Matrix33 )
-STRUCT_OBJECT( ace::Matrix44, ace::Matrix44_R, ace.Matrix44 )
-STRUCT_OBJECT( ace::FCurveKeyframe, ace::FCurveKeyframe_R, ace.FCurveKeyframe )
-STRUCT_OBJECT( ace::TextureLockInfomation, ace::TextureLockInfomation_R, ace.TextureLockInfomation )
+STRUCT_OBJECT( ace::Vector2DF, ace::Vector2DF_R, ace.Vector2DF, Vector2DF )
+STRUCT_OBJECT( ace::Vector2DI, ace::Vector2DI_R, ace.Vector2DI, Vector2DI )
+STRUCT_OBJECT( ace::Vector3DF, ace::Vector3DF_R, ace.Vector3DF, Vector3DF )
+STRUCT_OBJECT( ace::Vector4DF, ace::Vector4DF_R, ace.Vector4DF, Vector4DF )
+STRUCT_OBJECT( ace::RectI, ace::RectI_R, ace.RectI, RectI )
+STRUCT_OBJECT( ace::RectF, ace::RectF_R, ace.RectF, RectF )
+STRUCT_OBJECT( ace::Matrix33, ace::Matrix33_R, ace.Matrix33, Matrix33 )
+STRUCT_OBJECT( ace::Matrix44, ace::Matrix44_R, ace.Matrix44, Matrix44 )
+STRUCT_OBJECT( ace::FCurveKeyframe, ace::FCurveKeyframe_R, ace.FCurveKeyframe, FCurveKeyframe )
+STRUCT_OBJECT( ace::TextureLockInfomation, ace::TextureLockInfomation_R, ace.TextureLockInfomation, TextureLockInfomation )
 
-STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
+STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color, Color )
 
 //-----------------------------------------------------------------------------------
 // Dispose無視
