@@ -219,6 +219,7 @@ namespace ace
 
 		if (isFlat)
 		{
+			// 平坦な場合
 			chip.Vertecies.push_back(v0);
 			chip.Vertecies.push_back(v1);
 			chip.Vertecies.push_back(v2);
@@ -273,6 +274,8 @@ namespace ace
 
 			for (int32_t h = maxclh; h >= minclh; h--)
 			{
+				// 面が存在する領域を抽出
+
 				auto isCliff = [&clsh, h](int32_t i) -> bool
 				{
 					auto from = Min(clsh[4], h);
@@ -466,16 +469,172 @@ namespace ace
 					}
 				}
 
-				// 面を貼る
+				// 抽出した領域から面を形成する。
 
-				// 輪郭抽出
+				// まず輪郭を抽出する。
 				std::vector<std::pair<int32_t, int32_t>> lines;
 
 				for (int32_t i = 0; i < 16; i++)
 				{
+					auto x = i % 4;
+					auto y = i / 4;
+
+					auto d = divisionsNext[i];
+					if (d == DivisionDirection::None) continue;
+					if (d == DivisionDirection::Backslash_Lower)
+					{
+						lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 0) * 5, (x + 0) + (y + 1) * 5));
+					}
+					else if (d == DivisionDirection::Backslash_Upper)
+					{
+						lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 0) * 5, (x + 0) + (y + 1) * 5));
+					}
+					else if (d == DivisionDirection::Backslash_Lower)
+					{
+						lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 1) * 5, (x + 1) + (y + 0) * 5));
+					}
+					else if (d == DivisionDirection::Slash_Upper)
+					{
+						lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 1) * 5, (x + 1) + (y + 0) * 5));
+					}
+					else if (d == DivisionDirection::Filled)
+					{
+						auto isNone = [&divisions](int32_t x_, int32_t y_) -> bool
+						{
+							if (x_ < 0) return true;
+							if (x_ >= 4) return true;
+							if (y_ < 0) return true;
+							if (y_ >= 4) return true;
+							return divisions[x_ + y_ * 4] == DivisionDirection::None;
+						};
+
+						if (isNone(x - 1, y)) 
+						{
+							lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 0) * 5, (x + 0) + (y + 1) * 5));
+						}
+
+						if (isNone(x + 1, y))
+						{
+							lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 0) * 5, (x + 1) + (y + 1) * 5));
+						}
+
+						if (isNone(x, y - 1))
+						{
+							lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y - 1) * 5, (x + 1) + (y - 1) * 5));
+						}
+
+						if (isNone(x, y + 1))
+						{
+							lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 1) * 5, (x + 1) + (y + 1) * 5));
+						}
+					}
+				}
+
+				// 上の層と比較する
+				// 広がった部分が面
+				std::vector<Face> tempFaces;
+				for (int32_t i = 0; i < 16; i++)
+				{
+					auto x = i % 4;
+					auto y = i / 4;
+
+					if (divisionsNext[i] == DivisionDirection::None) continue;
+				
+					if (divisions[i] == DivisionDirection::None && divisionsNext[i] != DivisionDirection::None)
+					{
+						// 面追加
+						if (divisionsNext[i] != DivisionDirection::Backslash_Lower)
+						{
+							Face f;
+							f.Index1 = (x + 0) + (y + 0) * 5;
+							f.Index2 = (x + 1) + (y + 1) * 5;
+							f.Index3 = (x + 0) + (y + 1) * 5;
+							tempFaces.push_back(f);
+						}
+
+						if (divisionsNext[i] != DivisionDirection::Backslash_Upper)
+						{
+							Face f;
+							f.Index1 = (x + 0) + (y + 0) * 5;
+							f.Index2 = (x + 1) + (y + 0) * 5;
+							f.Index3 = (x + 1) + (y + 1) * 5;
+							tempFaces.push_back(f);
+						}
+
+						if (divisionsNext[i] != DivisionDirection::Slash_Lower)
+						{
+							Face f;
+							f.Index1 = (x + 1) + (y + 0) * 5;
+							f.Index2 = (x + 1) + (y + 1) * 5;
+							f.Index3 = (x + 0) + (y + 1) * 5;
+							tempFaces.push_back(f);
+						}
+
+						if (divisionsNext[i] != DivisionDirection::Slash_Upper)
+						{
+							Face f;
+							f.Index1 = (x + 0) + (y + 0) * 5;
+							f.Index2 = (x + 1) + (y + 0) * 5;
+							f.Index3 = (x + 0) + (y + 1) * 5;
+							tempFaces.push_back(f);
+						}
+
+						if (divisionsNext[i] != DivisionDirection::Filled)
+						{
+
+						}
+
+						if (divisionsNext[i] != DivisionDirection::FilledHalf)
+						{
+
+						}
+					}
+
+					if (divisions[i] == DivisionDirection::Slash_Lower && divisionsNext[i] == DivisionDirection::Filled)
+					{
+						Face f;
+						f.Index1 = (x + 0) + (y + 0) * 5;
+						f.Index2 = (x + 1) + (y + 0) * 5;
+						f.Index3 = (x + 0) + (y + 1) * 5;
+						tempFaces.push_back(f);
+					}
+
+					if (divisions[i] == DivisionDirection::Slash_Upper && divisionsNext[i] == DivisionDirection::Filled)
+					{
+						Face f;
+						f.Index1 = (x + 1) + (y + 0) * 5;
+						f.Index2 = (x + 1) + (y + 1) * 5;
+						f.Index3 = (x + 0) + (y + 1) * 5;
+						tempFaces.push_back(f);
+					}
+
+					if (divisions[i] == DivisionDirection::Backslash_Lower && divisionsNext[i] == DivisionDirection::Filled)
+					{
+						Face f;
+						f.Index1 = (x + 0) + (y + 0) * 5;
+						f.Index2 = (x + 1) + (y + 0) * 5;
+						f.Index3 = (x + 1) + (y + 1) * 5;
+						tempFaces.push_back(f);
+					}
+
+					if (divisions[i] == DivisionDirection::Backslash_Upper && divisionsNext[i] == DivisionDirection::Filled)
+					{
+						Face f;
+						f.Index1 = (x + 0) + (y + 0) * 5;
+						f.Index2 = (x + 1) + (y + 1) * 5;
+						f.Index3 = (x + 0) + (y + 1) * 5;
+						tempFaces.push_back(f);
+					}
+				}
+
+				// 面追加
+
+				for (auto& f : tempFaces)
+				{
 
 				}
 
+				indexes = indexesNext;
 				divisions = divisionsNext;
 			}
 		}
