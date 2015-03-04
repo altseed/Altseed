@@ -90,6 +90,22 @@ namespace ace
 		buffers[size -  1].Float = m33;
 	}
 
+	void StructTranslator::EnqueueFCurveKeyframe(
+		float kv_x, float kv_y,
+		float lh_x, float lh_y,
+		float rh_x, float rh_y,
+		int32_t i)
+	{
+		size += 7;
+		buffers[size - 7].Float = kv_x;
+		buffers[size - 6].Float = kv_y;
+		buffers[size - 5].Float = lh_x;
+		buffers[size - 4].Float = lh_y;
+		buffers[size - 3].Float = rh_x;
+		buffers[size - 2].Float = rh_y;
+		buffers[size - 1].Int = i;
+	}
+
 	float StructTranslator::DequeueFloat()
 	{
 		auto ret = buffers[currentIndex].Float;
@@ -180,6 +196,12 @@ namespace ace
 	{
 		size += 16;
 		memcpy(&(buffers[size - 16].Float), &v, sizeof(float) * 16);
+	}
+
+	void StructTranslator::EnqueueFCurveKeyframe(const FCurveKeyframe& v)
+	{
+		size += 7;
+		memcpy(&(buffers[size - 7].Float), &v, sizeof(float) * 7);
 	}
 
 	Vector2DF StructTranslator::DequeueVector2DF()
@@ -432,6 +454,36 @@ namespace ace
 	{
 		auto ret = (Matrix44*) &(buffers[currentIndex + 0].Float);
 		currentIndex += 16;
+
+		if (currentIndex == size)
+		{
+			currentIndex = 0;
+			size = 0;
+		}
+
+		return ret;
+	}
+
+	FCurveKeyframe StructTranslator::DequeueFCurveKeyframe()
+	{
+		FCurveKeyframe f;
+		memcpy(&f, &(buffers[currentIndex + 0]), sizeof(float) * 7);
+
+		currentIndex += 7;
+
+		if (currentIndex == size)
+		{
+			currentIndex = 0;
+			size = 0;
+		}
+
+		return f;
+	}
+
+	FCurveKeyframe* StructTranslator::Dequeue_FCurveKeyframe()
+	{
+		auto ret = (FCurveKeyframe*) &(buffers[currentIndex + 0].Float);
+		currentIndex += 7;
 
 		if (currentIndex == size)
 		{

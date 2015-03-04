@@ -17,6 +17,8 @@
 
 #include <Math/ace.Matrix44.h>
 
+#include <Graphics/ace.Graphics.Common.h>
+
 namespace ace
 {
 	class StructTranslator
@@ -50,6 +52,12 @@ namespace ace
 			float m20, float m21, float m22, float m23,
 			float m30, float m31, float m32, float m33);
 
+		static void EnqueueFCurveKeyframe(
+			float kv_x, float kv_y,
+			float lh_x, float lh_y,
+			float rh_x, float rh_y,
+			int32_t i);
+
 		static float DequeueFloat();
 		static int32_t DequeueInt();
 
@@ -66,6 +74,8 @@ namespace ace
 		static void EnqueueRectI(const RectI& v);
 
 		static void EnqueueMatrix44(const Matrix44& v);
+
+		static void EnqueueFCurveKeyframe(const FCurveKeyframe& v);
 
 		static Vector2DF DequeueVector2DF();
 		static Vector2DF* Dequeue_Vector2DF();
@@ -90,6 +100,9 @@ namespace ace
 
 		static Matrix44 DequeueMatrix44();
 		static Matrix44* Dequeue_Matrix44();
+
+		static FCurveKeyframe DequeueFCurveKeyframe();
+		static FCurveKeyframe* Dequeue_FCurveKeyframe();
 #endif
 	};
 }
