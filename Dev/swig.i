@@ -212,9 +212,9 @@ unsafe class"
 %typemap(jstype)	const CTYPE&		"CSTYPE"
 
 %typemap(in) const CTYPE& { 
-	$1 = ##CTYPE ();
+	$1 = nullptr;
 	if ($input != nullptr) {
-		$1 = ace::StructTranslator::Dequeue ##NAME();
+		$1 = ace::StructTranslator::Dequeue_##NAME();
 	}
 }
 
@@ -227,12 +227,30 @@ unsafe class"
 
 %typemap(javacode) ace::StructTranslator
 %{
-	public static Vector2D DequeueVector_2DF(Vector2DF v) {
+	public static Vector2DF DequeueVector_2DF(Vector2DF v) {
 		return new Vector2DF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
 	}
 
 	public static Vector2DF EnqueueVector_2DF(Vector2DF v) {
 		StructBridge.EnqueueVector2DF(v.X, v.Y);
+		return v;
+	}
+
+	public static Vector3DF DequeueVector_3DF(Vector3DF v) {
+		return new Vector3DF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	}
+
+	public static Vector3DF EnqueueVector_3DF(Vector3DF v) {
+		StructBridge.EnqueueVector3DF(v.X, v.Y, v.Z);
+		return v;
+	}
+
+	public static Vector3DF DequeueVector_4DF(Vector4DF v) {
+		return new Vector4DF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	}
+
+	public static Vector3DF EnqueueVector_4DF(Vector4DF v) {
+		StructBridge.EnqueueVector4DF(v.X, v.Y, v.Z, v.W);
 		return v;
 	}
 %}
