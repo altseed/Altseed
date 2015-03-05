@@ -36,10 +36,10 @@ Lockを実行し成功すると引数からTextureLockInfomationを取得でき�
 * C++
 ```
 ace::TextureLockInfomation info = ace::TextureLockInfomation();
-if (texture->Lock(info))
+if (texture->Lock(&info))
 {
 	
-	auto dst = (uint8_t*)info.Pixels;
+	auto dst = (uint8_t*)info.GetPixels();
 	auto src = d;
 
 	for(int i = 0; i < info.Size.X * info.Size.Y * info.Pitch; i++)
@@ -54,7 +54,7 @@ if (texture->Lock(info))
 * C#
 ```
 ace.TextureLockInfomation info = new ace.TextureLockInfomation();
-if (texture.Lock(ref info))
+if (texture.Lock(info))
 {
 	fixed(byte* d = &data[0])
 	{

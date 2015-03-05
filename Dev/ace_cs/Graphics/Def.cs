@@ -156,12 +156,38 @@ namespace ace
 		}
 	}
 
-	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-	public struct TextureLockInfomation
+	public class TextureLockInfomation
 	{
-		public IntPtr Pixels;
-		public int Pitch;
-		public Vector2DI Size;
+		public IntPtr Pixels
+		{
+			get
+			{
+				return SwigObject.GetPixels();
+			}
+		}
+
+		public int Pitch
+		{
+			get
+			{
+				return SwigObject.GetPitch();
+			}
+		}
+
+		public Vector2DI Size
+		{
+			get
+			{
+				return SwigObject.GetSize();
+			}
+		}
+
+		internal swig.TextureLockInfomation SwigObject = null;
+
+		public TextureLockInfomation()
+		{
+			SwigObject = new swig.TextureLockInfomation();
+		}
 	}
 
 	/// <summary>

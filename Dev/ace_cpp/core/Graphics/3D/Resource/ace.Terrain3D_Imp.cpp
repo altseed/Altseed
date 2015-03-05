@@ -857,9 +857,9 @@ namespace ace
 					TextureFormat::R8_UNORM);
 
 				TextureLockInfomation info;
-				if (p.DensityTexture->Lock(info))
+				if (p.DensityTexture->Lock(&info))
 				{
-					memcpy(info.Pixels, surface_.data(), (gridWidthCount * pixelInGrid) * (gridHeightCount * pixelInGrid));
+					memcpy(info.GetPixels(), surface_.data(), (gridWidthCount * pixelInGrid) * (gridHeightCount * pixelInGrid));
 					p.DensityTexture->Unlock();
 				}
 

@@ -24,6 +24,26 @@
 //
 //----------------------------------------------------------------------------------
 namespace ace {
+
+	TextureLockInfomation::TextureLockInfomation()
+	{
+	}
+
+	void* TextureLockInfomation::GetPixels() const
+	{
+		return pixels;
+	}
+
+	int32_t TextureLockInfomation::GetPitch() const
+	{
+		return pitch;
+	}
+
+	Vector2DI TextureLockInfomation::GetSize() const
+	{
+		return size;
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

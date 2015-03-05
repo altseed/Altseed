@@ -206,9 +206,9 @@ namespace ace
 #endif
 		brdfTexture = g->CreateEmptyTexture2D(128, 128, TextureFormat::R8G8B8A8_UNORM);
 		TextureLockInfomation info;
-		if (brdfTexture->Lock(info))
+		if (brdfTexture->Lock(&info))
 		{
-			memcpy(info.Pixels, brdfTextureBuf.data(), 128 * 128 * 4);
+			memcpy(info.GetPixels(), brdfTextureBuf.data(), 128 * 128 * 4);
 			brdfTexture->Unlock();
 		}
 	}

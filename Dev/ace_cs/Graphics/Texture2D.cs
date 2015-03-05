@@ -58,9 +58,11 @@ namespace ace
 		/// </summary>
 		/// <param name="info">テクスチャ情報</param>
 		/// <returns>成否</returns>
-		public bool Lock(ref TextureLockInfomation info)
+		public bool Lock(TextureLockInfomation info)
 		{
-			return SwigObject.Lock(ref info);
+			if (info == null) return false;
+
+			return SwigObject.Lock(info.SwigObject);
 		}
 
 		/// <summary>

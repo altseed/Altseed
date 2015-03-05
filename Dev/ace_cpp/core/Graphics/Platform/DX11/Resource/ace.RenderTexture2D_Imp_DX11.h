@@ -30,7 +30,7 @@ namespace ace {
 
 		bool Save(const achar* path) override;
 
-		bool Lock(TextureLockInfomation& info) override { return false; };
+		bool Lock(TextureLockInfomation* info) override { return false; };
 
 		void Unlock() override {};
 
