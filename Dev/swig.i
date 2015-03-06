@@ -258,8 +258,8 @@ StructTranslator.Enqueue_##NAME($javainput)
 		return new ace.Vector2DI(StructTranslator.DequeueInt(), StructTranslator.DequeueInt());
 	}
 
-	public static ace.Vector2DF Enqueue_Vector2DF(ace.Vector2DF v) {
-		StructTranslator.EnqueueVector2DF(v.X, v.Y);
+	public static ace.Vector2DI Enqueue_Vector2DI(ace.Vector2DI v) {
+		StructTranslator.EnqueueVector2DI(v.X, v.Y);
 		return v;
 	}
 
@@ -291,20 +291,28 @@ StructTranslator.Enqueue_##NAME($javainput)
 	}
 
 	public static ace.Matrix44 Dequeue_Matrix44(ace.Matrix44 v) {
-		return new ace.Matrix44(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+		return new ace.Matrix44(
+		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
+		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
+		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
+		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
 	}
 
 	public static ace.Matrix44 Enqueue_Matrix44(ace.Matrix44 v) {
-		StructTranslator.EnqueueMatrix44(v.X, v.Y, v.Width, v.Height);
+		StructTranslator.EnqueueMatrix44(
+		v.Values[0], v.Values[1], v.Values[2], v.Values[3], 
+		v.Values[4], v.Values[5], v.Values[6], v.Values[7], 
+		v.Values[8], v.Values[9], v.Values[10], v.Values[11],
+		v.Values[12], v.Values[13], v.Values[14], v.Values[15]);
 		return v;
 	}
 
 	public static ace.FCurveKeyframe Dequeue_FCurveKeyframe(ace.FCurveKeyframe v) {
-		return new ace.FCurveKeyframe(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+		return new ace.FCurveKeyframe(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueInt());
 	}
 
 	public static ace.FCurveKeyframe Enqueue_FCurveKeyframe(ace.FCurveKeyframe v) {
-		StructTranslator.EnqueueFCurveKeyframe(v.KeyValue.X, v.KeyValue.Y, v.LeftHandle.X, v.LeftHandle.Y, v.RightHandle.X, v.RightHandle.Y, v.InterpolationType);
+		StructTranslator.EnqueueFCurveKeyframe(v.KeyValue.X, v.KeyValue.Y, v.LeftHandle.X, v.LeftHandle.Y, v.RightHandle.X, v.RightHandle.Y, v.InterpolationType.swigValue());
 		return v;
 	}
 %}
