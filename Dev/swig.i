@@ -227,30 +227,75 @@ unsafe class"
 
 %typemap(javacode) ace::StructTranslator
 %{
-	public static Vector2DF DequeueVector_2DF(Vector2DF v) {
+	public static Vector2DF Dequeue_Vector2DF(Vector2DF v) {
 		return new Vector2DF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
 	}
 
-	public static Vector2DF EnqueueVector_2DF(Vector2DF v) {
+	public static Vector2DF Enqueue_Vector2DF(Vector2DF v) {
 		StructBridge.EnqueueVector2DF(v.X, v.Y);
 		return v;
 	}
 
-	public static Vector3DF DequeueVector_3DF(Vector3DF v) {
+	public static Vector3DF Dequeue_Vector3DF(Vector3DF v) {
 		return new Vector3DF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
 	}
 
-	public static Vector3DF EnqueueVector_3DF(Vector3DF v) {
+	public static Vector3DF Enqueue_Vector3DF(Vector3DF v) {
 		StructBridge.EnqueueVector3DF(v.X, v.Y, v.Z);
 		return v;
 	}
 
-	public static Vector3DF DequeueVector_4DF(Vector4DF v) {
+	public static Vector4DF Dequeue_Vector4DF(Vector4DF v) {
 		return new Vector4DF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
 	}
 
-	public static Vector3DF EnqueueVector_4DF(Vector4DF v) {
+	public static Vector4DF Enqueue_Vector4DF(Vector4DF v) {
 		StructBridge.EnqueueVector4DF(v.X, v.Y, v.Z, v.W);
+		return v;
+	}
+
+	public static Color Dequeue_Color(Color v) {
+		return new Color(StructBridge.DequeueInt(), StructBridge.DequeueInt(), StructBridge.DequeueInt(), StructBridge.DequeueInt());
+	}
+
+	public static Color Enqueue_Color(Color v) {
+		StructBridge.EnqueueColor(v.R, v.G, v.B, v.A);
+		return v;
+	}
+
+	public static RectF Dequeue_RectF(RectF v) {
+		return new RectF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	}
+
+	public static RectF Enqueue_RectF(RectF v) {
+		StructBridge.EnqueueRectF(v.X, v.Y, v.Width, v.Height);
+		return v;
+	}
+
+	public static RectI Dequeue_RectI(RectI v) {
+		return new RectI(StructBridge.DequeueInt(), StructBridge.DequeueInt(), StructBridge.DequeueInt(), StructBridge.DequeueInt());
+	}
+
+	public static RectI Enqueue_RectI(RectI v) {
+		StructBridge.EnqueueRectI(v.X, v.Y, v.Width, v.Height);
+		return v;
+	}
+
+	public static Matrix44 Dequeue_Matrix44(Matrix44 v) {
+		return new Matrix44(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	}
+
+	public static Matrix44 Enqueue_Matrix44(Matrix44 v) {
+		StructBridge.EnqueueMatrix44(v.X, v.Y, v.Width, v.Height);
+		return v;
+	}
+
+	public static FCurveKeyframe Dequeue_FCurveKeyframe(FCurveKeyframe v) {
+		return new FCurveKeyframe(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	}
+
+	public static FCurveKeyframe Enqueue_FCurveKeyframe(FCurveKeyframe v) {
+		StructBridge.EnqueueFCurveKeyframe(v.KeyValue.X, v.KeyValue.Y, v.LeftHandle.X, v.LeftHandle.Y, v.RightHandle.X, v.RightHandle.Y, v.InterpolationType);
 		return v;
 	}
 %}
