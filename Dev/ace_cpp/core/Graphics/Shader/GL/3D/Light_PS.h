@@ -76,8 +76,6 @@ float calcLightingGGX(vec3 N, vec3 V, vec3 L, float roughness, float F0)
 	float F = calcF(F0, dotLH);
 	float G = calcG_Schlick(roughness, dotNV, dotNL);
 
-	D = min(32.0,D);
-
 	return dotNL * D * F * G / 4.00000;
 }
 
