@@ -229,3 +229,4 @@ CPP_OBJECT( ace::StaticFile )
 %include "ace_cpp/core/Core/ace.CreateCore.h"
 
 %include "ace_cpp/core/ace.Accessor.h"
+%include "ace_cpp/core/ace.StructTranslator.h"

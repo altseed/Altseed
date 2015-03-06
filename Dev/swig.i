@@ -137,6 +137,11 @@ unsafe class"
 
 %ignore CTYPE;
 
+%typemap(javain)	CTYPE, CTYPE*, CTYPE&, const CTYPE&
+%{
+StructTranslator.Enqueue_##NAME($javainput)
+%}
+
 //------------------------ CTYPE ------------------------
 %typemap(jni) CTYPE		"jobject"
 %typemap(jtype) CTYPE	"CSTYPE"
@@ -151,7 +156,6 @@ unsafe class"
 
 %typemap(out) CTYPE { ::ace::StructTranslator::Enqueue ##NAME($1); }
 
-%typemap(javain)	CTYPE { StructBridge.Enqueue_##NAME($javainput) }
 %typemap(javaout)	CTYPE { return StructTranslator.Dequeue_##NAME($jnicall); }
 
 //------------------------ CTYPE* ------------------------
@@ -168,7 +172,6 @@ unsafe class"
 
 %typemap(out) CTYPE* { ::ace::StructTranslator::Enqueue ##NAME($1); }
 
-%typemap(javain)	CTYPE* { StructBridge.Enqueue_##NAME($javainput) }
 %typemap(javaout)	CTYPE* { return StructTranslator.Dequeue_##NAME($jnicall); }
 
 //------------------------ const CTYPE* ------------------------
@@ -185,7 +188,6 @@ unsafe class"
 
 %typemap(out) const CTYPE* { ::ace::StructTranslator::Enqueue ##NAME($1); }
 
-%typemap(javain)	const CTYPE* { StructBridge.Enqueue_##NAME($javainput) }
 %typemap(javaout)	const CTYPE* { return StructTranslator.Dequeue_##NAME($jnicall); }
 
 //------------------------ CTYPE& ------------------------
@@ -202,7 +204,6 @@ unsafe class"
 
 %typemap(out) CTYPE& { ::ace::StructTranslator::Enqueue ##NAME($1); }
 
-%typemap(javain)	CTYPE& { StructBridge.Enqueue_##NAME($javainput) }
 %typemap(javaout)	CTYPE& { return StructTranslator.Dequeue_##NAME($jnicall); }
 
 
@@ -220,82 +221,90 @@ unsafe class"
 
 %typemap(out) const CTYPE& { ::ace::StructTranslator::Enqueue ##NAME($1); }
 
-%typemap(javain)	const CTYPE& { StructBridge.Enqueue_##NAME($javainput) }
 %typemap(javaout)	const CTYPE& { return StructTranslator.Dequeue_##NAME($jnicall); }
 
 %enddef
 
 %typemap(javacode) ace::StructTranslator
 %{
-	public static Vector2DF Dequeue_Vector2DF(Vector2DF v) {
-		return new Vector2DF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	public static ace.Vector2DF Dequeue_Vector2DF(ace.Vector2DF v) {
+		return new ace.Vector2DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
 	}
 
-	public static Vector2DF Enqueue_Vector2DF(Vector2DF v) {
-		StructBridge.EnqueueVector2DF(v.X, v.Y);
+	public static ace.Vector2DF Enqueue_Vector2DF(ace.Vector2DF v) {
+		StructTranslator.EnqueueVector2DF(v.X, v.Y);
 		return v;
 	}
 
-	public static Vector3DF Dequeue_Vector3DF(Vector3DF v) {
-		return new Vector3DF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	public static ace.Vector3DF Dequeue_Vector3DF(ace.Vector3DF v) {
+		return new ace.Vector3DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
 	}
 
-	public static Vector3DF Enqueue_Vector3DF(Vector3DF v) {
-		StructBridge.EnqueueVector3DF(v.X, v.Y, v.Z);
+	public static ace.Vector3DF Enqueue_Vector3DF(ace.Vector3DF v) {
+		StructTranslator.EnqueueVector3DF(v.X, v.Y, v.Z);
 		return v;
 	}
 
-	public static Vector4DF Dequeue_Vector4DF(Vector4DF v) {
-		return new Vector4DF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	public static ace.Vector4DF Dequeue_Vector4DF(ace.Vector4DF v) {
+		return new ace.Vector4DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
 	}
 
-	public static Vector4DF Enqueue_Vector4DF(Vector4DF v) {
-		StructBridge.EnqueueVector4DF(v.X, v.Y, v.Z, v.W);
+	public static ace.Vector4DF Enqueue_Vector4DF(ace.Vector4DF v) {
+		StructTranslator.EnqueueVector4DF(v.X, v.Y, v.Z, v.W);
 		return v;
 	}
 
-	public static Color Dequeue_Color(Color v) {
-		return new Color(StructBridge.DequeueInt(), StructBridge.DequeueInt(), StructBridge.DequeueInt(), StructBridge.DequeueInt());
+	public static ace.Vector2DI Dequeue_Vector2DI(ace.Vector2DI v) {
+		return new ace.Vector2DI(StructTranslator.DequeueInt(), StructTranslator.DequeueInt());
 	}
 
-	public static Color Enqueue_Color(Color v) {
-		StructBridge.EnqueueColor(v.R, v.G, v.B, v.A);
+	public static ace.Vector2DF Enqueue_Vector2DF(ace.Vector2DF v) {
+		StructTranslator.EnqueueVector2DF(v.X, v.Y);
 		return v;
 	}
 
-	public static RectF Dequeue_RectF(RectF v) {
-		return new RectF(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	public static ace.Color Dequeue_Color(ace.Color v) {
+		return new ace.Color((byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt());
 	}
 
-	public static RectF Enqueue_RectF(RectF v) {
-		StructBridge.EnqueueRectF(v.X, v.Y, v.Width, v.Height);
+	public static ace.Color Enqueue_Color(ace.Color v) {
+		StructTranslator.EnqueueColor(v.R, v.G, v.B, v.A);
 		return v;
 	}
 
-	public static RectI Dequeue_RectI(RectI v) {
-		return new RectI(StructBridge.DequeueInt(), StructBridge.DequeueInt(), StructBridge.DequeueInt(), StructBridge.DequeueInt());
+	public static ace.RectF Dequeue_RectF(ace.RectF v) {
+		return new ace.RectF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
 	}
 
-	public static RectI Enqueue_RectI(RectI v) {
-		StructBridge.EnqueueRectI(v.X, v.Y, v.Width, v.Height);
+	public static ace.RectF Enqueue_RectF(ace.RectF v) {
+		StructTranslator.EnqueueRectF(v.X, v.Y, v.Width, v.Height);
 		return v;
 	}
 
-	public static Matrix44 Dequeue_Matrix44(Matrix44 v) {
-		return new Matrix44(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	public static ace.RectI Dequeue_RectI(ace.RectI v) {
+		return new ace.RectI(StructTranslator.DequeueInt(), StructTranslator.DequeueInt(), StructTranslator.DequeueInt(), StructTranslator.DequeueInt());
 	}
 
-	public static Matrix44 Enqueue_Matrix44(Matrix44 v) {
-		StructBridge.EnqueueMatrix44(v.X, v.Y, v.Width, v.Height);
+	public static ace.RectI Enqueue_RectI(ace.RectI v) {
+		StructTranslator.EnqueueRectI(v.X, v.Y, v.Width, v.Height);
 		return v;
 	}
 
-	public static FCurveKeyframe Dequeue_FCurveKeyframe(FCurveKeyframe v) {
-		return new FCurveKeyframe(StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat(), StructBridge.DequeueFloat());
+	public static ace.Matrix44 Dequeue_Matrix44(ace.Matrix44 v) {
+		return new ace.Matrix44(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
 	}
 
-	public static FCurveKeyframe Enqueue_FCurveKeyframe(FCurveKeyframe v) {
-		StructBridge.EnqueueFCurveKeyframe(v.KeyValue.X, v.KeyValue.Y, v.LeftHandle.X, v.LeftHandle.Y, v.RightHandle.X, v.RightHandle.Y, v.InterpolationType);
+	public static ace.Matrix44 Enqueue_Matrix44(ace.Matrix44 v) {
+		StructTranslator.EnqueueMatrix44(v.X, v.Y, v.Width, v.Height);
+		return v;
+	}
+
+	public static ace.FCurveKeyframe Dequeue_FCurveKeyframe(ace.FCurveKeyframe v) {
+		return new ace.FCurveKeyframe(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+	}
+
+	public static ace.FCurveKeyframe Enqueue_FCurveKeyframe(ace.FCurveKeyframe v) {
+		StructTranslator.EnqueueFCurveKeyframe(v.KeyValue.X, v.KeyValue.Y, v.LeftHandle.X, v.LeftHandle.Y, v.RightHandle.X, v.RightHandle.Y, v.InterpolationType);
 		return v;
 	}
 %}

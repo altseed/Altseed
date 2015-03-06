@@ -264,14 +264,8 @@ master.zip
 
 /Dev/ace_cpp/engine/ace.CoreToEngine.h
 
-/Dev/ace_cs/swig/
-/Dev/FontGenerator/FontGenerator/swig/
-/Dev/FontGenerator/FontGenerator.Model/swig/
-
 /Dev/lib/ace_common.Debug.lib
 /Dev/lib/ace_common.Release.lib
-
-/Dev/ace_cpp/core/dll.cxx
 
 /Product/bin/
 /Product/inlude/
@@ -299,6 +293,15 @@ Dev/bin/Data/Text/sazanami-gothic.ttf
 /Sample/sample_cs/ace_cs.XML
 /Sample/bin/Log.html
 /Sample/bin/ace_cs.xml
+
+# Swig
+/Dev/ace_cs/swig/
+/Dev/ace_java/swig/
+
+/Dev/FontGenerator/FontGenerator/swig/
+/Dev/FontGenerator/FontGenerator.Model/swig/
+/Dev/ace_cpp/core/dll.cxx
+
 
 
 /Dev/FontGenerator/FontGeneratorTest/result
