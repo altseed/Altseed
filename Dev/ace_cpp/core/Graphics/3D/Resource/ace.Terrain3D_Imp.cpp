@@ -1212,6 +1212,12 @@ namespace ace
 				if (sum < 0) sum = 0;
 
 				surfaces[surfaceIndex][ind] = 255 - sum;
+
+				// 塗られたグリッドのポリゴンを再生成
+				{
+					int32_t cind = x_ind / pixelInGrid + y_ind / pixelInGrid * (gridWidthCount);
+					Chips[cind].IsMeshGenerated = false;
+				}
 			}
 		}
 
