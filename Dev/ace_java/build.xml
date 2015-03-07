@@ -3,8 +3,9 @@
 
 
 <target name="build">
-	<javac srcdir=".;" destdir="./../bin" />
-	<jar jarfile="ace.jar" basedir="./../bin/ace" destfile="./../bin/ace_java.jar" />
+	<mkdir dir="./../bin/java"/>
+	<javac srcdir=".;" destdir="./../bin/java" />
+	<jar jarfile="ace.jar" basedir="./../bin/java" destfile="./../bin/ace_java.jar" />
 </target>
 
 
