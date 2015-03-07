@@ -2,20 +2,34 @@
 package ace;
 
 
-public class InterpolationType
+public enum InterpolationType
 {
-	public final static InterpolationType Constant = new InterpolationType( ace.swig.InterpolationType.Constant.swigValue() );
-	public final static InterpolationType Linear = new InterpolationType( ace.swig.InterpolationType.Linear.swigValue() );
-	public final static InterpolationType Cubic = new InterpolationType( ace.swig.InterpolationType.Cubic.swigValue() );
+	Constant( ace.swig.InterpolationType.Constant.swigValue() ),
+	Linear( ace.swig.InterpolationType.Linear.swigValue() ),
+	Cubic( ace.swig.InterpolationType.Cubic.swigValue() );
 
-	private final int swigValue;
+	private final int id;
 
-	public final int swigValue() {
-		return swigValue;
+	private InterpolationType(final int id)
+	{
+		this.id = id;
 	}
 
-	InterpolationType(int value)
+	public int getID()
 	{
-		swigValue = value;
+		return id;
+	}
+
+	public static InterpolationType valueOf(int id)
+	{
+		for (InterpolationType e : values() )
+		{
+			if (e.getID() == id)
+			{
+				return e;
+			}
+		}
+
+		throw new IllegalArgumentException("Not found : " + id);
 	}
 }

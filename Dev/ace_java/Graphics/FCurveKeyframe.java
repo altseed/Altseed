@@ -36,7 +36,6 @@ public class FCurveKeyframe
 		RightHandle.X = rhx;
 		RightHandle.Y = rhy;
 
-		InterpolationType = type;
-
+		InterpolationType = InterpolationType.valueOf(type);
 	}
 }

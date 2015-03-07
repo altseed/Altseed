@@ -73,13 +73,13 @@ unsafe class"
 
 
 #if SWIGJAVA
-%typemap(jni) void * "void *"
-%typemap(jtype) void * "com.sun.jna.ptr.IntByReference"
-%typemap(jstype) void * "com.sun.jna.ptr.IntByReference"
+%typemap(jni) void * "jlong"
+%typemap(jtype) void * "long"
+%typemap(jstype) void * "long"
 %typemap(in) void * { $1 = $input; }
 %typemap(out) void * { $result = $1; }
-%typemap(javain) void * "$csinput"
-%typemap(javaout) void * { return $imcall; }
+%typemap(javain) void * "$javainput"
+%typemap(javaout) void * { return $jnicall; }
 #endif
 
 //-----------------------------------------------------------------------------------
@@ -308,11 +308,11 @@ StructTranslator.Enqueue_##NAME($javainput)
 	}
 
 	public static ace.FCurveKeyframe Dequeue_FCurveKeyframe(ace.FCurveKeyframe v) {
-		return new ace.FCurveKeyframe(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueInt());
+		return new ace.FCurveKeyframe(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueInt());
 	}
 
 	public static ace.FCurveKeyframe Enqueue_FCurveKeyframe(ace.FCurveKeyframe v) {
-		StructTranslator.EnqueueFCurveKeyframe(v.KeyValue.X, v.KeyValue.Y, v.LeftHandle.X, v.LeftHandle.Y, v.RightHandle.X, v.RightHandle.Y, v.InterpolationType.swigValue());
+		StructTranslator.EnqueueFCurveKeyframe(v.KeyValue.X, v.KeyValue.Y, v.LeftHandle.X, v.LeftHandle.Y, v.RightHandle.X, v.RightHandle.Y, v.InterpolationType.getID());
 		return v;
 	}
 %}

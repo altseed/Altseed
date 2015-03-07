@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
-<project default="build" name="ace">
+<project default="build" name="ace_java">
 
 
 <target name="build">
 	<javac srcdir=".;" destdir="./../bin" />
+	<jar jarfile="ace.jar" basedir="./../bin/ace" destfile="./../bin/ace_java.jar" />
 </target>
 
 
