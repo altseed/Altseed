@@ -76,8 +76,8 @@ unsafe class"
 %typemap(jni) void * "jlong"
 %typemap(jtype) void * "long"
 %typemap(jstype) void * "long"
-%typemap(in) void * { $1 = $input; }
-%typemap(out) void * { $result = $1; }
+%typemap(in) void * { $1 = (void*)$input; }
+%typemap(out) void * { $result = (jlong)$1; }
 %typemap(javain) void * "$javainput"
 %typemap(javaout) void * { return $jnicall; }
 #endif
