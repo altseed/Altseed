@@ -24,7 +24,7 @@ namespace ace
 
 	void Layer3D::Update()
 	{
-		if (!m_isUpdated)
+		if (!m_isUpdated || !m_isAlive)
 		{
 			return;
 		}
@@ -55,7 +55,7 @@ namespace ace
 		OnDispose();
 	}
 
-	void Layer3D::BeginUpdateting()
+	void Layer3D::BeginUpdating()
 	{
 		m_coreLayer->BeginUpdating();
 	}

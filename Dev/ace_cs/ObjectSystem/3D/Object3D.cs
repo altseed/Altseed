@@ -111,6 +111,11 @@ namespace ace
 			OnDrawAdditionally();
 		}
 
+		internal void CallDestroy()
+		{
+			OnDispose();
+		}
+
 		internal swig.CoreObject3D CoreObject { get { return commonObject; } }
 
 		/// <summary>
@@ -143,7 +148,7 @@ namespace ace
 		/// <summary>
 		/// オーバーライドして、この3Dオブジェクトが破棄されるときの処理を記述できる。
 		/// </summary>
-		protected internal virtual void OnDispose()
+		protected virtual void OnDispose()
 		{
 		}
 

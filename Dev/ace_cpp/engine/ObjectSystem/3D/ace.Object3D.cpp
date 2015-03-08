@@ -11,7 +11,7 @@ namespace ace
 
 	void Object3D::Update()
 	{
-		if (!m_isUpdated)
+		if (!m_isUpdated || !GetIsAlive())
 		{
 			return;
 		}

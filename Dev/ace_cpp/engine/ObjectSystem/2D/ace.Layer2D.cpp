@@ -35,7 +35,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Layer2D::Update()
 	{
-		if (!m_isUpdated)
+		if (!m_isUpdated || !m_isAlive)
 		{
 			return;
 		}
@@ -46,7 +46,7 @@ namespace ace
 		OnUpdated();
 	}
 
-	void Layer2D::BeginUpdateting()
+	void Layer2D::BeginUpdating()
 	{
 		m_coreLayer->BeginUpdating();
 	}

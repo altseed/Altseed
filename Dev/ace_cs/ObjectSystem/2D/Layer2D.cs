@@ -192,7 +192,7 @@ namespace ace
 
 		internal override void Update()
 		{
-			if(!IsUpdated)
+			if(!IsUpdated || !IsAlive)
 			{
 				return;
 			}
@@ -225,7 +225,7 @@ namespace ace
 			{
 				if(item.IsAlive)
 				{
-					item.OnDispose();
+					item.CallDestroy();
 				}
 			}
 			OnDispose();

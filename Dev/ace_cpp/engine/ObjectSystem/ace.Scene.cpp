@@ -51,7 +51,7 @@ namespace ace
 
 		for (auto& layer : m_layersToUpdate)
 		{
-			layer->BeginUpdateting();
+			layer->BeginUpdating();
 		}
 
 		for (auto& layer : m_layersToUpdate)

@@ -34,7 +34,7 @@ namespace ace
 
 	void Object2D::Update()
 	{
-		if (!m_isUpdated)
+		if (!m_isUpdated || !GetIsAlive())
 		{
 			return;
 		}

@@ -23,7 +23,7 @@ namespace ace
 		std::shared_ptr<CoreLayer3D>	m_coreLayer;
 		ContentsManager<Object3D>		m_objects;
 
-		void BeginUpdateting();
+		void BeginUpdating();
 		void EndUpdateting();
 
 		void DrawAdditionally();

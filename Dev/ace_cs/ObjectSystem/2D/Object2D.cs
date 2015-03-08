@@ -223,7 +223,7 @@ namespace ace
 		/// <summary>
 		/// オーバーライドして、この2Dオブジェクトが破棄される際の処理を記述できる。
 		/// </summary>
-		protected internal virtual void OnDispose()
+		protected virtual void OnDispose()
 		{
 		}
 
@@ -256,6 +256,11 @@ namespace ace
 				return;
 			}
 			OnDrawAdditionally();
+		}
+
+		internal void CallDestroy()
+		{
+			OnDispose();
 		}
 
 		private ComponentManager<Object2D, Object2DComponent> componentManager_ { get; set; }

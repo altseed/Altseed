@@ -261,9 +261,9 @@ namespace ace
 				item.EndUpdating();
 			}
 
-			OnUpdated();
-
 			componentManager_.Update();
+
+			OnUpdated();
 
 			executing = false;
 

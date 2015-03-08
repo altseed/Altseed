@@ -26,7 +26,7 @@ namespace ace
 		ComponentManager<Layer2D, Layer2DComponent> m_components;
 		std::vector<Object2D::Ptr>		beVanished;
 
-		void BeginUpdateting();
+		void BeginUpdating();
 		void EndUpdateting();
 
 		void DrawAdditionally();
