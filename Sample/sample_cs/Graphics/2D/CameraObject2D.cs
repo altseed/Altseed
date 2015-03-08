@@ -26,8 +26,8 @@ namespace sample_cs.Graphics._2D
             ace.Engine.ChangeScene(scene);
 
 
+            // テクスチャを生成する。
             {
-                // テクスチャを生成する。
                 var tex0 = ace.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
                 var obj0 = new ace.TextureObject2D();
                 obj0.Texture = tex0;
@@ -38,7 +38,7 @@ namespace sample_cs.Graphics._2D
                 layer.AddObject(obj0);
             }
 
-            //画面全体を写すカメラ。(オブジェクトをそのまま描画)
+            //一つ目の画面全体を写すカメラ。(オブジェクトをそのまま描画する。)
             {
                 var camera1 = new ace.CameraObject2D();
                 camera1.Src = new ace.RectI(0, 0, 640, 480);
@@ -46,11 +46,11 @@ namespace sample_cs.Graphics._2D
                 layer.AddObject(camera1);
             }
 
-            //マウスポインタの周辺を拡大して表示するカメラ。
+            //二つ目のマウスポインタの周辺を拡大して表示するカメラ。
             var camera2 = new ace.CameraObject2D();
             layer.AddObject(camera2);
 
-            //フレーム用テクスチャ画像
+            //フレーム用テクスチャ画像を準備する。
             var frame = new ace.TextureObject2D();
             {
                 var tex = ace.Engine.Graphics.CreateTexture2D("Data/Texture/Frame.png");

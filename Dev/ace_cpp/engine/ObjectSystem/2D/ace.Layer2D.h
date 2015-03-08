@@ -84,7 +84,7 @@ namespace ace
 			@brief	指定したキーを持つコンポーネントを取得する。
 			@param	key		取得するコンポーネントを示すキー
 		*/
-		Layer2DComponent::Ptr& GetComponent(astring key);
+		const Layer2DComponent::Ptr& GetComponent(astring key);
 
 		/**
 			@brief	指定したコンポーネントをこのインスタンスから削除する。

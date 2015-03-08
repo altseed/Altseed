@@ -88,3 +88,4 @@
 #include "Core/ace.CreateCore.h"
 
 #include "ace.Accessor.h"
+#include "ace.StructTranslator.h"

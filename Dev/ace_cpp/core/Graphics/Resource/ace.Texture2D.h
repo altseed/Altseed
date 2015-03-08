@@ -13,11 +13,27 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	struct TextureLockInfomation
+
+	class Texture2D_Imp_DX11;
+	class Texture2D_Imp_GL;
+
+	class TextureLockInfomation
 	{
-		void* Pixels;
-		int Pitch;
-		Vector2DI Size;
+		friend class Texture2D;
+		friend class Texture2D_Imp_DX11;
+		friend class Texture2D_Imp_GL;
+
+	private:
+		void*		pixels = nullptr;
+		int32_t		pitch = 0;
+		Vector2DI	size;
+
+	public:
+		TextureLockInfomation();
+
+		void* GetPixels() const;
+		int32_t GetPitch() const;
+		Vector2DI GetSize() const;
 	};
 
 	class Texture2D
@@ -54,7 +70,7 @@ namespace ace {
 			@param	info	テクスチャ情報
 			@return	成否
 		*/
-		virtual bool Lock(TextureLockInfomation& info) = 0;
+		virtual bool Lock(TextureLockInfomation* info) = 0;
 
 		/**
 		@brief	テクスチャをアンロックする。

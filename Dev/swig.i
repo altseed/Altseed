@@ -73,13 +73,13 @@ unsafe class"
 
 
 #if SWIGJAVA
-%typemap(jni) void * "void *"
-%typemap(jtype) void * "com.sun.jna.ptr.IntByReference"
-%typemap(jstype) void * "com.sun.jna.ptr.IntByReference"
-%typemap(in) void * { $1 = $input; }
-%typemap(out) void * { $result = $1; }
-%typemap(javasin) void * "$csinput"
-%typemap(javasout) void * { return $imcall; }
+%typemap(jni) void * "jlong"
+%typemap(jtype) void * "long"
+%typemap(jstype) void * "long"
+%typemap(in) void * { $1 = (void*)$input; }
+%typemap(out) void * { $result = (jlong)$1; }
+%typemap(javain) void * "$javainput"
+%typemap(javaout) void * { return $jnicall; }
 #endif
 
 //-----------------------------------------------------------------------------------
@@ -88,7 +88,7 @@ unsafe class"
 
 #if SWIGCSHARP
 
-%define STRUCT_OBJECT( CTYPE, RCTYPE, CSTYPE )
+%define STRUCT_OBJECT( CTYPE, RCTYPE, CSTYPE, NAME )
 %ignore CTYPE;
 
 // 一切何も付いていないときの処理がおかしい可能性あり
@@ -133,45 +133,189 @@ unsafe class"
 
 #if SWIGJAVA
 
-%define STRUCT_OBJECT( CTYPE, RCTYPE, CSTYPE )
-/*
+%define STRUCT_OBJECT( CTYPE, RCTYPE, CSTYPE, NAME )
+
 %ignore CTYPE;
 
-// 一切何も付いていないときの処理がおかしい可能性あり
-%typemap(jni)		CTYPE	"CTYPE"
-%typemap(jtype)		CTYPE	"CSTYPE"
-%typemap(jstype)	CTYPE	"CSTYPE"
-%typemap(in)		CTYPE	{ $1 = $input; }
-%typemap(out)		CTYPE	{ $result = $1; }
-%typemap(javasin)		CTYPE	"$javainput"
-%typemap(javasout)		CTYPE	{ return $imcall; }
+%typemap(javain)	CTYPE, CTYPE*, CTYPE&, const CTYPE&
+%{
+StructTranslator.Enqueue_##NAME($javainput)
+%}
 
-%typemap(jni)		CTYPE* "void*"
-%typemap(jtype)		CTYPE* "ref CSTYPE"
-%typemap(jstype)	CTYPE* "ref CSTYPE"
-%typemap(in)		CTYPE* "$1 = (CTYPE*)$input;"
-%typemap(javain)		CTYPE* "ref $javainput"
+//------------------------ CTYPE ------------------------
+%typemap(jni) CTYPE		"jobject"
+%typemap(jtype) CTYPE	"CSTYPE"
+%typemap(jstype) CTYPE	"CSTYPE"
 
-%typemap(jni)		const CTYPE* "void*"
-%typemap(jtype)		const CTYPE* "ref CSTYPE"
-%typemap(jstype)	const CTYPE* "ref CSTYPE"
-%typemap(in)		const CTYPE* "$1 = (CTYPE*)$input;"
-%typemap(javain)	const CTYPE* "ref $javainput"
+%typemap(in) CTYPE { 
+	$1 = ##CTYPE ();
+	if ($input != nullptr) {
+		$1 = ace::StructTranslator::Dequeue ##NAME();
+	}
+}
 
-%typemap(jni)		CTYPE& "void*"
-%typemap(jtype)		CTYPE& "ref CSTYPE"
-%typemap(jstype)	CTYPE& "ref CSTYPE"
-%typemap(in)		CTYPE& "$1 = (CTYPE*)$input;"
-%typemap(javain)	CTYPE& "ref $javainput"
+%typemap(out) CTYPE { ::ace::StructTranslator::Enqueue ##NAME($1); }
 
-%typemap(jni)		const CTYPE& "void*"
-%typemap(jtype)		const CTYPE& "ref CSTYPE"
-%typemap(jstype)	const CTYPE& "ref CSTYPE"
-%typemap(in)		const CTYPE& "$1 = (CTYPE*)$input;"
-%typemap(javain)	const CTYPE& "ref $javainput"
-*/
+%typemap(javaout)	CTYPE { return StructTranslator.Dequeue_##NAME($jnicall); }
+
+//------------------------ CTYPE* ------------------------
+%typemap(jni) CTYPE*		"jobject"
+%typemap(jtype) CTYPE*		"CSTYPE"
+%typemap(jstype) CTYPE*		"CSTYPE"
+
+%typemap(in) CTYPE* { 
+	$1 = ##CTYPE ();
+	if ($input != nullptr) {
+		$1 = ace::StructTranslator::Dequeue ##NAME();
+	}
+}
+
+%typemap(out) CTYPE* { ::ace::StructTranslator::Enqueue ##NAME($1); }
+
+%typemap(javaout)	CTYPE* { return StructTranslator.Dequeue_##NAME($jnicall); }
+
+//------------------------ const CTYPE* ------------------------
+%typemap(jni)		const CTYPE*		"jobject"
+%typemap(jtype)		const CTYPE*		"CSTYPE"
+%typemap(jstype)	const CTYPE*		"CSTYPE"
+
+%typemap(in) const CTYPE* { 
+	$1 = ##CTYPE ();
+	if ($input != nullptr) {
+		$1 = ace::StructTranslator::Dequeue ##NAME();
+	}
+}
+
+%typemap(out) const CTYPE* { ::ace::StructTranslator::Enqueue ##NAME($1); }
+
+%typemap(javaout)	const CTYPE* { return StructTranslator.Dequeue_##NAME($jnicall); }
+
+//------------------------ CTYPE& ------------------------
+%typemap(jni)		CTYPE&		"jobject"
+%typemap(jtype)		CTYPE&		"CSTYPE"
+%typemap(jstype)	CTYPE&		"CSTYPE"
+
+%typemap(in) CTYPE& { 
+	$1 = ##CTYPE ();
+	if ($input != nullptr) {
+		$1 = ace::StructTranslator::Dequeue ##NAME();
+	}
+}
+
+%typemap(out) CTYPE& { ::ace::StructTranslator::Enqueue ##NAME($1); }
+
+%typemap(javaout)	CTYPE& { return StructTranslator.Dequeue_##NAME($jnicall); }
+
+
+//------------------------ const CTYPE& ------------------------
+%typemap(jni)		const CTYPE&		"jobject"
+%typemap(jtype)		const CTYPE&		"CSTYPE"
+%typemap(jstype)	const CTYPE&		"CSTYPE"
+
+%typemap(in) const CTYPE& { 
+	$1 = nullptr;
+	if ($input != nullptr) {
+		$1 = ace::StructTranslator::Dequeue_##NAME();
+	}
+}
+
+%typemap(out) const CTYPE& { ::ace::StructTranslator::Enqueue ##NAME($1); }
+
+%typemap(javaout)	const CTYPE& { return StructTranslator.Dequeue_##NAME($jnicall); }
 
 %enddef
+
+%typemap(javacode) ace::StructTranslator
+%{
+	public static ace.Vector2DF Dequeue_Vector2DF(ace.Vector2DF v) {
+		return new ace.Vector2DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+	}
+
+	public static ace.Vector2DF Enqueue_Vector2DF(ace.Vector2DF v) {
+		StructTranslator.EnqueueVector2DF(v.X, v.Y);
+		return v;
+	}
+
+	public static ace.Vector3DF Dequeue_Vector3DF(ace.Vector3DF v) {
+		return new ace.Vector3DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+	}
+
+	public static ace.Vector3DF Enqueue_Vector3DF(ace.Vector3DF v) {
+		StructTranslator.EnqueueVector3DF(v.X, v.Y, v.Z);
+		return v;
+	}
+
+	public static ace.Vector4DF Dequeue_Vector4DF(ace.Vector4DF v) {
+		return new ace.Vector4DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+	}
+
+	public static ace.Vector4DF Enqueue_Vector4DF(ace.Vector4DF v) {
+		StructTranslator.EnqueueVector4DF(v.X, v.Y, v.Z, v.W);
+		return v;
+	}
+
+	public static ace.Vector2DI Dequeue_Vector2DI(ace.Vector2DI v) {
+		return new ace.Vector2DI(StructTranslator.DequeueInt(), StructTranslator.DequeueInt());
+	}
+
+	public static ace.Vector2DI Enqueue_Vector2DI(ace.Vector2DI v) {
+		StructTranslator.EnqueueVector2DI(v.X, v.Y);
+		return v;
+	}
+
+	public static ace.Color Dequeue_Color(ace.Color v) {
+		return new ace.Color((byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt());
+	}
+
+	public static ace.Color Enqueue_Color(ace.Color v) {
+		StructTranslator.EnqueueColor(v.R, v.G, v.B, v.A);
+		return v;
+	}
+
+	public static ace.RectF Dequeue_RectF(ace.RectF v) {
+		return new ace.RectF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+	}
+
+	public static ace.RectF Enqueue_RectF(ace.RectF v) {
+		StructTranslator.EnqueueRectF(v.X, v.Y, v.Width, v.Height);
+		return v;
+	}
+
+	public static ace.RectI Dequeue_RectI(ace.RectI v) {
+		return new ace.RectI(StructTranslator.DequeueInt(), StructTranslator.DequeueInt(), StructTranslator.DequeueInt(), StructTranslator.DequeueInt());
+	}
+
+	public static ace.RectI Enqueue_RectI(ace.RectI v) {
+		StructTranslator.EnqueueRectI(v.X, v.Y, v.Width, v.Height);
+		return v;
+	}
+
+	public static ace.Matrix44 Dequeue_Matrix44(ace.Matrix44 v) {
+		return new ace.Matrix44(
+		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
+		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
+		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
+		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+	}
+
+	public static ace.Matrix44 Enqueue_Matrix44(ace.Matrix44 v) {
+		StructTranslator.EnqueueMatrix44(
+		v.Values[0], v.Values[1], v.Values[2], v.Values[3], 
+		v.Values[4], v.Values[5], v.Values[6], v.Values[7], 
+		v.Values[8], v.Values[9], v.Values[10], v.Values[11],
+		v.Values[12], v.Values[13], v.Values[14], v.Values[15]);
+		return v;
+	}
+
+	public static ace.FCurveKeyframe Dequeue_FCurveKeyframe(ace.FCurveKeyframe v) {
+		return new ace.FCurveKeyframe(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueInt());
+	}
+
+	public static ace.FCurveKeyframe Enqueue_FCurveKeyframe(ace.FCurveKeyframe v) {
+		StructTranslator.EnqueueFCurveKeyframe(v.KeyValue.X, v.KeyValue.Y, v.LeftHandle.X, v.LeftHandle.Y, v.RightHandle.X, v.RightHandle.Y, v.InterpolationType.getID());
+		return v;
+	}
+%}
 
 #endif
 
@@ -179,18 +323,17 @@ unsafe class"
 //-----------------------------------------------------------------------------------
 // 構造体定義
 //-----------------------------------------------------------------------------------
-STRUCT_OBJECT( ace::Vector2DF, ace::Vector2DF_R, ace.Vector2DF )
-STRUCT_OBJECT( ace::Vector2DI, ace::Vector2DI_R, ace.Vector2DI )
-STRUCT_OBJECT( ace::Vector3DF, ace::Vector3DF_R, ace.Vector3DF )
-STRUCT_OBJECT( ace::Vector4DF, ace::Vector4DF_R, ace.Vector4DF )
-STRUCT_OBJECT( ace::RectI, ace::RectI_R, ace.RectI )
-STRUCT_OBJECT( ace::RectF, ace::RectF_R, ace.RectF )
-STRUCT_OBJECT( ace::Matrix33, ace::Matrix33_R, ace.Matrix33 )
-STRUCT_OBJECT( ace::Matrix44, ace::Matrix44_R, ace.Matrix44 )
-STRUCT_OBJECT( ace::FCurveKeyframe, ace::FCurveKeyframe_R, ace.FCurveKeyframe )
-STRUCT_OBJECT( ace::TextureLockInfomation, ace::TextureLockInfomation_R, ace.TextureLockInfomation )
+STRUCT_OBJECT( ace::Vector2DF, ace::Vector2DF_R, ace.Vector2DF, Vector2DF )
+STRUCT_OBJECT( ace::Vector2DI, ace::Vector2DI_R, ace.Vector2DI, Vector2DI )
+STRUCT_OBJECT( ace::Vector3DF, ace::Vector3DF_R, ace.Vector3DF, Vector3DF )
+STRUCT_OBJECT( ace::Vector4DF, ace::Vector4DF_R, ace.Vector4DF, Vector4DF )
+STRUCT_OBJECT( ace::RectI, ace::RectI_R, ace.RectI, RectI )
+STRUCT_OBJECT( ace::RectF, ace::RectF_R, ace.RectF, RectF )
+STRUCT_OBJECT( ace::Matrix33, ace::Matrix33_R, ace.Matrix33, Matrix33 )
+STRUCT_OBJECT( ace::Matrix44, ace::Matrix44_R, ace.Matrix44, Matrix44 )
+STRUCT_OBJECT( ace::FCurveKeyframe, ace::FCurveKeyframe_R, ace.FCurveKeyframe, FCurveKeyframe )
 
-STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color )
+STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color, Color )
 
 //-----------------------------------------------------------------------------------
 // Dispose無視

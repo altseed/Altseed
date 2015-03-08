@@ -106,9 +106,9 @@ namespace ace
 		auto texture = g->CreateEmptyTexture2D(io.AnimationTexture_.TextureWidth, io.AnimationTexture_.TextureHeight, TextureFormat::R32G32B32A32_FLOAT);
 		TextureLockInfomation info;
 
-		if (texture->Lock(info))
+		if (texture->Lock(&info))
 		{
-			memcpy(info.Pixels, io.AnimationTexture_.Buffer.data(), io.AnimationTexture_.Buffer.size() * sizeof(float) * 4);
+			memcpy(info.GetPixels(), io.AnimationTexture_.Buffer.data(), io.AnimationTexture_.Buffer.size() * sizeof(float) * 4);
 			texture->Unlock();
 		}
 

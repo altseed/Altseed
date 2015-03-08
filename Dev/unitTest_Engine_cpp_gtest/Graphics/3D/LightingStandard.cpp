@@ -7,7 +7,7 @@ class Graphics_LightingStandard : public EngineGraphics3DTest
 public:
 
 	Graphics_LightingStandard(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("LightingStandard"), isOpenGLMode, 15, true)
+		EngineGraphics3DTest(ace::ToAString("LightingStandard"), isOpenGLMode, 15000, true)
 	{}
 
 protected:

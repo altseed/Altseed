@@ -261,7 +261,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	SceneComponent::Ptr& Scene::GetComponent(astring key)
+	const SceneComponent::Ptr& Scene::GetComponent(astring key)
 	{
 		return m_componentManager.Get(key);
 	}

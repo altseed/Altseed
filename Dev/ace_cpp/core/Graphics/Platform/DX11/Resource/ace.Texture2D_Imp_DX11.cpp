@@ -338,13 +338,14 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool Texture2D_Imp_DX11::Lock(TextureLockInfomation& info)
+	bool Texture2D_Imp_DX11::Lock(TextureLockInfomation* info)
 	{
+		if (info == nullptr) return false;
 		if (m_resource.size() == 0) return false;
 
-		info.Pixels = m_resource.data();
-		info.Pitch = ImageHelper::GetPitch(m_format);
-		info.Size = m_size;
+		info->pixels = m_resource.data();
+		info->pitch = ImageHelper::GetPitch(m_format);
+		info->size = m_size;
 		return true;
 	}
 

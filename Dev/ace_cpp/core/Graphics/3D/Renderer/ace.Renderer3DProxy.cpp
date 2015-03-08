@@ -112,9 +112,9 @@ namespace ace
 		{
 			dummyTextureWhite = g->CreateEmptyTexture2D(1, 1, TextureFormat::R8G8B8A8_UNORM);
 			TextureLockInfomation info;
-			if (dummyTextureWhite->Lock(info))
+			if (dummyTextureWhite->Lock(&info))
 			{
-				auto c = (Color*) info.Pixels;
+				auto c = (Color*) info.GetPixels();
 				*c = Color(255, 255, 255, 255);
 				dummyTextureWhite->Unlock();
 			}
@@ -123,9 +123,9 @@ namespace ace
 		{
 			dummyTextureBlack = g->CreateEmptyTexture2D(1, 1, TextureFormat::R8G8B8A8_UNORM);
 			TextureLockInfomation info;
-			if (dummyTextureBlack->Lock(info))
+			if (dummyTextureBlack->Lock(&info))
 			{
-				auto c = (Color*) info.Pixels;
+				auto c = (Color*) info.GetPixels();
 				*c = Color(0, 0, 0, 255);
 				dummyTextureBlack->Unlock();
 			}
@@ -134,9 +134,9 @@ namespace ace
 		{
 			dummyTextureNormal = g->CreateEmptyTexture2D(1, 1, TextureFormat::R8G8B8A8_UNORM);
 			TextureLockInfomation info;
-			if (dummyTextureNormal->Lock(info))
+			if (dummyTextureNormal->Lock(&info))
 			{
-				auto c = (Color*) info.Pixels;
+				auto c = (Color*) info.GetPixels();
 				*c = Color(255 / 2, 255 / 2, 255, 255);
 				dummyTextureNormal->Unlock();
 			}
