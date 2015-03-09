@@ -151,7 +151,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D_Imp_GL* Texture2D_Imp_GL::Create(Graphics_Imp_GL* graphics, int32_t width, int32_t height, TextureFormat format)
+	Texture2D_Imp_GL* Texture2D_Imp_GL::Create(Graphics_Imp_GL* graphics, int32_t width, int32_t height, TextureFormat format, void* data)
 	{
 		GLuint texture = 0;
 		glGenTextures(1, &texture);
@@ -209,7 +209,7 @@ namespace ace {
 			0,
 			format_,
 			type,
-			nullptr);
+			data);
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 

@@ -47,6 +47,7 @@ protected:
 	virtual Font* CreateFont_(const achar* path) = 0;
 	virtual Chip2D* CreateChip2D_() = 0;
 
+	virtual ImagePackage* CreateImagePackage_(const achar* path) = 0;
 public:
 	Graphics(){}
 	virtual ~Graphics(){}
@@ -282,6 +283,17 @@ public:
 	}
 
 #endif
+
+	/**
+	@brief	画像パッケージを生成する。
+	@param	path	パス
+	@return	画像パッケージ
+	*/
+	std::shared_ptr<ImagePackage> CreateImagePackage(const achar* path)
+	{
+		auto ip = CreateImagePackage_(path);
+		return CreateSharedPtrWithReleaseDLL(ip);
+	}
 
 	/**
 	@brief	1フレーム間に実行された描画命令の回数を取得する。

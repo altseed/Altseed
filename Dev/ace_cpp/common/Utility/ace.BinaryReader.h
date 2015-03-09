@@ -12,6 +12,9 @@
 #include "../Math/ace.Vector3DF.h"
 #include "../Math/ace.Matrix44.h"
 
+#include "../Math/ace.RectI.h"
+#include "../Math/ace.RectF.h"
+
 namespace ace
 {
 
@@ -33,7 +36,23 @@ public:
 	template<typename T> T Get(){ assert(!"The type cannot be serializable."); return T();};
 	bool IsEmpty()const{ return data.empty(); }
 
+	inline std::vector<uint8_t> Get(int32_t size)
+	{
+		std::vector<uint8_t> v;
+		
+		for (int i = 0; i < size; i++)
+		{
+			v.push_back(data.front());
+			data.pop_front();
+		}
+
+		return v;
+	}
+
 };
+
+
+
 template<> inline int32_t BinaryReader::Get()
 {
 	int8_t cs[4];
@@ -244,6 +263,26 @@ template<> inline Color BinaryReader::Get()
 	c.A = Get<uint8_t>();
 
 	return c;
+}
+
+template<> inline RectI BinaryReader::Get()
+{
+	RectI v;
+	v.X = Get<int32_t>();
+	v.Y = Get<int32_t>();
+	v.Width = Get<int32_t>();
+	v.Height = Get<int32_t>();
+	return v;
+}
+
+template<> inline RectF BinaryReader::Get()
+{
+	RectF v;
+	v.X = Get<float>();
+	v.Y = Get<float>();
+	v.Width = Get<float>();
+	v.Height = Get<float>();
+	return v;
 }
 
 template<> inline FCurveKeyframe BinaryReader::Get()

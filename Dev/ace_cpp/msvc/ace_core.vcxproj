@@ -251,6 +251,8 @@
     <ClInclude Include="..\core\Graphics\Resource\ace.Effect_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Font.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Font_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\ace.ImagePackage.h" />
+    <ClInclude Include="..\core\Graphics\Resource\ace.ImagePackage_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.IndexBuffer_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Material2D.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Material2D_Imp.h" />
@@ -490,6 +492,7 @@
     <ClCompile Include="..\core\Graphics\Resource\ace.DepthBuffer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Effect_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Font_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\ace.ImagePackage_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.IndexBuffer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Material2D_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Material3D_Imp.cpp" />

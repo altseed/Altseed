@@ -873,6 +873,12 @@
       <Filter>ObjectSystem</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ace.StructTranslator.h" />
+    <ClInclude Include="..\core\Graphics\Resource\ace.ImagePackage_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\ace.ImagePackage.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1228,6 +1234,9 @@
     </ClCompile>
     <ClCompile Include="..\core\dll.cxx" />
     <ClCompile Include="..\core\ace.StructTranslator.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\ace.ImagePackage_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Window\ace.Window_Imp_X11.cpp">

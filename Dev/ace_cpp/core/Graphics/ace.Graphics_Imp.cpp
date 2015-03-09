@@ -27,6 +27,8 @@
 #include "Resource/ace.ShaderCache.h"
 #include "Resource/ace.MaterialPropertyBlock_Imp.h"
 
+#include "Resource/ace.ImagePackage_Imp.h"
+
 #include "3D/Resource/ace.Mesh_Imp.h"
 #include "3D/Resource/ace.Deformer_Imp.h"
 #include "3D/Resource/ace.Model_Imp.h"
@@ -640,6 +642,7 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadin
 	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>(file);
 	FontContainer = std::make_shared<ResourceContainer<Font_Imp>>(file);
 	ModelContainer = std::make_shared<ResourceContainer<Model_Imp>>(file);
+	ImagePackageContainer = std::make_shared<ResourceContainer<ImagePackage_Imp>>(file);
 
 	//SafeAddRef(m_log);
 	//m_resourceContainer = new GraphicsResourceContainer(m_file);
@@ -710,7 +713,13 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2DAsRawData_Imp(const achar* path)
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp::CreateEmptyTexture2D_Imp(int32_t width, int32_t height, TextureFormat format)
 {
-	return CreateEmptyTexture2D_Imp_Internal(this, width, height, format);
+	return CreateEmptyTexture2D_Imp_Internal(this, width, height, format, nullptr);
+}
+
+
+Texture2D_Imp* Graphics_Imp::CreateTexture2DWithRawData(int32_t width, int32_t height, TextureFormat format, void* data)
+{
+	return CreateEmptyTexture2D_Imp_Internal(this, width, height, format, data);
 }
 
 //----------------------------------------------------------------------------------
@@ -882,6 +891,17 @@ Chip2D* Graphics_Imp::CreateChip2D_()
 
 
 	return chip;
+}
+
+ImagePackage* Graphics_Imp::CreateImagePackage_(const achar* path)
+{
+	auto ret = ImagePackageContainer->TryLoadWithVector(path, [this, &path](const std::vector<uint8_t>& data) -> ImagePackage_Imp*
+	{
+		auto ip = ImagePackage_Imp::Create(this, data); 
+		return ip;
+	});
+
+	return ret;
 }
 
 //----------------------------------------------------------------------------------

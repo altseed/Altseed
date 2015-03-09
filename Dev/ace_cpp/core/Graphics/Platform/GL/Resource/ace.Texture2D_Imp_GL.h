@@ -29,7 +29,7 @@ namespace ace {
 	public:
 		static Texture2D_Imp_GL* Create(Graphics_Imp_GL* graphics, uint8_t* data, int32_t size, bool isSRGB);
 
-		static Texture2D_Imp_GL* Create(Graphics_Imp_GL* graphics, int32_t width, int32_t height, TextureFormat format);
+		static Texture2D_Imp_GL* Create(Graphics_Imp_GL* graphics, int32_t width, int32_t height, TextureFormat format, void* data);
 
 		bool Save(const achar* path) override;
 

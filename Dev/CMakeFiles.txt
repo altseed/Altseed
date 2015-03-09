@@ -27,6 +27,7 @@ set(core_src
 	ace_cpp/core/ace.Accessor.cpp
 	ace_cpp/core/ace.Core.Base_Imp.cpp
 	ace_cpp/core/ace.ReferenceObject.cpp
+	ace_cpp/core/ace.StructTranslator.cpp
 	ace_cpp/core/Core/ace.Core_Imp.cpp
 	ace_cpp/core/Core/ace.CreateCore.cpp
 	ace_cpp/core/dll.cxx
@@ -67,6 +68,7 @@ set(core_src
 	ace_cpp/core/Graphics/Resource/ace.DepthBuffer_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Effect_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Font_Imp.cpp
+	ace_cpp/core/Graphics/Resource/ace.ImagePackage_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.IndexBuffer_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Material2D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Material3D_Imp.cpp
@@ -254,6 +256,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepia.cpp
 	unitTest_Engine_cpp_gtest/Graphics/Transition/Transition.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/AddComponentByComponent.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp
@@ -268,6 +271,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/ObjectSystem/SimpleObject2D.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/TrasingCamera.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/VanishInComponent.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/VanishOwnerInComponent.cpp
 	unitTest_Engine_cpp_gtest/PCH/ace.UnitTestEngineCpp.PCH.cpp
 	unitTest_Engine_cpp_gtest/Profiler.cpp
 	unitTest_Engine_cpp_gtest/Sound/Sound.cpp

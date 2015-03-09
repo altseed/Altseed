@@ -54,6 +54,8 @@ namespace ace {
 	class Effect_Imp;
 	class ShaderCache;
 
+	class ImagePackage_Imp;
+
 	class MaterialCommand;
 	class Material2DCommand;
 	class Material3DCommand;

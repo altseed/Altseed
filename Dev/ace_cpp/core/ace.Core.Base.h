@@ -38,6 +38,8 @@ namespace ace {
 	class RenderTexture2D;
 	class CubemapTexture;
 
+	class ImagePackage;
+
 	class Shader2D;
 	class Material2D;
 	class Shader3D;

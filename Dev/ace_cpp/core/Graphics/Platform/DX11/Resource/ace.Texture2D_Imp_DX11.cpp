@@ -253,7 +253,7 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D_Imp_DX11* Texture2D_Imp_DX11::Create(Graphics_Imp_DX11* graphics, int32_t width, int32_t height, TextureFormat format)
+	Texture2D_Imp_DX11* Texture2D_Imp_DX11::Create(Graphics_Imp_DX11* graphics, int32_t width, int32_t height, TextureFormat format, void* data)
 	{
 		auto g = (Graphics_Imp_DX11*) graphics;
 
@@ -298,8 +298,12 @@ namespace ace {
 		TexDesc.CPUAccessFlags = 0;
 		TexDesc.MiscFlags = 0;
 
+		D3D11_SUBRESOURCE_DATA initData;
+		initData.pSysMem = data;
+		initData.SysMemPitch = width * ImageHelper::GetPitch(format);
+		initData.SysMemSlicePitch = initData.SysMemPitch * height;
 
-		hr = g->GetDevice()->CreateTexture2D(&TexDesc, nullptr, &texture);
+		hr = g->GetDevice()->CreateTexture2D(&TexDesc, data != nullptr ? &initData : nullptr , &texture);
 		if (FAILED(hr))
 		{
 			goto End;
