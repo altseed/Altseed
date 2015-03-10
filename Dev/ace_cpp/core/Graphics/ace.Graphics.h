@@ -282,8 +282,6 @@ public:
 		return CreateSharedPtrWithReleaseDLL(font);
 	}
 
-#endif
-
 	/**
 	@brief	画像パッケージを生成する。
 	@param	path	パス
@@ -294,6 +292,8 @@ public:
 		auto ip = CreateImagePackage_(path);
 		return CreateSharedPtrWithReleaseDLL(ip);
 	}
+
+#endif
 
 	/**
 	@brief	1フレーム間に実行された描画命令の回数を取得する。

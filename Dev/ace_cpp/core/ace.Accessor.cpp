@@ -15,6 +15,8 @@
 
 #include "Graphics/Resource/ace.MaterialPropertyBlock.h"
 
+#include "Graphics/Resource/ace.ImagePackage.h"
+
 #include "ObjectSystem/2D/ace.CoreEffectObject2D.h"
 
 #include "Graphics/3D/Resource/ace.Mesh.h"
@@ -82,6 +84,11 @@ namespace ace
 	Mesh* Accessor::Model_GetMesh(Model* o, int32_t index)
 	{
 		return o->GetMesh_(index);
+	}
+
+	Texture2D* Accessor::ImagePackage_GetImage(ImagePackage* o, int32_t index)
+	{
+		return o->GetImage_(index);
 	}
 
 	Effect* Accessor::CoreEffectObject2D_GetEffect(CoreEffectObject2D* o)

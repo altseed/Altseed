@@ -46,6 +46,8 @@ namespace ace
 					if (TryRelease<swig.Material3D>(o)) continue;
 					if (TryRelease<swig.MaterialPropertyBlock>(o)) continue;
 
+					if (TryRelease<swig.ImagePackage>(o)) continue;
+
 					if (TryRelease<swig.Effect>(o)) continue;
                     if (TryRelease<swig.Chip2D>(o)) continue;
                     if (TryRelease<swig.Font>(o)) continue;

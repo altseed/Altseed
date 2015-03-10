@@ -23,6 +23,8 @@ namespace ace
 		internal static IDObjectContainer<Material3D> Material3Ds { get; private set; }
 		internal static IDObjectContainer<MaterialPropertyBlock> MaterialPropertyBlocks { get; private set; }
 
+		internal static IDObjectContainer<ImagePackage> ImagePackages { get; private set; }
+
 		internal static IDObjectContainer<Effect> Effects { get; private set; }
 
 		internal static IDObjectContainer<Mesh> Meshs { get; private set; }
@@ -64,6 +66,8 @@ namespace ace
 			Material2Ds = new IDObjectContainer<Material2D>();
 			Material3Ds = new IDObjectContainer<Material3D>();
 			MaterialPropertyBlocks = new IDObjectContainer<MaterialPropertyBlock>();
+
+			ImagePackages = new IDObjectContainer<ImagePackage>();
 
 			Effects = new IDObjectContainer<Effect>();
 
@@ -113,6 +117,8 @@ namespace ace
 				Material2Ds.DestroyAll();
 				Material3Ds.DestroyAll();
 				MaterialPropertyBlocks.DestroyAll();
+
+				ImagePackages.DestroyAll();
 
 				Effects.DestroyAll();
 
@@ -301,6 +307,20 @@ namespace ace
 
 			var ret = new MaterialPropertyBlock(o);
 			GC.MaterialPropertyBlocks.AddObject(p, ret);
+			return ret;
+		}
+
+		internal static ImagePackage GenerateImagePackage(swig.ImagePackage o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.ImagePackages.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new ImagePackage(o);
+			GC.ImagePackages.AddObject(p, ret);
 			return ret;
 		}
 

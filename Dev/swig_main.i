@@ -60,6 +60,8 @@ CPP_OBJECT( ace::Shader2D )
 CPP_OBJECT( ace::Shader2D_Imp )
 CPP_OBJECT( ace::Shader3D )
 
+CPP_OBJECT( ace::ImagePackage )
+
 CPP_OBJECT( ace::Effect )
 
 CPP_OBJECT( ace::Font )
@@ -174,6 +176,8 @@ CPP_OBJECT( ace::StaticFile )
 %include "ace_cpp/core/Graphics/Resource/ace.RenderTexture2D.h"
 %include "ace_cpp/core/Graphics/Resource/ace.RenderTexture2D_Imp.h"
 %include "ace_cpp/core/Graphics/Resource/ace.CubemapTexture.h"
+
+%include "ace_cpp/core/Graphics/Resource/ace.ImagePackage.h"
 
 %include "ace_cpp/core/Graphics/Resource/ace.Effect.h"
 

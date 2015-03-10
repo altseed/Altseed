@@ -13,7 +13,7 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
 			/*
-			TestSequencially(new ObjectSystem2D.AddComponentByComponent());
+			TestSequencially(new Graphics.Resource.ImagePackage());
 			Console.ReadKey();
 			return;
 			*/

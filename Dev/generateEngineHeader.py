@@ -112,6 +112,8 @@ engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Material3D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.MaterialPropertyBlock.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Font.h")
 
+engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.ImagePackage.h")
+
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Effect.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Chip2D.h")

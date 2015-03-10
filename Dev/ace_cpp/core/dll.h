@@ -30,6 +30,8 @@
 #include "Graphics/Resource/ace.Texture2D_Imp.h"
 #include "Graphics/Resource/ace.CubemapTexture_Imp.h"
 
+#include "Graphics/Resource/ace.ImagePackage.h"
+
 #include "Graphics/Resource/ace.Shader2D_Imp.h"
 #include "Graphics/Resource/ace.Shader3D_Imp.h"
 

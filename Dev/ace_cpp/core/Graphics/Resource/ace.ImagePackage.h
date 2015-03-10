@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include <ace.common.Base.h>
@@ -11,11 +11,12 @@
 namespace ace
 {
 	/**
-	@brief	•¡”‚Ì‰æ‘œ‚ªŠi”[‚³‚ê‚Ä‚¢‚éƒNƒ‰ƒX
+	@brief	è¤‡æ•°ã®ç”»åƒãŒæ ¼ç´ã•ã‚Œã¦ã„ã‚‹ã‚¯ãƒ©ã‚¹
 	*/
 	class ImagePackage
 		: public IReference
 	{
+		friend class Accessor;
 	private:
 
 	protected:
@@ -27,34 +28,37 @@ namespace ace
 	public:
 		
 		/**
-			@brief	Ši”[‚³‚ê‚Ä‚¢‚é‰æ‘œ‚Ì–‡”‚ğæ“¾‚·‚éB
-			@return	‰æ‘œ‚Ì–‡”
+			@brief	æ ¼ç´ã•ã‚Œã¦ã„ã‚‹ç”»åƒã®æšæ•°ã‚’å–å¾—ã™ã‚‹ã€‚
+			@return	ç”»åƒã®æšæ•°
 		*/
 		virtual int32_t GetImageCount() = 0;
 
 		/**
-			@brief	Ši”[‚³‚ê‚Ä‚¢‚é‰æ‘œ‚Ì–¼Ì‚ğæ“¾‚·‚éB
-			@param	index	ƒCƒ“ƒfƒbƒNƒX
-			@return	–¼Ì
+			@brief	æ ¼ç´ã•ã‚Œã¦ã„ã‚‹ç”»åƒã®åç§°ã‚’å–å¾—ã™ã‚‹ã€‚
+			@param	index	ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+			@return	åç§°
 		*/
 		virtual const achar* GetImageName(int32_t index) = 0;
 
 		/**
-		@brief	Ši”[‚³‚ê‚Ä‚¢‚é‰æ‘œ‚ª”z’u‚³‚ê‚é—Ìˆæ‚ğæ“¾‚·‚éB
-		@param	index	ƒCƒ“ƒfƒbƒNƒX
-		@return	—Ìˆæ
+		@brief	æ ¼ç´ã•ã‚Œã¦ã„ã‚‹ç”»åƒãŒé…ç½®ã•ã‚Œã‚‹é ˜åŸŸã‚’å–å¾—ã™ã‚‹ã€‚
+		@param	index	ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+		@return	é ˜åŸŸ
 		*/
 		virtual RectI GetImageArea(int32_t index) = 0;
 
+#if !SWIG
 		/**
-			@brief	‰æ‘œ‚ğæ“¾‚·‚éB
-			@param	index	ƒCƒ“ƒfƒbƒNƒX
-			@return	‰æ‘œ
+			@brief	ç”»åƒã‚’å–å¾—ã™ã‚‹ã€‚
+			@param	index	ã‚¤ãƒ³ãƒ‡ãƒƒã‚¯ã‚¹
+			@return	ç”»åƒ
 		*/
 		std::shared_ptr<Texture2D> GetImage(int32_t index)
 		{
 			auto image = GetImage_(index);
+			SafeAddRef(image);
 			return CreateSharedPtrWithReleaseDLL(image);
 		}
+#endif
 	};
 }

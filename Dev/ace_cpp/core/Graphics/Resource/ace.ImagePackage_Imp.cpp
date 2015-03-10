@@ -1,4 +1,4 @@
-
+﻿
 #include "ace.ImagePackage_Imp.h"
 #include "ace.Texture2D_Imp.h"
 
@@ -38,7 +38,7 @@ namespace ace
 			auto name = reader.Get<astring>();
 			auto area = reader.Get<RectI>();
 			auto data = reader.Get(area.Width * area.Height * 4);
-			auto texture = g->CreateTexture2DWithRawData(area.Width, area.Height, TextureFormat::R8G8B8A8_UNORM, data.data());
+			auto texture = g->CreateTexture2DWithRawData(area.Width, area.Height, TextureFormat::R8G8B8A8_UNORM_SRGB, data.data());
 
 			textures.push_back(texture);
 			areas.push_back(area);

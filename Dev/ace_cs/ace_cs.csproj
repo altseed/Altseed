@@ -62,6 +62,7 @@
     <Compile Include="Graphics\Effect.cs" />
     <Compile Include="Graphics\Font.cs" />
     <Compile Include="Graphics\Graphics.cs" />
+    <Compile Include="Graphics\ImagePackage.cs" />
     <Compile Include="Graphics\MassModel.cs" />
     <Compile Include="Graphics\Material2D.cs" />
     <Compile Include="Graphics\Material3D.cs" />
@@ -172,6 +173,7 @@
     <Compile Include="swig\Graphics.cs" />
     <Compile Include="swig\GraphicsDeviceType.cs" />
     <Compile Include="swig\Graphics_Imp.cs" />
+    <Compile Include="swig\ImagePackage.cs" />
     <Compile Include="swig\InterpolationType.cs" />
     <Compile Include="swig\IReference.cs" />
     <Compile Include="swig\Joystick.cs" />

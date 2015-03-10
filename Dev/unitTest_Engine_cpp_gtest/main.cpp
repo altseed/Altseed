@@ -33,6 +33,8 @@ EXTERN_ENGINE_TEST(Graphics, CustomPostEffect)
 
 EXTERN_ENGINE_TEST(Graphics, Transition)
 
+EXTERN_ENGINE_TEST(Graphics, ImagePackage)
+
 extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject3D)
@@ -80,8 +82,8 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(Graphics, LightingStandard, false)
-	return 0;
+	//CALL_ENGINE_TEST(Graphics, ImagePackage, false)
+	//return 0;
 
 	
 	auto result = RUN_ALL_TESTS();

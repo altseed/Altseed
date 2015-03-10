@@ -137,6 +137,9 @@
     <ClCompile Include="..\ObjectSystem\AddComponentByComponent.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\Resource\ImagePackage.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -165,6 +168,9 @@
     </Filter>
     <Filter Include="File">
       <UniqueIdentifier>{3f3a6be5-ba90-473b-a2dc-fb8bf9368c28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Resource">
+      <UniqueIdentifier>{31b9bd74-3cb3-4b8e-956c-1787471d489d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 
 #include "ace.ImagePackage.h"
@@ -33,7 +33,7 @@ namespace ace
 
 		RectI GetImageArea(int32_t index) override;
 
-		// IReference‚ğŒp³‚µ‚½ƒfƒoƒCƒXƒIƒuƒWƒFƒNƒgŒü‚¯’è‹`
+		// IReferenceã‚’ç¶™æ‰¿ã—ãŸãƒ‡ãƒã‚¤ã‚¹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆå‘ã‘å®šç¾©
 #if !SWIG
 	public:
 		virtual int GetRef() override { return ReferenceObject::GetRef(); }

@@ -288,6 +288,18 @@ namespace ace
         }
 
 		/// <summary>
+		/// 画像パッケージを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>画像パッケージ</returns>
+		public ImagePackage CreateImagePackage(string path)
+		{
+			 var ip = graphics.CreateImagePackage_(path);
+            if (ip == null) return null;
+            return GC.GenerateImagePackage(ip, GC.GenerationType.Create);
+		}
+
+		/// <summary>
 		/// 1フレーム間に実行された描画命令の回数を取得する。
 		/// </summary>
 		/// <remarks>

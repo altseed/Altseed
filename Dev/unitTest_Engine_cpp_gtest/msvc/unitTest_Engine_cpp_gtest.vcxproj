@@ -36,6 +36,7 @@
     <ClCompile Include="..\Graphics\PostEffect\PostEffectGrayScale.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectLightBloom.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffectSepia.cpp" />
+    <ClCompile Include="..\Graphics\Resource\ImagePackage.cpp" />
     <ClCompile Include="..\Graphics\Transition\Transition.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\AddComponentByComponent.cpp" />
