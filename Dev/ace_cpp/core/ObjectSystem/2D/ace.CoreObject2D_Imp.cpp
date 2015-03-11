@@ -44,7 +44,7 @@ namespace ace
 			obj->SetAlreadyCullingUpdated(true);
 		}
 
-		auto cldrn = obj->children;
+		auto& cldrn = obj->children;
 
 		for (auto& cld : cldrn)
 		{
