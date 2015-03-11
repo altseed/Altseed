@@ -16,7 +16,8 @@
 
 [Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)
 
-[導入方法(Windows)](./HowToIntroduce/Windows.md)
+[導入方法(C++版、Windows)](./HowToIntroduce/Windows_CPP.md)
+[導入方法(C#版、Windows)](./HowToIntroduce/Windows_CS.md)
 
 * Mac,Linuxの場合、現在、自分でソースコードからコンパイルする必要があります。
 
