@@ -16,12 +16,12 @@ namespace ace{
 		/**
 		@brief ボタンの押し状態を返す
 		*/
-		virtual const MouseButtonState GetButtonState() const;
+		virtual MouseButtonState GetButtonState() const;
 
 		/**
 		@brief ホイールの回転度合いを返す
 		*/
-		virtual const double GetRotation() const;
+		virtual double GetRotation() const;
 		MiddleButton(MouseButtonState mouseButtonState,double rotation);
 		MiddleButton(){}
 	};

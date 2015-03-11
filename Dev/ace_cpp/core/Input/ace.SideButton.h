@@ -16,7 +16,7 @@ namespace ace{
 		@brief ボタンの押し状態を返す
 		@return ボタンの押し状態
 		*/
-		virtual const MouseButtonState GetButtonState() const;
+		virtual MouseButtonState GetButtonState() const;
 
 		SideButton(){}
 		SideButton(MouseButtonState mouseButtonState,bool doubleClicked);

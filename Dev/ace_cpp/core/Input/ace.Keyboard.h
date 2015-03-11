@@ -168,7 +168,7 @@ namespace ace{
 		@param 押し状態を調べたいキー
 		@return 押し状態
 		*/
-		virtual const KeyState GetKeyState(Keys key) = 0;
+		virtual KeyState GetKeyState(Keys key) const = 0;
 	};
 
 };

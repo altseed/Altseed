@@ -164,17 +164,17 @@ namespace ace
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
 
-		for (auto chip = m_chips.begin(); chip != m_chips.end(); ++chip)
+		for (auto chip : m_chips)
 		{
 
-			auto texture = (*chip)->GetTexture();
+			auto texture = chip->GetTexture();
 
 			if (texture == nullptr)
 			{
 				continue;
 			}
 
-			std::array<Vector2DF, 4> position = (*chip)->GetSrc().GetVertexes();
+			std::array<Vector2DF, 4> position = chip->GetSrc().GetVertexes();
 
 			{
 
@@ -203,13 +203,13 @@ namespace ace
 					uv /= textureSize;
 				}
 
-				if ((*chip)->GetTurnLR())
+				if (chip->GetTurnLR())
 				{
 					std::swap(uvs.at(0), uvs.at(1));
 					std::swap(uvs.at(2), uvs.at(3));
 				}
 
-				if ((*chip)->GetTurnUL())
+				if (chip->GetTurnUL())
 				{
 					std::swap(uvs.at(0), uvs.at(3));
 					std::swap(uvs.at(1), uvs.at(2));
@@ -217,12 +217,12 @@ namespace ace
 			}
 
 			std::array<Color, 4> color;
-			color[0] = (*chip)->GetColor();
-			color[1] = (*chip)->GetColor();
-			color[2] = (*chip)->GetColor();
-			color[3] = (*chip)->GetColor();
+			color[0] = chip->GetColor();
+			color[1] = chip->GetColor();
+			color[2] = chip->GetColor();
+			color[3] = chip->GetColor();
 
-			renderer->AddSprite(position.data(), color.data(), uvs.data(), texture.get(), (*chip)->GetAlphaBlendMode(), m_drawingPtiority);
+			renderer->AddSprite(position.data(), color.data(), uvs.data(), texture.get(), chip->GetAlphaBlendMode(), m_drawingPtiority);
 		}
 
 	}

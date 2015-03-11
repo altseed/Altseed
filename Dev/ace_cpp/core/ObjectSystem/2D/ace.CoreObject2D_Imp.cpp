@@ -44,9 +44,7 @@ namespace ace
 			obj->SetAlreadyCullingUpdated(true);
 		}
 
-		auto cldrn = obj->children;
-
-		for (auto& cld : cldrn)
+		for (auto& cld : obj->children)
 		{
 			auto cld_Imp = CoreObject2DToImp(cld);
 			SetCullingUpdate(cld_Imp);

@@ -76,22 +76,22 @@ namespace ace{
 		wheelCalled = false;
 	}
 
-	const SideButton* Mouse_Imp::GetLeftButton() const
+	SideButton* Mouse_Imp::GetLeftButton() const
 	{
 		return m_leftButton;
 	}
 
-	const SideButton* Mouse_Imp::GetRightButton() const
+	SideButton* Mouse_Imp::GetRightButton() const
 	{
 		return m_rightButton;
 	}
 
-	const MiddleButton* Mouse_Imp::GetMiddleButton() const
+	MiddleButton* Mouse_Imp::GetMiddleButton() const
 	{
 		return m_middleButton;
 	}
 
-	const Vector2DF Mouse_Imp::GetPosition() const
+	Vector2DF Mouse_Imp::GetPosition() const
 	{
 		return m_position;
 	}

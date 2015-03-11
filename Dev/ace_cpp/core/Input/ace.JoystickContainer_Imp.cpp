@@ -31,7 +31,7 @@ namespace ace{
 		return new JoystickContainer_Imp();
 	}
 
-	const bool JoystickContainer_Imp::GetIsPresentAt(int at)
+	bool JoystickContainer_Imp::GetIsPresentAt(int at)
 	{
 		return glfwJoystickPresent(at) == GL_TRUE;
 	}

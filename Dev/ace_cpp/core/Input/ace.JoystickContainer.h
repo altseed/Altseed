@@ -14,7 +14,7 @@ namespace ace{
 		@param	at	何番目のジョイスティックの接続を確認するか
 		@return 接続されているか否か
 		*/
-		virtual const bool GetIsPresentAt(int at) = 0;
+		virtual bool GetIsPresentAt(int at) = 0;
 
 		/**
 		@brief	引数に指定した番目のジョイスティッククラスを取得する。
