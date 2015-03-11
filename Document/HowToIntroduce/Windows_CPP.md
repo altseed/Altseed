@@ -99,10 +99,10 @@ int _tmain(int argc, _TCHAR* argv[])
 
 今回は、ACEのランタイムをコピーで済ませました。しかし、実際に開発する際は全てのファイルを配置し直すことをおすすめします。
 
-```Debug/ace_engine.lib```と```Release/ace_engine.lib```は名称を変更し、```ACE_Test.vcxproj```と同じディレクトリに移動しましょう。```Debug```と```Release```というフォルダは
+```Debug/ace_engine.lib``` と ```Release/ace_engine.lib``` は名称を変更し、 ```ACE_Test.vcxproj``` と同じディレクトリに移動しましょう。 ```Debug``` と ```Release``` というフォルダは
 VisualStudioがコンパイルをする際に一時的に生成されるファイルが配置されるディレクトリでもあります。不要なファイルを消すときに間違えて消してしまうかもしれません。
 
-```ace_core.Debug.dll```と```ace_core.dll```は生成された実行ファイルが存在するディレクトリにもコピーしましょう。VisualStudioからデバッグしている間は問題は置きませんが、
+```ace_core.Debug.dll``` と ```ace_core.dll``` は生成された実行ファイルが存在するディレクトリにもコピーしましょう。VisualStudioからデバッグしている間は問題は置きませんが、
 実行ファイルを起動する際は、実行ファイルと同じディレクトリにこれらのdllが存在する必要があります。
 
 
