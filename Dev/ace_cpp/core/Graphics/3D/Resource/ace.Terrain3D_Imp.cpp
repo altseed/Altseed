@@ -11,6 +11,203 @@
 
 namespace ace
 {
+	static enum class DivisionDirection
+	{
+		None,
+		Filled,
+		FilledHalf,
+		Slash_Upper,
+		Slash_Lower,
+		Backslash_Upper,
+		Backslash_Lower,
+	};
+
+	static void CalculateDivisionState(std::array<DivisionDirection, 16>& dst, bool isCliffes[9], bool isInclinedPlanes[9])
+	{
+		auto rot = [](int32_t ind, int32_t angle) -> int32_t
+		{
+			int32_t lut[9];
+			lut[0] = 2;
+			lut[1] = 5;
+			lut[2] = 8;
+			lut[3] = 1;
+			lut[4] = 4;
+			lut[5] = 7;
+			lut[6] = 0;
+			lut[7] = 3;
+			lut[8] = 6;
+
+			for (int32_t i = 0; i < angle; i++)
+			{
+				ind = lut[ind];
+			}
+			return ind;
+		};
+
+		auto rot_16 = [](int32_t ind, int32_t angle) -> int32_t
+		{
+			auto x = ind % 4;
+			auto y = ind / 4;
+
+			for (int32_t i = 0; i < angle; i++)
+			{
+				auto x_ = 3 - y;
+				auto y_ = x;
+				x = x_;
+				y = y_;
+			}
+			return x + y * 4;
+		};
+
+		auto rotDiv = [](DivisionDirection d, int32_t angle) -> DivisionDirection
+		{
+			if (d == DivisionDirection::Filled) return d;
+			if (d == DivisionDirection::FilledHalf) return d;
+			if (d == DivisionDirection::None) return d;
+
+			for (int32_t i = 0; i < angle; i++)
+			{
+				if (d == DivisionDirection::Backslash_Lower)
+				{
+					d = DivisionDirection::Slash_Upper;
+				}
+				else if (d == DivisionDirection::Backslash_Upper)
+				{
+					d = DivisionDirection::Slash_Lower;
+				}
+				else if (d == DivisionDirection::Slash_Lower)
+				{
+					d = DivisionDirection::Backslash_Upper;
+				}
+				else if (d == DivisionDirection::Slash_Upper)
+				{
+					d = DivisionDirection::Backslash_Lower;
+				}
+			}
+
+			return d;
+		};
+
+		if (!isCliffes[0] && !isCliffes[1] && !isCliffes[2] &&
+			!isCliffes[3] && !isCliffes[4] && !isCliffes[5] &&
+			!isCliffes[6] && !isCliffes[7] && !isCliffes[8])
+		{
+			// なし
+			for (int32_t i = 0; i < 16; i++)
+			{
+				dst[i] = DivisionDirection::None;
+			}
+		}
+		else if (isCliffes[1] && isCliffes[3] && isCliffes[6] && isCliffes[8])
+		{
+			// 特殊
+			dst[0 + 4 * 0] = DivisionDirection::None;
+			dst[1 + 4 * 0] = DivisionDirection::None;
+			dst[2 + 4 * 0] = DivisionDirection::None;
+			dst[3 + 4 * 0] = DivisionDirection::None;
+
+			dst[0 + 4 * 1] = DivisionDirection::None;
+			dst[1 + 4 * 1] = DivisionDirection::Slash_Lower;
+			dst[2 + 4 * 1] = DivisionDirection::Backslash_Lower;
+			dst[3 + 4 * 1] = DivisionDirection::None;
+
+			dst[0 + 4 * 2] = DivisionDirection::None;
+			dst[1 + 4 * 2] = DivisionDirection::Backslash_Upper;
+			dst[2 + 4 * 2] = DivisionDirection::Slash_Upper;
+			dst[3 + 4 * 2] = DivisionDirection::None;
+
+			dst[0 + 4 * 3] = DivisionDirection::None;
+			dst[1 + 4 * 3] = DivisionDirection::None;
+			dst[2 + 4 * 3] = DivisionDirection::None;
+			dst[3 + 4 * 3] = DivisionDirection::None;
+		}
+		else
+		{
+			// 3
+			for (int32_t dir = 0; dir < 4; dir++)
+			{
+				if (isCliffes[rot(3, dir)] && isCliffes[rot(1, dir)] && isCliffes[rot(5, dir)])
+				{
+					dst[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+
+					dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
+					dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::Backslash_Upper, dir);
+					dst[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+
+					dst[rot_16(0 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(1 + 4 * 2, dir)] = rotDiv(DivisionDirection::Filled, dir);
+					dst[rot_16(2 + 4 * 2, dir)] = rotDiv(DivisionDirection::Filled, dir);
+					dst[rot_16(3 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
+				}
+			}
+
+			// 3
+			for (int32_t dir = 0; dir < 4; dir++)
+			{
+				if (!isCliffes[rot(3, dir)] && isCliffes[rot(0, dir)] && !isCliffes[rot(1, dir)])
+				{
+					dst[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
+				}
+			}
+
+			// 3
+			for (int32_t dir = 0; dir < 4; dir++)
+			{
+				if (!isCliffes[rot(3, dir)] && !isCliffes[rot(0, dir)] && !isCliffes[rot(1, dir)])
+				{
+					dst[0 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+					dst[1 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+					dst[2 + 4 * 0] = rotDiv(DivisionDirection::Slash_Lower, dir);
+
+					dst[0 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
+					dst[1 + 4 * 1] = rotDiv(DivisionDirection::Slash_Lower, dir);
+
+					dst[0 + 4 * 2] = rotDiv(DivisionDirection::Slash_Lower, dir);
+				}
+			}
+
+			for (int32_t dir = 0; dir < 4; dir++)
+			{
+				if (isCliffes[rot(0, dir)] && isCliffes[rot(1, dir)] && isCliffes[rot(2, dir)] && !isCliffes[rot(3, dir)] && !isCliffes[rot(5, dir)])
+				{
+					dst[0 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+					dst[1 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+					dst[2 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+					dst[3 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+
+					if (isInclinedPlanes[rot(3, dir)] && !isInclinedPlanes[rot(5, dir)])
+					{
+					}
+					else if (!isInclinedPlanes[rot(3, dir)] && isInclinedPlanes[rot(5, dir)])
+					{
+						dst[0 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[1 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+						//divisionsNext[2 + 4 * 1] = DivisionDirection::None;
+						//divisionsNext[3 + 4 * 1] = DivisionDirection::None;
+					}
+					else if (isInclinedPlanes[rot(3, dir)] && !isInclinedPlanes[rot(5, dir)])
+					{
+						dst[0 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
+						dst[1 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
+						dst[2 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[3 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+					}
+					else if (isInclinedPlanes[rot(3, dir)] && isInclinedPlanes[rot(5, dir)])
+					{
+						dst[0 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[1 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[2 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[3 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+					}
+				}
+			}
+		}
+	}
+
 	Terrain3D_Imp::Chip::Chip()
 	{
 		IsChanged = true;
@@ -159,6 +356,7 @@ namespace ace
 
 		// 崖による4点の高度を決める
 		int32_t clheight[4];
+		
 		for (int32_t oy = 0; oy < 2; oy++)
 		{
 			for (int32_t ox = 0; ox < 2; ox++)
@@ -185,24 +383,24 @@ namespace ace
 			return this->heights[x_ + y_ * this->gridWidthCount];
 		};
 
-		auto v0 = Vector3DF(
+		auto v00 = Vector3DF(
 			chip_x * gridSize - gridWidthCount * gridSize / 2.0f,
-			(getHeight(chip_x - 1, chip_y - 1) + getHeight(chip_x + 0, chip_y - 1) + getHeight(chip_x - 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 0)) / 4.0f + clheight[0] * gridSize / 2.0f,
+			(getHeight(chip_x - 1, chip_y - 1) + getHeight(chip_x + 0, chip_y - 1) + getHeight(chip_x - 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 0)) / 4.0f,
 			chip_y * gridSize - gridHeightCount * gridSize / 2.0f);
 
-		auto v1 = Vector3DF(
+		auto v10 = Vector3DF(
 			(chip_x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
-			(getHeight(chip_x + 0, chip_y - 1) + getHeight(chip_x + 1, chip_y - 1) + getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x + 1, chip_y + 0)) / 4.0f + clheight[1] * gridSize / 2.0f,
+			(getHeight(chip_x + 0, chip_y - 1) + getHeight(chip_x + 1, chip_y - 1) + getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x + 1, chip_y + 0)) / 4.0f,
 			chip_y * gridSize - gridHeightCount * gridSize / 2.0f);
 
-		auto v2 = Vector3DF(
+		auto v01 = Vector3DF(
 			chip_x * gridSize - gridWidthCount * gridSize / 2.0f,
-			(getHeight(chip_x - 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x - 1, chip_y + 1) + getHeight(chip_x + 0, chip_y + 1)) / 4.0f + clheight[2] * gridSize / 2.0f,
+			(getHeight(chip_x - 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x - 1, chip_y + 1) + getHeight(chip_x + 0, chip_y + 1)) / 4.0f,
 			(chip_y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
 
-		auto v3 = Vector3DF(
+		auto v11 = Vector3DF(
 			(chip_x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
-			(getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x + 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 1) + getHeight(chip_x + 1, chip_y + 1)) / 4.0f + clheight[3] * gridSize / 2.0f,
+			(getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x + 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 1) + getHeight(chip_x + 1, chip_y + 1)) / 4.0f,
 			(chip_y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
 
 
@@ -210,7 +408,7 @@ namespace ace
 
 		for (int32_t i = 0; i < 9; i++)
 		{
-			if (abs(clsh[4] - clsh[i]) >= 2)
+			if (clsh[4] - clsh[i] >= 2)
 			{
 				isFlat = false;
 				break;
@@ -220,10 +418,15 @@ namespace ace
 		if (isFlat)
 		{
 			// 平坦な場合
-			chip.Vertecies.push_back(v0);
-			chip.Vertecies.push_back(v1);
-			chip.Vertecies.push_back(v2);
-			chip.Vertecies.push_back(v3);
+			v00.Y += clheight[0] * gridSize / 2.0f;
+			v10.Y += clheight[1] * gridSize / 2.0f;
+			v01.Y += clheight[2] * gridSize / 2.0f;
+			v11.Y += clheight[3] * gridSize / 2.0f;
+
+			chip.Vertecies.push_back(v00);
+			chip.Vertecies.push_back(v10);
+			chip.Vertecies.push_back(v01);
+			chip.Vertecies.push_back(v11);
 
 			ChipFace f1;
 			f1.Indexes[0] = 0;
@@ -240,17 +443,6 @@ namespace ace
 		}
 		else
 		{
-			enum class DivisionDirection
-			{
-				None,
-				Filled,
-				FilledHalf,
-				Slash_Upper,
-				Slash_Lower,
-				Backslash_Upper,
-				Backslash_Lower,
-			};
-
 			int32_t minclh = INT_MAX;
 			int32_t maxclh = INT_MIN;
 			for (int32_t oy = 0; oy < 3; oy++)
@@ -264,12 +456,12 @@ namespace ace
 
 			std::array<DivisionDirection, 16> divisions;
 			divisions.fill(DivisionDirection::None);
-			std::array<int32_t, 16> indexes;
+			std::array<int32_t, 5*5> indexes;
 			indexes.fill(-1);
 
 			std::array<DivisionDirection, 16> divisionsNext;
 			divisionsNext.fill(DivisionDirection::None);
-			std::array<int32_t, 16> indexesNext;
+			std::array<int32_t, 5 * 5> indexesNext;
 			indexesNext.fill(-1);
 
 			for (int32_t h = maxclh; h >= minclh; h--)
@@ -281,7 +473,7 @@ namespace ace
 					auto from = Min(clsh[4], h);
 					auto to = Min(clsh[i], h);
 					if (from <= to) return false;
-					return from - to > 2;
+					return from - to >= 2;
 				};
 
 				auto isInclinedPlane = [&clsh, h](int32_t i) -> bool
@@ -292,180 +484,35 @@ namespace ace
 					return from - to == 1;
 				};
 				
-
-				auto rot = [](int32_t ind, int32_t angle) -> int32_t
+				bool isCliffes[9];
+				bool isInclinedPlanes[9];
+				for (int32_t i = 0; i < 9; i++)
 				{
-					int32_t lut[9];
-					lut[0] = 2;
-					lut[1] = 5;
-					lut[2] = 8;
-					lut[3] = 1;
-					lut[4] = 4;
-					lut[5] = 7;
-					lut[6] = 0;
-					lut[7] = 3;
-					lut[8] = 6;
-
-					for (int32_t i = 0; i < angle; i++)
-					{
-						ind = lut[ind];
-					}
-					return ind;
-				};
-
-				auto rot_16 = [](int32_t ind, int32_t angle) -> int32_t
-				{
-					auto x = ind % 4;
-					auto y = ind / 4;
-
-					for (int32_t i = 0; i < angle; i++)
-					{
-						auto x_ = 3 - y;
-						auto y_ = x;
-						x = x_;
-						y = y_;
-					}
-					return x + y * 4;
-				};
-
-				auto rotDiv = [](DivisionDirection d, int32_t angle) -> DivisionDirection
-				{
-					if (d == DivisionDirection::Filled) return d;
-					if (d == DivisionDirection::FilledHalf) return d;
-					if (d == DivisionDirection::None) return d;
-
-					for (int32_t i = 0; i < angle; i++)
-					{
-						if (d == DivisionDirection::Backslash_Lower)
-						{
-							d = DivisionDirection::Slash_Upper;
-						}
-						else if (d == DivisionDirection::Backslash_Upper)
-						{
-							d = DivisionDirection::Slash_Lower;
-						}
-						else if (d == DivisionDirection::Slash_Lower)
-						{
-							d = DivisionDirection::Backslash_Upper;
-						}
-						else if (d == DivisionDirection::Slash_Upper)
-						{
-							d = DivisionDirection::Backslash_Lower;
-						}
-					}
-					
-					return d;
-				};
+					isCliffes[i] = isCliff(i);
+					isInclinedPlanes[i] = isInclinedPlane(i);
+				}
 
 				divisionsNext.fill(DivisionDirection::Filled);
 				indexesNext.fill(-1);
 
-				// 特殊
-				if (isCliff(1) && isCliff(3) && isCliff(6) && isCliff(8))
+				// 領域ごとの状態を計算する。
+				CalculateDivisionState(divisionsNext, isCliffes, isInclinedPlanes);
+
+				// 上の層の影響を下に与える。
+				for (int32_t i = 0; i < 16; i++)
 				{
-					divisionsNext[0 + 4 * 0] = DivisionDirection::None;
-					divisionsNext[1 + 4 * 0] = DivisionDirection::None;
-					divisionsNext[2 + 4 * 0] = DivisionDirection::None;
-					divisionsNext[3 + 4 * 0] = DivisionDirection::None;
-
-					divisionsNext[0 + 4 * 1] = DivisionDirection::None;
-					divisionsNext[1 + 4 * 1] = DivisionDirection::Slash_Lower;
-					divisionsNext[2 + 4 * 1] = DivisionDirection::Backslash_Lower;
-					divisionsNext[3 + 4 * 1] = DivisionDirection::None;
-
-					divisionsNext[0 + 4 * 2] = DivisionDirection::None;
-					divisionsNext[1 + 4 * 2] = DivisionDirection::Slash_Upper;
-					divisionsNext[2 + 4 * 2] = DivisionDirection::Backslash_Upper;
-					divisionsNext[3 + 4 * 2] = DivisionDirection::None;
-
-					divisionsNext[0 + 4 * 3] = DivisionDirection::None;
-					divisionsNext[1 + 4 * 3] = DivisionDirection::None;
-					divisionsNext[2 + 4 * 3] = DivisionDirection::None;
-					divisionsNext[3 + 4 * 3] = DivisionDirection::None;
+					if (divisionsNext[i] == DivisionDirection::None)
+					{
+						divisionsNext[i] = divisions[i];
+					}
 				}
-				else
+
+				// 最下層強制補正
+				if (h == minclh)
 				{
-					// 3
-					for (int32_t dir = 0; dir < 4; dir++)
+					for (int32_t i = 0; i < 16; i++)
 					{
-						if (isCliff(rot(3, dir)) && isCliff(rot(1, dir)) && isCliff(rot(5, dir)))
-						{
-							divisionsNext[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-							divisionsNext[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-							divisionsNext[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-							divisionsNext[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-
-							divisionsNext[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
-							divisionsNext[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
-							divisionsNext[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::Backslash_Upper, dir);
-							divisionsNext[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
-
-							divisionsNext[rot_16(0 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
-							divisionsNext[rot_16(1 + 4 * 2, dir)] = rotDiv(DivisionDirection::Filled, dir);
-							divisionsNext[rot_16(2 + 4 * 2, dir)] = rotDiv(DivisionDirection::Filled, dir);
-							divisionsNext[rot_16(3 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
-						}
-					}
-
-					// 3
-					for (int32_t dir = 0; dir < 4; dir++)
-					{
-						if (!isCliff(rot(3, dir)) && isCliff(rot(0, dir)) && !isCliff(rot(1, dir)))
-						{
-							divisionsNext[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
-						}
-					}
-
-					// 3
-					for (int32_t dir = 0; dir < 4; dir++)
-					{
-						if (!isCliff(rot(3, dir)) && !isCliff(rot(0, dir)) && !isCliff(rot(1, dir)))
-						{
-							divisionsNext[0 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
-							divisionsNext[1 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
-							divisionsNext[2 + 4 * 0] = rotDiv(DivisionDirection::Slash_Lower, dir);
-
-							divisionsNext[0 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
-							divisionsNext[1 + 4 * 1] = rotDiv(DivisionDirection::Slash_Lower, dir);
-
-							divisionsNext[0 + 4 * 2] = rotDiv(DivisionDirection::Slash_Lower, dir);
-						}
-					}
-
-					for (int32_t dir = 0; dir < 4; dir++)
-					{
-						if (isCliff(rot(0, dir)) && isCliff(rot(1, dir)) && isCliff(rot(2, dir)) && !isCliff(rot(3, dir)) && !isCliff(rot(5, dir)))
-						{
-							divisionsNext[0 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
-							divisionsNext[1 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
-							divisionsNext[2 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
-							divisionsNext[3 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
-
-							if (isInclinedPlane(rot(3, dir)) && !isInclinedPlane(rot(5, dir)))
-							{
-							}
-							else if (!isInclinedPlane(rot(3, dir)) && isInclinedPlane(rot(5, dir)))
-							{
-								divisionsNext[0 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-								divisionsNext[1 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-								//divisionsNext[2 + 4 * 1] = DivisionDirection::None;
-								//divisionsNext[3 + 4 * 1] = DivisionDirection::None;
-							}
-							else if (isInclinedPlane(rot(3, dir)) && !isInclinedPlane(rot(5, dir)))
-							{
-								divisionsNext[0 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
-								divisionsNext[1 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
-								divisionsNext[2 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-								divisionsNext[3 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-							}
-							else if (isInclinedPlane(rot(3, dir)) && isInclinedPlane(rot(5, dir)))
-							{
-								divisionsNext[0 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-								divisionsNext[1 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-								divisionsNext[2 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-								divisionsNext[3 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-							}
-						}
+						divisionsNext[i] = DivisionDirection::Filled;
 					}
 				}
 
@@ -489,7 +536,7 @@ namespace ace
 					{
 						lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 0) * 5, (x + 0) + (y + 1) * 5));
 					}
-					else if (d == DivisionDirection::Backslash_Lower)
+					else if (d == DivisionDirection::Slash_Lower)
 					{
 						lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 1) * 5, (x + 1) + (y + 0) * 5));
 					}
@@ -533,17 +580,21 @@ namespace ace
 				// 上の層と比較する
 				// 広がった部分が面
 				std::vector<Face> tempFaces;
+				std::vector<std::pair<int32_t, int32_t>> squareFaces;
+				std::vector<std::pair<int32_t, int32_t>> hSquareFaces;
+
 				for (int32_t i = 0; i < 16; i++)
 				{
 					auto x = i % 4;
 					auto y = i / 4;
 
 					if (divisionsNext[i] == DivisionDirection::None) continue;
-				
+					if (divisions[i] == divisionsNext[i]) continue;
+
 					if (divisions[i] == DivisionDirection::None && divisionsNext[i] != DivisionDirection::None)
 					{
 						// 面追加
-						if (divisionsNext[i] != DivisionDirection::Backslash_Lower)
+						if (divisionsNext[i] == DivisionDirection::Backslash_Lower)
 						{
 							Face f;
 							f.Index1 = (x + 0) + (y + 0) * 5;
@@ -552,7 +603,7 @@ namespace ace
 							tempFaces.push_back(f);
 						}
 
-						if (divisionsNext[i] != DivisionDirection::Backslash_Upper)
+						if (divisionsNext[i] == DivisionDirection::Backslash_Upper)
 						{
 							Face f;
 							f.Index1 = (x + 0) + (y + 0) * 5;
@@ -561,7 +612,7 @@ namespace ace
 							tempFaces.push_back(f);
 						}
 
-						if (divisionsNext[i] != DivisionDirection::Slash_Lower)
+						if (divisionsNext[i] == DivisionDirection::Slash_Lower)
 						{
 							Face f;
 							f.Index1 = (x + 1) + (y + 0) * 5;
@@ -570,7 +621,7 @@ namespace ace
 							tempFaces.push_back(f);
 						}
 
-						if (divisionsNext[i] != DivisionDirection::Slash_Upper)
+						if (divisionsNext[i] == DivisionDirection::Slash_Upper)
 						{
 							Face f;
 							f.Index1 = (x + 0) + (y + 0) * 5;
@@ -579,18 +630,17 @@ namespace ace
 							tempFaces.push_back(f);
 						}
 
-						if (divisionsNext[i] != DivisionDirection::Filled)
+						if (divisionsNext[i] == DivisionDirection::Filled)
 						{
-
+							squareFaces.push_back(std::pair<int32_t, int32_t>(x, y));
 						}
 
-						if (divisionsNext[i] != DivisionDirection::FilledHalf)
+						if (divisionsNext[i] == DivisionDirection::FilledHalf)
 						{
-
+							hSquareFaces.push_back(std::pair<int32_t, int32_t>(x, y));
 						}
 					}
-
-					if (divisions[i] == DivisionDirection::Slash_Lower && divisionsNext[i] == DivisionDirection::Filled)
+					else if (divisions[i] == DivisionDirection::Slash_Lower && divisionsNext[i] == DivisionDirection::Filled)
 					{
 						Face f;
 						f.Index1 = (x + 0) + (y + 0) * 5;
@@ -598,8 +648,7 @@ namespace ace
 						f.Index3 = (x + 0) + (y + 1) * 5;
 						tempFaces.push_back(f);
 					}
-
-					if (divisions[i] == DivisionDirection::Slash_Upper && divisionsNext[i] == DivisionDirection::Filled)
+					else if (divisions[i] == DivisionDirection::Slash_Upper && divisionsNext[i] == DivisionDirection::Filled)
 					{
 						Face f;
 						f.Index1 = (x + 1) + (y + 0) * 5;
@@ -607,8 +656,7 @@ namespace ace
 						f.Index3 = (x + 0) + (y + 1) * 5;
 						tempFaces.push_back(f);
 					}
-
-					if (divisions[i] == DivisionDirection::Backslash_Lower && divisionsNext[i] == DivisionDirection::Filled)
+					else if (divisions[i] == DivisionDirection::Backslash_Lower && divisionsNext[i] == DivisionDirection::Filled)
 					{
 						Face f;
 						f.Index1 = (x + 0) + (y + 0) * 5;
@@ -616,8 +664,7 @@ namespace ace
 						f.Index3 = (x + 1) + (y + 1) * 5;
 						tempFaces.push_back(f);
 					}
-
-					if (divisions[i] == DivisionDirection::Backslash_Upper && divisionsNext[i] == DivisionDirection::Filled)
+					else if (divisions[i] == DivisionDirection::Backslash_Upper && divisionsNext[i] == DivisionDirection::Filled)
 					{
 						Face f;
 						f.Index1 = (x + 0) + (y + 0) * 5;
@@ -629,9 +676,105 @@ namespace ace
 
 				// 面追加
 
+				auto v00_ = v00;
+				auto v10_ = v10;
+				auto v01_ = v01;
+				auto v11_ = v11;
+
+				v00_.Y += h * gridSize / 2.0f;
+				v10_.Y += h * gridSize / 2.0f;
+				v01_.Y += h * gridSize / 2.0f;
+				v11_.Y += h * gridSize / 2.0f;
+
 				for (auto& f : tempFaces)
 				{
 
+
+					if (indexesNext[f.Index1] == -1)
+					{
+						auto x = f.Index1 % 5;
+						auto y = f.Index1 / 5;
+
+						auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
+						auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
+						auto v = (v1 - v0) * (x / 4.0f) + v0;
+						chip.Vertecies.push_back(v);
+						indexesNext[f.Index1] = chip.Vertecies.size() - 1;
+					}
+
+					if (indexesNext[f.Index2] == -1)
+					{
+						auto x = f.Index2 % 5;
+						auto y = f.Index2 / 5;
+
+						auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
+						auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
+						auto v = (v1 - v0) * (x / 4.0f) + v0;
+						chip.Vertecies.push_back(v);
+						indexesNext[f.Index2] = chip.Vertecies.size() - 1;
+					}
+
+					if (indexesNext[f.Index3] == -1)
+					{
+						auto x = f.Index3 % 5;
+						auto y = f.Index3 / 5;
+
+						auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
+						auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
+						auto v = (v1 - v0) * (x / 4.0f) + v0;
+						chip.Vertecies.push_back(v);
+						indexesNext[f.Index3] = chip.Vertecies.size() - 1;
+					}
+				}
+
+				for (auto& sf : squareFaces)
+				{
+					auto x = sf.first;
+					auto y = sf.second;
+
+					int32_t indexes[4];
+					indexes[0] = (x + 0) + (y + 0) * 5;
+					indexes[1] = (x + 1) + (y + 0) * 5;
+					indexes[2] = (x + 0) + (y + 1) * 5;
+					indexes[3] = (x + 1) + (y + 1) * 5;
+
+					for (int32_t i = 0; i < 4; i++)
+					{
+						if (indexesNext[indexes[i]] == -1)
+						{
+							auto x = indexes[i] % 5;
+							auto y = indexes[i] / 5;
+
+							auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
+							auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
+							auto v = (v1 - v0) * (x / 4.0f) + v0;
+							chip.Vertecies.push_back(v);
+							indexesNext[indexes[i]] = chip.Vertecies.size() - 1;
+						}
+					}
+
+					ChipFace f1;
+					f1.Indexes[0] = indexesNext[indexes[0]];
+					f1.Indexes[1] = indexesNext[indexes[1]];
+					f1.Indexes[2] = indexesNext[indexes[3]];
+
+					ChipFace f2;
+					f2.Indexes[0] = indexesNext[indexes[0]];
+					f2.Indexes[1] = indexesNext[indexes[3]];
+					f2.Indexes[2] = indexesNext[indexes[2]];
+
+					chip.Faces.push_back(f1);
+					chip.Faces.push_back(f2);
+				}
+
+				for (auto& f : tempFaces)
+				{
+					ChipFace f_;
+					f_.Indexes[0] = indexesNext[f.Index1];
+					f_.Indexes[1] = indexesNext[f.Index2];
+					f_.Indexes[2] = indexesNext[f.Index3];
+
+					chip.Faces.push_back(f_);
 				}
 
 				indexes = indexesNext;
@@ -683,9 +826,9 @@ namespace ace
 		auto cx_max = Clamp(chip_x + chip_width + 1, gridWidthCount - 1, 0);
 		auto cy_max = Clamp(chip_y + chip_height + 1, gridHeightCount - 1, 0);
 
-		for (size_t y = cy_min; y < cy_max; y++)
+		for (size_t y = cy_min; y <= cy_max; y++)
 		{
-			for (size_t x = cx_min; x < cx_max; x++)
+			for (size_t x = cx_min; x <= cx_max; x++)
 			{
 				auto indexOffset = chipVertices.size();
 

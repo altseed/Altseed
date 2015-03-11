@@ -71,6 +71,15 @@ namespace ace
 		virtual void RaiseWithCircle(float x, float y, float radius, float value, float fallout) = 0;
 
 		/**
+		@brief	円形に崖の生成を伴う地形の上下をさせる。
+		@param	x	円形の中心座標
+		@param	y	円形の中心座標
+		@param	radius	円形の半径
+		@param	value	値
+		*/
+		virtual void ChangeCliffesWithCircle(float x, float y, float radius, int32_t value) = 0;
+
+		/**
 		@brief	光線を飛ばし、衝突した位置を取得する。
 		@param	from	光線を飛ばす元の位置
 		@param	to		光線を飛ばす先の位置

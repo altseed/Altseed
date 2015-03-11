@@ -199,7 +199,7 @@ namespace ace
 
 		void RaiseWithCircle(float x, float y, float radius, float value, float fallout) override;
 
-		void ChangeCliffesWithCircle(float x, float y, float radius, int32_t value);
+		void ChangeCliffesWithCircle(float x, float y, float radius, int32_t value) override;
 
 		Vector3DF CastRay(const Vector3DF& from, const Vector3DF& to) override;
 
