@@ -14,12 +14,10 @@
 
 **最新版 2015/03/02**
 
-[Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)
-
-[導入方法(C++版、Windows)](./HowToIntroduce/Windows_CPP.md)
-[導入方法(C#版、Windows)](./HowToIntroduce/Windows_CS.md)
-
-* Mac,Linuxの場合、現在、自分でソースコードからコンパイルする必要があります。
+* [Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)
+* [導入方法(C++版、Windows)](./HowToIntroduce/Windows_CPP.md)
+* [導入方法(C#版、Windows)](./HowToIntroduce/Windows_CS.md)
+* Mac、Linuxの場合、自分でソースコードからコンパイルする必要があります。
 
 #### 資料
 
@@ -33,5 +31,7 @@
 
 ### コミッター向け
 
-記述中
-
+* [コンパイル手順](HowToCompile/HowToCompile.md)
+* [ロードマップ・現在のタスク](Development/Task.md)
+* [コーディング規約](Development/CodingRule.md)
+* [コメント規約](Development/CommentRule.md)

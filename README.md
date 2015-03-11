@@ -27,4 +27,4 @@
 
 
 ### 他
-Java版のswigファイルにはjirrlicht(https://code.google.com/p/jirrlicht/)のコードを一部使用しています。
+Java版のswigファイルには[jirrlicht](https://code.google.com/p/jirrlicht/)のコードを一部使用しています。
