@@ -13,7 +13,7 @@ namespace ace{
 		virtual ~JoystickContainer_Imp();
 		void RefreshJoysticks();
 		static JoystickContainer_Imp* Create();
-		const bool GetIsPresentAt(int at) override;
-		Joystick* GetJoystickAt(int at);
+		bool GetIsPresentAt(int at) override;
+		Joystick* GetJoystickAt(int at) override;
 	};
 };

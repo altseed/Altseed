@@ -8,10 +8,10 @@ namespace ace{
 	{
 	public:
 		static Mouse_Imp* Create(Window_Imp* window_Imp);
-		const SideButton* GetLeftButton() const;
-		const SideButton* GetRightButton() const;
-		const MiddleButton* GetMiddleButton() const;
-		const Vector2DF GetPosition() const;
+		SideButton* GetLeftButton() const override;
+		SideButton* GetRightButton() const override;
+		MiddleButton* GetMiddleButton() const override;
+		Vector2DF GetPosition() const override;
 		void RefreshInputState();
 	private:
 		Mouse_Imp(Window_Imp* window_Imp);

@@ -6,7 +6,7 @@ namespace ace{
 		m_mouseButtonState = mouseButtonState;
 	}
 
-	const MouseButtonState SideButton::GetButtonState() const
+	MouseButtonState SideButton::GetButtonState() const
 	{
 		return m_mouseButtonState;
 	}

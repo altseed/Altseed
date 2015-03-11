@@ -8,16 +8,16 @@ namespace ace{
 	class Mouse
 	{
 	public:
-		virtual const SideButton* GetLeftButton() const = 0;
+		virtual SideButton* GetLeftButton() const = 0;
 
 
-		virtual const SideButton* GetRightButton() const = 0;
+		virtual SideButton* GetRightButton() const = 0;
 
 
-		virtual const MiddleButton* GetMiddleButton() const = 0;
+		virtual MiddleButton* GetMiddleButton() const = 0;
 
 
-		virtual const Vector2DF GetPosition() const = 0;
+		virtual Vector2DF GetPosition() const = 0;
 
 	};
 };

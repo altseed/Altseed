@@ -47,7 +47,7 @@ namespace ace{
 		for (int i = 0; i < m_buttonsCount; ++i)
 		{
 			m_preButtonHit[i] = m_currentButtonHit[i];
-			m_currentButtonHit[i] = btns[i];
+			m_currentButtonHit[i] = (bool)btns[i];
 		}
 	}
 
@@ -59,19 +59,19 @@ namespace ace{
 	}
 
 
-	const int Joystick_Imp::GetButtonsCount()
+	int Joystick_Imp::GetButtonsCount()
 	{
 		return m_buttonsCount;
 	}
 
 
-	const int Joystick_Imp::GetAxesCount()
+	int Joystick_Imp::GetAxesCount()
 	{
 		return m_axesCount;
 	}
 
 
-	const JoystickButtonState Joystick_Imp::GetButtonState(int at)
+	JoystickButtonState Joystick_Imp::GetButtonState(int at)
 	{
 		if (m_currentButtonHit[at] && m_preButtonHit[at]) return JoystickButtonState::Hold;
 		else if (m_currentButtonHit[at] && !m_preButtonHit[at]) return JoystickButtonState::Push;
@@ -80,7 +80,7 @@ namespace ace{
 	}
 
 
-	const float Joystick_Imp::GetAxisState(int at)
+	float Joystick_Imp::GetAxisState(int at)
 	{
 		return m_currentButtonHit[at];
 	}
