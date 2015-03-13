@@ -22,6 +22,71 @@ namespace ace
 		Backslash_Lower,
 	};
 
+	static std::vector<std::pair<int32_t, int32_t>> ExtractLines(std::array<DivisionDirection, 16>& divisions)
+	{
+		std::vector<std::pair<int32_t, int32_t>> lines;
+
+		for (int32_t i = 0; i < 16; i++)
+		{
+			auto x = i % 4;
+			auto y = i / 4;
+
+			auto d = divisions[i];
+			if (d == DivisionDirection::None) continue;
+			if (d == DivisionDirection::Backslash_Lower)
+			{
+				lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 1) * 5, (x + 0) + (y + 0) * 5));
+			}
+			else if (d == DivisionDirection::Backslash_Upper)
+			{
+				lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 0) * 5, (x + 1) + (y + 1) * 5));
+			}
+			else if (d == DivisionDirection::Slash_Lower)
+			{
+				lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 0) * 5, (x + 0) + (y + 1) * 5));
+			}
+			else if (d == DivisionDirection::Slash_Upper)
+			{
+				lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 1) * 5, (x + 1) + (y + 0) * 5));
+			}
+			else if (d == DivisionDirection::Filled)
+			{
+				
+				auto isNone = [&divisions](int32_t x_, int32_t y_) -> bool
+				{
+					if (x_ < 0) return false;
+					if (x_ >= 4) return false;
+					if (y_ < 0) return false;
+					if (y_ >= 4) return false;
+					return divisions[x_ + y_ * 4] == DivisionDirection::None;
+				};
+
+				if (isNone(x - 1, y))
+				{
+					lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 0) * 5, (x + 0) + (y + 1) * 5));
+				}
+
+				if (isNone(x + 1, y))
+				{
+					lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 1) * 5, (x + 1) + (y + 0) * 5));
+				}
+
+				if (isNone(x, y - 1))
+				{
+					lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 0) * 5, (x + 0) + (y + 0) * 5));
+				}
+
+				if (isNone(x, y + 1))
+				{
+					lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 1) * 5, (x + 1) + (y + 1) * 5));
+				}
+				
+			}
+		}
+
+		return lines;
+	}
+
 	static void CalculateDivisionState(std::array<DivisionDirection, 16>& dst, bool isCliffes[9], bool isInclinedPlanes[9])
 	{
 		auto rot = [](int32_t ind, int32_t angle) -> int32_t
@@ -77,11 +142,11 @@ namespace ace
 				}
 				else if (d == DivisionDirection::Slash_Lower)
 				{
-					d = DivisionDirection::Backslash_Upper;
+					d = DivisionDirection::Backslash_Lower;
 				}
 				else if (d == DivisionDirection::Slash_Upper)
 				{
-					d = DivisionDirection::Backslash_Lower;
+					d = DivisionDirection::Backslash_Upper;
 				}
 			}
 
@@ -100,7 +165,7 @@ namespace ace
 		}
 		else if (isCliffes[1] && isCliffes[3] && isCliffes[6] && isCliffes[8])
 		{
-			// 特殊
+			// 十字方向のうち4方向が崖
 			dst[0 + 4 * 0] = DivisionDirection::None;
 			dst[1 + 4 * 0] = DivisionDirection::None;
 			dst[2 + 4 * 0] = DivisionDirection::None;
@@ -120,10 +185,17 @@ namespace ace
 			dst[1 + 4 * 3] = DivisionDirection::None;
 			dst[2 + 4 * 3] = DivisionDirection::None;
 			dst[3 + 4 * 3] = DivisionDirection::None;
+
+			goto Exit;
 		}
 		else
 		{
-			// 3
+			for (int32_t i = 0; i < 16; i++)
+			{
+				dst[i] = DivisionDirection::Filled;
+			}
+
+			// 十字方向のうち3方向が崖
 			for (int32_t dir = 0; dir < 4; dir++)
 			{
 				if (isCliffes[rot(3, dir)] && isCliffes[rot(1, dir)] && isCliffes[rot(5, dir)])
@@ -142,10 +214,16 @@ namespace ace
 					dst[rot_16(1 + 4 * 2, dir)] = rotDiv(DivisionDirection::Filled, dir);
 					dst[rot_16(2 + 4 * 2, dir)] = rotDiv(DivisionDirection::Filled, dir);
 					dst[rot_16(3 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
+
+					dst[rot_16(0 + 4 * 3, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(1 + 4 * 3, dir)] = rotDiv(DivisionDirection::Filled, dir);
+					dst[rot_16(2 + 4 * 3, dir)] = rotDiv(DivisionDirection::Filled, dir);
+					dst[rot_16(3 + 4 * 3, dir)] = rotDiv(DivisionDirection::None, dir);
+					goto Exit;
 				}
 			}
 
-			// 3
+			// 十字方向の2方向が崖でなく、斜め方向が崖
 			for (int32_t dir = 0; dir < 4; dir++)
 			{
 				if (!isCliffes[rot(3, dir)] && isCliffes[rot(0, dir)] && !isCliffes[rot(1, dir)])
@@ -154,58 +232,67 @@ namespace ace
 				}
 			}
 
-			// 3
+			// 十字方向の2方向と斜め方向が崖
 			for (int32_t dir = 0; dir < 4; dir++)
 			{
-				if (!isCliffes[rot(3, dir)] && !isCliffes[rot(0, dir)] && !isCliffes[rot(1, dir)])
+				if (isCliffes[rot(3, dir)] &&isCliffes[rot(0, dir)] && isCliffes[rot(1, dir)])
 				{
-					dst[0 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
-					dst[1 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
-					dst[2 + 4 * 0] = rotDiv(DivisionDirection::Slash_Lower, dir);
+					dst[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
 
-					dst[0 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
-					dst[1 + 4 * 1] = rotDiv(DivisionDirection::Slash_Lower, dir);
+					dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
 
-					dst[0 + 4 * 2] = rotDiv(DivisionDirection::Slash_Lower, dir);
+					dst[rot_16(0 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(1 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(2 + 4 * 2, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
+
+					dst[rot_16(0 + 4 * 3, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(1 + 4 * 3, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
 				}
 			}
 
 			for (int32_t dir = 0; dir < 4; dir++)
 			{
-				if (isCliffes[rot(0, dir)] && isCliffes[rot(1, dir)] && isCliffes[rot(2, dir)] && !isCliffes[rot(3, dir)] && !isCliffes[rot(5, dir)])
+				if (/*isCliffes[rot(0, dir)] &&*/ isCliffes[rot(1, dir)] && /*isCliffes[rot(2, dir)] &&*/ !isCliffes[rot(3, dir)] && !isCliffes[rot(5, dir)])
 				{
-					dst[0 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
-					dst[1 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
-					dst[2 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
-					dst[3 + 4 * 0] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
 
 					if (isInclinedPlanes[rot(3, dir)] && !isInclinedPlanes[rot(5, dir)])
 					{
 					}
 					else if (!isInclinedPlanes[rot(3, dir)] && isInclinedPlanes[rot(5, dir)])
 					{
-						dst[0 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-						dst[1 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
 						//divisionsNext[2 + 4 * 1] = DivisionDirection::None;
 						//divisionsNext[3 + 4 * 1] = DivisionDirection::None;
 					}
 					else if (isInclinedPlanes[rot(3, dir)] && !isInclinedPlanes[rot(5, dir)])
 					{
-						dst[0 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
-						dst[1 + 4 * 1] = rotDiv(DivisionDirection::None, dir);
-						dst[2 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-						dst[3 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+						dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+						dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
 					}
 					else if (isInclinedPlanes[rot(3, dir)] && isInclinedPlanes[rot(5, dir)])
 					{
-						dst[0 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-						dst[1 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-						dst[2 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
-						dst[3 + 4 * 1] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
+						dst[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
 					}
 				}
 			}
 		}
+	Exit:;
 	}
 
 	Terrain3D_Imp::Chip::Chip()
@@ -454,15 +541,19 @@ namespace ace
 				}
 			}
 
+			maxclh = Min(maxclh, clsh[1 + 1 * 3]);
+
 			std::array<DivisionDirection, 16> divisions;
 			divisions.fill(DivisionDirection::None);
 			std::array<int32_t, 5*5> indexes;
 			indexes.fill(-1);
+			std::vector<std::pair<int32_t, int32_t>> lines;
 
 			std::array<DivisionDirection, 16> divisionsNext;
 			divisionsNext.fill(DivisionDirection::None);
 			std::array<int32_t, 5 * 5> indexesNext;
 			indexesNext.fill(-1);
+			std::vector<std::pair<int32_t, int32_t>> linesNext;
 
 			for (int32_t h = maxclh; h >= minclh; h--)
 			{
@@ -495,9 +586,31 @@ namespace ace
 				divisionsNext.fill(DivisionDirection::Filled);
 				indexesNext.fill(-1);
 
-				// 領域ごとの状態を計算する。
-				CalculateDivisionState(divisionsNext, isCliffes, isInclinedPlanes);
+				// このレイヤーに面があるか探索する
+				bool isThisLayerExists = false;
+				for (int32_t oy = 0; oy < 3; oy++)
+				{
+					for (int32_t ox = 0; ox < 3; ox++)
+					{
+						if (clsh[ox + oy * 3] == h)
+						{
+							isThisLayerExists = true;
+							break;
+						}
+					}
+				}
 
+
+				// 領域ごとの状態を計算する。
+				if (isThisLayerExists)
+				{
+					CalculateDivisionState(divisionsNext, isCliffes, isInclinedPlanes);
+				}
+				else
+				{
+					divisionsNext.fill(DivisionDirection::None);
+				}
+				
 				// 上の層の影響を下に与える。
 				for (int32_t i = 0; i < 16; i++)
 				{
@@ -518,64 +631,8 @@ namespace ace
 
 				// 抽出した領域から面を形成する。
 
-				// まず輪郭を抽出する。
-				std::vector<std::pair<int32_t, int32_t>> lines;
-
-				for (int32_t i = 0; i < 16; i++)
-				{
-					auto x = i % 4;
-					auto y = i / 4;
-
-					auto d = divisionsNext[i];
-					if (d == DivisionDirection::None) continue;
-					if (d == DivisionDirection::Backslash_Lower)
-					{
-						lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 0) * 5, (x + 0) + (y + 1) * 5));
-					}
-					else if (d == DivisionDirection::Backslash_Upper)
-					{
-						lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 0) * 5, (x + 0) + (y + 1) * 5));
-					}
-					else if (d == DivisionDirection::Slash_Lower)
-					{
-						lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 1) * 5, (x + 1) + (y + 0) * 5));
-					}
-					else if (d == DivisionDirection::Slash_Upper)
-					{
-						lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 1) * 5, (x + 1) + (y + 0) * 5));
-					}
-					else if (d == DivisionDirection::Filled)
-					{
-						auto isNone = [&divisions](int32_t x_, int32_t y_) -> bool
-						{
-							if (x_ < 0) return true;
-							if (x_ >= 4) return true;
-							if (y_ < 0) return true;
-							if (y_ >= 4) return true;
-							return divisions[x_ + y_ * 4] == DivisionDirection::None;
-						};
-
-						if (isNone(x - 1, y)) 
-						{
-							lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 0) * 5, (x + 0) + (y + 1) * 5));
-						}
-
-						if (isNone(x + 1, y))
-						{
-							lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 0) * 5, (x + 1) + (y + 1) * 5));
-						}
-
-						if (isNone(x, y - 1))
-						{
-							lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y - 1) * 5, (x + 1) + (y - 1) * 5));
-						}
-
-						if (isNone(x, y + 1))
-						{
-							lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 1) * 5, (x + 1) + (y + 1) * 5));
-						}
-					}
-				}
+				// 輪郭を抽出する。
+				linesNext = ExtractLines(divisionsNext);
 
 				// 上の層と比較する
 				// 広がった部分が面
@@ -688,8 +745,6 @@ namespace ace
 
 				for (auto& f : tempFaces)
 				{
-
-
 					if (indexesNext[f.Index1] == -1)
 					{
 						auto x = f.Index1 % 5;
@@ -777,8 +832,58 @@ namespace ace
 					chip.Faces.push_back(f_);
 				}
 
+				// 側面形成
+				for (auto& line : lines)
+				{
+					if (indexesNext[line.first] == -1)
+					{
+						auto x = line.first % 5;
+						auto y = line.first / 5;
+
+						auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
+						auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
+						auto v = (v1 - v0) * (x / 4.0f) + v0;
+						chip.Vertecies.push_back(v);
+						indexesNext[line.first] = chip.Vertecies.size() - 1;
+					}
+					
+					if (indexesNext[line.second] == -1)
+					{
+						auto x = line.second % 5;
+						auto y = line.second / 5;
+
+						auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
+						auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
+						auto v = (v1 - v0) * (x / 4.0f) + v0;
+						chip.Vertecies.push_back(v);
+						indexesNext[line.second] = chip.Vertecies.size() - 1;
+					}
+				}
+
+				for (auto& line : lines)
+				{
+					if (indexes[line.first] == -1) continue;
+					if (indexes[line.second] == -1) continue;
+					if (indexesNext[line.first] == -1) continue;
+					if (indexesNext[line.second] == -1) continue;
+
+					ChipFace f1;
+					f1.Indexes[0] = indexes[line.first];
+					f1.Indexes[1] = indexes[line.second];
+					f1.Indexes[2] = indexesNext[line.second];
+
+					ChipFace f2;
+					f2.Indexes[0] = indexes[line.first];
+					f2.Indexes[1] = indexesNext[line.second];
+					f2.Indexes[2] = indexesNext[line.first];
+
+					chip.Faces.push_back(f1);
+					chip.Faces.push_back(f2);
+				}
+
 				indexes = indexesNext;
 				divisions = divisionsNext;
+				lines = linesNext;
 			}
 		}
 
@@ -795,11 +900,22 @@ namespace ace
 
 			face.Normal = normal;
 
-			auto tangent = Vector3DF::Cross(normal, Vector3DF(0, 0, 1));
-			tangent.Normalize();
+			if (abs(Vector3DF::Dot(normal, Vector3DF(0, 0, 1))) < 0.9f)
+			{
+				auto tangent = Vector3DF::Cross(normal, Vector3DF(0, 0, 1));
+				tangent.Normalize();
 
-			face.Binormal = Vector3DF::Cross(tangent, normal);
-			face.Binormal.Normalize();
+				face.Binormal = Vector3DF::Cross(tangent, normal);
+				face.Binormal.Normalize();
+			}
+			else
+			{
+				auto binormal = Vector3DF::Cross(Vector3DF(1, 0, 0), normal);
+				binormal.Normalize();
+
+				face.Binormal = binormal;
+			}
+			
 		}
 	}
 
