@@ -139,6 +139,11 @@ namespace ace
 		object->SetLayer(nullptr);
 	}
 
+	const list<Object2D::Ptr>& Layer2D::GetObjects() const
+	{
+		return m_objects.GetContents();
+	}
+
 	void Layer2D::Clear()
 	{
 		for (auto object : m_objects.GetContents())

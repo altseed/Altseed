@@ -17,7 +17,7 @@ namespace ace
 		friend class ContentsManager < Object3D > ;
 
 	public:
-		typedef std::shared_ptr<Object3D> Object3DPtr;
+		typedef std::shared_ptr<Object3D> Ptr;
 
 	private:
 

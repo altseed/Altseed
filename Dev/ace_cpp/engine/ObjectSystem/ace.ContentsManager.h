@@ -24,7 +24,7 @@ namespace ace
 		{
 		}
 
-		const std::list<ContentPtr>& GetContents()
+		const std::list<ContentPtr>& GetContents() const
 		{
 			return m_contents;
 		}

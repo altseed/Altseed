@@ -102,7 +102,7 @@ namespace ace
 		m_coreLayer->SetRenderSettings(settings);
 	}
 
-	void Layer3D::AddObject(const ObjectPtr& object)
+	void Layer3D::AddObject(const Object3D::Ptr& object)
 	{
 		if (object->GetLayer() != nullptr)
 		{
@@ -115,11 +115,16 @@ namespace ace
 		object->Start();
 	}
 
-	void Layer3D::RemoveObject(const ObjectPtr& object)
+	void Layer3D::RemoveObject(const Object3D::Ptr& object)
 	{
 		m_objects.Remove(object);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 		object->SetLayer(nullptr);
+	}
+
+	const std::list<Object3D::Ptr>& Layer3D::GetObjects() const
+	{
+		return m_objects.GetContents();
 	}
 
 	void Layer3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
