@@ -32,7 +32,7 @@ struct VS_Output
 
 	float4 Position			: POSITION0;
 	float4 Color			: Color0;
-	half2 UV				: TEXCOORD0;
+	half2 UV				: UV0;
 	half2 UVSub				: UVSub0;
 	half3 Normal			: NORMAL0;
 };

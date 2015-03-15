@@ -69,10 +69,15 @@ float4x4 getMatrix(uint animationIndex, uint boneIndex, float time)
 
 float4x4 calcMatrix(uint animationIndex, float time, float4 weights, uint4 indexes)
 {
+	// 何故か4つ参照するとRadeonで動作が不安定になる(15/03/15)
+	/*
 	return getMatrix(animationIndex, indexes.x, time) * weights.x +
 	getMatrix(animationIndex, indexes.y, time) * weights.y +
 	getMatrix(animationIndex, indexes.z, time) * weights.z +
 	getMatrix(animationIndex, indexes.w, time) * weights.w;
+	*/
+	return getMatrix(animationIndex, indexes.x, time) * weights.x +
+	getMatrix(animationIndex, indexes.y, time) * weights.y;
 }
 
 float3x3 convert44to33(float4x4 mat)

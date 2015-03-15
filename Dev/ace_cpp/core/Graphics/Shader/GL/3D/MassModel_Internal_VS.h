@@ -59,10 +59,14 @@ mat4 getMatrix(int animationIndex, int boneIndex, float time)
 
 mat4 calcMatrix(int animationIndex, float time, vec4 weights, vec4 indexes)
 {
+	/*
 	return getMatrix(int(animationIndex), int(indexes.x), time) * weights.x +
 	getMatrix(int(animationIndex), int(indexes.y), time) * weights.y +
 	getMatrix(int(animationIndex), int(indexes.z), time) * weights.z +
 	getMatrix(int(animationIndex), int(indexes.w), time) * weights.w;
+	*/
+	return getMatrix(int(animationIndex), int(indexes.x), time) * weights.x +
+	getMatrix(int(animationIndex), int(indexes.y), time) * weights.y;
 }
 
 mat3 convert44to33(mat4 mat)

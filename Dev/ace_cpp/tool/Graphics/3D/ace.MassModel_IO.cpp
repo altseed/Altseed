@@ -4,6 +4,12 @@
 
 namespace ace
 {
+	static struct WeightIndex
+	{
+		uint8_t	Weight;
+		uint8_t	Index;
+	};
+
 	bool MassModel_IO::Convert(Model_IO& model)
 	{
 		Reset();
@@ -15,9 +21,38 @@ namespace ace
 		auto& mesh = model.Meshes[0].DividedMeshes[0];
 		auto& deformer = model.Deformer_;
 
+		std::array<WeightIndex, 4> wis;
+
 		for (auto& v : mesh.Vertices)
 		{
 			Vertex v_;
+
+			uint8_t* weights = (uint8_t*) v.BoneWeights;
+			uint8_t* indexes = (uint8_t*) v.BoneIndexes;
+
+			for (int32_t i = 0; i < 4; i++)
+			{
+				wis[i].Weight = weights[i];
+				wis[i].Index = indexes[i];
+			}
+
+			std::sort(wis.begin(), wis.end(), 
+				[](const WeightIndex&left, const WeightIndex& right){
+				return left.Weight > right.Weight;
+			});
+
+			for (int32_t i = 0; i < 4; i++)
+			{
+				weights[i] = wis[i].Weight;
+				indexes[i] = wis[i].Index;
+			}
+
+			float restWeights = weights[2] + weights[3];
+			weights[0] += (restWeights / 2.0f);
+			weights[1] += (restWeights / 2.0f);
+			weights[2] = 0;
+			weights[3] = 0;
+
 			v_.Position = v.Position;
 			v_.Normal = v.Normal;
 			v_.Binormal = v.Binormal;
