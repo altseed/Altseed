@@ -13,6 +13,7 @@ namespace ace
 		std::list<ContentPtr> m_contents;
 		std::list<ContentPtr> m_beAdded;
 		std::list<ContentPtr> m_beRemoved;
+		std::list<ContentPtr> beVanished;
 		bool m_isUpdating;
 
 	public:
@@ -27,6 +28,11 @@ namespace ace
 		const std::list<ContentPtr>& GetContents() const
 		{
 			return m_contents;
+		}
+
+		std::list<ContentPtr>& GetVanishingContents()
+		{
+			return beVanished;
 		}
 
 		void Add(const ContentPtr& content)
@@ -72,7 +78,7 @@ namespace ace
 		void Update()
 		{
 			m_isUpdating = true;
-			auto beVanished = std::list<ContentPtr>();
+			
 			for (auto& c : m_contents)
 			{
 				c->Update();
@@ -82,11 +88,6 @@ namespace ace
 				}
 			}
 			m_isUpdating = false;
-
-			for (auto& c : beVanished)
-			{
-				m_contents.remove(c);
-			}
 
 			for (auto& c : m_beAdded)
 			{

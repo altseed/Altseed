@@ -33,6 +33,11 @@ namespace ace
 
 		m_objects.Update();
 
+		for (auto& vanishing : m_objects.GetVanishingContents())
+		{
+			RemoveObject(vanishing);
+		}
+		m_objects.GetVanishingContents().clear();
 		/*
 		for (auto& component : m_components)
 		{

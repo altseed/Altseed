@@ -63,6 +63,9 @@ namespace ace
 		*/
 		virtual void OnVanish();
 
+		/**
+			@brief	オーバーライドして、この3Dオブジェクトが破棄されるときの処理を記述できる。
+		*/
 		virtual void OnDispose();
 
 	public:

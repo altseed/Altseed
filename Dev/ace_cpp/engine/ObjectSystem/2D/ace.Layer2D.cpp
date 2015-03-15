@@ -42,6 +42,13 @@ namespace ace
 
 		OnUpdating();
 		m_objects.Update();
+
+		for (auto& vanishing : m_objects.GetVanishingContents())
+		{
+			RemoveObject(vanishing);
+		}
+		m_objects.GetVanishingContents().clear();
+
 		m_components.Update();
 		OnUpdated();
 	}

@@ -199,6 +199,13 @@ namespace ace
 
 			OnUpdating();
 			contentsManager.Update();
+
+			foreach (var vanishing in contentsManager.VanishingContents)
+			{
+				RemoveObject(vanishing);
+			}
+			contentsManager.VanishingContents.Clear();
+
 			componentManager.Update();
 
 			OnUpdated();

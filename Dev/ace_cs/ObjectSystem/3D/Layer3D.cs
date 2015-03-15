@@ -264,6 +264,12 @@ namespace ace
 
 			contentsManager.Update();
 
+			foreach (var vanishing in contentsManager.VanishingContents)
+			{
+				RemoveObject(vanishing);
+			}
+			contentsManager.VanishingContents.Clear();
+
 			OnUpdated();
 		}
 

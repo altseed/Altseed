@@ -11,12 +11,16 @@ namespace ace
 		LinkedList<TContent> contents_ { get; set; }
 		LinkedList<TContent> beAdded { get; set; }
 		LinkedList<TContent> beRemoved { get; set; }
+		LinkedList<TContent> beVanished = new LinkedList<TContent>();
+
 		bool isUpdating { get; set; }
 
 		public IEnumerable<TContent> Contents
 		{
 			get { return contents_; }
 		}
+
+		public LinkedList<TContent> VanishingContents { get { return beVanished; } }
 
 		public ContentsManager()
 		{
@@ -75,7 +79,7 @@ namespace ace
 		public void Update()
 		{
 			isUpdating = true;
-			var beVanished = new LinkedList<TContent>();
+			
 			foreach(var item in contents_)
 			{
 				item.Update();
@@ -85,11 +89,6 @@ namespace ace
 				}
 			}
 			isUpdating = false;
-
-			foreach(var item in beVanished)
-			{
-				contents_.Remove(item);
-			}
 
 			foreach(var item in beAdded)
 			{

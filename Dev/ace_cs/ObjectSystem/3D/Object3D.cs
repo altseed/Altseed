@@ -70,7 +70,6 @@ namespace ace
 		{
 			IsAlive = false;
 			OnVanish();
-			OnDispose();
 		}
 
 		internal void Start()
