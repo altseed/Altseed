@@ -246,3 +246,7 @@ zlib.h -- interface of the 'zlib' general purpose compression library
 
   Jean-loup Gailly        Mark Adler
   jloup@gzip.org          madler@alumni.caltech.edu
+
+--Reactive Extensions--(ツールのみ)
+Rx Eula
+https://msdn.microsoft.com/en-us/hh295787
