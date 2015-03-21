@@ -710,7 +710,7 @@ namespace ace
 		const float outerRadius = outerDiameter / 2;
 		const float innerRadius = innerDiameter / 2;
 
-		Vector2DF currentVector(1, 0);
+		Vector2DF currentVector(0, -1);
 		currentVector.SetDegree(angle - 90);
 
 		Vector2DF uvCenter = { 0.5, 0.5 };
@@ -758,25 +758,28 @@ namespace ace
 	{
 		if (vertNum < 3) return;
 
+		while (startAngle > stopAngle) stopAngle += 360;
+
 		const float radInc = 360.0 / vertNum;
 
 		const float outerRadius = outerDiameter / 2;
 		const float innerRadius = innerDiameter / 2;
 
 		Vector2DF currentVector(0, -1);
-		currentVector.SetDegree(angle - 90);
+		currentVector.SetDegree(startAngle);
 
 		Vector2DF uvCenter = { 0.5, 0.5 };
 
 		Vector2DF uvVector = { 0, -0.5 };
+		uvVector.SetDegree(startAngle);
 
-		startAngle = NormalizeAngle(startAngle);
-		stopAngle = NormalizeAngle(stopAngle);
+		float inc = stopAngle - startAngle;
 
 		int start = ceilf(startAngle / radInc);
-		int stop = floor(stopAngle / radInc);
 
-		for (int i = start; i <= stop; ++i)
+		int count = floorf(inc / radInc);
+
+		for (int i = start; i < start + count; ++i)
 		{
 			Vector2DF nextVector = currentVector;
 
