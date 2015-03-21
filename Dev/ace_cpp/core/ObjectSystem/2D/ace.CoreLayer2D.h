@@ -42,6 +42,7 @@ namespace ace
 		virtual void DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) = 0;
 
 		virtual void DrawCircleAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) = 0;
+		virtual void DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float startAngle, float stopAngle, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) = 0;
 
 #if !SWIG
 		virtual Renderer2D* GetRenderer() const = 0;
