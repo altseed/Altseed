@@ -629,4 +629,75 @@ namespace ace
 
 		m_cameras.clear();
 	}
+
+	void CoreLayer2D_Imp::DrawRectangle(RectF drawingArea, Color color, RectF uv, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	{
+		Sprite sprite;
+
+		std::array<Color, 4> col = { color, color, color, color };
+
+		SafeAddRef(texture);
+
+		sprite.pos = drawingArea.GetVertexes();
+		sprite.col = col;
+		sprite.uv = uv.GetVertexes();
+		sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+		sprite.AlphaBlend_ = alphaBlend;
+		sprite.Priority = priority;
+
+		sprites.push_back(sprite);
+	}
+
+	void CoreLayer2D_Imp::DrawRotatedRectangle(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	{
+		Sprite sprite;
+
+		std::array<Color, 4> col = { color, color, color, color };
+
+		SafeAddRef(texture);
+
+		auto vertexes = drawingArea.GetVertexes();
+
+		auto globalCenter = vertexes[0] + rotationCenter;
+
+		for (auto& vert : vertexes)
+		{
+			vert -= globalCenter;
+			auto rad = vert.GetRadian();
+			rad += angle*PI / 180.0f;
+			vert.SetRadian(rad);
+			vert += globalCenter;
+		}
+
+
+		sprite.pos = vertexes;
+		sprite.col = col;
+		sprite.uv = uv.GetVertexes();
+		sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+		sprite.AlphaBlend_ = alphaBlend;
+		sprite.Priority = priority;
+
+		sprites.push_back(sprite);
+	}
+
+	void CoreLayer2D_Imp::DrawTriangle(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	{
+		Sprite sprite;
+
+		std::array<Vector2DF, 4> vertexes = { position1, position2, position3, position3 };
+		std::array<Vector2DF, 4> uvs = { uv1, uv2, uv3, uv3 };
+
+		std::array<Color, 4> col = { color, color, color, color };
+
+		SafeAddRef(texture);
+
+		sprite.pos = vertexes;
+		sprite.col = col;
+		sprite.uv = uvs;
+		sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+		sprite.AlphaBlend_ = alphaBlend;
+		sprite.Priority = priority;
+
+		sprites.push_back(sprite);
+	}
 }

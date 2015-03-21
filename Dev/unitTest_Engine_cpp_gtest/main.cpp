@@ -45,6 +45,7 @@ EXTERN_ENGINE_TEST(Graphics, LightingStandard)
 EXTERN_ENGINE_TEST(Graphics, ModelObject3DCustomMaterial)
 EXTERN_ENGINE_TEST(Graphics, DrawSpriteAdditionally3D)
 EXTERN_ENGINE_TEST(Graphics, TerrainObject3D)
+EXTERN_ENGINE_TEST(Graphics, Geometry2D)
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
 
@@ -82,8 +83,8 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	//CALL_ENGINE_TEST(Graphics, ImagePackage, false)
-	//return 0;
+	CALL_ENGINE_TEST(Graphics, Geometry2D, false)
+	return 0;
 
 	
 	auto result = RUN_ALL_TESTS();

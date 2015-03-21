@@ -180,7 +180,24 @@ namespace ace
 			coreLayer2D.DrawTextAdditionally(pos, color, IG.GetFont(font), text, (swig.WritingDirection)writingDirection, (swig.AlphaBlend)alphaBlend, priority);
 		}
 
-		internal override void BeginUpdating()
+        public void DrawRectangle(RectF drawingArea, Color color, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+        {
+            coreLayer2D.DrawRectangle(drawingArea, color, uv, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
+        }
+
+        public void DrawRotatedRectangle(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+        {
+            coreLayer2D.DrawRotatedRectangle(drawingArea, color, rotationCenter, angle, uv, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
+        }
+
+        public void DrawTriangle(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+        {
+            coreLayer2D.DrawTriangle(position1, position2, position3, color, uv1, uv2, uv3, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
+        }
+
+
+
+        internal override void BeginUpdating()
 		{
 			coreLayer2D.BeginUpdating();
 		}

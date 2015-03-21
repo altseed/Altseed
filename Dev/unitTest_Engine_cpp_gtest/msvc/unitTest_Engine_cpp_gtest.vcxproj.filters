@@ -140,6 +140,9 @@
     <ClCompile Include="..\Graphics\Resource\ImagePackage.cpp">
       <Filter>Graphics\Resource</Filter>
     </ClCompile>
+    <ClCompile Include="..\Graphics\2D\Geometry2D.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

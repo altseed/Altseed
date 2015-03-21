@@ -116,6 +116,11 @@ namespace ace
 
 		void DrawTextAdditionally(Vector2DF pos, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority) override;
 
+		void DrawRectangle(RectF drawingArea, Color color, RectF uv, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) override;
+		void DrawRotatedRectangle(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) override;
+		void DrawTriangle(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) override;
+
+
 #if !SWIG
 	public:
 		Renderer2D* GetRenderer() const { return m_renderer; }
