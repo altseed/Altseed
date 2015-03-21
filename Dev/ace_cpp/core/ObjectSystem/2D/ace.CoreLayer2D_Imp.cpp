@@ -630,7 +630,7 @@ namespace ace
 		m_cameras.clear();
 	}
 
-	void CoreLayer2D_Imp::DrawRectangle(RectF drawingArea, Color color, RectF uv, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
 	{
 		Sprite sprite;
 
@@ -648,7 +648,7 @@ namespace ace
 		sprites.push_back(sprite);
 	}
 
-	void CoreLayer2D_Imp::DrawRotatedRectangle(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
 	{
 		Sprite sprite;
 
@@ -680,7 +680,7 @@ namespace ace
 		sprites.push_back(sprite);
 	}
 
-	void CoreLayer2D_Imp::DrawTriangle(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
 	{
 		Sprite sprite;
 

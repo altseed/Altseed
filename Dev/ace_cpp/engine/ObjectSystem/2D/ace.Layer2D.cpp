@@ -123,19 +123,19 @@ namespace ace
 			priority);
 	}
 
-	void Layer2D::DrawRectangle(RectF drawingArea, Color color, RectF uv, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority)
+	void Layer2D::DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority)
 	{
-		m_coreLayer->DrawRectangle(drawingArea, color, uv, texture.get(), alphaBlend, priority);
+		m_coreLayer->DrawRectangleAdditionally(drawingArea, color, uv, texture.get(), alphaBlend, priority);
 	}
 
-	void Layer2D::DrawRotatedRectangle(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority)
+	void Layer2D::DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority)
 	{
-		m_coreLayer->DrawRotatedRectangle(drawingArea, color, rotationCenter, angle, uv, texture.get(), alphaBlend, priority);
+		m_coreLayer->DrawRotatedRectangleAdditionally(drawingArea, color, rotationCenter, angle, uv, texture.get(), alphaBlend, priority);
 	}
 
-	void Layer2D::DrawTriangle(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority)
+	void Layer2D::DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority)
 	{
-		m_coreLayer->DrawTriangle(position1, position2, position3, color, uv1, uv2, uv3, texture.get(), alphaBlend, priority);
+		m_coreLayer->DrawTriangleAdditionally(position1, position2, position3, color, uv1, uv2, uv3, texture.get(), alphaBlend, priority);
 	}
 
 	//----------------------------------------------------------------------------------
