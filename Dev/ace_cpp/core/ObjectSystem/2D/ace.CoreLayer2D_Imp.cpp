@@ -701,7 +701,7 @@ namespace ace
 		sprites.push_back(sprite);
 	}
 
-	void CoreLayer2D_Imp::DrawRegularPolygonAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawCircleAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
 	{
 		if (vertNum < 3) return;
 
