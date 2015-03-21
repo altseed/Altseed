@@ -23,7 +23,7 @@ protected:
 		DrawTriangleAdditionally(ace::Vector2DF(320, 240), ace::Vector2DF(250, 300), ace::Vector2DF(500, 300), ace::Color(255, 255, 255, 255),
 			ace::Vector2DF(0, 0), ace::Vector2DF(0, 1), ace::Vector2DF(1, 1), texture, ace::AlphaBlend::Blend, 0);
 		*/
-		DrawArcAdditionally(ace::Vector2DF(400, 300), 200, 0, ace::Color(255, 255, 255, 255), 96, 0, 360, 0, texture, ace::AlphaBlend::Blend, 0);
+		DrawArcAdditionally(ace::Vector2DF(400, 300), 200, 0, ace::Color(255, 255, 255, 255), 96, 90, 3, 0, texture, ace::AlphaBlend::Blend, 0);
 
 		//DrawLineAdditionally(ace::Vector2DF(100, 400), ace::Vector2DF(600, 410), ace::Color(255, 255, 255, 255), 20, ace::AlphaBlend::Blend, 0);
 	}

@@ -143,9 +143,9 @@ namespace ace
 		m_coreLayer->DrawCircleAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, texture.get(), alphaBlend, priority);
 	}
 
-	void Layer2D::DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float startAngle, float stopAngle, float angle, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority)
+	void Layer2D::DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority)
 	{
-		m_coreLayer->DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startAngle, stopAngle, angle, texture.get(), alphaBlend, priority);
+		m_coreLayer->DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startingVerticalAngle, endingVerticalAngle, angle, texture.get(), alphaBlend, priority);
 	}
 
 	void Layer2D::DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlend alphaBlend, int32_t priority)

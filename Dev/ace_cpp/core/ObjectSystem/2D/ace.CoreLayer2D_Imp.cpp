@@ -754,11 +754,14 @@ namespace ace
 		}
 	}
 
-	void CoreLayer2D_Imp::DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float startAngle, float stopAngle, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
 	{
 		if (vertNum < 3) return;
 
-		while (startAngle > stopAngle) stopAngle += 360;
+		startingVerticalAngle = Clamp(startingVerticalAngle, vertNum - 1, 0);
+		endingVerticalAngle = Clamp(endingVerticalAngle, vertNum - 1, 0);
+
+		while (endingVerticalAngle < startingVerticalAngle) endingVerticalAngle += vertNum;
 
 		const float radInc = 360.0 / vertNum;
 
@@ -766,20 +769,16 @@ namespace ace
 		const float innerRadius = innerDiameter / 2;
 
 		Vector2DF currentVector(0, -1);
-		currentVector.SetDegree(startAngle);
+		currentVector.SetDegree(startingVerticalAngle*radInc + angle);
 
 		Vector2DF uvCenter = { 0.5, 0.5 };
 
 		Vector2DF uvVector = { 0, -0.5 };
-		uvVector.SetDegree(startAngle);
+		uvVector.SetDegree(startingVerticalAngle*radInc);
 
-		float inc = stopAngle - startAngle;
+		int count = endingVerticalAngle - startingVerticalAngle;
 
-		int start = ceilf(startAngle / radInc);
-
-		int count = floorf(inc / radInc);
-
-		for (int i = start; i < start + count; ++i)
+		for (int i = 0; i <= count; ++i)
 		{
 			Vector2DF nextVector = currentVector;
 

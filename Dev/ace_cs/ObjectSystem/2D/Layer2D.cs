@@ -200,9 +200,9 @@ namespace ace
             coreLayer2D.DrawCircleAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
         }
 
-        public void DrawArcAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float startAngle, float stopAngle, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+        public void DrawArcAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
         {
-            coreLayer2D.DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startAngle, stopAngle, angle, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
+            coreLayer2D.DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startingVerticalAngle, endingVerticalAngle, angle, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
         }
 
         public void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlendMode alphaBlend, int priority)
