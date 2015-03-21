@@ -20,10 +20,13 @@ namespace ace
 
 		Profiler_Imp* m_profiler;
 		Renderer2D* m_renderer;
+		Graphics_Imp* graphics;
 		Vector2DI	m_windowSize;
 		std::shared_ptr<Texture2D> m_materTexture;
 
 		Sprite* CreatePolygonOfMater(int index, int time);
+
+		std::shared_ptr<Font> CreateFont_();
 
 	public:
 		ProfilerViewer_Imp(Graphics_Imp* graphics, Renderer2D* renderer, Log* log, Profiler_Imp* profiler, Vector2DI windowSize);

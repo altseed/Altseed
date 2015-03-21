@@ -185,6 +185,8 @@ namespace ace {
 		virtual void BeginInternal() = 0;
 		virtual void EndInternal() {}
 
+#if !SWIG
+	public:
 		/**
 			@brief	テクスチャを生成する。
 			@param	graphics	グラフィック
@@ -192,7 +194,9 @@ namespace ace {
 			@param	size		データサイズ
 			*/
 		virtual Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
+#endif
 
+	private:
 		virtual Texture2D_Imp* CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
 
 		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format, void* data) = 0;

@@ -58,12 +58,22 @@ namespace ace {
 
 			++pictureNumber;
 		}
-
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+	Font_Imp::Font_Imp(Graphics* graphics, void* data, int32_t size, std::vector<std::shared_ptr<Texture2D>> textures)
+		: DeviceObject(graphics)
+		, m_graphics(graphics)
+	{
+		std::vector<uint8_t> data_;
+		data_.resize(size);
+		memcpy(data_.data(), data, size);
+
+		AffLoader affLoader = AffLoader(data_);
+		m_glyphs = affLoader.GetGlyphs();
+
+		m_textures = textures;
+	}
+
 	Font_Imp::~Font_Imp()
 	{
 		m_textures.clear();
