@@ -537,7 +537,10 @@ namespace ace
 
 	void Core_Imp::Draw()
 	{
-		m_profilerViewer->Draw();
+		if (m_isProfilerVisible)
+		{
+			m_profilerViewer->Draw();
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -726,5 +729,10 @@ namespace ace
 	Vector2DI Core_Imp::GetWindowSize()
 	{
 		return m_windowSize;
+	}
+
+	void Core_Imp::SetProfilerVisibility(bool visible)
+	{
+		m_isProfilerVisible = visible;
 	}
 };

@@ -706,6 +706,11 @@ namespace ace
 		return m_core->GetWindowSize();
 	}
 
+	void Engine::SetProfilerVisibility(bool visibility)
+	{
+		m_core->SetProfilerVisibility(visibility);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

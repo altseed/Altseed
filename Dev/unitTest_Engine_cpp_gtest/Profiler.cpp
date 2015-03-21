@@ -29,7 +29,7 @@ protected:
 		auto layer = make_shared<Layer2D>();
 		auto obj = make_shared<TextureObject2D>();
 		
-		obj->SetTexture(Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
+		obj->SetTexture(ace::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
 
 		Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
@@ -38,6 +38,11 @@ protected:
 
 	void OnUpdating()
 	{
+		if (m_currentTime == 20)
+		{
+			ace::Engine::SetProfilerVisibility(true);
+		}
+
 		m_profiler->Start(17);
 		printf("*");
 		m_profiler->End(17);

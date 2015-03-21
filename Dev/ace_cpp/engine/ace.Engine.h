@@ -261,6 +261,8 @@ namespace ace {
 		*/
 		static Vector2DI GetWindowSize();
 
+		static void SetProfilerVisibility(bool visibility);
+
 #if _WIN32
 
 #else

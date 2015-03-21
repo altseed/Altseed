@@ -44,11 +44,12 @@ private:
 	const ace::astring directory;
 
 	int m_exitTime;
-	int m_currentTime;
 	bool m_isOpenGLMode;
 	ace::astring m_title;
 
 protected:
+	int m_currentTime;
+
 	/**
 		@brief	オーバーライドして、メインループより前のアサーションや初期化を記述できる。
 	*/

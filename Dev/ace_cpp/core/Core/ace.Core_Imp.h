@@ -62,6 +62,7 @@ namespace ace {
 		FramerateMode	framerateMode = FramerateMode::Constant;
 
 		bool isReloadingEnabeld = false;
+		bool m_isProfilerVisible = false;
 
 		Core_Imp();
 		virtual ~Core_Imp();
@@ -152,6 +153,8 @@ namespace ace {
 		AnimationSystem* GetAnimationSyatem();
 
 		Vector2DI GetWindowSize();
+
+		void SetProfilerVisibility(bool visible);
 
 		bool IsReloadingEnabeld() const { return isReloadingEnabeld; }
 	};

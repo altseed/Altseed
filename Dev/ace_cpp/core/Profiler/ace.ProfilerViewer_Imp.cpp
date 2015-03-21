@@ -161,10 +161,10 @@ namespace ace
 		sprite->uvs[3].X = 0;
 		sprite->uvs[3].Y = 1;
 
-		sprite->colors[0] = Color(128, 128, 128, 128);
-		sprite->colors[1] = Color(128, 128, 128, 128);
-		sprite->colors[2] = Color(128, 128, 128, 128);
-		sprite->colors[3] = Color(128, 128, 128, 128);
+		sprite->colors[0] = Color(0, 0, 0, 128);
+		sprite->colors[1] = Color(0, 0, 0, 128);
+		sprite->colors[2] = Color(0, 0, 0, 128);
+		sprite->colors[3] = Color(0, 0, 0, 128);
 
 		renderer->AddSprite(
 			sprite->positions,

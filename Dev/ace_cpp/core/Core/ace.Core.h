@@ -234,6 +234,8 @@ namespace ace {
 		@brief	ウィンドウサイズを取得する。
 		*/
 		virtual Vector2DI GetWindowSize() = 0;
+
+		virtual void SetProfilerVisibility(bool visible) = 0;
 	};
 	//----------------------------------------------------------------------------------
 	//
