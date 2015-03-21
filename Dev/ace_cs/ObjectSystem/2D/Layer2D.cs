@@ -205,6 +205,11 @@ namespace ace
             coreLayer2D.DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startAngle, stopAngle, angle, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
         }
 
+        public void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlendMode alphaBlend, int priority)
+        {
+            coreLayer2D.DrawLineAdditionally(point1, point2, color, thickness, (swig.AlphaBlend)alphaBlend, priority);
+        }
+
         internal override void BeginUpdating()
 		{
 			coreLayer2D.BeginUpdating();

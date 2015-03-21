@@ -148,6 +148,11 @@ namespace ace
 		m_coreLayer->DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startAngle, stopAngle, angle, texture.get(), alphaBlend, priority);
 	}
 
+	void Layer2D::DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlend alphaBlend, int32_t priority)
+	{
+		m_coreLayer->DrawLineAdditionally(point1, point2, color, thickness, alphaBlend, priority);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

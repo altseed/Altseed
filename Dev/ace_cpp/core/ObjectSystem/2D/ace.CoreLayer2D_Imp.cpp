@@ -809,4 +809,34 @@ namespace ace
 			uvVector = nextUVVector;
 		}
 	}
+
+	void CoreLayer2D_Imp::DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlend alphaBlend, int32_t priority)
+	{
+		Vector2DF vector = point2 - point1;
+
+		auto binorm = vector;
+		{
+			auto deg = binorm.GetDegree();
+			deg += 90;
+			binorm.SetDegree(deg);
+			binorm.Normalize();
+		}
+
+		auto halfThickness = thickness / 2;
+		
+		std::array<Vector2DF, 4> pos = { point1 + binorm*halfThickness, point2 + binorm*halfThickness, point2 - binorm*halfThickness, point1 - binorm*halfThickness };
+		std::array<Color, 4> col = { color, color, color, color };
+		std::array<Vector2DF, 4> uv = { Vector2DF(0, 0), Vector2DF(0, 0), Vector2DF(0, 0), Vector2DF(0, 0) };
+
+		Sprite sprite;
+
+		sprite.pos = pos;
+		sprite.col = col;
+		sprite.uv = uv;
+		sprite.Texture_ = nullptr;
+		sprite.AlphaBlend_ = alphaBlend;
+		sprite.Priority = priority;
+
+		sprites.push_back(sprite);
+	}
 }

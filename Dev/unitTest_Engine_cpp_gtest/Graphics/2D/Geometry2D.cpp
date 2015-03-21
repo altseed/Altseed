@@ -22,6 +22,8 @@ protected:
 			ace::Vector2DF(0, 0), ace::Vector2DF(0, 1), ace::Vector2DF(1, 1), texture, ace::AlphaBlend::Blend, 0);
 		*/
 		DrawCircleAdditionally(ace::Vector2DF(400, 300), 200, 100, ace::Color(255, 255, 255, 255), 96, 0, texture, ace::AlphaBlend::Blend, 0);
+
+		DrawLineAdditionally(ace::Vector2DF(0, 0), ace::Vector2DF(640, 480), ace::Color(255, 255, 255, 255), 0, ace::AlphaBlend::Blend, 0);
 	}
 };
 
