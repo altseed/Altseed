@@ -195,7 +195,10 @@ namespace ace
             coreLayer2D.DrawTriangleAdditionally(position1, position2, position3, color, uv1, uv2, uv3, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
         }
 
-
+        public void DrawRegularPolygonAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+        {
+            coreLayer2D.DrawRegularPolygonAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
+        }
 
         internal override void BeginUpdating()
 		{

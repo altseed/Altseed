@@ -138,6 +138,11 @@ namespace ace
 		m_coreLayer->DrawTriangleAdditionally(position1, position2, position3, color, uv1, uv2, uv3, texture.get(), alphaBlend, priority);
 	}
 
+	void Layer2D::DrawRegularPolygonAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority)
+	{
+		m_coreLayer->DrawRegularPolygonAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, texture.get(), alphaBlend, priority);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

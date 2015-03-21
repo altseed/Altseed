@@ -663,9 +663,9 @@ namespace ace
 		for (auto& vert : vertexes)
 		{
 			vert -= globalCenter;
-			auto rad = vert.GetRadian();
-			rad += angle*PI / 180.0f;
-			vert.SetRadian(rad);
+			auto deg = vert.GetDegree();
+			deg += angle;
+			vert.SetDegree(deg);
 			vert += globalCenter;
 		}
 
@@ -699,5 +699,56 @@ namespace ace
 		sprite.Priority = priority;
 
 		sprites.push_back(sprite);
+	}
+
+	void CoreLayer2D_Imp::DrawRegularPolygonAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	{
+		if (vertNum < 3) return;
+
+		const float radInc = 360 / vertNum;
+
+		const float outerRadius = outerDiameter / 2;
+		const float innerRadius = innerDiameter / 2;
+
+		Vector2DF currentVector(0, -1);
+		currentVector.SetDegree(angle - 90);
+
+		Vector2DF uvCenter = { 0.5, 0.5 };
+
+		Vector2DF uvVector = { 0, -0.5 };
+		for (int i = 0; i < vertNum; ++i)
+		{
+			Vector2DF nextVector = currentVector;
+
+			auto nextDeg = nextVector.GetDegree();
+			nextDeg += radInc;
+			nextVector.SetDegree(nextDeg);
+
+			Vector2DF nextUVVector = uvVector;
+			nextUVVector.SetDegree(nextDeg);
+
+			float ratio = innerDiameter / outerDiameter;
+
+			std::array<Vector2DF, 4> vertexes = { center + currentVector*outerRadius, center + nextVector*outerRadius, center + nextVector*innerRadius, center + currentVector*innerRadius };
+			std::array<Color, 4> colors = { color, color, color, color };
+			std::array<Vector2DF, 4> uvs = { uvCenter + uvVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + uvVector*ratio };
+
+			Sprite sprite;
+
+			SafeAddRef(texture);
+
+			sprite.pos = vertexes;
+			sprite.col = colors;
+			sprite.uv = uvs;
+			sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+			sprite.AlphaBlend_ = alphaBlend;
+			sprite.Priority = priority;
+
+			sprites.push_back(sprite);
+
+			currentVector = nextVector;
+
+			uvVector = nextUVVector;
+		}
 	}
 }

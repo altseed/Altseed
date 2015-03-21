@@ -17,9 +17,11 @@ protected:
 
 		DrawRotatedRectangleAdditionally(ace::RectF(300, 10, 200, 200), ace::Color(255, 255, 255, 255),
 			ace::Vector2DF(100, 100), 45, ace::RectF(0, 0, 1, 1), texture, ace::AlphaBlend::Blend, 0);
-
+		/*
 		DrawTriangleAdditionally(ace::Vector2DF(320, 240), ace::Vector2DF(250, 300), ace::Vector2DF(500, 300), ace::Color(255, 255, 255, 255),
 			ace::Vector2DF(0, 0), ace::Vector2DF(0, 1), ace::Vector2DF(1, 1), texture, ace::AlphaBlend::Blend, 0);
+		*/
+		DrawRegularPolygonAdditionally(ace::Vector2DF(400, 300), 200, 100, ace::Color(255, 255, 255, 255), 40, 0, texture, ace::AlphaBlend::Blend, 0);
 	}
 };
 
