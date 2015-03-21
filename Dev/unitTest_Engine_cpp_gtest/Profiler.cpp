@@ -5,52 +5,56 @@
 #include <ace.h>
 #include <memory>
 
-void Profiler_Profiling(bool isOpenGLMode)
+using namespace std;
+using namespace ace;
+
+class Profiler_Profiling : public EngineTest
 {
-	int time = 0;
-	ace::EngineOption option;
-	option.GraphicsDevice = isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11;
-
-	{	
-		ace::Engine::Initialize(ace::ToAString("Profiling").c_str(), 640, 480, option);
-	
-		auto profiler = ace::Engine::GetProfiler();
-
-		printf("printfで負荷をかけます\n");
-		while (ace::Engine::DoEvents())
-		{
-			profiler->Start(12);
-			ace::Engine::Update();
-			profiler->End(12);
-
-
-			profiler->Start(17);
-			printf( "*" );
-			profiler->End(17);
-
-			++time;
-			if (time == 120)
-			{
-				break;
-			}
-		}
-		printf("\n");
-
-		ace::Engine::Terminate();
+public:
+	Profiler_Profiling(bool isOpenGLMode)
+		: EngineTest(ace::ToAString("Profiling"), isOpenGLMode, 60)
+	{
 	}
-}
 
-TEST(Profiler, Profiling_GL)
-{
-	Profiler_Profiling(true);
-	AssertMemoryDoesntLeak();
-}
+private:
+	ace::Profiler* m_profiler;
 
-#if _WIN32
-TEST(Profiler, Profiling_DX)
-{
-	Profiler_Profiling(false);
-	AssertMemoryDoesntLeak();
-}
-#endif
+protected:
+	void OnStart()
+	{
+		m_profiler = ace::Engine::GetProfiler();
+		printf("printfで負荷をかけます\n");
+
+		auto scene = make_shared<Scene>();
+		auto layer = make_shared<Layer2D>();
+		auto obj = make_shared<TextureObject2D>();
+		
+		obj->SetTexture(Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
+
+		Engine::ChangeScene(scene);
+		scene->AddLayer(layer);
+		layer->AddObject(obj);
+	}
+
+	void OnUpdating()
+	{
+		m_profiler->Start(17);
+		printf("*");
+		m_profiler->End(17);
+
+		m_profiler->Start(9);
+		printf("*");
+		printf("*");
+		m_profiler->End(9);
+
+		m_profiler->Start(12);
+	}
+
+	void OnUpdated()
+	{
+		m_profiler->End(12);
+	}
+};
+
+ENGINE_TEST(Profiler, Profiling)
 

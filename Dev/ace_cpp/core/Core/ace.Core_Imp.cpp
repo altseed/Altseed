@@ -221,7 +221,7 @@ namespace ace
 
 		m_profiler = Profiler_Imp::Create();
 
-		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, m_window->GetSize());
+		m_profilerViewer = ProfilerViewer_Imp::Create(this, m_profiler, m_graphics, m_logger, m_window->GetSize());
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
@@ -302,7 +302,7 @@ namespace ace
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
 		m_profiler = Profiler_Imp::Create();
-		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, Vector2DI(width, height));
+		m_profilerViewer = ProfilerViewer_Imp::Create(this, m_profiler, m_graphics, m_logger, Vector2DI(width, height));
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
