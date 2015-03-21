@@ -728,7 +728,10 @@ namespace ace
 			nextVector.SetDegree(nextDeg);
 
 			Vector2DF nextUVVector = uvVector;
-			nextUVVector.SetDegree(nextDeg);
+
+			auto nextUVDeg = nextUVVector.GetDegree();
+			nextUVDeg += radInc;
+			nextUVVector.SetDegree(nextUVDeg);
 
 
 			std::array<Vector2DF, 4> vertexes = { center + currentVector*outerRadius, center + nextVector*outerRadius, center + nextVector*innerRadius, center + currentVector*innerRadius };
@@ -758,8 +761,8 @@ namespace ace
 	{
 		if (vertNum < 3) return;
 
-		startingVerticalAngle = Clamp(startingVerticalAngle, vertNum - 1, 0);
-		endingVerticalAngle = Clamp(endingVerticalAngle, vertNum - 1, 0);
+		startingVerticalAngle = Clamp(startingVerticalAngle, vertNum, 0);
+		endingVerticalAngle = Clamp(endingVerticalAngle, vertNum, 0);
 
 		while (endingVerticalAngle < startingVerticalAngle) endingVerticalAngle += vertNum;
 
@@ -769,16 +772,16 @@ namespace ace
 		const float innerRadius = innerDiameter / 2;
 
 		Vector2DF currentVector(0, -1);
-		currentVector.SetDegree(startingVerticalAngle*radInc + angle);
+		currentVector.SetDegree(startingVerticalAngle*radInc + angle - 90);
 
 		Vector2DF uvCenter = { 0.5, 0.5 };
 
 		Vector2DF uvVector = { 0, -0.5 };
-		uvVector.SetDegree(startingVerticalAngle*radInc);
+		uvVector.SetDegree(startingVerticalAngle*radInc - 90);
 
 		int count = endingVerticalAngle - startingVerticalAngle;
 
-		for (int i = 0; i <= count; ++i)
+		for (int i = 0; i < count; ++i)
 		{
 			Vector2DF nextVector = currentVector;
 
@@ -787,7 +790,10 @@ namespace ace
 			nextVector.SetDegree(nextDeg);
 
 			Vector2DF nextUVVector = uvVector;
-			nextUVVector.SetDegree(nextDeg);
+
+			auto nextUVDeg = nextUVVector.GetDegree();
+			nextUVDeg += radInc;
+			nextUVVector.SetDegree(nextUVDeg);
 
 			float ratio = innerDiameter / outerDiameter;
 
