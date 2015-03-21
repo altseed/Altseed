@@ -1,13 +1,41 @@
 ﻿#include "ace.ProfilerViewer_Imp.h"
+
 #include "../Graphics/ace.Graphics_Imp.h"
+
 #include "../Graphics/Resource/ace.Texture2D_Imp.h"
+#include "../Graphics/Resource/ace.Font_Imp.h"
+#include "../Graphics/Resource/ace.Texture2D_Imp.h"
+
 #include "../Graphics/2D/ace.Renderer2D_Imp.h"
 #include "../Log/ace.Log_Imp.h"
 #include <cmath>
 
+#include "ace.InternalFont.h"
+#include "ace.InternalFontTex0.h"
+#include "ace.InternalFontTex1.h"
+
 namespace ace
 {
 	const int MATER_HEIGHT = 32;
+
+	std::shared_ptr<Font> ProfilerViewer_Imp::CreateFont_()
+	{
+		auto tex0 = (Texture2D*) graphics->CreateTexture2D_Imp_Internal(graphics, (uint8_t*) g_internalFontTex0, sizeof(g_internalFontTex0));
+		auto tex1 = (Texture2D*) graphics->CreateTexture2D_Imp_Internal(graphics, (uint8_t*) g_internalFontTex1, sizeof(g_internalFontTex1));
+
+		SafeAddRef(tex0);
+		SafeAddRef(tex1);
+
+		std::vector<std::shared_ptr<Texture2D>> textures;
+		textures.push_back(CreateSharedPtrWithReleaseDLL(tex0));
+		textures.push_back(CreateSharedPtrWithReleaseDLL(tex1));
+
+		auto font = new Font_Imp(graphics, (void*) g_internalFont, sizeof(g_internalFont), textures);
+
+		SafeAddRef(font);
+
+		return CreateSharedPtrWithReleaseDLL((Font*)font);
+	}
 
 	//----------------------------------------------------------------------------------
 	//
@@ -17,6 +45,7 @@ namespace ace
 		, m_renderer(renderer)
 		, m_materTexture(nullptr)
 		, m_windowSize(windowSize)
+		, graphics(graphics)
 	{
 	}
 
@@ -43,6 +72,8 @@ namespace ace
 		auto temp = new ProfilerViewer_Imp(graphics, renderer, logger, profiler, windowSize);
 		
 		logger->WriteLine("初期化成功");
+
+		
 
 		return temp;
 	}
