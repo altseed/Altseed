@@ -68,6 +68,8 @@ EXTERN_ENGINE_TEST(File, StaticFile_Package)
 EXTERN_ENGINE_TEST(File, StaticFile_Package_Cache)
 EXTERN_ENGINE_TEST(File, StaticFile_Package_Priority)
 
+EXTERN_ENGINE_TEST(Profiler, Profiling)
+
 /**
 	@brief	単体テストを実行する。
 	@note
@@ -83,7 +85,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(Graphics, Geometry2D, false)
+	CALL_ENGINE_TEST(Profiler, Profiling, false)
 	return 0;
 
 	

@@ -3,6 +3,7 @@
 #include "ace.Profile.h"
 #include <memory>
 #include <list>
+#include <map>
 
 namespace ace
 {
