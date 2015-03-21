@@ -705,17 +705,20 @@ namespace ace
 	{
 		if (vertNum < 3) return;
 
-		const float radInc = 360 / vertNum;
+		const float radInc = 360.0 / vertNum;
 
 		const float outerRadius = outerDiameter / 2;
 		const float innerRadius = innerDiameter / 2;
 
-		Vector2DF currentVector(0, -1);
+		Vector2DF currentVector(1, 0);
 		currentVector.SetDegree(angle - 90);
 
 		Vector2DF uvCenter = { 0.5, 0.5 };
 
 		Vector2DF uvVector = { 0, -0.5 };
+
+		float ratio = innerDiameter / outerDiameter;
+
 		for (int i = 0; i < vertNum; ++i)
 		{
 			Vector2DF nextVector = currentVector;
@@ -727,7 +730,6 @@ namespace ace
 			Vector2DF nextUVVector = uvVector;
 			nextUVVector.SetDegree(nextDeg);
 
-			float ratio = innerDiameter / outerDiameter;
 
 			std::array<Vector2DF, 4> vertexes = { center + currentVector*outerRadius, center + nextVector*outerRadius, center + nextVector*innerRadius, center + currentVector*innerRadius };
 			std::array<Color, 4> colors = { color, color, color, color };
@@ -756,7 +758,7 @@ namespace ace
 	{
 		if (vertNum < 3) return;
 
-		const float radInc = 360 / vertNum;
+		const float radInc = 360.0 / vertNum;
 
 		const float outerRadius = outerDiameter / 2;
 		const float innerRadius = innerDiameter / 2;
