@@ -705,7 +705,7 @@ namespace ace
 	{
 		if (vertNum < 3) return;
 
-		const float radInc = 360 / vertNum;
+		const float radInc = 360.0 / vertNum;
 
 		const float outerRadius = outerDiameter / 2;
 		const float innerRadius = innerDiameter / 2;
@@ -716,6 +716,9 @@ namespace ace
 		Vector2DF uvCenter = { 0.5, 0.5 };
 
 		Vector2DF uvVector = { 0, -0.5 };
+
+		float ratio = innerDiameter / outerDiameter;
+
 		for (int i = 0; i < vertNum; ++i)
 		{
 			Vector2DF nextVector = currentVector;
@@ -727,7 +730,6 @@ namespace ace
 			Vector2DF nextUVVector = uvVector;
 			nextUVVector.SetDegree(nextDeg);
 
-			float ratio = innerDiameter / outerDiameter;
 
 			std::array<Vector2DF, 4> vertexes = { center + currentVector*outerRadius, center + nextVector*outerRadius, center + nextVector*innerRadius, center + currentVector*innerRadius };
 			std::array<Color, 4> colors = { color, color, color, color };
@@ -752,29 +754,31 @@ namespace ace
 		}
 	}
 
-	void CoreLayer2D_Imp::DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float startAngle, float stopAngle, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
 	{
 		if (vertNum < 3) return;
 
-		const float radInc = 360 / vertNum;
+		startingVerticalAngle = Clamp(startingVerticalAngle, vertNum - 1, 0);
+		endingVerticalAngle = Clamp(endingVerticalAngle, vertNum - 1, 0);
+
+		while (endingVerticalAngle < startingVerticalAngle) endingVerticalAngle += vertNum;
+
+		const float radInc = 360.0 / vertNum;
 
 		const float outerRadius = outerDiameter / 2;
 		const float innerRadius = innerDiameter / 2;
 
 		Vector2DF currentVector(0, -1);
-		currentVector.SetDegree(angle - 90);
+		currentVector.SetDegree(startingVerticalAngle*radInc + angle);
 
 		Vector2DF uvCenter = { 0.5, 0.5 };
 
 		Vector2DF uvVector = { 0, -0.5 };
+		uvVector.SetDegree(startingVerticalAngle*radInc);
 
-		startAngle = NormalizeAngle(startAngle);
-		stopAngle = NormalizeAngle(stopAngle);
+		int count = endingVerticalAngle - startingVerticalAngle;
 
-		int start = ceilf(startAngle / radInc);
-		int stop = floor(stopAngle / radInc);
-
-		for (int i = start; i <= stop; ++i)
+		for (int i = 0; i <= count; ++i)
 		{
 			Vector2DF nextVector = currentVector;
 
