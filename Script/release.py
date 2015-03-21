@@ -30,6 +30,12 @@ def copyTool(type, targetDir):
 	aceutils.copy(r'Dev/bin/FontGenerator.Model.dll', toolDir)
 	aceutils.copy(r'Dev/bin/FontGeneratorCore.dll', toolDir)
 	aceutils.copy(r'Dev/bin/nkf32.dll', toolDir)
+	aceutils.copy(r'Dev/bin/System.Reactive.Core.dll', toolDir)
+	aceutils.copy(r'Dev/bin/System.Reactive.Interfaces.dll', toolDir)
+	aceutils.copy(r'Dev/bin/System.Reactive.Linq.dll', toolDir)
+	aceutils.copy(r'Dev/bin/System.Reactive.PlatformServices.dll', toolDir)
+	
+	
 
 def makeDocument(type, targetDir):
 	makeDocumentHtml.make_document_html()
