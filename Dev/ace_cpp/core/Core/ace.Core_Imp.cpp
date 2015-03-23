@@ -56,6 +56,7 @@ namespace ace
 		, m_previousTime(0)
 		, m_startFrameTime(0)
 		, m_windowSize(Vector2DI(0,0))
+		, m_isProfilerVisible(false)
 	{
 		m_previousTime = GetTime();
 	}

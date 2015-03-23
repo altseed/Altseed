@@ -30,7 +30,7 @@ namespace ace
 		void AddBackgroundSprite(Renderer2D* renderer);
 		void AddFpsSprite(Renderer2D* renderer, Core* core);
 		void AddDrawCallSprite(Renderer2D* renderer, int drawCallCount);
-		Sprite* CreatePolygonOfMater(int index, int time);
+		void AddMaterSprite(Renderer2D* renderer, int index, int time);
 		void AddIdSprite(Renderer2D* renderer, int index, int id);
 		void AddTimeSprite(Renderer2D* renderer, int index, int time);
 

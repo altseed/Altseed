@@ -115,15 +115,7 @@ namespace ace
 
 			int time = perf->GetEndTime() - perf->GetStartTime();
 
-			auto p = CreatePolygonOfMater(index, time);
-			m_renderer->AddSprite(
-				p->positions,
-				p->colors,
-				p->uvs,
-				m_materTexture.get(),
-				AlphaBlend::Blend,
-				0);
-
+			AddMaterSprite(m_renderer, index, time);
 			AddIdSprite(m_renderer, index, profile->GetID());
 			AddTimeSprite(m_renderer, index, time);
 
@@ -137,39 +129,39 @@ namespace ace
 
 	void ProfilerViewer_Imp::AddBackgroundSprite(Renderer2D* renderer)
 	{
-		Sprite* sprite = new Sprite();
+		Sprite sprite;
 		float left = 0;
 		float top = 0;
 		float right = m_windowSize.X;
 		float bottom = m_windowSize.Y;
 
-		sprite->positions[0].X = left;
-		sprite->positions[0].Y = top;
-		sprite->positions[1].X = right;
-		sprite->positions[1].Y = top;
-		sprite->positions[2].X = right;
-		sprite->positions[2].Y = bottom;
-		sprite->positions[3].X = left;
-		sprite->positions[3].Y = bottom;
+		sprite.positions[0].X = left;
+		sprite.positions[0].Y = top;
+		sprite.positions[1].X = right;
+		sprite.positions[1].Y = top;
+		sprite.positions[2].X = right;
+		sprite.positions[2].Y = bottom;
+		sprite.positions[3].X = left;
+		sprite.positions[3].Y = bottom;
 
-		sprite->uvs[0].X = 0;
-		sprite->uvs[0].Y = 0;
-		sprite->uvs[1].X = 1;
-		sprite->uvs[1].Y = 0;
-		sprite->uvs[2].X = 1;
-		sprite->uvs[2].Y = 1;
-		sprite->uvs[3].X = 0;
-		sprite->uvs[3].Y = 1;
+		sprite.uvs[0].X = 0;
+		sprite.uvs[0].Y = 0;
+		sprite.uvs[1].X = 1;
+		sprite.uvs[1].Y = 0;
+		sprite.uvs[2].X = 1;
+		sprite.uvs[2].Y = 1;
+		sprite.uvs[3].X = 0;
+		sprite.uvs[3].Y = 1;
 
-		sprite->colors[0] = Color(0, 0, 0, 128);
-		sprite->colors[1] = Color(0, 0, 0, 128);
-		sprite->colors[2] = Color(0, 0, 0, 128);
-		sprite->colors[3] = Color(0, 0, 0, 128);
+		sprite.colors[0] = Color(0, 0, 0, 128);
+		sprite.colors[1] = Color(0, 0, 0, 128);
+		sprite.colors[2] = Color(0, 0, 0, 128);
+		sprite.colors[3] = Color(0, 0, 0, 128);
 
 		renderer->AddSprite(
-			sprite->positions,
-			sprite->colors,
-			sprite->uvs,
+			sprite.positions,
+			sprite.colors,
+			sprite.uvs,
 			m_materTexture.get(),
 			AlphaBlend::Blend,
 			0);
@@ -262,32 +254,38 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	ProfilerViewer_Imp::Sprite* ProfilerViewer_Imp::CreatePolygonOfMater(int index, int time)
+	void ProfilerViewer_Imp::AddMaterSprite(Renderer2D* renderer, int index, int time)
 	{
-		Sprite* sprite = new Sprite();
+		Sprite sprite;
 		float left = ID_LEFT_OFFSET + TIME_LEFT_OFFSET + MATER_LEFT_OFFSET;
 		float top = TOP_OFFSET + index * MATER_HEIGHT;
 		float right = left + time / 50.0f;
 		float bottom = top + MATER_HEIGHT - 2;
 
-		sprite->positions[0].X = left;
-		sprite->positions[0].Y = top;
-		sprite->positions[1].X = right;
-		sprite->positions[1].Y = top;
-		sprite->positions[2].X = right;
-		sprite->positions[2].Y = bottom;
-		sprite->positions[3].X = left;
-		sprite->positions[3].Y = bottom;
+		sprite.positions[0].X = left;
+		sprite.positions[0].Y = top;
+		sprite.positions[1].X = right;
+		sprite.positions[1].Y = top;
+		sprite.positions[2].X = right;
+		sprite.positions[2].Y = bottom;
+		sprite.positions[3].X = left;
+		sprite.positions[3].Y = bottom;
 
-		sprite->uvs[0].X = 0;
-		sprite->uvs[0].Y = 0;
-		sprite->uvs[1].X = 1;
-		sprite->uvs[1].Y = 0;
-		sprite->uvs[2].X = 1;
-		sprite->uvs[2].Y = 1;
-		sprite->uvs[3].X = 0;
-		sprite->uvs[3].Y = 1;
+		sprite.uvs[0].X = 0;
+		sprite.uvs[0].Y = 0;
+		sprite.uvs[1].X = 1;
+		sprite.uvs[1].Y = 0;
+		sprite.uvs[2].X = 1;
+		sprite.uvs[2].Y = 1;
+		sprite.uvs[3].X = 0;
+		sprite.uvs[3].Y = 1;
 
-		return sprite;
+		renderer->AddSprite(
+			sprite.positions,
+			sprite.colors,
+			sprite.uvs,
+			m_materTexture.get(),
+			AlphaBlend::Blend,
+			0);
 	}
 }
