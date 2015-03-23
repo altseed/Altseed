@@ -37,23 +37,32 @@ namespace ace
 		return CreateSharedPtrWithReleaseDLL((Font*)font);
 	}
 
+	void ProfilerViewer_Imp::GenerateRenderer()
+	{
+		if (isRendererGenerated) return;
+
+		m_renderer = new Renderer2D_Imp(m_graphics, log);
+		m_font = CreateFont_();
+
+		isRendererGenerated = true;
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
 	ProfilerViewer_Imp::ProfilerViewer_Imp(
 		Graphics_Imp* graphics,
-		Renderer2D* renderer,
 		Log* log,
 		Profiler_Imp* profiler,
 		Core* core,
 		Vector2DI windowSize)
 		: m_profiler(profiler)
-		, m_renderer(renderer)
+		, m_renderer(nullptr)
 		, m_windowSize(windowSize)
 		, m_graphics(graphics)
 		, m_core(core)
 		, m_materTexture(nullptr)
-		, m_font(CreateFont_())
+		, log(log)
 	{
 	}
 
@@ -77,12 +86,9 @@ namespace ace
 	{
 		logger->WriteHeading("プロファイラビュアー");
 
-		auto renderer = new Renderer2D_Imp(graphics, logger);
-		auto temp = new ProfilerViewer_Imp(graphics, renderer, logger, profiler, core, windowSize);
+		auto temp = new ProfilerViewer_Imp(graphics, logger, profiler, core, windowSize);
 
 		logger->WriteLine("初期化成功");
-
-
 
 		return temp;
 	}
@@ -100,6 +106,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void ProfilerViewer_Imp::Draw()
 	{
+		GenerateRenderer();
+
 		AddBackgroundSprite(m_renderer);
 		AddFpsSprite(m_renderer, m_core);
 		AddDrawCallSprite(m_renderer, m_graphics->GetDrawCallCount());

@@ -20,12 +20,16 @@ namespace ace
 		} Sprite;
 
 		Profiler_Imp* m_profiler;
-		Renderer2D* m_renderer;
+		
 		Graphics_Imp* m_graphics;
 		Core* m_core;
 		Vector2DI	m_windowSize;
 		std::shared_ptr<Texture2D> m_materTexture;
 		std::shared_ptr<Font> m_font;
+
+		Renderer2D* m_renderer = nullptr;
+		Log*	log = nullptr;
+		bool	isRendererGenerated = false;
 
 		void AddBackgroundSprite(Renderer2D* renderer);
 		void AddFpsSprite(Renderer2D* renderer, Core* core);
@@ -36,10 +40,11 @@ namespace ace
 
 		std::shared_ptr<Font> CreateFont_();
 
+		void GenerateRenderer();
+
 	public:
 		ProfilerViewer_Imp(
 			Graphics_Imp* graphics,
-			Renderer2D* renderer,
 			Log* log,
 			Profiler_Imp* profiler,
 			Core* core,
