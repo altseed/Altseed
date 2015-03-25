@@ -552,6 +552,7 @@ namespace ace {
 
 		RenderState state;
 		
+		state.AlphaBlendState = m_state.AlphaBlendState;
 		state.DepthTest = false;
 		state.DepthWrite = false;
 		state.Culling = CullingType::Double;
