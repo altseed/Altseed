@@ -250,3 +250,6 @@ zlib.h -- interface of the 'zlib' general purpose compression library
 --Reactive Extensions--(ツールのみ)
 Rx Eula
 https://msdn.microsoft.com/en-us/hh295787
+
+[psdc.c](https://github.com/hkrn/psd.c) (MIT License)
+[list](https://github.com/clibs/list) (MIT License)

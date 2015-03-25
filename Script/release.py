@@ -35,7 +35,9 @@ def copyTool(type, targetDir):
 	aceutils.copy(r'Dev/bin/System.Reactive.Linq.dll', toolDir)
 	aceutils.copy(r'Dev/bin/System.Reactive.PlatformServices.dll', toolDir)
 	
-	
+	aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe', toolDir)
+	aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe.config', toolDir)
+	aceutils.copy(r'Dev/bin/PSDParser.dll', toolDir)
 
 def makeDocument(type, targetDir):
 	makeDocumentHtml.make_document_html()
