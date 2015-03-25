@@ -21,8 +21,7 @@ AmusementCreatorsEngineの名称はドキュメント中ではACEと省略され
 * [テクスチャ2D](./Graphics/Texture2D.md)
 * [エフェクト](./Graphics/Effect.md)
 * [フォント](./Graphics/Font.md)
-
-* 画像パッケージ
+* [画像パッケージ](./Graphics/ImagePackage.md)
 
 #### 2D
 
