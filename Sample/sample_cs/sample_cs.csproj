@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Graphics\2D\CameraObject2D.cs" />
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
+    <Compile Include="Graphics\2D\ImagePackage.cs" />
     <Compile Include="Graphics\2D\MapObject2D.cs" />
     <Compile Include="Graphics\2D\TextObject2D.cs" />
     <Compile Include="Graphics\2D\TextureObject2D.cs" />

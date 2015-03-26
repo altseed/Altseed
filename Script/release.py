@@ -67,7 +67,7 @@ def release_cpp():
 	aceutils.mkdir(sampleDir)
 	aceutils.mkdir(sampleBinDir)
 
-	aceutils.copytreeWithExt(r'Sample/bin/',sampleBinDir,[ r'.h', r'.cpp', r'.filters', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png'])
+	aceutils.copytreeWithExt(r'Sample/bin/',sampleBinDir,[ r'.h', r'.cpp', r'.filters', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip'])
 
 	aceutils.mkdir(sampleDir+r'cpp/')
 	aceutils.mkdir(sampleDir+r'cpp/include/')
@@ -84,7 +84,7 @@ def release_cpp():
 
 	aceutils.copy(r'Sample/sample_cpp.sln', sampleDir)
 	aceutils.mkdir(sampleDir+r'sample_cpp/')
-	aceutils.copytreeWithExt(r'Sample/sample_cpp/',sampleDir+r'sample_cpp/',[ r'.h', r'.cpp', r'.filters', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png'])
+	aceutils.copytreeWithExt(r'Sample/sample_cpp/',sampleDir+r'sample_cpp/',[ r'.h', r'.cpp', r'.filters', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip'])
 
 	# Runtime
 	runtimeDir = targetDir+r'/Runtime/'
@@ -128,14 +128,14 @@ def release_cs():
 	aceutils.mkdir(sampleDir)
 	aceutils.mkdir(sampleBinDir)
 	
-	aceutils.copytreeWithExt(r'Sample/bin/',sampleBinDir,[ r'.h', r'.cpp', r'.filters', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png'])
+	aceutils.copytreeWithExt(r'Sample/bin/',sampleBinDir,[ r'.h', r'.cpp', r'.filters', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip'])
 
 	aceutils.copy(r'Dev/bin/ace_core.dll', sampleBinDir)
 	aceutils.copy(r'Dev/bin/ace_cs.dll', sampleBinDir)
 
 	aceutils.copy(r'Sample/sample_cs.sln', sampleDir)
 	aceutils.mkdir(sampleDir+r'sample_cs/')
-	aceutils.copytreeWithExt(r'Sample/sample_cs/',sampleDir+r'sample_cs/',[ r'.h', r'.cpp', r'.filters', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png'])
+	aceutils.copytreeWithExt(r'Sample/sample_cs/',sampleDir+r'sample_cs/',[ r'.h', r'.cpp', r'.filters', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip'])
 	
 	aceutils.copy(r'Dev/bin/ace_cs.dll', sampleDir+r'sample_cs/')
 	aceutils.copy(r'Dev/bin/ace_cs.XML', sampleDir+r'sample_cs/')
