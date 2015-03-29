@@ -33,4 +33,14 @@ namespace ace
 	{
 		return ShapeType::Triangle;
 	}
+
+#if !SWIG
+	std::vector<CoreTriangle*> CoreTriangle_Imp::GetDividedTriangles()
+	{
+		std::vector <CoreTriangle*> triangles;
+
+		return triangles;
+	}
+#endif
+
 };

@@ -39,6 +39,7 @@ namespace ace
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }
+		virtual std::vector<CoreTriangle*> GetDividedTriangles() override;
 #endif
 	};
 };

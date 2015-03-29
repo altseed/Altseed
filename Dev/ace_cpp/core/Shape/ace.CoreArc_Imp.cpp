@@ -1,5 +1,5 @@
 ﻿#include "ace.CoreArc_Imp.h"
-
+#include "ace.CoreTriangle_Imp.h"
 namespace ace
 {
 	CoreArc_Imp::CoreArc_Imp()
@@ -69,4 +69,15 @@ namespace ace
 	{
 		radius = rad;
 	}
+
+
+#if !SWIG
+	std::vector<CoreTriangle*> CoreArc_Imp::GetDividedTriangles()
+	{
+		std::vector <CoreTriangle*> triangles;
+
+		return triangles;
+	}
+#endif
+
 };

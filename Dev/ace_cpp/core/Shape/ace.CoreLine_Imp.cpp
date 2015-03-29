@@ -1,4 +1,5 @@
 ﻿#include "ace.CoreLine_Imp.h"
+#include "ace.CoreTriangle_Imp.h"
 
 namespace ace
 {
@@ -44,4 +45,14 @@ namespace ace
 	{
 		return ShapeType::Line;
 	}
+
+#if !SWIG
+	std::vector<CoreTriangle*> CoreLine_Imp::GetDividedTriangles()
+	{
+		std::vector <CoreTriangle*> triangles;
+
+		return triangles;
+	}
+#endif
+
 };

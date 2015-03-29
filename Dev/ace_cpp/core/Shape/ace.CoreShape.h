@@ -2,9 +2,9 @@
 
 #include "ace.ShapeType.h"
 #include "../ace.ReferenceObject.h"
-
 namespace ace{
 
+	class CoreTriangle;
 
 	class CoreShape 
 		: public IReference
@@ -15,5 +15,8 @@ namespace ace{
 
 		virtual ShapeType GetShapeType() const = 0;
 
+#if !SWIG
+		virtual std::vector<CoreTriangle*> GetDividedTriangles() = 0;
+#endif
 	};
 };
