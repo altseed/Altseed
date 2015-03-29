@@ -360,6 +360,7 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h" />
@@ -368,6 +369,7 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.Culling2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.TransformInfo2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.ParentInfo2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreLayer2D.h" />
@@ -408,6 +410,18 @@
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer.h" />
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer_Imp.h" />
     <ClInclude Include="..\core\Profiler\ace.Profiler_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreArc.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreArc_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreCircle.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreCircle_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreLine.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreLine_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreRectangle_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreShape.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreRectangle.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreTriangle.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreTriangle_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.ShapeType.h" />
     <ClInclude Include="..\core\Sound\ace.Sound.h" />
     <ClInclude Include="..\core\Sound\ace.SoundSource.h" />
     <ClInclude Include="..\core\Sound\ace.SoundSource_Imp.h" />
@@ -523,6 +537,7 @@
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D_Imp.cpp" />
@@ -552,6 +567,11 @@
     <ClCompile Include="..\core\Profiler\ace.Profile.cpp" />
     <ClCompile Include="..\core\Profiler\ace.Profiler_Imp.cpp" />
     <ClCompile Include="..\core\Profiler\ace.ProfilerViewer_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreArc_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreCircle_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreLine_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreRectangle_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreTriangle_Imp.cpp" />
     <ClCompile Include="..\core\Sound\ace.SoundSource_Imp.cpp" />
     <ClCompile Include="..\core\Sound\ace.Sound_Imp.cpp" />
     <ClCompile Include="..\core\Utils\ace.ResourceContainer.cpp" />

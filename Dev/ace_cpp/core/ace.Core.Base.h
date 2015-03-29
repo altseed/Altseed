@@ -207,6 +207,7 @@ namespace ace {
 		Effect,
 		Text,
 		Map,
+		Geometry,
 	};
 
 	enum class RenderedObject3DType : int32_t

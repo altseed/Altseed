@@ -131,6 +131,8 @@ engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.Animatio
 
 engineHeader.readLines("ace_cpp/core/Graphics/ace.Graphics.h")
 
+engineHeader.readLines("ace_cpp/core/Shape/ace.ShapeType.h")
+
 engineHeader.readLines("ace_cpp/core/Core/ace.Core.h")
 
 engineHeader.readLines("ace_cpp/core/ObjectSystem/ace.ChildMode.h")

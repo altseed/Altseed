@@ -6,6 +6,7 @@
 #include "2D/ace.CoreTextObject2D_Imp.h"
 #include "2D/ace.CoreEffectObject2D_Imp.h"
 #include "2D/ace.CoreMapObject2D_Imp.h"
+#include "2D/ace.CoreGeometryObject2D_Imp.h"
 #include "2D/ace.CoreLayer2D_Imp.h"
 
 #include "3D/ace.CoreLayer3D_Imp.h"
@@ -27,6 +28,13 @@
 #include "../Log/ace.Log_Imp.h"
 
 #include "../Graphics/ace.Graphics_Imp.h"
+
+
+#include "../Shape/ace.CoreCircle_Imp.h"
+#include "../Shape/ace.CoreArc_Imp.h"
+#include "../Shape/ace.CoreLine_Imp.h"
+#include "../Shape/ace.CoreRectangle_Imp.h"
+#include "../Shape/ace.CoreTriangle_Imp.h"
 
 namespace ace
 {
@@ -76,6 +84,11 @@ namespace ace
 	CoreMapObject2D* ObjectSystemFactory_Imp::CreateMapObject2D()
 	{
 		return new CoreMapObject2D_Imp(m_graphics);
+	}
+
+	CoreGeometryObject2D* ObjectSystemFactory_Imp::CreateGeometryObject2D()
+	{
+		return new CoreGeometryObject2D_Imp(m_graphics);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -141,5 +154,30 @@ namespace ace
 	CoreTransition* ObjectSystemFactory_Imp::CreateTransition()
 	{
 		return new CoreTransition_Imp();
+	}
+
+	CoreArc* ObjectSystemFactory_Imp::CreateArc()
+	{
+		return new CoreArc_Imp();
+	}
+
+	CoreCircle* ObjectSystemFactory_Imp::CreateCircle()
+	{
+		return new CoreCircle_Imp();
+	}
+
+	CoreLine* ObjectSystemFactory_Imp::CreateLine()
+	{
+		return new CoreLine_Imp();
+	}
+
+	CoreRectangle* ObjectSystemFactory_Imp::CreateRectangle()
+	{
+		return new CoreRectangle_Imp();
+	}
+
+	CoreTriangle* ObjectSystemFactory_Imp::CreateTriangle()
+	{
+		return new CoreTriangle_Imp();
 	}
 }

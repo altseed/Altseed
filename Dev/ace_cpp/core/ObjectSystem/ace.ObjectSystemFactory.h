@@ -8,8 +8,15 @@
 #include "2D/ace.CoreTextObject2D.h"
 #include "2D/ace.CoreEffectObject2D.h"
 #include "2D/ace.CoreMapObject2D.h"
+#include "2D/ace.CoreGeometryObject2D.h"
 #include "2D/ace.CoreLayer2D.h"
 #include "ace.CoreScene.h"
+
+#include "../Shape/ace.CoreCircle.h"
+#include "../Shape/ace.CoreArc.h"
+#include "../Shape/ace.CoreLine.h"
+#include "../Shape/ace.CoreRectangle.h"
+#include "../Shape/ace.CoreTriangle.h"
 
 namespace ace
 {
@@ -25,6 +32,7 @@ namespace ace
 		virtual CoreTextObject2D* CreateTextObject2D() = 0;
 		virtual CoreEffectObject2D* CreateEffectObject2D() = 0;
 		virtual CoreMapObject2D* CreateMapObject2D() = 0;
+		virtual CoreGeometryObject2D* CreateGeometryObject2D() = 0;
 		virtual CoreLayer2D* CreateLayer2D() = 0;
 
 
@@ -40,5 +48,11 @@ namespace ace
 		virtual CorePostEffect* CreatePostEffect() = 0;
 
 		virtual CoreTransition* CreateTransition() = 0;
+
+		virtual CoreArc* CreateArc() = 0;
+		virtual CoreCircle* CreateCircle() = 0;
+		virtual CoreLine* CreateLine() = 0;
+		virtual CoreRectangle* CreateRectangle() = 0;
+		virtual CoreTriangle* CreateTriangle() = 0;
 	};
 }

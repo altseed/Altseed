@@ -57,6 +57,19 @@
 #include "Graphics/3D/Resource/Animation/ace.AnimationSource_Imp.h"
 #include "Graphics/3D/Resource/Animation/ace.KeyframeAnimation_Imp.h"
 
+#include "Graphics/3D/Resource/Animation/ace.AnimationSystem_Imp.h"
+#include "Graphics/3D/Resource/Animation/ace.AnimationClip_Imp.h"
+#include "Graphics/3D/Resource/Animation/ace.AnimationSource_Imp.h"
+#include "Graphics/3D/Resource/Animation/ace.KeyframeAnimation_Imp.h"
+
+#include "Shape/ace.ShapeType.h"
+#include "Shape/ace.CoreShape.h"
+#include "Shape/ace.CoreLine.h"
+#include "Shape/ace.CoreCircle.h"
+#include "Shape/ace.CoreArc.h"
+#include "Shape/ace.CoreTriangle.h"
+#include "Shape/ace.CoreRectangle.h"
+
 #include "ObjectSystem/ace.ChildMode.h"
 #include "ObjectSystem/2D/ace.CoreObject2D.h"
 #include "ObjectSystem/2D/ace.CoreTextureObject2D.h"
@@ -64,6 +77,7 @@
 #include "ObjectSystem/2D/ace.CoreTextObject2D.h"
 #include "ObjectSystem/2D/ace.CoreEffectObject2D.h"
 #include "ObjectSystem/2D/ace.CoreMapObject2D.h"
+#include "ObjectSystem/2D/ace.CoreGeometryObject2D.h"
 
 #include "ObjectSystem/ace.CoreLayer.h"
 

@@ -139,6 +139,9 @@
     <Filter Include="Graphics\Platform\DX11\DirectXToolKit">
       <UniqueIdentifier>{ffbbcee5-e1ed-4029-9020-bb07561a6913}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shape">
+      <UniqueIdentifier>{39a4e209-38a6-4338-8978-c09661be9f98}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -879,6 +882,48 @@
     <ClInclude Include="..\core\Graphics\Resource\ace.ImagePackage.h">
       <Filter>Graphics\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreCircle.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreCircle_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreArc.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreArc_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreLine.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreLine_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreRectangle.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreRectangle_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreTriangle.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreTriangle_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.ShapeType.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1236,6 +1281,24 @@
     <ClCompile Include="..\core\ace.StructTranslator.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.ImagePackage_Imp.cpp">
       <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreCircle_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreArc_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreLine_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreRectangle_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreTriangle_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

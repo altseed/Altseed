@@ -28,11 +28,18 @@ CPP_OBJECT( ace::CoreLayer_Imp )
 CPP_OBJECT( ace::CoreLayer2D )
 CPP_OBJECT( ace::CoreObject2D )
 CPP_OBJECT( ace::CoreTextureObject2D )
+CPP_OBJECT( ace::CoreTextureObject2D )
 CPP_OBJECT( ace::CoreCameraObject2D )
 CPP_OBJECT( ace::CoreTextObject2D )
 CPP_OBJECT( ace::CoreEffectObject2D )
 CPP_OBJECT( ace::CoreMapObject2D )
+CPP_OBJECT( ace::CoreGeometryObject2D )
 
+CPP_OBJECT( ace::CoreCircle )
+CPP_OBJECT( ace::CoreArc )
+CPP_OBJECT( ace::CoreLine )
+CPP_OBJECT( ace::CoreTriangle )
+CPP_OBJECT( ace::CoreRectangle )
 
 CPP_OBJECT( ace::CoreObject3D )
 CPP_OBJECT( ace::CoreModelObject3D )
@@ -112,6 +119,12 @@ CPP_OBJECT( ace::StaticFile )
 %newobject ace::ObjectSystemFactory::CreateFont;
 %newobject ace::ObjectSystemFactory::CreateChip2D;
 %newobject ace::ObjectSystemFactory::CreateLayer2D;
+
+%newobject ace::ObjectSystemFactory::CreateArc;
+%newobject ace::ObjectSystemFactory::CreateCircle;
+%newobject ace::ObjectSystemFactory::CreateLine;
+%newobject ace::ObjectSystemFactory::CreateRectangle;
+%newobject ace::ObjectSystemFactory::CreateTriangle;
 
 %newobject ace::ObjectSystemFactory::CreateModelObject3D;
 %newobject ace::ObjectSystemFactory::CreateCameraObject3D;
@@ -199,6 +212,14 @@ CPP_OBJECT( ace::StaticFile )
 %include "ace_cpp/core/Graphics/ace.Graphics.h"
 %include "ace_cpp/core/Graphics/ace.Graphics_Imp.h"
 
+%include "ace_cpp/core/Shape/ace.ShapeType.h"
+%include "ace_cpp/core/Shape/ace.CoreShape.h"
+%include "ace_cpp/core/Shape/ace.CoreTriangle.h"
+%include "ace_cpp/core/Shape/ace.CoreCircle.h"
+%include "ace_cpp/core/Shape/ace.CoreArc.h"
+%include "ace_cpp/core/Shape/ace.CoreLine.h"
+%include "ace_cpp/core/Shape/ace.CoreRectangle.h"
+
 %include "ace_cpp/core/ObjectSystem/ace.ChildMode.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D.h"
@@ -206,6 +227,7 @@ CPP_OBJECT( ace::StaticFile )
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreEffectObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreMapObject2D.h"
+%include "ace_cpp/core/ObjectSystem/2D/ace.CoreGeometryObject2D.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.CoreLayer.h"
 
