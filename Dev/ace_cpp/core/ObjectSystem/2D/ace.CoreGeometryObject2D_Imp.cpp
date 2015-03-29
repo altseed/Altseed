@@ -1,4 +1,5 @@
 ﻿#include "ace.CoreGeometryObject2D_Imp.h"
+#include "../../Shape/ace.CoreTriangle.h"
 
 namespace ace
 {
@@ -90,7 +91,43 @@ namespace ace
 
 	void CoreGeometryObject2D_Imp::Draw(Renderer2D* renderer)
 	{
+		if (!m_objectInfo.GetIsDrawn())
+		{
+			return;
+		}
 
+		for (auto triangle : m_shape->GetDividedTriangles())
+		{
+			std::array<Vector2DF, 4> position;
+			std::array<Vector2DF, 4> uvs;
+
+			for (int i = 0; i < 3; ++i)
+			{
+				position[i] = triangle->GetPointByIndex(i);
+				uvs[i] = triangle->GetUVByIndex(i);
+			}
+			position[3] = position[2];
+			uvs[3] = uvs[2];
+
+			auto parentMatrix = m_transform.GetParentsMatrix();
+			auto matrix = m_transform.GetMatrixToTransform();
+
+			for (auto& pos : position)
+			{
+				pos -= centerPosition;
+				auto v3 = Vector3DF(pos.X, pos.Y, 1);
+				auto result = parentMatrix * matrix * v3;
+				pos = Vector2DF(result.X, result.Y);
+			}
+
+			Color color[4];
+			color[0] = m_color;
+			color[1] = m_color;
+			color[2] = m_color;
+			color[3] = m_color;
+
+			renderer->AddSprite(position.data(), color, uvs.data(), m_texture, alphaBlendMode, drawingPriority, m_textureFilterType);
+		}
 	}
 
 #endif
