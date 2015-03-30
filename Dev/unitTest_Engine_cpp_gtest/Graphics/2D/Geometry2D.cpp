@@ -24,11 +24,11 @@ protected:
 			ace::Vector2DF(0, 0), ace::Vector2DF(0, 1), ace::Vector2DF(1, 1), texture, ace::AlphaBlend::Blend, 0);
 		*/
 
-		DrawArcAdditionally(ace::Vector2DF(400, 300), 200, 0, ace::Color(255, 255, 255, 255), 4, 0, 4, 0, texture, ace::AlphaBlend::Blend, 0);
+		//DrawArcAdditionally(ace::Vector2DF(400, 300), 200, 0, ace::Color(255, 255, 255, 255), 4, 0, 4, 0, texture, ace::AlphaBlend::Blend, 0);
 
 		//DrawLineAdditionally(ace::Vector2DF(100, 400), ace::Vector2DF(600, 410), ace::Color(255, 255, 255, 255), 20, ace::AlphaBlend::Blend, 0);
 
-		//DrawCircleAdditionally(ace::Vector2DF(400, 300), 200, 0, ace::Color(255, 255, 255, 255), 4, 0, texture, ace::AlphaBlend::Blend, 0);
+		DrawCircleAdditionally(ace::Vector2DF(400, 300), 200, 0, ace::Color(255, 255, 255, 255), 96, 0, texture, ace::AlphaBlend::Blend, 0);
 	}
 };
 

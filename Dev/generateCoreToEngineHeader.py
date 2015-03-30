@@ -123,6 +123,15 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/ace.Graphics.h")
 fromCoreToEngine.readLines("ace_cpp/core/Core/ace.Core.h")
 fromCoreToEngine.readLines("ace_cpp/core/Core/ace.CreateCore.h")
 
+
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.ShapeType.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreShape.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreTriangle.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreCircle.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreArc.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreRectangle.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreLine.h")
+
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.ChildMode.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.CoreLayer.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.CoreScene.h')
@@ -133,6 +142,7 @@ fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D.
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreTextObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreEffectObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreMapObject2D.h')
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreGeometryObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D.h')
 
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D.h')

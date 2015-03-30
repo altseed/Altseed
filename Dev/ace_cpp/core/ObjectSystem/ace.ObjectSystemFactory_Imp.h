@@ -23,6 +23,7 @@ namespace ace
 		CoreTextObject2D* CreateTextObject2D() override;
 		CoreEffectObject2D* CreateEffectObject2D() override;
 		CoreMapObject2D* CreateMapObject2D() override;
+		CoreGeometryObject2D* CreateGeometryObject2D() override;
 		CoreLayer2D* CreateLayer2D() override;
 
 		CoreModelObject3D* CreateModelObject3D() override;
@@ -37,5 +38,11 @@ namespace ace
 		CorePostEffect* CreatePostEffect() override;
 
 		CoreTransition* CreateTransition() override;
+
+		CoreArc* CreateArc() override;
+		CoreCircle* CreateCircle() override;
+		CoreLine* CreateLine() override;
+		CoreRectangle* CreateRectangle() override;
+		CoreTriangle* CreateTriangle() override;
 	};
 }
