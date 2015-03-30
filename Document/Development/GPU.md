@@ -20,9 +20,7 @@ VisualStudio付属のツール(Professional以上)
 
 * 同じ関数内でtextureで取得した値を2回returnすると落ちる。
 
-Intel HD Graphics4000,4400で確認
-
-ドライバのバージョン不明
+Intel HD Graphics4000,4400(ドライバ：8.15.10.2712)で確認
 
 FLAGが定義されていると落ちる。
 
