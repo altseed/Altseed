@@ -12,11 +12,11 @@ namespace ace
 		CoreLine(){}
 		virtual ~CoreLine(){}
 
-		virtual Vector2DF GetStartingPoint() const = 0;
-		virtual void SetStartingPoint(Vector2DF staringPoint) = 0;
+		virtual Vector2DF GetStartingPosition() const = 0;
+		virtual void SetStartingPosition(Vector2DF staringPosition) = 0;
 
-		virtual Vector2DF GetEndingPoint() const = 0;
-		virtual void SetEndingPoint(Vector2DF endingPoint) = 0;
+		virtual Vector2DF GetEndingPosition() const = 0;
+		virtual void SetEndingPosition(Vector2DF endingPosition) = 0;
 
 		virtual float GetThickness() const = 0;
 		virtual void SetThickness(float thickness) = 0;

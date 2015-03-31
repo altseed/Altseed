@@ -1,4 +1,7 @@
-﻿#include "ace.CoreTriangle.h"
+﻿#pragma once
+
+#include "ace.CoreTriangle.h"
+#include "../ace.ReferenceObject.h"
 #include <array>
 
 namespace ace
@@ -27,7 +30,7 @@ namespace ace
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }
-		virtual std::vector<CoreTriangle*> GetDividedTriangles() override;
+		virtual void DivideToTriangles() override;
 #endif
 	};
 };

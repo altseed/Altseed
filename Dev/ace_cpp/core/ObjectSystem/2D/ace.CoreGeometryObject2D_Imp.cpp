@@ -126,7 +126,7 @@ namespace ace
 			color[2] = m_color;
 			color[3] = m_color;
 
-			renderer->AddSprite(position.data(), color, uvs.data(), m_texture, alphaBlendMode, drawingPriority, m_textureFilterType);
+			renderer->AddSprite(position.data(), color, uvs.data(), (m_shape->GetShapeType() == ShapeType::Line) ? nullptr : m_texture, alphaBlendMode, drawingPriority, m_textureFilterType);
 		}
 	}
 

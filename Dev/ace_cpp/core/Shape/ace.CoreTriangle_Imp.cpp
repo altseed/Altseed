@@ -16,6 +16,7 @@ namespace ace
 
 	void CoreTriangle_Imp::SetPointByIndex(Vector2DF point, int index)
 	{
+		isNeededUpdating = true;
 		points[index] = point;
 	}
 
@@ -26,6 +27,7 @@ namespace ace
 
 	void CoreTriangle_Imp::SetUVByIndex(Vector2DF uv, int index)
 	{
+		isNeededUpdating = true;
 		uvs[index] = uv;
 	}
 
@@ -35,11 +37,10 @@ namespace ace
 	}
 
 #if !SWIG
-	std::vector<CoreTriangle*> CoreTriangle_Imp::GetDividedTriangles()
+	void CoreTriangle_Imp::DivideToTriangles()
 	{
-		std::vector <CoreTriangle*> triangles;
-
-		return triangles;
+		SafeAddRef(this);
+		triangles.push_back(this);
 	}
 #endif
 

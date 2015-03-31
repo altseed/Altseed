@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "ace.CoreLine.h"
+#include "../ace.ReferenceObject.h"
 
 namespace ace
 {
@@ -8,18 +9,18 @@ namespace ace
 		:public CoreLine
 		, public ReferenceObject
 	{
-		Vector2DF staringPoint;
-		Vector2DF endingPoint;
+		Vector2DF staringPosition;
+		Vector2DF endingPosition;
 		float thickness;
 	public:
 		CoreLine_Imp();
 		virtual ~CoreLine_Imp(){}
 
-		Vector2DF GetStartingPoint() const;
-		void SetStartingPoint(Vector2DF startingPoint);
+		Vector2DF GetStartingPosition() const;
+		void SetStartingPosition(Vector2DF startingPosition);
 
-		Vector2DF GetEndingPoint() const;
-		void SetEndingPoint(Vector2DF endingPoint);
+		Vector2DF GetEndingPosition() const;
+		void SetEndingPosition(Vector2DF endingPosition);
 
 		float GetThickness() const;
 		void SetThickness(float thickness);
@@ -31,7 +32,7 @@ namespace ace
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }
-		virtual std::vector<CoreTriangle*> GetDividedTriangles() override;
+		virtual void DivideToTriangles() override;
 #endif
 	};
 };

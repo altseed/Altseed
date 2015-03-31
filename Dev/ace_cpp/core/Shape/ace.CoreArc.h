@@ -11,11 +11,11 @@ namespace ace
 		CoreArc(){}
 		virtual ~CoreArc(){}
 
-		virtual int GetStaringVerticalAngle() const = 0;
-		virtual void SetStaringVerticalAngle(int staringverticalAngle) = 0;
+		virtual int GetStartingCorner() const = 0;
+		virtual void SetStartingCorner(int staringCorner) = 0;
 
-		virtual int GetEndingVerticalAngle() const = 0;
-		virtual void SetEndingVerticalAngle(int endingverticalAngle) = 0;
+		virtual int GetEndingCorner() const = 0;
+		virtual void SetEndingCorner(int endingCorner) = 0;
 
 	};
 };

@@ -4,31 +4,33 @@
 namespace ace
 {
 	CoreLine_Imp::CoreLine_Imp()
-		:staringPoint(Vector2DF(0,0))
-		, endingPoint(Vector2DF(0,0))
+		:staringPosition(Vector2DF(0, 0))
+		, endingPosition(Vector2DF(0, 0))
 		, thickness(0)
 	{
 
 	}
 
-	Vector2DF CoreLine_Imp::GetStartingPoint() const
+	Vector2DF CoreLine_Imp::GetStartingPosition() const
 	{
-		return staringPoint;
+		return staringPosition;
 	}
 
-	void CoreLine_Imp::SetStartingPoint(Vector2DF startingPoint)
+	void CoreLine_Imp::SetStartingPosition(Vector2DF startingPosition)
 	{
-		this->staringPoint = staringPoint;
+		isNeededUpdating = true;
+		this->staringPosition = staringPosition;
 	}
 
-	Vector2DF CoreLine_Imp::GetEndingPoint() const
+	Vector2DF CoreLine_Imp::GetEndingPosition() const
 	{
-		return endingPoint;
+		return endingPosition;
 	}
 
-	void CoreLine_Imp::SetEndingPoint(Vector2DF endingPoint)
+	void CoreLine_Imp::SetEndingPosition(Vector2DF endingPosition)
 	{
-		this->endingPoint = endingPoint;
+		isNeededUpdating = true;
+		this->endingPosition = endingPosition;
 	}
 
 	float CoreLine_Imp::GetThickness() const
@@ -38,6 +40,7 @@ namespace ace
 
 	void CoreLine_Imp::SetThickness(float thickness)
 	{
+		isNeededUpdating = true;
 		this->thickness = thickness;
 	}
 
@@ -47,11 +50,39 @@ namespace ace
 	}
 
 #if !SWIG
-	std::vector<CoreTriangle*> CoreLine_Imp::GetDividedTriangles()
+	void CoreLine_Imp::DivideToTriangles()
 	{
-		std::vector <CoreTriangle*> triangles;
+		Vector2DF vector = endingPosition - staringPosition;
 
-		return triangles;
+		if (vector.GetSquaredLength() == 0) return;
+
+		auto binorm = vector;
+		{
+			auto deg = binorm.GetDegree();
+			deg += 90;
+			binorm.SetDegree(deg);
+			binorm.Normalize();
+		}
+
+		auto halfThickness = thickness / 2;
+
+		std::array<Vector2DF, 4> vertexes = { staringPosition + binorm*halfThickness, endingPosition + binorm*halfThickness, endingPosition - binorm*halfThickness, staringPosition - binorm*halfThickness };
+		std::array<Vector2DF, 4> uvs = { Vector2DF(0, 0), Vector2DF(0, 0), Vector2DF(0, 0), Vector2DF(0, 0) };
+
+		auto triangle1 = new CoreTriangle_Imp();
+		auto triangle2 = new CoreTriangle_Imp();
+
+		for (int j = 0; j < 3; ++j)
+		{
+			triangle1->SetPointByIndex(vertexes[j], j);
+			triangle1->SetUVByIndex(uvs[j], j);
+
+			triangle2->SetPointByIndex(vertexes[j + 1], j + 1);
+			triangle2->SetUVByIndex(uvs[j + 1], j + 1);
+		}
+
+		triangles.push_back(triangle1);
+		triangles.push_back(triangle2);
 	}
 #endif
 

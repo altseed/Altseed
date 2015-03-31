@@ -1,5 +1,6 @@
 ﻿#pragma once
 
+#include "../ace.ReferenceObject.h"
 #include "ace.CoreCircle.h"
 
 namespace ace
@@ -9,23 +10,28 @@ namespace ace
 		, public ReferenceObject
 	{
 		Vector2DF position;
-		float radius;
-		int verticalAngleNum;
+		float innerDiameter;
+		float outerDiameter;
+		int numberOfCorners;
+		float angle;
 	public:
 		CoreCircle_Imp();
 		virtual ~CoreCircle_Imp(){}
 
-		Vector2DF GetPosition() const;
-		void SetPosition(Vector2DF position);
+		Vector2DF GetPosition() const override;
+		void SetPosition(Vector2DF position) override;
 
-		float GetRadius() const;
-		void SetRadius(float radius);
+		float GetOuterDiameter() const override;
+		void SetOuterDiamater(float outerDiameter) override;
 
-		int GetVertexNum() const;
-		void SetVertexNum(int vertexNum);
+		float GetInnerDiameter() const override;
+		void SetInnerDiamater(float innerDiameter) override;
 
-		int GetVerticalAngleNum() const;
-		void SetVerticalAngleNum(int verticalangleNum);
+		float GetAngle() const override;
+		void SetAngle(float angle) override;
+
+		int GetNumberOfCorners() const override;
+		void SetNumberOfCorners(int numberOfCorners) override;
 
 		ShapeType GetShapeType() const override;
 
@@ -34,7 +40,7 @@ namespace ace
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }
-		virtual std::vector<CoreTriangle*> GetDividedTriangles() override;
+		virtual void DivideToTriangles() override;
 #endif
 	};
 };

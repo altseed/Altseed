@@ -1,47 +1,53 @@
-﻿#include "ace.CoreArc_Imp.h"
-#include "ace.CoreTriangle_Imp.h"
+﻿#include "ace.CoreTriangle_Imp.h"
+#include "ace.CoreArc_Imp.h"
+
 namespace ace
 {
 	CoreArc_Imp::CoreArc_Imp()
 		:
 		position(Vector2DF())
-		, radius(0)
-		, staringVerticalAngle(0)
-		, endingVerticalAngle(0)
-		, verticalAngleNum(0)
+		, startingCorner(0)
+		, endingCorner(0)
+		, innerDiameter(0)
+		, outerDiameter(0)
+		, numberOfCorners(0)
+		, angle(0)
 	{
 
 	}
 
-	int CoreArc_Imp::GetStaringVerticalAngle() const
+	int CoreArc_Imp::GetStartingCorner() const
 	{
-		return staringVerticalAngle;
+		return startingCorner;
 	}
 
-	void CoreArc_Imp::SetStaringVerticalAngle(int staringverticalAngle)
+	void CoreArc_Imp::SetStartingCorner(int startingverticalAngle)
 	{
-		staringVerticalAngle = staringverticalAngle;
+		isNeededUpdating = true;
+		this->startingCorner = startingverticalAngle;
 	}
 
-	int CoreArc_Imp::GetEndingVerticalAngle() const
+	int CoreArc_Imp::GetEndingCorner() const
 	{
-		return endingVerticalAngle;
+		return endingCorner;
 	}
 
-	void CoreArc_Imp::SetEndingVerticalAngle(int endingverticalAngle)
+	void CoreArc_Imp::SetEndingCorner(int endingCorner)
 	{
-		endingVerticalAngle = endingverticalAngle;
+		isNeededUpdating = true;
+		this->endingCorner = endingCorner;
 	}
 
 
-	int CoreArc_Imp::GetVerticalAngleNum() const
+	int CoreArc_Imp::GetNumberOfCorners() const
 	{
-		return verticalAngleNum;
+		return numberOfCorners;
 	}
 
-	void CoreArc_Imp::SetVerticalAngleNum(int verticalangleNum)
+	void CoreArc_Imp::SetNumberOfCorners(int numberOfCorners)
 	{
-		verticalAngleNum = verticalangleNum;
+		isNeededUpdating = true;
+		this->numberOfCorners = numberOfCorners;
 	}
 
 	ShapeType CoreArc_Imp::GetShapeType() const
@@ -56,27 +62,107 @@ namespace ace
 
 	void CoreArc_Imp::SetPosition(Vector2DF pos)
 	{
-		position = position;
+		isNeededUpdating = true;
+		this->position = position;
 	}
 
 
-	float CoreArc_Imp::GetRadius() const
+	float CoreArc_Imp::GetAngle() const
 	{
-		return radius;
+		return angle;
 	}
 
-	void CoreArc_Imp::SetRadius(float rad)
+	void CoreArc_Imp::SetAngle(float angle)
 	{
-		radius = rad;
+		isNeededUpdating = true;
+		this->angle = angle;
+	}
+
+	float CoreArc_Imp::GetOuterDiameter() const
+	{
+		return outerDiameter;
+	}
+
+	void CoreArc_Imp::SetOuterDiamater(float outerDiameter)
+	{
+		isNeededUpdating = true;
+		this->outerDiameter = outerDiameter;
+	}
+
+	float CoreArc_Imp::GetInnerDiameter() const
+	{
+		return innerDiameter;
+	}
+
+	void CoreArc_Imp::SetInnerDiamater(float innerDiameter)
+	{
+		isNeededUpdating = true;
+		this->innerDiameter = innerDiameter;
 	}
 
 
 #if !SWIG
-	std::vector<CoreTriangle*> CoreArc_Imp::GetDividedTriangles()
+	void CoreArc_Imp::DivideToTriangles()
 	{
-		std::vector <CoreTriangle*> triangles;
+		if (numberOfCorners < 3) return;
 
-		return triangles;
+		const float radInc = 360.0 / numberOfCorners;
+
+		const float outerRadius = outerDiameter / 2;
+		const float innerRadius = innerDiameter / 2;
+
+		float currentPosDeg = angle - 90 + startingCorner*radInc;
+		float currentUVDeg = -90 + startingCorner*radInc;
+
+		Vector2DF baseVector(0, -1);
+		baseVector.SetDegree(currentPosDeg);
+
+		Vector2DF uvCenter = { 0.5, 0.5 };
+
+		Vector2DF uvVector = { 0, -0.5 };
+
+		float ratio = innerDiameter / outerDiameter;
+
+		for (int i = 0; i < endingCorner-startingCorner; ++i)
+		{
+			Vector2DF currentPosVector = baseVector;
+			currentPosVector.SetDegree(currentPosDeg);
+
+			Vector2DF nextPosVector = currentPosVector;
+			auto nextPosDeg = nextPosVector.GetDegree();
+			nextPosDeg += radInc;
+			nextPosVector.SetDegree(nextPosDeg);
+
+			Vector2DF currentUVVector = uvVector;
+			currentUVVector.SetDegree(currentUVDeg);
+
+			Vector2DF nextUVVector = currentUVVector;
+			auto nextUVDeg = nextUVVector.GetDegree();
+			nextUVDeg += radInc;
+			nextUVVector.SetDegree(nextUVDeg);
+
+
+			std::array<Vector2DF, 4> vertexes = { position + currentPosVector*outerRadius, position + nextPosVector*outerRadius, position + nextPosVector*innerRadius, position + currentPosVector*innerRadius };
+			std::array<Vector2DF, 4> uvs = { uvCenter + uvVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + uvVector*ratio };
+
+			auto triangle1 = new CoreTriangle_Imp();
+			auto triangle2 = new CoreTriangle_Imp();
+
+			for (int j = 0; j < 3; ++j)
+			{
+				triangle1->SetPointByIndex(vertexes[j], j);
+				triangle1->SetUVByIndex(uvs[j], j);
+
+				triangle2->SetPointByIndex(vertexes[j + 1], j + 1);
+				triangle2->SetUVByIndex(uvs[j + 1], j + 1);
+			}
+
+			triangles.push_back(triangle1);
+			triangles.push_back(triangle2);
+
+			currentPosDeg += radInc;
+			currentUVDeg += radInc;
+		}
 	}
 #endif
 

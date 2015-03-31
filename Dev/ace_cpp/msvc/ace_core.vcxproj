@@ -571,6 +571,7 @@
     <ClCompile Include="..\core\Shape\ace.CoreCircle_Imp.cpp" />
     <ClCompile Include="..\core\Shape\ace.CoreLine_Imp.cpp" />
     <ClCompile Include="..\core\Shape\ace.CoreRectangle_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreShape.cpp" />
     <ClCompile Include="..\core\Shape\ace.CoreTriangle_Imp.cpp" />
     <ClCompile Include="..\core\Sound\ace.SoundSource_Imp.cpp" />
     <ClCompile Include="..\core\Sound\ace.Sound_Imp.cpp" />

@@ -1300,6 +1300,9 @@
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Window\ace.Window_Imp_X11.cpp">

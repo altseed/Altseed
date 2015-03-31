@@ -230,10 +230,12 @@ $RECYCLE.BIN/
 /Box2D_v2.3.0/
 /bullet_bin/
 /bullet-2.82-r2704/
+/ImagePackageGenerator-master/
 
 Box2D_v2.3.0.7z
 libpng-1.6.6.tar.gz
 zlib-1.2.8.tar.gz
+bullet-2.82-r2704.zip
 master.zip
 
 /Dev/cmake/

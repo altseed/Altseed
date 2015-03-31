@@ -21,5 +21,8 @@ namespace ace
 
 		virtual float GetAngle() const = 0;
 		virtual void SetAngle(float angle) = 0;
+
+		virtual Vector2DF GetCenterPosition() const = 0;
+		virtual void SetCenterPosition(Vector2DF centerPosition) = 0;
 	};
 };

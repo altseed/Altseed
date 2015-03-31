@@ -1,7 +1,8 @@
 ﻿#pragma once
 
 #include "ace.ShapeType.h"
-#include "../ace.ReferenceObject.h"
+#include "../ace.Core.Base.h"
+
 namespace ace{
 
 	class CoreTriangle;
@@ -9,14 +10,21 @@ namespace ace{
 	class CoreShape 
 		: public IReference
 	{
+#if !SWIG
+	protected:
+		std::vector<CoreTriangle*> triangles;
+		bool isNeededUpdating;
+
+		virtual void DivideToTriangles() = 0;
+#endif
 	public:
-		CoreShape(){}
+		CoreShape():isNeededUpdating(false){}
 		virtual ~CoreShape(){}
 
 		virtual ShapeType GetShapeType() const = 0;
 
 #if !SWIG
-		virtual std::vector<CoreTriangle*> GetDividedTriangles() = 0;
+		std::vector<CoreTriangle*>& GetDividedTriangles();
 #endif
 	};
 };
