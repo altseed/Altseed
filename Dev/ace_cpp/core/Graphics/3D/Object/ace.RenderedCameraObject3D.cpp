@@ -78,16 +78,18 @@ namespace ace
 			{
 				m_renderTarget_FR[0] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
 				m_renderTarget_FR[1] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
+				m_renderTargetEnvironment = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
 			}
 			else
 			{
 				m_renderTarget_FR[0] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 				m_renderTarget_FR[1] = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
+				m_renderTargetEnvironment = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
 			}
 			
 			m_depthBuffer_RT = g->CreateDepthBuffer_Imp(windowSize.X, windowSize.Y);
 
-			m_renderTargetEnvironment = g->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
+			
 		}
 
 		WindowSize = windowSize;
