@@ -97,6 +97,7 @@
     <ClInclude Include="..\engine\ace.Engine.h" />
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.CameraObject2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.EffectObject2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\ace.GeometryObject2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.Layer2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.MapObject2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.Object2D.h" />
@@ -125,11 +126,18 @@
     <ClInclude Include="..\engine\ObjectSystem\Transition\ace.Transition.h" />
     <ClInclude Include="..\engine\ObjectSystem\Transition\ace.TransitionFade.h" />
     <ClInclude Include="..\engine\PCH\ace.Engine.PCH.h" />
+    <ClInclude Include="..\engine\Shape\ace.Arc.h" />
+    <ClInclude Include="..\engine\Shape\ace.Circle.h" />
+    <ClInclude Include="..\engine\Shape\ace.Line.h" />
+    <ClInclude Include="..\engine\Shape\ace.Rectangle.h" />
+    <ClInclude Include="..\engine\Shape\ace.Shape.h" />
+    <ClInclude Include="..\engine\Shape\ace.Triangle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\engine\ace.Engine.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.CameraObject2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.EffectObject2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\ace.GeometryObject2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.Layer2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.MapObject2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.Object2D.cpp" />
@@ -159,6 +167,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\engine\Shape\ace.Arc.cpp" />
+    <ClCompile Include="..\engine\Shape\ace.Circle.cpp" />
+    <ClCompile Include="..\engine\Shape\ace.Line.cpp" />
+    <ClCompile Include="..\engine\Shape\ace.Rectangle.cpp" />
+    <ClCompile Include="..\engine\Shape\ace.Shape.cpp" />
+    <ClCompile Include="..\engine\Shape\ace.Triangle.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ace_core.vcxproj">

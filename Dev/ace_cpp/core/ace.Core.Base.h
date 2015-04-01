@@ -69,6 +69,13 @@ namespace ace {
 	class CoreScene;
 	class CoreLayer;
 
+	class CoreShape;
+	class CoreTriangle;
+	class CoreRectangle;
+	class CoreLine;
+	class CoreCircle;
+	class CoreArc;
+
 	class CoreLayer2D;
 	class CoreObject2D;
 	class CoreTextureObject2D;
@@ -76,6 +83,7 @@ namespace ace {
 	class CoreTextObject2D;
 	class CoreEffectObject2D;
 	class CoreMapObject2D;
+	class CoreGeometryObject2D;
 
 	class CoreLayer3D;
 	class CoreObject3D;
