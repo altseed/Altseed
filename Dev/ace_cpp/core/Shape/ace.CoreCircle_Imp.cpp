@@ -41,7 +41,7 @@ namespace ace
 		return outerDiameter;
 	}
 
-	void CoreCircle_Imp::SetOuterDiamater(float outerDiameter)
+	void CoreCircle_Imp::SetOuterDiameter(float outerDiameter)
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
@@ -53,7 +53,7 @@ namespace ace
 		return innerDiameter;
 	}
 
-	void CoreCircle_Imp::SetInnerDiamater(float innerDiameter)
+	void CoreCircle_Imp::SetInnerDiameter(float innerDiameter)
 	{
 		isNeededUpdating = true;
 		this->innerDiameter = innerDiameter;

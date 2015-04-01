@@ -76,7 +76,7 @@ namespace ace
             }
             set
             {
-                coreCircle.SetOuterDiamater(value);
+                coreCircle.SetOuterDiameter(value);
             }
         }
 
@@ -88,7 +88,7 @@ namespace ace
             }
             set
             {
-                coreCircle.SetInnerDiamater(value);
+                coreCircle.SetInnerDiameter(value);
             }
         }
 

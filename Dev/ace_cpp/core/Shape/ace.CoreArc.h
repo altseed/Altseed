@@ -15,10 +15,10 @@ namespace ace
 		virtual void SetPosition(Vector2DF position) = 0;
 
 		virtual float GetOuterDiameter() const = 0;
-		virtual void SetOuterDiamater(float outerDiameter) = 0;
+		virtual void SetOuterDiameter(float outerDiameter) = 0;
 
 		virtual float GetInnerDiameter() const = 0;
-		virtual void SetInnerDiamater(float innerDiameter) = 0;
+		virtual void SetInnerDiameter(float innerDiameter) = 0;
 
 		virtual float GetAngle() const = 0;
 		virtual void SetAngle(float angle) = 0;

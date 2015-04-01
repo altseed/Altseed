@@ -22,10 +22,10 @@ namespace ace
 		void SetPosition(Vector2DF position) override;
 
 		float GetOuterDiameter() const override;
-		void SetOuterDiamater(float outerDiameter) override;
+		void SetOuterDiameter(float outerDiameter) override;
 
 		float GetInnerDiameter() const override;
-		void SetInnerDiamater(float innerDiameter) override;
+		void SetInnerDiameter(float innerDiameter) override;
 
 		float GetAngle() const override;
 		void SetAngle(float angle) override;

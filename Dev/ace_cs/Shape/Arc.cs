@@ -76,7 +76,7 @@ namespace ace
             }
             set
             {
-                coreArc.SetOuterDiamater(value);
+                coreArc.SetOuterDiameter(value);
             }
         }
         
@@ -88,7 +88,7 @@ namespace ace
             }
             set
             {
-                coreArc.SetInnerDiamater(value);
+                coreArc.SetInnerDiameter(value);
             }
         }
 

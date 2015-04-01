@@ -34,9 +34,9 @@ namespace ace
 		return m_coreObject->GetOuterDiameter();
 	}
 
-	void Circle::SetOuterDiamater(float outerDiameter)
+	void Circle::SetOuterDiameter(float outerDiameter)
 	{
-		m_coreObject->SetOuterDiamater(outerDiameter);
+		m_coreObject->SetOuterDiameter(outerDiameter);
 	}
 
 	float Circle::GetInnerDiameter() const
@@ -44,9 +44,9 @@ namespace ace
 		return m_coreObject->GetInnerDiameter();
 	}
 
-	void Circle::SetInnerDiamater(float innerDiameter)
+	void Circle::SetInnerDiameter(float innerDiameter)
 	{
-		m_coreObject->SetInnerDiamater(innerDiameter);
+		m_coreObject->SetInnerDiameter(innerDiameter);
 	}
 
 	float Circle::GetAngle() const

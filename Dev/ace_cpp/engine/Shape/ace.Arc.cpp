@@ -34,9 +34,9 @@ namespace ace
 		return m_coreObject->GetOuterDiameter();
 	}
 
-	void Arc::SetOuterDiamater(float outerDiameter)
+	void Arc::SetOuterDiameter(float outerDiameter)
 	{
-		m_coreObject->SetOuterDiamater(outerDiameter);
+		m_coreObject->SetOuterDiameter(outerDiameter);
 	}
 
 	float Arc::GetInnerDiameter() const
@@ -44,9 +44,9 @@ namespace ace
 		return m_coreObject->GetInnerDiameter();
 	}
 
-	void Arc::SetInnerDiamater(float innerDiameter)
+	void Arc::SetInnerDiameter(float innerDiameter)
 	{
-		m_coreObject->SetInnerDiamater(innerDiameter);
+		m_coreObject->SetInnerDiameter(innerDiameter);
 	}
 
 	float Arc::GetAngle() const

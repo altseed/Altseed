@@ -84,7 +84,7 @@ namespace ace
 		return outerDiameter;
 	}
 
-	void CoreArc_Imp::SetOuterDiamater(float outerDiameter)
+	void CoreArc_Imp::SetOuterDiameter(float outerDiameter)
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
@@ -96,7 +96,7 @@ namespace ace
 		return innerDiameter;
 	}
 
-	void CoreArc_Imp::SetInnerDiamater(float innerDiameter)
+	void CoreArc_Imp::SetInnerDiameter(float innerDiameter)
 	{
 		isNeededUpdating = true;
 		this->innerDiameter = innerDiameter;

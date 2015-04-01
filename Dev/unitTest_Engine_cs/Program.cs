@@ -12,8 +12,8 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-			/*
-			TestSequencially(new Graphics.Resource.ImagePackage());
+            /*
+			TestSequencially(new Graphics._2D.GeometryObject2D());
 			Console.ReadKey();
 			return;
 			*/

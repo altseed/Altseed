@@ -39,8 +39,8 @@ protected:
 
 		{
 			auto circle = make_shared<Circle>();
-			circle->SetOuterDiamater(100);
-			circle->SetInnerDiamater(10);
+			circle->SetOuterDiameter(100);
+			circle->SetInnerDiameter(10);
 			circle->SetNumberOfCorners(96);
 			circle->SetPosition(Vector2DF(100, 50));
 
@@ -51,8 +51,8 @@ protected:
 
 		{
 			auto arc = make_shared<ace::Arc>();
-			arc->SetOuterDiamater(100);
-			arc->SetInnerDiamater(10);
+			arc->SetOuterDiameter(100);
+			arc->SetInnerDiameter(10);
 			arc->SetNumberOfCorners(96);
 			arc->SetPosition(Vector2DF(300, 50));
 			arc->SetStartingCorner(90);

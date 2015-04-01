@@ -80,6 +80,8 @@ namespace ace
 
                     if (TryRelease<swig.StaticFile>(o)) continue;
 
+                    if (TryRelease<swig.CoreShape>(o)) continue;
+
 					throw new Exception(string.Format("未登録のクラス{0}を検出しました。", o));
 				}
 

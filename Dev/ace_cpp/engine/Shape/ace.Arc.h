@@ -19,10 +19,10 @@ namespace ace
 		void SetPosition(Vector2DF position);
 
 		float GetOuterDiameter() const;
-		void SetOuterDiamater(float outerDiameter);
+		void SetOuterDiameter(float outerDiameter);
 
 		float GetInnerDiameter() const;
-		void SetInnerDiamater(float innerDiameter);
+		void SetInnerDiameter(float innerDiameter);
 
 		float GetAngle() const;
 		void SetAngle(float angle);
