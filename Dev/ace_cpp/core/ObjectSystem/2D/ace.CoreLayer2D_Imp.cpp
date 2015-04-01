@@ -14,6 +14,7 @@
 #include "ace.CoreMapObject2D_Imp.h"
 #include "ace.CoreEffectObject2D_Imp.h"
 #include "ace.CoreObject2D_Imp.h"
+#include "ace.CoreGeometryObject2D_Imp.h"
 #include "../../Core/ace.Core.h"
 #include "../../Graphics/Resource/ace.Chip2D_Imp.h"
 
@@ -110,6 +111,8 @@ namespace ace
 			return (CoreMapObject2D_Imp*) obj;
 		case Object2DType::Effect:
 			return (CoreEffectObject2D_Imp*) obj;
+		case Object2DType::Geometry:
+			return (CoreGeometryObject2D_Imp*)obj;
 		default:
 			break;
 		}

@@ -117,7 +117,7 @@ namespace ace
 
 
 			std::array<Vector2DF, 4> vertexes = { position + currentPosVector*outerRadius, position + nextPosVector*outerRadius, position + nextPosVector*innerRadius, position + currentPosVector*innerRadius };
-			std::array<Vector2DF, 4> uvs = { uvCenter + uvVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + uvVector*ratio };
+			std::array<Vector2DF, 4> uvs = { uvCenter + currentUVVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + currentUVVector*ratio };
 
 			auto triangle1 = new CoreTriangle_Imp();
 			auto triangle2 = new CoreTriangle_Imp();
@@ -127,8 +127,8 @@ namespace ace
 				triangle1->SetPointByIndex(vertexes[j], j);
 				triangle1->SetUVByIndex(uvs[j], j);
 
-				triangle2->SetPointByIndex(vertexes[j + 1], j + 1);
-				triangle2->SetUVByIndex(uvs[j + 1], j + 1);
+				triangle2->SetPointByIndex(vertexes[(j + 2) % 4], j);
+				triangle2->SetUVByIndex(uvs[(j + 2) % 4], j);
 			}
 
 			triangles.push_back(triangle1);

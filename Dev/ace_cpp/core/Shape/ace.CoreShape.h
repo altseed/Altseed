@@ -31,7 +31,7 @@ namespace ace{
 			isNeededUpdating(false),
 			isNeededCalcBoundingCircle(false)
 		{}
-		virtual ~CoreShape(){}
+		virtual ~CoreShape();
 
 		virtual ShapeType GetShapeType() const = 0;
 

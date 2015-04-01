@@ -24,7 +24,7 @@ namespace ace
 		Object2DType GetObjectType() const override { return Object2DType::Geometry; }
 
 		CoreGeometryObject2D_Imp(Graphics_Imp* graphics);
-		virtual ~CoreGeometryObject2D_Imp() {}
+		virtual ~CoreGeometryObject2D_Imp();
 
 		CoreShape* GetShape() const;
 		void SetShape(CoreShape* shape);

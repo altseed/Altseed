@@ -3,6 +3,14 @@
 
 namespace ace
 {
+	CoreShape::~CoreShape()
+	{
+		for (auto triangle : triangles)
+		{
+			SafeRelease(triangle);
+		}
+	}
+
 #if !SWIG
 	std::vector<CoreTriangle*>& CoreShape::GetDividedTriangles()
 	{

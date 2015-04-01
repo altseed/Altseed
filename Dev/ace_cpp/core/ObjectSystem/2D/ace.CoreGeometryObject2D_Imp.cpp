@@ -17,6 +17,12 @@ namespace ace
 
 	}
 
+	CoreGeometryObject2D_Imp::~CoreGeometryObject2D_Imp()
+	{
+		SafeRelease(m_shape);
+		SafeRelease(m_texture);
+	}
+
 	CoreShape* CoreGeometryObject2D_Imp::GetShape() const
 	{
 		return m_shape;

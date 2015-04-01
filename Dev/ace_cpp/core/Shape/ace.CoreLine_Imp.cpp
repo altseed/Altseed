@@ -80,8 +80,8 @@ namespace ace
 			triangle1->SetPointByIndex(vertexes[j], j);
 			triangle1->SetUVByIndex(uvs[j], j);
 
-			triangle2->SetPointByIndex(vertexes[j + 1], j + 1);
-			triangle2->SetUVByIndex(uvs[j + 1], j + 1);
+			triangle2->SetPointByIndex(vertexes[(j + 2) % 4], j);
+			triangle2->SetUVByIndex(uvs[(j + 2) % 4], j);
 		}
 
 		triangles.push_back(triangle1);
