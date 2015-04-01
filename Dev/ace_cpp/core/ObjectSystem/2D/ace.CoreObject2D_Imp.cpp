@@ -6,6 +6,7 @@
 #include "ace.CoreTextObject2D_Imp.h"
 #include "ace.CoreMapObject2D_Imp.h"
 #include "ace.CoreEffectObject2D_Imp.h"
+#include "ace.CoreGeometryObject2D_Imp.h"
 
 namespace ace
 {
@@ -73,6 +74,8 @@ namespace ace
 			return (CoreMapObject2D_Imp*)obj;
 		case Object2DType::Effect:
 			return (CoreEffectObject2D_Imp*)obj;
+		case Object2DType::Geometry:
+			return (CoreGeometryObject2D_Imp*)obj;
 		default:
 			break;
 		}
