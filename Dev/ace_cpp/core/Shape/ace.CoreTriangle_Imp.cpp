@@ -41,7 +41,15 @@ namespace ace
 	void CoreTriangle_Imp::DivideToTriangles()
 	{
 		//SafeAddRef(this);
-		triangles.push_back(this);
+		CoreTriangle_Imp* triangle = new CoreTriangle_Imp();
+
+		for (int i = 0; i < 3; ++i)
+		{
+			triangle->SetPointByIndex(points[i], i);
+			triangle->SetUVByIndex(uvs[i], i);
+		}
+
+		triangles.push_back(triangle);
 	}
 
 	void CoreTriangle_Imp::CalculateBoundingCircle()

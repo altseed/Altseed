@@ -21,7 +21,7 @@ namespace ace
 		virtual ~CoreArc_Imp(){}
 
 		Vector2DF GetPosition() const override;
-		void SetPosition(Vector2DF pos) override;
+		void SetPosition(Vector2DF position) override;
 
 		float GetOuterDiameter() const override;
 		void SetOuterDiamater(float outerDiameter) override;

@@ -60,7 +60,7 @@ namespace ace
 		return position;
 	}
 
-	void CoreArc_Imp::SetPosition(Vector2DF pos)
+	void CoreArc_Imp::SetPosition(Vector2DF position)
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
@@ -125,7 +125,10 @@ namespace ace
 
 		float ratio = innerDiameter / outerDiameter;
 
-		for (int i = 0; i < endingCorner-startingCorner; ++i)
+		int endcorner = endingCorner;
+		while (endcorner < startingCorner) endcorner += numberOfCorners;
+
+		for (int i = 0; i < endcorner-startingCorner; ++i)
 		{
 			Vector2DF currentPosVector = baseVector;
 			currentPosVector.SetDegree(currentPosDeg);

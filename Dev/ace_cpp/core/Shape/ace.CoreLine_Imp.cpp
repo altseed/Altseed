@@ -20,7 +20,7 @@ namespace ace
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
-		this->staringPosition = staringPosition;
+		this->staringPosition = startingPosition;
 	}
 
 	Vector2DF CoreLine_Imp::GetEndingPosition() const
