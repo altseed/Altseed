@@ -204,5 +204,11 @@ namespace ace
 		@param	value	SSAOの最大距離
 		*/
 		void SetSSAO_FarPlain(float value);
+
+		/**
+		@brief	レイヤーの種類を取得する。
+		@return	レイヤーの種類
+		*/
+		LayerType GetLayerType() const override { return LayerType::Layer3D; }
 	};
 }

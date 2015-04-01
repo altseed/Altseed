@@ -243,6 +243,11 @@ namespace ace
 			set { coreLayer3D.SetSSAO_FarPlain(value); }
 		}
 
+		public override LayerType LayerType
+		{
+			get { return LayerType.Layer3D; }
+		}
+
 		internal override void BeginUpdating()
 		{
 			coreLayer3D.BeginUpdating();

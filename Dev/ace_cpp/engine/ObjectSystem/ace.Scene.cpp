@@ -285,4 +285,9 @@ namespace ace
 		SafeAddRef(target);
 		return CreateSharedPtrWithReleaseDLL(target);
 	}
+
+	const std::list<Layer::Ptr>& Scene::GetLayers() const
+	{
+		return m_layersToUpdate;
+	}
 }

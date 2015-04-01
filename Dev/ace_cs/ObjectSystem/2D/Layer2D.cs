@@ -210,6 +210,11 @@ namespace ace
             coreLayer2D.DrawLineAdditionally(point1, point2, color, thickness, (swig.AlphaBlend)alphaBlend, priority);
         }
 
+		public override LayerType LayerType
+		{
+			get { return LayerType.Layer3D; }
+		}
+
         internal override void BeginUpdating()
 		{
 			coreLayer2D.BeginUpdating();

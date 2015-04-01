@@ -133,5 +133,11 @@ namespace ace
 			主にシーン遷移の際に使用する。
 		*/
 		std::shared_ptr<RenderTexture2D> GetEffectedScreen();
+
+		/**
+			@brief	所属しているレイヤーを取得する。
+			@return	所属しているレイヤー
+		*/
+		const std::list<Layer::Ptr>& GetLayers() const;
 	};
 }
