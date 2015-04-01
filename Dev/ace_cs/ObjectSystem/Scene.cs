@@ -63,14 +63,6 @@ namespace ace
 
 
 		/// <summary>
-		/// このシーン クラスが管理するレイヤーのコレクションを取得する。
-		/// </summary>
-		public IEnumerable<Layer> Layers
-		{
-			get { return layersToUpdate_; }
-		}
-
-		/// <summary>
 		/// 描画先がHDRかどうか、取得、または設定する。
 		/// </summary>
 		public bool HDRMode
@@ -161,6 +153,11 @@ namespace ace
 				return GC.GenerateRenderTexture2D(CoreScene.GetBaseTarget(), GC.GenerationType.Get);
 			}
 		}
+
+		/// <summary>
+		/// 所属しているレイヤーを取得する。
+		/// </summary>
+		public IEnumerable<Layer> Layers { get { return layersToUpdate_; } }
 
 		/// <summary>
 		/// オーバーライドして、Updateの直前に実行する処理を記述する。

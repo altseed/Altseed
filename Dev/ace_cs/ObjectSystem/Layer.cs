@@ -6,6 +6,15 @@ using System.Text;
 namespace ace
 {
 	/// <summary>
+	/// レイヤーの種類
+	/// </summary>
+	public enum LayerType : int
+	{
+		Layer2D = swig.LayerType.Layer2D,
+		Layer3D = swig.LayerType.Layer3D,
+	};
+
+	/// <summary>
 	/// オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス
 	/// </summary>
 	public abstract class Layer
@@ -160,7 +169,11 @@ namespace ace
 			OnVanish();
 		}
 
-		protected List<PostEffect> postEffects;
+		/// <summary>
+		/// レイヤーの種類を取得する。
+		/// </summary>
+		public abstract LayerType LayerType { get; }
 
+		protected List<PostEffect> postEffects;
 	}
 }

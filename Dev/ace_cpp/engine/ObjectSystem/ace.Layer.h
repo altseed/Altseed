@@ -7,6 +7,7 @@
 
 namespace ace
 {
+	class Engine;
 	class Scene;
 
 	/**
@@ -15,7 +16,6 @@ namespace ace
 	class Layer
 	{
 		friend class Scene;
-
 	public:
 		typedef std::shared_ptr<Layer> Ptr;
 
@@ -113,5 +113,11 @@ namespace ace
 			@brief	このレイヤーを破棄する。
 		*/
 		void Vanish();
+
+		/**
+			@brief	レイヤーの種類を取得する。
+			@return	レイヤーの種類
+		*/
+		virtual LayerType GetLayerType() const = 0;
 	};
 }
