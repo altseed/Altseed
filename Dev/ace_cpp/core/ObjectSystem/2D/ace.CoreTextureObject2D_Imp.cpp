@@ -82,6 +82,7 @@ namespace ace
 	void CoreTextureObject2D_Imp::SetCenterPosition(Vector2DF position)
 	{
 		m_centerPosition = position;
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------
