@@ -21,6 +21,7 @@ namespace ace
 	void CoreCircle_Imp::SetPosition(Vector2DF position)
 	{
 		isNeededUpdating = true;
+		isNeededCalcBoundingCircle = true;
 		this->position = position;
 	}
 
@@ -43,6 +44,7 @@ namespace ace
 	void CoreCircle_Imp::SetOuterDiamater(float outerDiameter)
 	{
 		isNeededUpdating = true;
+		isNeededCalcBoundingCircle = true;
 		this->outerDiameter = outerDiameter;
 	}
 
@@ -136,6 +138,11 @@ namespace ace
 			currentUVDeg += radInc;
 		}
 		
+	}
+
+	void CoreCircle_Imp::CalculateBoundingCircle()
+	{
+		boundingCircle = culling2d::Circle(culling2d::Vector2DF(position.X, position.Y), outerDiameter / 2.0f);
 	}
 #endif
 

@@ -20,6 +20,7 @@ namespace ace
 	void CoreRectangle_Imp::SetDrawingArea(RectF drawingArea)
 	{
 		isNeededUpdating = true;
+		isNeededCalcBoundingCircle = true;
 		this->drawingArea = drawingArea;
 	}
 
@@ -42,6 +43,7 @@ namespace ace
 	void CoreRectangle_Imp::SetAngle(float angle)
 	{
 		isNeededUpdating = true;
+		isNeededCalcBoundingCircle = true;
 		this->angle = angle;
 	}
 
@@ -53,6 +55,7 @@ namespace ace
 	void CoreRectangle_Imp::SetCenterPosition(Vector2DF centerPosition)
 	{
 		isNeededUpdating = true;
+		isNeededCalcBoundingCircle = true;
 		this->centerPosition = centerPosition;
 	}
 
@@ -93,6 +96,27 @@ namespace ace
 
 		triangles.push_back(triangle1);
 		triangles.push_back(triangle2);
+	}
+
+	void CoreRectangle_Imp::CalculateBoundingCircle()
+	{
+		std::array<Vector2DF, 4> vertexes = drawingArea.GetVertexes();
+
+		auto globalCenter = vertexes[0] + centerPosition;
+
+		for (auto& vertex : vertexes)
+		{
+			vertex -= globalCenter;
+			auto deg = vertex.GetDegree();
+			deg += angle;
+			vertex.SetDegree(deg);
+			vertex += globalCenter;
+		}
+
+		Vector2DF center = (vertexes[0] + vertexes[1] + vertexes[2] + vertexes[3]) / 4.0f;
+		float radius = (vertexes[0] - center).GetLength();
+
+		boundingCircle = culling2d::Circle(culling2d::Vector2DF(center.X, center.Y), radius);
 	}
 #endif
 

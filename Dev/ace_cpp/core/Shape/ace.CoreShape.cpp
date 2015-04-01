@@ -18,5 +18,15 @@ namespace ace
 		}
 		return triangles;
 	}
+
+	culling2d::Circle& CoreShape::GetBoundingCircle()
+	{
+		if (isNeededCalcBoundingCircle)
+		{
+			CalculateBoundingCircle();
+			isNeededCalcBoundingCircle = false;
+		}
+		return boundingCircle;
+	}
 #endif
 };

@@ -19,6 +19,7 @@ namespace ace
 	void CoreLine_Imp::SetStartingPosition(Vector2DF startingPosition)
 	{
 		isNeededUpdating = true;
+		isNeededCalcBoundingCircle = true;
 		this->staringPosition = staringPosition;
 	}
 
@@ -30,6 +31,7 @@ namespace ace
 	void CoreLine_Imp::SetEndingPosition(Vector2DF endingPosition)
 	{
 		isNeededUpdating = true;
+		isNeededCalcBoundingCircle = true;
 		this->endingPosition = endingPosition;
 	}
 
@@ -40,6 +42,7 @@ namespace ace
 
 	void CoreLine_Imp::SetThickness(float thickness)
 	{
+		isNeededCalcBoundingCircle = true;
 		isNeededUpdating = true;
 		this->thickness = thickness;
 	}
@@ -83,6 +86,31 @@ namespace ace
 
 		triangles.push_back(triangle1);
 		triangles.push_back(triangle2);
+	}
+
+	void CoreLine_Imp::CalculateBoundingCircle()
+	{
+		Vector2DF vector = endingPosition - staringPosition;
+
+		if (vector.GetSquaredLength() == 0) return;
+
+		auto binorm = vector;
+		{
+			auto deg = binorm.GetDegree();
+			deg += 90;
+			binorm.SetDegree(deg);
+			binorm.Normalize();
+		}
+
+		auto halfThickness = thickness / 2;
+
+		std::array<Vector2DF, 4> vertexes = { staringPosition + binorm*halfThickness, endingPosition + binorm*halfThickness, endingPosition - binorm*halfThickness, staringPosition - binorm*halfThickness };
+
+		Vector2DF center = (vertexes[0] + vertexes[1] + vertexes[2] + vertexes[3]) / 4.0f;
+		float radius = (vertexes[0] - center).GetLength();
+
+		boundingCircle = culling2d::Circle(culling2d::Vector2DF(center.X, center.Y), radius);
+
 	}
 #endif
 

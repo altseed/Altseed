@@ -12,7 +12,7 @@ namespace ace
 	{
 
 	protected:
-		virtual void CalculateBoundingCircle();
+		virtual void CalculateBoundingCircle() override;
 	private:
 		Texture2D* m_texture;
 		RectF m_src;

@@ -33,9 +33,7 @@ namespace ace
 		CoreObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreObject2D_Imp();
 
-		virtual void CalculateBoundingCircle()
-		{
-		}
+		virtual void CalculateBoundingCircle(){}
 
 		void SetCullingObject(culling2d::Object *cullingObj)
 		{

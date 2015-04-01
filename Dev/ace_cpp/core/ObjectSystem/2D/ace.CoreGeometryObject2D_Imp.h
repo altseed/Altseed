@@ -17,6 +17,8 @@ namespace ace
 		Color m_color;
 		TextureFilterType m_textureFilterType;
 		Texture2D* m_texture;
+	protected:
+		virtual void CalculateBoundingCircle() override;
 
 	public:
 		Object2DType GetObjectType() const override { return Object2DType::Geometry; }

@@ -17,6 +17,7 @@ namespace ace
 	void CoreTriangle_Imp::SetPointByIndex(Vector2DF point, int index)
 	{
 		isNeededUpdating = true;
+		isNeededCalcBoundingCircle = true;
 		points[index] = point;
 	}
 
@@ -39,9 +40,23 @@ namespace ace
 #if !SWIG
 	void CoreTriangle_Imp::DivideToTriangles()
 	{
-		SafeAddRef(this);
+		//SafeAddRef(this);
 		triangles.push_back(this);
 	}
+
+	void CoreTriangle_Imp::CalculateBoundingCircle()
+	{
+		auto center = (points[0] + points[1] + points[2]) / 3.0f;
+		auto radius = 0.0f;
+
+		for (auto point : points)
+		{
+			radius = Max(radius, (center - point).GetLength());
+		}
+
+		boundingCircle = culling2d::Circle(culling2d::Vector2DF(center.X, center.Y), radius);
+	}
+
 #endif
 
 };

@@ -32,7 +32,9 @@ namespace ace
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }
+	protected:
 		virtual void DivideToTriangles() override;
+		virtual void CalculateBoundingCircle() override;
 #endif
 	};
 };
