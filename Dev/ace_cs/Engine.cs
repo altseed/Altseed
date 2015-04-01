@@ -389,7 +389,7 @@ namespace ace
 		/// </summary>
 		/// <param name="o">オブジェクト</param>
 		/// <returns>成否</returns>
-		public bool AddObject2D(Object2D o)
+		public static bool AddObject2D(Object2D o)
 		{
 			Scene scene = null;
 
@@ -424,7 +424,7 @@ namespace ace
 		/// </summary>
 		/// <param name="o">オブジェクト</param>
 		/// <returns>成否</returns>
-		public bool RemoveObject2D(Object2D o)
+		public static bool RemoveObject2D(Object2D o)
 		{
 			Scene scene = null;
 
@@ -459,7 +459,7 @@ namespace ace
 		/// </summary>
 		/// <param name="o">オブジェクト</param>
 		/// <returns>成否</returns>
-		public bool AddObject3D(Object3D o)
+		public static bool AddObject3D(Object3D o)
 		{
 			Scene scene = null;
 
@@ -494,7 +494,7 @@ namespace ace
 		/// </summary>
 		/// <param name="o">オブジェクト</param>
 		/// <returns>成否</returns>
-		public bool RemoveObject3D(Object3D o)
+		public static bool RemoveObject3D(Object3D o)
 		{
 			Scene scene = null;
 
