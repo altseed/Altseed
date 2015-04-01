@@ -212,7 +212,7 @@ namespace ace
 
 		public override LayerType LayerType
 		{
-			get { return LayerType.Layer3D; }
+			get { return LayerType.Layer2D; }
 		}
 
         internal override void BeginUpdating()
