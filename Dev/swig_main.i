@@ -34,6 +34,7 @@ CPP_OBJECT( ace::CoreEffectObject2D )
 CPP_OBJECT( ace::CoreMapObject2D )
 CPP_OBJECT( ace::CoreGeometryObject2D )
 
+CPP_OBJECT( ace::CoreShape )
 CPP_OBJECT( ace::CoreCircle )
 CPP_OBJECT( ace::CoreArc )
 CPP_OBJECT( ace::CoreLine )

@@ -42,6 +42,8 @@ namespace ace
 		internal static IDObjectContainer<Layer2D> Layer2Ds { get; private set; }
 		internal static IDObjectContainer<Object2D> Object2Ds { get; private set; }
 
+        internal static IDObjectContainer<Shape> Shapes { get; private set; }
+
 		internal static IDObjectContainer<Layer3D> Layer3Ds { get; private set; }
 		internal static IDObjectContainer<Object3D> Object3Ds { get; private set; }
 
@@ -94,6 +96,8 @@ namespace ace
 			Transitions = new IDObjectContainer<Transition>();
 
             StaticFiles = new IDObjectContainer<StaticFile>();
+
+            Shapes = new IDObjectContainer<Shape>();
 		}
 
 		internal static void Update()
@@ -143,6 +147,8 @@ namespace ace
 				Transitions.DestroyAll();
 
                 StaticFiles.DestroyAll();
+
+                Shapes.DestroyAll();
 
 				//Profilers.DestroyAll();
 
