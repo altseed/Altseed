@@ -55,6 +55,9 @@ namespace ace
         }
         #endregion
 		
+        /// <summary>
+        /// 矩形の描画範囲を取得もしくは設定する。
+        /// </summary>
         public RectF DrawingArea
         {
             get
@@ -67,6 +70,9 @@ namespace ace
             }
         }
 
+        /// <summary>
+        /// 矩形の頂点別UVを取得もしくは設定する。
+        /// </summary>
         public RectF UV
         {
             get
@@ -79,6 +85,9 @@ namespace ace
             }
         }
 
+        /// <summary>
+        /// 矩形の回転角度を取得もしくは設定する。
+        /// </summary>
         public float Angle
         {
             get
@@ -91,6 +100,9 @@ namespace ace
             }
         }
 
+        /// <summary>
+        /// 矩形の回転の際の中心座標を取得もしくは設定する。
+        /// </summary>
         public Vector2DF CenterPosition
         {
             get

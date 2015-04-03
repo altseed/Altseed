@@ -12,6 +12,11 @@ namespace ace
 	protected:
 		virtual std::shared_ptr<CoreShape> GetCoreShape() const = 0;
 	public:
+
+		/**
+		@brief	図形のタイプを取得する。
+		@return	図形のタイプ
+		*/
 		virtual ShapeType GetShapeType() const = 0;
 	};
 };

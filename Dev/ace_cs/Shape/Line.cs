@@ -56,6 +56,9 @@ namespace ace
         #endregion
 
 
+        /// <summary>
+        /// 線分の始点座標を取得もしくは設定する。
+        /// </summary>
         public Vector2DF StartingPosition
         {
             get
@@ -67,7 +70,10 @@ namespace ace
                 coreLine.SetStartingPosition(value);
             }
         }
-        
+
+        /// <summary>
+        /// 線分の終点座標を取得もしくは設定する。
+        /// </summary>
         public Vector2DF EndingPosition
         {
             get
@@ -80,6 +86,9 @@ namespace ace
             }
         }
 
+        /// <summary>
+        /// 線分の太さを取得もしくは設定する。
+        /// </summary>
         public float Thickness
         {
             get

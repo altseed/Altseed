@@ -53,7 +53,7 @@ namespace ace
         #endregion
 
         /// <summary>
-        /// 
+        /// この2Dオブジェクトの描画に使用する図形を取得または設定します。
         /// </summary>
         public Shape Shape
         {
@@ -86,6 +86,7 @@ namespace ace
             get { return coreObject.GetCenterPosition(); }
             set { coreObject.SetCenterPosition(value); }
         }
+
         /// <summary>
         /// この2Dオブジェクトを描画する際に合成する色を取得または設定します。
         /// </summary>
@@ -103,6 +104,7 @@ namespace ace
             get { return coreObject.GetDrawingPriority(); }
             set { coreObject.SetDrawingPriority(value); }
         }
+
         /// <summary>
         /// この2Dオブジェクトを描画する際のブレンドモードを取得または設定します。
         /// </summary>

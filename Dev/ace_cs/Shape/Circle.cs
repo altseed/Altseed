@@ -55,7 +55,9 @@ namespace ace
         }
         #endregion
 
-
+        /// <summary>
+        /// 弧の中心座標を取得または設定する。
+        /// </summary>
         public Vector2DF Position
         {
             get
@@ -68,6 +70,9 @@ namespace ace
             }
         }
 
+        /// <summary>
+        /// 弧の外径を取得または設定する。
+        /// </summary>
         public float OuterDiameter
         {
             get
@@ -80,6 +85,9 @@ namespace ace
             }
         }
 
+        /// <summary>
+        /// 弧の内径を取得または設定する。
+        /// </summary>
         public float InnerDiameter
         {
             get
@@ -92,7 +100,9 @@ namespace ace
             }
         }
 
-
+        /// <summary>
+        /// 弧の中心を軸とした回転角度を取得または設定する。
+        /// </summary>
         public float Angle
         {
             get
@@ -105,6 +115,9 @@ namespace ace
             }
         }
 
+        /// <summary>
+        /// 弧の外周、内周上の曲がり角（滑らかさ）の数を取得または設定する。
+        /// </summary>
         public int NumberOfCorners
         {
             get
