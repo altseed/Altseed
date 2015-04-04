@@ -7,7 +7,7 @@ class Graphics_LightingStandard : public EngineGraphics3DTest
 public:
 
 	Graphics_LightingStandard(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("LightingStandard"), isOpenGLMode, 15, true)
+		EngineGraphics3DTest(ace::ToAString("LightingStandard"), isOpenGLMode, 15000, true)
 	{}
 
 protected:
@@ -19,7 +19,7 @@ protected:
 	{
 		ace::RenderSettings settings;
 		//settings.IsLightweightMode = true;
-		//settings.VisualizedBuffer = ace::VisualizedBufferType::Environment;
+		settings.VisualizedBuffer = ace::VisualizedBufferType::FinalImage;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
@@ -31,16 +31,8 @@ protected:
 		luTexs[3] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/DarkGray.png").c_str());
 		luTexs[4] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Black.png").c_str());
 
-		auto cubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFrom6ImageFiles(
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Front.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Left.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Back.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Right.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Top.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Bottom.png").c_str()
-			);
-
-		auto specCubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFromMipmapImageFiles(ace::ToAString("Data/Cubemap/Sky1/Spec/sky").c_str(), 8);
+		auto cubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFromSingleImageFile(ace::ToAString("Data/Forest_Sunny01/Forest_Sunny01DiffuseHDR.dds").c_str());
+		auto specCubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFromSingleImageFile(ace::ToAString("Data/Forest_Sunny01/Forest_Sunny01SpecularHDR.dds").c_str());
 
 		auto plainObj = std::make_shared<ace::ModelObject3D>();
 		auto sphereObj = std::make_shared<ace::ModelObject3D>();
@@ -68,13 +60,14 @@ protected:
 		mesh->SetSmoothnessTexture(0, luTexs[2]);
 
 		// 直接光
-		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
-		lightObj->SetColor(ace::Color(255 / 3, 255 / 3, 255 / 3, 200));
+		lightObj->SetRotation(ace::Vector3DF(30, 140, 0));
+		lightObj->SetColor(ace::Color(255, 255, 255, 200));
+		lightObj->SetIntensity(0);
 
 		// 環境
 		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);
 		// 環境光
-#if 1
+#if 0
 		GetLayer3D()->SetSkyAmbientColor(ace::Color(10, 10, 20, 255));
 		GetLayer3D()->SetGroundAmbientColor(ace::Color(20, 10, 10, 255));
 #else
@@ -82,6 +75,13 @@ protected:
 		GetLayer3D()->SetGroundAmbientColor(ace::Color(0, 0, 0, 255));
 #endif
 
+#if 1
+		auto bloom = std::make_shared<ace::PostEffectLightBloom>();
+		bloom->SetIntensity(8.0f);
+		bloom->SetThreshold(1.0f);
+		bloom->SetPower(1.0f);
+		GetLayer3D()->AddPostEffect(bloom);
+#endif
 	}
 
 	void OnUpdating()

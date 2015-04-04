@@ -924,6 +924,9 @@
     <ClInclude Include="..\core\Shape\ace.ShapeType.h">
       <Filter>Shape</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\Downsample_PS.h">
+      <Filter>Graphics\Shader\DX\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">

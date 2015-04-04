@@ -27,6 +27,6 @@ namespace ace
 		virtual const char* GetLightBloomShader(GraphicsDeviceType GraphicsDeviceType) const = 0;
 		virtual const char* GetSepiaShader(GraphicsDeviceType GraphicsDeviceType) const = 0;
 		virtual const char* GetGaussianBlurShader(GraphicsDeviceType GraphicsDeviceType) const = 0;
-
+		virtual const char* GetDownsampleShader(GraphicsDeviceType graphicsDeviceType) const = 0;
 	};
 }

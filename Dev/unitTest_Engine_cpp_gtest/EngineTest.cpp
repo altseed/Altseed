@@ -30,12 +30,14 @@ static void CreateSSDirectory()
 }
 
 
-EngineTest::EngineTest(astring title, bool isOpenGLMode, int exitTime)
-: m_isOpenGLMode(isOpenGLMode)
-, m_title(title)
-, m_currentTime(0)
-, m_exitTime(exitTime)
-, directory(ToAString("./ScreenShotTest_Engine_cpp/"))
+EngineTest::EngineTest(astring title, bool isOpenGLMode, int exitTime, int32_t width, int32_t height)
+	: m_isOpenGLMode(isOpenGLMode)
+	, m_title(title)
+	, m_currentTime(0)
+	, m_exitTime(exitTime)
+	, directory(ToAString("./ScreenShotTest_Engine_cpp/"))
+	, WindowWidth(width)
+	, WindowHeight(height)
 {
 }
 

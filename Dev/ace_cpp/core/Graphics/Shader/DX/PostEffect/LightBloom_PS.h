@@ -28,7 +28,10 @@ float4 GetOriginalColor(float2 uv)
 float4 GetColor(float2 uv)
 {
 #if BLUR_X
-	return max(SampleTexture(g_blurredTexture, g_blurredSampler, uv)-float4(g_threshold,g_threshold,g_threshold,0.0), float4(0.0,0.0,0.0,0.0));
+	float4  color = SampleTexture(g_blurredTexture, g_blurredSampler, uv)-float4(g_threshold,g_threshold,g_threshold,0.0);
+	color = max(color, float4(0.0, 0.0, 0.0, 0.0));
+	color = min(color, float4(256.0*256.0, 256.0*256.0, 256.0*256.0, 256.0*256.0));
+	return color;
 #endif
 	return SampleTexture(g_blurredTexture, g_blurredSampler, uv);
 }
@@ -41,12 +44,22 @@ float4 CalcBlurredColor(float2 uv)
 	float2 shift_m = float2(0.000000, 0.000000);
 	float2 adder = float2(0.000000, 0.000000);
 #endif
+#if SUM
+	float2 shift_p = float2(0.000000, 0.000000);
+	float2 shift_m = float2(0.000000, 0.000000);
+	float2 adder = float2(0.000000, 0.000000);
+#endif
 #if BLUR_X
 	float2 shift_p = float2(0.500000 / size.x, 0.500000 / size.y);
 	float2 shift_m = float2(-0.500000 / size.x, 0.500000 / size.y);
 	float2 adder = float2(2.00000f / size.x, 0.000000);
 #endif
 #if BLUR_Y
+	float2 shift_p = float2(0.500000 / size.x, 0.500000 / size.y);
+	float2 shift_m = float2(0.500000 / size.x, -0.500000 / size.y);
+	float2 adder = float2(0.000000, 2.00000 / size.y);
+#endif
+#if BLUR_Y_SUM
 	float2 shift_p = float2(0.500000 / size.x, 0.500000 / size.y);
 	float2 shift_m = float2(0.500000 / size.x, -0.500000 / size.y);
 	float2 adder = float2(0.000000, 2.00000 / size.y);
@@ -83,7 +96,13 @@ float4 Main_(float2 uv)
 	return CalcBlurredColor(uv);
 #endif
 #if BLUR_Y
+	return CalcBlurredColor(uv);
+#endif
+#if BLUR_Y_SUM
 	return max(CalcBlurredColor(uv) * g_power, float4(0.000000, 0.000000, 0.000000, 0.000000)) + GetOriginalColor(uv);
+#endif
+#if SUM
+	return max(GetColor(uv) * g_power, float4(0.000000, 0.000000, 0.000000, 0.000000)) + GetOriginalColor(uv);
 #endif
 }
 

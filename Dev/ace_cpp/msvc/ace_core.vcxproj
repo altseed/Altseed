@@ -298,6 +298,7 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Terrain_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Terrain_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\Downsample_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GaussianBlur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GrayScale_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h" />
