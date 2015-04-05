@@ -37,6 +37,20 @@ namespace ace
 #if !SWIG
 	void CorePolygonShape_Imp::DivideToTriangles()
 	{
+
+		float maxLeft = FLT_MAX;
+		float maxRight = -FLT_MAX;
+		float maxHigh = FLT_MAX;
+		float maxLow = -FLT_MAX;
+
+		for (auto vertex : vertexes)
+		{
+			maxLeft = Min(maxLeft, vertex.X);
+			maxRight = Max(maxRight, vertex.X);
+			maxHigh = Min(maxHigh, vertex.Y);
+			maxLow = Max(maxLow, vertex.Y);
+		}
+
 		std::vector<p2t::Point*> points;
 
 		for (auto vertex : vertexes)
@@ -57,6 +71,10 @@ namespace ace
 				auto p = tri->GetPoint(i);
 				CoreTriangleShape* triangle = new CoreTriangleShape_Imp();
 				triangle->SetPointByIndex(Vector2DF(p->x, p->y), i);
+
+				float uvX = (p->x - maxLeft) / (maxRight - maxLeft);
+				float uvY = (p->y - maxHigh) / (maxLow - maxHigh);
+				triangle->SetUVByIndex(Vector2DF(uvX, uvY), i);
 			}
 		}
 
