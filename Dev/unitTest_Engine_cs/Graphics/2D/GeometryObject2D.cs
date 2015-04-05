@@ -26,12 +26,14 @@ namespace unitTest_Engine_cs.Graphics._2D
             var geometryObj3 = new ace.GeometryObject2D();
             var geometryObj4 = new ace.GeometryObject2D();
             var geometryObj5 = new ace.GeometryObject2D();
+            var geometryObj6 = new ace.GeometryObject2D();
 
             layer.AddObject(geometryObj1);
             layer.AddObject(geometryObj2);
             layer.AddObject(geometryObj3);
             layer.AddObject(geometryObj4);
             layer.AddObject(geometryObj5);
+            layer.AddObject(geometryObj6);
 
             scene.AddLayer(layer);
             ace.Engine.ChangeScene(scene);
@@ -95,6 +97,23 @@ namespace unitTest_Engine_cs.Graphics._2D
                 geometryObj5.Shape = triangle;
                 geometryObj5.Texture = texture;
                 geometryObj5.Position = new ace.Vector2DF(0, 0);
+            }
+
+            {
+                var polygon = new ace.PolygonShape();
+
+                for (int i = 0; i < 10; ++i)
+                {
+                    ace.Vector2DF vec = new ace.Vector2DF(1, 0);
+                    vec.Degree = i * 36;
+                    vec.Length = (i % 2 == 0) ? 100 : 55;
+                    polygon.AddVertex(vec + new ace.Vector2DF(500, 250));
+
+                }
+
+                geometryObj6.Shape = polygon;
+                geometryObj6.Texture = texture;
+                geometryObj6.Position = new ace.Vector2DF(0, 0);
             }
         }
     }

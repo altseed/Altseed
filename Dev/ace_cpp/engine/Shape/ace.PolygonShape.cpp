@@ -14,6 +14,11 @@ namespace ace
 
 	}
 
+	std::shared_ptr<CoreShape> PolygonShape::GetCoreShape() const
+	{
+		return m_coreObject;
+	}
+
 	void PolygonShape::AddVertex(Vector2DF vertex)
 	{
 		m_coreObject->AddVertex(vertex);

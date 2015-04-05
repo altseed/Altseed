@@ -16,11 +16,15 @@ namespace ace
 
 	void CorePolygonShape_Imp::AddVertex(Vector2DF vertex)
 	{
+		isNeededCalcBoundingCircle = true;
+		isNeededUpdating = true;
 		vertexes.push_back(vertex);
 	}
 
 	void CorePolygonShape_Imp::ClearVertexes()
 	{
+		isNeededCalcBoundingCircle = true;
+		isNeededUpdating = true;
 		vertexes.clear();
 	}
 
@@ -66,17 +70,19 @@ namespace ace
 
 		for (auto tri : outTriangles)
 		{
+			CoreTriangleShape* triangle = new CoreTriangleShape_Imp();
 			for (int i = 0; i < 3; ++i)
 			{
 				auto p = tri->GetPoint(i);
-				CoreTriangleShape* triangle = new CoreTriangleShape_Imp();
 				triangle->SetPointByIndex(Vector2DF(p->x, p->y), i);
 
 				float uvX = (p->x - maxLeft) / (maxRight - maxLeft);
 				float uvY = (p->y - maxHigh) / (maxLow - maxHigh);
 				triangle->SetUVByIndex(Vector2DF(uvX, uvY), i);
 			}
+			triangles.push_back(triangle);
 		}
+
 
 		delete cdt;
 

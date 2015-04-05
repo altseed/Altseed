@@ -55,17 +55,28 @@ namespace ace
         }
         #endregion
 
-        void AddVertex(Vector2DF vertex)
+        /// <summary>
+        /// ポリゴンを構成する頂点を追加する。
+        /// </summary>
+        /// <param name="vertex">新規に追加する頂点の座標</param>
+        public void AddVertex(Vector2DF vertex)
         {
             corePolygon.AddVertex(vertex);
         }
 
-        void ClearVertexes()
+        /// <summary>
+        /// ポリゴンを構成する頂点を全て削除する。
+        /// </summary>
+        public void ClearVertexes()
         {
             corePolygon.ClearVertexes();
         }
 
-        int GetVertexesNum()
+        /// <summary>
+        /// ポリゴンを構成する頂点の数量を取得する。
+        /// </summary>
+        /// <returns>ポリゴンを構成する頂点の数量</returns>
+        public int GetVertexesNum()
         {
             return corePolygon.GetVertexesNum();
         }

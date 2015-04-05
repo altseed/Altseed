@@ -27,12 +27,14 @@ protected:
 		auto geometryObj3 = make_shared<GeometryObject2D>();
 		auto geometryObj4 = make_shared<GeometryObject2D>();
 		auto geometryObj5 = make_shared<GeometryObject2D>();
+		auto geometryObj6 = make_shared<GeometryObject2D>();
 
 		layer->AddObject(geometryObj1);
 		layer->AddObject(geometryObj2);
 		layer->AddObject(geometryObj3);
 		layer->AddObject(geometryObj4);
 		layer->AddObject(geometryObj5);
+		layer->AddObject(geometryObj6);
 
 		scene->AddLayer(layer);
 		ace::Engine::ChangeScene(scene);
@@ -96,6 +98,23 @@ protected:
 			geometryObj5->SetShape(triangle);
 			geometryObj5->SetTexture(texture);
 			geometryObj5->SetPosition(ace::Vector2DF(0, 0));
+		}
+
+		{
+			auto polygon = make_shared<ace::PolygonShape>();
+
+			for (int i = 0; i < 10; ++i)
+			{
+				Vector2DF vec = Vector2DF(1, 0);
+				vec.SetDegree(i * 36);
+				vec.SetLength((i % 2 == 0) ? 100 : 55);
+				polygon->AddVertex(vec + Vector2DF(500, 250));
+
+			}
+
+			geometryObj6->SetShape(polygon);
+			geometryObj6->SetTexture(texture);
+			geometryObj6->SetPosition(ace::Vector2DF(0, 0));
 		}
 	}
 
