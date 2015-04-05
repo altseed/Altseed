@@ -69,6 +69,7 @@
 #include "Shape/ace.CoreArcShape.h"
 #include "Shape/ace.CoreTriangleShape.h"
 #include "Shape/ace.CoreRectangleShape.h"
+#include "Shape/ace.CorePolygonShape.h"
 
 #include "ObjectSystem/ace.ChildMode.h"
 #include "ObjectSystem/2D/ace.CoreObject2D.h"

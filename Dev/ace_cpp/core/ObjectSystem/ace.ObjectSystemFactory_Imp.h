@@ -44,5 +44,6 @@ namespace ace
 		CoreLineShape* CreateLineShape() override;
 		CoreRectangleShape* CreateRectangleShape() override;
 		CoreTriangleShape* CreateTriangleShape() override;
+		CorePolygonShape* CreatePolygonShape() override;
 	};
 }

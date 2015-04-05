@@ -107,6 +107,9 @@
     <ClCompile Include="..\engine\Shape\ace.TriangleShape.cpp">
       <Filter>Shape</Filter>
     </ClCompile>
+    <ClCompile Include="..\engine\Shape\ace.PolygonShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\ace.CoreToEngine.h" />
@@ -221,6 +224,9 @@
       <Filter>Shape</Filter>
     </ClInclude>
     <ClInclude Include="..\engine\Shape\ace.TriangleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\ace.PolygonShape.h">
       <Filter>Shape</Filter>
     </ClInclude>
   </ItemGroup>

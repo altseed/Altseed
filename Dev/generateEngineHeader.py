@@ -158,6 +158,7 @@ engineHeader.readLines("ace_cpp/engine/Shape/ace.CircleShape.h")
 engineHeader.readLines("ace_cpp/engine/Shape/ace.ArcShape.h")
 engineHeader.readLines("ace_cpp/engine/Shape/ace.RectangleShape.h")
 engineHeader.readLines("ace_cpp/engine/Shape/ace.LineShape.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.PolygonShape.h")
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.ContentsManager.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Object2D.h")

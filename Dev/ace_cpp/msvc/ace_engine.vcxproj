@@ -129,6 +129,7 @@
     <ClInclude Include="..\engine\Shape\ace.ArcShape.h" />
     <ClInclude Include="..\engine\Shape\ace.CircleShape.h" />
     <ClInclude Include="..\engine\Shape\ace.LineShape.h" />
+    <ClInclude Include="..\engine\Shape\ace.PolygonShape.h" />
     <ClInclude Include="..\engine\Shape\ace.RectangleShape.h" />
     <ClInclude Include="..\engine\Shape\ace.Shape.h" />
     <ClInclude Include="..\engine\Shape\ace.TriangleShape.h" />
@@ -170,6 +171,7 @@
     <ClCompile Include="..\engine\Shape\ace.ArcShape.cpp" />
     <ClCompile Include="..\engine\Shape\ace.CircleShape.cpp" />
     <ClCompile Include="..\engine\Shape\ace.LineShape.cpp" />
+    <ClCompile Include="..\engine\Shape\ace.PolygonShape.cpp" />
     <ClCompile Include="..\engine\Shape\ace.RectangleShape.cpp" />
     <ClCompile Include="..\engine\Shape\ace.Shape.cpp" />
     <ClCompile Include="..\engine\Shape\ace.TriangleShape.cpp" />

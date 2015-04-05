@@ -168,6 +168,11 @@ namespace ace
             return factory.CreateArcShape();
         }
 
+        public swig.CorePolygonShape CreatePolygonShape()
+        {
+            return factory.CreatePolygonShape();
+        }
+
         public swig.CoreCircleShape CreateCircleShape()
         {
             return factory.CreateCircleShape();

@@ -75,6 +75,7 @@ namespace ace {
 	class CoreLineShape;
 	class CoreCircleShape;
 	class CoreArcShape;
+	class CorePolygonShape;
 
 	class CoreLayer2D;
 	class CoreObject2D;

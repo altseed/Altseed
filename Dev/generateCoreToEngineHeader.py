@@ -131,6 +131,7 @@ fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreCircleShape.h")
 fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreArcShape.h")
 fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreRectangleShape.h")
 fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreLineShape.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CorePolygonShape.h")
 
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.ChildMode.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.CoreLayer.h')

@@ -35,6 +35,11 @@ namespace ace
         /// 三角形
         /// </summary>
         TriangleShape = swig.ShapeType.TriangleShape,
+
+        /// <summary>
+        /// 多角形
+        /// </summary>
+        PolygonShape = swig.ShapeType.PolygonShape,
     }
 
     public abstract class Shape : IDestroy

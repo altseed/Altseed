@@ -125,6 +125,7 @@ CPP_OBJECT( ace::StaticFile )
 %newobject ace::ObjectSystemFactory::CreateLineShape;
 %newobject ace::ObjectSystemFactory::CreateRectangleShape;
 %newobject ace::ObjectSystemFactory::CreateTriangleShape;
+%newobject ace::ObjectSystemFactory::CreatePolygonShape;
 
 %newobject ace::ObjectSystemFactory::CreateModelObject3D;
 %newobject ace::ObjectSystemFactory::CreateCameraObject3D;
@@ -219,6 +220,7 @@ CPP_OBJECT( ace::StaticFile )
 %include "ace_cpp/core/Shape/ace.CoreArcShape.h"
 %include "ace_cpp/core/Shape/ace.CoreLineShape.h"
 %include "ace_cpp/core/Shape/ace.CoreRectangleShape.h"
+%include "ace_cpp/core/Shape/ace.CorePolygonShape.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.ChildMode.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D.h"

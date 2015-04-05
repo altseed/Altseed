@@ -133,6 +133,7 @@
     <Compile Include="Shape\ArcShape.cs" />
     <Compile Include="Shape\CircleShape.cs" />
     <Compile Include="Shape\LineShape.cs" />
+    <Compile Include="Shape\PolygonShape.cs" />
     <Compile Include="Shape\RectangleShape.cs" />
     <Compile Include="Shape\Shape.cs" />
     <Compile Include="Shape\TriangleShape.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="swig\CoreObject2D.cs" />
     <Compile Include="swig\CoreObject3D.cs" />
     <Compile Include="swig\CoreOption.cs" />
+    <Compile Include="swig\CorePolygonShape.cs" />
     <Compile Include="swig\CorePostEffect.cs" />
     <Compile Include="swig\CoreRectangleShape.cs" />
     <Compile Include="swig\CoreScene.cs" />

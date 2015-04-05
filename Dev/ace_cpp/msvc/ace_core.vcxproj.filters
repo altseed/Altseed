@@ -142,6 +142,12 @@
     <Filter Include="Shape">
       <UniqueIdentifier>{39a4e209-38a6-4338-8978-c09661be9f98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="3rdParty">
+      <UniqueIdentifier>{01b9cbcd-ab65-4786-b25b-291d608b35cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\poly2tri">
+      <UniqueIdentifier>{8a346865-2f74-4465-a8f1-93ab10f57f60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -930,6 +936,33 @@
     <ClInclude Include="..\core\Shape\ace.CoreTriangleShape_Imp.h">
       <Filter>Shape</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CorePolygonShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CorePolygonShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\shapes.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\utils.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\advancing_front.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\cdt.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep_context.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\poly2tri.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1308,6 +1341,24 @@
     </ClCompile>
     <ClCompile Include="..\core\Shape\ace.CoreTriangleShape_Imp.cpp">
       <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CorePolygonShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\common\shapes.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\advancing_front.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\cdt.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep_context.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

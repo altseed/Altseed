@@ -35,6 +35,7 @@
 #include "../Shape/ace.CoreLineShape_Imp.h"
 #include "../Shape/ace.CoreRectangleShape_Imp.h"
 #include "../Shape/ace.CoreTriangleShape_Imp.h"
+#include "../Shape/ace.CorePolygonShape_Imp.h"
 
 namespace ace
 {
@@ -179,5 +180,10 @@ namespace ace
 	CoreTriangleShape* ObjectSystemFactory_Imp::CreateTriangleShape()
 	{
 		return new CoreTriangleShape_Imp();
+	}
+
+	CorePolygonShape* ObjectSystemFactory_Imp::CreatePolygonShape()
+	{
+		return new CorePolygonShape_Imp();
 	}
 }

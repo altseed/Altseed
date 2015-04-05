@@ -168,6 +168,13 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\shapes.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\utils.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\poly2tri.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\advancing_front.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\cdt.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep_context.h" />
     <ClInclude Include="..\core\ace.Core.Base.h" />
     <ClInclude Include="..\core\ace.Core.Base_Imp.h" />
     <ClInclude Include="..\core\ace.Accessor.h" />
@@ -418,6 +425,8 @@
     <ClInclude Include="..\core\Shape\ace.CoreCircleShape_Imp.h" />
     <ClInclude Include="..\core\Shape\ace.CoreLineShape.h" />
     <ClInclude Include="..\core\Shape\ace.CoreLineShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CorePolygonShape.h" />
+    <ClInclude Include="..\core\Shape\ace.CorePolygonShape_Imp.h" />
     <ClInclude Include="..\core\Shape\ace.CoreRectangleShape_Imp.h" />
     <ClInclude Include="..\core\Shape\ace.CoreShape.h" />
     <ClInclude Include="..\core\Shape\ace.CoreRectangleShape.h" />
@@ -447,6 +456,11 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\core\3rdParty\poly2tri\common\shapes.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\advancing_front.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\cdt.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep_context.cpp" />
     <ClCompile Include="..\core\ace.Accessor.cpp" />
     <ClCompile Include="..\core\ace.Core.Base_Imp.cpp" />
     <ClCompile Include="..\core\ace.ReferenceObject.cpp" />
@@ -575,6 +589,7 @@
     <ClCompile Include="..\core\Shape\ace.CoreRectangleShape_Imp.cpp" />
     <ClCompile Include="..\core\Shape\ace.CoreShape.cpp" />
     <ClCompile Include="..\core\Shape\ace.CoreTriangleShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CorePolygonShape_Imp.cpp" />
     <ClCompile Include="..\core\Sound\ace.SoundSource_Imp.cpp" />
     <ClCompile Include="..\core\Sound\ace.Sound_Imp.cpp" />
     <ClCompile Include="..\core\Utils\ace.ResourceContainer.cpp" />

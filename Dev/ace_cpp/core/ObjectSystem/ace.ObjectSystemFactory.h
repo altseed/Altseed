@@ -17,6 +17,7 @@
 #include "../Shape/ace.CoreLineShape.h"
 #include "../Shape/ace.CoreRectangleShape.h"
 #include "../Shape/ace.CoreTriangleShape.h"
+#include "../Shape/ace.CorePolygonShape.h"
 
 namespace ace
 {
@@ -54,5 +55,6 @@ namespace ace
 		virtual CoreLineShape* CreateLineShape() = 0;
 		virtual CoreRectangleShape* CreateRectangleShape() = 0;
 		virtual CoreTriangleShape* CreateTriangleShape() = 0;
+		virtual CorePolygonShape* CreatePolygonShape() = 0;
 	};
 }
