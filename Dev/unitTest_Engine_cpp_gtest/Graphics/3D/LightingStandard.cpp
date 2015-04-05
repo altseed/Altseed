@@ -77,9 +77,9 @@ protected:
 
 #if 1
 		auto bloom = std::make_shared<ace::PostEffectLightBloom>();
-		bloom->SetIntensity(8.0f);
+		bloom->SetIntensity(2.0f);
 		bloom->SetThreshold(1.0f);
-		bloom->SetPower(1.0f);
+		bloom->SetExposure(1.0f);
 		GetLayer3D()->AddPostEffect(bloom);
 #endif
 	}

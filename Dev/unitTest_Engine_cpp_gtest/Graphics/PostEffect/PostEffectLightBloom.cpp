@@ -30,7 +30,7 @@ protected:
 		auto pe = std::make_shared<ace::PostEffectLightBloom>();
 		pe->SetIntensity(5.0f);
 		pe->SetThreshold(0.3f);
-		pe->SetPower(2.0f);
+		pe->SetExposure(1.0f);
 		layer->AddPostEffect(pe);
 	}
 };

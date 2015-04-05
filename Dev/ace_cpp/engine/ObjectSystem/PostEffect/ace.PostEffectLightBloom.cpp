@@ -25,8 +25,8 @@ namespace ace{
 		auto shaderY = g->CreateShader2D(ace::ToAString(codeY.c_str()).c_str());
 		material2dY = g->CreateMaterial2D(shaderY);
 
-		auto shaderY_Sum = g->CreateShader2D(ace::ToAString(codeY_Sum.c_str()).c_str());
-		material2dY_Sum = g->CreateMaterial2D(shaderY_Sum);
+		//auto shaderY_Sum = g->CreateShader2D(ace::ToAString(codeY_Sum.c_str()).c_str());
+		//material2dY_Sum = g->CreateMaterial2D(shaderY_Sum);
 
 		auto shaderSum = g->CreateShader2D(ace::ToAString(codeSum.c_str()).c_str());
 		materialSum = g->CreateMaterial2D(shaderSum);
@@ -43,25 +43,20 @@ namespace ace{
 		assert(src != nullptr);
 		assert(dst != nullptr);
 
-		Vector4DF weights1, weights2;
-		float ws[8];
+		Vector4DF weights;
+		float ws[4];
 		float total = 0.0f;
 		float const dispersion = intensity * intensity;
-		for (int32_t i = 0; i < 8; i++)
+		for (int32_t i = 0; i < 4; i++)
 		{
 			float pos = 1.0f + 2.0f * i;
 			ws[i] = expf(-0.5f * pos * pos / dispersion);
 			total += ws[i] * 2.0f;
 		}
-		weights1.X = ws[0] / total;
-		weights1.Y = ws[1] / total;
-		weights1.Z = ws[2] / total;
-		weights1.W = ws[3] / total;
-
-		weights2.X = ws[4] / total;
-		weights2.Y = ws[5] / total;
-		weights2.Z = ws[6] / total;
-		weights2.W = ws[7] / total;
+		weights.X = ws[0] / total;
+		weights.Y = ws[1] / total;
+		weights.Z = ws[2] / total;
+		weights.W = ws[3] / total;
 
 		auto size = src->GetSize();
 		auto format = src->GetFormat();
@@ -74,13 +69,12 @@ namespace ace{
 				tempTexture0 = Engine::GetGraphics()->CreateRenderTexture2D(size.X / 2, size.Y / 2, TextureFormat::R32G32B32A32_FLOAT);
 				tempTexture1 = Engine::GetGraphics()->CreateRenderTexture2D(size.X / 4, size.Y / 4, TextureFormat::R32G32B32A32_FLOAT);
 				tempTexture2 = Engine::GetGraphics()->CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat::R32G32B32A32_FLOAT);
+				tempTexture3 = Engine::GetGraphics()->CreateRenderTexture2D(size.X / 16, size.Y / 16, TextureFormat::R32G32B32A32_FLOAT);
 
 				downsampledTexture0 = Engine::GetGraphics()->CreateRenderTexture2D(size.X / 2, size.Y / 2, TextureFormat::R32G32B32A32_FLOAT);
 				downsampledTexture1 = Engine::GetGraphics()->CreateRenderTexture2D(size.X / 4, size.Y / 4, TextureFormat::R32G32B32A32_FLOAT);
 				downsampledTexture2 = Engine::GetGraphics()->CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat::R32G32B32A32_FLOAT);
-
-				tempTexture2 = Engine::GetGraphics()->CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat::R8G8B8A8_UNORM);
-				downsampledTexture2 = Engine::GetGraphics()->CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat::R8G8B8A8_UNORM);
+				downsampledTexture3 = Engine::GetGraphics()->CreateRenderTexture2D(size.X / 16, size.Y / 16, TextureFormat::R32G32B32A32_FLOAT);
 			}
 			else
 			{
@@ -109,34 +103,58 @@ namespace ace{
 		downsample->SetVector2DF(ace::ToAString("g_offset").c_str(), Vector2DF(4.0f / (float) size.X, 4.0f / (float) size.Y));
 		DrawOnTexture2DWithMaterial(downsampledTexture2, downsample);
 
-		//material->SetTexture2D(ace::ToAString("g_originalTexture").c_str(), downsampledTexture);
-		//DrawOnTexture2DWithMaterial(copiedTexture, material);
+		downsample->SetTexture2D(ace::ToAString("g_texture").c_str(), downsampledTexture2);
+		downsample->SetTextureFilterType(ace::ToAString("g_texture").c_str(), TextureFilterType::Linear);
+		downsample->SetVector2DF(ace::ToAString("g_offset").c_str(), Vector2DF(8.0f / (float) size.X, 8.0f / (float) size.Y));
+		DrawOnTexture2DWithMaterial(downsampledTexture3, downsample);
 
-		material2dX->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), downsampledTexture2);
-		material2dX->SetVector4DF(ace::ToAString("g_weight1").c_str(), weights1);
-		material2dX->SetVector4DF(ace::ToAString("g_weight2").c_str(), weights2);
+		// ブラー1
+		material2dX->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), downsampledTexture1);
+		material2dX->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
 		material2dX->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
-		material2dX->SetFloat(ace::ToAString("g_power").c_str(), power);
+		material2dX->SetFloat(ace::ToAString("g_exposure").c_str(), exposure);
 		material2dX->SetTextureFilterType(ace::ToAString("g_blurredTexture").c_str(), TextureFilterType::Linear);
+		DrawOnTexture2DWithMaterial(tempTexture1, material2dX);
 
+		material2dY->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), tempTexture1);
+		material2dY->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
+		material2dY->SetTextureFilterType(ace::ToAString("g_blurredTexture").c_str(), TextureFilterType::Linear);
+		DrawOnTexture2DWithMaterial(downsampledTexture1, material2dY);
+
+		// ブラー2
+		material2dX->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), downsampledTexture2);
+		material2dX->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
+		material2dX->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
+		material2dX->SetFloat(ace::ToAString("g_exposure").c_str(), exposure);
+		material2dX->SetTextureFilterType(ace::ToAString("g_blurredTexture").c_str(), TextureFilterType::Linear);
 		DrawOnTexture2DWithMaterial(tempTexture2, material2dX);
 
 		material2dY->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), tempTexture2);
-		material2dY->SetVector4DF(ace::ToAString("g_weight1").c_str(), weights1);
-		material2dY->SetVector4DF(ace::ToAString("g_weight2").c_str(), weights2);
-		material2dY->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
-		material2dY->SetFloat(ace::ToAString("g_power").c_str(), power);
+		material2dY->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
 		material2dY->SetTextureFilterType(ace::ToAString("g_blurredTexture").c_str(), TextureFilterType::Linear);
-
 		DrawOnTexture2DWithMaterial(downsampledTexture2, material2dY);
 
-		materialSum->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), downsampledTexture2);
+		// ブラー3
+		material2dX->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), downsampledTexture3);
+		material2dX->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
+		material2dX->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
+		material2dX->SetFloat(ace::ToAString("g_exposure").c_str(), exposure);
+		material2dX->SetTextureFilterType(ace::ToAString("g_blurredTexture").c_str(), TextureFilterType::Linear);
+		DrawOnTexture2DWithMaterial(tempTexture3, material2dX);
+
+		material2dY->SetTexture2D(ace::ToAString("g_blurredTexture").c_str(), tempTexture3);
+		material2dY->SetVector4DF(ace::ToAString("g_weight").c_str(), weights);
+		material2dY->SetTextureFilterType(ace::ToAString("g_blurredTexture").c_str(), TextureFilterType::Linear);
+		DrawOnTexture2DWithMaterial(downsampledTexture3, material2dY);
+
+		// 合計
+		materialSum->SetTexture2D(ace::ToAString("g_blurred0Texture").c_str(), downsampledTexture1);
+		materialSum->SetTexture2D(ace::ToAString("g_blurred1Texture").c_str(), downsampledTexture2);
+		materialSum->SetTexture2D(ace::ToAString("g_blurred2Texture").c_str(), downsampledTexture3);
 		materialSum->SetTexture2D(ace::ToAString("g_originalTexture").c_str(), src);
-		materialSum->SetVector4DF(ace::ToAString("g_weight1").c_str(), weights1);
-		materialSum->SetVector4DF(ace::ToAString("g_weight2").c_str(), weights2);
-		materialSum->SetFloat(ace::ToAString("g_threshold").c_str(), threshold);
-		materialSum->SetFloat(ace::ToAString("g_power").c_str(), power);
-		materialSum->SetTextureFilterType(ace::ToAString("g_blurredTexture").c_str(), TextureFilterType::Linear);
+		materialSum->SetTextureFilterType(ace::ToAString("g_blurred0Texture").c_str(), TextureFilterType::Linear);
+		materialSum->SetTextureFilterType(ace::ToAString("g_blurred1Texture").c_str(), TextureFilterType::Linear);
+		materialSum->SetTextureFilterType(ace::ToAString("g_blurred2Texture").c_str(), TextureFilterType::Linear);
 		materialSum->SetTextureFilterType(ace::ToAString("g_originalTexture").c_str(), TextureFilterType::Linear);
 
 		DrawOnTexture2DWithMaterial(dst, materialSum);
