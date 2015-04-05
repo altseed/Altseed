@@ -71,7 +71,7 @@ void PostEffect()
 		{
 			auto posteffect = std::make_shared<ace::PostEffectLightBloom>();
 			posteffect->SetIntensity(10.0f);
-			posteffect->SetPower(1.0f);
+			posteffect->SetExposure(1.0f);
 			posteffect->SetThreshold(0.3f);
 			layer->AddPostEffect(posteffect);
 		}

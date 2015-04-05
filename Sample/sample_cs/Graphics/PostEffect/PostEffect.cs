@@ -78,7 +78,7 @@ namespace sample_cs.Graphics.PostEffect
 				{
 					var posteffect = new ace.PostEffectLightBloom();
 					posteffect.Intensity = 10.0f;
-					posteffect.Power = 1.0f;
+					posteffect.Exposure = 1.0f;
 					posteffect.Threshold = 0.3f;
 					layer.AddPostEffect(posteffect);
 				}

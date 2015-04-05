@@ -927,6 +927,9 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\Downsample_PS.h">
       <Filter>Graphics\Shader\DX\PostEffect</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\Downsample_PS.h">
+      <Filter>Graphics\Shader\GL\PostEffect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">

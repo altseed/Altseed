@@ -19,7 +19,7 @@
 #include "../../Graphics/Shader/GL/PostEffect/GaussianBlur_PS.h"
 
 #include "../../Graphics/Shader/DX/PostEffect/Downsample_PS.h"
-//#include "../../Graphics/Shader/GL/PostEffect/Downsample_PS.h"
+#include "../../Graphics/Shader/GL/PostEffect/Downsample_PS.h"
 
 namespace ace
 {
@@ -106,7 +106,7 @@ namespace ace
 		}
 		else if (graphicsDeviceType == GraphicsDeviceType::OpenGL)
 		{
-			return gaussianblur_ps_gl;
+			return downsample_ps_gl;
 		}
 
 		return nullptr;

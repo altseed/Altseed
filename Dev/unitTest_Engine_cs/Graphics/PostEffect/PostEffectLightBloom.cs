@@ -30,7 +30,7 @@ namespace unitTest_Engine_cs.Graphics.PostEffect
 			var pe = new ace.PostEffectLightBloom();
 			pe.Intensity = 5.0f;
 			pe.Threshold = 0.3f;
-			pe.Power = 2.0f;
+			pe.Exposure = 2.0f;
 			layer.AddPostEffect(pe);
 		}
 	}

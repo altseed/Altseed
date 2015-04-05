@@ -4,7 +4,6 @@
 #include <vector>
 #include"ace.PostEffect.h"
 
-#define DOWNSAMPLE 1
 namespace ace
 {
 
@@ -14,9 +13,8 @@ namespace ace
 	class PostEffectLightBloom : public PostEffect
 	{
 	private:
-		std::shared_ptr<ace::Material2D>	material_copy, material2dX, material2dY, material2dY_Sum, materialSum, downsample;
+		std::shared_ptr<ace::Material2D>	material2dX_Lum, material2dX, material2dY, materialSum, downsample;
 
-#if defined(DOWNSAMPLE)
 		std::shared_ptr<RenderTexture2D>	tempTexture0;
 		std::shared_ptr<RenderTexture2D>	tempTexture1;
 		std::shared_ptr<RenderTexture2D>	tempTexture2;
@@ -27,13 +25,10 @@ namespace ace
 		std::shared_ptr<RenderTexture2D>	downsampledTexture2;
 		std::shared_ptr<RenderTexture2D>	downsampledTexture3;
 
-#else
-		std::shared_ptr<RenderTexture2D>	copiedTexture;
-		std::shared_ptr<RenderTexture2D>	tempTexture;
-#endif
 		float intensity = 5.0f;
 		float threshold = 1.0f;
 		float exposure = 1.0f;
+		bool isLuminanceMode = false;
 
 	public:
 		PostEffectLightBloom();
@@ -59,6 +54,13 @@ namespace ace
 			この値が高いほどぼかされる値の輝度が高くなる。
 		*/
 		void SetExposure(float const value) { exposure = value; }
+
+		/**
+		@brief	輝度を参照するか指定する。
+		@note
+		この値がtrueだと、RGBではなく輝度からぼかされる色を決定する。
+		*/
+		void SetIsLuminanceMode(bool value) { isLuminanceMode = value; }
 
 		virtual void OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src) override;
 	};
