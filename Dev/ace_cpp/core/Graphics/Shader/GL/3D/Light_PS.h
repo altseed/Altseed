@@ -63,14 +63,14 @@ float calcLightingGGX(vec3 N, vec3 V, vec3 L, float roughness, float F0)
 #ifdef OPENGL
 	float dotNL = clamp(dot(N, L), 0.000000, 1.00000);
 	float dotLH = clamp(dot(L, H), 0.000000, 1.00000);
-	float dotNH = clamp(dot(N, H), 0.000000, 1.00000);
-	float dotNV = clamp(dot(N, V), 0.000000, 1.00000);
+	float dotNH = clamp(dot(N, H), 0.000000, 1.00000) - 0.0001;
+	float dotNV = clamp(dot(N, V), 0.000000, 1.00000) + 0.0001;
 #endif
 #ifdef DIRECTX
 	float dotNL = saturate(dot(N, L));
 	float dotLH = saturate(dot(L, H));
-	float dotNH = saturate(dot(N, H));
-	float dotNV = saturate(dot(N, V));
+	float dotNH = saturate(dot(N, H)) - 0.0001;
+	float dotNV = saturate(dot(N, V)) + 0.0001;
 #endif
 	float D = calcD_GGX(roughness, dotNH);
 	float F = calcF(F0, dotLH);
