@@ -163,29 +163,29 @@ namespace ace
 			return factory.CreateTransition();
 		}
 
-        public swig.CoreArc CreateArc()
+        public swig.CoreArcShape CreateArcShape()
         {
-            return factory.CreateArc();
+            return factory.CreateArcShape();
         }
 
-        public swig.CoreCircle CreateCircle()
+        public swig.CoreCircleShape CreateCircleShape()
         {
-            return factory.CreateCircle();
+            return factory.CreateCircleShape();
         }
 
-        public swig.CoreLine CreateLine()
+        public swig.CoreLineShape CreateLineShape()
         {
-            return factory.CreateLine();
+            return factory.CreateLineShape();
         }
 
-        public swig.CoreRectangle CreateRectangle()
+        public swig.CoreRectangleShape CreateRectangleShape()
         {
-            return factory.CreateRectangle();
+            return factory.CreateRectangleShape();
         }
 
-        public swig.CoreTriangle CreateTriangle()
+        public swig.CoreTriangleShape CreateTriangleShape()
         {
-            return factory.CreateTriangle();
+            return factory.CreateTriangleShape();
         }
 
 		private swig.ObjectSystemFactory factory;

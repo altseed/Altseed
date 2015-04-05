@@ -1,12 +1,12 @@
 ﻿#pragma once
 
-#include "ace.CoreRectangle.h"
+#include "ace.CoreRectangleShape.h"
 #include "../ace.ReferenceObject.h"
 
 namespace ace
 {
-	class CoreRectangle_Imp
-		:public CoreRectangle
+	class CoreRectangleShape_Imp
+		:public CoreRectangleShape
 		, public ReferenceObject
 	{
 		RectF drawingArea;
@@ -14,8 +14,8 @@ namespace ace
 		float angle;
 		Vector2DF centerPosition;
 	public:
-		CoreRectangle_Imp();
-		virtual ~CoreRectangle_Imp(){}
+		CoreRectangleShape_Imp();
+		virtual ~CoreRectangleShape_Imp(){}
 
 		RectF GetDrawingArea() const override;
 		void SetDrawingArea(RectF drawingArea) override;

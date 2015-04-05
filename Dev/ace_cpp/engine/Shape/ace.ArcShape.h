@@ -4,16 +4,16 @@
 
 namespace ace
 {
-	class Arc :public Shape
+	class ArcShape :public Shape
 	{
 	private:
-		std::shared_ptr<CoreArc> m_coreObject;
+		std::shared_ptr<CoreArcShape> m_coreObject;
 	protected:
 		std::shared_ptr<CoreShape> GetCoreShape() const override;
 
 	public:
-		Arc();
-		virtual ~Arc();
+		ArcShape();
+		virtual ~ArcShape();
 
 		/**
 		@brief	この弧の中心座標を取得する。

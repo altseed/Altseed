@@ -1,9 +1,9 @@
-﻿#include "ace.CoreCircle_Imp.h"
-#include "ace.CoreTriangle_Imp.h"
+﻿#include "ace.CoreCircleShape_Imp.h"
+#include "ace.CoreTriangleShape_Imp.h"
 
 namespace ace
 {
-	CoreCircle_Imp::CoreCircle_Imp()
+	CoreCircleShape_Imp::CoreCircleShape_Imp()
 		:position(Vector2DF(0,0))
 		, innerDiameter(0)
 		, outerDiameter(0)
@@ -13,70 +13,70 @@ namespace ace
 
 	}
 
-	Vector2DF CoreCircle_Imp::GetPosition() const
+	Vector2DF CoreCircleShape_Imp::GetPosition() const
 	{
 		return position;
 	}
 
-	void CoreCircle_Imp::SetPosition(Vector2DF position)
+	void CoreCircleShape_Imp::SetPosition(Vector2DF position)
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		this->position = position;
 	}
 
-	float CoreCircle_Imp::GetAngle() const
+	float CoreCircleShape_Imp::GetAngle() const
 	{
 		return angle;
 	}
 
-	void CoreCircle_Imp::SetAngle(float angle)
+	void CoreCircleShape_Imp::SetAngle(float angle)
 	{
 		isNeededUpdating = true;
 		this->angle = angle;
 	}
 
-	float CoreCircle_Imp::GetOuterDiameter() const
+	float CoreCircleShape_Imp::GetOuterDiameter() const
 	{
 		return outerDiameter;
 	}
 
-	void CoreCircle_Imp::SetOuterDiameter(float outerDiameter)
+	void CoreCircleShape_Imp::SetOuterDiameter(float outerDiameter)
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		this->outerDiameter = outerDiameter;
 	}
 
-	float CoreCircle_Imp::GetInnerDiameter() const
+	float CoreCircleShape_Imp::GetInnerDiameter() const
 	{
 		return innerDiameter;
 	}
 
-	void CoreCircle_Imp::SetInnerDiameter(float innerDiameter)
+	void CoreCircleShape_Imp::SetInnerDiameter(float innerDiameter)
 	{
 		isNeededUpdating = true;
 		this->innerDiameter = innerDiameter;
 	}
 
-	int CoreCircle_Imp::GetNumberOfCorners() const
+	int CoreCircleShape_Imp::GetNumberOfCorners() const
 	{
 		return numberOfCorners;
 	}
 
-	void CoreCircle_Imp::SetNumberOfCorners(int numberOfCorners)
+	void CoreCircleShape_Imp::SetNumberOfCorners(int numberOfCorners)
 	{
 		isNeededUpdating = true;
 		this->numberOfCorners = numberOfCorners;
 	}
 
-	ShapeType CoreCircle_Imp::GetShapeType() const
+	ShapeType CoreCircleShape_Imp::GetShapeType() const
 	{
-		return ShapeType::Circle;
+		return ShapeType::CircleShape;
 	}
 
 #if !SWIG
-	void CoreCircle_Imp::DivideToTriangles()
+	void CoreCircleShape_Imp::DivideToTriangles()
 	{
 		if (numberOfCorners < 3) return;
 
@@ -119,8 +119,8 @@ namespace ace
 			std::array<Vector2DF, 4> vertexes = { position + currentPosVector*outerRadius, position + nextPosVector*outerRadius, position + nextPosVector*innerRadius, position + currentPosVector*innerRadius };
 			std::array<Vector2DF, 4> uvs = { uvCenter + currentUVVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + currentUVVector*ratio };
 
-			auto triangle1 = new CoreTriangle_Imp();
-			auto triangle2 = new CoreTriangle_Imp();
+			auto triangle1 = new CoreTriangleShape_Imp();
+			auto triangle2 = new CoreTriangleShape_Imp();
 
 			for (int j = 0; j < 3; ++j)
 			{
@@ -140,7 +140,7 @@ namespace ace
 		
 	}
 
-	void CoreCircle_Imp::CalculateBoundingCircle()
+	void CoreCircleShape_Imp::CalculateBoundingCircle()
 	{
 		boundingCircle = culling2d::Circle(culling2d::Vector2DF(position.X, position.Y), outerDiameter / 2.0f);
 	}

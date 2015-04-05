@@ -64,11 +64,11 @@
 
 #include "Shape/ace.ShapeType.h"
 #include "Shape/ace.CoreShape.h"
-#include "Shape/ace.CoreLine.h"
-#include "Shape/ace.CoreCircle.h"
-#include "Shape/ace.CoreArc.h"
-#include "Shape/ace.CoreTriangle.h"
-#include "Shape/ace.CoreRectangle.h"
+#include "Shape/ace.CoreLineShape.h"
+#include "Shape/ace.CoreCircleShape.h"
+#include "Shape/ace.CoreArcShape.h"
+#include "Shape/ace.CoreTriangleShape.h"
+#include "Shape/ace.CoreRectangleShape.h"
 
 #include "ObjectSystem/ace.ChildMode.h"
 #include "ObjectSystem/2D/ace.CoreObject2D.h"

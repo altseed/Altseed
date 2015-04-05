@@ -1,20 +1,20 @@
 ﻿#pragma once
 
-#include "ace.CoreLine.h"
+#include "ace.CoreLineShape.h"
 #include "../ace.ReferenceObject.h"
 
 namespace ace
 {
-	class CoreLine_Imp
-		:public CoreLine
+	class CoreLineShape_Imp
+		:public CoreLineShape
 		, public ReferenceObject
 	{
 		Vector2DF staringPosition;
 		Vector2DF endingPosition;
 		float thickness;
 	public:
-		CoreLine_Imp();
-		virtual ~CoreLine_Imp(){}
+		CoreLineShape_Imp();
+		virtual ~CoreLineShape_Imp(){}
 
 		Vector2DF GetStartingPosition() const;
 		void SetStartingPosition(Vector2DF startingPosition);

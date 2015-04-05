@@ -37,7 +37,7 @@ namespace unitTest_Engine_cs.Graphics._2D
             ace.Engine.ChangeScene(scene);
 
             {
-                var circle = new ace.Circle();
+                var circle = new ace.CircleShape();
                 circle.OuterDiameter = 100.0f;
                 circle.InnerDiameter = 10.0f;
                 circle.NumberOfCorners = 96;
@@ -49,7 +49,7 @@ namespace unitTest_Engine_cs.Graphics._2D
             }
 
             {
-                var arc = new ace.Arc();
+                var arc = new ace.ArcShape();
                 arc.OuterDiameter = 100;
                 arc.InnerDiameter = 10;
                 arc.NumberOfCorners = 96;
@@ -63,7 +63,7 @@ namespace unitTest_Engine_cs.Graphics._2D
             }
 
             {
-                var line = new ace.Line();
+                var line = new ace.LineShape();
                 line.StartingPosition = new ace.Vector2DF(410, 50);
                 line.EndingPosition = new ace.Vector2DF(630, 50);
                 line.Thickness = 5.0f;
@@ -73,7 +73,7 @@ namespace unitTest_Engine_cs.Graphics._2D
             }
 
             {
-                var rect = new ace.Rectangle();
+                var rect = new ace.RectangleShape();
                 rect.DrawingArea = new ace.RectF(10, 110, 300, 200);
                 rect.UV = new ace.RectF(0.0f, 0.0f, 0.5f, 0.5f);
 
@@ -83,7 +83,7 @@ namespace unitTest_Engine_cs.Graphics._2D
             }
 
             {
-                var triangle = new ace.Triangle();
+                var triangle = new ace.TriangleShape();
                 triangle.SetPointByIndex(new ace.Vector2DF(320, 350), 0);
                 triangle.SetPointByIndex(new ace.Vector2DF(100, 450), 1);
                 triangle.SetPointByIndex(new ace.Vector2DF(540, 450), 2);

@@ -89,23 +89,23 @@
     <ClCompile Include="..\engine\Shape\ace.Shape.cpp">
       <Filter>Shape</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\Shape\ace.Circle.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="..\engine\Shape\ace.Arc.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="..\engine\Shape\ace.Line.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="..\engine\Shape\ace.Triangle.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="..\engine\Shape\ace.Rectangle.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
     <ClCompile Include="..\engine\ObjectSystem\2D\ace.GeometryObject2D.cpp">
       <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\ace.ArcShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\ace.CircleShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\ace.LineShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\ace.RectangleShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\ace.TriangleShape.cpp">
+      <Filter>Shape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,23 +205,23 @@
     <ClInclude Include="..\engine\Shape\ace.Shape.h">
       <Filter>Shape</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\Shape\ace.Circle.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\Shape\ace.Arc.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\Shape\ace.Line.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\Shape\ace.Triangle.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\engine\Shape\ace.Rectangle.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\2D\ace.GeometryObject2D.h">
       <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\ace.ArcShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\ace.CircleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\ace.LineShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\ace.RectangleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\ace.TriangleShape.h">
+      <Filter>Shape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

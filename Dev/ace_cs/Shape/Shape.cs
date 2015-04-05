@@ -14,27 +14,27 @@ namespace ace
         /// <summary>
         /// 弧
         /// </summary>
-        Arc = swig.ShapeType.Arc,
+        ArcShape = swig.ShapeType.ArcShape,
 
         /// <summary>
         /// 円
         /// </summary>
-        Circle = swig.ShapeType.Circle,
+        CircleShape = swig.ShapeType.CircleShape,
 
         /// <summary>
         /// 矩形
         /// </summary>
-        Rectangle = swig.ShapeType.Rectangle,
+        RectangleShape = swig.ShapeType.RectangleShape,
 
         /// <summary>
         /// 線分
         /// </summary>
-        Line = swig.ShapeType.Line,
+        LineShape = swig.ShapeType.LineShape,
 
         /// <summary>
         /// 三角形
         /// </summary>
-        Triangle = swig.ShapeType.Triangle,
+        TriangleShape = swig.ShapeType.TriangleShape,
     }
 
     public abstract class Shape : IDestroy

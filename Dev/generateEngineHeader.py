@@ -153,11 +153,11 @@ engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Layer.h")
 
 engineHeader.readLines("ace_cpp/engine/Shape/ace.Shape.h")
-engineHeader.readLines("ace_cpp/engine/Shape/ace.Triangle.h")
-engineHeader.readLines("ace_cpp/engine/Shape/ace.Circle.h")
-engineHeader.readLines("ace_cpp/engine/Shape/ace.Arc.h")
-engineHeader.readLines("ace_cpp/engine/Shape/ace.Rectangle.h")
-engineHeader.readLines("ace_cpp/engine/Shape/ace.Line.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.TriangleShape.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.CircleShape.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.ArcShape.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.RectangleShape.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.LineShape.h")
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.ContentsManager.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Object2D.h")

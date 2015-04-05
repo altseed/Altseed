@@ -4,17 +4,17 @@
 
 namespace ace
 {
-	class Circle :public Shape
+	class CircleShape :public Shape
 	{
 	private:
-		std::shared_ptr<CoreCircle> m_coreObject;
+		std::shared_ptr<CoreCircleShape> m_coreObject;
 
 	protected:
 		std::shared_ptr<CoreShape> GetCoreShape() const override;
 
 	public:
-		Circle();
-		virtual ~Circle();
+		CircleShape();
+		virtual ~CircleShape();
 
 		/**
 		@brief	この円の中心座標を取得する。

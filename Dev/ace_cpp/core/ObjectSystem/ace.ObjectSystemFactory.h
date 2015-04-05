@@ -12,11 +12,11 @@
 #include "2D/ace.CoreLayer2D.h"
 #include "ace.CoreScene.h"
 
-#include "../Shape/ace.CoreCircle.h"
-#include "../Shape/ace.CoreArc.h"
-#include "../Shape/ace.CoreLine.h"
-#include "../Shape/ace.CoreRectangle.h"
-#include "../Shape/ace.CoreTriangle.h"
+#include "../Shape/ace.CoreCircleShape.h"
+#include "../Shape/ace.CoreArcShape.h"
+#include "../Shape/ace.CoreLineShape.h"
+#include "../Shape/ace.CoreRectangleShape.h"
+#include "../Shape/ace.CoreTriangleShape.h"
 
 namespace ace
 {
@@ -49,10 +49,10 @@ namespace ace
 
 		virtual CoreTransition* CreateTransition() = 0;
 
-		virtual CoreArc* CreateArc() = 0;
-		virtual CoreCircle* CreateCircle() = 0;
-		virtual CoreLine* CreateLine() = 0;
-		virtual CoreRectangle* CreateRectangle() = 0;
-		virtual CoreTriangle* CreateTriangle() = 0;
+		virtual CoreArcShape* CreateArcShape() = 0;
+		virtual CoreCircleShape* CreateCircleShape() = 0;
+		virtual CoreLineShape* CreateLineShape() = 0;
+		virtual CoreRectangleShape* CreateRectangleShape() = 0;
+		virtual CoreTriangleShape* CreateTriangleShape() = 0;
 	};
 }

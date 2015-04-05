@@ -1,9 +1,9 @@
-﻿#include "ace.CoreTriangle_Imp.h"
-#include "ace.CoreArc_Imp.h"
+﻿#include "ace.CoreTriangleShape_Imp.h"
+#include "ace.CoreArcShape_Imp.h"
 
 namespace ace
 {
-	CoreArc_Imp::CoreArc_Imp()
+	CoreArcShape_Imp::CoreArcShape_Imp()
 		:
 		position(Vector2DF())
 		, startingCorner(0)
@@ -16,51 +16,51 @@ namespace ace
 
 	}
 
-	int CoreArc_Imp::GetStartingCorner() const
+	int CoreArcShape_Imp::GetStartingCorner() const
 	{
 		return startingCorner;
 	}
 
-	void CoreArc_Imp::SetStartingCorner(int startingverticalAngle)
+	void CoreArcShape_Imp::SetStartingCorner(int startingverticalAngle)
 	{
 		isNeededUpdating = true;
 		this->startingCorner = startingverticalAngle;
 	}
 
-	int CoreArc_Imp::GetEndingCorner() const
+	int CoreArcShape_Imp::GetEndingCorner() const
 	{
 		return endingCorner;
 	}
 
-	void CoreArc_Imp::SetEndingCorner(int endingCorner)
+	void CoreArcShape_Imp::SetEndingCorner(int endingCorner)
 	{
 		isNeededUpdating = true;
 		this->endingCorner = endingCorner;
 	}
 
 
-	int CoreArc_Imp::GetNumberOfCorners() const
+	int CoreArcShape_Imp::GetNumberOfCorners() const
 	{
 		return numberOfCorners;
 	}
 
-	void CoreArc_Imp::SetNumberOfCorners(int numberOfCorners)
+	void CoreArcShape_Imp::SetNumberOfCorners(int numberOfCorners)
 	{
 		isNeededUpdating = true;
 		this->numberOfCorners = numberOfCorners;
 	}
 
-	ShapeType CoreArc_Imp::GetShapeType() const
+	ShapeType CoreArcShape_Imp::GetShapeType() const
 	{
-		return ShapeType::Arc;
+		return ShapeType::ArcShape;
 	}
 
-	Vector2DF CoreArc_Imp::GetPosition() const
+	Vector2DF CoreArcShape_Imp::GetPosition() const
 	{
 		return position;
 	}
 
-	void CoreArc_Imp::SetPosition(Vector2DF position)
+	void CoreArcShape_Imp::SetPosition(Vector2DF position)
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
@@ -68,35 +68,35 @@ namespace ace
 	}
 
 
-	float CoreArc_Imp::GetAngle() const
+	float CoreArcShape_Imp::GetAngle() const
 	{
 		return angle;
 	}
 
-	void CoreArc_Imp::SetAngle(float angle)
+	void CoreArcShape_Imp::SetAngle(float angle)
 	{
 		isNeededUpdating = true;
 		this->angle = angle;
 	}
 
-	float CoreArc_Imp::GetOuterDiameter() const
+	float CoreArcShape_Imp::GetOuterDiameter() const
 	{
 		return outerDiameter;
 	}
 
-	void CoreArc_Imp::SetOuterDiameter(float outerDiameter)
+	void CoreArcShape_Imp::SetOuterDiameter(float outerDiameter)
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		this->outerDiameter = outerDiameter;
 	}
 
-	float CoreArc_Imp::GetInnerDiameter() const
+	float CoreArcShape_Imp::GetInnerDiameter() const
 	{
 		return innerDiameter;
 	}
 
-	void CoreArc_Imp::SetInnerDiameter(float innerDiameter)
+	void CoreArcShape_Imp::SetInnerDiameter(float innerDiameter)
 	{
 		isNeededUpdating = true;
 		this->innerDiameter = innerDiameter;
@@ -104,7 +104,7 @@ namespace ace
 
 
 #if !SWIG
-	void CoreArc_Imp::DivideToTriangles()
+	void CoreArcShape_Imp::DivideToTriangles()
 	{
 		if (numberOfCorners < 3) return;
 
@@ -150,8 +150,8 @@ namespace ace
 			std::array<Vector2DF, 4> vertexes = { position + currentPosVector*outerRadius, position + nextPosVector*outerRadius, position + nextPosVector*innerRadius, position + currentPosVector*innerRadius };
 			std::array<Vector2DF, 4> uvs = { uvCenter + currentUVVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + currentUVVector*ratio };
 
-			auto triangle1 = new CoreTriangle_Imp();
-			auto triangle2 = new CoreTriangle_Imp();
+			auto triangle1 = new CoreTriangleShape_Imp();
+			auto triangle2 = new CoreTriangleShape_Imp();
 
 			for (int j = 0; j < 3; ++j)
 			{
@@ -170,7 +170,7 @@ namespace ace
 		}
 	}
 
-	void CoreArc_Imp::CalculateBoundingCircle()
+	void CoreArcShape_Imp::CalculateBoundingCircle()
 	{
 		boundingCircle = culling2d::Circle(culling2d::Vector2DF(position.X, position.Y), outerDiameter / 2.0f);
 	}

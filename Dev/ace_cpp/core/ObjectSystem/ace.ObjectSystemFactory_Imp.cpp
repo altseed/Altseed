@@ -30,11 +30,11 @@
 #include "../Graphics/ace.Graphics_Imp.h"
 
 
-#include "../Shape/ace.CoreCircle_Imp.h"
-#include "../Shape/ace.CoreArc_Imp.h"
-#include "../Shape/ace.CoreLine_Imp.h"
-#include "../Shape/ace.CoreRectangle_Imp.h"
-#include "../Shape/ace.CoreTriangle_Imp.h"
+#include "../Shape/ace.CoreCircleShape_Imp.h"
+#include "../Shape/ace.CoreArcShape_Imp.h"
+#include "../Shape/ace.CoreLineShape_Imp.h"
+#include "../Shape/ace.CoreRectangleShape_Imp.h"
+#include "../Shape/ace.CoreTriangleShape_Imp.h"
 
 namespace ace
 {
@@ -156,28 +156,28 @@ namespace ace
 		return new CoreTransition_Imp();
 	}
 
-	CoreArc* ObjectSystemFactory_Imp::CreateArc()
+	CoreArcShape* ObjectSystemFactory_Imp::CreateArcShape()
 	{
-		return new CoreArc_Imp();
+		return new CoreArcShape_Imp();
 	}
 
-	CoreCircle* ObjectSystemFactory_Imp::CreateCircle()
+	CoreCircleShape* ObjectSystemFactory_Imp::CreateCircleShape()
 	{
-		return new CoreCircle_Imp();
+		return new CoreCircleShape_Imp();
 	}
 
-	CoreLine* ObjectSystemFactory_Imp::CreateLine()
+	CoreLineShape* ObjectSystemFactory_Imp::CreateLineShape()
 	{
-		return new CoreLine_Imp();
+		return new CoreLineShape_Imp();
 	}
 
-	CoreRectangle* ObjectSystemFactory_Imp::CreateRectangle()
+	CoreRectangleShape* ObjectSystemFactory_Imp::CreateRectangleShape()
 	{
-		return new CoreRectangle_Imp();
+		return new CoreRectangleShape_Imp();
 	}
 
-	CoreTriangle* ObjectSystemFactory_Imp::CreateTriangle()
+	CoreTriangleShape* ObjectSystemFactory_Imp::CreateTriangleShape()
 	{
-		return new CoreTriangle_Imp();
+		return new CoreTriangleShape_Imp();
 	}
 }

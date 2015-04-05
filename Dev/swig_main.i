@@ -35,11 +35,11 @@ CPP_OBJECT( ace::CoreMapObject2D )
 CPP_OBJECT( ace::CoreGeometryObject2D )
 
 CPP_OBJECT( ace::CoreShape )
-CPP_OBJECT( ace::CoreCircle )
-CPP_OBJECT( ace::CoreArc )
-CPP_OBJECT( ace::CoreLine )
-CPP_OBJECT( ace::CoreTriangle )
-CPP_OBJECT( ace::CoreRectangle )
+CPP_OBJECT( ace::CoreCircleShape )
+CPP_OBJECT( ace::CoreArcShape )
+CPP_OBJECT( ace::CoreLineShape )
+CPP_OBJECT( ace::CoreTriangleShape )
+CPP_OBJECT( ace::CoreRectangleShape )
 
 CPP_OBJECT( ace::CoreObject3D )
 CPP_OBJECT( ace::CoreModelObject3D )
@@ -120,11 +120,11 @@ CPP_OBJECT( ace::StaticFile )
 %newobject ace::ObjectSystemFactory::CreateChip2D;
 %newobject ace::ObjectSystemFactory::CreateLayer2D;
 
-%newobject ace::ObjectSystemFactory::CreateArc;
-%newobject ace::ObjectSystemFactory::CreateCircle;
-%newobject ace::ObjectSystemFactory::CreateLine;
-%newobject ace::ObjectSystemFactory::CreateRectangle;
-%newobject ace::ObjectSystemFactory::CreateTriangle;
+%newobject ace::ObjectSystemFactory::CreateArcShape;
+%newobject ace::ObjectSystemFactory::CreateCircleShape;
+%newobject ace::ObjectSystemFactory::CreateLineShape;
+%newobject ace::ObjectSystemFactory::CreateRectangleShape;
+%newobject ace::ObjectSystemFactory::CreateTriangleShape;
 
 %newobject ace::ObjectSystemFactory::CreateModelObject3D;
 %newobject ace::ObjectSystemFactory::CreateCameraObject3D;
@@ -214,11 +214,11 @@ CPP_OBJECT( ace::StaticFile )
 
 %include "ace_cpp/core/Shape/ace.ShapeType.h"
 %include "ace_cpp/core/Shape/ace.CoreShape.h"
-%include "ace_cpp/core/Shape/ace.CoreTriangle.h"
-%include "ace_cpp/core/Shape/ace.CoreCircle.h"
-%include "ace_cpp/core/Shape/ace.CoreArc.h"
-%include "ace_cpp/core/Shape/ace.CoreLine.h"
-%include "ace_cpp/core/Shape/ace.CoreRectangle.h"
+%include "ace_cpp/core/Shape/ace.CoreTriangleShape.h"
+%include "ace_cpp/core/Shape/ace.CoreCircleShape.h"
+%include "ace_cpp/core/Shape/ace.CoreArcShape.h"
+%include "ace_cpp/core/Shape/ace.CoreLineShape.h"
+%include "ace_cpp/core/Shape/ace.CoreRectangleShape.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.ChildMode.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D.h"

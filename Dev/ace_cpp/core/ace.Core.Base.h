@@ -70,11 +70,11 @@ namespace ace {
 	class CoreLayer;
 
 	class CoreShape;
-	class CoreTriangle;
-	class CoreRectangle;
-	class CoreLine;
-	class CoreCircle;
-	class CoreArc;
+	class CoreTriangleShape;
+	class CoreRectangleShape;
+	class CoreLineShape;
+	class CoreCircleShape;
+	class CoreArcShape;
 
 	class CoreLayer2D;
 	class CoreObject2D;

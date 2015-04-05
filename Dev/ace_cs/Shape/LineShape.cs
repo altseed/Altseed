@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-    public class Line : Shape,IDestroy
+    public class LineShape : Shape,IDestroy
     {
         internal override swig.CoreShape CoreShape
         {
             get { return coreLine; }
         }
-        private swig.CoreLine coreLine { get; set; }
+        private swig.CoreLineShape coreLine { get; set; }
 
         public override ShapeType ShapeType
         {
-            get { return ShapeType.Line; }
+            get { return ShapeType.LineShape; }
         }
 
-        public Line()
+        public LineShape()
             : base()
         {
-            coreLine = Engine.ObjectSystemFactory.CreateLine();
+            coreLine = Engine.ObjectSystemFactory.CreateLineShape();
 
             var p = coreLine.GetPtr();
             if (GC.Shapes.GetObject(p) != null)
@@ -33,7 +33,7 @@ namespace ace
         }
 
         #region GC対応
-        ~Line()
+        ~LineShape()
         {
             Destroy();
         }

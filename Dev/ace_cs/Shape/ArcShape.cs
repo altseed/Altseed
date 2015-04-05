@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-    public class Arc : Shape
+    public class ArcShape : Shape
     {
         internal override swig.CoreShape CoreShape
         {
             get { return coreArc; }
         }
-        private swig.CoreArc coreArc { get; set; }
+        private swig.CoreArcShape coreArc { get; set; }
 
         public override ShapeType ShapeType
         {
-            get { return ShapeType.Arc; }
+            get { return ShapeType.ArcShape; }
         }
 
-        public Arc()
+        public ArcShape()
             :base()
 		{
-			coreArc = Engine.ObjectSystemFactory.CreateArc();
+			coreArc = Engine.ObjectSystemFactory.CreateArcShape();
 
 			var p = coreArc.GetPtr();
 			if(GC.Shapes.GetObject(p) != null)
@@ -33,7 +33,7 @@ namespace ace
 		}
 
 		#region GC対応
-        ~Arc()
+        ~ArcShape()
 		{
 			Destroy();
 		}

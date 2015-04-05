@@ -6,14 +6,14 @@
 
 namespace ace{
 
-	class CoreTriangle;
+	class CoreTriangleShape;
 
 	class CoreShape 
 		: public IReference
 	{
 #if !SWIG
 	protected:
-		std::vector<CoreTriangle*> triangles;
+		std::vector<CoreTriangleShape*> triangles;
 
 		virtual void DivideToTriangles() = 0;
 
@@ -36,7 +36,7 @@ namespace ace{
 		virtual ShapeType GetShapeType() const = 0;
 
 #if !SWIG
-		std::vector<CoreTriangle*>& GetDividedTriangles();
+		std::vector<CoreTriangleShape*>& GetDividedTriangles();
 
 		culling2d::Circle& GetBoundingCircle();
 #endif

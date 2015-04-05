@@ -126,12 +126,12 @@
     <ClInclude Include="..\engine\ObjectSystem\Transition\ace.Transition.h" />
     <ClInclude Include="..\engine\ObjectSystem\Transition\ace.TransitionFade.h" />
     <ClInclude Include="..\engine\PCH\ace.Engine.PCH.h" />
-    <ClInclude Include="..\engine\Shape\ace.Arc.h" />
-    <ClInclude Include="..\engine\Shape\ace.Circle.h" />
-    <ClInclude Include="..\engine\Shape\ace.Line.h" />
-    <ClInclude Include="..\engine\Shape\ace.Rectangle.h" />
+    <ClInclude Include="..\engine\Shape\ace.ArcShape.h" />
+    <ClInclude Include="..\engine\Shape\ace.CircleShape.h" />
+    <ClInclude Include="..\engine\Shape\ace.LineShape.h" />
+    <ClInclude Include="..\engine\Shape\ace.RectangleShape.h" />
     <ClInclude Include="..\engine\Shape\ace.Shape.h" />
-    <ClInclude Include="..\engine\Shape\ace.Triangle.h" />
+    <ClInclude Include="..\engine\Shape\ace.TriangleShape.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\engine\ace.Engine.cpp" />
@@ -167,12 +167,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\engine\Shape\ace.Arc.cpp" />
-    <ClCompile Include="..\engine\Shape\ace.Circle.cpp" />
-    <ClCompile Include="..\engine\Shape\ace.Line.cpp" />
-    <ClCompile Include="..\engine\Shape\ace.Rectangle.cpp" />
+    <ClCompile Include="..\engine\Shape\ace.ArcShape.cpp" />
+    <ClCompile Include="..\engine\Shape\ace.CircleShape.cpp" />
+    <ClCompile Include="..\engine\Shape\ace.LineShape.cpp" />
+    <ClCompile Include="..\engine\Shape\ace.RectangleShape.cpp" />
     <ClCompile Include="..\engine\Shape\ace.Shape.cpp" />
-    <ClCompile Include="..\engine\Shape\ace.Triangle.cpp" />
+    <ClCompile Include="..\engine\Shape\ace.TriangleShape.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="ace_core.vcxproj">

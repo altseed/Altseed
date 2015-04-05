@@ -4,16 +4,16 @@
 
 namespace ace
 {
-	class Triangle :public Shape
+	class TriangleShape :public Shape
 	{
 	private:
-		std::shared_ptr<CoreTriangle> m_coreObject;
+		std::shared_ptr<CoreTriangleShape> m_coreObject;
 
 	protected:
 		std::shared_ptr<CoreShape> GetCoreShape() const override;
 	public:
-		Triangle();
-		virtual ~Triangle();
+		TriangleShape();
+		virtual ~TriangleShape();
 
 		/**
 		@brief	指定したインデックスの頂点の座標を取得する。

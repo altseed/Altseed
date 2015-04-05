@@ -4,16 +4,16 @@
 
 namespace ace
 {
-	class Line :public Shape
+	class LineShape :public Shape
 	{
 	private:
-		std::shared_ptr<CoreLine> m_coreObject;
+		std::shared_ptr<CoreLineShape> m_coreObject;
 
 	protected:
 		std::shared_ptr<CoreShape> GetCoreShape() const override;
 	public:
-		Line();
-		virtual ~Line();
+		LineShape();
+		virtual ~LineShape();
 
 		/**
 		@brief	線分の始点座標を取得する。

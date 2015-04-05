@@ -10,27 +10,27 @@ namespace ace
 		/**
 		@brief	円
 		*/
-		Circle,
+		CircleShape,
 
 		/**
 		@brief	弧
 		*/
-		Arc,
+		ArcShape,
 
 		/**
 		@brief	線分
 		*/
-		Line,
+		LineShape,
 
 		/**
 		@brief	矩形
 		*/
-		Rectangle,
+		RectangleShape,
 
 		/**
 		@brief	三角形
 		*/
-		Triangle,
+		TriangleShape,
 
 		/**
 		@brief	多角形

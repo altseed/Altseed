@@ -5,12 +5,12 @@
 
 namespace ace
 {
-	class CoreTriangle
+	class CoreTriangleShape
 		:public CoreShape
 	{
 	public:
-		CoreTriangle(){}
-		virtual ~CoreTriangle(){}
+		CoreTriangleShape(){}
+		virtual ~CoreTriangleShape(){}
 
 		virtual Vector2DF GetPointByIndex(int index) const = 0;
 		virtual void SetPointByIndex(Vector2DF point, int index) = 0;

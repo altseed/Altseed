@@ -888,36 +888,6 @@
     <ClInclude Include="..\core\Shape\ace.CoreShape.h">
       <Filter>Shape</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Shape\ace.CoreCircle.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Shape\ace.CoreCircle_Imp.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Shape\ace.CoreArc.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Shape\ace.CoreArc_Imp.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Shape\ace.CoreLine.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Shape\ace.CoreLine_Imp.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Shape\ace.CoreRectangle.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Shape\ace.CoreRectangle_Imp.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Shape\ace.CoreTriangle.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Shape\ace.CoreTriangle_Imp.h">
-      <Filter>Shape</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
@@ -929,6 +899,36 @@
     </ClInclude>
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\Downsample_PS.h">
       <Filter>Graphics\Shader\GL\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreArcShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreArcShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreCircleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreCircleShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreLineShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreLineShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreRectangleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreRectangleShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreTriangleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreTriangleShape_Imp.h">
+      <Filter>Shape</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1288,25 +1288,25 @@
     <ClCompile Include="..\core\Graphics\Resource\ace.ImagePackage_Imp.cpp">
       <Filter>Graphics\Resource</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Shape\ace.CoreCircle_Imp.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Shape\ace.CoreArc_Imp.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Shape\ace.CoreLine_Imp.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Shape\ace.CoreRectangle_Imp.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\Shape\ace.CoreTriangle_Imp.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Shape\ace.CoreShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreArcShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreCircleShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreLineShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreRectangleShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreTriangleShape_Imp.cpp">
       <Filter>Shape</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-    public class Circle : Shape
+    public class CircleShape : Shape
     {
         internal override swig.CoreShape CoreShape
         {
             get { return coreCircle; }
         }
-        private swig.CoreCircle coreCircle { get; set; }
+        private swig.CoreCircleShape coreCircle { get; set; }
 
         public override ShapeType ShapeType
         {
-            get { return ShapeType.Circle; }
+            get { return ShapeType.CircleShape; }
         }
 
-        public Circle()
+        public CircleShape()
             : base()
         {
-            coreCircle = Engine.ObjectSystemFactory.CreateCircle();
+            coreCircle = Engine.ObjectSystemFactory.CreateCircleShape();
 
             var p = coreCircle.GetPtr();
             if (GC.Shapes.GetObject(p) != null)
@@ -33,7 +33,7 @@ namespace ace
         }
 
         #region GC対応
-        ~Circle()
+        ~CircleShape()
         {
             Destroy();
         }

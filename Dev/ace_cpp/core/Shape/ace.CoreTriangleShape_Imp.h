@@ -1,21 +1,21 @@
 ﻿#pragma once
 
-#include "ace.CoreTriangle.h"
+#include "ace.CoreTriangleShape.h"
 #include "../ace.ReferenceObject.h"
 #include <array>
 
 namespace ace
 {
-	class CoreTriangle_Imp
-		:public CoreTriangle
+	class CoreTriangleShape_Imp
+		:public CoreTriangleShape
 		, public ReferenceObject
 	{
 		std::array<Vector2DF, 3> points;
 		std::array<Vector2DF, 3> uvs;
 
 	public:
-		CoreTriangle_Imp();
-		virtual ~CoreTriangle_Imp(){}
+		CoreTriangleShape_Imp();
+		virtual ~CoreTriangleShape_Imp(){}
 
 		Vector2DF GetPointByIndex(int index) const;
 		void SetPointByIndex(Vector2DF point, int index);

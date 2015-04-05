@@ -1,22 +1,24 @@
 ﻿#pragma once
 
 #include "../ace.ReferenceObject.h"
-#include "ace.CoreCircle.h"
+#include "ace.CoreArcShape.h"
 
 namespace ace
 {
-	class CoreCircle_Imp
-		:public CoreCircle
+	class CoreArcShape_Imp
+		:public CoreArcShape
 		, public ReferenceObject
 	{
+		int startingCorner;
+		int endingCorner;
 		Vector2DF position;
 		float innerDiameter;
 		float outerDiameter;
 		int numberOfCorners;
 		float angle;
 	public:
-		CoreCircle_Imp();
-		virtual ~CoreCircle_Imp(){}
+		CoreArcShape_Imp();
+		virtual ~CoreArcShape_Imp(){}
 
 		Vector2DF GetPosition() const override;
 		void SetPosition(Vector2DF position) override;
@@ -32,6 +34,12 @@ namespace ace
 
 		int GetNumberOfCorners() const override;
 		void SetNumberOfCorners(int numberOfCorners) override;
+
+		int GetStartingCorner() const override;
+		void SetStartingCorner(int startingCorner) override;
+
+		int GetEndingCorner() const override;
+		void SetEndingCorner(int endingCorner) override;
 
 		ShapeType GetShapeType() const override;
 

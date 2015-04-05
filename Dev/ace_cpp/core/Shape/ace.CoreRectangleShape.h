@@ -6,12 +6,12 @@
 
 namespace ace
 {
-	class CoreRectangle
+	class CoreRectangleShape
 		:public CoreShape
 	{
 	public:
-		CoreRectangle(){}
-		virtual ~CoreRectangle(){}
+		CoreRectangleShape(){}
+		virtual ~CoreRectangleShape(){}
 
 		virtual RectF GetDrawingArea() const = 0;
 		virtual void SetDrawingArea(RectF drawingArea) = 0;

@@ -1,10 +1,10 @@
-﻿#include "ace.CoreRectangle_Imp.h"
-#include "ace.CoreTriangle_Imp.h"
+﻿#include "ace.CoreRectangleShape_Imp.h"
+#include "ace.CoreTriangleShape_Imp.h"
 
 namespace ace
 {
 
-	CoreRectangle_Imp::CoreRectangle_Imp()
+	CoreRectangleShape_Imp::CoreRectangleShape_Imp()
 		:drawingArea(RectF())
 		, uv(RectF())
 		, angle(0)
@@ -12,60 +12,60 @@ namespace ace
 
 	}
 
-	RectF CoreRectangle_Imp::GetDrawingArea() const
+	RectF CoreRectangleShape_Imp::GetDrawingArea() const
 	{
 		return drawingArea;
 	}
 
-	void CoreRectangle_Imp::SetDrawingArea(RectF drawingArea)
+	void CoreRectangleShape_Imp::SetDrawingArea(RectF drawingArea)
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		this->drawingArea = drawingArea;
 	}
 
-	RectF CoreRectangle_Imp::GetUV() const
+	RectF CoreRectangleShape_Imp::GetUV() const
 	{
 		return uv;
 	}
 
-	void CoreRectangle_Imp::SetUV(RectF uv)
+	void CoreRectangleShape_Imp::SetUV(RectF uv)
 	{
 		isNeededUpdating = true;
 		this->uv = uv;
 	}
 
-	float CoreRectangle_Imp::GetAngle() const
+	float CoreRectangleShape_Imp::GetAngle() const
 	{
 		return angle;
 	}
 
-	void CoreRectangle_Imp::SetAngle(float angle)
+	void CoreRectangleShape_Imp::SetAngle(float angle)
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		this->angle = angle;
 	}
 
-	Vector2DF CoreRectangle_Imp::GetCenterPosition() const
+	Vector2DF CoreRectangleShape_Imp::GetCenterPosition() const
 	{
 		return centerPosition;
 	}
 
-	void CoreRectangle_Imp::SetCenterPosition(Vector2DF centerPosition)
+	void CoreRectangleShape_Imp::SetCenterPosition(Vector2DF centerPosition)
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		this->centerPosition = centerPosition;
 	}
 
-	ShapeType CoreRectangle_Imp::GetShapeType() const
+	ShapeType CoreRectangleShape_Imp::GetShapeType() const
 	{
-		return ShapeType::Rectangle;
+		return ShapeType::RectangleShape;
 	}
 
 #if !SWIG
-	void CoreRectangle_Imp::DivideToTriangles()
+	void CoreRectangleShape_Imp::DivideToTriangles()
 	{
 		auto vertexes = drawingArea.GetVertexes();
 
@@ -82,8 +82,8 @@ namespace ace
 
 		auto uvs = uv.GetVertexes();
 
-		auto triangle1 = new CoreTriangle_Imp();
-		auto triangle2 = new CoreTriangle_Imp();
+		auto triangle1 = new CoreTriangleShape_Imp();
+		auto triangle2 = new CoreTriangleShape_Imp();
 
 		for (int j = 0; j < 3; ++j)
 		{
@@ -98,7 +98,7 @@ namespace ace
 		triangles.push_back(triangle2);
 	}
 
-	void CoreRectangle_Imp::CalculateBoundingCircle()
+	void CoreRectangleShape_Imp::CalculateBoundingCircle()
 	{
 		std::array<Vector2DF, 4> vertexes = drawingArea.GetVertexes();
 

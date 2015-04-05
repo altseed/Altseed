@@ -5,12 +5,12 @@
 
 namespace ace
 {
-	class CoreLine
+	class CoreLineShape
 		:public CoreShape
 	{
 	public:
-		CoreLine(){}
-		virtual ~CoreLine(){}
+		CoreLineShape(){}
+		virtual ~CoreLineShape(){}
 
 		virtual Vector2DF GetStartingPosition() const = 0;
 		virtual void SetStartingPosition(Vector2DF staringPosition) = 0;

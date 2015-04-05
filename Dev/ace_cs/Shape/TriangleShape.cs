@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-    public class Triangle : Shape
+    public class TriangleShape : Shape
     {
         internal override swig.CoreShape CoreShape
         {
             get { return coreTriangle; }
         }
-        private swig.CoreTriangle coreTriangle { get; set; }
+        private swig.CoreTriangleShape coreTriangle { get; set; }
 
         public override ShapeType ShapeType
         {
-            get { return ShapeType.Triangle; }
+            get { return ShapeType.TriangleShape; }
         }
 
-        public Triangle()
+        public TriangleShape()
             : base()
         {
-            coreTriangle = Engine.ObjectSystemFactory.CreateTriangle();
+            coreTriangle = Engine.ObjectSystemFactory.CreateTriangleShape();
 
             var p = coreTriangle.GetPtr();
             if (GC.Shapes.GetObject(p) != null)
@@ -33,7 +33,7 @@ namespace ace
         }
 
         #region GC対応
-        ~Triangle()
+        ~TriangleShape()
         {
             Destroy();
         }

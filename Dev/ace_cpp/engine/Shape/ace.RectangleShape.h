@@ -4,16 +4,16 @@
 
 namespace ace
 {
-	class Rectangle :public Shape
+	class RectangleShape :public Shape
 	{
 	private:
-		std::shared_ptr<CoreRectangle> m_coreObject;
+		std::shared_ptr<CoreRectangleShape> m_coreObject;
 
 	protected:
 		std::shared_ptr<CoreShape> GetCoreShape() const override;
 	public:
-		Rectangle();
-		virtual ~Rectangle();
+		RectangleShape();
+		virtual ~RectangleShape();
 
 		/**
 		@brief	矩形の描画範囲を取得する。

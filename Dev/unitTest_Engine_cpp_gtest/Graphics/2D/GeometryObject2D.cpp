@@ -38,7 +38,7 @@ protected:
 		ace::Engine::ChangeScene(scene);
 
 		{
-			auto circle = make_shared<Circle>();
+			auto circle = make_shared<CircleShape>();
 			circle->SetOuterDiameter(100);
 			circle->SetInnerDiameter(10);
 			circle->SetNumberOfCorners(96);
@@ -50,7 +50,7 @@ protected:
 		}
 
 		{
-			auto arc = make_shared<ace::Arc>();
+			auto arc = make_shared<ace::ArcShape>();
 			arc->SetOuterDiameter(100);
 			arc->SetInnerDiameter(10);
 			arc->SetNumberOfCorners(96);
@@ -64,7 +64,7 @@ protected:
 		}
 
 		{
-			auto line = make_shared<Line>();
+			auto line = make_shared<LineShape>();
 			line->SetStartingPosition(Vector2DF(410, 50));
 			line->SetEndingPosition(Vector2DF(630, 50));
 			line->SetThickness(5.0f);
@@ -74,7 +74,7 @@ protected:
 		}
 
 		{
-			auto rect = make_shared<ace::Rectangle>();
+			auto rect = make_shared<ace::RectangleShape>();
 			rect->SetDrawingArea(ace::RectF(10, 110, 300, 200));
 			rect->SetUV(ace::RectF(0, 0, 0.5, 0.5));
 
@@ -84,7 +84,7 @@ protected:
 		}
 
 		{
-			auto triangle = make_shared<ace::Triangle>();
+			auto triangle = make_shared<ace::TriangleShape>();
 			triangle->SetPointByIndex(ace::Vector2DF(320, 350), 0);
 			triangle->SetPointByIndex(ace::Vector2DF(100, 450), 1);
 			triangle->SetPointByIndex(ace::Vector2DF(540, 450), 2);

@@ -1,5 +1,5 @@
 ﻿#include "ace.CoreShape.h"
-#include "ace.CoreTriangle.h"
+#include "ace.CoreTriangleShape.h"
 
 namespace ace
 {
@@ -12,7 +12,7 @@ namespace ace
 	}
 
 #if !SWIG
-	std::vector<CoreTriangle*>& CoreShape::GetDividedTriangles()
+	std::vector<CoreTriangleShape*>& CoreShape::GetDividedTriangles()
 	{
 		if (isNeededUpdating)
 		{

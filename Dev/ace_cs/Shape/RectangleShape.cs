@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-    public class Rectangle : Shape
+    public class RectangleShape : Shape
     {
         internal override swig.CoreShape CoreShape
         {
             get { return coreRectangle; }
         }
-        private swig.CoreRectangle coreRectangle { get; set; }
+        private swig.CoreRectangleShape coreRectangle { get; set; }
 
         public override ShapeType ShapeType
         {
-            get { return ShapeType.Rectangle; }
+            get { return ShapeType.RectangleShape; }
         }
 
-        public Rectangle()
+        public RectangleShape()
             : base()
         {
-            coreRectangle = Engine.ObjectSystemFactory.CreateRectangle();
+            coreRectangle = Engine.ObjectSystemFactory.CreateRectangleShape();
 
             var p = coreRectangle.GetPtr();
             if (GC.Shapes.GetObject(p) != null)
@@ -33,7 +33,7 @@ namespace ace
         }
 
         #region GC対応
-        ~Rectangle()
+        ~RectangleShape()
         {
             Destroy();
         }

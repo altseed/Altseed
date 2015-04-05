@@ -39,10 +39,10 @@ namespace ace
 
 		CoreTransition* CreateTransition() override;
 
-		CoreArc* CreateArc() override;
-		CoreCircle* CreateCircle() override;
-		CoreLine* CreateLine() override;
-		CoreRectangle* CreateRectangle() override;
-		CoreTriangle* CreateTriangle() override;
+		CoreArcShape* CreateArcShape() override;
+		CoreCircleShape* CreateCircleShape() override;
+		CoreLineShape* CreateLineShape() override;
+		CoreRectangleShape* CreateRectangleShape() override;
+		CoreTriangleShape* CreateTriangleShape() override;
 	};
 }
