@@ -17,6 +17,7 @@
 #include "ace.CoreGeometryObject2D_Imp.h"
 #include "../../Core/ace.Core.h"
 #include "../../Graphics/Resource/ace.Chip2D_Imp.h"
+#include "../../Shape/ace.CoreTriangleShape_Imp.h"
 
 using namespace std;
 
@@ -823,7 +824,7 @@ namespace ace
 		}
 	}
 
-	void CoreLayer2D_Imp::DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlend alphaBlend, int32_t priority)
 	{
 		Vector2DF vector = point2 - point1;
 
@@ -851,5 +852,39 @@ namespace ace
 		sprite.Priority = priority;
 
 		sprites.push_back(sprite);
+	}
+
+	void CoreLayer2D_Imp::DrawShapeAdditionally(CoreShape* shape, Color color, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	{
+		for (auto triangle : shape->GetDividedTriangles())
+		{
+			std::array<Vector2DF, 4> pos;
+			std::array<Vector2DF, 4> uvs;
+
+			for (int i = 0; i < 3; ++i)
+			{
+				pos[i] = triangle->GetPointByIndex(i);
+				uvs[i] = triangle->GetUVByIndex(i);
+			}
+			pos[3] = pos[2];
+			uvs[3] = uvs[2];
+
+			std::array<Color,4> col;
+			col[0] = color;
+			col[1] = color;
+			col[2] = color;
+			col[3] = color;
+
+			Sprite sprite;
+
+			sprite.pos = pos;
+			sprite.col = col;
+			sprite.uv = uvs;
+			sprite.Texture_ = (shape->GetShapeType() == ShapeType::LineShape) ? nullptr : CreateSharedPtrWithReleaseDLL(texture);
+			sprite.AlphaBlend_ = alphaBlend;
+			sprite.Priority = priority;
+
+			sprites.push_back(sprite);
+		}
 	}
 }

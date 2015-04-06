@@ -225,7 +225,12 @@ namespace ace
 
         protected void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlendMode alphaBlend, int priority)
         {
-            Layer.DrawLineAdditionally(point1, point2, color, thickness, alphaBlend, priority);
+            Layer.DrawLineAdditionally(point1, point2,  thickness, color, alphaBlend, priority);
+        }
+
+        protected void DrawShapeAdditionally(Shape shape, Color color, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+        {
+            Layer.DrawShapeAdditionally(shape, color, texture, alphaBlend, priority);
         }
 
         /// <summary>

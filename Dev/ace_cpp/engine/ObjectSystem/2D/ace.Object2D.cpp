@@ -113,10 +113,16 @@ namespace ace
 		layer->DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startingVerticalAngle, endingVerticalAngle, angle, texture, alphaBlend, priority);
 	}
 
-	void Object2D::DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlend alphaBlend, int32_t priority)
+	void Object2D::DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlend alphaBlend, int32_t priority)
 	{
 		auto layer = GetLayer();
-		layer->DrawLineAdditionally(point1, point2, color, thickness, alphaBlend, priority);
+		layer->DrawLineAdditionally(point1, point2, thickness, color, alphaBlend, priority);
+	}
+
+	void Object2D::DrawShapeAdditionally(std::shared_ptr<Shape> shape, Color color, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority)
+	{
+		auto layer = GetLayer();
+		layer->DrawShapeAdditionally(shape, color, texture, alphaBlend, priority);
 	}
 
 	bool Object2D::GetIsAlive() const

@@ -7,6 +7,7 @@
 #include "../ace.Layer.h"
 #include "../Component/ace.Layer2DComponent.h"
 #include "../Component/ace.ComponentManager.h"
+#include "../../Shape/ace.Shape.h"
 
 namespace ace
 {
@@ -146,7 +147,9 @@ namespace ace
 
 		void DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority);
 
-		void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlend alphaBlend, int32_t priority);
+		void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlend alphaBlend, int32_t priority);
+
+		void DrawShapeAdditionally(std::shared_ptr<Shape> shape, Color color, std::shared_ptr<Texture2D> texture, AlphaBlend alphaBlend, int32_t priority);
 
 		/**
 		@brief	レイヤーの種類を取得する。

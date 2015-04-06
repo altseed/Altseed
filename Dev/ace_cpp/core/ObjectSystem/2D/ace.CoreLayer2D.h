@@ -3,6 +3,7 @@
 #include "ace.CoreObject2D.h"
 #include "../../Graphics/2D/ace.Renderer2D_Imp.h"
 #include "../ace.CoreLayer.h"
+#include "../../Shape/ace.CoreShape.h"
 
 namespace ace
 {
@@ -44,7 +45,9 @@ namespace ace
 		virtual void DrawCircleAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) = 0;
 		virtual void DrawArcAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) = 0;
 
-		virtual void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlend alphaBlend, int32_t priority) = 0;
+		virtual void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlend alphaBlend, int32_t priority) = 0;
+
+		virtual void DrawShapeAdditionally(CoreShape* shape, Color color, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) = 0;
 #if !SWIG
 		virtual Renderer2D* GetRenderer() const = 0;
 		virtual Graphics* GetGraphicsImp() = 0;
