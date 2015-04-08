@@ -31,6 +31,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
         class MyObject : TextureObject2D
         {
             TextureObject2D child;
+            TextObject2D c2;
             public MyObject()
             {
                 Position = new Vector2DF(320, 0);
@@ -40,7 +41,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
                 };
                 AddChild(child, ChildMode.Position);
 
-                var c2 = new ace.TextObject2D();
+                c2 = new ace.TextObject2D();
                 var font = ace.Engine.Graphics.CreateFont("Data/Font/Nac0812.aff");
                 c2.Font = font;
                 c2.Text = "DependencyPropertyは\n依存関係プロパティのこと";
@@ -52,6 +53,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
             protected override void OnStart()
             {
                 Layer.AddObject(child);
+                Layer.AddObject(c2);
             }
         }
 
