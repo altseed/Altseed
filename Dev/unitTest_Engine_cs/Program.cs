@@ -12,11 +12,11 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-            /*
-			TestSequencially(new Graphics._2D.GeometryObject2D());
+            //*
+			TestSequencially(new ObjectSystem2D.ComponentError0408());
 			Console.ReadKey();
 			return;
-			*/
+			//*/
 
 			TestAll();
 
