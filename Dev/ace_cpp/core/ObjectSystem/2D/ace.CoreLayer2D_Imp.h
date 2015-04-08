@@ -78,11 +78,14 @@ namespace ace
 
 #if __CULLING_2D__
 		culling2d::World *world = nullptr;
+		std::deque<culling2d::Object*> transformedObjects;
 #endif
 	public:
 #if __CULLING_2D__
 		culling2d::World *GetCullingWorld() const;
-		std::deque<culling2d::Object*> TransformedObjects;
+
+		void AddTransformedObject(culling2d::Object* object);
+		void RemoveTransformedObject(culling2d::Object* object);
 
 		void AddChipCullingObject(Chip2D_Imp *chip, uint32_t firstSortKey);
 		void RemoveChipCullingObject(Chip2D_Imp *chip);

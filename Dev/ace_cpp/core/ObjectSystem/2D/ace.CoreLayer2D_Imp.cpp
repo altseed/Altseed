@@ -138,7 +138,7 @@ namespace ace
 
 		world->IncNextSecondSortedKey();
 
-		TransformedObjects.push_back(cObj);
+		AddTransformedObject(cObj);
 
 		chip->SetAlreadyCullingUpdated(true);
 		world->AddObject(cObj);
@@ -202,7 +202,7 @@ namespace ace
 				o->SetCullingObject(cObj);
 
 
-				TransformedObjects.push_back(cObj);
+				AddTransformedObject(cObj);
 				o->SetAlreadyCullingUpdated(true);
 
 
@@ -234,7 +234,7 @@ namespace ace
 
 					auto cObj = chipImp->GetCullingObject();
 
-					TransformedObjects.erase(std::remove(TransformedObjects.begin(), TransformedObjects.end(), cObj), TransformedObjects.end());
+					RemoveTransformedObject(cObj);
 
 					auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
@@ -247,7 +247,7 @@ namespace ace
 			{
 				auto cObj = o->GetCullingObject();
 
-				TransformedObjects.erase(std::remove(TransformedObjects.begin(), TransformedObjects.end(), cObj), TransformedObjects.end());
+				RemoveTransformedObject(cObj);
 
 				auto userData = (Culling2DUserData*)(cObj->GetUserData());
 
@@ -295,6 +295,18 @@ namespace ace
 	{
 		return world;
 	}
+
+
+	void CoreLayer2D_Imp::AddTransformedObject(culling2d::Object* object)
+	{
+		assert(object != nullptr);
+		transformedObjects.push_back(object);
+	}
+
+	void CoreLayer2D_Imp::RemoveTransformedObject(culling2d::Object* object)
+	{
+		transformedObjects.erase(std::remove(transformedObjects.begin(), transformedObjects.end(), object), transformedObjects.end());
+	}
 #endif
 
 	//----------------------------------------------------------------------------------
@@ -308,9 +320,8 @@ namespace ace
 #if __CULLING_2D__
 		//グリッド更新処理
 		{
-			for (auto& x : TransformedObjects)
+			for (auto x : transformedObjects)
 			{
-
 				auto userData = (Culling2DUserData*)(x->GetUserData());
 
 				if (userData->IsObject)
@@ -331,7 +342,7 @@ namespace ace
 
 			world->Update();
 
-			TransformedObjects.clear();
+			transformedObjects.clear();
 		}
 #endif
 	}
