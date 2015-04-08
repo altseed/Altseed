@@ -28,13 +28,14 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 
 		class MyObject : TextureObject2D
 		{
-			TextureObject2D child;
+			TextObject2D child;
 			public MyObject()
 			{
 				Position = new Vector2DF(320, 0);
-				child = new TextureObject2D()
+				child = new TextObject2D()
 				{
-					Texture = Engine.Graphics.CreateTexture2D(CloudTexturePath),
+					Font = ace.Engine.Graphics.CreateFont("Data/Font/Nac0812.aff"),
+					Text = "D",
 				};
 				AddChild(child, ChildMode.Position);
 				AddComponent(new MyComponent(v => Position = new Vector2DF(Position.X, v)), "Hoge");
@@ -43,6 +44,11 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			protected override void OnStart()
 			{
 				Layer.AddObject(child);
+			}
+
+			protected override void OnVanish()
+			{
+				child.Vanish();
 			}
 		}
 
