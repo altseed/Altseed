@@ -103,6 +103,7 @@ namespace ace
 	void CoreTextObject2D_Imp::SetCenterPosition(Vector2DF position)
 	{
 		m_centerPosition = position;
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -256,12 +257,12 @@ namespace ace
 					pos = Vector2DF(result.X, result.Y);
 				}
 
-				if (min.X >= position.at(0).X || min.Y >= position.at(0).Y)
+				if (min.X >= position.at(0).X && min.Y >= position.at(0).Y)
 				{
 					min = position.at(0);
 				}
 
-				if (max.X <= position.at(2).X || min.Y <= position.at(2).Y)
+				if (max.X <= position.at(2).X && min.Y <= position.at(2).Y)
 				{
 					max = position.at(2);
 				}

@@ -35,13 +35,14 @@ namespace ace
 			children.erase(nullptr);
 		}
 
-		if (m_objectInfo.GetLayer() == nullptr) return;
-
-		auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
 
 		if (!obj->GetAlreadyCullingUpdated())
 		{
-			layerImp->TransformedObjects.push_back(obj->GetCullingObject());
+			if (m_objectInfo.GetLayer() != nullptr)
+			{
+				auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
+				layerImp->AddTransformedObject(obj->GetCullingObject());
+			}
 			obj->SetAlreadyCullingUpdated(true);
 		}
 

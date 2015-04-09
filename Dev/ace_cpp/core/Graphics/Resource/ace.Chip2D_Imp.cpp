@@ -153,7 +153,7 @@ namespace ace {
 		if (!alreadyCullingUpdated&&mapObject2D != nullptr&&mapObject2D->GetLayer() != nullptr)
 		{
 			auto layerImp = (CoreLayer2D_Imp*)mapObject2D->GetLayer();
-			layerImp->TransformedObjects.push_back(cullingObject);
+			layerImp->AddTransformedObject(cullingObject);
 			alreadyCullingUpdated = true;
 		}
 #endif
