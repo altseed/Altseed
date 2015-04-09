@@ -410,6 +410,7 @@ namespace ace
 		SafeRelease(layerRenderer);
 
 		SafeRelease(m_profiler);
+		SafeRelease(m_layerProfiler);
 		SafeDelete(m_profilerViewer);
 
 		SafeRelease(m_sound);
