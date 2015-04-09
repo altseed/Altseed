@@ -24,6 +24,7 @@ namespace ace {
 	class Keyboard_Imp;
 	class Log_Imp;
 	class Profiler_Imp;
+	class LayerProfiler;
 	class ProfilerViewer_Imp;
 
 	class Joystick_Imp;

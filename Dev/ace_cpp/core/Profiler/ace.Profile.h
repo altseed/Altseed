@@ -54,6 +54,7 @@ namespace ace
 	{
 	public:
 		typedef std::shared_ptr<Performance> PerfPtr;
+		typedef std::shared_ptr<Profile> Ptr;
 
 	private:
 		int m_id;

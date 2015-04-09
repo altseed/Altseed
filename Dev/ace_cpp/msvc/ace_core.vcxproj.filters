@@ -963,7 +963,10 @@
     <ClInclude Include="..\core\3rdParty\poly2tri\poly2tri.h">
       <Filter>3rdParty\poly2tri</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Profiler\LayerProfile.h">
+    <ClInclude Include="..\core\Profiler\ace.LayerProfile.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\ace.LayerProfiler.h">
       <Filter>Profiler</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1362,6 +1365,12 @@
     </ClCompile>
     <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep_context.cpp">
       <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Profiler\ace.LayerProfile.cpp">
+      <Filter>Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Profiler\ace.LayerProfiler.cpp">
+      <Filter>Profiler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

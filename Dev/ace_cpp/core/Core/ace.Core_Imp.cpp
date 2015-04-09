@@ -12,6 +12,7 @@
 #include "../Log/ace.GetSpec.h"
 
 #include "../Profiler/ace.Profiler_Imp.h"
+#include "../Profiler/ace.LayerProfiler.h"
 #include "../Profiler/ace.ProfilerViewer_Imp.h"
 
 #include "../ObjectSystem/ace.ObjectSystemFactory_Imp.h"
@@ -218,11 +219,13 @@ namespace ace
 
 		m_sound = new Sound_Imp(m_file, m_logger, option.IsReloadingEnabled);
 
-		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
-
 		m_profiler = Profiler_Imp::Create();
 
+		m_layerProfiler = LayerProfiler::Create();
+
 		m_profilerViewer = ProfilerViewer_Imp::Create(this, m_profiler, m_graphics, m_logger, m_window->GetSize());
+
+		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
@@ -303,6 +306,7 @@ namespace ace
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
 		m_profiler = Profiler_Imp::Create();
+		m_layerProfiler = LayerProfiler::Create();
 		m_profilerViewer = ProfilerViewer_Imp::Create(this, m_profiler, m_graphics, m_logger, Vector2DI(width, height));
 
 		m_animationSyatem = new AnimationSystem_Imp();

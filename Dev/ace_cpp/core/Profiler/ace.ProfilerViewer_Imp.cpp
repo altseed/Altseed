@@ -24,7 +24,7 @@ namespace ace
 	const int COLUMN1_OFFSET = 15;
 	const int COLUMN2_OFFSET = 80;
 	const int COLUMN3_OFFSET = 160;
-	const int DRAWCALL_OFFSET = 140;
+	const int DRAWCALL_OFFSET = 80;
 	const Color SECTION_HEADER_COLOR = Color(255, 255, 0, 255);
 	const Color HEADER_COLOR = Color(128, 128, 128, 255);
 	const Color CONTENT_COLOR = Color(255, 255, 255, 255);
@@ -70,6 +70,7 @@ namespace ace
 		, m_materTexture(nullptr)
 		, log(log)
 	{
+		SafeAddRef(m_profiler);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -78,6 +79,7 @@ namespace ace
 	ProfilerViewer_Imp::~ProfilerViewer_Imp()
 	{
 		SafeDelete(m_renderer);
+		SafeRelease(m_profiler);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -135,7 +137,7 @@ namespace ace
 		DrawTextSprite(
 			Vector2DF(COLUMN1_OFFSET, SECTION_SPAN + ROW_HEIGHT),
 			CONTENT_COLOR,
-			to_string(m_core->GetCurrentFPS()) + "fps");
+			to_string((int)m_core->GetCurrentFPS()) + "fps");
 
 		DrawTextSprite(
 			Vector2DF(DRAWCALL_OFFSET, SECTION_SPAN + ROW_HEIGHT),

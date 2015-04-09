@@ -16,7 +16,7 @@ namespace ace
 	//
 	//----------------------------------------------------------------------------------
 	Profiler_Imp::Profiler_Imp()
-		: m_profiles(list<ProfilePtr>())
+		: m_profiles(list<Profile::Ptr>())
 	{
 	}
 
@@ -41,7 +41,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Profiler_Imp::Start(int id)
 	{
-		ProfilePtr profile = nullptr;
+		Profile::Ptr profile = nullptr;
 		for (auto& x : m_profiles)
 		{
 			if (x->GetID() == id)
@@ -52,7 +52,7 @@ namespace ace
 
 		if (profile == nullptr)
 		{
-			profile = new Profile(id);
+			profile = make_shared<Profile>(id);
 			m_profiles.push_back(profile);
 		}
 
@@ -74,7 +74,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Profiler_Imp::End(int id)
 	{
-		ProfilePtr profile = nullptr;
+		Profile::Ptr profile = nullptr;
 		for (auto& x : m_profiles)
 		{
 			if (x->GetID() == id)
@@ -97,7 +97,7 @@ namespace ace
 	}
 
 #if !SWIG
-	const list<Profiler_Imp::ProfilePtr>& Profiler_Imp::GetProfiles()
+	const list<Profile::Ptr>& Profiler_Imp::GetProfiles()
 	{
 		return m_profiles;
 	}
