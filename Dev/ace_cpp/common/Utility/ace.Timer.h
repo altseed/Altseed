@@ -14,7 +14,6 @@ namespace ace
 /**
 	@brief	パフォーマンスカウンタの現在の値をナノ秒単位で返す
 */
-
 inline int64_t GetTime()
 {
 #ifdef _WIN32

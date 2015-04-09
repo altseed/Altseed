@@ -85,7 +85,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(Graphics, GeometryObject2D, false)
+	CALL_ENGINE_TEST(Profiler, Profiling, false)
 	return 0;
 
 	

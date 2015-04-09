@@ -62,7 +62,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	Profile::Profile(int id)
 		: m_id(id)
-		, m_performances(std::stack<Profile::PerfPtr>())
+		, m_last(nullptr)
 		, m_current(make_shared<Performance>())
 	{
 	}
@@ -80,7 +80,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Profile::Archive()
 	{
-		m_performances.push(m_current);
+		m_last = m_current;
 		m_current = make_shared<Performance>();
 	}
 
@@ -93,14 +93,9 @@ namespace ace
 	}
 
 #if !SWIG
-	const stack<Profile::PerfPtr>& Profile::GetPerformanceLog()
-	{
-		return m_performances;
-	}
-
 	const Profile::PerfPtr Profile::GetLastLog()
 	{
-		return m_performances.size() > 0 ? m_performances.top() : nullptr;
+		return m_last;
 	}
 #endif
 }

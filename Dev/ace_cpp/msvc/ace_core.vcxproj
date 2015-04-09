@@ -419,6 +419,7 @@
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer.h" />
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer_Imp.h" />
     <ClInclude Include="..\core\Profiler\ace.Profiler_Imp.h" />
+    <ClInclude Include="..\core\Profiler\LayerProfile.h" />
     <ClInclude Include="..\core\Shape\ace.CoreArcShape.h" />
     <ClInclude Include="..\core\Shape\ace.CoreArcShape_Imp.h" />
     <ClInclude Include="..\core\Shape\ace.CoreCircleShape.h" />

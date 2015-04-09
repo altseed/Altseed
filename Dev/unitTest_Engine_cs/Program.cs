@@ -13,7 +13,7 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
             //*
-			TestSequencially(new ObjectSystem2D.ComponentError0408());
+			TestSequencially(new Debug.Profiler());
 			Console.ReadKey();
 			return;
 			//*/

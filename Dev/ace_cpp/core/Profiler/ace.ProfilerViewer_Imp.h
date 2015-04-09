@@ -31,12 +31,10 @@ namespace ace
 		Log*	log = nullptr;
 		bool	isRendererGenerated = false;
 
-		void AddBackgroundSprite(Renderer2D* renderer);
-		void AddFpsSprite(Renderer2D* renderer, Core* core);
-		void AddDrawCallSprite(Renderer2D* renderer, int drawCallCount);
-		void AddMaterSprite(Renderer2D* renderer, int index, int time);
-		void AddIdSprite(Renderer2D* renderer, int index, int id);
-		void AddTimeSprite(Renderer2D* renderer, int index, int time);
+		int DrawGlobalInfoSection();
+		void DrawProfiledInfoSection(int top);
+		void DrawSprite(RectF dst, Color color, int priority);
+		void DrawTextSprite(Vector2DF position, Color color, std::string text);
 
 		std::shared_ptr<Font> CreateFont_();
 

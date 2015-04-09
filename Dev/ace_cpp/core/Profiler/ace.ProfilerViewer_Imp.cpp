@@ -1,4 +1,5 @@
-﻿#include "ace.ProfilerViewer_Imp.h"
+﻿
+#include "ace.ProfilerViewer_Imp.h"
 
 #include "../Graphics/ace.Graphics_Imp.h"
 
@@ -13,15 +14,20 @@
 #include "ace.InternalFont.h"
 #include "ace.InternalFontTex0.h"
 #include "ace.InternalFontTex1.h"
+using namespace std;
 
 namespace ace
 {
-	const int GLOBAL_INFO_TOP = 20;
-	const int MATER_HEIGHT = 20;
-	const int TOP_OFFSET = 40;
-	const int ID_LEFT_OFFSET = 30;
-	const int TIME_LEFT_OFFSET = 50;
-	const int MATER_LEFT_OFFSET = 20;
+	const int SECTION_SPAN = 5;
+	const int COLUMN_HEADER_OFFSET = 5;
+	const int ROW_HEIGHT = 16;
+	const int COLUMN1_OFFSET = 15;
+	const int COLUMN2_OFFSET = 80;
+	const int COLUMN3_OFFSET = 160;
+	const int DRAWCALL_OFFSET = 140;
+	const Color SECTION_HEADER_COLOR = Color(255, 255, 0, 255);
+	const Color HEADER_COLOR = Color(128, 128, 128, 255);
+	const Color CONTENT_COLOR = Color(255, 255, 255, 255);
 
 	std::shared_ptr<Font> ProfilerViewer_Imp::CreateFont_()
 	{
@@ -108,10 +114,60 @@ namespace ace
 	{
 		GenerateRenderer();
 
-		AddBackgroundSprite(m_renderer);
-		AddFpsSprite(m_renderer, m_core);
-		AddDrawCallSprite(m_renderer, m_graphics->GetDrawCallCount());
+		auto top = DrawGlobalInfoSection();
 
+		DrawProfiledInfoSection(top);
+
+		m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
+		m_renderer->DrawCache();
+		m_renderer->ClearCache();
+	}
+
+	int ProfilerViewer_Imp::DrawGlobalInfoSection()
+	{
+		DrawSprite(RectF(0, 0, m_windowSize.X, SECTION_SPAN * 2 + ROW_HEIGHT * 2), Color(128, 128, 64, 128), 0);
+
+		DrawTextSprite(
+			Vector2DF(COLUMN_HEADER_OFFSET, SECTION_SPAN),
+			SECTION_HEADER_COLOR,
+			string("Global Information"));
+
+		DrawTextSprite(
+			Vector2DF(COLUMN1_OFFSET, SECTION_SPAN + ROW_HEIGHT),
+			CONTENT_COLOR,
+			to_string(m_core->GetCurrentFPS()) + "fps");
+
+		DrawTextSprite(
+			Vector2DF(DRAWCALL_OFFSET, SECTION_SPAN + ROW_HEIGHT),
+			CONTENT_COLOR,
+			to_string(m_graphics->GetDrawCallCount()) + "DrawCall");
+
+		return SECTION_SPAN * 2 + ROW_HEIGHT * 2;
+	}
+
+	void ProfilerViewer_Imp::DrawProfiledInfoSection(int top)
+	{
+		DrawTextSprite(
+			Vector2DF(COLUMN_HEADER_OFFSET, top),
+			SECTION_HEADER_COLOR,
+			string("Profiled Information"));
+
+		DrawTextSprite(
+			Vector2DF(COLUMN1_OFFSET, top + ROW_HEIGHT),
+			HEADER_COLOR,
+			string("ID"));
+
+		DrawTextSprite(
+			Vector2DF(COLUMN2_OFFSET, top + ROW_HEIGHT),
+			HEADER_COLOR,
+			string("Time(ns)"));
+
+		DrawTextSprite(
+			Vector2DF(COLUMN3_OFFSET, top + ROW_HEIGHT),
+			HEADER_COLOR,
+			string("Processor"));
+
+		int bodyTop = top + ROW_HEIGHT * 2;
 		int index = 0;
 		for (auto& profile : m_profiler->GetProfiles())
 		{
@@ -123,25 +179,34 @@ namespace ace
 
 			int time = perf->GetEndTime() - perf->GetStartTime();
 
-			AddMaterSprite(m_renderer, index, time);
-			AddIdSprite(m_renderer, index, profile->GetID());
-			AddTimeSprite(m_renderer, index, time);
+			DrawTextSprite(
+				Vector2DF(COLUMN1_OFFSET, bodyTop + index * ROW_HEIGHT),
+				CONTENT_COLOR,
+				to_string(profile->GetID()));
+
+			DrawTextSprite(
+				Vector2DF(COLUMN2_OFFSET, bodyTop + index * ROW_HEIGHT),
+				CONTENT_COLOR,
+				to_string(time));
+
+			DrawTextSprite(
+				Vector2DF(COLUMN3_OFFSET, bodyTop + index * ROW_HEIGHT),
+				CONTENT_COLOR,
+				to_string(perf->GetProcessorNumber()));
 
 			++index;
 		}
 
-		m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
-		m_renderer->DrawCache();
-		m_renderer->ClearCache();
+		DrawSprite(RectF(0, top, m_windowSize.X, (index + 2)*ROW_HEIGHT + SECTION_SPAN), Color(64, 128, 128, 128), 0);
 	}
 
-	void ProfilerViewer_Imp::AddBackgroundSprite(Renderer2D* renderer)
+	void ProfilerViewer_Imp::DrawSprite(RectF dst, Color color, int priority)
 	{
 		Sprite sprite;
-		float left = 0;
-		float top = 0;
-		float right = m_windowSize.X;
-		float bottom = m_windowSize.Y;
+		float left = dst.X;
+		float top = dst.Y;
+		float right = left + dst.Width;
+		float bottom = top + dst.Height;
 
 		sprite.positions[0].X = left;
 		sprite.positions[0].Y = top;
@@ -161,139 +226,36 @@ namespace ace
 		sprite.uvs[3].X = 0;
 		sprite.uvs[3].Y = 1;
 
-		sprite.colors[0] = Color(0, 0, 0, 128);
-		sprite.colors[1] = Color(0, 0, 0, 128);
-		sprite.colors[2] = Color(0, 0, 0, 128);
-		sprite.colors[3] = Color(0, 0, 0, 128);
+		sprite.colors[0] = color;
+		sprite.colors[1] = color;
+		sprite.colors[2] = color;
+		sprite.colors[3] = color;
 
-		renderer->AddSprite(
+		m_renderer->AddSprite(
 			sprite.positions,
 			sprite.colors,
 			sprite.uvs,
 			m_materTexture.get(),
 			AlphaBlend::Blend,
-			0);
+			priority);
 	}
 
-	void ProfilerViewer_Imp::AddFpsSprite(Renderer2D* renderer, Core* core)
+	void ProfilerViewer_Imp::DrawTextSprite(Vector2DF position, Color color, string text)
 	{
-		std::string fpsStrS = std::to_string(core->GetCurrentFPS()) + "FPS";
-		astring fpsStr = ToAString(fpsStrS.c_str());
-		float left = ID_LEFT_OFFSET;
-		float top = GLOBAL_INFO_TOP;
+		astring astr = ToAString(text.c_str());
 
-		renderer->AddText(
+		m_renderer->AddText(
 			Matrix33().SetIdentity(),
-			Matrix33().SetTranslation(left, top),
+			Matrix33().SetTranslation(position.X, position.Y),
 			Vector2DF(),
 			false,
 			false,
-			Color(255, 255, 255, 255),
+			color,
 			m_font.get(),
-			fpsStr.c_str(),
+			astr.c_str(),
 			WritingDirection::Horizontal,
 			AlphaBlend::Blend,
-			0);
+			1);
 	}
 
-	void ProfilerViewer_Imp::AddDrawCallSprite(Renderer2D* renderer, int drawCallCount)
-	{
-		std::string countStrS = std::to_string(drawCallCount) + "DrawCall";
-		astring countStr = ToAString(countStrS.c_str());
-		float left = ID_LEFT_OFFSET + 120;
-		float top = GLOBAL_INFO_TOP;
-
-		renderer->AddText(
-			Matrix33().SetIdentity(),
-			Matrix33().SetTranslation(left, top),
-			Vector2DF(),
-			false,
-			false,
-			Color(255, 255, 255, 255),
-			m_font.get(),
-			countStr.c_str(),
-			WritingDirection::Horizontal,
-			AlphaBlend::Blend,
-			0);
-	}
-
-	void ProfilerViewer_Imp::AddIdSprite(Renderer2D* renderer, int index, int id)
-	{
-		astring idStr = ToAString(std::to_string(id).c_str());
-		auto size = m_font->CalcTextureSize(idStr.c_str(), WritingDirection::Horizontal);
-		float left = ID_LEFT_OFFSET;
-		float top = TOP_OFFSET + (index + 0.5f) * MATER_HEIGHT;
-
-		renderer->AddText(
-			Matrix33().SetIdentity(),
-			Matrix33().SetTranslation(left, top),
-			Vector2DF(size.X, size.Y / 2),
-			false,
-			false,
-			Color(255, 255, 255, 255),
-			m_font.get(),
-			idStr.c_str(),
-			WritingDirection::Horizontal,
-			AlphaBlend::Blend,
-			0);
-	}
-
-	void ProfilerViewer_Imp::AddTimeSprite(Renderer2D* renderer, int index, int time)
-	{
-		astring timeStr = ToAString(std::to_string(time).c_str());
-		auto size = m_font->CalcTextureSize(timeStr.c_str(), WritingDirection::Horizontal);
-		float left = ID_LEFT_OFFSET + TIME_LEFT_OFFSET;
-		float top = TOP_OFFSET + (index + 0.5f) * MATER_HEIGHT;
-
-		renderer->AddText(
-			Matrix33().SetIdentity(),
-			Matrix33().SetTranslation(left, top),
-			Vector2DF(size.X, size.Y / 2),
-			false,
-			false,
-			Color(255, 255, 255, 255),
-			m_font.get(),
-			timeStr.c_str(),
-			WritingDirection::Horizontal,
-			AlphaBlend::Blend,
-			0);
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void ProfilerViewer_Imp::AddMaterSprite(Renderer2D* renderer, int index, int time)
-	{
-		Sprite sprite;
-		float left = ID_LEFT_OFFSET + TIME_LEFT_OFFSET + MATER_LEFT_OFFSET;
-		float top = TOP_OFFSET + index * MATER_HEIGHT;
-		float right = left + time / 50.0f;
-		float bottom = top + MATER_HEIGHT - 2;
-
-		sprite.positions[0].X = left;
-		sprite.positions[0].Y = top;
-		sprite.positions[1].X = right;
-		sprite.positions[1].Y = top;
-		sprite.positions[2].X = right;
-		sprite.positions[2].Y = bottom;
-		sprite.positions[3].X = left;
-		sprite.positions[3].Y = bottom;
-
-		sprite.uvs[0].X = 0;
-		sprite.uvs[0].Y = 0;
-		sprite.uvs[1].X = 1;
-		sprite.uvs[1].Y = 0;
-		sprite.uvs[2].X = 1;
-		sprite.uvs[2].Y = 1;
-		sprite.uvs[3].X = 0;
-		sprite.uvs[3].Y = 1;
-
-		renderer->AddSprite(
-			sprite.positions,
-			sprite.colors,
-			sprite.uvs,
-			m_materTexture.get(),
-			AlphaBlend::Blend,
-			0);
-	}
 }

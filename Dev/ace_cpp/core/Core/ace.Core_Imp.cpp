@@ -732,6 +732,11 @@ namespace ace
 		return m_windowSize;
 	}
 
+	bool Core_Imp::GetProfilerVisibility() const
+	{
+		return m_isProfilerVisible;
+	}
+
 	void Core_Imp::SetProfilerVisibility(bool visible)
 	{
 		m_isProfilerVisible = visible;

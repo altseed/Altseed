@@ -154,6 +154,8 @@ namespace ace {
 
 		Vector2DI GetWindowSize();
 
+		bool GetProfilerVisibility() const;
+
 		void SetProfilerVisibility(bool visible);
 
 		bool IsReloadingEnabeld() const { return isReloadingEnabeld; }
