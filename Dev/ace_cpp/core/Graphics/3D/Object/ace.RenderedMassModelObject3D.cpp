@@ -51,6 +51,16 @@ namespace ace
 			vl.push_back(ace::VertexLayout("BoneWeights", ace::VertexLayoutFormat::R8G8B8A8_UNORM));
 			vl.push_back(ace::VertexLayout("BoneIndexes", ace::VertexLayoutFormat::R8G8B8A8_UINT));
 
+			astring numKey;
+			if (i == 0)
+			{
+				numKey = ToAString(".0");
+			}
+			else if (i == 1)
+			{
+				numKey = ToAString(".1");
+			}
+
 			{
 				std::vector<ace::Macro> macro;
 				if (i == 1) macro.push_back(Macro("ANIMATION_IS_ENABLED", "1"));
@@ -58,7 +68,7 @@ namespace ace
 				if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 				{
 					m_shadersLightweight[i] = g->GetShaderCache()->CreateFromCode(
-						ToAString("Internal.MassModelObject3D.Lightweight").c_str(),
+						(ToAString("Internal.MassModelObject3D.Lightweight") + numKey).c_str(),
 						lightweight_mass_model_internal_vs_gl,
 						lightweight_model_internal_ps_gl,
 						vl,
@@ -67,7 +77,7 @@ namespace ace
 				else
 				{
 					m_shadersLightweight[i] = g->GetShaderCache()->CreateFromCode(
-						ToAString("Internal.MassModelObject3D.Lightweight").c_str(),
+						(ToAString("Internal.MassModelObject3D.Lightweight") + numKey).c_str(),
 						lightweight_mass_model_internal_vs_dx,
 						lightweight_model_internal_ps_dx,
 						vl,
@@ -84,7 +94,7 @@ namespace ace
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_shadersDF[i] = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.MassModelObject3D.DF").c_str(),
+					(ToAString("Internal.MassModelObject3D.DF") + numKey).c_str(),
 					mass_model_internal_vs_gl,
 					model_internal_ps_gl,
 					vl,
@@ -93,7 +103,7 @@ namespace ace
 			else
 			{
 				m_shadersDF[i] = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.MassModelObject3D.DF").c_str(),
+					(ToAString("Internal.MassModelObject3D.DF") + numKey).c_str(),
 					mass_model_internal_vs_dx,
 					model_internal_ps_dx,
 					vl,
@@ -111,7 +121,7 @@ namespace ace
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_shadersDF_ND[i] = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.DF.ND").c_str(),
+					(ToAString("Internal.ModelObject3D.DF.ND") + numKey).c_str(),
 					mass_model_internal_vs_gl,
 					model_internal_ps_gl,
 					vl,
@@ -120,7 +130,7 @@ namespace ace
 			else
 			{
 				m_shadersDF_ND[i] = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.DF.ND").c_str(),
+					(ToAString("Internal.ModelObject3D.DF.ND") + numKey).c_str(),
 					mass_model_internal_vs_dx,
 					model_internal_ps_dx,
 					vl,
