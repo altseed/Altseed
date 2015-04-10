@@ -203,6 +203,7 @@
     <Compile Include="swig\KeyframeAnimation.cs" />
     <Compile Include="swig\Keys.cs" />
     <Compile Include="swig\KeyState.cs" />
+    <Compile Include="swig\LayerProfiler.cs" />
     <Compile Include="swig\LayerType.cs" />
     <Compile Include="swig\Log.cs" />
     <Compile Include="swig\LogLevel.cs" />

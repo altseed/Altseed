@@ -17,5 +17,6 @@ namespace ace{
 		static JoystickContainer_Imp* Create();
 		bool GetIsPresentAt(int at) override;
 		Joystick* GetJoystickAt(int at) override;
+		void RefreshAllJoysticks() override;
 	};
 };
