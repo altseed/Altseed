@@ -281,6 +281,7 @@ namespace ace
 	JoystickContainer* Engine::m_joystickContainer = nullptr;
 	Log* Engine::m_logger = nullptr;
 	Profiler* Engine::m_profiler = nullptr;
+	LayerProfiler* Engine::m_layerProfiler = nullptr;
 	Sound* Engine::m_sound = nullptr;
 	Graphics* Engine::m_graphics = nullptr;
 	ObjectSystemFactory* Engine::m_objectSystemFactory = nullptr;
@@ -335,6 +336,7 @@ namespace ace
 		{
 			m_logger = m_core->GetLogger();
 			m_profiler = m_core->GetProfiler();
+			m_layerProfiler = m_core->GetLayerProfiler();
 			m_objectSystemFactory = m_core->GetObjectSystemFactory();
 			m_sound = m_core->GetSound();
 			m_graphics = m_core->GetGraphics();
@@ -400,6 +402,7 @@ namespace ace
 		{
 			m_logger = m_core->GetLogger();
 			m_profiler = m_core->GetProfiler();
+			m_layerProfiler = m_core->GetLayerProfiler();
 			m_objectSystemFactory = m_core->GetObjectSystemFactory();
 			m_sound = m_core->GetSound();
 			m_file = m_core->GetFile();
@@ -488,9 +491,13 @@ namespace ace
 
 		m_core->BeginDrawing();
 
+		m_layerProfiler->Refresh();
+
 		if (m_currentScene != nullptr)
 		{
 			m_currentScene->Update();
+
+			//TODO: レイヤー更新時間計測
 		}
 
 		if (transition != nullptr)

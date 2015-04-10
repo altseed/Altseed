@@ -12,7 +12,7 @@
 #include "../Log/ace.GetSpec.h"
 
 #include "../Profiler/ace.Profiler_Imp.h"
-#include "../Profiler/ace.LayerProfiler.h"
+#include "../Profiler/ace.LayerProfiler_Imp.h"
 #include "../Profiler/ace.ProfilerViewer_Imp.h"
 
 #include "../ObjectSystem/ace.ObjectSystemFactory_Imp.h"
@@ -221,9 +221,9 @@ namespace ace
 
 		m_profiler = Profiler_Imp::Create();
 
-		m_layerProfiler = LayerProfiler::Create();
+		m_layerProfiler = LayerProfiler_Imp::Create();
 
-		m_profilerViewer = ProfilerViewer_Imp::Create(this, m_profiler, m_graphics, m_logger, m_window->GetSize());
+		m_profilerViewer = ProfilerViewer_Imp::Create(this, m_profiler, m_layerProfiler, m_graphics, m_logger, m_window->GetSize());
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
 
@@ -238,12 +238,12 @@ namespace ace
 			ace::Vector2DF lpos[4];
 			lpos[0].X = 0;
 			lpos[0].Y = 0;
-			lpos[1].X = m_windowSize.X;
+			lpos[1].X = (float)m_windowSize.X;
 			lpos[1].Y = 0;
-			lpos[2].X = m_windowSize.X;
-			lpos[2].Y = m_windowSize.Y;
+			lpos[2].X = (float)m_windowSize.X;
+			lpos[2].Y = (float)m_windowSize.Y;
 			lpos[3].X = 0;
-			lpos[3].Y = m_windowSize.Y;
+			lpos[3].Y = (float)m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
 		
@@ -306,8 +306,8 @@ namespace ace
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
 		m_profiler = Profiler_Imp::Create();
-		m_layerProfiler = LayerProfiler::Create();
-		m_profilerViewer = ProfilerViewer_Imp::Create(this, m_profiler, m_graphics, m_logger, Vector2DI(width, height));
+		m_layerProfiler = LayerProfiler_Imp::Create();
+		m_profilerViewer = ProfilerViewer_Imp::Create(this, m_profiler, m_layerProfiler, m_graphics, m_logger, Vector2DI(width, height));
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
@@ -319,12 +319,12 @@ namespace ace
 			ace::Vector2DF lpos[4];
 			lpos[0].X = 0;
 			lpos[0].Y = 0;
-			lpos[1].X = m_windowSize.X;
+			lpos[1].X = (float)m_windowSize.X;
 			lpos[1].Y = 0;
-			lpos[2].X = m_windowSize.X;
-			lpos[2].Y = m_windowSize.Y;
+			lpos[2].X = (float)m_windowSize.X;
+			lpos[2].Y = (float)m_windowSize.Y;
 			lpos[3].X = 0;
-			lpos[3].Y = m_windowSize.Y;
+			lpos[3].Y = (float)m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
 		
@@ -679,6 +679,11 @@ namespace ace
 	Profiler* Core_Imp::GetProfiler()
 	{
 		return m_profiler;
+	}
+
+	LayerProfiler* Core_Imp::GetLayerProfiler()
+	{
+		return m_layerProfiler;
 	}
 
 	//----------------------------------------------------------------------------------

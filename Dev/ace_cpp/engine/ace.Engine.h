@@ -58,6 +58,7 @@ namespace ace {
 		static JoystickContainer* m_joystickContainer ;
 		static Log* m_logger ;
 		static Profiler* m_profiler ;
+		static LayerProfiler* m_layerProfiler;
 		static Sound*	m_sound;
 		static File*	m_file;
 		static Graphics* m_graphics ;

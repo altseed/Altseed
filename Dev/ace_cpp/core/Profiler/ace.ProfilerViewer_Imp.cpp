@@ -1,4 +1,4 @@
-﻿
+﻿#include <cmath>
 #include "ace.ProfilerViewer_Imp.h"
 
 #include "../Graphics/ace.Graphics_Imp.h"
@@ -9,7 +9,6 @@
 
 #include "../Graphics/2D/ace.Renderer2D_Imp.h"
 #include "../Log/ace.Log_Imp.h"
-#include <cmath>
 
 #include "ace.InternalFont.h"
 #include "ace.InternalFontTex0.h"
@@ -60,9 +59,11 @@ namespace ace
 		Graphics_Imp* graphics,
 		Log* log,
 		Profiler_Imp* profiler,
+		LayerProfiler_Imp* layerProfiler,
 		Core* core,
 		Vector2DI windowSize)
 		: m_profiler(profiler)
+		, m_layerProfiler(layerProfiler)
 		, m_renderer(nullptr)
 		, m_windowSize(windowSize)
 		, m_graphics(graphics)
@@ -88,13 +89,14 @@ namespace ace
 	ProfilerViewer_Imp* ProfilerViewer_Imp::Create(
 		Core* core,
 		Profiler_Imp* profiler,
+		LayerProfiler_Imp* layerProfiler,
 		Graphics_Imp* graphics,
 		Log* logger,
 		Vector2DI windowSize)
 	{
 		logger->WriteHeading("プロファイラビュアー");
 
-		auto temp = new ProfilerViewer_Imp(graphics, logger, profiler, core, windowSize);
+		auto temp = new ProfilerViewer_Imp(graphics, logger, profiler, layerProfiler, core, windowSize);
 
 		logger->WriteLine("初期化成功");
 

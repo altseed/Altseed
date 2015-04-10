@@ -1,4 +1,5 @@
-﻿#include <list>
+﻿#pragma once
+#include <list>
 #include "../ace.ReferenceObject.h"
 #include "ace.LayerProfile.h"
 
@@ -6,37 +7,22 @@ namespace ace
 {
 	class LayerProfiler : public ReferenceObject
 	{
-	private:
-		LayerProfiler();
-		~LayerProfiler();
-
-		std::list<LayerProfile::Ptr> m_profiles;
-		LayerProfile::Ptr m_editing;
+	protected:
+		LayerProfiler() {}
+		virtual ~LayerProfiler() {}
 
 	public:
-		static LayerProfiler* Create();
+		/**
+		@brief	レイヤーのプロファイリングデータを記録する。
+		@param	name		レイヤー名。
+				objectCount	レイヤーに登録されているオブジェクト数。
+				time		更新時間。
+		*/
+		void Record(astring name, int objectCount, int time);
 
 		/**
-			@brief	レイヤーの更新開始時間を記録する。
-			@param	name		レイヤー名。
-					objectCount	レイヤーに登録されているオブジェクト数。
+		@brief	プロファイリングデータを消去する。更新ごとに呼び出す必要がある。
 		*/
-		void Start(astring name, int objectCount);
-
-		/**
-			@brief	レイヤーの更新終了時間を記録する。
-		*/
-		void End();
-
-		/**
-			@brief	プロファイリングデータを消去する。更新ごとに呼び出す必要がある。
-		*/
-		void Refresh();
-
-#if !SWIG
-		virtual int GetRef() { return ReferenceObject::GetRef(); }
-		virtual int AddRef() { return ReferenceObject::AddRef(); }
-		virtual int Release() { return ReferenceObject::Release(); }
-#endif
+		virtual void Refresh() = 0;
 	};
 }

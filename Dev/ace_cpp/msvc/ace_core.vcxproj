@@ -415,6 +415,7 @@
     <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.h" />
     <ClInclude Include="..\core\PCH\ace.Core.PCH.h" />
     <ClInclude Include="..\core\Profiler\ace.LayerProfiler.h" />
+    <ClInclude Include="..\core\Profiler\ace.LayerProfiler_Imp.h" />
     <ClInclude Include="..\core\Profiler\ace.Profile.h" />
     <ClInclude Include="..\core\Profiler\ace.Profiler.h" />
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer.h" />
@@ -583,7 +584,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\core\Profiler\ace.LayerProfile.cpp" />
-    <ClCompile Include="..\core\Profiler\ace.LayerProfiler.cpp" />
+    <ClCompile Include="..\core\Profiler\ace.LayerProfiler_Imp.cpp" />
     <ClCompile Include="..\core\Profiler\ace.Profile.cpp" />
     <ClCompile Include="..\core\Profiler\ace.Profiler_Imp.cpp" />
     <ClCompile Include="..\core\Profiler\ace.ProfilerViewer_Imp.cpp" />

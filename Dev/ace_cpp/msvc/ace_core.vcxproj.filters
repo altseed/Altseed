@@ -966,6 +966,9 @@
     <ClInclude Include="..\core\Profiler\ace.LayerProfile.h">
       <Filter>Profiler</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Profiler\ace.LayerProfiler_Imp.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
     <ClInclude Include="..\core\Profiler\ace.LayerProfiler.h">
       <Filter>Profiler</Filter>
     </ClInclude>
@@ -1369,7 +1372,7 @@
     <ClCompile Include="..\core\Profiler\ace.LayerProfile.cpp">
       <Filter>Profiler</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Profiler\ace.LayerProfiler.cpp">
+    <ClCompile Include="..\core\Profiler\ace.LayerProfiler_Imp.cpp">
       <Filter>Profiler</Filter>
     </ClCompile>
   </ItemGroup>

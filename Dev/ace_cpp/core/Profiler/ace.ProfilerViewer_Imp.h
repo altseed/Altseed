@@ -20,6 +20,7 @@ namespace ace
 		} Sprite;
 
 		Profiler_Imp* m_profiler;
+		LayerProfiler_Imp* m_layerProfiler;
 		
 		Graphics_Imp* m_graphics;
 		Core* m_core;
@@ -45,6 +46,7 @@ namespace ace
 			Graphics_Imp* graphics,
 			Log* log,
 			Profiler_Imp* profiler,
+			LayerProfiler_Imp* layerProfiler,
 			Core* core,
 			Vector2DI windowSize);
 		virtual ~ProfilerViewer_Imp();
@@ -52,6 +54,7 @@ namespace ace
 		static ProfilerViewer_Imp* Create(
 			Core* core,
 			Profiler_Imp* profiler,
+			LayerProfiler_Imp* layerProfiler,
 			Graphics_Imp* graphics,
 			Log* logger,
 			Vector2DI windowSize);

@@ -219,6 +219,8 @@ namespace ace {
 		*/
 		virtual Profiler* GetProfiler() = 0;
 
+		virtual LayerProfiler* GetLayerProfiler() = 0;
+
 		/**
 			@brief	描画を扱うグラフィックスクラスを取得する。
 		*/

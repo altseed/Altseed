@@ -4,8 +4,7 @@ namespace ace
 {
 	LayerProfile::LayerProfile(astring name)
 		: m_name(name)
-		, m_startTime(0)
-		, m_endTime(0)
+		, m_time(0)
 		, m_objectCount(0)
 	{
 	}
@@ -13,26 +12,6 @@ namespace ace
 	astring LayerProfile::GetName() const
 	{
 		return m_name;
-	}
-
-	int LayerProfile::GetStartTime() const
-	{
-		return m_startTime;
-	}
-
-	void LayerProfile::SetStartTime(int value)
-	{
-		m_startTime = value;
-	}
-
-	int LayerProfile::GetEndTime() const
-	{
-		return m_endTime;
-	}
-
-	void LayerProfile::SetEndTime(int value)
-	{
-		m_endTime = value;
 	}
 
 	int LayerProfile::GetObjectCount() const
@@ -44,4 +23,15 @@ namespace ace
 	{
 		m_objectCount = value;
 	}
+
+	int LayerProfile::GetTime() const
+	{
+		return m_time;
+	}
+
+	void LayerProfile::SetTime(int value)
+	{
+		m_time = value;
+	}
+
 }

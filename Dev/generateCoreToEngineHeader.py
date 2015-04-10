@@ -80,6 +80,7 @@ fromCoreToEngine.readLines("ace_cpp/core/Input/ace.Joystick.h")
 fromCoreToEngine.readLines("ace_cpp/core/Input/ace.JoystickContainer.h")
 fromCoreToEngine.readLines("ace_cpp/core/Log/ace.Log.h")
 fromCoreToEngine.readLines("ace_cpp/core/Profiler/ace.Profiler.h")
+fromCoreToEngine.readLines("ace_cpp/core/Profiler/ace.LayerProfiler.h")
                                                                        
 fromCoreToEngine.readLines("ace_cpp/core/IO/ace.File.h")
 fromCoreToEngine.readLines("ace_cpp/core/IO/ace.Path.h")
