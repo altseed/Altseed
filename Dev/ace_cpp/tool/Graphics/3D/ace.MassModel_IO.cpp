@@ -303,15 +303,20 @@ namespace ace
 					AnimationTexture_.Buffer[x + y * AnimationTexture_.TextureWidth].W = boneMatrixes[j].Values[k][3];
 				}
 			}
+			
+			AnimationTexture_.AnimationCount = 0;
+			AnimationTexture_.TextureWidth = 0;
+			AnimationTexture_.TextureHeight = 0;
 
-			/*
+			AnimationTexture_.Buffer.clear();
+
 			// 頂点に適用
 			for (size_t i = 0; i < Vertices.size(); i++)
 			{
 				auto& v = Vertices[i];
 				
-				uint8_t* weights = (uint8_t*) v.BoneWeights;
-				uint8_t* indexes = (uint8_t*) v.BoneIndexes;
+				uint8_t* weights = (uint8_t*) (&v.BoneWeights);
+				uint8_t* indexes = (uint8_t*) (&v.BoneIndexes);
 
 				Matrix44 mat;
 
@@ -334,7 +339,7 @@ namespace ace
 				v.Normal = (pn - v.Position).GetNormal();
 				v.Binormal = (pb - v.Position).GetNormal();
 			}
-			*/
+			
 		}
 		
 		return true;

@@ -103,16 +103,20 @@ namespace ace
 		m_indexBuffer->Unlock();
 
 		// アニメーションテクスチャ
-		auto texture = g->CreateEmptyTexture2D(io.AnimationTexture_.TextureWidth, io.AnimationTexture_.TextureHeight, TextureFormat::R32G32B32A32_FLOAT);
-		TextureLockInfomation info;
-
-		if (texture->Lock(&info))
+		if (io.AnimationTexture_.TextureWidth > 0)
 		{
-			memcpy(info.GetPixels(), io.AnimationTexture_.Buffer.data(), io.AnimationTexture_.Buffer.size() * sizeof(float) * 4);
-			texture->Unlock();
-		}
+			auto texture = g->CreateEmptyTexture2D(io.AnimationTexture_.TextureWidth, io.AnimationTexture_.TextureHeight, TextureFormat::R32G32B32A32_FLOAT);
+			TextureLockInfomation info;
 
-		m_animationTexture = texture;
+			if (texture->Lock(&info))
+			{
+				memcpy(info.GetPixels(), io.AnimationTexture_.Buffer.data(), io.AnimationTexture_.Buffer.size() * sizeof(float) * 4);
+				texture->Unlock();
+			}
+
+			m_animationTexture = texture;
+		}
+		
 
 		frameCount = io.AnimationTexture_.FrameCount;
 
