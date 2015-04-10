@@ -325,6 +325,8 @@ namespace ace
 				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
 					h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "flag", Vector4DF(0.0f, 0.0f, 0.0f, 0.0f)));
+
 				auto vb = modelPtr->GetVertexBuffer();
 				auto ib = modelPtr->GetIndexBuffer();
 

@@ -7,6 +7,8 @@ float4x4	matP;
 float4		animationParam0[32];
 float4		animationParam1[32];
 
+float4		flag;
+
 //||>
 
 //<|| モデル共通頂点入力
@@ -85,7 +87,7 @@ float3x3 convert44to33(float4x4 mat)
 	return (float3x3)mat;
 }
 
-VS_Output main( const VS_Input Input )
+VS_Output main1( const VS_Input Input )
 {
 	VS_Output Output = (VS_Output)0;
 
@@ -95,12 +97,13 @@ VS_Output main( const VS_Input Input )
 	float animTime1 = animationParam0[Input.InstanceId].w;
 	float animWeight = animationParam1[Input.InstanceId].x;
 	float4x4 matModel = matM[Input.InstanceId];
+	float4x4 matLocal = matModel;
 
 	float4x4 matLocal0 = calcMatrix(animIndex0, animTime0, Input.BoneWeights,Input.BoneIndexes);
 	float4x4 matLocal1 = calcMatrix(animIndex1, animTime1, Input.BoneWeights,Input.BoneIndexes);
-	float4x4 matLocal = lerp(matLocal0, matLocal1, animWeight);
+	matLocal = lerp(matLocal0, matLocal1, animWeight);
 	matLocal = mul(matModel,matLocal);
-
+	
 	float4x4 matMC = mul(matC, matLocal);
 	float3x3 matC33 = convert44to33(matC);
 	float3x3 matMC33 = convert44to33(matMC);
@@ -127,6 +130,50 @@ VS_Output main( const VS_Input Input )
 	Output.ProjPosition = Output.SV_Position;
 
 	return Output;
+}
+
+VS_Output main0( const VS_Input Input )
+{
+	VS_Output Output = (VS_Output)0;
+
+	float4x4 matLocal = matM[Input.InstanceId];
+	
+	float4x4 matMC = mul(matC, matLocal);
+	float3x3 matC33 = convert44to33(matC);
+	float3x3 matMC33 = convert44to33(matMC);
+
+	float4 cPosition = mul( matMC, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+
+	float3 cNormal = mul( matMC33, Input.Normal );
+	cNormal = normalize(cNormal);
+
+	float3 cBinormal = mul( matMC33, Input.Binormal );
+	cBinormal = normalize(cBinormal);
+
+	float3 cTangent = cross( cBinormal, cNormal );
+	cTangent = normalize(cTangent);
+
+	Output.SV_Position = mul( matP, cPosition );
+	Output.Position = Output.SV_Position;
+	Output.Normal = (half3)cNormal;
+	Output.Binormal = (half3)cBinormal;
+	Output.Tangent = (half3)cTangent;
+	Output.UV = Input.UV;
+	Output.UVSub = Input.UVSub;
+	Output.Color = Input.Color;
+	Output.ProjPosition = Output.SV_Position;
+
+	return Output;
+}
+
+VS_Output main( const VS_Input Input )
+{
+	if(flag.x > 0.0)
+	{
+		return main1( Input );
+	}
+	
+	return main0( Input );
 }
 
 )";

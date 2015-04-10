@@ -1,7 +1,7 @@
 ﻿
 #include "EngineGraphics3DTest.h"
 
-#define PERFORMANCE_TEST 1
+//#define PERFORMANCE_TEST 1
 
 std::shared_ptr<ace::Scene> EngineGraphics3DTest::GetScene()
 {

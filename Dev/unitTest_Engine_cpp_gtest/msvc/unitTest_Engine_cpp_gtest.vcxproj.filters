@@ -143,6 +143,9 @@
     <ClCompile Include="..\Graphics\2D\GeometryObject2D.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Performance\Performance_MassModelObject3D.cpp">
+      <Filter>Performance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -174,6 +177,9 @@
     </Filter>
     <Filter Include="Graphics\Resource">
       <UniqueIdentifier>{31b9bd74-3cb3-4b8e-956c-1787471d489d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Performance">
+      <UniqueIdentifier>{78011837-b704-49ad-9b14-9769c915e30e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
