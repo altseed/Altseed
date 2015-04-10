@@ -15,8 +15,6 @@ namespace ace
 		ProfilerViewer() {}
 		virtual ~ProfilerViewer() {}
 
-		virtual void SetProfiler(Profiler_Imp* profiler) = 0;
-
 		/**
 			@brief	プロファイリング結果を描画する。
 		*/

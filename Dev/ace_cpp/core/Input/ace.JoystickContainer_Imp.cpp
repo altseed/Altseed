@@ -7,6 +7,7 @@ namespace ace{
 		for (int i = 0; i < MAX_CONTAINER_SIZE; ++i)
 		{
 			m_joystickContainer[i] = Joystick_Imp::Create(i);
+			isPresent[i] = glfwJoystickPresent(i) == GL_TRUE;
 		}
 	}
 
@@ -33,10 +34,19 @@ namespace ace{
 
 	bool JoystickContainer_Imp::GetIsPresentAt(int at)
 	{
-		return glfwJoystickPresent(at) == GL_TRUE;
+		return isPresent[at];
 	}
+
 	Joystick* JoystickContainer_Imp::GetJoystickAt(int at)
 	{
 		return (GetIsPresentAt(at)) ? m_joystickContainer[at] : nullptr;
+	}
+
+	void JoystickContainer_Imp::RefreshAllJoysticks()
+	{
+		for (int i = 0; i < MAX_CONTAINER_SIZE; ++i)
+		{
+			isPresent[i] = glfwJoystickPresent(i) == GL_TRUE;
+		}
 	}
 };

@@ -1,4 +1,4 @@
-
+﻿
 #include "../EngineGraphics3DTest.h"
 
 class Performance_MassModelObject3D : public EngineGraphics3DTest

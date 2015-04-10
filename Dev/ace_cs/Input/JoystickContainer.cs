@@ -27,7 +27,7 @@ namespace ace
         }
 
         /// <summary>
-        /// 引数に指定した番目のジョイスティックが接続されているかを取得する。
+        /// 引数に指定した番号のジョイスティックが接続されているかを取得する。
         /// </summary>
         /// <param name="at">何番目のジョイスティックの接続を確認するか</param>
         /// <returns>接続されているか否か</returns>
@@ -37,13 +37,21 @@ namespace ace
         }
 
         /// <summary>
-        /// 引数に指定した番目のジョイスティッククラスを返す
+        /// 引数に指定した番号のジョイスティッククラスを返す。
         /// </summary>
         /// <param name="at">何番目のジョイスティッククラスを取得するか</param>
         /// <returns>該当するジョイスティッククラス</returns>
         public ace.Joystick GetJoystickAt(int at)
         {
             return joysticks[at];
+        }
+
+        /// <summary>
+        /// 全てのジョイスティックの接続状態を更新する。
+        /// </summary>
+        public void RefreshAllJoysticks()
+        {
+            joystickContainer.RefreshAllJoysticks();
         }
     }
 }

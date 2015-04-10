@@ -1,4 +1,4 @@
-﻿
+﻿#include <cmath>
 #include "ace.ProfilerViewer_Imp.h"
 
 #include "../Graphics/ace.Graphics_Imp.h"
@@ -9,7 +9,6 @@
 
 #include "../Graphics/2D/ace.Renderer2D_Imp.h"
 #include "../Log/ace.Log_Imp.h"
-#include <cmath>
 
 #include "ace.InternalFont.h"
 #include "ace.InternalFontTex0.h"
@@ -60,9 +59,11 @@ namespace ace
 		Graphics_Imp* graphics,
 		Log* log,
 		Profiler_Imp* profiler,
+		LayerProfiler_Imp* layerProfiler,
 		Core* core,
 		Vector2DI windowSize)
 		: m_profiler(profiler)
+		, m_layerProfiler(layerProfiler)
 		, m_renderer(nullptr)
 		, m_windowSize(windowSize)
 		, m_graphics(graphics)
@@ -88,25 +89,18 @@ namespace ace
 	ProfilerViewer_Imp* ProfilerViewer_Imp::Create(
 		Core* core,
 		Profiler_Imp* profiler,
+		LayerProfiler_Imp* layerProfiler,
 		Graphics_Imp* graphics,
 		Log* logger,
 		Vector2DI windowSize)
 	{
 		logger->WriteHeading("プロファイラビュアー");
 
-		auto temp = new ProfilerViewer_Imp(graphics, logger, profiler, core, windowSize);
+		auto temp = new ProfilerViewer_Imp(graphics, logger, profiler, layerProfiler, core, windowSize);
 
 		logger->WriteLine("初期化成功");
 
 		return temp;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void ProfilerViewer_Imp::SetProfiler(Profiler_Imp* profiler)
-	{
-		m_profiler = profiler;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -117,7 +111,7 @@ namespace ace
 		GenerateRenderer();
 
 		auto top = DrawGlobalInfoSection();
-
+		top = DrawLayerInfoSection(top);
 		DrawProfiledInfoSection(top);
 
 		m_renderer->SetArea(RectF(0, 0, m_windowSize.X, m_windowSize.Y), 0.0f);
@@ -127,24 +121,75 @@ namespace ace
 
 	int ProfilerViewer_Imp::DrawGlobalInfoSection()
 	{
-		DrawSprite(RectF(0, 0, m_windowSize.X, SECTION_SPAN * 2 + ROW_HEIGHT * 2), Color(128, 128, 64, 128), 0);
+		DrawSprite(RectF(0, 0, m_windowSize.X, SECTION_SPAN * 2 + ROW_HEIGHT * 2), Color(64, 64, 0, 128), 0);
 
 		DrawTextSprite(
 			Vector2DF(COLUMN_HEADER_OFFSET, SECTION_SPAN),
 			SECTION_HEADER_COLOR,
-			string("Global Information"));
+			ToAString("Global Information"));
 
+		auto fpsStr = to_string((int)m_core->GetCurrentFPS()) + "fps";
 		DrawTextSprite(
 			Vector2DF(COLUMN1_OFFSET, SECTION_SPAN + ROW_HEIGHT),
 			CONTENT_COLOR,
-			to_string((int)m_core->GetCurrentFPS()) + "fps");
+			ToAString(fpsStr.c_str()));
 
+		auto drawCallStr = to_string(m_graphics->GetDrawCallCount()) + "DrawCall";
 		DrawTextSprite(
 			Vector2DF(DRAWCALL_OFFSET, SECTION_SPAN + ROW_HEIGHT),
 			CONTENT_COLOR,
-			to_string(m_graphics->GetDrawCallCount()) + "DrawCall");
+			ToAString(drawCallStr.c_str()));
 
 		return SECTION_SPAN * 2 + ROW_HEIGHT * 2;
+	}
+
+	int ProfilerViewer_Imp::DrawLayerInfoSection(int top)
+	{
+		DrawTextSprite(
+			Vector2DF(COLUMN_HEADER_OFFSET, top),
+			SECTION_HEADER_COLOR,
+			ToAString("Layer Information"));
+
+		DrawTextSprite(
+			Vector2DF(COLUMN1_OFFSET, top + ROW_HEIGHT),
+			HEADER_COLOR,
+			ToAString("Name"));
+
+		DrawTextSprite(
+			Vector2DF(COLUMN2_OFFSET, top + ROW_HEIGHT),
+			HEADER_COLOR,
+			ToAString("Time(ns)"));
+
+		DrawTextSprite(
+			Vector2DF(COLUMN3_OFFSET, top + ROW_HEIGHT),
+			HEADER_COLOR,
+			ToAString("Objects"));
+
+		auto bodyTop = top + ROW_HEIGHT * 2;
+		int index = 0;
+		for (auto& profile : m_layerProfiler->GetProfiles())
+		{
+			DrawTextSprite(
+				Vector2DF(COLUMN1_OFFSET, bodyTop + index * ROW_HEIGHT),
+				CONTENT_COLOR,
+				profile->GetName());
+
+			DrawTextSprite(
+				Vector2DF(COLUMN2_OFFSET, bodyTop + index * ROW_HEIGHT),
+				CONTENT_COLOR,
+				ToAString(to_string(profile->GetTime()).c_str()));
+
+			DrawTextSprite(
+				Vector2DF(COLUMN3_OFFSET, bodyTop + index * ROW_HEIGHT),
+				CONTENT_COLOR,
+				ToAString(to_string(profile->GetObjectCount()).c_str()));
+
+			++index;
+		}
+
+		DrawSprite(RectF(0, top, m_windowSize.X, (index + 2)*ROW_HEIGHT + SECTION_SPAN), Color(64, 0, 64, 128), 0);
+
+		return top + (index + 2) * ROW_HEIGHT + SECTION_SPAN;
 	}
 
 	void ProfilerViewer_Imp::DrawProfiledInfoSection(int top)
@@ -152,22 +197,22 @@ namespace ace
 		DrawTextSprite(
 			Vector2DF(COLUMN_HEADER_OFFSET, top),
 			SECTION_HEADER_COLOR,
-			string("Profiled Information"));
+			ToAString("Profiled Information"));
 
 		DrawTextSprite(
 			Vector2DF(COLUMN1_OFFSET, top + ROW_HEIGHT),
 			HEADER_COLOR,
-			string("ID"));
+			ToAString("ID"));
 
 		DrawTextSprite(
 			Vector2DF(COLUMN2_OFFSET, top + ROW_HEIGHT),
 			HEADER_COLOR,
-			string("Time(ns)"));
+			ToAString("Time(ns)"));
 
 		DrawTextSprite(
 			Vector2DF(COLUMN3_OFFSET, top + ROW_HEIGHT),
 			HEADER_COLOR,
-			string("Processor"));
+			ToAString("Processor"));
 
 		int bodyTop = top + ROW_HEIGHT * 2;
 		int index = 0;
@@ -184,22 +229,22 @@ namespace ace
 			DrawTextSprite(
 				Vector2DF(COLUMN1_OFFSET, bodyTop + index * ROW_HEIGHT),
 				CONTENT_COLOR,
-				to_string(profile->GetID()));
+				ToAString(to_string(profile->GetID()).c_str()));
 
 			DrawTextSprite(
 				Vector2DF(COLUMN2_OFFSET, bodyTop + index * ROW_HEIGHT),
 				CONTENT_COLOR,
-				to_string(time));
+				ToAString(to_string(time).c_str()));
 
 			DrawTextSprite(
 				Vector2DF(COLUMN3_OFFSET, bodyTop + index * ROW_HEIGHT),
 				CONTENT_COLOR,
-				to_string(perf->GetProcessorNumber()));
+				ToAString(to_string(perf->GetProcessorNumber()).c_str()));
 
 			++index;
 		}
 
-		DrawSprite(RectF(0, top, m_windowSize.X, (index + 2)*ROW_HEIGHT + SECTION_SPAN), Color(64, 128, 128, 128), 0);
+		DrawSprite(RectF(0, top, m_windowSize.X, (index + 2)*ROW_HEIGHT + SECTION_SPAN), Color(0, 64, 64, 128), 0);
 	}
 
 	void ProfilerViewer_Imp::DrawSprite(RectF dst, Color color, int priority)
@@ -242,10 +287,8 @@ namespace ace
 			priority);
 	}
 
-	void ProfilerViewer_Imp::DrawTextSprite(Vector2DF position, Color color, string text)
+	void ProfilerViewer_Imp::DrawTextSprite(Vector2DF position, Color color, astring text)
 	{
-		astring astr = ToAString(text.c_str());
-
 		m_renderer->AddText(
 			Matrix33().SetIdentity(),
 			Matrix33().SetTranslation(position.X, position.Y),
@@ -254,7 +297,7 @@ namespace ace
 			false,
 			color,
 			m_font.get(),
-			astr.c_str(),
+			text.c_str(),
 			WritingDirection::Horizontal,
 			AlphaBlend::Blend,
 			1);

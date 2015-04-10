@@ -6,6 +6,8 @@
 
 #include "Profiler/ace.Profiler.h"
 #include "Profiler/ace.Profiler_Imp.h"
+#include "Profiler/ace.LayerProfiler.h"
+#include "Profiler/ace.LayerProfiler_Imp.h"
 
 #include "Input/ace.MouseButtonState.h"
 #include "Input/ace.MiddleButton.h"

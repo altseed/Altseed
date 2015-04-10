@@ -29,6 +29,7 @@ namespace ace
 
 	private:
 		Scene* m_scene;
+		astring m_name;
 
 		virtual void SetScene(Scene* scene);
 
@@ -119,5 +120,16 @@ namespace ace
 			@return	レイヤーの種類
 		*/
 		virtual LayerType GetLayerType() const = 0;
+
+		/**
+			@brief	このレイヤーの前回の更新時間を取得する。
+		*/
+		virtual int GetTimeForUpdate() const = 0;
+
+		virtual int GetObjectCount() const = 0;
+
+		astring GetName() const;
+		void SetName(astring value);
+
 	};
 }

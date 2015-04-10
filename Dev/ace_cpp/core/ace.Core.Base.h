@@ -19,6 +19,7 @@ namespace ace {
 	class Mouse;
 	class Log;
 	class Profiler;
+	class LayerProfiler;
 	class ProfilerViewer;
 	class Renderer2D;
 
