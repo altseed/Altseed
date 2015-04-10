@@ -13,9 +13,9 @@ namespace ace
 	private:
 		GraphicsDeviceType		deviceType;
 		
-		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF;
-		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF_ND;
-		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shadersDF[2];
+		std::shared_ptr<ace::NativeShader_Imp>	m_shadersDF_ND[2];
+		std::shared_ptr<ace::NativeShader_Imp>	m_shadersLightweight[2];
 
 		std::vector<ShaderConstantValue> shaderConstants;
 

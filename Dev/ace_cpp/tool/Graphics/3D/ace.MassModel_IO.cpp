@@ -303,6 +303,43 @@ namespace ace
 					AnimationTexture_.Buffer[x + y * AnimationTexture_.TextureWidth].W = boneMatrixes[j].Values[k][3];
 				}
 			}
+			
+			AnimationTexture_.AnimationCount = 0;
+			AnimationTexture_.TextureWidth = 0;
+			AnimationTexture_.TextureHeight = 0;
+
+			AnimationTexture_.Buffer.clear();
+
+			// 頂点に適用
+			for (size_t i = 0; i < Vertices.size(); i++)
+			{
+				auto& v = Vertices[i];
+				
+				uint8_t* weights = (uint8_t*) (&v.BoneWeights);
+				uint8_t* indexes = (uint8_t*) (&v.BoneIndexes);
+
+				Matrix44 mat;
+
+				for (auto c = 0; c < 4; c++)
+				{
+					for (auto r = 0; r < 4; r++)
+					{
+						mat.Values[r][c] =
+							boneMatrixes[indexes[0]].Values[r][c] * (weights[0] / 255.0f) +
+							boneMatrixes[indexes[1]].Values[r][c] * (weights[1] / 255.0f);
+					}
+				}
+
+				auto pn = v.Position + v.Normal;
+				auto pb = v.Position + v.Binormal;
+
+				v.Position = mat.Transform3D(v.Position);
+				pn = mat.Transform3D(pn);
+				pb = mat.Transform3D(pb);
+				v.Normal = (pn - v.Position).GetNormal();
+				v.Binormal = (pb - v.Position).GetNormal();
+			}
+			
 		}
 		
 		return true;

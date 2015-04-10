@@ -6,7 +6,6 @@ float4x4	matC;
 float4x4	matP;
 float4		animationParam0[32];
 float4		animationParam1[32];
-
 //||>
 
 //<|| モデル共通頂点入力
@@ -89,6 +88,7 @@ VS_Output main( const VS_Input Input )
 {
 	VS_Output Output = (VS_Output)0;
 
+#if ANIMATION_IS_ENABLED
 	float animIndex0 = animationParam0[Input.InstanceId].x;
 	float animIndex1 = animationParam0[Input.InstanceId].y;
 	float animTime0 = animationParam0[Input.InstanceId].z;
@@ -100,7 +100,10 @@ VS_Output main( const VS_Input Input )
 	float4x4 matLocal1 = calcMatrix(animIndex1, animTime1, Input.BoneWeights,Input.BoneIndexes);
 	float4x4 matLocal = lerp(matLocal0, matLocal1, animWeight);
 	matLocal = mul(matModel,matLocal);
-
+#else
+	float4x4 matLocal = matM[Input.InstanceId];
+#endif
+	
 	float4x4 matMC = mul(matC, matLocal);
 	float3x3 matC33 = convert44to33(matC);
 	float3x3 matMC33 = convert44to33(matMC);

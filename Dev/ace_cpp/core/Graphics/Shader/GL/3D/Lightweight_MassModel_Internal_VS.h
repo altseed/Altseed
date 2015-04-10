@@ -92,6 +92,8 @@ mat3 convert44to33(mat4 mat)
 void main()
 {
 	int instanceId = gl_InstanceID; 
+
+#if ANIMATION_IS_ENABLED
 	float animIndex0 = animationParam0[instanceId].x;
 	float animIndex1 = animationParam0[instanceId].y;
 	float animTime0 = animationParam0[instanceId].z;
@@ -103,6 +105,9 @@ void main()
 	mat4 matLocal1 = calcMatrix(int(animIndex1), animTime1, BoneWeights, BoneIndexes);
 	mat4 matLocal = matLocal0 + (matLocal1 - matLocal0) * animWeight;
 	matLocal = matModel * matLocal;
+#else
+	mat4 matLocal = matM[instanceId];
+#endif
 
 	mat4 matMC = matC * matLocal;
 	mat3 matC33 = convert44to33(matC);
