@@ -121,7 +121,7 @@ namespace ace
 
 	int ProfilerViewer_Imp::DrawGlobalInfoSection()
 	{
-		DrawSprite(RectF(0, 0, m_windowSize.X, SECTION_SPAN * 2 + ROW_HEIGHT * 2), Color(128, 128, 64, 128), 0);
+		DrawSprite(RectF(0, 0, m_windowSize.X, SECTION_SPAN * 2 + ROW_HEIGHT * 2), Color(64, 64, 0, 128), 0);
 
 		DrawTextSprite(
 			Vector2DF(COLUMN_HEADER_OFFSET, SECTION_SPAN),
@@ -187,7 +187,7 @@ namespace ace
 			++index;
 		}
 
-		DrawSprite(RectF(0, top, m_windowSize.X, (index + 2)*ROW_HEIGHT + SECTION_SPAN), Color(128, 64, 128, 128), 0);
+		DrawSprite(RectF(0, top, m_windowSize.X, (index + 2)*ROW_HEIGHT + SECTION_SPAN), Color(64, 0, 64, 128), 0);
 
 		return top + (index + 2) * ROW_HEIGHT + SECTION_SPAN;
 	}
@@ -244,7 +244,7 @@ namespace ace
 			++index;
 		}
 
-		DrawSprite(RectF(0, top, m_windowSize.X, (index + 2)*ROW_HEIGHT + SECTION_SPAN), Color(64, 128, 128, 128), 0);
+		DrawSprite(RectF(0, top, m_windowSize.X, (index + 2)*ROW_HEIGHT + SECTION_SPAN), Color(0, 64, 64, 128), 0);
 	}
 
 	void ProfilerViewer_Imp::DrawSprite(RectF dst, Color color, int priority)

@@ -497,13 +497,15 @@ namespace ace
 		{
 			m_currentScene->Update();
 
+			//*
 			for (auto& l : m_currentScene->GetLayers())
 			{
 				m_layerProfiler->Record(
-					l->GetName(),
+					l->GetName().c_str(),
 					l->GetObjectCount(),
 					l->GetTimeForUpdate());
 			}
+			//*/
 		}
 
 		if (transition != nullptr)

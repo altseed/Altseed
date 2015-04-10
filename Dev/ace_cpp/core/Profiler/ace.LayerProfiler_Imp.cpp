@@ -17,7 +17,7 @@ namespace ace
 		return new LayerProfiler_Imp();
 	}
 
-	void LayerProfiler_Imp::Record(astring name, int objectCount, int time)
+	void LayerProfiler_Imp::Record(const achar* name, int objectCount, int time)
 	{
 		auto profile = std::make_shared<LayerProfile>(name);
 		profile->SetObjectCount(objectCount);

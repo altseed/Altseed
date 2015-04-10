@@ -23,7 +23,7 @@ namespace ace
 					objectCount	レイヤーに登録されているオブジェクト数。
 					time		レイヤーの更新時間。
 		*/
-		void Record(astring name, int objectCount, int time);
+		void Record(const achar* name, int objectCount, int time);
 
 		/**
 			@brief	プロファイリングデータを消去する。更新ごとに呼び出す必要がある。
