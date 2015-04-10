@@ -29,4 +29,9 @@ namespace ace
 	{
 		m_profiles.clear();
 	}
+
+	const std::list<LayerProfile::Ptr>& LayerProfiler_Imp::GetProfiles()
+	{
+		return m_profiles;
+	}
 }

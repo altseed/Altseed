@@ -53,6 +53,7 @@ namespace ace
 		, m_isUpdated(true)
 		, m_isDrawn(true)
 		, m_isAlive(true)
+		, m_name(ace::ToAString("Layer"))
 	{
 	}
 
@@ -129,4 +130,15 @@ namespace ace
 		m_isAlive = false;
 		OnVanish();
 	}
+
+	astring Layer::GetName() const
+	{
+		return m_name;
+	}
+
+	void Layer::SetName(astring value)
+	{
+		m_name = value;
+	}
+
 }

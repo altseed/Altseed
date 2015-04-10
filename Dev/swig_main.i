@@ -87,6 +87,8 @@ CPP_OBJECT( ace::AnimationClip )
 
 CPP_OBJECT( ace::Profiler )
 CPP_OBJECT( ace::Profiler_Imp )
+CPP_OBJECT( ace::LayerProfiler )
+CPP_OBJECT( ace::LayerProfiler_Imp )
 CPP_OBJECT( ace::Log )
 CPP_OBJECT( ace::Log_Imp )
 CPP_OBJECT( ace::File )
@@ -151,6 +153,8 @@ CPP_OBJECT( ace::StaticFile )
 %include "ace_cpp/core/Log/ace.Log_Imp.h"
 %include "ace_cpp/core/Profiler/ace.Profiler.h"
 %include "ace_cpp/core/Profiler/ace.Profiler_Imp.h"
+%include "ace_cpp/core/Profiler/ace.LayerProfiler.h"
+%include "ace_cpp/core/Profiler/ace.LayerProfiler_Imp.h"
 %include "ace_cpp/core/Input/ace.MouseButtonState.h"
 %include "ace_cpp/core/Input/ace.MiddleButton.h"
 %include "ace_cpp/core/Input/ace.SideButton.h"

@@ -497,7 +497,13 @@ namespace ace
 		{
 			m_currentScene->Update();
 
-			//TODO: レイヤー更新時間計測
+			for (auto& l : m_currentScene->GetLayers())
+			{
+				m_layerProfiler->Record(
+					l->GetName(),
+					l->GetObjectCount(),
+					l->GetTimeForUpdate());
+			}
 		}
 
 		if (transition != nullptr)

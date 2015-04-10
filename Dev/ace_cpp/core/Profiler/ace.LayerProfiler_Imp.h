@@ -31,6 +31,8 @@ namespace ace
 		void Refresh();
 
 #if !SWIG
+		const std::list<LayerProfile::Ptr>& GetProfiles();
+
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }

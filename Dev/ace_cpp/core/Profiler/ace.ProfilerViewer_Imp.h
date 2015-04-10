@@ -6,6 +6,8 @@
 #include "../Graphics/2D/ace.Renderer2D_Imp.h"
 #include "../Log/ace.Log.h"
 #include "../Core/ace.Core.h"
+#include "ace.LayerProfiler.h"
+#include "ace.LayerProfiler_Imp.h"
 
 namespace ace
 {
@@ -33,9 +35,10 @@ namespace ace
 		bool	isRendererGenerated = false;
 
 		int DrawGlobalInfoSection();
+		int DrawLayerInfoSection(int top);
 		void DrawProfiledInfoSection(int top);
 		void DrawSprite(RectF dst, Color color, int priority);
-		void DrawTextSprite(Vector2DF position, Color color, std::string text);
+		void DrawTextSprite(Vector2DF position, Color color, astring text);
 
 		std::shared_ptr<Font> CreateFont_();
 
@@ -59,7 +62,6 @@ namespace ace
 			Log* logger,
 			Vector2DI windowSize);
 
-		void SetProfiler(Profiler_Imp* profiler);
 		void Draw();
 	};
 }

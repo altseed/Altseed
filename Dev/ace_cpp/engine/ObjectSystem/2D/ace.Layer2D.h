@@ -25,7 +25,9 @@ namespace ace
 		std::shared_ptr<CoreLayer2D>	m_coreLayer;
 		ContentsManager<Object2D> m_objects;
 		ComponentManager<Layer2D, Layer2DComponent> m_components;
-		std::vector<Object2D::Ptr>		beVanished;
+
+		int m_previousUpdateTime;
+		int m_timeAtUpdateStart;
 
 		void BeginUpdating();
 		void EndUpdateting();
@@ -156,5 +158,9 @@ namespace ace
 		@return	レイヤーの種類
 		*/
 		LayerType GetLayerType() const override { return LayerType::Layer2D; }
+
+		int GetTimeForUpdate() const;
+
+		int GetObjectCount() const;
 	};
 }
