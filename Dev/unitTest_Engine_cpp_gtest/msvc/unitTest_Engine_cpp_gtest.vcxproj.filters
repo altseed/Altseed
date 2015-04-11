@@ -146,6 +146,9 @@
     <ClCompile Include="..\Performance\Performance_MassModelObject3D.cpp">
       <Filter>Performance</Filter>
     </ClCompile>
+    <ClCompile Include="..\Performance\Performance_TextureObject2D.cpp">
+      <Filter>Performance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

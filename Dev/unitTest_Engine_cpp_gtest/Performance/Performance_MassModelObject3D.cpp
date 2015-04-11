@@ -56,4 +56,6 @@ protected:
 	}
 };
 
-//ENGINE_TEST(Performance, MassModelObject3D)
+#if defined(PERFORMANCE_MODE)
+ENGINE_TEST(Performance, MassModelObject3D)
+#endif

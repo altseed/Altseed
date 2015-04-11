@@ -33,6 +33,7 @@
 	Test_##group##_##name(flag);			\
 	\
 
+//#define	PERFORMANCE_MODE 1
 
 class EngineTest
 {

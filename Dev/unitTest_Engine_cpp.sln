@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.40121.0
+VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unitTest_Engine_cpp_gtest", "unitTest_Engine_cpp_gtest\msvc\unitTest_Engine_cpp_gtest.vcxproj", "{B64D0464-A770-4EB2-9058-84FCAED86DE3}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -26,6 +26,11 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ace_tool", "ace_cpp\msvc\ace_tool.vcxproj", "{E500B6B8-E90E-46D7-B6D0-F85388E0D75E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{86542137-F2A1-4152-A16B-5BE71E060DC6} = {86542137-F2A1-4152-A16B-5BE71E060DC6}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{187A34A9-9F93-4FA4-A3D7-3A552B37CB2E}"
+	ProjectSection(SolutionItems) = preProject
+		パフォーマンス1.psess = パフォーマンス1.psess
 	EndProjectSection
 EndProject
 Global
@@ -57,5 +62,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
