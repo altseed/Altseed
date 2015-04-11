@@ -43,9 +43,6 @@ namespace ace
 
 		virtual void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) = 0;
 
-		virtual bool GetHDRMode() const = 0;
-		virtual void SetHDRMode(bool value) = 0;
-
 		virtual float GetSSAO_Radius() = 0;
 		virtual void SetSSAO_Radius(float value) = 0;
 		virtual float GetSSAO_Bias() = 0;

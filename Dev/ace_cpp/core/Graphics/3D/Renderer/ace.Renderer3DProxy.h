@@ -95,8 +95,16 @@ namespace ace
 		Renderer3DProxy(Graphics* graphics);
 		virtual ~Renderer3DProxy();
 
-		void Rendering(RenderTexture2D_Imp* renderTarget);
+		/**
+			@brief	内部の情報から現在のフレームを内部に描画する。
+		*/
+		void Render();
 		
+		/**
+			@brief	内部の描画結果を現在のレンダーターゲットに描画する。
+		*/
+		void RenderResult();
+
 	private:
 		void RenderCamera(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
 		void RenderCameraOnLightweight(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);

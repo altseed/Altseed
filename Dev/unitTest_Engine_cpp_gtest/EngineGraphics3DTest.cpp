@@ -59,7 +59,6 @@ void EngineGraphics3DTest::OnStart()
 	m_scene->SetHDRMode(true);
 
 	m_layer3d = std::make_shared<ace::Layer3D>(m_settings);
-	m_layer3d->SetHDRMode(true);
 	m_scene->AddLayer(m_layer3d);
 	ace::Engine::ChangeScene(m_scene);
 

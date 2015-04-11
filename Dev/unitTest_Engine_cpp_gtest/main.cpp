@@ -70,6 +70,8 @@ EXTERN_ENGINE_TEST(File, StaticFile_Package_Priority)
 
 EXTERN_ENGINE_TEST(Profiler, Profiling)
 
+//EXTERN_ENGINE_TEST(Performance, MassModelObject3D)
+
 /**
 	@brief	単体テストを実行する。
 	@note
@@ -85,8 +87,8 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(Profiler, Profiling, false)
-	return 0;
+//	CALL_ENGINE_TEST(Performance, MassModelObject3D, false)
+//	return 0;
 
 	
 	auto result = RUN_ALL_TESTS();
