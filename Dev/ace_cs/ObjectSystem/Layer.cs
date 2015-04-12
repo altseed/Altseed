@@ -111,7 +111,6 @@ namespace ace
 		/// </summary>
 		protected virtual void OnUpdating()
 		{
-			timeAtUpdateStart = DateTime.Now.Ticks;
 		}
 
 		/// <summary>
@@ -170,7 +169,7 @@ namespace ace
 			OnVanish();
 		}
 
-		public abstract int GetTimeForUpdate();
+		//public abstract int GetTimeForUpdate();
 
 		/// <summary>
 		/// レイヤーの種類を取得する。
