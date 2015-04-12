@@ -7,10 +7,6 @@ using ace;
 
 namespace unitTest_Engine_cs.Debug
 {
-	class MyLayer : Layer2D
-	{
-	}
-
 	class Profiler : EngineTest
 	{
 		public Profiler()
