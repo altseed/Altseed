@@ -28,14 +28,19 @@ Engine.Profiler.End(9);
 
 ###Global Information
 ①：ゲームのfps。
+
 ②：ドローコール数。これが小さいほど描画が軽くなります。
 
 ###Layer Information
 ③：レイヤー名。
+
 ④：各レイヤーの更新時間（Updateにかかった時間）。
+
 ⑤：各レイヤーに登録されているオブジェクトの数。
 
 ###Profiled Information
 ⑥：プロファイリングの際に指定したID。
+
 ⑦：各部分の実行時間。
+
 ⑧：各部分を実行したCPU番号。
