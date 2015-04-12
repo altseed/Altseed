@@ -232,6 +232,10 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreMapObject2D_Imp::DrawChip(Renderer2D* renderer, Chip2D* chip)
 	{
+		if (!m_objectInfo.GetIsDrawn())
+		{
+			return;
+		}
 
 		auto texture = chip->GetTexture();
 
