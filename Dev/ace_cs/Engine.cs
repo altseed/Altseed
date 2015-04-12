@@ -58,6 +58,7 @@ namespace ace
 	public class Engine
 	{
 		static swig.Core_Imp core = null;
+		static swig.LayerProfiler layerProfiler = null;
 
 		/// <summary>
 		/// 現在描画対象となっているシーンを表す ace.Scene クラスのインスタンスを取得します。
@@ -681,6 +682,8 @@ namespace ace
 			ObjectSystemFactory = new ace.ObjectSystemFactory(core.GetObjectSystemFactory());
 			Profiler = new Profiler(core.GetProfiler());
 			AnimationSystem = new AnimationSystem(core.GetAnimationSyatem());
+
+			layerProfiler = core.GetLayerProfiler();
 		}
 
 		[System.Runtime.InteropServices.DllImport("kernel32")]
