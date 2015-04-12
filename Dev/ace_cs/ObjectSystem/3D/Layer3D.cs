@@ -261,6 +261,7 @@ namespace ace
 				return;
 			}
 
+			CoreLayer.BeginMeasureUpdateTime();
 			OnUpdating();
 
 			contentsManager.Update();
@@ -272,6 +273,7 @@ namespace ace
 			contentsManager.VanishingContents.Clear();
 
 			OnUpdated();
+			CoreLayer.EndMeasureUpdateTime();
 		}
 
 		internal override void DrawAdditionally()

@@ -20,6 +20,24 @@ namespace unitTest_Engine_cs.Debug
 
 		protected override void OnStart()
 		{
+			var scene = new Scene();
+			var layer1 = new Layer2D() { Name = "Test1" };
+			var layer2 = new Layer2D() { Name = "Test2" };
+
+			var texture = Engine.Graphics.CreateTexture2D(CloudTexturePath);
+            for(int i = 0; i < 100; i++)
+			{
+				var obj = new TextureObject2D
+				{
+					Texture = texture,
+				};
+				layer1.AddObject(obj);
+			}
+
+			Engine.ChangeScene(scene);
+			scene.AddLayer(layer1);
+			scene.AddLayer(layer2);
+
 			Console.WriteLine("Writeで負荷を掛けます");
 		}
 
@@ -27,7 +45,6 @@ namespace unitTest_Engine_cs.Debug
 		{
 			if(Time == 20)
 			{
-				Engine.CurrentScene.Layers.First().Name = "Test";
 				Engine.ProfilerIsVisible = true;
 			}
 

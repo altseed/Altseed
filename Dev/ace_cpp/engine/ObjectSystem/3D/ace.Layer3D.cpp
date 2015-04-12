@@ -30,8 +30,8 @@ namespace ace
 			return;
 		}
 
+		m_commonObject->BeginMeasureUpdateTime();
 		OnUpdating();
-
 		m_objects.Update();
 
 		for (auto& vanishing : m_objects.GetVanishingContents())
@@ -47,6 +47,7 @@ namespace ace
 		*/
 
 		OnUpdated();
+		m_commonObject->EndMeasureUpdateTime();
 	}
 
 	void Layer3D::CallDestroy()

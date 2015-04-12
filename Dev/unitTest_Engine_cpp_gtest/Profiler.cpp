@@ -26,16 +26,23 @@ protected:
 		printf("printfで負荷をかけます\n");
 
 		auto scene = make_shared<Scene>();
-		auto layer = make_shared<Layer2D>();
-		auto obj = make_shared<TextureObject2D>();
-		
-		obj->SetTexture(ace::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
+		auto layer1 = make_shared<Layer2D>();
+		auto layer2 = make_shared<Layer2D>();
+
+		auto texture = ace::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());
+		for (size_t i = 0; i < 100; i++)
+		{
+			auto obj = make_shared<TextureObject2D>();
+			obj->SetTexture(texture);
+			layer1->AddObject(obj);
+		}
+
+		layer1->SetName(ToAString("Test1"));
+		layer2->SetName(ToAString("Test2"));
 
 		Engine::ChangeScene(scene);
-		scene->AddLayer(layer);
-		layer->AddObject(obj);
-
-		layer->SetName(ToAString("Test"));
+		scene->AddLayer(layer1);
+		scene->AddLayer(layer2);
 	}
 
 	void OnUpdating()

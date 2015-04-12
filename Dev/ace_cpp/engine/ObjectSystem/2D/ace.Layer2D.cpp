@@ -41,6 +41,7 @@ namespace ace
 			return;
 		}
 
+		m_commonObject->BeginMeasureUpdateTime();
 		OnUpdating();
 		m_objects.Update();
 
@@ -52,6 +53,7 @@ namespace ace
 
 		m_components.Update();
 		OnUpdated();
+		m_commonObject->EndMeasureUpdateTime();
 	}
 
 	void Layer2D::BeginUpdating()

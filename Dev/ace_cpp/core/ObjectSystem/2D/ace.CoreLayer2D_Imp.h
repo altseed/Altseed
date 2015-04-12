@@ -126,6 +126,8 @@ namespace ace
 		void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlend alphaBlend, int32_t priority) override;
 		void DrawShapeAdditionally(CoreShape* shape, Color color, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) override;
 
+		void BeginMeasureUpdateTime() { CoreLayer_Imp::BeginMeasureUpdateTime(); }
+		void EndMeasureUpdateTime() { CoreLayer_Imp::EndMeasureUpdateTime(); }
 		int GetTimeForUpdate() const { return CoreLayer_Imp::GetTimeForUpdate(); }
 
 #if !SWIG

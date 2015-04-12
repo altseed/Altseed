@@ -155,14 +155,10 @@ namespace ace
 		{
 			m_renderer->BeginRendering(core->GetDeltaTime());
 		}
-
-		CoreLayer_Imp::BeginUpdating();
 	}
 
 	void CoreLayer3D_Imp::EndUpdating()
 	{
-		CoreLayer_Imp::EndUpdating();
-
 		if (m_isDrawnTemp)
 		{
 			m_renderer->EndRendering();

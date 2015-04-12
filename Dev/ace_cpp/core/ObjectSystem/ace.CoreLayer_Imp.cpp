@@ -49,16 +49,6 @@ namespace ace
 		SafeRelease(m_graphics);
 	}
 
-	void CoreLayer_Imp::BeginUpdating()
-	{
-		m_timeAtUpdateStart = ace::GetTime();
-	}
-
-	void CoreLayer_Imp::EndUpdating()
-	{
-		m_previousUpdateTime = ace::GetTime() - m_timeAtUpdateStart;
-	}
-
 	int CoreLayer_Imp::GetDrawingPriority() const
 	{
 		return m_drawingPriority;
@@ -98,6 +88,16 @@ namespace ace
 	void CoreLayer_Imp::SetScene(CoreScene* scene)
 	{
 		m_scene = scene;
+	}
+
+	void CoreLayer_Imp::BeginMeasureUpdateTime()
+	{
+		m_timeAtUpdateStart = ace::GetTime();
+	}
+
+	void CoreLayer_Imp::EndMeasureUpdateTime()
+	{
+		m_previousUpdateTime = ace::GetTime() - m_timeAtUpdateStart;
 	}
 
 	int CoreLayer_Imp::GetTimeForUpdate() const

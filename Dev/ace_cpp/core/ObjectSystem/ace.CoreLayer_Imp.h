@@ -43,9 +43,6 @@ namespace ace
 		CoreLayer_Imp(Graphics* graphics, Vector2DI windowSize);
 		virtual ~CoreLayer_Imp();
 	public:
-		virtual void BeginUpdating();
-		virtual void EndUpdating();
-
 		virtual int GetDrawingPriority() const;
 		virtual void SetDrawingPriority(int value);
 
@@ -55,6 +52,8 @@ namespace ace
 		virtual void AddPostEffect(CorePostEffect* postEffect);
 		virtual void ClearPostEffects();
 
+		void BeginMeasureUpdateTime();
+		void EndMeasureUpdateTime();
 		int GetTimeForUpdate() const;
 
 #if !SWIG

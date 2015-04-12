@@ -88,6 +88,8 @@ namespace ace
 		virtual void AddPostEffect(CorePostEffect* postEffect) { CoreLayer_Imp::AddPostEffect(postEffect); }
 		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
 
+		void BeginMeasureUpdateTime() { CoreLayer_Imp::BeginMeasureUpdateTime(); }
+		void EndMeasureUpdateTime() { CoreLayer_Imp::EndMeasureUpdateTime(); }
 		int GetTimeForUpdate() const { return CoreLayer_Imp::GetTimeForUpdate(); }
 
 #if !SWIG

@@ -30,6 +30,8 @@ namespace ace
 		virtual void Draw() = 0;
 		virtual void EndDrawing() = 0;
 
+		virtual void BeginMeasureUpdateTime() = 0;
+		virtual void EndMeasureUpdateTime() = 0;
 		virtual int GetTimeForUpdate() const = 0;
 
 #if !SWIG
