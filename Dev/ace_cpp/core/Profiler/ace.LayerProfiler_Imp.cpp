@@ -19,6 +19,7 @@ namespace ace
 
 	void LayerProfiler_Imp::Record(const achar* name, int objectCount, int time)
 	{
+		ACE_ASSERT(name, "レイヤー名はnullでない必要があります。");
 		auto profile = std::make_shared<LayerProfile>(name);
 		profile->SetObjectCount(objectCount);
 		profile->SetTime(time);

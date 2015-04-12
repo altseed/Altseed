@@ -26,6 +26,7 @@ namespace ace
 			IsAlive = true;
 			IsUpdated = true;
 			postEffects = new List<PostEffect>();
+			Name = "Layer";
 		}
 
 		/// <summary>
@@ -51,6 +52,25 @@ namespace ace
 		/// このインスタンスを管理している ace.Scene クラスのインスタンスを取得する。
 		/// </summary>
 		public Scene Scene { get; internal set; }
+
+		/// <summary>
+		/// このレイヤーの前回の更新時間を取得する。
+		/// </summary>
+		public int TimeForUpdate
+		{
+			get { return CoreLayer.GetTimeForUpdate(); }
+		}
+
+		/// <summary>
+		/// このレイヤーに登録されているオブジェクトの数を取得する。
+		/// </summary>
+		public abstract int ObjectCount { get; }
+
+		/// <summary>
+		/// このレイヤーの名前を取得または設定する。
+		/// </summary>
+		public string Name { get; set; }
+
 
 		/// <summary>
 		/// このレイヤーの描画優先度を取得または設定する。この値が大きいほど手前に描画される。
@@ -169,16 +189,11 @@ namespace ace
 			OnVanish();
 		}
 
-		//public abstract int GetTimeForUpdate();
-
 		/// <summary>
 		/// レイヤーの種類を取得する。
 		/// </summary>
 		public abstract LayerType LayerType { get; }
 
 		protected List<PostEffect> postEffects;
-
-		private int previousUpdateTime;
-		private int timeAtUpdateStart;
 	}
 }

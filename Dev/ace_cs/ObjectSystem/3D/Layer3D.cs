@@ -71,6 +71,11 @@ namespace ace
 			get { return contentsManager.Contents; }
 		}
 
+		public override int ObjectCount
+		{
+			get { return Objects.Count(); }
+		}
+
 		/// <summary>
 		/// 描画設定を取得、設定する。
 		/// </summary>

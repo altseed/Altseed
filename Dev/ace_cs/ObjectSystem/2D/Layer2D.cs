@@ -55,6 +55,11 @@ namespace ace
 		}
 		#endregion
 
+		public override int ObjectCount
+		{
+			get { return Objects.Count(); }
+		}
+
 
 		/// <summary>
 		/// このレイヤーが管理している2Dオブジェクトのコレクションを取得する。

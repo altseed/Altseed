@@ -7,6 +7,10 @@ using ace;
 
 namespace unitTest_Engine_cs.Debug
 {
+	class MyLayer : Layer2D
+	{
+	}
+
 	class Profiler : EngineTest
 	{
 		public Profiler()
@@ -23,6 +27,7 @@ namespace unitTest_Engine_cs.Debug
 		{
 			if(Time == 20)
 			{
+				Engine.CurrentScene.Layers.First().Name = "Test";
 				Engine.ProfilerIsVisible = true;
 			}
 

@@ -294,9 +294,16 @@ namespace ace
 
 			core.BeginDrawing();
 
+			layerProfiler.Refresh();
+
 			if(CurrentScene != null)
 			{
 				CurrentScene.Update();
+
+				foreach(var item in CurrentScene.Layers)
+				{
+					layerProfiler.Record(item.Name, item.ObjectCount, item.TimeForUpdate);
+				}
 			}
 
 			if(transition != null)
