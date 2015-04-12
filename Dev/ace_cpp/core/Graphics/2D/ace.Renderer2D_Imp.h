@@ -97,7 +97,7 @@ namespace ace {
 		/**
 			@brief	最大同時スプライト描画数
 		*/
-		static const int32_t SpriteCount = 1024;
+		static const int32_t SpriteCount = 1024 * 4;
 
 		/**
 			@brief	現在描画しているスプライトの状態

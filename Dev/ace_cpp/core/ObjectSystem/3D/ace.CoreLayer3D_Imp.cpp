@@ -93,16 +93,6 @@ namespace ace
 		m_renderer->SetEnvironmentColor(diffuseColor, specularColor);
 	}
 
-	bool CoreLayer3D_Imp::GetHDRMode() const
-	{
-		return m_renderer->GetHDRMode();
-	}
-
-	void CoreLayer3D_Imp::SetHDRMode(bool value)
-	{
-		m_renderer->SetHDRMode(value);
-	}
-
 	float CoreLayer3D_Imp::GetSSAO_Radius()
 	{
 		return m_renderer->SSAO_Radius;
@@ -189,64 +179,8 @@ namespace ace
 
 	void CoreLayer3D_Imp::EndDrawing()
 	{
-		m_layerRenderer->SetTexture(m_renderer->GetRenderTarget());
+		m_scene->SetRenderTargetForDrawingLayer();
 
-		m_triangles.clear();
-
-		{
-			ace::Vector2DF positions[4];
-			ace::Color colors[4];
-			ace::Vector2DF uvs[4];
-
-			colors[0] = ace::Color(255, 255, 255, 255);
-			colors[1] = ace::Color(255, 255, 255, 255);
-			colors[2] = ace::Color(255, 255, 255, 255);
-
-			positions[0].X = 0.0f;
-			positions[0].Y = 0.0f;
-			positions[1].X = 1.0f;
-			positions[1].Y = 0.0f;
-			positions[2].X = 1.0f;
-			positions[2].Y = 1.0f;
-
-
-			uvs[0].X = 0;
-			uvs[0].Y = 0;
-			uvs[1].X = 1;
-			uvs[1].Y = 0;
-			uvs[2].X = 1;
-			uvs[2].Y = 1;
-
-			m_layerRenderer->AddTriangle(positions, colors, uvs);
-		}
-
-		{
-			ace::Vector2DF positions[4];
-			ace::Color colors[4];
-			ace::Vector2DF uvs[4];
-
-			colors[0] = ace::Color(255, 255, 255, 255);
-			colors[1] = ace::Color(255, 255, 255, 255);
-			colors[2] = ace::Color(255, 255, 255, 255);
-
-			positions[0].X = 0.0f;
-			positions[0].Y = 1.0f;
-			positions[1].X = 1.0f;
-			positions[1].Y = 1.0f;
-			positions[2].X = 0.0f;
-			positions[2].Y = 0.0f;
-
-			uvs[0].X = 0;
-			uvs[0].Y = 1;
-			uvs[1].X = 1;
-			uvs[1].Y = 1;
-			uvs[2].X = 0;
-			uvs[2].Y = 0;
-
-			m_layerRenderer->AddTriangle(positions, colors, uvs);
-		}
-
-		m_layerRenderer->DrawCache();
-		m_layerRenderer->ClearCache();
+		m_renderer->RenderResult();
 	}
 };

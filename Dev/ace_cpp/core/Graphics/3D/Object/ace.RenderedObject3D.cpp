@@ -73,6 +73,7 @@ namespace ace
 		if (position != pos)
 		{
 			isSRTChanged = true;
+			isSRTSentToProxy = false;
 			callSRTChanged = true;
 		}
 		position = pos;
@@ -88,6 +89,7 @@ namespace ace
 		if (rotation != rot)
 		{
 			isSRTChanged = true;
+			isSRTSentToProxy = false;
 			callSRTChanged = true;
 		}
 		rotation = rot;
@@ -103,6 +105,7 @@ namespace ace
 		if (this->scale != scale)
 		{
 			isSRTChanged = true;
+			isSRTSentToProxy = false;
 			callSRTChanged = true;
 		}
 		this->scale = scale;
@@ -126,14 +129,26 @@ namespace ace
 	{
 		auto proxy = GetProxy();
 
-		proxy->Position = position;
-		proxy->Rotation = rotation;
-		proxy->Scale = scale;
-		proxy->isSRTChanged = isSRTChanged;
-
-		if (!isSRTChanged)
+		if (isSRTChanged)
 		{
-			proxy->localMatrix = localMatrix;
+			if (!isSRTSentToProxy)
+			{
+				proxy->Position = position;
+				proxy->Rotation = rotation;
+				proxy->Scale = scale;
+				proxy->isSRTChanged = isSRTChanged;
+			}
+
+			isSRTSentToProxy = true;
+		}
+		else
+		{
+			if (!isSRTSentToProxy)
+			{
+				proxy->localMatrix = localMatrix;
+			}
+
+			isSRTSentToProxy = true;
 		}
 
 		if (callSRTChanged)

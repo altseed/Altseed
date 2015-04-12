@@ -58,7 +58,6 @@ namespace ace{
 		return m_joystickName.c_str();
 	}
 
-
 	int Joystick_Imp::GetButtonsCount()
 	{
 		return m_buttonsCount;

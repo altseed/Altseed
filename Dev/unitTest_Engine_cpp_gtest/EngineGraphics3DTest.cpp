@@ -1,8 +1,6 @@
 ﻿
 #include "EngineGraphics3DTest.h"
 
-//#define PERFORMANCE_TEST 1
-
 std::shared_ptr<ace::Scene> EngineGraphics3DTest::GetScene()
 {
 	return m_scene;
@@ -51,15 +49,10 @@ void EngineGraphics3DTest::SetRenderSettings(ace::RenderSettings settings)
 
 void EngineGraphics3DTest::OnStart()
 {
-#if defined(PERFORMANCE_TEST)
-	ace::Engine::SetTargetFPS(10000);
-#endif
-
 	m_scene = std::make_shared<ace::Scene>();
 	m_scene->SetHDRMode(true);
 
 	m_layer3d = std::make_shared<ace::Layer3D>(m_settings);
-	m_layer3d->SetHDRMode(true);
 	m_scene->AddLayer(m_layer3d);
 	ace::Engine::ChangeScene(m_scene);
 
@@ -81,13 +74,6 @@ void EngineGraphics3DTest::OnStart()
 
 void EngineGraphics3DTest::OnUpdating()
 {
-#if defined(PERFORMANCE_TEST)
-	if (GetTime() % 60 == 0)
-	{
-		printf("FPS : %f\n", ace::Engine::GetCurrentFPS());
-	}
-#endif
-
 	{
 		auto mousePos = ace::Engine::GetMouse()->GetPosition();
 		auto d = mousePos - m_mousePos;
@@ -163,7 +149,7 @@ void EngineGraphics3DTest::OnUpdating()
 }
 
 EngineGraphics3DTest::EngineGraphics3DTest(ace::astring title, bool isOpenGLMode, int exitTime, bool isFreeView)
-#if defined(PERFORMANCE_TEST)
+#if defined(PERFORMANCE_MODE)
 	:EngineTest(title, isOpenGLMode, exitTime, 1280, 720)
 #else
 	: EngineTest(title, isOpenGLMode, exitTime, 640, 480)

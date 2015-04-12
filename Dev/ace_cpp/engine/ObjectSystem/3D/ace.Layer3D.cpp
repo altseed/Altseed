@@ -181,16 +181,6 @@ namespace ace
 		m_coreLayer->SetEnvironmentColor(diffuseColor.get(), specularColor.get());
 	}
 
-	bool Layer3D::GetHDRMode() const
-	{
-		return m_coreLayer->GetHDRMode();
-	}
-
-	void Layer3D::SetHDRMode(bool value)
-	{
-		m_coreLayer->SetHDRMode(value);
-	}
-
 	float Layer3D::GetSSAO_Radius()
 	{
 		return m_coreLayer->GetSSAO_Radius();

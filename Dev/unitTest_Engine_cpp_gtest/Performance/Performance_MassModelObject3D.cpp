@@ -1,4 +1,4 @@
-
+﻿
 #include "../EngineGraphics3DTest.h"
 
 class Performance_MassModelObject3D : public EngineGraphics3DTest
@@ -56,4 +56,6 @@ protected:
 	}
 };
 
-//ENGINE_TEST(Performance, MassModelObject3D)
+#if defined(PERFORMANCE_MODE)
+ENGINE_TEST(Performance, MassModelObject3D)
+#endif

@@ -429,7 +429,7 @@ namespace ace
 		Culling3D::SafeRelease(CullingWorld);
 	}
 
-	void Renderer3DProxy::Rendering(RenderTexture2D_Imp* renderTarget)
+	void Renderer3DProxy::Render()
 	{
 		if (ssao != nullptr)
 		{
@@ -442,7 +442,6 @@ namespace ace
 		RenderingCommandHelper helper_(commands, factory);
 		auto helper = &helper_;
 		using h = RenderingCommandHelper;
-		SafeAddRef(renderTarget);
 
 		for (auto& o : objects)
 		{
@@ -528,12 +527,15 @@ namespace ace
 				RenderCamera(helper, cP, prop);
 			}
 		}
+	}
+
+	void Renderer3DProxy::RenderResult()
+	{
+		auto g = (Graphics_Imp*) graphics;
 
 		for (auto& co : cameraObjects)
 		{
-			auto cP = (RenderedCameraObject3DProxy*)co;
-
-			helper->SetRenderTarget(renderTarget, nullptr);
+			auto cP = (RenderedCameraObject3DProxy*) co;
 
 			Texture2D* texture = nullptr;
 			if (Settings.IsLightweightMode || Settings.VisualizedBuffer == VisualizedBufferType::FinalImage)
@@ -545,18 +547,21 @@ namespace ace
 				texture = cP->GetRenderTarget();
 			}
 
+			m_pasteShader->SetTexture("g_texture", texture, TextureFilterType::Linear, TextureWrapType::Clamp);
+
 			RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
 			state.AlphaBlendState = AlphaBlend::Opacity;
 			state.Culling = ace::CullingType::Double;
 
-			helper->Draw(2, m_pasteVertexBuffer.get(), m_pasteIndexBuffer.get(), m_pasteShader.get(), state,
-				h::GenValue("g_texture", h::Texture2DPair(texture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
-				);
-		}
+			g->SetVertexBuffer(m_pasteVertexBuffer.get());
+			g->SetIndexBuffer(m_pasteIndexBuffer.get());
+			g->SetShader(m_pasteShader.get());
+			g->SetRenderState(state);
 
-		SafeRelease(renderTarget);
+			g->DrawPolygon(2);
+		}
 	}
 
 	void Renderer3DProxy::RenderCamera(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop)

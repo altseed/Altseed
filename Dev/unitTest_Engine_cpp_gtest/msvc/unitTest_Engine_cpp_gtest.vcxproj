@@ -63,6 +63,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="..\Performance\Performance_MassModelObject3D.cpp" />
+    <ClCompile Include="..\Performance\Performance_TextureObject2D.cpp" />
     <ClCompile Include="..\Profiler.cpp" />
     <ClCompile Include="..\Sound\Sound.cpp" />
   </ItemGroup>
