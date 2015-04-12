@@ -10,8 +10,6 @@ namespace ace
 	Layer3D::Layer3D(RenderSettings settings)
 		: m_coreLayer(nullptr)
 		, m_objects()
-		, m_previousUpdateTime(0)
-		, m_timeAtUpdateStart(0)
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer3D(settings));
 		m_commonObject = m_coreLayer;
@@ -65,14 +63,12 @@ namespace ace
 
 	void Layer3D::BeginUpdating()
 	{
-		m_timeAtUpdateStart = ace::GetTime();
 		m_coreLayer->BeginUpdating();
 	}
 
 	void Layer3D::EndUpdateting()
 	{
 		m_coreLayer->EndUpdating();
-		m_previousUpdateTime = ace::GetTime() - m_timeAtUpdateStart;
 	}
 
 	void Layer3D::DrawAdditionally()
@@ -219,11 +215,6 @@ namespace ace
 	void Layer3D::SetSSAO_FarPlain(float value)
 	{
 		m_coreLayer->SetSSAO_FarPlain(value);
-	}
-
-	int Layer3D::GetTimeForUpdate() const
-	{
-		return m_previousUpdateTime;
 	}
 
 	int Layer3D::GetObjectCount() const

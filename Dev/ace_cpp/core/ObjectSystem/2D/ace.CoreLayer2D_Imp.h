@@ -111,7 +111,6 @@ namespace ace
 		virtual void AddPostEffect(CorePostEffect* postEffect) { CoreLayer_Imp::AddPostEffect(postEffect); }
 		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
 
-
 		void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
@@ -126,6 +125,8 @@ namespace ace
 		void DrawArcAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) override;
 		void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlend alphaBlend, int32_t priority) override;
 		void DrawShapeAdditionally(CoreShape* shape, Color color, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) override;
+
+		int GetTimeForUpdate() const { return CoreLayer_Imp::GetTimeForUpdate(); }
 
 #if !SWIG
 	public:

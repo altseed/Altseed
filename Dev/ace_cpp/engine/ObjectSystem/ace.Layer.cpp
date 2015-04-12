@@ -131,6 +131,11 @@ namespace ace
 		OnVanish();
 	}
 
+	int Layer::GetTimeForUpdate() const
+	{
+		return m_commonObject->GetTimeForUpdate();
+	}
+
 	astring Layer::GetName() const
 	{
 		return m_name;

@@ -278,13 +278,13 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::BeginUpdating()
 	{
-		
 		for (auto&x : m_objects)
 		{
 			auto o = CoreObject2DToImp(x);
 			o->SetAlreadyCullingUpdated(x->GetObjectType() == Object2DType::Map);
 		}
-		
+
+		CoreLayer_Imp::BeginUpdating();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -314,6 +314,8 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::EndUpdating()
 	{
+		CoreLayer_Imp::EndUpdating();
+
 		m_renderer->GetEffectManager()->Update(core->GetDeltaTime() / (1.0f / 60.0f));
 		m_renderer->GetEffectManager()->Flip();
 

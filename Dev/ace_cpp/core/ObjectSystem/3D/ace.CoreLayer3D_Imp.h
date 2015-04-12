@@ -87,6 +87,9 @@ namespace ace
 
 		virtual void AddPostEffect(CorePostEffect* postEffect) { CoreLayer_Imp::AddPostEffect(postEffect); }
 		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
+
+		int GetTimeForUpdate() const { return CoreLayer_Imp::GetTimeForUpdate(); }
+
 #if !SWIG
 	public:
 		virtual void SetScene(CoreScene* scene) { CoreLayer_Imp::SetScene(scene); }

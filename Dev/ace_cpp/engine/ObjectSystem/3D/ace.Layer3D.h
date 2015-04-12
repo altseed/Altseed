@@ -23,9 +23,6 @@ namespace ace
 		std::shared_ptr<CoreLayer3D>	m_coreLayer;
 		ContentsManager<Object3D>		m_objects;
 
-		int m_previousUpdateTime;
-		int m_timeAtUpdateStart;
-
 		void BeginUpdating();
 		void EndUpdateting();
 
@@ -201,8 +198,6 @@ namespace ace
 		@return	レイヤーの種類
 		*/
 		LayerType GetLayerType() const override { return LayerType::Layer3D; }
-
-		int GetTimeForUpdate() const;
 
 		int GetObjectCount() const;
 	};

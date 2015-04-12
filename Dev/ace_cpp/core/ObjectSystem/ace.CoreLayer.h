@@ -30,6 +30,8 @@ namespace ace
 		virtual void Draw() = 0;
 		virtual void EndDrawing() = 0;
 
+		virtual int GetTimeForUpdate() const = 0;
+
 #if !SWIG
 		virtual void SetScene(CoreScene* scene) = 0;
 #endif

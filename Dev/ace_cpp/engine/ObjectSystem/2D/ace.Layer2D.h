@@ -26,9 +26,6 @@ namespace ace
 		ContentsManager<Object2D> m_objects;
 		ComponentManager<Layer2D, Layer2DComponent> m_components;
 
-		int m_previousUpdateTime;
-		int m_timeAtUpdateStart;
-
 		void BeginUpdating();
 		void EndUpdateting();
 
@@ -158,8 +155,6 @@ namespace ace
 		@return	レイヤーの種類
 		*/
 		LayerType GetLayerType() const override { return LayerType::Layer2D; }
-
-		int GetTimeForUpdate() const;
 
 		int GetObjectCount() const;
 	};

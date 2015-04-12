@@ -111,6 +111,7 @@ namespace ace
 		/// </summary>
 		protected virtual void OnUpdating()
 		{
+			timeAtUpdateStart = DateTime.Now.Ticks;
 		}
 
 		/// <summary>
@@ -169,11 +170,16 @@ namespace ace
 			OnVanish();
 		}
 
+		public abstract int GetTimeForUpdate();
+
 		/// <summary>
 		/// レイヤーの種類を取得する。
 		/// </summary>
 		public abstract LayerType LayerType { get; }
 
 		protected List<PostEffect> postEffects;
+
+		private int previousUpdateTime;
+		private int timeAtUpdateStart;
 	}
 }

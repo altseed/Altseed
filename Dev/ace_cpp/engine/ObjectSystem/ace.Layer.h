@@ -124,7 +124,7 @@ namespace ace
 		/**
 			@brief	このレイヤーの前回の更新時間を取得する。
 		*/
-		virtual int GetTimeForUpdate() const = 0;
+		int GetTimeForUpdate() const;
 
 		virtual int GetObjectCount() const = 0;
 

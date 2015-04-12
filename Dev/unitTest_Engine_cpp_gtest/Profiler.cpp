@@ -34,6 +34,8 @@ protected:
 		Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(obj);
+
+		layer->SetName(ToAString("Test"));
 	}
 
 	void OnUpdating()

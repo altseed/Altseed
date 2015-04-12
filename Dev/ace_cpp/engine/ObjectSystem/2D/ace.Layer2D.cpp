@@ -15,8 +15,6 @@ namespace ace
 		: m_coreLayer(nullptr)
 		, m_objects()
 		, m_components(this)
-		, m_previousUpdateTime(0)
-		, m_timeAtUpdateStart(0)
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer2D());
 		m_commonObject = m_coreLayer;
@@ -58,14 +56,12 @@ namespace ace
 
 	void Layer2D::BeginUpdating()
 	{
-		m_timeAtUpdateStart = ace::GetTime();
 		m_coreLayer->BeginUpdating();
 	}
 
 	void Layer2D::EndUpdateting()
 	{
 		m_coreLayer->EndUpdating();
-		m_previousUpdateTime = ace::GetTime() - m_timeAtUpdateStart;
 	}
 
 	void Layer2D::DrawAdditionally()
@@ -222,11 +218,6 @@ namespace ace
 	bool Layer2D::RemoveComponent(astring key)
 	{
 		return m_components.Remove(key);
-	}
-
-	int Layer2D::GetTimeForUpdate() const
-	{
-		return m_previousUpdateTime;
 	}
 
 	int Layer2D::GetObjectCount() const
