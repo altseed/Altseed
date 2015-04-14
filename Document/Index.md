@@ -8,6 +8,10 @@
 
 機能は基本的な2D機能しかありませんが、これも今後増やしてく予定です。
 
+* [導入方法(C++版、Windows)](./HowToIntroduce/Windows_CPP.md)
+* [導入方法(C#版、Windows)](./HowToIntroduce/Windows_CS.md)
+* Mac、Linuxの場合、自分でソースコードからコンパイルする必要があります。
+
 * [リファレンス](./Reference/Main.md)
 * [よくある質問](./FAQ.md)
 * [機能の逆引き](./ReverseDictionary.md)

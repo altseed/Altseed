@@ -6,8 +6,8 @@ AmusementCreatorsEngine(ACE)はC++、C#対応ゲームエンジンです。
 **最新版 2015/04/15**
 
 * [Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)
-* [導入方法(C++版、Windows)](./HowToIntroduce/Windows_CPP.md)
-* [導入方法(C#版、Windows)](./HowToIntroduce/Windows_CS.md)
+* [導入方法(C++版、Windows)](Document/HowToIntroduce/Windows_CPP.md)
+* [導入方法(C#版、Windows)](Document/HowToIntroduce/Windows_CS.md)
 * Mac、Linuxの場合、自分でソースコードからコンパイルする必要があります。
 
 [ユーザーマニュアル](Document/Index.md)
