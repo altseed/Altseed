@@ -48,11 +48,11 @@ githubにバグや要望を報告する
 
 [コンパイル手順](Document_Development/HowToCompile/HowToCompile.md)
 
-[ロードマップ・現在のタスク](Document_Development/Development/Task.md)
+[ロードマップ・現在のタスク](Document_Development/Task.md)
 
-[コーディング規約](Document_Development/Development/CodingRule.md)
+[コーディング規約](Document_Development/CodingRule.md)
 
-[コメント規約](./Document_Development/Development/CommentRule.md)
+[コメント規約](./Document_Development/CommentRule.md)
 
 #### 公式チャット
 
