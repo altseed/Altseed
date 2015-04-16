@@ -61,7 +61,7 @@ public:
 		@brief	逆行列を取得する。
 		@return	逆行列
 	*/
-	Matrix44 GetInverted();
+	Matrix44 GetInverted() const;
 
 
 	/**
