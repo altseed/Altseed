@@ -125,7 +125,7 @@ Matrix44& Matrix44::SetInverted()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Matrix44 Matrix44::GetInverted()
+Matrix44 Matrix44::GetInverted() const
 {
 	Matrix44 o = (*this);
 	o.SetInverted();

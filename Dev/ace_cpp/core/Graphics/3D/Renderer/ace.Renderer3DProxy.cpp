@@ -297,6 +297,12 @@ namespace ace
 			std::vector<ace::Macro> macro_a;
 			macro_a.push_back(Macro("AMBIENT_LIGHT", "1"));
 
+#if defined(__CASCATED_SHADOW__)
+			macro_d_a.push_back(Macro("__CASCATED__", "1"));
+			macro_a.push_back(Macro("__CASCATED__", "1"));
+			macro_d.push_back(Macro("__CASCATED__", "1"));
+#endif
+
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
 				m_directionalWithAmbientLightShader = g->GetShaderCache()->CreateFromCode(
@@ -681,6 +687,189 @@ namespace ace
 			{
 				auto lightP = static_cast<RenderedDirectionalLightObject3DProxy*>(light_);
 
+#if defined(__CASCATED_SHADOW__)
+				int32_t splitCount = 3;
+				float splitedPlain[4];
+
+				Matrix44 view[3];
+				Matrix44 proj[3];
+
+				if (splitCount == 1)
+				{
+					splitedPlain[0] = 0.0f;
+					splitedPlain[1] = 1.0f;
+				}
+				else
+				{
+					// GPU Gems3
+
+					float lambda = 0.5f;
+
+					float inv_count = 1.0f / float(splitCount);
+					float f_div_n = cP->ZFar / cP->ZNear;
+					float f_sub_n = cP->ZFar - cP->ZNear;
+
+					for (int32_t i = 1; i < splitCount + 1; i++)
+					{
+						// 対数分割
+						float div_log = cP->ZNear * powf(f_div_n, inv_count * i);
+
+						// 一様分割
+						float div_uni = cP->ZNear + f_sub_n * i * inv_count;
+
+						// 2つの分割方法を線形補間
+						splitedPlain[i] = lambda * div_log + div_uni * (1.0f - lambda);
+						splitedPlain[i] = (splitedPlain[i] - cP->ZNear) / (cP->ZFar - cP->ZNear);
+					}
+
+					// ニア平面を設定
+					splitedPlain[0] = 0.0f;
+
+					// ファー平面を設定
+					splitedPlain[splitCount] = 1.0f;
+				}
+
+				for (int32_t i = 0; i < 3; i++)
+				{
+					RenderTexture2D_Imp* shadowMap = lightP->GetShadowTextures(i);
+
+					lightP->CalcUniformShadowMatrix(
+						cP->GetGlobalPosition(),
+						cP->Focus - cP->GetGlobalPosition(),
+						cP->Up,
+						cameraProjMat,
+						cP->ZNear,
+						cP->ZFar,
+						splitedPlain[i + 0],
+						splitedPlain[i + 1],
+						view[i],
+						proj[i]);
+
+#if __CULLING__
+					// カリング
+					Culling(proj[i] * view[i]);
+
+					// 大量描画ソート
+					SortAndSetMassObjects(culledMassModelObjects);
+#endif
+
+					// 影マップ作成
+					{
+						helper->SetRenderTarget(lightP->GetShadowTextures(i), lightP->GetShadowDepthBuffers(i));
+						helper->Clear(true, true, ace::Color(0, 0, 0, 255));
+
+						RenderingProperty shadowProp = prop;
+						shadowProp.IsDepthMode = true;
+						shadowProp.CameraMatrix = view[i];
+						shadowProp.ProjectionMatrix = proj[i];
+
+#if __CULLING__
+						DrawObjects(culledObjects, helper, shadowProp);
+#else
+						DrawObjects(objects, helper, shadowProp);
+#endif
+						DrawMassObjects(helper, shadowProp);
+
+#if __CULLING__
+						// 地形
+						for (auto& terrain : culledTerrainObjects)
+						{
+							auto p = (RenderedTerrainObject3DProxy*) (terrain->ProxyPtr);
+							p->Rendering(terrain->TerrainIndex, helper, shadowProp);
+						}
+#endif
+					}
+				}
+
+				// 光源描画
+				{
+					helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
+
+					std::shared_ptr<ace::NativeShader_Imp> shader;
+
+					if (lightIndex == 0)
+					{
+						shader = m_directionalWithAmbientLightShader;
+					}
+					else
+					{
+						shader = m_directionalLightShader;
+					}
+
+					Texture2D* ssaoTexture = dummyTextureWhite.get();
+					if (ssao->IsEnabled())
+					{
+						ssaoTexture = cP->GetRenderTargetSSAO();
+					}
+
+					auto CameraPositionToShadowCameraPosition0 = (view[0]) * invCameraMat;
+					auto ShadowProjection0 = proj[0];
+					auto CameraPositionToShadowCameraPosition1 = (view[1]) * invCameraMat;
+					auto ShadowProjection1 = proj[1];
+					auto CameraPositionToShadowCameraPosition2 = (view[2]) * invCameraMat;
+					auto ShadowProjection2 = proj[2];
+
+					Vector3DF directionalLightDirection;
+					Vector3DF directionalLightColor;
+
+					directionalLightDirection = prop.DirectionalLightDirection;
+					directionalLightDirection = prop.CameraMatrix.Transform3D(directionalLightDirection) - zero;
+
+					auto directionalLightIntensity = lightP->Intensity;
+					directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f * directionalLightIntensity;
+					directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f * directionalLightIntensity;
+					directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f * directionalLightIntensity;
+
+					RenderState state;
+					state.DepthTest = false;
+					state.DepthWrite = false;
+					state.Culling = CullingType::Double;
+					state.AlphaBlendState = AlphaBlend::Add;
+
+					Vector4DF threshold;
+					threshold.X = cP->ZNear + (cP->ZFar - cP->ZNear) * splitedPlain[0];
+					threshold.Y = cP->ZNear + (cP->ZFar - cP->ZNear) * splitedPlain[1];
+					threshold.Z = cP->ZNear + (cP->ZFar - cP->ZNear) * splitedPlain[2];
+					threshold.W = cP->ZNear + (cP->ZFar - cP->ZNear) * splitedPlain[3];
+
+					Vector4DF shadowScale;
+					shadowScale.X = 1.0f / abs(proj[0].Values[2][2]);
+					shadowScale.Y = 1.0f / abs(proj[1].Values[2][2]);
+					shadowScale.Z = 1.0f / abs(proj[2].Values[2][2]);
+
+					helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
+						h::GenValue("skyLightColor", skyLightColor),
+						h::GenValue("groundLightColor", groundLightColor),
+						h::GenValue("directionalLightDirection", directionalLightDirection),
+						h::GenValue("directionalLightColor", directionalLightColor),
+						h::GenValue("upDir", cP->UpDir),
+						h::GenValue("reconstructInfo1", cP->ReconstructInfo1),
+						h::GenValue("reconstructInfo2", cP->ReconstructInfo2),
+
+						h::GenValue("g_shadowProjection0", ShadowProjection0),
+						h::GenValue("g_cameraPositionToShadowCameraPosition0", CameraPositionToShadowCameraPosition0),
+						h::GenValue("g_shadowProjection1", ShadowProjection1),
+						h::GenValue("g_cameraPositionToShadowCameraPosition1", CameraPositionToShadowCameraPosition1),
+						h::GenValue("g_shadowProjection2", ShadowProjection2),
+						h::GenValue("g_cameraPositionToShadowCameraPosition2", CameraPositionToShadowCameraPosition2),
+
+						h::GenValue("g_threshold", threshold),
+						h::GenValue("g_shadowScale", shadowScale),
+
+						h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSmoothness_Metalness_AO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+
+						h::GenValue("g_shadowmap0Texture", h::Texture2DPair(lightP->GetShadowTextures(0), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_shadowmap1Texture", h::Texture2DPair(lightP->GetShadowTextures(1), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_shadowmap2Texture", h::Texture2DPair(lightP->GetShadowTextures(2), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+
+						h::GenValue("g_environmentDiffuseTexture", h::Texture2DPair(cP->GetRenderTargetEnvironment(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+						);
+				}
+#else
 				RenderTexture2D_Imp* shadowMap = lightP->GetShadowTexture();
 
 				Matrix44 view, proj;
@@ -692,6 +881,8 @@ namespace ace
 					cameraProjMat,
 					cP->ZNear,
 					cP->ZFar,
+					0.0f,
+					1.0f,
 					view,
 					proj);
 
@@ -759,83 +950,82 @@ namespace ace
 							h::GenValue("g_texture", h::Texture2DPair(lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 					}
 
-						{
-							helper->SetRenderTarget(lightP->GetShadowTexture(), nullptr);
-							helper->Clear(true, false, ace::Color(0, 0, 0, 255));
-
-							RenderState state;
-							state.DepthTest = false;
-							state.DepthWrite = false;
-							state.Culling = CullingType::Double;
-
-							helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), m_shadowShaderY.get(), state,
-								h::GenValue("g_weight", weights),
-								h::GenValue("g_texture", h::Texture2DPair(m_shadowTempTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
-						}
-				}
-
-				// 光源描画
 					{
-						helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
-
-						std::shared_ptr<ace::NativeShader_Imp> shader;
-
-						if (lightIndex == 0)
-						{
-							shader = m_directionalWithAmbientLightShader;
-						}
-						else
-						{
-							shader = m_directionalLightShader;
-						}
-
-						Texture2D* ssaoTexture = dummyTextureWhite.get();
-						if (ssao->IsEnabled())
-						{
-							ssaoTexture = cP->GetRenderTargetSSAO();
-						}
-
-						auto CameraPositionToShadowCameraPosition = (view) * invCameraMat;
-						auto ShadowProjection = proj;
-
-						Vector3DF directionalLightDirection;
-						Vector3DF directionalLightColor;
-
-						directionalLightDirection = prop.DirectionalLightDirection;
-						directionalLightDirection = prop.CameraMatrix.Transform3D(directionalLightDirection) - zero;
-
-						auto directionalLightIntensity = lightP->Intensity;
-						directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f * directionalLightIntensity;
-						directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f * directionalLightIntensity;
-						directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f * directionalLightIntensity;
+						helper->SetRenderTarget(lightP->GetShadowTexture(), nullptr);
+						helper->Clear(true, false, ace::Color(0, 0, 0, 255));
 
 						RenderState state;
 						state.DepthTest = false;
 						state.DepthWrite = false;
 						state.Culling = CullingType::Double;
-						state.AlphaBlendState = AlphaBlend::Add;
 
-						helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
-							h::GenValue("skyLightColor", skyLightColor),
-							h::GenValue("groundLightColor", groundLightColor),
-							h::GenValue("directionalLightDirection", directionalLightDirection),
-							h::GenValue("directionalLightColor", directionalLightColor),
-							h::GenValue("upDir", cP->UpDir),
-							h::GenValue("reconstructInfo1", cP->ReconstructInfo1),
-							h::GenValue("reconstructInfo2", cP->ReconstructInfo2),
-							h::GenValue("g_shadowProjection", ShadowProjection),
-							h::GenValue("g_cameraPositionToShadowCameraPosition", CameraPositionToShadowCameraPosition),
-							h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-							h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-							h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSmoothness_Metalness_AO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-							h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-							h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-							h::GenValue("g_shadowmapTexture", h::Texture2DPair(lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
-							h::GenValue("g_environmentDiffuseTexture", h::Texture2DPair(cP->GetRenderTargetEnvironment(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
-							);
-
-						
+						helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), m_shadowShaderY.get(), state,
+							h::GenValue("g_weight", weights),
+							h::GenValue("g_texture", h::Texture2DPair(m_shadowTempTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
 					}
+				}
+
+				// 光源描画
+				{
+					helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
+
+					std::shared_ptr<ace::NativeShader_Imp> shader;
+
+					if (lightIndex == 0)
+					{
+						shader = m_directionalWithAmbientLightShader;
+					}
+					else
+					{
+						shader = m_directionalLightShader;
+					}
+
+					Texture2D* ssaoTexture = dummyTextureWhite.get();
+					if (ssao->IsEnabled())
+					{
+						ssaoTexture = cP->GetRenderTargetSSAO();
+					}
+
+					auto CameraPositionToShadowCameraPosition = (view) * invCameraMat;
+					auto ShadowProjection = proj;
+
+					Vector3DF directionalLightDirection;
+					Vector3DF directionalLightColor;
+
+					directionalLightDirection = prop.DirectionalLightDirection;
+					directionalLightDirection = prop.CameraMatrix.Transform3D(directionalLightDirection) - zero;
+
+					auto directionalLightIntensity = lightP->Intensity;
+					directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f * directionalLightIntensity;
+					directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f * directionalLightIntensity;
+					directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f * directionalLightIntensity;
+
+					RenderState state;
+					state.DepthTest = false;
+					state.DepthWrite = false;
+					state.Culling = CullingType::Double;
+					state.AlphaBlendState = AlphaBlend::Add;
+
+					helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
+						h::GenValue("skyLightColor", skyLightColor),
+						h::GenValue("groundLightColor", groundLightColor),
+						h::GenValue("directionalLightDirection", directionalLightDirection),
+						h::GenValue("directionalLightColor", directionalLightColor),
+						h::GenValue("upDir", cP->UpDir),
+						h::GenValue("reconstructInfo1", cP->ReconstructInfo1),
+						h::GenValue("reconstructInfo2", cP->ReconstructInfo2),
+						h::GenValue("g_shadowProjection", ShadowProjection),
+						h::GenValue("g_cameraPositionToShadowCameraPosition", CameraPositionToShadowCameraPosition),
+						h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSmoothness_Metalness_AO(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_shadowmapTexture", h::Texture2DPair(lightP->GetShadowTexture(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)),
+						h::GenValue("g_environmentDiffuseTexture", h::Texture2DPair(cP->GetRenderTargetEnvironment(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp))
+						);
+				}
+#endif
 
 				lightIndex++;
 			}

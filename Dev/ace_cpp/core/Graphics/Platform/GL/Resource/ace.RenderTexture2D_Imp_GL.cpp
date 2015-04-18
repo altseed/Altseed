@@ -100,11 +100,7 @@ namespace ace {
 				width,
 				height,
 				0,
-#ifdef __APPLE__
 				GL_RED,
-#else 
-				GL_R,
-#endif
 				GL_UNSIGNED_BYTE,
 				nullptr);
 		}
