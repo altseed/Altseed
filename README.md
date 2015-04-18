@@ -46,13 +46,7 @@ githubにバグや要望を報告する
 
 #### 開発者向けドキュメント
 
-[コンパイル手順](Document_Development/HowToCompile/HowToCompile.md)
-
-[ロードマップ・現在のタスク](Document_Development/Task.md)
-
-[コーディング規約](Document_Development/CodingRule.md)
-
-[コメント規約](./Document_Development/CommentRule.md)
+[開発者向け資料](Document_Development/Index.md)
 
 #### 公式チャット
 
