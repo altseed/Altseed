@@ -1,4 +1,4 @@
-﻿--AmusementCreatorsEngine--
+﻿--AmusementCreatorsEngine Tools--
 
 The MIT License (MIT)
 
@@ -21,7 +21,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-AmusementCreatorsEngine is dependent on:
+AmusementCreatorsEngine Tools is dependent on:
 
 --GLFW--
 
@@ -49,8 +49,6 @@ freely, subject to the following restrictions:
 
 
 --Effekseer--
-
-The MIT License (MIT)
 
 Copyright (c) 2011 Effekseer Project
 
@@ -256,17 +254,20 @@ zlib.h -- interface of the 'zlib' general purpose compression library
   Jean-loup Gailly        Mark Adler
   jloup@gzip.org          madler@alumni.caltech.edu
 
-  --Others--
+--Others--
+AmusementCreatorsEngine - Copyright (c) 2013-2015 AmusementCreatorsEngine (https://github.com/ac-engine/amusement-creators-engine) (MIT License)
+Reactive Extensions (https://www.nuget.org/packages/Rx-Main/) (Rx Eula)
+psd.c - (https://github.com/hkrn/psd.c) (MIT License)
+list - (https://github.com/clibs/list) (MIT License)
 Programs - Copyright(c) Project Asura (http://www.project-asura.com/) (MIT License)
 DirectX Tool Kit - (https://directxtk.codeplex.com/) (Microsoft Public License)
 
 --MIT License--
 http://opensource.org/licenses/mit-license.php
 
+--Rx Eula--
+https://msdn.microsoft.com/en-us/hh295787
+
 --Microsoft Public License--
 https://msdn.microsoft.com/ja-jp/library/gg592960.aspx
-
-
-
-
 
