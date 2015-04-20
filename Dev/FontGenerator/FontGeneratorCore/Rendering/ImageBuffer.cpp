@@ -68,7 +68,7 @@ namespace FontGenerator
 		}
 		else
 		{
-			rasterized = glyph->RasterizeWithOutline(border->size, border->sampling);
+			rasterized = glyph->RasterizeWithOutline(border->size);
 			rasterized = rasterized->PaintColor(color, border->color);
 		}
 		
