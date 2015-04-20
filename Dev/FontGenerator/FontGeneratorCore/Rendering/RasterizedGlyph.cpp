@@ -30,9 +30,9 @@ namespace FontGenerator
 				if (xIndex < 0) continue;
 				if (xIndex >= width) break;
 
-				Color color(255, 0, 0, s.coverage);
+				Color color(0, 0, 255, s.coverage);
 				int index = yIndex * width + xIndex;
-				result->buffer[index] = result->buffer[index].Blend(color);
+				result->buffer[index] = color;
 			}
 		}
 
@@ -44,18 +44,14 @@ namespace FontGenerator
 		int width,
 		int height,
 		int baselineY,
-		int outline,
-		int msaa)
+		int outline)
 	{
 		auto result = make_shared<RasterizedGlyph>(width + outline * 2, height + outline * 2);
 
-		auto width_msaa = (width + outline * 2) * msaa;
-		auto height_msaa = (height + outline * 2) * msaa;
+		auto width_o = (width + outline * 2);
+		auto height_o = (height + outline * 2);
 
-		vector<Color> temp(width_msaa*height_msaa);
-		auto outline_msaa = outline * msaa;
-
-		// ägëÂÉRÉsÅ[
+		// ÉRÉsÅ[
 		for (auto& s : spans)
 		{
 			int yIndex = baselineY - s.y;
@@ -67,89 +63,51 @@ namespace FontGenerator
 				if (xIndex < 0) continue;
 				if (xIndex >= width) break;
 
-				Color color(255, 0, 0, s.coverage);
+				Color color(0, 0, 255, s.coverage);
 
-				int index = ((yIndex + outline) * msaa) * width_msaa + (xIndex + outline) * msaa;
+				int index = ((yIndex + outline)) * width_o+ (xIndex + outline);
 
-				for (auto y_ = 0; y_ < msaa; y_++)
-				{
-					for (auto x_ = 0; x_ < msaa; x_++)
-					{
-						auto index_ = index + x_ + y_ * width_msaa;
-						temp[index_] = temp[index_].Blend(color);
-					}
-				}
+				result->buffer[index] = color;
 			}
 		}
 
 		// òg
-		for (auto y = 0; y < height_msaa; y++)
+		for (int32_t y = outline; y < height_o - outline; y++)
 		{
-			for (auto x = 0; x < width_msaa; x++)
+			for (int32_t x = outline; x < width_o - outline; x++)
 			{
-				auto area = outline_msaa;
-				if (msaa >= 2) area -= msaa / 4;
+				if (result->buffer[x + width_o * y].a == 0) continue;
 
-				auto br = false;
+				auto radius = outline * result->buffer[x + width_o * y].a / 255.0f;
 
-				for (auto y_ = y - area; y_ <= y + area; y_++)
+				for (int32_t y_ = y - outline; y_ <= y + outline; y_++)
 				{
-					for (auto x_ = x - area; x_ <= x + area; x_++)
+					for (int32_t x_ = x - outline; x_ <= x + outline; x_++)
 					{
-						if (x_ < 0) continue;
-						if (x_ >= width_msaa) continue;
-						if (y_ < 0) continue;
-						if (y_ >= height_msaa) continue;
+						float intensity = 0.0f;
 
-						if (temp[x_ + width_msaa * y_].a > 128)
+						auto distance = sqrt((x - x_) * (x - x_) + (y - y_) * (y - y_));
+
+						if (radius >= distance)
 						{
-							auto a_ = temp[x_ + width_msaa * y_].a;
-							
-							if (temp[x + width_msaa * y].g < a_)
-							{
-								temp[x + width_msaa * y].g = a_;
-							}
-							
-							if (temp[x + width_msaa * y].g == 255) br = true;
+							intensity = 1.0f;
 						}
-						if (br) break;
-					}
-					if (br) break;
-				}
-			}
-		}
+						else
+						{
+							intensity = 1.0f - (distance - radius);
+						}
 
-		// èkè¨
-		for (auto y = 0; y < height + outline * 2; y++)
-		{
-			for (auto x = 0; x < width + outline * 2; x++)
-			{
-				int r = 0;
-				int g = 0;
-				int b = 0;
-				int a = 0;
+						if (intensity > 1.0f) intensity = 1.0f;
+						if (intensity < 0.0f) intensity = 0.0f;
 
-				for (auto y_ = y * msaa; y_ < y * msaa + msaa; y_++)
-				{
-					for (auto x_ = x * msaa; x_ < x * msaa + msaa; x_++)
-					{
-						r += temp[x_ + width_msaa * y_].r;
-						g += temp[x_ + width_msaa * y_].g;
-						b += temp[x_ + width_msaa * y_].b;
-						a += temp[x_ + width_msaa * y_].a;
+						auto value = uint8_t(intensity * 255);
+						if (result->buffer[x_ + width_o * y_].g < value)
+						{
+							result->buffer[x_ + width_o * y_].r = 255;
+							result->buffer[x_ + width_o * y_].g = value;
+						}
 					}
 				}
-
-				r /= (msaa * msaa);
-				g /= (msaa * msaa);
-				b /= (msaa * msaa);
-				a /= (msaa * msaa);
-
-				int index = x + y * (width + outline * 2);
-				result->buffer[index].r = r;
-				result->buffer[index].g = g;
-				result->buffer[index].b = b;
-				result->buffer[index].a = a;
 			}
 		}
 
@@ -165,31 +123,37 @@ namespace FontGenerator
 			for (size_t x = 0; x < width; x++)
 			{
 				int index = y * width + x;
+				auto baseColor = buffer[index];
 
-				auto a = buffer[index].a;
+				float oi = baseColor.g / 255.0f;
+				float fi = baseColor.a / 255.0f;
 
-				if (buffer[index].r > 0 && buffer[index].g > 0)
-				{
-					auto a_outline = buffer[index].g;
-					auto color_in = color;
-					color_in.a = a;
-					auto color_out = outlineColor;
-					color_out.a = a_outline;
+				float a = 1.0f - (1.0f - oi) * (1.0f - fi);
+				float r = (color.r / 255.0f) * fi + (outlineColor.r / 255.0f) * (1.0f - fi) * oi;
+				float g = (color.g / 255.0f) * fi + (outlineColor.g / 255.0f) * (1.0f - fi) * oi;
+				float b = (color.b / 255.0f) * fi + (outlineColor.b / 255.0f) * (1.0f - fi) * oi;
+				
+				if (a > 1.0f) a = 1.0f;
+				if (a < 0.0f) a = 0.0f;
 
-					result->buffer[index] = color_out;
-					result->buffer[index] = result->buffer[index].Blend(color_in);
-				}
-				else if(buffer[index].r > 0)
+				if (a > 0.0f)
 				{
-					result->buffer[index] = color;
-					result->buffer[index].a = a;
+					r /= a;
+					g /= a;
+					b /= a;
 				}
-				else if(buffer[index].g > 0)
-				{
-					auto a_outline = buffer[index].g;
-					result->buffer[index] = outlineColor;
-					result->buffer[index].a = a_outline;
-				}
+
+				if (r > 1.0f) r = 1.0f;
+				if (r < 0.0f) r = 0.0f;
+				if (g > 1.0f) g = 1.0f;
+				if (g < 0.0f) g = 0.0f;
+				if (b > 1.0f) b = 1.0f;
+				if (b < 0.0f) b = 0.0f;
+
+				result->buffer[index].r = 255 * r;
+				result->buffer[index].g = 255 * g;
+				result->buffer[index].b = 255 * b;
+				result->buffer[index].a = 255 * a;
 			}
 		}
 
