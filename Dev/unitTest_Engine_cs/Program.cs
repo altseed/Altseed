@@ -13,7 +13,7 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
             //*
-			TestSequencially(new Debug.Profiler());
+			TestSequencially(new Sound.Sound());
 			Console.ReadKey();
 			return;
 			//*/
