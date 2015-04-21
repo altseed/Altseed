@@ -22,6 +22,7 @@ namespace ace
 	protected:
 		std::shared_ptr<CoreLayer>	m_commonObject;
 		bool m_isUpdated;
+		bool m_isUpdatedCurrent = false;
 		bool m_isDrawn;
 		bool m_isAlive;
 

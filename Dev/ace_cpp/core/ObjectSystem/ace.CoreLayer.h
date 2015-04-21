@@ -23,8 +23,8 @@ namespace ace
 		virtual void AddPostEffect(CorePostEffect* postEffect) = 0;
 		virtual void ClearPostEffects() = 0;
 
-		virtual void BeginUpdating() = 0;
-		virtual void EndUpdating() = 0;
+		virtual void BeginUpdating(bool isUpdated) = 0;
+		virtual void EndUpdating(bool isUpdated) = 0;
 
 		virtual void BeginDrawing() = 0;
 		virtual void Draw() = 0;

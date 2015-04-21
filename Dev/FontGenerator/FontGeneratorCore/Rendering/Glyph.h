@@ -43,6 +43,6 @@ namespace FontGenerator
 
 		std::shared_ptr<RasterizedGlyph> Rasterize();
 
-		std::shared_ptr<RasterizedGlyph> RasterizeWithOutline(int32_t outline, int32_t msaa);
+		std::shared_ptr<RasterizedGlyph> RasterizeWithOutline(int32_t outline);
 	};
 }

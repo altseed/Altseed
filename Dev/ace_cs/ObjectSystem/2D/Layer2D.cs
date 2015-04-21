@@ -227,17 +227,18 @@ namespace ace
 
         internal override void BeginUpdating()
 		{
-			coreLayer2D.BeginUpdating();
+			isUpdatedCurrent = IsUpdated;
+			coreLayer2D.BeginUpdating(isUpdatedCurrent);
 		}
 
 		internal override void EndUpdating()
 		{
-			coreLayer2D.EndUpdating();
+			coreLayer2D.EndUpdating(isUpdatedCurrent);
 		}
 
 		internal override void Update()
 		{
-			if(!IsUpdated || !IsAlive)
+			if (!isUpdatedCurrent || !IsAlive)
 			{
 				return;
 			}

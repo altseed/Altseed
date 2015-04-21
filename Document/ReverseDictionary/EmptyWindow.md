@@ -1,11 +1,13 @@
-﻿
+
 ## 空のウインドウを表示する
+
+AmusementCreatorsEngine (ACE) で空のウインドウを表示します。
 
 ### C++
 
-```
+```cpp
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
-
+{
 	// aceを初期化する。
 	ace::Engine::Initialize(ace::ToAString("Empty").c_str(), 640, 480, ace::EngineOption());
 
@@ -23,12 +25,11 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLin
 }
 ```
 
-### C#
+### C#　
 
-```
+```cs
 class Program
 {
-
 	[STAThread]
 	static void Main(string[] args)
 	{
