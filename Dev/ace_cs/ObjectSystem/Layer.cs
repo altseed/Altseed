@@ -195,5 +195,7 @@ namespace ace
 		public abstract LayerType LayerType { get; }
 
 		protected List<PostEffect> postEffects;
+
+		protected bool isUpdatedCurrent;
 	}
 }

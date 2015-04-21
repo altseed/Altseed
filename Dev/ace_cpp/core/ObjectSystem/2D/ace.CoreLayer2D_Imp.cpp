@@ -276,7 +276,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreLayer2D_Imp::BeginUpdating()
+	void CoreLayer2D_Imp::BeginUpdating(bool isUpdated)
 	{
 		for (auto&x : m_objects)
 		{
@@ -310,11 +310,14 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreLayer2D_Imp::EndUpdating()
+	void CoreLayer2D_Imp::EndUpdating(bool isUpdated)
 	{
-		m_renderer->GetEffectManager()->Update(core->GetDeltaTime() / (1.0f / 60.0f));
-		m_renderer->GetEffectManager()->Flip();
-
+		if (isUpdated)
+		{
+			m_renderer->GetEffectManager()->Update(core->GetDeltaTime() / (1.0f / 60.0f));
+			m_renderer->GetEffectManager()->Flip();
+		}
+		
 #if __CULLING_2D__
 		//グリッド更新処理
 		{

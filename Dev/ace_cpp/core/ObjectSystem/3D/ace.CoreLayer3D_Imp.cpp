@@ -145,19 +145,25 @@ namespace ace
 			texture, alphaBlend, depthWrite, depthTest);
 	}
 
-	void CoreLayer3D_Imp::BeginUpdating()
+	void CoreLayer3D_Imp::BeginUpdating(bool isUpdated)
 	{
-		m_renderer->Flip(core->GetDeltaTime());
+		auto deltaTime = core->GetDeltaTime();
+		if (!isUpdated)
+		{
+			deltaTime = 0;
+		}
+
+		m_renderer->Flip(deltaTime);
 
 		m_isDrawnTemp = m_isDrawn;
 
 		if (m_isDrawnTemp)
 		{
-			m_renderer->BeginRendering(core->GetDeltaTime());
+			m_renderer->BeginRendering(deltaTime);
 		}
 	}
 
-	void CoreLayer3D_Imp::EndUpdating()
+	void CoreLayer3D_Imp::EndUpdating(bool isUpdated)
 	{
 		if (m_isDrawnTemp)
 		{

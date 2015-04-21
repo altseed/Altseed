@@ -36,7 +36,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Layer2D::Update()
 	{
-		if (!m_isUpdated || !m_isAlive)
+		if (!m_isUpdatedCurrent || !m_isAlive)
 		{
 			return;
 		}
@@ -58,12 +58,13 @@ namespace ace
 
 	void Layer2D::BeginUpdating()
 	{
-		m_coreLayer->BeginUpdating();
+		m_isUpdatedCurrent = m_isUpdated;
+		m_coreLayer->BeginUpdating(m_isUpdatedCurrent);
 	}
 
 	void Layer2D::EndUpdateting()
 	{
-		m_coreLayer->EndUpdating();
+		m_coreLayer->EndUpdating(m_isUpdatedCurrent);
 	}
 
 	void Layer2D::DrawAdditionally()

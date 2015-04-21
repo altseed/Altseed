@@ -94,8 +94,8 @@ namespace ace
 		void RemoveObject(ObjectPtr object);
 		void Clear();
 
-		void BeginUpdating();
-		void EndUpdating();
+		void BeginUpdating(bool isUpdated) override;
+		void EndUpdating(bool isUpdated) override;
 
 		void BeginDrawing();
 		void Draw();

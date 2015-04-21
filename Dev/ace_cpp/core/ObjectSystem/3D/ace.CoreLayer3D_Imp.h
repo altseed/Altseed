@@ -67,8 +67,8 @@ namespace ace
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest) override;
 
-		void BeginUpdating();
-		void EndUpdating();
+		void BeginUpdating(bool isUpdated) override;
+		void EndUpdating(bool isUpdated) override;
 
 		void BeginDrawing();
 		
