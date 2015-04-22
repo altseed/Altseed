@@ -15,9 +15,9 @@ namespace ace
 			file = swig;
 		}
 
-        public void AddRootDirectories(string path)
+        public void AddRootDirectory(string path)
         {
-            file.AddRootDirectories(path);
+            file.AddRootDirectory(path);
         }
         
         /*

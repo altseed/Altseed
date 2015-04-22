@@ -592,18 +592,6 @@
     <ClInclude Include="..\core\IO\ace.StreamFile.h">
       <Filter>IO</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\IO\ace.BaseFile_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.Path.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.Path_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.PathIterator_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\Resource\ace.Chip2D.h">
       <Filter>Graphics\Resource</Filter>
     </ClInclude>
@@ -640,26 +628,11 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GaussianBlur_PS.h">
       <Filter>Graphics\Shader\GL\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\IO\ace.RootPath_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition.h">
       <Filter>ObjectSystem\Transition</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.h">
       <Filter>ObjectSystem\Transition</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.PackFile.Header_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.PackFile_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.FileUtility.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.PathIterator.h">
-      <Filter>IO</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.h">
       <Filter>Graphics\3D\Renderer</Filter>
@@ -972,6 +945,18 @@
     <ClInclude Include="..\core\Profiler\ace.LayerProfiler.h">
       <Filter>Profiler</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\IO\ace.BaseFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.PackFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.FileRoot.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.FileHelper.h">
+      <Filter>IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1198,12 +1183,6 @@
     <ClCompile Include="..\core\IO\ace.StaticFile_Imp.cpp">
       <Filter>IO</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\IO\ace.Path_Imp.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\IO\ace.PathIterator_Imp.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\IO\ace.BaseFile.cpp">
       <Filter>IO</Filter>
     </ClCompile>
@@ -1213,17 +1192,8 @@
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\IO\ace.RootPath_Imp.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.cpp">
       <Filter>ObjectSystem\Transition</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\IO\ace.PackFile.Header_Imp.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\IO\ace.PackFile_Imp.cpp">
-      <Filter>IO</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.cpp">
       <Filter>Graphics\3D\Renderer</Filter>
@@ -1374,6 +1344,12 @@
     </ClCompile>
     <ClCompile Include="..\core\Profiler\ace.LayerProfiler_Imp.cpp">
       <Filter>Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.PackFile.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.FileHelper.cpp">
+      <Filter>IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

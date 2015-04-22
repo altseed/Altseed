@@ -61,12 +61,12 @@ EXTERN_ENGINE_TEST(ObjectSystem, Component)
 
 EXTERN_ENGINE_TEST(Sound, Sound)
 
-EXTERN_ENGINE_TEST(File, StaticFile_NonePackage)
-EXTERN_ENGINE_TEST(File, StaticFile_NonePackage_AddRootDirectory)
-EXTERN_ENGINE_TEST(File, StaticFile_NonePackage_Cache)
-EXTERN_ENGINE_TEST(File, StaticFile_Package)
-EXTERN_ENGINE_TEST(File, StaticFile_Package_Cache)
-EXTERN_ENGINE_TEST(File, StaticFile_Package_Priority)
+EXTERN_ENGINE_TEST(IO, StaticFile_NonePackage)
+EXTERN_ENGINE_TEST(IO, StaticFile_NonePackage_AddRootDirectory)
+EXTERN_ENGINE_TEST(IO, StaticFile_NonePackage_Cache)
+EXTERN_ENGINE_TEST(IO, StaticFile_Package)
+EXTERN_ENGINE_TEST(IO, StaticFile_Package_Cache)
+EXTERN_ENGINE_TEST(IO, StaticFile_Package_Priority)
 
 EXTERN_ENGINE_TEST(Profiler, Profiling)
 
@@ -90,8 +90,8 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(Sound, Sound, false)
-	return 0;
+	//CALL_ENGINE_TEST(Sound, Sound, false)
+	//return 0;
 
 	
 	auto result = RUN_ALL_TESTS();

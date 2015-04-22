@@ -104,7 +104,7 @@ namespace ace
 			auto staticFile = file->CreateStaticFile(path);
 			if (staticFile.get() == nullptr) return nullptr;
 
-			auto ret = loadFunc(staticFile->ReadAllBytes());
+			auto ret = loadFunc(staticFile->GetBuffer());
 
 			if (ret == nullptr)
 			{

@@ -13,9 +13,9 @@ namespace ace
 		virtual ~StaticFile() { };
 
 #ifndef SWIG
-		virtual const std::vector<uint8_t>& ReadAllBytes() const = 0;
+		virtual const std::vector<uint8_t>& GetBuffer() const = 0;
 #endif
-		virtual const achar* FullPath() const = 0;
+		virtual const achar* GetFullPath() const = 0;
 
 		virtual void* GetData() = 0;
 		virtual int32_t GetSize() = 0;

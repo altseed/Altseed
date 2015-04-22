@@ -13,12 +13,6 @@
   <ItemGroup>
     <ClCompile Include="..\EngineGraphics3DTest.cpp" />
     <ClCompile Include="..\EngineTest.cpp" />
-    <ClCompile Include="..\File\StaticFile_NonePackage.cpp" />
-    <ClCompile Include="..\File\StaticFile_NonePackage_AddDefaultRootDirectory.cpp" />
-    <ClCompile Include="..\File\StaticFile_NonePackage_Cache.cpp" />
-    <ClCompile Include="..\File\StaticFile_Package.cpp" />
-    <ClCompile Include="..\File\StaticFile_Package_Cache.cpp" />
-    <ClCompile Include="..\File\StaticFile_Package_Priority.cpp" />
     <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\GeometryObject2D.cpp" />
@@ -39,6 +33,12 @@
     <ClCompile Include="..\Graphics\PostEffect\PostEffectSepia.cpp" />
     <ClCompile Include="..\Graphics\Resource\ImagePackage.cpp" />
     <ClCompile Include="..\Graphics\Transition\Transition.cpp" />
+    <ClCompile Include="..\IO\StaticFile_NonePackage.cpp" />
+    <ClCompile Include="..\IO\StaticFile_NonePackage_AddDefaultRootDirectory.cpp" />
+    <ClCompile Include="..\IO\StaticFile_NonePackage_Cache.cpp" />
+    <ClCompile Include="..\IO\StaticFile_Package.cpp" />
+    <ClCompile Include="..\IO\StaticFile_Package_Cache.cpp" />
+    <ClCompile Include="..\IO\StaticFile_Package_Priority.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\AddComponentByComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\CameraAndSetTexture.cpp" />

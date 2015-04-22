@@ -110,26 +110,8 @@
     <ClCompile Include="..\Graphics\3D\TerrainObject3D.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\File\StaticFile_NonePackage.cpp">
-      <Filter>File</Filter>
-    </ClCompile>
-    <ClCompile Include="..\File\StaticFile_Package.cpp">
-      <Filter>File</Filter>
-    </ClCompile>
-    <ClCompile Include="..\File\StaticFile_Package_Cache.cpp">
-      <Filter>File</Filter>
-    </ClCompile>
-    <ClCompile Include="..\File\StaticFile_NonePackage_Cache.cpp">
-      <Filter>File</Filter>
-    </ClCompile>
     <ClCompile Include="..\ObjectSystem\VanishInComponent.cpp">
       <Filter>ObjectSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\File\StaticFile_Package_Priority.cpp">
-      <Filter>File</Filter>
-    </ClCompile>
-    <ClCompile Include="..\File\StaticFile_NonePackage_AddDefaultRootDirectory.cpp">
-      <Filter>File</Filter>
     </ClCompile>
     <ClCompile Include="..\ObjectSystem\VanishOwnerInComponent.cpp">
       <Filter>ObjectSystem</Filter>
@@ -148,6 +130,24 @@
     </ClCompile>
     <ClCompile Include="..\Performance\Performance_TextureObject2D.cpp">
       <Filter>Performance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IO\StaticFile_Package_Cache.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IO\StaticFile_Package_Priority.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IO\StaticFile_NonePackage.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IO\StaticFile_NonePackage_AddDefaultRootDirectory.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IO\StaticFile_NonePackage_Cache.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\IO\StaticFile_Package.cpp">
+      <Filter>IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -175,14 +175,14 @@
     <Filter Include="Sound">
       <UniqueIdentifier>{dfc51f79-a8ea-4d16-afa6-21357b9cafc4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="File">
-      <UniqueIdentifier>{3f3a6be5-ba90-473b-a2dc-fb8bf9368c28}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Graphics\Resource">
       <UniqueIdentifier>{31b9bd74-3cb3-4b8e-956c-1787471d489d}</UniqueIdentifier>
     </Filter>
     <Filter Include="Performance">
       <UniqueIdentifier>{78011837-b704-49ad-9b14-9769c915e30e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO">
+      <UniqueIdentifier>{3f3a6be5-ba90-473b-a2dc-fb8bf9368c28}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

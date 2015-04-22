@@ -6,10 +6,10 @@
 using namespace std;
 using namespace ace;
 
-class File_StaticFile_Package_Cache : public EngineTest
+class IO_StaticFile_Package_Cache : public EngineTest
 {
 public:
-	File_StaticFile_Package_Cache(bool isOpenGLMode)
+	IO_StaticFile_Package_Cache(bool isOpenGLMode)
 		: EngineTest(ace::ToAString("StaticFile_Package_Cache"), isOpenGLMode, 1)
 	{
 
@@ -19,7 +19,7 @@ protected:
 
 	void OnStart()
 	{
-		ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data/Texture.pack").c_str());
+		ace::Engine::GetFile()->AddRootDirectory(ace::ToAString("Data/Texture.pack").c_str());
 
 		for (auto loop = 0; loop < 2; loop++)
 		{
@@ -30,7 +30,7 @@ protected:
 
 			//ファイル機能で読み込んだバイナリ
 			auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Surface/Tile_Normal.png").c_str());
-			auto staticFileData = staticFile->ReadAllBytes();
+			auto staticFileData = staticFile->GetBuffer();
 
 			int cnt = 0;
 			while (!reader.IsEmpty())
@@ -47,4 +47,4 @@ protected:
 	}
 };
 
-ENGINE_TEST(File, StaticFile_Package_Cache)
+ENGINE_TEST(IO, StaticFile_Package_Cache)

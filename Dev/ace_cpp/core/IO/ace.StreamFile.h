@@ -5,7 +5,8 @@
 
 namespace ace
 {
-	class StreamFile : public IReference
+	class StreamFile
+		: public IReference
 	{
 	private:
 	public:

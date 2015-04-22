@@ -30,7 +30,7 @@ protected:
 
 		auto g = ace::Engine::GetGraphics();
 
-		ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data").c_str());
+		ace::Engine::GetFile()->AddRootDirectory(ace::ToAString("Data").c_str());
 
 		layer->AddObject(object);
 		auto font = g->CreateFont(ace::ToAString("Font/Nac0812.aff").c_str());

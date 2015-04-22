@@ -5,11 +5,12 @@
 
 using namespace std;
 using namespace ace;
-class File_StaticFile_NonePackage_AddRootDirectory : public EngineTest
+
+class IO_StaticFile_Package : public EngineTest
 {
 public:
-	File_StaticFile_NonePackage_AddRootDirectory(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("StaticFile_NonePackage"), isOpenGLMode, 1)
+	IO_StaticFile_Package(bool isOpenGLMode)
+		: EngineTest(ace::ToAString("StaticFile_Package"), isOpenGLMode, 1)
 	{
 
 	}
@@ -20,12 +21,13 @@ protected:
 	{
 		//普通に読み込んだバイナリ
 		BinaryReader reader;
-		auto data = GetBinaryData(ace::ToAString("Data/Texture/Sample1.png"));
+		auto data = GetBinaryData(ace::ToAString("Data/Texture/Surface/Tile_Normal.png"));
 		reader.ReadIn(data.begin(), data.end());
 
 		//ファイル機能で読み込んだバイナリ
-		auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Data/Texture/Sample1.png").c_str());
-		auto staticFileData = staticFile->ReadAllBytes();
+		ace::Engine::GetFile()->AddRootDirectory(ace::ToAString("Data/Texture.pack").c_str());
+		auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Surface/Tile_Normal.png").c_str());
+		auto staticFileData = staticFile->GetBuffer();
 
 		int cnt = 0;
 		while (!reader.IsEmpty())
@@ -41,4 +43,4 @@ protected:
 	}
 };
 
-ENGINE_TEST(File, StaticFile_NonePackage_AddRootDirectory)
+ENGINE_TEST(IO, StaticFile_Package)
