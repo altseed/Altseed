@@ -78,7 +78,7 @@ void main()
 {
 	int instanceId = gl_InstanceID; 
 
-#if ANIMATION_IS_ENABLED
+#ifdef ANIMATION_IS_ENABLED
 	float animIndex0 = animationParam0[instanceId].x;
 	float animIndex1 = animationParam0[instanceId].y;
 	float animTime0 = animationParam0[instanceId].z;

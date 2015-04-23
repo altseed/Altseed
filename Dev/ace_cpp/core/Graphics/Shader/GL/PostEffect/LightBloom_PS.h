@@ -5,17 +5,17 @@ uniform vec4 g_weight2;
 uniform float g_threshold;
 uniform float g_exposure;
 
-#if BLUR_X
+#ifdef BLUR_X
 uniform sampler2D g_blurredTexture;
 uniform int g_blurredSampler;
 #endif
 
-#if BLUR_Y
+#ifdef BLUR_Y
 uniform sampler2D g_blurredTexture;
 uniform int g_blurredSampler;
 #endif
 
-#if SUM
+#ifdef SUM
 uniform sampler2D g_originalTexture;
 uniform int g_originalSampler;
 
@@ -33,7 +33,7 @@ uniform int g_blurred2Sampler;
 
 
 vec4 SampleTexture(sampler2D texture_, int sampler_, vec2 uv_){
-	return texture2D(texture_, uv_);
+	return texture(texture_, uv_);
 }
 uvec2 GetTextureSize(sampler2D texture_, int sampler_){
 	return uvec2(textureSize(texture_, 0));
@@ -45,10 +45,10 @@ float GetLuminance(vec3 color)
 
 vec4 GetColor(vec2 uv)
 {
-#if BLUR_X
+#ifdef BLUR_X
 	vec4 color = SampleTexture(g_blurredTexture, g_blurredSampler, uv) * g_exposure;
 	color.xyz = min(color.xyz, vec3(255.000, 255.000, 255.000));
-#if LUM
+#ifdef LUM
 	float lum = GetLuminance(color.xyz);
 	float bloomedLum = lum - g_threshold;
 	float bloomedPower = min(max(bloomedLum / 2.00000, 0.000000), 1.00000);
@@ -60,37 +60,37 @@ vec4 GetColor(vec2 uv)
 	return color;
 #endif
 #endif
-#if BLUR_Y
+#ifdef BLUR_Y
 	return SampleTexture(g_blurredTexture, g_blurredSampler, uv);
 #endif
-#if SUM
+#ifdef SUM
 	return vec4(0.000000, 0.000000, 0.000000, 0.000000);
 #endif
 }
 
 vec4 CalcBlurredColor(vec2 uv)
 {
-#if SUM
+#ifdef SUM
 	return vec4(0.000000, 0.000000, 0.000000, 0.000000);
 #endif
-#if BLUR_X
+#ifdef BLUR_X
 	vec2 size = GetTextureSize(g_blurredTexture, g_blurredSampler);
 #endif
-#if BLUR_Y
+#ifdef BLUR_Y
 	vec2 size = GetTextureSize(g_blurredTexture, g_blurredSampler);
 #endif
-#if SUM
+#ifdef SUM
 	vec2 size = vec2(0.000000, 0.000000);
 	vec2 shift_p = vec2(0.500000 / size.x, 0.500000 / size.y);
 	vec2 shift_m = vec2(-1.50000 / size.x, 0.500000 / size.y);
 	vec2 adder = vec2(2.00000 / size.x, 0.000000);
 #endif
-#if BLUR_X
+#ifdef BLUR_X
 	vec2 shift_p = vec2(0.500000 / size.x, 0.500000 / size.y);
 	vec2 shift_m = vec2(-1.50000 / size.x, 0.500000 / size.y);
 	vec2 adder = vec2(2.00000 / size.x, 0.000000);
 #endif
-#if BLUR_Y
+#ifdef BLUR_Y
 	vec2 shift_p = vec2(0.500000 / size.x, 0.500000 / size.y);
 	vec2 shift_m = vec2(0.500000 / size.x, -1.50000 / size.y);
 	vec2 adder = vec2(0.000000, 2.00000 / size.y);
@@ -118,13 +118,13 @@ vec4 CalcBlurredColor(vec2 uv)
 
 vec4 Main_(vec2 uv)
 {
-#if BLUR_X
+#ifdef BLUR_X
 	return CalcBlurredColor(uv);
 #endif
-#if BLUR_Y
+#ifdef BLUR_Y
 	return CalcBlurredColor(uv);
 #endif
-#if SUM
+#ifdef SUM
 	return SampleTexture(g_originalTexture, g_originalSampler, uv) + SampleTexture(g_blurred0Texture, g_blurred0Sampler, uv) * 0.50000 + SampleTexture(g_blurred1Texture, g_blurred1Sampler, uv) * 0.300000 + SampleTexture(g_blurred2Texture, g_blurred2Sampler, uv) * 0.20000;
 #endif
 }
