@@ -32,8 +32,7 @@ namespace ace
 
 	void File_Imp::AddRootPackage(const achar* path, const achar* key)
 	{
-		// TODO key
-		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path)));
+		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path, key)));
 	}
 	
 	void File_Imp::ClearRootDirectories()
@@ -114,7 +113,7 @@ namespace ace
 						StaticFile_Imp* staticFile = nullptr;
 
 						{
-							staticFile = new StaticFile_Imp(packFile->RawFile(), *internalHeader);
+							staticFile = new StaticFile_Imp(packFile->RawFile(), *internalHeader, root->m_key);
 							return staticFile;
 						}
 					}

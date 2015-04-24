@@ -19,7 +19,7 @@ namespace ace
 
 	public:
 		StaticFile_Imp(std::shared_ptr<BaseFile>& file);
-		StaticFile_Imp(std::shared_ptr<BaseFile>& packedFile, PackFileInternalHeader& internalHeader);
+		StaticFile_Imp(std::shared_ptr<BaseFile>& packedFile, PackFileInternalHeader& internalHeader, const astring& key);
 
 		virtual ~StaticFile_Imp();
 		virtual const std::vector<uint8_t>& GetBuffer() const { return m_buffer; }

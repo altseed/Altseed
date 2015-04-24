@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 
 using IO = System.IO;
-using umw.Extention;
-using umw;
+using FilePackingTool.Extention;
 
-namespace umw.Packaging
+namespace FilePackingTool.Packaging
 {
 	internal class PackFile
 	{
