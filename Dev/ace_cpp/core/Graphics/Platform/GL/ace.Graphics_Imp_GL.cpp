@@ -412,6 +412,13 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 	assert(indexBuffer != nullptr);
 	assert(shaderPtr != nullptr);
 
+#ifdef __APPLE__
+	{
+		assert(m_vao);
+		glBindVertexArray(m_vao);
+		GLCheckError();
+	}
+#endif
 
 	auto shader = (NativeShader_Imp_GL*) shaderPtr;
 	auto vb = (VertexBuffer_Imp_GL*) vertexBuffer;
