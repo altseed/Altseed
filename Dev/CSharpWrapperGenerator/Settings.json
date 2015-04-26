@@ -1,0 +1,18 @@
+{
+	"DoxygenXmlDirPath": "../../CPP_XML/xml/",
+	"SwigCSharpDirPath": "../ace_cs/swig/",
+	"ExportFilePath": "../ace_cs/Wrappers.cs",
+	"ClassBlackList":
+	[
+		"Core",
+		"Core_Imp",
+		"ace_core",
+		"ace_corePINVOKE"
+	],
+	"MethodBlackList": [
+		"*.GetPtr",
+		"*.getCPtr",
+		"*.Dispose",
+		"*.Create",
+	]
+}
