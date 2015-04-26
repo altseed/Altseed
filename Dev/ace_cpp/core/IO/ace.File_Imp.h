@@ -35,12 +35,8 @@ namespace ace
 	private:
 		std::vector<std::shared_ptr<FileRoot>> m_roots;
 
-		//std::unordered_map<astring, StaticFile_Imp*> m_staticFileCash;
-		std::unordered_map<astring, StreamFile_Imp*> m_streamFileCash;
-
-		template<typename _T>
-		inline bool Valid(_T* ptr) { return ptr && (0 < ptr->GetRef()); }
-
+		std::unordered_map<astring, StaticFile_Imp*> staticFiles;
+		std::unordered_map<astring, StreamFile_Imp*> streamFiles;
 		
 	public:
 		static File_Imp* Create() { return new File_Imp(); };
@@ -53,8 +49,12 @@ namespace ace
 		virtual void AddRootPackage(const achar* path, const achar* key);
 		virtual void ClearRootDirectories();
 		virtual bool Exists(const achar* path) const;
-		//virtual StreamFile* CreateStreamFile(const achar* path);
+		
 		virtual StaticFile* CreateStaticFile_(const achar* path);
+		virtual StreamFile* CreateStreamFile_(const achar* path);
+
+		void UnregisterStaticFile(const astring& key);
+		void UnregisterStreamFile(const astring& key);
 
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }

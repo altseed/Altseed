@@ -50,7 +50,9 @@ namespace ace
 		internal static IDObjectContainer<PostEffect> PostEffects { get; private set; }
 
 		internal static IDObjectContainer<Transition> Transitions { get; private set; }
-        internal static IDObjectContainer<StaticFile> StaticFiles { get; private set; }
+
+		internal static IDObjectContainer<StaticFile> StaticFiles { get; private set; }
+		internal static IDObjectContainer<StreamFile> StreamFiles { get; private set; }
 
 		internal static void Initialize()
 		{
@@ -96,6 +98,7 @@ namespace ace
 			Transitions = new IDObjectContainer<Transition>();
 
             StaticFiles = new IDObjectContainer<StaticFile>();
+			StreamFiles = new IDObjectContainer<StreamFile>();
 
             Shapes = new IDObjectContainer<Shape>();
 		}
@@ -147,6 +150,7 @@ namespace ace
 				Transitions.DestroyAll();
 
                 StaticFiles.DestroyAll();
+				StreamFiles.DestroyAll();
 
                 Shapes.DestroyAll();
 
@@ -349,11 +353,6 @@ namespace ace
             return ret;
         }
 
-        /// <summary>
-        /// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="type"></param>
         internal static StaticFile GenerateStaticFile(swig.StaticFile o, GenerationType type)
         {
             if (o == null) return null;
@@ -367,6 +366,20 @@ namespace ace
             GC.StaticFiles.AddObject(p, ret);
             return ret;
         }
+
+		internal static StreamFile GenerateStreamFile(swig.StreamFile o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.StreamFiles.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new StreamFile(o);
+			GC.StreamFiles.AddObject(p, ret);
+			return ret;
+		}
 
         internal static Chip2D GenerateChip2D(swig.Chip2D o,GenerationType type)
 		{

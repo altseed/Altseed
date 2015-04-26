@@ -89,10 +89,21 @@ namespace ace
 		if (FileHelper::IsAbsolutePath(path))
 		{
 			// 絶対パス
+
+			auto cacheKey = astring(path);
+			auto it = staticFiles.find(cacheKey);
+			if (it != staticFiles.end())
+			{
+				auto ret = it->second;
+				SafeAddRef(ret);
+				return ret;
+			}
+
 			auto file = CreateSharedPtr(new BaseFile(path));
 			if (file->IsValid())
 			{
-				auto staticFile = new StaticFile_Imp(file);
+				auto staticFile = new StaticFile_Imp(this, cacheKey, file);
+				staticFiles[cacheKey] = staticFile;
 				return staticFile;
 			}
 		}
@@ -104,6 +115,15 @@ namespace ace
 			{
 				if (root->IsPackFile())
 				{
+					auto cacheKey = packedPath;
+					auto it = staticFiles.find(cacheKey);
+					if (it != staticFiles.end())
+					{
+						auto ret = it->second;
+						SafeAddRef(ret);
+						return ret;
+					}
+
 					auto packFile = root->GetPackFile();
 
 					if (packFile->HaveFile(packedPath))
@@ -113,7 +133,8 @@ namespace ace
 						StaticFile_Imp* staticFile = nullptr;
 
 						{
-							staticFile = new StaticFile_Imp(packFile->RawFile(), *internalHeader, root->m_key);
+							staticFile = new StaticFile_Imp(this, astring(packedPath), packFile->RawFile(), *internalHeader, root->m_key);
+							staticFiles[cacheKey] = staticFile;
 							return staticFile;
 						}
 					}
@@ -122,12 +143,22 @@ namespace ace
 				{
 					auto combinedPath = FileHelper::CombineRootPath(root->m_path, path);
 
+					auto cacheKey = combinedPath;
+					auto it = staticFiles.find(cacheKey);
+					if (it != staticFiles.end())
+					{
+						auto ret = it->second;
+						SafeAddRef(ret);
+						return ret;
+					}
+
 					StaticFile_Imp* staticFile = nullptr;
 
 					auto file = CreateSharedPtr(new BaseFile(combinedPath));
 					if (file->IsValid())
 					{
-						auto staticFile = new StaticFile_Imp(file);
+						auto staticFile = new StaticFile_Imp(this, astring(combinedPath), file);
+						staticFiles[cacheKey] = staticFile;
 						return staticFile;
 					}
 				}
@@ -137,49 +168,96 @@ namespace ace
 		return nullptr;
 	}
 
-	/*
-	StreamFile* File_Imp::CreateStreamFile(const achar* path)
+	StreamFile* File_Imp::CreateStreamFile_(const achar* path)
 	{
-		if (!Path_Imp::IsAbsolutePath(path))
+		if (FileHelper::IsAbsolutePath(path))
 		{
-			std::vector<astring> ignoreFiles;
-
-			for (const auto& root : m_rootPathes)
+			// 絶対パス
+			auto cacheKey = astring(path);
+			auto it = streamFiles.find(cacheKey);
+			if (it != streamFiles.end())
 			{
-				if (root->m_isPackFile)
+				auto ret = it->second;
+				SafeAddRef(ret);
+				return ret;
+			}
+
+			auto file = CreateSharedPtr(new BaseFile(path));
+			if (file->IsValid())
+			{
+				auto streamFile = new StreamFile_Imp(this, astring(path), file);
+				streamFiles[cacheKey] = streamFile;
+				return streamFile;
+			}
+		}
+		else
+		{
+			auto packedPath = FileHelper::ToPackedPath(path);
+
+			for (const auto& root : m_roots)
+			{
+				if (root->IsPackFile())
 				{
-					const auto& packPath = root->m_path;
-
-					if (m_packFileCash[packPath.ToAstring()]->HaveFile(path))
+					auto cacheKey = packedPath;
+					auto it = streamFiles.find(cacheKey);
+					if (it != streamFiles.end())
 					{
-						const auto internalHeader = m_packFileCash[packPath.ToAstring()]->GetInternalHeader(path);
-
-						ace::Path_Imp fullPath(root->m_path.ToAstring());
-						fullPath /= path;
-						fullPath.Normalize();
-
-						auto streamFile = CreateStreamFileDirectly(fullPath.ToAstring().c_str());
-						if (streamFile)
-							return streamFile;
+						auto ret = it->second;
+						SafeAddRef(ret);
+						return ret;
 					}
-					else
+
+					auto packFile = root->GetPackFile();
+
+					if (packFile->HaveFile(packedPath))
 					{
-						m_packFileCash[packPath.ToAstring()]->GetTopHeader()->AddIgnoreFiles(ignoreFiles);
+						const auto& internalHeader = packFile->GetInternalHeader(packedPath);
+
+						StreamFile_Imp* streamFile = nullptr;
+
+						{
+							streamFile = new StreamFile_Imp(this, astring(packedPath), packFile->RawFile(), *internalHeader, root->m_key);
+							streamFiles[cacheKey] = streamFile;
+							return streamFile;
+						}
 					}
 				}
 				else
 				{
-					ace::Path_Imp fullPath(root->m_path.ToAstring());
-					fullPath /= path;
-					fullPath.Normalize();
+					auto combinedPath = FileHelper::CombineRootPath(root->m_path, path);
 
-					auto streamFile = CreateStreamFileDirectly(fullPath.ToAstring().c_str());
-					if (streamFile)
+					auto cacheKey = combinedPath;
+					auto it = streamFiles.find(cacheKey);
+					if (it != streamFiles.end())
+					{
+						auto ret = it->second;
+						SafeAddRef(ret);
+						return ret;
+					}
+
+					StreamFile_Imp* streamFile = nullptr;
+
+					auto file = CreateSharedPtr(new BaseFile(combinedPath));
+					if (file->IsValid())
+					{
+						auto streamFile = new StreamFile_Imp(this, cacheKey, file);
+						streamFiles[cacheKey] = streamFile;
 						return streamFile;
+					}
 				}
 			}
 		}
+
 		return nullptr;
 	}
-	*/
+
+	void File_Imp::UnregisterStaticFile(const astring& key)
+	{
+		staticFiles.erase(key);
+	}
+
+	void File_Imp::UnregisterStreamFile(const astring& key)
+	{
+		streamFiles.erase(key);
+	}
 }

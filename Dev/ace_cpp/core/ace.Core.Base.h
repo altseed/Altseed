@@ -27,7 +27,6 @@ namespace ace {
 	class JoystickContainer;
 	
 	class File;
-	class Path;
 	class StaticFile;
 	class StreamFile;
 

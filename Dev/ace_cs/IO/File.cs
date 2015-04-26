@@ -54,11 +54,16 @@ namespace ace
 
         public StaticFile CreateStaticFile(string path)
         {
-            var staticFile = file.CreateStaticFile_(path);
-            if (staticFile == null) return null;
-            return GC.GenerateStaticFile(staticFile, GC.GenerationType.Create);
+            var file_ = file.CreateStaticFile_(path);
+            if (file_ == null) return null;
+            return GC.GenerateStaticFile(file_, GC.GenerationType.Create);
         }
 
-
+		public StreamFile CreateStreamFile(string path)
+		{
+			var file_ = file.CreateStreamFile_(path);
+			if (file_ == null) return null;
+			return GC.GenerateStreamFile(file_, GC.GenerationType.Create);
+		}
     }
 }

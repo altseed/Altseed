@@ -15,6 +15,8 @@ namespace ace
 	{
 	protected:
 		virtual StaticFile* CreateStaticFile_(const achar* path) = 0;
+		virtual StreamFile* CreateStreamFile_(const achar* path) = 0;
+
 	private:
 		// static ファイルとstream ファイルの参照を持つ
 	public:
@@ -25,12 +27,16 @@ namespace ace
 
 		virtual bool Exists(const achar* path) const = 0;
 
-		//virtual StreamFile* CreateStreamFile(const achar* path) = 0;
-
+		
 #ifndef SWIG
 		std::shared_ptr<StaticFile> CreateStaticFile(const achar* path)
 		{
 			return CreateSharedPtrWithReleaseDLL(CreateStaticFile_(path));
+		}
+
+		std::shared_ptr<StreamFile> CreateStreamFile(const achar* path)
+		{
+			return CreateSharedPtrWithReleaseDLL(CreateStreamFile_(path));
 		}
 #endif
 	};

@@ -79,6 +79,7 @@ namespace ace
 					if (TryRelease<swig.CoreTransition>(o)) continue;
 
                     if (TryRelease<swig.StaticFile>(o)) continue;
+					if (TryRelease<swig.StreamFile>(o)) continue;
 
                     if (TryRelease<swig.CoreShape>(o)) continue;
 

@@ -14,12 +14,15 @@ namespace ace
 		, public ReferenceObject
 	{
 	protected:
+		File_Imp*	file = nullptr;
+		astring		cacheKey;
+
 		std::vector<uint8_t> m_buffer;
 		astring m_path;
 
 	public:
-		StaticFile_Imp(std::shared_ptr<BaseFile>& file);
-		StaticFile_Imp(std::shared_ptr<BaseFile>& packedFile, PackFileInternalHeader& internalHeader, const astring& key);
+		StaticFile_Imp(File_Imp* file, const astring& cacheKey, std::shared_ptr<BaseFile>& baseFile);
+		StaticFile_Imp(File_Imp* file, const astring& cacheKey, std::shared_ptr<BaseFile>& packedFile, PackFileInternalHeader& internalHeader, const astring& key);
 
 		virtual ~StaticFile_Imp();
 		virtual const std::vector<uint8_t>& GetBuffer() const { return m_buffer; }
