@@ -47,7 +47,7 @@ namespace ace
 		void AddDefaultRootDirectory();
 
 		virtual void AddRootDirectory(const achar* path) override;
-		virtual void AddRootPackageWithPassword(const achar* path, const achar* key)  override;
+		virtual void AddRootPackageWithPassword(const achar* path, const achar* password)  override;
 		virtual void AddRootPackage(const achar* path)  override;
 		virtual void ClearRootDirectories() override;
 		virtual bool Exists(const achar* path) const override;

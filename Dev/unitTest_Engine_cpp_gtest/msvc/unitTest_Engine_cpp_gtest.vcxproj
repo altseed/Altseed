@@ -39,6 +39,7 @@
     <ClCompile Include="..\IO\StaticFile_Package.cpp" />
     <ClCompile Include="..\IO\StaticFile_Package_Cache.cpp" />
     <ClCompile Include="..\IO\StaticFile_Package_Priority.cpp" />
+    <ClCompile Include="..\IO\StreamFile_Package.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\AddComponentByComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\CameraAndSetTexture.cpp" />

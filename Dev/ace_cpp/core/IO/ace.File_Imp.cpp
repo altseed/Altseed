@@ -30,9 +30,9 @@ namespace ace
 		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path)));
 	}
 
-	void File_Imp::AddRootPackageWithPassword(const achar* path, const achar* key)
+	void File_Imp::AddRootPackageWithPassword(const achar* path, const achar* password)
 	{
-		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path, key)));
+		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path, password)));
 	}
 
 	void File_Imp::AddRootPackage(const achar* path)

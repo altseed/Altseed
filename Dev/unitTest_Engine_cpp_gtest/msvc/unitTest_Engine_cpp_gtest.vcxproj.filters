@@ -149,6 +149,9 @@
     <ClCompile Include="..\IO\StaticFile_Package.cpp">
       <Filter>IO</Filter>
     </ClCompile>
+    <ClCompile Include="..\IO\StreamFile_Package.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
