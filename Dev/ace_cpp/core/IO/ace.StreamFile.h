@@ -40,7 +40,7 @@ namespace ace
 			@param	buffer	出力先
 			@param	size	読み込まれるサイズ
 		*/
-		void Read(std::vector<byte>& buffer, int32_t size)
+		void Read(std::vector<uint8_t>& buffer, int32_t size)
 		{
 			auto result = Read_(size);
 			buffer.resize(result);

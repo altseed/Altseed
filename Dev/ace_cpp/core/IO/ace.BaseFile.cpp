@@ -1,6 +1,9 @@
 ﻿
 #include "ace.BaseFile.h"
 #include <sstream>
+#ifndef _WIN32
+#include <sys/stat.h>
+#endif // _WIN32
 
 namespace ace
 {
@@ -18,7 +21,7 @@ namespace ace
 #ifdef _WIN32
 			path,
 #else
-			ToUtf8String(path.c_str()),
+			ToUtf8String(path),
 #endif
 			std::basic_ios<uint8_t>::in | std::basic_ios<uint8_t>::binary);
 	}
@@ -30,6 +33,15 @@ namespace ace
 
 	bool BaseFile::IsValid()
 	{
+#ifndef _WIN32
+		{
+			struct stat sb;
+			if (stat(ToUtf8String(m_filePath.c_str()).c_str(), &sb) != 0)
+				return false;
+			if (S_ISDIR(sb.st_mode))
+				return false;
+		}
+#endif // _WIN32
 		return !m_file.fail();
 	}
 
