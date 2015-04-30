@@ -32,7 +32,7 @@ namespace ace {
 			Vector2DF	UV[4];
 
 			Texture2D*	TexturePtr;
-			AlphaBlend	AlphaBlendState;
+			AlphaBlendMode	AlphaBlendState;
 
 			bool DepthTest;
 			bool DepthWrite;
@@ -50,7 +50,7 @@ namespace ace {
 		struct SpriteState
 		{
 			Texture2D*	TexturePtr;
-			AlphaBlend	AlphaBlendState;
+			AlphaBlendMode	AlphaBlendState;
 			bool		DepthTest;
 			bool		DepthWrite;
 		} m_state;
@@ -84,7 +84,7 @@ namespace ace {
 
 		void ClearCache();
 
-		void AddSprite(Vector3DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest);
+		void AddSprite(Vector3DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest);
 
 		void SetMatrixes(Matrix44 cameraMatrix, Matrix44 projectionMatrix);
 

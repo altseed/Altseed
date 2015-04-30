@@ -558,7 +558,7 @@ namespace ace
 			RenderState state;
 			state.DepthTest = false;
 			state.DepthWrite = false;
-			state.AlphaBlendState = AlphaBlend::Opacity;
+			state.AlphaBlendState = AlphaBlendMode::Opacity;
 			state.Culling = ace::CullingType::Double;
 
 			g->SetVertexBuffer(m_pasteVertexBuffer.get());
@@ -824,7 +824,7 @@ namespace ace
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.Culling = CullingType::Double;
-					state.AlphaBlendState = AlphaBlend::Add;
+					state.AlphaBlendState = AlphaBlendMode::Add;
 
 					Vector4DF threshold;
 					threshold.X = cP->ZNear + (cP->ZFar - cP->ZNear) * splitedPlain[0];
@@ -1004,7 +1004,7 @@ namespace ace
 					state.DepthTest = false;
 					state.DepthWrite = false;
 					state.Culling = CullingType::Double;
-					state.AlphaBlendState = AlphaBlend::Add;
+					state.AlphaBlendState = AlphaBlendMode::Add;
 
 					helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
 						h::GenValue("skyLightColor", skyLightColor),
@@ -1057,7 +1057,7 @@ namespace ace
 				state.DepthTest = false;
 				state.DepthWrite = false;
 				state.Culling = CullingType::Double;
-				state.AlphaBlendState = AlphaBlend::Add;
+				state.AlphaBlendState = AlphaBlendMode::Add;
 
 				helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
 					h::GenValue("skyLightColor", skyLightColor),
@@ -1141,7 +1141,7 @@ namespace ace
 			state.DepthTest = false;
 			state.DepthWrite = false;
 			state.Culling = CullingType::Double;
-			state.AlphaBlendState = AlphaBlend::Opacity;
+			state.AlphaBlendState = AlphaBlendMode::Opacity;
 
 			helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
 				h::GenValue("flag", flag),

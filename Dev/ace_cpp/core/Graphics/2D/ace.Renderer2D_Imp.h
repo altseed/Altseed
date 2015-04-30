@@ -78,7 +78,7 @@ namespace ace {
 					color		Colors[4];
 					vector2DF	UV[4];
 					Texture2D*	TexturePtr;
-					AlphaBlend	AlphaBlendState;
+					AlphaBlendMode	AlphaBlendState;
 					TextureFilterType	Filter;
 					TextureWrapType		Wrap;
 				} Sprite;
@@ -105,7 +105,7 @@ namespace ace {
 		struct SpriteState
 		{
 			Texture2D*	TexturePtr;
-			AlphaBlend	AlphaBlendState;
+			AlphaBlendMode	AlphaBlendState;
 			TextureFilterType	Filter;
 			TextureWrapType		Wrap;
 		} m_state;
@@ -151,9 +151,9 @@ namespace ace {
 
 		void ClearCache();
 
-		void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority, TextureFilterType filter = TextureFilterType::Nearest, TextureWrapType wrap = TextureWrapType::Clamp) override;
+		void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter = TextureFilterType::Nearest, TextureWrapType wrap = TextureWrapType::Clamp) override;
 
-		void AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority, TextureFilterType filter = TextureFilterType::Nearest, TextureWrapType wrap = TextureWrapType::Clamp) override;
+		void AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter = TextureFilterType::Nearest, TextureWrapType wrap = TextureWrapType::Clamp) override;
 
 		void AddEffect(::Effekseer::Handle handle, int32_t priority);
 

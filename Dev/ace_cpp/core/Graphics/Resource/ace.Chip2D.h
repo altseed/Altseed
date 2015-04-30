@@ -39,7 +39,7 @@ namespace ace
 		virtual bool GetTurnUL() const = 0;
 		virtual void SetTurnUL(bool turnUL) = 0;
 
-		virtual AlphaBlend GetAlphaBlendMode() const = 0;
-		virtual void SetAlphaBlendMode(AlphaBlend alphaBlend) = 0;
+		virtual AlphaBlendMode GetAlphaBlendMode() const = 0;
+		virtual void SetAlphaBlendMode(AlphaBlendMode alphaBlend) = 0;
 	};
 }

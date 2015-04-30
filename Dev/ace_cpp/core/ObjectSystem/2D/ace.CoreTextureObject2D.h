@@ -59,7 +59,7 @@ namespace ace
 		/**
 			@brief	このオブジェクトを描画する際のブレンドモードを取得します。
 		*/
-		virtual AlphaBlend GetAlphaBlendMode() const = 0;
+		virtual AlphaBlendMode GetAlphaBlendMode() const = 0;
 
 
 		/**
@@ -107,7 +107,7 @@ namespace ace
 		/**
 			@brief	このオブジェクトを描画する際のブレンドモードを設定します。
 		*/
-		virtual void SetAlphaBlendMode(AlphaBlend alphaBlend) = 0;
+		virtual void SetAlphaBlendMode(AlphaBlendMode alphaBlend) = 0;
 
 		/**
 		@brief　このオブジェクトを描画する際のテクスチャフィルタの種類を設定する。

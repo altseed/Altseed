@@ -6,29 +6,6 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-    /// <summary>
-    /// ジョイスティックのボタンの押し状態を示す列挙型
-    /// </summary>
-    public enum JoystickButtonState
-    {
-        /// <summary>
-        /// ボタンをこのフレームで離した状態
-        /// </summary>
-        Release = ace.swig.JoystickButtonState.Release,
-        /// <summary>
-        /// ボタンをこのフレームで押した状態
-        /// </summary>
-        Push = ace.swig.JoystickButtonState.Push,
-        /// <summary>
-        /// ボタンを押し続けている状態
-        /// </summary>
-        Hold = ace.swig.JoystickButtonState.Hold,
-        /// <summary>
-        /// ボタンを離し続けている状態
-        /// </summary>
-        Free = ace.swig.JoystickButtonState.Free
-    }
-
     public class Joystick
     {
         private ace.swig.Joystick joystick;

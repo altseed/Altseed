@@ -270,7 +270,7 @@ namespace ace
 	void Renderer3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-		Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest)
+		Texture2D* texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 	{
 		Vector3DF positions [] = { upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos };
 		Color colors [] = {upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol };

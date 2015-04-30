@@ -12,7 +12,7 @@ namespace ace
 	{
 		CoreShape* m_shape;
 		int drawingPriority;
-		AlphaBlend alphaBlendMode;
+		AlphaBlendMode alphaBlendMode;
 		Vector2DF centerPosition;
 		Color m_color;
 		TextureFilterType m_textureFilterType;
@@ -32,8 +32,8 @@ namespace ace
 		int GetDrawingPriority() const ;
 		void SetDrawingPriority(int priority) ;
 
-		AlphaBlend GetAlphaBlendMode() const ;
-		void SetAlphaBlendMode(AlphaBlend alphaBlend) ;
+		AlphaBlendMode GetAlphaBlendMode() const ;
+		void SetAlphaBlendMode(AlphaBlendMode alphaBlend);
 
 		void SetCenterPosition(Vector2DF position) ;
 		Vector2DF GetCenterPosition() const ;

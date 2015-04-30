@@ -48,13 +48,13 @@ namespace ace
 		@brief	このオブジェクトのブレンディング モードを取得する。
 		@return	ブレンディングモード
 		*/
-		AlphaBlend GetAlphaBlendMode() const;
+		AlphaBlendMode GetAlphaBlendMode() const;
 
 		/**
 		@brief	このオブジェクトのブレンディング モードを設定する。
 		@param	alphaBlend	ブレンディングモード
 		*/
-		void SetAlphaBlendMode(AlphaBlend alphaBlend);
+		void SetAlphaBlendMode(AlphaBlendMode alphaBlend);
 
 		/**
 		@brief	このオブジェクトを描画する際の中心座標を設定する。

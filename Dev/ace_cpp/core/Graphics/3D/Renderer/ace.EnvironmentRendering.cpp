@@ -233,7 +233,7 @@ namespace ace
 		RenderState state;
 		state.DepthTest = false;
 		state.DepthWrite = false;
-		state.AlphaBlendState = AlphaBlend::Opacity;
+		state.AlphaBlendState = AlphaBlendMode::Opacity;
 		state.Culling = ace::CullingType::Double;
 
 		helper->Draw(2, vertexBuffer.get(), indexBuffer.get(), environmentShader.get(), state,

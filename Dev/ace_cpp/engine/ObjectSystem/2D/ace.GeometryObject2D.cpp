@@ -54,12 +54,12 @@ namespace ace
 		m_coreObject->SetDrawingPriority(priority);
 	}
 
-	AlphaBlend GeometryObject2D::GetAlphaBlendMode() const
+	AlphaBlendMode GeometryObject2D::GetAlphaBlendMode() const
 	{
 		return m_coreObject->GetAlphaBlendMode();
 	}
 
-	void GeometryObject2D::SetAlphaBlendMode(AlphaBlend alphaBlend)
+	void GeometryObject2D::SetAlphaBlendMode(AlphaBlendMode alphaBlend)
 	{
 		m_coreObject->SetAlphaBlendMode(alphaBlend);
 	}

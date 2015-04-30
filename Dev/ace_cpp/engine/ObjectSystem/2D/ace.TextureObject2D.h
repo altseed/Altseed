@@ -93,11 +93,11 @@ namespace ace
 		/**
 			@brief	このオブジェクトのブレンディング モードを取得する。
 		*/
-		AlphaBlend GetAlphaBlendMode() const;
+		AlphaBlendMode GetAlphaBlendMode() const;
 		/**
 			@brief	このオブジェクトのブレンディング モードを設定する。
 		*/
-		void SetAlphaBlendMode(AlphaBlend alphaBlend);
+		void SetAlphaBlendMode(AlphaBlendMode alphaBlend);
 
 		/**
 		@brief　このオブジェクトを描画する際のテクスチャフィルタの種類を設定する。

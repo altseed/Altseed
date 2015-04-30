@@ -12,7 +12,7 @@ namespace ace
 		, m_color(Color())
 		, m_turnLR(false)
 		, m_turnUL(false)
-		, m_alphablend(AlphaBlend::Blend)
+		, m_alphablend(AlphaBlendMode::Blend)
 		, m_drawingPtiority(0)
 		, m_src(RectF(0, 0, 1, 1))
 		, CoreObject2D_Imp(graphics)
@@ -152,7 +152,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	AlphaBlend CoreTextureObject2D_Imp::GetAlphaBlendMode() const
+	AlphaBlendMode CoreTextureObject2D_Imp::GetAlphaBlendMode() const
 	{
 		return m_alphablend;
 	}
@@ -160,9 +160,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextureObject2D_Imp::SetAlphaBlendMode(AlphaBlend alphablend)
+	void CoreTextureObject2D_Imp::SetAlphaBlendMode(AlphaBlendMode alphaBlend)
 	{
-		m_alphablend = alphablend;
+		m_alphablend = alphaBlend;
 	}
 #pragma endregion
 

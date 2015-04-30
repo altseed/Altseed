@@ -171,7 +171,7 @@ namespace ace {
 	/**
 		@brief	描画時のブレンドモードを表す列挙体
 	*/
-	enum class AlphaBlend : int32_t
+	enum class AlphaBlendMode : int32_t
 	{
 		/// <summary>
 		/// 不透明

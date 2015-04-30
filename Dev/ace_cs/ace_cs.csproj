@@ -143,7 +143,7 @@
     <Compile Include="swig\Accessor.cs" />
     <Compile Include="swig\ace_core.cs" />
     <Compile Include="swig\ace_corePINVOKE.cs" />
-    <Compile Include="swig\AlphaBlend.cs" />
+    <Compile Include="swig\AlphaBlendMode.cs" />
     <Compile Include="swig\AnimationClip.cs" />
     <Compile Include="swig\AnimationSource.cs" />
     <Compile Include="swig\AnimationSystem.cs" />
@@ -254,6 +254,7 @@
     <Compile Include="swig\Window_Imp.cs" />
     <Compile Include="swig\WritingDirection.cs" />
     <Compile Include="Utils\InternalGetter.cs" />
+    <Compile Include="Wrappers.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

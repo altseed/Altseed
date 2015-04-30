@@ -110,14 +110,14 @@ namespace ace {
 	{
 		bool								DepthTest;
 		bool								DepthWrite;
-		AlphaBlend							AlphaBlendState;
+		AlphaBlendMode						AlphaBlendState;
 		CullingType							Culling;
 		
 		void Reset()
 		{
 			DepthTest = false;
 			DepthWrite = false;
-			AlphaBlendState = AlphaBlend::Blend;
+			AlphaBlendState = AlphaBlendMode::Blend;
 			Culling = CullingType::Double;
 		}
 

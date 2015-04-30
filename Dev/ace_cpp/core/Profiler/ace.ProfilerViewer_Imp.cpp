@@ -283,7 +283,7 @@ namespace ace
 			sprite.colors,
 			sprite.uvs,
 			m_materTexture.get(),
-			AlphaBlend::Blend,
+			AlphaBlendMode::Blend,
 			priority);
 	}
 
@@ -299,7 +299,7 @@ namespace ace
 			m_font.get(),
 			text.c_str(),
 			WritingDirection::Horizontal,
-			AlphaBlend::Blend,
+			AlphaBlendMode::Blend,
 			1);
 	}
 

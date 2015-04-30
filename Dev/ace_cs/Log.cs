@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/*
 	/// <summary>
 	/// ログの出力レベルを表す列挙体。レベルがLogクラスに設定されたものより高いログのみが記録されます。
 	/// </summary>
@@ -32,6 +33,7 @@ namespace ace
 		/// </summary>
 		All = swig.LogLevel.All,
 	}
+	*/
 
 	/// <summary>
 	/// テキスト形式でログを記録し、HTMLファイルに保存する機能を提供するクラス。

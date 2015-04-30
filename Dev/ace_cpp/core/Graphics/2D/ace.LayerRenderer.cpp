@@ -139,7 +139,7 @@ namespace ace {
 			state.DepthTest = false;
 			state.DepthWrite = false;
 			state.Culling = CullingType::Double;
-			state.AlphaBlendState = AlphaBlend::Blend;
+			state.AlphaBlendState = AlphaBlendMode::Blend;
 			m_graphics->SetRenderState(state);
 			m_graphics->DrawPolygon(vCount / 3);
 

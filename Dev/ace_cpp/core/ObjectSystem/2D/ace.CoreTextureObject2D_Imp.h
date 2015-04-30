@@ -20,7 +20,7 @@ namespace ace
 		Color m_color;
 		bool m_turnLR;
 		bool m_turnUL;
-		AlphaBlend m_alphablend;
+		AlphaBlendMode m_alphablend;
 		int m_drawingPtiority;
 		TextureFilterType m_textureFilterType;
 
@@ -52,8 +52,8 @@ namespace ace
 		int GetDrawingPriority() const;
 		void SetDrawingPriority(int priority);
 
-		AlphaBlend GetAlphaBlendMode() const;
-		void SetAlphaBlendMode(AlphaBlend alphaBlend);
+		AlphaBlendMode GetAlphaBlendMode() const;
+		void SetAlphaBlendMode(AlphaBlendMode alphaBlend);
 
 		void SetTextureFilterType(TextureFilterType textureFilterType) override;
 		TextureFilterType GetTextureFilterType() const override;

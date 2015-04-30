@@ -921,7 +921,7 @@ void Graphics_Imp_GL::CommitRenderState(bool forced)
 
 	if (current.AlphaBlendState != next.AlphaBlendState || forced)
 	{
-		if (next.AlphaBlendState == AlphaBlend::Opacity)
+		if (next.AlphaBlendState == AlphaBlendMode::Opacity)
 		{
 			glDisable(GL_BLEND);
 		}
@@ -929,7 +929,7 @@ void Graphics_Imp_GL::CommitRenderState(bool forced)
 		{
 			glEnable(GL_BLEND);
 
-			if (next.AlphaBlendState == AlphaBlend::Sub)
+			if (next.AlphaBlendState == AlphaBlendMode::Sub)
 			{
 				//glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
 				//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -940,19 +940,19 @@ void Graphics_Imp_GL::CommitRenderState(bool forced)
 			{
 				//glBlendEquation(GL_FUNC_ADD);
 				glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-				if (next.AlphaBlendState == AlphaBlend::Blend)
+				if (next.AlphaBlendState == AlphaBlendMode::Blend)
 				{
 					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
 				}
-				else if (next.AlphaBlendState == AlphaBlend::Add)
+				else if (next.AlphaBlendState == AlphaBlendMode::Add)
 				{
 					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE, GL_ONE, GL_ONE);
 				}
-				else if (next.AlphaBlendState == AlphaBlend::Mul)
+				else if (next.AlphaBlendState == AlphaBlendMode::Mul)
 				{
 					glBlendFuncSeparate(GL_ZERO, GL_SRC_COLOR, GL_ONE, GL_ONE);
 				}
-				else if (next.AlphaBlendState == AlphaBlend::AddAll)
+				else if (next.AlphaBlendState == AlphaBlendMode::AddAll)
 				{
 					glBlendFuncSeparate(GL_ONE, GL_ONE, GL_ONE, GL_ONE);
 				}

@@ -339,7 +339,7 @@ namespace ace
 			state.DepthTest = true;
 			state.DepthWrite = true;
 			state.Culling = CullingType::Front;
-			state.AlphaBlendState = AlphaBlend::Opacity;
+			state.AlphaBlendState = AlphaBlendMode::Opacity;
 
 			helper->DrawWithPtr(
 				ib->GetCount() / 3,
@@ -471,7 +471,7 @@ namespace ace
 			state.DepthTest = true;
 			state.DepthWrite = true;
 			state.Culling = CullingType::Front;
-			state.AlphaBlendState = AlphaBlend::AddAll;
+			state.AlphaBlendState = AlphaBlendMode::AddAll;
 
 			helper->DrawWithPtr(
 				ib->GetCount() / 3,

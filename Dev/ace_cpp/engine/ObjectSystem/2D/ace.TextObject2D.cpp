@@ -81,12 +81,12 @@ namespace ace
 		m_coreObject->SetDrawingPriority(priority);
 	}
 
-	AlphaBlend TextObject2D::GetAlphaBlendMode() const
+	AlphaBlendMode TextObject2D::GetAlphaBlendMode() const
 	{
 		return m_coreObject->GetAlphaBlendMode();
 	}
 
-	void TextObject2D::SetAlphaBlendMode(AlphaBlend alphaBlend)
+	void TextObject2D::SetAlphaBlendMode(AlphaBlendMode alphaBlend)
 	{
 		m_coreObject->SetAlphaBlendMode(alphaBlend);
 	}

@@ -164,7 +164,7 @@ namespace ace
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			coreLayer2D.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlend)alphaBlend, priority);
+			coreLayer2D.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
 		/// <summary>
@@ -182,42 +182,42 @@ namespace ace
 		/// </remarks>
 		public void DrawTextAdditionally(Vector2DF pos, Color color, Font font, string text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int priority)
 		{
-			coreLayer2D.DrawTextAdditionally(pos, color, IG.GetFont(font), text, (swig.WritingDirection)writingDirection, (swig.AlphaBlend)alphaBlend, priority);
+			coreLayer2D.DrawTextAdditionally(pos, color, IG.GetFont(font), text, (swig.WritingDirection)writingDirection, (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
         public void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
         {
-            coreLayer2D.DrawRectangleAdditionally(drawingArea, color, uv, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
+			coreLayer2D.DrawRectangleAdditionally(drawingArea, color, uv, texture.SwigObject, (swig.AlphaBlendMode)alphaBlend, priority);
         }
 
         public void DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
         {
-            coreLayer2D.DrawRotatedRectangleAdditionally(drawingArea, color, rotationCenter, angle, uv, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
+			coreLayer2D.DrawRotatedRectangleAdditionally(drawingArea, color, rotationCenter, angle, uv, texture.SwigObject, (swig.AlphaBlendMode)alphaBlend, priority);
         }
 
         public void DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
         {
-            coreLayer2D.DrawTriangleAdditionally(position1, position2, position3, color, uv1, uv2, uv3, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
+			coreLayer2D.DrawTriangleAdditionally(position1, position2, position3, color, uv1, uv2, uv3, texture.SwigObject, (swig.AlphaBlendMode)alphaBlend, priority);
         }
 
         public void DrawCircleAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
         {
-            coreLayer2D.DrawCircleAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
+			coreLayer2D.DrawCircleAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, texture.SwigObject, (swig.AlphaBlendMode)alphaBlend, priority);
         }
 
         public void DrawArcAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
         {
-            coreLayer2D.DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startingVerticalAngle, endingVerticalAngle, angle, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
+			coreLayer2D.DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startingVerticalAngle, endingVerticalAngle, angle, texture.SwigObject, (swig.AlphaBlendMode)alphaBlend, priority);
         }
 
         public void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlendMode alphaBlend, int priority)
         {
-            coreLayer2D.DrawLineAdditionally(point1, point2, thickness, color, (swig.AlphaBlend)alphaBlend, priority);
+			coreLayer2D.DrawLineAdditionally(point1, point2, thickness, color, (swig.AlphaBlendMode)alphaBlend, priority);
         }
 
         public void DrawShapeAdditionally(Shape shape, Color color, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
         {
-            coreLayer2D.DrawShapeAdditionally(shape.CoreShape, color, texture.SwigObject, (swig.AlphaBlend)alphaBlend, priority);
+			coreLayer2D.DrawShapeAdditionally(shape.CoreShape, color, texture.SwigObject, (swig.AlphaBlendMode)alphaBlend, priority);
         }
 
         public override LayerType LayerType

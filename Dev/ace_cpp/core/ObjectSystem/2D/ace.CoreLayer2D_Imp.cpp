@@ -454,7 +454,7 @@ namespace ace
 	void CoreLayer2D_Imp::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-		Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+		Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		Sprite sprite;
 		std::array<Vector2DF, 4> pos = { upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos };
@@ -473,7 +473,7 @@ namespace ace
 		sprites.push_back(sprite);
 	}
 
-	void CoreLayer2D_Imp::DrawTextAdditionally(Vector2DF pos, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawTextAdditionally(Vector2DF pos, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		SafeAddRef(font);
 
@@ -646,7 +646,7 @@ namespace ace
 		m_cameras.clear();
 	}
 
-	void CoreLayer2D_Imp::DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		Sprite sprite;
 
@@ -664,7 +664,7 @@ namespace ace
 		sprites.push_back(sprite);
 	}
 
-	void CoreLayer2D_Imp::DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		Sprite sprite;
 
@@ -696,7 +696,7 @@ namespace ace
 		sprites.push_back(sprite);
 	}
 
-	void CoreLayer2D_Imp::DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		Sprite sprite;
 
@@ -717,7 +717,7 @@ namespace ace
 		sprites.push_back(sprite);
 	}
 
-	void CoreLayer2D_Imp::DrawCircleAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawCircleAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		if (vertNum < 3) return;
 
@@ -773,7 +773,7 @@ namespace ace
 		}
 	}
 
-	void CoreLayer2D_Imp::DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		if (vertNum < 3) return;
 
@@ -836,7 +836,7 @@ namespace ace
 		}
 	}
 
-	void CoreLayer2D_Imp::DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		Vector2DF vector = point2 - point1;
 
@@ -866,7 +866,7 @@ namespace ace
 		sprites.push_back(sprite);
 	}
 
-	void CoreLayer2D_Imp::DrawShapeAdditionally(CoreShape* shape, Color color, Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawShapeAdditionally(CoreShape* shape, Color color, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
 		for (auto triangle : shape->GetDividedTriangles())
 		{

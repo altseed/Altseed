@@ -30,7 +30,7 @@ namespace ace {
 		Color m_color;
 		bool m_turnLR;
 		bool m_turnUL;
-		AlphaBlend m_alphaBlend;
+		AlphaBlendMode m_alphablend;
 
 #if __CULLING_2D__
 		culling2d::Object *cullingObject;
@@ -71,8 +71,8 @@ namespace ace {
 		bool GetTurnUL() const override;
 		void SetTurnUL(bool turnUL) override;
 
-		AlphaBlend GetAlphaBlendMode() const override;
-		void SetAlphaBlendMode(AlphaBlend alphaBlend) override;
+		AlphaBlendMode GetAlphaBlendMode() const override;
+		void SetAlphaBlendMode(AlphaBlendMode alphaBlend) override;
 
 		Chip2D_Imp(Graphics* graphics);
 		virtual ~Chip2D_Imp();

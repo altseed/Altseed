@@ -111,7 +111,7 @@ namespace ace
         public AlphaBlendMode AlphaBlend
         {
             get { return (AlphaBlendMode)coreObject.GetAlphaBlendMode(); }
-            set { coreObject.SetAlphaBlendMode((swig.AlphaBlend)value); }
+            set { coreObject.SetAlphaBlendMode((swig.AlphaBlendMode)value); }
         }
 
         ///<summary>

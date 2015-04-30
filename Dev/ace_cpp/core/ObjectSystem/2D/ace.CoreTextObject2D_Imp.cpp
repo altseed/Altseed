@@ -23,7 +23,7 @@ namespace ace
 		, m_turnLR(false)
 		, m_turnUL(false)
 		, m_text(ace::ToAString(""))
-		, m_alphablend(AlphaBlend::Blend)
+		, m_alphablend(AlphaBlendMode::Blend)
 		, m_drawingPtiority(0)
 		, m_writingDirection(WritingDirection::Horizontal)
 		, m_textureFilterType(TextureFilterType::Nearest)
@@ -173,7 +173,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	AlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
+	AlphaBlendMode CoreTextObject2D_Imp::GetAlphaBlendMode() const
 	{
 		return m_alphablend;
 	}
@@ -181,9 +181,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetAlphaBlendMode(AlphaBlend alphablend)
+	void CoreTextObject2D_Imp::SetAlphaBlendMode(AlphaBlendMode alphaBlend)
 	{
-		m_alphablend = alphablend;
+		m_alphablend = alphaBlend;
 	}
 #pragma endregion
 

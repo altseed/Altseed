@@ -421,7 +421,7 @@ void Graphics_Imp_DX11::GenerateRenderStates()
 
 		for (int32_t k = 0; k < 8; k++)
 		{
-			Desc.RenderTarget[k].BlendEnable = i != (int32_t) AlphaBlend::Opacity;
+			Desc.RenderTarget[k].BlendEnable = i != (int32_t) AlphaBlendMode::Opacity;
 			Desc.RenderTarget[k].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 			Desc.RenderTarget[k].SrcBlendAlpha = D3D11_BLEND_ONE;
 			Desc.RenderTarget[k].DestBlendAlpha = D3D11_BLEND_ONE;
@@ -429,33 +429,33 @@ void Graphics_Imp_DX11::GenerateRenderStates()
 
 			switch (i)
 			{
-			case (int32_t) AlphaBlend::Opacity:
+			case (int32_t) AlphaBlendMode::Opacity:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ZERO;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-			case (int32_t) AlphaBlend::Blend:
+			case (int32_t) AlphaBlendMode::Blend:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-			case (int32_t) AlphaBlend::Add:
+			case (int32_t) AlphaBlendMode::Add:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-			case (int32_t) AlphaBlend::Sub:
+			case (int32_t) AlphaBlendMode::Sub:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_REV_SUBTRACT;
 				break;
 
-			case (int32_t) AlphaBlend::Mul:
+			case (int32_t) AlphaBlendMode::Mul:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_SRC_COLOR;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ZERO;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-			case (int32_t) AlphaBlend::AddAll:
+			case (int32_t) AlphaBlendMode::AddAll:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].SrcBlendAlpha = D3D11_BLEND_ONE;

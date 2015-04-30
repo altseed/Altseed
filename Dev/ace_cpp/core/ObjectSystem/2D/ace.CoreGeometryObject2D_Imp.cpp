@@ -8,7 +8,7 @@ namespace ace
 		CoreObject2D_Imp(graphics)
 		,m_shape(nullptr)
 		, drawingPriority(0)
-		, alphaBlendMode(AlphaBlend::Add)
+		, alphaBlendMode(AlphaBlendMode::Add)
 		, centerPosition(Vector2DF())
 		, m_color(Color())
 		, m_textureFilterType(TextureFilterType::Linear)
@@ -44,12 +44,12 @@ namespace ace
 		drawingPriority = priority;
 	}
 
-	AlphaBlend CoreGeometryObject2D_Imp::GetAlphaBlendMode() const
+	AlphaBlendMode CoreGeometryObject2D_Imp::GetAlphaBlendMode() const
 	{
 		return alphaBlendMode;
 	}
 
-	void CoreGeometryObject2D_Imp::SetAlphaBlendMode(AlphaBlend alphaBlend)
+	void CoreGeometryObject2D_Imp::SetAlphaBlendMode(AlphaBlendMode alphaBlend)
 	{
 		alphaBlendMode = alphaBlend;
 	}

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/*
 	/// <summary>
 	/// オブジェクトの親子関係の同期方法を表す列挙体。
 	/// </summary>
@@ -24,4 +25,5 @@ namespace ace
 		/// </summary>
 		Nothing = swig.ChildMode.Nothing,
 	}
+	*/
 }

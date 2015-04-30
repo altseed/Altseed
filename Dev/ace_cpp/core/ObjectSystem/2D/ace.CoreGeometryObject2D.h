@@ -21,8 +21,8 @@ namespace ace
 		virtual int GetDrawingPriority() const = 0;
 		virtual void SetDrawingPriority(int priority) = 0;
 
-		virtual AlphaBlend GetAlphaBlendMode() const = 0;
-		virtual void SetAlphaBlendMode(AlphaBlend alphaBlend) = 0;
+		virtual AlphaBlendMode GetAlphaBlendMode() const = 0;
+		virtual void SetAlphaBlendMode(AlphaBlendMode alphaBlend) = 0;
 
 		virtual void SetCenterPosition(Vector2DF position) = 0;
 		virtual Vector2DF GetCenterPosition() const = 0;

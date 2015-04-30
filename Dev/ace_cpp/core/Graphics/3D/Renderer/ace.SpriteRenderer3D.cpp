@@ -135,7 +135,7 @@ namespace ace {
 		sprites.clear();
 	}
 
-	void SpriteRenderer3D::AddSprite(Vector3DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest)
+	void SpriteRenderer3D::AddSprite(Vector3DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 	{
 		Sprite s;
 		s.TexturePtr = texture;
