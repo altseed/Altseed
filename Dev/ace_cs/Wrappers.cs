@@ -1097,7 +1097,7 @@ namespace ace {
 	/// </summary>
 	public partial class File
 	{
-		private ace.swig.File coreInstance;
+		internal ace.swig.File CoreInstance { get; set; }
 
 
 		/// <summary>
@@ -1106,7 +1106,7 @@ namespace ace {
 		/// <param name="path"></param>
 		public void AddRootDirectory(string path)
 		{
-			coreInstance.AddRootDirectory(path);
+			CoreInstance.AddRootDirectory(path);
 		}
 
 		/// <summary>
@@ -1116,7 +1116,7 @@ namespace ace {
 		/// <param name="key"></param>
 		public void AddRootPackageWithPassword(string path, string key)
 		{
-			coreInstance.AddRootPackageWithPassword(path, key);
+			CoreInstance.AddRootPackageWithPassword(path, key);
 		}
 
 		/// <summary>
@@ -1125,7 +1125,7 @@ namespace ace {
 		/// <param name="path"></param>
 		public void AddRootPackage(string path)
 		{
-			coreInstance.AddRootPackage(path);
+			CoreInstance.AddRootPackage(path);
 		}
 
 		/// <summary>
@@ -1133,7 +1133,7 @@ namespace ace {
 		/// </summary>
 		public void ClearRootDirectories()
 		{
-			coreInstance.ClearRootDirectories();
+			CoreInstance.ClearRootDirectories();
 		}
 
 		/// <summary>
@@ -1143,7 +1143,7 @@ namespace ace {
 		/// <returns></returns>
 		public bool Exists(string path)
 		{
-			return coreInstance.Exists(path);
+			return CoreInstance.Exists(path);
 		}
 
 	}
@@ -1154,14 +1154,14 @@ namespace ace {
 	/// </summary>
 	public partial class MassModel
 	{
-		private ace.swig.MassModel coreInstance;
+		internal ace.swig.MassModel CoreInstance { get; set; }
 
 		/// <summary>
 		/// モデルが持つアニメーションの個数を取得する。
 		/// </summary>
 		public int AnimationCount
 		{
-			get { return coreInstance.GetAnimationCount(); }
+			get { return CoreInstance.GetAnimationCount(); }
 		}
 
 
@@ -1172,7 +1172,7 @@ namespace ace {
 		/// <returns>アニメーションの名称 </returns>
 		public string GetAnimationName(int index)
 		{
-			return coreInstance.GetAnimationName(index);
+			return CoreInstance.GetAnimationName(index);
 		}
 
 		/// <summary>
@@ -1182,7 +1182,7 @@ namespace ace {
 		/// <returns>アニメーションの長さ </returns>
 		public float GetAnimationLength(string name)
 		{
-			return coreInstance.GetAnimationLength(name);
+			return CoreInstance.GetAnimationLength(name);
 		}
 
 		/// <summary>
@@ -1192,7 +1192,7 @@ namespace ace {
 		/// <returns>ループするか? </returns>
 		public bool GetIsAnimationLoopingMode(string name)
 		{
-			return coreInstance.GetIsAnimationLoopingMode(name);
+			return CoreInstance.GetIsAnimationLoopingMode(name);
 		}
 
 		/// <summary>
@@ -1202,7 +1202,7 @@ namespace ace {
 		/// <param name="isLoopingMode"></param>
 		public void SetIsAnimationLoopingMode(string name, bool isLoopingMode)
 		{
-			coreInstance.SetIsAnimationLoopingMode(name, isLoopingMode);
+			CoreInstance.SetIsAnimationLoopingMode(name, isLoopingMode);
 		}
 
 	}
@@ -1213,7 +1213,7 @@ namespace ace {
 	/// </summary>
 	public partial class Mesh
 	{
-		private ace.swig.Mesh coreInstance;
+		internal ace.swig.Mesh CoreInstance { get; set; }
 
 
 		/// <summary>
@@ -1229,7 +1229,7 @@ namespace ace {
 		/// <param name="boneIndexes">ボーンのインデックス </param>
 		public void AddVertex(ace.Vector3DF position, ace.Vector3DF normal, ace.Vector3DF binormal, ace.Vector2DF uv1, ace.Vector2DF uv2, ace.Color color, int boneWeights, int boneIndexes)
 		{
-			coreInstance.AddVertex(ref position, ref normal, ref binormal, ref uv1, ref uv2, ref color, boneWeights, boneIndexes);
+			CoreInstance.AddVertex(ref position, ref normal, ref binormal, ref uv1, ref uv2, ref color, boneWeights, boneIndexes);
 		}
 
 		/// <summary>
@@ -1241,7 +1241,7 @@ namespace ace {
 		/// <param name="materialIndex">材質インデックス </param>
 		public void AddFace(int index1, int index2, int index3, int materialIndex)
 		{
-			coreInstance.AddFace(index1, index2, index3, materialIndex);
+			CoreInstance.AddFace(index1, index2, index3, materialIndex);
 		}
 
 		/// <summary>
@@ -1251,7 +1251,7 @@ namespace ace {
 		/// <param name="boneToMesh">ボーンの行列をメッシュの行列に変換する行列 </param>
 		public void AddBoneConnector(int targetIndex, ace.Matrix44 boneToMesh)
 		{
-			coreInstance.AddBoneConnector(targetIndex, ref boneToMesh);
+			CoreInstance.AddBoneConnector(targetIndex, ref boneToMesh);
 		}
 
 		/// <summary>
@@ -1260,7 +1260,7 @@ namespace ace {
 		/// <returns>材質のインデックス </returns>
 		public int AddMaterial()
 		{
-			return coreInstance.AddMaterial();
+			return CoreInstance.AddMaterial();
 		}
 
 		/// <summary>
@@ -1268,7 +1268,51 @@ namespace ace {
 		/// </summary>
 		public void SendToGPUMemory()
 		{
-			coreInstance.SendToGPUMemory();
+			CoreInstance.SendToGPUMemory();
+		}
+
+		/// <summary>
+		/// 内部シェーダーを使用する場合のカラーテクスチャを設定する。 
+		/// </summary>
+		/// <param name="materialIndex">材質のインデックス </param>
+		/// <param name="texture"></param>
+		public void SetColorTexture(int materialIndex, Texture2D texture)
+		{
+			var textureCore = texture != null ? texture.CoreInstance : null;
+			CoreInstance.SetColorTexture(materialIndex, textureCore);
+		}
+
+		/// <summary>
+		/// 内部シェーダーを使用する場合の法線テクスチャを設定する。 
+		/// </summary>
+		/// <param name="materialIndex">材質のインデックス </param>
+		/// <param name="texture"></param>
+		public void SetNormalTexture(int materialIndex, Texture2D texture)
+		{
+			var textureCore = texture != null ? texture.CoreInstance : null;
+			CoreInstance.SetNormalTexture(materialIndex, textureCore);
+		}
+
+		/// <summary>
+		/// 内部シェーダーを使用する場合の金属度テクスチャを設定する。 
+		/// </summary>
+		/// <param name="materialIndex">材質のインデックス </param>
+		/// <param name="texture"></param>
+		public void SetMetalnessTexture(int materialIndex, Texture2D texture)
+		{
+			var textureCore = texture != null ? texture.CoreInstance : null;
+			CoreInstance.SetMetalnessTexture(materialIndex, textureCore);
+		}
+
+		/// <summary>
+		/// 内部シェーダーを使用する場合の面平滑度テクスチャを設定する。 
+		/// </summary>
+		/// <param name="materialIndex">材質のインデックス </param>
+		/// <param name="texture"></param>
+		public void SetSmoothnessTexture(int materialIndex, Texture2D texture)
+		{
+			var textureCore = texture != null ? texture.CoreInstance : null;
+			CoreInstance.SetSmoothnessTexture(materialIndex, textureCore);
 		}
 
 	}
@@ -1279,14 +1323,14 @@ namespace ace {
 	/// </summary>
 	public partial class Model
 	{
-		private ace.swig.Model coreInstance;
+		internal ace.swig.Model CoreInstance { get; set; }
 
 		/// <summary>
 		/// モデルが持つメッシュの個数を取得する。
 		/// </summary>
 		public int MeshCount
 		{
-			get { return coreInstance.GetMeshCount(); }
+			get { return CoreInstance.GetMeshCount(); }
 		}
 
 		/// <summary>
@@ -1294,7 +1338,7 @@ namespace ace {
 		/// </summary>
 		public int AnimationClipCount
 		{
-			get { return coreInstance.GetAnimationClipCount(); }
+			get { return CoreInstance.GetAnimationClipCount(); }
 		}
 
 
@@ -1305,7 +1349,7 @@ namespace ace {
 		/// <returns>アニメーションクリップの名称 </returns>
 		public string GetAnimationClipName(int index)
 		{
-			return coreInstance.GetAnimationClipName(index);
+			return CoreInstance.GetAnimationClipName(index);
 		}
 
 	}
@@ -1316,14 +1360,14 @@ namespace ace {
 	/// </summary>
 	public partial class StaticFile
 	{
-		private ace.swig.StaticFile coreInstance;
+		internal ace.swig.StaticFile CoreInstance { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
 		public string FullPath
 		{
-			get { return coreInstance.GetFullPath(); }
+			get { return CoreInstance.GetFullPath(); }
 		}
 
 		/// <summary>
@@ -1331,7 +1375,7 @@ namespace ace {
 		/// </summary>
 		public System.IntPtr Data
 		{
-			get { return coreInstance.GetData(); }
+			get { return CoreInstance.GetData(); }
 		}
 
 		/// <summary>
@@ -1339,7 +1383,7 @@ namespace ace {
 		/// </summary>
 		public int Size
 		{
-			get { return coreInstance.GetSize(); }
+			get { return CoreInstance.GetSize(); }
 		}
 
 
@@ -1351,14 +1395,14 @@ namespace ace {
 	/// </summary>
 	public partial class StreamFile
 	{
-		private ace.swig.StreamFile coreInstance;
+		internal ace.swig.StreamFile CoreInstance { get; set; }
 
 		/// <summary>
 		/// 
 		/// </summary>
 		public int Size
 		{
-			get { return coreInstance.GetSize(); }
+			get { return CoreInstance.GetSize(); }
 		}
 
 		/// <summary>
@@ -1366,7 +1410,7 @@ namespace ace {
 		/// </summary>
 		public int CurrentPosition
 		{
-			get { return coreInstance.GetCurrentPosition(); }
+			get { return CoreInstance.GetCurrentPosition(); }
 		}
 
 
@@ -1378,7 +1422,8 @@ namespace ace {
 	/// </summary>
 	public partial class Terrain3D
 	{
-		private ace.swig.Terrain3D coreInstance;
+		internal ace.swig.Terrain3D CoreInstance { get; set; }
+
 
 		/// <summary>
 		/// 新規に地形を作成する。 
@@ -1388,7 +1433,7 @@ namespace ace {
 		/// <param name="gridHeightCount">縦方向のグリッド数 </param>
 		public void New(float gridSize, int gridWidthCount, int gridHeightCount)
 		{
-			coreInstance.New(gridSize, gridWidthCount, gridHeightCount);
+			CoreInstance.New(gridSize, gridWidthCount, gridHeightCount);
 		}
 
 		/// <summary>
@@ -1401,7 +1446,7 @@ namespace ace {
 		/// <param name="metalness">スペキュラテクスチャのパス </param>
 		public void AddSurface(string name, float size, string color, string normal, string metalness)
 		{
-			coreInstance.AddSurface(name, size, color, normal, metalness);
+			CoreInstance.AddSurface(name, size, color, normal, metalness);
 		}
 
 		/// <summary>
@@ -1411,7 +1456,7 @@ namespace ace {
 		/// <returns>素材インデックス </returns>
 		public int GetSurfaceIndex(string name)
 		{
-			return coreInstance.GetSurfaceIndex(name);
+			return CoreInstance.GetSurfaceIndex(name);
 		}
 
 		/// <summary>
@@ -1425,7 +1470,7 @@ namespace ace {
 		/// <param name="fallout">周囲のぼかし(0～1) </param>
 		public void AssignSurfaceWithCircle(int surfaceIndex, float x, float y, float radius, float value, float fallout)
 		{
-			coreInstance.AssignSurfaceWithCircle(surfaceIndex, x, y, radius, value, fallout);
+			CoreInstance.AssignSurfaceWithCircle(surfaceIndex, x, y, radius, value, fallout);
 		}
 
 		/// <summary>
@@ -1438,7 +1483,7 @@ namespace ace {
 		/// <param name="fallout">周囲のぼかし(0～1) </param>
 		public void RaiseWithCircle(float x, float y, float radius, float value, float fallout)
 		{
-			coreInstance.RaiseWithCircle(x, y, radius, value, fallout);
+			CoreInstance.RaiseWithCircle(x, y, radius, value, fallout);
 		}
 
 		/// <summary>
@@ -1450,7 +1495,7 @@ namespace ace {
 		/// <param name="value">値 </param>
 		public void ChangeCliffesWithCircle(float x, float y, float radius, int value)
 		{
-			coreInstance.ChangeCliffesWithCircle(x, y, radius, value);
+			CoreInstance.ChangeCliffesWithCircle(x, y, radius, value);
 		}
 
 		/// <summary>
@@ -1461,7 +1506,60 @@ namespace ace {
 		/// <returns>光線が地形に衝突した位置。衝突しない場合、NaNを返す。 </returns>
 		public ace.Vector3DF CastRay(ace.Vector3DF from, ace.Vector3DF to)
 		{
-			return coreInstance.CastRay(ref from, ref to);
+			return CoreInstance.CastRay(ref from, ref to);
+		}
+
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class Texture2D
+	{
+		internal ace.swig.Texture2D CoreInstance { get; set; }
+
+		/// <summary>
+		/// テクスチャのサイズを取得する。
+		/// </summary>
+		public ace.Vector2DI Size
+		{
+			get { return CoreInstance.GetSize(); }
+		}
+
+		/// <summary>
+		/// テクスチャのフォーマットを取得する。
+		/// </summary>
+		public TextureFormat Format
+		{
+			get { return (ace.TextureFormat)CoreInstance.GetFormat(); }
+		}
+
+		/// <summary>
+		/// テクスチャのクラスの種類を取得する。
+		/// </summary>
+		public TextureClassType Type
+		{
+			get { return (ace.TextureClassType)CoreInstance.GetType(); }
+		}
+
+
+		/// <summary>
+		/// テクスチャをファイルに保存する。 
+		/// </summary>
+		/// <param name="path">出力先 </param>
+		/// <returns>成否 </returns>
+		public bool Save(string path)
+		{
+			return CoreInstance.Save(path);
+		}
+
+		/// <summary>
+		/// テクスチャをアンロックする。 
+		/// </summary>
+		public void Unlock()
+		{
+			CoreInstance.Unlock();
 		}
 
 	}

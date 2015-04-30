@@ -12,7 +12,7 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-            //*
+            /*
 			TestSequencially(new Sound.Sound());
 			Console.ReadKey();
 			return;

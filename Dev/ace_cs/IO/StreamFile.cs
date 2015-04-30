@@ -17,7 +17,7 @@ namespace ace
 			if (GC.StreamFiles.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
 
-			coreInstance = swig;
+			CoreInstance = swig;
 		}
 
 		~StreamFile()
@@ -33,7 +33,7 @@ namespace ace
 		{
 			get
 			{
-				return coreInstance == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -44,9 +44,9 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (coreInstance == null) return;
-				GC.Collector.AddObject(coreInstance);
-				coreInstance = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
 		}
@@ -55,9 +55,9 @@ namespace ace
 		{
 			if (buffer == null) return;
 
-			swig.Accessor.StreamFile_Read_(coreInstance, size);
-			System.IntPtr raw = swig.Accessor.StreamFile_GetTempBuffer_(coreInstance);
-			byte[] bytes = new byte[swig.Accessor.StreamFile_GetTempBufferSize_(coreInstance)];
+			swig.Accessor.StreamFile_Read_(CoreInstance, size);
+			System.IntPtr raw = swig.Accessor.StreamFile_GetTempBuffer_(CoreInstance);
+			byte[] bytes = new byte[swig.Accessor.StreamFile_GetTempBufferSize_(CoreInstance)];
 			Marshal.Copy(raw, bytes, 0, bytes.Length);
 
 			buffer.Clear();

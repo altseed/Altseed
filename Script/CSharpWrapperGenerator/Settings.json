@@ -1,7 +1,7 @@
 {
 	"DoxygenXmlDirPath": "../../CPP_XML/xml/",
-	"SwigCSharpDirPath": "../ace_cs/swig/",
-	"ExportFilePath": "../ace_cs/Wrappers.cs",
+	"SwigCSharpDirPath": "../../Dev/ace_cs/swig/",
+	"ExportFilePath": "../../Dev/ace_cs/Wrappers.cs",
 	"ClassBlackList":
 	[
 		"Core",
@@ -10,7 +10,6 @@
 		"ace_corePINVOKE",
 
 		"Texture",
-		"Texture2D",
 		"RenderTexture2D",
 		"Texture_Imp",
 		"Texture2D_Imp",
@@ -28,9 +27,9 @@
 		"Shader3D",
 		"Shader2D",
 		"Shader2D_Imp",
-		
+
 		"RenderSettings",
-		
+
 		"Profiler",
 		"Profiler_Imp",
 
@@ -38,13 +37,13 @@
 
 		"Mouse",
 		"Mouse_Imp",
-		
+
 		"MiddleButton",
 		"MaterialPropertyBlock",
 
 		"Log",
 		"Log_Imp",
-		
+
 		"Material3D",
 		"Material2D",
 
@@ -57,9 +56,9 @@
 		"Joystick_Imp",
 
 		"ImagePackage",
-		
+
 		"Font",
-		
+
 		"Effect",
 		"Deformer",
 		"CubemapTexture",
@@ -70,7 +69,7 @@
 		"CoreLayer3D",
 		"CoreLayer2D",
 		"CoreLayer",
-				
+
 		"Chip2D",
 
 		"AnimationSystem",
@@ -102,7 +101,7 @@
 		"CoreDirectionalLightObject3D",
 		"CoreCameraObject3D",
 		"CoreMassModelObject3D",
-		
+
 		"CorePostEffect",
 
 		"LayerProfiler",
@@ -117,10 +116,17 @@
 		"IReference",
 		"CoreOption",
 	],
-	"MethodBlackList": [
+	"MethodBlackList":
+	[
 		"*.GetPtr",
 		"*.getCPtr",
 		"*.Dispose",
 		"*.Create",
+		"Texture2D.Lock",
+
+		"Mesh.SetMaterial"
+	],
+	"ListOfClassWhoseCoreIsPrivate":
+	[
 	]
 }

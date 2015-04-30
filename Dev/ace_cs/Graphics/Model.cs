@@ -11,15 +11,13 @@ namespace ace
 	/// </summary>
 	public partial class Model : IDestroy
 	{
-		internal ace.swig.Model CoreInstance { get { return coreInstance; } }
-
 		internal Model(swig.Model swig)
 		{
 #if DEBUG
 			// 唯一の対応するクラスであることを保証
 			if (GC.Models.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-			coreInstance = swig;
+			CoreInstance = swig;
 		}
 
 		~Model()
@@ -31,7 +29,7 @@ namespace ace
 		{
 			get
 			{
-				return coreInstance == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -39,9 +37,9 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (coreInstance == null) return;
-				GC.Collector.AddObject(coreInstance);
-				coreInstance = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
 		}
@@ -53,7 +51,7 @@ namespace ace
 		/// <returns>アニメーションクリップ</returns>
 		public AnimationClip GetAnimationClip(int index)
 		{
-			return GC.GenerateAnimationClip(swig.Accessor.Model_GetAnimationClip(coreInstance, index), GC.GenerationType.Get);
+			return GC.GenerateAnimationClip(swig.Accessor.Model_GetAnimationClip(CoreInstance, index), GC.GenerationType.Get);
 		}
 
 		/// <summary>
@@ -63,7 +61,7 @@ namespace ace
 		/// <returns></returns>
 		public Mesh GetMesh(int index)
 		{
-			return GC.GenerateMesh(swig.Accessor.Model_GetMesh(coreInstance, index), GC.GenerationType.Get);
+			return GC.GenerateMesh(swig.Accessor.Model_GetMesh(CoreInstance, index), GC.GenerationType.Get);
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace ace
 			if (GC.StaticFiles.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
 
-			coreInstance = swig;
+			CoreInstance = swig;
 		}
 
 		~StaticFile()
@@ -34,7 +34,7 @@ namespace ace
 		{
 			get
 			{
-				return coreInstance == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -45,9 +45,9 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (coreInstance == null) return;
-				GC.Collector.AddObject(coreInstance);
-				coreInstance = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
 		}
@@ -62,9 +62,9 @@ namespace ace
 			{
 				if (buffer == null)
 				{
-					System.IntPtr raw = coreInstance.GetData();
-					byte[] bytes = new byte[coreInstance.GetSize()];
-					Marshal.Copy(raw, bytes, 0, coreInstance.GetSize());
+					System.IntPtr raw = CoreInstance.GetData();
+					byte[] bytes = new byte[CoreInstance.GetSize()];
+					Marshal.Copy(raw, bytes, 0, CoreInstance.GetSize());
 					buffer = new List<byte>(bytes);
 				}
 
