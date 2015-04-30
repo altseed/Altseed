@@ -1,6 +1,8 @@
 ﻿AC-Engine
 =========================
 
+[![Join the chat at https://gitter.im/ac-engine/ac-engine](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ac-engine/ac-engine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 AC-EngineはC++、C#対応ゲームエンジンです。
 
 **最新版 2015/04/15**
