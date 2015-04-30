@@ -1,8 +1,0 @@
-ラッパー生成ツールを使用して、swigのラッパーの一部を生成することができます。
-
-##手順
-
-1. C++ Engine側のヘッダ(ace.h)を生成します。Dev/generateEngineHeader.pyを実行してください。
-2. Doxygenのxmlドキュメントを生成します。Script/export_cpp_xml.pyを実行してください。
-3. swigによるC++/C#の接続コードを生成します。Dev/generate_swig.pyを実行してください。
-4. ラッパーを生成します。Dev/generateSwigWrapper.pyを実行してください。
