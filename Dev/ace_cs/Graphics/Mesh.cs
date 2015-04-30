@@ -9,9 +9,9 @@ namespace ace
 	/// <summary>
 	/// 3Dメッシュのクラス
 	/// </summary>
-	public class Mesh : IDestroy
+	public partial class Mesh : IDestroy
 	{
-		internal swig.Mesh SwigObject { get; set; }
+		internal ace.swig.Mesh CoreInstance { get { return coreInstance; } }
 
 		internal Mesh(swig.Mesh swig)
 		{
@@ -19,7 +19,7 @@ namespace ace
 			// 唯一の対応するクラスであることを保証
 			if (GC.Meshs.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-			SwigObject = swig;
+			coreInstance = swig;
 		}
 
 		~Mesh()
@@ -31,7 +31,7 @@ namespace ace
 		{
 			get
 			{
-				return SwigObject == null;
+				return coreInstance == null;
 			}
 		}
 
@@ -39,66 +39,11 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
+				if (coreInstance == null) return;
+				GC.Collector.AddObject(coreInstance);
+				coreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
-		/// 頂点を追加する。
-		/// </summary>
-		/// <param name="position">座標</param>
-		/// <param name="normal">法線</param>
-		/// <param name="binormal">従法線</param>
-		/// <param name="uv1">UV1</param>
-		/// <param name="uv2">UV2</param>
-		/// <param name="color">頂点色</param>
-		/// <param name="boneWeights">ボーンのウエイト</param>
-		/// <param name="boneIndexes">ボーンのインデックス</param>
-		public void AddVertex(ace.Vector3DF position, ace.Vector3DF normal, ace.Vector3DF binormal, ace.Vector2DF uv1, ace.Vector2DF uv2, ace.Color color, int boneWeights, int boneIndexes)
-		{
-			SwigObject.AddVertex(ref position, ref normal, ref binormal, ref uv1, ref uv2, ref color, boneWeights, boneIndexes);
-		}
-
-		/// <summary>
-		/// 面を追加する。
-		/// </summary>
-		/// <param name="index1">頂点インデックス1</param>
-		/// <param name="index2">頂点インデックス2</param>
-		/// <param name="index3">頂点インデックス3</param>
-		/// <param name="materialIndex">材質インデックス</param>
-		public void AddFace(int index1, int index2, int index3, int materialIndex)
-		{
-			SwigObject.AddFace(index1, index2, index3, materialIndex);
-		}
-
-		/// <summary>
-		/// 素材を追加する。
-		/// </summary>
-		/// <returns>材質のインデックス</returns>
-		public int AddMaterial()
-		{
-			return SwigObject.AddMaterial();
-		}
-
-		/// <summary>
-		/// ボーンとの接続設定を追加する。
-		/// </summary>
-		/// <param name="targetIndex">対象ボーンインデックス</param>
-		/// <param name="boneToMesh">ボーンの行列をメッシュの行列に変換する行列</param>
-		public void AddBoneConnector(int targetIndex, Matrix44 boneToMesh)
-		{
-			SwigObject.AddBoneConnector(targetIndex, ref boneToMesh);
-		}
-
-		/// <summary>
-		/// 設定した値をGPUに送信する。
-		/// </summary>
-		public void SendToGPUMemory()
-		{
-			SwigObject.SendToGPUMemory();
 		}
 
 		/// <summary>
@@ -109,7 +54,7 @@ namespace ace
 		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
 		public void SetColorTexture(int materialIndex, Texture2D texture)
 		{
-			SwigObject.SetColorTexture(materialIndex, IG.GetTexture2D(texture));
+			coreInstance.SetColorTexture(materialIndex, IG.GetTexture2D(texture));
 		}
 
 		/// <summary>
@@ -120,7 +65,7 @@ namespace ace
 		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
 		public void SetNormalTexture(int materialIndex, Texture2D texture)
 		{
-			SwigObject.SetNormalTexture(materialIndex, IG.GetTexture2D(texture));
+			coreInstance.SetNormalTexture(materialIndex, IG.GetTexture2D(texture));
 		}
 
 		/// <summary>
@@ -131,7 +76,7 @@ namespace ace
 		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
 		public void SetMetalnessTexture(int materialIndex, Texture2D texture)
 		{
-			SwigObject.SetMetalnessTexture(materialIndex, IG.GetTexture2D(texture));
+			coreInstance.SetMetalnessTexture(materialIndex, IG.GetTexture2D(texture));
 		}
 
 		/// <summary>
@@ -142,7 +87,7 @@ namespace ace
 		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
 		public void SetSmoothnessTexture(int materialIndex, Texture2D texture)
 		{
-			SwigObject.SetSmoothnessTexture(materialIndex, IG.GetTexture2D(texture));
+			coreInstance.SetSmoothnessTexture(materialIndex, IG.GetTexture2D(texture));
 		}
 
 		/// <summary>
@@ -153,7 +98,7 @@ namespace ace
 		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
 		public void SetMaterial(int materialIndex, Material3D material)
 		{
-			SwigObject.SetMaterial(materialIndex, IG.GetMaterial3D(material));
+			coreInstance.SetMaterial(materialIndex, IG.GetMaterial3D(material));
 		}
 	}
 }

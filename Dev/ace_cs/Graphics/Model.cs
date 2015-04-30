@@ -9,9 +9,9 @@ namespace ace
 	/// <summary>
 	/// 3Dモデルクラス
 	/// </summary>
-	public class Model : IDestroy
+	public partial class Model : IDestroy
 	{
-		internal swig.Model SwigObject { get; set; }
+		internal ace.swig.Model CoreInstance { get { return coreInstance; } }
 
 		internal Model(swig.Model swig)
 		{
@@ -19,7 +19,7 @@ namespace ace
 			// 唯一の対応するクラスであることを保証
 			if (GC.Models.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-			SwigObject = swig;
+			coreInstance = swig;
 		}
 
 		~Model()
@@ -31,7 +31,7 @@ namespace ace
 		{
 			get
 			{
-				return SwigObject == null;
+				return coreInstance == null;
 			}
 		}
 
@@ -39,9 +39,9 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
+				if (coreInstance == null) return;
+				GC.Collector.AddObject(coreInstance);
+				coreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
 		}
@@ -53,28 +53,7 @@ namespace ace
 		/// <returns>アニメーションクリップ</returns>
 		public AnimationClip GetAnimationClip(int index)
 		{
-			return GC.GenerateAnimationClip(swig.Accessor.Model_GetAnimationClip(SwigObject, index), GC.GenerationType.Get);
-		}
-
-		/// <summary>
-		/// モデルが持つアニメーションクリップの名称を取得する。
-		/// </summary>
-		/// <param name="index">アニメーションクリップのインデックス</param>
-		/// <returns>アニメーションクリップの名称</returns>
-		public string GetAnimationClipName(int index)
-		{
-			return SwigObject.GetAnimationClipName(index);
-		}
-
-		/// <summary>
-		/// モデルが持つアニメーションクリップの個数を取得する。
-		/// </summary>
-		public int AnimationClipCount
-		{
-			get
-			{
-				return SwigObject.GetAnimationClipCount();
-			}
+			return GC.GenerateAnimationClip(swig.Accessor.Model_GetAnimationClip(coreInstance, index), GC.GenerationType.Get);
 		}
 
 		/// <summary>
@@ -84,15 +63,7 @@ namespace ace
 		/// <returns></returns>
 		public Mesh GetMesh(int index)
 		{
-			return GC.GenerateMesh(swig.Accessor.Model_GetMesh(SwigObject, index), GC.GenerationType.Get);
-		}
-
-		/// <summary>
-		/// モデルが持つメッシュの個数を取得する。
-		/// </summary>
-		public int MeshCount
-		{
-			get { return SwigObject.GetMeshCount(); }
+			return GC.GenerateMesh(swig.Accessor.Model_GetMesh(coreInstance, index), GC.GenerationType.Get);
 		}
 	}
 }

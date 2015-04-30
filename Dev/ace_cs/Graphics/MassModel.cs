@@ -9,9 +9,9 @@ namespace ace
 	/// <summary>
 	/// 大量描画が可能な3Dモデルクラス
 	/// </summary>
-	public class MassModel : IDestroy
+	public partial class MassModel : IDestroy
 	{
-		internal swig.MassModel SwigObject { get; set; }
+		internal ace.swig.MassModel CoreInstance { get { return coreInstance; } }
 
 		internal MassModel(swig.MassModel swig)
 		{
@@ -19,7 +19,7 @@ namespace ace
 			// 唯一の対応するクラスであることを保証
 			if (GC.MassModels.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-			SwigObject = swig;
+			coreInstance = swig;
 		}
 
 		~MassModel()
@@ -31,7 +31,7 @@ namespace ace
 		{
 			get
 			{
-				return SwigObject == null;
+				return coreInstance == null;
 			}
 		}
 
@@ -39,60 +39,11 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
+				if (coreInstance == null) return;
+				GC.Collector.AddObject(coreInstance);
+				coreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
-		/// モデルが持つアニメーションの個数を取得する。
-		/// </summary>
-		public int AnimationCount
-		{
-			get { return SwigObject.GetAnimationCount();}
-		}
-
-		/// <summary>
-		/// モデルが持つアニメーションの名称を取得する。
-		/// </summary>
-		/// <param name="index">アニメーションのインデックス</param>
-		/// <returns>アニメーションの名称</returns>
-		public string GetAnimationName(int index)
-		{
-			return SwigObject.GetAnimationName(index);
-		}
-
-		/// <summary>
-		/// モデルが持つアニメーションの長さ(60フレーム単位)を取得する。
-		/// </summary>
-		/// <param name="name">アニメーション名</param>
-		/// <returns>アニメーションの長さ</returns>
-		public float GetAnimationLength(string name)
-		{
-			return SwigObject.GetAnimationLength(name);
-		}
-
-		/// <summary>
-		/// アニメーションがループするかを取得する。
-		/// </summary>
-		/// <param name="name">アニメーション名</param>
-		/// <returns>ループするか?</returns>
-		public bool GetIsAnimationLoopingMode(string name)
-		{
-			return SwigObject.GetIsAnimationLoopingMode(name);
-		}
-
-		/// <summary>
-		/// アニメーションがループするかを設定する。
-		/// </summary>
-		/// <param name="name">アニメーション名</param>
-		/// <param name="isLoopingMode">ループするか?</param>
-		/// <returns></returns>
-		public void SetIsAnimationLoopingMode(string name, bool isLoopingMode)
-		{
-			SwigObject.SetIsAnimationLoopingMode(name, isLoopingMode);
 		}
 
 		/// <summary>
@@ -101,7 +52,7 @@ namespace ace
 		/// <param name="material">材質</param>
 		public void SetMaterial(Material3D material)
 		{
-			SwigObject.SetMaterial(IG.GetMaterial3D(material));
+			coreInstance.SetMaterial(IG.GetMaterial3D(material));
 		}
 	}
 }

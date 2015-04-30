@@ -35,7 +35,7 @@ namespace ace
 		/// <param name="model">モデル</param>
 		public void SetModel(MassModel model)
 		{
-			coreObject.SetModel(model.SwigObject);
+			coreObject.SetModel(model.CoreInstance);
 		}
 
 		/// <summary>

@@ -50,7 +50,7 @@ namespace ace
 		static public swig.Terrain3D GetTerrain3D(Terrain3D o)
 		{
 			if (o == null) return null;
-			return o.SwigObject;
+			return o.CoreInstance;
 		}
 
 		static public swig.Effect GetEffect(Effect o)

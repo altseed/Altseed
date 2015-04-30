@@ -1150,6 +1150,168 @@ namespace ace {
 
 
 	/// <summary>
+	/// 大量描画が可能な3Dモデルクラス 
+	/// </summary>
+	public partial class MassModel
+	{
+		private ace.swig.MassModel coreInstance;
+
+		/// <summary>
+		/// モデルが持つアニメーションの個数を取得する。
+		/// </summary>
+		public int AnimationCount
+		{
+			get { return coreInstance.GetAnimationCount(); }
+		}
+
+
+		/// <summary>
+		/// モデルが持つアニメーションの名称を取得する。 
+		/// </summary>
+		/// <param name="index">アニメーションのインデックス </param>
+		/// <returns>アニメーションの名称 </returns>
+		public string GetAnimationName(int index)
+		{
+			return coreInstance.GetAnimationName(index);
+		}
+
+		/// <summary>
+		/// モデルが持つアニメーションの長さ(60フレーム単位)を取得する。 
+		/// </summary>
+		/// <param name="name">アニメーション名 </param>
+		/// <returns>アニメーションの長さ </returns>
+		public float GetAnimationLength(string name)
+		{
+			return coreInstance.GetAnimationLength(name);
+		}
+
+		/// <summary>
+		/// アニメーションがループするかを取得する。 
+		/// </summary>
+		/// <param name="name">アニメーション名 </param>
+		/// <returns>ループするか? </returns>
+		public bool GetIsAnimationLoopingMode(string name)
+		{
+			return coreInstance.GetIsAnimationLoopingMode(name);
+		}
+
+		/// <summary>
+		/// アニメーションがループするかを設定する。 
+		/// </summary>
+		/// <param name="name">アニメーション名 </param>
+		/// <param name="isLoopingMode"></param>
+		public void SetIsAnimationLoopingMode(string name, bool isLoopingMode)
+		{
+			coreInstance.SetIsAnimationLoopingMode(name, isLoopingMode);
+		}
+
+	}
+
+
+	/// <summary>
+	/// 3Dメッシュのクラス 
+	/// </summary>
+	public partial class Mesh
+	{
+		private ace.swig.Mesh coreInstance;
+
+
+		/// <summary>
+		/// 頂点を追加する。 
+		/// </summary>
+		/// <param name="position">座標 </param>
+		/// <param name="normal">法線 </param>
+		/// <param name="binormal">従法線 </param>
+		/// <param name="uv1">UV1 </param>
+		/// <param name="uv2">UV2 </param>
+		/// <param name="color">頂点色 </param>
+		/// <param name="boneWeights">ボーンのウエイト </param>
+		/// <param name="boneIndexes">ボーンのインデックス </param>
+		public void AddVertex(ace.Vector3DF position, ace.Vector3DF normal, ace.Vector3DF binormal, ace.Vector2DF uv1, ace.Vector2DF uv2, ace.Color color, int boneWeights, int boneIndexes)
+		{
+			coreInstance.AddVertex(ref position, ref normal, ref binormal, ref uv1, ref uv2, ref color, boneWeights, boneIndexes);
+		}
+
+		/// <summary>
+		/// 面を追加する。 
+		/// </summary>
+		/// <param name="index1">頂点インデックス1 </param>
+		/// <param name="index2">頂点インデックス2 </param>
+		/// <param name="index3">頂点インデックス3 </param>
+		/// <param name="materialIndex">材質インデックス </param>
+		public void AddFace(int index1, int index2, int index3, int materialIndex)
+		{
+			coreInstance.AddFace(index1, index2, index3, materialIndex);
+		}
+
+		/// <summary>
+		/// ボーンとの接続設定を追加する。 
+		/// </summary>
+		/// <param name="targetIndex">対象ボーンインデックス </param>
+		/// <param name="boneToMesh">ボーンの行列をメッシュの行列に変換する行列 </param>
+		public void AddBoneConnector(int targetIndex, ace.Matrix44 boneToMesh)
+		{
+			coreInstance.AddBoneConnector(targetIndex, ref boneToMesh);
+		}
+
+		/// <summary>
+		/// 材質を追加する。 
+		/// </summary>
+		/// <returns>材質のインデックス </returns>
+		public int AddMaterial()
+		{
+			return coreInstance.AddMaterial();
+		}
+
+		/// <summary>
+		/// 設定した値をGPUに送信する。 
+		/// </summary>
+		public void SendToGPUMemory()
+		{
+			coreInstance.SendToGPUMemory();
+		}
+
+	}
+
+
+	/// <summary>
+	/// 3Dモデルクラス 
+	/// </summary>
+	public partial class Model
+	{
+		private ace.swig.Model coreInstance;
+
+		/// <summary>
+		/// モデルが持つメッシュの個数を取得する。
+		/// </summary>
+		public int MeshCount
+		{
+			get { return coreInstance.GetMeshCount(); }
+		}
+
+		/// <summary>
+		/// モデルが持つアニメーションクリップの個数を取得する。
+		/// </summary>
+		public int AnimationClipCount
+		{
+			get { return coreInstance.GetAnimationClipCount(); }
+		}
+
+
+		/// <summary>
+		/// モデルが持つアニメーションクリップの名称を取得する。 
+		/// </summary>
+		/// <param name="index">アニメーションクリップのインデックス </param>
+		/// <returns>アニメーションクリップの名称 </returns>
+		public string GetAnimationClipName(int index)
+		{
+			return coreInstance.GetAnimationClipName(index);
+		}
+
+	}
+
+
+	/// <summary>
 	/// 
 	/// </summary>
 	public partial class StaticFile
@@ -1207,6 +1369,100 @@ namespace ace {
 			get { return coreInstance.GetCurrentPosition(); }
 		}
 
+
+	}
+
+
+	/// <summary>
+	/// 地形のクラス 
+	/// </summary>
+	public partial class Terrain3D
+	{
+		private ace.swig.Terrain3D coreInstance;
+
+		/// <summary>
+		/// 新規に地形を作成する。 
+		/// </summary>
+		/// <param name="gridSize">グリッド1つ当たりの大きさ </param>
+		/// <param name="gridWidthCount">横方向のグリッド数 </param>
+		/// <param name="gridHeightCount">縦方向のグリッド数 </param>
+		public void New(float gridSize, int gridWidthCount, int gridHeightCount)
+		{
+			coreInstance.New(gridSize, gridWidthCount, gridHeightCount);
+		}
+
+		/// <summary>
+		/// 素材を追加する。 
+		/// </summary>
+		/// <param name="name">素材名 </param>
+		/// <param name="size">素材のテクスチャ1枚あたりの大きさ </param>
+		/// <param name="color">色テクスチャのパス </param>
+		/// <param name="normal">法線テクスチャのパス </param>
+		/// <param name="metalness">スペキュラテクスチャのパス </param>
+		public void AddSurface(string name, float size, string color, string normal, string metalness)
+		{
+			coreInstance.AddSurface(name, size, color, normal, metalness);
+		}
+
+		/// <summary>
+		/// 素材インデックスを取得する。 
+		/// </summary>
+		/// <param name="name">素材名 </param>
+		/// <returns>素材インデックス </returns>
+		public int GetSurfaceIndex(string name)
+		{
+			return coreInstance.GetSurfaceIndex(name);
+		}
+
+		/// <summary>
+		/// 素材を円形に割り当てる。 
+		/// </summary>
+		/// <param name="surfaceIndex">素材インデックス </param>
+		/// <param name="x">円形の中心座標 </param>
+		/// <param name="y">円形の中心座標 </param>
+		/// <param name="radius">円形の半径 </param>
+		/// <param name="value">割り当てる値(-255～255) </param>
+		/// <param name="fallout">周囲のぼかし(0～1) </param>
+		public void AssignSurfaceWithCircle(int surfaceIndex, float x, float y, float radius, float value, float fallout)
+		{
+			coreInstance.AssignSurfaceWithCircle(surfaceIndex, x, y, radius, value, fallout);
+		}
+
+		/// <summary>
+		/// 円形に地形を上下させる。 
+		/// </summary>
+		/// <param name="x">円形の中心座標 </param>
+		/// <param name="y">円形の中心座標 </param>
+		/// <param name="radius">円形の半径 </param>
+		/// <param name="value">値 </param>
+		/// <param name="fallout">周囲のぼかし(0～1) </param>
+		public void RaiseWithCircle(float x, float y, float radius, float value, float fallout)
+		{
+			coreInstance.RaiseWithCircle(x, y, radius, value, fallout);
+		}
+
+		/// <summary>
+		/// 円形に崖の生成を伴う地形の上下をさせる。 
+		/// </summary>
+		/// <param name="x">円形の中心座標 </param>
+		/// <param name="y">円形の中心座標 </param>
+		/// <param name="radius">円形の半径 </param>
+		/// <param name="value">値 </param>
+		public void ChangeCliffesWithCircle(float x, float y, float radius, int value)
+		{
+			coreInstance.ChangeCliffesWithCircle(x, y, radius, value);
+		}
+
+		/// <summary>
+		/// 光線を飛ばし、衝突した位置を取得する。 
+		/// </summary>
+		/// <param name="from">光線を飛ばす元の位置 </param>
+		/// <param name="to">光線を飛ばす先の位置 </param>
+		/// <returns>光線が地形に衝突した位置。衝突しない場合、NaNを返す。 </returns>
+		public ace.Vector3DF CastRay(ace.Vector3DF from, ace.Vector3DF to)
+		{
+			return coreInstance.CastRay(ref from, ref to);
+		}
 
 	}
 
