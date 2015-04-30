@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Runtime.InteropServices;
+
 
 namespace ace
 {
@@ -49,6 +51,17 @@ namespace ace
 			System.GC.SuppressFinalize(this);
 		}
 
+		public unsafe void Read(List<byte> buffer, int size)
+		{
+			if (buffer == null) return;
 
+			swig.Accessor.StreamFile_Read_(coreInstance, size);
+			System.IntPtr raw = swig.Accessor.StreamFile_GetTempBuffer_(coreInstance);
+			byte[] bytes = new byte[swig.Accessor.StreamFile_GetTempBufferSize_(coreInstance)];
+			Marshal.Copy(raw, bytes, 0, bytes.Length);
+
+			buffer.Clear();
+			buffer.AddRange(bytes);
+		}
 	}
 }
