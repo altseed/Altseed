@@ -11,15 +11,13 @@ namespace ace
 	/// </summary>
 	public partial class Terrain3D : IDestroy
 	{
-		internal ace.swig.Terrain3D CoreInstance { get { return coreInstance; } }
-
 		internal Terrain3D(swig.Terrain3D swig)
 		{
 #if DEBUG
 			// 唯一の対応するクラスであることを保証
 			if (GC.Terrain3Ds.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-			coreInstance = swig;
+			CoreInstance = swig;
 		}
 
 		~Terrain3D()
@@ -31,7 +29,7 @@ namespace ace
 		{
 			get
 			{
-				return coreInstance == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -39,9 +37,9 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (coreInstance == null) return;
-				GC.Collector.AddObject(coreInstance);
-				coreInstance = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
 		}
@@ -52,7 +50,7 @@ namespace ace
 		/// <param name="material">材質</param>
 		public void SetMaterial(int materialIndex, Material3D material)
 		{
-			coreInstance.SetMaterial(IG.GetMaterial3D(material));
+			CoreInstance.SetMaterial(IG.GetMaterial3D(material));
 		}
 	}
 }

@@ -6,9 +6,13 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-	public class Texture2D : Texture, IDestroy
+	public partial class Texture2D : Texture, IDestroy
 	{
-		internal swig.Texture2D SwigObject { get; set; }
+		internal swig.Texture2D SwigObject
+		{
+			get { return CoreInstance; }
+			set { CoreInstance = value; }
+		}
 
 		internal Texture2D(swig.Texture2D swig)
 		{
@@ -16,7 +20,7 @@ namespace ace
 			// 唯一の対応するクラスであることを保証
 			if(GC.Texture2Ds.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-			SwigObject = swig;
+			CoreInstance = swig;
 		}
 
 		~Texture2D()
@@ -26,9 +30,9 @@ namespace ace
 
 		public bool IsDestroyed
 		{
- 			get
+			get
 			{
-				return SwigObject == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -36,21 +40,11 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
+				if(CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
-		/// テクスチャをファイルに保存する。
-		/// </summary>
-		/// <param name="path">出力先</param>
-		/// <returns>成否</returns>
-		public bool Save(string path)
-		{
-			return SwigObject.Save(path);
 		}
 
 		/// <summary>
@@ -60,30 +54,9 @@ namespace ace
 		/// <returns>成否</returns>
 		public bool Lock(TextureLockInfomation info)
 		{
-			if (info == null) return false;
+			if(info == null) return false;
 
-			return SwigObject.Lock(info.SwigObject);
-		}
-
-		/// <summary>
-		/// テクスチャをアンロックする。
-		/// </summary>
-		public void Unlock()
-		{
-			SwigObject.Unlock();
-		}
-
-		public Vector2DI Size
-		{
-			get { return SwigObject.GetSize(); }
-		}
-
-		/// <summary>
-		/// テクスチャのフォーマットを取得する。
-		/// </summary>
-		public TextureFormat Format
-		{
-			get { return (TextureFormat)SwigObject.GetFormat(); }
+			return CoreInstance.Lock(info.SwigObject);
 		}
 	}
 }

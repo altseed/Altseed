@@ -11,15 +11,13 @@ namespace ace
 	/// </summary>
 	public partial class Mesh : IDestroy
 	{
-		internal ace.swig.Mesh CoreInstance { get { return coreInstance; } }
-
 		internal Mesh(swig.Mesh swig)
 		{
 #if DEBUG
 			// 唯一の対応するクラスであることを保証
 			if (GC.Meshs.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-			coreInstance = swig;
+			CoreInstance = swig;
 		}
 
 		~Mesh()
@@ -31,7 +29,7 @@ namespace ace
 		{
 			get
 			{
-				return coreInstance == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -39,55 +37,11 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (coreInstance == null) return;
-				GC.Collector.AddObject(coreInstance);
-				coreInstance = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
-		/// 内部シェーダーを使用する場合のカラーテクスチャを設定する。
-		/// </summary>
-		/// <param name="materialIndex">材質のインデックス</param>
-		/// <param name="texture">テクスチャ</param>
-		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
-		public void SetColorTexture(int materialIndex, Texture2D texture)
-		{
-			coreInstance.SetColorTexture(materialIndex, IG.GetTexture2D(texture));
-		}
-
-		/// <summary>
-		/// 内部シェーダーを使用する場合の法線テクスチャを設定する。
-		/// </summary>
-		/// <param name="materialIndex">材質のインデックス</param>
-		/// <param name="texture">テクスチャ</param>
-		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
-		public void SetNormalTexture(int materialIndex, Texture2D texture)
-		{
-			coreInstance.SetNormalTexture(materialIndex, IG.GetTexture2D(texture));
-		}
-
-		/// <summary>
-		/// 内部シェーダーを使用する場合の金属度テクスチャを設定する。
-		/// </summary>
-		/// <param name="materialIndex">材質のインデックス</param>
-		/// <param name="texture">テクスチャ</param>
-		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
-		public void SetMetalnessTexture(int materialIndex, Texture2D texture)
-		{
-			coreInstance.SetMetalnessTexture(materialIndex, IG.GetTexture2D(texture));
-		}
-
-		/// <summary>
-		/// 内部シェーダーを使用する場合の面平滑度テクスチャを設定する。
-		/// </summary>
-		/// <param name="materialIndex">材質のインデックス</param>
-		/// <param name="texture">テクスチャ</param>
-		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
-		public void SetSmoothnessTexture(int materialIndex, Texture2D texture)
-		{
-			coreInstance.SetSmoothnessTexture(materialIndex, IG.GetTexture2D(texture));
 		}
 
 		/// <summary>
@@ -98,7 +52,7 @@ namespace ace
 		/// <remarks>AddMaterialCountを実行した後でないと無効になる。</remarks>
 		public void SetMaterial(int materialIndex, Material3D material)
 		{
-			coreInstance.SetMaterial(materialIndex, IG.GetMaterial3D(material));
+			CoreInstance.SetMaterial(materialIndex, IG.GetMaterial3D(material));
 		}
 	}
 }

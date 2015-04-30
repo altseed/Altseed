@@ -194,6 +194,7 @@ $RECYCLE.BIN/
 /Dev/bin/test.aff
 
 /Dev/bin/ace_core.Debug.dll
+/Dev/bin/ace_core.dll
 /Dev/bin/ace_cs.dll
 /Dev/bin/FontGenerator.Model.dll
 /Dev/bin/FontGeneratorCore.dll
@@ -273,6 +274,8 @@ master.zip
 /Product/inlude/
 /Product/lib/
 /Document/Doxygen/
+
+/CPP_XML/
 
 # Result of Test
 /Dev/bin/TestSS/

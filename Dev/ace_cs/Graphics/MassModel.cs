@@ -11,15 +11,13 @@ namespace ace
 	/// </summary>
 	public partial class MassModel : IDestroy
 	{
-		internal ace.swig.MassModel CoreInstance { get { return coreInstance; } }
-
 		internal MassModel(swig.MassModel swig)
 		{
 #if DEBUG
 			// 唯一の対応するクラスであることを保証
 			if (GC.MassModels.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-			coreInstance = swig;
+			CoreInstance = swig;
 		}
 
 		~MassModel()
@@ -31,7 +29,7 @@ namespace ace
 		{
 			get
 			{
-				return coreInstance == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -39,9 +37,9 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (coreInstance == null) return;
-				GC.Collector.AddObject(coreInstance);
-				coreInstance = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
 		}
@@ -52,7 +50,7 @@ namespace ace
 		/// <param name="material">材質</param>
 		public void SetMaterial(Material3D material)
 		{
-			coreInstance.SetMaterial(IG.GetMaterial3D(material));
+			CoreInstance.SetMaterial(IG.GetMaterial3D(material));
 		}
 	}
 }
