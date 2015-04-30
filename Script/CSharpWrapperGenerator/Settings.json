@@ -20,8 +20,6 @@
 
 		"TextureLockInfomation",
 
-		"SoundSource",
-		"Sound",
 		"SideButton",
 
 		"Shader3D",
@@ -55,11 +53,6 @@
 		"JoystickContainer_Imp",
 		"Joystick_Imp",
 
-		"ImagePackage",
-
-		"Font",
-
-		"Effect",
 		"Deformer",
 		"CubemapTexture",
 

@@ -1,4 +1,4 @@
-#include <ace.h>
+ï»¿#include <ace.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../EngineTest.h"
@@ -20,12 +20,12 @@ protected:
 
 	void OnStart()
 	{
-		//•’Ê‚É“Ç‚Ýž‚ñ‚¾ƒoƒCƒiƒŠ
+		//æ™®é€šã«èª­ã¿è¾¼ã‚“ã ãƒã‚¤ãƒŠãƒª
 		BinaryReader reader;
 		auto data = GetBinaryData(ace::ToAString("Data/Texture/Surface/Tile_Normal.png"));
 		reader.ReadIn(data.begin(), data.end());
 
-		//ƒtƒ@ƒCƒ‹‹@”\‚Å“Ç‚Ýž‚ñ‚¾ƒoƒCƒiƒŠ
+		//ãƒ•ã‚¡ã‚¤ãƒ«æ©Ÿèƒ½ã§èª­ã¿è¾¼ã‚“ã ãƒã‚¤ãƒŠãƒª
 		ace::Engine::GetFile()->AddRootPackage(ace::ToAString("Data/Texture.pack").c_str());
 		auto streamFile = ace::Engine::GetFile()->CreateStreamFile(ace::ToAString("Surface/Tile_Normal.png").c_str());
 		

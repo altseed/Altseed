@@ -1093,7 +1093,18 @@ namespace ace {
 	}
 
 	/// <summary>
-	/// 
+	/// エフェクトの情報が記録されているクラス 
+	/// </summary>
+	public partial class Effect
+	{
+		internal ace.swig.Effect CoreInstance { get; set; }
+
+
+	}
+
+
+	/// <summary>
+	/// ファイルの操作に関する処理を提供するクラス 
 	/// </summary>
 	public partial class File
 	{
@@ -1101,35 +1112,35 @@ namespace ace {
 
 
 		/// <summary>
-		/// 
+		/// ファイル操作する時のルートのディレクトリを追加する。 
 		/// </summary>
-		/// <param name="path"></param>
+		/// <param name="path">ルートのディレクトリのパス </param>
 		public void AddRootDirectory(string path)
 		{
 			CoreInstance.AddRootDirectory(path);
 		}
 
 		/// <summary>
-		/// 
+		/// ファイル操作する時のルートのパスワード付パッケージを追加する。 
 		/// </summary>
-		/// <param name="path"></param>
-		/// <param name="key"></param>
-		public void AddRootPackageWithPassword(string path, string key)
+		/// <param name="path">パッケージのパス </param>
+		/// <param name="password">パスワード </param>
+		public void AddRootPackageWithPassword(string path, string password)
 		{
-			CoreInstance.AddRootPackageWithPassword(path, key);
+			CoreInstance.AddRootPackageWithPassword(path, password);
 		}
 
 		/// <summary>
-		/// 
+		/// ファイル操作する時のルートのパッケージを追加する。 
 		/// </summary>
-		/// <param name="path"></param>
+		/// <param name="path">パッケージのパス </param>
 		public void AddRootPackage(string path)
 		{
 			CoreInstance.AddRootPackage(path);
 		}
 
 		/// <summary>
-		/// 
+		/// 追加されたパッケージを全て消去する。 
 		/// </summary>
 		public void ClearRootDirectories()
 		{
@@ -1137,13 +1148,74 @@ namespace ace {
 		}
 
 		/// <summary>
-		/// 
+		/// ファイルが存在するか取得する。 
 		/// </summary>
-		/// <param name="path"></param>
-		/// <returns></returns>
+		/// <param name="path">ファイルのパス </param>
+		/// <returns>ファイルが存在するか? </returns>
 		public bool Exists(string path)
 		{
 			return CoreInstance.Exists(path);
+		}
+
+	}
+
+
+	/// <summary>
+	/// フォントの情報が記録されているクラス 
+	/// </summary>
+	public partial class Font
+	{
+		internal ace.swig.Font CoreInstance { get; set; }
+
+
+		/// <summary>
+		/// 描画テキストと描画方向を与えると、その文字の描画領域を返す。 
+		/// </summary>
+		/// <param name="text">描画テキスト </param>
+		/// <param name="writingDirection">描画方向 </param>
+		/// <returns>文字の描画領域 </returns>
+		public ace.Vector2DI CalcTextureSize(string text, WritingDirection writingDirection)
+		{
+			return CoreInstance.CalcTextureSize(text, (ace.swig.WritingDirection)writingDirection);
+		}
+
+	}
+
+
+	/// <summary>
+	/// 複数の画像が格納されているクラス 
+	/// </summary>
+	public partial class ImagePackage
+	{
+		internal ace.swig.ImagePackage CoreInstance { get; set; }
+
+		/// <summary>
+		/// 格納されている画像の枚数を取得する。
+		/// </summary>
+		public int ImageCount
+		{
+			get { return CoreInstance.GetImageCount(); }
+		}
+
+
+		/// <summary>
+		/// 格納されている画像の名称を取得する。 
+		/// </summary>
+		/// <param name="index">インデックス </param>
+		/// <returns>名称 </returns>
+		public string GetImageName(int index)
+		{
+			return CoreInstance.GetImageName(index);
+		}
+
+		/// <summary>
+		/// 格納されている画像が配置される領域を取得する。 
+		/// </summary>
+		/// <param name="index">インデックス </param>
+		/// <returns>領域 </returns>
+		public ace.RectI GetImageArea(int index)
+		{
+			return CoreInstance.GetImageArea(index);
 		}
 
 	}
@@ -1356,14 +1428,157 @@ namespace ace {
 
 
 	/// <summary>
-	/// 
+	/// 音を管理するクラス 
+	/// </summary>
+	public partial class Sound
+	{
+		internal ace.swig.Sound CoreInstance { get; set; }
+
+
+		/// <summary>
+		/// 音を再生する。 
+		/// </summary>
+		/// <param name="soundSource">音源 </param>
+		/// <returns>ID </returns>
+		public int Play(SoundSource soundSource)
+		{
+			var soundSourceCore = soundSource != null ? soundSource.CoreInstance : null;
+			return CoreInstance.Play(soundSourceCore);
+		}
+
+		/// <summary>
+		/// 音が再生中か、取得する。 
+		/// </summary>
+		/// <param name="id">ID </param>
+		/// <returns>再生中か? </returns>
+		public bool GetIsPlaying(int id)
+		{
+			return CoreInstance.GetIsPlaying(id);
+		}
+
+		/// <summary>
+		/// 全ての再生中の音を停止する。 
+		/// </summary>
+		public void StopAll()
+		{
+			CoreInstance.StopAll();
+		}
+
+		/// <summary>
+		/// 指定した音を停止する。 
+		/// </summary>
+		/// <param name="id">ID </param>
+		public void Stop(int id)
+		{
+			CoreInstance.Stop(id);
+		}
+
+		/// <summary>
+		/// 指定した音を一時停止する。 
+		/// </summary>
+		/// <param name="id">ID </param>
+		public void Pause(int id)
+		{
+			CoreInstance.Pause(id);
+		}
+
+		/// <summary>
+		/// 指定した一時停止中の音の一時停止を解除する。 
+		/// </summary>
+		/// <param name="id">ID </param>
+		public void Resume(int id)
+		{
+			CoreInstance.Resume(id);
+		}
+
+		/// <summary>
+		/// 指定した音の音量を設定する。 
+		/// </summary>
+		/// <param name="id">ID </param>
+		/// <param name="volume">音量(0.0～1.0) </param>
+		public void SetVolume(int id, float volume)
+		{
+			CoreInstance.SetVolume(id, volume);
+		}
+
+		/// <summary>
+		/// 指定した音をフェードインさせる。 
+		/// </summary>
+		/// <param name="id">ID </param>
+		/// <param name="second">フェードインに使用する時間(秒) </param>
+		public void FadeIn(int id, float second)
+		{
+			CoreInstance.FadeIn(id, second);
+		}
+
+		/// <summary>
+		/// 指定した音をフェードアウトさせる。 
+		/// </summary>
+		/// <param name="id">ID </param>
+		/// <param name="second">フェードアウトに使用する時間(秒) </param>
+		public void FadeOut(int id, float second)
+		{
+			CoreInstance.FadeOut(id, second);
+		}
+
+	}
+
+
+	/// <summary>
+	/// 音源のクラス 
+	/// </summary>
+	public partial class SoundSource
+	{
+		internal ace.swig.SoundSource CoreInstance { get; set; }
+
+		/// <summary>
+		/// ループポイントの開始地点(秒)を取得または設定する。
+		/// </summary>
+		public float LoopStartingPoint
+		{
+			get { return CoreInstance.GetLoopStartingPoint(); }
+			set { CoreInstance.SetLoopStartingPoint(value); }
+		}
+
+		/// <summary>
+		/// ループポイントの終了地点(秒)を取得または設定する。
+		/// </summary>
+		public float LoopEndPoint
+		{
+			get { return CoreInstance.GetLoopEndPoint(); }
+			set { CoreInstance.SetLoopEndPoint(value); }
+		}
+
+		/// <summary>
+		/// ループするかを取得または設定する。
+		/// </summary>
+		public bool IsLoopingMode
+		{
+			get { return CoreInstance.GetIsLoopingMode(); }
+			set { CoreInstance.SetIsLoopingMode(value); }
+		}
+
+		/// <summary>
+		/// 音の長さを取得する。
+		/// </summary>
+		public float Length
+		{
+			get { return CoreInstance.GetLength(); }
+		}
+
+
+	}
+
+
+	/// <summary>
+	/// 一括してファイルを読み込むクラス 
 	/// </summary>
 	public partial class StaticFile
 	{
 		internal ace.swig.StaticFile CoreInstance { get; set; }
 
 		/// <summary>
-		/// 
+		/// ファイルのパスを取得する。
 		/// </summary>
 		public string FullPath
 		{
@@ -1371,7 +1586,7 @@ namespace ace {
 		}
 
 		/// <summary>
-		/// 
+		/// 読み込まれたバッファの先頭のポインタを取得する。
 		/// </summary>
 		public System.IntPtr Data
 		{
@@ -1379,7 +1594,7 @@ namespace ace {
 		}
 
 		/// <summary>
-		/// 
+		/// 読み込まれたバッファのサイズを取得する。
 		/// </summary>
 		public int Size
 		{
@@ -1391,14 +1606,14 @@ namespace ace {
 
 
 	/// <summary>
-	/// 
+	/// 部分的にファイルを読み込むクラス 
 	/// </summary>
 	public partial class StreamFile
 	{
 		internal ace.swig.StreamFile CoreInstance { get; set; }
 
 		/// <summary>
-		/// 
+		/// ファイルのサイズを取得する。
 		/// </summary>
 		public int Size
 		{
@@ -1406,7 +1621,7 @@ namespace ace {
 		}
 
 		/// <summary>
-		/// 
+		/// ファイル内で現在読み込んでいる位置を取得する。
 		/// </summary>
 		public int CurrentPosition
 		{

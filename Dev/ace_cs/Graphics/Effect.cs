@@ -9,17 +9,15 @@ namespace ace
 	/// <summary>
 	/// エフェクトの情報が記録されているクラス
 	/// </summary>
-	public class Effect : IDestroy
+	public partial class Effect : IDestroy
 	{
-		internal swig.Effect SwigObject { get; set; }
-
 		internal Effect(swig.Effect swig)
 		{
 #if DEBUG
 			// 唯一の対応するクラスであることを保証
 			if (GC.Effects.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-			SwigObject = swig;
+			CoreInstance = swig;
 		}
 
 		~Effect()
@@ -31,7 +29,7 @@ namespace ace
 		{
 			get
 			{
-				return SwigObject == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -39,9 +37,9 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
 		}

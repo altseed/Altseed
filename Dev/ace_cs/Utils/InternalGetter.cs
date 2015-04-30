@@ -56,7 +56,7 @@ namespace ace
 		static public swig.Effect GetEffect(Effect o)
 		{
 			if (o == null) return null;
-			return o.SwigObject;
+			return o.CoreInstance;
 		}
 
 		static public swig.Chip2D GetChip2D(Chip2D o)
@@ -68,7 +68,7 @@ namespace ace
 		static public swig.Font GetFont(Font o)
 		{
 			if (o == null) return null;
-			return o.SwigObject;
+			return o.CoreInstance;
 		}
 	}
 }
