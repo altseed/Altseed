@@ -186,7 +186,7 @@ void Graphics_TextureFormat(bool isOpenGLMode)
 	int32_t time = 0;
 	while (window->DoEvent())
 	{
-		auto draw = [&](int32_t index, ace::TextureFilterType filter, ace::TextureWrapType wrap, ace::AlphaBlend alphaBlend) -> void
+		auto draw = [&](int32_t index, ace::TextureFilterType filter, ace::TextureWrapType wrap, ace::AlphaBlendMode alphaBlend) -> void
 		{
 			graphics->Clear(true, false, ace::Color(0,0,0,255));
 			graphics->SetVertexBuffer(vertexBuffer.get());
@@ -210,35 +210,35 @@ void Graphics_TextureFormat(bool isOpenGLMode)
 			draw(0,
 				ace::TextureFilterType::Linear,
 				ace::TextureWrapType::Repeat,
-				ace::AlphaBlend::Blend);
+				ace::AlphaBlendMode::Blend);
 		}
 		else if (time  < 8)
 		{
 			draw(1,
 				ace::TextureFilterType::Linear,
 				ace::TextureWrapType::Repeat,
-				ace::AlphaBlend::Blend);
+				ace::AlphaBlendMode::Blend);
 		}
 		else if (time < 12)
 		{
 			draw(2,
 				ace::TextureFilterType::Linear,
 				ace::TextureWrapType::Repeat,
-				ace::AlphaBlend::Blend);
+				ace::AlphaBlendMode::Blend);
 		}
 		else if (time < 16)
 		{
 			draw(3,
 				ace::TextureFilterType::Linear,
 				ace::TextureWrapType::Repeat,
-				ace::AlphaBlend::Blend);
+				ace::AlphaBlendMode::Blend);
 		}
 		else if (time < 20)
 		{
 			//draw(10, 10, 100, 255,
 			//	ace::TextureFilterType::Linear,
 			//	ace::TextureWrapType::Clamp,
-			//	ace::AlphaBlend::Opacity);
+			//	ace::AlphaBlendMode::Opacity);
 		}
 
 		graphics->Present();
