@@ -47,7 +47,7 @@ namespace FilePackingTool
 				throw new ArgumentException("パックファイルの名前を設定してください");
 			}
 		}
-		static PackagingSetting GetPackagingSetting(IEnumerator<string> args)
+		static FilePackingTool.Packaging.PackagingSetting GetPackagingSetting(IEnumerator<string> args)
 		{
 			if (haveCurrentValue)
 			{
