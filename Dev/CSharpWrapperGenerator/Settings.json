@@ -19,11 +19,6 @@
 		"Graphics",
 		"Graphics_Imp",
 
-		"File",
-		"File_Imp",
-		"StreamFile",
-		"StaticFile",
-
 		"TextureLockInfomation",
 
 		"Terrain3D",
@@ -119,6 +114,15 @@
 
 		"LayerProfiler",
 		"LayerProfiler_Imp",
+
+		"Window",
+		"Window_Imp",
+		"StructTranslator",
+		"StructTranslator_Imp",
+		"Accessor",
+		"ReferenceObject",
+		"IReference",
+		"CoreOption",
 	],
 	"MethodBlackList": [
 		"*.GetPtr",

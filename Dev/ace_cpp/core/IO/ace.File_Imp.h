@@ -43,13 +43,16 @@ namespace ace
 
 		File_Imp();
 		virtual ~File_Imp();
+
 		void AddDefaultRootDirectory();
 
-		virtual void AddRootDirectory(const achar* path);
-		virtual void AddRootPackage(const achar* path, const achar* key);
-		virtual void ClearRootDirectories();
-		virtual bool Exists(const achar* path) const;
-		
+		virtual void AddRootDirectory(const achar* path) override;
+		virtual void AddRootPackageWithPassword(const achar* path, const achar* key)  override;
+		virtual void AddRootPackage(const achar* path)  override;
+		virtual void ClearRootDirectories() override;
+		virtual bool Exists(const achar* path) const override;
+
+#ifndef SWIG
 		virtual StaticFile* CreateStaticFile_(const achar* path);
 		virtual StreamFile* CreateStreamFile_(const achar* path);
 
@@ -59,5 +62,6 @@ namespace ace
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }
+#endif
 	};
 }

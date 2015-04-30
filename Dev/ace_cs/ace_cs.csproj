@@ -185,7 +185,6 @@
     <Compile Include="swig\Deformer.cs" />
     <Compile Include="swig\Effect.cs" />
     <Compile Include="swig\File.cs" />
-    <Compile Include="swig\File_Imp.cs" />
     <Compile Include="swig\Font.cs" />
     <Compile Include="swig\FramerateMode.cs" />
     <Compile Include="swig\Graphics.cs" />

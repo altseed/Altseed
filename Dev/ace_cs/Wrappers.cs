@@ -1095,241 +1095,55 @@ namespace ace {
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class Accessor
+	public partial class File
 	{
-		private ace.swig.Accessor coreInstance;
-
-
-	}
-
-
-	/// <summary>
-	/// 
-	/// </summary>
-	public partial class Option
-	{
-		private ace.swig.CoreOption coreInstance;
-
-
-	}
-
-
-	/// <summary>
-	/// 参照カウンタのインターフェース 
-	/// </summary>
-	public partial class IReference
-	{
-		private ace.swig.IReference coreInstance;
-
-		/// <summary>
-		/// 参照カウンタを取得する。
-		/// </summary>
-		public int Ref
-		{
-			get { return coreInstance.GetRef(); }
-		}
-
-
-		/// <summary>
-		/// 参照カウンタを加算する。 
-		/// </summary>
-		/// <returns>加算後の参照カウンタ </returns>
-		public int AddRef()
-		{
-			return coreInstance.AddRef();
-		}
-
-		/// <summary>
-		/// 参照カウンタを減算する。0になった時、インスタンスを削除する。 
-		/// </summary>
-		/// <returns>減算後の参照カウンタ </returns>
-		public int Release()
-		{
-			return coreInstance.Release();
-		}
-
-	}
-
-
-	/// <summary>
-	/// 参照カウンタオブジェクト 
-	/// </summary>
-	public partial class ReferenceObject
-	{
-		private ace.swig.ReferenceObject coreInstance;
-
-		/// <summary>
-		/// 参照カウンタを取得する。
-		/// </summary>
-		public int Ref
-		{
-			get { return coreInstance.GetRef(); }
-		}
-
-
-		/// <summary>
-		/// 参照カウンタを加算する。 
-		/// </summary>
-		/// <returns>加算後の参照カウンタ </returns>
-		public int AddRef()
-		{
-			return coreInstance.AddRef();
-		}
-
-		/// <summary>
-		/// 参照カウンタを減算する。0になった時、インスタンスを削除する。 
-		/// </summary>
-		/// <returns>減算後の参照カウンタ </returns>
-		public int Release()
-		{
-			return coreInstance.Release();
-		}
-
-	}
-
-
-	/// <summary>
-	/// 
-	/// </summary>
-	public partial class StructTranslator
-	{
-		private ace.swig.StructTranslator coreInstance;
+		private ace.swig.File coreInstance;
 
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		public static void EnqueueVector2DF(float x, float y)
+		/// <param name="path"></param>
+		public void AddRootDirectory(string path)
 		{
-			StructTranslator.EnqueueVector2DF(x, y);
+			coreInstance.AddRootDirectory(path);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		public static void EnqueueVector3DF(float x, float y, float z)
+		/// <param name="path"></param>
+		/// <param name="key"></param>
+		public void AddRootPackageWithPassword(string path, string key)
 		{
-			StructTranslator.EnqueueVector3DF(x, y, z);
+			coreInstance.AddRootPackageWithPassword(path, key);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="z"></param>
-		/// <param name="w"></param>
-		public static void EnqueueVector4DF(float x, float y, float z, float w)
+		/// <param name="path"></param>
+		public void AddRootPackage(string path)
 		{
-			StructTranslator.EnqueueVector4DF(x, y, z, w);
+			coreInstance.AddRootPackage(path);
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		public static void EnqueueVector2DI(int x, int y)
+		public void ClearRootDirectories()
 		{
-			StructTranslator.EnqueueVector2DI(x, y);
+			coreInstance.ClearRootDirectories();
 		}
 
 		/// <summary>
 		/// 
 		/// </summary>
-		/// <param name="r"></param>
-		/// <param name="g"></param>
-		/// <param name="b"></param>
-		/// <param name="a"></param>
-		public static void EnqueueColor(int r, int g, int b, int a)
-		{
-			StructTranslator.EnqueueColor(r, g, b, a);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="w"></param>
-		/// <param name="h"></param>
-		public static void EnqueueRectF(float x, float y, float w, float h)
-		{
-			StructTranslator.EnqueueRectF(x, y, w, h);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="x"></param>
-		/// <param name="y"></param>
-		/// <param name="w"></param>
-		/// <param name="h"></param>
-		public static void EnqueueRectI(int x, int y, int w, int h)
-		{
-			StructTranslator.EnqueueRectI(x, y, w, h);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="m00"></param>
-		/// <param name="m01"></param>
-		/// <param name="m02"></param>
-		/// <param name="m03"></param>
-		/// <param name="m10"></param>
-		/// <param name="m11"></param>
-		/// <param name="m12"></param>
-		/// <param name="m13"></param>
-		/// <param name="m20"></param>
-		/// <param name="m21"></param>
-		/// <param name="m22"></param>
-		/// <param name="m23"></param>
-		/// <param name="m30"></param>
-		/// <param name="m31"></param>
-		/// <param name="m32"></param>
-		/// <param name="m33"></param>
-		public static void EnqueueMatrix44(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33)
-		{
-			StructTranslator.EnqueueMatrix44(m00, m01, m02, m03, m10, m11, m12, m13, m20, m21, m22, m23, m30, m31, m32, m33);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="kv_x"></param>
-		/// <param name="kv_y"></param>
-		/// <param name="lh_x"></param>
-		/// <param name="lh_y"></param>
-		/// <param name="rh_x"></param>
-		/// <param name="rh_y"></param>
-		/// <param name="i"></param>
-		public static void EnqueueFCurveKeyframe(float kv_x, float kv_y, float lh_x, float lh_y, float rh_x, float rh_y, int i)
-		{
-			StructTranslator.EnqueueFCurveKeyframe(kv_x, kv_y, lh_x, lh_y, rh_x, rh_y, i);
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
+		/// <param name="path"></param>
 		/// <returns></returns>
-		public static float DequeueFloat()
+		public bool Exists(string path)
 		{
-			return StructTranslator.DequeueFloat();
-		}
-
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <returns></returns>
-		public static int DequeueInt()
-		{
-			return StructTranslator.DequeueInt();
+			return coreInstance.Exists(path);
 		}
 
 	}
@@ -1338,16 +1152,59 @@ namespace ace {
 	/// <summary>
 	/// 
 	/// </summary>
-	public partial class Window
+	public partial class StaticFile
 	{
-		private ace.swig.Window_Imp coreInstance;
+		private ace.swig.StaticFile coreInstance;
 
 		/// <summary>
 		/// 
 		/// </summary>
-		public ace.Vector2DI Size
+		public string FullPath
+		{
+			get { return coreInstance.GetFullPath(); }
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public System.IntPtr Data
+		{
+			get { return coreInstance.GetData(); }
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int Size
 		{
 			get { return coreInstance.GetSize(); }
+		}
+
+
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class StreamFile
+	{
+		private ace.swig.StreamFile coreInstance;
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int Size
+		{
+			get { return coreInstance.GetSize(); }
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int CurrentPosition
+		{
+			get { return coreInstance.GetCurrentPosition(); }
 		}
 
 

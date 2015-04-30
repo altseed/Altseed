@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-	public class StreamFile : IDestroy
+	public partial class StreamFile : IDestroy
 	{
-		internal swig.StreamFile SwigObject { get; set; }
-
 		internal StreamFile(swig.StreamFile swig)
 		{
 
@@ -17,7 +15,7 @@ namespace ace
 			if (GC.StreamFiles.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
 
-			SwigObject = swig;
+			coreInstance = swig;
 		}
 
 		~StreamFile()
@@ -33,7 +31,7 @@ namespace ace
 		{
 			get
 			{
-				return SwigObject == null;
+				return coreInstance == null;
 			}
 		}
 
@@ -44,9 +42,9 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
+				if (coreInstance == null) return;
+				GC.Collector.AddObject(coreInstance);
+				coreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
 		}

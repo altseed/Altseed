@@ -103,6 +103,15 @@ namespace ace
 		return chip->GetTexture_();
 	}
 
+	StaticFile* Accessor::File_CreateStaticFile(File* file, const achar* path)
+	{
+		return file->CreateStaticFile_(path);
+	}
+
+	StreamFile* Accessor::File_CreateStreamFile(File* file, const achar* path)
+	{
+		return file->CreateStreamFile_(path);
+	}
 
 	int32_t Accessor::StreamFile_Read_(StreamFile* o, int32_t size)
 	{

@@ -91,8 +91,8 @@ CPP_OBJECT( ace::LayerProfiler )
 CPP_OBJECT( ace::LayerProfiler_Imp )
 CPP_OBJECT( ace::Log )
 CPP_OBJECT( ace::Log_Imp )
+
 CPP_OBJECT( ace::File )
-CPP_OBJECT( ace::File_Imp )
 CPP_OBJECT( ace::StaticFile )
 CPP_OBJECT( ace::StreamFile )
 
@@ -169,7 +169,6 @@ CPP_OBJECT( ace::StreamFile )
 %include "ace_cpp/core/Input/ace.JoystickContainer_Imp.h"
 
 %include "ace_cpp/core/IO/ace.File.h"
-%include "ace_cpp/core/IO/ace.File_Imp.h"
 %include "ace_cpp/core/IO/ace.StaticFile.h"
 %include "ace_cpp/core/IO/ace.StreamFile.h"
 

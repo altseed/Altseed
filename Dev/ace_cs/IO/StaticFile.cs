@@ -7,10 +7,8 @@ using System.Runtime.InteropServices;
 
 namespace ace
 {
-	public class StaticFile : IDestroy
+	public partial class StaticFile : IDestroy
 	{
-		internal swig.StaticFile SwigObject { get; set; }
-
 		private List<byte> buffer;
 
 		internal StaticFile(swig.StaticFile swig)
@@ -20,7 +18,7 @@ namespace ace
 			if (GC.StaticFiles.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
 
-			SwigObject = swig;
+			coreInstance = swig;
 		}
 
 		~StaticFile()
@@ -36,7 +34,7 @@ namespace ace
 		{
 			get
 			{
-				return SwigObject == null;
+				return coreInstance == null;
 			}
 		}
 
@@ -47,9 +45,9 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
+				if (coreInstance == null) return;
+				GC.Collector.AddObject(coreInstance);
+				coreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
 		}
@@ -64,9 +62,9 @@ namespace ace
 			{
 				if (buffer == null)
 				{
-					System.IntPtr raw = SwigObject.GetData();
-					byte[] bytes = new byte[SwigObject.GetSize()];
-					Marshal.Copy(raw, bytes, 0, SwigObject.GetSize());
+					System.IntPtr raw = coreInstance.GetData();
+					byte[] bytes = new byte[coreInstance.GetSize()];
+					Marshal.Copy(raw, bytes, 0, coreInstance.GetSize());
 					buffer = new List<byte>(bytes);
 				}
 

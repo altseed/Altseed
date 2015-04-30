@@ -13,6 +13,8 @@ namespace ace
 	class File
 		: public IReference
 	{
+		friend class Accessor;
+
 	protected:
 		virtual StaticFile* CreateStaticFile_(const achar* path) = 0;
 		virtual StreamFile* CreateStreamFile_(const achar* path) = 0;
@@ -22,7 +24,8 @@ namespace ace
 	public:
 		virtual ~File() { }
 		virtual void AddRootDirectory(const achar* path) = 0;
-		virtual void AddRootPackage(const achar* path, const achar* key) = 0;
+		virtual void AddRootPackageWithPassword(const achar* path, const achar* key) = 0;
+		virtual void AddRootPackage(const achar* path) = 0;
 		virtual void ClearRootDirectories() = 0;
 
 		virtual bool Exists(const achar* path) const = 0;

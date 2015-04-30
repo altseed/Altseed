@@ -138,8 +138,6 @@ namespace ace {
 
 		File* GetFile();
 
-		File_Imp* GetFile_Imp();
-
 		Log* GetLogger();
 
 		Profiler* GetProfiler();
