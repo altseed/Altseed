@@ -64,6 +64,10 @@
 
 ### ファイル
 
+* [ファイル](./IO/File.md)
+* [スタティックファイル](./IO/StaticFile.md)
+* [ストリームファイル](./IO/StreamFile.md)
+
 ### ツール
 
 * [フォントジェネレーター](./Tool/FontGenerator.md)
