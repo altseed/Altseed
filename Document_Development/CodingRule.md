@@ -1,4 +1,4 @@
-#AmusementCreatorsEngineのC++コーディング規約
+#AC-EngineのC++コーディング規約
 
 ##ファイルとディレクトリ
 ###ファイル名

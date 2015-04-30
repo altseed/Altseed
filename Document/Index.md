@@ -1,7 +1,7 @@
-﻿## Amusement Creators Engine
+﻿## AC-Engine
 
 ### はじめに
-「AmusementCreatorsEngine」は筑波大学のサークル「AmusementCreators」のメンバーが中心となって開発されているゲームエンジンです。
+「AC-Engine」は筑波大学のサークル「AmusementCreators」のメンバーが中心となって開発されているゲームエンジンです。
 
 特徴としてC++、C#の2つのプログラミング言語で開発できる、という点があります。現在はWindows上でC++、C#の2種類しか動作しませんが
 対応OS、対応言語共に増やしていく予定です。
