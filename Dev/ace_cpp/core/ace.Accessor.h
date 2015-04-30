@@ -38,5 +38,9 @@ namespace ace
 		static Effect* CoreEffectObject2D_GetEffect(CoreEffectObject2D* o);
 
 		static Texture2D* Chip2D_GetTexture(Chip2D* chip);
+
+		static int32_t StreamFile_Read_(StreamFile* o, int32_t size);
+		static void* StreamFile_GetTempBuffer_(StreamFile* o);
+		static int32_t StreamFile_GetTempBufferSize_(StreamFile* o);
 	};
 }

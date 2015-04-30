@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 
 using System.IO;
-using umw.Extention;
+using FilePackingTool.Extention;
 
-namespace umw
+namespace FilePackingTool
 {
 	/// <summary>
 	/// パックファイルも読み込めるように拡張したもの

@@ -1,13 +1,15 @@
 ﻿#pragma once
 
-#include "../common/ace.common.Base.h"
-#include "ace.BaseFile_Imp.h"
-#include <vector>
-#include <unordered_set>
+#include "ace.BaseFile.h"
+#include "ace.FileHelper.h"
+
+#include <memory>
+#include <unordered_map>
+#include <cassert>
 
 namespace ace
 {
-	class InternalHeader
+	class PackFileInternalHeader
 	{
 	private:
 		uint32_t m_headerSize;
@@ -23,7 +25,7 @@ namespace ace
 		const decltype(m_fileName)&	GetFileName() { return m_fileName; }
 		decltype(m_fileNameLength)	GetFileNameLength() { return m_fileNameLength; }
 
-		InternalHeader(std::shared_ptr<BaseFile_Imp>& packedFile)
+		PackFileInternalHeader(std::shared_ptr<BaseFile>& packedFile)
 		{
 			std::vector<uint8_t> buffer;
 			std::vector<int16_t> strBuffer;
@@ -39,25 +41,40 @@ namespace ace
 		}
 	};
 
-	class TopHeader
+	class PackFileHeader
 	{
 	private:
 		uint64_t m_headerSize;
 		uint64_t m_fileCount;
 		uint64_t m_filePathHeaderLength;
-		std::vector<astring> m_ignoreFiles;
-		std::vector<std::shared_ptr<InternalHeader>> m_internalHeaders;
+		std::vector<std::shared_ptr<PackFileInternalHeader>> m_internalHeaders;
 
 	public:
 		static const astring Signature;
 
-		TopHeader();
-		TopHeader(uint64_t fileCounnt, const std::vector<astring>& ignoreFiles);
-		TopHeader(std::shared_ptr<BaseFile_Imp>& packedFile);
+		PackFileHeader();
 
-		void ToByteArray(std::vector<uint8_t>& buffer);
-		void GetIgnoreFiles(std::vector<astring>& files);
-		std::vector<std::shared_ptr<InternalHeader>>& GetInternalHeaders() { return m_internalHeaders; };
-		void AddIgnoreFiles(std::unordered_set<astring>& files);
+		bool Load(std::shared_ptr<BaseFile>& packedFile);
+
+		std::vector<std::shared_ptr<PackFileInternalHeader>>& GetInternalHeaders();
+	};
+
+	class PackFile
+	{
+	private:
+		std::shared_ptr<PackFileHeader> m_TopHeader;
+		std::unordered_map<astring, std::shared_ptr<PackFileInternalHeader>> m_InternalHeaderDictionaly;
+		std::shared_ptr<BaseFile> m_RawFile;
+
+	public:
+		decltype(m_RawFile) RawFile() { return m_RawFile; }
+
+		PackFile();
+		virtual ~PackFile();
+		bool Load(std::shared_ptr<BaseFile> packedFile);
+
+		bool HaveFile(const astring& path);
+		std::shared_ptr<PackFileHeader> GetTopHeader();
+		std::shared_ptr<PackFileInternalHeader> GetInternalHeader(const astring& path);
 	};
 }

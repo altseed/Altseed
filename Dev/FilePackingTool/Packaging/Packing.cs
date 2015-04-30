@@ -5,9 +5,9 @@ using System.Text;
 
 using System.IO;
 using System.Text.RegularExpressions;
-using umw.Extention;
+using FilePackingTool.Extention;
 
-namespace umw.Packaging
+namespace FilePackingTool.Packaging
 {
 	public enum PackagingSetting
 	{
@@ -102,8 +102,11 @@ namespace umw.Packaging
 				{
 					array[i] ^= *pKey;
 
-					if (++pKey == pKeyEnd)
+					pKey++;
+					if (pKey == pKeyEnd)
+					{
 						pKey = pfixKey;
+					}
 				}
 			}
 

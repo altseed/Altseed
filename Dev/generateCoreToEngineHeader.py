@@ -83,7 +83,6 @@ fromCoreToEngine.readLines("ace_cpp/core/Profiler/ace.Profiler.h")
 fromCoreToEngine.readLines("ace_cpp/core/Profiler/ace.LayerProfiler.h")
                                                                        
 fromCoreToEngine.readLines("ace_cpp/core/IO/ace.File.h")
-fromCoreToEngine.readLines("ace_cpp/core/IO/ace.Path.h")
 fromCoreToEngine.readLines("ace_cpp/core/IO/ace.StaticFile.h")
 fromCoreToEngine.readLines("ace_cpp/core/IO/ace.StreamFile.h")
 

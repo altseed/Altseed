@@ -24,6 +24,8 @@
 
 #include "Graphics/Resource/ace.Chip2D.h"
 
+#include "IO/ace.StreamFile.h"
+
 namespace ace
 {
 	SoundSource* Accessor::Sound_CreateSoundSource(Sound* o, const achar* path, bool isDecompressed)
@@ -99,5 +101,21 @@ namespace ace
 	Texture2D* Accessor::Chip2D_GetTexture(Chip2D* chip)
 	{
 		return chip->GetTexture_();
+	}
+
+
+	int32_t Accessor::StreamFile_Read_(StreamFile* o, int32_t size)
+	{
+		return o->Read_(size);
+	}
+
+	void* Accessor::StreamFile_GetTempBuffer_(StreamFile* o)
+	{
+		return o->GetTempBuffer_();
+	}
+
+	int32_t Accessor::StreamFile_GetTempBufferSize_(StreamFile* o)
+	{
+		return o->GetTempBufferSize_();
 	}
 }

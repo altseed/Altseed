@@ -5,7 +5,7 @@ using System.Text;
 
 using System.IO;
 
-namespace umw.Extention
+namespace FilePackingTool.Extention
 {
 	internal static class UriExtention
 	{

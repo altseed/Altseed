@@ -1,17 +1,18 @@
-﻿#include "ace.BaseFile_Imp.h"
+﻿
+#include "ace.BaseFile.h"
 #include <sstream>
 
 namespace ace
 {
-	BaseFile_Imp::BaseFile_Imp(const Path& fileName) :
-		BaseFile_Imp(fileName.ToAstring())
+	BaseFile::BaseFile(const astring& path)
+		: BaseFile(path.c_str())
 	{
 	}
 
-	BaseFile_Imp::BaseFile_Imp(const astring& path) :
-		m_position(0),
-		m_length(-1),
-		m_filePath(path)
+	BaseFile::BaseFile(const achar* path)
+		: m_position(0)
+		, m_length(-1)
+		, m_filePath(path)
 	{
 		m_file.open(
 #ifdef _WIN32
@@ -22,12 +23,17 @@ namespace ace
 			std::basic_ios<uint8_t>::in | std::basic_ios<uint8_t>::binary);
 	}
 
-	BaseFile_Imp::~BaseFile_Imp()
+	BaseFile::~BaseFile()
 	{
 		m_file.close();
 	}
 
-	int64_t BaseFile_Imp::Size()
+	bool BaseFile::IsValid()
+	{
+		return !m_file.fail();
+	}
+
+	int64_t BaseFile::GetSize()
 	{
 		if (m_length < 0)
 		{
@@ -42,9 +48,9 @@ namespace ace
 		return m_length;
 	}
 
-	void BaseFile_Imp::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count)
+	void BaseFile::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count)
 	{
-		const auto size = Size();
+		const auto size = GetSize();
 
 		if (!count)
 		{
@@ -62,7 +68,7 @@ namespace ace
 		m_position += count;
 	}
 
-	uint32_t BaseFile_Imp::ReadUInt32()
+	uint32_t BaseFile::ReadUInt32()
 	{
 		std::vector<uint8_t> buffer;
 		ReadBytes(buffer, sizeof(uint32_t));
@@ -70,7 +76,7 @@ namespace ace
 		return *reinterpret_cast<const uint32_t*>(buffer.data());
 	}
 
-	uint64_t BaseFile_Imp::ReadUInt64()
+	uint64_t BaseFile::ReadUInt64()
 	{
 		std::vector<uint8_t> buffer;
 		ReadBytes(buffer, sizeof(uint64_t));
@@ -78,29 +84,17 @@ namespace ace
 		return *reinterpret_cast<const uint64_t*>(buffer.data());
 	}
 
-	void BaseFile_Imp::ReadAllBytes(std::vector<uint8_t>& buffer)
+	void BaseFile::ReadAllBytes(std::vector<uint8_t>& buffer)
 	{
 		const auto tmp = m_position;
-		ReadBytes(buffer, Size());
+		ReadBytes(buffer, GetSize());
 
 		m_position = tmp;
 	}
 
-	void BaseFile_Imp::ReadAllLines(std::vector<astring>& lines)
+	void BaseFile::Seek(const int64_t offset, const SeekOrigin seekOrigin)
 	{
-	}
-
-	void BaseFile_Imp::ReadAllText(astring& text)
-	{
-	}
-
-	void BaseFile_Imp::ReadAllText(astring& text, const std::locale& locale)
-	{
-	}
-
-	void BaseFile_Imp::Seek(const int64_t offset, const SeekOrigin seekOrigin)
-	{
-		const auto size = Size();
+		const auto size = GetSize();
 
 		switch (seekOrigin)
 		{

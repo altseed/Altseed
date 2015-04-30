@@ -6,10 +6,10 @@
 using namespace std;
 using namespace ace;
 
-class File_StaticFile_Package_Priority : public EngineTest
+class IO_StaticFile_Package_Priority : public EngineTest
 {
 public:
-	File_StaticFile_Package_Priority(bool isOpenGLMode)
+	IO_StaticFile_Package_Priority(bool isOpenGLMode)
 		: EngineTest(ace::ToAString("StaticFile_Package_Priority"), isOpenGLMode, 1)
 	{
 
@@ -26,10 +26,10 @@ protected:
 			reader1.ReadIn(data1.begin(), data1.end());
 
 			//ファイル機能で読み込んだバイナリ
-			ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data/Texture2.pack").c_str());
-			ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data/Texture.pack").c_str());
+			ace::Engine::GetFile()->AddRootDirectory(ace::ToAString("Data/Texture2.pack").c_str());
+			ace::Engine::GetFile()->AddRootDirectory(ace::ToAString("Data/Texture.pack").c_str());
 			auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Cloud1.png").c_str());
-			auto staticFileData = staticFile->ReadAllBytes();
+			auto staticFileData = staticFile->GetBuffer();
 
 			int cnt = 0;
 			while (!reader1.IsEmpty())
@@ -51,10 +51,10 @@ protected:
 			reader2.ReadIn(data2.begin(), data2.end());
 
 			//ファイル機能で読み込んだバイナリ
-			ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data/Texture.pack").c_str());
-			ace::Engine::GetFile()->AddRootDirectories(ace::ToAString("Data/Texture2.pack").c_str());
+			ace::Engine::GetFile()->AddRootDirectory(ace::ToAString("Data/Texture.pack").c_str());
+			ace::Engine::GetFile()->AddRootDirectory(ace::ToAString("Data/Texture2.pack").c_str());
 			auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Cloud1.png").c_str());
-			auto staticFileData = staticFile->ReadAllBytes();
+			auto staticFileData = staticFile->GetBuffer();
 
 			int cnt = 0;
 			while (!reader2.IsEmpty())
@@ -70,4 +70,4 @@ protected:
 	}
 };
 
-ENGINE_TEST(File, StaticFile_Package_Priority)
+ENGINE_TEST(IO, StaticFile_Package_Priority)

@@ -27,7 +27,7 @@ protected:
 		m_parent = make_shared<TextureObject2D>();
 
 		auto file = ace::Engine::GetFile();
-		file->AddRootDirectories(ace::ToAString("Data/Texture").c_str());
+		file->AddRootDirectory(ace::ToAString("Data/Texture").c_str());
 
 		ace::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
