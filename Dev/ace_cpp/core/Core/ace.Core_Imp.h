@@ -31,7 +31,7 @@ namespace ace {
 		Mouse_Imp*		m_mouse;
 		Log_Imp*		m_logger;
 		Profiler_Imp*	m_profiler;
-		LayerProfiler_Imp*	m_layerProfiler;
+		LayerProfiler_Imp*	m_layerProfiler = nullptr;
 
 		ProfilerViewer_Imp* m_profilerViewer;
 		Graphics_Imp*	m_graphics;
