@@ -3,30 +3,38 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="ファイルパッケージングツール" Height="350" Width="525">
     <Grid>
-        <StackPanel>
-            <Grid Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Vertical">
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                
-                <Label Grid.Column="0" Grid.Row="0">読み込み元</Label>
-                <StackPanel Grid.Column="1" Grid.Row="0">
-                    <Button Content="読み込み"/>
-                    <Label/>
-                </StackPanel>
+            <StackPanel>
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
 
-                <Label Grid.Column="0" Grid.Row="1">パスワード</Label>
-                <TextBox Grid.Column="1" Grid.Row="1"></TextBox>
-            </Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-            <Grid Margin="5">
-            </Grid>
+                    <Label Grid.Column="0" Grid.Row="0">読み込み元</Label>
+                    <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                        <Button Name="btn_selectTarget" Content="参照" Click="btn_selectTarget_Click"/>
+                        <Label Name="lbl_target"/>
+                    </StackPanel>
+
+                    <Label Grid.Column="0" Grid.Row="1">パスワード</Label>
+                    <TextBox Name="txt_password" Grid.Column="1" Grid.Row="1"></TextBox>
+                </Grid>
+
+                <Grid Margin="5">
+                </Grid>
+            </StackPanel>
+
+            <StackPanel HorizontalAlignment="Left">
+                <Button Name="btn_export" Content="出力" Margin="5" Width="120" Click="btn_export_Click"/>
+
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>

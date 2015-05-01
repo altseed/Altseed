@@ -13,6 +13,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.Windows.Forms;
+
+using System.Reflection;
+using FilePackingTool.Packaging;
+
 namespace FilePackagingTool.GUI
 {
 	/// <summary>
@@ -24,5 +29,37 @@ namespace FilePackagingTool.GUI
 		{
 			InitializeComponent();
 		}
+
+		private void btn_export_Click(object sender, RoutedEventArgs e)
+		{
+			if(!System.IO.Directory.Exists(targetPath))
+			{
+				System.Windows.Forms.MessageBox.Show("ディレクトリが設定されていません。");
+				return;
+			}
+
+			var dialog = new SaveFileDialog();
+
+			dialog.Filter = "パックファイル(*.pack)|*.pack";
+
+			if(dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				Packing.Run(targetPath, dialog.FileName, PackagingSetting.IgnoreHiddenAttribute, new string [] {}, txt_password.Text);
+				System.Windows.Forms.MessageBox.Show("パッケージを出力しました。");
+			}
+		}
+
+		private void btn_selectTarget_Click(object sender, RoutedEventArgs e)
+		{
+			var dialog = new FolderBrowserDialog();
+
+			if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+			{
+				targetPath = dialog.SelectedPath;
+				lbl_target.Content = dialog.SelectedPath;
+			}
+		}
+
+		string targetPath;
 	}
 }

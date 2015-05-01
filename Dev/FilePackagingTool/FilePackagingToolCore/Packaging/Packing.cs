@@ -157,11 +157,20 @@ namespace FilePackingTool.Packaging
 			
 			PrintHeaderInfo(format, internalFormat, packName);
 
-			using (var writer = new BinaryWriter(File.Create(
-				Path.GetDirectoryName(directoryUri.LocalPath)
-				// 実行ファイルと同じ階層に生成したい場合は GetFileName に変更
-				+ Path.DirectorySeparatorChar
-				+ packName)))
+			string exportedPath = string.Empty;
+			if(System.IO.Path.IsPathRooted(packName))
+			{
+				exportedPath = packName;
+			}
+			else
+			{
+				exportedPath = Path.GetDirectoryName(directoryUri.LocalPath)
+					// 実行ファイルと同じ階層に生成したい場合は GetFileName に変更
+					+ Path.DirectorySeparatorChar
+					+ packName;
+			}
+
+			using (var writer = new BinaryWriter(File.Create(exportedPath)))
 			{
 				writer.Write(format.ToByteArray());
 				internalFormat.ForEach(inHeader => writer.Write(inHeader.ToByteArray()));
@@ -175,10 +184,7 @@ namespace FilePackingTool.Packaging
 
 			if(!string.IsNullOrEmpty(key))
 			{
-				string path = Path.GetDirectoryName(directoryUri.LocalPath)
-										+ Path.DirectorySeparatorChar
-										+ packName;
-				Encrypt(path, key);
+				Encrypt(exportedPath, key);
 			}
 		}
 	}
