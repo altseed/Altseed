@@ -16,7 +16,7 @@ namespace ace
 		SafeAddRef(file);
 	}
 
-	StreamFile_Imp::StreamFile_Imp(File_Imp* file, const astring& cacheKey, std::shared_ptr<BaseFile>& baseFile, PackFileInternalHeader& internalHeader, const astring& key)
+	StreamFile_Imp::StreamFile_Imp(File_Imp* file, const astring& cacheKey, const std::shared_ptr<BaseFile>& baseFile, PackFileInternalHeader& internalHeader, const astring& key)
 		: file(file)
 		, cacheKey(cacheKey)
 		, baseFile(baseFile)

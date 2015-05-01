@@ -28,7 +28,7 @@ namespace ace
 
 	public:
 		StreamFile_Imp(File_Imp* file, const astring& cacheKey, std::shared_ptr<BaseFile>& baseFile);
-		StreamFile_Imp(File_Imp* file, const astring& cacheKey, std::shared_ptr<BaseFile>& baseFile, PackFileInternalHeader& internalHeader, const astring& key);
+		StreamFile_Imp(File_Imp* file, const astring& cacheKey, const std::shared_ptr<BaseFile>& baseFile, PackFileInternalHeader& internalHeader, const astring& key);
 
 		virtual ~StreamFile_Imp();
 
