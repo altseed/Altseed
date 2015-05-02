@@ -1,8 +1,0 @@
-import download_bullet.py
-import download_effekseer.py
-import download_culling2d.py
-import download_culling3d.py
-import download_glfw.py
-import download_gtest.py
-import download_OpenSoundMixer.py
-import download_imagepackagegenerator.py
