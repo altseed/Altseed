@@ -48,6 +48,7 @@
     <Compile Include="Debug\Profiler.cs" />
     <Compile Include="EngineGraphics3DTest.cs" />
     <Compile Include="EngineTest.cs" />
+    <Compile Include="Graphics\2D\AdditionallyDraw.cs" />
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
     <Compile Include="Graphics\2D\GeometryObject2D.cs" />
     <Compile Include="Graphics\2D\MapObject2D.cs" />
