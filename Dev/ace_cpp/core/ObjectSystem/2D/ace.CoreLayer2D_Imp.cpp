@@ -717,17 +717,20 @@ namespace ace
 		sprites.push_back(sprite);
 	}
 
-	void CoreLayer2D_Imp::DrawCircleAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawCircleAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int numberOfCorners, float angle, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
-		if (vertNum < 3) return;
+		if (numberOfCorners < 3) return;
 
-		const float radInc = 360.0 / vertNum;
+		const float radInc = 360.0 / numberOfCorners;
 
 		const float outerRadius = outerDiameter / 2;
 		const float innerRadius = innerDiameter / 2;
 
-		Vector2DF currentVector(0, -1);
-		currentVector.SetDegree(angle - 90);
+		float currentPosDeg = angle - 90;
+		float currentUVDeg = -90;
+
+		Vector2DF baseVector(0, -1);
+		baseVector.SetDegree(currentPosDeg);
 
 		Vector2DF uvCenter = { 0.5, 0.5 };
 
@@ -735,104 +738,113 @@ namespace ace
 
 		float ratio = innerDiameter / outerDiameter;
 
-		for (int i = 0; i < vertNum; ++i)
+		for (int i = 0; i < numberOfCorners; ++i)
 		{
-			Vector2DF nextVector = currentVector;
+			Vector2DF currentPosVector = baseVector;
+			currentPosVector.SetDegree(currentPosDeg);
 
-			auto nextDeg = nextVector.GetDegree();
-			nextDeg += radInc;
-			nextVector.SetDegree(nextDeg);
+			Vector2DF nextPosVector = currentPosVector;
+			auto nextPosDeg = nextPosVector.GetDegree();
+			nextPosDeg += radInc;
+			nextPosVector.SetDegree(nextPosDeg);
 
-			Vector2DF nextUVVector = uvVector;
+			Vector2DF currentUVVector = uvVector;
+			currentUVVector.SetDegree(currentUVDeg);
 
+			Vector2DF nextUVVector = currentUVVector;
 			auto nextUVDeg = nextUVVector.GetDegree();
 			nextUVDeg += radInc;
 			nextUVVector.SetDegree(nextUVDeg);
 
 
-			std::array<Vector2DF, 4> vertexes = { center + currentVector*outerRadius, center + nextVector*outerRadius, center + nextVector*innerRadius, center + currentVector*innerRadius };
+			std::array<Vector2DF, 4> vertexes = { center + currentPosVector*outerRadius, center + nextPosVector*outerRadius, center + nextPosVector*innerRadius, center + currentPosVector*innerRadius };
+			std::array<Vector2DF, 4> uvs = { uvCenter + currentUVVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + currentUVVector*ratio };
 			std::array<Color, 4> colors = { color, color, color, color };
-			std::array<Vector2DF, 4> uvs = { uvCenter + uvVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + uvVector*ratio };
-
-			Sprite sprite;
 
 			SafeAddRef(texture);
 
-			sprite.pos = vertexes;
-			sprite.col = colors;
-			sprite.uv = uvs;
-			sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
-			sprite.AlphaBlend_ = alphaBlend;
-			sprite.Priority = priority;
+			{
+				Sprite sprite;
 
-			sprites.push_back(sprite);
+				sprite.pos = vertexes;
+				sprite.col = colors;
+				sprite.uv = uvs;
+				sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+				sprite.AlphaBlend_ = alphaBlend;
+				sprite.Priority = priority;
 
-			currentVector = nextVector;
+				sprites.push_back(sprite);
+			}
 
-			uvVector = nextUVVector;
+			currentPosDeg += radInc;
+			currentUVDeg += radInc;
 		}
 	}
 
-	void CoreLayer2D_Imp::DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
+	void CoreLayer2D_Imp::DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int numberOfCorners, int startingCorner, int endingCorner, float angle, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
-		if (vertNum < 3) return;
+		if (numberOfCorners < 3) return;
 
-		startingVerticalAngle = Clamp(startingVerticalAngle, vertNum, 0);
-		endingVerticalAngle = Clamp(endingVerticalAngle, vertNum, 0);
-
-		while (endingVerticalAngle < startingVerticalAngle) endingVerticalAngle += vertNum;
-
-		const float radInc = 360.0 / vertNum;
+		const float radInc = 360.0 / numberOfCorners;
 
 		const float outerRadius = outerDiameter / 2;
 		const float innerRadius = innerDiameter / 2;
 
-		Vector2DF currentVector(0, -1);
-		currentVector.SetDegree(startingVerticalAngle*radInc + angle - 90);
+		float currentPosDeg = angle - 90 + startingCorner*radInc;
+		float currentUVDeg = -90 + startingCorner*radInc;
+
+		Vector2DF baseVector(0, -1);
+		baseVector.SetDegree(currentPosDeg);
 
 		Vector2DF uvCenter = { 0.5, 0.5 };
 
 		Vector2DF uvVector = { 0, -0.5 };
-		uvVector.SetDegree(startingVerticalAngle*radInc - 90);
 
-		int count = endingVerticalAngle - startingVerticalAngle;
+		float ratio = innerDiameter / outerDiameter;
 
-		for (int i = 0; i < count; ++i)
+		int endcorner = endingCorner;
+		while (endcorner < startingCorner) endcorner += numberOfCorners;
+
+		for (int i = 0; i < endcorner - startingCorner; ++i)
 		{
-			Vector2DF nextVector = currentVector;
+			Vector2DF currentPosVector = baseVector;
+			currentPosVector.SetDegree(currentPosDeg);
 
-			auto nextDeg = nextVector.GetDegree();
-			nextDeg += radInc;
-			nextVector.SetDegree(nextDeg);
+			Vector2DF nextPosVector = currentPosVector;
+			auto nextPosDeg = nextPosVector.GetDegree();
+			nextPosDeg += radInc;
+			nextPosVector.SetDegree(nextPosDeg);
 
-			Vector2DF nextUVVector = uvVector;
+			Vector2DF currentUVVector = uvVector;
+			currentUVVector.SetDegree(currentUVDeg);
 
+			Vector2DF nextUVVector = currentUVVector;
 			auto nextUVDeg = nextUVVector.GetDegree();
 			nextUVDeg += radInc;
 			nextUVVector.SetDegree(nextUVDeg);
 
-			float ratio = innerDiameter / outerDiameter;
 
-			std::array<Vector2DF, 4> vertexes = { center + currentVector*outerRadius, center + nextVector*outerRadius, center + nextVector*innerRadius, center + currentVector*innerRadius };
+			std::array<Vector2DF, 4> vertexes = { center + currentPosVector*outerRadius, center + nextPosVector*outerRadius, center + nextPosVector*innerRadius, center + currentPosVector*innerRadius };
+			std::array<Vector2DF, 4> uvs = { uvCenter + currentUVVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + currentUVVector*ratio };
 			std::array<Color, 4> colors = { color, color, color, color };
-			std::array<Vector2DF, 4> uvs = { uvCenter + uvVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + uvVector*ratio };
-
-			Sprite sprite;
 
 			SafeAddRef(texture);
 
-			sprite.pos = vertexes;
-			sprite.col = colors;
-			sprite.uv = uvs;
-			sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
-			sprite.AlphaBlend_ = alphaBlend;
-			sprite.Priority = priority;
+			{
+				Sprite sprite;
 
-			sprites.push_back(sprite);
+				sprite.pos = vertexes;
+				sprite.col = colors;
+				sprite.uv = uvs;
+				sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+				sprite.AlphaBlend_ = alphaBlend;
+				sprite.Priority = priority;
 
-			currentVector = nextVector;
+				sprites.push_back(sprite);
+			}
 
-			uvVector = nextUVVector;
+			currentPosDeg += radInc;
+			currentUVDeg += radInc;
 		}
 	}
 
