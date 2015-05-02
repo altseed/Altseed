@@ -91,27 +91,52 @@ namespace FilePackingTool.Packaging
 		static unsafe void Encrypt(string path, string key)
 		{
 			byte[] byteKey = Encoding.UTF8.GetBytes(key);
-			var array = File.ReadAllBytes(path);
 
-			fixed (byte* pfixKey = byteKey)
+			using (var reader = File.OpenRead(path))
+			using (var writer = new BinaryWriter(File.Create(path)))
 			{
-				byte* pKey = pfixKey;
-				byte* pKeyEnd = pfixKey + byteKey.Length;
+				byte[] array = new byte[2 * 1024];
 
-				for (int i = 0; i < array.Length; i++)
+				fixed (byte* pfixKey = byteKey)
 				{
-					array[i] ^= *pKey;
+					byte* pKey = pfixKey;
+					byte* pKeyEnd = pfixKey + byteKey.Length;
 
-					pKey++;
-					if (pKey == pKeyEnd)
+					for (var cursor = reader.Read(array, 0, array.Length);
+						cursor == 0;
+						cursor = reader.Read(array, 0, array.Length))
 					{
-						pKey = pfixKey;
+						if (cursor == array.Length)
+						{
+							for (int i = 0; i < array.Length; i++)
+							{
+								array[i] ^= *pKey;
+
+								pKey++;
+								if (pKey == pKeyEnd)
+								{
+									pKey = pfixKey;
+								}
+							}
+						}
+						else
+						{
+							for (int i = 0; i < cursor; i++)
+							{
+								array[i] ^= *pKey;
+
+								pKey++;
+								if (pKey == pKeyEnd)
+								{
+									pKey = pfixKey;
+								}
+							}
+						}
+
+						writer.Write(array, 0, cursor);
 					}
 				}
 			}
-
-			using (var writer = new BinaryWriter(File.Create(path)))
-				writer.Write(array);
 		}
 		public static void Run(string targetPath, string packName, PackagingSetting setting, IEnumerable<string> ignorePath, string key = "")
 		{
@@ -154,11 +179,11 @@ namespace FilePackingTool.Packaging
 				.Select(path => directoryUri.MakeRelativeUri(new Uri(Path.GetFullPath(path))).ToString()));
 
 			internalFormat.ForEach(inHeader => inHeader.Offset += headerSize + format.HeaderSize);
-			
+
 			PrintHeaderInfo(format, internalFormat, packName);
 
 			string exportedPath = string.Empty;
-			if(System.IO.Path.IsPathRooted(packName))
+			if (System.IO.Path.IsPathRooted(packName))
 			{
 				exportedPath = packName;
 			}
@@ -182,7 +207,7 @@ namespace FilePackingTool.Packaging
 				}
 			}
 
-			if(!string.IsNullOrEmpty(key))
+			if (!string.IsNullOrEmpty(key))
 			{
 				Encrypt(exportedPath, key);
 			}
