@@ -30,14 +30,14 @@ namespace ace
 		/// <summary>
 		/// 補間方法
 		/// </summary>
-		public InterpolationType InterpolationType;
+		public InterpolationType Interpolation;
 
 		public FCurveKeyframe(InterpolationType interpolationType = ace.InterpolationType.Linear)
 		{
 			LeftHandle = new Vector2DF();
 			RightHandle = new Vector2DF();
 			KeyValue = new Vector2DF();
-			InterpolationType = interpolationType;
+			Interpolation = interpolationType;
 		}
 	}
 

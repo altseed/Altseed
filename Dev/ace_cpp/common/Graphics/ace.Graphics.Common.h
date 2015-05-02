@@ -72,11 +72,11 @@ namespace ace {
 		/**
 		@brief	補間方法
 		*/
-		InterpolationType		InterpolationType;
+		InterpolationType		Interpolation;
 
 		FCurveKeyframe()
 		{
-			InterpolationType = InterpolationType::Linear;
+			Interpolation = InterpolationType::Linear;
 		}
 	};
 
