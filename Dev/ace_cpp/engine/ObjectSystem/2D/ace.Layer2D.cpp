@@ -112,11 +112,13 @@ namespace ace
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 		std::shared_ptr<Texture2D>  texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
+		if (m_coreLayer == nullptr) return;
 		m_coreLayer->DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture.get(), alphaBlend, priority);
 	}
 
 	void Layer2D::DrawTextAdditionally(Vector2DF pos, Color color, std::shared_ptr<Font> font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority)
 	{
+		if (m_coreLayer == nullptr) return;
 		m_coreLayer->DrawTextAdditionally(
 			pos,
 			color,
@@ -129,37 +131,44 @@ namespace ace
 
 	void Layer2D::DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
-		m_coreLayer->DrawRectangleAdditionally(drawingArea, color, uv, texture.get(), alphaBlend, priority);
+		if (m_coreLayer==nullptr) return;
+		m_coreLayer->DrawRectangleAdditionally(drawingArea, color, uv, (texture == nullptr) ? nullptr : texture.get(), alphaBlend, priority);
 	}
 
 	void Layer2D::DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
-		m_coreLayer->DrawRotatedRectangleAdditionally(drawingArea, color, rotationCenter, angle, uv, texture.get(), alphaBlend, priority);
+		if (m_coreLayer == nullptr) return;
+		m_coreLayer->DrawRotatedRectangleAdditionally(drawingArea, color, rotationCenter, angle, uv, (texture == nullptr) ? nullptr : texture.get(), alphaBlend, priority);
 	}
 
 	void Layer2D::DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
-		m_coreLayer->DrawTriangleAdditionally(position1, position2, position3, color, uv1, uv2, uv3, texture.get(), alphaBlend, priority);
+		if (m_coreLayer == nullptr) return;
+		m_coreLayer->DrawTriangleAdditionally(position1, position2, position3, color, uv1, uv2, uv3, (texture == nullptr) ? nullptr : texture.get(), alphaBlend, priority);
 	}
 
 	void Layer2D::DrawCircleAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
-		m_coreLayer->DrawCircleAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, texture.get(), alphaBlend, priority);
+		if (m_coreLayer == nullptr) return;
+		m_coreLayer->DrawCircleAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, (texture==nullptr)?nullptr:texture.get(), alphaBlend, priority);
 	}
 
 	void Layer2D::DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
-		m_coreLayer->DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startingVerticalAngle, endingVerticalAngle, angle, texture.get(), alphaBlend, priority);
+		if (m_coreLayer == nullptr) return;
+		m_coreLayer->DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startingVerticalAngle, endingVerticalAngle, angle, (texture == nullptr) ? nullptr : texture.get(), alphaBlend, priority);
 	}
 
 	void Layer2D::DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlendMode alphaBlend, int32_t priority)
 	{
+		if (m_coreLayer == nullptr) return;
 		m_coreLayer->DrawLineAdditionally(point1, point2, thickness, color, alphaBlend, priority);
 	}
 
 	void Layer2D::DrawShapeAdditionally(std::shared_ptr<Shape> shape, Color color, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
-		m_coreLayer->DrawShapeAdditionally(shape->GetCoreShape().get(), color, texture.get(), alphaBlend, priority);
+		if (m_coreLayer == nullptr) return;
+		m_coreLayer->DrawShapeAdditionally(shape->GetCoreShape().get(), color, (texture == nullptr) ? nullptr : texture.get(), alphaBlend, priority);
 	}
 
 	//----------------------------------------------------------------------------------
