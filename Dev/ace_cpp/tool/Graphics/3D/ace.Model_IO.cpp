@@ -467,7 +467,7 @@ namespace ace
 			ka.Keyframes[i].KeyValue = reader.Get<Vector2DF>();
 			ka.Keyframes[i].LeftHandle = reader.Get<Vector2DF>();
 			ka.Keyframes[i].RightHandle = reader.Get<Vector2DF>();
-			ka.Keyframes[i].InterpolationType = (InterpolationType) reader.Get<int32_t>();
+			ka.Keyframes[i].Interpolation = (InterpolationType) reader.Get<int32_t>();
 		}
 	}
 
@@ -624,7 +624,7 @@ namespace ace
 			writer.Push(ka.Keyframes[i].KeyValue);
 			writer.Push(ka.Keyframes[i].LeftHandle);
 			writer.Push(ka.Keyframes[i].RightHandle);
-			writer.Push((int32_t)ka.Keyframes[i].InterpolationType);
+			writer.Push((int32_t)ka.Keyframes[i].Interpolation);
 		}
 	}
 
@@ -770,11 +770,11 @@ namespace ace
 
 		if (keyframes[left].KeyValue.X <= time && time < keyframes[left + 1].KeyValue.X)
 		{
-			if (keyframes[left].InterpolationType == InterpolationType::Constant)
+			if (keyframes[left].Interpolation == InterpolationType::Constant)
 			{
 				return keyframes[left].KeyValue.Y;
 			}
-			else if (keyframes[left].InterpolationType == InterpolationType::Linear)
+			else if (keyframes[left].Interpolation == InterpolationType::Linear)
 			{
 				auto d = time - keyframes[left].KeyValue.X;
 				auto dx = keyframes[left + 1].KeyValue.X - keyframes[left].KeyValue.X;
@@ -782,7 +782,7 @@ namespace ace
 
 				return keyframes[left].KeyValue.Y + dy / dx * d;
 			}
-			else if (keyframes[left].InterpolationType == InterpolationType::Cubic)
+			else if (keyframes[left].Interpolation == InterpolationType::Cubic)
 			{
 				float k1[2];
 				float k1rh[2];

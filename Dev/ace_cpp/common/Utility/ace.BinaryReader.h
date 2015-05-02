@@ -292,7 +292,7 @@ template<> inline FCurveKeyframe BinaryReader::Get()
 	keyframe.KeyValue = Get<Vector2DF>();
 	keyframe.LeftHandle = Get<Vector2DF>();
 	keyframe.RightHandle = Get<Vector2DF>();
-	keyframe.InterpolationType = (ace::InterpolationType)Get<int32_t>();
+	keyframe.Interpolation = (ace::InterpolationType)Get<int32_t>();
 
 	return keyframe;
 }
