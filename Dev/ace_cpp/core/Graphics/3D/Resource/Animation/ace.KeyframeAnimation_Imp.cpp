@@ -6,8 +6,8 @@
 namespace ace
 {
 	KeyframeAnimation_Imp::KeyframeAnimation_Imp()
-		: m_targetType(AnimationCurveTargetType::None)
-		, m_targetAxis(AnimationCurveTargetAxis::None)
+		: m_targetType(AnimationCurveTargetType::NoneTarget)
+		, m_targetAxis(AnimationCurveTargetAxis::NoneTarget)
 	{
 	
 	}

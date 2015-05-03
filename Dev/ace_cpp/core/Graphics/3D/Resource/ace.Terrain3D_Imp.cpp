@@ -13,7 +13,7 @@ namespace ace
 {
 	static enum class DivisionDirection
 	{
-		None,
+		None_,
 		Filled,
 		FilledHalf,
 		Slash_Upper,
@@ -32,7 +32,7 @@ namespace ace
 			auto y = i / 4;
 
 			auto d = divisions[i];
-			if (d == DivisionDirection::None) continue;
+			if (d == DivisionDirection::None_) continue;
 			if (d == DivisionDirection::Backslash_Lower)
 			{
 				lines.push_back(std::pair<int32_t, int32_t>((x + 1) + (y + 1) * 5, (x + 0) + (y + 0) * 5));
@@ -58,7 +58,7 @@ namespace ace
 					if (x_ >= 4) return false;
 					if (y_ < 0) return false;
 					if (y_ >= 4) return false;
-					return divisions[x_ + y_ * 4] == DivisionDirection::None;
+					return divisions[x_ + y_ * 4] == DivisionDirection::None_;
 				};
 
 				if (isNone(x - 1, y))
@@ -128,7 +128,7 @@ namespace ace
 		{
 			if (d == DivisionDirection::Filled) return d;
 			if (d == DivisionDirection::FilledHalf) return d;
-			if (d == DivisionDirection::None) return d;
+			if (d == DivisionDirection::None_) return d;
 
 			for (int32_t i = 0; i < angle; i++)
 			{
@@ -160,31 +160,31 @@ namespace ace
 			// なし
 			for (int32_t i = 0; i < 16; i++)
 			{
-				dst[i] = DivisionDirection::None;
+				dst[i] = DivisionDirection::None_;
 			}
 		}
 		else if (isCliffes[1] && isCliffes[3] && isCliffes[6] && isCliffes[8])
 		{
 			// 十字方向のうち4方向が崖
-			dst[0 + 4 * 0] = DivisionDirection::None;
-			dst[1 + 4 * 0] = DivisionDirection::None;
-			dst[2 + 4 * 0] = DivisionDirection::None;
-			dst[3 + 4 * 0] = DivisionDirection::None;
+			dst[0 + 4 * 0] = DivisionDirection::None_;
+			dst[1 + 4 * 0] = DivisionDirection::None_;
+			dst[2 + 4 * 0] = DivisionDirection::None_;
+			dst[3 + 4 * 0] = DivisionDirection::None_;
 
-			dst[0 + 4 * 1] = DivisionDirection::None;
+			dst[0 + 4 * 1] = DivisionDirection::None_;
 			dst[1 + 4 * 1] = DivisionDirection::Slash_Lower;
 			dst[2 + 4 * 1] = DivisionDirection::Backslash_Lower;
-			dst[3 + 4 * 1] = DivisionDirection::None;
+			dst[3 + 4 * 1] = DivisionDirection::None_;
 
-			dst[0 + 4 * 2] = DivisionDirection::None;
+			dst[0 + 4 * 2] = DivisionDirection::None_;
 			dst[1 + 4 * 2] = DivisionDirection::Backslash_Upper;
 			dst[2 + 4 * 2] = DivisionDirection::Slash_Upper;
-			dst[3 + 4 * 2] = DivisionDirection::None;
+			dst[3 + 4 * 2] = DivisionDirection::None_;
 
-			dst[0 + 4 * 3] = DivisionDirection::None;
-			dst[1 + 4 * 3] = DivisionDirection::None;
-			dst[2 + 4 * 3] = DivisionDirection::None;
-			dst[3 + 4 * 3] = DivisionDirection::None;
+			dst[0 + 4 * 3] = DivisionDirection::None_;
+			dst[1 + 4 * 3] = DivisionDirection::None_;
+			dst[2 + 4 * 3] = DivisionDirection::None_;
+			dst[3 + 4 * 3] = DivisionDirection::None_;
 
 			goto Exit;
 		}
@@ -200,25 +200,25 @@ namespace ace
 			{
 				if (isCliffes[rot(3, dir)] && isCliffes[rot(1, dir)] && isCliffes[rot(5, dir)])
 				{
-					dst[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
 
-					dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None_, dir);
 					dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
 					dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::Backslash_Upper, dir);
-					dst[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::None_, dir);
 
-					dst[rot_16(0 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(0 + 4 * 2, dir)] = rotDiv(DivisionDirection::None_, dir);
 					dst[rot_16(1 + 4 * 2, dir)] = rotDiv(DivisionDirection::Filled, dir);
 					dst[rot_16(2 + 4 * 2, dir)] = rotDiv(DivisionDirection::Filled, dir);
-					dst[rot_16(3 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(3 + 4 * 2, dir)] = rotDiv(DivisionDirection::None_, dir);
 
-					dst[rot_16(0 + 4 * 3, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(0 + 4 * 3, dir)] = rotDiv(DivisionDirection::None_, dir);
 					dst[rot_16(1 + 4 * 3, dir)] = rotDiv(DivisionDirection::Filled, dir);
 					dst[rot_16(2 + 4 * 3, dir)] = rotDiv(DivisionDirection::Filled, dir);
-					dst[rot_16(3 + 4 * 3, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(3 + 4 * 3, dir)] = rotDiv(DivisionDirection::None_, dir);
 					goto Exit;
 				}
 			}
@@ -237,21 +237,21 @@ namespace ace
 			{
 				if (isCliffes[rot(3, dir)] &&isCliffes[rot(0, dir)] && isCliffes[rot(1, dir)])
 				{
-					dst[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
 
-					dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::None_, dir);
 					dst[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
 
-					dst[rot_16(0 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(1 + 4 * 2, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(0 + 4 * 2, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(1 + 4 * 2, dir)] = rotDiv(DivisionDirection::None_, dir);
 					dst[rot_16(2 + 4 * 2, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
 
-					dst[rot_16(0 + 4 * 3, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(0 + 4 * 3, dir)] = rotDiv(DivisionDirection::None_, dir);
 					dst[rot_16(1 + 4 * 3, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
 				}
 			}
@@ -260,10 +260,10 @@ namespace ace
 			{
 				if (/*isCliffes[rot(0, dir)] &&*/ isCliffes[rot(1, dir)] && /*isCliffes[rot(2, dir)] &&*/ !isCliffes[rot(3, dir)] && !isCliffes[rot(5, dir)])
 				{
-					dst[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
-					dst[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None, dir);
+					dst[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
+					dst[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
 
 					if (isInclinedPlanes[rot(3, dir)] && !isInclinedPlanes[rot(5, dir)])
 					{
@@ -272,13 +272,13 @@ namespace ace
 					{
 						dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
 						dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
-						//divisionsNext[2 + 4 * 1] = DivisionDirection::None;
-						//divisionsNext[3 + 4 * 1] = DivisionDirection::None;
+						//divisionsNext[2 + 4 * 1] = DivisionDirection::None_;
+						//divisionsNext[3 + 4 * 1] = DivisionDirection::None_;
 					}
 					else if (isInclinedPlanes[rot(3, dir)] && !isInclinedPlanes[rot(5, dir)])
 					{
-						dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
-						dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::None, dir);
+						dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None_, dir);
+						dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::None_, dir);
 						dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
 						dst[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
 					}
@@ -544,13 +544,13 @@ namespace ace
 			maxclh = Min(maxclh, clsh[1 + 1 * 3]);
 
 			std::array<DivisionDirection, 16> divisions;
-			divisions.fill(DivisionDirection::None);
+			divisions.fill(DivisionDirection::None_);
 			std::array<int32_t, 5*5> indexes;
 			indexes.fill(-1);
 			std::vector<std::pair<int32_t, int32_t>> lines;
 
 			std::array<DivisionDirection, 16> divisionsNext;
-			divisionsNext.fill(DivisionDirection::None);
+			divisionsNext.fill(DivisionDirection::None_);
 			std::array<int32_t, 5 * 5> indexesNext;
 			indexesNext.fill(-1);
 			std::vector<std::pair<int32_t, int32_t>> linesNext;
@@ -608,13 +608,13 @@ namespace ace
 				}
 				else
 				{
-					divisionsNext.fill(DivisionDirection::None);
+					divisionsNext.fill(DivisionDirection::None_);
 				}
 				
 				// 上の層の影響を下に与える。
 				for (int32_t i = 0; i < 16; i++)
 				{
-					if (divisionsNext[i] == DivisionDirection::None)
+					if (divisionsNext[i] == DivisionDirection::None_)
 					{
 						divisionsNext[i] = divisions[i];
 					}
@@ -645,10 +645,10 @@ namespace ace
 					auto x = i % 4;
 					auto y = i / 4;
 
-					if (divisionsNext[i] == DivisionDirection::None) continue;
+					if (divisionsNext[i] == DivisionDirection::None_) continue;
 					if (divisions[i] == divisionsNext[i]) continue;
 
-					if (divisions[i] == DivisionDirection::None && divisionsNext[i] != DivisionDirection::None)
+					if (divisions[i] == DivisionDirection::None_ && divisionsNext[i] != DivisionDirection::None_)
 					{
 						// 面追加
 						if (divisionsNext[i] == DivisionDirection::Backslash_Lower)

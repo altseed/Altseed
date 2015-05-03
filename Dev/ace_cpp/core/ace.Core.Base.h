@@ -109,7 +109,7 @@ namespace ace {
 	{
 		Layer2D,
 		Layer3D,
-		None,
+		Nothing,
 	};
 
 	/**

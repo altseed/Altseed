@@ -878,8 +878,8 @@ namespace ace
 
 		// ボーン向け設定の取得
 		targetName = astring();
-		targetType = AnimationCurveTargetType::None;
-		targetAxis = AnimationCurveTargetAxis::None;
+		targetType = AnimationCurveTargetType::NoneTarget;
+		targetAxis = AnimationCurveTargetAxis::NoneTarget;
 
 		if (strs.size() < 3) return false;
 
@@ -939,8 +939,8 @@ namespace ace
 		AnimationCurveTargetAxis targetAxis,
 		float value)
 	{
-		if (targetType == AnimationCurveTargetType::None) return;
-		if (targetAxis == AnimationCurveTargetAxis::None) return;
+		if (targetType == AnimationCurveTargetType::NoneTarget) return;
+		if (targetAxis == AnimationCurveTargetAxis::NoneTarget) return;
 		
 		if (targetType == AnimationCurveTargetType::Position)
 		{

@@ -195,7 +195,7 @@ namespace ace
 
 	enum class AnimationCurveTargetType : int32_t
 	{
-		None,
+		NoneTarget,
 		Position,
 		Rotation,
 		Scale,
@@ -203,7 +203,7 @@ namespace ace
 
 	enum class AnimationCurveTargetAxis : int32_t
 	{
-		None = -1,
+		NoneTarget = -1,
 		X = 0,
 		Y = 1,
 		Z = 2,
