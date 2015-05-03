@@ -35,9 +35,9 @@ protected:
 		int cnt = 0;
 		while (!reader.IsEmpty())
 		{
-			int8_t byteFromRaw = reader.Get<int8_t>();
+			auto byteFromRaw = reader.Get<uint8_t>();
 
-			int8_t byteFromFile = buffer[cnt++];
+			auto byteFromFile = buffer[cnt++];
 
 			ASSERT_EQ(byteFromRaw, byteFromFile);
 		}

@@ -23,8 +23,8 @@ namespace ace
 		, key(key)
 	{
 		fileOffset = internalHeader.GetOffset();
-		fileSize = baseFile->GetSize();
-		current = internalHeader.GetSize();
+		fileSize = internalHeader.GetSize();
+		current = 0;
 
 		SafeAddRef(file);
 	}
@@ -62,9 +62,9 @@ namespace ace
 			}
 		}
 
-		current += size;
+		current += readableSize;
 
-		return size;
+		return readableSize;
 	}
 
 	void* StreamFile_Imp::GetTempBuffer_()
