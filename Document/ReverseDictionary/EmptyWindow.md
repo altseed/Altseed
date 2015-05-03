@@ -1,7 +1,7 @@
 
 ## 空のウインドウを表示する
 
-AmusementCreatorsEngine (ACE) で空のウインドウを表示します。
+AC-Engine (ACE) で空のウインドウを表示します。
 
 ### C++
 
