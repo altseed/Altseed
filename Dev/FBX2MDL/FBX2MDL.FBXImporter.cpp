@@ -585,22 +585,22 @@ namespace FBX2MDL
 		switch (fbxRotationOrder)
 		{
 		case eEulerXYZ:
-			node->RotationOrder = ace::ROTATION_ORDER_XYZ;
+			node->RotationOrder = ace::RotationOrder::XYZ;
 			break;
 		case eEulerXZY:
-			node->RotationOrder = ace::ROTATION_ORDER_XZY;
+			node->RotationOrder = ace::RotationOrder::XZY;
 			break;
 		case eEulerYZX:
-			node->RotationOrder = ace::ROTATION_ORDER_YZX;
+			node->RotationOrder = ace::RotationOrder::YZX;
 			break;
 		case eEulerYXZ:
-			node->RotationOrder = ace::ROTATION_ORDER_YXZ;
+			node->RotationOrder = ace::RotationOrder::YXZ;
 			break;
 		case eEulerZXY:
-			node->RotationOrder = ace::ROTATION_ORDER_ZXY;
+			node->RotationOrder = ace::RotationOrder::ZXY;
 			break;
 		case eEulerZYX:
-			node->RotationOrder = ace::ROTATION_ORDER_ZYX;
+			node->RotationOrder = ace::RotationOrder::ZYX;
 			break;
 		case eSphericXYZ:
 			break;
@@ -631,7 +631,7 @@ namespace FBX2MDL
 		return node;
 	}
 
-	ace::Matrix44 FBXImporter::CalcMatrix(ace::eRotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz)
+	ace::Matrix44 FBXImporter::CalcMatrix(ace::RotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz)
 	{
 		ace::Matrix44 matT, matRx, matRy, matRz, matS;
 		matT.SetTranslation(tx, ty, tz);
@@ -640,13 +640,13 @@ namespace FBX2MDL
 		matRz.SetRotationZ(rz / 180.0 * 3.141592);
 		matS.SetScale(sx, sy, sz);
 
-		if (order == ace::ROTATION_ORDER_XYZ) return matT * matRz * matRy * matRx * matS;
-		if (order == ace::ROTATION_ORDER_XZY) return matT * matRy * matRz * matRx * matS;
-		if (order == ace::ROTATION_ORDER_YZX) return matT * matRx * matRz * matRy * matS;
-
-		if (order == ace::ROTATION_ORDER_YXZ) return matT * matRz * matRx * matRy * matS;
-		if (order == ace::ROTATION_ORDER_ZXY) return matT * matRy * matRx * matRz * matS;
-		if (order == ace::ROTATION_ORDER_ZYX) return matT * matRx * matRy * matRz * matS;
+		if (order == ace::RotationOrder::XYZ) return matT * matRz * matRy * matRx * matS;
+		if (order == ace::RotationOrder::XZY) return matT * matRy * matRz * matRx * matS;
+		if (order == ace::RotationOrder::YZX) return matT * matRx * matRz * matRy * matS;
+						 
+		if (order == ace::RotationOrder::YXZ) return matT * matRz * matRx * matRy * matS;
+		if (order == ace::RotationOrder::ZXY) return matT * matRy * matRx * matRz * matS;
+		if (order == ace::RotationOrder::ZYX) return matT * matRx * matRy * matRz * matS;
 
 		return ace::Matrix44();
 	}

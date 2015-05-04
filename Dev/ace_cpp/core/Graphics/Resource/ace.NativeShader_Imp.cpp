@@ -423,6 +423,9 @@ namespace ace {
 
 	void NativeShader_Imp::SetConstantValues(ShaderConstantValue* constantValues, int32_t constantValueCount)
 	{
+		// テクスチャを全てnullにする。
+		bindingTextures.clear();
+
 		for (auto i = 0; i < constantValueCount; i++)
 		{
 			auto& value = constantValues[i];

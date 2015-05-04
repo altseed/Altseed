@@ -389,11 +389,10 @@ namespace ace
 
 		
 		auto& matrices = m_matrixes;
-		int32_t currentMeshIndex = 0;
-
-		for (auto& mesh_ : m_meshes)
+		 
+		for (int32_t currentMeshIndex = 0; currentMeshIndex < m_meshes.size(); currentMeshIndex++)
 		{
-			auto mesh_root = (Mesh_Imp*) mesh_.get();
+			auto mesh_root = (Mesh_Imp*) m_meshes[currentMeshIndex].get();
 
 			for (auto& mesh : mesh_root->GetDvidedMeshes())
 			{
@@ -642,8 +641,6 @@ namespace ace
 					}
 				}
 			}
-
-			currentMeshIndex++;
 		}
 	}
 
