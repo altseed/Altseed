@@ -132,13 +132,16 @@ namespace FBX2MDL
 			{
 				armature = child;
 			}
-			else if (child->MeshParameter != nullptr)
+			else if (child->MeshParameter != nullptr && child->MeshParameter->BoneConnectors.size() > 0)
 			{
 				meshes.push_back(child);
 			}
 		}
 
-		OptimizeArmature(scene, armature, meshes);
+		if (meshes.size() > 0)
+		{
+			OptimizeArmature(scene, armature, meshes);
+		}
 	}
 }
 
