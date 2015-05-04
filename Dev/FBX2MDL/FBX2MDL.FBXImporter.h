@@ -78,7 +78,7 @@ namespace FBX2MDL
 
 		std::shared_ptr<Node> LoadHierarchy(std::shared_ptr<Node> parent, FbxNode* fbxNode, FbxManager* fbxManager);
 
-		ace::Matrix44 CalcMatrix(ace::eRotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz);
+		ace::Matrix44 CalcMatrix(ace::RotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz);
 
 		void LoadAnimationSource(FbxAnimStack* fbxAnimStack, FbxNode* fbxRootNode, AnimationSource &animationSource);
 		void LoadCurve(FbxNode* fbxNode, FbxAnimLayer* fbxAnimLayer, AnimationSource &animationSource);

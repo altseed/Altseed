@@ -585,6 +585,11 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 		// 定数バッファの割り当て
 		shaderPtr->AssignConstantBuffer();
 
+		std::array<ID3D11ShaderResourceView*, 16> srv_vs;
+		std::array<ID3D11ShaderResourceView*, 16> srv_ps;
+		srv_vs.fill(nullptr);
+		srv_ps.fill(nullptr);
+
 		// テクスチャの設定
 		for (auto& bt : shader->GetBindingTextures())
 		{
@@ -618,21 +623,29 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 			if (id >= 0xff)
 			{
 				// 頂点シェーダーに設定
-				GetContext()->VSSetShaderResources(id - 0xff, 1, &rv);
-
+				if (id - 0xff < srv_vs.size())
+				{
+					srv_vs[id - 0xff] = rv;
+				}
+				
 				nextState.textureFilterTypes_vs[id - 0xff] = bt.second.FilterType;
 				nextState.textureWrapTypes_vs[id - 0xff] = bt.second.WrapType;
 			}
 			else
 			{
 				// ピクセルシェーダーに設定
-				GetContext()->PSSetShaderResources(id, 1, &rv);
-
+				if (id < srv_ps.size())
+				{
+					srv_ps[id] = rv;
+				}
 				// ステート設定
 				nextState.textureFilterTypes[id] = bt.second.FilterType;
 				nextState.textureWrapTypes[id] = bt.second.WrapType;
 			}
 		}
+
+		GetContext()->VSSetShaderResources(0, srv_vs.size(), srv_vs.data());
+		GetContext()->PSSetShaderResources(0, srv_ps.size(), srv_ps.data());
 
 		/*
 		for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
