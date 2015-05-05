@@ -6,12 +6,12 @@ C++版の導入方法について説明しています。
 ### VisualStudio2013の導入
 
 [VisualStudioのWebページ](https://www.visualstudio.com/ja-jp/downloads/download-visual-studio-vs#DownloadFamilies_2)から
-「Visual Studio Community 2013 Update 4」をダウンロードします。ただし、会社内でac-engineを使用する場合は「Visual Studio Express 2013 with Update 4 for Windows Desktop」をダウンロードします。
+「Visual Studio Community 2013 Update 4」をダウンロードします。ただし、会社内でAC-Engineを使用する場合は「Visual Studio Express 2013 with Update 4 for Windows Desktop」をダウンロードします。
 これらはプログラムのソースコードから実行可能なアプリケーションを生成するツールです。個人で開発する分には無料で使用できます。
 
 ダウンロードが終わったら、「Visual Studio」をインストールします。
 
-### ACEのダウンロード
+### AC-Engineのダウンロード
 [Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)　からACE_CPP～.7zをダウンロードします。
 7-Zipファイルを解凍できる解凍ソフトを用いて解凍します。
 
@@ -61,10 +61,10 @@ ACE_Test.cpp を以下のソースコードに書き換えます。
 
 #include "stdafx.h"
 
-// ACEのヘッダを読み込む
+// AC-Engineのヘッダを読み込む
 #include "ace.h"
 
-// ACEのライブラリを読み込む
+// AC-Engineのライブラリを読み込む
 #if _DEBUG
 #pragma comment(lib,"Debug/ace_engine.lib")
 #else
@@ -73,17 +73,17 @@ ACE_Test.cpp を以下のソースコードに書き換えます。
 
 int _tmain(int argc, _TCHAR* argv[])
 {
-	// aceを初期化する。
+	// AC-Engineを初期化する。
 	ace::Engine::Initialize(ace::ToAString("Empty").c_str(), 640, 480, ace::EngineOption());
 
-	// aceが進行可能かチェックする。
+	// AC-Engineが進行可能かチェックする。
 	while (ace::Engine::DoEvents())
 	{
-		// aceを更新する。
+		// AC-Engineを更新する。
 		ace::Engine::Update();
 	}
 
-	// aceを終了する。
+	// AC-Engineを終了する。
 	ace::Engine::Terminate();
 
 	return 0;
@@ -97,7 +97,7 @@ int _tmain(int argc, _TCHAR* argv[])
 
 ### 今後開発する上での設定
 
-今回は、ACEのランタイムをコピーで済ませました。しかし、実際に開発する際は全てのファイルを配置し直すことをおすすめします。
+今回は、AC-Engineのランタイムをコピーで済ませました。しかし、実際に開発する際は全てのファイルを配置し直すことをおすすめします。
 
 ```Debug/ace_engine.lib``` と ```Release/ace_engine.lib``` は名称を変更し、 ```ACE_Test.vcxproj``` と同じディレクトリに移動しましょう。 ```Debug``` と ```Release``` というフォルダは
 VisualStudioがコンパイルをする際に一時的に生成されるファイルが配置されるディレクトリでもあります。不要なファイルを消すときに間違えて消してしまうかもしれません。
