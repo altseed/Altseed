@@ -6,7 +6,7 @@ C++版の導入方法について説明しています。
 ### VisualStudio2013の導入
 
 [VisualStudioのWebページ](https://www.visualstudio.com/ja-jp/downloads/download-visual-studio-vs#DownloadFamilies_2)から
-「Visual Studio Community 2013 Update 4」をダウンロードします。ただし、会社内でACEを使用する場合は「Visual Studio Express 2013 with Update 4 for Windows Desktop」をダウンロードします。
+「Visual Studio Community 2013 Update 4」をダウンロードします。ただし、会社内でac-engineを使用する場合は「Visual Studio Express 2013 with Update 4 for Windows Desktop」をダウンロードします。
 これらはプログラムのソースコードから実行可能なアプリケーションを生成するツールです。個人で開発する分には無料で使用できます。
 
 ダウンロードが終わったら、「Visual Studio」をインストールします。
