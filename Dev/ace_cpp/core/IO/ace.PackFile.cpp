@@ -1,4 +1,5 @@
 ﻿#include "ace.PackFile.h"
+#include "ace.Decryptor.h"
 #include <vector>
 #include <cassert>
 
@@ -10,20 +11,21 @@ namespace ace
 	{
 	}
 
-	bool PackFileHeader::Load(std::shared_ptr<BaseFile>& packedFile)
+	bool PackFileHeader::Load(std::shared_ptr<BaseFile>& packedFile, const astring& key)
 	{
 		m_internalHeaders.clear();
 
 		std::vector<uint8_t> buffer;
 		packedFile->Seek(0);
-		packedFile->ReadBytes(buffer, PackFileHeader::Signature.size());
+		packedFile->ReadBytes(buffer, PackFileHeader::Signature.size(), key, packedFile->GetPosition());
 		
-		if (astring(reinterpret_cast<achar*>(buffer.data())).compare(PackFileHeader::Signature) == 0) return false;
+		if (astring(reinterpret_cast<achar*>(buffer.data())).compare(PackFileHeader::Signature) == 0)
+			return false;
 
-		uint64_t fileCount = packedFile->ReadUInt64();
-		uint64_t filePathHeaderLength = packedFile->ReadUInt64();
+		uint64_t fileCount = packedFile->ReadUInt64(key, packedFile->GetPosition());
+		uint64_t filePathHeaderLength = packedFile->ReadUInt64(key, packedFile->GetPosition());
 
-		packedFile->ReadBytes(buffer, filePathHeaderLength);
+		packedFile->ReadBytes(buffer, filePathHeaderLength, key, packedFile->GetPosition());
 		std::vector<int16_t> strBuffer;
 		Utf8ToUtf16(strBuffer, reinterpret_cast<const int8_t*>(buffer.data()));
 
@@ -79,12 +81,14 @@ namespace ace
 	{
 
 	}
-	bool PackFile::Load(std::shared_ptr<BaseFile> packedFile)
+	bool PackFile::Load(std::shared_ptr<BaseFile> packedFile, const astring& key)
 	{
 		m_InternalHeaderDictionaly.clear();
+
 		m_TopHeader = std::make_shared<PackFileHeader>();
 
-		if (!m_TopHeader->Load(packedFile)) return false;
+		if (!m_TopHeader->Load(packedFile, key))
+			return false;
 
 		auto& internalHeaders = m_TopHeader->GetInternalHeaders();
 

@@ -27,7 +27,7 @@ namespace ace
 			if (baseFile->IsValid())
 			{
 				auto pack = std::make_shared<PackFile>();
-				if (pack->Load(baseFile))
+				if (pack->Load(baseFile, key))
 				{
 					m_path = path;
 					packFile = pack;

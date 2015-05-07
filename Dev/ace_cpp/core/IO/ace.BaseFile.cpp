@@ -1,5 +1,6 @@
 ﻿
 #include "ace.BaseFile.h"
+#include "ace.Decryptor.h"
 #include <sstream>
 #ifndef _WIN32
 #include <sys/stat.h>
@@ -60,7 +61,7 @@ namespace ace
 		return m_length;
 	}
 
-	void BaseFile::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count)
+	void BaseFile::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count, const astring& key, int64_t globalPos)
 	{
 		const auto size = GetSize();
 
@@ -77,29 +78,31 @@ namespace ace
 		buffer.resize(count);
 		m_file.read(reinterpret_cast<char*>(&buffer[0]), count);
 
+		Decryptor::Decrypt(buffer.data(), 0, count, key, globalPos);
+
 		m_position += count;
 	}
 
-	uint32_t BaseFile::ReadUInt32()
+	uint32_t BaseFile::ReadUInt32(const astring& key, int64_t globalPos)
 	{
 		std::vector<uint8_t> buffer;
-		ReadBytes(buffer, sizeof(uint32_t));
+		ReadBytes(buffer, sizeof(uint32_t), key, globalPos);
 
 		return *reinterpret_cast<const uint32_t*>(buffer.data());
 	}
 
-	uint64_t BaseFile::ReadUInt64()
+	uint64_t BaseFile::ReadUInt64(const astring& key, int64_t globalPos)
 	{
 		std::vector<uint8_t> buffer;
-		ReadBytes(buffer, sizeof(uint64_t));
+		ReadBytes(buffer, sizeof(uint64_t), key, globalPos);
 
 		return *reinterpret_cast<const uint64_t*>(buffer.data());
 	}
 
-	void BaseFile::ReadAllBytes(std::vector<uint8_t>& buffer)
+	void BaseFile::ReadAllBytes(std::vector<uint8_t>& buffer, const astring& key, int64_t globalPos)
 	{
 		const auto tmp = m_position;
-		ReadBytes(buffer, GetSize());
+		ReadBytes(buffer, GetSize(), key, globalPos);
 
 		m_position = tmp;
 	}

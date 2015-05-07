@@ -957,6 +957,9 @@
     <ClInclude Include="..\core\IO\ace.FileHelper.h">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\IO\ace.Decryptor.h">
+      <Filter>IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1349,6 +1352,9 @@
       <Filter>IO</Filter>
     </ClCompile>
     <ClCompile Include="..\core\IO\ace.FileHelper.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.Decryptor.cpp">
       <Filter>IO</Filter>
     </ClCompile>
   </ItemGroup>

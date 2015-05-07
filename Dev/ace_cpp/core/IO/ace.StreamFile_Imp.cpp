@@ -43,24 +43,7 @@ namespace ace
 		if (readableSize == 0) return 0;
 		
 		baseFile->Seek(fileOffset + current);
-		baseFile->ReadBytes(buffer, readableSize);
-
-		if (key != astring())
-		{
-			std::vector<int8_t> key_temp;
-			std::vector<uint8_t> key_;
-
-			Utf16ToUtf8(key_temp, (const int16_t*) key.c_str());
-
-			key_.resize(key_temp.size());
-			memcpy(key_.data(), key_temp.data(), key_temp.size());
-			key_.pop_back();
-
-			for (size_t i = 0; i < buffer.size(); i++)
-			{
-				buffer[i] = (buffer[i] ^ key_[(i + current) % key_.size()]);
-			}
-		}
+		baseFile->ReadBytes(buffer, readableSize, key, baseFile->GetPosition());
 
 		current += readableSize;
 

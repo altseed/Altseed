@@ -347,6 +347,7 @@
     <ClInclude Include="..\core\Input\ace.MouseButtonState.h" />
     <ClInclude Include="..\core\Input\ace.Mouse_Imp.h" />
     <ClInclude Include="..\core\Input\ace.SideButton.h" />
+    <ClInclude Include="..\core\IO\ace.Decryptor.h" />
     <ClInclude Include="..\core\IO\ace.File.h" />
     <ClInclude Include="..\core\IO\ace.FileHelper.h" />
     <ClInclude Include="..\core\IO\ace.File_Imp.h" />
@@ -540,6 +541,7 @@
     <ClCompile Include="..\core\Input\ace.Mouse_Imp.cpp" />
     <ClCompile Include="..\core\Input\ace.SideButton.cpp" />
     <ClCompile Include="..\core\IO\ace.BaseFile.cpp" />
+    <ClCompile Include="..\core\IO\ace.Decryptor.cpp" />
     <ClCompile Include="..\core\IO\ace.FileHelper.cpp" />
     <ClCompile Include="..\core\IO\ace.File_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.PackFile.cpp" />

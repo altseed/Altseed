@@ -25,15 +25,15 @@ namespace ace
 		const decltype(m_fileName)&	GetFileName() { return m_fileName; }
 		decltype(m_fileNameLength)	GetFileNameLength() { return m_fileNameLength; }
 
-		PackFileInternalHeader(std::shared_ptr<BaseFile>& packedFile)
+		PackFileInternalHeader(std::shared_ptr<BaseFile>& packedFile, const astring& key = astring())
 		{
 			std::vector<uint8_t> buffer;
 			std::vector<int16_t> strBuffer;
 
-			m_fileNameLength = packedFile->ReadUInt32();
-			m_size = packedFile->ReadUInt32();
-			m_offset = packedFile->ReadUInt32();
-			packedFile->ReadBytes(buffer, m_fileNameLength);
+			m_fileNameLength = packedFile->ReadUInt32(key, packedFile->GetPosition());
+			m_size = packedFile->ReadUInt32(key, packedFile->GetPosition());
+			m_offset = packedFile->ReadUInt32(key, packedFile->GetPosition());
+			packedFile->ReadBytes(buffer, m_fileNameLength, key, packedFile->GetPosition());
 			Utf8ToUtf16(strBuffer, reinterpret_cast<const int8_t*>(buffer.data()));
 			if (m_fileNameLength < strBuffer.size())
 				strBuffer[m_fileNameLength] = 0;
@@ -54,7 +54,7 @@ namespace ace
 
 		PackFileHeader();
 
-		bool Load(std::shared_ptr<BaseFile>& packedFile);
+		bool Load(std::shared_ptr<BaseFile>& packedFile, const astring& key);
 
 		std::vector<std::shared_ptr<PackFileInternalHeader>>& GetInternalHeaders();
 	};
@@ -71,7 +71,7 @@ namespace ace
 
 		PackFile();
 		virtual ~PackFile();
-		bool Load(std::shared_ptr<BaseFile> packedFile);
+		bool Load(std::shared_ptr<BaseFile> packedFile, const astring& key);
 
 		bool HaveFile(const astring& path);
 		std::shared_ptr<PackFileHeader> GetTopHeader();
