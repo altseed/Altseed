@@ -67,6 +67,8 @@ EXTERN_ENGINE_TEST(IO, StaticFile_NonePackage_Cache)
 EXTERN_ENGINE_TEST(IO, StaticFile_Package)
 EXTERN_ENGINE_TEST(IO, StaticFile_Package_Cache)
 EXTERN_ENGINE_TEST(IO, StaticFile_Package_Priority)
+EXTERN_ENGINE_TEST(IO, StaticFile_PackageWithKey)
+EXTERN_ENGINE_TEST(IO, StreamFile_PackageWithKey)
 
 EXTERN_ENGINE_TEST(Profiler, Profiling)
 
