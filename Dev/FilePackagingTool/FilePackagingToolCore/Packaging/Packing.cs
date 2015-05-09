@@ -105,7 +105,7 @@ namespace FilePackingTool.Packaging
 					byte* pKeyEnd = pfixKey + byteKey.Length;
 
 					for (var cursor = reader.Read(array, 0, array.Length);
-						cursor == 0;
+						cursor != 0;
 						cursor = reader.Read(array, 0, array.Length))
 					{
 						if (cursor == array.Length)
