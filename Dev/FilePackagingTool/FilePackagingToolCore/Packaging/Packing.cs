@@ -92,8 +92,10 @@ namespace FilePackingTool.Packaging
 		{
 			byte[] byteKey = Encoding.UTF8.GetBytes(key);
 
+			string pathTemp = path + "_tmp" + Path.GetExtension(path);
+
 			using (var reader = File.OpenRead(path))
-			using (var writer = new BinaryWriter(File.Create(path)))
+			using (var writer = new BinaryWriter(File.Create(pathTemp)))
 			{
 				byte[] array = new byte[2 * 1024];
 
@@ -137,6 +139,8 @@ namespace FilePackingTool.Packaging
 					}
 				}
 			}
+			File.Delete(path);
+			File.Move(pathTemp, path);
 		}
 		public static void Run(string targetPath, string packName, PackagingSetting setting, IEnumerable<string> ignorePath, string key = "")
 		{
