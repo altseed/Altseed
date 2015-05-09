@@ -43,7 +43,7 @@ namespace ace
 		if (readableSize == 0) return 0;
 		
 		baseFile->Seek(fileOffset + current);
-		baseFile->ReadBytes(buffer, readableSize, key, baseFile->GetPosition());
+		baseFile->ReadBytes(buffer, readableSize, key, fileOffset + current);
 
 		current += readableSize;
 

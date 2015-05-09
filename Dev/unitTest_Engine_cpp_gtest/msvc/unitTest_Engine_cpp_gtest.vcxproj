@@ -37,9 +37,11 @@
     <ClCompile Include="..\IO\StaticFile_NonePackage_AddDefaultRootDirectory.cpp" />
     <ClCompile Include="..\IO\StaticFile_NonePackage_Cache.cpp" />
     <ClCompile Include="..\IO\StaticFile_Package.cpp" />
+    <ClCompile Include="..\IO\StaticFile_PackageWithKey.cpp" />
     <ClCompile Include="..\IO\StaticFile_Package_Cache.cpp" />
     <ClCompile Include="..\IO\StaticFile_Package_Priority.cpp" />
     <ClCompile Include="..\IO\StreamFile_Package.cpp" />
+    <ClCompile Include="..\IO\StreamFile_PackageWithKey.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\AddComponentByComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\CameraAndSetTexture.cpp" />

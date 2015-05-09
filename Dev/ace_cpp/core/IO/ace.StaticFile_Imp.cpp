@@ -20,7 +20,7 @@ namespace ace
 		, cacheKey(cacheKey)
 	{
 		packedFile->Seek(internalHeader.GetOffset());
-		packedFile->ReadBytes(m_buffer, internalHeader.GetSize(), key, packedFile->GetPosition());
+		packedFile->ReadBytes(m_buffer, internalHeader.GetSize(), key, internalHeader.GetOffset());
 
 		m_path = packedFile->GetFullPath() + internalHeader.GetFileName();
 
