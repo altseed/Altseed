@@ -11,7 +11,7 @@
 
 namespace ace
 {
-	static enum class DivisionDirection
+	enum class DivisionDirection
 	{
 		None_,
 		Filled,
