@@ -2,7 +2,7 @@
 #pragma once
 
 #include <ace.common.Base.h>
-#include "../Core/ace.Core.Base_Imp.h"
+#include "../ace.Core.Base_Imp.h"
 
 #include "../IO/ace.File.h"
 #include "../IO/ace.StaticFile.h"
