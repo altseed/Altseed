@@ -47,13 +47,15 @@ std::string GetCPUName()
 			mov tmp + 8, ECX
 			mov tmp + 12, EDX
 		}
-#elif defined(__GNUC__) || defined(__clang__)
+#elif defined(__clang__)
 		__asm__(
 			"cpuid"
 			: "=a" (tmp.i[0]), "=b" (tmp.i[1]), "=c" (tmp.i[2]), "=d" (tmp.i[3])
 			: "a" (inst)
 			: "%eax", "%ebx", "%ecx", "%edx"
 		);
+#elif defined(__GNUC__)
+		// TODO 実装
 #endif
 		std::memcpy(procName + i * 16, &tmp, 16);
 		inst++;
