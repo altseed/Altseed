@@ -7,7 +7,7 @@ def cd(path):
 	os.chdir(path)
 
 def cdToScript():
-	cd(os.path.dirname(__file__))
+	cd(os.path.dirname(os.path.abspath(__file__)))
 
 class CreateHeader:
 	def __init__(self):
