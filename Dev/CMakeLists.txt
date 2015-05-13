@@ -129,6 +129,14 @@ else()
 	list(APPEND common_inc ${X11_Xcursor_INCLUDE_PATH})
 	list(APPEND common_lib ${X11_Xcursor_LIB})
 
+
+	if (NOT X11_Xinerama_FOUND)
+		message(FATAL_ERROR "X11_Xinerama were not found")
+	endif()
+	list(APPEND common_inc ${X11_Xinerama_INCLUDE_PATH})
+	list(APPEND common_lib ${X11_Xinerama_LIB})
+
+
 	if (NOT X11_xf86vmode_FOUND)
 		message(FATAL_ERROR "X11_xf86vmode were not found")
 	endif()
