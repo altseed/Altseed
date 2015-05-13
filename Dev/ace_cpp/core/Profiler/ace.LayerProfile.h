@@ -1,5 +1,6 @@
-﻿#pragma once
-#include <memory>
+﻿
+#pragma once
+#include "../ace.ReferenceObject.h"
 
 namespace ace
 {
