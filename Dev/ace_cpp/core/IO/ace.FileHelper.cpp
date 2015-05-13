@@ -3,6 +3,15 @@
 
 namespace ace
 {
+	static achar tolower_(achar in)
+	{
+		if (in <= 'Z' && in >= 'A')
+		{
+			return in - ('Z' - 'z');
+		}
+		return in;
+	}
+
 	bool FileHelper::IsAbsolutePath(const astring& path)
 	{
 #ifdef _WIN32
@@ -33,12 +42,13 @@ namespace ace
 		return false;
 	}
 
-
 	astring FileHelper::ToLower(const astring& path)
 	{
+
+
 		astring ret(path);
 		
-		std::transform(path.begin(), path.end(), ret.begin(), ::towlower);
+		std::transform(path.begin(), path.end(), ret.begin(), tolower_);
 
 		return ret;
 	}
