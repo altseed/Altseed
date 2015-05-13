@@ -93,6 +93,7 @@ set(core_src
 	ace_cpp/core/Input/ace.Mouse_Imp.cpp
 	ace_cpp/core/Input/ace.SideButton.cpp
 	ace_cpp/core/IO/ace.BaseFile.cpp
+	ace_cpp/core/IO/ace.Decryptor.cpp
 	ace_cpp/core/IO/ace.FileHelper.cpp
 	ace_cpp/core/IO/ace.File_Imp.cpp
 	ace_cpp/core/IO/ace.PackFile.cpp
@@ -275,9 +276,11 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/IO/StaticFile_NonePackage_AddDefaultRootDirectory.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_NonePackage_Cache.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_Package.cpp
+	unitTest_Engine_cpp_gtest/IO/StaticFile_PackageWithKey.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_Package_Cache.cpp
 	unitTest_Engine_cpp_gtest/IO/StaticFile_Package_Priority.cpp
 	unitTest_Engine_cpp_gtest/IO/StreamFile_Package.cpp
+	unitTest_Engine_cpp_gtest/IO/StreamFile_PackageWithKey.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/AddComponentByComponent.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
