@@ -123,6 +123,12 @@ else()
 	list(APPEND common_inc ${X11_Xinput_INCLUDE_PATH})
 	list(APPEND common_lib ${X11_Xinput_LIB})
 
+	if (NOT X11_Xcursor_FOUND)
+		message(FATAL_ERROR "X11_Xcursor were not found")
+	endif()
+	list(APPEND common_inc ${X11_Xcursor_INCLUDE_PATH})
+	list(APPEND common_lib ${X11_Xcursor_LIB})
+
 	if (NOT X11_xf86vmode_FOUND)
 		message(FATAL_ERROR "X11_xf86vmode were not found")
 	endif()
