@@ -756,7 +756,7 @@ End:;
 #if _WIN32
 #elif __APPLE__
 #else
-Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen )
+Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen )
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -805,7 +805,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL( ace::Vector2DI(width,height), display, window, context_, log, isReloadingEnabled);
+	return new Graphics_Imp_GL( ace::Vector2DI(width,height), display, window, context_, log, file, isReloadingEnabled);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));
