@@ -4,7 +4,7 @@
 
 namespace ace
 {
-	static struct WeightIndex
+	struct WeightIndex
 	{
 		uint8_t	Weight;
 		uint8_t	Index;
