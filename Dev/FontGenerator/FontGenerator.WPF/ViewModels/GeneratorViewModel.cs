@@ -62,6 +62,7 @@ namespace FontGenerator.WPF.ViewModels
 				if(!value.Equals(config.FontIndex))
 				{
 					config.FontIndex = value;
+					config.FontName = Helper.GetFontPairs().ElementAt(config.FontIndex).Name;
 					PropertyChanged.Raise(this);
 				}
 			}
