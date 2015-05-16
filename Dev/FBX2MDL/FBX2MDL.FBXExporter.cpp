@@ -333,6 +333,17 @@ namespace FBX2MDL
 
 					if (connectors.size() + newConnectors.size() > 32)
 					{
+						// 新規メッシュを生成する際に登録済みのボーンの情報も別途必要なため
+						for (auto fp = 0; fp < 3; fp++)
+						{
+							auto v = mesh->Vertexes[face.Index[fp]];
+							for (auto w = 0; w < 4; w++)
+							{
+								if (v.BoneWeights[w] == 0.0f) continue;
+								newConnectors.insert(v.BoneIndexesOriginal[w]);
+							}
+						}
+
 						finishMesh();
 
 						// 新しいメッシュを生成
