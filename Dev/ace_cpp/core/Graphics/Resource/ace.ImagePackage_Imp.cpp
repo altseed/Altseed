@@ -45,14 +45,16 @@ namespace ace
 			names.push_back(name);
 		}
 
-		return new ImagePackage_Imp(textures, names, areas);
+		return new ImagePackage_Imp(graphics, textures, names, areas);
 	}
 
 	ImagePackage_Imp::ImagePackage_Imp(
+		Graphics* graphics,
 		const std::vector<Texture2D*>&	textures,
 		const std::vector<astring>&		names,
 		const std::vector<RectI>&		areas)
-		: textures(textures)
+		: graphics(graphics)
+		, textures(textures)
 		, names(names)
 		, areas(areas)
 	{
@@ -65,6 +67,9 @@ namespace ace
 			textures[i]->Release();
 		}
 		textures.clear();
+
+		auto g = (Graphics_Imp*) graphics;
+		g->ImagePackageContainer->Unregister(this);
 	}
 
 	Texture2D* ImagePackage_Imp::GetImage_(int32_t index)
