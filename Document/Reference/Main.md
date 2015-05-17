@@ -71,7 +71,8 @@
 ### ツール
 
 * [フォントジェネレーター](./Tool/FontGenerator.md)
-* パッケージ化ツール
+* [イメージパッケージジェネレーター](./Tool/ImagePackageGenerator.md)
+* [ファイルパッケージングツール](./Tool/FilePackagingTool.md)
 
 ### 他
 * [リロード](./Misc/Reloading.md)
