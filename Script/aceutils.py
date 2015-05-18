@@ -145,6 +145,26 @@ def editCmakeForACE(path,enc='utf-8'):
 	lines = lines + "\tset(CMAKE_C_FLAGS_RELWITHDEBINFO \"${CMAKE_C_FLAGS_RELWITHDEBINFO} -fPIC\")\n"
 	lines = lines + "\tset(CMAKE_CXX_FLAGS \"${CMAKE_CXX_FLAGS} -fPIC\")\n"
 	lines = lines + "endif()\n"
+	
+	
+	if 'Box2D' in lines:
+		lines = lines + "if (MSVC)\n"
+		lines = lines + "\tif (NOT USE_MSVC_RUNTIME_LIBRARY_DLL)\n"
+		lines = lines + "\t\tforeach (flag CMAKE_C_FLAGS\n"
+		lines = lines + "\t\t\tCMAKE_C_FLAGS_DEBUG\n"
+		lines = lines + "\t\t\tCMAKE_C_FLAGS_RELEASE\n"
+		lines = lines + "\t\t\tCMAKE_CXX_FLAGS\n"
+		lines = lines + "\t\t\tCMAKE_CXX_FLAGS_DEBUG\n"
+		lines = lines + "\t\t\tCMAKE_CXX_FLAGS_RELEASE)\n"
+		lines = lines + "\t\t\tif (${flag} MATCHES \"/MD\")\n"
+		lines = lines + "\t\t\t\tstring(REGEX REPLACE \"/MD\" \"/MT\" ${flag} \"${${flag}}\")\n"
+		lines = lines + "\t\t\tendif()\n"
+		lines = lines + "\t\t\tif (${flag} MATCHES \"/MDd\")\n"
+		lines = lines + "\t\t\t\tstring(REGEX REPLACE \"/MDd\" \"/MTd\" ${flag} \"${${flag}}\")\n"
+		lines = lines + "\t\t\tendif()\n"
+		lines = lines + "\t\tendforeach()\n"
+		lines = lines + "\tendif()\n"
+		lines = lines + "endif()\n"
 
 	f = open(path, 'w')
 	f.write(lines)

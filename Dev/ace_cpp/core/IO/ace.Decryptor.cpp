@@ -1,4 +1,4 @@
-#include <vector>
+﻿#include <vector>
 #include "ace.Decryptor.h"
 
 namespace ace

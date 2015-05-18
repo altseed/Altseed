@@ -35,6 +35,8 @@ namespace ace{
 
 		virtual ShapeType GetShapeType() const = 0;
 
+		bool GetIsCollidedWith(CoreShape* shape);
+
 #if !SWIG
 		std::vector<CoreTriangleShape*>& GetDividedTriangles();
 
