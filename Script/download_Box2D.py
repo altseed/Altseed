@@ -16,12 +16,13 @@ else:
 
 
 aceutils.editCmakeForACE(r'Box2D_v2.3.0/Box2D/CMakeLists.txt','cp932')
+aceutils.editCmakeForACE(r'Box2D_v2.3.0/Box2D/Box2D/CMakeLists.txt','cp932')
 
 aceutils.mkdir(r"box2d_bin")
 aceutils.cd(r"box2d_bin")
 
 if aceutils.isWin():
-	aceutils.call(r'cmake -G "Visual Studio 12" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Box2D_v2.3.0/Box2D/')
+	aceutils.call(r'cmake -G "Visual Studio 12" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D BOX2D_BUILD_EXAMPLES:BOOL=OFF ../Box2D_v2.3.0/Box2D/')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Box2D.sln /p:configuration=Debug')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Box2D.sln /p:configuration=Release')
 else:
