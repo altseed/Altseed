@@ -1,5 +1,6 @@
 ﻿
 #include "ace.Effect_Imp.h"
+#include "../ace.Graphics_Imp.h"
 
 namespace ace
 {
@@ -22,19 +23,23 @@ namespace ace
 		}
 	}
 
-	Effect_Imp::Effect_Imp(Effekseer::Effect* effect)
-		: m_effect(effect)
+	Effect_Imp::Effect_Imp(Graphics* graphics, Effekseer::Effect* effect)
+		: graphics(graphics)
+		, m_effect(effect)
 	{
 	}
 
 	Effect_Imp::~Effect_Imp()
 	{
 		SafeRelease(m_effect);
+
+		auto g = (Graphics_Imp*)graphics;
+		g->EffectContainer->Unregister(this);
 	}
 
 	Effect_Imp* Effect_Imp::CreateEffect(Graphics* graphics, Effekseer::Effect* effect)
 	{
-		return new Effect_Imp(effect);
+		return new Effect_Imp(graphics, effect);
 	}
 
 	void Effect_Imp::Reload(const achar* path, Effekseer::Setting* setting, void* data, int32_t size)

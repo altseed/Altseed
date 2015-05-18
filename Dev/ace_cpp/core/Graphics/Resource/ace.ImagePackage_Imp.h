@@ -10,6 +10,7 @@ namespace ace
 		, public ReferenceObject
 	{
 	private:
+		Graphics*				graphics = nullptr;
 		std::vector<Texture2D*>	textures;
 		std::vector<astring>	names;
 		std::vector<RectI>		areas;
@@ -19,6 +20,7 @@ namespace ace
 		static ImagePackage_Imp* Create(Graphics* graphics, const std::vector<uint8_t>& data);
 
 		ImagePackage_Imp(
+			Graphics* graphics,
 			const std::vector<Texture2D*>&	textures,
 			const std::vector<astring>&		names,
 			const std::vector<RectI>&		areas);

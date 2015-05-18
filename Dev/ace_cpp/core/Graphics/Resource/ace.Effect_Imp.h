@@ -11,8 +11,9 @@ namespace ace
 	{
 	private:
 		Effekseer::Effect*	m_effect;
+		Graphics*			graphics = nullptr;
 
-		Effect_Imp(Effekseer::Effect* effect);
+		Effect_Imp(Graphics* graphics, Effekseer::Effect* effect);
 		virtual ~Effect_Imp();
 	public:
 
