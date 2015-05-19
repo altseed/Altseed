@@ -2,13 +2,25 @@
 #include<gtest/gtest.h>
 #include "EngineTest.h"
 
+#ifdef _WIN64
 #ifdef _DEBUG
-#pragma comment(lib,"Debug/ace_engine.lib")
-#pragma comment(lib, "gtestd.lib")
+#pragma comment(lib,"x64/Debug/ace_engine.lib")
+#pragma comment(lib, "x64/Debug/gtest.lib")
 #else
-#pragma comment(lib,"Release/ace_engine.lib")
-#pragma comment(lib, "gtest.lib")
+#pragma comment(lib,"x64/Release/ace_engine.lib")
+#pragma comment(lib, "x64/Release/gtest.lib")
 #endif
+#else
+#ifdef _DEBUG
+#pragma comment(lib,"x86/Debug/ace_engine.lib")
+#pragma comment(lib, "x86/Debug/gtest.lib")
+#else
+#pragma comment(lib,"x86/Release/ace_engine.lib")
+#pragma comment(lib, "x86/Release/gtest.lib")
+#endif
+#endif
+
+
 
 #if _WIN32
 #include <Windows.h>

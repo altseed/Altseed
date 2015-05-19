@@ -13,10 +13,22 @@
 
 #include <Culling3D.h>
 
+#ifdef _WIN64
+
 #if _DEBUG
-#pragma comment(lib,"Debug/Culling3D.lib")
+#pragma comment(lib,"x64/Debug/Culling3D.lib")
 #else
-#pragma comment(lib,"Release/Culling3D.lib")
+#pragma comment(lib,"x64/Release/Culling3D.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/Culling3D.lib")
+#else
+#pragma comment(lib,"x86/Release/Culling3D.lib")
+#endif
+
 #endif
 
 namespace ace

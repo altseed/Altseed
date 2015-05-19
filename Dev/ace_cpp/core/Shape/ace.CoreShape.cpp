@@ -2,10 +2,22 @@
 #include "ace.CoreTriangleShape.h"
 #include <Box2D/Box2D.h>
 
+#ifdef _WIN64
+
 #if _DEBUG
-#pragma comment(lib,"Debug/Box2D.lib")
+#pragma comment(lib,"x64/Debug/Box2D.lib")
 #else
-#pragma comment(lib,"Release/Box2D.lib")
+#pragma comment(lib,"x64/Release/Box2D.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/Box2D.lib")
+#else
+#pragma comment(lib,"x86/Release/Box2D.lib")
+#endif
+
 #endif
 
 namespace ace

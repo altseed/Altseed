@@ -11,7 +11,13 @@ aceutils.unzip(r'master.zip')
 
 aceutils.editCmakeForACE(r'Effekseer-master/Dev/Cpp/CMakeLists.txt','cp932')
 
+aceutils.rmdir(r"effekseer_bin")
+aceutils.rmdir(r"effekseer_bin_x64")
+
 aceutils.mkdir(r"effekseer_bin")
+aceutils.mkdir(r"effekseer_bin_x64")
+
+
 aceutils.cd(r"effekseer_bin")
 
 if aceutils.isWin():
@@ -27,18 +33,44 @@ else:
 
 aceutils.cd(r"../")
 
+
+aceutils.cd(r"effekseer_bin_x64")
+
 if aceutils.isWin():
-	aceutils.mkdir(r'Dev/lib/Debug')
-	aceutils.mkdir(r'Dev/lib/Release')
+	aceutils.call(r'cmake -G "Visual Studio 12 Win64" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
+	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Effekseer.sln /p:configuration=Debug')
+	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Effekseer.sln /p:configuration=Release')
+
+aceutils.cd(r"../")
+
+
+if aceutils.isWin():
+	aceutils.mkdir(r'Dev/lib/x86/')
+	aceutils.mkdir(r'Dev/lib/x86/Debug')
+	aceutils.mkdir(r'Dev/lib/x86/Release')
+
+	aceutils.mkdir(r'Dev/lib/x64/')
+	aceutils.mkdir(r'Dev/lib/x64/Debug')
+	aceutils.mkdir(r'Dev/lib/x64/Release')
+
 	aceutils.copy(r'Effekseer-master/Dev/Cpp/Effekseer/Effekseer.h', r'Dev/include/')
 	aceutils.copy(r'Effekseer-master/Dev/Cpp/EffekseerRendererDX11/EffekseerRendererDX11.h', r'Dev/include/')
 	aceutils.copy(r'Effekseer-master/Dev/Cpp/EffekseerRendererGL/EffekseerRendererGL.h', r'Dev/include/')
-	aceutils.copy(r'effekseer_bin/Debug/Effekseer.lib', r'Dev/lib/Debug/')
-	aceutils.copy(r'effekseer_bin/Debug/EffekseerRendererDX11.lib', r'Dev/lib/Debug/')
-	aceutils.copy(r'effekseer_bin/Debug/EffekseerRendererGL.lib', r'Dev/lib/Debug/')
-	aceutils.copy(r'effekseer_bin/Release/Effekseer.lib', r'Dev/lib/Release/')
-	aceutils.copy(r'effekseer_bin/Release/EffekseerRendererDX11.lib', r'Dev/lib/Release/')
-	aceutils.copy(r'effekseer_bin/Release/EffekseerRendererGL.lib', r'Dev/lib/Release/')
+
+	aceutils.copy(r'effekseer_bin/Debug/Effekseer.lib', r'Dev/lib/x86/Debug/')
+	aceutils.copy(r'effekseer_bin/Debug/EffekseerRendererDX11.lib', r'Dev/lib/x86/Debug/')
+	aceutils.copy(r'effekseer_bin/Debug/EffekseerRendererGL.lib', r'Dev/lib/x86/Debug/')
+	aceutils.copy(r'effekseer_bin/Release/Effekseer.lib', r'Dev/lib/x86/Release/')
+	aceutils.copy(r'effekseer_bin/Release/EffekseerRendererDX11.lib', r'Dev/lib/x86/Release/')
+	aceutils.copy(r'effekseer_bin/Release/EffekseerRendererGL.lib', r'Dev/lib/x86/Release/')
+
+	aceutils.copy(r'effekseer_bin_x64/Debug/Effekseer.lib', r'Dev/lib/x64/Debug/')
+	aceutils.copy(r'effekseer_bin_x64/Debug/EffekseerRendererDX11.lib', r'Dev/lib/x64/Debug/')
+	aceutils.copy(r'effekseer_bin_x64/Debug/EffekseerRendererGL.lib', r'Dev/lib/x64/Debug/')
+	aceutils.copy(r'effekseer_bin_x64/Release/Effekseer.lib', r'Dev/lib/x64/Release/')
+	aceutils.copy(r'effekseer_bin_x64/Release/EffekseerRendererDX11.lib', r'Dev/lib/x64/Release/')
+	aceutils.copy(r'effekseer_bin_x64/Release/EffekseerRendererGL.lib', r'Dev/lib/x64/Release/')
+
 else:
 	aceutils.copy(r'Effekseer-master/Dev/Cpp/Effekseer/Effekseer.h', r'Dev/include/')
 	aceutils.copy(r'Effekseer-master/Dev/Cpp/EffekseerRendererGL/EffekseerRendererGL.h', r'Dev/include/')

@@ -5,12 +5,26 @@
 
 #include <btBulletCollisionCommon.h>
 
+#ifdef _WIN64
+
 #ifdef _DEBUG
-#pragma comment(lib,"Debug/BulletCollision_Debug.lib")
-#pragma comment(lib,"Debug/LinearMath_Debug.lib")
+#pragma comment(lib,"x64/Debug/BulletCollision_Debug.lib")
+#pragma comment(lib,"x64/Debug/LinearMath_Debug.lib")
 #else
-#pragma comment(lib,"Release/BulletCollision.lib")
-#pragma comment(lib,"Release/LinearMath.lib")
+#pragma comment(lib,"x64/Release/BulletCollision.lib")
+#pragma comment(lib,"x64/Release/LinearMath.lib")
+#endif
+
+#else
+
+#ifdef _DEBUG
+#pragma comment(lib,"x86/Debug/BulletCollision_Debug.lib")
+#pragma comment(lib,"x86/Debug/LinearMath_Debug.lib")
+#else
+#pragma comment(lib,"x86/Release/BulletCollision.lib")
+#pragma comment(lib,"x86/Release/LinearMath.lib")
+#endif
+
 #endif
 
 namespace ace

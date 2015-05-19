@@ -5,10 +5,22 @@
 #include "../2D/ace.CoreObject2D.h"
 #include "../../Graphics/Resource/ace.Chip2D.h"
 
+#ifdef _WIN64
+
 #if _DEBUG
-#pragma comment(lib,"Debug/Culling2D.lib")
+#pragma comment(lib,"x64/Debug/Culling2D.lib")
 #else
-#pragma comment(lib,"Release/Culling2D.lib")
+#pragma comment(lib,"x64/Release/Culling2D.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/Culling2D.lib")
+#else
+#pragma comment(lib,"x86/Release/Culling2D.lib")
+#endif
+
 #endif
 
 #define __CULLING_2D__ 1
