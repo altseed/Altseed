@@ -37,11 +37,11 @@ namespace ace
 
 		void CrossFadeAnimation(int32_t index, const achar* name, float time) override;
 
-		bool IsAnimationPlaying(int32_t index) override;
+		bool GetIsAnimationPlaying(int32_t index) override;
 
 		void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, MaterialPropertyBlock* block) override;
 
-		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_MESH; }
+		RenderedObject3DType GetObjectType() { return RenderedObject3DType::Mesh; }
 
 		// 共通部分
 		virtual bool GetIsDrawn() const { return CoreObject3D_Imp::GetIsDrawn(); }

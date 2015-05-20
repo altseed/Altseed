@@ -6,46 +6,48 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+	/*
+	/// <summary>
+	/// ログの出力レベルを表す列挙体。レベルがLogクラスに設定されたものより高いログのみが記録されます。
+	/// </summary>
+	public enum LogLevel
+	{
+		/// <summary>
+		/// プログラムを停止しなければならない状況に関するログの出力レベル。
+		/// </summary>
+		Error = swig.LogLevel.Error,
+		/// <summary>
+		/// プログラムが正常に動作できないことに関するログの出力レベル。
+		/// </summary>
+		Critical = swig.LogLevel.Critical,
+		/// <summary>
+		/// プログラムが正常に動作することが保証できない状況に関するログの出力レベル。
+		/// </summary>
+		Warning = swig.LogLevel.Warning,
+		/// <summary>
+		/// プログラムの動作の異常ではなく、単に動作の状況を示すログの出力レベル。
+		/// </summary>
+		Information = swig.LogLevel.Information,
+		/// <summary>
+		/// 最低の出力レベル。
+		/// </summary>
+		All = swig.LogLevel.All,
+	}
+	*/
+
 	/// <summary>
 	/// テキスト形式でログを記録し、HTMLファイルに保存する機能を提供するクラス。
 	/// </summary>
 	public class Log
 	{
 		/// <summary>
-		/// ログの出力レベルを表す列挙体。レベルがLogクラスに設定されたものより高いログのみが記録されます。
-		/// </summary>
-		public enum OutputLevel
-		{
-			/// <summary>
-			/// プログラムを停止しなければならない状況に関するログの出力レベル。
-			/// </summary>
-			Error = swig.Log.eLogLevel.LOG_ERROR,
-			/// <summary>
-			/// プログラムが正常に動作できないことに関するログの出力レベル。
-			/// </summary>
-			Critical = swig.Log.eLogLevel.LOG_CRITICAL,
-			/// <summary>
-			/// プログラムが正常に動作することが保証できない状況に関するログの出力レベル。
-			/// </summary>
-			Warning = swig.Log.eLogLevel.LOG_WARNING,
-			/// <summary>
-			/// プログラムの動作の異常ではなく、単に動作の状況を示すログの出力レベル。
-			/// </summary>
-			Information = swig.Log.eLogLevel.LOG_INFORMATION,
-			/// <summary>
-			/// 最低の出力レベル。
-			/// </summary>
-			All = swig.Log.eLogLevel.LOG_ALL
-		}
-
-		/// <summary>
 		/// Logクラスをインスタンス化します。
 		/// </summary>
 		/// <param name="path">ログファイルを出力するファイル パス。</param>
 		/// <param name="title">ログファイルのタイトル。</param>
-		public Log( string path, string title )
+		public Log(string path, string title)
 		{
-			log = swig.Log_Imp.Create( path, title );
+			log = swig.Log_Imp.Create(path, title);
 		}
 
 		/// <summary>
@@ -62,9 +64,9 @@ namespace ace
 		/// </summary>
 		/// <param name="text">書き込まれるテキスト。</param>
 		/// <param name="level">出力レベル。</param>
-		public void Write( string text, OutputLevel level = OutputLevel.All )
+		public void Write(string text, LogLevel level = LogLevel.All)
 		{
-			log.Write( text, (int)level );
+			log.Write(text, (swig.LogLevel)level);
 		}
 
 		/// <summary>
@@ -72,9 +74,9 @@ namespace ace
 		/// </summary>
 		/// <param name="text">書き込まれるテキスト。</param>
 		/// <param name="level">出力レベル。</param>
-		public void WriteLine( string text, OutputLevel level = OutputLevel.All )
+		public void WriteLine(string text, LogLevel level = LogLevel.All)
 		{
-			log.WriteLine( text, (int)level );
+			log.WriteLine(text, (swig.LogLevel)level);
 		}
 
 		/// <summary>
@@ -82,9 +84,9 @@ namespace ace
 		/// </summary>
 		/// <param name="text">書き込まれるテキスト。</param>
 		/// <param name="level">出力レベル。</param>
-		public void WriteStrongly( string text, OutputLevel level = OutputLevel.All )
+		public void WriteStrongly(string text, LogLevel level = LogLevel.All)
 		{
-			log.WriteStrongly( text, (int)level );
+			log.WriteStrongly(text, (swig.LogLevel)level);
 		}
 
 		/// <summary>
@@ -92,9 +94,9 @@ namespace ace
 		/// </summary>
 		/// <param name="text">書き込まれるテキスト。</param>
 		/// <param name="level">出力レベル。</param>
-		public void WriteLineStrongly( string text, OutputLevel level = OutputLevel.All )
+		public void WriteLineStrongly(string text, LogLevel level = LogLevel.All)
 		{
-			log.WriteLineStrongly( text, (int)level );
+			log.WriteLineStrongly(text, (swig.LogLevel)level);
 		}
 
 		/// <summary>
@@ -102,54 +104,54 @@ namespace ace
 		/// </summary>
 		/// <param name="text">書き込まれるテキスト。</param>
 		/// <param name="level">出力レベル。</param>
-		public void WriteHeading( string text, OutputLevel level = OutputLevel.All )
+		public void WriteHeading(string text, LogLevel level = LogLevel.All)
 		{
-			log.WriteHeading( text, (int)level );
+			log.WriteHeading(text, (swig.LogLevel)level);
 		}
 
 		/// <summary>
 		/// 水平線をログファイルに書き込みます。
 		/// </summary>
 		/// <param name="level">出力レベル。</param>
-		public void WriteHorizontalRule( OutputLevel level = OutputLevel.All )
+		public void WriteHorizontalRule(LogLevel level = LogLevel.All)
 		{
-			log.WriteHorizontalRule( (int)level );
+			log.WriteHorizontalRule((swig.LogLevel)level);
 		}
 
 		/// <summary>
 		/// テーブルの開始タグをログファイルに書き込みます。
 		/// </summary>
 		/// <param name="level">出力レベル。</param>
-		public void BeginTable( OutputLevel level = OutputLevel.All )
+		public void BeginTable(LogLevel level = LogLevel.All)
 		{
-			log.BeginTable( (int)level );
+			log.BeginTable((swig.LogLevel)level);
 		}
 
 		/// <summary>
 		/// テーブルの終了タグをログファイルに書き込みます。
 		/// </summary>
 		/// <param name="level">出力レベル。</param>
-		public void EndTable( OutputLevel level = OutputLevel.All )
+		public void EndTable(LogLevel level = LogLevel.All)
 		{
-			log.EndTable( (int)level );
+			log.EndTable((swig.LogLevel)level);
 		}
 
 		/// <summary>
 		/// テーブルの新たな行に移動するタグをログファイルに書き込みます。
 		/// </summary>
 		/// <param name="level"></param>
-		public void ChangeRow( OutputLevel level = OutputLevel.All )
+		public void ChangeRow(LogLevel level = LogLevel.All)
 		{
-			log.ChangeRow( (int)level );
+			log.ChangeRow((swig.LogLevel)level);
 		}
 
 		/// <summary>
 		/// テーブルの新たな列に移動するタグをログファイルに書き込みます。
 		/// </summary>
 		/// <param name="level"></param>
-		public void ChangeColumn( OutputLevel level = OutputLevel.All )
+		public void ChangeColumn(LogLevel level = LogLevel.All)
 		{
-			log.ChangeColumn( (int)level );
+			log.ChangeColumn((swig.LogLevel)level);
 		}
 
 		/// <summary>
@@ -158,16 +160,16 @@ namespace ace
 		/// <returns></returns>
 		public bool IsValid()
 		{
-			return log.IsValid();
+			return log.GetIsValid();
 		}
 
 		/// <summary>
 		/// Logクラスが出力するログの出力レベルを設定します。
 		/// </summary>
 		/// <param name="level">設定する出力レベル。この値よりレベルが高く指定されたログのみが記録されるようになります。</param>
-		public void SetOutputLevel( OutputLevel level )
+		public void SetOutputLevel(LogLevel level)
 		{
-			log.SetOutputLevel( (int)level );
+			log.SetOutputLevel((swig.LogLevel)level);
 		}
 
 		private swig.Log log;

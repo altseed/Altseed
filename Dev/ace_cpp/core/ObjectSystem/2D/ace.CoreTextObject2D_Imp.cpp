@@ -23,9 +23,10 @@ namespace ace
 		, m_turnLR(false)
 		, m_turnUL(false)
 		, m_text(ace::ToAString(""))
-		, m_alphablend(AlphaBlend::Blend)
+		, m_alphablend(AlphaBlendMode::Blend)
 		, m_drawingPtiority(0)
 		, m_writingDirection(WritingDirection::Horizontal)
+		, m_textureFilterType(TextureFilterType::Nearest)
 	{
 
 	}
@@ -51,7 +52,7 @@ namespace ace
 	void CoreTextObject2D_Imp::SetFont(Font* font)
 	{
 		SafeSubstitute(m_font, font);
-		SetCullingUpdate();
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -68,7 +69,7 @@ namespace ace
 	void CoreTextObject2D_Imp::SetWritingDirection(WritingDirection writingDirection)
 	{
 		m_writingDirection = writingDirection;
-		SetCullingUpdate();
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -85,7 +86,7 @@ namespace ace
 	void CoreTextObject2D_Imp::SetText(const achar* text)
 	{
 		m_text = astring(text);
-		SetCullingUpdate();
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -102,6 +103,7 @@ namespace ace
 	void CoreTextObject2D_Imp::SetCenterPosition(Vector2DF position)
 	{
 		m_centerPosition = position;
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -171,7 +173,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	AlphaBlend CoreTextObject2D_Imp::GetAlphaBlendMode() const
+	AlphaBlendMode CoreTextObject2D_Imp::GetAlphaBlendMode() const
 	{
 		return m_alphablend;
 	}
@@ -179,9 +181,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetAlphaBlendMode(AlphaBlend alphablend)
+	void CoreTextObject2D_Imp::SetAlphaBlendMode(AlphaBlendMode alphaBlend)
 	{
-		m_alphablend = alphablend;
+		m_alphablend = alphaBlend;
 	}
 #pragma endregion
 
@@ -255,12 +257,12 @@ namespace ace
 					pos = Vector2DF(result.X, result.Y);
 				}
 
-				if (min.X >= position.at(0).X || min.Y >= position.at(0).Y)
+				if (min.X >= position.at(0).X && min.Y >= position.at(0).Y)
 				{
 					min = position.at(0);
 				}
 
-				if (max.X <= position.at(2).X || min.Y <= position.at(2).Y)
+				if (max.X <= position.at(2).X && min.Y <= position.at(2).Y)
 				{
 					max = position.at(2);
 				}
@@ -309,6 +311,23 @@ namespace ace
 			m_text.c_str(),
 			m_writingDirection,
 			m_alphablend,
-			m_drawingPtiority);
+			m_drawingPtiority,
+			m_textureFilterType);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreTextObject2D_Imp::SetTextureFilterType(TextureFilterType textureFilterType)
+	{
+		m_textureFilterType = textureFilterType;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	TextureFilterType CoreTextObject2D_Imp::GetTextureFilterType() const
+	{
+		return m_textureFilterType;
 	}
 }

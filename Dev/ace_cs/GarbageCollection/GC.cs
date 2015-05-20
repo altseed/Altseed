@@ -23,6 +23,8 @@ namespace ace
 		internal static IDObjectContainer<Material3D> Material3Ds { get; private set; }
 		internal static IDObjectContainer<MaterialPropertyBlock> MaterialPropertyBlocks { get; private set; }
 
+		internal static IDObjectContainer<ImagePackage> ImagePackages { get; private set; }
+
 		internal static IDObjectContainer<Effect> Effects { get; private set; }
 
 		internal static IDObjectContainer<Mesh> Meshs { get; private set; }
@@ -40,13 +42,17 @@ namespace ace
 		internal static IDObjectContainer<Layer2D> Layer2Ds { get; private set; }
 		internal static IDObjectContainer<Object2D> Object2Ds { get; private set; }
 
+        internal static IDObjectContainer<Shape> Shapes { get; private set; }
+
 		internal static IDObjectContainer<Layer3D> Layer3Ds { get; private set; }
 		internal static IDObjectContainer<Object3D> Object3Ds { get; private set; }
 
 		internal static IDObjectContainer<PostEffect> PostEffects { get; private set; }
 
 		internal static IDObjectContainer<Transition> Transitions { get; private set; }
-        internal static IDObjectContainer<StaticFile> StaticFiles { get; private set; }
+
+		internal static IDObjectContainer<StaticFile> StaticFiles { get; private set; }
+		internal static IDObjectContainer<StreamFile> StreamFiles { get; private set; }
 
 		internal static void Initialize()
 		{
@@ -64,6 +70,8 @@ namespace ace
 			Material2Ds = new IDObjectContainer<Material2D>();
 			Material3Ds = new IDObjectContainer<Material3D>();
 			MaterialPropertyBlocks = new IDObjectContainer<MaterialPropertyBlock>();
+
+			ImagePackages = new IDObjectContainer<ImagePackage>();
 
 			Effects = new IDObjectContainer<Effect>();
 
@@ -90,6 +98,9 @@ namespace ace
 			Transitions = new IDObjectContainer<Transition>();
 
             StaticFiles = new IDObjectContainer<StaticFile>();
+			StreamFiles = new IDObjectContainer<StreamFile>();
+
+            Shapes = new IDObjectContainer<Shape>();
 		}
 
 		internal static void Update()
@@ -114,6 +125,8 @@ namespace ace
 				Material3Ds.DestroyAll();
 				MaterialPropertyBlocks.DestroyAll();
 
+				ImagePackages.DestroyAll();
+
 				Effects.DestroyAll();
 
 				Meshs.DestroyAll();
@@ -137,6 +150,9 @@ namespace ace
 				Transitions.DestroyAll();
 
                 StaticFiles.DestroyAll();
+				StreamFiles.DestroyAll();
+
+                Shapes.DestroyAll();
 
 				//Profilers.DestroyAll();
 
@@ -304,6 +320,20 @@ namespace ace
 			return ret;
 		}
 
+		internal static ImagePackage GenerateImagePackage(swig.ImagePackage o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.ImagePackages.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new ImagePackage(o);
+			GC.ImagePackages.AddObject(p, ret);
+			return ret;
+		}
+
         /// <summary>
         /// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
         /// </summary>
@@ -323,11 +353,6 @@ namespace ace
             return ret;
         }
 
-        /// <summary>
-        /// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
-        /// </summary>
-        /// <param name="o"></param>
-        /// <param name="type"></param>
         internal static StaticFile GenerateStaticFile(swig.StaticFile o, GenerationType type)
         {
             if (o == null) return null;
@@ -341,6 +366,20 @@ namespace ace
             GC.StaticFiles.AddObject(p, ret);
             return ret;
         }
+
+		internal static StreamFile GenerateStreamFile(swig.StreamFile o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.StreamFiles.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new StreamFile(o);
+			GC.StreamFiles.AddObject(p, ret);
+			return ret;
+		}
 
         internal static Chip2D GenerateChip2D(swig.Chip2D o,GenerationType type)
 		{

@@ -52,6 +52,9 @@ namespace ace
 				ToUtf8String(key).c_str(),
 				layout,
 				macro);
+
+			m_shaders[key] = shader;
+			shader->SetKey(key);
 		}
 		
 		if (shader == nullptr) return nullptr;

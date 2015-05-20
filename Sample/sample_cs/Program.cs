@@ -25,10 +25,16 @@ namespace sample_cs
 				new Sound.Sound(),
 
 				new ObjectSystem.Object2DComponent(),
+                new ObjectSystem.Transition(),
 
-				new Graphics._2D.EffectObject2D(),
+                new Graphics._2D.CameraObject2D(),
+                new Graphics._2D.EffectObject2D(),
+                new Graphics._2D.TextObject2D(),
+                new Graphics._2D.TextureObject2D(),
+                new Graphics._2D.MapObject2D(),
+				new Graphics._2D.ImagePackage(),
 
-				new Graphics.PostEffect.PostEffect(),
+                new Graphics.PostEffect.PostEffect(),
 				new Graphics.PostEffect.CustomPostEffect(),
 			};
 

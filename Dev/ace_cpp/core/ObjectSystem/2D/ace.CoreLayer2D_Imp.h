@@ -32,7 +32,7 @@ namespace ace
 			std::array<Color, 4> col;
 			std::array<Vector2DF, 4> uv;
 			std::shared_ptr<Texture2D> Texture_;
-			AlphaBlend AlphaBlend_;
+			AlphaBlendMode AlphaBlend_;
 			int32_t Priority;
 		};
 
@@ -43,7 +43,7 @@ namespace ace
 			std::shared_ptr<Font>	Font_;
 			astring					Text_;
 			WritingDirection		WritingDirection_;
-			AlphaBlend				AlphaBlend_;
+			AlphaBlendMode				AlphaBlend_;
 			int32_t					Priority_;
 		};
 
@@ -67,25 +67,35 @@ namespace ace
 		*/
 		CoreObject2D_Imp* CoreObject2DToImp(ObjectPtr obj);
 
-		void DrawObjects(Renderer2D* renderer);
+		void DrawAdditionalObjects();
+		void ClearAdditionalObjects();
+
+#if __CULLING_2D__
+		void DrawObjectsWithCulling(RectF drawRange);
+#else
+		void DrawObjectsWithoutCulling();
+#endif
 
 #if __CULLING_2D__
 		culling2d::World *world = nullptr;
+		std::deque<culling2d::Object*> transformedObjects;
 #endif
 	public:
 #if __CULLING_2D__
 		culling2d::World *GetCullingWorld() const;
-		std::deque<culling2d::Object*> TransformedObjects;
 
-		void AddChipCullingObject(Chip2D_Imp *chip);
+		void AddTransformedObject(culling2d::Object* object);
+		void RemoveTransformedObject(culling2d::Object* object);
+
+		void AddChipCullingObject(Chip2D_Imp *chip, uint32_t firstSortKey);
 		void RemoveChipCullingObject(Chip2D_Imp *chip);
 #endif
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);
 		void Clear();
 
-		void BeginUpdating();
-		void EndUpdating();
+		void BeginUpdating(bool isUpdated) override;
+		void EndUpdating(bool isUpdated) override;
 
 		void BeginDrawing();
 		void Draw();
@@ -101,13 +111,24 @@ namespace ace
 		virtual void AddPostEffect(CorePostEffect* postEffect) { CoreLayer_Imp::AddPostEffect(postEffect); }
 		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
 
-
 		void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-			Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
+			Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority);
 
-		void DrawTextAdditionally(Vector2DF pos, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority) override;
+		void DrawTextAdditionally(Vector2DF pos, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority) override;
+
+		void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) override;
+		void DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) override;
+		void DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) override;
+		void DrawCircleAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int numberOfCorners, float angle, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) override;
+		void DrawArcAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int numberOfCorners, int startingCorner, int endingCorner, float angle, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) override;
+		void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlendMode alphaBlend, int32_t priority) override;
+		void DrawShapeAdditionally(CoreShape* shape, Color color, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority) override;
+
+		void BeginMeasureUpdateTime() { CoreLayer_Imp::BeginMeasureUpdateTime(); }
+		void EndMeasureUpdateTime() { CoreLayer_Imp::EndMeasureUpdateTime(); }
+		int GetTimeForUpdate() const { return CoreLayer_Imp::GetTimeForUpdate(); }
 
 #if !SWIG
 	public:

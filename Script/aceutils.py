@@ -85,7 +85,6 @@ def unzip(zip_filename):
 				unzip_file.close();
 	zip_file.close()
 
-
 def rm(path):
 	if os.path.exists(path):
 		os.remove(path)
@@ -101,7 +100,7 @@ def cd(path):
 	os.chdir(path)
 
 def cdToScript():
-	cd(os.path.dirname(__file__))
+	cd(os.path.dirname(os.path.abspath(__file__)))
 
 def mkdir(path):
 	if not os.path.exists(path):
@@ -111,12 +110,13 @@ def copy(src,dst):
 	print("copying from {0} to {1}".format(src, dst))
 	shutil.copy(src,dst)
 
-def copytree(src,dst,change=False):
+	
+def copytree(src,dst,change=False,ignoreList = None):
 	if change and os.path.exists(dst):
 		rmdir(dst)
 
 	if not os.path.exists(dst):
-		shutil.copytree(src,dst)
+		shutil.copytree(src,dst,ignore=ignoreList)
 
 def editCmakeForACE(path,enc='utf-8'):
 	# This script edits a cmake file for ACE.
@@ -145,6 +145,24 @@ def editCmakeForACE(path,enc='utf-8'):
 	lines = lines + "\tset(CMAKE_C_FLAGS_RELWITHDEBINFO \"${CMAKE_C_FLAGS_RELWITHDEBINFO} -fPIC\")\n"
 	lines = lines + "\tset(CMAKE_CXX_FLAGS \"${CMAKE_CXX_FLAGS} -fPIC\")\n"
 	lines = lines + "endif()\n"
+	
+	
+	if 'Box2D' in lines:
+		lines = lines + "if (MSVC)\n"
+		lines = lines + "\tforeach (flag CMAKE_C_FLAGS\n"
+		lines = lines + "\t\tCMAKE_C_FLAGS_DEBUG\n"
+		lines = lines + "\t\tCMAKE_C_FLAGS_RELEASE\n"
+		lines = lines + "\t\tCMAKE_CXX_FLAGS\n"
+		lines = lines + "\t\tCMAKE_CXX_FLAGS_DEBUG\n"
+		lines = lines + "\t\tCMAKE_CXX_FLAGS_RELEASE)\n"
+		lines = lines + "\t\tif (${flag} MATCHES \"/MD\")\n"
+		lines = lines + "\t\t\tstring(REGEX REPLACE \"/MD\" \"/MT\" ${flag} \"${${flag}}\")\n"
+		lines = lines + "\t\tendif()\n"
+		lines = lines + "\t\tif (${flag} MATCHES \"/MDd\")\n"
+		lines = lines + "\t\t\tstring(REGEX REPLACE \"/MDd\" \"/MTd\" ${flag} \"${${flag}}\")\n"
+		lines = lines + "\t\tendif()\n"
+		lines = lines + "\tendforeach()\n"
+		lines = lines + "endif()\n"
 
 	f = open(path, 'w')
 	f.write(lines)

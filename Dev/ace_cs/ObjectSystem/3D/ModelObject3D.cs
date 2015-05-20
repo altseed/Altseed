@@ -35,7 +35,7 @@ namespace ace
 		/// <param name="model">モデル</param>
 		public void SetModel(Model model)
 		{
-			coreObject.SetModel(model.SwigObject);
+			coreObject.SetModel(model.CoreInstance);
 		}
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace ace
 		/// <param name="mesh">メッシュ</param>
 		public void AddMesh(Mesh mesh)
 		{
-			coreObject.AddMesh(mesh.SwigObject);
+			coreObject.AddMesh(mesh.CoreInstance);
 		}
 
 		/// <summary>
@@ -113,7 +113,7 @@ namespace ace
 		*/
 		public bool IsAnimationPlaying(int index)
 		{
-			return coreObject.IsAnimationPlaying(index);
+			return coreObject.GetIsAnimationPlaying(index);
 		}
 
 		/// <summary>

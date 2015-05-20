@@ -6,29 +6,6 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-    /// <summary>
-    /// ジョイスティックの押下状態を示す列挙型
-    /// </summary>
-    public enum JoystickButtonState
-    {
-        /// <summary>
-        /// キーを離した瞬間のみ返す
-        /// </summary>
-        Release =ace.swig.JoystickButtonState.Release,
-        /// <summary>
-        /// キーを押した瞬間のみ返す
-        /// </summary>
-        Push =ace.swig.JoystickButtonState.Push,
-        /// <summary>
-        /// キーを押しっぱなしの時に返す
-        /// </summary>
-        Hold =ace.swig.JoystickButtonState.Hold,
-        /// <summary>
-        /// キーを離しっぱなしの時に返す
-        /// </summary>
-        Free =ace.swig.JoystickButtonState.Free
-    }
-
     public class Joystick
     {
         private ace.swig.Joystick joystick;
@@ -76,20 +53,20 @@ namespace ace
         }
 
         /// <summary>
-        /// あるボタンの押下状態を返す
+        /// 指定したボタンの押し状態を返す
         /// </summary>
-        /// <param name="at">何番目のボタンの押下状態を取得するか</param>
-        /// <returns>押下状態</returns>
+        /// <param name="at">何番目のボタンの押し状態を取得するか</param>
+        /// <returns>押し状態</returns>
         public JoystickButtonState GetButtonState(int at)
         {
             return (JoystickButtonState)joystick.GetButtonState(at);
         }
 
         /// <summary>
-        /// ある軸の入力状態を返す
+        /// 指定した軸の倒し具合を返す
         /// </summary>
-        /// <param name="at">何番目の軸配列の状態を取得するか</param>
-        /// <returns>傾倒の度合い</returns>
+        /// <param name="at">何番目の軸配列の倒し具合を取得するか</param>
+        /// <returns>倒し具合</returns>
         public float GetAxisState(int at)
         {
             return joystick.GetAxisState(at);

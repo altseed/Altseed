@@ -65,9 +65,9 @@ namespace ace {
 			@param	texture		描画に使用するテクスチャ(nullで無地)
 			@param	priority	描画優先度
 		*/
-		virtual void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority) = 0;
+		virtual void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter = TextureFilterType::Nearest, TextureWrapType wrap = TextureWrapType::Clamp) = 0;
 
-		virtual void AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority) = 0;
+		virtual void AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter = TextureFilterType::Nearest, TextureWrapType wrap = TextureWrapType::Clamp) = 0;
 	};
 
 	//----------------------------------------------------------------------------------

@@ -11,13 +11,20 @@ namespace ace
 	class Chip2D
 		:public IReference
 	{
+		friend class Accessor;
 	private:
 
 	protected:
 		Chip2D(){}
 		virtual ~Chip2D(){}
+
+		virtual Texture2D* GetTexture_() const = 0;
 	public:
-		virtual Texture2D* GetTexture() const = 0;
+
+#if !SWIG
+		virtual void SetTexture(std::shared_ptr<Texture2D> texture) = 0;
+		virtual std::shared_ptr<Texture2D> GetTexture() = 0;
+#endif
 		virtual void SetTexture(Texture2D* texture) = 0;
 
 		virtual RectF GetSrc() const = 0;
@@ -32,7 +39,7 @@ namespace ace
 		virtual bool GetTurnUL() const = 0;
 		virtual void SetTurnUL(bool turnUL) = 0;
 
-		virtual AlphaBlend GetAlphaBlendMode() const = 0;
-		virtual void SetAlphaBlendMode(AlphaBlend alphaBlend) = 0;
+		virtual AlphaBlendMode GetAlphaBlendMode() const = 0;
+		virtual void SetAlphaBlendMode(AlphaBlendMode alphaBlend) = 0;
 	};
 }

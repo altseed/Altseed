@@ -34,10 +34,10 @@ namespace ace {
 		std::shared_ptr<NativeShader_Imp>	shader_depth;
 		std::shared_ptr<NativeShader_Imp>	shader_light_depth;
 
-		std::shared_ptr<NativeShader_Imp>	mass_shader;
-		std::shared_ptr<NativeShader_Imp>	mass_shader_light;
-		std::shared_ptr<NativeShader_Imp>	mass_shader_depth;
-		std::shared_ptr<NativeShader_Imp>	mass_shader_light_depth;
+		std::shared_ptr<NativeShader_Imp>	mass_shaders[2];
+		std::shared_ptr<NativeShader_Imp>	mass_shaders_light[2];
+		std::shared_ptr<NativeShader_Imp>	mass_shaders_depth[2];
+		std::shared_ptr<NativeShader_Imp>	mass_shaders_light_depth[2];
 
 		std::shared_ptr<NativeShader_Imp>	terrain_shader;
 		std::shared_ptr<NativeShader_Imp>	terrain_shader_light;
@@ -67,10 +67,10 @@ namespace ace {
 		std::shared_ptr<NativeShader_Imp> GetNativeShaderDepth() { return shader_depth; }
 		std::shared_ptr<NativeShader_Imp> GetNativeShaderLightDepth() { return shader_light_depth; }
 
-		std::shared_ptr<NativeShader_Imp> GetNativeShaderMass() { return mass_shader; }
-		std::shared_ptr<NativeShader_Imp> GetNativeShaderMassLight() { return mass_shader_light; }
-		std::shared_ptr<NativeShader_Imp> GetNativeShaderMassDepth() { return mass_shader_depth; }
-		std::shared_ptr<NativeShader_Imp> GetNativeShaderMassLightDepth() { return mass_shader_light_depth; }
+		std::shared_ptr<NativeShader_Imp> GetNativeShaderMass(int32_t index) { return mass_shaders[index]; }
+		std::shared_ptr<NativeShader_Imp> GetNativeShaderMassLight(int32_t index) { return mass_shaders_light[index]; }
+		std::shared_ptr<NativeShader_Imp> GetNativeShaderMassDepth(int32_t index) { return mass_shaders_depth[index]; }
+		std::shared_ptr<NativeShader_Imp> GetNativeShaderMassLightDepth(int32_t index) { return mass_shaders_light_depth[index]; }
 
 		std::shared_ptr<NativeShader_Imp> GetNativeShaderTerrain() { return terrain_shader; }
 		std::shared_ptr<NativeShader_Imp> GetNativeShaderTerrainLight() { return terrain_shader_light; }

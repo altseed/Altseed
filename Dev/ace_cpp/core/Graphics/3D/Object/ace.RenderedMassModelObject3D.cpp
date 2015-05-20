@@ -39,46 +39,62 @@ namespace ace
 
 		auto g = (Graphics_Imp*) graphics;
 
-		std::vector<ace::VertexLayout> vl;
-		vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("Normal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("Binormal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		vl.push_back(ace::VertexLayout("UVSub", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
-		vl.push_back(ace::VertexLayout("BoneWeights", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
-		vl.push_back(ace::VertexLayout("BoneIndexes", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
+		for (int32_t i = 0; i < 2; i++)
+		{
+			std::vector<ace::VertexLayout> vl;
+			vl.push_back(ace::VertexLayout("Position", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("Normal", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("Binormal", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("UV", ace::VertexLayoutFormat::R32G32_FLOAT));
+			vl.push_back(ace::VertexLayout("UVSub", ace::VertexLayoutFormat::R32G32_FLOAT));
+			vl.push_back(ace::VertexLayout("Color", ace::VertexLayoutFormat::R8G8B8A8_UNORM));
+			vl.push_back(ace::VertexLayout("BoneWeights", ace::VertexLayoutFormat::R8G8B8A8_UNORM));
+			vl.push_back(ace::VertexLayout("BoneIndexes", ace::VertexLayoutFormat::R8G8B8A8_UINT));
+
+			astring numKey;
+			if (i == 0)
+			{
+				numKey = ToAString(".0");
+			}
+			else if (i == 1)
+			{
+				numKey = ToAString(".1");
+			}
+
+			{
+				std::vector<ace::Macro> macro;
+				if (i == 1) macro.push_back(Macro("ANIMATION_IS_ENABLED", "1"));
+
+				if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
+				{
+					m_shadersLightweight[i] = g->GetShaderCache()->CreateFromCode(
+						(ToAString("Internal.MassModelObject3D.Lightweight") + numKey).c_str(),
+						lightweight_mass_model_internal_vs_gl,
+						lightweight_model_internal_ps_gl,
+						vl,
+						macro);
+				}
+				else
+				{
+					m_shadersLightweight[i] = g->GetShaderCache()->CreateFromCode(
+						(ToAString("Internal.MassModelObject3D.Lightweight") + numKey).c_str(),
+						lightweight_mass_model_internal_vs_dx,
+						lightweight_model_internal_ps_dx,
+						vl,
+						macro);
+				}
+
+				assert(m_shadersLightweight[i] != nullptr);
+			}
 
 		{
 			std::vector<ace::Macro> macro;
+			if (i == 1) macro.push_back(Macro("ANIMATION_IS_ENABLED", "1"));
+
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				m_shaderLightweight = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.MassModelObject3D.Lightweight").c_str(),
-					lightweight_mass_model_internal_vs_gl,
-					lightweight_model_internal_ps_gl,
-					vl,
-					macro);
-			}
-			else
-			{
-				m_shaderLightweight = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.MassModelObject3D.Lightweight").c_str(),
-					lightweight_mass_model_internal_vs_dx,
-					lightweight_model_internal_ps_dx,
-					vl,
-					macro);
-			}
-
-			assert(m_shaderLightweight != nullptr);
-		}
-
-		{
-			std::vector<ace::Macro> macro;
-			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
-			{
-				m_shaderDF = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.MassModelObject3D.DF").c_str(),
+				m_shadersDF[i] = g->GetShaderCache()->CreateFromCode(
+					(ToAString("Internal.MassModelObject3D.DF") + numKey).c_str(),
 					mass_model_internal_vs_gl,
 					model_internal_ps_gl,
 					vl,
@@ -86,25 +102,26 @@ namespace ace
 			}
 			else
 			{
-				m_shaderDF = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.MassModelObject3D.DF").c_str(),
+				m_shadersDF[i] = g->GetShaderCache()->CreateFromCode(
+					(ToAString("Internal.MassModelObject3D.DF") + numKey).c_str(),
 					mass_model_internal_vs_dx,
 					model_internal_ps_dx,
 					vl,
 					macro);
 			}
 
-			assert(m_shaderDF != nullptr);
+			assert(m_shadersDF[i] != nullptr);
 		}
 
 		{
 			std::vector<ace::Macro> macro;
 			macro.push_back(Macro("EXPORT_DEPTH", "1"));
+			if (i == 1) macro.push_back(Macro("ANIMATION_IS_ENABLED", "1"));
 
 			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
 			{
-				m_shaderDF_ND = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.DF.ND").c_str(),
+				m_shadersDF_ND[i] = g->GetShaderCache()->CreateFromCode(
+					(ToAString("Internal.ModelObject3D.DF.ND") + numKey).c_str(),
 					mass_model_internal_vs_gl,
 					model_internal_ps_gl,
 					vl,
@@ -112,15 +129,16 @@ namespace ace
 			}
 			else
 			{
-				m_shaderDF_ND = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.ModelObject3D.DF.ND").c_str(),
+				m_shadersDF_ND[i] = g->GetShaderCache()->CreateFromCode(
+					(ToAString("Internal.ModelObject3D.DF.ND") + numKey).c_str(),
 					mass_model_internal_vs_dx,
 					model_internal_ps_dx,
 					vl,
 					macro);
 			}
 
-			assert(m_shaderDF_ND != nullptr);
+			assert(m_shadersDF_ND[i] != nullptr);
+		}
 		}
 
 		cullingProxy.ProxyPtr = this;
@@ -172,6 +190,9 @@ namespace ace
 			auto modelPtr = (MassModel_Imp*) ModelPtr;
 			auto& material = modelPtr->GetMaterial();
 
+			bool hasAnimation = modelPtr->GetAnimationTexture() != nullptr;
+			int32_t shaderIndex = hasAnimation ? 1 : 0;
+
 			std::shared_ptr<ace::NativeShader_Imp> shader;
 
 			if (material.Material_.get() != nullptr)
@@ -184,22 +205,22 @@ namespace ace
 				{
 					if (prop.IsDepthMode)
 					{
-						shader = shader_->GetNativeShaderMassLightDepth();
+						shader = shader_->GetNativeShaderMassLightDepth(shaderIndex);
 					}
 					else
 					{
-						shader = shader_->GetNativeShaderMassLight();
+						shader = shader_->GetNativeShaderMassLight(shaderIndex);
 					}
 				}
 				else
 				{
 					if (prop.IsDepthMode)
 					{
-						shader = shader_->GetNativeShaderMassDepth();
+						shader = shader_->GetNativeShaderMassDepth(shaderIndex);
 					}
 					else
 					{
-						shader = shader_->GetNativeShaderMass();
+						shader = shader_->GetNativeShaderMass(shaderIndex);
 					}
 				}
 			}
@@ -207,17 +228,17 @@ namespace ace
 			{
 				if (prop.IsLightweightMode)
 				{
-					shader = m_shaderLightweight;
+					shader = m_shadersLightweight[shaderIndex];
 				}
 				else
 				{
 					if (prop.IsDepthMode)
 					{
-						shader = m_shaderDF_ND;
+						shader = m_shadersDF_ND[shaderIndex];
 					}
 					else
 					{
-						shader = m_shaderDF;
+						shader = m_shadersDF[shaderIndex];
 					}
 				}
 			}
@@ -226,12 +247,15 @@ namespace ace
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", h::Array<Matrix44>(matM, 32)));
 
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationParam0", h::Array<Vector4DF>(animationParam0, 32)));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationParam1", h::Array<Vector4DF>(animationParam1, 32)));
+			if (hasAnimation)
+			{
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationParam0", h::Array<Vector4DF>(animationParam0, 32)));
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "animationParam1", h::Array<Vector4DF>(animationParam1, 32)));
 
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_animationTexture",
-				h::Texture2DPair(modelPtr->GetAnimationTexture().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
-
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_animationTexture",
+					h::Texture2DPair(modelPtr->GetAnimationTexture().get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
+			}
+			
 			if (prop.IsLightweightMode)
 			{
 				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightDirection", lightDirection));
@@ -271,7 +295,7 @@ namespace ace
 				state.DepthTest = true;
 				state.DepthWrite = true;
 				state.Culling = CullingType::Front;
-				state.AlphaBlendState = AlphaBlend::Opacity;
+				state.AlphaBlendState = AlphaBlendMode::Opacity;
 
 				helper->DrawInstancedWithPtr(
 					ib->GetCount() / 3,
@@ -332,7 +356,7 @@ namespace ace
 				state.DepthTest = true;
 				state.DepthWrite = true;
 				state.Culling = CullingType::Front;
-				state.AlphaBlendState = AlphaBlend::Opacity;
+				state.AlphaBlendState = AlphaBlendMode::Opacity;
 
 				helper->DrawInstancedWithPtr(
 					ib->GetCount() / 3,
@@ -450,7 +474,7 @@ namespace ace
 		variation = time;
 	}
 
-	bool RenderedMassModelObject3D::IsAnimationPlaying()
+	bool RenderedMassModelObject3D::GetIsAnimationPlaying()
 	{
 		return isAnimationPlaying0 || isAnimationPlaying1;
 	}

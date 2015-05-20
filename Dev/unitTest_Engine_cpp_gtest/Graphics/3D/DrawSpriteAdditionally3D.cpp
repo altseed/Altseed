@@ -34,7 +34,7 @@ protected:
 			ace::Vector2DF(0, 0),
 			ace::Vector2DF(0, 0),
 			nullptr,
-			ace::AlphaBlend::Blend,
+			ace::AlphaBlendMode::Blend,
 			false,
 			true
 			);

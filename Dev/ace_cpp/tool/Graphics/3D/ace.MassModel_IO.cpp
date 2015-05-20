@@ -4,6 +4,12 @@
 
 namespace ace
 {
+	struct WeightIndex
+	{
+		uint8_t	Weight;
+		uint8_t	Index;
+	};
+
 	bool MassModel_IO::Convert(Model_IO& model)
 	{
 		Reset();
@@ -15,9 +21,38 @@ namespace ace
 		auto& mesh = model.Meshes[0].DividedMeshes[0];
 		auto& deformer = model.Deformer_;
 
+		std::array<WeightIndex, 4> wis;
+
 		for (auto& v : mesh.Vertices)
 		{
 			Vertex v_;
+
+			uint8_t* weights = (uint8_t*) v.BoneWeights;
+			uint8_t* indexes = (uint8_t*) v.BoneIndexes;
+
+			for (int32_t i = 0; i < 4; i++)
+			{
+				wis[i].Weight = weights[i];
+				wis[i].Index = indexes[i];
+			}
+
+			std::sort(wis.begin(), wis.end(), 
+				[](const WeightIndex&left, const WeightIndex& right){
+				return left.Weight > right.Weight;
+			});
+
+			for (int32_t i = 0; i < 4; i++)
+			{
+				weights[i] = wis[i].Weight;
+				indexes[i] = wis[i].Index;
+			}
+
+			float restWeights = weights[2] + weights[3];
+			weights[0] += (restWeights / 2.0f);
+			weights[1] += (restWeights / 2.0f);
+			weights[2] = 0;
+			weights[3] = 0;
+
 			v_.Position = v.Position;
 			v_.Normal = v.Normal;
 			v_.Binormal = v.Binormal;
@@ -128,8 +163,8 @@ namespace ace
 					for (auto& kf : as.KeyframeAnimations)
 					{
 						astring targetName;
-						eAnimationCurveTargetType targetType;
-						eAnimationCurveTargetAxis targetAxis;
+						AnimationCurveTargetType targetType;
+						AnimationCurveTargetAxis targetAxis;
 
 						ModelUtils::GetAnimationTarget(targetName, targetType, targetAxis, kf.Name);
 
@@ -268,6 +303,43 @@ namespace ace
 					AnimationTexture_.Buffer[x + y * AnimationTexture_.TextureWidth].W = boneMatrixes[j].Values[k][3];
 				}
 			}
+			
+			AnimationTexture_.AnimationCount = 0;
+			AnimationTexture_.TextureWidth = 0;
+			AnimationTexture_.TextureHeight = 0;
+
+			AnimationTexture_.Buffer.clear();
+
+			// 頂点に適用
+			for (size_t i = 0; i < Vertices.size(); i++)
+			{
+				auto& v = Vertices[i];
+				
+				uint8_t* weights = (uint8_t*) (&v.BoneWeights);
+				uint8_t* indexes = (uint8_t*) (&v.BoneIndexes);
+
+				Matrix44 mat;
+
+				for (auto c = 0; c < 4; c++)
+				{
+					for (auto r = 0; r < 4; r++)
+					{
+						mat.Values[r][c] =
+							boneMatrixes[indexes[0]].Values[r][c] * (weights[0] / 255.0f) +
+							boneMatrixes[indexes[1]].Values[r][c] * (weights[1] / 255.0f);
+					}
+				}
+
+				auto pn = v.Position + v.Normal;
+				auto pb = v.Position + v.Binormal;
+
+				v.Position = mat.Transform3D(v.Position);
+				pn = mat.Transform3D(pn);
+				pb = mat.Transform3D(pb);
+				v.Normal = (pn - v.Position).GetNormal();
+				v.Binormal = (pb - v.Position).GetNormal();
+			}
+			
 		}
 		
 		return true;

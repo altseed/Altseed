@@ -1,33 +1,52 @@
-﻿#include "ace.BaseFile_Imp.h"
+﻿
+#include "ace.BaseFile.h"
+#include "ace.Decryptor.h"
 #include <sstream>
+#ifndef _WIN32
+#include <sys/stat.h>
+#endif // _WIN32
 
 namespace ace
 {
-	BaseFile_Imp::BaseFile_Imp(const Path& fileName) :
-		BaseFile_Imp(fileName.ToAstring())
+	BaseFile::BaseFile(const astring& path)
+		: BaseFile(path.c_str())
 	{
 	}
 
-	BaseFile_Imp::BaseFile_Imp(const astring& path) :
-		m_position(0),
-		m_length(-1),
-		m_filePath(path)
+	BaseFile::BaseFile(const achar* path)
+		: m_position(0)
+		, m_length(-1)
+		, m_filePath(path)
 	{
 		m_file.open(
 #ifdef _WIN32
 			path,
 #else
-			ToUtf8String(path.c_str()),
+			ToUtf8String(path),
 #endif
 			std::basic_ios<uint8_t>::in | std::basic_ios<uint8_t>::binary);
 	}
 
-	BaseFile_Imp::~BaseFile_Imp()
+	BaseFile::~BaseFile()
 	{
 		m_file.close();
 	}
 
-	int64_t BaseFile_Imp::Size()
+	bool BaseFile::IsValid()
+	{
+#ifndef _WIN32
+		{
+			struct stat sb;
+			if (stat(ToUtf8String(m_filePath.c_str()).c_str(), &sb) != 0)
+				return false;
+			if (S_ISDIR(sb.st_mode))
+				return false;
+		}
+#endif // _WIN32
+		return !m_file.fail();
+	}
+
+	int64_t BaseFile::GetSize()
 	{
 		if (m_length < 0)
 		{
@@ -42,9 +61,9 @@ namespace ace
 		return m_length;
 	}
 
-	void BaseFile_Imp::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count)
+	void BaseFile::ReadBytes(std::vector<uint8_t>& buffer, const int64_t count, const astring& key, int64_t globalPos)
 	{
-		const auto size = Size();
+		const auto size = GetSize();
 
 		if (!count)
 		{
@@ -59,48 +78,38 @@ namespace ace
 		buffer.resize(count);
 		m_file.read(reinterpret_cast<char*>(&buffer[0]), count);
 
+		Decryptor::Decrypt(buffer.data(), 0, count, key, globalPos);
+
 		m_position += count;
 	}
 
-	uint32_t BaseFile_Imp::ReadUInt32()
+	uint32_t BaseFile::ReadUInt32(const astring& key, int64_t globalPos)
 	{
 		std::vector<uint8_t> buffer;
-		ReadBytes(buffer, sizeof(uint32_t));
+		ReadBytes(buffer, sizeof(uint32_t), key, globalPos);
 
 		return *reinterpret_cast<const uint32_t*>(buffer.data());
 	}
 
-	uint64_t BaseFile_Imp::ReadUInt64()
+	uint64_t BaseFile::ReadUInt64(const astring& key, int64_t globalPos)
 	{
 		std::vector<uint8_t> buffer;
-		ReadBytes(buffer, sizeof(uint64_t));
+		ReadBytes(buffer, sizeof(uint64_t), key, globalPos);
 
 		return *reinterpret_cast<const uint64_t*>(buffer.data());
 	}
 
-	void BaseFile_Imp::ReadAllBytes(std::vector<uint8_t>& buffer)
+	void BaseFile::ReadAllBytes(std::vector<uint8_t>& buffer, const astring& key, int64_t globalPos)
 	{
 		const auto tmp = m_position;
-		ReadBytes(buffer, Size());
+		ReadBytes(buffer, GetSize(), key, globalPos);
 
 		m_position = tmp;
 	}
 
-	void BaseFile_Imp::ReadAllLines(std::vector<astring>& lines)
+	void BaseFile::Seek(const int64_t offset, const SeekOrigin seekOrigin)
 	{
-	}
-
-	void BaseFile_Imp::ReadAllText(astring& text)
-	{
-	}
-
-	void BaseFile_Imp::ReadAllText(astring& text, const std::locale& locale)
-	{
-	}
-
-	void BaseFile_Imp::Seek(const int64_t offset, const SeekOrigin seekOrigin)
-	{
-		const auto size = Size();
+		const auto size = GetSize();
 
 		switch (seekOrigin)
 		{

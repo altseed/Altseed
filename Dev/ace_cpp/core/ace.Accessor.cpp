@@ -15,10 +15,16 @@
 
 #include "Graphics/Resource/ace.MaterialPropertyBlock.h"
 
+#include "Graphics/Resource/ace.ImagePackage.h"
+
 #include "ObjectSystem/2D/ace.CoreEffectObject2D.h"
 
 #include "Graphics/3D/Resource/ace.Mesh.h"
 #include "Graphics/3D//Resource/ace.Model.h"
+
+#include "Graphics/Resource/ace.Chip2D.h"
+
+#include "IO/ace.StreamFile.h"
 
 namespace ace
 {
@@ -72,13 +78,53 @@ namespace ace
 		return o->CreateKeyframeAnimation_();
 	}
 
+	AnimationClip* Accessor::Model_GetAnimationClip(Model* o, int32_t index)
+	{
+		return o->GetAnimationClip_(index);
+	}
+
 	Mesh* Accessor::Model_GetMesh(Model* o, int32_t index)
 	{
 		return o->GetMesh_(index);
 	}
 
+	Texture2D* Accessor::ImagePackage_GetImage(ImagePackage* o, int32_t index)
+	{
+		return o->GetImage_(index);
+	}
+
 	Effect* Accessor::CoreEffectObject2D_GetEffect(CoreEffectObject2D* o)
 	{
 		return o->GetEffect_();
+	}
+
+	Texture2D* Accessor::Chip2D_GetTexture(Chip2D* chip)
+	{
+		return chip->GetTexture_();
+	}
+
+	StaticFile* Accessor::File_CreateStaticFile(File* file, const achar* path)
+	{
+		return file->CreateStaticFile_(path);
+	}
+
+	StreamFile* Accessor::File_CreateStreamFile(File* file, const achar* path)
+	{
+		return file->CreateStreamFile_(path);
+	}
+
+	int32_t Accessor::StreamFile_Read_(StreamFile* o, int32_t size)
+	{
+		return o->Read_(size);
+	}
+
+	void* Accessor::StreamFile_GetTempBuffer_(StreamFile* o)
+	{
+		return o->GetTempBuffer_();
+	}
+
+	int32_t Accessor::StreamFile_GetTempBufferSize_(StreamFile* o)
+	{
+		return o->GetTempBufferSize_();
 	}
 }

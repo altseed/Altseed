@@ -35,7 +35,7 @@ namespace ace
 		/// <param name="model">モデル</param>
 		public void SetModel(MassModel model)
 		{
-			coreObject.SetModel(model.SwigObject);
+			coreObject.SetModel(model.CoreInstance);
 		}
 
 		/// <summary>
@@ -69,9 +69,12 @@ namespace ace
 		/// アニメーションが再生中か取得する。
 		/// </summary>
 		/// <returns>再生中か?</returns>
-		public bool IsAnimationPlaying()
+		public bool IsAnimationPlaying
 		{
-			return coreObject.IsAnimationPlaying();
+			get
+			{
+				return coreObject.GetIsAnimationPlaying();
+			}
 		}
 
 		/// <summary>

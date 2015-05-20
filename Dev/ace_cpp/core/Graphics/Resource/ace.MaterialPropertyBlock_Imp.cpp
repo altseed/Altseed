@@ -18,7 +18,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_FLOAT) return 0.0f;
+			if (values[name].ValueType != ShaderVariableType::Float) return 0.0f;
 			return values[name].Data.Float4[0];
 		}
 		return 0.0f;
@@ -28,7 +28,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_FLOAT) return;
+			if (values[name].ValueType != ShaderVariableType::Float) return;
 			values[name].Data.Float4[0] = value;
 		}
 		else
@@ -41,7 +41,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_VECTOR2DF) return Vector2DF(0.0f, 0.0f);
+			if (values[name].ValueType != ShaderVariableType::Vector2DF) return Vector2DF(0.0f, 0.0f);
 			return Vector2DF(values[name].Data.Float4[0], values[name].Data.Float4[1]);
 		}
 		return Vector2DF(0.0f, 0.0f);
@@ -51,7 +51,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_VECTOR2DF) return;
+			if (values[name].ValueType != ShaderVariableType::Vector2DF) return;
 			values[name].Data.Float4[0] = value.X;
 			values[name].Data.Float4[1] = value.Y;
 		}
@@ -65,7 +65,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_VECTOR3DF) return Vector3DF(0.0f, 0.0f, 0.0f);
+			if (values[name].ValueType != ShaderVariableType::Vector3DF) return Vector3DF(0.0f, 0.0f, 0.0f);
 			return Vector3DF(values[name].Data.Float4[0], values[name].Data.Float4[1], values[name].Data.Float4[2]);
 		}
 		return Vector3DF(0.0f, 0.0f, 0.0f);
@@ -75,7 +75,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_VECTOR3DF) return;
+			if (values[name].ValueType != ShaderVariableType::Vector3DF) return;
 			values[name].Data.Float4[0] = value.X;
 			values[name].Data.Float4[1] = value.Y;
 			values[name].Data.Float4[2] = value.Z;
@@ -90,7 +90,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_VECTOR4DF) return Vector4DF(0.0f, 0.0f, 0.0f, 0.0f);
+			if (values[name].ValueType != ShaderVariableType::Vector4DF) return Vector4DF(0.0f, 0.0f, 0.0f, 0.0f);
 			return Vector4DF(values[name].Data.Float4[0], values[name].Data.Float4[1], values[name].Data.Float4[2], values[name].Data.Float4[3]);
 		}
 		return Vector4DF();
@@ -100,7 +100,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_VECTOR4DF) return;
+			if (values[name].ValueType != ShaderVariableType::Vector4DF) return;
 			values[name].Data.Float4[0] = value.X;
 			values[name].Data.Float4[1] = value.Y;
 			values[name].Data.Float4[2] = value.Z;
@@ -116,7 +116,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return nullptr;
+			if (values[name].ValueType != ShaderVariableType::Texture2D) return nullptr;
 			auto ret = values[name].Data.Texture2DPtr.Ptr;
 			return ret;
 		}
@@ -127,7 +127,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return;
+			if (values[name].ValueType != ShaderVariableType::Texture2D) return;
 			SafeSubstitute(values[name].Data.Texture2DPtr.Ptr, value);
 		}
 		else
@@ -140,7 +140,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return TextureFilterType::Linear;
+			if (values[name].ValueType != ShaderVariableType::Texture2D) return TextureFilterType::Linear;
 			auto ret = values[name].Data.Texture2DPtr.FilterType;
 			return ret;
 		}
@@ -151,7 +151,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return;
+			if (values[name].ValueType != ShaderVariableType::Texture2D) return;
 		}
 		else
 		{
@@ -166,7 +166,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return TextureWrapType::Clamp;
+			if (values[name].ValueType != ShaderVariableType::Texture2D) return TextureWrapType::Clamp;
 			auto ret = values[name].Data.Texture2DPtr.WrapType;
 			return ret;
 		}
@@ -177,7 +177,7 @@ namespace ace
 	{
 		if (values.count(name) > 0)
 		{
-			if (values[name].ValueType != SHADER_VARIABLE_TYPE_TEXTURE2D) return;
+			if (values[name].ValueType != ShaderVariableType::Texture2D) return;
 		}
 		else
 		{
@@ -195,11 +195,11 @@ namespace ace
 			auto v_ = v.second;
 			auto str = ToUtf8String(v.first.c_str());
 
-			if (v.second.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
+			if (v.second.ValueType == ShaderVariableType::Texture2D)
 			{
 				v_.ID = shader->GetTextureID(str.c_str());
 			}
-			else if (v.second.ValueType == SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+			else if (v.second.ValueType == ShaderVariableType::CubemapTexture)
 			{
 				v_.ID = shader->GetTextureID(str.c_str());
 			}

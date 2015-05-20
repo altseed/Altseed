@@ -53,9 +53,9 @@ namespace ace {
 		}
 
 		std::vector<ace::VertexLayout> vl;
-		vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
+		vl.push_back(ace::VertexLayout("Pos", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("UV", ace::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("Color", ace::VertexLayoutFormat::R8G8B8A8_UNORM));
 
 		std::vector<ace::Macro> macro_tex;
 		macro_tex.push_back(Macro("HAS_TEXTURE", "1"));
@@ -135,7 +135,7 @@ namespace ace {
 		sprites.clear();
 	}
 
-	void SpriteRenderer3D::AddSprite(Vector3DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest)
+	void SpriteRenderer3D::AddSprite(Vector3DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 	{
 		Sprite s;
 		s.TexturePtr = texture;

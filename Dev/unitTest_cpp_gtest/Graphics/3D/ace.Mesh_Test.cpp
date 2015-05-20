@@ -102,8 +102,8 @@ static std::shared_ptr<ace::Deformer> CreateDeformer( ace::Graphics* graphics)
 	ace::Matrix44::Mul(mat2_inv, mat2, mat1);
 	mat2_inv = mat2_inv.GetInverted();
 	
-	deformer->AddBone(ace::ToAString("no1").c_str(), -1, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat1);
-	deformer->AddBone(ace::ToAString("no2").c_str(), 0, ace::eRotationOrder::ROTATION_ORDER_ZXY, mat2);
+	deformer->AddBone(ace::ToAString("no1").c_str(), -1, ace::RotationOrder::ZXY, mat1);
+	deformer->AddBone(ace::ToAString("no2").c_str(), 0, ace::RotationOrder::ZXY, mat2);
 
 	return deformer;
 }
@@ -215,9 +215,6 @@ void Graphics_Mesh(bool isOpenGLMode)
 	renderer3d->AddObject(meshObject2);
 	renderer3d->AddObject(lightObject);
 
-	auto renderer2d = new ace::Renderer2D_Imp(graphics, log);
-
-
 	int32_t time = 0;
 	while (window->DoEvent())
 	{
@@ -231,38 +228,9 @@ void Graphics_Mesh(bool isOpenGLMode)
 		renderer3d->EndRendering();
 
 		graphics->SetRenderTarget(nullptr, nullptr);
+		graphics->Clear(true, false, ace::Color(0, 0, 0, 255));
 
-		ace::Vector2DF positions[4];
-		ace::Color colors[4];
-		ace::Vector2DF uvs[4];
-
-		colors[0] = ace::Color(255, 255, 255, 255);
-		colors[1] = ace::Color(255, 255, 255, 255);
-		colors[2] = ace::Color(255, 255, 255, 255);
-		colors[3] = ace::Color(255, 255, 255, 255);
-
-		positions[0].X = 0;
-		positions[0].Y = 0;
-		positions[1].X = 640;
-		positions[1].Y = 0;
-		positions[2].X = 640;
-		positions[2].Y = 480;
-		positions[3].X = 0;
-		positions[3].Y = 480;
-
-		uvs[0].X = 0;
-		uvs[0].Y = 0;
-		uvs[1].X = 1;
-		uvs[1].Y = 0;
-		uvs[2].X = 1;
-		uvs[2].Y = 1;
-		uvs[3].X = 0;
-		uvs[3].Y = 1;
-
-		renderer2d->AddSprite(positions, colors, uvs, renderer3d->GetRenderTarget(), ace::AlphaBlend::Blend, 0);
-		renderer2d->SetArea(ace::RectF(0, 0, 640, 480), 0);
-		renderer2d->DrawCache();
-		renderer2d->ClearCache();
+		renderer3d->RenderResult();
 
 		graphics->Present();
 
@@ -286,7 +254,6 @@ void Graphics_Mesh(bool isOpenGLMode)
 	cameraObject->Release();
 	lightObject->Release();
 
-	delete renderer2d;
 	delete renderer3d;
 
 	graphics->Release();

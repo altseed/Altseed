@@ -421,7 +421,7 @@ void Graphics_Imp_DX11::GenerateRenderStates()
 
 		for (int32_t k = 0; k < 8; k++)
 		{
-			Desc.RenderTarget[k].BlendEnable = i != (int32_t) AlphaBlend::Opacity;
+			Desc.RenderTarget[k].BlendEnable = i != (int32_t) AlphaBlendMode::Opacity;
 			Desc.RenderTarget[k].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 			Desc.RenderTarget[k].SrcBlendAlpha = D3D11_BLEND_ONE;
 			Desc.RenderTarget[k].DestBlendAlpha = D3D11_BLEND_ONE;
@@ -429,33 +429,33 @@ void Graphics_Imp_DX11::GenerateRenderStates()
 
 			switch (i)
 			{
-			case (int32_t) AlphaBlend::Opacity:
+			case (int32_t) AlphaBlendMode::Opacity:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ZERO;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-			case (int32_t) AlphaBlend::Blend:
+			case (int32_t) AlphaBlendMode::Blend:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-			case (int32_t) AlphaBlend::Add:
+			case (int32_t) AlphaBlendMode::Add:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-			case (int32_t) AlphaBlend::Sub:
+			case (int32_t) AlphaBlendMode::Sub:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_SRC_ALPHA;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_REV_SUBTRACT;
 				break;
 
-			case (int32_t) AlphaBlend::Mul:
+			case (int32_t) AlphaBlendMode::Mul:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_SRC_COLOR;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ZERO;
 				Desc.RenderTarget[k].BlendOp = D3D11_BLEND_OP_ADD;
 				break;
-			case (int32_t) AlphaBlend::AddAll:
+			case (int32_t) AlphaBlendMode::AddAll:
 				Desc.RenderTarget[k].DestBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].SrcBlend = D3D11_BLEND_ONE;
 				Desc.RenderTarget[k].SrcBlendAlpha = D3D11_BLEND_ONE;
@@ -585,6 +585,11 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 		// 定数バッファの割り当て
 		shaderPtr->AssignConstantBuffer();
 
+		std::array<ID3D11ShaderResourceView*, 16> srv_vs;
+		std::array<ID3D11ShaderResourceView*, 16> srv_ps;
+		srv_vs.fill(nullptr);
+		srv_ps.fill(nullptr);
+
 		// テクスチャの設定
 		for (auto& bt : shader->GetBindingTextures())
 		{
@@ -594,22 +599,22 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 
 			ID3D11ShaderResourceView* rv = nullptr;
 
-			if (bt.second.TexturePtr->GetType() == TEXTURE_CLASS_TEXTURE2D)
+			if (bt.second.TexturePtr->GetType() == TextureClassType::Texture2D)
 			{
 				auto t = (Texture2D_Imp_DX11*) tex;
 				rv = t->GetShaderResourceView();
 			}
-			else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE2D)
+			else if (tex->GetType() == TextureClassType::RenderTexture2D)
 			{
 				auto t = (RenderTexture2D_Imp_DX11*) tex;
 				rv = t->GetShaderResourceView();
 			}
-			else if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+			else if (tex->GetType() == TextureClassType::CubemapTexture)
 			{
 				auto t = (CubemapTexture_Imp_DX11*) tex;
 				rv = t->GetShaderResourceView();
 			}
-			else if (tex->GetType() == TEXTURE_CLASS_DEPTHBUFFER)
+			else if (tex->GetType() == TextureClassType::DepthBuffer)
 			{
 				auto t = (DepthBuffer_Imp_DX11*) tex;
 				rv = t->GetShaderResourceView();
@@ -618,21 +623,29 @@ void Graphics_Imp_DX11::UpdateDrawStates(VertexBuffer_Imp* vertexBuffer, IndexBu
 			if (id >= 0xff)
 			{
 				// 頂点シェーダーに設定
-				GetContext()->VSSetShaderResources(id - 0xff, 1, &rv);
-
+				if (id - 0xff < srv_vs.size())
+				{
+					srv_vs[id - 0xff] = rv;
+				}
+				
 				nextState.textureFilterTypes_vs[id - 0xff] = bt.second.FilterType;
 				nextState.textureWrapTypes_vs[id - 0xff] = bt.second.WrapType;
 			}
 			else
 			{
 				// ピクセルシェーダーに設定
-				GetContext()->PSSetShaderResources(id, 1, &rv);
-
+				if (id < srv_ps.size())
+				{
+					srv_ps[id] = rv;
+				}
 				// ステート設定
 				nextState.textureFilterTypes[id] = bt.second.FilterType;
 				nextState.textureWrapTypes[id] = bt.second.WrapType;
 			}
 		}
+
+		GetContext()->VSSetShaderResources(0, srv_vs.size(), srv_vs.data());
+		GetContext()->PSSetShaderResources(0, srv_ps.size(), srv_ps.data());
 
 		/*
 		for (int32_t i = 0; i < Graphics_Imp::MaxTextureCount; i++)
@@ -766,7 +779,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		log->WriteLine(s.c_str());
 	};
 
-	writeLogHeading(ToAString("DirectX11"));
+	writeLogHeading(ToAString("描画(DirectX11)"));
 
 	/* DirectX初期化 */
 	ID3D11Device*			device = NULL;
@@ -1011,9 +1024,9 @@ Texture2D_Imp* Graphics_Imp_DX11::CreateTexture2DAsRawData_Imp_Internal(Graphics
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format)
+Texture2D_Imp* Graphics_Imp_DX11::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format, void* data)
 {
-	auto ret = Texture2D_Imp_DX11::Create(this, width, height, format);
+	auto ret = Texture2D_Imp_DX11::Create(this, width, height, format, data);
 	return ret;
 }
 

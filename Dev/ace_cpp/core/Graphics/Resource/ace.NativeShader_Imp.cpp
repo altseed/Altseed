@@ -204,39 +204,39 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	int32_t NativeShader_Imp::GetBufferSize(eConstantBufferFormat type, int32_t count)
+	int32_t NativeShader_Imp::GetBufferSize(ConstantBufferFormat type, int32_t count)
 	{
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1)
+		if (type == ConstantBufferFormat::Float1)
 		{
 			return sizeof(float) * 1 * count;
 		}
 		
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT2)
+		if (type == ConstantBufferFormat::Float2)
 		{
 			return sizeof(float) * 2 * count;
 		}
 
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3)
+		if (type == ConstantBufferFormat::Float3)
 		{
 			return sizeof(float) * 3 * count;
 		}
 
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4)
+		if (type == ConstantBufferFormat::Float4)
 		{
 			return sizeof(float) * 4 * count;
 		}
 
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44)
+		if (type == ConstantBufferFormat::Matrix44)
 		{
 			return sizeof(float) * 16 * count;
 		}
 
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4_ARRAY)
+		if (type == ConstantBufferFormat::Float4_ARRAY)
 		{
 			return sizeof(float) * 4 * count;
 		}
 
-		if (type == eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY)
+		if (type == ConstantBufferFormat::Matrix44_ARRAY)
 		{
 			return sizeof(float) * 16 * count;
 		}
@@ -423,41 +423,44 @@ namespace ace {
 
 	void NativeShader_Imp::SetConstantValues(ShaderConstantValue* constantValues, int32_t constantValueCount)
 	{
+		// テクスチャを全てnullにする。
+		bindingTextures.clear();
+
 		for (auto i = 0; i < constantValueCount; i++)
 		{
 			auto& value = constantValues[i];
 
-			if (value.ValueType == SHADER_VARIABLE_TYPE_FLOAT)
+			if (value.ValueType == ShaderVariableType::Float)
 			{
 				SetFloat(value.ID, value.Data.Float4[0]);
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR2DF)
+			else if (value.ValueType == ShaderVariableType::Vector2DF)
 			{
 				SetVector2DF(value.ID, Vector2DF(value.Data.Float4[0], value.Data.Float4[1]));
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR3DF)
+			else if (value.ValueType == ShaderVariableType::Vector3DF)
 			{
 				SetVector3DF(value.ID, Vector3DF(value.Data.Float4[0], value.Data.Float4[1], value.Data.Float4[2]));
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR4DF)
+			else if (value.ValueType == ShaderVariableType::Vector4DF)
 			{
 				SetVector4DF(value.ID, Vector4DF(value.Data.Float4[0], value.Data.Float4[1], value.Data.Float4[2], value.Data.Float4[3]));
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_VECTOR4DF_ARRAY)
+			else if (value.ValueType == ShaderVariableType::Vector4DF_Array)
 			{
 				SetVector4DFArray(value.ID, value.Data.Vector4DFArray.Ptr, value.Data.Vector4DFArray.Count);
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_MATRIX44)
+			else if (value.ValueType == ShaderVariableType::Matrix44)
 			{
 				Matrix44 mat;
 				memcpy(&mat, value.Data.Mat44, sizeof(Matrix44));
 				SetMatrix44(value.ID, mat);
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_MATRIX44_ARRAY)
+			else if (value.ValueType == ShaderVariableType::Matrix44_Array)
 			{
 				SetMatrix44Array(value.ID, value.Data.Mat44Array.Ptr, value.Data.Mat44Array.Count);
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_TEXTURE2D)
+			else if (value.ValueType == ShaderVariableType::Texture2D)
 			{
 				SetTexture(
 					value.ID,
@@ -465,7 +468,7 @@ namespace ace {
 					value.Data.Texture2DPtr.FilterType,
 					value.Data.Texture2DPtr.WrapType);
 			}
-			else if (value.ValueType == SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+			else if (value.ValueType == ShaderVariableType::CubemapTexture)
 			{
 				SetTexture(
 					value.ID,

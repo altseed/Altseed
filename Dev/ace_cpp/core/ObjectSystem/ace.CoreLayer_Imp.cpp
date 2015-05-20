@@ -5,6 +5,7 @@
 
 #include "../Graphics/ace.Graphics_Imp.h"
 #include "../Graphics/2D/ace.LayerRenderer.h"
+#include <Utility/ace.Timer.h>
 
 namespace ace
 {
@@ -16,6 +17,8 @@ namespace ace
 		, m_layerSize(windowSize)
 		, m_windowSize(windowSize)
 		, m_layerRenderer(nullptr)
+		, m_previousUpdateTime(0)
+		, m_timeAtUpdateStart(0)
 	{
 		m_graphics = (Graphics_Imp*) graphics;
 		SafeAddRef(m_graphics);
@@ -86,4 +89,20 @@ namespace ace
 	{
 		m_scene = scene;
 	}
+
+	void CoreLayer_Imp::BeginMeasureUpdateTime()
+	{
+		m_timeAtUpdateStart = ace::GetTime();
+	}
+
+	void CoreLayer_Imp::EndMeasureUpdateTime()
+	{
+		m_previousUpdateTime = ace::GetTime() - m_timeAtUpdateStart;
+	}
+
+	int CoreLayer_Imp::GetTimeForUpdate() const
+	{
+		return m_previousUpdateTime;
+	}
+
 }

@@ -39,23 +39,20 @@ float calcLightingGGX(float3 N, float3 V, float3 L, float roughness, float F0)
 	#ifdef OPENGL
 	float dotNL = clamp( dot(N,L), 0.0, 1.0);
 	float dotLH = clamp( dot(L,H), 0.0, 1.0);
-	float dotNH = clamp( dot(N,H), 0.0, 1.0);
-	float dotNV = clamp( dot(N,V), 0.0, 1.0);
+	float dotNH = clamp( dot(N,H), 0.0, 1.0) - 0.001;
+	float dotNV = clamp( dot(N,V), 0.0, 1.0) + 0.001;
 	#endif
 
 	#ifdef DIRECTX
 	float dotNL = saturate( dot(N,L) );
 	float dotLH = saturate( dot(L,H) );
-	float dotNH = saturate( dot(N,H) );
-	float dotNV = saturate( dot(N,V) );
+	float dotNH = saturate( dot(N,H) ) - 0.001;
+	float dotNV = saturate( dot(N,V) ) + 0.001;
 	#endif
 
 	float D = calcD_GGX(roughness, dotNH);
 	float F = calcF(F0, dotLH);
 	float G = calcG_Schlick(roughness, dotNV, dotNL);
-
-	// ‰½ŒÌ‚©’´‚¦‚é‚±‚Æ‚ª‚ ‚é‚½‚ß
-	D = min(32.0,D);
 
 	return dotNL * D * F * G / 4.0;
 }
@@ -79,13 +76,12 @@ float3 calcDirectionalLightDiffuseColor(float3 diffuseColor, float3 normal, floa
 	return color;
 }
 
-float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, float3 lightDir, float smoothness, float fresnel, float shadow, float ao)
+float3 calcDirectionalLightSpecularColor(float3 specularColor, float3 normal, float3 viewDir, float3 lightDir, float smoothness, float fresnel, float shadow, float ao)
 {
 	float roughness = 1.0 - smoothness;
 	roughness = max(roughness, 0.08);
 	roughness = min(roughness, 0.92);
 
-	float3 viewDir = float3(0.0,0.0,1.0);
 	float3 specular;
 	specular.x = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.x);
 	specular.y = calcLightingGGX(normal, viewDir, lightDir, roughness, specularColor.y);

@@ -74,10 +74,14 @@ mat4 getMatrix(int animationIndex, int boneIndex, float time)
 
 mat4 calcMatrix(int animationIndex, float time, vec4 weights, vec4 indexes)
 {
+	/*
 	return getMatrix(int(animationIndex), int(indexes.x), time) * weights.x +
 	getMatrix(int(animationIndex), int(indexes.y), time) * weights.y +
 	getMatrix(int(animationIndex), int(indexes.z), time) * weights.z +
 	getMatrix(int(animationIndex), int(indexes.w), time) * weights.w;
+	*/
+	return getMatrix(int(animationIndex), int(indexes.x), time) * weights.x +
+	getMatrix(int(animationIndex), int(indexes.y), time) * weights.y;
 }
 
 mat3 convert44to33(mat4 mat)
@@ -88,6 +92,8 @@ mat3 convert44to33(mat4 mat)
 void main()
 {
 	int instanceId = gl_InstanceID; 
+
+#ifdef ANIMATION_IS_ENABLED
 	float animIndex0 = animationParam0[instanceId].x;
 	float animIndex1 = animationParam0[instanceId].y;
 	float animTime0 = animationParam0[instanceId].z;
@@ -99,6 +105,9 @@ void main()
 	mat4 matLocal1 = calcMatrix(int(animIndex1), animTime1, BoneWeights, BoneIndexes);
 	mat4 matLocal = matLocal0 + (matLocal1 - matLocal0) * animWeight;
 	matLocal = matModel * matLocal;
+#else
+	mat4 matLocal = matM[instanceId];
+#endif
 
 	mat4 matMC = matC * matLocal;
 	mat3 matC33 = convert44to33(matC);

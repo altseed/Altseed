@@ -9,17 +9,15 @@ namespace ace
     /// <summary>
     /// フォントクラス
     /// </summary>
-    public class Font : IDestroy
+    public partial class Font : IDestroy
     {
-        internal swig.Font SwigObject { get; set; }
-
         internal Font(swig.Font swig)
         {
 #if DEBUG
             // 唯一の対応するクラスであることを保証
             if (GC.Fonts.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-            SwigObject = swig;
+            CoreInstance = swig;
         }
 
         ~Font()
@@ -31,7 +29,7 @@ namespace ace
         {
             get
             {
-                return SwigObject == null;
+                return CoreInstance == null;
             }
         }
 
@@ -39,23 +37,11 @@ namespace ace
         {
             lock (this)
             {
-                if (SwigObject == null) return;
-                GC.Collector.AddObject(SwigObject);
-                SwigObject = null;
+                if (CoreInstance == null) return;
+                GC.Collector.AddObject(CoreInstance);
+                CoreInstance = null;
             }
             System.GC.SuppressFinalize(this);
         }
-
-        /// <summary>
-        /// 描画テキストと描画方向を与えると、その文字の描画領域を返す。
-        /// </summary>
-        /// <param name="text">描画テキスト</param>
-        /// <param name="writingDirection">描画方向</param>
-        /// <returns>文字の描画領域</returns>
-        public Vector2DI CalcTextureSize(string text, WritingDirection writingDirection)
-        {
-            return SwigObject.CalcTextureSize(text, (ace.swig.WritingDirection)writingDirection);
-        }
-            
     }
 }

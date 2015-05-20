@@ -53,9 +53,6 @@ namespace ace
 
 		Vector2DI					m_windowSize;
 
-		RenderTexture2D_Imp*		m_renderTarget;
-
-
 		Effekseer::Manager*						m_effectManager = nullptr;
 		EffekseerRenderer::Renderer*			m_effectRenderer = nullptr;
 
@@ -81,9 +78,6 @@ namespace ace
 		RenderSettings GetRenderSettings() const;
 		void SetRenderSettings(RenderSettings settings);
 
-		bool GetHDRMode() const;
-		void SetHDRMode(bool value);
-
 		void SetWindowSize(Vector2DI windowSize);
 
 		void AddObject(RenderedObject3D* o);
@@ -93,11 +87,12 @@ namespace ace
 
 		void BeginRendering(float deltaTime);
 		void EndRendering();
+		void RenderResult();
 
 		void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-			Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest);
+			Texture2D* texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest);
 
 		float GetAmbientColorIntensity() { return ambientColorIntensity; }
 		void SetAmbientColorIntensity(float ambientColorIntensity) { this->ambientColorIntensity = ambientColorIntensity; }
@@ -117,8 +112,6 @@ namespace ace
 		float SSAO_Bias = 0.001f;
 		float SSAO_Intensity = 1.0f;
 		float SSAO_FarPlain = 800.0f;
-
-		RenderTexture2D_Imp* GetRenderTarget();
 
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
 	};

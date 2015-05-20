@@ -140,7 +140,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	bool Log_Imp::WritingIsRequired(int level)
+	bool Log_Imp::WritingIsRequired(LogLevel level)
 	{
 		return !m_file.fail() && level <= m_outputLevel;
 	}
@@ -160,7 +160,7 @@ td, th
 	Log_Imp* Log_Imp::Create(const achar* path, const achar* title)
 	{
 		auto temp = new Log_Imp(path);
-		temp->m_outputLevel = LOG_ALL;
+		temp->m_outputLevel = LogLevel::All;
 		temp->isInTable = false;
 
 		temp->m_file << "<!DOCTYPE html>\r\n"
@@ -198,7 +198,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::Write(const achar* text, int level)
+	void Log_Imp::Write(const achar* text, LogLevel level)
 	{
 		if (WritingIsRequired(level))
 		{
@@ -209,7 +209,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteLine(const achar* text, int level)
+	void Log_Imp::WriteLine(const achar* text, LogLevel level)
 	{
 		if (WritingIsRequired(level))
 		{
@@ -220,7 +220,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteStrongly(const achar* text, int level)
+	void Log_Imp::WriteStrongly(const achar* text, LogLevel level)
 	{
 		if (WritingIsRequired(level))
 		{
@@ -231,7 +231,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteLineStrongly(const achar* text, int level)
+	void Log_Imp::WriteLineStrongly(const achar* text, LogLevel level)
 	{
 		if (WritingIsRequired(level))
 		{
@@ -242,7 +242,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteHeading(const achar* text, int level)
+	void Log_Imp::WriteHeading(const achar* text, LogLevel level)
 	{
 		if (WritingIsRequired(level))
 		{
@@ -264,7 +264,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::Write(const wchar_t* text, int level)
+	void Log_Imp::Write(const wchar_t* text, LogLevel level)
 	{
 		Write( ToAString(text).c_str(), level );
 	}
@@ -272,7 +272,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteLine(const wchar_t* text, int level)
+	void Log_Imp::WriteLine(const wchar_t* text, LogLevel level)
 	{
 		WriteLine( ToAString(text).c_str(), level );
 	}
@@ -280,7 +280,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteStrongly(const wchar_t* text, int level)
+	void Log_Imp::WriteStrongly(const wchar_t* text, LogLevel level)
 	{
 		WriteStrongly( ToAString(text).c_str(), level );
 	}
@@ -288,7 +288,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteLineStrongly(const wchar_t* text, int level)
+	void Log_Imp::WriteLineStrongly(const wchar_t* text, LogLevel level)
 	{
 		WriteLineStrongly( ToAString(text).c_str(), level );
 	}
@@ -296,7 +296,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteHeading(const wchar_t* text, int level)
+	void Log_Imp::WriteHeading(const wchar_t* text, LogLevel level)
 	{
 		WriteHeading( ToAString(text).c_str(), level );
 	}
@@ -315,7 +315,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::Write(const char* text, int level)
+	void Log_Imp::Write(const char* text, LogLevel level)
 	{
 		Write(ToAString(text).c_str(), level);
 	}
@@ -323,7 +323,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteLine(const char* text, int level)
+	void Log_Imp::WriteLine(const char* text, LogLevel level)
 	{
 		WriteLine(ToAString(text).c_str(), level);
 	}
@@ -331,7 +331,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteStrongly(const char* text, int level)
+	void Log_Imp::WriteStrongly(const char* text, LogLevel level)
 	{
 		WriteStrongly(ToAString(text).c_str(), level);
 	}
@@ -339,7 +339,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteLineStrongly(const char* text, int level)
+	void Log_Imp::WriteLineStrongly(const char* text, LogLevel level)
 	{
 		WriteLineStrongly(ToAString(text).c_str(), level);
 	}
@@ -347,7 +347,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteHeading(const char* text, int level)
+	void Log_Imp::WriteHeading(const char* text, LogLevel level)
 	{
 		WriteHeading(ToAString(text).c_str(), level);
 	}
@@ -356,7 +356,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::WriteHorizontalRule(int level)
+	void Log_Imp::WriteHorizontalRule(LogLevel level)
 	{
 		if (WritingIsRequired(level))
 		{
@@ -367,7 +367,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::BeginTable(int level)
+	void Log_Imp::BeginTable(LogLevel level)
 	{
 		if (WritingIsRequired(level))
 		{
@@ -379,7 +379,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::EndTable(int level)
+	void Log_Imp::EndTable(LogLevel level)
 	{
 		if (WritingIsRequired(level) && isInTable)
 		{
@@ -391,7 +391,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::ChangeRow(int level)
+	void Log_Imp::ChangeRow(LogLevel level)
 	{
 		if (WritingIsRequired(level) && isInTable)
 		{
@@ -402,7 +402,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::ChangeColumn(int level)
+	void Log_Imp::ChangeColumn(LogLevel level)
 	{
 		if (WritingIsRequired(level) && isInTable)
 		{
@@ -413,7 +413,7 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	bool Log_Imp::IsValid()
+	bool Log_Imp::GetIsValid()
 	{
 		return !m_file.fail();
 	}
@@ -421,8 +421,8 @@ td, th
 	//-----------------------------------------------------------------------------------
 	//
 	//-----------------------------------------------------------------------------------
-	void Log_Imp::SetOutputLevel(int level)
+	void Log_Imp::SetOutputLevel(LogLevel level)
 	{
-		m_outputLevel = (eLogLevel)level;
+		m_outputLevel = level;
 	}
 }

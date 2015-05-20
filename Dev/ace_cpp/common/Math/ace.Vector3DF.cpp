@@ -68,6 +68,22 @@ bool Vector3DF::operator != (const Vector3DF& o)
 	return !(X == o.X && Y == o.Y && Z == o.Z);
 }
 
+bool Vector3DF::operator > (const Vector3DF& o) const
+{
+	if (X != o.X) return X > o.X;
+	if (Y != o.Y) return Y > o.Y;
+	if (Z != o.Z) return Z > o.Z;
+	return false;
+}
+
+bool Vector3DF::operator < (const Vector3DF& o) const
+{
+	if (X != o.X) return X < o.X;
+	if (Y != o.Y) return Y < o.Y;
+	if (Z != o.Z) return Z < o.Z;
+	return false;
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

@@ -12,7 +12,7 @@ namespace ace
 		: public RenderedObject3DProxy
 	{
 	public:
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_EFFECT; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Effect; }
 	};
 
 	class RenderedEffectObject3D
@@ -56,7 +56,7 @@ namespace ace
 		/**
 		@brief	このオブジェクトから再生されたエフェクトが再生中か取得する。
 		*/
-		bool IsPlaying();
+		bool GetIsPlaying();
 
 		/**
 		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得する。
@@ -74,6 +74,6 @@ namespace ace
 
 		void OnRemoving(Renderer3D* renderer) override;
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_EFFECT; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Effect; }
 	};
 }

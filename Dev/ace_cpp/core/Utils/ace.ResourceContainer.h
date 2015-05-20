@@ -2,7 +2,7 @@
 #pragma once
 
 #include <ace.common.Base.h>
-#include "../Core/ace.Core.Base_Imp.h"
+#include "../ace.Core.Base_Imp.h"
 
 #include "../IO/ace.File.h"
 #include "../IO/ace.StaticFile.h"
@@ -104,7 +104,7 @@ namespace ace
 			auto staticFile = file->CreateStaticFile(path);
 			if (staticFile.get() == nullptr) return nullptr;
 
-			auto ret = loadFunc(staticFile->ReadAllBytes());
+			auto ret = loadFunc(staticFile->GetBuffer());
 
 			if (ret == nullptr)
 			{

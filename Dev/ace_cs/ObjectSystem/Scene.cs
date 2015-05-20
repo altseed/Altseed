@@ -20,19 +20,19 @@ namespace ace
 
 			var p = CoreScene.GetPtr();
 
-			var existing = GC.Scenes.GetObject( p );
-			if( existing != null )
+			var existing = GC.Scenes.GetObject(p);
+			if(existing != null)
 			{
 				throw new Exception();
 			}
 
-			GC.Scenes.AddObject( p, this );
+			GC.Scenes.AddObject(p, this);
 
 			layersToDraw_ = new List<Layer>();
 			layersToUpdate_ = new List<Layer>();
-			components_ = new Dictionary<string, SceneComponent>();
+			componentManager_ = new ComponentManager<Scene, SceneComponent>(this);
 
-            alreadyFirstUpdate = false;
+			alreadyFirstUpdate = false;
 		}
 
 		#region GC対策
@@ -51,32 +51,16 @@ namespace ace
 
 		public void Destroy()
 		{
-			lock( this )
+			lock (this)
 			{
-				if( CoreScene == null ) return;
-				GC.Collector.AddObject( CoreScene );
+				if(CoreScene == null) return;
+				GC.Collector.AddObject(CoreScene);
 				CoreScene = null;
 			}
-			System.GC.SuppressFinalize( this );
+			System.GC.SuppressFinalize(this);
 		}
 		#endregion
 
-
-		/// <summary>
-		/// このシーン クラスが管理するレイヤーのコレクションを取得する。
-		/// </summary>
-		public IEnumerable<Layer> Layers
-		{
-			get { return layersToUpdate_; }
-		}
-
-		/// <summary>
-		/// このシーン クラスに登録されているコンポーネントのコレクションを取得する。
-		/// </summary>
-		public IDictionary<string, SceneComponent> Components
-		{
-			get { return components_; }
-		}
 
 		/// <summary>
 		/// 描画先がHDRかどうか、取得、または設定する。
@@ -87,11 +71,12 @@ namespace ace
 			set { CoreScene.SetHDRMode(value); }
 		}
 
+
 		/// <summary>
 		/// 指定したレイヤーをこのシーンに追加する。
 		/// </summary>
 		/// <param name="layer">追加されるレイヤー</param>
-		public void AddLayer( Layer layer )
+		public void AddLayer(Layer layer)
 		{
 			if(executing)
 			{
@@ -99,13 +84,13 @@ namespace ace
 				return;
 			}
 
-			if( layer.Scene != null )
+			if(layer.Scene != null)
 			{
-				throw new InvalidOperationException( "指定したレイヤーは、既に別のシーンに所属しています。" );
+				throw new InvalidOperationException("指定したレイヤーは、既に別のシーンに所属しています。");
 			}
-			layersToDraw_.Add( layer );
-			layersToUpdate_.Add( layer );
-			CoreScene.AddLayer( layer.CoreLayer );
+			layersToDraw_.Add(layer);
+			layersToUpdate_.Add(layer);
+			CoreScene.AddLayer(layer.CoreLayer);
 			layer.Scene = this;
 		}
 
@@ -113,7 +98,7 @@ namespace ace
 		/// 指定したレイヤーをこのシーンから削除する。
 		/// </summary>
 		/// <param name="layer">削除されるレイヤー</param>
-		public void RemoveLayer( Layer layer )
+		public void RemoveLayer(Layer layer)
 		{
 			if(executing)
 			{
@@ -121,9 +106,9 @@ namespace ace
 				return;
 			}
 
-			layersToDraw_.Remove( layer );
-			layersToUpdate_.Remove( layer );
-			CoreScene.RemoveLayer( layer.CoreLayer );
+			layersToDraw_.Remove(layer);
+			layersToUpdate_.Remove(layer);
+			CoreScene.RemoveLayer(layer.CoreLayer);
 			layer.Scene = null;
 		}
 
@@ -132,20 +117,28 @@ namespace ace
 		/// </summary>
 		/// <param name="component">追加するコンポーネント</param>
 		/// <param name="key">コンポーネントに関連付けるキー</param>
-		public void AddComponent( SceneComponent component, string key )
+		public void AddComponent(SceneComponent component, string key)
 		{
-			component.Owner = this;
-			components_[key] = component;
+			componentManager_.Add(component, key);
+		}
+
+		/// <summary>
+		/// 指定したキーを持つコンポーネントを取得する。
+		/// </summary>
+		/// <param name="key">取得するコンポーネントのキー</param>
+		/// <returns>コンポーネント</returns>
+		public SceneComponent GetComponent(string key)
+		{
+			return componentManager_.Get(key);
 		}
 
 		/// <summary>
 		/// 指定したコンポーネントをこのシーンから削除する。
 		/// </summary>
 		/// <param name="key">削除するコンポーネントを示すキー</param>
-		public void RemoveComponent( string key )
+		public bool RemoveComponent(string key)
 		{
-			components_[key].Owner = null;
-			components_.Remove( key );
+			return componentManager_.Remove(key);
 		}
 
 		/// <summary>
@@ -162,6 +155,11 @@ namespace ace
 		}
 
 		/// <summary>
+		/// 所属しているレイヤーを取得する。
+		/// </summary>
+		public IEnumerable<Layer> Layers { get { return layersToUpdate_; } }
+
+		/// <summary>
 		/// オーバーライドして、Updateの直前に実行する処理を記述する。
 		/// </summary>
 		protected virtual void OnUpdating()
@@ -175,114 +173,113 @@ namespace ace
 		{
 		}
 
-        /// <summary>
-        /// オーバーライドして、最初のシーン更新時に実行する処理を記述する。
-        /// </summary>
-        protected virtual void OnUpdateForTheFirstTime()
-        {
-        }
+		/// <summary>
+		/// オーバーライドして、最初のシーン更新時に実行する処理を記述する。
+		/// </summary>
+		protected virtual void OnUpdateForTheFirstTime()
+		{
+		}
 
-        /// <summary>
-        /// オーバーライドして、トランジション終了時に実行する処理を記述する。(※DoEvents関数内で実行される。)
-        /// </summary>
-        protected virtual void OnTransitionFinished()
-        {
-        }
+		/// <summary>
+		/// オーバーライドして、トランジション終了時に実行する処理を記述する。(※DoEvents関数内で実行される。)
+		/// </summary>
+		protected virtual void OnTransitionFinished()
+		{
+		}
 
-        /// <summary>
-        /// オーバーライドして、このシーンから別のシーンに切り替わる際に実行される処理を記述する。
-        /// </summary>
-        protected virtual void OnChanging()
-        {
-        }
+		/// <summary>
+		/// オーバーライドして、このシーンから別のシーンに切り替わる際に実行される処理を記述する。
+		/// </summary>
+		protected virtual void OnChanging()
+		{
+		}
 
-        /**
-		@brief	オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
-		*/
-        protected virtual void OnDestroy()
-        {
-        }
+		/// <summary>
+		/// オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
+		/// </summary>
+		protected virtual void OnDestroy()
+		{
+		}
 
-        internal void CallTransitionFinished()
-        {
-            OnTransitionFinished();
-        }
+		internal void CallTransitionFinished()
+		{
+			OnTransitionFinished();
+		}
 
-        internal void CallChanging()
-        {
-            OnChanging();
-        }
+		internal void CallChanging()
+		{
+			OnChanging();
+		}
 
-        internal void CallDestroy()
-        {
-            OnDestroy();
-        }
+		internal void CallDestroy()
+		{
+			foreach(var item in layersToUpdate_)
+			{
+				if(item.IsAlive)
+				{
+					item.CallDestroy();
+				}
+			}
+			OnDestroy();
+		}
 
-        internal unsafe swig.CoreScene CoreScene { get; private set; }
+		internal unsafe swig.CoreScene CoreScene { get; private set; }
 
 		internal void Update()
 		{
+			var beVanished = new List<Layer>();
+
 			executing = true;
 
-            if(!alreadyFirstUpdate)
-            {
-                OnUpdateForTheFirstTime();
-                alreadyFirstUpdate = true;
-            }
+			if(!alreadyFirstUpdate)
+			{
+				OnUpdateForTheFirstTime();
+				alreadyFirstUpdate = true;
+			}
 
 			OnUpdating();
 
-			foreach (var item in layersToUpdate_)
+			foreach(var item in layersToUpdate_)
 			{
 				item.BeginUpdating();
 			}
 
-			foreach( var item in layersToUpdate_ )
+			foreach(var item in layersToUpdate_)
 			{
 				item.Update();
+				if(!item.IsAlive)
+				{
+					beVanished.Add(item);
+				}
 			}
 
-			foreach( var item in layersToUpdate_ )
+			foreach(var item in layersToUpdate_)
 			{
 				item.EndUpdating();
 			}
 
+			componentManager_.Update();
+
 			OnUpdated();
 
-			UpdateComponents();
-
 			executing = false;
+
+			foreach(var item in beVanished)
+			{
+				RemoveLayer(item);
+			}
 
 			CommitChanges();
 		}
 
-		private void UpdateComponents()
-		{
-			var vanished = new List<string>();
-
-			foreach( var item in components_ )
-			{
-				item.Value.Update();
-				if( !item.Value.IsAlive )
-				{
-					vanished.Add( item.Key );
-				}
-			}
-
-			foreach( var item in vanished )
-			{
-				components_.Remove( item );
-			}
-		}
-
 		void CommitChanges()
 		{
-			foreach (var layer in addingLayer)
+			foreach(var layer in addingLayer)
 			{
 				AddLayer(layer);
 			}
 
-			foreach (var layer in removingLayer)
+			foreach(var layer in removingLayer)
 			{
 				RemoveLayer(layer);
 			}
@@ -297,24 +294,24 @@ namespace ace
 
 			layersToDraw_.Sort((x, y) => x.DrawingPriority - y.DrawingPriority);
 
-			foreach (var item in layersToDraw_)
+			foreach(var item in layersToDraw_)
 			{
 				item.DrawAdditionally();
 			}
 
 			CoreScene.BeginDrawing();
 
-			foreach (var item in layersToDraw_)
+			foreach(var item in layersToDraw_)
 			{
 				item.BeginDrawing();
 			}
 
-			foreach (var item in layersToDraw_)
+			foreach(var item in layersToDraw_)
 			{
 				item.Draw();
 			}
 
-			foreach (var item in layersToDraw_)
+			foreach(var item in layersToDraw_)
 			{
 				item.EndDrawing();
 			}
@@ -330,9 +327,9 @@ namespace ace
 
 		private List<Layer> layersToUpdate_;
 
-		private Dictionary<string, SceneComponent> components_;
+		private ComponentManager<Scene, SceneComponent> componentManager_ { get; set; }
 
-        private bool alreadyFirstUpdate;
+		private bool alreadyFirstUpdate;
 
 		LinkedList<Layer> addingLayer = new LinkedList<Layer>();
 		LinkedList<Layer> removingLayer = new LinkedList<Layer>();

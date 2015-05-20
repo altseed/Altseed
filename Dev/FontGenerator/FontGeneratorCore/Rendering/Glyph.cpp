@@ -44,7 +44,7 @@ namespace FontGenerator
 		return RasterizedGlyph::FromSpans(spans, width, height, baselineY);
 	}
 
-	RasterizedGlyph::Ptr Glyph::RasterizeWithOutline(int32_t outline, int32_t msaa)
+	RasterizedGlyph::Ptr Glyph::RasterizeWithOutline(int32_t outline)
 	{
 		Spans spans;
 		FT_Library lib = font.GetLibrary();
@@ -53,6 +53,6 @@ namespace FontGenerator
 		int width = GetAdvance();
 		int height = font.GetFontHeight();
 		int baselineY = font.GetAscender();
-		return RasterizedGlyph::FromSpansWithOutline(spans, width, height, baselineY, outline, msaa);
+		return RasterizedGlyph::FromSpansWithOutline(spans, width, height, baselineY, outline);
 	}
 }

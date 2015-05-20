@@ -16,7 +16,5 @@ namespace FontGenerator
 		std::uint8_t a, r, g, b;
 
 		std::int32_t GetInt() const;
-
-		Color Blend(Color c);
 	};
 }

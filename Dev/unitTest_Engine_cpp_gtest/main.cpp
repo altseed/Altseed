@@ -2,13 +2,25 @@
 #include<gtest/gtest.h>
 #include "EngineTest.h"
 
+#ifdef _WIN64
 #ifdef _DEBUG
-#pragma comment(lib,"Debug/ace_engine.lib")
-#pragma comment(lib, "gtestd.lib")
+#pragma comment(lib,"x64/Debug/ace_engine.lib")
+#pragma comment(lib, "x64/Debug/gtest.lib")
 #else
-#pragma comment(lib,"Release/ace_engine.lib")
-#pragma comment(lib, "gtest.lib")
+#pragma comment(lib,"x64/Release/ace_engine.lib")
+#pragma comment(lib, "x64/Release/gtest.lib")
 #endif
+#else
+#ifdef _DEBUG
+#pragma comment(lib,"x86/Debug/ace_engine.lib")
+#pragma comment(lib, "x86/Debug/gtest.lib")
+#else
+#pragma comment(lib,"x86/Release/ace_engine.lib")
+#pragma comment(lib, "x86/Release/gtest.lib")
+#endif
+#endif
+
+
 
 #if _WIN32
 #include <Windows.h>
@@ -33,6 +45,8 @@ EXTERN_ENGINE_TEST(Graphics, CustomPostEffect)
 
 EXTERN_ENGINE_TEST(Graphics, Transition)
 
+EXTERN_ENGINE_TEST(Graphics, ImagePackage)
+
 extern void Graphics_Camera3DPostEffect_(bool isOpenGLMode);
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject3D)
@@ -43,6 +57,7 @@ EXTERN_ENGINE_TEST(Graphics, LightingStandard)
 EXTERN_ENGINE_TEST(Graphics, ModelObject3DCustomMaterial)
 EXTERN_ENGINE_TEST(Graphics, DrawSpriteAdditionally3D)
 EXTERN_ENGINE_TEST(Graphics, TerrainObject3D)
+EXTERN_ENGINE_TEST(Graphics, GeometryObject2D)
 
 EXTERN_ENGINE_TEST(Graphics, EffectObject2D)
 
@@ -52,15 +67,27 @@ EXTERN_ENGINE_TEST(Graphics, MapObject2D)
 EXTERN_ENGINE_TEST(Graphics, CameraObject2D)
 EXTERN_ENGINE_TEST(ObjectSystem, ParentObject)
 EXTERN_ENGINE_TEST(ObjectSystem, VanishInComponent)
+EXTERN_ENGINE_TEST(ObjectSystem, VanishOwnerInComponent)
+EXTERN_ENGINE_TEST(ObjectSystem, AddComponentByComponent)
+EXTERN_ENGINE_TEST(ObjectSystem, Component)
 
 EXTERN_ENGINE_TEST(Sound, Sound)
 
-EXTERN_ENGINE_TEST(File, StaticFile_NonePackage)
-EXTERN_ENGINE_TEST(File, StaticFile_NonePackage_AddRootDirectory)
-EXTERN_ENGINE_TEST(File, StaticFile_NonePackage_Cache)
-EXTERN_ENGINE_TEST(File, StaticFile_Package)
-EXTERN_ENGINE_TEST(File, StaticFile_Package_Cache)
-EXTERN_ENGINE_TEST(File, StaticFile_Package_Priority)
+EXTERN_ENGINE_TEST(IO, StaticFile_NonePackage)
+EXTERN_ENGINE_TEST(IO, StaticFile_NonePackage_AddRootDirectory)
+EXTERN_ENGINE_TEST(IO, StaticFile_NonePackage_Cache)
+EXTERN_ENGINE_TEST(IO, StaticFile_Package)
+EXTERN_ENGINE_TEST(IO, StaticFile_Package_Cache)
+EXTERN_ENGINE_TEST(IO, StaticFile_Package_Priority)
+EXTERN_ENGINE_TEST(IO, StaticFile_PackageWithKey)
+EXTERN_ENGINE_TEST(IO, StreamFile_PackageWithKey)
+
+EXTERN_ENGINE_TEST(Profiler, Profiling)
+
+#if defined(PERFORMANCE_MODE)
+EXTERN_ENGINE_TEST(Performance, MassModelObject3D)
+EXTERN_ENGINE_TEST(Performance, TextureObject2D)
+#endif
 
 /**
 	@brief	単体テストを実行する。
@@ -77,7 +104,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	//CALL_ENGINE_TEST(ObjectSystem, VanishInComponent, true)
+	//CALL_ENGINE_TEST(Sound, Sound, false)
 	//return 0;
 
 	

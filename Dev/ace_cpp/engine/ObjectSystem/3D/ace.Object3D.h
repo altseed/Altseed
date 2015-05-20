@@ -2,6 +2,7 @@
 #pragma once
 
 #include "../../ace.CoreToEngine.h"
+#include "../ace.ContentsManager.h"
 
 namespace ace
 {
@@ -13,9 +14,10 @@ namespace ace
 	class Object3D
 	{
 		friend class Layer3D;
+		friend class ContentsManager < Object3D > ;
 
 	public:
-		typedef std::shared_ptr<Object3D> Object3DPtr;
+		typedef std::shared_ptr<Object3D> Ptr;
 
 	private:
 
@@ -27,6 +29,7 @@ namespace ace
 		
 		void Start();
 		void Update();
+		void CallDestroy();
 		void SetLayer(Layer3D* layer);
 		CoreObject3D* GetCoreObject() const;
 
@@ -46,14 +49,24 @@ namespace ace
 		virtual void OnStart() = 0;
 
 		/**
-			@brief	オーバーライドして、この2Dオブジェクトの更新処理を記述することができる。
+			@brief	オーバーライドして、この3Dオブジェクトの更新処理を記述することができる。
 		*/
 		virtual void OnUpdate() = 0;
 
 		/**
-			@brief	オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述できる。
+			@brief	オーバーライドして、この3Dオブジェクトに関する追加の描画処理を記述できる。
 		*/
 		virtual void OnDrawAdditionally() = 0;
+
+		/**
+			@brief	オーバーライドして、この3DオブジェクトがVanishメソッドによって破棄される際の処理を記述できる。
+		*/
+		virtual void OnVanish();
+
+		/**
+			@brief	オーバーライドして、この3Dオブジェクトが破棄されるときの処理を記述できる。
+		*/
+		virtual void OnDispose();
 
 	public:
 		/**
@@ -163,6 +176,6 @@ namespace ace
 		void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-			std::shared_ptr<Texture2D>  texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest);
+			std::shared_ptr<Texture2D>  texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest);
 	};
 }

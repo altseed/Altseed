@@ -9,7 +9,7 @@ namespace ace
 	/// <summary>
 	/// 更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
 	/// </summary>
-	public abstract class Object3D : IDestroy
+	public abstract class Object3D : Content, IDestroy
 	{
 		internal swig.CoreObject3D commonObject = null;
 
@@ -36,7 +36,7 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (commonObject == null) return;
+				if(commonObject == null) return;
 				GC.Collector.AddObject(commonObject);
 				commonObject = null;
 			}
@@ -69,6 +69,7 @@ namespace ace
 		public void Vanish()
 		{
 			IsAlive = false;
+			OnVanish();
 		}
 
 		internal void Start()
@@ -76,9 +77,14 @@ namespace ace
 			OnStart();
 		}
 
-		internal void Update()
+		internal override bool GetIsAlive()
 		{
-			if (!IsUpdated || !IsAlive)
+			return IsAlive;
+		}
+
+		internal override void Update()
+		{
+			if(!IsUpdated || !IsAlive)
 			{
 				return;
 			}
@@ -97,11 +103,16 @@ namespace ace
 
 		internal void DrawAdditionally()
 		{
-			if (!IsDrawn || !IsAlive)
+			if(!IsDrawn || !IsAlive)
 			{
 				return;
 			}
 			OnDrawAdditionally();
+		}
+
+		internal void CallDestroy()
+		{
+			OnDispose();
 		}
 
 		internal swig.CoreObject3D CoreObject { get { return commonObject; } }
@@ -117,14 +128,28 @@ namespace ace
 		protected abstract void OnStart();
 
 		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトの更新処理を記述することができる。
+		/// オーバーライドして、この3Dオブジェクトの更新処理を記述することができる。
 		/// </summary>
 		protected abstract void OnUpdate();
 
 		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述できる。
+		/// オーバーライドして、この3Dオブジェクトに関する追加の描画処理を記述できる。
 		/// </summary>
-		protected void OnDrawAdditionally() { }
+		protected virtual void OnDrawAdditionally() { }
+
+		/// <summary>
+		/// オーバーライドして、この3DオブジェクトがVanishメソッドによって破棄される時の処理を記述できる。
+		/// </summary>
+		protected virtual void OnVanish()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、この3Dオブジェクトが破棄されるときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnDispose()
+		{
+		}
 
 		/// <summary>
 		/// このインスタンスを管理している ace.Layer3D クラスのインスタンスを取得する。

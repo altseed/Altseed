@@ -8,11 +8,24 @@
 
 #include <Windows.h>
 
+#ifdef _WIN64
+
 #ifdef _DEBUG
-#pragma comment(lib,"Debug/glfw3.lib")
+#pragma comment(lib,"x64/Debug/glfw3.lib")
 #else
-#pragma comment(lib,"Release/glfw3.lib")
+#pragma comment(lib,"x64/Release/glfw3.lib")
 #endif
+
+#else
+
+#ifdef _DEBUG
+#pragma comment(lib,"x86/Debug/glfw3.lib")
+#else
+#pragma comment(lib,"x86/Release/glfw3.lib")
+#endif
+
+#endif
+
 #pragma comment(lib,"opengl32.lib")
 
 //----------------------------------------------------------------------------------

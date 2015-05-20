@@ -63,7 +63,7 @@ namespace ace
 		/// <param name="localMat">ボーンのローカル変形行列</param>
 		public void AddBone(string name, int parentBoneIndex, RotationOrder rotationOrder, ace.Matrix44 localMat)
 		{
-			SwigObject.AddBone(name, parentBoneIndex, (swig.eRotationOrder)rotationOrder, ref localMat);
+			SwigObject.AddBone(name, parentBoneIndex, (swig.RotationOrder)rotationOrder, ref localMat);
 		}
 	}
 }

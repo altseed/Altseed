@@ -39,6 +39,18 @@ namespace ace {
 		void Reload(const achar* affFilePathChar, std::vector<uint8_t> data);
 
 		Font_Imp(Graphics* graphics, const achar* affFilePathChar, std::vector<uint8_t> data);
+
+#if !SWIG
+		/**
+			@brief	内部テクスチャ用コンストラクタ
+			@param	graphics	描画クラス
+			@param	data		データ
+			@param	size		データサイズ
+			@param	textures	テクスチャ
+		*/
+		Font_Imp(Graphics* graphics, void* data, int32_t size, std::vector<std::shared_ptr<Texture2D>> textures);
+#endif
+
 		virtual ~Font_Imp();
 
 		Vector2DI CalcTextureSize(const achar* text, WritingDirection writingDirection) const override;

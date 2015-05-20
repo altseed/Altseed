@@ -81,12 +81,12 @@ namespace ace
 		m_coreObject->SetDrawingPriority(priority);
 	}
 
-	AlphaBlend TextObject2D::GetAlphaBlendMode() const
+	AlphaBlendMode TextObject2D::GetAlphaBlendMode() const
 	{
 		return m_coreObject->GetAlphaBlendMode();
 	}
 
-	void TextObject2D::SetAlphaBlendMode(AlphaBlend alphaBlend)
+	void TextObject2D::SetAlphaBlendMode(AlphaBlendMode alphaBlend)
 	{
 		m_coreObject->SetAlphaBlendMode(alphaBlend);
 	}
@@ -109,5 +109,15 @@ namespace ace
 	void TextObject2D::SetText(const achar* text)
 	{
 		m_coreObject->SetText(text);
+	}
+
+	void TextObject2D::SetTextureFilterType(TextureFilterType textureFilterType)
+	{
+		m_coreObject->SetTextureFilterType(textureFilterType);
+	}
+
+	TextureFilterType TextObject2D::GetTextureFilterType() const
+	{
+		return m_coreObject->GetTextureFilterType();
 	}
 }

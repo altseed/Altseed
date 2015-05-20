@@ -50,6 +50,8 @@ void EngineGraphics3DTest::SetRenderSettings(ace::RenderSettings settings)
 void EngineGraphics3DTest::OnStart()
 {
 	m_scene = std::make_shared<ace::Scene>();
+	m_scene->SetHDRMode(true);
+
 	m_layer3d = std::make_shared<ace::Layer3D>(m_settings);
 	m_scene->AddLayer(m_layer3d);
 	ace::Engine::ChangeScene(m_scene);
@@ -64,6 +66,7 @@ void EngineGraphics3DTest::OnStart()
 		cameraObj->SetZNear(1.0f);
 		cameraObj->SetZFar(20.0f);
 		cameraObj->SetWindowSize(ace::Vector2DI(WindowWidth, WindowHeight));
+		cameraObj->SetHDRMode(true);
 	}
 
 	m_mousePos = ace::Engine::GetMouse()->GetPosition();
@@ -146,7 +149,11 @@ void EngineGraphics3DTest::OnUpdating()
 }
 
 EngineGraphics3DTest::EngineGraphics3DTest(ace::astring title, bool isOpenGLMode, int exitTime, bool isFreeView)
-:EngineTest(title, isOpenGLMode, exitTime)
-, m_isFreeView(isFreeView)
+#if defined(PERFORMANCE_MODE)
+	:EngineTest(title, isOpenGLMode, exitTime, 1280, 720)
+#else
+	: EngineTest(title, isOpenGLMode, exitTime, 640, 480)
+#endif
+	, m_isFreeView(isFreeView)
 {
 }

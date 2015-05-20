@@ -53,9 +53,6 @@ namespace ace
 
 		void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) override;
 
-		bool GetHDRMode() const override;
-		void SetHDRMode(bool value) override;
-
 		float GetSSAO_Radius() override;
 		void SetSSAO_Radius(float value) override;
 		float GetSSAO_Bias()  override;
@@ -68,10 +65,10 @@ namespace ace
 		void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-			Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest) override;
+			Texture2D* texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest) override;
 
-		void BeginUpdating();
-		void EndUpdating();
+		void BeginUpdating(bool isUpdated) override;
+		void EndUpdating(bool isUpdated) override;
 
 		void BeginDrawing();
 		
@@ -90,6 +87,11 @@ namespace ace
 
 		virtual void AddPostEffect(CorePostEffect* postEffect) { CoreLayer_Imp::AddPostEffect(postEffect); }
 		virtual void ClearPostEffects() { CoreLayer_Imp::ClearPostEffects(); }
+
+		void BeginMeasureUpdateTime() { CoreLayer_Imp::BeginMeasureUpdateTime(); }
+		void EndMeasureUpdateTime() { CoreLayer_Imp::EndMeasureUpdateTime(); }
+		int GetTimeForUpdate() const { return CoreLayer_Imp::GetTimeForUpdate(); }
+
 #if !SWIG
 	public:
 		virtual void SetScene(CoreScene* scene) { CoreLayer_Imp::SetScene(scene); }

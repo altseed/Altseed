@@ -7,6 +7,7 @@
 
 namespace ace
 {
+	class Engine;
 	class Scene;
 
 	/**
@@ -15,29 +16,32 @@ namespace ace
 	class Layer
 	{
 		friend class Scene;
-
 	public:
 		typedef std::shared_ptr<Layer> Ptr;
 
 	protected:
 		std::shared_ptr<CoreLayer>	m_commonObject;
 		bool m_isUpdated;
+		bool m_isUpdatedCurrent = false;
 		bool m_isDrawn;
+		bool m_isAlive;
 
 		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
 
 	private:
 		Scene* m_scene;
+		astring m_name;
 
 		virtual void SetScene(Scene* scene);
 
 		std::shared_ptr<CoreLayer> GetCoreLayer() const;
 
-		virtual void BeginUpdateting() = 0;
+		virtual void BeginUpdating() = 0;
 		virtual void EndUpdateting() = 0;
 
 		virtual void Update() = 0;
 		virtual void DrawAdditionally() = 0;
+		virtual void CallDestroy() = 0;
 
 		void BeginDrawing();
 		void EndDrawing();
@@ -46,6 +50,8 @@ namespace ace
 	protected:
 		virtual void OnUpdated() = 0;
 		virtual void OnUpdating() = 0;
+		virtual void OnVanish();
+		virtual void OnDispose();
 
 	public:
 		Layer();
@@ -79,6 +85,11 @@ namespace ace
 		void SetIsDrawn(bool value);
 
 		/**
+			@brief	このレイヤーが有効かどうかを取得する。
+		*/
+		bool GetIsAlive() const;
+
+		/**
 		@brief	このレイヤーの描画優先度を取得する。この値が大きいほど手前に描画される。
 		*/
 		int GetDrawingPriority() const;
@@ -99,6 +110,27 @@ namespace ace
 		@brief	ポストエフェクトを全て消去する。
 		*/
 		void ClearPostEffects();
+
+		/**
+			@brief	このレイヤーを破棄する。
+		*/
+		void Vanish();
+
+		/**
+			@brief	レイヤーの種類を取得する。
+			@return	レイヤーの種類
+		*/
+		virtual LayerType GetLayerType() const = 0;
+
+		/**
+			@brief	このレイヤーの前回の更新時間を取得する。
+		*/
+		int GetTimeForUpdate() const;
+
+		virtual int GetObjectCount() const = 0;
+
+		astring GetName() const;
+		void SetName(astring value);
 
 	};
 }

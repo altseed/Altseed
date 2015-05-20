@@ -128,13 +128,11 @@ namespace ace{
 		GLFW_KEY_MENU
 	};
 
-	const int Keyboard_Imp::m_KeyNum = 121;
-
 	Keyboard_Imp::Keyboard_Imp(Window_Imp *window_Imp)
 	{
 		GLFWwindow *window = window_Imp->GetWindow();
 		m_window = window;
-		for (int i = 0; i < m_KeyNum; i++){
+		for (int i = 0; i < KEY_NUM; i++){
 			m_currentHit[i] = GLFW_RELEASE;
 			m_preHit[i] = GLFW_RELEASE;
 		}
@@ -153,13 +151,13 @@ namespace ace{
 
 	void Keyboard_Imp::RefreshInputState()
 	{
-		for (int i = 0; i < m_KeyNum; i++){
+		for (int i = 0; i < KEY_NUM; i++){
 			m_preHit[i] = m_currentHit[i];
 			m_currentHit[i] = (bool)glfwGetKey(m_window, m_keyCode[i]);
 		}
 	}
 
-	const KeyState Keyboard_Imp::GetKeyState(Keys key)
+	KeyState Keyboard_Imp::GetKeyState(Keys key) const
 	{
 		int index = (int)key;
 		if (m_currentHit[index] && m_preHit[index]) return KeyState::Hold;

@@ -73,7 +73,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'">
     <TargetName>$(ProjectName)</TargetName>
-    <OutDir>$(ProjectDir)..\..\lib\Debug\</OutDir>
+    <OutDir>$(ProjectDir)..\..\lib\x86\Debug\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -82,7 +82,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">
     <TargetName>$(ProjectName)</TargetName>
-    <OutDir>$(ProjectDir)..\..\lib\Release\</OutDir>
+    <OutDir>$(ProjectDir)..\..\lib\x86\Release\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -168,13 +168,22 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\shapes.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\utils.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\poly2tri.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\advancing_front.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\cdt.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep_context.h" />
     <ClInclude Include="..\core\ace.Core.Base.h" />
     <ClInclude Include="..\core\ace.Core.Base_Imp.h" />
     <ClInclude Include="..\core\ace.Accessor.h" />
     <ClInclude Include="..\core\ace.ReferenceObject.h" />
+    <ClInclude Include="..\core\ace.StructTranslator.h" />
     <ClInclude Include="..\core\Core\ace.Core.h" />
     <ClInclude Include="..\core\Core\ace.Core_Imp.h" />
     <ClInclude Include="..\core\Core\ace.CreateCore.h" />
+    <ClInclude Include="..\core\dll.h" />
     <ClInclude Include="..\core\Graphics\2D\ace.LayerRenderer.h" />
     <ClInclude Include="..\core\Graphics\2D\ace.PostEffectRenderer.h" />
     <ClInclude Include="..\core\Graphics\2D\ace.Renderer2D.h" />
@@ -249,6 +258,8 @@
     <ClInclude Include="..\core\Graphics\Resource\ace.Effect_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Font.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Font_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\ace.ImagePackage.h" />
+    <ClInclude Include="..\core\Graphics\Resource\ace.ImagePackage_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.IndexBuffer_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Material2D.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.Material2D_Imp.h" />
@@ -294,6 +305,7 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Terrain_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Terrain_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\Downsample_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GaussianBlur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GrayScale_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h" />
@@ -320,12 +332,11 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\SpriteRenderer3D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Terrain_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Terrain_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\Downsample_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GaussianBlur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GrayScale_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\Sepia_PS.h" />
-    <ClInclude Include="..\core\Input\ace.IMouseButtonState.h" />
-    <ClInclude Include="..\core\Input\ace.IMouseWheelableButtonState.h" />
     <ClInclude Include="..\core\Input\ace.Joystick.h" />
     <ClInclude Include="..\core\Input\ace.JoystickContainer_Imp.h" />
     <ClInclude Include="..\core\Input\ace.Joystick_Imp.h" />
@@ -333,23 +344,20 @@
     <ClInclude Include="..\core\Input\ace.Keyboard_Imp.h" />
     <ClInclude Include="..\core\Input\ace.MiddleButton.h" />
     <ClInclude Include="..\core\Input\ace.Mouse.h" />
+    <ClInclude Include="..\core\Input\ace.MouseButtonState.h" />
     <ClInclude Include="..\core\Input\ace.Mouse_Imp.h" />
     <ClInclude Include="..\core\Input\ace.SideButton.h" />
+    <ClInclude Include="..\core\IO\ace.Decryptor.h" />
     <ClInclude Include="..\core\IO\ace.File.h" />
-    <ClInclude Include="..\core\IO\ace.FileUtility.h" />
+    <ClInclude Include="..\core\IO\ace.FileHelper.h" />
     <ClInclude Include="..\core\IO\ace.File_Imp.h" />
-    <ClInclude Include="..\core\IO\ace.PackFile_Imp.h" />
-    <ClInclude Include="..\core\IO\ace.PackFile.Header_Imp.h" />
-    <ClInclude Include="..\core\IO\ace.Path.h" />
-    <ClInclude Include="..\core\IO\ace.PathIterator.h" />
-    <ClInclude Include="..\core\IO\ace.Path_Imp.h" />
-    <ClInclude Include="..\core\IO\ace.RootPath_Imp.h" />
+    <ClInclude Include="..\core\IO\ace.PackFile.h" />
+    <ClInclude Include="..\core\IO\ace.FileRoot.h" />
     <ClInclude Include="..\core\IO\ace.StaticFile.h" />
     <ClInclude Include="..\core\IO\ace.StaticFile_Imp.h" />
     <ClInclude Include="..\core\IO\ace.StreamFile.h" />
     <ClInclude Include="..\core\IO\ace.StreamFile_Imp.h" />
-    <ClInclude Include="..\core\IO\ace.BaseFile_Imp.h" />
-    <ClInclude Include="..\core\IO\ace.PathIterator_Imp.h" />
+    <ClInclude Include="..\core\IO\ace.BaseFile.h" />
     <ClInclude Include="..\core\Log\ace.GetSpec.h" />
     <ClInclude Include="..\core\Log\ace.Log.h" />
     <ClInclude Include="..\core\Log\ace.Log_Imp.h" />
@@ -357,6 +365,7 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D.h" />
@@ -365,6 +374,7 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.Culling2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.TransformInfo2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.ParentInfo2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreLayer2D.h" />
@@ -389,7 +399,7 @@
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreTerrainObject3D.h" />
     <ClInclude Include="..\core\ObjectSystem\3D\ace.CoreTerrainObject3D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.CoreLayer_Imp.h" />
-    <ClInclude Include="..\core\ObjectSystem\ace.eChildMode.h" />
+    <ClInclude Include="..\core\ObjectSystem\ace.ChildMode.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.ObjectSystemFactory_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.CoreScene_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\ace.CoreScene.h" />
@@ -400,11 +410,28 @@
     <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition.h" />
     <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.h" />
     <ClInclude Include="..\core\PCH\ace.Core.PCH.h" />
+    <ClInclude Include="..\core\Profiler\ace.LayerProfiler.h" />
+    <ClInclude Include="..\core\Profiler\ace.LayerProfiler_Imp.h" />
     <ClInclude Include="..\core\Profiler\ace.Profile.h" />
     <ClInclude Include="..\core\Profiler\ace.Profiler.h" />
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer.h" />
     <ClInclude Include="..\core\Profiler\ace.ProfilerViewer_Imp.h" />
     <ClInclude Include="..\core\Profiler\ace.Profiler_Imp.h" />
+    <ClInclude Include="..\core\Profiler\ace.LayerProfile.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreArcShape.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreArcShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreCircleShape.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreCircleShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreLineShape.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreLineShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CorePolygonShape.h" />
+    <ClInclude Include="..\core\Shape\ace.CorePolygonShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreRectangleShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreShape.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreRectangleShape.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreTriangleShape.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreTriangleShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.ShapeType.h" />
     <ClInclude Include="..\core\Sound\ace.Sound.h" />
     <ClInclude Include="..\core\Sound\ace.SoundSource.h" />
     <ClInclude Include="..\core\Sound\ace.SoundSource_Imp.h" />
@@ -428,12 +455,18 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\core\3rdParty\poly2tri\common\shapes.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\advancing_front.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\cdt.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep_context.cpp" />
     <ClCompile Include="..\core\ace.Accessor.cpp" />
     <ClCompile Include="..\core\ace.Core.Base_Imp.cpp" />
     <ClCompile Include="..\core\ace.ReferenceObject.cpp" />
+    <ClCompile Include="..\core\ace.StructTranslator.cpp" />
     <ClCompile Include="..\core\Core\ace.Core_Imp.cpp" />
     <ClCompile Include="..\core\Core\ace.CreateCore.cpp" />
-    <ClCompile Include="..\core\dll_cs.cxx" />
+    <ClCompile Include="..\core\dll.cxx" />
     <ClCompile Include="..\core\Graphics\2D\ace.LayerRenderer.cpp" />
     <ClCompile Include="..\core\Graphics\2D\ace.PostEffectRenderer.cpp" />
     <ClCompile Include="..\core\Graphics\2D\ace.Renderer2D_Imp.cpp" />
@@ -488,6 +521,7 @@
     <ClCompile Include="..\core\Graphics\Resource\ace.DepthBuffer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Effect_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Font_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\ace.ImagePackage_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.IndexBuffer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Material2D_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Material3D_Imp.cpp" />
@@ -507,17 +541,16 @@
     <ClCompile Include="..\core\Input\ace.Mouse_Imp.cpp" />
     <ClCompile Include="..\core\Input\ace.SideButton.cpp" />
     <ClCompile Include="..\core\IO\ace.BaseFile.cpp" />
+    <ClCompile Include="..\core\IO\ace.Decryptor.cpp" />
+    <ClCompile Include="..\core\IO\ace.FileHelper.cpp" />
     <ClCompile Include="..\core\IO\ace.File_Imp.cpp" />
-    <ClCompile Include="..\core\IO\ace.PackFile_Imp.cpp" />
-    <ClCompile Include="..\core\IO\ace.PackFile.Header_Imp.cpp" />
-    <ClCompile Include="..\core\IO\ace.Path_Imp.cpp" />
-    <ClCompile Include="..\core\IO\ace.RootPath_Imp.cpp" />
+    <ClCompile Include="..\core\IO\ace.PackFile.cpp" />
     <ClCompile Include="..\core\IO\ace.StaticFile_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.StreamFile_Imp.cpp" />
-    <ClCompile Include="..\core\IO\ace.PathIterator_Imp.cpp" />
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreTextObject2D_Imp.cpp" />
@@ -544,9 +577,18 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\core\Profiler\ace.LayerProfile.cpp" />
+    <ClCompile Include="..\core\Profiler\ace.LayerProfiler_Imp.cpp" />
     <ClCompile Include="..\core\Profiler\ace.Profile.cpp" />
     <ClCompile Include="..\core\Profiler\ace.Profiler_Imp.cpp" />
     <ClCompile Include="..\core\Profiler\ace.ProfilerViewer_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreArcShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreCircleShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreLineShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreRectangleShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreShape.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreTriangleShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CorePolygonShape_Imp.cpp" />
     <ClCompile Include="..\core\Sound\ace.SoundSource_Imp.cpp" />
     <ClCompile Include="..\core\Sound\ace.Sound_Imp.cpp" />
     <ClCompile Include="..\core\Utils\ace.ResourceContainer.cpp" />

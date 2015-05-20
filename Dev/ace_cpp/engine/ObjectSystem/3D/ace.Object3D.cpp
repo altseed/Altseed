@@ -11,7 +11,7 @@ namespace ace
 
 	void Object3D::Update()
 	{
-		if (!m_isUpdated)
+		if (!m_isUpdated || !GetIsAlive())
 		{
 			return;
 		}
@@ -28,6 +28,11 @@ namespace ace
 		*/
 	}
 
+	void Object3D::CallDestroy()
+	{
+		OnDispose();
+	}
+
 	void Object3D::SetLayer(Layer3D* layer)
 	{
 		m_owner = layer;
@@ -36,6 +41,14 @@ namespace ace
 	CoreObject3D* Object3D::GetCoreObject() const
 	{
 		return m_commonObject;
+	}
+
+	void Object3D::OnVanish()
+	{
+	}
+
+	void Object3D::OnDispose()
+	{
 	}
 
 	Object3D::Object3D()
@@ -88,6 +101,7 @@ namespace ace
 	void Object3D::Vanish()
 	{
 		m_isAlive = false;
+		OnVanish();
 	}
 
 	Vector3DF Object3D::GetPosition() const
@@ -123,7 +137,7 @@ namespace ace
 	void Object3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-		std::shared_ptr<Texture2D>  texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest)
+		std::shared_ptr<Texture2D>  texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 	{
 		auto layer = GetLayer();
 		layer->DrawSpriteAdditionally(

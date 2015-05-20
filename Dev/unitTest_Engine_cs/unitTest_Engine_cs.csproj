@@ -45,9 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assert.cs" />
+    <Compile Include="Debug\Profiler.cs" />
     <Compile Include="EngineGraphics3DTest.cs" />
     <Compile Include="EngineTest.cs" />
+    <Compile Include="Graphics\2D\AdditionallyDraw.cs" />
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
+    <Compile Include="Graphics\2D\GeometryObject2D.cs" />
     <Compile Include="Graphics\2D\MapObject2D.cs" />
     <Compile Include="Graphics\2D\SetPositionWhenFontIsNull.cs" />
     <Compile Include="Graphics\2D\TextObject2D.cs" />
@@ -61,11 +64,13 @@
     <Compile Include="Graphics\PostEffect\PostEffectGrayScale.cs" />
     <Compile Include="Graphics\PostEffect\PostEffectLightBloom.cs" />
     <Compile Include="Graphics\PostEffect\PostEffectSepia.cs" />
+    <Compile Include="Graphics\Resource\ImagePackage.cs" />
     <Compile Include="Graphics\Transition\Transition.cs" />
     <Compile Include="IO\StaticFile_NonPackage.cs" />
     <Compile Include="IO\StaticFile_Package.cs" />
-    <Compile Include="Log\Log.cs" />
+    <Compile Include="Debug\Log.cs" />
     <Compile Include="Graphics\2D\CameraObject2D.cs" />
+    <Compile Include="ObjectSystem2D\AddComponentByComponent.cs" />
     <Compile Include="ObjectSystem2D\CustomObject.cs" />
     <Compile Include="ObjectSystem2D\LayerComponent.cs" />
     <Compile Include="ObjectSystem2D\LayersFlag.cs" />

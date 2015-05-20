@@ -49,6 +49,8 @@ public:
 
 	bool operator == (const Vector3DF& o);
 	bool operator != (const Vector3DF& o);
+	bool operator > (const Vector3DF& o) const;
+	bool operator < (const Vector3DF& o) const;
 
 	Vector3DF operator-();
 

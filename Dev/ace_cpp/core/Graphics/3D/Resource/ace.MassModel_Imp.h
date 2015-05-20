@@ -29,6 +29,7 @@ namespace ace
 		std::vector<int32_t>	frameCount;
 		std::vector<bool>		loopingMode;
 
+		std::vector<astring>		AnimationClipNames;
 		std::map<astring, int32_t>	animationClips;
 
 		std::shared_ptr<VertexBuffer_Imp>	m_vertexBuffer;
@@ -42,9 +43,14 @@ namespace ace
 		MassModel_Imp();
 		virtual ~MassModel_Imp();
 
-		bool GetIsLoopingMode(const achar* name) const override;
+		int32_t GetAnimationCount() const { return AnimationClipNames.size(); }
 
-		void SetIsLoopingMode(const achar* name, bool isLoopingMode) override;
+		const achar* GetAnimationName(int32_t index) const override;
+
+		float GetAnimationLength(const achar* name) const override;
+
+		bool GetIsAnimationLoopingMode(const achar* name) const override;
+		void SetIsAnimationLoopingMode(const achar* name, bool isLoopingMode) override;
 
 		void SetMaterial(Material3D* material) override;
 

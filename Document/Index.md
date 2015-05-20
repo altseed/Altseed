@@ -1,24 +1,28 @@
-﻿## Amusement Creators Engine
+﻿## AC-Engine
 
 ### はじめに
-「Amusement Creators Engine」は筑波大学のサークル「Amusement Creators」のメンバーが中心となって開発されているゲームエンジンです。
+「AC-Engine」は筑波大学のサークル「AmusementCreators」のメンバーが中心となって開発されているゲームエンジンです。
 
 特徴としてC++、C#の2つのプログラミング言語で開発できる、という点があります。現在はWindows上でC++、C#の2種類しか動作しませんが
 対応OS、対応言語共に増やしていく予定です。
 
 機能は基本的な2D機能しかありませんが、これも今後増やしてく予定です。
 
-### ユーザー向け
+* [導入方法(C++版、Windows)](./HowToIntroduce/Windows_CPP.md)
+* [導入方法(C#版、Windows)](./HowToIntroduce/Windows_CS.md)
+* Mac、Linuxの場合、自分でソースコードからコンパイルする必要があります。
 
 * [リファレンス](./Reference/Main.md)
+* [よくある質問](./FAQ.md)
+* [機能の逆引き](./ReverseDictionary.md)
 
-* [C#による開発第1回](./Manual/CSharp/01_intro.md)
-* [C#による開発第2回](./Manual/CSharp/02_movingball1.md)
+### ライセンス
 
-#### 導入方法
+* [ライセンス](./License/LICENSE)
+AC-Engineを使用したゲームを頒布する場合、上記のファイルを同梱するようお願いします。
 
-記述中
+* [ライセンス(ツール)](./License/LICENSE_TOOLS)
+AC-Engineの開発用ツールを再頒布、もしくは改造して頒布する場合、上記のファイルを同梱するようお願いします。
 
-### 開発者向け
-
-記述中
+* [ライセンス(リソース)](./License/LICENSE_RESOURCES)
+AC-Engineのサンプルで使用されている画像等を再頒布する場合、上記のファイルを参照しファイルごとに適切に対応するようお願いします。

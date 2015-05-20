@@ -14,13 +14,13 @@ namespace ace
 		static public swig.Texture2D GetTexture2D(Texture2D o)
 		{
 			if (o == null) return null;
-			return o.SwigObject;
+			return o.CoreInstance;
 		}
 
 		static public swig.RenderTexture2D GetRenderTexture2D(RenderTexture2D o)
 		{
 			if (o == null) return null;
-			return (swig.RenderTexture2D)o.SwigObject;
+			return (swig.RenderTexture2D)o.CoreInstance;
 		}
 
 		static public swig.CubemapTexture GetCubemapTexture(CubemapTexture o)
@@ -50,13 +50,13 @@ namespace ace
 		static public swig.Terrain3D GetTerrain3D(Terrain3D o)
 		{
 			if (o == null) return null;
-			return o.SwigObject;
+			return o.CoreInstance;
 		}
 
 		static public swig.Effect GetEffect(Effect o)
 		{
 			if (o == null) return null;
-			return o.SwigObject;
+			return o.CoreInstance;
 		}
 
 		static public swig.Chip2D GetChip2D(Chip2D o)
@@ -68,7 +68,7 @@ namespace ace
 		static public swig.Font GetFont(Font o)
 		{
 			if (o == null) return null;
-			return o.SwigObject;
+			return o.CoreInstance;
 		}
 	}
 }

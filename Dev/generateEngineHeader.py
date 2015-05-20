@@ -7,7 +7,7 @@ def cd(path):
 	os.chdir(path)
 
 def cdToScript():
-	cd(os.path.dirname(__file__))
+	cd(os.path.dirname(os.path.abspath(__file__)))
 
 class CreateHeader:
 	def __init__(self):
@@ -81,8 +81,7 @@ engineHeader.readLines("ace_cpp/common/Utility/ace.BinaryWriter.h")
 engineHeader.readLines("ace_cpp/core/ace.Core.Base.h")
 engineHeader.readLines("ace_cpp/core/ace.ReferenceObject.h")
 
-engineHeader.readLines("ace_cpp/core/Input/ace.IMouseButtonState.h")
-engineHeader.readLines("ace_cpp/core/Input/ace.IMouseWheelableButtonState.h");
+engineHeader.readLines("ace_cpp/core/Input/ace.MouseButtonState.h")
 engineHeader.readLines("ace_cpp/core/Input/ace.SideButton.h")
 engineHeader.readLines("ace_cpp/core/Input/ace.MiddleButton.h")
 engineHeader.readLines("ace_cpp/core/Input/ace.Mouse.h")
@@ -95,7 +94,6 @@ engineHeader.readLines("ace_cpp/core/Log/ace.Log.h")
 engineHeader.readLines("ace_cpp/core/Profiler/ace.Profiler.h")
         
 engineHeader.readLines("ace_cpp/core/IO/ace.File.h")
-engineHeader.readLines("ace_cpp/core/IO/ace.Path.h")
 engineHeader.readLines("ace_cpp/core/IO/ace.StaticFile.h")
 engineHeader.readLines("ace_cpp/core/IO/ace.StreamFile.h")
 
@@ -112,6 +110,8 @@ engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Material2D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Material3D.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.MaterialPropertyBlock.h")
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Font.h")
+
+engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.ImagePackage.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Effect.h")
 
@@ -130,9 +130,11 @@ engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/Animation/ace.Animatio
 
 engineHeader.readLines("ace_cpp/core/Graphics/ace.Graphics.h")
 
+engineHeader.readLines("ace_cpp/core/Shape/ace.ShapeType.h")
+
 engineHeader.readLines("ace_cpp/core/Core/ace.Core.h")
 
-engineHeader.readLines("ace_cpp/core/ObjectSystem/ace.eChildMode.h")
+engineHeader.readLines("ace_cpp/core/ObjectSystem/ace.ChildMode.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffect.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectGrayScale.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectSepia.h")
@@ -142,18 +144,29 @@ engineHeader.readLines("ace_cpp/engine/ObjectSystem/PostEffect/ace.PostEffectLig
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/Transition/ace.Transition.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/Transition/ace.TransitionFade.h")
 
+engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.ComponentManager.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Object2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.Layer2DComponent.h')
 engineHeader.readLines('ace_cpp/engine/ObjectSystem/Component/ace.SceneComponent.h')
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.Layer.h")
 
+engineHeader.readLines("ace_cpp/engine/Shape/ace.Shape.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.TriangleShape.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.CircleShape.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.ArcShape.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.RectangleShape.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.LineShape.h")
+engineHeader.readLines("ace_cpp/engine/Shape/ace.PolygonShape.h")
+
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.ContentsManager.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Object2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.CameraObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.TextObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.EffectObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.MapObject2D.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.GeometryObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.h")
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/3D/ace.Object3D.h")

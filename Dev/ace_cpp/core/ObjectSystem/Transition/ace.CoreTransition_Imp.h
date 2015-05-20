@@ -28,7 +28,7 @@ namespace ace
 		void DrawCache(LayerRenderer* renderer, CoreScene* nextScene, CoreScene* previousScene);
 		void ClearCache();
 
-		bool IsFinished() const override { return isFinished; }
+		bool GetIsFinished() const override { return isFinished; }
 		void Finish() override { isFinished = true; }
 
 		bool GetIsSceneChanged() const override { return isSceneChanged; }

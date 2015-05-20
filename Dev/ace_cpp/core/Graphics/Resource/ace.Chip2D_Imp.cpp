@@ -18,7 +18,7 @@ namespace ace {
 		, m_graphics(graphics)
 		, m_src(RectF())
 		, m_color(Color())
-		, m_alphaBlend(AlphaBlend::Blend)
+		, m_alphablend(AlphaBlendMode::Blend)
 		, m_texture(nullptr)
 		, m_turnLR(false)
 		, m_turnUL(false)
@@ -96,10 +96,11 @@ namespace ace {
 		return mapObject2D->GetChipBoundingCircle(this);
 	}
 #endif
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D* Chip2D_Imp::GetTexture() const
+	Texture2D* Chip2D_Imp::GetTexture_() const
 	{
 		return m_texture;
 	}
@@ -111,6 +112,27 @@ namespace ace {
 	{
 		SafeSubstitute(m_texture, texture);
 	}
+
+#if !SWIG
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void Chip2D_Imp::SetTexture(std::shared_ptr<Texture2D> texture)
+	{
+		SetTexture(texture.get());
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	std::shared_ptr<Texture2D> Chip2D_Imp::GetTexture()
+	{
+		auto v = GetTexture_();
+		SafeAddRef(v);
+		return CreateSharedPtrWithReleaseDLL(v);
+	}
+
+#endif
 
 	//----------------------------------------------------------------------------------
 	//
@@ -131,7 +153,7 @@ namespace ace {
 		if (!alreadyCullingUpdated&&mapObject2D != nullptr&&mapObject2D->GetLayer() != nullptr)
 		{
 			auto layerImp = (CoreLayer2D_Imp*)mapObject2D->GetLayer();
-			layerImp->TransformedObjects.push_back(cullingObject);
+			layerImp->AddTransformedObject(cullingObject);
 			alreadyCullingUpdated = true;
 		}
 #endif
@@ -188,16 +210,16 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	AlphaBlend Chip2D_Imp::GetAlphaBlendMode() const
+	AlphaBlendMode Chip2D_Imp::GetAlphaBlendMode() const
 	{
-		return m_alphaBlend;
+		return m_alphablend;
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Chip2D_Imp::SetAlphaBlendMode(AlphaBlend alphaBlend)
+	void Chip2D_Imp::SetAlphaBlendMode(AlphaBlendMode alphaBlend)
 	{
-		m_alphaBlend = alphaBlend;
+		m_alphablend = alphaBlend;
 	}
 }

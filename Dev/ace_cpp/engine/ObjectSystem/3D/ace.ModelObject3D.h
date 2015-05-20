@@ -95,7 +95,7 @@ namespace ace
 		@param	index	対象のインデックス
 		@return	再生中か?
 		*/
-		bool IsAnimationPlaying(int32_t index);
+		bool GetIsAnimationPlaying(int32_t index);
 
 		/**
 		@brief	材質個別に描画時のパラメーターを設定する。

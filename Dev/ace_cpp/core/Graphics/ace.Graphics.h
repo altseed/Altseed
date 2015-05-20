@@ -47,6 +47,7 @@ protected:
 	virtual Font* CreateFont_(const achar* path) = 0;
 	virtual Chip2D* CreateChip2D_() = 0;
 
+	virtual ImagePackage* CreateImagePackage_(const achar* path) = 0;
 public:
 	Graphics(){}
 	virtual ~Graphics(){}
@@ -279,6 +280,17 @@ public:
 	{
 		auto font = CreateFont_(path);
 		return CreateSharedPtrWithReleaseDLL(font);
+	}
+
+	/**
+	@brief	画像パッケージを生成する。
+	@param	path	パス
+	@return	画像パッケージ
+	*/
+	std::shared_ptr<ImagePackage> CreateImagePackage(const achar* path)
+	{
+		auto ip = CreateImagePackage_(path);
+		return CreateSharedPtrWithReleaseDLL(ip);
 	}
 
 #endif

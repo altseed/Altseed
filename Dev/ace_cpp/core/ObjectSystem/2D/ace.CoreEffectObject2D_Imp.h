@@ -50,7 +50,7 @@ namespace ace
 		*/
 		void StopRoot();
 
-		bool IsPlaying() override;
+		bool GetIsPlaying() override;
 
 		/**
 		@brief	このオブジェクトから再生されたエフェクトをオブジェクトに合わせて移動させるか取得する。

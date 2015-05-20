@@ -94,7 +94,7 @@ namespace ace
 		{
 			astring				Name;
 			int32_t				ParentBoneIndex;
-			eRotationOrder		RotationType;
+			RotationOrder		RotationType;
 			Matrix44			LocalMat;
 		};
 
@@ -193,21 +193,21 @@ namespace ace
 		void SaveAnimationClip(AnimationClip& ac, BinaryWriter& writer, const achar* path);
 	};
 
-	enum eAnimationCurveTargetType
+	enum class AnimationCurveTargetType : int32_t
 	{
-		ANIMATION_CURVE_TARGET_TYPE_NONE,
-		ANIMATION_CURVE_TARGET_TYPE_POSITON,
-		ANIMATION_CURVE_TARGET_TYPE_ROTATION,
-		ANIMATION_CURVE_TARGET_TYPE_SCALE,
+		NoneTarget,
+		Position,
+		Rotation,
+		Scale,
 	};
 
-	enum eAnimationCurveTargetAxis
+	enum class AnimationCurveTargetAxis : int32_t
 	{
-		ANIMATION_CURVE_TARGET_AXIS_NONE = -1,
-		ANIMATION_CURVE_TARGET_AXIS_X = 0,
-		ANIMATION_CURVE_TARGET_AXIS_Y = 1,
-		ANIMATION_CURVE_TARGET_AXIS_Z = 2,
-		ANIMATION_CURVE_TARGET_AXIS_W = 3,
+		NoneTarget = -1,
+		X = 0,
+		Y = 1,
+		Z = 2,
+		W = 3,
 	};
 
 	class ModelUtils
@@ -215,30 +215,18 @@ namespace ace
 	public:
 		static void CalculateBoneMatrixes(std::vector<Matrix44>& dst, const std::vector<Model_IO::Bone>& bones, const std::vector<Matrix44>& localMatrixes);
 
-		static Matrix44 CalcMatrix(float position[3], float rotation[4], float scale[3], eRotationOrder rotationType);
+		static Matrix44 CalcMatrix(float position[3], float rotation[4], float scale[3], RotationOrder rotationType);
 
 		static float GetKeyframeValue(float time, const std::vector<FCurveKeyframe>& keyframes);
 
-		static bool GetAnimationTarget(astring& targetName, eAnimationCurveTargetType& targetType, eAnimationCurveTargetAxis& targetAxis, const astring& name);
+		static bool GetAnimationTarget(astring& targetName, AnimationCurveTargetType& targetType, AnimationCurveTargetAxis& targetAxis, const astring& name);
 
 		static void SetBoneValue(
 			float position[3], 
 			float rotation[4], 
 			float scale[3], 
-			eAnimationCurveTargetType targetType, 
-			eAnimationCurveTargetAxis targetAxis, 
+			AnimationCurveTargetType targetType, 
+			AnimationCurveTargetAxis targetAxis, 
 			float value);
-
-		static void AddBoneValue(
-			float position[3],
-			float rotation[4],
-			float scale[3],
-			float positionW[3],
-			float rotationW[4],
-			float scaleW[3],
-			eAnimationCurveTargetType targetType,
-			eAnimationCurveTargetAxis targetAxis,
-			float value,
-			float weight);
 	};
 }

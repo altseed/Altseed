@@ -1,5 +1,6 @@
 ﻿
 #include "ace.Layer3D.h"
+#include <Utility/ace.Timer.h>
 
 namespace ace
 {
@@ -8,6 +9,7 @@ namespace ace
 
 	Layer3D::Layer3D(RenderSettings settings)
 		: m_coreLayer(nullptr)
+		, m_objects()
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer3D(settings));
 		m_commonObject = m_coreLayer;
@@ -15,7 +17,7 @@ namespace ace
 
 	Layer3D::~Layer3D()
 	{
-		for (auto& object : m_objects)
+		for (auto& object : m_objects.GetContents())
 		{
 			object->SetLayer(nullptr);
 		}
@@ -23,30 +25,20 @@ namespace ace
 
 	void Layer3D::Update()
 	{
-		if (!m_isUpdated)
+		if (!m_isUpdatedCurrent || !m_isAlive)
 		{
 			return;
 		}
 
+		m_commonObject->BeginMeasureUpdateTime();
 		OnUpdating();
+		m_objects.Update();
 
-		
-		auto beVanished = std::vector<ObjectPtr>();
-
-		for (auto& object : m_objects)
+		for (auto& vanishing : m_objects.GetVanishingContents())
 		{
-			object->Update();
-			if (!object->GetIsAlive())
-			{
-				beVanished.push_back(object);
-			}
+			RemoveObject(vanishing);
 		}
-
-		for (auto& object : beVanished)
-		{
-			RemoveObject(object);
-		}
-
+		m_objects.GetVanishingContents().clear();
 		/*
 		for (auto& component : m_components)
 		{
@@ -55,16 +47,30 @@ namespace ace
 		*/
 
 		OnUpdated();
+		m_commonObject->EndMeasureUpdateTime();
 	}
 
-	void Layer3D::BeginUpdateting()
+	void Layer3D::CallDestroy()
 	{
-		m_coreLayer->BeginUpdating();
+		for (auto& o : m_objects.GetContents())
+		{
+			if (o->GetIsAlive())
+			{
+				o->CallDestroy();
+			}
+		}
+		OnDispose();
+	}
+
+	void Layer3D::BeginUpdating()
+	{
+		m_isUpdatedCurrent = m_isUpdated;
+		m_coreLayer->BeginUpdating(m_isUpdatedCurrent);
 	}
 
 	void Layer3D::EndUpdateting()
 	{
-		m_coreLayer->EndUpdating();
+		m_coreLayer->EndUpdating(m_isUpdatedCurrent);
 	}
 
 	void Layer3D::DrawAdditionally()
@@ -74,7 +80,7 @@ namespace ace
 			return;
 		}
 
-		for (auto& object : m_objects)
+		for (auto& object : m_objects.GetContents())
 		{
 			object->OnDrawAdditionally();
 		}
@@ -104,30 +110,35 @@ namespace ace
 		m_coreLayer->SetRenderSettings(settings);
 	}
 
-	void Layer3D::AddObject(const ObjectPtr& object)
+	void Layer3D::AddObject(const Object3D::Ptr& object)
 	{
 		if (object->GetLayer() != nullptr)
 		{
 			throw "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。";
 		}
-		m_objects.push_back(object);
+		m_objects.Add(object);
 		auto coreObj = object->GetCoreObject();
 		m_coreLayer->AddObject(coreObj);
 		object->SetLayer(this);
 		object->Start();
 	}
 
-	void Layer3D::RemoveObject(const ObjectPtr& object)
+	void Layer3D::RemoveObject(const Object3D::Ptr& object)
 	{
-		m_objects.remove(object);
+		m_objects.Remove(object);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 		object->SetLayer(nullptr);
+	}
+
+	const std::list<Object3D::Ptr>& Layer3D::GetObjects() const
+	{
+		return m_objects.GetContents();
 	}
 
 	void Layer3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-		std::shared_ptr<Texture2D>  texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest)
+		std::shared_ptr<Texture2D>  texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 	{
 		m_coreLayer->DrawSpriteAdditionally(
 			upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos,
@@ -168,16 +179,6 @@ namespace ace
 		m_coreLayer->SetEnvironmentColor(diffuseColor.get(), specularColor.get());
 	}
 
-	bool Layer3D::GetHDRMode() const
-	{
-		return m_coreLayer->GetHDRMode();
-	}
-
-	void Layer3D::SetHDRMode(bool value)
-	{
-		m_coreLayer->SetHDRMode(value);
-	}
-
 	float Layer3D::GetSSAO_Radius()
 	{
 		return m_coreLayer->GetSSAO_Radius();
@@ -216,5 +217,10 @@ namespace ace
 	void Layer3D::SetSSAO_FarPlain(float value)
 	{
 		m_coreLayer->SetSSAO_FarPlain(value);
+	}
+
+	int Layer3D::GetObjectCount() const
+	{
+		return m_objects.GetContents().size();
 	}
 };

@@ -139,6 +139,15 @@
     <Filter Include="Graphics\Platform\DX11\DirectXToolKit">
       <UniqueIdentifier>{ffbbcee5-e1ed-4029-9020-bb07561a6913}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shape">
+      <UniqueIdentifier>{39a4e209-38a6-4338-8978-c09661be9f98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty">
+      <UniqueIdentifier>{01b9cbcd-ab65-4786-b25b-291d608b35cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\poly2tri">
+      <UniqueIdentifier>{8a346865-2f74-4465-a8f1-93ab10f57f60}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\ace.Log_Imp.h">
@@ -169,9 +178,6 @@
       <Filter>Profiler</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ace.ReferenceObject.h" />
-    <ClInclude Include="..\core\Input\ace.IMouseButtonState.h">
-      <Filter>Input</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Input\ace.Keyboard.h">
       <Filter>Input</Filter>
     </ClInclude>
@@ -201,9 +207,6 @@
     </ClInclude>
     <ClInclude Include="..\core\ace.Core.Base.h" />
     <ClInclude Include="..\core\ace.Core.Base_Imp.h" />
-    <ClInclude Include="..\core\Input\ace.IMouseWheelableButtonState.h">
-      <Filter>Input</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Input\ace.Joystick.h">
       <Filter>Input</Filter>
     </ClInclude>
@@ -227,9 +230,6 @@
     </ClInclude>
     <ClInclude Include="..\core\Profiler\ace.Profile.h">
       <Filter>Profiler</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\ace.eChildMode.h">
-      <Filter>ObjectSystem</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\ace.ParentInfo2D.h">
       <Filter>ObjectSystem\2D</Filter>
@@ -592,18 +592,6 @@
     <ClInclude Include="..\core\IO\ace.StreamFile.h">
       <Filter>IO</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\IO\ace.BaseFile_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.Path.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.Path_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.PathIterator_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Graphics\Resource\ace.Chip2D.h">
       <Filter>Graphics\Resource</Filter>
     </ClInclude>
@@ -640,26 +628,11 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GaussianBlur_PS.h">
       <Filter>Graphics\Shader\GL\PostEffect</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\IO\ace.RootPath_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition.h">
       <Filter>ObjectSystem\Transition</Filter>
     </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.h">
       <Filter>ObjectSystem\Transition</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.PackFile.Header_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.PackFile_Imp.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.FileUtility.h">
-      <Filter>IO</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\IO\ace.PathIterator.h">
-      <Filter>IO</Filter>
     </ClInclude>
     <ClInclude Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.h">
       <Filter>Graphics\3D\Renderer</Filter>
@@ -874,6 +847,119 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreObject2D_Imp_Methods.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\dll.h" />
+    <ClInclude Include="..\core\Input\ace.MouseButtonState.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\ace.ChildMode.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ace.StructTranslator.h" />
+    <ClInclude Include="..\core\Graphics\Resource\ace.ImagePackage_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\ace.ImagePackage.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.ShapeType.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\Downsample_PS.h">
+      <Filter>Graphics\Shader\DX\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\Downsample_PS.h">
+      <Filter>Graphics\Shader\GL\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreArcShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreArcShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreCircleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreCircleShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreLineShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreLineShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreRectangleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreRectangleShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreTriangleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreTriangleShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CorePolygonShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CorePolygonShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\shapes.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\utils.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\advancing_front.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\cdt.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep_context.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\poly2tri.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\ace.LayerProfile.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\ace.LayerProfiler_Imp.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\ace.LayerProfiler.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.BaseFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.PackFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.FileRoot.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.FileHelper.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\ace.Decryptor.h">
+      <Filter>IO</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -909,7 +995,6 @@
     <ClCompile Include="..\core\Core\ace.CreateCore.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\dll_cs.cxx" />
     <ClCompile Include="..\core\Input\ace.Joystick_Imp.cpp">
       <Filter>Input</Filter>
     </ClCompile>
@@ -1101,12 +1186,6 @@
     <ClCompile Include="..\core\IO\ace.StaticFile_Imp.cpp">
       <Filter>IO</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\IO\ace.Path_Imp.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\IO\ace.PathIterator_Imp.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\IO\ace.BaseFile.cpp">
       <Filter>IO</Filter>
     </ClCompile>
@@ -1116,17 +1195,8 @@
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\IO\ace.RootPath_Imp.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\Transition\ace.CoreTransition_Imp.cpp">
       <Filter>ObjectSystem\Transition</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\IO\ace.PackFile.Header_Imp.cpp">
-      <Filter>IO</Filter>
-    </ClCompile>
-    <ClCompile Include="..\core\IO\ace.PackFile_Imp.cpp">
-      <Filter>IO</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\3D\Renderer\ace.Renderer3D.cpp">
       <Filter>Graphics\3D\Renderer</Filter>
@@ -1227,6 +1297,65 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.cpp">
       <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\dll.cxx" />
+    <ClCompile Include="..\core\ace.StructTranslator.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\ace.ImagePackage_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreArcShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreCircleShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreLineShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreRectangleShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreTriangleShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CorePolygonShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\common\shapes.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\advancing_front.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\cdt.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep_context.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Profiler\ace.LayerProfile.cpp">
+      <Filter>Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Profiler\ace.LayerProfiler_Imp.cpp">
+      <Filter>Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.PackFile.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.FileHelper.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\ace.Decryptor.cpp">
+      <Filter>IO</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

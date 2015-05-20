@@ -24,9 +24,9 @@ void log_test()
 	log->Write(L"セル３(ChangeRow)");
 	log->EndTable();
 
-	log->SetOutputLevel(ace::Log::LOG_WARNING);
-	log->WriteLine(L"表示されるログ(critical)", ace::Log::LOG_CRITICAL);
-	log->WriteLine(L"表示されないログ(information)", ace::Log::LOG_INFORMATION);
+	log->SetOutputLevel(ace::LogLevel::Warning);
+	log->WriteLine(L"表示されるログ(critical)", ace::LogLevel::Critical);
+	log->WriteLine(L"表示されないログ(information)", ace::LogLevel::Information);
 	delete log;
 }
 

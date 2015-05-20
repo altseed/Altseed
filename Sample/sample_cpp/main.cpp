@@ -17,7 +17,14 @@ extern void Joystick();
 extern void Sound();
 
 extern void EffectObject2D();
+extern void TextObject2D();
+extern void TextureObject2D();
+extern void MapObject2D();
+extern void CameraObject2D();
+extern void ImagePackage();
+
 extern void Object2DComponent();
+extern void Transition();
 
 extern void PostEffect();
 
@@ -40,7 +47,14 @@ int main(int argc, char** argv)
 		INFO(Sound),
 
 		INFO(Object2DComponent),
+		INFO(Transition),
+
+		INFO(CameraObject2D),
 		INFO(EffectObject2D),
+		INFO(TextObject2D),
+		INFO(TextureObject2D),
+		INFO(MapObject2D),
+		INFO(ImagePackage),
 
 		INFO(PostEffect),
 

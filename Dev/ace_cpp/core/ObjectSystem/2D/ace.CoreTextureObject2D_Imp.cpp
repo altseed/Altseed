@@ -12,10 +12,11 @@ namespace ace
 		, m_color(Color())
 		, m_turnLR(false)
 		, m_turnUL(false)
-		, m_alphablend(AlphaBlend::Blend)
+		, m_alphablend(AlphaBlendMode::Blend)
 		, m_drawingPtiority(0)
 		, m_src(RectF(0, 0, 1, 1))
 		, CoreObject2D_Imp(graphics)
+		, m_textureFilterType(TextureFilterType::Nearest)
 	{
 	}
 
@@ -64,7 +65,7 @@ namespace ace
 	void CoreTextureObject2D_Imp::SetSrc(RectF value)
 	{
 		m_src = value; 
-		SetCullingUpdate();
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -81,6 +82,7 @@ namespace ace
 	void CoreTextureObject2D_Imp::SetCenterPosition(Vector2DF position)
 	{
 		m_centerPosition = position;
+		SetCullingUpdate(this);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -150,7 +152,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	AlphaBlend CoreTextureObject2D_Imp::GetAlphaBlendMode() const
+	AlphaBlendMode CoreTextureObject2D_Imp::GetAlphaBlendMode() const
 	{
 		return m_alphablend;
 	}
@@ -158,9 +160,9 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreTextureObject2D_Imp::SetAlphaBlendMode(AlphaBlend alphablend)
+	void CoreTextureObject2D_Imp::SetAlphaBlendMode(AlphaBlendMode alphaBlend)
 	{
-		m_alphablend = alphablend;
+		m_alphablend = alphaBlend;
 	}
 #pragma endregion
 
@@ -195,6 +197,17 @@ namespace ace
 		culling2d::Vector2DF cent = culling2d::Vector2DF(center.X, center.Y);
 		m_boundingCircle.Position = cent;
 		m_boundingCircle.Radius = len;
+	}
+
+
+	void CoreTextureObject2D_Imp::SetTextureFilterType(TextureFilterType textureFilterType)
+	{
+		m_textureFilterType = textureFilterType;
+	}
+
+	TextureFilterType CoreTextureObject2D_Imp::GetTextureFilterType() const
+	{
+		return m_textureFilterType;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -276,6 +289,7 @@ namespace ace
 			uvs.data(),
 			m_texture,
 			m_alphablend,
-			m_drawingPtiority);
+			m_drawingPtiority,
+			m_textureFilterType);
 	}
 }

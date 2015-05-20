@@ -400,7 +400,7 @@ namespace ace
 		{
 			auto name = reader.Get<ace::astring>();
 			auto parent = reader.Get<int32_t>();
-			eRotationOrder rotationOrder = reader.Get<eRotationOrder>();
+			RotationOrder rotationOrder = reader.Get<RotationOrder>();
 			auto localMat = reader.Get<Matrix44>();
 
 			deformer.Bones[i].Name = name;
@@ -467,7 +467,7 @@ namespace ace
 			ka.Keyframes[i].KeyValue = reader.Get<Vector2DF>();
 			ka.Keyframes[i].LeftHandle = reader.Get<Vector2DF>();
 			ka.Keyframes[i].RightHandle = reader.Get<Vector2DF>();
-			ka.Keyframes[i].InterpolationType = (eInterpolationType) reader.Get<int32_t>();
+			ka.Keyframes[i].Interpolation = (InterpolationType) reader.Get<int32_t>();
 		}
 	}
 
@@ -489,7 +489,7 @@ namespace ace
 			auto& bone = deformer.Bones[i];
 			writer.Push(deformer.Bones[i].Name);
 			writer.Push(deformer.Bones[i].ParentBoneIndex);
-			writer.Push(deformer.Bones[i].RotationType);
+			writer.Push((int32_t)deformer.Bones[i].RotationType);
 			writer.Push(deformer.Bones[i].LocalMat);
 		}
 	}
@@ -624,7 +624,7 @@ namespace ace
 			writer.Push(ka.Keyframes[i].KeyValue);
 			writer.Push(ka.Keyframes[i].LeftHandle);
 			writer.Push(ka.Keyframes[i].RightHandle);
-			writer.Push((int32_t)ka.Keyframes[i].InterpolationType);
+			writer.Push((int32_t)ka.Keyframes[i].Interpolation);
 		}
 	}
 
@@ -650,9 +650,9 @@ namespace ace
 		}
 	}
 
-	Matrix44 ModelUtils::CalcMatrix(float position[3], float rotation [4], float scale[3], eRotationOrder rotationType)
+	Matrix44 ModelUtils::CalcMatrix(float position[3], float rotation [4], float scale[3], RotationOrder rotationType)
 	{
-		if (rotationType == ROTATION_ORDER_QUATERNION)
+		if (rotationType == RotationOrder::QUATERNION)
 		{
 			Matrix44 mat, matS, matR, matT;
 			matS.SetScale(scale[0], scale[1], scale[2]);
@@ -664,7 +664,7 @@ namespace ace
 
 			return mat;
 		}
-		else if (rotationType == ROTATION_ORDER_AXIS)
+		else if (rotationType == RotationOrder::AXIS)
 		{
 			Matrix44 mat, matS, matR, matT;
 			matS.SetScale(scale[0], scale[1], scale[2]);
@@ -685,7 +685,7 @@ namespace ace
 			matRy.SetRotationY(rotation[1]);
 			matRz.SetRotationZ(rotation[2]);
 
-			if (rotationType == ROTATION_ORDER_XZY)
+			if (rotationType == RotationOrder::XZY)
 			{
 				mat = Matrix44::Mul(mat, matRx, matS);
 				mat = Matrix44::Mul(mat, matRz, mat);
@@ -693,7 +693,7 @@ namespace ace
 				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
-			if (rotationType == ROTATION_ORDER_XYZ)
+			if (rotationType == RotationOrder::XYZ)
 			{
 				mat = Matrix44::Mul(mat, matRx, matS);
 				mat = Matrix44::Mul(mat, matRy, mat);
@@ -701,7 +701,7 @@ namespace ace
 				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
-			if (rotationType == ROTATION_ORDER_ZXY)
+			if (rotationType == RotationOrder::ZXY)
 			{
 				mat = Matrix44::Mul(mat, matRz, matS);
 				mat = Matrix44::Mul(mat, matRx, mat);
@@ -709,7 +709,7 @@ namespace ace
 				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
-			if (rotationType == ROTATION_ORDER_ZYX)
+			if (rotationType == RotationOrder::ZYX)
 			{
 				mat = Matrix44::Mul(mat, matRz, matS);
 				mat = Matrix44::Mul(mat, matRy, mat);
@@ -717,7 +717,7 @@ namespace ace
 				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
-			if (rotationType == ROTATION_ORDER_YXZ)
+			if (rotationType == RotationOrder::YXZ)
 			{
 				mat = Matrix44::Mul(mat, matRy, matS);
 				mat = Matrix44::Mul(mat, matRx, mat);
@@ -725,7 +725,7 @@ namespace ace
 				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
-			if (rotationType == ROTATION_ORDER_YZX)
+			if (rotationType == RotationOrder::YZX)
 			{
 				mat = Matrix44::Mul(mat, matRy, matS);
 				mat = Matrix44::Mul(mat, matRz, mat);
@@ -770,11 +770,11 @@ namespace ace
 
 		if (keyframes[left].KeyValue.X <= time && time < keyframes[left + 1].KeyValue.X)
 		{
-			if (keyframes[left].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_CONSTANT)
+			if (keyframes[left].Interpolation == InterpolationType::Constant)
 			{
 				return keyframes[left].KeyValue.Y;
 			}
-			else if (keyframes[left].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_LINEAR)
+			else if (keyframes[left].Interpolation == InterpolationType::Linear)
 			{
 				auto d = time - keyframes[left].KeyValue.X;
 				auto dx = keyframes[left + 1].KeyValue.X - keyframes[left].KeyValue.X;
@@ -782,7 +782,7 @@ namespace ace
 
 				return keyframes[left].KeyValue.Y + dy / dx * d;
 			}
-			else if (keyframes[left].InterpolationType == eInterpolationType::INTERPOLATION_TYPE_CUBIC)
+			else if (keyframes[left].Interpolation == InterpolationType::Cubic)
 			{
 				float k1[2];
 				float k1rh[2];
@@ -872,14 +872,14 @@ namespace ace
 		return 0;
 	}
 
-	bool ModelUtils::GetAnimationTarget(astring& targetName, eAnimationCurveTargetType& targetType, eAnimationCurveTargetAxis& targetAxis, const astring& name)
+	bool ModelUtils::GetAnimationTarget(astring& targetName, AnimationCurveTargetType& targetType, AnimationCurveTargetAxis& targetAxis, const astring& name)
 	{
 		auto strs = split(astring(name), ToAString("."));
 
 		// ボーン向け設定の取得
 		targetName = astring();
-		targetType = ANIMATION_CURVE_TARGET_TYPE_NONE;
-		targetAxis = ANIMATION_CURVE_TARGET_AXIS_NONE;
+		targetType = AnimationCurveTargetType::NoneTarget;
+		targetAxis = AnimationCurveTargetAxis::NoneTarget;
 
 		if (strs.size() < 3) return false;
 
@@ -895,37 +895,37 @@ namespace ace
 
 		if (strs[strs.size() - 2] == ToAString("pos"))
 		{
-			targetType = ANIMATION_CURVE_TARGET_TYPE_POSITON;
+			targetType = AnimationCurveTargetType::Position;
 		}
 
 		if (strs[strs.size() - 2] == ToAString("rot"))
 		{
-			targetType = ANIMATION_CURVE_TARGET_TYPE_ROTATION;
+			targetType = AnimationCurveTargetType::Rotation;
 		}
 
 		if (strs[strs.size() - 2] == ToAString("scl"))
 		{
-			targetType = ANIMATION_CURVE_TARGET_TYPE_SCALE;
+			targetType = AnimationCurveTargetType::Scale;
 		}
 
 		if (strs[strs.size() - 1] == ToAString("x"))
 		{
-			targetAxis = ANIMATION_CURVE_TARGET_AXIS_X;
+			targetAxis = AnimationCurveTargetAxis::X;
 		}
 
 		if (strs[strs.size() - 1] == ToAString("y"))
 		{
-			targetAxis = ANIMATION_CURVE_TARGET_AXIS_Y;
+			targetAxis = AnimationCurveTargetAxis::Y;
 		}
 
 		if (strs[strs.size() - 1] == ToAString("z"))
 		{
-			targetAxis = ANIMATION_CURVE_TARGET_AXIS_Z;
+			targetAxis = AnimationCurveTargetAxis::Z;
 		}
 
 		if (strs[strs.size() - 1] == ToAString("w"))
 		{
-			targetAxis = ANIMATION_CURVE_TARGET_AXIS_W;
+			targetAxis = AnimationCurveTargetAxis::W;
 		}
 
 		return true;
@@ -935,56 +935,24 @@ namespace ace
 		float position[3],
 		float rotation[4],
 		float scale[3],
-		eAnimationCurveTargetType targetType,
-		eAnimationCurveTargetAxis targetAxis,
+		AnimationCurveTargetType targetType,
+		AnimationCurveTargetAxis targetAxis,
 		float value)
 	{
-		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_NONE) return;
-		if (targetAxis == eAnimationCurveTargetAxis::ANIMATION_CURVE_TARGET_AXIS_NONE) return;
+		if (targetType == AnimationCurveTargetType::NoneTarget) return;
+		if (targetAxis == AnimationCurveTargetAxis::NoneTarget) return;
 		
-		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_POSITON)
+		if (targetType == AnimationCurveTargetType::Position)
 		{
-			position[targetAxis] = value;
+			position[(int32_t)targetAxis] = value;
 		}
-		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_ROTATION)
+		else if (targetType == AnimationCurveTargetType::Rotation)
 		{
-			rotation[targetAxis] = value / 180.0f * 3.141592f;
+			rotation[(int32_t) targetAxis] = value / 180.0f * 3.141592f;
 		}
-		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_SCALE)
+		else if (targetType == AnimationCurveTargetType::Scale)
 		{
-			scale[targetAxis] = value;
-		}
-	}
-
-	void ModelUtils::AddBoneValue(
-		float position[3],
-		float rotation[4],
-		float scale[3],
-		float positionW[3],
-		float rotationW[4],
-		float scaleW[3],
-		eAnimationCurveTargetType targetType,
-		eAnimationCurveTargetAxis targetAxis,
-		float value,
-		float weight)
-	{
-		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_NONE) return;
-		if (targetAxis == eAnimationCurveTargetAxis::ANIMATION_CURVE_TARGET_AXIS_NONE) return;
-
-		if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_POSITON)
-		{
-			position[targetAxis] += value * weight;
-			positionW[targetAxis] += weight;
-		}
-		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_ROTATION)
-		{
-			rotation[targetAxis] += value / 180.0f * 3.141592f * weight;
-			rotationW[targetAxis] += weight;
-		}
-		else if (targetType == eAnimationCurveTargetType::ANIMATION_CURVE_TARGET_TYPE_SCALE)
-		{
-			scale[targetAxis] += value * weight;
-			scaleW[targetAxis] += weight;
+			scale[(int32_t) targetAxis] = value;
 		}
 	}
 }

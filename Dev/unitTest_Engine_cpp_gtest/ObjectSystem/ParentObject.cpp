@@ -27,15 +27,15 @@ protected:
 		m_parent = make_shared<TextureObject2D>();
 
 		auto file = ace::Engine::GetFile();
-		file->AddRootDirectories(ace::ToAString("Data/Texture").c_str());
+		file->AddRootDirectory(ace::ToAString("Data/Texture").c_str());
 
 		ace::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(m_parent);
 		layer->AddObject(child);
 		layer->AddObject(child2);
-		m_parent->AddChild(child, eChildMode::CHILD_MODE_ALL);
-		child->AddChild(child2, eChildMode::CHILD_MODE_NOTHING);
+		m_parent->AddChild(child, ChildMode::All);
+		child->AddChild(child2, ChildMode::Nothing);
 
 		auto g = ace::Engine::GetGraphics();
 		auto texture = g->CreateTexture2D(ace::ToAString("Cloud1.png").c_str());

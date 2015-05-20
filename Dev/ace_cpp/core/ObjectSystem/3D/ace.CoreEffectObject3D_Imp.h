@@ -29,13 +29,13 @@ namespace ace
 
 		void StopRoot() override;
 
-		bool IsPlaying() override;
+		bool GetIsPlaying() override;
 
 		bool GetSyncEffects() override;
 
 		void SetSyncEffects(bool value) override;
 
-		eRenderedObject3DType GetObjectType() { return eRenderedObject3DType::RENDERED_OBJECT3D_TYPE_EFFECT; }
+		RenderedObject3DType GetObjectType() { return RenderedObject3DType::Effect; }
 
 		// 共通部分
 		virtual bool GetIsDrawn() const { return CoreObject3D_Imp::GetIsDrawn(); }

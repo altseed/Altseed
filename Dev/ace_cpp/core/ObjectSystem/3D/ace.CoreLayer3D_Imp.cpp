@@ -93,16 +93,6 @@ namespace ace
 		m_renderer->SetEnvironmentColor(diffuseColor, specularColor);
 	}
 
-	bool CoreLayer3D_Imp::GetHDRMode() const
-	{
-		return m_renderer->GetHDRMode();
-	}
-
-	void CoreLayer3D_Imp::SetHDRMode(bool value)
-	{
-		m_renderer->SetHDRMode(value);
-	}
-
 	float CoreLayer3D_Imp::GetSSAO_Radius()
 	{
 		return m_renderer->SSAO_Radius;
@@ -146,7 +136,7 @@ namespace ace
 	void CoreLayer3D_Imp::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-		Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest)
+		Texture2D* texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 	{
 		m_renderer->DrawSpriteAdditionally(
 			upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos,
@@ -155,19 +145,25 @@ namespace ace
 			texture, alphaBlend, depthWrite, depthTest);
 	}
 
-	void CoreLayer3D_Imp::BeginUpdating()
+	void CoreLayer3D_Imp::BeginUpdating(bool isUpdated)
 	{
-		m_renderer->Flip(core->GetDeltaTime());
+		auto deltaTime = core->GetDeltaTime();
+		if (!isUpdated)
+		{
+			deltaTime = 0;
+		}
+
+		m_renderer->Flip(deltaTime);
 
 		m_isDrawnTemp = m_isDrawn;
 
 		if (m_isDrawnTemp)
 		{
-			m_renderer->BeginRendering(core->GetDeltaTime());
+			m_renderer->BeginRendering(deltaTime);
 		}
 	}
 
-	void CoreLayer3D_Imp::EndUpdating()
+	void CoreLayer3D_Imp::EndUpdating(bool isUpdated)
 	{
 		if (m_isDrawnTemp)
 		{
@@ -189,64 +185,8 @@ namespace ace
 
 	void CoreLayer3D_Imp::EndDrawing()
 	{
-		m_layerRenderer->SetTexture(m_renderer->GetRenderTarget());
+		m_scene->SetRenderTargetForDrawingLayer();
 
-		m_triangles.clear();
-
-		{
-			ace::Vector2DF positions[4];
-			ace::Color colors[4];
-			ace::Vector2DF uvs[4];
-
-			colors[0] = ace::Color(255, 255, 255, 255);
-			colors[1] = ace::Color(255, 255, 255, 255);
-			colors[2] = ace::Color(255, 255, 255, 255);
-
-			positions[0].X = 0.0f;
-			positions[0].Y = 0.0f;
-			positions[1].X = 1.0f;
-			positions[1].Y = 0.0f;
-			positions[2].X = 1.0f;
-			positions[2].Y = 1.0f;
-
-
-			uvs[0].X = 0;
-			uvs[0].Y = 0;
-			uvs[1].X = 1;
-			uvs[1].Y = 0;
-			uvs[2].X = 1;
-			uvs[2].Y = 1;
-
-			m_layerRenderer->AddTriangle(positions, colors, uvs);
-		}
-
-		{
-			ace::Vector2DF positions[4];
-			ace::Color colors[4];
-			ace::Vector2DF uvs[4];
-
-			colors[0] = ace::Color(255, 255, 255, 255);
-			colors[1] = ace::Color(255, 255, 255, 255);
-			colors[2] = ace::Color(255, 255, 255, 255);
-
-			positions[0].X = 0.0f;
-			positions[0].Y = 1.0f;
-			positions[1].X = 1.0f;
-			positions[1].Y = 1.0f;
-			positions[2].X = 0.0f;
-			positions[2].Y = 0.0f;
-
-			uvs[0].X = 0;
-			uvs[0].Y = 1;
-			uvs[1].X = 1;
-			uvs[1].Y = 1;
-			uvs[2].X = 0;
-			uvs[2].Y = 0;
-
-			m_layerRenderer->AddTriangle(positions, colors, uvs);
-		}
-
-		m_layerRenderer->DrawCache();
-		m_layerRenderer->ClearCache();
+		m_renderer->RenderResult();
 	}
 };

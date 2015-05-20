@@ -62,7 +62,7 @@ namespace ace
 		@brief	アニメーションが再生中か取得する。
 		@return	再生中か?
 		*/
-		bool IsAnimationPlaying();
+		bool GetIsAnimationPlaying();
 
 		/**
 		@brief	材質個別に描画時のパラメーターを設定する。

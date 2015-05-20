@@ -4,10 +4,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="FBX2MDL.FBXExporter.cpp" />
     <ClCompile Include="FBX2MDL.FBXImporter.cpp" />
+    <ClCompile Include="FBX2MDL.FBXOptimizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FBX2MDL.Base.h" />
     <ClInclude Include="FBX2MDL.FBXExporter.h" />
     <ClInclude Include="FBX2MDL.FBXImporter.h" />
+    <ClInclude Include="FBX2MDL.FBXOptimizer.h" />
   </ItemGroup>
 </Project>

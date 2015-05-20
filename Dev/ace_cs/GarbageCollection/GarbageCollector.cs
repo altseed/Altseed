@@ -46,6 +46,8 @@ namespace ace
 					if (TryRelease<swig.Material3D>(o)) continue;
 					if (TryRelease<swig.MaterialPropertyBlock>(o)) continue;
 
+					if (TryRelease<swig.ImagePackage>(o)) continue;
+
 					if (TryRelease<swig.Effect>(o)) continue;
                     if (TryRelease<swig.Chip2D>(o)) continue;
                     if (TryRelease<swig.Font>(o)) continue;
@@ -77,6 +79,9 @@ namespace ace
 					if (TryRelease<swig.CoreTransition>(o)) continue;
 
                     if (TryRelease<swig.StaticFile>(o)) continue;
+					if (TryRelease<swig.StreamFile>(o)) continue;
+
+                    if (TryRelease<swig.CoreShape>(o)) continue;
 
 					throw new Exception(string.Format("未登録のクラス{0}を検出しました。", o));
 				}

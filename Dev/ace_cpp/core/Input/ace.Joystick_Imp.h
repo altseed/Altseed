@@ -27,11 +27,10 @@ namespace ace{
 
 		void RefreshInputState();
 
-
-		const ace::achar* GetJoystickName();
-		const int GetButtonsCount();
-		const int GetAxesCount();
-		const JoystickButtonState GetButtonState(int at);
-		const float GetAxisState(int at);
+		const ace::achar* GetJoystickName() override;
+		int GetButtonsCount() override;
+		int GetAxesCount() override;
+		JoystickButtonState GetButtonState(int at) override;
+		float GetAxisState(int at) override;
 	};
 };

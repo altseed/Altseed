@@ -29,6 +29,7 @@ namespace ace
 		const char* GetLightBloomShader(GraphicsDeviceType graphicsDeviceType) const override;
 		const char* GetSepiaShader(GraphicsDeviceType graphicsDeviceType) const override;
 		const char* GetGaussianBlurShader(GraphicsDeviceType graphicsDeviceType) const override;
+		const char* GetDownsampleShader(GraphicsDeviceType graphicsDeviceType) const override;
 
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }

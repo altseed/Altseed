@@ -9,7 +9,7 @@ namespace ace
     /// <summary>
     /// マウスの中ボタンの状態を扱うクラス
     /// </summary>
-    public class MiddleButton : IMouseWheelableButtonState
+    public class MiddleButton
     {
         /// <summary>
         /// 回転度合いを保持する変数
@@ -27,9 +27,9 @@ namespace ace
         internal MiddleButton() { }
 
         /// <summary>
-        /// 押下状態とホイール回転状態をセットする関数
+        /// 押し状態とホイール回転状態をセットする関数
         /// </summary>
-        /// <param name="mbuttonstate">押下状態</param>
+        /// <param name="mbuttonstate">押し状態</param>
         /// <param name="rot">回転度合い</param>
         internal void SetState(MouseButtonState mbuttonstate,double rot)
         {
@@ -38,7 +38,7 @@ namespace ace
         }
 
         /// <summary>
-        /// 回転度合いを返すプロパティ
+        /// ホイールの回転度合いを返すプロパティ
         /// </summary>
         public double WheelRotation
         {
@@ -46,7 +46,7 @@ namespace ace
         }
 
         /// <summary>
-        /// 押下状態を返すプロパティ
+        /// ボタンの押し状態を返すプロパティ
         /// </summary>
         public MouseButtonState ButtonState
         {

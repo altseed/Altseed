@@ -6,6 +6,8 @@
 #include "../../ace.CoreToEngine.h"
 #include "../ace.Layer.h"
 #include "../Component/ace.Layer2DComponent.h"
+#include "../Component/ace.ComponentManager.h"
+#include "../../Shape/ace.Shape.h"
 
 namespace ace
 {
@@ -21,17 +23,15 @@ namespace ace
 
 	private:
 		std::shared_ptr<CoreLayer2D>	m_coreLayer;
-		std::list<Object2D::Ptr>		m_objects;
-		std::map<astring, Layer2DComponent::Ptr> m_components;
-		std::vector<Object2D::Ptr>		beVanished;
+		ContentsManager<Object2D> m_objects;
+		ComponentManager<Layer2D, Layer2DComponent> m_components;
 
-		void BeginUpdateting();
+		void BeginUpdating();
 		void EndUpdateting();
 
 		void DrawAdditionally();
 		void Update();
-		void UpdateObjects();
-		void UpdateComponents();
+		void CallDestroy();
 
 	protected:
 		/**
@@ -67,6 +67,11 @@ namespace ace
 			@param	object	削除するオブジェクト
 		*/
 		void RemoveObject(const Object2D::Ptr& object);
+		/**
+			@brief	このレイヤーに登録されている2Dオブジェクトのリストを取得する。
+			@return	登録されているオブジェクトのリスト
+		*/
+		const std::list<Object2D::Ptr>& GetObjects() const;
 
 		/**
 		@brief	レイヤーが所持する全ての2Dオブジェクトをこのインスタンスから削除する。
@@ -84,13 +89,13 @@ namespace ace
 			@brief	指定したキーを持つコンポーネントを取得する。
 			@param	key		取得するコンポーネントを示すキー
 		*/
-		Layer2DComponent::Ptr& GetComponent(astring key);
+		const Layer2DComponent::Ptr& GetComponent(astring key);
 
 		/**
 			@brief	指定したコンポーネントをこのインスタンスから削除する。
 			@param	key		削除するコンポーネントを示すキー
 		*/
-		void RemoveComponent(astring key);
+		bool RemoveComponent(astring key);
 
 		/**
 			@brief	通常の描画に加えてテクスチャを描画する。
@@ -115,7 +120,7 @@ namespace ace
 		void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-			std::shared_ptr<Texture2D>  texture, AlphaBlend alphaBlend, int32_t priority);
+			std::shared_ptr<Texture2D>  texture, AlphaBlendMode alphaBlend, int32_t priority);
 
 		/**
 			@brief	通常の描画に加えて文字列を描画する。
@@ -129,6 +134,28 @@ namespace ace
 			@note
 			OnDrawAdditionallyの中以外では実行してはいけない。
 		*/
-		void DrawTextAdditionally(Vector2DF pos, Color color, std::shared_ptr<Font> font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority);
+		void DrawTextAdditionally(Vector2DF pos, Color color, std::shared_ptr<Font> font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority);
+
+		void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority);
+
+		void DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority);
+
+		void DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority);
+
+		void DrawCircleAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority);
+
+		void DrawArcAdditionally(ace::Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority);
+
+		void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlendMode alphaBlend, int32_t priority);
+
+		void DrawShapeAdditionally(std::shared_ptr<Shape> shape, Color color, std::shared_ptr<Texture2D> texture, AlphaBlendMode alphaBlend, int32_t priority);
+
+		/**
+		@brief	レイヤーの種類を取得する。
+		@return	レイヤーの種類
+		*/
+		LayerType GetLayerType() const override { return LayerType::Layer2D; }
+
+		int GetObjectCount() const;
 	};
 }

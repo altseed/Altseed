@@ -27,11 +27,16 @@
 #include "Resource/ace.ShaderCache.h"
 #include "Resource/ace.MaterialPropertyBlock_Imp.h"
 
+#include "Resource/ace.ImagePackage_Imp.h"
+
 #include "3D/Resource/ace.Mesh_Imp.h"
 #include "3D/Resource/ace.Deformer_Imp.h"
 #include "3D/Resource/ace.Model_Imp.h"
 #include "3D/Resource/ace.MassModel_Imp.h"
 #include "3D/Resource/ace.Terrain3D_Imp.h"
+
+#include "3D/Resource/Animation/ace.AnimationClip.h"
+#include "3D/Resource/Animation/ace.AnimationSource.h"
 
 #include <Graphics/3D/ace.Model_IO.h>
 #include <Graphics/3D/ace.MassModel_IO.h>
@@ -91,23 +96,23 @@ namespace ace {
 	class EffectLoader
 		: public Effekseer::EffectLoader
 	{
+	private:
+		File*	file = nullptr;
 	public:
+
+		EffectLoader(File* file)
+			: file(file)
+		{
+		}
+
 		bool Load(const EFK_CHAR* path, void*& data, int32_t& size)
 		{
-#if _WIN32
-			auto fp = _wfopen((const achar*)path, L"rb");
-			if (fp == nullptr) return false;
-#else
-			auto fp = fopen(ToUtf8String((const achar*)path).c_str(), "rb");
-			if (fp == nullptr) return false;
-#endif
-			fseek(fp, 0, SEEK_END);
-			size = ftell(fp);
-			fseek(fp, 0, SEEK_SET);
-			data = new uint8_t[size];
-			fread(data, 1, size, fp);
-			fclose(fp);
+			auto sf = file->CreateStaticFile((const achar*) path);
+			if (sf.get() == nullptr) return false;
 
+			size = sf->GetSize();
+			data = new uint8_t[size];
+			memcpy(data, sf->GetData(), size);
 			return true;
 		}
 
@@ -456,7 +461,7 @@ EffectTextureLoader::~EffectTextureLoader()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-void* EffectTextureLoader::Load(const EFK_CHAR* path)
+void* EffectTextureLoader::Load(const EFK_CHAR* path, Effekseer::TextureType textureType)
 {
 	auto key = astring((const achar*) path);
 	auto cache = m_caches.find(key);
@@ -623,7 +628,7 @@ Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen)
 	: m_size(size)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)
@@ -637,14 +642,15 @@ Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log,File* file, bool isReloading
 	EffectContainer = std::make_shared<ResourceContainer<Effect_Imp>>(file);
 	FontContainer = std::make_shared<ResourceContainer<Font_Imp>>(file);
 	ModelContainer = std::make_shared<ResourceContainer<Model_Imp>>(file);
+	ImagePackageContainer = std::make_shared<ResourceContainer<ImagePackage_Imp>>(file);
 
 	//SafeAddRef(m_log);
 	//m_resourceContainer = new GraphicsResourceContainer(m_file);
 	m_renderingThread = std::make_shared<RenderingThread>();
-	
+
 	m_effectSetting = Effekseer::Setting::Create();
-	m_effectSetting->SetCoordinateSystem(Effekseer::eCoordinateSystem::COORDINATE_SYSTEM_RH);
-	m_effectSetting->SetEffectLoader(new EffectLoader());
+	m_effectSetting->SetCoordinateSystem(Effekseer::CoordinateSystem::RH);
+	m_effectSetting->SetEffectLoader(new EffectLoader(file));
 
 	m_shaderCache = new ShaderCache(this);
 
@@ -707,7 +713,13 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2DAsRawData_Imp(const achar* path)
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp::CreateEmptyTexture2D_Imp(int32_t width, int32_t height, TextureFormat format)
 {
-	return CreateEmptyTexture2D_Imp_Internal(this, width, height, format);
+	return CreateEmptyTexture2D_Imp_Internal(this, width, height, format, nullptr);
+}
+
+
+Texture2D_Imp* Graphics_Imp::CreateTexture2DWithRawData(int32_t width, int32_t height, TextureFormat format, void* data)
+{
+	return CreateEmptyTexture2D_Imp_Internal(this, width, height, format, data);
 }
 
 //----------------------------------------------------------------------------------
@@ -879,6 +891,17 @@ Chip2D* Graphics_Imp::CreateChip2D_()
 
 
 	return chip;
+}
+
+ImagePackage* Graphics_Imp::CreateImagePackage_(const achar* path)
+{
+	auto ret = ImagePackageContainer->TryLoadWithVector(path, [this, &path](const std::vector<uint8_t>& data) -> ImagePackage_Imp*
+	{
+		auto ip = ImagePackage_Imp::Create(this, data); 
+		return ip;
+	});
+
+	return ret;
 }
 
 //----------------------------------------------------------------------------------

@@ -13,9 +13,9 @@ namespace ace
 	private:
 		GraphicsDeviceType		deviceType;
 		
-		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF;
-		std::shared_ptr<ace::NativeShader_Imp>	m_shaderDF_ND;
-		std::shared_ptr<ace::NativeShader_Imp>	m_shaderLightweight;
+		std::shared_ptr<ace::NativeShader_Imp>	m_shadersDF[2];
+		std::shared_ptr<ace::NativeShader_Imp>	m_shadersDF_ND[2];
+		std::shared_ptr<ace::NativeShader_Imp>	m_shadersLightweight[2];
 
 		std::vector<ShaderConstantValue> shaderConstants;
 
@@ -45,7 +45,7 @@ namespace ace
 		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
 		void Draw(RenderingCommandHelper* helper, RenderingProperty& prop, std::vector<RenderedMassModelObject3DProxy*>& proxies, int32_t offset, int32_t count);
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MASSOBJECT; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::MassObject; }
 	};
 
 	class RenderedMassModelObject3D
@@ -87,7 +87,7 @@ namespace ace
 
 		void CrossFadeAnimation(const achar* name, float time);
 
-		bool IsAnimationPlaying();
+		bool GetIsAnimationPlaying();
 
 		void OnApplyingNextSRT() override;
 
@@ -95,6 +95,6 @@ namespace ace
 
 		RenderedObject3DProxy* GetProxy() const override { return proxy; }
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MASSOBJECT; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::MassObject; }
 	};
 }

@@ -30,7 +30,7 @@ namespace ace
 		/**
 			@brief	シーン遷移処理が終了したか取得する。
 		*/
-		virtual bool IsFinished() const = 0;
+		virtual bool GetIsFinished() const = 0;
 
 		/**
 			@brief	シーン遷移処理を終了する。

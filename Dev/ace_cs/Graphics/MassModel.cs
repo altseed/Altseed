@@ -9,17 +9,15 @@ namespace ace
 	/// <summary>
 	/// 大量描画が可能な3Dモデルクラス
 	/// </summary>
-	public class MassModel : IDestroy
+	public partial class MassModel : IDestroy
 	{
-		internal swig.MassModel SwigObject { get; set; }
-
 		internal MassModel(swig.MassModel swig)
 		{
 #if DEBUG
 			// 唯一の対応するクラスであることを保証
 			if (GC.MassModels.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-			SwigObject = swig;
+			CoreInstance = swig;
 		}
 
 		~MassModel()
@@ -31,7 +29,7 @@ namespace ace
 		{
 			get
 			{
-				return SwigObject == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -39,41 +37,20 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
-		/// ループするかを取得する。
-		/// </summary>
-		/// <param name="name">アニメーション名</param>
-		/// <returns>ループするか?</returns>
-		public bool GetIsLoopingMode(string name)
-		{
-			return SwigObject.GetIsLoopingMode(name);
-		}
-
-		/// <summary>
-		/// ループするかを設定する。
-		/// </summary>
-		/// <param name="name">アニメーション名</param>
-		/// <param name="isLoopingMode">ループするか?</param>
-		/// <returns></returns>
-		public void SetIsLoopingMode(string name, bool isLoopingMode)
-		{
-			SwigObject.SetIsLoopingMode(name, isLoopingMode);
 		}
 
 		/// <summary>
 		/// 材質を設定する。
 		/// </summary>
 		/// <param name="material">材質</param>
-		public void SetMaterial(int materialIndex, Material3D material)
+		public void SetMaterial(Material3D material)
 		{
-			SwigObject.SetMaterial(IG.GetMaterial3D(material));
+			CoreInstance.SetMaterial(IG.GetMaterial3D(material));
 		}
 	}
 }

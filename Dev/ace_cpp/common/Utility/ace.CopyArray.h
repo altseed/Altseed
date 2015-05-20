@@ -104,8 +104,8 @@ namespace ace
 
 	template<class T, class U> void* CopyArray(T to, const U from, std::size_t const byteNum)
 	{
-		typename detail::remove_pointer<T>::type Tp;
-		typename detail::remove_pointer<U>::type Up;
+		typedef typename detail::remove_pointer<T>::type Tp;
+		typedef typename detail::remove_pointer<U>::type Up;
 #if (__cplusplus >= 201103L) 
 		static_assert(alignof(Tp) == alignof(Up), "arguments 'from' and 'to' must be the same alignment.");
 		static_assert(sizeof(Tp) == sizeof(Up), "arguments 'from' and 'to' must be the same size.");

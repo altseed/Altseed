@@ -33,7 +33,7 @@ namespace ace
 
 			GC.Layer3Ds.AddObject(p, this);
 
-			objects_ = new List<Object3D>();
+			contentsManager = new ContentsManager<Object3D>();
 
 			commonObject = coreLayer3D;
 		}
@@ -68,7 +68,12 @@ namespace ace
 		/// </summary>
 		public IEnumerable<Object3D> Objects
 		{
-			get { return objects_; }
+			get { return contentsManager.Contents; }
+		}
+
+		public override int ObjectCount
+		{
+			get { return Objects.Count(); }
 		}
 
 		/// <summary>
@@ -99,7 +104,7 @@ namespace ace
 			{
 				throw new InvalidOperationException("指定したオブジェクトは既に別のレイヤーに所属しています。");
 			}
-			objects_.Add(object3D);
+			contentsManager.Add(object3D);
 			coreLayer3D.AddObject(object3D.CoreObject);
 			object3D.Layer = this;
 			object3D.Start();
@@ -111,7 +116,7 @@ namespace ace
 		/// <param name="object3D">削除される3Dオブジェクト</param>
 		public void RemoveObject(Object3D object3D)
 		{
-			objects_.Remove(object3D);
+			contentsManager.Remove(object3D);
 			coreLayer3D.RemoveObject(object3D.CoreObject);
 			object3D.Layer = null;
 		}
@@ -142,7 +147,7 @@ namespace ace
 			Texture2D texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 		{
 			coreLayer3D.DrawSpriteAdditionally(
-				upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlend)alphaBlend, depthWrite, depthTest);
+				upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlendMode)alphaBlend, depthWrite, depthTest);
 		}
 
 		/// <summary>
@@ -199,15 +204,6 @@ namespace ace
 		}
 
 		/// <summary>
-		/// 描画先がHDRかどうか、取得、または設定する。
-		/// </summary>
-		public bool HDRMode
-		{
-			get { return coreLayer3D.GetHDRMode(); }
-			set { coreLayer3D.SetHDRMode(value); }
-		}
-
-		/// <summary>
 		/// SSAOのサンプリングする半径
 		/// </summary>
 		public float SSAO_Radius
@@ -243,45 +239,42 @@ namespace ace
 			set { coreLayer3D.SetSSAO_FarPlain(value); }
 		}
 
+		public override LayerType LayerType
+		{
+			get { return LayerType.Layer3D; }
+		}
+
 		internal override void BeginUpdating()
 		{
-			coreLayer3D.BeginUpdating();
+			isUpdatedCurrent = IsUpdated;
+			coreLayer3D.BeginUpdating(isUpdatedCurrent);
 		}
 
 		internal override void EndUpdating()
 		{
-			coreLayer3D.EndUpdating();
+			coreLayer3D.EndUpdating(isUpdatedCurrent);
 		}
 
 		internal override void Update()
 		{
-			if (!IsUpdated)
+			if (!isUpdatedCurrent || !IsAlive)
 			{
 				return;
 			}
 
+			CoreLayer.BeginMeasureUpdateTime();
 			OnUpdating();
 
-			var beVanished = new List<Object3D>();
+			contentsManager.Update();
 
-			foreach (var item in objects_)
+			foreach (var vanishing in contentsManager.VanishingContents)
 			{
-				item.Update();
-				if(!item.IsAlive)
-				{
-					beVanished.Add(item);
-				}
+				RemoveObject(vanishing);
 			}
-			
-			foreach(var o in beVanished)
-			{
-				RemoveObject(o);
-			}
-
-			beVanished.Clear();
-		
+			contentsManager.VanishingContents.Clear();
 
 			OnUpdated();
+			CoreLayer.EndMeasureUpdateTime();
 		}
 
 		internal override void DrawAdditionally()
@@ -291,7 +284,7 @@ namespace ace
 				return;
 			}
 
-			foreach (var item in objects_)
+			foreach (var item in contentsManager.Contents)
 			{
 				item.DrawAdditionally();
 			}
@@ -299,6 +292,19 @@ namespace ace
 			OnDrawAdditionally();
 		}
 
-		private List<Object3D> objects_ { get; set; }
+		internal override void CallDestroy()
+		{
+			foreach(var item in Objects)
+			{
+				if(item.IsAlive)
+				{
+					item.CallDestroy();
+				}
+			}
+			OnDispose();
+		}
+
+
+		private ContentsManager<Object3D> contentsManager { get;set; }
 	}
 }

@@ -7,7 +7,7 @@ def cd(path):
 	os.chdir(path)
 
 def cdToScript():
-	cd(os.path.dirname(__file__))
+	cd(os.path.dirname(os.path.abspath(__file__)))
 
 class CreateHeader:
 	def __init__(self):
@@ -71,8 +71,7 @@ fromCoreToEngine.readLines("ace_cpp/common/Graphics/ace.Color.h")
 fromCoreToEngine.readLines("ace_cpp/core/ace.Core.Base.h")
 fromCoreToEngine.readLines("ace_cpp/core/ace.ReferenceObject.h")
 
-fromCoreToEngine.readLines("ace_cpp/core/Input/ace.IMouseButtonState.h")
-fromCoreToEngine.readLines("ace_cpp/core/Input/ace.IMouseWheelableButtonState.h");
+fromCoreToEngine.readLines("ace_cpp/core/Input/ace.MouseButtonState.h")
 fromCoreToEngine.readLines("ace_cpp/core/Input/ace.SideButton.h")
 fromCoreToEngine.readLines("ace_cpp/core/Input/ace.MiddleButton.h")
 fromCoreToEngine.readLines("ace_cpp/core/Input/ace.Mouse.h")
@@ -80,11 +79,10 @@ fromCoreToEngine.readLines("ace_cpp/core/Input/ace.Keyboard.h")
 fromCoreToEngine.readLines("ace_cpp/core/Input/ace.Joystick.h")
 fromCoreToEngine.readLines("ace_cpp/core/Input/ace.JoystickContainer.h")
 fromCoreToEngine.readLines("ace_cpp/core/Log/ace.Log.h")
-fromCoreToEngine.readLines("ace_cpp/core/Profiler/ace.Profile.h")
 fromCoreToEngine.readLines("ace_cpp/core/Profiler/ace.Profiler.h")
+fromCoreToEngine.readLines("ace_cpp/core/Profiler/ace.LayerProfiler.h")
                                                                        
 fromCoreToEngine.readLines("ace_cpp/core/IO/ace.File.h")
-fromCoreToEngine.readLines("ace_cpp/core/IO/ace.Path.h")
 fromCoreToEngine.readLines("ace_cpp/core/IO/ace.StaticFile.h")
 fromCoreToEngine.readLines("ace_cpp/core/IO/ace.StreamFile.h")
 
@@ -101,6 +99,8 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Material2D.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Material3D.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.MaterialPropertyBlock.h")
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Font.h")
+
+fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.ImagePackage.h")
 
 fromCoreToEngine.readLines("ace_cpp/core/Graphics/Resource/ace.Chip2D.h")
 
@@ -122,7 +122,17 @@ fromCoreToEngine.readLines("ace_cpp/core/Graphics/ace.Graphics.h")
 fromCoreToEngine.readLines("ace_cpp/core/Core/ace.Core.h")
 fromCoreToEngine.readLines("ace_cpp/core/Core/ace.CreateCore.h")
 
-fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.eChildMode.h')
+
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.ShapeType.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreShape.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreTriangleShape.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreCircleShape.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreArcShape.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreRectangleShape.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CoreLineShape.h")
+fromCoreToEngine.readLines("ace_cpp/core/Shape/ace.CorePolygonShape.h")
+
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.ChildMode.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.CoreLayer.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/ace.CoreScene.h')
 
@@ -132,6 +142,7 @@ fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D.
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreTextObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreEffectObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreMapObject2D.h')
+fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreGeometryObject2D.h')
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D.h')
 
 fromCoreToEngine.readLines('ace_cpp/core/ObjectSystem/3D/ace.CoreObject3D.h')

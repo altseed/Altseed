@@ -27,7 +27,7 @@ namespace ace
 		/**
 		@brief	このオブジェクトから再生されたエフェクトが再生中か取得する。
 		*/
-		virtual bool IsPlaying() = 0;
+		virtual bool GetIsPlaying() = 0;
 
 		virtual bool GetSyncEffects() = 0;
 

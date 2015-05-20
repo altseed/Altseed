@@ -31,6 +31,8 @@ namespace ace {
 		Mouse_Imp*		m_mouse;
 		Log_Imp*		m_logger;
 		Profiler_Imp*	m_profiler;
+		LayerProfiler_Imp*	m_layerProfiler = nullptr;
+
 		ProfilerViewer_Imp* m_profilerViewer;
 		Graphics_Imp*	m_graphics;
 		Sound_Imp*		m_sound;
@@ -62,6 +64,7 @@ namespace ace {
 		FramerateMode	framerateMode = FramerateMode::Constant;
 
 		bool isReloadingEnabeld = false;
+		bool m_isProfilerVisible = false;
 
 		Core_Imp();
 		virtual ~Core_Imp();
@@ -135,11 +138,11 @@ namespace ace {
 
 		File* GetFile();
 
-		File_Imp* GetFile_Imp();
-
 		Log* GetLogger();
 
 		Profiler* GetProfiler();
+
+		LayerProfiler* GetLayerProfiler();
 
 		Graphics* GetGraphics();
 
@@ -152,6 +155,10 @@ namespace ace {
 		AnimationSystem* GetAnimationSyatem();
 
 		Vector2DI GetWindowSize();
+
+		bool GetProfilerVisibility() const;
+
+		void SetProfilerVisibility(bool visible);
 
 		bool IsReloadingEnabeld() const { return isReloadingEnabeld; }
 	};

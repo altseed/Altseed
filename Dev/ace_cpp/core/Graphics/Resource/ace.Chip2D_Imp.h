@@ -30,7 +30,7 @@ namespace ace {
 		Color m_color;
 		bool m_turnLR;
 		bool m_turnUL;
-		AlphaBlend m_alphaBlend;
+		AlphaBlendMode m_alphablend;
 
 #if __CULLING_2D__
 		culling2d::Object *cullingObject;
@@ -38,6 +38,8 @@ namespace ace {
 #endif
 		CoreMapObject2D_Imp* mapObject2D;
 
+		Texture2D* GetTexture_() const;
+		void SetTexture_(Texture2D* texture);
 	public:
 
 		CoreMapObject2D_Imp* GetMapObject2D() const;
@@ -48,8 +50,14 @@ namespace ace {
 		void SetAlreadyCullingUpdated(bool cullingUpdated);
 #endif
 
-		Texture2D* GetTexture() const override;
-		void SetTexture(Texture2D* texture) override;
+	public:
+
+#if !SWIG
+		void SetTexture(std::shared_ptr<Texture2D> texture);
+		std::shared_ptr<Texture2D> GetTexture();
+#endif
+		void SetTexture(Texture2D* texture);
+
 
 		RectF GetSrc() const override;
 		void SetSrc(RectF src) override;
@@ -63,8 +71,8 @@ namespace ace {
 		bool GetTurnUL() const override;
 		void SetTurnUL(bool turnUL) override;
 
-		AlphaBlend GetAlphaBlendMode() const override;
-		void SetAlphaBlendMode(AlphaBlend alphaBlend) override;
+		AlphaBlendMode GetAlphaBlendMode() const override;
+		void SetAlphaBlendMode(AlphaBlendMode alphaBlend) override;
 
 		Chip2D_Imp(Graphics* graphics);
 		virtual ~Chip2D_Imp();

@@ -42,6 +42,7 @@ namespace FontGenerator.WPF
 			{
 				try
 				{
+
 					await vm.GenerateAsync();
 					MessageBox.Show("フォントの生成に成功しました。", "フォントツール", MessageBoxButton.OK);
 				}

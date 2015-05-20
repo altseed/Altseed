@@ -3,6 +3,30 @@
 
 #include "ace.Terrain3D.h"
 
+#include <btBulletCollisionCommon.h>
+
+#ifdef _WIN64
+
+#ifdef _DEBUG
+#pragma comment(lib,"x64/Debug/BulletCollision_Debug.lib")
+#pragma comment(lib,"x64/Debug/LinearMath_Debug.lib")
+#else
+#pragma comment(lib,"x64/Release/BulletCollision.lib")
+#pragma comment(lib,"x64/Release/LinearMath.lib")
+#endif
+
+#else
+
+#ifdef _DEBUG
+#pragma comment(lib,"x86/Debug/BulletCollision_Debug.lib")
+#pragma comment(lib,"x86/Debug/LinearMath_Debug.lib")
+#else
+#pragma comment(lib,"x86/Release/BulletCollision.lib")
+#pragma comment(lib,"x86/Release/LinearMath.lib")
+#endif
+
+#endif
+
 namespace ace
 {
 	class Terrain3D_Imp
@@ -11,6 +35,7 @@ namespace ace
 	{
 	private:
 		const int32_t pixelInGrid = 8;
+		const int32_t ClusterCount = 16;
 
 	public:
 		struct Vertex
@@ -66,19 +91,15 @@ namespace ace
 			std::shared_ptr<Texture2D>	DensityTexture;
 		};
 
-		std::vector<std::shared_ptr<Polygon>>	Polygons;
-
 		struct
 		{
 			std::vector<SurfaceProxy>					Surfaces;
 			std::vector<std::shared_ptr<ClusterProxy>>	Clusters;
-			
+
 
 			int32_t			ClusterWidthCount = 0;
 			int32_t			ClusterHeightCount = 0;
 
-			std::shared_ptr<VertexBuffer_Imp> VB;
-			std::shared_ptr<IndexBuffer_Imp> IB;
 			float			GridSize = 0.0f;
 			int32_t			GridWidthCount = 0;
 			int32_t			GridHeightCount = 0;
@@ -113,12 +134,69 @@ namespace ace
 
 		std::shared_ptr<Material3D>			material_;
 
-		bool isChanged = true;
+		std::vector<float>					heights;
+		std::vector<int32_t>				cliffes;
+
+		bool isMeshChanged = true;
+		bool isSurfaceChanged = true;
+
+		class ChipFace
+		{
+		public:
+			int32_t		Indexes[3];
+			Vector3DF	Normal;
+			Vector3DF	Binormal;
+		};
+
+		class Chip
+		{
+		public:
+			std::vector<Vector3DF>	Vertecies;
+			std::vector<ChipFace>	Faces;
+			
+			bool	IsChanged;
+			bool	IsMeshGenerated;
+			bool	IsCollisionGenerated;
+			Chip();
+			virtual ~Chip();
+
+		};
+
+		class CollisionCluster
+		{
+			Terrain3D_Imp* terrain;
+			int32_t x;
+			int32_t y;
+			int32_t width;
+			int32_t height;
+
+		public:
+
+			btTriangleMesh*				CollisionMesh;
+			btBvhTriangleMeshShape*		CollisionMeshShape;
+			btCollisionObject*			CollisionObject;
+
+			CollisionCluster(Terrain3D_Imp* terrain, int32_t x, int32_t y, int32_t width, int32_t height);
+			virtual ~CollisionCluster();
+			void GenerateCollision();
+		};
+
+		std::vector<Chip>								Chips;
+		std::vector<std::shared_ptr<CollisionCluster>>	collisionClusters;
+
+		btCollisionWorld*					collisionWorld = nullptr;
+		btDefaultCollisionConfiguration*	collisionConfiguration = nullptr;
+		btCollisionDispatcher*				collisionDispatcher = nullptr;
+		btAxisSweep3*						collisionOverlappingPairCache = nullptr;
 
 	public:
 		Terrain3D_Imp(Graphics* graphics);
 		virtual ~Terrain3D_Imp();
 
+		void GenerateCollision();
+		void GenerateTerrainChip(int32_t chip_x, int32_t chip_y);
+		void GenerateTerrainChips();
+		void GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces);
 	public:
 
 		bool Commit();
@@ -132,6 +210,12 @@ namespace ace
 		void AssignSurfaceWithCircle(int32_t surfaceIndex, float x, float y, float radius, float value, float fallout) override;
 
 		void SetMaterial(Material3D* material) override;
+
+		void RaiseWithCircle(float x, float y, float radius, float value, float fallout) override;
+
+		void ChangeCliffesWithCircle(float x, float y, float radius, int32_t value) override;
+
+		Vector3DF CastRay(const Vector3DF& from, const Vector3DF& to) override;
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

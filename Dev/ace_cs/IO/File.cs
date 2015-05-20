@@ -6,59 +6,25 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-    public class File
+    public partial class File
     {
-        swig.File_Imp file;
-
-        internal File(swig.File_Imp swig)
+        internal File(swig.File swig)
 		{
-			file = swig;
+			CoreInstance = swig;
 		}
-
-        public void AddRootDirectories(string path)
-        {
-            file.AddRootDirectories(path);
-        }
-        
-        /*
-        public void EnumerateFiles(string path)
-        {
-            file.EnumerateFiles(path);
-        }
-
-        public void EnumerateFiles(string path, string searchPattern)
-        {
-            file.EnumerateFiles(path, searchPattern);
-        }
-
-        public void EnumerateFiles(string path, string searchPattern, bool isRecursive)
-        {
-            file.EnumerateFiles(path, searchPattern, isRecursive);
-        }
-         * */
-
-        public bool Exists(string path)
-        {
-            return file.Exists(path);
-        }
-
-        public void ClearRootDirectories()
-        {
-            file.ClearRootDirectories();
-        }
-
-        public void AddRootPackageWithPassword(string path, string password)
-        {
-            file.AddRootPackage(path, password);
-        }
 
         public StaticFile CreateStaticFile(string path)
         {
-            var staticFile = file.CreateStaticFile_(path);
-            if (staticFile == null) return null;
-            return GC.GenerateStaticFile(staticFile, GC.GenerationType.Create);
+            var file_ = swig.Accessor.File_CreateStaticFile(CoreInstance, path);
+            if (file_ == null) return null;
+            return GC.GenerateStaticFile(file_, GC.GenerationType.Create);
         }
 
-
+		public StreamFile CreateStreamFile(string path)
+		{
+			var file_ = swig.Accessor.File_CreateStreamFile(CoreInstance, path);
+			if (file_ == null) return null;
+			return GC.GenerateStreamFile(file_, GC.GenerationType.Create);
+		}
     }
 }

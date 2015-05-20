@@ -12,6 +12,7 @@
 #include "../Log/ace.GetSpec.h"
 
 #include "../Profiler/ace.Profiler_Imp.h"
+#include "../Profiler/ace.LayerProfiler_Imp.h"
 #include "../Profiler/ace.ProfilerViewer_Imp.h"
 
 #include "../ObjectSystem/ace.ObjectSystemFactory_Imp.h"
@@ -56,6 +57,7 @@ namespace ace
 		, m_previousTime(0)
 		, m_startFrameTime(0)
 		, m_windowSize(Vector2DI(0,0))
+		, m_isProfilerVisible(false)
 	{
 		m_previousTime = GetTime();
 	}
@@ -215,15 +217,20 @@ namespace ace
 		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger,m_file, option.IsReloadingEnabled, option.IsFullScreen);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp(m_file, option.IsReloadingEnabled);
+		m_sound = new Sound_Imp(m_file, m_logger, option.IsReloadingEnabled);
+
+		m_profiler = Profiler_Imp::Create();
+
+		m_layerProfiler = LayerProfiler_Imp::Create();
+
+		m_profilerViewer = ProfilerViewer_Imp::Create(this, m_profiler, m_layerProfiler, m_graphics, m_logger, m_window->GetSize());
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, m_window->GetSize());
-		m_profiler = Profiler_Imp::Create();
-		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, m_window->GetSize());
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
 		m_windowSize = Vector2DI(width, height);
+
 		layerRenderer = new LayerRenderer(m_graphics);
 		layerRenderer->SetWindowSize(m_windowSize);
 
@@ -231,15 +238,19 @@ namespace ace
 			ace::Vector2DF lpos[4];
 			lpos[0].X = 0;
 			lpos[0].Y = 0;
-			lpos[1].X = m_windowSize.X;
+			lpos[1].X = (float)m_windowSize.X;
 			lpos[1].Y = 0;
-			lpos[2].X = m_windowSize.X;
-			lpos[2].Y = m_windowSize.Y;
+			lpos[2].X = (float)m_windowSize.X;
+			lpos[2].Y = (float)m_windowSize.Y;
 			lpos[3].X = 0;
-			lpos[3].Y = m_windowSize.Y;
+			lpos[3].Y = (float)m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
+		
+		m_logger->WriteHeading(L"システム");
+
 		WriteSystemSpecToLog(m_logger);
+		
 		m_logger->WriteLineStrongly(L"コア初期化成功");
 
 		isReloadingEnabeld = option.IsReloadingEnabled;
@@ -290,12 +301,13 @@ namespace ace
 		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger,m_file, option.IsReloadingEnabled, option.IsFullScreen);
 		if (m_graphics == nullptr) return false;
 
-		m_sound = new Sound_Imp(m_file, option.IsReloadingEnabled);
+		m_sound = new Sound_Imp(m_file, m_logger, option.IsReloadingEnabled);
 
 		m_objectSystemFactory = new ObjectSystemFactory_Imp(this, m_graphics, m_logger, Vector2DI(width, height));
 
 		m_profiler = Profiler_Imp::Create();
-		m_profilerViewer = ProfilerViewer_Imp::Create(m_profiler, m_graphics, m_logger, Vector2DI(width, height));
+		m_layerProfiler = LayerProfiler_Imp::Create();
+		m_profilerViewer = ProfilerViewer_Imp::Create(this, m_profiler, m_layerProfiler, m_graphics, m_logger, Vector2DI(width, height));
 
 		m_animationSyatem = new AnimationSystem_Imp();
 
@@ -307,14 +319,17 @@ namespace ace
 			ace::Vector2DF lpos[4];
 			lpos[0].X = 0;
 			lpos[0].Y = 0;
-			lpos[1].X = m_windowSize.X;
+			lpos[1].X = (float)m_windowSize.X;
 			lpos[1].Y = 0;
-			lpos[2].X = m_windowSize.X;
-			lpos[2].Y = m_windowSize.Y;
+			lpos[2].X = (float)m_windowSize.X;
+			lpos[2].Y = (float)m_windowSize.Y;
 			lpos[3].X = 0;
-			lpos[3].Y = m_windowSize.Y;
+			lpos[3].Y = (float)m_windowSize.Y;
 			layerRenderer->SetLayerPosition(lpos);
 		}
+		
+		m_logger->WriteHeading(L"システム");
+
 		WriteSystemSpecToLog(m_logger);
 		m_logger->WriteLineStrongly(L"コア初期化成功");
 
@@ -395,6 +410,7 @@ namespace ace
 		SafeRelease(layerRenderer);
 
 		SafeRelease(m_profiler);
+		SafeRelease(m_layerProfiler);
 		SafeDelete(m_profilerViewer);
 
 		SafeRelease(m_sound);
@@ -527,7 +543,10 @@ namespace ace
 
 	void Core_Imp::Draw()
 	{
-		m_profilerViewer->Draw();
+		if (m_isProfilerVisible)
+		{
+			m_profilerViewer->Draw();
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -642,13 +661,6 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	File_Imp* Core_Imp::GetFile_Imp()
-	{
-		return m_file;
-	}
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	Log* Core_Imp::GetLogger()
 	{
 		return m_logger;
@@ -660,6 +672,11 @@ namespace ace
 	Profiler* Core_Imp::GetProfiler()
 	{
 		return m_profiler;
+	}
+
+	LayerProfiler* Core_Imp::GetLayerProfiler()
+	{
+		return m_layerProfiler;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -716,5 +733,15 @@ namespace ace
 	Vector2DI Core_Imp::GetWindowSize()
 	{
 		return m_windowSize;
+	}
+
+	bool Core_Imp::GetProfilerVisibility() const
+	{
+		return m_isProfilerVisible;
+	}
+
+	void Core_Imp::SetProfilerVisibility(bool visible)
+	{
+		m_isProfilerVisible = visible;
 	}
 };

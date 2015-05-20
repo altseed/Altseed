@@ -33,11 +33,10 @@
 
 namespace ace
 {
-	static void ResetAnimation(std::vector <BoneProperty>& boneProps)
+	static void ResetSRT(std::vector <BoneProperty>& boneProps)
 	{
 		for (auto i = 0; i < boneProps.size(); i++)
 		{
-			boneProps[i].IsAnimationPlaying = false;
 			boneProps[i].Position[0] = 0.0f;
 			boneProps[i].Position[1] = 0.0f;
 			boneProps[i].Position[2] = 0.0f;
@@ -45,79 +44,66 @@ namespace ace
 			boneProps[i].Rotation[1] = 0.0f;
 			boneProps[i].Rotation[2] = 0.0f;
 			boneProps[i].Rotation[3] = 0.0f;
-			boneProps[i].Scale[0] = 0.0f;
-			boneProps[i].Scale[1] = 0.0f;
-			boneProps[i].Scale[2] = 0.0f;
-
-			boneProps[i].PositionWeight[0] = 0.0f;
-			boneProps[i].PositionWeight[1] = 0.0f;
-			boneProps[i].PositionWeight[2] = 0.0f;
-			boneProps[i].RotationWeight[0] = 0.0f;
-			boneProps[i].RotationWeight[1] = 0.0f;
-			boneProps[i].RotationWeight[2] = 0.0f;
-			boneProps[i].RotationWeight[3] = 0.0f;
-			boneProps[i].ScaleWeight[0] = 0.0f;
-			boneProps[i].ScaleWeight[1] = 0.0f;
-			boneProps[i].ScaleWeight[2] = 0.0f;
+			boneProps[i].Scale[0] = 1.0f;
+			boneProps[i].Scale[1] = 1.0f;
+			boneProps[i].Scale[2] = 1.0f;
 		}
 	}
 
-	static void NormalizeAnimation(std::vector <BoneProperty>& boneProps)
+	static void ResetAnimationPlaying(std::vector <BoneProperty>& boneProps)
 	{
 		for (auto i = 0; i < boneProps.size(); i++)
 		{
-			if (boneProps[i].PositionWeight[0] != 0.0f) boneProps[i].Position[0] /= boneProps[i].PositionWeight[0];
-			if (boneProps[i].PositionWeight[1] != 0.0f) boneProps[i].Position[1] /= boneProps[i].PositionWeight[1];
-			if (boneProps[i].PositionWeight[2] != 0.0f) boneProps[i].Position[2] /= boneProps[i].PositionWeight[2];
-
-			if (boneProps[i].RotationWeight[0] != 0.0f) boneProps[i].Rotation[0] /= boneProps[i].RotationWeight[0];
-			if (boneProps[i].RotationWeight[1] != 0.0f) boneProps[i].Rotation[1] /= boneProps[i].RotationWeight[1];
-			if (boneProps[i].RotationWeight[2] != 0.0f) boneProps[i].Rotation[2] /= boneProps[i].RotationWeight[2];
-			if (boneProps[i].RotationWeight[3] != 0.0f) boneProps[i].Rotation[3] /= boneProps[i].RotationWeight[3];
-
-			if (boneProps[i].ScaleWeight[0] != 0.0f) boneProps[i].Scale[0] /= boneProps[i].ScaleWeight[0];
-			if (boneProps[i].ScaleWeight[1] != 0.0f) boneProps[i].Scale[1] /= boneProps[i].ScaleWeight[1];
-			if (boneProps[i].ScaleWeight[2] != 0.0f) boneProps[i].Scale[2] /= boneProps[i].ScaleWeight[2];
-
-			if (boneProps[i].ScaleWeight[0] == 0.0f) boneProps[i].Scale[0] = 1.0f;
-			if (boneProps[i].ScaleWeight[1] == 0.0f) boneProps[i].Scale[1] = 1.0f;
-			if (boneProps[i].ScaleWeight[2] == 0.0f) boneProps[i].Scale[2] = 1.0f;
+			boneProps[i].IsAnimationPlaying = false;
 		}
 	}
 
-	static void CalculateAnimation(std::vector <BoneProperty>& boneProps, Deformer* deformer, AnimationClip* animationClip, float time, float weight)
+	static void SetAnimationPlaying(std::vector <BoneProperty>& boneProps, ModelObject3DAnimationCache& cache, float time)
 	{
-		if (animationClip == nullptr) return;
-
-		auto source = (AnimationSource_Imp*) animationClip->GetSource().get();
-		auto& animations = source->GetAnimations();
-		auto d = (Deformer_Imp*) deformer;
-
-		for (auto& a : animations)
+		for (size_t i = 0; i < cache.Pairs.size(); i++)
 		{
-			auto a_ = (KeyframeAnimation_Imp*) a;
+			auto& pair = cache.Pairs[i];
+
+			boneProps[pair.BoneIndex].IsAnimationPlaying = true;
+		}
+	}
+
+	static void CalculateAnimation(std::vector <BoneProperty>& boneProps, ModelObject3DAnimationCache& cache, float time)
+	{
+		for (size_t i = 0; i < cache.Pairs.size(); i++)
+		{
+			auto& pair = cache.Pairs[i];
+
+			auto a_ = (KeyframeAnimation_Imp*) pair.Anim;
 
 			auto type = a_->GetTargetType();
 			auto axis = a_->GetTargetAxis();
-			auto bi = d->GetBoneIndex(a_->GetTargetName());
+			auto bi = pair.BoneIndex;
 
 			if (bi < 0) continue;
 			auto value = a_->GetValue(time);
 
-			ModelUtils::AddBoneValue(
+			ModelUtils::SetBoneValue(
 				boneProps[bi].Position,
 				boneProps[bi].Rotation,
 				boneProps[bi].Scale,
-				boneProps[bi].PositionWeight,
-				boneProps[bi].RotationWeight,
-				boneProps[bi].ScaleWeight,
 				type,
 				axis,
-				value,
-				weight
+				value
 				);
+		}
+	}
 
-			boneProps[bi].IsAnimationPlaying = true;
+	static void SetLocalMatrixes(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer)
+	{
+		if (deformer == nullptr) return;
+		auto d = (Deformer_Imp*) deformer;
+
+		for (auto i = 0; i < d->GetBones().size(); i++)
+		{
+			auto& b = d->GetBones()[i];
+			matrixes[i] = b.LocalMat;
+			
 		}
 	}
 
@@ -146,6 +132,33 @@ namespace ace
 			matrixes);
 	}
 
+	void ModelObject3DAnimationCache::SetObjects(AnimationSource* source_, Deformer* deformer)
+	{
+		Pairs.clear();
+		CurrentAnimationSource = source_;
+		CurrentAnimationDeformer = deformer;
+
+		auto source = (AnimationSource_Imp*)source_;
+		auto& animations = source->GetAnimations();
+		auto d = (Deformer_Imp*) deformer;
+
+		for (auto& a : animations)
+		{
+			auto a_ = (KeyframeAnimation_Imp*) a;
+
+			auto type = a_->GetTargetType();
+			auto axis = a_->GetTargetAxis();
+			auto bi = d->GetBoneIndex(a_->GetTargetName());
+		
+			if (bi < 0) continue;
+
+			Pair p;
+			p.Anim = a;
+			p.BoneIndex = bi;
+			Pairs.push_back(p);
+		}
+	}
+
 	BoneProperty::BoneProperty()
 	{
 		Position[0] = 0.0f;
@@ -163,7 +176,7 @@ namespace ace
 	}
 
 
-	Matrix44 BoneProperty::CalcMatrix(eRotationOrder rotationType)
+	Matrix44 BoneProperty::CalcMatrix(RotationOrder rotationType)
 	{
 		return ModelUtils::CalcMatrix(
 			Position,
@@ -177,15 +190,15 @@ namespace ace
 		auto g = (Graphics_Imp*) graphics;
 
 		std::vector<ace::VertexLayout> vl;
-		vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("Normal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("Binormal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		vl.push_back(ace::VertexLayout("UVSub", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
-		vl.push_back(ace::VertexLayout("BoneWeights", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
-		vl.push_back(ace::VertexLayout("BoneIndexes", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
-		vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::LAYOUT_FORMAT_R8G8B8A8_UINT));
+		vl.push_back(ace::VertexLayout("Position", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("Normal", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("Binormal", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("UV", ace::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("UVSub", ace::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("Color", ace::VertexLayoutFormat::R8G8B8A8_UNORM));
+		vl.push_back(ace::VertexLayout("BoneWeights", ace::VertexLayoutFormat::R8G8B8A8_UNORM));
+		vl.push_back(ace::VertexLayout("BoneIndexes", ace::VertexLayoutFormat::R8G8B8A8_UINT));
+		vl.push_back(ace::VertexLayout("BoneIndexesOriginal", ace::VertexLayoutFormat::R8G8B8A8_UINT));
 
 		{
 			std::vector<ace::Macro> macro;
@@ -276,14 +289,44 @@ namespace ace
 	{
 		if (calcAnimationOnProxy)
 		{
-			ResetAnimation(m_boneProps);
-			bool calcAnim = false;
+			m_matrixes_temp.resize(m_matrixes.size());
+
+			// 初期値
+			SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
 
 			for (int32_t i = 0; i < AnimationCount; i++)
 			{
 				if (m_animationPlaying[i].size() == 0) continue;
 
-				if (i != 0) m_matrixes_temp.resize(m_matrixes.size());
+				ResetSRT(m_boneProps);
+				ResetAnimationPlaying(m_boneProps);
+
+				for (auto& anim_ : m_animationPlaying[i])
+				{
+					auto anim = anim_.Animation.get();
+					auto time = anim_.Time;
+
+					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
+						animationCache.CurrentAnimationDeformer != m_deformer.get())
+					{
+						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+					}
+
+					SetAnimationPlaying(m_boneProps, animationCache, time);
+				}
+
+				for (int32_t j = 0; j < m_boneProps.size(); j++)
+				{
+					if (!m_boneProps[j].IsAnimationPlaying) continue;
+
+					for (auto r = 0; r < 4; r++)
+					{
+						for (auto c = 0; c < 4; c++)
+						{
+							m_matrixes[j].Values[r][c] = 0;
+						}
+					}
+				}
 
 				for (auto& anim_ : m_animationPlaying[i])
 				{
@@ -296,37 +339,29 @@ namespace ace
 					{
 						time = fmodf(time, length);
 					}
-					CalculateAnimation(m_boneProps, m_deformer.get(), anim, time, anim_.CurrentWeight);
-				}
 
-				NormalizeAnimation(m_boneProps);
+					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
+						animationCache.CurrentAnimationDeformer != m_deformer.get())
+					{
+						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+					}
 
-				if (!calcAnim)
-				{
-					CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
-				}
-				else
-				{
+					CalculateAnimation(m_boneProps, animationCache, time);
 					CalclateBoneMatrices(m_matrixes_temp, m_boneProps, m_deformer.get());
 
 					for (auto j = 0; j < m_matrixes.size(); j++)
 					{
+						if (!m_boneProps[j].IsAnimationPlaying) continue;
+
 						for (auto r = 0; r < 4; r++)
 						{
 							for (auto c = 0; c < 4; c++)
 							{
-								m_matrixes[j].Values[r][c] = m_matrixes[j].Values[r][c] * (1.0f - m_animationWeight[j]) + m_matrixes_temp[j].Values[r][c] * (m_animationWeight[j]);
+								m_matrixes[j].Values[r][c] += m_matrixes_temp[j].Values[r][c] * anim_.CurrentWeight;
 							}
 						}
 					}
 				}
-
-				calcAnim = true;
-			}
-
-			if (!calcAnim)
-			{
-				CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
 			}
 		}
 	}
@@ -354,11 +389,10 @@ namespace ace
 
 		
 		auto& matrices = m_matrixes;
-		int32_t currentMeshIndex = 0;
-
-		for (auto& mesh_ : m_meshes)
+		 
+		for (int32_t currentMeshIndex = 0; currentMeshIndex < m_meshes.size(); currentMeshIndex++)
 		{
-			auto mesh_root = (Mesh_Imp*) mesh_.get();
+			auto mesh_root = (Mesh_Imp*) m_meshes[currentMeshIndex].get();
 
 			for (auto& mesh : mesh_root->GetDvidedMeshes())
 			{
@@ -510,7 +544,7 @@ namespace ace
 							state.DepthTest = true;
 							state.DepthWrite = true;
 							state.Culling = CullingType::Front;
-							state.AlphaBlendState = AlphaBlend::Opacity;
+							state.AlphaBlendState = AlphaBlendMode::Opacity;
 
 							helper->DrawWithPtr(
 								fOffset,
@@ -580,7 +614,7 @@ namespace ace
 							state.DepthTest = true;
 							state.DepthWrite = true;
 							state.Culling = CullingType::Front;
-							state.AlphaBlendState = AlphaBlend::Opacity;
+							state.AlphaBlendState = AlphaBlendMode::Opacity;
 
 							helper->DrawWithPtr(
 								fOffset,
@@ -607,8 +641,6 @@ namespace ace
 					}
 				}
 			}
-
-			currentMeshIndex++;
 		}
 	}
 
@@ -826,7 +858,7 @@ namespace ace
 		m_animationPlaying[index].push_back(panim);
 	}
 
-	bool RenderedModelObject3D::IsAnimationPlaying(int32_t index)
+	bool RenderedModelObject3D::GetIsAnimationPlaying(int32_t index)
 	{
 		if (index >= AnimationCount) return false;
 		if (index < 0) return false;
@@ -894,14 +926,42 @@ namespace ace
 		}
 		else
 		{
-			ResetAnimation(m_boneProps);
-			bool calcAnim = false;
+			// 初期値
+			SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
 
 			for (int32_t i = 0; i < AnimationCount; i++)
 			{
 				if (m_animationPlaying[i].size() == 0) continue;
 
-				if (i != 0) m_matrixes_temp.resize(m_matrixes.size());
+				ResetSRT(m_boneProps);
+				ResetAnimationPlaying(m_boneProps);
+
+				for (auto& anim_ : m_animationPlaying[i])
+				{
+					auto anim = anim_.Animation.get();
+					auto time = anim_.Time;
+
+					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
+						animationCache.CurrentAnimationDeformer != m_deformer.get())
+					{
+						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+					}
+
+					SetAnimationPlaying(m_boneProps, animationCache, time);
+				}
+
+				for (int32_t j = 0; j < m_boneProps.size(); j++)
+				{
+					if (!m_boneProps[j].IsAnimationPlaying) continue;
+
+					for (auto r = 0; r < 4; r++)
+					{
+						for (auto c = 0; c < 4; c++)
+						{
+							m_matrixes[j].Values[r][c] = 0;
+						}
+					}
+				}
 
 				for (auto& anim_ : m_animationPlaying[i])
 				{
@@ -914,37 +974,29 @@ namespace ace
 					{
 						time = fmodf(time, length);
 					}
-					CalculateAnimation(m_boneProps, m_deformer.get(), anim, time, anim_.CurrentWeight);
-				}
 
-				if (!calcAnim)
-				{
-					CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
-				}
-				else
-				{
+					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
+						animationCache.CurrentAnimationDeformer != m_deformer.get())
+					{
+						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+					}
+
+					CalculateAnimation(m_boneProps, animationCache, time);
 					CalclateBoneMatrices(m_matrixes_temp, m_boneProps, m_deformer.get());
-				
+
 					for (auto j = 0; j < m_matrixes.size(); j++)
 					{
+						if (!m_boneProps[j].IsAnimationPlaying) continue;
+
 						for (auto r = 0; r < 4; r++)
 						{
 							for (auto c = 0; c < 4; c++)
 							{
-								m_matrixes[j].Values[r][c] = m_matrixes[j].Values[r][c] * (1.0f - m_animationWeight[j]) + m_matrixes_temp[j].Values[r][c] * (m_animationWeight[j]);
+								m_matrixes[j].Values[r][c] += m_matrixes_temp[j].Values[r][c] * anim_.CurrentWeight;
 							}
 						}
 					}
 				}
-
-				calcAnim = true;
-			}
-
-			NormalizeAnimation(m_boneProps);
-
-			if (!calcAnim)
-			{
-				CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
 			}
 
 			proxy->m_matrixes = m_matrixes;

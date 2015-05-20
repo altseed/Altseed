@@ -96,18 +96,18 @@ namespace ace {
 
 	public:
 		
-		static Graphics_Imp_GL* Create(::ace::Window* window, Log* log, File* file,bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp_GL* Create(::ace::Window* window, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);
 
 #if _WIN32
 #elif __APPLE__
 #else
-		static Graphics_Imp_GL* Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp_GL* Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);
 #endif
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) override;
 		Texture2D_Imp* CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) override;
 
-		Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) override;
+		Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format, void* data) override;
 		RenderTexture2D_Imp* CreateRenderTexture2D_Imp(int32_t width, int32_t height, TextureFormat format);
 
 		CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) override;

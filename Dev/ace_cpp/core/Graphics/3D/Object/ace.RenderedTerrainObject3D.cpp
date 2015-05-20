@@ -33,12 +33,12 @@ namespace ace
 		auto g = (Graphics_Imp*) graphics;
 
 		std::vector<ace::VertexLayout> vl;
-		vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("Normal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("Binormal", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		vl.push_back(ace::VertexLayout("UVSub", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
+		vl.push_back(ace::VertexLayout("Position", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("Normal", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("Binormal", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("UV", ace::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("UVSub", ace::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("Color", ace::VertexLayoutFormat::R8G8B8A8_UNORM));
 
 		{
 			std::vector<ace::Macro> macro;
@@ -280,195 +280,6 @@ namespace ace
 		{
 			Rendering(i, helper, prop);
 		}
-
-		/*
-		auto lightDirection = prop.DirectionalLightDirection;
-		Vector3DF lightColor(prop.DirectionalLightColor.R / 255.0f, prop.DirectionalLightColor.G / 255.0f, prop.DirectionalLightColor.B / 255.0f);
-		Vector3DF groudLColor(prop.GroundLightColor.R / 255.0f, prop.GroundLightColor.G / 255.0f, prop.GroundLightColor.B / 255.0f);
-		Vector3DF skyLColor(prop.SkyLightColor.R / 255.0f, prop.SkyLightColor.G / 255.0f, prop.SkyLightColor.B / 255.0f);
-
-		auto matM = GetGlobalMatrix();
-
-		// リセット
-		{
-			shaderConstants.clear();
-
-			std::shared_ptr<ace::NativeShader_Imp> shader;
-
-			if (prop.IsLightweightMode)
-			{
-				shader = m_shaderBlackLightweight;
-			}
-			else
-			{
-				if (prop.IsDepthMode)
-				{
-					shader = m_shaderDF_ND;
-				}
-				else
-				{
-					shader = m_shaderBlack;
-				}
-			}
-
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", matM));
-
-			auto vb = terrain->Proxy.VB;
-			auto ib = terrain->Proxy.IB;
-
-			ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
-			
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
-				h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
-
-			RenderState state;
-			state.DepthTest = true;
-			state.DepthWrite = true;
-			state.Culling = CullingType::Front;
-			state.AlphaBlendState = AlphaBlend::Opacity;
-
-			helper->DrawWithPtr(
-				ib->GetCount() / 3,
-				vb.get(),
-				ib.get(),
-				shader.get(),
-				state,
-				shaderConstants.data(),
-				shaderConstants.size());
-		}
-
-		if (prop.IsDepthMode) return;
-
-		// サーフェース描画
-		for (auto& polygon : terrain->Polygons)
-		{
-			shaderConstants.clear();
-
-			std::shared_ptr<ace::NativeShader_Imp> shader;
-
-			if (terrain->Proxy.Material_ != nullptr)
-			{
-				auto shader_ = (Shader3D_Imp*) terrain->Proxy.Material_->GetShader3D().get();
-
-				if (prop.IsLightweightMode)
-				{
-					shader = shader_->GetNativeShaderTerrainLight();
-				}
-				else
-				{
-					shader = shader_->GetNativeShaderTerrain();
-				}
-			}
-			else
-			{
-				if (prop.IsLightweightMode)
-				{
-					shader = m_shaderLightweight;
-				}
-				else
-				{
-					shader = m_shaderDF;
-				}
-			}
-			
-
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", matM));
-
-			if (prop.IsLightweightMode)
-			{
-				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightDirection", lightDirection));
-				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightColor", lightColor));
-				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "skyLightColor", skyLColor));
-				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "groundLightColor", groudLColor));
-			}
-			else
-			{
-			}
-
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_densityTexture",
-				h::Texture2DPair(polygon->DensityTexture.get(), ace::TextureFilterType::Linear, ace::TextureWrapType::Clamp)));
-
-
-			ace::Texture2D* colorTexture = prop.DummyTextureWhite.get();
-			ace::Texture2D* normalTexture = prop.DummyTextureNormal.get();
-			ace::Texture2D* specularTexture = prop.DummyTextureBlack.get();
-			ace::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
-
-			if (polygon->ColorTexture != nullptr)
-			{
-				colorTexture = polygon->ColorTexture.get();
-			}
-
-			if (!prop.IsLightweightMode)
-			{
-				if (polygon->NormalTexture != nullptr)
-				{
-					normalTexture = polygon->NormalTexture.get();
-				}
-
-				if (polygon->SpecularTexture != nullptr)
-				{
-					specularTexture = polygon->SpecularTexture.get();
-					//smoothnessTexture = polygon->SpecularTexture.get();
-				}
-			}
-
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
-				h::Texture2DPair(colorTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
-
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
-				h::Texture2DPair(normalTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
-
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_specularTexture",
-				h::Texture2DPair(specularTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
-
-			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
-				h::Texture2DPair(smoothnessTexture, ace::TextureFilterType::Linear, ace::TextureWrapType::Repeat)));
-
-			if (terrain->Proxy.Material_ != nullptr)
-			{
-				auto mat = (Material3D_Imp*) (terrain->Proxy.Material_.get());
-
-				std::shared_ptr<MaterialPropertyBlock> block;
-				if (materialPropertyBlock.get() != nullptr)
-				{
-					// ユーザー定義ブロック使用
-					block = materialPropertyBlock;
-				}
-				else
-				{
-					block = mat->GetMaterialPropertyBlock();
-				}
-
-				((MaterialPropertyBlock_Imp*) block.get())->AddValuesTo(shader.get(), shaderConstants);
-			}
-			else
-			{
-			}
-
-			auto vb = polygon->VB;
-			auto ib = polygon->IB;
-
-			RenderState state;
-			state.DepthTest = true;
-			state.DepthWrite = true;
-			state.Culling = CullingType::Front;
-			state.AlphaBlendState = AlphaBlend::AddAll;
-
-			helper->DrawWithPtr(
-				ib->GetCount() / 3,
-				vb.get(),
-				ib.get(),
-				shader.get(),
-				state,
-				shaderConstants.data(),
-				shaderConstants.size());
-		}
-		*/
 	}
 
 	void RenderedTerrainObject3DProxy::Rendering(int32_t index, RenderingCommandHelper* helper, RenderingProperty& prop)
@@ -528,7 +339,7 @@ namespace ace
 			state.DepthTest = true;
 			state.DepthWrite = true;
 			state.Culling = CullingType::Front;
-			state.AlphaBlendState = AlphaBlend::Opacity;
+			state.AlphaBlendState = AlphaBlendMode::Opacity;
 
 			helper->DrawWithPtr(
 				ib->GetCount() / 3,
@@ -660,7 +471,7 @@ namespace ace
 			state.DepthTest = true;
 			state.DepthWrite = true;
 			state.Culling = CullingType::Front;
-			state.AlphaBlendState = AlphaBlend::AddAll;
+			state.AlphaBlendState = AlphaBlendMode::AddAll;
 
 			helper->DrawWithPtr(
 				ib->GetCount() / 3,

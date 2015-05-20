@@ -1,4 +1,5 @@
 ﻿#include <exception>
+#include <list>
 #include "ace.Scene.h"
 using namespace std;
 
@@ -13,8 +14,8 @@ namespace ace
 		: m_layersToDraw(list<Layer::Ptr>())
 		, m_layersToUpdate(list<Layer::Ptr>())
 		, m_coreScene(nullptr)
-		, m_components(map<astring, SceneComponent::Ptr>())
 		, alreadyFirstUpdate(false)
+		, m_componentManager(this)
 	{
 		m_coreScene = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateScene());
 	}
@@ -30,32 +31,14 @@ namespace ace
 		}
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Scene::UpdateComponents()
-	{
-		auto beVanished = vector<astring>();
-		for (auto& component : m_components)
-		{
-			component.second->Update();
-			if (!component.second->GetIsAlive())
-			{
-				beVanished.push_back(component.first);
-			}
-		}
-
-		for (auto& x : beVanished)
-		{
-			RemoveComponent(x);
-		}
-	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
 	void Scene::Update()
 	{
+		auto beVanished = list<Layer::Ptr>();
+
 		executing = true;
 
 		if (!alreadyFirstUpdate)
@@ -68,12 +51,16 @@ namespace ace
 
 		for (auto& layer : m_layersToUpdate)
 		{
-			layer->BeginUpdateting();
+			layer->BeginUpdating();
 		}
 
 		for (auto& layer : m_layersToUpdate)
 		{
 			layer->Update();
+			if (!layer->GetIsAlive())
+			{
+				beVanished.push_back(layer);
+			}
 		}
 
 		for (auto& layer : m_layersToUpdate)
@@ -81,11 +68,16 @@ namespace ace
 			layer->EndUpdateting();
 		}
 
-		UpdateComponents();
+		m_componentManager.Update();
 
 		OnUpdated();
 
 		executing = false;
+
+		for (auto& layer : beVanished)
+		{
+			RemoveLayer(layer);
+		}
 
 		CommitChanges();
 	}
@@ -189,6 +181,13 @@ namespace ace
 
 	void Scene::CallDestroy()
 	{
+		for (auto& l : m_layersToUpdate)
+		{
+			if (l->GetIsAlive())
+			{
+				l->CallDestroy();
+			}
+		}
 		OnDestroy();
 	}
 
@@ -256,26 +255,23 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void Scene::AddComponent(const SceneComponent::Ptr& component, astring key)
 	{
-		m_components[key] = component;
-		component->SetOwner(this);
+		m_componentManager.Add(component, key);
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	SceneComponent::Ptr& Scene::GetComponent(astring key)
+	const SceneComponent::Ptr& Scene::GetComponent(astring key)
 	{
-		return m_components[key];
+		return m_componentManager.Get(key);
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Scene::RemoveComponent(astring key)
+	bool Scene::RemoveComponent(astring key)
 	{
-		auto it = m_components.find(key);
-		it->second->SetOwner(nullptr);
-		m_components.erase(it);
+		return m_componentManager.Remove(key);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -288,5 +284,10 @@ namespace ace
 
 		SafeAddRef(target);
 		return CreateSharedPtrWithReleaseDLL(target);
+	}
+
+	const std::list<Layer::Ptr>& Scene::GetLayers() const
+	{
+		return m_layersToUpdate;
 	}
 }

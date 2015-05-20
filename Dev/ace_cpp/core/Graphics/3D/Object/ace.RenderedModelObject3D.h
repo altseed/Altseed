@@ -7,21 +7,33 @@
 
 namespace ace
 {
+	struct ModelObject3DAnimationCache
+	{
+		struct Pair
+		{
+			KeyframeAnimation*	Anim;
+			int32_t				BoneIndex;
+		};
+
+		std::vector<Pair> Pairs;
+
+		void SetObjects(AnimationSource* source_, Deformer* deformer);
+
+		AnimationSource*	CurrentAnimationSource = nullptr;
+		Deformer*			CurrentAnimationDeformer = nullptr;
+	};
+
 	struct BoneProperty
 	{
 		float	Position[3];
 		float	Rotation[4];
 		float	Scale[3];
 
-		float	PositionWeight[3];
-		float	RotationWeight[4];
-		float	ScaleWeight[3];
-
 		bool	IsAnimationPlaying;
 
 		BoneProperty();
 
-		Matrix44 CalcMatrix(eRotationOrder rotationType);
+		Matrix44 CalcMatrix(RotationOrder rotationType);
 	};
 
 	struct PlayedAnimation
@@ -58,6 +70,8 @@ namespace ace
 		std::vector<PlayedAnimation>			m_animationPlaying[AnimationCount];
 		float									m_animationWeight[AnimationCount];
 
+		ModelObject3DAnimationCache				animationCache;
+
 		std::vector<std::vector<std::shared_ptr<MaterialPropertyBlock>>>	materialPropertyBlocks;
 
 		Culling3D::Object*						CullingObject = nullptr;
@@ -73,7 +87,7 @@ namespace ace
 
 		void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) override;
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Mesh; }
 	};
 
 	class RenderedModelObject3D
@@ -97,6 +111,8 @@ namespace ace
 
 		std::vector<PlayedAnimation>			m_animationPlaying[AnimationCount];
 		float									m_animationWeight[AnimationCount];
+
+		ModelObject3DAnimationCache				animationCache;
 
 		Renderer3D*								m_renderer = nullptr;
 		RenderedModelObject3DProxy*				proxy = nullptr;
@@ -147,9 +163,9 @@ namespace ace
 
 		void CrossFadeAnimation(int32_t index, const achar* name, float time);
 
-		bool IsAnimationPlaying(int32_t index);
+		bool GetIsAnimationPlaying(int32_t index);
 
-		eRenderedObject3DType GetObjectType() const override { return RENDERED_OBJECT3D_TYPE_MESH; }
+		RenderedObject3DType GetObjectType() const override { return RenderedObject3DType::Mesh; }
 
 #if !SWIG
 		void SetMaterialPropertyBlock(int32_t meshIndex, int32_t materialIndex, std::shared_ptr<MaterialPropertyBlock> block)

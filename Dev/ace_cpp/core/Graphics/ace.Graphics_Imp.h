@@ -100,8 +100,8 @@ namespace ace {
 		EffectTextureLoader(Graphics_Imp* graphics);
 		virtual ~EffectTextureLoader();
 
-		void* Load(const EFK_CHAR* path);
-		void Unload(void* data);
+		void* Load(const EFK_CHAR* path, Effekseer::TextureType textureType) override;
+		void Unload(void* data) override;
 	};
 #endif
 
@@ -185,6 +185,8 @@ namespace ace {
 		virtual void BeginInternal() = 0;
 		virtual void EndInternal() {}
 
+#if !SWIG
+	public:
 		/**
 			@brief	テクスチャを生成する。
 			@param	graphics	グラフィック
@@ -192,10 +194,12 @@ namespace ace {
 			@param	size		データサイズ
 			*/
 		virtual Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
+#endif
 
+	private:
 		virtual Texture2D_Imp* CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
 
-		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format) = 0;
+		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format, void* data) = 0;
 
 	public:
 #if !SWIG
@@ -203,6 +207,7 @@ namespace ace {
 		std::shared_ptr<ResourceContainer<Effect_Imp>> EffectContainer;
 		std::shared_ptr<ResourceContainer<Font_Imp>> FontContainer;
 		std::shared_ptr<ResourceContainer<Model_Imp>> ModelContainer;
+		std::shared_ptr<ResourceContainer<ImagePackage_Imp>> ImagePackageContainer;
 
 		File* GetFile() { return m_file; }
 		Log* GetLog() { return m_log; }
@@ -269,6 +274,16 @@ namespace ace {
 		Texture2D_Imp* CreateEmptyTexture2D_Imp(int32_t width, int32_t height, TextureFormat format);
 
 		/**
+		@brief	生データからテクスチャを生成する。
+		@param	width	横幅
+		@param	height	縦幅
+		@param	format	フォーマット
+		@param	data	データ
+		@return	テクスチャ
+		*/
+		Texture2D_Imp* CreateTexture2DWithRawData(int32_t width, int32_t height, TextureFormat format, void* data);
+
+		/**
 		@brief	描画先として指定可能なテクスチャを生成する。
 		@param	width	横幅
 		@param	height	縦幅
@@ -332,6 +347,8 @@ namespace ace {
 		Font* CreateFont_(const achar* path);
 
 		Chip2D* CreateChip2D_();
+
+		ImagePackage* CreateImagePackage_(const achar* path) override;
 
 #if !SWIG
 	/**

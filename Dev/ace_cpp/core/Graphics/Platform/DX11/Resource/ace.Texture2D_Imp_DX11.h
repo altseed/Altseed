@@ -30,11 +30,11 @@ namespace ace {
 	public:
 		static Texture2D_Imp_DX11* Create(Graphics_Imp_DX11* graphics, uint8_t* data, int32_t size, bool isSRGB);
 
-		static Texture2D_Imp_DX11* Create(Graphics_Imp_DX11* graphics, int32_t width, int32_t height, TextureFormat format);
+		static Texture2D_Imp_DX11* Create(Graphics_Imp_DX11* graphics, int32_t width, int32_t height, TextureFormat format, void* data);
 
 		bool Save(const achar* path) override;
 
-		bool Lock(TextureLockInfomation& info) override;
+		bool Lock(TextureLockInfomation* info) override;
 
 		void Unlock() override;
 

@@ -2,6 +2,7 @@
 #include "FBX2MDL.Base.h"
 #include "FBX2MDL.FBXImporter.h"
 #include "FBX2MDL.FBXExporter.h"
+#include "FBX2MDL.FBXOptimizer.h"
 
 #include <Graphics/3D/ace.Model_IO.h>
 
@@ -21,7 +22,7 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
-#define TEST 0
+//#define TEST 1
 
 #if TEST
 int main(int argc, char** argv)
@@ -34,13 +35,14 @@ int main(int argc, char** argv)
 
 	FBX2MDL::FBXImporter importer;
 	FBX2MDL::FBXExporter exporter;
+	FBX2MDL::FBXOptimizer optimizer;
 
 	FbxManager* sdkManager = FbxManager::Create();
 	FbxIOSettings* ios = FbxIOSettings::Create(sdkManager, IOSROOT);
 	sdkManager->SetIOSettings(ios);
 
 	fbxsdk_2015_1::FbxImporter* fbxImporter = fbxsdk_2015_1::FbxImporter::Create(sdkManager, "");
-	if (!fbxImporter->Initialize("box3.fbx", -1, sdkManager->GetIOSettings()))
+	if (!fbxImporter->Initialize("box.fbx", -1, sdkManager->GetIOSettings()))
 	{
 		printf("Call to FbxImporter::Initialize() failed.\n");
 		printf("Error returned: %s\n\n", fbxImporter->GetStatus().GetErrorString());
@@ -52,13 +54,16 @@ int main(int argc, char** argv)
 	fbxImporter->Import(fbxScene);
 	
 	auto scene = importer.LoadScene(fbxScene, sdkManager);
+
+	optimizer.Optimize(scene);
+
 	auto writer = exporter.Export(scene);
 
 	fbxScene->Destroy();
 	fbxImporter->Destroy();
 	sdkManager->Destroy();
 
-	writer->WriteOut("box2.mdl");
+	writer->WriteOut("box.mdl");
 
 	
 	auto buf = writer->Get();
@@ -97,6 +102,7 @@ int main(int argc, char** argv)
 
 	FBX2MDL::FBXImporter importer;
 	FBX2MDL::FBXExporter exporter;
+	FBX2MDL::FBXOptimizer optimizer;
 
 	FbxManager* sdkManager = FbxManager::Create();
 	FbxIOSettings* ios = FbxIOSettings::Create(sdkManager, IOSROOT);
@@ -115,6 +121,9 @@ int main(int argc, char** argv)
 	fbxImporter->Import(fbxScene);
 
 	auto scene = importer.LoadScene(fbxScene, sdkManager);
+
+	optimizer.Optimize(scene);
+
 	auto writer = exporter.Export(scene);
 
 	fbxScene->Destroy();

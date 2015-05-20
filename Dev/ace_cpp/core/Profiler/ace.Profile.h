@@ -1,7 +1,5 @@
 ﻿#pragma once
-#include <list>
 #include <memory>
-#include <stack>
 
 namespace ace
 {
@@ -56,10 +54,11 @@ namespace ace
 	{
 	public:
 		typedef std::shared_ptr<Performance> PerfPtr;
+		typedef std::shared_ptr<Profile> Ptr;
 
 	private:
 		int m_id;
-		std::stack<PerfPtr> m_performances;
+		PerfPtr m_last;
 		PerfPtr m_current;
 
 	public:
@@ -76,10 +75,8 @@ namespace ace
 		void Archive();
 
 		int GetID() const;
-
+		
 #if !SWIG
-		const std::stack<PerfPtr>& GetPerformanceLog();
-
 		const PerfPtr GetLastLog();
 #endif
 	};

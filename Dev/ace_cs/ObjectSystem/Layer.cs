@@ -14,9 +14,16 @@ namespace ace
 
 		public Layer()
 		{
+			IsAlive = true;
 			IsUpdated = true;
 			postEffects = new List<PostEffect>();
+			Name = "Layer";
 		}
+
+		/// <summary>
+		/// このレイヤーが有効化どうかを取得する。Vanishメソッドを呼び出した後なら false。
+		/// </summary>
+		public bool IsAlive { get; private set; }
 
 		/// <summary>
 		/// レイヤーの更新を実行するかどうか取得または設定する。
@@ -38,6 +45,25 @@ namespace ace
 		public Scene Scene { get; internal set; }
 
 		/// <summary>
+		/// このレイヤーの前回の更新時間を取得する。
+		/// </summary>
+		public int TimeForUpdate
+		{
+			get { return CoreLayer.GetTimeForUpdate(); }
+		}
+
+		/// <summary>
+		/// このレイヤーに登録されているオブジェクトの数を取得する。
+		/// </summary>
+		public abstract int ObjectCount { get; }
+
+		/// <summary>
+		/// このレイヤーの名前を取得または設定する。
+		/// </summary>
+		public string Name { get; set; }
+
+
+		/// <summary>
 		/// このレイヤーの描画優先度を取得または設定する。この値が大きいほど手前に描画される。
 		/// </summary>
 		public int DrawingPriority
@@ -51,6 +77,8 @@ namespace ace
 
 		internal abstract void Update();
 
+		internal abstract void CallDestroy();
+
 		internal abstract void DrawAdditionally();
 
 		internal void BeginDrawing()
@@ -63,9 +91,9 @@ namespace ace
 		{
 			commonObject.EndDrawing();
 
-			if (postEffects.Count > 0)
+			if(postEffects.Count > 0)
 			{
-				foreach (var p in postEffects)
+				foreach(var p in postEffects)
 				{
 					Scene.CoreScene.BeginPostEffect(p.SwigObject);
 
@@ -89,15 +117,38 @@ namespace ace
 
 		internal swig.CoreLayer CoreLayer { get { return commonObject; } }
 
+		/// <summary>
+		/// オーバーライドして、このレイヤーが更新される前の処理を記述できる。
+		/// </summary>
 		protected virtual void OnUpdating()
 		{
 		}
 
+		/// <summary>
+		/// オーバーライドして、このレイヤーが更新された後の処理を記述できる。
+		/// </summary>
 		protected virtual void OnUpdated()
 		{
 		}
 
+		/// <summary>
+		/// オーバーライドして、このレイヤーの追加の描画処理を記述できる。
+		/// </summary>
 		protected virtual void OnDrawAdditionally()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このレイヤーがVansihメソッドによって破棄されるときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnVanish()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このレイヤーが破棄されるときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnDispose()
 		{
 		}
 
@@ -120,7 +171,22 @@ namespace ace
 			commonObject.ClearPostEffects();
 		}
 
+		/// <summary>
+		/// このレイヤーを破棄する。
+		/// </summary>
+		public void Vanish()
+		{
+			IsAlive = false;
+			OnVanish();
+		}
+
+		/// <summary>
+		/// レイヤーの種類を取得する。
+		/// </summary>
+		public abstract LayerType LayerType { get; }
+
 		protected List<PostEffect> postEffects;
 
+		protected bool isUpdatedCurrent;
 	}
 }

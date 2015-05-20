@@ -12,7 +12,7 @@ namespace ace
 	{
 
 	protected:
-		virtual void CalculateBoundingCircle();
+		virtual void CalculateBoundingCircle() override;
 	private:
 		Texture2D* m_texture;
 		RectF m_src;
@@ -20,8 +20,9 @@ namespace ace
 		Color m_color;
 		bool m_turnLR;
 		bool m_turnUL;
-		AlphaBlend m_alphablend;
+		AlphaBlendMode m_alphablend;
 		int m_drawingPtiority;
+		TextureFilterType m_textureFilterType;
 
 	public:
 		CoreTextureObject2D_Imp(Graphics_Imp* graphics);
@@ -51,8 +52,11 @@ namespace ace
 		int GetDrawingPriority() const;
 		void SetDrawingPriority(int priority);
 
-		AlphaBlend GetAlphaBlendMode() const;
-		void SetAlphaBlendMode(AlphaBlend alphaBlend);
+		AlphaBlendMode GetAlphaBlendMode() const;
+		void SetAlphaBlendMode(AlphaBlendMode alphaBlend);
+
+		void SetTextureFilterType(TextureFilterType textureFilterType) override;
+		TextureFilterType GetTextureFilterType() const override;
 #pragma endregion
 
 		void Draw(Renderer2D* renderer);

@@ -59,7 +59,7 @@ namespace ace {
 		*/
 		struct Event
 		{
-			enum class eEventType
+			enum class EventType : int32_t
 			{
 				Sprite,
 				Effect,
@@ -78,7 +78,9 @@ namespace ace {
 					color		Colors[4];
 					vector2DF	UV[4];
 					Texture2D*	TexturePtr;
-					AlphaBlend	AlphaBlendState;
+					AlphaBlendMode	AlphaBlendState;
+					TextureFilterType	Filter;
+					TextureWrapType		Wrap;
 				} Sprite;
 
 				/**
@@ -95,7 +97,7 @@ namespace ace {
 		/**
 			@brief	最大同時スプライト描画数
 		*/
-		static const int32_t SpriteCount = 1024;
+		static const int32_t SpriteCount = 1024 * 4;
 
 		/**
 			@brief	現在描画しているスプライトの状態
@@ -103,7 +105,9 @@ namespace ace {
 		struct SpriteState
 		{
 			Texture2D*	TexturePtr;
-			AlphaBlend	AlphaBlendState;
+			AlphaBlendMode	AlphaBlendState;
+			TextureFilterType	Filter;
+			TextureWrapType		Wrap;
 		} m_state;
 
 		/**
@@ -147,9 +151,9 @@ namespace ace {
 
 		void ClearCache();
 
-		void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority);
+		void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter = TextureFilterType::Nearest, TextureWrapType wrap = TextureWrapType::Clamp) override;
 
-		void AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority) override;
+		void AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter = TextureFilterType::Nearest, TextureWrapType wrap = TextureWrapType::Clamp) override;
 
 		void AddEffect(::Effekseer::Handle handle, int32_t priority);
 

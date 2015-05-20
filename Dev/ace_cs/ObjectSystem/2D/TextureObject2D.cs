@@ -19,11 +19,11 @@ namespace ace
 			renderedObject = Engine.ObjectSystemFactory.CreateTextureObject2D();
 
 			var p = renderedObject.GetPtr();
-			if( GC.Object2Ds.GetObject( p ) != null )
+			if(GC.Object2Ds.GetObject(p) != null)
 			{
 				throw new Exception();
 			}
-			GC.Object2Ds.AddObject( p, this );
+			GC.Object2Ds.AddObject(p, this);
 		}
 
 		#region GC対応
@@ -39,13 +39,13 @@ namespace ace
 
 		public override void Destroy()
 		{
-			lock( this )
+			lock (this)
 			{
-				if( renderedObject == null ) return;
-				GC.Collector.AddObject( renderedObject );
+				if(renderedObject == null) return;
+				GC.Collector.AddObject(renderedObject);
 				renderedObject = null;
 			}
-			System.GC.SuppressFinalize( this );
+			System.GC.SuppressFinalize(this);
 		}
 		#endregion
 
@@ -65,7 +65,7 @@ namespace ace
 		public Vector2DF CenterPosition
 		{
 			get { return renderedObject.GetCenterPosition(); }
-			set { renderedObject.SetCenterPosition( value ); }
+			set { renderedObject.SetCenterPosition(value); }
 		}
 		/// <summary>
 		/// この2Dオブジェクトを描画する際に合成する色を取得または設定します。
@@ -73,7 +73,7 @@ namespace ace
 		public Color Color
 		{
 			get { return renderedObject.GetColor(); }
-			set { renderedObject.SetColor( value ); }
+			set { renderedObject.SetColor(value); }
 		}
 		/// <summary>
 		/// この2Dオブジェクトを描画する際に左右反転するかどうかの真偽値を取得または設定します。
@@ -81,7 +81,7 @@ namespace ace
 		public bool TurnLR
 		{
 			get { return renderedObject.GetTurnLR(); }
-			set { renderedObject.SetTurnLR( value ); }
+			set { renderedObject.SetTurnLR(value); }
 		}
 		/// <summary>
 		/// この2Dオブジェクトを描画する際に上下反転するかどうかの真偽値を取得または設定します。
@@ -89,7 +89,7 @@ namespace ace
 		public bool TurnUL
 		{
 			get { return renderedObject.GetTurnUL(); }
-			set { renderedObject.SetTurnUL( value ); }
+			set { renderedObject.SetTurnUL(value); }
 		}
 		/// <summary>
 		/// この2Dオブジェクトを描画する際の描画優先度を取得または設定します。描画優先度が高いほど手前に描画されます。
@@ -97,7 +97,7 @@ namespace ace
 		public int DrawingPriority
 		{
 			get { return renderedObject.GetDrawingPriority(); }
-			set { renderedObject.SetDrawingPriority( value ); }
+			set { renderedObject.SetDrawingPriority(value); }
 		}
 		/// <summary>
 		/// この2Dオブジェクトを描画する際のブレンドモードを取得または設定します。
@@ -105,19 +105,28 @@ namespace ace
 		public AlphaBlendMode AlphaBlend
 		{
 			get { return (AlphaBlendMode)renderedObject.GetAlphaBlendMode(); }
-			set { renderedObject.SetAlphaBlendMode( (swig.AlphaBlend)value ); }
+			set { renderedObject.SetAlphaBlendMode((swig.AlphaBlendMode)value); }
 		}
 
-        ///<summary>
-        /// テクスチャ上の描画範囲を設定する。(フィールドのいずれかが0より小さかったらテクスチャ全体を描画する。)
-        /// </summary>
-        public RectF Src
-        {
-            get { return renderedObject.GetSrc(); }
-            set { renderedObject.SetSrc(value); }
-        }
+		///<summary>
+		/// テクスチャ上の描画範囲を設定する。(フィールドのいずれかが0より小さかったらテクスチャ全体を描画する。)
+		/// </summary>
+		public RectF Src
+		{
+			get { return renderedObject.GetSrc(); }
+			set { renderedObject.SetSrc(value); }
+		}
 
-        internal override swig.CoreObject2D CoreObject
+		///<summary>
+		/// この2Dオブジェクトを描画する際のテクスチャフィルタを取得または設定する。
+		/// </summary>
+		public TextureFilterType TextureFilterType
+		{
+			get { return (TextureFilterType)renderedObject.GetTextureFilterType(); }
+			set { renderedObject.SetTextureFilterType((swig.TextureFilterType)value); }
+		}
+
+		internal override swig.CoreObject2D CoreObject
 		{
 			get { return renderedObject; }
 		}

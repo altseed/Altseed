@@ -22,10 +22,22 @@ namespace FontGenerator.Model
 		public static GenerationConfig Load(string path)
 		{
 			var serializer = new DataContractJsonSerializer(typeof(GenerationConfig));
+			GenerationConfig result;
 			using (var file = File.OpenRead(path))
 			{
-				return serializer.ReadObject(file) as GenerationConfig;
+				result = serializer.ReadObject(file) as GenerationConfig;
 			}
+
+			var fontPairs = Helper.GetFontPairs();
+			for (int i = 0; i < fontPairs.Count; i++)
+			{
+				if (result.FontName == fontPairs[i].Name)
+				{
+					result.FontIndex = i;
+				}
+			}
+
+			return result;
 		}
 	}
 }

@@ -32,11 +32,11 @@ namespace ace
 		void SetScale(Vector2DF value);
 
 		CoreObject2D& GetParent();
-		void SetParent(CoreObject2D& parent, eChildMode mode);
+		void SetParent(CoreObject2D& parent, ChildMode mode);
 		void ClearParent();
 
-		eChildMode GetChildMode() const;
-		void SetChildMode(eChildMode value);
+		ChildMode GetChildMode() const;
+		void SetChildMode(ChildMode value);
 
 		Matrix33 GetMatrixToTranslate();
 		Matrix33 GetMatrixToTransform();

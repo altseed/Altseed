@@ -1,26 +1,61 @@
 ﻿
 #include<gtest/gtest.h>
+
+#ifdef _WIN64
+
 #ifdef _DEBUG
-#pragma comment(lib, "gtestd.lib")
+#pragma comment(lib, "x64/Debug/gtest.lib")
 #else
-#pragma comment(lib, "gtest.lib")
+#pragma comment(lib, "x64/Release/gtest.lib")
+#endif
+
+#else
+
+#ifdef _DEBUG
+#pragma comment(lib, "x86/Debug/gtest.lib")
+#else
+#pragma comment(lib, "x86/Release/gtest.lib")
+#endif
+
 #endif
 
 #if _WIN32
+
+#ifdef _WIN64
+
 #ifdef _DEBUG
-#pragma comment(lib,"Debug/ace_common.lib")
-#pragma comment(lib,"Debug/ace_core.lib")
-#pragma comment(lib,"Debug/glfw3.lib")
+#pragma comment(lib,"x64/Debug/ace_common.lib")
+#pragma comment(lib,"x64/Debug/ace_core.lib")
+#pragma comment(lib,"x64/Debug/glfw3.lib")
 #pragma comment(lib,"libpng16.Debug.lib")
 #pragma comment(lib,"zlib.Debug.lib")
 #else
-#pragma comment(lib,"Release/ace_common.lib")
-#pragma comment(lib,"Release/ace_core.lib")
-#pragma comment(lib,"Release/glfw3.lib")
+#pragma comment(lib,"x64/Release/ace_common.lib")
+#pragma comment(lib,"x64/Release/ace_core.lib")
+#pragma comment(lib,"x64/Release/glfw3.lib")
 #pragma comment(lib,"libpng16.Release.lib")
 #pragma comment(lib,"zlib.Release.lib")
 #endif
 #pragma comment(lib,"opengl32.lib")
+
+#else
+
+#ifdef _DEBUG
+#pragma comment(lib,"x86/Debug/ace_common.lib")
+#pragma comment(lib,"x86/Debug/ace_core.lib")
+#pragma comment(lib,"x86/Debug/glfw3.lib")
+#pragma comment(lib,"libpng16.Debug.lib")
+#pragma comment(lib,"zlib.Debug.lib")
+#else
+#pragma comment(lib,"x86/Release/ace_common.lib")
+#pragma comment(lib,"x86/Release/ace_core.lib")
+#pragma comment(lib,"x86/Release/glfw3.lib")
+#pragma comment(lib,"libpng16.Release.lib")
+#pragma comment(lib,"zlib.Release.lib")
+#endif
+#pragma comment(lib,"opengl32.lib")
+
+#endif
 
 #endif
 

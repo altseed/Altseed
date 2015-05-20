@@ -6,8 +6,8 @@
 namespace ace
 {
 	KeyframeAnimation_Imp::KeyframeAnimation_Imp()
-		: m_targetType(ANIMATION_CURVE_TARGET_TYPE_NONE)
-		, m_targetAxis(ANIMATION_CURVE_TARGET_AXIS_NONE)
+		: m_targetType(AnimationCurveTargetType::NoneTarget)
+		, m_targetAxis(AnimationCurveTargetAxis::NoneTarget)
 	{
 	
 	}
@@ -34,12 +34,12 @@ namespace ace
 		return m_targetName;
 	}
 
-	eAnimationCurveTargetType KeyframeAnimation_Imp::GetTargetType()
+	AnimationCurveTargetType KeyframeAnimation_Imp::GetTargetType()
 	{
 		return m_targetType;
 	}
 
-	eAnimationCurveTargetAxis KeyframeAnimation_Imp::GetTargetAxis()
+	AnimationCurveTargetAxis KeyframeAnimation_Imp::GetTargetAxis()
 	{
 		return m_targetAxis;
 	}

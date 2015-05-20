@@ -43,9 +43,6 @@ namespace ace
 
 		virtual void SetEnvironmentColor(CubemapTexture* diffuseColor, CubemapTexture* specularColor) = 0;
 
-		virtual bool GetHDRMode() const = 0;
-		virtual void SetHDRMode(bool value) = 0;
-
 		virtual float GetSSAO_Radius() = 0;
 		virtual void SetSSAO_Radius(float value) = 0;
 		virtual float GetSSAO_Bias() = 0;
@@ -58,6 +55,6 @@ namespace ace
 		virtual void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-			Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest) = 0;
+			Texture2D* texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest) = 0;
 	};
 }

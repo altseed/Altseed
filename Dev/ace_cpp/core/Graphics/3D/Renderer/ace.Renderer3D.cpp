@@ -66,13 +66,12 @@ namespace ace
 
 	void Renderer3D::RenderingEvent::Event()
 	{
-		m_renderer->proxy->Rendering(m_renderer->GetRenderTarget());
+		m_renderer->proxy->Render();
 	}
 
 	Renderer3D::Renderer3D(Graphics* graphics, RenderSettings settings)
 		: m_graphics(nullptr)
 		, m_settings(settings)
-		, m_renderTarget(nullptr)
 		, m_event(this)
 		, m_skyAmbientColor(Color(10,10,20,255))
 		, m_groundAmbientColor(Color(10,10,10,255))
@@ -125,8 +124,6 @@ namespace ace
 		ReleaseObjects(newObjects);
 		ReleaseObjects(removingObjects);
 
-		SafeRelease(m_renderTarget);
-
 		m_effectRenderer->Destory();
 		m_effectManager->Destroy();
 		m_effectRenderer = nullptr;
@@ -150,41 +147,9 @@ namespace ace
 		m_settings = settings;
 	}
 
-	bool Renderer3D::GetHDRMode() const
-	{
-		return hdrMode;
-	}
-
-	void Renderer3D::SetHDRMode(bool value)
-	{
-		hdrMode = value;
-
-		SafeRelease(m_renderTarget);
-
-		if (hdrMode)
-		{
-			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(m_windowSize.X, m_windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
-		}
-		else
-		{
-			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(m_windowSize.X, m_windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
-		}
-	}
-
 	void Renderer3D::SetWindowSize(Vector2DI windowSize)
 	{
 		m_windowSize = windowSize;
-
-		SafeRelease(m_renderTarget);
-
-		if (hdrMode)
-		{
-			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R32G32B32A32_FLOAT);
-		}
-		else
-		{
-			m_renderTarget = m_graphics->CreateRenderTexture2D_Imp(windowSize.X, windowSize.Y, TextureFormat::R8G8B8A8_UNORM);
-		}
 		
 		if (m_graphics->GetGraphicsDeviceType() == GraphicsDeviceType::DirectX11)
 		{
@@ -280,8 +245,6 @@ namespace ace
 
 	void Renderer3D::BeginRendering(float deltaTime)
 	{
-		assert(m_renderTarget != nullptr);
-
 		proxy->DeltaTime = deltaTime;
 		m_graphics->GetRenderingThread()->AddEvent(&m_event);
 	
@@ -299,10 +262,15 @@ namespace ace
 		spriteRenderer->ClearCache();
 	}
 
+	void Renderer3D::RenderResult()
+	{
+		proxy->RenderResult();
+	}
+
 	void Renderer3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-		Texture2D* texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest)
+		Texture2D* texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 	{
 		Vector3DF positions [] = { upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos };
 		Color colors [] = {upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol };
@@ -318,10 +286,5 @@ namespace ace
 
 		environment_diffuseColor = CreateSharedPtrWithReleaseDLL(diffuseColor);
 		environment_specularColor = CreateSharedPtrWithReleaseDLL(specularColor);
-	}
-
-	RenderTexture2D_Imp* Renderer3D::GetRenderTarget()
-	{
-		return m_renderTarget;
 	}
 }

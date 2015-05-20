@@ -10,8 +10,9 @@ namespace FontGenerator.Model
 	[DataContract]
 	public class GenerationConfig
 	{
-		[DataMember]
 		public int FontIndex { get; set; }
+        [DataMember]
+        public string FontName { get; set; }
 		[DataMember]
 		public string TextPath { get; set; }
 		[DataMember]

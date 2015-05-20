@@ -8,7 +8,7 @@
 
 namespace ace
 {
-	enum class RenderingCommandType
+	enum class RenderingCommandType : int32_t
 	{
 		Unknown,
 		Draw,

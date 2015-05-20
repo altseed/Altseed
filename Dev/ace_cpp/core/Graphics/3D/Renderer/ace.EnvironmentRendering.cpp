@@ -155,8 +155,8 @@ namespace ace
 		indexBuffer = ib;
 
 		std::vector<ace::VertexLayout> vl;
-		vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("Position", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("UV", ace::VertexLayoutFormat::R32G32_FLOAT));
 
 		std::vector<ace::Macro> macro;
 	
@@ -206,9 +206,9 @@ namespace ace
 #endif
 		brdfTexture = g->CreateEmptyTexture2D(128, 128, TextureFormat::R8G8B8A8_UNORM);
 		TextureLockInfomation info;
-		if (brdfTexture->Lock(info))
+		if (brdfTexture->Lock(&info))
 		{
-			memcpy(info.Pixels, brdfTextureBuf.data(), 128 * 128 * 4);
+			memcpy(info.GetPixels(), brdfTextureBuf.data(), 128 * 128 * 4);
 			brdfTexture->Unlock();
 		}
 	}
@@ -233,7 +233,7 @@ namespace ace
 		RenderState state;
 		state.DepthTest = false;
 		state.DepthWrite = false;
-		state.AlphaBlendState = AlphaBlend::Opacity;
+		state.AlphaBlendState = AlphaBlendMode::Opacity;
 		state.Culling = ace::CullingType::Double;
 
 		helper->Draw(2, vertexBuffer.get(), indexBuffer.get(), environmentShader.get(), state,

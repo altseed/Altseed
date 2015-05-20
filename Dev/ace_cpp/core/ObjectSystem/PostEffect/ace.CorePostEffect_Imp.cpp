@@ -18,6 +18,9 @@
 #include "../../Graphics/Shader/DX/PostEffect/GaussianBlur_PS.h"
 #include "../../Graphics/Shader/GL/PostEffect/GaussianBlur_PS.h"
 
+#include "../../Graphics/Shader/DX/PostEffect/Downsample_PS.h"
+#include "../../Graphics/Shader/GL/PostEffect/Downsample_PS.h"
+
 namespace ace
 {
 	CorePostEffect_Imp::CorePostEffect_Imp(Graphics* graphics)
@@ -95,4 +98,17 @@ namespace ace
 		return nullptr;
 	}
 
+	const char* CorePostEffect_Imp::GetDownsampleShader(GraphicsDeviceType graphicsDeviceType) const
+	{
+		if (graphicsDeviceType == GraphicsDeviceType::DirectX11)
+		{
+			return downsample_ps_dx;
+		}
+		else if (graphicsDeviceType == GraphicsDeviceType::OpenGL)
+		{
+			return downsample_ps_gl;
+		}
+
+		return nullptr;
+	}
 }

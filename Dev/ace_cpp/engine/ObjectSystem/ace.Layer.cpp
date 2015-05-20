@@ -40,10 +40,20 @@ namespace ace
 		m_commonObject->Draw();
 	}
 
+	void Layer::OnVanish()
+	{
+	}
+
+	void Layer::OnDispose()
+	{
+	}
+
 	Layer::Layer()
 		: m_scene(nullptr)
 		, m_isUpdated(true)
 		, m_isDrawn(true)
+		, m_isAlive(true)
+		, m_name(ace::ToAString("Layer"))
 	{
 	}
 
@@ -88,6 +98,11 @@ namespace ace
 		m_commonObject->SetIsDrawn(value);
 	}
 
+	bool Layer::GetIsAlive() const
+	{
+		return m_isAlive;
+	}
+
 	int Layer::GetDrawingPriority() const
 	{
 		return m_commonObject->GetDrawingPriority();
@@ -108,6 +123,27 @@ namespace ace
 	{
 		m_postEffects.clear();
 		m_commonObject->ClearPostEffects();
+	}
+
+	void Layer::Vanish()
+	{
+		m_isAlive = false;
+		OnVanish();
+	}
+
+	int Layer::GetTimeForUpdate() const
+	{
+		return m_commonObject->GetTimeForUpdate();
+	}
+
+	astring Layer::GetName() const
+	{
+		return m_name;
+	}
+
+	void Layer::SetName(astring value)
+	{
+		m_name = value;
 	}
 
 }

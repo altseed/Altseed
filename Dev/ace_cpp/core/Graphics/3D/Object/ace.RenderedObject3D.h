@@ -67,7 +67,7 @@ namespace ace
 
 		virtual void Rendering(RenderingCommandHelper* helper, RenderingProperty& prop) {}
 
-		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
+		virtual RenderedObject3DType GetObjectType() const { return RenderedObject3DType::Unknown; }
 	};
 
 	/**
@@ -99,7 +99,8 @@ namespace ace
 		Vector3DF	rotation;
 		Vector3DF	scale;
 		Matrix44	localMatrix;
-		bool		isSRTChanged;
+		bool		isSRTChanged = true;
+		bool		isSRTSentToProxy = false;
 		bool		callSRTChanged = false;
 
 		static Matrix44 CalcLocalMatrix(Vector3DF& t, Vector3DF& r, Vector3DF& s);
@@ -145,6 +146,6 @@ namespace ace
 		*/
 		virtual void OnApplyingNextSRT() {}
 
-		virtual eRenderedObject3DType GetObjectType() const { return RENDERED_OBJECT3D_TYPE_UNKNOWN; }
+		virtual RenderedObject3DType GetObjectType() const { return RenderedObject3DType::Unknown; }
 	};
 }

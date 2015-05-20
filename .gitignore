@@ -191,8 +191,10 @@ $RECYCLE.BIN/
 /Dev/bin/*.exe
 /Dev/bin/*.lib
 /Dev/bin/*.XML
+/Dev/bin/test.aff
 
 /Dev/bin/ace_core.Debug.dll
+/Dev/bin/ace_core.dll
 /Dev/bin/ace_cs.dll
 /Dev/bin/FontGenerator.Model.dll
 /Dev/bin/FontGeneratorCore.dll
@@ -225,9 +227,16 @@ $RECYCLE.BIN/
 /Culling2D-master/
 /culling3d_bin/
 /Culling3D-master/
+/box2d_bin/
+/Box2D_v2.3.0/
+/bullet_bin/
+/bullet-2.82-r2704/
+/ImagePackageGenerator-master/
 
+Box2D_v2.3.0.7z
 libpng-1.6.6.tar.gz
 zlib-1.2.8.tar.gz
+bullet-2.82-r2704.zip
 master.zip
 
 /Dev/cmake/
@@ -237,6 +246,7 @@ master.zip
 /Dev/amcr-glfw/
 /Dev/include/GLFW/
 /Dev/include/gtest/
+/Dev/include/Box2D/
 /Dev/include/ace.h
 /Dev/include/Effekseer.h
 /Dev/include/EffekseerRendererDX11.h
@@ -244,22 +254,28 @@ master.zip
 /Dev/include/OpenSoundMixer.h
 /Dev/include/Culling2D.h
 /Dev/include/Culling3D.h
+/Dev/include/BulletCollision/
+/Dev/include/BulletDynamics/
+/Dev/include/BulletMultiThreaded/
+/Dev/include/BulletSoftBody/
+/Dev/include/LinearMath/
+/Dev/include/MiniCL/
+/Dev/include/vectormath/
+/Dev/include/btBulletCollisionCommon.h
+/Dev/include/btBulletDynamicsCommon.h
+/Dev/include/Bullet-C-Api.h
 
 /Dev/ace_cpp/engine/ace.CoreToEngine.h
 
-/Dev/ace_cs/swig/
-/Dev/FontGenerator/FontGenerator/swig/
-/Dev/FontGenerator/FontGenerator.Model/swig/
-
 /Dev/lib/ace_common.Debug.lib
 /Dev/lib/ace_common.Release.lib
-
-/Dev/ace_cpp/core/dll_cs.cxx
 
 /Product/bin/
 /Product/inlude/
 /Product/lib/
 /Document/Doxygen/
+
+/CPP_XML/
 
 # Result of Test
 /Dev/bin/TestSS/
@@ -281,6 +297,16 @@ Dev/bin/Data/Text/sazanami-gothic.ttf
 /Sample/sample_cs/ace_cs.dll
 /Sample/sample_cs/ace_cs.XML
 /Sample/bin/Log.html
+/Sample/bin/ace_cs.xml
+
+# Swig
+/Dev/ace_cs/swig/
+/Dev/ace_java/swig/
+
+/Dev/FontGenerator/FontGenerator/swig/
+/Dev/FontGenerator/FontGenerator.Model/swig/
+/Dev/ace_cpp/core/dll.cxx
+
 
 
 /Dev/FontGenerator/FontGeneratorTest/result

@@ -7,121 +7,6 @@ using System.Threading.Tasks;
 namespace ace
 {
 	/// <summary>
-	/// 描画時のブレンドモードを表す列挙体
-	/// </summary>
-	public enum AlphaBlendMode
-	{
-		/// <summary>
-		/// 不透明
-		/// </summary>
-		Opacity = swig.AlphaBlend.Opacity,
-		/// <summary>
-		/// 透明
-		/// </summary>
-		Blend = swig.AlphaBlend.Blend,
-		/// <summary>
-		/// 加算
-		/// </summary>
-		Add = swig.AlphaBlend.Add,
-		/// <summary>
-		/// 減算
-		/// </summary>
-		Sub = swig.AlphaBlend.Sub,
-		/// <summary>
-		/// 乗算
-		/// </summary>
-		Mul = swig.AlphaBlend.Mul,
-	}
-
-	public enum TextureFormat
-	{
-		R8G8B8A8_UNORM = swig.TextureFormat.R8G8B8A8_UNORM,
-		R32G32B32A32_FLOAT = swig.TextureFormat.R32G32B32A32_FLOAT,
-		R8G8B8A8_UNORM_SRGB = swig.TextureFormat.R8G8B8A8_UNORM_SRGB,
-		R16G16_FLOAT = swig.TextureFormat.R16G16_FLOAT,
-		R8_UNORM = swig.TextureFormat.R8_UNORM,
-		BC1 = swig.TextureFormat.BC1,
-		BC1_SRGB = swig.TextureFormat.BC1_SRGB,
-		BC2 = swig.TextureFormat.BC2,
-		BC2_SRGB = swig.TextureFormat.BC2_SRGB,
-		BC3 = swig.TextureFormat.BC3,
-		BC3_SRGB = swig.TextureFormat.BC3_SRGB,
-	}
-
-	/// <summary>
-	/// 描画方法
-	/// </summary>
-	public enum GraphicsDeviceType
-	{
-		/// <summary>
-		/// 実行環境で最も安定している描画方法(初期化時に使用)
-		/// </summary>
-		Default = swig.GraphicsDeviceType.Default,
-		/// <summary>
-		/// DirectX11
-		/// </summary>
-		DirectX11 = swig.GraphicsDeviceType.DirectX11,
-		/// <summary>
-		/// OpenGL
-		/// </summary>
-		OpenGL = swig.GraphicsDeviceType.OpenGL,
-	}
-
-    public enum TextureFilterType
-    {
-		Nearest = swig.TextureFilterType.Nearest,
-		Linear = swig.TextureFilterType.Linear,
-    }
-
-	public enum TextureWrapType
-	{
-		Clamp = swig.TextureWrapType.Clamp,
-		Repeat = swig.TextureWrapType.Repeat,
-	}
-
-	public enum RotationOrder
-	{
-		Quaternion = swig.eRotationOrder.ROTATION_ORDER_QUATERNION,
-		XZY  = swig.eRotationOrder.ROTATION_ORDER_XZY,
-		XYZ  = swig.eRotationOrder.ROTATION_ORDER_XYZ,
-		ZXY  = swig.eRotationOrder.ROTATION_ORDER_ZXY,
-		ZYX  = swig.eRotationOrder.ROTATION_ORDER_ZYX,
-		YXZ  = swig.eRotationOrder.ROTATION_ORDER_YXZ,
-		YZX  = swig.eRotationOrder.ROTATION_ORDER_YZX,
-		Axis = swig.eRotationOrder.ROTATION_ORDER_AXIS,
-	}
-
-	public enum InterpolationType : int
-	{
-		Constant = swig.eInterpolationType.INTERPOLATION_TYPE_CONSTANT,
-		Linear = swig.eInterpolationType.INTERPOLATION_TYPE_LINEAR,
-		Cubic = swig.eInterpolationType.INTERPOLATION_TYPE_CUBIC,
-	}
-
-	/// <summary>
-	/// 3D描画時に表示されるバッファ
-	/// </summary>
-	public enum VisualizedBufferType : int 
-	{
-		FinalImage = swig.VisualizedBufferType.FinalImage,
-		DiffuseColor = swig.VisualizedBufferType.DiffuseColor,
-		SpecularColor = swig.VisualizedBufferType.SpecularColor,
-		Smoothness = swig.VisualizedBufferType.Smoothness,
-		Normal = swig.VisualizedBufferType.Normal,
-		Environment = swig.VisualizedBufferType.Environment,
-		Occulusion = swig.VisualizedBufferType.Occlusion,
-	}
-
-    ///<summary>
-    /// テキストの描画方向
-    /// </summary>
-    public enum WritingDirection :int
-    {
-        Horizontal = swig.WritingDirection.Horizontal,
-        Vertical = swig.WritingDirection.Vertical,
-    }
-
-	/// <summary>
 	/// Fカーブのキーフレーム
 	/// </summary>
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
@@ -145,23 +30,49 @@ namespace ace
 		/// <summary>
 		/// 補間方法
 		/// </summary>
-		public InterpolationType InterpolationType;
+		public InterpolationType Interpolation;
 
 		public FCurveKeyframe(InterpolationType interpolationType = ace.InterpolationType.Linear)
 		{
 			LeftHandle = new Vector2DF();
 			RightHandle = new Vector2DF();
 			KeyValue = new Vector2DF();
-			InterpolationType = interpolationType;
+			Interpolation = interpolationType;
 		}
 	}
 
-	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-	public struct TextureLockInfomation
+	public class TextureLockInfomation
 	{
-		public IntPtr Pixels;
-		public int Pitch;
-		public Vector2DI Size;
+		public IntPtr Pixels
+		{
+			get
+			{
+				return SwigObject.GetPixels();
+			}
+		}
+
+		public int Pitch
+		{
+			get
+			{
+				return SwigObject.GetPitch();
+			}
+		}
+
+		public Vector2DI Size
+		{
+			get
+			{
+				return SwigObject.GetSize();
+			}
+		}
+
+		internal swig.TextureLockInfomation SwigObject = null;
+
+		public TextureLockInfomation()
+		{
+			SwigObject = new swig.TextureLockInfomation();
+		}
 	}
 
 	/// <summary>

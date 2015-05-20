@@ -13,10 +13,22 @@
 
 #include <Culling3D.h>
 
+#ifdef _WIN64
+
 #if _DEBUG
-#pragma comment(lib,"Debug/Culling3D.lib")
+#pragma comment(lib,"x64/Debug/Culling3D.lib")
 #else
-#pragma comment(lib,"Release/Culling3D.lib")
+#pragma comment(lib,"x64/Release/Culling3D.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/Culling3D.lib")
+#else
+#pragma comment(lib,"x86/Release/Culling3D.lib")
+#endif
+
 #endif
 
 namespace ace
@@ -95,8 +107,16 @@ namespace ace
 		Renderer3DProxy(Graphics* graphics);
 		virtual ~Renderer3DProxy();
 
-		void Rendering(RenderTexture2D_Imp* renderTarget);
+		/**
+			@brief	内部の情報から現在のフレームを内部に描画する。
+		*/
+		void Render();
 		
+		/**
+			@brief	内部の描画結果を現在のレンダーターゲットに描画する。
+		*/
+		void RenderResult();
+
 	private:
 		void RenderCamera(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
 		void RenderCameraOnLightweight(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);

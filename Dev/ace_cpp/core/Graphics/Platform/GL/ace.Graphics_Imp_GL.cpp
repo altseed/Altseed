@@ -412,6 +412,13 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 	assert(indexBuffer != nullptr);
 	assert(shaderPtr != nullptr);
 
+#ifdef __APPLE__
+	{
+		assert(m_vao);
+		glBindVertexArray(m_vao);
+		GLCheckError();
+	}
+#endif
 
 	auto shader = (NativeShader_Imp_GL*) shaderPtr;
 	auto vb = (VertexBuffer_Imp_GL*) vertexBuffer;
@@ -458,22 +465,22 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 			if (shader->GetTexture(texName, tex, filterType, wrapType, i))
 			{
 				GLuint buf = 0;
-				if (tex->GetType() == TEXTURE_CLASS_TEXTURE2D)
+				if (tex->GetType() == TextureClassType::Texture2D)
 				{
 					auto t = (Texture2D_Imp_GL*) tex;
 					buf = t->GetBuffer();
 				}
-				else if (tex->GetType() == TEXTURE_CLASS_RENDERTEXTURE2D)
+				else if (tex->GetType() == TextureClassType::RenderTexture2D)
 				{
 					auto t = (RenderTexture2D_Imp_GL*) tex;
 					buf = t->GetBuffer();
 				}
-				else if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+				else if (tex->GetType() == TextureClassType::CubemapTexture)
 				{
 					auto t = (CubemapTexture_Imp_GL*) tex;
 					buf = t->GetBuffer();
 				}
-				else if (tex->GetType() == TEXTURE_CLASS_DEPTHBUFFER)
+				else if (tex->GetType() == TextureClassType::DepthBuffer)
 				{
 					auto t = (DepthBuffer_Imp_GL*) tex;
 					buf = t->GetBuffer();
@@ -482,7 +489,7 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 				GLCheckError();
 				glActiveTexture(GL_TEXTURE0 + i);
 
-				if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+				if (tex->GetType() == TextureClassType::CubemapTexture)
 				{
 					glBindTexture(GL_TEXTURE_CUBE_MAP, buf);
 				}
@@ -531,7 +538,7 @@ void Graphics_Imp_GL::UpdateStatus(VertexBuffer_Imp* vertexBuffer, IndexBuffer_I
 
 		if (shader->GetTexture(texName, tex, filterType, wrapType, i))
 		{
-			if (tex->GetType() == TEXTURE_CLASS_CUBEMAPTEXTURE)
+			if (tex->GetType() == TextureClassType::CubemapTexture)
 			{
 				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MAG_FILTER, glfilter[filter_]);
 				glSamplerParameteri(m_samplers[i], GL_TEXTURE_MIN_FILTER, glfilter_mip[filter_]);
@@ -710,7 +717,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::ace::Window* window, Log* log,File *f
 		log->WriteLine(s.c_str());
 	};
 
-	writeLogHeading(ToAString("OpenGL"));
+	writeLogHeading(ToAString("描画(OpenGL)"));
 
 	auto window_ = ((Window_Imp*) window)->GetWindow();
 	glfwMakeContextCurrent(window_);
@@ -749,7 +756,7 @@ End:;
 #if _WIN32
 #elif __APPLE__
 #else
-Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, bool isReloadingEnabled, bool isFullScreen )
+Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_t width, int32_t height, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen )
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -798,7 +805,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create_X11(void* display, void* window, int32_
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL( ace::Vector2DI(width,height), display, window, context_, log, isReloadingEnabled);
+	return new Graphics_Imp_GL( ace::Vector2DI(width,height), display, window, context_, log, file, isReloadingEnabled, isFullScreen);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));
@@ -825,9 +832,9 @@ Texture2D_Imp* Graphics_Imp_GL::CreateTexture2DAsRawData_Imp_Internal(Graphics* 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Texture2D_Imp* Graphics_Imp_GL::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format)
+Texture2D_Imp* Graphics_Imp_GL::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format, void* data)
 {
-	auto ret = Texture2D_Imp_GL::Create(this, width, height, format);
+	auto ret = Texture2D_Imp_GL::Create(this, width, height, format, data);
 	return ret;
 }
 
@@ -914,7 +921,7 @@ void Graphics_Imp_GL::CommitRenderState(bool forced)
 
 	if (current.AlphaBlendState != next.AlphaBlendState || forced)
 	{
-		if (next.AlphaBlendState == AlphaBlend::Opacity)
+		if (next.AlphaBlendState == AlphaBlendMode::Opacity)
 		{
 			glDisable(GL_BLEND);
 		}
@@ -922,7 +929,7 @@ void Graphics_Imp_GL::CommitRenderState(bool forced)
 		{
 			glEnable(GL_BLEND);
 
-			if (next.AlphaBlendState == AlphaBlend::Sub)
+			if (next.AlphaBlendState == AlphaBlendMode::Sub)
 			{
 				//glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
 				//glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -933,19 +940,19 @@ void Graphics_Imp_GL::CommitRenderState(bool forced)
 			{
 				//glBlendEquation(GL_FUNC_ADD);
 				glBlendEquationSeparate(GL_FUNC_ADD, GL_FUNC_ADD);
-				if (next.AlphaBlendState == AlphaBlend::Blend)
+				if (next.AlphaBlendState == AlphaBlendMode::Blend)
 				{
 					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA, GL_ONE, GL_ONE);
 				}
-				else if (next.AlphaBlendState == AlphaBlend::Add)
+				else if (next.AlphaBlendState == AlphaBlendMode::Add)
 				{
 					glBlendFuncSeparate(GL_SRC_ALPHA, GL_ONE, GL_ONE, GL_ONE);
 				}
-				else if (next.AlphaBlendState == AlphaBlend::Mul)
+				else if (next.AlphaBlendState == AlphaBlendMode::Mul)
 				{
 					glBlendFuncSeparate(GL_ZERO, GL_SRC_COLOR, GL_ONE, GL_ONE);
 				}
-				else if (next.AlphaBlendState == AlphaBlend::AddAll)
+				else if (next.AlphaBlendState == AlphaBlendMode::AddAll)
 				{
 					glBlendFuncSeparate(GL_ONE, GL_ONE, GL_ONE, GL_ONE);
 				}

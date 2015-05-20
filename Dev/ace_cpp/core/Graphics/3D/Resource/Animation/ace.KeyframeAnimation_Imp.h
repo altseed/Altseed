@@ -18,8 +18,8 @@ namespace ace
 		std::vector<FCurveKeyframe>	m_keyframes;
 
 		astring						m_targetName;
-		eAnimationCurveTargetType	m_targetType;
-		eAnimationCurveTargetAxis	m_targetAxis;
+		AnimationCurveTargetType	m_targetType;
+		AnimationCurveTargetAxis	m_targetAxis;
 
 	public:
 		KeyframeAnimation_Imp();
@@ -31,9 +31,9 @@ namespace ace
 
 		astring& GetTargetName();
 
-		eAnimationCurveTargetType GetTargetType();
+		AnimationCurveTargetType GetTargetType();
 
-		eAnimationCurveTargetAxis GetTargetAxis();
+		AnimationCurveTargetAxis GetTargetAxis();
 
 		void AddKeyframe(const FCurveKeyframe& kf) override;
 

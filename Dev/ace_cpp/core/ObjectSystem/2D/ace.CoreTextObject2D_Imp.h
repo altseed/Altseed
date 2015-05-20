@@ -24,9 +24,10 @@ namespace ace
 		Color m_color;
 		bool m_turnLR;
 		bool m_turnUL;
-		AlphaBlend m_alphablend;
+		AlphaBlendMode m_alphablend;
 		int m_drawingPtiority;
 		astring m_text;
+		TextureFilterType m_textureFilterType;
 
 	public:
 #pragma region Parameter
@@ -54,8 +55,11 @@ namespace ace
 		int GetDrawingPriority() const override;
 		void SetDrawingPriority(int priority) override;
 
-		AlphaBlend GetAlphaBlendMode() const override;
-		void SetAlphaBlendMode(AlphaBlend alphaBlend) override;
+		AlphaBlendMode GetAlphaBlendMode() const override;
+		void SetAlphaBlendMode(AlphaBlendMode alphaBlend) override;
+
+		void SetTextureFilterType(TextureFilterType textureFilterType) override;
+		TextureFilterType GetTextureFilterType() const override;
 #pragma endregion
 
 		void Draw(Renderer2D* renderer) override;

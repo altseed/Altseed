@@ -30,8 +30,20 @@ namespace ace
 		static AnimationSource* AnimationSyatem_CreateAnimationSource(AnimationSystem* o);
 		static KeyframeAnimation* AnimationSyatem_CreateKeyframeAnimation(AnimationSystem* o);
 
+		static AnimationClip* Model_GetAnimationClip(Model* o, int32_t index);
 		static Mesh* Model_GetMesh(Model* o, int32_t index);
 
+		static Texture2D* ImagePackage_GetImage(ImagePackage* o, int32_t index);
+
 		static Effect* CoreEffectObject2D_GetEffect(CoreEffectObject2D* o);
+
+		static Texture2D* Chip2D_GetTexture(Chip2D* chip);
+
+		static StaticFile* File_CreateStaticFile(File* file, const achar* path);
+		static StreamFile* File_CreateStreamFile(File* file, const achar* path);
+
+		static int32_t StreamFile_Read_(StreamFile* o, int32_t size);
+		static void* StreamFile_GetTempBuffer_(StreamFile* o);
+		static int32_t StreamFile_GetTempBufferSize_(StreamFile* o);
 	};
 }

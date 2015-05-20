@@ -37,10 +37,12 @@ namespace ace
 
 		CoreScene* m_scene;
 
+		int64_t m_previousUpdateTime;
+		int64_t m_timeAtUpdateStart;
+
 		CoreLayer_Imp(Graphics* graphics, Vector2DI windowSize);
 		virtual ~CoreLayer_Imp();
 	public:
-
 		virtual int GetDrawingPriority() const;
 		virtual void SetDrawingPriority(int value);
 
@@ -49,6 +51,10 @@ namespace ace
 
 		virtual void AddPostEffect(CorePostEffect* postEffect);
 		virtual void ClearPostEffects();
+
+		void BeginMeasureUpdateTime();
+		void EndMeasureUpdateTime();
+		int GetTimeForUpdate() const;
 
 #if !SWIG
 		virtual void SetScene(CoreScene* scene);

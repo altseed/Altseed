@@ -125,7 +125,7 @@ namespace ace
 		}
 	}
 
-	bool RenderedEffectObject3D::IsPlaying()
+	bool RenderedEffectObject3D::GetIsPlaying()
 	{
 		for (size_t i = 0; i < m_handles.size(); i++)
 		{

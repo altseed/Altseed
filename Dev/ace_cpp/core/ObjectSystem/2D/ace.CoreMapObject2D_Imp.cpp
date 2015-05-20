@@ -11,6 +11,7 @@ namespace ace
 		: CoreObject2D_Imp(graphics)
 		, m_centerPosition(Vector2DF())
 		, m_drawingPtiority(0)
+		, firstSortedKey(0)
 	{
 		m_chips.clear();
 		alreadyCullingUpdated = true;
@@ -87,7 +88,7 @@ namespace ace
 			auto layer = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
 			if (layer != nullptr)
 			{
-				layer->AddChipCullingObject(chip_Imp);
+				layer->AddChipCullingObject(chip_Imp,firstSortedKey);
 			}
 #endif
 
@@ -163,17 +164,17 @@ namespace ace
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
 
-		for (auto chip = m_chips.begin(); chip != m_chips.end(); ++chip)
+		for (auto chip : m_chips)
 		{
 
-			Texture2D* texture = (*chip)->GetTexture();
+			auto texture = chip->GetTexture();
 
 			if (texture == nullptr)
 			{
 				continue;
 			}
 
-			std::array<Vector2DF, 4> position = (*chip)->GetSrc().GetVertexes();
+			std::array<Vector2DF, 4> position = chip->GetSrc().GetVertexes();
 
 			{
 
@@ -202,13 +203,13 @@ namespace ace
 					uv /= textureSize;
 				}
 
-				if ((*chip)->GetTurnLR())
+				if (chip->GetTurnLR())
 				{
 					std::swap(uvs.at(0), uvs.at(1));
 					std::swap(uvs.at(2), uvs.at(3));
 				}
 
-				if ((*chip)->GetTurnUL())
+				if (chip->GetTurnUL())
 				{
 					std::swap(uvs.at(0), uvs.at(3));
 					std::swap(uvs.at(1), uvs.at(2));
@@ -216,12 +217,12 @@ namespace ace
 			}
 
 			std::array<Color, 4> color;
-			color[0] = (*chip)->GetColor();
-			color[1] = (*chip)->GetColor();
-			color[2] = (*chip)->GetColor();
-			color[3] = (*chip)->GetColor();
+			color[0] = chip->GetColor();
+			color[1] = chip->GetColor();
+			color[2] = chip->GetColor();
+			color[3] = chip->GetColor();
 
-			renderer->AddSprite(position.data(), color.data(), uvs.data(), texture, (*chip)->GetAlphaBlendMode(), m_drawingPtiority);
+			renderer->AddSprite(position.data(), color.data(), uvs.data(), texture.get(), chip->GetAlphaBlendMode(), m_drawingPtiority);
 		}
 
 	}
@@ -231,8 +232,12 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	void CoreMapObject2D_Imp::DrawChip(Renderer2D* renderer, Chip2D* chip)
 	{
+		if (!m_objectInfo.GetIsDrawn())
+		{
+			return;
+		}
 
-		Texture2D* texture = chip->GetTexture();
+		auto texture = chip->GetTexture();
 
 		if (m_chips.find(chip) == m_chips.end() || texture == nullptr) return;
 
@@ -288,7 +293,7 @@ namespace ace
 		color[2] = chip->GetColor();
 		color[3] = chip->GetColor();
 
-		renderer->AddSprite(position.data(), color.data(), uvs.data(), texture, chip->GetAlphaBlendMode(), m_drawingPtiority);
+		renderer->AddSprite(position.data(), color.data(), uvs.data(), texture.get(), chip->GetAlphaBlendMode(), m_drawingPtiority);
 
 	}
 
@@ -299,7 +304,7 @@ namespace ace
 	{
 		culling2d::Circle circle = culling2d::Circle();
 
-		Texture2D* texture = chip->GetTexture();
+		auto texture = chip->GetTexture();
 
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
@@ -341,9 +346,20 @@ namespace ace
 			{
 				auto chip_Imp = (Chip2D_Imp*)chip;
 
-				layer->AddChipCullingObject(chip_Imp);
+				layer->AddChipCullingObject(chip_Imp, firstSortedKey);
 			}
 		}
 	}
+
+	uint32_t CoreMapObject2D_Imp::GetFirstSortedKey()
+	{
+		return firstSortedKey;
+	}
+
+	void CoreMapObject2D_Imp::SetFirstSortedKey(uint32_t sortedKey)
+	{
+		firstSortedKey = sortedKey;
+	}
+
 #endif
 }

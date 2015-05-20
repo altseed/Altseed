@@ -9,7 +9,7 @@ struct PS_Input
 {
 	float4 Pos		: SV_POSITION;
 #ifdef HAS_TEXTURE
-	float2 UV		: TEXCOORD0;
+	float2 UV		: UV0;
 #endif
 	float4 Color	: COLOR0;
 };

@@ -16,19 +16,23 @@ virtual float GetAngle() const override { return CoreObject2D_Imp::GetAngle(); }
 virtual void SetAngle(float value) override { return CoreObject2D_Imp::SetAngle(value); }
 virtual Vector2DF GetScale() const override { return CoreObject2D_Imp::GetScale(); }
 virtual void SetScale(Vector2DF value) override { return CoreObject2D_Imp::SetScale(value); }
-virtual void SetParent(CoreObject2D& parent, eChildMode mode) override { return CoreObject2D_Imp::SetParent(parent, mode); }
+virtual void SetParent(CoreObject2D& parent, ChildMode mode) override { return CoreObject2D_Imp::SetParent(parent, mode); }
 virtual void ClearParent() override { return CoreObject2D_Imp::ClearParent(); }
 virtual Matrix33 GetMatrixToTranslate() override { return CoreObject2D_Imp::GetMatrixToTranslate(); }
 virtual Matrix33 GetMatrixToTransform() override { return CoreObject2D_Imp::GetMatrixToTransform(); }
 virtual Matrix33 GetParentsMatrix() override { return CoreObject2D_Imp::GetParentsMatrix(); }
 
 
-void AddChild(CoreObject2D& child, eChildMode mode)
+void AddChild(CoreObject2D* child, ChildMode mode)
 {
-	child.SetParent(*this, mode);
+	if (child == nullptr || children.find(child) != children.end()) return;
+	children.insert(child);
+	child->SetParent(*this, mode);
 }
 
-void RemoveChild(CoreObject2D& child)
+void RemoveChild(CoreObject2D* child)
 {
-	child.ClearParent();
+	if (child == nullptr) return;
+	children.erase(child);
+	child->ClearParent();
 }

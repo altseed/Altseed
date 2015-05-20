@@ -90,12 +90,14 @@
   <ItemGroup>
     <ClCompile Include="FBX2MDL.FBXExporter.cpp" />
     <ClCompile Include="FBX2MDL.FBXImporter.cpp" />
+    <ClCompile Include="FBX2MDL.FBXOptimizer.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="FBX2MDL.Base.h" />
     <ClInclude Include="FBX2MDL.FBXExporter.h" />
     <ClInclude Include="FBX2MDL.FBXImporter.h" />
+    <ClInclude Include="FBX2MDL.FBXOptimizer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

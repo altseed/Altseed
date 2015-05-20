@@ -9,7 +9,7 @@ namespace ace
 {
 	/**
 		@brief	3Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
-	*/
+		*/
 	class Layer3D
 		: public Layer
 	{
@@ -17,17 +17,18 @@ namespace ace
 
 	public:
 		typedef std::shared_ptr<Object3D> ObjectPtr;
-	
+
 	private:
 
 		std::shared_ptr<CoreLayer3D>	m_coreLayer;
-		std::list<ObjectPtr>			m_objects;
+		ContentsManager<Object3D>		m_objects;
 
-		void BeginUpdateting();
+		void BeginUpdating();
 		void EndUpdateting();
 
 		void DrawAdditionally();
 		void Update();
+		void CallDestroy();
 
 	protected:
 		virtual void OnUpdating();
@@ -37,37 +38,42 @@ namespace ace
 	public:
 		/**
 			@brief	コンストラクタ
-		*/
+			*/
 		Layer3D(RenderSettings settings = RenderSettings());
 
 		/**
 			@brief	デストラクタ
-		*/
+			*/
 		virtual ~Layer3D();
 
 		/**
 			@brief	描画設定を取得する。
 			@return	描画設定
-		*/
+			*/
 		RenderSettings GetRenderSettings() const;
 
 		/**
 			@brief	描画設定を設定する。
 			@param	settings	描画設定
-		*/
+			*/
 		void SetRenderSettings(RenderSettings settings);
 
 		/**
 			@brief	このレイヤーに指定した3Dオブジェクトを追加する。
 			@param	object	追加する3Dオブジェクト
-		*/
-		void AddObject(const ObjectPtr& object);
-		
+			*/
+		void AddObject(const Object3D::Ptr& object);
+
 		/**
 			@brief	このレイヤーから指定した3Dオブジェクトを削除する。
 			@param	object	削除される3Dオブジェクト
+			*/
+		void RemoveObject(const Object3D::Ptr& object);
+		/**
+		@brief	このレイヤーに登録されている3Dオブジェクトのリストを取得する。
+		@return	登録されているオブジェクトのリスト
 		*/
-		void RemoveObject(const ObjectPtr& object);
+		const std::list<Object3D::Ptr>& GetObjects() const;
 
 		/**
 		@brief	通常の描画に加えてテクスチャを描画する。
@@ -93,7 +99,7 @@ namespace ace
 		void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
-			std::shared_ptr<Texture2D>  texture, AlphaBlend alphaBlend, bool depthWrite, bool depthTest);
+			std::shared_ptr<Texture2D>  texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest);
 
 		/**
 		@brief	環境光の強さを取得する。
@@ -114,7 +120,7 @@ namespace ace
 		/**
 			@brief	空方向の環境光の色を設定する。
 			@param	color	色
-		*/
+			*/
 		void SetSkyAmbientColor(Color color);
 
 		/**
@@ -136,27 +142,15 @@ namespace ace
 			@brief	テクスチャによる環境の色を設定する。
 			@param	diffuseColor	拡散色
 			@param	specularColor	スペキュラ色
-		*/
+			*/
 		void SetEnvironmentColor(std::shared_ptr<CubemapTexture> diffuseColor, std::shared_ptr<CubemapTexture> specularColor);
-
-		/**
-		@brief	描画先のフォーマットがHDRか取得する。
-		@return	HDRか?
-		*/
-		bool GetHDRMode() const;
-
-		/**
-		@brief	描画先のフォーマットをHDRにするか設定する。
-		@param	value	HDRか?
-		*/
-		void SetHDRMode(bool value);
 
 		/**
 			@brief	SSAOのサンプリングする半径を取得する。
 			@return	SSAOのサンプリングする半径
-		*/
+			*/
 		float GetSSAO_Radius();
-		
+
 		/**
 		@brief	SSAOのサンプリングする半径を設定すする。
 		@param	value	SSAOのサンプリングする半径
@@ -198,5 +192,13 @@ namespace ace
 		@param	value	SSAOの最大距離
 		*/
 		void SetSSAO_FarPlain(float value);
+
+		/**
+		@brief	レイヤーの種類を取得する。
+		@return	レイヤーの種類
+		*/
+		LayerType GetLayerType() const override { return LayerType::Layer3D; }
+
+		int GetObjectCount() const;
 	};
 }

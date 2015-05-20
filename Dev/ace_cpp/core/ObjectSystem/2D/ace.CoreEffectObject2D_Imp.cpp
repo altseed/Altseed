@@ -100,7 +100,7 @@ namespace ace
 		}
 	}
 
-	bool CoreEffectObject2D_Imp::IsPlaying()
+	bool CoreEffectObject2D_Imp::GetIsPlaying()
 	{
 		for (size_t i = 0; i < m_handles.size(); i++)
 		{

@@ -28,7 +28,7 @@ namespace ace
 		virtual void SetLayer(CoreLayer3D* layer) = 0;
 #endif
 
-		virtual eRenderedObject3DType GetObjectType() = 0;
+		virtual RenderedObject3DType GetObjectType() = 0;
 
 	};
 }

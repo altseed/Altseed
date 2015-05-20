@@ -117,8 +117,8 @@ void Graphics_Sampler(bool isOpenGLMode)
 	ASSERT_TRUE(indexBuffer != nullptr);
 	
 	std::vector<ace::VertexLayout> vl;
-	vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-	vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+	vl.push_back(ace::VertexLayout("Pos", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+	vl.push_back(ace::VertexLayout("UV", ace::VertexLayoutFormat::R32G32_FLOAT));
 
 	std::shared_ptr<ace::NativeShader_Imp> shader;
 	std::vector<ace::Macro> macro;
@@ -170,7 +170,7 @@ void Graphics_Sampler(bool isOpenGLMode)
 	int32_t time = 0;
 	while (window->DoEvent())
 	{
-		auto draw = [&](uint8_t r, uint8_t g, uint8_t b, uint8_t a, ace::TextureFilterType filter, ace::TextureWrapType wrap, ace::AlphaBlend alphaBlend) -> void
+		auto draw = [&](uint8_t r, uint8_t g, uint8_t b, uint8_t a, ace::TextureFilterType filter, ace::TextureWrapType wrap, ace::AlphaBlendMode alphaBlend) -> void
 		{
 			graphics->Clear(true, false, ace::Color(r,g,b,a));
 			graphics->SetVertexBuffer(vertexBuffer.get());
@@ -194,35 +194,35 @@ void Graphics_Sampler(bool isOpenGLMode)
 			draw( 100, 10, 10, 255,
 				ace::TextureFilterType::Linear,
 				ace::TextureWrapType::Repeat,
-				ace::AlphaBlend::Blend );
+				ace::AlphaBlendMode::Blend );
 		}
 		else if (time  < 8)
 		{
 			draw( 10, 100, 10, 255,
 				ace::TextureFilterType::Nearest,
 				ace::TextureWrapType::Repeat,
-				ace::AlphaBlend::Add);
+				ace::AlphaBlendMode::Add);
 		}
 		else if (time < 12)
 		{
 			draw(200, 100, 100, 255,
 				ace::TextureFilterType::Linear,
 				ace::TextureWrapType::Clamp,
-				ace::AlphaBlend::Sub);
+				ace::AlphaBlendMode::Sub);
 		}
 		else if (time < 16)
 		{
 			draw(100, 200, 100, 255,
 				ace::TextureFilterType::Nearest,
 				ace::TextureWrapType::Clamp,
-				ace::AlphaBlend::Mul);
+				ace::AlphaBlendMode::Mul);
 		}
 		else if (time < 20)
 		{
 			draw(10, 10, 100, 255,
 				ace::TextureFilterType::Linear,
 				ace::TextureWrapType::Clamp,
-				ace::AlphaBlend::Opacity);
+				ace::AlphaBlendMode::Opacity);
 		}
 
 		graphics->Present();

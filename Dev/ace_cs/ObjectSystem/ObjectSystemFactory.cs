@@ -62,6 +62,15 @@ namespace ace
 			return factory.CreateEffectObject2D();
 		}
 
+        /// <summary>
+        /// ネイティブのクラスをインスタンス化する。
+        /// </summary>
+        /// <returns>ネイティブのインスタンス</returns>
+        public swig.CoreGeometryObject2D CreateGeometryObject2D()
+        {
+            return factory.CreateGeometryObject2D();
+        }
+
 		/// <summary>
 		/// ネイティブの CoreLayer2D クラスをインスタンス化する。
 		/// </summary>
@@ -153,6 +162,36 @@ namespace ace
 		{
 			return factory.CreateTransition();
 		}
+
+        public swig.CoreArcShape CreateArcShape()
+        {
+            return factory.CreateArcShape();
+        }
+
+        public swig.CorePolygonShape CreatePolygonShape()
+        {
+            return factory.CreatePolygonShape();
+        }
+
+        public swig.CoreCircleShape CreateCircleShape()
+        {
+            return factory.CreateCircleShape();
+        }
+
+        public swig.CoreLineShape CreateLineShape()
+        {
+            return factory.CreateLineShape();
+        }
+
+        public swig.CoreRectangleShape CreateRectangleShape()
+        {
+            return factory.CreateRectangleShape();
+        }
+
+        public swig.CoreTriangleShape CreateTriangleShape()
+        {
+            return factory.CreateTriangleShape();
+        }
 
 		private swig.ObjectSystemFactory factory;
 	}

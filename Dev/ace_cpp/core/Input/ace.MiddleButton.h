@@ -1,17 +1,27 @@
 ﻿#pragma once
 
-#include "ace.IMouseWheelableButtonState.h"
+#include "ace.MouseButtonState.h"
 
 namespace ace{
 
-	class MiddleButton : public IMouseWheelableButtonState
+	/**
+	@brief マウスの中ボタンの状態を扱うクラス
+	*/
+	class MiddleButton
 	{
 	private:
 		MouseButtonState m_mouseButtonState;
 		double m_rotation;
 	public:
-		const MouseButtonState GetButtonState() const;
-		const double GetRotation() const;
+		/**
+		@brief ボタンの押し状態を返す
+		*/
+		virtual MouseButtonState GetButtonState() const;
+
+		/**
+		@brief ホイールの回転度合いを返す
+		*/
+		virtual double GetRotation() const;
 		MiddleButton(MouseButtonState mouseButtonState,double rotation);
 		MiddleButton(){}
 	};

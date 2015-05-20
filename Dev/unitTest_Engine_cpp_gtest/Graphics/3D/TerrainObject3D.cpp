@@ -6,7 +6,7 @@ class Graphics_TerrainObject3D : public EngineGraphics3DTest
 public:
 
 	Graphics_TerrainObject3D(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("TerrainObject3D"), isOpenGLMode, 20, true)
+		EngineGraphics3DTest(ace::ToAString("TerrainObject3D"), isOpenGLMode, 15, true)
 	{}
 
 protected:
@@ -40,6 +40,7 @@ protected:
 
 		auto sf2ind = t->GetSurfaceIndex(ace::ToAString("sf2").c_str());
 		t->AssignSurfaceWithCircle(sf2ind, 0, 0, 2, 255, 0.5);
+		t->RaiseWithCircle(0, 0, 3.0f, 0.5f, 0.5f);
 
 		auto tObj = std::make_shared<ace::TerrainObject3D>();
 		tObj->SetTerrain(t);

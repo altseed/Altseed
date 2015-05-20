@@ -9,17 +9,15 @@ namespace ace
 	/// <summary>
 	/// 音源のクラス
 	/// </summary>
-	public class SoundSource : IDestroy
+	public partial class SoundSource : IDestroy
 	{
-		internal swig.SoundSource SwigObject;
-
 		internal SoundSource(swig.SoundSource swig)
 		{
 #if DEBUG
 			// 唯一の対応するクラスであることを保証
 			if (GC.SoundSources.GetObject(swig.GetPtr()) != null) throw new Exception();
 #endif
-			SwigObject = swig;
+			CoreInstance = swig;
 		}
 
 		~SoundSource()
@@ -31,7 +29,7 @@ namespace ace
 		{
 			get
 			{
-				return SwigObject == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -39,46 +37,11 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			System.GC.SuppressFinalize(this);
-		}
-
-		/// <summary>
-		/// ループポイントの開始地点(秒)を取得、または設定する。
-		/// </summary>
-		public float LoopStartingPoint
-		{
-			get { return SwigObject.GetLoopStartingPoint(); }
-			set { SwigObject.SetLoopStartingPoint(value); }
-		}
-
-		/// <summary>
-		/// ループポイントの終了地点(秒)を取得、または設定する。
-		/// </summary>
-		public float LoopEndPoint
-		{
-			get { return SwigObject.GetLoopEndPoint(); }
-			set { SwigObject.SetLoopEndPoint(value); }
-		}
-
-		/// <summary>
-		/// ループするかを取得、または設定する。
-		/// </summary>
-		public bool IsLoopingMode
-		{
-			get { return SwigObject.GetIsLoopingMode(); }
-			set { SwigObject.SetIsLoopingMode(value); }
-		}
-
-		/// <summary>
-		/// 音の長さを取得する。
-		/// </summary>
-		public float Length
-		{
-			get { return SwigObject.GetLength(); }
 		}
 	}
 }

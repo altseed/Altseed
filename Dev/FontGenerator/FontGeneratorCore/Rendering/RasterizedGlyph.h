@@ -28,8 +28,7 @@ namespace FontGenerator
 			int width,
 			int height,
 			int baselineY,
-			int outline,
-			int msaa);
+			int outline);
 
 
 		RasterizedGlyph::Ptr PaintColor(Color color, Color outlineColor);

@@ -2,8 +2,6 @@
 
 各機能ごとの説明を記述します。
 
-AmusementCreatorsEngineの名称はドキュメント中ではACEと省略される事があります。
-
 プロパティはC++の場合、プロパティに相当する機能が存在しないため、Get○○、Set○○といったメソッドで実装されています。
 
 * [基本設計](./BasicDesign.md)
@@ -21,6 +19,7 @@ AmusementCreatorsEngineの名称はドキュメント中ではACEと省略され
 * [テクスチャ2D](./Graphics/Texture2D.md)
 * [エフェクト](./Graphics/Effect.md)
 * [フォント](./Graphics/Font.md)
+* [画像パッケージ](./Graphics/ImagePackage.md)
 
 #### 2D
 
@@ -65,10 +64,15 @@ AmusementCreatorsEngineの名称はドキュメント中ではACEと省略され
 
 ### ファイル
 
+* [ファイル](./IO/File.md)
+* [スタティックファイル](./IO/StaticFile.md)
+* [ストリームファイル](./IO/StreamFile.md)
+
 ### ツール
 
 * [フォントジェネレーター](./Tool/FontGenerator.md)
-* パッケージ化ツール
+* [イメージパッケージジェネレーター](./Tool/ImagePackageGenerator.md)
+* [ファイルパッケージングツール](./Tool/FilePackagingTool.md)
 
 ### 他
 * [リロード](./Misc/Reloading.md)

@@ -19,7 +19,7 @@ protected:
 	{
 		ace::RenderSettings settings;
 		//settings.IsLightweightMode = true;
-		//settings.VisualizedBuffer = ace::VisualizedBufferType::Environment;
+		settings.VisualizedBuffer = ace::VisualizedBufferType::FinalImage;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
@@ -68,13 +68,14 @@ protected:
 		mesh->SetSmoothnessTexture(0, luTexs[2]);
 
 		// 直接光
-		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
-		lightObj->SetColor(ace::Color(255 / 3, 255 / 3, 255 / 3, 200));
+		lightObj->SetRotation(ace::Vector3DF(30, 140, 0));
+		lightObj->SetColor(ace::Color(255, 255, 255, 200));
+		lightObj->SetIntensity(1);
 
 		// 環境
 		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);
 		// 環境光
-#if 1
+#if 0
 		GetLayer3D()->SetSkyAmbientColor(ace::Color(10, 10, 20, 255));
 		GetLayer3D()->SetGroundAmbientColor(ace::Color(20, 10, 10, 255));
 #else
@@ -82,6 +83,13 @@ protected:
 		GetLayer3D()->SetGroundAmbientColor(ace::Color(0, 0, 0, 255));
 #endif
 
+#if 1
+		auto bloom = std::make_shared<ace::PostEffectLightBloom>();
+		bloom->SetIntensity(3.0f);
+		bloom->SetThreshold(1.0f);
+		bloom->SetExposure(1.0f);
+		GetLayer3D()->AddPostEffect(bloom);
+#endif
 	}
 
 	void OnUpdating()

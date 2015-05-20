@@ -176,31 +176,31 @@ macro.push_back(m);
 //----------------------------------------------------------------------------------
 void NativeShader_Imp_DX11::Reflect(void* buf, int32_t bufSize, std::vector<ConstantLayout>& uniformLayouts, int32_t& uniformBufferSize, std::vector<TextureLayout>& textures)
 {
-	auto getBufferType = [](D3D11_SHADER_TYPE_DESC typeDesc, eConstantBufferFormat& format, int32_t& elements) -> void
+	auto getBufferType = [](D3D11_SHADER_TYPE_DESC typeDesc, ConstantBufferFormat& format, int32_t& elements) -> void
 	{
 		elements = 1;
 
 		if (typeDesc.Class == D3D_SHADER_VARIABLE_CLASS::D3D10_SVC_SCALAR && typeDesc.Type == D3D_SHADER_VARIABLE_TYPE::D3D10_SVT_FLOAT)
 		{
-			if (typeDesc.Columns == 1) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT1;
+			if (typeDesc.Columns == 1) format = ConstantBufferFormat::Float1;
 		}
 
 		if (typeDesc.Class == D3D_SHADER_VARIABLE_CLASS::D3D_SVC_VECTOR && typeDesc.Type == D3D_SHADER_VARIABLE_TYPE::D3D10_SVT_FLOAT)
 		{
-			if (typeDesc.Columns == 2) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT2;
-			if (typeDesc.Columns == 3) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT3;
+			if (typeDesc.Columns == 2) format = ConstantBufferFormat::Float2;
+			if (typeDesc.Columns == 3) format = ConstantBufferFormat::Float3;
 
 			else if (typeDesc.Elements > 0)
 			{
 				if (typeDesc.Columns == 4)
 				{
 					elements = typeDesc.Elements;
-					format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4_ARRAY;
+					format = ConstantBufferFormat::Float4_ARRAY;
 				}
 			}
 			else
 			{
-				if (typeDesc.Columns == 4) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_FLOAT4;
+				if (typeDesc.Columns == 4) format = ConstantBufferFormat::Float4;
 			}
 		}
 
@@ -208,17 +208,17 @@ void NativeShader_Imp_DX11::Reflect(void* buf, int32_t bufSize, std::vector<Cons
 		{
 			if (typeDesc.Rows == 4 && typeDesc.Columns == 4)
 			{
-				if (typeDesc.Elements == 0) format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44;
+				if (typeDesc.Elements == 0) format = ConstantBufferFormat::Matrix44;
 				if (typeDesc.Elements > 0)
 				{
 					elements = typeDesc.Elements;
-					format = eConstantBufferFormat::CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY;
+					format = ConstantBufferFormat::Matrix44_ARRAY;
 				}
 			}
 		}
 	};
 
-	auto getResourceType = [](D3D11_SHADER_INPUT_BIND_DESC bindDesc, eConstantBufferFormat& format, int32_t& bindPoint) -> bool
+	auto getResourceType = [](D3D11_SHADER_INPUT_BIND_DESC bindDesc, ConstantBufferFormat& format, int32_t& bindPoint) -> bool
 	{
 		if (bindDesc.Type == D3D_SIT_TEXTURE)
 		{
@@ -254,7 +254,7 @@ void NativeShader_Imp_DX11::Reflect(void* buf, int32_t bufSize, std::vector<Cons
 		D3D11_SHADER_INPUT_BIND_DESC bindDesc;
 		reflection->GetResourceBindingDesc(i, &bindDesc);
 
-		eConstantBufferFormat format;
+		ConstantBufferFormat format;
 		int32_t bindPoint = 0;
 		if (!getResourceType(bindDesc, format, bindPoint)) continue;
 		auto name = bindDesc.Name;
@@ -287,7 +287,7 @@ void NativeShader_Imp_DX11::Reflect(void* buf, int32_t bufSize, std::vector<Cons
 			auto size = variableDesc.Size;
 			auto startOffset = variableDesc.StartOffset;
 
-			eConstantBufferFormat format;
+			ConstantBufferFormat format;
 			int32_t elements = 0;
 			getBufferType(typeDesc, format, elements);
 
@@ -690,6 +690,7 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	{
 		log->WriteHeading("頂点シェーダー生成失敗");
 		log->WriteLine(vertexShaderFileName);
+		log->WriteLine(GraphicsHelper_DX11::GetErrorMessage(g, hr).c_str());
 		goto End;
 	}
 
@@ -704,6 +705,7 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 	{
 		log->WriteHeading("ピクセルシェーダー生成失敗");
 		log->WriteLine(pixelShaderFileName);
+		log->WriteLine(GraphicsHelper_DX11::GetErrorMessage(g, hr).c_str());
 		goto End;
 	}
 
@@ -713,7 +715,7 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 		auto d = D3D11_INPUT_ELEMENT_DESC();
 		ZeroMemory(&d, sizeof(D3D11_INPUT_ELEMENT_DESC));
 
-		if (l.LayoutFormat == LAYOUT_FORMAT_R32G32B32_FLOAT)
+		if (l.LayoutFormat == VertexLayoutFormat::R32G32B32_FLOAT)
 		{
 			d.SemanticName = l.Name.c_str();
 			d.Format = DXGI_FORMAT_R32G32B32_FLOAT;
@@ -721,7 +723,7 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 			d.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 			byteOffset += sizeof(float) * 3;
 		}
-		else if (l.LayoutFormat == LAYOUT_FORMAT_R8G8B8A8_UNORM)
+		else if (l.LayoutFormat == VertexLayoutFormat::R8G8B8A8_UNORM)
 		{
 			d.SemanticName = l.Name.c_str();
 			d.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -729,7 +731,7 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 			d.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 			byteOffset += sizeof(float) * 1;
 		}
-		else if (l.LayoutFormat == LAYOUT_FORMAT_R8G8B8A8_UINT)
+		else if (l.LayoutFormat == VertexLayoutFormat::R8G8B8A8_UINT)
 		{
 			d.SemanticName = l.Name.c_str();
 			d.Format = DXGI_FORMAT_R8G8B8A8_UINT;
@@ -737,7 +739,7 @@ NativeShader_Imp_DX11* NativeShader_Imp_DX11::Create(
 			d.InputSlotClass = D3D11_INPUT_PER_VERTEX_DATA;
 			byteOffset += sizeof(float) * 1;
 		}
-		else if (l.LayoutFormat == LAYOUT_FORMAT_R32G32_FLOAT)
+		else if (l.LayoutFormat == VertexLayoutFormat::R32G32_FLOAT)
 		{
 			d.SemanticName = l.Name.c_str();
 			d.Format = DXGI_FORMAT_R32G32_FLOAT;

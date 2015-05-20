@@ -87,9 +87,9 @@ namespace ace {
 		}
 
 		std::vector<ace::VertexLayout> vl;
-		vl.push_back(ace::VertexLayout("Pos", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-		vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
-		vl.push_back(ace::VertexLayout("Color", ace::LAYOUT_FORMAT_R8G8B8A8_UNORM));
+		vl.push_back(ace::VertexLayout("Pos", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+		vl.push_back(ace::VertexLayout("UV", ace::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(ace::VertexLayout("Color", ace::VertexLayoutFormat::R8G8B8A8_UNORM));
 
 		std::vector<ace::Macro> macro_tex;
 		macro_tex.push_back(Macro("HAS_TEXTURE", "1"));
@@ -243,11 +243,11 @@ namespace ace {
 		{
 			for (auto& e : c.second)
 			{
-				if (e.Type == Event::eEventType::Sprite)
+				if (e.Type == Event::EventType::Sprite)
 				{
 					SafeRelease(e.Data.Sprite.TexturePtr);
 				}
-				else if (e.Type == Event::eEventType::Effect)
+				else if (e.Type == Event::EventType::Effect)
 				{
 				}
 			}
@@ -259,22 +259,24 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Renderer2D_Imp::AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlend alphaBlend, int32_t priority)
+	void Renderer2D_Imp::AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter, TextureWrapType wrap)
 	{
 		Event e;
-		e.Type = Event::eEventType::Sprite;
+		e.Type = Event::EventType::Sprite;
 
 		memcpy(e.Data.Sprite.Positions, positions, sizeof(ace::Vector2DF) * 4);
 		memcpy(e.Data.Sprite.Colors, colors, sizeof(ace::Color) * 4);
 		memcpy(e.Data.Sprite.UV, uv, sizeof(ace::Vector2DF) * 4);
 		e.Data.Sprite.AlphaBlendState = alphaBlend;
 		e.Data.Sprite.TexturePtr = texture;
+		e.Data.Sprite.Filter = filter;
+		e.Data.Sprite.Wrap = wrap;
 		SafeAddRef(e.Data.Sprite.TexturePtr);
 
 		AddEvent(priority, e);
 	}
 
-	void Renderer2D_Imp::AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlend alphaBlend, int32_t priority)
+	void Renderer2D_Imp::AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter, TextureWrapType wrap)
 	{
 		Vector2DF drawPosition = Vector2DF(0, 0);
 
@@ -368,7 +370,7 @@ namespace ace {
 				}
 			}
 
-			AddSprite(position.data(), &colors[0], uvs.data(), texture.get(), alphaBlend, priority);
+			AddSprite(position.data(), &colors[0], uvs.data(), texture.get(), alphaBlend, priority, filter, wrap);
 
 			if (writingDirection == WritingDirection::Horizontal)
 			{
@@ -386,7 +388,7 @@ namespace ace {
 	void Renderer2D_Imp::AddEffect(::Effekseer::Handle handle, int32_t priority)
 	{
 		Event e;
-		e.Type = Event::eEventType::Effect;
+		e.Type = Event::EventType::Effect;
 		e.Data.Effect.EffectHandle = handle;
 
 		AddEvent(priority, e);
@@ -425,9 +427,11 @@ namespace ace {
 		{
 			m_state.TexturePtr = e.Data.Sprite.TexturePtr;
 			m_state.AlphaBlendState = e.Data.Sprite.AlphaBlendState;
+			m_state.Filter = e.Data.Sprite.Filter;
+			m_state.Wrap = e.Data.Sprite.Wrap;
 		};
 
-		if (e.Type == Event::eEventType::Sprite)
+		if (e.Type == Event::EventType::Sprite)
 		{
 			DrawEffect();
 
@@ -442,6 +446,9 @@ namespace ace {
 				// もしくはバッファが溢れないかどうか?
 				if (m_state.TexturePtr != e.Data.Sprite.TexturePtr ||
 					m_state.AlphaBlendState != e.Data.Sprite.AlphaBlendState ||
+					m_state.Filter != e.Data.Sprite.Filter ||
+					m_state.Wrap != e.Data.Sprite.Wrap ||
+
 					m_drawingSprites.size() >= SpriteCount)
 				{
 					DrawSprite();
@@ -452,7 +459,7 @@ namespace ace {
 			// 書き込み
 			m_drawingSprites.push_back(&e);
 		}
-		else if (e.Type == Event::eEventType::Effect)
+		else if (e.Type == Event::EventType::Effect)
 		{
 			DrawSprite();
 
@@ -537,7 +544,7 @@ namespace ace {
 		// 描画
 		if (m_state.TexturePtr != nullptr)
 		{
-			shader->SetTexture("g_texture", m_state.TexturePtr, ace::TextureFilterType::Nearest, ace::TextureWrapType::Clamp, 0);
+			shader->SetTexture("g_texture", m_state.TexturePtr, m_state.Filter, m_state.Wrap, 0);
 		}
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());
@@ -545,6 +552,7 @@ namespace ace {
 
 		RenderState state;
 		
+		state.AlphaBlendState = m_state.AlphaBlendState;
 		state.DepthTest = false;
 		state.DepthWrite = false;
 		state.Culling = CullingType::Double;

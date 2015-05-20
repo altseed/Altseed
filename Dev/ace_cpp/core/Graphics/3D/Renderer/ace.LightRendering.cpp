@@ -27,8 +27,8 @@ namespace ace
 
 		{
 			std::vector<ace::VertexLayout> vl;
-			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+			vl.push_back(ace::VertexLayout("Position", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("UV", ace::VertexLayoutFormat::R32G32_FLOAT));
 
 			std::vector<ace::Macro> macro_x;
 			macro_x.push_back(Macro("BLUR_X", "1"));
@@ -72,8 +72,8 @@ namespace ace
 
 		{
 			std::vector<ace::VertexLayout> vl;
-			vl.push_back(ace::VertexLayout("Position", ace::LAYOUT_FORMAT_R32G32B32_FLOAT));
-			vl.push_back(ace::VertexLayout("UV", ace::LAYOUT_FORMAT_R32G32_FLOAT));
+			vl.push_back(ace::VertexLayout("Position", ace::VertexLayoutFormat::R32G32B32_FLOAT));
+			vl.push_back(ace::VertexLayout("UV", ace::VertexLayoutFormat::R32G32_FLOAT));
 
 			std::vector<ace::Macro> macro_d_a;
 			macro_d_a.push_back(Macro("DIRECTIONAL_LIGHT", "1"));

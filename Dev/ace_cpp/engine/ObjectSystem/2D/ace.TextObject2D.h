@@ -61,7 +61,7 @@ namespace ace
 		/**
 		@brief	このオブジェクトを描画する際のブレンドモードを取得します。
 		*/
-		AlphaBlend GetAlphaBlendMode() const;
+		AlphaBlendMode GetAlphaBlendMode() const;
 
 		/**
 		@brief	このオブジェクトを描画する際の描画方向を設定します。
@@ -106,7 +106,16 @@ namespace ace
 		/**
 		@brief	このオブジェクトを描画する際のブレンドモードを設定する。
 		*/
-		void SetAlphaBlendMode(AlphaBlend alphaBlend);
+		void SetAlphaBlendMode(AlphaBlendMode alphaBlend);
 
+		/**
+		@brief　このオブジェクトを描画する際のテクスチャフィルタの種類を設定する。
+		*/
+		void SetTextureFilterType(TextureFilterType textureFilterType);
+
+		/**
+		@brief　このオブジェクトを描画する際のテクスチャフィルタの種類を取得する。
+		*/
+		TextureFilterType GetTextureFilterType() const;
 	};
 }

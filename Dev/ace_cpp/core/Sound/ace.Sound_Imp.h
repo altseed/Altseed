@@ -8,16 +8,34 @@
 
 #include <OpenSoundMixer.h>
 
+#ifdef _WIN64
+
 #if _DEBUG
-#pragma comment(lib,"Debug/libogg_static.lib")
-#pragma comment(lib,"Debug/libvorbis_static.lib")
-#pragma comment(lib,"Debug/libvorbisfile_static.lib")
-#pragma comment(lib,"Debug/OpenSoundMixer.lib")
+#pragma comment(lib,"x64/Debug/libogg_static.lib")
+#pragma comment(lib,"x64/Debug/libvorbis_static.lib")
+#pragma comment(lib,"x64/Debug/libvorbisfile_static.lib")
+#pragma comment(lib,"x64/Debug/OpenSoundMixer.lib")
 #else
-#pragma comment(lib,"Release/libogg_static.lib")
-#pragma comment(lib,"Release/libvorbis_static.lib")
-#pragma comment(lib,"Release/libvorbisfile_static.lib")
-#pragma comment(lib,"Release/OpenSoundMixer.lib")
+#pragma comment(lib,"x64/Release/libogg_static.lib")
+#pragma comment(lib,"x64/Release/libvorbis_static.lib")
+#pragma comment(lib,"x64/Release/libvorbisfile_static.lib")
+#pragma comment(lib,"x64/Release/OpenSoundMixer.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/libogg_static.lib")
+#pragma comment(lib,"x86/Debug/libvorbis_static.lib")
+#pragma comment(lib,"x86/Debug/libvorbisfile_static.lib")
+#pragma comment(lib,"x86/Debug/OpenSoundMixer.lib")
+#else
+#pragma comment(lib,"x86/Release/libogg_static.lib")
+#pragma comment(lib,"x86/Release/libvorbis_static.lib")
+#pragma comment(lib,"x86/Release/libvorbisfile_static.lib")
+#pragma comment(lib,"x86/Release/OpenSoundMixer.lib")
+#endif
+
 #endif
 
 namespace ace
@@ -28,18 +46,19 @@ namespace ace
 	{
 	private:
 		osm::Manager*	m_manager;
+		Log*			log;
 		File*			m_file;
 
 	public:
 
-		Sound_Imp(File *file, bool isReloadingEnabled);
+		Sound_Imp(File *file, Log* log, bool isReloadingEnabled);
 		virtual ~Sound_Imp();
 
 		SoundSource* CreateSoundSource_(const achar* path, bool isDecompressed) override;
 
 		int32_t Play(SoundSource* soundSource) override;
 
-		bool IsPlaying(int32_t id) override;
+		bool GetIsPlaying(int32_t id) override;
 
 		void StopAll() override;
 

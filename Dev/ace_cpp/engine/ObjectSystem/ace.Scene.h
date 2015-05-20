@@ -6,6 +6,7 @@
 #include "ace.Layer.h"
 #include "2D/ace.Layer2D.h"
 #include "Component/ace.SceneComponent.h"
+#include "Component/ace.ComponentManager.h"
 
 namespace ace
 {
@@ -21,19 +22,17 @@ namespace ace
 		friend class Layer;
 
 	public:
-		typedef std::shared_ptr<Layer> LayerPtr;
-		typedef std::shared_ptr<SceneComponent> ComponentPtr;
 		typedef std::shared_ptr<Scene> Ptr;
 
 	private:
 		std::shared_ptr<CoreScene> m_coreScene;
-		std::list<LayerPtr> m_layersToDraw;
-		std::list<LayerPtr> m_layersToUpdate;
-		std::map<astring, SceneComponent::Ptr> m_components;
+		std::list<Layer::Ptr> m_layersToDraw;
+		std::list<Layer::Ptr> m_layersToUpdate;
+		ComponentManager<Scene, SceneComponent> m_componentManager;
 		bool alreadyFirstUpdate;
 
-		std::list<LayerPtr> addingLayer;
-		std::list<LayerPtr> removingLayer;
+		std::list<Layer::Ptr> addingLayer;
+		std::list<Layer::Ptr> removingLayer;
 		bool executing = false;
 
 		void Draw();
@@ -119,12 +118,12 @@ namespace ace
 			@brief	キーの示すコンポーネントをこのインスタンスから取得する。
 			@param	key		取得するコンポーネントを示すキー
 		*/
-		ComponentPtr& GetComponent(astring key);
+		const SceneComponent::Ptr& GetComponent(astring key);
 		/**
 			@brief	キーの示すコンポーネントをこのインスタンスから削除する。
 			@param	key		削除するコンポーネントを示すキー
 		*/
-		void RemoveComponent(astring key);
+		bool RemoveComponent(astring key);
 
 		/**
 			@brief	全てのレイヤーとポストエフェクトが描画され終わった画面をテクスチャとして取得する。
@@ -134,5 +133,11 @@ namespace ace
 			主にシーン遷移の際に使用する。
 		*/
 		std::shared_ptr<RenderTexture2D> GetEffectedScreen();
+
+		/**
+			@brief	所属しているレイヤーを取得する。
+			@return	所属しているレイヤー
+		*/
+		const std::list<Layer::Ptr>& GetLayers() const;
 	};
 }

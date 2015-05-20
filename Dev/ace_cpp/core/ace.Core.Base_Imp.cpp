@@ -11,7 +11,7 @@ namespace ace
 {
 	ShaderConstantValue::ShaderConstantValue()
 	{
-		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_UNKNOWN;
+		ValueType = ShaderVariableType::Unknown;
 		Data.Texture2DPtr.Ptr = nullptr;
 		ID = -1;
 	}
@@ -22,12 +22,12 @@ namespace ace
 		Data = value.Data;
 		ID = value.ID;
 
-		if (value.ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_TEXTURE2D)
+		if (value.ValueType == ShaderVariableType::Texture2D)
 		{
 			SafeAddRef(Data.Texture2DPtr.Ptr);
 		}
 
-		if (value.ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+		if (value.ValueType == ShaderVariableType::CubemapTexture)
 		{
 			SafeAddRef(Data.CubemapTexturePtr.Ptr);
 		}
@@ -35,20 +35,20 @@ namespace ace
 
 	ShaderConstantValue::ShaderConstantValue(const float& value)
 	{
-		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_FLOAT;
+		ValueType = ShaderVariableType::Float;
 		Data.Float4[0] = value;
 	}
 
 	ShaderConstantValue::ShaderConstantValue(const Vector2DF& value)
 	{
-		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_VECTOR2DF;
+		ValueType = ShaderVariableType::Vector2DF;
 		Data.Float4[0] = value.X;
 		Data.Float4[1] = value.Y;
 	}
 
 	ShaderConstantValue::ShaderConstantValue(const Vector3DF& value)
 	{
-		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_VECTOR3DF;
+		ValueType = ShaderVariableType::Vector3DF;
 		Data.Float4[0] = value.X;
 		Data.Float4[1] = value.Y;
 		Data.Float4[2] = value.Z;
@@ -56,7 +56,7 @@ namespace ace
 
 	ShaderConstantValue::ShaderConstantValue(const Vector4DF& value)
 	{
-		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_VECTOR4DF;
+		ValueType = ShaderVariableType::Vector4DF;
 		Data.Float4[0] = value.X;
 		Data.Float4[1] = value.Y;
 		Data.Float4[2] = value.Z;
@@ -65,27 +65,27 @@ namespace ace
 
 	ShaderConstantValue::ShaderConstantValue(Vector4DF* value, int32_t count)
 	{
-		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_VECTOR4DF_ARRAY;
+		ValueType = ShaderVariableType::Vector4DF_Array;
 		Data.Vector4DFArray.Ptr = value;
 		Data.Vector4DFArray.Count = count;
 	}
 
 	ShaderConstantValue::ShaderConstantValue(const Matrix44& value)
 	{
-		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_MATRIX44;
+		ValueType = ShaderVariableType::Matrix44;
 		memcpy(Data.Mat44, value.Values, sizeof(float) * 16);
 	}
 
 	ShaderConstantValue::ShaderConstantValue(Matrix44* value, int32_t count)
 	{
-		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_MATRIX44_ARRAY;
+		ValueType = ShaderVariableType::Matrix44_Array;
 		Data.Mat44Array.Ptr = value;
 		Data.Mat44Array.Count = count;
 	}
 
 	ShaderConstantValue::ShaderConstantValue(Texture2D* value, TextureFilterType filterType, TextureWrapType wrapType)
 	{
-		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_TEXTURE2D;
+		ValueType = ShaderVariableType::Texture2D;
 		Data.Texture2DPtr.Ptr = value;
 		Data.Texture2DPtr.FilterType = filterType;
 		Data.Texture2DPtr.WrapType = wrapType;
@@ -95,7 +95,7 @@ namespace ace
 
 	ShaderConstantValue::ShaderConstantValue(CubemapTexture* value, TextureFilterType filterType, TextureWrapType wrapType)
 	{
-		ValueType = ShaderVariableType::SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE;
+		ValueType = ShaderVariableType::CubemapTexture;
 		Data.CubemapTexturePtr.Ptr = value;
 		Data.CubemapTexturePtr.FilterType = filterType;
 		Data.CubemapTexturePtr.WrapType = wrapType;
@@ -105,12 +105,12 @@ namespace ace
 
 	ShaderConstantValue::~ShaderConstantValue()
 	{
-		if (ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_TEXTURE2D)
+		if (ValueType == ShaderVariableType::Texture2D)
 		{
 			SafeRelease(Data.Texture2DPtr.Ptr);
 		}
 
-		if (ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+		if (ValueType == ShaderVariableType::CubemapTexture)
 		{
 			SafeRelease(Data.CubemapTexturePtr.Ptr);
 		}
@@ -118,22 +118,22 @@ namespace ace
 
 	ShaderConstantValue& ShaderConstantValue::operator=(const ShaderConstantValue& value)
 	{
-		if (value.ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_TEXTURE2D)
+		if (value.ValueType == ShaderVariableType::Texture2D)
 		{
 			SafeAddRef(value.Data.Texture2DPtr.Ptr);
 		}
 
-		if (value.ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+		if (value.ValueType == ShaderVariableType::CubemapTexture)
 		{
 			SafeAddRef(value.Data.CubemapTexturePtr.Ptr);
 		}
 
-		if (ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_TEXTURE2D)
+		if (ValueType == ShaderVariableType::Texture2D)
 		{
 			SafeRelease(Data.Texture2DPtr.Ptr);
 		}
 
-		if (ValueType == ShaderVariableType::SHADER_VARIABLE_TYPE_CUBEMAPTEXTURE)
+		if (ValueType == ShaderVariableType::CubemapTexture)
 		{
 			SafeRelease(Data.CubemapTexturePtr.Ptr);
 		}

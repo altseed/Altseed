@@ -65,14 +65,30 @@
 #if _WIN32
 #include <EffekseerRendererDX11.h>
 
+#ifdef _WIN64
+
 #if _DEBUG
-#pragma comment(lib,"Debug/Effekseer.lib")
-#pragma comment(lib,"Debug/EffekseerRendererDX11.lib")
-#pragma comment(lib,"Debug/EffekseerRendererGL.lib")
+#pragma comment(lib,"x64/Debug/Effekseer.lib")
+#pragma comment(lib,"x64/Debug/EffekseerRendererDX11.lib")
+#pragma comment(lib,"x64/Debug/EffekseerRendererGL.lib")
 #else
-#pragma comment(lib,"Release/Effekseer.lib")
-#pragma comment(lib,"Release/EffekseerRendererDX11.lib")
-#pragma comment(lib,"Release/EffekseerRendererGL.lib")
+#pragma comment(lib,"x64/Release/Effekseer.lib")
+#pragma comment(lib,"x64/Release/EffekseerRendererDX11.lib")
+#pragma comment(lib,"x64/Release/EffekseerRendererGL.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/Effekseer.lib")
+#pragma comment(lib,"x86/Debug/EffekseerRendererDX11.lib")
+#pragma comment(lib,"x86/Debug/EffekseerRendererGL.lib")
+#else
+#pragma comment(lib,"x86/Release/Effekseer.lib")
+#pragma comment(lib,"x86/Release/EffekseerRendererDX11.lib")
+#pragma comment(lib,"x86/Release/EffekseerRendererGL.lib")
+#endif
+
 #endif
 
 #endif
@@ -80,12 +96,28 @@
 
 // ACE
 #if _WIN32
+
+#ifdef _WIN64
+
 #if _DEBUG
-#pragma comment(lib,"Debug/ace_common.lib")
-#pragma comment(lib,"Debug/ace_tool.lib")
+#pragma comment(lib,"x64/Debug/ace_common.lib")
+#pragma comment(lib,"x64/Debug/ace_tool.lib")
 #else
-#pragma comment(lib,"Release/ace_common.lib")
-#pragma comment(lib,"Release/ace_tool.lib")
+#pragma comment(lib,"x64/Release/ace_common.lib")
+#pragma comment(lib,"x64/Release/ace_tool.lib")
 #endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/ace_common.lib")
+#pragma comment(lib,"x86/Debug/ace_tool.lib")
+#else
+#pragma comment(lib,"x86/Release/ace_common.lib")
+#pragma comment(lib,"x86/Release/ace_tool.lib")
+#endif
+
+#endif
+
 #endif
 

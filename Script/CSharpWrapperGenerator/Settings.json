@@ -1,0 +1,125 @@
+{
+	"DoxygenXmlDirPath": "../../CPP_XML/xml/",
+	"SwigCSharpDirPath": "../../Dev/ace_cs/swig/",
+	"ExportFilePath": "../../Dev/ace_cs/Wrappers.cs",
+	"ClassBlackList":
+	[
+		"Core",
+		"Core_Imp",
+		"ace_core",
+		"ace_corePINVOKE",
+
+		"Texture",
+		"RenderTexture2D",
+		"Texture_Imp",
+		"Texture2D_Imp",
+		"RenderTexture2D_Imp",
+
+		"Graphics",
+		"Graphics_Imp",
+
+		"TextureLockInfomation",
+
+		"SideButton",
+
+		"Shader3D",
+		"Shader2D",
+		"Shader2D_Imp",
+
+		"RenderSettings",
+
+		"Profiler",
+		"Profiler_Imp",
+
+		"ObjectSystemFactory",
+
+		"Mouse",
+		"Mouse_Imp",
+
+		"MiddleButton",
+		"MaterialPropertyBlock",
+
+		"Log",
+		"Log_Imp",
+
+		"Material3D",
+		"Material2D",
+
+		"KeyframeAnimation",
+		"Keyboard",
+		"JoystickContainer",
+		"Joystick",
+		"Keyboard_Imp",
+		"JoystickContainer_Imp",
+		"Joystick_Imp",
+
+		"Deformer",
+		"CubemapTexture",
+
+		"CoreObject3D",
+		"CoreObject2D",
+
+		"CoreLayer3D",
+		"CoreLayer2D",
+		"CoreLayer",
+
+		"Chip2D",
+
+		"AnimationSystem",
+		"AnimationSource",
+		"AnimationClip",
+
+		"CoreShape",
+		"CoreTriangleShape",
+		"CoreArcShape",
+		"CoreLineShape",
+		"CoreRectangleShape",
+		"CoreCircleShape",
+		"CorePolygonShape",
+
+		"CoreTransition",
+		"CoreTextureObject2D",
+		"CoreTextObject2D",
+		"CoreMapObject2D",
+		"CoreTerrainObject3D",
+
+		"CoreScene",
+
+		"CoreEffectObject2D",
+		"CoreGeometryObject2D",
+		"CoreCameraObject2D",
+		"CoreModelObject3D",
+
+		"CoreEffectObject3D",
+		"CoreDirectionalLightObject3D",
+		"CoreCameraObject3D",
+		"CoreMassModelObject3D",
+
+		"CorePostEffect",
+
+		"LayerProfiler",
+		"LayerProfiler_Imp",
+
+		"Window",
+		"Window_Imp",
+		"StructTranslator",
+		"StructTranslator_Imp",
+		"Accessor",
+		"ReferenceObject",
+		"IReference",
+		"CoreOption",
+	],
+	"MethodBlackList":
+	[
+		"*.GetPtr",
+		"*.getCPtr",
+		"*.Dispose",
+		"*.Create",
+		"Texture2D.Lock",
+
+		"Mesh.SetMaterial"
+	],
+	"ListOfClassWhoseCoreIsPrivate":
+	[
+	]
+}

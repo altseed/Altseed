@@ -3,6 +3,7 @@
 #include "ace.Profile.h"
 #include <memory>
 #include <list>
+#include <map>
 
 namespace ace
 {
@@ -15,7 +16,7 @@ namespace ace
 		Profiler_Imp();
 		virtual ~Profiler_Imp();
 
-		std::list<ProfilePtr> m_profiles;
+		std::list<Profile::Ptr> m_profiles;
 
 	public:
 		static Profiler_Imp* Create();
@@ -27,7 +28,7 @@ namespace ace
 		/**
 			@brief 記録されたプロファイリング結果を返す。
 		*/
-		const std::list<ProfilePtr>& GetProfiles();
+		const std::list<Profile::Ptr>& GetProfiles();
 
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }

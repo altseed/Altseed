@@ -24,6 +24,7 @@ namespace ace {
 	class Keyboard_Imp;
 	class Log_Imp;
 	class Profiler_Imp;
+	class LayerProfiler_Imp;
 	class ProfilerViewer_Imp;
 
 	class Joystick_Imp;
@@ -53,6 +54,8 @@ namespace ace {
 	class Shader3D_Imp;
 	class Effect_Imp;
 	class ShaderCache;
+
+	class ImagePackage_Imp;
 
 	class MaterialCommand;
 	class Material2DCommand;
@@ -107,14 +110,14 @@ namespace ace {
 	{
 		bool								DepthTest;
 		bool								DepthWrite;
-		AlphaBlend							AlphaBlendState;
+		AlphaBlendMode						AlphaBlendState;
 		CullingType							Culling;
 		
 		void Reset()
 		{
 			DepthTest = false;
 			DepthWrite = false;
-			AlphaBlendState = AlphaBlend::Blend;
+			AlphaBlendState = AlphaBlendMode::Blend;
 			Culling = CullingType::Double;
 		}
 
@@ -124,38 +127,38 @@ namespace ace {
 		}
 	};
 
-	enum eVertexLayoutFormat
+	enum class VertexLayoutFormat : int32_t
 	{
-		LAYOUT_FORMAT_R32G32B32_FLOAT,
-		LAYOUT_FORMAT_R8G8B8A8_UNORM,
-		LAYOUT_FORMAT_R8G8B8A8_UINT,
-		LAYOUT_FORMAT_R32G32_FLOAT,
+		R32G32B32_FLOAT,
+		R8G8B8A8_UNORM,
+		R8G8B8A8_UINT,
+		R32G32_FLOAT,
 	};
 
-	enum eConstantBufferFormat
+	enum class ConstantBufferFormat : int32_t
 	{
-		CONSTANT_BUFFER_FORMAT_FLOAT1,
-		CONSTANT_BUFFER_FORMAT_FLOAT2,
-		CONSTANT_BUFFER_FORMAT_FLOAT3,
-		CONSTANT_BUFFER_FORMAT_FLOAT4,
-		CONSTANT_BUFFER_FORMAT_FLOAT4_ARRAY,
-		CONSTANT_BUFFER_FORMAT_MATRIX44,
-		CONSTANT_BUFFER_FORMAT_MATRIX44_ARRAY,
-		CONSTANT_BUFFER_FORMAT_UNKNOWN,
+		Float1,
+		Float2,
+		Float3,
+		Float4,
+		Float4_ARRAY,
+		Matrix44,
+		Matrix44_ARRAY,
+		Unknown,
 	};
 
 	struct VertexLayout
 	{
 		std::string			Name;
-		eVertexLayoutFormat LayoutFormat;
+		VertexLayoutFormat LayoutFormat;
 
 		VertexLayout()
 		{
 			Name = "";
-			LayoutFormat = LAYOUT_FORMAT_R32G32B32_FLOAT;
+			LayoutFormat = VertexLayoutFormat::R32G32B32_FLOAT;
 		}
 
-		VertexLayout(const char* name, eVertexLayoutFormat format)
+		VertexLayout(const char* name, VertexLayoutFormat format)
 		{
 			Name = name;
 			LayoutFormat = format;

@@ -30,13 +30,19 @@ static void CreateSSDirectory()
 }
 
 
-EngineTest::EngineTest(astring title, bool isOpenGLMode, int exitTime)
-: m_isOpenGLMode(isOpenGLMode)
-, m_title(title)
-, m_currentTime(0)
-, m_exitTime(exitTime)
-, directory(ToAString("./ScreenShotTest_Engine_cpp/"))
+EngineTest::EngineTest(astring title, bool isOpenGLMode, int exitTime, int32_t width, int32_t height)
+	: m_isOpenGLMode(isOpenGLMode)
+	, m_title(title)
+	, m_currentTime(0)
+	, m_exitTime(exitTime)
+	, directory(ToAString("./ScreenShotTest_Engine_cpp/"))
+	, WindowWidth(width)
+	, WindowHeight(height)
 {
+#if defined(PERFORMANCE_MODE)
+	WindowWidth = 1280;
+	WindowHeight = 720;
+#endif
 }
 
 void EngineTest::OnStart()
@@ -66,10 +72,20 @@ void EngineTest::Run()
 	auto initialized = ace::Engine::Initialize(m_title.c_str(), WindowWidth, WindowHeight, option);
 	ASSERT_EQ(true, initialized);
 
+#if defined(PERFORMANCE_MODE)
+	ace::Engine::SetTargetFPS(10000);
+#endif
+
 	OnStart();
 
 	while (ace::Engine::DoEvents())
 	{
+#if defined(PERFORMANCE_MODE)
+		if (GetTime() % 60 == 0)
+		{
+			printf("FPS : %f\n", ace::Engine::GetCurrentFPS());
+		}
+#endif
 		OnUpdating();
 		ace::Engine::Update();
 		OnUpdated();

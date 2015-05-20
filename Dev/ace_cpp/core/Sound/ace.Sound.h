@@ -58,7 +58,7 @@ namespace ace
 		@param	id	ID
 		@return	再生中か?
 		*/
-		virtual bool IsPlaying(int32_t id) = 0;
+		virtual bool GetIsPlaying(int32_t id) = 0;
 
 		/**
 		@brief	全ての再生中の音を停止する。
