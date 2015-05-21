@@ -53,6 +53,7 @@ namespace ace {
 		ID3D11RenderTargetView*	m_currentBackRenderTargetViews[MaxRenderTarget];
 		ID3D11DepthStencilView*	m_currentDepthStencilView;
 
+		bool					isInitializedAsDX9 = false;
 
 #pragma region RenderStates
 		static const int32_t		DepthTestCount = 2;
@@ -159,6 +160,7 @@ namespace ace {
 
 	public:
 
+		bool GetIsInitializedAsDX9() { return isInitializedAsDX9; }
 		ID3D11Device* GetDevice() { return m_device; }
 		ID3D11DeviceContext* GetContext() { return m_context;}
 

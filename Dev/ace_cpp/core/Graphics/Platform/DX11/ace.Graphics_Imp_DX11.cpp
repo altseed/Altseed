@@ -216,6 +216,15 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	
 	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_DX11(this));
+
+	auto flevel = m_device->GetFeatureLevel();
+
+	if (flevel == D3D_FEATURE_LEVEL_9_3 ||
+		flevel == D3D_FEATURE_LEVEL_9_2 ||
+		flevel == D3D_FEATURE_LEVEL_9_1)
+	{
+		isInitializedAsDX9 = true;
+	}
 }
 
 //----------------------------------------------------------------------------------

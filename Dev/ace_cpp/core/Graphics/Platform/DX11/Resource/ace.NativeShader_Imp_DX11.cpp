@@ -45,19 +45,41 @@ ID3DBlob* NativeShader_Imp_DX11::CompileVertexShader(Graphics_Imp_DX11* g, const
 	flag = flag | D3D10_SHADER_OPTIMIZATION_LEVEL3;
 #endif
 
-	/* この方法だとVS4.0以上でのコンパイルが要求 */
-	auto hr = D3DCompile(
-		vertexShaderText,
-		strlen(vertexShaderText),
-		vertexShaderFileName,
-		macro.size() > 0 ? (D3D_SHADER_MACRO*) &macro[0] : NULL,
-		NULL,
-		"main",
-		"vs_4_0",
-		flag,
-		0,
-		&shader,
-		&error);
+	HRESULT hr;
+
+	if (g->GetIsInitializedAsDX9())
+	{
+		flag |= D3D10_SHADER_ENABLE_BACKWARDS_COMPATIBILITY;
+
+		hr = D3DCompile(
+			vertexShaderText,
+			strlen(vertexShaderText),
+			vertexShaderFileName,
+			macro.size() > 0 ? (D3D_SHADER_MACRO*) &macro[0] : NULL,
+			NULL,
+			"main",
+			"vs_4_0_level_9_3",
+			flag,
+			0,
+			&shader,
+			&error);
+	}
+	else
+	{
+		/* この方法だとVS4.0以上でのコンパイルが要求 */
+		hr = D3DCompile(
+			vertexShaderText,
+			strlen(vertexShaderText),
+			vertexShaderFileName,
+			macro.size() > 0 ? (D3D_SHADER_MACRO*) &macro[0] : NULL,
+			NULL,
+			"main",
+			"vs_4_0",
+			flag,
+			0,
+			&shader,
+			&error);
+	}
 
 	if (macro.size() > 0)
 	{
@@ -124,19 +146,41 @@ macro.push_back(m);
 	flag = flag | D3D10_SHADER_OPTIMIZATION_LEVEL3;
 #endif
 
-	/* この方法だとPS4.0以上でのコンパイルが要求 */
-	auto hr = D3DCompile(
-		vertexShaderText,
-		strlen(vertexShaderText),
-		vertexShaderFileName,
-		macro.size() > 0 ? (D3D_SHADER_MACRO*) &macro[0] : NULL,
-		NULL,
-		"main",
-		"ps_4_0",
-		flag,
-		0,
-		&shader,
-		&error);
+	HRESULT hr;
+
+	if (g->GetIsInitializedAsDX9())
+	{
+		flag |= D3D10_SHADER_ENABLE_BACKWARDS_COMPATIBILITY;
+
+		hr = D3DCompile(
+			vertexShaderText,
+			strlen(vertexShaderText),
+			vertexShaderFileName,
+			macro.size() > 0 ? (D3D_SHADER_MACRO*) &macro[0] : NULL,
+			NULL,
+			"main",
+			"ps_4_0_level_9_3",
+			flag,
+			0,
+			&shader,
+			&error);
+	}
+	else
+	{
+		/* この方法だとPS4.0以上でのコンパイルが要求 */
+		hr = D3DCompile(
+			vertexShaderText,
+			strlen(vertexShaderText),
+			vertexShaderFileName,
+			macro.size() > 0 ? (D3D_SHADER_MACRO*) &macro[0] : NULL,
+			NULL,
+			"main",
+			"ps_4_0",
+			flag,
+			0,
+			&shader,
+			&error);
+	}
 
 	if (macro.size() > 0)
 	{

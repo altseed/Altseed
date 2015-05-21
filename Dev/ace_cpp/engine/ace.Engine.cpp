@@ -189,9 +189,8 @@ namespace ace
 
 	bool Engine::CheckDLL()
 	{
-		return true;
 #if _WIN32
-		if (!HasDLL("D3DCOMPILER_47.dll"))
+		if (!HasDLL("D3DCOMPILER_43.dll"))
 		{
 			MessageBoxA(nullptr, "最新のDirectXEndUserRuntime？をインストールしてください。", "Error", MB_OK);
 			return false;

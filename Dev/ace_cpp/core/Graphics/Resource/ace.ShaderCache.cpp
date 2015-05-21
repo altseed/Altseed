@@ -53,8 +53,11 @@ namespace ace
 				layout,
 				macro);
 
-			m_shaders[key] = shader;
-			shader->SetKey(key);
+			if (shader != nullptr)
+			{
+				m_shaders[key] = shader;
+				shader->SetKey(key);
+			}
 		}
 		
 		if (shader == nullptr) return nullptr;
