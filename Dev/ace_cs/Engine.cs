@@ -73,7 +73,7 @@ namespace ace
 		{
 			if(core != null) return false;
 
-			//if (!CheckDLL()) return false;
+			if (!Particular.Helper.CheckInitialize()) return false;
 
 			try
 			{
@@ -141,7 +141,7 @@ namespace ace
 		{
 			if(core != null) return false;
 
-			if(!CheckDLL()) return false;
+			if(!Particular.Helper.CheckInitialize()) return false;
 
 			try
 			{
@@ -665,35 +665,6 @@ namespace ace
 			AnimationSystem = new AnimationSystem(core.GetAnimationSyatem());
 
 			layerProfiler = core.GetLayerProfiler();
-		}
-
-		[System.Runtime.InteropServices.DllImport("kernel32")]
-		private extern static int LoadLibrary(string path);
-
-		[System.Runtime.InteropServices.DllImport("kernel32")]
-		private extern static bool FreeLibrary(int path);
-
-		static bool CheckDLL()
-		{
-			return true;
-
-			if(!HasDLL("D3DCOMPILER_47.dll"))
-			{
-				System.Windows.Forms.MessageBox.Show("最新のDirectXEndUserRuntime？をインストールしてください。");
-				return false;
-			}
-			return true;
-		}
-
-		static bool HasDLL(string path)
-		{
-			var dll = LoadLibrary(path);
-			if(dll != 0)
-			{
-				FreeLibrary(dll);
-				return true;
-			}
-			return false;
 		}
 
 		/// <summary>
