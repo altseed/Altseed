@@ -18,11 +18,25 @@
 #endif
 
 #if _WIN32
+
+#ifdef _WIN64
+
 #if _DEBUG
-#pragma comment(lib,"glew32sd.lib")
+#pragma comment(lib,"x64/Debug/glew32sd.lib")
 #else
-#pragma comment(lib,"glew32s.lib")
+#pragma comment(lib,"x64/Release/glew32s.lib")
 #endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/glew32sd.lib")
+#else
+#pragma comment(lib,"x86/Release/glew32s.lib")
+#endif
+
+#endif
+
 #endif
 
 // GLU
@@ -52,7 +66,7 @@
 
 #include <d3d11.h>
 #pragma comment(lib, "d3d11.lib" )
-#pragma comment(lib, "DXGI.lib")
+#pragma comment(lib, "dxgi.lib")
 #pragma comment(lib, "dxguid.lib")
 #include <D3Dcompiler.h>
 #pragma comment(lib, "d3dcompiler.lib" )

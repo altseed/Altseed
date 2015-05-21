@@ -259,5 +259,7 @@
   <ItemGroup>
     <Library Include="..\..\lib\x86\Debug\ace_common.lib" />
     <Library Include="..\..\lib\x86\Release\ace_common.lib" />
+    <Library Include="..\..\lib\x64\Debug\ace_common.lib" />
+    <Library Include="..\..\lib\x64\Release\ace_common.lib" />
   </ItemGroup>
 </Project>

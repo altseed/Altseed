@@ -8,13 +8,13 @@
 
 #if _DEBUG
 #pragma comment(lib,"freetype253MT_D.lib")
-#pragma comment(lib,"libpng16.Debug.lib")
-#pragma comment(lib,"zlib.Debug.lib")
+#pragma comment(lib,"libpng16.lib")
+#pragma comment(lib,"zlib.lib")
 #pragma comment(lib,"ace_common.lib")
 #else
 #pragma comment(lib,"freetype253MT.lib")
-#pragma comment(lib,"libpng16.Release.lib")
-#pragma comment(lib,"zlib.Release.lib")
+#pragma comment(lib,"libpng16.lib")
+#pragma comment(lib,"zlib.lib")
 #pragma comment(lib,"ace_common.lib")
 #endif
 

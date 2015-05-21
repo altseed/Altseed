@@ -46,17 +46,24 @@ if aceutils.isWin():
 	aceutils.copy(r'osm_bin/Debug/OpenSoundMixer.lib', r'Dev/lib/x86/Debug/')
 	aceutils.copy(r'osm_bin/Release/OpenSoundMixer.lib', r'Dev/lib/x86/Release/')
 
-	aceutils.copy(r'OpenSoundMixer-master/lib/Debug/libogg_static.lib', r'Dev/lib/x86/Debug/')
-	aceutils.copy(r'OpenSoundMixer-master/lib/Debug/libvorbis_static.lib', r'Dev/lib/x86/Debug/')
-	aceutils.copy(r'OpenSoundMixer-master/lib/Debug/libvorbisfile_static.lib', r'Dev/lib/x86/Debug/')
+	aceutils.copy(r'OpenSoundMixer-master/lib/x86/Debug/libogg_static.lib', r'Dev/lib/x86/Debug/')
+	aceutils.copy(r'OpenSoundMixer-master/lib/x86/Debug/libvorbis_static.lib', r'Dev/lib/x86/Debug/')
+	aceutils.copy(r'OpenSoundMixer-master/lib/x86/Debug/libvorbisfile_static.lib', r'Dev/lib/x86/Debug/')
 	
-	aceutils.copy(r'OpenSoundMixer-master/lib/Release/libogg_static.lib', r'Dev/lib/x86/Release/')
-	aceutils.copy(r'OpenSoundMixer-master/lib/Release/libvorbis_static.lib', r'Dev/lib/x86/Release/')
-	aceutils.copy(r'OpenSoundMixer-master/lib/Release/libvorbisfile_static.lib', r'Dev/lib/x86/Release/')
+	aceutils.copy(r'OpenSoundMixer-master/lib/x86/Release/libogg_static.lib', r'Dev/lib/x86/Release/')
+	aceutils.copy(r'OpenSoundMixer-master/lib/x86/Release/libvorbis_static.lib', r'Dev/lib/x86/Release/')
+	aceutils.copy(r'OpenSoundMixer-master/lib/x86/Release/libvorbisfile_static.lib', r'Dev/lib/x86/Release/')
 
-	
 	aceutils.copy(r'osm_bin_x64/Debug/OpenSoundMixer.lib', r'Dev/lib/x64/Debug/')
 	aceutils.copy(r'osm_bin_x64/Release/OpenSoundMixer.lib', r'Dev/lib/x64/Release/')
+
+	aceutils.copy(r'OpenSoundMixer-master/lib/x64/Debug/libogg_static.lib', r'Dev/lib/x64/Debug/')
+	aceutils.copy(r'OpenSoundMixer-master/lib/x64/Debug/libvorbis_static.lib', r'Dev/lib/x64/Debug/')
+	aceutils.copy(r'OpenSoundMixer-master/lib/x64/Debug/libvorbisfile_static.lib', r'Dev/lib/x64/Debug/')
+	
+	aceutils.copy(r'OpenSoundMixer-master/lib/x64/Release/libogg_static.lib', r'Dev/lib/x64/Release/')
+	aceutils.copy(r'OpenSoundMixer-master/lib/x64/Release/libvorbis_static.lib', r'Dev/lib/x64/Release/')
+	aceutils.copy(r'OpenSoundMixer-master/lib/x64/Release/libvorbisfile_static.lib', r'Dev/lib/x64/Release/')
 
 else:
 	aceutils.copy(r'OpenSoundMixer-master/src/OpenSoundMixer.h', r'Dev/include/')

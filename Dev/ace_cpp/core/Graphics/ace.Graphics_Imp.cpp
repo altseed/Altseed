@@ -52,16 +52,6 @@
 #include <pngstruct.h>
 #include <pnginfo.h>
 
-#if _WIN32
-#if _DEBUG
-#pragma comment(lib,"libpng16.Debug.lib")
-#pragma comment(lib,"zlib.Debug.lib")
-#else
-#pragma comment(lib,"libpng16.Release.lib")
-#pragma comment(lib,"zlib.Release.lib")
-#endif
-#endif
-
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

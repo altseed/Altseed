@@ -79,8 +79,8 @@ def release_cpp():
 	aceutils.copy(r'Dev/bin/ace_core.dll', sampleBinDir)
 
 	aceutils.copy(r'Dev/include/ace.h', sampleDir+r'cpp/include/')
-	aceutils.copy(r'Dev/lib/Debug/ace_engine.lib', sampleDir+r'cpp/lib/Debug/')
-	aceutils.copy(r'Dev/lib/Release/ace_engine.lib', sampleDir+r'cpp/lib/Release/')
+	aceutils.copy(r'Dev/lib/Debug/x86/ace_engine.lib', sampleDir+r'cpp/lib/Debug/')
+	aceutils.copy(r'Dev/lib/Release/x86/ace_engine.lib', sampleDir+r'cpp/lib/Release/')
 
 	aceutils.copy(r'Sample/sample_cpp.sln', sampleDir)
 	aceutils.mkdir(sampleDir+r'sample_cpp/')
@@ -96,8 +96,8 @@ def release_cpp():
 	aceutils.copy(r'Dev/bin/ace_core.Debug.dll', runtimeDir)
 	aceutils.copy(r'Dev/bin/ace_core.dll', runtimeDir)
 	aceutils.copy(r'Dev/include/ace.h', runtimeDir)
-	aceutils.copy(r'Dev/lib/Debug/ace_engine.lib',runtimeDir+r'Debug/')
-	aceutils.copy(r'Dev/lib/Release/ace_engine.lib', runtimeDir+r'Release/')
+	aceutils.copy(r'Dev/lib/x86/Debug/ace_engine.lib',runtimeDir+r'Debug/')
+	aceutils.copy(r'Dev/lib/x86/Release/ace_engine.lib', runtimeDir+r'Release/')
 
 	# Doxygen
 	aceutils.call(r'doxygen Script/acecppDoxyfile')

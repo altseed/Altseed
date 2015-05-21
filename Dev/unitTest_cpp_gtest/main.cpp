@@ -27,14 +27,14 @@
 #pragma comment(lib,"x64/Debug/ace_common.lib")
 #pragma comment(lib,"x64/Debug/ace_core.lib")
 #pragma comment(lib,"x64/Debug/glfw3.lib")
-#pragma comment(lib,"libpng16.Debug.lib")
-#pragma comment(lib,"zlib.Debug.lib")
+#pragma comment(lib,"x64/Debug/libpng16.lib")
+#pragma comment(lib,"x64/Debug/zlib.lib")
 #else
 #pragma comment(lib,"x64/Release/ace_common.lib")
 #pragma comment(lib,"x64/Release/ace_core.lib")
 #pragma comment(lib,"x64/Release/glfw3.lib")
-#pragma comment(lib,"libpng16.Release.lib")
-#pragma comment(lib,"zlib.Release.lib")
+#pragma comment(lib,"x64/Release/libpng16.lib")
+#pragma comment(lib,"x64/Release/zlib.lib")
 #endif
 #pragma comment(lib,"opengl32.lib")
 
@@ -44,14 +44,14 @@
 #pragma comment(lib,"x86/Debug/ace_common.lib")
 #pragma comment(lib,"x86/Debug/ace_core.lib")
 #pragma comment(lib,"x86/Debug/glfw3.lib")
-#pragma comment(lib,"libpng16.Debug.lib")
-#pragma comment(lib,"zlib.Debug.lib")
+#pragma comment(lib,"x86/Debug/libpng16.lib")
+#pragma comment(lib,"x86/Debug/zlib.lib")
 #else
 #pragma comment(lib,"x86/Release/ace_common.lib")
 #pragma comment(lib,"x86/Release/ace_core.lib")
 #pragma comment(lib,"x86/Release/glfw3.lib")
-#pragma comment(lib,"libpng16.Release.lib")
-#pragma comment(lib,"zlib.Release.lib")
+#pragma comment(lib,"x86/Release/libpng16.lib")
+#pragma comment(lib,"x86/Release/zlib.lib")
 #endif
 #pragma comment(lib,"opengl32.lib")
 
