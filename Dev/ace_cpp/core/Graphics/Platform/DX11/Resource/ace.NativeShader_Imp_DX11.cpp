@@ -49,8 +49,6 @@ ID3DBlob* NativeShader_Imp_DX11::CompileVertexShader(Graphics_Imp_DX11* g, const
 
 	if (g->GetIsInitializedAsDX9())
 	{
-		flag |= D3D10_SHADER_ENABLE_BACKWARDS_COMPATIBILITY;
-
 		hr = D3DCompile(
 			vertexShaderText,
 			strlen(vertexShaderText),
@@ -150,8 +148,6 @@ macro.push_back(m);
 
 	if (g->GetIsInitializedAsDX9())
 	{
-		flag |= D3D10_SHADER_ENABLE_BACKWARDS_COMPATIBILITY;
-
 		hr = D3DCompile(
 			vertexShaderText,
 			strlen(vertexShaderText),
