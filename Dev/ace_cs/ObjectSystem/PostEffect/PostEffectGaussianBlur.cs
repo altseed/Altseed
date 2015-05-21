@@ -47,7 +47,7 @@ namespace ace
 
 		public override void OnDraw(RenderTexture2D dst, RenderTexture2D src)
 		{
-			Vector3DF weights;
+			Vector3DF weights = new Vector3DF();
 			float[] ws = new float[3];
 			float total = 0.0f;
 			float dispersion = intensity * intensity;

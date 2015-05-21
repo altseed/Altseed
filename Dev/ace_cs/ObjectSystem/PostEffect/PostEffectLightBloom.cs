@@ -110,7 +110,9 @@ namespace ace
 		public override void OnDraw(RenderTexture2D dst, RenderTexture2D src)
 		{
 
-			Vector4DF weights1, weights2;
+			Vector4DF weights1 = new Vector4DF();
+			Vector4DF weights2 = new Vector4DF();
+
 			float[] ws = new float[8];
 			float total = 0.0f;
 			float dispersion = intensity * intensity;
@@ -181,7 +183,7 @@ namespace ace
 			downsample.SetVector2DF("g_offset", new Vector2DF(8.0f / (float)size.X, 8.0f / (float)size.Y));
 			DrawOnTexture2DWithMaterial(downsampledTexture3, downsample);
 
-			ace.Material2D blurX;
+			ace.Material2D blurX = null;
 			if (isLuminanceMode)
 			{
 				blurX = material2dX_Lum;
