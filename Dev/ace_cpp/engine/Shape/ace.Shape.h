@@ -20,5 +20,7 @@ namespace ace
 		@return	図形のタイプ
 		*/
 		virtual ShapeType GetShapeType() const = 0;
+
+		bool GetIsCollidedWith(Shape* shape);
 	};
 };

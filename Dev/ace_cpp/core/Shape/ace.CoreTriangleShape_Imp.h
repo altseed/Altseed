@@ -33,6 +33,7 @@ namespace ace
 	protected:
 		virtual void DivideToTriangles() override;
 		virtual void CalculateBoundingCircle() override;
+		virtual void CalcCollisions() override;
 #endif
 	};
 };

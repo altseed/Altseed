@@ -18,6 +18,7 @@ namespace ace
 	{
 		isNeededCalcBoundingCircle = true;
 		isNeededUpdating = true;
+		isNeededCalcCollisions = true;
 		vertexes.push_back(vertex);
 	}
 
@@ -25,6 +26,7 @@ namespace ace
 	{
 		isNeededCalcBoundingCircle = true;
 		isNeededUpdating = true;
+		isNeededCalcCollisions = true;
 		vertexes.clear();
 	}
 
@@ -111,6 +113,21 @@ namespace ace
 		auto radius = (Vector2DF(maxLeft, maxHigh) - center).GetLength();
 
 		boundingCircle = culling2d::Circle(culling2d::Vector2DF(center.X, center.Y), radius);
+	}
+
+	void CorePolygonShape_Imp::CalcCollisions()
+	{
+		std::vector<b2Vec2> polyPoints;
+		for (auto vertex : vertexes)
+		{
+			polyPoints.push_back(b2Vec2(vertex.X, vertex.Y));
+		}
+
+		auto polygon = new b2PolygonShape();
+
+		polygon->Set(polyPoints.data(), polyPoints.size());
+
+		collisionShapes.push_back(polygon);
 	}
 #endif
 }

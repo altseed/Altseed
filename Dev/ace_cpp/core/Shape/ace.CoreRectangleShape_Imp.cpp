@@ -21,6 +21,7 @@ namespace ace
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
+		isNeededCalcCollisions = true;
 		this->drawingArea = drawingArea;
 	}
 
@@ -44,6 +45,7 @@ namespace ace
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
+		isNeededCalcCollisions = true;
 		this->angle = angle;
 	}
 
@@ -56,6 +58,7 @@ namespace ace
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
+		isNeededCalcCollisions = true;
 		this->centerPosition = centerPosition;
 	}
 
@@ -117,6 +120,35 @@ namespace ace
 		float radius = (vertexes[0] - center).GetLength();
 
 		boundingCircle = culling2d::Circle(culling2d::Vector2DF(center.X, center.Y), radius);
+	}
+
+	void CoreRectangleShape_Imp::CalcCollisions()
+	{
+		auto vertexes = drawingArea.GetVertexes();
+
+		auto globalCenter = vertexes[0] + centerPosition;
+
+		for (auto& vert : vertexes)
+		{
+			vert -= globalCenter;
+			auto deg = vert.GetDegree();
+			deg += angle;
+			vert.SetDegree(deg);
+			vert += globalCenter;
+		}
+
+		auto polygon = new b2PolygonShape();
+
+		std::vector<b2Vec2> triPoints;
+
+		for (int j = 0; j < 4; ++j)
+		{
+			triPoints.push_back(b2Vec2(vertexes[j].X, vertexes[j].Y));
+		}
+
+		polygon->Set(triPoints.data(), 3);
+
+		collisionShapes.push_back(polygon);
 	}
 #endif
 

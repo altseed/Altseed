@@ -1,5 +1,8 @@
 ﻿#include "ace.CoreShape.h"
 #include "ace.CoreTriangleShape.h"
+#include "ace.CoreLineShape_Imp.h"
+#include "ace.CoreRectangleShape_Imp.h"
+#include "ace.CoreCircleShape_Imp.h"
 #include <Box2D/Box2D.h>
 
 #ifdef _WIN64
@@ -30,35 +33,18 @@ namespace ace
 		}
 	}
 
-	bool CoreShape::GetIsCollidedWith(CoreShape* shape)
+	bool CoreShape::GetIsCollidedb2Shapes(CoreShape* shape)
 	{
-		for (auto selfTriangle : GetDividedTriangles())
+		for (auto selfShape : GetCollisionShapes())
 		{
-			for (auto theirsTriangle : shape->GetDividedTriangles())
+			for (auto theirsShape : shape->GetCollisionShapes())
 			{
-				auto collidePolygon1 = new b2PolygonShape();
-				auto collidePolygon2 = new b2PolygonShape();
-
-				std::vector<b2Vec2> vec1, vec2;
-
-				for (int index = 0; index < 3; ++index)
-				{
-					auto v1 = selfTriangle->GetPointByIndex(index);
-					auto v2 = theirsTriangle->GetPointByIndex(index);
-					vec1.push_back(b2Vec2(v1.X, v1.Y));
-					vec2.push_back(b2Vec2(v2.X, v2.Y));
-				}
-
-				collidePolygon1->Set(vec1.data(), vec1.size());
-				collidePolygon2->Set(vec2.data(), vec2.size());
 
 				b2Transform identity = b2Transform();
 				identity.SetIdentity();
 
-				bool isOverlap = b2TestOverlap(collidePolygon1, 1, collidePolygon2, 1, identity, identity);
+				bool isOverlap = b2TestOverlap(selfShape, 1, theirsShape, 1, identity, identity);
 
-				delete collidePolygon1;
-				delete collidePolygon2;
 
 				if (isOverlap)
 				{
@@ -66,8 +52,101 @@ namespace ace
 				}
 			}
 		}
+	}
 
-		return false;
+
+	bool CoreShape::GetIsCollidedWithCircleAndRect(const CoreCircleShape* circle, const CoreRectangleShape* rectangle)
+	{
+		Vector2DF rectGlobalCenter = rectangle->GetDrawingArea().GetPosition() + rectangle->GetDrawingArea().GetSize() / 2;
+
+		Vector2DF c;
+
+		c.X = std::cos(rectangle->GetAngle()) * (circle->GetPosition().X - rectGlobalCenter.X) -
+			std::sin(rectangle->GetAngle()) * (circle->GetPosition().Y - rectGlobalCenter.Y) + rectGlobalCenter.X;
+		c.Y = std::sin(rectangle->GetAngle()) * (circle->GetPosition().X - rectGlobalCenter.X) +
+			std::cos(rectangle->GetAngle()) * (circle->GetPosition().Y - rectGlobalCenter.Y) * rectGlobalCenter.Y;
+
+		Vector2DF nearestPos;
+
+		Vector2DF rectGlobalPos = rectangle->GetDrawingArea().GetPosition();
+		Vector2DF rectSize = rectangle->GetDrawingArea().GetSize();
+
+		if (c.X < rectGlobalPos.X)
+		{
+			nearestPos.X = rectGlobalPos.X;
+		}
+		else if (c.X > rectGlobalPos.X + rectSize.X)
+		{
+			nearestPos.X = rectGlobalPos.X + rectSize.X;
+		}
+		else
+		{
+			nearestPos.X = c.X;
+		}
+
+		if (c.Y < rectGlobalPos.Y)
+		{
+			nearestPos.Y = rectGlobalPos.Y;
+		}
+		else if (c.Y > rectGlobalPos.Y + rectSize.Y)
+		{
+			nearestPos.Y = rectGlobalPos.Y + rectSize.Y;
+		}
+		else
+		{
+			nearestPos.Y = c.Y;
+		}
+
+		float radius2 = pow(circle->GetOuterDiameter() / 2, 2);
+
+		float dist = (c - nearestPos).GetSquaredLength();
+
+		return dist < radius2;
+	}
+
+	bool CoreShape::GetIsCollidedWithCircleAndLine(const CoreCircleShape* circle, const CoreLineShape* line)
+	{
+		std::shared_ptr<CoreRectangleShape> rect = std::make_shared<CoreRectangleShape_Imp>();
+
+		Vector2DF gravPos = (line->GetStartingPosition() + line->GetEndingPosition()) / 2;
+		float halfLen = (line->GetStartingPosition() - gravPos).GetLength();
+
+		rect->SetDrawingArea(RectF(-halfLen + gravPos.X, -line->GetThickness() / 2 + gravPos.Y, halfLen * 2, line->GetThickness()));
+
+		return GetIsCollidedWithCircleAndRect(circle, rect.get());
+	}
+
+	bool CoreShape::GetIsCollidedWith(CoreShape* shape)
+	{
+		if (GetShapeType() == ShapeType::RectangleShape)
+		{
+			if (shape->GetShapeType() == ShapeType::CircleShape)
+			{
+				return GetIsCollidedWithCircleAndRect((CoreCircleShape*)shape, (CoreRectangleShape*)this);
+			}
+		}
+		else if (GetShapeType() == ShapeType::LineShape)
+		{
+			if (shape->GetShapeType() == ShapeType::CircleShape)
+			{
+				return GetIsCollidedWithCircleAndLine((CoreCircleShape*)shape, (CoreLineShape*)this);
+			}
+		}
+		else if (GetShapeType() == ShapeType::CircleShape)
+		{
+			if (shape->GetShapeType() == ShapeType::LineShape)
+			{
+				return GetIsCollidedWithCircleAndLine((CoreCircleShape*)this, (CoreLineShape*)shape);
+			}
+			else if (shape->GetShapeType() == ShapeType::RectangleShape)
+			{
+				return GetIsCollidedWithCircleAndRect((CoreCircleShape*)this, (CoreRectangleShape*)shape);
+			}
+		}
+		else
+		{
+			return GetIsCollidedb2Shapes(shape);
+		}
 	}
 
 #if !SWIG
@@ -94,6 +173,21 @@ namespace ace
 			isNeededCalcBoundingCircle = false;
 		}
 		return boundingCircle;
+	}
+
+	std::vector<b2Shape*>& CoreShape::GetCollisionShapes()
+	{
+		if (isNeededCalcCollisions)
+		{
+			for (auto shape : collisionShapes)
+			{
+				delete shape;
+			}
+			collisionShapes.clear();
+			CalcCollisions();
+			isNeededCalcCollisions = false;
+		}
+		return collisionShapes;
 	}
 #endif
 };

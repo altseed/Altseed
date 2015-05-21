@@ -20,6 +20,7 @@ namespace ace
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
+		isNeededCalcCollisions = true;
 		this->staringPosition = startingPosition;
 	}
 
@@ -32,6 +33,7 @@ namespace ace
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
+		isNeededCalcCollisions = true;
 		this->endingPosition = endingPosition;
 	}
 
@@ -44,6 +46,7 @@ namespace ace
 	{
 		isNeededCalcBoundingCircle = true;
 		isNeededUpdating = true;
+		isNeededCalcCollisions = true;
 		this->thickness = thickness;
 	}
 
@@ -111,6 +114,37 @@ namespace ace
 
 		boundingCircle = culling2d::Circle(culling2d::Vector2DF(center.X, center.Y), radius);
 
+	}
+
+	void CoreLineShape_Imp::CalcCollisions()
+	{
+		Vector2DF vector = endingPosition - staringPosition;
+
+		if (vector.GetSquaredLength() == 0) return;
+
+		auto binorm = vector;
+		{
+			auto deg = binorm.GetDegree();
+			deg += 90;
+			binorm.SetDegree(deg);
+			binorm.Normalize();
+		}
+
+		auto halfThickness = thickness / 2;
+
+		std::array<Vector2DF, 4> vertexes = { staringPosition + binorm*halfThickness, endingPosition + binorm*halfThickness, endingPosition - binorm*halfThickness, staringPosition - binorm*halfThickness };
+
+		auto polygon = new b2PolygonShape();
+
+		std::vector<b2Vec2> polyPoints;
+		for (auto vertex : vertexes)
+		{
+			polyPoints.push_back(b2Vec2(vertex.X, vertex.Y));
+		}
+
+		polygon->Set(polyPoints.data(), polyPoints.size());
+
+		collisionShapes.push_back(polygon);
 	}
 #endif
 

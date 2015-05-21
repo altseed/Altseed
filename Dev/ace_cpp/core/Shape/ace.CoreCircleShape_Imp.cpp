@@ -22,6 +22,7 @@ namespace ace
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
+		isNeededCalcCollisions = true;
 		this->position = position;
 	}
 
@@ -45,6 +46,7 @@ namespace ace
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
+		isNeededCalcCollisions = true;
 		this->outerDiameter = outerDiameter;
 	}
 
@@ -56,6 +58,7 @@ namespace ace
 	void CoreCircleShape_Imp::SetInnerDiameter(float innerDiameter)
 	{
 		isNeededUpdating = true;
+		isNeededCalcCollisions = true;
 		this->innerDiameter = innerDiameter;
 	}
 
@@ -143,6 +146,16 @@ namespace ace
 	void CoreCircleShape_Imp::CalculateBoundingCircle()
 	{
 		boundingCircle = culling2d::Circle(culling2d::Vector2DF(position.X, position.Y), outerDiameter / 2.0f);
+	}
+
+	void CoreCircleShape_Imp::CalcCollisions()
+	{
+		auto circle = new b2CircleShape();
+
+		circle->m_p = b2Vec2(position.X, position.Y);
+		circle->m_radius = outerDiameter / 2;
+
+		collisionShapes.push_back(circle);
 	}
 #endif
 

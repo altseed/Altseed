@@ -24,6 +24,7 @@ namespace ace
 	void CoreArcShape_Imp::SetStartingCorner(int startingverticalAngle)
 	{
 		isNeededUpdating = true;
+		isNeededCalcCollisions = true;
 		this->startingCorner = startingverticalAngle;
 	}
 
@@ -35,6 +36,7 @@ namespace ace
 	void CoreArcShape_Imp::SetEndingCorner(int endingCorner)
 	{
 		isNeededUpdating = true;
+		isNeededCalcCollisions = true;
 		this->endingCorner = endingCorner;
 	}
 
@@ -47,6 +49,7 @@ namespace ace
 	void CoreArcShape_Imp::SetNumberOfCorners(int numberOfCorners)
 	{
 		isNeededUpdating = true;
+		isNeededCalcCollisions = true;
 		this->numberOfCorners = numberOfCorners;
 	}
 
@@ -64,6 +67,7 @@ namespace ace
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
+		isNeededCalcCollisions = true;
 		this->position = position;
 	}
 
@@ -76,6 +80,7 @@ namespace ace
 	void CoreArcShape_Imp::SetAngle(float angle)
 	{
 		isNeededUpdating = true;
+		isNeededCalcCollisions = true;
 		this->angle = angle;
 	}
 
@@ -88,6 +93,7 @@ namespace ace
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
+		isNeededCalcCollisions = true;
 		this->outerDiameter = outerDiameter;
 	}
 
@@ -99,6 +105,7 @@ namespace ace
 	void CoreArcShape_Imp::SetInnerDiameter(float innerDiameter)
 	{
 		isNeededUpdating = true;
+		isNeededCalcCollisions = true;
 		this->innerDiameter = innerDiameter;
 	}
 
@@ -173,6 +180,53 @@ namespace ace
 	void CoreArcShape_Imp::CalculateBoundingCircle()
 	{
 		boundingCircle = culling2d::Circle(culling2d::Vector2DF(position.X, position.Y), outerDiameter / 2.0f);
+	}
+
+	void CoreArcShape_Imp::CalcCollisions()
+	{
+		if (numberOfCorners < 3) return;
+
+		const float radInc = 360.0 / numberOfCorners;
+
+		const float outerRadius = outerDiameter / 2;
+		const float innerRadius = innerDiameter / 2;
+
+		float currentPosDeg = angle - 90 + startingCorner*radInc;
+
+		Vector2DF baseVector(0, -1);
+		baseVector.SetDegree(currentPosDeg);
+
+		float ratio = innerDiameter / outerDiameter;
+
+		int endcorner = endingCorner;
+		while (endcorner < startingCorner) endcorner += numberOfCorners;
+
+		for (int i = 0; i < endcorner - startingCorner; ++i)
+		{
+			Vector2DF currentPosVector = baseVector;
+			currentPosVector.SetDegree(currentPosDeg);
+
+			Vector2DF nextPosVector = currentPosVector;
+			auto nextPosDeg = nextPosVector.GetDegree();
+			nextPosDeg += radInc;
+			nextPosVector.SetDegree(nextPosDeg);
+
+			std::array<Vector2DF, 4> vertexes = { position + currentPosVector*outerRadius, position + nextPosVector*outerRadius, position + nextPosVector*innerRadius, position + currentPosVector*innerRadius };
+
+			auto polygon = new b2PolygonShape();
+
+			std::vector<b2Vec2> polyPoints;
+			for (auto vertex : vertexes)
+			{
+				polyPoints.push_back(b2Vec2(vertex.X, vertex.Y));
+			}
+
+			polygon->Set(polyPoints.data(), polyPoints.size());
+
+			collisionShapes.push_back(polygon);
+
+			currentPosDeg += radInc;
+		}
 	}
 #endif
 

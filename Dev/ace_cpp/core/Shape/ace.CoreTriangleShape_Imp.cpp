@@ -18,6 +18,7 @@ namespace ace
 	{
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
+		isNeededCalcCollisions = true;
 		points[index] = point;
 	}
 
@@ -65,6 +66,20 @@ namespace ace
 		boundingCircle = culling2d::Circle(culling2d::Vector2DF(center.X, center.Y), radius);
 	}
 
+	void CoreTriangleShape_Imp::CalcCollisions()
+	{
+		auto triangle = new b2PolygonShape();
+		
+		std::vector<b2Vec2> triPoints;
+		for (int i = 0; i < 3; ++i)
+		{
+			triPoints.push_back(b2Vec2(points[i].X, points[i].Y));
+		}
+
+		triangle->Set(triPoints.data(), 3);
+
+		collisionShapes.push_back(triangle);
+	}
 #endif
 
 };
