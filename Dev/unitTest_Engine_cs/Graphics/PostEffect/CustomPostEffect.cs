@@ -46,7 +46,7 @@ uniform vec3		g_values;
 
 void main()
 {
-	vec4 outputedColor = texture2D(g_texture, inUV.xy);
+	vec4 outputedColor = texture(g_texture, inUV.xy);
 
 	vec2 localPos = vec2( (inPos.x + 1.0) / 2.0 * g_values.x, (inPos.y + 1.0) / 2.0 * g_values.y );
 	vec2 centerPos = vec2( g_values.x / 2.0, g_values.y / 2.0 );
@@ -58,7 +58,7 @@ void main()
 		outputedColor.b = 1.0 - outputedColor.b;
 	}
 
-	gl_FragColor = outputedColor; 
+	outOutput = outputedColor;
 }
 
 ";
