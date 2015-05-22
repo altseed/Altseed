@@ -25,6 +25,9 @@ if aceutils.isWin():
 	aceutils.call(r'cmake -G "Visual Studio 12" -D BUILD_SHARED_LIBS:BOOL=OFF ../gtest-1.7.0/')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" gtest.sln /p:configuration=Debug')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" gtest.sln /p:configuration=Release')
+elif aceutils.isMac():
+	aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../gtest-1.7.0/')
+	aceutils.call(r'make')
 else:
 	aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev ../gtest-1.7.0/')
 	aceutils.call(r'make')

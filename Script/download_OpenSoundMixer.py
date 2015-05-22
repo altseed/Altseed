@@ -24,6 +24,9 @@ if aceutils.isWin():
 	aceutils.call(r'cmake -G "Visual Studio 12" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../OpenSoundMixer-master/')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" OpenSoundMixer.sln /p:configuration=Debug')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" OpenSoundMixer.sln /p:configuration=Release')
+elif aceutils.isMac():
+	aceutils.call(r'cmake -G "Unix Makefiles" "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../OpenSoundMixer-master/')
+	aceutils.call(r'make')
 else:
 	aceutils.call(r'cmake -G "Unix Makefiles" ../OpenSoundMixer-master/')
 	aceutils.call(r'make')

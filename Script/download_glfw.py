@@ -21,6 +21,9 @@ if aceutils.isWin():
 	aceutils.call(r'cmake -G "Visual Studio 12" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../glfw-master/')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" ALL_BUILD.vcxproj /p:configuration=Debug')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" ALL_BUILD.vcxproj /p:configuration=Release')
+elif aceutils.isMac():
+	aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../Dev "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../glfw-master/')
+	aceutils.call(r'make install')
 else:
 	aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev ../glfw-master/')
 	aceutils.call(r'make install')

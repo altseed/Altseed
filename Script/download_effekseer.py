@@ -25,7 +25,7 @@ if aceutils.isWin():
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Effekseer.sln /p:configuration=Debug')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Effekseer.sln /p:configuration=Release')
 elif aceutils.isMac():
-	aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF -D USE_GLEW_STATIC:BOOL=OFF -D USE_GLEW_DLL:BOOL=OFF -D USE_OPENAL:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
+	aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF -D USE_GLEW_STATIC:BOOL=OFF -D USE_GLEW_DLL:BOOL=OFF -D USE_OPENGL3:BOOL=ON -D USE_OPENAL:BOOL=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../Effekseer-master/Dev/Cpp/')
 	aceutils.call(r'make')
 else:
 	aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF -D USE_OPENAL:BOOL=OFF ../Effekseer-master/Dev/Cpp/')

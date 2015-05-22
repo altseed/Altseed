@@ -23,12 +23,18 @@ if aceutils.isWin():
 	print('already installed.')
 else:
 	aceutils.cd(r'zlib_bin')
-	aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev ../zlib-1.2.8/')
+	if aceutils.isMac():
+		aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../Dev "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../zlib-1.2.8/')
+	else:
+		aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../Dev ../zlib-1.2.8/')
 	aceutils.call(r'make install')
 	aceutils.cd(r'../')
 
 	aceutils.cd(r'libpng_bin')
-	aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev ../libpng-1.6.6/')
+	if aceutils.isMac():
+		aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../Dev "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../libpng-1.6.6/')
+	else:
+		aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../Dev ../libpng-1.6.6/')
 	aceutils.call(r'make install')
 	aceutils.cd(r'../')
 

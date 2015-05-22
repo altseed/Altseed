@@ -30,6 +30,9 @@ if aceutils.isWin():
 	aceutils.call(r'cmake -G "Visual Studio 12" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D BOX2D_BUILD_EXAMPLES:BOOL=OFF ../Box2D_v2.3.0/Box2D/')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Box2D.sln /p:configuration=Debug')
 	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Box2D.sln /p:configuration=Release')
+elif aceutils.isMac():
+	aceutils.call(r'cmake -G "Unix Makefiles" "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../Box2D_v2.3.0/Box2D/')
+	aceutils.call(r'make')
 else:
 	aceutils.call(r'cmake -G "Unix Makefiles" ../Box2D_v2.3.0/Box2D/')
 	aceutils.call(r'make')
