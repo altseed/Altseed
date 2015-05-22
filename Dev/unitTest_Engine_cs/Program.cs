@@ -39,6 +39,15 @@ namespace unitTest_Engine_cs
 				.ForEach(TestSequencially);
 		}
 
+		/// <summary>DirectXが有効なシステムか。
+		/// </summary>
+		/// <returns>DirectXが有効なシステムなら<c>true</c>、そうでなければ<c>false</c>を返す。</returns>
+		private static bool IsDirectXAvailable(){
+			var os = System.Environment.OSVersion;
+			var isUnix = os.Platform == PlatformID.Unix || os.Platform == PlatformID.MacOSX;
+			return !isUnix;
+		}
+
 		/// <summary>
 		/// 指定したテストクラスに対して、OpenGL と DirectX 向けのテストを行う。
 		/// </summary>
@@ -57,16 +66,18 @@ namespace unitTest_Engine_cs
 
 			Task.Delay(50).Wait();
 
-			try
-			{
-				target.Test(ace.GraphicsDeviceType.DirectX11);
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e.ToString());
-			}
+			if ( IsDirectXAvailable() ) {
+				try
+				{
+					target.Test(ace.GraphicsDeviceType.DirectX11);
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine(e.ToString());
+				}
 
-			Task.Delay(50).Wait();
+				Task.Delay(50).Wait();
+			}
 		}
 	}
 
