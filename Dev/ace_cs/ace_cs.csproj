@@ -210,7 +210,6 @@
     <Compile Include="swig\LayerType.cs" />
     <Compile Include="swig\Log.cs" />
     <Compile Include="swig\LogLevel.cs" />
-    <Compile Include="swig\Log_Imp.cs" />
     <Compile Include="swig\MassModel.cs" />
     <Compile Include="swig\Material2D.cs" />
     <Compile Include="swig\Material3D.cs" />

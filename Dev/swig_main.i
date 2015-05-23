@@ -150,7 +150,7 @@ CPP_OBJECT( ace::StreamFile )
 %include "ace_cpp/core/Window/ace.Window.h"
 %include "ace_cpp/core/Window/ace.Window_Imp.h"
 %include "ace_cpp/core/Log/ace.Log.h"
-%include "ace_cpp/core/Log/ace.Log_Imp.h"
+
 %include "ace_cpp/core/Profiler/ace.Profiler.h"
 %include "ace_cpp/core/Profiler/ace.Profiler_Imp.h"
 %include "ace_cpp/core/Profiler/ace.LayerProfiler.h"

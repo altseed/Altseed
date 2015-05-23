@@ -1222,6 +1222,213 @@ namespace ace {
 
 
 	/// <summary>
+	/// 
+	/// </summary>
+	public partial class Log
+	{
+		internal ace.swig.Log CoreInstance { get; set; }
+
+		/// <summary>
+		/// ログの出力が可能であるかどうかを表す真偽値を取得する。
+		/// </summary>
+		public bool IsValid
+		{
+			get { return CoreInstance.GetIsValid(); }
+		}
+
+		/// <summary>
+		/// ログの出力レベルを設定する。
+		/// </summary>
+		public LogLevel OutputLevel
+		{
+			set { CoreInstance.SetOutputLevel((ace.swig.LogLevel)value); }
+		}
+
+
+		/// <summary>
+		/// ログ ファイルへ文字列を書き込む。 
+		/// </summary>
+		/// <param name="text">[in] 書き込む文字列 </param>
+		/// <param name="level">[in] ログの出力レベル </param>
+		public void Write(string text, LogLevel level)
+		{
+			CoreInstance.Write(text, (ace.swig.LogLevel)level);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ文字列を書き込む。 
+		/// </summary>
+		/// <param name="text">[in] 書き込む文字列 </param>
+		public void Write(string text)
+		{
+			CoreInstance.Write(text);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ文字列を書き込み、改行する。 
+		/// </summary>
+		/// <param name="text">[in] 書き込む文字列 </param>
+		/// <param name="level">[in] ログの出力レベル </param>
+		public void WriteLine(string text, LogLevel level)
+		{
+			CoreInstance.WriteLine(text, (ace.swig.LogLevel)level);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ文字列を書き込み、改行する。 
+		/// </summary>
+		/// <param name="text">[in] 書き込む文字列 </param>
+		public void WriteLine(string text)
+		{
+			CoreInstance.WriteLine(text);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ強調された文字列を書き込む。 
+		/// </summary>
+		/// <param name="text">[in] 書き込む文字列 </param>
+		/// <param name="level">[in] ログの出力レベル </param>
+		public void WriteStrongly(string text, LogLevel level)
+		{
+			CoreInstance.WriteStrongly(text, (ace.swig.LogLevel)level);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ強調された文字列を書き込む。 
+		/// </summary>
+		/// <param name="text">[in] 書き込む文字列 </param>
+		public void WriteStrongly(string text)
+		{
+			CoreInstance.WriteStrongly(text);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ強調された文字列を書き込み、改行する。 
+		/// </summary>
+		/// <param name="text">[in] 書き込む文字列 </param>
+		/// <param name="level">[in] ログの出力レベル </param>
+		public void WriteLineStrongly(string text, LogLevel level)
+		{
+			CoreInstance.WriteLineStrongly(text, (ace.swig.LogLevel)level);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ強調された文字列を書き込み、改行する。 
+		/// </summary>
+		/// <param name="text">[in] 書き込む文字列 </param>
+		public void WriteLineStrongly(string text)
+		{
+			CoreInstance.WriteLineStrongly(text);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ見出しとして文字列を書き込む。 
+		/// </summary>
+		/// <param name="text">[in] 書き込む文字列 </param>
+		/// <param name="level">[in] ログの出力レベル </param>
+		public void WriteHeading(string text, LogLevel level)
+		{
+			CoreInstance.WriteHeading(text, (ace.swig.LogLevel)level);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ見出しとして文字列を書き込む。 
+		/// </summary>
+		/// <param name="text">[in] 書き込む文字列 </param>
+		public void WriteHeading(string text)
+		{
+			CoreInstance.WriteHeading(text);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ水平線を書き込む。 
+		/// </summary>
+		/// <param name="level">[in] ログの出力レベル </param>
+		public void WriteHorizontalRule(LogLevel level)
+		{
+			CoreInstance.WriteHorizontalRule((ace.swig.LogLevel)level);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ水平線を書き込む。 
+		/// </summary>
+		public void WriteHorizontalRule()
+		{
+			CoreInstance.WriteHorizontalRule();
+		}
+
+		/// <summary>
+		/// ログ ファイルへ表形式( 
+		/// </summary>
+		/// <param name="level">[in] ログの出力レベル </param>
+		public void BeginTable(LogLevel level)
+		{
+			CoreInstance.BeginTable((ace.swig.LogLevel)level);
+		}
+
+		/// <summary>
+		/// ログ ファイルへ表形式( 
+		/// </summary>
+		public void BeginTable()
+		{
+			CoreInstance.BeginTable();
+		}
+
+		/// <summary>
+		/// ログ ファイルへの表形式( 
+		/// </summary>
+		/// <param name="level">[in] ログの出力レベル </param>
+		public void EndTable(LogLevel level)
+		{
+			CoreInstance.EndTable((ace.swig.LogLevel)level);
+		}
+
+		/// <summary>
+		/// ログ ファイルへの表形式( 
+		/// </summary>
+		public void EndTable()
+		{
+			CoreInstance.EndTable();
+		}
+
+		/// <summary>
+		/// 表形式での出力において、新しい行に移動する。 
+		/// </summary>
+		/// <param name="level">[in] ログの出力レベル </param>
+		public void ChangeRow(LogLevel level)
+		{
+			CoreInstance.ChangeRow((ace.swig.LogLevel)level);
+		}
+
+		/// <summary>
+		/// 表形式での出力において、新しい行に移動する。 
+		/// </summary>
+		public void ChangeRow()
+		{
+			CoreInstance.ChangeRow();
+		}
+
+		/// <summary>
+		/// 表形式での出力において、新しい列に移動する。 
+		/// </summary>
+		/// <param name="level">[in] ログの出力レベル </param>
+		public void ChangeColumn(LogLevel level)
+		{
+			CoreInstance.ChangeColumn((ace.swig.LogLevel)level);
+		}
+
+		/// <summary>
+		/// 表形式での出力において、新しい列に移動する。 
+		/// </summary>
+		public void ChangeColumn()
+		{
+			CoreInstance.ChangeColumn();
+		}
+
+	}
+
+
+	/// <summary>
 	/// 大量描画が可能な3Dモデルクラス 
 	/// </summary>
 	public partial class MassModel
