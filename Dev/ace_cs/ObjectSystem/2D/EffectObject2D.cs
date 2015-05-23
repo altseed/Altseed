@@ -142,7 +142,7 @@ namespace ace
 				GC.Collector.AddObject( coreEffectObject );
 				coreEffectObject = null;
 			}
-			System.GC.SuppressFinalize( this );
+			Particular.GC.SuppressFinalize(this);
 		}
 #endregion
 	}

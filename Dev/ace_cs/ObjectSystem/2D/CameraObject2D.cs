@@ -67,7 +67,7 @@ namespace ace
 				GC.Collector.AddObject( coreCameraObject );
 				coreCameraObject = null;
 			}
-			System.GC.SuppressFinalize( this );
+			Particular.GC.SuppressFinalize(this);
 		}
 #endregion
 	}

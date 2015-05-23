@@ -107,7 +107,6 @@
     <Compile Include="ObjectSystem\3D\ModelObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Object3D.cs" />
     <Compile Include="ObjectSystem\3D\TerrainObject3D.cs" />
-    <Compile Include="ObjectSystem\ChildMode.cs" />
     <Compile Include="ObjectSystem\2D\Layer2DComponent.cs" />
     <Compile Include="ObjectSystem\2D\Object2DComponent.cs" />
     <Compile Include="ObjectSystem\2D\Object2D.cs" />
