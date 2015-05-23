@@ -129,6 +129,7 @@
     <Compile Include="ObjectSystem\2D\TextureObject2D.cs" />
     <Compile Include="ObjectSystem\Transition\Transition.cs" />
     <Compile Include="ObjectSystem\Transition\TransitionFade.cs" />
+    <Compile Include="Particular\GC.cs" />
     <Compile Include="Particular\Helper.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

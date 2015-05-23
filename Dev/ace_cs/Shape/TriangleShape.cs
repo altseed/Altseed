@@ -51,7 +51,7 @@ namespace ace
                 GC.Collector.AddObject(coreTriangle);
                 coreTriangle = null;
             }
-            System.GC.SuppressFinalize(this);
+            Particular.GC.SuppressFinalize(this);
         }
         #endregion
 

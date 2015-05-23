@@ -57,7 +57,7 @@ namespace ace
 				GC.Collector.AddObject(coreLayer3D);
 				coreLayer3D = null;
 			}
-			System.GC.SuppressFinalize(this);
+			Particular.GC.SuppressFinalize(this);
 		}
 		#endregion
 

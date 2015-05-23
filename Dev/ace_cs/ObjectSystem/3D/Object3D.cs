@@ -40,7 +40,7 @@ namespace ace
 				GC.Collector.AddObject(commonObject);
 				commonObject = null;
 			}
-			System.GC.SuppressFinalize(this);
+			Particular.GC.SuppressFinalize(this);
 		}
 		#endregion
 

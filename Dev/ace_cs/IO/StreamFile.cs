@@ -48,7 +48,7 @@ namespace ace
 				GC.Collector.AddObject(CoreInstance);
 				CoreInstance = null;
 			}
-			System.GC.SuppressFinalize(this);
+			Particular.GC.SuppressFinalize(this);
 		}
 
 		public unsafe void Read(List<byte> buffer, int size)

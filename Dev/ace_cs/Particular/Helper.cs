@@ -63,5 +63,18 @@ namespace ace.Particular
 
 			return true;
 		}
+
+		public static ace.GraphicsDeviceType GetDefaultDevice()
+		{
+			var os = System.Environment.OSVersion;
+			var isUnix = os.Platform == PlatformID.Unix || os.Platform == PlatformID.MacOSX;
+			
+			if(isUnix)
+			{
+				return GraphicsDeviceType.OpenGL;
+			}
+
+			return GraphicsDeviceType.DirectX11;
+		}
 	}
 }

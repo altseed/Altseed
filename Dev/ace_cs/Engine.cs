@@ -47,6 +47,7 @@ namespace ace
 		public static Graphics Graphics { get; private set; }
 		public static AnimationSystem AnimationSystem { get; private set; }
 		public static File File { get; private set; }
+
 		/// <summary>
 		/// プロファイリング結果を画面に表示するかどうかを表す真偽値を取得または設定する。
 		/// </summary>
@@ -88,7 +89,7 @@ namespace ace
 			var graphicsType = option.GraphicsDevice;
 			if(graphicsType == GraphicsDeviceType.Default)
 			{
-				graphicsType = GraphicsDeviceType.DirectX11;
+				graphicsType = Particular.Helper.GetDefaultDevice();
 			}
 
 			var coreOption = new swig.CoreOption();
@@ -156,7 +157,7 @@ namespace ace
 			var graphicsType = option.GraphicsDevice;
 			if(graphicsType == GraphicsDeviceType.Default)
 			{
-				graphicsType = GraphicsDeviceType.DirectX11;
+				graphicsType = Particular.Helper.GetDefaultDevice();
 			}
 
 			var coreOption = new swig.CoreOption();

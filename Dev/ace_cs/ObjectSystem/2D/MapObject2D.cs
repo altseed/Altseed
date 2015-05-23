@@ -47,7 +47,7 @@ namespace ace
                 GC.Collector.AddObject(coreMapObject);
                 coreMapObject = null;
             }
-            System.GC.SuppressFinalize(this);
+            Particular.GC.SuppressFinalize(this);
         }
         #endregion
 

@@ -40,7 +40,7 @@ namespace ace
                 GC.Collector.AddObject(SwigObject);
                 SwigObject = null;
             }
-            System.GC.SuppressFinalize(this);
+            Particular.GC.SuppressFinalize(this);
         }
 
         public Texture2D Texture
