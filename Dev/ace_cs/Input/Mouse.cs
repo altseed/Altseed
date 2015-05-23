@@ -9,9 +9,8 @@ namespace ace
     /// <summary>
     /// マウスからの入力を取得するクラス
     /// </summary>
-    public class Mouse
+    public partial class Mouse
     {
-        private ace.swig.Mouse mouse;
         private SideButton leftButton;
         private SideButton rightButton;
         private MiddleButton middleButton;
@@ -22,7 +21,7 @@ namespace ace
         /// <param name="m">ネイティブインタフェース</param>
         internal Mouse(ace.swig.Mouse m)
         {
-            mouse = m;
+			CoreInstance = m;
             leftButton = new SideButton();
             rightButton = new SideButton();
             middleButton = new MiddleButton();
@@ -30,26 +29,15 @@ namespace ace
 
         internal void RefreshAllState()
         {
-            MouseButtonState mstate = (MouseButtonState)mouse.GetLeftButton().GetButtonState();
+			MouseButtonState mstate = (MouseButtonState)CoreInstance.GetLeftButton().GetButtonState();
             leftButton.SetState(mstate);
 
-            mstate = (MouseButtonState)mouse.GetRightButton().GetButtonState();
+			mstate = (MouseButtonState)CoreInstance.GetRightButton().GetButtonState();
             rightButton.SetState(mstate);
 
-            mstate = (MouseButtonState)mouse.GetMiddleButton().GetButtonState();
-            double rot = mouse.GetMiddleButton().GetRotation();
+			mstate = (MouseButtonState)CoreInstance.GetMiddleButton().GetButtonState();
+			double rot = CoreInstance.GetMiddleButton().GetRotation();
             middleButton.SetState(mstate, rot);
-        }
-
-        /// <summary>
-        /// マウスの現在位置を返す
-        /// </summary>
-        public Vector2DF Position
-        {
-            get
-            {
-                return mouse.GetPosition();
-            }
         }
 
         /// <summary>

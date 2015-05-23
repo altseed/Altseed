@@ -75,7 +75,6 @@
     <Compile Include="Graphics\Terrain3D.cs" />
     <Compile Include="Graphics\Texture.cs" />
     <Compile Include="Graphics\Texture2D.cs" />
-    <Compile Include="Input\MouseButtonState.cs" />
     <Compile Include="Input\Joystick.cs" />
     <Compile Include="Input\JoystickContainer.cs" />
     <Compile Include="Input\Keyboard.cs" />
@@ -198,10 +197,7 @@
     <Compile Include="swig\Joystick.cs" />
     <Compile Include="swig\JoystickButtonState.cs" />
     <Compile Include="swig\JoystickContainer.cs" />
-    <Compile Include="swig\JoystickContainer_Imp.cs" />
-    <Compile Include="swig\Joystick_Imp.cs" />
     <Compile Include="swig\Keyboard.cs" />
-    <Compile Include="swig\Keyboard_Imp.cs" />
     <Compile Include="swig\KeyframeAnimation.cs" />
     <Compile Include="swig\Keys.cs" />
     <Compile Include="swig\KeyState.cs" />
@@ -219,11 +215,9 @@
     <Compile Include="swig\Model.cs" />
     <Compile Include="swig\Mouse.cs" />
     <Compile Include="swig\MouseButtonState.cs" />
-    <Compile Include="swig\Mouse_Imp.cs" />
     <Compile Include="swig\Object2DType.cs" />
     <Compile Include="swig\ObjectSystemFactory.cs" />
     <Compile Include="swig\Profiler.cs" />
-    <Compile Include="swig\Profiler_Imp.cs" />
     <Compile Include="swig\ReferenceObject.cs" />
     <Compile Include="swig\RenderedObject3DType.cs" />
     <Compile Include="swig\RenderSettings.cs" />

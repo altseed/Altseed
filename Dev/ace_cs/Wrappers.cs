@@ -1222,6 +1222,111 @@ namespace ace {
 
 
 	/// <summary>
+	/// 指定したコンポーネントをこのインスタンスに追加する。 
+	/// </summary>
+	public partial class Joystick
+	{
+		internal ace.swig.Joystick CoreInstance { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public string JoystickName
+		{
+			get { return CoreInstance.GetJoystickName(); }
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int ButtonsCount
+		{
+			get { return CoreInstance.GetButtonsCount(); }
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int AxesCount
+		{
+			get { return CoreInstance.GetAxesCount(); }
+		}
+
+
+		/// <summary>
+		/// 指定したボタンの押し状態を返す 
+		/// </summary>
+		/// <param name="at">何番目のボタンの押し状態を取得するか </param>
+		/// <returns>押し状態 </returns>
+		public JoystickButtonState GetButtonState(int at)
+		{
+			return (ace.JoystickButtonState)CoreInstance.GetButtonState(at);
+		}
+
+		/// <summary>
+		/// 指定した軸の倒し具合を返す 
+		/// </summary>
+		/// <param name="at">何番目の軸配列の倒し具合を取得するか </param>
+		/// <returns>倒し具合 </returns>
+		public float GetAxisState(int at)
+		{
+			return CoreInstance.GetAxisState(at);
+		}
+
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class JoystickContainer
+	{
+		internal ace.swig.JoystickContainer CoreInstance { get; set; }
+
+
+		/// <summary>
+		/// 引数に指定した番号のジョイスティックが接続されているかを取得する。 
+		/// </summary>
+		/// <param name="at">何番目のジョイスティックの接続を確認するか </param>
+		/// <returns>接続されているか否か </returns>
+		public bool GetIsPresentAt(int at)
+		{
+			return CoreInstance.GetIsPresentAt(at);
+		}
+
+		/// <summary>
+		/// 全てのジョイスティックの接続状態を更新する。 
+		/// </summary>
+		public void RefreshAllJoysticks()
+		{
+			CoreInstance.RefreshAllJoysticks();
+		}
+
+	}
+
+
+	/// <summary>
+	/// キーボードからの入力を取得するクラス 
+	/// </summary>
+	public partial class Keyboard
+	{
+		internal ace.swig.Keyboard CoreInstance { get; set; }
+
+
+		/// <summary>
+		/// 特定のキーの押し状態をKeyState列挙型で返す 
+		/// </summary>
+		/// <param name="key"></param>
+		/// <returns>押し状態 </returns>
+		public KeyState GetKeyState(Keys key)
+		{
+			return (ace.KeyState)CoreInstance.GetKeyState((ace.swig.Keys)key);
+		}
+
+	}
+
+
+	/// <summary>
 	/// 
 	/// </summary>
 	public partial class Log
@@ -1629,6 +1734,54 @@ namespace ace {
 		public string GetAnimationClipName(int index)
 		{
 			return CoreInstance.GetAnimationClipName(index);
+		}
+
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class Mouse
+	{
+		internal ace.swig.Mouse CoreInstance { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public ace.Vector2DF Position
+		{
+			get { return CoreInstance.GetPosition(); }
+		}
+
+
+	}
+
+
+	/// <summary>
+	/// プログラムの実行状況(計算時間や、使っているプロセッサ)を記録するクラス。 
+	/// </summary>
+	public partial class Profiler
+	{
+		internal ace.swig.Profiler CoreInstance { get; set; }
+
+
+		/// <summary>
+		/// 計算の開始時間と、使用するプロセッサ番号を記録する。 
+		/// </summary>
+		/// <param name="id">プロファイリングを識別するID。Start関数は、IDの一致するEnd関数と対応する。 </param>
+		public void Start(int id)
+		{
+			CoreInstance.Start(id);
+		}
+
+		/// <summary>
+		/// 計算の終了時間を記録し、プロファイリング結果を蓄積する。 
+		/// </summary>
+		/// <param name="id">プロファイリングを識別するID。End関数は、IDの一致するStart関数と対応する。 </param>
+		public void End(int id)
+		{
+			CoreInstance.End(id);
 		}
 
 	}

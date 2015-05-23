@@ -28,13 +28,7 @@
 
 		"RenderSettings",
 
-		"Profiler",
-		"Profiler_Imp",
-
 		"ObjectSystemFactory",
-
-		"Mouse",
-		"Mouse_Imp",
 
 		"MiddleButton",
 		"MaterialPropertyBlock",
@@ -43,12 +37,6 @@
 		"Material2D",
 
 		"KeyframeAnimation",
-		"Keyboard",
-		"JoystickContainer",
-		"Joystick",
-		"Keyboard_Imp",
-		"JoystickContainer_Imp",
-		"Joystick_Imp",
 
 		"Deformer",
 		"CubemapTexture",
