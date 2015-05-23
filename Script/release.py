@@ -25,19 +25,20 @@ def compile(type):
 def copyTool(type, targetDir):
 	toolDir=targetDir+r'/Tool/'
 	aceutils.mkdir(toolDir)
-	aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe', toolDir)
-	aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe.config', toolDir)
-	aceutils.copy(r'Dev/bin/FontGenerator.Model.dll', toolDir)
-	aceutils.copy(r'Dev/bin/FontGeneratorCore.dll', toolDir)
-	aceutils.copy(r'Dev/bin/nkf32.dll', toolDir)
-	aceutils.copy(r'Dev/bin/System.Reactive.Core.dll', toolDir)
-	aceutils.copy(r'Dev/bin/System.Reactive.Interfaces.dll', toolDir)
-	aceutils.copy(r'Dev/bin/System.Reactive.Linq.dll', toolDir)
-	aceutils.copy(r'Dev/bin/System.Reactive.PlatformServices.dll', toolDir)
-	
-	aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe', toolDir)
-	aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe.config', toolDir)
-	aceutils.copy(r'Dev/bin/PSDParser.dll', toolDir)
+	if aceutils.isWin():
+		aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe', toolDir)
+		aceutils.copy(r'Dev/bin/FontGenerator.WPF.exe.config', toolDir)
+		aceutils.copy(r'Dev/bin/FontGenerator.Model.dll', toolDir)
+		aceutils.copy(r'Dev/bin/FontGeneratorCore.dll', toolDir)
+		aceutils.copy(r'Dev/bin/nkf32.dll', toolDir)
+		aceutils.copy(r'Dev/bin/System.Reactive.Core.dll', toolDir)
+		aceutils.copy(r'Dev/bin/System.Reactive.Interfaces.dll', toolDir)
+		aceutils.copy(r'Dev/bin/System.Reactive.Linq.dll', toolDir)
+		aceutils.copy(r'Dev/bin/System.Reactive.PlatformServices.dll', toolDir)
+		
+		aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe', toolDir)
+		aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe.config', toolDir)
+		aceutils.copy(r'Dev/bin/PSDParser.dll', toolDir)
 
 def makeDocument(type, targetDir):
 	makeDocumentHtml.make_document_html()
@@ -75,12 +76,18 @@ def release_cpp():
 	aceutils.mkdir(sampleDir+r'cpp/lib/Debug/')
 	aceutils.mkdir(sampleDir+r'cpp/lib/Release/')
 
-	aceutils.copy(r'Dev/bin/ace_core.Debug.dll', sampleBinDir)
-	aceutils.copy(r'Dev/bin/ace_core.dll', sampleBinDir)
+	if aceutils.isWin():
+		aceutils.copy(r'Dev/bin/ace_core.Debug.dll', sampleBinDir)
+		aceutils.copy(r'Dev/bin/ace_core.dll', sampleBinDir)
+	elif aceutils.isMac():
+		aceutils.copy(r'Dev/bin/libace_core.dylib', sampleBinDir)
 
 	aceutils.copy(r'Dev/include/ace.h', sampleDir+r'cpp/include/')
-	aceutils.copy(r'Dev/lib/x86/Debug/ace_engine.lib', sampleDir+r'cpp/lib/Debug/')
-	aceutils.copy(r'Dev/lib/x86/Release/ace_engine.lib', sampleDir+r'cpp/lib/Release/')
+	if aceutils.isWin():
+		aceutils.copy(r'Dev/lib/x86/Debug/ace_engine.lib', sampleDir+r'cpp/lib/Debug/')
+		aceutils.copy(r'Dev/lib/x86/Release/ace_engine.lib', sampleDir+r'cpp/lib/Release/')
+	elif aceutils.isMac():
+		aceutils.copy(r'Dev/lib/libace_engine.a', sampleDir+r'cpp/lib/')
 
 	aceutils.copy(r'Sample/sample_cpp.sln', sampleDir)
 	aceutils.mkdir(sampleDir+r'sample_cpp/')
@@ -93,11 +100,17 @@ def release_cpp():
 	aceutils.mkdir(runtimeDir+r'Debug/')
 	aceutils.mkdir(runtimeDir+r'Release/')
 
-	aceutils.copy(r'Dev/bin/ace_core.Debug.dll', runtimeDir)
-	aceutils.copy(r'Dev/bin/ace_core.dll', runtimeDir)
+	if aceutils.isWin():
+		aceutils.copy(r'Dev/bin/ace_core.Debug.dll', runtimeDir)
+		aceutils.copy(r'Dev/bin/ace_core.dll', runtimeDir)
+	elif aceutils.isMac():
+		aceutils.copy(r'Dev/bin/libace_core.dylib', runtimeDir)
 	aceutils.copy(r'Dev/include/ace.h', runtimeDir)
-	aceutils.copy(r'Dev/lib/x86/Debug/ace_engine.lib',runtimeDir+r'Debug/')
-	aceutils.copy(r'Dev/lib/x86/Release/ace_engine.lib', runtimeDir+r'Release/')
+	if aceutils.isWin():
+		aceutils.copy(r'Dev/lib/x86/Debug/ace_engine.lib',runtimeDir+r'Debug/')
+		aceutils.copy(r'Dev/lib/x86/Release/ace_engine.lib', runtimeDir+r'Release/')
+	elif aceutils.isMac():
+		aceutils.copy(r'Dev/lib/libace_engine.a',runtimeDir+r'/')
 
 	# Doxygen
 	aceutils.call(r'doxygen Script/acecppDoxyfile')
@@ -130,13 +143,16 @@ def release_cs():
 	
 	aceutils.copytreeWithExt(r'Sample/bin/',sampleBinDir,[ r'.h', r'.cpp', r'.filters', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip'])
 
-	aceutils.copy(r'Dev/bin/ace_core.dll', sampleBinDir)
-	aceutils.copy(r'Dev/bin/ace_cs.dll', sampleBinDir)
+	if aceutils.isWin():
+		aceutils.copy(r'Dev/bin/ace_core.dll', sampleBinDir)
+		aceutils.copy(r'Dev/bin/ace_cs.dll', sampleBinDir)
+	elif aceutils.isMac():
+		aceutils.copy(r'Dev/bin/libace_core.dylib', sampleBinDir)
 
 	aceutils.copy(r'Sample/sample_cs.sln', sampleDir)
 	aceutils.mkdir(sampleDir+r'sample_cs/')
 	aceutils.copytreeWithExt(r'Sample/sample_cs/',sampleDir+r'sample_cs/',[ r'.h', r'.cpp', r'.filters', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip'])
-	
+
 	aceutils.copy(r'Dev/bin/ace_cs.dll', sampleDir+r'sample_cs/')
 	aceutils.copy(r'Dev/bin/ace_cs.XML', sampleDir+r'sample_cs/')
 
@@ -145,7 +161,10 @@ def release_cs():
 
 	aceutils.mkdir(runtimeDir)
 
-	aceutils.copy(r'Dev/bin/ace_core.dll', runtimeDir)
+	if aceutils.isWin():
+		aceutils.copy(r'Dev/bin/ace_core.dll', runtimeDir)
+	elif aceutils.isMac():
+		aceutils.copy(r'Dev/bin/libace_core.dylib', runtimeDir)
 	aceutils.copy(r'Dev/bin/ace_cs.dll', runtimeDir)
 	aceutils.copy(r'Dev/bin/ace_cs.XML', runtimeDir)
 
