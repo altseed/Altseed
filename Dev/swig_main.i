@@ -171,7 +171,6 @@ CPP_OBJECT( ace::StreamFile )
 %include "ace_cpp/core/Sound/ace.Sound.h"
 
 %include "ace_cpp/core/Graphics/Resource/ace.Shader2D.h"
-%include "ace_cpp/core/Graphics/Resource/ace.Shader2D_Imp.h"
 
 %include "ace_cpp/core/Graphics/Resource/ace.Material2D.h"
 

@@ -172,8 +172,7 @@ namespace ace {
 		Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateEmptyTexture2D_Imp(width, height, format); }
 
 		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateRenderTexture2D_Imp(width, height, format); }
-		Shader2D* CreateShader2D_( const achar* shaderText);
-		
+	
 	protected:
 		virtual VertexBuffer_Imp* CreateVertexBuffer_Imp_(int32_t size, int32_t count, bool isDynamic) = 0;
 		virtual IndexBuffer_Imp* CreateIndexBuffer_Imp_(int maxCount, bool isDynamic, bool is32bit) = 0;
@@ -311,7 +310,7 @@ namespace ace {
 			@param	shaderText						シェーダーのコード
 			@return	シェーダー(2D)
 		*/
-		Shader2D_Imp* CreateShader2D_Imp(const achar* shaderText);
+		Shader2D* CreateShader2D_(const achar* shaderText) override;
 
 		/**
 			@brief	マテリアル(2D)を生成する。

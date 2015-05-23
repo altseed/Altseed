@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-	public class Shader3D : IDestroy
+	public partial class Shader3D : IDestroy
 	{
-		internal swig.Shader3D SwigObject { get; set; }
-
 		internal Shader3D(swig.Shader3D swig)
 		{
-			SwigObject = swig;
+			CoreInstance = swig;
 		}
 
 		~Shader3D()
@@ -24,7 +22,7 @@ namespace ace
 		{
 			get
 			{
-				return SwigObject == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -32,9 +30,9 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			Particular.GC.SuppressFinalize(this);
 		}

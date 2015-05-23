@@ -1593,6 +1593,290 @@ namespace ace {
 
 
 	/// <summary>
+	/// 
+	/// </summary>
+	public partial class Material2D
+	{
+		internal ace.swig.Material2D CoreInstance { get; set; }
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public float GetFloat(string name)
+		{
+			return CoreInstance.GetFloat(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public void SetFloat(string name, float value)
+		{
+			CoreInstance.SetFloat(name, value);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public ace.Vector2DF GetVector2DF(string name)
+		{
+			return CoreInstance.GetVector2DF(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public void SetVector2DF(string name, ace.Vector2DF value)
+		{
+			CoreInstance.SetVector2DF(name, value);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public ace.Vector3DF GetVector3DF(string name)
+		{
+			return CoreInstance.GetVector3DF(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public void SetVector3DF(string name, ace.Vector3DF value)
+		{
+			CoreInstance.SetVector3DF(name, value);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public ace.Vector4DF GetVector4DF(string name)
+		{
+			return CoreInstance.GetVector4DF(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public void SetVector4DF(string name, ace.Vector4DF value)
+		{
+			CoreInstance.SetVector4DF(name, value);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public void SetTexture2D(string name, Texture2D value)
+		{
+			var valueCore = value != null ? value.CoreInstance : null;
+			CoreInstance.SetTexture2D(name, valueCore);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public TextureFilterType GetTextureFilterType(string name)
+		{
+			return (ace.TextureFilterType)CoreInstance.GetTextureFilterType(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="filter"></param>
+		public void SetTextureFilterType(string name, TextureFilterType filter)
+		{
+			CoreInstance.SetTextureFilterType(name, (ace.swig.TextureFilterType)filter);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public TextureWrapType GetTextureWrapType(string name)
+		{
+			return (ace.TextureWrapType)CoreInstance.GetTextureWrapType(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="wrap"></param>
+		public void SetTextureWrapType(string name, TextureWrapType wrap)
+		{
+			CoreInstance.SetTextureWrapType(name, (ace.swig.TextureWrapType)wrap);
+		}
+
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class Material3D
+	{
+		internal ace.swig.Material3D CoreInstance { get; set; }
+
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public float GetFloat(string name)
+		{
+			return CoreInstance.GetFloat(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public void SetFloat(string name, float value)
+		{
+			CoreInstance.SetFloat(name, value);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public ace.Vector2DF GetVector2DF(string name)
+		{
+			return CoreInstance.GetVector2DF(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public void SetVector2DF(string name, ace.Vector2DF value)
+		{
+			CoreInstance.SetVector2DF(name, value);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public ace.Vector3DF GetVector3DF(string name)
+		{
+			return CoreInstance.GetVector3DF(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public void SetVector3DF(string name, ace.Vector3DF value)
+		{
+			CoreInstance.SetVector3DF(name, value);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public ace.Vector4DF GetVector4DF(string name)
+		{
+			return CoreInstance.GetVector4DF(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public void SetVector4DF(string name, ace.Vector4DF value)
+		{
+			CoreInstance.SetVector4DF(name, value);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="value"></param>
+		public void SetTexture2D(string name, Texture2D value)
+		{
+			var valueCore = value != null ? value.CoreInstance : null;
+			CoreInstance.SetTexture2D(name, valueCore);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public TextureFilterType GetTextureFilterType(string name)
+		{
+			return (ace.TextureFilterType)CoreInstance.GetTextureFilterType(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="filter"></param>
+		public void SetTextureFilterType(string name, TextureFilterType filter)
+		{
+			CoreInstance.SetTextureFilterType(name, (ace.swig.TextureFilterType)filter);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <returns></returns>
+		public TextureWrapType GetTextureWrapType(string name)
+		{
+			return (ace.TextureWrapType)CoreInstance.GetTextureWrapType(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="name"></param>
+		/// <param name="wrap"></param>
+		public void SetTextureWrapType(string name, TextureWrapType wrap)
+		{
+			CoreInstance.SetTextureWrapType(name, (ace.swig.TextureWrapType)wrap);
+		}
+
+	}
+
+
+	/// <summary>
 	/// 3Dメッシュのクラス 
 	/// </summary>
 	public partial class Mesh
@@ -1783,6 +2067,28 @@ namespace ace {
 		{
 			CoreInstance.End(id);
 		}
+
+	}
+
+
+	/// <summary>
+	/// シェーダー(2D) 
+	/// </summary>
+	public partial class Shader2D
+	{
+		internal ace.swig.Shader2D CoreInstance { get; set; }
+
+
+	}
+
+
+	/// <summary>
+	/// シェーダー(3D) 
+	/// </summary>
+	public partial class Shader3D
+	{
+		internal ace.swig.Shader3D CoreInstance { get; set; }
+
 
 	}
 

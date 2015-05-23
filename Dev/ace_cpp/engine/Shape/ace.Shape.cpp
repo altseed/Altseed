@@ -4,6 +4,6 @@ namespace ace
 {
 	bool Shape::GetIsCollidedWith(Shape* shape)
 	{
-		GetCoreShape()->GetIsCollidedWith(shape->GetCoreShape().get());
+		return GetCoreShape()->GetIsCollidedWith(shape->GetCoreShape().get());
 	}
 }

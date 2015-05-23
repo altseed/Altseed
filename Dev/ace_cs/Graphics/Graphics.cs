@@ -119,7 +119,7 @@ namespace ace
 		/// <returns></returns>
 		public Shader2D CreateShader2D(string shaderText)
 		{
-			var shader = graphics.CreateShader2D_Imp(shaderText);
+			var shader = graphics.CreateShader2D_(shaderText);
 			if (shader == null) return null;
 
 			var p = shader.GetPtr();
@@ -142,7 +142,7 @@ namespace ace
 		/// <returns>マテリアル(2D)</returns>
 		public Material2D CreateMaterial2D(Shader2D shader)
 		{
-			var material = graphics.CreateMaterial2D_(shader.SwigObject);
+			var material = graphics.CreateMaterial2D_(shader.CoreInstance);
 			var p = material.GetPtr();
 
 			var existing = GC.Material2Ds.GetObject(p);
@@ -174,7 +174,7 @@ namespace ace
 		/// <returns>マテリアル(3D)</returns>
 		public Material3D CreateMaterial3D(Shader3D shader)
 		{
-			var material = graphics.CreateMaterial3D_(shader.SwigObject);
+			var material = graphics.CreateMaterial3D_(shader.CoreInstance);
 			return GC.GenerateMaterial3D(material, GC.GenerationType.Create);
 		}
 

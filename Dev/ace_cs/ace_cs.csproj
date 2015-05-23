@@ -224,7 +224,6 @@
     <Compile Include="swig\RenderTexture2D_Imp.cs" />
     <Compile Include="swig\RotationOrder.cs" />
     <Compile Include="swig\Shader2D.cs" />
-    <Compile Include="swig\Shader2D_Imp.cs" />
     <Compile Include="swig\Shader3D.cs" />
     <Compile Include="swig\ShaderVariableType.cs" />
     <Compile Include="swig\ShapeType.cs" />

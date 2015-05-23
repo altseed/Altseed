@@ -22,19 +22,12 @@
 
 		"SideButton",
 
-		"Shader3D",
-		"Shader2D",
-		"Shader2D_Imp",
-
 		"RenderSettings",
 
 		"ObjectSystemFactory",
 
 		"MiddleButton",
 		"MaterialPropertyBlock",
-
-		"Material3D",
-		"Material2D",
 
 		"KeyframeAnimation",
 

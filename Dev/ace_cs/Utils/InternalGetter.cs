@@ -32,13 +32,13 @@ namespace ace
 		static public swig.Material2D GetMaterial2D(Material2D o)
 		{
 			if (o == null) return null;
-			return o.SwigObject;
+			return o.CoreInstance;
 		}
 
 		static public swig.Material3D GetMaterial3D(Material3D o)
 		{
 			if (o == null) return null;
-			return o.SwigObject;
+			return o.CoreInstance;
 		}
 
 		static public swig.MaterialPropertyBlock GetMaterialPropertyBlock(MaterialPropertyBlock o)

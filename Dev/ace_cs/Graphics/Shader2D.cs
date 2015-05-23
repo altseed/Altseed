@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace ace
 {
-	public class Shader2D : IDestroy
-		{
-		internal swig.Shader2D SwigObject { get; set; }
+	public partial class Shader2D : IDestroy
+	{
 
 		internal Shader2D(swig.Shader2D swig)
 		{
-			SwigObject = swig;
+			CoreInstance = swig;
 		}
 
 		~Shader2D()
@@ -22,9 +21,9 @@ namespace ace
 
 		public bool IsDestroyed
 		{
- 			get
+			get
 			{
-				return SwigObject == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -32,9 +31,9 @@ namespace ace
 		{
 			lock (this)
 			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			Particular.GC.SuppressFinalize(this);
 		}

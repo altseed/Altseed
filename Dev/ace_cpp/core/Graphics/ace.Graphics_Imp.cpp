@@ -559,15 +559,6 @@ void Graphics_Imp::EndRenderingThread()
 
 }
 
-
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
-Shader2D* Graphics_Imp::CreateShader2D_(const achar* shaderText)
-{
-	return CreateShader2D_Imp(shaderText);
-}
-
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -715,7 +706,7 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2DWithRawData(int32_t width, int32_t h
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Shader2D_Imp* Graphics_Imp::CreateShader2D_Imp(const achar* shaderText)
+Shader2D* Graphics_Imp::CreateShader2D_(const achar* shaderText)
 {
 	auto shader = Shader2D_Imp::Create(this,shaderText,ToAString("").c_str(),m_log);
 
