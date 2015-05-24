@@ -11,7 +11,11 @@ namespace ace
 	/// </summary>
 	public class PostEffectLightBloom : PostEffect
 	{
-		Material2D material2dX_Lum, material2dX, material2dY, materialSum, downsample;
+		Material2D material2dX_Lum;
+		Material2D material2dX;
+		Material2D material2dY;
+		Material2D materialSum;
+		Material2D downsample;
 
 		RenderTexture2D tempTexture0;
 		RenderTexture2D tempTexture1;
