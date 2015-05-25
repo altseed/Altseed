@@ -19,9 +19,9 @@ namespace ace
 			renderedObject = Engine.ObjectSystemFactory.CreateTextureObject2D();
 
 			var p = renderedObject.GetPtr();
-			if(GC.Object2Ds.GetObject(p) != null)
+			if (GC.Object2Ds.GetObject(p) != null)
 			{
-				throw new Exception();
+				Particular.Helper.ThrowException("");
 			}
 			GC.Object2Ds.AddObject(p, this);
 		}

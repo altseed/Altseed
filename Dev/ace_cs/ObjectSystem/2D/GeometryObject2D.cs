@@ -24,7 +24,7 @@ namespace ace
             var p = coreObject.GetPtr();
             if (GC.Object2Ds.GetObject(p) != null)
             {
-                throw new Exception();
+				Particular.Helper.ThrowException("");
             }
             GC.Object2Ds.AddObject(p, this);
         }

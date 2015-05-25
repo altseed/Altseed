@@ -20,7 +20,7 @@ namespace ace
 			var p = SwigObject.GetPtr();
 			if (GC.PostEffects.GetObject(p) != null)
 			{
-				throw new Exception();
+				Particular.Helper.ThrowException("");
 			}
 			GC.PostEffects.AddObject(p, this);
 		}

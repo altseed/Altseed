@@ -29,7 +29,7 @@ namespace ace
 		{
 			if(component == null)
 			{
-				throw new ArgumentNullException("component");
+				Particular.Helper.ThrowException("ArgumentNullException(Component)");
 			}
 
 			if(IsUpdating)

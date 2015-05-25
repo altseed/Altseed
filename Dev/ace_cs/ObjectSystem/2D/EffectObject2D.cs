@@ -22,7 +22,7 @@ namespace ace
 			var p = coreEffectObject.GetPtr();
 			if( GC.Object2Ds.GetObject( p ) != null )
 			{
-				throw new Exception();
+				Particular.Helper.ThrowException("");
 			}
 
 			GC.Object2Ds.AddObject( p, this );

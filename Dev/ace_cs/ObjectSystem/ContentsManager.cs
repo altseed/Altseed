@@ -34,7 +34,7 @@ namespace ace
 		{
 			if(content == null)
 			{
-				throw new ArgumentNullException("content");
+				Particular.Helper.ThrowException("ArgumentNullException(Content)");
 			}
 
 			if(isUpdating)

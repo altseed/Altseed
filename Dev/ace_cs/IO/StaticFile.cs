@@ -15,7 +15,7 @@ namespace ace
 		{
 
 #if DEBUG
-			if (GC.StaticFiles.GetObject(swig.GetPtr()) != null) throw new Exception();
+			if (GC.StaticFiles.GetObject(swig.GetPtr()) != null) Particular.Helper.ThrowException("");
 #endif
 
 			CoreInstance = swig;

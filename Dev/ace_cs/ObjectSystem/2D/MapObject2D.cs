@@ -15,18 +15,18 @@ namespace ace
         }
         private swig.CoreMapObject2D coreMapObject { get; set; }
 
-        public MapObject2D()
-        {
-            coreMapObject = Engine.ObjectSystemFactory.CreateMapObject2D();
+		public MapObject2D()
+		{
+			coreMapObject = Engine.ObjectSystemFactory.CreateMapObject2D();
 
-            var p = coreMapObject.GetPtr();
-            if (GC.Object2Ds.GetObject(p) != null)
-            {
-                throw new Exception();
-            }
+			var p = coreMapObject.GetPtr();
+			if (GC.Object2Ds.GetObject(p) != null)
+			{
+				Particular.Helper.ThrowException("");
+			}
 
-            GC.Object2Ds.AddObject(p, this);
-        }
+			GC.Object2Ds.AddObject(p, this);
+		}
 
         #region GC対策
         ~MapObject2D()

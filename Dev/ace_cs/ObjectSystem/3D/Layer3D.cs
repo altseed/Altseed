@@ -28,7 +28,7 @@ namespace ace
 			var p = coreLayer3D.GetPtr();
 			if (GC.Layer3Ds.GetObject(p) != null)
 			{
-				throw new Exception();
+				Particular.Helper.ThrowException("");
 			}
 
 			GC.Layer3Ds.AddObject(p, this);
@@ -102,7 +102,7 @@ namespace ace
 		{
 			if (object3D.Layer != null)
 			{
-				throw new InvalidOperationException("指定したオブジェクトは既に別のレイヤーに所属しています。");
+				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
 			}
 			contentsManager.Add(object3D);
 			coreLayer3D.AddObject(object3D.CoreObject);

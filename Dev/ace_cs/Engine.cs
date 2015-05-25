@@ -370,8 +370,7 @@ namespace ace
 
 			if(refCount > 0)
 			{
-				//Console.WriteLine("未開放のインスタンスが{0}個存在します。", refCount);
-				throw new Exception(string.Format("未開放のインスタンスが{0}個存在します。", refCount));
+				Particular.Helper.ThrowUnreleasedInstanceException(refCount);
 			}
 		}
 

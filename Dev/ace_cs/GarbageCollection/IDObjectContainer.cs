@@ -28,12 +28,12 @@ namespace ace
 
 				if (t == o)
 				{
-					throw new Exception("二重登録です。");
+					Particular.Helper.ThrowException("二重登録です。");
 				}
 
 				if (t != o)
 				{
-					throw new Exception("違うインスタンスが登録されています。");
+					Particular.Helper.ThrowException("違うインスタンスが登録されています。");
 				}
 			}
 			else

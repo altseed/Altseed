@@ -17,7 +17,7 @@ namespace ace
 		{
 #if DEBUG
 			// 唯一の対応するクラスであることを保証
-			if (GC.Deformers.GetObject(swig.GetPtr()) != null) throw new Exception();
+			if (GC.Deformers.GetObject(swig.GetPtr()) != null) Particular.Helper.ThrowException("");
 #endif
 			SwigObject = swig;
 		}

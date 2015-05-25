@@ -76,5 +76,20 @@ namespace ace.Particular
 
 			return GraphicsDeviceType.DirectX11;
 		}
+
+		public static void ThrowException(string message)
+		{
+			throw new Exception(message);
+		}
+
+		public static void ThrowUnregisteredClassException(object o)
+		{
+			throw new Exception(string.Format("未登録のクラス{0}を検出しました。", o));
+		}
+
+		public static void ThrowUnreleasedInstanceException(int count)
+		{
+			throw new Exception(string.Format("未開放のインスタンスが{0}個存在します。", count));
+		}
 	}
 }

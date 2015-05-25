@@ -19,18 +19,18 @@ namespace ace
             get { return ShapeType.TriangleShape; }
         }
 
-        public TriangleShape()
-            : base()
-        {
-            coreTriangle = Engine.ObjectSystemFactory.CreateTriangleShape();
+		public TriangleShape()
+			: base()
+		{
+			coreTriangle = Engine.ObjectSystemFactory.CreateTriangleShape();
 
-            var p = coreTriangle.GetPtr();
-            if (GC.Shapes.GetObject(p) != null)
-            {
-                throw new Exception();
-            }
-            GC.Shapes.AddObject(p, this);
-        }
+			var p = coreTriangle.GetPtr();
+			if (GC.Shapes.GetObject(p) != null)
+			{
+				Particular.Helper.ThrowException("");
+			}
+			GC.Shapes.AddObject(p, this);
+		}
 
         #region GC対応
         ~TriangleShape()

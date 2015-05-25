@@ -21,9 +21,9 @@ namespace ace
 			var p = CoreScene.GetPtr();
 
 			var existing = GC.Scenes.GetObject(p);
-			if(existing != null)
+			if (existing != null)
 			{
-				throw new Exception();
+				Particular.Helper.ThrowException("");
 			}
 
 			GC.Scenes.AddObject(p, this);
@@ -78,15 +78,15 @@ namespace ace
 		/// <param name="layer">追加されるレイヤー</param>
 		public void AddLayer(Layer layer)
 		{
-			if(executing)
+			if (executing)
 			{
 				addingLayer.AddLast(layer);
 				return;
 			}
 
-			if(layer.Scene != null)
+			if (layer.Scene != null)
 			{
-				throw new InvalidOperationException("指定したレイヤーは、既に別のシーンに所属しています。");
+				Particular.Helper.ThrowException("指定したレイヤーは、既に別のシーンに所属しています。");
 			}
 			layersToDraw_.Add(layer);
 			layersToUpdate_.Add(layer);

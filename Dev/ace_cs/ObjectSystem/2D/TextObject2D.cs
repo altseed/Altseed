@@ -20,12 +20,12 @@ namespace ace
 			coreTextObject = Engine.ObjectSystemFactory.CreateTextObject2D();
 
 			var p = coreTextObject.GetPtr();
-			if( GC.Object2Ds.GetObject( p ) != null )
+			if (GC.Object2Ds.GetObject(p) != null)
 			{
-				throw new Exception();
+				Particular.Helper.ThrowException("");
 			}
 
-			GC.Object2Ds.AddObject( p, this );
+			GC.Object2Ds.AddObject(p, this);
 		}
 		
 #region GC対策

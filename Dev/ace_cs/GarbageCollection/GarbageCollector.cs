@@ -83,7 +83,7 @@ namespace ace
 
                     if (TryRelease<swig.CoreShape>(o)) continue;
 
-					throw new Exception(string.Format("未登録のクラス{0}を検出しました。", o));
+					Particular.Helper.ThrowUnregisteredClassException(o);
 				}
 
 				objects.Clear();

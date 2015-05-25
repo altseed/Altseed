@@ -27,7 +27,7 @@ namespace ace
 			var p = coreArc.GetPtr();
 			if(GC.Shapes.GetObject(p) != null)
 			{
-				throw new Exception();
+				Particular.Helper.ThrowException("");
 			}
 			GC.Shapes.AddObject(p, this);
 		}

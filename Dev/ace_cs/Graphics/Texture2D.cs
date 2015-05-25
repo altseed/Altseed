@@ -18,7 +18,7 @@ namespace ace
 		{
 #if DEBUG
 			// 唯一の対応するクラスであることを保証
-			if(GC.Texture2Ds.GetObject(swig.GetPtr()) != null) throw new Exception();
+			if (GC.Texture2Ds.GetObject(swig.GetPtr()) != null) Particular.Helper.ThrowException("");
 #endif
 			CoreInstance = swig;
 		}
