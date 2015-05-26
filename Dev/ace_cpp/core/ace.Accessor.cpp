@@ -18,11 +18,10 @@
 #include "Graphics/Resource/ace.ImagePackage.h"
 
 #include "ObjectSystem/2D/ace.CoreEffectObject2D.h"
+#include "ObjectSystem/2D/ace.CoreChip2D.h"
 
 #include "Graphics/3D/Resource/ace.Mesh.h"
 #include "Graphics/3D//Resource/ace.Model.h"
-
-#include "Graphics/Resource/ace.Chip2D.h"
 
 #include "IO/ace.StreamFile.h"
 
@@ -91,16 +90,16 @@ namespace ace
 	Texture2D* Accessor::ImagePackage_GetImage(ImagePackage* o, int32_t index)
 	{
 		return o->GetImage_(index);
+	}    
+	
+	Texture2D* Accessor::Chip2D_GetTexture(CoreChip2D* chip)
+	{
+		return chip->GetTexture_();
 	}
 
 	Effect* Accessor::CoreEffectObject2D_GetEffect(CoreEffectObject2D* o)
 	{
 		return o->GetEffect_();
-	}
-
-	Texture2D* Accessor::Chip2D_GetTexture(Chip2D* chip)
-	{
-		return chip->GetTexture_();
 	}
 
 	StaticFile* Accessor::File_CreateStaticFile(File* file, const achar* path)

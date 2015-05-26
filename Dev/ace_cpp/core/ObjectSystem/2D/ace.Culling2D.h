@@ -2,8 +2,8 @@
 
 #include <cstdio>
 #include <Culling2D.h>
-#include "../2D/ace.CoreObject2D.h"
-#include "../../Graphics/Resource/ace.Chip2D.h"
+#include "ace.CoreObject2D.h"
+#include "ace.CoreChip2D.h"
 
 #ifdef _WIN64
 
@@ -32,7 +32,7 @@ namespace ace
 	public:
 		bool IsObject;
 		CoreObject2D* Object;
-		Chip2D* Chip;
+		CoreChip2D* Chip;
 
 		~Culling2DUserData()
 		{
@@ -53,7 +53,7 @@ namespace ace
 #endif
 		}
 
-		Culling2DUserData(CoreObject2D *mapObject,Chip2D* chip)
+		Culling2DUserData(CoreObject2D *mapObject,CoreChip2D* chip)
 		{
 			IsObject = false;
 

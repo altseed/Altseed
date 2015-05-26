@@ -14,10 +14,12 @@ namespace ace
 	protected:
 		virtual void CalculateBoundingCircle();
 	private:
-		std::set<Chip2D*> m_chips;
+		std::set<CoreChip2D_Imp*> m_chips;
 		Vector2DF m_centerPosition;
 		int m_drawingPtiority;
 		uint32_t firstSortedKey;
+
+		void DrawChipInternal(CoreChip2D_Imp* chip, Matrix33& matrix, Matrix33& parentMatrix, Renderer2D* renderer);
 	public:
 		CoreMapObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreMapObject2D_Imp();
@@ -31,10 +33,10 @@ namespace ace
 		int GetDrawingPriority() const;
 		void SetDrawingPriority(int priority);
 
-		bool AddChip(Chip2D* chip);
-		bool RemoveChip(Chip2D* chip);
+		bool AddChip(CoreChip2D* chip);
+		bool RemoveChip(CoreChip2D* chip);
 
-		std::set<Chip2D*>& GetChips()
+		std::set<CoreChip2D_Imp*>& GetChips()
 		{
 			return m_chips;
 		}
@@ -50,9 +52,9 @@ namespace ace
 #endif
 		void Draw(Renderer2D* renderer);
 
-		void DrawChip(Renderer2D* renderer, Chip2D* chip);
+		void DrawChip(Renderer2D* renderer, CoreChip2D* chip);
 
-		culling2d::Circle GetChipBoundingCircle(Chip2D* chip);
+		culling2d::Circle GetChipBoundingCircle(CoreChip2D* chip);
 		/*
 		CORE_OBJECT2D_IMP_COMMON
 

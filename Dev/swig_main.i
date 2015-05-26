@@ -25,6 +25,8 @@ CPP_OBJECT( ace::CoreScene_Imp )
 CPP_OBJECT( ace::CoreLayer )
 CPP_OBJECT( ace::CoreLayer_Imp )
 
+
+CPP_OBJECT( ace::CoreChip2D )
 CPP_OBJECT( ace::CoreLayer2D )
 CPP_OBJECT( ace::CoreObject2D )
 CPP_OBJECT( ace::CoreTextureObject2D )
@@ -72,8 +74,6 @@ CPP_OBJECT( ace::ImagePackage )
 CPP_OBJECT( ace::Effect )
 
 CPP_OBJECT( ace::Font )
-
-CPP_OBJECT( ace::Chip2D )
 
 CPP_OBJECT( ace::Mesh )
 CPP_OBJECT( ace::Deformer )
@@ -192,8 +192,6 @@ CPP_OBJECT( ace::StreamFile )
 
 %include "ace_cpp/core/Graphics/Resource/ace.Font.h"
 
-%include "ace_cpp/core/Graphics/Resource/ace.Chip2D.h"
-
 %include "ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h"
 %include "ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h"
 %include "ace_cpp/core/Graphics/3D/Resource/ace.Model.h"
@@ -218,6 +216,7 @@ CPP_OBJECT( ace::StreamFile )
 %include "ace_cpp/core/Shape/ace.CorePolygonShape.h"
 
 %include "ace_cpp/core/ObjectSystem/ace.ChildMode.h"
+%include "ace_cpp/core/ObjectSystem/2D/ace.CoreChip2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreTextureObject2D.h"
 %include "ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D.h"

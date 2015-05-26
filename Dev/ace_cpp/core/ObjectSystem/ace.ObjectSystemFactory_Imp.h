@@ -18,6 +18,7 @@ namespace ace
 		ObjectSystemFactory_Imp(Core_Imp* core, Graphics_Imp* graphics, Log_Imp* logger, Vector2DI windowSize);
 		virtual ~ObjectSystemFactory_Imp();
 
+		CoreChip2D* CreateChip2D() override;
 		CoreTextureObject2D* CreateTextureObject2D() override;
 		CoreCameraObject2D* CreateCameraObject2D() override;
 		CoreTextObject2D* CreateTextObject2D() override;

@@ -3,11 +3,11 @@
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-#include "ace.Texture2D.h"
+#include "../../Graphics/Resource/ace.Texture2D.h"
 #include <Math/ace.RectF.h>
-#include "ace.Chip2D.h"
-#include "../ace.DeviceObject.h"
+#include "ace.CoreChip2D.h"
 #include "../../ObjectSystem/2D/ace.Culling2D.h"
+#include "ace.TransformInfo2D.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -17,9 +17,9 @@ namespace ace {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	class Chip2D_Imp
-		: public Chip2D
-		, public DeviceObject
+	class CoreChip2D_Imp
+		: public CoreChip2D
+		, public ReferenceObject
 	{
 	private:
 
@@ -31,6 +31,10 @@ namespace ace {
 		bool m_turnLR;
 		bool m_turnUL;
 		AlphaBlendMode m_alphablend;
+		TransformInfo2D m_transformInfo;
+		Vector2DF m_centerPosition;
+		int m_drawingPriority;
+		TextureFilterType m_textureFilterType;
 
 #if __CULLING_2D__
 		culling2d::Object *cullingObject;
@@ -40,6 +44,8 @@ namespace ace {
 
 		Texture2D* GetTexture_() const;
 		void SetTexture_(Texture2D* texture);
+
+		void SetCullingUpdate();
 	public:
 
 		CoreMapObject2D_Imp* GetMapObject2D() const;
@@ -55,12 +61,24 @@ namespace ace {
 #if !SWIG
 		void SetTexture(std::shared_ptr<Texture2D> texture);
 		std::shared_ptr<Texture2D> GetTexture();
+		TransformInfo2D GetTransformInfo2D() const;
 #endif
 		void SetTexture(Texture2D* texture);
 
-
 		RectF GetSrc() const override;
 		void SetSrc(RectF src) override;
+
+		Vector2DF GetPosition() const override;
+		void SetPosition(Vector2DF position) override;
+
+		float GetAngle() const override;
+		void SetAngle(float angle) override;
+
+		Vector2DF GetScale() const override;
+		void SetScale(Vector2DF scale) override;
+
+		Vector2DF GetCenterPosition() const override;
+		void SetCenterPosition(Vector2DF position) override;
 
 		Color GetColor() const override;
 		void SetColor(Color color) override;
@@ -71,11 +89,17 @@ namespace ace {
 		bool GetTurnUL() const override;
 		void SetTurnUL(bool turnUL) override;
 
+		int GetDrawingPriority() const override;
+		void SetDrawingPriority(int priority) override;
+
 		AlphaBlendMode GetAlphaBlendMode() const override;
 		void SetAlphaBlendMode(AlphaBlendMode alphaBlend) override;
 
-		Chip2D_Imp(Graphics* graphics);
-		virtual ~Chip2D_Imp();
+		void SetTextureFilterType(TextureFilterType textureFilterType) override;
+		TextureFilterType GetTextureFilterType() const override;
+
+		CoreChip2D_Imp(Graphics* graphics);
+		virtual ~CoreChip2D_Imp();
 
 #if __CULLING_2D__
 		void SetCullingObject(culling2d::Object *cullingObj);
@@ -84,7 +108,6 @@ namespace ace {
 		culling2d::Circle GetBoundingCircle();
 #endif
 
-		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG
 	public:
 		virtual int GetRef() { return ReferenceObject::GetRef(); }

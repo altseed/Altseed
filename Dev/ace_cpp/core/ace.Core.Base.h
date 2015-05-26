@@ -54,7 +54,7 @@ namespace ace {
 
 	class Font;
 
-	class Chip2D;
+	class CoreChip2D;
 
 	class Mesh;
 	class Deformer;

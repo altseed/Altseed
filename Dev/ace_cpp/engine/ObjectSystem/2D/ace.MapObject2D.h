@@ -1,11 +1,13 @@
 ﻿#pragma once
 #include <memory>
+#include "ace.Chip2D.h"
 #include "ace.Object2D.h"
 
 namespace ace
 {
 	class MapObject2D : public Object2D
 	{
+		friend class Chip2D;
 	private:
 		std::shared_ptr<CoreMapObject2D> m_coreObject;
 		std::set<std::shared_ptr<Chip2D>> m_chips;

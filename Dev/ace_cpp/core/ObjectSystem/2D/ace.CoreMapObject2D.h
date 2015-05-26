@@ -1,8 +1,7 @@
-﻿
-#pragma once
+﻿#pragma once
 #include "../common/Math/ace.Vector2DF.h"
 #include "../common/Graphics/ace.Color.h"
-#include "../../Graphics/Resource/ace.Chip2D.h"
+#include "ace.CoreChip2D.h"
 #include "ace.CoreObject2D.h"
 
 namespace ace
@@ -38,12 +37,12 @@ namespace ace
 		/**
 		@brief	このオブジェクトに描画チップを追加する。
 		*/
-		virtual bool AddChip(Chip2D* chip) = 0;
+		virtual bool AddChip(CoreChip2D* chip) = 0;
 
 		/**
 		@brief	このオブジェクトから描画チップを削除する。
 		*/
-		virtual bool RemoveChip(Chip2D* chip) = 0;
+		virtual bool RemoveChip(CoreChip2D* chip) = 0;
 
 		/**
 		@brief	このオブジェクトに追加されている描画チップを全て削除する。

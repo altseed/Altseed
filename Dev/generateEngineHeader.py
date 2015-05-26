@@ -115,7 +115,6 @@ engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.ImagePackage.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Effect.h")
 
-engineHeader.readLines("ace_cpp/core/Graphics/Resource/ace.Chip2D.h")
 
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Deformer.h")
 engineHeader.readLines("ace_cpp/core/Graphics/3D/Resource/ace.Mesh.h")
@@ -160,6 +159,7 @@ engineHeader.readLines("ace_cpp/engine/Shape/ace.LineShape.h")
 engineHeader.readLines("ace_cpp/engine/Shape/ace.PolygonShape.h")
 
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/ace.ContentsManager.h")
+engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Chip2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.Object2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.TextureObject2D.h")
 engineHeader.readLines("ace_cpp/engine/ObjectSystem/2D/ace.CameraObject2D.h")

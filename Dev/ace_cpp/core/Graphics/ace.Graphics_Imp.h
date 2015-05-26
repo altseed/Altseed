@@ -345,8 +345,6 @@ namespace ace {
 
 		Font* CreateFont_(const achar* path);
 
-		Chip2D* CreateChip2D_();
-
 		ImagePackage* CreateImagePackage_(const achar* path) override;
 
 #if !SWIG

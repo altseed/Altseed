@@ -43,13 +43,13 @@ namespace ace
 	bool MapObject2D::AddChip(std::shared_ptr<Chip2D> chip)
 	{
 		m_chips.insert(chip);
-		return m_coreObject->AddChip(chip.get());
+		return m_coreObject->AddChip(chip->GetCoreObject().get());
 	}
 
 	bool MapObject2D::RemoveChip(std::shared_ptr<Chip2D> chip)
 	{
 		m_chips.erase(chip);
-		return m_coreObject->RemoveChip(chip.get());
+		return m_coreObject->RemoveChip(chip->GetCoreObject().get());
 	}
 
 	void MapObject2D::Clear()

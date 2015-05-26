@@ -45,7 +45,6 @@ protected:
 
 	virtual Effect* CreateEffect_(const achar* path) = 0;
 	virtual Font* CreateFont_(const achar* path) = 0;
-	virtual Chip2D* CreateChip2D_() = 0;
 
 	virtual ImagePackage* CreateImagePackage_(const achar* path) = 0;
 public:
@@ -257,17 +256,6 @@ public:
 	{
 		auto effect = CreateEffect_(path);
 		return CreateSharedPtrWithReleaseDLL(effect);
-	}
-
-	/**
-	@brief	2Dチップを生成する。
-	@param	texture	テクスチャ
-	@return	2Dチップ
-	*/
-	std::shared_ptr<Chip2D> CreateChip2D()
-	{
-		auto chip = CreateChip2D_();
-		return CreateSharedPtrWithReleaseDLL(chip);
 	}
 
 #undef CreateFont

@@ -592,12 +592,6 @@
     <ClInclude Include="..\core\IO\ace.StreamFile.h">
       <Filter>IO</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Resource\ace.Chip2D.h">
-      <Filter>Graphics\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Resource\ace.Chip2D_Imp.h">
-      <Filter>Graphics\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
@@ -960,6 +954,12 @@
     <ClInclude Include="..\core\IO\ace.Decryptor.h">
       <Filter>IO</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreChip2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreChip2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1189,9 +1189,6 @@
     <ClCompile Include="..\core\IO\ace.BaseFile.cpp">
       <Filter>IO</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\Resource\ace.Chip2D_Imp.cpp">
-      <Filter>Graphics\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreMapObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
@@ -1356,6 +1353,9 @@
     </ClCompile>
     <ClCompile Include="..\core\IO\ace.Decryptor.cpp">
       <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreChip2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

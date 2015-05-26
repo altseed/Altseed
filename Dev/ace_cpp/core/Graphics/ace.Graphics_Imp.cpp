@@ -20,8 +20,6 @@
 #include "Resource/ace.Shader3D_Imp.h"
 #include "Resource/ace.Material3D_Imp.h"
 
-#include "Resource/ace.Chip2D_Imp.h"
-
 #include "Resource/ace.Effect_Imp.h"
 
 #include "Resource/ace.ShaderCache.h"
@@ -865,14 +863,6 @@ Font* Graphics_Imp::CreateFont_(const achar* path)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Chip2D* Graphics_Imp::CreateChip2D_()
-{
-	auto chip = new Chip2D_Imp(this);
-	if (chip == nullptr) return nullptr;
-
-
-	return chip;
-}
 
 ImagePackage* Graphics_Imp::CreateImagePackage_(const achar* path)
 {

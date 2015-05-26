@@ -399,8 +399,6 @@
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.RenderTexture2D_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.Texture2D_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\ace.VertexBuffer_Imp_GL.h" />
-    <ClInclude Include="..\core\Graphics\Resource\ace.Chip2D.h" />
-    <ClInclude Include="..\core\Graphics\Resource\ace.Chip2D_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.CubemapTexture.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.CubemapTexture_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\ace.DepthBuffer_Imp.h" />
@@ -511,6 +509,8 @@
     <ClInclude Include="..\core\Log\ace.GetSpec.h" />
     <ClInclude Include="..\core\Log\ace.Log.h" />
     <ClInclude Include="..\core\Log\ace.Log_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreChip2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreChip2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D.h" />
@@ -670,7 +670,6 @@
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.RenderTexture2D_Imp_GL.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.Texture2D_Imp_GL.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\GL\Resource\ace.VertexBuffer_Imp_GL.cpp" />
-    <ClCompile Include="..\core\Graphics\Resource\ace.Chip2D_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.CubemapTexture_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.DepthBuffer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\ace.Effect_Imp.cpp" />
@@ -702,6 +701,7 @@
     <ClCompile Include="..\core\IO\ace.StaticFile_Imp.cpp" />
     <ClCompile Include="..\core\IO\ace.StreamFile_Imp.cpp" />
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreChip2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreCameraObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreEffectObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.cpp" />

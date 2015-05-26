@@ -5,7 +5,7 @@
 #include "../../Graphics/2D/ace.LayerRenderer.h"
 
 #include "../../Graphics/Resource/ace.Font_Imp.h"
-#include "../../Graphics/Resource/ace.Chip2D_Imp.h"
+#include "../../ObjectSystem/2D/ace.CoreChip2D_Imp.h"
 #include "../../Graphics/Resource/ace.Texture2D_Imp.h"
 
 #include "ace.CoreTextureObject2D_Imp.h"
@@ -16,7 +16,7 @@
 #include "ace.CoreObject2D_Imp.h"
 #include "ace.CoreGeometryObject2D_Imp.h"
 #include "../../Core/ace.Core.h"
-#include "../../Graphics/Resource/ace.Chip2D_Imp.h"
+#include "../../ObjectSystem/2D/ace.CoreChip2D_Imp.h"
 #include "../../Shape/ace.CoreTriangleShape_Imp.h"
 
 using namespace std;
@@ -59,7 +59,7 @@ namespace ace
 				auto &chips = mapObj->GetChips();
 				for (auto c : chips)
 				{
-					auto chipImp = (Chip2D_Imp*)c;
+					auto chipImp = (CoreChip2D_Imp*)c;
 
 					auto cObj = chipImp->GetCullingObject();
 
@@ -125,10 +125,10 @@ namespace ace
 	//
 	//----------------------------------------------------------------------------------
 #if __CULLING_2D__
-	void CoreLayer2D_Imp::AddChipCullingObject(Chip2D_Imp *chip, uint32_t firstSortKey)
+	void CoreLayer2D_Imp::AddChipCullingObject(CoreChip2D_Imp *chip, uint32_t firstSortKey)
 	{
 		auto mapObject = chip->GetMapObject2D();
-		auto userData = new Culling2DUserData(mapObject, (Chip2D*)chip);
+		auto userData = new Culling2DUserData(mapObject, (CoreChip2D*)chip);
 
 		auto cObj = culling2d::Object::Create(userData, world);
 		chip->SetCullingObject(cObj);
@@ -147,7 +147,7 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreLayer2D_Imp::RemoveChipCullingObject(Chip2D_Imp *chip)
+	void CoreLayer2D_Imp::RemoveChipCullingObject(CoreChip2D_Imp *chip)
 	{
 		auto cObj = chip->GetCullingObject();
 
@@ -230,7 +230,7 @@ namespace ace
 				auto &chips = mapObj->GetChips();
 				for (auto c : chips)
 				{
-					auto chipImp = (Chip2D_Imp*)c;
+					auto chipImp = (CoreChip2D_Imp*)c;
 
 					auto cObj = chipImp->GetCullingObject();
 
@@ -335,7 +335,7 @@ namespace ace
 				else
 				{
 					auto impObj = CoreObject2DToImp(userData->Object);
-					auto chip = (Chip2D_Imp*)userData->Chip;
+					auto chip = (CoreChip2D_Imp*)userData->Chip;
 					auto newCircle = chip->GetBoundingCircle();
 					x->SetCircle(newCircle);
 				}
@@ -598,7 +598,7 @@ namespace ace
 					auto &chips = mapObj->GetChips();
 					for (auto c : chips)
 					{
-						auto chipImp = (Chip2D_Imp*)c;
+						auto chipImp = (CoreChip2D_Imp*)c;
 
 						auto cObj = chipImp->GetCullingObject();
 

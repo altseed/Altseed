@@ -46,8 +46,6 @@
 
 #include "Graphics/Resource/ace.Font.h"
 
-#include "Graphics/Resource/ace.Chip2D.h"
-
 #include "Graphics/3D/Resource/ace.Mesh.h"
 #include "Graphics/3D/Resource/ace.Deformer.h"
 #include "Graphics/3D/Resource/ace.Model.h"
@@ -74,6 +72,7 @@
 #include "Shape/ace.CorePolygonShape.h"
 
 #include "ObjectSystem/ace.ChildMode.h"
+#include "ObjectSystem/2D/ace.CoreChip2D.h"
 #include "ObjectSystem/2D/ace.CoreObject2D.h"
 #include "ObjectSystem/2D/ace.CoreTextureObject2D.h"
 #include "ObjectSystem/2D/ace.CoreCameraObject2D.h"

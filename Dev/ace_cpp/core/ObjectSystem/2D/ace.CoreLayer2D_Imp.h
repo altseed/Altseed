@@ -16,7 +16,7 @@ namespace ace
 {
 	class CoreScene;
 	class CoreObject2D_Imp;
-	class Chip2D_Imp;
+	class CoreChip2D_Imp;
 
 	class CoreLayer2D_Imp
 		: public CoreLayer2D
@@ -87,8 +87,8 @@ namespace ace
 		void AddTransformedObject(culling2d::Object* object);
 		void RemoveTransformedObject(culling2d::Object* object);
 
-		void AddChipCullingObject(Chip2D_Imp *chip, uint32_t firstSortKey);
-		void RemoveChipCullingObject(Chip2D_Imp *chip);
+		void AddChipCullingObject(CoreChip2D_Imp *chip, uint32_t firstSortKey);
+		void RemoveChipCullingObject(CoreChip2D_Imp *chip);
 #endif
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);

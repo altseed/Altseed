@@ -37,7 +37,7 @@ namespace ace
 
 		static Effect* CoreEffectObject2D_GetEffect(CoreEffectObject2D* o);
 
-		static Texture2D* Chip2D_GetTexture(Chip2D* chip);
+		static Texture2D* Chip2D_GetTexture(CoreChip2D* chip);
 
 		static StaticFile* File_CreateStaticFile(File* file, const achar* path);
 		static StreamFile* File_CreateStreamFile(File* file, const achar* path);

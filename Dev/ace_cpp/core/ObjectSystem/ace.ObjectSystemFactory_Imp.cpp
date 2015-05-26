@@ -1,6 +1,7 @@
 ﻿
 #include "ace.ObjectSystemFactory_Imp.h"
 
+#include "2D/ace.CoreChip2D_Imp.h"
 #include "2D/ace.CoreTextureObject2D_Imp.h"
 #include "2D/ace.CoreCameraObject2D_Imp.h"
 #include "2D/ace.CoreTextObject2D_Imp.h"
@@ -90,6 +91,11 @@ namespace ace
 	CoreGeometryObject2D* ObjectSystemFactory_Imp::CreateGeometryObject2D()
 	{
 		return new CoreGeometryObject2D_Imp(m_graphics);
+	}
+
+	CoreChip2D* ObjectSystemFactory_Imp::CreateChip2D()
+	{
+		return new CoreChip2D_Imp(m_graphics);
 	}
 
 	//----------------------------------------------------------------------------------

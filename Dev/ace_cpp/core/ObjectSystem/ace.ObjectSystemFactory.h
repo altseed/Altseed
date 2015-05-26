@@ -28,6 +28,7 @@ namespace ace
 		{
 		}
 
+		virtual CoreChip2D* CreateChip2D() = 0;
 		virtual CoreTextureObject2D* CreateTextureObject2D() = 0;
 		virtual CoreCameraObject2D* CreateCameraObject2D() = 0;
 		virtual CoreTextObject2D* CreateTextObject2D() = 0;

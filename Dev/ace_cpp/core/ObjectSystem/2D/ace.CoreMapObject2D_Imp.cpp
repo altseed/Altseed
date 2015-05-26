@@ -1,6 +1,6 @@
 ﻿#include "../common/ace.common.Base.h"
 #include "ace.CoreMapObject2D_Imp.h"
-#include "../../Graphics/Resource/ace.Chip2D_Imp.h"
+#include "ace.CoreChip2D_Imp.h"
 #include "../../Graphics/Resource/ace.Texture2D_Imp.h"
 #include "../2D/ace.CoreLayer2D_Imp.h"
 #include "../2D/ace.Culling2D.h"
@@ -68,20 +68,20 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool CoreMapObject2D_Imp::AddChip(Chip2D* chip)
+	bool CoreMapObject2D_Imp::AddChip(CoreChip2D* chip)
 	{
 		if (chip == nullptr)
 		{
 			return false;
 		}
 
-		auto pair = m_chips.insert(chip);
+		auto chip_Imp = (CoreChip2D_Imp*)chip;
+
+		auto pair = m_chips.insert(chip_Imp);
 
 		if (pair.second)
 		{
 			SafeAddRef(chip);
-
-			auto chip_Imp = (Chip2D_Imp*)chip;
 			chip_Imp->SetMapObject2D(this);
 
 #if __CULLING_2D__
@@ -99,15 +99,17 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	bool CoreMapObject2D_Imp::RemoveChip(Chip2D* chip)
+	bool CoreMapObject2D_Imp::RemoveChip(CoreChip2D* chip)
 	{
 		if (chip == nullptr)
 		{
 			return false;
 		}
 
+		auto chip_Imp = (CoreChip2D_Imp*)chip;
+
 		auto prevSize = m_chips.size();
-		auto newSize = m_chips.erase(chip);
+		auto newSize = m_chips.erase(chip_Imp);
 
 		//削除成功
 
@@ -120,7 +122,6 @@ namespace ace
 			auto layer = (CoreLayer2D_Imp*)(m_objectInfo.GetLayer());
 			if (layer != nullptr)
 			{
-				auto chip_Imp = (Chip2D_Imp*)chip;
 				layer->RemoveChipCullingObject(chip_Imp);
 			}
 #endif
@@ -139,7 +140,7 @@ namespace ace
 		{
 			for (auto chip : m_chips)
 			{
-				auto chip_Imp = (Chip2D_Imp*)chip;
+				auto chip_Imp = (CoreChip2D_Imp*)chip;
 				layer->RemoveChipCullingObject(chip_Imp);
 			}
 		}
@@ -149,6 +150,84 @@ namespace ace
 			SafeRelease(chip);
 		}
 		m_chips.clear();
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreMapObject2D_Imp::DrawChipInternal(CoreChip2D_Imp* chip, Matrix33& matrix, Matrix33& parentMatrix, Renderer2D* renderer)
+	{
+		auto src = chip->GetSrc();
+		auto texture = chip->GetTexture();
+
+		std::array<Vector2DF, 4> position = src.GetVertexes();
+
+		{
+			Vector2DF origin = position[0];
+			for (int i = 0; i < 4; ++i)
+			{
+				position[i] -= origin;
+			}
+		}
+
+		auto textureSize = texture != nullptr ? texture->GetSize() : Vector2DI(1, 1);
+
+		for (auto& pos : position)
+		{
+			pos -= m_centerPosition;
+			auto v3 = Vector3DF(pos.X, pos.Y, 1);
+			auto result = parentMatrix * matrix * chip->GetTransformInfo2D().GetMatrixToTransform() * v3;
+			pos = Vector2DF(result.X, result.Y);
+		}
+
+		Color color[4];
+		color[0] = chip->GetColor();
+		color[1] = chip->GetColor();
+		color[2] = chip->GetColor();
+		color[3] = chip->GetColor();
+
+		std::array<Vector2DF, 4> uvs;
+
+		if (src.X < 0 || src.Y < 0 || src.Width < 0 || src.Height < 0)
+		{
+			uvs[0] = Vector2DF(0, 0);
+			uvs[1] = Vector2DF(textureSize.X, 0);
+			uvs[2] = Vector2DF(textureSize.X, textureSize.Y);
+			uvs[3] = Vector2DF(0, textureSize.Y);
+		}
+		else
+		{
+			uvs = src.GetVertexes();
+		}
+
+		{
+			auto size = Vector2DF(textureSize.X, textureSize.Y);
+			for (int i = 0; i < 4; ++i)
+			{
+				uvs[i] /= size;
+			}
+		}
+
+		if (chip->GetTurnLR())
+		{
+			std::swap(uvs[0], uvs[1]);
+			std::swap(uvs[2], uvs[3]);
+		}
+
+		if (chip->GetTurnUL())
+		{
+			std::swap(uvs[0], uvs[3]);
+			std::swap(uvs[1], uvs[2]);
+		}
+
+		renderer->AddSprite(
+			position.data(),
+			color,
+			uvs.data(),
+			texture.get(),
+			chip->GetAlphaBlendMode(),
+			m_drawingPtiority,
+			chip->GetTextureFilterType());
 	}
 
 	//----------------------------------------------------------------------------------
@@ -166,63 +245,7 @@ namespace ace
 
 		for (auto chip : m_chips)
 		{
-
-			auto texture = chip->GetTexture();
-
-			if (texture == nullptr)
-			{
-				continue;
-			}
-
-			std::array<Vector2DF, 4> position = chip->GetSrc().GetVertexes();
-
-			{
-
-				for (auto& pos : position)
-				{
-					pos -= m_centerPosition;
-					auto v3 = Vector3DF(pos.X, pos.Y, 1);
-					auto result = parentMatrix * matrix * v3;
-					pos = Vector2DF(result.X, result.Y);
-				}
-
-			}
-
-
-			std::array<Vector2DF, 4> uvs;
-			{
-				const auto textureSize = Vector2DF(texture->GetSize().X, texture->GetSize().Y);
-
-				uvs.at(0) = Vector2DF(0, 0);
-				uvs.at(1) = Vector2DF(textureSize.X, 0);
-				uvs.at(2) = Vector2DF(textureSize.X, textureSize.Y);
-				uvs.at(3) = Vector2DF(0, textureSize.Y);
-
-				for (auto& uv : uvs)
-				{
-					uv /= textureSize;
-				}
-
-				if (chip->GetTurnLR())
-				{
-					std::swap(uvs.at(0), uvs.at(1));
-					std::swap(uvs.at(2), uvs.at(3));
-				}
-
-				if (chip->GetTurnUL())
-				{
-					std::swap(uvs.at(0), uvs.at(3));
-					std::swap(uvs.at(1), uvs.at(2));
-				}
-			}
-
-			std::array<Color, 4> color;
-			color[0] = chip->GetColor();
-			color[1] = chip->GetColor();
-			color[2] = chip->GetColor();
-			color[3] = chip->GetColor();
-
-			renderer->AddSprite(position.data(), color.data(), uvs.data(), texture.get(), chip->GetAlphaBlendMode(), m_drawingPtiority);
+			DrawChipInternal(chip, matrix, parentMatrix, renderer);
 		}
 
 	}
@@ -230,77 +253,30 @@ namespace ace
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreMapObject2D_Imp::DrawChip(Renderer2D* renderer, Chip2D* chip)
+	void CoreMapObject2D_Imp::DrawChip(Renderer2D* renderer, CoreChip2D* chip)
 	{
 		if (!m_objectInfo.GetIsDrawn())
 		{
 			return;
 		}
 
-		auto texture = chip->GetTexture();
+		auto chip_Imp = (CoreChip2D_Imp*)chip;
 
-		if (m_chips.find(chip) == m_chips.end() || texture == nullptr) return;
+		auto texture = chip_Imp->GetTexture();
+
+		if (m_chips.find(chip_Imp) == m_chips.end() || texture == nullptr) return;
 
 
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
 
-		std::array<Vector2DF, 4> position = chip->GetSrc().GetVertexes();
-
-		{
-
-			for (auto& pos : position)
-			{
-				pos -= m_centerPosition;
-				auto v3 = Vector3DF(pos.X, pos.Y, 1);
-				auto result = parentMatrix * matrix * v3;
-				pos = Vector2DF(result.X, result.Y);
-			}
-
-		}
-
-
-		std::array<Vector2DF, 4> uvs;
-		{
-			const auto textureSize = Vector2DF(texture->GetSize().X, texture->GetSize().Y);
-
-			uvs.at(0) = Vector2DF(0, 0);
-			uvs.at(1) = Vector2DF(textureSize.X, 0);
-			uvs.at(2) = Vector2DF(textureSize.X, textureSize.Y);
-			uvs.at(3) = Vector2DF(0, textureSize.Y);
-
-			for (auto& uv : uvs)
-			{
-				uv /= textureSize;
-			}
-
-			if (chip->GetTurnLR())
-			{
-				std::swap(uvs.at(0), uvs.at(1));
-				std::swap(uvs.at(2), uvs.at(3));
-			}
-
-			if (chip->GetTurnUL())
-			{
-				std::swap(uvs.at(0), uvs.at(3));
-				std::swap(uvs.at(1), uvs.at(2));
-			}
-		}
-
-		std::array<Color, 4> color;
-		color[0] = chip->GetColor();
-		color[1] = chip->GetColor();
-		color[2] = chip->GetColor();
-		color[3] = chip->GetColor();
-
-		renderer->AddSprite(position.data(), color.data(), uvs.data(), texture.get(), chip->GetAlphaBlendMode(), m_drawingPtiority);
-
+		DrawChipInternal(chip_Imp, matrix, parentMatrix, renderer);
 	}
 
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	culling2d::Circle CoreMapObject2D_Imp::GetChipBoundingCircle(Chip2D* chip)
+	culling2d::Circle CoreMapObject2D_Imp::GetChipBoundingCircle(CoreChip2D* chip)
 	{
 		culling2d::Circle circle = culling2d::Circle();
 
@@ -344,7 +320,7 @@ namespace ace
 		{
 			for (auto chip : m_chips)
 			{
-				auto chip_Imp = (Chip2D_Imp*)chip;
+				auto chip_Imp = (CoreChip2D_Imp*)chip;
 
 				layer->AddChipCullingObject(chip_Imp, firstSortedKey);
 			}
