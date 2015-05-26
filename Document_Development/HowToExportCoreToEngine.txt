@@ -49,7 +49,7 @@ generateEngineHeader.py
 C#の場合は、***_Impクラスを直接使用する。
 C++からC#へは、swigを経由してラッパーコードを自動生成する。
 
-まず、ace_cs.iにクラス情報を記述する。
+まず、swig_main.iにクラス情報を記述する。
 最上部の、
 %{
 の中に、coreのdll_cs.cxxに追加されるヘッダ部分を記述する。

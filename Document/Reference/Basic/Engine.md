@@ -23,7 +23,7 @@ AC-Engineの機能を提供します。初期化、終了処理及び、殆ど�
 | Terminate | AC-Engineの終了処理を実行します。AC-Engineを終了時に必ず実行します。 |
 | ChangeScene | 更新するシーンを変更します。 |
 | ChangeSceneWithTransition | トランジションを適用し、更新するシーンを変更します。 |
-| Close | ACEのウインドウを閉じます。 |
+| Close | AC-Engineのウインドウを閉じます。 |
 | TakeScreenshot | スクリーンショットを撮影し、画像として保存します。 |
 
 ### 主なプロパティ
