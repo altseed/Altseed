@@ -58,6 +58,30 @@ namespace ace
             set { SwigObject.SetSrc(value); }
         }
 
+        public Vector2DF Position
+        {
+            get { return SwigObject.GetPosition(); }
+            set { SwigObject.SetPosition(value); }
+        }
+
+        public float Angle
+        {
+            get { return SwigObject.GetAngle(); }
+            set { SwigObject.SetAngle(value); }
+        }
+
+        public Vector2DF Scale
+        {
+            get { return SwigObject.GetScale(); }
+            set { SwigObject.SetScale(value); }
+        }
+
+        public Vector2DF CenterPosition
+        {
+            get { return SwigObject.GetCenterPosition(); }
+            set { SwigObject.SetCenterPosition(value); }
+        }
+
         public Color Color
         {
             get { return SwigObject.GetColor(); }
@@ -80,6 +104,12 @@ namespace ace
         {
             get { return (AlphaBlendMode)SwigObject.GetAlphaBlendMode(); }
             set { SwigObject.SetAlphaBlendMode((swig.AlphaBlendMode)value); }
+        }
+
+        TextureFilterType TextureFilterType
+        {
+            get { return (TextureFilterType)SwigObject.GetTextureFilterType(); }
+            set { SwigObject.SetTextureFilterType((swig.TextureFilterType)value); }
         }
     }
 }

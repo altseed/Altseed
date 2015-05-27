@@ -12,11 +12,10 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-            /*
-			TestSequencially(new Sound.Sound());
+
+            TestSequencially(new Graphics._2D.MapObject2D());
 			Console.ReadKey();
 			return;
-			//*/
 
 			TestAll();
 
