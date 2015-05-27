@@ -76,15 +76,8 @@ namespace ace
 
 			if (!Particular.Helper.CheckInitialize()) return false;
 
-			try
-			{
-				core = swig.Core_Imp.CreateCore();
-			}
-			catch (System.TypeInitializationException)
-			{
-				// DLLが見つからないケース
-				return false;
-			}
+			core = Particular.Helper.CreateCore();
+			if (core == null) return false;
 
 			var graphicsType = option.GraphicsDevice;
 			if(graphicsType == GraphicsDeviceType.Default)
@@ -144,15 +137,9 @@ namespace ace
 
 			if(!Particular.Helper.CheckInitialize()) return false;
 
-			try
-			{
-				core = swig.Core_Imp.CreateCore();
-			}
-			catch (System.TypeInitializationException)
-			{
-				// DLLが見つからないケース
-				return false;
-			}
+			core = Particular.Helper.CreateCore();
+			if (core == null) return false;
+
 
 			var graphicsType = option.GraphicsDevice;
 			if(graphicsType == GraphicsDeviceType.Default)

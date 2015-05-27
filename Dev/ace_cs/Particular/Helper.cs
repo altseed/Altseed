@@ -64,6 +64,20 @@ namespace ace.Particular
 			return true;
 		}
 
+		static public swig.Core_Imp CreateCore()
+		{
+			try
+			{
+				return swig.Core_Imp.CreateCore();
+			}
+			catch(DllNotFoundException e)
+			{
+				System.Windows.Forms.MessageBox.Show("DLLを読み込めません。");
+			}
+
+			return null;
+		}
+
 		public static ace.GraphicsDeviceType GetDefaultDevice()
 		{
 			var os = System.Environment.OSVersion;
