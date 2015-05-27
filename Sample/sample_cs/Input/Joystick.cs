@@ -17,7 +17,7 @@ namespace sample_cs.Input
             ace.JoystickContainer container = ace.Engine.JoystickContainer;
 
             //0番目のジョイスティックが接続されているか否かを確かめる
-            if(container.IsPresentAt(0))
+            if (container.GetIsPresentAt(0))
             {
                 //接続されている場合は、ジョイスティックの名前を取得して表示する。
                 Console.WriteLine(container.GetJoystickAt(0).JoystickName + " was connected.");

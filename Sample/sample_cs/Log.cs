@@ -41,9 +41,9 @@ namespace sample_cs
 			logger.ChangeRow();
 			logger.Write( "セル３(ChangeRow)" );
 			logger.EndTable();
-            
-			// SetOutputLevelメソッドで指定したものより低いレベルに指定した出力は、実行されない
-			logger.SetOutputLevel( ace.LogLevel.Critical );
+
+            // SetOutputLevelメソッドで指定したものより低いレベルに指定した出力は、実行されない
+            logger.OutputLevel = ace.LogLevel.Critical;
 			logger.WriteLine( "出力されるログ(critical)", ace.LogLevel.Critical );
 			logger.WriteLine( "出力されないログ(information)", ace.LogLevel.Information );
 

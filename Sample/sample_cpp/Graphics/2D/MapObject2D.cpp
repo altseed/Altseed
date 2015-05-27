@@ -39,13 +39,13 @@ void MapObject2D()
 			for (int j = 0; j < 50; ++j)
 			{
 				//チップを生成する。
-				auto chip = ace::Engine::GetGraphics()->CreateChip2D();
+				auto chip = std::make_shared<ace::Chip2D>();
 
 				//チップにテクスチャを設定する。
 				chip->SetTexture(texture);
 
 				//チップの描画先を指定する。
-				chip->SetSrc(ace::RectF(i * 40 - 1000, j * 40 - 1000, 40, 40));
+				chip->SetPosition(ace::Vector2DF(i * 40 - 1000, j * 40 - 1000));
 
 				//マップオブジェクトにチップを追加する。
 				mapObject->AddChip(chip);

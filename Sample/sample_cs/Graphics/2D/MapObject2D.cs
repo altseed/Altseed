@@ -46,13 +46,13 @@ namespace sample_cs.Graphics._2D
                     for (int j = 0; j < 50; ++j)
                     {
                         //チップを生成する。
-                        var chip = ace.Engine.Graphics.CreateChip2D();
+                        var chip = new ace.Chip2D();
 
                         //チップにテクスチャを設定する。
                         chip.Texture = texture;
 
                         //チップの描画先を指定する。
-                        chip.Src = new ace.RectF(i * 40 - 1000, j * 40 - 1000, 40, 40);
+                        chip.Position = new ace.Vector2DF(i * 40 - 1000, j * 40 - 1000);
 
                         //マップオブジェクトにチップを追加する。
                         mapObject.AddChip(chip);

@@ -280,23 +280,32 @@ namespace ace
 	{
 		culling2d::Circle circle = culling2d::Circle();
 
-		auto texture = chip->GetTexture();
-
 		auto parentMatrix = m_transform.GetParentsMatrix();
 		auto matrix = m_transform.GetMatrixToTransform();
 
-		std::array<Vector2DF, 4> position = chip->GetSrc().GetVertexes();
+		auto chip_Imp = (CoreChip2D_Imp*)chip;
+
+		auto src = chip_Imp->GetSrc();
+		auto texture = chip_Imp->GetTexture();
+
+		std::array<Vector2DF, 4> position = src.GetVertexes();
 
 		{
-
-			for (auto& pos : position)
+			Vector2DF origin = position[0];
+			for (int i = 0; i < 4; ++i)
 			{
-				pos -= m_centerPosition;
-				auto v3 = Vector3DF(pos.X, pos.Y, 1);
-				auto result = parentMatrix * matrix * v3;
-				pos = Vector2DF(result.X, result.Y);
+				position[i] -= origin;
 			}
+		}
 
+		auto textureSize = texture != nullptr ? texture->GetSize() : Vector2DI(1, 1);
+
+		for (auto& pos : position)
+		{
+			pos -= m_centerPosition;
+			auto v3 = Vector3DF(pos.X, pos.Y, 1);
+			auto result = parentMatrix * matrix * chip_Imp->GetTransformInfo2D().GetMatrixToTransform() * v3;
+			pos = Vector2DF(result.X, result.Y);
 		}
 
 		Vector2DF center = (position[0] + position[1] + position[2] + position[3]) / 4;
