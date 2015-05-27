@@ -34,11 +34,11 @@ namespace ace
 
 			if(IsUpdating)
 			{
-				beAdded[key] = component;
+				Particular.Dictionary.Set(beAdded, key, component);
 			}
 			else
 			{
-				components[key] = component;
+				Particular.Dictionary.Set(components, key, component);
 			}
 			component.Owner = owner;
 		}
@@ -47,11 +47,11 @@ namespace ace
 		{
 			if(components.ContainsKey(key))
 			{
-				return components[key];
+				return Particular.Dictionary.Get(components,key);
 			}
 			else if(beAdded.ContainsKey(key))
 			{
-				return beAdded[key];
+				return Particular.Dictionary.Get(beAdded, key);
 			}
 			else
 			{

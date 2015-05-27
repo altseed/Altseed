@@ -292,7 +292,7 @@ namespace ace
 		{
 			executing = true;
 
-			layersToDraw_.Sort((x, y) => x.DrawingPriority - y.DrawingPriority);
+			Particular.Helper.SortLayersToDraw(layersToDraw_);
 
 			foreach(var item in layersToDraw_)
 			{
