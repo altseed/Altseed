@@ -59,7 +59,7 @@ namespace ace
 			return o.CoreInstance;
 		}
 
-		static public swig.Chip2D GetChip2D(Chip2D o)
+		static public swig.CoreChip2D GetChip2D(Chip2D o)
 		{
 			if (o == null) return null;
 			return o.SwigObject;

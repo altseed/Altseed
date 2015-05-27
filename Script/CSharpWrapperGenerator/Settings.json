@@ -41,7 +41,7 @@
 		"CoreLayer2D",
 		"CoreLayer",
 
-		"Chip2D",
+		"CoreChip2D",
 
 		"AnimationSystem",
 		"AnimationSource",

@@ -49,7 +49,6 @@ namespace ace
 					if (TryRelease<swig.ImagePackage>(o)) continue;
 
 					if (TryRelease<swig.Effect>(o)) continue;
-                    if (TryRelease<swig.Chip2D>(o)) continue;
                     if (TryRelease<swig.Font>(o)) continue;
 
 					if (TryRelease<swig.Mesh>(o)) continue;
@@ -65,7 +64,8 @@ namespace ace
 
 					if (TryRelease<swig.CoreScene>(o)) continue;
 
-					if (TryRelease<swig.CoreLayer2D>(o)) continue;
+                    if (TryRelease<swig.CoreChip2D>(o)) continue;
+                    if (TryRelease<swig.CoreLayer2D>(o)) continue;
 					if (TryRelease<swig.CoreObject2D>(o)) continue;
 					if (TryRelease<swig.CoreTextureObject2D>(o)) continue;
                     if (TryRelease<swig.CoreTextObject2D>(o)) continue;

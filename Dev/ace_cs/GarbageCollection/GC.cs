@@ -381,20 +381,6 @@ namespace ace
 			return ret;
 		}
 
-        internal static Chip2D GenerateChip2D(swig.Chip2D o,GenerationType type)
-		{
-			if (o == null) return null;
-            var p = o.GetPtr();
-
-            var existing = GC.Chip2Ds.GetObject(p);
-            existing = GenerateInternal(existing, o, type);
-            if (existing != null) return existing;
-
-            var ret = new Chip2D(o);
-            GC.Chip2Ds.AddObject(p, ret);
-            return ret;
-        }
-
         /// <summary>
         /// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
         /// </summary>

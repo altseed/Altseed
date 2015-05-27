@@ -30,14 +30,15 @@ namespace unitTest_Engine_cs.Graphics._2D
             var g = ace.Engine.Graphics;
             var texture = g.CreateTexture2D("Data/Map/MapTest.png");
 
-            var chip1 = g.CreateChip2D();
+            var chip1 = new ace.Chip2D();
             chip1.Texture = texture;
-            chip1.Src = new ace.RectF(0, 0, 256, 256);
+            chip1.Position = Vector2DF(0, 0);
             obj.AddChip(chip1);
 
-            var chip2 = g.CreateChip2D();
+            var chip2 = new ace.Chip2D();
             chip2.Texture = texture;
             chip2.Src = new ace.RectF(300, 0, 256, 256);
+            chip2.Position = Vector2DF(0, 0);
             obj.AddChip(chip2);
 
             obj.Position = new ace.Vector2DF(0, 0);

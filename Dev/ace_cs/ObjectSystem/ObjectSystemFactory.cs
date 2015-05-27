@@ -44,6 +44,16 @@ namespace ace
             return factory.CreateMapObject2D();
         }
 
+
+        /// <summary>
+        /// ネイティブのChip2Dをインスタンス化する。
+        /// </summary>
+        /// <returns>ネイティブのインスタンス</returns>
+        public swig.CoreChip2D CreateChip2D()
+        {
+            return factory.CreateChip2D();
+        }
+
         /// <summary>
         /// ネイティブのTextObject2Dをインスタンス化する。
         /// </summary>

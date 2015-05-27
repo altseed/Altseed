@@ -8,15 +8,18 @@ namespace ace
 {
     public class Chip2D : IDestroy
     {
-        internal swig.Chip2D SwigObject { get; set; }
+        internal swig.CoreChip2D SwigObject { get; set; }
 
-        internal Chip2D(swig.Chip2D swig)
+        public Chip2D()
         {
-#if DEBUG
-            // 唯一の対応するクラスであることを保証
-			if (GC.Fonts.GetObject(swig.GetPtr()) != null) Particular.Helper.ThrowException("");
-#endif
-            SwigObject = swig;
+            SwigObject = Engine.ObjectSystemFactory.CreateChip2D();
+
+            var p = SwigObject.GetPtr();
+            if (GC.Shapes.GetObject(p) != null)
+            {
+                Particular.Helper.ThrowException("");
+            }
+            GC.Chip2Ds.AddObject(p, this);
         }
 
         ~Chip2D()
