@@ -28,6 +28,7 @@ extern void TextObject2D();
 extern void TextureObject2D();
 extern void MapObject2D();
 extern void CameraObject2D();
+extern void GeometryObject2D();
 extern void ImagePackage();
 
 extern void Object2DComponent();
@@ -61,6 +62,7 @@ int main(int argc, char** argv)
 		INFO(TextureObject2D),
 		INFO(MapObject2D),
 		INFO(ImagePackage),
+		INFO(GeometryObject2D),
 
 		INFO(PostEffect),
 

@@ -30,6 +30,7 @@ namespace sample_cs
                 new TextureObject2D(),
                 new MapObject2D(),
 				new ImagePackage(),
+                new GeometryObject2D(),
 
                 new PostEffect(),
 			};
