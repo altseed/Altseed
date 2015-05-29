@@ -1,9 +1,9 @@
 #include <ace.h>
 
-// Collision2Dのサンプル。マウスによって操作する円がいずれかのオブジェクトにヒットしたら円が赤く染まります。
+// Collision2Dのサンプル。マウスによって操作する円がいずれかのオブジェクトにヒットしたら円が赤く変化します。
 void Collision2D()
 {
-	// AC-Engineを初期化する
+	// AC-Engineを初期化する。
 	ace::Engine::Initialize(ace::ToAString("GeometryObject2D").c_str(), 640, 480, ace::EngineOption());
 
 	//図形描画クラスのコンストラクタを呼び出す。
@@ -12,15 +12,15 @@ void Collision2D()
 	std::shared_ptr<ace::GeometryObject2D> geometryObj2 = std::make_shared<ace::GeometryObject2D>();
 	std::shared_ptr<ace::GeometryObject2D> geometryObj3 = std::make_shared<ace::GeometryObject2D>();
 
-	//マウスによって動かす円
+	//マウスによって動かす円。
 	std::shared_ptr<ace::CircleShape> selfCircle;
 
-	//停止している円、三角形、矩形
+	//停止している円、三角形、矩形。
 	std::shared_ptr<ace::CircleShape> circle;
 	std::shared_ptr<ace::TriangleShape> triangle;
 	std::shared_ptr<ace::RectangleShape> rect;
 
-	// シーンを生成する
+	// シーンを生成する。
 	auto scene = std::make_shared<ace::Scene>();
 
 	// シーンにレイヤーを追加する。
@@ -69,7 +69,7 @@ void Collision2D()
 
 	//停止している三角形の形状と描画の設定を行う。
 	{
-		//三角形の各頂点の位置を指定。
+		//三角形の各頂点の位置を指定します。
 		triangle = std::make_shared<ace::TriangleShape>();
 		triangle->SetPointByIndex(ace::Vector2DF(400, 350), 0);
 		triangle->SetPointByIndex(ace::Vector2DF(300, 450), 1);
@@ -98,8 +98,8 @@ void Collision2D()
 			//マウスによって制御される円の中心位置をマウスの位置とする。
 			selfCircle->SetPosition(ace::Engine::GetMouse()->GetPosition());
 
-			//停止している円、三角形、矩形にマウスによって動く円が衝突した時に円を赤く塗りつぶす。
-			//そうでない時は白く塗りつぶす。
+			//停止している円、三角形、矩形にマウスによって動く円が衝突した時に円を赤く変化させる。
+			//そうでない時は白く変化させる。
 			if (selfCircle->GetIsCollidedWith(circle)
 				|| selfCircle->GetIsCollidedWith(triangle)
 				|| selfCircle->GetIsCollidedWith(rect))
