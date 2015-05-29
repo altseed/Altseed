@@ -24,7 +24,7 @@ namespace ace_x11
 
 #include <string.h>
 #include <stdlib.h>
-
+#include <stdio.h>
 
 
 
@@ -43,6 +43,7 @@ namespace ace_x11
 	**************************************************************************/
 	void MessageBoxX11(const char* title, const char* text)
 	{
+#ifndef __APPLE__
 		const char* wmDeleteWindow = "WM_DELETE_WINDOW";
 		int black, white, length, height, direction, ascent, descent, X, Y, W, H,
 			okX1, okY1, okX2, okY2, okBaseX, okBaseY, okWidth, okHeight, run,
@@ -263,6 +264,9 @@ namespace ace_x11
 		XFreeGC(dpy, gc);
 		XDestroyWindow(dpy, w);
 		XCloseDisplay(dpy);
+#else
+		fprintf(stderr, "%s: %s\n", title, text);
+#endif // __APPLE__
 	}
 }
 #endif
