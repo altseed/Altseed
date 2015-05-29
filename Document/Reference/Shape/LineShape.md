@@ -18,7 +18,7 @@
 |---|---|
 | StaringPosition | 線分の始点 |
 | EndingPosition | 線分の終点 |
-| GetThickness | 線分の太さ|
+| Thickness | 線分の太さ|
 
 ### 主なメソッド
 
