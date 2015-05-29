@@ -2,12 +2,14 @@
 
 #include "../ace.ReferenceObject.h"
 #include "ace.CoreCircleShape.h"
+#include "ace.CoreShape_Imp.h"
 
 namespace ace
 {
 	class CoreCircleShape_Imp
 		:public CoreCircleShape
 		, public ReferenceObject
+		, public CoreShape_Imp
 	{
 		Vector2DF position;
 		float innerDiameter;
@@ -34,6 +36,7 @@ namespace ace
 		void SetNumberOfCorners(int numberOfCorners) override;
 
 		ShapeType GetShapeType() const override;
+		ShapeType GetType() const override;
 
 #if !SWIG
 	public:
@@ -45,5 +48,8 @@ namespace ace
 		virtual void CalculateBoundingCircle() override;
 		virtual void CalcCollisions() override;
 #endif
+
+	public:
+#include "ace.CoreShape_Imp_Methods.h"
 	};
 };

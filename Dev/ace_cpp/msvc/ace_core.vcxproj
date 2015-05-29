@@ -579,9 +579,12 @@
     <ClInclude Include="..\core\Shape\ace.CoreRectangleShape_Imp.h" />
     <ClInclude Include="..\core\Shape\ace.CoreShape.h" />
     <ClInclude Include="..\core\Shape\ace.CoreRectangleShape.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreShape_Imp_Methods.h" />
     <ClInclude Include="..\core\Shape\ace.CoreTriangleShape.h" />
     <ClInclude Include="..\core\Shape\ace.CoreTriangleShape_Imp.h" />
     <ClInclude Include="..\core\Shape\ace.ShapeType.h" />
+    <ClInclude Include="..\core\Shape\ace.CoreShapeConverter.h" />
     <ClInclude Include="..\core\Sound\ace.Sound.h" />
     <ClInclude Include="..\core\Sound\ace.SoundSource.h" />
     <ClInclude Include="..\core\Sound\ace.SoundSource_Imp.h" />
@@ -744,7 +747,8 @@
     <ClCompile Include="..\core\Shape\ace.CoreCircleShape_Imp.cpp" />
     <ClCompile Include="..\core\Shape\ace.CoreLineShape_Imp.cpp" />
     <ClCompile Include="..\core\Shape\ace.CoreRectangleShape_Imp.cpp" />
-    <ClCompile Include="..\core\Shape\ace.CoreShape.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreShapeConverter.cpp" />
+    <ClCompile Include="..\core\Shape\ace.CoreShape_Imp.cpp" />
     <ClCompile Include="..\core\Shape\ace.CoreTriangleShape_Imp.cpp" />
     <ClCompile Include="..\core\Shape\ace.CorePolygonShape_Imp.cpp" />
     <ClCompile Include="..\core\Sound\ace.SoundSource_Imp.cpp" />

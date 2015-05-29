@@ -56,6 +56,11 @@ namespace ace
 		return ShapeType::LineShape;
 	}
 
+	ShapeType CoreLineShape_Imp::GetType() const
+	{
+		return ShapeType::LineShape;
+	}
+
 #if !SWIG
 	void CoreLineShape_Imp::DivideToTriangles()
 	{

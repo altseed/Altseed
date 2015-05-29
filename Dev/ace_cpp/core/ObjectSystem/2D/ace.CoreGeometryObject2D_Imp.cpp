@@ -1,5 +1,7 @@
 ﻿#include "ace.CoreGeometryObject2D_Imp.h"
 #include "../../Shape/ace.CoreTriangleShape.h"
+#include "../../Shape/ace.CoreShapeConverter.h"
+#include "../../Shape/ace.CoreShape_Imp.h"
 
 namespace ace
 {
@@ -104,7 +106,9 @@ namespace ace
 			return;
 		}
 
-		for (auto triangle : m_shape->GetDividedTriangles())
+		auto shape_Imp = CoreShape2DToImp(m_shape);
+
+		for (auto triangle : shape_Imp->GetDividedTriangles())
 		{
 			std::array<Vector2DF, 4> position;
 			std::array<Vector2DF, 4> uvs;
@@ -142,7 +146,8 @@ namespace ace
 
 	void CoreGeometryObject2D_Imp::CalculateBoundingCircle()
 	{
-		m_boundingCircle = m_shape->GetBoundingCircle();
+		auto shape_Imp = CoreShape2DToImp(m_shape);
+		m_boundingCircle = shape_Imp->GetBoundingCircle();
 
 		std::array<Vector2DF, 4> position;
 

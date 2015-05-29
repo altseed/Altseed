@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "../ace.ReferenceObject.h"
+#include "ace.CoreShape_Imp.h"
 #include "ace.CoreArcShape.h"
 
 namespace ace
@@ -8,6 +9,7 @@ namespace ace
 	class CoreArcShape_Imp
 		:public CoreArcShape
 		, public ReferenceObject
+		, public CoreShape_Imp
 	{
 		int startingCorner;
 		int endingCorner;
@@ -42,6 +44,7 @@ namespace ace
 		void SetEndingCorner(int endingCorner) override;
 
 		ShapeType GetShapeType() const override;
+		ShapeType GetType() const override;
 
 #if !SWIG
 	public:
@@ -53,5 +56,40 @@ namespace ace
 		virtual void CalculateBoundingCircle() override;
 		virtual void CalcCollisions() override;
 #endif
+
+	public:
+
+		virtual bool GetIsCollidedWith(CoreShape* shape) override
+		{
+			if (GetType() == ShapeType::RectangleShape)
+			{
+				if (shape->GetShapeType() == ShapeType::CircleShape)
+				{
+					return GetIsCollidedWithCircleAndRect((CoreCircleShape*)shape, (CoreRectangleShape*)this);
+				}
+			}
+			else if (GetType() == ShapeType::LineShape)
+			{
+				if (shape->GetShapeType() == ShapeType::CircleShape)
+				{
+					return GetIsCollidedWithCircleAndLine((CoreCircleShape*)shape, (CoreLineShape*)this);
+				}
+			}
+			else if (GetType() == ShapeType::CircleShape)
+			{
+				if (shape->GetShapeType() == ShapeType::LineShape)
+				{
+					return GetIsCollidedWithCircleAndLine((CoreCircleShape*)this, (CoreLineShape*)shape);
+				}
+				else if (shape->GetShapeType() == ShapeType::RectangleShape)
+				{
+					return GetIsCollidedWithCircleAndRect((CoreCircleShape*)this, (CoreRectangleShape*)shape);
+				}
+			}
+			else
+			{
+				return GetIsCollidedb2Shapes(shape);
+			}
+		}
 	};
 };

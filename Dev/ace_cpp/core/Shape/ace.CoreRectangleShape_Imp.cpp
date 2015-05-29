@@ -67,6 +67,11 @@ namespace ace
 	{
 		return ShapeType::RectangleShape;
 	}
+	
+	ShapeType CoreRectangleShape_Imp::GetType() const
+	{
+		return ShapeType::RectangleShape;
+	}
 
 #if !SWIG
 	void CoreRectangleShape_Imp::DivideToTriangles()

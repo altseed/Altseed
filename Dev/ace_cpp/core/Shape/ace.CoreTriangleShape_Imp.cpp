@@ -39,6 +39,10 @@ namespace ace
 		return ShapeType::TriangleShape;
 	}
 
+	ShapeType CoreTriangleShape_Imp::GetType() const
+	{
+		return ShapeType::TriangleShape;
+	}
 #if !SWIG
 	void CoreTriangleShape_Imp::DivideToTriangles()
 	{

@@ -960,6 +960,15 @@
     <ClInclude Include="..\core\ObjectSystem\2D\ace.CoreChip2D_Imp.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreShape_Imp_Methods.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\ace.CoreShapeConverter.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\ace.Log_Imp.cpp">
@@ -1303,9 +1312,6 @@
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreGeometryObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Shape\ace.CoreShape.cpp">
-      <Filter>Shape</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\Shape\ace.CoreArcShape_Imp.cpp">
       <Filter>Shape</Filter>
     </ClCompile>
@@ -1356,6 +1362,12 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\2D\ace.CoreChip2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\ace.CoreShapeConverter.cpp">
+      <Filter>Shape</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

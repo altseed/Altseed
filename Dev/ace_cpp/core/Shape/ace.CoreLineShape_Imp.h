@@ -2,12 +2,14 @@
 
 #include "ace.CoreLineShape.h"
 #include "../ace.ReferenceObject.h"
+#include "ace.CoreShape_Imp.h"
 
 namespace ace
 {
 	class CoreLineShape_Imp
 		:public CoreLineShape
 		, public ReferenceObject
+		, public CoreShape_Imp
 	{
 		Vector2DF staringPosition;
 		Vector2DF endingPosition;
@@ -26,6 +28,7 @@ namespace ace
 		void SetThickness(float thickness);
 
 		ShapeType GetShapeType() const override;
+		ShapeType GetType() const override;
 
 #if !SWIG
 	public:
@@ -37,5 +40,8 @@ namespace ace
 		virtual void CalculateBoundingCircle() override;
 		virtual void CalcCollisions() override;
 #endif
+
+	public:
+#include "ace.CoreShape_Imp_Methods.h"
 	};
 };

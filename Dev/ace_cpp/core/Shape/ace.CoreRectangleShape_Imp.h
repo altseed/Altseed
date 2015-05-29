@@ -1,12 +1,14 @@
 ﻿#pragma once
 
 #include "ace.CoreRectangleShape.h"
+#include "ace.CoreShape_Imp.h"
 #include "../ace.ReferenceObject.h"
 
 namespace ace
 {
 	class CoreRectangleShape_Imp
 		:public CoreRectangleShape
+		, public CoreShape_Imp
 		, public ReferenceObject
 	{
 		RectF drawingArea;
@@ -30,6 +32,7 @@ namespace ace
 		void SetCenterPosition(Vector2DF centerPosition) override;
 
 		ShapeType GetShapeType() const override;
+		ShapeType GetType() const override;
 
 #if !SWIG
 	public:
@@ -41,5 +44,8 @@ namespace ace
 		virtual void CalculateBoundingCircle() override;
 		virtual void CalcCollisions() override;
 #endif
+
+	public:
+#include "ace.CoreShape_Imp_Methods.h"
 	};
 };

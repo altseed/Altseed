@@ -18,6 +18,7 @@
 #include "../../Core/ace.Core.h"
 #include "../../ObjectSystem/2D/ace.CoreChip2D_Imp.h"
 #include "../../Shape/ace.CoreTriangleShape_Imp.h"
+#include "../../Shape/ace.CoreShapeConverter.h"
 
 using namespace std;
 
@@ -880,7 +881,8 @@ namespace ace
 
 	void CoreLayer2D_Imp::DrawShapeAdditionally(CoreShape* shape, Color color, Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority)
 	{
-		for (auto triangle : shape->GetDividedTriangles())
+		auto shape_Imp = CoreShape2DToImp(shape);
+		for (auto triangle : shape_Imp->GetDividedTriangles())
 		{
 			std::array<Vector2DF, 4> pos;
 			std::array<Vector2DF, 4> uvs;

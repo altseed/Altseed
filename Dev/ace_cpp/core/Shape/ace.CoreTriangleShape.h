@@ -17,5 +17,7 @@ namespace ace
 
 		virtual Vector2DF GetUVByIndex(int index) const = 0;
 		virtual void SetUVByIndex(Vector2DF uv, int index) = 0;
+
+		virtual ShapeType GetShapeType() const = 0;
 	};
 };

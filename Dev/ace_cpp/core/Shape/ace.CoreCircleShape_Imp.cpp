@@ -79,6 +79,11 @@ namespace ace
 		return ShapeType::CircleShape;
 	}
 
+	ShapeType CoreCircleShape_Imp::GetType() const
+	{
+		return ShapeType::CircleShape;
+	}
+
 #if !SWIG
 	void CoreCircleShape_Imp::DivideToTriangles()
 	{

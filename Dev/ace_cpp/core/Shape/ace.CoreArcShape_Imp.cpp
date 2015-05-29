@@ -110,6 +110,11 @@ namespace ace
 		this->innerDiameter = innerDiameter;
 	}
 
+	ShapeType CoreArcShape_Imp::GetType() const
+	{
+		return ShapeType::ArcShape;
+	}
+
 
 #if !SWIG
 	void CoreArcShape_Imp::DivideToTriangles()

@@ -2,6 +2,7 @@
 
 #include "ace.CoreTriangleShape.h"
 #include "../ace.ReferenceObject.h"
+#include "ace.CoreShape_Imp.h"
 #include <array>
 
 namespace ace
@@ -9,6 +10,7 @@ namespace ace
 	class CoreTriangleShape_Imp
 		:public CoreTriangleShape
 		, public ReferenceObject
+		, public CoreShape_Imp
 	{
 		std::array<Vector2DF, 3> points;
 		std::array<Vector2DF, 3> uvs;
@@ -24,6 +26,7 @@ namespace ace
 		void SetUVByIndex(Vector2DF uv, int index);
 
 		ShapeType GetShapeType() const override;
+		ShapeType GetType() const override;
 
 #if !SWIG
 	public:
@@ -35,5 +38,9 @@ namespace ace
 		virtual void CalculateBoundingCircle() override;
 		virtual void CalcCollisions() override;
 #endif
+
+
+	public:
+#include "ace.CoreShape_Imp_Methods.h"
 	};
 };

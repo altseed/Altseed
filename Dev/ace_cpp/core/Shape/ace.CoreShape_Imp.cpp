@@ -1,4 +1,4 @@
-﻿#include "ace.CoreShape.h"
+﻿#include "ace.CoreShape_Imp.h"
 #include "ace.CoreTriangleShape_Imp.h"
 #include "ace.CoreLineShape_Imp.h"
 #include "ace.CoreRectangleShape_Imp.h"
@@ -6,6 +6,7 @@
 #include "ace.CorePolygonShape_Imp.h"
 #include "ace.CoreArcShape_Imp.h"
 #include <Box2D/Box2D.h>
+#include "ace.CoreShapeConverter.h"
 
 #ifdef _WIN64
 
@@ -27,7 +28,8 @@
 
 namespace ace
 {
-	CoreShape::~CoreShape()
+
+	CoreShape_Imp::~CoreShape_Imp()
 	{
 		for (auto triangle : triangles)
 		{
@@ -35,44 +37,12 @@ namespace ace
 		}
 	}
 
-	bool CoreShape::GetIsCollidedWith(CoreShape* shape)
+	bool CoreShape_Imp::GetIsCollidedb2Shapes(CoreShape* shape)
 	{
-		if (GetShapeType() == ShapeType::RectangleShape)
+		auto shape_Imp = CoreShape2DToImp(shape);
+		for (auto selfShape : collisionShapes)
 		{
-			if (shape->GetShapeType() == ShapeType::CircleShape)
-			{
-				return GetIsCollidedWithCircleAndRect((CoreCircleShape*)shape, (CoreRectangleShape*)this);
-			}
-		}
-		else if (GetShapeType() == ShapeType::LineShape)
-		{
-			if (shape->GetShapeType() == ShapeType::CircleShape)
-			{
-				return GetIsCollidedWithCircleAndLine((CoreCircleShape*)shape, (CoreLineShape*)this);
-			}
-		}
-		else if (GetShapeType() == ShapeType::CircleShape)
-		{
-			if (shape->GetShapeType() == ShapeType::LineShape)
-			{
-				return GetIsCollidedWithCircleAndLine((CoreCircleShape*)this, (CoreLineShape*)shape);
-			}
-			else if (shape->GetShapeType() == ShapeType::RectangleShape)
-			{
-				return GetIsCollidedWithCircleAndRect((CoreCircleShape*)this, (CoreRectangleShape*)shape);
-			}
-		}
-		else
-		{
-			return GetIsCollidedb2Shapes(shape);
-		}
-	}
-
-	bool CoreShape::GetIsCollidedb2Shapes(CoreShape* shape)
-	{
-		for (auto selfShape : GetCollisionShapes())
-		{
-			for (auto theirsShape : shape->GetCollisionShapes())
+			for (auto theirsShape : shape_Imp->GetCollisionShapes())
 			{
 
 				b2Transform identity = b2Transform();
@@ -91,7 +61,7 @@ namespace ace
 	}
 
 
-	bool CoreShape::GetIsCollidedWithCircleAndRect(CoreCircleShape* circle, CoreRectangleShape* rectangle)
+	bool CoreShape_Imp::GetIsCollidedWithCircleAndRect(CoreCircleShape* circle, CoreRectangleShape* rectangle)
 	{
 		auto untransformedVertexes = rectangle->GetDrawingArea().GetVertexes();
 
@@ -147,7 +117,7 @@ namespace ace
 		return dist < radius2;
 	}
 
-	bool CoreShape::GetIsCollidedWithCircleAndLine(CoreCircleShape* circle, CoreLineShape* line)
+	bool CoreShape_Imp::GetIsCollidedWithCircleAndLine(CoreCircleShape* circle, CoreLineShape* line)
 	{
 		std::shared_ptr<CoreRectangleShape> rect = std::make_shared<CoreRectangleShape_Imp>();
 
@@ -158,46 +128,4 @@ namespace ace
 
 		return GetIsCollidedWithCircleAndRect(circle, rect.get());
 	}
-
-#if !SWIG
-	std::vector<CoreTriangleShape*>& CoreShape::GetDividedTriangles()
-	{
-		if (isNeededUpdating)
-		{
-			for (auto triangle : triangles)
-			{
-				SafeRelease(triangle);
-			}
-			triangles.clear();
-			DivideToTriangles();
-			isNeededUpdating = false;
-		}
-		return triangles;
-	}
-
-	culling2d::Circle& CoreShape::GetBoundingCircle()
-	{
-		if (isNeededCalcBoundingCircle)
-		{
-			CalculateBoundingCircle();
-			isNeededCalcBoundingCircle = false;
-		}
-		return boundingCircle;
-	}
-
-	std::vector<b2Shape*>& CoreShape::GetCollisionShapes()
-	{
-		if (isNeededCalcCollisions)
-		{
-			for (auto shape : collisionShapes)
-			{
-				delete shape;
-			}
-			collisionShapes.clear();
-			CalcCollisions();
-			isNeededCalcCollisions = false;
-		}
-		return collisionShapes;
-	}
-#endif
 };

@@ -41,6 +41,11 @@ namespace ace
 		return ShapeType::PolygonShape;
 	}
 
+	ShapeType CorePolygonShape_Imp::GetType() const
+	{
+		return ShapeType::PolygonShape;
+	}
+
 #if !SWIG
 	void CorePolygonShape_Imp::DivideToTriangles()
 	{
