@@ -33,4 +33,6 @@
 
 ### 使用方法
 
-MapObject2Dクラスのサンプルをご覧ください。
+MapObject2Dクラスのサンプルです。
+
+* include_basic_sample MapObject2D

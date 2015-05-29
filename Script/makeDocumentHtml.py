@@ -8,6 +8,69 @@ import os.path
 import aceutils
 import re
 
+def include_basic_sample(ls,mode=''):
+    #includeÇÃé¿ëï
+    ls_included = []
+    includePattern = r'\* include_basic_sample (.+)'
+    includer = re.compile(includePattern)
+    
+    for s in ls:
+        m = includer.search(s.replace('\r','').replace('\n',''))
+        if m != None:
+            sampleName = m.group(1)
+            searchedTargetDir = '../Sample/BasicSample/'
+            
+            files = []
+            for f in aceutils.get_files(searchedTargetDir):
+                basename = os.path.basename(f)
+                name = os.path.splitext(basename)[0]
+                if name == sampleName:
+                    files.append(f)
+      
+            searchedExt = '.cs'
+
+            if mode == 'cs':
+                searchedExt = '.cs'
+            elif mode == 'cpp':
+                searchedExt = '.cpp'
+
+            targetPath = ''
+
+            for f in files:
+                ext = os.path.splitext(f)[1] 
+                if ext == searchedExt:
+                    targetPath = f
+                    break
+            
+            searchedExt = '.cs'
+            if targetPath == '':
+                for f in files:
+                    ext = os.path.splitext(f)[1]
+                    if ext == searchedExt:
+                        targetPath = f
+                        break
+
+        
+            if os.path.exists(targetPath):
+                ext = os.path.splitext(targetPath)[1]
+          
+                if ext=='.cpp':
+                    ls_included.append('```cpp\n')
+                elif ext=='.cs':
+                    ls_included.append('```cs\n')
+                else:
+                    ls_included.append('```\n')
+	    
+                with open(targetPath, mode='r', encoding='utf-8') as f:
+                    ls_included.extend(f.readlines())
+                
+                ls_included.append('\n```\n')
+        else:
+            ls_included.append(s)
+
+    return ls_included
+
+
 def make_document_html():
   exclude_ext = [".txt", ".psd", ".BAK"]
 
@@ -169,31 +232,10 @@ def make_document_html():
       ls = f.readlines()
     
     #includeÇÃé¿ëï
-    ls_included = []
-    includePattern = r'\* include (.+)'
-    includer = re.compile(includePattern)
-    for s in ls:
-        m = includer.search(s.replace('\r','').replace('\n',''))
-        if m != None:
-            link = r'../' + m.group(1)
-            if os.path.exists(link):
-                ext = os.path.splitext(link)[1]
-                
-                if ext=='.cpp':
-                    ls.append('```cpp\n')
-                elif ext=='.cs':
-                    ls.append('```cs\n')
-                else:
-                    ls.append('```\n')
-
-                with open(link, mode='r', encoding='utf-8') as f:
-                    ls.extend(f.readlines())
-                ls.append('\n```\n')
-
-        else:
-            ls_included.append(s)
-
-    ls = ls_included
+    ls = include_basic_sample(ls,'')
+    ls_included_bsample = []
+    include_bsample_Pattern = r'\* include_basic_sample (.+)'
+    include_bsample_r = re.compile(include_bsample_Pattern)
 
     # ÉäÉìÉNÇèCê≥
     ls = [s.replace('.md', '.html') for s in ls]

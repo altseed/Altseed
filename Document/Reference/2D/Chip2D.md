@@ -25,3 +25,10 @@
 | Position | このチップの属するマップオブジェクト2Dに対する相対的な位置 |
 | Angle | このチップの属するマップオブジェクト2Dに対する相対的な回転角度 |
 | Scale | このチップの属するマップオブジェクト2Dに対する相対的な拡大率 |
+
+### 使用方法
+
+Chip2DはMapObject2Dと必ず組み合わして使用します。
+そのため、MapObject2Dクラスのサンプルを提示します。
+
+* include_basic_sample MapObject2D

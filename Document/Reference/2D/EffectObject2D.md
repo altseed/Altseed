@@ -38,4 +38,6 @@ Angleは画面の正面方向を軸に半時計回り、EffectRotationは画面�
 
 ### 使用方法
 
-EffectObject2Dクラスのサンプルを参照お願いします。
+EffectObject2Dクラスのサンプルです。
+
+* include_basic_sample EffectObject2D

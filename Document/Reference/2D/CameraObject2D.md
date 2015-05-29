@@ -28,4 +28,6 @@
 
 ### 使用方法
 
-現在サンプルはありません。
+CameraObject2Dクラスのサンプルです。
+
+* include_basic_sample CameraObject2D

@@ -38,4 +38,6 @@
 
 ### 使用方法
 
-TextObject2Dクラスのサンプルをご覧ください。
+TextObject2Dクラスのサンプルです。
+
+* include_basic_sample TextObject2D

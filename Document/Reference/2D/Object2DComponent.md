@@ -24,5 +24,8 @@ AC-Engineには同様の機能としてLayer2DComponent, SceneComponentがあり
 |---|---|
 |OnUpdate|オーバーライドして、毎フレーム実行される更新イベントを記述することができます。|
 
-###使用方法
-Object2DComponentのサンプルをご覧ください。
+### 使用方法
+
+Object2DComponentクラスのサンプルです。
+
+* include_basic_sample Object2DComponent

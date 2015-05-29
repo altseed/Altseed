@@ -36,4 +36,7 @@
 
 ### 使用方法
 
-TextureObject2Dクラスのサンプルをご覧ください。
+TextureObject2Dクラスのサンプルです。
+
+* include_basic_sample TextureObject2D
+
