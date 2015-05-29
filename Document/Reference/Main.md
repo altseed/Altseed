@@ -29,9 +29,20 @@
 * [エフェクトオブジェクト2D](./2D/EffectObject2D.md)
 * [テキストオブジェクト2D](./2D/TextObject2D.md)
 * [マップオブジェクト2D](./2D/MapObject2D.md)
+* [図形オブジェクト2D](./2D/GeometryObject2D.md)
 * [カメラオブジェクト2D](./2D/CameraObject2D.md)
 
 * [チップ2D](./2D/Chip2D.md)
+
+#### 2D図形
+
+* [図形](./Shape/Shape.md)
+* [弧](./Shape/ArcShape.md)
+* [円](./Shape/CircleShape.md)
+* [三角形](./Shape/TriangleShape.md)
+* [矩形](./Shape/RectangleShape.md)
+* [多角形](./Shape/PolygonShape.md)
+* [線分](./Shape/LineShape.md)
 
 #### 3D
 
