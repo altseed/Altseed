@@ -2,7 +2,7 @@
 
 ### 概要
 
-図形を扱うクラスです。ただしこのクラスのインスタンスは生成できず、サブクラスである(弧)[ArcShape.md]、(円)[CircleShape.md]、(三角形)[TriangleShape.md]、(矩形)[RectangleShape.md]、(線分)[Line.md]ならびに(多角形)[PolygonShape.md]からインスタンスを生成します。
+図形を扱うクラスです。ただしこのクラスのインスタンスは生成できず、サブクラスである[弧](./ArcShape.md)、[円](./CircleShape.md)、[三角形](./TriangleShape.md)、[矩形](./RectangleShape.md)、[線分](./LineShape.md)ならびに[多角形](./PolygonShape.md)からインスタンスを生成します。
 
 図形の描画並びに衝突判定に使用することが可能です。描画に関しては図形オブジェクト2Dの項を参照してください。
 
