@@ -45,10 +45,10 @@ namespace ace {
 
 		/**
 		@brief	コンストラクタ
-		@param	x	X
-		@param	y	Y
-		@param	z	Z
-		@param	w	W
+		@param	x	X成分
+		@param	y	Y成分
+		@param	z	Z成分
+		@param	w	W成分
 		*/
 		Vector4DF(float x, float y, float z, float w);
 
@@ -127,11 +127,17 @@ namespace ace {
 
 		/**
 		@brief	内積を取得する。
+		@param	v1	v1ベクトル
+		@param	v2	v2ベクトル
+		@return 内積v1・v2を返します。
 		*/
 		static float Dot(const Vector4DF& v1, const Vector4DF& v2);
 
 		/**
 		@brief	2点間の距離を取得する。
+		@param	v1　v1ベクトル
+		@param	v2	v2ベクトル
+		@return v1とv2の距離を返します。
 		*/
 		static float Distance(const Vector4DF& v1, const Vector4DF& v2);
 	};
