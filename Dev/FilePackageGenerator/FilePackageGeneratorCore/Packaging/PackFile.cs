@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 
 using IO = System.IO;
-using FilePackingTool.Extention;
+using FilePackageGenerator.Extention;
 
-namespace FilePackingTool.Packaging
+namespace FilePackageGenerator.Packaging
 {
 	internal class PackFile
 	{

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 
 using System.Reflection;
-using FilePackingTool.Packaging;
+using FilePackageGenerator.Packaging;
 
-namespace FilePackingTool
+namespace FilePackageGenerator
 {
 	public static class Program
 	{
@@ -60,7 +60,7 @@ FilePackagingTool [対象ディレクトリパス] [パックファイル名] [/
 				throw new ArgumentException("パックファイルの名前を設定してください");
 			}
 		}
-		static FilePackingTool.Packaging.PackagingSetting GetPackagingSetting(IEnumerator<string> args)
+		static FilePackageGenerator.Packaging.PackagingSetting GetPackagingSetting(IEnumerator<string> args)
 		{
 			if (haveCurrentValue)
 			{

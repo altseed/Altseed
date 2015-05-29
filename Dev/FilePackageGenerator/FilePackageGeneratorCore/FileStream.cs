@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 
 using System.IO;
-using FilePackingTool.Extention;
+using FilePackageGenerator.Extention;
 
-namespace FilePackingTool
+namespace FilePackageGenerator
 {
 	/// <summary>
 	/// パックファイルも読み込めるように拡張したもの

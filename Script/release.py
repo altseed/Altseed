@@ -22,6 +22,8 @@ def compile(type):
 
 		aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/FontGeneratorWPF.sln /p:configuration=Release')
 
+		aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/FilePackageGenerator.sln /p:configuration=Release')
+
 def copyTool(type, targetDir):
 	toolDir=targetDir+r'/Tool/'
 	aceutils.mkdir(toolDir)
@@ -39,6 +41,11 @@ def copyTool(type, targetDir):
 		aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe', toolDir)
 		aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe.config', toolDir)
 		aceutils.copy(r'Dev/bin/PSDParser.dll', toolDir)
+
+		aceutils.copy(r'Dev/bin/FilePackageGenerator.exe', toolDir)
+		aceutils.copy(r'Dev/bin/FilePackageGenerator.GUI.exe', toolDir)
+		aceutils.copy(r'Dev/bin/FilePackageGenerator.GUI.exe.config', toolDir)
+		aceutils.copy(r'Dev/bin/FilePackageGeneratorCore.dll', toolDir)
 
 def makeDocument(type, targetDir):
 	makeDocumentHtml.make_document_html()

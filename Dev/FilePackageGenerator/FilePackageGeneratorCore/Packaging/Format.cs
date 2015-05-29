@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace FilePackingTool.Packaging
+namespace FilePackageGenerator.Packaging
 {
 	internal class TopHeader
 	{

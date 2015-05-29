@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2013 for Windows Desktop
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackagingTool", "FilePackagingTool\FilePackagingTool\FilePackagingTool.csproj", "{B664E097-5381-449A-9415-0143EC59C6B1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackageGenerator", "FilePackageGenerator\FilePackageGenerator\FilePackageGenerator.csproj", "{B664E097-5381-449A-9415-0143EC59C6B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackagingToolCore", "FilePackagingTool\FilePackagingToolCore\FilePackagingToolCore.csproj", "{67B21C11-7288-4890-8196-67221F74077F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackageGeneratorCore", "FilePackageGenerator\FilePackageGeneratorCore\FilePackageGeneratorCore.csproj", "{67B21C11-7288-4890-8196-67221F74077F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackagingTool.GUI", "FilePackagingTool\FilePackagingTool.GUI\FilePackagingTool.GUI.csproj", "{18D2DA76-50A1-4CFE-B6E0-3B0839F6DF8B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilePackageGenerator.GUI", "FilePackageGenerator\FilePackageGenerator.GUI\FilePackageGenerator.GUI.csproj", "{18D2DA76-50A1-4CFE-B6E0-3B0839F6DF8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

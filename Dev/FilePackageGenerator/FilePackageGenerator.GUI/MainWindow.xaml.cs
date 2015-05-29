@@ -16,7 +16,7 @@ using System.Windows.Shapes;
 using System.Windows.Forms;
 
 using System.Reflection;
-using FilePackingTool.Packaging;
+using FilePackageGenerator.Packaging;
 
 namespace FilePackagingTool.GUI
 {

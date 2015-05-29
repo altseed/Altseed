@@ -5,9 +5,9 @@ using System.Text;
 
 using System.IO;
 using System.Text.RegularExpressions;
-using FilePackingTool.Extention;
+using FilePackageGenerator.Extention;
 
-namespace FilePackingTool.Packaging
+namespace FilePackageGenerator.Packaging
 {
 	public enum PackagingSetting
 	{
