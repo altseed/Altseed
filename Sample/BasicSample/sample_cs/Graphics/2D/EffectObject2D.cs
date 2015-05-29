@@ -1,6 +1,6 @@
 ﻿
 /// <summary>
-/// EffectObject2Dのサンプル。エフェクトを表示する。
+/// EffectObject2Dのサンプル。エフェクトを表示しています。
 /// </summary>
 class EffectObject2D : ISample
 {

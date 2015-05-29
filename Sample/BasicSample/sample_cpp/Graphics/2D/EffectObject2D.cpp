@@ -1,9 +1,7 @@
 
 #include <ace.h>
 
-/**
-@brief	EffectObject2Dのサンプル。エフェクトを表示する。
-*/
+// EffectObject2Dのサンプル。エフェクトを表示しています。
 void EffectObject2D()
 {
 	// AC-Engineを初期化する。
@@ -49,4 +47,6 @@ void EffectObject2D()
 
 	// AC-Engineの終了処理をする。
 	ace::Engine::Terminate();
+
+	return;
 }

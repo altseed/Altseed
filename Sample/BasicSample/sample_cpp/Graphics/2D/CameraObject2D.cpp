@@ -1,9 +1,7 @@
 
 #include <ace.h>
 
-/**
-@brief	CameraObject2Dのサンプル。マウスポインタの先を拡大表示する。
-*/
+// CameraObject2Dのサンプル。マウスポインタの先を拡大表示しています。
 void CameraObject2D()
 {
 	// AC-Engineを初期化する。
@@ -58,4 +56,6 @@ void CameraObject2D()
 
 	// AC-Engineの終了処理をする。
 	ace::Engine::Terminate();
+
+	return;
 }

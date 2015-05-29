@@ -27,7 +27,6 @@
     <ClCompile Include="..\SampleGuide.cpp" />
     <ClCompile Include="..\Sound\Sound.cpp" />
     <ClCompile Include="..\Window\Empty.cpp" />
-    <ClCompile Include="..\Window\EmptyExternal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />

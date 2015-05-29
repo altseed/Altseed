@@ -54,7 +54,6 @@
     <Compile Include="Graphics\2D\MapObject2D.cs" />
     <Compile Include="Graphics\2D\TextObject2D.cs" />
     <Compile Include="Graphics\2D\TextureObject2D.cs" />
-    <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />
     <Compile Include="Graphics\PostEffect\PostEffect.cs" />
     <Compile Include="Input\Joystick.cs" />
     <Compile Include="Input\Keyboard.cs" />
@@ -67,7 +66,6 @@
     <Compile Include="SampleCUI.cs" />
     <Compile Include="Sound\Sound.cs" />
     <Compile Include="Window\Empty.cs" />
-    <Compile Include="Window\EmptyExternal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

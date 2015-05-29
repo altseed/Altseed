@@ -1,9 +1,7 @@
 
 #include <ace.h>
 
-/**
-@brief	ポストエフェクトを適用する。
-*/
+// 様々なポストエフェクトを適用するサンプルです。
 void PostEffect()
 {
 	// 説明
@@ -79,4 +77,6 @@ void PostEffect()
 
 	// AC-Engineの終了処理をする。
 	ace::Engine::Terminate();
+
+	return;
 }

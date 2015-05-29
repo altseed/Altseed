@@ -18,7 +18,6 @@ void GetDirectoryName(char* dst, char* src);
 #endif
 
 extern void Empty();
-extern void EmptyExternal();
 extern void Keyboard();
 extern void Mouse();
 extern void Joystick();
@@ -47,7 +46,6 @@ int main(int argc, char** argv)
 	std::vector<SampleInfo> samples =
 	{
 		INFO(Empty),
-		INFO(EmptyExternal),
 		INFO(Keyboard),
 		INFO(Mouse),
 		INFO(Joystick),

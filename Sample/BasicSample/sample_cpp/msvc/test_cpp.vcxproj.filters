@@ -11,9 +11,6 @@
     <ClCompile Include="..\Window\Empty.cpp">
       <Filter>Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\Window\EmptyExternal.cpp">
-      <Filter>Window</Filter>
-    </ClCompile>
     <ClCompile Include="..\SampleGuide.cpp" />
     <ClCompile Include="..\Input\Joystick.cpp">
       <Filter>Input</Filter>

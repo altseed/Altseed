@@ -1,9 +1,7 @@
 
 #include <ace.h>
 
-/**
-@brief	エフェクトを表示する。
-*/
+// MapObject2Dのサンプル。敷き詰められたタイルをカメラで撮影して画面に表示しています。
 void MapObject2D()
 {
 	// AC-Engineを初期化する。
@@ -76,4 +74,6 @@ void MapObject2D()
 
 	// AC-Engineの終了処理をする。
 	ace::Engine::Terminate();
+
+	return;
 }

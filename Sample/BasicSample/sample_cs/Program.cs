@@ -14,13 +14,12 @@ namespace sample_cs
 			ISample[] samples = 
 			{
 				new Window.Empty(),
-				new Window.EmptyExternal(),
-
+				
 				new Log(),
 
-                new Input.Keyboard(),
-                new Input.Mouse(),
-                new Input.Joystick(),
+                new Keyboard(),
+                new Mouse(),
+                new Joystick(),
 
 				new Sound.Sound(),
 
@@ -29,13 +28,12 @@ namespace sample_cs
 
                 new CameraObject2D(),
                 new EffectObject2D(),
-                new Graphics._2D.TextObject2D(),
-                new Graphics._2D.TextureObject2D(),
+                new TextObject2D(),
+                new TextureObject2D(),
                 new MapObject2D(),
 				new ImagePackage(),
 
-                new Graphics.PostEffect.PostEffect(),
-				new Graphics.PostEffect.CustomPostEffect(),
+                new PostEffect(),
 			};
 
 			var cui = new SampleGuide( samples );
