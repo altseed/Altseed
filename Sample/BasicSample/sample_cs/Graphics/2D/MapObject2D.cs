@@ -1,6 +1,6 @@
 ﻿
 /// <summary>
-/// MapObject2Dのサンプル。
+/// MapObject2Dのサンプル。敷き詰められたタイルをカメラで撮影して画面に表示しています。
 /// </summary>
 class MapObject2D : ISample
 {

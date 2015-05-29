@@ -1,6 +1,7 @@
 ﻿
 #include <ace.h>
 
+// Keyboardのサンプル。キーボードによる入力を取得しています。
 void Keyboard()
 {
 	// AC-Engineを初期化する。
@@ -9,19 +10,19 @@ void Keyboard()
 	// AC-Engineのウインドウが閉じられていないか確認する。
 	while (ace::Engine::DoEvents())
 	{
-		//キーボードのZキーの入力状態を取得する。
+		// キーボードのZキーの入力状態を取得する。
 		switch (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::Z))
 		{
-		case ace::KeyState::Free: //前フレームと本フレームで非押下
+		case ace::KeyState::Free: // 前フレームと本フレームで非押下
 			printf("Z key free\n");
 			break;
-		case ace::KeyState::Hold: //前フレームと本フレームで押下
+		case ace::KeyState::Hold: // 前フレームと本フレームで押下
 			printf("Z key hold\n");
 			break;
-		case ace::KeyState::Release: //前フレームで押下、本フレームで非押下
+		case ace::KeyState::Release: // 前フレームで押下、本フレームで非押下
 			printf("Z key release\n");
 			break;
-		case ace::KeyState::Push: //前フレームで非押下、本フレームで押下
+		case ace::KeyState::Push: // 前フレームで非押下、本フレームで押下
 			printf("Z key push\n");
 			break;
 		}
@@ -32,4 +33,6 @@ void Keyboard()
 
 	//AC-Engineの終了処理をする。
 	ace::Engine::Terminate();
+
+	return;
 }

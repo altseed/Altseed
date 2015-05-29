@@ -1,6 +1,6 @@
 ﻿
 /// <summary>
-/// ImagePackageのサンプル。画像パッケージを元に画像を配置する。
+/// ImagePackageのサンプル。画像パッケージを元に画像を配置しています。
 /// </summary>
 class ImagePackage : ISample
 {

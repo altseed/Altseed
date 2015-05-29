@@ -1,9 +1,7 @@
 
 #include <ace.h>
 
-/**
-@brief	ImagePackageのサンプル。画像パッケージを元に画像を配置する。
-*/
+// ImagePackageのサンプル。画像パッケージを元に画像を配置しています。
 void ImagePackage()
 {
 	// AC-Engineを初期化する。
@@ -46,4 +44,6 @@ void ImagePackage()
 
 	// AC-Engineの終了処理をする。
 	ace::Engine::Terminate();
+
+	return;
 }

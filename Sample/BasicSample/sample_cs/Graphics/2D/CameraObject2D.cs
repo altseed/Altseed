@@ -1,6 +1,6 @@
 ﻿
 /// <summary>
-/// CameraObject2Dのサンプル。マウスポインタの先を拡大表示する。
+/// CameraObject2Dのサンプル。マウスポインタの先を拡大表示しています。
 /// </summary>
 public class CameraObject2D : ISample
 {
