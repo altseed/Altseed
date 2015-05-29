@@ -15,8 +15,8 @@ namespace ace
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		/// <param name="x">X</param>
-		/// <param name="y">Y</param>
+		/// <param name="x">X成分</param>
+		/// <param name="y">Y成分</param>
 		public Vector2DF( float x, float y )
 			: this()
 		{
@@ -25,11 +25,11 @@ namespace ace
 		}
 
 		/// <summary>
-		/// X
+		/// X成分
 		/// </summary>
 		public float X;
 		/// <summary>
-		/// Y
+		/// Y成分
 		/// </summary>
 		public float Y;
 
@@ -147,9 +147,9 @@ namespace ace
         /// <summary>
         /// 外積を取得する。
         /// </summary>
-        /// <param name="v1">値1</param>
-        /// <param name="v2">値2</param>
-        /// <returns>外積</returns>
+        /// <param name="v1">v1ベクトル</param>
+        /// <param name="v2">v2ベクトル</param>
+        /// <returns>外積v1×v2</returns>
         public static float Cross(Vector2DF v1, Vector2DF v2)
         {
             return v1.X * v2.Y - v1.Y * v2.X;
@@ -158,9 +158,9 @@ namespace ace
         /// <summary>
         /// 内積を取得する。
         /// </summary>
-        /// <param name="v1">値1</param>
-        /// <param name="v2">値2</param>
-        /// <returns>内積</returns>
+        /// <param name="v1">v1ベクトル</param>
+        /// <param name="v2">v2ベクトル</param>
+        /// <returns>内積v1・v2</returns>
         public static float Dot(Vector2DF v1, Vector2DF v2)
 		{
 			return v1.X * v2.X + v1.Y * v2.Y;
@@ -169,8 +169,8 @@ namespace ace
 		/// <summary>
 		/// 2点間の距離を取得する。
 		/// </summary>
-		/// <param name="v1">値1</param>
-		/// <param name="v2">値2</param>
+        /// <param name="v1">v1ベクトル</param>
+        /// <param name="v2">v2ベクトル</param>
 		/// <returns>距離</returns>
 		public static float Distance(Vector2DF v1, Vector2DF v2)
 		{
