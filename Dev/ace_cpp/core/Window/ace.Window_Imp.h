@@ -35,8 +35,9 @@ namespace ace {
 			@brief	ウインドウを生成する。
 			@param	width	クライアント領域の横幅
 			@param	height	クライアント領域の縦幅
-			@param	achar	タイトル
+			@param	title	タイトルバーの文字列
 			@param	logger	ログ
+			@param	isFullScreen	フルスクリーンか
 			@return	ウインドウ
 		*/
 		static Window_Imp* Create(int32_t width, int32_t height, const achar* title, Log* logger = nullptr, bool isFullScreen = false);

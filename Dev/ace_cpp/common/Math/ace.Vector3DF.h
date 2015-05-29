@@ -20,17 +20,17 @@ struct Vector3DF
 {
 public:
 	/**
-		@brief	X
+		@brief	X成分
 	*/
 	float	X;
 
 	/**
-		@brief	Y
+		@brief	Y成分
 	*/
 	float	Y;
 
 	/**
-		@brief	Z
+		@brief	Z成分
 	*/
 	float	Z;
 
@@ -142,7 +142,7 @@ public:
 
 	/**
 		@brief	2点間の距離を取得する。
-		@param	v1　v1ベクトル
+		@param	v1	v1ベクトル
 		@param	v2	v2ベクトル
 		@return v1とv2の距離
 	*/
