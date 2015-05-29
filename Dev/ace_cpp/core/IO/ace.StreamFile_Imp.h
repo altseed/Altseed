@@ -4,6 +4,7 @@
 #include "ace.StreamFile.h"
 #include "ace.BaseFile.h"
 #include "ace.PackFile.h"
+#include "ace.Decryptor.h"
 
 #include <memory>
 
@@ -18,7 +19,7 @@ namespace ace
 		astring		cacheKey;
 
 		std::shared_ptr<BaseFile>	baseFile;
-		astring						key;
+		std::shared_ptr<Decryptor>	decryptor;
 
 		int32_t						fileOffset = 0;
 		int32_t						fileSize = 0;
@@ -28,7 +29,7 @@ namespace ace
 
 	public:
 		StreamFile_Imp(File_Imp* file, const astring& cacheKey, std::shared_ptr<BaseFile>& baseFile);
-		StreamFile_Imp(File_Imp* file, const astring& cacheKey, const std::shared_ptr<BaseFile>& baseFile, PackFileInternalHeader& internalHeader, const astring& key);
+		StreamFile_Imp(File_Imp* file, const astring& cacheKey, const std::shared_ptr<BaseFile>& baseFile, PackFileInternalHeader& internalHeader, std::shared_ptr<Decryptor> decryptor);
 
 		virtual ~StreamFile_Imp();
 

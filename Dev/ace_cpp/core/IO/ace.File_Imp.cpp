@@ -22,22 +22,24 @@ namespace ace
 
 	void File_Imp::AddDefaultRootDirectory()
 	{
-		m_roots.push_back(std::shared_ptr<FileRoot>(new FileRoot(ToAString("./"))));
+		m_roots.push_back(std::shared_ptr<FileRoot>(new FileRoot(ToAString("./"), std::shared_ptr<Decryptor>())));
 	}
 
 	void File_Imp::AddRootDirectory(const achar* path)
 	{
-		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path)));
+		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path, std::shared_ptr<Decryptor>())));
 	}
 
 	void File_Imp::AddRootPackageWithPassword(const achar* path, const achar* password)
 	{
-		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path, password)));
+		std::shared_ptr<Decryptor> dec = std::shared_ptr<Decryptor>(new Decryptor(astring(password)));
+
+		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path, dec)));
 	}
 
 	void File_Imp::AddRootPackage(const achar* path)
 	{
-		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path, astring())));
+		m_roots.insert(m_roots.begin(), std::shared_ptr<FileRoot>(new FileRoot(path, std::shared_ptr<Decryptor>())));
 	}
 	
 	void File_Imp::ClearRootDirectories()
@@ -138,7 +140,7 @@ namespace ace
 						StaticFile_Imp* staticFile = nullptr;
 
 						{
-							staticFile = new StaticFile_Imp(this, astring(packedPath), packFile->RawFile(), *internalHeader, root->m_key);
+							staticFile = new StaticFile_Imp(this, astring(packedPath), packFile->RawFile(), *internalHeader, root->decryptor);
 							staticFiles[cacheKey] = staticFile;
 							return staticFile;
 						}
@@ -221,7 +223,7 @@ namespace ace
 						StreamFile_Imp* streamFile = nullptr;
 
 						{
-							streamFile = new StreamFile_Imp(this, astring(packedPath), packFile->RawFile(), *internalHeader, root->m_key);
+							streamFile = new StreamFile_Imp(this, astring(packedPath), packFile->RawFile(), *internalHeader, root->decryptor);
 							streamFiles[cacheKey] = streamFile;
 							return streamFile;
 						}

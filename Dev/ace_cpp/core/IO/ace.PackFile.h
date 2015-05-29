@@ -2,6 +2,7 @@
 
 #include "ace.BaseFile.h"
 #include "ace.FileHelper.h"
+#include "ace.Decryptor.h"
 
 #include <memory>
 #include <unordered_map>
@@ -25,15 +26,15 @@ namespace ace
 		const decltype(m_fileName)&	GetFileName() { return m_fileName; }
 		decltype(m_fileNameLength)	GetFileNameLength() { return m_fileNameLength; }
 
-		PackFileInternalHeader(std::shared_ptr<BaseFile>& packedFile, const astring& key = astring())
+		PackFileInternalHeader(std::shared_ptr<BaseFile>& packedFile, Decryptor* decryptor = nullptr)
 		{
 			std::vector<uint8_t> buffer;
 			std::vector<int16_t> strBuffer;
 
-			m_fileNameLength = packedFile->ReadUInt32(key, packedFile->GetPosition());
-			m_size = packedFile->ReadUInt32(key, packedFile->GetPosition());
-			m_offset = packedFile->ReadUInt32(key, packedFile->GetPosition());
-			packedFile->ReadBytes(buffer, m_fileNameLength, key, packedFile->GetPosition());
+			m_fileNameLength = packedFile->ReadUInt32(decryptor, packedFile->GetPosition());
+			m_size = packedFile->ReadUInt32(decryptor, packedFile->GetPosition());
+			m_offset = packedFile->ReadUInt32(decryptor, packedFile->GetPosition());
+			packedFile->ReadBytes(buffer, m_fileNameLength, decryptor, packedFile->GetPosition());
 			Utf8ToUtf16(strBuffer, reinterpret_cast<const int8_t*>(buffer.data()));
 			if (m_fileNameLength < strBuffer.size())
 				strBuffer[m_fileNameLength] = 0;
@@ -54,7 +55,7 @@ namespace ace
 
 		PackFileHeader();
 
-		bool Load(std::shared_ptr<BaseFile>& packedFile, const astring& key);
+		bool Load(std::shared_ptr<BaseFile>& packedFile, Decryptor* decryptor);
 
 		std::vector<std::shared_ptr<PackFileInternalHeader>>& GetInternalHeaders();
 	};
@@ -71,7 +72,7 @@ namespace ace
 
 		PackFile();
 		virtual ~PackFile();
-		bool Load(std::shared_ptr<BaseFile> packedFile, const astring& key);
+		bool Load(std::shared_ptr<BaseFile> packedFile, Decryptor* decryptor);
 
 		bool HaveFile(const astring& path);
 		std::shared_ptr<PackFileHeader> GetTopHeader();

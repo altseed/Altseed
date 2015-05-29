@@ -16,11 +16,11 @@ namespace ace
 		SafeAddRef(file);
 	}
 
-	StreamFile_Imp::StreamFile_Imp(File_Imp* file, const astring& cacheKey, const std::shared_ptr<BaseFile>& baseFile, PackFileInternalHeader& internalHeader, const astring& key)
+	StreamFile_Imp::StreamFile_Imp(File_Imp* file, const astring& cacheKey, const std::shared_ptr<BaseFile>& baseFile, PackFileInternalHeader& internalHeader, std::shared_ptr<Decryptor> decryptor)
 		: file(file)
 		, cacheKey(cacheKey)
 		, baseFile(baseFile)
-		, key(key)
+		, decryptor(decryptor)
 	{
 		fileOffset = internalHeader.GetOffset();
 		fileSize = internalHeader.GetSize();
@@ -43,8 +43,9 @@ namespace ace
 		if (readableSize == 0) return 0;
 		
 		baseFile->Seek(fileOffset + current);
-		baseFile->ReadBytes(buffer, readableSize, key, fileOffset + current);
 
+		baseFile->ReadBytes(buffer, readableSize, decryptor.get(), fileOffset + current);
+	
 		current += readableSize;
 
 		return readableSize;

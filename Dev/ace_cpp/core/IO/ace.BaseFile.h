@@ -2,6 +2,9 @@
 
 #include "../ace.ReferenceObject.h"
 #include "../ace.Core.Base.h"
+
+#include "ace.Decryptor.h"
+
 #include <fstream>
 
 namespace ace
@@ -37,10 +40,10 @@ namespace ace
 		const astring& GetFullPath() const { return m_filePath; }
 
 		int64_t GetSize();
-		void ReadBytes(std::vector<uint8_t>& buffer, const int64_t count, const astring& key = astring(), int64_t globalPos = 0);
-		uint32_t ReadUInt32(const astring& key = astring(), int64_t globalPos = 0);
-		uint64_t ReadUInt64(const astring& key = astring(), int64_t globalPos = 0);
-		void ReadAllBytes(std::vector<uint8_t>& buffer, const astring& key = astring(), int64_t globalPos = 0);
+		void ReadBytes(std::vector<uint8_t>& buffer, const int64_t count, Decryptor* decryptor = nullptr, int64_t globalPos = 0);
+		uint32_t ReadUInt32(Decryptor* decryptor = nullptr, int64_t globalPos = 0);
+		uint64_t ReadUInt64(Decryptor* decryptor = nullptr, int64_t globalPos = 0);
+		void ReadAllBytes(std::vector<uint8_t>& buffer, Decryptor* decryptor = nullptr, int64_t globalPos = 0);
 
 		void Seek(const int64_t offset, const SeekOrigin = SeekOrigin::Begin);
 	};

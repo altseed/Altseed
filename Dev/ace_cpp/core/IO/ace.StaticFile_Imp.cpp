@@ -15,12 +15,12 @@ namespace ace
 		SafeAddRef(file);
 	}
 
-	StaticFile_Imp::StaticFile_Imp(File_Imp* file, const astring& cacheKey, const std::shared_ptr<BaseFile>& packedFile, PackFileInternalHeader& internalHeader, const astring& key)
+	StaticFile_Imp::StaticFile_Imp(File_Imp* file, const astring& cacheKey, const std::shared_ptr<BaseFile>& packedFile, PackFileInternalHeader& internalHeader, std::shared_ptr<Decryptor> decryptor)
 		: file(file)
 		, cacheKey(cacheKey)
 	{
 		packedFile->Seek(internalHeader.GetOffset());
-		packedFile->ReadBytes(m_buffer, internalHeader.GetSize(), key, internalHeader.GetOffset());
+		packedFile->ReadBytes(m_buffer, internalHeader.GetSize(), decryptor.get(), internalHeader.GetOffset());
 
 		m_path = packedFile->GetFullPath() + internalHeader.GetFileName();
 

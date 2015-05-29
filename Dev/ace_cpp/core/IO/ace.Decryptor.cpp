@@ -3,24 +3,32 @@
 
 namespace ace
 {
-	Decryptor::Decryptor() { };
-
-	void Decryptor::Decrypt(uint8_t* bytes, int64_t start, int64_t count, const astring& key, int64_t globalPos)
+	Decryptor::Decryptor(const astring& key)
 	{
 		if (key != astring())
 		{
 			std::vector<int8_t> key_temp;
-			std::vector<uint8_t> key_;
 
-			Utf16ToUtf8(key_temp, (const int16_t*)key.c_str());
+			Utf16ToUtf8(key_temp, (const int16_t*) key.c_str());
 
-			key_.resize(key_temp.size());
-			memcpy(key_.data(), key_temp.data(), key_temp.size());
-			key_.pop_back();
+			keys.resize(key_temp.size());
+			memcpy(keys.data(), key_temp.data(), key_temp.size());
+			keys.pop_back();
+		}
+	}
 
+	bool Decryptor::IsValid()
+	{
+		return keys.size() > 0;
+	}
+
+	void Decryptor::Decrypt(uint8_t* bytes, int64_t start, int64_t count, int64_t globalPos)
+	{
+		if (keys.size() > 0)
+		{
 			for (auto i = start; i < start+count; ++i)
 			{
-				bytes[i] = (bytes[i] ^ key_[(i+globalPos) % key_.size()]);
+				bytes[i] = (bytes[i] ^ keys[(i+globalPos) % keys.size()]);
 			}
 		}
 	}

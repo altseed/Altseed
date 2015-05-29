@@ -6,9 +6,14 @@ namespace ace
 {
 	class Decryptor
 	{
-	public:
-		Decryptor();
+	private:
+		std::vector<uint8_t> keys;
 
-		static void Decrypt(uint8_t* bytes, int64_t start, int64_t count, const astring& key, int64_t globalPos);
+	public:
+		Decryptor(const astring& key);
+
+		bool IsValid();
+
+		void Decrypt(uint8_t* bytes, int64_t start, int64_t count, int64_t globalPos);
 	};
 }
