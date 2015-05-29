@@ -22,6 +22,7 @@
     <ClCompile Include="..\Input\Keyboard.cpp" />
     <ClCompile Include="..\Input\Mouse.cpp" />
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\ObjectSystem\GeometryObject2D.cpp" />
     <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\Transition.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />

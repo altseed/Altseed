@@ -48,6 +48,9 @@
     <ClCompile Include="..\Graphics\2D\ImagePackage.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\GeometryObject2D.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">
