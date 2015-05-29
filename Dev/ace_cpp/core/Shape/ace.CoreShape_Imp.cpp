@@ -77,7 +77,7 @@ namespace ace
 		c.X = std::cos(rectangle->GetAngle()) * (circle->GetPosition().X - rectGlobalCenter.X) -
 			std::sin(rectangle->GetAngle()) * (circle->GetPosition().Y - rectGlobalCenter.Y) + rectGlobalCenter.X;
 		c.Y = std::sin(rectangle->GetAngle()) * (circle->GetPosition().X - rectGlobalCenter.X) +
-			std::cos(rectangle->GetAngle()) * (circle->GetPosition().Y - rectGlobalCenter.Y) * rectGlobalCenter.Y;
+			std::cos(rectangle->GetAngle()) * (circle->GetPosition().Y - rectGlobalCenter.Y) + rectGlobalCenter.Y;
 
 		Vector2DF nearestPos;
 
