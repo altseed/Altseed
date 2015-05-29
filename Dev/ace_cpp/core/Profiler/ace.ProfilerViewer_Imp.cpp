@@ -13,6 +13,8 @@
 #include "ace.InternalFont.h"
 #include "ace.InternalFontTex0.h"
 #include "ace.InternalFontTex1.h"
+#include "ace.InternalFontTex2.h"
+
 using namespace std;
 
 namespace ace
@@ -32,10 +34,12 @@ namespace ace
 	{
 		auto tex0 = (Texture2D*)m_graphics->CreateTexture2D_Imp_Internal(m_graphics, (uint8_t*)g_internalFontTex0, sizeof(g_internalFontTex0));
 		auto tex1 = (Texture2D*)m_graphics->CreateTexture2D_Imp_Internal(m_graphics, (uint8_t*)g_internalFontTex1, sizeof(g_internalFontTex1));
+		auto tex2 = (Texture2D*) m_graphics->CreateTexture2D_Imp_Internal(m_graphics, (uint8_t*) g_internalFontTex2, sizeof(g_internalFontTex2));
 
 		std::vector<std::shared_ptr<Texture2D>> textures;
 		textures.push_back(CreateSharedPtrWithReleaseDLL(tex0));
 		textures.push_back(CreateSharedPtrWithReleaseDLL(tex1));
+		textures.push_back(CreateSharedPtrWithReleaseDLL(tex2));
 
 		auto font = new Font_Imp(m_graphics, (void*)g_internalFont, sizeof(g_internalFont), textures);
 
