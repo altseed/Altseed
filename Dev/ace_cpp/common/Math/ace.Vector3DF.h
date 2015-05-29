@@ -136,8 +136,7 @@ public:
 		@param	v2	v2ベクトル
 		@return 外積v1×v2
 		@note
-		右手系の場合、右手の親指がv1、人差し指がv2としたとき、中指の方向を返す。<BR>
-		左手系の場合、左手の親指がv1、人差し指がv2としたとき、中指の方向を返す。<BR>
+		右手の親指がv1、人差し指がv2としたとき、中指の方向を返す。
 	*/
 	static Vector3DF Cross(const Vector3DF& v1, const Vector3DF& v2 );
 

@@ -151,6 +151,9 @@ namespace ace
 		/// <param name="v1">v1ベクトル</param>
 		/// <param name="v2">v2ベクトル</param>
 		/// <returns>外積v1×v2</returns>
+		/// <remarks>
+		/// 右手の親指がv1、人差し指がv2としたとき、中指の方向を返す。
+		/// </remarks>
 		public static Vector3DF Cross( Vector3DF v1, Vector3DF v2 )
 		{
 			Vector3DF o;
