@@ -40,7 +40,7 @@ namespace ace
 	bool CoreShape_Imp::GetIsCollidedb2Shapes(CoreShape* shape)
 	{
 		auto shape_Imp = CoreShape2DToImp(shape);
-		for (auto selfShape : collisionShapes)
+		for (auto selfShape : GetCollisionShapes())
 		{
 			for (auto theirsShape : shape_Imp->GetCollisionShapes())
 			{

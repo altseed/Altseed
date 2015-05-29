@@ -26,6 +26,6 @@ namespace ace{
 
 		virtual ShapeType GetShapeType() const = 0;
 
-		virtual bool GetIsCollidedWith(CoreShape* shape);
+		virtual bool GetIsCollidedWith(CoreShape* shape) = 0;
 	};
 };

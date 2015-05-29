@@ -31,7 +31,7 @@ protected:
 		cir2 = make_shared<CircleShape>();
 		cir2->SetOuterDiameter(100);
 		cir2->SetInnerDiameter(0);
-		cir2->SetPosition(Vector2DF(250, 200));
+		cir2->SetPosition(Vector2DF(150, 200));
 
 		scene->AddLayer(layer);
 		ace::Engine::ChangeScene(scene);

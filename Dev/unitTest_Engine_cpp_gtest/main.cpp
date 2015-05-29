@@ -71,6 +71,8 @@ EXTERN_ENGINE_TEST(ObjectSystem, VanishOwnerInComponent)
 EXTERN_ENGINE_TEST(ObjectSystem, AddComponentByComponent)
 EXTERN_ENGINE_TEST(ObjectSystem, Component)
 
+EXTERN_ENGINE_TEST(Shape, Collision2D)
+
 EXTERN_ENGINE_TEST(Sound, Sound)
 
 EXTERN_ENGINE_TEST(IO, StaticFile_NonePackage)
@@ -104,7 +106,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(Graphics, MapObject2D, false)
+	CALL_ENGINE_TEST(Shape, Collision2D, false)
 	return 0;
 
 	

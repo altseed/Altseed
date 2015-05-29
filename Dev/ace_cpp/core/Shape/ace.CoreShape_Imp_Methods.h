@@ -25,8 +25,6 @@
 			return GetIsCollidedWithCircleAndRect((CoreCircleShape*)this, (CoreRectangleShape*)shape);
 		}
 	}
-	else
-	{
-		return GetIsCollidedb2Shapes(shape);
-	}
+		
+	return GetIsCollidedb2Shapes(shape);
 }
