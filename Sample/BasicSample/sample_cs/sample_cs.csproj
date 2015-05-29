@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collision\Collision2D.cs" />
     <Compile Include="Graphics\2D\CameraObject2D.cs" />
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
     <Compile Include="Graphics\2D\GeometryObject2D.cs" />

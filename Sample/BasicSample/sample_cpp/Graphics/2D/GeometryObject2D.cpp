@@ -11,7 +11,10 @@ void GeometryObject2D()
 	// シーンを生成する
 	auto scene = std::make_shared<ace::Scene>();
 
+	//レイヤーを生成する。
 	auto layer = std::make_shared<ace::Layer2D>();
+
+	//テクスチャを画像ファイルから生成する。
 	auto texture = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
 
 	//図形描画クラスのコンストラクタを呼び出す。
