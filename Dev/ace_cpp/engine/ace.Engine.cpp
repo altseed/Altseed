@@ -257,7 +257,11 @@ namespace ace
 
 			{
 #if _WIN32
+#if _WIN64
+				const char* name = "GetGlobalReferenceCount__";
+#else
 				const char* name = "_GetGlobalReferenceCount__@0";
+#endif
 #else
 				const char* name = "GetGlobalReferenceCount__";
 #endif
