@@ -27,11 +27,13 @@ endif()
 if (APPLE)
 	option(USE_GLEW_STATIC "Use Glew static library" OFF)
 	option(USE_GLEW_DLL "Use Glew DLL" OFF)
+	option(USE_OPENGL3 "Use OpenGL 3" ON)
 else()
 	option(USE_GLEW_STATIC "Use Glew static library" OFF)
 	option(USE_GLEW_DLL "Use Glew DLL" ON)
 endif()
 option(USE_OPENGLES2 "Use OpenGL ES2" OFF)
+option(USE_INTERNAL_LOADER "Use Internal Loader" ON)
 
 # ファイルをソースリストに追加
 INCLUDE(CMakeFiles.txt)
@@ -103,46 +105,48 @@ else()
 	find_package(Threads REQUIRED)
 	list(APPEND common_lib ${CMAKE_THREAD_LIBS_INIT})
 
-	find_package(X11 REQUIRED)
-	list(APPEND common_inc ${X11_INCLUDE_DIR})
-	list(APPEND common_lib ${X11_LIBRARIES})
-
 	find_package(OpenGL)
 	list(APPEND common_inc ${OPENGL_INCLUDE_DIR})
 	list(APPEND common_lib ${OPENGL_LIBRARY})
 
-	if (NOT X11_Xrandr_FOUND)
-		message(FATAL_ERROR "X11_Xrandr were not found")
+	if(NOT APPLE)
+		find_package(X11 REQUIRED)
+		list(APPEND common_inc ${X11_INCLUDE_DIR})
+		list(APPEND common_lib ${X11_LIBRARIES})
+
+		if (NOT X11_Xrandr_FOUND)
+			message(FATAL_ERROR "X11_Xrandr were not found")
+		endif()
+		list(APPEND common_inc ${X11_Xrandr_INCLUDE_PATH})
+		list(APPEND common_lib ${X11_Xrandr_LIB})
+
+		if (NOT X11_Xinput_FOUND)
+			message(FATAL_ERROR "X11_Xinput were not found")
+		endif()
+		list(APPEND common_inc ${X11_Xinput_INCLUDE_PATH})
+		list(APPEND common_lib ${X11_Xinput_LIB})
+
+		if (NOT X11_Xcursor_FOUND)
+			message(FATAL_ERROR "X11_Xcursor were not found")
+		endif()
+		list(APPEND common_inc ${X11_Xcursor_INCLUDE_PATH})
+		list(APPEND common_lib ${X11_Xcursor_LIB})
+
+
+		if (NOT X11_Xinerama_FOUND)
+			message(FATAL_ERROR "X11_Xinerama were not found")
+		endif()
+		list(APPEND common_inc ${X11_Xinerama_INCLUDE_PATH})
+		list(APPEND common_lib ${X11_Xinerama_LIB})
+
+
+		if (NOT X11_xf86vmode_FOUND)
+			message(FATAL_ERROR "X11_xf86vmode were not found")
+		endif()
+
+		list(APPEND common_inc ${X11_xf86vmode_INCLUDE_PATH})
+		list(APPEND common_lib ${X11_Xxf86vm_LIB})
 	endif()
-	list(APPEND common_inc ${X11_Xrandr_INCLUDE_PATH})
-	list(APPEND common_lib ${X11_Xrandr_LIB})
-
-	if (NOT X11_Xinput_FOUND)
-		message(FATAL_ERROR "X11_Xinput were not found")
-	endif()
-	list(APPEND common_inc ${X11_Xinput_INCLUDE_PATH})
-	list(APPEND common_lib ${X11_Xinput_LIB})
-
-	if (NOT X11_Xcursor_FOUND)
-		message(FATAL_ERROR "X11_Xcursor were not found")
-	endif()
-	list(APPEND common_inc ${X11_Xcursor_INCLUDE_PATH})
-	list(APPEND common_lib ${X11_Xcursor_LIB})
-
-
-	if (NOT X11_Xinerama_FOUND)
-		message(FATAL_ERROR "X11_Xinerama were not found")
-	endif()
-	list(APPEND common_inc ${X11_Xinerama_INCLUDE_PATH})
-	list(APPEND common_lib ${X11_Xinerama_LIB})
-
-
-	if (NOT X11_xf86vmode_FOUND)
-		message(FATAL_ERROR "X11_xf86vmode were not found")
-	endif()
-
-	list(APPEND common_inc ${X11_xf86vmode_INCLUDE_PATH})
-	list(APPEND common_lib ${X11_Xxf86vm_LIB})
 
 	if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 		# used in GLFW
@@ -272,6 +276,14 @@ endif()
 
 if (USE_OPENGLES2)
 	add_definitions(-D__EFFEKSEER_RENDERER_GLES2__)
+endif()
+
+if (USE_OPENGLES3)
+	add_definitions(-D__EFFEKSEER_RENDERER_GLES3__)
+endif()
+
+if (USE_OPENGL3)
+	add_definitions(-D__EFFEKSEER_RENDERER_GL3__)
 endif()
 
 # インストール先を決定
