@@ -1,4 +1,4 @@
-## マップオブジェクト2D (MapObject2D)
+## 図形オブジェクト2D (GeometryObject2D)
 
 ### 概要
 
@@ -32,4 +32,6 @@
 
 ### 使用方法
 
-GeometryObject2Dクラスのサンプルをご覧ください。
+CameraObject2Dクラスのサンプルです。
+
+* include_basic_sample GeometryObject2D
