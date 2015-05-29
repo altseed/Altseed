@@ -8,12 +8,23 @@ namespace ace
 		if (key != astring())
 		{
 			std::vector<int8_t> key_temp;
+			std::vector<uint8_t> key_;
 
 			Utf16ToUtf8(key_temp, (const int16_t*) key.c_str());
 
-			keys.resize(key_temp.size());
-			memcpy(keys.data(), key_temp.data(), key_temp.size());
-			keys.pop_back();
+			key_.resize(key_temp.size());
+			memcpy(key_.data(), key_temp.data(), key_temp.size());
+			key_.pop_back();
+
+			for (int loop = 0; loop < 40; loop++)
+			{
+				for (size_t i = 0; i < key_.size(); i++)
+				{
+					int k = (int) key_[i];
+					k = (k + (loop + i)) % 255;
+					keys.push_back((uint8_t) k);
+				}
+			}
 		}
 	}
 

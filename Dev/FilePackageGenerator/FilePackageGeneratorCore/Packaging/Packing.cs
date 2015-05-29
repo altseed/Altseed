@@ -90,7 +90,21 @@ namespace FilePackageGenerator.Packaging
 		}
 		static unsafe void Encrypt(string path, string key)
 		{
-			byte[] byteKey = Encoding.UTF8.GetBytes(key);
+			var key_temp = Encoding.UTF8.GetBytes(key);
+
+			List<byte> key_ = new List<byte>();
+
+			for (int loop = 0; loop < 40; loop++)
+			{
+				for (int i = 0; i < key_temp.Count(); i++)
+				{
+					var k = (int)key_temp[i];
+					k = (k + (loop + i)) % 255;
+					key_.Add((byte)k);
+				}
+			}
+
+			byte[] byteKey = key_.ToArray();
 
 			string pathTemp = path + "_tmp" + Path.GetExtension(path);
 

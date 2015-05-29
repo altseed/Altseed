@@ -59,7 +59,21 @@ namespace FilePackageGenerator
 			this.baseOffset = baseOffset;
 			base.Seek(baseOffset, SeekOrigin.Begin);
 
-			this.key = Encoding.UTF8.GetBytes(key);
+			var key_temp = Encoding.UTF8.GetBytes(key);
+
+			List<byte> key_ = new List<byte>();
+
+			for (int loop = 0; loop < 40; loop++ )
+			{
+				for (int i = 0; i < key_temp.Count(); i++)
+				{
+					var k = (int)key_temp[i];
+					k = (k + (loop + i)) % 255;
+					key_.Add((byte)k);
+				}
+			}
+
+			this.key = key_.ToArray();
 		}
 		public override IAsyncResult BeginRead(byte[] array, int offset, int numBytes, AsyncCallback userCallback, object stateObject)
 		{
