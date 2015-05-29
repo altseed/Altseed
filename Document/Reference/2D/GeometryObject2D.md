@@ -32,6 +32,6 @@
 
 ### 使用方法
 
-CameraObject2Dクラスのサンプルです。
+GeometryObject2Dクラスのサンプルです。
 
 * include_basic_sample GeometryObject2D
