@@ -1,4 +1,5 @@
-﻿#include "ace.LayerProfile.h"
+﻿#include "ace.common.Base.h"
+#include "ace.LayerProfile.h"
 
 namespace ace
 {
