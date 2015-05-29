@@ -13,18 +13,16 @@ namespace sample_cs
 		{
 			ISample[] samples = 
 			{
-				new Window.Empty(),
-				
-				new Log(),
+				new Empty(),
 
                 new Keyboard(),
                 new Mouse(),
                 new Joystick(),
 
-				new Sound.Sound(),
+				new Sound(),
 
-				new ObjectSystem.Object2DComponent(),
-                new ObjectSystem.Transition(),
+				new Object2DComponent(),
+                new Transition(),
 
                 new CameraObject2D(),
                 new EffectObject2D(),

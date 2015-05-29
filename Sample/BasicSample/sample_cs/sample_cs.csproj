@@ -58,7 +58,6 @@
     <Compile Include="Input\Joystick.cs" />
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="ISample.cs" />
-    <Compile Include="Log.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="ObjectSystem\Object2DComponent.cs" />
     <Compile Include="ObjectSystem\Transition.cs" />

@@ -1,9 +1,7 @@
 ﻿
 #include <ace.h>
 
-/**
-	@brief	ウインドウを表示する。
-*/
+// 空のウインドウを表示するサンプルです。
 void Empty()
 {
 	// AC-Engineを初期化する。
@@ -18,4 +16,6 @@ void Empty()
 
 	// AC-Engineの終了処理をする。
 	ace::Engine::Terminate();
+
+	return;
 }
