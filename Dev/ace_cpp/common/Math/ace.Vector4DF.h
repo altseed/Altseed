@@ -129,7 +129,7 @@ namespace ace {
 		@brief	内積を取得する。
 		@param	v1	v1ベクトル
 		@param	v2	v2ベクトル
-		@return 内積v1・v2を返します。
+		@return 内積v1・v2
 		*/
 		static float Dot(const Vector4DF& v1, const Vector4DF& v2);
 
@@ -137,7 +137,7 @@ namespace ace {
 		@brief	2点間の距離を取得する。
 		@param	v1　v1ベクトル
 		@param	v2	v2ベクトル
-		@return v1とv2の距離を返します。
+		@return v1とv2の距離
 		*/
 		static float Distance(const Vector4DF& v1, const Vector4DF& v2);
 	};

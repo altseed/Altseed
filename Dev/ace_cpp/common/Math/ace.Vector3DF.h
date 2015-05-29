@@ -126,7 +126,7 @@ public:
 		@brief	内積を取得する。
 		@param	v1	v1ベクトル
 		@param	v2	v2ベクトル
-		@return 内積v1・v2を返します。
+		@return 内積v1・v2
 	*/
 	static float Dot( const Vector3DF& v1, const Vector3DF& v2 );
 
@@ -134,10 +134,10 @@ public:
 		@brief	外積を取得する。
 		@param	v1	v1ベクトル
 		@param	v2	v2ベクトル
-		@return 外積v1×v2を返します。
+		@return 外積v1×v2
 		@note
 		右手系の場合、右手の親指がv1、人差し指がv2としたとき、中指の方向を返す。<BR>
-		左手系の場合、左手の中指がv1、人差し指がv2としたとき、親指の方向を返す。<BR>
+		左手系の場合、左手の親指がv1、人差し指がv2としたとき、中指の方向を返す。<BR>
 	*/
 	static Vector3DF Cross(const Vector3DF& v1, const Vector3DF& v2 );
 
@@ -145,7 +145,7 @@ public:
 		@brief	2点間の距離を取得する。
 		@param	v1　v1ベクトル
 		@param	v2	v2ベクトル
-		@return v1とv2の距離を返します。
+		@return v1とv2の距離
 	*/
 	static float Distance(const Vector3DF& v1, const Vector3DF& v2);
 };
