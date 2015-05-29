@@ -15,4 +15,6 @@
 
 ### 使用方法
 
-サンプルのトランジションを参照してください。
+Transitionクラスのサンプルです。
+
+* include_basic_sample Transition
