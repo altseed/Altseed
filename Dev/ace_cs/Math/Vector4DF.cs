@@ -15,22 +15,22 @@ namespace ace
 		private static Vector3DF zero = new Vector3DF();
 
 		/// <summary>
-		/// X
+		/// X成分
 		/// </summary>
 		public float X;
 
 		/// <summary>
-		/// Y
+		/// Y成分
 		/// </summary>
 		public float Y;
 
 		/// <summary>
-		/// Z
+		/// Z成分
 		/// </summary>
 		public float Z;
 
 		/// <summary>
-		/// W
+		/// W成分
 		/// </summary>
 		public float W;
 
