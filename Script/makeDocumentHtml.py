@@ -6,6 +6,7 @@ requirement: pandoc(http://johnmacfarlane.net/pandoc/)
 """
 import os.path
 import aceutils
+import re
 
 def make_document_html():
   exclude_ext = [".txt", ".psd", ".BAK"]
@@ -157,16 +158,46 @@ def make_document_html():
     if os.path.splitext(file)[1] in exclude_ext:
       aceutils.rm(file)
       continue
+
     if os.path.splitext(file)[1] != ".md":
       continue
+
     ls = []
+
+    # “Ç‚İ‚İ
     with open(file, mode='r',  encoding='utf-8') as f:
       ls = f.readlines()
-      ls = [s.replace('.md', '.html') for s in ls]
+    
+    #include‚ÌÀ‘•
+    ls_included = []
+    includePattern = r'\* include (.+)'
+    includer = re.compile(includePattern)
+    for s in ls:
+        m = includer.search(s.replace('\r','').replace('\n',''))
+        if m != None:
+            link = r'../' + m.group(1)
+            if os.path.exists(link):
+                ls.append('```\n')
+                with open(link, mode='r', encoding='utf-8') as f:
+                    ls.extend(f.readlines())
+                ls.append('```\n')
+
+        else:
+            ls_included.append(s)
+
+    ls = ls_included
+
+    # ƒŠƒ“ƒN‚ğC³
+    ls = [s.replace('.md', '.html') for s in ls]
+    
+    # o—Í
     with open(file, mode='w',  encoding='utf-8') as f:
       f.writelines(ls)
+
+    # pandoc‚É‚æ‚éo—Í
     aceutils.call('pandoc -f markdown_github -t html5 -s --template=template.html -o {0}.html {0}.md'.format(os.path.splitext(file)[0]))
     aceutils.rm(file)
+
   aceutils.rm('template.html')
   aceutils.cd('../')
   
