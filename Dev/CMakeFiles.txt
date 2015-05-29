@@ -68,7 +68,6 @@ set(core_src
 	ace_cpp/core/Graphics/Command/ace.RenderingCommandExecutor.cpp
 	ace_cpp/core/Graphics/Command/ace.RenderingCommandFactory.cpp
 	ace_cpp/core/Graphics/Command/ace.RenderingCommandHelper.cpp
-	ace_cpp/core/Graphics/Resource/ace.Chip2D_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.CubemapTexture_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.DepthBuffer_Imp.cpp
 	ace_cpp/core/Graphics/Resource/ace.Effect_Imp.cpp
@@ -101,6 +100,7 @@ set(core_src
 	ace_cpp/core/IO/ace.StreamFile_Imp.cpp
 	ace_cpp/core/Log/ace.Log_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreCameraObject2D_Imp.cpp
+	ace_cpp/core/ObjectSystem/2D/ace.CoreChip2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreEffectObject2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreGeometryObject2D_Imp.cpp
 	ace_cpp/core/ObjectSystem/2D/ace.CoreLayer2D_Imp.cpp
@@ -134,7 +134,8 @@ set(core_src
 	ace_cpp/core/Shape/ace.CoreLineShape_Imp.cpp
 	ace_cpp/core/Shape/ace.CorePolygonShape_Imp.cpp
 	ace_cpp/core/Shape/ace.CoreRectangleShape_Imp.cpp
-	ace_cpp/core/Shape/ace.CoreShape.cpp
+	ace_cpp/core/Shape/ace.CoreShapeConverter.cpp
+	ace_cpp/core/Shape/ace.CoreShape_Imp.cpp
 	ace_cpp/core/Shape/ace.CoreTriangleShape_Imp.cpp
 	ace_cpp/core/Sound/ace.SoundSource_Imp.cpp
 	ace_cpp/core/Sound/ace.Sound_Imp.cpp
@@ -176,6 +177,7 @@ set(x11_src
 set(engine_src
 	ace_cpp/engine/ace.Engine.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.CameraObject2D.cpp
+	ace_cpp/engine/ObjectSystem/2D/ace.Chip2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.EffectObject2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.GeometryObject2D.cpp
 	ace_cpp/engine/ObjectSystem/2D/ace.Layer2D.cpp
@@ -302,6 +304,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Performance/Performance_MassModelObject3D.cpp
 	unitTest_Engine_cpp_gtest/Performance/Performance_TextureObject2D.cpp
 	unitTest_Engine_cpp_gtest/Profiler.cpp
+	unitTest_Engine_cpp_gtest/Shape/Collision2D.cpp
 	unitTest_Engine_cpp_gtest/Sound/Sound.cpp
 )
 
