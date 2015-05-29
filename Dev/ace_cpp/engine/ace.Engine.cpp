@@ -236,7 +236,11 @@ namespace ace
 
 			{
 #if _WIN32
+#if _WIN64
+				const char* name = "CreateCore";
+#else
 				const char* name = "_CreateCore@0";
+#endif
 #else
 				const char* name = "CreateCore";
 #endif
