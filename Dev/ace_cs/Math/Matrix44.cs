@@ -419,7 +419,8 @@ namespace ace
 		/// <param name="angle">X軸回転量(ラジアン)</param>
 		public void SetRotationX(float angle)
 		{
-			float c, s;
+			float c = 0.0f;
+			float s = 0.0f;
 			s = (float)Math.Sin(angle);
 			c = (float)Math.Cos(angle);
 
@@ -453,7 +454,8 @@ namespace ace
 		/// <param name="angle">Y軸回転量(ラジアン)</param>
 		public void SetRotationY(float angle)
 		{
-			float c, s;
+			float c = 0.0f;
+			float s = 0.0f;
 			s = (float)Math.Sin(angle);
 			c = (float)Math.Cos(angle);
 
@@ -488,7 +490,8 @@ namespace ace
 		/// <param name="angle">Z軸回転量(ラジアン)</param>
 		public void SetRotationZ(float angle)
 		{
-			float c, s;
+			float c = 0.0f;
+			float s = 0.0f;
 			s = (float)Math.Sin(angle);
 			c = (float)Math.Cos(angle);
 
@@ -631,7 +634,7 @@ namespace ace
 				}
 			}
 
-			Vector3DF o;
+			Vector3DF o = new Vector3DF();
 			o.X = values[0] / values[3];
 			o.Y = values[1] / values[3];
 			o.Z = values[2] / values[3];
@@ -659,7 +662,7 @@ namespace ace
 				}
 			}
 
-			Vector4DF o;
+			Vector4DF o = new Vector4DF();
 			o.X = values[0];
 			o.Y = values[1];
 			o.Z = values[2];

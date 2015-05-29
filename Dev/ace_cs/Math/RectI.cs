@@ -15,22 +15,22 @@ namespace ace
 		/// <summary>
 		/// 左上X座標
 		/// </summary>
-		public int X { get; set; }
+		public int X;
 
 		/// <summary>
 		/// 左上Y座標
 		/// </summary>
-		public int Y { get; set; }
+		public int Y;
 
 		/// <summary>
 		/// 横幅
 		/// </summary>
-		public int Width { get; set; }
+		public int Width;
 
 		/// <summary>
 		/// 縦幅
 		/// </summary>
-		public int Height { get; set; }
+		public int Height;
 
 		/// <summary>
 		/// 左上座標を取得する。
