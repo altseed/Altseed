@@ -88,6 +88,9 @@ protected:
 	void OnUpdating()
 	{
 		selfCircle->SetPosition(ace::Engine::GetMouse()->GetPosition());
+
+		triangle->SetPointByIndex(triangle->GetPointByIndex(0) + Vector2DF(1, 0), 0);
+
 		if (selfCircle->GetIsCollidedWith(circle)
 			|| selfCircle->GetIsCollidedWith(triangle)
 			|| selfCircle->GetIsCollidedWith(rect))
@@ -99,7 +102,7 @@ protected:
 			geometryObj0->SetColor(ace::Color(255, 255, 255, 255));
 		}
 
-		//rect->SetAngle(rect->GetAngle() + 1);
+		rect->SetAngle(rect->GetAngle() + 1);
 	}
 };
 

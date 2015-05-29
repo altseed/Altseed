@@ -16,6 +16,7 @@ extern void Mouse();
 extern void Joystick();
 extern void Sound();
 
+extern void GeometryObject2D();
 extern void EffectObject2D();
 extern void TextObject2D();
 extern void TextureObject2D();
@@ -54,6 +55,7 @@ int main(int argc, char** argv)
 		INFO(TextObject2D),
 		INFO(TextureObject2D),
 		INFO(MapObject2D),
+		INFO(GeometryObject2D),
 		INFO(ImagePackage),
 
 		INFO(PostEffect),

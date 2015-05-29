@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
+    <ClCompile Include="..\Graphics\2D\GeometryObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\ImagePackage.cpp" />
     <ClCompile Include="..\Graphics\2D\MapObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\TextObject2D.cpp" />
@@ -22,7 +23,6 @@
     <ClCompile Include="..\Input\Keyboard.cpp" />
     <ClCompile Include="..\Input\Mouse.cpp" />
     <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\ObjectSystem\GeometryObject2D.cpp" />
     <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\Transition.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />
