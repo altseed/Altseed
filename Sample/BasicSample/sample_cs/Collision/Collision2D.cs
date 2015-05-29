@@ -1,12 +1,12 @@
 ﻿
 /// <summary>
-/// Collision2Dのサンプル。マウスによって操作する円がいずれかのオブジェクトにヒットしたら円が赤く染まります。
+/// Collision2Dのサンプル。マウスによって操作する円がいずれかのオブジェクトにヒットしたら円が赤く変化します。
 /// </summary>
 public class Collision2D : ISample
 {
     public void Run()
     {
-        // AC-Engineを初期化する
+        // AC-Engineを初期化する。
         ace.Engine.Initialize("GeometryObject2D", 640, 480, new ace.EngineOption());
 
         //図形描画クラスのコンストラクタを呼び出す。
@@ -15,15 +15,15 @@ public class Collision2D : ISample
         var geometryObj2 = new ace.GeometryObject2D();
         var geometryObj3 = new ace.GeometryObject2D();
 
-        //マウスによって動かす円
+        //マウスによって動かす円。
         ace.CircleShape selfCircle;
 
-        //停止している円、三角形、矩形
+        //停止している円、三角形、矩形。
         ace.CircleShape circle;
         ace.TriangleShape triangle;
         ace.RectangleShape rect;
 
-        // シーンを生成する
+        // シーンを生成する。
         var scene = new ace.Scene();
 
         // シーンにレイヤーを追加する。
@@ -72,7 +72,7 @@ public class Collision2D : ISample
 
         //停止している三角形の形状と描画の設定を行う。
         {
-            //三角形の各頂点の位置を指定。
+            //三角形の各頂点の位置を指定します。
             triangle = new ace.TriangleShape();
             triangle.SetPointByIndex(new ace.Vector2DF(400, 350), 0);
             triangle.SetPointByIndex(new ace.Vector2DF(300, 450), 1);
@@ -101,8 +101,8 @@ public class Collision2D : ISample
                 //マウスによって制御される円の中心位置をマウスの位置とする。
                 selfCircle.Position = ace.Engine.Mouse.Position;
 
-                //停止している円、三角形、矩形にマウスによって動く円が衝突した時に円を赤く塗りつぶす。
-                //そうでない時は白く塗りつぶす。
+                //停止している円、三角形、矩形にマウスによって動く円が衝突した時に円を赤く変化させる。
+                //そうでない時は白く変化させる。
                 if (selfCircle.GetIsCollidedWith(circle)
                     || selfCircle.GetIsCollidedWith(triangle)
                     || selfCircle.GetIsCollidedWith(rect))
