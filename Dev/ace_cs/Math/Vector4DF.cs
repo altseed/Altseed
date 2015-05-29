@@ -37,10 +37,10 @@ namespace ace
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-		/// <param name="x">X</param>
-		/// <param name="y">Y</param>
-		/// <param name="z">Z</param>
-		/// <param name="w">W</param>
+		/// <param name="x">X成分</param>
+		/// <param name="y">Y成分</param>
+		/// <param name="z">Z成分</param>
+		/// <param name="w">W成分</param>
 		public Vector4DF(float x, float y, float z, float w)
 		{
 			X = x;
@@ -143,11 +143,11 @@ namespace ace
 		}
 
 		/// <summary>
-		/// 内積を取得する。
+		/// 外積を取得する。
 		/// </summary>
-		/// <param name="v1">値1</param>
-		/// <param name="v2">値2</param>
-		/// <returns>内積</returns>
+		/// <param name="v1">v1ベクトル</param>
+		/// <param name="v2">v2ベクトル</param>
+		/// <returns>外積v1×v2</returns>
 		public static float Dot(Vector4DF v1, Vector4DF v2)
 		{
 			return v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z + v1.W * v2.W;
@@ -156,9 +156,9 @@ namespace ace
 		/// <summary>
 		/// 2点間の距離を取得する。
 		/// </summary>
-		/// <param name="v1">値1</param>
-		/// <param name="v2">値2</param>
-		/// <returns>距離</returns>
+		/// <param name="v1">v1ベクトル</param>
+		/// <param name="v2">v2ベクトル</param>
+		/// <returns>v1とv2の距離</returns>
 		public static float Distance(Vector4DF v1, Vector4DF v2)
 		{
 			float dx = v1.X - v2.X;

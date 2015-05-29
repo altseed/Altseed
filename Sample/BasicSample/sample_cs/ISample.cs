@@ -1,0 +1,6 @@
+﻿
+interface ISample
+{
+	void Run();
+}
+

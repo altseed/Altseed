@@ -37,8 +37,8 @@ namespace ace
 
 		/**
 			@brief	コンストラクタ
-			@param	x	X
-			@param	y	Y
+			@param	x	X成分
+			@param	y	Y成分
 		*/
 		Vector2DF(float x, float y);
 
@@ -95,6 +95,7 @@ namespace ace
 
 		/**
 			@brief	このベクトルの向きを弧度法で設定する。
+			@note 大きさを維持したまま、向きを変更する。
 		*/
 		void SetRadian(float value)
 		{
@@ -155,8 +156,9 @@ namespace ace
 		
 		/**
 			@brief	内積を取得する。
-			@param	v1	値1
-			@param	v2	値2
+			@param	v1	v1ベクトル
+			@param	v2	v2ベクトル
+			@return 内積v1・v2を返します。
 		*/
 		static float Dot(const Vector2DF& v1, const Vector2DF& v2)
 		{
@@ -165,8 +167,9 @@ namespace ace
 
 		/**
 		@brief	外積を取得する。
-		@param	v1	値1
-		@param	v2	値2
+		@param	v1	v1ベクトル
+		@param	v2	v2ベクトル
+		@return 外積v1×v2を返します。
 		*/
 		static float Cross(const Vector2DF& v1, const Vector2DF& v2)
 		{
@@ -175,8 +178,9 @@ namespace ace
 
 		/**
 		@brief	2点間の距離を取得する。
-		@param	v1	値1
-		@param	v2	値2
+		@param	v1　v1ベクトル
+		@param	v2	v2ベクトル
+		@return v1とv2の距離を返します。
 		*/
 		static float Distance(const Vector2DF& v1, const Vector2DF& v2)
 		{
