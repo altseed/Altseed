@@ -33,7 +33,8 @@ namespace sample_cs
                 new GeometryObject2D(),
 
                 new PostEffect(),
-			};
+                new Collision2D(),
+            };
 
 			var cui = new SampleGuide( samples );
 			cui.Show();

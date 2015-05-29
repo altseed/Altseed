@@ -48,6 +48,9 @@
     <ClCompile Include="..\Graphics\2D\GeometryObject2D.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Collision\Collision2D.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">
@@ -70,6 +73,9 @@
     </Filter>
     <Filter Include="ObjectSystem">
       <UniqueIdentifier>{f166ded0-24df-46b8-9df6-7a84de854163}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{5007e88e-d3d2-4231-abf0-bdd4d0e412cf}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
