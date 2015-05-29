@@ -106,7 +106,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(Profiler, Profiling, true)
+	CALL_ENGINE_TEST(Shape, Collision2D, true)
 	return 0;
 
 	

@@ -41,13 +41,13 @@ void CameraObject2D()
 	// AC-Engineのウインドウが閉じられていないか確認する。
 	while (ace::Engine::DoEvents())
 	{
-		//マウスポインタの位置を取得する。
+		// マウスポインタの位置を取得する。
 		auto pos = ace::Engine::GetMouse()->GetPosition();
 
-		//拡大用カメラの描画元を指定する。
+		// 拡大用カメラの描画元を指定する。
 		cameraObj->SetSrc(ace::RectI(pos.X - 25, pos.Y - 25, 50, 50));
 
-		//ポインタを中心に100x100の拡大画像を表示する。
+		// ポインタを中心に100x100の拡大画像を表示する。
 		cameraObj->SetDst(ace::RectI(pos.X - 50, pos.Y - 50, 100, 100));
 
 		// AC-Engineを更新する。

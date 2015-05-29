@@ -21,48 +21,48 @@ class MapObject2D : ISample
 		// シーンを切り替える
 		ace.Engine.ChangeScene(scene);
 
-		//カメラを設定する。
+		// カメラを設定する。
 		var camera = new ace.CameraObject2D();
 
 		camera.Src = new ace.RectI(0, 0, 640, 480);
 		camera.Dst = new ace.RectI(0, 0, 640, 480);
 
 		{
-			//マップオブジェクトを生成する。
+			// マップオブジェクトを生成する。
 			var mapObject = new ace.MapObject2D();
 
 			var texture = ace.Engine.Graphics.CreateTexture2D("Data/Texture/Sample2.png");
 
-			//マップオブジェクトに50*50=2500個のチップを登録する。
+			// マップオブジェクトに50*50=2500個のチップを登録する。
 			for (int i = 0; i < 50; ++i)
 			{
 				for (int j = 0; j < 50; ++j)
 				{
-					//チップを生成する。
+					// チップを生成する。
 					var chip = new ace.Chip2D();
 
-					//チップにテクスチャを設定する。
+					// チップにテクスチャを設定する。
 					chip.Texture = texture;
 
-					//チップの描画先を指定する。
+					// チップの描画先を指定する。
 					chip.Position = new ace.Vector2DF(i * 40 - 1000, j * 40 - 1000);
 
-					//マップオブジェクトにチップを追加する。
+					// マップオブジェクトにチップを追加する。
 					mapObject.AddChip(chip);
 				}
 			}
 
-			//レイヤーにマップオブジェクトを追加する。
+			// レイヤーにマップオブジェクトを追加する。
 			layer.AddObject(mapObject);
 
-			//レイヤーにカメラオブジェクトを追加する。
+			// レイヤーにカメラオブジェクトを追加する。
 			layer.AddObject(camera);
 		}
 
 		// AC-Engineのウインドウが閉じられていないか確認する。
 		while (ace.Engine.DoEvents())
 		{
-			//カメラを移動させる
+			// カメラを移動させる
 			var pos = camera.Src;
 			pos.X += 1;
 			pos.Y += 1;
