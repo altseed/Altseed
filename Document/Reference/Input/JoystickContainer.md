@@ -30,4 +30,6 @@ Joystickクラスに関しては[ジョイスティック](./Joystick.md)の項�
 
 ### 使用方法
 
-Joystickクラスのサンプルをご覧ください。
+Joystickクラスのサンプルです。
+
+* include_basic_sample Joystick

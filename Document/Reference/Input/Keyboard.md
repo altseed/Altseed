@@ -35,4 +35,6 @@ GetKeyStateにて指定したキーの押し状態を取得することが可能
 
 ### 使用方法
 
-Keyboardクラスのサンプルをご覧ください。
+Keyboardクラスのサンプルです。
+
+* include_basic_sample Keyboard

@@ -28,4 +28,8 @@ LoopStartingPoint及び、LoopEndPointを設定すると、先頭から音を再
 
 ### 使用方法
 
-サウンドのサンプルを参照してください。
+
+SoundクラスとSoundSourceのサンプルです。
+
+* include_basic_sample Sound
+

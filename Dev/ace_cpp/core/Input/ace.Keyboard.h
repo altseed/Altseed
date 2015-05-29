@@ -8,11 +8,11 @@ namespace ace{
 	{
 		Unknown,
 		Space,			///< スペース
-		Apostrophe,		///< :
-		Comma,			///< , 
-		Minus,			///< -
-		Period,			///< .
-		Slash,			///< /
+		Apostrophe,		///< ： (US配列では ` )
+		Comma,			///< ，
+		Minus,			///< －
+		Period,			///< ．
+		Slash,			///< ／
 		Num0,			///< 0
 		Num1,			///< 1
 		Num2,			///< 2
@@ -23,8 +23,8 @@ namespace ace{
 		Num7,			///< 7
 		Num8,			///< 8
 		Num9,			///< 9
-		Semicolon,		///< ; 
-		Equal,			///< ^
+		Semicolon,		///< ；
+		Equal,			///< ＾ (US配列では ＝ )
 		A,				///< A
 		B,				///< B
 		C,				///< C
@@ -51,9 +51,9 @@ namespace ace{
 		X,				///< X
 		Y,				///< Y
 		Z,				///< Z
-		LeftBracket,	///< @
-		Backslash,		///< ]
-		RightBracket,	///< [
+		LeftBracket,	///< @ (US配列では ［ )
+		Backslash,		///< ] (US配列では ＼ )
+		RightBracket,	///< [ (US配列では ］ )
 		GraveAccent,	///< 半角/全角
 		World1,
 		World2,
@@ -111,13 +111,13 @@ namespace ace{
 		Keypad7,		///< テンキーの7
 		Keypad8,		///< テンキーの8
 		Keypad9,		///< テンキーの9
-		KeypadDecimal,	///< テンキーの.
-		KeypadDivide,	///< テンキーの/
-		KeypadMultiply,	///< テンキーの*
-		KeypadSubstract,///< テンキーの-
-		KeypadAdd,		///< テンキーの+
+		KeypadDecimal,	///< テンキーの．
+		KeypadDivide,	///< テンキーの／
+		KeypadMultiply,	///< テンキーの＊
+		KeypadSubstract,///< テンキーの－
+		KeypadAdd,		///< テンキーの＋
 		KeypadEnter,	///< テンキーのEnter
-		KeypadEqual,
+		KeypadEqual,	///< テンキーの＝
 		LeftShift,		///< 左Shift
 		LeftControl,	///< 左Ctrl
 		LeftAlt,		///< 左Alt

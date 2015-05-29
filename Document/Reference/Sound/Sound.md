@@ -32,4 +32,7 @@
 
 ### 使用方法
 
-サウンドのサンプルを参照してください。
+SoundクラスとSoundSourceのサンプルです。
+
+* include_basic_sample Sound
+

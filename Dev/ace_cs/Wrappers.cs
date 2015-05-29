@@ -480,195 +480,195 @@ namespace ace {
 		/// </summary>
 		Unknown = ace.swig.Keys.Unknown,
 		/// <summary>
-		/// 
+		/// スペース
 		/// </summary>
 		Space = ace.swig.Keys.Space,
 		/// <summary>
-		/// 
+		/// ： (US配列では ` )
 		/// </summary>
 		Apostrophe = ace.swig.Keys.Apostrophe,
 		/// <summary>
-		/// 
+		/// ，
 		/// </summary>
 		Comma = ace.swig.Keys.Comma,
 		/// <summary>
-		/// 
+		/// －
 		/// </summary>
 		Minus = ace.swig.Keys.Minus,
 		/// <summary>
-		/// 
+		/// ．
 		/// </summary>
 		Period = ace.swig.Keys.Period,
 		/// <summary>
-		/// 
+		/// ／
 		/// </summary>
 		Slash = ace.swig.Keys.Slash,
 		/// <summary>
-		/// 
+		/// 0
 		/// </summary>
 		Num0 = ace.swig.Keys.Num0,
 		/// <summary>
-		/// 
+		/// 1
 		/// </summary>
 		Num1 = ace.swig.Keys.Num1,
 		/// <summary>
-		/// 
+		/// 2
 		/// </summary>
 		Num2 = ace.swig.Keys.Num2,
 		/// <summary>
-		/// 
+		/// 3
 		/// </summary>
 		Num3 = ace.swig.Keys.Num3,
 		/// <summary>
-		/// 
+		/// 4
 		/// </summary>
 		Num4 = ace.swig.Keys.Num4,
 		/// <summary>
-		/// 
+		/// 5
 		/// </summary>
 		Num5 = ace.swig.Keys.Num5,
 		/// <summary>
-		/// 
+		/// 6
 		/// </summary>
 		Num6 = ace.swig.Keys.Num6,
 		/// <summary>
-		/// 
+		/// 7
 		/// </summary>
 		Num7 = ace.swig.Keys.Num7,
 		/// <summary>
-		/// 
+		/// 8
 		/// </summary>
 		Num8 = ace.swig.Keys.Num8,
 		/// <summary>
-		/// 
+		/// 9
 		/// </summary>
 		Num9 = ace.swig.Keys.Num9,
 		/// <summary>
-		/// 
+		/// ；
 		/// </summary>
 		Semicolon = ace.swig.Keys.Semicolon,
 		/// <summary>
-		/// 
+		/// ＾ (US配列では ＝ )
 		/// </summary>
 		Equal = ace.swig.Keys.Equal,
 		/// <summary>
-		/// 
+		/// A
 		/// </summary>
 		A = ace.swig.Keys.A,
 		/// <summary>
-		/// 
+		/// B
 		/// </summary>
 		B = ace.swig.Keys.B,
 		/// <summary>
-		/// 
+		/// C
 		/// </summary>
 		C = ace.swig.Keys.C,
 		/// <summary>
-		/// 
+		/// D
 		/// </summary>
 		D = ace.swig.Keys.D,
 		/// <summary>
-		/// 
+		/// E
 		/// </summary>
 		E = ace.swig.Keys.E,
 		/// <summary>
-		/// 
+		/// F
 		/// </summary>
 		F = ace.swig.Keys.F,
 		/// <summary>
-		/// 
+		/// G
 		/// </summary>
 		G = ace.swig.Keys.G,
 		/// <summary>
-		/// 
+		/// H
 		/// </summary>
 		H = ace.swig.Keys.H,
 		/// <summary>
-		/// 
+		/// I
 		/// </summary>
 		I = ace.swig.Keys.I,
 		/// <summary>
-		/// 
+		/// J
 		/// </summary>
 		J = ace.swig.Keys.J,
 		/// <summary>
-		/// 
+		/// K
 		/// </summary>
 		K = ace.swig.Keys.K,
 		/// <summary>
-		/// 
+		/// L
 		/// </summary>
 		L = ace.swig.Keys.L,
 		/// <summary>
-		/// 
+		/// M
 		/// </summary>
 		M = ace.swig.Keys.M,
 		/// <summary>
-		/// 
+		/// N
 		/// </summary>
 		N = ace.swig.Keys.N,
 		/// <summary>
-		/// 
+		/// O
 		/// </summary>
 		O = ace.swig.Keys.O,
 		/// <summary>
-		/// 
+		/// P
 		/// </summary>
 		P = ace.swig.Keys.P,
 		/// <summary>
-		/// 
+		/// Q
 		/// </summary>
 		Q = ace.swig.Keys.Q,
 		/// <summary>
-		/// 
+		/// R
 		/// </summary>
 		R = ace.swig.Keys.R,
 		/// <summary>
-		/// 
+		/// S
 		/// </summary>
 		S = ace.swig.Keys.S,
 		/// <summary>
-		/// 
+		/// T
 		/// </summary>
 		T = ace.swig.Keys.T,
 		/// <summary>
-		/// 
+		/// U
 		/// </summary>
 		U = ace.swig.Keys.U,
 		/// <summary>
-		/// 
+		/// V
 		/// </summary>
 		V = ace.swig.Keys.V,
 		/// <summary>
-		/// 
+		/// W
 		/// </summary>
 		W = ace.swig.Keys.W,
 		/// <summary>
-		/// 
+		/// X
 		/// </summary>
 		X = ace.swig.Keys.X,
 		/// <summary>
-		/// 
+		/// Y
 		/// </summary>
 		Y = ace.swig.Keys.Y,
 		/// <summary>
-		/// 
+		/// Z
 		/// </summary>
 		Z = ace.swig.Keys.Z,
 		/// <summary>
-		/// 
+		/// @ (US配列では ［ )
 		/// </summary>
 		LeftBracket = ace.swig.Keys.LeftBracket,
 		/// <summary>
-		/// 
+		/// ] (US配列では ＼ )
 		/// </summary>
 		Backslash = ace.swig.Keys.Backslash,
 		/// <summary>
-		/// 
+		/// [ (US配列では ］ )
 		/// </summary>
 		RightBracket = ace.swig.Keys.RightBracket,
 		/// <summary>
-		/// 
+		/// 半角/全角
 		/// </summary>
 		GraveAccent = ace.swig.Keys.GraveAccent,
 		/// <summary>
@@ -680,283 +680,283 @@ namespace ace {
 		/// </summary>
 		World2 = ace.swig.Keys.World2,
 		/// <summary>
-		/// 
+		/// Esc
 		/// </summary>
 		Escape = ace.swig.Keys.Escape,
 		/// <summary>
-		/// 
+		/// Enter
 		/// </summary>
 		Enter = ace.swig.Keys.Enter,
 		/// <summary>
-		/// 
+		/// Tab
 		/// </summary>
 		Tab = ace.swig.Keys.Tab,
 		/// <summary>
-		/// 
+		/// BackSpace
 		/// </summary>
 		Backspace = ace.swig.Keys.Backspace,
 		/// <summary>
-		/// 
+		/// Insert
 		/// </summary>
 		Insert = ace.swig.Keys.Insert,
 		/// <summary>
-		/// 
+		/// Delete
 		/// </summary>
 		Delete = ace.swig.Keys.Delete,
 		/// <summary>
-		/// 
+		/// →
 		/// </summary>
 		Right = ace.swig.Keys.Right,
 		/// <summary>
-		/// 
+		/// ←
 		/// </summary>
 		Left = ace.swig.Keys.Left,
 		/// <summary>
-		/// 
+		/// ↑
 		/// </summary>
 		Down = ace.swig.Keys.Down,
 		/// <summary>
-		/// 
+		/// ↓
 		/// </summary>
 		Up = ace.swig.Keys.Up,
 		/// <summary>
-		/// 
+		/// PageUp
 		/// </summary>
 		PageUp = ace.swig.Keys.PageUp,
 		/// <summary>
-		/// 
+		/// PageDown
 		/// </summary>
 		PageDown = ace.swig.Keys.PageDown,
 		/// <summary>
-		/// 
+		/// Home
 		/// </summary>
 		Home = ace.swig.Keys.Home,
 		/// <summary>
-		/// 
+		/// End
 		/// </summary>
 		End = ace.swig.Keys.End,
 		/// <summary>
-		/// 
+		/// CapsLock
 		/// </summary>
 		CapsLock = ace.swig.Keys.CapsLock,
 		/// <summary>
-		/// 
+		/// ScrollLock
 		/// </summary>
 		ScrollLock = ace.swig.Keys.ScrollLock,
 		/// <summary>
-		/// 
+		/// NumLock
 		/// </summary>
 		NumLock = ace.swig.Keys.NumLock,
 		/// <summary>
-		/// 
+		/// PrintScreen
 		/// </summary>
 		PrintScreen = ace.swig.Keys.PrintScreen,
 		/// <summary>
-		/// 
+		/// Pause
 		/// </summary>
 		Pause = ace.swig.Keys.Pause,
 		/// <summary>
-		/// 
+		/// F1
 		/// </summary>
 		F1 = ace.swig.Keys.F1,
 		/// <summary>
-		/// 
+		/// F2
 		/// </summary>
 		F2 = ace.swig.Keys.F2,
 		/// <summary>
-		/// 
+		/// F3
 		/// </summary>
 		F3 = ace.swig.Keys.F3,
 		/// <summary>
-		/// 
+		/// F4
 		/// </summary>
 		F4 = ace.swig.Keys.F4,
 		/// <summary>
-		/// 
+		/// F5
 		/// </summary>
 		F5 = ace.swig.Keys.F5,
 		/// <summary>
-		/// 
+		/// F6
 		/// </summary>
 		F6 = ace.swig.Keys.F6,
 		/// <summary>
-		/// 
+		/// F7
 		/// </summary>
 		F7 = ace.swig.Keys.F7,
 		/// <summary>
-		/// 
+		/// F8
 		/// </summary>
 		F8 = ace.swig.Keys.F8,
 		/// <summary>
-		/// 
+		/// F9
 		/// </summary>
 		F9 = ace.swig.Keys.F9,
 		/// <summary>
-		/// 
+		/// F10
 		/// </summary>
 		F10 = ace.swig.Keys.F10,
 		/// <summary>
-		/// 
+		/// F11
 		/// </summary>
 		F11 = ace.swig.Keys.F11,
 		/// <summary>
-		/// 
+		/// F12
 		/// </summary>
 		F12 = ace.swig.Keys.F12,
 		/// <summary>
-		/// 
+		/// F13
 		/// </summary>
 		F13 = ace.swig.Keys.F13,
 		/// <summary>
-		/// 
+		/// F14
 		/// </summary>
 		F14 = ace.swig.Keys.F14,
 		/// <summary>
-		/// 
+		/// F15
 		/// </summary>
 		F15 = ace.swig.Keys.F15,
 		/// <summary>
-		/// 
+		/// F16
 		/// </summary>
 		F16 = ace.swig.Keys.F16,
 		/// <summary>
-		/// 
+		/// F17
 		/// </summary>
 		F17 = ace.swig.Keys.F17,
 		/// <summary>
-		/// 
+		/// F18
 		/// </summary>
 		F18 = ace.swig.Keys.F18,
 		/// <summary>
-		/// 
+		/// F19
 		/// </summary>
 		F19 = ace.swig.Keys.F19,
 		/// <summary>
-		/// 
+		/// F20
 		/// </summary>
 		F20 = ace.swig.Keys.F20,
 		/// <summary>
-		/// 
+		/// F21
 		/// </summary>
 		F21 = ace.swig.Keys.F21,
 		/// <summary>
-		/// 
+		/// F22
 		/// </summary>
 		F22 = ace.swig.Keys.F22,
 		/// <summary>
-		/// 
+		/// F23
 		/// </summary>
 		F23 = ace.swig.Keys.F23,
 		/// <summary>
-		/// 
+		/// F24
 		/// </summary>
 		F24 = ace.swig.Keys.F24,
 		/// <summary>
-		/// 
+		/// F25
 		/// </summary>
 		F25 = ace.swig.Keys.F25,
 		/// <summary>
-		/// 
+		/// テンキーの0
 		/// </summary>
 		Keypad0 = ace.swig.Keys.Keypad0,
 		/// <summary>
-		/// 
+		/// テンキーの1
 		/// </summary>
 		Keypad1 = ace.swig.Keys.Keypad1,
 		/// <summary>
-		/// 
+		/// テンキーの2
 		/// </summary>
 		Keypad2 = ace.swig.Keys.Keypad2,
 		/// <summary>
-		/// 
+		/// テンキーの3
 		/// </summary>
 		Keypad3 = ace.swig.Keys.Keypad3,
 		/// <summary>
-		/// 
+		/// テンキーの4
 		/// </summary>
 		Keypad4 = ace.swig.Keys.Keypad4,
 		/// <summary>
-		/// 
+		/// テンキーの5
 		/// </summary>
 		Keypad5 = ace.swig.Keys.Keypad5,
 		/// <summary>
-		/// 
+		/// テンキーの6
 		/// </summary>
 		Keypad6 = ace.swig.Keys.Keypad6,
 		/// <summary>
-		/// 
+		/// テンキーの7
 		/// </summary>
 		Keypad7 = ace.swig.Keys.Keypad7,
 		/// <summary>
-		/// 
+		/// テンキーの8
 		/// </summary>
 		Keypad8 = ace.swig.Keys.Keypad8,
 		/// <summary>
-		/// 
+		/// テンキーの9
 		/// </summary>
 		Keypad9 = ace.swig.Keys.Keypad9,
 		/// <summary>
-		/// 
+		/// テンキーの．
 		/// </summary>
 		KeypadDecimal = ace.swig.Keys.KeypadDecimal,
 		/// <summary>
-		/// 
+		/// テンキーの／
 		/// </summary>
 		KeypadDivide = ace.swig.Keys.KeypadDivide,
 		/// <summary>
-		/// 
+		/// テンキーの＊
 		/// </summary>
 		KeypadMultiply = ace.swig.Keys.KeypadMultiply,
 		/// <summary>
-		/// 
+		/// テンキーの－
 		/// </summary>
 		KeypadSubstract = ace.swig.Keys.KeypadSubstract,
 		/// <summary>
-		/// 
+		/// テンキーの＋
 		/// </summary>
 		KeypadAdd = ace.swig.Keys.KeypadAdd,
 		/// <summary>
-		/// 
+		/// テンキーのEnter
 		/// </summary>
 		KeypadEnter = ace.swig.Keys.KeypadEnter,
 		/// <summary>
-		/// 
+		/// テンキーの＝
 		/// </summary>
 		KeypadEqual = ace.swig.Keys.KeypadEqual,
 		/// <summary>
-		/// 
+		/// 左Shift
 		/// </summary>
 		LeftShift = ace.swig.Keys.LeftShift,
 		/// <summary>
-		/// 
+		/// 左Ctrl
 		/// </summary>
 		LeftControl = ace.swig.Keys.LeftControl,
 		/// <summary>
-		/// 
+		/// 左Alt
 		/// </summary>
 		LeftAlt = ace.swig.Keys.LeftAlt,
 		/// <summary>
-		/// 
+		/// 左Win
 		/// </summary>
 		LeftWin = ace.swig.Keys.LeftWin,
 		/// <summary>
-		/// 
+		/// 右Shift
 		/// </summary>
 		RightShift = ace.swig.Keys.RightShift,
 		/// <summary>
-		/// 
+		/// 右Ctrl
 		/// </summary>
 		RightControl = ace.swig.Keys.RightControl,
 		/// <summary>
-		/// 
+		/// 右Alt
 		/// </summary>
 		RightAlt = ace.swig.Keys.RightAlt,
 		/// <summary>
-		/// 
+		/// 右Win
 		/// </summary>
 		RightWin = ace.swig.Keys.RightWin,
 		/// <summary>
-		/// 
+		/// コンテキストメニュー
 		/// </summary>
 		Menu = ace.swig.Keys.Menu,
 		/// <summary>

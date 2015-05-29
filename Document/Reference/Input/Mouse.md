@@ -38,4 +38,7 @@
 
 ### 使用方法
 
-Mouseクラスのサンプルをご覧ください。
+Mouseクラスのサンプルです。
+
+* include_basic_sample Mouse
+

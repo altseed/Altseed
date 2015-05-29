@@ -31,3 +31,8 @@
 |---|---|
 | OnUpdate | 毎フレーム実行される更新イベント |
 
+### 使用方法
+
+トランジションの例としてTransitionFadeクラスのサンプルを提示します。
+
+* include_basic_sample Transition

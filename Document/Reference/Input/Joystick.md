@@ -43,10 +43,13 @@
 
 なし
 
-### 使用方法
-
-Joystickクラスのサンプルをご覧ください。
-
 ### 補足
 
 このインスタンスを取得するには、[JoystickContainerクラス](./JoystickContainer.md)内のGetJoystickAt関数を呼び出す必要があります。また、ジョイスティックの接続状態をRefreshAllJoysticks関数にて更新することができます。
+
+### 使用方法
+
+Joystickクラスのサンプルです。
+
+* include_basic_sample Joystick
+
