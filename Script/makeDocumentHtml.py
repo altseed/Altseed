@@ -177,10 +177,18 @@ def make_document_html():
         if m != None:
             link = r'../' + m.group(1)
             if os.path.exists(link):
-                ls.append('```\n')
+                ext = os.path.splitext(link)[1]
+                
+                if ext=='.cpp':
+                    ls.append('```cpp\n')
+                elif ext=='.cs':
+                    ls.append('```cs\n')
+                else:
+                    ls.append('```\n')
+
                 with open(link, mode='r', encoding='utf-8') as f:
                     ls.extend(f.readlines())
-                ls.append('```\n')
+                ls.append('\n```\n')
 
         else:
             ls_included.append(s)
