@@ -158,6 +158,9 @@
     <ClCompile Include="..\IO\StreamFile_PackageWithKey.cpp">
       <Filter>IO</Filter>
     </ClCompile>
+    <ClCompile Include="..\Shape\Collision2D.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -192,6 +195,9 @@
     </Filter>
     <Filter Include="IO">
       <UniqueIdentifier>{3f3a6be5-ba90-473b-a2dc-fb8bf9368c28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shape">
+      <UniqueIdentifier>{31baa9f7-a8d3-46c6-a7dc-e1fef45fe5d5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

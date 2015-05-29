@@ -3,7 +3,8 @@
 #include "ace.ShapeType.h"
 #include "../ace.Core.Base.h"
 #include <Culling2D.h>
-#include <Box2D/Box2D.h>
+
+class b2Shape;
 
 namespace ace{
 
@@ -14,10 +15,9 @@ namespace ace{
 	{
 	private:
 		bool GetIsCollidedb2Shapes(CoreShape* shape);
+		bool GetIsCollidedWithCircleAndRect(CoreCircleShape* circle, CoreRectangleShape* rectangle);
+		bool GetIsCollidedWithCircleAndLine(CoreCircleShape* circle, CoreLineShape* line);
 
-#if !SWIG
-		bool GetIsCollidedWithCircleAndRect(const CoreCircleShape* circle, const CoreRectangleShape* rectangle);
-		bool GetIsCollidedWithCircleAndLine(const CoreCircleShape* circle, const CoreLineShape* line);
 	protected:
 		std::vector<CoreTriangleShape*> triangles;
 		std::vector<b2Shape*> collisionShapes;
@@ -29,7 +29,6 @@ namespace ace{
 		culling2d::Circle boundingCircle;
 
 		virtual void CalculateBoundingCircle() = 0;
-#endif
 	protected:
 		bool isNeededUpdating;
 		bool isNeededCalcBoundingCircle;

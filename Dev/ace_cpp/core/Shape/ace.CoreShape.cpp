@@ -1,8 +1,10 @@
 ﻿#include "ace.CoreShape.h"
-#include "ace.CoreTriangleShape.h"
+#include "ace.CoreTriangleShape_Imp.h"
 #include "ace.CoreLineShape_Imp.h"
 #include "ace.CoreRectangleShape_Imp.h"
 #include "ace.CoreCircleShape_Imp.h"
+#include "ace.CorePolygonShape_Imp.h"
+#include "ace.CoreArcShape_Imp.h"
 #include <Box2D/Box2D.h>
 
 #ifdef _WIN64
@@ -33,6 +35,39 @@ namespace ace
 		}
 	}
 
+	bool CoreShape::GetIsCollidedWith(CoreShape* shape)
+	{
+		if (GetShapeType() == ShapeType::RectangleShape)
+		{
+			if (shape->GetShapeType() == ShapeType::CircleShape)
+			{
+				return GetIsCollidedWithCircleAndRect((CoreCircleShape*)shape, (CoreRectangleShape*)this);
+			}
+		}
+		else if (GetShapeType() == ShapeType::LineShape)
+		{
+			if (shape->GetShapeType() == ShapeType::CircleShape)
+			{
+				return GetIsCollidedWithCircleAndLine((CoreCircleShape*)shape, (CoreLineShape*)this);
+			}
+		}
+		else if (GetShapeType() == ShapeType::CircleShape)
+		{
+			if (shape->GetShapeType() == ShapeType::LineShape)
+			{
+				return GetIsCollidedWithCircleAndLine((CoreCircleShape*)this, (CoreLineShape*)shape);
+			}
+			else if (shape->GetShapeType() == ShapeType::RectangleShape)
+			{
+				return GetIsCollidedWithCircleAndRect((CoreCircleShape*)this, (CoreRectangleShape*)shape);
+			}
+		}
+		else
+		{
+			return GetIsCollidedb2Shapes(shape);
+		}
+	}
+
 	bool CoreShape::GetIsCollidedb2Shapes(CoreShape* shape)
 	{
 		for (auto selfShape : GetCollisionShapes())
@@ -52,12 +87,20 @@ namespace ace
 				}
 			}
 		}
+		return false;
 	}
 
 
-	bool CoreShape::GetIsCollidedWithCircleAndRect(const CoreCircleShape* circle, const CoreRectangleShape* rectangle)
+	bool CoreShape::GetIsCollidedWithCircleAndRect(CoreCircleShape* circle, CoreRectangleShape* rectangle)
 	{
-		Vector2DF rectGlobalCenter = rectangle->GetDrawingArea().GetPosition() + rectangle->GetDrawingArea().GetSize() / 2;
+		auto untransformedVertexes = rectangle->GetDrawingArea().GetVertexes();
+
+		Vector2DF untransformedOrigin = (untransformedVertexes[0] + untransformedVertexes[1] + untransformedVertexes[2] + untransformedVertexes[3]) / 4;
+
+		Vector2DF vec = (untransformedOrigin - (untransformedVertexes[0] + rectangle->GetCenterPosition()));
+		vec.SetDegree(vec.GetDegree() + rectangle->GetAngle());
+
+		Vector2DF rectGlobalCenter = untransformedVertexes[0] + rectangle->GetCenterPosition() + vec;
 
 		Vector2DF c;
 
@@ -104,7 +147,7 @@ namespace ace
 		return dist < radius2;
 	}
 
-	bool CoreShape::GetIsCollidedWithCircleAndLine(const CoreCircleShape* circle, const CoreLineShape* line)
+	bool CoreShape::GetIsCollidedWithCircleAndLine(CoreCircleShape* circle, CoreLineShape* line)
 	{
 		std::shared_ptr<CoreRectangleShape> rect = std::make_shared<CoreRectangleShape_Imp>();
 
@@ -114,39 +157,6 @@ namespace ace
 		rect->SetDrawingArea(RectF(-halfLen + gravPos.X, -line->GetThickness() / 2 + gravPos.Y, halfLen * 2, line->GetThickness()));
 
 		return GetIsCollidedWithCircleAndRect(circle, rect.get());
-	}
-
-	bool CoreShape::GetIsCollidedWith(CoreShape* shape)
-	{
-		if (GetShapeType() == ShapeType::RectangleShape)
-		{
-			if (shape->GetShapeType() == ShapeType::CircleShape)
-			{
-				return GetIsCollidedWithCircleAndRect((CoreCircleShape*)shape, (CoreRectangleShape*)this);
-			}
-		}
-		else if (GetShapeType() == ShapeType::LineShape)
-		{
-			if (shape->GetShapeType() == ShapeType::CircleShape)
-			{
-				return GetIsCollidedWithCircleAndLine((CoreCircleShape*)shape, (CoreLineShape*)this);
-			}
-		}
-		else if (GetShapeType() == ShapeType::CircleShape)
-		{
-			if (shape->GetShapeType() == ShapeType::LineShape)
-			{
-				return GetIsCollidedWithCircleAndLine((CoreCircleShape*)this, (CoreLineShape*)shape);
-			}
-			else if (shape->GetShapeType() == ShapeType::RectangleShape)
-			{
-				return GetIsCollidedWithCircleAndRect((CoreCircleShape*)this, (CoreRectangleShape*)shape);
-			}
-		}
-		else
-		{
-			return GetIsCollidedb2Shapes(shape);
-		}
 	}
 
 #if !SWIG

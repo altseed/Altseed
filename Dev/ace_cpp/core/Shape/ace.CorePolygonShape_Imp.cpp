@@ -1,6 +1,7 @@
 ﻿#include "ace.CorePolygonShape_Imp.h"
 #include "ace.CoreTriangleShape_Imp.h"
 #include "../3rdParty/poly2tri/poly2tri.h"
+#include <Box2D/Box2D.h>
 
 namespace ace
 {

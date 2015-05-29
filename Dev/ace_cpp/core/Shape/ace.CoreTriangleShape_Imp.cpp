@@ -1,4 +1,5 @@
 ﻿#include "ace.CoreTriangleShape_Imp.h"
+#include <Box2D/Box2D.h>
 
 namespace ace
 {

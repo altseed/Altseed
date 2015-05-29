@@ -21,6 +21,6 @@ namespace ace
 		*/
 		virtual ShapeType GetShapeType() const = 0;
 
-		bool GetIsCollidedWith(Shape* shape);
+		bool GetIsCollidedWith(std::shared_ptr<Shape> shape);
 	};
 };
