@@ -156,7 +156,7 @@ namespace ace
 		/// </remarks>
 		public static Vector3DF Cross( Vector3DF v1, Vector3DF v2 )
 		{
-			Vector3DF o;
+			Vector3DF o = new Vector3DF();
 			float x = v1.Y * v2.Z - v1.Z * v2.Y;
 			float y = v1.Z * v2.X - v1.X * v2.Z;
 			float z = v1.X * v2.Y - v1.Y * v2.X;

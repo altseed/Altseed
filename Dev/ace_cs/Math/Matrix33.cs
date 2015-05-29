@@ -185,7 +185,7 @@ namespace ace
 			}
 			}
 
-			Vector2DF o;
+			Vector2DF o = new Vector2DF();
 			o.X = values[0];
 			o.Y = values[1];
 			return o;
@@ -211,7 +211,7 @@ namespace ace
 			}
 			}
 
-			Vector3DF o;
+			Vector3DF o = new Vector3DF();
 			o.X = values[0];
 			o.Y = values[1];
 			o.Z = values[2];
@@ -260,7 +260,7 @@ namespace ace
 				}
 			}
 
-			Vector3DF result;
+			Vector3DF result = new Vector3DF();
 			result.X = elements[0];
 			result.Y = elements[1];
 			result.Z = elements[2];
