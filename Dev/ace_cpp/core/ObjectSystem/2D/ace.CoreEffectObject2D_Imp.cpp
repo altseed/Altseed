@@ -19,25 +19,30 @@ namespace ace
 		//auto v3 = Vector3DF(pos.X, pos.Y, 1);
 		//auto pos_ = parentMatrix * matrix * v3;
 
+		auto posX = mat.Values[0][2];
+		auto posY = mat.Values[1][2];
+
+		auto sx = sqrt(mat.Values[0][0] * mat.Values[0][0] + mat.Values[1][0] * mat.Values[1][0]);
+		auto sy = sqrt(mat.Values[0][1] * mat.Values[0][1] + mat.Values[1][1] * mat.Values[1][1]);
+
+		auto cos_ = mat.Values[0][0] / sx;
+		auto sin_ = mat.Values[1][0] / sy;
+
 		Effekseer::Matrix43 efMat;
 		efMat.Indentity();
 
-		// 転置して代入
-		for (auto c = 0; c < 2; c++)
-		{
-			for (auto r = 0; r < 2; r++)
-			{
-				efMat.Value[r][c] = mat.Values[c][r];
-			}
-		}
-
-		// スケール調整(行列式を使用)
-		efMat.Value[2][2] = sqrt(efMat.Value[0][0] * efMat.Value[1][1] - efMat.Value[0][1] * efMat.Value[1][0]);
-
-		// 位置調整
-		efMat.Value[3][0] = pos.X;
-		efMat.Value[3][1] = -pos.Y;
+		// 位置設定
+		efMat.Value[3][0] = posX;
+		efMat.Value[3][1] = -posY;
 		efMat.Value[3][2] = 0.0f;
+
+		// 回転拡大設定
+		efMat.Value[0][0] = sx * cos_;
+		efMat.Value[0][1] = sx * (-sin_);
+		efMat.Value[1][0] = sy * (sin_);
+		efMat.Value[1][1] = sy * cos_;
+
+		efMat.Value[2][2] = (sx + sy) / 2.0f;
 
 		// Y軸回転
 		Effekseer::Matrix43 rotyMat;
