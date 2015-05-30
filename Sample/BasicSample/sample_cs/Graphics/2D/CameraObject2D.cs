@@ -44,13 +44,13 @@ public class CameraObject2D : ISample
 		// AC-Engineのウインドウが閉じられていないか確認する。
 		while (ace.Engine.DoEvents())
 		{
-			//マウスポインタの位置を取得する。
+			// マウスポインタの位置を取得する。
 			var pos = ace.Engine.Mouse.Position;
 
-			//拡大用カメラの描画元を指定する。
+			// 拡大用カメラの描画元を指定する。
 			cameraObj.Src = new ace.RectI((int)(pos.X) - 25, (int)(pos.Y) - 25, 50, 50);
 
-			//ポインタを中心に100x100の拡大画像を表示する。
+			// ポインタを中心に100x100の拡大画像を表示する。
 			cameraObj.Dst = new ace.RectI((int)(pos.X) - 50, (int)(pos.Y) - 50, 100, 100);
 
 			// AC-Engineを更新する。

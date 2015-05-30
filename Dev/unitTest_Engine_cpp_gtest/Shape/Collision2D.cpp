@@ -51,6 +51,7 @@ protected:
 
 			geometryObj0->SetShape(selfCircle);
 			geometryObj0->SetPosition(ace::Vector2DF(0, 0));
+			geometryObj0->SetDrawingPriority(1);
 		}
 
 		{

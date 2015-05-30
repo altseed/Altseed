@@ -1,4 +1,4 @@
-#include <cmath>
+﻿#include <cmath>
 #include "ace.CoreShape_Imp.h"
 #include "ace.CoreTriangleShape_Imp.h"
 #include "ace.CoreLineShape_Imp.h"

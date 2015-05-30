@@ -10,10 +10,10 @@ namespace ace
 		CoreObject2D_Imp(graphics)
 		,m_shape(nullptr)
 		, drawingPriority(0)
-		, alphaBlendMode(AlphaBlendMode::Add)
+		, alphaBlendMode(AlphaBlendMode::Blend)
 		, centerPosition(Vector2DF())
 		, m_color(Color())
-		, m_textureFilterType(TextureFilterType::Linear)
+		, m_textureFilterType(TextureFilterType::Nearest)
 		, m_texture(nullptr)
 	{
 
