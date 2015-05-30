@@ -74,7 +74,7 @@ namespace ace
 	void CoreTriangleShape_Imp::CalcCollisions()
 	{
 
-		if (collisionShapes.size() == 0)
+		if (collisionShapes.empty())
 		{
 			auto triangle = new b2PolygonShape();
 			collisionShapes.push_back(triangle);

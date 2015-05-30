@@ -156,7 +156,7 @@ namespace ace
 
 	void CoreCircleShape_Imp::CalcCollisions()
 	{
-		if (collisionShapes.size() == 0)
+		if (collisionShapes.empty())
 		{
 			auto circle = new b2CircleShape();
 			collisionShapes.push_back(circle);
