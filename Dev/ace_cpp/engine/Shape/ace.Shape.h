@@ -21,6 +21,11 @@ namespace ace
 		*/
 		virtual ShapeType GetShapeType() const = 0;
 
+		/**
+		@brief 指定した図形と衝突しているか否かを取得する。
+		@param shape 衝突を調べる図形
+		@return 衝突しているか否か
+		*/
 		bool GetIsCollidedWith(std::shared_ptr<Shape> shape);
 	};
 };
