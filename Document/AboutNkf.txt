@@ -1,5 +1,0 @@
-nkf.dllの入手先：
-
-http://homepage3.nifty.com/tkaneto/dll/nkf32dll.html
-
-「みんなで改善してもらっている最新版」
