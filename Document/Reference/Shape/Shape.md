@@ -27,4 +27,6 @@
 
 ### 使用方法
 
-サンプルの図形描画ならびに衝突判定
+Shapeクラスを用いた衝突判定のサンプルです。
+
+* include_basic_sample Collision2D
