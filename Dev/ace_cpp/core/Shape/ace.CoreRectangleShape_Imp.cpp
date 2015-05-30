@@ -152,7 +152,7 @@ namespace ace
 			triPoints.push_back(b2Vec2(vertexes[j].X, vertexes[j].Y));
 		}
 
-		polygon->Set(triPoints.data(), 3);
+		polygon->Set(triPoints.data(), triPoints.size());
 
 		collisionShapes.push_back(polygon);
 	}
