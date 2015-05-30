@@ -1,59 +1,59 @@
-
+ï»¿
 #include <ace.h>
 
-// Object2DComponent‚ğ—p‚¢‚ÄAƒIƒuƒWƒFƒNƒg‚Ìƒpƒ‰ƒ[ƒ^[‚ğ•ÏX‚·‚éƒTƒ“ƒvƒ‹‚Å‚·B
+// Object2DComponentã‚’ç”¨ã„ã¦ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ‘ãƒ©ãƒ¡ãƒ¼ã‚¿ãƒ¼ã‚’å¤‰æ›´ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã§ã™ã€‚
 
-// ƒIƒuƒWƒFƒNƒg‚ğ‰ñ“]‚³‚¹‚éƒRƒ“ƒ|[ƒlƒ“ƒg
+// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å›è»¢ã•ã›ã‚‹ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆ
 class RotatingComponent : public ace::Object2DComponent
 {
 public:
 	void OnUpdate()
 	{
-		// –ˆƒtƒŒ[ƒ€AƒIƒuƒWƒFƒNƒg‚ÌŠp“x‚ğ‰ñ“]‚³‚¹‚é
+		// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è§’åº¦ã‚’å›è»¢ã•ã›ã‚‹
 		GetOwner()->SetAngle(GetOwner()->GetAngle() + 2);
 	}
 };
 
 void Object2DComponent()
 {
-	// AC-Engine‚ğ‰Šú‰»‚·‚éB
+	// AC-Engineã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	ace::Engine::Initialize(ace::ToAString("Object2DComponent").c_str(), 640, 480, ace::EngineOption());
 
-	// g—p‚·‚éƒV[ƒ“AƒŒƒCƒ„[AƒIƒuƒWƒFƒNƒgAƒRƒ“ƒ|[ƒlƒ“ƒg‚ğ¶¬‚·‚éB
+	// ä½¿ç”¨ã™ã‚‹ã‚·ãƒ¼ãƒ³ã€ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto scene = std::make_shared<ace::Scene>();
 	auto layer = std::make_shared<ace::Layer2D>();
 	auto obj = std::make_shared<ace::TextureObject2D>();
 	auto component = std::make_shared<RotatingComponent>();
 
-	// ƒV[ƒ“‚ğ•ÏX‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚’å¤‰æ›´ã™ã‚‹ã€‚
 	ace::Engine::ChangeScene(scene);
 
-	// ƒV[ƒ“‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã™ã‚‹ã€‚
 	scene->AddLayer(layer);
 
-	// ƒŒƒCƒ„[‚ÉƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚éB
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
 	layer->AddObject(obj);
 
-	// ƒIƒuƒWƒFƒNƒg‚É‰ñ“]ƒRƒ“ƒ|[ƒlƒ“ƒg‚ğƒRƒ“ƒ|[ƒlƒ“ƒg–¼"Rotate"‚Å’Ç‰Á‚·‚éB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«å›è»¢ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã‚’ã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆå"Rotate"ã§è¿½åŠ ã™ã‚‹ã€‚
 	obj->AddComponent(component, ace::ToAString("Rotate"));
 
-	// ‰æ‘œ‚ğ“Ç‚İ‚ŞB
+	// ç”»åƒã‚’èª­ã¿è¾¼ã‚€ã€‚
 	auto texture = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Block1.png").c_str());
 
-	// ƒIƒuƒWƒFƒNƒg‚É‰æ‘œ‚ğİ’è‚·‚éB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ç”»åƒã‚’è¨­å®šã™ã‚‹ã€‚
 	obj->SetTexture(texture);
 
-	// ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ğİ’è‚·‚éB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’è¨­å®šã™ã‚‹ã€‚
 	obj->SetPosition(ace::Vector2DF(320, 240));
 
-	// AC-Engine‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// AC-Engineã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (ace::Engine::DoEvents())
 	{
-		// AC-Engine‚ğXV‚·‚éB
+		// AC-Engineã‚’æ›´æ–°ã™ã‚‹ã€‚
 		ace::Engine::Update();
 	}
 
-	//AC-Engine‚ÌI—¹ˆ—‚ğ‚·‚éB
+	//AC-Engineã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	ace::Engine::Terminate();
 
 	return;

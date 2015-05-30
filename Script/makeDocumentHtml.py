@@ -61,8 +61,18 @@ def include_basic_sample(ls,mode=''):
                 else:
                     ls_included.append('```\n')
 	    
+                print('include : ' + targetPath)
                 with open(targetPath, mode='r', encoding='utf-8') as f:
-                    ls_included.extend(f.readlines())
+                    for fl in f.readlines():
+                        if ext=='.cpp':
+                            fl = fl.replace(r'void ' + sampleName + '()',r'int main()')
+                            fl = fl.replace(r'return;',r'return 0;')
+
+                        if ext=='.cs':
+                            fl = fl.replace(r'public void Run()','[System.STAThread]\r\n\tstatic void Main(string[] args)')
+                            fl = fl.replace(r' : ISample','')
+
+                        ls_included.append(fl)
                 
                 ls_included.append('\n```\n')
         else:
@@ -71,8 +81,8 @@ def include_basic_sample(ls,mode=''):
     return ls_included
 
 
-def make_document_html():
-  exclude_ext = [".txt", ".psd", ".BAK"]
+def make_document_html(mode):
+  exclude_ext = [".txt", ".psd", ".BAK", ".pptx"]
 
   template="""<!DOCTYPE html>
   <html>
@@ -232,7 +242,7 @@ def make_document_html():
       ls = f.readlines()
     
     #include‚ÌŽÀ‘•
-    ls = include_basic_sample(ls,'')
+    ls = include_basic_sample(ls,mode)
     ls_included_bsample = []
     include_bsample_Pattern = r'\* include_basic_sample (.+)'
     include_bsample_r = re.compile(include_bsample_Pattern)
@@ -252,5 +262,5 @@ def make_document_html():
   aceutils.cd('../')
   
 if __name__ == "__main__":
-  make_document_html()
+  make_document_html('cs')
 

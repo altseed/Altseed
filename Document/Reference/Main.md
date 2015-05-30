@@ -83,7 +83,7 @@
 
 * [フォントジェネレーター](./Tool/FontGenerator.md)
 * [イメージパッケージジェネレーター](./Tool/ImagePackageGenerator.md)
-* [ファイルパッケージングツール](./Tool/FilePackagingTool.md)
+* [ファイルパッケージングジェネレーター](./Tool/FilePackageGenerator.md)
 
 ### 他
 * [リロード](./Misc/Reloading.md)

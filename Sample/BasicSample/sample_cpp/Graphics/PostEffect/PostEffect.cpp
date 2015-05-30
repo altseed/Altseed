@@ -1,20 +1,20 @@
-
+ï»¿
 #include <ace.h>
 
-// —lX‚Èƒ|ƒXƒgƒGƒtƒFƒNƒg‚ğ“K—p‚·‚éƒTƒ“ƒvƒ‹‚Å‚·B
+// æ§˜ã€…ãªãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’é©ç”¨ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã§ã™ã€‚
 void PostEffect()
 {
-	// à–¾
-	printf("Z : ƒOƒŒ[ƒXƒP[ƒ‹’Ç‰Á\n");
-	printf("X : ƒZƒsƒA’²’Ç‰Á\n");
-	printf("C : ƒKƒEƒX‚Ú‚©‚µ’Ç‰Á\n");
-	printf("V : ƒ‰ƒCƒgƒuƒ‹[ƒ€’Ç‰Á\n");
-	printf("A : ‘S‚Ä‚Ìƒ|ƒXƒgƒGƒtƒFƒNƒgÁ‹\n");
+	// èª¬æ˜
+	printf("Z : ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«è¿½åŠ \n");
+	printf("X : ã‚»ãƒ”ã‚¢èª¿è¿½åŠ \n");
+	printf("C : ã‚¬ã‚¦ã‚¹ã¼ã‹ã—è¿½åŠ \n");
+	printf("V : ãƒ©ã‚¤ãƒˆãƒ–ãƒ«ãƒ¼ãƒ è¿½åŠ \n");
+	printf("A : å…¨ã¦ã®ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆæ¶ˆå»\n");
 
-	// AC-Engine‚ğ‰Šú‰»‚·‚éB
+	// AC-Engineã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	ace::Engine::Initialize(ace::ToAString("PostEffect").c_str(), 640, 480, ace::EngineOption());
 
-	// ƒV[ƒ““™‚ğ‰Šú‰»‚·‚é
+	// ã‚·ãƒ¼ãƒ³ç­‰ã‚’åˆæœŸåŒ–ã™ã‚‹
 	auto scene = std::make_shared<ace::Scene>();
 	auto layer = std::make_shared<ace::Layer2D>();
 	auto effectObj = std::make_shared<ace::EffectObject2D>();
@@ -30,33 +30,33 @@ void PostEffect()
 	effectObj->SetEffect(effect);
 	effectObj->Play();
 
-	// AC-Engine‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// AC-Engineã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (ace::Engine::DoEvents())
 	{
-		// AC-Engine‚ğXV‚·‚éB
+		// AC-Engineã‚’æ›´æ–°ã™ã‚‹ã€‚
 		ace::Engine::Update();
 
-		// A‚ğ‰Ÿ‚µ‚½‚çƒ|ƒXƒgƒGƒtƒFƒNƒg‚ğ‘S‚Ä”jŠü‚·‚éB
+		// Aã‚’æŠ¼ã—ãŸã‚‰ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å…¨ã¦ç ´æ£„ã™ã‚‹ã€‚
 		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::A) == ace::KeyState::Push)
 		{
 			layer->ClearPostEffects();
 		}
 
-		// Z‚ğ‰Ÿ‚µ‚½‚çƒOƒŒ[ƒXƒP[ƒ‹‚ğ’Ç‰Á‚·‚éB
+		// Zã‚’æŠ¼ã—ãŸã‚‰ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«ã‚’è¿½åŠ ã™ã‚‹ã€‚
 		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::Z) == ace::KeyState::Push)
 		{
 			auto posteffect = std::make_shared<ace::PostEffectGrayScale>();
 			layer->AddPostEffect(posteffect);
 		}
 
-		// X‚ğ‰Ÿ‚µ‚½‚çƒZƒsƒA‚ğ’Ç‰Á‚·‚éB
+		// Xã‚’æŠ¼ã—ãŸã‚‰ã‚»ãƒ”ã‚¢ã‚’è¿½åŠ ã™ã‚‹ã€‚
 		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::X) == ace::KeyState::Push)
 		{
 			auto posteffect = std::make_shared<ace::PostEffectSepia>();
 			layer->AddPostEffect(posteffect);
 		}
 
-		// C‚ğ‰Ÿ‚µ‚½‚çƒKƒEƒX‚Ú‚©‚µ‚ğ’Ç‰Á‚·‚éB
+		// Cã‚’æŠ¼ã—ãŸã‚‰ã‚¬ã‚¦ã‚¹ã¼ã‹ã—ã‚’è¿½åŠ ã™ã‚‹ã€‚
 		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::C) == ace::KeyState::Push)
 		{
 			auto posteffect = std::make_shared<ace::PostEffectGaussianBlur>();
@@ -64,7 +64,7 @@ void PostEffect()
 			layer->AddPostEffect(posteffect);
 		}
 
-		// V‚ğ‰Ÿ‚µ‚½‚çƒ‰ƒCƒgƒuƒ‹[ƒ€‚ğ’Ç‰Á‚·‚éB
+		// Vã‚’æŠ¼ã—ãŸã‚‰ãƒ©ã‚¤ãƒˆãƒ–ãƒ«ãƒ¼ãƒ ã‚’è¿½åŠ ã™ã‚‹ã€‚
 		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::V) == ace::KeyState::Push)
 		{
 			auto posteffect = std::make_shared<ace::PostEffectLightBloom>();
@@ -75,7 +75,7 @@ void PostEffect()
 		}
 	}
 
-	// AC-Engine‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// AC-Engineã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	ace::Engine::Terminate();
 
 	return;

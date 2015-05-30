@@ -1,34 +1,34 @@
-
+ï»¿
 #include <ace.h>
 
-// Sound‚ğ—p‚¢‚Ä‰¹‚ğ–Â‚ç‚·ƒTƒ“ƒvƒ‹‚Å‚·B
+// Soundã‚’ç”¨ã„ã¦éŸ³ã‚’é³´ã‚‰ã™ã‚µãƒ³ãƒ—ãƒ«ã§ã™ã€‚
 void Sound()
 {
-	// AC-Engine‚ğ‰Šú‰»‚·‚éB
+	// AC-Engineã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	ace::Engine::Initialize(ace::ToAString("Sound").c_str(), 640, 480, ace::EngineOption());
 
-	// ‰¹ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ŞB
+	// éŸ³ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ã€‚
 	std::shared_ptr<ace::SoundSource> se1 = ace::Engine::GetSound()->CreateSoundSource(ace::ToAString("Data/Sound/se1.wav").c_str(), true);
 	std::shared_ptr<ace::SoundSource> bgm1 = ace::Engine::GetSound()->CreateSoundSource(ace::ToAString("Data/Sound/bgm1.ogg").c_str(), false);
 
-	// ‰¹‚ğÄ¶‚·‚éB
+	// éŸ³ã‚’å†ç”Ÿã™ã‚‹ã€‚
 	int id_se1 = ace::Engine::GetSound()->Play(se1);
 	int id_bgm1 = ace::Engine::GetSound()->Play(bgm1);
 
-	// AC-Engine‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// AC-Engineã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (ace::Engine::DoEvents())
 	{
-		// AC-Engine‚ğXV‚·‚éB
+		// AC-Engineã‚’æ›´æ–°ã™ã‚‹ã€‚
 		ace::Engine::Update();
 
-		// ‰¹‚ªÄ¶I—¹‚µ‚Ä‚é‚©’²‚×‚éB
+		// éŸ³ãŒå†ç”Ÿçµ‚äº†ã—ã¦ã‚‹ã‹èª¿ã¹ã‚‹ã€‚
 		if (!ace::Engine::GetSound()->GetIsPlaying(id_bgm1))
 		{
 			break;
 		}
 	}
 
-	// AC-Engine‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// AC-Engineã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	ace::Engine::Terminate();
 
 	return;

@@ -1,41 +1,41 @@
-#include <Base.h>
+ï»¿#include <Base.h>
 
 /**
-@brief	GeometryObject2D‚ÌƒTƒ“ƒvƒ‹B}Œ`‚ğ•\¦‚µ‚Ä‚¢‚Ü‚·B
+@brief	GeometryObject2Dã®ã‚µãƒ³ãƒ—ãƒ«ã€‚å›³å½¢ã‚’è¡¨ç¤ºã—ã¦ã„ã¾ã™ã€‚
 */
 void GeometryObject2D()
 {
-	// AC-Engine‚ğ‰Šú‰»‚·‚é
+	// AC-Engineã‚’åˆæœŸåŒ–ã™ã‚‹
 	ace::Engine::Initialize(ace::ToAString("GeometryObject2D").c_str(), 640, 480, ace::EngineOption());
 
-	// ƒV[ƒ“‚ğ¶¬‚·‚é
+	// ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
 	auto scene = std::make_shared<ace::Scene>();
 
-	// ƒŒƒCƒ„[‚ğ¶¬‚·‚éB
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto layer = std::make_shared<ace::Layer2D>();
 
-	// ƒeƒNƒXƒ`ƒƒ‚ğ‰æ‘œƒtƒ@ƒCƒ‹‚©‚ç¶¬‚·‚éB
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç”»åƒãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ç”Ÿæˆã™ã‚‹ã€‚
 	auto texture = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
 
-	// }Œ`•`‰æƒNƒ‰ƒX‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto geometryObj1 = std::make_shared<ace::GeometryObject2D>();
 	auto geometryObj2 = std::make_shared<ace::GeometryObject2D>();
 	auto geometryObj3 = std::make_shared<ace::GeometryObject2D>();
 
-	// }Œ`•`‰æƒNƒ‰ƒX‚ğƒŒƒCƒ„[‚É’Ç‰Á‚·‚éB
+	// å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã‚’ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ ã™ã‚‹ã€‚
 	layer->AddObject(geometryObj1);
 	layer->AddObject(geometryObj2);
 	layer->AddObject(geometryObj3);
 
-	// ƒŒƒCƒ„[‚ğƒV[ƒ“‚É’Ç‰Á‚·‚éB
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã‚·ãƒ¼ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 	scene->AddLayer(layer);
 
-	// ƒV[ƒ“‚ğ•ÏX‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚’å¤‰æ›´ã™ã‚‹ã€‚
 	ace::Engine::ChangeScene(scene);
 	
-	// ŒÊ‚ğ}Œ`•`‰æƒNƒ‰ƒX1‚É‚Ä•`‰æ‚·‚éB
+	// å¼§ã‚’å›³å½¢æç”»ã‚¯ãƒ©ã‚¹1ã«ã¦æç”»ã™ã‚‹ã€‚
 	{
-		// ŒÊ‚ÌŠOŒaA“àŒaA’¸“_”A’†SˆÊ’uAŠJn’¸“_”Ô†AI—¹’¸“_”Ô†‚ğw’è‚·‚éB
+		// å¼§ã®å¤–å¾„ã€å†…å¾„ã€é ‚ç‚¹æ•°ã€ä¸­å¿ƒä½ç½®ã€é–‹å§‹é ‚ç‚¹ç•ªå·ã€çµ‚äº†é ‚ç‚¹ç•ªå·ã‚’æŒ‡å®šã™ã‚‹ã€‚
 		auto arc = std::make_shared<ace::ArcShape>();
 		arc->SetOuterDiameter(100);
 		arc->SetInnerDiameter(10);
@@ -44,30 +44,30 @@ void GeometryObject2D()
 		arc->SetStartingCorner(90);
 		arc->SetEndingCorner(5);
 
-		// ŒÊ‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚µA‡¬‚·‚éƒeƒNƒXƒ`ƒƒ‚àİ’è‚·‚éB
+		// å¼§ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦è¨­å®šã—ã€åˆæˆã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚‚è¨­å®šã™ã‚‹ã€‚
 		geometryObj1->SetShape(arc);
 		geometryObj1->SetTexture(texture);
 		geometryObj1->SetPosition(ace::Vector2DF(0, 0));
 	}
 
-	// ‹éŒ`‚ğ}Œ`•`‰æƒNƒ‰ƒX2‚É‚Ä•`‰æ‚·‚éB
+	// çŸ©å½¢ã‚’å›³å½¢æç”»ã‚¯ãƒ©ã‚¹2ã«ã¦æç”»ã™ã‚‹ã€‚
 	{
-		// ‹éŒ`‚Ì•`‰æ”ÍˆÍAUV”ÍˆÍ‚ğw’è‚·‚éB
+		// çŸ©å½¢ã®æç”»ç¯„å›²ã€UVç¯„å›²ã‚’æŒ‡å®šã™ã‚‹ã€‚
 		auto rect = std::make_shared<ace::RectangleShape>();
 		rect->SetDrawingArea(ace::RectF(10, 210, 300, 200));
 		rect->SetUV(ace::RectF(0, 0, 0.5, 0.5));
 
-		// ‹éŒ`‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚µA‡¬‚·‚éƒeƒNƒXƒ`ƒƒ‚àİ’è‚·‚éB
+		// çŸ©å½¢ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦è¨­å®šã—ã€åˆæˆã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚‚è¨­å®šã™ã‚‹ã€‚
 		geometryObj2->SetShape(rect);
 		geometryObj2->SetTexture(texture);
 		geometryObj2->SetPosition(ace::Vector2DF(0, 0));
 	}
 
-	// ‘½ŠpŒ`‚ğ}Œ`•`‰æƒNƒ‰ƒX3‚É‚Ä•`‰æ‚·‚éB
+	// å¤šè§’å½¢ã‚’å›³å½¢æç”»ã‚¯ãƒ©ã‚¹3ã«ã¦æç”»ã™ã‚‹ã€‚
 	{
 
 		auto polygon = std::make_shared<ace::PolygonShape>();
-		// ‘½ŠpŒ`‚ğ\¬‚·‚é’¸“_‚ğ’Ç‰Á‚µ‚Ä‚¢‚­Bi¯Œ`‚É‚È‚é‚æ‚¤‚É‚·‚éBj
+		// å¤šè§’å½¢ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹ã‚’è¿½åŠ ã—ã¦ã„ãã€‚ï¼ˆæ˜Ÿå½¢ã«ãªã‚‹ã‚ˆã†ã«ã™ã‚‹ã€‚ï¼‰
 		for (int i = 0; i < 10; ++i)
 		{
 			ace::Vector2DF vec = ace::Vector2DF(1, 0);
@@ -77,19 +77,21 @@ void GeometryObject2D()
 
 		}
 
-		// ‘½ŠpŒ`‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚µA‡¬‚·‚éƒeƒNƒXƒ`ƒƒ‚àİ’èB
+		// å¤šè§’å½¢ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦è¨­å®šã—ã€åˆæˆã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚‚è¨­å®šã€‚
 		geometryObj3->SetShape(polygon);
 		geometryObj3->SetTexture(texture);
 		geometryObj3->SetPosition(ace::Vector2DF(0, 0));
 	}
 
-	// AC-Engine‚ªis‰Â”\‚©ƒ`ƒFƒbƒN‚·‚éB
+	// AC-EngineãŒé€²è¡Œå¯èƒ½ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
 	while (ace::Engine::DoEvents())
 	{
-		// AC-Engine‚ğXV‚·‚éB
+		// AC-Engineã‚’æ›´æ–°ã™ã‚‹ã€‚
 		ace::Engine::Update();
 	}
 
-	// AC-Engine‚ğI—¹‚·‚éB
+	// AC-Engineã‚’çµ‚äº†ã™ã‚‹ã€‚
 	ace::Engine::Terminate();
+
+	return;
 }

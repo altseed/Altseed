@@ -1,9 +1,9 @@
-
+ï»¿
 #include <ace.h>
 
-// Transition‚ğ—p‚¢‚ÄAƒV[ƒ“‚Ì•ÏX‚ÌŒ©‰h‚¦‚ğ•ÏX‚·‚éƒTƒ“ƒvƒ‹‚Å‚·B
+// Transitionã‚’ç”¨ã„ã¦ã€ã‚·ãƒ¼ãƒ³ã®å¤‰æ›´ã®è¦‹æ „ãˆã‚’å¤‰æ›´ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã§ã™ã€‚
 
-// Scene1‚Ì‰æ‘œ‚ğ•\¦‚·‚éƒV[ƒ“
+// Scene1ã®ç”»åƒã‚’è¡¨ç¤ºã™ã‚‹ã‚·ãƒ¼ãƒ³
 class Scene1 : public ace::Scene
 {
 protected:
@@ -12,7 +12,7 @@ public:
 	Scene1();
 };
 
-// Scene2‚Ì‰æ‘œ‚ğ•\¦‚·‚éƒV[ƒ“
+// Scene2ã®ç”»åƒã‚’è¡¨ç¤ºã™ã‚‹ã‚·ãƒ¼ãƒ³
 class Scene2 : public ace::Scene
 {
 protected:
@@ -23,11 +23,11 @@ public:
 
 Scene1::Scene1()
 {
-	// ƒŒƒCƒ„[‚ğ’Ç‰Á‚·‚éB
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã™ã‚‹ã€‚
 	auto layer = std::make_shared<ace::Layer2D>();
 	AddLayer(layer);
 
-	// Scene1‚ğ•`‰æ‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µ‚ÄƒŒƒCƒ„[‚É’Ç‰Á‚·‚éB
+	// Scene1ã‚’æç”»ã™ã‚‹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã¦ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ ã™ã‚‹ã€‚
 	auto obj = std::make_shared<ace::TextureObject2D>();
 	obj->SetTexture(ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Scene1.png").c_str()));
 	layer->AddObject(obj);
@@ -35,7 +35,7 @@ Scene1::Scene1()
 
 void Scene1::OnUpdated()
 {
-	// ƒ}ƒEƒX‚ª¶ƒNƒŠƒbƒN‚³‚ê‚½‚ÉƒtƒF[ƒh•t‚«‚ÅScene2‚É‘JˆÚ‚·‚éB
+	// ãƒã‚¦ã‚¹ãŒå·¦ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸæ™‚ã«ãƒ•ã‚§ãƒ¼ãƒ‰ä»˜ãã§Scene2ã«é·ç§»ã™ã‚‹ã€‚
 	if (ace::Engine::GetMouse()->GetLeftButton()->GetButtonState() == ace::MouseButtonState::Push)
 	{
 		auto scene2 = std::make_shared<Scene2>();
@@ -45,11 +45,11 @@ void Scene1::OnUpdated()
 
 Scene2::Scene2()
 {
-	// ƒŒƒCƒ„[‚ğ’Ç‰Á‚·‚éB
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã™ã‚‹ã€‚
 	auto layer = std::make_shared<ace::Layer2D>();
 	AddLayer(layer);
 
-	// Scene2‚ğ•`‰æ‚·‚éƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚µ‚ÄƒŒƒCƒ„[‚É’Ç‰Á‚·‚éB
+	// Scene2ã‚’æç”»ã™ã‚‹ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã—ã¦ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ ã™ã‚‹ã€‚
 	auto obj = std::make_shared<ace::TextureObject2D>();
 	obj->SetTexture(ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Scene2.png").c_str()));
 	layer->AddObject(obj);
@@ -57,7 +57,7 @@ Scene2::Scene2()
 
 void Scene2::OnUpdated()
 {
-	// ƒ}ƒEƒX‚ª¶ƒNƒŠƒbƒN‚³‚ê‚½‚ÉScene1‚É‘JˆÚ‚·‚éB
+	// ãƒã‚¦ã‚¹ãŒå·¦ã‚¯ãƒªãƒƒã‚¯ã•ã‚ŒãŸæ™‚ã«Scene1ã«é·ç§»ã™ã‚‹ã€‚
 	if (ace::Engine::GetMouse()->GetLeftButton()->GetButtonState() == ace::MouseButtonState::Push)
 	{
 		auto& scene1 = std::make_shared<Scene1>();
@@ -67,21 +67,21 @@ void Scene2::OnUpdated()
 
 void Transition()
 {
-	//AC-Engine‚ğ‰Šú‰»‚·‚éB
+	//AC-Engineã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	ace::Engine::Initialize(ace::ToAString("Transition").c_str(), 640, 480, ace::EngineOption());
 
-	// ƒV[ƒ“‚ğScene1‚É•ÏX‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚’Scene1ã«å¤‰æ›´ã™ã‚‹ã€‚
 	auto scene = std::make_shared<Scene1>();
 	ace::Engine::ChangeScene(scene);
 
-	// AC-Engine‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// AC-Engineã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (ace::Engine::DoEvents())
 	{
-		// AC-Engine‚ğXV‚·‚éB
+		// AC-Engineã‚’æ›´æ–°ã™ã‚‹ã€‚
 		ace::Engine::Update();
 	}
 
-	//AC-Engine‚ÌI—¹ˆ—‚ğ‚·‚éB
+	//AC-Engineã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	ace::Engine::Terminate();
 
 	return;

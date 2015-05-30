@@ -1,87 +1,87 @@
-#include <ace.h>
+ï»¿#include <ace.h>
 
-// Collision2D‚ÌƒTƒ“ƒvƒ‹Bƒ}ƒEƒX‚É‚æ‚Á‚Ä‘€ì‚·‚é‰~‚ª‚¢‚¸‚ê‚©‚ÌƒIƒuƒWƒFƒNƒg‚Éƒqƒbƒg‚µ‚½‚ç‰~‚ªÔ‚­•Ï‰»‚µ‚Ü‚·B
+// Collision2Dã®ã‚µãƒ³ãƒ—ãƒ«ã€‚ãƒã‚¦ã‚¹ã«ã‚ˆã£ã¦æ“ä½œã™ã‚‹å††ãŒã„ãšã‚Œã‹ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ãƒ’ãƒƒãƒˆã—ãŸã‚‰å††ãŒèµ¤ãå¤‰åŒ–ã—ã¾ã™ã€‚
 void Collision2D()
 {
-	// AC-Engine‚ğ‰Šú‰»‚·‚éB
+	// AC-Engineã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	ace::Engine::Initialize(ace::ToAString("GeometryObject2D").c_str(), 640, 480, ace::EngineOption());
 
-	// }Œ`•`‰æƒNƒ‰ƒX‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	std::shared_ptr<ace::GeometryObject2D> geometryObj0 = std::make_shared<ace::GeometryObject2D>();
 	std::shared_ptr<ace::GeometryObject2D> geometryObj1 = std::make_shared<ace::GeometryObject2D>();
 	std::shared_ptr<ace::GeometryObject2D> geometryObj2 = std::make_shared<ace::GeometryObject2D>();
 	std::shared_ptr<ace::GeometryObject2D> geometryObj3 = std::make_shared<ace::GeometryObject2D>();
 
-	// ƒ}ƒEƒX‚É‚æ‚Á‚Ä“®‚©‚·‰~B
+	// ãƒã‚¦ã‚¹ã«ã‚ˆã£ã¦å‹•ã‹ã™å††ã€‚
 	std::shared_ptr<ace::CircleShape> selfCircle;
 
-	// ’â~‚µ‚Ä‚¢‚é‰~AOŠpŒ`A‹éŒ`B
+	// åœæ­¢ã—ã¦ã„ã‚‹å††ã€ä¸‰è§’å½¢ã€çŸ©å½¢ã€‚
 	std::shared_ptr<ace::CircleShape> circle;
 	std::shared_ptr<ace::TriangleShape> triangle;
 	std::shared_ptr<ace::RectangleShape> rect;
 
-	// ƒV[ƒ“‚ğ¶¬‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto scene = std::make_shared<ace::Scene>();
 
-	// ƒV[ƒ“‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã™ã‚‹ã€‚
 	auto layer = std::make_shared<ace::Layer2D>();
 
 
-	// }Œ`•`‰æƒNƒ‰ƒX‚ğƒŒƒCƒ„[‚É’Ç‰Á‚·‚éB
+	// å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã‚’ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ ã™ã‚‹ã€‚
 	layer->AddObject(geometryObj0);
 	layer->AddObject(geometryObj1);
 	layer->AddObject(geometryObj2);
 	layer->AddObject(geometryObj3);
 
-	// ƒŒƒCƒ„[‚ğ’Ç‰Á‚·‚éB
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã™ã‚‹ã€‚
 	scene->AddLayer(layer);
 
-	// ƒV[ƒ“‚ğØ‚è‘Ö‚¦‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ã€‚
 	ace::Engine::ChangeScene(scene);
 
-	// ƒ}ƒEƒX‚É‚æ‚Á‚Ä“®‚©‚·‰~‚ÌŒ`ó‚Æ•`‰æ‚Ìİ’è‚ğs‚¤B
+	// ãƒã‚¦ã‚¹ã«ã‚ˆã£ã¦å‹•ã‹ã™å††ã®å½¢çŠ¶ã¨æç”»ã®è¨­å®šã‚’è¡Œã†ã€‚
 	{
-		// ‰~‚ÌŠOŒaA“àŒaA’¸“_”A’†SˆÊ’u‚ğw’è‚·‚éB
+		// å††ã®å¤–å¾„ã€å†…å¾„ã€é ‚ç‚¹æ•°ã€ä¸­å¿ƒä½ç½®ã‚’æŒ‡å®šã™ã‚‹ã€‚
 		selfCircle = std::make_shared<ace::CircleShape>();
 		selfCircle->SetOuterDiameter(100);
 		selfCircle->SetInnerDiameter(0);
 		selfCircle->SetNumberOfCorners(96);
 		selfCircle->SetPosition(ace::Vector2DF(100, 50));
 
-		// ‰~‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚ÄÅ‘O–Ê‚É•`‰æ‚³‚ê‚é‚æ‚¤‚Éİ’è‚·‚éB
+		// å††ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦æœ€å‰é¢ã«æç”»ã•ã‚Œã‚‹ã‚ˆã†ã«è¨­å®šã™ã‚‹ã€‚
 		geometryObj0->SetShape(selfCircle);
 		geometryObj0->SetPosition(ace::Vector2DF(0, 0));
 		geometryObj0->SetDrawingPriority(1);
 	}
 
-	// ’â~‚µ‚Ä‚¢‚é‰~‚ÌŒ`ó‚Æ•`‰æ‚Ìİ’è‚ğs‚¤B
+	// åœæ­¢ã—ã¦ã„ã‚‹å††ã®å½¢çŠ¶ã¨æç”»ã®è¨­å®šã‚’è¡Œã†ã€‚
 	{
-		// ‰~‚ÌŠOŒaA“àŒaA’¸“_”A’†SˆÊ’u‚ğw’è‚·‚éB
+		// å††ã®å¤–å¾„ã€å†…å¾„ã€é ‚ç‚¹æ•°ã€ä¸­å¿ƒä½ç½®ã‚’æŒ‡å®šã™ã‚‹ã€‚
 		circle = std::make_shared<ace::CircleShape>();
 		circle->SetOuterDiameter(100);
 		circle->SetInnerDiameter(0);
 		circle->SetNumberOfCorners(96);
 		circle->SetPosition(ace::Vector2DF(100, 50));
 
-		// ‰~‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚·‚éB
+		// å††ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦è¨­å®šã™ã‚‹ã€‚
 		geometryObj1->SetShape(circle);
 		geometryObj1->SetPosition(ace::Vector2DF(0, 0));
 	}
 
-	// ’â~‚µ‚Ä‚¢‚éOŠpŒ`‚ÌŒ`ó‚Æ•`‰æ‚Ìİ’è‚ğs‚¤B
+	// åœæ­¢ã—ã¦ã„ã‚‹ä¸‰è§’å½¢ã®å½¢çŠ¶ã¨æç”»ã®è¨­å®šã‚’è¡Œã†ã€‚
 	{
-		// OŠpŒ`‚ÌŠe’¸“_‚ÌˆÊ’u‚ğw’è‚µ‚Ü‚·B
+		// ä¸‰è§’å½¢ã®å„é ‚ç‚¹ã®ä½ç½®ã‚’æŒ‡å®šã—ã¾ã™ã€‚
 		triangle = std::make_shared<ace::TriangleShape>();
 		triangle->SetPointByIndex(ace::Vector2DF(400, 350), 0);
 		triangle->SetPointByIndex(ace::Vector2DF(300, 450), 1);
 		triangle->SetPointByIndex(ace::Vector2DF(540, 450), 2);
 
-		// OŠpŒ`‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚·‚éB
+		// ä¸‰è§’å½¢ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦è¨­å®šã™ã‚‹ã€‚
 		geometryObj2->SetShape(triangle);
 		geometryObj2->SetPosition(ace::Vector2DF(0, 0));
 	}
 
-	// ’â~‚µ‚Ä‚¢‚é‹éŒ`‚ÌŒ`ó‚Æ•`‰æ‚Ìİ’è‚ğs‚¤B
+	// åœæ­¢ã—ã¦ã„ã‚‹çŸ©å½¢ã®å½¢çŠ¶ã¨æç”»ã®è¨­å®šã‚’è¡Œã†ã€‚
 	{
 		rect = std::make_shared<ace::RectangleShape>();
 		rect->SetDrawingArea(ace::RectF(10, 110, 300, 200));
@@ -92,15 +92,15 @@ void Collision2D()
 	}
 
 
-	// AC-Engine‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// AC-Engineã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (ace::Engine::DoEvents())
 	{
 		{
-			// ƒ}ƒEƒX‚É‚æ‚Á‚Ä§Œä‚³‚ê‚é‰~‚Ì’†SˆÊ’u‚ğƒ}ƒEƒX‚ÌˆÊ’u‚Æ‚·‚éB
+			// ãƒã‚¦ã‚¹ã«ã‚ˆã£ã¦åˆ¶å¾¡ã•ã‚Œã‚‹å††ã®ä¸­å¿ƒä½ç½®ã‚’ãƒã‚¦ã‚¹ã®ä½ç½®ã¨ã™ã‚‹ã€‚
 			selfCircle->SetPosition(ace::Engine::GetMouse()->GetPosition());
 
-			// ’â~‚µ‚Ä‚¢‚é‰~AOŠpŒ`A‹éŒ`‚Éƒ}ƒEƒX‚É‚æ‚Á‚Ä“®‚­‰~‚ªÕ“Ë‚µ‚½‚É‰~‚ğÔ‚­•Ï‰»‚³‚¹‚éB
-			// ‚»‚¤‚Å‚È‚¢‚Í”’‚­•Ï‰»‚³‚¹‚éB
+			// åœæ­¢ã—ã¦ã„ã‚‹å††ã€ä¸‰è§’å½¢ã€çŸ©å½¢ã«ãƒã‚¦ã‚¹ã«ã‚ˆã£ã¦å‹•ãå††ãŒè¡çªã—ãŸæ™‚ã«å††ã‚’èµ¤ãå¤‰åŒ–ã•ã›ã‚‹ã€‚
+			// ãã†ã§ãªã„æ™‚ã¯ç™½ãå¤‰åŒ–ã•ã›ã‚‹ã€‚
 			if (selfCircle->GetIsCollidedWith(circle)
 				|| selfCircle->GetIsCollidedWith(triangle)
 				|| selfCircle->GetIsCollidedWith(rect))
@@ -114,11 +114,12 @@ void Collision2D()
 
 			printf("%d",geometryObj1->GetDrawingPriority());
 		}
-		// AC-Engine‚ğXV‚·‚éB
+		// AC-Engineã‚’æ›´æ–°ã™ã‚‹ã€‚
 		ace::Engine::Update();
 	}
 
-	// AC-Engine‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// AC-Engineã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	ace::Engine::Terminate();
 
+	return;
 }
