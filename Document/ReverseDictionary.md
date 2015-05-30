@@ -36,3 +36,6 @@
 
 [ジョイスティックの状態を取得する](./ReverseDictionary/Joystick.md)
 
+### 他
+
+パッケージからファイルを読み込む
