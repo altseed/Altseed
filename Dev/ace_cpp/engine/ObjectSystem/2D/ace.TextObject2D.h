@@ -4,6 +4,9 @@
 
 namespace ace
 {
+	/**
+	@brief	文字列の描画を扱うクラス。
+	*/
 	class TextObject2D : public Object2D
 	{
 	private:

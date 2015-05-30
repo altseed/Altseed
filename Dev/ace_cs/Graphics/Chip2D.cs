@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ace
 {
     /// <summary>
-    /// マップオブジェクト2Dで描画するテクスチャの情報を扱うクラス。
+    /// マップオブジェクト2Dで描画するテクスチャの情報を扱うチップクラス。
     /// </summary>
     public class Chip2D : IDestroy
     {

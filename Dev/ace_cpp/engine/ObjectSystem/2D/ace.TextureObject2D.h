@@ -4,6 +4,9 @@
 
 namespace ace
 {
+	/**
+	@brief	テクスチャを描画するクラス。
+	*/
 	class TextureObject2D : public Object2D
 	{
 	private:

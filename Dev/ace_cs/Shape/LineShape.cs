@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+
+    /// <summary>
+    /// 図形としての線分を扱うクラス。
+    /// </summary>
     public class LineShape : Shape,IDestroy
     {
         internal override swig.CoreShape CoreShape

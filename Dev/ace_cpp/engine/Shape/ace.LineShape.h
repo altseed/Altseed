@@ -4,6 +4,9 @@
 
 namespace ace
 {
+	/**
+	@brief	図形としての線分を扱うクラス。
+	*/
 	class LineShape :public Shape
 	{
 	private:

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+    /// <summary>
+    /// 図形としての弧を扱うクラス。
+    /// </summary>
     public class ArcShape : Shape
     {
         internal override swig.CoreShape CoreShape

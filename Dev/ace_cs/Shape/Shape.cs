@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+    /// <summary>
+    /// 当たり判定や図形描画に用いられる図形を扱う抽象クラス。
+    /// </summary>
     public abstract class Shape : IDestroy
     {
         /// <summary>

@@ -5,6 +5,9 @@
 
 namespace ace
 {
+	/**
+	@brief	テクスチャをチップとして高速に描画するクラス。
+	*/
 	class MapObject2D : public Object2D
 	{
 		friend class Chip2D;

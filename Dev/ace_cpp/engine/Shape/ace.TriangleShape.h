@@ -4,6 +4,9 @@
 
 namespace ace
 {
+	/**
+	@brief	図形としての三角形を扱うクラス。
+	*/
 	class TriangleShape :public Shape
 	{
 	private:

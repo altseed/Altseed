@@ -4,6 +4,9 @@
 
 namespace ace
 {
+	/**
+	@brief	図形としての弧を扱うクラス。
+	*/
 	class ArcShape :public Shape
 	{
 	private:

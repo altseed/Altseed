@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+
+    /// <summary>
+    /// 図形としての矩形を扱うクラス。
+    /// </summary>
     public class RectangleShape : Shape
     {
         internal override swig.CoreShape CoreShape

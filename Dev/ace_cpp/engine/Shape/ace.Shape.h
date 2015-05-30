@@ -7,6 +7,9 @@ namespace ace
 	class GeometryObject2D;
 	class Layer2D;
 
+	/**
+	@brief	当たり判定や図形描画に用いられる図形を扱うクラス。
+	*/
 	class Shape
 	{
 		friend class GeometryObject2D;

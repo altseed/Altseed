@@ -6,6 +6,9 @@ namespace ace
 {
 	class MapObject2D;
 
+	/**
+	@brief	マップオブジェクト2Dで描画するテクスチャの情報を扱うチップクラス。
+	*/
 	class Chip2D
 	{
 		friend class MapObject2D;

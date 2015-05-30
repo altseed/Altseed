@@ -4,6 +4,9 @@
 
 namespace ace
 {
+	/**
+	@brief	図形としての多角形を扱うクラス。
+	*/
 	class PolygonShape :public Shape
 	{
 	private:

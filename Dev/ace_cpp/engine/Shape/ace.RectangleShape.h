@@ -4,6 +4,9 @@
 
 namespace ace
 {
+	/**
+	@brief	図形としての矩形を扱うクラス。
+	*/
 	class RectangleShape :public Shape
 	{
 	private:

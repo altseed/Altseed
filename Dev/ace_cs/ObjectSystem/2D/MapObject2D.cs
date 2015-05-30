@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+    /// <summary>
+    /// テクスチャをチップとして高速に描画するクラス。
+    /// </summary>
     public class MapObject2D : Object2D, IDestroy
     {
 

@@ -5,6 +5,9 @@
 
 namespace ace
 {
+	/**
+	@brief	図形の描画を扱うクラス。
+	*/
 	class GeometryObject2D : public Object2D
 	{
 	private:

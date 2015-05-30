@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+
+    /// <summary>
+    /// 図形としての多角形を扱うクラス。
+    /// </summary>
     public class PolygonShape : Shape
     {
         internal override swig.CoreShape CoreShape
@@ -56,7 +60,7 @@ namespace ace
         #endregion
 
         /// <summary>
-        /// ポリゴンを構成する頂点を追加する。
+        /// 多角形を構成する頂点を追加する。
         /// </summary>
         /// <param name="vertex">新規に追加する頂点の座標</param>
         public void AddVertex(Vector2DF vertex)
@@ -65,7 +69,7 @@ namespace ace
         }
 
         /// <summary>
-        /// ポリゴンを構成する頂点を全て削除する。
+        /// 多角形を構成する頂点を全て削除する。
         /// </summary>
         public void ClearVertexes()
         {
@@ -73,9 +77,9 @@ namespace ace
         }
 
         /// <summary>
-        /// ポリゴンを構成する頂点の数量を取得する。
+        /// 多角形を構成する頂点の数量を取得する。
         /// </summary>
-        /// <returns>ポリゴンを構成する頂点の数量</returns>
+        /// <returns>多角形を構成する頂点の数量</returns>
         public int GetVertexesNum()
         {
             return corePolygon.GetVertexesNum();

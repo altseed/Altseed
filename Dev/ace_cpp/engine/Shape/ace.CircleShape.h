@@ -4,6 +4,9 @@
 
 namespace ace
 {
+	/**
+	@brief	図形としての円を扱うクラス。
+	*/
 	class CircleShape :public Shape
 	{
 	private:

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ace
 {
     /// <summary>
-    /// テクスチャと描画パラメータを用いて、更新・描画処理を行う単位となる2Dオブジェクトの機能を提供するクラス
+    /// 図形の描画を扱うクラス。
     /// </summary>
     public class GeometryObject2D : Object2D, IDestroy
     {

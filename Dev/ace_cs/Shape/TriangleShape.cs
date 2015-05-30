@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace ace
 {
+    /// <summary>
+    /// 図形としての三角形を扱うクラス。
+    /// </summary>
     public class TriangleShape : Shape
     {
         internal override swig.CoreShape CoreShape
