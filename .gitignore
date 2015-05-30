@@ -320,3 +320,6 @@ Dev/bin/Data/Text/sazanami-gothic.ttf
 
 
 /Dev/FontGenerator/FontGeneratorTest/result
+Sample/BasicSample/cpp/include/ace.h
+Sample/BasicSample/bin/ace_cs.xml
+Sample/BasicSample/bin/Log.html
