@@ -12,8 +12,8 @@ C#版の導入方法について説明しています。
 ダウンロードが終わったら、「Visual Studio」をインストールします。
 
 ### AC-Engineのダウンロード
-[Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)　からACE_CS～.7zをダウンロードします。
-7-Zipファイルを解凍できる解凍ソフトを用いて解凍します。
+[AC-Engine](https://github.com/ac-engine/ac-engine/releases/download/20150530/ACE_CS_20150530_WIN.zip)　をダウンロードします。
+ダウンロードしたファイルを解凍します。
 
 開発には以下のファイルを使用します。
 

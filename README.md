@@ -3,9 +3,8 @@
 
 AC-EngineはC++、C#対応ゲームエンジンです。
 
-**最新版 2015/04/15**
-
-* [Download](https://drive.google.com/folderview?id=0B1gZCvEfcQAiMjhaU1VZOVRTUWM&usp=sharing)
+**最新版 2015/05/30**
+* [ウェブサイト](http://ac-engine.github.io/)
 * [導入方法(C++版、Windows)](Document/HowToIntroduce/Windows_CPP.md)
 * [導入方法(C#版、Windows)](Document/HowToIntroduce/Windows_CS.md)
 * Mac、Linuxの場合、自分でソースコードからコンパイルする必要があります。
@@ -60,5 +59,3 @@ githubにバグや要望を報告する
 
 [GoogleGroup](https://groups.google.com/forum/#!forum/ac-engine)
 
-### 他
-Java版のswigファイルには[jirrlicht](https://code.google.com/p/jirrlicht/)のコードを一部使用しています。
