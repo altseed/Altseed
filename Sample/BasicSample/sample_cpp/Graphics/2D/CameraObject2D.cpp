@@ -1,32 +1,32 @@
-
+ï»¿
 #include <ace.h>
 
-// CameraObject2D‚ÌƒTƒ“ƒvƒ‹Bƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚Ìæ‚ğŠg‘å•\¦‚µ‚Ä‚¢‚Ü‚·B
+// CameraObject2Dã®ã‚µãƒ³ãƒ—ãƒ«ã€‚ãƒã‚¦ã‚¹ãƒã‚¤ãƒ³ã‚¿ã®å…ˆã‚’æ‹¡å¤§è¡¨ç¤ºã—ã¦ã„ã¾ã™ã€‚
 void CameraObject2D()
 {
-	// AC-Engine‚ğ‰Šú‰»‚·‚éB
+	// AC-Engineã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	ace::Engine::Initialize(ace::ToAString("CameraObject2D").c_str(), 640, 480, ace::EngineOption());
 
-	// ƒV[ƒ“‚ğ¶¬‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto scene = std::make_shared<ace::Scene>();
 
-	// ƒŒƒCƒ„[‚ğ¶¬‚·‚éB
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto layer = std::make_shared<ace::Layer2D>();
 
-	// ƒV[ƒ“‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã™ã‚‹ã€‚
 	scene->AddLayer(layer);
 
-	// ƒV[ƒ“‚ğØ‚è‘Ö‚¦‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹ã€‚
 	ace::Engine::ChangeScene(scene);
 
-	// ‰æ–Ê‚ÉƒeƒNƒXƒ`ƒƒ‚ğ•\¦‚·‚éƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+	// ç”»é¢ã«ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¡¨ç¤ºã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	{
 		auto tex0 = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
 		auto obj0 = std::make_shared<ace::TextureObject2D>();
 		layer->AddObject(obj0);
 	}
 
-	// ‰æ–Ê‚ÉƒeƒNƒXƒ`ƒƒ‚ğ•\¦‚·‚éƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+	// ç”»é¢ã«ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¡¨ç¤ºã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	{
 		auto baseCameraObj = std::make_shared<ace::CameraObject2D>();
 		baseCameraObj->SetSrc(ace::RectI(0, 0, 640, 480));
@@ -34,27 +34,27 @@ void CameraObject2D()
 		layer->AddObject(baseCameraObj);
 	}
 
-	// ƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚Ìü•Ó‚ğŠg‘å•\¦‚·‚éƒJƒƒ‰‚ğ¶¬‚·‚éB
+	// ãƒã‚¦ã‚¹ãƒã‚¤ãƒ³ã‚¿ã®å‘¨è¾ºã‚’æ‹¡å¤§è¡¨ç¤ºã™ã‚‹ã‚«ãƒ¡ãƒ©ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto cameraObj = std::make_shared<ace::CameraObject2D>();
 	layer->AddObject(cameraObj);
 
-	// AC-Engine‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// AC-Engineã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (ace::Engine::DoEvents())
 	{
-		// ƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚ğæ“¾‚·‚éB
+		// ãƒã‚¦ã‚¹ãƒã‚¤ãƒ³ã‚¿ã®ä½ç½®ã‚’å–å¾—ã™ã‚‹ã€‚
 		auto pos = ace::Engine::GetMouse()->GetPosition();
 
-		// Šg‘å—pƒJƒƒ‰‚Ì•`‰æŒ³‚ğw’è‚·‚éB
+		// æ‹¡å¤§ç”¨ã‚«ãƒ¡ãƒ©ã®æç”»å…ƒã‚’æŒ‡å®šã™ã‚‹ã€‚
 		cameraObj->SetSrc(ace::RectI(pos.X - 25, pos.Y - 25, 50, 50));
 
-		// ƒ|ƒCƒ“ƒ^‚ğ’†S‚É100x100‚ÌŠg‘å‰æ‘œ‚ğ•\¦‚·‚éB
+		// ãƒã‚¤ãƒ³ã‚¿ã‚’ä¸­å¿ƒã«100x100ã®æ‹¡å¤§ç”»åƒã‚’è¡¨ç¤ºã™ã‚‹ã€‚
 		cameraObj->SetDst(ace::RectI(pos.X - 50, pos.Y - 50, 100, 100));
 
-		// AC-Engine‚ğXV‚·‚éB
+		// AC-Engineã‚’æ›´æ–°ã™ã‚‹ã€‚
 		ace::Engine::Update();
 	}
 
-	// AC-Engine‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// AC-Engineã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	ace::Engine::Terminate();
 
 	return;

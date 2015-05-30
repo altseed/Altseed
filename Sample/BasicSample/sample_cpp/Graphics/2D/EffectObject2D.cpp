@@ -1,51 +1,51 @@
-
+ï»¿
 #include <ace.h>
 
-// EffectObject2D‚ÌƒTƒ“ƒvƒ‹BƒGƒtƒFƒNƒg‚ğ•\¦‚µ‚Ä‚¢‚Ü‚·B
+// EffectObject2Dã®ã‚µãƒ³ãƒ—ãƒ«ã€‚ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’è¡¨ç¤ºã—ã¦ã„ã¾ã™ã€‚
 void EffectObject2D()
 {
-	// AC-Engine‚ğ‰Šú‰»‚·‚éB
+	// AC-Engineã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	ace::Engine::Initialize(ace::ToAString("EffectObject2D").c_str(), 640, 480, ace::EngineOption());
 
-	// ƒV[ƒ“‚ğ¶¬‚·‚é
+	// ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
 	auto scene = std::make_shared<ace::Scene>();
 
-	// ƒŒƒCƒ„[‚ğ¶¬‚·‚é
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹
 	auto layer = std::make_shared<ace::Layer2D>();
 
-	// ƒV[ƒ“‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚·‚é
+	// ã‚·ãƒ¼ãƒ³ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã™ã‚‹
 	scene->AddLayer(layer);
 
-	// ƒV[ƒ“‚ğØ‚è‘Ö‚¦‚é
+	// ã‚·ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
 	ace::Engine::ChangeScene(scene);
 
-	// ƒGƒtƒFƒNƒg‚ğ“Ç‚İ‚Ş
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’èª­ã¿è¾¼ã‚€
 	auto effect = ace::Engine::GetGraphics()->CreateEffect(ace::ToAString("Data/Effect/magic.efk").c_str());
 
-	// ƒGƒtƒFƒNƒgƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚é
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹
 	auto effectObj = std::make_shared<ace::EffectObject2D>();
 
-	// ƒGƒtƒFƒNƒg‚ğƒŒƒCƒ„[‚É’Ç‰Á‚·‚é
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ ã™ã‚‹
 	layer->AddObject(effectObj);
 
-	// ƒGƒtƒFƒNƒg‚ÌˆÊ’uA‘å‚«‚³‚ğw’è‚·‚é
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã®ä½ç½®ã€å¤§ãã•ã‚’æŒ‡å®šã™ã‚‹
 	effectObj->SetPosition(ace::Vector2DF(320, 240));
 	effectObj->SetScale(ace::Vector2DF(50, 50));
 	
-	// ƒGƒtƒFƒNƒg‚ğİ’è‚·‚é
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’è¨­å®šã™ã‚‹
 	effectObj->SetEffect(effect);
 
-	// ƒGƒtƒFƒNƒg‚ğÄ¶‚·‚é
+	// ã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’å†ç”Ÿã™ã‚‹
 	effectObj->Play();
 
-	// AC-Engine‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// AC-Engineã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (ace::Engine::DoEvents())
 	{
-		// AC-Engine‚ğXV‚·‚éB
+		// AC-Engineã‚’æ›´æ–°ã™ã‚‹ã€‚
 		ace::Engine::Update();
 	}
 
-	// AC-Engine‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// AC-Engineã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	ace::Engine::Terminate();
 
 	return;

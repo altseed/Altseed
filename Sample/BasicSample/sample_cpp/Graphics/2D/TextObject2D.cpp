@@ -1,50 +1,50 @@
-
+ï»¿
 #include <ace.h>
 
-// TextObject2D‚ÌƒTƒ“ƒvƒ‹BTextObject2D‚ğ—p‚¢‚Ä•¶š‚ğ•\¦‚µ‚Ä‚¢‚Ü‚·B
+// TextObject2Dã®ã‚µãƒ³ãƒ—ãƒ«ã€‚TextObject2Dã‚’ç”¨ã„ã¦æ–‡å­—ã‚’è¡¨ç¤ºã—ã¦ã„ã¾ã™ã€‚
 void TextObject2D()
 {
-	// AC-Engine‚ğ‰Šú‰»‚·‚éB
+	// AC-Engineã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	ace::Engine::Initialize(ace::ToAString("TextObject2D").c_str(), 640, 480, ace::EngineOption());
 
-	// ƒV[ƒ“‚ğ¶¬‚·‚é
+	// ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
 	auto scene = std::make_shared<ace::Scene>();
 
-	// ƒŒƒCƒ„[‚ğ¶¬‚·‚é
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹
 	auto layer = std::make_shared<ace::Layer2D>();
 
-	// ƒV[ƒ“‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚·‚é
+	// ã‚·ãƒ¼ãƒ³ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã™ã‚‹
 	scene->AddLayer(layer);
 
-	// ƒV[ƒ“‚ğØ‚è‘Ö‚¦‚é
+	// ã‚·ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
 	ace::Engine::ChangeScene(scene);
 
-	// ƒtƒHƒ“ƒg‚ğ¶¬‚·‚é
+	// ãƒ•ã‚©ãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹
 	auto smallFont = ace::Engine::GetGraphics()->CreateFont(ace::ToAString("Data/Font/small.aff").c_str());
 
-	// TextObject2D‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚é
+	// TextObject2Dã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹
 	auto smallObj = std::make_shared<ace::TextObject2D>();
 
-	// •`‰æ‚Ég‚¤ƒtƒHƒ“ƒg‚ğİ’è‚·‚é
+	// æç”»ã«ä½¿ã†ãƒ•ã‚©ãƒ³ãƒˆã‚’è¨­å®šã™ã‚‹
 	smallObj->SetFont(smallFont);
 
-	// •`‰æˆÊ’u‚ğw’è‚·‚é
+	// æç”»ä½ç½®ã‚’æŒ‡å®šã™ã‚‹
 	smallObj->SetPosition(ace::Vector2DF(100, 100));
 
-	// •`‰æ‚·‚é•¶š—ñ‚ğw’è‚·‚é
-	smallObj->SetText(ace::ToAString("•¶š—ñƒTƒ“ƒvƒ‹1").c_str());
+	// æç”»ã™ã‚‹æ–‡å­—åˆ—ã‚’æŒ‡å®šã™ã‚‹
+	smallObj->SetText(ace::ToAString("æ–‡å­—åˆ—ã‚µãƒ³ãƒ—ãƒ«1").c_str());
 
-	//ƒŒƒCƒ„[‚Ö’Ç‰Á‚·‚é
+	//ãƒ¬ã‚¤ãƒ¤ãƒ¼ã¸è¿½åŠ ã™ã‚‹
 	layer->AddObject(smallObj);
 
-	// AC-Engine‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// AC-Engineã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (ace::Engine::DoEvents())
 	{
-		// AC-Engine‚ğXV‚·‚éB
+		// AC-Engineã‚’æ›´æ–°ã™ã‚‹ã€‚
 		ace::Engine::Update();
 	}
 
-	// AC-Engine‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// AC-Engineã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	ace::Engine::Terminate();
 
 	return;

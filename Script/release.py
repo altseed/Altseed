@@ -47,8 +47,8 @@ def copyTool(type, targetDir):
 		aceutils.copy(r'Dev/bin/FilePackageGenerator.GUI.exe.config', toolDir)
 		aceutils.copy(r'Dev/bin/FilePackageGeneratorCore.dll', toolDir)
 
-def makeDocument(type, targetDir):
-	makeDocumentHtml.make_document_html()
+def makeDocument(type, targetDir,mode):
+	makeDocumentHtml.make_document_html(mode)
 	aceutils.copytree('DocumentHtml',targetDir + '/Document', True)
 	aceutils.rmdir('DocumentHtml')
 
@@ -66,7 +66,7 @@ def release_cpp():
 
 	copyTool(type, targetDir)
 
-	makeDocument(type, targetDir)
+	makeDocument(type, targetDir,'cpp')
 
 	# Sample
 	sampleDir = targetDir+r'/Sample/BasicSample/'
@@ -140,7 +140,7 @@ def release_cs():
 
 	copyTool(type, targetDir)
 
-	makeDocument(type, targetDir)
+	makeDocument(type, targetDir,'cs')
 
 	# Sample
 	sampleDir = targetDir+r'/Sample/BasicSample/'

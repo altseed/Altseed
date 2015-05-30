@@ -1,66 +1,66 @@
-
+ï»¿
 #include <ace.h>
 
-// MapObject2D‚ÌƒTƒ“ƒvƒ‹B•~‚«‹l‚ß‚ç‚ê‚½ƒ^ƒCƒ‹‚ğƒJƒƒ‰‚ÅB‰e‚µ‚Ä‰æ–Ê‚É•\¦‚µ‚Ä‚¢‚Ü‚·B
+// MapObject2Dã®ã‚µãƒ³ãƒ—ãƒ«ã€‚æ•·ãè©°ã‚ã‚‰ã‚ŒãŸã‚¿ã‚¤ãƒ«ã‚’ã‚«ãƒ¡ãƒ©ã§æ’®å½±ã—ã¦ç”»é¢ã«è¡¨ç¤ºã—ã¦ã„ã¾ã™ã€‚
 void MapObject2D()
 {
-	// AC-Engine‚ğ‰Šú‰»‚·‚éB
+	// AC-Engineã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	ace::Engine::Initialize(ace::ToAString("MapObject2D").c_str(), 640, 480, ace::EngineOption());
 
-	// ƒV[ƒ“‚ğ¶¬‚·‚é
+	// ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
 	auto scene = std::make_shared<ace::Scene>();
 
-	// ƒŒƒCƒ„[‚ğ¶¬‚·‚é
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹
 	auto layer = std::make_shared<ace::Layer2D>();
 
-	// ƒV[ƒ“‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚·‚é
+	// ã‚·ãƒ¼ãƒ³ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã™ã‚‹
 	scene->AddLayer(layer);
 
-	// ƒV[ƒ“‚ğØ‚è‘Ö‚¦‚é
+	// ã‚·ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
 	ace::Engine::ChangeScene(scene);
 
-	// ƒJƒƒ‰‚ğİ’è‚·‚éB
+	// ã‚«ãƒ¡ãƒ©ã‚’è¨­å®šã™ã‚‹ã€‚
 	auto camera = std::make_shared<ace::CameraObject2D>();
 
 	camera->SetSrc(ace::RectI(0, 0, 640, 480));
 	camera->SetDst(ace::RectI(0, 0, 640, 480));
 
 	{
-		// ƒ}ƒbƒvƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+		// ãƒãƒƒãƒ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 		auto mapObject = std::make_shared<ace::MapObject2D>();
 
 		auto texture = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Sample2.png").c_str());
 
-		// ƒ}ƒbƒvƒIƒuƒWƒFƒNƒg‚É50*50=2500ŒÂ‚Ìƒ`ƒbƒv‚ğ“o˜^‚·‚éB
+		// ãƒãƒƒãƒ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«50*50=2500å€‹ã®ãƒãƒƒãƒ—ã‚’ç™»éŒ²ã™ã‚‹ã€‚
 		for (int i = 0; i < 50; ++i)
 		{
 			for (int j = 0; j < 50; ++j)
 			{
-				// ƒ`ƒbƒv‚ğ¶¬‚·‚éB
+				// ãƒãƒƒãƒ—ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 				auto chip = std::make_shared<ace::Chip2D>();
 
-				// ƒ`ƒbƒv‚ÉƒeƒNƒXƒ`ƒƒ‚ğİ’è‚·‚éB
+				// ãƒãƒƒãƒ—ã«ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¨­å®šã™ã‚‹ã€‚
 				chip->SetTexture(texture);
 
-				// ƒ`ƒbƒv‚Ì•`‰ææ‚ğw’è‚·‚éB
+				// ãƒãƒƒãƒ—ã®æç”»å…ˆã‚’æŒ‡å®šã™ã‚‹ã€‚
 				chip->SetPosition(ace::Vector2DF(i * 40 - 1000, j * 40 - 1000));
 
-				// ƒ}ƒbƒvƒIƒuƒWƒFƒNƒg‚Éƒ`ƒbƒv‚ğ’Ç‰Á‚·‚éB
+				// ãƒãƒƒãƒ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ãƒãƒƒãƒ—ã‚’è¿½åŠ ã™ã‚‹ã€‚
 				mapObject->AddChip(chip);
 			}
 		}
 
-		// ƒŒƒCƒ„[‚Éƒ}ƒbƒvƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚éB
+		// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ãƒãƒƒãƒ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
 		layer->AddObject(mapObject);
 
-		// ƒŒƒCƒ„[‚ÉƒJƒƒ‰ƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚éB
+		// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚«ãƒ¡ãƒ©ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
 		layer->AddObject(camera);
 	}
 
-	// AC-Engine‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// AC-Engineã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (ace::Engine::DoEvents())
 	{
-		// ƒJƒƒ‰‚ğˆÚ“®‚³‚¹‚é
+		// ã‚«ãƒ¡ãƒ©ã‚’ç§»å‹•ã•ã›ã‚‹
 		auto pos = camera->GetSrc();
 		pos.X += 1;
 		pos.Y += 1;
@@ -68,11 +68,11 @@ void MapObject2D()
 		pos.Y %= 1000;
 		camera->SetSrc(pos);
 
-		// AC-Engine‚ğXV‚·‚éB
+		// AC-Engineã‚’æ›´æ–°ã™ã‚‹ã€‚
 		ace::Engine::Update();
 	}
 
-	// AC-Engine‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// AC-Engineã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	ace::Engine::Terminate();
 
 	return;

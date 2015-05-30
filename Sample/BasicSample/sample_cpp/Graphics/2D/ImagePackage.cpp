@@ -1,48 +1,48 @@
-
+ï»¿
 #include <ace.h>
 
-// ImagePackage‚ÌƒTƒ“ƒvƒ‹B‰æ‘œƒpƒbƒP[ƒW‚ğŒ³‚É‰æ‘œ‚ğ”z’u‚µ‚Ä‚¢‚Ü‚·B
+// ImagePackageã®ã‚µãƒ³ãƒ—ãƒ«ã€‚ç”»åƒãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’å…ƒã«ç”»åƒã‚’é…ç½®ã—ã¦ã„ã¾ã™ã€‚
 void ImagePackage()
 {
-	// AC-Engine‚ğ‰Šú‰»‚·‚éB
+	// AC-Engineã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	ace::Engine::Initialize(ace::ToAString("ImagePackage").c_str(), 640, 480, ace::EngineOption());
 
-	// ƒV[ƒ“‚ğ¶¬‚·‚é
+	// ã‚·ãƒ¼ãƒ³ã‚’ç”Ÿæˆã™ã‚‹
 	auto scene = std::make_shared<ace::Scene>();
 
-	// ƒŒƒCƒ„[‚ğ¶¬‚·‚é
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç”Ÿæˆã™ã‚‹
 	auto layer = std::make_shared<ace::Layer2D>();
 
-	// ƒV[ƒ“‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚·‚é
+	// ã‚·ãƒ¼ãƒ³ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã™ã‚‹
 	scene->AddLayer(layer);
 
-	// ƒV[ƒ“‚ğØ‚è‘Ö‚¦‚é
+	// ã‚·ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
 	ace::Engine::ChangeScene(scene);
 
-	// ƒCƒ[ƒWƒpƒbƒP[ƒW‚ğ“Ç‚İ‚Ş
+	// ã‚¤ãƒ¡ãƒ¼ã‚¸ãƒ‘ãƒƒã‚±ãƒ¼ã‚¸ã‚’èª­ã¿è¾¼ã‚€
 	auto imagePackage = ace::Engine::GetGraphics()->CreateImagePackage(ace::ToAString("Data/ImagePackage/Game.aip").c_str());
 
 	for (int i = 0; i < imagePackage->GetImageCount(); i++)
 	{
-		// ƒeƒNƒXƒ`ƒƒ‚ğæ‚èo‚·
+		// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’å–ã‚Šå‡ºã™
 		auto texture = imagePackage->GetImage(i);
 		auto area = imagePackage->GetImageArea(i);
 
-		// ƒeƒNƒXƒ`ƒƒ‚ğƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Ä’Ç‰Á‚·‚é
+		// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦è¿½åŠ ã™ã‚‹
 		auto textureObject2D = std::make_shared<ace::TextureObject2D>();
 		textureObject2D->SetTexture(texture);
 		textureObject2D->SetPosition(ace::Vector2DF(area.X, area.Y));
 		layer->AddObject(textureObject2D);
 	}
 
-	// AC-Engine‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// AC-Engineã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (ace::Engine::DoEvents())
 	{
-		// AC-Engine‚ğXV‚·‚éB
+		// AC-Engineã‚’æ›´æ–°ã™ã‚‹ã€‚
 		ace::Engine::Update();
 	}
 
-	// AC-Engine‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// AC-Engineã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	ace::Engine::Terminate();
 
 	return;
