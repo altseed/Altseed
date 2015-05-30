@@ -73,7 +73,14 @@ namespace ace
 
 	void CoreTriangleShape_Imp::CalcCollisions()
 	{
-		auto triangle = new b2PolygonShape();
+
+		if (collisionShapes.size() == 0)
+		{
+			auto triangle = new b2PolygonShape();
+			collisionShapes.push_back(triangle);
+		}
+
+		auto triangle = (b2PolygonShape*)collisionShapes[0];
 		
 		std::vector<b2Vec2> triPoints;
 		for (int i = 0; i < 3; ++i)
@@ -82,8 +89,6 @@ namespace ace
 		}
 
 		triangle->Set(triPoints.data(), 3);
-
-		collisionShapes.push_back(triangle);
 	}
 #endif
 

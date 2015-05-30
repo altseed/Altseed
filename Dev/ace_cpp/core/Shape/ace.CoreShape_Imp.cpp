@@ -36,6 +36,11 @@ namespace ace
 		{
 			SafeRelease(triangle);
 		}
+
+		for (auto col : collisionShapes)
+		{
+			SafeDelete(col);
+		}
 	}
 
 	bool CoreShape_Imp::GetIsCollidedb2Shapes(CoreShape* shape)

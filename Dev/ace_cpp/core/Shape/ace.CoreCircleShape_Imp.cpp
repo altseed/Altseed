@@ -156,12 +156,17 @@ namespace ace
 
 	void CoreCircleShape_Imp::CalcCollisions()
 	{
-		auto circle = new b2CircleShape();
+		if (collisionShapes.size() == 0)
+		{
+			auto circle = new b2CircleShape();
+			collisionShapes.push_back(circle);
+		}
+
+		auto circle = (b2CircleShape*)collisionShapes[0];
+
 
 		circle->m_p = b2Vec2(position.X, position.Y);
 		circle->m_radius = outerDiameter / 2;
-
-		collisionShapes.push_back(circle);
 	}
 #endif
 
