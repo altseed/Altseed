@@ -128,6 +128,14 @@ namespace ace
 
 		if (vector.GetSquaredLength() == 0) return;
 
+		if (collisionShapes.empty())
+		{
+			auto polygon = new b2PolygonShape();
+			collisionShapes.push_back(polygon);
+		}
+
+		auto polygon = (b2PolygonShape*)collisionShapes[0];
+
 		auto binorm = vector;
 		{
 			auto deg = binorm.GetDegree();
@@ -140,8 +148,6 @@ namespace ace
 
 		std::array<Vector2DF, 4> vertexes = { staringPosition + binorm*halfThickness, endingPosition + binorm*halfThickness, endingPosition - binorm*halfThickness, staringPosition - binorm*halfThickness };
 
-		auto polygon = new b2PolygonShape();
-
 		std::vector<b2Vec2> polyPoints;
 		for (auto vertex : vertexes)
 		{
@@ -149,8 +155,6 @@ namespace ace
 		}
 
 		polygon->Set(polyPoints.data(), polyPoints.size());
-
-		collisionShapes.push_back(polygon);
 	}
 #endif
 

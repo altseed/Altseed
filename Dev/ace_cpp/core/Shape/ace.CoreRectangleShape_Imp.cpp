@@ -130,6 +130,14 @@ namespace ace
 
 	void CoreRectangleShape_Imp::CalcCollisions()
 	{
+		if (collisionShapes.empty())
+		{
+			auto polygon = new b2PolygonShape();
+			collisionShapes.push_back(polygon);
+		}
+
+		auto polygon = (b2PolygonShape*)collisionShapes[0];
+
 		auto vertexes = drawingArea.GetVertexes();
 
 		auto globalCenter = vertexes[0] + centerPosition;
@@ -143,18 +151,14 @@ namespace ace
 			vert += globalCenter;
 		}
 
-		auto polygon = new b2PolygonShape();
-
 		std::vector<b2Vec2> triPoints;
 
-		for (int j = 0; j < 4; ++j)
+		for (auto& vert : vertexes)
 		{
-			triPoints.push_back(b2Vec2(vertexes[j].X, vertexes[j].Y));
+			triPoints.push_back(b2Vec2(vert.X, vert.Y));
 		}
 
 		polygon->Set(triPoints.data(), triPoints.size());
-
-		collisionShapes.push_back(polygon);
 	}
 #endif
 

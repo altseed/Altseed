@@ -83,12 +83,12 @@ namespace ace
 		auto triangle = (b2PolygonShape*)collisionShapes[0];
 		
 		std::vector<b2Vec2> triPoints;
-		for (int i = 0; i < 3; ++i)
+		for (auto& point : points)
 		{
-			triPoints.push_back(b2Vec2(points[i].X, points[i].Y));
+			triPoints.push_back(b2Vec2(point.X, point.Y));
 		}
 
-		triangle->Set(triPoints.data(), 3);
+		triangle->Set(triPoints.data(), triPoints.size());
 	}
 #endif
 

@@ -73,11 +73,11 @@ namespace ace{
 		{
 			if (isNeededCalcCollisions)
 			{
-				if (GetType() != ShapeType::CircleShape&&GetType() != ShapeType::TriangleShape)
+				if (GetType() == ShapeType::PolygonShape || GetType() == ShapeType::ArcShape)
 				{
 					for (auto shape : collisionShapes)
 					{
-						SafeDelete(shape);
+						delete shape;
 					}
 					collisionShapes.clear();
 				}

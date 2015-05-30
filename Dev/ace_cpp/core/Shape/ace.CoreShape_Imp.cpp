@@ -39,7 +39,7 @@ namespace ace
 
 		for (auto col : collisionShapes)
 		{
-			SafeDelete(col);
+			delete col;
 		}
 	}
 
