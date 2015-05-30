@@ -82,7 +82,7 @@ def include_basic_sample(ls,mode=''):
 
 
 def make_document_html(mode):
-  exclude_ext = [".txt", ".psd", ".BAK"]
+  exclude_ext = [".txt", ".psd", ".BAK", ".pptx"]
 
   template="""<!DOCTYPE html>
   <html>
