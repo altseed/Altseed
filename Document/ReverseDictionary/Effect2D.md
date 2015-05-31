@@ -5,5 +5,7 @@ AC-EngineでウインドウにEffekseerで作成したエフェクトを表示�
 
 [Effekseer](https://sites.google.com/site/effekseer/)
 
+![サンプル](EffectObject2D.png)
+
 * include_basic_sample EffectObject2D
 
