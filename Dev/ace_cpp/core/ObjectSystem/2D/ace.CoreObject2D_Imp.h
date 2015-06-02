@@ -71,6 +71,11 @@ namespace ace
 
 		void SetIsAlive(bool value)
 		{
+			if (!value&&m_objectInfo.GetLayer() != nullptr)
+			{
+				auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
+				layerImp->RemoveTransformedObject(cullingObject);
+			}
 			m_objectInfo.SetIsAlive(value);
 		}
 

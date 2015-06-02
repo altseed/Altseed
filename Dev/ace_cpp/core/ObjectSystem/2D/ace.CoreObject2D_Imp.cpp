@@ -30,9 +30,16 @@ namespace ace
 	{
 #if __CULLING_2D__
 
-		if (children.find(nullptr) != children.end())
+		for (auto ite = children.begin(); ite != children.end();)
 		{
-			children.erase(nullptr);
+			if (!(*ite)->GetIsAlive())
+			{
+				children.erase(ite++);
+			}
+			else
+			{
+				ite++;
+			}
 		}
 
 
