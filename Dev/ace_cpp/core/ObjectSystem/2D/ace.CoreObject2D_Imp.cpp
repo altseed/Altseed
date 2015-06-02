@@ -30,11 +30,11 @@ namespace ace
 	{
 #if __CULLING_2D__
 
-		for (auto ite = children.begin(); ite != children.end();)
+		for (auto ite = obj->children.begin(); ite != obj->children.end();)
 		{
 			if (!(*ite)->GetIsAlive())
 			{
-				children.erase(ite++);
+				obj->children.erase(ite++);
 			}
 			else
 			{
