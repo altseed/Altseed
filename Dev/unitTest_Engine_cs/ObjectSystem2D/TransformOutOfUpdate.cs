@@ -10,6 +10,8 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 	class TransformOutOfUpdate : EngineTest
 	{
 		private TextureObject2D obj;
+		private TextureObject2D child;
+
 		private IEnumerator<object> coroutine;
 
 		public TransformOutOfUpdate()
@@ -26,7 +28,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			};
 			Engine.AddObject2D(obj);
 
-			var child = new TextureObject2D()
+			child = new TextureObject2D()
 			{
 				Position = new Vector2DF(10, 10),
 				Texture = Engine.Graphics.CreateTexture2D(CloudTexturePath),
@@ -39,9 +41,23 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 
 		private IEnumerator<object> GetFlow()
 		{
+			int loop = 0;
+
 			while(true)
 			{
 				obj.Position += new Vector2DF(1, 0);
+				
+				loop++;
+				
+				if(loop < 9)
+				{
+					child.Position += new Vector2DF(1, 0);
+				}
+				if (loop == 10)
+				{
+					child.Vanish();
+				}
+
 				yield return null;
 			}
 		}
