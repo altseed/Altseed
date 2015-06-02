@@ -86,7 +86,7 @@ namespace ace
 			}
 
 			var coreOption = new swig.CoreOption();
-			coreOption.GraphicsDevice = (swig.GraphicsDeviceType)option.GraphicsDevice;
+			coreOption.GraphicsDevice = (swig.GraphicsDeviceType)graphicsType;
 			coreOption.IsFullScreen = option.IsFullScreen;
 			coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
 
@@ -148,7 +148,7 @@ namespace ace
 			}
 
 			var coreOption = new swig.CoreOption();
-			coreOption.GraphicsDevice = (swig.GraphicsDeviceType)option.GraphicsDevice;
+			coreOption.GraphicsDevice = (swig.GraphicsDeviceType)graphicsType;
 			coreOption.IsFullScreen = option.IsFullScreen;
 			coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
 
