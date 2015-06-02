@@ -26,21 +26,29 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			};
 			Engine.AddObject2D(obj);
 
-			coroutine = Coroutine();
+			var child = new TextureObject2D()
+			{
+				Position = new Vector2DF(10, 10),
+				Texture = Engine.Graphics.CreateTexture2D(CloudTexturePath),
+			};
+            obj.AddChild(child, ChildMode.Position);
+			Engine.AddObject2D(child);
+
+			coroutine = GetFlow();
+        }
+
+		private IEnumerator<object> GetFlow()
+		{
+			while(true)
+			{
+				obj.Position += new Vector2DF(1, 0);
+				yield return null;
+			}
 		}
 
 		protected override void OnUpdated()
 		{
 			coroutine.MoveNext();
-		}
-
-		private IEnumerator<object> Coroutine()
-		{
-			while(true)
-			{
-				obj.Position = obj.Position + new Vector2DF(1, 0);
-				yield return null;
-			}
 		}
 	}
 }
