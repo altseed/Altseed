@@ -45,9 +45,9 @@ namespace ace
 
 		if (!obj->GetAlreadyCullingUpdated())
 		{
-			if (m_objectInfo.GetLayer() != nullptr)
+			if (obj->GetLayer() != nullptr&&!obj->GetIsAlive())
 			{
-				auto layerImp = (CoreLayer2D_Imp*)m_objectInfo.GetLayer();
+				auto layerImp = (CoreLayer2D_Imp*)obj->GetLayer();
 				layerImp->AddTransformedObject(obj->GetCullingObject());
 			}
 			obj->SetAlreadyCullingUpdated(true);
