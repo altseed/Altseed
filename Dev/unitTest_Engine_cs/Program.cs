@@ -13,9 +13,9 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
 
-//			TestSequencially(new Graphics._2D.MapObject2D());
-//			Console.ReadKey();
-//			return;
+			TestSequencially(new ObjectSystem2D.TransformOutOfUpdate());
+			Console.ReadKey();
+			return;
 
 			TestAll();
 

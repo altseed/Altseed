@@ -161,6 +161,9 @@
     <ClCompile Include="..\Shape\Collision2D.cpp">
       <Filter>Shape</Filter>
     </ClCompile>
+    <ClCompile Include="TransformOutOfUpdate.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

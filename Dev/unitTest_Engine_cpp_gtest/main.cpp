@@ -70,6 +70,7 @@ EXTERN_ENGINE_TEST(ObjectSystem, VanishInComponent)
 EXTERN_ENGINE_TEST(ObjectSystem, VanishOwnerInComponent)
 EXTERN_ENGINE_TEST(ObjectSystem, AddComponentByComponent)
 EXTERN_ENGINE_TEST(ObjectSystem, Component)
+EXTERN_ENGINE_TEST(ObjectSystem, TransformOutOfUpdate)
 
 EXTERN_ENGINE_TEST(Shape, Collision2D)
 
@@ -106,8 +107,8 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	//CALL_ENGINE_TEST(Shape, Collision2D, true)
-	//return 0;
+	CALL_ENGINE_TEST(ObjectSystem, TransformOutOfUpdate, true)
+	return 0;
 
 	
 	auto result = RUN_ALL_TESTS();
