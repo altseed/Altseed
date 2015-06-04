@@ -9,7 +9,7 @@ namespace ace
 	/// <summary>
 	/// テクスチャを描画するクラス。
 	/// </summary>
-	public class TextureObject2D : Object2D, IDestroy
+	public partial class TextureObject2D : Object2D, IDestroy
 	{
 		/// <summary>
 		/// ace.TextureObject2D の新しいインスタンスを初期化します。

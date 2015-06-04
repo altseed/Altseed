@@ -9,7 +9,7 @@ namespace ace
     /// <summary>
     /// 文字列の描画を扱うクラス。
     /// </summary>
-    public class TextObject2D : Object2D, IDestroy
+    public partial class TextObject2D : Object2D, IDestroy
 	{
 
 		internal override swig.CoreObject2D CoreObject

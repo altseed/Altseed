@@ -107,7 +107,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(ObjectSystem, TransformOutOfUpdate, true)
+	CALL_ENGINE_TEST(Graphics, MapObject2D, true)
 	return 0;
 
 	
