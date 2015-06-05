@@ -34,6 +34,12 @@ namespace FilePackageGenerator.Packaging
 			private set;
 		}
 
+		public string Validator
+		{
+			get;
+			private set;
+		}
+
 		/// <summary>
 		/// ファイル数
 		/// </summary>
@@ -42,7 +48,16 @@ namespace FilePackageGenerator.Packaging
 			get;
 			private set;
 		}
-		
+
+		/// <summary>
+		/// バージョン
+		/// </summary>
+		public int Version
+		{
+			get;
+			private set;
+		}
+
 		/// <summary>
 		/// 読み取り用コンストラクタ
 		/// </summary>
@@ -60,24 +75,47 @@ namespace FilePackageGenerator.Packaging
 			ignoreFiles = Encoding.UTF8.GetString(reader.ReadBytes((int)FilePathHeaderLength)).Split(new char[] { FilePathSeparator }, StringSplitOptions.RemoveEmptyEntries);
 			HeaderSize = (uint)(4 + 8 + 8 + FilePathHeaderLength);
 		}
+
 		/// <summary>
 		/// 書き込み用コンストラクタ
 		/// </summary>
 		/// <param name="fileCount"></param>
 		/// <param name="ignoreFile"></param>
-		public TopHeader(uint fileCount, IEnumerable<string> ignoreFile)
+		public TopHeader(uint fileCount, IEnumerable<string> ignoreFile, int version)
 		{
 			if (ignoreFile == null)
 				ignoreFile = new string[0];
 
-			Signature = "pack";
+			Version = version;
+
+			if(Version > 0)
+			{
+				Signature = "PACK";
+				Validator = Signature;
+			}
+			else
+			{
+				Signature = "pack";
+			}
+
+
+
 			FileCount = fileCount;
 			ignoreFiles = ignoreFile.Select(file=>file.ToLower());
 			foreach (string path in ignoreFiles)
 			{
 				FilePathHeaderLength += (uint)(path + FilePathSeparator).Length;
 			}
-			HeaderSize = (uint)(4 + 8 + 8 + FilePathHeaderLength);
+
+			if (Version > 0)
+			{
+				HeaderSize = (uint)(4 + 4 + 4 + 8 + 8 + FilePathHeaderLength);
+			}
+			else
+			{
+				HeaderSize = (uint)(4 + 8 + 8 + FilePathHeaderLength);
+			}
+			
 		}
 
 		public byte[] ToByteArray()
@@ -85,6 +123,14 @@ namespace FilePackageGenerator.Packaging
 			List<byte> tmp = new List<byte>((int)HeaderSize);
 
 			tmp.AddRange(Encoding.UTF8.GetBytes(Signature));
+
+			if(Version > 0)
+			{
+				tmp.AddRange(BitConverter.GetBytes(Version));
+				tmp.AddRange(Encoding.UTF8.GetBytes(Validator));
+
+			}
+
 			tmp.AddRange(BitConverter.GetBytes(FileCount));
 			tmp.AddRange(BitConverter.GetBytes(FilePathHeaderLength));
 			foreach (string ignorePath in ignoreFiles)

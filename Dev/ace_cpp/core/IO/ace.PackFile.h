@@ -26,20 +26,7 @@ namespace ace
 		const decltype(m_fileName)&	GetFileName() { return m_fileName; }
 		decltype(m_fileNameLength)	GetFileNameLength() { return m_fileNameLength; }
 
-		PackFileInternalHeader(std::shared_ptr<BaseFile>& packedFile, Decryptor* decryptor = nullptr)
-		{
-			std::vector<uint8_t> buffer;
-			std::vector<int16_t> strBuffer;
-
-			m_fileNameLength = packedFile->ReadUInt32(decryptor, packedFile->GetPosition());
-			m_size = packedFile->ReadUInt32(decryptor, packedFile->GetPosition());
-			m_offset = packedFile->ReadUInt32(decryptor, packedFile->GetPosition());
-			packedFile->ReadBytes(buffer, m_fileNameLength, decryptor, packedFile->GetPosition());
-			Utf8ToUtf16(strBuffer, reinterpret_cast<const int8_t*>(buffer.data()));
-			if (m_fileNameLength < strBuffer.size())
-				strBuffer[m_fileNameLength] = 0;
-			m_fileName = astring(reinterpret_cast<const achar*>(strBuffer.data()));
-		}
+		PackFileInternalHeader(std::shared_ptr<BaseFile>& packedFile, Decryptor* decryptor = nullptr);
 	};
 
 	class PackFileHeader
@@ -48,10 +35,13 @@ namespace ace
 		uint64_t m_headerSize;
 		uint64_t m_fileCount;
 		uint64_t m_filePathHeaderLength;
+		uint32_t version = 0;
+
 		std::vector<std::shared_ptr<PackFileInternalHeader>> m_internalHeaders;
 
 	public:
-		static const astring Signature;
+		static const std::string Signature_old;
+		static const std::string Signature_new;
 
 		PackFileHeader();
 

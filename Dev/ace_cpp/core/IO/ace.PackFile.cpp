@@ -5,7 +5,27 @@
 
 namespace ace
 {
-	const astring PackFileHeader::Signature = ToAString("pack");
+	const std::string PackFileHeader::Signature_old = "pack";
+	const std::string PackFileHeader::Signature_new = "PACK";
+
+	PackFileInternalHeader::PackFileInternalHeader(std::shared_ptr<BaseFile>& packedFile, Decryptor* decryptor)
+	{
+		std::vector<uint8_t> buffer;
+		std::vector<int16_t> strBuffer;
+
+		m_fileNameLength = packedFile->ReadUInt32(decryptor, packedFile->GetPosition());
+		m_size = packedFile->ReadUInt32(decryptor, packedFile->GetPosition());
+		m_offset = packedFile->ReadUInt32(decryptor, packedFile->GetPosition());
+		packedFile->ReadBytes(buffer, m_fileNameLength, decryptor, packedFile->GetPosition());
+		Utf8ToUtf16(strBuffer, reinterpret_cast<const int8_t*>(buffer.data()));
+
+		if (m_fileNameLength < strBuffer.size())
+		{
+			strBuffer[m_fileNameLength] = 0;
+		}
+			
+		m_fileName = astring(reinterpret_cast<const achar*>(strBuffer.data()));
+	}
 
 	PackFileHeader::PackFileHeader()
 	{
@@ -15,20 +35,69 @@ namespace ace
 	{
 		m_internalHeaders.clear();
 
-		std::vector<uint8_t> buffer;
+		std::vector<uint8_t> buffer_sig_old;
+		std::vector<uint8_t> buffer_sig_new;
+
 		packedFile->Seek(0);
-		packedFile->ReadBytes(buffer, PackFileHeader::Signature.size(), decryptor, packedFile->GetPosition());
+		packedFile->ReadBytes(buffer_sig_old, PackFileHeader::Signature_old.size(), decryptor, packedFile->GetPosition());
 		
-		if (astring(reinterpret_cast<achar*>(buffer.data())).compare(PackFileHeader::Signature) == 0)
+		packedFile->Seek(0);
+		packedFile->ReadBytes(buffer_sig_new, PackFileHeader::Signature_new.size(), nullptr, packedFile->GetPosition());
+
+		buffer_sig_old.push_back(0);
+		buffer_sig_new.push_back(0);
+
+		version = 0;
+
+		auto compared_old = std::string(reinterpret_cast<char*>(buffer_sig_old.data())).compare(PackFileHeader::Signature_old);
+		auto compared_new = std::string(reinterpret_cast<char*>(buffer_sig_new.data())).compare(PackFileHeader::Signature_new);
+
+		if (compared_old == 0)
+		{
+			version = 0;
+		}
+		else if (compared_new == 0)
+		{
+			version = 1;
+		}
+		else
+		{
 			return false;
+		}
+
+		if (version >= 1)
+		{
+			std::vector<uint8_t> buffer_;
+			version = packedFile->ReadUInt32(nullptr, packedFile->GetPosition());
+			
+			if (decryptor != nullptr)
+			{
+				decryptor->ChangeVersion(version);
+			}
+
+			packedFile->ReadBytes(buffer_, PackFileHeader::Signature_new.size(), nullptr, packedFile->GetPosition());
+			buffer_.push_back(0);
+
+			auto compared = std::string(reinterpret_cast<char*>(buffer_.data())).compare(PackFileHeader::Signature_new);
+			if (compared_new != 0) return false;
+		}
+
+		std::vector<uint8_t> buffer;
 
 		uint64_t fileCount = packedFile->ReadUInt64(decryptor, packedFile->GetPosition());
 		uint64_t filePathHeaderLength = packedFile->ReadUInt64(decryptor, packedFile->GetPosition());
 
-		packedFile->ReadBytes(buffer, filePathHeaderLength, decryptor, packedFile->GetPosition());
 		std::vector<int16_t> strBuffer;
-		Utf8ToUtf16(strBuffer, reinterpret_cast<const int8_t*>(buffer.data()));
-
+		if (filePathHeaderLength > 0)
+		{
+			packedFile->ReadBytes(buffer, filePathHeaderLength, decryptor, packedFile->GetPosition());
+			Utf8ToUtf16(strBuffer, reinterpret_cast<const int8_t*>(buffer.data()));
+		}
+		else
+		{
+			strBuffer.push_back(0);
+		}
+		
 		astring str(reinterpret_cast<achar*>(strBuffer.data()));
 		std::vector<int> tabIndices;
 		{

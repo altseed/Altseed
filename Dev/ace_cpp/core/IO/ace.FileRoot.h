@@ -36,6 +36,7 @@ namespace ace
 				}
 			}
 
+			decryptor.reset();
 			m_path = FileHelper::ToRootDirectoryPath(path);
 		}
 

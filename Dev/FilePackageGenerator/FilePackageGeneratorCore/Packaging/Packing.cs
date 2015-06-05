@@ -16,6 +16,8 @@ namespace FilePackageGenerator.Packaging
 	}
 	public class Packing
 	{
+		const int PackageVersion = 1;
+
 		/// <summary>
 		/// 隠し属性のついていないファイルと、隠し属性のついたディレクトリ下のファイル以外を列挙します
 		/// </summary>
@@ -88,19 +90,63 @@ namespace FilePackageGenerator.Packaging
 				}
 			}
 		}
-		static unsafe void Encrypt(string path, string key)
+		static unsafe void Encrypt(string path, string key, int version)
 		{
 			var key_temp = Encoding.UTF8.GetBytes(key);
-
 			List<byte> key_ = new List<byte>();
 
-			for (int loop = 0; loop < 40; loop++)
+
+			if(version > 0)
 			{
+				// 線形合同法
+				int seed_ = 1;
+				Func<int> rand_ = () =>
+				{
+					seed_ = seed_ * 214013 + 2531011;
+					return (int)(seed_ >> 16) & 32767;
+				};
+
+				Action<int> srand_ = (int seed) =>
+				{
+					seed_ = seed;
+					if (seed == 0) rand_();
+				};
+
+				UInt32 r = 0xFFFFFF;
 				for (int i = 0; i < key_temp.Count(); i++)
 				{
-					var k = (int)key_temp[i];
-					k = (k + (loop + i)) % 255;
-					key_.Add((byte)k);
+					r ^= (UInt32)(key_temp[i] ^ 0x17);
+
+					for (UInt32 b = 0; b < 8; b++)
+					{
+						if ((b & 1) != 0)
+						{
+							r = (r >> 1) ^ 0x13579A;
+						}
+						else
+						{
+							r = r>> 1;
+						}
+					}
+				}
+
+				srand_((Int32)r);
+
+				for (Int32 i = 0; i < 2048; i++)
+				{
+					key_.Add((byte)rand_());
+				}
+			}
+			else
+			{
+				for (int loop = 0; loop < 40; loop++)
+				{
+					for (int i = 0; i < key_temp.Count(); i++)
+					{
+						var k = (int)key_temp[i];
+						k = (k + (loop + i)) % 255;
+						key_.Add((byte)k);
+					}
 				}
 			}
 
@@ -112,6 +158,7 @@ namespace FilePackageGenerator.Packaging
 			using (var writer = new BinaryWriter(File.Create(pathTemp)))
 			{
 				byte[] array = new byte[2 * 1024];
+				int currentPosition = 0;
 
 				fixed (byte* pfixKey = byteKey)
 				{
@@ -126,7 +173,12 @@ namespace FilePackageGenerator.Packaging
 						{
 							for (int i = 0; i < array.Length; i++)
 							{
-								array[i] ^= *pKey;
+								if(version == 0 || currentPosition >= 8)
+								{
+									array[i] ^= *pKey;
+								}
+
+								currentPosition++;
 
 								pKey++;
 								if (pKey == pKeyEnd)
@@ -139,7 +191,12 @@ namespace FilePackageGenerator.Packaging
 						{
 							for (int i = 0; i < cursor; i++)
 							{
-								array[i] ^= *pKey;
+								if (version == 0 || currentPosition >= 8)
+								{
+									array[i] ^= *pKey;
+								}
+
+								currentPosition++;
 
 								pKey++;
 								if (pKey == pKeyEnd)
@@ -156,8 +213,11 @@ namespace FilePackageGenerator.Packaging
 			File.Delete(path);
 			File.Move(pathTemp, path);
 		}
+
 		public static void Run(string targetPath, string packName, PackagingSetting setting, IEnumerable<string> ignorePath, string key = "")
 		{
+			var version = PackageVersion;
+
 			Uri directoryUri = new Uri(Path.GetFullPath(targetPath).RemoveLastDirectorySeparator());
 
 			if (Path.GetExtension(packName) != PackFile.Extension)
@@ -194,7 +254,7 @@ namespace FilePackageGenerator.Packaging
 			}
 			TopHeader format = new TopHeader((uint)internalFormat.Count, ignorePath
 				.Where(path => !String.IsNullOrEmpty(path))
-				.Select(path => directoryUri.MakeRelativeUri(new Uri(Path.GetFullPath(path))).ToString()));
+				.Select(path => directoryUri.MakeRelativeUri(new Uri(Path.GetFullPath(path))).ToString()), version);
 
 			internalFormat.ForEach(inHeader => inHeader.Offset += headerSize + format.HeaderSize);
 
@@ -227,7 +287,7 @@ namespace FilePackageGenerator.Packaging
 
 			if (!string.IsNullOrEmpty(key))
 			{
-				Encrypt(exportedPath, key);
+				Encrypt(exportedPath, key, version);
 			}
 		}
 	}

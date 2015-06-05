@@ -119,14 +119,17 @@ namespace ace
 		case SeekOrigin::Begin:
 			assert(0 <= offset && offset < size);
 			m_file.seekg(offset, m_file.beg);
+			m_position = offset;
 			break;
 		case SeekOrigin::Current:
 			assert(0 <= m_position + offset && m_position + offset < size);
 			m_file.seekg(offset, m_file.cur);
+			m_position = offset + offset;
 			break;
 		case SeekOrigin::End:
-			assert(0 <= offset + size && offset <= 0);
+			assert(0 <= offset + size && offset <= 0 && offset );
 			m_file.seekg(offset, m_file.end);
+			m_position = size + offset;
 			break;
 		default:
 			assert(false);

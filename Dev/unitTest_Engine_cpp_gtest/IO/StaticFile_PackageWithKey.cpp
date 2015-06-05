@@ -25,7 +25,7 @@ protected:
 		reader.ReadIn(data.begin(), data.end());
 
 		//ファイル機能で読み込んだバイナリ
-		ace::Engine::GetFile()->AddRootPackageWithPassword(ace::ToAString("Data/Texture3.pack").c_str(), ace::ToAString("pack3").c_str());
+		ace::Engine::GetFile()->AddRootPackageWithPassword(ace::ToAString("Data/Texture3_new.pack").c_str(), ace::ToAString("pack3").c_str());
 		auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Surface/Tile_Normal.png").c_str());
 		auto staticFileData = staticFile->GetBuffer();
 
