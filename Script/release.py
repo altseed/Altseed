@@ -24,6 +24,20 @@ def compile(type):
 
 		aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/FilePackageGenerator.sln /p:configuration=Release')
 
+	elif aceutils.isMac():
+		if type=='cpp':
+			aceutils.rmdir(r'Dev/cmake')
+			aceutils.mkdir(r'Dev/cmake')
+			aceutils.cd(r'Dev/cmake')
+			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../ "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../')
+			aceutils.call(r'make install')
+			aceutils.cd(r'../../')
+
+		elif type=='cs':
+			aceutils.cd(r'Dev')
+			aceutils.call(r'xbuild /p:Configuration=Release unitTest_Engine_cs.sln')
+			aceutils.cd(r'../')
+
 def copyTool(type, targetDir):
 	toolDir=targetDir+r'/Tool/'
 	aceutils.mkdir(toolDir)
