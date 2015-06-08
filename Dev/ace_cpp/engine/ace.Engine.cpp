@@ -334,7 +334,7 @@ namespace ace
 		}
 
 		CoreOption coreOption;
-		coreOption.GraphicsDevice = option.GraphicsDevice;
+		coreOption.GraphicsDevice = graphicsDeviceType;
 		coreOption.IsFullScreen = option.IsFullScreen;
 		coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
 
@@ -400,7 +400,7 @@ namespace ace
 		}
 
 		CoreOption coreOption;
-		coreOption.GraphicsDevice = option.GraphicsDevice;
+		coreOption.GraphicsDevice = graphicsDeviceType;
 		coreOption.IsFullScreen = option.IsFullScreen;
 		coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
 
