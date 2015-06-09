@@ -294,7 +294,7 @@ namespace ace
 		/// <remarks>
 		/// 現在、エフェクトの描画回数はカウントされない。
 		/// </remarks>
-		int DrawCallCount
+		public int DrawCallCount
 		{
 			get { return graphics.GetDrawCallCount(); }
 		}
