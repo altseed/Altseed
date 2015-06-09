@@ -42,30 +42,34 @@ protected:
 
 		auto specCubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFromMipmapImageFiles(ace::ToAString("Data/Cubemap/Sky1/Spec/sky").c_str(), 8);
 
-		auto plainObj = std::make_shared<ace::ModelObject3D>();
-		auto sphereObj = std::make_shared<ace::ModelObject3D>();
-		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
+		for (int i = 0; i < 200; i++)
+		{
+			auto plainObj = std::make_shared<ace::ModelObject3D>();
+			auto sphereObj = std::make_shared<ace::ModelObject3D>();
 
-		GetLayer3D()->AddObject(plainObj);
-		GetLayer3D()->AddObject(sphereObj);
+			GetLayer3D()->AddObject(plainObj);
+			GetLayer3D()->AddObject(sphereObj);
+			
+			auto plainModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Plain1.mdl").c_str());
+			auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Sphere1.mdl").c_str());
+
+			plainObj->SetModel(plainModel);
+			sphereObj->SetModel(sphereModel);
+			sphereObj->SetPosition(ace::Vector3DF(0.0f, 1.0f, 0.0f));
+		}
+		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
 		GetLayer3D()->AddObject(lightObj);
 
-		auto plainModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Plain1.mdl").c_str());
-		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Sphere1.mdl").c_str());
-
-		plainObj->SetModel(plainModel);
-		sphereObj->SetModel(sphereModel);
-		sphereObj->SetPosition(ace::Vector3DF(0.0f, 1.0f, 0.0f));
 
 		SetCameraParameter(10, 15, -15, 1, 200, 20);
 
-		mainMesh = sphereModel->GetMesh(0);
+		//mainMesh = sphereModel->GetMesh(0);
 
 		// 球素材
-		auto mesh = sphereModel->GetMesh(0);
-		mesh->SetColorTexture(0,luTexs[0]);
-		mesh->SetMetalnessTexture(0, luTexs[2]);
-		mesh->SetSmoothnessTexture(0, luTexs[2]);
+		//auto mesh = sphereModel->GetMesh(0);
+		//mesh->SetColorTexture(0,luTexs[0]);
+		//mesh->SetMetalnessTexture(0, luTexs[2]);
+		//mesh->SetSmoothnessTexture(0, luTexs[2]);
 
 		// 直接光
 		lightObj->SetRotation(ace::Vector3DF(30, 140, 0));

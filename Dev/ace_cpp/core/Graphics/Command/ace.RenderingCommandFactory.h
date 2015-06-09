@@ -47,7 +47,7 @@ namespace ace
 			else
 			{
 				// サブバッファーモード
-				if (subBuffers.size() == 0 || SubBufferSize > subBufferOffset + size)
+				if (subBuffers.size() == 0 || subBufferOffset + size > SubBufferSize)
 				{
 					subBuffers.push_back(new uint8_t[SubBufferSize]);
 					subBufferOffset = 0;
@@ -79,7 +79,7 @@ namespace ace
 			else
 			{
 				// サブバッファーモード
-				if (subBuffers.size() == 0 || SubBufferSize > subBufferOffset + size)
+				if (subBuffers.size() == 0 || subBufferOffset + size > SubBufferSize)
 				{
 					subBuffers.push_back(new uint8_t[SubBufferSize]);
 					subBufferOffset = 0;
