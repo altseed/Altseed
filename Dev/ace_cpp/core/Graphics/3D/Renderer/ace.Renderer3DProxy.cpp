@@ -574,50 +574,58 @@ namespace ace
 	{
 		using h = RenderingCommandHelper;
 
-		// カメラプロジェクション行列計算
-		Matrix44 cameraProjMat;
-		ace::Matrix44::Mul(cameraProjMat, cP->ProjectionMatrix, cP->CameraMatrix);
-		prop.CameraMatrix = cP->CameraMatrix;
-		prop.ProjectionMatrix = cP->ProjectionMatrix;
+		// 蓄積リセット
+		{
+			helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
+			helper->Clear(true, false, ace::Color(0, 0, 0, 255));
+		}
+
+		if (cP->ZFar != cP->ZNear)
+		{
+			// カメラプロジェクション行列計算
+			Matrix44 cameraProjMat;
+			ace::Matrix44::Mul(cameraProjMat, cP->ProjectionMatrix, cP->CameraMatrix);
+			prop.CameraMatrix = cP->CameraMatrix;
+			prop.ProjectionMatrix = cP->ProjectionMatrix;
 
 #if __CULLING__
-		// カリング
-		Culling(cameraProjMat);
-		//CullingWorld->Dump("dump.csv", *((Culling3D::Matrix44*)(&cameraProjMat)), false);
+			// カリング
+			Culling(cameraProjMat);
+			//CullingWorld->Dump("dump.csv", *((Culling3D::Matrix44*)(&cameraProjMat)), false);
 
-		// 大量描画ソート
-		SortAndSetMassObjects(culledMassModelObjects);
+			// 大量描画ソート
+			SortAndSetMassObjects(culledMassModelObjects);
 #endif
 
-		// 3D描画
-		{
-			// 奥行き描画
+			// 3D描画
 			{
-				helper->SetRenderTarget(cP->GetRenderTargetDepth(), cP->GetDepthBuffer());
-				helper->Clear(true, true, ace::Color(0, 0, 0, 255));
-				prop.IsDepthMode = true;
+				// 奥行き描画
+				{
+					helper->SetRenderTarget(cP->GetRenderTargetDepth(), cP->GetDepthBuffer());
+					helper->Clear(true, true, ace::Color(0, 0, 0, 255));
+					prop.IsDepthMode = true;
 
-				// 通常モデル
+					// 通常モデル
 #if __CULLING__
-				DrawObjects(culledObjects, helper, prop);
+					DrawObjects(culledObjects, helper, prop);
 #else
-				DrawObjects(objects, helper, prop);
+					DrawObjects(objects, helper, prop);
 #endif			
 
-				// 大量描画モデル
-				DrawMassObjects(helper, prop);
+					// 大量描画モデル
+					DrawMassObjects(helper, prop);
 
 #if __CULLING__
-				// 地形
-				for (auto& terrain : culledTerrainObjects)
-				{
-					auto p = (RenderedTerrainObject3DProxy*)(terrain->ProxyPtr);
-					p->Rendering(terrain->TerrainIndex, helper, prop);
-				}
+					// 地形
+					for (auto& terrain : culledTerrainObjects)
+					{
+						auto p = (RenderedTerrainObject3DProxy*) (terrain->ProxyPtr);
+						p->Rendering(terrain->TerrainIndex, helper, prop);
+					}
 #endif
-			}
+				}
 
-			// Gバッファ描画
+				// Gバッファ描画
 			{
 				helper->SetRenderTarget(
 					cP->GetRenderTargetDiffuseColor(),
@@ -647,27 +655,21 @@ namespace ace
 				}
 #endif
 			}
-		}
+			}
 
-		// 環境描画
-		environmentRendering->Render(
-			cP, helper,
-			cP->GetRenderTargetDiffuseColor(), cP->GetRenderTargetSmoothness_Metalness_AO(), cP->GetRenderTargetDepth(), cP->GetRenderTargetAO_MatID(),
-			EnvironmentDiffuseColorIntensity, EnvironmentSpecularColorIntensity, EnvironmentDiffuseColor.get(), EnvironmentSpecularColor.get());
+			// 環境描画
+			environmentRendering->Render(
+				cP, helper,
+				cP->GetRenderTargetDiffuseColor(), cP->GetRenderTargetSmoothness_Metalness_AO(), cP->GetRenderTargetDepth(), cP->GetRenderTargetAO_MatID(),
+				EnvironmentDiffuseColorIntensity, EnvironmentSpecularColorIntensity, EnvironmentDiffuseColor.get(), EnvironmentSpecularColor.get());
 
-		// SSAO
-		if (ssao->IsEnabled())
-		{
-			ssao->Draw(helper, cP, m_ssaoVertexBuffer, m_ssaoIndexBuffer);
-		}
+			// SSAO
+			if (ssao->IsEnabled())
+			{
+				ssao->Draw(helper, cP, m_ssaoVertexBuffer, m_ssaoIndexBuffer);
+			}
 
-		// 蓄積リセット
-		{
-			helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
-			helper->Clear(true, false, ace::Color(0, 0, 0, 255));
-		}
-
-		// 直接光描画
+			// 直接光描画
 		{
 			auto invCameraMat = (prop.CameraMatrix).GetInverted();
 			auto zero = prop.CameraMatrix.Transform3D(Vector3DF());
@@ -1084,9 +1086,10 @@ namespace ace
 
 		// エフェクトの描画
 		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
-		
+
 		// スプライトの描画
 		helper->DrawSprite(cP->ProjectionMatrix, cP->CameraMatrix);
+		}
 
 		// 深度リセット
 		{

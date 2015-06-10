@@ -42,21 +42,19 @@ protected:
 
 		auto specCubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFromMipmapImageFiles(ace::ToAString("Data/Cubemap/Sky1/Spec/sky").c_str(), 8);
 
-		for (int i = 0; i < 200; i++)
-		{
-			auto plainObj = std::make_shared<ace::ModelObject3D>();
-			auto sphereObj = std::make_shared<ace::ModelObject3D>();
+		auto plainObj = std::make_shared<ace::ModelObject3D>();
+		auto sphereObj = std::make_shared<ace::ModelObject3D>();
 
-			GetLayer3D()->AddObject(plainObj);
-			GetLayer3D()->AddObject(sphereObj);
-			
-			auto plainModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Plain1.mdl").c_str());
-			auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Sphere1.mdl").c_str());
+		GetLayer3D()->AddObject(plainObj);
+		GetLayer3D()->AddObject(sphereObj);
+		
+		auto plainModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Plain1.mdl").c_str());
+		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Sphere1.mdl").c_str());
 
-			plainObj->SetModel(plainModel);
-			sphereObj->SetModel(sphereModel);
-			sphereObj->SetPosition(ace::Vector3DF(0.0f, 1.0f, 0.0f));
-		}
+		plainObj->SetModel(plainModel);
+		sphereObj->SetModel(sphereModel);
+		sphereObj->SetPosition(ace::Vector3DF(0.0f, 1.0f, 0.0f));
+		
 		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
 		GetLayer3D()->AddObject(lightObj);
 
