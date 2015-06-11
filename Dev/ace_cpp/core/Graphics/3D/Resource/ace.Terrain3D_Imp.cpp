@@ -9,6 +9,8 @@
 #include "../../Resource/ace.Shader3D.h"
 #include "../../Resource/ace.Shader3D_Imp.h"
 
+#include <Utility/ace.BinaryWriter.h>
+
 namespace ace
 {
 	enum class DivisionDirection
@@ -1330,6 +1332,118 @@ namespace ace
 		
 		isMeshChanged = true;
 		isSurfaceChanged = true;
+	}
+
+	void Terrain3D_Imp::Load(const achar* path)
+	{
+		BinaryReader br;
+		
+		char* sig = "ater";
+		uint8_t* sig_ = (uint8_t*) sig;
+
+		for (int32_t i = 0; i < 4; i++)
+		{
+			auto s = br.Get<uint8_t>();
+			if (sig_[i] != s) return;
+		}
+
+		// リセット
+		this->surfaceNameToIndex.clear();
+		this->surfaceNameToSurface.clear();
+		this->surfaces.clear();
+
+		// バージョン
+		int32_t version = 0;
+		version = br.Get<int32_t>();
+
+		// グリッド
+		this->gridWidthCount = br.Get<int32_t>();
+		this->gridHeightCount = br.Get<int32_t>();
+		this->gridSize = br.Get<float>();
+
+		this->heights.resize(gridWidthCount * gridHeightCount);
+		this->cliffes.resize(gridWidthCount * gridHeightCount);
+		this->Chips.resize(gridWidthCount * gridHeightCount);
+
+		for (size_t i = 0; i < this->heights.size(); i++)
+		{
+			this->cliffes[i] = 0;
+		}
+
+		// 地形
+		for (size_t i = 0; i < this->heights.size(); i++)
+		{
+			this->heights[i] = br.Get<float>();
+		}
+
+		// サーフェス
+		int32_t surfaceCount = br.Get<int32_t>();
+
+		for (size_t i = 0; i < surfaceCount; i++)
+		{
+			auto name = br.Get<astring>();
+
+			std::vector<uint8_t> surface;
+			surface.resize((gridWidthCount * pixelInGrid) * (gridHeightCount * pixelInGrid));
+			for (size_t p = 0; p < surface.size(); p++)
+			{
+				surface[p] = br.Get<uint8_t>();
+			}
+		}
+	}
+
+	void Terrain3D_Imp::Save(const achar* path)
+	{
+		BinaryWriter bw;
+
+		char* sig = "ater";
+		uint8_t* sig_ = (uint8_t*) sig;
+
+		for (int32_t i = 0; i < 4; i++)
+		{
+			bw.Push(sig_[i]);
+		}
+
+		// バージョン
+		int32_t version = 0;
+		bw.Push(version);
+
+		// グリッド
+		bw.Push(gridWidthCount);
+		bw.Push(gridHeightCount);
+		bw.Push(gridSize);
+
+		// 地形
+		for (size_t i = 0; i < this->heights.size(); i++)
+		{
+			bw.Push(this->heights[i]);
+		}
+
+		// サーフェース
+		bw.Push((int32_t)surfaces.size());
+
+		for (size_t i = 0; i < surfaces.size(); i++)
+		{
+			astring name;
+			for (auto& kv : surfaceNameToIndex)
+			{
+				if (kv.second == i)
+				{
+					name = kv.first;
+					break;
+				}
+			}
+
+			auto& sf = surfaceNameToSurface[name];
+			auto& surface = surfaces[i];
+
+			bw.Push(name);
+
+			for (size_t p = 0; p < surface.size(); p++)
+			{
+				bw.Push(surface[p]);
+			}
+		}
 	}
 
 	void Terrain3D_Imp::AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* metalness)

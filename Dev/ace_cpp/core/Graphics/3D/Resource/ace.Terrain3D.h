@@ -26,6 +26,7 @@ namespace ace
 		*/
 		virtual void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount) = 0;
 
+
 		/**
 			@brief	素材を追加する。
 			@param	name	素材名

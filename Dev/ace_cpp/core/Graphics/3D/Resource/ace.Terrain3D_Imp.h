@@ -203,6 +203,10 @@ namespace ace
 
 		void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount) override;
 
+		void Load(const achar* path);
+
+		void Save(const achar* path);
+
 		void AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* metalness) override;
 
 		int32_t GetSurfaceIndex(const achar* name) override;
