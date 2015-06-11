@@ -37,6 +37,12 @@ namespace ace
 		{
 			if (path[0] == u':') return true;
 		}
+
+		// ルート
+		if (1 < path.size())
+		{
+			if (path[0] == u'/') return true;
+		}
 #endif
 
 		return false;
