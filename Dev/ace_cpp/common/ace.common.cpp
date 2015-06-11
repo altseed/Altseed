@@ -1,6 +1,8 @@
 ﻿
 #include "ace.common.Base.h"
 
+#include <array>
+
 #if !_WIN32
 namespace ace_x11
 {
@@ -449,7 +451,7 @@ namespace ace
 	astring CombinePath(const achar* rootPath, const achar* path)
 	{
 		const int32_t dstLength = 260;
-		achar dst[dstLength];
+		std::array<achar,260> dst;
 
 		int rootPathLength = 0;
 		while (rootPath[rootPathLength] != 0)
@@ -474,8 +476,8 @@ namespace ace
 		{
 			if (pathLength < dstLength)
 			{
-				memcpy(dst, path, sizeof(achar) * (pathLength + 1));
-				return astring(dst);
+				memcpy(dst.data(), path, sizeof(achar) * (pathLength + 1));
+				return astring(dst.data());
 			}
 			else
 			{
@@ -487,8 +489,8 @@ namespace ace
 		{
 			if (rootPathLength < dstLength)
 			{
-				memcpy(dst, rootPath, sizeof(wchar_t) * (rootPathLength + 1));
-				return astring(dst);
+				memcpy(dst.data(), rootPath, sizeof(achar) * (rootPathLength + 1));
+				return astring(dst.data());
 			}
 			else
 			{
@@ -510,7 +512,7 @@ namespace ace
 		}
 
 		// コピーする
-		memcpy(dst, rootPath, sizeof(achar) * PathPosition);
+		memcpy(dst.data(), rootPath, sizeof(achar) * PathPosition);
 		dst[PathPosition] = 0;
 
 		// 無理やり繋げる
@@ -530,7 +532,11 @@ namespace ace
 			{
 				int pos = 0;
 
-				if (i > 1 && dst[i - 2] == L'.')
+				if (i == 0)
+				{
+					// 強制スキップ
+				}
+				else if (i > 1 && dst[i - 2] == L'.')
 				{
 
 				}
@@ -554,7 +560,7 @@ namespace ace
 			}
 		}
 		dst[PathPosition] = 0;
-		return astring(dst);
+		return astring(dst.data());
 	}
 
 	void ShowMessageBox(const achar* title, const achar* text)
