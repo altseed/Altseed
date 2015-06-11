@@ -26,6 +26,9 @@ namespace ace
 		/**
 			@brief	ファイルのパスを取得する。
 			@return	パス
+			@note
+			パッケージ外から読み込まれた場合は絶対パス、もしくは実行ファイルからの相対パスを返す。
+			パッケージ内から読み込まれた場合は「パッケージへのパス?パッケージ内のファイルへのパス」を返す。
 		*/
 		virtual const achar* GetFullPath() const = 0;
 
@@ -40,5 +43,11 @@ namespace ace
 			@return	サイズ
 		*/
 		virtual int32_t GetSize() = 0;
+
+		/**
+			@brief	パッケージ内からファイルが読み込まれたか取得する。
+			@return	パッケージ内からファイルが読み込まれたか?
+		*/
+		virtual bool GetIsInPackage() const = 0;
 	};
 }

@@ -81,10 +81,17 @@ namespace ace
 				return nullptr;
 			}
 
-			auto info = std::make_shared<LoadingInformation>(); 
-			info->ModifiedTime = GetModifiedTime(path);
-			info->LoadedPath = path;
+			auto info = std::make_shared<LoadingInformation>();
+
+			if (!staticFile->GetIsInPackage())
+			{
+				auto path_ = staticFile->GetFullPath();
+				info->ModifiedTime = GetModifiedTime(path_);
+				info->LoadedPath = path_;
+			}
+
 			info->ResourcePtr = ret;
+
 			Register(path, ret, info);
 
 			return ret;
@@ -112,8 +119,14 @@ namespace ace
 			}
 
 			auto info = std::make_shared<LoadingInformation>();
-			info->ModifiedTime = GetModifiedTime(path);
-			info->LoadedPath = path;
+
+			if (!staticFile->GetIsInPackage())
+			{
+				auto path_ = staticFile->GetFullPath();
+				info->ModifiedTime = GetModifiedTime(path_);
+				info->LoadedPath = path_;
+			}
+
 			info->ResourcePtr = ret;
 			Register(path, ret, info);
 
