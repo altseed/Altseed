@@ -6,13 +6,13 @@ C#版の導入方法について説明しています。
 ### VisualStudio2013の導入
 
 [VisualStudioのWebページ](https://www.visualstudio.com/ja-jp/downloads/download-visual-studio-vs#DownloadFamilies_2)から
-「Visual Studio Community 2013 Update 4」をダウンロードします。ただし、会社内でAC-Engineを使用する場合は「Visual Studio Express 2013 with Update 4 for Windows Desktop」をダウンロードします。
+「Visual Studio Community 2013 Update 4」をダウンロードします。ただし、会社内でAltseedを使用する場合は「Visual Studio Express 2013 with Update 4 for Windows Desktop」をダウンロードします。
 これらはプログラムのソースコードから実行可能なアプリケーションを生成するツールです。個人で開発する分には無料で使用できます。
 
 ダウンロードが終わったら、「Visual Studio」をインストールします。
 
-### AC-Engineのダウンロード
-[AC-Engine](https://github.com/ac-engine/ac-engine/releases/download/20150530/ACE_CS_20150531_WIN.zip)　をダウンロードします。
+### Altseedのダウンロード
+[Altseed](https://github.com/altseed/Altseed/releases/download/20150530/ACE_CS_20150531_WIN.zip)　をダウンロードします。
 ダウンロードしたファイルを解凍します。
 
 開発には以下のファイルを使用します。
@@ -34,7 +34,7 @@ C#版の導入方法について説明しています。
 2. 追加された```ace_cs.dll```を右クリックして```プロパティ```を開き、```出力ディレクトリーにコピー```の項目を「新しい場合はコピーする」に変更します。同様に```ace_core.dll```に対しても```出力ディレクトリーにコピー```の項目を変更します。
 3. ```ACE_Test->参照設定```を右クリックして```参照の追加```を選択します。ここで、```参照```ボタンをクリックし、1で追加された```ace_cs.dll```を選択して```OK```を押します。
 
-以上でAC-Engineが使えるようになります。
+以上でAltseedが使えるようになります。
 
 また、```ace_cs.XML```を```ace_cs.dll```と同じディレクトリに配置すると関数等の説明がVisualC#上で表示されるようになります。
 
@@ -56,17 +56,17 @@ namespace ACE_Test
 		[STAThread]
 		static void Main(string[] args)
 		{
-			// AC-Engineを初期化する。
+			// Altseedを初期化する。
 			ace.Engine.Initialize("Empty", 640, 480, new ace.EngineOption());
 
-			// AC-Engineが進行可能かチェックする。
+			// Altseedが進行可能かチェックする。
 			while (ace.Engine.DoEvents())
 			{
-				// AC-Engineを更新する。
+				// Altseedを更新する。
 				ace.Engine.Update();
 			}
 
-			// AC-Engineを終了する。
+			// Altseedを終了する。
 			ace.Engine.Terminate();
 		}
 	}

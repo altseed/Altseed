@@ -1,7 +1,7 @@
 ﻿
 ## psdファイルを元に画像を配置する
 
-AC-Engineでpsdファイルを元に画像を配置します。
+Altseedでpsdファイルを元に画像を配置します。
 
 psdファイルからImagePackageのデータを生成するには [画像パッケージジェネレーター](../Reference/Tool/ImagePackageGenerator.md) を使用します。
 

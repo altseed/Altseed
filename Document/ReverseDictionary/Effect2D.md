@@ -1,7 +1,7 @@
 ﻿
 ## ウインドウにEffekseerで作成したエフェクトを表示する
 
-AC-EngineでウインドウにEffekseerで作成したエフェクトを表示します。
+AltseedでウインドウにEffekseerで作成したエフェクトを表示します。
 
 [Effekseer](https://sites.google.com/site/effekseer/)
 

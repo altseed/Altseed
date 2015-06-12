@@ -5,7 +5,7 @@ Object2DComponentを継承して独自のパラメータを追加したり、イ
 
 Object2DComponentを継承して独自の機能を持つコンポーネントを作成し、AddComponentメソッドによってオブジェクトを登録すると、そのコンポーネントのOnUpdateメソッドが毎フレーム呼び出されるようになります。
 
-AC-Engineには同様の機能としてLayer2DComponent, SceneComponentがあります。それぞれレイヤーとシーンに登録して使うコンポーネントの基底クラスです。
+Altseedには同様の機能としてLayer2DComponent, SceneComponentがあります。それぞれレイヤーとシーンに登録して使うコンポーネントの基底クラスです。
 
 ###主なメソッド
 |名称|説明|

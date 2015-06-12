@@ -2,15 +2,15 @@
 
 ### 配布に関して
 
-#### AC-Engineを使用したアプリケーションを配布したいのですがよろしいでしょうか?
+#### Altseedを使用したアプリケーションを配布したいのですがよろしいでしょうか?
 
 全く問題ありません。ただ、配布する際は、下記のライセンスのファイルを同梱するようお願いします。
 
 Windowsの場合、実行に必要なDirectX EndUserRuntime と .net framework4.5 がインストールされている必要があることを明記しておくことをおすすめします。
 
-#### 自作のアプリケーションにAC-Engineを使用したいのですがライセンスの表記はどうすればいいでしょうか?
+#### 自作のアプリケーションにAltseedを使用したいのですがライセンスの表記はどうすればいいでしょうか?
 
-[ライセンス](https://github.com/ac-engine/amusement-creators-engine/blob/master/LICENSE)をアプリケーションのヘルプ等に掲載してください。
+[ライセンス](https://github.com/Altseed/amusement-creators-engine/blob/master/LICENSE)をアプリケーションのヘルプ等に掲載してください。
 
 #### ゲーム中の画像をプレイヤーに見られたくないのですがどうすればいいでしょうか?
 
