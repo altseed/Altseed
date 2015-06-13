@@ -1,7 +1,7 @@
 ﻿
 #include "../../EngineTest.h"
 
-static std::shared_ptr<ace::Mesh> CreateMesh(ace::Graphics* graphics)
+static std::shared_ptr<asd::Mesh> CreateMesh(asd::Graphics* graphics)
 {
 	uint8_t weights1[4];
 	weights1[0] = 255;
@@ -25,30 +25,30 @@ static std::shared_ptr<ace::Mesh> CreateMesh(ace::Graphics* graphics)
 	int* pindexes = (int*) indexes;
 
 	auto mesh = graphics->CreateMesh();
-	mesh->AddVertex(ace::Vector3DF(-0.5, 0.5, 0.5), ace::Vector3DF(0, 0, 1), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 0), ace::Vector2DF(0, 0), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(-0.5, -0.5, 0.5), ace::Vector3DF(0, 0, 1), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 1), ace::Vector2DF(0, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, 0.5, 0.5), ace::Vector3DF(0, 0, 1), ace::Vector3DF(0, 1, 0), ace::Vector2DF(1, 0), ace::Vector2DF(1, 0), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, -0.5, 0.5), ace::Vector3DF(0, 0, 1), ace::Vector3DF(0, 1, 0), ace::Vector2DF(1, 1), ace::Vector2DF(1, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, 0.5, -0.5), ace::Vector3DF(1, 0, 0), ace::Vector3DF(0, 1, 0), ace::Vector2DF(1, 0), ace::Vector2DF(1, 0), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, -0.5, -0.5), ace::Vector3DF(1, 0, 0), ace::Vector3DF(0, 1, 0), ace::Vector2DF(1, 1), ace::Vector2DF(1, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(-0.5, 0.5, -0.5), ace::Vector3DF(0, 0, -1), ace::Vector3DF(0, 1, 0), ace::Vector2DF(1, 0), ace::Vector2DF(1, 0), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(-0.5, -0.5, -0.5), ace::Vector3DF(0, 0, -1), ace::Vector3DF(0, 1, 0), ace::Vector2DF(1, 1), ace::Vector2DF(1, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(-0.5, 0.5, 0.5), ace::Vector3DF(-1, 0, 0), ace::Vector3DF(0, 1, 0), ace::Vector2DF(1, 0), ace::Vector2DF(1, 0), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(-0.5, 0.5, 0.5), ace::Vector3DF(0, 1, 0), ace::Vector3DF(0, 0, -1), ace::Vector2DF(0, 1), ace::Vector2DF(0, 1), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(-0.5, -0.5, 0.5), ace::Vector3DF(-1, 0, 0), ace::Vector3DF(0, 1, 0), ace::Vector2DF(1, 1), ace::Vector2DF(1, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(-0.5, -0.5, 0.5), ace::Vector3DF(0, -1, 0), ace::Vector3DF(0, 0, 1), ace::Vector2DF(0, 0), ace::Vector2DF(0, 0), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, 0.5, 0.5), ace::Vector3DF(1, 0, 0), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 0), ace::Vector2DF(0, 0), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, 0.5, 0.5), ace::Vector3DF(0, 1, 0), ace::Vector3DF(0, 0, -1), ace::Vector2DF(1, 1), ace::Vector2DF(1, 1), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, -0.5, 0.5), ace::Vector3DF(1, 0, 0), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 1), ace::Vector2DF(0, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, -0.5, 0.5), ace::Vector3DF(0, -1, 0), ace::Vector3DF(0, 0, 1), ace::Vector2DF(1, 0), ace::Vector2DF(1, 0), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, 0.5, -0.5), ace::Vector3DF(0, 0, -1), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 0), ace::Vector2DF(0, 0), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, 0.5, -0.5), ace::Vector3DF(0, 1, 0), ace::Vector3DF(0, 0, -1), ace::Vector2DF(1, 0), ace::Vector2DF(1, 0), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, -0.5, -0.5), ace::Vector3DF(0, 0, -1), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 1), ace::Vector2DF(0, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(0.5, -0.5, -0.5), ace::Vector3DF(0, -1, 0), ace::Vector3DF(0, 0, 1), ace::Vector2DF(1, 1), ace::Vector2DF(1, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(-0.5, 0.5, -0.5), ace::Vector3DF(-1, 0, 0), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 0), ace::Vector2DF(0, 0), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(-0.5, 0.5, -0.5), ace::Vector3DF(0, 1, 0), ace::Vector3DF(0, 0, -1), ace::Vector2DF(0, 0), ace::Vector2DF(0, 0), ace::Color(255, 255, 255, 255), *pweights1, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(-0.5, -0.5, -0.5), ace::Vector3DF(-1, 0, 0), ace::Vector3DF(0, 1, 0), ace::Vector2DF(0, 1), ace::Vector2DF(0, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
-	mesh->AddVertex(ace::Vector3DF(-0.5, -0.5, -0.5), ace::Vector3DF(0, -1, 0), ace::Vector3DF(0, 0, 1), ace::Vector2DF(0, 1), ace::Vector2DF(0, 1), ace::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, 0.5, 0.5), asd::Vector3DF(0, 0, 1), asd::Vector3DF(0, 1, 0), asd::Vector2DF(0, 0), asd::Vector2DF(0, 0), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, -0.5, 0.5), asd::Vector3DF(0, 0, 1), asd::Vector3DF(0, 1, 0), asd::Vector2DF(0, 1), asd::Vector2DF(0, 1), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, 0.5, 0.5), asd::Vector3DF(0, 0, 1), asd::Vector3DF(0, 1, 0), asd::Vector2DF(1, 0), asd::Vector2DF(1, 0), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, -0.5, 0.5), asd::Vector3DF(0, 0, 1), asd::Vector3DF(0, 1, 0), asd::Vector2DF(1, 1), asd::Vector2DF(1, 1), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, 0.5, -0.5), asd::Vector3DF(1, 0, 0), asd::Vector3DF(0, 1, 0), asd::Vector2DF(1, 0), asd::Vector2DF(1, 0), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, -0.5, -0.5), asd::Vector3DF(1, 0, 0), asd::Vector3DF(0, 1, 0), asd::Vector2DF(1, 1), asd::Vector2DF(1, 1), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, 0.5, -0.5), asd::Vector3DF(0, 0, -1), asd::Vector3DF(0, 1, 0), asd::Vector2DF(1, 0), asd::Vector2DF(1, 0), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, -0.5, -0.5), asd::Vector3DF(0, 0, -1), asd::Vector3DF(0, 1, 0), asd::Vector2DF(1, 1), asd::Vector2DF(1, 1), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, 0.5, 0.5), asd::Vector3DF(-1, 0, 0), asd::Vector3DF(0, 1, 0), asd::Vector2DF(1, 0), asd::Vector2DF(1, 0), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, 0.5, 0.5), asd::Vector3DF(0, 1, 0), asd::Vector3DF(0, 0, -1), asd::Vector2DF(0, 1), asd::Vector2DF(0, 1), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, -0.5, 0.5), asd::Vector3DF(-1, 0, 0), asd::Vector3DF(0, 1, 0), asd::Vector2DF(1, 1), asd::Vector2DF(1, 1), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, -0.5, 0.5), asd::Vector3DF(0, -1, 0), asd::Vector3DF(0, 0, 1), asd::Vector2DF(0, 0), asd::Vector2DF(0, 0), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, 0.5, 0.5), asd::Vector3DF(1, 0, 0), asd::Vector3DF(0, 1, 0), asd::Vector2DF(0, 0), asd::Vector2DF(0, 0), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, 0.5, 0.5), asd::Vector3DF(0, 1, 0), asd::Vector3DF(0, 0, -1), asd::Vector2DF(1, 1), asd::Vector2DF(1, 1), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, -0.5, 0.5), asd::Vector3DF(1, 0, 0), asd::Vector3DF(0, 1, 0), asd::Vector2DF(0, 1), asd::Vector2DF(0, 1), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, -0.5, 0.5), asd::Vector3DF(0, -1, 0), asd::Vector3DF(0, 0, 1), asd::Vector2DF(1, 0), asd::Vector2DF(1, 0), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, 0.5, -0.5), asd::Vector3DF(0, 0, -1), asd::Vector3DF(0, 1, 0), asd::Vector2DF(0, 0), asd::Vector2DF(0, 0), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, 0.5, -0.5), asd::Vector3DF(0, 1, 0), asd::Vector3DF(0, 0, -1), asd::Vector2DF(1, 0), asd::Vector2DF(1, 0), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, -0.5, -0.5), asd::Vector3DF(0, 0, -1), asd::Vector3DF(0, 1, 0), asd::Vector2DF(0, 1), asd::Vector2DF(0, 1), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(0.5, -0.5, -0.5), asd::Vector3DF(0, -1, 0), asd::Vector3DF(0, 0, 1), asd::Vector2DF(1, 1), asd::Vector2DF(1, 1), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, 0.5, -0.5), asd::Vector3DF(-1, 0, 0), asd::Vector3DF(0, 1, 0), asd::Vector2DF(0, 0), asd::Vector2DF(0, 0), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, 0.5, -0.5), asd::Vector3DF(0, 1, 0), asd::Vector3DF(0, 0, -1), asd::Vector2DF(0, 0), asd::Vector2DF(0, 0), asd::Color(255, 255, 255, 255), *pweights1, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, -0.5, -0.5), asd::Vector3DF(-1, 0, 0), asd::Vector3DF(0, 1, 0), asd::Vector2DF(0, 1), asd::Vector2DF(0, 1), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
+	mesh->AddVertex(asd::Vector3DF(-0.5, -0.5, -0.5), asd::Vector3DF(0, -1, 0), asd::Vector3DF(0, 0, 1), asd::Vector2DF(0, 1), asd::Vector2DF(0, 1), asd::Color(255, 255, 255, 255), *pweights2, *pindexes);
 
 	mesh->AddFace(0, 2, 3, -1);
 	mesh->AddFace(0, 3, 1, -1);
@@ -67,27 +67,27 @@ static std::shared_ptr<ace::Mesh> CreateMesh(ace::Graphics* graphics)
 	return mesh;
 }
 
-static std::shared_ptr<ace::AnimationClip> CreateAnimation()
+static std::shared_ptr<asd::AnimationClip> CreateAnimation()
 {
-	auto factory = ace::Engine::GetAnimationSyatem();
+	auto factory = asd::Engine::GetAnimationSyatem();
 
 	auto clip = factory->CreateAnimationClip();
 	auto source = factory->CreateAnimationSource();
 	auto key = factory->CreateKeyframeAnimation();
 
-	ace::FCurveKeyframe k1;
+	asd::FCurveKeyframe k1;
 	k1.KeyValue.X = 0.0;
 	k1.KeyValue.Y = 20;
 	k1.LeftHandle = k1.KeyValue;
 	k1.RightHandle = k1.KeyValue;
 
-	ace::FCurveKeyframe k2;
+	asd::FCurveKeyframe k2;
 	k2.KeyValue.X = 10.0;
 	k2.KeyValue.Y = -20;
 	k2.LeftHandle = k2.KeyValue;
 	k2.RightHandle = k2.KeyValue;
 
-	key->SetName(ace::ToAString("no2.rot.z").c_str());
+	key->SetName(asd::ToAString("no2.rot.z").c_str());
 	key->AddKeyframe(k1);
 	key->AddKeyframe(k2);
 
@@ -102,40 +102,40 @@ class Graphics_Camera3DPostEffect : public EngineTest
 public:
 
 	Graphics_Camera3DPostEffect(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("Camera3DPostEffect"), isOpenGLMode, 20)
+		EngineTest(asd::ToAString("Camera3DPostEffect"), isOpenGLMode, 20)
 	{}
 
 protected:
 	void OnStart() override
 	{
-		auto scene = std::make_shared<ace::Scene>();
-		auto layer = std::make_shared<ace::Layer3D>();
-		auto meshObj = std::make_shared<ace::ModelObject3D>();
-		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
-		auto cameraObj = std::make_shared<ace::CameraObject3D>();
+		auto scene = std::make_shared<asd::Scene>();
+		auto layer = std::make_shared<asd::Layer3D>();
+		auto meshObj = std::make_shared<asd::ModelObject3D>();
+		auto lightObj = std::make_shared<asd::DirectionalLightObject3D>();
+		auto cameraObj = std::make_shared<asd::CameraObject3D>();
 
 		scene->AddLayer(layer);
 		layer->AddObject(meshObj);
 		layer->AddObject(lightObj);
 		layer->AddObject(cameraObj);
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 
 
-		auto mesh = CreateMesh(ace::Engine::GetGraphics());
+		auto mesh = CreateMesh(asd::Engine::GetGraphics());
 
-		cameraObj->SetPosition(ace::Vector3DF(0, 0, 10));
-		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
+		cameraObj->SetPosition(asd::Vector3DF(0, 0, 10));
+		cameraObj->SetFocus(asd::Vector3DF(0, 0, 0));
 		cameraObj->SetFieldOfView(20.0f);
 		cameraObj->SetZNear(1.0f);
 		cameraObj->SetZFar(20.0f);
-		cameraObj->SetWindowSize(ace::Vector2DI(800, 600));
+		cameraObj->SetWindowSize(asd::Vector2DI(800, 600));
 
 		meshObj->AddMesh(mesh);
-		meshObj->SetRotation(ace::Vector3DF(20.0f, 20.0f, 0.0f));
+		meshObj->SetRotation(asd::Vector3DF(20.0f, 20.0f, 0.0f));
 
-		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
+		lightObj->SetRotation(asd::Vector3DF(30, 160, 0));
 
-		auto pe = std::make_shared<ace::PostEffectGaussianBlur>();
+		auto pe = std::make_shared<asd::PostEffectGaussianBlur>();
 		pe->SetIntensity(100.0f);
 		cameraObj->AddPostEffect(pe);
 	}

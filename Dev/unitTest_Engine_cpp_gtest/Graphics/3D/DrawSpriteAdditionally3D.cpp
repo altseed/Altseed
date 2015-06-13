@@ -7,7 +7,7 @@ class Graphics_DrawSpriteAdditionally3D : public EngineGraphics3DTest
 public:
 
 	Graphics_DrawSpriteAdditionally3D(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("DrawSpriteAdditionally3D"), isOpenGLMode, 10, true)
+		EngineGraphics3DTest(asd::ToAString("DrawSpriteAdditionally3D"), isOpenGLMode, 10, true)
 	{}
 
 protected:
@@ -21,20 +21,20 @@ protected:
 		EngineGraphics3DTest::OnUpdating();
 
 		GetLayer3D()->DrawSpriteAdditionally(
-			ace::Vector3DF(-1, 0, -1),
-			ace::Vector3DF(1, 0, -1),
-			ace::Vector3DF(1, 0, 1),
-			ace::Vector3DF(-1, 0, 1),
-			ace::Color(255, 0, 0, 255),
-			ace::Color(0, 255, 0, 255),
-			ace::Color(0, 0, 255, 255),
-			ace::Color(255, 255, 255, 255),
-			ace::Vector2DF(0, 0),
-			ace::Vector2DF(0, 0),
-			ace::Vector2DF(0, 0),
-			ace::Vector2DF(0, 0),
+			asd::Vector3DF(-1, 0, -1),
+			asd::Vector3DF(1, 0, -1),
+			asd::Vector3DF(1, 0, 1),
+			asd::Vector3DF(-1, 0, 1),
+			asd::Color(255, 0, 0, 255),
+			asd::Color(0, 255, 0, 255),
+			asd::Color(0, 0, 255, 255),
+			asd::Color(255, 255, 255, 255),
+			asd::Vector2DF(0, 0),
+			asd::Vector2DF(0, 0),
+			asd::Vector2DF(0, 0),
+			asd::Vector2DF(0, 0),
 			nullptr,
-			ace::AlphaBlendMode::Blend,
+			asd::AlphaBlendMode::Blend,
 			false,
 			true
 			);

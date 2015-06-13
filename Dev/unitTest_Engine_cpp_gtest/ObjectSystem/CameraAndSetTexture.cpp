@@ -1,15 +1,15 @@
 ﻿#include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class ObjectSystem_CameraAndSetTexture : public EngineTest
 {
 public:
 	ObjectSystem_CameraAndSetTexture(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("CameraAndSetTexture"), isOpenGLMode, 30)
+		: EngineTest(asd::ToAString("CameraAndSetTexture"), isOpenGLMode, 30)
 	{
 	}
 

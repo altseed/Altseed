@@ -10,20 +10,20 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "unitTest_Engine_cpp_gtest",
 		{4BA8DEB7-DD89-4EDB-B6A4-63B9358A02F3} = {4BA8DEB7-DD89-4EDB-B6A4-63B9358A02F3}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ace_common", "ace_cpp\msvc\ace_common.vcxproj", "{86542137-F2A1-4152-A16B-5BE71E060DC6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asd_common", "asd_cpp\msvc\asd_common.vcxproj", "{86542137-F2A1-4152-A16B-5BE71E060DC6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ace_core", "ace_cpp\msvc\ace_core.vcxproj", "{FBA17564-7E7C-4BE0-881E-6223CB6740D6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asd_core", "asd_cpp\msvc\asd_core.vcxproj", "{FBA17564-7E7C-4BE0-881E-6223CB6740D6}"
 	ProjectSection(ProjectDependencies) = postProject
 		{E500B6B8-E90E-46D7-B6D0-F85388E0D75E} = {E500B6B8-E90E-46D7-B6D0-F85388E0D75E}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ace_engine", "ace_cpp\msvc\ace_engine.vcxproj", "{4BA8DEB7-DD89-4EDB-B6A4-63B9358A02F3}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asd_engine", "asd_cpp\msvc\asd_engine.vcxproj", "{4BA8DEB7-DD89-4EDB-B6A4-63B9358A02F3}"
 	ProjectSection(ProjectDependencies) = postProject
 		{86542137-F2A1-4152-A16B-5BE71E060DC6} = {86542137-F2A1-4152-A16B-5BE71E060DC6}
 		{FBA17564-7E7C-4BE0-881E-6223CB6740D6} = {FBA17564-7E7C-4BE0-881E-6223CB6740D6}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ace_tool", "ace_cpp\msvc\ace_tool.vcxproj", "{E500B6B8-E90E-46D7-B6D0-F85388E0D75E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "asd_tool", "asd_cpp\msvc\asd_tool.vcxproj", "{E500B6B8-E90E-46D7-B6D0-F85388E0D75E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{86542137-F2A1-4152-A16B-5BE71E060DC6} = {86542137-F2A1-4152-A16B-5BE71E060DC6}
 	EndProjectSection

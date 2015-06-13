@@ -1,16 +1,16 @@
-﻿#include <ace.h>
+﻿#include <Altseed.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class ObjectSystem_TransformOutOfUpdate : public EngineTest
 {
 public:
 	ObjectSystem_TransformOutOfUpdate(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("TransformOutOfUpdate"), isOpenGLMode, 60)
+		: EngineTest(asd::ToAString("TransformOutOfUpdate"), isOpenGLMode, 60)
 	{
 	}
 
@@ -32,7 +32,7 @@ protected:
 		child->SetPosition(Vector2DF(10, 10));
 		child->SetTexture(Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
 		
-		obj->AddChild(child, ace::ChildMode::Position);
+		obj->AddChild(child, asd::ChildMode::Position);
 		Engine::AddObject2D(child);
 	}
 

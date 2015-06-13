@@ -1,15 +1,15 @@
 ﻿#include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class Shape_Collision2D : public EngineTest
 {
 public:
 	Shape_Collision2D(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Collision2D"), isOpenGLMode, 300)
+		: EngineTest(asd::ToAString("Collision2D"), isOpenGLMode, 300)
 	{
 	}
 
@@ -40,7 +40,7 @@ protected:
 		layer->AddObject(geometryObj3);
 
 		scene->AddLayer(layer);
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 
 		{
 			selfCircle = make_shared<CircleShape>();
@@ -50,7 +50,7 @@ protected:
 			selfCircle->SetPosition(Vector2DF(100, 50));
 
 			geometryObj0->SetShape(selfCircle);
-			geometryObj0->SetPosition(ace::Vector2DF(0, 0));
+			geometryObj0->SetPosition(asd::Vector2DF(0, 0));
 			geometryObj0->SetDrawingPriority(1);
 		}
 
@@ -62,33 +62,33 @@ protected:
 			circle->SetPosition(Vector2DF(100, 50));
 
 			geometryObj1->SetShape(circle);
-			geometryObj1->SetPosition(ace::Vector2DF(0, 0));
+			geometryObj1->SetPosition(asd::Vector2DF(0, 0));
 		}
 
 		{
 			triangle = make_shared<TriangleShape>();
-			triangle->SetPointByIndex(ace::Vector2DF(400, 350), 0);
-			triangle->SetPointByIndex(ace::Vector2DF(300, 450), 1);
-			triangle->SetPointByIndex(ace::Vector2DF(540, 450), 2);
+			triangle->SetPointByIndex(asd::Vector2DF(400, 350), 0);
+			triangle->SetPointByIndex(asd::Vector2DF(300, 450), 1);
+			triangle->SetPointByIndex(asd::Vector2DF(540, 450), 2);
 
 			geometryObj2->SetShape(triangle);
-			geometryObj2->SetPosition(ace::Vector2DF(0, 0));
+			geometryObj2->SetPosition(asd::Vector2DF(0, 0));
 		}
 
 		{
 			rect = make_shared<RectangleShape>();
-			rect->SetDrawingArea(ace::RectF());
-			rect->SetDrawingArea(ace::RectF(10, 110, 300, 200));
+			rect->SetDrawingArea(asd::RectF());
+			rect->SetDrawingArea(asd::RectF(10, 110, 300, 200));
 			rect->SetAngle(15);
 
 			geometryObj3->SetShape(rect);
-			geometryObj3->SetPosition(ace::Vector2DF(0, 0));
+			geometryObj3->SetPosition(asd::Vector2DF(0, 0));
 		}
 	}
 
 	void OnUpdating()
 	{
-		selfCircle->SetPosition(ace::Engine::GetMouse()->GetPosition());
+		selfCircle->SetPosition(asd::Engine::GetMouse()->GetPosition());
 
 		triangle->SetPointByIndex(triangle->GetPointByIndex(0) + Vector2DF(1, 0), 0);
 
@@ -96,11 +96,11 @@ protected:
 			|| selfCircle->GetIsCollidedWith(triangle)
 			|| selfCircle->GetIsCollidedWith(rect))
 		{
-			geometryObj0->SetColor(ace::Color(255, 0, 0, 255));
+			geometryObj0->SetColor(asd::Color(255, 0, 0, 255));
 		}
 		else
 		{
-			geometryObj0->SetColor(ace::Color(255, 255, 255, 255));
+			geometryObj0->SetColor(asd::Color(255, 255, 255, 255));
 		}
 
 		rect->SetAngle(rect->GetAngle() + 1);

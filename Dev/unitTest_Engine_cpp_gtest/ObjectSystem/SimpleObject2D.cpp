@@ -1,16 +1,16 @@
-﻿#include <ace.h>
+﻿#include <Altseed.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class ObjectSystem_Simple : public EngineTest
 {
 public:
 	ObjectSystem_Simple(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Simple"), isOpenGLMode, 30)
+		: EngineTest(asd::ToAString("Simple"), isOpenGLMode, 30)
 	{
 	}
 
@@ -27,13 +27,13 @@ protected:
 		ASSERT_NE(object, nullptr);
 		ASSERT_NE(object2, nullptr);
 
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(object);
 		layer->AddObject(object2);
 
-		auto g = ace::Engine::GetGraphics();
-		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Cloud1.png").c_str());
+		auto g = asd::Engine::GetGraphics();
+		auto texture = g->CreateTexture2D(asd::ToAString("Data/Texture/Cloud1.png").c_str());
 		object->SetTexture(texture);
 		object2->SetTexture(texture);
 

@@ -62,21 +62,21 @@ def exec_sync( cmd ):
 
 cdToScript()
 
-conv_dir(r'ace_cpp/')
+conv_dir(r'asd_cpp/')
 conv_dir(r'unitTest_cpp_gtest/')
 conv_dir(r'unitTest_Engine_cpp_gtest/')
 
 argv = sys.argv
 
 if len(argv) == 1 or argv[1] == 'csharp':
-	if not os.path.isdir('ace_cs/swig'):
-		os.makedirs('ace_cs/swig')
+	if not os.path.isdir('asd_cs/swig'):
+		os.makedirs('asd_cs/swig')
 
-	exec_sync( 'swig -c++ -csharp -namespace ace.swig -dllimport ace_core -o ace_cpp/core/dll.cxx -outdir ace_cs/swig/ swig.i' )
+	exec_sync( 'swig -c++ -csharp -namespace asd.swig -dllimport asd_core -o asd_cpp/core/dll.cxx -outdir asd_cs/swig/ swig.i' )
 
 elif argv[1] == 'java':
-	if not os.path.isdir('ace_java'):
-		os.makedirs('ace_java')
-	if not os.path.isdir('ace_java/swig'):
-		os.makedirs('ace_java/swig')
-	exec_sync( 'swig -c++ -java -package ace.swig -o ace_cpp/core/dll.cxx -outdir ace_java/swig/ swig.i' )
+	if not os.path.isdir('asd_java'):
+		os.makedirs('asd_java')
+	if not os.path.isdir('asd_java/swig'):
+		os.makedirs('asd_java/swig')
+	exec_sync( 'swig -c++ -java -package asd.swig -o asd_cpp/core/dll.cxx -outdir asd_java/swig/ swig.i' )

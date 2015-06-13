@@ -1,9 +1,9 @@
 ﻿#include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class ObjectSystem_LayerComponent : public EngineTest
 {
@@ -32,7 +32,7 @@ class ObjectSystem_LayerComponent : public EngineTest
 			{
 				auto object = make_shared<TextureObject2D>();
 				object->SetPosition(Vector2DF(time % 320, time % 240));
-				object->SetTexture(ace::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
+				object->SetTexture(asd::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
 				GetOwner()->AddObject(object);
 			}
 
@@ -42,7 +42,7 @@ class ObjectSystem_LayerComponent : public EngineTest
 
 public:
 	ObjectSystem_LayerComponent(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("LayerComponent"), isOpenGLMode, 60)
+		: EngineTest(asd::ToAString("LayerComponent"), isOpenGLMode, 60)
 	{
 	}
 
@@ -52,7 +52,7 @@ protected:
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 
 		auto componentName = ToAString("generator");

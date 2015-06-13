@@ -56,7 +56,7 @@ namespace unitTest_Engine_cs
 		{
 			try
 			{
-				target.Test(ace.GraphicsDeviceType.OpenGL);
+				target.Test(asd.GraphicsDeviceType.OpenGL);
 			}
 			catch (Exception e)
 			{
@@ -68,7 +68,7 @@ namespace unitTest_Engine_cs
 			if ( IsDirectXAvailable() ) {
 				try
 				{
-					target.Test(ace.GraphicsDeviceType.DirectX11);
+					target.Test(asd.GraphicsDeviceType.DirectX11);
 				}
 				catch (Exception e)
 				{
@@ -82,6 +82,6 @@ namespace unitTest_Engine_cs
 
 	public abstract class TestFramework
 	{
-		public abstract void Test(ace.GraphicsDeviceType graphicsType);
+		public abstract void Test(asd.GraphicsDeviceType graphicsType);
 	}
 }

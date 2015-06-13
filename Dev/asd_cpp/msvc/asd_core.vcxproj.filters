@@ -1,0 +1,1402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Log">
+      <UniqueIdentifier>{c0ca41f7-f48a-4ebd-8fab-48f884944d8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Window">
+      <UniqueIdentifier>{4d059393-0837-4e2c-807d-1c604a13b156}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{321dd6c0-ebc2-4487-9a69-280a3d43dfee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{c0ca41f7-f48a-4ebd-8fab-48f884944d8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Profiler">
+      <UniqueIdentifier>{25b68a1d-3021-4364-b84f-ddf16c593f5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{344a8364-e950-464b-806b-99ed77b8a4e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{f361bd17-81b9-41a6-b7cb-5110dc601eb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem">
+      <UniqueIdentifier>{e403fde6-b389-4b62-9792-bc1e6a9e9e94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\2D">
+      <UniqueIdentifier>{74f722ff-a6a6-4e13-a747-26f9aad2baf3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\3D">
+      <UniqueIdentifier>{1a0f273d-f655-466e-bed7-929923394648}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\PostEffect">
+      <UniqueIdentifier>{7a139acb-432a-4ed7-b874-e22886ebb54e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PCH">
+      <UniqueIdentifier>{b5f06827-15ae-427a-94d1-e3f3a2ea4103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="IO">
+      <UniqueIdentifier>{b2b10351-a9c1-4822-824f-e012e4922b8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{4234750f-7ad3-4f83-8ef7-6a92ae1a6517}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\2D">
+      <UniqueIdentifier>{7b57f786-50d6-4737-8222-fed2c91f67e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D">
+      <UniqueIdentifier>{571212f8-d252-42d6-a34b-86de41297a3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Platform">
+      <UniqueIdentifier>{7f2db485-b6c8-4b06-a808-01170137c83e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Platform\DX11">
+      <UniqueIdentifier>{b3b2f68b-164f-4881-a4c9-9880a5da6570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Platform\GL">
+      <UniqueIdentifier>{241d0383-110a-46b7-a5e9-339cce742c84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Platform\DX11\Resource">
+      <UniqueIdentifier>{f8eacd7e-60cb-416f-8be8-e8076eb8788d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Platform\GL\Resource">
+      <UniqueIdentifier>{bcdd5df4-8265-4223-9b5b-4aa7ebfcf074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Resource">
+      <UniqueIdentifier>{4d7bf8a9-b157-4ac0-9579-47f70e56df83}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader">
+      <UniqueIdentifier>{a50e22bf-c9cc-4e58-9ffe-38296ed704c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\ALSL">
+      <UniqueIdentifier>{73f0ade2-bec8-4efb-8e64-f45beac78e6c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\GL">
+      <UniqueIdentifier>{40857c09-7bd5-4e83-8c2d-f12351d398c9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\DX">
+      <UniqueIdentifier>{50c235a1-eb57-4a7e-b7d7-8d2b559239a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\GL\2D">
+      <UniqueIdentifier>{c9bb380f-d377-46f0-b048-ea155b6a8a26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\DX\2D">
+      <UniqueIdentifier>{9c5076d7-d4ed-41c9-96fc-7a18e454d41c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\ALSL\3D">
+      <UniqueIdentifier>{788617e2-0e7d-4237-87b3-b1e17c3b6172}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\ALSL\2D">
+      <UniqueIdentifier>{b0f71d18-40ef-401f-87e5-ac052d4246e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\GL\3D">
+      <UniqueIdentifier>{2a72074c-579d-4191-a0f9-0c95f592cf3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\DX\3D">
+      <UniqueIdentifier>{fc08d2ca-e4e4-4240-85bf-99c2b64db337}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\GL\3D\PostEffect">
+      <UniqueIdentifier>{a31c3087-fa7f-4c94-8522-16391e93b49a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\DX\3D\PostEffect">
+      <UniqueIdentifier>{4a9c92be-b0a1-4441-b52a-80dedbdc1ff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\ALSL\PostEffect">
+      <UniqueIdentifier>{5e5dd758-27cf-47f0-abf4-c768d2261955}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\DX\PostEffect">
+      <UniqueIdentifier>{e3ce24af-0183-4c3b-8919-befef47aee99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Shader\GL\PostEffect">
+      <UniqueIdentifier>{01654490-7041-4665-8199-f04ba738bcf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\Transition">
+      <UniqueIdentifier>{81887a82-9eb4-4f72-afd0-3a0dc1cd3f28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D\Renderer">
+      <UniqueIdentifier>{3f97eb24-4e6b-4cc2-8bb8-a861e303b623}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D\Object">
+      <UniqueIdentifier>{9a1d750a-5c5a-4040-a540-f28e4e4caa64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D\Resource">
+      <UniqueIdentifier>{58993e92-eff4-4577-ba94-b70c59ff2e2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D\Resource\Animation">
+      <UniqueIdentifier>{018279d9-cf47-40de-a92a-876c1bb5d328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Command">
+      <UniqueIdentifier>{905b64d8-ea5e-4fe9-b3f7-fb22f21a7335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\3D\PostProcess">
+      <UniqueIdentifier>{87845abd-b80c-4488-9743-d553de23d5f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{738ee52d-79cc-410a-b7b3-3a7215246838}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Platform\DX11\DirectXToolKit">
+      <UniqueIdentifier>{ffbbcee5-e1ed-4029-9020-bb07561a6913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shape">
+      <UniqueIdentifier>{39a4e209-38a6-4338-8978-c09661be9f98}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty">
+      <UniqueIdentifier>{01b9cbcd-ab65-4786-b25b-291d608b35cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\poly2tri">
+      <UniqueIdentifier>{8a346865-2f74-4465-a8f1-93ab10f57f60}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\core\Log\asd.Log_Imp.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Log\asd.Log.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Window\asd.Window.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Window\asd.Window_Imp.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Window\asd.Window_Imp_Win.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Log\asd.Log_Imp.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Log\asd.Log.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\asd.Profiler.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\asd.Profiler_Imp.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\asd.ReferenceObject.h" />
+    <ClInclude Include="..\core\Input\asd.Keyboard.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Input\asd.Keyboard_Imp.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Input\asd.MiddleButton.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Input\asd.Mouse.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Input\asd.Mouse_Imp.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Input\asd.SideButton.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Core\asd.Core.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Core\asd.Core_Imp.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Core\asd.CreateCore.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\asd.Core.Base.h" />
+    <ClInclude Include="..\core\asd.Core.Base_Imp.h" />
+    <ClInclude Include="..\core\Input\asd.Joystick.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Input\asd.Joystick_Imp.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Input\asd.JoystickContainer_Imp.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\asd.ProfilerViewer.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\asd.ProfilerViewer_Imp.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\asd.ObjectSystemFactory_Imp.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\asd.ObjectSystemFactory.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\asd.Profile.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.ParentInfo2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.TransformInfo2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreLayer2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreLayer2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreTextureObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreTextureObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\asd.CoreLayer.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\asd.CoreScene.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\asd.CoreScene_Imp.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\PostEffect\asd.CorePostEffect.h">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\PostEffect\asd.CorePostEffect_Imp.h">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreLayer3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreLayer3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreCameraObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreDirectionalLightObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreDirectionalLightObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreCameraObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\asd.CoreLayer_Imp.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreModelObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreModelObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\asd.Accessor.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreCameraObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreCameraObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.ObjectInfo2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreEffectObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreEffectObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\PCH\asd.Core.PCH.h">
+      <Filter>PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreTextObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Sound\asd.Sound.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Sound\asd.Sound_Imp.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Sound\asd.SoundSource.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Sound\asd.SoundSource_Imp.h">
+      <Filter>Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreEffectObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreEffectObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreTextObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\2D\asd.LayerRenderer.h">
+      <Filter>Graphics\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\2D\asd.PostEffectRenderer.h">
+      <Filter>Graphics\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\2D\asd.Renderer2D.h">
+      <Filter>Graphics\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\2D\asd.Renderer2D_Imp.h">
+      <Filter>Graphics\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\asd.DX11.Base.h">
+      <Filter>Graphics\Platform\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.h">
+      <Filter>Graphics\Platform\DX11</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.CubemapTexture_Imp_DX11.h">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.DepthBuffer_Imp_DX11.h">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.IndexBuffer_Imp_DX11.h">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.NativeShader_Imp_DX11.h">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.RenderTexture2D_Imp_DX11.h">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.Texture2D_Imp_DX11.h">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.VertexBuffer_Imp_DX11.h">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.CubemapTexture_Imp_GL.h">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.DepthBuffer_Imp_GL.h">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.IndexBuffer_Imp_GL.h">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.NativeShader_Imp_GL.h">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.RenderTexture2D_Imp_GL.h">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.Texture2D_Imp_GL.h">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.VertexBuffer_Imp_GL.h">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\GL\asd.GL.Base.h">
+      <Filter>Graphics\Platform\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\GL\asd.Graphics_Imp_GL.h">
+      <Filter>Graphics\Platform\GL</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.CubemapTexture.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.CubemapTexture_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.DepthBuffer_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Effect.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Effect_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.IndexBuffer_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Material_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Material2D.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Material2D_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.NativeShader_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.RenderTexture2D.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.RenderTexture2D_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Shader2D.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Shader2D_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.ShaderCache.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Texture.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Texture2D.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Texture2D_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.VertexBuffer_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\2D\Renderer2D_VS.h">
+      <Filter>Graphics\Shader\DX\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\2D\Renderer2D_PS.h">
+      <Filter>Graphics\Shader\DX\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Blur_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Model_Internal_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Model_Internal_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Paste_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Screen_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_Blur_PS.h">
+      <Filter>Graphics\Shader\DX\3D\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_PS.h">
+      <Filter>Graphics\Shader\DX\3D\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Blur_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Model_Internal_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Model_Internal_VS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Model_Internal_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Model_Internal_VS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Paste_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Screen_VS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_PS.h">
+      <Filter>Graphics\Shader\GL\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_VS.h">
+      <Filter>Graphics\Shader\GL\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\asd.Vertices.h">
+      <Filter>Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\asd.DeviceObject.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\asd.Graphics.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\asd.Graphics_Imp.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\asd.RenderingThread.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\2D\LayerRenderer_VS.h">
+      <Filter>Graphics\Shader\GL\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\2D\LayerRenderer_PS.h">
+      <Filter>Graphics\Shader\GL\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\2D\LayerRenderer_VS.h">
+      <Filter>Graphics\Shader\DX\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\2D\LayerRenderer_PS.h">
+      <Filter>Graphics\Shader\DX\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Light_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Light_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\DeferredBuffer_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\DeferredBuffer_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Font.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Font_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\asd.StreamFile_Imp.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\asd.File.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\asd.File_Imp.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\asd.StaticFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\asd.StaticFile_Imp.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\asd.StreamFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreMapObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreMapObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h">
+      <Filter>Graphics\Shader\DX\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h">
+      <Filter>Graphics\Shader\GL\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GrayScale_PS.h">
+      <Filter>Graphics\Shader\GL\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GrayScale_PS.h">
+      <Filter>Graphics\Shader\DX\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\Sepia_PS.h">
+      <Filter>Graphics\Shader\GL\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\Sepia_PS.h">
+      <Filter>Graphics\Shader\DX\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GaussianBlur_PS.h">
+      <Filter>Graphics\Shader\DX\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GaussianBlur_PS.h">
+      <Filter>Graphics\Shader\GL\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\Transition\asd.CoreTransition.h">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\Transition\asd.CoreTransition_Imp.h">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.Renderer3D.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedCameraObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedDirectionalLightObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedEffectObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedModelObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Deformer.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Deformer_Imp.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.MassModel.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.MassModel_Imp.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Mesh.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Mesh_Imp.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Model.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Model_Imp.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationClip_Imp.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSource.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSource_Imp.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSystem.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSystem_Imp.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.KeyframeAnimation.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.KeyframeAnimation_Imp.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationClip.h">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommand.h">
+      <Filter>Graphics\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommandExecutor.h">
+      <Filter>Graphics\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommandFactory.h">
+      <Filter>Graphics\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommandHelper.h">
+      <Filter>Graphics\Command</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.Renderer3DProxy.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\PostProcess\asd.SSAO.h">
+      <Filter>Graphics\3D\PostProcess</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.LightRendering.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Utils\asd.ResourceContainer.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Environment_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.EnvironmentRendering.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Environment_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.MaterialPropertyBlock_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.MaterialPropertyBlock.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Material3D_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Material3D.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Shader3D_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.Shader3D.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.SpriteRenderer3D.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\SpriteRenderer3D_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\SpriteRenderer3D_VS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedMassModelObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\MassModel_Internal_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_MassModel_Internal_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreMassModelObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreMassModelObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_MassModel_Internal_VS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\MassModel_Internal_VS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Terrain3D_Imp.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Terrain3D.h">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedTerrainObject3D.h">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreTerrainObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreTerrainObject3D_Imp.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Terrain_Internal_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Terrain_Internal_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Terrain_Internal_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Terrain_Internal_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Terrain_Internal_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Terrain_Internal_VS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Terrain_Internal_PS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Terrain_Internal_VS.h">
+      <Filter>Graphics\Shader\GL\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.h">
+      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DirectXHelpers.h">
+      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\PlatformHelpers.h">
+      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\dds.h">
+      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Log\asd.GetSpec.h">
+      <Filter>Log</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.Culling2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreObject2D_Imp_Methods.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\dll.h" />
+    <ClInclude Include="..\core\Input\asd.MouseButtonState.h">
+      <Filter>Input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\asd.ChildMode.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\asd.StructTranslator.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.ImagePackage_Imp.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Resource\asd.ImagePackage.h">
+      <Filter>Graphics\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreGeometryObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreGeometryObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.ShapeType.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\Downsample_PS.h">
+      <Filter>Graphics\Shader\DX\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\Downsample_PS.h">
+      <Filter>Graphics\Shader\GL\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreArcShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreArcShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreCircleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreCircleShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreLineShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreLineShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreRectangleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreRectangleShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreTriangleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreTriangleShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CorePolygonShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CorePolygonShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\shapes.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\utils.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\advancing_front.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\cdt.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep_context.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\poly2tri\poly2tri.h">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\asd.LayerProfile.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\asd.LayerProfiler_Imp.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Profiler\asd.LayerProfiler.h">
+      <Filter>Profiler</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\asd.BaseFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\asd.PackFile.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\asd.FileRoot.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\asd.FileHelper.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\IO\asd.Decryptor.h">
+      <Filter>IO</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreChip2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreChip2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreShape_Imp.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreShape_Imp_Methods.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Shape\asd.CoreShapeConverter.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Window\asd.Window_Imp_Win.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Window\asd.Window_Imp.cpp">
+      <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Profiler\asd.Profiler_Imp.cpp">
+      <Filter>Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Input\asd.Keyboard_Imp.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Input\asd.MiddleButton.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Input\asd.Mouse_Imp.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Input\asd.SideButton.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Core\asd.Core_Imp.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Core\asd.CreateCore.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Input\asd.Joystick_Imp.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Input\asd.JoystickContainer_Imp.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\asd.ReferenceObject.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\asd.ObjectSystemFactory_Imp.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Profiler\asd.ProfilerViewer_Imp.cpp">
+      <Filter>Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Profiler\asd.Profile.cpp">
+      <Filter>Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.TransformInfo2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreLayer2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreTextureObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\asd.CoreScene_Imp.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\PostEffect\asd.CorePostEffect_Imp.cpp">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreLayer3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreDirectionalLightObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreCameraObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\asd.CoreLayer_Imp.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreModelObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\asd.Accessor.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreCameraObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.ObjectInfo2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreEffectObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\PCH\asd.Core.PCH.cpp">
+      <Filter>PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Sound\asd.Sound_Imp.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Sound\asd.SoundSource_Imp.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreEffectObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreTextObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\2D\asd.LayerRenderer.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\2D\asd.PostEffectRenderer.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\2D\asd.Renderer2D_Imp.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.cpp">
+      <Filter>Graphics\Platform\DX11</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.CubemapTexture_Imp_DX11.cpp">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.DepthBuffer_Imp_DX11.cpp">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.IndexBuffer_Imp_DX11.cpp">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.NativeShader_Imp_DX11.cpp">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.RenderTexture2D_Imp_DX11.cpp">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.Texture2D_Imp_DX11.cpp">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.VertexBuffer_Imp_DX11.cpp">
+      <Filter>Graphics\Platform\DX11\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.CubemapTexture_Imp_GL.cpp">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.DepthBuffer_Imp_GL.cpp">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.IndexBuffer_Imp_GL.cpp">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.NativeShader_Imp_GL.cpp">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.RenderTexture2D_Imp_GL.cpp">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.Texture2D_Imp_GL.cpp">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.VertexBuffer_Imp_GL.cpp">
+      <Filter>Graphics\Platform\GL\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\GL\asd.Graphics_Imp_GL.cpp">
+      <Filter>Graphics\Platform\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.CubemapTexture_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.DepthBuffer_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.Effect_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.IndexBuffer_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.Material_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.Material2D_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.NativeShader_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.RenderTexture2D_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.Shader2D_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.ShaderCache.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.Texture2D_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.VertexBuffer_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\asd.DeviceObject.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\asd.Graphics_Imp.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\asd.RenderingThread.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.Font_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\asd.StreamFile_Imp.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\asd.File_Imp.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\asd.StaticFile_Imp.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\asd.BaseFile.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreMapObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\Transition\asd.CoreTransition_Imp.cpp">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.Renderer3D.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedCameraObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedDirectionalLightObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedEffectObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedModelObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\asd.Deformer_Imp.cpp">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\asd.MassModel_Imp.cpp">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\asd.Mesh_Imp.cpp">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\asd.Model_Imp.cpp">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationClip_Imp.cpp">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSource_Imp.cpp">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSystem_Imp.cpp">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\asd.KeyframeAnimation_Imp.cpp">
+      <Filter>Graphics\3D\Resource\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\asd.Core.Base_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommandExecutor.cpp">
+      <Filter>Graphics\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommandFactory.cpp">
+      <Filter>Graphics\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommand.cpp">
+      <Filter>Graphics\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommandHelper.cpp">
+      <Filter>Graphics\Command</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.Renderer3DProxy.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\PostProcess\asd.SSAO.cpp">
+      <Filter>Graphics\3D\PostProcess</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.LightRendering.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Utils\asd.ResourceContainer.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.EnvironmentRendering.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.MaterialPropertyBlock_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.Material3D_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Resource\asd.Shader3D_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.SpriteRenderer3D.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedMassModelObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreMassModelObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Resource\asd.Terrain3D_Imp.cpp">
+      <Filter>Graphics\3D\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedTerrainObject3D.cpp">
+      <Filter>Graphics\3D\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreTerrainObject3D_Imp.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.cpp">
+      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\dll.cxx" />
+    <ClCompile Include="..\core\asd.StructTranslator.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.ImagePackage_Imp.cpp">
+      <Filter>Graphics\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreGeometryObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\asd.CoreArcShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\asd.CoreCircleShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\asd.CoreLineShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\asd.CoreRectangleShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\asd.CoreTriangleShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\asd.CorePolygonShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\common\shapes.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\advancing_front.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\cdt.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep_context.cpp">
+      <Filter>3rdParty\poly2tri</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Profiler\asd.LayerProfile.cpp">
+      <Filter>Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Profiler\asd.LayerProfiler_Imp.cpp">
+      <Filter>Profiler</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\asd.PackFile.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\asd.FileHelper.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\IO\asd.Decryptor.cpp">
+      <Filter>IO</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreChip2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\asd.CoreShape_Imp.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Shape\asd.CoreShapeConverter.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\core\Window\asd.Window_Imp_X11.cpp">
+      <Filter>Window</Filter>
+    </None>
+    <None Include="..\core\Window\asd.Window_Imp_X11.h">
+      <Filter>Window</Filter>
+    </None>
+    <None Include="..\core\Input\asd.JoystickContainer.h">
+      <Filter>Input</Filter>
+    </None>
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Lightweight_Model_Internal_PS.alsl">
+      <Filter>Graphics\Shader\ALSL\3D</Filter>
+    </None>
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Lightweight_Model_Internal_VS.alsl">
+      <Filter>Graphics\Shader\ALSL\3D</Filter>
+    </None>
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Model_Internal_PS.alsl">
+      <Filter>Graphics\Shader\ALSL\3D</Filter>
+    </None>
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Model_Internal_VS.alsl">
+      <Filter>Graphics\Shader\ALSL\3D</Filter>
+    </None>
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Light_PS.alsl">
+      <Filter>Graphics\Shader\ALSL\3D</Filter>
+    </None>
+    <None Include="..\core\Graphics\Shader\ALSL\PostEffect\LightBloom_PS.alsl">
+      <Filter>Graphics\Shader\ALSL\PostEffect</Filter>
+    </None>
+  </ItemGroup>
+</Project>

@@ -25,49 +25,49 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\Utility\ace.GetTypeNameTest.cpp">
+    <ClCompile Include="..\Utility\asd.GetTypeNameTest.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\ace.Graphics_Test_Utls.cpp">
+    <ClCompile Include="..\Graphics\asd.Graphics_Test_Utls.cpp">
       <Filter>Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="..\Utility\ace.PointerArray_test.cpp">
+    <ClCompile Include="..\Utility\asd.PointerArray_test.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\Utility\ace.TypeErasureCopy_test.cpp">
+    <ClCompile Include="..\Utility\asd.TypeErasureCopy_test.cpp">
       <Filter>Utility</Filter>
     </ClCompile>
-    <ClCompile Include="..\Window\ace.Window_Empty_Test.cpp">
+    <ClCompile Include="..\Window\asd.Window_Empty_Test.cpp">
       <Filter>Window</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Simple3D_Test.cpp">
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_Simple3D_Test.cpp">
       <Filter>Graphics\LowLayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_SingleTexture_Test.cpp">
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_SingleTexture_Test.cpp">
       <Filter>Graphics\LowLayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Empty_Test.cpp">
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_Empty_Test.cpp">
       <Filter>Graphics\LowLayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_RenderTarget.cpp">
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_RenderTarget.cpp">
       <Filter>Graphics\LowLayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Sampler_Test.cpp">
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_Sampler_Test.cpp">
       <Filter>Graphics\LowLayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\ace.common.Base_test.cpp" />
-    <ClCompile Include="..\Graphics\2D\ace.Renderer2D_Test.cpp">
+    <ClCompile Include="..\asd.common.Base_test.cpp" />
+    <ClCompile Include="..\Graphics\2D\asd.Renderer2D_Test.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
-    <ClCompile Include="ace.ProfilerViewer_test.cpp">
+    <ClCompile Include="asd.ProfilerViewer_test.cpp">
       <Filter>Profiler</Filter>
     </ClCompile>
-    <ClCompile Include="ace.Log_Test.cpp">
+    <ClCompile Include="asd.Log_Test.cpp">
       <Filter>Core</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Graphics\ace.Graphics_Test_Utls.h">
+    <ClInclude Include="..\Graphics\asd.Graphics_Test_Utls.h">
       <Filter>Graphics</Filter>
     </ClInclude>
   </ItemGroup>

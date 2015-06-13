@@ -1,16 +1,16 @@
 ﻿
 #include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class Performance_TextureObject2D : public EngineTest
 {
 public:
 	Performance_TextureObject2D(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("TextureObject2D"), isOpenGLMode, 200000)
+		: EngineTest(asd::ToAString("TextureObject2D"), isOpenGLMode, 200000)
 	{
 	}
 
@@ -21,7 +21,7 @@ protected:
 	{
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
-		auto texture = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
+		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 
 		for (int32_t y = 0; y < 50; y++)
 		{
@@ -31,15 +31,15 @@ protected:
 				layer->AddObject(textureObj);
 
 				textureObj->SetTexture(texture);
-				textureObj->SetSrc(ace::RectF(256, 256, 256, 256));
-				textureObj->SetPosition(ace::Vector2DF(x * 20,  y * 15));
+				textureObj->SetSrc(asd::RectF(256, 256, 256, 256));
+				textureObj->SetPosition(asd::Vector2DF(x * 20,  y * 15));
 
-				textureObj->SetScale(ace::Vector2DF(0.05f, 0.05f));
+				textureObj->SetScale(asd::Vector2DF(0.05f, 0.05f));
 			}
 		}
 
 		scene->AddLayer(layer);
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 	}
 
 	void OnUpdating()

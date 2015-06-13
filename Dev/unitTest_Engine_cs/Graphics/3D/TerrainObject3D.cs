@@ -18,12 +18,12 @@ namespace unitTest_Engine_cs.Graphics._3D
 		{
 			base.OnStart();
 
-			var lightObj = new ace.DirectionalLightObject3D();
-			lightObj.Rotation = new ace.Vector3DF(30, 160, 0);
+			var lightObj = new asd.DirectionalLightObject3D();
+			lightObj.Rotation = new asd.Vector3DF(30, 160, 0);
 			Layer3D.AddObject(lightObj);
 
 
-			var t = ace.Engine.Graphics.CreateTerrain3D();
+			var t = asd.Engine.Graphics.CreateTerrain3D();
 			t.New(1, 16, 16);
 			t.AddSurface(
 			"sf1",
@@ -42,7 +42,7 @@ namespace unitTest_Engine_cs.Graphics._3D
 			var sf2ind = t.GetSurfaceIndex("sf2");
 			t.AssignSurfaceWithCircle(sf2ind, 0, 0, 2, 255, 0.5f);
 
-			var tObj = new ace.TerrainObject3D();
+			var tObj = new asd.TerrainObject3D();
 			tObj.SetTerrain(t);
 			Layer3D.AddObject(tObj);
 		}

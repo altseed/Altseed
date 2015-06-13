@@ -1,16 +1,16 @@
-﻿#include <ace.h>
+﻿#include <Altseed.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class Graphics_TextObject2D : public EngineTest
 {
 public:
 	Graphics_TextObject2D(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("TextObject2D"), isOpenGLMode, 10)
+		: EngineTest(asd::ToAString("TextObject2D"), isOpenGLMode, 10)
 	{
 	}
 
@@ -25,15 +25,15 @@ protected:
 		ASSERT_NE(layer, nullptr);
 		ASSERT_NE(object, nullptr);
 
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 
-		auto g = ace::Engine::GetGraphics();
+		auto g = asd::Engine::GetGraphics();
 
-		ace::Engine::GetFile()->AddRootDirectory(ace::ToAString("Data").c_str());
+		asd::Engine::GetFile()->AddRootDirectory(asd::ToAString("Data").c_str());
 
 		layer->AddObject(object);
-		auto font = g->CreateFont(ace::ToAString("Font/Nac0812.aff").c_str());
+		auto font = g->CreateFont(asd::ToAString("Font/Nac0812.aff").c_str());
 
 		object->SetText(ToAString("DependencyPropertyとは").c_str());
 

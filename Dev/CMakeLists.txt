@@ -2,7 +2,7 @@
 set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE TYPE INTERNAL FORCE )
 
 # プロジェクト名
-project(ace)
+project(Altseed)
 
 # CMake バージョンチェック
 if (MSVC)
@@ -50,9 +50,9 @@ endif()
 # インクルードの設定
 include_directories(
 	include/
-	ace_cpp/common/
-	ace_cpp/tool/
-	ace_cpp/core/
+	asd_cpp/common/
+	asd_cpp/tool/
+	asd_cpp/core/
 	)
 
 #ライブラリの設定
@@ -207,31 +207,31 @@ set_target_properties(aceUnitTestGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/
 set_target_properties(aceUnitTestEngineGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 
 if (MSVC)
-set_target_properties(aceCommon PROPERTIES OUTPUT_NAME_DEBUG "ace_common" )
-set_target_properties(aceCommon PROPERTIES OUTPUT_NAME_RELEASE "ace_common" )
+set_target_properties(aceCommon PROPERTIES OUTPUT_NAME_DEBUG "asd_common" )
+set_target_properties(aceCommon PROPERTIES OUTPUT_NAME_RELEASE "asd_common" )
 else()
-set_target_properties(aceCommon PROPERTIES OUTPUT_NAME "ace_common" )
+set_target_properties(aceCommon PROPERTIES OUTPUT_NAME "asd_common" )
 endif()
 
 if (MSVC)
-set_target_properties(aceCore PROPERTIES OUTPUT_NAME_DEBUG "ace_core" )
-set_target_properties(aceCore PROPERTIES OUTPUT_NAME_RELEASE "ace_core" )
+set_target_properties(aceCore PROPERTIES OUTPUT_NAME_DEBUG "asd_core" )
+set_target_properties(aceCore PROPERTIES OUTPUT_NAME_RELEASE "asd_core" )
 else()
-set_target_properties(aceCore PROPERTIES OUTPUT_NAME "ace_core" )
+set_target_properties(aceCore PROPERTIES OUTPUT_NAME "asd_core" )
 endif()
 
 if (MSVC)
-set_target_properties(aceCoreDLL PROPERTIES OUTPUT_NAME_DEBUG "ace_core" )
-set_target_properties(aceCoreDLL PROPERTIES OUTPUT_NAME_RELEASE "ace_core" )
+set_target_properties(aceCoreDLL PROPERTIES OUTPUT_NAME_DEBUG "asd_core" )
+set_target_properties(aceCoreDLL PROPERTIES OUTPUT_NAME_RELEASE "asd_core" )
 else()
-set_target_properties(aceCoreDLL PROPERTIES OUTPUT_NAME "ace_core" )
+set_target_properties(aceCoreDLL PROPERTIES OUTPUT_NAME "asd_core" )
 endif()
 
 if (MSVC)
-set_target_properties(aceEngine PROPERTIES OUTPUT_NAME_DEBUG "ace_engine" )
-set_target_properties(aceEngine PROPERTIES OUTPUT_NAME_RELEASE "ace_engine" )
+set_target_properties(aceEngine PROPERTIES OUTPUT_NAME_DEBUG "asd_engine" )
+set_target_properties(aceEngine PROPERTIES OUTPUT_NAME_RELEASE "asd_engine" )
 else()
-set_target_properties(aceEngine PROPERTIES OUTPUT_NAME "ace_engine" )
+set_target_properties(aceEngine PROPERTIES OUTPUT_NAME "asd_engine" )
 endif()
 
 set_target_properties(aceUnitTestGtest PROPERTIES OUTPUT_NAME_DEBUG "UnitTestGtest_cpp" )

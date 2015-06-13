@@ -1,15 +1,15 @@
 ﻿#include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class ObjectSystem_LayersMember : public EngineTest
 {
 public:
 	ObjectSystem_LayersMember(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("LayersMember"), isOpenGLMode, 30)
+		: EngineTest(asd::ToAString("LayersMember"), isOpenGLMode, 30)
 	{
 	}
 

@@ -1,0 +1,778 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug_Lib|Win32">
+      <Configuration>Debug_Lib</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug_Lib|x64">
+      <Configuration>Debug_Lib</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_Lib|Win32">
+      <Configuration>Release_Lib</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release_Lib|x64">
+      <Configuration>Release_Lib</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{FBA17564-7E7C-4BE0-881E-6223CB6740D6}</ProjectGuid>
+    <RootNamespace>ace_core</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(ProjectName).$(Configuration)</TargetName>
+    <OutDir>$(ProjectDir)..\..\bin\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>$(ProjectName).$(Configuration)</TargetName>
+    <OutDir>$(ProjectDir)..\..\bin\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'">
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(ProjectDir)..\..\lib\x86\Debug\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|x64'">
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(ProjectDir)..\..\lib\x64\Debug\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(ProjectDir)..\..\bin\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(ProjectDir)..\..\bin\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(ProjectDir)..\..\lib\x86\Release\</OutDir>
+    <IntDir>$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|x64'">
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(ProjectDir)..\..\lib\x64\Release\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\core\PCH\asd.Core.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\shapes.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\common\utils.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\poly2tri.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\advancing_front.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\cdt.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep.h" />
+    <ClInclude Include="..\core\3rdParty\poly2tri\sweep\sweep_context.h" />
+    <ClInclude Include="..\core\asd.Core.Base.h" />
+    <ClInclude Include="..\core\asd.Core.Base_Imp.h" />
+    <ClInclude Include="..\core\asd.Accessor.h" />
+    <ClInclude Include="..\core\asd.ReferenceObject.h" />
+    <ClInclude Include="..\core\asd.StructTranslator.h" />
+    <ClInclude Include="..\core\Core\asd.Core.h" />
+    <ClInclude Include="..\core\Core\asd.Core_Imp.h" />
+    <ClInclude Include="..\core\Core\asd.CreateCore.h" />
+    <ClInclude Include="..\core\dll.h" />
+    <ClInclude Include="..\core\Graphics\2D\asd.LayerRenderer.h" />
+    <ClInclude Include="..\core\Graphics\2D\asd.PostEffectRenderer.h" />
+    <ClInclude Include="..\core\Graphics\2D\asd.Renderer2D.h" />
+    <ClInclude Include="..\core\Graphics\2D\asd.Renderer2D_Imp.h" />
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedCameraObject3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedDirectionalLightObject3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedEffectObject3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedMassModelObject3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedModelObject3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedObject3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedTerrainObject3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\PostProcess\asd.SSAO.h" />
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.EnvironmentRendering.h" />
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.LightRendering.h" />
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.Renderer3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.Renderer3DProxy.h" />
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.SpriteRenderer3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Deformer.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Deformer_Imp.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.MassModel.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.MassModel_Imp.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Mesh.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Mesh_Imp.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Model.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Model_Imp.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Terrain3D.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\asd.Terrain3D_Imp.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationClip.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationClip_Imp.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSource.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSource_Imp.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSystem.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSystem_Imp.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.KeyframeAnimation.h" />
+    <ClInclude Include="..\core\Graphics\3D\Resource\Animation\asd.KeyframeAnimation_Imp.h" />
+    <ClInclude Include="..\core\Graphics\asd.DeviceObject.h" />
+    <ClInclude Include="..\core\Graphics\asd.Graphics.h" />
+    <ClInclude Include="..\core\Graphics\asd.Graphics_Imp.h" />
+    <ClInclude Include="..\core\Graphics\asd.RenderingThread.h" />
+    <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommand.h" />
+    <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommandExecutor.h" />
+    <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommandFactory.h" />
+    <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommandHelper.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\asd.DX11.Base.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\dds.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DirectXHelpers.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\PlatformHelpers.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.CubemapTexture_Imp_DX11.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.DepthBuffer_Imp_DX11.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.IndexBuffer_Imp_DX11.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.NativeShader_Imp_DX11.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.RenderTexture2D_Imp_DX11.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.Texture2D_Imp_DX11.h" />
+    <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.VertexBuffer_Imp_DX11.h" />
+    <ClInclude Include="..\core\Graphics\Platform\GL\asd.GL.Base.h" />
+    <ClInclude Include="..\core\Graphics\Platform\GL\asd.Graphics_Imp_GL.h" />
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.CubemapTexture_Imp_GL.h" />
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.DepthBuffer_Imp_GL.h" />
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.IndexBuffer_Imp_GL.h" />
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.NativeShader_Imp_GL.h" />
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.RenderTexture2D_Imp_GL.h" />
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.Texture2D_Imp_GL.h" />
+    <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.VertexBuffer_Imp_GL.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.CubemapTexture.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.CubemapTexture_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.DepthBuffer_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Effect.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Effect_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Font.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Font_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.ImagePackage.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.ImagePackage_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.IndexBuffer_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Material2D.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Material2D_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Material3D.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Material3D_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.MaterialPropertyBlock.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.MaterialPropertyBlock_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Material_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.NativeShader_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.RenderTexture2D.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.RenderTexture2D_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Shader2D.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Shader2D_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Shader3D.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Shader3D_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.ShaderCache.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Texture.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Texture2D.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.Texture2D_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Resource\asd.VertexBuffer_Imp.h" />
+    <ClInclude Include="..\core\Graphics\Shader\asd.Vertices.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\2D\LayerRenderer_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\2D\LayerRenderer_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\2D\Renderer2D_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\2D\Renderer2D_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Blur_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\DeferredBuffer_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Environment_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_MassModel_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Terrain_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Terrain_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Light_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Model_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\MassModel_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Model_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Model_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Paste_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_Blur_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Screen_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Terrain_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Terrain_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\Downsample_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GaussianBlur_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\GrayScale_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\LightBloom_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\PostEffect\Sepia_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\2D\LayerRenderer_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\2D\LayerRenderer_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\2D\Renderer2D_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Blur_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\DeferredBuffer_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Environment_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_MassModel_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Terrain_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Terrain_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Light_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Model_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Lightweight_Model_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\MassModel_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Model_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Model_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Paste_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Screen_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\SpriteRenderer3D_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\SpriteRenderer3D_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Terrain_Internal_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\3D\Terrain_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\Downsample_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GaussianBlur_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\GrayScale_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\LightBloom_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\GL\PostEffect\Sepia_PS.h" />
+    <ClInclude Include="..\core\Input\asd.Joystick.h" />
+    <ClInclude Include="..\core\Input\asd.JoystickContainer_Imp.h" />
+    <ClInclude Include="..\core\Input\asd.Joystick_Imp.h" />
+    <ClInclude Include="..\core\Input\asd.Keyboard.h" />
+    <ClInclude Include="..\core\Input\asd.Keyboard_Imp.h" />
+    <ClInclude Include="..\core\Input\asd.MiddleButton.h" />
+    <ClInclude Include="..\core\Input\asd.Mouse.h" />
+    <ClInclude Include="..\core\Input\asd.MouseButtonState.h" />
+    <ClInclude Include="..\core\Input\asd.Mouse_Imp.h" />
+    <ClInclude Include="..\core\Input\asd.SideButton.h" />
+    <ClInclude Include="..\core\IO\asd.Decryptor.h" />
+    <ClInclude Include="..\core\IO\asd.File.h" />
+    <ClInclude Include="..\core\IO\asd.FileHelper.h" />
+    <ClInclude Include="..\core\IO\asd.File_Imp.h" />
+    <ClInclude Include="..\core\IO\asd.PackFile.h" />
+    <ClInclude Include="..\core\IO\asd.FileRoot.h" />
+    <ClInclude Include="..\core\IO\asd.StaticFile.h" />
+    <ClInclude Include="..\core\IO\asd.StaticFile_Imp.h" />
+    <ClInclude Include="..\core\IO\asd.StreamFile.h" />
+    <ClInclude Include="..\core\IO\asd.StreamFile_Imp.h" />
+    <ClInclude Include="..\core\IO\asd.BaseFile.h" />
+    <ClInclude Include="..\core\Log\asd.GetSpec.h" />
+    <ClInclude Include="..\core\Log\asd.Log.h" />
+    <ClInclude Include="..\core\Log\asd.Log_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreChip2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreChip2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreCameraObject2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreCameraObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreEffectObject2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreEffectObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreGeometryObject2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreMapObject2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreMapObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreObject2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreObject2D_Imp_Methods.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreTextObject2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreTextObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.Culling2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreGeometryObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.TransformInfo2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.ParentInfo2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreLayer2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreLayer2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreTextureObject2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreTextureObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.ObjectInfo2D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreCameraObject3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreCameraObject3D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreDirectionalLightObject3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreDirectionalLightObject3D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreEffectObject3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreEffectObject3D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreLayer3D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreLayer3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreMassModelObject3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreMassModelObject3D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreModelObject3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreModelObject3D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreObject3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreObject3D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreTerrainObject3D.h" />
+    <ClInclude Include="..\core\ObjectSystem\3D\asd.CoreTerrainObject3D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\asd.CoreLayer_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\asd.ChildMode.h" />
+    <ClInclude Include="..\core\ObjectSystem\asd.ObjectSystemFactory_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\asd.CoreScene_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\asd.CoreScene.h" />
+    <ClInclude Include="..\core\ObjectSystem\asd.ObjectSystemFactory.h" />
+    <ClInclude Include="..\core\ObjectSystem\asd.CoreLayer.h" />
+    <ClInclude Include="..\core\ObjectSystem\PostEffect\asd.CorePostEffect.h" />
+    <ClInclude Include="..\core\ObjectSystem\PostEffect\asd.CorePostEffect_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\Transition\asd.CoreTransition.h" />
+    <ClInclude Include="..\core\ObjectSystem\Transition\asd.CoreTransition_Imp.h" />
+    <ClInclude Include="..\core\PCH\asd.Core.PCH.h" />
+    <ClInclude Include="..\core\Profiler\asd.LayerProfiler.h" />
+    <ClInclude Include="..\core\Profiler\asd.LayerProfiler_Imp.h" />
+    <ClInclude Include="..\core\Profiler\asd.Profile.h" />
+    <ClInclude Include="..\core\Profiler\asd.Profiler.h" />
+    <ClInclude Include="..\core\Profiler\asd.ProfilerViewer.h" />
+    <ClInclude Include="..\core\Profiler\asd.ProfilerViewer_Imp.h" />
+    <ClInclude Include="..\core\Profiler\asd.Profiler_Imp.h" />
+    <ClInclude Include="..\core\Profiler\asd.LayerProfile.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreArcShape.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreArcShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreCircleShape.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreCircleShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreLineShape.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreLineShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\asd.CorePolygonShape.h" />
+    <ClInclude Include="..\core\Shape\asd.CorePolygonShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreRectangleShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreShape.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreRectangleShape.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreShape_Imp_Methods.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreTriangleShape.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreTriangleShape_Imp.h" />
+    <ClInclude Include="..\core\Shape\asd.ShapeType.h" />
+    <ClInclude Include="..\core\Shape\asd.CoreShapeConverter.h" />
+    <ClInclude Include="..\core\Sound\asd.Sound.h" />
+    <ClInclude Include="..\core\Sound\asd.SoundSource.h" />
+    <ClInclude Include="..\core\Sound\asd.SoundSource_Imp.h" />
+    <ClInclude Include="..\core\Sound\asd.Sound_Imp.h" />
+    <ClInclude Include="..\core\Utils\asd.ResourceContainer.h" />
+    <ClInclude Include="..\core\Window\asd.Window.h" />
+    <ClInclude Include="..\core\Window\asd.Window_Imp.h" />
+    <ClInclude Include="..\core\Window\asd.Window_Imp_Win.h" />
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Light_PS.alsl" />
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Lightweight_Model_Internal_PS.alsl" />
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Lightweight_Model_Internal_VS.alsl" />
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Model_Internal_PS.alsl" />
+    <None Include="..\core\Graphics\Shader\ALSL\3D\Model_Internal_VS.alsl" />
+    <None Include="..\core\Graphics\Shader\ALSL\PostEffect\LightBloom_PS.alsl" />
+    <None Include="..\core\Input\asd.JoystickContainer.h" />
+    <None Include="..\core\Window\asd.Window_Imp_X11.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_Lib|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\core\3rdParty\poly2tri\common\shapes.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\advancing_front.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\cdt.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep.cpp" />
+    <ClCompile Include="..\core\3rdParty\poly2tri\sweep\sweep_context.cpp" />
+    <ClCompile Include="..\core\asd.Accessor.cpp" />
+    <ClCompile Include="..\core\asd.Core.Base_Imp.cpp" />
+    <ClCompile Include="..\core\asd.ReferenceObject.cpp" />
+    <ClCompile Include="..\core\asd.StructTranslator.cpp" />
+    <ClCompile Include="..\core\Core\asd.Core_Imp.cpp" />
+    <ClCompile Include="..\core\Core\asd.CreateCore.cpp" />
+    <ClCompile Include="..\core\dll.cxx" />
+    <ClCompile Include="..\core\Graphics\2D\asd.LayerRenderer.cpp" />
+    <ClCompile Include="..\core\Graphics\2D\asd.PostEffectRenderer.cpp" />
+    <ClCompile Include="..\core\Graphics\2D\asd.Renderer2D_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedCameraObject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedDirectionalLightObject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedEffectObject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedMassModelObject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedModelObject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedObject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedTerrainObject3D.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\PostProcess\asd.SSAO.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.EnvironmentRendering.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.LightRendering.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.Renderer3D.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.Renderer3DProxy.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.SpriteRenderer3D.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Resource\asd.Deformer_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Resource\asd.MassModel_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Resource\asd.Mesh_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Resource\asd.Model_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Resource\asd.Terrain3D_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationClip_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSource_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\asd.AnimationSystem_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Resource\Animation\asd.KeyframeAnimation_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\asd.DeviceObject.cpp" />
+    <ClCompile Include="..\core\Graphics\asd.Graphics_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\asd.RenderingThread.cpp" />
+    <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommand.cpp" />
+    <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommandExecutor.cpp" />
+    <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommandFactory.cpp" />
+    <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommandHelper.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.CubemapTexture_Imp_DX11.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.DepthBuffer_Imp_DX11.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.IndexBuffer_Imp_DX11.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.NativeShader_Imp_DX11.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.RenderTexture2D_Imp_DX11.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.Texture2D_Imp_DX11.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.VertexBuffer_Imp_DX11.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\GL\asd.Graphics_Imp_GL.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.CubemapTexture_Imp_GL.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.DepthBuffer_Imp_GL.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.IndexBuffer_Imp_GL.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.NativeShader_Imp_GL.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.RenderTexture2D_Imp_GL.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.Texture2D_Imp_GL.cpp" />
+    <ClCompile Include="..\core\Graphics\Platform\GL\Resource\asd.VertexBuffer_Imp_GL.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.CubemapTexture_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.DepthBuffer_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.Effect_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.Font_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.ImagePackage_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.IndexBuffer_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.Material2D_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.Material3D_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.MaterialPropertyBlock_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.Material_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.NativeShader_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.RenderTexture2D_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.Shader2D_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.Shader3D_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.ShaderCache.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.Texture2D_Imp.cpp" />
+    <ClCompile Include="..\core\Graphics\Resource\asd.VertexBuffer_Imp.cpp" />
+    <ClCompile Include="..\core\Input\asd.JoystickContainer_Imp.cpp" />
+    <ClCompile Include="..\core\Input\asd.Joystick_Imp.cpp" />
+    <ClCompile Include="..\core\Input\asd.Keyboard_Imp.cpp" />
+    <ClCompile Include="..\core\Input\asd.MiddleButton.cpp" />
+    <ClCompile Include="..\core\Input\asd.Mouse_Imp.cpp" />
+    <ClCompile Include="..\core\Input\asd.SideButton.cpp" />
+    <ClCompile Include="..\core\IO\asd.BaseFile.cpp" />
+    <ClCompile Include="..\core\IO\asd.Decryptor.cpp" />
+    <ClCompile Include="..\core\IO\asd.FileHelper.cpp" />
+    <ClCompile Include="..\core\IO\asd.File_Imp.cpp" />
+    <ClCompile Include="..\core\IO\asd.PackFile.cpp" />
+    <ClCompile Include="..\core\IO\asd.StaticFile_Imp.cpp" />
+    <ClCompile Include="..\core\IO\asd.StreamFile_Imp.cpp" />
+    <ClCompile Include="..\core\Log\asd.Log_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreChip2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreCameraObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreEffectObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreGeometryObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreMapObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreTextObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.ObjectInfo2D.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.TransformInfo2D.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreLayer2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreTextureObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreCameraObject3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreDirectionalLightObject3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreEffectObject3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreLayer3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreMassModelObject3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreModelObject3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreObject3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreTerrainObject3D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\asd.CoreLayer_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\asd.ObjectSystemFactory_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\asd.CoreScene_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\PostEffect\asd.CorePostEffect_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\Transition\asd.CoreTransition_Imp.cpp" />
+    <ClCompile Include="..\core\PCH\asd.Core.PCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release_Lib|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\core\Profiler\asd.LayerProfile.cpp" />
+    <ClCompile Include="..\core\Profiler\asd.LayerProfiler_Imp.cpp" />
+    <ClCompile Include="..\core\Profiler\asd.Profile.cpp" />
+    <ClCompile Include="..\core\Profiler\asd.Profiler_Imp.cpp" />
+    <ClCompile Include="..\core\Profiler\asd.ProfilerViewer_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\asd.CoreArcShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\asd.CoreCircleShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\asd.CoreLineShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\asd.CoreRectangleShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\asd.CoreShapeConverter.cpp" />
+    <ClCompile Include="..\core\Shape\asd.CoreShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\asd.CoreTriangleShape_Imp.cpp" />
+    <ClCompile Include="..\core\Shape\asd.CorePolygonShape_Imp.cpp" />
+    <ClCompile Include="..\core\Sound\asd.SoundSource_Imp.cpp" />
+    <ClCompile Include="..\core\Sound\asd.Sound_Imp.cpp" />
+    <ClCompile Include="..\core\Utils\asd.ResourceContainer.cpp" />
+    <ClCompile Include="..\core\Window\asd.Window_Imp.cpp" />
+    <ClCompile Include="..\core\Window\asd.Window_Imp_Win.cpp" />
+    <None Include="..\core\Window\asd.Window_Imp_X11.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release_Lib|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="ace_common.vcxproj">
+      <Project>{86542137-f2a1-4152-a16b-5be71e060dc6}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

@@ -1,24 +1,24 @@
 ﻿
 #include "EngineGraphics3DTest.h"
 
-std::shared_ptr<ace::Scene> EngineGraphics3DTest::GetScene()
+std::shared_ptr<asd::Scene> EngineGraphics3DTest::GetScene()
 {
 	return m_scene;
 }
 
-std::shared_ptr<ace::Layer3D> EngineGraphics3DTest::GetLayer3D()
+std::shared_ptr<asd::Layer3D> EngineGraphics3DTest::GetLayer3D()
 {
 	return m_layer3d;
 }
 
 void EngineGraphics3DTest::AddCamera()
 {
-	auto camera = std::make_shared<ace::CameraObject3D>();
+	auto camera = std::make_shared<asd::CameraObject3D>();
 	m_layer3d->AddObject(camera);
 	m_cameras.push_back(camera);
 }
 
-std::shared_ptr<ace::CameraObject3D> EngineGraphics3DTest::GetCamera(int32_t index)
+std::shared_ptr<asd::CameraObject3D> EngineGraphics3DTest::GetCamera(int32_t index)
 {
 	if (m_cameras.size() <= index) return nullptr;
 	return m_cameras[index];
@@ -34,10 +34,10 @@ void EngineGraphics3DTest::SetCameraParameter(float distance, float rotX, float 
 	cameraObj->SetFieldOfView(fov);
 	cameraObj->SetZNear(zn);
 	cameraObj->SetZFar(zf);
-	cameraObj->SetWindowSize(ace::Vector2DI(WindowWidth, WindowHeight));
+	cameraObj->SetWindowSize(asd::Vector2DI(WindowWidth, WindowHeight));
 }
 
-void EngineGraphics3DTest::SetRenderSettings(ace::RenderSettings settings)
+void EngineGraphics3DTest::SetRenderSettings(asd::RenderSettings settings)
 {
 	m_settings = settings;
 
@@ -49,35 +49,35 @@ void EngineGraphics3DTest::SetRenderSettings(ace::RenderSettings settings)
 
 void EngineGraphics3DTest::OnStart()
 {
-	m_scene = std::make_shared<ace::Scene>();
+	m_scene = std::make_shared<asd::Scene>();
 	m_scene->SetHDRMode(true);
 
-	m_layer3d = std::make_shared<ace::Layer3D>(m_settings);
+	m_layer3d = std::make_shared<asd::Layer3D>(m_settings);
 	m_scene->AddLayer(m_layer3d);
-	ace::Engine::ChangeScene(m_scene);
+	asd::Engine::ChangeScene(m_scene);
 
 	AddCamera();
 
 	{
 		auto cameraObj = GetCamera(0);
-		cameraObj->SetPosition(ace::Vector3DF(0, 2, 10));
-		cameraObj->SetFocus(ace::Vector3DF(0, 0, 0));
+		cameraObj->SetPosition(asd::Vector3DF(0, 2, 10));
+		cameraObj->SetFocus(asd::Vector3DF(0, 0, 0));
 		cameraObj->SetFieldOfView(20.0f);
 		cameraObj->SetZNear(1.0f);
 		cameraObj->SetZFar(20.0f);
-		cameraObj->SetWindowSize(ace::Vector2DI(WindowWidth, WindowHeight));
+		cameraObj->SetWindowSize(asd::Vector2DI(WindowWidth, WindowHeight));
 		cameraObj->SetHDRMode(true);
 	}
 
-	m_mousePos = ace::Engine::GetMouse()->GetPosition();
+	m_mousePos = asd::Engine::GetMouse()->GetPosition();
 }
 
 void EngineGraphics3DTest::OnUpdating()
 {
 	{
-		auto mousePos = ace::Engine::GetMouse()->GetPosition();
+		auto mousePos = asd::Engine::GetMouse()->GetPosition();
 		auto d = mousePos - m_mousePos;
-		if (ace::Engine::GetMouse()->GetLeftButton()->GetButtonState() == ace::MouseButtonState::Hold)
+		if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::MouseButtonState::Hold)
 		{
 			m_cameraRotX -= d.Y;
 			m_cameraRotY += d.X;
@@ -88,13 +88,13 @@ void EngineGraphics3DTest::OnUpdating()
 			if (m_cameraRotY > 180.0f) m_cameraRotY = 180.0f;
 		}
 
-		if (ace::Engine::GetMouse()->GetRightButton()->GetButtonState() == ace::MouseButtonState::Hold)
+		if (asd::Engine::GetMouse()->GetRightButton()->GetButtonState() == asd::MouseButtonState::Hold)
 		{
-			ace::Vector3DF up(0, 1, 0);
-			ace::Vector3DF right(1, 0, 0);
+			asd::Vector3DF up(0, 1, 0);
+			asd::Vector3DF right(1, 0, 0);
 
-			ace::Matrix44 mat, mat_rot_x, mat_rot_y, look;
-			ace::Vector3DF pos(0, 0, m_cameraDistance);
+			asd::Matrix44 mat, mat_rot_x, mat_rot_y, look;
+			asd::Vector3DF pos(0, 0, m_cameraDistance);
 			mat_rot_x.SetRotationX(-m_cameraRotX / 180.0f * PI);
 			mat_rot_y.SetRotationY(-m_cameraRotY / 180.0f * PI);
 			mat = mat_rot_y * mat_rot_x;
@@ -119,13 +119,13 @@ void EngineGraphics3DTest::OnUpdating()
 			right.Y = right.Y * (dx);
 			right.Z = right.Z * (dx);
 
-			ace::Vector3DF v = up + right;
+			asd::Vector3DF v = up + right;
 			m_cameraFocus += v;
 		}
 
-		if (ace::Engine::GetMouse()->GetMiddleButton()->GetRotation() != 0)
+		if (asd::Engine::GetMouse()->GetMiddleButton()->GetRotation() != 0)
 		{
-			m_cameraDistance += ace::Engine::GetMouse()->GetMiddleButton()->GetRotation();
+			m_cameraDistance += asd::Engine::GetMouse()->GetMiddleButton()->GetRotation();
 		}
 
 		m_mousePos = mousePos;
@@ -133,8 +133,8 @@ void EngineGraphics3DTest::OnUpdating()
 
 	if (m_isFreeView)
 	{
-		ace::Matrix44 mat, mat_rot_x, mat_rot_y;
-		ace::Vector3DF pos(0, 0, m_cameraDistance);
+		asd::Matrix44 mat, mat_rot_x, mat_rot_y;
+		asd::Vector3DF pos(0, 0, m_cameraDistance);
 		mat_rot_x.SetRotationX(-m_cameraRotX / 180.0f * PI);
 		mat_rot_y.SetRotationY(-m_cameraRotY / 180.0f * PI);
 		mat = mat_rot_y * mat_rot_x;
@@ -148,7 +148,7 @@ void EngineGraphics3DTest::OnUpdating()
 	}
 }
 
-EngineGraphics3DTest::EngineGraphics3DTest(ace::astring title, bool isOpenGLMode, int exitTime, bool isFreeView)
+EngineGraphics3DTest::EngineGraphics3DTest(asd::astring title, bool isOpenGLMode, int exitTime, bool isFreeView)
 #if defined(PERFORMANCE_MODE)
 	:EngineTest(title, isOpenGLMode, exitTime, 1280, 720)
 #else

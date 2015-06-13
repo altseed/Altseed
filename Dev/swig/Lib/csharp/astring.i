@@ -17,14 +17,14 @@
 	is, without warranty of any kind.
 */
 
-namespace ace {
+namespace asd {
 
 %naturalvar astring;
 
 class astring;
 
 // astring
-%typemap(ctype, out="void *") astring "::ace::achar *"
+%typemap(ctype, out="void *") astring "::asd::achar *"
 %typemap(imtype, inattributes="[global::System.Runtime.InteropServices.MarshalAs(UnmanagedType.LPWStr)]") astring "string"
 %typemap(cstype) astring "string"
 %typemap(csdirectorin) astring "$iminput"
@@ -61,7 +61,7 @@ class astring;
    return $null; %}
 
 // const astring &
-%typemap(ctype, out="void *") const astring & "::ace::achar *"
+%typemap(ctype, out="void *") const astring & "::asd::achar *"
 %typemap(imtype, inattributes="[global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]") const astring & "string"  
 %typemap(cstype) const astring & "string"
 
@@ -73,7 +73,7 @@ class astring;
     SWIG_CSharpSetPendingExceptionArgument(SWIG_CSharpArgumentNullException, "null astring", 0);
     return $null;
    }
-   ::ace::astring $1_str($input);
+   ::asd::astring $1_str($input);
    $1 = &$1_str; %}
 %typemap(out) const astring & %{ $result = SWIG_csharp_wstring_callback($1->c_str()); %}
 
@@ -89,7 +89,7 @@ class astring;
     return $null;
    }
    /* possible thread/reentrant code problem */
-   static ace::astring $1_str;
+   static asd::astring $1_str;
    $1_str = $input;
    $result = &$1_str; %}
 

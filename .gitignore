@@ -194,17 +194,17 @@ $RECYCLE.BIN/
 /Dev/bin/*.XML
 /Dev/bin/test.aff
 
-/Dev/bin/ace_core.Debug.dll
-/Dev/bin/ace_core.dll
-/Dev/bin/ace_cs.dll
+/Dev/bin/asd_core.Debug.dll
+/Dev/bin/asd_core.dll
+/Dev/bin/asd_cs.dll
 /Dev/bin/FontGenerator.Model.dll
 /Dev/bin/FontGeneratorCore.dll
 
-/Dev/lib/ace_common.Debug.lib
-/Dev/lib/ace_core.UnitTest.Debug_Lib.lib
-/Dev/lib/ace_core.UnitTest.Release_Lib.lib
-/Dev/lib/ace_core.UnitTest.Debug_Lib.lib
-/Dev/lib/ace_core.UnitTest.Release_Lib.lib
+/Dev/lib/asd_common.Debug.lib
+/Dev/lib/asd_core.UnitTest.Debug_Lib.lib
+/Dev/lib/asd_core.UnitTest.Release_Lib.lib
+/Dev/lib/asd_core.UnitTest.Debug_Lib.lib
+/Dev/lib/asd_core.UnitTest.Release_Lib.lib
 /Dev/lib/gtest.lib
 /Dev/lib/gtestd.lib
 /Dev/lib/gtest_main.lib
@@ -275,10 +275,10 @@ master.zip
 /Dev/include/btBulletDynamicsCommon.h
 /Dev/include/Bullet-C-Api.h
 
-/Dev/ace_cpp/engine/ace.CoreToEngine.h
+/Dev/asd_cpp/engine/asd.CoreToEngine.h
 
-/Dev/lib/ace_common.Debug.lib
-/Dev/lib/ace_common.Release.lib
+/Dev/lib/asd_common.Debug.lib
+/Dev/lib/asd_common.Release.lib
 
 /Product/bin/
 /Product/inlude/
@@ -304,22 +304,22 @@ Dev/bin/Data/Text/sazanami-gothic.ttf
 # Sample
 /Sample/cpp/include/
 /Sample/cpp/lib/
-/Sample/sample_cs/ace_cs.dll
-/Sample/sample_cs/ace_cs.XML
+/Sample/sample_cs/asd_cs.dll
+/Sample/sample_cs/asd_cs.XML
 /Sample/bin/Log.html
-/Sample/bin/ace_cs.xml
+/Sample/bin/asd_cs.xml
 
 # Swig
-/Dev/ace_cs/swig/
-/Dev/ace_java/swig/
+/Dev/asd_cs/swig/
+/Dev/asd_java/swig/
 
 /Dev/FontGenerator/FontGenerator/swig/
 /Dev/FontGenerator/FontGenerator.Model/swig/
-/Dev/ace_cpp/core/dll.cxx
+/Dev/asd_cpp/core/dll.cxx
 
 
 
 /Dev/FontGenerator/FontGeneratorTest/result
 Sample/BasicSample/cpp/include/ace.h
-Sample/BasicSample/bin/ace_cs.xml
+Sample/BasicSample/bin/asd_cs.xml
 Sample/BasicSample/bin/Log.html

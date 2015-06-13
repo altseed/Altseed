@@ -8,7 +8,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 {
 	class CameraObject2D : EngineTest
 	{
-		private ace.CameraObject2D camera;
+		private asd.CameraObject2D camera;
 
 		public CameraObject2D()
 			: base(60)
@@ -17,19 +17,19 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 
 		protected override void OnStart()
 		{
-			var scene = new ace.Scene();
-			var layer = new ace.Layer2D();
-			var obj = new ace.TextureObject2D();
-			camera = new ace.CameraObject2D();
+			var scene = new asd.Scene();
+			var layer = new asd.Layer2D();
+			var obj = new asd.TextureObject2D();
+			camera = new asd.CameraObject2D();
 
-			obj.Texture = ace.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
-			camera.Src = new ace.RectI(100, 100, 312, 312);
-			camera.Dst = new ace.RectI(10, 10, 200, 200);
+			obj.Texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
+			camera.Src = new asd.RectI(100, 100, 312, 312);
+			camera.Dst = new asd.RectI(10, 10, 200, 200);
 
 			layer.AddObject(obj);
 			layer.AddObject(camera);
 			scene.AddLayer(layer);
-			ace.Engine.ChangeScene(scene);
+			asd.Engine.ChangeScene(scene);
 		}
 
 		protected override void OnUpdating()

@@ -92,7 +92,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ace_cs\ace_cs.csproj">
+    <ProjectReference Include="..\asd_cs\asd_cs.csproj">
       <Project>{93fa987a-48b8-45a4-9bad-8518b2e20a54}</Project>
       <Name>ace_cs</Name>
     </ProjectReference>

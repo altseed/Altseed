@@ -194,66 +194,66 @@ class Graphics_ModelObject3DCustomMaterial : public EngineGraphics3DTest
 public:
 
 	Graphics_ModelObject3DCustomMaterial(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("ModelObject3DCustomMaterial"), isOpenGLMode, 15, true)
+		EngineGraphics3DTest(asd::ToAString("ModelObject3DCustomMaterial"), isOpenGLMode, 15, true)
 	{}
 
 protected:
 	void OnStart() override
 	{
-		ace::RenderSettings settings;
+		asd::RenderSettings settings;
 		//settings.IsLightweightMode = true;
-		//settings.VisualizedBuffer = ace::VisualizedBufferType::Normal;
+		//settings.VisualizedBuffer = asd::VisualizedBufferType::Normal;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
 
 		// リソース
-		auto gray = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Gray.png").c_str());
+		auto gray = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Model/Texture/Gray.png").c_str());
 
-		auto sphereObj = std::make_shared<ace::ModelObject3D>();
-		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
+		auto sphereObj = std::make_shared<asd::ModelObject3D>();
+		auto lightObj = std::make_shared<asd::DirectionalLightObject3D>();
 
 		GetLayer3D()->AddObject(sphereObj);
 		GetLayer3D()->AddObject(lightObj);
 
-		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Sphere1.mdl").c_str());
+		auto sphereModel = asd::Engine::GetGraphics()->CreateModel(asd::ToAString("Data/Model/Sphere1.mdl").c_str());
 
 		sphereObj->SetModel(sphereModel);
-		sphereObj->SetPosition(ace::Vector3DF(0.0f, 1.0f, 0.0f));
+		sphereObj->SetPosition(asd::Vector3DF(0.0f, 1.0f, 0.0f));
 
 		SetCameraParameter(10, 15, -15, 1, 200, 20);
 
 		auto mainMesh = sphereModel->GetMesh(0);
 
 		// 球素材
-		std::shared_ptr<ace::Shader3D> matShader;
+		std::shared_ptr<asd::Shader3D> matShader;
 		
-		if (ace::Engine::GetGraphics()->GetGraphicsDeviceType() == ace::GraphicsDeviceType::DirectX11)
+		if (asd::Engine::GetGraphics()->GetGraphicsDeviceType() == asd::GraphicsDeviceType::DirectX11)
 		{
-			matShader = ace::Engine::GetGraphics()->CreateShader3D(ace::ToAString(shader3d_dx_ps).c_str());
+			matShader = asd::Engine::GetGraphics()->CreateShader3D(asd::ToAString(shader3d_dx_ps).c_str());
 		}
-		else if (ace::Engine::GetGraphics()->GetGraphicsDeviceType() == ace::GraphicsDeviceType::OpenGL)
+		else if (asd::Engine::GetGraphics()->GetGraphicsDeviceType() == asd::GraphicsDeviceType::OpenGL)
 		{
-			matShader = ace::Engine::GetGraphics()->CreateShader3D(ace::ToAString(shader3d_gl_ps).c_str());
+			matShader = asd::Engine::GetGraphics()->CreateShader3D(asd::ToAString(shader3d_gl_ps).c_str());
 		}
 
-		auto mat = ace::Engine::GetGraphics()->CreateMaterial3D(matShader);
+		auto mat = asd::Engine::GetGraphics()->CreateMaterial3D(matShader);
 
 		auto mesh = sphereModel->GetMesh(0);
 		mesh->SetMaterial(0, mat);
 
-		auto block = ace::Engine::GetGraphics()->CreateMaterialPropertyBlock();
-		block->SetTexture2D(ace::ToAString("g_colorTexture").c_str(), gray);
-		block->SetVector4DF(ace::ToAString("extColor").c_str(), ace::Vector4DF(1.0f, 1.0f, 0.0f, 1.0f));
+		auto block = asd::Engine::GetGraphics()->CreateMaterialPropertyBlock();
+		block->SetTexture2D(asd::ToAString("g_colorTexture").c_str(), gray);
+		block->SetVector4DF(asd::ToAString("extColor").c_str(), asd::Vector4DF(1.0f, 1.0f, 0.0f, 1.0f));
 		sphereObj->SetMaterialPropertyBlock(0, 0, block);
 
 		// 直接光
-		lightObj->SetRotation(ace::Vector3DF(30, 160, 0));
-		lightObj->SetColor(ace::Color(255 / 1, 255 / 1, 255 / 1, 200));
+		lightObj->SetRotation(asd::Vector3DF(30, 160, 0));
+		lightObj->SetColor(asd::Color(255 / 1, 255 / 1, 255 / 1, 200));
 
 		// 環境光
-		GetLayer3D()->SetSkyAmbientColor(ace::Color(10, 10, 20, 255));
-		GetLayer3D()->SetGroundAmbientColor(ace::Color(20, 10, 10, 255));
+		GetLayer3D()->SetSkyAmbientColor(asd::Color(10, 10, 20, 255));
+		GetLayer3D()->SetGroundAmbientColor(asd::Color(20, 10, 10, 255));
 
 	}
 };

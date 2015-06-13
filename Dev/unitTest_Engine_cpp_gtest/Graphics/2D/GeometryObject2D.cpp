@@ -1,16 +1,16 @@
 ﻿
 #include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include "../../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class Graphics_GeometryObject2D : public EngineTest
 {
 public:
 	Graphics_GeometryObject2D(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("GeometryObject2D"), isOpenGLMode, 20)
+		: EngineTest(asd::ToAString("GeometryObject2D"), isOpenGLMode, 20)
 	{
 	}
 
@@ -21,7 +21,7 @@ protected:
 	{
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
-		auto texture = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
+		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 		auto geometryObj1 = make_shared<GeometryObject2D>();
 		auto geometryObj2 = make_shared<GeometryObject2D>();
 		auto geometryObj3 = make_shared<GeometryObject2D>();
@@ -37,7 +37,7 @@ protected:
 		layer->AddObject(geometryObj6);
 
 		scene->AddLayer(layer);
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 
 		{
 			auto circle = make_shared<CircleShape>();
@@ -48,11 +48,11 @@ protected:
 
 			geometryObj1->SetShape(circle);
 			geometryObj1->SetTexture(texture);
-			geometryObj1->SetPosition(ace::Vector2DF(0, 0));
+			geometryObj1->SetPosition(asd::Vector2DF(0, 0));
 		}
 
 		{
-			auto arc = make_shared<ace::ArcShape>();
+			auto arc = make_shared<asd::ArcShape>();
 			arc->SetOuterDiameter(100);
 			arc->SetInnerDiameter(10);
 			arc->SetNumberOfCorners(96);
@@ -62,7 +62,7 @@ protected:
 
 			geometryObj2->SetShape(arc);
 			geometryObj2->SetTexture(texture);
-			geometryObj2->SetPosition(ace::Vector2DF(0, 0));
+			geometryObj2->SetPosition(asd::Vector2DF(0, 0));
 		}
 
 		{
@@ -72,36 +72,36 @@ protected:
 			line->SetThickness(5.0f);
 
 			geometryObj3->SetShape(line);
-			geometryObj3->SetPosition(ace::Vector2DF(0, 0));
+			geometryObj3->SetPosition(asd::Vector2DF(0, 0));
 		}
 
 		{
-			auto rect = make_shared<ace::RectangleShape>();
-			rect->SetDrawingArea(ace::RectF(10, 110, 300, 200));
-			rect->SetUV(ace::RectF(0, 0, 0.5, 0.5));
+			auto rect = make_shared<asd::RectangleShape>();
+			rect->SetDrawingArea(asd::RectF(10, 110, 300, 200));
+			rect->SetUV(asd::RectF(0, 0, 0.5, 0.5));
 
 			geometryObj4->SetShape(rect);
 			geometryObj4->SetTexture(texture);
-			geometryObj4->SetPosition(ace::Vector2DF(0, 0));
+			geometryObj4->SetPosition(asd::Vector2DF(0, 0));
 		}
 
 		{
-			auto triangle = make_shared<ace::TriangleShape>();
-			triangle->SetPointByIndex(ace::Vector2DF(320, 350), 0);
-			triangle->SetPointByIndex(ace::Vector2DF(100, 450), 1);
-			triangle->SetPointByIndex(ace::Vector2DF(540, 450), 2);
+			auto triangle = make_shared<asd::TriangleShape>();
+			triangle->SetPointByIndex(asd::Vector2DF(320, 350), 0);
+			triangle->SetPointByIndex(asd::Vector2DF(100, 450), 1);
+			triangle->SetPointByIndex(asd::Vector2DF(540, 450), 2);
 
-			triangle->SetUVByIndex(ace::Vector2DF(0.5, 0.2), 0);
-			triangle->SetUVByIndex(ace::Vector2DF(0.1, 0.5), 1);
-			triangle->SetUVByIndex(ace::Vector2DF(0.9, 0.7), 2);
+			triangle->SetUVByIndex(asd::Vector2DF(0.5, 0.2), 0);
+			triangle->SetUVByIndex(asd::Vector2DF(0.1, 0.5), 1);
+			triangle->SetUVByIndex(asd::Vector2DF(0.9, 0.7), 2);
 
 			geometryObj5->SetShape(triangle);
 			geometryObj5->SetTexture(texture);
-			geometryObj5->SetPosition(ace::Vector2DF(0, 0));
+			geometryObj5->SetPosition(asd::Vector2DF(0, 0));
 		}
 
 		{
-			auto polygon = make_shared<ace::PolygonShape>();
+			auto polygon = make_shared<asd::PolygonShape>();
 
 			for (int i = 0; i < 10; ++i)
 			{
@@ -114,7 +114,7 @@ protected:
 
 			geometryObj6->SetShape(polygon);
 			geometryObj6->SetTexture(texture);
-			geometryObj6->SetPosition(ace::Vector2DF(0, 0));
+			geometryObj6->SetPosition(asd::Vector2DF(0, 0));
 		}
 	}
 

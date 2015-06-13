@@ -1,4 +1,4 @@
-﻿#include <ace.h>
+﻿#include <Altseed.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../../EngineTest.h"
@@ -9,24 +9,24 @@ class Graphics_PostEffectSepia : public EngineTest
 public:
 	float intensity;
 	Graphics_PostEffectSepia(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("PostEffectSepia"), isOpenGLMode, 10)
+		EngineTest(asd::ToAString("PostEffectSepia"), isOpenGLMode, 10)
 	{}
 protected:
 	void OnStart() override
 	{
-		auto scene = std::make_shared<ace::Scene>();
-		auto layer = std::make_shared<ace::Layer2D>();
-		auto obj = std::make_shared<ace::TextureObject2D>();
+		auto scene = std::make_shared<asd::Scene>();
+		auto layer = std::make_shared<asd::Layer2D>();
+		auto obj = std::make_shared<asd::TextureObject2D>();
 		scene->AddLayer(layer);
 		layer->AddObject(obj);
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 
-		auto g = ace::Engine::GetGraphics();
-		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
+		auto g = asd::Engine::GetGraphics();
+		auto texture = g->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 		obj->SetTexture(texture);
-		obj->SetScale(ace::Vector2DF(2, 2));
+		obj->SetScale(asd::Vector2DF(2, 2));
 
-		auto pe = std::make_shared<ace::PostEffectSepia>();
+		auto pe = std::make_shared<asd::PostEffectSepia>();
 		layer->AddPostEffect(pe);
 	}
 };

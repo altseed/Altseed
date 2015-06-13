@@ -15,19 +15,19 @@ namespace unitTest_Engine_cs.Graphics.PostEffect
 
 		protected override void OnStart()
 		{
-			var scene = new ace.Scene();
-			var layer = new ace.Layer2D();
-			var obj = new ace.TextureObject2D();
+			var scene = new asd.Scene();
+			var layer = new asd.Layer2D();
+			var obj = new asd.TextureObject2D();
 			scene.AddLayer(layer);
 			layer.AddObject(obj);
-			ace.Engine.ChangeScene(scene);
+			asd.Engine.ChangeScene(scene);
 
-			var g = ace.Engine.Graphics;
+			var g = asd.Engine.Graphics;
 			var texture = g.CreateTexture2D("Data/Texture/Sample1.png");
 			obj.Texture = texture;
-			obj.Scale = new ace.Vector2DF(1, 1);
+			obj.Scale = new asd.Vector2DF(1, 1);
 
-			var pe = new ace.PostEffectSepia();
+			var pe = new asd.PostEffectSepia();
 			layer.AddPostEffect(pe);
 		}
 	}

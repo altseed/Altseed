@@ -12,27 +12,27 @@ namespace unitTest_Engine_cs.Window
 	public class Empty : TestFramework
 	{
 		//[Test]
-		public override void Test(ace.GraphicsDeviceType graphicsType)
+		public override void Test(asd.GraphicsDeviceType graphicsType)
 		{
-			var option = new ace.EngineOption
+			var option = new asd.EngineOption
 			{
 				GraphicsDevice = graphicsType,
 				IsFullScreen = false
 			};
 
-			var initialized = ace.Engine.Initialize("Empty", 640, 480, option);
+			var initialized = asd.Engine.Initialize("Empty", 640, 480, option);
 
 			int time = 0;
 
-			while (ace.Engine.DoEvents())
+			while (asd.Engine.DoEvents())
 			{
-				ace.Engine.Update();
+				asd.Engine.Update();
 
 				if (time == 10) break;
 				time++;
 			}
 
-			ace.Engine.Terminate();
+			asd.Engine.Terminate();
 		}
 	}
 }

@@ -15,21 +15,21 @@ namespace unitTest_Engine_cs.Graphics.Resource
 
 		protected override void OnStart()
 		{
-			var scene = new ace.Scene();
-			var layer = new ace.Layer2D();
-			var imagePackage = ace.Engine.Graphics.CreateImagePackage("Data/ImagePackage/test.aip");
+			var scene = new asd.Scene();
+			var layer = new asd.Layer2D();
+			var imagePackage = asd.Engine.Graphics.CreateImagePackage("Data/ImagePackage/test.aip");
 	
 			for (int  i = 0; i < imagePackage.ImageCount; i++)
 			{
-				var obj = new ace.TextureObject2D();
+				var obj = new asd.TextureObject2D();
 	
 				obj.Texture = imagePackage.GetImage(i);
-				obj.Position = new ace.Vector2DF(imagePackage.GetImageArea(i).X, imagePackage.GetImageArea(i).Y);
+				obj.Position = new asd.Vector2DF(imagePackage.GetImageArea(i).X, imagePackage.GetImageArea(i).Y);
 				layer.AddObject(obj);
 			}
 
 			scene.AddLayer(layer);
-			ace.Engine.ChangeScene(scene);
+			asd.Engine.ChangeScene(scene);
 		}
 	}
 }

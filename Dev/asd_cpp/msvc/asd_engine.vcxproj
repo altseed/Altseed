@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4BA8DEB7-DD89-4EDB-B6A4-63B9358A02F3}</ProjectGuid>
+    <RootNamespace>ace_engine</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v120</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)..\..\lib\x86\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(ProjectDir)..\..\lib\x64\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(ProjectDir)..\..\lib\x86\$(Configuration)\</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>$(ProjectName)</TargetName>
+    <OutDir>$(ProjectDir)..\..\lib\x64\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../engine/PCH/asd.Engine.PCH.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>../engine/PCH/asd.Engine.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../engine/PCH/asd.Engine.PCH.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>../engine/PCH/asd.Engine.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <MinimalRebuild>false</MinimalRebuild>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../engine/PCH/asd.Engine.PCH.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>../engine/PCH/asd.Engine.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>../engine/PCH/asd.Engine.PCH.h</PrecompiledHeaderFile>
+      <ForcedUsingFiles>
+      </ForcedUsingFiles>
+      <ForcedIncludeFiles>../engine/PCH/asd.Engine.PCH.h</ForcedIncludeFiles>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>..\..\lib\</AdditionalLibraryDirectories>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\engine\asd.CoreToEngine.h" />
+    <ClInclude Include="..\engine\asd.Engine.Base.h" />
+    <ClInclude Include="..\engine\asd.Engine.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.CameraObject2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.Chip2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.EffectObject2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.GeometryObject2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.Layer2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.MapObject2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.Object2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.TextObject2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.TextureObject2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.CameraObject3D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.DirectionalLightObject3D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.EffectObject3D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.Layer3D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.MassModelObject3D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.ModelObject3D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.Object3D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.TerrainObject3D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\asd.Layer.h" />
+    <ClInclude Include="..\engine\ObjectSystem\asd.Scene.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Component\asd.ComponentManager.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Component\asd.Layer2DComponent.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Component\asd.Object2DComponent.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Component\asd.SceneComponent.h" />
+    <ClInclude Include="..\engine\ObjectSystem\asd.ContentsManager.h" />
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffect.h" />
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGaussianBlur.h" />
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGrayScale.h" />
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectLightBloom.h" />
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectSepia.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Transition\asd.Transition.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Transition\asd.TransitionFade.h" />
+    <ClInclude Include="..\engine\PCH\asd.Engine.PCH.h" />
+    <ClInclude Include="..\engine\Shape\asd.ArcShape.h" />
+    <ClInclude Include="..\engine\Shape\asd.CircleShape.h" />
+    <ClInclude Include="..\engine\Shape\asd.LineShape.h" />
+    <ClInclude Include="..\engine\Shape\asd.PolygonShape.h" />
+    <ClInclude Include="..\engine\Shape\asd.RectangleShape.h" />
+    <ClInclude Include="..\engine\Shape\asd.Shape.h" />
+    <ClInclude Include="..\engine\Shape\asd.TriangleShape.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\engine\asd.Engine.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.CameraObject2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.Chip2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.EffectObject2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.GeometryObject2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.Layer2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.MapObject2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.Object2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.TextObject2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.TextureObject2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.CameraObject3D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.DirectionalLightObject3D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.EffectObject3D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.Layer3D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.MassModelObject3D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.ModelObject3D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.Object3D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.TerrainObject3D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\asd.Layer.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\asd.Scene.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\Component\asd.Layer2DComponent.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\Component\asd.Object2DComponent.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\Component\asd.SceneComponent.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffect.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGaussianBlur.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGrayScale.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectLightBloom.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectSepia.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\Transition\asd.Transition.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\Transition\asd.TransitionFade.cpp" />
+    <ClCompile Include="..\engine\PCH\asd.Engine.PCH.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\asd.ArcShape.cpp" />
+    <ClCompile Include="..\engine\Shape\asd.CircleShape.cpp" />
+    <ClCompile Include="..\engine\Shape\asd.LineShape.cpp" />
+    <ClCompile Include="..\engine\Shape\asd.PolygonShape.cpp" />
+    <ClCompile Include="..\engine\Shape\asd.RectangleShape.cpp" />
+    <ClCompile Include="..\engine\Shape\asd.Shape.cpp" />
+    <ClCompile Include="..\engine\Shape\asd.TriangleShape.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="ace_core.vcxproj">
+      <Project>{fba17564-7e7c-4be0-881e-6223cb6740d6}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="..\..\lib\x64\Debug\asd_common.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+    </Library>
+    <Library Include="..\..\lib\x64\Release\asd_common.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Library>
+    <Library Include="..\..\lib\x86\Debug\asd_common.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Library>
+    <Library Include="..\..\lib\x86\Release\asd_common.lib">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Library>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
