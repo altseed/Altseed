@@ -134,4 +134,22 @@ namespace asd
 
 		return GetIsCollidedWithCircleAndRect(circle, rect.get());
 	}
+
+	std::vector<b2Shape*>& CoreShape_Imp::GetCollisionShapes()
+	{
+		if (isNeededCalcCollisions)
+		{
+			if (GetType() == ShapeType::PolygonShape || GetType() == ShapeType::ArcShape)
+			{
+				for (auto shape : collisionShapes)
+				{
+					delete shape;
+				}
+				collisionShapes.clear();
+			}
+			CalcCollisions();
+			isNeededCalcCollisions = false;
+		}
+		return collisionShapes;
+	}
 };

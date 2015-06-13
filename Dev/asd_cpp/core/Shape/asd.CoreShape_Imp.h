@@ -69,23 +69,7 @@ namespace asd{
 			return boundingCircle;
 		}
 
-		std::vector<b2Shape*>& GetCollisionShapes()
-		{
-			if (isNeededCalcCollisions)
-			{
-				if (GetType() == ShapeType::PolygonShape || GetType() == ShapeType::ArcShape)
-				{
-					for (auto shape : collisionShapes)
-					{
-						delete shape;
-					}
-					collisionShapes.clear();
-				}
-				CalcCollisions();
-				isNeededCalcCollisions = false;
-			}
-			return collisionShapes;
-		}
+		std::vector<b2Shape*>& GetCollisionShapes();
 #endif
 	};
 };
