@@ -7,67 +7,67 @@
 void TextObject2D()
 {
 	// aceを初期化する
-	ace::Engine::Initialize(ace::ToAString("TextObject2D").c_str(), 640, 480, ace::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("TextObject2D").c_str(), 640, 480, asd::EngineOption());
 
 	// シーンを生成する
-	auto scene = std::make_shared<ace::Scene>();
+	auto scene = std::make_shared<asd::Scene>();
 
 	// レイヤーを生成する
-	auto layer = std::make_shared<ace::Layer2D>();
+	auto layer = std::make_shared<asd::Layer2D>();
 
 	// シーンにレイヤーを追加する
 	scene->AddLayer(layer);
 
 	// シーンを切り替える
-	ace::Engine::ChangeScene(scene);
+	asd::Engine::ChangeScene(scene);
 
 	{
 		// フォントを生成する
-		auto smallFont = ace::Engine::GetGraphics()->CreateFont(ace::ToAString("Data/Font/small.aff").c_str());
+		auto smallFont = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/small.aff").c_str());
 
 		//TextObject2Dを生成する
-		auto smallObj = std::make_shared<ace::TextObject2D>();
+		auto smallObj = std::make_shared<asd::TextObject2D>();
 
 		//描画に使うフォントを設定する
 		smallObj->SetFont(smallFont);
 
 		//描画位置を指定する
-		smallObj->SetPosition(ace::Vector2DF(100, 100));
+		smallObj->SetPosition(asd::Vector2DF(100, 100));
 
 		//描画する文字列の指定
-		smallObj->SetText(ace::ToAString("文字列サンプル1").c_str());
+		smallObj->SetText(asd::ToAString("文字列サンプル1").c_str());
 
 		//レイヤーへ追加する
 		layer->AddObject(smallObj);
 	}
 
 	{
-		auto largeFont = ace::Engine::GetGraphics()->CreateFont(ace::ToAString("Data/Font/large.aff").c_str());
-		auto largeObj = std::make_shared<ace::TextObject2D>();
+		auto largeFont = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/large.aff").c_str());
+		auto largeObj = std::make_shared<asd::TextObject2D>();
 		largeObj->SetFont(largeFont);
-		largeObj->SetPosition(ace::Vector2DF(100, 200));
-		largeObj->SetText(ace::ToAString("文字列サンプル2").c_str());
+		largeObj->SetPosition(asd::Vector2DF(100, 200));
+		largeObj->SetText(asd::ToAString("文字列サンプル2").c_str());
 		layer->AddObject(largeObj);
 	}
 
 	{
-		auto edgeFont = ace::Engine::GetGraphics()->CreateFont(ace::ToAString("Data/Font/edge.aff").c_str());
-		auto edgeObj = std::make_shared<ace::TextObject2D>();
+		auto edgeFont = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/edge.aff").c_str());
+		auto edgeObj = std::make_shared<asd::TextObject2D>();
 		edgeObj->SetFont(edgeFont);
-		edgeObj->SetPosition(ace::Vector2DF(100, 300));
+		edgeObj->SetPosition(asd::Vector2DF(100, 300));
 
 		//30度回転させて描画する
 		edgeObj->SetAngle(30);
-		edgeObj->SetText(ace::ToAString("文字列サンプル3").c_str());
+		edgeObj->SetText(asd::ToAString("文字列サンプル3").c_str());
 		layer->AddObject(edgeObj);
 	}
 	// aceが進行可能かチェックする。
-	while (ace::Engine::DoEvents())
+	while (asd::Engine::DoEvents())
 	{
 		// aceを更新する。
-		ace::Engine::Update();
+		asd::Engine::Update();
 	}
 
 	// aceを終了する。
-	ace::Engine::Terminate();
+	asd::Engine::Terminate();
 }

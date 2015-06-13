@@ -7,29 +7,29 @@
 void Sound()
 {
 	// aceを初期化する。
-	ace::Engine::Initialize(ace::ToAString("Sound").c_str(), 640, 480, ace::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("Sound").c_str(), 640, 480, asd::EngineOption());
 
 	// ファイルを読み込む。
-	std::shared_ptr<ace::SoundSource> se1 = ace::Engine::GetSound()->CreateSoundSource(ace::ToAString("Data/Sound/se1.wav").c_str(), true);
-	std::shared_ptr<ace::SoundSource> bgm1 = ace::Engine::GetSound()->CreateSoundSource(ace::ToAString("Data/Sound/bgm1.ogg").c_str(), false);
+	std::shared_ptr<asd::SoundSource> se1 = asd::Engine::GetSound()->CreateSoundSource(asd::ToAString("Data/Sound/se1.wav").c_str(), true);
+	std::shared_ptr<asd::SoundSource> bgm1 = asd::Engine::GetSound()->CreateSoundSource(asd::ToAString("Data/Sound/bgm1.ogg").c_str(), false);
 
 	// 再生する。
-	int id_se1 = ace::Engine::GetSound()->Play(se1);
-	int id_bgm1 = ace::Engine::GetSound()->Play(bgm1);
+	int id_se1 = asd::Engine::GetSound()->Play(se1);
+	int id_bgm1 = asd::Engine::GetSound()->Play(bgm1);
 
 	// aceが進行可能かチェックする。
-	while (ace::Engine::DoEvents())
+	while (asd::Engine::DoEvents())
 	{
 		// aceを更新する。
-		ace::Engine::Update();
+		asd::Engine::Update();
 
 		// 音が再生終了してるか調べる。
-		if (!ace::Engine::GetSound()->GetIsPlaying(id_bgm1))
+		if (!asd::Engine::GetSound()->GetIsPlaying(id_bgm1))
 		{
 			break;
 		}
 	}
 
 	// aceを終了する。
-	ace::Engine::Terminate();
+	asd::Engine::Terminate();
 }

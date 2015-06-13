@@ -62,21 +62,21 @@ void main()
 
 ";
 
-		class PostEffect : ace.PostEffect
+		class PostEffect : asd.PostEffect
 		{
 
-			ace.Shader2D m_shader;
-			ace.Material2D m_material2d;
+			asd.Shader2D m_shader;
+			asd.Material2D m_material2d;
 
-			public PostEffect(ace.Graphics g)
+			public PostEffect(asd.Graphics g)
 			{
-				if (g.GraphicsDeviceType == ace.GraphicsDeviceType.DirectX11)
+				if (g.GraphicsDeviceType == asd.GraphicsDeviceType.DirectX11)
 				{
 					m_shader = g.CreateShader2D(
 						shader2d_dx_ps
 						);
 				}
-				else if (g.GraphicsDeviceType == ace.GraphicsDeviceType.OpenGL)
+				else if (g.GraphicsDeviceType == asd.GraphicsDeviceType.OpenGL)
 				{
 					m_shader = g.CreateShader2D(
 						shader2d_gl_ps
@@ -90,10 +90,10 @@ void main()
 				m_material2d = g.CreateMaterial2D(m_shader);
 			}
 
-			public override void OnDraw(ace.RenderTexture2D dst, ace.RenderTexture2D src)
+			public override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
 			{
 				m_material2d.SetTexture2D("g_texture", src);
-				m_material2d.SetVector3DF("g_values", new ace.Vector3DF(640, 480, 200));
+				m_material2d.SetVector3DF("g_values", new asd.Vector3DF(640, 480, 200));
 
 				DrawOnTexture2DWithMaterial(dst, m_material2d);
 			}
@@ -101,26 +101,26 @@ void main()
 
 		public void Run()
 		{
-			ace.Engine.Initialize("CustomPostEffect", 640, 480, new ace.EngineOption());
+			asd.Engine.Initialize("CustomPostEffect", 640, 480, new asd.EngineOption());
 
-			var scene = new ace.Scene();
-			var layer = new ace.Layer2D();
-			var obj = new ace.TextureObject2D()
+			var scene = new asd.Scene();
+			var layer = new asd.Layer2D();
+			var obj = new asd.TextureObject2D()
 			{
-				Texture = ace.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png"),
+				Texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png"),
 			};
 
 			layer.AddObject(obj);
-			layer.AddPostEffect(new PostEffect(ace.Engine.Graphics));
+			layer.AddPostEffect(new PostEffect(asd.Engine.Graphics));
 			scene.AddLayer(layer);
-			ace.Engine.ChangeScene(scene);
+			asd.Engine.ChangeScene(scene);
 
-			while (ace.Engine.DoEvents())
+			while (asd.Engine.DoEvents())
 			{
-				ace.Engine.Update();
+				asd.Engine.Update();
 			}
 
-			ace.Engine.Terminate();
+			asd.Engine.Terminate();
 		}
 
 	}

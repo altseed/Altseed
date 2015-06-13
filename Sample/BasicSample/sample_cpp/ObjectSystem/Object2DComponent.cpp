@@ -1,10 +1,10 @@
 ﻿
-#include <ace.h>
+#include <Altseed.h>
 
 // Object2DComponentを用いて、オブジェクトのパラメーターを変更するサンプルです。
 
 // オブジェクトを回転させるコンポーネント
-class RotatingComponent : public ace::Object2DComponent
+class RotatingComponent : public asd::Object2DComponent
 {
 public:
 	void OnUpdate()
@@ -16,17 +16,17 @@ public:
 
 void Object2DComponent()
 {
-	// AC-Engineを初期化する。
-	ace::Engine::Initialize(ace::ToAString("Object2DComponent").c_str(), 640, 480, ace::EngineOption());
+	// Altseedを初期化する。
+	asd::Engine::Initialize(asd::ToAString("Object2DComponent").c_str(), 640, 480, asd::EngineOption());
 
 	// 使用するシーン、レイヤー、オブジェクト、コンポーネントを生成する。
-	auto scene = std::make_shared<ace::Scene>();
-	auto layer = std::make_shared<ace::Layer2D>();
-	auto obj = std::make_shared<ace::TextureObject2D>();
+	auto scene = std::make_shared<asd::Scene>();
+	auto layer = std::make_shared<asd::Layer2D>();
+	auto obj = std::make_shared<asd::TextureObject2D>();
 	auto component = std::make_shared<RotatingComponent>();
 
 	// シーンを変更する。
-	ace::Engine::ChangeScene(scene);
+	asd::Engine::ChangeScene(scene);
 
 	// シーンにレイヤーを追加する。
 	scene->AddLayer(layer);
@@ -35,26 +35,26 @@ void Object2DComponent()
 	layer->AddObject(obj);
 
 	// オブジェクトに回転コンポーネントをコンポーネント名"Rotate"で追加する。
-	obj->AddComponent(component, ace::ToAString("Rotate"));
+	obj->AddComponent(component, asd::ToAString("Rotate"));
 
 	// 画像を読み込む。
-	auto texture = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Block1.png").c_str());
+	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Block1.png").c_str());
 
 	// オブジェクトに画像を設定する。
 	obj->SetTexture(texture);
 
 	// オブジェクトの位置を設定する。
-	obj->SetPosition(ace::Vector2DF(320, 240));
+	obj->SetPosition(asd::Vector2DF(320, 240));
 
-	// AC-Engineのウインドウが閉じられていないか確認する。
-	while (ace::Engine::DoEvents())
+	// Altseedのウインドウが閉じられていないか確認する。
+	while (asd::Engine::DoEvents())
 	{
-		// AC-Engineを更新する。
-		ace::Engine::Update();
+		// Altseedを更新する。
+		asd::Engine::Update();
 	}
 
-	//AC-Engineの終了処理をする。
-	ace::Engine::Terminate();
+	//Altseedの終了処理をする。
+	asd::Engine::Terminate();
 
 	return;
 }

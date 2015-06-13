@@ -14,32 +14,32 @@ namespace sample_cs.Graphics._2D
         public void Run()
         {
             // aceを初期化する
-            ace.Engine.Initialize("TextObject2D", 640, 480, new ace.EngineOption());
+            asd.Engine.Initialize("TextObject2D", 640, 480, new asd.EngineOption());
 
             // シーンを生成する
-            var scene = new ace.Scene();
+            var scene = new asd.Scene();
 
             // レイヤーを生成する
-            var layer = new ace.Layer2D();
+            var layer = new asd.Layer2D();
 
             // シーンにレイヤーを追加する
             scene.AddLayer(layer);
 
             // シーンを切り替える
-            ace.Engine.ChangeScene(scene);
+            asd.Engine.ChangeScene(scene);
 
             {
                 // フォントを生成する
-                var smallFont = ace.Engine.Graphics.CreateFont("Data/Font/small.aff");
+                var smallFont = asd.Engine.Graphics.CreateFont("Data/Font/small.aff");
 
                 //TextObject2Dを生成する
-                var smallObj = new ace.TextObject2D();
+                var smallObj = new asd.TextObject2D();
 
                 //描画に使うフォントを設定する
                 smallObj.Font = smallFont;
 
                 //描画位置を指定する
-                smallObj.Position = new ace.Vector2DF(100, 100);
+                smallObj.Position = new asd.Vector2DF(100, 100);
 
                 //描画する文字列の指定
                 smallObj.Text = "文字列サンプル1";
@@ -49,19 +49,19 @@ namespace sample_cs.Graphics._2D
             }
 
             {
-                var largeFont = ace.Engine.Graphics.CreateFont("Data/Font/large.aff");
-                var largeObj = new ace.TextObject2D();
+                var largeFont = asd.Engine.Graphics.CreateFont("Data/Font/large.aff");
+                var largeObj = new asd.TextObject2D();
                 largeObj.Font = largeFont;
-                largeObj.Position = new ace.Vector2DF(100, 200);
+                largeObj.Position = new asd.Vector2DF(100, 200);
                 largeObj.Text = "文字列サンプル2";
                 layer.AddObject(largeObj);
             }
 
             {
-                var edgeFont = ace.Engine.Graphics.CreateFont("Data/Font/edge.aff");
-                var edgeObj = new ace.TextObject2D();
+                var edgeFont = asd.Engine.Graphics.CreateFont("Data/Font/edge.aff");
+                var edgeObj = new asd.TextObject2D();
                 edgeObj.Font = edgeFont;
-                edgeObj.Position = new ace.Vector2DF(100, 300);
+                edgeObj.Position = new asd.Vector2DF(100, 300);
 
                 //30度回転させて描画する
                 edgeObj.Angle = 30;
@@ -69,15 +69,15 @@ namespace sample_cs.Graphics._2D
                 layer.AddObject(edgeObj);
             }
             // aceが進行可能かチェックする。
-            while (ace.Engine.DoEvents())
+            while (asd.Engine.DoEvents())
             {
                 // aceを更新する。
-                ace.Engine.Update();
-                ace.Engine.TakeScreenshot("TextObject2D.png");
+                asd.Engine.Update();
+                asd.Engine.TakeScreenshot("TextObject2D.png");
             }
 
             // aceを終了する。
-            ace.Engine.Terminate();
+            asd.Engine.Terminate();
         }
     }
 }

@@ -22,15 +22,15 @@ def copyDev(targetDir):
 	aceutils.mkdir(sampleDir+r'cpp/lib/Release/')
 
 	aceutils.copy(r'Dev/bin/Altseed.dll', sampleDir+r'bin/')
-	aceutils.copy(r'Dev/bin/ace_core.Debug.dll', sampleDir+r'bin/')
-	aceutils.copy(r'Dev/bin/ace_core.dll', sampleDir+r'bin/')
+	aceutils.copy(r'Dev/bin/Altseed_core.Debug.dll', sampleDir+r'bin/')
+	aceutils.copy(r'Dev/bin/Altseed_core.dll', sampleDir+r'bin/')
 
-	aceutils.copy(r'Dev/include/ace.h', sampleDir+r'cpp/include/')
-	aceutils.copy(r'Dev/lib/x86/Debug/ace_engine.lib', sampleDir+r'cpp/lib/Debug/')
-	aceutils.copy(r'Dev/lib/x86/Release/ace_engine.lib', sampleDir+r'cpp/lib/Release/')
+	aceutils.copy(r'Dev/include/Altseed.h', sampleDir+r'cpp/include/')
+	aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib', sampleDir+r'cpp/lib/Debug/')
+	aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib', sampleDir+r'cpp/lib/Release/')
 
-	aceutils.copy(r'Dev/bin/ace_cs.dll', sampleDir+r'sample_cs/')
-	aceutils.copy(r'Dev/bin/ace_cs.XML', sampleDir+r'sample_cs/')
+	aceutils.copy(r'Dev/bin/Altseed.dll', sampleDir+r'sample_cs/')
+	aceutils.copy(r'Dev/bin/Altseed.XML', sampleDir+r'sample_cs/')
 
 copyDev(r'Sample')
 copyDev(r'Sample/BasicSample')

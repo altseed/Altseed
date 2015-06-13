@@ -7,32 +7,32 @@
 void EffectObject2D()
 {
 	// aceを初期化する
-	ace::Engine::Initialize(ace::ToAString("EffectObject2D").c_str(), 640, 480, ace::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("EffectObject2D").c_str(), 640, 480, asd::EngineOption());
 
 	// シーンを生成する
-	auto scene = std::make_shared<ace::Scene>();
+	auto scene = std::make_shared<asd::Scene>();
 
 	// レイヤーを生成する
-	auto layer = std::make_shared<ace::Layer2D>();
+	auto layer = std::make_shared<asd::Layer2D>();
 
 	// シーンにレイヤーを追加する
 	scene->AddLayer(layer);
 
 	// シーンを切り替える
-	ace::Engine::ChangeScene(scene);
+	asd::Engine::ChangeScene(scene);
 
 	// エフェクトを読み込む
-	auto effect = ace::Engine::GetGraphics()->CreateEffect(ace::ToAString("Data/Effect/magic.efk").c_str());
+	auto effect = asd::Engine::GetGraphics()->CreateEffect(asd::ToAString("Data/Effect/magic.efk").c_str());
 
 	// エフェクトオブジェクトを生成する
-	auto effectObj = std::make_shared<ace::EffectObject2D>();
+	auto effectObj = std::make_shared<asd::EffectObject2D>();
 
 	// エフェクトをレイヤーに追加する
 	layer->AddObject(effectObj);
 
 	// エフェクトの位置、大きさを指定する
-	effectObj->SetPosition(ace::Vector2DF(320, 240));
-	effectObj->SetScale(ace::Vector2DF(50, 50));
+	effectObj->SetPosition(asd::Vector2DF(320, 240));
+	effectObj->SetScale(asd::Vector2DF(50, 50));
 	
 	// エフェクトを設定する
 	effectObj->SetEffect(effect);
@@ -41,12 +41,12 @@ void EffectObject2D()
 	effectObj->Play();
 
 	// aceが進行可能かチェックする。
-	while (ace::Engine::DoEvents())
+	while (asd::Engine::DoEvents())
 	{
 		// aceを更新する。
-		ace::Engine::Update();
+		asd::Engine::Update();
 	}
 
 	// aceを終了する。
-	ace::Engine::Terminate();
+	asd::Engine::Terminate();
 }

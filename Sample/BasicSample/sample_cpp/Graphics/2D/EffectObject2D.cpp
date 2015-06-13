@@ -1,36 +1,36 @@
 ﻿
-#include <ace.h>
+#include <Altseed.h>
 
 // EffectObject2Dのサンプル。エフェクトを表示しています。
 void EffectObject2D()
 {
-	// AC-Engineを初期化する。
-	ace::Engine::Initialize(ace::ToAString("EffectObject2D").c_str(), 640, 480, ace::EngineOption());
+	// Altseedを初期化する。
+	asd::Engine::Initialize(asd::ToAString("EffectObject2D").c_str(), 640, 480, asd::EngineOption());
 
 	// シーンを生成する
-	auto scene = std::make_shared<ace::Scene>();
+	auto scene = std::make_shared<asd::Scene>();
 
 	// レイヤーを生成する
-	auto layer = std::make_shared<ace::Layer2D>();
+	auto layer = std::make_shared<asd::Layer2D>();
 
 	// シーンにレイヤーを追加する
 	scene->AddLayer(layer);
 
 	// シーンを切り替える
-	ace::Engine::ChangeScene(scene);
+	asd::Engine::ChangeScene(scene);
 
 	// エフェクトを読み込む
-	auto effect = ace::Engine::GetGraphics()->CreateEffect(ace::ToAString("Data/Effect/magic.efk").c_str());
+	auto effect = asd::Engine::GetGraphics()->CreateEffect(asd::ToAString("Data/Effect/magic.efk").c_str());
 
 	// エフェクトオブジェクトを生成する
-	auto effectObj = std::make_shared<ace::EffectObject2D>();
+	auto effectObj = std::make_shared<asd::EffectObject2D>();
 
 	// エフェクトをレイヤーに追加する
 	layer->AddObject(effectObj);
 
 	// エフェクトの位置、大きさを指定する
-	effectObj->SetPosition(ace::Vector2DF(320, 240));
-	effectObj->SetScale(ace::Vector2DF(50, 50));
+	effectObj->SetPosition(asd::Vector2DF(320, 240));
+	effectObj->SetScale(asd::Vector2DF(50, 50));
 	
 	// エフェクトを設定する
 	effectObj->SetEffect(effect);
@@ -38,15 +38,15 @@ void EffectObject2D()
 	// エフェクトを再生する
 	effectObj->Play();
 
-	// AC-Engineのウインドウが閉じられていないか確認する。
-	while (ace::Engine::DoEvents())
+	// Altseedのウインドウが閉じられていないか確認する。
+	while (asd::Engine::DoEvents())
 	{
-		// AC-Engineを更新する。
-		ace::Engine::Update();
+		// Altseedを更新する。
+		asd::Engine::Update();
 	}
 
-	// AC-Engineの終了処理をする。
-	ace::Engine::Terminate();
+	// Altseedの終了処理をする。
+	asd::Engine::Terminate();
 
 	return;
 }

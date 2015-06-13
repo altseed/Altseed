@@ -1,38 +1,38 @@
 ﻿
-#include <ace.h>
+#include <Altseed.h>
 
 // Keyboardのサンプル。キーボードによる入力を取得しています。
 void Keyboard()
 {
-	// AC-Engineを初期化する。
-	ace::Engine::Initialize(ace::ToAString("Keyboard").c_str(), 640, 480, ace::EngineOption());
+	// Altseedを初期化する。
+	asd::Engine::Initialize(asd::ToAString("Keyboard").c_str(), 640, 480, asd::EngineOption());
 
-	// AC-Engineのウインドウが閉じられていないか確認する。
-	while (ace::Engine::DoEvents())
+	// Altseedのウインドウが閉じられていないか確認する。
+	while (asd::Engine::DoEvents())
 	{
 		// キーボードのZキーの入力状態を取得する。
-		switch (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::Z))
+		switch (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Z))
 		{
-		case ace::KeyState::Free: // 前フレームと本フレームで非押下
+		case asd::KeyState::Free: // 前フレームと本フレームで非押下
 			printf("Z key free\n");
 			break;
-		case ace::KeyState::Hold: // 前フレームと本フレームで押下
+		case asd::KeyState::Hold: // 前フレームと本フレームで押下
 			printf("Z key hold\n");
 			break;
-		case ace::KeyState::Release: // 前フレームで押下、本フレームで非押下
+		case asd::KeyState::Release: // 前フレームで押下、本フレームで非押下
 			printf("Z key release\n");
 			break;
-		case ace::KeyState::Push: // 前フレームで非押下、本フレームで押下
+		case asd::KeyState::Push: // 前フレームで非押下、本フレームで押下
 			printf("Z key push\n");
 			break;
 		}
 
-		// AC-Engineを更新する。
-		ace::Engine::Update();
+		// Altseedを更新する。
+		asd::Engine::Update();
 	}
 
-	//AC-Engineの終了処理をする。
-	ace::Engine::Terminate();
+	//Altseedの終了処理をする。
+	asd::Engine::Terminate();
 
 	return;
 }

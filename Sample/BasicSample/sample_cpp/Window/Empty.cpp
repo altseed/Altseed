@@ -1,21 +1,21 @@
 ﻿
-#include <ace.h>
+#include <Altseed.h>
 
 // 空のウインドウを表示するサンプルです。
 void Empty()
 {
-	// AC-Engineを初期化する。
-	ace::Engine::Initialize(ace::ToAString("Empty").c_str(), 640, 480, ace::EngineOption());
+	// Altseedを初期化する。
+	asd::Engine::Initialize(asd::ToAString("Empty").c_str(), 640, 480, asd::EngineOption());
 
-	// AC-Engineのウインドウが閉じられていないか確認する。
-	while (ace::Engine::DoEvents())
+	// Altseedのウインドウが閉じられていないか確認する。
+	while (asd::Engine::DoEvents())
 	{
-		// AC-Engineを更新する。
-		ace::Engine::Update();
+		// Altseedを更新する。
+		asd::Engine::Update();
 	}
 
-	// AC-Engineの終了処理をする。
-	ace::Engine::Terminate();
+	// Altseedの終了処理をする。
+	asd::Engine::Terminate();
 
 	return;
 }

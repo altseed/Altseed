@@ -1,30 +1,30 @@
-﻿#include <ace.h>
+﻿#include <Altseed.h>
 
 // Collision2Dのサンプル。マウスによって操作する円がいずれかのオブジェクトにヒットしたら円が赤く変化します。
 void Collision2D()
 {
-	// AC-Engineを初期化する。
-	ace::Engine::Initialize(ace::ToAString("GeometryObject2D").c_str(), 640, 480, ace::EngineOption());
+	// Altseedを初期化する。
+	asd::Engine::Initialize(asd::ToAString("GeometryObject2D").c_str(), 640, 480, asd::EngineOption());
 
 	// 図形描画クラスのコンストラクタを呼び出す。
-	std::shared_ptr<ace::GeometryObject2D> geometryObj0 = std::make_shared<ace::GeometryObject2D>();
-	std::shared_ptr<ace::GeometryObject2D> geometryObj1 = std::make_shared<ace::GeometryObject2D>();
-	std::shared_ptr<ace::GeometryObject2D> geometryObj2 = std::make_shared<ace::GeometryObject2D>();
-	std::shared_ptr<ace::GeometryObject2D> geometryObj3 = std::make_shared<ace::GeometryObject2D>();
+	std::shared_ptr<asd::GeometryObject2D> geometryObj0 = std::make_shared<asd::GeometryObject2D>();
+	std::shared_ptr<asd::GeometryObject2D> geometryObj1 = std::make_shared<asd::GeometryObject2D>();
+	std::shared_ptr<asd::GeometryObject2D> geometryObj2 = std::make_shared<asd::GeometryObject2D>();
+	std::shared_ptr<asd::GeometryObject2D> geometryObj3 = std::make_shared<asd::GeometryObject2D>();
 
 	// マウスによって動かす円。
-	std::shared_ptr<ace::CircleShape> selfCircle;
+	std::shared_ptr<asd::CircleShape> selfCircle;
 
 	// 停止している円、三角形、矩形。
-	std::shared_ptr<ace::CircleShape> circle;
-	std::shared_ptr<ace::TriangleShape> triangle;
-	std::shared_ptr<ace::RectangleShape> rect;
+	std::shared_ptr<asd::CircleShape> circle;
+	std::shared_ptr<asd::TriangleShape> triangle;
+	std::shared_ptr<asd::RectangleShape> rect;
 
 	// シーンを生成する。
-	auto scene = std::make_shared<ace::Scene>();
+	auto scene = std::make_shared<asd::Scene>();
 
 	// シーンにレイヤーを追加する。
-	auto layer = std::make_shared<ace::Layer2D>();
+	auto layer = std::make_shared<asd::Layer2D>();
 
 
 	// 図形描画クラスをレイヤーに追加する。
@@ -37,67 +37,67 @@ void Collision2D()
 	scene->AddLayer(layer);
 
 	// シーンを切り替える。
-	ace::Engine::ChangeScene(scene);
+	asd::Engine::ChangeScene(scene);
 
 	// マウスによって動かす円の形状と描画の設定を行う。
 	{
 		// 円の外径、内径、頂点数、中心位置を指定する。
-		selfCircle = std::make_shared<ace::CircleShape>();
+		selfCircle = std::make_shared<asd::CircleShape>();
 		selfCircle->SetOuterDiameter(100);
 		selfCircle->SetInnerDiameter(0);
 		selfCircle->SetNumberOfCorners(96);
-		selfCircle->SetPosition(ace::Vector2DF(100, 50));
+		selfCircle->SetPosition(asd::Vector2DF(100, 50));
 
 		// 円を描画する図形として最前面に描画されるように設定する。
 		geometryObj0->SetShape(selfCircle);
-		geometryObj0->SetPosition(ace::Vector2DF(0, 0));
+		geometryObj0->SetPosition(asd::Vector2DF(0, 0));
 		geometryObj0->SetDrawingPriority(1);
 	}
 
 	// 停止している円の形状と描画の設定を行う。
 	{
 		// 円の外径、内径、頂点数、中心位置を指定する。
-		circle = std::make_shared<ace::CircleShape>();
+		circle = std::make_shared<asd::CircleShape>();
 		circle->SetOuterDiameter(100);
 		circle->SetInnerDiameter(0);
 		circle->SetNumberOfCorners(96);
-		circle->SetPosition(ace::Vector2DF(100, 50));
+		circle->SetPosition(asd::Vector2DF(100, 50));
 
 		// 円を描画する図形として設定する。
 		geometryObj1->SetShape(circle);
-		geometryObj1->SetPosition(ace::Vector2DF(0, 0));
+		geometryObj1->SetPosition(asd::Vector2DF(0, 0));
 	}
 
 	// 停止している三角形の形状と描画の設定を行う。
 	{
 		// 三角形の各頂点の位置を指定します。
-		triangle = std::make_shared<ace::TriangleShape>();
-		triangle->SetPointByIndex(ace::Vector2DF(400, 350), 0);
-		triangle->SetPointByIndex(ace::Vector2DF(300, 450), 1);
-		triangle->SetPointByIndex(ace::Vector2DF(540, 450), 2);
+		triangle = std::make_shared<asd::TriangleShape>();
+		triangle->SetPointByIndex(asd::Vector2DF(400, 350), 0);
+		triangle->SetPointByIndex(asd::Vector2DF(300, 450), 1);
+		triangle->SetPointByIndex(asd::Vector2DF(540, 450), 2);
 
 		// 三角形を描画する図形として設定する。
 		geometryObj2->SetShape(triangle);
-		geometryObj2->SetPosition(ace::Vector2DF(0, 0));
+		geometryObj2->SetPosition(asd::Vector2DF(0, 0));
 	}
 
 	// 停止している矩形の形状と描画の設定を行う。
 	{
-		rect = std::make_shared<ace::RectangleShape>();
-		rect->SetDrawingArea(ace::RectF(10, 110, 300, 200));
+		rect = std::make_shared<asd::RectangleShape>();
+		rect->SetDrawingArea(asd::RectF(10, 110, 300, 200));
 		rect->SetAngle(15);
 
 		geometryObj3->SetShape(rect);
-		geometryObj3->SetPosition(ace::Vector2DF(0, 0));
+		geometryObj3->SetPosition(asd::Vector2DF(0, 0));
 	}
 
 
-	// AC-Engineのウインドウが閉じられていないか確認する。
-	while (ace::Engine::DoEvents())
+	// Altseedのウインドウが閉じられていないか確認する。
+	while (asd::Engine::DoEvents())
 	{
 		{
 			// マウスによって制御される円の中心位置をマウスの位置とする。
-			selfCircle->SetPosition(ace::Engine::GetMouse()->GetPosition());
+			selfCircle->SetPosition(asd::Engine::GetMouse()->GetPosition());
 
 			// 停止している円、三角形、矩形にマウスによって動く円が衝突した時に円を赤く変化させる。
 			// そうでない時は白く変化させる。
@@ -105,21 +105,21 @@ void Collision2D()
 				|| selfCircle->GetIsCollidedWith(triangle)
 				|| selfCircle->GetIsCollidedWith(rect))
 			{
-				geometryObj0->SetColor(ace::Color(255, 0, 0, 255));
+				geometryObj0->SetColor(asd::Color(255, 0, 0, 255));
 			}
 			else
 			{
-				geometryObj0->SetColor(ace::Color(255, 255, 255, 255));
+				geometryObj0->SetColor(asd::Color(255, 255, 255, 255));
 			}
 
 			printf("%d",geometryObj1->GetDrawingPriority());
 		}
-		// AC-Engineを更新する。
-		ace::Engine::Update();
+		// Altseedを更新する。
+		asd::Engine::Update();
 	}
 
-	// AC-Engineの終了処理をする。
-	ace::Engine::Terminate();
+	// Altseedの終了処理をする。
+	asd::Engine::Terminate();
 
 	return;
 }

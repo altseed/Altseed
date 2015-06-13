@@ -1,21 +1,21 @@
 ﻿
-#include <ace.h>
+#include <Altseed.h>
 
 // Mouseのサンプル。マウスによる入力を取得しています。
 void Mouse()
 {
-	//AC-Engineを初期化する。
-	ace::Engine::Initialize(ace::ToAString("Mouse").c_str(), 640, 480, ace::EngineOption());
+	//Altseedを初期化する。
+	asd::Engine::Initialize(asd::ToAString("Mouse").c_str(), 640, 480, asd::EngineOption());
 
-	// AC-Engineのウインドウが閉じられていないか確認する。
-	while (ace::Engine::DoEvents())
+	// Altseedのウインドウが閉じられていないか確認する。
+	while (asd::Engine::DoEvents())
 	{
 		// マウスへの参照を取得する。
-		ace::Mouse* mouse = ace::Engine::GetMouse();
+		asd::Mouse* mouse = asd::Engine::GetMouse();
 
 		// マウスカーソルの座標を取得して表示する。
 		{
-			ace::Vector2DF v = mouse->GetPosition();
+			asd::Vector2DF v = mouse->GetPosition();
 
 			printf("Cursor Position:(%f,%f) ", v.X, v.Y);
 		}
@@ -24,16 +24,16 @@ void Mouse()
 		{
 			switch (mouse->GetMiddleButton()->GetButtonState())
 			{
-			case ace::MouseButtonState::Free: //前フレームと本フレームで非押下
+			case asd::MouseButtonState::Free: //前フレームと本フレームで非押下
 				printf("Middle Free");
 				break;
-			case ace::MouseButtonState::Hold: //前フレームと本フレームで押下
+			case asd::MouseButtonState::Hold: //前フレームと本フレームで押下
 				printf("Middle Hold");
 				break;
-			case ace::MouseButtonState::Release: //前フレームで押下、本フレームで非押下
+			case asd::MouseButtonState::Release: //前フレームで押下、本フレームで非押下
 				printf("Middle Release");
 				break;
-			case ace::MouseButtonState::Push: //前フレームで非押下、本フレームで押下
+			case asd::MouseButtonState::Push: //前フレームで非押下、本フレームで押下
 				printf("Middle Push");
 				break;
 			}
@@ -44,12 +44,12 @@ void Mouse()
 			printf(" Wheel : %f\n", mouse->GetMiddleButton()->GetRotation());
 		}
 
-		// AC-Engineを更新する。
-		ace::Engine::Update();
+		// Altseedを更新する。
+		asd::Engine::Update();
 	}
 
-	//AC-Engineの終了処理をする。
-	ace::Engine::Terminate();
+	//Altseedの終了処理をする。
+	asd::Engine::Terminate();
 
 	return;
 }

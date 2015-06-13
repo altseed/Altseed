@@ -4,17 +4,17 @@
 void Mouse()
 {
 	//aceを初期化する。
-	ace::Engine::Initialize(ace::ToAString("Mouse").c_str(), 640, 480, ace::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("Mouse").c_str(), 640, 480, asd::EngineOption());
 
 	// aceが進行可能かチェックする。
-	while (ace::Engine::DoEvents())
+	while (asd::Engine::DoEvents())
 	{
 		//マウスへの参照を取得する。
-		ace::Mouse* mouse = ace::Engine::GetMouse();
+		asd::Mouse* mouse = asd::Engine::GetMouse();
 
 		//マウスカーソルの座標を取得して表示する。
 		{
-			ace::Vector2DF v = mouse->GetPosition();
+			asd::Vector2DF v = mouse->GetPosition();
 
 			printf("Cursor Position:(%f,%f) ", v.X, v.Y);
 		}
@@ -23,16 +23,16 @@ void Mouse()
 		{
 			switch (mouse->GetMiddleButton()->GetButtonState())
 			{
-			case ace::MouseButtonState::Free: //前フレームと本フレームで非押下
+			case asd::MouseButtonState::Free: //前フレームと本フレームで非押下
 				printf("Middle Free");
 				break;
-			case ace::MouseButtonState::Hold: //前フレームと本フレームで押下
+			case asd::MouseButtonState::Hold: //前フレームと本フレームで押下
 				printf("Middle Hold");
 				break;
-			case ace::MouseButtonState::Release: //前フレームで押下、本フレームで非押下
+			case asd::MouseButtonState::Release: //前フレームで押下、本フレームで非押下
 				printf("Middle Release");
 				break;
-			case ace::MouseButtonState::Push: //前フレームで非押下、本フレームで押下
+			case asd::MouseButtonState::Push: //前フレームで非押下、本フレームで押下
 				printf("Middle Push");
 				break;
 			}
@@ -44,9 +44,9 @@ void Mouse()
 		}
 
 		//aceを更新する。
-		ace::Engine::Update();
+		asd::Engine::Update();
 	}
 
 	//aceを終了する。
-	ace::Engine::Terminate();
+	asd::Engine::Terminate();
 }

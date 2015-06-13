@@ -7,15 +7,15 @@
 void Empty()
 {
 	// aceを初期化する
-	ace::Engine::Initialize(ace::ToAString("Empty").c_str(), 640, 480, ace::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("Empty").c_str(), 640, 480, asd::EngineOption());
 
 	// aceが進行可能かチェックする。
-	while (ace::Engine::DoEvents())
+	while (asd::Engine::DoEvents())
 	{
 		// aceを更新する。
-		ace::Engine::Update();
+		asd::Engine::Update();
 	}
 
 	// aceを終了する。
-	ace::Engine::Terminate();
+	asd::Engine::Terminate();
 }

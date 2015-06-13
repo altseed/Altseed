@@ -1,6 +1,6 @@
 #include <Base.h>
 
-class RotatingComponent : public ace::Object2DComponent
+class RotatingComponent : public asd::Object2DComponent
 {
 public:
 	void OnUpdate()
@@ -13,17 +13,17 @@ public:
 void Object2DComponent()
 {
 	// aceを初期化する
-	ace::Engine::Initialize(ace::ToAString("Object2DComponent").c_str(), 640, 480, ace::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("Object2DComponent").c_str(), 640, 480, asd::EngineOption());
 
 	// 使用するシーン、レイヤー、オブジェクト、コンポーネントを生成
-	auto scene = std::make_shared<ace::Scene>();
-	auto layer = std::make_shared<ace::Layer2D>();
-	auto object = std::make_shared<ace::TextureObject2D>();
+	auto scene = std::make_shared<asd::Scene>();
+	auto layer = std::make_shared<asd::Layer2D>();
+	auto object = std::make_shared<asd::TextureObject2D>();
 	auto component = std::make_shared<RotatingComponent>();
 
 
 	// シーンを変更
-	ace::Engine::ChangeScene(scene);
+	asd::Engine::ChangeScene(scene);
 
 	// シーンにレイヤーを追加
 	scene->AddLayer(layer);
@@ -32,26 +32,26 @@ void Object2DComponent()
 	layer->AddObject(object);
 
 	// オブジェクトに回転コンポーネントをコンポーネント名"Rotate"で追加
-	object->AddComponent(component, ace::ToAString("Rotate"));
+	object->AddComponent(component, asd::ToAString("Rotate"));
 
 
 	// グラフィックスオブジェクトを取得
-	auto graphics = ace::Engine::GetGraphics();
+	auto graphics = asd::Engine::GetGraphics();
 
 	// テクスチャをロード
-	auto texture = graphics->CreateTexture2D(ace::ToAString("Data/Texture/Block1.png").c_str());
+	auto texture = graphics->CreateTexture2D(asd::ToAString("Data/Texture/Block1.png").c_str());
 
 	// オブジェクトに画像をセット
 	object->SetTexture(texture);
 
 	// オブジェクトの位置を指定
-	object->SetPosition(ace::Vector2DF(320, 240));
+	object->SetPosition(asd::Vector2DF(320, 240));
 
 
-	while (ace::Engine::DoEvents())
+	while (asd::Engine::DoEvents())
 	{
-		ace::Engine::Update();
+		asd::Engine::Update();
 	}
 
-	ace::Engine::Terminate();
+	asd::Engine::Terminate();
 }

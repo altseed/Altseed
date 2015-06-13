@@ -72,7 +72,7 @@ if len(argv) == 1 or argv[1] == 'csharp':
 	if not os.path.isdir('asd_cs/swig'):
 		os.makedirs('asd_cs/swig')
 
-	exec_sync( 'swig -c++ -csharp -namespace asd.swig -dllimport asd_core -o asd_cpp/core/dll.cxx -outdir asd_cs/swig/ swig.i' )
+	exec_sync( 'swig -c++ -csharp -namespace asd.swig -dllimport Altseed_core -o asd_cpp/core/dll.cxx -outdir asd_cs/swig/ swig.i' )
 
 elif argv[1] == 'java':
 	if not os.path.isdir('asd_java'):

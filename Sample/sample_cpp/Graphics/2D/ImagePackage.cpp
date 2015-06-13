@@ -7,22 +7,22 @@
 void ImagePackage()
 {
 	// aceを初期化する
-	ace::Engine::Initialize(ace::ToAString("ImagePackage").c_str(), 640, 480, ace::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("ImagePackage").c_str(), 640, 480, asd::EngineOption());
 
 	// シーンを生成する
-	auto scene = std::make_shared<ace::Scene>();
+	auto scene = std::make_shared<asd::Scene>();
 
 	// レイヤーを生成する
-	auto layer = std::make_shared<ace::Layer2D>();
+	auto layer = std::make_shared<asd::Layer2D>();
 
 	// シーンにレイヤーを追加する
 	scene->AddLayer(layer);
 
 	// シーンを切り替える
-	ace::Engine::ChangeScene(scene);
+	asd::Engine::ChangeScene(scene);
 
 	// イメージパッケージを読み込む
-	auto imagePackage = ace::Engine::GetGraphics()->CreateImagePackage(ace::ToAString("Data/ImagePackage/Game.aip").c_str());
+	auto imagePackage = asd::Engine::GetGraphics()->CreateImagePackage(asd::ToAString("Data/ImagePackage/Game.aip").c_str());
 
 	for (int i = 0; i < imagePackage->GetImageCount(); i++)
 	{
@@ -31,19 +31,19 @@ void ImagePackage()
 		auto area = imagePackage->GetImageArea(i);
 
 		// テクスチャをオブジェクトとして追加する
-		auto textureObject2D = std::make_shared<ace::TextureObject2D>();
+		auto textureObject2D = std::make_shared<asd::TextureObject2D>();
 		textureObject2D->SetTexture(texture);
-		textureObject2D->SetPosition(ace::Vector2DF(area.X, area.Y));
+		textureObject2D->SetPosition(asd::Vector2DF(area.X, area.Y));
 		layer->AddObject(textureObject2D);
 	}
 
 	// aceが進行可能かチェックする。
-	while (ace::Engine::DoEvents())
+	while (asd::Engine::DoEvents())
 	{
 		// aceを更新する。
-		ace::Engine::Update();
+		asd::Engine::Update();
 	}
 
 	// aceを終了する。
-	ace::Engine::Terminate();
+	asd::Engine::Terminate();
 }

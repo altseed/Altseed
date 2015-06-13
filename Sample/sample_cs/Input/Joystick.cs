@@ -12,9 +12,9 @@ namespace sample_cs.Input
         public void Run()
         {
 			// aceを初期化する。
-            var initialized = ace.Engine.Initialize("Joystick", 640, 480, new ace.EngineOption());
+            var initialized = asd.Engine.Initialize("Joystick", 640, 480, new asd.EngineOption());
 
-            ace.JoystickContainer container = ace.Engine.JoystickContainer;
+            asd.JoystickContainer container = asd.Engine.JoystickContainer;
 
             //0番目のジョイスティックが接続されているか否かを確かめる
             if (container.GetIsPresentAt(0))
@@ -35,30 +35,30 @@ namespace sample_cs.Input
             Console.ReadKey();
 
             //aceが続行可能か調べる。
-            while (ace.Engine.DoEvents())
+            while (asd.Engine.DoEvents())
             {
                 //aceを更新する。
-                ace.Engine.Update();
+                asd.Engine.Update();
 
                 //0番目のジョイスティックの0番目のボタンの押下状態を確かめる
                 switch (container.GetJoystickAt(0).GetButtonState(0))
                 {
-                    case ace.JoystickButtonState.Free: //前フレーム、現フレーム共に非押下。
+                    case asd.JoystickButtonState.Free: //前フレーム、現フレーム共に非押下。
                         Console.WriteLine("0 Free");
                         break;
-                    case ace.JoystickButtonState.Hold: //前フレーム、現フレーム共に押下。
+                    case asd.JoystickButtonState.Hold: //前フレーム、現フレーム共に押下。
                         Console.WriteLine("0 Hold");
                         break;
-                    case ace.JoystickButtonState.Release: //前フレームで押下、現フレームで非押下。
+                    case asd.JoystickButtonState.Release: //前フレームで押下、現フレームで非押下。
                         Console.WriteLine("0 Release");
                         break;
-                    case ace.JoystickButtonState.Push: //前フレームで非押下、現フレームで押下。
+                    case asd.JoystickButtonState.Push: //前フレームで非押下、現フレームで押下。
                         Console.WriteLine("0 Push");
                         break;
                 }
             }
             //aceを終了する。
-            ace.Engine.Terminate();
+            asd.Engine.Terminate();
         }
     }
 }

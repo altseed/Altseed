@@ -1,48 +1,48 @@
 ﻿
-#include <ace.h>
+#include <Altseed.h>
 
 // TextureObject2Dのサンプル。TextureObject2Dを用いて画像を表示しています。
 void TextureObject2D()
 {
-	// AC-Engineを初期化する。
-	ace::Engine::Initialize(ace::ToAString("TextureObject2D").c_str(), 640, 480, ace::EngineOption());
+	// Altseedを初期化する。
+	asd::Engine::Initialize(asd::ToAString("TextureObject2D").c_str(), 640, 480, asd::EngineOption());
 
 	// シーンを生成する
-	auto scene = std::make_shared<ace::Scene>();
+	auto scene = std::make_shared<asd::Scene>();
 
 	// レイヤーを生成する
-	auto layer = std::make_shared<ace::Layer2D>();
+	auto layer = std::make_shared<asd::Layer2D>();
 
 	// シーンにレイヤーを追加する
 	scene->AddLayer(layer);
 
 	// シーンを切り替える
-	ace::Engine::ChangeScene(scene);
+	asd::Engine::ChangeScene(scene);
 
 	// テクスチャを読み込む
-	auto tex = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
+	auto tex = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 
 	// TextureObject2Dのインスタンスを生成する
-	auto obj = std::make_shared<ace::TextureObject2D>();
+	auto obj = std::make_shared<asd::TextureObject2D>();
 
 	// 描画に使うテクスチャを設定する
 	obj->SetTexture(tex);
 
 	// 描画位置を指定する
-	obj->SetPosition(ace::Vector2DF(100, 100));
+	obj->SetPosition(asd::Vector2DF(100, 100));
 
 	// レイヤーへ追加する
 	layer->AddObject(obj);
 
-	// AC-Engineのウインドウが閉じられていないか確認する。
-	while (ace::Engine::DoEvents())
+	// Altseedのウインドウが閉じられていないか確認する。
+	while (asd::Engine::DoEvents())
 	{
-		// AC-Engineを更新する。
-		ace::Engine::Update();
+		// Altseedを更新する。
+		asd::Engine::Update();
 	}
 
-	// AC-Engineの終了処理をする。
-	ace::Engine::Terminate();
+	// Altseedの終了処理をする。
+	asd::Engine::Terminate();
 
 	return;
 }

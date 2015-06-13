@@ -21,62 +21,62 @@ namespace sample_cs.Graphics.PostEffect
 			Console.WriteLine("A : 全てのポストエフェクト消去");
 
 			// aceを初期化する
-			ace.Engine.Initialize("PostEffect", 640, 480, new ace.EngineOption());
+			asd.Engine.Initialize("PostEffect", 640, 480, new asd.EngineOption());
 
 			// シーン等を初期化する
-			var scene = new ace.Scene();
-			var layer = new ace.Layer2D();
-			var effectObj = new ace.EffectObject2D();
-			var effect = ace.Engine.Graphics.CreateEffect("Data/Effect/magic.efk");
+			var scene = new asd.Scene();
+			var layer = new asd.Layer2D();
+			var effectObj = new asd.EffectObject2D();
+			var effect = asd.Engine.Graphics.CreateEffect("Data/Effect/magic.efk");
 
 			scene.HDRMode = true; ;
 			scene.AddLayer(layer);
 			layer.AddObject(effectObj);
-			ace.Engine.ChangeScene(scene);
+			asd.Engine.ChangeScene(scene);
 
-			effectObj.Scale = new ace.Vector2DF(50, 50);
-			effectObj.Position = new ace.Vector2DF(320, 240);
+			effectObj.Scale = new asd.Vector2DF(50, 50);
+			effectObj.Position = new asd.Vector2DF(320, 240);
 			effectObj.Effect = effect;
 			effectObj.Play();
 
 			// aceが進行可能かチェックする。
-			while (ace.Engine.DoEvents())
+			while (asd.Engine.DoEvents())
 			{
 				// aceを更新する。
-				ace.Engine.Update();
+				asd.Engine.Update();
 
 				// Aを押したらポストエフェクトを全て破棄する。
-				if (ace.Engine.Keyboard.GetKeyState(ace.Keys.A) == ace.KeyState.Push)
+				if (asd.Engine.Keyboard.GetKeyState(asd.Keys.A) == asd.KeyState.Push)
 				{
 					layer.ClearPostEffects();
 				}
 
 				// Zを押したらグレースケールを追加する。
-				if (ace.Engine.Keyboard.GetKeyState(ace.Keys.Z) == ace.KeyState.Push)
+				if (asd.Engine.Keyboard.GetKeyState(asd.Keys.Z) == asd.KeyState.Push)
 				{
-					var posteffect = new ace.PostEffectGrayScale();
+					var posteffect = new asd.PostEffectGrayScale();
 					layer.AddPostEffect(posteffect);
 				}
 
 				// Xを押したらセピアを追加する。
-				if (ace.Engine.Keyboard.GetKeyState(ace.Keys.X) == ace.KeyState.Push)
+				if (asd.Engine.Keyboard.GetKeyState(asd.Keys.X) == asd.KeyState.Push)
 				{
-					var posteffect = new ace.PostEffectSepia();
+					var posteffect = new asd.PostEffectSepia();
 					layer.AddPostEffect(posteffect);
 				}
 
 				// Cを押したらガウスぼかしを追加する。
-				if (ace.Engine.Keyboard.GetKeyState(ace.Keys.C) == ace.KeyState.Push)
+				if (asd.Engine.Keyboard.GetKeyState(asd.Keys.C) == asd.KeyState.Push)
 				{
-					var posteffect = new ace.PostEffectGaussianBlur();
+					var posteffect = new asd.PostEffectGaussianBlur();
 					posteffect.Intensity = 5.0f;
 					layer.AddPostEffect(posteffect);
 				}
 
 				// Vを押したらライトブルームを追加する。
-				if (ace.Engine.Keyboard.GetKeyState(ace.Keys.V) == ace.KeyState.Push)
+				if (asd.Engine.Keyboard.GetKeyState(asd.Keys.V) == asd.KeyState.Push)
 				{
-					var posteffect = new ace.PostEffectLightBloom();
+					var posteffect = new asd.PostEffectLightBloom();
 					posteffect.Intensity = 10.0f;
 					posteffect.Exposure = 1.0f;
 					posteffect.Threshold = 0.3f;
@@ -85,7 +85,7 @@ namespace sample_cs.Graphics.PostEffect
 			}
 
 			// aceを終了する。
-			ace.Engine.Terminate();
+			asd.Engine.Terminate();
 		}
 	}
 }

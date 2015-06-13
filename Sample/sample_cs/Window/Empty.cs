@@ -14,23 +14,23 @@ namespace sample_cs.Window
 		public void Run()
 		{
 			// 初期設定を行う。
-			var option = new ace.EngineOption
+			var option = new asd.EngineOption
 			{
 				IsFullScreen = false
 			};
 
 			// aceを初期化する。
-			ace.Engine.Initialize("Empty", 640, 480, option);
+			asd.Engine.Initialize("Empty", 640, 480, option);
 
 			// aceが進行可能かチェックする。
-			while (ace.Engine.DoEvents())
+			while (asd.Engine.DoEvents())
 			{
 				// aceを更新する。
-				ace.Engine.Update();
+				asd.Engine.Update();
 			}
 
 			// aceを終了する。
-			ace.Engine.Terminate();
+			asd.Engine.Terminate();
 		}
 	}
 }

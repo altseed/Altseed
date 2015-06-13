@@ -6,32 +6,32 @@ class TextObject2D : ISample
 {
 	public void Run()
 	{
-		// AC-Engineを初期化する。
-		ace.Engine.Initialize("TextObject2D", 640, 480, new ace.EngineOption());
+		// Altseedを初期化する。
+		asd.Engine.Initialize("TextObject2D", 640, 480, new asd.EngineOption());
 
 		// シーンを生成する
-		var scene = new ace.Scene();
+		var scene = new asd.Scene();
 
 		// レイヤーを生成する
-		var layer = new ace.Layer2D();
+		var layer = new asd.Layer2D();
 
 		// シーンにレイヤーを追加する
 		scene.AddLayer(layer);
 
 		// シーンを切り替える
-		ace.Engine.ChangeScene(scene);
+		asd.Engine.ChangeScene(scene);
 
 		// フォントを生成する
-		var smallFont = ace.Engine.Graphics.CreateFont("Data/Font/small.aff");
+		var smallFont = asd.Engine.Graphics.CreateFont("Data/Font/small.aff");
 
 		// TextObject2Dのインスタンスを生成する
-		var fontObj = new ace.TextObject2D();
+		var fontObj = new asd.TextObject2D();
 
 		// 描画に使うフォントを設定する
 		fontObj.Font = smallFont;
 
 		// 描画位置を指定する
-		fontObj.Position = new ace.Vector2DF(100, 100);
+		fontObj.Position = new asd.Vector2DF(100, 100);
 
 		// 描画する文字列を指定する
 		fontObj.Text = "文字列サンプル1";
@@ -40,14 +40,14 @@ class TextObject2D : ISample
 		layer.AddObject(fontObj);
 		
 
-		// AC-Engineのウインドウが閉じられていないか確認する。
-		while (ace.Engine.DoEvents())
+		// Altseedのウインドウが閉じられていないか確認する。
+		while (asd.Engine.DoEvents())
 		{
-			// AC-Engineを更新する。
-			ace.Engine.Update();
+			// Altseedを更新する。
+			asd.Engine.Update();
 		}
 
-		// AC-Engineの終了処理をする。
-		ace.Engine.Terminate();
+		// Altseedの終了処理をする。
+		asd.Engine.Terminate();
 	}
 }

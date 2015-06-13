@@ -14,15 +14,15 @@ namespace sample_cs
 		public void Run()
 		{
 			// 初期設定を行う。
-			var option = new ace.EngineOption
+			var option = new asd.EngineOption
 			{
 				IsFullScreen = false
 			};
 
-			ace.Engine.Initialize( "Log", 100, 100, option);
+			asd.Engine.Initialize( "Log", 100, 100, option);
 
 			// Engineに格納されたものを使う（Log.htmlに出力される）
-			var logger = ace.Engine.Logger;
+			var logger = asd.Engine.Logger;
 
 			logger.Write( "文字列" );
 			logger.WriteLine( "文字列＋改行" );
@@ -43,17 +43,17 @@ namespace sample_cs
 			logger.EndTable();
 
             // SetOutputLevelメソッドで指定したものより低いレベルに指定した出力は、実行されない
-            logger.OutputLevel = ace.LogLevel.Critical;
-			logger.WriteLine( "出力されるログ(critical)", ace.LogLevel.Critical );
-			logger.WriteLine( "出力されないログ(information)", ace.LogLevel.Information );
+            logger.OutputLevel = asd.LogLevel.Critical;
+			logger.WriteLine( "出力されるログ(critical)", asd.LogLevel.Critical );
+			logger.WriteLine( "出力されないログ(information)", asd.LogLevel.Information );
 
-            logger.BeginTable( ace.LogLevel.Warning );
-			logger.Write( "出力されないテーブル", ace.LogLevel.Warning );
-			logger.EndTable( ace.LogLevel.Warning );
+            logger.BeginTable( asd.LogLevel.Warning );
+			logger.Write( "出力されないテーブル", asd.LogLevel.Warning );
+			logger.EndTable( asd.LogLevel.Warning );
 
 			Console.WriteLine( "Log.html に出力しました" );
 
-			ace.Engine.Terminate();
+			asd.Engine.Terminate();
 		}
 	}
 }

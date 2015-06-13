@@ -11,7 +11,7 @@ namespace sample_cs.ObjectSystem
 	/// </summary>
 	class Object2DComponent : ISample
 	{
-		class RotateComponent : ace.Object2DComponent
+		class RotateComponent : asd.Object2DComponent
 		{
 			protected override void OnUpdate()
 			{
@@ -23,17 +23,17 @@ namespace sample_cs.ObjectSystem
 		public void Run()
 		{
 			// aceの初期化
-			ace.Engine.Initialize("Object2DComponent", 640, 480, new ace.EngineOption());
+			asd.Engine.Initialize("Object2DComponent", 640, 480, new asd.EngineOption());
 
 			// 使用するシーン、レイヤー、オブジェクト、コンポーネントを生成
-			var scene = new ace.Scene();
-			var layer = new ace.Layer2D();
-			var obj = new ace.TextureObject2D();
+			var scene = new asd.Scene();
+			var layer = new asd.Layer2D();
+			var obj = new asd.TextureObject2D();
 			var component = new RotateComponent();
 
 
 			// シーンを変更
-			ace.Engine.ChangeScene(scene);
+			asd.Engine.ChangeScene(scene);
 
 			// シーンにレイヤーを追加
 			scene.AddLayer(layer);
@@ -46,20 +46,20 @@ namespace sample_cs.ObjectSystem
 
 
 			// テクスチャをロード
-			var texture = ace.Engine.Graphics.CreateTexture2D("Data/Texture/Block1.png");
+			var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Block1.png");
 
 			// オブジェクトに画像をセット
 			obj.Texture = texture;
 
 			// オブジェクトの位置を指定
-			obj.Position = new ace.Vector2DF(320, 240);
+			obj.Position = new asd.Vector2DF(320, 240);
 
-			while(ace.Engine.DoEvents())
+			while(asd.Engine.DoEvents())
 			{
-				ace.Engine.Update();
+				asd.Engine.Update();
 			}
 
-			ace.Engine.Terminate();
+			asd.Engine.Terminate();
 		}
 	}
 }
