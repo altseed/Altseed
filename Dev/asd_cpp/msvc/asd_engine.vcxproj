@@ -67,18 +67,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(ProjectDir)..\..\lib\x86\$(Configuration)\</OutDir>
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>Altseed</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>Altseed</TargetName>
     <OutDir>$(ProjectDir)..\..\lib\x64\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(ProjectDir)..\..\lib\x86\$(Configuration)\</OutDir>
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>Altseed</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>Altseed</TargetName>
     <OutDir>$(ProjectDir)..\..\lib\x64\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
