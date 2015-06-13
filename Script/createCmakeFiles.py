@@ -35,10 +35,10 @@ def isCommon(file):
 	return not isWin(file) and not isX11(file) and not isDX11(file) and not isGL(file)
 
 
-common_src = getCppFiles('../Dev/ace_cpp/common/','ace_cpp/common/')
-tool_src = getCppFiles('../Dev/ace_cpp/tool/','ace_cpp/tool/')
-core_src = getCppFiles('../Dev/ace_cpp/core/','ace_cpp/core/')
-engine_src = getCppFiles('../Dev/ace_cpp/engine/','ace_cpp/engine/')
+common_src = getCppFiles('../Dev/asd_cpp/common/','asd_cpp/common/')
+tool_src = getCppFiles('../Dev/asd_cpp/tool/','asd_cpp/tool/')
+core_src = getCppFiles('../Dev/asd_cpp/core/','asd_cpp/core/')
+engine_src = getCppFiles('../Dev/asd_cpp/engine/','asd_cpp/engine/')
 unittest_gtest_src = getCppFiles('../Dev/unitTest_cpp_gtest/','unitTest_cpp_gtest/')
 unittest_engine_gtest_src = getCppFiles('../Dev/unitTest_Engine_cpp_gtest/','unitTest_Engine_cpp_gtest/')
 

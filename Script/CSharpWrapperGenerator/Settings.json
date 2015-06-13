@@ -1,13 +1,13 @@
 {
 	"DoxygenXmlDirPath": "../../CPP_XML/xml/",
-	"SwigCSharpDirPath": "../../Dev/ace_cs/swig/",
-	"ExportFilePath": "../../Dev/ace_cs/Wrappers.cs",
+	"SwigCSharpDirPath": "../../Dev/asd_cs/swig/",
+	"ExportFilePath": "../../Dev/asd_cs/Wrappers.cs",
 	"ClassBlackList":
 	[
 		"Core",
 		"Core_Imp",
-		"ace_core",
-		"ace_corePINVOKE",
+		"asd_core",
+		"asd_corePINVOKE",
 
 		"Texture",
 		"RenderTexture2D",

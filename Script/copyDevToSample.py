@@ -21,7 +21,7 @@ def copyDev(targetDir):
 	aceutils.mkdir(sampleDir+r'cpp/lib/Debug/')
 	aceutils.mkdir(sampleDir+r'cpp/lib/Release/')
 
-	aceutils.copy(r'Dev/bin/ace_cs.dll', sampleDir+r'bin/')
+	aceutils.copy(r'Dev/bin/Altseed.dll', sampleDir+r'bin/')
 	aceutils.copy(r'Dev/bin/ace_core.Debug.dll', sampleDir+r'bin/')
 	aceutils.copy(r'Dev/bin/ace_core.dll', sampleDir+r'bin/')
 

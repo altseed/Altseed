@@ -1,5 +1,4 @@
-set(common_src
-
+set(common_src
 	asd_cpp/common/asd.common.cpp
 	asd_cpp/common/Graphics/asd.Color.cpp
 	asd_cpp/common/Graphics/Font/asd.AffHeader.cpp
@@ -17,20 +16,14 @@ set(common_src
 	asd_cpp/common/Thread/asd.CriticalSection.cpp
 	asd_cpp/common/Thread/asd.Thread.cpp
 	asd_cpp/common/Utility/asd.PointerArray.cpp
-)
-
-
-
-set(tool_src
-
+)
+
+set(tool_src
 	asd_cpp/tool/Graphics/3D/asd.MassModel_IO.cpp
 	asd_cpp/tool/Graphics/3D/asd.Model_IO.cpp
-)
-
-
-
-set(core_src
-
+)
+
+set(core_src
 	asd_cpp/core/3rdParty/poly2tri/common/shapes.cpp
 	asd_cpp/core/3rdParty/poly2tri/sweep/advancing_front.cpp
 	asd_cpp/core/3rdParty/poly2tri/sweep/cdt.cpp
@@ -59,15 +52,15 @@ set(core_src
 	asd_cpp/core/Graphics/3D/Renderer/asd.Renderer3D.cpp
 	asd_cpp/core/Graphics/3D/Renderer/asd.Renderer3DProxy.cpp
 	asd_cpp/core/Graphics/3D/Renderer/asd.SpriteRenderer3D.cpp
+	asd_cpp/core/Graphics/3D/Resource/Animation/asd.AnimationClip_Imp.cpp
+	asd_cpp/core/Graphics/3D/Resource/Animation/asd.AnimationSource_Imp.cpp
+	asd_cpp/core/Graphics/3D/Resource/Animation/asd.AnimationSystem_Imp.cpp
+	asd_cpp/core/Graphics/3D/Resource/Animation/asd.KeyframeAnimation_Imp.cpp
 	asd_cpp/core/Graphics/3D/Resource/asd.Deformer_Imp.cpp
 	asd_cpp/core/Graphics/3D/Resource/asd.MassModel_Imp.cpp
 	asd_cpp/core/Graphics/3D/Resource/asd.Mesh_Imp.cpp
 	asd_cpp/core/Graphics/3D/Resource/asd.Model_Imp.cpp
 	asd_cpp/core/Graphics/3D/Resource/asd.Terrain3D_Imp.cpp
-	asd_cpp/core/Graphics/3D/Resource/Animation/asd.AnimationClip_Imp.cpp
-	asd_cpp/core/Graphics/3D/Resource/Animation/asd.AnimationSource_Imp.cpp
-	asd_cpp/core/Graphics/3D/Resource/Animation/asd.AnimationSystem_Imp.cpp
-	asd_cpp/core/Graphics/3D/Resource/Animation/asd.KeyframeAnimation_Imp.cpp
 	asd_cpp/core/Graphics/asd.DeviceObject.cpp
 	asd_cpp/core/Graphics/asd.Graphics_Imp.cpp
 	asd_cpp/core/Graphics/asd.RenderingThread.cpp
@@ -148,12 +141,9 @@ set(core_src
 	asd_cpp/core/Sound/asd.Sound_Imp.cpp
 	asd_cpp/core/Utils/asd.ResourceContainer.cpp
 	asd_cpp/core/Window/asd.Window_Imp.cpp
-)
-
-
-
-set(dx11_src
-
+)
+
+set(dx11_src
 	asd_cpp/core/Graphics/Platform/DX11/asd.Graphics_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/DirectXToolKit/DDSTextureLoader.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.CubemapTexture_Imp_DX11.cpp
@@ -163,12 +153,9 @@ set(dx11_src
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.RenderTexture2D_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.Texture2D_Imp_DX11.cpp
 	asd_cpp/core/Graphics/Platform/DX11/Resource/asd.VertexBuffer_Imp_DX11.cpp
-)
-
-
-
-set(gl_src
-
+)
+
+set(gl_src
 	asd_cpp/core/Graphics/Platform/GL/asd.Graphics_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.CubemapTexture_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.DepthBuffer_Imp_GL.cpp
@@ -177,26 +164,17 @@ set(gl_src
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.RenderTexture2D_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.Texture2D_Imp_GL.cpp
 	asd_cpp/core/Graphics/Platform/GL/Resource/asd.VertexBuffer_Imp_GL.cpp
-)
-
-
-
-set(win_src
-
+)
+
+set(win_src
 	asd_cpp/core/Window/asd.Window_Imp_Win.cpp
-)
-
-
-
-set(x11_src
-
+)
+
+set(x11_src
 	asd_cpp/core/Window/asd.Window_Imp_X11.cpp
-)
-
-
-
-set(engine_src
-
+)
+
+set(engine_src
 	asd_cpp/engine/asd.Engine.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.CameraObject2D.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.Chip2D.cpp
@@ -236,12 +214,9 @@ set(engine_src
 	asd_cpp/engine/Shape/asd.RectangleShape.cpp
 	asd_cpp/engine/Shape/asd.Shape.cpp
 	asd_cpp/engine/Shape/asd.TriangleShape.cpp
-)
-
-
-
-set(unittest_gtest_src
-
+)
+
+set(unittest_gtest_src
 	unitTest_cpp_gtest/asd.common.Base_test.cpp
 	unitTest_cpp_gtest/asd.DLL.cpp
 	unitTest_cpp_gtest/Graphics/2D/asd.LayerRenderer_Test.cpp
@@ -272,12 +247,9 @@ set(unittest_gtest_src
 	unitTest_cpp_gtest/Utility/asd.Timer_test.cpp
 	unitTest_cpp_gtest/Utility/asd.TypeErasureCopy_test.cpp
 	unitTest_cpp_gtest/Window/asd.Window_Empty_Test.cpp
-)
-
-
-
-set(unittest_engine_gtest_src
-
+)
+
+set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
 	unitTest_Engine_cpp_gtest/EngineTest.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/CameraObject2D.cpp
@@ -312,6 +284,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/IO/StreamFile_Package.cpp
 	unitTest_Engine_cpp_gtest/IO/StreamFile_PackageWithKey.cpp
 	unitTest_Engine_cpp_gtest/main.cpp
+	unitTest_Engine_cpp_gtest/msvc/TransformOutOfUpdate.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/AddComponentByComponent.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
@@ -334,7 +307,5 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Profiler.cpp
 	unitTest_Engine_cpp_gtest/Shape/Collision2D.cpp
 	unitTest_Engine_cpp_gtest/Sound/Sound.cpp
-)
-
-
-
+)
+

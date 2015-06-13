@@ -6,7 +6,7 @@ aceutils.cd(r'../')
 aceutils.rm(r'master.zip')
 aceutils.rmdir(r'Culling3D-master')
 
-aceutils.wget(r'https://github.com/ac-engine/Culling3D/archive/master.zip')
+aceutils.wget(r'https://github.com/altseed/Culling3D/archive/master.zip')
 aceutils.unzip(r'master.zip')
 
 aceutils.editCmakeForACE(r'Culling3D-master/CMakeLists.txt','cp932')
