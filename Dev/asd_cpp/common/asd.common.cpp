@@ -571,7 +571,7 @@ namespace asd
 		auto title_ = ToUtf8String(title);
 		auto text_ = ToUtf8String(text);
 
-		ace_x11::MessageBoxX11(title_.c_str(), text_.c_str());
+		asd_x11::MessageBoxX11(title_.c_str(), text_.c_str());
 #endif
 	}
 }
