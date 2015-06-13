@@ -211,21 +211,21 @@ namespace asd
 
 #if _WIN32
 #if _DEBUG
-			const char* path = "ace_core.Debug.dll";
+			const char* path = "Altseed_core.Debug.dll";
 #else
-			const char* path = "ace_core.dll";
+			const char* path = "Altseed_core.dll";
 #endif
 #elif __APPLE__
 #if _DEBUG
-			const char* path = "libace_core.dylib";
+			const char* path = "libAltseed_core.dylib";
 #else
-			const char* path = "libace_core.dylib";
+			const char* path = "libAltseed_core.dylib";
 #endif
 #else
 #if _DEBUG
-			const char* path = "libace_core.so";
+			const char* path = "libAltseed_core.so";
 #else
-			const char* path = "libace_core.so";
+			const char* path = "libAltseed_core.so";
 #endif
 #endif
 			if (!g_dll->Load(path))

@@ -167,78 +167,78 @@ else()
 endif()
 
 # コンパイル先を追加
-add_library( aceCommon STATIC ${common_src} )
+add_library( asdCommon STATIC ${common_src} )
 
-add_library( aceTool STATIC ${tool_src} )
+add_library( asdTool STATIC ${tool_src} )
 
-add_library( aceCore STATIC ${core_src} )
-add_library( aceCoreDLL SHARED ${core_src} )
+add_library( asdCore STATIC ${core_src} )
+add_library( asdCoreDLL SHARED ${core_src} )
 
-target_link_libraries(aceCoreDLL aceTool aceCommon ${common_lib}) 
+target_link_libraries(asdCoreDLL asdTool asdCommon ${common_lib}) 
 
-add_library( aceEngine STATIC ${engine_src} ${common_src} )
+add_library( asdEngine STATIC ${engine_src} ${common_src} )
 
-add_executable( aceUnitTestGtest ${unittest_gtest_src} )
-target_link_libraries(aceUnitTestGtest aceCore aceTool aceCommon ${common_lib}) 
+add_executable( asdUnitTestGtest ${unittest_gtest_src} )
+target_link_libraries(asdUnitTestGtest asdCore asdTool asdCommon ${common_lib}) 
 
-add_executable( aceUnitTestEngineGtest ${unittest_engine_gtest_src} )
-target_link_libraries(aceUnitTestEngineGtest aceEngine ${common_lib}) 
+add_executable( asdUnitTestEngineGtest ${unittest_engine_gtest_src} )
+target_link_libraries(asdUnitTestEngineGtest asdEngine ${common_lib}) 
 
 
 
 # 出力先の設定
-set_target_properties(aceCommon PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
-set_target_properties(aceCommon PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
+set_target_properties(asdCommon PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
+set_target_properties(asdCommon PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
 
-set_target_properties(aceTool PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
-set_target_properties(aceTool PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
+set_target_properties(asdTool PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
+set_target_properties(asdTool PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
 
-set_target_properties(aceCore PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
-set_target_properties(aceCore PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
+set_target_properties(asdCore PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
+set_target_properties(asdCore PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
 
-set_target_properties(aceCoreDLL PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "bin/" )
-set_target_properties(aceCoreDLL PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
-set_target_properties(aceCoreDLL PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
+set_target_properties(asdCoreDLL PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "bin/" )
+set_target_properties(asdCoreDLL PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
+set_target_properties(asdCoreDLL PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 
-set_target_properties(aceEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
-set_target_properties(aceEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
+set_target_properties(asdEngine PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
+set_target_properties(asdEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
 
-set_target_properties(aceUnitTestGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
-set_target_properties(aceUnitTestEngineGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
+set_target_properties(asdUnitTestGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
+set_target_properties(asdUnitTestEngineGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 
 if (MSVC)
-set_target_properties(aceCommon PROPERTIES OUTPUT_NAME_DEBUG "asd_common" )
-set_target_properties(aceCommon PROPERTIES OUTPUT_NAME_RELEASE "asd_common" )
+set_target_properties(asdCommon PROPERTIES OUTPUT_NAME_DEBUG "asd_common" )
+set_target_properties(asdCommon PROPERTIES OUTPUT_NAME_RELEASE "asd_common" )
 else()
-set_target_properties(aceCommon PROPERTIES OUTPUT_NAME "asd_common" )
+set_target_properties(asdCommon PROPERTIES OUTPUT_NAME "asd_common" )
 endif()
 
 if (MSVC)
-set_target_properties(aceCore PROPERTIES OUTPUT_NAME_DEBUG "asd_core" )
-set_target_properties(aceCore PROPERTIES OUTPUT_NAME_RELEASE "asd_core" )
+set_target_properties(asdCore PROPERTIES OUTPUT_NAME_DEBUG "asd_core" )
+set_target_properties(asdCore PROPERTIES OUTPUT_NAME_RELEASE "asd_core" )
 else()
-set_target_properties(aceCore PROPERTIES OUTPUT_NAME "asd_core" )
+set_target_properties(asdCore PROPERTIES OUTPUT_NAME "asd_core" )
 endif()
 
 if (MSVC)
-set_target_properties(aceCoreDLL PROPERTIES OUTPUT_NAME_DEBUG "asd_core" )
-set_target_properties(aceCoreDLL PROPERTIES OUTPUT_NAME_RELEASE "asd_core" )
+set_target_properties(asdCoreDLL PROPERTIES OUTPUT_NAME_DEBUG "Altseed_core" )
+set_target_properties(asdCoreDLL PROPERTIES OUTPUT_NAME_RELEASE "Altseed_core" )
 else()
-set_target_properties(aceCoreDLL PROPERTIES OUTPUT_NAME "asd_core" )
+set_target_properties(asdCoreDLL PROPERTIES OUTPUT_NAME "Altseed_core" )
 endif()
 
 if (MSVC)
-set_target_properties(aceEngine PROPERTIES OUTPUT_NAME_DEBUG "asd_engine" )
-set_target_properties(aceEngine PROPERTIES OUTPUT_NAME_RELEASE "asd_engine" )
+set_target_properties(asdEngine PROPERTIES OUTPUT_NAME_DEBUG "Altseed" )
+set_target_properties(asdEngine PROPERTIES OUTPUT_NAME_RELEASE "Altseed" )
 else()
-set_target_properties(aceEngine PROPERTIES OUTPUT_NAME "asd_engine" )
+set_target_properties(asdEngine PROPERTIES OUTPUT_NAME "Altseed" )
 endif()
 
-set_target_properties(aceUnitTestGtest PROPERTIES OUTPUT_NAME_DEBUG "UnitTestGtest_cpp" )
-set_target_properties(aceUnitTestGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestGtest_cpp" )
+set_target_properties(asdUnitTestGtest PROPERTIES OUTPUT_NAME_DEBUG "UnitTestGtest_cpp" )
+set_target_properties(asdUnitTestGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestGtest_cpp" )
 
-set_target_properties(aceUnitTestEngineGtest PROPERTIES OUTPUT_NAME_DEBUG "UnitTestEngineGtest_cpp" )
-set_target_properties(aceUnitTestEngineGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestEngineGtest_cpp" )
+set_target_properties(asdUnitTestEngineGtest PROPERTIES OUTPUT_NAME_DEBUG "UnitTestEngineGtest_cpp" )
+set_target_properties(asdUnitTestEngineGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestEngineGtest_cpp" )
 
 
 # フラグ処理
@@ -288,36 +288,36 @@ endif()
 
 # インストール先を決定
 install(
-	TARGETS aceCommon
+	TARGETS asdCommon
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib)
 
 install(
-	TARGETS aceTool
+	TARGETS asdTool
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib)
 
 install(
-	TARGETS aceCore
+	TARGETS asdCore
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib )
 
 install(
-	TARGETS aceCoreDLL
+	TARGETS asdCoreDLL
 	RUNTIME DESTINATION bin
 	ARCHIVE DESTINATION bin
 	LIBRARY DESTINATION bin )
 
 install(
-	TARGETS aceEngine
+	TARGETS asdEngine
 	ARCHIVE DESTINATION lib
 	LIBRARY DESTINATION lib )
 
 install(
-	TARGETS aceUnitTestGtest
+	TARGETS asdUnitTestGtest
 	RUNTIME DESTINATION bin )
 
 install(
-	TARGETS aceUnitTestEngineGtest
+	TARGETS asdUnitTestEngineGtest
 	RUNTIME DESTINATION bin )
 

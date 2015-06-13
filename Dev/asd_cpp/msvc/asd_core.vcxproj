@@ -120,11 +120,11 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>$(ProjectName).$(Configuration)</TargetName>
+    <TargetName>Altseed_core.$(Configuration)</TargetName>
     <OutDir>$(ProjectDir)..\..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>$(ProjectName).$(Configuration)</TargetName>
+    <TargetName>Altseed_core.$(Configuration)</TargetName>
     <OutDir>$(ProjectDir)..\..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'">
@@ -137,11 +137,11 @@
     <OutDir>$(ProjectDir)..\..\lib\x64\Debug\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>Altseed_core</TargetName>
     <OutDir>$(ProjectDir)..\..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <TargetName>$(ProjectName)</TargetName>
+    <TargetName>Altseed_core</TargetName>
     <OutDir>$(ProjectDir)..\..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|Win32'">
