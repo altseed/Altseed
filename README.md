@@ -49,7 +49,7 @@ githubにバグや要望を報告する
 
 #### 公式チャット
 
-[![Join the chat at https://gitter.im/altseed/Altseed](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.imaltseed/Altseed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/altseed/Altseed](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/altseed/Altseed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 定例ミーティングを毎週土曜日23時から行っています。報告や開発の方針の決定を行っています。興味ある方は是非とも参加をお願いします。
 
