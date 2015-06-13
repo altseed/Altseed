@@ -1,15 +1,15 @@
 ﻿#include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include "../../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class Graphics_MapObject2D : public EngineTest
 {
 public:
 	Graphics_MapObject2D(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("MapObject2D"), isOpenGLMode, 30)
+		: EngineTest(asd::ToAString("MapObject2D"), isOpenGLMode, 30)
 	{
 	}
 
@@ -24,12 +24,12 @@ protected:
 		ASSERT_NE(layer, nullptr);
 		ASSERT_NE(object, nullptr);
 
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(object);
 
-		auto g = ace::Engine::GetGraphics();
-		auto texture = g->CreateTexture2D(ace::ToAString("Data/Map/MapTest.png").c_str());
+		auto g = asd::Engine::GetGraphics();
+		auto texture = g->CreateTexture2D(asd::ToAString("Data/Map/MapTest.png").c_str());
 		auto chip1 = std::make_shared<Chip2D>();
 		chip1->SetTexture(texture);
 		chip1->SetPosition(Vector2DF(0,0));

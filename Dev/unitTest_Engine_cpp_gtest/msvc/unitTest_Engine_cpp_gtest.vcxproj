@@ -69,7 +69,7 @@
     <ClCompile Include="..\ObjectSystem\TrasingCamera.cpp" />
     <ClCompile Include="..\ObjectSystem\VanishInComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\VanishOwnerInComponent.cpp" />
-    <ClCompile Include="..\PCH\ace.UnitTestEngineCpp.PCH.cpp">
+    <ClCompile Include="..\PCH\asd.UnitTestEngineCpp.PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -85,7 +85,7 @@
   <ItemGroup>
     <ClInclude Include="..\EngineGraphics3DTest.h" />
     <ClInclude Include="..\EngineTest.h" />
-    <ClInclude Include="..\PCH\ace.UnitTestEngineCpp.PCH.h" />
+    <ClInclude Include="..\PCH\asd.UnitTestEngineCpp.PCH.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B64D0464-A770-4EB2-9058-84FCAED86DE3}</ProjectGuid>
@@ -151,11 +151,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>..\PCH\ace.UnitTestEngineCpp.PCH.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>..\PCH\ace.UnitTestEngineCpp.PCH.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>..\PCH\asd.UnitTestEngineCpp.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\PCH\asd.UnitTestEngineCpp.PCH.h</ForcedIncludeFiles>
       <MinimalRebuild>false</MinimalRebuild>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -169,11 +169,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>..\PCH\ace.UnitTestEngineCpp.PCH.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>..\PCH\ace.UnitTestEngineCpp.PCH.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>..\PCH\asd.UnitTestEngineCpp.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\PCH\asd.UnitTestEngineCpp.PCH.h</ForcedIncludeFiles>
       <MinimalRebuild>false</MinimalRebuild>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
@@ -189,11 +189,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>..\PCH\ace.UnitTestEngineCpp.PCH.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>..\PCH\ace.UnitTestEngineCpp.PCH.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>..\PCH\asd.UnitTestEngineCpp.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\PCH\asd.UnitTestEngineCpp.PCH.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -210,11 +210,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>..\PCH\ace.UnitTestEngineCpp.PCH.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>..\PCH\ace.UnitTestEngineCpp.PCH.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>..\PCH\asd.UnitTestEngineCpp.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\PCH\asd.UnitTestEngineCpp.PCH.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

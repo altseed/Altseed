@@ -4,18 +4,18 @@
 
 #ifdef _WIN64
 #ifdef _DEBUG
-#pragma comment(lib,"x64/Debug/ace_engine.lib")
+#pragma comment(lib,"x64/Debug/Altseed.lib")
 #pragma comment(lib, "x64/Debug/gtest.lib")
 #else
-#pragma comment(lib,"x64/Release/ace_engine.lib")
+#pragma comment(lib,"x64/Release/Altseed.lib")
 #pragma comment(lib, "x64/Release/gtest.lib")
 #endif
 #else
 #ifdef _DEBUG
-#pragma comment(lib,"x86/Debug/ace_engine.lib")
+#pragma comment(lib,"x86/Debug/Altseed.lib")
 #pragma comment(lib, "x86/Debug/gtest.lib")
 #else
-#pragma comment(lib,"x86/Release/ace_engine.lib")
+#pragma comment(lib,"x86/Release/Altseed.lib")
 #pragma comment(lib, "x86/Release/gtest.lib")
 #endif
 #endif

@@ -1,17 +1,17 @@
 ﻿Altseed
 =========================
 
-AltseedはC++、C#対応ゲームエンジンです。
+Altseed(元AC-Engine)はC++、C#対応ゲームエンジンです。
 
 **最新版 2015/05/30**
-* [ウェブサイト](http://Altseed.github.io/)
+* [ウェブサイト](http://ac-engine.github.io/)
 * [導入方法(C++版、Windows)](Document/HowToIntroduce/Windows_CPP.md)
 * [導入方法(C#版、Windows)](Document/HowToIntroduce/Windows_CS.md)
 * Mac、Linuxの場合、自分でソースコードからコンパイルする必要があります。
 
 [ユーザーマニュアル](Document/Index.md)
 
-[シューティング作成講座 C#版 - 記述中](https://github.com/Altseed/STGLecture/blob/master/Document/cs/Index.md)
+[シューティング作成講座 C#版 - 記述中](https://github.com/altseed/STGLecture/blob/master/Document/cs/Index.md)
 
 ### Altseedの開発に関わるには?
 
@@ -49,7 +49,7 @@ githubにバグや要望を報告する
 
 #### 公式チャット
 
-[![Join the chat at https://gitter.im/Altseed/Altseed](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Altseed/Altseed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/altseed/Altseed](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.imaltseed/Altseed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 定例ミーティングを毎週土曜日23時から行っています。報告や開発の方針の決定を行っています。興味ある方は是非とも参加をお願いします。
 
@@ -57,5 +57,5 @@ githubにバグや要望を報告する
 
 #### メーリングリスト
 
-[GoogleGroup](https://groups.google.com/forum/#!forum/Altseed)
+[GoogleGroup](https://groups.google.com/forum/#!forum/ac-engine)
 

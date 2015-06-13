@@ -1,4 +1,4 @@
-﻿--AC-Engine Tools--
+﻿--Altseed Tools--
 
 The MIT License (MIT)
 
@@ -21,7 +21,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-AC-Engine Tools is dependent on:
+Altseed Tools is dependent on:
 
 --GLFW--
 
@@ -280,7 +280,7 @@ ntf「みんなで改善してもらっている最新版」(http://homepage3.ni
  */
 
 --Others--
-AC-Engine - Copyright (c) 2013-2015 AC-Engine (https://github.com/ac-engine/ac-engine) (MIT License)
+Altseed - Copyright (c) 2013-2015 Altseed (https://github.com/altseed/Altseed) (MIT License)
 Reactive Extensions (https://www.nuget.org/packages/Rx-Main/) (Rx Eula)
 psd.c - (https://github.com/hkrn/psd.c) (MIT License)
 list - (https://github.com/clibs/list) (MIT License)

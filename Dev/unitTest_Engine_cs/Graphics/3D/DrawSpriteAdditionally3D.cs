@@ -23,20 +23,20 @@ namespace unitTest_Engine_cs.Graphics._3D
 			base.OnUpdating();
 
 			Layer3D.DrawSpriteAdditionally(
-			new ace.Vector3DF(-1, 0, -1),
-			new ace.Vector3DF(1, 0, -1),
-			new ace.Vector3DF(1, 0, 1),
-			new ace.Vector3DF(-1, 0, 1),
-			new ace.Color(255, 0, 0, 255),
-			new ace.Color(0, 255, 0, 255),
-			new ace.Color(0, 0, 255, 255),
-			new ace.Color(255, 255, 255, 255),
-			new ace.Vector2DF(0, 0),
-			new ace.Vector2DF(0, 0),
-			new ace.Vector2DF(0, 0),
-			new ace.Vector2DF(0, 0),
+			new asd.Vector3DF(-1, 0, -1),
+			new asd.Vector3DF(1, 0, -1),
+			new asd.Vector3DF(1, 0, 1),
+			new asd.Vector3DF(-1, 0, 1),
+			new asd.Color(255, 0, 0, 255),
+			new asd.Color(0, 255, 0, 255),
+			new asd.Color(0, 0, 255, 255),
+			new asd.Color(255, 255, 255, 255),
+			new asd.Vector2DF(0, 0),
+			new asd.Vector2DF(0, 0),
+			new asd.Vector2DF(0, 0),
+			new asd.Vector2DF(0, 0),
 			null,
-			ace.AlphaBlendMode.Blend,
+			asd.AlphaBlendMode.Blend,
 			false,
 			true
 			);

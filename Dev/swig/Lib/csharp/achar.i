@@ -25,7 +25,7 @@
 #include <stdint.h>
 #include <string>
 
-namespace ace
+namespace asd
 {
 #ifdef _WIN32
 typedef wchar_t achar;
@@ -36,7 +36,7 @@ typedef std::basic_string<char16_t> astring;
 #endif
 };
 
-typedef void * (SWIGSTDCALL* SWIG_CSharpWStringHelperCallback)(const ::ace::achar *);
+typedef void * (SWIGSTDCALL* SWIG_CSharpWStringHelperCallback)(const ::asd::achar *);
 static SWIG_CSharpWStringHelperCallback SWIG_csharp_wstring_callback = NULL;
 %}
 
@@ -73,52 +73,52 @@ SWIGEXPORT void SWIGSTDCALL SWIGRegisterWStringCallback_$module(SWIG_CSharpWStri
 #endif // SWIG_CSHARP_NO_WSTRING_HELPER
 
 
-// ::ace::achar
-%typemap(ctype) ::ace::achar "::ace::achar"
-%typemap(imtype) ::ace::achar "char"
-%typemap(cstype) ::ace::achar "char"
+// ::asd::achar
+%typemap(ctype) ::asd::achar "::asd::achar"
+%typemap(imtype) ::asd::achar "char"
+%typemap(cstype) ::asd::achar "char"
 
-%typemap(csin) ::ace::achar "$csinput"
-%typemap(csout, excode=SWIGEXCODE) ::ace::achar {
+%typemap(csin) ::asd::achar "$csinput"
+%typemap(csout, excode=SWIGEXCODE) ::asd::achar {
     char ret = $imcall;$excode
     return ret;
   }
-%typemap(csvarin, excode=SWIGEXCODE2) ::ace::achar %{
+%typemap(csvarin, excode=SWIGEXCODE2) ::asd::achar %{
     set {
       $imcall;$excode
     } %}
-%typemap(csvarout, excode=SWIGEXCODE2) ::ace::achar %{
+%typemap(csvarout, excode=SWIGEXCODE2) ::asd::achar %{
     get {
       char ret = $imcall;$excode
       return ret;
     } %}
 
-%typemap(in) ::ace::achar %{ $1 = ($1_ltype)$input; %}
-%typemap(out) ::ace::achar %{ $result = (::ace::achar)$1; %}
+%typemap(in) ::asd::achar %{ $1 = ($1_ltype)$input; %}
+%typemap(out) ::asd::achar %{ $result = (::asd::achar)$1; %}
 
-//%typemap(typecheck) ::ace::achar = char;
+//%typemap(typecheck) ::asd::achar = char;
 
-// ::ace::achar *
-%typemap(ctype) ::ace::achar * "::ace::achar *"
-%typemap(imtype, inattributes="[global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]", out="System.IntPtr" ) ::ace::achar * "string"
-%typemap(cstype) ::ace::achar * "string"
+// ::asd::achar *
+%typemap(ctype) ::asd::achar * "::asd::achar *"
+%typemap(imtype, inattributes="[global::System.Runtime.InteropServices.MarshalAs(global::System.Runtime.InteropServices.UnmanagedType.LPWStr)]", out="System.IntPtr" ) ::asd::achar * "string"
+%typemap(cstype) ::asd::achar * "string"
 
-%typemap(csin) ::ace::achar * "$csinput"
-%typemap(csout, excode=SWIGEXCODE) ::ace::achar * {
+%typemap(csin) ::asd::achar * "$csinput"
+%typemap(csout, excode=SWIGEXCODE) ::asd::achar * {
     string ret = System.Runtime.InteropServices.Marshal.PtrToStringUni($imcall);$excode
     return ret;
   }
-%typemap(csvarin, excode=SWIGEXCODE2) ::ace::achar * %{
+%typemap(csvarin, excode=SWIGEXCODE2) ::asd::achar * %{
     set {
       $imcall;$excode
     } %}
-%typemap(csvarout, excode=SWIGEXCODE2) ::ace::achar * %{
+%typemap(csvarout, excode=SWIGEXCODE2) ::asd::achar * %{
     get {
       string ret = $imcall;$excode
       return ret;
     } %}
 
-%typemap(in) ::ace::achar * %{ $1 = ($1_ltype)$input; %}
-%typemap(out) ::ace::achar * %{ $result = (::ace::achar *)$1; %}
+%typemap(in) ::asd::achar * %{ $1 = ($1_ltype)$input; %}
+%typemap(out) ::asd::achar * %{ $result = (::asd::achar *)$1; %}
 
-//%typemap(typecheck) ::ace::achar * = char *;
+//%typemap(typecheck) ::asd::achar * = char *;

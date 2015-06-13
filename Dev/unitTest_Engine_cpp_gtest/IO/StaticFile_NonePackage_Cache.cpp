@@ -1,15 +1,15 @@
-﻿#include <ace.h>
+﻿#include <Altseed.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 class IO_StaticFile_NonePackage_Cache : public EngineTest
 {
 public:
 	IO_StaticFile_NonePackage_Cache(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("StaticFile_NonePackage_Cache"), isOpenGLMode, 1)
+		: EngineTest(asd::ToAString("StaticFile_NonePackage_Cache"), isOpenGLMode, 1)
 	{
 
 	}
@@ -18,17 +18,17 @@ protected:
 
 	void OnStart()
 	{
-		ace::Engine::GetFile()->AddRootDirectory(ace::ToAString("Data/Texture").c_str());
+		asd::Engine::GetFile()->AddRootDirectory(asd::ToAString("Data/Texture").c_str());
 
 		for (auto loop = 0; loop < 2; loop++)
 		{
 			//普通に読み込んだバイナリ
 			BinaryReader reader;
-			auto data = GetBinaryData(ace::ToAString("Data/Texture/Sample1.png"));
+			auto data = GetBinaryData(asd::ToAString("Data/Texture/Sample1.png"));
 			reader.ReadIn(data.begin(), data.end());
 
 			//ファイル機能で読み込んだバイナリ
-			auto staticFile = ace::Engine::GetFile()->CreateStaticFile(ace::ToAString("Sample1.png").c_str());
+			auto staticFile = asd::Engine::GetFile()->CreateStaticFile(asd::ToAString("Sample1.png").c_str());
 			auto staticFileData = staticFile->GetBuffer();
 
 			int cnt = 0;

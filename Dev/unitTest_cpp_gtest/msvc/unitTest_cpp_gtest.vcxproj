@@ -19,45 +19,45 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\ace.common.Base_test.cpp" />
-    <ClCompile Include="..\ace.DLL.cpp" />
-    <ClCompile Include="..\Graphics\2D\ace.LayerRenderer_Test.cpp" />
-    <ClCompile Include="..\Graphics\2D\ace.PostEffectRenderer_Test.cpp" />
-    <ClCompile Include="..\Graphics\2D\ace.Renderer2D_Test.cpp" />
-    <ClCompile Include="..\Graphics\3D\ace.Mesh_Test.cpp" />
-    <ClCompile Include="..\Graphics\ace.Graphics_Test_Utls.cpp" />
-    <ClCompile Include="..\Graphics\Font\ace.AffHeader_Test.cpp" />
-    <ClCompile Include="..\Graphics\Font\ace.AffIndexTable_Test.cpp" />
-    <ClCompile Include="..\Graphics\Font\ace.AffLoader_Test.cpp" />
-    <ClCompile Include="..\Graphics\Font\ace.GlyphData_Test.cpp" />
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_CubemapTexture_Test.cpp" />
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Empty_Test.cpp" />
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_RenderingThread_Test.cpp" />
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_RenderTarget.cpp" />
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Sampler_Test.cpp" />
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_Simple3D_Test.cpp" />
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_SingleTexture_Test.cpp" />
-    <ClCompile Include="..\Graphics\LowLayer\ace.Graphics_TextureFormat_Test.cpp" />
-    <ClCompile Include="..\Log\ace.Log_Test.cpp" />
+    <ClCompile Include="..\asd.common.Base_test.cpp" />
+    <ClCompile Include="..\asd.DLL.cpp" />
+    <ClCompile Include="..\Graphics\2D\asd.LayerRenderer_Test.cpp" />
+    <ClCompile Include="..\Graphics\2D\asd.PostEffectRenderer_Test.cpp" />
+    <ClCompile Include="..\Graphics\2D\asd.Renderer2D_Test.cpp" />
+    <ClCompile Include="..\Graphics\3D\asd.Mesh_Test.cpp" />
+    <ClCompile Include="..\Graphics\asd.Graphics_Test_Utls.cpp" />
+    <ClCompile Include="..\Graphics\Font\asd.AffHeader_Test.cpp" />
+    <ClCompile Include="..\Graphics\Font\asd.AffIndexTable_Test.cpp" />
+    <ClCompile Include="..\Graphics\Font\asd.AffLoader_Test.cpp" />
+    <ClCompile Include="..\Graphics\Font\asd.GlyphData_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_CubemapTexture_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_Empty_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_RenderingThread_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_RenderTarget.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_Sampler_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_Simple3D_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_SingleTexture_Test.cpp" />
+    <ClCompile Include="..\Graphics\LowLayer\asd.Graphics_TextureFormat_Test.cpp" />
+    <ClCompile Include="..\Log\asd.Log_Test.cpp" />
     <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\PCH\ace.UnitTestCpp.PCH.cpp">
+    <ClCompile Include="..\PCH\asd.UnitTestCpp.PCH.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\Profiler\ace.ProfilerViewer_test.cpp" />
-    <ClCompile Include="..\Utility\ace.CopyArrayTest.cpp" />
-    <ClCompile Include="..\Utility\ace.BinaryRederWriterTest.cpp" />
-    <ClCompile Include="..\Utility\ace.GetTypeNameTest.cpp" />
-    <ClCompile Include="..\Utility\ace.PointerArray_test.cpp" />
-    <ClCompile Include="..\Utility\ace.Timer_test.cpp" />
-    <ClCompile Include="..\Utility\ace.TypeErasureCopy_test.cpp" />
-    <ClCompile Include="..\Window\ace.Window_Empty_Test.cpp" />
+    <ClCompile Include="..\Profiler\asd.ProfilerViewer_test.cpp" />
+    <ClCompile Include="..\Utility\asd.CopyArrayTest.cpp" />
+    <ClCompile Include="..\Utility\asd.BinaryRederWriterTest.cpp" />
+    <ClCompile Include="..\Utility\asd.GetTypeNameTest.cpp" />
+    <ClCompile Include="..\Utility\asd.PointerArray_test.cpp" />
+    <ClCompile Include="..\Utility\asd.Timer_test.cpp" />
+    <ClCompile Include="..\Utility\asd.TypeErasureCopy_test.cpp" />
+    <ClCompile Include="..\Window\asd.Window_Empty_Test.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Graphics\ace.Graphics_Test_Utls.h" />
-    <ClInclude Include="..\PCH\ace.UnitTestCpp.PCH.h" />
+    <ClInclude Include="..\Graphics\asd.Graphics_Test_Utls.h" />
+    <ClInclude Include="..\PCH\asd.UnitTestCpp.PCH.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D12141F5-F955-4510-AC90-DBF95D378311}</ProjectGuid>
@@ -123,11 +123,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>..\PCH\ace.UnitTestCpp.PCH.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>..\PCH\ace.UnitTestCpp.PCH.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>..\PCH\asd.UnitTestCpp.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\PCH\asd.UnitTestCpp.PCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -139,11 +139,11 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>..\PCH\ace.UnitTestCpp.PCH.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>..\PCH\ace.UnitTestCpp.PCH.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>..\PCH\asd.UnitTestCpp.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\PCH\asd.UnitTestCpp.PCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -157,11 +157,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>..\PCH\ace.UnitTestCpp.PCH.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>..\PCH\ace.UnitTestCpp.PCH.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>..\PCH\asd.UnitTestCpp.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\PCH\asd.UnitTestCpp.PCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -177,11 +177,11 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\ace_cpp\common\;..\..\ace_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PrecompiledHeaderFile>..\PCH\ace.UnitTestCpp.PCH.h</PrecompiledHeaderFile>
-      <ForcedIncludeFiles>..\PCH\ace.UnitTestCpp.PCH.h</ForcedIncludeFiles>
+      <PrecompiledHeaderFile>..\PCH\asd.UnitTestCpp.PCH.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>..\PCH\asd.UnitTestCpp.PCH.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>

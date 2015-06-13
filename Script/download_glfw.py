@@ -4,7 +4,7 @@ aceutils.cdToScript()
 aceutils.cd(r'../')
 aceutils.rm(r'master.zip')
 aceutils.rmdir(r'glfw-master')
-aceutils.wget(r'https://github.com/ac-engine/GLFW/archive/master.zip')
+aceutils.wget(r'https://github.com/altseed/GLFW/archive/master.zip')
 aceutils.unzip(r'master.zip')
 
 aceutils.editCmakeForACE(r'glfw-master/CMakeLists.txt')

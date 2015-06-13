@@ -24,14 +24,14 @@
 #ifdef _WIN64
 
 #ifdef _DEBUG
-#pragma comment(lib,"x64/Debug/ace_common.lib")
-#pragma comment(lib,"x64/Debug/ace_core.lib")
+#pragma comment(lib,"x64/Debug/asd_common.lib")
+#pragma comment(lib,"x64/Debug/asd_core.lib")
 #pragma comment(lib,"x64/Debug/glfw3.lib")
 #pragma comment(lib,"x64/Debug/libpng16.lib")
 #pragma comment(lib,"x64/Debug/zlib.lib")
 #else
-#pragma comment(lib,"x64/Release/ace_common.lib")
-#pragma comment(lib,"x64/Release/ace_core.lib")
+#pragma comment(lib,"x64/Release/asd_common.lib")
+#pragma comment(lib,"x64/Release/asd_core.lib")
 #pragma comment(lib,"x64/Release/glfw3.lib")
 #pragma comment(lib,"x64/Release/libpng16.lib")
 #pragma comment(lib,"x64/Release/zlib.lib")
@@ -41,14 +41,14 @@
 #else
 
 #ifdef _DEBUG
-#pragma comment(lib,"x86/Debug/ace_common.lib")
-#pragma comment(lib,"x86/Debug/ace_core.lib")
+#pragma comment(lib,"x86/Debug/asd_common.lib")
+#pragma comment(lib,"x86/Debug/asd_core.lib")
 #pragma comment(lib,"x86/Debug/glfw3.lib")
 #pragma comment(lib,"x86/Debug/libpng16.lib")
 #pragma comment(lib,"x86/Debug/zlib.lib")
 #else
-#pragma comment(lib,"x86/Release/ace_common.lib")
-#pragma comment(lib,"x86/Release/ace_core.lib")
+#pragma comment(lib,"x86/Release/asd_common.lib")
+#pragma comment(lib,"x86/Release/asd_core.lib")
 #pragma comment(lib,"x86/Release/glfw3.lib")
 #pragma comment(lib,"x86/Release/libpng16.lib")
 #pragma comment(lib,"x86/Release/zlib.lib")

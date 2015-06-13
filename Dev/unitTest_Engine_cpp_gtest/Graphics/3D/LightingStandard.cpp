@@ -7,55 +7,55 @@ class Graphics_LightingStandard : public EngineGraphics3DTest
 public:
 
 	Graphics_LightingStandard(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("LightingStandard"), isOpenGLMode, 15, true)
+		EngineGraphics3DTest(asd::ToAString("LightingStandard"), isOpenGLMode, 15, true)
 	{}
 
 protected:
 
-	std::shared_ptr<ace::Texture2D> luTexs[5];
-	std::shared_ptr<ace::Mesh> mainMesh;
+	std::shared_ptr<asd::Texture2D> luTexs[5];
+	std::shared_ptr<asd::Mesh> mainMesh;
 
 	void OnStart() override
 	{
-		ace::RenderSettings settings;
+		asd::RenderSettings settings;
 		//settings.IsLightweightMode = true;
-		settings.VisualizedBuffer = ace::VisualizedBufferType::FinalImage;
+		settings.VisualizedBuffer = asd::VisualizedBufferType::FinalImage;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
 
 		// リソース
-		luTexs[0] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/White.png").c_str());
-		luTexs[1] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/LightGray.png").c_str());
-		luTexs[2] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Gray.png").c_str());
-		luTexs[3] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/DarkGray.png").c_str());
-		luTexs[4] = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Black.png").c_str());
+		luTexs[0] = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Model/Texture/White.png").c_str());
+		luTexs[1] = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Model/Texture/LightGray.png").c_str());
+		luTexs[2] = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Model/Texture/Gray.png").c_str());
+		luTexs[3] = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Model/Texture/DarkGray.png").c_str());
+		luTexs[4] = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Model/Texture/Black.png").c_str());
 
-		auto cubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFrom6ImageFiles(
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Front.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Left.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Back.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Right.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Top.png").c_str(),
-			ace::ToAString("Data/Cubemap/Sky1/Diffuse/Bottom.png").c_str()
+		auto cubemap = asd::Engine::GetGraphics()->CreateCubemapTextureFrom6ImageFiles(
+			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Front.png").c_str(),
+			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Left.png").c_str(),
+			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Back.png").c_str(),
+			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Right.png").c_str(),
+			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Top.png").c_str(),
+			asd::ToAString("Data/Cubemap/Sky1/Diffuse/Bottom.png").c_str()
 			);
 
-		auto specCubemap = ace::Engine::GetGraphics()->CreateCubemapTextureFromMipmapImageFiles(ace::ToAString("Data/Cubemap/Sky1/Spec/sky").c_str(), 8);
+		auto specCubemap = asd::Engine::GetGraphics()->CreateCubemapTextureFromMipmapImageFiles(asd::ToAString("Data/Cubemap/Sky1/Spec/sky").c_str(), 8);
 
-		auto plainObj = std::make_shared<ace::ModelObject3D>();
-		auto sphereObj = std::make_shared<ace::ModelObject3D>();
+		auto plainObj = std::make_shared<asd::ModelObject3D>();
+		auto sphereObj = std::make_shared<asd::ModelObject3D>();
 
 		GetLayer3D()->AddObject(plainObj);
 		GetLayer3D()->AddObject(sphereObj);
 		
-		auto plainModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Plain1.mdl").c_str());
-		auto sphereModel = ace::Engine::GetGraphics()->CreateModel(ace::ToAString("Data/Model/Sphere1.mdl").c_str());
+		auto plainModel = asd::Engine::GetGraphics()->CreateModel(asd::ToAString("Data/Model/Plain1.mdl").c_str());
+		auto sphereModel = asd::Engine::GetGraphics()->CreateModel(asd::ToAString("Data/Model/Sphere1.mdl").c_str());
 
 		plainObj->SetModel(plainModel);
 		sphereObj->SetModel(sphereModel);
-		sphereObj->SetPosition(ace::Vector3DF(0.0f, 1.0f, 0.0f));
+		sphereObj->SetPosition(asd::Vector3DF(0.0f, 1.0f, 0.0f));
 		
-		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
+		auto lightObj = std::make_shared<asd::DirectionalLightObject3D>();
 		GetLayer3D()->AddObject(lightObj);
 
 
@@ -70,23 +70,23 @@ protected:
 		//mesh->SetSmoothnessTexture(0, luTexs[2]);
 
 		// 直接光
-		lightObj->SetRotation(ace::Vector3DF(30, 140, 0));
-		lightObj->SetColor(ace::Color(255, 255, 255, 200));
+		lightObj->SetRotation(asd::Vector3DF(30, 140, 0));
+		lightObj->SetColor(asd::Color(255, 255, 255, 200));
 		lightObj->SetIntensity(1);
 
 		// 環境
 		GetLayer3D()->SetEnvironmentColor(cubemap, specCubemap);
 		// 環境光
 #if 0
-		GetLayer3D()->SetSkyAmbientColor(ace::Color(10, 10, 20, 255));
-		GetLayer3D()->SetGroundAmbientColor(ace::Color(20, 10, 10, 255));
+		GetLayer3D()->SetSkyAmbientColor(asd::Color(10, 10, 20, 255));
+		GetLayer3D()->SetGroundAmbientColor(asd::Color(20, 10, 10, 255));
 #else
-		GetLayer3D()->SetSkyAmbientColor(ace::Color(0, 0, 0, 255));
-		GetLayer3D()->SetGroundAmbientColor(ace::Color(0, 0, 0, 255));
+		GetLayer3D()->SetSkyAmbientColor(asd::Color(0, 0, 0, 255));
+		GetLayer3D()->SetGroundAmbientColor(asd::Color(0, 0, 0, 255));
 #endif
 
 #if 1
-		auto bloom = std::make_shared<ace::PostEffectLightBloom>();
+		auto bloom = std::make_shared<asd::PostEffectLightBloom>();
 		bloom->SetIntensity(3.0f);
 		bloom->SetThreshold(1.0f);
 		bloom->SetExposure(1.0f);
@@ -98,23 +98,23 @@ protected:
 	{
 		EngineGraphics3DTest::OnUpdating();
 
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::Q) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[0]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::W) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[1]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::E) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[2]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::R) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[3]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::T) == ace::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[4]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Q) == asd::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[0]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::W) == asd::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[1]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::E) == asd::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[2]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::R) == asd::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[3]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::T) == asd::KeyState::Push) mainMesh->SetColorTexture(0, luTexs[4]);
 
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::A) == ace::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[0]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::S) == ace::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[1]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::D) == ace::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[2]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::F) == ace::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[3]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::G) == ace::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[4]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::A) == asd::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[0]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::S) == asd::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[1]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::D) == asd::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[2]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::F) == asd::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[3]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::G) == asd::KeyState::Push) mainMesh->SetMetalnessTexture(0, luTexs[4]);
 
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::Z) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[0]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::X) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[1]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::C) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[2]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::V) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[3]);
-		if (ace::Engine::GetKeyboard()->GetKeyState(ace::Keys::B) == ace::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[4]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Z) == asd::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[0]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::X) == asd::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[1]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::C) == asd::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[2]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::V) == asd::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[3]);
+		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::B) == asd::KeyState::Push) mainMesh->SetSmoothnessTexture(0, luTexs[4]);
 
 	}
 };

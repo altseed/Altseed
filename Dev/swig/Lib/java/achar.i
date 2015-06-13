@@ -1,7 +1,7 @@
 // Original Code
 // https://code.google.com/p/jirrlicht/source/browse/trunk/jni/originalSwigProject/wchar_t.i
 
-namespace ace
+namespace asd
 {
 #ifdef _WIN32
 typedef wchar_t achar;
@@ -14,7 +14,7 @@ typedef std::basic_string<char16_t> astring;
 
 %{
 
-int astrlen(const ::ace::achar* s)
+int astrlen(const ::asd::achar* s)
 {
 	int cnt = 0;
 	while(*s++) cnt++;
@@ -22,12 +22,12 @@ int astrlen(const ::ace::achar* s)
 }
 %}
 
-%typemap(jni)		::ace::achar* "jstring"
-%typemap(jtype)		::ace::achar* "String"
-%typemap(jstype)	::ace::achar* "String"
+%typemap(jni)		::asd::achar* "jstring"
+%typemap(jtype)		::asd::achar* "String"
+%typemap(jstype)	::asd::achar* "String"
 
 
-%typemap(in) ::ace::achar* { 
+%typemap(in) ::asd::achar* { 
   $1 = 0;
   if ($input) {
     $1 = ($1_ltype)JCALL2(GetStringChars, jenv, $input, 0);
@@ -35,23 +35,23 @@ int astrlen(const ::ace::achar* s)
   }
 }
 
-%typemap(directorin, descriptor="Ljava/lang/String;") ::ace::achar* { 
+%typemap(directorin, descriptor="Ljava/lang/String;") ::asd::achar* { 
   $input = 0;
   if ($1) {
     $input = JCALL1(NewString, jenv, $1);
     if (!$input) return $null;
   }
 }
-%typemap(freearg) ::ace::achar* { if ($1) JCALL2(ReleaseStringChars, jenv, $input, (const jchar *) $1); }
-%typemap(out) ::ace::achar* { if($1) $result = JCALL2(NewString, jenv, (const jchar *) $1, astrlen ($1)); }
-%typemap(javadirectorin) ::ace::achar* "$jniinput"
-%typemap(javadirectorout) ::ace::achar* "$javacall"
+%typemap(freearg) ::asd::achar* { if ($1) JCALL2(ReleaseStringChars, jenv, $input, (const jchar *) $1); }
+%typemap(out) ::asd::achar* { if($1) $result = JCALL2(NewString, jenv, (const jchar *) $1, astrlen ($1)); }
+%typemap(javadirectorin) ::asd::achar* "$jniinput"
+%typemap(javadirectorout) ::asd::achar* "$javacall"
 
-%typemap(throws) ::ace::achar* {
+%typemap(throws) ::asd::achar* {
   SWIG_JavaThrowException(jenv, SWIG_JavaRuntimeException, $1);
   return $null;
 }
-%typemap(javain) ::ace::achar* "$javainput"
-%typemap(javaout) ::ace::achar* {
+%typemap(javain) ::asd::achar* "$javainput"
+%typemap(javaout) ::asd::achar* {
     return $jnicall;
   }

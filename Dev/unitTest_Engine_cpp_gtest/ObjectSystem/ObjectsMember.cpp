@@ -1,16 +1,16 @@
 ﻿#include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include <memory>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class ObjectSystem_ObjectsMember : public EngineTest
 {
 public:
 	ObjectSystem_ObjectsMember(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("ObjectsMember"), isOpenGLMode, 30)
+		: EngineTest(asd::ToAString("ObjectsMember"), isOpenGLMode, 30)
 	{
 	}
 
@@ -46,7 +46,7 @@ protected:
 		object->SetTurnUL(false);
 		ASSERT_EQ(object->GetTurnUL(), false);
 
-		auto g = ace::Engine::GetGraphics();
+		auto g = asd::Engine::GetGraphics();
 		object->SetTexture(g->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
 		ASSERT_NE(object->GetTexture(), nullptr);
 	}

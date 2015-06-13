@@ -12,33 +12,33 @@ class EngineGraphics3DTest
 	: public EngineTest
 {
 private:
-	std::shared_ptr<ace::Scene>		m_scene;
-	std::shared_ptr<ace::Layer3D>	m_layer3d;
-	std::vector<std::shared_ptr<ace::CameraObject3D>>	m_cameras;
+	std::shared_ptr<asd::Scene>		m_scene;
+	std::shared_ptr<asd::Layer3D>	m_layer3d;
+	std::vector<std::shared_ptr<asd::CameraObject3D>>	m_cameras;
 
 	bool	m_isFreeView;
 
 	float			m_cameraDistance = 10.0f;
 	float			m_cameraRotX = 15.0f;
 	float			m_cameraRotY = 15.0f;
-	ace::Vector3DF	m_cameraFocus = ace::Vector3DF(0, 0, 0);
+	asd::Vector3DF	m_cameraFocus = asd::Vector3DF(0, 0, 0);
 
-	ace::Vector2DF	m_mousePos;
+	asd::Vector2DF	m_mousePos;
 
-	ace::RenderSettings	m_settings;
+	asd::RenderSettings	m_settings;
 
 	const float PI = 3.14159265358979f;
 
 public:
 
-	std::shared_ptr<ace::Scene> GetScene();
-	std::shared_ptr<ace::Layer3D> GetLayer3D();
+	std::shared_ptr<asd::Scene> GetScene();
+	std::shared_ptr<asd::Layer3D> GetLayer3D();
 
 	void AddCamera();
-	std::shared_ptr<ace::CameraObject3D> GetCamera(int32_t index);
+	std::shared_ptr<asd::CameraObject3D> GetCamera(int32_t index);
 	void SetCameraParameter(float distance, float rotX, float rotY, float zn, float zf, float fov);
 
-	void SetRenderSettings(ace::RenderSettings settings);
+	void SetRenderSettings(asd::RenderSettings settings);
 
 	/**
 	@brief	オーバーライドして、メインループより前のアサーションや初期化を記述できる。
@@ -50,5 +50,5 @@ public:
 	*/
 	virtual void OnUpdating() override;
 
-	EngineGraphics3DTest(ace::astring title, bool isOpenGLMode, int exitTime, bool isFreeView);
+	EngineGraphics3DTest(asd::astring title, bool isOpenGLMode, int exitTime, bool isFreeView);
 };

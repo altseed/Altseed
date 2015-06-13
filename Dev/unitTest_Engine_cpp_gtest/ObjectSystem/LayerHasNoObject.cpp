@@ -1,16 +1,16 @@
-﻿#include <ace.h>
+﻿#include <Altseed.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../EngineTest.h"
 
-using namespace ace;
+using namespace asd;
 using namespace std;
 
 class ObjectSystem_LayerHasNoObject : public EngineTest
 {
 public:
 	ObjectSystem_LayerHasNoObject(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("LayerHasNoObject"), isOpenGLMode, 20)
+		: EngineTest(asd::ToAString("LayerHasNoObject"), isOpenGLMode, 20)
 	{
 	}
 
@@ -20,7 +20,7 @@ protected:
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
 
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 	}
 };

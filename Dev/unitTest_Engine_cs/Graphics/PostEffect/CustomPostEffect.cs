@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ace;
+using asd;
 
 namespace unitTest_Engine_cs.Graphics.PostEffect
 {
@@ -63,13 +63,13 @@ void main()
 
 ";
 
-		class PostEffect : ace.PostEffect
+		class PostEffect : asd.PostEffect
 		{
 
 			Shader2D m_shader;
 			Material2D m_material2d;
 
-			public PostEffect(ace.Graphics g)
+			public PostEffect(asd.Graphics g)
 			{
 				if (g.GraphicsDeviceType == GraphicsDeviceType.DirectX11)
 				{
@@ -91,7 +91,7 @@ void main()
 				m_material2d = g.CreateMaterial2D(m_shader);
 			}
 
-			public override void OnDraw(ace.RenderTexture2D dst, ace.RenderTexture2D src)
+			public override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
 			{
 				m_material2d.SetTexture2D("g_texture", src);
 				m_material2d.SetVector3DF("g_values", new Vector3DF(640, 480, 200));

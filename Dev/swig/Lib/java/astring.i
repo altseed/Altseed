@@ -12,7 +12,7 @@
  * %apply const std::wstring & {std::wstring &};
  * ----------------------------------------------------------------------------- */
 
-namespace ace {
+namespace asd {
 
 %naturalvar astring;
 
@@ -106,7 +106,7 @@ class astring;
   const jchar *$1_pstr = jenv->GetStringChars($input, 0);
   if (!$1_pstr) return $null;
   jsize $1_len = jenv->GetStringLength($input);
-  ace::astring $1_str;
+  asd::astring $1_str;
   if ($1_len) {
     $1_str.reserve($1_len);
     for (jsize i = 0; i < $1_len; ++i) {
@@ -126,7 +126,7 @@ class astring;
   if (!$1_pstr) return $null;
   jsize $1_len = jenv->GetStringLength($input);
   /* possible thread/reentrant code problem */
-  static ace::astring $1_str;
+  static asd::astring $1_str;
   if ($1_len) {
     $1_str.reserve($1_len);
     for (jsize i = 0; i < $1_len; ++i) {

@@ -8,7 +8,7 @@ namespace unitTest_Engine_cs
 {
 	class EngineGraphics3DTest : EngineTest
 	{
-		public ace.Layer3D Layer3D
+		public asd.Layer3D Layer3D
 		{
 			get;
 			set;
@@ -22,21 +22,21 @@ namespace unitTest_Engine_cs
 
 		protected override void OnStart()
 		{
-			var scene = new ace.Scene();
-			var layer = new ace.Layer3D();
+			var scene = new asd.Scene();
+			var layer = new asd.Layer3D();
 			Layer3D = layer;
 			scene.AddLayer(layer);
-			ace.Engine.ChangeScene(scene);
+			asd.Engine.ChangeScene(scene);
 
-			var cameraObj = new ace.CameraObject3D();
+			var cameraObj = new asd.CameraObject3D();
 			layer.AddObject(cameraObj);
 
-			cameraObj.Position = new ace.Vector3DF(40, 20, 40);
-			cameraObj.Focus = new ace.Vector3DF(0, 0, 0);
+			cameraObj.Position = new asd.Vector3DF(40, 20, 40);
+			cameraObj.Focus = new asd.Vector3DF(0, 0, 0);
 			cameraObj.FieldOfView = 50.0f;
 			cameraObj.ZNear = 1.0f;
 			cameraObj.ZFar = 200.0f;
-			cameraObj.WindowSize = new ace.Vector2DI(800, 600);
+			cameraObj.WindowSize = new asd.Vector2DI(800, 600);
 		}
 	}
 }

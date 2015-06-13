@@ -1,10 +1,10 @@
 ﻿#include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include <string>
 #include "EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 #if _WIN32
 #include <shlwapi.h>
@@ -66,28 +66,28 @@ void EngineTest::Run()
 	CreateSSDirectory();
 
 	EngineOption option;
-	option.GraphicsDevice = m_isOpenGLMode ? ace::GraphicsDeviceType::OpenGL : ace::GraphicsDeviceType::DirectX11;
+	option.GraphicsDevice = m_isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11;
 	option.IsReloadingEnabled = true;
 
-	auto initialized = ace::Engine::Initialize(m_title.c_str(), WindowWidth, WindowHeight, option);
+	auto initialized = asd::Engine::Initialize(m_title.c_str(), WindowWidth, WindowHeight, option);
 	ASSERT_EQ(true, initialized);
 
 #if defined(PERFORMANCE_MODE)
-	ace::Engine::SetTargetFPS(10000);
+	asd::Engine::SetTargetFPS(10000);
 #endif
 
 	OnStart();
 
-	while (ace::Engine::DoEvents())
+	while (asd::Engine::DoEvents())
 	{
 #if defined(PERFORMANCE_MODE)
 		if (GetTime() % 60 == 0)
 		{
-			printf("FPS : %f\n", ace::Engine::GetCurrentFPS());
+			printf("FPS : %f\n", asd::Engine::GetCurrentFPS());
 		}
 #endif
 		OnUpdating();
-		ace::Engine::Update();
+		asd::Engine::Update();
 		OnUpdated();
 
 		if (m_currentTime == m_exitTime)
@@ -96,7 +96,7 @@ void EngineTest::Run()
 			tail += ".png";
 			astring fileName = directory + m_title + ToAString(tail.c_str());
 
-			ace::Engine::TakeScreenshot(fileName.c_str());
+			asd::Engine::TakeScreenshot(fileName.c_str());
 		}
 		if (m_currentTime == m_exitTime + 2)
 		{
@@ -108,11 +108,11 @@ void EngineTest::Run()
 
 	OnFinish();
 
-	ace::Engine::Terminate();
+	asd::Engine::Terminate();
 }
 
 void AssertMemoryDoesntLeak()
 {
-	auto ref = ace::GetGlobalReferenceCount();
+	auto ref = asd::GetGlobalReferenceCount();
 	ASSERT_EQ(0, ref);
 }

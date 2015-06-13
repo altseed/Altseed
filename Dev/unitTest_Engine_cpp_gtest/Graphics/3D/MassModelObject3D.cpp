@@ -195,63 +195,63 @@ class Graphics_MassModelObject3D : public EngineGraphics3DTest
 public:
 
 	Graphics_MassModelObject3D(bool isOpenGLMode) :
-		EngineGraphics3DTest(ace::ToAString("MassModelObject3D"), isOpenGLMode, 15, true)
+		EngineGraphics3DTest(asd::ToAString("MassModelObject3D"), isOpenGLMode, 15, true)
 	{}
 
 protected:
-	std::vector<std::shared_ptr<ace::MassModelObject3D>> meshObjs;
+	std::vector<std::shared_ptr<asd::MassModelObject3D>> meshObjs;
 
 
 	void OnStart() override
 	{
-		ace::RenderSettings settings;
+		asd::RenderSettings settings;
 		settings.IsLightweightMode = false;
 		SetRenderSettings(settings);
 
 		EngineGraphics3DTest::OnStart();
 
 
-		auto graphics = ace::Engine::GetGraphics();
+		auto graphics = asd::Engine::GetGraphics();
 
-		auto massModel = graphics->CreateMassModelFromModelFile(ace::ToAString("Data/Model/MassTest1.mdl").c_str());
+		auto massModel = graphics->CreateMassModelFromModelFile(asd::ToAString("Data/Model/MassTest1.mdl").c_str());
 		
-		std::shared_ptr<ace::Shader3D> matShader;
+		std::shared_ptr<asd::Shader3D> matShader;
 
-		if (ace::Engine::GetGraphics()->GetGraphicsDeviceType() == ace::GraphicsDeviceType::DirectX11)
+		if (asd::Engine::GetGraphics()->GetGraphicsDeviceType() == asd::GraphicsDeviceType::DirectX11)
 		{
-			matShader = ace::Engine::GetGraphics()->CreateShader3D(ace::ToAString(shader3d_dx_ps).c_str());
+			matShader = asd::Engine::GetGraphics()->CreateShader3D(asd::ToAString(shader3d_dx_ps).c_str());
 		}
-		else if (ace::Engine::GetGraphics()->GetGraphicsDeviceType() == ace::GraphicsDeviceType::OpenGL)
+		else if (asd::Engine::GetGraphics()->GetGraphicsDeviceType() == asd::GraphicsDeviceType::OpenGL)
 		{
-			matShader = ace::Engine::GetGraphics()->CreateShader3D(ace::ToAString(shader3d_gl_ps).c_str());
+			matShader = asd::Engine::GetGraphics()->CreateShader3D(asd::ToAString(shader3d_gl_ps).c_str());
 		}
 
-		auto mat = ace::Engine::GetGraphics()->CreateMaterial3D(matShader);
+		auto mat = asd::Engine::GetGraphics()->CreateMaterial3D(matShader);
 
-		auto gray = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Model/Texture/Gray.png").c_str());
+		auto gray = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Model/Texture/Gray.png").c_str());
 
-		auto block1 = ace::Engine::GetGraphics()->CreateMaterialPropertyBlock();
-		block1->SetTexture2D(ace::ToAString("g_colorTexture").c_str(), gray);
-		block1->SetVector4DF(ace::ToAString("extColor").c_str(), ace::Vector4DF(1.0f, 1.0f, 0.0f, 1.0f));
+		auto block1 = asd::Engine::GetGraphics()->CreateMaterialPropertyBlock();
+		block1->SetTexture2D(asd::ToAString("g_colorTexture").c_str(), gray);
+		block1->SetVector4DF(asd::ToAString("extColor").c_str(), asd::Vector4DF(1.0f, 1.0f, 0.0f, 1.0f));
 
-		auto block2 = ace::Engine::GetGraphics()->CreateMaterialPropertyBlock();
-		block2->SetTexture2D(ace::ToAString("g_colorTexture").c_str(), gray);
-		block2->SetVector4DF(ace::ToAString("extColor").c_str(), ace::Vector4DF(1.0f, 1.0f, 1.0f, 1.0f));
+		auto block2 = asd::Engine::GetGraphics()->CreateMaterialPropertyBlock();
+		block2->SetTexture2D(asd::ToAString("g_colorTexture").c_str(), gray);
+		block2->SetVector4DF(asd::ToAString("extColor").c_str(), asd::Vector4DF(1.0f, 1.0f, 1.0f, 1.0f));
 
 		massModel->SetMaterial(mat);
 
 		for (int32_t i = -2; i <= 2; i++)
 		{
-			auto m = std::make_shared<ace::MassModelObject3D>();
+			auto m = std::make_shared<asd::MassModelObject3D>();
 			m->SetModel(massModel);
 
-			m->SetPosition(ace::Vector3DF(3 * i, 0, 0));
+			m->SetPosition(asd::Vector3DF(3 * i, 0, 0));
 			GetLayer3D()->AddObject(m);
 
 			meshObjs.push_back(m);
 
-			if (i == 0) m->PlayAnimation(ace::ToAString("Anime1").c_str());
-			if (i == 1) m->PlayAnimation(ace::ToAString("Anime2").c_str());
+			if (i == 0) m->PlayAnimation(asd::ToAString("Anime1").c_str());
+			if (i == 1) m->PlayAnimation(asd::ToAString("Anime2").c_str());
 
 			if (i == -1)
 			{
@@ -263,13 +263,13 @@ protected:
 			}
 		}
 		
-		auto lightObj = std::make_shared<ace::DirectionalLightObject3D>();
-		lightObj->SetRotation(ace::Vector3DF(120, 50, 0));
+		auto lightObj = std::make_shared<asd::DirectionalLightObject3D>();
+		lightObj->SetRotation(asd::Vector3DF(120, 50, 0));
 		GetLayer3D()->AddObject(lightObj);
 
 		SetCameraParameter(30, 0, 0, 1, 60, 20);
-		GetLayer3D()->SetSkyAmbientColor(ace::Color(50, 50, 70, 255));
-		GetLayer3D()->SetGroundAmbientColor(ace::Color(70, 70, 50, 255));
+		GetLayer3D()->SetSkyAmbientColor(asd::Color(50, 50, 70, 255));
+		GetLayer3D()->SetGroundAmbientColor(asd::Color(70, 70, 50, 255));
 		
 	}
 

@@ -1,10 +1,10 @@
-﻿#include <ace.h>
+﻿#include <Altseed.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class ObjectSystem_AddComponentByComponent : public EngineTest
 {
@@ -58,18 +58,18 @@ class ObjectSystem_AddComponentByComponent : public EngineTest
 
 public:
 	ObjectSystem_AddComponentByComponent(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("AddComponentByComponent"), isOpenGLMode, 60)
+		: EngineTest(asd::ToAString("AddComponentByComponent"), isOpenGLMode, 60)
 	{
 	}
 
 protected:
 	void OnStart()
 	{
-		auto scene = std::make_shared<ace::Scene>();
-		auto layer = std::make_shared<ace::Layer2D>();
-		auto obj = std::make_shared<ace::TextureObject2D>();
+		auto scene = std::make_shared<asd::Scene>();
+		auto layer = std::make_shared<asd::Layer2D>();
+		auto obj = std::make_shared<asd::TextureObject2D>();
 
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(obj);
 

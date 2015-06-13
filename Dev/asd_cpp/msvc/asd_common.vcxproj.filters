@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="..\common\asd.common.Base.h" />
+    <ClInclude Include="..\common\Math\asd.Matrix44.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Math\asd.RectF.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\utility\asd.PointerArray.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\utility\asd.TypeErasureCopy.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\utility\asd.BinaryReader.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\utility\asd.BinaryWriter.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\utility\asd.GetTypeName.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Graphics\asd.Color.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\utility\asd.Timer.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Math\asd.Vector2DI.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Math\asd.Vector2DF.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Math\asd.Vector3DF.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Thread\asd.CriticalSection.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Thread\asd.Thread.h">
+      <Filter>Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Utility\asd.CopyArray.h">
+      <Filter>Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Math\asd.Matrix33.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Math\asd.RectI.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Graphics\asd.Graphics.Common.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Math\asd.Vector4DF.h">
+      <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Graphics\Font\asd.AffHeader.h">
+      <Filter>Graphics\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Graphics\Font\asd.AffIndexTable.h">
+      <Filter>Graphics\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Graphics\Font\asd.AffLoader.h">
+      <Filter>Graphics\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="..\common\Graphics\Font\asd.GlyphData.h">
+      <Filter>Graphics\Font</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\common\Math\asd.Matrix44.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Math\asd.RectF.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Graphics\asd.Color.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\utility\asd.PointerArray.cpp">
+      <Filter>Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Math\asd.Vector2DI.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Math\asd.Vector2DF.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Math\asd.Vector3DF.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Thread\asd.CriticalSection.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Thread\asd.Thread.cpp">
+      <Filter>Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Math\asd.Matrix33.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Math\asd.RectI.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Math\asd.Vector4DF.cpp">
+      <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\asd.common.cpp" />
+    <ClCompile Include="..\common\Graphics\Font\asd.AffHeader.cpp">
+      <Filter>Graphics\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Graphics\Font\asd.AffIndexTable.cpp">
+      <Filter>Graphics\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Graphics\Font\asd.AffLoader.cpp">
+      <Filter>Graphics\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\common\Graphics\Font\asd.GlyphData.cpp">
+      <Filter>Graphics\Font</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Math">
+      <UniqueIdentifier>{709b3acd-4886-41df-b4c5-f1ec0a22030d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utility">
+      <UniqueIdentifier>{2b378fab-4450-4314-9775-5ed9b9ea8199}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{cba420c8-5e81-4515-b48d-4d672d4061f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thread">
+      <UniqueIdentifier>{eff8510c-2d9a-41e8-b20e-3bf4d6075014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\Font">
+      <UniqueIdentifier>{1fc74b1b-4fe6-434a-bd9b-bbe31460dbd3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

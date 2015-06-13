@@ -1,16 +1,16 @@
-﻿#include <ace.h>
+﻿#include <Altseed.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class ObjectSystem_ParentObject : public EngineTest
 {
 public:
 	ObjectSystem_ParentObject(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("ParentObject"), isOpenGLMode, 50)
+		: EngineTest(asd::ToAString("ParentObject"), isOpenGLMode, 50)
 		, m_parent(nullptr)
 	{
 	}
@@ -26,10 +26,10 @@ protected:
 		auto child2 = make_shared<TextureObject2D>();
 		m_parent = make_shared<TextureObject2D>();
 
-		auto file = ace::Engine::GetFile();
-		file->AddRootDirectory(ace::ToAString("Data/Texture").c_str());
+		auto file = asd::Engine::GetFile();
+		file->AddRootDirectory(asd::ToAString("Data/Texture").c_str());
 
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(m_parent);
 		layer->AddObject(child);
@@ -37,8 +37,8 @@ protected:
 		m_parent->AddChild(child, ChildMode::All);
 		child->AddChild(child2, ChildMode::Nothing);
 
-		auto g = ace::Engine::GetGraphics();
-		auto texture = g->CreateTexture2D(ace::ToAString("Cloud1.png").c_str());
+		auto g = asd::Engine::GetGraphics();
+		auto texture = g->CreateTexture2D(asd::ToAString("Cloud1.png").c_str());
 		m_parent->SetTexture(texture);
 		child->SetTexture(texture);
 		child2->SetTexture(texture);

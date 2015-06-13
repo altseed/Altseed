@@ -29,8 +29,8 @@ namespace unitTest_Engine_cs.IO
             }
 
             //ファイル機能から読み込んだバイナリ
-            ace.Engine.File.AddRootDirectory("Data/Texture.pack");
-            var staticFile = ace.Engine.File.CreateStaticFile("Surface/Tile_Spec.png");
+            asd.Engine.File.AddRootDirectory("Data/Texture.pack");
+            var staticFile = asd.Engine.File.CreateStaticFile("Surface/Tile_Spec.png");
             var staticFileData = staticFile.Buffer;
 
             Assert.Equals(loadData.Count, staticFileData.Count);

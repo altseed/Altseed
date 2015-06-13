@@ -1,15 +1,15 @@
 ﻿#include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class ObjectSystem_TrasingCamera : public EngineTest
 {
 public:
 	ObjectSystem_TrasingCamera(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("TrasingCamera"), isOpenGLMode, 60)
+		: EngineTest(asd::ToAString("TrasingCamera"), isOpenGLMode, 60)
 	{
 	}
 

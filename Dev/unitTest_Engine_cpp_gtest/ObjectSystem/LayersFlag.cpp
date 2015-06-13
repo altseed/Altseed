@@ -1,9 +1,9 @@
 ﻿#include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 class ObjectSystem_LayersFlag : public EngineTest
 {
@@ -15,7 +15,7 @@ class ObjectSystem_LayersFlag : public EngineTest
 	public:
 		MyObject(float x, float y)
 		{
-			auto texture = ace::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());
+			auto texture = asd::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());
 			SetTexture(texture);
 			SetPosition(Vector2DF(x, y));
 			SetCenterPosition(Vector2DF(128, 128));
@@ -30,7 +30,7 @@ class ObjectSystem_LayersFlag : public EngineTest
 
 public:
 	ObjectSystem_LayersFlag(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("LayersFlag"), isOpenGLMode, 30)
+		: EngineTest(asd::ToAString("LayersFlag"), isOpenGLMode, 30)
 	{
 	}
 
@@ -54,7 +54,7 @@ protected:
 		scene->AddLayer(layer);
 		scene->AddLayer(notDrawnLayer);
 		scene->AddLayer(notUpdatedLauer);
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 	}
 
 	void OnUpdating()

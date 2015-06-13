@@ -1,13 +1,13 @@
 ﻿
 #include <gtest/gtest.h>
-#include <ace.h>
+#include <Altseed.h>
 #include "../../EngineTest.h"
 
 class Graphics_Transition : public EngineTest
 {
 public:
 	Graphics_Transition(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Transition"), isOpenGLMode, 20)
+		: EngineTest(asd::ToAString("Transition"), isOpenGLMode, 20)
 	{
 	}
 
@@ -22,17 +22,17 @@ protected:
 	{
 		if (GetTime() % 9 == 0)
 		{
-			auto texture = ace::Engine::GetGraphics()->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
+			auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 
-			auto obj = std::make_shared<ace::TextureObject2D>();
+			auto obj = std::make_shared<asd::TextureObject2D>();
 			obj->SetTexture(texture);
-			auto scene = std::make_shared<ace::Scene>();
-			auto layer = std::make_shared<ace::Layer2D>();
+			auto scene = std::make_shared<asd::Scene>();
+			auto layer = std::make_shared<asd::Layer2D>();
 			layer->AddObject(obj);
 			scene->AddLayer(layer);
 
-			auto transition = std::make_shared<ace::TransitionFade>(3.0f/60.0f, 3.0f/60.0f);
-			ace::Engine::ChangeSceneWithTransition(scene, transition);
+			auto transition = std::make_shared<asd::TransitionFade>(3.0f/60.0f, 3.0f/60.0f);
+			asd::Engine::ChangeSceneWithTransition(scene, transition);
 		}
 	}
 };

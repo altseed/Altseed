@@ -1,4 +1,4 @@
-%module ace_core
+%module asd_core
 %{
 
 #include "dll.h"
@@ -13,8 +13,8 @@
 %include "std_string.i"
 
 // swig上ではなし
-#define ACE_DLLEXPORT 
-#define ACE_STDCALL 
+#define ASD_DLLEXPORT 
+#define ASD_STDCALL 
 
 //-----------------------------------------------------------------------------------
 // csharp
@@ -25,7 +25,7 @@
 
 
 // 独自の定義を使用
-namespace ace {
+namespace asd {
 	class achar;
 	class astring;
 }
@@ -38,7 +38,7 @@ namespace ace {
 %include "arrays_java.i"
 
 // 独自の定義を使用
-namespace ace {
+namespace asd {
 	class achar;
 	class astring;
 }
@@ -150,11 +150,11 @@ StructTranslator.Enqueue_##NAME($javainput)
 %typemap(in) CTYPE { 
 	$1 = ##CTYPE ();
 	if ($input != nullptr) {
-		$1 = ace::StructTranslator::Dequeue ##NAME();
+		$1 = asd::StructTranslator::Dequeue ##NAME();
 	}
 }
 
-%typemap(out) CTYPE { ::ace::StructTranslator::Enqueue ##NAME($1); }
+%typemap(out) CTYPE { ::asd::StructTranslator::Enqueue ##NAME($1); }
 
 %typemap(javaout)	CTYPE { return StructTranslator.Dequeue_##NAME($jnicall); }
 
@@ -166,11 +166,11 @@ StructTranslator.Enqueue_##NAME($javainput)
 %typemap(in) CTYPE* { 
 	$1 = ##CTYPE ();
 	if ($input != nullptr) {
-		$1 = ace::StructTranslator::Dequeue ##NAME();
+		$1 = asd::StructTranslator::Dequeue ##NAME();
 	}
 }
 
-%typemap(out) CTYPE* { ::ace::StructTranslator::Enqueue ##NAME($1); }
+%typemap(out) CTYPE* { ::asd::StructTranslator::Enqueue ##NAME($1); }
 
 %typemap(javaout)	CTYPE* { return StructTranslator.Dequeue_##NAME($jnicall); }
 
@@ -182,11 +182,11 @@ StructTranslator.Enqueue_##NAME($javainput)
 %typemap(in) const CTYPE* { 
 	$1 = ##CTYPE ();
 	if ($input != nullptr) {
-		$1 = ace::StructTranslator::Dequeue ##NAME();
+		$1 = asd::StructTranslator::Dequeue ##NAME();
 	}
 }
 
-%typemap(out) const CTYPE* { ::ace::StructTranslator::Enqueue ##NAME($1); }
+%typemap(out) const CTYPE* { ::asd::StructTranslator::Enqueue ##NAME($1); }
 
 %typemap(javaout)	const CTYPE* { return StructTranslator.Dequeue_##NAME($jnicall); }
 
@@ -198,11 +198,11 @@ StructTranslator.Enqueue_##NAME($javainput)
 %typemap(in) CTYPE& { 
 	$1 = ##CTYPE ();
 	if ($input != nullptr) {
-		$1 = ace::StructTranslator::Dequeue ##NAME();
+		$1 = asd::StructTranslator::Dequeue ##NAME();
 	}
 }
 
-%typemap(out) CTYPE& { ::ace::StructTranslator::Enqueue ##NAME($1); }
+%typemap(out) CTYPE& { ::asd::StructTranslator::Enqueue ##NAME($1); }
 
 %typemap(javaout)	CTYPE& { return StructTranslator.Dequeue_##NAME($jnicall); }
 
@@ -215,90 +215,90 @@ StructTranslator.Enqueue_##NAME($javainput)
 %typemap(in) const CTYPE& { 
 	$1 = nullptr;
 	if ($input != nullptr) {
-		$1 = ace::StructTranslator::Dequeue_##NAME();
+		$1 = asd::StructTranslator::Dequeue_##NAME();
 	}
 }
 
-%typemap(out) const CTYPE& { ::ace::StructTranslator::Enqueue ##NAME($1); }
+%typemap(out) const CTYPE& { ::asd::StructTranslator::Enqueue ##NAME($1); }
 
 %typemap(javaout)	const CTYPE& { return StructTranslator.Dequeue_##NAME($jnicall); }
 
 %enddef
 
-%typemap(javacode) ace::StructTranslator
+%typemap(javacode) asd::StructTranslator
 %{
-	public static ace.Vector2DF Dequeue_Vector2DF(ace.Vector2DF v) {
-		return new ace.Vector2DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+	public static asd.Vector2DF Dequeue_Vector2DF(asd.Vector2DF v) {
+		return new asd.Vector2DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
 	}
 
-	public static ace.Vector2DF Enqueue_Vector2DF(ace.Vector2DF v) {
+	public static asd.Vector2DF Enqueue_Vector2DF(asd.Vector2DF v) {
 		StructTranslator.EnqueueVector2DF(v.X, v.Y);
 		return v;
 	}
 
-	public static ace.Vector3DF Dequeue_Vector3DF(ace.Vector3DF v) {
-		return new ace.Vector3DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+	public static asd.Vector3DF Dequeue_Vector3DF(asd.Vector3DF v) {
+		return new asd.Vector3DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
 	}
 
-	public static ace.Vector3DF Enqueue_Vector3DF(ace.Vector3DF v) {
+	public static asd.Vector3DF Enqueue_Vector3DF(asd.Vector3DF v) {
 		StructTranslator.EnqueueVector3DF(v.X, v.Y, v.Z);
 		return v;
 	}
 
-	public static ace.Vector4DF Dequeue_Vector4DF(ace.Vector4DF v) {
-		return new ace.Vector4DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+	public static asd.Vector4DF Dequeue_Vector4DF(asd.Vector4DF v) {
+		return new asd.Vector4DF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
 	}
 
-	public static ace.Vector4DF Enqueue_Vector4DF(ace.Vector4DF v) {
+	public static asd.Vector4DF Enqueue_Vector4DF(asd.Vector4DF v) {
 		StructTranslator.EnqueueVector4DF(v.X, v.Y, v.Z, v.W);
 		return v;
 	}
 
-	public static ace.Vector2DI Dequeue_Vector2DI(ace.Vector2DI v) {
-		return new ace.Vector2DI(StructTranslator.DequeueInt(), StructTranslator.DequeueInt());
+	public static asd.Vector2DI Dequeue_Vector2DI(asd.Vector2DI v) {
+		return new asd.Vector2DI(StructTranslator.DequeueInt(), StructTranslator.DequeueInt());
 	}
 
-	public static ace.Vector2DI Enqueue_Vector2DI(ace.Vector2DI v) {
+	public static asd.Vector2DI Enqueue_Vector2DI(asd.Vector2DI v) {
 		StructTranslator.EnqueueVector2DI(v.X, v.Y);
 		return v;
 	}
 
-	public static ace.Color Dequeue_Color(ace.Color v) {
-		return new ace.Color((byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt());
+	public static asd.Color Dequeue_Color(asd.Color v) {
+		return new asd.Color((byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt(), (byte)StructTranslator.DequeueInt());
 	}
 
-	public static ace.Color Enqueue_Color(ace.Color v) {
+	public static asd.Color Enqueue_Color(asd.Color v) {
 		StructTranslator.EnqueueColor(v.R, v.G, v.B, v.A);
 		return v;
 	}
 
-	public static ace.RectF Dequeue_RectF(ace.RectF v) {
-		return new ace.RectF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+	public static asd.RectF Dequeue_RectF(asd.RectF v) {
+		return new asd.RectF(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
 	}
 
-	public static ace.RectF Enqueue_RectF(ace.RectF v) {
+	public static asd.RectF Enqueue_RectF(asd.RectF v) {
 		StructTranslator.EnqueueRectF(v.X, v.Y, v.Width, v.Height);
 		return v;
 	}
 
-	public static ace.RectI Dequeue_RectI(ace.RectI v) {
-		return new ace.RectI(StructTranslator.DequeueInt(), StructTranslator.DequeueInt(), StructTranslator.DequeueInt(), StructTranslator.DequeueInt());
+	public static asd.RectI Dequeue_RectI(asd.RectI v) {
+		return new asd.RectI(StructTranslator.DequeueInt(), StructTranslator.DequeueInt(), StructTranslator.DequeueInt(), StructTranslator.DequeueInt());
 	}
 
-	public static ace.RectI Enqueue_RectI(ace.RectI v) {
+	public static asd.RectI Enqueue_RectI(asd.RectI v) {
 		StructTranslator.EnqueueRectI(v.X, v.Y, v.Width, v.Height);
 		return v;
 	}
 
-	public static ace.Matrix44 Dequeue_Matrix44(ace.Matrix44 v) {
-		return new ace.Matrix44(
+	public static asd.Matrix44 Dequeue_Matrix44(asd.Matrix44 v) {
+		return new asd.Matrix44(
 		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
 		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
 		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
 		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
 	}
 
-	public static ace.Matrix44 Enqueue_Matrix44(ace.Matrix44 v) {
+	public static asd.Matrix44 Enqueue_Matrix44(asd.Matrix44 v) {
 		StructTranslator.EnqueueMatrix44(
 		v.Values[0], v.Values[1], v.Values[2], v.Values[3], 
 		v.Values[4], v.Values[5], v.Values[6], v.Values[7], 
@@ -307,11 +307,11 @@ StructTranslator.Enqueue_##NAME($javainput)
 		return v;
 	}
 
-	public static ace.FCurveKeyframe Dequeue_FCurveKeyframe(ace.FCurveKeyframe v) {
-		return new ace.FCurveKeyframe(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueInt());
+	public static asd.FCurveKeyframe Dequeue_FCurveKeyframe(asd.FCurveKeyframe v) {
+		return new asd.FCurveKeyframe(StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueInt());
 	}
 
-	public static ace.FCurveKeyframe Enqueue_FCurveKeyframe(ace.FCurveKeyframe v) {
+	public static asd.FCurveKeyframe Enqueue_FCurveKeyframe(asd.FCurveKeyframe v) {
 		StructTranslator.EnqueueFCurveKeyframe(v.KeyValue.X, v.KeyValue.Y, v.LeftHandle.X, v.LeftHandle.Y, v.RightHandle.X, v.RightHandle.Y, v.InterpolationType.getID());
 		return v;
 	}
@@ -323,17 +323,17 @@ StructTranslator.Enqueue_##NAME($javainput)
 //-----------------------------------------------------------------------------------
 // 構造体定義
 //-----------------------------------------------------------------------------------
-STRUCT_OBJECT( ace::Vector2DF, ace::Vector2DF_R, ace.Vector2DF, Vector2DF )
-STRUCT_OBJECT( ace::Vector2DI, ace::Vector2DI_R, ace.Vector2DI, Vector2DI )
-STRUCT_OBJECT( ace::Vector3DF, ace::Vector3DF_R, ace.Vector3DF, Vector3DF )
-STRUCT_OBJECT( ace::Vector4DF, ace::Vector4DF_R, ace.Vector4DF, Vector4DF )
-STRUCT_OBJECT( ace::RectI, ace::RectI_R, ace.RectI, RectI )
-STRUCT_OBJECT( ace::RectF, ace::RectF_R, ace.RectF, RectF )
-STRUCT_OBJECT( ace::Matrix33, ace::Matrix33_R, ace.Matrix33, Matrix33 )
-STRUCT_OBJECT( ace::Matrix44, ace::Matrix44_R, ace.Matrix44, Matrix44 )
-STRUCT_OBJECT( ace::FCurveKeyframe, ace::FCurveKeyframe_R, ace.FCurveKeyframe, FCurveKeyframe )
+STRUCT_OBJECT( asd::Vector2DF, asd::Vector2DF_R, asd.Vector2DF, Vector2DF )
+STRUCT_OBJECT( asd::Vector2DI, asd::Vector2DI_R, asd.Vector2DI, Vector2DI )
+STRUCT_OBJECT( asd::Vector3DF, asd::Vector3DF_R, asd.Vector3DF, Vector3DF )
+STRUCT_OBJECT( asd::Vector4DF, asd::Vector4DF_R, asd.Vector4DF, Vector4DF )
+STRUCT_OBJECT( asd::RectI, asd::RectI_R, asd.RectI, RectI )
+STRUCT_OBJECT( asd::RectF, asd::RectF_R, asd.RectF, RectF )
+STRUCT_OBJECT( asd::Matrix33, asd::Matrix33_R, asd.Matrix33, Matrix33 )
+STRUCT_OBJECT( asd::Matrix44, asd::Matrix44_R, asd.Matrix44, Matrix44 )
+STRUCT_OBJECT( asd::FCurveKeyframe, asd::FCurveKeyframe_R, asd.FCurveKeyframe, FCurveKeyframe )
 
-STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color, Color )
+STRUCT_OBJECT( asd::Color, asd::Color_R, asd.Color, Color )
 
 //-----------------------------------------------------------------------------------
 // Dispose無視
@@ -384,7 +384,7 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color, Color )
 
 #if SWIGCSHARP
 
-%typemap(csout) int ace::IReference::Release()
+%typemap(csout) int asd::IReference::Release()
 %{
 {
 	int result = $imcall;
@@ -394,7 +394,7 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color, Color )
 }
 %}
 
-%typemap(csout) int ace::ReferenceObject::Release()
+%typemap(csout) int asd::ReferenceObject::Release()
 %{
 {
 	int result = $imcall;
@@ -408,7 +408,7 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color, Color )
 
 #if SWIGJAVA
 
-%typemap(javaout) int ace::IReference::Release()
+%typemap(javaout) int asd::IReference::Release()
 %{
 {
 	int result = $jnicall;
@@ -418,7 +418,7 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color, Color )
 }
 %}
 
-%typemap(javaout) int ace::ReferenceObject::Release()
+%typemap(javaout) int asd::ReferenceObject::Release()
 %{
 {
 	int result = $jnicall;
@@ -430,8 +430,8 @@ STRUCT_OBJECT( ace::Color, ace::Color_R, ace.Color, Color )
 
 #endif
 
-DISABLE_DISPOSE( ace::IReference )
-DISABLE_DISPOSE( ace::ReferenceObject )
+DISABLE_DISPOSE( asd::IReference )
+DISABLE_DISPOSE( asd::ReferenceObject )
 
 //-----------------------------------------------------------------------------------
 //

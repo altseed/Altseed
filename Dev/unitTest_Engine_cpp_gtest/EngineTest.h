@@ -1,7 +1,7 @@
 ﻿
 #pragma once
 
-#include "PCH/ace.UnitTestEngineCpp.PCH.h"
+#include "PCH/asd.UnitTestEngineCpp.PCH.h"
 
 #if _WIN32
 #define ENGINE_TEST_DX11(group,name)	\
@@ -38,11 +38,11 @@
 class EngineTest
 {
 private:
-	const ace::astring directory;
+	const asd::astring directory;
 
 	int m_exitTime;
 	bool m_isOpenGLMode;
-	ace::astring m_title;
+	asd::astring m_title;
 
 protected:
 
@@ -72,7 +72,7 @@ protected:
 	virtual void OnFinish();
 
 public:
-	EngineTest(ace::astring title, bool isOpenGLMode, int exitTime, int32_t width = 640, int32_t height = 480);
+	EngineTest(asd::astring title, bool isOpenGLMode, int exitTime, int32_t width = 640, int32_t height = 480);
 	void Run();
 	int32_t GetExitTime() { return m_exitTime; }
 	int32_t GetTime() { return m_currentTime; }
@@ -93,7 +93,7 @@ extern void RunTest(bool isOpenGLMode)
 	AssertMemoryDoesntLeak();
 }
 
-namespace ace
+namespace asd
 {
 	static std::vector<int8_t> GetBinaryData(astring filePath)
 	{

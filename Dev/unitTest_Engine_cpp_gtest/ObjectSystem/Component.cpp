@@ -1,12 +1,12 @@
-﻿#include <ace.h>
+﻿#include <Altseed.h>
 #include <gtest/gtest.h>
 #include <memory>
 #include "../EngineTest.h"
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
-class MyObject2DComponent : public ace::Object2DComponent
+class MyObject2DComponent : public asd::Object2DComponent
 {
 private:
 	int time;
@@ -32,7 +32,7 @@ class ObjectSystem_Component : public EngineTest
 {
 public:
 	ObjectSystem_Component(bool isOpenGLMode)
-		: EngineTest(ace::ToAString("Component"), isOpenGLMode, 30)
+		: EngineTest(asd::ToAString("Component"), isOpenGLMode, 30)
 	{
 	}
 
@@ -44,7 +44,7 @@ protected:
 		auto object = make_shared<TextureObject2D>();
 		auto component = make_shared<MyObject2DComponent>();
 
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
 		layer->AddObject(object);
 
@@ -52,7 +52,7 @@ protected:
 		object->AddComponent(component, ToAString("rotation"));
 		ASSERT_NE(object->GetComponent(ToAString("rotation").c_str()), nullptr);
 
-		auto g = ace::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());
+		auto g = asd::Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());
 		object->SetTexture(g);
 	}
 };

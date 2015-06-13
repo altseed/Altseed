@@ -1,4 +1,4 @@
-﻿#include <ace.h>
+﻿#include <Altseed.h>
 #include <gtest/gtest.h>
 #include "../../EngineTest.h"
 
@@ -54,25 +54,25 @@ void main()
 
 )";
 
-class CustomPostEffect : public ace::PostEffect
+class CustomPostEffect : public asd::PostEffect
 {
 public:
-	std::shared_ptr<ace::Shader2D>		m_shader;
-	std::shared_ptr<ace::Material2D>	m_material2d;
+	std::shared_ptr<asd::Shader2D>		m_shader;
+	std::shared_ptr<asd::Material2D>	m_material2d;
 
 public:
-	CustomPostEffect(ace::Graphics* g)
+	CustomPostEffect(asd::Graphics* g)
 	{
-		if (g->GetGraphicsDeviceType() == ace::GraphicsDeviceType::DirectX11)
+		if (g->GetGraphicsDeviceType() == asd::GraphicsDeviceType::DirectX11)
 		{
 			m_shader = g->CreateShader2D(
-				ace::ToAString(shader2d_dx_ps).c_str()
+				asd::ToAString(shader2d_dx_ps).c_str()
 				);
 		}
-		else if (g->GetGraphicsDeviceType() == ace::GraphicsDeviceType::OpenGL)
+		else if (g->GetGraphicsDeviceType() == asd::GraphicsDeviceType::OpenGL)
 		{
 			m_shader = g->CreateShader2D(
-				ace::ToAString(shader2d_gl_ps).c_str()
+				asd::ToAString(shader2d_gl_ps).c_str()
 				);
 		}
 		else
@@ -83,10 +83,10 @@ public:
 		m_material2d = g->CreateMaterial2D(m_shader);
 	}
 
-	void OnDraw(std::shared_ptr<ace::RenderTexture2D> dst, std::shared_ptr<ace::RenderTexture2D> src)
+	void OnDraw(std::shared_ptr<asd::RenderTexture2D> dst, std::shared_ptr<asd::RenderTexture2D> src)
 	{
-		m_material2d->SetTexture2D(ace::ToAString("g_texture").c_str(), src);
-		m_material2d->SetVector3DF(ace::ToAString("g_values").c_str(), ace::Vector3DF(640,480,200));
+		m_material2d->SetTexture2D(asd::ToAString("g_texture").c_str(), src);
+		m_material2d->SetVector3DF(asd::ToAString("g_values").c_str(), asd::Vector3DF(640,480,200));
 		DrawOnTexture2DWithMaterial(dst, m_material2d);
 	}
 };
@@ -99,22 +99,22 @@ class Graphics_CustomPostEffect : public EngineTest
 public:
 	float intensity;
 	Graphics_CustomPostEffect(bool isOpenGLMode) :
-		EngineTest(ace::ToAString("CustomPostEffect"), isOpenGLMode, 10)
+		EngineTest(asd::ToAString("CustomPostEffect"), isOpenGLMode, 10)
 	{}
 protected:
 	void OnStart() override
 	{
-		auto scene = std::make_shared<ace::Scene>();
-		auto layer = std::make_shared<ace::Layer2D>();
-		auto object = std::make_shared<ace::TextureObject2D>();
+		auto scene = std::make_shared<asd::Scene>();
+		auto layer = std::make_shared<asd::Layer2D>();
+		auto object = std::make_shared<asd::TextureObject2D>();
 		scene->AddLayer(layer);
 		layer->AddObject(object);
-		ace::Engine::ChangeScene(scene);
+		asd::Engine::ChangeScene(scene);
 
-		auto g = ace::Engine::GetGraphics();
-		auto texture = g->CreateTexture2D(ace::ToAString("Data/Texture/Sample1.png").c_str());
+		auto g = asd::Engine::GetGraphics();
+		auto texture = g->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 		object->SetTexture(texture);
-		object->SetScale(ace::Vector2DF(2, 2));
+		object->SetScale(asd::Vector2DF(2, 2));
 
 		auto pe = std::make_shared<CustomPostEffect>(g);
 		layer->AddPostEffect(pe);
