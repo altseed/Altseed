@@ -1,25 +1,25 @@
-﻿AC-Engine
+﻿Altseed
 =========================
 
-AC-EngineはC++、C#対応ゲームエンジンです。
+AltseedはC++、C#対応ゲームエンジンです。
 
 **最新版 2015/05/30**
-* [ウェブサイト](http://ac-engine.github.io/)
+* [ウェブサイト](http://Altseed.github.io/)
 * [導入方法(C++版、Windows)](Document/HowToIntroduce/Windows_CPP.md)
 * [導入方法(C#版、Windows)](Document/HowToIntroduce/Windows_CS.md)
 * Mac、Linuxの場合、自分でソースコードからコンパイルする必要があります。
 
 [ユーザーマニュアル](Document/Index.md)
 
-[シューティング作成講座 C#版 - 記述中](https://github.com/ac-engine/STGLecture/blob/master/Document/cs/Index.md)
+[シューティング作成講座 C#版 - 記述中](https://github.com/Altseed/STGLecture/blob/master/Document/cs/Index.md)
 
-### AC-Engineの開発に関わるには?
+### Altseedの開発に関わるには?
 
-AC-Engineの開発に関わるには様々な方法があります。例えば以下のような方法があります。
+Altseedの開発に関わるには様々な方法があります。例えば以下のような方法があります。
 
 * 間接的に関わるコミット
 
-AC-Engineを使用して作品を製作し発表する
+Altseedを使用して作品を製作し発表する
 
 githubにバグや要望を報告する
 
@@ -49,7 +49,7 @@ githubにバグや要望を報告する
 
 #### 公式チャット
 
-[![Join the chat at https://gitter.im/ac-engine/ac-engine](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ac-engine/ac-engine?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Join the chat at https://gitter.im/Altseed/Altseed](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Altseed/Altseed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 定例ミーティングを毎週土曜日23時から行っています。報告や開発の方針の決定を行っています。興味ある方は是非とも参加をお願いします。
 
@@ -57,5 +57,5 @@ githubにバグや要望を報告する
 
 #### メーリングリスト
 
-[GoogleGroup](https://groups.google.com/forum/#!forum/ac-engine)
+[GoogleGroup](https://groups.google.com/forum/#!forum/Altseed)
 
