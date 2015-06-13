@@ -1,7 +1,7 @@
 #include "ImageBuffer.h"
 #include "Span.h"
 #include <vector>
-#include <Math\ace.RectI.h>
+#include <Math/asd.RectI.h>
 
 using namespace std;
 
@@ -31,7 +31,7 @@ namespace FontGenerator
 		return buffers;
 	}
 
-	ace::GlyphData ImageBuffer::Draw(Glyph::Ptr glyph, Color color, BorderSetting::Ptr border)
+	asd::GlyphData ImageBuffer::Draw(Glyph::Ptr glyph, Color color, BorderSetting::Ptr border)
 	{
 		const int SPACE_SIZE = 1;
 		auto advance = glyph->GetAdvance();
@@ -74,8 +74,8 @@ namespace FontGenerator
 		
 		DrawRasterizedGlyph(rasterized, penX, baseLineY - ascender);
 
-		auto src = ace::RectI(penX, baseLineY - ascender, advance + outlineSize * 2, height + outlineSize * 2);
-		auto result = ace::GlyphData(glyph->GetCharactor(), sheetNum, src);
+		auto src = asd::RectI(penX, baseLineY - ascender, advance + outlineSize * 2, height + outlineSize * 2);
+		auto result = asd::GlyphData(glyph->GetCharactor(), sheetNum, src);
 
 		penX += advance + outlineSize * 2 + SPACE_SIZE;
 

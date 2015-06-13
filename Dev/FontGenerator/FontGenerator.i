@@ -15,7 +15,7 @@
 %include "std_wstring.i"
 
 // ‘SOS‹¤’Ê‚Åwchar_tˆµ‚¢
-namespace ace {
+namespace asd {
 typedef wchar_t achar;
 typedef std::wstring astring;
 }

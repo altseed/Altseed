@@ -435,31 +435,31 @@ SWIGEXPORT void SWIGSTDCALL CSharp_DLL_SetFontColor(void * jarg1, unsigned char 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_DLL_SetFontName(void * jarg1, wchar_t * jarg2) {
   FontGenerator::DLL *arg1 = (FontGenerator::DLL *) 0 ;
-  ace::achar *arg2 = (ace::achar *) 0 ;
+  asd::achar *arg2 = (asd::achar *) 0 ;
   
   arg1 = (FontGenerator::DLL *)jarg1; 
-  arg2 = (ace::achar *)jarg2; 
-  (arg1)->SetFontName((ace::achar const *)arg2);
+  arg2 = (asd::achar *)jarg2; 
+  (arg1)->SetFontName((asd::achar const *)arg2);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_DLL_SetTextFilePath(void * jarg1, wchar_t * jarg2) {
   FontGenerator::DLL *arg1 = (FontGenerator::DLL *) 0 ;
-  ace::achar *arg2 = (ace::achar *) 0 ;
+  asd::achar *arg2 = (asd::achar *) 0 ;
   
   arg1 = (FontGenerator::DLL *)jarg1; 
-  arg2 = (ace::achar *)jarg2; 
-  (arg1)->SetTextFilePath((ace::achar const *)arg2);
+  arg2 = (asd::achar *)jarg2; 
+  (arg1)->SetTextFilePath((asd::achar const *)arg2);
 }
 
 
 SWIGEXPORT void SWIGSTDCALL CSharp_DLL_SetExportPath(void * jarg1, wchar_t * jarg2) {
   FontGenerator::DLL *arg1 = (FontGenerator::DLL *) 0 ;
-  ace::achar *arg2 = (ace::achar *) 0 ;
+  asd::achar *arg2 = (asd::achar *) 0 ;
   
   arg1 = (FontGenerator::DLL *)jarg1; 
-  arg2 = (ace::achar *)jarg2; 
-  (arg1)->SetExportPath((ace::achar const *)arg2);
+  arg2 = (asd::achar *)jarg2; 
+  (arg1)->SetExportPath((asd::achar const *)arg2);
 }
 
 

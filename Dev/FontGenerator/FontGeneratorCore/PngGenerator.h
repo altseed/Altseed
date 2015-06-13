@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <ace.common.Base.h>
+#include <asd.common.Base.h>
 #include "ResultOfGeneratingPng.h"
 #include "Rendering/Font.h"
 #include "Rendering/Setting.h"
@@ -11,26 +11,26 @@ namespace FontGenerator
 	class PngGenerator
 	{
 	private:
-		ace::astring m_sheetName;
+		asd::astring m_sheetName;
 		int m_sheetSize;
 		SettingForRendering m_setting;
 
 		std::vector<FontData> m_fonts;
 
-		std::vector<ace::achar> GetCharactors(ace::astring textPath);
+		std::vector<asd::achar> GetCharactors(asd::astring textPath);
 
 	public:
 		PngGenerator();
 
 		ResultOfGeneratingPng Generate(
-			ace::astring fontPath,
-			std::vector<ace::achar>& charactors);
+			asd::astring fontPath,
+			std::vector<asd::achar>& charactors);
 
-		void GeneratePreview(ace::astring fontPath, ace::astring path);
+		void GeneratePreview(asd::astring fontPath, asd::astring path);
 
 #pragma region GetSet
-		ace::astring GetSheetName() const;
-		void SetSheetName(ace::astring value);
+		asd::astring GetSheetName() const;
+		void SetSheetName(asd::astring value);
 
 		int GetSheetSize() const;
 		void SetSheetSize(int value);

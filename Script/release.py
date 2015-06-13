@@ -99,17 +99,17 @@ def release_cpp():
 	aceutils.mkdir(sampleDir+r'cpp/lib/Release/')
 
 	if aceutils.isWin():
-		aceutils.copy(r'Dev/bin/asd_core.Debug.dll', sampleBinDir)
-		aceutils.copy(r'Dev/bin/asd_core.dll', sampleBinDir)
+		aceutils.copy(r'Dev/bin/Altseed_core.Debug.dll', sampleBinDir)
+		aceutils.copy(r'Dev/bin/Altseed_core.dll', sampleBinDir)
 	elif aceutils.isMac():
-		aceutils.copy(r'Dev/bin/libasd_core.dylib', sampleBinDir)
+		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', sampleBinDir)
 
 	aceutils.copy(r'Dev/include/Altseed.h', sampleDir+r'cpp/include/')
 	if aceutils.isWin():
-		aceutils.copy(r'Dev/lib/x86/Debug/asd_engine.lib', sampleDir+r'cpp/lib/Debug/')
-		aceutils.copy(r'Dev/lib/x86/Release/asd_engine.lib', sampleDir+r'cpp/lib/Release/')
+		aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib', sampleDir+r'cpp/lib/Debug/')
+		aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib', sampleDir+r'cpp/lib/Release/')
 	elif aceutils.isMac():
-		aceutils.copy(r'Dev/lib/libasd_engine.a', sampleDir+r'cpp/lib/')
+		aceutils.copy(r'Dev/lib/libAltseed.a', sampleDir+r'cpp/lib/')
 
 	aceutils.copy(r'Sample/BasicSample/sample_cpp.sln', sampleDir)
 	aceutils.mkdir(sampleDir+r'sample_cpp/')
@@ -123,19 +123,19 @@ def release_cpp():
 	aceutils.mkdir(runtimeDir+r'Release/')
 
 	if aceutils.isWin():
-		aceutils.copy(r'Dev/bin/asd_core.Debug.dll', runtimeDir)
-		aceutils.copy(r'Dev/bin/asd_core.dll', runtimeDir)
+		aceutils.copy(r'Dev/bin/Altseed_core.Debug.dll', runtimeDir)
+		aceutils.copy(r'Dev/bin/Altseed_core.dll', runtimeDir)
 	elif aceutils.isMac():
-		aceutils.copy(r'Dev/bin/libasd_core.dylib', runtimeDir)
+		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', runtimeDir)
 	aceutils.copy(r'Dev/include/Altseed.h', runtimeDir)
 	if aceutils.isWin():
-		aceutils.copy(r'Dev/lib/x86/Debug/asd_engine.lib',runtimeDir+r'Debug/')
-		aceutils.copy(r'Dev/lib/x86/Release/asd_engine.lib', runtimeDir+r'Release/')
+		aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib',runtimeDir+r'Debug/')
+		aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib', runtimeDir+r'Release/')
 	elif aceutils.isMac():
-		aceutils.copy(r'Dev/lib/libasd_engine.a',runtimeDir+r'/')
+		aceutils.copy(r'Dev/lib/libAltseed.a',runtimeDir+r'/')
 
 	# Doxygen
-	aceutils.call(r'doxygen Script/acecppDoxyfile')
+	aceutils.call(r'doxygen Script/Doxyfile_cpp')
 	aceutils.copytree(r'Reference_CPP/html/', targetDir+r'/Reference_CPP')
 
 
@@ -167,17 +167,16 @@ def release_cs():
 	aceutils.copytreeWithExt(r'Sample/BasicSample/bin/',sampleBinDir,[ r'.h', r'.cpp', r'.filters', r'.config', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip', r'.efk', r'.aff'])
 
 	if aceutils.isWin():
-		aceutils.copy(r'Dev/bin/asd_core.dll', sampleBinDir)
-		aceutils.copy(r'Dev/bin/Altseed.dll', sampleBinDir)
+		aceutils.copy(r'Dev/bin/Altseed_core.dll', sampleBinDir)
 	elif aceutils.isMac():
-		aceutils.copy(r'Dev/bin/libasd_core.dylib', sampleBinDir)
+		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', sampleBinDir)
 
 	aceutils.copy(r'Sample/sample_cs.sln', sampleDir)
 	aceutils.mkdir(sampleDir+r'sample_cs/')
 	aceutils.copytreeWithExt(r'Sample/BasicSample/sample_cs/',sampleDir+r'sample_cs/',[ r'.h', r'.cpp', r'.filters', r'.config', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip', r'.efk', r'.aff'])
 
-	aceutils.copy(r'Dev/bin/asd_cs.dll', sampleDir+r'sample_cs/')
-	aceutils.copy(r'Dev/bin/asd_cs.XML', sampleDir+r'sample_cs/')
+	aceutils.copy(r'Dev/bin/Altseed.dll', sampleDir+r'sample_cs/')
+	aceutils.copy(r'Dev/bin/Altseed.XML', sampleDir+r'sample_cs/')
 
 	# Runtime
 	runtimeDir = targetDir+r'/Runtime/'
@@ -185,11 +184,11 @@ def release_cs():
 	aceutils.mkdir(runtimeDir)
 
 	if aceutils.isWin():
-		aceutils.copy(r'Dev/bin/asd_core.dll', runtimeDir)
+		aceutils.copy(r'Dev/bin/Altseed_core.dll', runtimeDir)
 	elif aceutils.isMac():
-		aceutils.copy(r'Dev/bin/libasd_core.dylib', runtimeDir)
-	aceutils.copy(r'Dev/bin/asd_cs.dll', runtimeDir)
-	aceutils.copy(r'Dev/bin/asd_cs.XML', runtimeDir)
+		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', runtimeDir)
+	aceutils.copy(r'Dev/bin/Altseed.dll', runtimeDir)
+	aceutils.copy(r'Dev/bin/Altseed.XML', runtimeDir)
 
 
 

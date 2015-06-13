@@ -3,7 +3,7 @@
 #include <memory>
 #include "Font.h"
 #include "RasterizedGlyph.h"
-#include <Graphics\Font\ace.GlyphData.h>
+#include <Graphics/Font/asd.GlyphData.h>
 
 namespace FontGenerator
 {
@@ -15,7 +15,7 @@ namespace FontGenerator
 		ImageBuffer(Font& font, int sheetSize);
 		std::vector<vectorPtr>& GetBuffers();
 
-		ace::GlyphData Draw(Glyph::Ptr glyph, Color color, BorderSetting::Ptr border);
+		asd::GlyphData Draw(Glyph::Ptr glyph, Color color, BorderSetting::Ptr border);
 
 	private:
 

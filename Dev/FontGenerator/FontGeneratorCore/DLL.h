@@ -23,9 +23,9 @@ namespace FontGenerator
 		Color			m_outlineColor = Color(255, 255, 255, 255);
 		int32_t			m_outlineSize = 0;
 		int32_t			m_outlineSampling = 1;
-		ace::astring	m_fontName;
-		ace::astring	m_textFilePath;
-		ace::astring	m_exportPath;
+		asd::astring	m_fontName;
+		asd::astring	m_textFilePath;
+		asd::astring	m_exportPath;
 		int				m_sheetSize;
 
 		
@@ -54,17 +54,17 @@ namespace FontGenerator
 			m_fontColor = Color(r, g, b, a);
 		}
 
-		void SetFontName(const ace::achar* name)
+		void SetFontName(const asd::achar* name)
 		{
 			m_fontName = name;
 		}
 
-		void SetTextFilePath(const ace::achar* path)
+		void SetTextFilePath(const asd::achar* path)
 		{
 			m_textFilePath = path;
 		}
 
-		void SetExportPath(const ace::achar* path)
+		void SetExportPath(const asd::achar* path)
 		{
 			m_exportPath = path;
 		}

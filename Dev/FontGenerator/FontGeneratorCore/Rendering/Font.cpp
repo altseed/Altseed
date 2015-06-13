@@ -2,7 +2,7 @@
 #include FT_OUTLINE_H
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 namespace FontGenerator
 {

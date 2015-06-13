@@ -10,17 +10,17 @@
 #pragma comment(lib,"freetype253MT_D.lib")
 #pragma comment(lib,"libpng16.lib")
 #pragma comment(lib,"zlib.lib")
-#pragma comment(lib,"ace_common.lib")
+#pragma comment(lib,"asd_common.lib")
 #else
 #pragma comment(lib,"freetype253MT.lib")
 #pragma comment(lib,"libpng16.lib")
 #pragma comment(lib,"zlib.lib")
-#pragma comment(lib,"ace_common.lib")
+#pragma comment(lib,"asd_common.lib")
 #endif
 
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 namespace FontGenerator
 {

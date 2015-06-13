@@ -1,5 +1,5 @@
 #pragma once
-#include <ace.common.Base.h>
+#include <asd.common.Base.h>
 #include <vector>
 #include <memory>
 #include <ft2build.h>
@@ -19,9 +19,9 @@ namespace FontGenerator
 	public:
 		typedef std::shared_ptr<Font> Ptr;
 
-		Font(ace::astring fontPath);
+		Font(asd::astring fontPath);
 		~Font();
-		std::vector<Glyph::Ptr> GetGlyphs(std::vector<ace::achar>& charactors);
+		std::vector<Glyph::Ptr> GetGlyphs(std::vector<asd::achar>& charactors);
 
 		int GetFontSize() const;
 		void SetFontSize(int value);

@@ -1,16 +1,17 @@
 
 #include <fstream>
 #include "Generator.h"
-#include <Graphics/Font/ace.AffHeader.h>
-#include <Graphics/Font/ace.AffIndexTable.h>
-#include <Graphics/Font/ace.GlyphData.h>
-#include <Utility/ace.BinaryWriter.h>
-#include <Utility/ace.BinaryReader.h>
+#include <Graphics/Font/asd.AffHeader.h>
+#include <Graphics/Font/asd.AffIndexTable.h>
+#include <Graphics/Font/asd.GlyphData.h>
+#include <Utility/asd.BinaryWriter.h>
+#include <Utility/asd.BinaryReader.h>
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
 using namespace std;
-using namespace ace;
+using namespace asd;
 
 namespace FontGenerator
 {

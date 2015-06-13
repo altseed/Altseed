@@ -2,8 +2,8 @@
 #include <string>
 #include <vector>
 #include <iostream>
-#include <ace.common.Base.h>
-#include <Utility/ace.BinaryWriter.h>
+#include <asd.common.Base.h>
+#include <Utility/asd.BinaryWriter.h>
 #include "Rendering/SettingForRendering.h"
 #include "PngGenerator.h"
 #include "ResultOfGeneratingPng.h"
@@ -16,7 +16,7 @@ namespace FontGenerator
 		const int INDEX_MAX = 65536;
 		const int DEFAULT_SIZE = 256;
 
-		ace::astring m_sheetName;
+		asd::astring m_sheetName;
 		int m_sheetSize;
 		SettingForRendering m_setting;
 
@@ -24,15 +24,15 @@ namespace FontGenerator
 		Generator();
 
 		void GenerateFontFile(
-			ace::astring fontPath,
-			ace::astring textPath);
+			asd::astring fontPath,
+			asd::astring textPath);
 
-		std::vector<ace::achar> GetCharactors(ace::astring textPath);
-		ResultOfGeneratingPng RenderPng(ace::astring fontPath, ace::astring textPath);
-		void PushAff(ace::BinaryWriter& writer, ResultOfGeneratingPng& result);
+		std::vector<asd::achar> GetCharactors(asd::astring textPath);
+		ResultOfGeneratingPng RenderPng(asd::astring fontPath, asd::astring textPath);
+		void PushAff(asd::BinaryWriter& writer, ResultOfGeneratingPng& result);
 
-		ace::astring GetSheetName() const;
-		void SetSheetName(ace::astring value);
+		asd::astring GetSheetName() const;
+		void SetSheetName(asd::astring value);
 
 		int GetSheetSize() const;
 		void SetSheetSize(int value);
