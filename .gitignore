@@ -257,7 +257,7 @@ master.zip
 /Dev/include/GLFW/
 /Dev/include/gtest/
 /Dev/include/Box2D/
-/Dev/include/ace.h
+/Dev/include/Altseed.h
 /Dev/include/Effekseer.h
 /Dev/include/EffekseerRendererDX11.h
 /Dev/include/EffekseerRendererGL.h
@@ -320,6 +320,6 @@ Dev/bin/Data/Text/sazanami-gothic.ttf
 
 
 /Dev/FontGenerator/FontGeneratorTest/result
-Sample/BasicSample/cpp/include/ace.h
+Sample/BasicSample/cpp/include/Altseed.h
 Sample/BasicSample/bin/asd_cs.xml
 Sample/BasicSample/bin/Log.html
