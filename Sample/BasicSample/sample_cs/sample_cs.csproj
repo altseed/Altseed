@@ -49,6 +49,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Collision\Collision2D.cs" />
+    <Compile Include="Geometry2D\Geometry2D_ArcShape.cs" />
+    <Compile Include="Geometry2D\Geometry2D_PolygonShape.cs" />
+    <Compile Include="Geometry2D\Geometry2D_RectangleShape.cs" />
     <Compile Include="Graphics\2D\CameraObject2D.cs" />
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
     <Compile Include="Graphics\2D\GeometryObject2D.cs" />
@@ -66,7 +69,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
     <Compile Include="Sound\Sound.cs" />
-    <Compile Include="Window\Empty.cs" />
+    <Compile Include="Basic\Basic_Empty.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
