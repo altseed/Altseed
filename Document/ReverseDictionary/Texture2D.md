@@ -3,5 +3,5 @@
 
 Altseedでウインドウに画像を表示します。
 
-* include_basic_sample TextureObject2D
+* include_basic_sample TextureObject2D_Simple
 

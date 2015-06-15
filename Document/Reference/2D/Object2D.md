@@ -64,5 +64,5 @@
 ほぼ全てのサンプルで使用されています。
 ここではTextureObject2Dクラスのサンプルを例として提示します。
 
-* include_basic_sample TextureObject2D
+* include_basic_sample TextureObject2D_Simple
 

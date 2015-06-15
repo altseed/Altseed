@@ -35,4 +35,4 @@
 
 GeometryObject2Dクラスのサンプルです。
 
-* include_basic_sample GeometryObject2D
+* include_basic_sample GeometryObject2D_ArcShape

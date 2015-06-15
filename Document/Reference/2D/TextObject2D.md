@@ -40,4 +40,4 @@
 
 TextObject2Dクラスのサンプルです。
 
-* include_basic_sample TextObject2D
+* include_basic_sample TextObject2D_Simple

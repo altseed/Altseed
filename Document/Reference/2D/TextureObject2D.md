@@ -38,5 +38,5 @@
 
 TextureObject2Dクラスのサンプルです。
 
-* include_basic_sample TextureObject2D
+* include_basic_sample TextureObject2D_Simple
 

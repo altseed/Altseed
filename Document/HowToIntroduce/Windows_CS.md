@@ -12,31 +12,31 @@ C#版の導入方法について説明しています。
 ダウンロードが終わったら、「Visual Studio」をインストールします。
 
 ### Altseedのダウンロード
-[Altseed](https://github.com/altseed/Altseed/releases/download/20150530/ACE_CS_20150531_WIN.zip)　をダウンロードします。
+[Altseed](https://github.com/altseed/Altseed/releases/download/20150616/Altseed_CS_20150616_WIN.zip)　をダウンロードします。
 ダウンロードしたファイルを解凍します。
 
 開発には以下のファイルを使用します。
 
-* Runtime/ace\_cs.dll
-* Runtime/ace\_cs.XML
-* Runtime/ace\_core.dll
+* Runtime/Altseed.dll
+* Runtime/Altseed.XML
+* Runtime/Altseed\_core.dll
 
 ### プロジェクトの作成
 
 1. ```ファイル->新規作成->プロジェクト```を選択します。
 2. 左のカラムから```インストール済み->テンプレート->Visual C#```を選択した後、中央のカラムから```コンソールアプリケーション```を選択します。
-3. 下のテキストボックスの```名前```にプロジェクト名を入力して```OK```を選択します。ここからは```ACE_Test```と入力したと仮定して説明をします。
+3. 下のテキストボックスの```名前```にプロジェクト名を入力して```OK```を選択します。ここからは```Altseed_Test```と入力したと仮定して説明をします。
 
 これでプロジェクトの作成が完了しました。
 
 ### プロジェクトの設定
-1. ソリューションエクスプローラーの```ACE_Test```プロジェクトを右クリックします。```追加->既存の項目```を選択して、```ace_cs.dll```と```ace_core.dll``` を追加します。
-2. 追加された```ace_cs.dll```を右クリックして```プロパティ```を開き、```出力ディレクトリーにコピー```の項目を「新しい場合はコピーする」に変更します。同様に```ace_core.dll```に対しても```出力ディレクトリーにコピー```の項目を変更します。
-3. ```ACE_Test->参照設定```を右クリックして```参照の追加```を選択します。ここで、```参照```ボタンをクリックし、1で追加された```ace_cs.dll```を選択して```OK```を押します。
+1. ソリューションエクスプローラーの```ACE_Test```プロジェクトを右クリックします。```追加->既存の項目```を選択して、```Altseed.dll```と```Altseed_core.dll``` を追加します。
+2. 追加された```ace_cs.dll```を右クリックして```プロパティ```を開き、```出力ディレクトリーにコピー```の項目を「新しい場合はコピーする」に変更します。同様に```Altseed_core.dll```に対しても```出力ディレクトリーにコピー```の項目を変更します。
+3. ```ACE_Test->参照設定```を右クリックして```参照の追加```を選択します。ここで、```参照```ボタンをクリックし、1で追加された```Altseed.dll```を選択して```OK```を押します。
 
 以上でAltseedが使えるようになります。
 
-また、```ace_cs.XML```を```ace_cs.dll```と同じディレクトリに配置すると関数等の説明がVisualC#上で表示されるようになります。
+また、```Altseed.XML```を```Altseed.dll```と同じディレクトリに配置すると関数等の説明がVisualC#上で表示されるようになります。
 
 ### ビルド、実行
 
@@ -49,7 +49,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ACE_Test
+namespace Altseed_Test
 {
 	class Program
 	{
@@ -57,17 +57,17 @@ namespace ACE_Test
 		static void Main(string[] args)
 		{
 			// Altseedを初期化する。
-			ace.Engine.Initialize("Empty", 640, 480, new ace.EngineOption());
+			asd.Engine.Initialize("Empty", 640, 480, new asd.EngineOption());
 
 			// Altseedが進行可能かチェックする。
-			while (ace.Engine.DoEvents())
+			while (asd.Engine.DoEvents())
 			{
 				// Altseedを更新する。
-				ace.Engine.Update();
+				asd.Engine.Update();
 			}
 
 			// Altseedを終了する。
-			ace.Engine.Terminate();
+			asd.Engine.Terminate();
 		}
 	}
 }

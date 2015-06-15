@@ -31,4 +31,4 @@
 Chip2DはMapObject2Dと必ず組み合わして使用します。
 そのため、MapObject2Dクラスのサンプルを提示します。
 
-* include_basic_sample MapObject2D
+* include_basic_sample MapObject2D_Simple

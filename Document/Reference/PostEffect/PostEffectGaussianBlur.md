@@ -18,4 +18,6 @@
 
 ### 使用方法
 
-サンプルのポストエフェクトを参照してください。
+ガウスぼかしをかけるサンプルです。
+
+* include_basic_sample PostEffect_GaussianBlur

@@ -16,4 +16,7 @@
 
 ### 使用方法
 
-サンプルのポストエフェクトを参照してください。
+グレースケール化するサンプルです。
+
+* include_basic_sample PostEffect_GrayScale
+

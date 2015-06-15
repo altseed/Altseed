@@ -26,4 +26,6 @@
 
 ### 使用方法
 
-サンプルのポストエフェクトを参照してください。
+ライトブルームをかけるサンプルです。
+
+* include_basic_sample PostEffect_LightBloom

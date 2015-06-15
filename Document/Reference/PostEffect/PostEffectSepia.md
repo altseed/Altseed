@@ -16,4 +16,6 @@
 
 ### 使用方法
 
-サンプルのポストエフェクトを参照してください。
+セピア調にするサンプルです。
+
+* include_basic_sample PostEffect_Sepia
