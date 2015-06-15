@@ -30,7 +30,7 @@ def make_webpage():
         ls = []
 
         # 読み込み
-        with open(file, mode='r',  encoding='utf-8') as f:
+        with open(file, mode='r', encoding='utf-8-sig') as f:
             ls = f.readlines()
     
         #includeの実装
@@ -40,9 +40,12 @@ def make_webpage():
         # リンクを修正
         ls = [s.replace('.md', '.html') for s in ls]
 
+        ls = [s.replace('\r\n', '\n') for s in ls]
+
         # 出力
-        with open(file, mode='w',  encoding='utf-8') as f:
-            f.writelines(ls)
+        with open(file, mode='wb') as f:
+            for l in ls:
+                f.write(l.encode('utf-8'))
 
     aceutils.mkdir(img_dir)
     aceutils.mkdir(ss_dir)

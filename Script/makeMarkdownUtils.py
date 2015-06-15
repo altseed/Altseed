@@ -74,7 +74,7 @@ def include_basic_sample(ls,relCodePath,ssDir,mode=''):
                 else:
                     ls_included.append('```\n')
 
-                with open(targetPath, mode='r', encoding='utf-8') as f:
+                with open(targetPath, mode='r', encoding='utf-8-sig') as f:
                     for fl in f.readlines():
                         if ext=='.cpp':
                             fl = fl.replace(r'void ' + sampleName + '()',r'int main()')
