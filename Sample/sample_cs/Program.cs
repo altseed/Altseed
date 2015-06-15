@@ -42,10 +42,6 @@ namespace sample_cs
                 new Graphics._2D.MapObject2D_Simple(),
                 new Graphics._2D.MapObject2D_Camera(),
 
-                new Graphics._2D.GeometryObject2D_ArcShape(),
-                new Graphics._2D.GeometryObject2D_PolygonShape(),
-                new Graphics._2D.GeometryObject2D_RectangleShape(),
-
                 new Graphics._2D.ImagePackage(),
 
                 new Graphics.PostEffect.PostEffect(),

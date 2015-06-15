@@ -16,10 +16,6 @@ extern void Mouse();
 extern void Joystick();
 extern void Sound();
 
-extern void GeometryObject2D_ArcShape();
-extern void GeometryObject2D_PolygonShape();
-extern void GeometryObject2D_RectangleShape();
-
 extern void EffectObject2D();
 
 extern void TextObject2D_Simple();
@@ -80,10 +76,6 @@ int main(int argc, char** argv)
 
 		INFO(MapObject2D_Simple),
 		INFO(MapObject2D_Camera),
-
-		INFO(GeometryObject2D_ArcShape),
-		INFO(GeometryObject2D_PolygonShape),
-		INFO(GeometryObject2D_RectangleShape),
 
 		INFO(ImagePackage),
 
