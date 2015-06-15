@@ -72,8 +72,10 @@ def include_basic_sample(ls,relCodePath,ssDir,mode=''):
                 ext = os.path.splitext(targetPath)[1]
             
                 if ext=='.cpp':
+                    ls_included.append(r'<h3 class="cpp">C++</h3>'+'\n')
                     ls_included.append('```cpp\n')
                 elif ext=='.cs':
+                    ls_included.append(r'<h3 class="csharp">C#</h3>'+'\n')
                     ls_included.append('```cs\n')
                 else:
                     ls_included.append('```\n')
