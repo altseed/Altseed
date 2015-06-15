@@ -42,14 +42,14 @@ class GeometryObject2D_PolygonShape : ISample
 			geometryObj.Position = new asd.Vector2DF(0, 0);
 		}
 
-		// aceが進行可能かチェックする。
+		// Altseedが進行可能かチェックする。
 		while (asd.Engine.DoEvents())
 		{
 			// Altseedを更新する。
 			asd.Engine.Update();
 		}
 
-		// aceを終了する。
+		// Altseedを終了する。
 		asd.Engine.Terminate();
 	}
 }

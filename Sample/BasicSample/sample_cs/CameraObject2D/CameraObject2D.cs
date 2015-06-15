@@ -8,7 +8,7 @@ public class CameraObject2D : ISample
 {
     public void Run()
     {
-        // aceを初期化する。
+        // Altseedを初期化する。
         asd.Engine.Initialize("CameraObject2D", 640, 480, new asd.EngineOption());
 
 
@@ -46,7 +46,7 @@ public class CameraObject2D : ISample
             asd.Engine.AddObject2D(frame);
         }
 
-        // aceが進行可能かチェックする。
+        // Altseedが進行可能かチェックする。
         while (asd.Engine.DoEvents())
         {
             //マウスポインタの位置を取得する。
@@ -61,11 +61,11 @@ public class CameraObject2D : ISample
             //フレーム画像の描画中心をマウスポインタの位置に合わせる。
             frame.Position = pos;
 
-            // aceを更新する。
+            // Altseedを更新する。
             asd.Engine.Update();
         }
 
-        // aceを終了する。
+        // Altseedを終了する。
         asd.Engine.Terminate();
     }
 }

@@ -6,7 +6,7 @@
 */
 void MapObject2D_Camera()
 {
-	// aceを初期化する
+	// Altseedを初期化する
 	asd::Engine::Initialize(asd::ToAString("MapObject2D_Camera").c_str(), 640, 480, asd::EngineOption());
 
 	//カメラを設定する。
@@ -48,7 +48,7 @@ void MapObject2D_Camera()
 	//レイヤーにカメラオブジェクトを追加する。
 	asd::Engine::AddObject2D(camera);
 
-	// aceが進行可能かチェックする。
+	// Altseedが進行可能かチェックする。
 	while (asd::Engine::DoEvents())
 	{
 		//カメラを移動させる
@@ -59,10 +59,10 @@ void MapObject2D_Camera()
 		pos.Y %= 1000;
 		camera->SetSrc(pos);
 
-		// aceを更新する。
+		// Altseedを更新する。
 		asd::Engine::Update();
 	}
 
-	// aceを終了する。
+	// Altseedを終了する。
 	asd::Engine::Terminate();
 }

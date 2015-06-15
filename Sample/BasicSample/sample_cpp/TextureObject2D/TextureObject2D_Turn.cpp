@@ -6,7 +6,7 @@
 */
 void TextureObject2D_Turn()
 {
-	// aceを初期化する
+	// Altseedを初期化する
 	asd::Engine::Initialize(asd::ToAString("TextureObject2D_Turn").c_str(), 640, 480, asd::EngineOption());
 
 	{
@@ -25,13 +25,13 @@ void TextureObject2D_Turn()
 	}
 
 
-	// aceが進行可能かチェックする。
+	// Altseedが進行可能かチェックする。
 	while (asd::Engine::DoEvents())
 	{
-		// aceを更新する。
+		// Altseedを更新する。
 		asd::Engine::Update();
 	}
 
-	// aceを終了する。
+	// Altseedを終了する。
 	asd::Engine::Terminate();
 }

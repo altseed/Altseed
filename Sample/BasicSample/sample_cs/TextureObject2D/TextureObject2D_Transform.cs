@@ -11,7 +11,7 @@ class TextureObject2D_Transform : ISample
 {
     public void Run()
     {
-        // aceを初期化する
+        // Altseedを初期化する
         asd.Engine.Initialize("TextureObject2D_Transform", 640, 480, new asd.EngineOption());
 
         var obj3 = new asd.TextureObject2D();
@@ -34,17 +34,17 @@ class TextureObject2D_Transform : ISample
             asd.Engine.AddObject2D(obj3);
         }
 
-        // aceが進行可能かチェックする。
+        // Altseedが進行可能かチェックする。
         while (asd.Engine.DoEvents())
         {
             // オブジェクトを0.5度回転させる。
             obj3.Angle += 0.5f;
 
-            // aceを更新する。
+            // Altseedを更新する。
             asd.Engine.Update();
         }
 
-        // aceを終了する。
+        // Altseedを終了する。
         asd.Engine.Terminate();
     }
 }

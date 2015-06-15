@@ -6,7 +6,7 @@
 */
 void TextObject2D_Simple()
 {
-	// aceを初期化する
+	// Altseedを初期化する
 	asd::Engine::Initialize(asd::ToAString("TextObject2D_Simple").c_str(), 640, 480, asd::EngineOption());
 
 	{
@@ -29,13 +29,13 @@ void TextObject2D_Simple()
 		asd::Engine::AddObject2D(obj);
 	}
 
-	// aceが進行可能かチェックする。
+	// Altseedが進行可能かチェックする。
 	while (asd::Engine::DoEvents())
 	{
-		// aceを更新する。
+		// Altseedを更新する。
 		asd::Engine::Update();
 	}
 
-	// aceを終了する。
+	// Altseedを終了する。
 	asd::Engine::Terminate();
 }

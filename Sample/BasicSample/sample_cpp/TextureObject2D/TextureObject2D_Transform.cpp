@@ -6,7 +6,7 @@
 */
 void TextureObject2D_Transform()
 {
-	// aceを初期化する
+	// Altseedを初期化する
 	asd::Engine::Initialize(asd::ToAString("TextureObject2D_Transform").c_str(), 640, 480, asd::EngineOption());
 
 	auto obj3 = std::make_shared<asd::TextureObject2D>();
@@ -29,7 +29,7 @@ void TextureObject2D_Transform()
 		asd::Engine::AddObject2D(obj3);
 	}
 
-	// aceが進行可能かチェックする。
+	// Altseedが進行可能かチェックする。
 	while (asd::Engine::DoEvents())
 	{
 		//オブジェクトを0.5度回転させる。
@@ -37,10 +37,10 @@ void TextureObject2D_Transform()
 		angle += 0.5f;
 		obj3->SetAngle(angle);
 
-		// aceを更新する。
+		// Altseedを更新する。
 		asd::Engine::Update();
 	}
 
-	// aceを終了する。
+	// Altseedを終了する。
 	asd::Engine::Terminate();
 }

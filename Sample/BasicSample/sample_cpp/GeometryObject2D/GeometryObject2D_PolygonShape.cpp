@@ -5,7 +5,7 @@
 */
 void GeometryObject2D_PolygonShape()
 {
-	// aceを初期化する
+	// Altseedを初期化する
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_PolygonShape").c_str(), 640, 480, asd::EngineOption());
 
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
@@ -36,13 +36,13 @@ void GeometryObject2D_PolygonShape()
 		geometryObj->SetPosition(asd::Vector2DF(0, 0));
 	}
 
-	// aceが進行可能かチェックする。
+	// Altseedが進行可能かチェックする。
 	while (asd::Engine::DoEvents())
 	{
-		// aceを更新する。
+		// Altseedを更新する。
 		asd::Engine::Update();
 	}
 
-	// aceを終了する。
+	// Altseedを終了する。
 	asd::Engine::Terminate();
 }
