@@ -23,6 +23,11 @@ extern void Geometry2D_ArcShape();
 extern void Geometry2D_PolygonShape();
 extern void Geometry2D_RectangleShape();
 
+extern void PostEffect_GrayScale();
+extern void PostEffect_Sepia();
+extern void PostEffect_GaussianBlur();
+extern void PostEffect_LightBloom();
+
 extern void Keyboard();
 extern void Mouse();
 extern void Joystick();
@@ -57,6 +62,11 @@ int main(int argc, char** argv)
 		INFO(Geometry2D_ArcShape),
 		INFO(Geometry2D_PolygonShape),
 		INFO(Geometry2D_RectangleShape),
+
+		INFO(PostEffect_GrayScale),
+		INFO(PostEffect_Sepia),
+		INFO(PostEffect_GaussianBlur),
+		INFO(PostEffect_LightBloom),
 
 		INFO(Keyboard),
 		INFO(Mouse),

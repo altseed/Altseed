@@ -23,14 +23,16 @@
     <ClCompile Include="..\Graphics\2D\MapObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\TextObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp" />
-    <ClCompile Include="..\Graphics\PostEffect\PostEffect.cpp" />
     <ClCompile Include="..\Input\Joystick.cpp" />
     <ClCompile Include="..\Input\Keyboard.cpp" />
     <ClCompile Include="..\Input\Mouse.cpp" />
-    <ClCompile Include="..\LayerSystem\PostEffect.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\Transition.cpp" />
+    <ClCompile Include="..\PostEffect\PostEffect_GaussianBlur.cpp" />
+    <ClCompile Include="..\PostEffect\PostEffect_GrayScale.cpp" />
+    <ClCompile Include="..\PostEffect\PostEffect_LightBloom.cpp" />
+    <ClCompile Include="..\PostEffect\PostEffect_Sepia.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />
     <ClCompile Include="..\Sound\Sound.cpp" />
   </ItemGroup>
