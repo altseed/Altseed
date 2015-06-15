@@ -54,9 +54,9 @@ int main(int argc, char** argv)
 	{
 		INFO(Basic_Empty),
 
-		INFO(GeometryObject2D_ArcShape),
-		INFO(GeometryObject2D_PolygonShape),
-		INFO(GeometryObject2D_RectangleShape),
+		INFO(Geometry2D_ArcShape),
+		INFO(Geometry2D_PolygonShape),
+		INFO(Geometry2D_RectangleShape),
 
 		INFO(Keyboard),
 		INFO(Mouse),
