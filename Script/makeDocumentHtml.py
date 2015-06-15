@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+Ôªø#!/usr/bin/env python
 #coding: UTF-8
 """
 convert Document/*.md to DocumentHtml/*.html.
@@ -7,79 +7,7 @@ requirement: pandoc(http://johnmacfarlane.net/pandoc/)
 import os.path
 import aceutils
 import re
-
-def include_basic_sample(ls,mode=''):
-    #includeÇÃé¿ëï
-    ls_included = []
-    includePattern = r'\* include_basic_sample (.+)'
-    includer = re.compile(includePattern)
-    
-    for s in ls:
-        m = includer.search(s.replace('\r','').replace('\n',''))
-        if m != None:
-            sampleName = m.group(1)
-            searchedTargetDir = '../Sample/BasicSample/'
-            
-            files = []
-            for f in aceutils.get_files(searchedTargetDir):
-                basename = os.path.basename(f)
-                name = os.path.splitext(basename)[0]
-                if name == sampleName:
-                    files.append(f)
-      
-            searchedExt = '.cs'
-
-            if mode == 'cs':
-                searchedExt = '.cs'
-            elif mode == 'cpp':
-                searchedExt = '.cpp'
-
-            targetPath = ''
-
-            for f in files:
-                ext = os.path.splitext(f)[1] 
-                if ext == searchedExt:
-                    targetPath = f
-                    break
-            
-            searchedExt = '.cs'
-            if targetPath == '':
-                for f in files:
-                    ext = os.path.splitext(f)[1]
-                    if ext == searchedExt:
-                        targetPath = f
-                        break
-
-        
-            if os.path.exists(targetPath):
-                ext = os.path.splitext(targetPath)[1]
-          
-                if ext=='.cpp':
-                    ls_included.append('```cpp\n')
-                elif ext=='.cs':
-                    ls_included.append('```cs\n')
-                else:
-                    ls_included.append('```\n')
-	    
-                print('include : ' + targetPath)
-                with open(targetPath, mode='r', encoding='utf-8') as f:
-                    for fl in f.readlines():
-                        if ext=='.cpp':
-                            fl = fl.replace(r'void ' + sampleName + '()',r'int main()')
-                            fl = fl.replace(r'return;',r'return 0;')
-
-                        if ext=='.cs':
-                            fl = fl.replace(r'public void Run()','[System.STAThread]\r\n\tstatic void Main(string[] args)')
-                            fl = fl.replace(r' : ISample','')
-
-                        ls_included.append(fl)
-                
-                ls_included.append('\n```\n')
-        else:
-            ls_included.append(s)
-
-    return ls_included
-
+import makeMarkdownUtils
 
 def make_document_html(mode):
   exclude_ext = [".txt", ".psd", ".BAK", ".pptx"]
@@ -222,6 +150,9 @@ def make_document_html(mode):
   aceutils.copytree('./Document', './DocumentHtml', True)
   aceutils.cd('./DocumentHtml')
 
+  img_dir = 'img/'
+  ss_dir = 'img/ss/'
+
   files = aceutils.get_files('.')
 
   with open('template.html', mode='w',  encoding='utf-8') as f:
@@ -237,29 +168,35 @@ def make_document_html(mode):
 
     ls = []
 
-    # ì«Ç›çûÇ›
+    # Ë™≠„ÅøËæº„Åø
     with open(file, mode='r',  encoding='utf-8') as f:
       ls = f.readlines()
     
-    #includeÇÃé¿ëï
-    ls = include_basic_sample(ls,mode)
-    ls_included_bsample = []
-    include_bsample_Pattern = r'\* include_basic_sample (.+)'
-    include_bsample_r = re.compile(include_bsample_Pattern)
+    #include„ÅÆÂÆüË£Ö
+    relPath = file
+    ls = makeMarkdownUtils.include_basic_sample(ls,relPath,ss_dir,mode)
 
-    # ÉäÉìÉNÇèCê≥
+    # „É™„É≥„ÇØ„Çí‰øÆÊ≠£
     ls = [s.replace('.md', '.html') for s in ls]
     
-    # èoóÕ
+    # Âá∫Âäõ
     with open(file, mode='w',  encoding='utf-8') as f:
       f.writelines(ls)
 
-    # pandocÇ…ÇÊÇÈèoóÕ
+    # pandoc„Å´„Çà„ÇãÂá∫Âäõ
     aceutils.call('pandoc -f markdown_github -t html5 -s --template=template.html -o {0}.html {0}.md'.format(os.path.splitext(file)[0]))
     aceutils.rm(file)
 
+  aceutils.mkdir(img_dir)
+  aceutils.mkdir(ss_dir)
+  
+  # SS„ÅÆ„Ç≥„Éî„Éº
+  for ssfile in makeMarkdownUtils.included_ss_paths:
+    aceutils.copy(ssfile,ss_dir)
+
   aceutils.rm('template.html')
   aceutils.cd('../')
+
   
 if __name__ == "__main__":
   make_document_html('cs')
