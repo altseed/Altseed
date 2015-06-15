@@ -1,26 +1,26 @@
-#include <Base.h>
+ï»¿#include <Base.h>
 
 /**
-@brief	‘½ŠpŒ`‚ğ•\¦‚·‚éB
+@brief	å¤šè§’å½¢ã‚’è¡¨ç¤ºã™ã‚‹ã€‚
 */
-void GeometryObject2D_PolygonShape()
+void Geometry2D_PolygonShape()
 {
-	// ace‚ğ‰Šú‰»‚·‚é
+	// aceã‚’åˆæœŸåŒ–ã™ã‚‹
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_PolygonShape").c_str(), 640, 480, asd::EngineOption());
 
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 
-	//}Œ`•`‰æƒNƒ‰ƒX‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	//å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto geometryObj = std::make_shared<asd::GeometryObject2D>();
 
-	//}Œ`•`‰æƒNƒ‰ƒX‚ğƒŒƒCƒ„[‚É’Ç‰Á‚·‚éB
+	//å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã‚’ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::AddObject2D(geometryObj);
 
-	//‘½ŠpŒ`‚ğ}Œ`•`‰æƒNƒ‰ƒX3‚É‚Ä•`‰æ‚·‚éB
+	//å¤šè§’å½¢ã‚’å›³å½¢æç”»ã‚¯ãƒ©ã‚¹3ã«ã¦æç”»ã™ã‚‹ã€‚
 	{
 
 		auto polygon = std::make_shared<asd::PolygonShape>();
-		//‘½ŠpŒ`‚ğ\¬‚·‚é’¸“_‚ğ’Ç‰Á‚µ‚Ä‚¢‚­Bi¯Œ`‚É‚È‚é‚æ‚¤‚É‚·‚éBj
+		//å¤šè§’å½¢ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹ã‚’è¿½åŠ ã—ã¦ã„ãã€‚ï¼ˆæ˜Ÿå½¢ã«ãªã‚‹ã‚ˆã†ã«ã™ã‚‹ã€‚ï¼‰
 		for (int i = 0; i < 10; ++i)
 		{
 			asd::Vector2DF vec = asd::Vector2DF(1, 0);
@@ -30,19 +30,19 @@ void GeometryObject2D_PolygonShape()
 
 		}
 
-		//‘½ŠpŒ`‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚µA‡¬‚·‚éƒeƒNƒXƒ`ƒƒ‚àİ’èB
+		//å¤šè§’å½¢ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦è¨­å®šã—ã€åˆæˆã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚‚è¨­å®šã€‚
 		geometryObj->SetShape(polygon);
 		geometryObj->SetTexture(texture);
 		geometryObj->SetPosition(asd::Vector2DF(0, 0));
 	}
 
-	// ace‚ªis‰Â”\‚©ƒ`ƒFƒbƒN‚·‚éB
+	// aceãŒé€²è¡Œå¯èƒ½ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// ace‚ğXV‚·‚éB
+		// aceã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// ace‚ğI—¹‚·‚éB
+	// aceã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }

@@ -8,9 +8,6 @@
     <ClCompile Include="..\Input\Keyboard.cpp">
       <Filter>Input</Filter>
     </ClCompile>
-    <ClCompile Include="..\Window\Empty.cpp">
-      <Filter>Window</Filter>
-    </ClCompile>
     <ClCompile Include="..\SampleGuide.cpp" />
     <ClCompile Include="..\Input\Joystick.cpp">
       <Filter>Input</Filter>
@@ -51,13 +48,25 @@
     <ClCompile Include="..\Collision\Collision2D.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
+    <ClCompile Include="..\Basic\Basic_Empty.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Geometry2D\Geometry2D_PolygonShape.cpp">
+      <Filter>Geometry2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Geometry2D\Geometry2D_RectangleShape.cpp">
+      <Filter>Geometry2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Geometry2D\Geometry2D_ArcShape.cpp">
+      <Filter>Geometry2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\LayerSystem\PostEffect.cpp">
+      <Filter>LayerSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">
       <UniqueIdentifier>{2d1f4f61-308e-4f81-adbf-7921ba8ee53e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Window">
-      <UniqueIdentifier>{35756864-34d6-43ea-ba04-ee2f1b1e0673}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sound">
       <UniqueIdentifier>{430850be-6470-4f64-ae8a-4edb291f8f18}</UniqueIdentifier>
@@ -76,6 +85,15 @@
     </Filter>
     <Filter Include="Collision">
       <UniqueIdentifier>{5007e88e-d3d2-4231-abf0-bdd4d0e412cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Basic">
+      <UniqueIdentifier>{e03b9aa5-d84c-498c-b100-deb887d89079}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Geometry2D">
+      <UniqueIdentifier>{c0ecfafe-9f6d-4bc4-aa55-4474100c38e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LayerSystem">
+      <UniqueIdentifier>{6f0fd4bb-6f5f-4606-a359-bcb55f60a8b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -11,7 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Basic\Basic_Empty.cpp" />
     <ClCompile Include="..\Collision\Collision2D.cpp" />
+    <ClCompile Include="..\Geometry2D\Geometry2D_ArcShape.cpp" />
+    <ClCompile Include="..\Geometry2D\Geometry2D_PolygonShape.cpp" />
+    <ClCompile Include="..\Geometry2D\Geometry2D_RectangleShape.cpp" />
     <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\GeometryObject2D.cpp" />
@@ -23,12 +27,12 @@
     <ClCompile Include="..\Input\Joystick.cpp" />
     <ClCompile Include="..\Input\Keyboard.cpp" />
     <ClCompile Include="..\Input\Mouse.cpp" />
+    <ClCompile Include="..\LayerSystem\PostEffect.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\Transition.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />
     <ClCompile Include="..\Sound\Sound.cpp" />
-    <ClCompile Include="..\Window\Empty.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />

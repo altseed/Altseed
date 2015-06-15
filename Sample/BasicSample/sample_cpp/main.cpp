@@ -17,7 +17,12 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
-extern void Empty();
+extern void Basic_Empty();
+
+extern void Geometry2D_ArcShape();
+extern void Geometry2D_PolygonShape();
+extern void Geometry2D_RectangleShape();
+
 extern void Keyboard();
 extern void Mouse();
 extern void Joystick();
@@ -47,7 +52,12 @@ int main(int argc, char** argv)
 
 	std::vector<SampleInfo> samples =
 	{
-		INFO(Empty),
+		INFO(Basic_Empty),
+
+		INFO(Geometry2D_ArcShape),
+		INFO(Geometry2D_PolygonShape),
+		INFO(Geometry2D_RectangleShape),
+
 		INFO(Keyboard),
 		INFO(Mouse),
 		INFO(Joystick),

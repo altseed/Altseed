@@ -1,24 +1,24 @@
-#include <Base.h>
+ï»¿#include <Base.h>
 
 /**
-@brief	ŒÊ‚ğ•\¦‚·‚éB
+@brief	å¼§ã‚’è¡¨ç¤ºã™ã‚‹ã€‚
 */
-void GeometryObject2D_ArcShape()
+void Geometry2D_ArcShape()
 {
-	// ace‚ğ‰Šú‰»‚·‚é
+	// aceã‚’åˆæœŸåŒ–ã™ã‚‹
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_ArcShape").c_str(), 640, 480, asd::EngineOption());
 
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 
-	//}Œ`•`‰æƒNƒ‰ƒX‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	//å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto geometryObj = std::make_shared<asd::GeometryObject2D>();
 
-	//}Œ`•`‰æƒNƒ‰ƒX‚ğƒŒƒCƒ„[‚É’Ç‰Á‚·‚éB
+	//å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã‚’ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::AddObject2D(geometryObj);
 
-	//ŒÊ‚ğ}Œ`•`‰æƒNƒ‰ƒX1‚É‚Ä•`‰æ‚·‚éB
+	//å¼§ã‚’å›³å½¢æç”»ã‚¯ãƒ©ã‚¹1ã«ã¦æç”»ã™ã‚‹ã€‚
 	{
-		//ŒÊ‚ÌŠOŒaA“àŒaA’¸“_”A’†SˆÊ’uAŠJn’¸“_”Ô†AI—¹’¸“_”Ô†‚ğw’èB
+		//å¼§ã®å¤–å¾„ã€å†…å¾„ã€é ‚ç‚¹æ•°ã€ä¸­å¿ƒä½ç½®ã€é–‹å§‹é ‚ç‚¹ç•ªå·ã€çµ‚äº†é ‚ç‚¹ç•ªå·ã‚’æŒ‡å®šã€‚
 		auto arc = std::make_shared<asd::ArcShape>();
 		arc->SetOuterDiameter(100);
 		arc->SetInnerDiameter(10);
@@ -27,20 +27,20 @@ void GeometryObject2D_ArcShape()
 		arc->SetStartingCorner(90);
 		arc->SetEndingCorner(5);
 
-		//ŒÊ‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚µA‡¬‚·‚éƒeƒNƒXƒ`ƒƒ‚àİ’èB
+		//å¼§ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦è¨­å®šã—ã€åˆæˆã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚‚è¨­å®šã€‚
 		geometryObj->SetShape(arc);
 		geometryObj->SetTexture(texture);
 		geometryObj->SetPosition(asd::Vector2DF(0, 0));
 	}
 
 
-	// ace‚ªis‰Â”\‚©ƒ`ƒFƒbƒN‚·‚éB
+	// aceãŒé€²è¡Œå¯èƒ½ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// ace‚ğXV‚·‚éB
+		// aceã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// ace‚ğI—¹‚·‚éB
+	// aceã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }

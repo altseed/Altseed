@@ -1,41 +1,41 @@
-#include <Base.h>
+ï»¿#include <Base.h>
 
 /**
-@brief	‹éŒ`‚ğ•\¦‚·‚éB
+@brief	çŸ©å½¢ã‚’è¡¨ç¤ºã™ã‚‹ã€‚
 */
-void GeometryObject2D_RectangleShape()
+void Geometry2D_RectangleShape()
 {
-	// ace‚ğ‰Šú‰»‚·‚é
+	// aceã‚’åˆæœŸåŒ–ã™ã‚‹
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_Rectangle").c_str(), 640, 480, asd::EngineOption());
 
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 
-	//}Œ`•`‰æƒNƒ‰ƒX‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	//å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto geometryObj = std::make_shared<asd::GeometryObject2D>();
 
-	//}Œ`•`‰æƒNƒ‰ƒX‚ğƒŒƒCƒ„[‚É’Ç‰Á‚·‚éB
+	//å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã‚’ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::AddObject2D(geometryObj);
 
-	//‹éŒ`‚ğ}Œ`•`‰æƒNƒ‰ƒX2‚É‚Ä•`‰æ‚·‚éB
+	//çŸ©å½¢ã‚’å›³å½¢æç”»ã‚¯ãƒ©ã‚¹2ã«ã¦æç”»ã™ã‚‹ã€‚
 	{
-		//‹éŒ`‚Ì•`‰æ”ÍˆÍAUV”ÍˆÍ‚ğw’èB
+		//çŸ©å½¢ã®æç”»ç¯„å›²ã€UVç¯„å›²ã‚’æŒ‡å®šã€‚
 		auto rect = std::make_shared<asd::RectangleShape>();
 		rect->SetDrawingArea(asd::RectF(10, 210, 300, 200));
 		rect->SetUV(asd::RectF(0, 0, 0.5f, 0.5f));
 
-		//‹éŒ`‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚µA‡¬‚·‚éƒeƒNƒXƒ`ƒƒ‚àİ’èB
+		//çŸ©å½¢ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦è¨­å®šã—ã€åˆæˆã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚‚è¨­å®šã€‚
 		geometryObj->SetShape(rect);
 		geometryObj->SetTexture(texture);
 		geometryObj->SetPosition(asd::Vector2DF(0, 0));
 	}
 
-	// ace‚ªis‰Â”\‚©ƒ`ƒFƒbƒN‚·‚éB
+	// aceãŒé€²è¡Œå¯èƒ½ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// ace‚ğXV‚·‚éB
+		// aceã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// ace‚ğI—¹‚·‚éB
+	// aceã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }
