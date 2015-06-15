@@ -60,6 +60,9 @@
     <ClCompile Include="..\Geometry2D\Geometry2D_ArcShape.cpp">
       <Filter>Geometry2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\LayerSystem\PostEffect.cpp">
+      <Filter>LayerSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Input">
@@ -88,6 +91,9 @@
     </Filter>
     <Filter Include="Geometry2D">
       <UniqueIdentifier>{c0ecfafe-9f6d-4bc4-aa55-4474100c38e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LayerSystem">
+      <UniqueIdentifier>{6f0fd4bb-6f5f-4606-a359-bcb55f60a8b0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
