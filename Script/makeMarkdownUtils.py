@@ -63,6 +63,10 @@ def include_basic_sample(ls,relCodePath,ssDir,mode=''):
                 #print(relCodePath + ' : ' + ssDir+os.path.basename(ss_file) + ' : ' + rel_ss_file)
 
             def includeFile(targetPath):
+                if targetPath==None:
+                    print('include not found : ' + sampleName )
+                    return
+
                 print('include : ' + targetPath)
 
                 ext = os.path.splitext(targetPath)[1]
