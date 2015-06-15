@@ -52,7 +52,7 @@ class MapObject2D_Camera : ISample
             asd.Engine.AddObject2D(camera);
         }
 
-        // Altseedが進行可能かチェックする。
+        // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
         {
             //カメラを移動させる
@@ -67,7 +67,7 @@ class MapObject2D_Camera : ISample
             asd.Engine.Update();
         }
 
-        // Altseedを終了する。
+        // Altseedの終了処理をする。
         asd.Engine.Terminate();
     }
 }

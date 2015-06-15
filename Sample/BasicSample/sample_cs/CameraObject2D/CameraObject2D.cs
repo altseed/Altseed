@@ -46,7 +46,7 @@ public class CameraObject2D : ISample
             asd.Engine.AddObject2D(frame);
         }
 
-        // Altseedが進行可能かチェックする。
+        // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
         {
             //マウスポインタの位置を取得する。
@@ -65,7 +65,7 @@ public class CameraObject2D : ISample
             asd.Engine.Update();
         }
 
-        // Altseedを終了する。
+        // Altseedの終了処理をする。
         asd.Engine.Terminate();
     }
 }

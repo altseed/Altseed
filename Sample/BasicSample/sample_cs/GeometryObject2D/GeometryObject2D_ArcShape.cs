@@ -48,7 +48,7 @@ class GeometryObject2D_ArcShape : ISample
 			asd.Engine.Update();
 		}
 
-		// Altseedを終了する。
+		// Altseedの終了処理をする。
 		asd.Engine.Terminate();
 	}
 }
