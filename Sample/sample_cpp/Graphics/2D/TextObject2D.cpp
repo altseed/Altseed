@@ -9,6 +9,7 @@ void TextObject2D()
 	// ace‚ð‰Šú‰»‚·‚é
 	asd::Engine::Initialize(asd::ToAString("TextObject2D").c_str(), 640, 480, asd::EngineOption());
 
+
 	{
 		// ƒtƒHƒ“ƒg‚ð¶¬‚·‚é
 		auto smallFont = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/small.aff").c_str());

@@ -3,6 +3,10 @@
 /**
 @brief	エフェクトを表示する。
 */
+
+const int SOURCE_SIZE = 50;
+const int DESTINATION_SIZE = 100;
+
 void CameraObject2D()
 {
 	// aceを初期化する。
@@ -20,18 +24,10 @@ void CameraObject2D()
 		asd::Engine::AddObject2D(obj0);
 	}
 
-	//一つ目の画面全体を写すカメラを設定する。(オブジェクトをそのまま描画する。)
-	{
-		auto camera1 = std::make_shared<asd::CameraObject2D>();
-		camera1->SetSrc(asd::RectI(0, 0, 640, 480));
-		camera1->SetDst(asd::RectI(0, 0, 640, 480));
-		asd::Engine::AddObject2D(camera1);
-	}
-
 	//二つ目のマウスポインタの周辺を拡大して表示するカメラを設定する。
-	auto camera2 = std::make_shared<asd::CameraObject2D>();
+	auto camera = std::make_shared<asd::CameraObject2D>();
 
-	asd::Engine::AddObject2D(camera2);
+	asd::Engine::AddObject2D(camera);
 
 	//フレーム用テクスチャ画像を準備する。
 	auto frame = std::make_shared<asd::TextureObject2D>();
@@ -50,10 +46,10 @@ void CameraObject2D()
 		auto pos = asd::Engine::GetMouse()->GetPosition();
 
 		//拡大用カメラの描画元を指定する。
-		camera2->SetSrc(asd::RectI(pos.X - 25, pos.Y - 25, 50, 50));
+		camera->SetSrc(asd::RectI(pos.X - SOURCE_SIZE / 2, pos.Y - SOURCE_SIZE / 2, SOURCE_SIZE, SOURCE_SIZE));
 
 		//ポインタを中心に100x100の拡大画像を表示する。
-		camera2->SetDst(asd::RectI(pos.X - 50, pos.Y - 50, 100, 100));
+		camera->SetDst(asd::RectI(pos.X - DESTINATION_SIZE / 2, pos.Y - DESTINATION_SIZE / 2, DESTINATION_SIZE, DESTINATION_SIZE));
 
 		//フレーム画像の描画中心をマウスポインタの位置に合わせる。
 		frame->SetPosition(pos);

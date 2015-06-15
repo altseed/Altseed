@@ -16,12 +16,27 @@ extern void Mouse();
 extern void Joystick();
 extern void Sound();
 
-extern void GeometryObject2D();
+extern void GeometryObject2D_ArcShape();
+extern void GeometryObject2D_PolygonShape();
+extern void GeometryObject2D_RectangleShape();
+
 extern void EffectObject2D();
-extern void TextObject2D();
-extern void TextureObject2D();
-extern void MapObject2D();
+
+extern void TextObject2D_Default();
+extern void TextObject2D_Rotate();
+extern void TextObject2D_Filtered();
+
+extern void TextureObject2D_Default();
+extern void TextureObject2D_Transform();
+extern void TextureObject2D_Turn();
+extern void TextureObject2D_Src();
+
+extern void MapObject2D_Default();
+extern void MapObject2D_Camera();
+
+
 extern void CameraObject2D();
+
 extern void ImagePackage();
 
 extern void Object2DComponent();
@@ -52,10 +67,24 @@ int main(int argc, char** argv)
 
 		INFO(CameraObject2D),
 		INFO(EffectObject2D),
-		INFO(TextObject2D),
-		INFO(TextureObject2D),
-		INFO(MapObject2D),
-		INFO(GeometryObject2D),
+
+		INFO(TextObject2D_Default),
+		INFO(TextObject2D_Rotate),
+		INFO(TextObject2D_Filtered),
+
+
+		INFO(TextureObject2D_Default),
+		INFO(TextureObject2D_Transform),
+		INFO(TextureObject2D_Turn),
+		INFO(TextureObject2D_Src),
+
+		INFO(MapObject2D_Default),
+		INFO(MapObject2D_Camera),
+
+		INFO(GeometryObject2D_ArcShape),
+		INFO(GeometryObject2D_PolygonShape),
+		INFO(GeometryObject2D_RectangleShape),
+
 		INFO(ImagePackage),
 
 		INFO(PostEffect),
