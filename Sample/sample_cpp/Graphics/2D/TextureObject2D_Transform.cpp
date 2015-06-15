@@ -32,7 +32,7 @@ void TextureObject2D_Transform()
 	// aceが進行可能かチェックする。
 	while (asd::Engine::DoEvents())
 	{
-		//回転角を取得して、0.5度回転させる。
+		//オブジェクトを0.5度回転させる。
 		float angle = obj3->GetAngle();
 		angle += 0.5f;
 		obj3->SetAngle(angle);

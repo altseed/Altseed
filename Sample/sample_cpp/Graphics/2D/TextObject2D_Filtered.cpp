@@ -13,7 +13,7 @@ void TextObject2D_Filtered()
 		auto edgeFont = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/edge.aff").c_str());
 		auto edgeObj = std::make_shared<asd::TextObject2D>();
 		edgeObj->SetFont(edgeFont);
-		edgeObj->SetPosition(asd::Vector2DF(100, 300));
+		edgeObj->SetPosition(asd::Vector2DF(100, 100));
 
 		// 30“x‰ñ“]‚³‚¹‚Ä•`‰æ‚·‚éB
 		edgeObj->SetAngle(30);
