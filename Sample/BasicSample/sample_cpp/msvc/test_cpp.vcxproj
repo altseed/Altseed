@@ -14,9 +14,9 @@
     <ClCompile Include="..\Basic\Basic_Empty.cpp" />
     <ClCompile Include="..\CameraObject2D\CameraObject2D.cpp" />
     <ClCompile Include="..\Collision\Collision2D.cpp" />
-    <ClCompile Include="..\GeometryObject2D\Geometry2D_ArcShape.cpp" />
-    <ClCompile Include="..\GeometryObject2D\Geometry2D_PolygonShape.cpp" />
-    <ClCompile Include="..\GeometryObject2D\Geometry2D_RectangleShape.cpp" />
+    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_ArcShape.cpp" />
+    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_PolygonShape.cpp" />
+    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_RectangleShape.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\ImagePackage.cpp" />
     <ClCompile Include="..\Input\Joystick.cpp" />
