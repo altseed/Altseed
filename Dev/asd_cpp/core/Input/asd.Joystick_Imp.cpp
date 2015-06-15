@@ -81,6 +81,6 @@ namespace asd{
 
 	float Joystick_Imp::GetAxisState(int at)
 	{
-		return m_currentButtonHit[at];
+		return m_currentAxes[at];
 	}
 };
