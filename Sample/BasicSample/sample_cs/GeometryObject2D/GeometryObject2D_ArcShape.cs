@@ -44,11 +44,11 @@ class GeometryObject2D_ArcShape : ISample
         // Altseedを更新する。
         while (asd.Engine.DoEvents())
 		{
-			// aceを更新する。
+			// Altseedを更新する。
 			asd.Engine.Update();
 		}
 
-		// aceを終了する。
+		// Altseedの終了処理をする。
 		asd.Engine.Terminate();
 	}
 }

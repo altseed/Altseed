@@ -35,14 +35,14 @@ class GeometryObject2D_RectangleShape : ISample
 			geometryObj.Position = new asd.Vector2DF(0, 0);
 		}
 
-		// aceが進行可能かチェックする。
+		// Altseedのウインドウが閉じられていないか確認する。
 		while (asd.Engine.DoEvents())
 		{
 			// Altseedを更新する。
 			asd.Engine.Update();
 		}
 
-		// aceを終了する。
+		// Altseedの終了処理をする。
 		asd.Engine.Terminate();
 	}
 }

@@ -1,38 +1,133 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="..\Basic\Basic_Empty.cpp" />
-    <ClCompile Include="..\CameraObject2D\CameraObject2D.cpp" />
-    <ClCompile Include="..\Collision\Collision2D.cpp" />
-    <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
-    <ClCompile Include="..\Graphics\2D\ImagePackage.cpp" />
-    <ClCompile Include="..\Input\Joystick.cpp" />
-    <ClCompile Include="..\Input\Keyboard.cpp" />
-    <ClCompile Include="..\Input\Mouse.cpp" />
     <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\MapObject2D\MapObject2D_Camera.cpp" />
-    <ClCompile Include="..\MapObject2D\MapObject2D_Simple.cpp" />
-    <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp" />
-    <ClCompile Include="..\ObjectSystem\Transition.cpp" />
-    <ClCompile Include="..\PostEffect\PostEffect_GaussianBlur.cpp" />
-    <ClCompile Include="..\PostEffect\PostEffect_GrayScale.cpp" />
-    <ClCompile Include="..\PostEffect\PostEffect_LightBloom.cpp" />
-    <ClCompile Include="..\PostEffect\PostEffect_Sepia.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />
-    <ClCompile Include="..\Sound\Sound.cpp" />
-    <ClCompile Include="..\TextObject2D\TextObject2D_Filtered.cpp" />
-    <ClCompile Include="..\TextObject2D\TextObject2D_Rotate.cpp" />
-    <ClCompile Include="..\TextObject2D\TextObject2D_Simple.cpp" />
-    <ClCompile Include="..\TextureObject2D\TextureObject2D_Simple.cpp" />
-    <ClCompile Include="..\TextureObject2D\TextureObject2D_Src.cpp" />
-    <ClCompile Include="..\TextureObject2D\TextureObject2D_Transform.cpp" />
-    <ClCompile Include="..\TextureObject2D\TextureObject2D_Turn.cpp" />
-    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_ArcShape.cpp" />
-    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_PolygonShape.cpp" />
-    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_RectangleShape.cpp" />
+    <ClCompile Include="..\Basic\Basic_Empty.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_RectangleShape.cpp">
+      <Filter>GeometryObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_PolygonShape.cpp">
+      <Filter>GeometryObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_ArcShape.cpp">
+      <Filter>GeometryObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Input\Keyboard.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Input\Joystick.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Input\Mouse.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MapObject2D\MapObject2D_Simple.cpp">
+      <Filter>MapObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MapObject2D\MapObject2D_Camera.cpp">
+      <Filter>MapObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\PostEffect\PostEffect_GaussianBlur.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\PostEffect\PostEffect_GrayScale.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\PostEffect\PostEffect_LightBloom.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\PostEffect\PostEffect_Sepia.cpp">
+      <Filter>PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextObject2D\TextObject2D_Filtered.cpp">
+      <Filter>TextObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextObject2D\TextObject2D_Rotate.cpp">
+      <Filter>TextObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextObject2D\TextObject2D_Simple.cpp">
+      <Filter>TextObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Simple.cpp">
+      <Filter>TextureObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Src.cpp">
+      <Filter>TextureObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Transform.cpp">
+      <Filter>TextureObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Turn.cpp">
+      <Filter>TextureObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ObjectSystem\Transition.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CameraObject2D\CameraObject2D.cpp">
+      <Filter>CameraObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Collision\Collision2D.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Sound\Sound.cpp">
+      <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\2D\ImagePackage.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
     <ClInclude Include="..\SampleGuide.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Basic">
+      <UniqueIdentifier>{b2f3d6d8-7bb8-4f33-9b4e-33f3af9a98c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeometryObject2D">
+      <UniqueIdentifier>{b388ffce-9424-4e2f-a6ed-a373349bcf2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{d5944120-73ae-4dbf-9517-e0dfe5ff0ee9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapObject2D">
+      <UniqueIdentifier>{2795a35f-8907-4370-9701-3f68a380d3e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="PostEffect">
+      <UniqueIdentifier>{091077bb-1323-4249-a00a-2ba442be22b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TextObject2D">
+      <UniqueIdentifier>{dfe041de-7791-4fee-8a4a-3a8275b4072c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TextureObject2D">
+      <UniqueIdentifier>{f6a26967-5aeb-4665-a586-f1f06a66f99a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem">
+      <UniqueIdentifier>{abc6138d-9bcf-42a5-975e-a7fccc3b18eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CameraObject2D">
+      <UniqueIdentifier>{f52ae619-8dd4-45e7-85e2-7cf29400b1af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Collision">
+      <UniqueIdentifier>{d01c1f5a-ced4-4a71-ad1a-609be2db3ab1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{0b236e60-301b-413d-b871-5cbdcb8dbd64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Graphics\2D">
+      <UniqueIdentifier>{c91bae45-e61a-4887-b973-f0426854419b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Sound">
+      <UniqueIdentifier>{54ea716b-ad5b-4a27-8861-b56e373fc18e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

@@ -11,7 +11,7 @@ class MapObject2D_Camera : ISample
 {
     public void Run()
     {
-        // aceを初期化する
+        // Altseedを初期化する。
         asd.Engine.Initialize("MapObject2D_Camera", 640, 480, new asd.EngineOption());
 
         //カメラを設定する。
@@ -52,7 +52,7 @@ class MapObject2D_Camera : ISample
             asd.Engine.AddObject2D(camera);
         }
 
-        // aceが進行可能かチェックする。
+        // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
         {
             //カメラを移動させる
@@ -63,11 +63,11 @@ class MapObject2D_Camera : ISample
             pos.Y %= 1000;
             camera.Src = pos;
 
-            // aceを更新する。
+            // Altseedを更新する。
             asd.Engine.Update();
         }
 
-        // aceを終了する。
+        // Altseedの終了処理をする。
         asd.Engine.Terminate();
     }
 }

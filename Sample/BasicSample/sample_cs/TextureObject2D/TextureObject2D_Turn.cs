@@ -11,7 +11,7 @@ class TextureObject2D_Turn : ISample
 {
     public void Run()
     {
-        // aceを初期化する
+        // Altseedを初期化する。
         asd.Engine.Initialize("TextureObject2D_Turn", 640, 480, new asd.EngineOption());
 
         {
@@ -29,14 +29,14 @@ class TextureObject2D_Turn : ISample
             asd.Engine.AddObject2D(obj1);
         }
 
-        // aceが進行可能かチェックする。
+        // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
         {
-            // aceを更新する。
+            // Altseedを更新する。
             asd.Engine.Update();
         }
 
-        // aceを終了する。
+        // Altseedの終了処理をする。
         asd.Engine.Terminate();
     }
 }

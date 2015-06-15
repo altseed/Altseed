@@ -11,7 +11,7 @@ class TextureObject2D_Src : ISample
 {
     public void Run()
     {
-        // aceを初期化する
+        // Altseedを初期化する。
         asd.Engine.Initialize("TextureObject2D_Src", 640, 480, new asd.EngineOption());
 
         // 実際に切り出すテクスチャを描画するオブジェクトを設定する。
@@ -43,7 +43,7 @@ class TextureObject2D_Src : ISample
 
         int count = 0;
         int index = 0;
-        // aceが進行可能かチェックする。
+        // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
         {
 
@@ -59,11 +59,11 @@ class TextureObject2D_Src : ISample
             }
             ++count;
 
-            // aceを更新する。
+            // Altseedを更新する。
             asd.Engine.Update();
         }
 
-        // aceを終了する。
+        // Altseedの終了処理をする。
         asd.Engine.Terminate();
     }
 }

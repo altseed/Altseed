@@ -11,7 +11,7 @@ class TextObject2D_Rotate : ISample
 {
     public void Run()
     {
-        // aceを初期化する
+        // Altseedを初期化する。
         asd.Engine.Initialize("TextObject2D_Rotate", 640, 480, new asd.EngineOption());
 
         {
@@ -25,14 +25,14 @@ class TextObject2D_Rotate : ISample
             edgeObj.Text = "文字列サンプル2";
             asd.Engine.AddObject2D(edgeObj);
         }
-        // aceが進行可能かチェックする。
+        // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
         {
-            // aceを更新する。
+            // Altseedを更新する。
             asd.Engine.Update();
         }
 
-        // aceを終了する。
+        // Altseedの終了処理をする。
         asd.Engine.Terminate();
     }
 }
