@@ -2,7 +2,7 @@
 /// <summary>
 /// 空のウインドウを表示するサンプルです。
 /// </summary>
-class Empty : ISample
+class Basic_Empty : ISample
 {
 	public void Run()
 	{

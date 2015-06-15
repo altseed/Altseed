@@ -2,7 +2,7 @@
 #include <Altseed.h>
 
 // 空のウインドウを表示するサンプルです。
-void Empty()
+void Basic_Empty()
 {
 	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("Empty").c_str(), 640, 480, asd::EngineOption());

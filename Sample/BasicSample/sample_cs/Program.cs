@@ -13,7 +13,7 @@ namespace sample_cs
 		{
 			ISample[] samples = 
 			{
-				new Empty(),
+				new Basic_Empty(),
 
                 new Keyboard(),
                 new Mouse(),
