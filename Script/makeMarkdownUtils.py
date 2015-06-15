@@ -46,7 +46,7 @@ def include_basic_sample(ls,relCodePath,ssDir,mode=''):
             # コードの検索
             def getFile(ext):
                 files_ = [f for f in files if os.path.splitext(f)[1]==ext]
-                if len(files) > 0:
+                if len(files_) > 0:
                     return files_[0]
                 return None
 
@@ -63,6 +63,10 @@ def include_basic_sample(ls,relCodePath,ssDir,mode=''):
                 #print(relCodePath + ' : ' + ssDir+os.path.basename(ss_file) + ' : ' + rel_ss_file)
 
             def includeFile(targetPath):
+                if targetPath==None:
+                    print('include not found : ' + sampleName )
+                    return
+
                 print('include : ' + targetPath)
 
                 ext = os.path.splitext(targetPath)[1]

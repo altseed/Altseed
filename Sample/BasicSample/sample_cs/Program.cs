@@ -14,6 +14,12 @@ namespace sample_cs
 			ISample[] samples = 
 			{
 				new Basic_Empty(),
+
+                new PostEffect_GrayScale(),
+                new PostEffect_Sepia(),
+                new PostEffect_GaussianBlur(),
+                new PostEffect_LightBloom(),
+
                 new Keyboard(),
                 new Mouse(),
                 new Joystick(),
@@ -45,7 +51,7 @@ namespace sample_cs
 
                 new ImagePackage(),
 
-                new PostEffect(),
+				new ImagePackage(),
                 new Collision2D(),
             };
 
