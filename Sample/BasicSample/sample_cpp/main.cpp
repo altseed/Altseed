@@ -17,7 +17,8 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
-extern void Empty();
+extern void Basic_Empty();
+
 extern void Keyboard();
 extern void Mouse();
 extern void Joystick();
@@ -47,7 +48,7 @@ int main(int argc, char** argv)
 
 	std::vector<SampleInfo> samples =
 	{
-		INFO(Empty),
+		INFO(Basic_Empty),
 		INFO(Keyboard),
 		INFO(Mouse),
 		INFO(Joystick),
