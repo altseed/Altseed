@@ -24,6 +24,23 @@ namespace sample_cs.Graphics._2D
             //図形描画クラスをレイヤーに追加する。
             asd.Engine.AddObject2D(geometryObj);
 
+            //弧を図形描画クラス1にて描画する。
+            {
+                //弧の外径、内径、頂点数、中心位置、開始頂点番号、終了頂点番号を指定。
+                var arc = new asd.ArcShape();
+                arc.OuterDiameter = 100;
+                arc.InnerDiameter = 10;
+                arc.NumberOfCorners = 96;
+                arc.Position = new asd.Vector2DF(300, 100);
+                arc.StartingCorner = 90;
+                arc.EndingCorner = 5;
+
+                //弧を描画する図形として設定し、合成するテクスチャも設定。
+                geometryObj.Shape = arc;
+                geometryObj.Texture = texture;
+                geometryObj.Position = new asd.Vector2DF(0, 0);
+            }
+
             // aceが進行可能かチェックする。
             while (asd.Engine.DoEvents())
             {

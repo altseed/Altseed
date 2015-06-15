@@ -101,7 +101,7 @@ namespace asd
 
 	void CoreGeometryObject2D_Imp::Draw(Renderer2D* renderer)
 	{
-		if (!m_objectInfo.GetIsDrawn())
+		if (!m_objectInfo.GetIsDrawn() || m_shape == nullptr)
 		{
 			return;
 		}
