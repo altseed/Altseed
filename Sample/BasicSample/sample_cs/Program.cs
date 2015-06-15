@@ -14,11 +14,6 @@ namespace sample_cs
 			ISample[] samples = 
 			{
 				new Basic_Empty(),
-
-                new Geometry2D_ArcShape(),
-                new Geometry2D_PolygonShape(),
-                new Geometry2D_RectangleShape(),
-
                 new Keyboard(),
                 new Mouse(),
                 new Joystick(),
@@ -30,11 +25,25 @@ namespace sample_cs
 
                 new CameraObject2D(),
                 new EffectObject2D(),
-                new TextObject2D(),
-                new TextureObject2D(),
-                new MapObject2D(),
-				new ImagePackage(),
-                new GeometryObject2D(),
+
+                new TextObject2D_Simple(),
+                new TextObject2D_Rotate(),
+                new TextObject2D_Filtered(),
+
+                new TextureObject2D_Simple(),
+                new TextureObject2D_Transform(),
+                new TextureObject2D_Turn(),
+                new TextureObject2D_Src(),
+
+                new MapObject2D_Simple(),
+                new MapObject2D_Camera(),
+
+                new GeometryObject2D_ArcShape(),
+                new GeometryObject2D_PolygonShape(),
+                new GeometryObject2D_RectangleShape(),
+
+
+                new ImagePackage(),
 
                 new PostEffect(),
                 new Collision2D(),

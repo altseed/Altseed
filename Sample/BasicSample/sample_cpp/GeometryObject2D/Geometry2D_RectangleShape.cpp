@@ -1,9 +1,9 @@
 ﻿#include <Base.h>
 
 /**
-@brief	矩形を表示する。
+@brief	矩形を表示するサンプル。
 */
-void Geometry2D_RectangleShape()
+void GeometryObject2D_RectangleShape()
 {
 	// aceを初期化する
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_Rectangle").c_str(), 640, 480, asd::EngineOption());

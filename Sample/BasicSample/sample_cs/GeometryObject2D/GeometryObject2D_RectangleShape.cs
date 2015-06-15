@@ -5,14 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 
 /// <summary>
-/// 図形を表示する。
+/// 矩形を表示するサンプル。
 /// </summary>
-class Geometry2D_PolygonShape : ISample
+class GeometryObject2D_RectangleShape : ISample
 {
 	public void Run()
 	{
 		// Altseedを初期化する
-		asd.Engine.Initialize("Geometry2D_PolygonShape", 640, 480, new asd.EngineOption());
+		asd.Engine.Initialize("Geometry2D_RectangleShape", 640, 480, new asd.EngineOption());
 
 		var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
 
@@ -22,22 +22,15 @@ class Geometry2D_PolygonShape : ISample
 		//図形描画クラスをレイヤーに追加する。
 		asd.Engine.AddObject2D(geometryObj);
 
-		//多角形を図形描画クラスにて描画する。
+		//矩形を図形描画クラス2にて描画する。
 		{
+			//矩形の描画範囲、UV範囲を指定。
+			var rect = new asd.RectangleShape();
+			rect.DrawingArea = new asd.RectF(10, 210, 300, 200);
+			rect.UV = new asd.RectF(0, 0, 0.5f, 0.5f);
 
-			var polygon = new asd.PolygonShape();
-			//多角形を構成する頂点を追加していく。（星形になるようにする。）
-			for (int i = 0; i < 10; ++i)
-			{
-				asd.Vector2DF vec = new asd.Vector2DF(1, 0);
-				vec.Degree = i * 36;
-				vec.Length = (i % 2 == 0) ? 100 : 55;
-				polygon.AddVertex(vec + new asd.Vector2DF(500, 250));
-
-			}
-
-			//多角形を描画する図形として設定し、合成するテクスチャも設定。
-			geometryObj.Shape = polygon;
+			//矩形を描画する図形として設定し、合成するテクスチャも設定。
+			geometryObj.Shape = rect;
 			geometryObj.Texture = texture;
 			geometryObj.Position = new asd.Vector2DF(0, 0);
 		}
@@ -47,7 +40,7 @@ class Geometry2D_PolygonShape : ISample
 		{
 			// Altseedを更新する。
 			asd.Engine.Update();
-			Recorder.TakeScreenShot("Geometry2D_PolygonShape", 5);
+			Recorder.TakeScreenShot("Geometry2D_RectangleShape", 5);
 		}
 
 		// aceを終了する。

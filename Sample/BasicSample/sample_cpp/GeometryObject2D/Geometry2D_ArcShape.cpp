@@ -1,9 +1,9 @@
 ﻿#include <Base.h>
 
 /**
-@brief	弧を表示する。
+@brief	弧を表示するサンプル。
 */
-void Geometry2D_ArcShape()
+void GeometryObject2D_ArcShape()
 {
 	// aceを初期化する
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_ArcShape").c_str(), 640, 480, asd::EngineOption());

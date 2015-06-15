@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 /// <summary>
-/// 図形を表示する。
+/// 弧を表示するサンプル。
 /// </summary>
-class Geometry2D_ArcShape : ISample
+class GeometryObject2D_ArcShape : ISample
 {
 	public void Run()
 	{

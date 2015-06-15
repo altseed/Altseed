@@ -12,27 +12,32 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Basic\Basic_Empty.cpp" />
+    <ClCompile Include="..\CameraObject2D\CameraObject2D.cpp" />
     <ClCompile Include="..\Collision\Collision2D.cpp" />
-    <ClCompile Include="..\Geometry2D\Geometry2D_ArcShape.cpp" />
-    <ClCompile Include="..\Geometry2D\Geometry2D_PolygonShape.cpp" />
-    <ClCompile Include="..\Geometry2D\Geometry2D_RectangleShape.cpp" />
-    <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp" />
+    <ClCompile Include="..\GeometryObject2D\Geometry2D_ArcShape.cpp" />
+    <ClCompile Include="..\GeometryObject2D\Geometry2D_PolygonShape.cpp" />
+    <ClCompile Include="..\GeometryObject2D\Geometry2D_RectangleShape.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
-    <ClCompile Include="..\Graphics\2D\GeometryObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\ImagePackage.cpp" />
-    <ClCompile Include="..\Graphics\2D\MapObject2D.cpp" />
-    <ClCompile Include="..\Graphics\2D\TextObject2D.cpp" />
-    <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp" />
     <ClCompile Include="..\Graphics\PostEffect\PostEffect.cpp" />
     <ClCompile Include="..\Input\Joystick.cpp" />
     <ClCompile Include="..\Input\Keyboard.cpp" />
     <ClCompile Include="..\Input\Mouse.cpp" />
     <ClCompile Include="..\LayerSystem\PostEffect.cpp" />
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\MapObject2D\MapObject2D_Camera.cpp" />
+    <ClCompile Include="..\MapObject2D\MapObject2D_Simple.cpp" />
     <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\Transition.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />
     <ClCompile Include="..\Sound\Sound.cpp" />
+    <ClCompile Include="..\TextObject2D\TextObject2D_Filtered.cpp" />
+    <ClCompile Include="..\TextObject2D\TextObject2D_Rotate.cpp" />
+    <ClCompile Include="..\TextObject2D\TextObject2D_Simple.cpp" />
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Simple.cpp" />
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Src.cpp" />
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Transform.cpp" />
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Turn.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />

@@ -24,25 +24,10 @@
     <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\2D\TextObject2D.cpp">
-      <Filter>Graphics\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Graphics\2D\TextureObject2D.cpp">
-      <Filter>Graphics\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Graphics\2D\MapObject2D.cpp">
-      <Filter>Graphics\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp">
-      <Filter>Graphics\2D</Filter>
-    </ClCompile>
     <ClCompile Include="..\ObjectSystem\Transition.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\Graphics\2D\ImagePackage.cpp">
-      <Filter>Graphics\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Graphics\2D\GeometryObject2D.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
     <ClCompile Include="..\Collision\Collision2D.cpp">
@@ -51,17 +36,47 @@
     <ClCompile Include="..\Basic\Basic_Empty.cpp">
       <Filter>Basic</Filter>
     </ClCompile>
-    <ClCompile Include="..\Geometry2D\Geometry2D_PolygonShape.cpp">
-      <Filter>Geometry2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Geometry2D\Geometry2D_RectangleShape.cpp">
-      <Filter>Geometry2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Geometry2D\Geometry2D_ArcShape.cpp">
-      <Filter>Geometry2D</Filter>
-    </ClCompile>
     <ClCompile Include="..\LayerSystem\PostEffect.cpp">
       <Filter>LayerSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Simple.cpp">
+      <Filter>TextureObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Src.cpp">
+      <Filter>TextureObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Transform.cpp">
+      <Filter>TextureObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Turn.cpp">
+      <Filter>TextureObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GeometryObject2D\Geometry2D_ArcShape.cpp">
+      <Filter>GeometryObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GeometryObject2D\Geometry2D_PolygonShape.cpp">
+      <Filter>GeometryObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GeometryObject2D\Geometry2D_RectangleShape.cpp">
+      <Filter>GeometryObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextObject2D\TextObject2D_Filtered.cpp">
+      <Filter>TextObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextObject2D\TextObject2D_Rotate.cpp">
+      <Filter>TextObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextObject2D\TextObject2D_Simple.cpp">
+      <Filter>TextObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CameraObject2D\CameraObject2D.cpp">
+      <Filter>CameraObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MapObject2D\MapObject2D_Camera.cpp">
+      <Filter>MapObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MapObject2D\MapObject2D_Simple.cpp">
+      <Filter>MapObject2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -89,11 +104,23 @@
     <Filter Include="Basic">
       <UniqueIdentifier>{e03b9aa5-d84c-498c-b100-deb887d89079}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Geometry2D">
-      <UniqueIdentifier>{c0ecfafe-9f6d-4bc4-aa55-4474100c38e6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="LayerSystem">
       <UniqueIdentifier>{6f0fd4bb-6f5f-4606-a359-bcb55f60a8b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TextureObject2D">
+      <UniqueIdentifier>{12b39131-7c58-4fed-9afe-ec1c70c40ea5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GeometryObject2D">
+      <UniqueIdentifier>{c0ecfafe-9f6d-4bc4-aa55-4474100c38e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TextObject2D">
+      <UniqueIdentifier>{55de1ed6-1f32-4587-8730-7e326a4de34c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CameraObject2D">
+      <UniqueIdentifier>{a51c96ca-2cbf-47cc-bd5e-7bde782de827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapObject2D">
+      <UniqueIdentifier>{ca12ca80-fe21-4b66-a8ec-663564388c38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

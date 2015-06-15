@@ -1,9 +1,9 @@
 ﻿#include <Base.h>
 
 /**
-@brief	多角形を表示する。
+@brief	多角形を表示するサンプル。
 */
-void Geometry2D_PolygonShape()
+void GeometryObject2D_PolygonShape()
 {
 	// aceを初期化する
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_PolygonShape").c_str(), 640, 480, asd::EngineOption());
