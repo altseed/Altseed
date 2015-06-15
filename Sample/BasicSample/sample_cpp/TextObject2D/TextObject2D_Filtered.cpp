@@ -25,7 +25,7 @@ void TextObject2D_Filtered()
 		asd::Engine::AddObject2D(edgeObj);
 	}
 
-	// Altseedが進行可能かチェックする。
+	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
 		// Altseedを更新する。

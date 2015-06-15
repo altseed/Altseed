@@ -36,7 +36,7 @@ void TextureObject2D_Src()
 
 	int count = 0;
 	int index = 0;
-	// Altseedが進行可能かチェックする。
+	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
 

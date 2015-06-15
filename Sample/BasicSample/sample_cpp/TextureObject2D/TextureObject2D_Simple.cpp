@@ -24,7 +24,7 @@ void TextureObject2D_Simple()
 	// オブジェクトのインスタンスをエンジンに追加する。
 	asd::Engine::AddObject2D(obj);
 
-	// Altseedが進行可能かチェックする。
+	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
 		// Altseedを更新する。

@@ -38,7 +38,7 @@ void MapObject2D_Simple()
 		asd::Engine::AddObject2D(mapObject);
 	}
 
-	// Altseedが進行可能かチェックする。
+	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
 		// Altseedを更新する。

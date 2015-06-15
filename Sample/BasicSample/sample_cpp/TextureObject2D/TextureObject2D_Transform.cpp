@@ -29,7 +29,7 @@ void TextureObject2D_Transform()
 		asd::Engine::AddObject2D(obj);
 	}
 
-	// Altseedが進行可能かチェックする。
+	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
 		//オブジェクトを0.5度回転させる。
