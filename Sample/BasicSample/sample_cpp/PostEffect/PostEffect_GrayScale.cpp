@@ -1,34 +1,34 @@
-#include <Base.h>
+ï»¿#include <Base.h>
 
 /**
-	@brief	ƒŒƒCƒ„[‚ÉƒOƒŒ[ƒXƒP[ƒ‹‚Ìƒ|ƒXƒgƒGƒtƒFƒNƒg‚ğ“K—p‚·‚éB
+	@brief	ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«ã®ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’é©ç”¨ã™ã‚‹ã€‚
 */
 void PostEffect_GrayScale()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚é
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹
 	asd::Engine::Initialize(asd::ToAString("PostEffect_GrayScale").c_str(), 640, 480, asd::EngineOption());
 
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Object.png").c_str());
 
-	// ƒV[ƒ“‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// ã‚·ãƒ¼ãƒ³ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto scene = std::make_shared<asd::Scene>();
 
-	// ƒŒƒCƒ„[‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto layer = std::make_shared<asd::Layer2D>();
 
-	// ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto obj = std::make_shared<asd::TextureObject2D>();
 
-	// ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ÆƒeƒNƒXƒ`ƒƒ‚ğİ’èB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¨­å®šã€‚
 	obj->SetPosition(asd::Vector2DF(100, 100));
 	obj->SetTexture(texture);
 
-	// ƒV[ƒ“‚ğ•ÏX‚µA‚»‚ÌƒV[ƒ“‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚µA‚»‚ÌƒŒƒCƒ„[‚ÉƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚’å¤‰æ›´ã—ã€ãã®ã‚·ãƒ¼ãƒ³ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã—ã€ãã®ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::ChangeScene(scene);
 	scene->AddLayer(layer);
 	layer->AddObject(obj);
 
-	// ƒŒƒCƒ„[‚ÉƒOƒŒ[ƒXƒP[ƒ‹‚Ìƒ|ƒXƒgƒGƒtƒFƒNƒg‚ğ“K—pB
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚°ãƒ¬ãƒ¼ã‚¹ã‚±ãƒ¼ãƒ«ã®ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’é©ç”¨ã€‚
 	layer->AddPostEffect(std::make_shared<asd::PostEffectGrayScale>());
 
 	while (asd::Engine::DoEvents())

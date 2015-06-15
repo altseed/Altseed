@@ -1,49 +1,49 @@
-#include <Base.h>
+ï»¿#include <Base.h>
 
 /**
-@brief	ƒŒƒCƒ„[‚Éƒ‰ƒCƒgƒuƒ‹[ƒ€‚Ìƒ|ƒXƒgƒGƒtƒFƒNƒg‚ğ“K—p‚·‚éB
+@brief	ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ãƒ©ã‚¤ãƒˆãƒ–ãƒ«ãƒ¼ãƒ ã®ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’é©ç”¨ã™ã‚‹ã€‚
 */
 void PostEffect_LightBloom()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚é
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹
 	asd::Engine::Initialize(asd::ToAString("PostEffect_LightBloom").c_str(), 640, 480, asd::EngineOption());
 
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Object.png").c_str());
 
-	// ƒV[ƒ“‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// ã‚·ãƒ¼ãƒ³ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto scene = std::make_shared<asd::Scene>();
 
-	// ƒŒƒCƒ„[‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto layer = std::make_shared<asd::Layer2D>();
 
-	// ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto obj = std::make_shared<asd::TextureObject2D>();
 
-	// ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ÆƒeƒNƒXƒ`ƒƒ‚ğİ’èB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¨­å®šã€‚
 	obj->SetPosition(asd::Vector2DF(100, 100));
 	obj->SetTexture(texture);
 
-	// ƒV[ƒ“‚ğ•ÏX‚µA‚»‚ÌƒV[ƒ“‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚µA‚»‚ÌƒŒƒCƒ„[‚ÉƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚’å¤‰æ›´ã—ã€ãã®ã‚·ãƒ¼ãƒ³ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã—ã€ãã®ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::ChangeScene(scene);
 	scene->AddLayer(layer);
 	layer->AddObject(obj);
 
-	// ƒ‰ƒCƒgƒuƒ‹[ƒ€‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// ãƒ©ã‚¤ãƒˆãƒ–ãƒ«ãƒ¼ãƒ ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto posteffect = std::make_shared<asd::PostEffectLightBloom>();
 
-	// ƒ‰ƒCƒgƒuƒ‹[ƒ€‚Ì‚Ú‚©‚µ‚Ì‹­‚³‚ğİ’è‚·‚éB
+	// ãƒ©ã‚¤ãƒˆãƒ–ãƒ«ãƒ¼ãƒ ã®ã¼ã‹ã—ã®å¼·ã•ã‚’è¨­å®šã™ã‚‹ã€‚
 	posteffect->SetIntensity(10.0f);
 
-	// ƒ‰ƒCƒgƒuƒ‹[ƒ€‚Ì˜IŒõ‚Ì‹­‚³‚ğİ’è‚·‚éB
+	// ãƒ©ã‚¤ãƒˆãƒ–ãƒ«ãƒ¼ãƒ ã®éœ²å…‰ã®å¼·ã•ã‚’è¨­å®šã™ã‚‹ã€‚
 	posteffect->SetExposure(1.0f);
 
-	// ƒ‰ƒCƒgƒuƒ‹[ƒ€‚ÅŒõ‚ç‚¹‚é–¾‚é‚³‚Ì‚µ‚«‚¢’l‚ğİ’è‚·‚éB
+	// ãƒ©ã‚¤ãƒˆãƒ–ãƒ«ãƒ¼ãƒ ã§å…‰ã‚‰ã›ã‚‹æ˜ã‚‹ã•ã®ã—ãã„å€¤ã‚’è¨­å®šã™ã‚‹ã€‚
 	posteffect->SetThreshold(0.3f);
 
-	// ƒŒƒCƒ„[‚Éƒ‰ƒCƒgƒuƒ‹[ƒ€‚Ìƒ|ƒXƒgƒGƒtƒFƒNƒg‚ğ“K—pB
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ãƒ©ã‚¤ãƒˆãƒ–ãƒ«ãƒ¼ãƒ ã®ãƒã‚¹ãƒˆã‚¨ãƒ•ã‚§ã‚¯ãƒˆã‚’é©ç”¨ã€‚
 	layer->AddPostEffect(posteffect);
 
-	// HDRƒ‚[ƒh‚ğON‚É‚·‚éiƒ‰ƒCƒgƒuƒ‹[ƒ€‚ÌŒø‰Ê‚ªŒ©‚¦‚é‚æ‚¤‚É‚·‚é‚½‚ßj
+	// HDRãƒ¢ãƒ¼ãƒ‰ã‚’ONã«ã™ã‚‹ï¼ˆãƒ©ã‚¤ãƒˆãƒ–ãƒ«ãƒ¼ãƒ ã®åŠ¹æœãŒè¦‹ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹ãŸã‚ï¼‰
 	scene->SetHDRMode(true);
 
 	while (asd::Engine::DoEvents())
