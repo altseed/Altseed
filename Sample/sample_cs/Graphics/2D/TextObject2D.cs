@@ -16,18 +16,6 @@ namespace sample_cs.Graphics._2D
             // aceを初期化する
             asd.Engine.Initialize("TextObject2D", 640, 480, new asd.EngineOption());
 
-            // シーンを生成する
-            var scene = new asd.Scene();
-
-            // レイヤーを生成する
-            var layer = new asd.Layer2D();
-
-            // シーンにレイヤーを追加する
-            scene.AddLayer(layer);
-
-            // シーンを切り替える
-            asd.Engine.ChangeScene(scene);
-
             {
                 // フォントを生成する
                 var smallFont = asd.Engine.Graphics.CreateFont("Data/Font/small.aff");
@@ -45,7 +33,7 @@ namespace sample_cs.Graphics._2D
                 smallObj.Text = "文字列サンプル1";
 
                 //レイヤーへの追加
-                layer.AddObject(smallObj);
+                asd.Engine.AddObject2D(smallObj);
             }
 
             {
@@ -54,7 +42,7 @@ namespace sample_cs.Graphics._2D
                 largeObj.Font = largeFont;
                 largeObj.Position = new asd.Vector2DF(100, 200);
                 largeObj.Text = "文字列サンプル2";
-                layer.AddObject(largeObj);
+                asd.Engine.AddObject2D(largeObj);
             }
 
             {
@@ -66,7 +54,7 @@ namespace sample_cs.Graphics._2D
                 //30度回転させて描画する
                 edgeObj.Angle = 30;
                 edgeObj.Text = "文字列サンプル3";
-                layer.AddObject(edgeObj);
+                asd.Engine.AddObject2D(edgeObj);
             }
             // aceが進行可能かチェックする。
             while (asd.Engine.DoEvents())

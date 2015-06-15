@@ -9,18 +9,6 @@ void MapObject2D()
 	// aceを初期化する
 	asd::Engine::Initialize(asd::ToAString("MapObject2D").c_str(), 640, 480, asd::EngineOption());
 
-	// シーンを生成する
-	auto scene = std::make_shared<asd::Scene>();
-
-	// レイヤーを生成する
-	auto layer = std::make_shared<asd::Layer2D>();
-
-	// シーンにレイヤーを追加する
-	scene->AddLayer(layer);
-
-	// シーンを切り替える
-	asd::Engine::ChangeScene(scene);
-
 	//カメラを設定する。
 	auto camera = std::make_shared<asd::CameraObject2D>();
 
@@ -53,10 +41,10 @@ void MapObject2D()
 		}
 
 		//レイヤーにマップオブジェクトを追加する。
-		layer->AddObject(mapObject);
+		asd::Engine::AddObject2D(mapObject);
 
 		//レイヤーにカメラオブジェクトを追加する。
-		layer->AddObject(camera);
+		asd::Engine::AddObject2D(camera);
 	}
 
 	// aceが進行可能かチェックする。

@@ -13,18 +13,6 @@ namespace sample_cs.Graphics._2D
             // aceを初期化する。
             asd.Engine.Initialize("CameraObject2D", 640, 480, new asd.EngineOption());
 
-            // シーンを生成する。
-            var scene = new asd.Scene();
-
-            // レイヤーを生成する。
-            var layer = new asd.Layer2D();
-
-            // シーンにレイヤーを追加する。
-            scene.AddLayer(layer);
-
-            // シーンを切り替える。
-            asd.Engine.ChangeScene(scene);
-
 
             // テクスチャを生成する。
             {
@@ -35,7 +23,7 @@ namespace sample_cs.Graphics._2D
                 obj0.Position = new asd.Vector2DF(320, 240);
                 obj0.Scale = new asd.Vector2DF(0.5f, 0.5f);
 
-                layer.AddObject(obj0);
+                asd.Engine.AddObject2D(obj0);
             }
 
             //一つ目の画面全体を写すカメラ。(オブジェクトをそのまま描画する。)
@@ -43,12 +31,12 @@ namespace sample_cs.Graphics._2D
                 var camera1 = new asd.CameraObject2D();
                 camera1.Src = new asd.RectI(0, 0, 640, 480);
                 camera1.Dst = new asd.RectI(0, 0, 640, 480);
-                layer.AddObject(camera1);
+                asd.Engine.AddObject2D(camera1);
             }
 
             //二つ目のマウスポインタの周辺を拡大して表示するカメラ。
             var camera2 = new asd.CameraObject2D();
-            layer.AddObject(camera2);
+            asd.Engine.AddObject2D(camera2);
 
             //フレーム用テクスチャ画像を準備する。
             var frame = new asd.TextureObject2D();
@@ -57,7 +45,7 @@ namespace sample_cs.Graphics._2D
                 frame.Texture = tex;
                 frame.CenterPosition = new asd.Vector2DF(55.0f, 55.0f);
 
-                layer.AddObject(frame);
+                asd.Engine.AddObject2D(frame);
             }
 
             // aceが進行可能かチェックする。

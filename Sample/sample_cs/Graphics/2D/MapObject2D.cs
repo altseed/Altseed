@@ -16,18 +16,6 @@ namespace sample_cs.Graphics._2D
             // aceを初期化する
             asd.Engine.Initialize("MapObject2D", 640, 480, new asd.EngineOption());
 
-            // シーンを生成する
-            var scene = new asd.Scene();
-
-            // レイヤーを生成する
-            var layer = new asd.Layer2D();
-
-            // シーンにレイヤーを追加する
-            scene.AddLayer(layer);
-
-            // シーンを切り替える
-            asd.Engine.ChangeScene(scene);
-
             //カメラを設定する。
             var camera = new asd.CameraObject2D();
 
@@ -60,10 +48,10 @@ namespace sample_cs.Graphics._2D
                 }
 
                 //レイヤーにマップオブジェクトを追加する。
-                layer.AddObject(mapObject);
+                asd.Engine.AddObject2D(mapObject);
 
                 //レイヤーにカメラオブジェクトを追加する。
-                layer.AddObject(camera);
+                asd.Engine.AddObject2D(camera);
             }
 
             // aceが進行可能かチェックする。

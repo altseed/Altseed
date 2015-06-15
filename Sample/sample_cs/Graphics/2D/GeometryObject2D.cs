@@ -16,10 +16,6 @@ namespace sample_cs.Graphics._2D
             // aceを初期化する
             asd.Engine.Initialize("GeometryObject2D", 640, 480, new asd.EngineOption());
 
-            // シーンを生成する
-            var scene = new asd.Scene();
-
-            var layer = new asd.Layer2D();
             var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
 
             //図形描画クラスのコンストラクタを呼び出す
@@ -28,15 +24,9 @@ namespace sample_cs.Graphics._2D
             var geometryObj3 = new asd.GeometryObject2D();
 
             //図形描画クラスをレイヤーに追加する。
-            layer.AddObject(geometryObj1);
-            layer.AddObject(geometryObj2);
-            layer.AddObject(geometryObj3);
-
-            //レイヤーをシーンに追加する。
-            scene.AddLayer(layer);
-
-            //シーンを変更する。
-            asd.Engine.ChangeScene(scene);
+            asd.Engine.AddObject2D(geometryObj1);
+            asd.Engine.AddObject2D(geometryObj2);
+            asd.Engine.AddObject2D(geometryObj3);
 
             //弧を図形描画クラス1にて描画する。
             {

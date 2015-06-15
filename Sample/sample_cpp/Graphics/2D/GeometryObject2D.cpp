@@ -8,10 +8,6 @@ void GeometryObject2D()
 	// aceを初期化する
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D").c_str(), 640, 480, asd::EngineOption());
 
-	// シーンを生成する
-	auto scene = std::make_shared<asd::Scene>();
-
-	auto layer = std::make_shared<asd::Layer2D>();
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 
 	//図形描画クラスのコンストラクタを呼び出す。
@@ -20,15 +16,9 @@ void GeometryObject2D()
 	auto geometryObj3 = std::make_shared<asd::GeometryObject2D>();
 
 	//図形描画クラスをレイヤーに追加する。
-	layer->AddObject(geometryObj1);
-	layer->AddObject(geometryObj2);
-	layer->AddObject(geometryObj3);
-
-	//レイヤーをシーンに追加する。
-	scene->AddLayer(layer);
-
-	//シーンを変更する。
-	asd::Engine::ChangeScene(scene);
+	asd::Engine::AddObject2D(geometryObj1);
+	asd::Engine::AddObject2D(geometryObj2);
+	asd::Engine::AddObject2D(geometryObj3);
 
 	//弧を図形描画クラス1にて描画する。
 	{

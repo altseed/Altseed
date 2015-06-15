@@ -8,18 +8,6 @@ void CameraObject2D()
 	// aceを初期化する。
 	asd::Engine::Initialize(asd::ToAString("CameraObject2D").c_str(), 640, 480, asd::EngineOption());
 
-	// シーンを生成する。
-	auto scene = std::make_shared<asd::Scene>();
-
-	// レイヤーを生成する。
-	auto layer = std::make_shared<asd::Layer2D>();
-
-	// シーンにレイヤーを追加する。
-	scene->AddLayer(layer);
-
-	// シーンを切り替える。
-	asd::Engine::ChangeScene(scene);
-
 	// テクスチャ画像を準備する。
 	{
 		auto tex0 = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
@@ -29,7 +17,7 @@ void CameraObject2D()
 		obj0->SetPosition(asd::Vector2DF(320, 240));
 		obj0->SetScale(asd::Vector2DF(0.5f, 0.5f));
 
-		layer->AddObject(obj0);
+		asd::Engine::AddObject2D(obj0);
 	}
 
 	//一つ目の画面全体を写すカメラを設定する。(オブジェクトをそのまま描画する。)
@@ -37,13 +25,13 @@ void CameraObject2D()
 		auto camera1 = std::make_shared<asd::CameraObject2D>();
 		camera1->SetSrc(asd::RectI(0, 0, 640, 480));
 		camera1->SetDst(asd::RectI(0, 0, 640, 480));
-		layer->AddObject(camera1);
+		asd::Engine::AddObject2D(camera1);
 	}
 
 	//二つ目のマウスポインタの周辺を拡大して表示するカメラを設定する。
 	auto camera2 = std::make_shared<asd::CameraObject2D>();
 
-	layer->AddObject(camera2);
+	asd::Engine::AddObject2D(camera2);
 
 	//フレーム用テクスチャ画像を準備する。
 	auto frame = std::make_shared<asd::TextureObject2D>();
@@ -52,7 +40,7 @@ void CameraObject2D()
 		frame->SetTexture(tex);
 		frame->SetCenterPosition(asd::Vector2DF(55.0f, 55.0f));
 
-		layer->AddObject(frame);
+		asd::Engine::AddObject2D(frame);
 	}
 
 	// aceが進行可能かチェックする。

@@ -9,18 +9,6 @@ void TextureObject2D()
 	// aceを初期化する
 	asd::Engine::Initialize(asd::ToAString("TextureObject2D").c_str(), 640, 480, asd::EngineOption());
 
-	// シーンを生成する
-	auto scene = std::make_shared<asd::Scene>();
-
-	// レイヤーを生成する
-	auto layer = std::make_shared<asd::Layer2D>();
-
-	// シーンにレイヤーを追加する
-	scene->AddLayer(layer);
-
-	// シーンを切り替える
-	asd::Engine::ChangeScene(scene);
-
 	{
 		// テクスチャを生成する
 		auto tex0 = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample2.png").c_str());
@@ -35,7 +23,7 @@ void TextureObject2D()
 		obj0->SetPosition(asd::Vector2DF(100, 400));
 
 		//レイヤーへ追加する
-		layer->AddObject(obj0);
+		asd::Engine::AddObject2D(obj0);
 	}
 
 	{
@@ -50,7 +38,7 @@ void TextureObject2D()
 		//画像を上下に反転する
 		obj1->SetTurnUL(true);
 
-		layer->AddObject(obj1);
+		asd::Engine::AddObject2D(obj1);
 	}
 
 	auto obj2 = std::make_shared<asd::TextureObject2D>();
@@ -62,7 +50,7 @@ void TextureObject2D()
 
 		obj2->SetPosition(asd::Vector2DF(500, 50));
 
-		layer->AddObject(obj2);
+		asd::Engine::AddObject2D(obj2);
 	}
 
 
@@ -83,7 +71,7 @@ void TextureObject2D()
 		//画像をX,Y方向に0.4倍に縮小する
 		obj3->SetScale(asd::Vector2DF(0.4, 0.4));
 
-		layer->AddObject(obj3);
+		asd::Engine::AddObject2D(obj3);
 	}
 
 	{
@@ -95,7 +83,7 @@ void TextureObject2D()
 
 		obj4->SetPosition(asd::Vector2DF(50, 50));
 
-		layer->AddObject(obj4);
+		asd::Engine::AddObject2D(obj4);
 	}
 
 

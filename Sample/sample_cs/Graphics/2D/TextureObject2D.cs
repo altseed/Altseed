@@ -16,18 +16,6 @@ namespace sample_cs.Graphics._2D
             // aceを初期化する
             asd.Engine.Initialize("TextureObject2D", 640, 480, new asd.EngineOption());
 
-            // シーンを生成する
-            var scene = new asd.Scene();
-
-            // レイヤーを生成する
-            var layer = new asd.Layer2D();
-
-            // シーンにレイヤーを追加する
-            scene.AddLayer(layer);
-
-            // シーンを切り替える
-            asd.Engine.ChangeScene(scene);
-
             {
                 // テクスチャを生成する
                 var tex0 = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample2.png");
@@ -42,7 +30,7 @@ namespace sample_cs.Graphics._2D
                 obj0.Position = new asd.Vector2DF(100, 400);
 
                 //レイヤーへ追加する
-                layer.AddObject(obj0);
+                asd.Engine.AddObject2D(obj0);
             }
 
             {
@@ -57,7 +45,7 @@ namespace sample_cs.Graphics._2D
                 //画像を上下に反転する
                 obj1.TurnUL = true;
 
-                layer.AddObject(obj1);
+                asd.Engine.AddObject2D(obj1);
             }
 
             var obj2 = new asd.TextureObject2D();
@@ -69,7 +57,7 @@ namespace sample_cs.Graphics._2D
 
                 obj2.Position = new asd.Vector2DF(500, 50);
 
-                layer.AddObject(obj2);
+                asd.Engine.AddObject2D(obj2);
             }
 
 
@@ -90,7 +78,7 @@ namespace sample_cs.Graphics._2D
                 //画像をX,Y方向に0.4倍に縮小する
                 obj3.Scale = new asd.Vector2DF(0.4f, 0.4f);
 
-                layer.AddObject(obj3);
+                asd.Engine.AddObject2D(obj3);
             }
 
             {
@@ -102,7 +90,7 @@ namespace sample_cs.Graphics._2D
 
                 obj4.Position = new asd.Vector2DF(50, 20);
 
-                layer.AddObject(obj4);
+                asd.Engine.AddObject2D(obj4);
             }
 
 

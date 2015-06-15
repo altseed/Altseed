@@ -9,18 +9,6 @@ void TextObject2D()
 	// aceを初期化する
 	asd::Engine::Initialize(asd::ToAString("TextObject2D").c_str(), 640, 480, asd::EngineOption());
 
-	// シーンを生成する
-	auto scene = std::make_shared<asd::Scene>();
-
-	// レイヤーを生成する
-	auto layer = std::make_shared<asd::Layer2D>();
-
-	// シーンにレイヤーを追加する
-	scene->AddLayer(layer);
-
-	// シーンを切り替える
-	asd::Engine::ChangeScene(scene);
-
 	{
 		// フォントを生成する
 		auto smallFont = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/small.aff").c_str());
@@ -38,7 +26,7 @@ void TextObject2D()
 		smallObj->SetText(asd::ToAString("文字列サンプル1").c_str());
 
 		//レイヤーへ追加する
-		layer->AddObject(smallObj);
+		asd::Engine::AddObject2D(smallObj);
 	}
 
 	{
@@ -47,7 +35,7 @@ void TextObject2D()
 		largeObj->SetFont(largeFont);
 		largeObj->SetPosition(asd::Vector2DF(100, 200));
 		largeObj->SetText(asd::ToAString("文字列サンプル2").c_str());
-		layer->AddObject(largeObj);
+		asd::Engine::AddObject2D(largeObj);
 	}
 
 	{
@@ -59,7 +47,7 @@ void TextObject2D()
 		//30度回転させて描画する
 		edgeObj->SetAngle(30);
 		edgeObj->SetText(asd::ToAString("文字列サンプル3").c_str());
-		layer->AddObject(edgeObj);
+		asd::Engine::AddObject2D(edgeObj);
 	}
 	// aceが進行可能かチェックする。
 	while (asd::Engine::DoEvents())
