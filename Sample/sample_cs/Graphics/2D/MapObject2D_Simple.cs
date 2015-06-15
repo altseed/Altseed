@@ -9,7 +9,7 @@ namespace sample_cs.Graphics._2D
     /// <summary>
     /// マップを表示する。
     /// </summary>
-    class MapObject2D_Default : ISample
+    class MapObject2D_Simple : ISample
     {
         public void Run()
         {

@@ -9,7 +9,7 @@ namespace sample_cs.Graphics._2D
     /// <summary>
     /// テクスチャを表示する。
     /// </summary>
-    class TextureObject2D_Default : ISample
+    class TextureObject2D_Simple : ISample
     {
         public void Run()
         {

@@ -9,7 +9,7 @@ namespace sample_cs.Graphics._2D
     /// <summary>
     /// テキストを表示する。
     /// </summary>
-    class TextObject2D_Default : ISample
+    class TextObject2D_Simple : ISample
     {
         public void Run()
         {

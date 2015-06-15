@@ -39,9 +39,6 @@
     <ClCompile Include="..\Graphics\2D\ImagePackage.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\2D\TextureObject2D_Default.cpp">
-      <Filter>Graphics\2D</Filter>
-    </ClCompile>
     <ClCompile Include="..\Graphics\2D\TextureObject2D_Turn.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
@@ -49,9 +46,6 @@
       <Filter>Graphics\2D</Filter>
     </ClCompile>
     <ClCompile Include="..\Graphics\2D\TextureObject2D_Transform.cpp">
-      <Filter>Graphics\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Graphics\2D\TextObject2D_Default.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
     <ClCompile Include="..\Graphics\2D\TextObject2D_Rotate.cpp">
@@ -69,10 +63,16 @@
     <ClCompile Include="..\Graphics\2D\GeometryObject2D_ArcShape.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\2D\MapObject2D_Default.cpp">
+    <ClCompile Include="..\Graphics\2D\MapObject2D_Camera.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\Graphics\2D\MapObject2D_Camera.cpp">
+    <ClCompile Include="..\Graphics\2D\MapObject2D_Simple.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\2D\TextObject2D_Simple.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Graphics\2D\TextureObject2D_Simple.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
   </ItemGroup>

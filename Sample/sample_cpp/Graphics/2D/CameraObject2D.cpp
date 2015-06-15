@@ -1,7 +1,7 @@
 #include <Base.h>
 
 /**
-@brief	エフェクトを表示する。
+@brief	カメラサンプルを表示する。
 */
 
 const int SOURCE_SIZE = 50;

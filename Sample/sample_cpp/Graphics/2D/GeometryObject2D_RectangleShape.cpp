@@ -1,7 +1,7 @@
 #include <Base.h>
 
 /**
-@brief	図形を表示する。
+@brief	矩形を表示する。
 */
 void GeometryObject2D_RectangleShape()
 {

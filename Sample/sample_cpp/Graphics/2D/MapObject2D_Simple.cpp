@@ -2,12 +2,12 @@
 #include <Base.h>
 
 /**
-@brief	エフェクトを表示する。
+@brief	マップを表示する。
 */
-void MapObject2D_Default()
+void MapObject2D_Simple()
 {
 	// aceを初期化する
-	asd::Engine::Initialize(asd::ToAString("MapObject2D_Default").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("MapObject2D_Simple").c_str(), 640, 480, asd::EngineOption());
 
 	{
 		//マップオブジェクトを生成する。

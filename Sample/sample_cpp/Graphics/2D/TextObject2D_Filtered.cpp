@@ -2,7 +2,7 @@
 #include <Base.h>
 
 /**
-@brief	エフェクトを表示する。
+@brief	文字列をギザギザを防いで回転させて表示する。
 */
 void TextObject2D_Filtered()
 {

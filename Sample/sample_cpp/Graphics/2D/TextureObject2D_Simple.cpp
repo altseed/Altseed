@@ -4,10 +4,10 @@
 /**
 @brief	テクスチャを表示する。
 */
-void TextureObject2D_Default()
+void TextureObject2D_Simple()
 {
 	// aceを初期化する
-	asd::Engine::Initialize(asd::ToAString("TextureObject2D_Default").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("TextureObject2D_Simple").c_str(), 640, 480, asd::EngineOption());
 
 	{
 		// テクスチャを生成する

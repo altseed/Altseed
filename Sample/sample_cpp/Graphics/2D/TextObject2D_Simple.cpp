@@ -2,12 +2,12 @@
 #include <Base.h>
 
 /**
-@brief	エフェクトを表示する。
+@brief	文字列を表示する。
 */
-void TextObject2D_Default()
+void TextObject2D_Simple()
 {
 	// aceを初期化する
-	asd::Engine::Initialize(asd::ToAString("TextObject2D_Default").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("TextObject2D_Simple").c_str(), 640, 480, asd::EngineOption());
 
 	{
 		// フォントを生成する

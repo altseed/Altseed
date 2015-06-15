@@ -2,7 +2,7 @@
 #include <Base.h>
 
 /**
-@brief	エフェクトを表示する。
+@brief	文字列を回転させて表示する。
 */
 void TextObject2D_Rotate()
 {

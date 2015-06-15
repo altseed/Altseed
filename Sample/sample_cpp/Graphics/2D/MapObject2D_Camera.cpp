@@ -2,7 +2,7 @@
 #include <Base.h>
 
 /**
-@brief	エフェクトを表示する。
+@brief	カメラ付きでマップを表示する。
 */
 void MapObject2D_Camera()
 {
