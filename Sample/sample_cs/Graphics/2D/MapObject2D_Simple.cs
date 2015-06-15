@@ -14,7 +14,7 @@ namespace sample_cs.Graphics._2D
         public void Run()
         {
             // aceを初期化する
-            asd.Engine.Initialize("MapObject2D_Default", 640, 480, new asd.EngineOption());
+            asd.Engine.Initialize("MapObject2D_Simple", 640, 480, new asd.EngineOption());
 
             {
                 //マップオブジェクトを生成する。
@@ -22,10 +22,10 @@ namespace sample_cs.Graphics._2D
 
                 var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample2.png");
 
-                //マップオブジェクトに50*50=2500個のチップを登録する。
-                for (int i = 0; i < 50; ++i)
+                //マップオブジェクトに16*12=184個のチップを登録する。
+                for (int i = 0; i < 16; ++i)
                 {
-                    for (int j = 0; j < 50; ++j)
+                    for (int j = 0; j < 12; ++j)
                     {
                         //チップを生成する。
                         var chip = new asd.Chip2D();
@@ -34,7 +34,7 @@ namespace sample_cs.Graphics._2D
                         chip.Texture = texture;
 
                         //チップの描画先を指定する。
-                        chip.Position = new asd.Vector2DF(i * 40 - 1000, j * 40 - 1000);
+                        chip.Position = new asd.Vector2DF(i * 40, j * 40);
 
                         //マップオブジェクトにチップを追加する。
                         mapObject.AddChip(chip);

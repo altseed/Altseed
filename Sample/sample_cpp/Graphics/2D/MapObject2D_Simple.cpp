@@ -15,10 +15,10 @@ void MapObject2D_Simple()
 
 		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample2.png").c_str());
 
-		//マップオブジェクトに50*50=2500個のチップを登録する。
-		for (int i = 0; i < 50; ++i)
+		//マップオブジェクトに16*12=184個のチップを登録する。
+		for (int i = 0; i < 16; ++i)
 		{
-			for (int j = 0; j < 50; ++j)
+			for (int j = 0; j < 12; ++j)
 			{
 				//チップを生成する。
 				auto chip = std::make_shared<asd::Chip2D>();
@@ -27,7 +27,7 @@ void MapObject2D_Simple()
 				chip->SetTexture(texture);
 
 				//チップの描画先を指定する。
-				chip->SetPosition(asd::Vector2DF(i * 40 - 1000, j * 40 - 1000));
+				chip->SetPosition(asd::Vector2DF(i * 40, j * 40));
 
 				//マップオブジェクトにチップを追加する。
 				mapObject->AddChip(chip);

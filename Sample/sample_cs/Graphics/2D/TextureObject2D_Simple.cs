@@ -14,7 +14,7 @@ namespace sample_cs.Graphics._2D
         public void Run()
         {
             // aceを初期化する
-            asd.Engine.Initialize("TextureObject2D_Default", 640, 480, new asd.EngineOption());
+            asd.Engine.Initialize("TextureObject2D_Simple", 640, 480, new asd.EngineOption());
 
             {
                 // テクスチャを生成する
