@@ -18,19 +18,19 @@ class TextObject2D_Simple : ISample
             // フォントを生成する
             var font = asd.Engine.Graphics.CreateFont("Data/Font/edge.aff");
 
-            //TextObject2Dを生成する
+            // TextObject2Dを生成する
             var obj = new asd.TextObject2D();
 
-            //描画に使うフォントを設定する
+            // 描画に使うフォントを設定する
             obj.Font = font;
 
-            //描画位置を指定する
+            // 描画位置を指定する
             obj.Position = new asd.Vector2DF(100, 100);
 
-            //描画する文字列の指定
+            // 描画する文字列の指定
             obj.Text = "文字列サンプル1";
 
-            //レイヤーへの追加
+            // レイヤーへの追加
             asd.Engine.AddObject2D(obj);
         }
 

@@ -18,16 +18,16 @@ class TextureObject2D_Simple : ISample
             // テクスチャを生成する
             var tex0 = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample2.png");
 
-            //TextureObject2Dを生成する
+            // TextureObject2Dを生成する
             var obj0 = new asd.TextureObject2D();
 
-            //描画に使うテクスチャを設定する
+            // 描画に使うテクスチャを設定する
             obj0.Texture = tex0;
 
-            //描画位置を指定する
+            // 描画位置を指定する
             obj0.Position = new asd.Vector2DF(100, 400);
 
-            //レイヤーへ追加する
+            // レイヤーへ追加する
             asd.Engine.AddObject2D(obj0);
         }
 

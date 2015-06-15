@@ -12,7 +12,7 @@ class TextObject2D_Filtered : ISample
     public void Run()
     {
         // aceを初期化する
-        asd.Engine.Initialize("TextObject2D", 640, 480, new asd.EngineOption());
+        asd.Engine.Initialize("TextObject2D_Filter", 640, 480, new asd.EngineOption());
 
 
         {
@@ -21,7 +21,7 @@ class TextObject2D_Filtered : ISample
             edgeObj.Font = edgeFont;
             edgeObj.Position = new asd.Vector2DF(100, 100);
 
-            //30度回転させて描画する
+            // 30度回転させて描画する
             edgeObj.Angle = 30;
 
             // 描画のフィルタを線形補間にすることによって、描画時に境界がギザギザにならないようにする。

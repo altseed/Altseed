@@ -16,7 +16,7 @@ void GeometryObject2D_PolygonShape()
 	//図形描画クラスをレイヤーに追加する。
 	asd::Engine::AddObject2D(geometryObj);
 
-	//多角形を図形描画クラス3にて描画する。
+	//多角形を図形描画クラスにて描画する。
 	{
 
 		auto polygon = std::make_shared<asd::PolygonShape>();

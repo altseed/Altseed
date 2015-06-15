@@ -16,7 +16,7 @@ void GeometryObject2D_RectangleShape()
 	//図形描画クラスをレイヤーに追加する。
 	asd::Engine::AddObject2D(geometryObj);
 
-	//矩形を図形描画クラス2にて描画する。
+	//矩形を図形描画クラスにて描画する。
 	{
 		//矩形の描画範囲、UV範囲を指定。
 		auto rect = std::make_shared<asd::RectangleShape>();

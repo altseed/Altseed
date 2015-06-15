@@ -23,7 +23,7 @@ class TextureObject2D_Turn : ISample
 
             obj1.Position = new asd.Vector2DF(500, 400);
 
-            //画像を上下に反転する
+            // 画像を上下に反転する
             obj1.TurnUL = true;
 
             asd.Engine.AddObject2D(obj1);

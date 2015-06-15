@@ -14,6 +14,7 @@ class TextureObject2D_Src : ISample
         // aceを初期化する
         asd.Engine.Initialize("TextureObject2D_Src", 640, 480, new asd.EngineOption());
 
+        // 実際に切り出すテクスチャを描画するオブジェクトを設定する。
         var obj2 = new asd.TextureObject2D();
         {
 
@@ -26,6 +27,7 @@ class TextureObject2D_Src : ISample
             asd.Engine.AddObject2D(obj2);
         }
 
+        // 切りだす前のテクスチャ描画用オブジェクトを設定する。
         {
             var obj4 = new asd.TextureObject2D();
 
@@ -48,7 +50,7 @@ class TextureObject2D_Src : ISample
             int xi = index % 3;
             int yi = (index / 3) % 4;
 
-            //テクスチャの切り出し範囲を指定する。
+            // テクスチャの切り出し範囲を指定する。
             obj2.Src = new asd.RectF(32 * xi, 32 * yi, 32, 32);
 
             if (count % 5 == 0)

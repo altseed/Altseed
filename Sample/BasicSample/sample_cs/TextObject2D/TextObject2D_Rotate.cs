@@ -20,7 +20,7 @@ class TextObject2D_Rotate : ISample
             edgeObj.Font = edgeFont;
             edgeObj.Position = new asd.Vector2DF(100, 100);
 
-            //30度回転させて描画する
+            // 30度回転させて描画する
             edgeObj.Angle = 30;
             edgeObj.Text = "文字列サンプル2";
             asd.Engine.AddObject2D(edgeObj);
