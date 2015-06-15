@@ -83,6 +83,8 @@ def include_basic_sample(ls,relCodePath,ssDir,mode=''):
                         if ext=='.cs':
                             fl = fl.replace(r'public void Run()','[System.STAThread]\r\n\tstatic void Main(string[] args)')
                             fl = fl.replace(r' : ISample','')
+                            if 'Recorder.TakeScreenShot' in fl:
+                                continue
 
                         ls_included.append(fl)
                 

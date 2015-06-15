@@ -19,6 +19,10 @@ void GetDirectoryName(char* dst, char* src);
 
 extern void Basic_Empty();
 
+extern void Geometry2D_ArcShape();
+extern void Geometry2D_PolygonShape();
+extern void Geometry2D_RectangleShape();
+
 extern void Keyboard();
 extern void Mouse();
 extern void Joystick();
@@ -49,6 +53,11 @@ int main(int argc, char** argv)
 	std::vector<SampleInfo> samples =
 	{
 		INFO(Basic_Empty),
+
+		INFO(GeometryObject2D_ArcShape),
+		INFO(GeometryObject2D_PolygonShape),
+		INFO(GeometryObject2D_RectangleShape),
+
 		INFO(Keyboard),
 		INFO(Mouse),
 		INFO(Joystick),

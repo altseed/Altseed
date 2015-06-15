@@ -50,8 +50,6 @@
   <ItemGroup>
     <Compile Include="Graphics\2D\CameraObject2D.cs" />
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
-    <Compile Include="Graphics\2D\GeometryObject2D_PolygonShape.cs" />
-    <Compile Include="Graphics\2D\GeometryObject2D_RectangleShape.cs" />
     <Compile Include="Graphics\2D\ImagePackage.cs" />
     <Compile Include="Graphics\2D\MapObject2D_Camera.cs" />
     <Compile Include="Graphics\2D\MapObject2D_Simple.cs" />
@@ -82,9 +80,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Graphics\2D\GeometryObject2D_ArcShape.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

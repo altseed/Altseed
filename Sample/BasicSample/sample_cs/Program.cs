@@ -15,6 +15,10 @@ namespace sample_cs
 			{
 				new Basic_Empty(),
 
+                new Geometry2D_ArcShape(),
+                new Geometry2D_PolygonShape(),
+                new Geometry2D_RectangleShape(),
+
                 new Keyboard(),
                 new Mouse(),
                 new Joystick(),

@@ -11,7 +11,7 @@ class Geometry2D_ArcShape : ISample
 {
 	public void Run()
 	{
-		// aceを初期化する
+		// Altseedを初期化する
 		asd.Engine.Initialize("Geometry2D_ArcShape", 640, 480, new asd.EngineOption());
 
 		var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
@@ -22,11 +22,12 @@ class Geometry2D_ArcShape : ISample
 		//図形描画クラスをレイヤーに追加する。
 		asd.Engine.AddObject2D(geometryObj);
 
-		// aceが進行可能かチェックする。
+		// Altseedを更新する。
 		while (asd.Engine.DoEvents())
 		{
 			// aceを更新する。
 			asd.Engine.Update();
+			Recorder.TakeScreenShot("Geometry2D_ArcShape", 5);
 		}
 
 		// aceを終了する。
