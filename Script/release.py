@@ -2,6 +2,8 @@
 import aceutils
 import datetime
 import makeDocumentHtml
+import os
+import os.path
 
 def getTargetDir(type):
 	d = datetime.datetime.today()
@@ -66,6 +68,25 @@ def makeDocument(type, targetDir,mode):
 	aceutils.copytree('DocumentHtml',targetDir + '/Document', True)
 	aceutils.rmdir('DocumentHtml')
 
+def editCSFiles(targetDir):
+	files = []
+	for f in aceutils.get_files(targetDir):
+		basename = os.path.basename(f)
+		ext = os.path.splitext(basename)[1]
+		if ext == '.cs':
+			files.append(f)
+
+	for file in files:
+		ls = []
+		with open(file, mode='r', encoding='utf-8-sig') as f:
+			for l in f.readlines():
+				if 'Recorder.TakeScreenShot' in l:
+					continue
+				else:
+					ls.append(l)
+
+		with open(file, mode='w',  encoding='utf-8') as f:
+			f.writelines(ls)
 
 def release_cpp():
 	type = 'cpp'
@@ -174,6 +195,8 @@ def release_cs():
 	aceutils.copy(r'Sample/sample_cs.sln', sampleDir)
 	aceutils.mkdir(sampleDir+r'sample_cs/')
 	aceutils.copytreeWithExt(r'Sample/BasicSample/sample_cs/',sampleDir+r'sample_cs/',[ r'.h', r'.cpp', r'.filters', r'.config', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip', r'.efk', r'.aff'])
+
+	editCSFiles(sampleDir+r'sample_cs/')
 
 	aceutils.copy(r'Dev/bin/Altseed.dll', sampleDir+r'sample_cs/')
 	aceutils.copy(r'Dev/bin/Altseed.XML', sampleDir+r'sample_cs/')
