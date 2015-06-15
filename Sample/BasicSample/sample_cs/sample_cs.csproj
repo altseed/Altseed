@@ -59,13 +59,16 @@
     <Compile Include="Graphics\2D\MapObject2D.cs" />
     <Compile Include="Graphics\2D\TextObject2D.cs" />
     <Compile Include="Graphics\2D\TextureObject2D.cs" />
-    <Compile Include="Graphics\PostEffect\PostEffect.cs" />
     <Compile Include="Input\Joystick.cs" />
     <Compile Include="Input\Keyboard.cs" />
     <Compile Include="ISample.cs" />
     <Compile Include="Input\Mouse.cs" />
     <Compile Include="ObjectSystem\Object2DComponent.cs" />
     <Compile Include="ObjectSystem\Transition.cs" />
+    <Compile Include="PostEffect\PostEffect_GaussianBlur.cs" />
+    <Compile Include="PostEffect\PostEffect_GrayScale.cs" />
+    <Compile Include="PostEffect\PostEffect_LightBloom.cs" />
+    <Compile Include="PostEffect\PostEffect_Sepia.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
     <Compile Include="Sound\Sound.cs" />

@@ -19,6 +19,11 @@ namespace sample_cs
                 new Geometry2D_PolygonShape(),
                 new Geometry2D_RectangleShape(),
 
+                new PostEffect_GrayScale(),
+                new PostEffect_Sepia(),
+                new PostEffect_GaussianBlur(),
+                new PostEffect_LightBloom(),
+
                 new Keyboard(),
                 new Mouse(),
                 new Joystick(),
@@ -35,8 +40,7 @@ namespace sample_cs
                 new MapObject2D(),
 				new ImagePackage(),
                 new GeometryObject2D(),
-
-                new PostEffect(),
+                
                 new Collision2D(),
             };
 
