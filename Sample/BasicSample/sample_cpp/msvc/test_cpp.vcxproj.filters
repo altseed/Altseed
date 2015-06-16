@@ -84,6 +84,9 @@
     <ClCompile Include="..\Graphics\2D\ImagePackage.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Transition\Transition_Fade.cpp">
+      <Filter>Transition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -128,6 +131,9 @@
     </Filter>
     <Filter Include="Sound">
       <UniqueIdentifier>{54ea716b-ad5b-4a27-8861-b56e373fc18e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Transition">
+      <UniqueIdentifier>{65bdb158-e8e1-4dbb-80b7-20d1d757d438}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
