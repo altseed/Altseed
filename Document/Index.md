@@ -22,6 +22,10 @@
 * [Altseedの基本](./HowToUseBasic/Basic.md)
 * [図形の描画](./HowToUseBasic/GeometryObject2D.md)
 * [画像の描画](./HowToUseBasic/TextureObject2D.md)
+* [文字の描画](./HowToUseBasic/TextObject2D.md)
+
+* [シーン遷移](./HowToUseBasic/Transition.md)
+
 * [ポストエフェクト](./HowToUseBasic/PostEffect.md)
 
 * [機能の逆引き](./ReverseDictionary.md)
