@@ -7,8 +7,15 @@ import os.path
 
 def getTargetDir(type):
 	d = datetime.datetime.today()
-	return 'Altseed_' + type.upper() + '_' + str(d.year).zfill(4) + str(d.month).zfill(2) + str(d.day).zfill(2)
-	
+	common = 'Altseed_' + type.upper() + '_' + str(d.year).zfill(4) + str(d.month).zfill(2) + str(d.day).zfill(2)
+
+	if aceutils.isWin():
+		return common + '_WIN'
+
+	if aceutils.isMac():
+		return common + '_MAC'
+	return common	
+
 
 def init(type, targetDir):
 	aceutils.cdToScript()
