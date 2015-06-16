@@ -11,14 +11,16 @@ namespace sample_cs
 	{
 		static void Main(string[] args)
 		{
-			ISample[] samples = 
+			ISample[] samples =
 			{
 				new Basic_Empty(),
 
-                new PostEffect_GrayScale(),
-                new PostEffect_Sepia(),
-                new PostEffect_GaussianBlur(),
-                new PostEffect_LightBloom(),
+				new PostEffect_GrayScale(),
+				new PostEffect_Sepia(),
+				new PostEffect_GaussianBlur(),
+				new PostEffect_LightBloom(),
+
+				new Transition_Fade(),
 
                 new Keyboard(),
                 new Mouse(),

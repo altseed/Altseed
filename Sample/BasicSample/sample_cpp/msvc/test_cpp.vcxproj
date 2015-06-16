@@ -40,6 +40,7 @@
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Src.cpp" />
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Transform.cpp" />
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Turn.cpp" />
+    <ClCompile Include="..\Transition\Transition_Fade.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />

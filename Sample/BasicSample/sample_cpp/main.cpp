@@ -28,6 +28,8 @@ extern void PostEffect_Sepia();
 extern void PostEffect_GaussianBlur();
 extern void PostEffect_LightBloom();
 
+extern void Transition_Fade();
+
 extern void Keyboard();
 extern void Mouse();
 extern void Joystick();
@@ -81,6 +83,8 @@ int main(int argc, char** argv)
 		INFO(PostEffect_Sepia),
 		INFO(PostEffect_GaussianBlur),
 		INFO(PostEffect_LightBloom),
+
+		INFO(Transition_Fade),
 
 		INFO(Keyboard),
 		INFO(Mouse),
