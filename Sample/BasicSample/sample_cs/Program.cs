@@ -15,6 +15,11 @@ namespace sample_cs
 			{
 				new Basic_Empty(),
 
+				new TextureObject2D_Simple(),
+                new TextureObject2D_Turn(),
+                new TextureObject2D_Src(),
+				new TextureObject2D_Transform(),
+                
                 new PostEffect_GrayScale(),
                 new PostEffect_Sepia(),
                 new PostEffect_GaussianBlur(),
@@ -35,11 +40,6 @@ namespace sample_cs
                 new TextObject2D_Simple(),
                 new TextObject2D_Rotate(),
                 new TextObject2D_Filtered(),
-
-                new TextureObject2D_Simple(),
-                new TextureObject2D_Transform(),
-                new TextureObject2D_Turn(),
-                new TextureObject2D_Src(),
 
                 new MapObject2D_Simple(),
                 new MapObject2D_Camera(),

@@ -1,6 +1,6 @@
 ﻿
 /// <summary>
-/// 空のウインドウを表示するサンプルです。
+/// 空のウインドウを表示するサンプル。
 /// </summary>
 class Basic_Empty : ISample
 {

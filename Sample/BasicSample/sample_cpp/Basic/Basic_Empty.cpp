@@ -1,7 +1,9 @@
 ﻿
 #include <Altseed.h>
 
-// 空のウインドウを表示するサンプルです。
+/**
+@brief	空のウインドウを表示するサンプル。
+*/
 void Basic_Empty()
 {
 	// Altseedを初期化する。

@@ -77,6 +77,11 @@ int main(int argc, char** argv)
 		INFO(GeometryObject2D_PolygonShape),
 		INFO(GeometryObject2D_RectangleShape),
 
+		INFO(TextureObject2D_Simple),
+		INFO(TextureObject2D_Turn),
+		INFO(TextureObject2D_Src),
+		INFO(TextureObject2D_Transform),
+
 		INFO(PostEffect_GrayScale),
 		INFO(PostEffect_Sepia),
 		INFO(PostEffect_GaussianBlur),
@@ -97,11 +102,6 @@ int main(int argc, char** argv)
 		INFO(TextObject2D_Simple),
 		INFO(TextObject2D_Rotate),
 		INFO(TextObject2D_Filtered),
-
-		INFO(TextureObject2D_Simple),
-		INFO(TextureObject2D_Turn),
-		INFO(TextureObject2D_Transform),
-		INFO(TextureObject2D_Src),
 
 		INFO(MapObject2D_Simple),
 		INFO(MapObject2D_Camera),
