@@ -7,5 +7,6 @@ download_glfw.py
 download_gtest.py
 download_OpenSoundMixer.py
 download_imagepackagegenerator.py
+download_freetype.py
 
 pause

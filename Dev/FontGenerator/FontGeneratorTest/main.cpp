@@ -4,17 +4,17 @@
 
 #include "../FontGeneratorCore/Generator.h"
 #include "../FontGeneratorCore/Rendering/Color.h"
-#include "../../ace_cpp/common/Graphics/Font/ace.AffLoader.h"
+#include "../../asd_cpp/common/Graphics/Font/asd.AffLoader.h"
 
-#pragma comment(lib,"ace_common.lib")
+#pragma comment(lib,"asd_common.lib")
 #pragma comment(lib,"FontGeneratorCore.lib")
 
 #if _DEBUG
-#pragma comment(lib,"freetype253MT_D.lib")
+#pragma comment(lib,"x86/Debug/freetype.lib")
 #pragma comment(lib,"libpng16.Debug.lib")
 #pragma comment(lib,"zlib.Debug.lib")
 #else
-#pragma comment(lib,"freetype253MT.lib")
+#pragma comment(lib,"x86/Release/freetype.lib")
 #pragma comment(lib,"libpng16.Release.lib")
 #pragma comment(lib,"zlib.Release.lib")
 #endif
@@ -25,7 +25,7 @@ using namespace FontGenerator;
 void Test()
 {
 	Generator gen;
-	auto chars = gen.GetCharactors(ace::ToAString("test2.txt"));
+	auto chars = gen.GetCharactors(asd::ToAString("test2.txt"));
 }
 
 int main()

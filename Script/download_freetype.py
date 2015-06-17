@@ -15,6 +15,8 @@ aceutils.rmdir(r"freetype_bin_x64")
 aceutils.mkdir(r"freetype_bin")
 aceutils.mkdir(r"freetype_bin_x64")
 
+aceutils.editCmakeForACE(r'freetype-2.6/CMakeLists.txt','cp932')
+
 aceutils.cd(r"freetype_bin")
 
 if aceutils.isWin():

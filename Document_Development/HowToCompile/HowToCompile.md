@@ -106,6 +106,11 @@ libglew-dev
 
 ```Script/download_OpenSoundMixer.py``` を実行します。
 
+
+## Freetype
+
+```Script/download_freetype.py``` を実行します。
+
 ## カリング
 
 以下のスクリプトを実行します。
