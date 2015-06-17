@@ -60,7 +60,7 @@ void Scene2::OnUpdated()
 	// マウスが左クリックされた時にScene1に遷移する。
 	if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::MouseButtonState::Push)
 	{
-		auto& scene1 = std::make_shared<Scene1>();
+		auto scene1 = std::make_shared<Scene1>();
 		asd::Engine::ChangeScene(scene1);
 	}
 }
