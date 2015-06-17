@@ -59,6 +59,6 @@ if aceutils.isWin():
 
 else:
 	aceutils.copytree(r'freetype-2.6/include/', r'Dev/include/freetype')
-	aceutils.copy(r'freetype_bin/bin/libfreetype.a', r'Dev/lib/')
+	aceutils.copy(r'freetype_bin/libfreetype.a', r'Dev/lib/')
 
 
