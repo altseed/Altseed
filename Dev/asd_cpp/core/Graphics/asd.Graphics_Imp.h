@@ -30,6 +30,31 @@ namespace asd {
 	class ImageHelper
 	{
 	public:
+
+		/**
+		@brief	画像を保存する。
+		@param	filepath	保存先
+		@param	width	横幅
+		@param	height	縦幅
+		@param	data	隙間なく敷き詰められた画素データ(1画素4byte固定)
+		@param	rev		上下反転で保存する。
+		@note
+		拡張子で画像の形式を判断する。
+		*/
+		static void SaveImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev);
+
+		/**
+		@brief	JPGファイルを保存する。
+		@param	filepath	保存先
+		@param	width	横幅
+		@param	height	縦幅
+		@param	data	隙間なく敷き詰められた画素データ(1画素4byte固定)
+		@param	rev		上下反転で保存する。
+		@note
+		現在、Windows専用である。
+		*/
+		static void SaveJPGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev);
+
 		/**
 		@brief	PNGファイルを保存する。
 		@param	filepath	保存先

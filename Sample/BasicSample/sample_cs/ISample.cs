@@ -16,7 +16,7 @@ class Recorder
 		{
 			if(time == currentTime)
 			{
-				var path = "../../../Sample_SS/" + name + ".png";
+				var path = "../../../Sample_SS/" + name + ".jpg";
 				asd.Engine.TakeScreenshot(path);
 			}
 

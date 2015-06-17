@@ -530,9 +530,13 @@ namespace asd
 		}
 
 		/// <summary>
-		/// スクリーンショットをpngとして保存する。
+		/// スクリーンショットを保存する。
 		/// </summary>
 		/// <param name="path">出力先</param>
+		/// <remarks>
+		/// Windowsの場合、pngとjpg形式の保存に対応している。他のOSではpng形式の保存に対応している。
+		/// 形式の種類は出力先の拡張子で判断する。
+		/// </remarks>
 		public static void TakeScreenshot(string path)
 		{
 			core.TakeScreenshot(path);

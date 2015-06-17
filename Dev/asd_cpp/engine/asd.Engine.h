@@ -159,8 +159,11 @@ namespace asd {
 		static void ChangeSceneWithTransition(std::shared_ptr<Scene> scene, const std::shared_ptr<Transition>& transition);
 
 		/**
-		@brief	スクリーンショットをpngとして保存する。
+		@brief	スクリーンショットを保存する。
 		@param	path	出力先
+		@note
+		Windowsの場合、pngとjpg形式の保存に対応している。他のOSではpng形式の保存に対応している。
+		形式の種類は出力先の拡張子で判断する。
 		*/
 		static void TakeScreenshot(const achar* path);
 

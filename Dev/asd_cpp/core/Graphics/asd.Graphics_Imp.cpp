@@ -50,6 +50,13 @@
 #include <pngstruct.h>
 #include <pnginfo.h>
 
+#if _WIN32
+#include <Windows.h>
+#include <GdiPlus.h>
+#include <Gdiplusinit.h>
+#pragma comment( lib, "gdiplus.lib" )
+#endif
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -128,6 +135,118 @@ namespace asd {
 		{
 			dst[0] = L'\0';
 		}
+	}
+
+	static astring GetFileExt(const achar* filepath)
+	{
+		auto path = astring(filepath);
+		size_t i = path.rfind('.', path.length());
+		if (i != astring::npos)
+		{
+			return (path.substr(i + 1, path.length() - i));
+		}
+		return astring();
+	}
+
+	static achar tolower_(achar in)
+	{
+		if (in <= 'Z' && in >= 'A')
+		{
+			return in - ('Z' - 'z');
+		}
+		return in;
+	}
+
+	void ImageHelper::SaveImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev)
+	{
+		auto ext_ = GetFileExt(filepath);
+		astring ext(ext_);
+		std::transform(ext_.begin(), ext_.end(), ext.begin(), tolower_);
+
+		if (ext == ToAString("png"))
+		{
+			SavePNGImage(filepath, width, height, data, rev);
+		}
+
+		if (ext == ToAString("jpeg") || ext == ToAString("jpg"))
+		{
+			SaveJPGImage(filepath, width, height, data, rev);
+		}
+	}
+
+	void ImageHelper::SaveJPGImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev)
+	{
+#if _WIN32
+		//GDI+を初期化する。
+		Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+		ULONG_PTR gdiplusToken;
+		Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
+
+		{
+			// bmpを作成する。
+			Gdiplus::Bitmap bmp(width, height);
+
+			auto p = (Color*) data;
+			for (int32_t y = 0; y < height; y++)
+			{
+				for (int32_t x = 0; x < width; x++)
+				{
+					if (rev)
+					{
+						auto src = p[x + width * (height - 1 - y)];
+						Gdiplus::Color dst(src.R, src.G, src.B);
+						bmp.SetPixel(x, y, dst);
+					}
+					else
+					{
+						auto src = p[x + width * y];
+						Gdiplus::Color dst(src.R, src.G, src.B);
+						bmp.SetPixel(x, y, dst);
+					}
+				}
+			}
+
+			// 保存
+			CLSID id;
+			UINT encoderNum = 0;
+			UINT encoderSize = 0;
+			Gdiplus::GetImageEncodersSize(&encoderNum, &encoderSize);
+			if (encoderSize == 0)
+			{
+				Gdiplus::GdiplusShutdown(gdiplusToken);
+				return;
+			}
+
+			auto imageCodecInfo = (Gdiplus::ImageCodecInfo*) malloc(encoderSize);
+			Gdiplus::GetImageEncoders(encoderNum, encoderSize, imageCodecInfo);
+
+			for (UINT i = 0; i < encoderNum; i++)
+			{
+				if (wcscmp(imageCodecInfo[i].MimeType, L"image/jpeg") == 0)
+				{
+					id = imageCodecInfo[i].Clsid;
+					free(imageCodecInfo);
+					imageCodecInfo = nullptr;
+					break;
+				}
+			}
+
+			if (imageCodecInfo != nullptr)
+			{
+				free(imageCodecInfo);
+				return;
+			}
+
+			bmp.Save(filepath, &id);
+		}
+
+		//GDI+を終了する。
+		Gdiplus::GdiplusShutdown(gdiplusToken);
+		return;
+#else
+		return;
+#endif // _WIN32
+		
 	}
 
 //----------------------------------------------------------------------------------

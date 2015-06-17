@@ -1500,7 +1500,7 @@ bool Graphics_Imp_DX11::SaveTexture(const achar* path, ID3D11Resource* texture, 
 		memcpy(dst, src, size.X * 4);
 	}
 
-	ImageHelper::SavePNGImage(path, size.X, size.Y, data, false);
+	ImageHelper::SaveImage(path, size.X, size.Y, data, false);
 
 	SafeDeleteArray(data);
 

@@ -1286,7 +1286,7 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 		GL_UNSIGNED_BYTE,
 		(void*)buf);
 
-	ImageHelper::SavePNGImage(path, m_size.X, m_size.Y, buf, true);
+	ImageHelper::SaveImage(path, m_size.X, m_size.Y, buf, true);
 
 	SafeDeleteArray(buf);
 
