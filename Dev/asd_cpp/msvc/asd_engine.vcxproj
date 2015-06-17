@@ -172,7 +172,6 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\engine\asd.CoreToEngine.h" />
     <ClInclude Include="..\engine\asd.Engine.Base.h" />
     <ClInclude Include="..\engine\asd.Engine.h" />
     <ClInclude Include="..\engine\ObjectSystem\2D\asd.CameraObject2D.h" />

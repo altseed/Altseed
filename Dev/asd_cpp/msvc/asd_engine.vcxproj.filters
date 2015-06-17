@@ -2,87 +2,238 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClCompile Include="..\engine\asd.Engine.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\2D\asd.CameraObject2D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\2D\asd.Chip2D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\2D\asd.EffectObject2D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\2D\asd.GeometryObject2D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\2D\asd.Layer2D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\2D\asd.MapObject2D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\2D\asd.Object2D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\2D\asd.TextObject2D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\2D\asd.TextureObject2D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\3D\asd.CameraObject3D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\3D\asd.DirectionalLightObject3D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\3D\asd.EffectObject3D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\3D\asd.Layer3D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\3D\asd.MassModelObject3D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\3D\asd.ModelObject3D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\3D\asd.Object3D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\3D\asd.TerrainObject3D.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\asd.Layer.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\asd.Scene.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\Component\asd.Layer2DComponent.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\Component\asd.Object2DComponent.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\Component\asd.SceneComponent.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffect.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGaussianBlur.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGrayScale.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectLightBloom.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectSepia.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\Transition\asd.Transition.cpp" />
-    <ClCompile Include="..\engine\ObjectSystem\Transition\asd.TransitionFade.cpp" />
-    <ClCompile Include="..\engine\PCH\asd.Engine.PCH.cpp" />
-    <ClCompile Include="..\engine\Shape\asd.ArcShape.cpp" />
-    <ClCompile Include="..\engine\Shape\asd.CircleShape.cpp" />
-    <ClCompile Include="..\engine\Shape\asd.LineShape.cpp" />
-    <ClCompile Include="..\engine\Shape\asd.PolygonShape.cpp" />
-    <ClCompile Include="..\engine\Shape\asd.RectangleShape.cpp" />
-    <ClCompile Include="..\engine\Shape\asd.Shape.cpp" />
-    <ClCompile Include="..\engine\Shape\asd.TriangleShape.cpp" />
+    <ClCompile Include="..\engine\Shape\asd.ArcShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.CameraObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.CameraObject3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.Chip2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\asd.CircleShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.DirectionalLightObject3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.EffectObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.EffectObject3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\PCH\asd.Engine.PCH.cpp">
+      <Filter>PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.GeometryObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\asd.Layer.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Component\asd.Layer2DComponent.cpp">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.Layer2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.Layer3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\asd.LineShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Component\asd.Object2DComponent.cpp">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\asd.PolygonShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\asd.TriangleShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\asd.Shape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.MapObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.MassModelObject3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.ModelObject3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.Object2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.Object3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffect.cpp">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGaussianBlur.cpp">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGrayScale.cpp">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectLightBloom.cpp">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectSepia.cpp">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Component\asd.SceneComponent.cpp">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\3D\asd.TerrainObject3D.cpp">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\Shape\asd.RectangleShape.cpp">
+      <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\asd.Scene.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.TextureObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.TextObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Transition\asd.Transition.cpp">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClCompile>
+    <ClCompile Include="..\engine\ObjectSystem\Transition\asd.TransitionFade.cpp">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\engine\asd.CoreToEngine.h" />
     <ClInclude Include="..\engine\asd.Engine.Base.h" />
     <ClInclude Include="..\engine\asd.Engine.h" />
-    <ClInclude Include="..\engine\ObjectSystem\2D\asd.CameraObject2D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\2D\asd.Chip2D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\2D\asd.EffectObject2D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\2D\asd.GeometryObject2D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\2D\asd.Layer2D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\2D\asd.MapObject2D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\2D\asd.Object2D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\2D\asd.TextObject2D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\2D\asd.TextureObject2D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\3D\asd.CameraObject3D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\3D\asd.DirectionalLightObject3D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\3D\asd.EffectObject3D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\3D\asd.Layer3D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\3D\asd.MassModelObject3D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\3D\asd.ModelObject3D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\3D\asd.Object3D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\3D\asd.TerrainObject3D.h" />
-    <ClInclude Include="..\engine\ObjectSystem\asd.Layer.h" />
-    <ClInclude Include="..\engine\ObjectSystem\asd.Scene.h" />
-    <ClInclude Include="..\engine\ObjectSystem\Component\asd.ComponentManager.h" />
-    <ClInclude Include="..\engine\ObjectSystem\Component\asd.Layer2DComponent.h" />
-    <ClInclude Include="..\engine\ObjectSystem\Component\asd.Object2DComponent.h" />
-    <ClInclude Include="..\engine\ObjectSystem\Component\asd.SceneComponent.h" />
-    <ClInclude Include="..\engine\ObjectSystem\asd.ContentsManager.h" />
-    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffect.h" />
-    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGaussianBlur.h" />
-    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGrayScale.h" />
-    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectLightBloom.h" />
-    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectSepia.h" />
-    <ClInclude Include="..\engine\ObjectSystem\Transition\asd.Transition.h" />
-    <ClInclude Include="..\engine\ObjectSystem\Transition\asd.TransitionFade.h" />
-    <ClInclude Include="..\engine\PCH\asd.Engine.PCH.h" />
-    <ClInclude Include="..\engine\Shape\asd.ArcShape.h" />
-    <ClInclude Include="..\engine\Shape\asd.CircleShape.h" />
-    <ClInclude Include="..\engine\Shape\asd.LineShape.h" />
-    <ClInclude Include="..\engine\Shape\asd.PolygonShape.h" />
-    <ClInclude Include="..\engine\Shape\asd.RectangleShape.h" />
-    <ClInclude Include="..\engine\Shape\asd.Shape.h" />
-    <ClInclude Include="..\engine\Shape\asd.TriangleShape.h" />
+    <ClInclude Include="..\engine\Shape\asd.ArcShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.CameraObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.CameraObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.Chip2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\asd.CircleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Component\asd.ComponentManager.h">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\asd.ContentsManager.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.DirectionalLightObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.EffectObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.EffectObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\PCH\asd.Engine.PCH.h">
+      <Filter>PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.GeometryObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\asd.Layer.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Component\asd.Layer2DComponent.h">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.Layer2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.Layer3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\asd.LineShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Component\asd.Object2DComponent.h">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\asd.PolygonShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\asd.TriangleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\asd.Shape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.MapObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.MassModelObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.ModelObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.Object2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.Object3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffect.h">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGaussianBlur.h">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectGrayScale.h">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectLightBloom.h">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectSepia.h">
+      <Filter>ObjectSystem\PostEffect</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Component\asd.SceneComponent.h">
+      <Filter>ObjectSystem\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\3D\asd.TerrainObject3D.h">
+      <Filter>ObjectSystem\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\Shape\asd.RectangleShape.h">
+      <Filter>Shape</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\asd.Scene.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.TextureObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.TextObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Transition\asd.Transition.h">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Transition\asd.TransitionFade.h">
+      <Filter>ObjectSystem\Transition</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
