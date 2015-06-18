@@ -161,7 +161,7 @@ namespace asd {
 	{
 		imgPtr = gdImageCreate(width, height);
 		fp = fopen("test.gif", "wb");
-		gdImageGifAnimBegin(imgPtr, fp, FALSE, 0);
+		gdImageGifAnimBegin(imgPtr, fp, /*GlobalColorMap=*/false, 0);
 		this->framerate = framerate;
 		this->width = width;
 		this->height = height;
@@ -181,8 +181,8 @@ namespace asd {
 				gdImageSetPixel(frameImage, x, y, gdTrueColor(c.R, c.G, c.B));
 			}
 		}
-		gdImageTrueColorToPalette(frameImage, TRUE, gdMaxColors);
-		gdImageGifAnimAdd(frameImage, fp, TRUE, 0, 0, delay, gdDisposalNone, NULL);
+		gdImageTrueColorToPalette(frameImage, /*ditherFlag=*/true, gdMaxColors);
+		gdImageGifAnimAdd(frameImage, fp, /*LocalColorMap=*/true, 0, 0, delay, gdDisposalNone, NULL);
 		gdImageDestroy(frameImage);
 	}
 
