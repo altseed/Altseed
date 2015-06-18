@@ -62,6 +62,6 @@ if aceutils.isWin():
 
 else:
 	aceutils.copytreeWithExt(r'libgd-gd-2.1.1/src/', r'Dev/include/gd/',['.h'])
-	aceutils.copy(r'freetype_bin/libfreetype.a', r'Dev/lib/')
+	aceutils.copy(r'gd_bin/Bin/libgd.a', r'Dev/lib/')
 
 
