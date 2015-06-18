@@ -328,3 +328,13 @@ Sample/BasicSample/sample_cs/Altseed.XML
 Sample/bin/Altseed.xml
 Sample/sample_cs/Altseed.XML
 /Doc/
+gd_bin_x64/
+gd_bin/
+freetype_bin_x64/
+freetype_bin/
+freetype-2.6/
+libgd-gd-2.1.1/
+Dev/include/freetype/
+Dev/include/gd/
+ft26.zip
+gd-2.1.1.zip
