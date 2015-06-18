@@ -92,7 +92,11 @@ else()
 	
 	list(APPEND common_lib Box2D )
 
-	list(APPEND common_lib gd_static )
+	if(MSVC)
+		list(APPEND common_lib gd_static )
+	else()
+		list(APPEND common_lib gd )
+	endif()
 
 	if(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 		FIND_PACKAGE(OpenAL REQUIRED)
