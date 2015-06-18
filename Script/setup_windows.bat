@@ -8,5 +8,6 @@ download_gtest.py
 download_OpenSoundMixer.py
 download_imagepackagegenerator.py
 download_freetype.py
+download_libgd.py
 
 pause

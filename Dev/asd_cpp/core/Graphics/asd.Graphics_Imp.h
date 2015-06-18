@@ -18,6 +18,35 @@
 
 #include "../Utils/asd.ResourceContainer.h"
 
+// AnimationGif
+#define NONDLL	1
+#define MSWIN32 1
+#define BGDWIN32 1
+#include <gd/gd.h>
+#include <gd/gdfontmb.h>
+
+#if _WIN32
+
+#ifdef _WIN64
+
+#if _DEBUG
+#pragma comment(lib,"x64/Debug/libgd_static.lib")
+#else
+#pragma comment(lib,"x64/Release/libgd_static.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/libgd_static.lib")
+#else
+#pragma comment(lib,"x86/Release/libgd_static.lib")
+#endif
+
+#endif
+
+#endif
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -27,6 +56,21 @@ namespace asd {
 //----------------------------------------------------------------------------------
 
 #if !SWIG
+	class GifAnimationHelper
+	{
+
+		FILE*		fp = nullptr;
+		int32_t		width = 0;
+		int32_t		height = 0;
+		int32_t		framerate = 0;
+		gdImagePtr	imgPtr = nullptr;
+
+	public:
+		bool Initialize(const char* filepath, int32_t width, int32_t height, int32_t framerate);
+		void AddImage(Color* data, int width, int height);
+		void Finalize();
+	};
+
 	class ImageHelper
 	{
 	public:
