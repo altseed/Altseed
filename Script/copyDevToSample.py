@@ -34,4 +34,5 @@ def copyDev(targetDir):
 
 copyDev(r'Sample')
 copyDev(r'Sample/BasicSample')
+copyDev(r'Sample/ApplicationSample')
 
