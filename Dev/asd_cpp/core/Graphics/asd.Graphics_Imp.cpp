@@ -177,7 +177,7 @@ namespace asd {
 		{
 			for (int32_t x = 0; x < width; x++)
 			{
-				auto c = data[x + width * height];
+				auto c = data[x + y * width];
 				gdImageSetPixel(frameImage, x, y, gdTrueColor(c.R, c.G, c.B));
 			}
 		}

@@ -20,8 +20,6 @@
 
 #include "../Sound/asd.Sound_Imp.h"
 
-#include "../Graphics/asd.Graphics_Imp.h"
-
 #include "../Graphics/3D/Resource/Animation/asd.AnimationSystem_Imp.h"
 #include "../Graphics/2D/asd.LayerRenderer.h"
 
@@ -404,6 +402,13 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Core_Imp::Terminate()
 	{
+		for (auto& gifAnim : gifAnimations)
+		{
+			gifAnim->Helper->Finalize();
+			gifAnim->Helper = nullptr;
+		}
+		gifAnimations.clear();
+
 		SafeRelease(m_currentScene);
 		SafeDelete(m_objectSystemFactory);
 
@@ -460,6 +465,34 @@ namespace asd
 			m_graphics->SaveScreenshot(ss.c_str());
 		}
 		m_screenShots.clear();
+
+		for (auto& gifAnim : gifAnimations)
+		{
+			if (gifAnim->Time % (gifAnim->Frequency - 1) == 0)
+			{
+				std::vector<Color> bufs;
+				Vector2DI size;
+				m_graphics->SaveScreenshot(bufs, size);
+
+				gifAnim->Helper->AddImage(bufs.data(), size.X, size.Y);
+			}
+
+			gifAnim->Time++;
+		}
+
+		for (auto& gifAnim : gifAnimations)
+		{
+			if (gifAnim->FrameCount * gifAnim->Frequency == gifAnim->Time)
+			{
+				gifAnim->Helper->Finalize();
+				gifAnim->Helper = nullptr;
+			}
+		}
+
+		auto it = std::remove_if(
+			gifAnimations.begin(), gifAnimations.end(), 
+			[](std::shared_ptr<GifAnimation> g)->bool { return g->Helper == nullptr; });
+		gifAnimations.erase(it, gifAnimations.end());
 	}
 
 	//----------------------------------------------------------------------------------
@@ -568,6 +601,21 @@ namespace asd
 	void Core_Imp::TakeScreenshot(const achar* path)
 	{
 		m_screenShots.push_back(path);
+	}
+
+	void Core_Imp::CaptureScreenAsGifAnimation(const achar* path, int32_t frame, int frequency)
+	{
+		std::shared_ptr<GifAnimation> anim = std::make_shared<GifAnimation>();
+
+		anim->Path = path;
+		anim->Time = 0;
+		anim->Frequency = frequency;
+		anim->FrameCount = frame;
+		anim->Helper = std::make_shared<GifAnimationHelper>();
+
+		anim->Helper->Initialize("test.gif", m_windowSize.X, m_windowSize.Y, 60 / frequency);
+
+		gifAnimations.push_back(anim);
 	}
 
 	float Core_Imp::GetDeltaTime() const

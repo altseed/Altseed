@@ -1453,10 +1453,37 @@ void Graphics_Imp_DX11::SaveScreenshot(const achar* path)
 	SafeRelease(resource);
 }
 
+void Graphics_Imp_DX11::SaveScreenshot(std::vector<Color>& bufs, Vector2DI& size)
+{
+	ID3D11Resource* resource = nullptr;
+
+	m_defaultBackRenderTargetView->GetResource(&resource);
+
+	size = m_size;
+
+	SaveTexture(bufs, resource, m_size);
+
+	SafeRelease(resource);
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
 bool Graphics_Imp_DX11::SaveTexture(const achar* path, ID3D11Resource* texture, Vector2DI size)
+{
+	std::vector<Color> bufs;
+
+	if (!SaveTexture(bufs, texture, size))
+	{
+		return false;
+	}
+
+	ImageHelper::SaveImage(path, size.X, size.Y, bufs.data(), false);
+
+	return true;
+}
+
+bool Graphics_Imp_DX11::SaveTexture(std::vector<Color>& bufs, ID3D11Resource* texture, Vector2DI size)
 {
 	ID3D11Texture2D* texture_ = nullptr;
 
@@ -1491,18 +1518,14 @@ bool Graphics_Imp_DX11::SaveTexture(const achar* path, ID3D11Resource* texture, 
 		return false;
 	}
 
-	auto data = new uint8_t[size.X * size.Y * 4];
+	bufs.resize(size.X * size.Y);
 
 	for (int32_t h = 0; h < size.Y; h++)
 	{
-		auto dst = &(data[h*size.X * 4]);
+		auto dst = &(bufs[h * size.X]);
 		auto src = &(((uint8_t*) mr.pData)[h*mr.RowPitch]);
-		memcpy(dst, src, size.X * 4);
+		memcpy(dst, src, size.X * sizeof(Color));
 	}
-
-	ImageHelper::SaveImage(path, size.X, size.Y, data, false);
-
-	SafeDeleteArray(data);
 
 	GetContext()->Unmap(texture_, sr);
 

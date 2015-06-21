@@ -133,7 +133,11 @@ namespace asd {
 
 		void SaveScreenshot(const achar* path);
 
+		void SaveScreenshot(std::vector<Color>& bufs, Vector2DI& size);
+
 		bool SaveTexture(const achar* path, GLuint texture, Vector2DI size);
+
+		bool SaveTexture(std::vector<Color>& bufs, GLuint texture, Vector2DI size);
 
 		GraphicsDeviceType GetGraphicsDeviceType() const { return GraphicsDeviceType::OpenGL; }
 

@@ -314,6 +314,17 @@ namespace asd {
 		*/
 		virtual void SaveScreenshot(const achar* path) = 0;
 
+#if !SWIG
+		/**
+		@brief	スクリーンショットを保存する。
+		@param	bufs	保存先
+		@note
+		OpenGLの現状の実装だと、RenderTarget等が指定されている状態では使えないため、
+		使用できるのはDoEventsかPresent近辺のみである。
+		*/
+		virtual void SaveScreenshot(std::vector<Color>& bufs, Vector2DI& size) = 0;
+#endif
+
 		int32_t GetDrawCallCount() const override { return drawCallCount; };
 
 		int32_t GetUsedVRAMSize() const override { return vramCount; }

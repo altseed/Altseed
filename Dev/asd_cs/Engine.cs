@@ -543,6 +543,21 @@ namespace asd
 		}
 
 		/// <summary>
+		/// スクリーンショットをgifアニメーションとして録画する。
+		/// </summary>
+		/// <param name="path">出力先</param>
+		/// <param name="frame">録画フレーム数</param>
+		/// <param name="frequency">録画頻度(例えば、1だと1フレームに1回保存、2だと2フレームに2回保存)</param>
+		/// <remarks>
+		/// 実行してから一定時間の間、録画を続ける。
+		/// 録画が終了するまでにアプリケーションが終了された場合、終了した時点までの録画結果が出力される。
+		/// </remarks>
+		public static void CaptureScreenAsGifAnimation(string path, int frame, int frequency)
+		{
+			core.CaptureScreenAsGifAnimation(path, frame, frequency);
+		}
+
+		/// <summary>
 		/// 1フレームで経過した実時間(秒)を取得、または設定する。
 		/// </summary>
 		/// <remarks>

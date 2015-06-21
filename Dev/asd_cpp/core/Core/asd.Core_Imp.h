@@ -6,6 +6,7 @@
 #include "asd.Core.h"
 #include "../asd.Core.Base_Imp.h"
 #include "../ObjectSystem/asd.CoreScene.h"
+#include "../Graphics/asd.Graphics_Imp.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -22,6 +23,15 @@ namespace asd {
 #endif
 
 	private:
+
+		struct GifAnimation
+		{
+			astring	Path;
+			int32_t	Time = 0;
+			int32_t	Frequency = 1;
+			int32_t	FrameCount = 0;
+			std::shared_ptr<GifAnimationHelper>		Helper;
+		};
 
 		CoreFuncPtr		m_removedFuncPtr;
 		bool	m_isInitializedByExternal;
@@ -48,7 +58,8 @@ namespace asd {
 
 		LayerRenderer*				layerRenderer = nullptr;
 
-		std::vector<astring>		m_screenShots;
+		std::vector<astring>						m_screenShots;
+		std::vector<std::shared_ptr<GifAnimation>>	gifAnimations;
 
 		int32_t				m_targetFPS;
 		float				m_currentFPS;
@@ -107,6 +118,8 @@ namespace asd {
 		void Close() override;
 
 		void TakeScreenshot(const achar* path);
+
+		void CaptureScreenAsGifAnimation(const achar* path, int32_t frame, int frequency);
 
 		float GetDeltaTime() const override;
 

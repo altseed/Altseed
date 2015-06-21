@@ -1266,16 +1266,26 @@ void Graphics_Imp_GL::Present()
 //----------------------------------------------------------------------------------
 void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 {
+	std::vector<Color> bufs;
+	Vector2DI size;
+	SaveScreenshot(bufs, size);
+
+	ImageHelper::SaveImage(path, size.X, size.Y, bufs.data(), true);
+}
+
+void Graphics_Imp_GL::SaveScreenshot(std::vector<Color>& bufs, Vector2DI& size)
+{
 	GLCheckError();
 
 	glFlush();
 	glFinish();
 
-	glViewport( 0, 0, m_size.X, m_size.Y);
+	glViewport(0, 0, m_size.X, m_size.Y);
 	glReadBuffer(GL_BACK);
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 
-	auto buf = new uint8_t[m_size.X * m_size.Y * 4];
+	size = m_size;
+	bufs.resize(size.X * size.Y);
 
 	glReadPixels(
 		0,
@@ -1284,11 +1294,7 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 		m_size.Y,
 		GL_RGBA,
 		GL_UNSIGNED_BYTE,
-		(void*)buf);
-
-	ImageHelper::SaveImage(path, m_size.X, m_size.Y, buf, true);
-
-	SafeDeleteArray(buf);
+		(void*) bufs.data());
 
 	GLCheckError();
 }
@@ -1298,20 +1304,30 @@ void Graphics_Imp_GL::SaveScreenshot(const achar* path)
 //----------------------------------------------------------------------------------
 bool Graphics_Imp_GL::SaveTexture(const achar* path, GLuint texture, Vector2DI size)
 {
+	std::vector<Color> bufs;
+
+	if (!SaveTexture(bufs, texture, size))
+	{
+		return false;
+	}
+
+	ImageHelper::SavePNGImage(path, size.X, size.Y, bufs.data(), true);
+
+	return true;
+}
+
+bool Graphics_Imp_GL::SaveTexture(std::vector<Color>& bufs, GLuint texture, Vector2DI size)
+{
 	GLCheckError();
 
-	auto buf = new uint8_t[size.X * size.Y * 4];
+	bufs.resize(size.X * size.Y);
 
 	glBindTexture(GL_TEXTURE_2D, texture);
 
 	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, buf);
+	glGetTexImage(GL_TEXTURE_2D, 0, GL_RGBA, GL_UNSIGNED_BYTE, bufs.data());
 
 	glBindTexture(GL_TEXTURE_2D, 0);
-
-	ImageHelper::SavePNGImage(path, size.X, size.Y, buf, true);
-
-	SafeDeleteArray(buf);
 
 	GLCheckError();
 

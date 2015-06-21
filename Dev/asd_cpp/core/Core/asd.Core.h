@@ -127,6 +127,17 @@ namespace asd {
 		virtual void TakeScreenshot(const achar* path) = 0;
 
 		/**
+			@brief	スクリーンショットをgifアニメーションとして録画する。
+			@param	path	出力先
+			@param	frame	録画フレーム数
+			@param	frequency	録画頻度(例えば、1だと1フレームに1回保存、2だと2フレームに2回保存)
+			@note
+			実行してから一定時間の間、録画を続ける。
+			録画が終了するまでにアプリケーションが終了された場合、終了した時点までの録画結果が出力される。
+		*/
+		virtual void CaptureScreenAsGifAnimation(const achar* path, int32_t frame, int frequency) = 0;
+
+		/**
 			@brief	1フレームで経過した時間を実時間(秒)で取得する。
 			@return	経過時間時間(秒)
 		*/

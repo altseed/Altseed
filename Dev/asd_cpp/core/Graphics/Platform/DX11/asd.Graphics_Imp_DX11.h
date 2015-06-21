@@ -156,7 +156,11 @@ namespace asd {
 
 		void SaveScreenshot(const achar* path);
 
+		void SaveScreenshot(std::vector<Color>& bufs, Vector2DI& size);
+
 		bool SaveTexture(const achar* path, ID3D11Resource* texture, Vector2DI size);
+
+		bool SaveTexture(std::vector<Color>& bufs, ID3D11Resource* texture, Vector2DI size);
 
 	public:
 
