@@ -9,7 +9,6 @@ namespace asd
 		_wfopen_s(&fp, filepath, L"wb");
 #else
 		fp = fopen(ToUtf8String(filepath).c_str(), "wb");
-		if (fp == nullptr) return std::vector<int8_t>();
 #endif
 		if (fp == nullptr) return false;
 
