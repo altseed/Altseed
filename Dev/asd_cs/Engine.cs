@@ -547,14 +547,15 @@ namespace asd
 		/// </summary>
 		/// <param name="path">出力先</param>
 		/// <param name="frame">録画フレーム数</param>
-		/// <param name="frequency">録画頻度(例えば、1だと1フレームに1回保存、2だと2フレームに2回保存)</param>
+		/// <param name="frequency_rate">録画頻度(例えば、1だと1フレームに1回保存、0.5だと2フレームに2回保存)</param>
+		/// <param name="scale">ウインドウサイズに対する画像サイズの拡大率(ウインドウサイズが320の場合、0.5を指定すると160の画像が出力される)</param>
 		/// <remarks>
 		/// 実行してから一定時間の間、録画を続ける。
 		/// 録画が終了するまでにアプリケーションが終了された場合、終了した時点までの録画結果が出力される。
 		/// </remarks>
-		public static void CaptureScreenAsGifAnimation(string path, int frame, int frequency)
+		public static void CaptureScreenAsGifAnimation(string path, int frame, float frequency_rate, float scale)
 		{
-			core.CaptureScreenAsGifAnimation(path, frame, frequency);
+			core.CaptureScreenAsGifAnimation(path, frame, frequency_rate, scale);
 		}
 
 		/// <summary>

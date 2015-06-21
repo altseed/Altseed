@@ -148,6 +148,9 @@
     <Filter Include="3rdParty\poly2tri">
       <UniqueIdentifier>{8a346865-2f74-4465-a8f1-93ab10f57f60}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Graphics\Helper">
+      <UniqueIdentifier>{2ba8aa37-127b-4d29-a747-16deff68beae}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\core\Log\asd.Log_Imp.h">
@@ -969,6 +972,9 @@
     <ClInclude Include="..\core\Shape\asd.CoreShapeConverter.h">
       <Filter>Shape</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Helper\asd.GifAnimationHelper.h">
+      <Filter>Graphics\Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1368,6 +1374,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Shape\asd.CoreShapeConverter.cpp">
       <Filter>Shape</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\Helper\asd.GifAnimationHelper.cpp">
+      <Filter>Graphics\Helper</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

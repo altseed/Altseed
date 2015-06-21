@@ -157,45 +157,6 @@ namespace asd {
 		return in;
 	}
 
-	bool GifAnimationHelper::Initialize(const char* filepath, int32_t width, int32_t height, int32_t framerate)
-	{
-		imgPtr = gdImageCreate(width, height);
-		fp = fopen("test.gif", "wb");
-		gdImageGifAnimBegin(imgPtr, fp, /*GlobalColorMap=*/false, 0);
-		this->framerate = framerate;
-		this->width = width;
-		this->height = height;
-		return true;
-	}
-
-	void GifAnimationHelper::AddImage(Color* data, int width, int height)
-	{
-		int delay = (int) round((1.0 / (double) framerate) * 100.0);
-		gdImagePtr frameImage = gdImageCreateTrueColor(width, height);
-
-		for (int32_t y = 0; y < height; y++)
-		{
-			for (int32_t x = 0; x < width; x++)
-			{
-				auto c = data[x + y * width];
-				gdImageSetPixel(frameImage, x, y, gdTrueColor(c.R, c.G, c.B));
-			}
-		}
-		gdImageTrueColorToPalette(frameImage, /*ditherFlag=*/true, gdMaxColors);
-		gdImageGifAnimAdd(frameImage, fp, /*LocalColorMap=*/true, 0, 0, delay, gdDisposalNone, NULL);
-		gdImageDestroy(frameImage);
-	}
-
-	void GifAnimationHelper::Finalize()
-	{
-		gdImageGifAnimEnd(fp);
-		fclose(fp);
-		gdImageDestroy(imgPtr);
-
-		fp = nullptr;
-		imgPtr = nullptr;
-	}
-
 	void ImageHelper::SaveImage(const achar* filepath, int32_t width, int32_t height, void* data, bool rev)
 	{
 		auto ext_ = GetFileExt(filepath);

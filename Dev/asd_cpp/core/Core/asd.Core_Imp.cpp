@@ -603,17 +603,17 @@ namespace asd
 		m_screenShots.push_back(path);
 	}
 
-	void Core_Imp::CaptureScreenAsGifAnimation(const achar* path, int32_t frame, int frequency)
+	void Core_Imp::CaptureScreenAsGifAnimation(const achar* path, int32_t frame, float frequency_rate, float scale)
 	{
 		std::shared_ptr<GifAnimation> anim = std::make_shared<GifAnimation>();
 
 		anim->Path = path;
 		anim->Time = 0;
-		anim->Frequency = frequency;
+		anim->Frequency = (int32_t)(1.0f / frequency_rate);
 		anim->FrameCount = frame;
 		anim->Helper = std::make_shared<GifAnimationHelper>();
 
-		anim->Helper->Initialize("test.gif", m_windowSize.X, m_windowSize.Y, 60 / frequency);
+		anim->Helper->Initialize(path, m_windowSize.X, m_windowSize.Y, (int32_t)(GetTargetFPS() * frequency_rate), scale);
 
 		gifAnimations.push_back(anim);
 	}

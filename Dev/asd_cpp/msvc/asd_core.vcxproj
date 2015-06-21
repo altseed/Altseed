@@ -377,6 +377,7 @@
     <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommandExecutor.h" />
     <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommandFactory.h" />
     <ClInclude Include="..\core\Graphics\Command\asd.RenderingCommandHelper.h" />
+    <ClInclude Include="..\core\Graphics\Helper\asd.GifAnimationHelper.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\asd.DX11.Base.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\dds.h" />
@@ -656,6 +657,7 @@
     <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommandExecutor.cpp" />
     <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommandFactory.cpp" />
     <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommandHelper.cpp" />
+    <ClCompile Include="..\core\Graphics\Helper\asd.GifAnimationHelper.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.CubemapTexture_Imp_DX11.cpp" />

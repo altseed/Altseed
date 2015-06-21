@@ -6,7 +6,7 @@
 #include "asd.Core.h"
 #include "../asd.Core.Base_Imp.h"
 #include "../ObjectSystem/asd.CoreScene.h"
-#include "../Graphics/asd.Graphics_Imp.h"
+#include "../Graphics/Helper/asd.GifAnimationHelper.h"
 
 //----------------------------------------------------------------------------------
 //
@@ -119,7 +119,7 @@ namespace asd {
 
 		void TakeScreenshot(const achar* path);
 
-		void CaptureScreenAsGifAnimation(const achar* path, int32_t frame, int frequency);
+		void CaptureScreenAsGifAnimation(const achar* path, int32_t frame, float frequency_rate, float scale);
 
 		float GetDeltaTime() const override;
 

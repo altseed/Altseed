@@ -737,9 +737,9 @@ namespace asd
 		m_core->TakeScreenshot(path);
 	}
 
-	void Engine::CaptureScreenAsGifAnimation(const achar* path, int32_t frame, int frequency)
+	void Engine::CaptureScreenAsGifAnimation(const achar* path, int32_t frame, float frequency_rate, float scale)
 	{
-		m_core->CaptureScreenAsGifAnimation(path, frame, frequency);
+		m_core->CaptureScreenAsGifAnimation(path, frame, frequency_rate, scale);
 	}
 
 	float Engine::GetDeltaTime()
