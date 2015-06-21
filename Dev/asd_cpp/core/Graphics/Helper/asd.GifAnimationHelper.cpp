@@ -16,8 +16,8 @@ namespace asd
 		imgPtr = gdImageCreate(width * scale, height * scale);
 		gdImageGifAnimBegin(imgPtr, fp, /*GlobalColorMap=*/false, 0);
 		this->framerate = framerate;
-		this->width = width;
-		this->height = height;
+		this->width = width * scale;
+		this->height = height * scale;
 		return true;
 	}
 
