@@ -28,4 +28,23 @@ class Recorder
 			currentName = name;
 		}
 	}
+
+	public static void CaptureScreen(string name, int time, int frame, float freq_rate, float scale)
+	{
+		if (name == currentName)
+		{
+			if (time == currentTime)
+			{
+				var path = "../../../Sample_SS/" + name + ".gif";
+				asd.Engine.CaptureScreenAsGifAnimation(path, frame, freq_rate, scale);
+			}
+
+			currentTime++;
+		}
+		else
+		{
+			currentTime = 0;
+			currentName = name;
+		}
+	}
 }

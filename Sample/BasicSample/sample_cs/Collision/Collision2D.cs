@@ -117,6 +117,8 @@ public class Collision2D : ISample
             }
             // Altseedを更新する。
             asd.Engine.Update();
+
+			Recorder.CaptureScreen("Collision2D", 10, 30, 0.2f, 0.5f);
         }
 
         // Altseedの終了処理をする。
