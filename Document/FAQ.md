@@ -10,7 +10,7 @@ Windowsの場合、実行に必要なDirectX エンド ユーザー ランタイ
 
 #### 自作のアプリケーションにAltseedを使用したいのですがライセンスの表記はどうすればいいでしょうか?
 
-[ライセンス](https://github.com/Altseed/amusement-creators-engine/blob/master/LICENSE)をアプリケーションのヘルプ等に掲載してください。
+[ライセンス](https://github.com/Altseed/altseed/blob/master/LICENSE)をアプリケーションのヘルプ等に掲載してください。
 
 #### ゲーム中の画像をプレイヤーに見られたくないのですがどうすればいいでしょうか?
 
