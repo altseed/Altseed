@@ -22,8 +22,8 @@ aceutils.cd(r"gd_bin")
 
 if aceutils.isWin():
 	aceutils.call(r'cmake -G "Visual Studio 12" ../libgd-gd-2.1.1/')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" GD.sln /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" GD.sln /p:configuration=Release')
+	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" src/libgd_static.vcxproj /p:configuration=Debug')
+	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" src/libgd_static.vcxproj /p:configuration=Release')
 elif aceutils.isMac():
 	aceutils.call(r'cmake -G "Unix Makefiles" "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../libgd-gd-2.1.1/')
 	aceutils.call(r'make')
@@ -37,8 +37,8 @@ aceutils.cd(r"gd_bin_x64")
 
 if aceutils.isWin():
 	aceutils.call(r'cmake -G "Visual Studio 12 Win64" ../libgd-gd-2.1.1/')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" GD.sln /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" GD.sln /p:configuration=Release')
+	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" src/libgd_static.vcxproj /p:configuration=Debug')
+	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" src/libgd_static.vcxproj /p:configuration=Release')
 
 aceutils.cd(r"../")
 
