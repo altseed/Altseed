@@ -9,7 +9,7 @@ def getCppFiles(path,base):
 	files = aceutils.get_files(path)
 	files = [ base + p[len(path):] for p in files]
 	files = [ p.replace('\\','/') for p in files]
-	files = [ p for p in files if os.path.splitext(p)[1] in {'.cpp','.cxx'}]
+	files = [ p for p in files if os.path.splitext(p)[1] in {'.c','.cpp','.cxx'}]
 	return files
 
 def getCMakeArray(files,name):

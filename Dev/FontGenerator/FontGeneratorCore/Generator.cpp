@@ -7,6 +7,8 @@
 #include <Utility/asd.BinaryWriter.h>
 #include <Utility/asd.BinaryReader.h>
 
+#include <NKF/nkf.h>
+
 #include <ft2build.h>
 #include FT_FREETYPE_H
 
@@ -15,20 +17,14 @@ using namespace asd;
 
 namespace FontGenerator
 {
-	typedef BOOL(__stdcall *funcNkfConvertSafe)(LPSTR, DWORD, LPDWORD, LPCSTR, DWORD);
-	typedef int(__stdcall *funcSetNkfOption)(LPCSTR);
 
 	static void Convert(const char* mode, char* outBuffer, int outBufferSize, const char* inStr, int inStrlength)
 	{
-		HINSTANCE dll = LoadLibrary(L"nkf32.dll");
-
-		funcSetNkfOption setNkfOption = (funcSetNkfOption)GetProcAddress(dll, "SetNkfOption");
-		setNkfOption(mode);
+		SetNkfOption((char*)mode);
 
 		DWORD returnedBytes = 0;
 
-		funcNkfConvertSafe nkfConvertSafe = (funcNkfConvertSafe)GetProcAddress(dll, "NkfConvertSafe");
-		nkfConvertSafe(outBuffer, outBufferSize, &returnedBytes, inStr, inStrlength);
+		NkfConvertSafe(outBuffer, outBufferSize, &returnedBytes, (char*) inStr, inStrlength);
 	}
 
 	static vector<achar> ToUtf16(const char* str, int length)

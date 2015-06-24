@@ -11,11 +11,13 @@
 #pragma comment(lib,"libpng16.lib")
 #pragma comment(lib,"zlib.lib")
 #pragma comment(lib,"asd_common.lib")
+#pragma comment(lib,"asd_tool.lib")
 #else
 #pragma comment(lib,"x86/Release/freetype.lib")
 #pragma comment(lib,"libpng16.lib")
 #pragma comment(lib,"zlib.lib")
 #pragma comment(lib,"asd_common.lib")
+#pragma comment(lib,"asd_tool.lib")
 #endif
 
 

@@ -7,6 +7,9 @@
     <Filter Include="Graphics\3D">
       <UniqueIdentifier>{c2f34220-619f-4744-bd93-7f42a068a92f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="NKF">
+      <UniqueIdentifier>{cc46fd32-dc34-41ae-9fd9-a02317b284f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tool\Graphics\3D\asd.MassModel_IO.h">
@@ -15,6 +18,15 @@
     <ClInclude Include="..\tool\Graphics\3D\asd.Model_IO.h">
       <Filter>Graphics\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\tool\NKF\utf8tbl.h">
+      <Filter>NKF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tool\NKF\config.h">
+      <Filter>NKF</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tool\NKF\nkf.h">
+      <Filter>NKF</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\tool\Graphics\3D\asd.Model_IO.cpp">
@@ -22,6 +34,12 @@
     </ClCompile>
     <ClCompile Include="..\tool\Graphics\3D\asd.MassModel_IO.cpp">
       <Filter>Graphics\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tool\NKF\utf8tbl.c">
+      <Filter>NKF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tool\NKF\nkf.c">
+      <Filter>NKF</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
