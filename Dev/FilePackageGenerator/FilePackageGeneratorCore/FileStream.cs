@@ -11,6 +11,9 @@ namespace FilePackageGenerator
 	/// <summary>
 	/// パックファイルも読み込めるように拡張したもの
 	/// </summary>
+	/// <remarks>
+	/// 暗号化が現在未対応
+	/// </remarks>
 	internal class FileStream : System.IO.FileStream
 	{
 		long length;
