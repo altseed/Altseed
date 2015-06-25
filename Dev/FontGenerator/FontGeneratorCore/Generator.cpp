@@ -22,7 +22,7 @@ namespace FontGenerator
 	{
 		SetNkfOption((char*)mode);
 
-		DWORD returnedBytes = 0;
+		unsigned long returnedBytes = 0;
 
 		NkfConvertSafe(outBuffer, outBufferSize, &returnedBytes, (char*) inStr, inStrlength);
 	}

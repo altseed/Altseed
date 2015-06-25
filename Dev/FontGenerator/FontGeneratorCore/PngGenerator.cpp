@@ -27,7 +27,7 @@ using namespace asd;
 namespace FontGenerator
 {
 	PngGenerator::PngGenerator()
-		: m_sheetName(L"font.png")
+		: m_sheetName(asd::ToAString("font.png"))
 		, m_fonts(vector<FontData>())
 		, m_setting(SettingForRendering())
 	{
