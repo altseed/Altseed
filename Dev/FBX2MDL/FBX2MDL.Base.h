@@ -3,15 +3,15 @@
 
 #include <fbxsdk.h>
 
-#include <Math/ace.Vector2DF.h>
-#include <Math/ace.Vector3DF.h>
-#include <Math/ace.Matrix44.h>
-#include <Graphics/ace.Graphics.Common.h>
-#include <Graphics/ace.Color.h>
+#include <Math/asd.Vector2DF.h>
+#include <Math/asd.Vector3DF.h>
+#include <Math/asd.Matrix44.h>
+#include <Graphics/asd.Graphics.Common.h>
+#include <Graphics/asd.Color.h>
 
-#include <Utility/ace.BinaryWriter.h>
+#include <Utility/asd.BinaryWriter.h>
 
-#include <Graphics/3D/ace.Model_IO.h>
+#include <Graphics/3D/asd.Model_IO.h>
 
 #include <functional>
 #include <algorithm>
@@ -24,9 +24,9 @@ namespace FBX2MDL
 	class Node;
 	class Mesh;
 
-	static ace::Matrix44 ToAce(FbxAMatrix& mat)
+	static asd::Matrix44 ToAce(FbxAMatrix& mat)
 	{
-		ace::Matrix44 mat_;
+		asd::Matrix44 mat_;
 
 		for (auto c = 0; c < 4; c++)
 		{
@@ -46,34 +46,34 @@ namespace FBX2MDL
 	private:
 
 	public:
-		ace::astring Name;
+		asd::astring Name;
 		std::vector<std::shared_ptr<Node>> Children;
 
 		std::shared_ptr<Mesh> MeshParameter;
 
-		ace::RotationOrder RotationOrder;
+		asd::RotationOrder RotationOrder;
 
-		ace::Matrix44 GeometricMatrix;
-		ace::Matrix44 LclMatrix;
+		asd::Matrix44 GeometricMatrix;
+		asd::Matrix44 LclMatrix;
 	};
 
 	struct KeyFrame
 	{
-		ace::Vector2DF KeyValue;
-		ace::Vector2DF LeftPosition;
-		ace::Vector2DF RightPosition;
+		asd::Vector2DF KeyValue;
+		asd::Vector2DF LeftPosition;
+		asd::Vector2DF RightPosition;
 		int32_t Interpolation;
 	};
 
 	struct KeyFrameAnimation
 	{
-		ace::astring TargetName;
+		asd::astring TargetName;
 		std::vector<KeyFrame> KeyFrames;
 	};
 
 	struct AnimationSource
 	{
-		ace::astring Name;
+		asd::astring Name;
 		std::vector<KeyFrameAnimation> keyFrameAnimations;
 		int32_t StartTime;
 		int32_t StopTime;
@@ -95,16 +95,16 @@ namespace FBX2MDL
 
 	struct BoneConnector
 	{
-		ace::astring	Name;
-		ace::Matrix44	TransformMatrix;
-		ace::Matrix44	TransformLinkMatrix;
-		ace::Matrix44	OffsetMatrix;
+		asd::astring	Name;
+		asd::Matrix44	TransformMatrix;
+		asd::Matrix44	TransformLinkMatrix;
+		asd::Matrix44	OffsetMatrix;
 	};
 
 	struct Material
 	{
-		ace::astring	Name;
-		ace::astring	DiffuseTexturePath;
+		asd::astring	Name;
+		asd::astring	DiffuseTexturePath;
 	};
 
 	class Mesh
@@ -112,9 +112,9 @@ namespace FBX2MDL
 	private:
 
 	public:
-		ace::astring	Name;
+		asd::astring	Name;
 
-		std::vector<ace::Model_IO::Vertex> Vertexes;
+		std::vector<asd::Model_IO::Vertex> Vertexes;
 		std::vector<Face> Faces;
 
 		std::vector<BoneConnector>	BoneConnectors;

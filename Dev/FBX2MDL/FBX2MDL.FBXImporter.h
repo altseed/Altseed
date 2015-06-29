@@ -44,15 +44,15 @@ namespace FBX2MDL
 
 		struct FbxFace
 		{
-			std::vector<ace::Model_IO::Vertex> Vertecies;
+			std::vector<asd::Model_IO::Vertex> Vertecies;
 			int32_t MaterialIndex = -1;
 		};
 
 		struct VertexNormals
 		{
 			int32_t Count = 0;
-			ace::Vector3DF Binormal;
-			ace::Vector3DF Tangent;
+			asd::Vector3DF Binormal;
+			asd::Vector3DF Tangent;
 		};
 
 	private:
@@ -64,12 +64,12 @@ namespace FBX2MDL
 		@param	binormal	è]ñ@ê¸
 		@param	tangent		ê⁄ñ@ê¸
 		*/
-		void CalcTangentSpace(const ace::Model_IO::Vertex& v1, const ace::Model_IO::Vertex& v2, const ace::Model_IO::Vertex& v3, ace::Vector3DF& binormal, ace::Vector3DF& tangent);
+		void CalcTangentSpace(const asd::Model_IO::Vertex& v1, const asd::Model_IO::Vertex& v2, const asd::Model_IO::Vertex& v3, asd::Vector3DF& binormal, asd::Vector3DF& tangent);
 
-		ace::Vector3DF LoadPosition(FbxMesh* fbxMesh, int32_t ctrlPointIndex);
-		ace::Vector3DF LoadNormal(FbxLayerElementNormal* normals, int32_t vertexID, int32_t ctrlPointIndex);
-		ace::Vector2DF LoadUV(FbxMesh* fbxMesh, FbxLayerElementUV* uvs, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex);
-		ace::Color LoadVertexColor(FbxMesh* fbxMesh, FbxLayerElementVertexColor* colors, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex);
+		asd::Vector3DF LoadPosition(FbxMesh* fbxMesh, int32_t ctrlPointIndex);
+		asd::Vector3DF LoadNormal(FbxLayerElementNormal* normals, int32_t vertexID, int32_t ctrlPointIndex);
+		asd::Vector2DF LoadUV(FbxMesh* fbxMesh, FbxLayerElementUV* uvs, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex);
+		asd::Color LoadVertexColor(FbxMesh* fbxMesh, FbxLayerElementVertexColor* colors, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex);
 
 		void LoadSkin(FbxMesh* fbxMesh, std::vector<BoneConnector>& boneConnectors, std::vector<FbxVertexWeight>& weights);
 		void LoadMaterial(FbxMesh* fbxMesh, FbxLayerElementMaterial* materials, std::vector<Material>& dst);
@@ -78,11 +78,11 @@ namespace FBX2MDL
 
 		std::shared_ptr<Node> LoadHierarchy(std::shared_ptr<Node> parent, FbxNode* fbxNode, FbxManager* fbxManager);
 
-		ace::Matrix44 CalcMatrix(ace::RotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz);
+		asd::Matrix44 CalcMatrix(asd::RotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz);
 
 		void LoadAnimationSource(FbxAnimStack* fbxAnimStack, FbxNode* fbxRootNode, AnimationSource &animationSource);
 		void LoadCurve(FbxNode* fbxNode, FbxAnimLayer* fbxAnimLayer, AnimationSource &animationSource);
-		void LoadCurve(ace::astring target, FbxAnimCurve* curve, AnimationSource &animationSource);
+		void LoadCurve(asd::astring target, FbxAnimCurve* curve, AnimationSource &animationSource);
 	public:
 
 		std::shared_ptr<Scene> LoadScene(FbxScene* fbxScene, FbxManager* fbxManager);

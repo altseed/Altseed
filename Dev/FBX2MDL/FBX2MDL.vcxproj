@@ -56,7 +56,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <AdditionalIncludeDirectories>..\include\;..\ace_cpp\common\;..\ace_cpp\tool\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include\;..\asd_cpp\common\;..\asd_cpp\tool\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -74,7 +74,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\include\;..\ace_cpp\common\;..\ace_cpp\tool\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\include\;..\asd_cpp\common\;..\asd_cpp\tool\</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;_WIN32;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

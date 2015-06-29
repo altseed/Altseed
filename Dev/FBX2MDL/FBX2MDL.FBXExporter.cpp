@@ -47,8 +47,8 @@ namespace FBX2MDL
 		int32_t external = 0;
 		m_writer->Push(external);
 		m_writer->Push(material.DiffuseTexturePath);
-		m_writer->Push(ace::ToAString("").c_str());
-		m_writer->Push(ace::ToAString("").c_str());
+		m_writer->Push(asd::ToAString("").c_str());
+		m_writer->Push(asd::ToAString("").c_str());
 	}
 
 	void FBXExporter::WriteMaterials(const std::vector<Material>& materials)
@@ -62,7 +62,7 @@ namespace FBX2MDL
 		}
 	}
 
-	void FBXExporter::WriteMesh(const ace::Model_IO::DividedMesh& mesh)
+	void FBXExporter::WriteMesh(const asd::Model_IO::DividedMesh& mesh)
 	{
 		auto vcount = (int32_t)mesh.Vertices.size();
 		m_writer->Push(vcount);
@@ -148,9 +148,9 @@ namespace FBX2MDL
 		return dst;
 	}
 
-	std::map<ace::astring, int32_t> FBXExporter::GetDeformerNameToIndexes(const std::shared_ptr<Node>& node, int32_t& currentIndex)
+	std::map<asd::astring, int32_t> FBXExporter::GetDeformerNameToIndexes(const std::shared_ptr<Node>& node, int32_t& currentIndex)
 	{
-		std::map<ace::astring, int32_t> dst;
+		std::map<asd::astring, int32_t> dst;
 
 		dst[node->Name] = currentIndex;
 
@@ -174,9 +174,9 @@ namespace FBX2MDL
 	}
 
 
-	std::shared_ptr<ace::BinaryWriter> FBXExporter::Export(std::shared_ptr<Scene> scene)
+	std::shared_ptr<asd::BinaryWriter> FBXExporter::Export(std::shared_ptr<Scene> scene)
 	{
-		auto writer = std::make_shared<ace::BinaryWriter>();
+		auto writer = std::make_shared<asd::BinaryWriter>();
 		m_writer = writer;
 
 		WriteHeader();
@@ -193,7 +193,7 @@ namespace FBX2MDL
 		}
 
 		// デフォーマー情報取得
-		std::map<ace::astring, int32_t> deformer_name2ind;
+		std::map<asd::astring, int32_t> deformer_name2ind;
 		{
 			int32_t currentIndex = 0;
 			deformer_name2ind = GetDeformerNameToIndexes(scene->Root, currentIndex);
@@ -246,9 +246,9 @@ namespace FBX2MDL
 				{
 					if (materialCounts[i] > 0)
 					{
-						if (mesh->Materials[i].Name == ace::astring())
+						if (mesh->Materials[i].Name == asd::astring())
 						{
-							mesh->Materials[i].Name = ace::ToAString("Noname");
+							mesh->Materials[i].Name = asd::ToAString("Noname");
 						}
 
 						newIndexes[i] = nind;
@@ -256,7 +256,7 @@ namespace FBX2MDL
 					}
 					else
 					{
-						mesh->Materials[i].Name = ace::astring();
+						mesh->Materials[i].Name = asd::astring();
 					}
 				}
 
@@ -268,7 +268,7 @@ namespace FBX2MDL
 				{
 					auto it = std::remove_if(mesh->Materials.begin(), mesh->Materials.end(), 
 						[](Material mat)->bool { 
-						return mat.Name == ace::astring(); 
+						return mat.Name == asd::astring(); 
 					});
 
 					mesh->Materials.erase(it, mesh->Materials.end());
@@ -277,10 +277,10 @@ namespace FBX2MDL
 			}
 
 			// ボーン数が一定ごとになるように分割
-			std::vector<ace::Model_IO::DividedMesh> dividedMeshes;
+			std::vector<asd::Model_IO::DividedMesh> dividedMeshes;
 
 			{
-				dividedMeshes.push_back(ace::Model_IO::DividedMesh());
+				dividedMeshes.push_back(asd::Model_IO::DividedMesh());
 				std::set<int32_t> connectors;
 				std::set<int32_t> newConnectors;
 				std::map<int32_t, int32_t> oldV2newV;
@@ -306,7 +306,7 @@ namespace FBX2MDL
 
 					if (materialCount > 0)
 					{
-						ace::Model_IO::MaterialOffset mo;
+						asd::Model_IO::MaterialOffset mo;
 						mo.MaterialIndex = materialIndex;
 						mo.FaceOffset = materialCount;
 						m.MaterialOffsets.push_back(mo);
@@ -347,17 +347,17 @@ namespace FBX2MDL
 						finishMesh();
 
 						// 新しいメッシュを生成
-						dividedMeshes.push_back(ace::Model_IO::DividedMesh());
+						dividedMeshes.push_back(asd::Model_IO::DividedMesh());
 						dividedMeshes[dividedMeshes.size() - 1];
 					}
-					ace::Model_IO::DividedMesh& dmesh = dividedMeshes[dividedMeshes.size() - 1];
+					asd::Model_IO::DividedMesh& dmesh = dividedMeshes[dividedMeshes.size() - 1];
 
 					for (auto it = newConnectors.begin(); it != newConnectors.end(); it++)
 					{
 						connectors.insert(*it);
 					}
 
-					auto face_ = ace::Model_IO::Face();
+					auto face_ = asd::Model_IO::Face();
 					face_.Indexes[0] = face.Index[0];
 					face_.Indexes[1] = face.Index[1];
 					face_.Indexes[2] = face.Index[2];
@@ -385,7 +385,7 @@ namespace FBX2MDL
 					{
 						if (materialCount > 0)
 						{
-							ace::Model_IO::MaterialOffset mo;
+							asd::Model_IO::MaterialOffset mo;
 							mo.MaterialIndex = materialIndex;
 							mo.FaceOffset = materialCount;
 							dmesh.MaterialOffsets.push_back(mo);
@@ -398,7 +398,7 @@ namespace FBX2MDL
 
 					for (auto& newC : newConnectors)
 					{
-						ace::Model_IO::BoneConnector c;
+						asd::Model_IO::BoneConnector c;
 						c.TargetIndex = deformer_name2ind[mesh->BoneConnectors[newC].Name];
 						c.OffsetMatrix = mesh->BoneConnectors[newC].OffsetMatrix;
 						dmesh.BoneConnectors.push_back(c);

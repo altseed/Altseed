@@ -3,25 +3,25 @@
 
 namespace FBX2MDL
 {
-	void FBXImporter::CalcTangentSpace(const ace::Model_IO::Vertex& v1, const ace::Model_IO::Vertex& v2, const ace::Model_IO::Vertex& v3, ace::Vector3DF& binormal, ace::Vector3DF& tangent)
+	void FBXImporter::CalcTangentSpace(const asd::Model_IO::Vertex& v1, const asd::Model_IO::Vertex& v2, const asd::Model_IO::Vertex& v3, asd::Vector3DF& binormal, asd::Vector3DF& tangent)
 	{
-		binormal = ace::Vector3DF();
-		tangent = ace::Vector3DF();
+		binormal = asd::Vector3DF();
+		tangent = asd::Vector3DF();
 
-		ace::Vector3DF cp0[3];
-		cp0[0] = ace::Vector3DF(v1.Position.X, v1.UV1.X, v1.UV1.Y);
-		cp0[1] = ace::Vector3DF(v1.Position.Y, v1.UV1.X, v1.UV1.Y);
-		cp0[2] = ace::Vector3DF(v1.Position.Z, v1.UV1.X, v1.UV1.Y);
+		asd::Vector3DF cp0[3];
+		cp0[0] = asd::Vector3DF(v1.Position.X, v1.UV1.X, v1.UV1.Y);
+		cp0[1] = asd::Vector3DF(v1.Position.Y, v1.UV1.X, v1.UV1.Y);
+		cp0[2] = asd::Vector3DF(v1.Position.Z, v1.UV1.X, v1.UV1.Y);
 
-		ace::Vector3DF cp1[3];
-		cp1[0] = ace::Vector3DF(v2.Position.X, v2.UV1.X, v2.UV1.Y);
-		cp1[1] = ace::Vector3DF(v2.Position.Y, v2.UV1.X, v2.UV1.Y);
-		cp1[2] = ace::Vector3DF(v2.Position.Z, v2.UV1.X, v2.UV1.Y);
+		asd::Vector3DF cp1[3];
+		cp1[0] = asd::Vector3DF(v2.Position.X, v2.UV1.X, v2.UV1.Y);
+		cp1[1] = asd::Vector3DF(v2.Position.Y, v2.UV1.X, v2.UV1.Y);
+		cp1[2] = asd::Vector3DF(v2.Position.Z, v2.UV1.X, v2.UV1.Y);
 
-		ace::Vector3DF cp2[3];
-		cp2[0] = ace::Vector3DF(v3.Position.X, v3.UV1.X, v3.UV1.Y);
-		cp2[1] = ace::Vector3DF(v3.Position.Y, v3.UV1.X, v3.UV1.Y);
-		cp2[2] = ace::Vector3DF(v3.Position.Z, v3.UV1.X, v3.UV1.Y);
+		asd::Vector3DF cp2[3];
+		cp2[0] = asd::Vector3DF(v3.Position.X, v3.UV1.X, v3.UV1.Y);
+		cp2[1] = asd::Vector3DF(v3.Position.Y, v3.UV1.X, v3.UV1.Y);
+		cp2[2] = asd::Vector3DF(v3.Position.Z, v3.UV1.X, v3.UV1.Y);
 
 		double u[3];
 		double v[3];
@@ -30,7 +30,7 @@ namespace FBX2MDL
 		{
 			auto v1 = cp1[i] - cp0[i];
 			auto v2 = cp2[i] - cp1[i];
-			auto abc = ace::Vector3DF::Cross(v1, v2);
+			auto abc = asd::Vector3DF::Cross(v1, v2);
 
 			if (abc.X == 0.0f)
 			{
@@ -43,16 +43,16 @@ namespace FBX2MDL
 			}
 		}
 
-		tangent = ace::Vector3DF(u[0], u[1], u[2]);
+		tangent = asd::Vector3DF(u[0], u[1], u[2]);
 		tangent.Normalize();
 
-		binormal = ace::Vector3DF(v[0], v[1], v[2]);
+		binormal = asd::Vector3DF(v[0], v[1], v[2]);
 		binormal.Normalize();
 	}
 
-	ace::Vector3DF FBXImporter::LoadPosition(FbxMesh* fbxMesh, int32_t ctrlPointIndex)
+	asd::Vector3DF FBXImporter::LoadPosition(FbxMesh* fbxMesh, int32_t ctrlPointIndex)
 	{
-		ace::Vector3DF position;
+		asd::Vector3DF position;
 
 		auto controlPoints = fbxMesh->GetControlPoints();
 		
@@ -63,9 +63,9 @@ namespace FBX2MDL
 		return position;
 	}
 
-	ace::Vector3DF FBXImporter::LoadNormal(FbxLayerElementNormal* normals, int32_t vertexID, int32_t ctrlPointIndex)
+	asd::Vector3DF FBXImporter::LoadNormal(FbxLayerElementNormal* normals, int32_t vertexID, int32_t ctrlPointIndex)
 	{
-		ace::Vector3DF normal;
+		asd::Vector3DF normal;
 
 		if (normals->GetMappingMode() == FbxGeometryElement::eByPolygonVertex)
 		{
@@ -90,9 +90,9 @@ namespace FBX2MDL
 		return normal;
 	}
 
-	ace::Vector2DF FBXImporter::LoadUV(FbxMesh* fbxMesh, FbxLayerElementUV* uvs, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex)
+	asd::Vector2DF FBXImporter::LoadUV(FbxMesh* fbxMesh, FbxLayerElementUV* uvs, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex)
 	{
-		ace::Vector2DF uv;
+		asd::Vector2DF uv;
 
 		switch (uvs->GetMappingMode())
 		{
@@ -140,9 +140,9 @@ namespace FBX2MDL
 		return uv;
 	}
 
-	ace::Color FBXImporter::LoadVertexColor(FbxMesh* fbxMesh, FbxLayerElementVertexColor* colors, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex)
+	asd::Color FBXImporter::LoadVertexColor(FbxMesh* fbxMesh, FbxLayerElementVertexColor* colors, int32_t vertexID, int32_t ctrlPointIndex, int32_t polygonIndex, int32_t polygonPointIndex)
 	{
-		ace::Color color;
+		asd::Color color;
 
 		switch (colors->GetMappingMode())
 		{
@@ -227,7 +227,7 @@ namespace FBX2MDL
 				int32_t id = boneConnectors.size();
 
 				BoneConnector connector;
-				connector.Name = ace::ToAString(name);
+				connector.Name = asd::ToAString(name);
 
 				auto m2_inv = m2_.GetInverted();
 				auto m = m2_inv * m1_;
@@ -310,7 +310,7 @@ namespace FBX2MDL
 
 			auto m = Material();
 
-			m.Name = ace::ToAString(name);
+			m.Name = asd::ToAString(name);
 
 			// テクスチャ取得
 			FbxProperty prop = material->FindProperty(FbxSurfaceMaterial::sDiffuse);
@@ -321,7 +321,7 @@ namespace FBX2MDL
 				auto texture = prop.GetSrcObject<FbxFileTexture>(fileTextureIndex);
 				if (texture != nullptr)
 				{
-					m.DiffuseTexturePath = ace::ToAString(texture->GetRelativeFileName());
+					m.DiffuseTexturePath = asd::ToAString(texture->GetRelativeFileName());
 					std::replace(m.DiffuseTexturePath.begin(), m.DiffuseTexturePath.end(), '\\', '/');
 
 				}
@@ -368,7 +368,7 @@ namespace FBX2MDL
 			{
 				auto ctrlPointIndex = fbxMesh->GetPolygonVertex(polygonIndex, polygonPointIndex);
 
-				ace::Model_IO::Vertex v;
+				asd::Model_IO::Vertex v;
 
 				v.Position = LoadPosition(fbxMesh, ctrlPointIndex);
 				
@@ -447,8 +447,8 @@ namespace FBX2MDL
 	
 		// 頂点変換テーブル作成
 		int32_t vInd = 0;
-		std::map<ace::Model_IO::Vertex, int32_t> v2ind;
-		std::map<int32_t, ace::Model_IO::Vertex> ind2v;
+		std::map<asd::Model_IO::Vertex, int32_t> v2ind;
+		std::map<int32_t, asd::Model_IO::Vertex> ind2v;
 
 		for (auto& face : faces)
 		{
@@ -468,7 +468,7 @@ namespace FBX2MDL
 
 		// 設定
 		auto mesh = std::make_shared<Mesh>();
-		mesh->Name = ace::ToAString(node->GetName());
+		mesh->Name = asd::ToAString(node->GetName());
 		mesh->BoneConnectors = boneConnectors;
 		mesh->Materials = materials_;
 
@@ -497,7 +497,7 @@ namespace FBX2MDL
 
 		for (const auto& face : mesh->Faces)
 		{
-			ace::Vector3DF binormal, tangent;
+			asd::Vector3DF binormal, tangent;
 			CalcTangentSpace(
 				mesh->Vertexes[face.Index[0]],
 				mesh->Vertexes[face.Index[1]],
@@ -527,13 +527,13 @@ namespace FBX2MDL
 			// 適当な値を代入する
 			if (mesh->Vertexes[vn.first].Binormal.GetLength() == 0.0f)
 			{
-				if (mesh->Vertexes[vn.first].Normal != ace::Vector3DF(1, 0, 0))
+				if (mesh->Vertexes[vn.first].Normal != asd::Vector3DF(1, 0, 0))
 				{
-					mesh->Vertexes[vn.first].Binormal = ace::Vector3DF(1, 0, 0);
+					mesh->Vertexes[vn.first].Binormal = asd::Vector3DF(1, 0, 0);
 				}
 				else
 				{
-					mesh->Vertexes[vn.first].Binormal = ace::Vector3DF(0, 1, 0);
+					mesh->Vertexes[vn.first].Binormal = asd::Vector3DF(0, 1, 0);
 				}
 			}
 		}
@@ -546,7 +546,7 @@ namespace FBX2MDL
 		FbxMesh* mesh = nullptr;
 		std::shared_ptr<Node> node = std::make_shared<Node>();
 
-		node->Name = ace::ToAString(fbxNode->GetName());
+		node->Name = asd::ToAString(fbxNode->GetName());
 
 		auto attribute_ = fbxNode->GetNodeAttribute();
 
@@ -585,22 +585,22 @@ namespace FBX2MDL
 		switch (fbxRotationOrder)
 		{
 		case eEulerXYZ:
-			node->RotationOrder = ace::RotationOrder::XYZ;
+			node->RotationOrder = asd::RotationOrder::XYZ;
 			break;
 		case eEulerXZY:
-			node->RotationOrder = ace::RotationOrder::XZY;
+			node->RotationOrder = asd::RotationOrder::XZY;
 			break;
 		case eEulerYZX:
-			node->RotationOrder = ace::RotationOrder::YZX;
+			node->RotationOrder = asd::RotationOrder::YZX;
 			break;
 		case eEulerYXZ:
-			node->RotationOrder = ace::RotationOrder::YXZ;
+			node->RotationOrder = asd::RotationOrder::YXZ;
 			break;
 		case eEulerZXY:
-			node->RotationOrder = ace::RotationOrder::ZXY;
+			node->RotationOrder = asd::RotationOrder::ZXY;
 			break;
 		case eEulerZYX:
-			node->RotationOrder = ace::RotationOrder::ZYX;
+			node->RotationOrder = asd::RotationOrder::ZYX;
 			break;
 		case eSphericXYZ:
 			break;
@@ -631,24 +631,24 @@ namespace FBX2MDL
 		return node;
 	}
 
-	ace::Matrix44 FBXImporter::CalcMatrix(ace::RotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz)
+	asd::Matrix44 FBXImporter::CalcMatrix(asd::RotationOrder order, float tx, float ty, float tz, float rx, float ry, float rz, float sx, float sy, float sz)
 	{
-		ace::Matrix44 matT, matRx, matRy, matRz, matS;
+		asd::Matrix44 matT, matRx, matRy, matRz, matS;
 		matT.SetTranslation(tx, ty, tz);
 		matRx.SetRotationX(rx / 180.0 * 3.141592);
 		matRy.SetRotationY(ry / 180.0 * 3.141592);
 		matRz.SetRotationZ(rz / 180.0 * 3.141592);
 		matS.SetScale(sx, sy, sz);
 
-		if (order == ace::RotationOrder::XYZ) return matT * matRz * matRy * matRx * matS;
-		if (order == ace::RotationOrder::XZY) return matT * matRy * matRz * matRx * matS;
-		if (order == ace::RotationOrder::YZX) return matT * matRx * matRz * matRy * matS;
+		if (order == asd::RotationOrder::XYZ) return matT * matRz * matRy * matRx * matS;
+		if (order == asd::RotationOrder::XZY) return matT * matRy * matRz * matRx * matS;
+		if (order == asd::RotationOrder::YZX) return matT * matRx * matRz * matRy * matS;
 						 
-		if (order == ace::RotationOrder::YXZ) return matT * matRz * matRx * matRy * matS;
-		if (order == ace::RotationOrder::ZXY) return matT * matRy * matRx * matRz * matS;
-		if (order == ace::RotationOrder::ZYX) return matT * matRx * matRy * matRz * matS;
+		if (order == asd::RotationOrder::YXZ) return matT * matRz * matRx * matRy * matS;
+		if (order == asd::RotationOrder::ZXY) return matT * matRy * matRx * matRz * matS;
+		if (order == asd::RotationOrder::ZYX) return matT * matRx * matRy * matRz * matS;
 
-		return ace::Matrix44();
+		return asd::Matrix44();
 	}
 
 	void FBXImporter::LoadAnimationSource(FbxAnimStack* fbxAnimStack, FbxNode* fbxRootNode, AnimationSource &animationSource)
@@ -661,7 +661,7 @@ namespace FBX2MDL
 		FbxTime startTime = fbxAnimStack->LocalStart;
 		FbxTime endTime = fbxAnimStack->LocalStop;
 
-		animationSource.Name = ace::ToAString(animationName);
+		animationSource.Name = asd::ToAString(animationName);
 		//animationSource.StartTime = startTime;
 		//animationSource.StopTime = endTime;
 
@@ -676,7 +676,7 @@ namespace FBX2MDL
 
 	void FBXImporter::LoadCurve(FbxNode* fbxNode, FbxAnimLayer* fbxAnimLayer, AnimationSource &animationSource)
 	{
-		auto boneName = ace::ToAString(fbxNode->GetName());
+		auto boneName = asd::ToAString(fbxNode->GetName());
 
 		auto transXCurve = fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
 		auto transYCurve = fbxNode->LclTranslation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
@@ -690,17 +690,17 @@ namespace FBX2MDL
 		auto sclYCurve = fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
 		auto sclZCurve = fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
 
-		if (transXCurve != nullptr) LoadCurve(boneName + ace::ToAString(".pos.x"), transXCurve, animationSource);
-		if (transYCurve != nullptr) LoadCurve(boneName + ace::ToAString(".pos.y"), transYCurve, animationSource);
-		if (transZCurve != nullptr) LoadCurve(boneName + ace::ToAString(".pos.z"), transZCurve, animationSource);
+		if (transXCurve != nullptr) LoadCurve(boneName + asd::ToAString(".pos.x"), transXCurve, animationSource);
+		if (transYCurve != nullptr) LoadCurve(boneName + asd::ToAString(".pos.y"), transYCurve, animationSource);
+		if (transZCurve != nullptr) LoadCurve(boneName + asd::ToAString(".pos.z"), transZCurve, animationSource);
 
-		if (rotXCurve != nullptr) LoadCurve(boneName + ace::ToAString(".rot.x"), rotXCurve, animationSource);
-		if (rotYCurve != nullptr) LoadCurve(boneName + ace::ToAString(".rot.y"), rotYCurve, animationSource);
-		if (rotZCurve != nullptr) LoadCurve(boneName + ace::ToAString(".rot.z"), rotZCurve, animationSource);
+		if (rotXCurve != nullptr) LoadCurve(boneName + asd::ToAString(".rot.x"), rotXCurve, animationSource);
+		if (rotYCurve != nullptr) LoadCurve(boneName + asd::ToAString(".rot.y"), rotYCurve, animationSource);
+		if (rotZCurve != nullptr) LoadCurve(boneName + asd::ToAString(".rot.z"), rotZCurve, animationSource);
 
-		if (sclXCurve != nullptr) LoadCurve(boneName + ace::ToAString(".scl.x"), sclXCurve, animationSource);
-		if (sclYCurve != nullptr) LoadCurve(boneName + ace::ToAString(".scl.y"), sclYCurve, animationSource);
-		if (sclZCurve != nullptr) LoadCurve(boneName + ace::ToAString(".scl.z"), sclZCurve, animationSource);
+		if (sclXCurve != nullptr) LoadCurve(boneName + asd::ToAString(".scl.x"), sclXCurve, animationSource);
+		if (sclYCurve != nullptr) LoadCurve(boneName + asd::ToAString(".scl.y"), sclYCurve, animationSource);
+		if (sclZCurve != nullptr) LoadCurve(boneName + asd::ToAString(".scl.z"), sclZCurve, animationSource);
 
 		// 子の処理
 		for (auto i = 0; i< fbxNode->GetChildCount(); i++)
@@ -709,7 +709,7 @@ namespace FBX2MDL
 		}
 	}
 
-	void FBXImporter::LoadCurve(ace::astring target, FbxAnimCurve* curve, AnimationSource &animationSource)
+	void FBXImporter::LoadCurve(asd::astring target, FbxAnimCurve* curve, AnimationSource &animationSource)
 	{
 		KeyFrameAnimation keyFrameAnimation;
 		keyFrameAnimation.TargetName = target;
@@ -726,7 +726,7 @@ namespace FBX2MDL
 			time.GetTime(hour, minute, second, frame, field, residual, FbxTime::eFrames60);
 
 			KeyFrame keyFrame;
-			keyFrame.KeyValue = ace::Vector2DF(60 * (hour * 60 * 60 + minute * 60 + second) + frame, value);
+			keyFrame.KeyValue = asd::Vector2DF(60 * (hour * 60 * 60 + minute * 60 + second) + frame, value);
 			keyFrame.LeftPosition = keyFrame.KeyValue;
 			keyFrame.RightPosition = keyFrame.KeyValue;
 

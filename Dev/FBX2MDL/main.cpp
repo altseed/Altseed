@@ -4,16 +4,16 @@
 #include "FBX2MDL.FBXExporter.h"
 #include "FBX2MDL.FBXOptimizer.h"
 
-#include <Graphics/3D/ace.Model_IO.h>
+#include <Graphics/3D/asd.Model_IO.h>
 
 #if _DEBUG
 #pragma comment(lib,"debug/libfbxsdk-mt.lib")
-#pragma comment(lib,"Debug/ace_common.lib")
-#pragma comment(lib,"Debug/ace_tool.lib")
+#pragma comment(lib,"x86/Debug/asd_common.lib")
+#pragma comment(lib,"x86/Debug/asd_tool.lib")
 #else
 #pragma comment(lib,"release/libfbxsdk-mt.lib")
-#pragma comment(lib,"Release/ace_common.lib")
-#pragma comment(lib,"Release/ace_tool.lib")
+#pragma comment(lib,"x86/Release/asd_common.lib")
+#pragma comment(lib,"x86/Release/asd_tool.lib")
 #endif
 
 #if _WIN32
@@ -75,8 +75,8 @@ int main(int argc, char** argv)
 		buf_.push_back(b);
 	}
 
-	ace::Model_IO model_io;
-	model_io.Load(buf_, ace::ToAString("./").c_str());
+	asd::Model_IO model_io;
+	model_io.Load(buf_, asd::ToAString("./").c_str());
 	
 
 	/*

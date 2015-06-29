@@ -3,7 +3,7 @@
 
 namespace FBX2MDL
 {
-	bool FBXOptimizer::HasEnabledBone(std::map<ace::astring, int32_t>& boneCounts, std::vector<std::shared_ptr<Node>>& children)
+	bool FBXOptimizer::HasEnabledBone(std::map<asd::astring, int32_t>& boneCounts, std::vector<std::shared_ptr<Node>>& children)
 	{
 		for (auto child : children)
 		{
@@ -18,7 +18,7 @@ namespace FBX2MDL
 		return false;
 	}
 
-	void FBXOptimizer::RemoveDisabledBone(std::map<ace::astring, int32_t>& boneCounts, std::shared_ptr<Node>& bone)
+	void FBXOptimizer::RemoveDisabledBone(std::map<asd::astring, int32_t>& boneCounts, std::shared_ptr<Node>& bone)
 	{
 		std::vector<std::shared_ptr<Node>> children;
 
@@ -46,7 +46,7 @@ namespace FBX2MDL
 
 	void FBXOptimizer::OptimizeArmature(std::shared_ptr<Scene> scene, std::shared_ptr<Node> armature, std::vector<std::shared_ptr<Node>> meshes)
 	{
-		std::map<ace::astring, int32_t> boneCounts;
+		std::map<asd::astring, int32_t> boneCounts;
 
 		// 使用されているボーン名を取得
 		for (auto& mesh : meshes)
@@ -72,7 +72,7 @@ namespace FBX2MDL
 
 		// ボーン名整理
 		{
-			std::map<ace::astring, int32_t> bc;
+			std::map<asd::astring, int32_t> bc;
 			for (auto it : boneCounts)
 			{
 				if (it.second > 0)
@@ -128,7 +128,7 @@ namespace FBX2MDL
 
 		for (auto child : root->Children)
 		{
-			if (child->Name == ace::ToAString("Armature"))
+			if (child->Name == asd::ToAString("Armature"))
 			{
 				armature = child;
 			}

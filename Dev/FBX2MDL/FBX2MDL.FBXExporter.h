@@ -9,7 +9,7 @@ namespace FBX2MDL
 	private:
 		struct Bone
 		{
-			ace::astring	Name;
+			asd::astring	Name;
 			int32_t			ParentIndex;
 
 		};
@@ -20,7 +20,7 @@ namespace FBX2MDL
 			int32_t		FaceOffset;
 		};
 		
-		std::shared_ptr<ace::BinaryWriter> m_writer;
+		std::shared_ptr<asd::BinaryWriter> m_writer;
 
 		void WriteHeader();
 
@@ -30,15 +30,15 @@ namespace FBX2MDL
 		void WriteMaterial(const Material& material);
 		void WriteMaterials(const std::vector<Material>& materials);
 
-		void WriteMesh(const ace::Model_IO::DividedMesh& mesh);
+		void WriteMesh(const asd::Model_IO::DividedMesh& mesh);
 
 		static std::vector<std::shared_ptr<Mesh>> GetMeshes(const std::shared_ptr<Node>& node);
 
 		std::vector<std::function<void()>> GetWritingDeformerFuncs(const std::shared_ptr<Node>& node, int32_t parentIndex, int32_t& currentIndex);
 
-		std::map<ace::astring, int32_t> GetDeformerNameToIndexes(const std::shared_ptr<Node>& node, int32_t& currentIndex);
+		std::map<asd::astring, int32_t> GetDeformerNameToIndexes(const std::shared_ptr<Node>& node, int32_t& currentIndex);
 
-		ace::Model_IO::Vertex ConverterVertexToModelVertex(ace::Model_IO::Vertex);
+		asd::Model_IO::Vertex ConverterVertexToModelVertex(asd::Model_IO::Vertex);
 
 	public:
 		FBXExporter();
@@ -51,6 +51,6 @@ namespace FBX2MDL
 			@note
 			‚±‚ÌŠÖ”‚Íscene‚É‚Í”j‰ó“I•ÏX‚ğ‰Á‚¦‚éB
 		*/
-		std::shared_ptr<ace::BinaryWriter> Export(std::shared_ptr<Scene> scene);
+		std::shared_ptr<asd::BinaryWriter> Export(std::shared_ptr<Scene> scene);
 	};
 }
