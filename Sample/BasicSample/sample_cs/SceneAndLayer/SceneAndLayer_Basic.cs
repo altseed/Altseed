@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace sample_cs
 {
-    class PostEffect_Sepia : ISample
+    class SceneAndLayer_Basic : ISample
     {
         /// <summary>
-        /// レイヤーにセピアカラーのポストエフェクトを適用する。
+        /// シーンとレイヤーを手動で生成する。
         /// </summary>
         public void Run()
         {
             // Altseedを初期化する
-            asd.Engine.Initialize("PostEffect_Sepia", 640, 480, new asd.EngineOption());
+            asd.Engine.Initialize("SceneAndLayer_Basic", 640, 480, new asd.EngineOption());
 
             var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Picture1.png");
 
@@ -30,14 +30,15 @@ namespace sample_cs
             // オブジェクトの位置とテクスチャを設定。
             obj.Position = new asd.Vector2DF(50, 50);
             obj.Texture = texture;
-
-            // シーンを変更し、そのシーンにレイヤーを追加し、そのレイヤーにオブジェクトを追加する。
+            
+            // 描画するシーンを指定する。
             asd.Engine.ChangeScene(scene);
-            scene.AddLayer(layer);
-            layer.AddObject(obj);
 
-            // レイヤーにセピアカラーのポストエフェクトを適用。
-            layer.AddPostEffect(new asd.PostEffectSepia());
+            // 描画するレイヤーをシーンに追加する。
+            scene.AddLayer(layer);
+
+            // 描画するオブジェクトをレイヤーに追加する。
+            layer.AddObject(obj);
 
             while (asd.Engine.DoEvents())
             {

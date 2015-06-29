@@ -61,7 +61,7 @@ extern void ImagePackage();
 extern void Object2DComponent();
 extern void Transition();
 
-extern void PostEffect();
+extern void SceneAndLayer_Basic();
 
 int main(int argc, char** argv)
 {
@@ -83,11 +83,6 @@ int main(int argc, char** argv)
 		INFO(TextureObject2D_Turn),
 		INFO(TextureObject2D_Src),
 		INFO(TextureObject2D_Transform),
-
-		INFO(PostEffect_GrayScale),
-		INFO(PostEffect_Sepia),
-		INFO(PostEffect_GaussianBlur),
-		INFO(PostEffect_LightBloom),
 
 		INFO(Transition_Fade),
 
@@ -116,6 +111,12 @@ int main(int argc, char** argv)
 		INFO(GeometryObject2D_PolygonShape),
 		INFO(Collision2D),
 
+		INFO(SceneAndLayer_Basic),
+
+		INFO(PostEffect_GrayScale),
+		INFO(PostEffect_Sepia),
+		INFO(PostEffect_GaussianBlur),
+		INFO(PostEffect_LightBloom),
 	};
 
 	auto cui = SampleGuide(samples);

@@ -87,6 +87,9 @@
     <ClCompile Include="..\Transition\Transition_Fade.cpp">
       <Filter>Transition</Filter>
     </ClCompile>
+    <ClCompile Include="..\SceneAndLayer\SceneAndLayer_Basic.cpp">
+      <Filter>SceneAndLayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -134,6 +137,9 @@
     </Filter>
     <Filter Include="Transition">
       <UniqueIdentifier>{65bdb158-e8e1-4dbb-80b7-20d1d757d438}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SceneAndLayer">
+      <UniqueIdentifier>{b2f17f43-5c26-456e-be6f-68e8ef7390ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

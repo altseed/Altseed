@@ -69,6 +69,7 @@
     <Compile Include="PostEffect\PostEffect_Sepia.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
+    <Compile Include="SceneAndLayer\SceneAndLayer_Basic.cs" />
     <Compile Include="Sound\Sound.cs" />
     <Compile Include="Basic\Basic_Empty.cs" />
     <Compile Include="TextObject2D\TextObject2D_Filtered.cs" />

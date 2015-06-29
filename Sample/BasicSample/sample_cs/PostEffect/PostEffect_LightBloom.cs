@@ -16,7 +16,7 @@ namespace sample_cs
             // Altseedを初期化する
             asd.Engine.Initialize("PostEffect_LightBloom", 640, 480, new asd.EngineOption());
 
-            var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Object.png");
+            var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Picture1.png");
 
             // シーンのコンストラクタを呼び出す。
             var scene = new asd.Scene();
@@ -28,7 +28,7 @@ namespace sample_cs
             var obj = new asd.TextureObject2D();
 
             // オブジェクトの位置とテクスチャを設定。
-            obj.Position = new asd.Vector2DF(100, 100);
+            obj.Position = new asd.Vector2DF(50, 50);
             obj.Texture = texture;
 
             // シーンを変更し、そのシーンにレイヤーを追加し、そのレイヤーにオブジェクトを追加する。

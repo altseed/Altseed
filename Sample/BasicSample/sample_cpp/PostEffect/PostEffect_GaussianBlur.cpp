@@ -1,4 +1,4 @@
-﻿#include <Base.h>
+﻿#include <Altseed.h>
 
 /**
 @brief	レイヤーにガウスぼかしのポストエフェクトを適用する。
@@ -8,7 +8,7 @@ void PostEffect_GaussianBlur()
 	// Altseedを初期化する
 	asd::Engine::Initialize(asd::ToAString("PostEffect_GaussianBlur").c_str(), 640, 480, asd::EngineOption());
 
-	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Object.png").c_str());
+	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 
 	// シーンのコンストラクタを呼び出す。
 	auto scene = std::make_shared<asd::Scene>();
@@ -20,7 +20,7 @@ void PostEffect_GaussianBlur()
 	auto obj = std::make_shared<asd::TextureObject2D>();
 
 	// オブジェクトの位置とテクスチャを設定。
-	obj->SetPosition(asd::Vector2DF(100, 100));
+	obj->SetPosition(asd::Vector2DF(50, 50));
 	obj->SetTexture(texture);
 
 	// シーンを変更し、そのシーンにレイヤーを追加し、そのレイヤーにオブジェクトを追加する。

@@ -15,6 +15,8 @@ namespace sample_cs
 			{
 				new Basic_Empty(),
 
+                new SceneAndLayer_Basic(),
+
 				new PostEffect_GrayScale(),
 				new PostEffect_Sepia(),
 				new PostEffect_GaussianBlur(),
