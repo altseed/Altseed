@@ -3,6 +3,6 @@
 
 Altseedでフェードイン・アウトで画面を遷移します。
 
-* include_basic_sample Transition
+* include_basic_sample Transition_Fade
 
 
