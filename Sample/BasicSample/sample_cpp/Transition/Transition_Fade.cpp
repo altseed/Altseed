@@ -1,25 +1,25 @@
-#include <Altseed.h>
+ï»¿#include <Altseed.h>
 
-// ƒtƒF[ƒhƒAƒEƒgEƒtƒF[ƒhƒCƒ“‚ÅƒV[ƒ“‘JˆÚ‚ğ‚·‚éƒTƒ“ƒvƒ‹‚Å‚·B
+// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆãƒ»ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ã§ã‚·ãƒ¼ãƒ³é·ç§»ã‚’ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã§ã™ã€‚
 void Transition_Fade()
 {
 	asd::Engine::Initialize(asd::ToAString("Transition_Fade").c_str(), 640, 480, asd::EngineOption());
 
-	// ƒV[ƒ“(1)AƒŒƒCƒ„[AƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+	// ã‚·ãƒ¼ãƒ³(1)ã€ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto scene1 = std::make_shared<asd::Scene>();
 	auto layer1 = std::make_shared<asd::Layer2D>();
 	auto object1 = std::make_shared<asd::TextureObject2D>();
 
-	// ƒeƒNƒXƒ`ƒƒ‚ğ¶¬‚µAƒIƒuƒWƒFƒNƒg‚Éİ’è‚·‚éB
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç”Ÿæˆã—ã€ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«è¨­å®šã™ã‚‹ã€‚
 	auto texture1 = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Scene1.png").c_str());
 	object1->SetTexture(texture1);
 
-	// ƒV[ƒ“‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚µA‚»‚ÌƒŒƒCƒ„[‚ÉƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã—ã€ãã®ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
 	scene1->AddLayer(layer1);
 	layer1->AddObject(object1);
 
 
-	// ã‚Æ“¯‚¶‚à‚Ì‚ğ‚à‚¤‚PƒZƒbƒgì‚éB
+	// ä¸Šã¨åŒã˜ã‚‚ã®ã‚’ã‚‚ã†ï¼‘ã‚»ãƒƒãƒˆä½œã‚‹ã€‚
 	auto scene2 = std::make_shared<asd::Scene>();
 	auto layer2 = std::make_shared<asd::Layer2D>();
 	auto object2 = std::make_shared<asd::TextureObject2D>();
@@ -31,18 +31,18 @@ void Transition_Fade()
 	layer2->AddObject(object2);
 
 
-	// ƒV[ƒ“‚ğƒV[ƒ“1‚Éİ’è‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚’ã‚·ãƒ¼ãƒ³1ã«è¨­å®šã™ã‚‹ã€‚
 	asd::Engine::ChangeScene(scene1);
 
 	while (asd::Engine::DoEvents())
 	{
 		asd::Engine::Update();
 
-		// ƒ}ƒEƒX‚Ì¶ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚é‚Ì‚ğ‘Ò‚ÂB
+		// ãƒã‚¦ã‚¹ã®å·¦ãƒœã‚¿ãƒ³ãŒæŠ¼ã•ã‚Œã‚‹ã®ã‚’å¾…ã¤ã€‚
 		if (asd::Engine::GetMouse()->GetLeftButton()->GetButtonState() == asd::MouseButtonState::Push)
 		{
-			// ƒtƒF[ƒhƒAƒEƒgEƒCƒ“‚É‚æ‚éƒV[ƒ“‘JˆÚ‚ğŠJn‚·‚éB
-			// 1•b‚©‚¯‚ÄƒtƒF[ƒhƒAƒEƒg‚µA1.5•b‚©‚¯‚ÄƒtƒF[ƒhƒCƒ“B
+			// ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆãƒ»ã‚¤ãƒ³ã«ã‚ˆã‚‹ã‚·ãƒ¼ãƒ³é·ç§»ã‚’é–‹å§‹ã™ã‚‹ã€‚
+			// 1ç§’ã‹ã‘ã¦ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¢ã‚¦ãƒˆã—ã€1.5ç§’ã‹ã‘ã¦ãƒ•ã‚§ãƒ¼ãƒ‰ã‚¤ãƒ³ã€‚
 			asd::Engine::ChangeSceneWithTransition(scene2, std::make_shared<asd::TransitionFade>(1.0f, 1.5f));
 		}
 	}

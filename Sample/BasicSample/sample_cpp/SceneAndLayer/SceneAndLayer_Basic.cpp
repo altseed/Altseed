@@ -1,34 +1,34 @@
-#include <Altseed.h>
+ï»¿#include <Altseed.h>
 
-// ƒV[ƒ“‚ÆƒŒƒCƒ„[‚ğè“®‚Åİ’è‚·‚éƒTƒ“ƒvƒ‹B
+// ã‚·ãƒ¼ãƒ³ã¨ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’æ‰‹å‹•ã§è¨­å®šã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã€‚
 void SceneAndLayer_Basic()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚é
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹
 	asd::Engine::Initialize(asd::ToAString("SceneAndLayer_Basic").c_str(), 640, 480, asd::EngineOption());
 
-	// ƒeƒNƒXƒ`ƒƒ‚ğƒ[ƒh‚·‚éB
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ãƒ­ãƒ¼ãƒ‰ã™ã‚‹ã€‚
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 
-	// ƒV[ƒ“‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// ã‚·ãƒ¼ãƒ³ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto scene = std::make_shared<asd::Scene>();
 
-	// ƒŒƒCƒ„[‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto layer = std::make_shared<asd::Layer2D>();
 
-	// ƒIƒuƒWƒFƒNƒg‚ÌƒRƒ“ƒXƒgƒ‰ƒNƒ^‚ğŒÄ‚Ño‚·B
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚³ãƒ³ã‚¹ãƒˆãƒ©ã‚¯ã‚¿ã‚’å‘¼ã³å‡ºã™ã€‚
 	auto obj = std::make_shared<asd::TextureObject2D>();
 
-	// ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ÆƒeƒNƒXƒ`ƒƒ‚ğİ’èB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¨­å®šã€‚
 	obj->SetPosition(asd::Vector2DF(50, 50));
 	obj->SetTexture(texture);
 
-	// •`‰æ‚·‚éƒV[ƒ“‚ğw’è‚·‚éB
+	// æç”»ã™ã‚‹ã‚·ãƒ¼ãƒ³ã‚’æŒ‡å®šã™ã‚‹ã€‚
 	asd::Engine::ChangeScene(scene);
 
-	// •`‰æ‚·‚éƒŒƒCƒ„[‚ğƒV[ƒ“‚É’Ç‰Á‚·‚éB
+	// æç”»ã™ã‚‹ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã‚·ãƒ¼ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 	scene->AddLayer(layer);
 
-	// •`‰æ‚·‚éƒIƒuƒWƒFƒNƒg‚ğƒŒƒCƒ„[‚É’Ç‰Á‚·‚éB
+	// æç”»ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ ã™ã‚‹ã€‚
 	layer->AddObject(obj);
 
 	while (asd::Engine::DoEvents())
