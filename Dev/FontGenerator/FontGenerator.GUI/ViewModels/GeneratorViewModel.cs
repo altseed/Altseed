@@ -11,9 +11,8 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Reactive.Linq;
 using System.Reactive;
-using System.Windows.Media.Imaging;
 
-namespace FontGenerator.WPF.ViewModels
+namespace FontGenerator.GUI.ViewModels
 {
 	class GeneratorViewModel : INotifyPropertyChanged, IDataErrorInfo
 	{
@@ -290,9 +289,9 @@ namespace FontGenerator.WPF.ViewModels
 			get { return string.Format("#{0:X2}{1:X2}{2:X2}{3:X2}", OutlineAlpha, OutlineRed, OutlineGreen, OutlineBlue); }
 		}
 
-		BitmapImage PreviewImage_;
+		System.Drawing.Bitmap PreviewImage_;
 
-		public BitmapImage PreviewImage
+		public System.Drawing.Bitmap PreviewImage
 		{
 			get { return PreviewImage_; }
 			set
@@ -485,7 +484,9 @@ namespace FontGenerator.WPF.ViewModels
 		{
 			var imagePath = await Generator.GeneratePreviewAsync(config);
 
-			var image = new BitmapImage();
+			var image = new System.Drawing.Bitmap(imagePath);
+			
+			/*
 			using (var file = new FileStream(imagePath, FileMode.Open, FileAccess.Read))
 			{
 				image.BeginInit();
@@ -494,6 +495,7 @@ namespace FontGenerator.WPF.ViewModels
 				image.EndInit();
 				image.Freeze();
 			}
+			*/
 
 			PreviewImage = image;
 

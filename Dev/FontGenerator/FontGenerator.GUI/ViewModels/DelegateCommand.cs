@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace FontGenerator.WPF.ViewModels
+namespace FontGenerator.GUI.ViewModels
 {
 	class DelegateCommand : ICommand
 	{
