@@ -82,6 +82,7 @@ namespace FBX2MDL
 
 		void LoadAnimationSource(FbxAnimStack* fbxAnimStack, FbxNode* fbxRootNode, AnimationSource &animationSource);
 		void LoadCurve(FbxNode* fbxNode, FbxAnimLayer* fbxAnimLayer, AnimationSource &animationSource);
+		void AddConstant(asd::astring target, float value, AnimationSource &animationSource);
 		void LoadCurve(asd::astring target, FbxAnimCurve* curve, AnimationSource &animationSource);
 	public:
 

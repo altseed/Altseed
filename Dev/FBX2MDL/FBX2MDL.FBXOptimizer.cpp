@@ -61,7 +61,7 @@ namespace FBX2MDL
 
 						if (boneCounts.count(name) == 0)
 						{
-							boneCounts[name] = 0;
+							boneCounts[name] = 1;
 						}
 
 						boneCounts[name]++;

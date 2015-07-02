@@ -173,6 +173,8 @@ namespace asd
 		Scale[0] = 1.0f;
 		Scale[1] = 1.0f;
 		Scale[2] = 1.0f;
+
+		IsAnimationPlaying = false;
 	}
 
 
@@ -290,9 +292,15 @@ namespace asd
 		if (calcAnimationOnProxy)
 		{
 			m_matrixes_temp.resize(m_matrixes.size());
-
+			
 			// 初期値
 			SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
+
+			// TODO 軽量化
+			ModelUtils::CalculateBoneMatrixes(
+				m_matrixes,
+				((Deformer_Imp*)m_deformer.get())->GetBones(),
+				m_matrixes);
 
 			for (int32_t i = 0; i < AnimationCount; i++)
 			{
@@ -929,9 +937,18 @@ namespace asd
 			// 初期値
 			SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
 
+			// TODO 軽量化
+			ModelUtils::CalculateBoneMatrixes(
+				m_matrixes,
+				((Deformer_Imp*) m_deformer.get())->GetBones(),
+				m_matrixes);
+
+			bool isAnimationPlaying = false;
+
 			for (int32_t i = 0; i < AnimationCount; i++)
 			{
 				if (m_animationPlaying[i].size() == 0) continue;
+				isAnimationPlaying = true;
 
 				ResetSRT(m_boneProps);
 				ResetAnimationPlaying(m_boneProps);

@@ -561,7 +561,7 @@ namespace FBX2MDL
 				if (!mesh->IsTriangleMesh())
 				{
 					FbxGeometryConverter converter(fbxManager);
-					mesh = (FbxMesh*) converter.Triangulate(mesh, true);
+					mesh = (FbxMesh*) converter.Triangulate(mesh, false);
 				}
 
 				node->MeshParameter = LoadMesh(mesh);
@@ -702,11 +702,56 @@ namespace FBX2MDL
 		if (sclYCurve != nullptr) LoadCurve(boneName + asd::ToAString(".scl.y"), sclYCurve, animationSource);
 		if (sclZCurve != nullptr) LoadCurve(boneName + asd::ToAString(".scl.z"), sclZCurve, animationSource);
 
+		bool hasAnimation =
+			transXCurve != nullptr ||
+			transYCurve != nullptr ||
+			transZCurve != nullptr ||
+			rotXCurve != nullptr ||
+			rotYCurve != nullptr ||
+			rotZCurve != nullptr ||
+			sclXCurve != nullptr ||
+			sclYCurve != nullptr ||
+			sclZCurve != nullptr;
+
+		if (hasAnimation)
+		{
+			auto lclT = fbxNode->LclTranslation.Get();
+			auto lclR = fbxNode->LclRotation.Get();
+			auto lclS = fbxNode->LclScaling.Get();
+
+			if (transXCurve == nullptr) AddConstant(boneName + asd::ToAString(".pos.x"), lclT[0], animationSource);
+			if (transYCurve == nullptr) AddConstant(boneName + asd::ToAString(".pos.y"), lclT[1], animationSource);
+			if (transZCurve == nullptr) AddConstant(boneName + asd::ToAString(".pos.z"), lclT[2], animationSource);
+
+			if (rotXCurve == nullptr) AddConstant(boneName + asd::ToAString(".rot.x"), lclR[0], animationSource);
+			if (rotYCurve == nullptr) AddConstant(boneName + asd::ToAString(".rot.y"), lclR[1], animationSource);
+			if (rotZCurve == nullptr) AddConstant(boneName + asd::ToAString(".rot.z"), lclR[2], animationSource);
+
+			if (sclXCurve == nullptr) AddConstant(boneName + asd::ToAString(".scl.x"), lclS[0], animationSource);
+			if (sclYCurve == nullptr) AddConstant(boneName + asd::ToAString(".scl.y"), lclS[1], animationSource);
+			if (sclZCurve == nullptr) AddConstant(boneName + asd::ToAString(".scl.z"), lclS[2], animationSource);
+		}
+
 		// éqÇÃèàóù
 		for (auto i = 0; i< fbxNode->GetChildCount(); i++)
 		{
 			LoadCurve(fbxNode->GetChild(i), fbxAnimLayer, animationSource);
 		}
+	}
+
+	void FBXImporter::AddConstant(asd::astring target, float value, AnimationSource &animationSource)
+	{
+		KeyFrame keyFrame;
+		keyFrame.KeyValue = asd::Vector2DF(0, value);
+		keyFrame.LeftPosition = keyFrame.KeyValue;
+		keyFrame.RightPosition = keyFrame.KeyValue;
+		keyFrame.Interpolation = 1;
+
+		KeyFrameAnimation keyFrameAnimation;
+		keyFrameAnimation.TargetName = target;
+		keyFrameAnimation.KeyFrames.push_back(keyFrame);
+
+		animationSource.keyFrameAnimations.push_back(keyFrameAnimation);
 	}
 
 	void FBXImporter::LoadCurve(asd::astring target, FbxAnimCurve* curve, AnimationSource &animationSource)
