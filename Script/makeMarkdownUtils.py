@@ -58,7 +58,7 @@ def include_basic_sample(ls,relCodePath,ssDir,mode=''):
                 ss_file = ss_files[0]
                 rel_ss_file = os.path.relpath(ssDir+os.path.basename(ss_file), start=os.path.dirname(relCodePath))
                 rel_ss_file = rel_ss_file.replace('\\','/')
-                ls_included.append('![SS](' + rel_ss_file + ')\n\n')
+                ls_included.append('![SS](./' + rel_ss_file + ')\n\n')
                 included_ss_paths.append(ss_files[0])
                 #print(relCodePath + ' : ' + ssDir+os.path.basename(ss_file) + ' : ' + rel_ss_file)
 
