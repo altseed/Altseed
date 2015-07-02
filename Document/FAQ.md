@@ -16,5 +16,5 @@ Windowsの場合、実行に必要なDirectX エンド ユーザー ランタイ
 
  [ファイルパッケージジェネレーター](./Reference/Tool/FilePackageGenerator.md) を使用すると全ての画像や音楽ファイルを1つにまとめることができます。
 
- 1つにまとめられたパッケージからファイルを読み込む方法は [ファイル](./Reference/Reference/IO/File.md) の機能を参照お願いします。
+ 1つにまとめられたパッケージからファイルを読み込む方法は [ファイル](./Reference/IO/File.md) の機能を参照お願いします。
 
