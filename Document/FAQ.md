@@ -18,3 +18,8 @@ Windowsの場合、実行に必要なDirectX エンド ユーザー ランタイ
 
  1つにまとめられたパッケージからファイルを読み込む方法は [ファイル](./Reference/IO/File.md) の機能を参照お願いします。
 
+### C#版に関して
+
+#### C++ destructor does not have public access という例外がアプリケーション終了時に発生する。
+
+アプリケーション終了時に ```asd.Engine.Terminate();``` のメソッドが実行されていない可能性が高いです。そうでなければAltseed自体のバグの可能性があります。

@@ -47,5 +47,6 @@ void Transition_Fade()
 		}
 	}
 	
+	// Altseedの終了処理をする。
 	asd::Engine::Terminate();
 }

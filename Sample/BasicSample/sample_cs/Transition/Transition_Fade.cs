@@ -54,6 +54,9 @@ namespace sample_cs
 					asd.Engine.ChangeSceneWithTransition(scene2, new asd.TransitionFade(1.0f, 1.5f));
 				}
 			}
+
+			// Altseedの終了処理をする。
+			asd.Engine.Terminate();
 		}
 	}
 }
