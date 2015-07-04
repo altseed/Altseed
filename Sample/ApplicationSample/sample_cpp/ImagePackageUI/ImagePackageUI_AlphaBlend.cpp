@@ -7,18 +7,6 @@ void ImagePackageUI_AlphaBlend()
 	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("ImagePackageUI_AlphaBlend").c_str(), 640, 480, asd::EngineOption());
 
-	// シーンを生成する
-	auto scene = std::make_shared<asd::Scene>();
-
-	// レイヤーを生成する
-	auto layer = std::make_shared<asd::Layer2D>();
-
-	// シーンにレイヤーを追加する
-	scene->AddLayer(layer);
-
-	// シーンを切り替える
-	asd::Engine::ChangeScene(scene);
-
 	// イメージパッケージを読み込む
 	auto imagePackage = asd::Engine::GetGraphics()->CreateImagePackage(asd::ToAString("Data/ImagePackage/UI.aip").c_str());
 
@@ -32,7 +20,7 @@ void ImagePackageUI_AlphaBlend()
 		auto textureObject2D = std::make_shared<asd::TextureObject2D>();
 		textureObject2D->SetTexture(texture);
 		textureObject2D->SetPosition(asd::Vector2DF(area.X, area.Y));
-		layer->AddObject(textureObject2D);
+		asd::Engine::AddObject2D(textureObject2D);
 
 		// Background_Lightという名称の画像のアルファブレンドの方法を変更する。
 		auto name = imagePackage->GetImageName(i);

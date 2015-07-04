@@ -58,6 +58,7 @@ namespace asd
 		, names(names)
 		, areas(areas)
 	{
+		SafeAddRef(graphics);
 	}
 
 	ImagePackage_Imp::~ImagePackage_Imp()
@@ -70,6 +71,8 @@ namespace asd
 
 		auto g = (Graphics_Imp*) graphics;
 		g->ImagePackageContainer->Unregister(this);
+
+		SafeRelease(graphics);
 	}
 
 	Texture2D* ImagePackage_Imp::GetImage_(int32_t index)
