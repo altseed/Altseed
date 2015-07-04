@@ -579,7 +579,7 @@ namespace FBX2MDL
 		}
 
 		// ‰ñ“]•ûŒü
-		fbxsdk_2015_1::EFbxRotationOrder fbxRotationOrder;
+		fbxsdk::FbxEuler::EOrder fbxRotationOrder;
 		fbxNode->GetRotationOrder(FbxNode::eDestinationPivot, fbxRotationOrder);
 
 		switch (fbxRotationOrder)
@@ -686,6 +686,32 @@ namespace FBX2MDL
 		auto rotYCurve = fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
 		auto rotZCurve = fbxNode->LclRotation.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
 
+		auto rot = fbxNode->LclRotation.GetCurveNode(fbxAnimLayer);
+		auto lclR = fbxNode->LclRotation.Get();
+		auto defRotX = lclR[0];
+		auto defRotY = lclR[1];
+		auto defRotZ = lclR[2];
+		if (rot != nullptr)
+		{
+			for (size_t i = 0; i < rot->GetChannelsCount(); i++)
+			{
+				auto name = rot->GetChannelName(i);
+				if (name == "X")
+				{
+					defRotX = rot->GetChannelValue(name, defRotX);
+				}
+				if (name == "Y")
+				{
+					defRotY = rot->GetChannelValue(name, defRotY);
+				}
+				if (name == "Z")
+				{
+					defRotZ = rot->GetChannelValue(name, defRotZ);
+				}
+			}
+			
+		}
+		
 		auto sclXCurve = fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_X);
 		auto sclYCurve = fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Y);
 		auto sclZCurve = fbxNode->LclScaling.GetCurve(fbxAnimLayer, FBXSDK_CURVENODE_COMPONENT_Z);
@@ -716,16 +742,15 @@ namespace FBX2MDL
 		if (hasAnimation)
 		{
 			auto lclT = fbxNode->LclTranslation.Get();
-			auto lclR = fbxNode->LclRotation.Get();
 			auto lclS = fbxNode->LclScaling.Get();
 
 			if (transXCurve == nullptr) AddConstant(boneName + asd::ToAString(".pos.x"), lclT[0], animationSource);
 			if (transYCurve == nullptr) AddConstant(boneName + asd::ToAString(".pos.y"), lclT[1], animationSource);
 			if (transZCurve == nullptr) AddConstant(boneName + asd::ToAString(".pos.z"), lclT[2], animationSource);
 
-			if (rotXCurve == nullptr) AddConstant(boneName + asd::ToAString(".rot.x"), lclR[0], animationSource);
-			if (rotYCurve == nullptr) AddConstant(boneName + asd::ToAString(".rot.y"), lclR[1], animationSource);
-			if (rotZCurve == nullptr) AddConstant(boneName + asd::ToAString(".rot.z"), lclR[2], animationSource);
+			if (rotXCurve == nullptr) AddConstant(boneName + asd::ToAString(".rot.x"), defRotX, animationSource);
+			if (rotYCurve == nullptr) AddConstant(boneName + asd::ToAString(".rot.y"), defRotY, animationSource);
+			if (rotZCurve == nullptr) AddConstant(boneName + asd::ToAString(".rot.z"), defRotZ, animationSource);
 
 			if (sclXCurve == nullptr) AddConstant(boneName + asd::ToAString(".scl.x"), lclS[0], animationSource);
 			if (sclYCurve == nullptr) AddConstant(boneName + asd::ToAString(".scl.y"), lclS[1], animationSource);
@@ -777,17 +802,18 @@ namespace FBX2MDL
 
 			switch (interpolation)
 			{
-			case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationConstant:
+				
+			case fbxsdk::FbxAnimCurveDef::eInterpolationConstant:
 			{
 				keyFrame.Interpolation = 1;
 			}
 				break;
-			case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationLinear:
+			case fbxsdk::FbxAnimCurveDef::eInterpolationLinear:
 			{
 				keyFrame.Interpolation = 2;
 			}
 				break;
-			case fbxsdk_2015_1::FbxAnimCurveDef::eInterpolationCubic:
+			case fbxsdk::FbxAnimCurveDef::eInterpolationCubic:
 			{
 				keyFrame.Interpolation = 3;
 			}
