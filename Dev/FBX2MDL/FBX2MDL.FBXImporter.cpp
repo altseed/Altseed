@@ -737,7 +737,10 @@ namespace FBX2MDL
 			rotZCurve != nullptr ||
 			sclXCurve != nullptr ||
 			sclYCurve != nullptr ||
-			sclZCurve != nullptr;
+			sclZCurve != nullptr ||
+			defRotX != lclR[0] ||
+			defRotY != lclR[1] ||
+			defRotZ != lclR[2];
 
 		if (hasAnimation)
 		{

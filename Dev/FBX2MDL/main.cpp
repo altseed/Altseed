@@ -41,8 +41,8 @@ int main(int argc, char** argv)
 	FbxIOSettings* ios = FbxIOSettings::Create(sdkManager, IOSROOT);
 	sdkManager->SetIOSettings(ios);
 
-	fbxsdk_2015_1::FbxImporter* fbxImporter = fbxsdk_2015_1::FbxImporter::Create(sdkManager, "");
-	if (!fbxImporter->Initialize("box.fbx", -1, sdkManager->GetIOSettings()))
+	fbxsdk::FbxImporter* fbxImporter = fbxsdk::FbxImporter::Create(sdkManager, "");
+	if (!fbxImporter->Initialize("test.fbx", -1, sdkManager->GetIOSettings()))
 	{
 		printf("Call to FbxImporter::Initialize() failed.\n");
 		printf("Error returned: %s\n\n", fbxImporter->GetStatus().GetErrorString());
@@ -63,7 +63,7 @@ int main(int argc, char** argv)
 	fbxImporter->Destroy();
 	sdkManager->Destroy();
 
-	writer->WriteOut("box.mdl");
+	writer->WriteOut("test.mdl");
 
 	
 	auto buf = writer->Get();
