@@ -293,40 +293,20 @@ namespace asd
 		{
 			m_matrixes_temp.resize(m_matrixes.size());
 			
-			// 初期値
-			SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
-
-			// TODO 軽量化
-			ModelUtils::CalculateBoneMatrixes(
-				m_matrixes,
-				((Deformer_Imp*)m_deformer.get())->GetBones(),
-				m_matrixes);
-
+			bool hasAnimation = false;
 			for (int32_t i = 0; i < AnimationCount; i++)
 			{
 				if (m_animationPlaying[i].size() == 0) continue;
+				hasAnimation = true;
+				break;
+			}
 
-				ResetSRT(m_boneProps);
-				ResetAnimationPlaying(m_boneProps);
+			// TODO レイヤー機能復活
 
-				for (auto& anim_ : m_animationPlaying[i])
-				{
-					auto anim = anim_.Animation.get();
-					auto time = anim_.Time;
-
-					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
-						animationCache.CurrentAnimationDeformer != m_deformer.get())
-					{
-						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
-					}
-
-					SetAnimationPlaying(m_boneProps, animationCache, time);
-				}
-
+			if (hasAnimation)
+			{
 				for (int32_t j = 0; j < m_boneProps.size(); j++)
 				{
-					if (!m_boneProps[j].IsAnimationPlaying) continue;
-
 					for (auto r = 0; r < 4; r++)
 					{
 						for (auto c = 0; c < 4; c++)
@@ -336,40 +316,59 @@ namespace asd
 					}
 				}
 
-				for (auto& anim_ : m_animationPlaying[i])
+				for (int32_t i = 0; i < AnimationCount; i++)
 				{
-					auto anim = anim_.Animation.get();
-					auto loop = anim->GetIsLoopingMode();
-					auto src = (AnimationSource_Imp*) anim->GetSource().get();
-					auto length = src->GetLength();
-					auto time = anim_.Time;
-					if (loop)
+					if (m_animationPlaying[i].size() == 0) continue;
+
+					for (auto& anim_ : m_animationPlaying[i])
 					{
-						time = fmodf(time, length);
-					}
+						ResetSRT(m_boneProps);
+						ResetAnimationPlaying(m_boneProps);
 
-					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
-						animationCache.CurrentAnimationDeformer != m_deformer.get())
-					{
-						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
-					}
-
-					CalculateAnimation(m_boneProps, animationCache, time);
-					CalclateBoneMatrices(m_matrixes_temp, m_boneProps, m_deformer.get());
-
-					for (auto j = 0; j < m_matrixes.size(); j++)
-					{
-						if (!m_boneProps[j].IsAnimationPlaying) continue;
-
-						for (auto r = 0; r < 4; r++)
+						auto anim = anim_.Animation.get();
+						auto loop = anim->GetIsLoopingMode();
+						auto src = (AnimationSource_Imp*) anim->GetSource().get();
+						auto length = src->GetLength();
+						auto time = anim_.Time;
+						if (loop)
 						{
-							for (auto c = 0; c < 4; c++)
+							time = fmodf(time, length);
+						}
+
+						if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
+							animationCache.CurrentAnimationDeformer != m_deformer.get())
+						{
+							animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+						}
+						
+						SetAnimationPlaying(m_boneProps, animationCache, time);
+
+						CalculateAnimation(m_boneProps, animationCache, time);
+						CalclateBoneMatrices(m_matrixes_temp, m_boneProps, m_deformer.get());
+
+						for (auto j = 0; j < m_matrixes.size(); j++)
+						{
+							for (auto r = 0; r < 4; r++)
 							{
-								m_matrixes[j].Values[r][c] += m_matrixes_temp[j].Values[r][c] * anim_.CurrentWeight;
+								for (auto c = 0; c < 4; c++)
+								{
+									m_matrixes[j].Values[r][c] += m_matrixes_temp[j].Values[r][c] * anim_.CurrentWeight;
+								}
 							}
 						}
 					}
 				}
+			}
+			else
+			{
+				// 初期値
+				SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
+
+				// TODO 軽量化
+				ModelUtils::CalculateBoneMatrixes(
+					m_matrixes,
+					((Deformer_Imp*) m_deformer.get())->GetBones(),
+					m_matrixes);
 			}
 		}
 	}
@@ -934,43 +933,22 @@ namespace asd
 		}
 		else
 		{
-			// 初期値
-			SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
+			m_matrixes_temp.resize(m_matrixes.size());
 
-			// TODO 軽量化
-			ModelUtils::CalculateBoneMatrixes(
-				m_matrixes,
-				((Deformer_Imp*) m_deformer.get())->GetBones(),
-				m_matrixes);
-
-			bool isAnimationPlaying = false;
-
+			bool hasAnimation = false;
 			for (int32_t i = 0; i < AnimationCount; i++)
 			{
 				if (m_animationPlaying[i].size() == 0) continue;
-				isAnimationPlaying = true;
+				hasAnimation = true;
+				break;
+			}
 
-				ResetSRT(m_boneProps);
-				ResetAnimationPlaying(m_boneProps);
+			// TODO レイヤー機能復活
 
-				for (auto& anim_ : m_animationPlaying[i])
-				{
-					auto anim = anim_.Animation.get();
-					auto time = anim_.Time;
-
-					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
-						animationCache.CurrentAnimationDeformer != m_deformer.get())
-					{
-						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
-					}
-
-					SetAnimationPlaying(m_boneProps, animationCache, time);
-				}
-
+			if (hasAnimation)
+			{
 				for (int32_t j = 0; j < m_boneProps.size(); j++)
 				{
-					if (!m_boneProps[j].IsAnimationPlaying) continue;
-
 					for (auto r = 0; r < 4; r++)
 					{
 						for (auto c = 0; c < 4; c++)
@@ -980,40 +958,59 @@ namespace asd
 					}
 				}
 
-				for (auto& anim_ : m_animationPlaying[i])
+				for (int32_t i = 0; i < AnimationCount; i++)
 				{
-					auto anim = anim_.Animation.get();
-					auto loop = anim->GetIsLoopingMode();
-					auto src = (AnimationSource_Imp*) anim->GetSource().get();
-					auto length = src->GetLength();
-					auto time = anim_.Time;
-					if (loop)
+					if (m_animationPlaying[i].size() == 0) continue;
+
+					ResetSRT(m_boneProps);
+					ResetAnimationPlaying(m_boneProps);
+
+					for (auto& anim_ : m_animationPlaying[i])
 					{
-						time = fmodf(time, length);
-					}
-
-					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
-						animationCache.CurrentAnimationDeformer != m_deformer.get())
-					{
-						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
-					}
-
-					CalculateAnimation(m_boneProps, animationCache, time);
-					CalclateBoneMatrices(m_matrixes_temp, m_boneProps, m_deformer.get());
-
-					for (auto j = 0; j < m_matrixes.size(); j++)
-					{
-						if (!m_boneProps[j].IsAnimationPlaying) continue;
-
-						for (auto r = 0; r < 4; r++)
+						auto anim = anim_.Animation.get();
+						auto loop = anim->GetIsLoopingMode();
+						auto src = (AnimationSource_Imp*) anim->GetSource().get();
+						auto length = src->GetLength();
+						auto time = anim_.Time;
+						if (loop)
 						{
-							for (auto c = 0; c < 4; c++)
+							time = fmodf(time, length);
+						}
+
+						if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
+							animationCache.CurrentAnimationDeformer != m_deformer.get())
+						{
+							animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+						}
+
+						SetAnimationPlaying(m_boneProps, animationCache, time);
+
+						CalculateAnimation(m_boneProps, animationCache, time);
+						CalclateBoneMatrices(m_matrixes_temp, m_boneProps, m_deformer.get());
+
+						for (auto j = 0; j < m_matrixes.size(); j++)
+						{
+							for (auto r = 0; r < 4; r++)
 							{
-								m_matrixes[j].Values[r][c] += m_matrixes_temp[j].Values[r][c] * anim_.CurrentWeight;
+								for (auto c = 0; c < 4; c++)
+								{
+									m_matrixes[j].Values[r][c] += m_matrixes_temp[j].Values[r][c] * anim_.CurrentWeight;
+								}
 							}
 						}
 					}
 				}
+			}
+			else
+			{
+				// 初期値
+				SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
+
+				// TODO 軽量化
+				ModelUtils::CalculateBoneMatrixes(
+					m_matrixes,
+					((Deformer_Imp*) m_deformer.get())->GetBones(),
+					m_matrixes);
 			}
 
 			proxy->m_matrixes = m_matrixes;
