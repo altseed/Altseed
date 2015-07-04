@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\SampleGuide.cpp" />
+    <ClCompile Include="..\ImagePackageUI\ImagePackageUI_AlphaBlend.cpp">
+      <Filter>ImagePackageUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImagePackageUI\ImagePackageUI_Basic.cpp">
+      <Filter>ImagePackageUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ImagePackageUI\ImagePackageUI_Component.cpp">
+      <Filter>ImagePackageUI</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Base.h" />
+    <ClInclude Include="..\SampleGuide.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="ImagePackageUI">
+      <UniqueIdentifier>{a2a30226-1660-443e-8e8f-173ece6e1075}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

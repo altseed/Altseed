@@ -13,9 +13,9 @@ namespace sample_cs
 		{
 			ISample[] samples =
 			{
-				//new Basic_Empty(),
-
-				
+				new ImagePackageUI_Basic(),
+				new ImagePackageUI_AlphaBlend(),
+				new ImagePackageUI_Component(),
             };
 
 			var cui = new SampleGuide( samples );

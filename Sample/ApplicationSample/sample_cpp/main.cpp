@@ -17,8 +17,9 @@ std::wstring ToWide(const char* pText);
 void GetDirectoryName(char* dst, char* src);
 #endif
 
-extern void Basic_Empty();
-
+extern void ImagePackageUI_Basic();
+extern void ImagePackageUI_AlphaBlend();
+extern void ImagePackageUI_Component();
 
 
 int main(int argc, char** argv)
@@ -31,8 +32,9 @@ int main(int argc, char** argv)
 
 	std::vector<SampleInfo> samples =
 	{
-		INFO(Basic_Empty),
-
+		INFO(ImagePackageUI_Basic),
+		INFO(ImagePackageUI_AlphaBlend),
+		INFO(ImagePackageUI_Component),
 	};
 
 	auto cui = SampleGuide(samples);
