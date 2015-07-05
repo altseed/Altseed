@@ -455,6 +455,7 @@ namespace asd
 				m_previousScene = m_currentScene;
 				m_currentScene = m_nextScene;
 				m_core->ChangeScene(m_nextScene->m_coreScene.get());
+				m_nextScene->Start();
 				m_nextScene = nullptr;
 			}
 			
@@ -482,6 +483,7 @@ namespace asd
 				
 				m_currentScene = m_nextScene;
 				m_core->ChangeScene(m_nextScene->m_coreScene.get());
+				m_nextScene->Start();
 				m_nextScene = nullptr;
 			}
 		}

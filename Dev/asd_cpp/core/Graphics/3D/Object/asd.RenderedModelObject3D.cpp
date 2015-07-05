@@ -388,10 +388,13 @@ namespace asd
 				}
 			}
 
-			ModelUtils::CalculateBoneMatrixes(
-				m_matrixes,
-				((Deformer_Imp*) m_deformer.get())->GetBones(),
-				m_matrixes);
+			if (m_deformer.get() != nullptr)
+			{
+				ModelUtils::CalculateBoneMatrixes(
+					m_matrixes,
+					((Deformer_Imp*) m_deformer.get())->GetBones(),
+					m_matrixes);
+			}	
 		}
 	}
 
@@ -1057,10 +1060,13 @@ namespace asd
 				}
 			}
 
-			ModelUtils::CalculateBoneMatrixes(
-				m_matrixes,
-				((Deformer_Imp*) m_deformer.get())->GetBones(),
-				m_matrixes);
+			if (m_deformer.get() != nullptr)
+			{
+				ModelUtils::CalculateBoneMatrixes(
+					m_matrixes,
+					((Deformer_Imp*) m_deformer.get())->GetBones(),
+					m_matrixes);
+			}
 
 			proxy->m_matrixes = m_matrixes;
 		}

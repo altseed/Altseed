@@ -161,6 +161,13 @@ namespace asd
 		public IEnumerable<Layer> Layers { get { return layersToUpdate_; } }
 
 		/// <summary>
+		/// オーバーライドして、このシーンを初期化処理を記述できる。
+		/// </summary>
+		protected virtual void OnStart()
+		{
+		}
+
+		/// <summary>
 		/// オーバーライドして、Updateの直前に実行する処理を記述する。
 		/// </summary>
 		protected virtual void OnUpdating()
@@ -287,6 +294,11 @@ namespace asd
 
 			addingLayer.Clear();
 			removingLayer.Clear();
+		}
+
+		internal void Start()
+		{
+			OnStart();
 		}
 
 		internal void Draw()

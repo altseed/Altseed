@@ -212,6 +212,7 @@ namespace asd
 					previousScene = CurrentScene;
 					CurrentScene = nextScene;
 					core.ChangeScene(nextScene.CoreScene);
+					nextScene.Start();
 					nextScene = null;
 				}
 
@@ -239,6 +240,7 @@ namespace asd
 
 					CurrentScene = nextScene;
 					core.ChangeScene(nextScene.CoreScene);
+					nextScene.Start();
 					nextScene = null;
 				}
 

@@ -35,6 +35,7 @@ namespace asd
 		std::list<Layer::Ptr> removingLayer;
 		bool executing = false;
 
+		void Start();
 		void Draw();
 
 		void Update();
@@ -47,6 +48,11 @@ namespace asd
 		void CallDestroy();
 
 	protected:
+		/**
+		@brief	オーバーライドして、このシーンを初期化処理を記述できる。
+		*/
+		virtual void OnStart();
+
 		/**
 			@brief	オーバーライドして、このシーンを更新する直前の処理を記述できる。
 		*/
