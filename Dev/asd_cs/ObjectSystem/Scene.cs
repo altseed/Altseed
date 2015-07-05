@@ -92,6 +92,7 @@ namespace asd
 			layersToUpdate_.Add(layer);
 			CoreScene.AddLayer(layer.CoreLayer);
 			layer.Scene = this;
+			layer.Start();
 		}
 
 		/// <summary>

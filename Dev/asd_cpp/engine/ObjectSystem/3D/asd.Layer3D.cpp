@@ -88,18 +88,6 @@ namespace asd
 		OnDrawAdditionally();
 	}
 
-	void Layer3D::OnUpdating()
-	{
-	}
-
-	void Layer3D::OnUpdated()
-	{
-	}
-
-	void Layer3D::OnDrawAdditionally()
-	{
-	}
-
 	RenderSettings Layer3D::GetRenderSettings() const
 	{
 		return m_coreLayer->GetRenderSettings();

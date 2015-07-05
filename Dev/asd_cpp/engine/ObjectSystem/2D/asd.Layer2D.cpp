@@ -93,20 +93,6 @@ namespace asd
 		OnDispose();
 	}
 
-
-	void Layer2D::OnUpdating()
-	{
-	}
-
-	void Layer2D::OnUpdated()
-	{
-	}
-
-	void Layer2D::OnDrawAdditionally()
-	{
-
-	}
-
 	void Layer2D::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,

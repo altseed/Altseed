@@ -35,9 +35,30 @@ namespace asd
 		}
 	}
 
+	void Layer::Start()
+	{
+		OnStart();
+	}
+
 	void Layer::Draw()
 	{
 		m_commonObject->Draw();
+	}
+
+	void Layer::OnStart()
+	{
+	}
+
+	void Layer::OnUpdating()
+	{
+	}
+
+	void Layer::OnUpdated()
+	{
+	}
+
+	void Layer::OnDrawAdditionally()
+	{
 	}
 
 	void Layer::OnVanish()

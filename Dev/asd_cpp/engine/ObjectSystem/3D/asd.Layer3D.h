@@ -31,9 +31,6 @@ namespace asd
 		void CallDestroy();
 
 	protected:
-		virtual void OnUpdating();
-		virtual void OnUpdated();
-		virtual void OnDrawAdditionally();
 
 	public:
 		/**

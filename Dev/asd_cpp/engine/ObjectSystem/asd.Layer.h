@@ -45,12 +45,39 @@ namespace asd
 
 		void BeginDrawing();
 		void EndDrawing();
+		void Start();
 		void Draw();
 
 	protected:
-		virtual void OnUpdated() = 0;
-		virtual void OnUpdating() = 0;
+
+		/**
+		@brief	オーバーライドして、このレイヤーの初期化処理を記述できる。
+		*/
+		virtual void OnStart();
+		
+		/**
+		@brief	オーバーライドして、このレイヤーが更新される前の処理を記述できる。
+		*/
+		virtual void OnUpdating();
+		
+		/**
+		@brief	オーバーライドして、このレイヤーが更新された後の処理を記述できる。
+		*/
+		virtual void OnUpdated();
+	
+		/**
+		@brief	オーバーライドして、このレイヤーの描画処理を記述できる。
+		*/
+		virtual void OnDrawAdditionally();
+
+		/**
+		@brief	オーバーライドして、このレイヤーがVanishメソッドによって破棄されるときの処理を記述できる。
+		*/
 		virtual void OnVanish();
+		
+		/**
+		@brief	オーバーライドして、このレイヤーが破棄されるときの処理を記述できる。
+		*/
 		virtual void OnDispose();
 
 	public:

@@ -34,18 +34,6 @@ namespace asd
 		void CallDestroy();
 
 	protected:
-		/**
-			@brief	オーバーライドして、このレイヤーの初期化処理を記述できる。
-		*/
-		virtual void OnUpdating();
-		/**
-			@brief	オーバーライドして、このレイヤーの更新処理を記述できる。
-		*/
-		virtual void OnUpdated();
-		/**
-			@brief	オーバーライドして、このレイヤーの描画処理を記述できる。
-		*/
-		virtual void OnDrawAdditionally();
 
 	public:
 		/**

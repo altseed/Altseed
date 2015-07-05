@@ -231,6 +231,7 @@ namespace asd
 		m_layersToUpdate.push_back(layer);
 		m_coreScene->AddLayer(layer->GetCoreLayer().get());
 		layer->SetScene(this);
+		layer->Start();
 	}
 
 	//----------------------------------------------------------------------------------

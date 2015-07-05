@@ -110,12 +110,24 @@ namespace asd
 			}
 		}
 
+		internal void Start()
+		{
+			OnStart();
+		}
+
 		internal void Draw()
 		{
 			commonObject.Draw();
 		}
 
 		internal swig.CoreLayer CoreLayer { get { return commonObject; } }
+
+		/// <summary>
+		/// オーバーライドして、このレイヤーの初期化処理を記述できる。
+		/// </summary>
+		protected virtual void OnStart() 
+		{
+		}
 
 		/// <summary>
 		/// オーバーライドして、このレイヤーが更新される前の処理を記述できる。
@@ -139,7 +151,7 @@ namespace asd
 		}
 
 		/// <summary>
-		/// オーバーライドして、このレイヤーがVansihメソッドによって破棄されるときの処理を記述できる。
+		/// オーバーライドして、このレイヤーがVanishメソッドによって破棄されるときの処理を記述できる。
 		/// </summary>
 		protected virtual void OnVanish()
 		{
