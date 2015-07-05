@@ -10,6 +10,9 @@
     <Filter Include="NKF">
       <UniqueIdentifier>{cc46fd32-dc34-41ae-9fd9-a02317b284f0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Font">
+      <UniqueIdentifier>{20cc93e6-238f-444f-a44a-1e7ddeb84de3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tool\Graphics\3D\asd.MassModel_IO.h">
@@ -27,6 +30,9 @@
     <ClInclude Include="..\tool\NKF\nkf.h">
       <Filter>NKF</Filter>
     </ClInclude>
+    <ClInclude Include="..\tool\Font\asd.FontRasterizer.h">
+      <Filter>Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\tool\Graphics\3D\asd.Model_IO.cpp">
@@ -40,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="..\tool\NKF\nkf.c">
       <Filter>NKF</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tool\Font\asd.FontRasterizer.cpp">
+      <Filter>Font</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

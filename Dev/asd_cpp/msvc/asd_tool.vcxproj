@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\tool\Font\asd.FontRasterizer.h" />
     <ClInclude Include="..\tool\Graphics\3D\asd.MassModel_IO.h" />
     <ClInclude Include="..\tool\Graphics\3D\asd.Model_IO.h" />
     <ClInclude Include="..\tool\NKF\config.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="..\tool\NKF\utf8tbl.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\tool\Font\asd.FontRasterizer.cpp" />
     <ClCompile Include="..\tool\Graphics\3D\asd.MassModel_IO.cpp" />
     <ClCompile Include="..\tool\Graphics\3D\asd.Model_IO.cpp" />
     <ClCompile Include="..\tool\NKF\nkf.c" />
@@ -97,7 +99,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
@@ -114,7 +116,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
@@ -133,7 +135,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
@@ -153,7 +155,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\include\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>

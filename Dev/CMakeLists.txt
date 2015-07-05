@@ -50,6 +50,7 @@ endif()
 # インクルードの設定
 include_directories(
 	include/
+	include/freetype/
 	asd_cpp/common/
 	asd_cpp/tool/
 	asd_cpp/core/
