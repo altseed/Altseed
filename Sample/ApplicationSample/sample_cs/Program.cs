@@ -16,6 +16,8 @@ namespace sample_cs
 				new ImagePackageUI_Basic(),
 				new ImagePackageUI_AlphaBlend(),
 				new ImagePackageUI_Component(),
+
+				new Pause_Basic(),
             };
 
 			var cui = new SampleGuide( samples );

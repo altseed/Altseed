@@ -12,6 +12,9 @@
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_Component.cpp">
       <Filter>ImagePackageUI</Filter>
     </ClCompile>
+    <ClCompile Include="..\Pause\Pause_Basic.cpp">
+      <Filter>Pause</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -20,6 +23,9 @@
   <ItemGroup>
     <Filter Include="ImagePackageUI">
       <UniqueIdentifier>{a2a30226-1660-443e-8e8f-173ece6e1075}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pause">
+      <UniqueIdentifier>{84003216-7d5a-4ba4-a7c2-56c99b7b8078}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

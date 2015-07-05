@@ -15,6 +15,7 @@
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_Basic.cpp" />
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_Component.cpp" />
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\Pause\Pause_Basic.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />
   </ItemGroup>
   <ItemGroup>

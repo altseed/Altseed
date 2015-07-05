@@ -20,7 +20,7 @@ void GetDirectoryName(char* dst, char* src);
 extern void ImagePackageUI_Basic();
 extern void ImagePackageUI_AlphaBlend();
 extern void ImagePackageUI_Component();
-
+extern void Pause_Basic();
 
 int main(int argc, char** argv)
 {
@@ -35,6 +35,9 @@ int main(int argc, char** argv)
 		INFO(ImagePackageUI_Basic),
 		INFO(ImagePackageUI_AlphaBlend),
 		INFO(ImagePackageUI_Component),
+
+		INFO(Pause_Basic),
+
 	};
 
 	auto cui = SampleGuide(samples);

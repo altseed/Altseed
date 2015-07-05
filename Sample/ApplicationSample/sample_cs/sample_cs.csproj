@@ -52,6 +52,7 @@
     <Compile Include="ImagePackageUI\ImagePackageUI_Basic.cs" />
     <Compile Include="ImagePackageUI\ImagePackageUI_Component.cs" />
     <Compile Include="ISample.cs" />
+    <Compile Include="Pause\Pause_Basic.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
   </ItemGroup>
