@@ -1,4 +1,4 @@
-
+Ôªø
 #include "asd.FontRasterizer.h"
 
 namespace asd
@@ -58,11 +58,11 @@ namespace asd
 	{
 		FT_Library library = nullptr;
 		auto error = FT_Init_FreeType(&library);
-		if (error == 0) return nullptr;
+		if (error != 0) return nullptr;
 
 		FT_Face face = nullptr;
 		error = FT_New_Memory_Face(library, (uint8_t*)data, size, 0, &face);
-		if (error == 0)
+		if (error != 0)
 		{
 			FT_Done_FreeType(library);
 			return nullptr;
@@ -71,19 +71,19 @@ namespace asd
 		return std::make_shared<FontRasterizer::Font>(library, face, fontSize);
 	}
 
-	FontRasterizer::Gryph::Gryph(std::shared_ptr<Font> font, achar charactor, FT_OutlineGlyph glyph)
+	FontRasterizer::Glyph::Glyph(std::shared_ptr<Font> font, achar charactor, FT_OutlineGlyph glyph)
 		: font(font)
 		, charactor(charactor)
 		, glyph(glyph)
 	{
 	}
 
-	FontRasterizer::Gryph::~Gryph()
+	FontRasterizer::Glyph::~Glyph()
 	{
 		FT_Done_Glyph(&glyph->root);
 	}
 
-	void FontRasterizer::Gryph::Rasterize(std::vector<Color>& data, int32_t& width, int32_t& height, int32_t outlineSize, Color color, Color outlineColor)
+	void FontRasterizer::Glyph::Rasterize(std::vector<Color>& data, int32_t& width, int32_t& height, int32_t outlineSize, Color color, Color outlineColor)
 	{
 		Spans spans;
 		FT_Library lib = font->GetLibrary();
@@ -93,22 +93,22 @@ namespace asd
 		int height_ = font->GetFontHeight();
 		int baselineY_ = font->GetAscender();
 
-		auto width_o = (width + outlineSize * 2);
-		auto height_o = (height + outlineSize * 2);
+		auto width_o = (width_ + outlineSize * 2);
+		auto height_o = (height_ + outlineSize * 2);
 
-		data.resize(width_o * height_o);
+		data.resize(width_o * height_o, Color(0, 0, 0, 0));
 
-		// ÉRÉsÅ[
+		// „Ç≥„Éî„Éº
 		for (auto& s : spans)
 		{
 			int yIndex = baselineY_ - s.y;
-			if (yIndex < 0 || yIndex >= height) continue;
+			if (yIndex < 0 || yIndex >= height_) continue;
 
 			for (int w = 0; w < s.width; w++)
 			{
 				int xIndex = s.x + w;
 				if (xIndex < 0) continue;
-				if (xIndex >= width) break;
+				if (xIndex >= width_) break;
 
 				Color color(0, 0, 255, s.coverage);
 
@@ -118,47 +118,50 @@ namespace asd
 			}
 		}
 
-		// òg
-		for (int32_t y = outlineSize; y < height_o - outlineSize; y++)
+		// Êû†
+		if (outlineSize > 0)
 		{
-			for (int32_t x = outlineSize; x < width_o - outlineSize; x++)
+			for (int32_t y = outlineSize; y < height_o - outlineSize; y++)
 			{
-				if (data[x + width_o * y].A == 0) continue;
-
-				auto radius = outlineSize * data[x + width_o * y].A / 255.0f;
-
-				for (int32_t y_ = y - outlineSize; y_ <= y + outlineSize; y_++)
+				for (int32_t x = outlineSize; x < width_o - outlineSize; x++)
 				{
-					for (int32_t x_ = x - outlineSize; x_ <= x + outlineSize; x_++)
+					if (data[x + width_o * y].A == 0) continue;
+
+					auto radius = outlineSize * data[x + width_o * y].A / 255.0f;
+
+					for (int32_t y_ = y - outlineSize; y_ <= y + outlineSize; y_++)
 					{
-						float intensity = 0.0f;
-
-						auto distance = sqrt((x - x_) * (x - x_) + (y - y_) * (y - y_));
-
-						if (radius >= distance)
+						for (int32_t x_ = x - outlineSize; x_ <= x + outlineSize; x_++)
 						{
-							intensity = 1.0f;
-						}
-						else
-						{
-							intensity = 1.0f - (distance - radius);
-						}
+							float intensity = 0.0f;
 
-						if (intensity > 1.0f) intensity = 1.0f;
-						if (intensity < 0.0f) intensity = 0.0f;
+							auto distance = sqrt((x - x_) * (x - x_) + (y - y_) * (y - y_));
 
-						auto value = uint8_t(intensity * 255);
-						if (data[x_ + width_o * y_].G < value)
-						{
-							data[x_ + width_o * y_].R = 255;
-							data[x_ + width_o * y_].G = value;
+							if (radius >= distance)
+							{
+								intensity = 1.0f;
+							}
+							else
+							{
+								intensity = 1.0f - (distance - radius);
+							}
+
+							if (intensity > 1.0f) intensity = 1.0f;
+							if (intensity < 0.0f) intensity = 0.0f;
+
+							auto value = uint8_t(intensity * 255);
+							if (data[x_ + width_o * y_].G < value)
+							{
+								data[x_ + width_o * y_].R = 255;
+								data[x_ + width_o * y_].G = value;
+							}
 						}
 					}
 				}
 			}
 		}
 
-		// êF
+		// Ëâ≤
 		for (size_t i = 0; i < data.size(); i++)
 		{
 			auto baseColor = data[i];
@@ -198,7 +201,7 @@ namespace asd
 		height = height_o;
 	}
 
-	std::shared_ptr<FontRasterizer::Gryph> FontRasterizer::Gryph::CreateGryph(std::shared_ptr<FontRasterizer::Font> font, achar charactor)
+	std::shared_ptr<FontRasterizer::Glyph> FontRasterizer::Glyph::CreateGlyph(std::shared_ptr<FontRasterizer::Font> font, achar charactor)
 	{
 		auto index = FT_Get_Char_Index(font->GetFace(), charactor);
 		FT_Load_Glyph(font->GetFace(), index, FT_LOAD_NO_BITMAP);
@@ -210,7 +213,12 @@ namespace asd
 
 		auto og = reinterpret_cast<FT_OutlineGlyph>(g);
 
-		return std::make_shared<Gryph>(font, charactor, og);
+		return std::make_shared<Glyph>(font, charactor, og);
+	}
+
+	FontRasterizer::Image::Image(int32_t size)
+	{
+		Buffer.resize(size * size, Color(0, 0, 0, 0));
 	}
 
 	FontRasterizer::FontRasterizer()
@@ -225,9 +233,9 @@ namespace asd
 	bool FontRasterizer::Initialize(void* fontfileData, int32_t fontfileSize, int32_t fontSize, int32_t outlineSize, Color color, Color outlineColor, int32_t imageSize)
 	{
 		font.reset();
-		gryphs.clear();
+		glyphs.clear();
 		images.clear();
-		gryphImages.clear();
+		glyphImages.clear();
 
 		font = Font::Create(fontfileData, fontfileSize, fontSize);
 		if (font == nullptr) return false;
@@ -248,19 +256,22 @@ namespace asd
 		return true;
 	}
 
-	FontRasterizer::GryphImage FontRasterizer::AddGryph(achar charactor)
+	FontRasterizer::GlyphImage FontRasterizer::AddGlyph(achar charactor)
 	{
-		if (gryphs.count(charactor) > 0) return gryphImages[charactor];
+		if (glyphs.count(charactor) > 0) return glyphImages[charactor];
 
-		auto gryph = Gryph::CreateGryph(font, charactor);
+		auto glyph = Glyph::CreateGlyph(font, charactor);
+		glyphs[charactor] = glyph;
 
-		gryphs[charactor] = gryph;
+		auto advance = glyph->GetAdvance();
+		auto descender = font->GetDescender();
+		auto baseLineY = font->GetAscender();
 
 		std::vector<Color> data;
 		int32_t width;
 		int32_t height;
 
-		gryph->Rasterize(data, width, height, outlineSize, color, outlineColor);
+		glyph->Rasterize(data, width, height, outlineSize, color, outlineColor);
 
 		int32_t offsetX = 0;
 		int32_t offsetY = 0;
@@ -271,7 +282,7 @@ namespace asd
 			offsetX = currentX;
 			offsetY = currentY;
 
-			offsetX += width + Space;
+			currentX += width + Space;
 
 			currentHeight = Max(height, currentHeight);
 		}
@@ -293,7 +304,7 @@ namespace asd
 			images.push_back(std::make_shared<Image>(imageSize));
 		}
 
-		GryphImage gi;
+		GlyphImage gi;
 		gi.Src.X = offsetX;
 		gi.Src.Y = offsetY;
 		gi.Src.Width = width;
@@ -306,11 +317,11 @@ namespace asd
 		{
 			for (size_t x = gi.Src.X; x < gi.Src.X + gi.Src.Width; x++)
 			{
-				img->Buffer[x + imageSize * y] = data[x + y * width];
+				img->Buffer[x + imageSize * y] = data[(x - gi.Src.X) + (y - gi.Src.Y) * width];
 			}
 		}
 
-		gryphImages[charactor] = gi;
+		glyphImages[charactor] = gi;
 
 		return gi;
 	}

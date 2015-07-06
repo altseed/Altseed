@@ -12,6 +12,9 @@
 #include "asd.Font.h"
 #include "../asd.DeviceObject.h"
 
+#include <Font/asd.FontRasterizer.h>
+#include <Font/asd.InstalledFontList.h>
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -25,18 +28,21 @@ namespace asd {
 	{
 	protected:
 
-		Graphics *m_graphics;
+		Graphics*	m_graphics;
+
+		std::shared_ptr<FontRasterizer> rasterizer;
+		std::set<int32_t>				updatingTexture;
+		bool		isDynamic = false;
 
 		std::vector<std::shared_ptr<Texture2D>> m_textures;
 		std::map<achar, GlyphData> m_glyphs;
 
-	public:
-		GlyphData GetGlyphData(achar c);
-		bool HasGlyphData(achar c) const;
+		public:
 
-		std::shared_ptr<Texture2D> GetTexture(int index) const;
-		// リロード
-		void Reload(const achar* affFilePathChar, std::vector<uint8_t> data);
+
+		static Font_Imp* Create(Graphics* graphics, const achar* font, int32_t fontSize, Color color, int32_t outlineSize, Color outlineColor);
+
+		Font_Imp(Graphics* graphics, std::shared_ptr<FontRasterizer> rasterizer);
 
 		Font_Imp(Graphics* graphics, const achar* affFilePathChar, std::vector<uint8_t> data);
 
@@ -53,7 +59,34 @@ namespace asd {
 
 		virtual ~Font_Imp();
 
-		Vector2DI CalcTextureSize(const achar* text, WritingDirection writingDirection) const override;
+		Vector2DI CalcTextureSize(const achar* text, WritingDirection writingDirection) override;
+
+#if !SWIG
+		std::shared_ptr<Texture2D> GetTexture(int index) const;
+
+		/**
+			@brief	動的に文字を追加する。
+		*/
+		void AddCharactorDynamically(achar c);
+
+		/**
+		@brief	動的に文字を追加する。
+		*/
+		void AddCharactorsDynamically(const achar* text);
+
+		/**
+			@brief	動的にテクスチャを更新する。
+			@note
+			文字を追加した後に実行する。
+		*/
+		void UpdateTextureDynamically();
+
+		GlyphData GetGlyphData(achar c);
+		bool HasGlyphData(achar c) const;
+
+		// リロード
+		void Reload(const achar* affFilePathChar, std::vector<uint8_t> data);
+#endif
 
 		// IReferenceを継承したデバイスオブジェクト向け定義
 #if !SWIG

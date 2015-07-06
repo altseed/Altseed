@@ -33,6 +33,9 @@
     <ClInclude Include="..\tool\Font\asd.FontRasterizer.h">
       <Filter>Font</Filter>
     </ClInclude>
+    <ClInclude Include="..\tool\Font\asd.InstalledFontList.h">
+      <Filter>Font</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\tool\Graphics\3D\asd.Model_IO.cpp">
@@ -48,6 +51,9 @@
       <Filter>NKF</Filter>
     </ClCompile>
     <ClCompile Include="..\tool\Font\asd.FontRasterizer.cpp">
+      <Filter>Font</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tool\Font\asd.InstalledFontList.cpp">
       <Filter>Font</Filter>
     </ClCompile>
   </ItemGroup>

@@ -45,6 +45,7 @@ protected:
 
 	virtual Effect* CreateEffect_(const achar* path) = 0;
 	virtual Font* CreateFont_(const achar* path) = 0;
+	virtual Font* CreateDynamicFont_(const achar* font, int32_t fontSize, Color color, int32_t outlineSize, Color outlineColor) = 0;
 
 	virtual ImagePackage* CreateImagePackage_(const achar* path) = 0;
 public:
@@ -274,6 +275,27 @@ public:
 		auto font = CreateFont_(path);
 		return CreateSharedPtrWithReleaseDLL(font);
 	}
+
+	/**
+	@brief	必要に応じて動的に生成されるフォントを生成する。
+	@param	font			フォント名/フォントパス
+	@param	fontSize		フォントサイズ
+	@param	color			フォントの色
+	@param	outlineSize		外枠の太さ
+	@param	outlineColor	外枠の色
+	@return	フォント
+	@note
+	文字を表示する時に必要な文字の分だけフォントを生成するフォントクラスを生成する。
+	fontには、フォント名、もしくはフォントファイルへのパスを指定する。
+	何もfontに文字を指定しないと標準フォントが使用される。
+	事前に専用のフォントファイルを用意する必要はないが、アプリケーションを実行する環境に指定したフォントが存在する必要がある。
+	*/
+	std::shared_ptr<Font> CreateDynamicFont(const achar* font, int32_t fontSize, Color color, int32_t outlineSize, Color outlineColor)
+	{
+		auto font_ = CreateDynamicFont_(font, fontSize, color, outlineSize, outlineColor);
+		return CreateSharedPtrWithReleaseDLL(font_);
+	}
+
 
 	/**
 	@brief	画像パッケージを生成する。

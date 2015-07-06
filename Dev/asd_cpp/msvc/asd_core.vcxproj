@@ -158,7 +158,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
@@ -176,7 +176,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
@@ -194,7 +194,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
@@ -214,7 +214,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
@@ -236,7 +236,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
@@ -257,7 +257,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
@@ -278,7 +278,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>
@@ -301,7 +301,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>../core/PCH/asd.Core.PCH.h</PrecompiledHeaderFile>

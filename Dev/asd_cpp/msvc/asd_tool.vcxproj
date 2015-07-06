@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\tool\Font\asd.InstalledFontList.h" />
     <ClInclude Include="..\tool\Font\asd.FontRasterizer.h" />
     <ClInclude Include="..\tool\Graphics\3D\asd.MassModel_IO.h" />
     <ClInclude Include="..\tool\Graphics\3D\asd.Model_IO.h" />
@@ -27,6 +28,7 @@
     <ClInclude Include="..\tool\NKF\utf8tbl.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\tool\Font\asd.InstalledFontList.cpp" />
     <ClCompile Include="..\tool\Font\asd.FontRasterizer.cpp" />
     <ClCompile Include="..\tool\Graphics\3D\asd.MassModel_IO.cpp" />
     <ClCompile Include="..\tool\Graphics\3D\asd.Model_IO.cpp" />

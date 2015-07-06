@@ -22,7 +22,7 @@ namespace FontGenerator
 		return result;
 	}
 
-	void AddRange(std::vector<char>& dst, std::vector<char>& src)
+	static void AddRange(std::vector<char>& dst, std::vector<char>& src)
 	{
 		dst.insert(dst.end(), src.begin(), src.end());
 	}
@@ -35,7 +35,7 @@ namespace FontGenerator
 	@param	data	Œ„ŠÔ‚È‚­•~‚«‹l‚ß‚ç‚ê‚½‰æ‘fƒf[ƒ^(1‰æ‘f4byteŒÅ’è)
 	@param	rev		ã‰º”½“]‚Å•Û‘¶‚·‚éB
 	*/
-	void SavePNGImage(const wchar_t* filepath, int32_t width, int32_t height, void* data, bool rev)
+	static void SavePNGImage(const wchar_t* filepath, int32_t width, int32_t height, void* data, bool rev)
 	{
 		png_bytep raw1D;
 		png_bytepp raw2D;

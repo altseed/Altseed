@@ -1,4 +1,4 @@
-/*
+﻿/*
  * 
  * nkf.h - Header file for nkf
  * 

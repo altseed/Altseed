@@ -20,6 +20,7 @@ set(common_src
 
 set(tool_src
 	asd_cpp/tool/Font/asd.FontRasterizer.cpp
+	asd_cpp/tool/Font/asd.InstalledFontList.cpp
 	asd_cpp/tool/Graphics/3D/asd.MassModel_IO.cpp
 	asd_cpp/tool/Graphics/3D/asd.Model_IO.cpp
 	asd_cpp/tool/NKF/nkf.c

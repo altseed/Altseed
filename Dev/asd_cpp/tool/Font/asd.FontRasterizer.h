@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include <asd.common.Base.h>
 #include <Graphics/asd.Color.h>
@@ -16,7 +16,7 @@ namespace asd
 	{
 	private:
 		class Font;
-		class Gryph;
+		class Glyph;
 
 		struct Span
 		{
@@ -58,7 +58,7 @@ namespace asd
 			}
 
 			/**
-			@brief	ƒtƒHƒ“ƒg‚Ìascender‚Ì’l(ƒx[ƒXƒ‰ƒCƒ“‚æ‚èã‚Ì‚‚³)‚ğæ“¾‚·‚éB
+			@brief	ãƒ•ã‚©ãƒ³ãƒˆã®ascenderã®å€¤(ãƒ™ãƒ¼ã‚¹ãƒ©ã‚¤ãƒ³ã‚ˆã‚Šä¸Šã®é«˜ã•)ã‚’å–å¾—ã™ã‚‹ã€‚
 			*/
 			int32_t GetAscender() const
 			{
@@ -66,7 +66,7 @@ namespace asd
 			}
 
 			/**
-			@brief	ƒtƒHƒ“ƒg‚Ìdescender‚Ì’l(ƒx[ƒXƒ‰ƒCƒ“‚æ‚è‰º‚Ì‚‚³)‚ğæ“¾‚µ‚Ü‚·B–ß‚è’l‚Í•‰‚Ì’l‚Å‚·B
+			@brief	ãƒ•ã‚©ãƒ³ãƒˆã®descenderã®å€¤(ãƒ™ãƒ¼ã‚¹ãƒ©ã‚¤ãƒ³ã‚ˆã‚Šä¸‹ã®é«˜ã•)ã‚’å–å¾—ã—ã¾ã™ã€‚æˆ»ã‚Šå€¤ã¯è² ã®å€¤ã§ã™ã€‚
 			*/
 			int32_t GetDescender() const
 			{
@@ -76,7 +76,7 @@ namespace asd
 			static std::shared_ptr<Font> Create(void* data, int32_t size, int32_t fontSize);
 		};
 
-		class Gryph
+		class Glyph
 		{
 		private:
 			std::shared_ptr<Font> font;
@@ -84,11 +84,11 @@ namespace asd
 			achar charactor;
 
 		public:
-			Gryph(std::shared_ptr<Font> font, achar charactor, FT_OutlineGlyph glyph);
-			virtual ~Gryph();
+			Glyph(std::shared_ptr<Font> font, achar charactor, FT_OutlineGlyph glyph);
+			virtual ~Glyph();
 
 			/**
-			@brief	‚±‚ÌƒOƒŠƒt‚Ì•`‰æ•‚ğæ“¾‚·‚éB
+			@brief	ã“ã®ã‚°ãƒªãƒ•ã®æç”»å¹…ã‚’å–å¾—ã™ã‚‹ã€‚
 			*/
 			int32_t GetAdvance() const
 			{
@@ -97,7 +97,7 @@ namespace asd
 
 			void Rasterize(std::vector<Color>& data, int32_t& width, int32_t& height, int32_t outlineSize, Color color, Color outlineColor);
 
-			static std::shared_ptr<Gryph> CreateGryph(std::shared_ptr<Font> font, achar charactor);
+			static std::shared_ptr<Glyph> CreateGlyph(std::shared_ptr<Font> font, achar charactor);
 		};
 
 	public:
@@ -106,14 +106,11 @@ namespace asd
 		public:
 			std::vector<Color> Buffer;
 
-			Image(int32_t size)
-			{
-				Buffer.resize(size * size);
-			}
+			Image(int32_t size);
 		};
 
 
-		class GryphImage
+		class GlyphImage
 		{
 		public:
 			RectI	Src;
@@ -124,20 +121,20 @@ namespace asd
 		int32_t	imageSize = 0;
 
 		std::shared_ptr<Font>					font;
-		std::map<achar, std::shared_ptr<Gryph>>	gryphs;
+		std::map<achar, std::shared_ptr<Glyph>>	glyphs;
 		std::vector<std::shared_ptr<Image>>		images;
-		std::map<achar, GryphImage>				gryphImages;
+		std::map<achar, GlyphImage>				glyphImages;
 
 		int32_t outlineSize;
 		Color color;
 		Color outlineColor;
 
-		static const int32_t	Space = 1;
-
 		int32_t	currentX = 0;
 		int32_t	currentY = 0;
 		int32_t currentIndex = 0;
 		int32_t currentHeight = 0;
+
+		const int32_t Space = 1;
 
 	public:
 		FontRasterizer();
@@ -149,6 +146,8 @@ namespace asd
 
 		std::vector<std::shared_ptr<Image>>& GetImages() { return images; }
 
-		GryphImage AddGryph(achar charactor);
+		GlyphImage AddGlyph(achar charactor);
+
+		std::map<achar, GlyphImage>& GetGlyphImages() { return glyphImages; };
 	};
 }

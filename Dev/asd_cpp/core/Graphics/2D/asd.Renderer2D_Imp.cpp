@@ -289,6 +289,9 @@ namespace asd {
 		int offset = 0;
 		Font_Imp* font_Imp = (Font_Imp*)font;
 
+		font_Imp->AddCharactorsDynamically(text);
+		font_Imp->UpdateTextureDynamically();
+
 		for (int textIndex = 0;; ++textIndex)
 		{
 			if (text[textIndex] == 0) break;

@@ -403,6 +403,8 @@ namespace asd {
 
 		Font* CreateFont_(const achar* path);
 
+		Font* CreateDynamicFont_(const achar* font, int32_t fontSize, Color color, int32_t outlineSize, Color outlineColor) override;
+
 		ImagePackage* CreateImagePackage_(const achar* path) override;
 
 #if !SWIG

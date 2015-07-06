@@ -108,7 +108,30 @@
 #endif
 #include <EffekseerRendererGL.h>
 
-// ACE
+
+#if _WIN32
+
+#ifdef _WIN64
+
+#if _DEBUG
+#pragma comment(lib,"x64/Debug/freetype.lib")
+#else
+#pragma comment(lib,"x64/Release/freetype.lib")
+#endif
+
+#else
+
+#if _DEBUG
+#pragma comment(lib,"x86/Debug/freetype.lib")
+#else
+#pragma comment(lib,"x86/Release/freetype.lib")
+#endif
+
+#endif
+
+#endif
+
+// Altseed
 #if _WIN32
 
 #ifdef _WIN64

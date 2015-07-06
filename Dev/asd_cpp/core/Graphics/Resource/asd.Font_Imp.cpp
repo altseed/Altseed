@@ -18,12 +18,67 @@
 //----------------------------------------------------------------------------------
 namespace asd {
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+	Font_Imp* Font_Imp::Create(Graphics* graphics, const achar* font, int32_t fontSize, Color color, int32_t outlineSize, Color outlineColor)
+	{
+		auto g = (Graphics_Imp*) graphics;
+		auto file = g->GetFile();
+	
+		std::shared_ptr<StaticFile> staticFile = nullptr;
+		
+		// 規定のフォント
+		if (astring(font) == astring())
+		{
+#ifdef _WIN32
+			staticFile = file->CreateStaticFile(ToAString("C:\\Windows\\Fonts\\meiryo.ttc").c_str());
+#endif
+		}
+
+		// ファイルパスとして検索
+		staticFile = file->CreateStaticFile(font);
+
+		// フォント名から検索
+		if (staticFile == nullptr)
+		{
+			InstalledFontList::Load();
+
+			auto f = astring(font);
+
+			for (auto i = 0; i < InstalledFontList::Fonts.size(); i++)
+			{
+				if (InstalledFontList::Fonts[i].Name == f)
+				{
+					staticFile = file->CreateStaticFile(InstalledFontList::Fonts[i].Path.c_str());
+					break;
+				}
+			}
+		}
+
+		// フォントが見つからなかった
+		if (staticFile == nullptr) return nullptr;
+
+		// ライタライザを生成する
+		auto rasterizer = std::make_shared<asd::FontRasterizer>();
+		if (!rasterizer->Initialize(staticFile->GetData(), staticFile->GetSize(), fontSize, outlineSize, color, outlineColor, 1024))
+		{
+			return nullptr;
+		}
+
+		return new Font_Imp(graphics, rasterizer);
+	}
+
+	Font_Imp::Font_Imp(Graphics* graphics, std::shared_ptr<FontRasterizer> rasterizer)
+		: DeviceObject(graphics)
+		, m_graphics(graphics)
+		, isDynamic(true)
+		, rasterizer(rasterizer)
+	{
+
+	}
+
 	Font_Imp::Font_Imp(Graphics* graphics, const achar* affFilePathChar, std::vector<uint8_t> data)
 		: DeviceObject(graphics)
 		, m_graphics(graphics)
+		, isDynamic(false)
 	{
 		asd::astring affFilePathStr = asd::astring(affFilePathChar);
 		AffLoader affLoader = AffLoader(data);
@@ -63,6 +118,7 @@ namespace asd {
 	Font_Imp::Font_Imp(Graphics* graphics, void* data, int32_t size, std::vector<std::shared_ptr<Texture2D>> textures)
 		: DeviceObject(graphics)
 		, m_graphics(graphics)
+		, isDynamic(false)
 	{
 		std::vector<uint8_t> data_;
 		data_.resize(size);
@@ -85,8 +141,15 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DI Font_Imp::CalcTextureSize(const achar* text, WritingDirection writingDirection) const
+	Vector2DI Font_Imp::CalcTextureSize(const achar* text, WritingDirection writingDirection)
 	{
+		if (text == nullptr) return Vector2DI(0, 0);
+
+		if (isDynamic)
+		{
+			AddCharactorsDynamically(text);
+		}
+
 		if (m_glyphs.empty() && m_textures.empty())
 		{
 			return Vector2DI(0, 0);
@@ -146,17 +209,62 @@ namespace asd {
 		return m_textures[index];
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+	void Font_Imp::AddCharactorDynamically(achar c)
+	{
+		if (!isDynamic) return;
+		if (m_glyphs.find(c) != m_glyphs.end()) return;
+		
+		auto ig = rasterizer->AddGlyph(c);
+	
+		GlyphData gd = GlyphData(c, ig.Index, ig.Src);
+		m_glyphs[c] = gd;
+
+		updatingTexture.insert(ig.Index);
+	}
+
+	void Font_Imp::AddCharactorsDynamically(const achar* text)
+	{
+		if (!isDynamic) return;
+		if (text == nullptr) return;
+		
+		for (int32_t i = 0; text[i] != 0; i++)
+		{
+			AddCharactorDynamically(text[i]);
+		}
+	}
+
+	void Font_Imp::UpdateTextureDynamically()
+	{
+		auto g = (Graphics_Imp*) GetGraphics();
+
+		for (auto index : updatingTexture)
+		{
+			while (index >= m_textures.size())
+			{
+				m_textures.push_back(
+					g->CreateEmptyTexture2D(rasterizer->GetImageSize(), rasterizer->GetImageSize(), asd::TextureFormat::R8G8B8A8_UNORM_SRGB));
+			}
+
+			auto& buf = rasterizer->GetImages()[index];
+			auto& tex = m_textures[index];
+
+			TextureLockInfomation info;
+			if (tex->Lock(&info))
+			{
+				auto p = info.GetPixels();
+				memcpy(p, buf->Buffer.data(), rasterizer->GetImageSize() * rasterizer->GetImageSize() * 4);
+				tex->Unlock();
+			}
+		}
+
+		updatingTexture.clear();
+	}
+
 	GlyphData Font_Imp::GetGlyphData(achar c)
 	{
 		return m_glyphs[c];
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	bool Font_Imp::HasGlyphData(achar c) const
 	{
 		return m_glyphs.find(c) != m_glyphs.end();
@@ -167,6 +275,8 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	void Font_Imp::Reload(const achar* affFilePathChar, std::vector<uint8_t> data)
 	{
+		if (isDynamic) return;
+
 		m_glyphs.clear();
 		m_textures.clear();
 

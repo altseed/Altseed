@@ -1,4 +1,4 @@
-/*
+﻿/*
  * utf8tbl.h - Header file for Convertion Table
  *
  */

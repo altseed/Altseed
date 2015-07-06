@@ -979,6 +979,22 @@ Font* Graphics_Imp::CreateFont_(const achar* path)
 	return ret;
 }
 
+Font* Graphics_Imp::CreateDynamicFont_(const achar* font, int32_t fontSize, Color color, int32_t outlineSize, Color outlineColor)
+{
+	auto extFont = FontContainer->Get(font);
+	if (extFont != nullptr)
+	{
+		SafeAddRef(extFont);
+		return extFont;
+	}
+
+	auto font_ = Font_Imp::Create(this, font, fontSize, color, outlineSize, outlineColor);
+
+	FontContainer->Register(font, font_);
+
+	return font_;
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

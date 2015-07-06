@@ -205,6 +205,9 @@ namespace asd
 		Vector2DF min = Vector2DF(FLT_MAX, FLT_MAX);
 		Vector2DF max = Vector2DF(-FLT_MAX, -FLT_MAX);
 
+		font_Imp->AddCharactorsDynamically(m_text.c_str());
+		font_Imp->UpdateTextureDynamically();
+
 		for (int textIndex = 0;; ++textIndex)
 		{
 			if (m_text[textIndex] == 0) break;
