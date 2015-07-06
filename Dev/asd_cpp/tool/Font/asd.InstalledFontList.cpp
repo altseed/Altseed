@@ -58,6 +58,8 @@ namespace asd
 
 		// 終了
 		RegCloseKey(fontKey);
+#elif defined __APPLE__
+		Load_Mac();
 #endif
 	}
 }
