@@ -43,9 +43,10 @@ namespace asd
 			FT_Library	library;
 			FT_Face		face;
 			int32_t		fontSize;
+			std::shared_ptr<std::vector<uint8_t>> buf;
 
 		public:
-			Font(FT_Library library, FT_Face face, int32_t fontSize);
+			Font(FT_Library library, FT_Face face, int32_t fontSize, std::shared_ptr<std::vector<uint8_t>> buf);
 			virtual ~Font();
 
 			FT_Face GetFace() { return face; }

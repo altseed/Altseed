@@ -40,10 +40,11 @@ namespace asd
 		FT_Outline_Render(library, outline, &params);
 	}
 
-	FontRasterizer::Font::Font(FT_Library library, FT_Face face, int32_t fontSize)
+	FontRasterizer::Font::Font(FT_Library library, FT_Face face, int32_t fontSize, std::shared_ptr<std::vector<uint8_t>> buf)
 		: library(library)
 		, face(face)
 		, fontSize(fontSize)
+		, buf(buf)
 	{
 		FT_Set_Pixel_Sizes(face, fontSize, fontSize);
 	}
@@ -60,15 +61,19 @@ namespace asd
 		auto error = FT_Init_FreeType(&library);
 		if (error != 0) return nullptr;
 
+		auto buf = std::make_shared<std::vector<uint8_t>>();
+		buf->resize(size);
+		memcpy(buf->data(), data, size);
+
 		FT_Face face = nullptr;
-		error = FT_New_Memory_Face(library, (uint8_t*)data, size, 0, &face);
+		error = FT_New_Memory_Face(library, (uint8_t*)buf->data(), size, 0, &face);
 		if (error != 0)
 		{
 			FT_Done_FreeType(library);
 			return nullptr;
 		}
 
-		return std::make_shared<FontRasterizer::Font>(library, face, fontSize);
+		return std::make_shared<FontRasterizer::Font>(library, face, fontSize, buf);
 	}
 
 	FontRasterizer::Glyph::Glyph(std::shared_ptr<Font> font, achar charactor, FT_OutlineGlyph glyph)

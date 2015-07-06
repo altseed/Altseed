@@ -43,9 +43,6 @@
     <ClCompile Include="..\ObjectSystem\SetSourceOfTexture.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\PCH\ace.UnitTestEngineCpp.PCH.cpp">
-      <Filter>PCH</Filter>
-    </ClCompile>
     <ClCompile Include="..\ObjectSystem\CameraAndSetTexture.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
@@ -164,6 +161,10 @@
     <ClCompile Include="TransformOutOfUpdate.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\PCH\asd.UnitTestEngineCpp.PCH.cpp" />
+    <ClCompile Include="..\Graphics\2D\TextObject2D_Dynamic.cpp">
+      <Filter>Graphics\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -205,9 +206,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\EngineTest.h" />
-    <ClInclude Include="..\PCH\ace.UnitTestEngineCpp.PCH.h">
-      <Filter>PCH</Filter>
-    </ClInclude>
     <ClInclude Include="..\EngineGraphics3DTest.h" />
+    <ClInclude Include="..\PCH\asd.UnitTestEngineCpp.PCH.h" />
   </ItemGroup>
 </Project>

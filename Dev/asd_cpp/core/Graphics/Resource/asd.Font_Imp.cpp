@@ -34,7 +34,10 @@ namespace asd {
 		}
 
 		// ファイルパスとして検索
-		staticFile = file->CreateStaticFile(font);
+		if (staticFile == nullptr)
+		{
+			staticFile = file->CreateStaticFile(font);
+		}
 
 		// フォント名から検索
 		if (staticFile == nullptr)

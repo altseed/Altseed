@@ -93,7 +93,7 @@ void EngineTest::Run()
 		if (m_currentTime == m_exitTime)
 		{
 			string tail = m_isOpenGLMode ? "_GL" : "_DX";
-			tail += ".jpg";
+			tail += ".png";
 			astring fileName = directory + m_title + ToAString(tail.c_str());
 
 			asd::Engine::TakeScreenshot(fileName.c_str());
