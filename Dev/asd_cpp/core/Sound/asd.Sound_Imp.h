@@ -74,6 +74,8 @@ namespace asd
 
 		void FadeOut(int32_t id, float second) override;
 
+		void Fade(int32_t id, float second, float targetedVolume) override;
+
 #if !SWIG
 		std::shared_ptr<ResourceContainer<SoundSource_Imp>>	SoundSourcesContainer;
 

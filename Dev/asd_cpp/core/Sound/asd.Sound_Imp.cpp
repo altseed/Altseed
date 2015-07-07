@@ -108,6 +108,12 @@ namespace asd
 		return m_manager->FadeOut(id, second);
 	}
 
+	void Sound_Imp::Fade(int32_t id, float second, float targetedVolume)
+	{
+		if (m_manager == nullptr) return;
+		return m_manager->Fade(id, second, targetedVolume);
+	}
+
 	void Sound_Imp::Reload()
 	{
 		SoundSourcesContainer->Reload([this](std::shared_ptr<ResourceContainer<SoundSource_Imp>::LoadingInformation> r, uint8_t* data, int32_t size) -> void

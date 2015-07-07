@@ -103,5 +103,16 @@ namespace asd
 		@param	second	フェードアウトに使用する時間(秒)
 		*/
 		virtual void FadeOut(int32_t id, float second) = 0;
+
+		/**
+		@brief	任意の音量に音量を一定時間かけて変更する。
+		@param	id		音のID
+		@param	second	変更にかかる時間(秒)
+		@param	targetedVolume	変更先の音量(0.0～1.0)
+		@note
+		この指定される音量はSetVolumeに指定される音量とは異なり、FadeIn、FadeOutに使用される音量と共通である。
+		つまり、このメソッドはFadeIn、FadeOutの任意音量指定版と言える。
+		*/
+		virtual void Fade(int32_t id, float second, float targetedVolume) = 0;
 	};
 }

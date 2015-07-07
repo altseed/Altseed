@@ -2113,6 +2113,20 @@ SWIGEXPORT void SWIGSTDCALL CSharp_Sound_FadeOut(void * jarg1, int jarg2, float 
 }
 
 
+SWIGEXPORT void SWIGSTDCALL CSharp_Sound_Fade(void * jarg1, int jarg2, float jarg3, float jarg4) {
+  asd::Sound *arg1 = (asd::Sound *) 0 ;
+  int32_t arg2 ;
+  float arg3 ;
+  float arg4 ;
+  
+  arg1 = (asd::Sound *)jarg1; 
+  arg2 = (int32_t)jarg2; 
+  arg3 = (float)jarg3; 
+  arg4 = (float)jarg4; 
+  (arg1)->Fade(arg2,arg3,arg4);
+}
+
+
 SWIGEXPORT float SWIGSTDCALL CSharp_Material2D_GetFloat(void * jarg1, ::asd::achar * jarg2) {
   float jresult ;
   asd::Material2D *arg1 = (asd::Material2D *) 0 ;

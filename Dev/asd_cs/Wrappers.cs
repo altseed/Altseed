@@ -2187,6 +2187,17 @@ namespace asd {
 			CoreInstance.FadeOut(id, second);
 		}
 
+		/// <summary>
+		/// 任意の音量に音量を一定時間かけて変更する。 
+		/// </summary>
+		/// <param name="id">音のID </param>
+		/// <param name="second">変更にかかる時間(秒) </param>
+		/// <param name="targetedVolume">変更先の音量(0.0～1.0) </param>
+		public void Fade(int id, float second, float targetedVolume)
+		{
+			CoreInstance.Fade(id, second, targetedVolume);
+		}
+
 	}
 
 
