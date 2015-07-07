@@ -9,7 +9,7 @@ namespace asd
 {
 	public partial class StaticFile : IDestroy
 	{
-		private List<byte> buffer;
+		private byte[] buffer;
 
 		internal StaticFile(swig.StaticFile swig)
 		{
@@ -53,10 +53,9 @@ namespace asd
 		}
 
 		/// <summary>
-		/// 
+		/// 読み込まれたバッファを取得する。
 		/// </summary>
-		/// <returns></returns>
-		unsafe public List<byte> Buffer
+		unsafe public byte[] Buffer
 		{
 			get
 			{
@@ -65,7 +64,13 @@ namespace asd
 					System.IntPtr raw = CoreInstance.GetData();
 					byte[] bytes = new byte[CoreInstance.GetSize()];
 					Marshal.Copy(raw, bytes, 0, CoreInstance.GetSize());
-					buffer = new List<byte>(bytes);
+					buffer = bytes;
+
+					/*
+					 var buf = CoreInstance.GetBuffer();
+					buffer = new byte[buf.Count];
+					buf.CopyTo(buffer);
+					 */
 				}
 
 				return buffer;

@@ -33,7 +33,7 @@ namespace unitTest_Engine_cs.IO
             var staticFile = asd.Engine.File.CreateStaticFile("Surface/Tile_Spec.png");
             var staticFileData = staticFile.Buffer;
 
-            Assert.Equals(loadData.Count, staticFileData.Count);
+            Assert.Equals(loadData.Count, staticFileData.Length);
 
             for (int i = 0; i < loadData.Count; ++i)
             {

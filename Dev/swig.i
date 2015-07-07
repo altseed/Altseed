@@ -22,7 +22,10 @@
 
 #if SWIGCSHARP
 %include "arrays_csharp.i"
+%include "std_vector.i"
 
+// stl
+%template(VectorUint8) std::vector<uint8_t>;
 
 // “ÆŽ©‚Ì’è‹`‚ðŽg—p
 namespace asd {

@@ -16,13 +16,12 @@ namespace asd
 	public:
 		virtual ~StaticFile() { };
 
-#ifndef SWIG
 		/**
 			@brief	読み込まれたバッファを取得する。
 			@return	バッファ
 		*/
 		virtual const std::vector<uint8_t>& GetBuffer() const = 0;
-#endif
+
 		/**
 			@brief	ファイルのパスを取得する。
 			@return	パス
@@ -45,8 +44,8 @@ namespace asd
 		virtual int32_t GetSize() = 0;
 
 		/**
-			@brief	パッケージ内からファイルが読み込まれたか取得する。
-			@return	パッケージ内からファイルが読み込まれたか?
+			@brief	パッケージ内からファイルが読み込まれているかを取得する。
+			@return	パッケージ内からファイルが読み込まれているか?
 		*/
 		virtual bool GetIsInPackage() const = 0;
 	};

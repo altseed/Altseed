@@ -243,6 +243,7 @@
     <Compile Include="swig\TextureFormat.cs" />
     <Compile Include="swig\TextureLockInfomation.cs" />
     <Compile Include="swig\TextureWrapType.cs" />
+    <Compile Include="swig\VectorUint8.cs" />
     <Compile Include="swig\VisualizedBufferType.cs" />
     <Compile Include="swig\Window.cs" />
     <Compile Include="swig\Window_Imp.cs" />

@@ -86,6 +86,8 @@
 		"ReferenceObject",
 		"IReference",
 		"CoreOption",
+
+		"VectorUint8"
 	],
 	"MethodBlackList":
 	[

@@ -51,9 +51,9 @@ uniform sampler2D	g_texture;
 
 uniform vec3		g_values;
 
-out vec4 inPosition;
-out vec2 inUV;
-out vec4 inColor;
+in vec4 inPosition;
+in vec2 inUV;
+in vec4 inColor;
 
 out vec4 outOutput;
 

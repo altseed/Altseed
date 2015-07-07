@@ -2268,7 +2268,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// パッケージ内からファイルが読み込まれているかを取得する。
 		/// </summary>
 		public bool IsInPackage
 		{
