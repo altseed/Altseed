@@ -25,10 +25,10 @@ namespace asd
 #ifdef _WIN32
 		std::tr2::sys::path fontRoot(root.c_str());
 		std::for_each(
-			fs::directory_iterator(fontRoot), 
-			fs::directory_iterator(),
-			[&paths](const fs::path& p) {
-			if (fs::is_regular_file(p))
+			std::tr2::sys::directory_iterator(fontRoot),
+			std::tr2::sys::directory_iterator(),
+			[&paths](const std::tr2::sys::path& p) {
+			if (std::tr2::sys::is_regular_file(p))
 			{
 				paths.push_back(p);
 			}});
