@@ -19,12 +19,14 @@
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_RectangleShape.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\ImagePackage.cpp" />
-    <ClCompile Include="..\Input\Joystick.cpp" />
-    <ClCompile Include="..\Input\Keyboard.cpp" />
-    <ClCompile Include="..\Input\Mouse.cpp" />
+    <ClCompile Include="..\Joystick\Joystick_Basic.cpp" />
+    <ClCompile Include="..\Keyboard\Keyboard_Basic.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\MapObject2D\MapObject2D_Camera.cpp" />
     <ClCompile Include="..\MapObject2D\MapObject2D_Simple.cpp" />
+    <ClCompile Include="..\Mouse\Mouse_Position.cpp" />
+    <ClCompile Include="..\Mouse\Mouse_Click.cpp" />
+    <ClCompile Include="..\Mouse\Mouse_State.cpp" />
     <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\Transition.cpp" />
     <ClCompile Include="..\PostEffect\PostEffect_GaussianBlur.cpp" />

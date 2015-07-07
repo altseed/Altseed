@@ -1,38 +1,35 @@
 ﻿
 #include <Altseed.h>
 
-/**
-@brief	Joystickのサンプル。ジョイスティックによる入力を取得しています。
-*/
-void Joystick()
+// ジョイスティックによる入力を取得するサンプル。
+
+void Joystick_Basic()
 {
-
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Joystick").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("Joystick_Basic").c_str(), 640, 480, asd::EngineOption());
 
+	// ジョイスティックの状態を表示するテキストを生成する。
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 25, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
 
-	auto buttonsStateText = std::make_shared<asd::TextObject2D>();
-	buttonsStateText->SetPosition(asd::Vector2DF(10, 10));
-	buttonsStateText->SetFont(font);
+	auto stateText = std::make_shared<asd::TextObject2D>();
+	stateText->SetPosition(asd::Vector2DF(10, 10));
+	stateText->SetFont(font);
 
-	asd::Engine::AddObject2D(buttonsStateText);
+	asd::Engine::AddObject2D(stateText);
 
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
 		asd::astring displayStr = asd::ToAString("");
 
-		// ジョイスティックが最低一つ接続されているかどうかを確認する。
-
-		// 一つも接続されていない場合は終了する。
+		// ジョイスティックが接続されているかどうかを確認する。
 		if (!asd::Engine::GetJoystickContainer()->GetIsPresentAt(0))
 		{
-			displayStr += asd::ToAString("No joysticks are connected.\n");
+			displayStr += asd::ToAString("ジョイスティックが接続されていません。");
 		}
 		else
 		{
-			// 一つ目のジョイスティックの0番目のボタンの入力状態を表示する
+			// 1つ目のジョイスティックの0番目のボタンの入力状態を表示する
 			asd::Joystick* joystick = asd::Engine::GetJoystickContainer()->GetJoystickAt(0);
 
 			for (int buttonIndex = 0; buttonIndex < joystick->GetButtonsCount(); ++buttonIndex)
@@ -58,7 +55,7 @@ void Joystick()
 
 		}
 		
-		buttonsStateText->SetText(displayStr.c_str());
+		stateText->SetText(displayStr.c_str());
 
 		// Altseedを更新する。
 		asd::Engine::Update();

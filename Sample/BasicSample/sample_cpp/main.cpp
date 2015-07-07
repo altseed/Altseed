@@ -30,9 +30,14 @@ extern void PostEffect_LightBloom();
 
 extern void Transition_Fade();
 
-extern void Keyboard();
-extern void Mouse();
-extern void Joystick();
+extern void Keyboard_Basic();
+
+extern void Mouse_Position();
+extern void Mouse_Click();
+extern void Mouse_State();
+
+extern void Joystick_Basic();
+
 extern void Sound();
 
 extern void EffectObject2D();
@@ -86,9 +91,12 @@ int main(int argc, char** argv)
 
 		INFO(Transition_Fade),
 
-		INFO(Keyboard),
-		INFO(Mouse),
-		INFO(Joystick),
+		INFO(Mouse_Position),
+		INFO(Mouse_Click),
+		INFO(Mouse_State),
+
+		INFO(Keyboard_Basic),
+		INFO(Joystick_Basic),
 
 		INFO(Sound),
 

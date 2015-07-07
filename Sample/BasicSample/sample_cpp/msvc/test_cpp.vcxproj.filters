@@ -15,15 +15,6 @@
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_ArcShape.cpp">
       <Filter>GeometryObject2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\Input\Keyboard.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Input\Joystick.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Input\Mouse.cpp">
-      <Filter>Input</Filter>
-    </ClCompile>
     <ClCompile Include="..\MapObject2D\MapObject2D_Simple.cpp">
       <Filter>MapObject2D</Filter>
     </ClCompile>
@@ -90,6 +81,21 @@
     <ClCompile Include="..\SceneAndLayer\SceneAndLayer_Basic.cpp">
       <Filter>SceneAndLayer</Filter>
     </ClCompile>
+    <ClCompile Include="..\Joystick\Joystick_Basic.cpp">
+      <Filter>Joystick</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Keyboard\Keyboard_Basic.cpp">
+      <Filter>Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Mouse\Mouse_State.cpp">
+      <Filter>Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Mouse\Mouse_Position.cpp">
+      <Filter>Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Mouse\Mouse_Click.cpp">
+      <Filter>Mouse</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -101,9 +107,6 @@
     </Filter>
     <Filter Include="GeometryObject2D">
       <UniqueIdentifier>{b388ffce-9424-4e2f-a6ed-a373349bcf2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Input">
-      <UniqueIdentifier>{d5944120-73ae-4dbf-9517-e0dfe5ff0ee9}</UniqueIdentifier>
     </Filter>
     <Filter Include="MapObject2D">
       <UniqueIdentifier>{2795a35f-8907-4370-9701-3f68a380d3e7}</UniqueIdentifier>
@@ -140,6 +143,15 @@
     </Filter>
     <Filter Include="SceneAndLayer">
       <UniqueIdentifier>{b2f17f43-5c26-456e-be6f-68e8ef7390ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Joystick">
+      <UniqueIdentifier>{dbf2a1cf-8ecb-4022-bc05-580c170967d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Keyboard">
+      <UniqueIdentifier>{0fb1f27d-9cf8-4aed-9e5d-8c0fe06128be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Mouse">
+      <UniqueIdentifier>{1d7642fa-4093-4c94-bd1b-529291be9402}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

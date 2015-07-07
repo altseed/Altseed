@@ -1,11 +1,11 @@
 ﻿
 #include <Altseed.h>
 
-// Keyboardのサンプル。キーボードによる入力を取得しています。
-void Keyboard()
+// キーボードによる入力を取得するサンプル。
+void Keyboard_Basic()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Keyboard").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("Keyboard_Basic").c_str(), 640, 480, asd::EngineOption());
 
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
