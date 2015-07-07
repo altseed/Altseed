@@ -7,11 +7,10 @@
 #include <vector>
 #include <stdint.h>
 
-#ifdef _WIN32
-#include <Windows.h>
-#include <Shlwapi.h>
-#pragma comment(lib,"Shlwapi.lib")
-#endif
+#include <Font/asd.FontRasterizer.h>
+#include <Font/asd.InstalledFontList.h>
+
+
 
 namespace FontGenerator
 {
@@ -29,8 +28,8 @@ namespace FontGenerator
 		int				m_sheetSize;
 
 		
-		std::vector < std::string > fontNames;
-		std::vector < std::string > fontPathes;
+		std::vector < asd::astring > fontNames;
+		std::vector < asd::astring > fontPathes;
 
 	public:
 		DLL();
@@ -38,9 +37,9 @@ namespace FontGenerator
 
 		void LoadFontNames();
 		int32_t GetFontCount();
-		const char* GetFontName(int32_t index);
-		const char* GetFontPath(int32_t index);
-		const wchar_t* SavePreview();
+		const asd::achar* GetFontName(int32_t index);
+		const asd::achar* GetFontPath(int32_t index);
+		const asd::achar* SavePreview();
 
 		bool Run();
 

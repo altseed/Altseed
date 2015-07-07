@@ -7,6 +7,9 @@
 #include <ft2build.h>
 #include FT_GLYPH_H
 
+#include <Font/asd.FontRasterizer.h>
+#include <Font/asd.InstalledFontList.h>
+
 namespace FontGenerator
 {
 	class Font;
@@ -21,7 +24,7 @@ namespace FontGenerator
 	public:
 		typedef std::shared_ptr<Glyph> Ptr;
 
-		Glyph(Font& font, wchar_t charctor, FT_OutlineGlyph glyph);
+		Glyph(Font& font, asd::achar charctor, FT_OutlineGlyph glyph);
 		~Glyph();
 
 		wchar_t GetCharactor() const;

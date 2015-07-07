@@ -12,14 +12,15 @@
 %include "stdint.i"
 %include "std_vector.i"
 %include "std_string.i"
-%include "std_wstring.i"
 
-// 全OS共通でwchar_t扱い
+// 独自定義
 namespace asd {
-typedef wchar_t achar;
-typedef std::wstring astring;
+	class achar;
+	class astring;
 }
 
+%include "../swig/Lib/csharp/achar.i"
+%include "../swig/Lib/csharp/astring.i"
 
 // セキュリティチェックを外して高速化
 %pragma(csharp) imclassclassmodifiers="

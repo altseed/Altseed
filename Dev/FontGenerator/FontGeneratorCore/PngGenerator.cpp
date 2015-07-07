@@ -66,7 +66,12 @@ namespace FontGenerator
 	void PngGenerator::GeneratePreview(astring fontPath, astring path)
 	{
 		const int IMAGE_SIZE = 256;
+
+#ifdef _WIN32
 		vector<achar> previewChars{ L'e', L'E', L'1', L'‚ ', L'‰i' };
+#else
+		vector<achar> previewChars{ u'e', u'E', u'1', u'‚ ', u'‰i' };
+#endif
 
 		Font font(fontPath);
 		font.SetFontSize(m_setting.GetFontSize());

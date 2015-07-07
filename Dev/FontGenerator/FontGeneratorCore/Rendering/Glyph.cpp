@@ -10,7 +10,7 @@ using namespace std;
 
 namespace FontGenerator
 {
-	Glyph::Glyph(Font& font, wchar_t charctor, FT_OutlineGlyph glyph)
+	Glyph::Glyph(Font& font, asd::achar charctor, FT_OutlineGlyph glyph)
 		: font(font)
 		, m_charactor(charctor)
 		, m_glyph(glyph)

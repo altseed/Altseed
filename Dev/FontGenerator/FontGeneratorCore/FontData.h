@@ -7,7 +7,7 @@ namespace FontGenerator
 	struct FontData
 	{
 	public:
-		wchar_t charactor;
+		asd::achar charactor;
 		int x, y, width, height, sheetNumber;
 
 		void WriteOut(std::ostream stream);

@@ -1,6 +1,12 @@
 
 #include "DLL.h"
 
+#ifdef _WIN32
+#pragma comment(lib,"Shlwapi.lib")
+#else
+#include <stdlib.h>
+#endif
+
 namespace FontGenerator
 {
 	DLL::DLL()
@@ -17,45 +23,13 @@ namespace FontGenerator
 		fontNames.clear();
 		fontPathes.clear();
 
-		HKEY fontKey;
+		asd::InstalledFontList::Load();
 
-		// レジストリを開く
-		auto r = RegOpenKeyExA(
-			HKEY_LOCAL_MACHINE,
-			"SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Fonts",
-			0,
-			KEY_READ,
-			&fontKey);
-
-		if (r != ERROR_SUCCESS) return;
-
-		for (auto ind = 0;; ind++)
+		for (auto& font : asd::InstalledFontList::Fonts)
 		{
-			char valueName[1000];
-			DWORD valueNameSize = 1000;
-
-			char value[1000];
-			DWORD valueSize = 1000;
-
-			DWORD valueType;
-
-			auto result = SHEnumValueA(
-				fontKey,
-				ind,
-				valueName,
-				&valueNameSize,
-				&valueType,
-				value,
-				&valueSize);
-
-			if (result != ERROR_SUCCESS) break;
-
-			fontNames.push_back(valueName);
-			fontPathes.push_back(value);
+			fontNames.push_back(font.Name);
+			fontPathes.push_back(font.Path);
 		}
-
-		// 終了
-		RegCloseKey(fontKey);
 	}
 
 	int32_t DLL::GetFontCount()
@@ -63,23 +37,28 @@ namespace FontGenerator
 		return fontNames.size();
 	}
 
-	const char* DLL::GetFontName(int32_t index)
+	const asd::achar* DLL::GetFontName(int32_t index)
 	{
 		return fontNames[index].c_str();
 	}
 
-	const char* DLL::GetFontPath(int32_t index)
+	const asd::achar* DLL::GetFontPath(int32_t index)
 	{
 		return fontPathes[index].c_str();
 	}
 
-	const wchar_t* DLL::SavePreview()
+	const asd::achar* DLL::SavePreview()
 	{
-		wchar_t dirPath[256];
-		GetTempPath(256, dirPath);
+#ifdef _WIN32
+		char tempPath[260];
+		char dirPath[256];
+		GetTempPathA(256, dirPath);
 
-		wchar_t filePath[256];
-		GetTempFileName(dirPath, L"aff", 0, filePath);
+		GetTempFileNameA(dirPath, "aff", 0, tempPath);
+#else
+		char tempPath[] = "/tmp/aff_preview_XXXXXX";
+		mkstemp(tempPath);
+#endif
 
 		PngGenerator png;
 		SettingForRendering setting;
@@ -91,10 +70,12 @@ namespace FontGenerator
 			setting.SetBorder(std::make_shared<BorderSetting>(m_outlineSize, m_outlineColor, m_outlineSampling));
 		}
 
-		png.SetSetting(setting);
-		png.GeneratePreview(m_fontName, filePath);
+		static asd::astring atempPath = asd::ToAString(tempPath);
 
-		return filePath;
+		png.SetSetting(setting);
+		png.GeneratePreview(m_fontName, atempPath.c_str());
+
+		return atempPath.c_str();
 	}
 
 
