@@ -4,6 +4,8 @@
 #include <filesystem>
 #include <Shlwapi.h>
 #pragma comment(lib,"Shlwapi.lib")
+#elif defined __APPLE__
+#include "dirent.h"
 #endif
 
 #include <ft2build.h>
@@ -11,6 +13,39 @@
 
 namespace asd
 {
+	/**
+	@brief	ディレクトリのファイルパス一覧を取得する。
+	@param	root	[in]	ディレクトリ
+	@param	paths	[out]	ファイルパス一覧
+	*/
+	static void EnumerateFiles(
+		const std::string &root,
+		std::vector<std::string> &paths)
+	{
+#ifdef _WIN32
+		std::tr2::sys::path fontRoot(root.c_str());
+		std::for_each(
+			fs::directory_iterator(fontRoot), 
+			fs::directory_iterator(),
+			[&paths](const fs::path& p) {
+			if (fs::is_regular_file(p))
+			{
+				paths.push_back(p);
+			}});
+#elif defined __APPLE__
+		DIR *dir;
+		if ((dir = opendir(root.c_str())) == nullptr) {
+			return;
+		}
+		struct dirent *ent;
+		while ((ent = readdir(dir)) != nullptr) {
+			const char *file = ent->d_name;
+			paths.push_back(root+std::string(file));
+		}
+		closedir(dir);
+#endif
+	}
+
 	bool InstalledFontList::isLoaded = false;
 	std::vector<InstalledFontList::Font> InstalledFontList::Fonts = std::vector<InstalledFontList::Font>();
 
@@ -19,19 +54,13 @@ namespace asd
 		if (isLoaded) return;
 		isLoaded = true;
 
-#ifdef _WIN32
-
 		std::vector<std::string> paths;
-		std::tr2::sys::path fontRoot("C:\\Windows\\Fonts\\");
-		
-		std::for_each(
-			std::tr2::sys::directory_iterator(fontRoot), 
-			std::tr2::sys::directory_iterator(),
-			[&paths](const std::tr2::sys::path& p) {
-			if (std::tr2::sys::is_regular_file(p))
-			{
-				paths.push_back(p);
-			}});
+#ifdef _WIN32
+		EnumerateFiles("C:\\Windows\\Fonts\\", paths);
+#elif defined __APPLE__
+		EnumerateFiles("/System/Library/Fonts/", paths);
+		EnumerateFiles("/Library/Fonts/", paths);
+#endif
 
 		FT_Library library = nullptr;
 		auto error = FT_Init_FreeType(&library);
@@ -98,9 +127,5 @@ namespace asd
 		// 終了
 		RegCloseKey(fontKey);
 		*/
-
-#elif defined __APPLE__
-		Load_Mac();
-#endif
 	}
 }
