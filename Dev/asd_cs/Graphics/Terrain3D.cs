@@ -52,5 +52,38 @@ namespace asd
 		{
 			CoreInstance.SetMaterial(IG.GetMaterial3D(material));
 		}
+
+		/// <summary>
+		/// メモリから地形のデータを読み込む。
+		/// </summary>
+		/// <param name="buffer">バッファ</param>
+		/// <remarks>
+		/// テクスチャのパスは保存されないので、読み込んだ後にAddSurfaceする必要がある。
+		/// </remarks>
+		public void LoadFromMemory(byte[] buffer)
+		{
+			var buf = new swig.VectorUint8();
+			foreach(var b in buffer)
+			{
+				buf.Add(b);
+			}
+
+			CoreInstance.LoadFromMemory(buf);
+
+			buf.Dispose();
+		}
+
+		/// <summary>
+		/// メモリに地形のデータを保存する。
+		/// </summary>
+		/// <returns>地形のデータ</returns>
+		public byte[] SaveToMemory()
+		{
+			var buf = CoreInstance.SaveToMemory();
+			byte[] dst = new byte[buf.Count];
+			buf.CopyTo(dst);
+
+			return dst;
+		}
 	}
 }

@@ -26,8 +26,18 @@ namespace asd
 		*/
 		virtual void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount) = 0;
 
+		/**
+			@brief	メモリから地形のデータを読み込む。
+			@param	buffer	バッファ
+			@note
+			テクスチャのパスは保存されないので、読み込んだ後にAddSurfaceする必要がある。
+		*/
 		virtual void LoadFromMemory(const std::vector<uint8_t>& buffer) = 0;
 
+		/**
+			@brief	メモリに地形のデータを保存する。
+			@return	地形のデータ
+		*/
 		virtual std::vector<uint8_t> SaveToMemory() = 0;
 
 		/**

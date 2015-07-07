@@ -1337,7 +1337,14 @@ namespace asd
 	void Terrain3D_Imp::LoadFromMemory(const std::vector<uint8_t>& buffer)
 	{
 		BinaryReader br;
-		br.ReadIn(buffer.begin(), buffer.end());
+
+		// TODO 高速化
+		std::vector<uint8_t> temp;
+
+		temp.resize(buffer.size());
+		memcpy(temp.data(), buffer.data(), buffer.size());
+
+		br.ReadIn(temp.begin(), temp.end());
 
 		char* sig = "ater";
 		uint8_t* sig_ = (uint8_t*) sig;
@@ -1446,6 +1453,7 @@ namespace asd
 			}
 		}
 
+		// TODO 高速化
 		std::vector<uint8_t> data;
 		data.resize(bw.Get().size());
 		memcpy(data.data(), bw.Get().data(), data.size());
