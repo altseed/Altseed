@@ -12,6 +12,16 @@
 
 [GPUに関する情報](GPU.md)
 
+### サンプルの追加手順について
+
+0. Altseedをコンパイルできる状態にしておきます。
+1. サンプルディレクトリにAltseedをコピーします。Script/copyDevToSample.pyを実行してください。
+2. 
+基本機能は ```Sample/BasicSample```、応用は ```Sample/ApplicationSample``` に記述します。
+章ごとにディレクトリを生成し(例：SceneAndLayer)、そのディレクトリの中にSceneAndLayer_(項目名).(cpp/cs) という名称でサンプルコードを記述します。
+関数名、タイトル名は必ずファイル名と同じにします。
+
+
 ### 新規ライブラリ、リソース等の追加について
 
 ライブラリに関しては、MIT License、zlib等のライセンスである場合、追加して問題ありません。
