@@ -20,6 +20,7 @@ namespace sample_cs
 				new Pause_Basic(),
 
 				new CustomPostEffect_Invert(),
+				new CustomPostEffect_Mosaic(),
             };
 
 			var cui = new SampleGuide( samples );

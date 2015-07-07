@@ -23,6 +23,7 @@ extern void ImagePackageUI_Component();
 extern void Pause_Basic();
 
 extern void CustomPostEffect_Invert();
+extern void CustomPostEffect_Mosaic();
 
 int main(int argc, char** argv)
 {
@@ -41,6 +42,7 @@ int main(int argc, char** argv)
 		INFO(Pause_Basic),
 
 		INFO(CustomPostEffect_Invert),
+		INFO(CustomPostEffect_Mosaic),
 	};
 
 	auto cui = SampleGuide(samples);

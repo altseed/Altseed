@@ -8,15 +8,15 @@ class CustomPostEffect_Invert : ISample
 	/// DirectX向けシェーダー(HLSLで記述)
 	/// </summary>
 	static string shader2d_dx_ps = @"
-Texture2D		g_texture		: register( t0 );
-SamplerState	g_sampler		: register( s0 );
+Texture2D g_texture : register( t0 );
+SamplerState g_sampler : register( s0 );
 
 struct PS_Input
 {
-	float4 SV_Position	: SV_POSITION;
-	float4 Position		: POSITION;
-	float2 UV			: UV;
-	float4 Color		: COLOR;
+	float4 SV_Position : SV_POSITION;
+	float4 Position : POSITION;
+	float2 UV : UV;
+	float4 Color : COLOR;
 };
 
 float4 main( const PS_Input Input ) : SV_Target
@@ -30,7 +30,7 @@ float4 main( const PS_Input Input ) : SV_Target
 	/// OpenGL向けシェーダー(GLSLで記述)
 	/// </summary>
 	static string shader2d_gl_ps = @"
-uniform sampler2D	g_texture;
+uniform sampler2D g_texture;
 
 in vec4 inPosition;
 in vec2 inUV;
