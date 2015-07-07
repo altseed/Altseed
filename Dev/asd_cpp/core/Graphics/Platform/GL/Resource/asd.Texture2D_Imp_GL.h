@@ -19,6 +19,7 @@ namespace asd {
 	private:
 		GLuint	m_texture;
 		std::vector<uint8_t>		m_resource;
+		std::vector<uint8_t>		m_resource_rev;
 
 		Texture2D_Imp_GL(Graphics* graphics);
 		Texture2D_Imp_GL(Graphics* graphics, GLuint texture, Vector2DI size, TextureFormat format);

@@ -29,7 +29,7 @@ namespace asd {
 		m_format = format;
 		m_size = size;
 		m_resource.resize(size.X * size.Y * ImageHelper::GetPitch(m_format));
-
+		
 		auto g = (Graphics_Imp*) GetGraphics();
 		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
 	}
@@ -294,6 +294,21 @@ namespace asd {
 			type = GL_UNSIGNED_BYTE;
 		}
 
+		m_resource_rev.resize(m_size.X * m_size.Y * ImageHelper::GetPitch(m_format));
+
+		// 上下を逆にする。
+		auto pitch = ImageHelper::GetPitch(m_format);
+		for (auto y = 0; y < m_size.Y; y++)
+		{
+			for (auto x = 0; x < m_size.X; x++)
+			{
+				for (auto p = 0; p < pitch; p++)
+				{
+					m_resource_rev[p + (x + y * m_size.X) * pitch] = m_resource[p + (x + (m_size.Y - y - 1) * m_size.X) * pitch];
+				}
+			}
+		}
+
 		glTexSubImage2D(
 			GL_TEXTURE_2D,
 			0,
@@ -303,7 +318,7 @@ namespace asd {
 			m_size.Y,
 			format_,
 			type,
-			m_resource.data());
+			m_resource_rev.data());
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
