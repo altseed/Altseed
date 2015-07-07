@@ -15,6 +15,9 @@
     <ClCompile Include="..\Pause\Pause_Basic.cpp">
       <Filter>Pause</Filter>
     </ClCompile>
+    <ClCompile Include="..\CustomPostEffect\CustomPostEffect_Invert.cpp">
+      <Filter>CustomPostEffect</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -26,6 +29,9 @@
     </Filter>
     <Filter Include="Pause">
       <UniqueIdentifier>{84003216-7d5a-4ba4-a7c2-56c99b7b8078}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="CustomPostEffect">
+      <UniqueIdentifier>{76939825-c475-42bf-8ffe-865ee886f783}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

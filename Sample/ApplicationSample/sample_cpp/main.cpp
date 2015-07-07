@@ -22,6 +22,8 @@ extern void ImagePackageUI_AlphaBlend();
 extern void ImagePackageUI_Component();
 extern void Pause_Basic();
 
+extern void CustomPostEffect_Invert();
+
 int main(int argc, char** argv)
 {
 #if _WIN32
@@ -38,6 +40,7 @@ int main(int argc, char** argv)
 
 		INFO(Pause_Basic),
 
+		INFO(CustomPostEffect_Invert),
 	};
 
 	auto cui = SampleGuide(samples);

@@ -18,6 +18,8 @@ namespace sample_cs
 				new ImagePackageUI_Component(),
 
 				new Pause_Basic(),
+
+				new CustomPostEffect_Invert(),
             };
 
 			var cui = new SampleGuide( samples );
