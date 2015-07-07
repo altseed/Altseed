@@ -203,9 +203,9 @@ namespace asd
 
 		void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount) override;
 
-		void Load(const achar* path);
+		void LoadFromMemory(const std::vector<uint8_t>& buffer) override;
 
-		void Save(const achar* path);
+		std::vector<uint8_t> SaveToMemory();
 
 		void AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* metalness) override;
 

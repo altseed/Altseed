@@ -310,6 +310,7 @@ Dev/bin/Data/Text/sazanami-gothic.ttf
 /Sample/bin/asd_cs.xml
 
 # Swig
+/Dev/asd_cpp/core/dll.cxx
 /Dev/asd_cs/swig/
 /Dev/asd_java/swig/
 

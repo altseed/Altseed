@@ -1334,10 +1334,11 @@ namespace asd
 		isSurfaceChanged = true;
 	}
 
-	void Terrain3D_Imp::Load(const achar* path)
+	void Terrain3D_Imp::LoadFromMemory(const std::vector<uint8_t>& buffer)
 	{
 		BinaryReader br;
-		
+		br.ReadIn(buffer.begin(), buffer.end());
+
 		char* sig = "ater";
 		uint8_t* sig_ = (uint8_t*) sig;
 
@@ -1392,7 +1393,7 @@ namespace asd
 		}
 	}
 
-	void Terrain3D_Imp::Save(const achar* path)
+	std::vector<uint8_t> Terrain3D_Imp::SaveToMemory()
 	{
 		BinaryWriter bw;
 
@@ -1420,7 +1421,7 @@ namespace asd
 		}
 
 		// サーフェース
-		bw.Push((int32_t)surfaces.size());
+		bw.Push((int32_t) surfaces.size());
 
 		for (size_t i = 0; i < surfaces.size(); i++)
 		{
@@ -1444,6 +1445,11 @@ namespace asd
 				bw.Push(surface[p]);
 			}
 		}
+
+		std::vector<uint8_t> data;
+		data.resize(bw.Get().size());
+		memcpy(data.data(), bw.Get().data(), data.size());
+		return data;
 	}
 
 	void Terrain3D_Imp::AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* metalness)

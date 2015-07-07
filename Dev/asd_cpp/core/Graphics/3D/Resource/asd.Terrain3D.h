@@ -26,6 +26,9 @@ namespace asd
 		*/
 		virtual void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount) = 0;
 
+		virtual void LoadFromMemory(const std::vector<uint8_t>& buffer) = 0;
+
+		virtual std::vector<uint8_t> SaveToMemory() = 0;
 
 		/**
 			@brief	素材を追加する。
