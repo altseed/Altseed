@@ -30,6 +30,8 @@ namespace asd {
 		{
 #ifdef _WIN32
 			staticFile = file->CreateStaticFile(ToAString("C:\\Windows\\Fonts\\meiryo.ttc").c_str());
+#elif defined __APPLE__
+			staticFile = file->CreateStaticFile(ToAString("/Library/Fonts/ヒラギノ丸ゴ Pro W4.otf").c_str());
 #endif
 		}
 
