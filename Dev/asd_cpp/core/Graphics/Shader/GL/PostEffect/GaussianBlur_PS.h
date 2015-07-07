@@ -1,6 +1,14 @@
 ﻿static const char* gaussianblur_ps_gl = R"(
+
 uniform sampler2D g_texture;
 uniform vec3      g_weight;
+
+in vec4 inPosition;
+in vec2 inUV;
+in vec4 inColor;
+
+out vec4 outOutput;
+
 void main()
 {
 #ifdef BLUR_X

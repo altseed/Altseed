@@ -2,6 +2,12 @@
 
 uniform sampler2D g_texture;
 
+in vec4 inPosition;
+in vec2 inUV;
+in vec4 inColor;
+
+out vec4 outOutput;
+
 void main()
 {
 	vec4 outputedColor = texture(g_texture, inUV.xy);

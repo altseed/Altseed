@@ -5,6 +5,12 @@ uniform vec4 g_weight2;
 uniform float g_threshold;
 uniform float g_exposure;
 
+in vec4 inPosition;
+in vec2 inUV;
+in vec4 inColor;
+
+out vec4 outOutput;
+
 #ifdef BLUR_X
 uniform sampler2D g_blurredTexture;
 uniform int g_blurredSampler;

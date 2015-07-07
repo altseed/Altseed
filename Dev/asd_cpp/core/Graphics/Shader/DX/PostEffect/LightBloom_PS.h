@@ -131,7 +131,13 @@ float4 Main_(float2 uv)
 #endif
 }
 
-
+struct PS_Input
+{
+	float4 SV_Position	: SV_POSITION;
+	float4 Position		: POSITION;
+	float2 UV			: UV;
+	float4 Color		: COLOR;
+};
 
 float4 main( const PS_Input Input ) : SV_Target
 {

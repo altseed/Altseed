@@ -1,5 +1,12 @@
 ﻿static const char* sepia_ps_gl = R"(
+
 uniform sampler2D g_texture;
+
+in vec4 inPosition;
+in vec2 inUV;
+in vec4 inColor;
+
+out vec4 outOutput;
 
 void main()
 {

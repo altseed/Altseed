@@ -21,17 +21,17 @@ struct VS_Input
 
 struct VS_Output
 {
-	float4 Pos_		: SV_POSITION;
-	float4 Pos		: Pos0;
-	float2 UV		: TEXCOORD0;
-	float4 Color	: COLOR0;
+	float4 SV_Position	: SV_POSITION;
+	float4 Position		: POSITION;
+	float2 UV			: UV;
+	float4 Color		: COLOR;
 };
 
 VS_Output main( const VS_Input Input )
 {
 	VS_Output Output = (VS_Output)0;
-	Output.Pos_ = float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 );
-	Output.Pos = float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 );
+	Output.SV_Position = float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 );
+	Output.Position = float4( Input.Pos.x, Input.Pos.y, Input.Pos.z, 1.0 );
 	Output.UV = Input.UV;
 	Output.Color = Input.Color;
 	return Output;
@@ -45,14 +45,14 @@ in vec3 Pos;
 in vec2 UV;
 in vec4 Color;
 
-out vec4 inPos;
+out vec4 inPosition;
 out vec2 inUV;
 out vec4 inColor;
 
 void main()
 {
 	gl_Position = vec4(Pos.x,Pos.y,Pos.z,1.0);
-	inPos = gl_Position;
+	inPosition = gl_Position;
 	inUV = UV;
 	inColor = Color;
 
@@ -62,18 +62,19 @@ void main()
 
 )";
 
+/*
 static const char* shader2d_dx_ps_pre = R"(
 
 struct PS_Input
 {
-	float4 Pos_		: SV_POSITION;
-	float4 Pos		: Pos0;
-	float2 UV		: TEXCOORD0;
-	float4 Color	: COLOR0;
+float4 SV_Position	: SV_POSITION;
+float4 Position		: POSITION;
+float2 UV			: UV;
+float4 Color		: COLOR;
 };
 
-
 )";
+*/
 
 /*
 float4 main( const PS_Input Input ) : SV_Target
@@ -84,15 +85,17 @@ return Output;
 }
 */
 
+/*
 static const char* shader2d_gl_ps_pre = R"(
 
-in vec4 inPos;
+in vec4 inPosition;
 in vec2 inUV;
 in vec4 inColor;
 
 out vec4 outOutput;
 
 )";
+*/
 
 /*
 void main()
@@ -144,7 +147,7 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 			shader = g->CreateShader_Imp(
 				shader2d_dx_vs,
 				"shader2d_dx_vs",
-				(std::string(shader2d_dx_ps_pre) + ToUtf8String(shaderText)).c_str(),
+				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
 				macro);
@@ -154,7 +157,7 @@ gl_FragColor = texture2D(g_texture, inUV.xy);
 			shader = g->CreateShader_Imp(
 				shader2d_gl_vs,
 				"shader2d_gl_vs",
-				(std::string(shader2d_gl_ps_pre) + ToUtf8String(shaderText)).c_str(),
+				ToUtf8String(shaderText).c_str(),
 				ToUtf8String(shaderFileName).c_str(),
 				vl,
 				macro);
