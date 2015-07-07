@@ -47,11 +47,6 @@ else()
 	list(APPEND core_src ${gl_src})
 endif()
 
-# フォント列挙用。TODO: CMakeFilesに移動
-if (APPLE)
-	list(APPEND tool_src asd_cpp/tool/Font/asd.InstalledFontList.Mac.mm)
-endif()
-
 # インクルードの設定
 include_directories(
 	include/
@@ -176,12 +171,6 @@ else()
 			${IOKIT_FRAMEWORK}
 			${CORE_FOUNDATION_FRAMEWORK}
 			${CORE_VIDEO_FRAMEWORK})
-
-		# フォント列挙用
-		find_library(CORE_TEXT_FRAMEWORK CoreText)
-		list(APPEND common_lib
-			${CORE_TEXT_FRAMEWORK})
-		list(APPEND common_lib objc)
 	endif()
 
 endif()
