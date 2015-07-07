@@ -22,8 +22,5 @@ namespace asd
 		static void Load();
 
 		static std::vector<Font> Fonts;
-
-	private:
-		static void Load_Mac();
 	};
 }
