@@ -8,15 +8,10 @@ void Mouse_State()
 
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 20, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
 
-	auto wheelStateText = std::make_shared<asd::TextObject2D>();
-	wheelStateText->SetPosition(asd::Vector2DF(100, 300));
-	wheelStateText->SetFont(font);
-
 	auto buttonStateText = std::make_shared<asd::TextObject2D>();
 	buttonStateText->SetPosition(asd::Vector2DF(100, 200));
 	buttonStateText->SetFont(font);
 
-	asd::Engine::AddObject2D(wheelStateText);
 	asd::Engine::AddObject2D(buttonStateText);
 
 	// Altseedのウインドウが閉じられていないか確認する。
@@ -27,23 +22,18 @@ void Mouse_State()
 			switch (asd::Engine::GetMouse()->GetMiddleButton()->GetButtonState())
 			{
 			case asd::MouseButtonState::Free: //前フレームと本フレームで非押下
-				buttonStateText->SetText(asd::ToAString("Middle Button : Free").c_str());
+				buttonStateText->SetText(asd::ToAString("中ボタンを離しています。").c_str());
 				break;
 			case asd::MouseButtonState::Hold: //前フレームと本フレームで押下
-				buttonStateText->SetText(asd::ToAString("Middle Button : Hold").c_str());
+				buttonStateText->SetText(asd::ToAString("中ボタンを押しています。").c_str());
 				break;
 			case asd::MouseButtonState::Release: //前フレームで押下、本フレームで非押下
-				buttonStateText->SetText(asd::ToAString("Middle Button : Release").c_str());
+				buttonStateText->SetText(asd::ToAString("中ボタンを離しました!").c_str());
 				break;
 			case asd::MouseButtonState::Push: //前フレームで非押下、本フレームで押下
-				buttonStateText->SetText(asd::ToAString("Middle Button : Push").c_str());
+				buttonStateText->SetText(asd::ToAString("中ボタンを押しました!").c_str());
 				break;
 			}
-		}
-
-		// マウスのホイールの回転状態を取得して表示する。
-		{
-			wheelStateText->SetText(asd::ToAString(("Wheel : " + std::to_string(asd::Engine::GetMouse()->GetMiddleButton()->GetRotation())).c_str()).c_str());
 		}
 		
 		// Altseedを更新する。

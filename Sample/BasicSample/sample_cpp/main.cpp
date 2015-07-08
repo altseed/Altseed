@@ -35,8 +35,10 @@ extern void Keyboard_Basic();
 extern void Mouse_Position();
 extern void Mouse_Click();
 extern void Mouse_State();
+extern void Mouse_Wheel();
 
 extern void Joystick_Basic();
+extern void Joystick_Axis();
 
 extern void Sound();
 
@@ -94,9 +96,11 @@ int main(int argc, char** argv)
 		INFO(Mouse_Position),
 		INFO(Mouse_Click),
 		INFO(Mouse_State),
+		INFO(Mouse_Wheel),
 
 		INFO(Keyboard_Basic),
 		INFO(Joystick_Basic),
+		INFO(Joystick_Axis),
 
 		INFO(Sound),
 

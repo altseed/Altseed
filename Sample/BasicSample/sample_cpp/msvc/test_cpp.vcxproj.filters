@@ -96,6 +96,12 @@
     <ClCompile Include="..\Mouse\Mouse_Click.cpp">
       <Filter>Mouse</Filter>
     </ClCompile>
+    <ClCompile Include="..\Mouse\Mouse_Wheel.cpp">
+      <Filter>Mouse</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Joystick\Joystick_Axis.cpp">
+      <Filter>Joystick</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />

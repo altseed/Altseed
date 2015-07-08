@@ -20,7 +20,7 @@ void Mouse_Position()
 	{
 		// マウスカーソルの座標を取得して表示する。
 		asd::Vector2DF pos = asd::Engine::GetMouse()->GetPosition();
-		stateText->SetText(asd::ToAString(("Position : (" + std::to_string(pos.X) + "," + std::to_string(pos.Y) + ")").c_str()).c_str());
+		stateText->SetText(asd::ToAString(("マウスの位置 : (" + std::to_string(pos.X) + "," + std::to_string(pos.Y) + ")").c_str()).c_str());
 		
 		// Altseedを更新する。
 		asd::Engine::Update();
