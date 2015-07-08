@@ -8,7 +8,7 @@ namespace asd
 		:position(Vector2DF(0,0))
 		, innerDiameter(0)
 		, outerDiameter(0)
-		, numberOfCorners(0)
+		, numberOfCorners(96)
 		, angle(0)
 	{
 

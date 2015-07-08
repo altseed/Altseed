@@ -1,9 +1,9 @@
-#include <Altseed.h>
+ï»¿#include <Altseed.h>
 
-// ƒ}ƒEƒX‚Ì—lX‚Èó‘Ô‚ğæ“¾‚·‚éƒTƒ“ƒvƒ‹B
+// ãƒã‚¦ã‚¹ã®ãƒ›ã‚¤ãƒ¼ãƒ«ã®å›è»¢åº¦åˆã‚’å–å¾—ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã€‚
 void Mouse_Wheel()
 {
-	//Altseed‚ğ‰Šú‰»‚·‚éB
+	//Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("Mouse_Wheel").c_str(), 640, 480, asd::EngineOption());
 
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 20, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
@@ -14,20 +14,20 @@ void Mouse_Wheel()
 
 	asd::Engine::AddObject2D(wheelStateText);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
 
-		// ƒ}ƒEƒX‚ÌƒzƒC[ƒ‹‚Ì‰ñ“]ó‘Ô‚ğæ“¾‚µ‚Ä•\¦‚·‚éB
+		// ãƒã‚¦ã‚¹ã®ãƒ›ã‚¤ãƒ¼ãƒ«ã®å›è»¢çŠ¶æ…‹ã‚’å–å¾—ã—ã¦è¡¨ç¤ºã™ã‚‹ã€‚
 		{
-			wheelStateText->SetText(asd::ToAString(("ƒzƒC[ƒ‹‚Ì‰ñ“]“x‡ : " + std::to_string(asd::Engine::GetMouse()->GetMiddleButton()->GetRotation())).c_str()).c_str());
+			wheelStateText->SetText(asd::ToAString(("ãƒ›ã‚¤ãƒ¼ãƒ«ã®å›è»¢åº¦åˆ : " + std::to_string(asd::Engine::GetMouse()->GetMiddleButton()->GetRotation())).c_str()).c_str());
 		}
 
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	//Altseed‚ÌI—¹ˆ—‚ğ‚·‚éB
+	//Altseedã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 
 	return;

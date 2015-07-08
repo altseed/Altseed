@@ -62,7 +62,9 @@ extern void GeometryObject2D_ArcShape();
 extern void GeometryObject2D_RectangleShape();
 extern void GeometryObject2D_PolygonShape();
 
-extern void Collision2D();
+extern void Collision2D_Basic();
+extern void Collision2D_Geometries();
+
 extern void ImagePackage();
 
 extern void Object2DComponent();
@@ -121,7 +123,9 @@ int main(int argc, char** argv)
 		INFO(GeometryObject2D_ArcShape),
 		INFO(GeometryObject2D_RectangleShape),
 		INFO(GeometryObject2D_PolygonShape),
-		INFO(Collision2D),
+
+		INFO(Collision2D_Basic),
+		INFO(Collision2D_Geometries),
 
 		INFO(SceneAndLayer_Basic),
 

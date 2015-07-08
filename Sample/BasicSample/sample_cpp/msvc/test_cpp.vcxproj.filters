@@ -63,9 +63,6 @@
     <ClCompile Include="..\CameraObject2D\CameraObject2D.cpp">
       <Filter>CameraObject2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\Collision\Collision2D.cpp">
-      <Filter>Collision</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sound\Sound.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
@@ -101,6 +98,12 @@
     </ClCompile>
     <ClCompile Include="..\Joystick\Joystick_Axis.cpp">
       <Filter>Joystick</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Collision\Collision2D_Basic.cpp">
+      <Filter>Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Collision\Collision2D_Geometries.cpp">
+      <Filter>Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
