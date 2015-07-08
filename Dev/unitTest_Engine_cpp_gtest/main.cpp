@@ -108,8 +108,8 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	//CALL_ENGINE_TEST(Graphics, TextObject2D_Dynamic, false)
-	//return 0;
+	CALL_ENGINE_TEST(Graphics, TextObject2D_Dynamic, true)
+	return 0;
 
 	auto result = RUN_ALL_TESTS();
 

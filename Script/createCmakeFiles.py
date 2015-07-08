@@ -42,6 +42,8 @@ engine_src = getCppFiles('../Dev/asd_cpp/engine/','asd_cpp/engine/')
 unittest_gtest_src = getCppFiles('../Dev/unitTest_cpp_gtest/','unitTest_cpp_gtest/')
 unittest_engine_gtest_src = getCppFiles('../Dev/unitTest_Engine_cpp_gtest/','unitTest_Engine_cpp_gtest/')
 
+fontGenerator_src = getCppFiles('../Dev/FontGenerator/FontGeneratorCore/','FontGenerator/FontGeneratorCore/')
+
 core_win_src = [f for f in core_src if isWin(f)]
 core_x11_src = [f for f in core_src if isX11(f)]
 core_dx11_src = [f for f in core_src if isDX11(f)]
@@ -93,6 +95,16 @@ newline()
 exported += getCMakeArray(unittest_engine_gtest_src,'unittest_engine_gtest_src')
 newline()
 newline()
+
+exported += getCMakeArray(unittest_engine_gtest_src,'unittest_engine_gtest_src')
+newline()
+newline()
+
+exported += getCMakeArray(fontGenerator_src, 'fontGenerator_src')
+newline()
+newline()
+
+
 
 f = open('../Dev/CMakeFiles.txt','w')
 

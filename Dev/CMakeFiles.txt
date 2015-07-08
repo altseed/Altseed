@@ -262,6 +262,7 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Graphics/2D/GeometryObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/MapObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/TextObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/TextObject2D_Dynamic.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/TextureObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/Camera3DPostEffect.cpp
 	unitTest_Engine_cpp_gtest/Graphics/3D/DrawSpriteAdditionally3D.cpp
@@ -312,5 +313,81 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/Profiler.cpp
 	unitTest_Engine_cpp_gtest/Shape/Collision2D.cpp
 	unitTest_Engine_cpp_gtest/Sound/Sound.cpp
+)
+
+set(unittest_engine_gtest_src
+	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
+	unitTest_Engine_cpp_gtest/EngineTest.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/CameraObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/EffectObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/GeometryObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/MapObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/TextObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/TextObject2D_Dynamic.cpp
+	unitTest_Engine_cpp_gtest/Graphics/2D/TextureObject2D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/Camera3DPostEffect.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/DrawSpriteAdditionally3D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/EffectObject3D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/LightingStandard.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/MassModelObject3D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/ModelObject3D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/ModelObject3DCustomMaterial.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/SimpleMesh.cpp
+	unitTest_Engine_cpp_gtest/Graphics/3D/TerrainObject3D.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/CustomPostEffect.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGaussinaBlur.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectGrayScale.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectLightBloom.cpp
+	unitTest_Engine_cpp_gtest/Graphics/PostEffect/PostEffectSepia.cpp
+	unitTest_Engine_cpp_gtest/Graphics/Resource/ImagePackage.cpp
+	unitTest_Engine_cpp_gtest/Graphics/Transition/Transition.cpp
+	unitTest_Engine_cpp_gtest/IO/StaticFile_NonePackage.cpp
+	unitTest_Engine_cpp_gtest/IO/StaticFile_NonePackage_AddDefaultRootDirectory.cpp
+	unitTest_Engine_cpp_gtest/IO/StaticFile_NonePackage_Cache.cpp
+	unitTest_Engine_cpp_gtest/IO/StaticFile_Package.cpp
+	unitTest_Engine_cpp_gtest/IO/StaticFile_PackageWithKey.cpp
+	unitTest_Engine_cpp_gtest/IO/StaticFile_Package_Cache.cpp
+	unitTest_Engine_cpp_gtest/IO/StaticFile_Package_Priority.cpp
+	unitTest_Engine_cpp_gtest/IO/StreamFile_Package.cpp
+	unitTest_Engine_cpp_gtest/IO/StreamFile_PackageWithKey.cpp
+	unitTest_Engine_cpp_gtest/main.cpp
+	unitTest_Engine_cpp_gtest/msvc/TransformOutOfUpdate.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/AddComponentByComponent.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/LayerComponent.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/LayerHasNoObject.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/LayersFlag.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/LayersMember.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsFlag.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsMember.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/ParentObject.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/SetSourceOfTexture.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/SimpleObject2D.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/TrasingCamera.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/VanishInComponent.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/VanishOwnerInComponent.cpp
+	unitTest_Engine_cpp_gtest/PCH/asd.UnitTestEngineCpp.PCH.cpp
+	unitTest_Engine_cpp_gtest/Performance/Performance_MassModelObject3D.cpp
+	unitTest_Engine_cpp_gtest/Performance/Performance_TextureObject2D.cpp
+	unitTest_Engine_cpp_gtest/Profiler.cpp
+	unitTest_Engine_cpp_gtest/Shape/Collision2D.cpp
+	unitTest_Engine_cpp_gtest/Sound/Sound.cpp
+)
+
+set(fontGenerator_src
+	FontGenerator/FontGeneratorCore/DLL.cpp
+	FontGenerator/FontGeneratorCore/dll_cs.cxx
+	FontGenerator/FontGeneratorCore/FontData.cpp
+	FontGenerator/FontGeneratorCore/Generator.cpp
+	FontGenerator/FontGeneratorCore/PngGenerator.cpp
+	FontGenerator/FontGeneratorCore/Rendering/Color.cpp
+	FontGenerator/FontGeneratorCore/Rendering/Font.cpp
+	FontGenerator/FontGeneratorCore/Rendering/Glyph.cpp
+	FontGenerator/FontGeneratorCore/Rendering/ImageBuffer.cpp
+	FontGenerator/FontGeneratorCore/Rendering/RasterizedGlyph.cpp
+	FontGenerator/FontGeneratorCore/Rendering/SettingForRendering.cpp
+	FontGenerator/FontGeneratorCore/Rendering/Span.cpp
 )
 

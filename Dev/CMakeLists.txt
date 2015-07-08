@@ -193,7 +193,7 @@ target_link_libraries(asdUnitTestGtest asdCore asdTool asdCommon ${common_lib})
 add_executable( asdUnitTestEngineGtest ${unittest_engine_gtest_src} )
 target_link_libraries(asdUnitTestEngineGtest asdEngine ${common_lib}) 
 
-
+add_library( fontGenerator SHARED ${fontGenerator_src} )
 
 # èoóÕêÊÇÃê›íË
 set_target_properties(asdCommon PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
@@ -215,11 +215,20 @@ set_target_properties(asdEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
 set_target_properties(asdUnitTestGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 set_target_properties(asdUnitTestEngineGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 
+set_target_properties(fontGenerator PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
+
 if (MSVC)
 set_target_properties(asdCommon PROPERTIES OUTPUT_NAME_DEBUG "asd_common" )
 set_target_properties(asdCommon PROPERTIES OUTPUT_NAME_RELEASE "asd_common" )
 else()
 set_target_properties(asdCommon PROPERTIES OUTPUT_NAME "asd_common" )
+endif()
+
+if (MSVC)
+set_target_properties(asdTool PROPERTIES OUTPUT_NAME_DEBUG "asd_tool" )
+set_target_properties(asdTool PROPERTIES OUTPUT_NAME_RELEASE "asd_tool" )
+else()
+set_target_properties(asdTool PROPERTIES OUTPUT_NAME "asd_tool" )
 endif()
 
 if (MSVC)
@@ -328,5 +337,9 @@ install(
 
 install(
 	TARGETS asdUnitTestEngineGtest
+	RUNTIME DESTINATION bin )
+
+install(
+	TARGETS fontGenerator
 	RUNTIME DESTINATION bin )
 

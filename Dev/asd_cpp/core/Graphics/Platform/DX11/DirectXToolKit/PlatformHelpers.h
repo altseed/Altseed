@@ -18,6 +18,10 @@
 
 #include <exception>
 
+// Altseed
+#include <memory>
+#include <assert.h>
+#include <algorithm>
 
 namespace DirectX
 {
