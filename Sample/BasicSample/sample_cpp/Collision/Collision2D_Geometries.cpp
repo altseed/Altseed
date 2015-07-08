@@ -32,7 +32,6 @@ void Collision2D_Geometries()
 		// 円の外径、内径、頂点数、中心位置を指定する。
 		selfCircle = std::make_shared<asd::CircleShape>();
 		selfCircle->SetOuterDiameter(100);
-		selfCircle->SetInnerDiameter(0);
 
 		// 円を描画する図形として最前面に描画されるように設定する。
 		geometryObj0->SetShape(selfCircle);
@@ -43,8 +42,7 @@ void Collision2D_Geometries()
 		// 円の外径、内径、頂点数、中心位置を指定する。
 		circle = std::make_shared<asd::CircleShape>();
 		circle->SetOuterDiameter(100);
-		circle->SetInnerDiameter(0);
-		circle->SetPosition(asd::Vector2DF(100, 50));
+		circle->SetPosition(asd::Vector2DF(400, 100));
 
 		// 円を描画する図形として設定する。
 		geometryObj1->SetShape(circle);
@@ -54,9 +52,9 @@ void Collision2D_Geometries()
 	{
 		// 三角形の各頂点の位置を指定します。
 		triangle = std::make_shared<asd::TriangleShape>();
-		triangle->SetPointByIndex(asd::Vector2DF(400, 350), 0);
-		triangle->SetPointByIndex(asd::Vector2DF(300, 450), 1);
-		triangle->SetPointByIndex(asd::Vector2DF(540, 450), 2);
+		triangle->SetPointByIndex(asd::Vector2DF(440, 350), 0);
+		triangle->SetPointByIndex(asd::Vector2DF(340, 450), 1);
+		triangle->SetPointByIndex(asd::Vector2DF(580, 450), 2);
 
 		// 三角形を描画する図形として設定する。
 		geometryObj2->SetShape(triangle);
@@ -66,7 +64,7 @@ void Collision2D_Geometries()
 	// 停止している矩形の形状と描画の設定を行う。
 	{
 		rect = std::make_shared<asd::RectangleShape>();
-		rect->SetDrawingArea(asd::RectF(10, 110, 300, 200));
+		rect->SetDrawingArea(asd::RectF(70, 110, 300, 200));
 		rect->SetAngle(15);
 
 		geometryObj3->SetShape(rect);

@@ -25,7 +25,6 @@ void Collision2D_Basic()
 		// 円の外径、内径、頂点数、中心位置を指定する。
 		selfCircle = std::make_shared<asd::CircleShape>();
 		selfCircle->SetOuterDiameter(100);
-		selfCircle->SetInnerDiameter(0);
 
 		// 円を描画する図形として最前面に描画されるように設定する。
 		geometryObj0->SetShape(selfCircle);
@@ -36,8 +35,7 @@ void Collision2D_Basic()
 		// 円の外径、内径、頂点数、中心位置を指定する。
 		circle = std::make_shared<asd::CircleShape>();
 		circle->SetOuterDiameter(100);
-		circle->SetInnerDiameter(0);
-		circle->SetPosition(asd::Vector2DF(100, 50));
+		circle->SetPosition(asd::Vector2DF(100, 100));
 
 		// 円を描画する図形として設定する。
 		geometryObj1->SetShape(circle);
