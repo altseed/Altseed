@@ -40,12 +40,12 @@ void MapObject2D_Camera()
 			}
 		}
 
-		//レイヤーにマップオブジェクトを追加する。
+		// マップオブジェクトのインスタンスをエンジンへ追加する。
 		asd::Engine::AddObject2D(mapObject);
 
 	}
 
-	//レイヤーにカメラオブジェクトを追加する。
+	//エンジンにカメラオブジェクトを追加する。
 	asd::Engine::AddObject2D(camera);
 
 	// Altseedのウインドウが閉じられていないか確認する。

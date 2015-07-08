@@ -27,6 +27,8 @@ extern void PostEffect_LightBloom();
 extern void Transition_Fade();
 
 extern void Keyboard_Basic();
+extern void Keyboard_SingularKey();
+extern void Keyboard_PuralKeys();
 
 extern void Mouse_Position();
 extern void Mouse_Click();
@@ -94,6 +96,9 @@ int main(int argc, char** argv)
 		INFO(Mouse_Wheel),
 
 		INFO(Keyboard_Basic),
+		INFO(Keyboard_SingularKey),
+		INFO(Keyboard_PuralKeys),
+
 		INFO(Joystick_Basic),
 		INFO(Joystick_Axis),
 

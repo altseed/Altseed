@@ -13,19 +13,19 @@ void TextObject2D_Simple()
 		// フォントを生成する
 		auto font = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/edge.aff").c_str());
 
-		//TextObject2Dを生成する
+		// TextObject2Dを生成する
 		auto obj = std::make_shared<asd::TextObject2D>();
 
-		//描画に使うフォントを設定する
+		// 描画に使うフォントを設定する
 		obj->SetFont(font);
 
-		//描画位置を指定する
+		// 描画位置を指定する
 		obj->SetPosition(asd::Vector2DF(100, 100));
 
-		//描画する文字列の指定
+		// 描画する文字列の指定
 		obj->SetText(asd::ToAString("文字列サンプル1").c_str());
 
-		//レイヤーへ追加する
+		// オブジェクトのインスタンスをエンジンへ追加する。
 		asd::Engine::AddObject2D(obj);
 	}
 

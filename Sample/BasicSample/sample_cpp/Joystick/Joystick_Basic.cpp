@@ -12,10 +12,10 @@ void Joystick_Basic()
 	// ジョイスティックの状態を表示するテキストを生成する。
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 25, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
 
+	// ボタンの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
 	auto stateText = std::make_shared<asd::TextObject2D>();
 	stateText->SetPosition(asd::Vector2DF(10, 10));
 	stateText->SetFont(font);
-
 	asd::Engine::AddObject2D(stateText);
 
 	// Altseedのウインドウが閉じられていないか確認する。

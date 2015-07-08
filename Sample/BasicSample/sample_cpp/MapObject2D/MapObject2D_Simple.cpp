@@ -34,7 +34,7 @@ void MapObject2D_Simple()
 			}
 		}
 
-		//レイヤーにマップオブジェクトを追加する。
+		// マップオブジェクトのインスタンスをエンジンへ追加する。
 		asd::Engine::AddObject2D(mapObject);
 	}
 

@@ -22,6 +22,8 @@ void TextObject2D_Filtered()
 		edgeObj->SetTextureFilterType(asd::TextureFilterType::Linear);
 
 		edgeObj->SetText(asd::ToAString("文字列サンプル3").c_str());
+
+		// オブジェクトのインスタンスをエンジンへ追加する。
 		asd::Engine::AddObject2D(edgeObj);
 	}
 

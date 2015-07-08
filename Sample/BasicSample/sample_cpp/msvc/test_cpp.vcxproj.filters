@@ -81,9 +81,6 @@
     <ClCompile Include="..\Joystick\Joystick_Basic.cpp">
       <Filter>Joystick</Filter>
     </ClCompile>
-    <ClCompile Include="..\Keyboard\Keyboard_Basic.cpp">
-      <Filter>Keyboard</Filter>
-    </ClCompile>
     <ClCompile Include="..\Mouse\Mouse_State.cpp">
       <Filter>Mouse</Filter>
     </ClCompile>
@@ -110,6 +107,15 @@
     </ClCompile>
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_CircleShape.cpp">
       <Filter>GeometryObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Keyboard\Keyboard_Basic.cpp">
+      <Filter>Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Keyboard\Keyboard_SingularKey.cpp">
+      <Filter>Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Keyboard\Keyboard_PuralKeys.cpp">
+      <Filter>Keyboard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

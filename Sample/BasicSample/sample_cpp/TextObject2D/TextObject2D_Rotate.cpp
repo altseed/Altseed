@@ -18,6 +18,8 @@ void TextObject2D_Rotate()
 		//30度回転させて描画する
 		edgeObj->SetAngle(30);
 		edgeObj->SetText(asd::ToAString("文字列サンプル2").c_str());
+
+		// オブジェクトのインスタンスをエンジンへ追加する。
 		asd::Engine::AddObject2D(edgeObj);
 	}
 

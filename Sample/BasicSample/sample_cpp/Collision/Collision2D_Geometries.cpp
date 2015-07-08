@@ -6,7 +6,7 @@ void Collision2D_Geometries()
 	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_Geometries").c_str(), 640, 480, asd::EngineOption());
 
-	// 図形描画クラスのコンストラクタを呼び出す。
+	// 図形描画オブジェクトのインスタンスを生成する。
 	std::shared_ptr<asd::GeometryObject2D> geometryObj0 = std::make_shared<asd::GeometryObject2D>();
 	std::shared_ptr<asd::GeometryObject2D> geometryObj1 = std::make_shared<asd::GeometryObject2D>();
 	std::shared_ptr<asd::GeometryObject2D> geometryObj2 = std::make_shared<asd::GeometryObject2D>();
@@ -21,7 +21,7 @@ void Collision2D_Geometries()
 	std::shared_ptr<asd::RectangleShape> rect;
 
 
-	// 図形描画クラスをレイヤーに追加する。
+	// 図形描画クラスをエンジンに追加する。
 	asd::Engine::AddObject2D(geometryObj0);
 	asd::Engine::AddObject2D(geometryObj1);
 	asd::Engine::AddObject2D(geometryObj2);
