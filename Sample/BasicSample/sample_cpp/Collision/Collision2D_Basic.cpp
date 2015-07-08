@@ -4,7 +4,7 @@
 void Collision2D_Basic()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_Basic").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("Collision2D_Basic").c_str(), 640, 480, asd::EngineOption());
 
 	// 図形描画クラスのコンストラクタを呼び出す。
 	std::shared_ptr<asd::GeometryObject2D> geometryObj0 = std::make_shared<asd::GeometryObject2D>();
@@ -45,21 +45,20 @@ void Collision2D_Basic()
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
-		{
-			// マウスによって制御される円の中心位置をマウスの位置とする。
-			selfCircle->SetPosition(asd::Engine::GetMouse()->GetPosition());
+		// マウスによって制御される円の中心位置をマウスの位置とする。
+		selfCircle->SetPosition(asd::Engine::GetMouse()->GetPosition());
 
-			// 固定されている円に、マウスによって動く円が衝突した時に円を赤く変化させる。
-			// そうでない時は白く変化させる。
-			if (selfCircle->GetIsCollidedWith(circle))
-			{
-				geometryObj0->SetColor(asd::Color(255, 0, 0, 255));
-			}
-			else
-			{
-				geometryObj0->SetColor(asd::Color(255, 255, 255, 255));
-			}
+		// 固定されている円に、マウスによって動く円が衝突した時に円を赤く変化させる。
+		// そうでない時は白く変化させる。
+		if (selfCircle->GetIsCollidedWith(circle))
+		{
+			geometryObj0->SetColor(asd::Color(255, 0, 0, 255));
 		}
+		else
+		{
+			geometryObj0->SetColor(asd::Color(255, 255, 255, 255));
+		}
+
 		// Altseedを更新する。
 		asd::Engine::Update();
 	}

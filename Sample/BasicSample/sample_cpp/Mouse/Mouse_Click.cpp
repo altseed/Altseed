@@ -1,6 +1,8 @@
 ﻿#include <Altseed.h>
 
-// マウスによる入力を取得を取得するサンプル。
+/**
+@brief	マウスによる入力を取得を取得するサンプル。
+*/
 void Mouse_Click()
 {
 	//Altseedを初期化する。

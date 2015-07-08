@@ -1,6 +1,8 @@
 ﻿#include <Altseed.h>
 
-// マウスの座標を取得を取得するサンプル。
+/**
+@brief	マウスの座標を取得を取得するサンプル。
+*/
 void Mouse_Position()
 {
 	//Altseedを初期化する。

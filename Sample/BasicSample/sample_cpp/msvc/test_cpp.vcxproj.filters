@@ -105,6 +105,12 @@
     <ClCompile Include="..\Collision\Collision2D_Geometries.cpp">
       <Filter>Collision</Filter>
     </ClCompile>
+    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_PolygonShape_Textured.cpp">
+      <Filter>GeometryObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_CircleShape.cpp">
+      <Filter>GeometryObject2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />

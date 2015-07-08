@@ -1,6 +1,8 @@
 ﻿#include <Altseed.h>
 
-// マウスのホイールの回転度合を取得するサンプル。
+/**
+@brief	マウスのホイールの回転度合を取得するサンプル。
+*/
 void Mouse_Wheel()
 {
 	//Altseedを初期化する。
@@ -17,11 +19,8 @@ void Mouse_Wheel()
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
-
 		// マウスのホイールの回転状態を取得して表示する。
-		{
-			wheelStateText->SetText(asd::ToAString(("ホイールの回転度合 : " + std::to_string(asd::Engine::GetMouse()->GetMiddleButton()->GetRotation())).c_str()).c_str());
-		}
+		wheelStateText->SetText(asd::ToAString(("ホイールの回転度合 : " + std::to_string(asd::Engine::GetMouse()->GetMiddleButton()->GetRotation())).c_str()).c_str());
 
 		// Altseedを更新する。
 		asd::Engine::Update();

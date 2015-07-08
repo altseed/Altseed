@@ -1,7 +1,9 @@
 ﻿
 #include <Altseed.h>
 
-// キーボードによる入力を取得するサンプル。
+/**
+@brief	キーボードによる入力を取得するサンプル。
+*/
 void Keyboard_Basic()
 {
 	// Altseedを初期化する。

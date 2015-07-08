@@ -19,10 +19,6 @@ void GetDirectoryName(char* dst, char* src);
 
 extern void Basic_Empty();
 
-extern void Geometry2D_ArcShape();
-extern void Geometry2D_PolygonShape();
-extern void Geometry2D_RectangleShape();
-
 extern void PostEffect_GrayScale();
 extern void PostEffect_Sepia();
 extern void PostEffect_GaussianBlur();
@@ -58,9 +54,11 @@ extern void MapObject2D_Camera();
 
 extern void CameraObject2D();
 
+extern void GeometryObject2D_CircleShape();
 extern void GeometryObject2D_ArcShape();
 extern void GeometryObject2D_RectangleShape();
 extern void GeometryObject2D_PolygonShape();
+extern void GeometryObject2D_PolygonShape_Textured();
 
 extern void Collision2D_Basic();
 extern void Collision2D_Geometries();
@@ -83,11 +81,6 @@ int main(int argc, char** argv)
 	std::vector<SampleInfo> samples =
 	{
 		INFO(Basic_Empty),
-
-		INFO(GeometryObject2D_ArcShape),
-		INFO(GeometryObject2D_PolygonShape),
-		INFO(GeometryObject2D_RectangleShape),
-
 		INFO(TextureObject2D_Simple),
 		INFO(TextureObject2D_Turn),
 		INFO(TextureObject2D_Src),
@@ -120,9 +113,12 @@ int main(int argc, char** argv)
 		INFO(MapObject2D_Camera),
 
 		INFO(ImagePackage),
+
+		INFO(GeometryObject2D_CircleShape),
 		INFO(GeometryObject2D_ArcShape),
 		INFO(GeometryObject2D_RectangleShape),
 		INFO(GeometryObject2D_PolygonShape),
+		INFO(GeometryObject2D_PolygonShape_Textured),
 
 		INFO(Collision2D_Basic),
 		INFO(Collision2D_Geometries),

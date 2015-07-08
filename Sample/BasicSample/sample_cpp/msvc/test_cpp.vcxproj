@@ -16,7 +16,9 @@
     <ClCompile Include="..\Collision\Collision2D_Geometries.cpp" />
     <ClCompile Include="..\Collision\Collision2D_Basic.cpp" />
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_ArcShape.cpp" />
+    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_CircleShape.cpp" />
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_PolygonShape.cpp" />
+    <ClCompile Include="..\GeometryObject2D\GeometryObject2D_PolygonShape_Textured.cpp" />
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_RectangleShape.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\ImagePackage.cpp" />

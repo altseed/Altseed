@@ -75,23 +75,22 @@ void Collision2D_Geometries()
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
-		{
-			// マウスによって制御される円の中心位置をマウスの位置とする。
-			selfCircle->SetPosition(asd::Engine::GetMouse()->GetPosition());
+		// マウスによって制御される円の中心位置をマウスの位置とする。
+		selfCircle->SetPosition(asd::Engine::GetMouse()->GetPosition());
 
-			// 停止している円・三角形・矩形のいずれかに、マウスによって動く円が衝突した時に円を赤く変化させる。
-			// そうでない時は白く変化させる。
-			if (selfCircle->GetIsCollidedWith(circle)
-				|| selfCircle->GetIsCollidedWith(triangle)
-				|| selfCircle->GetIsCollidedWith(rect))
-			{
-				geometryObj0->SetColor(asd::Color(255, 0, 0, 255));
-			}
-			else
-			{
-				geometryObj0->SetColor(asd::Color(255, 255, 255, 255));
-			}
+		// 停止している円・三角形・矩形のいずれかに、マウスによって動く円が衝突した時に円を赤く変化させる。
+		// そうでない時は白く変化させる。
+		if (selfCircle->GetIsCollidedWith(circle)
+			|| selfCircle->GetIsCollidedWith(triangle)
+			|| selfCircle->GetIsCollidedWith(rect))
+		{
+			geometryObj0->SetColor(asd::Color(255, 0, 0, 255));
 		}
+		else
+		{
+			geometryObj0->SetColor(asd::Color(255, 255, 255, 255));
+		}
+
 		// Altseedを更新する。
 		asd::Engine::Update();
 	}

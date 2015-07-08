@@ -8,8 +8,6 @@ void GeometryObject2D_ArcShape()
 	// Altseedを初期化する
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_ArcShape").c_str(), 640, 480, asd::EngineOption());
 
-	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
-
 	// 図形描画クラスのコンストラクタを呼び出す。
 	auto geometryObj = std::make_shared<asd::GeometryObject2D>();
 
@@ -27,9 +25,8 @@ void GeometryObject2D_ArcShape()
 		arc->SetStartingCorner(90);
 		arc->SetEndingCorner(5);
 
-		// 弧を描画する図形として設定し、合成するテクスチャも設定。
+		// 弧を描画する図形として設定する。
 		geometryObj->SetShape(arc);
-		geometryObj->SetTexture(texture);
 		geometryObj->SetPosition(asd::Vector2DF(0, 0));
 	}
 
