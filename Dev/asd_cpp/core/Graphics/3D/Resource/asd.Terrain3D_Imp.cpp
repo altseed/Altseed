@@ -1398,6 +1398,9 @@ namespace asd
 				surface[p] = br.Get<uint8_t>();
 			}
 		}
+
+		isMeshChanged = true;
+		isSurfaceChanged = true;
 	}
 
 	std::vector<uint8_t> Terrain3D_Imp::SaveToMemory()
