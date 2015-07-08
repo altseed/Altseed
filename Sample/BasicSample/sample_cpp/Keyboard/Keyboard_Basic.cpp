@@ -7,6 +7,14 @@ void Keyboard_Basic()
 	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("Keyboard_Basic").c_str(), 640, 480, asd::EngineOption());
 
+	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 20, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
+
+	auto keyStateText = std::make_shared<asd::TextObject2D>();
+	keyStateText->SetPosition(asd::Vector2DF(10, 10));
+	keyStateText->SetFont(font);
+
+	asd::Engine::AddObject2D(keyStateText);
+
 	// 入力チェックするキー一覧。(Z, X, C, V, B)
 	std::vector<asd::Keys> keys = { asd::Keys::Z, asd::Keys::X, asd::Keys::C, asd::Keys::V, asd::Keys::B };
 
@@ -48,6 +56,9 @@ void Keyboard_Basic()
 
 			displayStr += asd::ToAString("\n");
 		}
+
+		// キー入力状態を示す文字列を更新する。
+		keyStateText->SetText(displayStr.c_str());
 
 		// Altseedを更新する。
 		asd::Engine::Update();

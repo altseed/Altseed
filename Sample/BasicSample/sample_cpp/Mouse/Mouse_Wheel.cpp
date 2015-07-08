@@ -9,7 +9,7 @@ void Mouse_Wheel()
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 20, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
 
 	auto wheelStateText = std::make_shared<asd::TextObject2D>();
-	wheelStateText->SetPosition(asd::Vector2DF(100, 300));
+	wheelStateText->SetPosition(asd::Vector2DF(10, 10));
 	wheelStateText->SetFont(font);
 
 	asd::Engine::AddObject2D(wheelStateText);
