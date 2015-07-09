@@ -30,7 +30,7 @@ class TextObject2D_Simple : ISample
             // 描画する文字列の指定
             obj.Text = "文字列サンプル1";
 
-            // レイヤーへの追加
+            // エンジンへの追加
             asd.Engine.AddObject2D(obj);
         }
 

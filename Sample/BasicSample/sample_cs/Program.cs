@@ -24,11 +24,19 @@ namespace sample_cs
 
 				new Transition_Fade(),
 
-                new Keyboard(),
-                new Mouse(),
-                new Joystick(),
+                new Mouse_Position(),
+                new Mouse_Click(),
+                new Mouse_State(),
+                new Mouse_Wheel(),
 
-				new Sound(),
+                new Keyboard_Basic(),
+                new Keyboard_SingularKey(),
+                new Keyboard_PuralKeys(),
+
+                new Joystick_Basic(),
+                new Joystick_Axis(),
+
+                new Sound(),
 
 				new Object2DComponent(),
                 new Transition(),
@@ -48,15 +56,16 @@ namespace sample_cs
                 new MapObject2D_Simple(),
                 new MapObject2D_Camera(),
 
-                new GeometryObject2D_ArcShape(),
-                new GeometryObject2D_PolygonShape(),
-                new GeometryObject2D_RectangleShape(),
-
-
                 new ImagePackage(),
 
-				new ImagePackage(),
-                new Collision2D(),
+                new GeometryObject2D_CircleShape(),
+                new GeometryObject2D_ArcShape(),
+                new GeometryObject2D_RectangleShape(),
+                new GeometryObject2D_PolygonShape(),
+                new GeometryObject2D_PolygonShape_Textured(),
+
+                new Collision2D_Basic(),
+                new Collision2D_Geometries(),
             };
 
 			var cui = new SampleGuide( samples );

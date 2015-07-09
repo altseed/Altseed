@@ -2,7 +2,7 @@
 #include <Altseed.h>
 
 /**
-@brief	キーボードによる入力を取得するサンプル。
+@brief	キーボードの一つのキーの入力状態を取得するサンプル。
 */
 void Keyboard_SingularKey()
 {
@@ -20,7 +20,6 @@ void Keyboard_SingularKey()
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
-
 		// キーボードのZキーの入力状態を取得する。
 		// キー入力状態を示す文字列を更新する。
 		switch (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Z))

@@ -1,14 +1,17 @@
 ﻿/// <summary>
-/// 多角形を表示するサンプル。
+/// 多角形をテクスチャを合成した上で表示するサンプル。
 /// </summary>
-class GeometryObject2D_PolygonShape : ISample
+class GeometryObject2D_PolygonShape_Textured : ISample
 {
     public void Run()
     {
         // Altseedを初期化する
-        asd.Engine.Initialize("GeometryObject2D_PolygonShape", 640, 480, new asd.EngineOption());
+        asd.Engine.Initialize("GeometryObject2D_PolygonShape_Textured", 640, 480, new asd.EngineOption());
 
-        // 図形描画クラスのコンストラクタを呼び出す
+        // テクスチャとして図形に合成する画像を読み込む。
+        var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
+
+        // 図形描画オブジェクトのインスタンスを生成する。
         var geometryObj = new asd.GeometryObject2D();
 
         // 図形描画オブジェクトのインスタンスをエンジンに追加する。
@@ -24,10 +27,12 @@ class GeometryObject2D_PolygonShape : ISample
             vec.Degree = i * 36;
             vec.Length = (i % 2 == 0) ? 100 : 55;
             polygon.AddVertex(vec + new asd.Vector2DF(500, 250));
+
         }
 
         // 多角形を描画する図形として設定し、合成するテクスチャも設定。
         geometryObj.Shape = polygon;
+        geometryObj.Texture = texture;
 
         // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
@@ -35,10 +40,10 @@ class GeometryObject2D_PolygonShape : ISample
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.TakeScreenShot("GeometryObject2D_PolygonShape", 30);
+            Recorder.TakeScreenShot("GeometryObject2D_PolygonShape_Textured", 30);
         }
 
-        // Altseedの終了処理をする。
+        // Altseedを終了する。
         asd.Engine.Terminate();
     }
 }

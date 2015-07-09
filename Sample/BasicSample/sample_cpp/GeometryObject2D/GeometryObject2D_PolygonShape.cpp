@@ -24,7 +24,6 @@ void GeometryObject2D_PolygonShape()
 		vec.SetDegree(i * 36);
 		vec.SetLength((i % 2 == 0) ? 100 : 55);
 		polygon->AddVertex(vec + asd::Vector2DF(500, 250));
-
 	}
 
 	// 多角形を描画する図形として設定する。

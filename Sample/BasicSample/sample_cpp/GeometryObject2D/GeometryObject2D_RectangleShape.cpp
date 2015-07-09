@@ -17,9 +17,8 @@ void GeometryObject2D_RectangleShape()
 	// 矩形を図形描画クラスにて描画する。
 	auto rect = std::make_shared<asd::RectangleShape>();
 
-	// 矩形の描画範囲、UV範囲を指定。
+	// 矩形の描画範囲を指定。
 	rect->SetDrawingArea(asd::RectF(10, 210, 300, 200));
-	rect->SetUV(asd::RectF(0, 0, 0.5f, 0.5f));
 
 	// 矩形を描画する図形として設定し、合成するテクスチャも設定。
 	geometryObj->SetShape(rect);

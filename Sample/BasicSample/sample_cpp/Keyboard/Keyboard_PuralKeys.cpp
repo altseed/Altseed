@@ -2,7 +2,7 @@
 #include <Altseed.h>
 
 /**
-@brief	キーボードによる入力を取得するサンプル。
+@brief	キーボードの複数のキーの入力状態を取得するサンプル。
 */
 void Keyboard_PuralKeys()
 {
@@ -18,7 +18,13 @@ void Keyboard_PuralKeys()
 	asd::Engine::AddObject2D(keyStateText);
 
 	// 入力チェックするキー一覧。(Z, X, C, V, B)
-	std::vector<asd::Keys> keys = { asd::Keys::Z, asd::Keys::X, asd::Keys::C, asd::Keys::V, asd::Keys::B };
+	std::vector<asd::Keys> keys = {
+		asd::Keys::Z, 
+		asd::Keys::X, 
+		asd::Keys::C, 
+		asd::Keys::V, 
+		asd::Keys::B 
+	};
 
 	//キーを文字列に変換するマップ。
 	std::map<asd::Keys, std::string> keyToStr = { 

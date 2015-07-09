@@ -9,40 +9,36 @@ using System.Threading.Tasks;
 /// </summary>
 class GeometryObject2D_RectangleShape : ISample
 {
-	public void Run()
-	{
-		// Altseedを初期化する
-		asd.Engine.Initialize("Geometry2D_RectangleShape", 640, 480, new asd.EngineOption());
+    public void Run()
+    {
+        // Altseedを初期化する
+        asd.Engine.Initialize("GeometryObject2D_RectangleShape", 640, 480, new asd.EngineOption());
 
-		var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
+        // 図形描画クラスのコンストラクタを呼び出す
+        var geometryObj = new asd.GeometryObject2D();
 
-		// 図形描画クラスのコンストラクタを呼び出す
-		var geometryObj = new asd.GeometryObject2D();
+        // 図形描画クラスのインスタンスをエンジンに追加する。
+        asd.Engine.AddObject2D(geometryObj);
 
-		// 図形描画クラスをレイヤーに追加する。
-		asd.Engine.AddObject2D(geometryObj);
+        // 矩形を図形描画クラスにて描画する。
+        var rect = new asd.RectangleShape();
 
-		// 矩形を図形描画クラス2にて描画する。
-		{
-			// 矩形の描画範囲、UV範囲を指定。
-			var rect = new asd.RectangleShape();
-			rect.DrawingArea = new asd.RectF(10, 210, 300, 200);
-			rect.UV = new asd.RectF(0, 0, 0.5f, 0.5f);
+        // 矩形の描画範囲を指定。
+        rect.DrawingArea = new asd.RectF(10, 210, 300, 200);
 
-			// 矩形を描画する図形として設定し、合成するテクスチャも設定。
-			geometryObj.Shape = rect;
-			geometryObj.Texture = texture;
-			geometryObj.Position = new asd.Vector2DF(0, 0);
-		}
+        // 矩形を描画する図形として設定し、合成するテクスチャも設定。
+        geometryObj.Shape = rect;
 
-		// Altseedのウインドウが閉じられていないか確認する。
-		while (asd.Engine.DoEvents())
-		{
-			// Altseedを更新する。
-			asd.Engine.Update();
-		}
+        // Altseedのウインドウが閉じられていないか確認する。
+        while (asd.Engine.DoEvents())
+        {
+            // Altseedを更新する。
+            asd.Engine.Update();
 
-		// Altseedの終了処理をする。
-		asd.Engine.Terminate();
-	}
+            Recorder.TakeScreenShot("GeometryObject2D_RectangleShape", 30);
+        }
+
+        // Altseedの終了処理をする。
+        asd.Engine.Terminate();
+    }
 }

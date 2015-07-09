@@ -1,10 +1,12 @@
 ﻿#include <Altseed.h>
 
-// Collision2Dのサンプル。マウスによって操作する円が固定されたいずれかのオブジェクトにヒットしたら円が赤く変化します。
+/**
+@brief	Collision2Dのサンプル。マウスによって操作する円が固定されたいずれかのオブジェクトにヒットしたら円が赤く変化します。
+*/
 void Collision2D_Geometries()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_Geometries").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("Collision2D_Geometries").c_str(), 640, 480, asd::EngineOption());
 
 	// 図形描画オブジェクトのインスタンスを生成する。
 	std::shared_ptr<asd::GeometryObject2D> geometryObj0 = std::make_shared<asd::GeometryObject2D>();
@@ -68,9 +70,7 @@ void Collision2D_Geometries()
 		rect->SetAngle(15);
 
 		geometryObj3->SetShape(rect);
-		geometryObj3->SetPosition(asd::Vector2DF(0, 0));
 	}
-
 
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())

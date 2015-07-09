@@ -49,18 +49,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CameraObject2D\CameraObject2D.cs" />
-    <Compile Include="Collision\Collision2D.cs" />
+    <Compile Include="Collision\Collision2D_Basic.cs" />
+    <Compile Include="Collision\Collision2D_Geometries.cs" />
     <Compile Include="GeometryObject2D\GeometryObject2D_ArcShape.cs" />
+    <Compile Include="GeometryObject2D\GeometryObject2D_CircleShape.cs" />
     <Compile Include="GeometryObject2D\GeometryObject2D_PolygonShape.cs" />
+    <Compile Include="GeometryObject2D\GeometryObject2D_PolygonShape_Textured.cs" />
     <Compile Include="GeometryObject2D\GeometryObject2D_RectangleShape.cs" />
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
     <Compile Include="Graphics\2D\ImagePackage.cs" />
-    <Compile Include="Input\Joystick.cs" />
-    <Compile Include="Input\Keyboard.cs" />
     <Compile Include="ISample.cs" />
-    <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Joystick\Joystick_Axis.cs" />
+    <Compile Include="Joystick\Joystick_Basic.cs" />
+    <Compile Include="Keyboard\Keyboard_Basic.cs" />
+    <Compile Include="Keyboard\Keyboard_PuralKeys.cs" />
     <Compile Include="MapObject2D\MapObject2D_Camera.cs" />
     <Compile Include="MapObject2D\MapObject2D_Simple.cs" />
+    <Compile Include="Mouse\Mouse_Click.cs" />
+    <Compile Include="Mouse\Mouse_Position.cs" />
+    <Compile Include="Mouse\Mouse_State.cs" />
+    <Compile Include="Mouse\Mouse_Wheel.cs" />
     <Compile Include="ObjectSystem\Object2DComponent.cs" />
     <Compile Include="ObjectSystem\Transition.cs" />
     <Compile Include="PostEffect\PostEffect_GaussianBlur.cs" />
@@ -86,6 +94,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Keyboard\Keyboard_SingularKey.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

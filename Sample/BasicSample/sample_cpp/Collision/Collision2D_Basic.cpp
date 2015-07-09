@@ -1,6 +1,8 @@
 #include <Altseed.h>
 
-// Collision2Dのサンプル。マウスによって操作する円が固定された円にヒットしたら円が赤く変化します。
+/**
+@brief	Collision2Dのサンプル1。マウスによって操作する円が固定された円にヒットしたら円が赤く変化します。
+*/
 void Collision2D_Basic()
 {
 	// Altseedを初期化する。

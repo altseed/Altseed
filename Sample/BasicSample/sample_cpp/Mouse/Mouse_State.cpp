@@ -5,9 +5,10 @@
 */
 void Mouse_State()
 {
-	//Altseedを初期化する。
+	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("Mouse_State").c_str(), 640, 480, asd::EngineOption());
 
+	// マウスの状態を表示するテキストを生成する。
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 20, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
 
 	// マウスの中ボタンの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
