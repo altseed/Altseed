@@ -18,12 +18,12 @@ void GeometryObject2D_ArcShape()
 	auto arc = std::make_shared<asd::ArcShape>();
 
 	// 弧の外径、内径、頂点数、中心位置、開始頂点番号、終了頂点番号を指定。
-	arc->SetOuterDiameter(100);
-	arc->SetInnerDiameter(10);
+	arc->SetOuterDiameter(400);
+	arc->SetInnerDiameter(40);
 	arc->SetNumberOfCorners(96);
-	arc->SetPosition(asd::Vector2DF(300, 100));
+	arc->SetPosition(asd::Vector2DF(320, 240));
 	arc->SetStartingCorner(90);
-	arc->SetEndingCorner(5);
+	arc->SetEndingCorner(45);
 
 	// 弧を描画する図形として設定する。
 	geometryObj->SetShape(arc);

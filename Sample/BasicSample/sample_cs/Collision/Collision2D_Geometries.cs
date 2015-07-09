@@ -6,7 +6,7 @@ public class Collision2D_Geometries : ISample
     public void Run()
     {
         // Altseedを初期化する。
-        asd.Engine.Initialize("GeometryObject2D_Geometries", 640, 480, new asd.EngineOption());
+        asd.Engine.Initialize("Collision2D_Geometries", 640, 480, new asd.EngineOption());
 
         // 図形描画オブジェクトのインスタンスを生成する。
         asd.GeometryObject2D geometryObj0 = new asd.GeometryObject2D();
@@ -71,6 +71,7 @@ public class Collision2D_Geometries : ISample
             geometryObj3.Shape = rect;
         }
 
+
         // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
         {
@@ -90,10 +91,10 @@ public class Collision2D_Geometries : ISample
                 geometryObj0.Color = new asd.Color(255, 255, 255, 255);
             }
 
+            Recorder.CaptureScreen("Collision2D_Geometries", 30, 120, 0.5f, 1);
+
             // Altseedを更新する。
             asd.Engine.Update();
-
-            Recorder.CaptureScreen("Collision2D_Geometries", 30, 240, 1, 1);
         }
 
         // Altseedの終了処理をする。

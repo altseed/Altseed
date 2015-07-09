@@ -40,7 +40,7 @@ public class Mouse_State : ISample
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.TakeScreenShot("Mouse_State", 30);
+            Recorder.CaptureScreen("Mouse_State", 30, 15, 0.2f, 1);
         }
 
         //Altseedの終了処理をする。

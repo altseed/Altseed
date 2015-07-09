@@ -15,14 +15,15 @@ public class GeometryObject2D_CircleShape : ISample
         asd.Engine.AddObject2D(geometryObj);
 
         // 円を図形描画クラスにて描画する。
-        var arc = new asd.ArcShape();
+        var arc = new asd.CircleShape();
 
         // 円の外径、中心位置を指定。
-        arc.OuterDiameter = 100;
-        arc.Position = new asd.Vector2DF(300, 100);
+        arc.OuterDiameter = 400;
+        arc.Position = new asd.Vector2DF(320, 240);
 
         // 円を描画する図形として設定する。
         geometryObj.Shape = arc;
+        geometryObj.Color = new asd.Color(255, 255, 255, 255);
 
         // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
