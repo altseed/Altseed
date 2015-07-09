@@ -468,7 +468,7 @@ namespace asd
 
 		for (auto& gifAnim : gifAnimations)
 		{
-			if (gifAnim->Time % (gifAnim->Frequency - 1) == 0)
+			if (gifAnim->Frequency == 1 || gifAnim->Time % (gifAnim->Frequency - 1) == 0)
 			{
 				std::vector<Color> bufs;
 				Vector2DI size;
@@ -605,6 +605,8 @@ namespace asd
 
 	void Core_Imp::CaptureScreenAsGifAnimation(const achar* path, int32_t frame, float frequency_rate, float scale)
 	{
+		frequency_rate = Clamp(frequency_rate, 1.0f, 1.0f / GetTargetFPS());
+
 		std::shared_ptr<GifAnimation> anim = std::make_shared<GifAnimation>();
 
 		anim->Path = path;

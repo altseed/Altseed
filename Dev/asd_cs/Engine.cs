@@ -549,7 +549,7 @@ namespace asd
 		/// </summary>
 		/// <param name="path">出力先</param>
 		/// <param name="frame">録画フレーム数</param>
-		/// <param name="frequency_rate">録画頻度(例えば、1だと1フレームに1回保存、0.5だと2フレームに2回保存)</param>
+		/// <param name="frequency_rate">録画頻度(例えば、1だと1フレームに1回保存、0.5だと2フレームに1回保存)</param>
 		/// <param name="scale">ウインドウサイズに対する画像サイズの拡大率(ウインドウサイズが320の場合、0.5を指定すると160の画像が出力される)</param>
 		/// <remarks>
 		/// 実行してから一定時間の間、録画を続ける。
