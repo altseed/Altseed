@@ -468,7 +468,7 @@ namespace asd
 
 		for (auto& gifAnim : gifAnimations)
 		{
-			if (gifAnim->Time % (gifAnim->Frequency - 1) == 0)
+			if (gifAnim->Frequency == 1 || gifAnim->Time % (gifAnim->Frequency - 1) == 0)
 			{
 				std::vector<Color> bufs;
 				Vector2DI size;
