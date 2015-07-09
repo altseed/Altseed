@@ -17,7 +17,7 @@
 
 * [更新履歴](./Changes.md)
 
-### 使い方
+### 使い方(基本)
 
 * [Altseedの基本](./HowToUseBasic/Basic.md)
 * [図形の描画](./HowToUseBasic/GeometryObject2D.md)
@@ -27,6 +27,14 @@
 * [シーン遷移](./HowToUseBasic/Transition.md)
 
 * [ポストエフェクト](./HowToUseBasic/PostEffect.md)
+
+### 使い方(応用)
+
+* [ポーズ](./HowToUseApplication/Pause.md)
+* [UIの配置](./HowToUseApplication/ImagePackageUI.md)
+* [自作ポストエフェクト](./HowToUseApplication/CustomPostEffect.md)
+
+### 逆引き
 
 * [機能の逆引き](./ReverseDictionary.md)
 

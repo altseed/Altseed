@@ -175,6 +175,7 @@ def make_document_html(mode):
     #includeの実装
     relPath = file
     ls = makeMarkdownUtils.include_basic_sample(ls,relPath,ss_dir,mode)
+    ls = makeMarkdownUtils.include_application_sample(ls,relPath,ss_dir,mode)
 
     # リンクを修正
     ls = [s.replace('.md', '.html') for s in ls]

@@ -18,7 +18,7 @@
     <ClCompile Include="..\CustomPostEffect\CustomPostEffect_Invert.cpp">
       <Filter>CustomPostEffect</Filter>
     </ClCompile>
-    <ClCompile Include="..\CustomPostEffect\CustomPostEffect_Mosaic..cpp">
+    <ClCompile Include="..\CustomPostEffect\CustomPostEffect_Mosaic.cpp">
       <Filter>CustomPostEffect</Filter>
     </ClCompile>
   </ItemGroup>

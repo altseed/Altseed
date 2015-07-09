@@ -7,10 +7,11 @@ import re
 
 sample_ss_dir = r'../Sample_SS/'
 basic_sample_dir = r'../Sample/BasicSample/'
+application_sample_dir = r'../Sample/ApplicationSample/'
 
 included_ss_paths = []
 
-def include_basic_sample(ls,relCodePath,ssDir,mode=''):
+def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,mode=''):
     """
     ls コードの内容
     relCodePath コードファイルへのルートからの相対パス
@@ -20,14 +21,14 @@ def include_basic_sample(ls,relCodePath,ssDir,mode=''):
 
     #includeの実装
     ls_included = []
-    includePattern = r'\* include_basic_sample (.+)'
+    includePattern = r'\* ' + pattern + ' (.+)'
     includer = re.compile(includePattern)
     
     for s in ls:
         m = includer.search(s.replace('\r','').replace('\n',''))
         if m != None:
             sampleName = m.group(1)
-            searchedTargetDir = basic_sample_dir
+            searchedTargetDir = sampleDir
             
             files = []
             for f in aceutils.get_files(searchedTargetDir):
@@ -108,3 +109,9 @@ def include_basic_sample(ls,relCodePath,ssDir,mode=''):
             ls_included.append(s)
 
     return ls_included
+
+def include_basic_sample(ls,relCodePath,ssDir,mode=''):
+    return include_sample(ls,relCodePath,'include_basic_sample',basic_sample_dir,ssDir,mode)
+
+def include_application_sample(ls,relCodePath,ssDir,mode=''):
+    return include_sample(ls,relCodePath,'include_application_sample',application_sample_dir,ssDir,mode)
