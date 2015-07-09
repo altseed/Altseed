@@ -26,7 +26,7 @@ namespace asd {
 		std::shared_ptr<StaticFile> staticFile = nullptr;
 		
 		// 規定のフォント
-		if (astring(font) == astring())
+		if (font == nullptr || astring(font) == astring())
 		{
 #ifdef _WIN32
 			staticFile = file->CreateStaticFile(ToAString("C:\\Windows\\Fonts\\meiryo.ttc").c_str());
@@ -36,13 +36,13 @@ namespace asd {
 		}
 
 		// ファイルパスとして検索
-		if (staticFile == nullptr)
+		if (font != nullptr && staticFile == nullptr)
 		{
 			staticFile = file->CreateStaticFile(font);
 		}
 
 		// フォント名から検索
-		if (staticFile == nullptr)
+		if (font != nullptr && staticFile == nullptr)
 		{
 			InstalledFontList::Load();
 
