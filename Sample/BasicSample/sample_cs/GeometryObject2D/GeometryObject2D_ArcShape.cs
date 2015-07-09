@@ -18,15 +18,16 @@ class GeometryObject2D_ArcShape : ISample
         var arc = new asd.ArcShape();
 
         // 弧の外径、内径、頂点数、中心位置、開始頂点番号、終了頂点番号を指定。
-        arc.OuterDiameter = 100;
-        arc.InnerDiameter = 10;
+        arc.OuterDiameter = 400;
+        arc.InnerDiameter = 40;
         arc.NumberOfCorners = 96;
-        arc.Position = new asd.Vector2DF(300, 100);
+        arc.Position = new asd.Vector2DF(320, 240);
         arc.StartingCorner = 90;
-        arc.EndingCorner = 5;
+        arc.EndingCorner = 45;
 
         // 弧を描画する図形として設定し、合成するテクスチャも設定。
         geometryObj.Shape = arc;
+        geometryObj.Color = new asd.Color(255, 255, 255, 255);
 
         // Altseedを更新する。
         while (asd.Engine.DoEvents())

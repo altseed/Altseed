@@ -15,11 +15,11 @@ void GeometryObject2D_CircleShape()
 	asd::Engine::AddObject2D(geometryObj);
 
 	// ‰~‚ğ}Œ`•`‰æƒNƒ‰ƒX‚É‚Ä•`‰æ‚·‚éB
-	auto arc = std::make_shared<asd::ArcShape>();
+	auto arc = std::make_shared<asd::CircleShape>();
 
 	// ‰~‚ÌŠOŒaA’†SˆÊ’u‚ğw’èB
-	arc->SetOuterDiameter(100);
-	arc->SetPosition(asd::Vector2DF(300, 100));
+	arc->SetOuterDiameter(400);
+	arc->SetPosition(asd::Vector2DF(320, 240));
 
 	// ‰~‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚·‚éB
 	geometryObj->SetShape(arc);

@@ -43,6 +43,7 @@ public class Collision2D_Basic : ISample
             geometryObj1.Shape = circle;
         }
 
+
         // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
         {
@@ -60,10 +61,11 @@ public class Collision2D_Basic : ISample
                 geometryObj0.Color = new asd.Color(255, 255, 255, 255);
             }
 
+            Recorder.CaptureScreen("Collision2D_Basic", 30, 90, 0.5f, 1);
+
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.CaptureScreen("Collision2D_Basic", 30, 180, 1, 1);
         }
 
         // Altseedの終了処理をする。

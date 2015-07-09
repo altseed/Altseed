@@ -25,8 +25,8 @@ void GeometryObject2D_PolygonShape_Textured()
 	{
 		asd::Vector2DF vec = asd::Vector2DF(1, 0);
 		vec.SetDegree(i * 36);
-		vec.SetLength((i % 2 == 0) ? 100 : 55);
-		polygon->AddVertex(vec + asd::Vector2DF(500, 250));
+		vec.SetLength((i % 2 == 0) ? 200 : 75);
+		polygon->AddVertex(vec + asd::Vector2DF(320, 240));
 
 	}
 

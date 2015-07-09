@@ -33,7 +33,7 @@ public class Mouse_Click :ISample
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.TakeScreenShot("Mouse_Click", 30);
+            Recorder.CaptureScreen("Mouse_Click", 30, 15, 2, 1);
         }
 
         //Altseedの終了処理をする。

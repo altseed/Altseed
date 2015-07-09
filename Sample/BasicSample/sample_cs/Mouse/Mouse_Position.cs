@@ -22,12 +22,12 @@ public class Mouse_Position : ISample
         {
             // マウスカーソルの座標を取得して表示する。
             asd.Vector2DF pos = asd.Engine.Mouse.Position;
-            stateText.Text = "マウスの位置 : (" + pos.X.ToString() + "," + pos.Y.ToString() + ")";
+            stateText.Text = "マウスカーソルの位置 : (" + pos.X.ToString() + "," + pos.Y.ToString() + ")";
 
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.TakeScreenShot("Mouse_Position", 30);
+            Recorder.CaptureScreen("Mouse_Position", 30, 15, 2, 1);
         }
 
         //Altseedの終了処理をする。
