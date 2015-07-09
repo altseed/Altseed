@@ -26,7 +26,7 @@ public class Mouse_Wheel : ISample
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.CaptureScreen("Mouse_Wheel", 30, 15, 0.2f, 1);
+            Recorder.CaptureScreen("Mouse_Wheel", 30, 120, 0.5f, 1);
         }
 
         //Altseedの終了処理をする。

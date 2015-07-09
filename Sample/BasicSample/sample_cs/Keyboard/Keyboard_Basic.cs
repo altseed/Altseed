@@ -34,7 +34,7 @@ public class Keyboard_Basic :ISample
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.TakeScreenShot("Keyboard_Basic", 30);
+            Recorder.CaptureScreen("Keyboard_Basic", 30, 120, 0.5f, 1);
         }
 
         //Altseedの終了処理をする。

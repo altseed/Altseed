@@ -40,7 +40,7 @@ public class Keyboard_SingularKey : ISample
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.TakeScreenShot("Keyboard_SingularKey", 30);
+            Recorder.CaptureScreen("Keyboard_SingularKey", 30, 180, 0.5f, 1);
         }
 
         //Altseedの終了処理をする。
