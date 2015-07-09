@@ -1399,6 +1399,36 @@ namespace asd
 			}
 		}
 
+		for (auto& c : Chips)
+		{
+			c.IsChanged = true;
+		}
+
+		GenerateTerrainChips();
+
+		collisionClusters.clear();
+		for (size_t y = 0; y < gridHeightCount; y += ClusterCount)
+		{
+			for (size_t x = 0; x < gridWidthCount; x += ClusterCount)
+			{
+				collisionClusters.push_back(
+					std::make_shared<CollisionCluster>(
+					this,
+					x,
+					y,
+					Min(gridWidthCount - x, ClusterCount),
+					Min(gridHeightCount - y, ClusterCount)
+					));
+			}
+		}
+
+		for (auto& c : collisionClusters)
+		{
+			c->GenerateCollision();
+		}
+
+		collisionWorld->updateAabbs();
+
 		isMeshChanged = true;
 		isSurfaceChanged = true;
 	}
