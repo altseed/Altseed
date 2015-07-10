@@ -1,4 +1,4 @@
-#include "RasterizedGlyph.h"
+Ôªø#include "RasterizedGlyph.h"
 #include <cmath>
 
 using namespace std;
@@ -52,7 +52,7 @@ namespace FontGenerator
 		auto width_o = (width + outline * 2);
 		auto height_o = (height + outline * 2);
 
-		// ÉRÉsÅ[
+		// „Ç≥„Éî„Éº
 		for (auto& s : spans)
 		{
 			int yIndex = baselineY - s.y;
@@ -72,7 +72,7 @@ namespace FontGenerator
 			}
 		}
 
-		// òg
+		// Êû†
 		for (int32_t y = outline; y < height_o - outline; y++)
 		{
 			for (int32_t x = outline; x < width_o - outline; x++)

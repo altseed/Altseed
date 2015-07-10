@@ -1,4 +1,4 @@
-
+ï»¿
 #include <fstream>
 #include "Generator.h"
 #include <Graphics/Font/asd.AffHeader.h>
@@ -59,7 +59,7 @@ namespace FontGenerator
 		ifstream fin(ToUtf8String(filePath.c_str()).c_str(), ios::binary | ios::in);
 #endif
 
-		ACE_ASSERT(!fin.fail(), "ƒtƒ@ƒCƒ‹‚ÍŠJ‚¯‚Ü‚¹‚ñ‚Å‚µ‚½");
+		ACE_ASSERT(!fin.fail(), "ãƒ•ã‚¡ã‚¤ãƒ«ã¯é–‹ã‘ã¾ã›ã‚“ã§ã—ãŸ");
 
 		while (!fin.eof())
 		{

@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <asd.common.Base.h>
 #include <vector>
 #include <memory>
@@ -29,12 +29,12 @@ namespace FontGenerator
 		int GetFontHeight() const;
 
 		/**
-			@brief	ƒtƒHƒ“ƒg‚Ìascender‚Ì’l(ƒx[ƒXƒ‰ƒCƒ“‚æ‚èã‚Ì‚‚³)‚ğæ“¾‚µ‚Ü‚·B
+			@brief	ãƒ•ã‚©ãƒ³ãƒˆã®ascenderã®å€¤(ãƒ™ãƒ¼ã‚¹ãƒ©ã‚¤ãƒ³ã‚ˆã‚Šä¸Šã®é«˜ã•)ã‚’å–å¾—ã—ã¾ã™ã€‚
 		*/
 		int GetAscender() const;
 
 		/**
-			@brief	ƒtƒHƒ“ƒg‚Ìdescender‚Ì’l(ƒx[ƒXƒ‰ƒCƒ“‚æ‚è‰º‚Ì‚‚³)‚ğæ“¾‚µ‚Ü‚·B–ß‚è’l‚Í•‰‚Ì’l‚Å‚·B
+			@brief	ãƒ•ã‚©ãƒ³ãƒˆã®descenderã®å€¤(ãƒ™ãƒ¼ã‚¹ãƒ©ã‚¤ãƒ³ã‚ˆã‚Šä¸‹ã®é«˜ã•)ã‚’å–å¾—ã—ã¾ã™ã€‚æˆ»ã‚Šå€¤ã¯è² ã®å€¤ã§ã™ã€‚
 		*/
 		int GetDescender() const;
 

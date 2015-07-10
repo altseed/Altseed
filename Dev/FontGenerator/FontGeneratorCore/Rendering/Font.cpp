@@ -1,4 +1,4 @@
-#include "Font.h"
+ï»¿#include "Font.h"
 #include FT_OUTLINE_H
 
 using namespace std;
@@ -9,11 +9,11 @@ namespace FontGenerator
 	Font::Font(astring fontPath)
 	{
 		auto error = FT_Init_FreeType(&m_library);
-		ACE_ASSERT(!error, "FreeType‚Ì‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½")
+		ACE_ASSERT(!error, "FreeTypeã®åˆæœŸåŒ–ã«å¤±æ•—ã—ã¾ã—ãŸ")
 
 		auto path = ToUtf8String(fontPath.c_str());
 		error = FT_New_Face(m_library, path.c_str(), 0, &m_face);
-		ACE_ASSERT(!error, "Face‚Ì‰Šú‰»‚É¸”s‚µ‚Ü‚µ‚½")
+		ACE_ASSERT(!error, "Faceã®åˆæœŸåŒ–ã«å¤±æ•—ã—ã¾ã—ãŸ")
 
 		SetFontSize(16);
 	}
@@ -35,7 +35,7 @@ namespace FontGenerator
 			FT_Glyph g;
 			FT_Get_Glyph(m_face->glyph, &g);
 
-			ACE_ASSERT(g->format == FT_GLYPH_FORMAT_OUTLINE, "ƒOƒŠƒt‚Ì¶¬‚É¸”s");
+			ACE_ASSERT(g->format == FT_GLYPH_FORMAT_OUTLINE, "ã‚°ãƒªãƒ•ã®ç”Ÿæˆã«å¤±æ•—");
 
 			auto og = reinterpret_cast<FT_OutlineGlyph>(g);
 			glyphs.push_back(make_shared<Glyph>(*this, c, og));
@@ -53,7 +53,7 @@ namespace FontGenerator
 		m_fontSize = value;
 		//auto error = FT_Set_Char_Size(m_face, value << 6, value << 6, 96, 96);
 		auto error = FT_Set_Pixel_Sizes(m_face, value, value);
-		ACE_ASSERT(!error, "ƒtƒHƒ“ƒgƒTƒCƒY‚Ìİ’è‚É¸”s‚µ‚Ü‚µ‚½")
+		ACE_ASSERT(!error, "ãƒ•ã‚©ãƒ³ãƒˆã‚µã‚¤ã‚ºã®è¨­å®šã«å¤±æ•—ã—ã¾ã—ãŸ")
 	}
 
 	int Font::GetFontHeight() const

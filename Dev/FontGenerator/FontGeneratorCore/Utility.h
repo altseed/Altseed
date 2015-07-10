@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <array>
 #include <vector>
 #include <png.h>
@@ -28,19 +28,19 @@ namespace FontGenerator
 	}
 
 	/**
-	@brief	PNGƒtƒ@ƒCƒ‹‚ğ•Û‘¶‚·‚éB
-	@param	filepath	•Û‘¶æ
-	@param	width	‰¡•
-	@param	height	c•
-	@param	data	Œ„ŠÔ‚È‚­•~‚«‹l‚ß‚ç‚ê‚½‰æ‘fƒf[ƒ^(1‰æ‘f4byteŒÅ’è)
-	@param	rev		ã‰º”½“]‚Å•Û‘¶‚·‚éB
+	@brief	PNGãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä¿å­˜ã™ã‚‹ã€‚
+	@param	filepath	ä¿å­˜å…ˆ
+	@param	width	æ¨ªå¹…
+	@param	height	ç¸¦å¹…
+	@param	data	éš™é–“ãªãæ•·ãè©°ã‚ã‚‰ã‚ŒãŸç”»ç´ ãƒ‡ãƒ¼ã‚¿(1ç”»ç´ 4byteå›ºå®š)
+	@param	rev		ä¸Šä¸‹åè»¢ã§ä¿å­˜ã™ã‚‹ã€‚
 	*/
 	static void SavePNGImage(const asd::achar* filepath, int32_t width, int32_t height, void* data, bool rev)
 	{
 		png_bytep raw1D;
 		png_bytepp raw2D;
 
-		/* \‘¢‘ÌŠm•Û */
+		/* æ§‹é€ ä½“ç¢ºä¿ */
 #if _WIN32
 		FILE *fp = _wfopen(filepath, L"wb");
 #else
@@ -52,14 +52,14 @@ namespace FontGenerator
 		png_structp pp = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 		png_infop ip = png_create_info_struct(pp);
 
-		/* ‘‚«‚İ€”õ */
+		/* æ›¸ãè¾¼ã¿æº–å‚™ */
 		png_init_io(pp, fp);
 		png_set_IHDR(pp, ip, width, height,
-			8, /* 8bitˆÈŠO‚É‚·‚é‚È‚ç•Ï‚¦‚é */
-			PNG_COLOR_TYPE_RGBA, /* RGBAˆÈŠO‚É‚·‚é‚È‚ç•Ï‚¦‚é */
+			8, /* 8bitä»¥å¤–ã«ã™ã‚‹ãªã‚‰å¤‰ãˆã‚‹ */
+			PNG_COLOR_TYPE_RGBA, /* RGBAä»¥å¤–ã«ã™ã‚‹ãªã‚‰å¤‰ãˆã‚‹ */
 			PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 
-		/* ƒsƒNƒZƒ‹—ÌˆæŠm•Û */
+		/* ãƒ”ã‚¯ã‚»ãƒ«é ˜åŸŸç¢ºä¿ */
 		raw1D = (png_bytep)malloc(height * png_get_rowbytes(pp, ip));
 		raw2D = (png_bytepp)malloc(height * sizeof(png_bytep));
 		for (int32_t i = 0; i < height; i++)
@@ -69,7 +69,7 @@ namespace FontGenerator
 
 		memcpy((void*)raw1D, data, width * height * 4);
 
-		/* ã‰º”½“] */
+		/* ä¸Šä¸‹åè»¢ */
 		if (rev)
 		{
 			for (int32_t i = 0; i < height / 2; i++)
@@ -80,12 +80,12 @@ namespace FontGenerator
 			}
 		}
 
-		/* ‘‚«‚İ */
+		/* æ›¸ãè¾¼ã¿ */
 		png_write_info(pp, ip);
 		png_write_image(pp, raw2D);
 		png_write_end(pp, ip);
 
-		/* ŠJ•ú */
+		/* é–‹æ”¾ */
 		png_destroy_write_struct(&pp, &ip);
 		fclose(fp);
 		free(raw1D);

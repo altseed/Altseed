@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include <vector>
 #include <memory>
 #include "Color.h"
@@ -30,17 +30,17 @@ namespace FontGenerator
 		wchar_t GetCharactor() const;
 
 		/**
-			@brief	‚±‚ÌƒOƒŠƒt‚Ì•`‰æ•‚ğæ“¾‚·‚éB
+			@brief	ã“ã®ã‚°ãƒªãƒ•ã®æç”»å¹…ã‚’å–å¾—ã™ã‚‹ã€‚
 		*/
 		int GetAdvance() const;
 
 		/**
-			@brief	w’è‚µ‚½ƒoƒbƒtƒ@‚É‚±‚ÌƒOƒŠƒt‚ğ•`‰æ‚·‚éB
-			@param	buffer	•`‰ææ‚Æ‚È‚éƒoƒbƒtƒ@
-					width	ƒoƒbƒtƒ@‚Ì•
-					height	ƒoƒbƒtƒ@‚Ì‚‚³
-					x		•`‰æŒ´“_‚Ì xÀ•W
-					y		ƒx[ƒXƒ‰ƒCƒ“‚Ì yÀ•W
+			@brief	æŒ‡å®šã—ãŸãƒãƒƒãƒ•ã‚¡ã«ã“ã®ã‚°ãƒªãƒ•ã‚’æç”»ã™ã‚‹ã€‚
+			@param	buffer	æç”»å…ˆã¨ãªã‚‹ãƒãƒƒãƒ•ã‚¡
+					width	ãƒãƒƒãƒ•ã‚¡ã®å¹…
+					height	ãƒãƒƒãƒ•ã‚¡ã®é«˜ã•
+					x		æç”»åŸç‚¹ã® xåº§æ¨™
+					y		ãƒ™ãƒ¼ã‚¹ãƒ©ã‚¤ãƒ³ã® yåº§æ¨™
 		*/
 		void Draw(int32_t* buffer, int width, int height, int x, int y);
 
