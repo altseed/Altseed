@@ -44,7 +44,7 @@ namespace FontGenerator
 #if _WIN32
 		FILE *fp = _wfopen(filepath, L"wb");
 #else
-		FILE *fp = fopen(ToUtf8String(filepath).c_str(), "wb");
+		FILE *fp = fopen(asd::ToUtf8String(filepath).c_str(), "wb");
 #endif
 
 		if (fp == nullptr) return;

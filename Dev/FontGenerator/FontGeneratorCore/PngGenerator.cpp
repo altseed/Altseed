@@ -1,4 +1,4 @@
-
+Ôªø
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -68,9 +68,9 @@ namespace FontGenerator
 		const int IMAGE_SIZE = 256;
 
 #ifdef _WIN32
-		vector<achar> previewChars{ L'e', L'E', L'1', L'Ç†', L'âi' };
+		vector<achar> previewChars{ L'e', L'E', L'1', L'„ÅÇ', L'Ê∞∏' };
 #else
-		vector<achar> previewChars{ u'e', u'E', u'1', u'Ç†', u'âi' };
+		vector<achar> previewChars{ u'e', u'E', u'1', u'„ÅÇ', u'Ê∞∏' };
 #endif
 
 		Font font(fontPath);

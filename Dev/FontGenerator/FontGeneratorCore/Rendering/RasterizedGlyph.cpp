@@ -1,4 +1,5 @@
 #include "RasterizedGlyph.h"
+#include <cmath>
 
 using namespace std;
 

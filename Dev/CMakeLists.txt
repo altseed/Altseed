@@ -194,6 +194,7 @@ add_executable( asdUnitTestEngineGtest ${unittest_engine_gtest_src} )
 target_link_libraries(asdUnitTestEngineGtest asdEngine ${common_lib}) 
 
 add_library( fontGenerator SHARED ${fontGenerator_src} )
+target_link_libraries(fontGenerator asdTool asdCommon ${common_lib}) 
 
 # o—Íæ‚Ìİ’è
 set_target_properties(asdCommon PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
