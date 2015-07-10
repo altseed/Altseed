@@ -1,36 +1,36 @@
-#include <Base.h>
+ï»¿#include <Base.h>
 
 /**
-@brief	‰~‚ğ•`‰æ‚·‚éƒTƒ“ƒvƒ‹B
+@brief	å††ã‚’æç”»ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã€‚
 */
 void GeometryObject2D_CircleShape()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚é
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_CircleShape").c_str(), 640, 480, asd::EngineOption());
 
-	// }Œ`•`‰æƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+	// å›³å½¢æç”»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto geometryObj = std::make_shared<asd::GeometryObject2D>();
 
-	// }Œ`•`‰æƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒGƒ“ƒWƒ“‚É’Ç‰Á‚·‚éB
+	// å›³å½¢æç”»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ã‚¨ãƒ³ã‚¸ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::AddObject2D(geometryObj);
 
-	// ‰~‚ğ}Œ`•`‰æƒNƒ‰ƒX‚É‚Ä•`‰æ‚·‚éB
+	// å††ã‚’å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã«ã¦æç”»ã™ã‚‹ã€‚
 	auto arc = std::make_shared<asd::CircleShape>();
 
-	// ‰~‚ÌŠOŒaA’†SˆÊ’u‚ğw’èB
+	// å††ã®å¤–å¾„ã€ä¸­å¿ƒä½ç½®ã‚’æŒ‡å®šã€‚
 	arc->SetOuterDiameter(400);
 	arc->SetPosition(asd::Vector2DF(320, 240));
 
-	// ‰~‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚·‚éB
+	// å††ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦è¨­å®šã™ã‚‹ã€‚
 	geometryObj->SetShape(arc);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// Altseed‚ğI—¹‚·‚éB
+	// Altseedã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }

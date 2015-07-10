@@ -1,14 +1,14 @@
-#include <Base.h>
+ï»¿#include <Base.h>
 
 /**
-@brief	ƒJƒƒ‰‚ğ—p‚¢‚Ä•`‰æ‹óŠÔ‚Ìˆê•”‚ğ’Šá‹¾‚Ì‚æ‚¤‚È•\¦‚Å•`‰æ‚·‚éƒTƒ“ƒvƒ‹B
+@brief	ã‚«ãƒ¡ãƒ©ã‚’ç”¨ã„ã¦æç”»ç©ºé–“ã®ä¸€éƒ¨ã‚’è™«çœ¼é¡ã®ã‚ˆã†ãªè¡¨ç¤ºã§æç”»ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã€‚
 */
 void CameraObject2D_Magnify()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("CameraObject2D_Magnify").c_str(), 640, 480, asd::EngineOption());
 
-	// ƒeƒNƒXƒ`ƒƒ‚ğ¶¬‚·‚éB
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	{
 		auto tex0 = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 		auto obj0 = std::make_shared<asd::TextureObject2D>();
@@ -20,7 +20,7 @@ void CameraObject2D_Magnify()
 		asd::Engine::AddObject2D(obj0);
 	}
 
-	//ˆê‚Â–Ú‚Ì‰æ–Ê‘S‘Ì‚ğÊ‚·ƒJƒƒ‰B(ƒIƒuƒWƒFƒNƒg‚ğ‚»‚Ì‚Ü‚Ü•`‰æ‚·‚éB)
+	//ä¸€ã¤ç›®ã®ç”»é¢å…¨ä½“ã‚’å†™ã™ã‚«ãƒ¡ãƒ©ã€‚(ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãã®ã¾ã¾æç”»ã™ã‚‹ã€‚)
 	{
 
 		auto entityCamera = std::make_shared<asd::CameraObject2D>();
@@ -29,11 +29,11 @@ void CameraObject2D_Magnify()
 		asd::Engine::AddObject2D(entityCamera);
 	}
 
-	//“ñ‚Â–Ú‚Ìƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚Ìü•Ó‚ğŠg‘å‚µ‚Ä•\¦‚·‚éƒJƒƒ‰B
+	//äºŒã¤ç›®ã®ãƒã‚¦ã‚¹ãƒã‚¤ãƒ³ã‚¿ã®å‘¨è¾ºã‚’æ‹¡å¤§ã—ã¦è¡¨ç¤ºã™ã‚‹ã‚«ãƒ¡ãƒ©ã€‚
 	auto camera2 = std::make_shared<asd::CameraObject2D>();
 	asd::Engine::AddObject2D(camera2);
 
-	//ƒtƒŒ[ƒ€—pƒeƒNƒXƒ`ƒƒ‰æ‘œ‚ğ€”õ‚·‚éB
+	//ãƒ•ãƒ¬ãƒ¼ãƒ ç”¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ç”»åƒã‚’æº–å‚™ã™ã‚‹ã€‚
 	auto frame = std::make_shared<asd::TextureObject2D>();
 	{
 		auto tex = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Frame.png").c_str());
@@ -43,25 +43,25 @@ void CameraObject2D_Magnify()
 		asd::Engine::AddObject2D(frame);
 	}
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		//ƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚ğæ“¾‚·‚éB
+		//ãƒã‚¦ã‚¹ãƒã‚¤ãƒ³ã‚¿ã®ä½ç½®ã‚’å–å¾—ã™ã‚‹ã€‚
 		auto pos = asd::Engine::GetMouse()->GetPosition();
 
-		//Šg‘å—pƒJƒƒ‰‚Ì•`‰æŒ³‚ğw’è‚·‚éB
+		//æ‹¡å¤§ç”¨ã‚«ãƒ¡ãƒ©ã®æç”»å…ƒã‚’æŒ‡å®šã™ã‚‹ã€‚
 		camera2->SetSrc(asd::RectI((int)(pos.X) - 25, (int)(pos.Y) - 25, 50, 50));
 
-		//ƒ|ƒCƒ“ƒ^‚ğ’†S‚É100x100‚ÌŠg‘å‰æ‘œ‚ğ•\¦‚·‚éB
+		//ãƒã‚¤ãƒ³ã‚¿ã‚’ä¸­å¿ƒã«100x100ã®æ‹¡å¤§ç”»åƒã‚’è¡¨ç¤ºã™ã‚‹ã€‚
 		camera2->SetDst(asd::RectI((int)(pos.X) - 50, (int)(pos.Y) - 50, 100, 100));
 
-		//ƒtƒŒ[ƒ€‰æ‘œ‚Ì•`‰æ’†S‚ğƒ}ƒEƒXƒ|ƒCƒ“ƒ^‚ÌˆÊ’u‚É‡‚í‚¹‚éB
+		//ãƒ•ãƒ¬ãƒ¼ãƒ ç”»åƒã®æç”»ä¸­å¿ƒã‚’ãƒã‚¦ã‚¹ãƒã‚¤ãƒ³ã‚¿ã®ä½ç½®ã«åˆã‚ã›ã‚‹ã€‚
 		frame->SetPosition(pos);
 
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// Altseed‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// Altseedã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }

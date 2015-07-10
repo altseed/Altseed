@@ -1,48 +1,48 @@
-
+ï»¿
 #include <Altseed.h>
 
 /**
-@brief	ƒL[ƒ{[ƒh‚Ìˆê‚Â‚ÌƒL[‚Ì“ü—Íó‘Ô‚ğæ“¾‚·‚éƒTƒ“ƒvƒ‹B
+@brief	ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®ä¸€ã¤ã®ã‚­ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã€‚
 */
 void Keyboard_SingularKey()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("Keyboard_SingularKey").c_str(), 640, 480, asd::EngineOption());
 
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 40, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
 
-	// ƒL[‚Ì“ü—Íó‘Ô‚ğ•\¦‚·‚é•¶š•`‰æƒIƒuƒWƒFƒNƒg‚ğİ’è‚µ‚ÄAƒGƒ“ƒWƒ“‚É’Ç‰Á‚·‚éB
+	// ã‚­ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹ã‚’è¡¨ç¤ºã™ã‚‹æ–‡å­—æç”»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã—ã¦ã€ã‚¨ãƒ³ã‚¸ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 	auto keyStateText = std::make_shared<asd::TextObject2D>();
 	keyStateText->SetPosition(asd::Vector2DF(10, 10));
 	keyStateText->SetFont(font);
 	asd::Engine::AddObject2D(keyStateText);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// ƒL[ƒ{[ƒh‚ÌZƒL[‚Ì“ü—Íó‘Ô‚ğæ“¾‚·‚éB
-		// ƒL[“ü—Íó‘Ô‚ğ¦‚·•¶š—ñ‚ğXV‚·‚éB
+		// ã‚­ãƒ¼ãƒœãƒ¼ãƒ‰ã®Zã‚­ãƒ¼ã®å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹ã€‚
+		// ã‚­ãƒ¼å…¥åŠ›çŠ¶æ…‹ã‚’ç¤ºã™æ–‡å­—åˆ—ã‚’æ›´æ–°ã™ã‚‹ã€‚
 		switch (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Z))
 		{
-		case asd::KeyState::Free: // ‘OƒtƒŒ[ƒ€‚Æ–{ƒtƒŒ[ƒ€‚Å”ñ‰Ÿ‰º
-			keyStateText->SetText(asd::ToAString("ZƒL[‚ğ—£‚µ‚Ä‚¢‚Ü‚·B").c_str());
+		case asd::KeyState::Free: // å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã¨æœ¬ãƒ•ãƒ¬ãƒ¼ãƒ ã§éæŠ¼ä¸‹
+			keyStateText->SetText(asd::ToAString("Zã‚­ãƒ¼ã‚’é›¢ã—ã¦ã„ã¾ã™ã€‚").c_str());
 			break;
-		case asd::KeyState::Hold: // ‘OƒtƒŒ[ƒ€‚Æ–{ƒtƒŒ[ƒ€‚Å‰Ÿ‰º
-			keyStateText->SetText(asd::ToAString("ZƒL[‚ğ‰Ÿ‚µ‚Ä‚¢‚Ü‚·B").c_str());
+		case asd::KeyState::Hold: // å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã¨æœ¬ãƒ•ãƒ¬ãƒ¼ãƒ ã§æŠ¼ä¸‹
+			keyStateText->SetText(asd::ToAString("Zã‚­ãƒ¼ã‚’æŠ¼ã—ã¦ã„ã¾ã™ã€‚").c_str());
 			break;
-		case asd::KeyState::Release: // ‘OƒtƒŒ[ƒ€‚Å‰Ÿ‰ºA–{ƒtƒŒ[ƒ€‚Å”ñ‰Ÿ‰º
-			keyStateText->SetText(asd::ToAString("ZƒL[‚ğ—£‚µ‚Ü‚µ‚½!").c_str());
+		case asd::KeyState::Release: // å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã§æŠ¼ä¸‹ã€æœ¬ãƒ•ãƒ¬ãƒ¼ãƒ ã§éæŠ¼ä¸‹
+			keyStateText->SetText(asd::ToAString("Zã‚­ãƒ¼ã‚’é›¢ã—ã¾ã—ãŸ!").c_str());
 			break;
-		case asd::KeyState::Push: // ‘OƒtƒŒ[ƒ€‚Å”ñ‰Ÿ‰ºA–{ƒtƒŒ[ƒ€‚Å‰Ÿ‰º
-			keyStateText->SetText(asd::ToAString("ZƒL[‚ğ‰Ÿ‚µ‚Ü‚µ‚½!").c_str());
+		case asd::KeyState::Push: // å‰ãƒ•ãƒ¬ãƒ¼ãƒ ã§éæŠ¼ä¸‹ã€æœ¬ãƒ•ãƒ¬ãƒ¼ãƒ ã§æŠ¼ä¸‹
+			keyStateText->SetText(asd::ToAString("Zã‚­ãƒ¼ã‚’æŠ¼ã—ã¾ã—ãŸ!").c_str());
 			break;
 		}
 
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	//Altseed‚ÌI—¹ˆ—‚ğ‚·‚éB
+	//Altseedã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 
 	return;

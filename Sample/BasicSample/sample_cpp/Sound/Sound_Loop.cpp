@@ -1,32 +1,32 @@
-
+ï»¿
 #include <Altseed.h>
 
-// BGM‚ğƒ‹[ƒvÄ¶‚·‚éƒTƒ“ƒvƒ‹B
+// BGMã‚’ãƒ«ãƒ¼ãƒ—å†ç”Ÿã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã€‚
 void Sound_Loop()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("Sound").c_str(), 640, 480, asd::EngineOption());
 
-	// ‰¹ºƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ŞB
+	// éŸ³å£°ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ã€‚
 	std::shared_ptr<asd::SoundSource> bgm1 = asd::Engine::GetSound()->CreateSoundSource(asd::ToAString("Data/Sound/bgm1.ogg").c_str(), false);
 
-	// ‰¹º‚Ìƒ‹[ƒv‚ğ—LŒø‚É‚·‚éB
+	// éŸ³å£°ã®ãƒ«ãƒ¼ãƒ—ã‚’æœ‰åŠ¹ã«ã™ã‚‹ã€‚
 	bgm1->SetIsLoopingMode(true);
 
-	// ‰¹º‚Ìƒ‹[ƒvn’[‚ğ1•b‚ÉAƒ‹[ƒvI’[‚ğ6•b‚Éİ’è‚·‚éB
+	// éŸ³å£°ã®ãƒ«ãƒ¼ãƒ—å§‹ç«¯ã‚’1ç§’ã«ã€ãƒ«ãƒ¼ãƒ—çµ‚ç«¯ã‚’6ç§’ã«è¨­å®šã™ã‚‹ã€‚
 	bgm1->SetLoopStartingPoint(1.0f);
 	bgm1->SetLoopEndPoint(6.0f);
 
-	// ‰¹º‚ğÄ¶‚·‚éB
+	// éŸ³å£°ã‚’å†ç”Ÿã™ã‚‹ã€‚
 	int id_bgm1 = asd::Engine::GetSound()->Play(bgm1);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// Altseed‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// Altseedã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }

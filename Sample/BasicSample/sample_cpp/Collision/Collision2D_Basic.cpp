@@ -1,57 +1,57 @@
-#include <Altseed.h>
+ï»¿#include <Altseed.h>
 
 /**
-@brief	Collision2D‚ÌƒTƒ“ƒvƒ‹1Bƒ}ƒEƒX‚É‚æ‚Á‚Ä‘€ì‚·‚é‰~‚ªŒÅ’è‚³‚ê‚½‰~‚Éƒqƒbƒg‚µ‚½‚ç‰~‚ªÔ‚­•Ï‰»‚µ‚Ü‚·B
+@brief	Collision2Dã®ã‚µãƒ³ãƒ—ãƒ«1ã€‚ãƒã‚¦ã‚¹ã«ã‚ˆã£ã¦æ“ä½œã™ã‚‹å††ãŒå›ºå®šã•ã‚ŒãŸå††ã«ãƒ’ãƒƒãƒˆã—ãŸã‚‰å††ãŒèµ¤ãå¤‰åŒ–ã—ã¾ã™ã€‚
 */
 void Collision2D_Basic()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("Collision2D_Basic").c_str(), 640, 480, asd::EngineOption());
 
-	// }Œ`•`‰æƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+	// å›³å½¢æç”»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	std::shared_ptr<asd::GeometryObject2D> geometryObj0 = std::make_shared<asd::GeometryObject2D>();
 	std::shared_ptr<asd::GeometryObject2D> geometryObj1 = std::make_shared<asd::GeometryObject2D>();
 
-	// ƒ}ƒEƒX‚É‚æ‚Á‚Ä“®‚©‚·‰~B
+	// ãƒã‚¦ã‚¹ã«ã‚ˆã£ã¦å‹•ã‹ã™å††ã€‚
 	std::shared_ptr<asd::CircleShape> selfCircle;
 
-	// ’â~‚µ‚Ä‚¢‚é‰~AOŠpŒ`A‹éŒ`B
+	// åœæ­¢ã—ã¦ã„ã‚‹å††ã€ä¸‰è§’å½¢ã€çŸ©å½¢ã€‚
 	std::shared_ptr<asd::CircleShape> circle;
 
-	// }Œ`•`‰æƒNƒ‰ƒX‚ğƒGƒ“ƒWƒ“‚É’Ç‰Á‚·‚éB
+	// å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã‚’ã‚¨ãƒ³ã‚¸ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::AddObject2D(geometryObj0);
 	asd::Engine::AddObject2D(geometryObj1);
 
-	// ƒ}ƒEƒX‚É‚æ‚Á‚Ä“®‚©‚·‰~‚ÌŒ`ó‚Æ•`‰æ‚Ìİ’è‚ğs‚¤B
+	// ãƒã‚¦ã‚¹ã«ã‚ˆã£ã¦å‹•ã‹ã™å††ã®å½¢çŠ¶ã¨æç”»ã®è¨­å®šã‚’è¡Œã†ã€‚
 	{
-		// ‰~‚ÌŠOŒaA“àŒaA’¸“_”A’†SˆÊ’u‚ğw’è‚·‚éB
+		// å††ã®å¤–å¾„ã€å†…å¾„ã€é ‚ç‚¹æ•°ã€ä¸­å¿ƒä½ç½®ã‚’æŒ‡å®šã™ã‚‹ã€‚
 		selfCircle = std::make_shared<asd::CircleShape>();
 		selfCircle->SetOuterDiameter(100);
 
-		// ‰~‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚ÄÅ‘O–Ê‚É•`‰æ‚³‚ê‚é‚æ‚¤‚Éİ’è‚·‚éB
+		// å††ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦æœ€å‰é¢ã«æç”»ã•ã‚Œã‚‹ã‚ˆã†ã«è¨­å®šã™ã‚‹ã€‚
 		geometryObj0->SetShape(selfCircle);
 	}
 
-	// ’â~‚µ‚Ä‚¢‚é‰~‚ÌŒ`ó‚Æ•`‰æ‚Ìİ’è‚ğs‚¤B
+	// åœæ­¢ã—ã¦ã„ã‚‹å††ã®å½¢çŠ¶ã¨æç”»ã®è¨­å®šã‚’è¡Œã†ã€‚
 	{
-		// ‰~‚ÌŠOŒaA“àŒaA’¸“_”A’†SˆÊ’u‚ğw’è‚·‚éB
+		// å††ã®å¤–å¾„ã€å†…å¾„ã€é ‚ç‚¹æ•°ã€ä¸­å¿ƒä½ç½®ã‚’æŒ‡å®šã™ã‚‹ã€‚
 		circle = std::make_shared<asd::CircleShape>();
 		circle->SetOuterDiameter(100);
 		circle->SetPosition(asd::Vector2DF(100, 100));
 
-		// ‰~‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚·‚éB
+		// å††ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦è¨­å®šã™ã‚‹ã€‚
 		geometryObj1->SetShape(circle);
 	}
 
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// ƒ}ƒEƒX‚É‚æ‚Á‚Ä§Œä‚³‚ê‚é‰~‚Ì’†SˆÊ’u‚ğƒ}ƒEƒX‚ÌˆÊ’u‚Æ‚·‚éB
+		// ãƒã‚¦ã‚¹ã«ã‚ˆã£ã¦åˆ¶å¾¡ã•ã‚Œã‚‹å††ã®ä¸­å¿ƒä½ç½®ã‚’ãƒã‚¦ã‚¹ã®ä½ç½®ã¨ã™ã‚‹ã€‚
 		selfCircle->SetPosition(asd::Engine::GetMouse()->GetPosition());
 
-		// ŒÅ’è‚³‚ê‚Ä‚¢‚é‰~‚ÉAƒ}ƒEƒX‚É‚æ‚Á‚Ä“®‚­‰~‚ªÕ“Ë‚µ‚½‚É‰~‚ğÔ‚­•Ï‰»‚³‚¹‚éB
-		// ‚»‚¤‚Å‚È‚¢‚Í”’‚­•Ï‰»‚³‚¹‚éB
+		// å›ºå®šã•ã‚Œã¦ã„ã‚‹å††ã«ã€ãƒã‚¦ã‚¹ã«ã‚ˆã£ã¦å‹•ãå††ãŒè¡çªã—ãŸæ™‚ã«å††ã‚’èµ¤ãå¤‰åŒ–ã•ã›ã‚‹ã€‚
+		// ãã†ã§ãªã„æ™‚ã¯ç™½ãå¤‰åŒ–ã•ã›ã‚‹ã€‚
 		if (selfCircle->GetIsCollidedWith(circle))
 		{
 			geometryObj0->SetColor(asd::Color(255, 0, 0, 255));
@@ -61,11 +61,11 @@ void Collision2D_Basic()
 			geometryObj0->SetColor(asd::Color(255, 255, 255, 255));
 		}
 
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// Altseed‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// Altseedã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 
 	return;
