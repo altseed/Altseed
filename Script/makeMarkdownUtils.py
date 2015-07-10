@@ -11,11 +11,12 @@ application_sample_dir = r'../Sample/ApplicationSample/'
 
 included_ss_paths = []
 
-def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,mode=''):
+def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,sampleDirPrefix,mode=''):
     """
     ls コードの内容
     relCodePath コードファイルへのルートからの相対パス
     ssDir SSの保存ディレクトリ
+	sampleDirPrefix サンプルdirへのリンクの前に追加される文字列
     mode 表示モード(cpp,cs)
     """
 
@@ -59,7 +60,7 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,mode=''):
                 ss_file = ss_files[0]
                 rel_ss_file = os.path.relpath(ssDir+os.path.basename(ss_file), start=os.path.dirname(relCodePath))
                 rel_ss_file = rel_ss_file.replace('\\','/')
-                ls_included.append('![SS](./' + rel_ss_file + ')\n\n')
+                ls_included.append('![SS](' + sampleDirPrefix + rel_ss_file + ')\n\n')
                 included_ss_paths.append(ss_files[0])
                 #print(relCodePath + ' : ' + ssDir+os.path.basename(ss_file) + ' : ' + rel_ss_file)
 
@@ -111,7 +112,13 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,mode=''):
     return ls_included
 
 def include_basic_sample(ls,relCodePath,ssDir,mode=''):
-    return include_sample(ls,relCodePath,'include_basic_sample',basic_sample_dir,ssDir,mode)
+    return include_sample(ls,relCodePath,'include_basic_sample',basic_sample_dir,ssDir,'./',mode)
+
+def include_basic_sample_web(ls,relCodePath,ssDir,mode=''):
+    return include_sample(ls,relCodePath,'include_basic_sample',basic_sample_dir,ssDir,'/Doc/',mode)
 
 def include_application_sample(ls,relCodePath,ssDir,mode=''):
-    return include_sample(ls,relCodePath,'include_application_sample',application_sample_dir,ssDir,mode)
+    return include_sample(ls,relCodePath,'include_application_sample',application_sample_dir,ssDir,'./',mode)
+
+def include_application_sample_web(ls,relCodePath,ssDir,mode=''):
+    return include_sample(ls,relCodePath,'include_application_sample',application_sample_dir,ssDir,'/Doc/',mode)
