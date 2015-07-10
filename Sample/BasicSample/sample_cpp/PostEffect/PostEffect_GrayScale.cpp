@@ -1,8 +1,6 @@
 ﻿#include <Altseed.h>
 
-/**
-	@brief	レイヤーにグレースケールのポストエフェクトを適用する。
-*/
+// レイヤーにグレースケールのポストエフェクトを適用する。
 void PostEffect_GrayScale()
 {
 	// Altseedを初期化する

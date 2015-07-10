@@ -1,8 +1,6 @@
 ﻿#include <Altseed.h>
 
-/**
-@brief	レイヤーにガウスぼかしのポストエフェクトを適用する。
-*/
+// レイヤーにガウスぼかしのポストエフェクトを適用する。
 void PostEffect_GaussianBlur()
 {
 	// Altseedを初期化する

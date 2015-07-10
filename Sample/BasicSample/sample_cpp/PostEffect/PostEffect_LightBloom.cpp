@@ -1,8 +1,6 @@
 ﻿#include <Altseed.h>
 
-/**
-@brief	レイヤーにライトブルームのポストエフェクトを適用する。
-*/
+// レイヤーにライトブルームのポストエフェクトを適用する。
 void PostEffect_LightBloom()
 {
 	// Altseedを初期化する

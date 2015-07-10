@@ -38,9 +38,11 @@ extern void Mouse_Wheel();
 extern void Joystick_Basic();
 extern void Joystick_Axis();
 
-extern void Sound();
+extern void Sound_SE();
+extern void Sound_BGM();
+extern void Sound_Loop();
 
-extern void EffectObject2D();
+extern void EffectObject2D_Simple();
 
 extern void TextObject2D_Simple();
 extern void TextObject2D_Rotate();
@@ -65,10 +67,7 @@ extern void GeometryObject2D_PolygonShape_Textured();
 extern void Collision2D_Basic();
 extern void Collision2D_Geometries();
 
-extern void ImagePackage();
-
 extern void Object2DComponent();
-extern void Transition();
 
 extern void SceneAndLayer_Basic();
 
@@ -102,13 +101,14 @@ int main(int argc, char** argv)
 		INFO(Joystick_Basic),
 		INFO(Joystick_Axis),
 
-		INFO(Sound),
+		INFO(Sound_SE),
+		INFO(Sound_BGM),
+		INFO(Sound_Loop),
 
 		INFO(Object2DComponent),
-		INFO(Transition),
 
 		INFO(CameraObject2D),
-		INFO(EffectObject2D),
+		INFO(EffectObject2D_Simple),
 
 		INFO(TextObject2D_Simple),
 		INFO(TextObject2D_Rotate),
@@ -116,8 +116,6 @@ int main(int argc, char** argv)
 
 		INFO(MapObject2D_Simple),
 		INFO(MapObject2D_Camera),
-
-		INFO(ImagePackage),
 
 		INFO(GeometryObject2D_CircleShape),
 		INFO(GeometryObject2D_ArcShape),

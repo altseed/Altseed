@@ -1,8 +1,6 @@
 ﻿#include <Altseed.h>
 
-/**
-	@brief	レイヤーにセピアカラーのポストエフェクトを適用する。
-*/
+// レイヤーにセピアカラーのポストエフェクトを適用する。
 void PostEffect_Sepia()
 {
 	// Altseedを初期化する
