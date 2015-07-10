@@ -42,7 +42,6 @@ void MapObject2D_Camera()
 
 		// マップオブジェクトのインスタンスをエンジンへ追加する。
 		asd::Engine::AddObject2D(mapObject);
-
 	}
 
 	//エンジンにカメラオブジェクトを追加する。

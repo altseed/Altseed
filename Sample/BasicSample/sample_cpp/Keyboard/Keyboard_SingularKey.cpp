@@ -9,7 +9,7 @@ void Keyboard_SingularKey()
 	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("Keyboard_SingularKey").c_str(), 640, 480, asd::EngineOption());
 
-	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 20, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
+	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 40, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
 
 	// キーの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
 	auto keyStateText = std::make_shared<asd::TextObject2D>();

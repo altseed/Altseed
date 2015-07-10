@@ -48,6 +48,7 @@ class MapObject2D_Basic : ISample
         {
             // Altseedを更新する。
             asd.Engine.Update();
+            Recorder.TakeScreenShot("MapObject2D_Basic", 30);
         }
 
         // Altseedの終了処理をする。

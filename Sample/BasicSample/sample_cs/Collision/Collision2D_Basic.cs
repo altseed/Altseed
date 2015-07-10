@@ -61,7 +61,7 @@ public class Collision2D_Basic : ISample
                 geometryObj0.Color = new asd.Color(255, 255, 255, 255);
             }
 
-            Recorder.CaptureScreen("Collision2D_Basic", 30, 90, 0.5f, 1);
+            Recorder.CaptureScreen("Collision2D_Basic", 30, 60, 0.5f, 0.5f);
 
             // Altseedを更新する。
             asd.Engine.Update();

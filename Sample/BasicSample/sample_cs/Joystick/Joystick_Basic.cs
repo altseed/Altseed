@@ -60,7 +60,7 @@ class Joystick_Basic : ISample
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.CaptureScreen("Joystick_Basic", 30, 180, 0.5f, 1);
+            Recorder.CaptureScreen("Joystick_Basic", 30, 30, 0.2f, 0.7f);
         }
 
         //Altseedの終了処理をする。

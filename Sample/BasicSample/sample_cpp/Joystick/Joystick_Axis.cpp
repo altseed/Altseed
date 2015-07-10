@@ -10,7 +10,7 @@ void Joystick_Axis()
 	asd::Engine::Initialize(asd::ToAString("Joystick_Axis").c_str(), 640, 480, asd::EngineOption());
 
 	// ジョイスティックの状態を表示するテキストを生成する。
-	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 25, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
+	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 35, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
 
 	// アナログスティックの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
 	auto stateText = std::make_shared<asd::TextObject2D>();

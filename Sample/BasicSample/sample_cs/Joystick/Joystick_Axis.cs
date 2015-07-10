@@ -9,7 +9,7 @@ class Joystick_Axis : ISample
         asd.Engine.Initialize("Joystick_Axis", 640, 480, new asd.EngineOption());
 
         // ジョイスティックの状態を表示するテキストを生成する。
-        var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 25, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
+        var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 35, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
 
         // アナログスティックの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
         var stateText = new asd.TextObject2D();
@@ -47,7 +47,7 @@ class Joystick_Axis : ISample
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.CaptureScreen("Joystick_Axis", 30, 120, 0.5f, 1);
+            Recorder.CaptureScreen("Joystick_Axis", 30, 30, 0.2f, 0.5f);
         }
 
         //Altseedの終了処理をする。

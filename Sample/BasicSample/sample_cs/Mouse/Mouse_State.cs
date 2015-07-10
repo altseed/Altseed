@@ -9,7 +9,7 @@ public class Mouse_State : ISample
         asd.Engine.Initialize("Mouse_State", 640, 480, new asd.EngineOption());
 
         // マウスの状態を表示するテキストを生成する。
-        var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 20, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
+        var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 40, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
 
         // マウスの中ボタンの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
         var buttonStateText = new asd.TextObject2D();
@@ -40,7 +40,7 @@ public class Mouse_State : ISample
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.CaptureScreen("Mouse_State", 30, 120, 0.5f, 1);
+            Recorder.CaptureScreen("Mouse_State", 30, 120, 0.5f, 0.5f);
         }
 
         //Altseedの終了処理をする。

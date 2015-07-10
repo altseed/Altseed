@@ -9,7 +9,7 @@ public class Keyboard_PuralKeys : ISample
         // Altseedを初期化する。
         asd.Engine.Initialize("Keyboard_PuralKeys", 640, 480, new asd.EngineOption());
 
-        var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 20, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
+        var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 40, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
 
         // キーの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
         var keyStateText = new asd.TextObject2D();
@@ -74,7 +74,7 @@ public class Keyboard_PuralKeys : ISample
             // Altseedを更新する。
             asd.Engine.Update();
 
-            Recorder.CaptureScreen("Keyboard_PuralKeys", 30, 180, 0.5f, 1);
+            Recorder.CaptureScreen("Keyboard_PuralKeys", 30, 60, 0.2f, 0.5f);
         }
 
         //Altseedの終了処理をする。

@@ -65,6 +65,7 @@ class MapObject2D_Camera : ISample
 
             // Altseedを更新する。
             asd.Engine.Update();
+            Recorder.CaptureScreen("MapObject2D_Camera", 0, 8, 0.2f, 0.5f);
         }
 
         // Altseedの終了処理をする。
