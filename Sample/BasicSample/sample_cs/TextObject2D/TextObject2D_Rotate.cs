@@ -15,15 +15,15 @@ class TextObject2D_Rotate : ISample
         asd.Engine.Initialize("TextObject2D_Rotate", 640, 480, new asd.EngineOption());
 
         {
-            // 動的フォントの取得と文字列描画オブジェクトの設定を行う。
-            var edgeFont = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 40, new asd.Color(255, 128, 128, 255), 1, new asd.Color(255, 255, 255, 255));
+            // フォントと文字列描画オブジェクトの設定を行う。
+            var edgeFont = asd.Engine.Graphics.CreateFont("Data/Font/edge.aff");
             var edgeObj = new asd.TextObject2D();
             edgeObj.Font = edgeFont;
             edgeObj.Position = new asd.Vector2DF(100, 100);
 
             // 30度回転させて描画する。
             edgeObj.Angle = 30;
-            edgeObj.Text = "文字列の回転描画";
+            edgeObj.Text = "文字列サンプル2";
             asd.Engine.AddObject2D(edgeObj);
         }
 
@@ -32,7 +32,7 @@ class TextObject2D_Rotate : ISample
         {
             // Altseedを更新する。
             asd.Engine.Update();
-            Recorder.TakeScreenShot("TextObject2D_Rotate", 30);
+            Recorder.TakeScreenShot("TextObject2D_Rotate", 20);
         }
 
         // Altseedの終了処理をする。

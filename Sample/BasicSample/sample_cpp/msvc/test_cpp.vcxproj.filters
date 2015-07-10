@@ -114,6 +114,9 @@
     <ClCompile Include="..\TextObject2D\TextObject2D_Basic.cpp">
       <Filter>TextObject2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\TextObject2D\TextObject2D_DynamicFont.cpp">
+      <Filter>TextObject2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />

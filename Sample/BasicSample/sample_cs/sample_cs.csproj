@@ -79,6 +79,7 @@
     <Compile Include="Sound\Sound_SE.cs" />
     <Compile Include="Basic\Basic_Empty.cs" />
     <Compile Include="Sound\Sound_BGM.cs" />
+    <Compile Include="TextObject2D\TextObject2D_DynamicFont.cs" />
     <Compile Include="TextObject2D\TextObject2D_Filtered.cs" />
     <Compile Include="TextObject2D\TextObject2D_Rotate.cs" />
     <Compile Include="TextObject2D\TextObject2D_Basic.cs" />

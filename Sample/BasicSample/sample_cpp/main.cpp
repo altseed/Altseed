@@ -45,6 +45,7 @@ extern void Sound_Loop();
 extern void EffectObject2D_Simple();
 
 extern void TextObject2D_Basic();
+extern void TextObject2D_DynamicFont();
 extern void TextObject2D_Rotate();
 extern void TextObject2D_Filtered();
 
@@ -111,6 +112,7 @@ int main(int argc, char** argv)
 		INFO(EffectObject2D_Simple),
 
 		INFO(TextObject2D_Basic),
+		INFO(TextObject2D_DynamicFont),
 		INFO(TextObject2D_Rotate),
 		INFO(TextObject2D_Filtered),
 
