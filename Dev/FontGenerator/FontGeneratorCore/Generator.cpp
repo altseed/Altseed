@@ -52,7 +52,12 @@ namespace FontGenerator
 	static vector<char> GetBytes(astring filePath)
 	{
 		vector<char> bytes;
+		
+#ifdef _WIN32
 		ifstream fin(filePath.c_str(), ios::binary | ios::in);
+#else
+		ifstream fin(ToUtf8String(filePath.c_str()).c_str(), ios::binary | ios::in);
+#endif
 
 		ACE_ASSERT(!fin.fail(), "ファイルは開けませんでした");
 
@@ -92,20 +97,25 @@ namespace FontGenerator
 		BinaryWriter writer;
 		PushAff(writer, result);
 
+#ifdef _WIN32
 		ofstream file(m_sheetName + L".aff", ios::out | ios::binary);
+#else
+		ofstream file(ToUtf8String(m_sheetName.c_str()) + ".aff", ios::out | ios::binary);
+#endif
+
 		writer.WriteOut(file);
 	}
 
 	ResultOfGeneratingPng Generator::RenderPng(astring fontPath, astring textPath)
 	{
-		auto charactors = GetCharactors(ToAString(textPath.c_str()));
+		auto charactors = GetCharactors(textPath);
 
 		PngGenerator png;
 		png.SetSetting(m_setting);
 		png.SetSheetName(m_sheetName);
 		png.SetSheetSize(m_sheetSize);
 
-		auto result = png.Generate(ToAString(fontPath.c_str()), charactors);
+		auto result = png.Generate(fontPath, charactors);
 		return result;
 	}
 
