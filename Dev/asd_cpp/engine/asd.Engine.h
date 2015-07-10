@@ -38,7 +38,7 @@ namespace asd {
 		/**
 		@brief	リソースの再読み込みを有効にするかどうか?
 		*/
-		bool IsReloadingEnabled;
+		bool IsReloadingEnabled = false;
 
 		/**
 		@brief	起動時に自動的に生成されるシーンとレイヤーの種類
