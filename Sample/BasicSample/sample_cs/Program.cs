@@ -36,13 +36,14 @@ namespace sample_cs
                 new Joystick_Basic(),
                 new Joystick_Axis(),
 
-                new Sound(),
+                new Sound_SE(),
+				new Sound_BGM(),
+				new Sound_Loop(),
 
 				new Object2DComponent(),
-                new Transition(),
 
                 new CameraObject2D(),
-                new EffectObject2D(),
+                new EffectObject2D_Simple(),
 
                 new TextObject2D_Simple(),
                 new TextObject2D_Rotate(),
@@ -55,8 +56,6 @@ namespace sample_cs
 
                 new MapObject2D_Simple(),
                 new MapObject2D_Camera(),
-
-                new ImagePackage(),
 
                 new GeometryObject2D_CircleShape(),
                 new GeometryObject2D_ArcShape(),

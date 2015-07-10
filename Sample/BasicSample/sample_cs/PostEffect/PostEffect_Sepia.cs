@@ -8,9 +8,7 @@ namespace sample_cs
 {
     class PostEffect_Sepia : ISample
     {
-        /// <summary>
-        /// レイヤーにセピアカラーのポストエフェクトを適用する。
-        /// </summary>
+        // レイヤーにセピアカラーのポストエフェクトを適用する。
         public void Run()
         {
             // Altseedを初期化する

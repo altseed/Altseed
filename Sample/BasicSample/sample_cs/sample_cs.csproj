@@ -51,13 +51,12 @@
     <Compile Include="CameraObject2D\CameraObject2D.cs" />
     <Compile Include="Collision\Collision2D_Basic.cs" />
     <Compile Include="Collision\Collision2D_Geometries.cs" />
+    <Compile Include="EffectObject2D\EffectObject2D_Simple.cs" />
     <Compile Include="GeometryObject2D\GeometryObject2D_ArcShape.cs" />
     <Compile Include="GeometryObject2D\GeometryObject2D_CircleShape.cs" />
     <Compile Include="GeometryObject2D\GeometryObject2D_PolygonShape.cs" />
     <Compile Include="GeometryObject2D\GeometryObject2D_PolygonShape_Textured.cs" />
     <Compile Include="GeometryObject2D\GeometryObject2D_RectangleShape.cs" />
-    <Compile Include="Graphics\2D\EffectObject2D.cs" />
-    <Compile Include="Graphics\2D\ImagePackage.cs" />
     <Compile Include="ISample.cs" />
     <Compile Include="Joystick\Joystick_Axis.cs" />
     <Compile Include="Joystick\Joystick_Basic.cs" />
@@ -69,8 +68,7 @@
     <Compile Include="Mouse\Mouse_Position.cs" />
     <Compile Include="Mouse\Mouse_State.cs" />
     <Compile Include="Mouse\Mouse_Wheel.cs" />
-    <Compile Include="ObjectSystem\Object2DComponent.cs" />
-    <Compile Include="ObjectSystem\Transition.cs" />
+    <Compile Include="Object2DComponent\Object2DComponent.cs" />
     <Compile Include="PostEffect\PostEffect_GaussianBlur.cs" />
     <Compile Include="PostEffect\PostEffect_GrayScale.cs" />
     <Compile Include="PostEffect\PostEffect_LightBloom.cs" />
@@ -78,8 +76,10 @@
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
     <Compile Include="SceneAndLayer\SceneAndLayer_Basic.cs" />
-    <Compile Include="Sound\Sound.cs" />
+    <Compile Include="Sound\Sound_Loop.cs" />
+    <Compile Include="Sound\Sound_SE.cs" />
     <Compile Include="Basic\Basic_Empty.cs" />
+    <Compile Include="Sound\Sound_BGM.cs" />
     <Compile Include="TextObject2D\TextObject2D_Filtered.cs" />
     <Compile Include="TextObject2D\TextObject2D_Rotate.cs" />
     <Compile Include="TextObject2D\TextObject2D_Simple.cs" />

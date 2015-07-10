@@ -8,9 +8,7 @@ namespace sample_cs
 {
     class SceneAndLayer_Basic : ISample
     {
-        /// <summary>
-        /// シーンとレイヤーを手動で生成する。
-        /// </summary>
+        // シーンとレイヤーを手動で生成する。
         public void Run()
         {
             // Altseedを初期化する

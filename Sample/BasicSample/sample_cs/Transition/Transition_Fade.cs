@@ -8,7 +8,7 @@ namespace sample_cs
 {
 	class Transition_Fade : ISample
 	{
-		// フェードアウト・フェードインでシーン遷移をするサンプルです。
+		// フェードアウト・フェードインでシーン遷移をする。
 		public void Run()
 		{
 			asd.Engine.Initialize("Transition_Fade", 640, 480, new asd.EngineOption());

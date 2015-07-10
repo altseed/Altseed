@@ -1,7 +1,7 @@
 
 #include <Altseed.h>
 
-// Soundを用いてBGMを鳴らすサンプルです。
+// BGMをループ再生するサンプル。
 void Sound_Loop()
 {
 	// Altseedを初期化する。
@@ -14,8 +14,8 @@ void Sound_Loop()
 	bgm1->SetIsLoopingMode(true);
 
 	// 音声のループ始端を1秒に、ループ終端を6秒に設定する。
-	bgm1->SetLoopStartingPoint(1);
-	bgm1->SetLoopEndPoint(6);
+	bgm1->SetLoopStartingPoint(1.0f);
+	bgm1->SetLoopEndPoint(6.0f);
 
 	// 音声を再生する。
 	int id_bgm1 = asd::Engine::GetSound()->Play(bgm1);

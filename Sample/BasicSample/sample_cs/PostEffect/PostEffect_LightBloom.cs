@@ -8,9 +8,7 @@ namespace sample_cs
 {
     class PostEffect_LightBloom : ISample
     {
-        /// <summary>
-        /// レイヤーにライトブルームのポストエフェクトを適用する。
-        /// </summary>
+        // レイヤーにライトブルームのポストエフェクトを適用する。
         public void Run()
         {
             // Altseedを初期化する

@@ -8,9 +8,7 @@ namespace sample_cs
 {
     class PostEffect_GrayScale : ISample
     {
-        /// <summary>
-        /// レイヤーにグレースケールのポストエフェクトを適用する。
-        /// </summary>
+        // レイヤーにグレースケールのポストエフェクトを適用する。
         public void Run()
         {
             // Altseedを初期化する

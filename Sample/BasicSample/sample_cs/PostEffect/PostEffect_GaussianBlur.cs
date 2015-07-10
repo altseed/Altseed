@@ -8,9 +8,7 @@ namespace sample_cs
 {
     class PostEffect_GaussianBlur : ISample
     {
-        /// <summary>
-        /// レイヤーにガウスぼかしのポストエフェクトを適用する。
-        /// </summary>
+        // レイヤーにガウスぼかしのポストエフェクトを適用する。
         public void Run()
         {
             // Altseedを初期化する
