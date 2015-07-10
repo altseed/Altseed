@@ -47,7 +47,7 @@ namespace sample_cs
 
                 new EffectObject2D_Simple(),
 
-                new TextObject2D_Simple(),
+                new TextObject2D_Basic(),
                 new TextObject2D_Rotate(),
                 new TextObject2D_Filtered(),
 

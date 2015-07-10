@@ -75,9 +75,6 @@
     <ClCompile Include="..\Object2DComponent\Object2DComponent.cpp">
       <Filter>Object2DComponent</Filter>
     </ClCompile>
-    <ClCompile Include="..\TextObject2D\TextObject2D_Simple.cpp">
-      <Filter>TextObject2D</Filter>
-    </ClCompile>
     <ClCompile Include="..\TextObject2D\TextObject2D_Filtered.cpp">
       <Filter>TextObject2D</Filter>
     </ClCompile>
@@ -113,6 +110,9 @@
     </ClCompile>
     <ClCompile Include="..\CameraObject2D\CameraObject2D_Magnify.cpp">
       <Filter>CameraObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextObject2D\TextObject2D_Basic.cpp">
+      <Filter>TextObject2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
