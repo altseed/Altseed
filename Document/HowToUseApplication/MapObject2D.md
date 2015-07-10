@@ -1,4 +1,18 @@
-Altseedでテクスチャをマップチップとして描画するには、MapObject2Dというマップの描画を扱うオブジェクトのクラスとChip2Dというチップのクラスを使います。
 
-テクスチャを描画できるという点ではTextureObject2Dと同じですが、TextureObject2Dは一つのオブジェクトに対して一枚のテクスチャが対応しているのに対し、MapObject2Dは一つのオブジェクトが何枚ものテクスチャをマップチップとして保有します。これにより、テクスチャをいくら大量に描画してもMapObject2Dの更新処理は一回で済むため高速に描画処理することが可能です。
+## 大量の画像の描画
+Altseedでテクスチャをマップチップとして描画するには、
+MapObject2Dというマップの描画を扱うオブジェクトのクラスとChip2Dというチップのクラスを使います。
 
+テクスチャを描画できるという点ではTextureObject2Dと同じですが、
+TextureObject2Dは一つのオブジェクトに対して一枚のテクスチャが対応しているのに対し、
+MapObject2Dは一つのオブジェクトが何枚ものテクスチャをマップチップとして保有します。これにより、
+テクスチャをいくら大量に描画してもMapObject2Dの更新処理は一回で済むため高速に描画処理することが可能です。
+
+
+### 基本
+
+* include_application_sample MapObject2D_Basic
+
+### カメラによる表示位置の移動
+
+* include_application_sample MapObject2D_Camera

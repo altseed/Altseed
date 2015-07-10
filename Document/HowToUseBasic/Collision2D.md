@@ -1,4 +1,4 @@
-## 2次元図形同士の衝突判定
+## 2Dの衝突判定
 
 2次元図形同士([Shape](./../Reference/Shape/Shape.md)クラスの派生系)が衝突しているかどうかをクラスのGetIsCollidedWithメソッドにて調べることができます。
 
