@@ -72,12 +72,6 @@
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_CircleShape.cpp">
       <Filter>GeometryObject2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\MapObject2D\MapObject2D_Camera.cpp">
-      <Filter>MapObject2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\MapObject2D\MapObject2D_Simple.cpp">
-      <Filter>MapObject2D</Filter>
-    </ClCompile>
     <ClCompile Include="..\Object2DComponent\Object2DComponent.cpp">
       <Filter>Object2DComponent</Filter>
     </ClCompile>
@@ -161,9 +155,6 @@
     </Filter>
     <Filter Include="GeometryObject2D">
       <UniqueIdentifier>{b388ffce-9424-4e2f-a6ed-a373349bcf2e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="MapObject2D">
-      <UniqueIdentifier>{2795a35f-8907-4370-9701-3f68a380d3e7}</UniqueIdentifier>
     </Filter>
     <Filter Include="Object2DComponent">
       <UniqueIdentifier>{abc6138d-9bcf-42a5-975e-a7fccc3b18eb}</UniqueIdentifier>

@@ -63,8 +63,6 @@
     <Compile Include="Joystick\Joystick_Basic.cs" />
     <Compile Include="Keyboard\Keyboard_Basic.cs" />
     <Compile Include="Keyboard\Keyboard_PuralKeys.cs" />
-    <Compile Include="MapObject2D\MapObject2D_Camera.cs" />
-    <Compile Include="MapObject2D\MapObject2D_Simple.cs" />
     <Compile Include="Mouse\Mouse_Click.cs" />
     <Compile Include="Mouse\Mouse_Position.cs" />
     <Compile Include="Mouse\Mouse_State.cs" />

@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 /// <summary>
 /// マップを表示するサンプル。
 /// </summary>
-class MapObject2D_Simple : ISample
+class MapObject2D_Basic : ISample
 {
     public void Run()
     {
         // Altseedを初期化する。
-        asd.Engine.Initialize("MapObject2D_Simple", 640, 480, new asd.EngineOption());
+        asd.Engine.Initialize("MapObject2D_Basic", 640, 480, new asd.EngineOption());
 
         {
             //マップオブジェクトを生成する。
             var mapObject = new asd.MapObject2D();
 
-            var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample2.png");
+            var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Chip1.png");
 
             //マップオブジェクトに16*12=184個のチップを登録する。
             for (int i = 0; i < 16; ++i)

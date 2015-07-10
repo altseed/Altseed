@@ -4,16 +4,16 @@
 /**
 @brief	マップを表示するサンプル。
 */
-void MapObject2D_Simple()
+void MapObject2D_Basic()
 {
 	// Altseedを初期化する
-	asd::Engine::Initialize(asd::ToAString("MapObject2D_Simple").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("MapObject2D_Basic").c_str(), 640, 480, asd::EngineOption());
 
 	{
 		//マップオブジェクトを生成する。
 		auto mapObject = std::make_shared<asd::MapObject2D>();
 
-		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample2.png").c_str());
+		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Chip1.png").c_str());
 
 		//マップオブジェクトに16*12=184個のチップを登録する。
 		for (int i = 0; i < 16; ++i)

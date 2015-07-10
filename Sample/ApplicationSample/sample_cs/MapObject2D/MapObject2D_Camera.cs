@@ -24,7 +24,7 @@ class MapObject2D_Camera : ISample
             //マップオブジェクトを生成する。
             var mapObject = new asd.MapObject2D();
 
-            var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample2.png");
+            var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Chip1.png");
 
             //マップオブジェクトに50*50=2500個のチップを登録する。
             for (int i = 0; i < 50; ++i)

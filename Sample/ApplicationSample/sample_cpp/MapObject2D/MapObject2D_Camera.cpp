@@ -19,7 +19,7 @@ void MapObject2D_Camera()
 		//マップオブジェクトを生成する。
 		auto mapObject = std::make_shared<asd::MapObject2D>();
 
-		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample2.png").c_str());
+		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Chip1.png").c_str());
 
 		//マップオブジェクトに50*50=2500個のチップを登録する。
 		for (int i = 0; i < 50; ++i)

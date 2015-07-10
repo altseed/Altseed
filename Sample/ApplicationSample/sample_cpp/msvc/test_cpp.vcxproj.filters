@@ -21,6 +21,12 @@
     <ClCompile Include="..\CustomPostEffect\CustomPostEffect_Mosaic.cpp">
       <Filter>CustomPostEffect</Filter>
     </ClCompile>
+    <ClCompile Include="..\MapObject2D\MapObject2D_Camera.cpp">
+      <Filter>MapObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MapObject2D\MapObject2D_Basic.cpp">
+      <Filter>MapObject2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -35,6 +41,9 @@
     </Filter>
     <Filter Include="CustomPostEffect">
       <UniqueIdentifier>{76939825-c475-42bf-8ffe-865ee886f783}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MapObject2D">
+      <UniqueIdentifier>{018f0c8c-26bf-46f6-94e4-4702c5065e6b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -28,8 +28,6 @@
     <ClCompile Include="..\Keyboard\Keyboard_PuralKeys.cpp" />
     <ClCompile Include="..\Keyboard\Keyboard_SingularKey.cpp" />
     <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\MapObject2D\MapObject2D_Camera.cpp" />
-    <ClCompile Include="..\MapObject2D\MapObject2D_Simple.cpp" />
     <ClCompile Include="..\Mouse\Mouse_Position.cpp" />
     <ClCompile Include="..\Mouse\Mouse_Click.cpp" />
     <ClCompile Include="..\Mouse\Mouse_State.cpp" />

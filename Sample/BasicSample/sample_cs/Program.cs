@@ -56,9 +56,6 @@ namespace sample_cs
                 new TextureObject2D_Turn(),
                 new TextureObject2D_Src(),
 
-                new MapObject2D_Simple(),
-                new MapObject2D_Camera(),
-
                 new GeometryObject2D_CircleShape(),
                 new GeometryObject2D_ArcShape(),
                 new GeometryObject2D_RectangleShape(),

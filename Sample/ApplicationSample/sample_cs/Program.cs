@@ -21,6 +21,9 @@ namespace sample_cs
 
 				new CustomPostEffect_Invert(),
 				new CustomPostEffect_Mosaic(),
+
+                new MapObject2D_Basic(),
+                new MapObject2D_Camera(),
             };
 
 			var cui = new SampleGuide( samples );

@@ -17,6 +17,8 @@
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_Basic.cpp" />
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_Component.cpp" />
     <ClCompile Include="..\main.cpp" />
+    <ClCompile Include="..\MapObject2D\MapObject2D_Camera.cpp" />
+    <ClCompile Include="..\MapObject2D\MapObject2D_Basic.cpp" />
     <ClCompile Include="..\Pause\Pause_Basic.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />
   </ItemGroup>
