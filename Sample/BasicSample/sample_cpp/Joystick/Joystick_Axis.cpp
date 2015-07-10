@@ -1,42 +1,42 @@
-
+ï»¿
 #include <Altseed.h>
 
 /**
-@brief	ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚É‚ ‚é‘S‚Ä‚ÌƒAƒiƒƒOƒXƒeƒBƒbƒN‚Ì“ü—Íó‘Ô‚ğæ“¾‚·‚éƒTƒ“ƒvƒ‹B
+@brief	ã‚¸ãƒ§ã‚¤ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã«ã‚ã‚‹å…¨ã¦ã®ã‚¢ãƒŠãƒ­ã‚°ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¥åŠ›çŠ¶æ…‹ã‚’å–å¾—ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã€‚
 */
 void Joystick_Axis()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("Joystick_Axis").c_str(), 640, 480, asd::EngineOption());
 
-	// ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ìó‘Ô‚ğ•\¦‚·‚éƒeƒLƒXƒg‚ğ¶¬‚·‚éB
+	// ã‚¸ãƒ§ã‚¤ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®çŠ¶æ…‹ã‚’è¡¨ç¤ºã™ã‚‹ãƒ†ã‚­ã‚¹ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 35, asd::Color(255, 255, 255, 255), 1, asd::Color(0, 0, 0, 255));
 
-	// ƒAƒiƒƒOƒXƒeƒBƒbƒN‚Ì“ü—Íó‘Ô‚ğ•\¦‚·‚é•¶š•`‰æƒIƒuƒWƒFƒNƒg‚ğİ’è‚µ‚ÄAƒGƒ“ƒWƒ“‚É’Ç‰Á‚·‚éB
+	// ã‚¢ãƒŠãƒ­ã‚°ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¥åŠ›çŠ¶æ…‹ã‚’è¡¨ç¤ºã™ã‚‹æ–‡å­—æç”»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¨­å®šã—ã¦ã€ã‚¨ãƒ³ã‚¸ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 	auto stateText = std::make_shared<asd::TextObject2D>();
 	stateText->SetPosition(asd::Vector2DF(10, 10));
 	stateText->SetFont(font);
 	asd::Engine::AddObject2D(stateText);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
 		asd::astring displayStr = asd::ToAString("");
 
-		// ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ªÚ‘±‚³‚ê‚Ä‚¢‚é‚©‚Ç‚¤‚©‚ğŠm”F‚·‚éB
+		// ã‚¸ãƒ§ã‚¤ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒæ¥ç¶šã•ã‚Œã¦ã„ã‚‹ã‹ã©ã†ã‹ã‚’ç¢ºèªã™ã‚‹ã€‚
 		if (!asd::Engine::GetJoystickContainer()->GetIsPresentAt(0))
 		{
-			displayStr += asd::ToAString("ƒWƒ‡ƒCƒXƒeƒBƒbƒN‚ªÚ‘±‚³‚ê‚Ä‚¢‚Ü‚¹‚ñB");
+			displayStr += asd::ToAString("ã‚¸ãƒ§ã‚¤ã‚¹ãƒ†ã‚£ãƒƒã‚¯ãŒæ¥ç¶šã•ã‚Œã¦ã„ã¾ã›ã‚“ã€‚");
 		}
 		else
 		{
-			// 1‚Â–Ú‚ÌƒWƒ‡ƒCƒXƒeƒBƒbƒN‚Ì‘S‚Ä‚ÌƒAƒiƒƒOƒXƒeƒBƒbƒN‚Ì“ü—Íó‘Ô‚ğ•\¦‚·‚é
+			// 1ã¤ç›®ã®ã‚¸ãƒ§ã‚¤ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¨ã¦ã®ã‚¢ãƒŠãƒ­ã‚°ã‚¹ãƒ†ã‚£ãƒƒã‚¯ã®å…¥åŠ›çŠ¶æ…‹ã‚’è¡¨ç¤ºã™ã‚‹
 			auto joystick = asd::Engine::GetJoystickContainer()->GetJoystickAt(0);
 
 			for (int axisIndex = 0; axisIndex < joystick->GetAxesCount(); ++axisIndex)
 			{
 				auto axisVal = joystick->GetAxisState(axisIndex);
-				displayStr += asd::ToAString(("² " + std::to_string(axisIndex) + ": ").c_str());
+				displayStr += asd::ToAString(("è»¸ " + std::to_string(axisIndex) + ": ").c_str());
 				displayStr += asd::ToAString(std::to_string(axisVal).c_str());
 				displayStr += asd::ToAString("\n");
 			}
@@ -45,11 +45,11 @@ void Joystick_Axis()
 
 		stateText->SetText(displayStr.c_str());
 
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	//Altseed‚ÌI—¹ˆ—‚ğ‚·‚éB
+	//Altseedã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 
 	return;
