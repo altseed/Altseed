@@ -28,6 +28,8 @@
 * [マウス](./HowToUseBasic/Mouse.md)
 * [ジョイスティック](./HowToUseBasic/Joystick.md)
 
+* [2Dの当たり判定](./HowToUseBasic/Collision2D.md)
+
 * [シーン遷移](./HowToUseBasic/Transition.md)
 
 * [ポストエフェクト](./HowToUseBasic/PostEffect.md)
