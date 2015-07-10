@@ -24,6 +24,10 @@
 * [画像の描画](./HowToUseBasic/TextureObject2D.md)
 * [文字の描画](./HowToUseBasic/TextObject2D.md)
 
+* [キーボード](./HowToUseBasic/Keyboard.md)
+* [マウス](./HowToUseBasic/Mouse.md)
+* [ジョイスティック](./HowToUseBasic/Joystick.md)
+
 * [シーン遷移](./HowToUseBasic/Transition.md)
 
 * [ポストエフェクト](./HowToUseBasic/PostEffect.md)
@@ -33,6 +37,7 @@
 * [ポーズ](./HowToUseApplication/Pause.md)
 * [UIの配置](./HowToUseApplication/ImagePackageUI.md)
 * [自作ポストエフェクト](./HowToUseApplication/CustomPostEffect.md)
+* [マップチップの描画](./HowToUseApplication/MapObject.md)
 
 ### 逆引き
 
