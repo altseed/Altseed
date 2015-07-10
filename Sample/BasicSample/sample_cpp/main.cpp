@@ -56,7 +56,8 @@ extern void TextureObject2D_Src();
 extern void MapObject2D_Simple();
 extern void MapObject2D_Camera();
 
-extern void CameraObject2D();
+extern void CameraObject2D_Basic();
+extern void CameraObject2D_Magnify();
 
 extern void GeometryObject2D_CircleShape();
 extern void GeometryObject2D_ArcShape();
@@ -107,7 +108,9 @@ int main(int argc, char** argv)
 
 		INFO(Object2DComponent),
 
-		INFO(CameraObject2D),
+		INFO(CameraObject2D_Basic),
+		INFO(CameraObject2D_Magnify),
+
 		INFO(EffectObject2D_Simple),
 
 		INFO(TextObject2D_Simple),

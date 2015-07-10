@@ -57,9 +57,6 @@
     <ClCompile Include="..\Keyboard\Keyboard_PuralKeys.cpp">
       <Filter>Keyboard</Filter>
     </ClCompile>
-    <ClCompile Include="..\CameraObject2D\CameraObject2D.cpp">
-      <Filter>CameraObject2D</Filter>
-    </ClCompile>
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_PolygonShape.cpp">
       <Filter>GeometryObject2D</Filter>
     </ClCompile>
@@ -116,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="..\Sound\Sound_Loop.cpp">
       <Filter>Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CameraObject2D\CameraObject2D_Basic.cpp">
+      <Filter>CameraObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\CameraObject2D\CameraObject2D_Magnify.cpp">
+      <Filter>CameraObject2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

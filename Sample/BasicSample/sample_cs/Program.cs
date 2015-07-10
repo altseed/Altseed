@@ -42,7 +42,9 @@ namespace sample_cs
 
 				new Object2DComponent(),
 
-                new CameraObject2D(),
+                new CameraObject2D_Basic(),
+                new CameraObject2D_Magnify(),
+
                 new EffectObject2D_Simple(),
 
                 new TextObject2D_Simple(),
