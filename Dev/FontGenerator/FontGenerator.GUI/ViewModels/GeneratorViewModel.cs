@@ -18,6 +18,14 @@ namespace FontGenerator.GUI.ViewModels
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 
+		public void Terminate()
+		{
+			if (oldImagePath != string.Empty)
+			{
+				File.Delete(oldImagePath);
+			}
+		}
+
 		#region Properties
 		private GenerationConfig config;
 
@@ -480,9 +488,23 @@ namespace FontGenerator.GUI.ViewModels
 			StatusString = "生成完了";
 		}
 
+		string oldImagePath = string.Empty;
+
 		public async Task GeneratePreviewAsync()
 		{
+			// WindowsのBitmapは破棄するまでファイルのハンドルを離さないらしい
+			if(PreviewImage != null)
+			{
+				PreviewImage.Dispose();
+			}
+
+			if(oldImagePath != string.Empty)
+			{
+				File.Delete(oldImagePath);
+			}
+
 			var imagePath = await Generator.GeneratePreviewAsync(config);
+			oldImagePath = imagePath;
 
 			var image = new System.Drawing.Bitmap(imagePath);
 			
@@ -498,8 +520,6 @@ namespace FontGenerator.GUI.ViewModels
 			*/
 
 			PreviewImage = image;
-
-			File.Delete(imagePath);
 		}
 	}
 }

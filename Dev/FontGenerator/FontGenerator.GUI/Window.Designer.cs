@@ -455,6 +455,7 @@
 			this.Controls.Add(this.grp_font);
 			this.Name = "Window";
 			this.Text = "フォントジェネレーター";
+			this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Window_FormClosed);
 			this.Load += new System.EventHandler(this.Window_Load);
 			this.grp_font.ResumeLayout(false);
 			this.grp_font.PerformLayout();

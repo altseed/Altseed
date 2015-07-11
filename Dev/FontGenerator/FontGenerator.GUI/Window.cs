@@ -198,5 +198,10 @@ namespace FontGenerator.GUI
 
 			viewModel.FontIndex = cb_font.SelectedIndex;
 		}
+
+		private void Window_FormClosed(object sender, FormClosedEventArgs e)
+		{
+			viewModel.Terminate();
+		}
 	}
 }
