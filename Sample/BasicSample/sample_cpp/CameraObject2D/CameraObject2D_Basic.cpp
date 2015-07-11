@@ -8,7 +8,7 @@ void CameraObject2D_Basic()
 	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("CameraObject2D_Basic").c_str(), 640, 480, asd::EngineOption());
 
-	// テクスチャ画像を準備する。
+	// 画像を読み込む。
 	auto tex0 = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 
 	// テクスチャを描画するオブジェクトを設定する。
@@ -26,20 +26,13 @@ void CameraObject2D_Basic()
 
 	//テクスチャの左上から縦横150ピクセルを切り取って描画するカメラを設定する。
 	auto camera = std::make_shared<asd::CameraObject2D>();
+	camera->SetSrc(asd::RectI(10, 10, 150, 150));
+	camera->SetDst(asd::RectI(450, 10, 150, 150));
 	asd::Engine::AddObject2D(camera);
 
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
-		//マウスポインタの位置を取得する。
-		auto pos = asd::Engine::GetMouse()->GetPosition();
-
-		//拡大用カメラの描画元を指定する。
-		camera->SetSrc(asd::RectI(10, 10, 150, 150));
-
-		//ポインタを中心に100x100の拡大画像を表示する。
-		camera->SetDst(asd::RectI(450, 10, 150, 150));
-
 		// Altseedを更新する。
 		asd::Engine::Update();
 	}

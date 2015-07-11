@@ -15,7 +15,7 @@ public class CameraObject2D_Magnify : ISample
         asd.Engine.Initialize("CameraObject2D_Magnify", 640, 480, new asd.EngineOption());
 
 
-        // テクスチャを生成する。
+        // 画像を読み込み、画像描画オブジェクトを設定する。
         {
             var tex0 = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
             var obj0 = new asd.TextureObject2D();
@@ -39,7 +39,7 @@ public class CameraObject2D_Magnify : ISample
         var camera2 = new asd.CameraObject2D();
         asd.Engine.AddObject2D(camera2);
 
-        //フレーム用テクスチャ画像を準備する。
+        //フレーム用画像を読み込む。
         var frame = new asd.TextureObject2D();
         {
             var tex = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Frame.png");

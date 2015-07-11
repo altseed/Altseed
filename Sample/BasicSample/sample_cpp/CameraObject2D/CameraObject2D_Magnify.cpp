@@ -8,7 +8,7 @@ void CameraObject2D_Magnify()
 	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("CameraObject2D_Magnify").c_str(), 640, 480, asd::EngineOption());
 
-	// テクスチャを生成する。
+	// 画像を読み込み、画像描画オブジェクトを設定する。
 	{
 		auto tex0 = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 		auto obj0 = std::make_shared<asd::TextureObject2D>();
@@ -33,7 +33,7 @@ void CameraObject2D_Magnify()
 	auto camera2 = std::make_shared<asd::CameraObject2D>();
 	asd::Engine::AddObject2D(camera2);
 
-	//フレーム用テクスチャ画像を準備する。
+	//フレーム用画像を読み込む
 	auto frame = std::make_shared<asd::TextureObject2D>();
 	{
 		auto tex = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Frame.png").c_str());
