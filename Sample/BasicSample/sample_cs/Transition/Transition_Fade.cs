@@ -8,17 +8,18 @@ namespace sample_cs
 {
 	class Transition_Fade : ISample
 	{
-		// フェードアウト・フェードインでシーン遷移をする。
+		// フェードアウト・フェードインでシーン遷移をするサンプル。
 		public void Run()
 		{
+			// Altseedを初期化する。
 			asd.Engine.Initialize("Transition_Fade", 640, 480, new asd.EngineOption());
 
-			// シーン(1)、レイヤー、オブジェクトを生成する。
+			// シーン(1)、レイヤー、オブジェクトのインスタンスを生成する。
 			var scene1 = new asd.Scene();
 			var layer1 = new asd.Layer2D();
 			var object1 = new asd.TextureObject2D();
 
-			// テクスチャを生成し、オブジェクトに設定する。
+			// 画像を読み込み、オブジェクトに設定する。
 			var texture1 = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Scene1.png");
 			object1.Texture = texture1;
 
@@ -41,9 +42,11 @@ namespace sample_cs
 
 			// シーンをシーン1に設定する。
 			asd.Engine.ChangeScene(scene1);
-
+			
+			// Altseedのウインドウが閉じられていないか確認する。
 			while(asd.Engine.DoEvents())
 			{
+				// Altseedを更新する。
 				asd.Engine.Update();
 
 				// マウスの左ボタンが押されるのを待つ。
@@ -55,7 +58,7 @@ namespace sample_cs
 				}
 			}
 
-			// Altseedの終了処理をする。
+			// Altseedを終了する。
 			asd.Engine.Terminate();
 		}
 	}

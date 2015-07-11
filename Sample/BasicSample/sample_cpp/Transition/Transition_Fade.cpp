@@ -1,16 +1,17 @@
 ﻿#include <Altseed.h>
 
-// フェードアウト・フェードインでシーン遷移をするサンプルです。
+// フェードアウト・フェードインでシーン遷移をするサンプル。
 void Transition_Fade()
 {
+	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("Transition_Fade").c_str(), 640, 480, asd::EngineOption());
 
-	// シーン(1)、レイヤー、オブジェクトを生成する。
+	// シーン(1)、レイヤー、オブジェクトのインスタンスを生成する。
 	auto scene1 = std::make_shared<asd::Scene>();
 	auto layer1 = std::make_shared<asd::Layer2D>();
 	auto object1 = std::make_shared<asd::TextureObject2D>();
 
-	// テクスチャを生成し、オブジェクトに設定する。
+	// 画像を読み込み、オブジェクトに設定する。
 	auto texture1 = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Scene1.png").c_str());
 	object1->SetTexture(texture1);
 
@@ -33,9 +34,11 @@ void Transition_Fade()
 
 	// シーンをシーン1に設定する。
 	asd::Engine::ChangeScene(scene1);
-
+	
+	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
+		// Altseedを更新する。
 		asd::Engine::Update();
 
 		// マウスの左ボタンが押されるのを待つ。
@@ -47,6 +50,6 @@ void Transition_Fade()
 		}
 	}
 	
-	// Altseedの終了処理をする。
+	// Altseedを終了する。
 	asd::Engine::Terminate();
 }
