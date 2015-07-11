@@ -46,6 +46,26 @@ namespace asd
 #endif
 	}
 
+	static std::string GetFileExt(const char* filepath)
+	{
+		auto path = std::string(filepath);
+		size_t i = path.rfind('.', path.length());
+		if (i != std::string::npos)
+		{
+			return (path.substr(i + 1, path.length() - i));
+		}
+		return std::string();
+	}
+
+	static char tolower_(char in)
+	{
+		if (in <= 'Z' && in >= 'A')
+		{
+			return in - ('Z' - 'z');
+		}
+		return in;
+	}
+
 	bool InstalledFontList::isLoaded = false;
 	std::vector<InstalledFontList::Font> InstalledFontList::Fonts = std::vector<InstalledFontList::Font>();
 
@@ -67,6 +87,16 @@ namespace asd
 
 		for (auto& path : paths)
 		{
+			auto ext_ = GetFileExt(path.c_str());
+			std::string ext(ext_);
+			std::transform(ext_.begin(), ext_.end(), ext.begin(), tolower_);
+
+			// fonはアウトラインでないので未対応
+			if (ext == std::string("fon"))
+			{
+				continue;
+			}
+
 			FT_Face face = nullptr;
 			FT_New_Face(library, path.c_str(), 0, &face);
 			if (face == nullptr) continue;
