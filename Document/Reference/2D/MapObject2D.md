@@ -35,4 +35,4 @@
 
 MapObject2Dクラスのサンプルです。
 
-* include_basic_sample MapObject2D_Simple
+* include_application_sample MapObject2D_Basic
