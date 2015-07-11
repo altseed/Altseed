@@ -5,4 +5,4 @@ Altseedで再生できるエフェクトは[Effekseer](https://sites.google.com/
 
 ### エフェクトの再生
 
-* include_basic_sample EffectObject2D_Simple
+* include_basic_sample EffectObject2D_Basic

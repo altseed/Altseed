@@ -40,4 +40,4 @@ Angleは画面の正面方向を軸に時計回り、EffectRotationは画面の�
 
 EffectObject2Dクラスのサンプルです。
 
-* include_basic_sample EffectObject2D
+* include_basic_sample EffectObject2D_Basic

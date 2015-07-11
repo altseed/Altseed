@@ -2,10 +2,10 @@
 #include <Altseed.h>
 
 // EffectObject2Dのサンプル。エフェクトを表示しています。
-void EffectObject2D_Simple()
+void EffectObject2D_Basic()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("EffectObject2D").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("EffectObject2D_Basic").c_str(), 640, 480, asd::EngineOption());
 
 	// エフェクトを読み込む
 	auto effect = asd::Engine::GetGraphics()->CreateEffect(asd::ToAString("Data/Effect/magic.efk").c_str());

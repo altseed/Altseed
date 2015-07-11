@@ -90,9 +90,6 @@
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Src.cpp">
       <Filter>TextureObject2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\EffectObject2D\EffectObject2D_Simple.cpp">
-      <Filter>EffectObject2D</Filter>
-    </ClCompile>
     <ClCompile Include="..\Sound\Sound_SE.cpp">
       <Filter>Sound</Filter>
     </ClCompile>
@@ -116,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Basic.cpp">
       <Filter>TextureObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EffectObject2D\EffectObject2D_Basic.cpp">
+      <Filter>EffectObject2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

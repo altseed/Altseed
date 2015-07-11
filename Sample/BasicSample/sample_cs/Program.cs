@@ -45,7 +45,7 @@ namespace sample_cs
                 new CameraObject2D_Basic(),
                 new CameraObject2D_Magnify(),
 
-                new EffectObject2D_Simple(),
+                new EffectObject2D_Basic(),
 
                 new TextObject2D_Basic(),
                 new TextObject2D_DynamicFont(),

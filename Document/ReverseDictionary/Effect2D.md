@@ -5,5 +5,5 @@ AltseedでウインドウにEffekseerで作成したエフェクトを表示し�
 
 [Effekseer](https://sites.google.com/site/effekseer/)
 
-* include_basic_sample EffectObject2D
+* include_basic_sample EffectObject2D_Basic
 

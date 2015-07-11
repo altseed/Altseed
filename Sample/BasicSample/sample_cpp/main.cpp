@@ -42,7 +42,7 @@ extern void Sound_SE();
 extern void Sound_BGM();
 extern void Sound_Loop();
 
-extern void EffectObject2D_Simple();
+extern void EffectObject2D_Basic();
 
 extern void TextObject2D_Basic();
 extern void TextObject2D_DynamicFont();
@@ -109,7 +109,7 @@ int main(int argc, char** argv)
 		INFO(CameraObject2D_Basic),
 		INFO(CameraObject2D_Magnify),
 
-		INFO(EffectObject2D_Simple),
+		INFO(EffectObject2D_Basic),
 
 		INFO(TextObject2D_Basic),
 		INFO(TextObject2D_DynamicFont),

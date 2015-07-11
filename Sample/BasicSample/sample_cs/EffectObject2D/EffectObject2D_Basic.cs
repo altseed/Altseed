@@ -1,13 +1,13 @@
 ﻿
 namespace sample_cs
 {
-	class EffectObject2D_Simple : ISample
+	class EffectObject2D_Basic : ISample
 	{
 		// エフェクトを再生するサンプル。
 		public void Run()
 		{
 			// Altseedを初期化する。
-			asd.Engine.Initialize("EffectObject2D", 640, 480, new asd.EngineOption());
+			asd.Engine.Initialize("EffectObject2D_Basic", 640, 480, new asd.EngineOption());
 
 			// エフェクトを読み込む
 			var effect = asd.Engine.Graphics.CreateEffect("Data/Effect/magic.efk");
