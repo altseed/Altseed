@@ -4,13 +4,13 @@
 「Altseed」は筑波大学のサークル「AmusementCreators」のメンバーが中心となって開発されているゲームエンジンです。
 
 特徴としてC++、C#の2つのプログラミング言語で開発できる、という点があります。現在はWindows、Mac上でC++、C#の2種類しか動作しませんが
-対応OS、対応言語共に増やしていく予定です。
+対応OS、対応言語共に増えていく予定です。
 
 2Dゲームを開発するために必要な機能はひと通り用意されており、開発中ですが3Dゲームを開発するための機能も用意はされています。
 
 * [導入方法(C++版、Windows)](./HowToIntroduce/Windows_CPP.md)
 * [導入方法(C#版、Windows)](./HowToIntroduce/Windows_CS.md)
-* Mac、Linuxの場合、自分でソースコードからコンパイルする必要があります。
+* Linuxの場合、自分でソースコードからコンパイルする必要があります。
 
 * [リファレンス](./Reference/Main.md)
 * [よくある質問](./FAQ.md)
@@ -24,7 +24,6 @@
 * [画像の描画](./HowToUseBasic/TextureObject2D.md)
 * [文字の描画](./HowToUseBasic/TextObject2D.md)
 * [エフェクトの描画](./HowToUseBasic/EffectObject2D.md)
-* [カメラの使用](./HowToUseBasic/CameraObject2D.md)
 
 * [音の再生](./HowToUseBasic/Sound.md)
 
@@ -36,9 +35,11 @@
 
 * [レイヤーとシーン](./HowToUseBasic/SceneAndLayer.md)
 
+* [ポストエフェクト](./HowToUseBasic/PostEffect.md)
+
 * [シーン遷移](./HowToUseBasic/Transition.md)
 
-* [ポストエフェクト](./HowToUseBasic/PostEffect.md)
+* [カメラの使用](./HowToUseBasic/CameraObject2D.md)
 
 * [オブジェクトの挙動の部品化](./HowToUseBasic/Object2DComponent.md)
 
