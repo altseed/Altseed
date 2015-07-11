@@ -52,7 +52,7 @@ namespace sample_cs
                 new TextObject2D_Rotate(),
                 new TextObject2D_Filtered(),
 
-                new TextureObject2D_Simple(),
+                new TextureObject2D_Basic(),
                 new TextureObject2D_Transform(),
                 new TextureObject2D_Turn(),
                 new TextureObject2D_Src(),

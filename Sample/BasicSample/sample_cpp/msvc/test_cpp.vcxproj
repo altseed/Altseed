@@ -46,7 +46,7 @@
     <ClCompile Include="..\TextObject2D\TextObject2D_Filtered.cpp" />
     <ClCompile Include="..\TextObject2D\TextObject2D_Rotate.cpp" />
     <ClCompile Include="..\TextObject2D\TextObject2D_Basic.cpp" />
-    <ClCompile Include="..\TextureObject2D\TextureObject2D_Simple.cpp" />
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Basic.cpp" />
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Src.cpp" />
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Transform.cpp" />
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Turn.cpp" />

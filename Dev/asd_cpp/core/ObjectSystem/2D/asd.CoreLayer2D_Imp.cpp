@@ -448,7 +448,9 @@ namespace asd
 				text.Text_.c_str(),
 				text.WritingDirection_,
 				text.AlphaBlend_,
-				text.Priority_);
+				text.Priority_,
+				0,
+				0);
 		}
 	}
 

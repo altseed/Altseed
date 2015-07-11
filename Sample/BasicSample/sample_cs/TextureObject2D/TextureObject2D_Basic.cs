@@ -2,12 +2,12 @@
 /// <summary>
 /// 画像を表示するサンプル。
 /// </summary>
-class TextureObject2D_Simple : ISample
+class TextureObject2D_Basic : ISample
 {
 	public void Run()
 	{
 		// Altseedを初期化する。
-		asd.Engine.Initialize("TextureObject2D_Simple", 640, 480, new asd.EngineOption());
+		asd.Engine.Initialize("TextureObject2D_Basic", 640, 480, new asd.EngineOption());
 
 		// 画像を読み込む。
 		asd.Texture2D texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Picture1.png");
@@ -29,7 +29,7 @@ class TextureObject2D_Simple : ISample
 		{
 			// Altseedを更新する。
 			asd.Engine.Update();
-			Recorder.TakeScreenShot("TextureObject2D_Simple", 5);
+			Recorder.TakeScreenShot("TextureObject2D_Basic", 5);
 		}
 
 		// Altseedの終了処理をする。

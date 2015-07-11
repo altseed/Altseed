@@ -114,5 +114,25 @@ namespace asd
 		@brief　このオブジェクトを描画する際のテクスチャフィルタの種類を取得する。
 		*/
 		virtual TextureFilterType GetTextureFilterType() const = 0;
+
+		/**
+		@brief テキストを描画する際の文字間値を設定する。
+		*/
+		virtual void SetLetterSpacing(float letterSpacing) = 0;
+
+		/**
+		@brief テキストを描画する際の文字間値を取得する。
+		*/
+		virtual float GetLetterSpacing() const = 0;
+
+		/**
+		@brief テキストを描画する際の行間値を設定する。
+		*/
+		virtual void SetLineSpacing(float lineSpacing) = 0;
+
+		/**
+		@brief テキストを描画する際の行間値を取得する。
+		*/
+		virtual float GetLineSpacing() const = 0;
 	};
 }

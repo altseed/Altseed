@@ -27,6 +27,8 @@ namespace asd
 		, m_drawingPtiority(0)
 		, m_writingDirection(WritingDirection::Horizontal)
 		, m_textureFilterType(TextureFilterType::Nearest)
+		, m_lineSpacing(0)
+		, m_letterSpacing(0)
 	{
 
 	}
@@ -194,7 +196,7 @@ namespace asd
 	{
 		Vector2DF drawPosition = Vector2DF(0, 0);
 
-		int offset = 0;
+		float offset = 0;
 		Font_Imp* font_Imp = (Font_Imp*)m_font;
 
 		if (font_Imp == nullptr) return;
@@ -221,11 +223,11 @@ namespace asd
 				if (m_writingDirection == WritingDirection::Horizontal)
 				{
 					drawPosition.X = 0;
-					drawPosition.Y += offset;
+					drawPosition.Y += (offset + m_lineSpacing);
 				}
 				else
 				{
-					drawPosition.X += offset;
+					drawPosition.X += (offset + m_lineSpacing);
 					drawPosition.Y = 0;
 				}
 				offset = 0;
@@ -274,13 +276,13 @@ namespace asd
 
 			if (m_writingDirection == WritingDirection::Horizontal)
 			{
-				drawPosition += asd::Vector2DF(glyphSrc.Width, 0);
-				offset = std::max(glyphSrc.Width, offset);
+				drawPosition += asd::Vector2DF(glyphSrc.Width + m_letterSpacing, 0);
+				offset = std::max((float)glyphSrc.Height, offset);
 			}
 			else
 			{
-				drawPosition += asd::Vector2DF(0, glyphSrc.Height);
-				offset = std::max(glyphSrc.Height, offset);
+				drawPosition += asd::Vector2DF(0, glyphSrc.Height + m_letterSpacing);
+				offset = std::max((float)glyphSrc.Width, offset);
 			}
 		}
 
@@ -315,6 +317,8 @@ namespace asd
 			m_writingDirection,
 			m_alphablend,
 			m_drawingPtiority,
+			m_lineSpacing,
+			m_letterSpacing,
 			m_textureFilterType);
 	}
 
@@ -332,5 +336,39 @@ namespace asd
 	TextureFilterType CoreTextObject2D_Imp::GetTextureFilterType() const
 	{
 		return m_textureFilterType;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreTextObject2D_Imp::SetLetterSpacing(float letterSpacing)
+	{
+		m_letterSpacing = letterSpacing;
+		SetCullingUpdate(this);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	float CoreTextObject2D_Imp::GetLetterSpacing() const
+	{
+		return m_letterSpacing;
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreTextObject2D_Imp::SetLineSpacing(float lineSpacing)
+	{
+		m_lineSpacing = lineSpacing;
+		SetCullingUpdate(this);
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	float CoreTextObject2D_Imp::GetLineSpacing() const
+	{
+		return m_lineSpacing;
 	}
 }

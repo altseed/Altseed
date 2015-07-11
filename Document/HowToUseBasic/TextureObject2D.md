@@ -5,7 +5,7 @@ Altseedで画像を描画するには[TextureObject2D](./../Reference/2D/Texture
 
 ### 単純な画像の描画
 
-* include_basic_sample TextureObject2D_Simple
+* include_basic_sample TextureObject2D_Basic
 
 ### 画像の上下を反転して描画
 

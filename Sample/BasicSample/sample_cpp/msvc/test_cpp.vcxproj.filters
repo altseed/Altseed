@@ -87,9 +87,6 @@
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Turn.cpp">
       <Filter>TextureObject2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\TextureObject2D\TextureObject2D_Simple.cpp">
-      <Filter>TextureObject2D</Filter>
-    </ClCompile>
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Src.cpp">
       <Filter>TextureObject2D</Filter>
     </ClCompile>
@@ -116,6 +113,9 @@
     </ClCompile>
     <ClCompile Include="..\TextObject2D\TextObject2D_DynamicFont.cpp">
       <Filter>TextObject2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\TextureObject2D\TextureObject2D_Basic.cpp">
+      <Filter>TextureObject2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

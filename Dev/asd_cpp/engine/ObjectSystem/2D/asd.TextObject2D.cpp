@@ -120,4 +120,24 @@ namespace asd
 	{
 		return m_coreObject->GetTextureFilterType();
 	}
+
+	void TextObject2D::SetLetterSpacing(float letterSpacing)
+	{
+		m_coreObject->SetLetterSpacing(letterSpacing);
+	}
+
+	float TextObject2D::GetLetterSpacing() const
+	{
+		return m_coreObject->GetLetterSpacing();
+	}
+
+	void TextObject2D::SetLineSpacing(float lineSpacing)
+	{
+		m_coreObject->SetLineSpacing(lineSpacing);
+	}
+
+	float TextObject2D::GetLineSpacing() const
+	{
+		return m_coreObject->GetLineSpacing();
+	}
 }

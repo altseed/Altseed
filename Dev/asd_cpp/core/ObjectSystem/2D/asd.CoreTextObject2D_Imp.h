@@ -28,6 +28,8 @@ namespace asd
 		int m_drawingPtiority;
 		astring m_text;
 		TextureFilterType m_textureFilterType;
+		float m_letterSpacing;
+		float m_lineSpacing;
 
 	public:
 #pragma region Parameter
@@ -60,6 +62,13 @@ namespace asd
 
 		void SetTextureFilterType(TextureFilterType textureFilterType) override;
 		TextureFilterType GetTextureFilterType() const override;
+
+		void SetLetterSpacing(float letterSpacing) override;
+		float GetLetterSpacing() const override;
+
+		void SetLineSpacing(float lineSpacing) override;
+		float GetLineSpacing() const  override;
+
 #pragma endregion
 
 		void Draw(Renderer2D* renderer) override;

@@ -30,4 +30,4 @@
 
 CameraObject2Dクラスのサンプルです。
 
-* include_basic_sample CameraObject2D
+* include_basic_sample CameraObject2D_Basic

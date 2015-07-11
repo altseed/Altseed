@@ -86,6 +86,26 @@ namespace asd
         }
 
         /// <summary>
+        /// テキストを描画する際の文字間値を取得または設定する。
+        /// </summary>
+        /// <returns></returns>
+        public float LetterSpacing
+        {
+            get { return coreTextObject.GetLetterSpacing(); }
+            set { coreTextObject.SetLetterSpacing(value); }
+        }
+
+        /// <summary>
+        /// テキストを描画する際の行間値を取得または設定する。
+        /// </summary>
+        /// <returns></returns>
+        public float LineSpacing
+        {
+            get { return coreTextObject.GetLineSpacing(); }
+            set { coreTextObject.SetLineSpacing(value); }
+        }
+
+        /// <summary>
         /// この2Dオブジェクトを描画する際の描画原点を取得または設定する。描画原点は拡大・回転・描画の中心となる、画像データ内での座標。
         /// </summary>
         public Vector2DF CenterPosition

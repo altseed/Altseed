@@ -304,7 +304,9 @@ namespace asd
 			text.c_str(),
 			WritingDirection::Horizontal,
 			AlphaBlendMode::Blend,
-			1);
+			1,
+			0,
+			0);
 	}
 
 }

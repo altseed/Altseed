@@ -276,7 +276,7 @@ namespace asd {
 		AddEvent(priority, e);
 	}
 
-	void Renderer2D_Imp::AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter, TextureWrapType wrap)
+	void Renderer2D_Imp::AddText(Matrix33& parentMatrix, Matrix33& matrix, Vector2DF centerPosition, bool turnLR, bool turnUL, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority, float lineSpacing, float letterSpacing, TextureFilterType filter, TextureWrapType wrap)
 	{
 		Vector2DF drawPosition = Vector2DF(0, 0);
 
@@ -286,7 +286,7 @@ namespace asd {
 		colors.at(2) = color;
 		colors.at(3) = color;
 
-		int offset = 0;
+		float offset = 0;
 		Font_Imp* font_Imp = (Font_Imp*)font;
 
 		font_Imp->AddCharactorsDynamically(text);
@@ -305,11 +305,11 @@ namespace asd {
 				if (writingDirection == WritingDirection::Horizontal)
 				{
 					drawPosition.X = 0;
-					drawPosition.Y += offset;
+					drawPosition.Y += (offset + lineSpacing);
 				}
 				else
 				{
-					drawPosition.X += offset;
+					drawPosition.X += (offset + lineSpacing);
 					drawPosition.Y = 0;
 				}
 				offset = 0;
@@ -377,13 +377,13 @@ namespace asd {
 
 			if (writingDirection == WritingDirection::Horizontal)
 			{
-				drawPosition += asd::Vector2DF(glyphSrc.Width, 0);
-				offset = std::max(glyphSrc.Width, offset);
+				drawPosition += asd::Vector2DF(glyphSrc.Width + letterSpacing, 0);
+				offset = std::max((float)glyphSrc.Height, offset);
 			}
 			else
 			{
-				drawPosition += asd::Vector2DF(0, glyphSrc.Height);
-				offset = std::max(glyphSrc.Height, offset);
+				drawPosition += asd::Vector2DF(0, glyphSrc.Height + letterSpacing);
+				offset = std::max((float)glyphSrc.Height, offset);
 			}
 		}
 	}

@@ -49,7 +49,7 @@ extern void TextObject2D_DynamicFont();
 extern void TextObject2D_Rotate();
 extern void TextObject2D_Filtered();
 
-extern void TextureObject2D_Simple();
+extern void TextureObject2D_Basic();
 extern void TextureObject2D_Transform();
 extern void TextureObject2D_Turn();
 extern void TextureObject2D_Src();
@@ -81,7 +81,7 @@ int main(int argc, char** argv)
 	std::vector<SampleInfo> samples =
 	{
 		INFO(Basic_Empty),
-		INFO(TextureObject2D_Simple),
+		INFO(TextureObject2D_Basic),
 		INFO(TextureObject2D_Turn),
 		INFO(TextureObject2D_Src),
 		INFO(TextureObject2D_Transform),

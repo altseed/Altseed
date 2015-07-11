@@ -4,10 +4,10 @@
 /**
 @brief	画像を表示するサンプル。
 */
-void TextureObject2D_Simple()
+void TextureObject2D_Basic()
 {
 	// Altseedを初期化する
-	asd::Engine::Initialize(asd::ToAString("TextureObject2D_Simple").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("TextureObject2D_Basic").c_str(), 640, 480, asd::EngineOption());
 
 	// 画像を読み込む。
 	std::shared_ptr<asd::Texture2D> texture = 

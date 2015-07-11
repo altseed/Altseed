@@ -14,9 +14,12 @@ void Joystick_Basic()
 
 	// ボタンの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
 	auto stateText = std::make_shared<asd::TextObject2D>();
-	stateText->SetPosition(asd::Vector2DF(10, 10));
+	stateText->SetPosition(asd::Vector2DF(10, 5));
 	stateText->SetFont(font);
 	asd::Engine::AddObject2D(stateText);
+
+	// ボタンをたくさん認識する可能性があるため行間を詰める。
+	stateText->SetLineSpacing(-15);
 
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())

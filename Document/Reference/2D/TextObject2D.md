@@ -31,6 +31,8 @@
 | TurnUL | 個々の文字の描画上下反転フラグ|
 | WritingDirection | 文字列の描画する方向(左から右:Horizontalもしくは上から下:Vertical) |
 | TextureFilterType | 描画時のテクスチャフィルタ(近傍補間:Nearestもしくは線形補間:Linear) |
+| LineSpacing | 文字列を描画する際の行間値 |
+| LetterSpacing | 文字列を描画する際の文字間値 |
 
 ### 主なイベント
 
@@ -40,4 +42,4 @@
 
 TextObject2Dクラスのサンプルです。
 
-* include_basic_sample TextObject2D_Simple
+* include_basic_sample TextObject2D_Basic

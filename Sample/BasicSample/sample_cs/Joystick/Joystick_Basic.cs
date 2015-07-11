@@ -13,9 +13,12 @@ class Joystick_Basic : ISample
 
         // ボタンの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
         var stateText = new asd.TextObject2D();
-        stateText.Position = new asd.Vector2DF(10, 10);
+        stateText.Position = new asd.Vector2DF(10, 5);
         stateText.Font = font;
         asd.Engine.AddObject2D(stateText);
+
+        //ボタンをたくさん認識する可能性があるため表示の行間を詰める。
+        stateText.LineSpacing = -15;
 
         // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
