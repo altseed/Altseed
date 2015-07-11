@@ -1,26 +1,26 @@
-#include <Base.h>
+ï»¿#include <Base.h>
 
 /**
-@brief	‘½ŠpŒ`‚ğƒeƒNƒXƒ`ƒƒ‚ğ‡¬‚µ‚½ã‚Å•\¦‚·‚éƒTƒ“ƒvƒ‹B
+@brief	å¤šè§’å½¢ã‚’ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’åˆæˆã—ãŸä¸Šã§è¡¨ç¤ºã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã€‚
 */
 void GeometryObject2D_PolygonShape_Textured()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚é
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_PolygonShape_Textured").c_str(), 640, 480, asd::EngineOption());
 
-	// ƒeƒNƒXƒ`ƒƒ‚Æ‚µ‚Ä}Œ`‚É‡¬‚·‚é‰æ‘œ‚ğ“Ç‚İ‚ŞB
+	// ãƒ†ã‚¯ã‚¹ãƒãƒ£ã¨ã—ã¦å›³å½¢ã«åˆæˆã™ã‚‹ç”»åƒã‚’èª­ã¿è¾¼ã‚€ã€‚
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 
-	// }Œ`•`‰æƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+	// å›³å½¢æç”»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto geometryObj = std::make_shared<asd::GeometryObject2D>();
 
-	// }Œ`•`‰æƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒGƒ“ƒWƒ“‚É’Ç‰Á‚·‚éB
+	// å›³å½¢æç”»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ã‚¨ãƒ³ã‚¸ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::AddObject2D(geometryObj);
 
-	// ‘½ŠpŒ`‚ğ}Œ`•`‰æƒNƒ‰ƒX‚É‚Ä•`‰æ‚·‚éB
+	// å¤šè§’å½¢ã‚’å›³å½¢æç”»ã‚¯ãƒ©ã‚¹ã«ã¦æç”»ã™ã‚‹ã€‚
 	auto polygon = std::make_shared<asd::PolygonShape>();
 
-	// ‘½ŠpŒ`‚ğ\¬‚·‚é’¸“_‚ğ’Ç‰Á‚µ‚Ä‚¢‚­Bi¯Œ`‚É‚È‚é‚æ‚¤‚É‚·‚éBj
+	// å¤šè§’å½¢ã‚’æ§‹æˆã™ã‚‹é ‚ç‚¹ã‚’è¿½åŠ ã—ã¦ã„ãã€‚ï¼ˆæ˜Ÿå½¢ã«ãªã‚‹ã‚ˆã†ã«ã™ã‚‹ã€‚ï¼‰
 	for (int i = 0; i < 10; ++i)
 	{
 		asd::Vector2DF vec = asd::Vector2DF(1, 0);
@@ -30,17 +30,17 @@ void GeometryObject2D_PolygonShape_Textured()
 
 	}
 
-	// ‘½ŠpŒ`‚ğ•`‰æ‚·‚é}Œ`‚Æ‚µ‚Äİ’è‚µA‡¬‚·‚éƒeƒNƒXƒ`ƒƒ‚àİ’èB
+	// å¤šè§’å½¢ã‚’æç”»ã™ã‚‹å›³å½¢ã¨ã—ã¦è¨­å®šã—ã€åˆæˆã™ã‚‹ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚‚è¨­å®šã€‚
 	geometryObj->SetShape(polygon);
 	geometryObj->SetTexture(texture);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// Altseed‚ğI—¹‚·‚éB
+	// Altseedã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }
