@@ -15,20 +15,20 @@ public class Collision2D_Basic : ISample
         // マウスによって動かす円。
         asd.CircleShape selfCircle;
 
-        // 停止している円、三角形、矩形。
+        // 停止している円。
         asd.CircleShape circle;
 
-        // 図形描画クラスをエンジンに追加する。
+        // 図形描画オブジェクトをエンジンに追加する。
         asd.Engine.AddObject2D(geometryObj0);
         asd.Engine.AddObject2D(geometryObj1);
 
         // マウスによって動かす円の形状と描画の設定を行う。
         {
-            // 円の外径、内径、頂点数、中心位置を指定する。
+            // 円の外径を指定する。
             selfCircle = new asd.CircleShape();
             selfCircle.OuterDiameter = 100;
 
-            // 円を描画する図形として最前面に描画されるように設定する。
+            // マウスによって動かす円を描画する図形として設定する。
             geometryObj0.Shape = selfCircle;
         }
 
@@ -39,7 +39,7 @@ public class Collision2D_Basic : ISample
             circle.OuterDiameter = 100;
             circle.Position = new asd.Vector2DF(100, 100);
 
-            // 円を描画する図形として設定する。
+            // 停止している円を描画する図形として設定する。
             geometryObj1.Shape = circle;
         }
 
