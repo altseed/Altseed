@@ -3,6 +3,6 @@
 
 Altseedでジョイスティックの状態を取得します。
 
-* include_basic_sample Joystick
+* include_basic_sample Joystick_Basic
 
 

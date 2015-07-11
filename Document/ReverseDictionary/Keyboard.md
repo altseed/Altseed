@@ -3,4 +3,4 @@
 
 Altseedでキーボードの状態を取得します。
 
-* include_basic_sample Keyboard
+* include_basic_sample Keyboard_Basic
