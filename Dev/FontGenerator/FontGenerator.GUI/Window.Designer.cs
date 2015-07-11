@@ -61,10 +61,10 @@
 			this.cb_font = new System.Windows.Forms.ComboBox();
 			this.lbl_font = new System.Windows.Forms.Label();
 			this.grp_preview = new System.Windows.Forms.GroupBox();
+			this.pic_preview = new System.Windows.Forms.PictureBox();
 			this.btn_generate = new System.Windows.Forms.Button();
 			this.btn_saveSetting = new System.Windows.Forms.Button();
 			this.btn_loadSetting = new System.Windows.Forms.Button();
-			this.pic_preview = new System.Windows.Forms.PictureBox();
 			this.timer = new System.Windows.Forms.Timer(this.components);
 			this.grp_font.SuspendLayout();
 			this.grp_outlineColor.SuspendLayout();
@@ -380,6 +380,7 @@
 			this.cb_font.Name = "cb_font";
 			this.cb_font.Size = new System.Drawing.Size(200, 20);
 			this.cb_font.TabIndex = 1;
+			this.cb_font.SelectedIndexChanged += new System.EventHandler(this.cb_font_SelectedIndexChanged);
 			// 
 			// lbl_font
 			// 
@@ -399,6 +400,14 @@
 			this.grp_preview.TabIndex = 1;
 			this.grp_preview.TabStop = false;
 			this.grp_preview.Text = "プレビュー";
+			// 
+			// pic_preview
+			// 
+			this.pic_preview.Location = new System.Drawing.Point(9, 19);
+			this.pic_preview.Name = "pic_preview";
+			this.pic_preview.Size = new System.Drawing.Size(244, 41);
+			this.pic_preview.TabIndex = 0;
+			this.pic_preview.TabStop = false;
 			// 
 			// btn_generate
 			// 
@@ -429,14 +438,6 @@
 			this.btn_loadSetting.Text = "設定ロード";
 			this.btn_loadSetting.UseVisualStyleBackColor = true;
 			this.btn_loadSetting.Click += new System.EventHandler(this.btn_loadSetting_Click);
-			// 
-			// pic_preview
-			// 
-			this.pic_preview.Location = new System.Drawing.Point(9, 19);
-			this.pic_preview.Name = "pic_preview";
-			this.pic_preview.Size = new System.Drawing.Size(244, 41);
-			this.pic_preview.TabIndex = 0;
-			this.pic_preview.TabStop = false;
 			// 
 			// timer
 			// 

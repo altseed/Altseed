@@ -41,6 +41,7 @@ namespace FontGenerator.GUI
 			tb_outlineColor_g.Value = viewModel.OutlineGreen;
 			tb_outlineColor_b.Value = viewModel.OutlineBlue;
 
+			cb_font.SelectedIndex = viewModel.FontIndex;
 			loading = false;
 		}
 
@@ -181,7 +182,17 @@ namespace FontGenerator.GUI
 
 		private void timer_Tick(object sender, EventArgs e)
 		{
-			pic_preview.Image = viewModel.PreviewImage;
+			if(pic_preview.Image != viewModel.PreviewImage)
+			{
+				pic_preview.Image = viewModel.PreviewImage;
+			}	
+		}
+
+		private void cb_font_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (loading) return;
+
+			viewModel.FontIndex = cb_font.SelectedIndex;
 		}
 	}
 }
