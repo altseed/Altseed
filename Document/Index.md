@@ -24,6 +24,7 @@
 * [画像の描画](./HowToUseBasic/TextureObject2D.md)
 * [文字の描画](./HowToUseBasic/TextObject2D.md)
 * [エフェクトの描画](./HowToUseBasic/EffectObject2D.md)
+* [カメラの使用](./HowToUseBasic/CameraObject2D.md)
 
 * [音の再生](./HowToUseBasic/Sound.md)
 
