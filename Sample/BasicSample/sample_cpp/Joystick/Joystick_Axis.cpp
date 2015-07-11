@@ -30,7 +30,7 @@ void Joystick_Axis()
 		}
 		else
 		{
-			// 1つ目のジョイスティックの全てのアナログスティックの入力状態を表示する
+			// 1つ目のジョイスティックの全てのアナログスティックの入力状態を表示する。
 			auto joystick = asd::Engine::GetJoystickContainer()->GetJoystickAt(0);
 
 			for (int axisIndex = 0; axisIndex < joystick->GetAxesCount(); ++axisIndex)

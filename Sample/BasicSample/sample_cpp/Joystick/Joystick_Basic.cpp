@@ -33,7 +33,7 @@ void Joystick_Basic()
 		}
 		else
 		{
-			// 1つ目のジョイスティックの全てのボタンの入力状態を表示する
+			// 1つ目のジョイスティックの全てのボタンの入力状態を表示する。
 			auto joystick = asd::Engine::GetJoystickContainer()->GetJoystickAt(0);
 
 			for (int buttonIndex = 0; buttonIndex < joystick->GetButtonsCount(); ++buttonIndex)
