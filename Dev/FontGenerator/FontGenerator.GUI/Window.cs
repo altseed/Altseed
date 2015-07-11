@@ -29,6 +29,8 @@ namespace FontGenerator.GUI
 		{
 			loading = true;
 
+			cb_font.SelectedIndex = viewModel.FontIndex;
+
 			txt_txt.Text = viewModel.TextPath;
 			txt_export.Text = viewModel.ExportPath;
 			txt_sheet.Text = viewModel.SheetName;
