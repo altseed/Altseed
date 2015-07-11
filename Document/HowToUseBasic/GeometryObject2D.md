@@ -1,7 +1,7 @@
 ﻿
 ## 図形の描画
 
-Altseedで図形を描画するには[GeometryObject2D](./../Reference/2D/GeometryObject2D.md)という図形を表すオブジェクトのクラスと[Shape](./../Reference/Shape/Shape.md)という図形クラスを使用します。
+Altseedで図形を描画するには[GeometryObject2D](./../Reference/2D/GeometryObject2D.md)という図形の描画専用のオブジェクトのクラスと[Shape](./../Reference/Shape/Shape.md)という図形クラスを使用します。
 
 ここのサンプルに掲載されている図形に限らず、様々な図形を描画できます。
 
@@ -17,14 +17,22 @@ Altseedで図形を描画するには[GeometryObject2D](./../Reference/2D/Geomet
 
 [多角形](./../Reference/Shape/PolygonShape.md)
 
-### 円弧の描画
+### 円の描画
+
+* include_basic_sample GeometryObject2D_CircleShape
+
+### 弧の描画
 
 * include_basic_sample GeometryObject2D_ArcShape
 
-### 長方形の描画
+### 矩形の描画
 
 * include_basic_sample GeometryObject2D_RectangleShape
 
 ### 多角形の描画
 
 * include_basic_sample GeometryObject2D_PolygonShape
+
+### テクスチャを合成した多角形の描画
+
+* include_basic_sample GeometryObject2D_PolygonShape_Textured
