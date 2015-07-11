@@ -16,8 +16,7 @@ namespace FontGenerator.Model
 				.Select(x => x.Path)
 				.ToArray();
 
-			var path = @"C:\Windows\Fonts\";
-			path += pathes[config.FontIndex];
+			var path = pathes[config.FontIndex];
 
 			if(!File.Exists(path))
 			{
