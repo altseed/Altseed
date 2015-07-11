@@ -5,7 +5,7 @@
 */
 void GeometryObject2D_RectangleShape()
 {
-	// Altseedを初期化する
+	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_RectangleShape").c_str(), 640, 480, asd::EngineOption());
 
 	// 図形描画オブジェクトのインスタンスを生成する。
@@ -14,13 +14,13 @@ void GeometryObject2D_RectangleShape()
 	// 図形描画オブジェクトのインスタンスをエンジンに追加する。
 	asd::Engine::AddObject2D(geometryObj);
 
-	// 矩形を図形描画クラスにて描画する。
+	// 矩形の図形クラスのインスタンスを生成する。
 	auto rect = std::make_shared<asd::RectangleShape>();
 
-	// 矩形の描画範囲を指定。
+	// 矩形の描画範囲を指定する。
 	rect->SetDrawingArea(asd::RectF(10, 210, 300, 200));
 
-	// 矩形を描画する図形として設定し、合成するテクスチャも設定。
+	// 矩形を描画する図形として設定しする。
 	geometryObj->SetShape(rect);
 
 	// Altseedのウインドウが閉じられていないか確認する。

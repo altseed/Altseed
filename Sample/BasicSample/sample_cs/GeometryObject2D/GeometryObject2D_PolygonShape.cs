@@ -5,16 +5,16 @@ class GeometryObject2D_PolygonShape : ISample
 {
     public void Run()
     {
-        // Altseedを初期化する
+        // Altseedを初期化する。
         asd.Engine.Initialize("GeometryObject2D_PolygonShape", 640, 480, new asd.EngineOption());
 
-        // 図形描画クラスのコンストラクタを呼び出す
+        // 図形描画オブジェクトのインスタンスを生成する。
         var geometryObj = new asd.GeometryObject2D();
 
         // 図形描画オブジェクトのインスタンスをエンジンに追加する。
         asd.Engine.AddObject2D(geometryObj);
 
-        // 多角形を図形描画クラスにて描画する。
+        // 多角形の図形クラスのインスタンスを生成する。
         var polygon = new asd.PolygonShape();
 
         // 多角形を構成する頂点を追加していく。（星形になるようにする。）
@@ -26,7 +26,7 @@ class GeometryObject2D_PolygonShape : ISample
             polygon.AddVertex(vec + new asd.Vector2DF(320, 240));
         }
 
-        // 多角形を描画する図形として設定し、合成するテクスチャも設定。
+        // 多角形を描画する図形として設定する。
         geometryObj.Shape = polygon;
 
         // Altseedのウインドウが閉じられていないか確認する。

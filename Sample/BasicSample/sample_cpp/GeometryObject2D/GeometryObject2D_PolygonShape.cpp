@@ -5,7 +5,7 @@
 */
 void GeometryObject2D_PolygonShape()
 {
-	// Altseedを初期化する
+	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_PolygonShape").c_str(), 640, 480, asd::EngineOption());
 
 	// 図形描画オブジェクトのインスタンスを生成する。
@@ -14,7 +14,7 @@ void GeometryObject2D_PolygonShape()
 	// 図形描画オブジェクトのインスタンスをエンジンに追加する。
 	asd::Engine::AddObject2D(geometryObj);
 
-	// 多角形を図形描画クラスにて描画する。
+        // 多角形の図形クラスのインスタンスを生成する。
 	auto polygon = std::make_shared<asd::PolygonShape>();
 
 	// 多角形を構成する頂点を追加していく。（星形になるようにする。）

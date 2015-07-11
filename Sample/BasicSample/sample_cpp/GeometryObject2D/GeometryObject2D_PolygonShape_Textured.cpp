@@ -5,7 +5,7 @@
 */
 void GeometryObject2D_PolygonShape_Textured()
 {
-	// Altseedを初期化する
+	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_PolygonShape_Textured").c_str(), 640, 480, asd::EngineOption());
 
 	// テクスチャとして図形に合成する画像を読み込む。
@@ -17,7 +17,7 @@ void GeometryObject2D_PolygonShape_Textured()
 	// 図形描画オブジェクトのインスタンスをエンジンに追加する。
 	asd::Engine::AddObject2D(geometryObj);
 
-	// 多角形を図形描画クラスにて描画する。
+	// 多角形の図形クラスのインスタンスを生成する。
 	auto polygon = std::make_shared<asd::PolygonShape>();
 
 	// 多角形を構成する頂点を追加していく。（星形になるようにする。）
@@ -30,7 +30,7 @@ void GeometryObject2D_PolygonShape_Textured()
 
 	}
 
-	// 多角形を描画する図形として設定し、合成するテクスチャも設定。
+	// 多角形を描画する図形として設定し、合成するテクスチャも設定する。
 	geometryObj->SetShape(polygon);
 	geometryObj->SetTexture(texture);
 

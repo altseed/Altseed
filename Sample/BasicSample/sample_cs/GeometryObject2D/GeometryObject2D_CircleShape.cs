@@ -5,7 +5,7 @@ public class GeometryObject2D_CircleShape : ISample
 {
     public void Run()
     {   
-        // Altseedを初期化する
+        // Altseedを初期化する。
         asd.Engine.Initialize("GeometryObject2D_CircleShape", 640, 480, new asd.EngineOption());
 
         // 図形描画オブジェクトのインスタンスを生成する。
@@ -14,10 +14,10 @@ public class GeometryObject2D_CircleShape : ISample
         // 図形描画オブジェクトのインスタンスをエンジンに追加する。
         asd.Engine.AddObject2D(geometryObj);
 
-        // 円を図形描画クラスにて描画する。
+        // 円の図形クラスのインスタンスを生成する。
         var arc = new asd.CircleShape();
 
-        // 円の外径、中心位置を指定。
+        // 円の外径、中心位置を指定する。
         arc.OuterDiameter = 400;
         arc.Position = new asd.Vector2DF(320, 240);
 

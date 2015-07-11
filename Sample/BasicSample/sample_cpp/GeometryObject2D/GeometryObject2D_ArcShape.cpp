@@ -5,7 +5,7 @@
 */
 void GeometryObject2D_ArcShape()
 {
-	// Altseedを初期化する
+	// Altseedを初期化するする。
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_ArcShape").c_str(), 640, 480, asd::EngineOption());
 
 	// 図形描画オブジェクトのインスタンスを生成する。
@@ -14,10 +14,10 @@ void GeometryObject2D_ArcShape()
 	// 図形描画オブジェクトのインスタンスをエンジンに追加する。
 	asd::Engine::AddObject2D(geometryObj);
 
-	// 弧を図形描画クラスにて描画する。
+	// 弧の図形クラスのインスタンスを生成する。
 	auto arc = std::make_shared<asd::ArcShape>();
 
-	// 弧の外径、内径、頂点数、中心位置、開始頂点番号、終了頂点番号を指定。
+	// 弧の外径、内径、頂点数、中心位置、開始頂点番号、終了頂点番号を指定する。
 	arc->SetOuterDiameter(400);
 	arc->SetInnerDiameter(40);
 	arc->SetNumberOfCorners(96);
