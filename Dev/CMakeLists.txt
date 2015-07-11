@@ -193,8 +193,8 @@ target_link_libraries(asdUnitTestGtest asdCore asdTool asdCommon ${common_lib})
 add_executable( asdUnitTestEngineGtest ${unittest_engine_gtest_src} )
 target_link_libraries(asdUnitTestEngineGtest asdEngine ${common_lib}) 
 
-add_library( fontGenerator SHARED ${fontGenerator_src} )
-target_link_libraries(fontGenerator asdTool asdCommon ${common_lib}) 
+add_library( FontGeneratorCore SHARED ${fontGenerator_src} )
+target_link_libraries(FontGeneratorCore asdTool asdCommon ${common_lib}) 
 
 # èoóÕêÊÇÃê›íË
 set_target_properties(asdCommon PROPERTIES ARCHIVE_OUTPUT_DIRECTORY "lib/" )
@@ -216,7 +216,7 @@ set_target_properties(asdEngine PROPERTIES LIBRARY_OUTPUT_DIRECTORY "lib/" )
 set_target_properties(asdUnitTestGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 set_target_properties(asdUnitTestEngineGtest PROPERTIES RUNTIME_OUTPUT_DIRECTORY "bin/" )
 
-set_target_properties(fontGenerator PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
+set_target_properties(FontGeneratorCore PROPERTIES LIBRARY_OUTPUT_DIRECTORY "bin/" )
 
 if (MSVC)
 set_target_properties(asdCommon PROPERTIES OUTPUT_NAME_DEBUG "asd_common" )
@@ -341,7 +341,7 @@ install(
 	RUNTIME DESTINATION bin )
 
 install(
-	TARGETS fontGenerator
+	TARGETS FontGeneratorCore
 	RUNTIME DESTINATION bin
 	ARCHIVE DESTINATION bin
 	LIBRARY DESTINATION bin )
