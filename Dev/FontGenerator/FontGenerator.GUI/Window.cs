@@ -198,12 +198,5 @@ namespace FontGenerator.GUI
 
 			viewModel.FontIndex = cb_font.SelectedIndex;
 		}
-
-		private void cb_font_SelectedIndexChanged(object sender, EventArgs e)
-		{
-			if (loading) return;
-
-			viewModel.FontIndex = cb_font.SelectedIndex;
-		}
 	}
 }
