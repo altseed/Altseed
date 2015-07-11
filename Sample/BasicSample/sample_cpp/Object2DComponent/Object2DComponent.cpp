@@ -1,7 +1,7 @@
 ﻿
 #include <Altseed.h>
 
-// Object2DComponentを用いて、オブジェクトのパラメーターを変更するサンプルです。
+// Object2DComponentを用いて、オブジェクトのパラメーターを変更するサンプル。
 
 // オブジェクトを回転させるコンポーネント
 class RotatingComponent : public asd::Object2DComponent
