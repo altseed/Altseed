@@ -14,7 +14,7 @@ namespace sample_cs
 			// Altseedを初期化する。
 			asd.Engine.Initialize("Sound", 640, 480, new asd.EngineOption());
 
-			// 音声ファイルを読み込む
+			// 音声ファイルを読み込む。
 			asd.SoundSource bgm1 = asd.Engine.Sound.CreateSoundSource("Data/Sound/bgm1.ogg", false);
 
 			// 音声のループを有効にする。

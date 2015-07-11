@@ -9,7 +9,7 @@ namespace sample_cs
 			// Altseedを初期化する。
 			asd.Engine.Initialize("Sound", 640, 480, new asd.EngineOption());
 
-			// 音ファイルを読み込む
+			// 音ファイルを読み込む。
 			asd.SoundSource se1 = asd.Engine.Sound.CreateSoundSource("Data/Sound/se1.wav", true);
 
 			// 音を再生する。
