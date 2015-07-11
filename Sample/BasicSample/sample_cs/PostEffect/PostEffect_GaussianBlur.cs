@@ -11,21 +11,21 @@ namespace sample_cs
         // レイヤーにガウスぼかしのポストエフェクトを適用する。
         public void Run()
         {
-            // Altseedを初期化する
+            // Altseedを初期化する。
             asd.Engine.Initialize("PostEffect_GaussianBlur", 640, 480, new asd.EngineOption());
 
             var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Picture1.png");
 
-            // シーンのコンストラクタを呼び出す。
+            // シーンクラスのインスタンスを生成する。
             var scene = new asd.Scene();
 
-            // レイヤーのコンストラクタを呼び出す。
+            // レイヤークラスのインスタンスを生成する。
             var layer = new asd.Layer2D();
 
-            // オブジェクトのコンストラクタを呼び出す。
+            // 画像描画オブジェクトのインスタンスを生成する。
             var obj = new asd.TextureObject2D();
 
-            // オブジェクトの位置とテクスチャを設定。
+            // オブジェクトの位置とテクスチャを設定する。
             obj.Position = new asd.Vector2DF(50, 50);
             obj.Texture = texture;
 
@@ -36,12 +36,15 @@ namespace sample_cs
 
             // レイヤーにガウスぼかしのポストエフェクトを適用。
             layer.AddPostEffect(new asd.PostEffectGaussianBlur());
-
+            
+            // Altseedのウインドウが閉じられていないか確認する。
             while (asd.Engine.DoEvents())
             {
+                // Altseedを更新する。
                 asd.Engine.Update();
             }
-
+            
+            // Altseedを終了する。
             asd.Engine.Terminate();
         }
     }

@@ -11,21 +11,21 @@ namespace sample_cs
         // レイヤーにライトブルームのポストエフェクトを適用する。
         public void Run()
         {
-            // Altseedを初期化する
+            // Altseedを初期化する。
             asd.Engine.Initialize("PostEffect_LightBloom", 640, 480, new asd.EngineOption());
 
             var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Picture1.png");
 
-            // シーンのコンストラクタを呼び出す。
+            // シーンクラスのインスタンスを生成する。
             var scene = new asd.Scene();
 
             // レイヤーのコンストラクタを呼び出す。
             var layer = new asd.Layer2D();
 
-            // オブジェクトのコンストラクタを呼び出す。
+            // レイヤークラスのインスタンスを生成する。
             var obj = new asd.TextureObject2D();
 
-            // オブジェクトの位置とテクスチャを設定。
+            // 画像描画オブジェクトのインスタンスを生成する。
             obj.Position = new asd.Vector2DF(50, 50);
             obj.Texture = texture;
 
@@ -34,7 +34,7 @@ namespace sample_cs
             scene.AddLayer(layer);
             layer.AddObject(obj);
 
-            // ライトブルームのコンストラクタを呼び出す。
+            // ライトブルームクラスのインスタンスを生成する。
             var posteffect = new asd.PostEffectLightBloom();
 
             // ライトブルームのぼかしの強さを設定する。
@@ -48,12 +48,15 @@ namespace sample_cs
 
             // レイヤーにライトブルームのポストエフェクトを適用。
             layer.AddPostEffect(posteffect);
-
+            
+            // Altseedのウインドウが閉じられていないか確認する。
             while (asd.Engine.DoEvents())
             {
+                // Altseedを更新する。
                 asd.Engine.Update();
             }
-
+            
+            // Altseedを終了する。
             asd.Engine.Terminate();
         }
     }

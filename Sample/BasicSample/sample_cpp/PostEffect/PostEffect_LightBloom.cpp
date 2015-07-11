@@ -3,18 +3,18 @@
 // レイヤーにライトブルームのポストエフェクトを適用する。
 void PostEffect_LightBloom()
 {
-	// Altseedを初期化する
+	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("PostEffect_LightBloom").c_str(), 640, 480, asd::EngineOption());
 
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 
-	// シーンのコンストラクタを呼び出す。
+	// シーンクラスのインスタンスを生成する。
 	auto scene = std::make_shared<asd::Scene>();
 
-	// レイヤーのコンストラクタを呼び出す。
+	// レイヤークラスのインスタンスを生成する。
 	auto layer = std::make_shared<asd::Layer2D>();
 
-	// オブジェクトのコンストラクタを呼び出す。
+	// 画像描画オブジェクトのインスタンスを生成する。
 	auto obj = std::make_shared<asd::TextureObject2D>();
 
 	// オブジェクトの位置とテクスチャを設定。
@@ -26,7 +26,7 @@ void PostEffect_LightBloom()
 	scene->AddLayer(layer);
 	layer->AddObject(obj);
 
-	// ライトブルームのコンストラクタを呼び出す。
+	// ライトブルームクラスのインスタンスを生成する。
 	auto posteffect = std::make_shared<asd::PostEffectLightBloom>();
 
 	// ライトブルームのぼかしの強さを設定する。
@@ -44,10 +44,13 @@ void PostEffect_LightBloom()
 	// HDRモードをONにする（ライトブルームの効果が見えるようにするため）
 	scene->SetHDRMode(true);
 
+	// Altseedのウインドウが閉じられていないか確認する。 
 	while (asd::Engine::DoEvents())
 	{
+		// Altseedを更新する。
 		asd::Engine::Update();
 	}
-
+	
+	// Altseedを終了する。
 	asd::Engine::Terminate();
 }

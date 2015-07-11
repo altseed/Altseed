@@ -3,21 +3,22 @@
 // レイヤーにグレースケールのポストエフェクトを適用する。
 void PostEffect_GrayScale()
 {
-	// Altseedを初期化する
+	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("PostEffect_GrayScale").c_str(), 640, 480, asd::EngineOption());
 
+	// 画像を読み込む。
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 
-	// シーンのコンストラクタを呼び出す。
+	// シーンクラスのインスタンスを生成するす。
 	auto scene = std::make_shared<asd::Scene>();
 
-	// レイヤーのコンストラクタを呼び出す。
+	// レイヤークラスのインスタンスを生成する。
 	auto layer = std::make_shared<asd::Layer2D>();
 
-	// オブジェクトのコンストラクタを呼び出す。
+	// 画像描画オブジェクトのインスタンスを生成する。
 	auto obj = std::make_shared<asd::TextureObject2D>();
 
-	// オブジェクトの位置とテクスチャを設定。
+	// オブジェクトの位置とテクスチャを設定する。
 	obj->SetPosition(asd::Vector2DF(50, 50));
 	obj->SetTexture(texture);
 
@@ -26,13 +27,16 @@ void PostEffect_GrayScale()
 	scene->AddLayer(layer);
 	layer->AddObject(obj);
 
-	// レイヤーにグレースケールのポストエフェクトを適用。
+	// レイヤーにグレースケールのポストエフェクトを適用する。
 	layer->AddPostEffect(std::make_shared<asd::PostEffectGrayScale>());
-
+	
+	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
 	{
+		// Altseedを更新する。
 		asd::Engine::Update();
 	}
-
+	
+	// Altseedを終了する。
 	asd::Engine::Terminate();
 }
