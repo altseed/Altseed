@@ -11,7 +11,7 @@ void TextObject2D_Basic()
 
 	{
 		// フォントを生成する
-		auto font = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/edge.aff").c_str());
+		auto font = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/Font1.aff").c_str());
 
 		// TextObject2Dを生成する
 		auto obj = std::make_shared<asd::TextObject2D>();
@@ -23,7 +23,7 @@ void TextObject2D_Basic()
 		obj->SetPosition(asd::Vector2DF(100, 100));
 
 		// 描画する文字列の指定
-		obj->SetText(asd::ToAString("文字列サンプル1").c_str());
+		obj->SetText(asd::ToAString("普通の文字列描画").c_str());
 
 		// オブジェクトのインスタンスをエンジンへ追加する。
 		asd::Engine::AddObject2D(obj);

@@ -11,7 +11,7 @@ void TextObject2D_Filtered()
 
 	{
 		// フォントと文字列描画オブジェクトの設定を行う。
-		auto edgeFont = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/edge.aff").c_str());
+		auto edgeFont = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/Font1.aff").c_str());
 		auto edgeObj = std::make_shared<asd::TextObject2D>();
 		edgeObj->SetFont(edgeFont);
 		edgeObj->SetPosition(asd::Vector2DF(100, 100));
@@ -22,7 +22,7 @@ void TextObject2D_Filtered()
 		// 描画のフィルタを線形補間にすることによって、描画時に境界がギザギザにならないようにする。
 		edgeObj->SetTextureFilterType(asd::TextureFilterType::Linear);
 
-		edgeObj->SetText(asd::ToAString("文字列サンプル3").c_str());
+		edgeObj->SetText(asd::ToAString("ギザギザをなくした文字列の描画").c_str());
 
 		// オブジェクトのインスタンスをエンジンへ追加する。
 		asd::Engine::AddObject2D(edgeObj);

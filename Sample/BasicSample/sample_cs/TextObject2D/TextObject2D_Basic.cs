@@ -16,7 +16,7 @@ class TextObject2D_Basic : ISample
 
         {
             // フォントを生成する
-            var font = asd.Engine.Graphics.CreateFont("Data/Font/edge.aff");
+            var font = asd.Engine.Graphics.CreateFont("Data/Font/Font1.aff");
 
             // TextObject2Dを生成する
             var obj = new asd.TextObject2D();
@@ -28,7 +28,7 @@ class TextObject2D_Basic : ISample
             obj.Position = new asd.Vector2DF(100, 100);
 
             // 描画する文字列の指定
-            obj.Text = "文字列サンプル1";
+            obj.Text = "普通の文字列描画";
 
             // エンジンへの追加
             asd.Engine.AddObject2D(obj);

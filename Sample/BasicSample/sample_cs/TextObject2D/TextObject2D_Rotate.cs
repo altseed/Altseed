@@ -16,14 +16,14 @@ class TextObject2D_Rotate : ISample
 
         {
             // フォントと文字列描画オブジェクトの設定を行う。
-            var edgeFont = asd.Engine.Graphics.CreateFont("Data/Font/edge.aff");
+            var edgeFont = asd.Engine.Graphics.CreateFont("Data/Font/Font1.aff");
             var edgeObj = new asd.TextObject2D();
             edgeObj.Font = edgeFont;
             edgeObj.Position = new asd.Vector2DF(100, 100);
 
             // 30度回転させて描画する。
             edgeObj.Angle = 30;
-            edgeObj.Text = "文字列サンプル2";
+            edgeObj.Text = "文字列の回転描画";
             asd.Engine.AddObject2D(edgeObj);
         }
 

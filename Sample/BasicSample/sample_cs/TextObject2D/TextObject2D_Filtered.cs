@@ -17,7 +17,7 @@ class TextObject2D_Filtered : ISample
 
         {
             // フォントと文字列描画オブジェクトの設定を行う。
-            var edgeFont = asd.Engine.Graphics.CreateFont("Data/Font/edge.aff");
+            var edgeFont = asd.Engine.Graphics.CreateFont("Data/Font/Font1.aff");
             var edgeObj = new asd.TextObject2D();
             edgeObj.Font = edgeFont;
             edgeObj.Position = new asd.Vector2DF(100, 100);
@@ -28,7 +28,7 @@ class TextObject2D_Filtered : ISample
             // 描画のフィルタを線形補間にすることによって、描画時に境界がギザギザにならないようにする。
             edgeObj.TextureFilterType = asd.TextureFilterType.Linear;
 
-            edgeObj.Text = "文字列サンプル3";
+            edgeObj.Text = "ギザギザをなくした文字列の描画";
             asd.Engine.AddObject2D(edgeObj);
         }
         // Altseedのウインドウが閉じられていないか確認する。

@@ -11,14 +11,14 @@ void TextObject2D_Rotate()
 
 	{
 		// フォントと文字列描画オブジェクトの設定を行う。
-		auto edgeFont = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/edge.aff").c_str());
+		auto edgeFont = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/Font1.aff").c_str());
 		auto edgeObj = std::make_shared<asd::TextObject2D>();
 		edgeObj->SetFont(edgeFont);
 		edgeObj->SetPosition(asd::Vector2DF(100, 100));
 
 		//30度回転させて描画する
 		edgeObj->SetAngle(30);
-		edgeObj->SetText(asd::ToAString("文字列サンプル2").c_str());
+		edgeObj->SetText(asd::ToAString("文字列の回転描画").c_str());
 
 		// オブジェクトのインスタンスをエンジンへ追加する。
 		asd::Engine::AddObject2D(edgeObj);
