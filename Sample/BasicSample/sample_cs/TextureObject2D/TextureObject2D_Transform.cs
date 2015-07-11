@@ -12,7 +12,7 @@ class TextureObject2D_Transform : ISample
 		// 画像を読み込む。
 		asd.Texture2D texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Picture1.png");
 
-		// TextureObject2Dのインスタンスを生成する。
+		// 画像描画オブジェクトのインスタンスを生成する。
 		asd.TextureObject2D obj = new asd.TextureObject2D();
 
 		// 描画される画像を設定する。
@@ -30,7 +30,7 @@ class TextureObject2D_Transform : ISample
 		// 画像をX,Y方向に0.4倍に縮小する。
 		obj.Scale = new asd.Vector2DF(0.4f, 0.4f);
 
-		// オブジェクトのインスタンスをエンジンに追加する。
+		// 画像描画オブジェクトのインスタンスをエンジンに追加する。
 		asd.Engine.AddObject2D(obj);
 
 		// Altseedのウインドウが閉じられていないか確認する。

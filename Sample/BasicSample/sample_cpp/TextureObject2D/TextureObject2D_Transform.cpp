@@ -13,7 +13,7 @@ void TextureObject2D_Transform()
 	std::shared_ptr<asd::Texture2D> texture =
 		asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 
-	// TextureObject2Dのインスタンスを生成する。
+	// 画像描画オブジェクトのインスタンスを生成する。
 	std::shared_ptr<asd::TextureObject2D> obj = std::make_shared<asd::TextureObject2D>();
 
 	// 描画される画像を設定する。
@@ -31,7 +31,7 @@ void TextureObject2D_Transform()
 	// 画像をX,Y方向に0.4倍に縮小する。
 	obj->SetScale(asd::Vector2DF(0.4f, 0.4f));
 	
-	// オブジェクトのインスタンスをエンジンに追加する。
+	// 画像描画オブジェクトのインスタンスをエンジンに追加する。
 	asd::Engine::AddObject2D(obj);
 
 	// Altseedのウインドウが閉じられていないか確認する。

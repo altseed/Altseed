@@ -6,14 +6,14 @@
 */
 void TextureObject2D_Turn()
 {
-	// Altseedを初期化する
+	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("TextureObject2D_Turn").c_str(), 640, 480, asd::EngineOption());
 
 	// 画像を読み込む。
 	std::shared_ptr<asd::Texture2D> texture =
 		asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 
-	// TextureObject2Dのインスタンスを生成する。
+	// 画像描画オブジェクトのインスタンスを生成する。
 	std::shared_ptr<asd::TextureObject2D> obj = std::make_shared<asd::TextureObject2D>();
 
 	// 描画される画像を設定する。
@@ -25,7 +25,7 @@ void TextureObject2D_Turn()
 	// 画像を上下に反転する。
 	obj->SetTurnUL(true);
 
-	// オブジェクトのインスタンスをエンジンに追加する。
+	// 画像描画オブジェクトのインスタンスをエンジンに追加する。
 	asd::Engine::AddObject2D(obj);
 
 	// Altseedのウインドウが閉じられていないか確認する。
