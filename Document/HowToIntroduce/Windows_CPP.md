@@ -12,7 +12,7 @@ C++版の導入方法について説明しています。
 ダウンロードが終わったら、「Visual Studio」をインストールします。
 
 ### Altseedのダウンロード
-[Altseed](https://github.com/altseed/Altseed/releases/download/20150708/Altseed_CPP_20150708_WIN.zip)　をダウンロードします。
+[Altseed](https://github.com/altseed/Altseed/releases/download/20150712/Altseed_CPP_20150712_WIN.zip)　をダウンロードします。
 ダウンロードしたファイルを解凍します。
 
 開発には以下のファイルを使用します。

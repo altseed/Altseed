@@ -25,6 +25,7 @@ Altseedの機能を提供します。初期化、終了処理及び、殆どの�
 | ChangeSceneWithTransition | トランジションを適用し、更新するシーンを変更します。 |
 | Close | Altseedのウインドウを閉じます。 |
 | TakeScreenshot | スクリーンショットを撮影し、画像として保存します。 |
+| CaptureScreenAsGifAnimation | 画面を録画し、gifアニメとして保存します。 |
 
 ### 主なプロパティ
 

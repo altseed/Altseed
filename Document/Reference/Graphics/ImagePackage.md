@@ -27,4 +27,4 @@
 
 画像パッケージから画像を読み込み、配置するサンプルです。
 
-* include_basic_sample ImagePackage
+* include_application_sample ImagePackageUI_Basic

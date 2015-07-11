@@ -32,7 +32,8 @@
 * [図形オブジェクト2D](./2D/GeometryObject2D.md)
 * [カメラオブジェクト2D](./2D/CameraObject2D.md)
 
-* [チップ2D](./2D/Chip2D.md)
+* [シェーダー2D](./2D/Shader2D.md)
+* [マテリアル2D](./2D/Material2D.md)
 
 #### 2D図形
 
