@@ -6,7 +6,7 @@
 */
 void TextObject2D_Rotate()
 {
-	// Altseedを初期化する
+	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("TextObject2D_Rotate").c_str(), 640, 480, asd::EngineOption());
 
 	{
@@ -16,11 +16,11 @@ void TextObject2D_Rotate()
 		edgeObj->SetFont(edgeFont);
 		edgeObj->SetPosition(asd::Vector2DF(100, 100));
 
-		//30度回転させて描画する
+		//回転角と描画する文字列を設定する。
 		edgeObj->SetAngle(30);
 		edgeObj->SetText(asd::ToAString("文字列の回転描画").c_str());
 
-		// オブジェクトのインスタンスをエンジンへ追加する。
+		// 文字描画オブジェクトのインスタンスをエンジンへ追加する。
 		asd::Engine::AddObject2D(edgeObj);
 	}
 

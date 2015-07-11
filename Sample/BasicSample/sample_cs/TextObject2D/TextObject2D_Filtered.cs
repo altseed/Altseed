@@ -16,21 +16,24 @@ class TextObject2D_Filtered : ISample
 
 
         {
-            // フォントと文字列描画オブジェクトの設定を行う。
+            // フォントと文字描画オブジェクトの設定を行う。
             var edgeFont = asd.Engine.Graphics.CreateFont("Data/Font/Font1.aff");
             var edgeObj = new asd.TextObject2D();
             edgeObj.Font = edgeFont;
             edgeObj.Position = new asd.Vector2DF(100, 100);
 
-            // 30度回転させて描画する
+            // 回転角を設定する。
             edgeObj.Angle = 30;
 
-            // 描画のフィルタを線形補間にすることによって、描画時に境界がギザギザにならないようにする。
+            // 描画のフィルタを線形補間にすることによって、描画時に境界がギザギザにならないように設定する。
             edgeObj.TextureFilterType = asd.TextureFilterType.Linear;
 
             edgeObj.Text = "ギザギザをなくした文字列の描画";
+            
+            // 文字描画オブジェクトのインスタンスをエンジンへ追加する。
             asd.Engine.AddObject2D(edgeObj);
         }
+        
         // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
         {

@@ -15,22 +15,22 @@ class TextObject2D_DynamicFont : ISample
         asd.Engine.Initialize("TextObject2D_DynamicFont", 640, 480, new asd.EngineOption());
 
         {
-            // 動的フォントを生成する
+            // 動的フォントを生成する。
             var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 35, new asd.Color(255, 0, 0, 255), 1, new asd.Color(255, 255, 255, 255));
 
-            // TextObject2Dを生成する
+            // 文字描画オブジェクトを生成する。
             var obj = new asd.TextObject2D();
 
-            // 描画に使うフォントを設定する
+            // 描画に使うフォントを設定する。
             obj.Font = font;
 
-            // 描画位置を指定する
+            // 描画位置を指定する。
             obj.Position = new asd.Vector2DF(100, 100);
 
-            // 描画する文字列の指定
+            // 描画する文字列を指定する。
             obj.Text = "動的フォントによる文字列描画";
 
-            // エンジンへの追加
+            // 文字描画オブジェクトのインスタンスをエンジンへ追加する。
             asd.Engine.AddObject2D(obj);
         }
 
