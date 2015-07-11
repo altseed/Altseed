@@ -15,8 +15,12 @@ namespace FontGenerator.GUI
 		public Window()
 		{
 			InitializeComponent();
-			// TODO: Linux
-			Font = new Font( "Hiragino Kaku Gothic Pro", 11 );
+			if (Environment.OSVersion.Platform == PlatformID.Unix)
+			{
+				// MacのPlatformIDはなぜかUnix
+				// TODO: Linux
+				Font = new Font( "Hiragino Kaku Gothic Pro", 11 );
+			}
 		}
 
 		ViewModels.GeneratorViewModel viewModel = null;
