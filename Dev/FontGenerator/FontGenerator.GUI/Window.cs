@@ -15,6 +15,10 @@ namespace FontGenerator.GUI
 		public Window()
 		{
 			InitializeComponent();
+			// TODO: Linux
+			Font = new Font( "Hiragino Kaku Gothic Pro", 11 );
+			// TODO: Window.Designerへ
+			cb_font.SelectedIndexChanged += new System.EventHandler(this.cb_font_SelectedIndexChanged);
 		}
 
 		ViewModels.GeneratorViewModel viewModel = null;
@@ -186,6 +190,13 @@ namespace FontGenerator.GUI
 			{
 				pic_preview.Image = viewModel.PreviewImage;
 			}	
+		}
+
+		private void cb_font_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			if (loading) return;
+
+			viewModel.FontIndex = cb_font.SelectedIndex;
 		}
 
 		private void cb_font_SelectedIndexChanged(object sender, EventArgs e)
