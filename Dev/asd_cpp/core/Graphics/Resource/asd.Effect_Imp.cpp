@@ -27,6 +27,7 @@ namespace asd
 		: graphics(graphics)
 		, m_effect(effect)
 	{
+		SafeAddRef(graphics);
 	}
 
 	Effect_Imp::~Effect_Imp()
@@ -35,6 +36,8 @@ namespace asd
 
 		auto g = (Graphics_Imp*)graphics;
 		g->EffectContainer->Unregister(this);
+
+		SafeRelease(graphics);
 	}
 
 	Effect_Imp* Effect_Imp::CreateEffect(Graphics* graphics, Effekseer::Effect* effect)

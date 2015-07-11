@@ -609,8 +609,6 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path, Effekseer::TextureType tex
 //----------------------------------------------------------------------------------
 void EffectTextureLoader::Unload(void* data)
 {
-	InternalUnload(data);
-
 	if (data == nullptr) return;
 
 	auto key = dataToKey[data];
@@ -619,6 +617,8 @@ void EffectTextureLoader::Unload(void* data)
 
 	if (cache->second.Count == 0)
 	{
+		InternalUnload(data);
+
 		m_graphics->DecVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, cache->second.Width, cache->second.Height));
 
 		m_caches.erase(key);
