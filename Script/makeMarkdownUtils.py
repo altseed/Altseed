@@ -93,6 +93,8 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,sampleDirPrefix,mode='
                             fl = fl.replace(r' : ISample','')
                             if 'Recorder.TakeScreenShot' in fl:
                                 continue
+                            if 'Recorder.CaptureScreen' in fl:
+                                continue
 
                         ls_included.append(fl)
                 

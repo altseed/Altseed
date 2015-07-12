@@ -89,6 +89,9 @@ def editCSFiles(targetDir):
 			for l in f.readlines():
 				if 'Recorder.TakeScreenShot' in l:
 					continue
+				if 'Recorder.CaptureScreen' in l:
+					continue
+
 				else:
 					ls.append(l)
 
