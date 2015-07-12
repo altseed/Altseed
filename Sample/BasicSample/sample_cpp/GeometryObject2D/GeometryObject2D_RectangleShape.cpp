@@ -20,7 +20,7 @@ void GeometryObject2D_RectangleShape()
 	// 矩形の描画範囲を指定する。
 	rect->SetDrawingArea(asd::RectF(10, 210, 300, 200));
 
-	// 矩形を描画する図形として設定しする。
+	// 矩形を描画する図形として設定する。
 	geometryObj->SetShape(rect);
 
 	// Altseedのウインドウが閉じられていないか確認する。
