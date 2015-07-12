@@ -1,55 +1,55 @@
-
+ï»¿
 #include <Altseed.h>
 
-// StreamFile ‚ğ—p‚¢‚ÄAƒtƒ@ƒCƒ‹‚©‚çƒeƒLƒXƒg‚ğ“Ç‚İ‚ŞƒTƒ“ƒvƒ‹‚Å‚·B
+// StreamFile ã‚’ç”¨ã„ã¦ã€ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰ãƒ†ã‚­ã‚¹ãƒˆã‚’èª­ã¿è¾¼ã‚€ã‚µãƒ³ãƒ—ãƒ«ã§ã™ã€‚
 
 void StreamFile()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("StreamFile").c_str(), 640, 480, asd::EngineOption());
 
-	// ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚ğ’Ç‰Á‚·‚éB
+	// ãƒ«ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::GetFile()->AddRootDirectory(asd::ToAString("Data").c_str());
 
-	// ƒtƒHƒ“ƒg‚ğ¶¬‚·‚éB
+	// ãƒ•ã‚©ãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto font = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Font/Font1.aff").c_str());
 
-	// ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto obj = std::make_shared<asd::TextObject2D>();
 
-	// •`‰æ‚Ég‚¤ƒtƒHƒ“ƒg‚ğİ’è‚·‚é
+	// æç”»ã«ä½¿ã†ãƒ•ã‚©ãƒ³ãƒˆã‚’è¨­å®šã™ã‚‹
 	obj->SetFont(font);
 
-	// •`‰æˆÊ’u‚ğw’è‚·‚é
+	// æç”»ä½ç½®ã‚’æŒ‡å®šã™ã‚‹
 	obj->SetPosition(asd::Vector2DF(100, 100));
 
-	// ƒtƒ@ƒCƒ‹ƒIƒuƒWƒFƒNƒgì¬
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆä½œæˆ
 	auto streamFile = asd::Engine::GetFile()->CreateStreamFile(asd::ToAString("Text/HelloWorld.txt").c_str());
 
-	// ƒtƒ@ƒCƒ‹ƒTƒCƒYæ“¾
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚µã‚¤ã‚ºå–å¾—
 	const auto size = streamFile->GetSize();
 
-	// ƒtƒ@ƒCƒ‹‚Ì“à—e‚ğƒoƒbƒtƒ@‚ÖŠi”[
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã®å†…å®¹ã‚’ãƒãƒƒãƒ•ã‚¡ã¸æ ¼ç´
 	std::vector<uint8_t> buffer;
 	streamFile->Read(buffer, size);
 
-	// •`‰æ‚µ‚½‚¢ƒeƒLƒXƒg‚ğƒtƒ@ƒCƒ‹‚©‚ç“Ç‚İæ‚é
+	// æç”»ã—ãŸã„ãƒ†ã‚­ã‚¹ãƒˆã‚’ãƒ•ã‚¡ã‚¤ãƒ«ã‹ã‚‰èª­ã¿å–ã‚‹
 	char text[32] = { 0 };
 	memcpy(text, buffer.data(), size);
 
-	// •`‰æ‚·‚é•¶š—ñ‚Ìw’è
+	// æç”»ã™ã‚‹æ–‡å­—åˆ—ã®æŒ‡å®š
 	obj->SetText(asd::ToAString(text).c_str());
 
-	// ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒGƒ“ƒWƒ“‚Ö’Ç‰Á‚·‚éB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ã‚¨ãƒ³ã‚¸ãƒ³ã¸è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::AddObject2D(obj);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// Altseed‚ğI—¹‚·‚éB
+	// Altseedã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }

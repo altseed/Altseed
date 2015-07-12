@@ -14,7 +14,7 @@ namespace sample_cs
             // Altseedを初期化する。
             asd.Engine.Initialize("SceneAndLayer_Basic", 640, 480, new asd.EngineOption());
 
-            画像を読み込む。
+            // 画像を読み込む。
             var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Picture1.png");
 
             // シーンクラスのインスタンスを生成する。

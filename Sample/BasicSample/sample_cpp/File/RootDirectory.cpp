@@ -1,40 +1,40 @@
-
+ï»¿
 #include <Altseed.h>
 
-// AddRootDirectory ‚ğ—p‚¢‚ÄAƒtƒ@ƒCƒ‹‚Ì‹N“_‚Æ‚È‚éêŠ‚ğw’èB
-// ‚»‚Ì‹N“_‚ğŠî€‚Æ‚µ‚½‘Š‘ÎƒpƒX‚Å‰æ‘œ‚ğw’è‚µ•`‰æ‚·‚éƒTƒ“ƒvƒ‹‚Å‚·B
+// AddRootDirectory ã‚’ç”¨ã„ã¦ã€ãƒ•ã‚¡ã‚¤ãƒ«ã®èµ·ç‚¹ã¨ãªã‚‹å ´æ‰€ã‚’æŒ‡å®šã€‚
+// ãã®èµ·ç‚¹ã‚’åŸºæº–ã¨ã—ãŸç›¸å¯¾ãƒ‘ã‚¹ã§ç”»åƒã‚’æŒ‡å®šã—æç”»ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã§ã™ã€‚
 
 void RootDirectory()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("RootDirectory").c_str(), 640, 480, asd::EngineOption());
 
-	// ƒ‹[ƒgƒfƒBƒŒƒNƒgƒŠ‚ğ’Ç‰Á‚·‚éB
+	// ãƒ«ãƒ¼ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::GetFile()->AddRootDirectory(asd::ToAString("Data/Texture").c_str());
 
-	// ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto obj = std::make_shared<asd::TextureObject2D>();
 
-	// ‰æ‘œ‚ğ“Ç‚İ‚ŞB
+	// ç”»åƒã‚’èª­ã¿è¾¼ã‚€ã€‚
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Picture1.png").c_str());
 
-	// ƒIƒuƒWƒFƒNƒg‚É‰æ‘œ‚ğİ’è‚·‚éB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ç”»åƒã‚’è¨­å®šã™ã‚‹ã€‚
 	obj->SetTexture(texture);
 
-	// ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ğİ’è‚·‚éB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’è¨­å®šã™ã‚‹ã€‚
 	obj->SetPosition(asd::Vector2DF(320, 240));
 
-	// ƒGƒ“ƒWƒ“‚ÉƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚éB
+	// ã‚¨ãƒ³ã‚¸ãƒ³ã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::AddObject2D(obj);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	//Altseed‚ÌI—¹ˆ—‚ğ‚·‚éB
+	//Altseedã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 
 	return;
