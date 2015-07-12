@@ -117,6 +117,18 @@
     <ClCompile Include="..\EffectObject2D\EffectObject2D_Basic.cpp">
       <Filter>EffectObject2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\File\PackFile.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\File\RootDirectory.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\File\StaticFile.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\File\StreamFile.cpp">
+      <Filter>File</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -167,6 +179,9 @@
     </Filter>
     <Filter Include="TextureObject2D">
       <UniqueIdentifier>{f6a26967-5aeb-4665-a586-f1f06a66f99a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="File">
+      <UniqueIdentifier>{7c06980e-2377-4635-8d44-dff23a331aa6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

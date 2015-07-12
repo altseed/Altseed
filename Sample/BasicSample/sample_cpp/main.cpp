@@ -70,6 +70,11 @@ extern void Object2DComponent();
 
 extern void SceneAndLayer_Basic();
 
+extern void PackFile();
+extern void RootDirectory();
+extern void StaticFile();
+extern void StreamFile();
+
 int main(int argc, char** argv)
 {
 #if _WIN32
@@ -131,6 +136,11 @@ int main(int argc, char** argv)
 		INFO(PostEffect_Sepia),
 		INFO(PostEffect_GaussianBlur),
 		INFO(PostEffect_LightBloom),
+
+		INFO(PackFile),
+		INFO(RootDirectory),
+		INFO(StaticFile),
+		INFO(StreamFile)
 	};
 
 	auto cui = SampleGuide(samples);
