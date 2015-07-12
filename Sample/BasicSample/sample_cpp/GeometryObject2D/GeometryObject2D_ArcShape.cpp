@@ -5,7 +5,7 @@
 */
 void GeometryObject2D_ArcShape()
 {
-	// Altseedを初期化するする。
+	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("GeometryObject2D_ArcShape").c_str(), 640, 480, asd::EngineOption());
 
 	// 図形描画オブジェクトのインスタンスを生成する。
