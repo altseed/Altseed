@@ -18,6 +18,12 @@ namespace FilePackageGenerator.GUI
 		public MainWindow()
 		{
 			InitializeComponent();
+			if (Environment.OSVersion.Platform == PlatformID.Unix)
+			{
+				// MacのPlatformIDはなぜかUnix
+				// TODO: Linux
+				Font = new Font( "Hiragino Kaku Gothic Pro", 11 );
+			}
 		}
 
 		private void btn_ref_Click(object sender, EventArgs e)
