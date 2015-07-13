@@ -7,6 +7,9 @@
 #ifdef _WIN32
 #pragma warning( disable: 4309 )
 #endif
+#ifdef __GNUC__
+#pragma GCC diagnostic ignored "-Wnarrowing"
+#endif
 
 using namespace std;
 
