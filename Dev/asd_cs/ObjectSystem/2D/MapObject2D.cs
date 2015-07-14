@@ -11,7 +11,7 @@ namespace asd
     /// </summary>
     public class MapObject2D : Object2D, IDestroy
     {
-
+        private List<Chip2D> chips;
         internal override swig.CoreObject2D CoreObject
         {
             get { return coreMapObject; }
@@ -21,8 +21,9 @@ namespace asd
 		public MapObject2D()
 		{
 			coreMapObject = Engine.ObjectSystemFactory.CreateMapObject2D();
+            chips = new List<Chip2D>();
 
-			var p = coreMapObject.GetPtr();
+            var p = coreMapObject.GetPtr();
 			if (GC.Object2Ds.GetObject(p) != null)
 			{
 				Particular.Helper.ThrowException("");
@@ -78,7 +79,17 @@ namespace asd
         /// </summary>
         public bool AddChip(Chip2D chip)
         {
+            chips.Add(chip);
             return coreMapObject.AddChip(IG.GetChip2D(chip));
+        }
+
+        /// <summary>
+        /// このオブジェクトが保有しているチップを全て取得する。
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<Chip2D> AllContainingChips
+        {
+            get { return chips; }
         }
 
         /// <summary>
@@ -86,6 +97,7 @@ namespace asd
         /// </summary>
         public bool RemoveChip(Chip2D chip)
         {
+            chips.Remove(chip);
             return coreMapObject.RemoveChip(IG.GetChip2D(chip));
         }
 
@@ -94,6 +106,7 @@ namespace asd
         /// </summary>
         public void Clear()
         {
+            chips.Clear();
             coreMapObject.Clear();
         }
     }

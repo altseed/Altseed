@@ -13,7 +13,7 @@ namespace asd
 		friend class Chip2D;
 	private:
 		std::shared_ptr<CoreMapObject2D> m_coreObject;
-		std::set<std::shared_ptr<Chip2D>> m_chips;
+		std::vector<std::shared_ptr<Chip2D>> m_chips;
 
 		CoreObject2D* GetCoreObject() const;
 
@@ -63,5 +63,10 @@ namespace asd
 		@brief	このオブジェクトに追加されている描画チップを全て削除する。
 		*/
 		void Clear();
+
+		/**
+		@brief　このオブジェクトが保有しているチップを全て取得する。
+		*/
+		std::vector<std::shared_ptr<Chip2D>>& GetAllContainingChips();
 	};
 }

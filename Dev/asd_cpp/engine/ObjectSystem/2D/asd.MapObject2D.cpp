@@ -42,13 +42,13 @@ namespace asd
 
 	bool MapObject2D::AddChip(std::shared_ptr<Chip2D> chip)
 	{
-		m_chips.insert(chip);
+		m_chips.push_back(chip);
 		return m_coreObject->AddChip(chip->GetCoreObject().get());
 	}
 
 	bool MapObject2D::RemoveChip(std::shared_ptr<Chip2D> chip)
 	{
-		m_chips.erase(chip);
+		m_chips.erase(std::remove(m_chips.begin(), m_chips.end(), chip), m_chips.end());
 		return m_coreObject->RemoveChip(chip->GetCoreObject().get());
 	}
 
@@ -56,5 +56,10 @@ namespace asd
 	{
 		m_chips.clear();
 		m_coreObject->Clear();
+	}
+
+	std::vector<std::shared_ptr<Chip2D>>& MapObject2D::GetAllContainingChips()
+	{
+		return m_chips;
 	}
 }
