@@ -87,7 +87,7 @@ namespace asd
         /// このオブジェクトが保有しているチップを全て取得する。
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<Chip2D> Chips
+        public List<Chip2D> Chips
         {
             get { return chips; }
         }
