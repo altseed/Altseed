@@ -23,7 +23,6 @@ public class GeometryObject2D_CircleShape : ISample
 
         // 円を描画する図形として設定する。
         geometryObj.Shape = arc;
-        geometryObj.Color = new asd.Color(255, 255, 255, 255);
 
         // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())

@@ -27,7 +27,6 @@ class GeometryObject2D_ArcShape : ISample
 
         // 弧を描画する図形として設定する。
         geometryObj.Shape = arc;
-        geometryObj.Color = new asd.Color(255, 255, 255, 255);
 
         // Altseedを更新する。
         while (asd.Engine.DoEvents())
