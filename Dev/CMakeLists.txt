@@ -259,6 +259,11 @@ set_target_properties(asdUnitTestGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestG
 set_target_properties(asdUnitTestEngineGtest PROPERTIES OUTPUT_NAME_DEBUG "UnitTestEngineGtest_cpp" )
 set_target_properties(asdUnitTestEngineGtest PROPERTIES OUTPUT_NAME_RELEASE "UnitTestEngineGtest_cpp" )
 
+# Linux x86_64向けの追加のリンクオプション
+if (CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+	set_target_properties(asdTool PROPERTIES COMPILE_FLAGS "-fPIC")
+endif()
+
 
 # フラグ処理
 if (MSVC)
