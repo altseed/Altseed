@@ -67,6 +67,6 @@ namespace asd
 		/**
 		@brief　このオブジェクトが保有しているチップを全て取得する。
 		*/
-		std::vector<std::shared_ptr<Chip2D>>& GetAllContainingChips();
+		std::vector<std::shared_ptr<Chip2D>>& GetChips();
 	};
 }

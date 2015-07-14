@@ -58,7 +58,7 @@ namespace asd
 		m_coreObject->Clear();
 	}
 
-	std::vector<std::shared_ptr<Chip2D>>& MapObject2D::GetAllContainingChips()
+	std::vector<std::shared_ptr<Chip2D>>& MapObject2D::GetChips()
 	{
 		return m_chips;
 	}
