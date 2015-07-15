@@ -17,5 +17,6 @@ Altseedで文字を描画するには[TextObject2D](./../Reference/2D/TextObject
 
 * include_basic_sample TextObject2D_Filtered
 
+### 動的フォントによる文字の描画
 
-
+* include_basic_sample TextObject2D_DynamicFont
