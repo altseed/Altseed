@@ -66,14 +66,14 @@ extern void GeometryObject2D_PolygonShape_Textured();
 extern void Collision2D_Basic();
 extern void Collision2D_Geometries();
 
-extern void Object2DComponent();
+extern void Object2DComponent_Custom();
 
 extern void SceneAndLayer_Basic();
 
-extern void PackFile();
-extern void RootDirectory();
-extern void StaticFile();
-extern void StreamFile();
+extern void File_PackFile();
+extern void File_RootDirectory();
+extern void File_StaticFile();
+extern void File_StreamFile();
 
 int main(int argc, char** argv)
 {
@@ -109,7 +109,7 @@ int main(int argc, char** argv)
 		INFO(Sound_BGM),
 		INFO(Sound_Loop),
 
-		INFO(Object2DComponent),
+		INFO(Object2DComponent_Custom),
 
 		INFO(CameraObject2D_Basic),
 		INFO(CameraObject2D_Magnify),
@@ -137,10 +137,10 @@ int main(int argc, char** argv)
 		INFO(PostEffect_GaussianBlur),
 		INFO(PostEffect_LightBloom),
 
-		INFO(PackFile),
-		INFO(RootDirectory),
-		INFO(StaticFile),
-		INFO(StreamFile)
+		INFO(File_PackFile),
+		INFO(File_RootDirectory),
+		INFO(File_StaticFile),
+		INFO(File_StreamFile)
 	};
 
 	auto cui = SampleGuide(samples);

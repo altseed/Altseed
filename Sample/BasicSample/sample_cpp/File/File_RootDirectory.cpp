@@ -3,8 +3,7 @@
 
 // AddRootDirectory を用いて、ファイルの起点となる場所を指定。
 // その起点を基準とした相対パスで画像を指定し描画するサンプルです。
-
-void RootDirectory()
+void File_RootDirectory()
 {
 	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("RootDirectory").c_str(), 640, 480, asd::EngineOption());
@@ -22,7 +21,7 @@ void RootDirectory()
 	obj->SetTexture(texture);
 
 	// オブジェクトの位置を設定する。
-	obj->SetPosition(asd::Vector2DF(320, 240));
+	obj->SetPosition(asd::Vector2DF(100, 100));
 
 	// エンジンにオブジェクトを追加する。
 	asd::Engine::AddObject2D(obj);

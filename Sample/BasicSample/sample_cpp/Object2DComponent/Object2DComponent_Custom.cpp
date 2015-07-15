@@ -14,7 +14,7 @@ public:
 	}
 };
 
-void Object2DComponent()
+void Object2DComponent_Custom()
 {
 	// Altseedを初期化する。
 	asd::Engine::Initialize(asd::ToAString("Object2DComponent").c_str(), 640, 480, asd::EngineOption());

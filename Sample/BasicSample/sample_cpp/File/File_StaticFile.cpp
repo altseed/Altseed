@@ -1,18 +1,14 @@
 ﻿
 #include <Altseed.h>
 
-// StreamFile を用いて、ファイルからテキストを読み込むサンプルです。
-
-void StreamFile()
+// StaticFile を用いて、ファイルからテキストを読み込むサンプルです。
+void File_StaticFile()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("StreamFile").c_str(), 640, 480, asd::EngineOption());
-
-	// ルートディレクトリを追加する。
-	asd::Engine::GetFile()->AddRootDirectory(asd::ToAString("Data").c_str());
+	asd::Engine::Initialize(asd::ToAString("StaticFile").c_str(), 640, 480, asd::EngineOption());
 
 	// フォントを生成する。
-	auto font = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Font/Font1.aff").c_str());
+	auto font = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/Font1.aff").c_str());
 
 	// オブジェクトを生成する。
 	auto obj = std::make_shared<asd::TextObject2D>();
@@ -24,18 +20,11 @@ void StreamFile()
 	obj->SetPosition(asd::Vector2DF(100, 100));
 
 	// ファイルオブジェクト作成
-	auto streamFile = asd::Engine::GetFile()->CreateStreamFile(asd::ToAString("Text/HelloWorld.txt").c_str());
-
-	// ファイルサイズ取得
-	const auto size = streamFile->GetSize();
-
-	// ファイルの内容をバッファへ格納
-	std::vector<uint8_t> buffer;
-	streamFile->Read(buffer, size);
+	auto staticFile = asd::Engine::GetFile()->CreateStaticFile(asd::ToAString("Data/Text/HelloWorld.txt").c_str());
 
 	// 描画したいテキストをファイルから読み取る
 	char text[32] = { 0 };
-	memcpy(text, buffer.data(), size);
+	memcpy(text, staticFile->GetBuffer().data(), staticFile->GetBuffer().size());
 
 	// 描画する文字列の指定
 	obj->SetText(asd::ToAString(text).c_str());

@@ -17,10 +17,10 @@
     <ClCompile Include="..\Collision\Collision2D_Geometries.cpp" />
     <ClCompile Include="..\Collision\Collision2D_Basic.cpp" />
     <ClCompile Include="..\EffectObject2D\EffectObject2D_Basic.cpp" />
-    <ClCompile Include="..\File\PackFile.cpp" />
-    <ClCompile Include="..\File\RootDirectory.cpp" />
-    <ClCompile Include="..\File\StaticFile.cpp" />
-    <ClCompile Include="..\File\StreamFile.cpp" />
+    <ClCompile Include="..\File\File_PackFile.cpp" />
+    <ClCompile Include="..\File\File_RootDirectory.cpp" />
+    <ClCompile Include="..\File\File_StaticFile.cpp" />
+    <ClCompile Include="..\File\File_StreamFile.cpp" />
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_ArcShape.cpp" />
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_CircleShape.cpp" />
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_PolygonShape.cpp" />
@@ -36,7 +36,7 @@
     <ClCompile Include="..\Mouse\Mouse_Click.cpp" />
     <ClCompile Include="..\Mouse\Mouse_State.cpp" />
     <ClCompile Include="..\Mouse\Mouse_Wheel.cpp" />
-    <ClCompile Include="..\Object2DComponent\Object2DComponent.cpp" />
+    <ClCompile Include="..\Object2DComponent\Object2DComponent_Custom.cpp" />
     <ClCompile Include="..\PostEffect\PostEffect_GaussianBlur.cpp" />
     <ClCompile Include="..\PostEffect\PostEffect_GrayScale.cpp" />
     <ClCompile Include="..\PostEffect\PostEffect_LightBloom.cpp" />
