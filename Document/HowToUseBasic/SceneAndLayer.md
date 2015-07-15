@@ -9,8 +9,14 @@ Altseedには、シーンとレイヤーというオブジェクトを管理す�
 
 詳細は[こちら](./../Reference/BasicDesign.md)を御覧ください。
 
-
-
 ### シーンとレイヤーの基本
 
 * include_basic_sample SceneAndLayer_Basic
+
+### レイヤーのカスタマイズ
+
+* include_basic_sample SceneAndLayer_CustomLayer
+
+### シーンのカスタマイズ
+
+* include_basic_sample SceneAndLayer_CustomScene
