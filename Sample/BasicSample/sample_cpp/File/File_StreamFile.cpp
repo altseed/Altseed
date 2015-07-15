@@ -5,7 +5,7 @@
 void File_StreamFile()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("StreamFile").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("File_StreamFile").c_str(), 640, 480, asd::EngineOption());
 
 	// フォントを生成する。
 	auto font = asd::Engine::GetGraphics()->CreateFont(asd::ToAString("Data/Font/Font1.aff").c_str());

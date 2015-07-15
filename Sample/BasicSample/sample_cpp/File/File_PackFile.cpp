@@ -5,7 +5,7 @@
 void File_PackFile()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("PackFile").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("File_PackFile").c_str(), 640, 480, asd::EngineOption());
 
 	// パッケージをルートディレクトリに追加する。
 	asd::Engine::GetFile()->AddRootDirectory(asd::ToAString("Data.pack").c_str());
@@ -13,7 +13,7 @@ void File_PackFile()
 	// オブジェクトを生成する。
 	auto obj = std::make_shared<asd::TextureObject2D>();
 
-	// 画像を読み込む。
+	// パッケージ内の画像を読み込む。
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Texture/Picture1.png").c_str());
 
 	// オブジェクトに画像を設定する。

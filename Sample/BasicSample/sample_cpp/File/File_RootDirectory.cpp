@@ -6,7 +6,7 @@
 void File_RootDirectory()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("RootDirectory").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("File_RootDirectory").c_str(), 640, 480, asd::EngineOption());
 
 	// ルートディレクトリを追加する。
 	asd::Engine::GetFile()->AddRootDirectory(asd::ToAString("Data/Texture").c_str());
