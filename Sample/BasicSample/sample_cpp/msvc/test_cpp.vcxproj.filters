@@ -129,6 +129,12 @@
     <ClCompile Include="..\File\File_PackFile.cpp">
       <Filter>File</Filter>
     </ClCompile>
+    <ClCompile Include="..\SceneAndLayer\SceneAndLayer_CustomLayer.cpp">
+      <Filter>SceneAndLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SceneAndLayer\SceneAndLayer_CustomScene.cpp">
+      <Filter>SceneAndLayer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />

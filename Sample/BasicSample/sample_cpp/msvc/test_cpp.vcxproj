@@ -43,6 +43,8 @@
     <ClCompile Include="..\PostEffect\PostEffect_Sepia.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />
     <ClCompile Include="..\SceneAndLayer\SceneAndLayer_Basic.cpp" />
+    <ClCompile Include="..\SceneAndLayer\SceneAndLayer_CustomLayer.cpp" />
+    <ClCompile Include="..\SceneAndLayer\SceneAndLayer_CustomScene.cpp" />
     <ClCompile Include="..\Sound\Sound_BGM.cpp" />
     <ClCompile Include="..\Sound\Sound_Loop.cpp" />
     <ClCompile Include="..\Sound\Sound_SE.cpp" />

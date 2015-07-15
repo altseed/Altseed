@@ -69,6 +69,8 @@ extern void Collision2D_Geometries();
 extern void Object2DComponent_Custom();
 
 extern void SceneAndLayer_Basic();
+extern void SceneAndLayer_CustomLayer();
+extern void SceneAndLayer_CustomScene();
 
 extern void File_PackFile();
 extern void File_RootDirectory();
@@ -131,6 +133,8 @@ int main(int argc, char** argv)
 		INFO(Collision2D_Geometries),
 
 		INFO(SceneAndLayer_Basic),
+		INFO(SceneAndLayer_CustomLayer),
+		INFO(SceneAndLayer_CustomScene),
 
 		INFO(PostEffect_GrayScale),
 		INFO(PostEffect_Sepia),
