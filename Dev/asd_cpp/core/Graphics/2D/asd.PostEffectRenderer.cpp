@@ -120,10 +120,10 @@ namespace asd {
 		RenderState state;
 		state.DepthTest = false;
 		state.DepthWrite = false;
-//#ifdef __APPLE__
-		// LightBloomで画面が崩れるのを回避。原因は不明。。。
+
+		// インテルやMacLightBloomで画面が崩れるのを回避。原因は不明(おそらくドライバの問題)
 		state.AlphaBlendState = AlphaBlendMode::Opacity;
-//#endif
+
 		m_graphics->SetRenderState(state);
 		m_graphics->DrawPolygon(2);
 	}
