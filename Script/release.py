@@ -172,8 +172,8 @@ def release_cpp():
 	aceutils.call(r'doxygen Script/Doxyfile_cpp')
 	aceutils.copytree(r'Reference_CPP/html/', targetDir+r'/Reference_CPP')
 
-
-
+	# Readme
+	aceutils.copy(r'readme_cpp.txt', targetDir+r'/readme.txt')
 
 def release_cs():
 	type = 'cs'
@@ -231,6 +231,8 @@ def release_cs():
 	aceutils.copy(r'Dev/bin/Altseed.dll', runtimeDir)
 	aceutils.copy(r'Dev/bin/Altseed.XML', runtimeDir)
 
+	# Readme
+	aceutils.copy(r'readme_cs.txt', targetDir+r'/readme.txt')
 
 release_cpp()
 release_cs()
