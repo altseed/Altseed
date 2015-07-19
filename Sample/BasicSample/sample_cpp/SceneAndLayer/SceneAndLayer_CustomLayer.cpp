@@ -1,70 +1,70 @@
-#include <Altseed.h>
+ï»¿#include <Altseed.h>
 
-// ‚±‚ÌƒTƒ“ƒvƒ‹‚Åg—p‚·‚éƒJƒXƒ^ƒ}ƒCƒY‚µ‚½ƒŒƒCƒ„[B
+// ã“ã®ã‚µãƒ³ãƒ—ãƒ«ã§ä½¿ç”¨ã™ã‚‹ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã—ãŸãƒ¬ã‚¤ãƒ¤ãƒ¼ã€‚
 class SceneAndLayer_SampleLayer : public asd::Layer2D
 {
 private:
-	// ƒtƒŒ[ƒ€”‚ğ”‚¦‚éƒJƒEƒ“ƒ^B
+	// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’æ•°ãˆã‚‹ã‚«ã‚¦ãƒ³ã‚¿ã€‚
 	int count;
 
 public:
 	SceneAndLayer_SampleLayer()
 	{
-		// ƒJƒEƒ“ƒ^‚ğ‰Šú‰»
+		// ã‚«ã‚¦ãƒ³ã‚¿ã‚’åˆæœŸåŒ–
 		count = 0;
 	}
 
-	// –ˆƒtƒŒ[ƒ€Às‚³‚ê‚éŠÖ”‚ğƒI[ƒo[ƒ‰ƒCƒhB
+	// æ¯ãƒ•ãƒ¬ãƒ¼ãƒ å®Ÿè¡Œã•ã‚Œã‚‹é–¢æ•°ã‚’ã‚ªãƒ¼ãƒãƒ¼ãƒ©ã‚¤ãƒ‰ã€‚
 	void OnUpdated()
 	{
-		// ƒtƒŒ[ƒ€”‚ğ”‚¦‚é
+		// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’æ•°ãˆã‚‹
 		count++;
 
-		// 60ƒtƒŒ[ƒ€‚²‚Æ‚É
+		// 60ãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ã«
 		if (count % 60 == 0)
 		{
-			// ƒIƒuƒWƒFƒNƒg‚ğ¶¬
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆ
 			auto obj = std::make_shared<asd::TextureObject2D>();
 
-			// ƒIƒuƒWƒFƒNƒg‚ÌƒeƒNƒXƒ`ƒƒ‚ğİ’è
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¨­å®š
 			auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 			obj->SetTexture(texture);
 
-			// ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ğİ’è
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’è¨­å®š
 			auto p = count / 60 * 20;
 			obj->SetPosition(asd::Vector2DF(p, p));
 
-			// ƒIƒuƒWƒFƒNƒg‚ğ‚±‚ÌƒŒƒCƒ„[‚É’Ç‰Á
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã“ã®ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ 
 			AddObject(obj);
 		}
 	}
 };
 
-// Layer2D‚ğŒp³‚·‚é‚±‚Æ‚ÅƒJƒXƒ^ƒ}ƒCƒY‚µ‚½ƒŒƒCƒ„[‚ğì‚èAˆê’èŠÔ‚²‚Æ‚ÉƒIƒuƒWƒFƒNƒg‚ğ’Ç‰Á‚·‚éƒTƒ“ƒvƒ‹B
+// Layer2Dã‚’ç¶™æ‰¿ã™ã‚‹ã“ã¨ã§ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã—ãŸãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ä½œã‚Šã€ä¸€å®šæ™‚é–“ã”ã¨ã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’è¿½åŠ ã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã€‚
 void SceneAndLayer_CustomLayer()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("SceneAndLayer_CustomLayer").c_str(), 640, 480, asd::EngineOption());
 
-	// ƒV[ƒ“ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto scene = std::make_shared<asd::Scene>();
 
-	// •`‰æ‚·‚éƒV[ƒ“‚ğw’è‚·‚éB
+	// æç”»ã™ã‚‹ã‚·ãƒ¼ãƒ³ã‚’æŒ‡å®šã™ã‚‹ã€‚
 	asd::Engine::ChangeScene(scene);
 
-	// ƒŒƒCƒ„[ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+	// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto layer = std::make_shared<SceneAndLayer_SampleLayer>();
 
-	// •`‰æ‚·‚éƒŒƒCƒ„[‚ğƒV[ƒ“‚É’Ç‰Á‚·‚éB
+	// æç”»ã™ã‚‹ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã‚·ãƒ¼ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 	scene->AddLayer(layer);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// Altseed‚ğI—¹‚·‚éB
+	// Altseedã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }
