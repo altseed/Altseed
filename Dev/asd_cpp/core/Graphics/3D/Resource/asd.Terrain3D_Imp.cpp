@@ -1391,17 +1391,27 @@ namespace asd
 		{
 			auto name = br.Get<astring>();
 
+			int counter = 0;
+			
 			std::vector<uint8_t> surface;
 			surface.resize((gridWidthCount * pixelInGrid) * (gridHeightCount * pixelInGrid));
 			for (size_t p = 0; p < surface.size(); p++)
 			{
 				surface[p] = br.Get<uint8_t>();
+				counter += surface[p];
 			}
+
+			surfaces.push_back(surface);
+
+			surfaceNameToIndex[name] = i;
+			surfaceNameToSurface[name] = Surface();
 		}
 
 		for (auto& c : Chips)
 		{
 			c.IsChanged = true;
+			c.IsMeshGenerated = false;
+			c.IsCollisionGenerated = false;
 		}
 
 		GenerateTerrainChips();

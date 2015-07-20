@@ -2341,6 +2341,15 @@ namespace asd {
 
 
 		/// <summary>
+		/// マップに対する変更を適用してメッシュを生成する。 
+		/// </summary>
+		/// <returns></returns>
+		public bool Commit()
+		{
+			return CoreInstance.Commit();
+		}
+
+		/// <summary>
 		/// 新規に地形を作成する。 
 		/// </summary>
 		/// <param name="gridSize">グリッド1つ当たりの大きさ </param>
