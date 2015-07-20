@@ -33,6 +33,8 @@
 
 * [2Dの衝突判定](./HowToUseBasic/Collision2D.md)
 
+* [ファイル](./HowToUseBasic/File.md)
+
 * [レイヤーとシーン](./HowToUseBasic/SceneAndLayer.md)
 
 * [ポストエフェクト](./HowToUseBasic/PostEffect.md)

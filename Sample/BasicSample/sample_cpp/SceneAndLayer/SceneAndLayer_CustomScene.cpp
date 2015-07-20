@@ -1,69 +1,69 @@
-#include <Altseed.h>
+ï»¿#include <Altseed.h>
 
-// ‚±‚ÌƒTƒ“ƒvƒ‹‚Åg—p‚·‚éƒJƒXƒ^ƒ}ƒCƒY‚³‚ê‚½ƒV[ƒ“B
+// ã“ã®ã‚µãƒ³ãƒ—ãƒ«ã§ä½¿ç”¨ã™ã‚‹ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã•ã‚ŒãŸã‚·ãƒ¼ãƒ³ã€‚
 class SceneAndLayer_SampleScene : public asd::Scene
 {
 private:
-	// ƒtƒŒ[ƒ€”‚ğ”‚¦‚éƒJƒEƒ“ƒ^B
+	// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’æ•°ãˆã‚‹ã‚«ã‚¦ãƒ³ã‚¿ã€‚
 	int count;
 
 public:
 	SceneAndLayer_SampleScene()
 	{
-		// ƒJƒEƒ“ƒ^‚ğ‰Šú‰»
+		// ã‚«ã‚¦ãƒ³ã‚¿ã‚’åˆæœŸåŒ–
 		count = 0;
 	}
 
 	void OnUpdated()
 	{
-		// ƒtƒŒ[ƒ€”‚ğ”‚¦‚éB
+		// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’æ•°ãˆã‚‹ã€‚
 		count++;
 
-		// 60ƒtƒŒ[ƒ€‚²‚Æ‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚·‚éˆ—
+		// 60ãƒ•ãƒ¬ãƒ¼ãƒ ã”ã¨ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã™ã‚‹å‡¦ç†
 		if (count % 60 == 0)
 		{
-			// ƒŒƒCƒ„[ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+			// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 			auto layer = std::make_shared<asd::Layer2D>();
 
-			// •`‰æ‚·‚éƒŒƒCƒ„[‚ğƒV[ƒ“‚É’Ç‰Á‚·‚éB
+			// æç”»ã™ã‚‹ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã‚·ãƒ¼ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 			AddLayer(layer);
 
-			// ƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 			auto obj = std::make_shared<asd::TextureObject2D>();
 
-			// ƒIƒuƒWƒFƒNƒg‚É‰æ‘œ‚ğİ’è‚·‚éB
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«ç”»åƒã‚’è¨­å®šã™ã‚‹ã€‚
 			auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 			obj->SetTexture(texture);
 
-			// ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ğİ’è‚·‚éB
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã‚’è¨­å®šã™ã‚‹ã€‚
 			auto p = count / 60 * 20;
 			obj->SetPosition(asd::Vector2DF(p, p));
 
-			// ƒIƒuƒWƒFƒNƒg‚ğƒŒƒCƒ„[‚É’Ç‰Á‚·‚éB
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ ã™ã‚‹ã€‚
 			layer->AddObject(obj);
 		}
 	}
 };
 
-// SceneƒNƒ‰ƒX‚ğŒp³‚·‚é‚±‚Æ‚ÅƒJƒXƒ^ƒ}ƒCƒY‚³‚ê‚½ƒV[ƒ“‚ğì‚èAˆê’èŠÔ‚²‚Æ‚ÉƒŒƒCƒ„[‚ğ’Ç‰Á‚µ‚Ä‚¢‚­ƒTƒ“ƒvƒ‹B
+// Sceneã‚¯ãƒ©ã‚¹ã‚’ç¶™æ‰¿ã™ã‚‹ã“ã¨ã§ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã•ã‚ŒãŸã‚·ãƒ¼ãƒ³ã‚’ä½œã‚Šã€ä¸€å®šæ™‚é–“ã”ã¨ã«ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’è¿½åŠ ã—ã¦ã„ãã‚µãƒ³ãƒ—ãƒ«ã€‚
 void SceneAndLayer_CustomScene()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("SceneAndLayer_CustomScene").c_str(), 640, 480, asd::EngineOption());
 
-	// ƒV[ƒ“ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto scene = std::make_shared<SceneAndLayer_SampleScene>();
 
-	// •`‰æ‚·‚éƒV[ƒ“‚ğw’è‚·‚éB
+	// æç”»ã™ã‚‹ã‚·ãƒ¼ãƒ³ã‚’æŒ‡å®šã™ã‚‹ã€‚
 	asd::Engine::ChangeScene(scene);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// Altseed‚ğI—¹‚·‚éB
+	// Altseedã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }

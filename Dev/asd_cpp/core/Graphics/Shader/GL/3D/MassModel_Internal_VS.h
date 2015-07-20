@@ -49,6 +49,12 @@ mat4 getMatrix(int animationIndex, int boneIndex, float time)
 	float y2 = (float(yind) + 2.0 + 0.5) / float(height);
 	float y3 = (float(yind) + 3.0 + 0.5) / float(height);
 
+	// OpenGL
+	y0 = 1.0 - y0;
+	y1 = 1.0 - y1;
+	y2 = 1.0 - y2;
+	y3 = 1.0 - y3;
+
 	vec4 y0v = textureLod(g_animationTexture, vec2(x,y0), 0);
 	vec4 y1v = textureLod(g_animationTexture, vec2(x,y1), 0);
 	vec4 y2v = textureLod(g_animationTexture, vec2(x,y2), 0);
