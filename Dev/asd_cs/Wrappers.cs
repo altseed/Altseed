@@ -1944,6 +1944,9 @@ namespace asd {
 		/// </summary>
 		/// <param name="materialIndex">材質のインデックス </param>
 		/// <param name="texture"></param>
+		/// <remarks>
+		/// AddMaterialCountを実行した後でないと無効になる。 
+		/// </remarks>
 		public void SetColorTexture(int materialIndex, Texture2D texture)
 		{
 			var textureCore = texture != null ? texture.CoreInstance : null;
@@ -1955,6 +1958,9 @@ namespace asd {
 		/// </summary>
 		/// <param name="materialIndex">材質のインデックス </param>
 		/// <param name="texture"></param>
+		/// <remarks>
+		/// AddMaterialCountを実行した後でないと無効になる。 
+		/// </remarks>
 		public void SetNormalTexture(int materialIndex, Texture2D texture)
 		{
 			var textureCore = texture != null ? texture.CoreInstance : null;
@@ -1966,6 +1972,9 @@ namespace asd {
 		/// </summary>
 		/// <param name="materialIndex">材質のインデックス </param>
 		/// <param name="texture"></param>
+		/// <remarks>
+		/// AddMaterialCountを実行した後でないと無効になる。 
+		/// </remarks>
 		public void SetMetalnessTexture(int materialIndex, Texture2D texture)
 		{
 			var textureCore = texture != null ? texture.CoreInstance : null;
@@ -1977,6 +1986,9 @@ namespace asd {
 		/// </summary>
 		/// <param name="materialIndex">材質のインデックス </param>
 		/// <param name="texture"></param>
+		/// <remarks>
+		/// AddMaterialCountを実行した後でないと無効になる。 
+		/// </remarks>
 		public void SetSmoothnessTexture(int materialIndex, Texture2D texture)
 		{
 			var textureCore = texture != null ? texture.CoreInstance : null;
@@ -2193,6 +2205,9 @@ namespace asd {
 		/// <param name="id">音のID </param>
 		/// <param name="second">変更にかかる時間(秒) </param>
 		/// <param name="targetedVolume">変更先の音量(0.0～1.0) </param>
+		/// <remarks>
+		/// この指定される音量はSetVolumeに指定される音量とは異なり、FadeIn、FadeOutに使用される音量と共通である。 つまり、このメソッドはFadeIn、FadeOutの任意音量指定版と言える。 
+		/// </remarks>
 		public void Fade(int id, float second, float targetedVolume)
 		{
 			CoreInstance.Fade(id, second, targetedVolume);
