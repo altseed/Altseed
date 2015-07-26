@@ -191,7 +191,7 @@ def release_cpp():
 		aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib', targetDir+r'/Template/cpp/lib/Debug/')
 		aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib', targetDir+r'/Template/cpp/lib/Release/')
 	elif aceutils.isMac():
-		aceutils.copytreeWithExt(r'Template/cpp_mac/',targetDir+r'/Template/',[ r'.h', r'.cpp', r'.pbxproj', r'.xcworkspacedata'])
+		aceutils.copytreeWithExt(r'Template/cpp_mac/',targetDir+r'/Template/',[ r'.h', r'.cpp', r'.plist', r'.pbxproj', r'.xcworkspacedata'])
 		aceutils.mkdir(targetDir+r'/Template/bin/')
 		aceutils.mkdir(targetDir+r'/Template/include/')
 		aceutils.mkdir(targetDir+r'/Template/lib/')
@@ -266,7 +266,7 @@ def release_cs():
 		aceutils.copy(r'Dev/bin/Altseed.XML', targetDir+r'/Template/Game/')
 		aceutils.copy(r'Dev/bin/Altseed_core.dll', targetDir+r'/Template/bin/')
 	elif aceutils.isMac():
-		aceutils.copytreeWithExt(r'Template/cs_mac/',targetDir+r'/Template/',[r'.cs', r'.sln', r'.csproj'])
+		aceutils.copytreeWithExt(r'Template/cs_mac/',targetDir+r'/Template/',[r'.cs', r'.plist', r'.sln', r'.csproj'])
 		aceutils.mkdir(targetDir+r'/Template/bin/')
 		aceutils.copy(r'Dev/bin/Altseed.dll', targetDir+r'/Template/Game/')
 		aceutils.copy(r'Dev/bin/Altseed.XML', targetDir+r'/Template/Game/')
