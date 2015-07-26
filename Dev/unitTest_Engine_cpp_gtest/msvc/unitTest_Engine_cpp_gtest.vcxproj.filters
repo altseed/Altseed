@@ -165,6 +165,9 @@
     <ClCompile Include="..\Graphics\2D\TextObject2D_Dynamic.cpp">
       <Filter>Graphics\2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\Culling2D_Debug.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

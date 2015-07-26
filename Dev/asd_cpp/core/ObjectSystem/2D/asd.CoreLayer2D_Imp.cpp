@@ -134,6 +134,9 @@ namespace asd
 		auto cObj = culling2d::Object::Create(userData, world);
 		chip->SetCullingObject(cObj);
 
+		auto circle = chip->GetBoundingCircle();
+		cObj->SetCircle(circle);
+
 		cObj->SetFirstSortedKey(firstSortKey);
 		cObj->SetSecondSortedKey(world->GetNextSecondSortedKey());
 
@@ -282,7 +285,17 @@ namespace asd
 		for (auto&x : m_objects)
 		{
 			auto o = CoreObject2DToImp(x);
-			o->SetAlreadyCullingUpdated(x->GetObjectType() == Object2DType::Map);
+			o->SetAlreadyCullingUpdated(false);
+
+			if (x->GetObjectType() == Object2DType::Map)
+			{
+				auto mapObj = (asd::CoreMapObject2D_Imp*)o;
+				for (auto chip : mapObj->GetChips())
+				{
+					chip->SetAlreadyCullingUpdated(false);
+				}
+				
+			}
 		}
 	}
 

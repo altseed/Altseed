@@ -72,6 +72,7 @@ EXTERN_ENGINE_TEST(ObjectSystem, VanishOwnerInComponent)
 EXTERN_ENGINE_TEST(ObjectSystem, AddComponentByComponent)
 EXTERN_ENGINE_TEST(ObjectSystem, Component)
 EXTERN_ENGINE_TEST(ObjectSystem, TransformOutOfUpdate)
+EXTERN_ENGINE_TEST(ObjectSystem, Culling2D_Debug)
 
 EXTERN_ENGINE_TEST(Shape, Collision2D)
 
@@ -108,8 +109,8 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(Graphics, TextObject2D_Dynamic, true)
-	return 0;
+	//CALL_ENGINE_TEST(ObjectSystem, Culling2D_Debug, true)
+	//return 0;
 
 	auto result = RUN_ALL_TESTS();
 
