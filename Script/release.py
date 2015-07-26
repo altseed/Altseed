@@ -176,19 +176,28 @@ def release_cpp():
 	aceutils.copy(r'readme_cpp.txt', targetDir+r'/readme.txt')
 
 	# Template
-	aceutils.copytreeWithExt(r'Template/cpp_win/',targetDir+r'/Template/',[ r'.h', r'.cpp', r'.filters', r'.config', r'.vcxproj', r'.sln'])
-	aceutils.mkdir(targetDir+r'/Template/bin/')
-	aceutils.mkdir(targetDir+r'/Template/cpp/')
-	aceutils.mkdir(targetDir+r'/Template/cpp/include/')
-	aceutils.mkdir(targetDir+r'/Template/cpp/lib/')
-	aceutils.mkdir(targetDir+r'/Template/cpp/lib/Debug/')
-	aceutils.mkdir(targetDir+r'/Template/cpp/lib/Release/')
+	if aceutils.isWin():
+		aceutils.copytreeWithExt(r'Template/cpp_win/',targetDir+r'/Template/',[ r'.h', r'.cpp', r'.filters', r'.config', r'.vcxproj', r'.sln'])
+		aceutils.mkdir(targetDir+r'/Template/bin/')
+		aceutils.mkdir(targetDir+r'/Template/cpp/')
+		aceutils.mkdir(targetDir+r'/Template/cpp/include/')
+		aceutils.mkdir(targetDir+r'/Template/cpp/lib/')
+		aceutils.mkdir(targetDir+r'/Template/cpp/lib/Debug/')
+		aceutils.mkdir(targetDir+r'/Template/cpp/lib/Release/')
 
-	aceutils.copy(r'Dev/bin/Altseed_core.Debug.dll', targetDir+r'/Template/bin/')
-	aceutils.copy(r'Dev/bin/Altseed_core.dll', targetDir+r'/Template/bin/')
-	aceutils.copy(r'Dev/include/Altseed.h', targetDir+r'/Template/cpp/include/')
-	aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib', targetDir+r'/Template/cpp/lib/Debug/')
-	aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib', targetDir+r'/Template/cpp/lib/Release/')
+		aceutils.copy(r'Dev/bin/Altseed_core.Debug.dll', targetDir+r'/Template/bin/')
+		aceutils.copy(r'Dev/bin/Altseed_core.dll', targetDir+r'/Template/bin/')
+		aceutils.copy(r'Dev/include/Altseed.h', targetDir+r'/Template/cpp/include/')
+		aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib', targetDir+r'/Template/cpp/lib/Debug/')
+		aceutils.copy(r'Dev/lib/x86/Release/Altseed.lib', targetDir+r'/Template/cpp/lib/Release/')
+	elif aceutils.isMac():
+		aceutils.copytreeWithExt(r'Template/cpp_mac/',targetDir+r'/Template/',[ r'.h', r'.cpp', r'.plist', r'.pbxproj', r'.xcworkspacedata'])
+		aceutils.mkdir(targetDir+r'/Template/bin/')
+		aceutils.mkdir(targetDir+r'/Template/include/')
+		aceutils.mkdir(targetDir+r'/Template/lib/')
+		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', targetDir+r'/Template/bin/')
+		aceutils.copy(r'Dev/include/Altseed.h', targetDir+r'/Template/include/')
+		aceutils.copy(r'Dev/lib/libAltseed.a', targetDir+r'/Template/lib/')
 
 def release_cs():
 	type = 'cs'
@@ -250,11 +259,18 @@ def release_cs():
 	aceutils.copy(r'readme_cs.txt', targetDir+r'/readme.txt')
 
 	# Template
-	aceutils.copytreeWithExt(r'Template/cs_win/',targetDir+r'/Template/',[r'.cs', r'.filters', r'.config', r'.vcxproj', r'.sln', r'.csproj'])
-	aceutils.mkdir(targetDir+r'/Template/bin/')
-	aceutils.copy(r'Dev/bin/Altseed.dll', targetDir+r'/Template/Game/')
-	aceutils.copy(r'Dev/bin/Altseed.XML', targetDir+r'/Template/Game/')
-	aceutils.copy(r'Dev/bin/Altseed_core.dll', targetDir+r'/Template/bin/')
+	if aceutils.isWin():
+		aceutils.copytreeWithExt(r'Template/cs_win/',targetDir+r'/Template/',[r'.cs', r'.filters', r'.config', r'.vcxproj', r'.sln', r'.csproj'])
+		aceutils.mkdir(targetDir+r'/Template/bin/')
+		aceutils.copy(r'Dev/bin/Altseed.dll', targetDir+r'/Template/Game/')
+		aceutils.copy(r'Dev/bin/Altseed.XML', targetDir+r'/Template/Game/')
+		aceutils.copy(r'Dev/bin/Altseed_core.dll', targetDir+r'/Template/bin/')
+	elif aceutils.isMac():
+		aceutils.copytreeWithExt(r'Template/cs_mac/',targetDir+r'/Template/',[r'.cs', r'.plist', r'.sln', r'.csproj'])
+		aceutils.mkdir(targetDir+r'/Template/bin/')
+		aceutils.copy(r'Dev/bin/Altseed.dll', targetDir+r'/Template/Game/')
+		aceutils.copy(r'Dev/bin/Altseed.XML', targetDir+r'/Template/Game/')
+		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', targetDir+r'/Template/bin/')
 
 release_cpp()
 release_cs()
