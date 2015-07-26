@@ -5,7 +5,7 @@
 void Sound_SE()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Sound").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("Sound_SE").c_str(), 640, 480, asd::EngineOption());
 
 	// 音ファイルを読み込む。
 	std::shared_ptr<asd::SoundSource> se1 = asd::Engine::GetSound()->CreateSoundSource(asd::ToAString("Data/Sound/se1.wav").c_str(), true);

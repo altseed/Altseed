@@ -5,7 +5,7 @@
 void Sound_Loop()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Sound").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("Sound_Loop").c_str(), 640, 480, asd::EngineOption());
 
 	// 音声ファイルを読み込む。
 	std::shared_ptr<asd::SoundSource> bgm1 = asd::Engine::GetSound()->CreateSoundSource(asd::ToAString("Data/Sound/bgm1.ogg").c_str(), false);

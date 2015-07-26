@@ -53,6 +53,10 @@
     <Compile Include="Collision\Collision2D_Basic.cs" />
     <Compile Include="Collision\Collision2D_Geometries.cs" />
     <Compile Include="EffectObject2D\EffectObject2D_Basic.cs" />
+    <Compile Include="File\File_PackFile.cs" />
+    <Compile Include="File\File_RootDirectory.cs" />
+    <Compile Include="File\File_StaticFile.cs" />
+    <Compile Include="File\File_StreamFile.cs" />
     <Compile Include="GeometryObject2D\GeometryObject2D_ArcShape.cs" />
     <Compile Include="GeometryObject2D\GeometryObject2D_CircleShape.cs" />
     <Compile Include="GeometryObject2D\GeometryObject2D_PolygonShape.cs" />
@@ -67,7 +71,7 @@
     <Compile Include="Mouse\Mouse_Position.cs" />
     <Compile Include="Mouse\Mouse_State.cs" />
     <Compile Include="Mouse\Mouse_Wheel.cs" />
-    <Compile Include="Object2DComponent\Object2DComponent.cs" />
+    <Compile Include="Object2DComponent\Object2DComponent_Custom.cs" />
     <Compile Include="PostEffect\PostEffect_GaussianBlur.cs" />
     <Compile Include="PostEffect\PostEffect_GrayScale.cs" />
     <Compile Include="PostEffect\PostEffect_LightBloom.cs" />
@@ -75,6 +79,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
     <Compile Include="SceneAndLayer\SceneAndLayer_Basic.cs" />
+    <Compile Include="SceneAndLayer\SceneAndLayer_CustomLayer.cs" />
+    <Compile Include="SceneAndLayer\SceneAndLayer_CustomScene.cs" />
     <Compile Include="Sound\Sound_Loop.cs" />
     <Compile Include="Sound\Sound_SE.cs" />
     <Compile Include="Basic\Basic_Empty.cs" />

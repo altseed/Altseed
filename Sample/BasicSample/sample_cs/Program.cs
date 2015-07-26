@@ -16,6 +16,8 @@ namespace sample_cs
 				new Basic_Empty(),
 
                 new SceneAndLayer_Basic(),
+				new SceneAndLayer_CustomLayer(),
+				new SceneAndLayer_CustomScene(),
 
 				new PostEffect_GrayScale(),
 				new PostEffect_Sepia(),
@@ -40,7 +42,7 @@ namespace sample_cs
 				new Sound_BGM(),
 				new Sound_Loop(),
 
-				new Object2DComponent(),
+				new Object2DComponent_Custom(),
 
                 new CameraObject2D_Basic(),
                 new CameraObject2D_Magnify(),
@@ -65,6 +67,11 @@ namespace sample_cs
 
                 new Collision2D_Basic(),
                 new Collision2D_Geometries(),
+
+				new File_RootDirectory(),
+				new File_PackFile(),
+				new File_StaticFile(),
+				new File_StreamFile(),
             };
 
 			var cui = new SampleGuide( samples );

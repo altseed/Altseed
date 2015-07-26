@@ -199,7 +199,7 @@ namespace asd
 		void GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces);
 	public:
 
-		bool Commit();
+		bool Commit() override;
 
 		void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount) override;
 

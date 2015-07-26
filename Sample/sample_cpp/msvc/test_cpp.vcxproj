@@ -14,25 +14,11 @@
     <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\ImagePackage.cpp" />
-    <ClCompile Include="..\Graphics\2D\MapObject2D_Camera.cpp" />
-    <ClCompile Include="..\Graphics\2D\MapObject2D_Simple.cpp" />
-    <ClCompile Include="..\Graphics\2D\TextObject2D_Simple.cpp" />
-    <ClCompile Include="..\Graphics\2D\TextObject2D_Filtered.cpp" />
-    <ClCompile Include="..\Graphics\2D\TextObject2D_Rotate.cpp" />
-    <ClCompile Include="..\Graphics\2D\TextureObject2D_Simple.cpp" />
-    <ClCompile Include="..\Graphics\2D\TextureObject2D_Src.cpp" />
-    <ClCompile Include="..\Graphics\2D\TextureObject2D_Transform.cpp" />
-    <ClCompile Include="..\Graphics\2D\TextureObject2D_Turn.cpp" />
-    <ClCompile Include="..\Graphics\PostEffect\PostEffect.cpp" />
-    <ClCompile Include="..\Input\Joystick.cpp" />
-    <ClCompile Include="..\Input\Keyboard.cpp" />
-    <ClCompile Include="..\Input\Mouse.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\Transition.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />
     <ClCompile Include="..\Sound\Sound.cpp" />
-    <ClCompile Include="..\Window\Empty.cpp" />
     <ClCompile Include="..\Window\EmptyExternal.cpp" />
   </ItemGroup>
   <ItemGroup>

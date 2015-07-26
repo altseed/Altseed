@@ -109,7 +109,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	//CALL_ENGINE_TEST(ObjectSystem, Culling2D_Debug, true)
+	//CALL_ENGINE_TEST(Graphics, MassModelObject3D, true)
 	//return 0;
 
 	auto result = RUN_ALL_TESTS();

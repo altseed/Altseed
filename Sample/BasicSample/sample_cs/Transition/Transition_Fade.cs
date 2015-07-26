@@ -1,65 +1,73 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace sample_cs
+﻿
+class Transition_Fade : ISample
 {
-	class Transition_Fade : ISample
+	// フェードアウト・フェードインでシーン遷移をするサンプル。
+
+	// 遷移後のシーン
+	class Scene2 : asd.Scene
 	{
-		// フェードアウト・フェードインでシーン遷移をするサンプル。
-		public void Run()
+		protected override void OnStart()
 		{
-			// Altseedを初期化する。
-			asd.Engine.Initialize("Transition_Fade", 640, 480, new asd.EngineOption());
-
-			// シーン(1)、レイヤー、オブジェクトのインスタンスを生成する。
-			var scene1 = new asd.Scene();
-			var layer1 = new asd.Layer2D();
-			var object1 = new asd.TextureObject2D();
-
 			// 画像を読み込み、オブジェクトに設定する。
-			var texture1 = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Scene1.png");
-			object1.Texture = texture1;
+			var obj = new asd.TextureObject2D();
+			var tex = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Scene2.png");
+			obj.Texture = tex;
 
 			// シーンにレイヤーを追加し、そのレイヤーにオブジェクトを追加する。
-			scene1.AddLayer(layer1);
-			layer1.AddObject(object1);
-
-
-			// 上と同じものをもう１セット作る。
-			var scene2 = new asd.Scene();
-			var layer2 = new asd.Layer2D();
-			var object2 = new asd.TextureObject2D();
-
-			var texture2 = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Scene2.png");
-			object2.Texture = texture2;
-
-			scene2.AddLayer(layer2);
-			layer2.AddObject(object2);
-
-
-			// シーンをシーン1に設定する。
-			asd.Engine.ChangeScene(scene1);
-			
-			// Altseedのウインドウが閉じられていないか確認する。
-			while(asd.Engine.DoEvents())
-			{
-				// Altseedを更新する。
-				asd.Engine.Update();
-
-				// マウスの左ボタンが押されるのを待つ。
-				if(asd.Engine.Mouse.LeftButton.ButtonState == asd.MouseButtonState.Push)
-				{
-					// フェードアウト・インによるシーン遷移を開始する。
-					// 1秒かけてフェードアウトし、1.5秒かけてフェードイン。
-					asd.Engine.ChangeSceneWithTransition(scene2, new asd.TransitionFade(1.0f, 1.5f));
-				}
-			}
-
-			// Altseedを終了する。
-			asd.Engine.Terminate();
+			var layer = new asd.Layer2D();
+			AddLayer(layer);
+			layer.AddObject(obj);
 		}
 	}
+
+	// 遷移前のシーン
+	class Scene1 : asd.Scene
+	{
+		protected override void OnStart()
+		{
+			// 画像を読み込み、オブジェクトに設定する。
+			var obj = new asd.TextureObject2D();
+			var tex = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Scene1.png");
+			obj.Texture = tex;
+
+			// シーンにレイヤーを追加し、そのレイヤーにオブジェクトを追加する。
+			var layer = new asd.Layer2D();
+			AddLayer(layer);
+			layer.AddObject(obj);
+		}
+
+		protected override void OnUpdated()
+		{
+			// マウスの左ボタンが押されるのを待つ。
+			if (asd.Engine.Mouse.LeftButton.ButtonState == asd.MouseButtonState.Push)
+			{
+				// フェードアウト・インによるシーン遷移を開始する。
+				// 1秒かけてフェードアウトし、1.5秒かけてフェードイン。
+				asd.Engine.ChangeSceneWithTransition(new Scene2(), new asd.TransitionFade(1.0f, 1.5f));
+			}
+		}
+	}
+
+	public void Run()
+	{
+		// Altseedを初期化する。
+		asd.Engine.Initialize("Transition_Fade", 640, 480, new asd.EngineOption());
+
+		// シーンのインスタンスを生成する。
+		var scene = new Scene1();
+
+		// シーンをシーン1に設定する。
+		asd.Engine.ChangeScene(scene);
+
+		// Altseedのウインドウが閉じられていないか確認する。
+		while (asd.Engine.DoEvents())
+		{
+			// Altseedを更新する。
+			asd.Engine.Update();
+		}
+
+		// Altseedを終了する。
+		asd.Engine.Terminate();
+	}
 }
+

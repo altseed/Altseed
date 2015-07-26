@@ -72,9 +72,6 @@
     <ClCompile Include="..\GeometryObject2D\GeometryObject2D_CircleShape.cpp">
       <Filter>GeometryObject2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\Object2DComponent\Object2DComponent.cpp">
-      <Filter>Object2DComponent</Filter>
-    </ClCompile>
     <ClCompile Include="..\TextObject2D\TextObject2D_Filtered.cpp">
       <Filter>TextObject2D</Filter>
     </ClCompile>
@@ -117,17 +114,26 @@
     <ClCompile Include="..\EffectObject2D\EffectObject2D_Basic.cpp">
       <Filter>EffectObject2D</Filter>
     </ClCompile>
-    <ClCompile Include="..\File\PackFile.cpp">
+    <ClCompile Include="..\Object2DComponent\Object2DComponent_Custom.cpp">
+      <Filter>Object2DComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="..\File\File_StreamFile.cpp">
       <Filter>File</Filter>
     </ClCompile>
-    <ClCompile Include="..\File\RootDirectory.cpp">
+    <ClCompile Include="..\File\File_StaticFile.cpp">
       <Filter>File</Filter>
     </ClCompile>
-    <ClCompile Include="..\File\StaticFile.cpp">
+    <ClCompile Include="..\File\File_RootDirectory.cpp">
       <Filter>File</Filter>
     </ClCompile>
-    <ClCompile Include="..\File\StreamFile.cpp">
+    <ClCompile Include="..\File\File_PackFile.cpp">
       <Filter>File</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SceneAndLayer\SceneAndLayer_CustomLayer.cpp">
+      <Filter>SceneAndLayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SceneAndLayer\SceneAndLayer_CustomScene.cpp">
+      <Filter>SceneAndLayer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

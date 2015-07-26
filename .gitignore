@@ -286,6 +286,7 @@ master.zip
 /Document/Doxygen/
 
 /CPP_XML/
+/Reference_CPP/
 
 # Result of Test
 /Dev/bin/TestSS/
@@ -337,3 +338,10 @@ Sample/ApplicationSample/cpp/include/Altseed.h
 Sample/ApplicationSample/sample_cs/Altseed.XML
 Sample/ApplicationSample/bin/Altseed.xml
 Sample/ApplicationSample/bin/Log.html
+
+# Template
+Template/cpp_win/cpp/
+Template/cpp_win/bin/
+Template/cs_win/cpp/
+Template/cs_win/bin/
+

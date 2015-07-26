@@ -18,6 +18,12 @@ namespace asd
 		virtual ~Terrain3D(){}
 
 	public:
+
+		/**
+			@brief	マップに対する変更を適用してメッシュを生成する。
+		*/
+		virtual bool Commit() = 0;
+
 		/**
 			@brief	新規に地形を作成する。
 			@param	gridSize		グリッド1つ当たりの大きさ
