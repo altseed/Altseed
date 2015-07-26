@@ -69,6 +69,26 @@ def copyTool(type, targetDir):
 		aceutils.copy(r'Dev/bin/FilePackageGenerator.GUI.exe', toolDir)
 		aceutils.copy(r'Dev/bin/FilePackageGenerator.GUI.exe.config', toolDir)
 		aceutils.copy(r'Dev/bin/FilePackageGeneratorCore.dll', toolDir)
+	elif aceutils.isMac():
+		aceutils.copy(r'Dev/bin/FontGenerator.GUI.exe', toolDir)
+		aceutils.copy(r'Dev/bin/FontGenerator.GUI.exe.config', toolDir)
+		aceutils.copy(r'Dev/bin/FontGenerator.Model.dll', toolDir)
+		aceutils.copy(r'Dev/bin/libFontGeneratorCore.dylib', toolDir)
+		aceutils.copy(r'Dev/bin/FontGenerator.exe', toolDir)
+		aceutils.copy(r'Dev/bin/FontGenerator.exe.config', toolDir)
+		aceutils.copy(r'Dev/bin/System.Reactive.Core.dll', toolDir)
+		aceutils.copy(r'Dev/bin/System.Reactive.Interfaces.dll', toolDir)
+		aceutils.copy(r'Dev/bin/System.Reactive.Linq.dll', toolDir)
+		aceutils.copy(r'Dev/bin/System.Reactive.PlatformServices.dll', toolDir)
+		
+		aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe', toolDir)
+		aceutils.copy(r'Dev/bin/ImagePackageGenerator.exe.config', toolDir)
+		aceutils.copy(r'Dev/bin/libPSDParser.dylib', toolDir)
+
+		aceutils.copy(r'Dev/bin/FilePackageGenerator.exe', toolDir)
+		aceutils.copy(r'Dev/bin/FilePackageGenerator.GUI.exe', toolDir)
+		aceutils.copy(r'Dev/bin/FilePackageGenerator.GUI.exe.config', toolDir)
+		aceutils.copy(r'Dev/bin/FilePackageGeneratorCore.dll', toolDir)
 
 def makeDocument(type, targetDir,mode):
 	makeDocumentHtml.make_document_html(mode)
