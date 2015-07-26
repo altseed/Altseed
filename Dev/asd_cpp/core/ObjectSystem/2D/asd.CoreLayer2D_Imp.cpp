@@ -205,6 +205,8 @@ namespace asd
 
 				o->SetCullingObject(cObj);
 
+				auto circle = o->GetBoundingCircle();
+				cObj->SetCircle(circle);
 
 				AddTransformedObject(cObj);
 				o->SetAlreadyCullingUpdated(true);
