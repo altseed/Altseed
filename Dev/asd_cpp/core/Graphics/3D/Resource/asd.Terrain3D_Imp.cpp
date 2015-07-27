@@ -1669,7 +1669,7 @@ namespace asd
 		isSurfaceChanged = true;
 	}
 
-	void Terrain3D_Imp::RaiseWithCircle(float x, float y, float radius, float value, float fallout)
+	void Terrain3D_Imp::RaiseHeightWithCircle(float x, float y, float radius, float value, float fallout)
 	{
 		if (fallout > 1.0f) fallout = 1.0f;
 		if (fallout < 0.0f) fallout = 0.0f;
@@ -1725,6 +1725,168 @@ namespace asd
 				}
 
 				heights[ind] += variation;
+			}
+		}
+
+		isMeshChanged = true;
+	}
+
+	void Terrain3D_Imp::ChangeHeightWithCircle(float x, float y, float radius, float value, float fallout)
+	{
+		if (fallout > 1.0f) fallout = 1.0f;
+		if (fallout < 0.0f) fallout = 0.0f;
+
+		x += gridWidthCount * gridSize / 2;
+		y += gridHeightCount * gridSize / 2;
+
+		x /= gridSize;
+		y /= gridSize;
+		radius /= gridSize;
+
+		for (float y_ = y - radius; y_ < y + radius; y_ += 1.0f)
+		{
+			for (float x_ = x - radius; x_ < x + radius; x_ += 1.0f)
+			{
+				int32_t x_ind = (int32_t) x_;
+				int32_t y_ind = (int32_t) y_;
+				int32_t ind = x_ind + y_ind * (gridWidthCount);
+
+				if (x_ind < 0) continue;
+				if (x_ind >= gridWidthCount) continue;
+				if (y_ind < 0) continue;
+				if (y_ind >= gridHeightCount) continue;
+
+				// 周囲に変更を通知
+				for (int32_t cy = Max(y_ind - 1, 0); cy < Min(y_ind + 2, gridHeightCount); cy++)
+				{
+					for (int32_t cx = Max(x_ind - 1, 0); cx < Min(x_ind + 2, gridWidthCount); cx++)
+					{
+						int32_t cind = cx + cy * (gridWidthCount);
+
+						Chips[cind].IsChanged = true;
+						Chips[cind].IsMeshGenerated = false;
+						Chips[cind].IsCollisionGenerated = false;
+					}
+				}
+
+				// ブラシの値を計算
+				auto distance = sqrt((x_ - x) * (x_ - x) + (y_ - y) * (y_ - y));
+
+				if (distance > radius) continue;
+
+				if (distance < radius * (1.0f - fallout))
+				{
+					heights[ind] = value;
+				}
+				else
+				{
+					heights[ind] += (value - heights[ind])  * (1.0f - (distance - radius * (1.0f - fallout)) / (radius * fallout));
+				}
+			}
+		}
+
+		isMeshChanged = true;
+	}
+
+	void Terrain3D_Imp::SmoothHeightWithCircle(float x, float y, float radius, float value, float fallout)
+	{
+		if (fallout > 1.0f) fallout = 1.0f;
+		if (fallout < 0.0f) fallout = 0.0f;
+
+		x += gridWidthCount * gridSize / 2;
+		y += gridHeightCount * gridSize / 2;
+
+		x /= gridSize;
+		y /= gridSize;
+		radius /= gridSize;
+
+
+		std::vector<float> originalHeights;
+		int32_t xmin = (int32_t) (x - radius) - 1;
+		int32_t xmax = (int32_t) (x + radius) + 1;
+		int32_t ymin = (int32_t) (y - radius) - 1;
+		int32_t ymax = (int32_t) (y + radius) + 1;
+
+		xmin = Clamp(xmin, gridWidthCount - 1, 0);
+		ymin = Clamp(ymin, gridHeightCount - 1, 0);
+		xmax = Clamp(xmax, gridWidthCount - 1, 0);
+		ymax = Clamp(ymax, gridHeightCount - 1, 0);
+
+		auto orinWidth = xmax - xmin + 1;
+		auto orinHeight = ymax - ymin + 1;
+		auto orinX = xmin;
+		auto orinY = ymin;
+
+		originalHeights.resize(orinWidth * orinHeight);
+
+		for (int y_ = orinY; y_ < orinY + orinHeight; y_++)
+		{
+			for (int x_ = orinX; x_ < orinX + orinWidth; x_++)
+			{
+				originalHeights[(x_ - orinX) + (y_ - orinY) * orinWidth] = heights[x_ + gridWidthCount * y_];
+			}
+		}
+
+		auto getOriginalHeight = [this, &originalHeights, orinX, orinY, orinWidth, orinHeight](int32_t x_, int32_t y_) -> float
+		{
+			x_ = Clamp(x_, gridWidthCount - 1, 0);
+			y_ = Clamp(y_, gridHeightCount - 1, 0);
+
+			return originalHeights[(x_ - orinX) + (y_ - orinY) * orinWidth];
+		};
+
+
+		for (float y_ = y - radius; y_ < y + radius; y_ += 1.0f)
+		{
+			for (float x_ = x - radius; x_ < x + radius; x_ += 1.0f)
+			{
+				int32_t x_ind = (int32_t) x_;
+				int32_t y_ind = (int32_t) y_;
+				int32_t ind = x_ind + y_ind * (gridWidthCount);
+
+				if (x_ind < 0) continue;
+				if (x_ind >= gridWidthCount) continue;
+				if (y_ind < 0) continue;
+				if (y_ind >= gridHeightCount) continue;
+
+				// 周囲に変更を通知
+				for (int32_t cy = Max(y_ind - 1, 0); cy < Min(y_ind + 2, gridHeightCount); cy++)
+				{
+					for (int32_t cx = Max(x_ind - 1, 0); cx < Min(x_ind + 2, gridWidthCount); cx++)
+					{
+						int32_t cind = cx + cy * (gridWidthCount);
+
+						Chips[cind].IsChanged = true;
+						Chips[cind].IsMeshGenerated = false;
+						Chips[cind].IsCollisionGenerated = false;
+					}
+				}
+
+				// ブラシの値を計算
+				auto distance = sqrt((x_ - x) * (x_ - x) + (y_ - y) * (y_ - y));
+
+				if (distance > radius) continue;
+
+				float height = 0.0f;
+				for (auto y__ = y_ - 1; y__ <= y_ + 1; y__++)
+				{
+					for (auto x__ = x_ - 1; x__ <= x_ + 1; x__++)
+					{
+						if (x__ == x_ && y__ == y_) continue;
+						height += getOriginalHeight(x__, y__);
+					}
+				}
+
+				height /= 8.0f;
+
+				if (distance < radius * (1.0f - fallout))
+				{
+					heights[ind] = height;
+				}
+				else
+				{
+					heights[ind] += (height - heights[ind])  * (1.0f - (distance - radius * (1.0f - fallout)) / (radius * fallout));
+				}
 			}
 		}
 

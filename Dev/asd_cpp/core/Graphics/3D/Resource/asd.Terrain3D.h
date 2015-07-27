@@ -88,7 +88,27 @@ namespace asd
 		@param	value	値
 		@param	fallout	周囲のぼかし(0～1)
 		*/
-		virtual void RaiseWithCircle(float x, float y, float radius, float value, float fallout) = 0;
+		virtual void RaiseHeightWithCircle(float x, float y, float radius, float value, float fallout) = 0;
+
+		/**
+		@brief	円形に地形を指定した高度に設定する。
+		@param	x	円形の中心座標
+		@param	y	円形の中心座標
+		@param	radius	円形の半径
+		@param	value	高度
+		@param	fallout	周囲のぼかし(0～1)
+		*/
+		virtual void ChangeHeightWithCircle(float x, float y, float radius, float value, float fallout) = 0;
+
+		/**
+		@brief	円形に地形を平滑化させる。
+		@param	x	円形の中心座標
+		@param	y	円形の中心座標
+		@param	radius	円形の半径
+		@param	value	平滑度(0～1)
+		@param	fallout	周囲のぼかし(0～1)
+		*/
+		virtual void SmoothHeightWithCircle(float x, float y, float radius, float value, float fallout) = 0;
 
 		/**
 		@brief	円形に崖の生成を伴う地形の上下をさせる。

@@ -2405,9 +2405,35 @@ namespace asd {
 		/// <param name="radius">円形の半径 </param>
 		/// <param name="value">値 </param>
 		/// <param name="fallout">周囲のぼかし(0～1) </param>
-		public void RaiseWithCircle(float x, float y, float radius, float value, float fallout)
+		public void RaiseHeightWithCircle(float x, float y, float radius, float value, float fallout)
 		{
-			CoreInstance.RaiseWithCircle(x, y, radius, value, fallout);
+			CoreInstance.RaiseHeightWithCircle(x, y, radius, value, fallout);
+		}
+
+		/// <summary>
+		/// 円形に地形を指定した高度に設定する。 
+		/// </summary>
+		/// <param name="x">円形の中心座標 </param>
+		/// <param name="y">円形の中心座標 </param>
+		/// <param name="radius">円形の半径 </param>
+		/// <param name="value">高度 </param>
+		/// <param name="fallout">周囲のぼかし(0～1) </param>
+		public void ChangeHeightWithCircle(float x, float y, float radius, float value, float fallout)
+		{
+			CoreInstance.ChangeHeightWithCircle(x, y, radius, value, fallout);
+		}
+
+		/// <summary>
+		/// 円形に地形を平滑化させる。 
+		/// </summary>
+		/// <param name="x">円形の中心座標 </param>
+		/// <param name="y">円形の中心座標 </param>
+		/// <param name="radius">円形の半径 </param>
+		/// <param name="value">平滑度 </param>
+		/// <param name="fallout">周囲のぼかし(0～1) </param>
+		public void SmoothHeightWithCircle(float x, float y, float radius, float value, float fallout)
+		{
+			CoreInstance.SmoothHeightWithCircle(x, y, radius, value, fallout);
 		}
 
 		/// <summary>

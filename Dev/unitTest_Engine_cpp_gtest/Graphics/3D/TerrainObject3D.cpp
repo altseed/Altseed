@@ -40,7 +40,7 @@ protected:
 
 		auto sf2ind = t->GetSurfaceIndex(asd::ToAString("sf2").c_str());
 		t->AssignSurfaceWithCircle(sf2ind, 0, 0, 2, 255, 0.5);
-		t->RaiseWithCircle(0, 0, 3.0f, 0.5f, 0.5f);
+		t->RaiseHeightWithCircle(0, 0, 3.0f, 0.5f, 0.5f);
 
 		auto tObj = std::make_shared<asd::TerrainObject3D>();
 		tObj->SetTerrain(t);

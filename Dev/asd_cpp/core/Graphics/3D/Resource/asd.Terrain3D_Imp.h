@@ -215,7 +215,11 @@ namespace asd
 
 		void SetMaterial(Material3D* material) override;
 
-		void RaiseWithCircle(float x, float y, float radius, float value, float fallout) override;
+		void RaiseHeightWithCircle(float x, float y, float radius, float value, float fallout) override;
+
+		void ChangeHeightWithCircle(float x, float y, float radius, float value, float fallout) override;
+		
+		void SmoothHeightWithCircle(float x, float y, float radius, float value, float fallout) override;
 
 		void ChangeCliffesWithCircle(float x, float y, float radius, int32_t value) override;
 
