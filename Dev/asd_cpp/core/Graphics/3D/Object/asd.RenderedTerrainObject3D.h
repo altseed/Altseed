@@ -13,9 +13,6 @@ namespace asd
 		std::shared_ptr<asd::NativeShader_Imp>	m_shaderDF_ND;
 		std::shared_ptr<asd::NativeShader_Imp>	m_shaderLightweight;
 
-		std::shared_ptr<asd::NativeShader_Imp>	m_shaderBlackLightweight;
-		std::shared_ptr<asd::NativeShader_Imp>	m_shaderBlack;
-
 		std::vector<ShaderConstantValue> shaderConstants;
 
 		std::vector<RenderedObject3DCullingProxy>	cullingProxies;

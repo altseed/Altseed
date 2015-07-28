@@ -113,56 +113,6 @@ namespace asd
 
 			assert(m_shaderDF_ND != nullptr);
 		}
-
-		{
-			std::vector<asd::Macro> macro;
-			macro.push_back(Macro("BLACK", "1"));
-			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
-			{
-				m_shaderBlackLightweight = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.TerrainObject3D.Lightweight.Black").c_str(),
-					lightweight_terrain_internal_vs_gl,
-					lightweight_terrain_internal_ps_gl,
-					vl,
-					macro);
-			}
-			else
-			{
-				m_shaderBlackLightweight = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.TerrainObject3D.Lightweight.Black").c_str(),
-					lightweight_terrain_internal_vs_dx,
-					lightweight_terrain_internal_ps_dx,
-					vl,
-					macro);
-			}
-
-			assert(m_shaderBlackLightweight != nullptr);
-		}
-
-		{
-			std::vector<asd::Macro> macro;
-			macro.push_back(Macro("BLACK", "1"));
-			if (g->GetGraphicsDeviceType() == GraphicsDeviceType::OpenGL)
-			{
-				m_shaderBlack = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.TerrainObject3D.Black").c_str(),
-					terrain_internal_vs_gl,
-					terrain_internal_ps_gl,
-					vl,
-					macro);
-			}
-			else
-			{
-				m_shaderBlack = g->GetShaderCache()->CreateFromCode(
-					ToAString("Internal.TerrainObject3D.Black").c_str(),
-					terrain_internal_vs_dx,
-					terrain_internal_ps_dx,
-					vl,
-					macro);
-			}
-
-			assert(m_shaderBlack != nullptr);
-		}
 	}
 
 	RenderedTerrainObject3DProxy::~RenderedTerrainObject3DProxy()
@@ -301,7 +251,8 @@ namespace asd
 
 		auto& cluster = terrain->Proxy.Clusters[index];
 		
-		// リセット
+		// Zprepass and depth (リセット処理は軽量化のため消滅)
+		if (prop.IsDepthMode)
 		{
 			shaderConstants.clear();
 
@@ -309,18 +260,11 @@ namespace asd
 
 			if (prop.IsLightweightMode)
 			{
-				shader = m_shaderBlackLightweight;
+				assert(0);
 			}
 			else
 			{
-				if (prop.IsDepthMode)
-				{
-					shader = m_shaderDF_ND;
-				}
-				else
-				{
-					shader = m_shaderBlack;
-				}
+				shader = m_shaderDF_ND;
 			}
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
@@ -349,11 +293,14 @@ namespace asd
 				state,
 				shaderConstants.data(),
 				shaderConstants.size());
+			return;
 		}
 
-		if (prop.IsDepthMode) return;
+		
 
 		// サーフェース描画
+		int32_t surfaceCount = 0;
+
 		for (auto& polygon : cluster->Surfaces)
 		{
 			auto& surface = terrain->Proxy.Surfaces[polygon.SurfaceIndex];
@@ -443,6 +390,15 @@ namespace asd
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
 				h::Texture2DPair(smoothnessTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Repeat)));
 
+			if (surfaceCount == 0)
+			{
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_depthScale", 1.0f));
+			}
+			else
+			{
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_depthScale", 0.0f));
+			}
+
 			if (terrain->Proxy.Material_ != nullptr)
 			{
 				auto mat = (Material3D_Imp*) (terrain->Proxy.Material_.get());
@@ -471,8 +427,16 @@ namespace asd
 			state.DepthTest = true;
 			state.DepthWrite = true;
 			state.Culling = CullingType::Front;
-			state.AlphaBlendState = AlphaBlendMode::AddAll;
 
+			if (surfaceCount == 0)
+			{
+				state.AlphaBlendState = AlphaBlendMode::OpacityAll;
+			}
+			else
+			{
+				state.AlphaBlendState = AlphaBlendMode::AddAll;
+			}
+			
 			helper->DrawWithPtr(
 				ib->GetCount() / 3,
 				vb.get(),
@@ -481,6 +445,8 @@ namespace asd
 				state,
 				shaderConstants.data(),
 				shaderConstants.size());
+
+			surfaceCount++;
 		}
 	
 	}

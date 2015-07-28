@@ -59,7 +59,7 @@ namespace asd {
 		static const int32_t		DepthTestCount = 2;
 		static const int32_t		DepthWriteCount = 2;
 		static const int32_t		CulTypeCount = 3;
-		static const int32_t		AlphaTypeCount = 6;
+		static const int32_t		AlphaTypeCount = 7;
 		static const int32_t		TextureFilterCount = 2;
 		static const int32_t		TextureWrapCount = 2;
 

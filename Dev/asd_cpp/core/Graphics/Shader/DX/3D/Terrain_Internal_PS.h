@@ -16,6 +16,8 @@ SamplerState	g_smoothnessSampler		: register( s3 );
 Texture2D		g_densityTexture		: register( t4 );
 SamplerState	g_densitySampler		: register( s4 );
 
+float			g_depthScale;
+
 struct PS_Input
 {
 	float4 SV_Position		: SV_POSITION;
@@ -98,14 +100,7 @@ PS_Output main( const PS_Input Input )
 	Output.SmoothnessMetalnessAO = Output.SmoothnessMetalnessAO * density;
 	Output.AO_MatID = Output.AO_MatID * density;
 
-#ifdef BLACK
-	Output.DiffuseColor = float4(0.0,0.0,0.0,0.0);
-	Output.NormalDepth.xyz = float3(0.0,0.0,0.0);
-	Output.SmoothnessMetalnessAO = float4(0.0,0.0,0.0,0.0);
-	Output.AO_MatID = float4(0.0,0.0,0.0,0.0);
-#else
-	Output.NormalDepth.w = 0.0;
-#endif
+	Output.NormalDepth.w *= g_depthScale;
 
 #endif
 

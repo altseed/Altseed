@@ -956,6 +956,10 @@ void Graphics_Imp_GL::CommitRenderState(bool forced)
 				{
 					glBlendFuncSeparate(GL_ONE, GL_ONE, GL_ONE, GL_ONE);
 				}
+				else if (next.AlphaBlendState == AlphaBlendMode::OpacityAll)
+				{
+					glBlendFuncSeparate(GL_ONE, GL_ZERO, GL_ONE, GL_ZERO);
+				}
 			}
 		}
 	}

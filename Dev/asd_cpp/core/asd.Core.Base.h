@@ -197,6 +197,10 @@ namespace asd {
 		/// 全加算(内部処理用)
 		/// </summary>
 		AddAll = 5,
+		/// <summary>
+		/// 全不透明(内部処理用)
+		/// </summary>
+		OpacityAll = 6,
 	};
 
 	enum class TextureFilterType : int32_t

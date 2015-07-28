@@ -9,6 +9,7 @@ uniform sampler2D g_metalnessTexture;
 uniform sampler2D g_smoothnessTexture;
 
 uniform sampler2D g_densityTexture;
+uniform float g_depthScale;
 
 in vec4 voutPosition;
 in vec4 voutProjPosition;
@@ -97,15 +98,7 @@ void main()
 	SmoothnessMetalnessAO = SmoothnessMetalnessAO * density;
 	AO_MatID = AO_MatID * density;
 
-#ifdef BLACK
-	DiffuseColor = vec4(0.0,0.0,0.0,0.0);
-	NormalDepth.xyz = vec3(0.0,0.0,0.0);
-	SmoothnessMetalnessAO = vec4(0.0,0.0,0.0,0.0);
-	AO_MatID = vec4(0.0,0.0,0.0,0.0);
-#else
-	NormalDepth.w = 0.0;
-#endif
-
+	NormalDepth.w += g_depthScale;
 #endif
 
 }
