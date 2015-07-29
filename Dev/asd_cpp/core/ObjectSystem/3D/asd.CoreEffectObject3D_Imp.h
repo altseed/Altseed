@@ -23,11 +23,15 @@ namespace asd
 
 		void SetEffect(Effect* effect) override;
 
-		void Play() override;
+		int32_t Play() override;
 
 		void Stop() override;
 
 		void StopRoot() override;
+
+		void Show() override;;
+
+		void Hide() override;
 
 		bool GetIsPlaying() override;
 

@@ -23,9 +23,9 @@ namespace asd
 		m_object->SetEffect(effect);
 	}
 
-	void CoreEffectObject3D_Imp::Play()
+	int32_t CoreEffectObject3D_Imp::Play()
 	{
-		m_object->Play();
+		return m_object->Play();
 	}
 
 	void CoreEffectObject3D_Imp::Stop()
@@ -36,6 +36,16 @@ namespace asd
 	void CoreEffectObject3D_Imp::StopRoot()
 	{
 		m_object->StopRoot();
+	}
+
+	void CoreEffectObject3D_Imp::Show()
+	{
+		m_object->Show();
+	}
+
+	void CoreEffectObject3D_Imp::Hide()
+	{
+		m_object->Hide();
 	}
 
 	bool CoreEffectObject3D_Imp::GetIsPlaying()

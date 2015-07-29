@@ -30,8 +30,9 @@ namespace asd
 
 		/**
 		@brief	設定されている全てのエフェクトを再生する。
+		@return	再生されたエフェクトのID
 		*/
-		virtual void Play() = 0;
+		virtual int32_t Play() = 0;
 
 		/**
 		@brief	このオブジェクトから再生されたエフェクトを全て停止する。
@@ -42,6 +43,10 @@ namespace asd
 		@brief	このオブジェクトから再生されたエフェクトのルートを全て停止する。
 		*/
 		virtual void StopRoot() = 0;
+
+		virtual void Show() = 0;
+
+		virtual void Hide() = 0;
 
 		/**
 		@brief	このオブジェクトから再生されたエフェクトが再生中か取得する。

@@ -72,10 +72,10 @@ namespace asd
 		SafeSubstitute(m_effect, effect);
 	}
 
-	void CoreEffectObject2D_Imp::Play()
+	int32_t CoreEffectObject2D_Imp::Play()
 	{
-		if (m_effect == nullptr) return;
-		if (m_renderer == nullptr) return;
+		if (m_effect == nullptr) return -1;
+		if (m_renderer == nullptr) return -1;
 		ASSERT_STATIC_CAST(Effect_Imp*, m_effect);
 
 		auto e = (Effect_Imp*) m_effect;
@@ -86,6 +86,8 @@ namespace asd
 		auto handle = m_renderer->GetEffectManager()->Play(ne, 0.0f, 0.0f, 0.0f);
 		m_renderer->GetEffectManager()->SetMatrix(handle, efMat);
 		m_handles.push_back(handle);
+
+		return handle;
 	}
 
 	void CoreEffectObject2D_Imp::Stop()
@@ -102,6 +104,22 @@ namespace asd
 		for (auto& h : m_handles)
 		{
 			m_renderer->GetEffectManager()->StopRoot(h);
+		}
+	}
+
+	void CoreEffectObject2D_Imp::Show()
+	{
+		for (auto& h : m_handles)
+		{
+			m_renderer->GetEffectManager()->SetShown(h, true);
+		}
+	}
+
+	void CoreEffectObject2D_Imp::Hide()
+	{
+		for (auto& h : m_handles)
+		{
+			m_renderer->GetEffectManager()->SetShown(h, false);
 		}
 	}
 

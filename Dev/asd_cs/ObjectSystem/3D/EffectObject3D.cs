@@ -45,9 +45,10 @@ namespace asd
 		/// <summary>
 		/// 設定されている全てのエフェクトを再生する。
 		/// </summary>
-		public void Play()
+		/// <remarks>再生されたエフェクトのID</remarks>
+		public int Play()
 		{
-			coreObject.Play();
+			return coreObject.Play();
 		}
 
 		/// <summary>
@@ -64,6 +65,22 @@ namespace asd
 		public void StopRoot()
 		{
 			coreObject.StopRoot();
+		}
+
+		/// <summary>
+		/// このオブジェクトから再生されたエフェクトを表示状態にする。
+		/// </summary>
+		public void Show()
+		{
+			coreObject.Show();
+		}
+
+		/// <summary>
+		/// このオブジェクトから再生されたエフェクトを非表示状態にする。
+		/// </summary>
+		public void Hide()
+		{
+			coreObject.Hide();
 		}
 
 		/// <summary>

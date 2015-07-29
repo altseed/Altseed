@@ -83,10 +83,10 @@ namespace asd
 		SafeSubstitute(m_effect, effect);
 	}
 
-	void RenderedEffectObject3D::Play()
+	int32_t RenderedEffectObject3D::Play()
 	{
-		if (m_effect == nullptr) return;
-		if (m_renderer == nullptr) return;
+		if (m_effect == nullptr) return -1;
+		if (m_renderer == nullptr) return -1;
 
 		auto e = (Effect_Imp*) m_effect;
 		auto ne = e->GetEffect();
@@ -106,6 +106,8 @@ namespace asd
 		auto handle = m_renderer->GetEffectManager()->Play(ne, pos.X, pos.Y, pos.Z);
 		m_renderer->GetEffectManager()->SetMatrix(handle, efMat);
 		m_handles.push_back(handle);
+
+		return handle;
 	}
 
 	void RenderedEffectObject3D::Stop()
@@ -122,6 +124,22 @@ namespace asd
 		for (auto& h : m_handles)
 		{
 			m_renderer->GetEffectManager()->StopRoot(h);
+		}
+	}
+
+	void RenderedEffectObject3D::Show()
+	{
+		for (auto& h : m_handles)
+		{
+			m_renderer->GetEffectManager()->SetShown(h, true);
+		}
+	}
+
+	void RenderedEffectObject3D::Hide()
+	{
+		for (auto& h : m_handles)
+		{
+			m_renderer->GetEffectManager()->SetShown(h, false);
 		}
 	}
 

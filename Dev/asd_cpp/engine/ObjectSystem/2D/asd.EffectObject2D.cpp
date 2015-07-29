@@ -29,9 +29,9 @@ namespace asd
 		m_coreObject->SetEffect(effect.get());
 	}
 
-	void EffectObject2D::Play()
+	int32_t EffectObject2D::Play()
 	{
-		m_coreObject->Play();
+		return m_coreObject->Play();
 	}
 
 	void EffectObject2D::Stop()
@@ -42,6 +42,16 @@ namespace asd
 	void EffectObject2D::StopRoot()
 	{
 		m_coreObject->StopRoot();
+	}
+
+	void EffectObject2D::Show()
+	{
+		m_coreObject->Show();
+	}
+
+	void EffectObject2D::Hide()
+	{
+		m_coreObject->Hide();
 	}
 
 	bool EffectObject2D::GetIsPlaying()

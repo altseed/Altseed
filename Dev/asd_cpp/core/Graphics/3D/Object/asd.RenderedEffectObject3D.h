@@ -41,7 +41,11 @@ namespace asd
 		/**
 			@brief	設定されている全てのエフェクトを再生する。
 		*/
-		void Play();
+		int32_t Play();
+
+		void Show();
+
+		void Hide();
 
 		/**
 			@brief	このオブジェクトから再生されたエフェクトを全て停止する。

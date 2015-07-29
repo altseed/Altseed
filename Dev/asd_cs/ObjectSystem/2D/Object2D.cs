@@ -69,6 +69,9 @@ namespace asd
 		/// <summary>
 		/// この2Dオブジェクトを描画する際の回転角度を取得または設定する。
 		/// </summary>
+		/// <remarks>
+		/// 回転角度は度で表記され、回転方向は時計回りである。
+		/// </remarks>
 		public float Angle
 		{
 			get { return CoreObject.GetAngle(); }

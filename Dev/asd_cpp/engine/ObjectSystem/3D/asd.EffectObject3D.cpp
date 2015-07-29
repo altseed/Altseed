@@ -21,9 +21,9 @@ namespace asd
 		m_coreObject->SetEffect(effect.get());
 	}
 
-	void EffectObject3D::Play()
+	int32_t EffectObject3D::Play()
 	{
-		m_coreObject->Play();
+		return m_coreObject->Play();
 	}
 
 	void EffectObject3D::Stop()

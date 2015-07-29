@@ -202,10 +202,14 @@ namespace asd
 
 		/**
 			@brief	このオブジェクトを描画する際の回転角度を取得する。
+			@note
+			回転角度は度で表記され、回転方向は時計回りである。
 		*/
 		float GetAngle() const;
 		/**
 			@brief	このオブジェクトを描画する際の回転角度を設定する。
+			@note
+			回転角度は度で表記され、回転方向は時計回りである。
 		*/
 		void SetAngle(float value);
 

@@ -18,11 +18,15 @@ namespace asd
 
 		virtual void SetEffect(Effect* effect) = 0;
 
-		virtual void Play() = 0;
+		virtual int32_t Play() = 0;
 
 		virtual void Stop() = 0;
 
 		virtual void StopRoot() = 0;
+
+		virtual void Show() = 0;
+
+		virtual void Hide() = 0;
 
 		/**
 		@brief	このオブジェクトから再生されたエフェクトが再生中か取得する。

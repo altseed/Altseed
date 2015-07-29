@@ -38,7 +38,7 @@ namespace asd
 		/**
 		@brief	設定されている全てのエフェクトを再生する。
 		*/
-		void Play();
+		int32_t Play() override;
 
 		/**
 		@brief	このオブジェクトから再生されたエフェクトを全て停止する。
@@ -49,6 +49,11 @@ namespace asd
 		@brief	このオブジェクトから再生されたエフェクトのルートを全て停止する。
 		*/
 		void StopRoot();
+
+		void Show() override;
+
+		void Hide() override;
+
 
 		bool GetIsPlaying() override;
 
