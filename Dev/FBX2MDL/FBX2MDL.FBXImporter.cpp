@@ -610,6 +610,19 @@ namespace FBX2MDL
 		auto lclT = fbxNode->LclTranslation.Get();
 		auto lclR = fbxNode->LclRotation.Get();
 		auto lclS = fbxNode->LclScaling.Get();
+
+		node->LclTranslation[0] = lclT[0];
+		node->LclTranslation[1] = lclT[1];
+		node->LclTranslation[2] = lclT[2];
+
+		node->LclRotation[0] = lclR[0];
+		node->LclRotation[1] = lclR[1];
+		node->LclRotation[2] = lclR[2];
+
+		node->LclScaling[0] = lclS[0];
+		node->LclScaling[1] = lclS[1];
+		node->LclScaling[2] = lclS[2];
+
 		node->LclMatrix = CalcMatrix(node->RotationOrder, lclT[0], lclT[1], lclT[2], lclR[0], lclR[1], lclR[2], lclS[0], lclS[1], lclS[2]);
 
 		// ƒWƒIƒƒgƒŠ

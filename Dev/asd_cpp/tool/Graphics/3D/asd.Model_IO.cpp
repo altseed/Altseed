@@ -241,7 +241,7 @@ namespace asd
 		int32_t version = reader.Get<int32_t>();
 
 		// ボーン
-		LoadDeformer(Deformer_, reader, path);
+		LoadDeformer(Deformer_, reader, path, version);
 
 		// メッシュ
 		LoadMeshes(Meshes, reader, path);
@@ -391,7 +391,7 @@ namespace asd
 		}
 	}
 
-	void Model_IO::LoadDeformer(Deformer& deformer, BinaryReader& reader, const achar* path)
+	void Model_IO::LoadDeformer(Deformer& deformer, BinaryReader& reader, const achar* path, int32_t version)
 	{
 		int32_t bcount = reader.Get<int32_t>();
 		deformer.Bones.resize(bcount);
@@ -401,12 +401,50 @@ namespace asd
 			auto name = reader.Get<astring>();
 			auto parent = reader.Get<int32_t>();
 			RotationOrder rotationOrder = reader.Get<RotationOrder>();
-			auto localMat = reader.Get<Matrix44>();
-
+			
 			deformer.Bones[i].Name = name;
 			deformer.Bones[i].ParentBoneIndex = parent;
 			deformer.Bones[i].RotationType = rotationOrder;
-			deformer.Bones[i].LocalMat = localMat;
+
+			if (version >= 2)
+			{
+				deformer.Bones[i].Translation[0] = reader.Get<float>();
+				deformer.Bones[i].Translation[1] = reader.Get<float>();
+				deformer.Bones[i].Translation[2] = reader.Get<float>();
+			
+				deformer.Bones[i].Rotation[0] = reader.Get<float>();
+				deformer.Bones[i].Rotation[1] = reader.Get<float>();
+				deformer.Bones[i].Rotation[2] = reader.Get<float>();
+				deformer.Bones[i].Rotation[3] = reader.Get<float>();
+
+				deformer.Bones[i].Scaling[0] = reader.Get<float>();
+				deformer.Bones[i].Scaling[1] = reader.Get<float>();
+				deformer.Bones[i].Scaling[2] = reader.Get<float>();
+
+				deformer.Bones[i].LocalMat = ModelUtils::CalcMatrix(
+					deformer.Bones[i].Translation,
+					deformer.Bones[i].Rotation,
+					deformer.Bones[i].Scaling,
+					deformer.Bones[i].RotationType);
+			}
+			else
+			{
+				auto localMat = reader.Get<Matrix44>();
+				deformer.Bones[i].LocalMat = localMat;
+
+				deformer.Bones[i].Translation[0] = 0;
+				deformer.Bones[i].Translation[1] = 0;
+				deformer.Bones[i].Translation[2] = 0;
+
+				deformer.Bones[i].Rotation[0] = 0;
+				deformer.Bones[i].Rotation[1] = 0;
+				deformer.Bones[i].Rotation[2] = 0;
+				deformer.Bones[i].Rotation[3] = 0;
+
+				deformer.Bones[i].Scaling[0] = 1.0f;
+				deformer.Bones[i].Scaling[1] = 1.0f;
+				deformer.Bones[i].Scaling[2] = 1.0f;
+			}			
 		}
 	}
 

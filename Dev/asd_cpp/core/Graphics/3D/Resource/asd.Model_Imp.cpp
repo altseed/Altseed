@@ -201,7 +201,10 @@ namespace asd
 		for (auto i = 0; i < io.Deformer_.Bones.size(); i++)
 		{
 			auto& bone = io.Deformer_.Bones[i];
-			deformer->AddBone( bone.Name.c_str(), bone.ParentBoneIndex, bone.RotationType, bone.LocalMat);
+			deformer->AddBone( bone.Name.c_str(), bone.ParentBoneIndex, bone.RotationType, bone.LocalMat, 
+				Vector3DF(bone.Translation[0], bone.Translation[1], bone.Translation[2]),
+				Vector4DF(bone.Rotation[0], bone.Rotation[1], bone.Rotation[2], bone.Rotation[3]),
+				Vector3DF(bone.Scaling[0], bone.Scaling[1], bone.Scaling[2]) );
 		}
 
 		return deformer;

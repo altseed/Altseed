@@ -61,9 +61,10 @@ namespace asd
 		/// <param name="parentBoneIndex">親ボーンのインデックス(親がない場合は-1)</param>
 		/// <param name="rotationOrder">ボーンの回転行列の計算方法</param>
 		/// <param name="localMat">ボーンのローカル変形行列</param>
-		public void AddBone(string name, int parentBoneIndex, RotationOrder rotationOrder, asd.Matrix44 localMat)
+		public void AddBone(string name, int parentBoneIndex, RotationOrder rotationOrder, asd.Matrix44 localMat,
+			asd.Vector3DF translation, asd.Vector4DF rotation, asd.Vector3DF scaling)
 		{
-			SwigObject.AddBone(name, parentBoneIndex, (swig.RotationOrder)rotationOrder, ref localMat);
+			SwigObject.AddBone(name, parentBoneIndex, (swig.RotationOrder)rotationOrder, ref localMat, ref translation, ref rotation, ref scaling);
 		}
 	}
 }

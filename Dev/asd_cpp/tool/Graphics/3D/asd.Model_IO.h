@@ -95,6 +95,10 @@ namespace asd
 			astring				Name;
 			int32_t				ParentBoneIndex;
 			RotationOrder		RotationType;
+			float				Translation[3];
+			float				Rotation[4];
+			float				Scaling[3];
+
 			Matrix44			LocalMat;
 		};
 
@@ -171,7 +175,7 @@ namespace asd
 		void LoadMeshes(std::vector<Mesh>& meshes, BinaryReader& reader, const achar* path);
 		void LoadMesh(Mesh& mesh, BinaryReader& reader, const achar* path);
 		void LoadDividedMesh(DividedMesh& mesh, BinaryReader& reader, const achar* path);
-		void LoadDeformer(Deformer& deformer, BinaryReader& reader, const achar* path);
+		void LoadDeformer(Deformer& deformer, BinaryReader& reader, const achar* path, int32_t version);
 		void LoadMaterials(std::vector<Material>& materials, BinaryReader& reader, const achar* path);
 		void LoadMaterial(Material& material, BinaryReader& reader, const achar* path);
 

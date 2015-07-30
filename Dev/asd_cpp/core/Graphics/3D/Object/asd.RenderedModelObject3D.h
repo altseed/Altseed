@@ -29,6 +29,14 @@ namespace asd
 		float	Rotation[4];
 		float	Scale[3];
 
+		// 計算用バッファ
+		float	TempPosition[2][3];
+		float	TempRotation[2][4];
+		float	TempScale[2][3];
+
+		// 目標
+		float TargetRotation[4];
+
 		bool	IsAnimationPlaying;
 
 		BoneProperty();
@@ -61,8 +69,6 @@ namespace asd
 	public:
 		bool									calcAnimationOnProxy = false;
 		std::vector<Matrix44>					m_matrixes;
-		std::vector<Matrix44>					m_matrixes_temp0;
-		std::vector<Matrix44>					m_matrixes_temp1;
 
 		std::vector<std::shared_ptr<Mesh>>		m_meshes;
 		std::shared_ptr<Deformer>				m_deformer;
@@ -100,8 +106,6 @@ namespace asd
 		std::vector<std::shared_ptr<Mesh>>		m_meshes;
 		std::shared_ptr<Deformer>				m_deformer;
 		std::vector<Matrix44>					m_matrixes;
-		std::vector<Matrix44>					m_matrixes_temp0;
-		std::vector<Matrix44>					m_matrixes_temp1;
 
 		std::vector<std::vector<std::shared_ptr<MaterialPropertyBlock>>>	materialPropertyBlocks;
 

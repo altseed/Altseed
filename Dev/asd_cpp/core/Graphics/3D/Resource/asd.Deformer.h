@@ -33,6 +33,6 @@ namespace asd
 			@param	rotationOrder	ボーンの回転行列の計算方法
 			@param	localMat	ボーンのローカル変形行列
 		*/
-		virtual void AddBone(const achar* name, int32_t parentBoneIndex, RotationOrder rotationOrder, const Matrix44& localMat) = 0;
+		virtual void AddBone(const achar* name, int32_t parentBoneIndex, RotationOrder rotationOrder, const Matrix44& localMat, const Vector3DF& translation, const Vector4DF& rotation, const Vector3DF& scaling) = 0;
 	};
 }

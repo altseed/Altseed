@@ -84,9 +84,9 @@ namespace asd
 			auto value = a_->GetValue(time);
 
 			ModelUtils::SetBoneValue(
-				boneProps[bi].Position,
-				boneProps[bi].Rotation,
-				boneProps[bi].Scale,
+				boneProps[bi].TempPosition[0],
+				boneProps[bi].TempRotation[0],
+				boneProps[bi].TempScale[0],
 				type,
 				axis,
 				value
@@ -107,6 +107,20 @@ namespace asd
 		}
 	}
 
+	static void SetDefaultSRT(std::vector <BoneProperty>& boneProps, Deformer* deformer)
+	{
+		if (deformer == nullptr) return;
+		auto d = (Deformer_Imp*) deformer;
+
+		for (auto i = 0; i < d->GetBones().size(); i++)
+		{
+			auto& b = d->GetBones()[i];
+			for (int32_t j = 0; j < 3; j++) boneProps[i].Position[j] = b.Translation[j];
+			for (int32_t j = 0; j < 4; j++) boneProps[i].Rotation[j] = b.Rotation[j];
+			for (int32_t j = 0; j < 3; j++) boneProps[i].Scale[j] = b.Scaling[j];
+		}
+	}
+
 	static void CalclateBoneMatrices(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer)
 	{
 		if (deformer == nullptr) return;
@@ -116,14 +130,14 @@ namespace asd
 		{
 			auto& b = d->GetBones()[i];
 
-			if (boneProps[i].IsAnimationPlaying)
-			{
+			//if (boneProps[i].IsAnimationPlaying)
+			//{
 				matrixes[i] = boneProps[i].CalcMatrix(b.RotationType);
-			}
-			else
-			{
-				matrixes[i] = b.LocalMat;
-			}
+			//}
+			//else
+			//{
+			//	matrixes[i] = b.LocalMat;
+			//}
 		}
 	}
 
@@ -286,11 +300,9 @@ namespace asd
 	{
 		if (calcAnimationOnProxy)
 		{
-			m_matrixes_temp0.resize(m_matrixes.size());
-			m_matrixes_temp1.resize(m_matrixes.size());
-
 			// 初期値を設定する
-			SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
+			SetDefaultSRT(m_boneProps, m_deformer.get());
+			//SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
 
 			// アニメーションを再生する。
 			for (int32_t i = 0; i < AnimationCount; i++)
@@ -314,31 +326,23 @@ namespace asd
 					SetAnimationPlaying(m_boneProps, animationCache, 0);
 				}
 
-				for (auto j = 0; j < m_matrixes.size(); j++)
+				for (auto& b : m_boneProps)
 				{
-					for (auto r = 0; r < 4; r++)
-					{
-						for (auto c = 0; c < 4; c++)
-						{
-							m_matrixes_temp1[j].Values[r][c] = 0.0f;
-						}
-					}
+					for (int32_t j = 0; j < 3; j++) b.TempPosition[1][j] = 0.0f;
+					for (int32_t j = 0; j < 4; j++) b.TempRotation[1][j] = 0.0f;
+					for (int32_t j = 0; j < 3; j++) b.TempScale[1][j] = 0.0f;
 				}
 
-				for (auto& anim_ : m_animationPlaying[i])
+				for (int32_t bi = (int32_t)m_animationPlaying[i].size() - 1; bi >= 0; bi--)
 				{
-					for (auto j = 0; j < m_matrixes.size(); j++)
-					{
-						for (auto r = 0; r < 4; r++)
-						{
-							for (auto c = 0; c < 4; c++)
-							{
-								m_matrixes_temp0[j].Values[r][c] = 0.0f;
-							}
-						}
-					}
+					auto& anim_ = m_animationPlaying[i][bi];
 
-					ResetSRT(m_boneProps);
+					for (auto& b : m_boneProps)
+					{
+						for (int32_t j = 0; j < 3; j++) b.TempPosition[0][j] = 0.0f;
+						for (int32_t j = 0; j < 4; j++) b.TempRotation[0][j] = 0.0f;
+						for (int32_t j = 0; j < 3; j++) b.TempScale[0][j] = 0.0f;
+					}
 
 					auto anim = anim_.Animation.get();
 					auto loop = anim->GetIsLoopingMode();
@@ -359,37 +363,65 @@ namespace asd
 					SetAnimationPlaying(m_boneProps, animationCache, time);
 
 					CalculateAnimation(m_boneProps, animationCache, time);
-					CalclateBoneMatrices(m_matrixes_temp0, m_boneProps, m_deformer.get());
-
-					for (auto j = 0; j < m_matrixes.size(); j++)
+					
+					// ターゲットを保存
+					if (bi == m_animationPlaying[i].size() - 1)
 					{
-						for (auto r = 0; r < 4; r++)
+						for (auto& b : m_boneProps)
 						{
-							for (auto c = 0; c < 4; c++)
-							{
-								m_matrixes_temp1[j].Values[r][c] += m_matrixes_temp0[j].Values[r][c] * anim_.CurrentWeight;
-							}
+							for (int32_t j = 0; j < 4; j++) b.TargetRotation[j] = b.TempRotation[0][j];
 						}
+					}
+
+					for (auto& b : m_boneProps)
+					{
+						for (int32_t j = 0; j < 3; j++) b.TempPosition[1][j] += b.TempPosition[0][j] * anim_.CurrentWeight;
+
+						for (int32_t j = 0; j < 4; j++)
+						{
+							// ターゲットに合わせて調整
+							auto r = b.TempRotation[0][j];
+							auto tr = b.TargetRotation[j];
+
+							if (abs(r - tr) > PI)
+							{
+								if (r > tr)
+								{
+									while (abs(r - tr) > PI)
+									{
+										r -= PI * 2;
+									}
+								}
+								else
+								{
+									while (abs(r - tr) > PI)
+									{
+										r += PI * 2;
+									}
+								}
+							}
+
+							b.TempRotation[1][j] += r * anim_.CurrentWeight;
+						}
+
+						for (int32_t j = 0; j < 3; j++) b.TempScale[1][j] += b.TempScale[0][j] * anim_.CurrentWeight;
 					}
 				}
 
-				for (auto j = 0; j < m_matrixes.size(); j++)
+				for (auto& b : m_boneProps)
 				{
-					if (m_boneProps[j].IsAnimationPlaying)
-					{
-						for (auto r = 0; r < 4; r++)
-						{
-							for (auto c = 0; c < 4; c++)
-							{
-								m_matrixes[j].Values[r][c] = m_matrixes[j].Values[r][c] * (1.0f - m_animationWeight[i]) + m_matrixes_temp1[j].Values[r][c] * m_animationWeight[i];
-							}
-						}
-					}
+					if (!b.IsAnimationPlaying) continue;
+
+					for (int32_t j = 0; j < 3; j++) b.Position[j] = b.Position[j] * (1.0f - m_animationWeight[i]) + b.TempPosition[1][j] * m_animationWeight[i];
+					for (int32_t j = 0; j < 4; j++) b.Rotation[j] = b.Rotation[j] * (1.0f - m_animationWeight[i]) + b.TempRotation[1][j] * m_animationWeight[i];
+					for (int32_t j = 0; j < 3; j++) b.Scale[j] = b.Scale[j] * (1.0f - m_animationWeight[i]) + b.TempScale[1][j] * m_animationWeight[i];
 				}
 			}
 
 			if (m_deformer.get() != nullptr)
 			{
+				CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
+
 				ModelUtils::CalculateBoneMatrixes(
 					m_matrixes,
 					((Deformer_Imp*) m_deformer.get())->GetBones(),
@@ -958,11 +990,9 @@ namespace asd
 		}
 		else
 		{
-			m_matrixes_temp0.resize(m_matrixes.size());
-			m_matrixes_temp1.resize(m_matrixes.size());
-
 			// 初期値を設定する
-			SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
+			SetDefaultSRT(m_boneProps, m_deformer.get());
+			//SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
 
 			// アニメーションを再生する。
 			for (int32_t i = 0; i < AnimationCount; i++)
@@ -986,31 +1016,23 @@ namespace asd
 					SetAnimationPlaying(m_boneProps, animationCache, 0);
 				}
 
-				for (auto j = 0; j < m_matrixes.size(); j++)
+				for (auto& b : m_boneProps)
 				{
-					for (auto r = 0; r < 4; r++)
-					{
-						for (auto c = 0; c < 4; c++)
-						{
-							m_matrixes_temp1[j].Values[r][c] = 0.0f;
-						}
-					}
+					for (int32_t j = 0; j < 3; j++) b.TempPosition[1][j] = 0.0f;
+					for (int32_t j = 0; j < 4; j++) b.TempRotation[1][j] = 0.0f;
+					for (int32_t j = 0; j < 3; j++) b.TempScale[1][j] = 0.0f;
 				}
 
-				for (auto& anim_ : m_animationPlaying[i])
+				for (int32_t bi = (int32_t) m_animationPlaying[i].size() - 1; bi >= 0; bi--)
 				{
-					for (auto j = 0; j < m_matrixes.size(); j++)
-					{
-						for (auto r = 0; r < 4; r++)
-						{
-							for (auto c = 0; c < 4; c++)
-							{
-								m_matrixes_temp0[j].Values[r][c] = 0.0f;
-							}
-						}
-					}
+					auto& anim_ = m_animationPlaying[i][bi];
 
-					ResetSRT(m_boneProps);
+					for (auto& b : m_boneProps)
+					{
+						for (int32_t j = 0; j < 3; j++) b.TempPosition[0][j] = 0.0f;
+						for (int32_t j = 0; j < 4; j++) b.TempRotation[0][j] = 0.0f;
+						for (int32_t j = 0; j < 3; j++) b.TempScale[0][j] = 0.0f;
+					}
 
 					auto anim = anim_.Animation.get();
 					auto loop = anim->GetIsLoopingMode();
@@ -1031,37 +1053,65 @@ namespace asd
 					SetAnimationPlaying(m_boneProps, animationCache, time);
 
 					CalculateAnimation(m_boneProps, animationCache, time);
-					CalclateBoneMatrices(m_matrixes_temp0, m_boneProps, m_deformer.get());
 
-					for (auto j = 0; j < m_matrixes.size(); j++)
+					// ターゲットを保存
+					if (bi == m_animationPlaying[i].size() - 1)
 					{
-						for (auto r = 0; r < 4; r++)
+						for (auto& b : m_boneProps)
 						{
-							for (auto c = 0; c < 4; c++)
-							{
-								m_matrixes_temp1[j].Values[r][c] += m_matrixes_temp0[j].Values[r][c] * anim_.CurrentWeight;
-							}
+							for (int32_t j = 0; j < 4; j++) b.TargetRotation[j] = b.TempRotation[0][j];
 						}
+					}
+
+					for (auto& b : m_boneProps)
+					{
+						for (int32_t j = 0; j < 3; j++) b.TempPosition[1][j] += b.TempPosition[0][j] * anim_.CurrentWeight;
+
+						for (int32_t j = 0; j < 4; j++)
+						{
+							// ターゲットに合わせて調整
+							auto r = b.TempRotation[0][j];
+							auto tr = b.TargetRotation[j];
+
+							if (abs(r - tr) > PI)
+							{
+								if (r > tr)
+								{
+									while (abs(r - tr) > PI)
+									{
+										r -= PI * 2;
+									}
+								}
+								else
+								{
+									while (abs(r - tr) > PI)
+									{
+										r += PI * 2;
+									}
+								}
+							}
+
+							b.TempRotation[1][j] += r * anim_.CurrentWeight;
+						}
+
+						for (int32_t j = 0; j < 3; j++) b.TempScale[1][j] += b.TempScale[0][j] * anim_.CurrentWeight;
 					}
 				}
 
-				for (auto j = 0; j < m_matrixes.size(); j++)
+				for (auto& b : m_boneProps)
 				{
-					if (m_boneProps[j].IsAnimationPlaying)
-					{
-						for (auto r = 0; r < 4; r++)
-						{
-							for (auto c = 0; c < 4; c++)
-							{
-								m_matrixes[j].Values[r][c] = m_matrixes[j].Values[r][c] * (1.0f - m_animationWeight[i]) + m_matrixes_temp1[j].Values[r][c] * m_animationWeight[i];
-							}
-						}
-					}
+					if (!b.IsAnimationPlaying) continue;
+
+					for (int32_t j = 0; j < 3; j++) b.Position[j] = b.Position[j] * (1.0f - m_animationWeight[i]) + b.TempPosition[1][j] * m_animationWeight[i];
+					for (int32_t j = 0; j < 4; j++) b.Rotation[j] = b.Rotation[j] * (1.0f - m_animationWeight[i]) + b.TempRotation[1][j] * m_animationWeight[i];
+					for (int32_t j = 0; j < 3; j++) b.Scale[j] = b.Scale[j] * (1.0f - m_animationWeight[i]) + b.TempScale[1][j] * m_animationWeight[i];
 				}
 			}
 
 			if (m_deformer.get() != nullptr)
 			{
+				CalclateBoneMatrices(m_matrixes, m_boneProps, m_deformer.get());
+
 				ModelUtils::CalculateBoneMatrixes(
 					m_matrixes,
 					((Deformer_Imp*) m_deformer.get())->GetBones(),

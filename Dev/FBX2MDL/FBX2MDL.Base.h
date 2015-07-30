@@ -52,6 +52,9 @@ namespace FBX2MDL
 		std::shared_ptr<Mesh> MeshParameter;
 
 		asd::RotationOrder RotationOrder;
+		float LclTranslation[3];
+		float LclRotation[4];
+		float LclScaling[3];
 
 		asd::Matrix44 GeometricMatrix;
 		asd::Matrix44 LclMatrix;

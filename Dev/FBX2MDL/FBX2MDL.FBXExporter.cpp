@@ -10,7 +10,7 @@ namespace FBX2MDL
 		m_writer->Push((uint8_t)'L');
 		m_writer->Push((uint8_t) 0);
 
-		m_writer->Push(1);
+		m_writer->Push(2);
 	}
 
 	void FBXExporter::WriteAnimationSource(AnimationSource& source)
@@ -132,7 +132,23 @@ namespace FBX2MDL
 			m_writer->Push(node->Name);
 			m_writer->Push(parentIndex);
 			m_writer->Push((int32_t) node->RotationOrder);
-			m_writer->Push(node->LclMatrix);
+
+			// Ver2‚©‚ç
+			m_writer->Push(node->LclTranslation[0]);
+			m_writer->Push(node->LclTranslation[1]);
+			m_writer->Push(node->LclTranslation[2]);
+
+			m_writer->Push(node->LclRotation[0]);
+			m_writer->Push(node->LclRotation[1]);
+			m_writer->Push(node->LclRotation[2]);
+			m_writer->Push(node->LclRotation[3]);
+
+			m_writer->Push(node->LclScaling[0]);
+			m_writer->Push(node->LclScaling[1]);
+			m_writer->Push(node->LclScaling[2]);
+			
+			// Ver1‚Ü‚Å
+			//m_writer->Push(node->LclMatrix);
 		};
 
 		dst.push_back(func);

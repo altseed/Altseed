@@ -22,7 +22,8 @@ namespace asd
 		Deformer_Imp();
 		virtual ~Deformer_Imp();
 
-		void AddBone(const achar* name, int32_t parentBoneIndex, RotationOrder rotationOrder, const Matrix44& localMat) override;
+		void AddBone(const achar* name, int32_t parentBoneIndex, RotationOrder rotationOrder, 
+			const Matrix44& localMat, const Vector3DF& translation, const Vector4DF& rotation, const Vector3DF& scaling) override;
 
 		std::vector<Model_IO::Bone>& GetBones() { return m_bones; }
 
