@@ -134,8 +134,8 @@ namespace asd
 		auto cObj = culling2d::Object::Create(userData, world);
 		chip->SetCullingObject(cObj);
 
-		auto circle = chip->GetBoundingCircle();
-		cObj->SetCircle(circle);
+		//auto circle = chip->GetBoundingCircle();
+		//cObj->SetCircle(circle);
 
 		cObj->SetFirstSortedKey(firstSortKey);
 		cObj->SetSecondSortedKey(world->GetNextSecondSortedKey());
@@ -205,8 +205,8 @@ namespace asd
 
 				o->SetCullingObject(cObj);
 
-				auto circle = o->GetBoundingCircle();
-				cObj->SetCircle(circle);
+				//auto circle = o->GetBoundingCircle();
+				//cObj->SetCircle(circle);
 
 				AddTransformedObject(cObj);
 				o->SetAlreadyCullingUpdated(true);
