@@ -249,7 +249,7 @@ namespace asd
 
 	float Layer3D::GetHeightFogStartDistance()
 	{
-		m_coreLayer->GetHeightFogFalloff();
+		return m_coreLayer->GetHeightFogFalloff();
 	}
 
 	void Layer3D::SetHeightFogStartDistance(float value)
