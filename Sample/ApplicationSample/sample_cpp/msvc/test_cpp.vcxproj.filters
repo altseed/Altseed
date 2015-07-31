@@ -27,6 +27,9 @@
     <ClCompile Include="..\MapObject2D\MapObject2D_Basic.cpp">
       <Filter>MapObject2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Fps\Fps_ShowFps.cpp">
+      <Filter>Fps</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -44,6 +47,9 @@
     </Filter>
     <Filter Include="MapObject2D">
       <UniqueIdentifier>{018f0c8c-26bf-46f6-94e4-4702c5065e6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Fps">
+      <UniqueIdentifier>{e2dc7c21-5a4f-49f8-8e82-ae892a882cc4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
