@@ -416,6 +416,7 @@ namespace asd
 		}
 
 		environmentRendering = std::make_shared<EnvironmentRendering>(g, m_shadowVertexBuffer, m_shadowIndexBuffer);
+		heightfogRendering = std::make_shared<HeightFogRendering>(g, m_shadowVertexBuffer, m_shadowIndexBuffer);
 
 		factory = new RenderingCommandFactory();
 
@@ -1078,6 +1079,21 @@ namespace asd
 					);
 			}
 		}
+
+		// フォグ
+		if (IsHeightFogEnabled)
+		{
+			heightfogRendering->FogColor = HeightFogColor;
+			heightfogRendering->Density = HeightFogDensity;
+			heightfogRendering->Falloff = HeightFogFalloff;
+			heightfogRendering->StartDistance = HeightFogStartDistance;
+
+			heightfogRendering->Render(
+				cP, helper,
+				cP->GetRenderTargetDiffuseColor(), cP->GetRenderTargetSmoothness_Metalness_AO(), cP->GetRenderTargetDepth(), cP->GetRenderTargetAO_MatID());
+		}
+
+
 
 		// 深度復帰
 		{

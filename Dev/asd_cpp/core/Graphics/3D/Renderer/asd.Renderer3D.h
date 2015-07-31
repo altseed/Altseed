@@ -113,6 +113,12 @@ namespace asd
 		float SSAO_Intensity = 1.0f;
 		float SSAO_FarPlain = 800.0f;
 
+		bool IsHeightFogEnabled = false;
+		float HeightFogDensity = 1.0f;
+		Color HeightFogColor = Color(255, 255, 255, 255);
+		float HeightFogFalloff = 10.0f;
+		float HeightFogStartDistance = 1.0f;
+
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
 	};
 }

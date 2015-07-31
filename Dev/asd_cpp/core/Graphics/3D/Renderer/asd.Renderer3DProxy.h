@@ -10,6 +10,7 @@
 #include "../Object/asd.RenderedObject3D.h"
 
 #include "asd.EnvironmentRendering.h"
+#include "asd.HeightFogRendering.h"
 
 #include <Culling3D.h>
 
@@ -102,6 +103,7 @@ namespace asd
 
 		std::shared_ptr<SSAO>					ssao;
 		std::shared_ptr<EnvironmentRendering>	environmentRendering;
+		std::shared_ptr<HeightFogRendering>		heightfogRendering;
 	public:
 
 		Renderer3DProxy(Graphics* graphics);
@@ -153,6 +155,12 @@ namespace asd
 		float SSAO_Bias = 0.001f;
 		float SSAO_Intensity = 1.0f;
 		float SSAO_FarPlain = 800.0f;
+
+		bool IsHeightFogEnabled = false;
+		float HeightFogDensity = 1.0f;
+		Color HeightFogColor = Color(255, 255, 255, 255);
+		float HeightFogFalloff = 10.0f;
+		float HeightFogStartDistance = 1.0f;
 
 		void SetEffect(Effekseer::Manager* manager, EffekseerRenderer::Renderer* renderer);
 		void AddObject(RenderedObject3D* o);

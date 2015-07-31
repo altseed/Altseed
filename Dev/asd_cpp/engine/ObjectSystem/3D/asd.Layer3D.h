@@ -191,6 +191,60 @@ namespace asd
 		void SetSSAO_FarPlain(float value);
 
 		/**
+		@brief	高さ方向のフォグが有効かどうか、を取得する。
+		*/
+		bool GetIsHeightFogEnabled();
+		
+		/**
+		@brief	高さ方向のフォグが有効かどうか、を設定する。
+		*/
+		void SetIsHeightFogEnabled(bool value);
+
+		/**
+		@brief	高さ方向のフォグの濃度を取得する。
+		*/
+		float GetHeightFogDensity();
+		
+		/**
+		@brief	高さ方向のフォグの濃度を設定する。
+		*/
+		void SetHeightFogDensity(float value);
+
+		/**
+		@brief	高さ方向のフォグの色を取得する。
+		*/
+		Color GetHeightFogColor();
+
+		/**
+		@brief	高さ方向のフォグの色を設定する。
+		*/
+		void SetHeightFogColor(Color value);
+
+		/**
+		@brief	高さ方向のフォグの減衰率を取得する。
+		@note
+		この値が大きいほど、高い位置のフォグが薄くなる。
+		*/
+		float GetHeightFogFalloff();
+		
+		/**
+		@brief	高さ方向のフォグの減衰率を設定する。
+		*/
+		void SetHeightFogFalloff(float value);
+
+		/**
+		@brief	高さ方向のフォグの開始距離を取得する。
+		@note
+		この値よりカメラに対して近い位置には霧が生じなくなる。
+		*/
+		float GetHeightFogStartDistance();
+
+		/**
+		@brief	高さ方向のフォグの開始距離を設定する。
+		*/
+		void SetHeightFogStartDistance(float value);
+
+		/**
 		@brief	レイヤーの種類を取得する。
 		@return	レイヤーの種類
 		*/

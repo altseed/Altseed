@@ -239,6 +239,57 @@ namespace asd
 			set { coreLayer3D.SetSSAO_FarPlain(value); }
 		}
 
+		/// <summary>
+		/// 高さ方向のフォグが有効かどうか、を取得または設定する。
+		/// </summary>
+		public bool IsHeightFogEnabled
+		{
+			get { return coreLayer3D.GetIsHeightFogEnabled(); }
+			set { coreLayer3D.SetIsHeightFogEnabled(value); }
+		}
+
+		/// <summary>
+		/// 高さ方向のフォグの濃度を取得または設定する。
+		/// </summary>
+		public float HeightFogDensity
+		{
+			get { return coreLayer3D.GetHeightFogDensity(); }
+			set { coreLayer3D.SetHeightFogDensity(value); }
+		}
+
+		/// <summary>
+		/// 高さ方向のフォグの色を取得、または設定する。
+		/// </summary>
+		public Color HeightFogColor
+		{
+			get { return coreLayer3D.GetHeightFogColor(); }
+			set { coreLayer3D.SetHeightFogColor(value); }
+		}
+
+		/// <summary>
+		/// 高さ方向のフォグの減衰率を取得、または設定する。
+		/// </summary>
+		/// <remarks>
+		/// この値が大きいほど、高い位置のフォグが薄くなる。
+		/// </remarks>
+		public float HeightFogFalloff
+		{
+			get { return coreLayer3D.GetHeightFogFalloff(); }
+			set { coreLayer3D.SetHeightFogFalloff(value); }
+		}
+
+		/// <summary>
+		/// 高さ方向のフォグの開始距離を取得、または設定する。
+		/// </summary>
+		/// <remarks>
+		/// この値よりカメラに対して近い位置には霧が生じなくなる。
+		/// </remarks>
+		public float HeightFogStartDistance
+		{
+			get { return coreLayer3D.GetHeightFogStartDistance(); }
+			set { coreLayer3D.SetHeightFogStartDistance(value); }
+		}
+
 		public override LayerType LayerType
 		{
 			get { return LayerType.Layer3D; }

@@ -52,6 +52,17 @@ namespace asd
 		virtual float GetSSAO_FarPlain() = 0;
 		virtual void SetSSAO_FarPlain(float value) = 0;
 
+		virtual bool GetIsHeightFogEnabled() = 0;
+		virtual void SetIsHeightFogEnabled(bool value) = 0;
+		virtual float GetHeightFogDensity() = 0;
+		virtual void SetHeightFogDensity(float value) = 0;
+		virtual Color GetHeightFogColor() = 0;
+		virtual void SetHeightFogColor(Color value) = 0;
+		virtual float GetHeightFogFalloff() = 0;
+		virtual void SetHeightFogFalloff(float value) = 0;
+		virtual float GetHeightFogStartDistance() = 0;
+		virtual void SetHeightFogStartDistance(float value) = 0;
+
 		virtual void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,

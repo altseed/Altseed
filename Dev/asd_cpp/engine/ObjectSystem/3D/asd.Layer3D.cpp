@@ -207,6 +207,56 @@ namespace asd
 		m_coreLayer->SetSSAO_FarPlain(value);
 	}
 
+	bool Layer3D::GetIsHeightFogEnabled()
+	{
+		return m_coreLayer->GetIsHeightFogEnabled();
+	}
+
+	void Layer3D::SetIsHeightFogEnabled(bool value)
+	{
+		m_coreLayer->SetIsHeightFogEnabled(value);
+	}
+
+	float Layer3D::GetHeightFogDensity()
+	{
+		return m_coreLayer->GetHeightFogDensity();
+	}
+
+	void Layer3D::SetHeightFogDensity(float value)
+	{
+		m_coreLayer->SetHeightFogDensity(value);
+	}
+
+	Color Layer3D::GetHeightFogColor()
+	{
+		return m_coreLayer->GetHeightFogColor();
+	}
+
+	void Layer3D::SetHeightFogColor(Color value)
+	{
+		m_coreLayer->SetHeightFogColor(value);
+	}
+
+	float Layer3D::GetHeightFogFalloff()
+	{
+		return m_coreLayer->GetHeightFogFalloff();
+	}
+
+	void Layer3D::SetHeightFogFalloff(float value)
+	{
+		m_coreLayer->SetHeightFogFalloff(value);
+	}
+
+	float Layer3D::GetHeightFogStartDistance()
+	{
+		m_coreLayer->GetHeightFogFalloff();
+	}
+
+	void Layer3D::SetHeightFogStartDistance(float value)
+	{
+		m_coreLayer->SetHeightFogStartDistance(value);
+	}
+
 	int Layer3D::GetObjectCount() const
 	{
 		return m_objects.GetContents().size();

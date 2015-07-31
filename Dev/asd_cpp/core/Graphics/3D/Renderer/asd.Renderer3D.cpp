@@ -241,6 +241,12 @@ namespace asd
 		proxy->SSAO_FarPlain = SSAO_FarPlain;
 		proxy->SSAO_Intensity = SSAO_Intensity;
 		proxy->SSAO_Bias = SSAO_Bias;
+
+		proxy->IsHeightFogEnabled = IsHeightFogEnabled;
+		proxy->HeightFogColor = HeightFogColor;
+		proxy->HeightFogDensity = HeightFogDensity;
+		proxy->HeightFogStartDistance = HeightFogStartDistance;
+		proxy->HeightFogFalloff = HeightFogFalloff;
 	}
 
 	void Renderer3D::BeginRendering(float deltaTime)

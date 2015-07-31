@@ -133,6 +133,56 @@ namespace asd
 		m_renderer->SSAO_FarPlain = value;
 	}
 
+	bool CoreLayer3D_Imp::GetIsHeightFogEnabled()
+	{
+		return m_renderer->IsHeightFogEnabled;
+	}
+
+	void CoreLayer3D_Imp::SetIsHeightFogEnabled(bool value)
+	{
+		m_renderer->IsHeightFogEnabled = value;
+	}
+
+	float CoreLayer3D_Imp::GetHeightFogDensity()
+	{
+		return m_renderer->HeightFogDensity;
+	}
+
+	void CoreLayer3D_Imp::SetHeightFogDensity(float value)
+	{
+		m_renderer->HeightFogDensity = value;
+	}
+
+	Color CoreLayer3D_Imp::GetHeightFogColor()
+	{
+		return m_renderer->HeightFogColor;
+	}
+
+	void CoreLayer3D_Imp::SetHeightFogColor(Color value)
+	{
+		m_renderer->HeightFogColor = value;
+	}
+
+	float CoreLayer3D_Imp::GetHeightFogFalloff()
+	{
+		return m_renderer->HeightFogFalloff;
+	}
+
+	void CoreLayer3D_Imp::SetHeightFogFalloff(float value)
+	{
+		m_renderer->HeightFogFalloff = value;
+	}
+
+	float CoreLayer3D_Imp::GetHeightFogStartDistance()
+	{
+		return m_renderer->HeightFogStartDistance;
+	}
+
+	void CoreLayer3D_Imp::SetHeightFogStartDistance(float value)
+	{
+		m_renderer->HeightFogStartDistance = value;
+	}
+
 	void CoreLayer3D_Imp::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,

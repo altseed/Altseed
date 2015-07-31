@@ -62,6 +62,17 @@ namespace asd
 		float GetSSAO_FarPlain()  override;
 		void SetSSAO_FarPlain(float value) override;
 
+		bool GetIsHeightFogEnabled() override;
+		void SetIsHeightFogEnabled(bool value) override;
+		float GetHeightFogDensity() override;
+		void SetHeightFogDensity(float value) override;
+		Color GetHeightFogColor() override;
+		void SetHeightFogColor(Color value) override;
+		float GetHeightFogFalloff() override;
+		void SetHeightFogFalloff(float value) override;
+		float GetHeightFogStartDistance() override;
+		void SetHeightFogStartDistance(float value) override;
+
 		void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,

@@ -347,6 +347,7 @@
     <ClInclude Include="..\core\Graphics\3D\Object\asd.RenderedTerrainObject3D.h" />
     <ClInclude Include="..\core\Graphics\3D\PostProcess\asd.SSAO.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.EnvironmentRendering.h" />
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.HeightFogRendering.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.LightRendering.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.Renderer3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.Renderer3DProxy.h" />
@@ -437,6 +438,7 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\DeferredBuffer_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Environment_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\HeightFog_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_MassModel_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Terrain_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Lightweight_Terrain_Internal_VS.h" />
@@ -637,6 +639,7 @@
     <ClCompile Include="..\core\Graphics\3D\Object\asd.RenderedTerrainObject3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\PostProcess\asd.SSAO.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.EnvironmentRendering.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.HeightFogRendering.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.LightRendering.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.Renderer3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.Renderer3DProxy.cpp" />

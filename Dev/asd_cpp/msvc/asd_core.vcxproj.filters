@@ -975,6 +975,12 @@
     <ClInclude Include="..\core\Graphics\Helper\asd.GifAnimationHelper.h">
       <Filter>Graphics\Helper</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\HeightFog_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.HeightFogRendering.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1377,6 +1383,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\Helper\asd.GifAnimationHelper.cpp">
       <Filter>Graphics\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.HeightFogRendering.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
