@@ -97,7 +97,9 @@ float4 main( const PS_Input Input ) : SV_Target
 	if(distance == 0.0) discard;
 
 	// fog = density * exp(h*(-falloff))
+
 	float p = - density * (exp(viewerPos.y *(-falloff)) - exp(objectPos.y *(-falloff))) / (-viewerToObject.y / distance * (-falloff));
+	p = min(p, 0.0);
 	float expp = exp(p);
 
 	return float4(g_fogColor.xyz, min(1.0 - expp, 1.0));
