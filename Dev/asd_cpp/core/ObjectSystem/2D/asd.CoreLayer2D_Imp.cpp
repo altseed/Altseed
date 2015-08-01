@@ -350,7 +350,6 @@ namespace asd
 				}
 				else
 				{
-					auto impObj = CoreObject2DToImp(userData->Object);
 					auto chip = (CoreChip2D_Imp*)userData->Chip;
 					auto newCircle = chip->GetBoundingCircle();
 					x->SetCircle(newCircle);

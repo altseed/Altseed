@@ -16,6 +16,7 @@ namespace asd
 		, m_objectInfo(ObjectInfo2D())
 		, m_transform(TransformInfo2D())
 		, cullingObject(nullptr)
+		, m_boundingCircle(culling2d::Circle())
 	{
 		SafeAddRef(m_graphics);
 		alreadyCullingUpdated = false;
