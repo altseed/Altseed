@@ -163,7 +163,7 @@ namespace asd {
 
 	public:
 		static const int32_t		MaxRenderTarget = 4;
-		static const int32_t		MaxTextureCount = 8;
+		static const int32_t		MaxTextureCount = 16;
 
 	private:
 		std::set<DeviceObject*>	m_deviceObjects;
