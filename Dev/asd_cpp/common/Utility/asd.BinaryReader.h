@@ -85,6 +85,23 @@ template<> inline int16_t BinaryReader::Get()
 	return *(static_cast<int16_t*>(static_cast<void*>(cs)));
 }
 
+template<> inline uint16_t BinaryReader::Get()
+{
+	int8_t cs[2];
+	for (int i = 0; i < 2; i++)
+	{
+		assert(!data.empty());
+		if (data.empty()){
+			return static_cast<uint16_t>(0);
+		}
+		cs[i] = data.front();
+		data.pop_front();
+	}
+
+	return *(static_cast<uint16_t*>(static_cast<void*>(cs)));
+}
+
+
 template<> inline int8_t BinaryReader::Get()
 {
 	int8_t c;
