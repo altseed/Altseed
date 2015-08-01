@@ -537,6 +537,13 @@ namespace asd
 					animationTime0 -= modelPtr->GetFrameCount(animationIndex0);
 				}
 			}
+			else
+			{
+				if (animationTime0 >= modelPtr->GetFrameCount(animationIndex0))
+				{
+					animationTime0 = modelPtr->GetFrameCount(animationIndex0) - 1;
+				}
+			}
 		}
 
 		if (isAnimationPlaying1)
@@ -548,6 +555,13 @@ namespace asd
 				if (animationTime1 >= modelPtr->GetFrameCount(animationIndex1))
 				{
 					animationTime1 -= modelPtr->GetFrameCount(animationIndex1);
+				}
+			}
+			else
+			{
+				if (animationTime1 >= modelPtr->GetFrameCount(animationIndex1))
+				{
+					animationTime1 = modelPtr->GetFrameCount(animationIndex1) - 1;
 				}
 			}
 		}
