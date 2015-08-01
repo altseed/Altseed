@@ -64,7 +64,8 @@ namespace asd
 			std::vector<int32_t> FrameCount;
 			int32_t	TextureWidth;
 			int32_t	TextureHeight;
-			std::vector<Vector4DF> Buffer;
+			// RGBA16
+			std::vector<uint16_t> Buffer;
 		};
 
 		std::vector<Vertex>				Vertices;

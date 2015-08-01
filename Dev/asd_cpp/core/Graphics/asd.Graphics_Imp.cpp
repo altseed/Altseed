@@ -454,6 +454,7 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 int32_t ImageHelper::GetPitch(TextureFormat format)
 {
 	if (format == TextureFormat::R8G8B8A8_UNORM) return 4;
+	if (format == TextureFormat::R16G16B16A16_FLOAT) return 2 * 4;
 	if (format == TextureFormat::R32G32B32A32_FLOAT) return 4 * 4;
 	if (format == TextureFormat::R8G8B8A8_UNORM_SRGB) return 4;
 	if (format == TextureFormat::R16G16_FLOAT) return 2 * 2;
@@ -542,6 +543,7 @@ bool ImageHelper::IsDDS(const void* data, int32_t size)
 std::string GraphicsHelper::GetFormatName(Graphics_Imp* graphics, TextureFormat format)
 {
 	if (format == TextureFormat::R8_UNORM) return std::string("R8_UNORM");
+	if (format == TextureFormat::R16G16B16A16_FLOAT) return std::string("R16G16B16A16_FLOAT");
 	if (format == TextureFormat::R32G32B32A32_FLOAT) return std::string("R32G32B32A32_FLOAT");
 	if (format == TextureFormat::R8G8B8A8_UNORM) return std::string("R8G8B8A8_UNORM");
 	if (format == TextureFormat::R8G8B8A8_UNORM_SRGB) return std::string("R8G8B8A8_UNORM_SRGB");

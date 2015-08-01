@@ -105,12 +105,12 @@ namespace asd
 		// アニメーションテクスチャ
 		if (io.AnimationTexture_.TextureWidth > 0)
 		{
-			auto texture = g->CreateEmptyTexture2D(io.AnimationTexture_.TextureWidth, io.AnimationTexture_.TextureHeight, TextureFormat::R32G32B32A32_FLOAT);
+			auto texture = g->CreateEmptyTexture2D(io.AnimationTexture_.TextureWidth, io.AnimationTexture_.TextureHeight, TextureFormat::R16G16B16A16_FLOAT);
 			TextureLockInfomation info;
 
 			if (texture->Lock(&info))
 			{
-				memcpy(info.GetPixels(), io.AnimationTexture_.Buffer.data(), io.AnimationTexture_.Buffer.size() * sizeof(float) * 4);
+				memcpy(info.GetPixels(), io.AnimationTexture_.Buffer.data(), io.AnimationTexture_.Buffer.size() * sizeof(int16_t));
 				texture->Unlock();
 			}
 

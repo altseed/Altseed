@@ -146,6 +146,7 @@ namespace asd {
 	enum class TextureFormat : int32_t
 	{
 		R8G8B8A8_UNORM = 0,
+		R16G16B16A16_FLOAT = 11,
 		R32G32B32A32_FLOAT = 1,
 		R8G8B8A8_UNORM_SRGB = 2,
 		R16G16_FLOAT = 3,

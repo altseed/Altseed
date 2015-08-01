@@ -52,6 +52,19 @@ namespace asd {
 				GL_UNSIGNED_BYTE,
 				nullptr);
 		}
+		else if (format == TextureFormat::R16G16B16A16_FLOAT)
+		{
+			glTexImage2D(
+				GL_TEXTURE_2D,
+				0,
+				GL_RGBA16F,
+				width,
+				height,
+				0,
+				GL_RGBA,
+				GL_FLOAT,
+				nullptr);
+		}
 		else if (format == TextureFormat::R32G32B32A32_FLOAT)
 		{
 			glTexImage2D(

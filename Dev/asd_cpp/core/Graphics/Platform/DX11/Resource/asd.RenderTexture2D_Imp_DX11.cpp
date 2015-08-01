@@ -51,6 +51,10 @@ namespace asd {
 		{
 			TexDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		}
+		else if (format == TextureFormat::R16G16B16A16_FLOAT)
+		{
+			TexDesc.Format = DXGI_FORMAT_R16G16B16A16_FLOAT;
+		}
 		else if (format == TextureFormat::R32G32B32A32_FLOAT)
 		{
 			TexDesc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;

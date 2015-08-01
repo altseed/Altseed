@@ -4,6 +4,30 @@
 
 namespace asd
 {
+	// http://dench.flatlib.jp/ddsformatmemo.html
+	uint16_t F32to16(float fval)
+	{
+		uint32_t ival = *(uint32_t*) (&fval);
+		if (!ival)
+		{
+			return	0;
+		}
+
+		int32_t	e = ((ival & 0x7f800000) >> 23) - 127 + 15;
+		if (e < 0)
+		{
+			return	0;
+		}
+		else if (e > 31)
+		{
+			e = 31;
+		}
+		uint32_t 	s = ival & 0x80000000;
+		uint32_t 	f = ival & 0x007fffff;
+		return	((s >> 16) & 0x8000) | ((e << 10) & 0x7c00) | ((f >> 13) & 0x03ff);
+	}
+
+
 	struct WeightIndex
 	{
 		uint8_t	Weight;
@@ -121,7 +145,7 @@ namespace asd
 			AnimationTexture_.TextureWidth = frameMax;
 			AnimationTexture_.TextureHeight = AnimationTexture_.AnimationCount * 32 * 4;
 
-			AnimationTexture_.Buffer.resize(AnimationTexture_.TextureWidth * AnimationTexture_.TextureHeight);
+			AnimationTexture_.Buffer.resize(AnimationTexture_.TextureWidth * AnimationTexture_.TextureHeight * 4);
 
 			struct BoneValue
 			{
@@ -214,10 +238,10 @@ namespace asd
 							int32_t x = t;
 							int32_t y = i * 32 * 4 + j * 4 + k;
 
-							AnimationTexture_.Buffer[x + y * AnimationTexture_.TextureWidth].X = boneMatrixes[j].Values[k][0];
-							AnimationTexture_.Buffer[x + y * AnimationTexture_.TextureWidth].Y = boneMatrixes[j].Values[k][1];
-							AnimationTexture_.Buffer[x + y * AnimationTexture_.TextureWidth].Z = boneMatrixes[j].Values[k][2];
-							AnimationTexture_.Buffer[x + y * AnimationTexture_.TextureWidth].W = boneMatrixes[j].Values[k][3];
+							AnimationTexture_.Buffer[(x + y * AnimationTexture_.TextureWidth) * 4 + 0] = F32to16(boneMatrixes[j].Values[k][0]);
+							AnimationTexture_.Buffer[(x + y * AnimationTexture_.TextureWidth) * 4 + 1] = F32to16(boneMatrixes[j].Values[k][1]);
+							AnimationTexture_.Buffer[(x + y * AnimationTexture_.TextureWidth) * 4 + 2] = F32to16(boneMatrixes[j].Values[k][2]);
+							AnimationTexture_.Buffer[(x + y * AnimationTexture_.TextureWidth) * 4 + 3] = F32to16(boneMatrixes[j].Values[k][3]);
 						}
 					}
 				}
@@ -290,6 +314,7 @@ namespace asd
 				boneMatrixes[0].SetIdentity();
 			}
 
+			/*
 			for (auto j = 0; j < boneMatrixes.size(); j++)
 			{
 				for (auto k = 0; k < 4; k++)
@@ -303,6 +328,7 @@ namespace asd
 					AnimationTexture_.Buffer[x + y * AnimationTexture_.TextureWidth].W = boneMatrixes[j].Values[k][3];
 				}
 			}
+			*/
 			
 			AnimationTexture_.AnimationCount = 0;
 			AnimationTexture_.TextureWidth = 0;
@@ -448,13 +474,13 @@ namespace asd
 
 		AnimationTexture_.TextureWidth = reader.Get<int32_t>();
 		AnimationTexture_.TextureHeight = reader.Get<int32_t>();
-		AnimationTexture_.Buffer.resize(AnimationTexture_.TextureWidth * AnimationTexture_.TextureHeight);
+		AnimationTexture_.Buffer.resize(AnimationTexture_.TextureWidth * AnimationTexture_.TextureHeight * 4);
 		for (auto i = 0; i < AnimationTexture_.TextureWidth * AnimationTexture_.TextureHeight; i++)
 		{
-			AnimationTexture_.Buffer[i].X = reader.Get<float>();
-			AnimationTexture_.Buffer[i].Y = reader.Get<float>();
-			AnimationTexture_.Buffer[i].Z = reader.Get<float>();
-			AnimationTexture_.Buffer[i].W = reader.Get<float>();
+			AnimationTexture_.Buffer[i * 4 + 0] = reader.Get<uint16_t>();
+			AnimationTexture_.Buffer[i * 4 + 1] = reader.Get<uint16_t>();
+			AnimationTexture_.Buffer[i * 4 + 2] = reader.Get<uint16_t>();
+			AnimationTexture_.Buffer[i * 4 + 3] = reader.Get<uint16_t>();
 		}
 	
 		return true;
@@ -540,10 +566,10 @@ namespace asd
 
 		for (auto i = 0; i < AnimationTexture_.TextureWidth * AnimationTexture_.TextureHeight; i++)
 		{
-			writer.Push(AnimationTexture_.Buffer[i].X);
-			writer.Push(AnimationTexture_.Buffer[i].Y);
-			writer.Push(AnimationTexture_.Buffer[i].Z);
-			writer.Push(AnimationTexture_.Buffer[i].W);
+			writer.Push(AnimationTexture_.Buffer[i * 4 + 0]);
+			writer.Push(AnimationTexture_.Buffer[i * 4 + 1]);
+			writer.Push(AnimationTexture_.Buffer[i * 4 + 2]);
+			writer.Push(AnimationTexture_.Buffer[i * 4 + 3]);
 		}
 	
 		return true;

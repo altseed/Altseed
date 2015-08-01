@@ -168,6 +168,12 @@ namespace asd {
 			intrenalFormat_ = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
 		}
+		else if (format == TextureFormat::R16G16B16A16_FLOAT)
+		{
+			intrenalFormat_ = GL_RGBA16F;
+			format_ = GL_RGBA;
+			type = GL_HALF_FLOAT;
+		}
 		else if(format == TextureFormat::R32G32B32A32_FLOAT)
 		{
 			intrenalFormat_ = GL_RGBA32F;
@@ -182,7 +188,7 @@ namespace asd {
 		{
 			intrenalFormat_ = GL_RG16F;
 			format_ = GL_RG;
-			type = GL_FLOAT;
+			type = GL_HALF_FLOAT;
 		}
 		else if (format == TextureFormat::R8_UNORM)
 		{
@@ -266,6 +272,12 @@ namespace asd {
 			intrenalFormat_ = GL_RGBA;
 			type = GL_UNSIGNED_BYTE;
 		}
+		else if (format == TextureFormat::R16G16B16A16_FLOAT)
+		{
+			intrenalFormat_ = GL_RGBA16F;
+			format_ = GL_RGBA;
+			type = GL_HALF_FLOAT;
+		}
 		else if (format == TextureFormat::R32G32B32A32_FLOAT)
 		{
 			intrenalFormat_ = GL_RGBA32F;
@@ -280,7 +292,7 @@ namespace asd {
 		{
 			intrenalFormat_ = GL_RG16F;
 			format_ = GL_RG;
-			type = GL_FLOAT;
+			type = GL_HALF_FLOAT;
 		}
 		else if (format == TextureFormat::R8_UNORM)
 		{
