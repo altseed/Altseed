@@ -49,6 +49,7 @@
     <ClCompile Include="..\Sound\Sound_BGM.cpp" />
     <ClCompile Include="..\Sound\Sound_Loop.cpp" />
     <ClCompile Include="..\Sound\Sound_SE.cpp" />
+    <ClCompile Include="..\TextObject2D\TextObject2D_Centering.cpp" />
     <ClCompile Include="..\TextObject2D\TextObject2D_DynamicFont.cpp" />
     <ClCompile Include="..\TextObject2D\TextObject2D_Filtered.cpp" />
     <ClCompile Include="..\TextObject2D\TextObject2D_Rotate.cpp" />

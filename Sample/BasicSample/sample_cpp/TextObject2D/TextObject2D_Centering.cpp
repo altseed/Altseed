@@ -1,5 +1,5 @@
 ﻿
-#include <Base.h>
+#include <Altseed.h>
 
 /**
 @brief	文字列を中央揃えで描画するサンプル

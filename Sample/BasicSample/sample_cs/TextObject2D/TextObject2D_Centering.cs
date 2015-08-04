@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 /// <summary>
 /// 文字列を中央揃えで描画するサンプル
 /// </summary>
@@ -15,7 +10,7 @@ class TextObject2D_Centering : ISample
             asd.Engine.Initialize("TextObject2D_Centering", 640, 480, new asd.EngineOption());
 
             //フォントを生成する。
-            var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 40, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
+            var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 40, new asd.Color(255, 0, 0, 255), 1, new asd.Color(255, 255, 255, 255));
 
             // 文字描画オブジェクトを生成する。
             var obj = new asd.TextObject2D();
@@ -40,9 +35,9 @@ class TextObject2D_Centering : ISample
             // Altseedのウインドウが閉じられていないか確認する。
             while (asd.Engine.DoEvents())
             {
-
                 // Altseedを更新する。
                 asd.Engine.Update();
+				Recorder.TakeScreenShot("TextObject2D_Centering", 20);
             }
 
             //Altseedの終了処理をする。

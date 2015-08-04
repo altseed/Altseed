@@ -48,6 +48,7 @@ extern void TextObject2D_Basic();
 extern void TextObject2D_DynamicFont();
 extern void TextObject2D_Rotate();
 extern void TextObject2D_Filtered();
+extern void TextObject2D_Centering();
 
 extern void TextureObject2D_Basic();
 extern void TextureObject2D_Transform();
@@ -124,6 +125,7 @@ int main(int argc, char** argv)
 		INFO(TextObject2D_DynamicFont),
 		INFO(TextObject2D_Rotate),
 		INFO(TextObject2D_Filtered),
+		INFO(TextObject2D_Centering),
 
 		INFO(GeometryObject2D_CircleShape),
 		INFO(GeometryObject2D_ArcShape),

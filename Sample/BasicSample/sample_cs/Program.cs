@@ -53,6 +53,7 @@ namespace sample_cs
                 new TextObject2D_DynamicFont(),
                 new TextObject2D_Rotate(),
                 new TextObject2D_Filtered(),
+				new TextObject2D_Centering(),
 
                 new TextureObject2D_Basic(),
                 new TextureObject2D_Transform(),
