@@ -98,7 +98,22 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	// fog = density * exp(h*(-falloff))
 
-	float p = - density * (exp(viewerPos.y *(-falloff)) - exp(objectPos.y *(-falloff))) / (-viewerToObject.y / distance * (-falloff));
+	// float p = - density * (exp(viewerPos.y *(-falloff)) - exp(objectPos.y *(-falloff))) / (-viewerToObject.y / distance * (-falloff));
+	
+	float epsilon1 = 0.001;
+	float epsilon2 = 0.00001;
+
+	float heightRel = viewerToObject.y;
+	if(abs(heightRel) < epsilon1)
+	{
+		heightRel = epsilon1;
+	}
+
+	float falloffRel = heightRel * (-falloff);
+	falloffRel = max(falloffRel, epsilon2);
+
+	float p = density * exp(viewerPos.y *(-falloff)) * distance * ((1.0-exp(falloffRel)) / falloffRel);
+
 	p = min(p, 0.0);
 	float expp = exp(p);
 
