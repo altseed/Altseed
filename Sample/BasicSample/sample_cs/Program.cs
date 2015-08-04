@@ -72,6 +72,8 @@ namespace sample_cs
 				new File_PackFile(),
 				new File_StaticFile(),
 				new File_StreamFile(),
+
+				new EngineMisc_ShowFps(),
             };
 
 			var cui = new SampleGuide( samples );

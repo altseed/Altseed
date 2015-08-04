@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="CustomPostEffect\CustomPostEffect_Invert.cs" />
     <Compile Include="CustomPostEffect\CustomPostEffect_Mosaic.cs" />
-    <Compile Include="Fps\Fps_ShowFps.cs" />
     <Compile Include="ImagePackageUI\ImagePackageUI_AlphaBlend.cs" />
     <Compile Include="ImagePackageUI\ImagePackageUI_Basic.cs" />
     <Compile Include="ImagePackageUI\ImagePackageUI_Component.cs" />

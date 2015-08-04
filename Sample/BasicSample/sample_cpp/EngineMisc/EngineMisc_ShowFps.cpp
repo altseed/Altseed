@@ -2,10 +2,10 @@
 
 // 現在のFPSを画面に表示するサンプル。
 
-void Fps_ShowFps()
+void EngineMisc_ShowFps()
 {
 	// Altseedを初期化する。
-	asd::Engine::Initialize(asd::ToAString("Fps_ShowFps").c_str(), 640, 480, asd::EngineOption());
+	asd::Engine::Initialize(asd::ToAString("EngineMisc_ShowFps").c_str(), 640, 480, asd::EngineOption());
 
 	// 動的フォントを生成する。
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(

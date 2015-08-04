@@ -45,6 +45,8 @@
 
 * [オブジェクトの挙動の部品化](./HowToUseBasic/Object2DComponent.md)
 
+* [エンジンの機能(その他)](./HowToUseBasic/EngineMisc.md)
+
 ### 使い方(応用)
 
 * [ポーズ](./HowToUseApplication/Pause.md)

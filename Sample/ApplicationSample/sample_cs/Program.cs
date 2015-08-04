@@ -24,8 +24,6 @@ namespace sample_cs
 
                 new MapObject2D_Basic(),
                 new MapObject2D_Camera(),
-
-				new Fps_ShowFps(),
             };
 
 			var cui = new SampleGuide( samples );

@@ -77,6 +77,8 @@ extern void File_RootDirectory();
 extern void File_StaticFile();
 extern void File_StreamFile();
 
+extern void EngineMisc_ShowFps();
+
 int main(int argc, char** argv)
 {
 #if _WIN32
@@ -144,7 +146,9 @@ int main(int argc, char** argv)
 		INFO(File_PackFile),
 		INFO(File_RootDirectory),
 		INFO(File_StaticFile),
-		INFO(File_StreamFile)
+		INFO(File_StreamFile),
+
+		INFO(EngineMisc_ShowFps),
 	};
 
 	auto cui = SampleGuide(samples);

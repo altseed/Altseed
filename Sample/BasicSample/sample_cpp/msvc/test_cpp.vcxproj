@@ -17,6 +17,7 @@
     <ClCompile Include="..\Collision\Collision2D_Geometries.cpp" />
     <ClCompile Include="..\Collision\Collision2D_Basic.cpp" />
     <ClCompile Include="..\EffectObject2D\EffectObject2D_Basic.cpp" />
+    <ClCompile Include="..\EngineMisc\EngineMisc_ShowFps.cpp" />
     <ClCompile Include="..\File\File_PackFile.cpp" />
     <ClCompile Include="..\File\File_RootDirectory.cpp" />
     <ClCompile Include="..\File\File_StaticFile.cpp" />

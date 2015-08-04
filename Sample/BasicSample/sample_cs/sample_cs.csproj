@@ -53,6 +53,7 @@
     <Compile Include="Collision\Collision2D_Basic.cs" />
     <Compile Include="Collision\Collision2D_Geometries.cs" />
     <Compile Include="EffectObject2D\EffectObject2D_Basic.cs" />
+    <Compile Include="EngineMisc\EngineMisc_ShowFps.cs" />
     <Compile Include="File\File_PackFile.cs" />
     <Compile Include="File\File_RootDirectory.cs" />
     <Compile Include="File\File_StaticFile.cs" />

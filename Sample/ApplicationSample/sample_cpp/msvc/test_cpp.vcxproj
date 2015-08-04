@@ -13,7 +13,6 @@
   <ItemGroup>
     <ClCompile Include="..\CustomPostEffect\CustomPostEffect_Invert.cpp" />
     <ClCompile Include="..\CustomPostEffect\CustomPostEffect_Mosaic.cpp" />
-    <ClCompile Include="..\Fps\Fps_ShowFps.cpp" />
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_AlphaBlend.cpp" />
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_Basic.cpp" />
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_Component.cpp" />
