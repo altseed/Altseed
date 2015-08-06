@@ -421,9 +421,15 @@ namespace asd
 				deformer.Bones[i].Scaling[1] = reader.Get<float>();
 				deformer.Bones[i].Scaling[2] = reader.Get<float>();
 
+				float rotation[4];
+				rotation[0] = deformer.Bones[i].Rotation[0] / 180.0f * PI;
+				rotation[1] = deformer.Bones[i].Rotation[1] / 180.0f * PI;
+				rotation[2] = deformer.Bones[i].Rotation[2] / 180.0f * PI;
+				rotation[3] = deformer.Bones[i].Rotation[3] / 180.0f * PI;
+
 				deformer.Bones[i].LocalMat = ModelUtils::CalcMatrix(
 					deformer.Bones[i].Translation,
-					deformer.Bones[i].Rotation,
+					rotation,
 					deformer.Bones[i].Scaling,
 					deformer.Bones[i].RotationType);
 			}

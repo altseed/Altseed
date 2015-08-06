@@ -256,20 +256,11 @@ namespace asd
 
 			AnimationTexture_.Buffer.resize(AnimationTexture_.TextureWidth * AnimationTexture_.TextureHeight);
 
-			struct BoneValue
-			{
-				float Position[3];
-				float Rotation[4];
-				float Scale[3];
-			};
-
 			std::vector<Matrix44> localMatrixes;
 			std::vector<Matrix44> boneMatrixes;
-			std::vector<BoneValue> boneValues;
 			std::map<astring, int32_t> nameToBoneIndex;
 
 			localMatrixes.resize(deformer.Bones.size());
-			boneValues.resize(deformer.Bones.size());
 
 			auto& boneConnectors = mesh.BoneConnectors;
 			if (boneConnectors.size() > 0)
