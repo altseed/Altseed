@@ -33,23 +33,6 @@
 
 namespace asd
 {
-	static void ResetSRT(std::vector <BoneProperty>& boneProps)
-	{
-		for (auto i = 0; i < boneProps.size(); i++)
-		{
-			boneProps[i].Position[0] = 0.0f;
-			boneProps[i].Position[1] = 0.0f;
-			boneProps[i].Position[2] = 0.0f;
-			boneProps[i].Rotation[0] = 0.0f;
-			boneProps[i].Rotation[1] = 0.0f;
-			boneProps[i].Rotation[2] = 0.0f;
-			boneProps[i].Rotation[3] = 0.0f;
-			boneProps[i].Scale[0] = 1.0f;
-			boneProps[i].Scale[1] = 1.0f;
-			boneProps[i].Scale[2] = 1.0f;
-		}
-	}
-
 	static void ResetAnimationPlaying(std::vector <BoneProperty>& boneProps)
 	{
 		for (auto i = 0; i < boneProps.size(); i++)
@@ -85,25 +68,12 @@ namespace asd
 
 			ModelUtils::SetBoneValue(
 				boneProps[bi].TempPosition[0],
-				boneProps[bi].TempRotation[0],
+				boneProps[bi].TempRotation,
 				boneProps[bi].TempScale[0],
 				type,
 				axis,
 				value
 				);
-		}
-	}
-
-	static void SetLocalMatrixes(std::vector<Matrix44>& matrixes, std::vector <BoneProperty>& boneProps, Deformer* deformer)
-	{
-		if (deformer == nullptr) return;
-		auto d = (Deformer_Imp*) deformer;
-
-		for (auto i = 0; i < d->GetBones().size(); i++)
-		{
-			auto& b = d->GetBones()[i];
-			matrixes[i] = b.LocalMat;
-			
 		}
 	}
 
@@ -116,8 +86,10 @@ namespace asd
 		{
 			auto& b = d->GetBones()[i];
 			for (int32_t j = 0; j < 3; j++) boneProps[i].Position[j] = b.Translation[j];
-			for (int32_t j = 0; j < 4; j++) boneProps[i].Rotation[j] = b.Rotation[j];
 			for (int32_t j = 0; j < 3; j++) boneProps[i].Scale[j] = b.Scaling[j];
+
+			boneProps[i].RotY = Vector3DF(0, 1, 0);
+			boneProps[i].RotZ = Vector3DF(0, 0, 1);
 		}
 	}
 
@@ -130,15 +102,53 @@ namespace asd
 		{
 			auto& b = d->GetBones()[i];
 
-			//if (boneProps[i].IsAnimationPlaying)
-			//{
-				matrixes[i] = boneProps[i].CalcMatrix(b.RotationType);
-			//}
-			//else
-			//{
-			//	matrixes[i] = b.LocalMat;
-			//}
+			if (boneProps[i].IsAnimationPlaying)
+			{
+				matrixes[i] = boneProps[i].CalcMatrix();
+			}
+			else
+			{
+				matrixes[i] = b.LocalMat;
+			}
 		}
+	}
+
+	/**
+		@brief	球面補間用関数
+		@note
+		http://marupeke296.com/DXG_No57_SheareLinearInterWithoutQu.html
+		を参照。
+	*/
+	static Vector3DF SphereLinear(Vector3DF start, Vector3DF end, float t) 
+	{
+		const float epsilon = 0.001f;
+
+		// 単位ベクトルが入力されること前提
+		// start.Normalize();
+		// end.Normalize();
+
+		// 2ベクトル間の角度（鋭角側）
+		float CosTh = Vector3DF::Dot(start, end);
+		CosTh = Clamp(CosTh, 1.0f, -1.0f);
+
+		float angle = acos(CosTh);
+
+		// ほぼ変化なし
+		if (abs(angle) < epsilon) return end;
+
+		// sinθ
+		float SinTh = sin(angle);
+
+		// 補間係数
+		float Ps = sin(angle * (1 - t));
+		float Pe = sin(angle * t);
+
+		auto ret = (start * Ps + end * Pe) / SinTh;
+
+		// 一応正規化して球面線形補間に
+		ret.Normalize();
+
+		return ret;
 	}
 
 	void ModelObject3DAnimationCache::SetObjects(AnimationSource* source_, Deformer* deformer)
@@ -174,11 +184,6 @@ namespace asd
 		Position[1] = 0.0f;
 		Position[2] = 0.0f;
 
-		Rotation[0] = 0.0f;
-		Rotation[1] = 0.0f;
-		Rotation[2] = 0.0f;
-		Rotation[3] = 0.0f;
-
 		Scale[0] = 1.0f;
 		Scale[1] = 1.0f;
 		Scale[2] = 1.0f;
@@ -187,12 +192,39 @@ namespace asd
 	}
 
 
-	Matrix44 BoneProperty::CalcMatrix(RotationOrder rotationType)
+	Matrix44 BoneProperty::CalcMatrix()
 	{
+		Vector3DF vecX;
+		vecX = Vector3DF::Cross(this->RotY, this->RotZ);
+		vecX.Normalize();
+
+		Matrix44 matR;
+
+		RotY.Normalize();
+		RotZ.Normalize();
+
+		matR.Values[0][0] = vecX.X;
+		matR.Values[1][0] = vecX.Y;
+		matR.Values[2][0] = vecX.Z;
+
+		matR.Values[0][1] = RotY.X;
+		matR.Values[1][1] = RotY.Y;
+		matR.Values[2][1] = RotY.Z;
+
+		matR.Values[0][2] = RotZ.X;
+		matR.Values[1][2] = RotZ.Y;
+		matR.Values[2][2] = RotZ.Z;
+
 		return ModelUtils::CalcMatrix(
 			Position,
-			Rotation,
-			Scale,
+			matR,
+			Scale);
+	}
+
+	Matrix44 BoneProperty::CalcRotationMatrix(RotationOrder rotationType)
+	{
+		return ModelUtils::CalcRotationMatrix(
+			TempRotation,
 			rotationType);
 	}
 
@@ -300,6 +332,8 @@ namespace asd
 	{
 		if (calcAnimationOnProxy)
 		{
+			auto d = (Deformer_Imp*) m_deformer.get();
+
 			// 初期値を設定する
 			SetDefaultSRT(m_boneProps, m_deformer.get());
 			//SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
@@ -329,18 +363,20 @@ namespace asd
 				for (auto& b : m_boneProps)
 				{
 					for (int32_t j = 0; j < 3; j++) b.TempPosition[1][j] = 0.0f;
-					for (int32_t j = 0; j < 4; j++) b.TempRotation[1][j] = 0.0f;
 					for (int32_t j = 0; j < 3; j++) b.TempScale[1][j] = 0.0f;
+					b.TempRotY = Vector3DF(0, 1, 0);
+					b.TempRotZ = Vector3DF(0, 0, 1);
+					b.TempRotWeight = 0.0f;
 				}
 
-				for (int32_t bi = (int32_t)m_animationPlaying[i].size() - 1; bi >= 0; bi--)
+				for (int32_t bi = 0; bi < m_animationPlaying[i].size(); bi++)
 				{
 					auto& anim_ = m_animationPlaying[i][bi];
 
 					for (auto& b : m_boneProps)
 					{
 						for (int32_t j = 0; j < 3; j++) b.TempPosition[0][j] = 0.0f;
-						for (int32_t j = 0; j < 4; j++) b.TempRotation[0][j] = 0.0f;
+						for (int32_t j = 0; j < 4; j++) b.TempRotation[j] = 0.0f;
 						for (int32_t j = 0; j < 3; j++) b.TempScale[0][j] = 0.0f;
 					}
 
@@ -364,47 +400,38 @@ namespace asd
 
 					CalculateAnimation(m_boneProps, animationCache, time);
 					
-					// ターゲットを保存
-					if (bi == m_animationPlaying[i].size() - 1)
+					for (auto b_ = 0; b_ < m_boneProps.size(); b_++)
 					{
-						for (auto& b : m_boneProps)
+						auto& b = d->GetBones()[b_];
+						auto& bp = m_boneProps[b_];
+						auto matR = bp.CalcRotationMatrix(b.RotationType);
+						
+						for (int32_t j = 0; j < 3; j++) bp.TempPosition[1][j] += bp.TempPosition[0][j] * anim_.CurrentWeight;
+						for (int32_t j = 0; j < 3; j++) bp.TempScale[1][j] += bp.TempScale[0][j] * anim_.CurrentWeight;
+
+						auto vecRY = Vector3DF(matR.Values[0][1], matR.Values[1][1], matR.Values[2][1]);
+						auto vecRZ = Vector3DF(matR.Values[0][2], matR.Values[1][2], matR.Values[2][2]);
+
+						if (anim_.CurrentWeight == 0.0f)
 						{
-							for (int32_t j = 0; j < 4; j++) b.TargetRotation[j] = b.TempRotation[0][j];
 						}
-					}
-
-					for (auto& b : m_boneProps)
-					{
-						for (int32_t j = 0; j < 3; j++) b.TempPosition[1][j] += b.TempPosition[0][j] * anim_.CurrentWeight;
-
-						for (int32_t j = 0; j < 4; j++)
+						else
 						{
-							// ターゲットに合わせて調整
-							auto r = b.TempRotation[0][j];
-							auto tr = b.TargetRotation[j];
+							auto ratio = (anim_.CurrentWeight) / (anim_.CurrentWeight + bp.TempRotWeight);
 
-							if (abs(r - tr) > PI)
+							if (ratio == 1.0f)
 							{
-								if (r > tr)
-								{
-									while (abs(r - tr) > PI)
-									{
-										r -= PI * 2;
-									}
-								}
-								else
-								{
-									while (abs(r - tr) > PI)
-									{
-										r += PI * 2;
-									}
-								}
+								bp.TempRotY = vecRY;
+								bp.TempRotZ = vecRZ;
 							}
-
-							b.TempRotation[1][j] += r * anim_.CurrentWeight;
+							else
+							{
+								bp.TempRotY = SphereLinear(bp.TempRotY, vecRY, ratio);
+								bp.TempRotZ = SphereLinear(bp.TempRotZ, vecRZ, ratio);
+							}
+							
+							bp.TempRotWeight += anim_.CurrentWeight;
 						}
-
-						for (int32_t j = 0; j < 3; j++) b.TempScale[1][j] += b.TempScale[0][j] * anim_.CurrentWeight;
 					}
 				}
 
@@ -412,9 +439,21 @@ namespace asd
 				{
 					if (!b.IsAnimationPlaying) continue;
 
-					for (int32_t j = 0; j < 3; j++) b.Position[j] = b.Position[j] * (1.0f - m_animationWeight[i]) + b.TempPosition[1][j] * m_animationWeight[i];
-					for (int32_t j = 0; j < 4; j++) b.Rotation[j] = b.Rotation[j] * (1.0f - m_animationWeight[i]) + b.TempRotation[1][j] * m_animationWeight[i];
-					for (int32_t j = 0; j < 3; j++) b.Scale[j] = b.Scale[j] * (1.0f - m_animationWeight[i]) + b.TempScale[1][j] * m_animationWeight[i];
+					if (m_animationWeight[i] == 1.0f)
+					{
+						for (int32_t j = 0; j < 3; j++) b.Position[j] = b.Position[j] * (1.0f - m_animationWeight[i]) + b.TempPosition[1][j] * m_animationWeight[i];
+						for (int32_t j = 0; j < 3; j++) b.Scale[j] = b.Scale[j] * (1.0f - m_animationWeight[i]) + b.TempScale[1][j] * m_animationWeight[i];
+
+						b.RotY = SphereLinear(b.RotY, b.TempRotY, m_animationWeight[i]);
+						b.RotZ = SphereLinear(b.RotZ, b.TempRotZ, m_animationWeight[i]);
+					}
+					else
+					{
+						for (int32_t j = 0; j < 3; j++) b.Position[j] = b.TempPosition[1][j];
+						for (int32_t j = 0; j < 3; j++) b.Scale[j] = b.TempScale[1][j];
+						b.RotY = b.TempRotY;
+						b.RotZ = b.TempRotZ;
+					}
 				}
 			}
 
@@ -990,6 +1029,8 @@ namespace asd
 		}
 		else
 		{
+			auto d = (Deformer_Imp*) m_deformer.get();
+
 			// 初期値を設定する
 			SetDefaultSRT(m_boneProps, m_deformer.get());
 			//SetLocalMatrixes(m_matrixes, m_boneProps, m_deformer.get());
@@ -1019,18 +1060,20 @@ namespace asd
 				for (auto& b : m_boneProps)
 				{
 					for (int32_t j = 0; j < 3; j++) b.TempPosition[1][j] = 0.0f;
-					for (int32_t j = 0; j < 4; j++) b.TempRotation[1][j] = 0.0f;
 					for (int32_t j = 0; j < 3; j++) b.TempScale[1][j] = 0.0f;
+					b.TempRotY = Vector3DF(0, 1, 0);
+					b.TempRotZ = Vector3DF(0, 0, 1);
+					b.TempRotWeight = 0.0f;
 				}
 
-				for (int32_t bi = (int32_t) m_animationPlaying[i].size() - 1; bi >= 0; bi--)
+				for (int32_t bi = 0; bi < m_animationPlaying[i].size(); bi++)
 				{
 					auto& anim_ = m_animationPlaying[i][bi];
 
 					for (auto& b : m_boneProps)
 					{
 						for (int32_t j = 0; j < 3; j++) b.TempPosition[0][j] = 0.0f;
-						for (int32_t j = 0; j < 4; j++) b.TempRotation[0][j] = 0.0f;
+						for (int32_t j = 0; j < 4; j++) b.TempRotation[j] = 0.0f;
 						for (int32_t j = 0; j < 3; j++) b.TempScale[0][j] = 0.0f;
 					}
 
@@ -1054,47 +1097,38 @@ namespace asd
 
 					CalculateAnimation(m_boneProps, animationCache, time);
 
-					// ターゲットを保存
-					if (bi == m_animationPlaying[i].size() - 1)
+					for (auto b_ = 0; b_ < m_boneProps.size(); b_++)
 					{
-						for (auto& b : m_boneProps)
+						auto& b = d->GetBones()[b_];
+						auto& bp = m_boneProps[b_];
+						auto matR = bp.CalcRotationMatrix(b.RotationType);
+
+						for (int32_t j = 0; j < 3; j++) bp.TempPosition[1][j] += bp.TempPosition[0][j] * anim_.CurrentWeight;
+						for (int32_t j = 0; j < 3; j++) bp.TempScale[1][j] += bp.TempScale[0][j] * anim_.CurrentWeight;
+
+						auto vecRY = Vector3DF(matR.Values[0][1], matR.Values[1][1], matR.Values[2][1]);
+						auto vecRZ = Vector3DF(matR.Values[0][2], matR.Values[1][2], matR.Values[2][2]);
+
+						if (anim_.CurrentWeight == 0.0f)
 						{
-							for (int32_t j = 0; j < 4; j++) b.TargetRotation[j] = b.TempRotation[0][j];
 						}
-					}
-
-					for (auto& b : m_boneProps)
-					{
-						for (int32_t j = 0; j < 3; j++) b.TempPosition[1][j] += b.TempPosition[0][j] * anim_.CurrentWeight;
-
-						for (int32_t j = 0; j < 4; j++)
+						else
 						{
-							// ターゲットに合わせて調整
-							auto r = b.TempRotation[0][j];
-							auto tr = b.TargetRotation[j];
+							auto ratio = (anim_.CurrentWeight) / (anim_.CurrentWeight + bp.TempRotWeight);
 
-							if (abs(r - tr) > PI)
+							if (ratio == 1.0f)
 							{
-								if (r > tr)
-								{
-									while (abs(r - tr) > PI)
-									{
-										r -= PI * 2;
-									}
-								}
-								else
-								{
-									while (abs(r - tr) > PI)
-									{
-										r += PI * 2;
-									}
-								}
+								bp.TempRotY = vecRY;
+								bp.TempRotZ = vecRZ;
+							}
+							else
+							{
+								bp.TempRotY = SphereLinear(bp.TempRotY, vecRY, ratio);
+								bp.TempRotZ = SphereLinear(bp.TempRotZ, vecRZ, ratio);
 							}
 
-							b.TempRotation[1][j] += r * anim_.CurrentWeight;
+							bp.TempRotWeight += anim_.CurrentWeight;
 						}
-
-						for (int32_t j = 0; j < 3; j++) b.TempScale[1][j] += b.TempScale[0][j] * anim_.CurrentWeight;
 					}
 				}
 
@@ -1102,9 +1136,21 @@ namespace asd
 				{
 					if (!b.IsAnimationPlaying) continue;
 
-					for (int32_t j = 0; j < 3; j++) b.Position[j] = b.Position[j] * (1.0f - m_animationWeight[i]) + b.TempPosition[1][j] * m_animationWeight[i];
-					for (int32_t j = 0; j < 4; j++) b.Rotation[j] = b.Rotation[j] * (1.0f - m_animationWeight[i]) + b.TempRotation[1][j] * m_animationWeight[i];
-					for (int32_t j = 0; j < 3; j++) b.Scale[j] = b.Scale[j] * (1.0f - m_animationWeight[i]) + b.TempScale[1][j] * m_animationWeight[i];
+					if (m_animationWeight[i] == 1.0f)
+					{
+						for (int32_t j = 0; j < 3; j++) b.Position[j] = b.Position[j] * (1.0f - m_animationWeight[i]) + b.TempPosition[1][j] * m_animationWeight[i];
+						for (int32_t j = 0; j < 3; j++) b.Scale[j] = b.Scale[j] * (1.0f - m_animationWeight[i]) + b.TempScale[1][j] * m_animationWeight[i];
+
+						b.RotY = SphereLinear(b.RotY, b.TempRotY, m_animationWeight[i]);
+						b.RotZ = SphereLinear(b.RotZ, b.TempRotZ, m_animationWeight[i]);
+					}
+					else
+					{
+						for (int32_t j = 0; j < 3; j++) b.Position[j] = b.TempPosition[1][j];
+						for (int32_t j = 0; j < 3; j++) b.Scale[j] = b.TempScale[1][j];
+						b.RotY = b.TempRotY;
+						b.RotZ = b.TempRotZ;
+					}
 				}
 			}
 

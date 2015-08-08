@@ -694,87 +694,61 @@ namespace asd
 		}
 	}
 
-	Matrix44 ModelUtils::CalcMatrix(float position[3], float rotation [4], float scale[3], RotationOrder rotationType)
+	Matrix44 ModelUtils::CalcRotationMatrix(float rotation[4], RotationOrder rotationType)
 	{
 		if (rotationType == RotationOrder::QUATERNION)
 		{
-			Matrix44 mat, matS, matR, matT;
-			matS.SetScale(scale[0], scale[1], scale[2]);
-			matT.SetTranslation(position[0], position[1], position[2]);
+			Matrix44 matR;
 			matR.SetQuaternion(rotation[0], rotation[1], rotation[2], rotation[3]);
-
-			mat = Matrix44::Mul(mat, matR, matS);
-			mat = Matrix44::Mul(mat, matT, mat);
-
-			return mat;
+			return matR;
 		}
 		else if (rotationType == RotationOrder::AXIS)
 		{
-			Matrix44 mat, matS, matR, matT;
-			matS.SetScale(scale[0], scale[1], scale[2]);
-			matT.SetTranslation(position[0], position[1], position[2]);
+			Matrix44 matR;
 			matR.SetRotationAxis(Vector3DF(rotation[0], rotation[2], -rotation[1]), rotation[3]);
-
-			mat = Matrix44::Mul(mat, matR, matS);
-			mat = Matrix44::Mul(mat, matT, mat);
-
-			return mat;
+			return matR;
 		}
 		else
 		{
-			Matrix44 mat, matS, matRx, matRy, matRz, matT;
-			matS.SetScale(scale[0], scale[1], scale[2]);
-			matT.SetTranslation(position[0], position[1], position[2]);
+			Matrix44 mat, matRx, matRy, matRz;
 			matRx.SetRotationX(rotation[0]);
 			matRy.SetRotationY(rotation[1]);
 			matRz.SetRotationZ(rotation[2]);
 
 			if (rotationType == RotationOrder::XZY)
 			{
-				mat = Matrix44::Mul(mat, matRx, matS);
-				mat = Matrix44::Mul(mat, matRz, mat);
+				mat = Matrix44::Mul(mat, matRz, matRx);
 				mat = Matrix44::Mul(mat, matRy, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			if (rotationType == RotationOrder::XYZ)
 			{
-				mat = Matrix44::Mul(mat, matRx, matS);
-				mat = Matrix44::Mul(mat, matRy, mat);
+				mat = Matrix44::Mul(mat, matRy, matRx);
 				mat = Matrix44::Mul(mat, matRz, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			if (rotationType == RotationOrder::ZXY)
 			{
-				mat = Matrix44::Mul(mat, matRz, matS);
-				mat = Matrix44::Mul(mat, matRx, mat);
+				mat = Matrix44::Mul(mat, matRx, matRz);
 				mat = Matrix44::Mul(mat, matRy, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			if (rotationType == RotationOrder::ZYX)
 			{
-				mat = Matrix44::Mul(mat, matRz, matS);
-				mat = Matrix44::Mul(mat, matRy, mat);
+				mat = Matrix44::Mul(mat, matRy, matRz);
 				mat = Matrix44::Mul(mat, matRz, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			if (rotationType == RotationOrder::YXZ)
 			{
-				mat = Matrix44::Mul(mat, matRy, matS);
-				mat = Matrix44::Mul(mat, matRx, mat);
+				mat = Matrix44::Mul(mat, matRx, matRy);
 				mat = Matrix44::Mul(mat, matRz, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			if (rotationType == RotationOrder::YZX)
 			{
-				mat = Matrix44::Mul(mat, matRy, matS);
-				mat = Matrix44::Mul(mat, matRz, mat);
+				mat = Matrix44::Mul(mat, matRz, matRy);
 				mat = Matrix44::Mul(mat, matRx, mat);
-				mat = Matrix44::Mul(mat, matT, mat);
 			}
 
 			return mat;
@@ -783,6 +757,23 @@ namespace asd
 		return Matrix44();
 	}
 
+	Matrix44 ModelUtils::CalcMatrix(float position[3], float rotation [4], float scale[3], RotationOrder rotationType)
+	{
+		auto matR = CalcRotationMatrix(rotation, rotationType);
+		return CalcMatrix(position, matR, scale);
+	}
+
+	Matrix44 ModelUtils::CalcMatrix(float position[3], const Matrix44& matR, float scale[3])
+	{
+		Matrix44 mat, matS, matT;
+		matS.SetScale(scale[0], scale[1], scale[2]);
+		matT.SetTranslation(position[0], position[1], position[2]);
+
+		mat = Matrix44::Mul(mat, matR, matS);
+		mat = Matrix44::Mul(mat, matT, mat);
+
+		return mat;
+	}
 
 	float ModelUtils::GetKeyframeValue(float time, const std::vector<FCurveKeyframe>& keyframes)
 	{

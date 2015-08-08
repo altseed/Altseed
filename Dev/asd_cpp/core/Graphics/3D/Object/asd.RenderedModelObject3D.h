@@ -26,13 +26,18 @@ namespace asd
 	struct BoneProperty
 	{
 		float	Position[3];
-		float	Rotation[4];
+		Vector3DF	RotY;
+		Vector3DF	RotZ;
 		float	Scale[3];
 
 		// 計算用バッファ
 		float	TempPosition[2][3];
-		float	TempRotation[2][4];
 		float	TempScale[2][3];
+
+		float	TempRotation[4];
+		Vector3DF	TempRotY;
+		Vector3DF	TempRotZ;
+		float	TempRotWeight = 0.0f;
 
 		// 目標
 		float TargetRotation[4];
@@ -41,7 +46,8 @@ namespace asd
 
 		BoneProperty();
 
-		Matrix44 CalcMatrix(RotationOrder rotationType);
+		Matrix44 CalcMatrix();
+		Matrix44 CalcRotationMatrix(RotationOrder rotationType);
 	};
 
 	struct PlayedAnimation

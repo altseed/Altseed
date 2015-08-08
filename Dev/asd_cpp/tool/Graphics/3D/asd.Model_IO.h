@@ -219,7 +219,11 @@ namespace asd
 	public:
 		static void CalculateBoneMatrixes(std::vector<Matrix44>& dst, const std::vector<Model_IO::Bone>& bones, const std::vector<Matrix44>& localMatrixes);
 
+		static Matrix44 CalcRotationMatrix(float rotation[4], RotationOrder rotationType);
+
 		static Matrix44 CalcMatrix(float position[3], float rotation[4], float scale[3], RotationOrder rotationType);
+
+		static Matrix44 CalcMatrix(float position[3], const Matrix44& matR, float scale[3]);
 
 		static float GetKeyframeValue(float time, const std::vector<FCurveKeyframe>& keyframes);
 
