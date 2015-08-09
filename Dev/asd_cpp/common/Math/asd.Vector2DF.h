@@ -188,6 +188,12 @@ namespace asd
 			float dy = v1.Y - v2.Y;
 			return sqrt(dx * dx + dy * dy);
 		}
+
+		/**
+			@brief	Vector2DI型に変換する。
+			@return	Vector2DI型
+		*/
+		Vector2DI To2DI() const;
 	};
 
 	//----------------------------------------------------------------------------------

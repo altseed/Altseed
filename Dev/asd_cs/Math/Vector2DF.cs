@@ -98,6 +98,15 @@ namespace asd
 			set { Radian = MathHelper.DegreeToRadian( value ); }
 		}
 
+		/// <summary>
+		/// Vector2DI型に変換する。
+		/// </summary>
+		/// <returns>Vector2DI型</returns>
+		public Vector2DI To2DI()
+		{
+			return new Vector2DI((int)X, (int)Y);
+		}
+
 		public override string ToString()
 		{
 			return string.Format( "({0}, {1})", X, Y );

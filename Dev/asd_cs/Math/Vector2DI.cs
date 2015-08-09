@@ -33,6 +33,15 @@ namespace asd
 			Y = y;
 		}
 
+		/// <summary>
+		/// Vector2DF型に変換する。
+		/// </summary>
+		/// <returns>Vector2DF型</returns>
+		public Vector2DF To2DF()
+		{
+			return new Vector2DF(X, Y);
+		}
+
 		public static bool operator ==(Vector2DI left, Vector2DI right)
 		{
 			return left.X == right.X && left.Y == right.Y;

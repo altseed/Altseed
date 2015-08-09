@@ -69,6 +69,12 @@ namespace asd
 		Vector2DI& operator*=(int32_t right);
 
 		Vector2DI& operator/=(int32_t right);
+
+		/**
+		@brief	Vector2DF型に変換する。
+		@return	Vector2DF型
+		*/
+		Vector2DF To2DF() const;
 	};
 
 	//----------------------------------------------------------------------------------
