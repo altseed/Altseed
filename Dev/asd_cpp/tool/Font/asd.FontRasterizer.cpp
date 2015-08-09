@@ -296,6 +296,10 @@ namespace asd
 			currentX = Space;
 			currentY += currentHeight + Space;
 
+			offsetX = currentX;
+			offsetY = currentY;
+
+			currentX += width + Space;
 			currentHeight = height;
 		}
 		else
@@ -304,6 +308,10 @@ namespace asd
 			currentY = Space;
 			currentIndex++;
 
+			offsetX = currentX;
+			offsetY = currentY;
+
+			currentX += width + Space;
 			currentHeight = height;
 
 			images.push_back(std::make_shared<Image>(imageSize));
