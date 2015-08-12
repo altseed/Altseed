@@ -155,7 +155,6 @@ namespace asd
 	{
 		Pairs.clear();
 		CurrentAnimationSource = source_;
-		CurrentAnimationDeformer = deformer;
 
 		auto source = (AnimationSource_Imp*)source_;
 		auto& animations = source->GetAnimations();
@@ -351,13 +350,21 @@ namespace asd
 				{
 					auto anim = anim_.Animation.get();
 
-					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
-						animationCache.CurrentAnimationDeformer != m_deformer.get())
+					if (cachedAnimationDeformer != m_deformer.get())
 					{
-						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+						animationCaches.clear();
+					}
+					cachedAnimationDeformer = m_deformer.get();
+
+					auto src = anim->GetSource().get();
+					if (animationCaches.count(src) == 0)
+					{
+						ModelObject3DAnimationCache cache;
+						cache.SetObjects(src, m_deformer.get());
+						animationCaches[src] = cache;
 					}
 
-					SetAnimationPlaying(m_boneProps, animationCache, 0);
+					SetAnimationPlaying(m_boneProps, animationCaches[src], 0);
 				}
 
 				for (auto& b : m_boneProps)
@@ -390,15 +397,9 @@ namespace asd
 						time = fmodf(time, length);
 					}
 
-					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
-						animationCache.CurrentAnimationDeformer != m_deformer.get())
-					{
-						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
-					}
+					SetAnimationPlaying(m_boneProps, animationCaches[src], time);
 
-					SetAnimationPlaying(m_boneProps, animationCache, time);
-
-					CalculateAnimation(m_boneProps, animationCache, time);
+					CalculateAnimation(m_boneProps, animationCaches[src], time);
 					
 					for (auto b_ = 0; b_ < m_boneProps.size(); b_++)
 					{
@@ -1048,13 +1049,21 @@ namespace asd
 				{
 					auto anim = anim_.Animation.get();
 
-					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
-						animationCache.CurrentAnimationDeformer != m_deformer.get())
+					if (cachedAnimationDeformer != m_deformer.get())
 					{
-						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
+						animationCaches.clear();
+					}
+					cachedAnimationDeformer = m_deformer.get();
+
+					auto src = anim->GetSource().get();
+					if (animationCaches.count(src) == 0)
+					{
+						ModelObject3DAnimationCache cache;
+						cache.SetObjects(src, m_deformer.get());
+						animationCaches[src] = cache;
 					}
 
-					SetAnimationPlaying(m_boneProps, animationCache, 0);
+					SetAnimationPlaying(m_boneProps, animationCaches[src], 0);
 				}
 
 				for (auto& b : m_boneProps)
@@ -1087,15 +1096,9 @@ namespace asd
 						time = fmodf(time, length);
 					}
 
-					if (animationCache.CurrentAnimationSource != anim->GetSource().get() ||
-						animationCache.CurrentAnimationDeformer != m_deformer.get())
-					{
-						animationCache.SetObjects(anim->GetSource().get(), m_deformer.get());
-					}
+					SetAnimationPlaying(m_boneProps, animationCaches[src], time);
 
-					SetAnimationPlaying(m_boneProps, animationCache, time);
-
-					CalculateAnimation(m_boneProps, animationCache, time);
+					CalculateAnimation(m_boneProps, animationCaches[src], time);
 
 					for (auto b_ = 0; b_ < m_boneProps.size(); b_++)
 					{

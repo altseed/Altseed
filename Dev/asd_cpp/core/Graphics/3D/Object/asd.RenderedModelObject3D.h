@@ -5,6 +5,8 @@
 #include <Graphics/asd.Graphics.Common.h>
 #include <Math/asd.Vector4DF.h>
 
+#include <unordered_map>
+
 namespace asd
 {
 	struct ModelObject3DAnimationCache
@@ -20,7 +22,6 @@ namespace asd
 		void SetObjects(AnimationSource* source_, Deformer* deformer);
 
 		AnimationSource*	CurrentAnimationSource = nullptr;
-		Deformer*			CurrentAnimationDeformer = nullptr;
 	};
 
 	struct BoneProperty
@@ -83,7 +84,8 @@ namespace asd
 		std::vector<PlayedAnimation>			m_animationPlaying[AnimationCount];
 		float									m_animationWeight[AnimationCount];
 
-		ModelObject3DAnimationCache				animationCache;
+		Deformer*																cachedAnimationDeformer = nullptr;
+		std::unordered_map<AnimationSource*, ModelObject3DAnimationCache>		animationCaches;
 
 		std::vector<std::vector<std::shared_ptr<MaterialPropertyBlock>>>	materialPropertyBlocks;
 
@@ -124,7 +126,8 @@ namespace asd
 		std::vector<PlayedAnimation>			m_animationPlaying[AnimationCount];
 		float									m_animationWeight[AnimationCount];
 
-		ModelObject3DAnimationCache				animationCache;
+		Deformer*																cachedAnimationDeformer = nullptr;
+		std::unordered_map<AnimationSource*, ModelObject3DAnimationCache>		animationCaches;
 
 		Renderer3D*								m_renderer = nullptr;
 		RenderedModelObject3DProxy*				proxy = nullptr;
