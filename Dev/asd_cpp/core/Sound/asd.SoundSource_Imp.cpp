@@ -11,7 +11,6 @@ namespace asd
 		m_sound = sound;
 
 		SafeAddRef(m_manager);
-		SafeAddRef(m_sound);
 	}
 
 	SoundSource_Imp::~SoundSource_Imp()

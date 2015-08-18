@@ -442,7 +442,7 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 		}
 	}
 
-	delete[] image;
+	SafeDeleteArray(image);
 	png_destroy_read_struct(&png, &png_info, NULL);
 
 	return true;
