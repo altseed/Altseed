@@ -457,6 +457,9 @@ NativeShader_Imp_DX11::~NativeShader_Imp_DX11()
 	SafeRelease(m_vertexShader);
 	SafeRelease(m_pixelShader);
 	SafeRelease(m_vertexDeclaration);
+
+	SafeDeleteArray(m_vertexConstantBuffer);
+	SafeDeleteArray(m_pixelConstantBuffer);
 }
 
 //----------------------------------------------------------------------------------
