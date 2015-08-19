@@ -1220,26 +1220,96 @@ namespace asd
 
 					// 内容確認
 					bool hasPixel = false;
-					for (auto y_ = yoffset * pixelInGrid; y_ < yoffset * pixelInGrid + height * pixelInGrid; y_++)
+
+					if (surfaceInd == 0)
 					{
-						for (auto x_ = xoffset * pixelInGrid; x_ < xoffset * pixelInGrid + width * pixelInGrid; x_++)
+						hasPixel = true;
+					}
+					else
+					{
+						for (auto y_ = yoffset * pixelInGrid; y_ < yoffset * pixelInGrid + height * pixelInGrid; y_++)
 						{
-							if (surface_[x_ + y_ * gridWidthCount * pixelInGrid] > 0)
+							for (auto x_ = xoffset * pixelInGrid; x_ < xoffset * pixelInGrid + width * pixelInGrid; x_++)
 							{
-								hasPixel = true;
-								goto Exit;
+								if (surface_[x_ + y_ * gridWidthCount * pixelInGrid] > 0)
+								{
+									hasPixel = true;
+									goto Exit;
+								}
 							}
 						}
+					Exit:;
 					}
-				Exit:;
+					
 
 					if (hasPixel)
 					{
 						SurfacePolygon p;
 						p.SurfaceIndex = surfaceInd;
 
+						std::vector<Face> fs_;
+
+						if (surfaceInd == 0)
+						{
+							fs_ = fs;
+						}
+						else
+						{
+							// 内容確認
+							for (auto& f : fs)
+							{
+								Vector3DF p[3];
+								p[0] = vs[f.Index1].Position;
+								p[1] = vs[f.Index2].Position;
+								p[2] = vs[f.Index3].Position;
+
+								float xmin = FLT_MAX;
+								float xmax = -FLT_MAX;
+								float zmin = FLT_MAX;
+								float zmax = -FLT_MAX;
+
+								for (auto& p_ : p)
+								{
+									xmin = Min(p_.X, xmin);
+									xmax = Max(p_.X, xmax);
+									zmin = Min(p_.Z, zmin);
+									zmax = Max(p_.Z, zmax);
+								}
+
+								int32_t xsp = (int32_t) ((xmin + gridSize * gridWidthCount / 2.0f) / gridSize * pixelInGrid - 1.0f);
+								int32_t xep = (int32_t) ((xmax + gridSize * gridWidthCount / 2.0f) / gridSize * pixelInGrid + 1.0f);
+								int32_t zsp = (int32_t) ((zmin + gridSize * gridHeightCount / 2.0f) / gridSize * pixelInGrid - 1.0f);
+								int32_t zep = (int32_t) ((zmax + gridSize * gridHeightCount / 2.0f) / gridSize * pixelInGrid + 1.0f);
+
+								xsp = Clamp(xsp, gridWidthCount * pixelInGrid - 1, 0);
+								xep = Clamp(xep, gridWidthCount * pixelInGrid - 1, 0);
+								zsp = Clamp(zsp, gridHeightCount * pixelInGrid - 1, 0);
+								zep = Clamp(zep, gridHeightCount * pixelInGrid - 1, 0);
+
+								bool hasPixel_ = false;
+								for (int32_t z_ = zsp; z_ < zep; z_++)
+								{
+									for (int32_t x_ = xsp; x_ < xep; x_++)
+									{
+										if (surface_[x_ + z_ * gridWidthCount * pixelInGrid] > 0)
+										{
+											hasPixel_ = true;
+											goto Exit2;
+										}
+									}
+								}
+							Exit2:;
+
+								if (hasPixel_)
+								{
+									fs_.push_back(f);
+								}
+							}
+						}
+						
+
 						p.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs.size(), false);
-						p.IB = g->CreateIndexBuffer_Imp(fs.size() * 3, false, true);
+						p.IB = g->CreateIndexBuffer_Imp(fs_.size() * 3, false, true);
 
 						{
 							p.VB->Lock();
@@ -1264,12 +1334,12 @@ namespace asd
 
 						{
 							p.IB->Lock();
-							auto buf = p.IB->GetBuffer<int32_t>(fs.size() * 3);
-							for (auto i = 0; i < fs.size(); i++)
+							auto buf = p.IB->GetBuffer<int32_t>(fs_.size() * 3);
+							for (auto i = 0; i < fs_.size(); i++)
 							{
-								buf[i * 3 + 0] = fs[i].Index1;
-								buf[i * 3 + 1] = fs[i].Index2;
-								buf[i * 3 + 2] = fs[i].Index3;
+								buf[i * 3 + 0] = fs_[i].Index1;
+								buf[i * 3 + 1] = fs_[i].Index2;
+								buf[i * 3 + 2] = fs_[i].Index3;
 							}
 							p.IB->Unlock();
 						}
