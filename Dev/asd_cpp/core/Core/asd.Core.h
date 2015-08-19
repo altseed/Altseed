@@ -65,6 +65,12 @@ namespace asd {
 		virtual bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, CoreOption option) = 0;
 
 		/**
+			@brief	タイトルを設定する。
+			@param	title	タイトル
+		*/
+		virtual void SetTitle(const achar* title) = 0;
+
+		/**
 		@brief	イベントを実行し、進行可否を判断する。
 		@return	進行可能か?
 		*/

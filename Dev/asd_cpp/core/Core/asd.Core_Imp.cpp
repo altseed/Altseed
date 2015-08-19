@@ -334,6 +334,12 @@ namespace asd
 		return true;
 	}
 
+	void Core_Imp::SetTitle(const achar* title)
+	{
+		if (m_window == nullptr) return;
+		m_window->SetTitle(title);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

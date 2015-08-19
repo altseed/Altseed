@@ -185,6 +185,18 @@ namespace asd
 		}
 
 		/// <summary>
+		/// タイトルを設定する。
+		/// </summary>
+		public static string Title
+		{
+			set
+			{
+				if (core == null) return;
+				core.SetTitle(value);
+			}
+		}
+
+		/// <summary>
 		/// イベントを実行し、進行可否を判断する。
 		/// </summary>
 		/// <returns>進行可能か?</returns>

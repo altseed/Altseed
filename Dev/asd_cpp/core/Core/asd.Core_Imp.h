@@ -95,6 +95,8 @@ namespace asd {
 
 		bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, CoreOption option);
 
+		void SetTitle(const achar* title) override;
+
 		bool DoEvents();
 
 		void Update();

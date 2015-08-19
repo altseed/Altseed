@@ -437,6 +437,12 @@ namespace asd
 		return init;
 	}
 
+	void Engine::SetTitle(const achar* title)
+	{
+		if (m_core == nullptr) return;
+		m_core->SetTitle(title);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

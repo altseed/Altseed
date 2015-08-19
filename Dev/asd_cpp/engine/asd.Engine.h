@@ -102,6 +102,12 @@ namespace asd {
 		static bool InitializeByExternalWindow(void* handle1, void* handle2, int32_t width, int32_t height, EngineOption option);
 
 		/**
+		@brief	タイトルを設定する。
+		@param	title	タイトル
+		*/
+		static void SetTitle(const achar* title);
+
+		/**
 			@brief	イベントを実行し、進行可否を判断する。
 			@return	進行可能か?
 		*/
