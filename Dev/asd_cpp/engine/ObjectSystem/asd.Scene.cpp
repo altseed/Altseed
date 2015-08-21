@@ -37,6 +37,11 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Scene::Update()
 	{
+		m_layersToUpdate.sort([](const Layer::Ptr& x, const Layer::Ptr& y) -> bool
+		{
+			return x->GetUpdatePriority() < y->GetUpdatePriority();
+		});
+
 		auto beVanished = list<Layer::Ptr>();
 
 		executing = true;
@@ -230,10 +235,7 @@ namespace asd
 			return;
 		}
 
-		if (layer->GetScene() != nullptr)
-		{
-			throw "追加しようとしたレイヤーは、すでに別のシーンに所属しています。";
-		}
+		ACE_ASSERT(layer->GetScene() == nullptr, "追加しようとしたレイヤーは、すでに別のシーンに所属しています。");
 		m_layersToDraw.push_back(layer);
 		m_layersToUpdate.push_back(layer);
 		m_coreScene->AddLayer(layer->GetCoreLayer().get());

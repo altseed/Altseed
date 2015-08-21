@@ -167,4 +167,14 @@ namespace asd
 		m_name = value;
 	}
 
+	int Layer::GetUpdatePriority() const
+	{
+		return m_updatePriority;
+	}
+
+	void Layer::SetUpdatePriority(int value)
+	{
+		m_updatePriority = value;
+	}
+
 }

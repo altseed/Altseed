@@ -58,7 +58,7 @@ namespace asd
 		, m_isDrawn(true)
 		, m_isAlive(true)
 	{
-
+		m_onUpdatePriorityChanged = [](int x) {};
 	}
 
 	Object3D::~Object3D()
@@ -133,6 +133,18 @@ namespace asd
 	{
 		m_commonObject->SetScale(scale);
 	}
+
+	int Object3D::GetUpdatePriority() const
+	{
+		return m_updatePriority;
+	}
+
+	void Object3D::SetUpdatePriority(int value)
+	{
+		m_updatePriority = value;
+		m_onUpdatePriorityChanged(value);
+	}
+
 
 	void Object3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,

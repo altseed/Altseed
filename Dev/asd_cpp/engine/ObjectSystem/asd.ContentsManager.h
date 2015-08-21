@@ -10,24 +10,60 @@ namespace asd
 	private:
 		typedef std::shared_ptr<TContent> ContentPtr;
 
-		std::list<ContentPtr> m_contents;
+		std::map<int, std::list<ContentPtr>> m_contents;
 		std::list<ContentPtr> m_beAdded;
 		std::list<ContentPtr> m_beRemoved;
 		std::list<ContentPtr> beVanished;
 		bool m_isUpdating;
 
+	private:
+		void AddToContents(const ContentPtr& content)
+		{
+			auto key = content->GetUpdatePriority();
+			auto contents = m_contents.find(key);
+			if (contents == m_contents.end())
+			{
+				m_contents[key] = std::list<ContentPtr>({ content });
+			}
+			else
+			{
+				(*contents).second.push_back(content);
+			}
+			content->m_onUpdatePriorityChanged = [this,content](int x) { Redistribute(content); };
+		}
+
+		void RemoveFromContents(const ContentPtr& content)
+		{
+			auto key = content->GetUpdatePriority();
+			m_contents[key].remove(content);
+		}
+
+		void Redistribute(const ContentPtr& content)
+		{
+			RemoveFromContents(content);
+			AddToContents(content);
+		}
+
 	public:
 		ContentsManager()
-			: m_contents(std::list<ContentPtr>())
+			: m_contents(std::map<int, std::list<ContentPtr>>())
 			, m_beAdded(std::list<ContentPtr>())
 			, m_beRemoved(std::list<ContentPtr>())
 			, m_isUpdating(false)
 		{
 		}
 
-		const std::list<ContentPtr>& GetContents() const
+		std::list<ContentPtr> GetContents() const
 		{
-			return m_contents;
+			std::list<ContentPtr> result;
+			for (auto& l : m_contents)
+			{
+				for (auto& c : l.second)
+				{
+					result.push_back(c);
+				}
+			}
+			return result;
 		}
 
 		std::list<ContentPtr>& GetVanishingContents()
@@ -43,7 +79,7 @@ namespace asd
 			}
 			else
 			{
-				m_contents.push_back(content);
+				AddToContents(content);
 			}
 		}
 
@@ -55,7 +91,7 @@ namespace asd
 			}
 			else
 			{
-				m_contents.remove(content);
+				RemoveFromContents(content);
 			}
 		}
 
@@ -63,7 +99,7 @@ namespace asd
 		{
 			if (m_isUpdating)
 			{
-				for (auto& c : m_contents)
+				for (auto& c : GetContents())
 				{
 					m_beRemoved.push_back(c);
 				}
@@ -79,24 +115,27 @@ namespace asd
 		{
 			m_isUpdating = true;
 			
-			for (auto& c : m_contents)
+			for (auto& list : m_contents)
 			{
-				c->Update();
-				if (!c->GetIsAlive())
+				for (auto& c : list.second)
 				{
-					beVanished.push_back(c);
+					c->Update();
+					if (!c->GetIsAlive())
+					{
+						beVanished.push_back(c);
+					}
 				}
 			}
 			m_isUpdating = false;
 
 			for (auto& c : m_beAdded)
 			{
-				m_contents.push_back(c);
+				AddToContents(c);
 			}
 
 			for (auto& c : m_beRemoved)
 			{
-				m_contents.remove(c);
+				RemoveFromContents(c);
 			}
 
 			m_beAdded.clear();

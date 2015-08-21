@@ -100,10 +100,7 @@ namespace asd
 
 	void Layer3D::AddObject(const Object3D::Ptr& object)
 	{
-		if (object->GetLayer() != nullptr)
-		{
-			throw "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。";
-		}
+		ACE_ASSERT(object->GetLayer() == nullptr, "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。");
 		m_objects.Add(object);
 		auto coreObj = object->GetCoreObject();
 		m_coreLayer->AddObject(coreObj);

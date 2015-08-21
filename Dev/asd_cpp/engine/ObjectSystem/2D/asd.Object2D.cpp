@@ -14,7 +14,9 @@ namespace asd
 		, m_componentManager(this)
 		, m_isUpdated(true)
 		, m_isDrawn(true)
+		, m_updatePriority(0)
 	{
+		m_onUpdatePriorityChanged = [](int x) {};
 	}
 
 	//----------------------------------------------------------------------------------
@@ -234,6 +236,17 @@ namespace asd
 	void Object2D::SetScale(Vector2DF value)
 	{
 		GetCoreObject()->SetScale(value);
+	}
+
+	int Object2D::GetUpdatePriority() const
+	{
+		return m_updatePriority;
+	}
+
+	void Object2D::SetUpdatePriority(int value)
+	{
+		m_updatePriority = value;
+		m_onUpdatePriorityChanged(value);
 	}
 
 #pragma endregion

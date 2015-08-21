@@ -1,6 +1,7 @@
 ﻿#pragma once
 #include <memory>
 #include <list>
+#include <functional>
 #include "../../asd.CoreToEngine.h"
 #include "../Component/asd.Object2DComponent.h"
 #include "../Component/asd.ComponentManager.h"
@@ -28,6 +29,8 @@ namespace asd
 		ComponentManager<Object2D, Object2DComponent> m_componentManager;
 		bool m_isUpdated;
 		bool m_isDrawn;
+		int m_updatePriority;
+		std::function<void(int)> m_onUpdatePriorityChanged;
 
 		void Start();
 		void Update();
@@ -221,5 +224,14 @@ namespace asd
 			@brief	このオブジェクトを描画する際の拡大率を設定する。
 		*/
 		void SetScale(Vector2DF value);
+
+		/**
+			@brief	このオブジェクトの更新の優先順位を取得する。
+		*/
+		int GetUpdatePriority() const;
+		/**
+			@brief	このオブジェクトの更新の優先順位を設定する。
+		*/
+		void SetUpdatePriority(int value);
 	};
 }

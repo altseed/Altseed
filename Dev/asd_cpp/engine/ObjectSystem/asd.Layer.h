@@ -25,6 +25,7 @@ namespace asd
 		bool m_isUpdatedCurrent = false;
 		bool m_isDrawn;
 		bool m_isAlive;
+		int m_updatePriority;
 
 		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
 
@@ -156,8 +157,23 @@ namespace asd
 
 		virtual int GetObjectCount() const = 0;
 
+		/**
+			@brief	このレイヤーの名前を取得する。
+		*/
 		astring GetName() const;
+		/**
+			@brief	このレイヤーの名前を設定する。
+		*/
 		void SetName(astring value);
+
+		/**
+			@brief	このレイヤーの更新の優先順位を取得する。
+		*/
+		int GetUpdatePriority() const;
+		/**
+			@brief	このレイヤーの更新の優先順位を設定する。
+		*/
+		void SetUpdatePriority(int value);
 
 	};
 }

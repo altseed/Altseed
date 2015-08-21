@@ -1,6 +1,7 @@
 ﻿
 #pragma once
 
+#include <functional>
 #include "../../asd.CoreToEngine.h"
 #include "../asd.ContentsManager.h"
 
@@ -26,6 +27,8 @@ namespace asd
 		bool m_isUpdated;
 		bool m_isDrawn;
 		bool m_isAlive;
+		int m_updatePriority;
+		std::function<void(int)> m_onUpdatePriorityChanged;
 		
 		void Start();
 		void Update();
@@ -151,6 +154,16 @@ namespace asd
 		@param	scale	拡大率
 		*/
 		void SetScale(Vector3DF scale);
+
+		/**
+			@brief	このインスタンスの更新の優先順位を取得する。
+		*/
+		int GetUpdatePriority() const;
+		/**
+			@brief	このインスタンスの更新の優先順位を設定する。
+		*/
+		void SetUpdatePriority(int value);
+
 
 		/**
 		@brief	通常の描画に加えてテクスチャを描画する。
