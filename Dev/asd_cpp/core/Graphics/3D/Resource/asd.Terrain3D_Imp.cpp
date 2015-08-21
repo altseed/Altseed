@@ -1584,7 +1584,7 @@ namespace asd
 
 		sf.ColorTexture = m_graphics->CreateTexture2D(color);
 		sf.NormalTexture = m_graphics->CreateTexture2DAsRawData(normal);
-		sf.MetalnessTexture = m_graphics->CreateTexture2D(metalness);
+		sf.MetalnessTexture = m_graphics->CreateTexture2DAsRawData(metalness);
 
 		auto it = surfaceNameToIndex.find(name);
 
