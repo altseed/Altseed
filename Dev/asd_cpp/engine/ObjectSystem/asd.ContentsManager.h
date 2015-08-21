@@ -92,6 +92,7 @@ namespace asd
 			else
 			{
 				RemoveFromContents(content);
+				content->m_onUpdatePriorityChanged = nullptr;
 			}
 		}
 
@@ -136,6 +137,7 @@ namespace asd
 			for (auto& c : m_beRemoved)
 			{
 				RemoveFromContents(c);
+				c->m_onUpdatePriorityChanged = nullptr;
 			}
 
 			m_beAdded.clear();

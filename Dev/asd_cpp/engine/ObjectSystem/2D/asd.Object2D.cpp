@@ -15,8 +15,8 @@ namespace asd
 		, m_isUpdated(true)
 		, m_isDrawn(true)
 		, m_updatePriority(0)
+		, m_onUpdatePriorityChanged(nullptr)
 	{
-		m_onUpdatePriorityChanged = [](int x) {};
 	}
 
 	//----------------------------------------------------------------------------------
@@ -246,7 +246,10 @@ namespace asd
 	void Object2D::SetUpdatePriority(int value)
 	{
 		m_updatePriority = value;
-		m_onUpdatePriorityChanged(value);
+		if (m_onUpdatePriorityChanged != nullptr)
+		{
+			m_onUpdatePriorityChanged(value);
+		}
 	}
 
 #pragma endregion

@@ -74,10 +74,12 @@
     <Compile Include="ObjectSystem2D\CustomObject.cs" />
     <Compile Include="ObjectSystem2D\LayerComponent.cs" />
     <Compile Include="ObjectSystem2D\LayersFlag.cs" />
+    <Compile Include="ObjectSystem2D\LayerUpdatePriority.cs" />
     <Compile Include="ObjectSystem2D\ObjectComponent.cs" />
     <Compile Include="ObjectSystem2D\ObjectsFlag.cs" />
     <Compile Include="ObjectSystem2D\ObjectSimple.cs" />
     <Compile Include="ObjectSystem2D\ObjectsMembers.cs" />
+    <Compile Include="ObjectSystem2D\ObjectUpdatePriority.cs" />
     <Compile Include="ObjectSystem2D\ParentObject.cs" />
     <Compile Include="ObjectSystem2D\TransformOutOfUpdate.cs" />
     <Compile Include="ObjectSystem2D\VanishInComponent.cs" />

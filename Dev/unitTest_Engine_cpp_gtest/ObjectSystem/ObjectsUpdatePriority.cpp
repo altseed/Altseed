@@ -39,12 +39,21 @@ protected:
 	void OnStart()
 	{
 		auto obj1 = make_shared<MessageObject>(ToAString("object1"));
-		obj1->SetUpdatePriority(1);
+		obj1->SetUpdatePriority(2);
 		asd::Engine::AddObject2D(obj1);
 
 		auto obj2 = make_shared<MessageObject>(ToAString("object2"));
-		obj2->SetUpdatePriority(0);
+		obj2->SetUpdatePriority(1);
 		asd::Engine::AddObject2D(obj2);
+
+		auto obj3 = make_shared<MessageObject>(ToAString("object3"));
+		asd::Engine::AddObject2D(obj3);
+		obj3->SetUpdatePriority(0);
+
+		auto obj4 = make_shared<MessageObject>(ToAString("object4"));
+		asd::Engine::AddObject2D(obj4);
+		asd::Engine::RemoveObject2D(obj4);
+		obj4->SetUpdatePriority(0);
 	}
 };
 

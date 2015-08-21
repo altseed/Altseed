@@ -13,7 +13,7 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
 
-			TestSequencially(new ObjectSystem2D.TransformOutOfUpdate());
+			TestSequencially(new ObjectSystem2D.LayerUpdatePriority());
 			Console.ReadKey();
 			return;
 

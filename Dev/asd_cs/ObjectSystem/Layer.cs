@@ -40,6 +40,11 @@ namespace asd
 		}
 
 		/// <summary>
+		/// このレイヤーの更新の優先順位を取得または設定する。
+		/// </summary>
+		public int UpdatePriority { get; set; }
+
+		/// <summary>
 		/// このインスタンスを管理している asd.Scene クラスのインスタンスを取得する。
 		/// </summary>
 		public Scene Scene { get; internal set; }

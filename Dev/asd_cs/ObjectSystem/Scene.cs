@@ -235,8 +235,6 @@ namespace asd
 
 		internal void Update()
 		{
-			var beVanished = new List<Layer>();
-
 			executing = true;
 
 			if(!alreadyFirstUpdate)
@@ -244,6 +242,8 @@ namespace asd
 				OnUpdateForTheFirstTime();
 				alreadyFirstUpdate = true;
 			}
+
+			layersToUpdate_.Sort((x, y) => x.UpdatePriority - y.UpdatePriority);
 
 			OnUpdating();
 
@@ -257,7 +257,7 @@ namespace asd
 				item.Update();
 				if(!item.IsAlive)
 				{
-					beVanished.Add(item);
+					removingLayer.AddLast(item);
 				}
 			}
 
@@ -271,11 +271,6 @@ namespace asd
 			OnUpdated();
 
 			executing = false;
-
-			foreach(var item in beVanished)
-			{
-				RemoveLayer(item);
-			}
 
 			CommitChanges();
 		}

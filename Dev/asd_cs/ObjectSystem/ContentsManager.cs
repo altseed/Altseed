@@ -8,7 +8,7 @@ namespace asd
 {
 	internal class ContentsManager<TContent> where TContent : Content
 	{
-		LinkedList<TContent> contents_ { get; set; }
+		SortedList<int, LinkedList<TContent>> contents_ { get; set; }
 		LinkedList<TContent> beAdded { get; set; }
 		LinkedList<TContent> beRemoved { get; set; }
 		LinkedList<TContent> beVanished = new LinkedList<TContent>();
@@ -17,17 +17,46 @@ namespace asd
 
 		public IEnumerable<TContent> Contents
 		{
-			get { return contents_; }
+			get { return contents_.SelectMany(x => x.Value); }
 		}
 
 		public LinkedList<TContent> VanishingContents { get { return beVanished; } }
 
 		public ContentsManager()
 		{
-			contents_ = new LinkedList<TContent>();
+			contents_ = new SortedList<int, LinkedList<TContent>>();
 			beAdded = new LinkedList<TContent>();
 			beRemoved = new LinkedList<TContent>();
 			isUpdating = false;
+		}
+
+		private void AddToContents(TContent content)
+		{
+			if(contents_.Any(x => x.Key == content.UpdatePriority))
+			{
+				contents_[content.UpdatePriority].AddLast(content);
+			}
+			else
+			{
+				contents_[content.UpdatePriority] = new LinkedList<TContent>(new[] { content });
+            }
+			content.OnUpdatePriorityChanged += Redistribute;
+		}
+
+		private bool RemoveFromContents(TContent content)
+		{
+			content.OnUpdatePriorityChanged -= Redistribute;
+			if(contents_.ContainsKey(content.UpdatePriority))
+			{
+				return contents_[content.UpdatePriority].Remove(content);
+			}
+			return false;
+		}
+
+		private void Redistribute(Content content)
+		{
+			RemoveFromContents((TContent)content);
+			AddToContents((TContent)content);
 		}
 
 		public void Add(TContent content)
@@ -43,7 +72,7 @@ namespace asd
 			}
 			else
 			{
-				contents_.AddLast(content);
+				AddToContents(content);
 			}
 		}
 
@@ -52,11 +81,11 @@ namespace asd
 			if(isUpdating)
 			{
 				beRemoved.AddLast(content);
-				return contents_.Contains(content) || beAdded.Contains(content);
+				return Contents.Contains(content) || beAdded.Contains(content);
 			}
 			else
 			{
-				return contents_.Remove(content);
+				return RemoveFromContents(content);
 			}
 		}
 
@@ -64,7 +93,7 @@ namespace asd
 		{
 			if(isUpdating)
 			{
-				foreach(var item in contents_)
+				foreach(var item in Contents)
 				{
 					beRemoved.AddLast(item);
 				}
@@ -79,8 +108,8 @@ namespace asd
 		public void Update()
 		{
 			isUpdating = true;
-			
-			foreach(var item in contents_)
+
+			foreach(var item in Contents)
 			{
 				item.Update();
 				if(!item.GetIsAlive())
@@ -92,12 +121,12 @@ namespace asd
 
 			foreach(var item in beAdded)
 			{
-				contents_.AddLast(item);
+				AddToContents(item);
 			}
 
 			foreach(var item in beRemoved)
 			{
-				contents_.Remove(item);
+				RemoveFromContents(item);
 			}
 
 			beAdded.Clear();

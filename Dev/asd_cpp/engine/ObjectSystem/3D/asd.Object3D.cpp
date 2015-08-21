@@ -57,8 +57,8 @@ namespace asd
 		, m_isUpdated(true)
 		, m_isDrawn(true)
 		, m_isAlive(true)
+		, m_onUpdatePriorityChanged(nullptr)
 	{
-		m_onUpdatePriorityChanged = [](int x) {};
 	}
 
 	Object3D::~Object3D()
@@ -142,7 +142,10 @@ namespace asd
 	void Object3D::SetUpdatePriority(int value)
 	{
 		m_updatePriority = value;
-		m_onUpdatePriorityChanged(value);
+		if (m_onUpdatePriorityChanged != nullptr)
+		{
+			m_onUpdatePriorityChanged(value);
+		}
 	}
 
 
