@@ -534,6 +534,9 @@ namespace asd
 #if __CULLING_2D__
 			for (auto& c : m_cameras)
 			{
+				if (!c->GetIsDrawn())
+					continue;
+					
 				//レンダラのキャッシュをリセット
 				m_renderer->ClearCache();
 
