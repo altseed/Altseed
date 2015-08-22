@@ -34,11 +34,12 @@ Lockを実行し成功すると引数からTextureLockInfomationを取得でき�
 これは書き込みを行うサンプルコードの1つです。textureにdataにある情報を書き込みます。
 
 * C++
+
 ```
-ace::TextureLockInfomation info = ace::TextureLockInfomation();
+
+asd::TextureLockInfomation info = asd::TextureLockInfomation();
 if (texture->Lock(&info))
 {
-	
 	auto dst = (uint8_t*)info.GetPixels();
 	auto src = d;
 
@@ -49,11 +50,14 @@ if (texture->Lock(&info))
 
 	texture->Unlock();
 }
+
 ```
 
 * C#
+
 ```
-ace.TextureLockInfomation info = new ace.TextureLockInfomation();
+
+asd.TextureLockInfomation info = new asd.TextureLockInfomation();
 if (texture.Lock(info))
 {
 	fixed(byte* d = &data[0])
@@ -69,5 +73,6 @@ if (texture.Lock(info))
 
 	texture.Unlock();
 }
+
 ```
 
