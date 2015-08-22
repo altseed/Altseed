@@ -33,6 +33,11 @@ namespace asd
 	void CoreGeometryObject2D_Imp::SetShape(CoreShape* shape)
 	{
 		SetCullingUpdate(this);
+		if (m_shape != nullptr)
+		{
+			CoreShape2DToImp(m_shape)->SetGeometryObject2D(nullptr);
+		}
+		CoreShape2DToImp(shape)->SetGeometryObject2D(this);
 		SafeSubstitute(m_shape, shape);
 	}
 
@@ -140,6 +145,11 @@ namespace asd
 
 			renderer->AddSprite(position.data(), color, uvs.data(), (m_shape->GetShapeType() == ShapeType::LineShape) ? nullptr : m_texture, alphaBlendMode, drawingPriority, m_textureFilterType);
 		}
+	}
+
+	void CoreGeometryObject2D_Imp::SetIsUpdateBoundingCircle()
+	{
+		SetCullingUpdate(this);
 	}
 
 #endif

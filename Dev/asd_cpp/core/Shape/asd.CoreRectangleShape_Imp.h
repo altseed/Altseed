@@ -36,13 +36,14 @@ namespace asd
 
 #if !SWIG
 	public:
+
 		virtual int GetRef() { return ReferenceObject::GetRef(); }
 		virtual int AddRef() { return ReferenceObject::AddRef(); }
 		virtual int Release() { return ReferenceObject::Release(); }
 	protected:
 		virtual void DivideToTriangles() override;
-		virtual void CalculateBoundingCircle() override;
 		virtual void CalcCollisions() override;
+		virtual void CalculateBoundingCircle() override;
 #endif
 
 	public:

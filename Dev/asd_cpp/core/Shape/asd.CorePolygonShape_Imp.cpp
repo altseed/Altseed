@@ -20,6 +20,7 @@ namespace asd
 		isNeededCalcBoundingCircle = true;
 		isNeededUpdating = true;
 		isNeededCalcCollisions = true;
+		NotifyUpdateToObject();
 		vertexes.push_back(vertex);
 	}
 
@@ -28,6 +29,7 @@ namespace asd
 		isNeededCalcBoundingCircle = true;
 		isNeededUpdating = true;
 		isNeededCalcCollisions = true;
+		NotifyUpdateToObject();
 		vertexes.clear();
 	}
 

@@ -8,6 +8,7 @@
 #include "asd.CoreArcShape_Imp.h"
 #include <Box2D/Box2D.h>
 #include "asd.CoreShapeConverter.h"
+#include "../ObjectSystem/2D/asd.CoreGeometryObject2D_Imp.h"
 
 #ifdef _WIN64
 
@@ -64,6 +65,30 @@ namespace asd
 			}
 		}
 		return false;
+	}
+#if !SWIG
+	void CoreShape_Imp::SetGeometryObject2D(CoreGeometryObject2D_Imp* geometryObject)
+	{
+		this->geometryObject = geometryObject;
+	}
+
+
+	culling2d::Circle& CoreShape_Imp::GetBoundingCircle()
+	{
+		if (isNeededCalcBoundingCircle)
+		{
+			CalculateBoundingCircle();
+			isNeededCalcBoundingCircle = false;
+		}
+		return boundingCircle;
+	}
+
+	void CoreShape_Imp::NotifyUpdateToObject()
+	{
+		if (geometryObject != nullptr)
+		{
+			geometryObject->SetIsUpdateBoundingCircle();
+		}
 	}
 
 
@@ -152,4 +177,6 @@ namespace asd
 		}
 		return collisionShapes;
 	}
+
+#endif
 };

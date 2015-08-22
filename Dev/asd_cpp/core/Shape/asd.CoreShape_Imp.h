@@ -9,6 +9,7 @@ class b2Shape;
 namespace asd{
 
 	class CoreTriangleShape;
+	class CoreGeometryObject2D_Imp;
 
 	class CoreShape_Imp
 	{
@@ -20,6 +21,7 @@ namespace asd{
 	protected:
 		std::vector<CoreTriangleShape*> triangles;
 		std::vector<b2Shape*> collisionShapes;
+		CoreGeometryObject2D_Imp* geometryObject;
 
 		virtual void DivideToTriangles() = 0;
 
@@ -41,6 +43,7 @@ namespace asd{
 			isNeededUpdating(false)
 			, isNeededCalcBoundingCircle(false)
 			, isNeededCalcCollisions(false)
+			, geometryObject(nullptr)
 		{}
 		virtual ~CoreShape_Imp();
 #if !SWIG
@@ -59,17 +62,14 @@ namespace asd{
 			return triangles;
 		}
 
-		culling2d::Circle& GetBoundingCircle()
-		{
-			if (isNeededCalcBoundingCircle)
-			{
-				CalculateBoundingCircle();
-				isNeededCalcBoundingCircle = false;
-			}
-			return boundingCircle;
-		}
+		culling2d::Circle& GetBoundingCircle();
 
 		std::vector<b2Shape*>& GetCollisionShapes();
+
+		void SetGeometryObject2D(CoreGeometryObject2D_Imp* geometryObject);
+
+	protected:
+		void NotifyUpdateToObject();
 #endif
 	};
 };

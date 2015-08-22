@@ -22,6 +22,7 @@ namespace asd
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		isNeededCalcCollisions = true;
+		NotifyUpdateToObject();
 		this->staringPosition = startingPosition;
 	}
 
@@ -35,6 +36,7 @@ namespace asd
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		isNeededCalcCollisions = true;
+		NotifyUpdateToObject();
 		this->endingPosition = endingPosition;
 	}
 
@@ -48,6 +50,7 @@ namespace asd
 		isNeededCalcBoundingCircle = true;
 		isNeededUpdating = true;
 		isNeededCalcCollisions = true;
+		NotifyUpdateToObject();
 		this->thickness = thickness;
 	}
 

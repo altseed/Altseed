@@ -23,6 +23,7 @@ namespace asd
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		isNeededCalcCollisions = true;
+		NotifyUpdateToObject();
 		this->drawingArea = drawingArea;
 	}
 
@@ -47,6 +48,7 @@ namespace asd
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		isNeededCalcCollisions = true;
+		NotifyUpdateToObject();
 		this->angle = angle;
 	}
 
@@ -60,6 +62,7 @@ namespace asd
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		isNeededCalcCollisions = true;
+		NotifyUpdateToObject();
 		this->centerPosition = centerPosition;
 	}
 

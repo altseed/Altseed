@@ -17,8 +17,6 @@ namespace asd
 		Color m_color;
 		TextureFilterType m_textureFilterType;
 		Texture2D* m_texture;
-	protected:
-		virtual void CalculateBoundingCircle() override;
 
 	public:
 		Object2DType GetObjectType() const override { return Object2DType::Geometry; }
@@ -49,6 +47,10 @@ namespace asd
 #if !SWIG
 
 		void Draw(Renderer2D* renderer) override;
+
+		virtual void CalculateBoundingCircle() override;
+
+		void SetIsUpdateBoundingCircle();
 #endif
 
 #include "asd.CoreObject2D_Imp_Methods.h"

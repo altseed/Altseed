@@ -24,6 +24,7 @@ namespace asd
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		isNeededCalcCollisions = true;
+		NotifyUpdateToObject();
 		this->position = position;
 	}
 
@@ -48,6 +49,7 @@ namespace asd
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		isNeededCalcCollisions = true;
+		NotifyUpdateToObject();
 		this->outerDiameter = outerDiameter;
 	}
 

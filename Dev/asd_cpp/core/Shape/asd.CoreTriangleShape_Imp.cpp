@@ -20,6 +20,7 @@ namespace asd
 		isNeededUpdating = true;
 		isNeededCalcBoundingCircle = true;
 		isNeededCalcCollisions = true;
+		NotifyUpdateToObject();
 		points[index] = point;
 	}
 
