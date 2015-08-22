@@ -214,7 +214,15 @@ namespace asd {
 				return nullptr;
 			}
 
-			if (desc.Format == DXGI_FORMAT_BC1_UNORM)
+			if (desc.Format == DXGI_FORMAT_R8G8B8A8_UNORM)
+			{
+				return  new Texture2D_Imp_DX11(graphics, texture_, textureSRV, Vector2DI(desc_.Width, desc_.Height), TextureFormat::R8G8B8A8_UNORM);
+			}
+			else if (desc.Format == DXGI_FORMAT_R8G8B8A8_UNORM_SRGB)
+			{
+				return  new Texture2D_Imp_DX11(graphics, texture_, textureSRV, Vector2DI(desc_.Width, desc_.Height), TextureFormat::R8G8B8A8_UNORM_SRGB);
+			}
+			else if (desc.Format == DXGI_FORMAT_BC1_UNORM)
 			{
 				return  new Texture2D_Imp_DX11(graphics, texture_, textureSRV, Vector2DI(desc_.Width, desc_.Height), TextureFormat::BC1);
 			}
