@@ -13,6 +13,7 @@ namespace asd{
 
 	class CoreShape_Imp
 	{
+		CoreGeometryObject2D_Imp* geometryObject;
 	protected:
 		bool GetIsCollidedb2Shapes(CoreShape* shape);
 		bool GetIsCollidedWithCircleAndRect(CoreCircleShape* circle, CoreRectangleShape* rectangle);
@@ -21,7 +22,6 @@ namespace asd{
 	protected:
 		std::vector<CoreTriangleShape*> triangles;
 		std::vector<b2Shape*> collisionShapes;
-		CoreGeometryObject2D_Imp* geometryObject;
 
 		virtual void DivideToTriangles() = 0;
 
