@@ -48,7 +48,7 @@
     <Compile Include="Engine.cs" />
     <Compile Include="GarbageCollection\GarbageCollector.cs" />
     <Compile Include="GarbageCollection\GC.cs" />
-    <Compile Include="GarbageCollection\IDestroy.cs" />
+    <Compile Include="GarbageCollection\IReleasable.cs" />
     <Compile Include="GarbageCollection\IDObjectContainer.cs" />
     <Compile Include="Graphics\Animation\AnimationClip.cs" />
     <Compile Include="Graphics\Animation\AnimationSource.cs" />
