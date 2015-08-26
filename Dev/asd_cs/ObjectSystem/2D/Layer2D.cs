@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 2Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
 	/// </summary>
-	public class Layer2D : Layer, IDestroy
+	public class Layer2D : Layer, IReleasable
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -35,10 +35,10 @@ namespace asd
 		#region GC対策
 		~Layer2D()
 		{
-			Destroy();
+			ForceToRelease();
 		}
 
-		public bool IsDestroyed
+		public bool IsReleased
 		{
 			get { return coreLayer2D == null; }
 		}
@@ -50,7 +50,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-		public void Destroy()
+		public void ForceToRelease()
 		{
 			lock (this)
 			{

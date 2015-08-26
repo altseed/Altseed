@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 2Dレイヤーの一部を描画するためのカメラ
 	/// </summary>
-	public class CameraObject2D : Object2D, IDestroy
+	public class CameraObject2D : Object2D, IReleasable
 	{
 		/// <summary>
 		/// 描画元の領域を取得、または設定する。
@@ -51,10 +51,10 @@ namespace asd
 #region GC対策
 		~CameraObject2D()
 		{
-			Destroy();
+			ForceToRelease();
 		}
 
-		public override bool IsDestroyed
+		public override bool IsReleased
 		{
 			get { return coreCameraObject == null; }
 		}
@@ -66,7 +66,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-		public override void Destroy()
+		public override void ForceToRelease()
 		{
 			lock( this )
 			{

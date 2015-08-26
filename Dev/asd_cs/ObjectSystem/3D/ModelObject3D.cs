@@ -20,10 +20,10 @@ namespace asd
 			commonObject = coreObject;
 		}
 
-		public override void Destroy()
+		public override void ForceToRelease()
 		{
 			coreObject = null;
-			base.Destroy();
+			base.ForceToRelease();
 		}
 
 		protected override void OnStart() { }

@@ -8,7 +8,7 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
 	/// </summary>
-	public abstract class Object2D : Content, IDestroy
+	public abstract class Object2D : Content, IReleasable
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -305,8 +305,8 @@ namespace asd
 
 		private List<Object2D> children_ { get; set; }
 
-		public abstract bool IsDestroyed { get; }
+		public abstract bool IsReleased { get; }
 
-		public abstract void Destroy();
+		public abstract void ForceToRelease();
 	}
 }

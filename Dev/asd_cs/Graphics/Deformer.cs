@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// メッシュを変形させるためのクラス
 	/// </summary>
-	public class Deformer : IDestroy
+	public class Deformer : IReleasable
 	{
 		internal swig.Deformer SwigObject { get; set; }
 
@@ -24,10 +24,10 @@ namespace asd
 
 		~Deformer()
 		{
-			Destroy();
+			ForceToRelease();
 		}
 
-		public bool IsDestroyed
+		public bool IsReleased
 		{
 			get
 			{
@@ -42,7 +42,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-		public void Destroy()
+		public void ForceToRelease()
 		{
 			lock (this)
 			{

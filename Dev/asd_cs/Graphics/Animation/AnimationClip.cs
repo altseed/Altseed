@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// アニメーションソースを元に情報が付加されたアニメーションクラス
 	/// </summary>
-	public class AnimationClip : IDestroy
+	public class AnimationClip : IReleasable
 	{
 		internal swig.AnimationClip SwigObject { get; set; }
 
@@ -24,10 +24,10 @@ namespace asd
 
 		~AnimationClip()
 		{
-			Destroy();
+			ForceToRelease();
 		}
 
-		public bool IsDestroyed
+		public bool IsReleased
 		{
 			get
 			{
@@ -42,7 +42,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-		public void Destroy()
+		public void ForceToRelease()
 		{
 			lock (this)
 			{

@@ -9,7 +9,7 @@ namespace asd
     /// <summary>
     /// 図形の描画を扱うクラス。
     /// </summary>
-    public class GeometryObject2D : Object2D, IDestroy
+    public class GeometryObject2D : Object2D, IReleasable
     {
         private Shape shape;
 
@@ -32,10 +32,10 @@ namespace asd
         #region GC対応
         ~GeometryObject2D()
         {
-            Destroy();
+            ForceToRelease();
         }
 
-        public override bool IsDestroyed
+        public override bool IsReleased
         {
             get { return coreObject == null; }
         }
@@ -47,7 +47,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-        public override void Destroy()
+        public override void ForceToRelease()
         {
             lock (this)
             {

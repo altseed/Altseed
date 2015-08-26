@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// レイヤーの更新と描画を管理するシーン機能を提供するクラス。
 	/// </summary>
-	public class Scene : IDestroy
+	public class Scene : IReleasable
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -38,10 +38,10 @@ namespace asd
 		#region GC対策
 		~Scene()
 		{
-			Destroy();
+			ForceToRelease();
 		}
 
-		public bool IsDestroyed
+		public bool IsReleased
 		{
 			get
 			{
@@ -49,7 +49,7 @@ namespace asd
 			}
 		}
 
-		public void Destroy()
+		public void ForceToRelease()
 		{
 			lock (this)
 			{

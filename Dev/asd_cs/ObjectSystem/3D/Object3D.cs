@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
 	/// </summary>
-	public abstract class Object3D : Content, IDestroy
+	public abstract class Object3D : Content, IReleasable
 	{
 		internal swig.CoreObject3D commonObject = null;
 
@@ -24,10 +24,10 @@ namespace asd
 		#region GC対応
 		~Object3D()
 		{
-			Destroy();
+			ForceToRelease();
 		}
 
-		public bool IsDestroyed
+		public bool IsReleased
 		{
 			get { return commonObject == null; }
 		}
@@ -39,7 +39,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-		public virtual void Destroy()
+		public virtual void ForceToRelease()
 		{
 			lock (this)
 			{

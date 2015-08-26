@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 3Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
 	/// </summary>
-	public class Layer3D : Layer, IDestroy
+	public class Layer3D : Layer, IReleasable
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -41,15 +41,15 @@ namespace asd
 		#region GC対策
 		~Layer3D()
 		{
-			Destroy();
+			ForceToRelease();
 		}
 
-		public bool IsDestroyed
+		public bool IsReleased
 		{
 			get { return coreLayer3D == null; }
 		}
 
-		public void Destroy()
+		public void ForceToRelease()
 		{
 			lock (this)
 			{

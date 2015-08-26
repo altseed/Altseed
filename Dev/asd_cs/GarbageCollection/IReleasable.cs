@@ -6,26 +6,15 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	public partial class Shader2D : IReleasable
+	/// <summary>
+	/// 破棄可能なインスタンス
+	/// </summary>
+	public interface IReleasable
 	{
-
-		internal Shader2D(swig.Shader2D swig)
-		{
-			CoreInstance = swig;
-		}
-
-		~Shader2D()
-		{
-			ForceToRelease();
-		}
-
-		public bool IsReleased
-		{
-			get
-			{
-				return CoreInstance == null;
-			}
-		}
+		/// <summary>
+		/// 破棄されているか？
+		/// </summary>
+		bool IsReleased {get;}
 
 		/// <summary>
 		/// 強制的に使用しているメモリを開放する。
@@ -34,15 +23,6 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-		public void ForceToRelease()
-		{
-			lock (this)
-			{
-				if (CoreInstance == null) return;
-				GC.Collector.AddObject(CoreInstance);
-				CoreInstance = null;
-			}
-			Particular.GC.SuppressFinalize(this);
-		}
+		void ForceToRelease();
 	}
 }

@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
     /// 複数の画像が格納されているクラス
     /// </summary>
-    public partial class ImagePackage : IDestroy
+    public partial class ImagePackage : IReleasable
     {
         internal ImagePackage (swig.ImagePackage  swig)
         {
@@ -22,10 +22,10 @@ namespace asd
 
         ~ImagePackage ()
         {
-            Destroy();
+            ForceToRelease();
         }
 
-        public bool IsDestroyed
+        public bool IsReleased
         {
             get
             {
@@ -40,7 +40,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-        public void Destroy()
+        public void ForceToRelease()
         {
             lock (this)
             {

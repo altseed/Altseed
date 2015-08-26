@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	public class EffectObject2D : Object2D, IDestroy
+	public class EffectObject2D : Object2D, IReleasable
 	{
 		
 		internal override swig.CoreObject2D CoreObject
@@ -143,10 +143,10 @@ namespace asd
 #region GC対策
 		~EffectObject2D()
 		{
-			Destroy();
+			ForceToRelease();
 		}
 
-		public override bool IsDestroyed
+		public override bool IsReleased
 		{
 			get { return coreEffectObject == null; }
 		}
@@ -158,7 +158,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-		public override void Destroy()
+		public override void ForceToRelease()
 		{
 			lock( this )
 			{

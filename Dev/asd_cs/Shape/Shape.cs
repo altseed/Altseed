@@ -9,7 +9,7 @@ namespace asd
     /// <summary>
     /// 当たり判定や図形描画に用いられる図形を扱う抽象クラス。
     /// </summary>
-    public abstract class Shape : IDestroy
+    public abstract class Shape : IReleasable
     {
         /// <summary>
         /// 図形のタイプを取得する。
@@ -18,9 +18,9 @@ namespace asd
 
         internal abstract swig.CoreShape CoreShape { get; }
 
-        public abstract bool IsDestroyed { get; }
+        public abstract bool IsReleased { get; }
 
-        public abstract void Destroy();
+        public abstract void ForceToRelease();
 
         /// <summary>
         /// 指定した図形と衝突しているか否かを調べる。

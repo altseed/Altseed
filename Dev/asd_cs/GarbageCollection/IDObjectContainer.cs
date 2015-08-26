@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace asd
 {	
-	class IDObjectContainer<T> where T :  class, IDestroy
+	class IDObjectContainer<T> where T :  class, IReleasable
 	{
 		Dictionary<IntPtr, WeakReference> objects = new Dictionary<IntPtr, WeakReference>();
 
@@ -20,7 +20,7 @@ namespace asd
 				t = objects[id].Target as T;
 
 				if (t == null ||
-					t.IsDestroyed)
+					t.IsReleased)
 				{
 					objects[id] = new WeakReference(o);
 					return;
@@ -48,7 +48,7 @@ namespace asd
 			if (objects.TryGetValue(id, out w))
 			{
 				var t = (T)w.Target;
-				if (t != null && !t.IsDestroyed) return t;
+				if (t != null && !t.IsReleased) return t;
 			}
 
 			return null;
@@ -62,7 +62,7 @@ namespace asd
 			{
 				var t = (T)kv.Value.Target;
 				if (t == null ||
-					t.IsDestroyed)
+					t.IsReleased)
 				{
 					removingKeys.Add(kv.Key);	
 				}
@@ -82,11 +82,11 @@ namespace asd
 			{
 				var t = (T)kv.Value.Target;
 				if (t == null ||
-					t.IsDestroyed)
+					t.IsReleased)
 				{
 					continue;
 				}
-				t.Destroy();
+				t.ForceToRelease();
 			}
 
 			objects.Clear();

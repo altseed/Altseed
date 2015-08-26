@@ -9,7 +9,7 @@ namespace asd
     /// <summary>
     /// マップオブジェクト2Dで描画するテクスチャの情報を扱うチップクラス。
     /// </summary>
-    public class Chip2D : IDestroy
+    public class Chip2D : IReleasable
     {
         internal swig.CoreChip2D SwigObject { get; set; }
 
@@ -27,10 +27,10 @@ namespace asd
 
         ~Chip2D()
         {
-            Destroy();
+            ForceToRelease();
         }
 
-        public bool IsDestroyed
+        public bool IsReleased
         {
             get
             {
@@ -45,7 +45,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-        public void Destroy()
+        public void ForceToRelease()
         {
             lock (this)
             {

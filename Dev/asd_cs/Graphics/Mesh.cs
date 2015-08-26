@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 3Dメッシュのクラス
 	/// </summary>
-	public partial class Mesh : IDestroy
+	public partial class Mesh : IReleasable
 	{
 		internal Mesh(swig.Mesh swig)
 		{
@@ -22,10 +22,10 @@ namespace asd
 
 		~Mesh()
 		{
-			Destroy();
+			ForceToRelease();
 		}
 
-		public bool IsDestroyed
+		public bool IsReleased
 		{
 			get
 			{
@@ -40,7 +40,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-		public void Destroy()
+		public void ForceToRelease()
 		{
 			lock (this)
 			{

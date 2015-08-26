@@ -9,7 +9,7 @@ namespace asd
     /// <summary>
     /// 文字列の描画を扱うクラス。
     /// </summary>
-    public partial class TextObject2D : Object2D, IDestroy
+    public partial class TextObject2D : Object2D, IReleasable
 	{
 
 		internal override swig.CoreObject2D CoreObject
@@ -34,10 +34,10 @@ namespace asd
 #region GC対策
 		~TextObject2D()
 		{
-			Destroy();
+			ForceToRelease();
 		}
 
-		public override bool IsDestroyed
+		public override bool IsReleased
 		{
 			get { return coreTextObject == null; }
 		}
@@ -49,7 +49,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-		public override void Destroy()
+		public override void ForceToRelease()
 		{
 			lock( this )
 			{
