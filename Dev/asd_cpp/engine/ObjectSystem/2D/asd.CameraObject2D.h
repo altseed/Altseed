@@ -43,5 +43,23 @@ namespace asd
 		@param	value	描画先
 		*/
 		void SetDst(RectI value);
+
+		/**
+		@brief	画面に描画せずにテクスチャに描画するか、を取得する。
+		@return	画面に描画せずにテクスチャに描画するか
+		*/
+		bool GetIsOffscreenMode();
+
+		/**
+		@brief	画面に描画せずにテクスチャに描画するか、を設定する。
+		@param	value	画面に描画せずにテクスチャに描画するか
+		*/
+		void SetIsOffscreenMode(bool value);
+
+		/**
+		@brief	カメラが描画した結果をテクスチャとして取得する。
+		@return	描画結果
+		*/
+		std::shared_ptr<Texture2D> GetTexture();
 	};
 }

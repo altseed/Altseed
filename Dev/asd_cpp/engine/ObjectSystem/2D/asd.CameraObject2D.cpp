@@ -39,4 +39,20 @@ namespace asd
 		m_coreObject->SetDst(value);
 	}
 
+	bool CameraObject2D::GetIsOffscreenMode()
+	{
+		return m_coreObject->GetIsOffscreenMode();
+	}
+
+	void CameraObject2D::SetIsOffscreenMode(bool value)
+	{
+		m_coreObject->SetIsOffscreenMode(value);
+	}
+
+	std::shared_ptr<Texture2D> CameraObject2D::GetTexture()
+	{
+		auto texture = m_coreObject->GetTexture();
+		SafeAddRef(texture);
+		return CreateSharedPtrWithReleaseDLL(texture);
+	}
 }

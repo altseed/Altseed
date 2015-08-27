@@ -16,6 +16,12 @@ namespace asd
 		virtual RectI GetDst() const = 0;
 		virtual void SetDst(RectI value) = 0;
 
+		virtual bool GetIsOffscreenMode() = 0;
+
+		virtual void SetIsOffscreenMode(bool value) = 0;
+
+		virtual Texture2D* GetTexture() = 0;
+
 #if !SWIG
 		virtual Matrix33 GetCameraMatrix() = 0;
 

@@ -15,6 +15,8 @@ namespace asd
 
 		RenderTexture2D_Imp* m_renderTarget;
 
+		bool	isOffscreenMode = false;
+
 		void ResetBuffer();
 
 	public:
@@ -28,6 +30,12 @@ namespace asd
 
 		RectI GetDst() const;
 		void SetDst(RectI value);
+
+		Texture2D* GetTexture() override;
+
+		bool GetIsOffscreenMode() override;
+
+		void SetIsOffscreenMode(bool value) override;
 
 #if !SWIG
 		Matrix33 GetCameraMatrix();

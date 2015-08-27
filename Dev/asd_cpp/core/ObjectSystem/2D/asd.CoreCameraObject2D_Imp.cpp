@@ -59,6 +59,22 @@ namespace asd
 		m_dst = value;
 	}
 
+	Texture2D* CoreCameraObject2D_Imp::GetTexture()
+	{
+		return m_renderTarget;
+	}
+
+	bool CoreCameraObject2D_Imp::GetIsOffscreenMode()
+	{
+		return isOffscreenMode;
+	}
+
+	void CoreCameraObject2D_Imp::SetIsOffscreenMode(bool value)
+	{
+		isOffscreenMode = value;
+	}
+
+
 	Matrix33 CoreCameraObject2D_Imp::GetCameraMatrix()
 	{
 		auto translate = Matrix33().SetTranslation(-m_src.X, -m_src.Y);

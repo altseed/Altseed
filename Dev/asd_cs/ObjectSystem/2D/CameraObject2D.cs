@@ -29,6 +29,23 @@ namespace asd
 			set { coreCameraObject.SetDst( value ); }
 		}
 
+		/// <summary>
+		/// 画面に描画せずにテクスチャに描画するか、を取得または設定する。
+		/// </summary>
+		public bool IsOffsecreenMode
+		{
+			get { return coreCameraObject.GetIsOffscreenMode(); }
+			set { coreCameraObject.SetIsOffscreenMode(value); }
+		}
+
+		/// <summary>
+		/// カメラが描画した結果をテクスチャとして取得する。
+		/// </summary>
+		public Texture2D Texture
+		{
+			get { return GC.GenerateTexture2D(coreCameraObject.GetTexture(), GC.GenerationType.Get); }
+		}
+
 		internal override swig.CoreObject2D CoreObject
 		{
 			get { return coreCameraObject; }

@@ -551,7 +551,10 @@ namespace asd
 				c->SetForRenderTarget();
 				c->FlushToBuffer(m_renderer);
 
-				c->DrawBuffer(m_rendererForCamera);
+				if (!c->GetIsOffscreenMode())
+				{
+					c->DrawBuffer(m_rendererForCamera);
+				}
 			}
 
 			ClearAdditionalObjects();
