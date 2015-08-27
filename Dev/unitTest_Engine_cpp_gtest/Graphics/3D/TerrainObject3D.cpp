@@ -6,7 +6,7 @@ class Graphics_TerrainObject3D : public EngineGraphics3DTest
 public:
 
 	Graphics_TerrainObject3D(bool isOpenGLMode) :
-		EngineGraphics3DTest(asd::ToAString("TerrainObject3D"), isOpenGLMode, 15000, true)
+		EngineGraphics3DTest(asd::ToAString("TerrainObject3D"), isOpenGLMode, 15, true)
 	{}
 
 protected:
