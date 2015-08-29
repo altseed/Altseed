@@ -17,7 +17,6 @@ namespace asd
 	{
 		None_,
 		Filled,
-		FilledHalf,
 		Slash_Upper,
 		Slash_Lower,
 		Backslash_Upper,
@@ -89,7 +88,7 @@ namespace asd
 		return lines;
 	}
 
-	static void CalculateDivisionState(std::array<DivisionDirection, 16>& dst, bool isCliffes[9], bool isInclinedPlanes[9])
+	static void CalculateDivisionState(std::array<DivisionDirection, 16>& dst, bool isCliffes[9])
 	{
 		auto rot = [](int32_t ind, int32_t angle) -> int32_t
 		{
@@ -129,7 +128,6 @@ namespace asd
 		auto rotDiv = [](DivisionDirection d, int32_t angle) -> DivisionDirection
 		{
 			if (d == DivisionDirection::Filled) return d;
-			if (d == DivisionDirection::FilledHalf) return d;
 			if (d == DivisionDirection::None_) return d;
 
 			for (int32_t i = 0; i < angle; i++)
@@ -165,7 +163,7 @@ namespace asd
 				dst[i] = DivisionDirection::None_;
 			}
 		}
-		else if (isCliffes[1] && isCliffes[3] && isCliffes[6] && isCliffes[8])
+		else if (isCliffes[1] && isCliffes[3] && isCliffes[5] && isCliffes[7])
 		{
 			// 十字方向のうち4方向が崖
 			dst[0 + 4 * 0] = DivisionDirection::None_;
@@ -209,7 +207,7 @@ namespace asd
 
 					dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None_, dir);
 					dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::Slash_Lower, dir);
-					dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::Backslash_Upper, dir);
+					dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::Backslash_Lower, dir);
 					dst[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::None_, dir);
 
 					dst[rot_16(0 + 4 * 2, dir)] = rotDiv(DivisionDirection::None_, dir);
@@ -260,41 +258,155 @@ namespace asd
 
 			for (int32_t dir = 0; dir < 4; dir++)
 			{
-				if (/*isCliffes[rot(0, dir)] &&*/ isCliffes[rot(1, dir)] && /*isCliffes[rot(2, dir)] &&*/ !isCliffes[rot(3, dir)] && !isCliffes[rot(5, dir)])
+				if (isCliffes[rot(1, dir)] && !isCliffes[rot(3, dir)] && !isCliffes[rot(5, dir)])
 				{
 					dst[rot_16(0 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
 					dst[rot_16(1 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
 					dst[rot_16(2 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
 					dst[rot_16(3 + 4 * 0, dir)] = rotDiv(DivisionDirection::None_, dir);
-
-					if (isInclinedPlanes[rot(3, dir)] && !isInclinedPlanes[rot(5, dir)])
-					{
-					}
-					else if (!isInclinedPlanes[rot(3, dir)] && isInclinedPlanes[rot(5, dir)])
-					{
-						dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
-						dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
-						//divisionsNext[2 + 4 * 1] = DivisionDirection::None_;
-						//divisionsNext[3 + 4 * 1] = DivisionDirection::None_;
-					}
-					else if (isInclinedPlanes[rot(3, dir)] && !isInclinedPlanes[rot(5, dir)])
-					{
-						dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::None_, dir);
-						dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::None_, dir);
-						dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
-						dst[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
-					}
-					else if (isInclinedPlanes[rot(3, dir)] && isInclinedPlanes[rot(5, dir)])
-					{
-						dst[rot_16(0 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
-						dst[rot_16(1 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
-						dst[rot_16(2 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
-						dst[rot_16(3 + 4 * 1, dir)] = rotDiv(DivisionDirection::FilledHalf, dir);
-					}
 				}
 			}
 		}
 	Exit:;
+	}
+
+	/**
+	@brief	中央のチップから見て、指定されたチップが地形に一致しているか取得する。もしくは中央のチップが地形に一致しているか取得する。
+	@param	targetIndex	指定されたチップ
+	@param	heights	周囲の高度
+	*/
+	static bool IsFitToHeight(int32_t targetIndex, int32_t cliffs[9])
+	{
+		auto center = cliffs[4];
+
+		if (targetIndex == 4)
+		{
+			// 十字が自分より下の崖だったら一致しない
+			if (cliffs[1] - center <= -2) return false;
+			if (cliffs[3] - center <= -2) return false;
+			if (cliffs[5] - center <= -2) return false;
+			if (cliffs[7] - center <= -2) return false;
+
+			// 対角が自分より下の崖だったら一致しない
+			if (cliffs[0] - center <= -2) return false;
+			if (cliffs[2] - center <= -2) return false;
+			if (cliffs[8] - center <= -2) return false;
+			if (cliffs[6] - center <= -2) return false;
+
+			// 対角が自分の下より崖かつ、崖の左右から崖の下につながっていたら一致しない
+			int32_t targets[3];
+			for (int32_t i = 0; i < 4; i++)
+			{
+				if (i == 0)
+				{
+					targets[0] = 0;
+					targets[1] = 1;
+					targets[2] = 3;
+				}
+
+				if (i == 1)
+				{
+					targets[0] = 2;
+					targets[1] = 1;
+					targets[2] = 5;
+				}
+
+				if (i == 2)
+				{
+					targets[0] = 8;
+					targets[1] = 5;
+					targets[2] = 7;
+				}
+
+				if (i == 3)
+				{
+					targets[0] = 6;
+					targets[1] = 7;
+					targets[2] = 3;
+				}
+
+				if (cliffs[targets[0]] - center <= -2 &&
+					((abs(cliffs[targets[1]] - cliffs[targets[0]]) <= 1) || abs(cliffs[targets[2]] - cliffs[targets[0]]) <= 1)) return false;
+			}
+
+			return true;
+		}
+
+
+		// 対角だったら一致扱い
+		if (targetIndex == 0 ||
+			targetIndex == 2 ||
+			targetIndex == 6 ||
+			targetIndex == 8) true;
+
+		// 自分より高い崖だったら無条件で一致扱い
+		if (cliffs[targetIndex] - center >= 2) return true;
+
+		// 自分より下の崖だったら無条件で一致扱い
+		if (cliffs[targetIndex] - center <= -2) return true;
+
+		// 十字の上下を取得
+		int32_t vinds[4];
+		if (targetIndex == 1)
+		{
+			vinds[0] = 0;
+			vinds[1] = 2;
+
+			vinds[2] = 3;
+			vinds[3] = 5;
+		}
+		else if (targetIndex == 5)
+		{
+			vinds[0] = 2;
+			vinds[1] = 8;
+
+			vinds[2] = 1;
+			vinds[3] = 7;
+		}
+		else if (targetIndex == 7)
+		{
+			vinds[0] = 8;
+			vinds[1] = 6;
+
+			vinds[2] = 5;
+			vinds[3] = 3;
+		}
+		else if (targetIndex == 3)
+		{
+			vinds[0] = 6;
+			vinds[1] = 0;
+
+			vinds[2] = 7;
+			vinds[3] = 1;
+		}
+
+		// もし十字から見て横が崖でなかったら一致扱い
+		if (abs(cliffs[vinds[0]] - cliffs[targetIndex]) <= 1 &&
+			abs(cliffs[vinds[1]] - cliffs[targetIndex]) <= 1)
+		{
+			// もし十字から見て横が崖でなくとも、横の崖に降りられなかったら一致扱いにしない
+			if (abs(cliffs[targetIndex] - cliffs[vinds[2]]) >= 2 ||
+				abs(cliffs[targetIndex] - cliffs[vinds[3]]) >= 2) return false;
+
+			return true;
+		}
+
+		/*
+		// もし十字から見て横が両方とも崖かつ中央からみて崖でなかったら一致扱い
+		if (abs(cliffs[vinds[0]] - cliffs[targetIndex]) >= 2 &&
+			abs(cliffs[vinds[1]] - cliffs[targetIndex]) >= 2)
+		{
+			if (abs(cliffs[4] - cliffs[vinds[2]]) <= 1 ||
+				abs(cliffs[4] - cliffs[vinds[3]]) <= 1) return true;
+		}
+		*/
+
+		return false;
+	}
+
+	static void GeneratePolygon(int32_t cliffs[9])
+	{
+
 	}
 
 	Terrain3D_Imp::Chip::Chip()
@@ -306,6 +418,588 @@ namespace asd
 
 	Terrain3D_Imp::Chip::~Chip()
 	{
+	}
+
+	void Terrain3D_Imp::Chip::GenerateTerrainChip(Terrain3D_Imp* terrain, int32_t chip_x, int32_t chip_y)
+	{
+		auto gridWidthCount = terrain->gridWidthCount;
+		auto gridHeightCount = terrain->gridHeightCount;
+		auto gridSize = terrain->gridSize;
+		auto& heights = terrain->heights;
+		auto& cliffes = terrain->cliffes;
+		
+		if (!this->IsChanged) return;
+		this->IsPlate = false;
+		this->UpperPoints.clear();
+		this->LowerPoints.clear();
+
+		this->UpperVertecies.clear();
+		this->UpperFaces.clear();
+		this->LowerVertecies.clear();
+		this->LowerFaces.clear();
+
+		this->Lines.clear();
+
+		this->IsChanged = false;
+		this->Vertecies.clear();
+		this->Faces.clear();
+
+		int32_t clsh[9];
+
+		for (int32_t oy = -1; oy <= 1; oy++)
+		{
+			for (int32_t ox = -1; ox <= 1; ox++)
+			{
+				auto x_ = Clamp(chip_x + ox, terrain->gridWidthCount - 1, 0);
+				auto y_ = Clamp(chip_y + oy, terrain->gridHeightCount - 1, 0);
+				clsh[(ox + 1) + (oy + 1) * 3] = terrain->cliffes[x_ + y_ * terrain->gridWidthCount];
+			}
+		}
+
+		// 崖による4点の高度を決める
+		int32_t clheight[4];
+		int32_t clheightHigh[4];
+
+		for (int32_t oy = 0; oy < 2; oy++)
+		{
+			for (int32_t ox = 0; ox < 2; ox++)
+			{
+				int32_t m = INT_MAX;
+				int32_t c = clsh[4];
+
+				for (int32_t oy_ = 0; oy_ < 2; oy_++)
+				{
+					for (int32_t ox_ = 0; ox_ < 2; ox_++)
+					{
+						m = Min(m, clsh[(ox + ox_) + (oy + oy_) * 3]);
+
+						if (clsh[(ox + ox_) + (oy + oy_) * 3] - clsh[4] > -2)
+						{
+							c = Min(c, clsh[(ox + ox_) + (oy + oy_) * 3]);
+						}
+					}
+				}
+
+				clheight[ox + oy * 2] = m;
+				clheightHigh[ox + oy * 2] = c;
+			}
+		}
+
+		auto getHeight = [this, gridWidthCount, gridHeightCount, &heights](int32_t x_, int32_t y_) -> float
+		{
+			x_ = Clamp(x_, gridWidthCount - 1, 0);
+			y_ = Clamp(y_, gridHeightCount - 1, 0);
+
+			return heights[x_ + y_ * gridWidthCount];
+		};
+
+		auto v00 = Vector3DF(
+			chip_x * gridSize - gridWidthCount * gridSize / 2.0f,
+			(getHeight(chip_x - 1, chip_y - 1) + getHeight(chip_x + 0, chip_y - 1) + getHeight(chip_x - 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 0)) / 4.0f,
+			chip_y * gridSize - gridHeightCount * gridSize / 2.0f);
+
+		auto v10 = Vector3DF(
+			(chip_x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
+			(getHeight(chip_x + 0, chip_y - 1) + getHeight(chip_x + 1, chip_y - 1) + getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x + 1, chip_y + 0)) / 4.0f,
+			chip_y * gridSize - gridHeightCount * gridSize / 2.0f);
+
+		auto v01 = Vector3DF(
+			chip_x * gridSize - gridWidthCount * gridSize / 2.0f,
+			(getHeight(chip_x - 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x - 1, chip_y + 1) + getHeight(chip_x + 0, chip_y + 1)) / 4.0f,
+			(chip_y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
+
+		auto v11 = Vector3DF(
+			(chip_x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
+			(getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x + 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 1) + getHeight(chip_x + 1, chip_y + 1)) / 4.0f,
+			(chip_y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
+
+		if (IsFitToHeight(4, clsh))
+		{
+			// 平坦な場合
+			v00.Y += clheight[0] * gridSize / 2.0f;
+			v10.Y += clheight[1] * gridSize / 2.0f;
+			v01.Y += clheight[2] * gridSize / 2.0f;
+			v11.Y += clheight[3] * gridSize / 2.0f;
+
+			IsPlate = true;
+			PlatePoints[0] = v00;
+			PlatePoints[1] = v10;
+			PlatePoints[2] = v01;
+			PlatePoints[3] = v11;
+		}
+		else
+		{
+			auto isCliff = [&clsh](int32_t i) -> bool
+			{
+				auto from = clsh[4];
+				auto to = clsh[i];
+				if (from <= to) return false;
+				return from - to >= 2;
+			};
+
+			bool isCliffs[9];
+			for (int32_t i = 0; i < 9; i++)
+			{
+				isCliffs[i] = isCliff(i);
+			}
+
+			std::array<DivisionDirection, 16> divisions;
+			divisions.fill(DivisionDirection::None_);
+
+			// 領域を抽出する。
+			CalculateDivisionState(divisions, isCliffs);
+
+			// 周囲の分析を行う
+			bool isFits[4];
+			isFits[0] = IsFitToHeight(1, clsh);
+			isFits[1] = IsFitToHeight(5, clsh);
+			isFits[2] = IsFitToHeight(7, clsh);
+			isFits[3] = IsFitToHeight(3, clsh);
+
+			// 4隅の分析を行う
+			bool isHighs[4];
+			isHighs[0] = divisions[0] == DivisionDirection::Filled && divisions[0] != DivisionDirection::Slash_Lower;
+			isHighs[1] = divisions[3] == DivisionDirection::Filled && divisions[3] != DivisionDirection::Backslash_Lower;
+			isHighs[2] = divisions[12] == DivisionDirection::Filled && divisions[12] != DivisionDirection::Backslash_Upper;
+			isHighs[3] = divisions[15] == DivisionDirection::Filled && divisions[15] != DivisionDirection::Slash_Upper;
+
+			// 輪郭を抽出する。
+			Lines = ExtractLines(divisions);
+
+			// 面を生成する。
+			std::vector<Face> lowFaces;
+			std::vector<std::pair<int32_t, int32_t>> lowSquareFaces;
+
+			std::vector<Face> highFaces;
+			std::vector<std::pair<int32_t, int32_t>> highSquareFaces;
+
+			for (int32_t i = 0; i < 16; i++)
+			{
+				auto x = i % 4;
+				auto y = i / 4;
+
+				if (divisions[i] == DivisionDirection::None_)
+				{
+					lowSquareFaces.push_back(std::pair<int32_t, int32_t>(x, y));
+				}
+				else if (divisions[i] == DivisionDirection::Filled)
+				{
+					highSquareFaces.push_back(std::pair<int32_t, int32_t>(x, y));
+				}
+				else if (divisions[i] == DivisionDirection::Slash_Lower)
+				{
+					Face f;
+					f.Index1 = (x + 0) + (y + 0) * 5;
+					f.Index2 = (x + 1) + (y + 0) * 5;
+					f.Index3 = (x + 0) + (y + 1) * 5;
+					lowFaces.push_back(f);
+
+					Face f_;
+					f_.Index1 = (x + 1) + (y + 0) * 5;
+					f_.Index2 = (x + 1) + (y + 1) * 5;
+					f_.Index3 = (x + 0) + (y + 1) * 5;
+					highFaces.push_back(f_);
+				}
+				else if (divisions[i] == DivisionDirection::Slash_Upper)
+				{
+					Face f;
+					f.Index1 = (x + 1) + (y + 0) * 5;
+					f.Index2 = (x + 1) + (y + 1) * 5;
+					f.Index3 = (x + 0) + (y + 1) * 5;
+					lowFaces.push_back(f);
+
+					Face f_;
+					f_.Index1 = (x + 0) + (y + 0) * 5;
+					f_.Index2 = (x + 1) + (y + 0) * 5;
+					f_.Index3 = (x + 0) + (y + 1) * 5;
+					highFaces.push_back(f_);
+				}
+				else if (divisions[i] == DivisionDirection::Backslash_Lower)
+				{
+					Face f;
+					f.Index1 = (x + 0) + (y + 0) * 5;
+					f.Index2 = (x + 1) + (y + 0) * 5;
+					f.Index3 = (x + 1) + (y + 1) * 5;
+					lowFaces.push_back(f);
+
+					Face f_;
+					f_.Index1 = (x + 0) + (y + 0) * 5;
+					f_.Index2 = (x + 1) + (y + 1) * 5;
+					f_.Index3 = (x + 0) + (y + 1) * 5;
+					highFaces.push_back(f_);
+				}
+				else if (divisions[i] == DivisionDirection::Backslash_Upper)
+				{
+					Face f;
+					f.Index1 = (x + 0) + (y + 0) * 5;
+					f.Index2 = (x + 1) + (y + 1) * 5;
+					f.Index3 = (x + 0) + (y + 1) * 5;
+					lowFaces.push_back(f);
+
+					Face f_;
+					f_.Index1 = (x + 0) + (y + 0) * 5;
+					f_.Index2 = (x + 1) + (y + 0) * 5;
+					f_.Index3 = (x + 1) + (y + 1) * 5;
+					highFaces.push_back(f_);
+				}
+			}
+
+			// 面を形成する
+			std::array<int32_t, 5 * 5> lowIndexes;
+			lowIndexes.fill(-1);
+
+			auto getPosL = [v00, v10, v01, v11, gridSize, &isHighs, &clsh, &clheight, &isFits, this](float x, float y) -> Vector3DF
+			{
+				Vector3DF vxz0 = (v10 - v00) * x + v00;
+				Vector3DF vxz1 = (v11 - v01) * x + v01;
+				auto vxz = (vxz1 - vxz0) * y + vxz0;
+
+				auto v00_ = v00;
+				auto v10_ = v10;
+				auto v01_ = v01;
+				auto v11_ = v11;
+
+				int32_t hs[4] = { clheight[0], clheight[1], clheight[2], clheight[3] };
+
+				v00_.Y += hs[0] * gridSize / 2.0f;
+				v10_.Y += hs[1] * gridSize / 2.0f;
+				v01_.Y += hs[2] * gridSize / 2.0f;
+				v11_.Y += hs[3] * gridSize / 2.0f;
+
+				v00_.X = vxz.X;
+				v00_.Z = vxz.Z;
+				v10_.X = vxz.X;
+				v10_.Z = vxz.Z;
+				v01_.X = vxz.X;
+				v01_.Z = vxz.Z;
+				v11_.X = vxz.X;
+				v11_.Z = vxz.Z;
+
+				Vector3DF v0;
+				Vector3DF v1;
+
+				if (isFits[0])
+				{
+					v0 = (v10_ - v00_) * x + v00_;
+				}
+				else
+				{
+					if (x < 0.5f || isHighs[1])
+					{
+						v0 = v00_;
+					}
+					else
+					{
+						v0 = v10_;
+					}
+				}
+
+				if (isFits[2])
+				{
+					v1 = (v11_ - v01_) * x + v01_;
+				}
+				else
+				{
+					if (x < 0.5f || isHighs[3])
+					{
+						v1 = v01_;
+					}
+					else
+					{
+						v1 = v11_;
+					}
+				}
+
+				if (x < 0.5f)
+				{
+					if (isFits[3])
+					{
+						return (v1 - v0) * y + v0;
+					}
+					else
+					{
+						if (y < 0.5f || isHighs[2])
+						{
+							return v0;
+						}
+						return v1;
+					}
+				}
+				else
+				{
+					if (isFits[1])
+					{
+						return (v1 - v0) * y + v0;
+					}
+					else
+					{
+						if (y < 0.5f || isHighs[3])
+						{
+							return v0;
+						}
+						return v1;
+					}
+				}
+			};
+
+			auto getPosH = [v00, v10, v01, v11, gridSize, &clheight, &clheightHigh, &isFits, &isHighs, &clsh, &isCliffs, this](float x, float y) -> Vector3DF
+			{
+				auto v00_ = v00;
+				auto v10_ = v10;
+				auto v01_ = v01;
+				auto v11_ = v11;
+
+				if (!isHighs[0] &&
+					!isHighs[1] &&
+					!isHighs[2] &&
+					!isHighs[3])
+				{
+					int32_t hs[4] = { clsh[4], clsh[4], clsh[4], clsh[4] };
+					if (!isCliffs[1])
+					{
+						hs[0] = clsh[1];
+						hs[1] = clsh[1];
+					}
+
+					if (!isCliffs[5])
+					{
+						hs[1] = clsh[5];
+						hs[3] = clsh[5];
+					}
+
+					if (!isCliffs[7])
+					{
+						hs[2] = clsh[7];
+						hs[3] = clsh[7];
+					}
+
+					if (!isCliffs[3])
+					{
+						hs[0] = clsh[3];
+						hs[2] = clsh[3];
+					}
+
+					v00_.Y += hs[0] * gridSize / 2.0f;
+					v10_.Y += hs[1] * gridSize / 2.0f;
+					v01_.Y += hs[2] * gridSize / 2.0f;
+					v11_.Y += hs[3] * gridSize / 2.0f;
+				}
+				else
+				{
+					int32_t hs[4] = { clheightHigh[0], clheightHigh[1], clheightHigh[2], clheightHigh[3] };
+
+					// 後処理で接続する。
+					/*
+					bool isFits_[4] = { isFits[0], isFits[1], isFits[2], isFits[3] };
+
+					if (!isHighs[0] && !isHighs[1]) isFits_[0] = false;
+					if (!isHighs[1] && !isHighs[3]) isFits_[1] = false;
+					if (!isHighs[2] && !isHighs[3]) isFits_[2] = false;
+					if (!isHighs[0] && !isHighs[2]) isFits_[3] = false;
+
+
+					if (isFits_[0])
+					{
+					hs[0] = clheight[0];
+					hs[1] = clheight[1];
+					}
+
+					if (isFits_[1])
+					{
+					hs[1] = clheight[1];
+					hs[3] = clheight[3];
+					}
+
+					if (isFits_[2])
+					{
+					hs[2] = clheight[2];
+					hs[3] = clheight[3];
+					}
+
+					if (isFits_[3])
+					{
+					hs[0] = clheight[0];
+					hs[2] = clheight[2];
+					}
+					*/
+
+					v00_.Y += hs[0] * gridSize / 2.0f;
+					v10_.Y += hs[1] * gridSize / 2.0f;
+					v01_.Y += hs[2] * gridSize / 2.0f;
+					v11_.Y += hs[3] * gridSize / 2.0f;
+				}
+
+				Vector3DF v0 = (v10_ - v00_) * x + v00_;
+				Vector3DF v1 = (v11_ - v01_) * x + v01_;
+				return (v1 - v0) * y + v0;
+			};
+
+			for (auto& f : lowFaces)
+			{
+				auto fi = &f.Index1;
+
+				for (int32_t i = 0; i < 3; i++)
+				{
+					if (lowIndexes[fi[i]] == -1)
+					{
+						auto x = fi[i] % 5;
+						auto y = fi[i] / 5;
+
+						auto v = getPosL(x / 4.0f, y / 4.0f);
+						this->LowerVertecies.push_back(v);
+						lowIndexes[fi[i]] = this->LowerVertecies.size() - 1;
+					}
+				}
+
+				ChipFace f_;
+				f_.Indexes[0] = lowIndexes[f.Index1];
+				f_.Indexes[1] = lowIndexes[f.Index2];
+				f_.Indexes[2] = lowIndexes[f.Index3];
+
+				this->LowerFaces.push_back(f_);
+			}
+
+			for (auto& sf : lowSquareFaces)
+			{
+				auto x = sf.first;
+				auto y = sf.second;
+
+				int32_t indexes[4];
+				indexes[0] = (x + 0) + (y + 0) * 5;
+				indexes[1] = (x + 1) + (y + 0) * 5;
+				indexes[2] = (x + 0) + (y + 1) * 5;
+				indexes[3] = (x + 1) + (y + 1) * 5;
+
+				for (int32_t i = 0; i < 4; i++)
+				{
+					if (lowIndexes[indexes[i]] == -1)
+					{
+						auto x = indexes[i] % 5;
+						auto y = indexes[i] / 5;
+
+						auto v = getPosL(x / 4.0f, y / 4.0f);
+						this->LowerVertecies.push_back(v);
+						lowIndexes[indexes[i]] = this->LowerVertecies.size() - 1;
+					}
+				}
+
+				ChipFace f1;
+				f1.Indexes[0] = lowIndexes[indexes[0]];
+				f1.Indexes[1] = lowIndexes[indexes[1]];
+				f1.Indexes[2] = lowIndexes[indexes[3]];
+
+				ChipFace f2;
+				f2.Indexes[0] = lowIndexes[indexes[0]];
+				f2.Indexes[1] = lowIndexes[indexes[3]];
+				f2.Indexes[2] = lowIndexes[indexes[2]];
+
+				this->LowerFaces.push_back(f1);
+				this->LowerFaces.push_back(f2);
+			}
+
+			std::array<int32_t, 5 * 5> highIndexes;
+			highIndexes.fill(-1);
+
+			for (auto& f : highFaces)
+			{
+				auto fi = &f.Index1;
+
+				for (int32_t i = 0; i < 3; i++)
+				{
+					if (highIndexes[fi[i]] == -1)
+					{
+						auto x = fi[i] % 5;
+						auto y = fi[i] / 5;
+
+						//auto v = getPosL(x / 4.0f, y / 4.0f);
+						//v.Y += 2.0f;
+
+						auto v = getPosH(x / 4.0f, y / 4.0f);
+
+						this->UpperVertecies.push_back(v);
+						highIndexes[fi[i]] = this->UpperVertecies.size() - 1;
+					}
+				}
+
+				ChipFace f_;
+				f_.Indexes[0] = highIndexes[f.Index1];
+				f_.Indexes[1] = highIndexes[f.Index2];
+				f_.Indexes[2] = highIndexes[f.Index3];
+
+				this->UpperFaces.push_back(f_);
+			}
+
+			for (auto& sf : highSquareFaces)
+			{
+				auto x = sf.first;
+				auto y = sf.second;
+
+				int32_t indexes[4];
+				indexes[0] = (x + 0) + (y + 0) * 5;
+				indexes[1] = (x + 1) + (y + 0) * 5;
+				indexes[2] = (x + 0) + (y + 1) * 5;
+				indexes[3] = (x + 1) + (y + 1) * 5;
+
+				for (int32_t i = 0; i < 4; i++)
+				{
+					if (highIndexes[indexes[i]] == -1)
+					{
+						auto x = indexes[i] % 5;
+						auto y = indexes[i] / 5;
+
+						//auto v = getPosL(x / 4.0f, y / 4.0f);
+						//v.Y += 2.0f;
+
+						auto v = getPosH(x / 4.0f, y / 4.0f);
+
+						this->UpperVertecies.push_back(v);
+						highIndexes[indexes[i]] = this->UpperVertecies.size() - 1;
+					}
+				}
+
+				ChipFace f1;
+				f1.Indexes[0] = highIndexes[indexes[0]];
+				f1.Indexes[1] = highIndexes[indexes[1]];
+				f1.Indexes[2] = highIndexes[indexes[3]];
+
+				ChipFace f2;
+				f2.Indexes[0] = highIndexes[indexes[0]];
+				f2.Indexes[1] = highIndexes[indexes[3]];
+				f2.Indexes[2] = highIndexes[indexes[2]];
+
+				this->UpperFaces.push_back(f1);
+				this->UpperFaces.push_back(f2);
+			}
+
+			this->LowerPoints.resize(25);
+			this->UpperPoints.resize(25);
+
+			for (int32_t i = 0; i < 25; i++)
+			{
+				this->LowerPoints[i] = lowIndexes[i];
+				this->UpperPoints[i] = highIndexes[i];
+			}
+
+
+			// 側面形成
+			/*
+			for (auto& line : lines)
+			{
+				ChipFace f1;
+				f1.Indexes[0] = highIndexes[line.first];
+				f1.Indexes[1] = highIndexes[line.second];
+				f1.Indexes[2] = lowIndexes[line.second];
+
+				ChipFace f2;
+				f2.Indexes[0] = highIndexes[line.first];
+				f2.Indexes[1] = lowIndexes[line.second];
+				f2.Indexes[2] = lowIndexes[line.first];
+
+				chip.Faces.push_back(f1);
+				chip.Faces.push_back(f2);
+			}
+			*/
+		}
 	}
 
 	Terrain3D_Imp::CollisionCluster::CollisionCluster(Terrain3D_Imp* terrain, int32_t x, int32_t y, int32_t width, int32_t height)
@@ -421,6 +1115,7 @@ namespace asd
 		SafeRelease(m_graphics);
 	}
 
+#if 0
 	void Terrain3D_Imp::GenerateTerrainChip(int32_t chip_x, int32_t chip_y)
 	{
 		auto& chip = Chips[chip_x + chip_y * gridWidthCount];
@@ -445,22 +1140,30 @@ namespace asd
 
 		// 崖による4点の高度を決める
 		int32_t clheight[4];
-		
+		int32_t clheightHigh[4];
+
 		for (int32_t oy = 0; oy < 2; oy++)
 		{
 			for (int32_t ox = 0; ox < 2; ox++)
 			{
 				int32_t m = INT_MAX;
+				int32_t c = clsh[4];
 
 				for (int32_t oy_ = 0; oy_ < 2; oy_++)
 				{
 					for (int32_t ox_ = 0; ox_ < 2; ox_++)
 					{
 						m = Min(m, clsh[(ox + ox_) + (oy + oy_) * 3]);
+
+						if (clsh[(ox + ox_) + (oy + oy_) * 3] - clsh[4] > -2)
+						{
+							c = Min(c, clsh[(ox + ox_) + (oy + oy_) * 3]);
+						}
 					}
 				}
 
 				clheight[ox + oy * 2] = m;
+				clheightHigh[ox + oy * 2] = c;
 			}
 		}
 
@@ -492,19 +1195,7 @@ namespace asd
 			(getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x + 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 1) + getHeight(chip_x + 1, chip_y + 1)) / 4.0f,
 			(chip_y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
 
-
-		bool isFlat = true;
-
-		for (int32_t i = 0; i < 9; i++)
-		{
-			if (clsh[4] - clsh[i] >= 2)
-			{
-				isFlat = false;
-				break;
-			}
-		}
-
-		if (isFlat)
+		if (IsFitToHeight(4, clsh))
 		{
 			// 平坦な場合
 			v00.Y += clheight[0] * gridSize / 2.0f;
@@ -532,360 +1223,464 @@ namespace asd
 		}
 		else
 		{
-			int32_t minclh = INT_MAX;
-			int32_t maxclh = INT_MIN;
-			for (int32_t oy = 0; oy < 3; oy++)
+			auto isCliff = [&clsh](int32_t i) -> bool
 			{
-				for (int32_t ox = 0; ox < 3; ox++)
-				{
-					minclh = Min(clsh[ox + oy * 3], minclh);
-					maxclh = Max(clsh[ox + oy * 3], maxclh);
-				}
-			}
+				auto from = clsh[4];
+				auto to = clsh[i];
+				if (from <= to) return false;
+				return from - to >= 2;
+			};
 
-			maxclh = Min(maxclh, clsh[1 + 1 * 3]);
+			bool isCliffs[9];
+			for (int32_t i = 0; i < 9; i++)
+			{
+				isCliffs[i] = isCliff(i);
+			}
 
 			std::array<DivisionDirection, 16> divisions;
 			divisions.fill(DivisionDirection::None_);
-			std::array<int32_t, 5*5> indexes;
-			indexes.fill(-1);
-			std::vector<std::pair<int32_t, int32_t>> lines;
 
-			std::array<DivisionDirection, 16> divisionsNext;
-			divisionsNext.fill(DivisionDirection::None_);
-			std::array<int32_t, 5 * 5> indexesNext;
-			indexesNext.fill(-1);
-			std::vector<std::pair<int32_t, int32_t>> linesNext;
+			// 領域を抽出する。
+			CalculateDivisionState(divisions, isCliffs);
 
-			for (int32_t h = maxclh; h >= minclh; h--)
+			// 周囲の分析を行う
+			bool isFits[4];
+			isFits[0] = IsFitToHeight(1, clsh);
+			isFits[1] = IsFitToHeight(5, clsh);
+			isFits[2] = IsFitToHeight(7, clsh);
+			isFits[3] = IsFitToHeight(3, clsh);
+
+			// 4隅の分析を行う
+			bool isHighs[4];
+			isHighs[0] = divisions[0] == DivisionDirection::Filled && divisions[0] != DivisionDirection::Slash_Lower;
+			isHighs[1] = divisions[3] == DivisionDirection::Filled && divisions[3] != DivisionDirection::Backslash_Lower;
+			isHighs[2] = divisions[12] == DivisionDirection::Filled && divisions[12] != DivisionDirection::Backslash_Upper;
+			isHighs[3] = divisions[15] == DivisionDirection::Filled && divisions[15] != DivisionDirection::Slash_Upper;
+
+			// 輪郭を抽出する。
+			std::vector<std::pair<int32_t, int32_t>> lines = ExtractLines(divisions);
+
+			// 面を生成する。
+			std::vector<Face> lowFaces;
+			std::vector<std::pair<int32_t, int32_t>> lowSquareFaces;
+
+			std::vector<Face> highFaces;
+			std::vector<std::pair<int32_t, int32_t>> highSquareFaces;
+
+			for (int32_t i = 0; i < 16; i++)
 			{
-				// 面が存在する領域を抽出
+				auto x = i % 4;
+				auto y = i / 4;
 
-				auto isCliff = [&clsh, h](int32_t i) -> bool
+				if (divisions[i] == DivisionDirection::None_)
 				{
-					auto from = Min(clsh[4], h);
-					auto to = Min(clsh[i], h);
-					if (from <= to) return false;
-					return from - to >= 2;
-				};
-
-				auto isInclinedPlane = [&clsh, h](int32_t i) -> bool
-				{
-					auto from = Min(clsh[4], h);
-					auto to = Min(clsh[i], h);
-					if (from <= to) return false;
-					return from - to == 1;
-				};
-				
-				bool isCliffes[9];
-				bool isInclinedPlanes[9];
-				for (int32_t i = 0; i < 9; i++)
-				{
-					isCliffes[i] = isCliff(i);
-					isInclinedPlanes[i] = isInclinedPlane(i);
+					lowSquareFaces.push_back(std::pair<int32_t, int32_t>(x, y));
 				}
-
-				divisionsNext.fill(DivisionDirection::Filled);
-				indexesNext.fill(-1);
-
-				// このレイヤーに面があるか探索する
-				bool isThisLayerExists = false;
-				for (int32_t oy = 0; oy < 3; oy++)
+				else if (divisions[i] == DivisionDirection::Filled)
 				{
-					for (int32_t ox = 0; ox < 3; ox++)
-					{
-						if (clsh[ox + oy * 3] == h)
-						{
-							isThisLayerExists = true;
-							break;
-						}
-					}
+					highSquareFaces.push_back(std::pair<int32_t, int32_t>(x, y));
 				}
-
-
-				// 領域ごとの状態を計算する。
-				if (isThisLayerExists)
+				else if (divisions[i] == DivisionDirection::Slash_Lower)
 				{
-					CalculateDivisionState(divisionsNext, isCliffes, isInclinedPlanes);
+					Face f;
+					f.Index1 = (x + 0) + (y + 0) * 5;
+					f.Index2 = (x + 1) + (y + 0) * 5;
+					f.Index3 = (x + 0) + (y + 1) * 5;
+					lowFaces.push_back(f);
+
+					Face f_;
+					f_.Index1 = (x + 1) + (y + 0) * 5;
+					f_.Index2 = (x + 1) + (y + 1) * 5;
+					f_.Index3 = (x + 0) + (y + 1) * 5;
+					highFaces.push_back(f_);
 				}
-				else
+				else if (divisions[i] == DivisionDirection::Slash_Upper)
 				{
-					divisionsNext.fill(DivisionDirection::None_);
+					Face f;
+					f.Index1 = (x + 1) + (y + 0) * 5;
+					f.Index2 = (x + 1) + (y + 1) * 5;
+					f.Index3 = (x + 0) + (y + 1) * 5;
+					lowFaces.push_back(f);
+
+					Face f_;
+					f_.Index1 = (x + 0) + (y + 0) * 5;
+					f_.Index2 = (x + 1) + (y + 0) * 5;
+					f_.Index3 = (x + 0) + (y + 1) * 5;
+					highFaces.push_back(f_);
 				}
-				
-				// 上の層の影響を下に与える。
-				for (int32_t i = 0; i < 16; i++)
+				else if (divisions[i] == DivisionDirection::Backslash_Lower)
 				{
-					if (divisionsNext[i] == DivisionDirection::None_)
-					{
-						divisionsNext[i] = divisions[i];
-					}
-				}
+					Face f;
+					f.Index1 = (x + 0) + (y + 0) * 5;
+					f.Index2 = (x + 1) + (y + 0) * 5;
+					f.Index3 = (x + 1) + (y + 1) * 5;
+					lowFaces.push_back(f);
 
-				// 最下層強制補正
-				if (h == minclh)
+					Face f_;
+					f_.Index1 = (x + 0) + (y + 0) * 5;
+					f_.Index2 = (x + 1) + (y + 1) * 5;
+					f_.Index3 = (x + 0) + (y + 1) * 5;
+					highFaces.push_back(f_);
+				}
+				else if (divisions[i] == DivisionDirection::Backslash_Upper)
 				{
-					for (int32_t i = 0; i < 16; i++)
-					{
-						divisionsNext[i] = DivisionDirection::Filled;
-					}
+					Face f;
+					f.Index1 = (x + 0) + (y + 0) * 5;
+					f.Index2 = (x + 1) + (y + 1) * 5;
+					f.Index3 = (x + 0) + (y + 1) * 5;
+					lowFaces.push_back(f);
+
+					Face f_;
+					f_.Index1 = (x + 0) + (y + 0) * 5;
+					f_.Index2 = (x + 1) + (y + 0) * 5;
+					f_.Index3 = (x + 1) + (y + 1) * 5;
+					highFaces.push_back(f_);
 				}
+			}
 
-				// 抽出した領域から面を形成する。
+			// 面を形成する
+			std::array<int32_t, 5 * 5> lowIndexes;
+			lowIndexes.fill(-1);
 
-				// 輪郭を抽出する。
-				linesNext = ExtractLines(divisionsNext);
-
-				// 上の層と比較する
-				// 広がった部分が面
-				std::vector<Face> tempFaces;
-				std::vector<std::pair<int32_t, int32_t>> squareFaces;
-				std::vector<std::pair<int32_t, int32_t>> hSquareFaces;
-
-				for (int32_t i = 0; i < 16; i++)
-				{
-					auto x = i % 4;
-					auto y = i / 4;
-
-					if (divisionsNext[i] == DivisionDirection::None_) continue;
-					if (divisions[i] == divisionsNext[i]) continue;
-
-					if (divisions[i] == DivisionDirection::None_ && divisionsNext[i] != DivisionDirection::None_)
-					{
-						// 面追加
-						if (divisionsNext[i] == DivisionDirection::Backslash_Lower)
-						{
-							Face f;
-							f.Index1 = (x + 0) + (y + 0) * 5;
-							f.Index2 = (x + 1) + (y + 1) * 5;
-							f.Index3 = (x + 0) + (y + 1) * 5;
-							tempFaces.push_back(f);
-						}
-
-						if (divisionsNext[i] == DivisionDirection::Backslash_Upper)
-						{
-							Face f;
-							f.Index1 = (x + 0) + (y + 0) * 5;
-							f.Index2 = (x + 1) + (y + 0) * 5;
-							f.Index3 = (x + 1) + (y + 1) * 5;
-							tempFaces.push_back(f);
-						}
-
-						if (divisionsNext[i] == DivisionDirection::Slash_Lower)
-						{
-							Face f;
-							f.Index1 = (x + 1) + (y + 0) * 5;
-							f.Index2 = (x + 1) + (y + 1) * 5;
-							f.Index3 = (x + 0) + (y + 1) * 5;
-							tempFaces.push_back(f);
-						}
-
-						if (divisionsNext[i] == DivisionDirection::Slash_Upper)
-						{
-							Face f;
-							f.Index1 = (x + 0) + (y + 0) * 5;
-							f.Index2 = (x + 1) + (y + 0) * 5;
-							f.Index3 = (x + 0) + (y + 1) * 5;
-							tempFaces.push_back(f);
-						}
-
-						if (divisionsNext[i] == DivisionDirection::Filled)
-						{
-							squareFaces.push_back(std::pair<int32_t, int32_t>(x, y));
-						}
-
-						if (divisionsNext[i] == DivisionDirection::FilledHalf)
-						{
-							hSquareFaces.push_back(std::pair<int32_t, int32_t>(x, y));
-						}
-					}
-					else if (divisions[i] == DivisionDirection::Slash_Lower && divisionsNext[i] == DivisionDirection::Filled)
-					{
-						Face f;
-						f.Index1 = (x + 0) + (y + 0) * 5;
-						f.Index2 = (x + 1) + (y + 0) * 5;
-						f.Index3 = (x + 0) + (y + 1) * 5;
-						tempFaces.push_back(f);
-					}
-					else if (divisions[i] == DivisionDirection::Slash_Upper && divisionsNext[i] == DivisionDirection::Filled)
-					{
-						Face f;
-						f.Index1 = (x + 1) + (y + 0) * 5;
-						f.Index2 = (x + 1) + (y + 1) * 5;
-						f.Index3 = (x + 0) + (y + 1) * 5;
-						tempFaces.push_back(f);
-					}
-					else if (divisions[i] == DivisionDirection::Backslash_Lower && divisionsNext[i] == DivisionDirection::Filled)
-					{
-						Face f;
-						f.Index1 = (x + 0) + (y + 0) * 5;
-						f.Index2 = (x + 1) + (y + 0) * 5;
-						f.Index3 = (x + 1) + (y + 1) * 5;
-						tempFaces.push_back(f);
-					}
-					else if (divisions[i] == DivisionDirection::Backslash_Upper && divisionsNext[i] == DivisionDirection::Filled)
-					{
-						Face f;
-						f.Index1 = (x + 0) + (y + 0) * 5;
-						f.Index2 = (x + 1) + (y + 1) * 5;
-						f.Index3 = (x + 0) + (y + 1) * 5;
-						tempFaces.push_back(f);
-					}
-				}
-
-				// 面追加
+			auto getPosL = [v00, v10, v01, v11, &isHighs, &clsh, &clheight, &isFits, this](float x, float y) -> Vector3DF
+			{
+				Vector3DF vxz0 = (v10 - v00) * x + v00;
+				Vector3DF vxz1 = (v11 - v01) * x + v01;
+				auto vxz = (vxz1 - vxz0) * y + vxz0;
 
 				auto v00_ = v00;
 				auto v10_ = v10;
 				auto v01_ = v01;
 				auto v11_ = v11;
 
-				v00_.Y += h * gridSize / 2.0f;
-				v10_.Y += h * gridSize / 2.0f;
-				v01_.Y += h * gridSize / 2.0f;
-				v11_.Y += h * gridSize / 2.0f;
+				int32_t hs[4] = { clheight[0], clheight[1], clheight[2], clheight[3] };
 
-				for (auto& f : tempFaces)
+				v00_.Y += hs[0] * gridSize / 2.0f;
+				v10_.Y += hs[1] * gridSize / 2.0f;
+				v01_.Y += hs[2] * gridSize / 2.0f;
+				v11_.Y += hs[3] * gridSize / 2.0f;
+
+				v00_.X = vxz.X;
+				v00_.Z = vxz.Z;
+				v10_.X = vxz.X;
+				v10_.Z = vxz.Z;
+				v01_.X = vxz.X;
+				v01_.Z = vxz.Z;
+				v11_.X = vxz.X;
+				v11_.Z = vxz.Z;
+
+				Vector3DF v0;
+				Vector3DF v1;
+
+				if (isFits[0])
 				{
-					if (indexesNext[f.Index1] == -1)
+					v0 = (v10_ - v00_) * x + v00_;
+				}
+				else
+				{
+					if (x < 0.5f || isHighs[1])
 					{
-						auto x = f.Index1 % 5;
-						auto y = f.Index1 / 5;
-
-						auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
-						auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
-						auto v = (v1 - v0) * (x / 4.0f) + v0;
-						chip.Vertecies.push_back(v);
-						indexesNext[f.Index1] = chip.Vertecies.size() - 1;
+						v0 = v00_;
 					}
-
-					if (indexesNext[f.Index2] == -1)
+					else
 					{
-						auto x = f.Index2 % 5;
-						auto y = f.Index2 / 5;
-
-						auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
-						auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
-						auto v = (v1 - v0) * (x / 4.0f) + v0;
-						chip.Vertecies.push_back(v);
-						indexesNext[f.Index2] = chip.Vertecies.size() - 1;
-					}
-
-					if (indexesNext[f.Index3] == -1)
-					{
-						auto x = f.Index3 % 5;
-						auto y = f.Index3 / 5;
-
-						auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
-						auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
-						auto v = (v1 - v0) * (x / 4.0f) + v0;
-						chip.Vertecies.push_back(v);
-						indexesNext[f.Index3] = chip.Vertecies.size() - 1;
+						v0 = v10_;
 					}
 				}
 
-				for (auto& sf : squareFaces)
+				if (isFits[2])
 				{
-					auto x = sf.first;
-					auto y = sf.second;
-
-					int32_t indexes[4];
-					indexes[0] = (x + 0) + (y + 0) * 5;
-					indexes[1] = (x + 1) + (y + 0) * 5;
-					indexes[2] = (x + 0) + (y + 1) * 5;
-					indexes[3] = (x + 1) + (y + 1) * 5;
-
-					for (int32_t i = 0; i < 4; i++)
+					v1 = (v11_ - v01_) * x + v01_;
+				}
+				else
+				{
+					if (x < 0.5f || isHighs[3])
 					{
-						if (indexesNext[indexes[i]] == -1)
+						v1 = v01_;
+					}
+					else
+					{
+						v1 = v11_;
+					}
+				}
+
+				if (x < 0.5f)
+				{
+					if (isFits[3])
+					{
+						return (v1 - v0) * y + v0;
+					}
+					else
+					{
+						if (y < 0.5f || isHighs[2])
 						{
-							auto x = indexes[i] % 5;
-							auto y = indexes[i] / 5;
-
-							auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
-							auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
-							auto v = (v1 - v0) * (x / 4.0f) + v0;
-							chip.Vertecies.push_back(v);
-							indexesNext[indexes[i]] = chip.Vertecies.size() - 1;
+							return v0;
 						}
+						return v1;
 					}
-
-					ChipFace f1;
-					f1.Indexes[0] = indexesNext[indexes[0]];
-					f1.Indexes[1] = indexesNext[indexes[1]];
-					f1.Indexes[2] = indexesNext[indexes[3]];
-
-					ChipFace f2;
-					f2.Indexes[0] = indexesNext[indexes[0]];
-					f2.Indexes[1] = indexesNext[indexes[3]];
-					f2.Indexes[2] = indexesNext[indexes[2]];
-
-					chip.Faces.push_back(f1);
-					chip.Faces.push_back(f2);
 				}
-
-				for (auto& f : tempFaces)
+				else
 				{
-					ChipFace f_;
-					f_.Indexes[0] = indexesNext[f.Index1];
-					f_.Indexes[1] = indexesNext[f.Index2];
-					f_.Indexes[2] = indexesNext[f.Index3];
-
-					chip.Faces.push_back(f_);
-				}
-
-				// 側面形成
-				for (auto& line : lines)
-				{
-					if (indexesNext[line.first] == -1)
+					if (isFits[1])
 					{
-						auto x = line.first % 5;
-						auto y = line.first / 5;
-
-						auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
-						auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
-						auto v = (v1 - v0) * (x / 4.0f) + v0;
-						chip.Vertecies.push_back(v);
-						indexesNext[line.first] = chip.Vertecies.size() - 1;
+						return (v1 - v0) * y + v0;
 					}
+					else
+					{
+						if (y < 0.5f || isHighs[3])
+						{
+							return v0;
+						}
+						return v1;
+					}
+				}
+			};
+
+			auto getPosH = [v00, v10, v01, v11, &clheight, &clheightHigh, &isFits, &isHighs, &clsh, &isCliffs, this](float x, float y) -> Vector3DF
+			{
+				auto v00_ = v00;
+				auto v10_ = v10;
+				auto v01_ = v01;
+				auto v11_ = v11;
+
+				if (!isHighs[0] &&
+					!isHighs[1] &&
+					!isHighs[2] &&
+					!isHighs[3])
+				{
+					int32_t hs[4] = { clsh[4], clsh[4], clsh[4], clsh[4] };
+					if (!isCliffs[1])
+					{
+						hs[0] = clsh[1];
+						hs[1] = clsh[1];
+					}
+
+					if (!isCliffs[5])
+					{
+						hs[1] = clsh[5];
+						hs[3] = clsh[5];
+					}
+
+					if (!isCliffs[7])
+					{
+						hs[2] = clsh[7];
+						hs[3] = clsh[7];
+					}
+
+					if (!isCliffs[3])
+					{
+						hs[0] = clsh[3];
+						hs[2] = clsh[3];
+					}
+
+					v00_.Y += hs[0] * gridSize / 2.0f;
+					v10_.Y += hs[1] * gridSize / 2.0f;
+					v01_.Y += hs[2] * gridSize / 2.0f;
+					v11_.Y += hs[3] * gridSize / 2.0f;
+				}
+				else
+				{
+					int32_t hs[4] = { clheightHigh[0], clheightHigh[1], clheightHigh[2], clheightHigh[3] };
+
+					// 後処理で接続する。
+					/*
+					bool isFits_[4] = { isFits[0], isFits[1], isFits[2], isFits[3] };
+
+					if (!isHighs[0] && !isHighs[1]) isFits_[0] = false;
+					if (!isHighs[1] && !isHighs[3]) isFits_[1] = false;
+					if (!isHighs[2] && !isHighs[3]) isFits_[2] = false;
+					if (!isHighs[0] && !isHighs[2]) isFits_[3] = false;
+
 					
-					if (indexesNext[line.second] == -1)
+					if (isFits_[0])
 					{
-						auto x = line.second % 5;
-						auto y = line.second / 5;
+						hs[0] = clheight[0];
+						hs[1] = clheight[1];
+					}
 
-						auto v0 = (v01_ - v00_) * (y / 4.0f) + v00_;
-						auto v1 = (v11_ - v10_) * (y / 4.0f) + v10_;
-						auto v = (v1 - v0) * (x / 4.0f) + v0;
+					if (isFits_[1])
+					{
+						hs[1] = clheight[1];
+						hs[3] = clheight[3];
+					}
+
+					if (isFits_[2])
+					{
+						hs[2] = clheight[2];
+						hs[3] = clheight[3];
+					}
+
+					if (isFits_[3])
+					{
+						hs[0] = clheight[0];
+						hs[2] = clheight[2];
+					}
+					*/
+
+					v00_.Y += hs[0] * gridSize / 2.0f;
+					v10_.Y += hs[1] * gridSize / 2.0f;
+					v01_.Y += hs[2] * gridSize / 2.0f;
+					v11_.Y += hs[3] * gridSize / 2.0f;
+				}
+
+				Vector3DF v0 = (v10_ - v00_) * x + v00_;
+				Vector3DF v1 = (v11_ - v01_) * x + v01_;
+				return (v1 - v0) * y + v0;
+			};
+
+			for (auto& f : lowFaces)
+			{
+				auto fi = &f.Index1;
+
+				for (int32_t i = 0; i < 3; i++)
+				{
+					if (lowIndexes[fi[i]] == -1)
+					{
+						auto x = fi[i] % 5;
+						auto y = fi[i] / 5;
+
+						auto v = getPosL(x / 4.0f, y / 4.0f);
 						chip.Vertecies.push_back(v);
-						indexesNext[line.second] = chip.Vertecies.size() - 1;
+						lowIndexes[fi[i]] = chip.Vertecies.size() - 1;
 					}
 				}
 
-				for (auto& line : lines)
+				ChipFace f_;
+				f_.Indexes[0] = lowIndexes[f.Index1];
+				f_.Indexes[1] = lowIndexes[f.Index2];
+				f_.Indexes[2] = lowIndexes[f.Index3];
+
+				chip.Faces.push_back(f_);
+			}
+
+			for (auto& sf : lowSquareFaces)
+			{
+				auto x = sf.first;
+				auto y = sf.second;
+
+				int32_t indexes[4];
+				indexes[0] = (x + 0) + (y + 0) * 5;
+				indexes[1] = (x + 1) + (y + 0) * 5;
+				indexes[2] = (x + 0) + (y + 1) * 5;
+				indexes[3] = (x + 1) + (y + 1) * 5;
+
+				for (int32_t i = 0; i < 4; i++)
 				{
-					if (indexes[line.first] == -1) continue;
-					if (indexes[line.second] == -1) continue;
-					if (indexesNext[line.first] == -1) continue;
-					if (indexesNext[line.second] == -1) continue;
+					if (lowIndexes[indexes[i]] == -1)
+					{
+						auto x = indexes[i] % 5;
+						auto y = indexes[i] / 5;
 
-					ChipFace f1;
-					f1.Indexes[0] = indexes[line.first];
-					f1.Indexes[1] = indexes[line.second];
-					f1.Indexes[2] = indexesNext[line.second];
-
-					ChipFace f2;
-					f2.Indexes[0] = indexes[line.first];
-					f2.Indexes[1] = indexesNext[line.second];
-					f2.Indexes[2] = indexesNext[line.first];
-
-					chip.Faces.push_back(f1);
-					chip.Faces.push_back(f2);
+						auto v = getPosL(x / 4.0f, y / 4.0f);
+						chip.Vertecies.push_back(v);
+						lowIndexes[indexes[i]] = chip.Vertecies.size() - 1;
+					}
 				}
 
-				indexes = indexesNext;
-				divisions = divisionsNext;
-				lines = linesNext;
+				ChipFace f1;
+				f1.Indexes[0] = lowIndexes[indexes[0]];
+				f1.Indexes[1] = lowIndexes[indexes[1]];
+				f1.Indexes[2] = lowIndexes[indexes[3]];
+
+				ChipFace f2;
+				f2.Indexes[0] = lowIndexes[indexes[0]];
+				f2.Indexes[1] = lowIndexes[indexes[3]];
+				f2.Indexes[2] = lowIndexes[indexes[2]];
+
+				chip.Faces.push_back(f1);
+				chip.Faces.push_back(f2);
+			}
+
+			std::array<int32_t, 5 * 5> highIndexes;
+			highIndexes.fill(-1);
+
+			for (auto& f : highFaces)
+			{
+				auto fi = &f.Index1;
+
+				for (int32_t i = 0; i < 3; i++)
+				{
+					if (highIndexes[fi[i]] == -1)
+					{
+						auto x = fi[i] % 5;
+						auto y = fi[i] / 5;
+
+						//auto v = getPosL(x / 4.0f, y / 4.0f);
+						//v.Y += 2.0f;
+
+						auto v = getPosH(x / 4.0f, y / 4.0f);
+						
+						chip.Vertecies.push_back(v);
+						highIndexes[fi[i]] = chip.Vertecies.size() - 1;
+					}
+				}
+
+				ChipFace f_;
+				f_.Indexes[0] = highIndexes[f.Index1];
+				f_.Indexes[1] = highIndexes[f.Index2];
+				f_.Indexes[2] = highIndexes[f.Index3];
+
+				chip.Faces.push_back(f_);
+			}
+
+			for (auto& sf : highSquareFaces)
+			{
+				auto x = sf.first;
+				auto y = sf.second;
+
+				int32_t indexes[4];
+				indexes[0] = (x + 0) + (y + 0) * 5;
+				indexes[1] = (x + 1) + (y + 0) * 5;
+				indexes[2] = (x + 0) + (y + 1) * 5;
+				indexes[3] = (x + 1) + (y + 1) * 5;
+
+				for (int32_t i = 0; i < 4; i++)
+				{
+					if (highIndexes[indexes[i]] == -1)
+					{
+						auto x = indexes[i] % 5;
+						auto y = indexes[i] / 5;
+
+						//auto v = getPosL(x / 4.0f, y / 4.0f);
+						//v.Y += 2.0f;
+
+						auto v = getPosH(x / 4.0f, y / 4.0f);
+
+						chip.Vertecies.push_back(v);
+						highIndexes[indexes[i]] = chip.Vertecies.size() - 1;
+					}
+				}
+
+				ChipFace f1;
+				f1.Indexes[0] = highIndexes[indexes[0]];
+				f1.Indexes[1] = highIndexes[indexes[1]];
+				f1.Indexes[2] = highIndexes[indexes[3]];
+
+				ChipFace f2;
+				f2.Indexes[0] = highIndexes[indexes[0]];
+				f2.Indexes[1] = highIndexes[indexes[3]];
+				f2.Indexes[2] = highIndexes[indexes[2]];
+
+				chip.Faces.push_back(f1);
+				chip.Faces.push_back(f2);
+			}
+			
+
+			// 側面形成
+			for (auto& line : lines)
+			{
+				ChipFace f1;
+				f1.Indexes[0] = highIndexes[line.first];
+				f1.Indexes[1] = highIndexes[line.second];
+				f1.Indexes[2] = lowIndexes[line.second];
+
+				ChipFace f2;
+				f2.Indexes[0] = highIndexes[line.first];
+				f2.Indexes[1] = lowIndexes[line.second];
+				f2.Indexes[2] = lowIndexes[line.first];
+
+				chip.Faces.push_back(f1);
+				chip.Faces.push_back(f2);
 			}
 		}
 
@@ -920,6 +1715,7 @@ namespace asd
 			
 		}
 	}
+#endif
 
 	void Terrain3D_Imp::GenerateTerrainChips()
 	{
@@ -927,7 +1723,107 @@ namespace asd
 		{
 			for (int32_t x = 0; x < gridWidthCount; x++)
 			{
-				GenerateTerrainChip(x, y);
+				auto& chip = Chips[x + y * gridWidthCount];
+				chip.GenerateTerrainChip(this, x, y);
+
+				chip.Vertecies.clear();
+				chip.Faces.clear();
+
+				if (chip.IsPlate)
+				{
+					chip.Vertecies.push_back(chip.PlatePoints[0]);
+					chip.Vertecies.push_back(chip.PlatePoints[1]);
+					chip.Vertecies.push_back(chip.PlatePoints[2]);
+					chip.Vertecies.push_back(chip.PlatePoints[3]);
+
+					ChipFace f1;
+					f1.Indexes[0] = 0;
+					f1.Indexes[1] = 1;
+					f1.Indexes[2] = 3;
+
+					ChipFace f2;
+					f2.Indexes[0] = 0;
+					f2.Indexes[1] = 3;
+					f2.Indexes[2] = 2;
+
+					chip.Faces.push_back(f1);
+					chip.Faces.push_back(f2);
+				}
+				else
+				{
+					for (auto& v : chip.LowerVertecies)
+					{
+						chip.Vertecies.push_back(v);
+					}
+
+					for (auto& v : chip.UpperVertecies)
+					{
+						chip.Vertecies.push_back(v);
+					}
+
+					for (auto& v : chip.LowerFaces)
+					{
+						chip.Faces.push_back(v);
+					}
+
+					for (auto& v : chip.UpperFaces)
+					{
+						auto f = v;
+						f.Indexes[0] += chip.LowerVertecies.size();
+						f.Indexes[1] += chip.LowerVertecies.size();
+						f.Indexes[2] += chip.LowerVertecies.size();
+
+						chip.Faces.push_back(f);
+					}
+
+					// 側面形成
+					for (auto& line : chip.Lines)
+					{
+						auto offset = chip.LowerVertecies.size();
+						ChipFace f1;
+						f1.Indexes[0] = chip.UpperPoints[line.first] + offset;
+						f1.Indexes[1] = chip.UpperPoints[line.second] + offset;
+						f1.Indexes[2] = chip.LowerPoints[line.second];
+
+						ChipFace f2;
+						f2.Indexes[0] = chip.UpperPoints[line.first] + offset;
+						f2.Indexes[1] = chip.LowerPoints[line.second];
+						f2.Indexes[2] = chip.LowerPoints[line.first];
+
+						chip.Faces.push_back(f1);
+						chip.Faces.push_back(f2);
+					}
+				}
+
+				// 面計算
+				for (size_t i = 0; i < chip.Faces.size(); i++)
+				{
+					auto& face = chip.Faces[i];
+
+					auto normal = Vector3DF::Cross(
+						(chip.Vertecies[face.Indexes[2]] - chip.Vertecies[face.Indexes[0]]),
+						(chip.Vertecies[face.Indexes[1]] - chip.Vertecies[face.Indexes[0]]));
+
+					normal.Normalize();
+
+					face.Normal = normal;
+
+					if (abs(Vector3DF::Dot(normal, Vector3DF(0, 0, 1))) < 0.9f)
+					{
+						auto tangent = Vector3DF::Cross(normal, Vector3DF(0, 0, 1));
+						tangent.Normalize();
+
+						face.Binormal = Vector3DF::Cross(tangent, normal);
+						face.Binormal.Normalize();
+					}
+					else
+					{
+						auto binormal = Vector3DF::Cross(Vector3DF(1, 0, 0), normal);
+						binormal.Normalize();
+
+						face.Binormal = binormal;
+					}
+				}
 			}
 		}
 	}

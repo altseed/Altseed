@@ -151,6 +151,20 @@ namespace asd
 		class Chip
 		{
 		public:
+			bool IsPlate = false;
+			Vector3DF PlatePoints[4];
+
+			std::vector<int32_t> UpperPoints;
+			std::vector<int32_t> LowerPoints;
+
+			std::vector<Vector3DF>	UpperVertecies;
+			std::vector<ChipFace>	UpperFaces;
+
+			std::vector<Vector3DF>	LowerVertecies;
+			std::vector<ChipFace>	LowerFaces;
+
+			std::vector<std::pair<int32_t, int32_t>> Lines;
+
 			std::vector<Vector3DF>	Vertecies;
 			std::vector<ChipFace>	Faces;
 			
@@ -160,6 +174,7 @@ namespace asd
 			Chip();
 			virtual ~Chip();
 
+			void GenerateTerrainChip(Terrain3D_Imp* terrain, int32_t chip_x, int32_t chip_y);
 		};
 
 		class CollisionCluster
@@ -194,7 +209,7 @@ namespace asd
 		virtual ~Terrain3D_Imp();
 
 		void GenerateCollision();
-		void GenerateTerrainChip(int32_t chip_x, int32_t chip_y);
+		//void GenerateTerrainChip(int32_t chip_x, int32_t chip_y);
 		void GenerateTerrainChips();
 		void GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces);
 	public:

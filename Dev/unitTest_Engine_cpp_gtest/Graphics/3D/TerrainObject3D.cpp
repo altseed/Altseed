@@ -23,7 +23,9 @@ protected:
 
 		// 地形
 		auto t = graphics->CreateTerrain3D();
-		t->New(1, 8, 8);
+		
+		t->New(1, 4, 4);
+
 		t->AddSurface(
 			asd::ToAString("sf1").c_str(), 
 			2,
@@ -41,8 +43,24 @@ protected:
 		auto sf2ind = t->GetSurfaceIndex(asd::ToAString("sf2").c_str());
 		t->AssignSurfaceWithCircle(sf2ind, 0, 0, 2, 255, 0.5);
 		//t->RaiseHeightWithCircle(0, 0, 3.0f, 0.5f, 0.5f);
-		t->ChangeCliffesWithCircle(0, 0, 3.0f, 3);
-		t->ChangeCliffesWithCircle(2, 0, 3.0f, 1);
+		//t->ChangeCliffesWithCircle(1, 0, 3.0f, 2);
+		//t->ChangeCliffesWithCircle(0, 0, 1.5f, 1);
+		
+		int heights [] =
+		{
+			2, 2, 2, 2,
+			2, 2, 2, 2,
+			1, 1, 0, 0,
+			0, 0, 0, 0,
+		};
+
+		for (int y = 0; y < 4; y++)
+		{
+			for (int x = 0; x < 4; x++)
+			{
+				t->ChangeCliffesWithCircle(-2 + x + 0.5f, -2 + y + 0.5f, 1.0f, heights[x + y * 4]);
+			}
+		}
 
 		auto tObj = std::make_shared<asd::TerrainObject3D>();
 		tObj->SetTerrain(t);
