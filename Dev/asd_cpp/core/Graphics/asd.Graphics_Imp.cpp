@@ -983,7 +983,21 @@ Font* Graphics_Imp::CreateFont_(const achar* path)
 
 Font* Graphics_Imp::CreateDynamicFont_(const achar* font, int32_t fontSize, Color color, int32_t outlineSize, Color outlineColor)
 {
-	auto extFont = FontContainer->Get(font);
+	auto space = asd::astring(ToAString(" "));
+
+	auto key = asd::astring(font) + space +
+		ToAString(std::to_string(fontSize).c_str()) + space +
+		ToAString(std::to_string(color.R).c_str()) + space +
+		ToAString(std::to_string(color.G).c_str()) + space +
+		ToAString(std::to_string(color.B).c_str()) + space +
+		ToAString(std::to_string(color.A).c_str()) + space +
+		ToAString(std::to_string(outlineSize).c_str()) + space +
+		ToAString(std::to_string(outlineColor.R).c_str()) + space +
+		ToAString(std::to_string(outlineColor.G).c_str()) + space +
+		ToAString(std::to_string(outlineColor.B).c_str()) + space +
+		ToAString(std::to_string( outlineColor.A).c_str());
+
+	auto extFont = FontContainer->Get(key.c_str());
 	if (extFont != nullptr)
 	{
 		SafeAddRef(extFont);
@@ -992,7 +1006,7 @@ Font* Graphics_Imp::CreateDynamicFont_(const achar* font, int32_t fontSize, Colo
 
 	auto font_ = Font_Imp::Create(this, font, fontSize, color, outlineSize, outlineColor);
 
-	FontContainer->Register(font, font_);
+	FontContainer->Register(key.c_str(), font_);
 
 	return font_;
 }
