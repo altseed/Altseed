@@ -45,6 +45,7 @@ namespace sample_cs
 			{
 				// Altseedを更新する。
 				asd.Engine.Update();
+				Recorder.CaptureScreen("Object2DComponent_Custom", 0, 30, 0.5f, 0.5f);
 			}
 
 			//Altseedの終了処理をする。

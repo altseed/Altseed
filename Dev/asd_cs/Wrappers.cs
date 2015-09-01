@@ -134,6 +134,10 @@ namespace asd {
 		/// <summary>
 		/// 
 		/// </summary>
+		R16G16B16A16_FLOAT = asd.swig.TextureFormat.R16G16B16A16_FLOAT,
+		/// <summary>
+		/// 
+		/// </summary>
 		R32G32B32A32_FLOAT = asd.swig.TextureFormat.R32G32B32A32_FLOAT,
 		/// <summary>
 		/// 
@@ -225,6 +229,10 @@ namespace asd {
 		/// 全加算(内部処理用) 
 		/// </summary>
 		AddAll = asd.swig.AlphaBlendMode.AddAll,
+		/// <summary>
+		/// 全不透明(内部処理用) 
+		/// </summary>
+		OpacityAll = asd.swig.AlphaBlendMode.OpacityAll,
 	}
 
 	/// <summary>
@@ -2429,7 +2437,7 @@ namespace asd {
 		/// <param name="x">円形の中心座標 </param>
 		/// <param name="y">円形の中心座標 </param>
 		/// <param name="radius">円形の半径 </param>
-		/// <param name="value">平滑度 </param>
+		/// <param name="value">平滑度(0～1) </param>
 		/// <param name="fallout">周囲のぼかし(0～1) </param>
 		public void SmoothHeightWithCircle(float x, float y, float radius, float value, float fallout)
 		{

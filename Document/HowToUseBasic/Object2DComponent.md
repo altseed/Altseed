@@ -6,4 +6,4 @@ Object2DComponentクラスの派生クラスを作ることで、オブジェク
 
 ### 回転するコンポーネント
 
-* include_basic_sample Object2DComponent
+* include_basic_sample Object2DComponent_Custom

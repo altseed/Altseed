@@ -49,6 +49,12 @@
 
 * 開発中
 
+#### コンポーネント
+
+* [シーンコンポーネント](./Basic/SceneComponent.md)
+* [レイヤー2Dコンポーネント](./2D/Layer2DComponent.md)
+* [オブジェクト2Dコンポーネント](./2D/Object2DComponent.md)
+
 #### ポストエフェクト
 
 * [ポストエフェクト](./PostEffect/PostEffect.md)
