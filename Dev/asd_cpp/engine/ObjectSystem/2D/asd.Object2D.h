@@ -123,6 +123,21 @@ namespace asd
 		virtual ~Object2D();
 
 		/**
+			@brief	カメラに表示するグループを取得する。
+			@return	グループ
+			@note
+			カメラのグループと他のオブジェクトのグループで&でビット演算して1以上だった場合、そのカメラにオブジェクトが描画されるようになる。
+
+		*/
+		int32_t GetCameraGroup() const;
+
+		/**
+		@brief	カメラに表示するグループを設定する。
+		@param	group	グループ
+		*/
+		void SetCameraGroup(int32_t group);
+
+		/**
 			@brief	このオブジェクトが更新されるかどうかを取得する。
 		*/
 		bool GetIsUpdated() const;

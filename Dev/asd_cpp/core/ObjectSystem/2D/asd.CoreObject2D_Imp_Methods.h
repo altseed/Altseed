@@ -1,6 +1,10 @@
 ﻿int AddRef() { return ReferenceObject::AddRef(); }
 int Release() { return ReferenceObject::Release(); }
 int GetRef() { return ReferenceObject::GetRef(); }
+
+virtual int32_t GetCameraGroup() const override { return CoreObject2D_Imp::GetCameraGroup(); }
+virtual void SetCameraGroup(int32_t group) override { CoreObject2D_Imp::SetCameraGroup(group); }
+
 virtual bool GetIsDrawn() const override { return CoreObject2D_Imp::GetIsDrawn(); }
 virtual void SetIsDrawn(bool value) override { return CoreObject2D_Imp::SetIsDrawn(value); }
 virtual bool GetIsAlive() const override { return CoreObject2D_Imp::GetIsAlive(); }

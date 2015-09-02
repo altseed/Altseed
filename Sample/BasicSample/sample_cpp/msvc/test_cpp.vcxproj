@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClCompile Include="..\Basic\Basic_Empty.cpp" />
     <ClCompile Include="..\CameraObject2D\CameraObject2D_Basic.cpp" />
+    <ClCompile Include="..\CameraObject2D\CameraObject2D_Group.cpp" />
     <ClCompile Include="..\CameraObject2D\CameraObject2D_Magnify.cpp" />
     <ClCompile Include="..\Collision\Collision2D_Geometries.cpp" />
     <ClCompile Include="..\Collision\Collision2D_Basic.cpp" />

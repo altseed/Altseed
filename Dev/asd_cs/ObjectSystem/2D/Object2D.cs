@@ -21,6 +21,18 @@ namespace asd
 		}
 
 		/// <summary>
+		/// カメラに表示するグループを取得する。
+		/// </summary>
+		/// <remarks>
+		/// カメラのグループと他のオブジェクトのグループで&でビット演算して1以上だった場合、そのカメラにオブジェクトが描画されるようになる。
+		/// </remarks>
+		public int CameraGroup
+		{
+			get { return CoreObject.GetCameraGroup(); }
+			set { CoreObject.SetCameraGroup(value); }
+		}
+
+		/// <summary>
 		/// このオブジェクトが更新されるかどうかを取得または設定する。
 		/// </summary>
 		public bool IsUpdated { get; set; }

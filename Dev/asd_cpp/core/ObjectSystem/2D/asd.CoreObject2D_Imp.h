@@ -19,6 +19,9 @@ namespace asd
 	private:
 		CoreObject2D_Imp* CoreObject2DToImp(CoreObject2D* obj);
 	protected:
+
+		int32_t			cameraGroup = INT_MAX;
+
 		ObjectInfo2D	m_objectInfo;
 		TransformInfo2D m_transform;
 		Graphics_Imp*	m_graphics;
@@ -53,6 +56,16 @@ namespace asd
 		void SetAlreadyCullingUpdated(bool cullingUpdated)
 		{
 			alreadyCullingUpdated = cullingUpdated;
+		}
+
+		int32_t GetCameraGroup() const
+		{
+			return cameraGroup;
+		}
+
+		void SetCameraGroup(int32_t group)
+		{
+			cameraGroup = group;
 		}
 
 		bool GetIsDrawn() const

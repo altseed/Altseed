@@ -46,6 +46,7 @@ namespace sample_cs
 
                 new CameraObject2D_Basic(),
                 new CameraObject2D_Magnify(),
+				new CameraObject2D_Group(),
 
                 new EffectObject2D_Basic(),
 

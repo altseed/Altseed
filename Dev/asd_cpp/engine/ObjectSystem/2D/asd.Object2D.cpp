@@ -182,6 +182,16 @@ namespace asd
 
 #pragma region Get/Set
 
+	int32_t Object2D::GetCameraGroup() const
+	{
+		return GetCoreObject()->GetCameraGroup();
+	}
+
+	void Object2D::SetCameraGroup(int32_t group)
+	{
+		GetCoreObject()->SetCameraGroup(group);
+	}
+
 	bool Object2D::GetIsUpdated() const
 	{
 		return m_isUpdated;

@@ -67,11 +67,11 @@ namespace asd
 		*/
 		CoreObject2D_Imp* CoreObject2DToImp(ObjectPtr obj);
 
-		void DrawAdditionalObjects();
+		void DrawAdditionalObjects(int32_t group);
 		void ClearAdditionalObjects();
 
 #if __CULLING_2D__
-		void DrawObjectsWithCulling(RectF drawRange);
+		void DrawObjectsWithCulling(int32_t group, RectF drawRange);
 #else
 		void DrawObjectsWithoutCulling();
 #endif

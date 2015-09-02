@@ -12,3 +12,10 @@ Altseedで描画結果を別の範囲に写すには、[CameraObject2D](./../Ref
 ### 描画平面の一部を切り取って、虫眼鏡のように拡大して写すサンプル。
 
 * include_basic_sample CameraObject2D_Magnify
+
+### 特定のオブジェクトのみをカメラに表示するサンプル。
+
+グループを設定することで、グループの数値間でANDをとり0出なかった場合のみ描画するようにできます。
+
+* include_basic_sample CameraObject2D_Group
+

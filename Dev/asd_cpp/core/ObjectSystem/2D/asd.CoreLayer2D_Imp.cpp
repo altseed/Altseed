@@ -371,7 +371,7 @@ namespace asd
 
 	}
 #if __CULLING_2D__
-	void CoreLayer2D_Imp::DrawObjectsWithCulling(RectF drawRange)
+	void CoreLayer2D_Imp::DrawObjectsWithCulling(int32_t group, RectF drawRange)
 	{
 
 		auto cullingSrc = culling2d::RectF(drawRange.X, drawRange.Y, drawRange.Width, drawRange.Height);
@@ -382,6 +382,7 @@ namespace asd
 			auto userData = (Culling2DUserData*)(culledObj->GetUserData());
 
 			if (!(userData->Object->GetIsAlive())) continue;
+			if ((userData->Object->GetCameraGroup() & group) == 0) continue;
 
 			auto obj_Imp = CoreObject2DToImp(userData->Object);
 
@@ -420,14 +421,16 @@ namespace asd
 		texts.clear();
 	}
 
-	void CoreLayer2D_Imp::DrawAdditionalObjects()
+	void CoreLayer2D_Imp::DrawAdditionalObjects(int32_t group)
 	{
 
 #if __CULLING_2D__
 		//一時的にエフェクトは無条件に描画(本来ここではない)
 		for (auto& x : m_objects)
 		{
-			if (x->GetIsAlive() && x->GetObjectType() == Object2DType::Effect)
+			if (x->GetIsAlive() && 
+				x->GetCameraGroup() & group != 0 &&
+				x->GetObjectType() == Object2DType::Effect)
 			{
 				x->Draw(m_renderer);
 			}
@@ -521,12 +524,12 @@ namespace asd
 
 #if __CULLING_2D__
 			auto range = RectF(0, 0, m_windowSize.X, m_windowSize.Y);
-			DrawObjectsWithCulling(range);
+			DrawObjectsWithCulling(INT_MAX,range);
 #else
 			DrawObjectsWithoutCulling();
 #endif
 
-			DrawAdditionalObjects();
+			DrawAdditionalObjects(INT_MAX);
 			ClearAdditionalObjects();
 		}
 		else
@@ -542,10 +545,10 @@ namespace asd
 
 				//通常のオブジェクト摘み取りと描画
 				auto src = c->GetSrc();
-				DrawObjectsWithCulling(asd::RectF(src.X, src.Y, src.Width, src.Height));
+				DrawObjectsWithCulling(c->GetCameraGroup(), asd::RectF(src.X, src.Y, src.Width, src.Height));
 
 				//追加オブジェクト描画
-				DrawAdditionalObjects();
+				DrawAdditionalObjects(c->GetCameraGroup());
 
 				//カメラバッファに内容をセット
 				c->SetForRenderTarget();

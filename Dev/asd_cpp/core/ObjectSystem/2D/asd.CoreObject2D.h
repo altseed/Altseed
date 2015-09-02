@@ -17,6 +17,9 @@ namespace asd
 
 		virtual Object2DType GetObjectType() const = 0;
 
+		virtual int32_t GetCameraGroup() const = 0;
+		virtual void SetCameraGroup(int32_t group) = 0;
+
 		virtual bool GetIsDrawn() const = 0;
 		virtual void SetIsDrawn(bool value) = 0;
 
