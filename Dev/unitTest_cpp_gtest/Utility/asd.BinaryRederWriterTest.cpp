@@ -144,26 +144,26 @@ TEST_F(BinaryReaderWriterTest, stdstringTest)
 
 
 
-TEST_F(BinaryReaderWriterTest, acharptrTest)
-{
-	std::vector<asd::astring> source = { asd::ToAString(L"これも"), asd::ToAString(L"テスト"), asd::ToAString(L"です") };
-	std::vector<asd::achar const*> orig;
-	std::transform(source.begin(), source.end(), std::back_inserter(orig),
-		[](asd::astring const &s){return s.c_str();});
-
-	for (auto const e : orig)
-	{
-		writer.Push(e);
-	}
-	WriteOut();
-	ReadIn();
-	for (auto const e : orig)
-	{
-		ASSERT_FALSE(reader.IsEmpty());
-		EXPECT_EQ(asd::ToUtf8String(e), asd::ToUtf8String(reader.Get<asd::achar*>()));
-	}
-
-}
+//TEST_F(BinaryReaderWriterTest, acharptrTest)
+//{
+//	std::vector<asd::astring> source = { asd::ToAString(L"これも"), asd::ToAString(L"テスト"), asd::ToAString(L"です") };
+//	std::vector<asd::achar const*> orig;
+//	std::transform(source.begin(), source.end(), std::back_inserter(orig),
+//		[](asd::astring const &s){return s.c_str();});
+//
+//	for (auto const e : orig)
+//	{
+//		writer.Push(e);
+//	}
+//	WriteOut();
+//	ReadIn();
+//	for (auto const e : orig)
+//	{
+//		ASSERT_FALSE(reader.IsEmpty());
+//		EXPECT_EQ(asd::ToUtf8String(e), asd::ToUtf8String(reader.Get<asd::achar*>()));
+//	}
+//
+//}
 
 TEST_F(BinaryReaderWriterTest, astringTest)
 {
@@ -190,7 +190,7 @@ TEST_F(BinaryReaderWriterTest, mixedTypeTest)
 
 	asd::astring astr(asd::ToAString(L"これはテストです"));
 	std::string str("This is a test");
-	asd::achar* achs;
+	// asd::achar* achs;
 	asd::Vector3DF v3f = { 1.0f, 2.0f, 3.0f };
 	asd::Matrix44 m44;
 	writer.Reserve(42);
@@ -209,7 +209,7 @@ TEST_F(BinaryReaderWriterTest, mixedTypeTest)
 	writer.Push(sh);
 	writer.Push(c);
 	writer.Push(astr);
-	writer.Push(astr.c_str());
+	// writer.Push(astr.c_str());
 	writer.Push(str);
 	writer.Push(42.0f);
 	writer.Push(v3f);
@@ -235,8 +235,8 @@ TEST_F(BinaryReaderWriterTest, mixedTypeTest)
 	EXPECT_TRUE(astr == asd::ToAString(L"これはテストです"));
 
 
-	achs = reader.Get<asd::achar*>();
-	EXPECT_TRUE(asd::astring(achs) == asd::ToAString(L"これはテストです"));
+	// achs = reader.Get<asd::achar*>();
+	// EXPECT_TRUE(asd::astring(achs) == asd::ToAString(L"これはテストです"));
 
 
 

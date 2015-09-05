@@ -25,12 +25,7 @@ protected:
 public:
 	template<typename itrT> void ReadIn(itrT beg, itrT end)
 	{
-		//std::copy<itrT, std::deque<int8_t>::iterator>(beg, end, data.begin());
-		for (itrT itr = beg; itr != end; itr++)
-		{
-			data.push_back(*itr);
-		}
-
+		data.assign(beg, end);
 	}
 
 	template<typename T> T Get(){ assert(!"The type cannot be serializable."); return T();};
