@@ -150,6 +150,29 @@ namespace asd {
 		void* Load(const EFK_CHAR* path, Effekseer::TextureType textureType) override;
 		void Unload(void* data) override;
 	};
+
+	class EffectModelLoader
+		: public ::Effekseer::ModelLoader
+	{
+		Graphics_Imp*	m_graphics = nullptr;
+		struct Cache
+		{
+			int32_t Count;
+			void* Ptr;
+		};
+		std::map<astring, Cache>		m_caches;
+		std::map<void*, astring>		dataToKey;
+
+		virtual void* InternalLoad(Graphics_Imp* graphics, const std::vector<uint8_t>& data) = 0;
+		virtual void InternalUnload(void* data) = 0;
+
+	public:
+		EffectModelLoader(Graphics_Imp* graphics);
+		virtual ~EffectModelLoader();
+
+		void* Load(const EFK_CHAR* path) override;
+		void Unload(void* data) override;
+	};
 #endif
 
 /**
