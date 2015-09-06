@@ -2339,16 +2339,27 @@ namespace asd
 		this->cliffes.resize(gridWidthCount * gridHeightCount);
 		this->Chips.resize(gridWidthCount * gridHeightCount);
 
-		for (size_t i = 0; i < this->heights.size(); i++)
-		{
-			this->cliffes[i] = 0;
-		}
-
 		// 地形
 		for (size_t i = 0; i < this->heights.size(); i++)
 		{
 			this->heights[i] = br.Get<float>();
 		}
+
+		if (version >= 1)
+		{
+			for (size_t i = 0; i < this->heights.size(); i++)
+			{
+				this->cliffes[i] = br.Get<int32_t>();
+			}
+		}
+		else
+		{
+			for (size_t i = 0; i < this->heights.size(); i++)
+			{
+				this->cliffes[i] = 0;
+			}
+		}
+
 
 		// サーフェス
 		int32_t surfaceCount = br.Get<int32_t>();
@@ -2422,7 +2433,7 @@ namespace asd
 		}
 
 		// バージョン
-		int32_t version = 0;
+		int32_t version = 1;
 		bw.Push(version);
 
 		// グリッド
@@ -2434,6 +2445,11 @@ namespace asd
 		for (size_t i = 0; i < this->heights.size(); i++)
 		{
 			bw.Push(this->heights[i]);
+		}
+
+		for (size_t i = 0; i < this->cliffes.size(); i++)
+		{
+			bw.Push(this->cliffes[i]);
 		}
 
 		// サーフェース
