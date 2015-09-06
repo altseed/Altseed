@@ -1,13 +1,13 @@
-#include <Altseed.h>
+ï»¿#include <Altseed.h>
 
-// Œ»İ‚ÌFPS‚ğ‰æ–Ê‚É•\¦‚·‚éƒTƒ“ƒvƒ‹B
+// ç¾åœ¨ã®FPSã‚’ç”»é¢ã«è¡¨ç¤ºã™ã‚‹ã‚µãƒ³ãƒ—ãƒ«ã€‚
 
 void EngineMisc_ShowFps()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("EngineMisc_ShowFps").c_str(), 640, 480, asd::EngineOption());
 
-	// “®“IƒtƒHƒ“ƒg‚ğ¶¬‚·‚éB
+	// å‹•çš„ãƒ•ã‚©ãƒ³ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(
 		asd::ToAString("").c_str(),
 		32,
@@ -15,28 +15,28 @@ void EngineMisc_ShowFps()
 		1,
 		asd::Color(255, 255, 255, 255));
 
-	// FPS‚ğ•\¦‚·‚é‚½‚ß‚ÌƒIƒuƒWƒFƒNƒg‚ğ¶¬‚·‚éB
+	// FPSã‚’è¡¨ç¤ºã™ã‚‹ãŸã‚ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto obj = std::make_shared<asd::TextObject2D>();
 	obj->SetFont(font);
 
-	// ƒIƒuƒWƒFƒNƒg‚ğƒGƒ“ƒWƒ“‚É’Ç‰Á‚·‚éB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚¨ãƒ³ã‚¸ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::AddObject2D(obj);
 
 	while (asd::Engine::DoEvents())
 	{
 		asd::Engine::Update();
 
-		// Œ»İ‚ÌFPS‚ğæ“¾‚·‚éB
+		// ç¾åœ¨ã®FPSã‚’å–å¾—ã™ã‚‹ã€‚
 		float fps = asd::Engine::GetCurrentFPS();
 		
-		// •\¦‚·‚é•¶š—ñ‚ğ¶¬‚·‚éB
+		// è¡¨ç¤ºã™ã‚‹æ–‡å­—åˆ—ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 		char str[16];
 		sprintf_s(str, 16, "%2.1ffps", fps);
 
-		// •¶š—ñ‚ğƒIƒuƒWƒFƒNƒg‚Éİ’è‚·‚éB
+		// æ–‡å­—åˆ—ã‚’ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã«è¨­å®šã™ã‚‹ã€‚
 		obj->SetText(asd::ToAString(str).c_str());
 	}
 
-	// Altseed‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// Altseedã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }

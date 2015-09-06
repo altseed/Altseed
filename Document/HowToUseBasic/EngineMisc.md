@@ -5,4 +5,4 @@ Engineクラスの機能を使って現在のFPS(１秒間の更新回数)を取
 
 ### FPSの表示
 
-*include_basic_sample EngineMisc_ShowFps
+* include_basic_sample EngineMisc_ShowFps
