@@ -102,8 +102,8 @@ static std::shared_ptr<asd::Deformer> CreateDeformer( asd::Graphics* graphics)
 	asd::Matrix44::Mul(mat2_inv, mat2, mat1);
 	mat2_inv = mat2_inv.GetInverted();
 	
-	deformer->AddBone(asd::ToAString("no1").c_str(), -1, asd::RotationOrder::ZXY, mat1);
-	deformer->AddBone(asd::ToAString("no2").c_str(), 0, asd::RotationOrder::ZXY, mat2);
+	deformer->AddBone(asd::ToAString("no1").c_str(), -1, asd::RotationOrder::ZXY, mat1, asd::Vector3DF(1.0f, 1.0f, 1.0f), asd::Vector4DF(0.0f, 0.0f, 0.0f, 0.0f), asd::Vector3DF(1.0f, 1.0f, 1.0f));
+	deformer->AddBone(asd::ToAString("no2").c_str(), 0, asd::RotationOrder::ZXY, mat2, asd::Vector3DF(1.0f, 1.0f, 1.0f), asd::Vector4DF(0.0f, 0.0f, 0.0f, 0.0f), asd::Vector3DF(1.0f, 1.0f, 1.0f));
 
 	return deformer;
 }
