@@ -3,7 +3,7 @@
 
 Altseed(元AC-Engine)はC++、C#対応ゲームエンジンです。
 
-**最新版 2015/07/26**
+**最新版 2015/09/06**
 * [ウェブサイト](http://altseed.github.io/)
 * [導入方法(C++版、Windows)](Document/HowToIntroduce/Windows_CPP.md)
 * [導入方法(C#版、Windows)](Document/HowToIntroduce/Windows_CS.md)

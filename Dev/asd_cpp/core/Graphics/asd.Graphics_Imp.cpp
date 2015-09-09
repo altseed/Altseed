@@ -631,6 +631,61 @@ void EffectTextureLoader::Unload(void* data)
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+EffectModelLoader::EffectModelLoader(Graphics_Imp* graphics)
+	: m_graphics(graphics)
+{
+
+}
+
+EffectModelLoader::~EffectModelLoader()
+{
+	assert(m_caches.size() == 0);
+}
+
+void* EffectModelLoader::Load(const EFK_CHAR* path)
+{
+	auto key = astring((const achar*) path);
+	auto cache = m_caches.find(key);
+	if (cache != m_caches.end())
+	{
+		cache->second.Count++;
+		return cache->second.Ptr;
+	}
+
+	auto staticFile = m_graphics->GetFile()->CreateStaticFile((const achar*) path);
+	if (staticFile.get() == nullptr) return nullptr;
+
+	void* img = InternalLoad(m_graphics, staticFile->GetBuffer());
+
+	Cache c;
+	c.Ptr = img;
+	c.Count = 1;
+	m_caches[key] = c;
+	dataToKey[img] = key;
+
+	return img;
+}
+
+void EffectModelLoader::Unload(void* data)
+{
+	if (data == nullptr) return;
+
+	auto key = dataToKey[data];
+	auto cache = m_caches.find(key);
+	cache->second.Count--;
+
+	if (cache->second.Count == 0)
+	{
+		InternalUnload(data);
+
+		m_caches.erase(key);
+		dataToKey.erase(data);
+	}
+}
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 void Graphics_Imp::AddDeviceObject(DeviceObject* o)
 {
 	assert(m_deviceObjects.count(o) == 0);

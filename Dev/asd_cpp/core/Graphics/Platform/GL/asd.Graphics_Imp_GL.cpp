@@ -107,6 +107,44 @@ namespace asd {
 		}
 	};
 
+	class EffectModelLoader_GL
+		: public EffectModelLoader
+	{
+	public:
+		EffectModelLoader_GL(Graphics_Imp_GL* graphics)
+			:EffectModelLoader(graphics)
+		{
+		}
+		virtual ~EffectModelLoader_GL()
+		{}
+
+		void* InternalLoad(Graphics_Imp* graphics, const std::vector<uint8_t>& data) override
+		{
+			size_t size_model = data.size();
+			uint8_t* data_model = new uint8_t[size_model];
+			memcpy(data_model, data.data(), size_model);
+
+			Effekseer::Model model_main(data_model, size_model);
+
+			::EffekseerRendererGL::Model* model = new ::EffekseerRendererGL::Model(
+				model_main.GetVertexes(), model_main.GetVertexCount(),
+				model_main.GetFaces(), model_main.GetFaceCount());
+
+			delete [] data_model;
+
+			return (void*) model;
+		}
+
+		void InternalUnload(void* data) override
+		{
+			if (data != NULL)
+			{
+				::EffekseerRendererGL::Model* model = (::EffekseerRendererGL::Model*) data;
+				delete model;
+			}
+		}
+	};
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -179,6 +217,7 @@ namespace asd {
 	GLCheckError();
 
 	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
+	GetEffectSetting()->SetModelLoader(new EffectModelLoader_GL(this));
 }
 
 //----------------------------------------------------------------------------------
@@ -251,6 +290,8 @@ namespace asd {
 	GLCheckError();
 
 	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_GL(this));
+	GetEffectSetting()->SetModelLoader(new EffectModelLoader_GL(this));
+
 }
 
 //----------------------------------------------------------------------------------

@@ -171,6 +171,135 @@ namespace asd {
 		}
 	};
 
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	class EffectModelLoader_DX11
+		: public EffectModelLoader
+	{
+	public:
+		EffectModelLoader_DX11(Graphics_Imp_DX11* graphics)
+			:EffectModelLoader(graphics)
+		{
+		}
+		virtual ~EffectModelLoader_DX11()
+		{}
+
+		void* InternalLoad(Graphics_Imp* graphics, const std::vector<uint8_t>& data) override
+		{
+			auto g = (Graphics_Imp_DX11*) graphics;
+
+			HRESULT hr;
+
+			size_t size_model = data.size();
+			uint8_t* data_model = new uint8_t[size_model];
+			memcpy(data_model, data.data(), size_model);
+
+			::EffekseerRendererDX11::Model* model = new ::EffekseerRendererDX11::Model(data_model, size_model);
+
+			model->ModelCount = Effekseer::Min(Effekseer::Max(model->GetModelCount(), 1), 40);
+
+			model->VertexCount = model->GetVertexCount();
+
+			if (model->VertexCount == 0) return NULL;
+
+			{
+				std::vector<Effekseer::Model::VertexWithIndex> vs;
+				for (int32_t m = 0; m < model->ModelCount; m++)
+				{
+					for (int32_t i = 0; i < model->GetVertexCount(); i++)
+					{
+						Effekseer::Model::VertexWithIndex v;
+						v.Position = model->GetVertexes()[i].Position;
+						v.Normal = model->GetVertexes()[i].Normal;
+						v.Binormal = model->GetVertexes()[i].Binormal;
+						v.Tangent = model->GetVertexes()[i].Tangent;
+						v.UV = model->GetVertexes()[i].UV;
+						v.Index[0] = m;
+
+						vs.push_back(v);
+					}
+				}
+
+				ID3D11Buffer* vb = NULL;
+
+				D3D11_BUFFER_DESC hBufferDesc;
+				hBufferDesc.ByteWidth = sizeof(Effekseer::Model::VertexWithIndex) * model->GetVertexCount() * model->ModelCount;
+				hBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+				hBufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+				hBufferDesc.CPUAccessFlags = 0;
+				hBufferDesc.MiscFlags = 0;
+				hBufferDesc.StructureByteStride = sizeof(float);
+
+				D3D11_SUBRESOURCE_DATA hSubResourceData;
+				hSubResourceData.pSysMem = &(vs[0]);
+				hSubResourceData.SysMemPitch = 0;
+				hSubResourceData.SysMemSlicePitch = 0;
+
+				if (FAILED(g->GetDevice()->CreateBuffer(&hBufferDesc, &hSubResourceData, &vb)))
+				{
+					return NULL;
+				}
+
+				model->VertexBuffer = vb;
+			}
+
+			model->FaceCount = model->GetFaceCount();
+
+			/* 0.50より追加(0.50以前から移行する時は追記する必要あり) */
+			model->IndexCount = model->FaceCount * 3;
+
+			{
+				std::vector<Effekseer::Model::Face> fs;
+				for (int32_t m = 0; m < model->ModelCount; m++)
+				{
+					for (int32_t i = 0; i < model->FaceCount; i++)
+					{
+						Effekseer::Model::Face f;
+						f.Indexes[0] = model->GetFaces()[i].Indexes[0] + model->GetVertexCount() * m;
+						f.Indexes[1] = model->GetFaces()[i].Indexes[1] + model->GetVertexCount() * m;
+						f.Indexes[2] = model->GetFaces()[i].Indexes[2] + model->GetVertexCount() * m;
+						fs.push_back(f);
+					}
+				}
+
+				ID3D11Buffer* ib = NULL;
+				D3D11_BUFFER_DESC hBufferDesc;
+				hBufferDesc.Usage = D3D11_USAGE_DEFAULT;
+				hBufferDesc.ByteWidth = sizeof(int32_t) * 3 * model->FaceCount * model->ModelCount;
+				hBufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+				hBufferDesc.CPUAccessFlags = 0;
+				hBufferDesc.MiscFlags = 0;
+				hBufferDesc.StructureByteStride = sizeof(int32_t);
+
+				D3D11_SUBRESOURCE_DATA hSubResourceData;
+				hSubResourceData.pSysMem = &(fs[0]);
+				hSubResourceData.SysMemPitch = 0;
+				hSubResourceData.SysMemSlicePitch = 0;
+
+				if (FAILED(g->GetDevice()->CreateBuffer(&hBufferDesc, &hSubResourceData, &ib)))
+				{
+					return NULL;
+				}
+
+				model->IndexBuffer = ib;
+			}
+
+			delete [] data_model;
+
+			return (void*) model;
+		}
+
+		void InternalUnload(void* data) override
+		{
+			if (data != NULL)
+			{
+				::EffekseerRendererDX11::Model* model = (::EffekseerRendererDX11::Model*) data;
+				delete model;
+			}
+		}
+	};
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -217,6 +346,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	m_renderingThread->Run(this, StartRenderingThreadFunc, EndRenderingThreadFunc);
 	
 	GetEffectSetting()->SetTextureLoader(new EffectTextureLoader_DX11(this));
+	GetEffectSetting()->SetModelLoader(new EffectModelLoader_DX11(this));
 
 	auto flevel = m_device->GetFeatureLevel();
 
