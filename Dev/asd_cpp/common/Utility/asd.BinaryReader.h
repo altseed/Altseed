@@ -21,7 +21,7 @@ namespace asd
 class BinaryReader
 {
 protected:
-	std::deque<int8_t> data;
+	std::deque<uint8_t> data;
 public:
 	template<typename itrT> void ReadIn(itrT beg, itrT end)
 	{
