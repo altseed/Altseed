@@ -13,6 +13,8 @@ def exec_sync( cmd ):
 	ret = p.wait()
 	print('')
 
+aceutils.cdToScript()
+
 if aceutils.isWin():
 	exec_sync('.\CSharpWrapperGenerator\CSharpWrapperGenerator.exe CSharpWrapperGenerator\Settings.json')
 else:
