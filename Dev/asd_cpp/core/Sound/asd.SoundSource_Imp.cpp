@@ -27,6 +27,26 @@ namespace asd
 		return m_sound->GetLength();
 	}
 
+	bool SoundSource_Imp::GetIsPlaybackSpeedEnabled()
+	{
+		return m_sound->GetIsPlaybackSpeedEnabled();
+	}
+
+	void SoundSource_Imp::SetIsPlaybackSpeedEnabled(bool isPlaybackSpeedEnabled)
+	{
+		m_sound->SetIsPlaybackSpeedEnabled(isPlaybackSpeedEnabled);
+	}
+
+	float SoundSource_Imp::GetPlaybackSpeed()
+	{
+		return m_sound->GetPlaybackSpeed();
+	}
+
+	void SoundSource_Imp::SetPlaybackSpeed(float playbackSpeed)
+	{
+		m_sound->SetPlaybackSpeed(playbackSpeed);
+	}
+
 	void SoundSource_Imp::Reload(uint8_t* data, int32_t size)
 	{
 		auto ls = GetLoopStartingPoint();
