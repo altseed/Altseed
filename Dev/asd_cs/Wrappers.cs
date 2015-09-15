@@ -2266,6 +2266,24 @@ namespace asd {
 			get { return CoreInstance.GetLength(); }
 		}
 
+		/// <summary>
+		/// 再生速度変更するかを取得または設定する。
+		/// </summary>
+		public bool IsPlaybackSpeedEnabled
+		{
+			get { return CoreInstance.GetIsPlaybackSpeedEnabled(); }
+			set { CoreInstance.SetIsPlaybackSpeedEnabled(value); }
+		}
+
+		/// <summary>
+		/// 再生速度を取得または設定する。
+		/// </summary>
+		public float PlaybackSpeed
+		{
+			get { return CoreInstance.GetPlaybackSpeed(); }
+			set { CoreInstance.SetPlaybackSpeed(value); }
+		}
+
 
 	}
 
