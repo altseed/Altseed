@@ -19,3 +19,9 @@ Altseedで描画結果を別の範囲に写すには、[CameraObject2D](./../Ref
 
 * include_basic_sample CameraObject2D_Group
 
+### カメラで撮影した結果をテクスチャとして使うサンプル。
+
+オフスクリーンモードを設定することで、テクスチャとして使用できるようになります。
+
+* include_basic_sample CameraObject2D_Texture
+
