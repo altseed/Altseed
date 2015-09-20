@@ -1,4 +1,4 @@
-﻿#include <Base.h>
+﻿#include <Altseed.h>
 
 /**
 @brief	カメラを用いて描画空間の一部を虫眼鏡のような表示で描画するサンプル。

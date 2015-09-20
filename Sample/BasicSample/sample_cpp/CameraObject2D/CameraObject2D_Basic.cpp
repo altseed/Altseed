@@ -1,4 +1,4 @@
-﻿#include <Base.h>
+﻿#include <Altseed.h>
 
 /**
 @brief	カメラを用いた描画空間の一部を切り取って描画するサンプルを表示する。

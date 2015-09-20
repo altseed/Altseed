@@ -51,6 +51,7 @@
     <Compile Include="CameraObject2D\CameraObject2D_Basic.cs" />
     <Compile Include="CameraObject2D\CameraObject2D_Group.cs" />
     <Compile Include="CameraObject2D\CameraObject2D_Magnify.cs" />
+    <Compile Include="CameraObject2D\CameraObject2D_Texture.cs" />
     <Compile Include="Collision\Collision2D_Basic.cs" />
     <Compile Include="Collision\Collision2D_Geometries.cs" />
     <Compile Include="EffectObject2D\EffectObject2D_Basic.cs" />

@@ -58,6 +58,7 @@ extern void TextureObject2D_Src();
 extern void CameraObject2D_Basic();
 extern void CameraObject2D_Magnify();
 extern void CameraObject2D_Group();
+extern void CameraObject2D_Texture();
 
 extern void GeometryObject2D_CircleShape();
 extern void GeometryObject2D_ArcShape();
@@ -120,6 +121,7 @@ int main(int argc, char** argv)
 		INFO(CameraObject2D_Basic),
 		INFO(CameraObject2D_Magnify),
 		INFO(CameraObject2D_Group),
+		INFO(CameraObject2D_Texture),
 
 		INFO(EffectObject2D_Basic),
 
