@@ -47,6 +47,16 @@ namespace asd
 		m_sound->SetPlaybackSpeed(playbackSpeed);
 	}
 
+	float SoundSource_Imp::GetPanningPosition()
+	{
+		return m_sound->GetPanningPosition();
+	}
+
+	void SoundSource_Imp::SetPanningPosition(float panningPosition)
+	{
+		m_sound->SetPanningPosition(panningPosition);
+	}
+
 	void SoundSource_Imp::Reload(uint8_t* data, int32_t size)
 	{
 		auto ls = GetLoopStartingPoint();

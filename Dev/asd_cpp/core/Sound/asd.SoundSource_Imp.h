@@ -44,6 +44,10 @@ namespace asd
 
 		void SetPlaybackSpeed(float playbackSpeed) override;
 
+		float GetPanningPosition() override;
+
+		void SetPanningPosition(float panningPosition) override;
+
 		osm::Sound* GetSound() { return m_sound; }
 
 		void Reload(uint8_t* data, int32_t size);

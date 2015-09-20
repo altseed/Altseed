@@ -2284,6 +2284,15 @@ namespace asd {
 			set { CoreInstance.SetPlaybackSpeed(value); }
 		}
 
+		/// <summary>
+		/// パン位置を取得または設定する。
+		/// </summary>
+		public float PanningPosition
+		{
+			get { return CoreInstance.GetPanningPosition(); }
+			set { CoreInstance.SetPanningPosition(value); }
+		}
+
 
 	}
 

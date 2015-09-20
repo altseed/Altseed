@@ -88,5 +88,18 @@ namespace asd
 		音程は再生速度に比例して変化する。
 		*/
 		virtual void SetPlaybackSpeed(float playbackSpeed) = 0;
+
+		/**
+		@brief	パン位置を取得する。
+		@return	パン位置, 0.0で中央, -1.0で左, 1.0で右。
+		*/
+		virtual float GetPanningPosition() = 0;
+
+		/**
+		@brief	パン位置を設定する。
+		@param	panningPosition	パン位置, 0.0で中央, -1.0で左, 1.0で右。
+		*/
+		virtual void SetPanningPosition(float panningPosition) = 0;
+
 	};
 }
