@@ -75,16 +75,16 @@ namespace asd
 		@brief	再生速度を取得する。
 		@return	再生速度(比率)
 		@note
-		設定値は再生速度に比例する。1.0で等速である。
+		設定値は再生速度に比例する。1.0で等速。範囲は0.25から4.0。
 		音程は再生速度に比例して変化する。
 		*/
 		virtual float GetPlaybackSpeed() = 0;
 
 		/**
-		@brief	再生速度を取得する。
+		@brief	再生速度を設定する。
 		@param	playbackSpeed	再生速度(比率)
 		@note
-		設定値は再生速度に比例する。1.0で等速である。
+		設定値は再生速度に比例する。1.0で等速。範囲は0.25から4.0。
 		音程は再生速度に比例して変化する。
 		*/
 		virtual void SetPlaybackSpeed(float playbackSpeed) = 0;
