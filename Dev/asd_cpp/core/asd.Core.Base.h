@@ -238,8 +238,8 @@ namespace asd {
 	*/
 	enum class WindowPositionType : int32_t
 	{
-		Default = 0,
-		Centering = 1,
+		Default = 0,		///< OSによる自動選択
+		Centering = 1,		///< プライマリモニタの中央
 	};
 
 	enum class Object2DType : int32_t
