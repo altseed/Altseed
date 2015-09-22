@@ -56,6 +56,14 @@ public:
 
 	void SetTitle( const achar* title );
 
+	Vector2DI GetPrimaryMonitorPosition() override;
+
+	Vector2DI GetPrimaryMonitorSize() override;
+
+	Vector2DI GetWindowPosition() override;
+
+	void SetWindowPosition(Vector2DI position) override;
+
 	void Close();
 
 	GLFWwindow*	GetWindow() { return m_window; }

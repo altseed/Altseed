@@ -126,6 +126,44 @@ void Window_Imp_X11::SetTitle( const achar* title )
 	glfwSetWindowTitle(m_window, titleUTF8.c_str());
 }
 
+Vector2DI Window_Imp_X11::GetPrimaryMonitorPosition()
+{
+	auto monitor = glfwGetPrimaryMonitor();
+	if (monitor == nullptr) return Vector2DI();
+
+	int32_t x = 0;
+	int32_t y = 0;
+
+	glfwGetMonitorPos(monitor, &x, &y);
+
+	return Vector2DI(x, y);
+}
+
+Vector2DI Window_Imp_X11::GetPrimaryMonitorSize()
+{
+	auto monitor = glfwGetPrimaryMonitor();
+	if (monitor == nullptr) return Vector2DI();
+
+	auto videomode = glfwGetVideoMode(monitor);
+	if (videomode == nullptr) return Vector2DI();
+
+	return Vector2DI(videomode->width, videomode->height);
+}
+
+Vector2DI Window_Imp_X11::GetWindowPosition()
+{
+	int32_t x = 0;
+	int32_t y = 0;
+
+	glfwGetWindowPos(m_window, &x, &y);
+
+	return Vector2DI(x, y);
+}
+
+void Window_Imp_X11::SetWindowPosition(Vector2DI position)
+{
+	glfwSetWindowPos(m_window, position.X, position.Y);
+}
 
 //----------------------------------------------------------------------------------
 //

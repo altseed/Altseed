@@ -304,6 +304,21 @@ namespace asd {
 	}
 
 	/// <summary>
+	/// ウインドウ表示位置 
+	///	</summary>
+	public enum WindowPositionType : int
+	{
+		/// <summary>
+		/// 
+		/// </summary>
+		Default = asd.swig.WindowPositionType.Default,
+		/// <summary>
+		/// 
+		/// </summary>
+		Centering = asd.swig.WindowPositionType.Centering,
+	}
+
+	/// <summary>
 	/// 
 	///	</summary>
 	public enum Object2DType : int

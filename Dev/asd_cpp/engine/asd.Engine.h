@@ -36,6 +36,11 @@ namespace asd {
 		GraphicsDeviceType	GraphicsDevice = GraphicsDeviceType::Default;
 
 		/**
+		@brief	ウインドウの初期配置
+		*/
+		WindowPositionType	WindowPosition = WindowPositionType::Default;
+
+		/**
 		@brief	リソースの再読み込みを有効にするかどうか?
 		*/
 		bool IsReloadingEnabled = false;

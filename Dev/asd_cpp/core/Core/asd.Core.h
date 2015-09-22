@@ -25,6 +25,7 @@ namespace asd {
 		bool IsFullScreen;
 		GraphicsDeviceType GraphicsDevice;
 		bool IsReloadingEnabled;
+		WindowPositionType WindowPosition;
 	};
 
 	class Core

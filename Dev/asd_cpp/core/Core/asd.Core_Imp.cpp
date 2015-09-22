@@ -206,6 +206,19 @@ namespace asd
 		m_window = Window_Imp::Create(width, height, title, m_logger, option.IsFullScreen);
 		if (m_window == nullptr) return false;
 
+		if (!option.IsFullScreen && option.WindowPosition == WindowPositionType::Centering)
+		{
+			auto monitorSize = m_window->GetPrimaryMonitorSize();
+			
+			if (monitorSize.X > 0)
+			{
+				auto offset = (monitorSize - Vector2DI(width, height)) / 2;
+				offset += m_window->GetPrimaryMonitorPosition();
+
+				m_window->SetWindowPosition(offset);
+			}
+		}
+
 		m_keyboard = Keyboard_Imp::Create(m_window);
 		m_mouse = Mouse_Imp::Create(m_window);
 		m_joystickContainer = JoystickContainer_Imp::Create();

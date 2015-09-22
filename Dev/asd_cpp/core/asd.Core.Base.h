@@ -233,6 +233,15 @@ namespace asd {
 		OpenGL = 2,			///< OpenGL
 	};
 
+	/**
+		@brief	ウインドウ表示位置
+	*/
+	enum class WindowPositionType : int32_t
+	{
+		Default = 0,
+		Centering = 1,
+	};
+
 	enum class Object2DType : int32_t
 	{
 		Unknown,

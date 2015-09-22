@@ -246,6 +246,7 @@
     <Compile Include="swig\VectorUint8.cs" />
     <Compile Include="swig\VisualizedBufferType.cs" />
     <Compile Include="swig\Window.cs" />
+    <Compile Include="swig\WindowPositionType.cs" />
     <Compile Include="swig\Window_Imp.cs" />
     <Compile Include="swig\WritingDirection.cs" />
     <Compile Include="Utils\InternalGetter.cs" />

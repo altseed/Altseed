@@ -19,6 +19,11 @@ namespace asd
 		public GraphicsDeviceType GraphicsDevice = GraphicsDeviceType.Default;
 
 		/// <summary>
+		/// ウインドウの初期配置
+		/// </summary>
+		public WindowPositionType WindowPosition = WindowPositionType.Default;
+
+		/// <summary>
 		/// リソースの再読み込みを有効にするかどうか?
 		/// </summary>
 		public bool IsReloadingEnabled = false;
@@ -88,6 +93,7 @@ namespace asd
 			var coreOption = new swig.CoreOption();
 			coreOption.GraphicsDevice = (swig.GraphicsDeviceType)graphicsType;
 			coreOption.IsFullScreen = option.IsFullScreen;
+			coreOption.WindowPosition = (swig.WindowPositionType)option.WindowPosition;
 			coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
 
 			var result = core.Initialize(title, width, height, coreOption);
