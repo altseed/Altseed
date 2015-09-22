@@ -5,6 +5,9 @@
 #include <Windows.h>
 #endif
 
+#if defined(__clang__) || defined(__GNUC__)
+#include <cpuid.h>
+#endif
 
 #include <cstdint>
 #include <cstring>
@@ -24,7 +27,7 @@ std::string GetCPUName()
 	@brief	CPU名を取得する
 	*/
 
-#if defined(__i386__) || defined(_M_IX86)
+#if defined(__i386__) || defined(_M_IX86) || defined(__x86_64__) || defined(_M_X64)
 	char procName[64] = "";
 	
 	std::uint32_t inst = 0x80000002;
@@ -47,15 +50,8 @@ std::string GetCPUName()
 			mov tmp + 8, ECX
 			mov tmp + 12, EDX
 		}
-#elif defined(__clang__)
-		__asm__(
-			"cpuid"
-			: "=a" (tmp.i[0]), "=b" (tmp.i[1]), "=c" (tmp.i[2]), "=d" (tmp.i[3])
-			: "a" (inst)
-			: "%eax", "%ebx", "%ecx", "%edx"
-		);
-#elif defined(__GNUC__)
-		// TODO 実装
+#elif defined(__clang__) || defined(__GNUC__)
+		__get_cpuid(inst, &tmp.i[0], &tmp.i[1], &tmp.i[2], &tmp.i[3]);
 #endif
 		std::memcpy(procName + i * 16, &tmp, 16);
 		inst++;
