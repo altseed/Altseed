@@ -336,6 +336,7 @@ namespace asd
 		CoreOption coreOption;
 		coreOption.GraphicsDevice = graphicsDeviceType;
 		coreOption.IsFullScreen = option.IsFullScreen;
+		coreOption.WindowPosition = option.WindowPosition;
 		coreOption.IsReloadingEnabled = option.IsReloadingEnabled;
 
 		bool init = m_core->Initialize(title, width, height, coreOption);
