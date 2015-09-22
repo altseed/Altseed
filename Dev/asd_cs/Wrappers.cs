@@ -309,11 +309,11 @@ namespace asd {
 	public enum WindowPositionType : int
 	{
 		/// <summary>
-		/// 
+		/// OSによる自動選択 
 		/// </summary>
 		Default = asd.swig.WindowPositionType.Default,
 		/// <summary>
-		/// 
+		/// プライマリモニタの中央 
 		/// </summary>
 		Centering = asd.swig.WindowPositionType.Centering,
 	}
