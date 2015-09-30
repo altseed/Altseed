@@ -52,7 +52,6 @@ namespace asd
 			}
 			else if (d == DivisionDirection::Filled)
 			{
-				
 				auto isNone = [&divisions](int32_t x_, int32_t y_) -> bool
 				{
 					if (x_ < 0) return false;
@@ -80,8 +79,7 @@ namespace asd
 				if (isNone(x, y + 1))
 				{
 					lines.push_back(std::pair<int32_t, int32_t>((x + 0) + (y + 1) * 5, (x + 1) + (y + 1) * 5));
-				}
-				
+				}	
 			}
 		}
 
@@ -271,9 +269,10 @@ namespace asd
 	}
 
 	/**
-	@brief	中央のチップから見て、指定されたチップが地形に一致しているか取得する。もしくは中央のチップが地形に一致しているか取得する。
+	@brief	中央のチップから見て、指定されたチップが中央のチップとスームズに接続されているか取得する。
+			もしくは中央のチップが周囲のチップにスムーズに接続されているか取得する。
 	@param	targetIndex	指定されたチップ
-	@param	heights	周囲の高度
+	@param	cliffs	周囲の高度
 	*/
 	static bool IsFitToHeight(int32_t targetIndex, int32_t cliffs[9])
 	{
@@ -910,9 +909,6 @@ namespace asd
 					{
 						auto x = fi[i] % 5;
 						auto y = fi[i] / 5;
-
-						//auto v = getPosL(x / 4.0f, y / 4.0f);
-						//v.Y += 2.0f;
 
 						auto v = getPosH(x / 4.0f, y / 4.0f);
 
@@ -1725,7 +1721,19 @@ namespace asd
 			{
 				auto& chip = Chips[x + y * gridWidthCount];
 				chip.GenerateTerrainChip(this, x, y);
+			}
+		}
 
+		// 一時バッファ
+		std::vector<Vector3DF> lowerVertcies;
+		std::vector<Vector3DF> upperVertcies;
+
+		for (int32_t y = 0; y < gridHeightCount; y++)
+		{
+			for (int32_t x = 0; x < gridWidthCount; x++)
+			{
+				auto& chip = Chips[x + y * gridWidthCount];
+				
 				chip.Vertecies.clear();
 				chip.Faces.clear();
 
@@ -1751,12 +1759,121 @@ namespace asd
 				}
 				else
 				{
-					for (auto& v : chip.LowerVertecies)
+					// 崖の端に発生する隙間を埋める処理を行う。
+					bool isUpperFlat = false;
+					bool isLowerFlat = false;
+					bool isLeftFlat = false;
+					bool isRightFlat = false;
+
+					if (0 < x)
+					{
+						isLeftFlat = Chips[(x - 1) + y * gridWidthCount].IsPlate;
+					}
+
+					if (x < gridWidthCount - 1)
+					{
+						isRightFlat = Chips[(x + 1) + y * gridWidthCount].IsPlate;
+					}
+
+					if (0 < y)
+					{
+						isUpperFlat = Chips[x + (y - 1) * gridWidthCount].IsPlate;
+					}
+
+					if (y < gridHeightCount - 1)
+					{
+						isLowerFlat = Chips[x + (y + 1) * gridWidthCount].IsPlate;
+					}
+
+					lowerVertcies = chip.LowerVertecies;
+					upperVertcies = chip.UpperVertecies;
+
+					if (isLowerFlat)
+					{
+						auto h0 = Chips[x + (y + 1) * gridWidthCount].PlatePoints[0].Y;
+						auto h1 = Chips[x + (y + 1) * gridWidthCount].PlatePoints[1].Y;
+
+						for (int i = 0; i < 5; i++)
+						{
+							auto p = i / 4.0f;
+							if (chip.LowerPoints[i+20] != -1)
+							{
+								lowerVertcies[chip.LowerPoints[i + 20]].Y = (h1 - h0) * p + h0;
+							}
+
+							if (chip.UpperPoints[i + 20] != -1)
+							{
+								upperVertcies[chip.UpperPoints[i + 20]].Y = (h1 - h0) * p + h0;
+							}
+						}
+					}
+
+					if (isUpperFlat)
+					{
+						auto h0 = Chips[x + (y - 1) * gridWidthCount].PlatePoints[2].Y;
+						auto h1 = Chips[x + (y - 1) * gridWidthCount].PlatePoints[3].Y;
+
+						for (int i = 0; i < 5; i++)
+						{
+							auto p = i / 4.0f;
+							if (chip.LowerPoints[i] != -1)
+							{
+								lowerVertcies[chip.LowerPoints[i]].Y = (h1 - h0) * p + h0;
+							}
+
+							if (chip.UpperPoints[i] != -1)
+							{
+								upperVertcies[chip.UpperPoints[i]].Y = (h1 - h0) * p + h0;
+							}
+						}
+					}
+
+					if (isLeftFlat)
+					{
+						auto h0 = Chips[(x-1) + (y) * gridWidthCount].PlatePoints[0].Y;
+						auto h1 = Chips[(x-1) + (y) * gridWidthCount].PlatePoints[2].Y;
+
+						for (int i = 0; i < 5; i++)
+						{
+							auto p = i / 4.0f;
+							if (chip.LowerPoints[i * 5] != -1)
+							{
+								lowerVertcies[chip.LowerPoints[i*5]].Y = (h1 - h0) * p + h0;
+							}
+
+							if (chip.UpperPoints[i * 5] != -1)
+							{
+								upperVertcies[chip.UpperPoints[i*5]].Y = (h1 - h0) * p + h0;
+							}
+						}
+					}
+
+					if (isRightFlat)
+					{
+						auto h0 = Chips[(x - 1) + (y) * gridWidthCount].PlatePoints[1].Y;
+						auto h1 = Chips[(x - 1) + (y) * gridWidthCount].PlatePoints[3].Y;
+
+						for (int i = 0; i < 5; i++)
+						{
+							auto p = i / 4.0f;
+							if (chip.LowerPoints[i * 5 + 4] != -1)
+							{
+								lowerVertcies[chip.LowerPoints[i*5+4]].Y = (h1 - h0) * p + h0;
+							}
+
+							if (chip.UpperPoints[i * 5 + 4] != -1)
+							{
+								upperVertcies[chip.UpperPoints[i*5+4]].Y = (h1 - h0) * p + h0;
+							}
+						}
+					}
+
+					for (auto& v : lowerVertcies)
 					{
 						chip.Vertecies.push_back(v);
 					}
 
-					for (auto& v : chip.UpperVertecies)
+					for (auto& v : upperVertcies)
 					{
 						chip.Vertecies.push_back(v);
 					}
