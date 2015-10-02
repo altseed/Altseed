@@ -267,24 +267,186 @@ namespace asd
 				shader = m_shaderDF_ND;
 			}
 
+			{
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", matM));
+
+				auto vb = cluster->Black.VB;
+				auto ib = cluster->Black.IB;
+
+				asd::Texture2D* colorTexture = prop.DummyTextureWhite.get();
+
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
+					h::Texture2DPair(colorTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Repeat)));
+
+				RenderState state;
+				state.DepthTest = true;
+				state.DepthWrite = true;
+				state.Culling = CullingType::Front;
+				state.AlphaBlendState = AlphaBlendMode::Opacity;
+
+				helper->DrawWithPtr(
+					ib->GetCount() / 3,
+					vb.get(),
+					ib.get(),
+					shader.get(),
+					state,
+					shaderConstants.data(),
+					shaderConstants.size());
+			}
+
+			{
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", matM));
+
+				auto vb = cluster->SideVB;
+				auto ib = cluster->SideIB;
+
+				asd::Texture2D* colorTexture = prop.DummyTextureWhite.get();
+
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
+					h::Texture2DPair(colorTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Repeat)));
+
+				RenderState state;
+				state.DepthTest = true;
+				state.DepthWrite = true;
+				state.Culling = CullingType::Front;
+				state.AlphaBlendState = AlphaBlendMode::Opacity;
+
+				helper->DrawWithPtr(
+					ib->GetCount() / 3,
+					vb.get(),
+					ib.get(),
+					shader.get(),
+					state,
+					shaderConstants.data(),
+					shaderConstants.size());
+			}
+			return;
+		}
+
+		// 側面描画
+		{
+			auto vb = cluster->SideVB;
+			auto ib = cluster->SideIB;
+
+
+			shaderConstants.clear();
+
+			std::shared_ptr<asd::NativeShader_Imp> shader;
+
+			if (terrain->Proxy.Material_ != nullptr)
+			{
+				auto shader_ = (Shader3D_Imp*) terrain->Proxy.Material_->GetShader3D().get();
+
+				if (prop.IsLightweightMode)
+				{
+					shader = shader_->GetNativeShaderTerrainLight();
+				}
+				else
+				{
+					shader = shader_->GetNativeShaderTerrain();
+				}
+			}
+			else
+			{
+				if (prop.IsLightweightMode)
+				{
+					shader = m_shaderLightweight;
+				}
+				else
+				{
+					shader = m_shaderDF;
+				}
+			}
+
+
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matM", matM));
 
-			auto vb = cluster->Black.VB;
-			auto ib = cluster->Black.IB;
+			if (prop.IsLightweightMode)
+			{
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightDirection", lightDirection));
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "directionalLightColor", lightColor));
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "skyLightColor", skyLColor));
+				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "groundLightColor", groudLColor));
+			}
+			else
+			{
+			}
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_densityTexture",
+				h::Texture2DPair(prop.DummyTextureWhite.get(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)));
+
 
 			asd::Texture2D* colorTexture = prop.DummyTextureWhite.get();
+			asd::Texture2D* normalTexture = prop.DummyTextureNormal.get();
+			asd::Texture2D* metalnessTexture = prop.DummyTextureBlack.get();
+			asd::Texture2D* smoothnessTexture = prop.DummyTextureBlack.get();
+
+			if (terrain->Proxy.SideColorTexture != nullptr)
+			{
+				colorTexture = terrain->Proxy.SideColorTexture.get();
+			}
+
+			if (!prop.IsLightweightMode)
+			{
+				if (terrain->Proxy.SideNormalTexture != nullptr)
+				{
+					normalTexture = terrain->Proxy.SideNormalTexture.get();
+				}
+
+				if (terrain->Proxy.SideMetalnessTexture != nullptr)
+				{
+					metalnessTexture = terrain->Proxy.SideMetalnessTexture.get();
+				}
+			}
 
 			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_colorTexture",
 				h::Texture2DPair(colorTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Repeat)));
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_normalTexture",
+				h::Texture2DPair(normalTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Repeat)));
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_metalnessTexture",
+				h::Texture2DPair(metalnessTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Repeat)));
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_smoothnessTexture",
+				h::Texture2DPair(smoothnessTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Repeat)));
+
+			shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "g_depthScale", 1.0f));
+			
+			if (terrain->Proxy.Material_ != nullptr)
+			{
+				auto mat = (Material3D_Imp*) (terrain->Proxy.Material_.get());
+
+				std::shared_ptr<MaterialPropertyBlock> block;
+				if (materialPropertyBlock.get() != nullptr)
+				{
+					// ユーザー定義ブロック使用
+					block = materialPropertyBlock;
+				}
+				else
+				{
+					block = mat->GetMaterialPropertyBlock();
+				}
+
+				((MaterialPropertyBlock_Imp*) block.get())->AddValuesTo(shader.get(), shaderConstants);
+			}
+			else
+			{
+			}
 
 			RenderState state;
 			state.DepthTest = true;
 			state.DepthWrite = true;
 			state.Culling = CullingType::Front;
-			state.AlphaBlendState = AlphaBlendMode::Opacity;
 
+			state.AlphaBlendState = AlphaBlendMode::OpacityAll;
+			
 			helper->DrawWithPtr(
 				ib->GetCount() / 3,
 				vb.get(),
@@ -293,10 +455,7 @@ namespace asd
 				state,
 				shaderConstants.data(),
 				shaderConstants.size());
-			return;
 		}
-
-		
 
 		// サーフェース描画
 		int32_t surfaceCount = 0;

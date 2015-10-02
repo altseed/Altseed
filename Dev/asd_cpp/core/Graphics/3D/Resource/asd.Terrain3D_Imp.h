@@ -68,6 +68,9 @@ namespace asd
 			std::vector<SurfacePolygon>	Surfaces;
 			Vector3DF	Center;
 			Vector3DF	Size;
+
+			std::shared_ptr<VertexBuffer_Imp> SideVB;
+			std::shared_ptr<IndexBuffer_Imp> SideIB;
 		};
 
 		struct SurfaceProxy
@@ -96,6 +99,9 @@ namespace asd
 			std::vector<SurfaceProxy>					Surfaces;
 			std::vector<std::shared_ptr<ClusterProxy>>	Clusters;
 
+			std::shared_ptr<Texture2D>	SideColorTexture;
+			std::shared_ptr<Texture2D>	SideNormalTexture;
+			std::shared_ptr<Texture2D>	SideMetalnessTexture;
 
 			int32_t			ClusterWidthCount = 0;
 			int32_t			ClusterHeightCount = 0;
@@ -132,6 +138,10 @@ namespace asd
 		std::map<astring, int32_t>			surfaceNameToIndex;
 		std::map<astring, Surface>			surfaceNameToSurface;
 
+		std::shared_ptr<Texture2D>			sideColorTexture;
+		std::shared_ptr<Texture2D>			sideNormalTexture;
+		std::shared_ptr<Texture2D>			sideMetalnessTexture;
+
 		std::shared_ptr<Material3D>			material_;
 
 		std::vector<float>					heights;
@@ -146,6 +156,22 @@ namespace asd
 			int32_t		Indexes[3];
 			Vector3DF	Normal;
 			Vector3DF	Binormal;
+
+		};
+
+		class ChipVertex
+		{
+		public:
+			Vector3DF	Position;
+
+			// 側面の場合のみ使用
+			Vector2DF	UV;
+			float		xEx;
+
+			ChipVertex()
+				: UV(Vector2DF(FLT_MAX, FLT_MAX))
+			{
+			}
 		};
 
 		class Chip
@@ -165,9 +191,10 @@ namespace asd
 
 			std::vector<std::pair<int32_t, int32_t>> Lines;
 
-			std::vector<Vector3DF>	Vertecies;
+			std::vector<ChipVertex>	Vertecies;
 			std::vector<ChipFace>	Faces;
-			
+			std::vector<ChipFace>	SideFaces;
+
 			bool	IsChanged;
 			bool	IsMeshGenerated;
 			bool	IsCollisionGenerated;
@@ -211,7 +238,7 @@ namespace asd
 		void GenerateCollision();
 		//void GenerateTerrainChip(int32_t chip_x, int32_t chip_y);
 		void GenerateTerrainChips();
-		void GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces);
+		void GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, bool isTargetSide, std::vector<Vertex>& vertices, std::vector<Face>& faces);
 	public:
 
 		bool Commit() override;
@@ -225,6 +252,8 @@ namespace asd
 		void AddSurface(const achar* name, float size, const achar* color, const achar* normal, const achar* metalness) override;
 
 		int32_t GetSurfaceIndex(const achar* name) override;
+
+		void SetCliffTexture(Texture2D* diffuseTexture, Texture2D* normalTexture, Texture2D* metalnessTexture) override;
 
 		void AssignSurfaceWithCircle(int32_t surfaceIndex, float x, float y, float radius, float value, float fallout) override;
 

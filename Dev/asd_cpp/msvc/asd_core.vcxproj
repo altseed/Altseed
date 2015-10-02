@@ -351,6 +351,7 @@
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.LightRendering.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.Renderer3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.Renderer3DProxy.h" />
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.SkyCubeRendering.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.SpriteRenderer3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Resource\asd.Deformer.h" />
     <ClInclude Include="..\core\Graphics\3D\Resource\asd.Deformer_Imp.h" />
@@ -452,6 +453,7 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Screen_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\SkyCube_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\SpriteRenderer3D_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Terrain_Internal_PS.h" />

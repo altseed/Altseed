@@ -63,6 +63,8 @@ namespace asd
 		*/
 		virtual int32_t GetSurfaceIndex(const achar* name) = 0;
 
+		virtual void SetCliffTexture(Texture2D* diffuseTexture, Texture2D* normalTexture, Texture2D* metalnessTexture) = 0;
+
 		/**
 			@brief	素材を円形に割り当てる。
 			@param	surfaceIndex	素材インデックス

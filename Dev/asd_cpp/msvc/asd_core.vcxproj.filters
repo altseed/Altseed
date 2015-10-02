@@ -981,6 +981,12 @@
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.HeightFogRendering.h">
       <Filter>Graphics\3D\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\SkyCube_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.SkyCubeRendering.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">

@@ -86,6 +86,101 @@ namespace asd
 		return lines;
 	}
 
+	static std::vector<std::vector<int32_t>> SortLines(std::vector<std::pair<int32_t, int32_t>> lines)
+	{
+		std::vector<std::vector<int32_t>> ret;
+
+		for (auto line : lines)
+		{
+			int32_t s_ind = -1;
+			bool s_head = true;
+			int32_t e_ind = -1;
+			bool e_head = true;
+
+			for (size_t i = 0; i < ret.size(); i++)
+			{
+				if (line.first == ret[i][0])
+				{
+					s_ind = i;
+					s_head = true;
+				}
+				
+				if (line.first == ret[i][ret[i].size()-1])
+				{
+					s_ind = i;
+					s_head = false;
+				}
+
+				if (line.second == ret[i][0])
+				{
+					e_ind = i;
+					e_head = true;
+				}
+
+				if (line.second == ret[i][ret[i].size() - 1])
+				{
+					e_ind = i;
+					e_head = false;
+				}
+			}
+
+			if (s_ind == -1 && e_ind == -1)
+			{
+				ret.push_back(std::vector<int32_t> { line.first, line.second });
+			}
+			else if (s_ind != -1 && e_ind == -1)
+			{
+				if (s_head)
+				{
+					ret[s_ind].insert(ret[s_ind].begin(), line.second);
+				}
+				else
+				{
+					ret[s_ind].push_back(line.second);
+				}
+			}
+			else if (s_ind == -1 && e_ind != -1)
+			{
+				if (e_head)
+				{
+					ret[e_ind].insert(ret[e_ind].begin(), line.first);
+				}
+				else
+				{
+					ret[e_ind].push_back(line.first);
+				}
+			}
+			else
+			{
+				std::vector<int32_t> temp;
+				if (s_head)
+				{
+					temp = ret[s_ind];
+					std::reverse(temp.begin(), temp.end());
+				}
+				else
+				{
+					temp = ret[s_ind];
+				}
+
+				if (e_head)
+				{
+					temp.insert(temp.begin(), ret[e_ind].begin(), ret[e_ind].end());
+				}
+				else
+				{
+					std::reverse(ret[e_ind].begin(), ret[e_ind].end());
+					temp.insert(temp.end(), ret[e_ind].begin(), ret[e_ind].end());
+				}
+
+				ret[s_ind] = temp;
+				ret.erase(ret.begin() + e_ind);
+			}
+		}
+
+		return ret;
+	}
+
 	static void CalculateDivisionState(std::array<DivisionDirection, 16>& dst, bool isCliffes[9])
 	{
 		auto rot = [](int32_t ind, int32_t angle) -> int32_t
@@ -1067,9 +1162,21 @@ namespace asd
 					const auto& pos2 = chip.Vertecies[chip.Faces[i].Indexes[2]];
 
 					CollisionMesh->addTriangle(
-						btVector3(pos0.X, pos0.Y, pos0.Z),
-						btVector3(pos1.X, pos1.Y, pos1.Z),
-						btVector3(pos2.X, pos2.Y, pos2.Z));
+						btVector3(pos0.Position.X, pos0.Position.Y, pos0.Position.Z),
+						btVector3(pos1.Position.X, pos1.Position.Y, pos1.Position.Z),
+						btVector3(pos2.Position.X, pos2.Position.Y, pos2.Position.Z));
+				}
+
+				for (size_t i = 0; i < chip.SideFaces.size(); i++)
+				{
+					const auto& pos0 = chip.Vertecies[chip.SideFaces[i].Indexes[0]];
+					const auto& pos1 = chip.Vertecies[chip.SideFaces[i].Indexes[1]];
+					const auto& pos2 = chip.Vertecies[chip.SideFaces[i].Indexes[2]];
+
+					CollisionMesh->addTriangle(
+						btVector3(pos0.Position.X, pos0.Position.Y, pos0.Position.Z),
+						btVector3(pos1.Position.X, pos1.Position.Y, pos1.Position.Z),
+						btVector3(pos2.Position.X, pos2.Position.Y, pos2.Position.Z));
 				}
 			}
 		}
@@ -1736,13 +1843,20 @@ namespace asd
 				
 				chip.Vertecies.clear();
 				chip.Faces.clear();
+				chip.SideFaces.clear();
 
 				if (chip.IsPlate)
 				{
-					chip.Vertecies.push_back(chip.PlatePoints[0]);
-					chip.Vertecies.push_back(chip.PlatePoints[1]);
-					chip.Vertecies.push_back(chip.PlatePoints[2]);
-					chip.Vertecies.push_back(chip.PlatePoints[3]);
+					ChipVertex v0, v1, v2, v3;
+					v0.Position = chip.PlatePoints[0];
+					v1.Position = chip.PlatePoints[1];
+					v2.Position = chip.PlatePoints[2];
+					v3.Position = chip.PlatePoints[3];
+
+					chip.Vertecies.push_back(v0);
+					chip.Vertecies.push_back(v1);
+					chip.Vertecies.push_back(v2);
+					chip.Vertecies.push_back(v3);
 
 					ChipFace f1;
 					f1.Indexes[0] = 0;
@@ -1870,12 +1984,16 @@ namespace asd
 
 					for (auto& v : lowerVertcies)
 					{
-						chip.Vertecies.push_back(v);
+						ChipVertex v_;
+						v_.Position = v;
+						chip.Vertecies.push_back(v_);
 					}
 
 					for (auto& v : upperVertcies)
 					{
-						chip.Vertecies.push_back(v);
+						ChipVertex v_;
+						v_.Position = v;
+						chip.Vertecies.push_back(v_);
 					}
 
 					for (auto& v : chip.LowerFaces)
@@ -1894,6 +2012,56 @@ namespace asd
 					}
 
 					// 側面形成
+					auto sortedLines = SortLines(chip.Lines);
+					{
+						for (auto& line : sortedLines)
+						{
+							auto offset = chip.Vertecies.size();
+
+							// 頂点生成
+							for (int32_t p = 0; p < 2; p++)
+							{
+								for (size_t l = 0; l < line.size(); l++)
+								{
+									auto l1 = line[l];
+
+									auto pu1 = chip.UpperPoints[l1];
+									auto pl1 = chip.LowerPoints[l1];
+
+									auto vu = upperVertcies[pu1];
+									auto vl = lowerVertcies[pl1];
+
+									auto v = (vl - vu) * p + vu;
+
+									ChipVertex v_;
+									v_.Position = v;
+									v_.UV.X = (float) l / (float) (line.size() - 1);
+									v_.UV.Y = p;
+									v_.xEx = 0.0f;
+
+									chip.Vertecies.push_back(v_);
+								}
+							}
+
+							for (size_t l = 0; l < line.size() - 1; l++)
+							{
+								ChipFace f1;
+								f1.Indexes[0] = l + offset;
+								f1.Indexes[1] = l + 1 + offset;
+								f1.Indexes[2] = l + 1 + line.size() * 1 + offset;
+
+								ChipFace f2;
+								f2.Indexes[0] = l + offset;
+								f2.Indexes[1] = l + 1 + line.size() * 1 + offset;
+								f2.Indexes[2] = l + 0 + line.size() * 1 + offset;
+
+								chip.SideFaces.push_back(f1);
+								chip.SideFaces.push_back(f2);
+							}
+						}
+					}
+					
+					/*
 					for (auto& line : chip.Lines)
 					{
 						auto offset = chip.LowerVertecies.size();
@@ -1907,9 +2075,10 @@ namespace asd
 						f2.Indexes[1] = chip.LowerPoints[line.second];
 						f2.Indexes[2] = chip.LowerPoints[line.first];
 
-						chip.Faces.push_back(f1);
-						chip.Faces.push_back(f2);
+						chip.SideFaces.push_back(f1);
+						chip.SideFaces.push_back(f2);
 					}
+					*/
 				}
 
 				// 面計算
@@ -1918,8 +2087,8 @@ namespace asd
 					auto& face = chip.Faces[i];
 
 					auto normal = Vector3DF::Cross(
-						(chip.Vertecies[face.Indexes[2]] - chip.Vertecies[face.Indexes[0]]),
-						(chip.Vertecies[face.Indexes[1]] - chip.Vertecies[face.Indexes[0]]));
+						(chip.Vertecies[face.Indexes[2]].Position - chip.Vertecies[face.Indexes[0]].Position),
+						(chip.Vertecies[face.Indexes[1]].Position - chip.Vertecies[face.Indexes[0]].Position));
 
 					normal.Normalize();
 
@@ -1941,16 +2110,50 @@ namespace asd
 						face.Binormal = binormal;
 					}
 				}
+
+				// 側面の法線計算
+				for (size_t i = 0; i < chip.SideFaces.size(); i++)
+				{
+					auto& face = chip.SideFaces[i];
+
+					auto normal = Vector3DF::Cross(
+						(chip.Vertecies[face.Indexes[2]].Position - chip.Vertecies[face.Indexes[0]].Position),
+						(chip.Vertecies[face.Indexes[1]].Position - chip.Vertecies[face.Indexes[0]].Position));
+
+					normal.Normalize();
+
+					face.Normal = normal;
+
+					// 下方向をタンジェントとする。
+					if (abs(Vector3DF::Dot(normal, Vector3DF(0, -1, 0))) < 0.9f)
+					{
+						auto tangent = Vector3DF::Cross(normal, Vector3DF(0, -1, 0));
+						tangent.Normalize();
+
+						face.Binormal = Vector3DF::Cross(tangent, normal);
+						face.Binormal.Normalize();
+					}
+					else
+					{
+						auto binormal = Vector3DF::Cross(Vector3DF(1, 0, 0), normal);
+						binormal.Normalize();
+
+						face.Binormal = binormal;
+					}
+				}
 			}
 		}
 	}
 
-	void Terrain3D_Imp::GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces)
+	void Terrain3D_Imp::GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, bool isTargetSide, std::vector<Vertex>& vertices, std::vector<Face>& faces)
 	{
 		std::vector<Vector3DF> chipVertices;
 		std::vector<ChipFace> chipFaces;
+
 		std::map<Vector3DF, int32_t> chipVertexPositionToVertexIndexes;
 		std::map<Vector3DF, std::vector<int32_t>> chipVertexPositionToFaceIndexes;
+
+		std::map<Vector3DF, Vector2DF> chipVertexPositionToUV;
 
 		auto cx_min = Clamp(chip_x - 1, gridWidthCount - 1, 0);
 		auto cy_min = Clamp(chip_y - 1, gridHeightCount - 1, 0);
@@ -1965,23 +2168,44 @@ namespace asd
 
 				auto& chip = Chips[x + y * gridWidthCount];
 
-				for (auto& v : chip.Vertecies)
+				std::vector<ChipFace>* targetFaces = nullptr;
+				if (isTargetSide)
 				{
-					auto ind = chipVertexPositionToFaceIndexes.find(v);
-					if (ind == chipVertexPositionToFaceIndexes.end())
+					targetFaces = &chip.SideFaces;
+				}
+				else
+				{
+					targetFaces = &chip.Faces;
+				}
+				std::vector<ChipFace>& targetFaces_ = *targetFaces;
+
+				for (auto& f : targetFaces_)
+				{
+					for (int32_t i = 0; i < 3; i++)
 					{
-						chipVertices.push_back(v);
-						chipVertexPositionToVertexIndexes[v] = (int32_t) (chipVertices.size() - 1);
-						chipVertexPositionToFaceIndexes[v] = std::vector<int32_t>();
+						auto& v = chip.Vertecies[f.Indexes[i]].Position;
+
+						auto ind = chipVertexPositionToFaceIndexes.find(v);
+						if (ind == chipVertexPositionToFaceIndexes.end())
+						{
+							chipVertices.push_back(v);
+							chipVertexPositionToVertexIndexes[v] = (int32_t) (chipVertices.size() - 1);
+							chipVertexPositionToFaceIndexes[v] = std::vector<int32_t>();
+						}
+
+						if (chip.Vertecies[f.Indexes[i]].UV != asd::Vector2DF(FLT_MAX, FLT_MAX))
+						{
+							chipVertexPositionToUV[v] = chip.Vertecies[f.Indexes[i]].UV;
+						}
 					}
 				}
 
-				for (auto& f : chip.Faces)
+				for (auto& f : targetFaces_)
 				{
 					auto f_ = f;
 					for (size_t i = 0; i < 3; i++)
 					{
-						auto v = chip.Vertecies[f.Indexes[i]];
+						auto v = chip.Vertecies[f.Indexes[i]].Position;
 						f_.Indexes[i] = chipVertexPositionToVertexIndexes[v];
 						chipVertexPositionToFaceIndexes[v].push_back(chipFaces.size());
 					}
@@ -2000,6 +2224,7 @@ namespace asd
 			Vertex cv;
 
 			cv.Position = v;
+			cv.UV1 = chipVertexPositionToUV[cv.Position];
 
 			Vector3DF normal;
 			Vector3DF binormal;
@@ -2111,6 +2336,10 @@ namespace asd
 		Proxy.GridSize = gridSize;
 		Proxy.Material_ = material_;
 
+		Proxy.SideColorTexture = sideColorTexture;
+		Proxy.SideNormalTexture = sideNormalTexture;
+		Proxy.SideMetalnessTexture = sideMetalnessTexture;
+
 		if (isSurfaceChanged)
 		{
 			Proxy.Surfaces.clear();
@@ -2187,13 +2416,46 @@ namespace asd
 
 				std::vector<Vertex> vs;
 				std::vector<Face> fs;
-				GenerateTerrainMesh(xoffset, yoffset, width, height, vs, fs);
+				GenerateTerrainMesh(xoffset, yoffset, width, height, false, vs, fs);
+
+				std::vector<Vertex> vs_side;
+				std::vector<Face> fs_side;
+				GenerateTerrainMesh(xoffset, yoffset, width, height, true, vs_side, fs_side);
 
 				cluster->Size.X = width * gridSize;
 				cluster->Size.Z = height * gridSize;
 
 				cluster->Center.X = (xoffset + width / 2) * gridSize - gridWidthCount * gridSize / 2.0f;
 				cluster->Center.Z = (yoffset + height / 2) * gridSize - gridHeightCount * gridSize / 2.0f;
+
+				// 横
+				cluster->SideVB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs_side.size(), false);
+				cluster->SideIB = g->CreateIndexBuffer_Imp(fs_side.size() * 3, false, true);
+
+				{
+					cluster->SideVB->Lock();
+					auto buf = cluster->SideVB->GetBuffer<Vertex>(vs_side.size());
+					for (auto i = 0; i < vs_side.size(); i++)
+					{
+						Vertex v = vs_side[i];
+						v.VColor = Color(0, 0, 0, 255);
+						buf[i] = v;
+					}
+
+					cluster->SideVB->Unlock();
+				}
+
+				{
+					cluster->SideIB->Lock();
+					auto buf = cluster->SideIB->GetBuffer<int32_t>(fs_side.size() * 3);
+					for (auto i = 0; i < fs_side.size(); i++)
+					{
+						buf[i * 3 + 0] = fs[i].Index1;
+						buf[i * 3 + 1] = fs[i].Index2;
+						buf[i * 3 + 2] = fs[i].Index3;
+					}
+					cluster->SideIB->Unlock();
+				}
 
 				// 下地
 				cluster->Black.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs.size(), false);
@@ -2331,12 +2593,14 @@ namespace asd
 							{
 								Vertex v = vs[i];
 
-								v.UV1.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / surface.second.Size;
-								v.UV1.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / surface.second.Size;
-
-								v.UV2.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridWidthCount);
-								v.UV2.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridHeightCount);
+								//v.UV1.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / surface.second.Size;
+								//v.UV1.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / surface.second.Size;
+								//
+								//v.UV2.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridWidthCount);
+								//v.UV2.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridHeightCount);
 							
+								
+
 								v.VColor = Color(255, 255, 255, 255);
 
 								buf[i] = v;
@@ -2655,6 +2919,17 @@ namespace asd
 		}
 
 		return -1;
+	}
+
+	void Terrain3D_Imp::SetCliffTexture(Texture2D* diffuseTexture, Texture2D* normalTexture, Texture2D* metalnessTexture)
+	{
+		SafeAddRef(diffuseTexture);
+		SafeAddRef(normalTexture);
+		SafeAddRef(metalnessTexture);
+
+		sideColorTexture = CreateSharedPtrWithReleaseDLL(diffuseTexture);
+		sideNormalTexture = CreateSharedPtrWithReleaseDLL(normalTexture);
+		sideMetalnessTexture = CreateSharedPtrWithReleaseDLL(metalnessTexture);
 	}
 
 	void Terrain3D_Imp::AssignSurfaceWithCircle(int32_t surfaceIndex, float x, float y, float radius, float value, float fallout)
