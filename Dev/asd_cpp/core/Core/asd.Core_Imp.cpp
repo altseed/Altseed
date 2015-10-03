@@ -218,6 +218,7 @@ namespace asd
 				m_window->SetWindowPosition(offset);
 			}
 		}
+		m_window->ShowWindow();
 
 		m_keyboard = Keyboard_Imp::Create(m_window);
 		m_mouse = Mouse_Imp::Create(m_window);

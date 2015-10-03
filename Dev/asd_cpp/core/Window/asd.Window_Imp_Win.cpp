@@ -159,6 +159,11 @@ void Window_Imp_Win::SetWindowPosition(Vector2DI position)
 	glfwSetWindowPos(m_window, position.X, position.Y);
 }
 
+void Window_Imp_Win::ShowWindow()
+{
+	glfwShowWindow(m_window);
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
