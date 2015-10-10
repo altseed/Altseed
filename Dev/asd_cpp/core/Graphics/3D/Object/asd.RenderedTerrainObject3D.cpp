@@ -296,6 +296,7 @@ namespace asd
 					shaderConstants.size());
 			}
 
+			/*
 			{
 				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
 				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
@@ -324,9 +325,12 @@ namespace asd
 					shaderConstants.data(),
 					shaderConstants.size());
 			}
+			*/
+
 			return;
 		}
 
+		/*
 		// 側面描画
 		{
 			auto vb = cluster->SideVB;
@@ -456,6 +460,7 @@ namespace asd
 				shaderConstants.data(),
 				shaderConstants.size());
 		}
+		*/
 
 		// サーフェース描画
 		int32_t surfaceCount = 0;

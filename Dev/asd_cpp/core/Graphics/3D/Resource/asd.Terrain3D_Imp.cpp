@@ -2598,8 +2598,6 @@ namespace asd
 								//
 								//v.UV2.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridWidthCount);
 								//v.UV2.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridHeightCount);
-							
-								
 
 								v.VColor = Color(255, 255, 255, 255);
 
