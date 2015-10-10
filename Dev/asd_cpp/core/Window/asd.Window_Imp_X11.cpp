@@ -56,6 +56,7 @@ Window_Imp* Window_Imp_X11::Create(int32_t width, int32_t height, const achar* t
 
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_SRGB_CAPABLE, GL_TRUE);
+	glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 
 	auto titleUTF8 = ToUtf8String(title);
 
@@ -163,6 +164,11 @@ Vector2DI Window_Imp_X11::GetWindowPosition()
 void Window_Imp_X11::SetWindowPosition(Vector2DI position)
 {
 	glfwSetWindowPos(m_window, position.X, position.Y);
+}
+
+void Window_Imp_X11::ShowWindow()
+{
+	glfwShowWindow(m_window);
 }
 
 //----------------------------------------------------------------------------------

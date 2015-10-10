@@ -46,6 +46,8 @@ public:
 
 	virtual void SetWindowPosition(Vector2DI position) = 0;
 
+	virtual void ShowWindow() = 0;
+
 	/**
 		@brief	ウインドウを閉じる。
 	*/

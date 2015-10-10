@@ -64,6 +64,8 @@ public:
 
 	void SetWindowPosition(Vector2DI position) override;
 
+	void ShowWindow() override;
+
 	void Close();
 
 	GLFWwindow*	GetWindow() { return m_window; }
