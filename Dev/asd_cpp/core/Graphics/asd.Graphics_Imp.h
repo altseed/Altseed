@@ -240,6 +240,7 @@ namespace asd {
 		Texture2D* CreateTexture2D_(const achar* path) { return CreateTexture2D_Imp(path); }
 		Texture2D* CreateTexture2DAsRawData_(const achar* path) { return CreateTexture2DAsRawData_Imp(path); }
 		Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateEmptyTexture2D_Imp(width, height, format); }
+		Texture2D* CreateEditableTexture2D_(const achar* path) { return CreateEditableTexture2D_Imp(path); }
 
 		RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) { return CreateRenderTexture2D_Imp(width, height, format); }
 	
@@ -254,14 +255,10 @@ namespace asd {
 		virtual void BeginInternal() = 0;
 		virtual void EndInternal() {}
 
-#if !SWIG
+	private:
+
 	public:
-		/**
-			@brief	テクスチャを生成する。
-			@param	graphics	グラフィック
-			@param	data		データ
-			@param	size		データサイズ
-			*/
+#if !SWIG
 		virtual Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
 #endif
 
@@ -269,6 +266,8 @@ namespace asd {
 		virtual Texture2D_Imp* CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
 
 		virtual Texture2D_Imp* CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format, void* data) = 0;
+
+		virtual Texture2D_Imp* CreateEditableTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size) = 0;
 
 	public:
 #if !SWIG
@@ -293,10 +292,11 @@ namespace asd {
 
 		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, File *file, bool isReloadingEnabled, bool isFullScreen);
 
+#if !SWIG
 		/**
 		@brief	画面をクリアする。
 		@param	isColorTarget	色をクリアするか
-		@param	isDepthTarget	深度をクリアするぁ
+		@param	isDepthTarget	深度をクリアするか
 		@param	color			クリアに使用する色
 		*/
 		virtual void Clear(bool isColorTarget, bool isDepthTarget, const Color& color) = 0;
@@ -315,7 +315,6 @@ namespace asd {
 		*/
 		virtual void SaveScreenshot(const achar* path) = 0;
 
-#if !SWIG
 		/**
 		@brief	スクリーンショットを保存する。
 		@param	bufs	保存先
@@ -352,6 +351,13 @@ namespace asd {
 		@return	テクスチャ
 		*/
 		Texture2D_Imp* CreateEmptyTexture2D_Imp(int32_t width, int32_t height, TextureFormat format);
+
+		/**
+		@brief	編集可能なテクスチャを生成する。
+		@param	path	パス
+		@return	テクスチャ
+		*/
+		Texture2D_Imp* CreateEditableTexture2D_Imp(const achar* path);
 
 		/**
 		@brief	生データからテクスチャを生成する。

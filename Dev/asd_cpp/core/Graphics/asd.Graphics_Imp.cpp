@@ -863,14 +863,18 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2DAsRawData_Imp(const achar* path)
 	return ret;
 }
 
-//----------------------------------------------------------------------------------
-//
-//----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp::CreateEmptyTexture2D_Imp(int32_t width, int32_t height, TextureFormat format)
 {
 	return CreateEmptyTexture2D_Imp_Internal(this, width, height, format, nullptr);
 }
 
+Texture2D_Imp* Graphics_Imp::CreateEditableTexture2D_Imp(const achar* path)
+{
+	auto staticFile = m_file->CreateStaticFile(path);
+	if (staticFile.get() == nullptr) return nullptr;
+
+	return CreateTexture2D_Imp_Internal(this, (uint8_t*)staticFile->GetData(), staticFile->GetSize());
+}
 
 Texture2D_Imp* Graphics_Imp::CreateTexture2DWithRawData(int32_t width, int32_t height, TextureFormat format, void* data)
 {

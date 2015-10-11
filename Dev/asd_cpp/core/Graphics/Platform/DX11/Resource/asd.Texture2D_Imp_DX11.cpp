@@ -156,7 +156,7 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D_Imp_DX11* Texture2D_Imp_DX11::Create(Graphics_Imp_DX11* graphics, uint8_t* data, int32_t size, bool isSRGB)
+	Texture2D_Imp_DX11* Texture2D_Imp_DX11::Create(Graphics_Imp_DX11* graphics, uint8_t* data, int32_t size, bool isEditable, bool isSRGB)
 	{
 		if (size == 0) return nullptr;
 
@@ -176,6 +176,11 @@ namespace asd {
 				return nullptr;
 			}
 
+			if (isEditable)
+			{
+				texture->m_resource = texture->m_internalTextureData;
+			}
+			
 			/* 必要ないので消す */
 			texture->InternalUnload();
 

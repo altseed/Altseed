@@ -860,13 +860,13 @@ End:;
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp_GL::CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
 {
-	auto ret = Texture2D_Imp_GL::Create(this, data, size, true);
+	auto ret = Texture2D_Imp_GL::Create(this, data, size, false, true);
 	return ret;
 }
 
 Texture2D_Imp* Graphics_Imp_GL::CreateTexture2DAsRawData_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
 {
-	auto ret = Texture2D_Imp_GL::Create(this, data, size, false);
+	auto ret = Texture2D_Imp_GL::Create(this, data, size, false, false);
 	return ret;
 }
 
@@ -876,6 +876,12 @@ Texture2D_Imp* Graphics_Imp_GL::CreateTexture2DAsRawData_Imp_Internal(Graphics* 
 Texture2D_Imp* Graphics_Imp_GL::CreateEmptyTexture2D_Imp_Internal(Graphics* graphics, int32_t width, int32_t height, TextureFormat format, void* data)
 {
 	auto ret = Texture2D_Imp_GL::Create(this, width, height, format, data);
+	return ret;
+}
+
+Texture2D_Imp* Graphics_Imp_GL::CreateEditableTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
+{
+	auto ret = Texture2D_Imp_GL::Create(this, data, size, true, true);
 	return ret;
 }
 

@@ -15,9 +15,6 @@
 		"Texture2D_Imp",
 		"RenderTexture2D_Imp",
 
-		"Graphics",
-		"Graphics_Imp",
-
 		"TextureLockInfomation",
 
 		"SideButton",

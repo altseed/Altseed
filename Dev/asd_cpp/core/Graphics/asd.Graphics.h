@@ -23,6 +23,8 @@ protected:
 	virtual Texture2D* CreateTexture2D_(const achar* path) = 0;
 	virtual Texture2D* CreateTexture2DAsRawData_(const achar* path) = 0;
 	virtual Texture2D* CreateEmptyTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
+	virtual Texture2D* CreateEditableTexture2D_(const achar* path) = 0;
+
 	virtual RenderTexture2D* CreateRenderTexture2D_(int32_t width, int32_t height, TextureFormat format) = 0;
 	virtual CubemapTexture* CreateCubemapTextureFrom6ImageFiles_(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom) = 0;
 	virtual CubemapTexture* CreateCubemapTextureFromMipmapImageFiles_(const achar* path, int32_t mipmapCount) = 0;
@@ -89,6 +91,7 @@ public:
 	@param	width	横幅
 	@param	height	縦幅
 	@param	format	フォーマット
+	@warning	読み込める画像形式はPNGのみ。
 	@return	テクスチャ
 	*/
 	std::shared_ptr<RenderTexture2D> CreateRenderTexture2D(int32_t width, int32_t height, TextureFormat format){ return CreateSharedPtrWithReleaseDLL(CreateRenderTexture2D_(width, height, format)); }

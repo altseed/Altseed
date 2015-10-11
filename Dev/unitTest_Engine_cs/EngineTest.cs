@@ -39,7 +39,7 @@ namespace unitTest_Engine_cs
 
 			if (!result)
 			{
-				throw new Exception("ACEの初期化に失敗しました。");
+				throw new Exception("Altseedの初期化に失敗しました。");
 			}
 
 			OnStart();

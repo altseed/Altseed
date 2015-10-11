@@ -119,7 +119,7 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Texture2D_Imp_GL* Texture2D_Imp_GL::Create(Graphics_Imp_GL* graphics, uint8_t* data, int32_t size, bool isSRGB)
+	Texture2D_Imp_GL* Texture2D_Imp_GL::Create(Graphics_Imp_GL* graphics, uint8_t* data, int32_t size, bool isEditable, bool isSRGB)
 	{
 		if (size == 0) return nullptr;
 
@@ -137,6 +137,11 @@ namespace asd {
 			{
 				SafeRelease(texture);
 				return nullptr;
+			}
+
+			if (isEditable)
+			{
+				texture->m_resource = texture->m_internalTextureData;
 			}
 
 			/* 必要ないので消す */

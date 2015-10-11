@@ -1206,6 +1206,31 @@ namespace asd {
 
 
 	/// <summary>
+	/// 
+	/// </summary>
+	public partial class Graphics
+	{
+		internal asd.swig.Graphics_Imp CoreInstance { get; set; }
+
+		/// <summary>
+		/// 1フレーム間に実行された描画命令の回数を取得する。
+		/// </summary>
+		public int DrawCallCount
+		{
+			get { return CoreInstance.GetDrawCallCount(); }
+		}
+
+		/// <summary>
+		/// 現在使用済みのVRAM容量を取得する。
+		/// </summary>
+		public int UsedVRAMSize
+		{
+			get { return CoreInstance.GetUsedVRAMSize(); }
+		}
+	}
+
+
+	/// <summary>
 	/// 複数の画像が格納されているクラス 
 	/// </summary>
 	public partial class ImagePackage
@@ -2431,6 +2456,20 @@ namespace asd {
 		public int GetSurfaceIndex(string name)
 		{
 			return CoreInstance.GetSurfaceIndex(name);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="diffuseTexture"></param>
+		/// <param name="normalTexture"></param>
+		/// <param name="metalnessTexture"></param>
+		public void SetCliffTexture(Texture2D diffuseTexture, Texture2D normalTexture, Texture2D metalnessTexture)
+		{
+			var diffuseTextureCore = diffuseTexture != null ? diffuseTexture.CoreInstance : null;
+			var normalTextureCore = normalTexture != null ? normalTexture.CoreInstance : null;
+			var metalnessTextureCore = metalnessTexture != null ? metalnessTexture.CoreInstance : null;
+			CoreInstance.SetCliffTexture(diffuseTextureCore, normalTextureCore, metalnessTextureCore);
 		}
 
 		/// <summary>

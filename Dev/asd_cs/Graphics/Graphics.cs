@@ -6,13 +6,11 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	public class Graphics
+	public partial class Graphics
 	{
-		swig.Graphics_Imp graphics;
-
 		internal Graphics(swig.Graphics_Imp swig)
 		{
-			graphics = swig;
+			CoreInstance = swig;
 		}
 
 		/// <summary>
@@ -22,7 +20,7 @@ namespace asd
 		/// <returns>テクスチャ</returns>
 		public Texture2D CreateTexture2D(string path)
 		{
-			var texture = graphics.CreateTexture2D_Imp(path);
+			var texture = CoreInstance.CreateTexture2D_Imp(path);
 			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
 		}
 
@@ -36,7 +34,7 @@ namespace asd
 		/// </remarks>
 		public Texture2D CreateTexture2DAsRawData(string path)
 		{
-			var texture = graphics.CreateTexture2DAsRawData_Imp(path);
+			var texture = CoreInstance.CreateTexture2DAsRawData_Imp(path);
 			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
 		}
 
@@ -49,7 +47,21 @@ namespace asd
 		/// <returns>テクスチャ</returns>
 		public Texture2D CreateEmptyTexture2D(int width, int height, TextureFormat format)
 		{
-			var texture = graphics.CreateEmptyTexture2D_Imp(width, height, (swig.TextureFormat)format);
+			var texture = CoreInstance.CreateEmptyTexture2D_Imp(width, height, (swig.TextureFormat)format);
+			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// 編集可能なテクスチャを生成する。
+		/// </summary>
+		/// <param name="path">パス</param>
+		/// <returns>テクスチャ</returns>
+		/// <remarks>
+		/// 読み込める画像形式はPNGのみ。
+		/// </remarks>
+		public Texture2D CreateEditableTexture2D(string path)
+		{
+			var texture = CoreInstance.CreateEditableTexture2D_Imp(path);
 			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
 		}
 
@@ -62,7 +74,7 @@ namespace asd
 		/// <returns>テクスチャ</returns>
 		public RenderTexture2D CreateRenderTexture2D(int width, int height, TextureFormat format)
 		{
-			var rt = graphics.CreateRenderTexture2D_Imp(width,height, (swig.TextureFormat)format);
+			var rt = CoreInstance.CreateRenderTexture2D_Imp(width,height, (swig.TextureFormat)format);
 			var p = rt.GetPtr();
 
 			var existing = GC.Texture2Ds.GetObject(p);
@@ -88,7 +100,7 @@ namespace asd
 		/// <returns>キューブマップ</returns>
 		public CubemapTexture CreateCubemapTextureFrom6ImageFiles(string front, string left, string back, string right, string top, string bottom)
 		{
-			return GC.GenerateCubemapTexture(graphics.CreateCubemapTextureFrom6ImageFiles_(front, left, back, right, top, bottom), GC.GenerationType.Create);
+			return GC.GenerateCubemapTexture(CoreInstance.CreateCubemapTextureFrom6ImageFiles_(front, left, back, right, top, bottom), GC.GenerationType.Create);
 		}
 
 		/// <summary>
@@ -99,7 +111,7 @@ namespace asd
 		/// <returns>キューブマップ</returns>
 		public CubemapTexture CreateCubemapTextureFromMipmapImageFiles(string path, int mipmapCount)
 		{
-			return GC.GenerateCubemapTexture(graphics.CreateCubemapTextureFromMipmapImageFiles_(path, mipmapCount), GC.GenerationType.Create);
+			return GC.GenerateCubemapTexture(CoreInstance.CreateCubemapTextureFromMipmapImageFiles_(path, mipmapCount), GC.GenerationType.Create);
 		}
 
 		/// <summary>
@@ -109,7 +121,7 @@ namespace asd
 		/// <returns>キューブマップ</returns>
 		public CubemapTexture CreateCubemapTextureFromSingleImageFile(string path)
 		{
-			return GC.GenerateCubemapTexture(graphics.CreateCubemapTextureFromSingleImageFile_(path), GC.GenerationType.Create);
+			return GC.GenerateCubemapTexture(CoreInstance.CreateCubemapTextureFromSingleImageFile_(path), GC.GenerationType.Create);
 		}
 
 		/// <summary>
@@ -119,7 +131,7 @@ namespace asd
 		/// <returns></returns>
 		public Shader2D CreateShader2D(string shaderText)
 		{
-			var shader = graphics.CreateShader2D_(shaderText);
+			var shader = CoreInstance.CreateShader2D_(shaderText);
 			if (shader == null) return null;
 
 			var p = shader.GetPtr();
@@ -142,7 +154,7 @@ namespace asd
 		/// <returns>マテリアル(2D)</returns>
 		public Material2D CreateMaterial2D(Shader2D shader)
 		{
-			var material = graphics.CreateMaterial2D_(shader.CoreInstance);
+			var material = CoreInstance.CreateMaterial2D_(shader.CoreInstance);
 			var p = material.GetPtr();
 
 			var existing = GC.Material2Ds.GetObject(p);
@@ -163,7 +175,7 @@ namespace asd
 		/// <returns></returns>
 		public Shader3D CreateShader3D(string shaderText)
 		{
-			var shader = graphics.CreateShader3D_(shaderText);
+			var shader = CoreInstance.CreateShader3D_(shaderText);
 			return GC.GenerateShader3D(shader, GC.GenerationType.Create);
 		}
 
@@ -174,7 +186,7 @@ namespace asd
 		/// <returns>マテリアル(3D)</returns>
 		public Material3D CreateMaterial3D(Shader3D shader)
 		{
-			var material = graphics.CreateMaterial3D_(shader.CoreInstance);
+			var material = CoreInstance.CreateMaterial3D_(shader.CoreInstance);
 			return GC.GenerateMaterial3D(material, GC.GenerationType.Create);
 		}
 
@@ -184,7 +196,7 @@ namespace asd
 		/// <returns>マテリアルプロパティブロック</returns>
 		public MaterialPropertyBlock CreateMaterialPropertyBlock()
 		{
-			return GC.GenerateMaterialPropertyBlock(graphics.CreateMaterialPropertyBlock_(), GC.GenerationType.Create);
+			return GC.GenerateMaterialPropertyBlock(CoreInstance.CreateMaterialPropertyBlock_(), GC.GenerationType.Create);
 		}
 
 		/// <summary>
@@ -193,7 +205,7 @@ namespace asd
 		/// <returns>メッシュ</returns>
 		public Mesh CreateMesh()
 		{
-			return GC.GenerateMesh(graphics.CreateMesh_(), GC.GenerationType.Create);
+			return GC.GenerateMesh(CoreInstance.CreateMesh_(), GC.GenerationType.Create);
 		}
 
 		/// <summary>
@@ -202,7 +214,7 @@ namespace asd
 		/// <returns>デフォーマー</returns>
 		public Deformer CreateDeformer()
 		{
-			return GC.GenerateDeformer(graphics.CreateDeformer_(), GC.GenerationType.Create);
+			return GC.GenerateDeformer(CoreInstance.CreateDeformer_(), GC.GenerationType.Create);
 		}
 
 		/// <summary>
@@ -212,7 +224,7 @@ namespace asd
 		/// <returns>モデル</returns>
 		public Model CreateModel(string path)
 		{
-			var model = graphics.CreateModel_(path);
+			var model = CoreInstance.CreateModel_(path);
 			if (model == null) return null;
 			return GC.GenerateModel(model, GC.GenerationType.Create);
 		}
@@ -224,7 +236,7 @@ namespace asd
 		/// <returns>大量描画用モデル</returns>
 		public MassModel CreateMassModelFromModelFile(string path)
 		{
-			var model = graphics.CreateMassModelFromModelFile_(path);
+			var model = CoreInstance.CreateMassModelFromModelFile_(path);
 			if (model == null) return null;
 			return GC.GenerateMassModel(model, GC.GenerationType.Create);
 		}
@@ -236,7 +248,7 @@ namespace asd
 		/// <returns>大量描画用モデル</returns>
 		public MassModel CreateMassModel(string path)
 		{
-			var model = graphics.CreateMassModel_(path);
+			var model = CoreInstance.CreateMassModel_(path);
 			if (model == null) return null;
 			return GC.GenerateMassModel(model, GC.GenerationType.Create);
 		}
@@ -247,7 +259,7 @@ namespace asd
 		/// <returns>地形</returns>
 		public Terrain3D CreateTerrain3D()
 		{
-			var terrain = graphics.CreateTerrain3D_();
+			var terrain = CoreInstance.CreateTerrain3D_();
 			if (terrain == null) return null;
 			return GC.GenerateTerrain3D(terrain, GC.GenerationType.Create);
 		}
@@ -259,7 +271,7 @@ namespace asd
 		/// <returns>エフェクト</returns>
 		public Effect CreateEffect(string path)
 		{
-			var effect = graphics.CreateEffect_(path);
+			var effect = CoreInstance.CreateEffect_(path);
 			if (effect == null) return null;
 			return GC.GenerateEffect(effect, GC.GenerationType.Create);
 		}
@@ -271,7 +283,7 @@ namespace asd
         /// <returns>フォント</returns>
         public Font CreateFont(string path)
         {
-            var font = graphics.CreateFont_(path);
+            var font = CoreInstance.CreateFont_(path);
             if (font == null) return null;
             return GC.GenerateFont(font, GC.GenerationType.Create);
         }
@@ -293,7 +305,7 @@ namespace asd
 		/// </remarks>
 		public Font CreateDynamicFont(string font, int fontSize, Color color, int outlineSize, Color outlineColor)
 		{
-			var font_ = graphics.CreateDynamicFont_(font, fontSize, color, outlineSize, outlineColor);
+			var font_ = CoreInstance.CreateDynamicFont_(font, fontSize, color, outlineSize, outlineColor);
 			if (font_ == null) return null;
 			return GC.GenerateFont(font_, GC.GenerationType.Create);
 		}
@@ -305,34 +317,9 @@ namespace asd
 		/// <returns>画像パッケージ</returns>
 		public ImagePackage CreateImagePackage(string path)
 		{
-			 var ip = graphics.CreateImagePackage_(path);
+			 var ip = CoreInstance.CreateImagePackage_(path);
             if (ip == null) return null;
             return GC.GenerateImagePackage(ip, GC.GenerationType.Create);
-		}
-
-		/// <summary>
-		/// 1フレーム間に実行された描画命令の回数を取得する。
-		/// </summary>
-		/// <remarks>
-		/// 現在、エフェクトの描画回数はカウントされない。
-		/// </remarks>
-		public int DrawCallCount
-		{
-			get { return graphics.GetDrawCallCount(); }
-		}
-
-		/// <summary>
-		/// 現在使用済みのVRAM容量を取得する。
-		/// </summary>
-		/// <remarks>
-		/// 値は推測値である。
-		/// </remarks>
-		public int UsedVRAMSize
-		{
-			get
-			{
-				return graphics.GetUsedVRAMSize();
-			}
 		}
 
 		/// <summary>
@@ -340,7 +327,7 @@ namespace asd
 		/// </summary>
 		public GraphicsDeviceType GraphicsDeviceType
 		{
-			get { return (GraphicsDeviceType)graphics.GetGraphicsDeviceType(); }
+			get { return (GraphicsDeviceType)CoreInstance.GetGraphicsDeviceType(); }
 		}
 	}
 }
