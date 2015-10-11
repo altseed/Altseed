@@ -110,8 +110,6 @@ namespace asd {
 		m_size.X = m_internalTextureWidth;
 		m_size.Y = m_internalTextureHeight;
 
-		InternalUnload();
-
 		g->IncVRAM(ImageHelper::GetVRAMSize(GetFormat(), GetSize().X, GetSize().Y));
 		return true;
 	}
