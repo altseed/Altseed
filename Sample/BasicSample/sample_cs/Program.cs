@@ -79,6 +79,7 @@ namespace sample_cs
 				new EngineMisc_ShowFps(),
 
 				new Texture_Basic(),
+				new Texture_Edit(),
             };
 
 			var cui = new SampleGuide( samples );

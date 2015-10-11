@@ -45,7 +45,10 @@
 
 * [オブジェクトの挙動の部品化](./HowToUseBasic/Object2DComponent.md)
 
+* [画像の機能](./HowToUseBasic/Texture.md)
+
 * [エンジンの機能(その他)](./HowToUseBasic/EngineMisc.md)
+
 
 ### 使い方(応用)
 

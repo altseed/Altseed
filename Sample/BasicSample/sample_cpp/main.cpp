@@ -83,6 +83,7 @@ extern void File_StreamFile();
 extern void EngineMisc_ShowFps();
 
 extern void Texture_Basic();
+extern void Texture_Edit();
 
 int main(int argc, char** argv)
 {
@@ -159,6 +160,7 @@ int main(int argc, char** argv)
 		INFO(EngineMisc_ShowFps),
 
 		INFO(Texture_Basic),
+		INFO(Texture_Edit),
 	};
 
 	auto cui = SampleGuide(samples);

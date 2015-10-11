@@ -100,6 +100,7 @@
     <Compile Include="TextureObject2D\TextureObject2D_Transform.cs" />
     <Compile Include="TextureObject2D\TextureObject2D_Turn.cs" />
     <Compile Include="Texture\Texture_Basic.cs" />
+    <Compile Include="Texture\Texture_Edit.cs" />
     <Compile Include="Transition\Transition_Fade.cs" />
   </ItemGroup>
   <ItemGroup>

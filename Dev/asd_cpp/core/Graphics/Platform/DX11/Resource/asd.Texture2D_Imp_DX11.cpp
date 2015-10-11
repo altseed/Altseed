@@ -106,7 +106,6 @@ namespace asd {
 			m_format = TextureFormat::R8G8B8A8_UNORM;
 		}
 
-		InternalUnload();
 		if (FAILED(hr))
 		{
 			if (log != nullptr)

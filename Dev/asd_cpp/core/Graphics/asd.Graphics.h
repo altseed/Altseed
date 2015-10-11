@@ -87,6 +87,13 @@ public:
 	}
 
 	/**
+	@brief	編集可能なテクスチャを生成する。
+	@param	path	パス
+	@return	テクスチャ
+	*/
+	std::shared_ptr<Texture2D> CreateEditableTexture2D(const achar* path) { return CreateSharedPtrWithReleaseDLL(CreateEditableTexture2D_(path)); }
+
+	/**
 	@brief	描画先として指定可能なテクスチャを生成する。
 	@param	width	横幅
 	@param	height	縦幅

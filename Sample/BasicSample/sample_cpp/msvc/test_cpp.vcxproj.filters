@@ -150,6 +150,9 @@
     <ClCompile Include="..\Texture\Texture_Basic.cpp">
       <Filter>Texture</Filter>
     </ClCompile>
+    <ClCompile Include="..\Texture\Texture_Edit.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
