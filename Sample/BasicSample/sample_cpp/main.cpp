@@ -82,6 +82,8 @@ extern void File_StreamFile();
 
 extern void EngineMisc_ShowFps();
 
+extern void Texture_Basic();
+
 int main(int argc, char** argv)
 {
 #if _WIN32
@@ -155,6 +157,8 @@ int main(int argc, char** argv)
 		INFO(File_StreamFile),
 
 		INFO(EngineMisc_ShowFps),
+
+		INFO(Texture_Basic),
 	};
 
 	auto cui = SampleGuide(samples);

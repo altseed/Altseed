@@ -27,13 +27,23 @@ namespace asd {
 		void*		pixels = nullptr;
 		int32_t		pitch = 0;
 		Vector2DI	size;
-
 	public:
-		TextureLockInfomation();
 
-		void* GetPixels() const;
-		int32_t GetPitch() const;
-		Vector2DI GetSize() const;
+		void* GetPixels() const
+		{
+			return pixels;
+		}
+
+		int32_t GetPitch() const
+		{
+			return pitch;
+		}
+
+		Vector2DI GetSize() const
+		{
+			return size;
+		}
+
 	};
 
 	class Texture2D

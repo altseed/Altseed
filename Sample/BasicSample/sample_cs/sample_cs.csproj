@@ -21,6 +21,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <OutputPath>..\bin\</OutputPath>
@@ -31,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Altseed, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
@@ -97,6 +99,7 @@
     <Compile Include="TextureObject2D\TextureObject2D_Src.cs" />
     <Compile Include="TextureObject2D\TextureObject2D_Transform.cs" />
     <Compile Include="TextureObject2D\TextureObject2D_Turn.cs" />
+    <Compile Include="Texture\Texture_Basic.cs" />
     <Compile Include="Transition\Transition_Fade.cs" />
   </ItemGroup>
   <ItemGroup>

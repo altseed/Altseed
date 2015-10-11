@@ -147,6 +147,9 @@
     <ClCompile Include="..\CameraObject2D\CameraObject2D_Texture.cpp">
       <Filter>CameraObject2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Texture\Texture_Basic.cpp">
+      <Filter>Texture</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -203,6 +206,9 @@
     </Filter>
     <Filter Include="Engine_Misc">
       <UniqueIdentifier>{b17f666d-9463-41cf-91f7-4c4cd97c704d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Texture">
+      <UniqueIdentifier>{c0593d5f-58a0-4463-8a32-7a16346a4645}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

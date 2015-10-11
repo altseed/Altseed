@@ -60,6 +60,7 @@
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Src.cpp" />
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Transform.cpp" />
     <ClCompile Include="..\TextureObject2D\TextureObject2D_Turn.cpp" />
+    <ClCompile Include="..\Texture\Texture_Basic.cpp" />
     <ClCompile Include="..\Transition\Transition_Fade.cpp" />
   </ItemGroup>
   <ItemGroup>
