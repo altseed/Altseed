@@ -117,6 +117,29 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
+	void Texture2D_Imp_GL::FlipYInternal(std::vector<uint8_t> &dest, const std::vector<uint8_t> &source) const
+	{
+		// sourceの上下を逆にし、destに格納する。
+		auto pitch = ImageHelper::GetPitch(m_format);
+		auto size = m_size.X * m_size.Y * pitch;
+		ACE_ASSERT(source.size() >= size, "");
+		dest.resize(size);
+
+		for (auto y = 0; y < m_size.Y; y++)
+		{
+			for (auto x = 0; x < m_size.X; x++)
+			{
+				for (auto p = 0; p < pitch; p++)
+				{
+					dest[p + (x + y * m_size.X) * pitch] = source[p + (x + (m_size.Y - y - 1) * m_size.X) * pitch];
+				}
+			}
+		}
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
 	Texture2D_Imp_GL* Texture2D_Imp_GL::Create(Graphics_Imp_GL* graphics, uint8_t* data, int32_t size, bool isEditable, bool isSRGB)
 	{
 		if (size == 0) return nullptr;
@@ -139,7 +162,7 @@ namespace asd {
 
 			if (isEditable)
 			{
-				texture->m_resource = texture->m_internalTextureData;
+				texture->FlipYInternal(texture->m_resource, texture->m_internalTextureData);
 			}
 
 			/* 必要ないので消す */
@@ -309,20 +332,8 @@ namespace asd {
 			type = GL_UNSIGNED_BYTE;
 		}
 
-		m_resource_rev.resize(m_size.X * m_size.Y * ImageHelper::GetPitch(m_format));
-
 		// 上下を逆にする。
-		auto pitch = ImageHelper::GetPitch(m_format);
-		for (auto y = 0; y < m_size.Y; y++)
-		{
-			for (auto x = 0; x < m_size.X; x++)
-			{
-				for (auto p = 0; p < pitch; p++)
-				{
-					m_resource_rev[p + (x + y * m_size.X) * pitch] = m_resource[p + (x + (m_size.Y - y - 1) * m_size.X) * pitch];
-				}
-			}
-		}
+		FlipYInternal(m_resource_rev, m_resource);
 
 		glTexSubImage2D(
 			GL_TEXTURE_2D,

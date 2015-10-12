@@ -27,6 +27,8 @@ namespace asd {
 		virtual ~Texture2D_Imp_GL();
 
 		bool GenerateTextureFromInternal(bool isSRGB);
+
+		void FlipYInternal(std::vector<uint8_t> &dest, const std::vector<uint8_t> &source) const;
 	public:
 		static Texture2D_Imp_GL* Create(Graphics_Imp_GL* graphics, uint8_t* data, int32_t size, bool isEditable, bool isSRGB);
 
