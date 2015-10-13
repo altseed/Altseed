@@ -578,7 +578,7 @@ namespace asd
 		// 蓄積リセット
 		{
 			helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
-			helper->Clear(true, false, asd::Color(0, 0, 0, 255));
+			helper->Clear(true, false, asd::Color(0, 0, 0, 0));
 		}
 
 		if (cP->ZFar != cP->ZNear)
@@ -634,7 +634,7 @@ namespace asd
 					cP->GetRenderTargetDepth(),
 					cP->GetRenderTargetAO_MatID(),
 					cP->GetDepthBuffer());
-				helper->Clear(true, false, asd::Color(0, 0, 0, 255));
+				helper->Clear(true, false, asd::Color(0, 0, 0, 0));
 				prop.IsDepthMode = false;
 
 				// 通常モデル
@@ -1195,7 +1195,7 @@ namespace asd
 		// 3D描画
 		{
 			helper->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
-			helper->Clear(true, true, asd::Color(0, 0, 0, 255));
+			helper->Clear(true, true, asd::Color(0, 0, 0, 0));
 
 			// 通常モデル
 #if __CULLING__

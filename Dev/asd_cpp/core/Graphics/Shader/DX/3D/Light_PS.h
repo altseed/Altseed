@@ -178,9 +178,9 @@ float3 CalcSpecularColor(float3 baseColor, float metalness)
 
 //||>
 
-float3 GetBaseColor(float2 uv)
+float4 GetBaseColor(float2 uv)
 {
-	return g_gbuffer0Texture.Sample(g_gbuffer0Sampler, uv).xyz;
+	return g_gbuffer0Texture.Sample(g_gbuffer0Sampler, uv).xyzw;
 }
 
 float4 GetSmoothnessMetalnessAO(float2 uv)
@@ -454,7 +454,10 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float4 lightColor = float4(0.0,0.0,0.0,1.0);
 
-	float3 baseColor = GetBaseColor(uv);
+	float4 baseColor_ = GetBaseColor(uv);
+	if(baseColor_.a == 0.0f) discard;
+
+	float3 baseColor = baseColor_.xyz;
 	float3 normal = GetNormal(uv);
 	float4 smoothnessMetalnessAO = GetSmoothnessMetalnessAO(uv);
 	float smoothness = smoothnessMetalnessAO .x;

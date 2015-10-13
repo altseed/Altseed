@@ -21,13 +21,7 @@ protected:
 	{
 		auto scene = make_shared<Scene>();
 		auto layer = make_shared<Layer2D>();
-		auto texture = asd::Engine::GetGraphics()->CreateEditableTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
-
-		asd::TextureLockInfomation info;
-		if (texture->Lock(&info))
-		{
-			texture->Unlock();
-		}
+		auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 
 		auto textureObj1 = make_shared<TextureObject2D>();
 		auto textureObj2 = make_shared<TextureObject2D>();

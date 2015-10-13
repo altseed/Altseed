@@ -167,9 +167,9 @@ vec3 CalcSpecularColor(vec3 baseColor, float metalness)
 //||>
 
 
-vec3 GetBaseColor(vec2 uv)
+vec4 GetBaseColor(vec2 uv)
 {
-	return texture(g_gbuffer0Texture, uv).xyz;
+	return texture(g_gbuffer0Texture, uv).xyzw;
 }
 
 vec4 GetSmoothnessMetalnessAO(vec2 uv)
@@ -450,7 +450,10 @@ void main()
 
 	vec4 lightColor = vec4(0.0,0.0,0.0,1.0);
 
-	vec3 baseColor = GetBaseColor(uv);
+	vec4 baseColor_ = GetBaseColor(uv);
+	if(baseColor_.a == 0.0f) discard;
+
+	vec3 baseColor = baseColor_.xyz;
 	vec3 normal = GetNormal(uv);
 	vec4 smoothnessMetalnessAO = GetSmoothnessMetalnessAO(uv);
 	float smoothness = smoothnessMetalnessAO .x;

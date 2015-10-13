@@ -39,9 +39,9 @@ struct PS_Input
 	float2 UV				: UV0;
 };
 
-float3 GetBaseColor(float2 uv)
+float4 GetBaseColor(float2 uv)
 {
-	return g_gbuffer0Texture.Sample(g_gbuffer0Sampler, uv).xyz;
+	return g_gbuffer0Texture.Sample(g_gbuffer0Sampler, uv).xyzw;
 }
 
 float4 GetSmoothnessMetalnessAO(float2 uv)
@@ -91,7 +91,10 @@ float4 main( const PS_Input Input ) : SV_Target
 
 	float3 viewDir = normalize(-cameraPos);
 
-	float3 baseColor = GetBaseColor(uv);
+	float4 baseColor_ = GetBaseColor(uv);
+	if(baseColor_.a == 0.0f) discard;
+
+	float3 baseColor = baseColor_.xyz;
 	float4 smoothnessMetalnessAO = GetSmoothnessMetalnessAO(uv);
 	float smoothness = smoothnessMetalnessAO.x;
 	float metalness = smoothnessMetalnessAO.y;
