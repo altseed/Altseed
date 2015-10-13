@@ -16,7 +16,7 @@ out vec4 outOutput0;
 
 void main()
 {
-	#ifndef BLACK
+	#ifdef BLACK
 	outOutput0 = vec4(0.0,0.0,0.0,1.0);
 	return;
 	#endif
