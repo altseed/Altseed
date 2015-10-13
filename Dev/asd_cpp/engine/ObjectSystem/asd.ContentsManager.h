@@ -53,6 +53,15 @@ namespace asd
 		{
 		}
 
+		~ContentsManager()
+		{
+			auto contents = GetContents();
+			for (auto& content : contents)
+			{
+				content->m_onUpdatePriorityChanged = nullptr;
+			}
+		}
+
 		std::list<ContentPtr> GetContents() const
 		{
 			std::list<ContentPtr> result;
