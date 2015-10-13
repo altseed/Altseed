@@ -296,7 +296,7 @@ namespace asd
 					shaderConstants.size());
 			}
 
-			/*
+			if (cluster->SideVB != nullptr)
 			{
 				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matC", prop.CameraMatrix));
 				shaderConstants.push_back(helper->CreateConstantValue(shader.get(), "matP", prop.ProjectionMatrix));
@@ -325,13 +325,12 @@ namespace asd
 					shaderConstants.data(),
 					shaderConstants.size());
 			}
-			*/
 
 			return;
 		}
 
-		/*
 		// 側面描画
+		if (cluster->SideVB != nullptr)
 		{
 			auto vb = cluster->SideVB;
 			auto ib = cluster->SideIB;
@@ -460,7 +459,6 @@ namespace asd
 				shaderConstants.data(),
 				shaderConstants.size());
 		}
-		*/
 
 		// サーフェース描画
 		int32_t surfaceCount = 0;

@@ -1902,6 +1902,7 @@ namespace asd
 					lowerVertcies = chip.LowerVertecies;
 					upperVertcies = chip.UpperVertecies;
 
+					
 					if (isLowerFlat)
 					{
 						auto h0 = Chips[x + (y + 1) * gridWidthCount].PlatePoints[0].Y;
@@ -1944,28 +1945,28 @@ namespace asd
 
 					if (isLeftFlat)
 					{
-						auto h0 = Chips[(x-1) + (y) * gridWidthCount].PlatePoints[0].Y;
-						auto h1 = Chips[(x-1) + (y) * gridWidthCount].PlatePoints[2].Y;
+						auto h0 = Chips[(x - 1) + (y) * gridWidthCount].PlatePoints[1].Y;
+						auto h1 = Chips[(x - 1) + (y) * gridWidthCount].PlatePoints[3].Y;
 
 						for (int i = 0; i < 5; i++)
 						{
 							auto p = i / 4.0f;
 							if (chip.LowerPoints[i * 5] != -1)
 							{
-								lowerVertcies[chip.LowerPoints[i*5]].Y = (h1 - h0) * p + h0;
+								lowerVertcies[chip.LowerPoints[i * 5]].Y = (h1 - h0) * p + h0;
 							}
 
 							if (chip.UpperPoints[i * 5] != -1)
 							{
-								upperVertcies[chip.UpperPoints[i*5]].Y = (h1 - h0) * p + h0;
+								upperVertcies[chip.UpperPoints[i * 5]].Y = (h1 - h0) * p + h0;
 							}
 						}
 					}
 
 					if (isRightFlat)
 					{
-						auto h0 = Chips[(x - 1) + (y) * gridWidthCount].PlatePoints[1].Y;
-						auto h1 = Chips[(x - 1) + (y) * gridWidthCount].PlatePoints[3].Y;
+						auto h0 = Chips[(x + 1) + (y) * gridWidthCount].PlatePoints[0].Y;
+						auto h1 = Chips[(x + 1) + (y) * gridWidthCount].PlatePoints[2].Y;
 
 						for (int i = 0; i < 5; i++)
 						{
@@ -2429,33 +2430,37 @@ namespace asd
 				cluster->Center.Z = (yoffset + height / 2) * gridSize - gridHeightCount * gridSize / 2.0f;
 
 				// 横
-				cluster->SideVB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs_side.size(), false);
-				cluster->SideIB = g->CreateIndexBuffer_Imp(fs_side.size() * 3, false, true);
-
+				if (vs_side.size() > 0)
 				{
-					cluster->SideVB->Lock();
-					auto buf = cluster->SideVB->GetBuffer<Vertex>(vs_side.size());
-					for (auto i = 0; i < vs_side.size(); i++)
-					{
-						Vertex v = vs_side[i];
-						v.VColor = Color(0, 0, 0, 255);
-						buf[i] = v;
-					}
+					cluster->SideVB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs_side.size(), false);
+					cluster->SideIB = g->CreateIndexBuffer_Imp(fs_side.size() * 3, false, true);
 
-					cluster->SideVB->Unlock();
-				}
+					{
+						cluster->SideVB->Lock();
+						auto buf = cluster->SideVB->GetBuffer<Vertex>(vs_side.size());
+						for (auto i = 0; i < vs_side.size(); i++)
+						{
+							Vertex v = vs_side[i];
+							v.VColor = Color(255, 255, 255, 255);
+							buf[i] = v;
+						}
+
+						cluster->SideVB->Unlock();
+					}
 
 				{
 					cluster->SideIB->Lock();
 					auto buf = cluster->SideIB->GetBuffer<int32_t>(fs_side.size() * 3);
 					for (auto i = 0; i < fs_side.size(); i++)
 					{
-						buf[i * 3 + 0] = fs[i].Index1;
-						buf[i * 3 + 1] = fs[i].Index2;
-						buf[i * 3 + 2] = fs[i].Index3;
+						buf[i * 3 + 0] = fs_side[i].Index1;
+						buf[i * 3 + 1] = fs_side[i].Index2;
+						buf[i * 3 + 2] = fs_side[i].Index3;
 					}
 					cluster->SideIB->Unlock();
 				}
+				}
+
 
 				// 下地
 				cluster->Black.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs.size(), false);
@@ -2593,11 +2598,11 @@ namespace asd
 							{
 								Vertex v = vs[i];
 
-								//v.UV1.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / surface.second.Size;
-								//v.UV1.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / surface.second.Size;
-								//
-								//v.UV2.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridWidthCount);
-								//v.UV2.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridHeightCount);
+								v.UV1.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / surface.second.Size;
+								v.UV1.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / surface.second.Size;
+								
+								v.UV2.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridWidthCount);
+								v.UV2.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridHeightCount);
 
 								v.VColor = Color(255, 255, 255, 255);
 
