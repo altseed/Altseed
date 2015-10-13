@@ -52,25 +52,6 @@ void EngineGraphics3DTest::OnStart()
 	m_scene = std::make_shared<asd::Scene>();
 	m_scene->SetHDRMode(true);
 
-	auto layer = std::make_shared<asd::Layer2D>();
-	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
-
-	auto textureObj1 = std::make_shared<asd::TextureObject2D>();
-	auto textureObj2 = std::make_shared<asd::TextureObject2D>();
-
-	textureObj1->SetTexture(texture);
-	textureObj1->SetSrc(asd::RectF(256, 256, 256, 256));
-	textureObj1->SetPosition(asd::Vector2DF(0, 0));
-
-	textureObj2->SetTexture(texture);
-	textureObj2->SetSrc(asd::RectF(0, 0, 256, 256));
-	textureObj2->SetPosition(asd::Vector2DF(400, 320));
-	textureObj2->SetTurnLR(true);
-
-	layer->AddObject(textureObj1);
-	layer->AddObject(textureObj2);
-	m_scene->AddLayer(layer);
-
 	m_layer3d = std::make_shared<asd::Layer3D>(m_settings);
 	m_scene->AddLayer(m_layer3d);
 
