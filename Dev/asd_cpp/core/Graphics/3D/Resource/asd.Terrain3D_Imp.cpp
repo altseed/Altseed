@@ -150,6 +150,10 @@ namespace asd
 					ret[e_ind].push_back(line.first);
 				}
 			}
+			else if (s_ind == e_ind)
+			{
+				ret[s_ind].push_back(ret[s_ind][0]);
+			}
 			else
 			{
 				std::vector<int32_t> temp;
@@ -165,7 +169,7 @@ namespace asd
 
 				if (e_head)
 				{
-					temp.insert(temp.begin(), ret[e_ind].begin(), ret[e_ind].end());
+					temp.insert(temp.end(), ret[e_ind].begin(), ret[e_ind].end());
 				}
 				else
 				{
