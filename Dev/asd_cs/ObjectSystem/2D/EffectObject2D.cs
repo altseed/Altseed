@@ -50,6 +50,11 @@ namespace asd
 		/// <returns>再生されたエフェクトのID</returns>
 		public int Play()
 		{
+			if (Layer == null)
+			{
+				throw new Exception("レイヤーに追加されていません。");
+			}
+
 			return coreEffectObject.Play();
 		}
 

@@ -1,5 +1,7 @@
 ﻿#include "asd.EffectObject2D.h"
 
+#include <stdexcept>
+
 namespace asd
 {
 	extern ObjectSystemFactory* g_objectSystemFactory;
@@ -31,6 +33,11 @@ namespace asd
 
 	int32_t EffectObject2D::Play()
 	{
+		if (m_coreObject->GetLayer() == nullptr)
+		{
+			throw std::exception("レイヤーに追加されていません。");
+		}
+
 		return m_coreObject->Play();
 	}
 
