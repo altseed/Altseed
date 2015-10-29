@@ -205,7 +205,7 @@ namespace asd
 		/// <summary>
 		/// オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
 		/// </summary>
-		protected virtual void OnDestroy()
+		protected virtual void OnDispose()
 		{
 		}
 
@@ -228,7 +228,7 @@ namespace asd
 					item.CallDestroy();
 				}
 			}
-			OnDestroy();
+			OnDispose();
 		}
 
 		internal unsafe swig.CoreScene CoreScene { get; private set; }

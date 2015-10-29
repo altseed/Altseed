@@ -1,5 +1,8 @@
 ﻿## 変更点
 
+### 2015/xx/xx
+* OnDestroyをOnDisposeに名称を変更(破壊的変更)
+
 ### 2015/09/06
 * タイトルを変更する関数を追加
 * Object2DにUpdatePriorityを追加

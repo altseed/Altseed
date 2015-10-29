@@ -79,7 +79,7 @@ namespace asd
 		/**
 		@brief	オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
 		*/
-		virtual void OnDestroy();
+		virtual void OnDispose();
 
 	public:
 		/**

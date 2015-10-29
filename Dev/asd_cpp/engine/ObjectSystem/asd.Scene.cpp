@@ -182,7 +182,7 @@ namespace asd
 	{
 	}
 
-	void Scene::OnDestroy()
+	void Scene::OnDispose()
 	{
 	}
 
@@ -200,7 +200,7 @@ namespace asd
 				l->CallDestroy();
 			}
 		}
-		OnDestroy();
+		OnDispose();
 	}
 
 	//----------------------------------------------------------------------------------
