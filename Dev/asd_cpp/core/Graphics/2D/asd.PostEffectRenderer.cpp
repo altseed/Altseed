@@ -93,6 +93,9 @@ namespace asd {
 	{
 		helper->SetRenderTarget(command->GetTarget(), nullptr);
 
+		// ゴミデータが残っている場合が多いのでリセットする。
+		helper->Clear(true, false, Color(0, 0, 0, 0));
+
 		RenderState state;
 		state.DepthTest = false;
 		state.DepthWrite = false;
@@ -112,6 +115,10 @@ namespace asd {
 	void PostEffectRenderer::DrawOnTexture2DWithNativeShader(RenderTexture2D_Imp* target, NativeShader_Imp* shader, ShaderConstantValue* constantValues, int32_t constantValueCount)
 	{
 		m_graphics->SetRenderTarget(target, nullptr);
+
+		// ゴミデータが残っている場合が多いのでリセットする。
+		m_graphics->Clear(true, false, Color(0, 0, 0, 0));
+
 		shader->SetConstantValues(constantValues, constantValueCount);
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());
