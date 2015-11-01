@@ -129,6 +129,14 @@ namespace asd {
 		static void Terminate();
 
 		/**
+			@brief	内部の参照数を取得する。
+			@note
+			内部オブジェクト間の参照の数を取得する。
+			正しく内部オブジェクトが破棄されているか調査するためのデバッグ用である。
+		*/
+		static int32_t GetReferenceCount();
+
+		/**
 		@brief	一番最初に追加された2Dレイヤーにオブジェクトを追加する。
 		@param	o	オブジェクト
 		@return	成否

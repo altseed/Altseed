@@ -382,6 +382,21 @@ namespace asd
 		}
 
 		/// <summary>
+		/// 内部の参照数を取得する。
+		/// </summary>
+		/// <remarks>
+		/// 内部オブジェクト間の参照の数を取得する。
+		/// 正しく内部オブジェクトが破棄されているか調査するためのデバッグ用である。
+		/// </remarks>
+		public static int ReferenceCount
+		{
+			get
+			{
+				return swig.asd_core.GetGlobalReferenceCount__();
+			}
+		}
+
+		/// <summary>
 		/// 一番最初に追加された2Dレイヤーにオブジェクトを追加する。
 		/// </summary>
 		/// <param name="o">オブジェクト</param>

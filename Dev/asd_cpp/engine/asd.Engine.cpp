@@ -604,6 +604,10 @@ namespace asd
 		SafeRelease(m_core);
 	}
 
+	int32_t Engine::GetReferenceCount()
+	{
+		return g_GetGlobalRef();
+	}
 
 	bool Engine::AddObject2D(std::shared_ptr<Object2D> o)
 	{
