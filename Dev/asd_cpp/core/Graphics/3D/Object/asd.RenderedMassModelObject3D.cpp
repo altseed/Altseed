@@ -173,7 +173,7 @@ namespace asd
 		using h = RenderingCommandHelper;
 
 		auto lightDirection = prop.DirectionalLightDirection;
-		Vector3DF lightColor(prop.DirectionalLightColor.R / 255.0f, prop.DirectionalLightColor.G / 255.0f, prop.DirectionalLightColor.B / 255.0f);
+		Vector3DF lightColor = prop.DirectionalLightColor;
 		Vector3DF groudLColor(prop.GroundLightColor.R / 255.0f, prop.GroundLightColor.G / 255.0f, prop.GroundLightColor.B / 255.0f);
 		Vector3DF skyLColor(prop.SkyLightColor.R / 255.0f, prop.SkyLightColor.G / 255.0f, prop.SkyLightColor.B / 255.0f);
 		

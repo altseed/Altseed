@@ -29,7 +29,7 @@ namespace asd
 		std::shared_ptr<Texture2D>	DummyTextureNormal;
 
 		// 軽量描画用
-		Color		DirectionalLightColor;
+		Vector3DF	DirectionalLightColor;
 		Vector3DF	DirectionalLightDirection;
 		Color		SkyLightColor;
 		Color		GroundLightColor;

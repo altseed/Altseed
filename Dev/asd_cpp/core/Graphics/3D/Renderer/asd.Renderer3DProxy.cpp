@@ -504,7 +504,10 @@ namespace asd
 			if (directionalLightObjects.size() > 0)
 			{
 				auto lightP = (RenderedDirectionalLightObject3DProxy*) (*(directionalLightObjects.begin()));
-				prop.DirectionalLightColor = lightP->LightColor;
+				prop.DirectionalLightColor.X = lightP->LightColor.R / 255.0f * lightP->Intensity;
+				prop.DirectionalLightColor.Y = lightP->LightColor.G / 255.0f * lightP->Intensity;
+				prop.DirectionalLightColor.Z = lightP->LightColor.B / 255.0f * lightP->Intensity;
+
 				prop.DirectionalLightDirection = lightP->GetDirection();
 				prop.DirectionalLightDirection.X = -prop.DirectionalLightDirection.X;
 				prop.DirectionalLightDirection.Y = -prop.DirectionalLightDirection.Y;
@@ -512,7 +515,7 @@ namespace asd
 			}
 			else
 			{
-				prop.DirectionalLightColor = Color(0, 0, 0, 0);
+				prop.DirectionalLightColor = Vector3DF(0, 0, 0);
 				prop.DirectionalLightDirection = Vector3DF(1.0f, 1.0f, 1.0f);
 			}
 			prop.DirectionalLightDirection.Normalize();
@@ -819,9 +822,9 @@ namespace asd
 					directionalLightDirection = prop.CameraMatrix.Transform3D(directionalLightDirection) - zero;
 
 					auto directionalLightIntensity = lightP->Intensity;
-					directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f * directionalLightIntensity;
-					directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f * directionalLightIntensity;
-					directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f * directionalLightIntensity;
+					directionalLightColor.X = prop.DirectionalLightColor.X;
+					directionalLightColor.Y = prop.DirectionalLightColor.Y;
+					directionalLightColor.Z = prop.DirectionalLightColor.Z;
 
 					RenderState state;
 					state.DepthTest = false;
@@ -1052,9 +1055,9 @@ namespace asd
 				directionalLightDirection = prop.DirectionalLightDirection;
 				directionalLightDirection = prop.CameraMatrix.Transform3D(directionalLightDirection) - zero;
 
-				directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f;
-				directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f;
-				directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f;
+				directionalLightColor.X = prop.DirectionalLightColor.X;
+				directionalLightColor.Y = prop.DirectionalLightColor.Y;
+				directionalLightColor.Z = prop.DirectionalLightColor.Z;
 
 				RenderState state;
 				state.DepthTest = false;
