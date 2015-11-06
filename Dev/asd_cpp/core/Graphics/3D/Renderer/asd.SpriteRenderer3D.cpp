@@ -262,6 +262,7 @@ namespace asd {
 		state.DepthTest = m_state.DepthTest;
 		state.DepthWrite = m_state.DepthWrite;
 		state.Culling = CullingType::Double;
+		state.AlphaBlendState = m_state.AlphaBlendState;
 		m_graphics->SetRenderState(state);
 
 		m_graphics->DrawPolygon(drawingSprites.size() * 2);
