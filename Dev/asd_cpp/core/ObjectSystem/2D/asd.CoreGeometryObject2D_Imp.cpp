@@ -157,6 +157,12 @@ namespace asd
 	void CoreGeometryObject2D_Imp::CalculateBoundingCircle()
 	{
 		auto shape_Imp = CoreShape2DToImp(m_shape);
+		if (shape_Imp == nullptr)
+		{
+			m_boundingCircle = culling2d::Circle(culling2d::Vector2DF(), 0);
+			return;
+		}
+
 		m_boundingCircle = shape_Imp->GetBoundingCircle();
 
 		std::array<Vector2DF, 4> position;
