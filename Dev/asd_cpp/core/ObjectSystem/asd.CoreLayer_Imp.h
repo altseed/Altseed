@@ -13,6 +13,8 @@ namespace asd
 	{
 	protected:
 
+		static void WriteLog(const char* text);
+
 		struct Triangle
 		{
 			Vector2DF	Pos1, Pos2, Pos3;

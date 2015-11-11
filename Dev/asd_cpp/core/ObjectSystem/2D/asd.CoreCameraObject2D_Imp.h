@@ -16,6 +16,7 @@ namespace asd
 		RenderTexture2D_Imp* m_renderTarget;
 
 		bool	isOffscreenMode = false;
+		TextureFilterType	textureFilterType = TextureFilterType::Nearest;
 
 		void ResetBuffer();
 
@@ -36,6 +37,10 @@ namespace asd
 		bool GetIsOffscreenMode() override;
 
 		void SetIsOffscreenMode(bool value) override;
+
+		void SetTextureFilterType(TextureFilterType textureFilterType) override;
+
+		TextureFilterType GetTextureFilterType() const override;
 
 #if !SWIG
 		Matrix33 GetCameraMatrix();

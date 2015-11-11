@@ -35,12 +35,23 @@ namespace asd
 		, m_renderer(nullptr)
 		, m_rendererForCamera(nullptr)
 	{
+		WriteLog("Start initializing m_renderer");
+
 		m_renderer = new Renderer2D_Imp(graphics, log);
+
+		WriteLog("End initializing m_renderer");
+
+		WriteLog("Start initializing m_rendererForCamera");
+
 		m_rendererForCamera = new Renderer2D_Imp(graphics, log);
 
+		WriteLog("End initializing m_rendererForCamera");
+
+		WriteLog("Start initializing world");
 #if __CULLING_2D__
 		world = new culling2d::World(6, culling2d::RectF(-50000, -50000, 100000, 100000));
 #endif
+		WriteLog("End initializing world");
 	}
 
 	//----------------------------------------------------------------------------------

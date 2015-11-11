@@ -61,5 +61,15 @@ namespace asd
 		@return	描画結果
 		*/
 		std::shared_ptr<Texture2D> GetTexture();
+
+		/**
+		@brief　カメラが描画した結果を描画する際のテクスチャフィルタの種類を設定する。
+		*/
+		void SetTextureFilterType(TextureFilterType textureFilterType);
+
+		/**
+		@brief　カメラが描画した結果を描画する際のテクスチャフィルタの種類を取得する。
+		*/
+		TextureFilterType GetTextureFilterType() const;
 	};
 }

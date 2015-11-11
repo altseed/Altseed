@@ -7,8 +7,29 @@
 #include "../Graphics/2D/asd.LayerRenderer.h"
 #include <Utility/asd.Timer.h>
 
+#include <iostream>
+#include <fstream>
+#include <string>
+
 namespace asd
 {
+	static bool isInitialized = false;
+	static std::ofstream output;
+
+	void CoreLayer_Imp::WriteLog(const char* text)
+	{
+		// デバッグ用
+		/*
+		if (!isInitialized)
+		{
+			output = std::ofstream("debug.txt");
+			isInitialized = true;
+		}
+
+		output << text << std::endl;
+		output.flush();
+		*/
+	}
 
 	CoreLayer_Imp::CoreLayer_Imp(Graphics* graphics, Vector2DI windowSize)
 		: m_graphics(nullptr)
@@ -23,9 +44,12 @@ namespace asd
 		m_graphics = (Graphics_Imp*) graphics;
 		SafeAddRef(m_graphics);
 
+		WriteLog("Start initializing m_layerRenderer");
 		m_layerRenderer = new LayerRenderer(graphics);
 		m_layerRenderer->SetWindowSize(windowSize);
+		WriteLog("End initializing m_layerRenderer");
 
+		WriteLog("Start initializing m_layerRenderer2");
 		{
 			asd::Vector2DF lpos[4];
 			lpos[0].X = 0;
@@ -38,6 +62,8 @@ namespace asd
 			lpos[3].Y = windowSize.Y;
 			m_layerRenderer->SetLayerPosition(lpos);
 		}
+
+		WriteLog("End initializing m_layerRenderer2");
 	}
 
 	CoreLayer_Imp::~CoreLayer_Imp()

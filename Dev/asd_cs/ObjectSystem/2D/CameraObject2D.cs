@@ -46,6 +46,15 @@ namespace asd
 			get { return GC.GenerateTexture2D(coreCameraObject.GetTexture(), GC.GenerationType.Get); }
 		}
 
+		///<summary>
+		/// カメラが描画した結果を描画する際のテクスチャフィルタを取得または設定する。
+		/// </summary>
+		public TextureFilterType TextureFilterType
+		{
+			get { return (TextureFilterType)coreCameraObject.GetTextureFilterType(); }
+			set { coreCameraObject.SetTextureFilterType((swig.TextureFilterType)value); }
+		}
+
 		internal override swig.CoreObject2D CoreObject
 		{
 			get { return coreCameraObject; }

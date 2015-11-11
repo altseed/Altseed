@@ -22,6 +22,16 @@ namespace asd
 
 		virtual Texture2D* GetTexture() = 0;
 
+		/**
+		@brief　カメラで撮影した結果を描画する際のテクスチャフィルタの種類を設定する。
+		*/
+		virtual void SetTextureFilterType(TextureFilterType textureFilterType) = 0;
+
+		/**
+		@brief　カメラで撮影した結果を描画する際のテクスチャフィルタの種類を取得する。
+		*/
+		virtual TextureFilterType GetTextureFilterType() const = 0;
+
 #if !SWIG
 		virtual Matrix33 GetCameraMatrix() = 0;
 

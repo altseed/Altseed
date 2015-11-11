@@ -74,6 +74,16 @@ namespace asd
 		isOffscreenMode = value;
 	}
 
+	void CoreCameraObject2D_Imp::SetTextureFilterType(TextureFilterType textureFilterType)
+	{
+		this->textureFilterType = textureFilterType;
+	}
+
+	TextureFilterType CoreCameraObject2D_Imp::GetTextureFilterType() const
+	{
+		return textureFilterType;
+	}
+
 
 	Matrix33 CoreCameraObject2D_Imp::GetCameraMatrix()
 	{
@@ -159,6 +169,7 @@ namespace asd
 			uvs.data(),
 			m_renderTarget,
 			AlphaBlendMode::Blend,
-			0);
+			0,
+			textureFilterType);
 	}
 }

@@ -55,4 +55,14 @@ namespace asd
 		SafeAddRef(texture);
 		return CreateSharedPtrWithReleaseDLL(texture);
 	}
+
+	void CameraObject2D::SetTextureFilterType(TextureFilterType textureFilterType)
+	{
+		m_coreObject->SetTextureFilterType(textureFilterType);
+	}
+
+	TextureFilterType CameraObject2D::GetTextureFilterType() const
+	{
+		return m_coreObject->GetTextureFilterType();
+	}
 }
