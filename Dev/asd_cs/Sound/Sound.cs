@@ -26,16 +26,5 @@ namespace asd
 		{
 			return GC.GenerateSoundSource(swig.Accessor.Sound_CreateSoundSource(CoreInstance, path, isDecompressed), GC.GenerationType.Create);
 		}
-
-		/// <summary>
-		/// 音が再生中か、取得する。
-		/// </summary>
-		/// <param name="id">ID</param>
-		/// <returns>再生中か?</returns>
-		public bool IsPlaying(int id)
-		{
-			bool ret = CoreInstance.GetIsPlaying(id);
-			return ret;
-		}
 	}
 }
