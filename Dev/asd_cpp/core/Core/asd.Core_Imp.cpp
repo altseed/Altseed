@@ -188,11 +188,12 @@ namespace asd
 #if _WIN32
 		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
-			glfwMakeOpenGLEnabled();
+			// glfwMakeOpenGLEnabled();
+			glfwWindowHint(GLFW_NO_API, GL_FALSE);
 		}
 		else
 		{
-			glfwMakeOpenGLDisabled();
+			glfwWindowHint(GLFW_NO_API, GL_TRUE);
 		}
 #else
 		if (option.GraphicsDevice != GraphicsDeviceType::OpenGL)

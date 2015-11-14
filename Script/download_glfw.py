@@ -3,8 +3,8 @@ import aceutils
 zipname = 'master.zip'
 pathname = 'glfw-master'
 
-zipname = 'ed451ea6823380af9ea1ced320182fbcfb176c64.zip'
-pathname = 'glfw-ed451ea6823380af9ea1ced320182fbcfb176c64'
+zipname = 'e647a44ba9483589df830f0fab52602ce93eff3a.zip'
+pathname = 'glfw-e647a44ba9483589df830f0fab52602ce93eff3a'
 
 
 
