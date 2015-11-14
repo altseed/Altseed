@@ -35,7 +35,7 @@ namespace asd
 	{
 		if (m_coreObject->GetLayer() == nullptr)
 		{
-			throw std::exception("レイヤーに追加されていません。");
+			throw std::runtime_error("レイヤーに追加されていません。");
 		}
 
 		return m_coreObject->Play();
