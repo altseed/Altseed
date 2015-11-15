@@ -532,7 +532,7 @@ namespace asd
 
 			if (modelPtr->GetIsLoopingMode(animationIndex0))
 			{
-				if (animationTime0 >= modelPtr->GetFrameCount(animationIndex0))
+				while (animationTime0 >= modelPtr->GetFrameCount(animationIndex0))
 				{
 					animationTime0 -= modelPtr->GetFrameCount(animationIndex0);
 				}
@@ -552,7 +552,7 @@ namespace asd
 
 			if (modelPtr->GetIsLoopingMode(animationIndex1))
 			{
-				if (animationTime1 >= modelPtr->GetFrameCount(animationIndex1))
+				while (animationTime1 >= modelPtr->GetFrameCount(animationIndex1))
 				{
 					animationTime1 -= modelPtr->GetFrameCount(animationIndex1);
 				}
