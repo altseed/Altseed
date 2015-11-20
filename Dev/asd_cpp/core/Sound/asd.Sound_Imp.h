@@ -76,6 +76,18 @@ namespace asd
 
 		void Fade(int32_t id, float second, float targetedVolume) override;
 
+		bool GetIsPlaybackSpeedEnabled(int32_t id) override;
+
+		void SetIsPlaybackSpeedEnabled(int32_t id, bool isPlaybackSpeedEnabled) override;
+
+		float GetPlaybackSpeed(int32_t id) override;
+
+		void SetPlaybackSpeed(int32_t id, float playbackSpeed) override;
+
+		float GetPanningPosition(int32_t id) override;
+
+		void SetPanningPosition(int32_t id, float panningPosition) override;
+
 #if !SWIG
 		std::shared_ptr<ResourceContainer<SoundSource_Imp>>	SoundSourcesContainer;
 

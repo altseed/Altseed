@@ -1227,6 +1227,8 @@ namespace asd {
 		{
 			get { return CoreInstance.GetUsedVRAMSize(); }
 		}
+
+
 	}
 
 
@@ -2261,6 +2263,72 @@ namespace asd {
 			CoreInstance.Fade(id, second, targetedVolume);
 		}
 
+		/// <summary>
+		/// 再生速度変更するかを取得する。 
+		/// </summary>
+		/// <param name="id">音のID </param>
+		/// <returns>再生速度変更するか? </returns>
+		public bool GetIsPlaybackSpeedEnabled(int id)
+		{
+			return CoreInstance.GetIsPlaybackSpeedEnabled(id);
+		}
+
+		/// <summary>
+		/// 再生速度変更するかを設定する。 
+		/// </summary>
+		/// <param name="id">音のID </param>
+		/// <param name="isPlaybackSpeedEnabled">再生速度変更するか? </param>
+		public void SetIsPlaybackSpeedEnabled(int id, bool isPlaybackSpeedEnabled)
+		{
+			CoreInstance.SetIsPlaybackSpeedEnabled(id, isPlaybackSpeedEnabled);
+		}
+
+		/// <summary>
+		/// 再生速度を取得する。 
+		/// </summary>
+		/// <param name="id">音のID </param>
+		/// <returns>再生速度(比率) </returns>
+		/// <remarks>
+		/// 設定値は再生速度に比例する。1.0で等速。範囲は0.25から4.0。 音程は再生速度に比例して変化する。 
+		/// </remarks>
+		public float GetPlaybackSpeed(int id)
+		{
+			return CoreInstance.GetPlaybackSpeed(id);
+		}
+
+		/// <summary>
+		/// 再生速度を設定する。 
+		/// </summary>
+		/// <param name="id">音のID </param>
+		/// <param name="playbackSpeed">再生速度(比率) </param>
+		/// <remarks>
+		/// 設定値は再生速度に比例する。1.0で等速。範囲は0.25から4.0。 音程は再生速度に比例して変化する。 
+		/// </remarks>
+		public void SetPlaybackSpeed(int id, float playbackSpeed)
+		{
+			CoreInstance.SetPlaybackSpeed(id, playbackSpeed);
+		}
+
+		/// <summary>
+		/// パン位置を取得する。 
+		/// </summary>
+		/// <param name="id">音のID </param>
+		/// <returns>パン位置, 0.0で中央, -1.0で左, 1.0で右。 </returns>
+		public float GetPanningPosition(int id)
+		{
+			return CoreInstance.GetPanningPosition(id);
+		}
+
+		/// <summary>
+		/// パン位置を設定する。 
+		/// </summary>
+		/// <param name="id">音のID </param>
+		/// <param name="panningPosition">パン位置, 0.0で中央, -1.0で左, 1.0で右。 </param>
+		public void SetPanningPosition(int id, float panningPosition)
+		{
+			CoreInstance.SetPanningPosition(id, panningPosition);
+		}
+
 	}
 
 
@@ -2304,33 +2372,6 @@ namespace asd {
 		public float Length
 		{
 			get { return CoreInstance.GetLength(); }
-		}
-
-		/// <summary>
-		/// 再生速度変更するかを取得または設定する。
-		/// </summary>
-		public bool IsPlaybackSpeedEnabled
-		{
-			get { return CoreInstance.GetIsPlaybackSpeedEnabled(); }
-			set { CoreInstance.SetIsPlaybackSpeedEnabled(value); }
-		}
-
-		/// <summary>
-		/// 再生速度を取得または設定する。
-		/// </summary>
-		public float PlaybackSpeed
-		{
-			get { return CoreInstance.GetPlaybackSpeed(); }
-			set { CoreInstance.SetPlaybackSpeed(value); }
-		}
-
-		/// <summary>
-		/// パン位置を取得または設定する。
-		/// </summary>
-		public float PanningPosition
-		{
-			get { return CoreInstance.GetPanningPosition(); }
-			set { CoreInstance.SetPanningPosition(value); }
 		}
 
 

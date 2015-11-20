@@ -114,6 +114,42 @@ namespace asd
 		return m_manager->Fade(id, second, targetedVolume);
 	}
 
+	bool Sound_Imp::GetIsPlaybackSpeedEnabled(int32_t id)
+	{
+		if (m_manager == nullptr) return false;
+		return m_manager->GetIsPlaybackSpeedEnabled(id);
+	}
+
+	void Sound_Imp::SetIsPlaybackSpeedEnabled(int32_t id, bool isPlaybackSpeedEnabled)
+	{
+		if (m_manager == nullptr) return;
+		m_manager->SetIsPlaybackSpeedEnabled(id, isPlaybackSpeedEnabled);
+	}
+
+	float Sound_Imp::GetPlaybackSpeed(int32_t id)
+	{
+		if (m_manager == nullptr) return 1.0f;
+		return m_manager->GetPlaybackSpeed(id);
+	}
+
+	void Sound_Imp::SetPlaybackSpeed(int32_t id, float playbackSpeed)
+	{
+		if (m_manager == nullptr) return;
+		m_manager->SetPlaybackSpeed(id, playbackSpeed);
+	}
+
+	float Sound_Imp::GetPanningPosition(int32_t id)
+	{
+		if (m_manager == nullptr) return 0.0f;
+		return m_manager->GetPanningPosition(id);
+	}
+
+	void Sound_Imp::SetPanningPosition(int32_t id, float panningPosition)
+	{
+		if (m_manager == nullptr) return;
+		m_manager->SetPanningPosition(id, panningPosition);
+	}
+
 	void Sound_Imp::Reload()
 	{
 		SoundSourcesContainer->Reload([this](std::shared_ptr<ResourceContainer<SoundSource_Imp>::LoadingInformation> r, uint8_t* data, int32_t size) -> void

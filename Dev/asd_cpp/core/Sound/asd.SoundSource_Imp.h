@@ -36,18 +36,6 @@ namespace asd
 
 		float GetLength() override;
 
-		bool GetIsPlaybackSpeedEnabled() override;
-
-		void SetIsPlaybackSpeedEnabled(bool isPlaybackSpeedEnabled) override;
-
-		float GetPlaybackSpeed() override;
-
-		void SetPlaybackSpeed(float playbackSpeed) override;
-
-		float GetPanningPosition() override;
-
-		void SetPanningPosition(float panningPosition) override;
-
 		osm::Sound* GetSound() { return m_sound; }
 
 		void Reload(uint8_t* data, int32_t size);

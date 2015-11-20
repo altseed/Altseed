@@ -114,5 +114,54 @@ namespace asd
 		つまり、このメソッドはFadeIn、FadeOutの任意音量指定版と言える。
 		*/
 		virtual void Fade(int32_t id, float second, float targetedVolume) = 0;
+
+		/**
+		@brief	再生速度変更するかを取得する。
+		@param	id	音のID
+		@return	再生速度変更するか?
+		*/
+		virtual bool GetIsPlaybackSpeedEnabled(int32_t id) = 0;
+
+		/**
+		@brief	再生速度変更するかを設定する。
+		@param	id	音のID
+		@param	isPlaybackSpeedEnabled	再生速度変更するか?
+		*/
+		virtual void SetIsPlaybackSpeedEnabled(int32_t id, bool isPlaybackSpeedEnabled) = 0;
+
+		/**
+		@brief	再生速度を取得する。
+		@param	id	音のID
+		@return	再生速度(比率)
+		@note
+		設定値は再生速度に比例する。1.0で等速。範囲は0.25から4.0。
+		音程は再生速度に比例して変化する。
+		*/
+		virtual float GetPlaybackSpeed(int32_t id) = 0;
+
+		/**
+		@brief	再生速度を設定する。
+		@param	id	音のID
+		@param	playbackSpeed	再生速度(比率)
+		@note
+		設定値は再生速度に比例する。1.0で等速。範囲は0.25から4.0。
+		音程は再生速度に比例して変化する。
+		*/
+		virtual void SetPlaybackSpeed(int32_t id, float playbackSpeed) = 0;
+
+		/**
+		@brief	パン位置を取得する。
+		@param	id	音のID
+		@return	パン位置, 0.0で中央, -1.0で左, 1.0で右。
+		*/
+		virtual float GetPanningPosition(int32_t id) = 0;
+
+		/**
+		@brief	パン位置を設定する。
+		@param	id	音のID
+		@param	panningPosition	パン位置, 0.0で中央, -1.0で左, 1.0で右。
+		*/
+		virtual void SetPanningPosition(int32_t id, float panningPosition) = 0;
+
 	};
 }
