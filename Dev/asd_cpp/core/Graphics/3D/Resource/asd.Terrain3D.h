@@ -63,6 +63,12 @@ namespace asd
 		*/
 		virtual int32_t GetSurfaceIndex(const achar* name) = 0;
 
+		/**
+			@brief	崖のテクスチャを設定する。
+			@param	diffuseTexture		色テクスチャ
+			@param	normalTexture		法線テクスチャ
+			@param	metalnessTexture	金属度テクスチャ
+		*/
 		virtual void SetCliffTexture(Texture2D* diffuseTexture, Texture2D* normalTexture, Texture2D* metalnessTexture) = 0;
 
 		/**
@@ -136,6 +142,17 @@ namespace asd
 		void SetMaterial(std::shared_ptr<Material3D> material)
 		{
 			SetMaterial(material.get());
+		}
+
+		/**
+		@brief	崖のテクスチャを設定する。
+		@param	diffuseTexture		色テクスチャ
+		@param	normalTexture		法線テクスチャ
+		@param	metalnessTexture	金属度テクスチャ
+		*/
+		virtual void SetCliffTexture(std::shared_ptr<Texture2D> diffuseTexture, std::shared_ptr<Texture2D> normalTexture, std::shared_ptr<Texture2D> metalnessTexture)
+		{
+			SetCliffTexture(diffuseTexture.get(), normalTexture.get(), metalnessTexture.get());
 		}
 #endif
 	};

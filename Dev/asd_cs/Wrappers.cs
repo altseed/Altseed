@@ -2500,11 +2500,11 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 
+		/// 崖のテクスチャを設定する。 
 		/// </summary>
-		/// <param name="diffuseTexture"></param>
-		/// <param name="normalTexture"></param>
-		/// <param name="metalnessTexture"></param>
+		/// <param name="diffuseTexture">色テクスチャ </param>
+		/// <param name="normalTexture">法線テクスチャ </param>
+		/// <param name="metalnessTexture">金属度テクスチャ </param>
 		public void SetCliffTexture(Texture2D diffuseTexture, Texture2D normalTexture, Texture2D metalnessTexture)
 		{
 			var diffuseTextureCore = diffuseTexture != null ? diffuseTexture.CoreInstance : null;
