@@ -166,7 +166,7 @@ namespace asd
 
 			// 側面の場合のみ使用
 			Vector2DF	UV;
-			float		xEx;
+			float		ExtendedRate;
 
 			ChipVertex()
 				: UV(Vector2DF(FLT_MAX, FLT_MAX))

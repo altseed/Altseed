@@ -1414,6 +1414,8 @@ namespace asd
 						chip.Faces.push_back(f);
 					}
 
+					const int32_t division = 4;
+
 					// 側面形成
 					auto sortedLines = SortLines(chip.Lines);
 					{
@@ -1434,7 +1436,7 @@ namespace asd
 							{
 								u_end = (((x % 4) + ((y + 1) % 4)) % 4);
 							}
-							else if (line[line.size() - 1]  % 5 == 0)
+							else if (line[line.size() - 1] % 5 == 0)
 							{
 								u_end = ((((x - 1) % 4) + ((y) % 4)) % 4);
 							}
@@ -1452,7 +1454,7 @@ namespace asd
 							u_end /= 4.0f;
 
 							// 頂点生成
-							for (int32_t p = 0; p < 2; p++)
+							for (int32_t p = 0; p < division; p++)
 							{
 								for (size_t l = 0; l < line.size(); l++)
 								{
@@ -1464,13 +1466,17 @@ namespace asd
 									auto vu = upperVertcies[pu1];
 									auto vl = lowerVertcies[pl1];
 
-									auto v = (vl - vu) * p + vu;
+									auto v = (vl - vu) * (p / (float)(division - 1)) + vu;
 
 									ChipVertex v_;
 									v_.Position = v;
 									v_.UV.X = (u_end - u_start) * (float) l / (float) (line.size() - 1) + u_start;
-									v_.UV.Y = p;
-									v_.xEx = 0.0f;
+									v_.UV.Y = (p / (float) (division - 1));
+
+									if (p == 0) v_.ExtendedRate = 0.0f;
+									if (p == 1) v_.ExtendedRate = 1.0f;
+									if (p == 2) v_.ExtendedRate = -0.5f;
+									if (p == 3) v_.ExtendedRate = 0.0f;
 
 									chip.Vertecies.push_back(v_);
 								}
@@ -1478,18 +1484,21 @@ namespace asd
 
 							for (size_t l = 0; l < line.size() - 1; l++)
 							{
-								ChipFace f1;
-								f1.Indexes[0] = l + offset;
-								f1.Indexes[1] = l + 1 + offset;
-								f1.Indexes[2] = l + 1 + line.size() * 1 + offset;
+								for (size_t j = 0; j < division - 1; j++)
+								{
+									ChipFace f1;
+									f1.Indexes[0] = l + line.size() * j + offset;
+									f1.Indexes[1] = l + 1 + line.size() * j + offset;
+									f1.Indexes[2] = l + 1 + line.size() * (j + 1) + offset;
 
-								ChipFace f2;
-								f2.Indexes[0] = l + offset;
-								f2.Indexes[1] = l + 1 + line.size() * 1 + offset;
-								f2.Indexes[2] = l + 0 + line.size() * 1 + offset;
+									ChipFace f2;
+									f2.Indexes[0] = l + line.size() * j + offset;
+									f2.Indexes[1] = l + 1 + line.size() * (j + 1) + offset;
+									f2.Indexes[2] = l + 0 + line.size() * (j + 1) + offset;
 
-								chip.SideFaces.push_back(f1);
-								chip.SideFaces.push_back(f2);
+									chip.SideFaces.push_back(f1);
+									chip.SideFaces.push_back(f2);
+								}
 							}
 						}
 					}
@@ -1565,7 +1574,7 @@ namespace asd
 						(positions[2] - positions[0]),
 						(positions[1] - positions[0]));
 
-					if (normal.GetSquaredLength() < 0.01f)
+					if (normal.GetSquaredLength() == 0.0f)
 					{
 						normal = Vector3DF();
 					}
@@ -1815,6 +1824,77 @@ namespace asd
 			}
 		}
 
+		// 頂点を法線に従って移動
+		for (size_t i = 0; i < chipVertices.size(); i++)
+		{
+			auto& v = chipVertices[i];
+
+			Vector3DF normal;
+
+			float ext = 0.0f;
+			int32_t count = 0;
+
+			for (auto ind : chipVertexPositionToFaceIndexes[v.Position])
+			{
+				auto f = chipFaces[ind];
+
+				// 無効な面を飛ばす
+				if (f.Normal.GetSquaredLength() == 0.0f) continue;
+
+				normal += f.Normal;
+				count++;
+			}
+
+			normal /= (float) count;
+
+			// とりあえず移動
+			v.Position += normal * v.ExtendedRate * gridSize / 10.0f;
+		}
+
+		// 法線再計算
+		for (size_t i = 0; i < chipFaces.size(); i++)
+		{
+			auto& face = chipFaces[i];
+
+			Vector3DF positions [] = {
+				 chipVertices[face.Indexes[0]].Position,
+				 chipVertices[face.Indexes[1]].Position,
+				 chipVertices[face.Indexes[2]].Position,
+			};
+
+			auto normal = Vector3DF::Cross(
+				(positions[2] - positions[0]),
+				(positions[1] - positions[0]));
+
+			if (normal.GetSquaredLength() < 0.01f)
+			{
+				normal = Vector3DF();
+			}
+			else
+			{
+				normal.Normalize();
+			}
+
+			face.Normal = normal;
+
+			// 下方向をタンジェントとする。
+			if (abs(Vector3DF::Dot(normal, Vector3DF(0, -1, 0))) < 0.9f)
+			{
+				auto tangent = Vector3DF::Cross(normal, Vector3DF(0, -1, 0));
+				tangent.Normalize();
+
+				face.Binormal = Vector3DF::Cross(tangent, normal);
+				face.Binormal.Normalize();
+			}
+			else
+			{
+				auto binormal = Vector3DF::Cross(Vector3DF(1, 0, 0), normal);
+				binormal.Normalize();
+
+				face.Binormal = binormal;
+			}
+		}
+
 		vertices.clear();
 		faces.clear();
 
@@ -1828,6 +1908,7 @@ namespace asd
 
 			Vector3DF normal;
 			Vector3DF binormal;
+			float ext = 0.0f;
 			int32_t count = 0;
 
 			for (auto ind : chipVertexPositionToFaceIndexes[v.Position])
@@ -1846,7 +1927,7 @@ namespace asd
 			binormal /= (float) count;
 
 			cv.Normal = normal;
-			cv.Binormal = binormal;
+			cv.Binormal = binormal; 
 
 			vertices.push_back(cv);
 		}
@@ -1864,7 +1945,7 @@ namespace asd
 
 		// 外周を切り取った範囲の頂点と面を出力する。
 		std::map<int32_t, int32_t> indToNewInd;
-
+		/*
 		auto tempV = vertices;
 		vertices.clear();
 
@@ -1921,6 +2002,7 @@ namespace asd
 
 			faces.push_back(f);
 		}
+		*/
 	}
 
 	bool Terrain3D_Imp::Commit()
