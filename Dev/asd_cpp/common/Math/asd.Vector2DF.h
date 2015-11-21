@@ -128,6 +128,9 @@ namespace asd
 
 		bool operator!=(const Vector2DF& right);
 
+		bool operator > (const Vector2DF& o) const;
+		bool operator < (const Vector2DF& o) const;
+
 		Vector2DF operator-();
 
 		Vector2DF operator+(const Vector2DF& right);

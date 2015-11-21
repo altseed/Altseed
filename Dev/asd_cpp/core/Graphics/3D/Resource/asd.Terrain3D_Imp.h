@@ -238,7 +238,9 @@ namespace asd
 		void GenerateCollision();
 		//void GenerateTerrainChip(int32_t chip_x, int32_t chip_y);
 		void GenerateTerrainChips();
-		void GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, bool isTargetSide, std::vector<Vertex>& vertices, std::vector<Face>& faces);
+		void GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces);
+		void GenerateTerrainSideMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces);
+
 	public:
 
 		bool Commit() override;

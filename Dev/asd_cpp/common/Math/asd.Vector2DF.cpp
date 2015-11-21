@@ -45,6 +45,20 @@ namespace asd
 		return X != right.X || Y != right.Y;
 	}
 
+	bool Vector2DF::operator > (const Vector2DF& o) const
+	{
+		if (X != o.X) return X > o.X;
+		if (Y != o.Y) return Y > o.Y;
+		return false;
+	}
+
+	bool Vector2DF::operator < (const Vector2DF& o) const
+	{
+		if (X != o.X) return X < o.X;
+		if (Y != o.Y) return Y < o.Y;
+		return false;
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

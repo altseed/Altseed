@@ -1222,608 +1222,6 @@ namespace asd
 		SafeRelease(m_graphics);
 	}
 
-#if 0
-	void Terrain3D_Imp::GenerateTerrainChip(int32_t chip_x, int32_t chip_y)
-	{
-		auto& chip = Chips[chip_x + chip_y * gridWidthCount];
-
-		if (!chip.IsChanged) return;
-		chip.IsChanged = false;
-
-		chip.Vertecies.clear();
-		chip.Faces.clear();
-
-		int32_t clsh[9];
-
-		for (int32_t oy = -1; oy <= 1; oy++)
-		{
-			for (int32_t ox = -1; ox <= 1; ox++)
-			{
-				auto x_ = Clamp(chip_x + ox, gridWidthCount - 1, 0);
-				auto y_ = Clamp(chip_y + oy, gridHeightCount - 1, 0);
-				clsh[(ox + 1) + (oy + 1) * 3] = cliffes[x_ + y_ * gridWidthCount];
-			}
-		}
-
-		// 崖による4点の高度を決める
-		int32_t clheight[4];
-		int32_t clheightHigh[4];
-
-		for (int32_t oy = 0; oy < 2; oy++)
-		{
-			for (int32_t ox = 0; ox < 2; ox++)
-			{
-				int32_t m = INT_MAX;
-				int32_t c = clsh[4];
-
-				for (int32_t oy_ = 0; oy_ < 2; oy_++)
-				{
-					for (int32_t ox_ = 0; ox_ < 2; ox_++)
-					{
-						m = Min(m, clsh[(ox + ox_) + (oy + oy_) * 3]);
-
-						if (clsh[(ox + ox_) + (oy + oy_) * 3] - clsh[4] > -2)
-						{
-							c = Min(c, clsh[(ox + ox_) + (oy + oy_) * 3]);
-						}
-					}
-				}
-
-				clheight[ox + oy * 2] = m;
-				clheightHigh[ox + oy * 2] = c;
-			}
-		}
-
-		auto getHeight = [this](int32_t x_, int32_t y_) -> float
-		{
-			x_ = Clamp(x_, this->gridWidthCount - 1, 0);
-			y_ = Clamp(y_, this->gridHeightCount - 1, 0);
-
-			return this->heights[x_ + y_ * this->gridWidthCount];
-		};
-
-		auto v00 = Vector3DF(
-			chip_x * gridSize - gridWidthCount * gridSize / 2.0f,
-			(getHeight(chip_x - 1, chip_y - 1) + getHeight(chip_x + 0, chip_y - 1) + getHeight(chip_x - 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 0)) / 4.0f,
-			chip_y * gridSize - gridHeightCount * gridSize / 2.0f);
-
-		auto v10 = Vector3DF(
-			(chip_x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
-			(getHeight(chip_x + 0, chip_y - 1) + getHeight(chip_x + 1, chip_y - 1) + getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x + 1, chip_y + 0)) / 4.0f,
-			chip_y * gridSize - gridHeightCount * gridSize / 2.0f);
-
-		auto v01 = Vector3DF(
-			chip_x * gridSize - gridWidthCount * gridSize / 2.0f,
-			(getHeight(chip_x - 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x - 1, chip_y + 1) + getHeight(chip_x + 0, chip_y + 1)) / 4.0f,
-			(chip_y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
-
-		auto v11 = Vector3DF(
-			(chip_x + 1) * gridSize - gridWidthCount * gridSize / 2.0f,
-			(getHeight(chip_x + 0, chip_y + 0) + getHeight(chip_x + 1, chip_y + 0) + getHeight(chip_x + 0, chip_y + 1) + getHeight(chip_x + 1, chip_y + 1)) / 4.0f,
-			(chip_y + 1) * gridSize - gridHeightCount * gridSize / 2.0f);
-
-		if (IsFitToHeight(4, clsh))
-		{
-			// 平坦な場合
-			v00.Y += clheight[0] * gridSize / 2.0f;
-			v10.Y += clheight[1] * gridSize / 2.0f;
-			v01.Y += clheight[2] * gridSize / 2.0f;
-			v11.Y += clheight[3] * gridSize / 2.0f;
-
-			chip.Vertecies.push_back(v00);
-			chip.Vertecies.push_back(v10);
-			chip.Vertecies.push_back(v01);
-			chip.Vertecies.push_back(v11);
-
-			ChipFace f1;
-			f1.Indexes[0] = 0;
-			f1.Indexes[1] = 1;
-			f1.Indexes[2] = 3;
-
-			ChipFace f2;
-			f2.Indexes[0] = 0;
-			f2.Indexes[1] = 3;
-			f2.Indexes[2] = 2;
-
-			chip.Faces.push_back(f1);
-			chip.Faces.push_back(f2);
-		}
-		else
-		{
-			auto isCliff = [&clsh](int32_t i) -> bool
-			{
-				auto from = clsh[4];
-				auto to = clsh[i];
-				if (from <= to) return false;
-				return from - to >= 2;
-			};
-
-			bool isCliffs[9];
-			for (int32_t i = 0; i < 9; i++)
-			{
-				isCliffs[i] = isCliff(i);
-			}
-
-			std::array<DivisionDirection, 16> divisions;
-			divisions.fill(DivisionDirection::None_);
-
-			// 領域を抽出する。
-			CalculateDivisionState(divisions, isCliffs);
-
-			// 周囲の分析を行う
-			bool isFits[4];
-			isFits[0] = IsFitToHeight(1, clsh);
-			isFits[1] = IsFitToHeight(5, clsh);
-			isFits[2] = IsFitToHeight(7, clsh);
-			isFits[3] = IsFitToHeight(3, clsh);
-
-			// 4隅の分析を行う
-			bool isHighs[4];
-			isHighs[0] = divisions[0] == DivisionDirection::Filled && divisions[0] != DivisionDirection::Slash_Lower;
-			isHighs[1] = divisions[3] == DivisionDirection::Filled && divisions[3] != DivisionDirection::Backslash_Lower;
-			isHighs[2] = divisions[12] == DivisionDirection::Filled && divisions[12] != DivisionDirection::Backslash_Upper;
-			isHighs[3] = divisions[15] == DivisionDirection::Filled && divisions[15] != DivisionDirection::Slash_Upper;
-
-			// 輪郭を抽出する。
-			std::vector<std::pair<int32_t, int32_t>> lines = ExtractLines(divisions);
-
-			// 面を生成する。
-			std::vector<Face> lowFaces;
-			std::vector<std::pair<int32_t, int32_t>> lowSquareFaces;
-
-			std::vector<Face> highFaces;
-			std::vector<std::pair<int32_t, int32_t>> highSquareFaces;
-
-			for (int32_t i = 0; i < 16; i++)
-			{
-				auto x = i % 4;
-				auto y = i / 4;
-
-				if (divisions[i] == DivisionDirection::None_)
-				{
-					lowSquareFaces.push_back(std::pair<int32_t, int32_t>(x, y));
-				}
-				else if (divisions[i] == DivisionDirection::Filled)
-				{
-					highSquareFaces.push_back(std::pair<int32_t, int32_t>(x, y));
-				}
-				else if (divisions[i] == DivisionDirection::Slash_Lower)
-				{
-					Face f;
-					f.Index1 = (x + 0) + (y + 0) * 5;
-					f.Index2 = (x + 1) + (y + 0) * 5;
-					f.Index3 = (x + 0) + (y + 1) * 5;
-					lowFaces.push_back(f);
-
-					Face f_;
-					f_.Index1 = (x + 1) + (y + 0) * 5;
-					f_.Index2 = (x + 1) + (y + 1) * 5;
-					f_.Index3 = (x + 0) + (y + 1) * 5;
-					highFaces.push_back(f_);
-				}
-				else if (divisions[i] == DivisionDirection::Slash_Upper)
-				{
-					Face f;
-					f.Index1 = (x + 1) + (y + 0) * 5;
-					f.Index2 = (x + 1) + (y + 1) * 5;
-					f.Index3 = (x + 0) + (y + 1) * 5;
-					lowFaces.push_back(f);
-
-					Face f_;
-					f_.Index1 = (x + 0) + (y + 0) * 5;
-					f_.Index2 = (x + 1) + (y + 0) * 5;
-					f_.Index3 = (x + 0) + (y + 1) * 5;
-					highFaces.push_back(f_);
-				}
-				else if (divisions[i] == DivisionDirection::Backslash_Lower)
-				{
-					Face f;
-					f.Index1 = (x + 0) + (y + 0) * 5;
-					f.Index2 = (x + 1) + (y + 0) * 5;
-					f.Index3 = (x + 1) + (y + 1) * 5;
-					lowFaces.push_back(f);
-
-					Face f_;
-					f_.Index1 = (x + 0) + (y + 0) * 5;
-					f_.Index2 = (x + 1) + (y + 1) * 5;
-					f_.Index3 = (x + 0) + (y + 1) * 5;
-					highFaces.push_back(f_);
-				}
-				else if (divisions[i] == DivisionDirection::Backslash_Upper)
-				{
-					Face f;
-					f.Index1 = (x + 0) + (y + 0) * 5;
-					f.Index2 = (x + 1) + (y + 1) * 5;
-					f.Index3 = (x + 0) + (y + 1) * 5;
-					lowFaces.push_back(f);
-
-					Face f_;
-					f_.Index1 = (x + 0) + (y + 0) * 5;
-					f_.Index2 = (x + 1) + (y + 0) * 5;
-					f_.Index3 = (x + 1) + (y + 1) * 5;
-					highFaces.push_back(f_);
-				}
-			}
-
-			// 面を形成する
-			std::array<int32_t, 5 * 5> lowIndexes;
-			lowIndexes.fill(-1);
-
-			auto getPosL = [v00, v10, v01, v11, &isHighs, &clsh, &clheight, &isFits, this](float x, float y) -> Vector3DF
-			{
-				Vector3DF vxz0 = (v10 - v00) * x + v00;
-				Vector3DF vxz1 = (v11 - v01) * x + v01;
-				auto vxz = (vxz1 - vxz0) * y + vxz0;
-
-				auto v00_ = v00;
-				auto v10_ = v10;
-				auto v01_ = v01;
-				auto v11_ = v11;
-
-				int32_t hs[4] = { clheight[0], clheight[1], clheight[2], clheight[3] };
-
-				v00_.Y += hs[0] * gridSize / 2.0f;
-				v10_.Y += hs[1] * gridSize / 2.0f;
-				v01_.Y += hs[2] * gridSize / 2.0f;
-				v11_.Y += hs[3] * gridSize / 2.0f;
-
-				v00_.X = vxz.X;
-				v00_.Z = vxz.Z;
-				v10_.X = vxz.X;
-				v10_.Z = vxz.Z;
-				v01_.X = vxz.X;
-				v01_.Z = vxz.Z;
-				v11_.X = vxz.X;
-				v11_.Z = vxz.Z;
-
-				Vector3DF v0;
-				Vector3DF v1;
-
-				if (isFits[0])
-				{
-					v0 = (v10_ - v00_) * x + v00_;
-				}
-				else
-				{
-					if (x < 0.5f || isHighs[1])
-					{
-						v0 = v00_;
-					}
-					else
-					{
-						v0 = v10_;
-					}
-				}
-
-				if (isFits[2])
-				{
-					v1 = (v11_ - v01_) * x + v01_;
-				}
-				else
-				{
-					if (x < 0.5f || isHighs[3])
-					{
-						v1 = v01_;
-					}
-					else
-					{
-						v1 = v11_;
-					}
-				}
-
-				if (x < 0.5f)
-				{
-					if (isFits[3])
-					{
-						return (v1 - v0) * y + v0;
-					}
-					else
-					{
-						if (y < 0.5f || isHighs[2])
-						{
-							return v0;
-						}
-						return v1;
-					}
-				}
-				else
-				{
-					if (isFits[1])
-					{
-						return (v1 - v0) * y + v0;
-					}
-					else
-					{
-						if (y < 0.5f || isHighs[3])
-						{
-							return v0;
-						}
-						return v1;
-					}
-				}
-			};
-
-			auto getPosH = [v00, v10, v01, v11, &clheight, &clheightHigh, &isFits, &isHighs, &clsh, &isCliffs, this](float x, float y) -> Vector3DF
-			{
-				auto v00_ = v00;
-				auto v10_ = v10;
-				auto v01_ = v01;
-				auto v11_ = v11;
-
-				if (!isHighs[0] &&
-					!isHighs[1] &&
-					!isHighs[2] &&
-					!isHighs[3])
-				{
-					int32_t hs[4] = { clsh[4], clsh[4], clsh[4], clsh[4] };
-					if (!isCliffs[1])
-					{
-						hs[0] = clsh[1];
-						hs[1] = clsh[1];
-					}
-
-					if (!isCliffs[5])
-					{
-						hs[1] = clsh[5];
-						hs[3] = clsh[5];
-					}
-
-					if (!isCliffs[7])
-					{
-						hs[2] = clsh[7];
-						hs[3] = clsh[7];
-					}
-
-					if (!isCliffs[3])
-					{
-						hs[0] = clsh[3];
-						hs[2] = clsh[3];
-					}
-
-					v00_.Y += hs[0] * gridSize / 2.0f;
-					v10_.Y += hs[1] * gridSize / 2.0f;
-					v01_.Y += hs[2] * gridSize / 2.0f;
-					v11_.Y += hs[3] * gridSize / 2.0f;
-				}
-				else
-				{
-					int32_t hs[4] = { clheightHigh[0], clheightHigh[1], clheightHigh[2], clheightHigh[3] };
-
-					// 後処理で接続する。
-					/*
-					bool isFits_[4] = { isFits[0], isFits[1], isFits[2], isFits[3] };
-
-					if (!isHighs[0] && !isHighs[1]) isFits_[0] = false;
-					if (!isHighs[1] && !isHighs[3]) isFits_[1] = false;
-					if (!isHighs[2] && !isHighs[3]) isFits_[2] = false;
-					if (!isHighs[0] && !isHighs[2]) isFits_[3] = false;
-
-					
-					if (isFits_[0])
-					{
-						hs[0] = clheight[0];
-						hs[1] = clheight[1];
-					}
-
-					if (isFits_[1])
-					{
-						hs[1] = clheight[1];
-						hs[3] = clheight[3];
-					}
-
-					if (isFits_[2])
-					{
-						hs[2] = clheight[2];
-						hs[3] = clheight[3];
-					}
-
-					if (isFits_[3])
-					{
-						hs[0] = clheight[0];
-						hs[2] = clheight[2];
-					}
-					*/
-
-					v00_.Y += hs[0] * gridSize / 2.0f;
-					v10_.Y += hs[1] * gridSize / 2.0f;
-					v01_.Y += hs[2] * gridSize / 2.0f;
-					v11_.Y += hs[3] * gridSize / 2.0f;
-				}
-
-				Vector3DF v0 = (v10_ - v00_) * x + v00_;
-				Vector3DF v1 = (v11_ - v01_) * x + v01_;
-				return (v1 - v0) * y + v0;
-			};
-
-			for (auto& f : lowFaces)
-			{
-				auto fi = &f.Index1;
-
-				for (int32_t i = 0; i < 3; i++)
-				{
-					if (lowIndexes[fi[i]] == -1)
-					{
-						auto x = fi[i] % 5;
-						auto y = fi[i] / 5;
-
-						auto v = getPosL(x / 4.0f, y / 4.0f);
-						chip.Vertecies.push_back(v);
-						lowIndexes[fi[i]] = chip.Vertecies.size() - 1;
-					}
-				}
-
-				ChipFace f_;
-				f_.Indexes[0] = lowIndexes[f.Index1];
-				f_.Indexes[1] = lowIndexes[f.Index2];
-				f_.Indexes[2] = lowIndexes[f.Index3];
-
-				chip.Faces.push_back(f_);
-			}
-
-			for (auto& sf : lowSquareFaces)
-			{
-				auto x = sf.first;
-				auto y = sf.second;
-
-				int32_t indexes[4];
-				indexes[0] = (x + 0) + (y + 0) * 5;
-				indexes[1] = (x + 1) + (y + 0) * 5;
-				indexes[2] = (x + 0) + (y + 1) * 5;
-				indexes[3] = (x + 1) + (y + 1) * 5;
-
-				for (int32_t i = 0; i < 4; i++)
-				{
-					if (lowIndexes[indexes[i]] == -1)
-					{
-						auto x = indexes[i] % 5;
-						auto y = indexes[i] / 5;
-
-						auto v = getPosL(x / 4.0f, y / 4.0f);
-						chip.Vertecies.push_back(v);
-						lowIndexes[indexes[i]] = chip.Vertecies.size() - 1;
-					}
-				}
-
-				ChipFace f1;
-				f1.Indexes[0] = lowIndexes[indexes[0]];
-				f1.Indexes[1] = lowIndexes[indexes[1]];
-				f1.Indexes[2] = lowIndexes[indexes[3]];
-
-				ChipFace f2;
-				f2.Indexes[0] = lowIndexes[indexes[0]];
-				f2.Indexes[1] = lowIndexes[indexes[3]];
-				f2.Indexes[2] = lowIndexes[indexes[2]];
-
-				chip.Faces.push_back(f1);
-				chip.Faces.push_back(f2);
-			}
-
-			std::array<int32_t, 5 * 5> highIndexes;
-			highIndexes.fill(-1);
-
-			for (auto& f : highFaces)
-			{
-				auto fi = &f.Index1;
-
-				for (int32_t i = 0; i < 3; i++)
-				{
-					if (highIndexes[fi[i]] == -1)
-					{
-						auto x = fi[i] % 5;
-						auto y = fi[i] / 5;
-
-						//auto v = getPosL(x / 4.0f, y / 4.0f);
-						//v.Y += 2.0f;
-
-						auto v = getPosH(x / 4.0f, y / 4.0f);
-						
-						chip.Vertecies.push_back(v);
-						highIndexes[fi[i]] = chip.Vertecies.size() - 1;
-					}
-				}
-
-				ChipFace f_;
-				f_.Indexes[0] = highIndexes[f.Index1];
-				f_.Indexes[1] = highIndexes[f.Index2];
-				f_.Indexes[2] = highIndexes[f.Index3];
-
-				chip.Faces.push_back(f_);
-			}
-
-			for (auto& sf : highSquareFaces)
-			{
-				auto x = sf.first;
-				auto y = sf.second;
-
-				int32_t indexes[4];
-				indexes[0] = (x + 0) + (y + 0) * 5;
-				indexes[1] = (x + 1) + (y + 0) * 5;
-				indexes[2] = (x + 0) + (y + 1) * 5;
-				indexes[3] = (x + 1) + (y + 1) * 5;
-
-				for (int32_t i = 0; i < 4; i++)
-				{
-					if (highIndexes[indexes[i]] == -1)
-					{
-						auto x = indexes[i] % 5;
-						auto y = indexes[i] / 5;
-
-						//auto v = getPosL(x / 4.0f, y / 4.0f);
-						//v.Y += 2.0f;
-
-						auto v = getPosH(x / 4.0f, y / 4.0f);
-
-						chip.Vertecies.push_back(v);
-						highIndexes[indexes[i]] = chip.Vertecies.size() - 1;
-					}
-				}
-
-				ChipFace f1;
-				f1.Indexes[0] = highIndexes[indexes[0]];
-				f1.Indexes[1] = highIndexes[indexes[1]];
-				f1.Indexes[2] = highIndexes[indexes[3]];
-
-				ChipFace f2;
-				f2.Indexes[0] = highIndexes[indexes[0]];
-				f2.Indexes[1] = highIndexes[indexes[3]];
-				f2.Indexes[2] = highIndexes[indexes[2]];
-
-				chip.Faces.push_back(f1);
-				chip.Faces.push_back(f2);
-			}
-			
-
-			// 側面形成
-			for (auto& line : lines)
-			{
-				ChipFace f1;
-				f1.Indexes[0] = highIndexes[line.first];
-				f1.Indexes[1] = highIndexes[line.second];
-				f1.Indexes[2] = lowIndexes[line.second];
-
-				ChipFace f2;
-				f2.Indexes[0] = highIndexes[line.first];
-				f2.Indexes[1] = lowIndexes[line.second];
-				f2.Indexes[2] = lowIndexes[line.first];
-
-				chip.Faces.push_back(f1);
-				chip.Faces.push_back(f2);
-			}
-		}
-
-		// 面計算
-		for (size_t i = 0; i < chip.Faces.size(); i++)
-		{
-			auto& face = chip.Faces[i];
-
-			auto normal = Vector3DF::Cross(
-				(chip.Vertecies[face.Indexes[2]] - chip.Vertecies[face.Indexes[0]]),
-				(chip.Vertecies[face.Indexes[1]] - chip.Vertecies[face.Indexes[0]]));
-
-			normal.Normalize();
-
-			face.Normal = normal;
-
-			if (abs(Vector3DF::Dot(normal, Vector3DF(0, 0, 1))) < 0.9f)
-			{
-				auto tangent = Vector3DF::Cross(normal, Vector3DF(0, 0, 1));
-				tangent.Normalize();
-
-				face.Binormal = Vector3DF::Cross(tangent, normal);
-				face.Binormal.Normalize();
-			}
-			else
-			{
-				auto binormal = Vector3DF::Cross(Vector3DF(1, 0, 0), normal);
-				binormal.Normalize();
-
-				face.Binormal = binormal;
-			}
-			
-		}
-	}
-#endif
-
 	void Terrain3D_Imp::GenerateTerrainChips()
 	{
 		for (int32_t y = 0; y < gridHeightCount; y++)
@@ -2023,6 +1421,36 @@ namespace asd
 						{
 							auto offset = chip.Vertecies.size();
 
+							float u_start = 0.0f;
+							float u_end = 0.0f;
+
+							u_start = (((x % 4) + ((y) % 4)) % 4);
+
+							if (line[line.size() - 1] < 5)
+							{
+								u_end = (((x % 4) + ((y - 1) % 4)) % 4);
+							}
+							else if (line[line.size() - 1] >= 20)
+							{
+								u_end = (((x % 4) + ((y + 1) % 4)) % 4);
+							}
+							else if (line[line.size() - 1]  % 5 == 0)
+							{
+								u_end = ((((x - 1) % 4) + ((y) % 4)) % 4);
+							}
+							else
+							{
+								u_end = ((((x + 1) % 4) + ((y) % 4)) % 4);
+							}
+
+							if (u_start == 3 && u_end == 0)
+							{
+								u_end = 4;
+							}
+
+							u_start /= 4.0f;
+							u_end /= 4.0f;
+
 							// 頂点生成
 							for (int32_t p = 0; p < 2; p++)
 							{
@@ -2040,7 +1468,7 @@ namespace asd
 
 									ChipVertex v_;
 									v_.Position = v;
-									v_.UV.X = (float) l / (float) (line.size() - 1);
+									v_.UV.X = (u_end - u_start) * (float) l / (float) (line.size() - 1) + u_start;
 									v_.UV.Y = p;
 									v_.xEx = 0.0f;
 
@@ -2091,9 +1519,15 @@ namespace asd
 				{
 					auto& face = chip.Faces[i];
 
+					Vector3DF positions[] = {
+						chip.Vertecies[face.Indexes[0]].Position,
+						chip.Vertecies[face.Indexes[1]].Position,
+						chip.Vertecies[face.Indexes[2]].Position,
+					};
+
 					auto normal = Vector3DF::Cross(
-						(chip.Vertecies[face.Indexes[2]].Position - chip.Vertecies[face.Indexes[0]].Position),
-						(chip.Vertecies[face.Indexes[1]].Position - chip.Vertecies[face.Indexes[0]].Position));
+						(positions[2] - positions[0]),
+						(positions[1] - positions[0]));
 
 					normal.Normalize();
 
@@ -2121,12 +1555,25 @@ namespace asd
 				{
 					auto& face = chip.SideFaces[i];
 
+					Vector3DF positions [] = {
+						chip.Vertecies[face.Indexes[0]].Position,
+						chip.Vertecies[face.Indexes[1]].Position,
+						chip.Vertecies[face.Indexes[2]].Position,
+					};
+
 					auto normal = Vector3DF::Cross(
-						(chip.Vertecies[face.Indexes[2]].Position - chip.Vertecies[face.Indexes[0]].Position),
-						(chip.Vertecies[face.Indexes[1]].Position - chip.Vertecies[face.Indexes[0]].Position));
+						(positions[2] - positions[0]),
+						(positions[1] - positions[0]));
 
-					normal.Normalize();
-
+					if (normal.GetSquaredLength() < 0.01f)
+					{
+						normal = Vector3DF();
+					}
+					else
+					{
+						normal.Normalize();
+					}
+					
 					face.Normal = normal;
 
 					// 下方向をタンジェントとする。
@@ -2150,7 +1597,7 @@ namespace asd
 		}
 	}
 
-	void Terrain3D_Imp::GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, bool isTargetSide, std::vector<Vertex>& vertices, std::vector<Face>& faces)
+	void Terrain3D_Imp::GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces)
 	{
 		std::vector<Vector3DF> chipVertices;
 		std::vector<ChipFace> chipFaces;
@@ -2160,6 +1607,7 @@ namespace asd
 
 		std::map<Vector3DF, Vector2DF> chipVertexPositionToUV;
 
+		// 周囲1マス広めに取得して法線の計算に使用する
 		auto cx_min = Clamp(chip_x - 1, gridWidthCount - 1, 0);
 		auto cy_min = Clamp(chip_y - 1, gridHeightCount - 1, 0);
 		auto cx_max = Clamp(chip_x + chip_width + 1, gridWidthCount - 1, 0);
@@ -2173,18 +1621,7 @@ namespace asd
 
 				auto& chip = Chips[x + y * gridWidthCount];
 
-				std::vector<ChipFace>* targetFaces = nullptr;
-				if (isTargetSide)
-				{
-					targetFaces = &chip.SideFaces;
-				}
-				else
-				{
-					targetFaces = &chip.Faces;
-				}
-				std::vector<ChipFace>& targetFaces_ = *targetFaces;
-
-				for (auto& f : targetFaces_)
+				for (auto& f : chip.Faces)
 				{
 					for (int32_t i = 0; i < 3; i++)
 					{
@@ -2205,7 +1642,7 @@ namespace asd
 					}
 				}
 
-				for (auto& f : targetFaces_)
+				for (auto& f : chip.Faces)
 				{
 					auto f_ = f;
 					for (size_t i = 0; i < 3; i++)
@@ -2259,11 +1696,178 @@ namespace asd
 			faces.push_back(face);
 		}
 
+		// 外周を切り取った範囲の頂点と面を出力する。
 		std::map<int32_t, int32_t> indToNewInd;
 
 		auto tempV = vertices;
 		vertices.clear();
 		
+		for (size_t i = 0; i < tempV.size(); i++)
+		{
+			auto v = tempV[i];
+
+			if (v.Position.X < chip_x * gridSize - gridWidthCount * gridSize / 2.0f ||
+				v.Position.X >(chip_x + chip_width) * gridSize - gridWidthCount * gridSize / 2.0f ||
+				v.Position.Z < chip_y * gridSize - gridHeightCount * gridSize / 2.0f ||
+				v.Position.Z >(chip_y + chip_height) * gridSize - gridHeightCount * gridSize / 2.0f)
+			{
+			}
+			else
+			{
+				indToNewInd[i] = vertices.size();
+				vertices.push_back(v);
+			}
+		}
+
+		auto tempF = faces;
+		faces.clear();
+
+		for (size_t i = 0; i < tempF.size(); i++)
+		{
+			auto f = tempF[i];
+
+			if (indToNewInd.count(f.Index1) > 0)
+			{
+				f.Index1 = indToNewInd[f.Index1];
+			}
+			else
+			{
+				continue;
+			}
+
+			if (indToNewInd.count(f.Index2) > 0)
+			{
+				f.Index2 = indToNewInd[f.Index2];
+			}
+			else
+			{
+				continue;
+			}
+
+			if (indToNewInd.count(f.Index3) > 0)
+			{
+				f.Index3 = indToNewInd[f.Index3];
+			}
+			else
+			{
+				continue;
+			}
+
+			faces.push_back(f);
+		}
+	}
+
+	void Terrain3D_Imp::GenerateTerrainSideMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces)
+	{
+		std::vector<ChipVertex> chipVertices;
+		std::vector<ChipFace> chipFaces;
+
+		std::map<Vector3DF, std::map <Vector2DF,int32_t>> chipVertexPositionToVertexIndexes;
+		std::map<Vector3DF, std::vector<int32_t>> chipVertexPositionToFaceIndexes;
+
+		// 周囲1マス広めに取得して法線の計算に使用する
+		auto cx_min = Clamp(chip_x - 1, gridWidthCount - 1, 0);
+		auto cy_min = Clamp(chip_y - 1, gridHeightCount - 1, 0);
+		auto cx_max = Clamp(chip_x + chip_width + 1, gridWidthCount - 1, 0);
+		auto cy_max = Clamp(chip_y + chip_height + 1, gridHeightCount - 1, 0);
+
+		for (size_t y = cy_min; y <= cy_max; y++)
+		{
+			for (size_t x = cx_min; x <= cx_max; x++)
+			{
+				auto indexOffset = chipVertices.size();
+
+				auto& chip = Chips[x + y * gridWidthCount];
+
+				for (auto& f : chip.SideFaces)
+				{
+					for (int32_t i = 0; i < 3; i++)
+					{
+						auto& v = chip.Vertecies[f.Indexes[i]];
+
+						auto ind = chipVertexPositionToFaceIndexes.find(v.Position);
+						if (ind == chipVertexPositionToFaceIndexes.end())
+						{
+							chipVertices.push_back(v);
+							chipVertexPositionToVertexIndexes[v.Position][v.UV] = (int32_t) (chipVertices.size() - 1);
+							chipVertexPositionToFaceIndexes[v.Position] = std::vector<int32_t>();
+						}
+						else if (chipVertexPositionToVertexIndexes[v.Position].count(v.UV) == 0)
+						{
+							chipVertices.push_back(v);
+							chipVertexPositionToVertexIndexes[v.Position][v.UV] = (int32_t) (chipVertices.size() - 1);
+						}
+					}
+				}
+
+				for (auto& f : chip.SideFaces)
+				{
+					auto f_ = f;
+					for (size_t i = 0; i < 3; i++)
+					{
+						auto v = chip.Vertecies[f.Indexes[i]];
+						f_.Indexes[i] = chipVertexPositionToVertexIndexes[v.Position][v.UV];
+						chipVertexPositionToFaceIndexes[v.Position].push_back(chipFaces.size());
+					}
+
+					chipFaces.push_back(f_);
+				}
+			}
+		}
+
+		vertices.clear();
+		faces.clear();
+
+		for (size_t i = 0; i < chipVertices.size(); i++)
+		{
+			auto v = chipVertices[i];
+			Vertex cv;
+
+			cv.Position = v.Position;
+			cv.UV1 = v.UV;
+
+			Vector3DF normal;
+			Vector3DF binormal;
+			int32_t count = 0;
+
+			for (auto ind : chipVertexPositionToFaceIndexes[v.Position])
+			{
+				auto f = chipFaces[ind];
+
+				// 無効な面を飛ばす
+				if (f.Normal.GetSquaredLength() == 0.0f) continue;
+
+				normal += f.Normal;
+				binormal += f.Binormal;
+				count++;
+			}
+
+			normal /= (float) count;
+			binormal /= (float) count;
+
+			cv.Normal = normal;
+			cv.Binormal = binormal;
+
+			vertices.push_back(cv);
+		}
+
+		for (size_t i = 0; i < chipFaces.size(); i++)
+		{
+			auto f = chipFaces[i];
+			Face face;
+			face.Index1 = f.Indexes[0];
+			face.Index2 = f.Indexes[1];
+			face.Index3 = f.Indexes[2];
+			faces.push_back(face);
+		}
+
+
+		// 外周を切り取った範囲の頂点と面を出力する。
+		std::map<int32_t, int32_t> indToNewInd;
+
+		auto tempV = vertices;
+		vertices.clear();
+
 		for (size_t i = 0; i < tempV.size(); i++)
 		{
 			auto v = tempV[i];
@@ -2421,11 +2025,11 @@ namespace asd
 
 				std::vector<Vertex> vs;
 				std::vector<Face> fs;
-				GenerateTerrainMesh(xoffset, yoffset, width, height, false, vs, fs);
+				GenerateTerrainMesh(xoffset, yoffset, width, height, vs, fs);
 
 				std::vector<Vertex> vs_side;
 				std::vector<Face> fs_side;
-				GenerateTerrainMesh(xoffset, yoffset, width, height, true, vs_side, fs_side);
+				GenerateTerrainSideMesh(xoffset, yoffset, width, height, vs_side, fs_side);
 
 				cluster->Size.X = width * gridSize;
 				cluster->Size.Z = height * gridSize;
@@ -2691,14 +2295,7 @@ namespace asd
 	void Terrain3D_Imp::LoadFromMemory(const std::vector<uint8_t>& buffer)
 	{
 		BinaryReader br;
-
-		// TODO 高速化
-		std::vector<uint8_t> temp;
-
-		temp.resize(buffer.size());
-		memcpy(temp.data(), buffer.data(), buffer.size());
-
-		br.ReadIn(temp.begin(), temp.end());
+		br.ReadIn(buffer.begin(), buffer.end());
 
 		char* sig = "ater";
 		uint8_t* sig_ = (uint8_t*) sig;
