@@ -1848,6 +1848,7 @@ namespace asd
 			normal /= (float) count;
 
 			// とりあえず移動
+			v.OriginalPosition = v.Position;
 			v.Position += normal * v.ExtendedRate * gridSize / 10.0f;
 		}
 
@@ -1866,7 +1867,7 @@ namespace asd
 				(positions[2] - positions[0]),
 				(positions[1] - positions[0]));
 
-			if (normal.GetSquaredLength() < 0.01f)
+			if (normal.GetSquaredLength() == 0.0f)
 			{
 				normal = Vector3DF();
 			}
@@ -1911,7 +1912,7 @@ namespace asd
 			float ext = 0.0f;
 			int32_t count = 0;
 
-			for (auto ind : chipVertexPositionToFaceIndexes[v.Position])
+			for (auto ind : chipVertexPositionToFaceIndexes[v.OriginalPosition])
 			{
 				auto f = chipFaces[ind];
 

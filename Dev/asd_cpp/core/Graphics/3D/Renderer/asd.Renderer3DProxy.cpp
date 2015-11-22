@@ -1229,6 +1229,14 @@ namespace asd
 #endif
 		}
 
+		// 背景描画
+		{
+			skycubeRendering->Render(
+				cP,
+				helper,
+				EnvironmentSpecularColor.get());
+		}
+
 		// スプライトの描画
 		helper->DrawSprite(cP->ProjectionMatrix, cP->CameraMatrix);
 
