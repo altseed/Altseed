@@ -18,6 +18,8 @@
     <ClCompile Include="..\CameraObject2D\CameraObject2D_Texture.cpp" />
     <ClCompile Include="..\Collision\Collision2D_Geometries.cpp" />
     <ClCompile Include="..\Collision\Collision2D_Basic.cpp" />
+    <ClCompile Include="..\Dispose\Dispose_Layer2D.cpp" />
+    <ClCompile Include="..\Dispose\Dispose_Object2D.cpp" />
     <ClCompile Include="..\EffectObject2D\EffectObject2D_Basic.cpp" />
     <ClCompile Include="..\EngineMisc\EngineMisc_ShowFps.cpp" />
     <ClCompile Include="..\File\File_PackFile.cpp" />

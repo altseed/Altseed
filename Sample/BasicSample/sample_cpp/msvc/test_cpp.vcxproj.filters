@@ -153,6 +153,12 @@
     <ClCompile Include="..\Texture\Texture_Edit.cpp">
       <Filter>Texture</Filter>
     </ClCompile>
+    <ClCompile Include="..\Dispose\Dispose_Object2D.cpp">
+      <Filter>Dispose</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Dispose\Dispose_Layer2D.cpp">
+      <Filter>Dispose</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -212,6 +218,9 @@
     </Filter>
     <Filter Include="Texture">
       <UniqueIdentifier>{c0593d5f-58a0-4463-8a32-7a16346a4645}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dispose">
+      <UniqueIdentifier>{b65be3b7-e5ea-4ea7-9d24-61913bfbab44}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

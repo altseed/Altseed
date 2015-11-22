@@ -14,7 +14,7 @@ namespace sample_cs
 			// Altseedを初期化する。
 			asd.Engine.Initialize("Sound_BGM", 640, 480, new asd.EngineOption());
 
-			// 音声ファイルを読み込む
+			// 音声ファイルを読み込む。BGMの場合、第２引数を false に設定することで、再生しながらファイルを解凍することが推奨されている。
 			asd.SoundSource bgm1 = asd.Engine.Sound.CreateSoundSource("Data/Sound/bgm1.ogg", false);
 
 			// 音声を再生する。
@@ -27,7 +27,7 @@ namespace sample_cs
 				asd.Engine.Update();
 
 				// 音声が再生終了してるか調べる。
-				if (!asd.Engine.Sound.IsPlaying(id_bgm1))
+				if (!asd.Engine.Sound.GetIsPlaying(id_bgm1))
 				{
 					break;
 				}

@@ -56,6 +56,7 @@
     <Compile Include="CameraObject2D\CameraObject2D_Texture.cs" />
     <Compile Include="Collision\Collision2D_Basic.cs" />
     <Compile Include="Collision\Collision2D_Geometries.cs" />
+    <Compile Include="Dispose\Dispose_Layer2D.cs" />
     <Compile Include="EffectObject2D\EffectObject2D_Basic.cs" />
     <Compile Include="EngineMisc\EngineMisc_ShowFps.cs" />
     <Compile Include="File\File_PackFile.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Mouse\Mouse_State.cs" />
     <Compile Include="Mouse\Mouse_Wheel.cs" />
     <Compile Include="Object2DComponent\Object2DComponent_Custom.cs" />
+    <Compile Include="Dispose\Dispose_Object2D.cs" />
     <Compile Include="PostEffect\PostEffect_GaussianBlur.cs" />
     <Compile Include="PostEffect\PostEffect_GrayScale.cs" />
     <Compile Include="PostEffect\PostEffect_LightBloom.cs" />

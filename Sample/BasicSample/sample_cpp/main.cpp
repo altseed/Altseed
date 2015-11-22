@@ -75,6 +75,9 @@ extern void SceneAndLayer_Basic();
 extern void SceneAndLayer_CustomLayer();
 extern void SceneAndLayer_CustomScene();
 
+extern void Dispose_Object2D();
+extern void Dispose_Layer2D();
+
 extern void File_PackFile();
 extern void File_RootDirectory();
 extern void File_StaticFile();
@@ -146,6 +149,9 @@ int main(int argc, char** argv)
 		INFO(SceneAndLayer_Basic),
 		INFO(SceneAndLayer_CustomLayer),
 		INFO(SceneAndLayer_CustomScene),
+
+		INFO(Dispose_Object2D),
+		INFO(Dispose_Layer2D),
 
 		INFO(PostEffect_GrayScale),
 		INFO(PostEffect_Sepia),

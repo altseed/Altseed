@@ -43,13 +43,9 @@ namespace sample_cs
 					break;
 				}
 
-				bool run = EnsureToRun( number );
-				if( run )
-				{
-					samples[number].Run();
-					Console.WriteLine( "続行するには何かキーを押してください" );
-					Console.ReadKey();
-				}
+				samples[number].Run();
+				Console.WriteLine("続行するには何かキーを押してください");
+				Console.ReadKey();
 			}
 		}
 
