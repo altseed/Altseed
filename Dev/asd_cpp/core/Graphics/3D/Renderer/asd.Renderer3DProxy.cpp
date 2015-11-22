@@ -267,13 +267,14 @@ namespace asd
 			m_shadowVertexBuffer->Lock();
 			auto buf = m_shadowVertexBuffer->GetBuffer <ScreenVertexLayout>(6);
 
-			buf[0].Position = Vector3DF(-1.0f, 1.0f, 0.5f);
+			float depth = 1.0f;
+			buf[0].Position = Vector3DF(-1.0f, 1.0f, depth);
 			buf[0].UV = Vector2DF(0, 0);
-			buf[1].Position = Vector3DF(1.0f, 1.0f, 0.5f);
+			buf[1].Position = Vector3DF(1.0f, 1.0f, depth);
 			buf[1].UV = Vector2DF(1, 0);
-			buf[2].Position = Vector3DF(1.0f, -1.0f, 0.5f);
+			buf[2].Position = Vector3DF(1.0f, -1.0f, depth);
 			buf[2].UV = Vector2DF(1, 1);
-			buf[3].Position = Vector3DF(-1.0f, -1.0f, 0.5f);
+			buf[3].Position = Vector3DF(-1.0f, -1.0f, depth);
 			buf[3].UV = Vector2DF(0, 1);
 			buf[4] = buf[0];
 			buf[5] = buf[2];
@@ -416,6 +417,7 @@ namespace asd
 		}
 
 		environmentRendering = std::make_shared<EnvironmentRendering>(g, m_shadowVertexBuffer, m_shadowIndexBuffer);
+		skycubeRendering = std::make_shared<SkyCubeRendering>(g, m_shadowVertexBuffer, m_shadowIndexBuffer);
 		heightfogRendering = std::make_shared<HeightFogRendering>(g, m_shadowVertexBuffer, m_shadowIndexBuffer);
 
 		factory = new RenderingCommandFactory();
@@ -1096,12 +1098,19 @@ namespace asd
 				cP->GetRenderTargetDiffuseColor(), cP->GetRenderTargetSmoothness_Metalness_AO(), cP->GetRenderTargetDepth(), cP->GetRenderTargetAO_MatID());
 		}
 
-
-
 		// 深度復帰
 		{
 			helper->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
 		}
+
+		// 背景レンダリング
+		//{
+		//	skycubeRendering->Render(
+		//		cP,
+		//		helper,
+		//		EnvironmentSpecularColor.get());
+		//}
+
 
 		// エフェクトの描画
 		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);

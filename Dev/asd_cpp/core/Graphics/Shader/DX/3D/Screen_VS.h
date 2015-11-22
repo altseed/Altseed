@@ -19,7 +19,7 @@ VS_Output main( const VS_Input Input )
 
 	Output.Position.x = Input.Position.x;
 	Output.Position.y = Input.Position.y;
-	Output.Position.z = 0.5;
+	Output.Position.z = Input.Position.z;
 	Output.Position.w = 1.0;
 
 	Output.UV = Input.UV;

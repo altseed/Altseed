@@ -17,7 +17,8 @@ float4 main( const PS_Input Input ) : SV_Target
 {
 	float2 uv = Input.UV;
 
-	float3 focusedPosition = mul(g_cameraProjInvMat, Input.Position.xyz).xyz;
+	float4 focusedPosition4 = mul(g_cameraProjInvMat, Input.Position).xyzw;
+	float3 focusedPosition = focusedPosition4.xyz / focusedPosition4.w;
 	float3 viewDir = normalize(focusedPosition-g_cameraPosition);
 	float4 color = g_skyTexture.SampleLevel(g_skySampler, viewDir, 0.0);
 

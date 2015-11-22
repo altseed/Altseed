@@ -645,6 +645,7 @@
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.LightRendering.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.Renderer3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.Renderer3DProxy.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.SkyCubeRendering.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.SpriteRenderer3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Resource\asd.Deformer_Imp.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Resource\asd.MassModel_Imp.cpp" />
