@@ -165,6 +165,7 @@ namespace asd
 			Vector3DF	Position;
 
 			// 側面の場合のみ使用
+			Vector3DF	OriginalPosition;
 			Vector2DF	UV;
 			float		ExtendedRate;
 

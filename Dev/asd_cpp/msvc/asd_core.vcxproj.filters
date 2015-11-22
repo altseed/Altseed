@@ -1393,6 +1393,9 @@
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.HeightFogRendering.cpp">
       <Filter>Graphics\3D\Renderer</Filter>
     </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.SkyCubeRendering.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\core\Window\asd.Window_Imp_X11.cpp">

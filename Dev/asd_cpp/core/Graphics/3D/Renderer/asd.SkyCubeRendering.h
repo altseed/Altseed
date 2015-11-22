@@ -11,7 +11,7 @@ namespace asd
 	class SkyCubeRendering
 	{
 	private:
-		std::shared_ptr<asd::NativeShader_Imp>	skycubeShader;
+		std::shared_ptr<asd::NativeShader_Imp>	shader;
 		std::shared_ptr<asd::VertexBuffer_Imp>	vertexBuffer;
 		std::shared_ptr<asd::IndexBuffer_Imp>	indexBuffer;
 

@@ -10,6 +10,7 @@
 #include "../Object/asd.RenderedObject3D.h"
 
 #include "asd.EnvironmentRendering.h"
+#include "asd.SkyCubeRendering.h"
 #include "asd.HeightFogRendering.h"
 
 #include <Culling3D.h>
@@ -102,6 +103,7 @@ namespace asd
 		EffekseerRenderer::Renderer*			effectRenderer = nullptr;
 
 		std::shared_ptr<SSAO>					ssao;
+		std::shared_ptr<SkyCubeRendering>		skycubeRendering;
 		std::shared_ptr<EnvironmentRendering>	environmentRendering;
 		std::shared_ptr<HeightFogRendering>		heightfogRendering;
 	public:
