@@ -46,7 +46,7 @@ namespace asd
 
 	}
 
-	void SkyCubeRendering::Render(RenderedCameraObject3DProxy* cameraP, RenderingCommandHelper* helper, CubemapTexture* texture)
+	void SkyCubeRendering::Render(Matrix44 cameraMat, Matrix44 projMat, Vector3DF position, RenderingCommandHelper* helper, CubemapTexture* texture)
 	{
 		if (shader == nullptr) return;
 		if (texture == nullptr) return;
@@ -59,11 +59,11 @@ namespace asd
 		state.AlphaBlendState = AlphaBlendMode::Blend;
 		state.Culling = asd::CullingType::Double;
 
-		auto mat = cameraP->ProjectionMatrix * cameraP->CameraMatrix;
+		auto mat = projMat * cameraMat;
 		mat.SetInverted();
 
 		helper->Draw(2, vertexBuffer.get(), indexBuffer.get(), shader.get(), state,
-			h::GenValue("g_cameraPosition", cameraP->Position),
+			h::GenValue("g_cameraPosition", position),
 			h::GenValue("g_cameraProjInvMat", mat),
 			h::GenValue("g_skyTexture", h::CubemapTexturePair(texture, asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)));
 	}

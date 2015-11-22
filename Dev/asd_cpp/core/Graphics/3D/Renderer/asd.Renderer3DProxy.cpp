@@ -1104,12 +1104,15 @@ namespace asd
 		}
 
 		// 背景レンダリング
-		//{
-		//	skycubeRendering->Render(
-		//		cP,
-		//		helper,
-		//		EnvironmentSpecularColor.get());
-		//}
+		if (IsSkyCubeEnabled)
+		{
+			skycubeRendering->Render(
+				cP->CameraMatrix,
+				cP->ProjectionMatrix,
+				cP->Position,
+				helper,
+				EnvironmentSpecularColor.get());
+		}
 
 
 		// エフェクトの描画
@@ -1190,11 +1193,22 @@ namespace asd
 	{
 		using h = RenderingCommandHelper;
 
+		// 全体の描画
+		RenderOnLightweight(helper, cP->GetRenderTarget(), cP->GetDepthBuffer(), cP->CameraMatrix, cP->ProjectionMatrix, cP->Position, prop);
+
+		// ポストエフェクト適用
+		cP->ApplyPostEffects(helper);
+	}
+
+	void Renderer3DProxy::RenderOnLightweight(RenderingCommandHelper* helper, RenderTexture2D_Imp* renderTarget, DepthBuffer_Imp* depthTarget, Matrix44 cameraMat, Matrix44 projMat, Vector3DF position, RenderingProperty prop)
+	{
+		using h = RenderingCommandHelper;
+
 		// カメラプロジェクション行列計算
 		Matrix44 cameraProjMat;
-		asd::Matrix44::Mul(cameraProjMat, cP->ProjectionMatrix, cP->CameraMatrix);
-		prop.CameraMatrix = cP->CameraMatrix;
-		prop.ProjectionMatrix = cP->ProjectionMatrix;
+		asd::Matrix44::Mul(cameraProjMat, projMat, cameraMat);
+		prop.CameraMatrix = cameraMat;
+		prop.ProjectionMatrix = projMat;
 
 #if __CULLING__
 		// カリング
@@ -1206,7 +1220,7 @@ namespace asd
 
 		// 3D描画
 		{
-			helper->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
+			helper->SetRenderTarget(renderTarget, depthTarget);
 			helper->Clear(true, true, asd::Color(0, 0, 0, 0));
 
 			// 通常モデル
@@ -1230,21 +1244,19 @@ namespace asd
 		}
 
 		// 背景描画
+		if (IsSkyCubeEnabled)
 		{
 			skycubeRendering->Render(
-				cP,
+				projMat, cameraMat, position,
 				helper,
 				EnvironmentSpecularColor.get());
 		}
 
 		// スプライトの描画
-		helper->DrawSprite(cP->ProjectionMatrix, cP->CameraMatrix);
+		helper->DrawSprite(projMat, cameraMat);
 
 		// エフェクトの描画
-		helper->DrawEffect(cP->ProjectionMatrix, cP->CameraMatrix);
-
-		// ポストエフェクト適用
-		cP->ApplyPostEffects(helper);
+		helper->DrawEffect(projMat, cameraMat);
 	}
 
 	void Renderer3DProxy::Culling(const Matrix44& viewProjectionMat)

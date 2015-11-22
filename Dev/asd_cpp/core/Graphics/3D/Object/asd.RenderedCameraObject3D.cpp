@@ -40,6 +40,9 @@ namespace asd
 		SafeRelease(m_postEffectRenderer);
 
 		SafeRelease(m_renderTargetEnvironment);
+
+		SafeRelease(m_renderTargetReflection);
+		SafeRelease(m_depthBufferReflection);
 	}
 
 	void RenderedCameraObject3DProxy::SetWindow(Graphics* graphics, Vector2DI windowSize, bool hdrMode)

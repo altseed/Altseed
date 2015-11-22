@@ -19,6 +19,6 @@ namespace asd
 		SkyCubeRendering(Graphics* graphics, std::shared_ptr<asd::VertexBuffer_Imp> vb, std::shared_ptr<asd::IndexBuffer_Imp> ib);
 		virtual ~SkyCubeRendering();
 
-		void Render(RenderedCameraObject3DProxy* cameraP, RenderingCommandHelper* helper, CubemapTexture* texture);
+		void Render(Matrix44 cameraMat, Matrix44 projMat, Vector3DF position, RenderingCommandHelper* helper, CubemapTexture* texture);
 	};
 }
