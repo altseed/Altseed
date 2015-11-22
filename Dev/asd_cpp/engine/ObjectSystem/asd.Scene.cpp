@@ -82,6 +82,7 @@ namespace asd
 		for (auto& layer : beVanished)
 		{
 			RemoveLayer(layer);
+			layer->Dispose();
 		}
 
 		CommitChanges();
@@ -191,13 +192,13 @@ namespace asd
 		OnChanging();
 	}
 
-	void Scene::CallDestroy()
+	void Scene::Dispose()
 	{
 		for (auto& l : m_layersToUpdate)
 		{
 			if (l->GetIsAlive())
 			{
-				l->CallDestroy();
+				l->Dispose();
 			}
 		}
 		OnDispose();

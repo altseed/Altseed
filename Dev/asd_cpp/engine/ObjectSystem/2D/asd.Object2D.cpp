@@ -45,7 +45,7 @@ namespace asd
 		m_componentManager.Update();
 	}
 
-	void Object2D::CallDestroy()
+	void Object2D::Dispose()
 	{
 		OnDispose();
 	}

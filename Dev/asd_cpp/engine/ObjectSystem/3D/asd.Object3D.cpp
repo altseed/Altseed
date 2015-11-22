@@ -28,7 +28,7 @@ namespace asd
 		*/
 	}
 
-	void Object3D::CallDestroy()
+	void Object3D::Dispose()
 	{
 		OnDispose();
 	}

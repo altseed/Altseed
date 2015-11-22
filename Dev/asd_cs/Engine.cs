@@ -238,7 +238,7 @@ namespace asd
 				{
 					if(previousScene != null)
 					{
-						previousScene.CallDestroy();
+						previousScene.Dispose();
 						previousScene = null;
 					}
 
@@ -253,7 +253,7 @@ namespace asd
 					if(CurrentScene != null)
 					{
 						CurrentScene.CallChanging();
-						CurrentScene.CallDestroy();
+						CurrentScene.Dispose();
 					}
 
 					CurrentScene = nextScene;
@@ -346,17 +346,17 @@ namespace asd
 
 			if(CurrentScene != null)
 			{
-				CurrentScene.CallDestroy();
+				CurrentScene.Dispose();
 			}
 
 			if(nextScene != null)
 			{
-				nextScene.CallDestroy();
+				nextScene.Dispose();
 			}
 
 			if(previousScene != null)
 			{
-				previousScene.CallDestroy();
+				previousScene.Dispose();
 			}
 
 

@@ -219,13 +219,13 @@ namespace asd
 			OnChanging();
 		}
 
-		internal void CallDestroy()
+		internal void Dispose()
 		{
 			foreach(var item in layersToUpdate_)
 			{
 				if(item.IsAlive)
 				{
-					item.CallDestroy();
+					item.Dispose();
 				}
 			}
 			OnDispose();
@@ -234,8 +234,10 @@ namespace asd
 		internal unsafe swig.CoreScene CoreScene { get; private set; }
 
 		internal void Update()
-		{
-			executing = true;
+        {
+            var beVanished = new List<Layer>();
+
+            executing = true;
 
 			if(!alreadyFirstUpdate)
 			{
@@ -247,7 +249,7 @@ namespace asd
 
 			OnUpdating();
 
-			foreach(var item in layersToUpdate_)
+            foreach(var item in layersToUpdate_)
 			{
 				item.BeginUpdating();
 			}
@@ -257,7 +259,7 @@ namespace asd
 				item.Update();
 				if(!item.IsAlive)
 				{
-					removingLayer.AddLast(item);
+                    beVanished.Add(item);
 				}
 			}
 
@@ -272,7 +274,13 @@ namespace asd
 
 			executing = false;
 
-			CommitChanges();
+            foreach(var item in beVanished)
+            {
+                RemoveLayer(item);
+                item.Dispose();
+            }
+
+            CommitChanges();
 		}
 
 		void CommitChanges()

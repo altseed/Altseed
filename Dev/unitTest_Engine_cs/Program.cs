@@ -12,8 +12,7 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-
-			TestSequencially(new ObjectSystem2D.LayerUpdatePriority());
+			TestSequencially(typeof(ObjectSystem2D.DisposeOnVanish));
 			Console.ReadKey();
 			return;
 
@@ -32,8 +31,6 @@ namespace unitTest_Engine_cs
 				.Where(_ => !_.IsAbstract)
 				.Where(_ => _.IsSubclassOf(typeof(TestFramework)))
 				.Where(x => x.GetConstructor(new Type[0]) != null)
-				.Select(_ => Activator.CreateInstance(_) as TestFramework)
-				.Where(_ => _ != null)
 				.ToList()
 				.ForEach(TestSequencially);
 		}
@@ -51,12 +48,16 @@ namespace unitTest_Engine_cs
 		/// 指定したテストクラスに対して、OpenGL と DirectX 向けのテストを行う。
 		/// </summary>
 		/// <remarks>個別にテストしたい場合に利用してください。</remarks>
-		/// <param name="target">対象のテストクラス。</param>
-		private static void TestSequencially(TestFramework target)
+		/// <param name="testType">対象のテストクラス。</param>
+		private static void TestSequencially(Type testType)
 		{
 			try
 			{
-				target.Test(asd.GraphicsDeviceType.OpenGL);
+                var target = Activator.CreateInstance(testType) as TestFramework;
+                if(target != null)
+                {
+                    target.Test(asd.GraphicsDeviceType.OpenGL);
+                }
 			}
 			catch (Exception e)
 			{
@@ -67,8 +68,12 @@ namespace unitTest_Engine_cs
 
 			if ( IsDirectXAvailable() ) {
 				try
-				{
-					target.Test(asd.GraphicsDeviceType.DirectX11);
+                {
+                    var target = Activator.CreateInstance(testType) as TestFramework;
+                    if(target != null)
+                    {
+                        target.Test(asd.GraphicsDeviceType.DirectX11);
+                    }
 				}
 				catch (Exception e)
 				{

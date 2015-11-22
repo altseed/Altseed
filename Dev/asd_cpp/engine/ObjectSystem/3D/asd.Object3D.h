@@ -32,7 +32,7 @@ namespace asd
 		
 		void Start();
 		void Update();
-		void CallDestroy();
+		void Dispose();
 		void SetLayer(Layer3D* layer);
 		CoreObject3D* GetCoreObject() const;
 

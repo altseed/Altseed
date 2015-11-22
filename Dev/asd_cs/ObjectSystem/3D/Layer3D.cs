@@ -321,6 +321,7 @@ namespace asd
 			foreach (var vanishing in contentsManager.VanishingContents)
 			{
 				RemoveObject(vanishing);
+                vanishing.Dispose();
 			}
 			contentsManager.VanishingContents.Clear();
 
@@ -343,13 +344,13 @@ namespace asd
 			OnDrawAdditionally();
 		}
 
-		internal override void CallDestroy()
+		internal override void Dispose()
 		{
 			foreach(var item in Objects)
 			{
 				if(item.IsAlive)
 				{
-					item.CallDestroy();
+					item.Dispose();
 				}
 			}
 			OnDispose();

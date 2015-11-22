@@ -28,7 +28,7 @@ namespace asd
 
 		void DrawAdditionally();
 		void Update();
-		void CallDestroy();
+		void Dispose();
 
 	protected:
 

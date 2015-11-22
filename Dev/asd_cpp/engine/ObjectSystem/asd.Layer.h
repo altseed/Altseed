@@ -42,7 +42,7 @@ namespace asd
 
 		virtual void Update() = 0;
 		virtual void DrawAdditionally() = 0;
-		virtual void CallDestroy() = 0;
+		virtual void Dispose() = 0;
 
 		void BeginDrawing();
 		void EndDrawing();

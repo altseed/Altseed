@@ -471,7 +471,7 @@ namespace asd
 			{
 				if (m_previousScene != nullptr)
 				{
-					m_previousScene->CallDestroy();
+					m_previousScene->Dispose();
 					m_previousScene = nullptr;
 				}
 				
@@ -486,7 +486,7 @@ namespace asd
 				if (m_currentScene != nullptr)
 				{
 					m_currentScene->CallChanging();
-					m_currentScene->CallDestroy();
+					m_currentScene->Dispose();
 				}
 				
 				m_currentScene = m_nextScene;
@@ -581,17 +581,17 @@ namespace asd
 
 		if (m_currentScene != nullptr)
 		{
-			m_currentScene->CallDestroy();
+			m_currentScene->Dispose();
 		}
 
 		if (m_nextScene != nullptr)
 		{
-			m_nextScene->CallDestroy();
+			m_nextScene->Dispose();
 		}
 
 		if (m_previousScene != nullptr)
 		{
-			m_previousScene->CallDestroy();
+			m_previousScene->Dispose();
 		}
 
 		m_currentScene.reset();

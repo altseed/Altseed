@@ -308,7 +308,7 @@ namespace asd
 			OnDrawAdditionally();
 		}
 
-		internal void CallDestroy()
+		internal void Dispose()
 		{
 			OnDispose();
 		}

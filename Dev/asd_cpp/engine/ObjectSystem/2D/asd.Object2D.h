@@ -34,7 +34,7 @@ namespace asd
 
 		void Start();
 		void Update();
-		void CallDestroy();
+		void Dispose();
 		void SetLayer(Layer2D* layer);
 		virtual CoreObject2D* GetCoreObject() const = 0;
 

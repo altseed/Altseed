@@ -48,6 +48,7 @@ namespace asd
 		for (auto& vanishing : m_objects.GetVanishingContents())
 		{
 			RemoveObject(vanishing);
+			vanishing->Dispose();
 		}
 		m_objects.GetVanishingContents().clear();
 
@@ -81,13 +82,13 @@ namespace asd
 		OnDrawAdditionally();
 	}
 
-	void Layer2D::CallDestroy()
+	void Layer2D::Dispose()
 	{
 		for (auto& o : m_objects.GetContents())
 		{
 			if (o->GetIsAlive())
 			{
-				o->CallDestroy();
+				o->Dispose();
 			}
 		}
 		OnDispose();

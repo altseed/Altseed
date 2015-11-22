@@ -45,7 +45,7 @@ namespace asd
 
 		void CallTransitionFinished();
 		void CallChanging();
-		void CallDestroy();
+		void Dispose();
 
 	protected:
 		/**

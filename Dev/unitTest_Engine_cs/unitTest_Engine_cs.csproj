@@ -72,6 +72,7 @@
     <Compile Include="Graphics\2D\CameraObject2D.cs" />
     <Compile Include="ObjectSystem2D\AddComponentByComponent.cs" />
     <Compile Include="ObjectSystem2D\CustomObject.cs" />
+    <Compile Include="ObjectSystem2D\DisposeOnVanish.cs" />
     <Compile Include="ObjectSystem2D\LayerComponent.cs" />
     <Compile Include="ObjectSystem2D\LayersFlag.cs" />
     <Compile Include="ObjectSystem2D\LayerUpdatePriority.cs" />

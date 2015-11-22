@@ -82,7 +82,7 @@ namespace asd
 
 		internal abstract void Update();
 
-		internal abstract void CallDestroy();
+		internal abstract void Dispose();
 
 		internal abstract void DrawAdditionally();
 

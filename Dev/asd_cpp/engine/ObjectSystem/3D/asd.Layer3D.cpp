@@ -37,6 +37,7 @@ namespace asd
 		for (auto& vanishing : m_objects.GetVanishingContents())
 		{
 			RemoveObject(vanishing);
+			vanishing->Dispose();
 		}
 		m_objects.GetVanishingContents().clear();
 		/*
@@ -50,13 +51,13 @@ namespace asd
 		m_commonObject->EndMeasureUpdateTime();
 	}
 
-	void Layer3D::CallDestroy()
+	void Layer3D::Dispose()
 	{
 		for (auto& o : m_objects.GetContents())
 		{
 			if (o->GetIsAlive())
 			{
-				o->CallDestroy();
+				o->Dispose();
 			}
 		}
 		OnDispose();
