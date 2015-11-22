@@ -124,7 +124,7 @@ namespace asd
 	private:
 		void RenderCamera(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
 		void RenderCameraOnLightweight(RenderingCommandHelper* helper, RenderedCameraObject3DProxy* cP, RenderingProperty prop);
-
+		void RenderOnLightweight(RenderingCommandHelper* helper, RenderTexture2D_Imp* renderTarget, DepthBuffer_Imp* depthTarget, Matrix44 cameraMat, Matrix44 projMat, Vector3DF position, RenderingProperty prop);
 	private:
 		std::vector<RenderedObject3DProxy*>				culledObjects;
 		std::vector<RenderedObject3DCullingProxy*>		culledTerrainObjects;
@@ -163,6 +163,8 @@ namespace asd
 		Color HeightFogColor = Color(255, 255, 255, 255);
 		float HeightFogFalloff = 10.0f;
 		float HeightFogStartDistance = 1.0f;
+
+		bool IsSkyCubeEnabled = false;
 
 		void SetEffect(Effekseer::Manager* manager, EffekseerRenderer::Renderer* renderer);
 		void AddObject(RenderedObject3D* o);
