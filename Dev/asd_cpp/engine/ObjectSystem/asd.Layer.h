@@ -26,6 +26,8 @@ namespace asd
 		bool m_isDrawn;
 		bool m_isAlive;
 		int m_updatePriority;
+		float m_updateFrequency;
+		float m_updateTimer;
 
 		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
 
@@ -39,11 +41,11 @@ namespace asd
 
 		virtual void BeginUpdating() = 0;
 		virtual void EndUpdateting() = 0;
-
-		virtual void Update() = 0;
+		virtual void UpdateInternal() = 0;
 		virtual void DrawAdditionally() = 0;
 		virtual void Dispose() = 0;
 
+		virtual void Update();
 		void BeginDrawing();
 		void EndDrawing();
 		void Start();
@@ -175,5 +177,14 @@ namespace asd
 		*/
 		void SetUpdatePriority(int value);
 
+		/**
+			@brief	このレイヤーの１フレームごとの更新回数を取得する。
+		*/
+		float GetUpdateFrequency() const;
+
+		/**
+			@brief	このレイヤーの１フレームごとの更新回数を設定する。
+		*/
+		void SetUpdateFrequency(float value);
 	};
 }

@@ -72,6 +72,7 @@
     <ClCompile Include="..\ObjectSystem\SetSourceOfTexture.cpp" />
     <ClCompile Include="..\Graphics\2D\TextObject2D.cpp" />
     <ClCompile Include="..\ObjectSystem\TrasingCamera.cpp" />
+    <ClCompile Include="..\ObjectSystem\UpdateFrequency.cpp" />
     <ClCompile Include="..\ObjectSystem\VanishInComponent.cpp" />
     <ClCompile Include="..\ObjectSystem\VanishOwnerInComponent.cpp" />
     <ClCompile Include="..\PCH\asd.UnitTestEngineCpp.PCH.cpp">

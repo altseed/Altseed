@@ -76,6 +76,7 @@ EXTERN_ENGINE_TEST(ObjectSystem, Culling2D_Debug)
 EXTERN_ENGINE_TEST(ObjectSystem, ObjectsUpdatePriority)
 EXTERN_ENGINE_TEST(ObjectSystem, LayerUpdatePriority)
 EXTERN_ENGINE_TEST(ObjectSystem, DisposeOnVanish)
+EXTERN_ENGINE_TEST(ObjectSystem, UpdateFrequency)
 
 EXTERN_ENGINE_TEST(Shape, Collision2D)
 
@@ -112,7 +113,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(ObjectSystem, DisposeOnVanish, true)
+	CALL_ENGINE_TEST(ObjectSystem, UpdateFrequency, true)
 	getchar();
 	return 0;
 

@@ -177,6 +177,9 @@
     <ClCompile Include="..\ObjectSystem\DisposeOnVanish.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\UpdateFrequency.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

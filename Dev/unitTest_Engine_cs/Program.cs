@@ -12,7 +12,7 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-			TestSequencially(typeof(ObjectSystem2D.DisposeOnVanish));
+			TestSequencially(typeof(ObjectSystem2D.UpdateFrequency));
 			Console.ReadKey();
 			return;
 

@@ -18,6 +18,9 @@ namespace asd
 			IsUpdated = true;
 			postEffects = new List<PostEffect>();
 			Name = "Layer";
+			UpdatePriority = 0;
+			UpdateFrequency = 1;
+			updateTimer = 0;
 		}
 
 		/// <summary>
@@ -43,6 +46,12 @@ namespace asd
 		/// このレイヤーの更新の優先順位を取得または設定する。
 		/// </summary>
 		public int UpdatePriority { get; set; }
+
+		/// <summary>
+		/// このレイヤーの１フレームごとの更新回数を取得または設定する。
+		/// </summary>
+		/// <returns></returns>
+		public float UpdateFrequency { get; set; }
 
 		/// <summary>
 		/// このインスタンスを管理している asd.Scene クラスのインスタンスを取得する。
@@ -80,7 +89,28 @@ namespace asd
 		internal abstract void BeginUpdating();
 		internal abstract void EndUpdating();
 
-		internal abstract void Update();
+		internal virtual void Update()
+		{
+			if(!isUpdatedCurrent || !IsAlive)
+			{
+				return;
+			}
+
+			CoreLayer.BeginMeasureUpdateTime();
+
+			updateTimer += UpdateFrequency;
+			while(updateTimer >= 1)
+			{
+				OnUpdating();
+				UpdateInternal();
+				OnUpdated();
+				updateTimer -= 1;
+			}
+
+			CoreLayer.EndMeasureUpdateTime();
+		}
+
+		internal abstract void UpdateInternal();
 
 		internal abstract void Dispose();
 
@@ -130,7 +160,7 @@ namespace asd
 		/// <summary>
 		/// オーバーライドして、このレイヤーの初期化処理を記述できる。
 		/// </summary>
-		protected virtual void OnStart() 
+		protected virtual void OnStart()
 		{
 		}
 
@@ -205,5 +235,7 @@ namespace asd
 		protected List<PostEffect> postEffects;
 
 		protected bool isUpdatedCurrent;
+
+		private float updateTimer;
 	}
 }

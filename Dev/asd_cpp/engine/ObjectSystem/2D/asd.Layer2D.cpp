@@ -34,15 +34,8 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Layer2D::Update()
+	void Layer2D::UpdateInternal()
 	{
-		if (!m_isUpdatedCurrent || !m_isAlive)
-		{
-			return;
-		}
-
-		m_commonObject->BeginMeasureUpdateTime();
-		OnUpdating();
 		m_objects.Update();
 
 		for (auto& vanishing : m_objects.GetVanishingContents())
@@ -53,8 +46,6 @@ namespace asd
 		m_objects.GetVanishingContents().clear();
 
 		m_components.Update();
-		OnUpdated();
-		m_commonObject->EndMeasureUpdateTime();
 	}
 
 	void Layer2D::BeginUpdating()

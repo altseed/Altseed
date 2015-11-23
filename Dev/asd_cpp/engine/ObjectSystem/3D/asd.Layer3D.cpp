@@ -23,15 +23,8 @@ namespace asd
 		}
 	}
 
-	void Layer3D::Update()
+	void Layer3D::UpdateInternal()
 	{
-		if (!m_isUpdatedCurrent || !m_isAlive)
-		{
-			return;
-		}
-
-		m_commonObject->BeginMeasureUpdateTime();
-		OnUpdating();
 		m_objects.Update();
 
 		for (auto& vanishing : m_objects.GetVanishingContents())
@@ -40,15 +33,6 @@ namespace asd
 			vanishing->Dispose();
 		}
 		m_objects.GetVanishingContents().clear();
-		/*
-		for (auto& component : m_components)
-		{
-			component.second->Update();
-		}
-		*/
-
-		OnUpdated();
-		m_commonObject->EndMeasureUpdateTime();
 	}
 
 	void Layer3D::Dispose()

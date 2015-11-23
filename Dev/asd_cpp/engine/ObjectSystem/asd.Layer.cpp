@@ -35,6 +35,27 @@ namespace asd
 		}
 	}
 
+	void Layer::Update()
+	{
+		if (!m_isUpdatedCurrent || !m_isAlive)
+		{
+			return;
+		}
+
+		m_commonObject->BeginMeasureUpdateTime();
+
+		m_updateTimer += m_updateFrequency;
+		while (m_updateTimer >= 1)
+		{
+			OnUpdating();
+			UpdateInternal();
+			OnUpdated();
+			m_updateTimer -= 1;
+		}
+
+		m_commonObject->EndMeasureUpdateTime();
+	}
+
 	void Layer::Start()
 	{
 		OnStart();
@@ -75,6 +96,9 @@ namespace asd
 		, m_isDrawn(true)
 		, m_isAlive(true)
 		, m_name(asd::ToAString("Layer"))
+		, m_updatePriority(0)
+		, m_updateFrequency(1)
+		, m_updateTimer(0)
 	{
 	}
 
@@ -175,6 +199,16 @@ namespace asd
 	void Layer::SetUpdatePriority(int value)
 	{
 		m_updatePriority = value;
+	}
+
+	float Layer::GetUpdateFrequency() const
+	{
+		return m_updateFrequency;
+	}
+
+	void Layer::SetUpdateFrequency(float value)
+	{
+		m_updateFrequency = value;
 	}
 
 }

@@ -306,27 +306,16 @@ namespace asd
 			coreLayer3D.EndUpdating(isUpdatedCurrent);
 		}
 
-		internal override void Update()
+		internal override void UpdateInternal()
 		{
-			if (!isUpdatedCurrent || !IsAlive)
-			{
-				return;
-			}
-
-			CoreLayer.BeginMeasureUpdateTime();
-			OnUpdating();
-
 			contentsManager.Update();
 
 			foreach (var vanishing in contentsManager.VanishingContents)
 			{
 				RemoveObject(vanishing);
-                vanishing.Dispose();
+				vanishing.Dispose();
 			}
 			contentsManager.VanishingContents.Clear();
-
-			OnUpdated();
-			CoreLayer.EndMeasureUpdateTime();
 		}
 
 		internal override void DrawAdditionally()
