@@ -85,8 +85,8 @@ namespace sample_cs
 				new Texture_Edit(),
             };
 
-			var cui = new SampleGuide( samples );
-			cui.Show();
+			var browser = new SampleBrowser(samples);
+			browser.Run();
 		}
 	}
 }
