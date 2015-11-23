@@ -1,34 +1,34 @@
-
+ï»¿
 #include <Altseed.h>
 
-// Vanish‚ªŒÄ‚Î‚ê‚½‚â”jŠü‚³‚ê‚½‚Æ‚«‚ÉƒRƒ“ƒ\[ƒ‹‚Éo—Í‚·‚éƒIƒuƒWƒFƒNƒgB
+// VanishãŒå‘¼ã°ã‚ŒãŸæ™‚ã‚„ç ´æ£„ã•ã‚ŒãŸã¨ãã«ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã«å‡ºåŠ›ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
 class Dispose_MessageObject : public asd::TextureObject2D
 {
 protected:
-	// Vanish‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éB
+	// VanishãŒå‘¼ã°ã‚ŒãŸã¨ãã«å‘¼ã°ã‚Œã‚‹ã€‚
 	void OnVanish()
 	{
 		printf("Dispose_MessageObject.OnVanish\n");
 	}
 
-	// ‚±‚ÌƒIƒuƒWƒFƒNƒg‚ª”jŠü‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éB
+	// ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç ´æ£„ã•ã‚ŒãŸã¨ãã«å‘¼ã°ã‚Œã‚‹ã€‚
 	void OnDispose()
 	{
 		printf("Dispose_MessageObject.OnDispose\n");
 	}
 };
 
-// Vanish‚ªŒÄ‚Î‚ê‚½‚â”jŠü‚³‚ê‚½‚Æ‚«‚ÉƒRƒ“ƒ\[ƒ‹‚Éo—Í‚·‚éƒŒƒCƒ„[B
+// VanishãŒå‘¼ã°ã‚ŒãŸæ™‚ã‚„ç ´æ£„ã•ã‚ŒãŸã¨ãã«ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã«å‡ºåŠ›ã™ã‚‹ãƒ¬ã‚¤ãƒ¤ãƒ¼ã€‚
 class Dispose_MessageLayer : public asd::Layer2D
 {
 protected:
-	// Vanish‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éB
+	// VanishãŒå‘¼ã°ã‚ŒãŸã¨ãã«å‘¼ã°ã‚Œã‚‹ã€‚
 	void OnVanish()
 	{
 		printf("Dispose_MessageLayer.OnVanish\n");
 	}
 
-	// ‚±‚ÌƒŒƒCƒ„[‚ª”jŠü‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éB
+	// ã“ã®ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒç ´æ£„ã•ã‚ŒãŸã¨ãã«å‘¼ã°ã‚Œã‚‹ã€‚
 	void OnDispose()
 	{
 		printf("Dispose_MessageLayer.OnDispose\n");
@@ -37,55 +37,55 @@ protected:
 
 void Dispose_Layer2D()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("SceneAndLayer_Basic").c_str(), 640, 480, asd::EngineOption());
 
-	// ‰æ‘œ‚ğ“Ç‚İ‚ŞB
+	// ç”»åƒã‚’èª­ã¿è¾¼ã‚€ã€‚
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 
-	// ƒV[ƒ“ƒNƒ‰ƒX‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+	// ã‚·ãƒ¼ãƒ³ã‚¯ãƒ©ã‚¹ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto scene = std::make_shared<asd::Scene>();
 
-	// ƒJƒXƒ^ƒ}ƒCƒY‚µ‚½ƒŒƒCƒ„[‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+	// ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã—ãŸãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto layer = std::make_shared<Dispose_MessageLayer>();
 
-	// ƒJƒXƒ^ƒ}ƒCƒY‚µ‚½ƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+	// ã‚«ã‚¹ã‚¿ãƒã‚¤ã‚ºã—ãŸã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto obj = std::make_shared<Dispose_MessageObject>();
 
-	// ƒIƒuƒWƒFƒNƒg‚ÌˆÊ’u‚ÆƒeƒNƒXƒ`ƒƒ‚ğİ’è‚·‚éB
+	// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ä½ç½®ã¨ãƒ†ã‚¯ã‚¹ãƒãƒ£ã‚’è¨­å®šã™ã‚‹ã€‚
 	obj->SetPosition(asd::Vector2DF(50, 50));
 	obj->SetTexture(texture);
 
-	// •`‰æ‚·‚éƒV[ƒ“‚ğw’è‚·‚éB
+	// æç”»ã™ã‚‹ã‚·ãƒ¼ãƒ³ã‚’æŒ‡å®šã™ã‚‹ã€‚
 	asd::Engine::ChangeScene(scene);
 
-	// •`‰æ‚·‚éƒŒƒCƒ„[‚ğƒV[ƒ“‚É’Ç‰Á‚·‚éB
+	// æç”»ã™ã‚‹ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ã‚·ãƒ¼ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 	scene->AddLayer(layer);
 
-	// •`‰æ‚·‚éƒIƒuƒWƒFƒNƒg‚ğƒŒƒCƒ„[‚É’Ç‰Á‚·‚éB
+	// æç”»ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«è¿½åŠ ã™ã‚‹ã€‚
 	layer->AddObject(obj);
 
-	// ƒtƒŒ[ƒ€”‚ğ”‚¦‚é‚½‚ß‚Ì•Ï”B
+	// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’æ•°ãˆã‚‹ãŸã‚ã®å¤‰æ•°ã€‚
 	int count = 0;
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 
-		// ƒtƒŒ[ƒ€‚ğ”‚¦‚éB
+		// ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’æ•°ãˆã‚‹ã€‚
 		++count;
 
-		// 10ƒtƒŒ[ƒ€–Ú‚É‚È‚Á‚½‚ç
+		// 10ãƒ•ãƒ¬ãƒ¼ãƒ ç›®ã«ãªã£ãŸã‚‰
 		if (count == 10)
 		{
-			printf("ƒŒƒCƒ„[‚ğ”jŠü‚µ‚Ü‚·\n");
-			// ƒŒƒCƒ„[‚ğ”jŠü‚·‚éB
+			printf("ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç ´æ£„ã—ã¾ã™\n");
+			// ãƒ¬ã‚¤ãƒ¤ãƒ¼ã‚’ç ´æ£„ã™ã‚‹ã€‚
 			layer->Vanish();
 		}
 	}
 
-	// Altseed‚ğI—¹‚·‚éB
+	// Altseedã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }

@@ -1,17 +1,17 @@
-
+ï»¿
 #include <Altseed.h>
 
-// Vanish‚ªŒÄ‚Î‚ê‚½‚â”jŠü‚³‚ê‚½‚Æ‚«‚ÉƒRƒ“ƒ\[ƒ‹‚Éo—Í‚·‚éƒIƒuƒWƒFƒNƒgB
+// VanishãŒå‘¼ã°ã‚ŒãŸæ™‚ã‚„ç ´æ£„ã•ã‚ŒãŸã¨ãã«ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã«å‡ºåŠ›ã™ã‚‹ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã€‚
 class Dispose_MessageObject : public asd::TextureObject2D
 {
 protected:
-	// Vanish‚ªŒÄ‚Î‚ê‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éB
+	// VanishãŒå‘¼ã°ã‚ŒãŸã¨ãã«å‘¼ã°ã‚Œã‚‹ã€‚
 	void OnVanish()
 	{
 		printf("Dispose_MessageObject.OnVanish\n");
 	}
 
-	// ‚±‚ÌƒIƒuƒWƒFƒNƒg‚ª”jŠü‚³‚ê‚½‚Æ‚«‚ÉŒÄ‚Î‚ê‚éB
+	// ã“ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒç ´æ£„ã•ã‚ŒãŸã¨ãã«å‘¼ã°ã‚Œã‚‹ã€‚
 	void OnDispose()
 	{
 		printf("Dispose_MessageObject.OnDispose\n");
@@ -20,45 +20,45 @@ protected:
 
 void Dispose_Object2D()
 {
-	// Altseed‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("Dispose_Object2D").c_str(), 640, 480, asd::EngineOption());
 
-	// ‰æ‘œ‚ğ“Ç‚İ‚ŞB
+	// ç”»åƒã‚’èª­ã¿è¾¼ã‚€ã€‚
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 
-	// ‰æ‘œ•`‰æƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğ¶¬‚·‚éB
+	// ç”»åƒæç”»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto obj = std::make_shared<Dispose_MessageObject>();
 
-	// •`‰æ‚³‚ê‚é‰æ‘œ‚ğİ’è‚·‚éB
+	// æç”»ã•ã‚Œã‚‹ç”»åƒã‚’è¨­å®šã™ã‚‹ã€‚
 	obj->SetTexture(texture);
 
-	// •`‰æˆÊ’u‚ğw’è‚·‚éB
+	// æç”»ä½ç½®ã‚’æŒ‡å®šã™ã‚‹ã€‚
 	obj->SetPosition(asd::Vector2DF(50, 50));
 
-	// ‰æ‘œ•`‰æƒIƒuƒWƒFƒNƒg‚ÌƒCƒ“ƒXƒ^ƒ“ƒX‚ğƒGƒ“ƒWƒ“‚É’Ç‰Á‚·‚éB
+	// ç”»åƒæç”»ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’ã‚¨ãƒ³ã‚¸ãƒ³ã«è¿½åŠ ã™ã‚‹ã€‚
 	asd::Engine::AddObject2D(obj);
 
-	// ƒtƒŒ[ƒ€”‚ğ”‚¦‚é‚½‚ß‚Ì•Ï”B
+	// ãƒ•ãƒ¬ãƒ¼ãƒ æ•°ã‚’æ•°ãˆã‚‹ãŸã‚ã®å¤‰æ•°ã€‚
 	int count = 0;
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 
-		// ƒtƒŒ[ƒ€‚ğ”‚¦‚éB
+		// ãƒ•ãƒ¬ãƒ¼ãƒ ã‚’æ•°ãˆã‚‹ã€‚
 		++count;
 
-		// 10ƒtƒŒ[ƒ€–Ú‚É‚È‚Á‚½‚ç
+		// 10ãƒ•ãƒ¬ãƒ¼ãƒ ç›®ã«ãªã£ãŸã‚‰
 		if (count == 10)
 		{
-			printf("ƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚µ‚Ü‚·\n");
-			// ƒIƒuƒWƒFƒNƒg‚ğ”jŠü‚·‚éB
+			printf("ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç ´æ£„ã—ã¾ã™\n");
+			// ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç ´æ£„ã™ã‚‹ã€‚
 			obj->Vanish();
 		}
 	}
 
-	// Altseed‚ğI—¹‚·‚éB
+	// Altseedã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }
