@@ -239,6 +239,56 @@ namespace asd
 		m_coreLayer->SetHeightFogStartDistance(value);
 	}
 
+	bool Layer3D::GetIsOceanEnabled()
+	{
+		return m_coreLayer->GetIsOceanEnabled();
+	}
+
+	void Layer3D::SetIsOceanEnabled(bool value)
+	{
+		m_coreLayer->SetIsOceanEnabled(value);
+	}
+
+	RectF Layer3D::GetOceanArea()
+	{
+		return m_coreLayer->GetOceanArea();
+	}
+
+	void Layer3D::SetOceanArea(RectF value)
+	{
+		m_coreLayer->SetOceanArea(value);
+	}
+
+	float Layer3D::GetOceanHeight()
+	{
+		return m_coreLayer->GetOceanHeight();
+	}
+
+	void Layer3D::SetOceanHeight(float value)
+	{
+		m_coreLayer->SetOceanHeight(value);
+	}
+
+	float Layer3D::GetOceanGridSize()
+	{
+		return m_coreLayer->GetOceanGridSize();
+	}
+
+	void Layer3D::SetOceanGridSize(float value)
+	{
+		m_coreLayer->SetOceanGridSize(value);
+	}
+
+	Texture2D* Layer3D::GetOceanNormalMap()
+	{
+		return m_coreLayer->GetOceanNormalMap();
+	}
+
+	void Layer3D::SetOceanNormalMap(std::shared_ptr<Texture2D> value)
+	{
+		m_coreLayer->SetOceanNormalMap(value.get());
+	}
+
 	int Layer3D::GetObjectCount() const
 	{
 		return m_objects.GetContents().size();

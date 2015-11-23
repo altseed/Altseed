@@ -41,8 +41,10 @@ namespace asd
 
 		SafeRelease(m_renderTargetEnvironment);
 
-		SafeRelease(m_renderTargetReflection);
-		SafeRelease(m_depthBufferReflection);
+
+		SafeRelease(RenderTargetRefraction);
+		SafeRelease(RenderTargetReflection);
+		SafeRelease(DepthBufferReflection);
 	}
 
 	void RenderedCameraObject3DProxy::SetWindow(Graphics* graphics, Vector2DI windowSize, bool hdrMode)
@@ -92,9 +94,15 @@ namespace asd
 			
 			m_depthBuffer_RT = g->CreateDepthBuffer_Imp(windowSize.X, windowSize.Y);
 
-			
-		}
+			SafeRelease(RenderTargetRefraction);
+			SafeRelease(RenderTargetReflection);
+			SafeRelease(DepthBufferReflection);
 
+			RenderTargetRefraction = g->CreateRenderTexture2D_Imp(windowSize.X / 2, windowSize.Y / 2, TextureFormat::R8G8B8A8_UNORM);
+			RenderTargetReflection = g->CreateRenderTexture2D_Imp(windowSize.X / 2, windowSize.Y / 2, TextureFormat::R8G8B8A8_UNORM);
+			DepthBufferReflection = g->CreateDepthBuffer_Imp(windowSize.X / 2, windowSize.Y / 2);
+		}
+		
 		WindowSize = windowSize;
 		HDRMode = hdrMode;
 	}

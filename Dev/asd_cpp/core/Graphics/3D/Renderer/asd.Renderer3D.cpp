@@ -249,6 +249,19 @@ namespace asd
 		proxy->HeightFogDensity = HeightFogDensity;
 		proxy->HeightFogStartDistance = HeightFogStartDistance;
 		proxy->HeightFogFalloff = HeightFogFalloff;
+	
+		if (
+			IsOceanEnabled &&
+			(proxy->OceanArea != OceanArea || proxy->OceanHeight != OceanHeight || proxy->OceanGridSize != OceanGridSize))
+		{
+			proxy->GenerateOcean(OceanArea, OceanHeight, OceanGridSize);
+		}
+
+		proxy->IsOceanEnabled = IsOceanEnabled;
+		proxy->OceanArea = OceanArea;
+		proxy->OceanHeight = OceanHeight;
+		proxy->OceanGridSize = OceanGridSize;
+		proxy->OceanNormalMap = OceanNormalMap;
 	}
 
 	void Renderer3D::BeginRendering(float deltaTime)

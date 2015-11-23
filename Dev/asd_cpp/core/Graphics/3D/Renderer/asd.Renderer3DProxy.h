@@ -3,6 +3,8 @@
 
 #include <asd.common.Base.h>
 
+#include <Math/asd.RectF.h>
+
 #include "../../../asd.Core.Base.h"
 #include "../../../asd.Core.Base_Imp.h"
 
@@ -12,6 +14,7 @@
 #include "asd.EnvironmentRendering.h"
 #include "asd.SkyCubeRendering.h"
 #include "asd.HeightFogRendering.h"
+#include "asd.OceanRendering.h"
 
 #include <Culling3D.h>
 
@@ -106,6 +109,8 @@ namespace asd
 		std::shared_ptr<SkyCubeRendering>		skycubeRendering;
 		std::shared_ptr<EnvironmentRendering>	environmentRendering;
 		std::shared_ptr<HeightFogRendering>		heightfogRendering;
+		std::shared_ptr<OceanRendering>			oceanRendering;
+
 	public:
 
 		Renderer3DProxy(Graphics* graphics);
@@ -165,6 +170,14 @@ namespace asd
 		float HeightFogStartDistance = 1.0f;
 
 		bool IsSkyCubeEnabled = false;
+
+		bool	IsOceanEnabled = false;
+		RectF	OceanArea = RectF();
+		float	OceanHeight = 0.0f;
+		float	OceanGridSize = 1.0f;
+		std::shared_ptr<Texture2D>	OceanNormalMap;
+
+		void GenerateOcean(RectF area, float height, float gridSize);
 
 		void SetEffect(Effekseer::Manager* manager, EffekseerRenderer::Renderer* renderer);
 		void AddObject(RenderedObject3D* o);

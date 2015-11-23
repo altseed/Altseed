@@ -244,6 +244,17 @@ namespace asd
 		*/
 		void SetHeightFogStartDistance(float value);
 
+		bool GetIsOceanEnabled();
+		void SetIsOceanEnabled(bool value);
+		RectF GetOceanArea();
+		void SetOceanArea(RectF value);
+		float GetOceanHeight();
+		void SetOceanHeight(float value);
+		float GetOceanGridSize();
+		void SetOceanGridSize(float value);
+		Texture2D* GetOceanNormalMap();
+		void SetOceanNormalMap(std::shared_ptr<Texture2D> value);
+
 		/**
 		@brief	レイヤーの種類を取得する。
 		@return	レイヤーの種類

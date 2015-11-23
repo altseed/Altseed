@@ -420,6 +420,8 @@ namespace asd
 		skycubeRendering = std::make_shared<SkyCubeRendering>(g, m_shadowVertexBuffer, m_shadowIndexBuffer);
 		heightfogRendering = std::make_shared<HeightFogRendering>(g, m_shadowVertexBuffer, m_shadowIndexBuffer);
 
+		oceanRendering = std::make_shared<OceanRendering>(g);
+
 		factory = new RenderingCommandFactory();
 
 		// とりあえず適当にレイヤー生成
@@ -632,35 +634,69 @@ namespace asd
 				}
 
 				// Gバッファ描画
-			{
-				helper->SetRenderTarget(
-					cP->GetRenderTargetDiffuseColor(),
-					cP->GetRenderTargetSmoothness_Metalness_AO(),
-					cP->GetRenderTargetDepth(),
-					cP->GetRenderTargetAO_MatID(),
-					cP->GetDepthBuffer());
-				helper->Clear(true, false, asd::Color(0, 0, 0, 0));
-				prop.IsDepthMode = false;
-
-				// 通常モデル
-#if __CULLING__
-				DrawObjects(culledObjects, helper, prop);
-#else
-				DrawObjects(objects, helper, prop);
-#endif			
-
-				// 大量描画モデル
-				DrawMassObjects(helper, prop);
-
-#if __CULLING__
-				// 地形
-				for (auto& terrain : culledTerrainObjects)
 				{
-					auto p = (RenderedTerrainObject3DProxy*) (terrain->ProxyPtr);
-					p->Rendering(terrain->TerrainIndex, helper, prop);
+					helper->SetRenderTarget(
+						cP->GetRenderTargetDiffuseColor(),
+						cP->GetRenderTargetSmoothness_Metalness_AO(),
+						cP->GetRenderTargetDepth(),
+						cP->GetRenderTargetAO_MatID(),
+						cP->GetDepthBuffer());
+					helper->Clear(true, false, asd::Color(0, 0, 0, 0));
+					prop.IsDepthMode = false;
+	
+					// 通常モデル
+	#if __CULLING__
+					DrawObjects(culledObjects, helper, prop);
+	#else
+					DrawObjects(objects, helper, prop);
+	#endif			
+	
+					// 大量描画モデル
+					DrawMassObjects(helper, prop);
+	
+	#if __CULLING__
+					// 地形
+					for (auto& terrain : culledTerrainObjects)
+					{
+						auto p = (RenderedTerrainObject3DProxy*) (terrain->ProxyPtr);
+						p->Rendering(terrain->TerrainIndex, helper, prop);
+					}
+	#endif
 				}
-#endif
 			}
+
+			// 海
+			if (IsOceanEnabled)
+			{
+				float waterLine = 0.0f;
+
+				auto position = cP->Position;
+				position.Y = OceanHeight - (position.Y - OceanHeight);
+
+				auto focus = cP->Focus;
+				focus.Y = OceanHeight - (focus.Y - OceanHeight);
+
+				auto projMat = cP->ProjectionMatrix;
+				auto cameraMat = cP->CameraMatrix;
+				cameraMat.SetLookAtRH(
+					position,
+					focus,
+					Vector3DF(0, -1, 0));
+
+				auto temp = IsSkyCubeEnabled;
+
+				IsSkyCubeEnabled = true;
+
+				RenderOnLightweight(
+					helper, 
+					cP->RenderTargetReflection, 
+					cP->DepthBufferReflection, 
+					cameraMat, 
+					projMat, 
+					position,
+					prop);
+
+				IsSkyCubeEnabled = temp;
 			}
 
 			// 環境描画
@@ -988,50 +1024,50 @@ namespace asd
 						shader = m_directionalLightShader;
 					}
 
-					Texture2D* ssaoTexture = dummyTextureWhite.get();
-					if (ssao->IsEnabled())
-					{
-						ssaoTexture = cP->GetRenderTargetSSAO();
-					}
+Texture2D* ssaoTexture = dummyTextureWhite.get();
+if (ssao->IsEnabled())
+{
+	ssaoTexture = cP->GetRenderTargetSSAO();
+}
 
-					auto CameraPositionToShadowCameraPosition = (view) * invCameraMat;
-					auto ShadowProjection = proj;
+auto CameraPositionToShadowCameraPosition = (view) * invCameraMat;
+auto ShadowProjection = proj;
 
-					Vector3DF directionalLightDirection;
-					Vector3DF directionalLightColor;
+Vector3DF directionalLightDirection;
+Vector3DF directionalLightColor;
 
-					directionalLightDirection = prop.DirectionalLightDirection;
-					directionalLightDirection = prop.CameraMatrix.Transform3D(directionalLightDirection) - zero;
+directionalLightDirection = prop.DirectionalLightDirection;
+directionalLightDirection = prop.CameraMatrix.Transform3D(directionalLightDirection) - zero;
 
-					auto directionalLightIntensity = lightP->Intensity;
-					directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f * directionalLightIntensity;
-					directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f * directionalLightIntensity;
-					directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f * directionalLightIntensity;
+auto directionalLightIntensity = lightP->Intensity;
+directionalLightColor.X = prop.DirectionalLightColor.R / 255.0f * directionalLightIntensity;
+directionalLightColor.Y = prop.DirectionalLightColor.G / 255.0f * directionalLightIntensity;
+directionalLightColor.Z = prop.DirectionalLightColor.B / 255.0f * directionalLightIntensity;
 
-					RenderState state;
-					state.DepthTest = false;
-					state.DepthWrite = false;
-					state.Culling = CullingType::Double;
-					state.AlphaBlendState = AlphaBlendMode::Add;
+RenderState state;
+state.DepthTest = false;
+state.DepthWrite = false;
+state.Culling = CullingType::Double;
+state.AlphaBlendState = AlphaBlendMode::Add;
 
-					helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
-						h::GenValue("skyLightColor", skyLightColor),
-						h::GenValue("groundLightColor", groundLightColor),
-						h::GenValue("directionalLightDirection", directionalLightDirection),
-						h::GenValue("directionalLightColor", directionalLightColor),
-						h::GenValue("upDir", cP->UpDir),
-						h::GenValue("reconstructInfo1", cP->ReconstructInfo1),
-						h::GenValue("reconstructInfo2", cP->ReconstructInfo2),
-						h::GenValue("g_shadowProjection", ShadowProjection),
-						h::GenValue("g_cameraPositionToShadowCameraPosition", CameraPositionToShadowCameraPosition),
-						h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
-						h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
-						h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSmoothness_Metalness_AO(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
-						h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
-						h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
-						h::GenValue("g_shadowmapTexture", h::Texture2DPair(lightP->GetShadowTexture(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
-						h::GenValue("g_environmentDiffuseTexture", h::Texture2DPair(cP->GetRenderTargetEnvironment(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp))
-						);
+helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.get(), state,
+	h::GenValue("skyLightColor", skyLightColor),
+	h::GenValue("groundLightColor", groundLightColor),
+	h::GenValue("directionalLightDirection", directionalLightDirection),
+	h::GenValue("directionalLightColor", directionalLightColor),
+	h::GenValue("upDir", cP->UpDir),
+	h::GenValue("reconstructInfo1", cP->ReconstructInfo1),
+	h::GenValue("reconstructInfo2", cP->ReconstructInfo2),
+	h::GenValue("g_shadowProjection", ShadowProjection),
+	h::GenValue("g_cameraPositionToShadowCameraPosition", CameraPositionToShadowCameraPosition),
+	h::GenValue("g_ssaoTexture", h::Texture2DPair(ssaoTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
+	h::GenValue("g_gbuffer0Texture", h::Texture2DPair(cP->GetRenderTargetDiffuseColor(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
+	h::GenValue("g_gbuffer1Texture", h::Texture2DPair(cP->GetRenderTargetSmoothness_Metalness_AO(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
+	h::GenValue("g_gbuffer2Texture", h::Texture2DPair(cP->GetRenderTargetDepth(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
+	h::GenValue("g_gbuffer3Texture", h::Texture2DPair(cP->GetRenderTargetAO_MatID(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
+	h::GenValue("g_shadowmapTexture", h::Texture2DPair(lightP->GetShadowTexture(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
+	h::GenValue("g_environmentDiffuseTexture", h::Texture2DPair(cP->GetRenderTargetEnvironment(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp))
+	);
 				}
 #endif
 
@@ -1085,9 +1121,42 @@ namespace asd
 			}
 		}
 
+		// 海
+		if (IsOceanEnabled)
+		{
+			auto g = (Graphics_Imp*) graphics;
+
+			helper->SetRenderTarget(cP->RenderTargetRefraction, nullptr);
+			helper->Clear(true, false, asd::Color(0, 0, 0, 0));
+			RenderState state;
+			state.DepthTest = false;
+			state.DepthWrite = false;
+			state.AlphaBlendState = AlphaBlendMode::Opacity;
+			state.Culling = asd::CullingType::Double;
+
+			helper->Draw(2, m_pasteVertexBuffer.get(), m_pasteIndexBuffer.get(), m_pasteShader.get(), state,
+				h::GenValue("g_texture", h::Texture2DPair(cP->GetRenderTarget(), asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)));
+		}
+
+		// 深度復帰
+		{
+			helper->SetRenderTarget(cP->GetRenderTarget(), cP->GetDepthBuffer());
+		}
+
+		// 海
+		if (IsOceanEnabled)
+		{
+			oceanRendering->Render(cP, helper, cP->CameraMatrix, cP->ProjectionMatrix, cP->RenderTargetReflection, cP->RenderTargetRefraction, cP->GetRenderTargetDepth(), OceanNormalMap.get());
+		}
+
 		// フォグ
 		if (IsHeightFogEnabled)
 		{
+			// 深度復帰
+			{
+				helper->SetRenderTarget(cP->GetRenderTarget(), nullptr);
+
+			}
 			heightfogRendering->FogColor = HeightFogColor;
 			heightfogRendering->Density = HeightFogDensity;
 			heightfogRendering->Falloff = HeightFogFalloff;
@@ -1247,7 +1316,7 @@ namespace asd
 		if (IsSkyCubeEnabled)
 		{
 			skycubeRendering->Render(
-				projMat, cameraMat, position,
+				cameraMat, projMat, position,
 				helper,
 				EnvironmentSpecularColor.get());
 		}
@@ -1285,6 +1354,11 @@ namespace asd
 				culledTerrainObjects.push_back(cp);
 			}
 		}
+	}
+
+	void Renderer3DProxy::GenerateOcean(RectF area, float height, float gridSize)
+	{
+		oceanRendering->GenerateOcean(area.GetPosition(), area.GetPosition() + asd::Vector2DF(area.Width, area.Height), height, gridSize);
 	}
 
 	void Renderer3DProxy::SetEffect(Effekseer::Manager* manager, EffekseerRenderer::Renderer* renderer)

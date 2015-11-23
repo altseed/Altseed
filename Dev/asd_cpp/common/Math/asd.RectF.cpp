@@ -36,4 +36,13 @@ namespace asd
 		};
 		return result;
 	}
+
+	bool RectF::operator!=(const RectF& right)
+	{
+		return
+			X != right.X ||
+			Y != right.Y ||
+			Width != right.Width ||
+			Height != right.Height;
+	}
 }

@@ -73,6 +73,18 @@ namespace asd
 		float GetHeightFogStartDistance() override;
 		void SetHeightFogStartDistance(float value) override;
 
+		bool GetIsOceanEnabled() override;
+		void SetIsOceanEnabled(bool value)  override;
+		RectF GetOceanArea()  override;
+		void SetOceanArea(RectF value) override;
+		float GetOceanHeight() override;
+		void SetOceanHeight(float value) override;
+		float GetOceanGridSize() override;
+		void SetOceanGridSize(float value) override;
+		Texture2D* GetOceanNormalMap() override;
+		void SetOceanNormalMap(Texture2D* value) override;
+
+
 		void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,

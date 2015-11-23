@@ -183,6 +183,57 @@ namespace asd
 		m_renderer->HeightFogStartDistance = value;
 	}
 
+	bool CoreLayer3D_Imp::GetIsOceanEnabled()
+	{
+		return m_renderer->IsOceanEnabled;
+	}
+
+	void CoreLayer3D_Imp::SetIsOceanEnabled(bool value)
+	{
+		m_renderer->IsOceanEnabled = value;
+	}
+
+	RectF CoreLayer3D_Imp::GetOceanArea()
+	{
+		return m_renderer->OceanArea;
+	}
+
+	void CoreLayer3D_Imp::SetOceanArea(RectF value)
+	{
+		m_renderer->OceanArea = value;
+	}
+
+	float CoreLayer3D_Imp::GetOceanHeight()
+	{
+		return m_renderer->OceanHeight;
+	}
+
+	void CoreLayer3D_Imp::SetOceanHeight(float value)
+	{
+		m_renderer->OceanHeight = value;
+	}
+
+	float CoreLayer3D_Imp::GetOceanGridSize()
+	{
+		return m_renderer->OceanGridSize;
+	}
+
+	void CoreLayer3D_Imp::SetOceanGridSize(float value)
+	{
+		m_renderer->OceanGridSize = value;
+	}
+
+	Texture2D* CoreLayer3D_Imp::GetOceanNormalMap()
+	{
+		return m_renderer->OceanNormalMap.get();  
+	}
+
+	void CoreLayer3D_Imp::SetOceanNormalMap(Texture2D* value)
+	{
+		SafeAddRef(value);
+		m_renderer->OceanNormalMap = CreateSharedPtrWithReleaseDLL(value);
+	}
+
 	void CoreLayer3D_Imp::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,

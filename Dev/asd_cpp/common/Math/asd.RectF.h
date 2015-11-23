@@ -72,6 +72,8 @@ namespace asd {
 		@return	座標
 		*/
 		std::array<Vector2DF, 4> GetVertexes() const;
+
+		bool operator!=(const RectF& right);
 	};
 
 //----------------------------------------------------------------------------------

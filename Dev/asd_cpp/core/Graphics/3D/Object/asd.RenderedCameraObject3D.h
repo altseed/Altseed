@@ -30,10 +30,6 @@ namespace asd
 
 		RenderTexture2D_Imp*	m_renderTargetEnvironment = nullptr;
 
-		RenderTexture2D_Imp*	m_renderTargetReflection = nullptr;
-		DepthBuffer_Imp*		m_depthBufferReflection = nullptr;
-
-
 		PostEffectRenderer*		m_postEffectRenderer = nullptr;
 		std::vector<std::shared_ptr<Material2DCommand>>	m_postEffectCommands_RT;
 		int32_t					postEffectCount = 0;
@@ -47,6 +43,12 @@ namespace asd
 		Matrix44	ProjectionMatrix;
 		Vector2DI	WindowSize;
 		Vector3DF	Up;
+
+
+		RenderTexture2D_Imp*	RenderTargetRefraction = nullptr;
+		RenderTexture2D_Imp*	RenderTargetReflection = nullptr;
+		DepthBuffer_Imp*		DepthBufferReflection = nullptr;
+
 
 		bool	HDRMode;
 

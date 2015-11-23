@@ -290,6 +290,36 @@ namespace asd
 			set { coreLayer3D.SetHeightFogStartDistance(value); }
 		}
 
+		public bool IsOceanEnabled
+		{
+			get { return coreLayer3D.GetIsOceanEnabled(); }
+			set { coreLayer3D.SetIsOceanEnabled(value); }
+		}
+
+		public RectF OceanArea
+		{
+			get { return coreLayer3D.GetOceanArea(); }
+			set { coreLayer3D.SetOceanArea(value); }
+		}
+
+		public float OceanGridSize
+		{
+			get { return coreLayer3D.GetOceanGridSize(); }
+			set { coreLayer3D.SetOceanGridSize(value); }
+		}
+
+		public float OceanHeight
+		{
+			get { return coreLayer3D.GetOceanHeight(); }
+			set { coreLayer3D.SetOceanHeight(value); }
+		}
+
+		public Texture2D OceanNormalMap
+		{
+			get { return GC.GenerateTexture2D(coreLayer3D.GetOceanNormalMap(), GC.GenerationType.Get); }
+			set { coreLayer3D.SetOceanNormalMap(IG.GetTexture2D(value)); }
+		}
+
 		public override LayerType LayerType
 		{
 			get { return LayerType.Layer3D; }

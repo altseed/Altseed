@@ -8,6 +8,7 @@
 #include <Math/asd.Vector3DF.h>
 #include <Math/asd.Vector4DF.h>
 #include <Math/asd.Matrix44.h>
+#include <Math/asd.RectF.h>
 #include <Graphics/asd.Color.h>
 
 #include "../../asd.RenderingThread.h"
@@ -118,6 +119,12 @@ namespace asd
 		Color HeightFogColor = Color(255, 255, 255, 255);
 		float HeightFogFalloff = 1.0f;
 		float HeightFogStartDistance = 10.0f;
+
+		bool	IsOceanEnabled = false;
+		RectF	OceanArea = RectF();
+		float	OceanHeight = 0.0f;
+		float	OceanGridSize = 1.0f;
+		std::shared_ptr<Texture2D>	OceanNormalMap;
 
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
 	};

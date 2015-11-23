@@ -1,0 +1,70 @@
+﻿static const char* ocean_vs_dx = R"(
+
+//<|| モデル共通レジスタ
+float4x4	matM					: register( c0 );
+float4x4	matC					: register( c4 );
+float4x4	matP					: register( c8 );
+//||>
+
+//<|| モデル共通頂点入力
+struct VS_Input
+{
+	float3 Position		: Position0;
+	float3 Normal		: Normal0;
+	float3 Binormal		: Binormal0;
+	float2 UV			: UV0;
+};
+//||>
+
+struct VS_Output
+{
+	float4 SV_Position		: SV_POSITION;
+
+	float4 Position			: POSITION0;
+	float4 ProjPosition		: PROJPOSITION0;
+	half2 UV				: UV0;
+	half3 Normal			: NORMAL0;
+	half3 Binormal			: BINORMAL0;
+	half3 Tangent			: TANGENT0;
+};
+
+//<|| モデル共通関数
+float3x3 convert44to33(float4x4 mat)
+{
+	return (float3x3)mat;
+}
+//||>
+
+
+VS_Output main( const VS_Input Input )
+{
+	VS_Output Output = (VS_Output)0;
+
+	float4x4 matLocal = matM;
+	float4x4 matMC = mul(matC, matLocal);
+	float3x3 matC33 = convert44to33(matC);
+	float3x3 matMC33 = convert44to33(matMC);
+
+	float4 cPosition = mul( matMC, float4( Input.Position.x, Input.Position.y, Input.Position.z, 1.0 ) );
+
+	float3 cNormal = mul( matMC33, Input.Normal );
+	cNormal = normalize(cNormal);
+
+	float3 cBinormal = mul( matMC33, Input.Binormal );
+	cBinormal = normalize(cBinormal);
+
+	float3 cTangent = cross( cBinormal, cNormal );
+	cTangent = normalize(cTangent);
+
+	Output.SV_Position = mul( matP, cPosition );
+	Output.Position = cPosition;
+	Output.ProjPosition = Output.SV_Position;
+	Output.Normal = (half3)cNormal;
+	Output.Binormal = (half3)cBinormal;
+	Output.Tangent = (half3)cTangent;
+	Output.UV = Input.UV;
+
+	return Output;
+}
+
+)";

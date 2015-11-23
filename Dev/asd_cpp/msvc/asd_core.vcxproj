@@ -349,6 +349,7 @@
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.EnvironmentRendering.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.HeightFogRendering.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.LightRendering.h" />
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.OceanRendering.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.Renderer3D.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.Renderer3DProxy.h" />
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.SkyCubeRendering.h" />
@@ -449,6 +450,8 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\MassModel_Internal_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Model_Internal_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Model_Internal_VS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Ocean_PS.h" />
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Ocean_VS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Paste_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_Blur_PS.h" />
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\PostEffect\SSAO_PS.h" />
@@ -643,6 +646,7 @@
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.EnvironmentRendering.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.HeightFogRendering.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.LightRendering.cpp" />
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.OceanRendering.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.Renderer3D.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.Renderer3DProxy.cpp" />
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.SkyCubeRendering.cpp" />

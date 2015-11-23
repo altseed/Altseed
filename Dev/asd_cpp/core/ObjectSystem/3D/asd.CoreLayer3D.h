@@ -63,6 +63,17 @@ namespace asd
 		virtual float GetHeightFogStartDistance() = 0;
 		virtual void SetHeightFogStartDistance(float value) = 0;
 
+		virtual bool GetIsOceanEnabled() = 0;
+		virtual void SetIsOceanEnabled(bool value) = 0;
+		virtual RectF GetOceanArea() = 0;
+		virtual void SetOceanArea(RectF value) = 0;
+		virtual float GetOceanHeight() = 0;
+		virtual void SetOceanHeight(float value) = 0;
+		virtual float GetOceanGridSize() = 0;
+		virtual void SetOceanGridSize(float value) = 0;
+		virtual Texture2D* GetOceanNormalMap() = 0;
+		virtual void SetOceanNormalMap(Texture2D* value) = 0;
+
 		virtual void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,

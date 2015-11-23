@@ -987,6 +987,15 @@
     <ClInclude Include="..\core\Graphics\3D\Renderer\asd.SkyCubeRendering.h">
       <Filter>Graphics\3D\Renderer</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Graphics\3D\Renderer\asd.OceanRendering.h">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Ocean_PS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Graphics\Shader\DX\3D\Ocean_VS.h">
+      <Filter>Graphics\Shader\DX\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1394,6 +1403,9 @@
       <Filter>Graphics\3D\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.SkyCubeRendering.cpp">
+      <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Graphics\3D\Renderer\asd.OceanRendering.cpp">
       <Filter>Graphics\3D\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
