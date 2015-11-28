@@ -83,8 +83,11 @@ float4 main( const PS_Input Input ) : SV_Target
     float alpha = (Rs + Rp) / 2.0f;
 	alpha = min(alpha, 1.0);
 
-	float4 refColor = g_reflectionTexture.Sample(g_reflectionSampler, refUV);
-	float4 refraColor = g_refractionTexture.Sample(g_refractionSampler, refraUV);
+	// TODO:正しく計算する
+	float2 shift = float2( (normalMap.x - 0.5) / 4.0, (normalMap.y - 0.5) / 4.0);
+
+	float4 refColor = g_reflectionTexture.Sample(g_reflectionSampler, refUV + shift);
+	float4 refraColor = g_refractionTexture.Sample(g_refractionSampler, refraUV + shift);
 
 	float trans = exp(-len*g_density);
 
