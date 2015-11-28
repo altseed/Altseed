@@ -16,6 +16,8 @@ float3 reconstructInfo1;
 float4 reconstructInfo2;
 
 float3			g_cameraPosition;
+float3			g_oceanColor;
+float			g_density;
 
 struct PS_Input
 {
@@ -84,8 +86,11 @@ float4 main( const PS_Input Input ) : SV_Target
 	float4 refColor = g_reflectionTexture.Sample(g_reflectionSampler, refUV);
 	float4 refraColor = g_refractionTexture.Sample(g_refractionSampler, refraUV);
 
-	len = min(len / 1.0, 1.0);
-	refraColor.xyz = float3(0.03,0.05,0.10) * len + refraColor.xyz * (1.0 - len);
+	float trans = exp(-len*g_density);
+
+	trans = min(trans, 1.0);
+
+	refraColor.xyz = g_oceanColor * (1.0-trans) + refraColor.xyz * trans;
 	refraColor.w = 1.0;
 	refColor.w = 1.0;
 

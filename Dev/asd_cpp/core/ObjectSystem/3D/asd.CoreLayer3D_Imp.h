@@ -81,6 +81,10 @@ namespace asd
 		void SetOceanHeight(float value) override;
 		float GetOceanGridSize() override;
 		void SetOceanGridSize(float value) override;
+		Color GetOceanColor() override;
+		void SetOceanColor(Color color) override;
+		float GetOceanDensity() override;
+		void SetOceanDensity(float value) override;
 		Texture2D* GetOceanNormalMap() override;
 		void SetOceanNormalMap(Texture2D* value) override;
 

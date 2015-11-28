@@ -71,6 +71,10 @@ namespace asd
 		virtual void SetOceanHeight(float value) = 0;
 		virtual float GetOceanGridSize() = 0;
 		virtual void SetOceanGridSize(float value) = 0;
+		virtual Color GetOceanColor() = 0;
+		virtual void SetOceanColor(Color color) = 0;
+		virtual float GetOceanDensity() = 0;
+		virtual void SetOceanDensity(float value) = 0;
 		virtual Texture2D* GetOceanNormalMap() = 0;
 		virtual void SetOceanNormalMap(Texture2D* value) = 0;
 

@@ -252,6 +252,10 @@ namespace asd
 		void SetOceanHeight(float value);
 		float GetOceanGridSize();
 		void SetOceanGridSize(float value);
+		Color GetOceanColor();
+		void SetOceanColor(Color color);
+		float GetOceanDensity();
+		void SetOceanDensity(float value);
 		Texture2D* GetOceanNormalMap();
 		void SetOceanNormalMap(std::shared_ptr<Texture2D> value);
 

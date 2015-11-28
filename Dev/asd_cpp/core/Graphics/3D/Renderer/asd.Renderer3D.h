@@ -124,6 +124,9 @@ namespace asd
 		RectF	OceanArea = RectF();
 		float	OceanHeight = 0.0f;
 		float	OceanGridSize = 1.0f;
+		Color	OceanColor = Color(255, 255, 255, 255);
+		float	OceanDensity = 1.0f;
+
 		std::shared_ptr<Texture2D>	OceanNormalMap;
 
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }

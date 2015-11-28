@@ -223,6 +223,26 @@ namespace asd
 		m_renderer->OceanGridSize = value;
 	}
 
+	Color CoreLayer3D_Imp::GetOceanColor()
+	{
+		return m_renderer->OceanColor;
+	}
+
+	void CoreLayer3D_Imp::SetOceanColor(Color color)
+	{
+		m_renderer->OceanColor = color;
+	}
+
+	float CoreLayer3D_Imp::GetOceanDensity()
+	{
+		return m_renderer->OceanDensity;
+	}
+
+	void CoreLayer3D_Imp::SetOceanDensity(float value)
+	{
+		m_renderer->OceanDensity = value;
+	}
+
 	Texture2D* CoreLayer3D_Imp::GetOceanNormalMap()
 	{
 		return m_renderer->OceanNormalMap.get();  

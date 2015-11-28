@@ -314,6 +314,18 @@ namespace asd
 			set { coreLayer3D.SetOceanHeight(value); }
 		}
 
+		public Color OceanColor
+		{
+			get { return coreLayer3D.GetOceanColor(); }
+			set { coreLayer3D.SetOceanColor(value); }
+		}
+
+		public float OceanDensity
+		{
+			get { return coreLayer3D.GetOceanDensity(); }
+			set { coreLayer3D.SetOceanDensity(value); }
+		}
+
 		public Texture2D OceanNormalMap
 		{
 			get { return GC.GenerateTexture2D(coreLayer3D.GetOceanNormalMap(), GC.GenerationType.Get); }

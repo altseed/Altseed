@@ -1146,6 +1146,8 @@ helper->Draw(2, m_shadowVertexBuffer.get(), m_shadowIndexBuffer.get(), shader.ge
 		// 海
 		if (IsOceanEnabled)
 		{
+			oceanRendering->OceanColor = OceanColor;
+			oceanRendering->Density = OceanDensity;
 			oceanRendering->Render(cP, helper, cP->CameraMatrix, cP->ProjectionMatrix, cP->RenderTargetReflection, cP->RenderTargetRefraction, cP->GetRenderTargetDepth(), OceanNormalMap.get());
 		}
 

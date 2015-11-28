@@ -99,6 +99,11 @@ namespace asd
 		Matrix44 matC = cameraMat;
 		Matrix44 matP = projMat;
 
+		Vector3DF color;
+		color.X = OceanColor.R / 255.0f;
+		color.Y = OceanColor.G / 255.0f;
+		color.Z = OceanColor.B / 255.0f;
+
 		helper->Draw(2, vertexBuffer.get(), indexBuffer.get(), shader.get(), state,
 
 			h::GenValue("reconstructInfo1", cameraP->ReconstructInfo1),
@@ -112,7 +117,12 @@ namespace asd
 
 			h::GenValue("matM", matM),
 			h::GenValue("matC", matC),
-			h::GenValue("matP", matP));
+			h::GenValue("matP", matP),
+			
+			h::GenValue("g_oceanColor", color),
+
+			h::GenValue("g_density", Density)
+			);
 	}
 
 	void OceanRendering::GenerateOcean(Vector2DF starting, Vector2DF ending, float height, float gridSize)

@@ -261,6 +261,8 @@ namespace asd
 		proxy->OceanArea = OceanArea;
 		proxy->OceanHeight = OceanHeight;
 		proxy->OceanGridSize = OceanGridSize;
+		proxy->OceanColor = OceanColor;
+		proxy->OceanDensity = OceanDensity;
 		proxy->OceanNormalMap = OceanNormalMap;
 	}
 

@@ -279,6 +279,26 @@ namespace asd
 		m_coreLayer->SetOceanGridSize(value);
 	}
 
+	Color Layer3D::GetOceanColor()
+	{
+		return m_coreLayer->GetOceanColor();
+	}
+
+	void Layer3D::SetOceanColor(Color color)
+	{
+		m_coreLayer->SetOceanColor(color);
+	}
+
+	float Layer3D::GetOceanDensity()
+	{
+		return m_coreLayer->GetOceanDensity();
+	}
+
+	void Layer3D::SetOceanDensity(float value)
+	{
+		m_coreLayer->SetOceanDensity(value);
+	}
+	
 	Texture2D* Layer3D::GetOceanNormalMap()
 	{
 		return m_coreLayer->GetOceanNormalMap();
