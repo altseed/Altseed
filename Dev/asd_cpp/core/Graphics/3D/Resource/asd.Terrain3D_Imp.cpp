@@ -1608,8 +1608,10 @@ namespace asd
 
 	void Terrain3D_Imp::GenerateTerrainMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces)
 	{
-		std::vector<Vector3DF> chipVertices;
+		std::vector<ChipVertex> chipVertices;
 		std::vector<ChipFace> chipFaces;
+
+		std::set<Vector3DF> outerVertices;
 
 		std::map<Vector3DF, int32_t> chipVertexPositionToVertexIndexes;
 		std::map<Vector3DF, std::vector<int32_t>> chipVertexPositionToFaceIndexes;
@@ -1622,72 +1624,183 @@ namespace asd
 		auto cx_max = Clamp(chip_x + chip_width + 1, gridWidthCount - 1, 0);
 		auto cy_max = Clamp(chip_y + chip_height + 1, gridHeightCount - 1, 0);
 
+		auto cx_inner_min = Clamp(chip_x, gridWidthCount - 1, 0);
+		auto cy_inner_min = Clamp(chip_y, gridHeightCount - 1, 0);
+		auto cx_inner_max = Clamp(chip_x + chip_width, gridWidthCount - 1, 0);
+		auto cy_inner_max = Clamp(chip_y + chip_height, gridHeightCount - 1, 0);
+
+
+		auto importChip = [&chipVertices, &chipFaces, &chipVertexPositionToFaceIndexes, &chipVertexPositionToVertexIndexes, &chipVertexPositionToUV, &outerVertices](Chip& chip, bool isOuter) -> void
+		{
+			auto indexOffset = chipVertices.size();
+
+			for (auto& f : chip.Faces)
+			{
+				for (int32_t i = 0; i < 3; i++)
+				{
+					auto& v = chip.Vertecies[f.Indexes[i]];
+
+					auto ind = chipVertexPositionToFaceIndexes.find(v.Position);
+					if (ind == chipVertexPositionToFaceIndexes.end())
+					{
+						chipVertices.push_back(v);
+						chipVertexPositionToVertexIndexes[v.Position] = (int32_t) (chipVertices.size() - 1);
+						chipVertexPositionToFaceIndexes[v.Position] = std::vector<int32_t>();
+
+						if (isOuter)
+						{
+							// 削除するために外周の頂点位置を取得する
+							outerVertices.insert(v.Position);
+						}
+					}
+
+					if (chip.Vertecies[f.Indexes[i]].UV != asd::Vector2DF(FLT_MAX, FLT_MAX))
+					{
+						chipVertexPositionToUV[v.Position] = chip.Vertecies[f.Indexes[i]].UV;
+					}
+				}
+			}
+
+			for (auto& f : chip.Faces)
+			{
+				auto f_ = f;
+				for (size_t i = 0; i < 3; i++)
+				{
+					auto v = chip.Vertecies[f.Indexes[i]].Position;
+					f_.Indexes[i] = chipVertexPositionToVertexIndexes[v];
+					chipVertexPositionToFaceIndexes[v].push_back(chipFaces.size());
+				}
+
+				chipFaces.push_back(f_);
+			}
+		};
+
+		// 先に内部の頂点を追加
+		for (size_t y = cy_inner_min; y <= cy_inner_max; y++)
+		{
+			for (size_t x = cx_inner_min; x <= cx_inner_max; x++)
+			{
+				auto& chip = Chips[x + y * gridWidthCount];
+
+				importChip(chip, false);
+			}
+		}
+
+		// 次に外部の点を追加
 		for (size_t y = cy_min; y <= cy_max; y++)
 		{
 			for (size_t x = cx_min; x <= cx_max; x++)
 			{
-				auto indexOffset = chipVertices.size();
-
 				auto& chip = Chips[x + y * gridWidthCount];
 
-				for (auto& f : chip.Faces)
-				{
-					for (int32_t i = 0; i < 3; i++)
-					{
-						auto& v = chip.Vertecies[f.Indexes[i]].Position;
+				bool isOuter = !(
+					cx_inner_min <= x &&
+					x <= cx_inner_max &&
+					cy_inner_min <= y &&
+					y <= cy_inner_max);
 
-						auto ind = chipVertexPositionToFaceIndexes.find(v);
-						if (ind == chipVertexPositionToFaceIndexes.end())
-						{
-							chipVertices.push_back(v);
-							chipVertexPositionToVertexIndexes[v] = (int32_t) (chipVertices.size() - 1);
-							chipVertexPositionToFaceIndexes[v] = std::vector<int32_t>();
-						}
+				if (!isOuter) continue;
 
-						if (chip.Vertecies[f.Indexes[i]].UV != asd::Vector2DF(FLT_MAX, FLT_MAX))
-						{
-							chipVertexPositionToUV[v] = chip.Vertecies[f.Indexes[i]].UV;
-						}
-					}
-				}
-
-				for (auto& f : chip.Faces)
-				{
-					auto f_ = f;
-					for (size_t i = 0; i < 3; i++)
-					{
-						auto v = chip.Vertecies[f.Indexes[i]].Position;
-						f_.Indexes[i] = chipVertexPositionToVertexIndexes[v];
-						chipVertexPositionToFaceIndexes[v].push_back(chipFaces.size());
-					}
-
-					chipFaces.push_back(f_);
-				}
+				importChip(chip, isOuter);
 			}
 		}
 
 		vertices.clear();
 		faces.clear();
+		
+		// 必要な領域のみを計算して出力する
+		std::map<int32_t, int32_t> indToNewInd;
 
+		for (size_t i = 0; i < chipVertices.size(); i++)
+		{
+			auto v = chipVertices[i];
+
+			if (outerVertices.count(v.Position) > 0) continue;
+
+			Vertex cv;
+
+			cv.Position = v.Position;
+			cv.UV1 = v.UV;
+
+			Vector3DF normal;
+			Vector3DF binormal;
+			float ext = 0.0f;
+			int32_t count = 0;
+
+			for (auto ind : chipVertexPositionToFaceIndexes[v.Position])
+			{
+				auto f = chipFaces[ind];
+
+				// 無効な面を飛ばす
+				if (f.Normal.GetSquaredLength() == 0.0f) continue;
+
+				normal += f.Normal;
+				binormal += f.Binormal;
+				count++;
+			}
+
+			normal /= (float) count;
+			binormal /= (float) count;
+
+			cv.Normal = normal;
+			cv.Binormal = binormal;
+
+			indToNewInd[i] = vertices.size();
+			vertices.push_back(cv);
+		}
+
+		for (size_t i = 0; i < chipFaces.size(); i++)
+		{
+			auto f = chipFaces[i];
+
+			bool continue_ = false;
+
+			for (int32_t j = 0; j < 3; j++)
+			{
+				if (indToNewInd.count(f.Indexes[j]) > 0)
+				{
+					f.Indexes[j] = indToNewInd[f.Indexes[j]];
+				}
+				else
+				{
+					continue_ = true;
+					break;
+				}
+			}
+
+			if (continue_)
+			{
+				continue;
+			}
+
+			Face face;
+			face.Index1 = f.Indexes[0];
+			face.Index2 = f.Indexes[1];
+			face.Index3 = f.Indexes[2];
+			faces.push_back(face);
+		}
+		
+
+		/*
 		for (size_t i = 0; i < chipVertices.size(); i++)
 		{
 			auto v = chipVertices[i];
 			Vertex cv;
 
-			cv.Position = v;
+			cv.Position = v.Position;
 			cv.UV1 = chipVertexPositionToUV[cv.Position];
 
 			Vector3DF normal;
 			Vector3DF binormal;
-			for (auto ind : chipVertexPositionToFaceIndexes[v])
+			for (auto ind : chipVertexPositionToFaceIndexes[v.Position])
 			{
 				auto f = chipFaces[ind];
 				normal += f.Normal;
 				binormal += f.Binormal;
 			}
 
-			normal /= (float) chipVertexPositionToFaceIndexes[v].size();
-			binormal /= (float) chipVertexPositionToFaceIndexes[v].size();
+			normal /= (float) chipVertexPositionToFaceIndexes[v.Position].size();
+			binormal /= (float) chipVertexPositionToFaceIndexes[v.Position].size();
 
 			cv.Normal = normal;
 			cv.Binormal = binormal;
@@ -1764,12 +1877,15 @@ namespace asd
 
 			faces.push_back(f);
 		}
+		*/
 	}
 
 	void Terrain3D_Imp::GenerateTerrainSideMesh(int32_t chip_x, int32_t chip_y, int32_t chip_width, int32_t chip_height, std::vector<Vertex>& vertices, std::vector<Face>& faces)
 	{
 		std::vector<ChipVertex> chipVertices;
 		std::vector<ChipFace> chipFaces;
+
+		std::set<Vector3DF> outerVertices;
 
 		std::map<Vector3DF, std::map <Vector2DF,int32_t>> chipVertexPositionToVertexIndexes;
 		std::map<Vector3DF, std::vector<int32_t>> chipVertexPositionToFaceIndexes;
@@ -1780,47 +1896,83 @@ namespace asd
 		auto cx_max = Clamp(chip_x + chip_width + 1, gridWidthCount - 1, 0);
 		auto cy_max = Clamp(chip_y + chip_height + 1, gridHeightCount - 1, 0);
 
+		auto cx_inner_min = Clamp(chip_x, gridWidthCount - 1, 0);
+		auto cy_inner_min = Clamp(chip_y, gridHeightCount - 1, 0);
+		auto cx_inner_max = Clamp(chip_x + chip_width, gridWidthCount - 1, 0);
+		auto cy_inner_max = Clamp(chip_y + chip_height, gridHeightCount - 1, 0);
+
+		auto importChip = [&chipVertices, &chipFaces, &chipVertexPositionToFaceIndexes, &chipVertexPositionToVertexIndexes, &outerVertices](Chip& chip, bool isOuter) -> void
+		{
+			auto indexOffset = chipVertices.size();
+
+			for (auto& f : chip.SideFaces)
+			{
+				for (int32_t i = 0; i < 3; i++)
+				{
+					auto& v = chip.Vertecies[f.Indexes[i]];
+
+					auto ind = chipVertexPositionToFaceIndexes.find(v.Position);
+					if (ind == chipVertexPositionToFaceIndexes.end())
+					{
+						chipVertices.push_back(v);
+						chipVertexPositionToVertexIndexes[v.Position][v.UV] = (int32_t) (chipVertices.size() - 1);
+						chipVertexPositionToFaceIndexes[v.Position] = std::vector<int32_t>();
+
+						if (isOuter)
+						{
+							// 削除するために外周の頂点位置を取得する
+							outerVertices.insert(v.Position);
+						}
+					}
+					else if (chipVertexPositionToVertexIndexes[v.Position].count(v.UV) == 0)
+					{
+						chipVertices.push_back(v);
+						chipVertexPositionToVertexIndexes[v.Position][v.UV] = (int32_t) (chipVertices.size() - 1);
+					}
+				}
+			}
+
+			for (auto& f : chip.SideFaces)
+			{
+				auto f_ = f;
+				for (size_t i = 0; i < 3; i++)
+				{
+					auto v = chip.Vertecies[f.Indexes[i]];
+					f_.Indexes[i] = chipVertexPositionToVertexIndexes[v.Position][v.UV];
+					chipVertexPositionToFaceIndexes[v.Position].push_back(chipFaces.size());
+				}
+
+				chipFaces.push_back(f_);
+			}
+		};
+
+		// 先に内部の頂点を追加
+		for (size_t y = cy_inner_min; y <= cy_inner_max; y++)
+		{
+			for (size_t x = cx_inner_min; x <= cx_inner_max; x++)
+			{
+				auto& chip = Chips[x + y * gridWidthCount];
+
+				importChip(chip, false);
+			}
+		}
+
+		// 次に外部の点を追加
 		for (size_t y = cy_min; y <= cy_max; y++)
 		{
 			for (size_t x = cx_min; x <= cx_max; x++)
 			{
-				auto indexOffset = chipVertices.size();
-
 				auto& chip = Chips[x + y * gridWidthCount];
 
-				for (auto& f : chip.SideFaces)
-				{
-					for (int32_t i = 0; i < 3; i++)
-					{
-						auto& v = chip.Vertecies[f.Indexes[i]];
+				bool isOuter = !(
+					cx_inner_min <= x &&
+					x <= cx_inner_max &&
+					cy_inner_min <= y &&
+					y <= cy_inner_max);
 
-						auto ind = chipVertexPositionToFaceIndexes.find(v.Position);
-						if (ind == chipVertexPositionToFaceIndexes.end())
-						{
-							chipVertices.push_back(v);
-							chipVertexPositionToVertexIndexes[v.Position][v.UV] = (int32_t) (chipVertices.size() - 1);
-							chipVertexPositionToFaceIndexes[v.Position] = std::vector<int32_t>();
-						}
-						else if (chipVertexPositionToVertexIndexes[v.Position].count(v.UV) == 0)
-						{
-							chipVertices.push_back(v);
-							chipVertexPositionToVertexIndexes[v.Position][v.UV] = (int32_t) (chipVertices.size() - 1);
-						}
-					}
-				}
+				if (!isOuter) continue;
 
-				for (auto& f : chip.SideFaces)
-				{
-					auto f_ = f;
-					for (size_t i = 0; i < 3; i++)
-					{
-						auto v = chip.Vertecies[f.Indexes[i]];
-						f_.Indexes[i] = chipVertexPositionToVertexIndexes[v.Position][v.UV];
-						chipVertexPositionToFaceIndexes[v.Position].push_back(chipFaces.size());
-					}
-
-					chipFaces.push_back(f_);
-				}
+				importChip(chip, isOuter);
 			}
 		}
 
@@ -1899,6 +2051,79 @@ namespace asd
 		vertices.clear();
 		faces.clear();
 
+		// 必要な領域のみを計算して出力する
+		std::map<int32_t, int32_t> indToNewInd;
+
+		for (size_t i = 0; i < chipVertices.size(); i++)
+		{
+			auto v = chipVertices[i];
+
+			if (outerVertices.count(v.OriginalPosition) > 0) continue;
+
+			Vertex cv;
+
+			cv.Position = v.Position;
+			cv.UV1 = v.UV;
+
+			Vector3DF normal;
+			Vector3DF binormal;
+			float ext = 0.0f;
+			int32_t count = 0;
+
+			for (auto ind : chipVertexPositionToFaceIndexes[v.OriginalPosition])
+			{
+				auto f = chipFaces[ind];
+
+				// 無効な面を飛ばす
+				if (f.Normal.GetSquaredLength() == 0.0f) continue;
+
+				normal += f.Normal;
+				binormal += f.Binormal;
+				count++;
+			}
+
+			normal /= (float) count;
+			binormal /= (float) count;
+
+			cv.Normal = normal;
+			cv.Binormal = binormal;
+
+			indToNewInd[i] = vertices.size();
+			vertices.push_back(cv);
+		}
+
+		for (size_t i = 0; i < chipFaces.size(); i++)
+		{
+			auto f = chipFaces[i];
+
+			bool continue_ = false;
+
+			for (int32_t j = 0; j < 3; j++)
+			{
+				if (indToNewInd.count(f.Indexes[j]) > 0)
+				{
+					f.Indexes[j] = indToNewInd[f.Indexes[j]];
+				}
+				else
+				{
+					continue_ = true;
+					break;
+				}
+			}
+	
+			if (continue_)
+			{
+				continue;
+			}
+			
+			Face face;
+			face.Index1 = f.Indexes[0];
+			face.Index2 = f.Indexes[1];
+			face.Index3 = f.Indexes[2];
+			faces.push_back(face);
+		}
+
+		/*
 		for (size_t i = 0; i < chipVertices.size(); i++)
 		{
 			auto v = chipVertices[i];
@@ -1946,7 +2171,7 @@ namespace asd
 
 		// 外周を切り取った範囲の頂点と面を出力する。
 		std::map<int32_t, int32_t> indToNewInd;
-		/*
+		
 		auto tempV = vertices;
 		vertices.clear();
 
