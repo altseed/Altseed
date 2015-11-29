@@ -773,6 +773,24 @@ namespace asd
 				v11_.X = vxz.X;
 				v11_.Z = vxz.Z;
 
+				// ややランダム
+				if (x != 0 && x != 1 && y != 0 && y != 1)
+				{
+					int rand = (int) ((int32_t)(v00_.X + v10_.X + v01_.X + v11_.X + v00_.Z + v10_.Z + v01.Z + v11_.Z) * 157 % 255 + (int32_t) (x * 213) % 255 + (int32_t) (y * 413) % 255);
+					rand %= 255;
+					float frand = rand / 255.0f;
+					frand = frand * 2.0f - 1.0f;
+
+					v00_.X += frand * gridSize / 8.0f;
+					v00_.Z += frand * gridSize / 8.0f;
+					v10_.X += frand * gridSize / 8.0f;
+					v10_.Z += frand * gridSize / 8.0f;
+					v01_.X += frand * gridSize / 8.0f;
+					v01_.Z += frand * gridSize / 8.0f;
+					v11_.X += frand * gridSize / 8.0f;
+					v11_.Z += frand * gridSize / 8.0f;
+				}
+
 				Vector3DF v0;
 				Vector3DF v1;
 
@@ -925,6 +943,24 @@ namespace asd
 					v10_.Y += hs[1] * gridSize / 2.0f;
 					v01_.Y += hs[2] * gridSize / 2.0f;
 					v11_.Y += hs[3] * gridSize / 2.0f;
+				}
+
+				// ややランダム
+				if (x != 0 && x != 1 && y != 0 && y != 1)
+				{
+					int rand = (int) ((int32_t) (v00_.X + v10_.X + v01_.X + v11_.X + v00_.Z + v10_.Z + v01.Z + v11_.Z) * 157 % 255 + (int32_t) (x * 213) % 255 + (int32_t) (y * 413) % 255);
+					rand %= 255;
+					float frand = rand / 255.0f;
+					frand = frand * 2.0f - 1.0f;
+
+					v00_.X += frand * gridSize / 8.0f;
+					v00_.Z += frand * gridSize / 8.0f;
+					v10_.X += frand * gridSize / 8.0f;
+					v10_.Z += frand * gridSize / 8.0f;
+					v01_.X += frand * gridSize / 8.0f;
+					v01_.Z += frand * gridSize / 8.0f;
+					v11_.X += frand * gridSize / 8.0f;
+					v11_.Z += frand * gridSize / 8.0f;
 				}
 
 				Vector3DF v0 = (v10_ - v00_) * x + v00_;
@@ -1414,7 +1450,7 @@ namespace asd
 						chip.Faces.push_back(f);
 					}
 
-					const int32_t division = 4;
+					const int32_t division = 6;
 
 					// 側面形成
 					auto sortedLines = SortLines(chip.Lines);
@@ -1474,9 +1510,11 @@ namespace asd
 									v_.UV.Y = (p / (float) (division - 1));
 
 									if (p == 0) v_.ExtendedRate = 0.0f;
-									if (p == 1) v_.ExtendedRate = 1.0f;
-									if (p == 2) v_.ExtendedRate = -0.5f;
-									if (p == 3) v_.ExtendedRate = 0.0f;
+									if (p == 1) v_.ExtendedRate = 2.0f;
+									if (p == 2) v_.ExtendedRate = 1.8f;
+									if (p == 3) v_.ExtendedRate = -0.5f;
+									if (p == 4) v_.ExtendedRate = -0.4f;
+									if (p == 5) v_.ExtendedRate = 0.0f;
 
 									chip.Vertecies.push_back(v_);
 								}
