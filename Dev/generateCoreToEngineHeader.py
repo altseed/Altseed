@@ -118,6 +118,8 @@ fromCoreToEngine.readLines("asd_cpp/core/Graphics/3D/Resource/Animation/asd.Anim
 
 fromCoreToEngine.readLines("asd_cpp/core/Graphics/asd.Graphics.h")
 
+fromCoreToEngine.readLines("asd_cpp/core/Window/asd.Cursor.h")
+
 fromCoreToEngine.readLines("asd_cpp/core/Core/asd.Core.h")
 fromCoreToEngine.readLines("asd_cpp/core/Core/asd.CreateCore.h")
 

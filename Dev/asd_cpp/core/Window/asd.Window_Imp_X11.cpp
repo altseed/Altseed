@@ -84,9 +84,9 @@ Window_Imp* Window_Imp_X11::Create(int32_t width, int32_t height, const achar* t
 //----------------------------------------------------------------------------------
 Window_Imp_X11::Window_Imp_X11(GLFWwindow* window, int32_t width, int32_t height, Log* logger, bool isFullScreen)
 	: Window_Imp(logger)
-	, m_window(window)
 	, m_closed(false)
 {
+	m_window = window;
 	m_size.X = width;
 	m_size.Y = height;
 	glfwSetWindowUserPointer(window, this);

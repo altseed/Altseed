@@ -77,9 +77,9 @@ Window_Imp* Window_Imp_Win::Create(int32_t width, int32_t height, const achar* t
 //----------------------------------------------------------------------------------
 Window_Imp_Win::Window_Imp_Win(GLFWwindow* window, int32_t width, int32_t height, Log* logger, bool isFullScreen)
 	: Window_Imp(logger)
-	, m_window(window)
 	, m_closed(false)
 {
+	m_window = window;
 	m_size.X = width;
 	m_size.Y = height;
 	glfwSetWindowUserPointer(window, this);

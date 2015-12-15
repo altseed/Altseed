@@ -128,6 +128,20 @@ namespace asd {
 		virtual void Close() = 0;
 
 		/**
+			@brief	マウスカーソルを作成する。
+			@param	path	画像のパス
+			@param	hot		カーソルの相対座標
+			@return	カーソル
+		*/
+		virtual Cursor* CreateCursor(const achar* path, Vector2DI hot) = 0;
+
+		/**
+			@brief	マウスカーソルを設定する。
+			@param	cursor	カーソル
+		*/
+		virtual void SetCursor(Cursor* cursor) = 0;
+
+		/**
 			@brief	スクリーンショットをpngとして保存する。
 			@param	path	出力先
 		*/

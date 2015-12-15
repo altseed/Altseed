@@ -54,6 +54,8 @@ CPP_OBJECT( asd::CorePostEffect_Imp )
 
 CPP_OBJECT( asd::CoreTransition )
 
+CPP_OBJECT( asd::Cursor )
+
 CPP_OBJECT( asd::SoundSource )
 
 CPP_OBJECT( asd::Texture )
@@ -145,6 +147,7 @@ CPP_OBJECT( asd::StreamFile )
 %include "asd_cpp/core/asd.Core.Base.h"
 %include "asd_cpp/core/asd.ReferenceObject.h"
 
+%include "asd_cpp/core/Window/asd.Cursor.h"
 %include "asd_cpp/core/Window/asd.Window.h"
 %include "asd_cpp/core/Window/asd.Window_Imp.h"
 

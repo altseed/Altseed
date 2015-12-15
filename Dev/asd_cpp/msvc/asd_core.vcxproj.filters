@@ -996,6 +996,12 @@
     <ClInclude Include="..\core\Graphics\Shader\DX\3D\Ocean_VS.h">
       <Filter>Graphics\Shader\DX\3D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\Window\asd.Cursor_Imp.h">
+      <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\Window\asd.Cursor.h">
+      <Filter>Window</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1407,6 +1413,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Graphics\3D\Renderer\asd.OceanRendering.cpp">
       <Filter>Graphics\3D\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\Window\asd.Cursor_Imp.cpp">
+      <Filter>Window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

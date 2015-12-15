@@ -21,8 +21,6 @@ class Window_Imp_X11 : public Window_Imp
 private:
 	bool		m_closed;
 
-	GLFWwindow*	m_window;
-
 	static void CallbackOnFocus(GLFWwindow* window, int b);
 	void Unregist();
 public:

@@ -1,6 +1,7 @@
 ﻿#include <asd.common.Base.h>
 #include <Math/asd.RectF.h>
 
+#include "Window/asd.Cursor.h"
 #include "Window/asd.Window_Imp.h"
 #include "Log/asd.Log_Imp.h"
 

@@ -1116,6 +1116,17 @@ namespace asd {
 	}
 
 	/// <summary>
+	/// 
+	/// </summary>
+	public partial class Cursor
+	{
+		internal asd.swig.Cursor CoreInstance { get; set; }
+
+
+	}
+
+
+	/// <summary>
 	/// エフェクトの情報が記録されているクラス 
 	/// </summary>
 	public partial class Effect

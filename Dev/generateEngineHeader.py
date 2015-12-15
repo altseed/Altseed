@@ -131,6 +131,8 @@ engineHeader.readLines("asd_cpp/core/Graphics/asd.Graphics.h")
 
 engineHeader.readLines("asd_cpp/core/Shape/asd.ShapeType.h")
 
+engineHeader.readLines("asd_cpp/core/Window/asd.Cursor.h")
+
 engineHeader.readLines("asd_cpp/core/Core/asd.Core.h")
 
 engineHeader.readLines("asd_cpp/core/ObjectSystem/asd.ChildMode.h")

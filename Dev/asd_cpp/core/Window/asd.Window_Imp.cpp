@@ -3,6 +3,8 @@
 //
 //----------------------------------------------------------------------------------
 #include "asd.Window_Imp.h"
+#include "asd.Cursor_Imp.h"
+
 #include "../Log/asd.Log_Imp.h"
 
 #ifdef _WIN32
@@ -26,7 +28,7 @@ Window_Imp::Window_Imp(Log* logger)
 
 Window_Imp::~Window_Imp()
 {
-
+	SafeRelease(currentCursor);
 }
 
 Window_Imp* Window_Imp::Create(int32_t width, int32_t height, const achar* title, Log* logger, bool isFullScreen)
@@ -45,6 +47,21 @@ Window_Imp* Window_Imp::Create(int32_t width, int32_t height, const achar* title
 		if (logger != nullptr) logger->WriteLine("ウインドウ作成成功");
 	}
 	return ret;
+}
+
+void Window_Imp::SetCursor(Cursor* cursor)
+{
+	if (cursor == nullptr)
+	{
+		glfwSetCursor(m_window,nullptr);
+		SafeRelease(currentCursor);
+		return;
+	}
+
+	auto c = (Cursor_Imp*) cursor;
+	glfwSetCursor(m_window, c->GetNative());
+
+	SafeSubstitute(currentCursor, cursor);
 }
 
 //----------------------------------------------------------------------------------

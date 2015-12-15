@@ -40,8 +40,6 @@ class Window_Imp_Win : public Window_Imp
 private:
 	bool		m_closed;
 
-	GLFWwindow*	m_window;
-
 	static void CallbackOnFocus(GLFWwindow* window, int b);
 	void Unregist();
 

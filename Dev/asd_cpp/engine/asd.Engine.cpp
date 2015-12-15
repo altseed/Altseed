@@ -604,6 +604,17 @@ namespace asd
 		SafeRelease(m_core);
 	}
 
+	std::shared_ptr<Cursor> Engine::CreateCursor(const achar* path, Vector2DI hot)
+	{
+		auto c = m_core->CreateCursor(path, hot);
+		return CreateSharedPtrWithReleaseDLL(c);
+	}
+
+	void Engine::SetCursor(std::shared_ptr<Cursor> cursor)
+	{
+		m_core->SetCursor(cursor.get());
+	}
+
 	int32_t Engine::GetReferenceCount()
 	{
 		return g_GetGlobalRef();

@@ -4,6 +4,7 @@
 //----------------------------------------------------------------------------------
 #include "asd.Core_Imp.h"
 #include "../Window/asd.Window_Imp.h"
+#include "../Window/asd.Cursor_Imp.h"
 #include "../Input/asd.Keyboard_Imp.h"
 #include "../Input/asd.Mouse_Imp.h"
 #include "../Input/asd.JoystickContainer_Imp.h"
@@ -613,6 +614,16 @@ namespace asd
 	void Core_Imp::Close()
 	{
 		m_window->Close();
+	}
+
+	Cursor* Core_Imp::CreateCursor(const achar* path, Vector2DI hot)
+	{
+		return Cursor_Imp::Create(GetFile(), path, hot);
+	}
+
+	void Core_Imp::SetCursor(Cursor* cursor)
+	{
+		m_window->SetCursor(cursor);
 	}
 
 	//----------------------------------------------------------------------------------

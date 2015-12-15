@@ -11,6 +11,12 @@ namespace asd
 	/// </summary>
 	class IG
 	{
+		static public swig.Cursor GetCursor(Cursor o)
+		{
+			if (o == null) return null;
+			return o.CoreInstance;
+		}
+
 		static public swig.Texture2D GetTexture2D(Texture2D o)
 		{
 			if (o == null) return null;

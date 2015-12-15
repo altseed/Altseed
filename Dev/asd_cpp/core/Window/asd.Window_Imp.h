@@ -27,6 +27,9 @@ namespace asd {
 	protected:
 		Vector2DI	m_size;
 		Log*		m_logger;
+		Cursor*		currentCursor = nullptr;
+
+		GLFWwindow*	m_window = nullptr;
 
 		Window_Imp(Log* logger);
 		virtual ~Window_Imp();
@@ -43,6 +46,8 @@ namespace asd {
 		static Window_Imp* Create(int32_t width, int32_t height, const achar* title, Log* logger = nullptr, bool isFullScreen = false);
 
 		Vector2DI GetSize() const { return m_size; }
+
+		void SetCursor(Cursor* cursor);
 
 #ifndef SWIG
 		std::function<void()> OnFocused;

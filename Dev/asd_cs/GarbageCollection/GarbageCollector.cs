@@ -36,6 +36,8 @@ namespace asd
 				{
 					if (TryRelease<swig.SoundSource>(o)) continue;
 
+					if (TryRelease<swig.Cursor>(o)) continue;
+
 					if (TryRelease<swig.Texture2D>(o)) continue;
 					if (TryRelease<swig.Texture2D_Imp>(o)) continue;
 					if (TryRelease<swig.RenderTexture2D>(o)) continue;

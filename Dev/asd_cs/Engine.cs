@@ -382,6 +382,26 @@ namespace asd
 		}
 
 		/// <summary>
+		/// マウスカーソルを作成する。
+		/// </summary>
+		/// <param name="path">画像のパス</param>
+		/// <param name="hot">カーソルの相対座標</param>
+		/// <returns>カーソル</returns>
+		public static Cursor CreateCursor(string path, Vector2DI hot)
+		{
+			return GC.GenerateCursor(core.CreateCursor(path, hot), GC.GenerationType.Create);
+		}
+
+		/// <summary>
+		/// マウスカーソルを設定する。
+		/// </summary>
+		/// <param name="cursor">カーソル</param>
+		public static void SetCursor(Cursor cursor)
+		{
+			core.SetCursor(IG.GetCursor(cursor));
+		}
+
+		/// <summary>
 		/// 内部の参照数を取得する。
 		/// </summary>
 		/// <remarks>

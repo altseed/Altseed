@@ -14,7 +14,10 @@ namespace asd {
 	//----------------------------------------------------------------------------------
 	class Core;
 	class Graphics;
+	
 	class Window;
+	class Cursor;
+	
 	class Keyboard;
 	class Mouse;
 	class Log;

@@ -11,6 +11,8 @@ namespace asd
 		internal static GarbageCollector Collector { get; private set; }
 
 		internal static IDObjectContainer<SoundSource> SoundSources { get; private set; }
+
+		internal static IDObjectContainer<Cursor> Cursors { get; private set; }
 		
 		internal static IDObjectContainer<Texture2D> Texture2Ds { get; private set; }
 		internal static IDObjectContainer<CubemapTexture> CubemapTextures { get; private set; }
@@ -59,6 +61,8 @@ namespace asd
 			Collector = new GarbageCollector();
 
 			SoundSources = new IDObjectContainer<SoundSource>();
+
+			Cursors = new IDObjectContainer<Cursor>();
 
 			Texture2Ds = new IDObjectContainer<Texture2D>();
 			CubemapTextures = new IDObjectContainer<CubemapTexture>();
@@ -113,6 +117,8 @@ namespace asd
 			for (int loop = 0; loop < 3; loop++)
 			{
 				SoundSources.DestroyAll();
+
+				Cursors.DestroyAll();
 
 				Texture2Ds.DestroyAll();
 				CubemapTextures.DestroyAll();
@@ -199,6 +205,25 @@ namespace asd
 
 			var ret = new SoundSource(o);
 			GC.SoundSources.AddObject(p, ret);
+			return ret;
+		}
+
+		/// <summary>
+		/// ネイティブのインスタンスからラッパー側のインスタンスを生成する。
+		/// </summary>
+		/// <param name="o"></param>
+		/// <param name="type"></param>
+		internal static Cursor GenerateCursor(swig.Cursor o, GenerationType type)
+		{
+			if (o == null) return null;
+			var p = o.GetPtr();
+
+			var existing = GC.Cursors.GetObject(p);
+			existing = GenerateInternal(existing, o, type);
+			if (existing != null) return existing;
+
+			var ret = new Cursor(o);
+			GC.Cursors.AddObject(p, ret);
 			return ret;
 		}
 

@@ -129,6 +129,20 @@ namespace asd {
 		static void Terminate();
 
 		/**
+		@brief	マウスカーソルを作成する。
+		@param	path	画像のパス
+		@param	hot		カーソルの相対座標
+		@return	カーソル
+		*/
+		static std::shared_ptr<Cursor> CreateCursor(const achar* path, Vector2DI hot);
+
+		/**
+		@brief	マウスカーソルを設定する。
+		@param	cursor	カーソル
+		*/
+		static void SetCursor(std::shared_ptr<Cursor> cursor);
+
+		/**
 			@brief	内部の参照数を取得する。
 			@note
 			内部オブジェクト間の参照の数を取得する。
