@@ -56,6 +56,13 @@ namespace asd {
 		RectF(float x, float y, float width, float height);
 
 		/**
+		@brief	コンストラクタ
+		@param	position	左上座標
+		@param	size	大きさ
+		*/
+		RectF(Vector2DF position, Vector2DF size);
+
+		/**
 		@brief	左上座標を取得する。
 		@return	左上座標
 		*/
@@ -74,6 +81,12 @@ namespace asd {
 		std::array<Vector2DF, 4> GetVertexes() const;
 
 		bool operator!=(const RectF& right);
+
+		/**
+		@brief	RectI型に変換する。
+		@return	RectI型
+		*/
+		RectI ToI() const;
 	};
 
 //----------------------------------------------------------------------------------

@@ -33,6 +33,32 @@ namespace asd
 		public float Height;
 
 		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		/// <param name="x">左上X座標</param>
+		/// <param name="y">左上Y座標</param>
+		/// <param name="width">横幅</param>
+		/// <param name="height">縦幅</param>
+		public RectF(float x, float y, float width, float height)
+			: this()
+		{
+			this.X = x;
+			this.Y = y;
+			this.Width = width;
+			this.Height = height;
+		}
+
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
+		/// <param name="position">左上座標</param>
+		/// <param name="size">大きさ</param>
+		public RectF(Vector2DF position, Vector2DF size)
+			: this(position.X, position.Y, size.X, size.Y)
+		{
+		}
+
+		/// <summary>
 		/// 左上座標を取得する。
 		/// </summary>
 		public Vector2DF Position
@@ -64,19 +90,12 @@ namespace asd
 		}
 
 		/// <summary>
-		/// コンストラクタ
+		/// RectI型に変換する。
 		/// </summary>
-		/// <param name="x">左上X座標</param>
-		/// <param name="y">左上Y座標</param>
-		/// <param name="width">横幅</param>
-		/// <param name="height">縦幅</param>
-		public RectF(float x, float y, float width, float height)
-			: this()
+		/// <returns>RectI型</returns>
+		public RectI ToI()
 		{
-			this.X = x;
-			this.Y = y;
-			this.Width = width;
-			this.Height = height;
+			return new RectI((int)X, (int)Y, (int)Width, (int)Height);
 		}
 	}
 }
