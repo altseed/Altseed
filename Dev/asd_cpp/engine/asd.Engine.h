@@ -143,6 +143,18 @@ namespace asd {
 		static void SetCursor(std::shared_ptr<Cursor> cursor);
 
 		/**
+		@brief	クリップボードの内容を取得する。
+		@return	クリップボード
+		*/
+		static const achar* GetClipboardString();
+
+		/**
+		@brief	クリップボードの内容を設定する。
+		@param	s	文字列
+		*/
+		static void SetClipboardString(const achar* s);
+
+		/**
 			@brief	内部の参照数を取得する。
 			@note
 			内部オブジェクト間の参照の数を取得する。
