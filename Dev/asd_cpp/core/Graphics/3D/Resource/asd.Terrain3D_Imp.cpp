@@ -2446,6 +2446,51 @@ namespace asd
 				}
 
 				// サーフェイス
+
+				// メモリ削減のためにサーフェースのサイズが等しければ頂点バッファ共通化
+				bool isSameSize = true;
+				float surfaceSize = 0.0f;
+				if (surfaceNameToSurface.size() > 0)
+				{
+					surfaceSize = surfaceNameToSurface.begin()->second.Size;
+
+					for (auto& surface : surfaceNameToSurface)
+					{
+						if (surfaceSize != surface.second.Size)
+						{
+							isSameSize = false;
+							break;
+						}
+					}
+				}
+
+				std::shared_ptr<VertexBuffer_Imp> commonVB;
+				if (isSameSize)
+				{
+					commonVB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs.size(), false);
+
+					{
+						commonVB->Lock();
+						auto buf = commonVB->GetBuffer<Vertex>(vs.size());
+						for (auto i = 0; i < vs.size(); i++)
+						{
+							Vertex v = vs[i];
+
+							v.UV1.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / surfaceSize;
+							v.UV1.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / surfaceSize;
+
+							v.UV2.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridWidthCount);
+							v.UV2.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridHeightCount);
+
+							v.VColor = Color(255, 255, 255, 255);
+
+							buf[i] = v;
+						}
+
+						commonVB->Unlock();
+					}
+				}
+				
 				int32_t surfaceInd = 0;
 				for (auto& surface : surfaceNameToSurface)
 				{
@@ -2541,30 +2586,37 @@ namespace asd
 							}
 						}
 						
-
-						p.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs.size(), false);
-						p.IB = g->CreateIndexBuffer_Imp(fs_.size() * 3, false, true);
-
+						if (isSameSize)
 						{
-							p.VB->Lock();
-							auto buf = p.VB->GetBuffer<Vertex>(vs.size());
-							for (auto i = 0; i < vs.size(); i++)
-							{
-								Vertex v = vs[i];
-
-								v.UV1.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / surface.second.Size;
-								v.UV1.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / surface.second.Size;
-								
-								v.UV2.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridWidthCount);
-								v.UV2.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridHeightCount);
-
-								v.VColor = Color(255, 255, 255, 255);
-
-								buf[i] = v;
-							}
-
-							p.VB->Unlock();
+							p.VB = commonVB;
 						}
+						else
+						{
+							p.VB = g->CreateVertexBuffer_Imp(sizeof(Vertex), vs.size(), false);
+
+							{
+								p.VB->Lock();
+								auto buf = p.VB->GetBuffer<Vertex>(vs.size());
+								for (auto i = 0; i < vs.size(); i++)
+								{
+									Vertex v = vs[i];
+
+									v.UV1.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / surface.second.Size;
+									v.UV1.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / surface.second.Size;
+
+									v.UV2.X = (v.Position.X + (gridWidthCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridWidthCount);
+									v.UV2.Y = (v.Position.Z + (gridHeightCount * gridSize / 2.0f)) / (float) gridSize / (float) (gridHeightCount);
+
+									v.VColor = Color(255, 255, 255, 255);
+
+									buf[i] = v;
+								}
+
+								p.VB->Unlock();
+							}
+						}
+
+						p.IB = g->CreateIndexBuffer_Imp(fs_.size() * 3, false, true);
 
 						{
 							p.IB->Lock();
