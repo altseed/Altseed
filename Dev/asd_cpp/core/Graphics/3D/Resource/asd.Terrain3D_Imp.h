@@ -246,6 +246,10 @@ namespace asd
 
 		bool Commit() override;
 
+		void Fix() override;
+
+		void ClearCollisions() override;
+
 		void New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount) override;
 
 		void LoadFromMemory(const std::vector<uint8_t>& buffer) override;

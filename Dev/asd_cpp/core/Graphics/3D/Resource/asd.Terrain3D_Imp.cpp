@@ -2589,6 +2589,24 @@ namespace asd
 		return true;
 	}
 
+	void Terrain3D_Imp::Fix()
+	{
+		this->Chips.clear();
+		this->Chips.shrink_to_fit();
+
+		this->surfaceNameToIndex.clear();
+		this->surfaceNameToSurface.clear();
+
+		this->surfaces.clear();
+		this->surfaces.shrink_to_fit();
+	}
+
+	void Terrain3D_Imp::ClearCollisions()
+	{
+		this->collisionClusters.clear();
+		this->collisionClusters.shrink_to_fit();
+	}
+
 	void Terrain3D_Imp::New(float gridSize, int32_t gridWidthCount, int32_t gridHeightCount)
 	{
 		this->gridWidthCount = gridWidthCount;
