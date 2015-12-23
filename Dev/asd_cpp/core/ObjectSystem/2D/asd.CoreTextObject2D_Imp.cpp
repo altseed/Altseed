@@ -201,8 +201,8 @@ namespace asd
 
 		if (font_Imp == nullptr) return;
 
-		auto parentMatrix = m_transform.GetParentsMatrix();
-		auto matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = GetParentsMatrix();
+		auto matrix = GetMatrixToTransform();
 
 		Vector2DF min = Vector2DF(FLT_MAX, FLT_MAX);
 		Vector2DF max = Vector2DF(-FLT_MAX, -FLT_MAX);
@@ -302,8 +302,8 @@ namespace asd
 			return;
 		}
 
-		auto parentMatrix = m_transform.GetParentsMatrix();
-		auto matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = GetParentsMatrix();
+		auto matrix = GetMatrixToTransform();
 
 		renderer->AddText(
 			parentMatrix,

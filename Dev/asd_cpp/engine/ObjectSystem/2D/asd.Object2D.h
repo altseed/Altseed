@@ -176,7 +176,7 @@ namespace asd
 			@param	child	追加する子オブジェクト
 			@param	mode	子オブジェクトの同期モード
 		*/
-		void AddChild(const Object2D::Ptr& child, ChildMode mode);
+		void AddChild(const Object2D::Ptr& child, ChildManagementMode::Flags managementMode, ChildTransformingMode transformingMode);
 		/**
 			@brief	指定した子オブジェクトをこのインスタンスから削除する。
 			@param	child	削除する子オブジェクト

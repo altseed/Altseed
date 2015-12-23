@@ -148,9 +148,9 @@ namespace asd
 		m_owner = layer;
 	}
 
-	void Object2D::AddChild(const Object2D::Ptr& child, ChildMode mode)
+	void Object2D::AddChild(const Object2D::Ptr& child, ChildManagementMode::Flags managementMode, ChildTransformingMode transformingMode)
 	{
-		GetCoreObject()->AddChild((child->GetCoreObject()), mode);
+		GetCoreObject()->AddChild((child->GetCoreObject()), managementMode, transformingMode);
 		m_children.push_back(child);
 	}
 

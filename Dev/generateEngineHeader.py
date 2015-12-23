@@ -135,7 +135,6 @@ engineHeader.readLines("asd_cpp/core/Window/asd.Cursor.h")
 
 engineHeader.readLines("asd_cpp/core/Core/asd.Core.h")
 
-engineHeader.readLines("asd_cpp/core/ObjectSystem/asd.ChildMode.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/PostEffect/asd.PostEffect.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/PostEffect/asd.PostEffectGrayScale.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/PostEffect/asd.PostEffectSepia.h")
@@ -159,6 +158,10 @@ engineHeader.readLines("asd_cpp/engine/Shape/asd.ArcShape.h")
 engineHeader.readLines("asd_cpp/engine/Shape/asd.RectangleShape.h")
 engineHeader.readLines("asd_cpp/engine/Shape/asd.LineShape.h")
 engineHeader.readLines("asd_cpp/engine/Shape/asd.PolygonShape.h")
+
+engineHeader.readLines("asd_cpp/core/ObjectSystem/asd.ChildManagementMode.h")
+engineHeader.readLines("asd_cpp/core/ObjectSystem/asd.ChildTransformingMode.h")
+engineHeader.readLines("asd_cpp/core/ObjectSystem/asd.ChildDrawingMode.h")
 
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/asd.ContentsManager.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/2D/asd.Chip2D.h")

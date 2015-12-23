@@ -24,6 +24,7 @@ namespace asd
 
 		ObjectInfo2D	m_objectInfo;
 		TransformInfo2D m_transform;
+		ParentInfo2D::Ptr m_parentInfo;
 		Graphics_Imp*	m_graphics;
 		culling2d::Circle m_boundingCircle;
 		culling2d::Object *cullingObject;
@@ -35,6 +36,7 @@ namespace asd
 	public:
 		CoreObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreObject2D_Imp();
+
 
 		virtual void CalculateBoundingCircle(){}
 
@@ -57,6 +59,9 @@ namespace asd
 		{
 			alreadyCullingUpdated = cullingUpdated;
 		}
+
+		culling2d::Circle& GetBoundingCircle();
+
 
 		int32_t GetCameraGroup() const
 		{
@@ -92,6 +97,32 @@ namespace asd
 			m_objectInfo.SetIsAlive(value);
 		}
 
+
+		void SetLayer(CoreLayer2D* layer)
+		{
+			m_objectInfo.SetLayer(layer);
+		}
+
+		CoreLayer2D* GetLayer()
+		{
+			return m_objectInfo.GetLayer();
+		}
+
+		void SetParent(CoreObject2D& parent, ChildManagementMode::Flags managementMode, ChildTransformingMode transformingMode)
+		{
+			m_parentInfo = std::make_shared<ParentInfo2D>(&parent, managementMode, transformingMode);
+		}
+
+		void ClearParent()
+		{
+			m_parentInfo = nullptr;
+		}
+
+		virtual void OnAdded(Renderer2D* renderer) {}
+
+		virtual void OnRemoving(Renderer2D* renderer) {}
+
+
 		Vector2DF GetPosition() const
 		{
 			return m_transform.GetPosition();
@@ -103,10 +134,12 @@ namespace asd
 			SetCullingUpdate(this);
 		}
 
-
 		Vector2DF GetGlobalPosition()
 		{
-			return m_transform.GetGlobalPosition();
+			auto vec2 = GetPosition();
+			auto vec3 = Vector3DF(vec2.X, vec2.Y, 1);
+			auto result = GetParentsMatrix() * vec3;
+			return Vector2DF(result.X, result.Y);
 		}
 
 		float GetAngle() const
@@ -129,26 +162,6 @@ namespace asd
 			SetCullingUpdate(this);
 		}
 
-		void SetLayer(CoreLayer2D* layer)
-		{
-			m_objectInfo.SetLayer(layer);
-		}
-
-		CoreLayer2D* GetLayer()
-		{
-			return m_objectInfo.GetLayer();
-		}
-
-		void SetParent(CoreObject2D& parent, ChildMode mode)
-		{
-			m_transform.SetParent(parent, mode);
-		}
-
-		void ClearParent()
-		{
-			m_transform.ClearParent();
-		}
-
 		Matrix33 GetMatrixToTranslate()
 		{
 			return m_transform.GetMatrixToTranslate();
@@ -161,13 +174,14 @@ namespace asd
 
 		Matrix33 GetParentsMatrix()
 		{
-			return m_transform.GetParentsMatrix();
+			if (m_parentInfo != nullptr)
+			{
+				return m_parentInfo->GetInheritedMatrix();
+			}
+			else
+			{
+				return Matrix33();
+			}
 		}
-
-		virtual void OnAdded(Renderer2D* renderer) {}
-
-		virtual void OnRemoving(Renderer2D* renderer) {}
-
-		culling2d::Circle& GetBoundingCircle();
 	};
 }

@@ -181,8 +181,8 @@ namespace asd
 			}
 		}
 
-		auto parentMatrix = m_transform.GetParentsMatrix();
-		auto matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = GetParentsMatrix();
+		auto matrix = GetMatrixToTransform();
 
 		for (auto& pos : position)
 		{
@@ -232,8 +232,8 @@ namespace asd
 
 		auto textureSize = m_texture != nullptr ? m_texture->GetSize() : Vector2DI(1, 1);
 
-		auto parentMatrix = m_transform.GetParentsMatrix();
-		auto matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = GetParentsMatrix();
+		auto matrix = GetMatrixToTransform();
 
 		for (auto& pos : position)
 		{

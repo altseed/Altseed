@@ -32,7 +32,7 @@ protected:
 		child->SetPosition(Vector2DF(10, 10));
 		child->SetTexture(Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str()));
 		
-		obj->AddChild(child, asd::ChildMode::Position);
+		obj->AddChild(child, ChildManagementMode::Nothing, ChildTransformingMode::Position);
 		Engine::AddObject2D(child);
 	}
 

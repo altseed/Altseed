@@ -106,8 +106,8 @@ namespace asd
 	{
 		auto pos = GetPosition();
 
-		auto parentMatrix = m_transform.GetParentsMatrix();
-		auto matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = GetParentsMatrix();
+		auto matrix = GetMatrixToTransform();
 		auto mat = parentMatrix * matrix;
 
 		Vector2DF t;

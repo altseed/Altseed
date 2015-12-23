@@ -10,7 +10,7 @@ namespace asd
 	@brief	フォントの情報が記録されているクラス
 	*/
 	class CoreChip2D
-		:public IReference
+		: public IReference
 	{
 		friend class Accessor;
 	private:

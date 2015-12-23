@@ -3,13 +3,14 @@
 #include "../common/Math/asd.RectI.h"
 #include "../common/Math/asd.Matrix33.h"
 #include "../../Graphics/Resource/asd.RenderTexture2D.h"
+#include "asd.DrawnObject2D.h"
 
 namespace asd
 {
 	class CoreShape;
 
 	class CoreGeometryObject2D
-		: public CoreObject2D
+		: public DrawnObject2D
 	{
 	public:
 		CoreGeometryObject2D() {}

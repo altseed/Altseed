@@ -5,7 +5,7 @@ namespace asd
 	/**
 		@brief	オブジェクトの親子関係の同期方法を表す列挙体
 	*/
-	enum class ChildMode : int32_t
+	enum class ChildTransformingMode : int32_t
 	{
 		/**
 			@brief	位置のみを同期する。

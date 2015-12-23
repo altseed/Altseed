@@ -23,7 +23,6 @@ namespace asd
 
 		Vector2DF GetPosition() const;
 		void SetPosition(Vector2DF position);
-		Vector2DF GetGlobalPosition();
 
 		float GetAngle() const;
 		void SetAngle(float value);
@@ -31,16 +30,10 @@ namespace asd
 		Vector2DF GetScale() const;
 		void SetScale(Vector2DF value);
 
-		CoreObject2D& GetParent();
-		void SetParent(CoreObject2D& parent, ChildMode mode);
-		void ClearParent();
-
-		ChildMode GetChildMode() const;
-		void SetChildMode(ChildMode value);
+		ChildTransformingMode GetChildTransformingMode() const;
+		void SetChildTransformingMode(ChildTransformingMode value);
 
 		Matrix33 GetMatrixToTranslate();
 		Matrix33 GetMatrixToTransform();
-
-		Matrix33 GetParentsMatrix();
 	};
 }

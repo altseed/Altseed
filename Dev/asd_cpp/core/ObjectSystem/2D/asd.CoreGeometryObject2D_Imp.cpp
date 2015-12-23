@@ -126,8 +126,8 @@ namespace asd
 			position[3] = position[2];
 			uvs[3] = uvs[2];
 
-			auto parentMatrix = m_transform.GetParentsMatrix();
-			auto matrix = m_transform.GetMatrixToTransform();
+			auto parentMatrix = GetParentsMatrix();
+			auto matrix = GetMatrixToTransform();
 
 			for (auto& pos : position)
 			{
@@ -179,8 +179,8 @@ namespace asd
 		auto p4 = m_boundingCircle.Position + culling2d::Vector2DF(0, m_boundingCircle.Radius);
 		position[3] = Vector2DF(p4.X, p4.Y);
 
-		auto parentMatrix = m_transform.GetParentsMatrix();
-		auto matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = GetParentsMatrix();
+		auto matrix = GetMatrixToTransform();
 
 		Vector2DF sum = Vector2DF();
 		for (auto& pos : position)
