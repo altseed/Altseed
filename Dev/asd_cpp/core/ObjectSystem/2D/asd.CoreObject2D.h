@@ -1,7 +1,8 @@
 ﻿#pragma once
 #include "../common/Math/asd.Vector2DF.h"
 #include "../common/Math/asd.Matrix33.h"
-#include "../asd.ChildMode.h"
+#include "../asd.ChildManagementMode.h"
+#include "../asd.ChildTransformingMode.h"
 #include "../../Graphics/2D/asd.Renderer2D.h"
 #include "asd.CoreLayer2D.h"
 
@@ -36,7 +37,7 @@ namespace asd
 		virtual Vector2DF GetScale() const = 0;
 		virtual void SetScale(Vector2DF value) = 0;
 
-		virtual void AddChild(CoreObject2D* chlid, ChildMode mode) = 0;
+		virtual void AddChild(CoreObject2D* chlid, ChildManagementMode::Flags managementMode, ChildTransformingMode transformingMode) = 0;
 		virtual void RemoveChild(CoreObject2D* chlid) = 0;
 
 #if !SWIG
@@ -44,7 +45,7 @@ namespace asd
 
 		virtual void SetLayer(CoreLayer2D* layer) = 0;
 		virtual CoreLayer2D* GetLayer() = 0;
-		virtual void SetParent(CoreObject2D& parent, ChildMode mode) = 0;
+		virtual void SetParent(CoreObject2D& parent, ChildManagementMode::Flags managementMode, ChildTransformingMode transformingMode) = 0;
 		virtual void ClearParent() = 0;
 
 		virtual Matrix33 GetMatrixToTranslate() = 0;

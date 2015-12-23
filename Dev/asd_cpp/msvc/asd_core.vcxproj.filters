@@ -848,9 +848,6 @@
     <ClInclude Include="..\core\Input\asd.MouseButtonState.h">
       <Filter>Input</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\asd.ChildMode.h">
-      <Filter>ObjectSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\asd.StructTranslator.h" />
     <ClInclude Include="..\core\Graphics\Resource\asd.ImagePackage_Imp.h">
       <Filter>Graphics\Resource</Filter>
@@ -1001,6 +998,21 @@
     </ClInclude>
     <ClInclude Include="..\core\Window\asd.Cursor.h">
       <Filter>Window</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\asd.ChildTransformingMode.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\asd.ChildManagementMode.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\asd.ChildDrawingMode.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.DrawnParentInfo2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.DrawnObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

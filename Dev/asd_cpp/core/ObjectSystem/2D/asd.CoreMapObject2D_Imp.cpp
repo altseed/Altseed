@@ -240,8 +240,8 @@ namespace asd
 			return;
 		}
 
-		auto parentMatrix = m_transform.GetParentsMatrix();
-		auto matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = GetParentsMatrix();
+		auto matrix = GetMatrixToTransform();
 
 		for (auto chip : m_chips)
 		{
@@ -267,8 +267,8 @@ namespace asd
 		if (m_chips.find(chip_Imp) == m_chips.end() || texture == nullptr) return;
 
 
-		auto parentMatrix = m_transform.GetParentsMatrix();
-		auto matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = GetParentsMatrix();
+		auto matrix = GetMatrixToTransform();
 
 		DrawChipInternal(chip_Imp, matrix, parentMatrix, renderer);
 	}
@@ -280,8 +280,8 @@ namespace asd
 	{
 		culling2d::Circle circle = culling2d::Circle();
 
-		auto parentMatrix = m_transform.GetParentsMatrix();
-		auto matrix = m_transform.GetMatrixToTransform();
+		auto parentMatrix = GetParentsMatrix();
+		auto matrix = GetMatrixToTransform();
 
 		auto chip_Imp = (CoreChip2D_Imp*)chip;
 

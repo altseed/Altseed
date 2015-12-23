@@ -4,12 +4,13 @@
 #include "../common/Graphics/asd.Color.h"
 #include "../../Graphics/Resource/asd.Font.h"
 #include "asd.CoreObject2D.h"
+#include "asd.DrawnObject2D.h"
 
 namespace asd
 {
 
 	class CoreTextObject2D
-		: public CoreObject2D
+		: public DrawnObject2D
 	{
 	public:
 		CoreTextObject2D() {}

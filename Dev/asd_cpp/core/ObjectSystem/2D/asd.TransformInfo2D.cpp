@@ -32,13 +32,6 @@ namespace asd
 		m_matrixToTransform = nullptr;
 	}
 
-	Vector2DF TransformInfo2D::GetGlobalPosition()
-	{
-		auto pos = Vector3DF(m_position.X, m_position.Y, 1);
-		Vector3DF result = GetParentsMatrix() * pos;
-		return Vector2DF(result.X, result.Y);
-	}
-
 	float TransformInfo2D::GetAngle() const
 	{
 		return m_angle;
@@ -85,58 +78,14 @@ namespace asd
 		return *m_matrixToTransform;
 	}
 
-	Matrix33 TransformInfo2D::GetParentsMatrix()
+	ChildTransformingMode TransformInfo2D::GetChildTransformingMode() const
 	{
-		if (m_parentInfo != nullptr)
-		{
-			auto& parent = m_parentInfo->GetParent();
-			switch (m_parentInfo->GetChildMode())
-			{
-			case ChildMode::Position:
-				return parent.GetParentsMatrix() * parent.GetMatrixToTranslate();
-
-			case ChildMode::All:
-				return parent.GetParentsMatrix() * parent.GetMatrixToTransform();
-
-			case ChildMode::Nothing:
-				return parent.GetParentsMatrix() * Matrix33();
-			}
-			assert(false);
-		}
-		else
-		{
-			return Matrix33();
-		}
+		return m_parentInfo->GetChildTransformingMode();
 	}
 
-
-	CoreObject2D& TransformInfo2D::GetParent()
+	void TransformInfo2D::SetChildTransformingMode(ChildTransformingMode value)
 	{
-		return m_parentInfo->GetParent();
-	}
-
-	void TransformInfo2D::SetParent(CoreObject2D& parent, ChildMode mode)
-	{
-		if (m_parentInfo != nullptr)
-		{
-			throw "子オブジェクトとして追加しようとしたオブジェクトは、すでに別のオブジェクトの子として追加されています。";
-		}
-		m_parentInfo = make_shared<ParentInfo2D>(&parent, mode);
-	}
-
-	void TransformInfo2D::ClearParent()
-	{
-		m_parentInfo = nullptr;
-	}
-
-	ChildMode TransformInfo2D::GetChildMode() const
-	{
-		return m_parentInfo->GetChildMode();
-	}
-
-	void TransformInfo2D::SetChildMode(ChildMode value)
-	{
-		m_parentInfo->SetChildMode(value);
+		m_parentInfo->SetChildTransformingMode(value);
 	}
 
 }

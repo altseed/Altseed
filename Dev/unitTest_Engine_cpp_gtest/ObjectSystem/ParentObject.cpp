@@ -34,8 +34,8 @@ protected:
 		layer->AddObject(m_parent);
 		layer->AddObject(child);
 		layer->AddObject(child2);
-		m_parent->AddChild(child, ChildMode::All);
-		child->AddChild(child2, ChildMode::Nothing);
+		m_parent->AddChild(child, ChildManagementMode::Nothing, ChildTransformingMode::All);
+		child->AddChild(child2, ChildManagementMode::Nothing, ChildTransformingMode::Nothing);
 
 		auto g = asd::Engine::GetGraphics();
 		auto texture = g->CreateTexture2D(asd::ToAString("Cloud1.png").c_str());
