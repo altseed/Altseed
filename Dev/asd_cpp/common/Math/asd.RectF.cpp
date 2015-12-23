@@ -1,5 +1,7 @@
 ﻿
 #include "asd.RectF.h"
+#include "asd.RectI.h"
+#include "asd.Vector2DF.h"
 
 using namespace std;
 
@@ -13,6 +15,12 @@ namespace asd
 	RectF::RectF(float x, float y, float width, float height)
 		: X(x), Y(y), Width(width), Height(height)
 	{
+	}
+
+	RectF::RectF(Vector2DF position, Vector2DF size)
+		: X(position.X), Y(position.Y), Width(size.X), Height(size.Y)
+	{
+
 	}
 
 	Vector2DF RectF::GetPosition() const
@@ -44,5 +52,10 @@ namespace asd
 			Y != right.Y ||
 			Width != right.Width ||
 			Height != right.Height;
+	}
+
+	RectI RectF::ToI() const
+	{
+		return RectI((int32_t) X, (int32_t) Y, (int32_t) Width, (int32_t) Height);
 	}
 }

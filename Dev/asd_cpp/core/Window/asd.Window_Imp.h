@@ -49,6 +49,10 @@ namespace asd {
 
 		void SetCursor(Cursor* cursor);
 
+		const achar* GetClipboardString();
+
+		void SetClipboardString(const achar* s);
+
 #ifndef SWIG
 		std::function<void()> OnFocused;
 

@@ -25,6 +25,16 @@ namespace asd
 		virtual bool Commit() = 0;
 
 		/**
+			@brief	編集可能な情報を破棄して固定化する。
+		*/
+		virtual void Fix() = 0;
+
+		/**
+			@brief	衝突判定を削除する。
+		*/
+		virtual void ClearCollisions() = 0;
+
+		/**
 			@brief	新規に地形を作成する。
 			@param	gridSize		グリッド1つ当たりの大きさ
 			@param	gridWidthCount	横方向のグリッド数

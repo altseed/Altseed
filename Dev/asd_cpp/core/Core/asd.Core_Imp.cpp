@@ -626,6 +626,16 @@ namespace asd
 		m_window->SetCursor(cursor);
 	}
 
+	const achar* Core_Imp::GetClipboardString()
+	{
+		return m_window->GetClipboardString();
+	}
+
+	void Core_Imp::SetClipboardString(const achar* s)
+	{
+		m_window->SetClipboardString(s);
+	}
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------

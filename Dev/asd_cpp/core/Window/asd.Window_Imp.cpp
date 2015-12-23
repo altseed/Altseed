@@ -64,6 +64,31 @@ void Window_Imp::SetCursor(Cursor* cursor)
 	SafeSubstitute(currentCursor, cursor);
 }
 
+const achar* Window_Imp::GetClipboardString()
+{
+	auto s = glfwGetClipboardString(m_window);
+	static achar temp[260];
+
+	std::vector<int16_t> dst;
+	int32_t len = Utf8ToUtf16(dst, (const int8_t*)s);
+
+	for (int32_t i = 0; i < Min(len, 260); i++)
+	{
+		temp[i] = dst[i];
+	}
+
+	return temp;
+}
+
+void Window_Imp::SetClipboardString(const achar* s)
+{
+	std::vector<int8_t> dst;
+
+	Utf16ToUtf8(dst, (int16_t*)s);
+
+	glfwSetClipboardString(m_window, (const char*)dst.data());
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

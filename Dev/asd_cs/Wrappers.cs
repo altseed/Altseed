@@ -1116,7 +1116,7 @@ namespace asd {
 	}
 
 	/// <summary>
-	/// 
+	/// カーソルを表すクラス 
 	/// </summary>
 	public partial class Cursor
 	{
@@ -2474,6 +2474,22 @@ namespace asd {
 		public bool Commit()
 		{
 			return CoreInstance.Commit();
+		}
+
+		/// <summary>
+		/// 編集可能な情報を破棄して固定化する。 
+		/// </summary>
+		public void Fix()
+		{
+			CoreInstance.Fix();
+		}
+
+		/// <summary>
+		/// 衝突判定を削除する。 
+		/// </summary>
+		public void ClearCollisions()
+		{
+			CoreInstance.ClearCollisions();
 		}
 
 		/// <summary>

@@ -402,6 +402,21 @@ namespace asd
 		}
 
 		/// <summary>
+		/// クリップボードの内容を取得、または設定する。
+		/// </summary>
+		public static string ClipboardString
+		{
+			get
+			{
+				return core.GetClipboardString();
+			}
+			set
+			{
+				core.SetClipboardString(value);
+			}
+		}
+
+		/// <summary>
 		/// 内部の参照数を取得する。
 		/// </summary>
 		/// <remarks>

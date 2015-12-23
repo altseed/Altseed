@@ -615,6 +615,16 @@ namespace asd
 		m_core->SetCursor(cursor.get());
 	}
 
+	const achar* Engine::GetClipboardString()
+	{
+		return m_core->GetClipboardString();
+	}
+
+	void Engine::SetClipboardString(const achar* s)
+	{
+		m_core->SetClipboardString(s);
+	}
+
 	int32_t Engine::GetReferenceCount()
 	{
 		return g_GetGlobalRef();

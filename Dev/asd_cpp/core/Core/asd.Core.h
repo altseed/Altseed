@@ -142,6 +142,18 @@ namespace asd {
 		virtual void SetCursor(Cursor* cursor) = 0;
 
 		/**
+		@brief	クリップボードの内容を取得する。
+		@return	クリップボード
+		*/
+		virtual const achar* GetClipboardString() = 0;
+
+		/**
+		@brief	クリップボードの内容を設定する。
+		@param	s	文字列
+		*/
+		virtual void SetClipboardString(const achar* s) = 0;
+
+		/**
 			@brief	スクリーンショットをpngとして保存する。
 			@param	path	出力先
 		*/
