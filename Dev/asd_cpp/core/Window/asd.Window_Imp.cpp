@@ -72,10 +72,18 @@ const achar* Window_Imp::GetClipboardString()
 	std::vector<int16_t> dst;
 	int32_t len = Utf8ToUtf16(dst, (const int8_t*)s);
 
-	for (int32_t i = 0; i < Min(len, 260); i++)
+	int32_t ind = 0;
+	for (ind = 0; ind < Min(len, 260); ind++)
 	{
-		temp[i] = dst[i];
+		temp[ind] = dst[ind];
 	}
+
+	if (ind < 260)
+	{
+		temp[ind] = 0;
+	}
+
+	temp[259] = 0;
 
 	return temp;
 }
