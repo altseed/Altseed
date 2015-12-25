@@ -1,19 +1,21 @@
 ﻿#pragma once
 
 #include "asd.Object2D.h"
+#include "asd.DrawnObject2D.h"
 
 namespace asd
 {
 	/**
 	@brief	文字列の描画を扱うクラス。
 	*/
-	class TextObject2D : public Object2D
+	class TextObject2D : public DrawnObject2D
 	{
 	private:
 		std::shared_ptr<CoreTextObject2D> m_coreObject;
 		std::shared_ptr<Font> m_font;
 
 		CoreObject2D* GetCoreObject() const;
+		CoreDrawnObject2D* GetCoreDrawnObject() const override;
 
 	public:
 		typedef std::shared_ptr<TextObject2D> Ptr;

@@ -82,6 +82,7 @@ namespace asd {
 
 	class CoreLayer2D;
 	class CoreObject2D;
+	class CoreDrawnObject2D;
 	class CoreTextureObject2D;
 	class CoreCameraObject2D;
 	class CoreTextObject2D;

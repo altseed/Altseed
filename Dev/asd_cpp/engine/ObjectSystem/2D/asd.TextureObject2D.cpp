@@ -21,6 +21,11 @@ namespace asd
 		return m_coreObject.get();
 	}
 
+	CoreDrawnObject2D* TextureObject2D::GetCoreDrawnObject() const
+	{
+		return m_coreObject.get();
+	}
+
 
 	shared_ptr<Texture2D> TextureObject2D::GetTexture() const
 	{

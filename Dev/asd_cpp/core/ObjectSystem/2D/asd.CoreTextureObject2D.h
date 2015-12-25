@@ -3,12 +3,12 @@
 #include "../common/Graphics/asd.Color.h"
 #include "../../Graphics/Resource/asd.Texture2D.h"
 #include "asd.CoreObject2D.h"
-#include "asd.DrawnObject2D.h"
+#include "asd.CoreDrawnObject2D.h"
 
 namespace asd
 {
 	class CoreTextureObject2D 
-		: public DrawnObject2D
+		: public CoreDrawnObject2D
 	{
 	public:
 		virtual ~CoreTextureObject2D()

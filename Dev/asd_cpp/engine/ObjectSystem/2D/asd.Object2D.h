@@ -19,6 +19,7 @@ namespace asd
 	{
 		friend class Layer2D;
 		friend class ContentsManager < Object2D > ;
+		friend class DrawnObject2D;
 
 	public:
 		typedef std::shared_ptr<Object2D> Ptr;

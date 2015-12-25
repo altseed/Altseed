@@ -29,6 +29,7 @@ CPP_OBJECT( asd::CoreLayer_Imp )
 CPP_OBJECT( asd::CoreChip2D )
 CPP_OBJECT( asd::CoreLayer2D )
 CPP_OBJECT( asd::CoreObject2D )
+CPP_OBJECT( asd::CoreDrawnObject2D )
 CPP_OBJECT( asd::CoreTextureObject2D )
 CPP_OBJECT( asd::CoreCameraObject2D )
 CPP_OBJECT( asd::CoreTextObject2D )
@@ -223,7 +224,7 @@ CPP_OBJECT( asd::StreamFile )
 %include "asd_cpp/core/ObjectSystem/asd.ChildDrawingMode.h"
 %include "asd_cpp/core/ObjectSystem/2D/asd.CoreChip2D.h"
 %include "asd_cpp/core/ObjectSystem/2D/asd.CoreObject2D.h"
-%include "asd_cpp/core/ObjectSystem/2D/asd.DrawnObject2D.h"
+%include "asd_cpp/core/ObjectSystem/2D/asd.CoreDrawnObject2D.h"
 %include "asd_cpp/core/ObjectSystem/2D/asd.CoreTextureObject2D.h"
 %include "asd_cpp/core/ObjectSystem/2D/asd.CoreCameraObject2D.h"
 %include "asd_cpp/core/ObjectSystem/2D/asd.CoreTextObject2D.h"

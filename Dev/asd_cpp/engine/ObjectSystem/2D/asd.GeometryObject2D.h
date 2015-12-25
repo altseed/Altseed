@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include "asd.Object2D.h"
+#include "asd.DrawnObject2D.h"
 #include "../../Shape/asd.Shape.h"
 
 namespace asd
@@ -8,7 +9,7 @@ namespace asd
 	/**
 	@brief	図形の描画を扱うクラス。
 	*/
-	class GeometryObject2D : public Object2D
+	class GeometryObject2D : public DrawnObject2D
 	{
 	private:
 		std::shared_ptr<CoreGeometryObject2D> m_coreObject;
@@ -16,6 +17,7 @@ namespace asd
 		std::shared_ptr<Shape> shapePtr;
 
 		CoreObject2D* GetCoreObject() const;
+		CoreDrawnObject2D* GetCoreDrawnObject() const override;
 
 	public:
 		typedef std::shared_ptr<CoreGeometryObject2D> Ptr;

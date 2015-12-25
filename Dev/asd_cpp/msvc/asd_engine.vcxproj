@@ -183,6 +183,7 @@
     <ClInclude Include="..\engine\ObjectSystem\2D\asd.Object2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\2D\asd.TextObject2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\2D\asd.TextureObject2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\2D\asd.DrawnObject2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\asd.CameraObject3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\asd.DirectionalLightObject3D.h" />
     <ClInclude Include="..\engine\ObjectSystem\3D\asd.EffectObject3D.h" />
@@ -218,6 +219,7 @@
     <ClCompile Include="..\engine\asd.Engine.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\asd.CameraObject2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\asd.Chip2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.DrawnObject2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\asd.EffectObject2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\asd.GeometryObject2D.cpp" />
     <ClCompile Include="..\engine\ObjectSystem\2D\asd.Layer2D.cpp" />

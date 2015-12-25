@@ -75,7 +75,7 @@
 #include "ObjectSystem/asd.ChildManagementMode.h"
 #include "ObjectSystem/asd.ChildTransformingMode.h"
 #include "ObjectSystem/asd.ChildDrawingMode.h"
-#include "ObjectSystem/2D/asd.DrawnObject2D.h"
+#include "ObjectSystem/2D/asd.CoreDrawnObject2D.h"
 #include "ObjectSystem/2D/asd.CoreChip2D.h"
 #include "ObjectSystem/2D/asd.CoreObject2D.h"
 #include "ObjectSystem/2D/asd.CoreTextureObject2D.h"

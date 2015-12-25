@@ -140,7 +140,7 @@ fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/asd.CoreLayer.h')
 fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/asd.CoreScene.h')
 
 fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/2D/asd.CoreObject2D.h')
-fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/2D/asd.DrawnObject2D.h')
+fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/2D/asd.CoreDrawnObject2D.h')
 fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/2D/asd.CoreTextureObject2D.h')
 fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/2D/asd.CoreCameraObject2D.h')
 fromCoreToEngine.readLines('asd_cpp/core/ObjectSystem/2D/asd.CoreTextObject2D.h')

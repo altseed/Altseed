@@ -1,6 +1,8 @@
-﻿
+﻿#pragma once
+#include <memory>
 #include "asd.CoreTextObject2D.h"
 #include "asd.CoreObject2D_Imp.h"
+#include "asd.DrawnParentInfo2D.h"
 
 namespace asd
 {
@@ -81,5 +83,6 @@ namespace asd
 		*/
 
 #include "asd.CoreObject2D_Imp_Methods.h"
+#include "asd.CoreDrawnObject2D_Imp_Methods.h"
 	};
 }

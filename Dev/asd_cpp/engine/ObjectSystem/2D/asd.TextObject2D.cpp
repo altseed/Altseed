@@ -20,6 +20,11 @@ namespace asd
 		return m_coreObject.get();
 	}
 
+	CoreDrawnObject2D* TextObject2D::GetCoreDrawnObject() const
+	{
+		return m_coreObject.get();
+	}
+
 	std::shared_ptr<Font> TextObject2D::GetFont() const
 	{
 		return m_font;

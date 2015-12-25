@@ -1011,7 +1011,10 @@
     <ClInclude Include="..\core\ObjectSystem\2D\asd.DrawnParentInfo2D.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\ObjectSystem\2D\asd.DrawnObject2D.h">
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreDrawnObject2D.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreDrawnObject2D_Imp_Methods.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
   </ItemGroup>

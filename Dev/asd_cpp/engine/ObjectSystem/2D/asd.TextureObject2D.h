@@ -1,19 +1,21 @@
 ﻿#pragma once
 #include <memory>
 #include "asd.Object2D.h"
+#include "asd.DrawnObject2D.h"
 
 namespace asd
 {
 	/**
 	@brief	テクスチャを描画するクラス。
 	*/
-	class TextureObject2D : public Object2D
+	class TextureObject2D : public DrawnObject2D
 	{
 	private:
 		std::shared_ptr<CoreTextureObject2D> m_coreObject;
 		std::shared_ptr<Texture2D> m_texturePtr;
 
 		CoreObject2D* GetCoreObject() const;
+		CoreDrawnObject2D* GetCoreDrawnObject() const override;
 
 	public:
 		typedef std::shared_ptr<TextureObject2D> Ptr;

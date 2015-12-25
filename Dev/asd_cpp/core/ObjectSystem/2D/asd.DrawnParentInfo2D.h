@@ -3,18 +3,18 @@
 #include "../asd.ChildManagementMode.h"
 #include "../asd.ChildTransformingMode.h"
 #include "../asd.ChildDrawingMode.h"
-#include "asd.DrawnObject2D.h"
+#include "asd.CoreDrawnObject2D.h"
 
 namespace asd
 {
 	class DrawnParentInfo2D : public ParentInfo2D
 	{
 	protected:
-		DrawnObject2D* m_drawnParent;
+		CoreDrawnObject2D* m_drawnParent;
 		ChildDrawingMode::Flags m_drawingMode;
 
 	public:
-		DrawnParentInfo2D(DrawnObject2D* parent,
+		DrawnParentInfo2D(CoreDrawnObject2D* parent,
 			ChildManagementMode::Flags managementMode,
 			ChildTransformingMode transformingMode,
 			ChildDrawingMode::Flags drawingMode)
@@ -26,12 +26,16 @@ namespace asd
 
 		Color GetInheritedColor() const
 		{
-			return (m_drawingMode & ChildDrawingMode::Color != 0) ? m_drawnParent->GetColor() : Color(255, 255, 255, 255);
+			return ((m_drawingMode & ChildDrawingMode::Color) != 0)
+				? m_drawnParent->GetColor()
+				: Color(255, 255, 255, 255);
 		}
 
 		int GetInheritedDrawingPriority() const
 		{
-			return (m_drawingMode & ChildDrawingMode::DrawingPriority != 0) ? m_drawnParent->GetDrawingPriority() : 0;
+			return ((m_drawingMode & ChildDrawingMode::DrawingPriority) != 0)
+				? m_drawnParent->GetDrawingPriority()
+				: 0;
 		}
 	};
 }

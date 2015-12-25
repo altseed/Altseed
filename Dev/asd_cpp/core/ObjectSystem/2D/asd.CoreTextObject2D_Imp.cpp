@@ -297,13 +297,16 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void CoreTextObject2D_Imp::Draw(Renderer2D* renderer)
 	{
-		if (!m_objectInfo.GetIsDrawn() || m_font == nullptr)
+		if (!m_objectInfo.GetIsDrawn() || m_font == nullptr
+			|| (m_parentInfo != nullptr && !m_parentInfo->GetInheritedBeingDrawn()))
 		{
 			return;
 		}
 
 		auto parentMatrix = GetParentsMatrix();
 		auto matrix = GetMatrixToTransform();
+		auto inheritedColor = m_parentInfo != nullptr ? m_parentInfo->GetInheritedColor() : Color(255, 255, 255, 255);
+		auto inheritedDrawingPriority = m_parentInfo != nullptr ? m_parentInfo->GetInheritedDrawingPriority() : 0;
 
 		renderer->AddText(
 			parentMatrix,
@@ -311,12 +314,12 @@ namespace asd
 			m_centerPosition,
 			m_turnLR,
 			m_turnUL,
-			m_color,
+			m_color * inheritedColor,
 			m_font,
 			m_text.c_str(),
 			m_writingDirection,
 			m_alphablend,
-			m_drawingPtiority,
+			m_drawingPtiority + inheritedDrawingPriority,
 			m_lineSpacing,
 			m_letterSpacing,
 			m_textureFilterType);

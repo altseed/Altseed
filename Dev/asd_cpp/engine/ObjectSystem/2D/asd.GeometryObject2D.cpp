@@ -9,6 +9,11 @@ namespace asd
 		return m_coreObject.get();
 	}
 
+	CoreDrawnObject2D* GeometryObject2D::GetCoreDrawnObject() const
+	{
+		return m_coreObject.get();
+	}
+
 	GeometryObject2D::GeometryObject2D()
 		: m_coreObject(nullptr)
 		, texturePtr(nullptr)

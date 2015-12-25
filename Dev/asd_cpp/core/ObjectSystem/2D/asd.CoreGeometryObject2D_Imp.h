@@ -1,6 +1,9 @@
-﻿#include "asd.CoreGeometryObject2D.h"
+﻿#pragma once
+#include <memory>
+#include "asd.CoreGeometryObject2D.h"
 #include "../../Shape/asd.CoreShape.h"
 #include "asd.CoreObject2D_Imp.h"
+#include "asd.DrawnParentInfo2D.h"
 
 namespace asd
 {
@@ -54,6 +57,7 @@ namespace asd
 #endif
 
 #include "asd.CoreObject2D_Imp_Methods.h"
+#include "asd.CoreDrawnObject2D_Imp_Methods.h"
 
 	};
 }

@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\EngineGraphics3DTest.cpp" />
     <ClCompile Include="..\EngineTest.cpp" />
+    <ClCompile Include="..\FamilySystem\DrawnParent.cpp" />
     <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\GeometryObject2D.cpp" />

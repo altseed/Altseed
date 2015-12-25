@@ -41,6 +41,19 @@ namespace asd
 			return;
 		}
 
+		//std::list<Object2D::Ptr> vanishing;
+		//for (auto& child : m_children)
+		//{
+		//	if (!child->GetIsAlive())
+		//	{
+		//		vanishing.push_back(child);
+		//	}
+		//}
+		//for (auto& v : vanishing)
+		//{
+		//	m_children.remove(v);
+		//}
+
 		OnUpdate();
 		m_componentManager.Update();
 	}

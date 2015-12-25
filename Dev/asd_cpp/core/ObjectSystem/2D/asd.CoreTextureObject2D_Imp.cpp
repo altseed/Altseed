@@ -215,7 +215,8 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void CoreTextureObject2D_Imp::Draw(Renderer2D* renderer)
 	{
-		if (!m_objectInfo.GetIsDrawn())
+		if (!m_objectInfo.GetIsDrawn()
+			|| (m_parentInfo != nullptr && !m_parentInfo->GetInheritedBeingDrawn()))
 		{
 			return;
 		}
@@ -244,10 +245,15 @@ namespace asd
 		}
 
 		Color color[4];
-		color[0] = m_color;
-		color[1] = m_color;
-		color[2] = m_color;
-		color[3] = m_color;
+		auto col = m_color;
+		if (m_parentInfo != nullptr)
+		{
+			col *= m_parentInfo->GetInheritedColor();
+		}
+		color[0] = col;
+		color[1] = col;
+		color[2] = col;
+		color[3] = col;
 
 		std::array<Vector2DF, 4> uvs;
 		
@@ -283,13 +289,15 @@ namespace asd
 			std::swap(uvs[1], uvs[2]);
 		}
 
+		auto priority = m_parentInfo != nullptr ? m_parentInfo->GetInheritedDrawingPriority() : 0;
+
 		renderer->AddSprite(
 			position.data(),
 			color,
 			uvs.data(),
 			m_texture,
 			m_alphablend,
-			m_drawingPtiority,
+			priority + m_drawingPtiority,
 			m_textureFilterType);
 	}
 }

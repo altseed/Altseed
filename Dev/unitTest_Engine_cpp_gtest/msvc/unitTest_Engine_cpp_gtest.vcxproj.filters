@@ -180,6 +180,9 @@
     <ClCompile Include="..\ObjectSystem\UpdateFrequency.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\FamilySystem\DrawnParent.cpp">
+      <Filter>FamilySystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -217,6 +220,9 @@
     </Filter>
     <Filter Include="Shape">
       <UniqueIdentifier>{31baa9f7-a8d3-46c6-a7dc-e1fef45fe5d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="FamilySystem">
+      <UniqueIdentifier>{2dface51-9116-4774-97e6-5cdb09586047}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
