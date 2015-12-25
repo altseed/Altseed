@@ -16,7 +16,7 @@ namespace asd
 		virtual int GetDrawingPriority() const = 0;
 		virtual void SetDrawingPriority(int value) = 0;
 
-		virtual void AddChild(CoreDrawnObject2D* child,
+		virtual void AddDrawnChild(CoreDrawnObject2D* child,
 			ChildManagementMode::Flags managementMode,
 			ChildTransformingMode transformingMode,
 			ChildDrawingMode::Flags drawingMode) = 0;

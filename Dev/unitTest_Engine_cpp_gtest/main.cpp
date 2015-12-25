@@ -79,6 +79,7 @@ EXTERN_ENGINE_TEST(ObjectSystem, DisposeOnVanish)
 EXTERN_ENGINE_TEST(ObjectSystem, UpdateFrequency)
 
 EXTERN_ENGINE_TEST(FamilySystem, DrawnParent)
+EXTERN_ENGINE_TEST(FamilySystem, VanishParent)
 
 EXTERN_ENGINE_TEST(Shape, Collision2D)
 
@@ -115,7 +116,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(FamilySystem, DrawnParent, true)
+	CALL_ENGINE_TEST(FamilySystem, VanishParent, true)
 	getchar();
 	return 0;
 

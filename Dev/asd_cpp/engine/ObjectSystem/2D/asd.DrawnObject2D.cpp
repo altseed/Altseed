@@ -1,4 +1,4 @@
-#include "asd.DrawnObject2D.h"
+﻿#include "asd.DrawnObject2D.h"
 
 namespace asd
 {
@@ -7,7 +7,7 @@ namespace asd
 		ChildTransformingMode transformingMode,
 		ChildDrawingMode::Flags drwingMode)
 	{
-		GetCoreDrawnObject()->AddChild(child->GetCoreDrawnObject(),
+		GetCoreDrawnObject()->AddDrawnChild(child->GetCoreDrawnObject(),
 			managementMode,
 			transformingMode,
 			drwingMode);

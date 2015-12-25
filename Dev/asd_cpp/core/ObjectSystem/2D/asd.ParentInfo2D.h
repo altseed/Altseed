@@ -46,7 +46,9 @@ namespace asd
 			m_transformingMode = mode;
 		}
 
-
+		/**
+			@brief	親オブジェクトから継承される変換行列があれば返す。無ければ単位行列を返す。
+		*/
 		virtual Matrix33 GetInheritedMatrix() const
 		{
 			switch (m_transformingMode)
@@ -63,16 +65,25 @@ namespace asd
 			ACE_ASSERT(false, "不正なTransformingModeが指定されました。");
 		}
 
+		/**
+			@brief	親オブジェクトから継承される描画フラグの値があれば返す。無ければ true を返す。
+		*/
 		virtual bool GetInheritedBeingDrawn() const
 		{
 			return (m_managementMode & ChildManagementMode::IsDrawn == 0) || m_parent->GetIsDrawn();
 		}
 
+		/**
+			@brief	親オブジェクトから継承される色があればそれを返す。無ければ白色を返す。
+		*/
 		virtual Color GetInheritedColor() const
 		{
 			return Color(255, 255, 255, 255);
 		}
 
+		/**
+			@brief	親オブジェクトから継承される描画優先度があればそれを返す。無ければ 0 を返す。
+		*/
 		virtual int GetInheritedDrawingPriority() const
 		{
 			return 0;

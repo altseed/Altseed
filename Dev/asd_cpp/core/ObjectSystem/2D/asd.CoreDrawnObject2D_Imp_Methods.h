@@ -1,4 +1,4 @@
-﻿void AddChild(CoreDrawnObject2D* child,
+﻿void AddDrawnChild(CoreDrawnObject2D* child,
 	ChildManagementMode::Flags managementMode,
 	ChildTransformingMode transformingMode,
 	ChildDrawingMode::Flags drawingMode)

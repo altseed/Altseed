@@ -113,7 +113,9 @@
     <ClCompile Include="..\engine\ObjectSystem\Transition\asd.TransitionFade.cpp">
       <Filter>ObjectSystem\Transition</Filter>
     </ClCompile>
-    <ClCompile Include="..\engine\ObjectSystem\2D\asd.DrawnObject2D.cpp" />
+    <ClCompile Include="..\engine\ObjectSystem\2D\asd.DrawnObject2D.cpp">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\engine\asd.Engine.Base.h" />
