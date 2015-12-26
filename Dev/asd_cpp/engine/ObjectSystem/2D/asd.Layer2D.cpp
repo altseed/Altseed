@@ -169,6 +169,7 @@ namespace asd
 	{
 		m_objects.Remove(object);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
+		object->OnRemovedInternal();
 		object->SetLayer(nullptr);
 	}
 

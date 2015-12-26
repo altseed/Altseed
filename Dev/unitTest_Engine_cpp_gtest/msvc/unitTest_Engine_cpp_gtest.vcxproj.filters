@@ -186,6 +186,9 @@
     <ClCompile Include="..\FamilySystem\VanishParent.cpp">
       <Filter>FamilySystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\FamilySystem\ChildManagement.cpp">
+      <Filter>FamilySystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

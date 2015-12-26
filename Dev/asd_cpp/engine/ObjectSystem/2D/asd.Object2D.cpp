@@ -1,6 +1,7 @@
 ﻿#include <list>
 #include "asd.Object2D.h"
 #include "asd.Layer2D.h"
+#define IS_INHERITED(obj, flag) (obj->m_parentInfo != nullptr && (obj->m_parentInfo->GetManagementMode() & ChildManagementMode::flag) != 0)
 using namespace std;
 
 namespace asd
@@ -31,12 +32,31 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Object2D::Start()
 	{
+		for (auto& child : m_children)
+		{
+			if (IS_INHERITED(child, RegistrationToLayer))
+			{
+				GetLayer()->AddObject(child);
+			}
+		}
 		OnStart();
+	}
+
+	void Object2D::OnRemovedInternal()
+	{
+		for (auto& child : m_children)
+		{
+			if (IS_INHERITED(child, RegistrationToLayer))
+			{
+				GetLayer()->RemoveObject(child);
+			}
+		}
 	}
 
 	void Object2D::Update()
 	{
-		if (!m_isUpdated || !GetIsAlive())
+		if (!m_isUpdated || !GetIsAlive()
+			|| (IS_INHERITED(this, IsUpdated) && !m_parentInfo->GetParent()->GetIsUpdated()))
 		{
 			return;
 		}
@@ -51,7 +71,7 @@ namespace asd
 		}
 		for (auto& v : vanishing)
 		{
-			m_children.remove(v);
+			RemoveChild(v);
 		}
 
 		OnUpdate();
@@ -152,6 +172,13 @@ namespace asd
 	void Object2D::Vanish()
 	{
 		GetCoreObject()->SetIsAlive(false);
+		for (auto& child : m_children)
+		{
+			if (IS_INHERITED(child, Vanishment))
+			{
+				child->Vanish();
+			}
+		}
 		OnVanish();
 	}
 
@@ -169,12 +196,14 @@ namespace asd
 	{
 		GetCoreObject()->AddChild((child->GetCoreObject()), managementMode, transformingMode);
 		m_children.push_back(child);
+		child->m_parentInfo = make_shared<ParentInfo2D>(this, managementMode);
 	}
 
 	void Object2D::RemoveChild(const Object2D::Ptr& child)
 	{
 		GetCoreObject()->RemoveChild((child->GetCoreObject()));
 		m_children.remove(child);
+		child->m_parentInfo.reset();
 	}
 
 	const std::list<Object2D::Ptr>& Object2D::GetChildren() const

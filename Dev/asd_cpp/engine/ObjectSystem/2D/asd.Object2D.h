@@ -25,7 +25,34 @@ namespace asd
 		typedef std::shared_ptr<Object2D> Ptr;
 
 	private:
+		class ParentInfo2D
+		{
+		private:
+			const Object2D* m_parent;
+			ChildManagementMode::Flags m_managementMode;
+
+		public:
+			typedef std::shared_ptr<ParentInfo2D> Ptr;
+
+			ParentInfo2D(const Object2D* parent, ChildManagementMode::Flags managementMode)
+				: m_parent(parent)
+				, m_managementMode(managementMode)
+			{
+			}
+
+			const Object2D* GetParent() const
+			{
+				return m_parent;
+			}
+
+			ChildManagementMode::Flags GetManagementMode() const
+			{
+				return m_managementMode;
+			}
+		};
+
 		Layer2D* m_owner;
+		ParentInfo2D::Ptr m_parentInfo;
 		std::list<Object2D::Ptr> m_children;
 		ComponentManager<Object2D, Object2DComponent> m_componentManager;
 		bool m_isUpdated;
@@ -34,6 +61,7 @@ namespace asd
 		std::function<void(int)> m_onUpdatePriorityChanged;
 
 		void Start();
+		void OnRemovedInternal();
 		void Update();
 		void Dispose();
 		void SetLayer(Layer2D* layer);

@@ -215,8 +215,12 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void CoreTextureObject2D_Imp::Draw(Renderer2D* renderer)
 	{
-		if (!m_objectInfo.GetIsDrawn()
-			|| (m_parentInfo != nullptr && !m_parentInfo->GetInheritedBeingDrawn()))
+		if (m_parentInfo != nullptr && !m_parentInfo->GetInheritedBeingDrawn())
+		{
+			return;
+		}
+
+		if (!m_objectInfo.GetIsDrawn())
 		{
 			return;
 		}
