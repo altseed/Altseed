@@ -1418,6 +1418,11 @@ void Graphics_Imp_GL::FlushCommand()
 	glFinish();
 }
 
+void Graphics_Imp_GL::SetIsFullscreenMode(bool isFullscreenMode)
+{
+	// GLの場合、現状無効
+}
+
 void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)
 {
 }

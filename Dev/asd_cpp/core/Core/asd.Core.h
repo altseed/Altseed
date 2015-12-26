@@ -154,6 +154,12 @@ namespace asd {
 		virtual void SetClipboardString(const achar* s) = 0;
 
 		/**
+			@brief	フルスクリーンモードかどうか設定する。
+			@param	isFullscreenMode	フルスクリーンモードか
+		*/
+		virtual void SetIsFullscreenMode(bool isFullscreenMode) = 0;
+
+		/**
 			@brief	スクリーンショットをpngとして保存する。
 			@param	path	出力先
 		*/

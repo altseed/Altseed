@@ -204,7 +204,16 @@ namespace asd
 
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), title);
 
-		m_window = Window_Imp::Create(width, height, title, m_logger, option.IsFullScreen);
+		// フルスクリーン切り替えを実現するためのハック
+		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
+		{
+			m_window = Window_Imp::Create(width, height, title, m_logger, option.IsFullScreen);
+		}
+		else
+		{
+			m_window = Window_Imp::Create(width, height, title, m_logger, false);
+		}
+
 		if (m_window == nullptr) return false;
 
 		if (!option.IsFullScreen && option.WindowPosition == WindowPositionType::Centering)
@@ -226,8 +235,8 @@ namespace asd
 		m_joystickContainer = JoystickContainer_Imp::Create();
 
 		m_file = File_Imp::Create();
+		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, m_file, option.IsReloadingEnabled, option.IsFullScreen);
 
-		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger,m_file, option.IsReloadingEnabled, option.IsFullScreen);
 		if (m_graphics == nullptr) return false;
 
 		m_sound = new Sound_Imp(m_file, m_logger, option.IsReloadingEnabled);
@@ -634,6 +643,11 @@ namespace asd
 	void Core_Imp::SetClipboardString(const achar* s)
 	{
 		m_window->SetClipboardString(s);
+	}
+
+	void Core_Imp::SetIsFullscreenMode(bool isFullscreenMode)
+	{
+		m_graphics->SetIsFullscreenMode(isFullscreenMode);
 	}
 
 	//----------------------------------------------------------------------------------

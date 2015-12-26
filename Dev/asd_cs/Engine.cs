@@ -417,6 +417,20 @@ namespace asd
 		}
 
 		/// <summary>
+		/// フルスクリーンモードかどうか設定する。
+		/// </summary>
+		/// <remarks>
+		/// 現状、DirectXのみ有効である。
+		/// </remarks>
+		public static bool IsFullscreenMode
+		{
+			set
+			{
+				core.SetIsFullscreenMode(value);
+			}
+		}
+
+		/// <summary>
 		/// 内部の参照数を取得する。
 		/// </summary>
 		/// <remarks>

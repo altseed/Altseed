@@ -127,6 +127,8 @@ namespace asd {
 
 		void SetClipboardString(const achar* s) override;
 
+		void SetIsFullscreenMode(bool isFullscreenMode) override;
+
 		void TakeScreenshot(const achar* path);
 
 		void CaptureScreenAsGifAnimation(const achar* path, int32_t frame, float frequency_rate, float scale);

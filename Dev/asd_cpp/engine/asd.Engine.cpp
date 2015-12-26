@@ -625,6 +625,11 @@ namespace asd
 		m_core->SetClipboardString(s);
 	}
 
+	void Engine::SetIsFullscreenMode(bool isFullscreenMode)
+	{
+		m_core->SetIsFullscreenMode(isFullscreenMode);
+	}
+
 	int32_t Engine::GetReferenceCount()
 	{
 		return g_GetGlobalRef();

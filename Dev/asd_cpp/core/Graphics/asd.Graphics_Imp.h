@@ -615,6 +615,8 @@ namespace asd {
 	*/
 	virtual void FlushCommand() = 0;
 
+	virtual void SetIsFullscreenMode(bool isFullscreenMode) = 0;
+
 	/**
 		@brief	スレッドを取得する。
 		@return	スレッド

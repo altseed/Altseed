@@ -1546,6 +1546,24 @@ void Graphics_Imp_DX11::FlushCommand()
 {
 }
 
+void Graphics_Imp_DX11::SetIsFullscreenMode(bool isFullscreenMode)
+{
+	BOOL isScreenMode = FALSE;
+	m_swapChain->GetFullscreenState(&isScreenMode, 0);
+
+	if (isScreenMode && isFullscreenMode) return;
+	if (!isScreenMode && !isFullscreenMode) return;
+
+	if (isFullscreenMode)
+	{
+		m_swapChain->SetFullscreenState(TRUE, 0);
+	}
+	else
+	{
+		m_swapChain->SetFullscreenState(FALSE, 0);
+	}
+}
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------

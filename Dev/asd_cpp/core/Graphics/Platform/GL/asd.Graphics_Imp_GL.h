@@ -156,6 +156,7 @@ namespace asd {
 
 		void FlushCommand() override;
 
+		void SetIsFullscreenMode(bool isFullscreenMode) override;
 	private:
 
 		/**

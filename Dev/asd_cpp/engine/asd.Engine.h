@@ -155,6 +155,14 @@ namespace asd {
 		static void SetClipboardString(const achar* s);
 
 		/**
+		@brief	フルスクリーンモードかどうか設定する。
+		@param	isFullscreenMode	フルスクリーンモードか
+		@note
+		現状、DirectXのみ有効である。
+		*/
+		static void SetIsFullscreenMode(bool isFullscreenMode);
+
+		/**
 			@brief	内部の参照数を取得する。
 			@note
 			内部オブジェクト間の参照の数を取得する。

@@ -151,6 +151,8 @@ namespace asd {
 
 		void FlushCommand();
 
+		void SetIsFullscreenMode(bool isFullscreenMode) override;
+
 	public:
 		void Clear(bool isColorTarget, bool isDepthTarget, const Color& color);
 
