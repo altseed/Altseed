@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace asd
 {
 	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
-	public struct Color
+	public struct Color : IEquatable<Color>
 	{
 		public byte R;
 		public byte G;
@@ -20,6 +20,26 @@ namespace asd
 			G = g;
 			B = b;
 			A = a;
+		}
+
+		public Color(byte r, byte g, byte b)
+			: this(r, g, b, 255)
+		{
+		}
+
+		public bool Equals(Color other)
+		{
+			return R == other.R && G == other.G && B == other.B && A == other.A;
+		}
+
+		public static bool operator ==(Color lhs, Color rhs)
+		{
+			return lhs.Equals(rhs);
+		}
+
+		public static bool operator !=(Color lhs, Color rhs)
+		{
+			return !lhs.Equals(rhs);
 		}
 	}
 }
