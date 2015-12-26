@@ -426,6 +426,7 @@ namespace asd
 		{
 			set
 			{
+				if (core == null) return;
 				core.SetIsFullscreenMode(value);
 			}
 		}
