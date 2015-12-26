@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "asd.Object2D.h"
 #include "../../asd.CoreToEngine.h"
 

@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+﻿#include <gtest/gtest.h>
 #include <Altseed.h>
 #include "../EngineTest.h"
 
@@ -74,7 +74,7 @@ class FamilySystem_ChildManagement : public EngineTest
 
 public:
 	FamilySystem_ChildManagement(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("ChildManagement"), isOpenGLMode, 360)
+		: EngineTest(asd::ToAString("ChildManagement"), isOpenGLMode, 120)
 		, count(0)
 	{
 	}
