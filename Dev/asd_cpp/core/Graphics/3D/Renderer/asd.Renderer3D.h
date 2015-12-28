@@ -128,6 +128,7 @@ namespace asd
 		float	OceanDensity = 1.0f;
 
 		std::shared_ptr<Texture2D>	OceanNormalMap;
+		std::shared_ptr<Texture2D>	OceanMask;
 
 		Effekseer::Manager*	GetEffectManager() { return m_effectManager; }
 	};

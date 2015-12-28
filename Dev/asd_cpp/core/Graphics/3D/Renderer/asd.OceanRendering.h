@@ -18,6 +18,8 @@ namespace asd
 			Vector3DF Normal;
 			Vector3DF Binormal;
 			Vector2DF UV;
+			Vector2DF UVSub;
+
 		};
 
 		std::shared_ptr<asd::NativeShader_Imp>	shader;
@@ -28,7 +30,7 @@ namespace asd
 		OceanRendering(Graphics* graphics);
 		virtual ~OceanRendering();
 
-		void Render(RenderedCameraObject3DProxy* cameraP, RenderingCommandHelper* helper, Matrix44 cameraMat, Matrix44 projMat, Texture2D* reflectionTexture, Texture2D* refractionTexture, RenderTexture2D_Imp* gb2, Texture2D* normalMap);
+		void Render(RenderedCameraObject3DProxy* cameraP, RenderingCommandHelper* helper, Matrix44 cameraMat, Matrix44 projMat, Texture2D* maskTexture, Texture2D* reflectionTexture, Texture2D* refractionTexture, RenderTexture2D_Imp* gb2, Texture2D* normalMap);
 
 		void GenerateOcean(Vector2DF starting, Vector2DF ending, float height, float gridSize);
 

@@ -254,6 +254,16 @@ namespace asd
 		m_renderer->OceanNormalMap = CreateSharedPtrWithReleaseDLL(value);
 	}
 
+	Texture2D* CoreLayer3D_Imp::GetOceanMask()
+	{
+		return m_renderer->OceanMask.get();
+	}
+	void CoreLayer3D_Imp::SetOceanMask(Texture2D* value)
+	{
+		SafeAddRef(value);
+		m_renderer->OceanMask = CreateSharedPtrWithReleaseDLL(value);
+	}
+
 	void CoreLayer3D_Imp::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,

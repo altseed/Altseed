@@ -332,6 +332,12 @@ namespace asd
 			set { coreLayer3D.SetOceanNormalMap(IG.GetTexture2D(value)); }
 		}
 
+		public Texture2D OceanMask
+		{
+			get { return GC.GenerateTexture2D(coreLayer3D.GetOceanMask(), GC.GenerationType.Get); }
+			set { coreLayer3D.SetOceanMask(IG.GetTexture2D(value)); }
+		}
+
 		public override LayerType LayerType
 		{
 			get { return LayerType.Layer3D; }
