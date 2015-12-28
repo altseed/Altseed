@@ -93,9 +93,9 @@ namespace asd
 
             Layer2Ds = new IDObjectContainer<Layer2D>();
             Object2Ds = new IDObjectContainer<Object2D>();
-            Object3Ds = new IDObjectContainer<Object3D>();
 
             Layer3Ds = new IDObjectContainer<Layer3D>();
+            Object3Ds = new IDObjectContainer<Object3D>();
 
             PostEffects = new IDObjectContainer<PostEffect>();
 
@@ -109,53 +109,54 @@ namespace asd
 
         internal static void Update()
         {
-            Collector.Collect();
+            if (Collector.Collect())
+            {
+                SoundSources.Collect();
 
-            SoundSources.Collect();
+                Cursors.Collect();
 
-            Cursors.Collect();
+                Texture2Ds.Collect();
+                CubemapTextures.Collect();
+                Fonts.Collect();
+                Chip2Ds.Collect();
 
-            Texture2Ds.Collect();
-            CubemapTextures.Collect();
-            Fonts.Collect();
-            Chip2Ds.Collect();
+                Shader2Ds.Collect();
+                Shader3Ds.Collect();
+                Material2Ds.Collect();
+                Material3Ds.Collect();
+                MaterialPropertyBlocks.Collect();
 
-            Shader2Ds.Collect();
-            Shader3Ds.Collect();
-            Material2Ds.Collect();
-            Material3Ds.Collect();
-            MaterialPropertyBlocks.Collect();
+                ImagePackages.Collect();
 
-            ImagePackages.Collect();
+                Effects.Collect();
 
-            Effects.Collect();
+                Meshs.Collect();
+                Deformers.Collect();
+                Models.Collect();
+                MassModels.Collect();
+                Terrain3Ds.Collect();
 
-            Meshs.Collect();
-            Deformers.Collect();
-            Models.Collect();
-            MassModels.Collect();
-            Terrain3Ds.Collect();
+                KeyframeAnimations.Collect();
+                AnimationSources.Collect();
+                AnimationClips.Collect();
 
-            KeyframeAnimations.Collect();
-            AnimationSources.Collect();
-            AnimationClips.Collect();
+                Scenes.Collect();
 
-            Scenes.Collect();
+                Layer2Ds.Collect();
+                Object2Ds.Collect();
 
-            Layer2Ds.Collect();
-            Object2Ds.Collect();
+                Layer3Ds.Collect();
+                Object3Ds.Collect();
 
-            Layer3Ds.Collect();
-            Object3Ds.Collect();
+                PostEffects.Collect();
 
-            PostEffects.Collect();
+                Transitions.Collect();
 
-            Transitions.Collect();
+                StaticFiles.Collect();
+                StreamFiles.Collect();
 
-            StaticFiles.Collect();
-            StreamFiles.Collect();
-
-            Shapes.Collect();
+                Shapes.Collect(); 
+            }
         }
 
         internal static void Terminate()

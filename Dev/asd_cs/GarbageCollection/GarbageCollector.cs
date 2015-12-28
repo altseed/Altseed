@@ -28,10 +28,15 @@ namespace asd
         /// <summary>
         /// インスタンスを破棄する。
         /// </summary>
-        public void Collect()
+        public bool Collect()
         {
             lock (objects)
             {
+                if (objects.Count == 0)
+                {
+                    return false; 
+                }
+
                 foreach (var o in objects)
                 {
                     if (TryRelease<swig.SoundSource>(o)) continue;
@@ -89,6 +94,8 @@ namespace asd
                 }
 
                 objects.Clear();
+
+                return true;
             }
         }
 
