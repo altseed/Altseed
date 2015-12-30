@@ -50,7 +50,7 @@ Window_Imp* Window_Imp_Win::Create(int32_t width, int32_t height, const achar* t
 
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_SRGB_CAPABLE, GL_TRUE);
-    glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
+	glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 
 	auto titleUTF8 = ToUtf8String(title);
 
