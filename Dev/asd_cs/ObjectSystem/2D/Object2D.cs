@@ -5,6 +5,18 @@ using System.Text;
 
 namespace asd
 {
+	internal class ParentInfo2D
+	{
+		public Object2D Parent { get; private set; }
+		public ChildManagementMode ManagementMode { get; private set; }
+
+		public ParentInfo2D(Object2D parent, ChildManagementMode managementMode)
+		{
+			Parent = parent;
+			ManagementMode = managementMode;
+		}
+	}
+
 	/// <summary>
 	/// 更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
 	/// </summary>
@@ -16,7 +28,7 @@ namespace asd
 		public Object2D()
 		{
 			componentManager_ = new ComponentManager<Object2D, Object2DComponent>(this);
-			children_ = new List<Object2D>();
+			ChildrenList = new List<Object2D>();
 			IsUpdated = true;
 		}
 
@@ -66,7 +78,7 @@ namespace asd
 		/// </summary>
 		public IEnumerable<Object2D> Children
 		{
-			get { return children_; }
+			get { return ChildrenList; }
 		}
 
 		/// <summary>
@@ -113,6 +125,13 @@ namespace asd
 		/// </summary>
 		public void Vanish()
 		{
+			foreach(var item in ChildrenList)
+			{
+				if(item.IsInheriting(ChildManagementMode.Vanishment))
+				{
+					item.Vanish();
+				}
+			}
 			IsAlive = false;
 			OnVanish();
 		}
@@ -121,12 +140,13 @@ namespace asd
 		/// 指定した2Dオブジェクトを子オブジェクトとしてこのインスタンスに追加する。
 		/// </summary>
 		/// <param name="child">追加する子オブジェクト</param>
-		/// <param name="mode">子オブジェクトの同期モード</param>
-		public void AddChild(Object2D child, ChildMode mode)
+		/// <param name="managementMode">子オブジェクトの管理に関する同期設定。フラグをOR演算でつなげて複数指定することができる。</param>
+		/// <param name="transformingMode">子オブジェクトの変形に関する同期設定。</param>
+		public void AddChild(Object2D child, ChildManagementMode managementMode, ChildTransformingMode transformingMode)
 		{
-			// TODO C++版と合わせる
-			CoreObject.AddChild(child.CoreObject, 0, swig.ChildTransformingMode.Position);
-			children_.Add(child);
+			CoreObject.AddChild(child.CoreObject, (int)managementMode, (swig.ChildTransformingMode)transformingMode);
+			ChildrenList.Add(child);
+			child.ParentInfo = new ParentInfo2D(this, managementMode);
 		}
 
 		/// <summary>
@@ -136,7 +156,8 @@ namespace asd
 		public void RemoveChild(Object2D child)
 		{
 			CoreObject.RemoveChild(child.CoreObject);
-			children_.Remove(child);
+			ChildrenList.Remove(child);
+			child.ParentInfo = null;
 		}
 
 		/// <summary>
@@ -284,6 +305,24 @@ namespace asd
 		internal void Start()
 		{
 			OnStart();
+			foreach(var item in ChildrenList)
+			{
+				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
+				{
+					Layer.AddObject(item);
+				}
+			}
+		}
+
+		internal void CallOnRemoved()
+		{
+			foreach(var item in ChildrenList)
+			{
+				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
+				{
+					Layer.RemoveObject(item);
+				}
+			}
 		}
 
 		internal override bool GetIsAlive()
@@ -293,6 +332,10 @@ namespace asd
 
 		internal override void Update()
 		{
+			if(IsInheriting(ChildManagementMode.IsUpdated) && !ParentInfo.Parent.IsUpdated)
+			{
+				return;
+			}
 			if(IsUpdated && IsAlive)
 			{
 				OnUpdate();
@@ -306,6 +349,10 @@ namespace asd
 			{
 				return;
 			}
+			if(IsInheriting(ChildManagementMode.IsDrawn) && !ParentInfo.Parent.IsDrawn)
+			{
+				return;
+			}
 			OnDrawAdditionally();
 		}
 
@@ -316,10 +363,17 @@ namespace asd
 
 		private ComponentManager<Object2D, Object2DComponent> componentManager_ { get; set; }
 
-		private List<Object2D> children_ { get; set; }
+		internal List<Object2D> ChildrenList { get; set; }
+
+		internal ParentInfo2D ParentInfo { get; set; }
 
 		public abstract bool IsReleased { get; }
 
 		public abstract void ForceToRelease();
+
+		private bool IsInheriting(ChildManagementMode mode)
+		{
+			return ParentInfo != null && (ParentInfo.ManagementMode & mode) != 0;
+		}
 	}
 }

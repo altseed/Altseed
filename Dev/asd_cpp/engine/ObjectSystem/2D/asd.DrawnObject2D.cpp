@@ -12,5 +12,6 @@ namespace asd
 			transformingMode,
 			drwingMode);
 		m_children.push_back(child);
+		child->m_parentInfo = std::make_shared<ParentInfo2D>(this, managementMode);
 	}
 }

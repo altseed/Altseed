@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd.swig;
 
 namespace asd
 {
 	/// <summary>
 	/// テクスチャを描画するクラス。
 	/// </summary>
-	public partial class TextureObject2D : Object2D, IReleasable
+	public partial class TextureObject2D : DrawnObject2D, IReleasable
 	{
 		/// <summary>
 		/// asd.TextureObject2D の新しいインスタンスを初期化します。
@@ -77,7 +78,7 @@ namespace asd
 		/// <summary>
 		/// この2Dオブジェクトを描画する際に合成する色を取得または設定します。
 		/// </summary>
-		public Color Color
+		public override Color Color
 		{
 			get { return renderedObject.GetColor(); }
 			set { renderedObject.SetColor(value); }
@@ -101,7 +102,7 @@ namespace asd
 		/// <summary>
 		/// この2Dオブジェクトを描画する際の描画優先度を取得または設定します。描画優先度が高いほど手前に描画されます。
 		/// </summary>
-		public int DrawingPriority
+		public override int DrawingPriority
 		{
 			get { return renderedObject.GetDrawingPriority(); }
 			set { renderedObject.SetDrawingPriority(value); }
@@ -134,6 +135,11 @@ namespace asd
 		}
 
 		internal override swig.CoreObject2D CoreObject
+		{
+			get { return renderedObject; }
+		}
+
+		internal override CoreDrawnObject2D CoreDrawnObject
 		{
 			get { return renderedObject; }
 		}

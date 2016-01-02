@@ -33,7 +33,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				Position = new Vector2DF(10, 10),
 				Texture = Engine.Graphics.CreateTexture2D(CloudTexturePath),
 			};
-            obj.AddChild(child, ChildMode.Position);
+            obj.AddChild(child, ChildManagementMode.Nothing, ChildTransformingMode.Position);
 			Engine.AddObject2D(child);
 
 			coroutine = GetFlow();

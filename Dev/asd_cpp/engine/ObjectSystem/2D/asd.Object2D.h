@@ -203,7 +203,8 @@ namespace asd
 		/**
 			@brief	指定した2Dオブジェクトを子オブジェクトとしてこのインスタンスに追加する。
 			@param	child	追加する子オブジェクト
-			@param	mode	子オブジェクトの同期モード
+			@param	managementMode	子オブジェクトの管理に関する同期設定。フラグをOR演算でつなげて複数指定することができる。
+			@param	transformingmode	子オブジェクトの変形に関する同期設定。
 		*/
 		void AddChild(const Object2D::Ptr& child, ChildManagementMode::Flags managementMode, ChildTransformingMode transformingMode);
 		/**

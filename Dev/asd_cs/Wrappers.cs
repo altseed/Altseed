@@ -1099,20 +1099,20 @@ namespace asd {
 	/// <summary>
 	/// オブジェクトの親子関係の同期方法を表す列挙体 
 	///	</summary>
-	public enum ChildMode : int
+	public enum ChildTransformingMode : int
 	{
 		/// <summary>
 		/// 位置のみを同期する。 
 		/// </summary>
-		Position = asd.swig.ChildMode.Position,
+		Position = asd.swig.ChildTransformingMode.Position,
 		/// <summary>
 		/// 位置・角度・拡大率を同期する。 
 		/// </summary>
-		All = asd.swig.ChildMode.All,
+		All = asd.swig.ChildTransformingMode.All,
 		/// <summary>
 		/// 同期を行わない。 
 		/// </summary>
-		Nothing = asd.swig.ChildMode.Nothing,
+		Nothing = asd.swig.ChildTransformingMode.Nothing,
 	}
 
 	/// <summary>
