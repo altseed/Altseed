@@ -181,12 +181,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void CoreTextureObject2D_Imp::Draw(Renderer2D* renderer)
 	{
-		if (m_parentInfo != nullptr && !m_parentInfo->GetInheritedBeingDrawn())
-		{
-			return;
-		}
-
-		if (!m_objectInfo.GetIsDrawn())
+		if (!GetAbsoluteBeingDrawn() || !GetIsAlive())
 		{
 			return;
 		}
@@ -203,19 +198,18 @@ namespace asd
 
 		auto textureSize = m_texture != nullptr ? m_texture->GetSize() : Vector2DI(1, 1);
 
-		auto parentMatrix = GetParentsMatrix();
-		auto matrix = GetMatrixToTransform();
+		auto matrix = GetAbsoluteMatrixToTransform();
 
 		for (auto& pos : position)
 		{
 			pos -= m_centerPosition;
 			auto v3 = Vector3DF(pos.X, pos.Y, 1);
-			auto result = parentMatrix * matrix * v3;
+			auto result = matrix * v3;
 			pos = Vector2DF(result.X, result.Y);
 		}
 
 		Color color[4];
-		auto col = GetColor();
+		auto col = GetAbsoluteColor();
 		color[0] = col;
 		color[1] = col;
 		color[2] = col;
@@ -261,7 +255,7 @@ namespace asd
 			uvs.data(),
 			m_texture,
 			m_alphablend,
-			GetDrawingPriority(),
+			GetAbsoluteDrawingPriority(),
 			m_textureFilterType);
 	}
 }

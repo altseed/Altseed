@@ -83,15 +83,12 @@ namespace asd
 
 	void CoreGeometryObject2D_Imp::Draw(Renderer2D* renderer)
 	{
-		if (!m_objectInfo.GetIsDrawn() || m_shape == nullptr
-			|| (m_parentInfo != nullptr && !m_parentInfo->GetInheritedBeingDrawn()))
+		if (!GetAbsoluteBeingDrawn() || !GetIsAlive() || m_shape == nullptr)
 		{
 			return;
 		}
 
 		auto shape_Imp = CoreShape2DToImp(m_shape);
-		auto inheritedColor = m_parentInfo != nullptr ? m_parentInfo->GetInheritedColor() : Color(255, 255, 255, 255);
-		auto inheritedDrawingPriority = m_parentInfo != nullptr ? m_parentInfo->GetInheritedDrawingPriority() : 0;
 
 		for (auto triangle : shape_Imp->GetDividedTriangles())
 		{
@@ -106,18 +103,17 @@ namespace asd
 			position[3] = position[2];
 			uvs[3] = uvs[2];
 
-			auto parentMatrix = GetParentsMatrix();
-			auto matrix = GetMatrixToTransform();
+			auto matrix = GetAbsoluteMatrixToTransform();
 			for (auto& pos : position)
 			{
 				pos -= centerPosition;
 				auto v3 = Vector3DF(pos.X, pos.Y, 1);
-				auto result = parentMatrix * matrix * v3;
+				auto result = matrix * v3;
 				pos = Vector2DF(result.X, result.Y);
 			}
 
 			Color color[4];
-			auto col = GetColor();
+			auto col = GetAbsoluteColor();
 			color[0] = col;
 			color[1] = col;
 			color[2] = col;
@@ -129,7 +125,7 @@ namespace asd
 				uvs.data(),
 				(m_shape->GetShapeType() == ShapeType::LineShape) ? nullptr : m_texture,
 				alphaBlendMode,
-				GetDrawingPriority(),
+				GetAbsoluteDrawingPriority(),
 				m_textureFilterType);
 		}
 	}
