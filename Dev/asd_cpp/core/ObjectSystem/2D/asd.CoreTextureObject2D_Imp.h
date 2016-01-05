@@ -4,12 +4,13 @@
 #include "asd.CoreTextureObject2D.h"
 #include "asd.CoreObject2D_Imp.h"
 #include "asd.DrawnParentInfo2D.h"
+#include "asd.CoreDrawnObject2D_Imp.h"
 
 namespace asd
 {
 	class CoreTextureObject2D_Imp
 		: public CoreTextureObject2D
-		, public CoreObject2D_Imp
+		, public CoreDrawnObject2D_Imp
 		, public ReferenceObject
 	{
 
@@ -19,11 +20,9 @@ namespace asd
 		Texture2D* m_texture;
 		RectF m_src;
 		Vector2DF m_centerPosition;
-		Color m_color;
 		bool m_turnLR;
 		bool m_turnUL;
 		AlphaBlendMode m_alphablend;
-		int m_drawingPtiority;
 		TextureFilterType m_textureFilterType;
 
 	public:
@@ -42,17 +41,11 @@ namespace asd
 		Vector2DF GetCenterPosition() const;
 		void SetCenterPosition(Vector2DF position);
 
-		Color GetColor() const;
-		void SetColor(Color color);
-
 		bool GetTurnLR() const;
 		void SetTurnLR(bool turnLR);
 
 		bool GetTurnUL() const;
 		void SetTurnUL(bool turnUL);
-
-		int GetDrawingPriority() const;
-		void SetDrawingPriority(int priority);
 
 		AlphaBlendMode GetAlphaBlendMode() const;
 		void SetAlphaBlendMode(AlphaBlendMode alphaBlend);

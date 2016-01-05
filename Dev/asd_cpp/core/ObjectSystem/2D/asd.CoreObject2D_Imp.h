@@ -37,7 +37,7 @@ namespace asd
 		CoreObject2D_Imp(Graphics_Imp* graphics);
 		virtual ~CoreObject2D_Imp();
 
-
+		// カリング系
 		virtual void CalculateBoundingCircle(){}
 
 		void SetCullingObject(culling2d::Object *cullingObj)
@@ -62,7 +62,7 @@ namespace asd
 
 		culling2d::Circle& GetBoundingCircle();
 
-
+		// システム系
 		int32_t GetCameraGroup() const
 		{
 			return cameraGroup;
@@ -97,7 +97,7 @@ namespace asd
 			m_objectInfo.SetIsAlive(value);
 		}
 
-
+		// オブジェクトシステム系
 		void SetLayer(CoreLayer2D* layer)
 		{
 			m_objectInfo.SetLayer(layer);
@@ -118,28 +118,28 @@ namespace asd
 			m_parentInfo = nullptr;
 		}
 
+		const ParentInfo2D* GetParentInfo() const
+		{
+			return m_parentInfo.get();
+		}
+
 		virtual void OnAdded(Renderer2D* renderer) {}
 
 		virtual void OnRemoving(Renderer2D* renderer) {}
 
-
+		// 変形系
 		Vector2DF GetPosition() const
 		{
 			return m_transform.GetPosition();
 		}
-
 		void SetPosition(Vector2DF value)
 		{
 			m_transform.SetPosition(value);
 			SetCullingUpdate(this);
 		}
-
 		Vector2DF GetGlobalPosition()
 		{
-			auto vec2 = GetPosition();
-			auto vec3 = Vector3DF(vec2.X, vec2.Y, 1);
-			auto result = GetParentsMatrix() * vec3;
-			return Vector2DF(result.X, result.Y);
+			return GetAbsolutePosition();
 		}
 
 		float GetAngle() const
@@ -166,22 +166,26 @@ namespace asd
 		{
 			return m_transform.GetMatrixToTranslate();
 		}
-
 		Matrix33 GetMatrixToTransform()
 		{
 			return m_transform.GetMatrixToTransform();
 		}
-
 		Matrix33 GetParentsMatrix()
 		{
 			if (m_parentInfo != nullptr)
 			{
-				return m_parentInfo->GetInheritedMatrix();
+				return m_parentInfo->GetInheritedMatrixToTransform();
 			}
 			else
 			{
 				return Matrix33();
 			}
 		}
+
+		// 親子関係系
+		Vector2DF GetAbsolutePosition();
+		Matrix33 GetAbsoluteMatrixToTranslate();
+		Matrix33 GetAbsoluteMatrixToTransform();
+		bool GetAbsoluteBeingDrawn() const;
 	};
 }

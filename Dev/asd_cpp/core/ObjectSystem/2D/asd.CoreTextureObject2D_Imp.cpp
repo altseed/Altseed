@@ -9,13 +9,11 @@ namespace asd
 	CoreTextureObject2D_Imp::CoreTextureObject2D_Imp(Graphics_Imp* graphics)
 		: m_texture(nullptr)
 		, m_centerPosition(Vector2DF())
-		, m_color(Color())
 		, m_turnLR(false)
 		, m_turnUL(false)
 		, m_alphablend(AlphaBlendMode::Blend)
-		, m_drawingPtiority(0)
 		, m_src(RectF(0, 0, 1, 1))
-		, CoreObject2D_Imp(graphics)
+		, CoreDrawnObject2D_Imp(graphics)
 		, m_textureFilterType(TextureFilterType::Nearest)
 	{
 	}
@@ -88,22 +86,6 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Color CoreTextureObject2D_Imp::GetColor() const
-	{
-		return m_color;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void CoreTextureObject2D_Imp::SetColor(Color color)
-	{
-		m_color = color;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	bool CoreTextureObject2D_Imp::GetTurnLR() const
 	{
 		return m_turnLR;
@@ -131,22 +113,6 @@ namespace asd
 	void CoreTextureObject2D_Imp::SetTurnUL(bool turnUL)
 	{
 		m_turnUL = turnUL;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	int CoreTextureObject2D_Imp::GetDrawingPriority() const
-	{
-		return m_drawingPtiority;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void CoreTextureObject2D_Imp::SetDrawingPriority(int priority)
-	{
-		m_drawingPtiority = priority;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -249,11 +215,7 @@ namespace asd
 		}
 
 		Color color[4];
-		auto col = m_color;
-		if (m_parentInfo != nullptr)
-		{
-			col *= m_parentInfo->GetInheritedColor();
-		}
+		auto col = GetColor();
 		color[0] = col;
 		color[1] = col;
 		color[2] = col;
@@ -293,15 +255,13 @@ namespace asd
 			std::swap(uvs[1], uvs[2]);
 		}
 
-		auto priority = m_parentInfo != nullptr ? m_parentInfo->GetInheritedDrawingPriority() : 0;
-
 		renderer->AddSprite(
 			position.data(),
 			color,
 			uvs.data(),
 			m_texture,
 			m_alphablend,
-			priority + m_drawingPtiority,
+			GetDrawingPriority(),
 			m_textureFilterType);
 	}
 }

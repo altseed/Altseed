@@ -521,6 +521,7 @@
     <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreChip2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreCameraObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreCameraObject2D_Imp.h" />
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreDrawnObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreEffectObject2D.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreEffectObject2D_Imp.h" />
     <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreGeometryObject2D.h" />
@@ -725,6 +726,7 @@
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreChip2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreCameraObject2D_Imp.cpp" />
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreDrawnObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreEffectObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreGeometryObject2D_Imp.cpp" />
     <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreMapObject2D_Imp.cpp" />

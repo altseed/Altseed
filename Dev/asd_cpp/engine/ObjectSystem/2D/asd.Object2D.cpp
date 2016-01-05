@@ -32,6 +32,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Object2D::Start()
 	{
+		OnStart();
 		for (auto& child : m_children)
 		{
 			if (IS_INHERITED(child, RegistrationToLayer))
@@ -39,7 +40,6 @@ namespace asd
 				GetLayer()->AddObject(child);
 			}
 		}
-		OnStart();
 	}
 
 	void Object2D::OnRemovedInternal()
@@ -55,8 +55,7 @@ namespace asd
 
 	void Object2D::Update()
 	{
-		if (!m_isUpdated || !GetIsAlive()
-			|| (IS_INHERITED(this, IsUpdated) && !m_parentInfo->GetParent()->GetIsUpdated()))
+		if (!GetIsAlive() || !GetInheritedBeingUpdated())
 		{
 			return;
 		}
@@ -78,6 +77,14 @@ namespace asd
 		m_componentManager.Update();
 	}
 
+	void Object2D::DrawAdditionally()
+	{
+		if (GetIsAlive() && GetInheritedBeingDrawn())
+		{
+			OnDrawAdditionally();
+		}
+	}
+
 	void Object2D::Dispose()
 	{
 		for (auto& child : m_children)
@@ -86,6 +93,21 @@ namespace asd
 		}
 		OnDispose();
 	}
+
+	bool Object2D::GetInheritedBeingUpdated() const
+	{
+		return m_isUpdated
+			&& !(IS_INHERITED(this, IsUpdated)
+			&& !m_parentInfo->GetParent()->GetInheritedBeingUpdated());
+	}
+
+	bool Object2D::GetInheritedBeingDrawn() const
+	{
+		return m_isDrawn
+			&& !(IS_INHERITED(this, IsDrawn)
+			&& !m_parentInfo->GetParent()->GetInheritedBeingDrawn());
+	}
+
 
 	void Object2D::OnStart()
 	{

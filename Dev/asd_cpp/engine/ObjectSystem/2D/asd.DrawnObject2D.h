@@ -18,6 +18,9 @@ namespace asd
 		virtual int GetDrawingPriority() const = 0;
 		virtual void SetDrawingPriority(int value) = 0;
 
+		virtual Color GetAbsoluteColor() const = 0;
+		virtual int GetAbsoluteDrawingPriority() const = 0;
+
 		/**
 			@brief	描画に関する同期設定を指定して、指定した2Dオブジェクトを子オブジェクトとしてこのインスタンスに追加する。
 			@param	child	追加する子オブジェクト

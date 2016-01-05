@@ -6,13 +6,10 @@
 namespace asd
 {
 	CoreGeometryObject2D_Imp::CoreGeometryObject2D_Imp(Graphics_Imp* graphics)
-		:
-		CoreObject2D_Imp(graphics)
-		,m_shape(nullptr)
-		, drawingPriority(0)
+		: CoreDrawnObject2D_Imp(graphics)
+		, m_shape(nullptr)
 		, alphaBlendMode(AlphaBlendMode::Blend)
 		, centerPosition(Vector2DF())
-		, m_color(Color())
 		, m_textureFilterType(TextureFilterType::Nearest)
 		, m_texture(nullptr)
 	{
@@ -41,16 +38,6 @@ namespace asd
 		SafeSubstitute(m_shape, shape);
 	}
 
-	int CoreGeometryObject2D_Imp::GetDrawingPriority() const
-	{
-		return drawingPriority;
-	}
-
-	void CoreGeometryObject2D_Imp::SetDrawingPriority(int priority)
-	{
-		drawingPriority = priority;
-	}
-
 	AlphaBlendMode CoreGeometryObject2D_Imp::GetAlphaBlendMode() const
 	{
 		return alphaBlendMode;
@@ -70,16 +57,6 @@ namespace asd
 	Vector2DF CoreGeometryObject2D_Imp::GetCenterPosition() const
 	{
 		return centerPosition;
-	}
-
-	void CoreGeometryObject2D_Imp::SetColor(Color color)
-	{
-		m_color = color;
-	}
-
-	Color CoreGeometryObject2D_Imp::GetColor() const
-	{
-		return m_color;
 	}
 
 	void CoreGeometryObject2D_Imp::SetTextureFilterType(TextureFilterType textureFilterType)
@@ -140,7 +117,7 @@ namespace asd
 			}
 
 			Color color[4];
-			auto col = m_color * inheritedColor;
+			auto col = GetColor();
 			color[0] = col;
 			color[1] = col;
 			color[2] = col;
@@ -152,7 +129,7 @@ namespace asd
 				uvs.data(),
 				(m_shape->GetShapeType() == ShapeType::LineShape) ? nullptr : m_texture,
 				alphaBlendMode,
-				drawingPriority + inheritedDrawingPriority,
+				GetDrawingPriority(),
 				m_textureFilterType);
 		}
 	}

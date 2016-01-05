@@ -63,9 +63,13 @@ namespace asd
 		void Start();
 		void OnRemovedInternal();
 		void Update();
+		void DrawAdditionally();
 		void Dispose();
 		void SetLayer(Layer2D* layer);
 		virtual CoreObject2D* GetCoreObject() const = 0;
+
+		bool GetInheritedBeingUpdated() const;
+		bool GetInheritedBeingDrawn() const;
 
 	protected:
 		/**
