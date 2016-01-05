@@ -38,18 +38,6 @@ namespace asd
 		void SetShape(std::shared_ptr<Shape> shape);
 
 		/**
-		@brief	このオブジェクトの描画優先度を取得する。
-		@param	effect	エフェクト
-		*/
-		int GetDrawingPriority() const;
-
-		/**
-		@brief	このオブジェクトの描画優先度を設定する。
-		@param	priority	描画優先度
-		*/
-		void SetDrawingPriority(int priority);
-
-		/**
 		@brief	このオブジェクトのブレンディング モードを取得する。
 		@return	ブレンディングモード
 		*/
@@ -72,18 +60,6 @@ namespace asd
 		@return	描画する際の中心座標
 		*/
 		Vector2DF GetCenterPosition() const;
-
-		/**
-		@brief	このオブジェクトを描画する際に合成する色を取得する。
-		@param	color	描画する際に合成する色
-		*/
-		void SetColor(Color color);
-
-		/**
-		@brief	このオブジェクトを描画する際に合成する色を設定する。
-		@return	描画する際に合成する色
-		*/
-		Color GetColor() const;
 
 		/**
 		@brief	このオブジェクトを描画する際のテクスチャフィルタの種類を設定する。

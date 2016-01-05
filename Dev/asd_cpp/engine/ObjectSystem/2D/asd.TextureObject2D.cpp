@@ -58,16 +58,6 @@ namespace asd
 		m_coreObject->SetCenterPosition(position);
 	}
 
-	Color TextureObject2D::GetColor() const
-	{
-		return m_coreObject->GetColor();
-	}
-
-	void TextureObject2D::SetColor(Color color)
-	{
-		m_coreObject->SetColor(color);
-	}
-
 	bool TextureObject2D::GetTurnLR() const
 	{
 		return m_coreObject->GetTurnLR();
@@ -86,16 +76,6 @@ namespace asd
 	void TextureObject2D::SetTurnUL(bool turnUL)
 	{
 		m_coreObject->SetTurnUL(turnUL);
-	}
-
-	int TextureObject2D::GetDrawingPriority() const
-	{
-		return m_coreObject->GetDrawingPriority();
-	}
-
-	void TextureObject2D::SetDrawingPriority(int priority)
-	{
-		m_coreObject->SetDrawingPriority(priority);
 	}
 
 	AlphaBlendMode TextureObject2D::GetAlphaBlendMode() const

@@ -55,7 +55,7 @@ namespace asd
 
 	void Object2D::Update()
 	{
-		if (!GetIsAlive() || !GetInheritedBeingUpdated())
+		if (!GetIsAlive() || !GetAbsoluteBeingUpdated())
 		{
 			return;
 		}
@@ -79,7 +79,7 @@ namespace asd
 
 	void Object2D::DrawAdditionally()
 	{
-		if (GetIsAlive() && GetInheritedBeingDrawn())
+		if (GetIsAlive() && GetAbsoluteBeingDrawn())
 		{
 			OnDrawAdditionally();
 		}
@@ -92,20 +92,6 @@ namespace asd
 			GetCoreObject()->RemoveChild(child->GetCoreObject());
 		}
 		OnDispose();
-	}
-
-	bool Object2D::GetInheritedBeingUpdated() const
-	{
-		return m_isUpdated
-			&& !(IS_INHERITED(this, IsUpdated)
-			&& !m_parentInfo->GetParent()->GetInheritedBeingUpdated());
-	}
-
-	bool Object2D::GetInheritedBeingDrawn() const
-	{
-		return m_isDrawn
-			&& !(IS_INHERITED(this, IsDrawn)
-			&& !m_parentInfo->GetParent()->GetInheritedBeingDrawn());
 	}
 
 
@@ -330,5 +316,16 @@ namespace asd
 		}
 	}
 
+	bool Object2D::GetAbsoluteBeingUpdated() const
+	{
+		return m_isUpdated
+			&& !(IS_INHERITED(this, IsUpdated)
+			&& !m_parentInfo->GetParent()->GetAbsoluteBeingUpdated());
+	}
+
+	bool Object2D::GetAbsoluteBeingDrawn() const
+	{
+		return GetCoreObject()->GetAbsoluteBeingDrawn();
+	}
 #pragma endregion
 }

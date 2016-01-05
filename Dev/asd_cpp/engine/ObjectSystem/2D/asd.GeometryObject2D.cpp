@@ -49,16 +49,6 @@ namespace asd
 		return texturePtr;
 	}
 
-	int GeometryObject2D::GetDrawingPriority() const
-	{
-		return m_coreObject->GetDrawingPriority();
-	}
-
-	void GeometryObject2D::SetDrawingPriority(int priority)
-	{
-		m_coreObject->SetDrawingPriority(priority);
-	}
-
 	AlphaBlendMode GeometryObject2D::GetAlphaBlendMode() const
 	{
 		return m_coreObject->GetAlphaBlendMode();
@@ -77,16 +67,6 @@ namespace asd
 	Vector2DF GeometryObject2D::GetCenterPosition() const
 	{
 		return m_coreObject->GetCenterPosition();
-	}
-
-	void GeometryObject2D::SetColor(Color color)
-	{
-		m_coreObject->SetColor(color);
-	}
-
-	Color GeometryObject2D::GetColor() const
-	{
-		return m_coreObject->GetColor();
 	}
 
 	void GeometryObject2D::SetTextureFilterType(TextureFilterType textureFilterType)

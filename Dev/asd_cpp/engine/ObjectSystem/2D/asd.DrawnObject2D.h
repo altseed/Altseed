@@ -12,14 +12,32 @@ namespace asd
 	public:
 		typedef std::shared_ptr<DrawnObject2D> Ptr;
 
-		virtual Color GetColor() const = 0;
-		virtual void SetColor(Color value) = 0;
+		/**
+			@brief	描画する際に合成する色を取得する。
+		*/
+		Color GetColor() const;
+		/**
+			@brief	描画する際に合成する色を設定する。
+		*/
+		void SetColor(Color value);
 
-		virtual int GetDrawingPriority() const = 0;
-		virtual void SetDrawingPriority(int value) = 0;
+		/**
+			@brief	このオブジェクトの描画優先度を取得する。
+		*/
+		int GetDrawingPriority() const;
+		/**
+			@brief	このオブジェクトの描画優先度を設定する。
+		*/
+		void SetDrawingPriority(int value);
 
-		virtual Color GetAbsoluteColor() const = 0;
-		virtual int GetAbsoluteDrawingPriority() const = 0;
+		/**
+			@brief	親子関係を考慮して最終的に描画時にこのオブジェクトに合成する色を取得する。
+		*/
+		Color GetAbsoluteColor() const;
+		/**
+			@brief	親子関係を考慮したこのオブジェクトの最終的な描画優先度を取得する。
+		*/
+		int GetAbsoluteDrawingPriority() const;
 
 		/**
 			@brief	描画に関する同期設定を指定して、指定した2Dオブジェクトを子オブジェクトとしてこのインスタンスに追加する。

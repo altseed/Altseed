@@ -68,9 +68,6 @@ namespace asd
 		void SetLayer(Layer2D* layer);
 		virtual CoreObject2D* GetCoreObject() const = 0;
 
-		bool GetInheritedBeingUpdated() const;
-		bool GetInheritedBeingDrawn() const;
-
 	protected:
 		/**
 			@brief	オーバーライドして、このオブジェクトの初期化処理を記述できる。
@@ -220,6 +217,10 @@ namespace asd
 			@brief	このオブジェクトが保持している子オブジェクトを含むコンテナを取得する。
 		*/
 		const std::list<Object2D::Ptr>& GetChildren() const;
+		/**
+			@brief	このオブジェクトの親オブジェクトを取得する。親がいなければnullptrを返す。
+		*/
+		const Object2D* GetParent() const;
 
 		/**
 			@brief	指定したコンポーネントをこのインスタンスに追加する。
@@ -282,5 +283,14 @@ namespace asd
 			@brief	このオブジェクトの更新の優先順位を設定する。
 		*/
 		void SetUpdatePriority(int value);
+
+		/**
+			@brief	このオブジェクトが親子関係を考慮して最終的に更新されるかどうかの真偽値を取得します。
+		*/
+		bool GetAbsoluteBeingUpdated() const;
+		/**
+			@brief	このオブジェクトが親子関係を考慮して最終的に描画されるかどうかの真偽値を取得します。
+		*/
+		bool GetAbsoluteBeingDrawn() const;
 	};
 }

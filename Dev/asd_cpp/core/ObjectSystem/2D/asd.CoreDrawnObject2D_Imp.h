@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 #include "asd.CoreObject2D_Imp.h"
 #include "asd.CoreDrawnObject2D.h"
 
@@ -6,7 +6,7 @@ namespace asd
 {
 	class CoreDrawnObject2D_Imp
 		: public CoreObject2D_Imp
-		// : public CoreDrawnObject2D  •HŒ^Œp³–h~‚Ì‚½‚ßƒRƒƒ“ƒgƒAƒEƒg
+		// : public CoreDrawnObject2D  è±å‹ç¶™æ‰¿é˜²æ­¢ã®ãŸã‚ã‚³ãƒ¡ãƒ³ãƒˆã‚¢ã‚¦ãƒˆ
 	{
 	private:
 		Color m_color;

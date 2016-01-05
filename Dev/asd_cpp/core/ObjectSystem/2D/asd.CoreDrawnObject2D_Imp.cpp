@@ -1,4 +1,4 @@
-#include "asd.CoreDrawnObject2D_Imp.h"
+﻿#include "asd.CoreDrawnObject2D_Imp.h"
 
 namespace asd
 {
