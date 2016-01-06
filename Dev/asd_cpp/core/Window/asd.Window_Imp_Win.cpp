@@ -15,7 +15,12 @@ void Window_Imp_Win::CallbackOnFocus(GLFWwindow* window, int b)
 	auto w = (Window_Imp_Win*)glfwGetWindowUserPointer(window);
 	if (b == GL_TRUE)
 	{
-		w->OnFocused();
+		auto onFocused = w->OnFocused;
+
+		if (onFocused)
+		{
+			onFocused();
+		}
 	}
 	else
 	{
