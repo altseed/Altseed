@@ -1017,6 +1017,9 @@
     <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreDrawnObject2D_Imp_Methods.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
+    <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreDrawnObject2D_Imp.h">
+      <Filter>ObjectSystem\2D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\core\Log\asd.Log_Imp.cpp">
@@ -1431,6 +1434,9 @@
     </ClCompile>
     <ClCompile Include="..\core\Window\asd.Cursor_Imp.cpp">
       <Filter>Window</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreDrawnObject2D_Imp.cpp">
+      <Filter>ObjectSystem\2D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

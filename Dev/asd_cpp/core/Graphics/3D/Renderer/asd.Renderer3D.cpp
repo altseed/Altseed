@@ -264,6 +264,7 @@ namespace asd
 		proxy->OceanColor = OceanColor;
 		proxy->OceanDensity = OceanDensity;
 		proxy->OceanNormalMap = OceanNormalMap;
+		proxy->OceanMask = OceanMask;
 	}
 
 	void Renderer3D::BeginRendering(float deltaTime)

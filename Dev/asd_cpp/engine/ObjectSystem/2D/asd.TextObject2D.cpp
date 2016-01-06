@@ -46,16 +46,6 @@ namespace asd
 		m_coreObject->SetCenterPosition(position);
 	}
 
-	Color TextObject2D::GetColor() const
-	{
-		return m_coreObject->GetColor();
-	}
-
-	void TextObject2D::SetColor(Color color)
-	{
-		m_coreObject->SetColor(color);
-	}
-
 	bool TextObject2D::GetTurnLR() const
 	{
 		return m_coreObject->GetTurnLR();
@@ -74,16 +64,6 @@ namespace asd
 	void TextObject2D::SetTurnUL(bool turnUL)
 	{
 		m_coreObject->SetTurnUL(turnUL);
-	}
-
-	int TextObject2D::GetDrawingPriority() const
-	{
-		return m_coreObject->GetDrawingPriority();
-	}
-
-	void TextObject2D::SetDrawingPriority(int priority)
-	{
-		m_coreObject->SetDrawingPriority(priority);
 	}
 
 	AlphaBlendMode TextObject2D::GetAlphaBlendMode() const

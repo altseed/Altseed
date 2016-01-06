@@ -41,12 +41,17 @@ namespace asd
 		float depth = 1.0f;
 		buf[0].Position = Vector3DF(-1.0f, 1.0f, depth);
 		buf[0].UV = Vector2DF(0, 0);
+		buf[0].UVSub = Vector2DF(0, 0);
 		buf[1].Position = Vector3DF(1.0f, 1.0f, depth);
 		buf[1].UV = Vector2DF(1, 0);
+		buf[1].UVSub = Vector2DF(1, 0);
 		buf[2].Position = Vector3DF(1.0f, -1.0f, depth);
 		buf[2].UV = Vector2DF(1, 1);
+		buf[2].UVSub = Vector2DF(1, 1);
 		buf[3].Position = Vector3DF(-1.0f, -1.0f, depth);
 		buf[3].UV = Vector2DF(0, 1);
+		buf[3].UVSub = Vector2DF(0, 1);
+
 		buf[4] = buf[0];
 		buf[5] = buf[2];
 
@@ -57,6 +62,7 @@ namespace asd
 		vl.push_back(asd::VertexLayout("Normal", asd::VertexLayoutFormat::R32G32B32_FLOAT));
 		vl.push_back(asd::VertexLayout("Binormal", asd::VertexLayoutFormat::R32G32B32_FLOAT));
 		vl.push_back(asd::VertexLayout("UV", asd::VertexLayoutFormat::R32G32_FLOAT));
+		vl.push_back(asd::VertexLayout("UVSub", asd::VertexLayoutFormat::R32G32_FLOAT));
 
 		std::vector<asd::Macro> macro;
 
@@ -80,7 +86,7 @@ namespace asd
 
 	}
 
-	void OceanRendering::Render(RenderedCameraObject3DProxy* cameraP, RenderingCommandHelper* helper, Matrix44 cameraMat, Matrix44 projMat, Texture2D* reflectionTexture, Texture2D* refractionTexture, RenderTexture2D_Imp* gb2, Texture2D* normalMap)
+	void OceanRendering::Render(RenderedCameraObject3DProxy* cameraP, RenderingCommandHelper* helper, Matrix44 cameraMat, Matrix44 projMat, Texture2D* maskTexture, Texture2D* reflectionTexture, Texture2D* refractionTexture, RenderTexture2D_Imp* gb2, Texture2D* normalMap)
 	{
 		if (shader == nullptr) return;
 
@@ -114,6 +120,7 @@ namespace asd
 			h::GenValue("g_reflectionTexture", h::Texture2DPair(reflectionTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
 			h::GenValue("g_refractionTexture", h::Texture2DPair(refractionTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Clamp)),
 			h::GenValue("g_normalTexture", h::Texture2DPair(normalMap, asd::TextureFilterType::Linear, asd::TextureWrapType::Repeat)),
+			h::GenValue("g_maskTexture", h::Texture2DPair(maskTexture, asd::TextureFilterType::Linear, asd::TextureWrapType::Repeat)),
 
 			h::GenValue("matM", matM),
 			h::GenValue("matC", matC),
@@ -140,21 +147,25 @@ namespace asd
 		buf[0].UV = Vector2DF(0, 0);
 		buf[0].Normal = Vector3DF(0, 1, 0);
 		buf[0].Binormal = Vector3DF(0, 0, 1);
+		buf[0].UVSub = Vector2DF(0, 0);
 
 		buf[1].Position = Vector3DF(ex, height, sy);
 		buf[1].UV = Vector2DF((ex - sx) / gridSize, 0);
 		buf[1].Normal = Vector3DF(0, 1, 0);
 		buf[1].Binormal = Vector3DF(0, 0, 1);
+		buf[1].UVSub = Vector2DF(1, 0);
 
 		buf[2].Position = Vector3DF(ex, height, ey);
 		buf[2].UV = Vector2DF((ex - sx) / gridSize, (ey - sy) / gridSize);
 		buf[2].Normal = Vector3DF(0, 1, 0);
 		buf[2].Binormal = Vector3DF(0, 0, 1);
+		buf[2].UVSub = Vector2DF(1, 1);
 
 		buf[3].Position = Vector3DF(sx, height, ey);
 		buf[3].UV = Vector2DF(0, (ey - sy) / gridSize);
 		buf[3].Normal = Vector3DF(0, 1, 0);
 		buf[3].Binormal = Vector3DF(0, 0, 1);
+		buf[3].UVSub = Vector2DF(0, 1);
 
 		buf[4] = buf[0];
 		buf[5] = buf[2];

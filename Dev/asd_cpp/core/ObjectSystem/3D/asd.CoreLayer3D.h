@@ -78,6 +78,9 @@ namespace asd
 		virtual Texture2D* GetOceanNormalMap() = 0;
 		virtual void SetOceanNormalMap(Texture2D* value) = 0;
 
+		virtual Texture2D* GetOceanMask() = 0;
+		virtual void SetOceanMask(Texture2D* value) = 0;
+
 		virtual void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,

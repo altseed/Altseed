@@ -10,7 +10,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 	class ParentObject : EngineTest
 	{
 		public ParentObject()
-			: base( 60 )
+			: base(60)
 		{
 		}
 
@@ -21,19 +21,19 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			var child = new TextureObject2D();
 			parent = new TextureObject2D();
 
-			parent.AddChild( child, ChildMode.All );
-			layer.AddObject( parent );
-			layer.AddObject( child );
-			scene.AddLayer( layer );
-			Engine.ChangeScene( scene );
+			parent.AddChild(child, ChildManagementMode.Nothing, ChildTransformingMode.All);
+			layer.AddObject(parent);
+			layer.AddObject(child);
+			scene.AddLayer(layer);
+			Engine.ChangeScene(scene);
 
-			var texture = Engine.Graphics.CreateTexture2D( CloudTexturePath );
+			var texture = Engine.Graphics.CreateTexture2D(CloudTexturePath);
 
-			parent.Position = new Vector2DF( 320, 240 );
-			parent.CenterPosition = new Vector2DF( 128, 128 );
+			parent.Position = new Vector2DF(320, 240);
+			parent.CenterPosition = new Vector2DF(128, 128);
 			parent.Texture = texture;
 
-			child.Position = new Vector2DF( 50, 50 );
+			child.Position = new Vector2DF(50, 50);
 			child.Texture = texture;
 		}
 

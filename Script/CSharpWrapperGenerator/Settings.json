@@ -18,12 +18,12 @@
 		"TextureLockInfomation",
 
 		"SideButton",
+		"MiddleButton",
 
 		"RenderSettings",
 
 		"ObjectSystemFactory",
 
-		"MiddleButton",
 		"MaterialPropertyBlock",
 
 		"KeyframeAnimation",
@@ -34,16 +34,12 @@
 		"CoreObject3D",
 		"CoreObject2D",
 
-		"CoreLayer3D",
-		"CoreLayer2D",
-		"CoreLayer",
-
-		"CoreChip2D",
-
 		"AnimationSystem",
 		"AnimationSource",
 		"AnimationClip",
 
+		"ChildManagementMode",
+		"ChildDrawingMode",
 		"CoreShape",
 		"CoreTriangleShape",
 		"CoreArcShape",
@@ -51,26 +47,30 @@
 		"CoreRectangleShape",
 		"CoreCircleShape",
 		"CorePolygonShape",
+		"CoreChip2D",
 
-		"CoreTransition",
+		"CoreDrawnObject2D",
 		"CoreTextureObject2D",
 		"CoreTextObject2D",
 		"CoreMapObject2D",
-		"CoreTerrainObject3D",
-
-		"CoreScene",
-
 		"CoreEffectObject2D",
 		"CoreGeometryObject2D",
 		"CoreCameraObject2D",
-		"CoreModelObject3D",
 
+		"CoreTerrainObject3D",
+		"CoreModelObject3D",
 		"CoreEffectObject3D",
 		"CoreDirectionalLightObject3D",
 		"CoreCameraObject3D",
 		"CoreMassModelObject3D",
 
+		"CoreLayer2D",
+		"CoreLayer3D",
+		"CoreLayer",
 		"CorePostEffect",
+
+		"CoreScene",
+		"CoreTransition",
 
 		"LayerProfiler",
 		"LayerProfiler_Imp",
@@ -95,7 +95,7 @@
 		"Texture2D.Lock",
 
 		"Mesh.SetMaterial",
-		"Terrain3D.LoadFromMemory"
+		"Terrain3D.LoadFromMemory",
 	],
 	"ListOfClassWhoseCoreIsPrivate":
 	[

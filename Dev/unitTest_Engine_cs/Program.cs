@@ -12,7 +12,7 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-			TestSequencially(typeof(ObjectSystem2D.UpdateFrequency));
+			TestSequencially(typeof(ObjectSystem2D.ParentObject));
 			Console.ReadKey();
 			return;
 

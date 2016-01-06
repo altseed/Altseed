@@ -52,6 +52,20 @@ Altseedを初期化する時に、例えば、フルスクリーン表示をす�
 | TimeSpan | 処理にかかった時間に対する時間指定可能な機能が進行する時間の倍率 |
 | FramerateMode | フレームレート制御方法 |
 
+#### 各種機能
+
+|名称|説明|
+|---|---|
+|Logger|ログ出力機能にアクセスします。|
+|Profiler|[プロファイリング機能](../Profiling/Profiler.md)にアクセスします。|
+|Keyboard|[キーボード入力機能](../Input/Keyboard.md)にアクセスします。|
+|Mouse|[マウス入力機能](../Input/Mouse.md)にアクセスします。|
+|JoystickContainer|[ジョイスティック入力機能](../Input/JoystickContainer.md)にアクセスします。|
+|Sound|[音声再生機能](../Sound/SoundSource.md)にアクセスします。|
+|Graphics|[グラフィックス関連機能](../Graphics/Graphics.md)にアクセスします。|
+|AnimationSystem|アニメーション機能にアクセスします。|
+|File|[ファイル(ファイルパッケージ)機能](../IO/File.md)にアクセスします。|
+
 ### 主なイベント
 
 なし

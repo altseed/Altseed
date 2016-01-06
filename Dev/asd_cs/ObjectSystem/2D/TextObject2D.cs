@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd.swig;
 
 namespace asd
 {
     /// <summary>
     /// 文字列の描画を扱うクラス。
     /// </summary>
-    public partial class TextObject2D : Object2D, IReleasable
+    public partial class TextObject2D : DrawnObject2D, IReleasable
 	{
-
 		internal override swig.CoreObject2D CoreObject
+		{
+			get { return coreTextObject; }
+		}
+		internal override CoreDrawnObject2D CoreDrawnObject
 		{
 			get { return coreTextObject; }
 		}
@@ -123,7 +127,7 @@ namespace asd
         /// <summary>
         /// この2Dオブジェクトを描画する際に合成する色を取得または設定する。
         /// </summary>
-        public Color Color
+        public override Color Color
         {
             get { return coreTextObject.GetColor(); }
             set { coreTextObject.SetColor(value); }
@@ -147,7 +151,7 @@ namespace asd
         /// <summary>
         /// この2Dオブジェクトを描画する際の描画優先度を取得または設定する。描画優先度が高いほど手前に描画される。
         /// </summary>
-        public int DrawingPriority
+        public override int DrawingPriority
         {
             get { return coreTextObject.GetDrawingPriority(); }
             set { coreTextObject.SetDrawingPriority(value); }

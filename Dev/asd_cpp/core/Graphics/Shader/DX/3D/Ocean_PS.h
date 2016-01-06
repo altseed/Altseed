@@ -12,6 +12,10 @@ SamplerState	g_normalSampler		: register( s2 );
 Texture2D		g_gbuffer2Texture;
 SamplerState	g_gbuffer2Sampler;
 
+Texture2D		g_maskTexture;
+SamplerState	g_maskSampler;
+
+
 float3 reconstructInfo1;
 float4 reconstructInfo2;
 
@@ -26,6 +30,7 @@ struct PS_Input
 	float4 Position			: POSITION0;
 	float4 ProjPosition		: PROJPOSITION0;
 	half2 UV				: UV0;
+	half2 UVSub				: UVSub0;
 	half3 Normal			: NORMAL0;
 	half3 Binormal			: BINORMAL0;
 	half3 Tangent			: TANGENT0;
@@ -55,6 +60,9 @@ float3 ReconstructPosition(float2 screenXY, float depth)
 
 float4 main( const PS_Input Input ) : SV_Target
 {
+	float4 mask = g_maskTexture.Sample(g_maskSampler, Input.UVSub);
+	if(mask.x == 0) discard;
+
 	float2 uv = Input.UV;
 
 	float2 refUV = Input.ProjPosition.xy / Input.ProjPosition.w;
@@ -98,7 +106,11 @@ float4 main( const PS_Input Input ) : SV_Target
 	refColor.w = 1.0;
 
 	//return float4(len,len,len,1.0);
-	return refColor * alpha + refraColor * (1.0 - alpha);
+	float4 ret = refColor * alpha + refraColor * (1.0 - alpha);
+
+	ret.xyz = ret.xyz * mask.x;
+
+	return ret;
 }
 
 )";

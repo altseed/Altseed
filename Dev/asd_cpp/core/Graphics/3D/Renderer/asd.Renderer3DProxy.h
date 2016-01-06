@@ -179,6 +179,7 @@ namespace asd
 		float	OceanDensity = 1.0f;
 
 		std::shared_ptr<Texture2D>	OceanNormalMap;
+		std::shared_ptr<Texture2D>	OceanMask;
 
 		void GenerateOcean(RectF area, float height, float gridSize);
 

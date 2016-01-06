@@ -32,6 +32,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Object2D::Start()
 	{
+		OnStart();
 		for (auto& child : m_children)
 		{
 			if (IS_INHERITED(child, RegistrationToLayer))
@@ -39,7 +40,6 @@ namespace asd
 				GetLayer()->AddObject(child);
 			}
 		}
-		OnStart();
 	}
 
 	void Object2D::OnRemovedInternal()
@@ -55,8 +55,7 @@ namespace asd
 
 	void Object2D::Update()
 	{
-		if (!m_isUpdated || !GetIsAlive()
-			|| (IS_INHERITED(this, IsUpdated) && !m_parentInfo->GetParent()->GetIsUpdated()))
+		if (!GetIsAlive() || !GetAbsoluteBeingUpdated())
 		{
 			return;
 		}
@@ -78,6 +77,14 @@ namespace asd
 		m_componentManager.Update();
 	}
 
+	void Object2D::DrawAdditionally()
+	{
+		if (GetIsAlive() && GetAbsoluteBeingDrawn())
+		{
+			OnDrawAdditionally();
+		}
+	}
+
 	void Object2D::Dispose()
 	{
 		for (auto& child : m_children)
@@ -87,6 +94,7 @@ namespace asd
 		}
 		OnDispose();
 	}
+
 
 	void Object2D::OnStart()
 	{
@@ -309,5 +317,16 @@ namespace asd
 		}
 	}
 
+	bool Object2D::GetAbsoluteBeingUpdated() const
+	{
+		return m_isUpdated
+			&& !(IS_INHERITED(this, IsUpdated)
+			&& !m_parentInfo->GetParent()->GetAbsoluteBeingUpdated());
+	}
+
+	bool Object2D::GetAbsoluteBeingDrawn() const
+	{
+		return GetCoreObject()->GetAbsoluteBeingDrawn();
+	}
 #pragma endregion
 }

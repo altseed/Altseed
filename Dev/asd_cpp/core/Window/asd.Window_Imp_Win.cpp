@@ -15,7 +15,12 @@ void Window_Imp_Win::CallbackOnFocus(GLFWwindow* window, int b)
 	auto w = (Window_Imp_Win*)glfwGetWindowUserPointer(window);
 	if (b == GL_TRUE)
 	{
-		w->OnFocused();
+		auto onFocused = w->OnFocused;
+
+		if (onFocused)
+		{
+			onFocused();
+		}
 	}
 	else
 	{
@@ -50,6 +55,7 @@ Window_Imp* Window_Imp_Win::Create(int32_t width, int32_t height, const achar* t
 
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 	glfwWindowHint(GLFW_SRGB_CAPABLE, GL_TRUE);
+	//glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 
 	auto titleUTF8 = ToUtf8String(title);
 

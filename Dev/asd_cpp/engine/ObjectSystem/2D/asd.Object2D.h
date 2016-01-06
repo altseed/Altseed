@@ -63,6 +63,7 @@ namespace asd
 		void Start();
 		void OnRemovedInternal();
 		void Update();
+		void DrawAdditionally();
 		void Dispose();
 		void SetLayer(Layer2D* layer);
 		virtual CoreObject2D* GetCoreObject() const = 0;
@@ -203,7 +204,8 @@ namespace asd
 		/**
 			@brief	指定した2Dオブジェクトを子オブジェクトとしてこのインスタンスに追加する。
 			@param	child	追加する子オブジェクト
-			@param	mode	子オブジェクトの同期モード
+			@param	managementMode	子オブジェクトの管理に関する同期設定。フラグをOR演算でつなげて複数指定することができる。
+			@param	transformingmode	子オブジェクトの変形に関する同期設定。
 		*/
 		void AddChild(const Object2D::Ptr& child, ChildManagementMode::Flags managementMode, ChildTransformingMode transformingMode);
 		/**
@@ -215,6 +217,10 @@ namespace asd
 			@brief	このオブジェクトが保持している子オブジェクトを含むコンテナを取得する。
 		*/
 		const std::list<Object2D::Ptr>& GetChildren() const;
+		/**
+			@brief	このオブジェクトの親オブジェクトを取得する。親がいなければnullptrを返す。
+		*/
+		const Object2D* GetParent() const;
 
 		/**
 			@brief	指定したコンポーネントをこのインスタンスに追加する。
@@ -277,5 +283,14 @@ namespace asd
 			@brief	このオブジェクトの更新の優先順位を設定する。
 		*/
 		void SetUpdatePriority(int value);
+
+		/**
+			@brief	このオブジェクトが親子関係を考慮して最終的に更新されるかどうかの真偽値を取得します。
+		*/
+		bool GetAbsoluteBeingUpdated() const;
+		/**
+			@brief	このオブジェクトが親子関係を考慮して最終的に描画されるかどうかの真偽値を取得します。
+		*/
+		bool GetAbsoluteBeingDrawn() const;
 	};
 }

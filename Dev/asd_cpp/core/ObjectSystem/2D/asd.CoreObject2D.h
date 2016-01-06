@@ -8,6 +8,8 @@
 
 namespace asd
 {
+	class ParentInfo2D;
+
 	class CoreObject2D 
 		: public IReference
 	{
@@ -40,6 +42,11 @@ namespace asd
 		virtual void AddChild(CoreObject2D* chlid, ChildManagementMode::Flags managementMode, ChildTransformingMode transformingMode) = 0;
 		virtual void RemoveChild(CoreObject2D* chlid) = 0;
 
+		virtual Vector2DF GetAbsolutePosition() = 0;
+		virtual Matrix33 GetAbsoluteMatrixToTranslate() = 0;
+		virtual Matrix33 GetAbsoluteMatrixToTransform() = 0;
+		virtual bool GetAbsoluteBeingDrawn() const = 0;
+
 #if !SWIG
 		virtual void Draw(Renderer2D* renderer) = 0;
 
@@ -47,6 +54,7 @@ namespace asd
 		virtual CoreLayer2D* GetLayer() = 0;
 		virtual void SetParent(CoreObject2D& parent, ChildManagementMode::Flags managementMode, ChildTransformingMode transformingMode) = 0;
 		virtual void ClearParent() = 0;
+		virtual const ParentInfo2D* GetParentInfo() const = 0;
 
 		virtual Matrix33 GetMatrixToTranslate() = 0;
 		virtual Matrix33 GetMatrixToTransform() = 0;

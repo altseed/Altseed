@@ -88,6 +88,8 @@ namespace asd
 		Texture2D* GetOceanNormalMap() override;
 		void SetOceanNormalMap(Texture2D* value) override;
 
+		Texture2D* GetOceanMask() override;
+		void SetOceanMask(Texture2D* value) override;
 
 		void DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,

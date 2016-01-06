@@ -16,15 +16,13 @@
 namespace asd
 {
 	CoreTextObject2D_Imp::CoreTextObject2D_Imp(Graphics_Imp* graphics)
-		: CoreObject2D_Imp(graphics)
+		: CoreDrawnObject2D_Imp(graphics)
 		, m_font(nullptr)
 		, m_centerPosition(Vector2DF())
-		, m_color(Color())
 		, m_turnLR(false)
 		, m_turnUL(false)
 		, m_text(asd::ToAString(""))
 		, m_alphablend(AlphaBlendMode::Blend)
-		, m_drawingPtiority(0)
 		, m_writingDirection(WritingDirection::Horizontal)
 		, m_textureFilterType(TextureFilterType::Nearest)
 		, m_lineSpacing(0)
@@ -111,22 +109,6 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Color CoreTextObject2D_Imp::GetColor() const
-	{
-		return m_color;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetColor(Color color)
-	{
-		m_color = color;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	bool CoreTextObject2D_Imp::GetTurnLR() const
 	{
 		return m_turnLR;
@@ -154,22 +136,6 @@ namespace asd
 	void CoreTextObject2D_Imp::SetTurnUL(bool turnUL)
 	{
 		m_turnUL = turnUL;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	int CoreTextObject2D_Imp::GetDrawingPriority() const
-	{
-		return m_drawingPtiority;
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void CoreTextObject2D_Imp::SetDrawingPriority(int priority)
-	{
-		m_drawingPtiority = priority;
 	}
 
 	//----------------------------------------------------------------------------------
@@ -297,8 +263,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void CoreTextObject2D_Imp::Draw(Renderer2D* renderer)
 	{
-		if (!m_objectInfo.GetIsDrawn() || m_font == nullptr
-			|| (m_parentInfo != nullptr && !m_parentInfo->GetInheritedBeingDrawn()))
+		if (!GetAbsoluteBeingDrawn() || !GetIsAlive() || m_font == nullptr)
 		{
 			return;
 		}
@@ -314,12 +279,12 @@ namespace asd
 			m_centerPosition,
 			m_turnLR,
 			m_turnUL,
-			m_color * inheritedColor,
+			GetAbsoluteColor(),
 			m_font,
 			m_text.c_str(),
 			m_writingDirection,
 			m_alphablend,
-			m_drawingPtiority + inheritedDrawingPriority,
+			GetAbsoluteDrawingPriority(),
 			m_lineSpacing,
 			m_letterSpacing,
 			m_textureFilterType);

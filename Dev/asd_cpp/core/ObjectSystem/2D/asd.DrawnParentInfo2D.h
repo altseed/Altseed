@@ -27,14 +27,14 @@ namespace asd
 		Color GetInheritedColor() const
 		{
 			return ((m_drawingMode & ChildDrawingMode::Color) != 0)
-				? m_drawnParent->GetColor()
+				? m_drawnParent->GetAbsoluteColor()
 				: Color(255, 255, 255, 255);
 		}
 
 		int GetInheritedDrawingPriority() const
 		{
 			return ((m_drawingMode & ChildDrawingMode::DrawingPriority) != 0)
-				? m_drawnParent->GetDrawingPriority()
+				? m_drawnParent->GetAbsoluteDrawingPriority()
 				: 0;
 		}
 	};

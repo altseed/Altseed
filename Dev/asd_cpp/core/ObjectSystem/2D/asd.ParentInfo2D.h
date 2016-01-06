@@ -46,23 +46,39 @@ namespace asd
 			m_transformingMode = mode;
 		}
 
+		ChildManagementMode::Flags GetChildManagementMode() const
+		{
+			return m_managementMode;
+		}
+
 		/**
 			@brief	親オブジェクトから継承される変換行列があれば返す。無ければ単位行列を返す。
 		*/
-		virtual Matrix33 GetInheritedMatrix() const
+		virtual Matrix33 GetInheritedMatrixToTransform()
 		{
 			switch (m_transformingMode)
 			{
 			case ChildTransformingMode::Position:
-				return m_parent->GetParentsMatrix() * m_parent->GetMatrixToTranslate();
+				return m_parent->GetAbsoluteMatrixToTranslate();
 
 			case ChildTransformingMode::All:
-				return m_parent->GetParentsMatrix() * m_parent->GetMatrixToTransform();
+				return m_parent->GetAbsoluteMatrixToTransform();
 
 			case ChildTransformingMode::Nothing:
-				return m_parent->GetParentsMatrix() * Matrix33();
+				return Matrix33();
 			}
 			ACE_ASSERT(false, "不正なTransformingModeが指定されました。");
+		}
+
+		virtual Matrix33 GetInheritedMatrixToTranslate()
+		{
+			if (m_transformingMode == ChildTransformingMode::Position
+				&& m_transformingMode == ChildTransformingMode::All)
+			{
+				return m_parent->GetAbsoluteMatrixToTranslate();
+			}
+
+			return Matrix33();
 		}
 
 		/**
@@ -70,7 +86,11 @@ namespace asd
 		*/
 		virtual bool GetInheritedBeingDrawn() const
 		{
-			return (m_managementMode & ChildManagementMode::IsDrawn == 0) || m_parent->GetIsDrawn();
+			if ((m_managementMode & ChildManagementMode::IsDrawn) == 0)
+			{
+				return true;
+			}
+			return m_parent->GetAbsoluteBeingDrawn();
 		}
 
 		/**

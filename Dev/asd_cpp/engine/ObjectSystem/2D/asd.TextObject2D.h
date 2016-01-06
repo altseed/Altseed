@@ -44,11 +44,6 @@ namespace asd
 		Vector2DF GetCenterPosition() const;
 
 		/**
-		@brief	このオブジェクトを描画する際に文字画像に合成する色を取得する。
-		*/
-		Color GetColor() const;
-
-		/**
 		@brief	このオブジェクトを描画する際に左右反転するかどうかの真偽値を取得する。
 		*/
 		bool GetTurnLR() const;
@@ -57,11 +52,6 @@ namespace asd
 		@brief	このオブジェクトを描画する際に上下反転するかどうかの真偽値を取得する。
 		*/
 		bool GetTurnUL() const;
-
-		/**
-		@brief	このオブジェクトの描画優先度を取得します。
-		*/
-		int GetDrawingPriority() const;
 
 		/**
 		@brief	このオブジェクトを描画する際のブレンドモードを取得します。
@@ -89,11 +79,6 @@ namespace asd
 		void SetCenterPosition(Vector2DF position);
 
 		/**
-		@brief	このオブジェクトを描画する際にテクスチャに合成する色を設定する。
-		*/
-		void SetColor(Color color);
-
-		/**
 		@brief	このオブジェクトを描画する際に左右反転するかどうかの真偽値を設定する。
 		*/
 		void SetTurnLR(bool turnLR);
@@ -102,11 +87,6 @@ namespace asd
 		@brief	このオブジェクトを描画する際に上下反転するかどうかの真偽値を設定する。
 		*/
 		void SetTurnUL(bool turnUL);
-
-		/**
-		@brief	このオブジェクトの描画優先度を設定する。
-		*/
-		void SetDrawingPriority(int priority);
 
 		/**
 		@brief	このオブジェクトを描画する際のブレンドモードを設定する。

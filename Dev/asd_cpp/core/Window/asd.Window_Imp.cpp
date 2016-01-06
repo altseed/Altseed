@@ -69,6 +69,12 @@ const achar* Window_Imp::GetClipboardString()
 	auto s = glfwGetClipboardString(m_window);
 	static achar temp[260];
 
+	if (s == nullptr)
+	{
+		temp[0] = 0;
+		return temp;
+	}
+
 	std::vector<int16_t> dst;
 	int32_t len = Utf8ToUtf16(dst, (const int8_t*)s);
 
