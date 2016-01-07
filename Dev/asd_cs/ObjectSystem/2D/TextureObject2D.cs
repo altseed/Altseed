@@ -13,7 +13,7 @@ namespace asd
 	public partial class TextureObject2D : DrawnObject2D, IReleasable
 	{
 		/// <summary>
-		/// asd.TextureObject2D の新しいインスタンスを初期化します。
+		/// asd.TextureObject2D の新しいインスタンスを初期化する。
 		/// </summary>
 		public TextureObject2D()
 		{
@@ -59,7 +59,7 @@ namespace asd
 
 
 		/// <summary>
-		/// この2Dオブジェクトの描画に使用するテクスチャを取得または設定します。
+		/// この2Dオブジェクトの描画に使用するテクスチャを取得または設定する。
 		/// </summary>
 		public Texture2D Texture
 		{
@@ -68,7 +68,7 @@ namespace asd
 		}
 
 		/// <summary>
-		/// この2Dオブジェクトを描画する際の描画原点を取得または設定します。描画原点は拡大・回転・描画の中心となる、画像データ内での座標です。
+		/// この2Dオブジェクトを描画する際の描画原点を取得または設定する。描画原点は拡大・回転・描画の中心となる、画像データ内での座標。
 		/// </summary>
 		public Vector2DF CenterPosition
 		{
@@ -76,7 +76,7 @@ namespace asd
 			set { renderedObject.SetCenterPosition(value); }
 		}
 		/// <summary>
-		/// この2Dオブジェクトを描画する際に合成する色を取得または設定します。
+		/// この2Dオブジェクトを描画する際に合成する色を取得または設定する。
 		/// </summary>
 		public override Color Color
 		{
@@ -84,7 +84,7 @@ namespace asd
 			set { renderedObject.SetColor(value); }
 		}
 		/// <summary>
-		/// この2Dオブジェクトを描画する際に左右反転するかどうかの真偽値を取得または設定します。
+		/// この2Dオブジェクトを描画する際に左右反転するかどうかの真偽値を取得または設定する。
 		/// </summary>
 		public bool TurnLR
 		{
@@ -92,7 +92,7 @@ namespace asd
 			set { renderedObject.SetTurnLR(value); }
 		}
 		/// <summary>
-		/// この2Dオブジェクトを描画する際に上下反転するかどうかの真偽値を取得または設定します。
+		/// この2Dオブジェクトを描画する際に上下反転するかどうかの真偽値を取得または設定する。
 		/// </summary>
 		public bool TurnUL
 		{
@@ -100,7 +100,7 @@ namespace asd
 			set { renderedObject.SetTurnUL(value); }
 		}
 		/// <summary>
-		/// この2Dオブジェクトを描画する際の描画優先度を取得または設定します。描画優先度が高いほど手前に描画されます。
+		/// この2Dオブジェクトを描画する際の描画優先度を取得または設定する。描画優先度が高いほど手前に描画される。
 		/// </summary>
 		public override int DrawingPriority
 		{
@@ -108,7 +108,7 @@ namespace asd
 			set { renderedObject.SetDrawingPriority(value); }
 		}
 		/// <summary>
-		/// この2Dオブジェクトを描画する際のブレンドモードを取得または設定します。
+		/// この2Dオブジェクトを描画する際のブレンドモードを取得または設定する。
 		/// </summary>
 		public AlphaBlendMode AlphaBlend
 		{
@@ -117,8 +117,9 @@ namespace asd
 		}
 
 		///<summary>
-		/// テクスチャ上の描画範囲を設定する。(フィールドのいずれかが0より小さかったらテクスチャ全体を描画する。)
+		/// テクスチャ上の描画範囲を設定する。
 		/// </summary>
+		/// <remarks>負の値は無効であり、負の値が含まれる場合はテクスチャ全体を描画する。</remarks>
 		public RectF Src
 		{
 			get { return renderedObject.GetSrc(); }

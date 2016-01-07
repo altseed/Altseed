@@ -206,6 +206,18 @@ namespace asd
 		GetCoreObject()->AddChild((child->GetCoreObject()), managementMode, transformingMode);
 		m_children.push_back(child);
 		child->m_parentInfo = make_shared<ParentInfo2D>(this, managementMode);
+
+		if ((managementMode & ChildManagementMode::RegistrationToLayer) != 0)
+		{
+			if (child->GetLayer() != GetLayer())
+			{
+				child->GetLayer()->RemoveObject(child);
+			}
+			if (m_owner != nullptr)
+			{
+				m_owner->AddObject(child);
+			}
+		}
 	}
 
 	void Object2D::RemoveChild(const Object2D::Ptr& child)
@@ -213,6 +225,11 @@ namespace asd
 		GetCoreObject()->RemoveChild((child->GetCoreObject()));
 		m_children.remove(child);
 		child->m_parentInfo.reset();
+	}
+
+	Object2D* Object2D::GetParent() const
+	{
+		return m_parentInfo->GetParent();
 	}
 
 	const std::list<Object2D::Ptr>& Object2D::GetChildren() const

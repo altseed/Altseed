@@ -28,19 +28,19 @@ namespace asd
 		class ParentInfo2D
 		{
 		private:
-			const Object2D* m_parent;
+			Object2D* m_parent;
 			ChildManagementMode::Flags m_managementMode;
 
 		public:
 			typedef std::shared_ptr<ParentInfo2D> Ptr;
 
-			ParentInfo2D(const Object2D* parent, ChildManagementMode::Flags managementMode)
+			ParentInfo2D(Object2D* parent, ChildManagementMode::Flags managementMode)
 				: m_parent(parent)
 				, m_managementMode(managementMode)
 			{
 			}
 
-			const Object2D* GetParent() const
+			Object2D* GetParent() const
 			{
 				return m_parent;
 			}
@@ -220,7 +220,7 @@ namespace asd
 		/**
 			@brief	このオブジェクトの親オブジェクトを取得する。親がいなければnullptrを返す。
 		*/
-		const Object2D* GetParent() const;
+		Object2D* GetParent() const;
 
 		/**
 			@brief	指定したコンポーネントをこのインスタンスに追加する。

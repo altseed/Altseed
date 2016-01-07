@@ -71,12 +71,20 @@ namespace asd
 		/// このインスタンスを管理している asd.Layer2D クラスのインスタンスを取得する。
 		/// </summary>
 		public Layer2D Layer { get; internal set; }
+        
 
+        /// <summary>
+        /// このオブジェクトの親オブジェクトを取得する。
+        /// </summary>
+        public Object2D Parent
+        {
+            get { return ParentInfo.Parent; }
+        }
 
-		/// <summary>
-		/// このオブジェクトが持っている子オブジェクトのコレクションを取得する。
-		/// </summary>
-		public IEnumerable<Object2D> Children
+        /// <summary>
+        /// このオブジェクトが持っている子オブジェクトのコレクションを取得する。
+        /// </summary>
+        public IEnumerable<Object2D> Children
 		{
 			get { return ChildrenList; }
 		}
@@ -110,6 +118,28 @@ namespace asd
 			get { return CoreObject.GetScale(); }
 			set { CoreObject.SetScale(value); }
 		}
+
+        /// <summary>
+        /// このオブジェクトが親子関係を考慮して最終的に更新されるかどうかの真偽値を取得します。
+        /// </summary>
+        public bool AbsoluteBeingUpdated
+        {
+            get
+            {
+                return IsUpdated
+                    && !(ParentInfo != null
+                    && (ParentInfo.ManagementMode & ChildManagementMode.IsUpdated) != 0
+                    && !ParentInfo.Parent.AbsoluteBeingUpdated);
+            }
+        }
+
+        /// <summary>
+        /// このオブジェクトが親子関係を考慮して最終的に描画されるかどうかの真偽値を取得します。
+        /// </summary>
+        public bool AbsoluteBeingDrawn
+        {
+            get { return CoreObject.GetAbsoluteBeingDrawn(); }
+        }
 
 		/// <summary>
 		/// この2Dオブジェクトを描画する際の実際の位置を取得または設定する。親子関係がある場合に、親の位置を考慮した位置を取得できる。
@@ -147,6 +177,17 @@ namespace asd
 			CoreObject.AddChild(child.CoreObject, (int)managementMode, (swig.ChildTransformingMode)transformingMode);
 			ChildrenList.Add(child);
 			child.ParentInfo = new ParentInfo2D(this, managementMode);
+            if((managementMode & ChildManagementMode.RegistrationToLayer) != 0)
+            {
+                if(child.Layer != Layer)
+                {
+                    child.Layer.RemoveObject(child);
+                }
+                if(Layer != null)
+                {
+                    Layer.AddObject(child);
+                }
+            }
 		}
 
 		/// <summary>
@@ -322,6 +363,7 @@ namespace asd
 				{
 					Layer.RemoveObject(item);
 				}
+                item.ParentInfo = null;
 			}
 		}
 
