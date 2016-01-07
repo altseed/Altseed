@@ -21,8 +21,12 @@
   <ItemGroup>
     <ClCompile Include="..\EngineGraphics3DTest.cpp" />
     <ClCompile Include="..\EngineTest.cpp" />
+    <ClCompile Include="..\FamilySystem\AbsoluteParameter.cpp" />
     <ClCompile Include="..\FamilySystem\ChildManagement.cpp" />
     <ClCompile Include="..\FamilySystem\DrawnParent.cpp" />
+    <ClCompile Include="..\FamilySystem\GeometoryObject.cpp" />
+    <ClCompile Include="..\FamilySystem\TextObject.cpp" />
+    <ClCompile Include="..\FamilySystem\TextureObject.cpp" />
     <ClCompile Include="..\FamilySystem\VanishParent.cpp" />
     <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp" />
     <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />

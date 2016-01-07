@@ -189,6 +189,18 @@
     <ClCompile Include="..\FamilySystem\ChildManagement.cpp">
       <Filter>FamilySystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\FamilySystem\TextureObject.cpp">
+      <Filter>FamilySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FamilySystem\TextObject.cpp">
+      <Filter>FamilySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FamilySystem\GeometoryObject.cpp">
+      <Filter>FamilySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="..\FamilySystem\AbsoluteParameter.cpp">
+      <Filter>FamilySystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
