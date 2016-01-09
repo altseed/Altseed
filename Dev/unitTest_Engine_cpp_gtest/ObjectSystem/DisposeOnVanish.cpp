@@ -68,12 +68,12 @@ protected:
 		if (time == 10)
 		{
 			printf("Vanish Object1\n");
-			object1->Vanish();
+			object1->Dispose();
 		}
 		if (time == 60)
 		{
 			printf("Vanish Layer1\n");
-			layer1->Vanish();
+			layer1->Dispose();
 		}
 	}
 

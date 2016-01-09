@@ -147,8 +147,6 @@ namespace asd
 		/**
 			@brief	このレイヤーを破棄する。
 		*/
-		void Vanish();
-
 		void Dispose();
 
 		/**

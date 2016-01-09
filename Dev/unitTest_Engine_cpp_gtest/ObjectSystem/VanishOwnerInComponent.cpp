@@ -27,7 +27,7 @@ class ObjectSystem_VanishOwnerInComponent : public EngineTest
 			if (eTime == count)
 			{
 				printf("vanish\n");
-				GetOwner()->Vanish();
+				GetOwner()->Dispose();
 			}
 		}
 	};

@@ -106,7 +106,7 @@ protected:
 			isDrawnChanged->GetParent()->SetIsDrawn(false);
 			isUpdatedChanged->GetParent()->SetIsUpdated(false);
 			Engine::RemoveObject2D(registrationToLayerChanged->GetParent());
-			vanished->GetParent()->Vanish();
+			vanished->GetParent()->Dispose();
 		}
 	}
 };

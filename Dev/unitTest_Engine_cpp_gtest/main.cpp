@@ -121,7 +121,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(FamilySystem, DrawnParent, true)
+	CALL_ENGINE_TEST(FamilySystem, ChildManagement, true)
 	getchar();
 	return 0;
 

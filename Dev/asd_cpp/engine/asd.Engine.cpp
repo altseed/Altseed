@@ -141,11 +141,11 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	
+
 	static std::shared_ptr <DynamicLinkLibrary>	g_dll = nullptr;
 	static GetIntFunc g_GetGlobalRef = nullptr;
 	ObjectSystemFactory* g_objectSystemFactory = nullptr;
-	
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
@@ -297,34 +297,54 @@ namespace asd
 
 	std::shared_ptr<Scene>	Engine::m_currentScene;
 	std::shared_ptr<Scene>	Engine::m_nextScene;
-	std::shared_ptr<Scene>	Engine::m_previousScene;
-	std::shared_ptr<Transition>	Engine::transition;
 	std::shared_ptr<Engine::SceneTransitionState> Engine::m_transitionState = std::make_shared<Engine::NeutralState>();
+
+	void Engine::NeutralState::Draw()
+	{
+		if (Engine::m_currentScene != nullptr)
+		{
+			m_core->DrawSceneToWindow(Engine::m_currentScene->m_coreScene.get());
+		}
+	}
 
 	Engine::FadingOutState::FadingOutState(std::shared_ptr<Transition> transition, Scene::Ptr nextScene)
 		: m_transition(transition)
-		, m_nextScene(nextScene)
 	{
+		Engine::m_nextScene = nextScene;
 	}
 
-	void Engine::FadingOutState::Proceed()
+	std::shared_ptr<Engine::SceneTransitionState> Engine::FadingOutState::Proceed()
 	{
-		if (transition->coreTransition->GetIsSceneChanged())
+		if (m_transition->coreTransition->GetIsSceneChanged())
 		{
 			if (Engine::m_currentScene != nullptr)
 			{
 				// TODO: currentScene.RaiseOnStopUpdating
 				Engine::m_currentScene->RaiseOnChanging();
 			}
-			if (m_nextScene != nullptr)
+			if (Engine::m_nextScene != nullptr)
 			{
 				// TODO: nextScene.RaiseOnStartUpdating
-				m_nextScene->Start();
+				Engine::m_nextScene->Start();
 			}
-			Engine::m_core->ChangeScene(m_nextScene->m_coreScene.get());
-			Engine::m_currentScene = m_nextScene;
-			Engine::m_transitionState = std::make_shared<FadingInState>(m_transition, m_nextScene);
+			Engine::m_core->ChangeScene(Engine::m_nextScene->m_coreScene.get());
+			auto nextState = std::make_shared<FadingInState>(m_transition, Engine::m_currentScene);
+			Engine::m_currentScene = Engine::m_nextScene;
+			return nextState;
 		}
+		return nullptr;
+	}
+
+	void Engine::FadingOutState::Update()
+	{
+	}
+
+	void Engine::FadingOutState::Draw()
+	{
+		m_transition->OnUpdate();
+		std::shared_ptr<CoreScene> curScene = Engine::m_currentScene != nullptr ? Engine::m_currentScene->m_coreScene
+												: nullptr;
+		m_core->DrawSceneToWindowWithTransition(nullptr, curScene.get(), m_transition->coreTransition.get());
 	}
 
 	Engine::FadingInState::FadingInState(std::shared_ptr<Transition> transition, Scene::Ptr previousScene)
@@ -333,7 +353,7 @@ namespace asd
 	{
 	}
 
-	void Engine::FadingInState::Proceed()
+	std::shared_ptr<Engine::SceneTransitionState> Engine::FadingInState::Proceed()
 	{
 		if (m_transition->coreTransition->GetIsFinished())
 		{
@@ -346,8 +366,23 @@ namespace asd
 			{
 				Engine::m_currentScene->OnTransitionFinished();
 			}
-			Engine::m_transitionState = std::make_shared<NeutralState>();
+			return std::make_shared<NeutralState>();
 		}
+		return nullptr;
+	}
+
+	void Engine::FadingInState::Update()
+	{
+	}
+
+	void Engine::FadingInState::Draw()
+	{
+		m_transition->OnUpdate();
+		std::shared_ptr<CoreScene> curScene = Engine::m_currentScene != nullptr ? Engine::m_currentScene->m_coreScene
+												: nullptr;
+		std::shared_ptr<CoreScene> prevScene = m_previousScene != nullptr ? m_previousScene->m_coreScene
+												: nullptr;
+		m_core->DrawSceneToWindowWithTransition(curScene.get(), prevScene.get(), m_transition->coreTransition.get());
 	}
 
 	Engine::QuicklyChangingState::QuicklyChangingState(Scene::Ptr nextScene)
@@ -355,7 +390,7 @@ namespace asd
 	{
 	}
 
-	void Engine::QuicklyChangingState::Proceed()
+	std::shared_ptr<Engine::SceneTransitionState> Engine::QuicklyChangingState::Proceed()
 	{
 		if (Engine::m_currentScene != nullptr)
 		{
@@ -368,7 +403,15 @@ namespace asd
 		}
 		Engine::m_core->ChangeScene(m_nextScene->m_coreScene.get());
 		Engine::m_currentScene = m_nextScene;
-		Engine::m_transitionState = std::make_shared<NeutralState>();
+		return std::make_shared<NeutralState>();
+	}
+
+	void Engine::QuicklyChangingState::Draw()
+	{
+		if (Engine::m_currentScene != nullptr)
+		{
+			m_core->DrawSceneToWindow(Engine::m_currentScene->m_coreScene.get());
+		}
 	}
 
 
@@ -524,50 +567,12 @@ namespace asd
 	{
 		if (m_core == nullptr) return false;
 
-		if (transition != nullptr)
+		auto nextState = m_transitionState->Proceed();
+		if (nextState != nullptr)
 		{
-			if (transition->coreTransition->GetIsSceneChanged() && m_nextScene != nullptr)
-			{
-				if (m_currentScene != nullptr)
-				{
-					m_currentScene->RaiseOnChanging();
-				}
-				m_previousScene = m_currentScene;
-				m_currentScene = m_nextScene;
-				m_core->ChangeScene(m_nextScene->m_coreScene.get());
-				m_nextScene->Start();
-				m_nextScene = nullptr;
-			}
-			
-			if (transition->coreTransition->GetIsFinished())
-			{
-				if (m_previousScene != nullptr)
-				{
-					m_previousScene->Dispose();
-					m_previousScene = nullptr;
-				}
-				
-				transition = nullptr;
-				m_currentScene->RaiseOnTransitionFinished();
-			}
+			m_transitionState = nextState;
 		}
-		else
-		{
-			if (m_nextScene != nullptr)
-			{
-				if (m_currentScene != nullptr)
-				{
-					m_currentScene->RaiseOnChanging();
-					m_currentScene->Dispose();
-				}
-				
-				m_currentScene = m_nextScene;
-				m_core->ChangeScene(m_nextScene->m_coreScene.get());
-				m_nextScene->Start();
-				m_nextScene = nullptr;
-			}
-		}
-		
+
 		return m_core->DoEvents();
 	}
 
@@ -586,7 +591,6 @@ namespace asd
 		{
 			m_currentScene->Update();
 
-			//*
 			for (auto& l : m_currentScene->GetLayers())
 			{
 				m_layerProfiler->Record(
@@ -594,50 +598,14 @@ namespace asd
 					l->GetObjectCount(),
 					l->GetTimeForUpdate());
 			}
-			//*/
 		}
 
-		if (transition != nullptr)
-		{
-			transition->OnUpdate();
-		}
-		
 		if (m_currentScene != nullptr)
 		{
 			m_currentScene->Draw();
 		}
 
-		if (transition != nullptr)
-		{
-			std::shared_ptr<CoreScene> curScene;
-			if (m_currentScene != nullptr)
-			{
-				curScene = m_currentScene->m_coreScene;
-			}
-
-			std::shared_ptr<CoreScene> prevScene;
-			if (m_previousScene != nullptr)
-			{
-				prevScene = m_previousScene->m_coreScene;
-			}
-
-			if (transition->coreTransition->GetIsSceneChanged())
-			{
-				m_core->DrawSceneToWindowWithTransition(curScene.get(), prevScene.get(), transition->coreTransition.get());
-			}
-			else
-			{
-				m_core->DrawSceneToWindowWithTransition(nullptr, curScene.get(), transition->coreTransition.get());
-			}
-			
-		}
-		else
-		{
-			if (m_currentScene != nullptr)
-			{
-				m_core->DrawSceneToWindow(m_currentScene->m_coreScene.get());
-			}
-		}
+		m_transitionState->Draw();
 
 		m_core->Draw();
 
@@ -656,20 +624,8 @@ namespace asd
 			m_currentScene->Dispose();
 		}
 
-		if (m_nextScene != nullptr)
-		{
-			m_nextScene->Dispose();
-		}
-
-		if (m_previousScene != nullptr)
-		{
-			m_previousScene->Dispose();
-		}
-
 		m_currentScene.reset();
-		m_nextScene.reset();
-		m_previousScene.reset();
-		transition.reset();
+		m_transitionState.reset();
 
 		m_core->Terminate();
 
@@ -719,16 +675,16 @@ namespace asd
 		{
 			scene = m_nextScene;
 		}
-		
+
 		if (scene == nullptr) return false;
 
 		auto& layers = scene->GetLayers();
-		
+
 		for (auto& layer : layers)
 		{
 			if (layer->GetLayerType() == LayerType::Layer2D)
 			{
-				auto layer2d = (Layer2D*) layer.get();
+				auto layer2d = (Layer2D*)layer.get();
 				layer2d->AddObject(o);
 				return true;
 			}
@@ -758,7 +714,7 @@ namespace asd
 		{
 			if (layer->GetLayerType() == LayerType::Layer2D)
 			{
-				auto layer2d = (Layer2D*) layer.get();
+				auto layer2d = (Layer2D*)layer.get();
 				layer2d->RemoveObject(o);
 				return true;
 			}
@@ -788,7 +744,7 @@ namespace asd
 		{
 			if (layer->GetLayerType() == LayerType::Layer3D)
 			{
-				auto layer2d = (Layer3D*) layer.get();
+				auto layer2d = (Layer3D*)layer.get();
 				layer2d->AddObject(o);
 				return true;
 			}
@@ -818,7 +774,7 @@ namespace asd
 		{
 			if (layer->GetLayerType() == LayerType::Layer3D)
 			{
-				auto layer2d = (Layer3D*) layer.get();
+				auto layer2d = (Layer3D*)layer.get();
 				layer2d->RemoveObject(o);
 				return true;
 			}
@@ -832,13 +788,12 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Engine::ChangeScene(ScenePtr scene)
 	{
-		m_nextScene = scene;
+		m_transitionState = std::make_shared<QuicklyChangingState>(scene);
 	}
 
 	void Engine::ChangeSceneWithTransition(std::shared_ptr<Scene> scene, const std::shared_ptr<Transition>& transition)
 	{
-		m_nextScene = scene;
-		Engine::transition = transition;
+		m_transitionState = std::make_shared<FadingOutState>(transition, scene);
 	}
 
 	//----------------------------------------------------------------------------------
