@@ -86,7 +86,7 @@ namespace asd
 
             if (layer.Scene != null)
             {
-                Particular.Helper.ThrowException("指定したレイヤーは、既に別のシーンに所属しています。");
+                throw new ArgumentException("指定したレイヤーは、既に別のシーンに所属しています。", "layer");
             }
             layersToDraw_.Add(layer);
             layersToUpdate_.Add(layer);
