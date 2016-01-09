@@ -3,9 +3,14 @@
 namespace sample_cs
 {
 	class Dispose_Object2D : ISample
-	{
-		// Vanishが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
-		class MessageObject : asd.TextureObject2D
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+
+        // Vanishが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
+        class MessageObject : asd.TextureObject2D
 		{
 			// Vanishが呼ばれたときに呼ばれる。
 			protected override void OnVanish()

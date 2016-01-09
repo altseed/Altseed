@@ -8,6 +8,11 @@ namespace sample_cs
 {
     class PostEffect_GaussianBlur : ISample
     {
+        public string Description
+        {
+            get { return ""; }
+        }
+
         // レイヤーにガウスぼかしのポストエフェクトを適用する。
         public void Run()
         {

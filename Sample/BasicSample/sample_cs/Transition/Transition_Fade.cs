@@ -1,10 +1,15 @@
 ﻿
 class Transition_Fade : ISample
 {
-	// フェードアウト・フェードインでシーン遷移をするサンプル。
+    public string Description
+    {
+        get { return ""; }
+    }
 
-	// 遷移後のシーン
-	class Scene2 : asd.Scene
+    // フェードアウト・フェードインでシーン遷移をするサンプル。
+
+    // 遷移後のシーン
+    class Scene2 : asd.Scene
 	{
 		protected override void OnStart()
 		{

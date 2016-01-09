@@ -3,6 +3,11 @@
 /// </summary>
 class GeometryObject2D_PolygonShape_Textured : ISample
 {
+    public string Description
+    {
+        get { return ""; }
+    }
+
     public void Run()
     {
         // Altseedを初期化する。

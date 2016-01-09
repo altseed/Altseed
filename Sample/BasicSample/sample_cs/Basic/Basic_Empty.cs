@@ -1,10 +1,16 @@
 ﻿
+using System;
 /// <summary>
 /// 空のウインドウを表示するサンプル。
 /// </summary>
 class Basic_Empty : ISample
 {
-	public void Run()
+    public string Description
+    {
+        get { return "空のウインドウを表示するサンプル。"; }
+    }
+
+    public void Run()
 	{
 		// Altseedを初期化する。
 		asd.Engine.Initialize("Empty", 640, 480, new asd.EngineOption());

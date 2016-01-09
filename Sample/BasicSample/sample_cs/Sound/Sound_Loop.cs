@@ -1,9 +1,14 @@
 ﻿namespace sample_cs
 {
 	class Sound_Loop : ISample
-	{
-		// BGMをループ再生するサンプル。
-		public void Run()
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+
+        // BGMをループ再生するサンプル。
+        public void Run()
 		{
 			// Altseedを初期化する。
 			asd.Engine.Initialize("Sound_Loop", 640, 480, new asd.EngineOption());

@@ -8,6 +8,11 @@ namespace sample_cs
 {
     class PostEffect_GrayScale : ISample
     {
+        public string Description
+        {
+            get { return ""; }
+        }
+
         // レイヤーにグレースケールのポストエフェクトを適用する。
         public void Run()
         {

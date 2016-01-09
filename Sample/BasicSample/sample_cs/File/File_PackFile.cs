@@ -2,9 +2,14 @@
 namespace sample_cs
 {
 	class File_PackFile : ISample
-	{
-		// PackFileを用いて、パッケージから画像を表示するサンプルです。
-		public void Run()
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+
+        // PackFileを用いて、パッケージから画像を表示するサンプルです。
+        public void Run()
 		{
 			// Altseedを初期化する。
 			asd.Engine.Initialize("File_PackFile", 640, 480, new asd.EngineOption());

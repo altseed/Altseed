@@ -8,6 +8,11 @@ namespace sample_cs
 {
     class PostEffect_LightBloom : ISample
     {
+        public string Description
+        {
+            get { return ""; }
+        }
+
         // レイヤーにライトブルームのポストエフェクトを適用する。
         public void Run()
         {

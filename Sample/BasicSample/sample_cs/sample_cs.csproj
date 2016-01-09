@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Browser\SampleInfoLayer.cs" />
     <Compile Include="CameraObject2D\CameraObject2D_Basic.cs" />
     <Compile Include="CameraObject2D\CameraObject2D_Group.cs" />
     <Compile Include="CameraObject2D\CameraObject2D_Magnify.cs" />
@@ -84,10 +85,10 @@
     <Compile Include="PostEffect\PostEffect_LightBloom.cs" />
     <Compile Include="PostEffect\PostEffect_Sepia.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="SampleBrowser.cs" />
-    <Compile Include="SampleBrowserLayer.cs" />
-    <Compile Include="SampleCUI.cs" />
-    <Compile Include="SampleItem.cs" />
+    <Compile Include="Browser\SampleBrowser.cs" />
+    <Compile Include="Browser\SampleBrowserLayer.cs" />
+    <Compile Include="Browser\SampleCUI.cs" />
+    <Compile Include="Browser\SampleItem.cs" />
     <Compile Include="SceneAndLayer\SceneAndLayer_Basic.cs" />
     <Compile Include="SceneAndLayer\SceneAndLayer_CustomLayer.cs" />
     <Compile Include="SceneAndLayer\SceneAndLayer_CustomScene.cs" />

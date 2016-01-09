@@ -1,9 +1,14 @@
 ﻿namespace sample_cs
 {
 	class SceneAndLayer_CustomLayer : ISample
-	{
-		// このサンプルで使用するカスタマイズしたレイヤー。
-		class SampleLayer : asd.Layer2D
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+
+        // このサンプルで使用するカスタマイズしたレイヤー。
+        class SampleLayer : asd.Layer2D
 		{
 			// フレーム数を数えるカウンタ。
 			private int count;

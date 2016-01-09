@@ -18,7 +18,7 @@ namespace sample_cs
 		public ISample Sample { get; private set; }
 		public RectangleShape Shape
 		{
-			get { return shape_ ?? GetArea(); }
+			get { return shape_ = shape_ ?? GetArea(); }
 		}
 		public TextObject2D Title { get; private set; }
 
@@ -57,14 +57,14 @@ namespace sample_cs
 				Position = new Vector2DF(0, 115),
 				DrawingPriority = 1,
 			};
-			AddChild(Title, ChildMode.Position);
+			AddChild(Title, ChildManagementMode.Nothing, ChildTransformingMode.Position);
 
 			frame = new TextureObject2D()
 			{
 				Texture = Engine.Graphics.CreateTexture2D("Data/Browser/Frame.png"),
 				Position = new Vector2DF(-3, -3),
 			};
-			AddChild(frame, ChildMode.Position);
+			AddChild(frame, ChildManagementMode.Nothing, ChildTransformingMode.Position);
 		}
 
 		public RectangleShape GetArea()

@@ -3,7 +3,12 @@
 /// </summary>
 public class Keyboard_SingularKey : ISample
 {
-	public void Run()
+    public string Description
+    {
+        get { return ""; }
+    }
+
+    public void Run()
     {   
 		// Altseedを初期化する。
         asd.Engine.Initialize("Keyboard_SingularKey", 640, 480, new asd.EngineOption());

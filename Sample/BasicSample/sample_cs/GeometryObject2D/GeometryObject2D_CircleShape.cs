@@ -3,6 +3,11 @@
 /// </summary>
 public class GeometryObject2D_CircleShape : ISample
 {
+    public string Description
+    {
+        get { return ""; }
+    }
+
     public void Run()
     {   
         // Altseedを初期化する。

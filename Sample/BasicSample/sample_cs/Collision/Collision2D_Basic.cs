@@ -3,6 +3,11 @@
 /// </summary>
 public class Collision2D_Basic : ISample
 {
+    public string Description
+    {
+        get { return ""; }
+    }
+
     public void Run()
     {
         // Altseedを初期化する。

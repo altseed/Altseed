@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 /// </summary>
 class TextObject2D_Rotate : ISample
 {
+    public string Description
+    {
+        get { return ""; }
+    }
+
     public void Run()
     {
         // Altseedを初期化する。

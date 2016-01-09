@@ -2,10 +2,15 @@
 namespace sample_cs
 {
 	class File_RootDirectory : ISample
-	{
-		// AddRootDirectory を用いて、ファイルの起点となる場所を指定。
-		// その起点を基準とした相対パスで画像を指定し描画するサンプルです。
-		public void Run()
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+
+        // AddRootDirectory を用いて、ファイルの起点となる場所を指定。
+        // その起点を基準とした相対パスで画像を指定し描画するサンプルです。
+        public void Run()
 		{
 			// Altseedを初期化する。
 			asd.Engine.Initialize("File_RootDirectory", 640, 480, new asd.EngineOption());

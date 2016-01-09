@@ -4,6 +4,11 @@
 /// </summary>
 class TextureObject2D_Src : ISample
 {
+    public string Description
+    {
+        get { return ""; }
+    }
+
     public void Run()
     {
         // Altseedを初期化する。
