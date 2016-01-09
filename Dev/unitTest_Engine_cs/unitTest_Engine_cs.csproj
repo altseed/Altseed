@@ -48,7 +48,11 @@
     <Compile Include="Debug\Profiler.cs" />
     <Compile Include="EngineGraphics3DTest.cs" />
     <Compile Include="EngineTest.cs" />
+    <Compile Include="FamilySystem\AbsoluteParameter.cs" />
     <Compile Include="FamilySystem\DrawnParent.cs" />
+    <Compile Include="FamilySystem\GeometryObject.cs" />
+    <Compile Include="FamilySystem\TextObject.cs" />
+    <Compile Include="FamilySystem\TextureObject.cs" />
     <Compile Include="Graphics\2D\AdditionallyDraw.cs" />
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
     <Compile Include="Graphics\2D\GeometryObject2D.cs" />

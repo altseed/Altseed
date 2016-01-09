@@ -20,21 +20,21 @@ protected:
 
 		auto parent = make_shared<TextObject2D>();
 		parent->SetFont(font);
-		parent->SetText(ToAString("Meiryo\nMeiryo").c_str());
+		parent->SetText(ToAString("Meiryo\nTest").c_str());
 		parent->SetPosition(Vector2DF(20, 20));
 		parent->SetColor(Color(255, 128, 128, 255));
 		parent->SetDrawingPriority(2);
 
 		auto child1 = make_shared<TextObject2D>();
 		child1->SetFont(font);
-		child1->SetText(ToAString("Meiryo\nMeiryo").c_str());
+		child1->SetText(ToAString("Meiryo\nTest").c_str());
 		child1->SetPosition(Vector2DF(0, 20));
 		child1->SetColor(Color(128, 128, 255, 255));
 		child1->SetDrawingPriority(1);
 
 		auto child2 = make_shared<TextObject2D>();
 		child2->SetFont(font);
-		child2->SetText(ToAString("Meiryo\nMeiryo").c_str());
+		child2->SetText(ToAString("Meiryo\nTest").c_str());
 		child2->SetPosition(Vector2DF(20, 0));
 		child2->SetColor(Color(128, 128, 255, 255));
 		child2->SetDrawingPriority(1);

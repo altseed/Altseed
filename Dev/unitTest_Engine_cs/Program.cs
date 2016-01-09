@@ -12,7 +12,7 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-			TestSequencially(typeof(FamilySystem.DrawnParent));
+			TestSequencially(typeof(FamilySystem.GeometryObject));
 			Console.ReadKey();
 			return;
 
