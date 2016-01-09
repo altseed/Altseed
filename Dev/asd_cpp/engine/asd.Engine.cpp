@@ -299,6 +299,78 @@ namespace asd
 	std::shared_ptr<Scene>	Engine::m_nextScene;
 	std::shared_ptr<Scene>	Engine::m_previousScene;
 	std::shared_ptr<Transition>	Engine::transition;
+	std::shared_ptr<Engine::SceneTransitionState> Engine::m_transitionState = std::make_shared<Engine::NeutralState>();
+
+	Engine::FadingOutState::FadingOutState(std::shared_ptr<Transition> transition, Scene::Ptr nextScene)
+		: m_transition(transition)
+		, m_nextScene(nextScene)
+	{
+	}
+
+	void Engine::FadingOutState::Proceed()
+	{
+		if (transition->coreTransition->GetIsSceneChanged())
+		{
+			if (Engine::m_currentScene != nullptr)
+			{
+				// TODO: currentScene.RaiseOnStopUpdating
+				Engine::m_currentScene->RaiseOnChanging();
+			}
+			if (m_nextScene != nullptr)
+			{
+				// TODO: nextScene.RaiseOnStartUpdating
+				m_nextScene->Start();
+			}
+			Engine::m_core->ChangeScene(m_nextScene->m_coreScene.get());
+			Engine::m_currentScene = m_nextScene;
+			Engine::m_transitionState = std::make_shared<FadingInState>(m_transition, m_nextScene);
+		}
+	}
+
+	Engine::FadingInState::FadingInState(std::shared_ptr<Transition> transition, Scene::Ptr previousScene)
+		: m_transition(transition)
+		, m_previousScene(previousScene)
+	{
+	}
+
+	void Engine::FadingInState::Proceed()
+	{
+		if (m_transition->coreTransition->GetIsFinished())
+		{
+			if (m_previousScene != nullptr)
+			{
+				// TODO: previousScene.RaiseOnRemoved
+				m_previousScene->Dispose();
+			}
+			if (Engine::m_currentScene != nullptr)
+			{
+				Engine::m_currentScene->OnTransitionFinished();
+			}
+			Engine::m_transitionState = std::make_shared<NeutralState>();
+		}
+	}
+
+	Engine::QuicklyChangingState::QuicklyChangingState(Scene::Ptr nextScene)
+		: m_nextScene(nextScene)
+	{
+	}
+
+	void Engine::QuicklyChangingState::Proceed()
+	{
+		if (Engine::m_currentScene != nullptr)
+		{
+			Engine::m_currentScene->RaiseOnChanging();
+			Engine::m_currentScene->Dispose();
+		}
+		if (m_nextScene != nullptr)
+		{
+			m_nextScene->Start();
+		}
+		Engine::m_core->ChangeScene(m_nextScene->m_coreScene.get());
+		Engine::m_currentScene = m_nextScene;
+		Engine::m_transitionState = std::make_shared<NeutralState>();
+	}
+
 
 	//----------------------------------------------------------------------------------
 	//
@@ -458,7 +530,7 @@ namespace asd
 			{
 				if (m_currentScene != nullptr)
 				{
-					m_currentScene->CallChanging();
+					m_currentScene->RaiseOnChanging();
 				}
 				m_previousScene = m_currentScene;
 				m_currentScene = m_nextScene;
@@ -476,7 +548,7 @@ namespace asd
 				}
 				
 				transition = nullptr;
-				m_currentScene->CallTransitionFinished();
+				m_currentScene->RaiseOnTransitionFinished();
 			}
 		}
 		else
@@ -485,7 +557,7 @@ namespace asd
 			{
 				if (m_currentScene != nullptr)
 				{
-					m_currentScene->CallChanging();
+					m_currentScene->RaiseOnChanging();
 					m_currentScene->Dispose();
 				}
 				

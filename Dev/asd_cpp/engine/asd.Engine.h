@@ -54,6 +54,49 @@ namespace asd {
 	class Engine
 	{
 	private:
+		class SceneTransitionState
+		{
+		public:
+			virtual void Proceed();
+		};
+
+		class NeutralState : public SceneTransitionState
+		{
+		};
+
+		class FadingOutState : public SceneTransitionState
+		{
+		private:
+			std::shared_ptr<Transition> m_transition;
+			Scene::Ptr m_nextScene;
+
+		public:
+			void Proceed() override;
+			FadingOutState(std::shared_ptr<Transition> transition, Scene::Ptr nextScene);
+		};
+
+		class FadingInState : public SceneTransitionState
+		{
+		private:
+			std::shared_ptr<Transition> m_transition;
+			Scene::Ptr m_previousScene;
+
+		public:
+			void Proceed() override;
+			FadingInState(std::shared_ptr<Transition> transition, Scene::Ptr previousScene);
+		};
+
+		class QuicklyChangingState : public SceneTransitionState
+		{
+		private:
+			Scene::Ptr m_nextScene;
+
+		public:
+			void Proceed() override;
+			QuicklyChangingState(Scene::Ptr nextScene);
+		};
+
+	private:
 		typedef std::shared_ptr<Scene> ScenePtr;
 
 		static Core*					m_core;
@@ -76,6 +119,7 @@ namespace asd {
 		static std::shared_ptr<Scene>	m_previousScene;
 
 		static std::shared_ptr<Transition>	transition;
+		static std::shared_ptr<SceneTransitionState> m_transitionState;
 
 		static bool HasDLL(const char* path);
 		static bool CheckDLL();

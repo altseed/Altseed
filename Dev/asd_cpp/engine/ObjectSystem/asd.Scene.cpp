@@ -16,6 +16,7 @@ namespace asd
 		, m_coreScene(nullptr)
 		, alreadyFirstUpdate(false)
 		, m_componentManager(this)
+		, m_isAlive(true)
 	{
 		m_coreScene = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateScene());
 	}
@@ -32,9 +33,39 @@ namespace asd
 	}
 
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+	void Scene::Start()
+	{
+		OnStart();
+	}
+
+	void Scene::RaiseOnTransitionFinished()
+	{
+		OnTransitionFinished();
+	}
+
+	void Scene::RaiseOnChanging()
+	{
+		OnChanging();
+	}
+
+	void Scene::Stop()
+	{
+		OnStop();
+	}
+
+	void Scene::Dispose()
+	{
+		m_isAlive = false;
+		for (auto& l : m_layersToUpdate)
+		{
+			if (l->GetIsAlive())
+			{
+				l->Dispose();
+			}
+		}
+		OnDispose();
+	}
+
 	void Scene::Update()
 	{
 		m_layersToUpdate.sort([](const Layer::Ptr& x, const Layer::Ptr& y) -> bool
@@ -102,14 +133,6 @@ namespace asd
 		addingLayer.clear();
 		removingLayer.clear();
 	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Scene::Start()
-	{
-		OnStart();
-	}
 	
 	void Scene::Draw()
 	{
@@ -154,27 +177,6 @@ namespace asd
 
 	}
 
-	void Scene::OnUpdating()
-	{
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Scene::OnUpdated()
-	{
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Scene::OnUpdateForTheFirstTime()
-	{
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	void Scene::OnTransitionFinished()
 	{
 	}
@@ -183,34 +185,26 @@ namespace asd
 	{
 	}
 
+	void Scene::OnStop()
+	{
+	}
+
 	void Scene::OnDispose()
 	{
 	}
-
-	void Scene::CallChanging()
+	
+	void Scene::OnUpdateForTheFirstTime()
 	{
-		OnChanging();
 	}
 
-	void Scene::Dispose()
+	void Scene::OnUpdating()
 	{
-		for (auto& l : m_layersToUpdate)
-		{
-			if (l->GetIsAlive())
-			{
-				l->Dispose();
-			}
-		}
-		OnDispose();
+	}
+	
+	void Scene::OnUpdated()
+	{
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Scene::CallTransitionFinished()
-	{
-		OnTransitionFinished();
-	}
 
 	//----------------------------------------------------------------------------------
 	//
@@ -241,7 +235,7 @@ namespace asd
 		m_layersToUpdate.push_back(layer);
 		m_coreScene->AddLayer(layer->GetCoreLayer().get());
 		layer->SetScene(this);
-		layer->Start();
+		layer->RaiseOnAdded();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -255,10 +249,11 @@ namespace asd
 			return;
 		}
 
+		layer->RaiseOnRemoved();
+		layer->SetScene(nullptr);
 		m_layersToDraw.remove(layer);
 		m_layersToUpdate.remove(layer);
 		m_coreScene->RemoveLayer(layer->GetCoreLayer().get());
-		layer->SetScene(nullptr);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -300,5 +295,10 @@ namespace asd
 	const std::list<Layer::Ptr>& Scene::GetLayers() const
 	{
 		return m_layersToUpdate;
+	}
+
+	bool Scene::GetIsAlive() const
+	{
+		return m_isAlive;
 	}
 }

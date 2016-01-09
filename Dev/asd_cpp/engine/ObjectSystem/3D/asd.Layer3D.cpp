@@ -35,7 +35,7 @@ namespace asd
 		m_objects.GetVanishingContents().clear();
 	}
 
-	void Layer3D::Dispose()
+	void Layer3D::DisposeInternal()
 	{
 		for (auto& o : m_objects.GetContents())
 		{
@@ -44,7 +44,6 @@ namespace asd
 				o->Dispose();
 			}
 		}
-		OnDispose();
 	}
 
 	void Layer3D::BeginUpdating()

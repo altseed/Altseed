@@ -6,9 +6,6 @@ using namespace std;
 
 namespace asd
 {
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	Object2D::Object2D()
 		: m_owner(nullptr)
 		, m_children(list<Object2D::Ptr>())
@@ -20,19 +17,14 @@ namespace asd
 	{
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	Object2D::~Object2D()
 	{
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Object2D::Start()
+
+	void Object2D::RaiseOnAdded()
 	{
-		OnStart();
+		OnAdded();
 		for (auto& child : m_children)
 		{
 			if (IS_INHERITED(child, RegistrationToLayer))
@@ -42,7 +34,7 @@ namespace asd
 		}
 	}
 
-	void Object2D::OnRemovedInternal()
+	void Object2D::RaiseOnRemoved()
 	{
 		for (auto& child : m_children)
 		{
@@ -51,6 +43,22 @@ namespace asd
 				GetLayer()->RemoveObject(child);
 			}
 		}
+		OnRemoved();
+	}
+
+	void Object2D::Dispose()
+	{
+		for (auto& child : m_children)
+		{
+			GetCoreObject()->RemoveChild(child->GetCoreObject());
+			child->m_parentInfo.reset();
+			if (IS_INHERITED(child, Vanishment))
+			{
+				child->Dispose();
+			}
+		}
+		GetCoreObject()->SetIsAlive(false);
+		OnDispose();
 	}
 
 	void Object2D::Update()
@@ -85,18 +93,16 @@ namespace asd
 		}
 	}
 
-	void Object2D::Dispose()
+
+	void Object2D::OnAdded()
 	{
-		for (auto& child : m_children)
-		{
-			GetCoreObject()->RemoveChild(child->GetCoreObject());
-			child->m_parentInfo.reset();
-		}
-		OnDispose();
 	}
 
+	void Object2D::OnRemoved()
+	{
+	}
 
-	void Object2D::OnStart()
+	void Object2D::OnDispose()
 	{
 	}
 
@@ -108,13 +114,6 @@ namespace asd
 	{
 	}
 
-	void Object2D::OnVanish()
-	{
-	}
-
-	void Object2D::OnDispose()
-	{
-	}
 
 	void Object2D::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
@@ -173,22 +172,10 @@ namespace asd
 		layer->DrawShapeAdditionally(shape, color, texture, alphaBlend, priority);
 	}
 
+
 	bool Object2D::GetIsAlive() const
 	{
 		return GetCoreObject()->GetIsAlive();
-	}
-
-	void Object2D::Vanish()
-	{
-		GetCoreObject()->SetIsAlive(false);
-		for (auto& child : m_children)
-		{
-			if (IS_INHERITED(child, Vanishment))
-			{
-				child->Vanish();
-			}
-		}
-		OnVanish();
 	}
 
 	Layer2D* Object2D::GetLayer() const
