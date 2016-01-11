@@ -8,11 +8,11 @@ namespace asd
 {
     class IDObjectContainer<T> where T : class, IReleasable
     {
-        Dictionary<IntPtr, WeakReference> objects = new Dictionary<IntPtr, WeakReference>();
+        Dictionary<IntPtr, WeakReference<T>> objects = new Dictionary<IntPtr, WeakReference<T>>();
 
         List<IntPtr> removingKeys = new List<IntPtr>();
 
-        public void AddObject(IntPtr id, T o)
+        internal void AddObject(IntPtr id, T o)
         {
             if (o == null)
             {
@@ -21,13 +21,11 @@ namespace asd
 
             if (objects.ContainsKey(id))
             {
-                T t = null;
-                t = objects[id].Target as T;
+                T t;
 
-                if (t == null ||
-                    t.IsReleased)
+                if (!objects[id].TryGetTarget(out t) || t.IsReleased)
                 {
-                    objects[id] = new WeakReference(o);
+                    objects[id] = new WeakReference<T>(o);
                     return;
                 }
 
@@ -35,39 +33,43 @@ namespace asd
                 {
                     Particular.Helper.ThrowException("二重登録です。");
                 }
-
-                if (t != o)
+                else
                 {
                     Particular.Helper.ThrowException("違うインスタンスが登録されています。");
                 }
             }
             else
             {
-                objects.Add(id, new WeakReference(o));
+                objects.Add(id, new WeakReference<T>(o));
             }
         }
 
-        public T GetObject(IntPtr id)
+        internal T GetObject(IntPtr id)
         {
-            WeakReference w = null;
+            WeakReference<T> w;
+
             if (objects.TryGetValue(id, out w))
             {
-                var t = (T)w.Target;
-                if (t != null && !t.IsReleased) return t;
+                T t;
+
+                if (w.TryGetTarget(out t) && !t.IsReleased)
+                {
+                    return t;
+                }
             }
 
             return null;
         }
 
-        public void Collect()
+        internal void Collect()
         {
             removingKeys.Clear();
 
             foreach (var kv in objects)
             {
-                var t = (T)kv.Value.Target;
-                if (t == null ||
-                    t.IsReleased)
+                T t;
+
+                if (!kv.Value.TryGetTarget(out t) || t.IsReleased)
                 {
                     removingKeys.Add(kv.Key);
                 }
@@ -81,17 +83,16 @@ namespace asd
             removingKeys.Clear();
         }
 
-        public void DestroyAll()
+        internal void DestroyAll()
         {
             foreach (var kv in objects)
             {
-                var t = (T)kv.Value.Target;
-                if (t == null ||
-                    t.IsReleased)
+                T t;
+
+                if (kv.Value.TryGetTarget(out t) && !t.IsReleased)
                 {
-                    continue;
+                    t.ForceToRelease();
                 }
-                t.ForceToRelease();
             }
 
             objects.Clear();
