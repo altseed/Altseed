@@ -14,6 +14,11 @@ namespace asd
 
         public void AddObject(IntPtr id, T o)
         {
+            if (o == null)
+            {
+                throw new ArgumentNullException("o");
+            }
+
             if (objects.ContainsKey(id))
             {
                 T t = null;
