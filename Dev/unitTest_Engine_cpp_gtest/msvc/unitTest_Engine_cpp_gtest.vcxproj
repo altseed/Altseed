@@ -71,6 +71,7 @@
     <ClCompile Include="..\ObjectSystem\LayersMember.cpp" />
     <ClCompile Include="..\Graphics\2D\MapObject2D.cpp" />
     <ClCompile Include="..\ObjectSystem\LayerUpdatePriority.cpp" />
+    <ClCompile Include="..\ObjectSystem\LifeCycle.cpp" />
     <ClCompile Include="..\ObjectSystem\ObjectsUpdatePriority.cpp" />
     <ClCompile Include="..\ObjectSystem\SimpleObject2D.cpp" />
     <ClCompile Include="..\ObjectSystem\ObjectsFlag.cpp" />
