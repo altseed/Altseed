@@ -55,20 +55,25 @@ namespace asd
         }
         #endregion
 
+        internal void Draw(RenderTexture2D dst, RenderTexture2D src)
+        {
+            OnDraw(dst, src);
+        }
+
         /**
         @brief	
         */
         /// <summary>
         /// オーバーライドして、毎フレーム描画される処理を記述できる。
         /// </summary>
-        public virtual void OnDraw(RenderTexture2D dst, RenderTexture2D src) { }
+        protected virtual void OnDraw(RenderTexture2D dst, RenderTexture2D src) { }
 
         /// <summary>
         /// マテリアルを用いてテクスチャに画像を描画する。
         /// </summary>
         /// <param name="target">描画先</param>
         /// <param name="material">マテリアル</param>
-        public void DrawOnTexture2DWithMaterial(RenderTexture2D target, Material2D material)
+        protected void DrawOnTexture2DWithMaterial(RenderTexture2D target, Material2D material)
         {
             SwigObject.DrawOnTexture2DWithMaterial(IG.GetRenderTexture2D(target), IG.GetMaterial2D(material));
         }
