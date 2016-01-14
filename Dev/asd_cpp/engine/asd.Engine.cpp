@@ -337,11 +337,11 @@ namespace asd
 
 	void Engine::FadingOutState::Update()
 	{
+		m_transition->OnUpdate();
 	}
 
 	void Engine::FadingOutState::Draw()
 	{
-		m_transition->OnUpdate();
 		std::shared_ptr<CoreScene> curScene = Engine::m_currentScene != nullptr ? Engine::m_currentScene->m_coreScene
 												: nullptr;
 		m_core->DrawSceneToWindowWithTransition(nullptr, curScene.get(), m_transition->coreTransition.get());
@@ -373,11 +373,11 @@ namespace asd
 
 	void Engine::FadingInState::Update()
 	{
+		m_transition->OnUpdate();
 	}
 
 	void Engine::FadingInState::Draw()
 	{
-		m_transition->OnUpdate();
 		std::shared_ptr<CoreScene> curScene = Engine::m_currentScene != nullptr ? Engine::m_currentScene->m_coreScene
 												: nullptr;
 		std::shared_ptr<CoreScene> prevScene = m_previousScene != nullptr ? m_previousScene->m_coreScene
@@ -605,6 +605,7 @@ namespace asd
 			m_currentScene->Draw();
 		}
 
+		m_transitionState->Update();
 		m_transitionState->Draw();
 
 		m_core->Draw();
