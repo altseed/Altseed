@@ -42,7 +42,7 @@ protected:
 		++count;
 		if (count >= 30)
 		{
-			parent->Vanish();
+			parent->Dispose();
 		}
 	}
 

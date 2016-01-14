@@ -73,7 +73,7 @@ namespace asd
 		OnDrawAdditionally();
 	}
 
-	void Layer2D::Dispose()
+	void Layer2D::DisposeInternal()
 	{
 		for (auto& o : m_objects.GetContents())
 		{
@@ -82,7 +82,6 @@ namespace asd
 				o->Dispose();
 			}
 		}
-		OnDispose();
 	}
 
 	void Layer2D::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
@@ -156,10 +155,9 @@ namespace asd
 	{
 		ACE_ASSERT(object->GetLayer() == nullptr, "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。");
 		m_objects.Add(object);
-		auto coreObj = object->GetCoreObject();
-		m_coreLayer->AddObject(coreObj);
+		m_coreLayer->AddObject(object->GetCoreObject());
 		object->SetLayer(this);
-		object->Start();
+		object->RaiseOnAdded();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -168,9 +166,9 @@ namespace asd
 	void Layer2D::RemoveObject(const Object2D::Ptr& object)
 	{
 		m_objects.Remove(object);
-		m_coreLayer->RemoveObject(object->GetCoreObject());
-		object->OnRemovedInternal();
+		object->RaiseOnRemoved();
 		object->SetLayer(nullptr);
+		m_coreLayer->RemoveObject(object->GetCoreObject());
 	}
 
 	const list<Object2D::Ptr>& Layer2D::GetObjects() const
@@ -182,6 +180,7 @@ namespace asd
 	{
 		for (auto object : m_objects.GetContents())
 		{
+			object->RaiseOnRemoved();
 			object->SetLayer(nullptr);
 		}
 		m_objects.Clear();

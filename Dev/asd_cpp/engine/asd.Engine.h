@@ -54,6 +54,62 @@ namespace asd {
 	class Engine
 	{
 	private:
+		class SceneTransitionState
+		{
+		public:
+			virtual std::shared_ptr<SceneTransitionState> Proceed()
+			{
+				return nullptr;
+			}
+			virtual void Draw() = 0;
+			virtual void Update()
+			{
+			}
+		};
+
+		class NeutralState : public SceneTransitionState
+		{
+		public:
+			void Draw() override;
+		};
+
+		class FadingOutState : public SceneTransitionState
+		{
+		private:
+			std::shared_ptr<Transition> m_transition;
+
+		public:
+			FadingOutState(std::shared_ptr<Transition> transition, Scene::Ptr nextScene);
+			std::shared_ptr<SceneTransitionState> Proceed() override;
+			void Draw() override;
+			void Update() override;
+		};
+
+		class FadingInState : public SceneTransitionState
+		{
+		private:
+			std::shared_ptr<Transition> m_transition;
+			Scene::Ptr m_previousScene;
+
+		public:
+			FadingInState(std::shared_ptr<Transition> transition, Scene::Ptr previousScene);
+			std::shared_ptr<SceneTransitionState> Proceed() override;
+			void Draw() override;
+			void Update() override;
+		};
+
+		class QuicklyChangingState : public SceneTransitionState
+		{
+		private:
+			Scene::Ptr m_nextScene;
+
+		public:
+			QuicklyChangingState(Scene::Ptr nextScene);
+			std::shared_ptr<SceneTransitionState> Proceed() override;
+			void Draw() override;
+		};
+
+	private:
 		typedef std::shared_ptr<Scene> ScenePtr;
 
 		static Core*					m_core;
@@ -73,9 +129,7 @@ namespace asd {
 
 		static std::shared_ptr<Scene>	m_currentScene;
 		static std::shared_ptr<Scene>	m_nextScene;
-		static std::shared_ptr<Scene>	m_previousScene;
-
-		static std::shared_ptr<Transition>	transition;
+		static std::shared_ptr<SceneTransitionState> m_transitionState;
 
 		static bool HasDLL(const char* path);
 		static bool CheckDLL();

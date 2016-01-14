@@ -6,33 +6,21 @@ using namespace std;
 
 namespace asd
 {
-	void Layer::BeginDrawing()
+	void Layer::RaiseOnAdded()
 	{
-		GetScene()->m_coreScene->SetRenderTargetForDrawingLayer();
-		m_commonObject->BeginDrawing();
+		OnAdded();
 	}
 
-	void Layer::EndDrawing()
+	void Layer::RaiseOnRemoved()
 	{
-		m_commonObject->EndDrawing();
+		OnRemoved();
+	}
 
-		if (m_postEffects.size() > 0)
-		{
-			for (auto& p : m_postEffects)
-			{
-				GetScene()->m_coreScene->BeginPostEffect(p->GetCoreObject());
-
-				GetScene()->m_coreScene->GetSrcTarget()->AddRef();
-				GetScene()->m_coreScene->GetDstTarget()->AddRef();
-
-				auto src = CreateSharedPtrWithReleaseDLL(GetScene()->m_coreScene->GetSrcTarget());
-				auto dst = CreateSharedPtrWithReleaseDLL(GetScene()->m_coreScene->GetDstTarget());
-				
-				p->OnDraw(dst, src);
-
-				GetScene()->m_coreScene->EndPostEffect(p->GetCoreObject());
-			}
-		}
+	void Layer::Dispose()
+	{
+		DisposeInternal();
+		m_isAlive = false;
+		OnDispose();
 	}
 
 	void Layer::Update()
@@ -56,17 +44,45 @@ namespace asd
 		m_commonObject->EndMeasureUpdateTime();
 	}
 
-	void Layer::Start()
-	{
-		OnStart();
-	}
-
 	void Layer::Draw()
 	{
 		m_commonObject->Draw();
 	}
 
-	void Layer::OnStart()
+	void Layer::BeginDrawing()
+	{
+		GetScene()->m_coreScene->SetRenderTargetForDrawingLayer();
+		m_commonObject->BeginDrawing();
+	}
+
+	void Layer::EndDrawing()
+	{
+		m_commonObject->EndDrawing();
+
+		if (m_postEffects.size() > 0)
+		{
+			for (auto& p : m_postEffects)
+			{
+				GetScene()->m_coreScene->BeginPostEffect(p->GetCoreObject());
+
+				GetScene()->m_coreScene->GetSrcTarget()->AddRef();
+				GetScene()->m_coreScene->GetDstTarget()->AddRef();
+
+				auto src = CreateSharedPtrWithReleaseDLL(GetScene()->m_coreScene->GetSrcTarget());
+				auto dst = CreateSharedPtrWithReleaseDLL(GetScene()->m_coreScene->GetDstTarget());
+
+				p->OnDraw(dst, src);
+
+				GetScene()->m_coreScene->EndPostEffect(p->GetCoreObject());
+			}
+		}
+	}
+
+	void Layer::OnAdded()
+	{
+	}
+
+	void Layer::OnRemoved()
 	{
 	}
 
@@ -89,6 +105,7 @@ namespace asd
 	void Layer::OnDispose()
 	{
 	}
+
 
 	Layer::Layer()
 		: m_scene(nullptr)
@@ -168,12 +185,6 @@ namespace asd
 	{
 		m_postEffects.clear();
 		m_commonObject->ClearPostEffects();
-	}
-
-	void Layer::Vanish()
-	{
-		m_isAlive = false;
-		OnVanish();
 	}
 
 	int Layer::GetTimeForUpdate() const
