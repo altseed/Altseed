@@ -36,13 +36,15 @@ namespace asd
 		std::list<Layer::Ptr> removingLayer;
 		bool executing = false;
 
-		void Start();
+		void RaiseOnAdded();
+		void RaiseOnStartUpdating();
 		void RaiseOnTransitionFinished();
 		void RaiseOnChanging();
-		void Stop();
+		void RaiseOnStopUpdating();
+		void RaiseOnRemoved();
+
 		void Update();
 		void Draw();
-
 		void CommitChanges();
 		void UpdateComponents();
 
@@ -50,7 +52,12 @@ namespace asd
 		/**
 		@brief	オーバーライドして、このシーンを初期化処理を記述できる。
 		*/
-		virtual void OnStart();
+		virtual void OnAdded();
+
+		/**
+		@brief	オーバーライドして、最初のシーン更新時に実行する処理を記述する。
+		*/
+		virtual void OnStartUpdating();
 
 		/**
 		@brief	オーバーライドして、トランジション終了時に実行する処理を記述する。
@@ -62,17 +69,15 @@ namespace asd
 		*/
 		virtual void OnChanging();
 
-		virtual void OnStop();
+		virtual void OnStopUpdating();
+
+		virtual void OnRemoved();
 
 		/**
 		@brief	オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
 		*/
 		virtual void OnDispose();
 
-		/**
-		@brief	オーバーライドして、最初のシーン更新時に実行する処理を記述する。
-		*/
-		virtual void OnUpdateForTheFirstTime();
 		/**
 			@brief	オーバーライドして、このシーンを更新する直前の処理を記述できる。
 		*/

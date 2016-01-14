@@ -33,25 +33,9 @@ namespace asd
 	}
 
 
-	void Scene::Start()
-	{
-		OnStart();
-	}
-
-	void Scene::RaiseOnTransitionFinished()
-	{
-		OnTransitionFinished();
-	}
-
-	void Scene::RaiseOnChanging()
-	{
-		OnChanging();
-	}
-
-	void Scene::Stop()
-	{
-		OnStop();
-	}
+	// ========
+	// 基本イベントハンドラ
+	// ========
 
 	void Scene::Dispose()
 	{
@@ -76,12 +60,6 @@ namespace asd
 		auto beVanished = list<Layer::Ptr>();
 
 		executing = true;
-
-		if (!alreadyFirstUpdate)
-		{
-			OnUpdateForTheFirstTime();
-			alreadyFirstUpdate = true;
-		}
 
 		OnUpdating();
 
@@ -133,7 +111,7 @@ namespace asd
 		addingLayer.clear();
 		removingLayer.clear();
 	}
-	
+
 	void Scene::Draw()
 	{
 		executing = true;
@@ -172,9 +150,58 @@ namespace asd
 		CommitChanges();
 	}
 
-	void Scene::OnStart()
+	void Scene::OnDispose()
 	{
+	}
 
+	void Scene::OnUpdating()
+	{
+	}
+
+	void Scene::OnUpdated()
+	{
+	}
+
+	// ========
+	// 登録・登録解除関連イベントハンドラ
+	// ========
+
+	void Scene::RaiseOnAdded()
+	{
+		OnAdded();
+	}
+
+	void Scene::RaiseOnStartUpdating()
+	{
+		OnStartUpdating();
+	}
+
+	void Scene::RaiseOnTransitionFinished()
+	{
+		OnTransitionFinished();
+	}
+
+	void Scene::RaiseOnChanging()
+	{
+		OnChanging();
+	}
+
+	void Scene::RaiseOnStopUpdating()
+	{
+		OnStopUpdating();
+	}
+
+	void Scene::RaiseOnRemoved()
+	{
+		OnRemoved();
+	}
+
+	void Scene::OnAdded()
+	{
+	}
+	
+	void Scene::OnStartUpdating()
+	{
 	}
 
 	void Scene::OnTransitionFinished()
@@ -185,26 +212,18 @@ namespace asd
 	{
 	}
 
-	void Scene::OnStop()
+	void Scene::OnStopUpdating()
 	{
 	}
 
-	void Scene::OnDispose()
-	{
-	}
-	
-	void Scene::OnUpdateForTheFirstTime()
+	void Scene::OnRemoved()
 	{
 	}
 
-	void Scene::OnUpdating()
-	{
-	}
-	
-	void Scene::OnUpdated()
-	{
-	}
 
+	// ========
+	// その他
+	// ========
 
 	//----------------------------------------------------------------------------------
 	//

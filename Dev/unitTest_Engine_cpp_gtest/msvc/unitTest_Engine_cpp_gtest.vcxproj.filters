@@ -201,6 +201,9 @@
     <ClCompile Include="..\FamilySystem\AbsoluteParameter.cpp">
       <Filter>FamilySystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\ObjectSystem\LifeCycle.cpp">
+      <Filter>ObjectSystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
