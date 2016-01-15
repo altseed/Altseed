@@ -9,15 +9,15 @@ namespace asd
     /// <summary>
     /// ポストエフェクトを適用するクラス
     /// </summary>
-    public class PostEffect : IReleasable
+    public class PostEffect : IDisposable, IReleasable
     {
-        internal swig.CorePostEffect SwigObject;
+        swig.CorePostEffect swigObject;
 
         public PostEffect()
         {
-            SwigObject = Engine.ObjectSystemFactory.CreatePostEffect();
+            swigObject = Engine.ObjectSystemFactory.CreatePostEffect();
 
-            var p = SwigObject.GetPtr();
+            var p = swigObject.GetPtr();
             if (GC.PostEffects.GetObject(p) != null)
             {
                 Particular.Helper.ThrowException("");
@@ -25,15 +25,43 @@ namespace asd
             GC.PostEffects.AddObject(p, this);
         }
 
-        #region GC対応
+        #region IDisposable Support
+        bool disposed = false;
+
         ~PostEffect()
         {
-            ForceToRelease();
+            Dispose(false);
         }
 
-        public bool IsReleased
+        public void Dispose()
         {
-            get { return SwigObject == null; }
+            Dispose(true);
+            System.GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            var obj = swigObject;
+
+            if (obj != null)
+            {
+                GC.Collector.AddObject(obj);
+                swigObject = null;
+            }
+
+            disposed = true;
+        }
+        #endregion
+
+        #region GC対応
+        bool IReleasable.IsReleased
+        {
+            get { return disposed; }
         }
 
         /// <summary>
@@ -43,20 +71,32 @@ namespace asd
         /// 何らかの理由でメモリが不足した場合に実行する。
         /// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
         /// </remarks>
-        public void ForceToRelease()
+        void IReleasable.ForceToRelease()
         {
-            lock (this)
-            {
-                if (SwigObject == null) return;
-                GC.Collector.AddObject(SwigObject);
-                SwigObject = null;
-            }
-            Particular.GC.SuppressFinalize(this);
+            Dispose();
         }
         #endregion
 
+        internal swig.CorePostEffect SwigObject
+        {
+            get
+            {
+                if (disposed)
+                {
+                    throw new ObjectDisposedException(GetType().FullName);
+                }
+
+                return swigObject;
+            }
+        }
+
         internal void Draw(RenderTexture2D dst, RenderTexture2D src)
         {
+            if (disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+
             OnDraw(dst, src);
         }
 
@@ -75,7 +115,12 @@ namespace asd
         /// <param name="material">マテリアル</param>
         protected void DrawOnTexture2DWithMaterial(RenderTexture2D target, Material2D material)
         {
-            SwigObject.DrawOnTexture2DWithMaterial(IG.GetRenderTexture2D(target), IG.GetMaterial2D(material));
+            if (disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+
+            swigObject.DrawOnTexture2DWithMaterial(IG.GetRenderTexture2D(target), IG.GetMaterial2D(material));
         }
     }
 }
