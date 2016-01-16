@@ -6,123 +6,126 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	/// <summary>
-	/// マテリアルへのパラメーターの集合
-	/// </summary>
-	public class MaterialPropertyBlock : IReleasable
-	{
-		internal swig.MaterialPropertyBlock SwigObject { get; set; }
+    /// <summary>
+    /// マテリアルへのパラメーターの集合
+    /// </summary>
+    public class MaterialPropertyBlock : IReleasable
+    {
+        internal swig.MaterialPropertyBlock CoreInstance { get; set; }
 
-		internal MaterialPropertyBlock(swig.MaterialPropertyBlock swig)
-		{
+        internal MaterialPropertyBlock(swig.MaterialPropertyBlock coreInstance)
+        {
 #if DEBUG
-			// 唯一の対応するクラスであることを保証
-			if (GC.MaterialPropertyBlocks.GetObject(swig.GetPtr()) != null) Particular.Helper.ThrowException("");
+            // 唯一の対応するクラスであることを保証
+            if (GC.MaterialPropertyBlocks.Contains(coreInstance.GetPtr()))
+            {
+                Particular.Helper.ThrowException("");
+            }
 #endif
-			SwigObject = swig;
-		}
+            CoreInstance = coreInstance;
+        }
 
-		~MaterialPropertyBlock()
-		{
-			ForceToRelease();
-		}
+        ~MaterialPropertyBlock()
+        {
+            ForceToRelease();
+        }
 
-		public bool IsReleased
-		{
-			get
-			{
-				return SwigObject == null;
-			}
-		}
+        public bool IsReleased
+        {
+            get
+            {
+                return CoreInstance == null;
+            }
+        }
 
-		/// <summary>
-		/// 強制的に使用しているメモリを開放する。
-		/// </summary>
-		/// <remarks>
-		/// 何らかの理由でメモリが不足した場合に実行する。
-		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-		/// </remarks>
-		public void ForceToRelease()
-		{
-			lock (this)
-			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
-			}
-			Particular.GC.SuppressFinalize(this);
-		}
+        /// <summary>
+        /// 強制的に使用しているメモリを開放する。
+        /// </summary>
+        /// <remarks>
+        /// 何らかの理由でメモリが不足した場合に実行する。
+        /// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
+        /// </remarks>
+        public void ForceToRelease()
+        {
+            lock (this)
+            {
+                if (CoreInstance == null) return;
+                GC.Collector.AddObject(CoreInstance);
+                CoreInstance = null;
+            }
+            Particular.GC.SuppressFinalize(this);
+        }
 
-		public float GetFloat(string name)
-		{
-			return SwigObject.GetFloat(name);
-		}
+        public float GetFloat(string name)
+        {
+            return CoreInstance.GetFloat(name);
+        }
 
-		public void SetFloat(string name, float value)
-		{
-			SwigObject.SetFloat(name, value);
-		}
+        public void SetFloat(string name, float value)
+        {
+            CoreInstance.SetFloat(name, value);
+        }
 
-		public Vector2DF GetVector2DF(string name)
-		{
-			return SwigObject.GetVector2DF(name);
-		}
+        public Vector2DF GetVector2DF(string name)
+        {
+            return CoreInstance.GetVector2DF(name);
+        }
 
-		public void SetVector2DF(string name, Vector2DF value)
-		{
-			SwigObject.SetVector2DF(name, value);
-		}
+        public void SetVector2DF(string name, Vector2DF value)
+        {
+            CoreInstance.SetVector2DF(name, value);
+        }
 
-		public Vector3DF GetVector3DF(string name)
-		{
-			return SwigObject.GetVector3DF(name);
-		}
+        public Vector3DF GetVector3DF(string name)
+        {
+            return CoreInstance.GetVector3DF(name);
+        }
 
-		public void SetVector3DF(string name, Vector3DF value)
-		{
-			SwigObject.SetVector3DF(name, value);
-		}
+        public void SetVector3DF(string name, Vector3DF value)
+        {
+            CoreInstance.SetVector3DF(name, value);
+        }
 
-		public Vector4DF GetVector4DF(string name)
-		{
-			return SwigObject.GetVector4DF(name);
-		}
+        public Vector4DF GetVector4DF(string name)
+        {
+            return CoreInstance.GetVector4DF(name);
+        }
 
-		public void SetVector4DF(string name, Vector4DF value)
-		{
-			SwigObject.SetVector4DF(name, value);
-		}
+        public void SetVector4DF(string name, Vector4DF value)
+        {
+            CoreInstance.SetVector4DF(name, value);
+        }
 
-		public Texture2D GetTexture2D(string name)
-		{
-			var swigObj = swig.Accessor.MaterialPropertyBlock_GetTexture2D(SwigObject, name);
-			return GC.GenerateTexture2D(swigObj, GC.GenerationType.Get);
-		}
+        public Texture2D GetTexture2D(string name)
+        {
+            var swigObj = swig.Accessor.MaterialPropertyBlock_GetTexture2D(CoreInstance, name);
+            return GC.GenerateTexture2D(swigObj, GC.GenerationType.Get);
+        }
 
-		public void SetTexture2D(string name, Texture2D value)
-		{
-			if (value == null) return;
-			SwigObject.SetTexture2D(name, IG.GetTexture2D(value));
-		}
+        public void SetTexture2D(string name, Texture2D value)
+        {
+            if (value == null) return;
+            CoreInstance.SetTexture2D(name, IG.GetTexture2D(value));
+        }
 
-		public TextureFilterType GetTextureFilterType(string name)
-		{
-			return (TextureFilterType)SwigObject.GetTextureFilterType(name);
-		}
+        public TextureFilterType GetTextureFilterType(string name)
+        {
+            return (TextureFilterType)CoreInstance.GetTextureFilterType(name);
+        }
 
-		public void SetTextureFilterType(string name, TextureFilterType filter)
-		{
-			SwigObject.SetTextureFilterType(name, (swig.TextureFilterType)filter);
-		}
+        public void SetTextureFilterType(string name, TextureFilterType filter)
+        {
+            CoreInstance.SetTextureFilterType(name, (swig.TextureFilterType)filter);
+        }
 
-		public TextureWrapType GetTextureWrapType(string name)
-		{
-			return (TextureWrapType)SwigObject.GetTextureWrapType(name);
-		}
+        public TextureWrapType GetTextureWrapType(string name)
+        {
+            return (TextureWrapType)CoreInstance.GetTextureWrapType(name);
+        }
 
-		public void SetTextureWrapType(string name, TextureWrapType wrap)
-		{
-			SwigObject.SetTextureWrapType(name, (swig.TextureWrapType)wrap);
-		}
-	}
+        public void SetTextureWrapType(string name, TextureWrapType wrap)
+        {
+            CoreInstance.SetTextureWrapType(name, (swig.TextureWrapType)wrap);
+        }
+    }
 }

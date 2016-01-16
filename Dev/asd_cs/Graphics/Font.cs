@@ -11,13 +11,16 @@ namespace asd
     /// </summary>
     public partial class Font : IReleasable
     {
-        internal Font(swig.Font swig)
+        internal Font(swig.Font coreInstance)
         {
 #if DEBUG
             // 唯一の対応するクラスであることを保証
-			if (GC.Fonts.GetObject(swig.GetPtr()) != null) Particular.Helper.ThrowException("");
+            if (GC.Fonts.Contains(coreInstance.GetPtr()))
+            {
+                Particular.Helper.ThrowException("");
+            }
 #endif
-            CoreInstance = swig;
+            CoreInstance = coreInstance;
         }
 
         ~Font()
@@ -33,13 +36,13 @@ namespace asd
             }
         }
 
-		/// <summary>
-		/// 強制的に使用しているメモリを開放する。
-		/// </summary>
-		/// <remarks>
-		/// 何らかの理由でメモリが不足した場合に実行する。
-		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-		/// </remarks>
+        /// <summary>
+        /// 強制的に使用しているメモリを開放する。
+        /// </summary>
+        /// <remarks>
+        /// 何らかの理由でメモリが不足した場合に実行する。
+        /// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
+        /// </remarks>
         public void ForceToRelease()
         {
             lock (this)

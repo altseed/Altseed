@@ -18,10 +18,12 @@ namespace asd
             coreInstance = Engine.ObjectSystemFactory.CreatePostEffect();
 
             var p = coreInstance.GetPtr();
-            if (GC.PostEffects.GetObject(p) != null)
+
+            if (GC.PostEffects.Contains(p))
             {
                 Particular.Helper.ThrowException("");
             }
+
             GC.PostEffects.AddObject(p, this);
         }
 
