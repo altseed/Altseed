@@ -143,10 +143,8 @@ namespace asd
 			auto size = cluster->Size;
 			auto pos = Culling3D::Vector3DF(center.X, center.Y, center.Z);
 
-			o->SetShapeType(Culling3D::eObjectShapeType::OBJECT_SHAPE_TYPE_CUBOID);
-
 			o->SetPosition(pos);
-			o->SetCuboidSize(Culling3D::Vector3DF(size.X, size.Y, size.Z));
+			o->ChangeIntoCuboid(Culling3D::Vector3DF(size.X, size.Y, size.Z));
 			o->SetUserData(&(cullingProxies[ind]));
 			
 			cullingObjects.push_back(o);
