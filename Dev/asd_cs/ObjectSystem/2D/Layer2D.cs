@@ -90,7 +90,7 @@ namespace asd
 			contentsManager.Add(object2D);
 			coreLayer2D.AddObject(object2D.CoreObject);
 			object2D.Layer = this;
-			object2D.Start();
+			object2D.RaiseOnAdded();
 		}
 
 		/// <summary>

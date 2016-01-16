@@ -11,7 +11,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 	{
 		class HogeObject : TextureObject2D
 		{
-			protected override void OnStart()
+			protected override void OnAdded()
 			{
 				Texture = Engine.Graphics.CreateTexture2D( CloudTexturePath );
 			}

@@ -314,7 +314,7 @@ namespace asd
         /// <summary>
         /// オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
         /// </summary>
-        protected virtual void OnStart() { }
+        protected virtual void OnAdded() { }
 
 		/// <summary>
 		/// オーバーライドして、この2Dオブジェクトの更新処理を記述できる。
@@ -343,9 +343,9 @@ namespace asd
 
 		internal abstract swig.CoreObject2D CoreObject { get; }
 
-		internal void Start()
+		internal void RaiseOnAdded()
 		{
-			OnStart();
+			OnAdded();
 			foreach(var item in ChildrenList)
 			{
 				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
@@ -355,7 +355,7 @@ namespace asd
 			}
 		}
 
-		internal void CallOnRemoved()
+		internal void RaiseOnRemoved()
 		{
 			foreach(var item in ChildrenList)
 			{
