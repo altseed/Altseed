@@ -229,7 +229,7 @@ namespace asd
 					}
 					previousScene = CurrentScene;
 					CurrentScene = nextScene;
-					core.ChangeScene(nextScene.CoreScene);
+					core.ChangeScene(nextScene.CoreInstance);
 					nextScene.Start();
 					nextScene = null;
 				}
@@ -257,7 +257,7 @@ namespace asd
 					}
 
 					CurrentScene = nextScene;
-					core.ChangeScene(nextScene.CoreScene);
+					core.ChangeScene(nextScene.CoreInstance);
 					nextScene.Start();
 					nextScene = null;
 				}
@@ -305,12 +305,12 @@ namespace asd
 
 				if(CurrentScene != null)
 				{
-					curScene = CurrentScene.CoreScene;
+					curScene = CurrentScene.CoreInstance;
 				}
 
 				if(previousScene != null)
 				{
-					prevScene = previousScene.CoreScene;
+					prevScene = previousScene.CoreInstance;
 				}
 
 				if(transition.SwigObject.GetIsSceneChanged())
@@ -327,7 +327,7 @@ namespace asd
 			{
 				if(CurrentScene != null)
 				{
-					core.DrawSceneToWindow(CurrentScene.CoreScene);
+					core.DrawSceneToWindow(CurrentScene.CoreInstance);
 				}
 			}
 

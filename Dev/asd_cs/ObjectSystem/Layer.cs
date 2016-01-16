@@ -118,7 +118,7 @@ namespace asd
 
         internal void BeginDrawing()
         {
-            Scene.CoreScene.SetRenderTargetForDrawingLayer();
+            Scene.CoreInstance.SetRenderTargetForDrawingLayer();
             commonObject.BeginDrawing();
         }
 
@@ -130,17 +130,17 @@ namespace asd
             {
                 foreach (var p in postEffects)
                 {
-                    Scene.CoreScene.BeginPostEffect(p.CoreInstance);
+                    Scene.CoreInstance.BeginPostEffect(p.CoreInstance);
 
-                    var src_ = Scene.CoreScene.GetSrcTarget();
-                    var dst_ = Scene.CoreScene.GetDstTarget();
+                    var src_ = Scene.CoreInstance.GetSrcTarget();
+                    var dst_ = Scene.CoreInstance.GetDstTarget();
 
                     RenderTexture2D src = GC.GenerateRenderTexture2D(src_, GC.GenerationType.Get);
                     RenderTexture2D dst = GC.GenerateRenderTexture2D(dst_, GC.GenerationType.Get);
 
                     p.Draw(dst, src);
 
-                    Scene.CoreScene.EndPostEffect(p.CoreInstance);
+                    Scene.CoreInstance.EndPostEffect(p.CoreInstance);
                 }
             }
         }
