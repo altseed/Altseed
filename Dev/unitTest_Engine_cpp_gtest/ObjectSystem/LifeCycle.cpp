@@ -100,19 +100,107 @@ class ObjectSystem_LifeCycle : public EngineTest
 		}
 	};
 
+	class MessageScene : public Scene
+	{
+	protected:
+		void OnRegistered() override
+		{
+			ASSERT_TRUE(phase == 0 || phase == 6);
+			phase = 1;
+		}
+
+		void OnStartUpdating() override
+		{
+			ASSERT_EQ(phase, 1);
+			phase = 2;
+		}
+
+		void OnTransitionFinished() override
+		{
+			ASSERT_EQ(phase, 2);
+			phase = 3;
+		}
+
+		void OnChanging() override
+		{
+			ASSERT_EQ(phase, 3);
+			phase = 4;
+		}
+
+		void OnStopUpdating() override
+		{
+			ASSERT_EQ(phase, 4);
+			phase = 5;
+		}
+
+		void OnUnregistered() override
+		{
+			ASSERT_EQ(phase, 5);
+			phase = 6;
+		}
+
+		void OnDispose() override
+		{
+			haveBeenDisposed = true;
+		}
+
+	public:
+		int phase;
+		bool haveBeenDisposed;
+
+		MessageScene()
+			: phase(0)
+			, haveBeenDisposed(false)
+		{
+		}
+	};
+
 public:
 	ObjectSystem_LifeCycle(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("LifeCycle"), isOpenGLMode, 60)
+		: EngineTest(asd::ToAString("LifeCycle"), isOpenGLMode, 120)
 	{
 	}
+
+private:
+	shared_ptr<MessageScene> scene;
+	shared_ptr<MessageLayer> layer;
+	shared_ptr<MessageObject> object;
 
 protected:
 	void OnStart()
 	{
+		scene = make_shared<MessageScene>();
+		layer = make_shared<MessageLayer>();
+		object = make_shared<MessageObject>();
+
+		ASSERT_EQ(scene->phase, 0);
+		ASSERT_EQ(scene->haveBeenDisposed, false);
+		ASSERT_EQ(layer->haveBeenDisposed, false);
+		ASSERT_EQ(layer->isAdded, false);
+		ASSERT_EQ(object->isAdded, false);
+		ASSERT_EQ(object->haveBeenDisposed, false);
+
+		layer->AddObject(object);
+		ASSERT_EQ(object->isAdded, true);
+		layer->RemoveObject(object);
+		ASSERT_EQ(object->isAdded, false);
+		layer->AddObject(object);
+
+		scene->AddLayer(layer);
+		ASSERT_EQ(layer->isAdded, true);
+		scene->RemoveLayer(layer);
+		ASSERT_EQ(layer->isAdded, false);
+		scene->AddLayer(layer);
+
+		Engine::ChangeSceneWithTransition(scene, make_shared<TransitionFade>(0.3f, 0.3f));
 	}
 
 	void OnUpdating()
 	{
+		if (m_currentTime == 65)
+		{
+			Engine::ChangeSceneWithTransition(nullptr, make_shared<TransitionFade>(0.3f, 0.3f));
+		}
 	}
 
 	void OnUpdated()
@@ -121,6 +209,11 @@ protected:
 
 	void OnFinish()
 	{
+		scene->Dispose();
+		ASSERT_EQ(scene->phase, 6);
+		ASSERT_EQ(scene->haveBeenDisposed, true);
+		ASSERT_EQ(layer->haveBeenDisposed, true);
+		ASSERT_EQ(object->haveBeenDisposed, true);
 	}
 };
 
