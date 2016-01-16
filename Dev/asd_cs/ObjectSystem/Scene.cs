@@ -16,12 +16,11 @@ namespace asd
         /// </summary>
         public Scene()
         {
-            CoreScene = Engine.ObjectSystemFactory.CreateScene();
+            CoreInstance = Engine.ObjectSystemFactory.CreateScene();
 
-            var p = CoreScene.GetPtr();
+            var p = CoreInstance.GetPtr();
 
-            var existing = GC.Scenes.GetObject(p);
-            if (existing != null)
+            if (GC.Scenes.Contains(p))
             {
                 Particular.Helper.ThrowException("");
             }
@@ -45,7 +44,7 @@ namespace asd
         {
             get
             {
-                return CoreScene == null;
+                return CoreInstance == null;
             }
         }
 
@@ -53,9 +52,9 @@ namespace asd
         {
             lock (this)
             {
-                if (CoreScene == null) return;
-                GC.Collector.AddObject(CoreScene);
-                CoreScene = null;
+                if (CoreInstance == null) return;
+                GC.Collector.AddObject(CoreInstance);
+                CoreInstance = null;
             }
             Particular.GC.SuppressFinalize(this);
         }
@@ -67,8 +66,8 @@ namespace asd
         /// </summary>
         public bool HDRMode
         {
-            get { return CoreScene.GetHDRMode(); }
-            set { CoreScene.SetHDRMode(value); }
+            get { return CoreInstance.GetHDRMode(); }
+            set { CoreInstance.SetHDRMode(value); }
         }
 
 
@@ -90,7 +89,7 @@ namespace asd
             }
             layersToDraw_.Add(layer);
             layersToUpdate_.Add(layer);
-            CoreScene.AddLayer(layer.CoreLayer);
+            CoreInstance.AddLayer(layer.CoreLayer);
             layer.Scene = this;
             layer.Start();
         }
@@ -109,7 +108,7 @@ namespace asd
 
             layersToDraw_.Remove(layer);
             layersToUpdate_.Remove(layer);
-            CoreScene.RemoveLayer(layer.CoreLayer);
+            CoreInstance.RemoveLayer(layer.CoreLayer);
             layer.Scene = null;
         }
 
@@ -151,7 +150,7 @@ namespace asd
         {
             get
             {
-                return GC.GenerateRenderTexture2D(CoreScene.GetBaseTarget(), GC.GenerationType.Get);
+                return GC.GenerateRenderTexture2D(CoreInstance.GetBaseTarget(), GC.GenerationType.Get);
             }
         }
 
@@ -231,7 +230,7 @@ namespace asd
             OnDispose();
         }
 
-        internal unsafe swig.CoreScene CoreScene { get; private set; }
+        internal unsafe swig.CoreScene CoreInstance { get; private set; }
 
         internal void Update()
         {
@@ -315,7 +314,7 @@ namespace asd
                 item.DrawAdditionally();
             }
 
-            CoreScene.BeginDrawing();
+            CoreInstance.BeginDrawing();
 
             foreach (var item in layersToDraw_)
             {
@@ -332,7 +331,7 @@ namespace asd
                 item.EndDrawing();
             }
 
-            CoreScene.EndDrawing();
+            CoreInstance.EndDrawing();
 
             executing = false;
 

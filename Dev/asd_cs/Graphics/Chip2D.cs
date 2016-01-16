@@ -11,17 +11,19 @@ namespace asd
     /// </summary>
     public class Chip2D : IReleasable
     {
-        internal swig.CoreChip2D SwigObject { get; set; }
+        internal swig.CoreChip2D CoreInstance { get; set; }
 
         public Chip2D()
         {
-            SwigObject = Engine.ObjectSystemFactory.CreateChip2D();
+            CoreInstance = Engine.ObjectSystemFactory.CreateChip2D();
 
-            var p = SwigObject.GetPtr();
-            if (GC.Shapes.GetObject(p) != null)
+            var p = CoreInstance.GetPtr();
+
+            if (GC.Shapes.Contains(p))
             {
                 Particular.Helper.ThrowException("");
             }
+
             GC.Chip2Ds.AddObject(p, this);
         }
 
@@ -34,24 +36,24 @@ namespace asd
         {
             get
             {
-                return SwigObject == null;
+                return CoreInstance == null;
             }
         }
 
-		/// <summary>
-		/// 強制的に使用しているメモリを開放する。
-		/// </summary>
-		/// <remarks>
-		/// 何らかの理由でメモリが不足した場合に実行する。
-		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-		/// </remarks>
+        /// <summary>
+        /// 強制的に使用しているメモリを開放する。
+        /// </summary>
+        /// <remarks>
+        /// 何らかの理由でメモリが不足した場合に実行する。
+        /// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
+        /// </remarks>
         public void ForceToRelease()
         {
             lock (this)
             {
-                if (SwigObject == null) return;
-                GC.Collector.AddObject(SwigObject);
-                SwigObject = null;
+                if (CoreInstance == null) return;
+                GC.Collector.AddObject(CoreInstance);
+                CoreInstance = null;
             }
             Particular.GC.SuppressFinalize(this);
         }
@@ -61,8 +63,8 @@ namespace asd
         /// </summary>
         public Texture2D Texture
         {
-            get { return GC.GenerateTexture2D(swig.Accessor.Chip2D_GetTexture(SwigObject) , GC.GenerationType.Get); }
-            set { SwigObject.SetTexture(IG.GetTexture2D(value)); }
+            get { return GC.GenerateTexture2D(swig.Accessor.Chip2D_GetTexture(CoreInstance), GC.GenerationType.Get); }
+            set { CoreInstance.SetTexture(IG.GetTexture2D(value)); }
         }
 
         /// <summary>
@@ -70,8 +72,8 @@ namespace asd
         /// </summary>
         public RectF Src
         {
-            get { return SwigObject.GetSrc(); }
-            set { SwigObject.SetSrc(value); }
+            get { return CoreInstance.GetSrc(); }
+            set { CoreInstance.SetSrc(value); }
         }
 
         /// <summary>
@@ -79,8 +81,8 @@ namespace asd
         /// </summary>
         public Vector2DF Position
         {
-            get { return SwigObject.GetPosition(); }
-            set { SwigObject.SetPosition(value); }
+            get { return CoreInstance.GetPosition(); }
+            set { CoreInstance.SetPosition(value); }
         }
 
         /// <summary>
@@ -88,8 +90,8 @@ namespace asd
         /// </summary>
         public float Angle
         {
-            get { return SwigObject.GetAngle(); }
-            set { SwigObject.SetAngle(value); }
+            get { return CoreInstance.GetAngle(); }
+            set { CoreInstance.SetAngle(value); }
         }
 
         /// <summary>
@@ -97,8 +99,8 @@ namespace asd
         /// </summary>
         public Vector2DF Scale
         {
-            get { return SwigObject.GetScale(); }
-            set { SwigObject.SetScale(value); }
+            get { return CoreInstance.GetScale(); }
+            set { CoreInstance.SetScale(value); }
         }
 
         /// <summary>
@@ -106,8 +108,8 @@ namespace asd
         /// </summary>
         public Vector2DF CenterPosition
         {
-            get { return SwigObject.GetCenterPosition(); }
-            set { SwigObject.SetCenterPosition(value); }
+            get { return CoreInstance.GetCenterPosition(); }
+            set { CoreInstance.SetCenterPosition(value); }
         }
 
         /// <summary>
@@ -115,8 +117,8 @@ namespace asd
         /// </summary>
         public Color Color
         {
-            get { return SwigObject.GetColor(); }
-            set { SwigObject.SetColor(value); }
+            get { return CoreInstance.GetColor(); }
+            set { CoreInstance.SetColor(value); }
         }
 
         /// <summary>
@@ -124,8 +126,8 @@ namespace asd
         /// </summary>
         public bool TurnLR
         {
-            get { return SwigObject.GetTurnLR(); }
-            set { SwigObject.SetTurnLR(value); }
+            get { return CoreInstance.GetTurnLR(); }
+            set { CoreInstance.SetTurnLR(value); }
         }
 
         /// <summary>
@@ -133,8 +135,8 @@ namespace asd
         /// </summary>
         public bool TurnUL
         {
-            get { return SwigObject.GetTurnUL(); }
-            set { SwigObject.SetTurnUL(value); }
+            get { return CoreInstance.GetTurnUL(); }
+            set { CoreInstance.SetTurnUL(value); }
         }
 
         /// <summary>
@@ -142,8 +144,8 @@ namespace asd
         /// </summary>
         public AlphaBlendMode AlphaBlendMode
         {
-            get { return (AlphaBlendMode)SwigObject.GetAlphaBlendMode(); }
-            set { SwigObject.SetAlphaBlendMode((swig.AlphaBlendMode)value); }
+            get { return (AlphaBlendMode)CoreInstance.GetAlphaBlendMode(); }
+            set { CoreInstance.SetAlphaBlendMode((swig.AlphaBlendMode)value); }
         }
 
         /// <summary>
@@ -151,8 +153,8 @@ namespace asd
         /// </summary>
         public TextureFilterType TextureFilterType
         {
-            get { return (TextureFilterType)SwigObject.GetTextureFilterType(); }
-            set { SwigObject.SetTextureFilterType((swig.TextureFilterType)value); }
+            get { return (TextureFilterType)CoreInstance.GetTextureFilterType(); }
+            set { CoreInstance.SetTextureFilterType((swig.TextureFilterType)value); }
         }
 
         /// <summary>
@@ -160,8 +162,8 @@ namespace asd
         /// </summary>
         public int DrawingPriority
         {
-            get { return SwigObject.GetDrawingPriority(); }
-            set { SwigObject.SetDrawingPriority(value); }
+            get { return CoreInstance.GetDrawingPriority(); }
+            set { CoreInstance.SetDrawingPriority(value); }
         }
     }
 }

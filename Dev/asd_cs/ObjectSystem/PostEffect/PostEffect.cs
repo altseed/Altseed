@@ -6,71 +6,123 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	/// <summary>
-	/// ポストエフェクトを適用するクラス
-	/// </summary>
-	public class PostEffect : IReleasable
-	{
-		internal swig.CorePostEffect SwigObject;
+    /// <summary>
+    /// ポストエフェクトを適用するクラス
+    /// </summary>
+    public class PostEffect : IDisposable, IReleasable
+    {
+        swig.CorePostEffect coreInstance;
 
-		public PostEffect()
-		{
-			SwigObject = Engine.ObjectSystemFactory.CreatePostEffect();
+        public PostEffect()
+        {
+            coreInstance = Engine.ObjectSystemFactory.CreatePostEffect();
 
-			var p = SwigObject.GetPtr();
-			if (GC.PostEffects.GetObject(p) != null)
-			{
-				Particular.Helper.ThrowException("");
-			}
-			GC.PostEffects.AddObject(p, this);
-		}
+            var p = coreInstance.GetPtr();
 
-		#region GC対応
-		~PostEffect()
-		{
-			ForceToRelease();
-		}
+            if (GC.PostEffects.Contains(p))
+            {
+                Particular.Helper.ThrowException("");
+            }
 
-		public bool IsReleased
-		{
-			get { return SwigObject == null; }
-		}
+            GC.PostEffects.AddObject(p, this);
+        }
 
-		/// <summary>
-		/// 強制的に使用しているメモリを開放する。
-		/// </summary>
-		/// <remarks>
-		/// 何らかの理由でメモリが不足した場合に実行する。
-		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-		/// </remarks>
-		public void ForceToRelease()
-		{
-			lock (this)
-			{
-				if (SwigObject == null) return;
-				GC.Collector.AddObject(SwigObject);
-				SwigObject = null;
-			}
-			Particular.GC.SuppressFinalize(this);
-		}
-		#endregion
+        #region IDisposable Support
+        bool disposed = false;
 
-		/**
-		@brief	
-		*/
-		/// <summary>
-		/// オーバーライドして、毎フレーム描画される処理を記述できる。
-		/// </summary>
-		public virtual void OnDraw(RenderTexture2D dst, RenderTexture2D src) { }
+        ~PostEffect()
+        {
+            Dispose(false);
+        }
 
-		/// <summary>
-		/// マテリアルを用いてテクスチャに画像を描画する。
-		/// </summary>
-		/// <param name="target">描画先</param>
-		/// <param name="material">マテリアル</param>
-		public void DrawOnTexture2DWithMaterial(RenderTexture2D target, Material2D material)
-		{
-			SwigObject.DrawOnTexture2DWithMaterial(IG.GetRenderTexture2D(target), IG.GetMaterial2D(material));
-		}
-	}
+        public void Dispose()
+        {
+            Dispose(true);
+            System.GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            var core = coreInstance;
+
+            if (core != null)
+            {
+                GC.Collector.AddObject(core);
+                coreInstance = null;
+            }
+
+            disposed = true;
+        }
+        #endregion
+
+        #region GC対応
+        bool IReleasable.IsReleased
+        {
+            get { return disposed; }
+        }
+
+        /// <summary>
+        /// 強制的に使用しているメモリを開放する。
+        /// </summary>
+        /// <remarks>
+        /// 何らかの理由でメモリが不足した場合に実行する。
+        /// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
+        /// </remarks>
+        void IReleasable.ForceToRelease()
+        {
+            Dispose();
+        }
+        #endregion
+
+        internal swig.CorePostEffect CoreInstance
+        {
+            get
+            {
+                if (disposed)
+                {
+                    throw new ObjectDisposedException(GetType().FullName);
+                }
+
+                return coreInstance;
+            }
+        }
+
+        internal void Draw(RenderTexture2D dst, RenderTexture2D src)
+        {
+            if (disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+
+            OnDraw(dst, src);
+        }
+
+        /**
+        @brief	
+        */
+        /// <summary>
+        /// オーバーライドして、毎フレーム描画される処理を記述できる。
+        /// </summary>
+        protected virtual void OnDraw(RenderTexture2D dst, RenderTexture2D src) { }
+
+        /// <summary>
+        /// マテリアルを用いてテクスチャに画像を描画する。
+        /// </summary>
+        /// <param name="target">描画先</param>
+        /// <param name="material">マテリアル</param>
+        protected void DrawOnTexture2DWithMaterial(RenderTexture2D target, Material2D material)
+        {
+            if (disposed)
+            {
+                throw new ObjectDisposedException(GetType().FullName);
+            }
+
+            coreInstance.DrawOnTexture2DWithMaterial(IG.GetRenderTexture2D(target), IG.GetMaterial2D(material));
+        }
+    }
 }

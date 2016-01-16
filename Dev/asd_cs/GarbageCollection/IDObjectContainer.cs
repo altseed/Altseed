@@ -44,6 +44,11 @@ namespace asd
             }
         }
 
+        internal bool Contains(IntPtr id)
+        {
+            return GetObject(id) != null;
+        }
+
         internal T GetObject(IntPtr id)
         {
             WeakReference<T> w;
