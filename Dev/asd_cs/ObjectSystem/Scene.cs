@@ -30,8 +30,7 @@ namespace asd
 			layersToDraw_ = new List<Layer>();
 			layersToUpdate_ = new List<Layer>();
 			componentManager_ = new ComponentManager<Scene, SceneComponent>(this);
-
-			alreadyFirstUpdate = false;
+			
 			IsAlive = true;
 		}
 
@@ -130,6 +129,7 @@ namespace asd
 			layersToDraw_.Remove(layer);
 			layersToUpdate_.Remove(layer);
 			CoreInstance.RemoveLayer(layer.CoreLayer);
+			layer.RaiseOnRemoved();
 			layer.Scene = null;
 		}
 
@@ -250,7 +250,7 @@ namespace asd
 			OnUnregistered();
 		}
 
-		internal void Dispose()
+		public void Dispose()
 		{
 			foreach (var item in layersToUpdate_)
 			{
@@ -261,6 +261,7 @@ namespace asd
 			}
 			IsAlive = false;
 			OnDispose();
+			ForceToRelease();
 		}
 
 		internal void Update()
@@ -268,12 +269,6 @@ namespace asd
 			var beVanished = new List<Layer>();
 
 			executing = true;
-
-			if(!alreadyFirstUpdate)
-			{
-				OnStartUpdating();
-				alreadyFirstUpdate = true;
-			}
 
 			layersToUpdate_.Sort((x, y) => x.UpdatePriority - y.UpdatePriority);
 
@@ -369,8 +364,6 @@ namespace asd
 		internal unsafe swig.CoreScene CoreInstance { get; private set; }
 
 		private ComponentManager<Scene, SceneComponent> componentManager_ { get; set; }
-
-		private bool alreadyFirstUpdate;
 
 		private LinkedList<Layer> addingLayer = new LinkedList<Layer>();
 		private LinkedList<Layer> removingLayer = new LinkedList<Layer>();

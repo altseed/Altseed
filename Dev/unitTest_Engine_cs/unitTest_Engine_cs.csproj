@@ -81,6 +81,7 @@
     <Compile Include="ObjectSystem2D\LayerComponent.cs" />
     <Compile Include="ObjectSystem2D\LayersFlag.cs" />
     <Compile Include="ObjectSystem2D\LayerUpdatePriority.cs" />
+    <Compile Include="ObjectSystem2D\LifeCycle.cs" />
     <Compile Include="ObjectSystem2D\ObjectComponent.cs" />
     <Compile Include="ObjectSystem2D\ObjectsFlag.cs" />
     <Compile Include="ObjectSystem2D\ObjectSimple.cs" />
@@ -93,6 +94,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sound\Sound.cs" />
+    <Compile Include="TestFailedException.cs" />
     <Compile Include="Window\Empty.cs" />
     <Compile Include="Window\EmptyExternal.cs" />
   </ItemGroup>

@@ -392,6 +392,7 @@ namespace asd
 			}
 			IsAlive = false;
 			OnDispose();
+			ForceToRelease();
 		}
 
 

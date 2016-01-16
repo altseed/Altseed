@@ -32,7 +32,7 @@ class ObjectSystem_LifeCycle : public EngineTest
 
 		void OnDrawAdditionally() override
 		{
-			DrawCircleAdditionally(GetPosition(), 50, 10, Color(0, 0, 0, 255), 12, 0, nullptr, AlphaBlendMode::Blend, 2);
+			DrawCircleAdditionally(GetPosition(), 50, 10, Color(0, 255, 0, 255), 12, 0, nullptr, AlphaBlendMode::Blend, 2);
 		}
 
 	public:

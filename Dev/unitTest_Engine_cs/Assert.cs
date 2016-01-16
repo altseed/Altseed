@@ -19,7 +19,7 @@ namespace unitTest_Engine_cs
 			if( ( expected == null && actual != null ) || !expected.Equals( actual ) )
 			{
 				var message = string.Format( "{0} が必要ですが、{1} が指定されました。", expected, actual );
-				throw new Exception( baseMessage + message );
+				throw new TestFailedException( baseMessage + message );
 			}
 		}
 
@@ -32,7 +32,15 @@ namespace unitTest_Engine_cs
 			if( ( notExpected == null && actual == null ) || notExpected.Equals( actual ) )
 			{
 				var message = string.Format( "値は {0} でない必要があります。", actual );
-				throw new Exception( baseMessage + message );
+				throw new TestFailedException( baseMessage + message );
+			}
+		}
+
+		public static void IsTrue(bool condition)
+		{
+			if(!condition)
+			{
+				throw new TestFailedException("式の値は true である必要があります。");
 			}
 		}
 	}

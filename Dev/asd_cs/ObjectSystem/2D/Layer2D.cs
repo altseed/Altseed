@@ -292,6 +292,7 @@ namespace asd
 			}
 			IsAlive = false;
 			OnDispose();
+			ForceToRelease();
 		}
 
 		private swig.CoreLayer2D coreLayer2D { get; set; }
