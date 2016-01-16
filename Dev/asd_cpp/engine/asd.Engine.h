@@ -100,9 +100,6 @@ namespace asd {
 
 		class QuicklyChangingState : public SceneTransitionState
 		{
-		private:
-			Scene::Ptr m_nextScene;
-
 		public:
 			QuicklyChangingState(Scene::Ptr nextScene);
 			std::shared_ptr<SceneTransitionState> Proceed() override;

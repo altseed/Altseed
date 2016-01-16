@@ -166,9 +166,9 @@ namespace asd
 	// 登録・登録解除関連イベントハンドラ
 	// ========
 
-	void Scene::RaiseOnAdded()
+	void Scene::RaiseOnRegistered()
 	{
-		OnAdded();
+		OnRegistered();
 	}
 
 	void Scene::RaiseOnStartUpdating()
@@ -191,12 +191,12 @@ namespace asd
 		OnStopUpdating();
 	}
 
-	void Scene::RaiseOnRemoved()
+	void Scene::RaiseOnUnregistered()
 	{
-		OnRemoved();
+		OnUnregistered();
 	}
 
-	void Scene::OnAdded()
+	void Scene::OnRegistered()
 	{
 	}
 	
@@ -216,7 +216,7 @@ namespace asd
 	{
 	}
 
-	void Scene::OnRemoved()
+	void Scene::OnUnregistered()
 	{
 	}
 

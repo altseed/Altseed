@@ -319,15 +319,17 @@ namespace asd
 		{
 			if (Engine::m_currentScene != nullptr)
 			{
-				// TODO: currentScene.RaiseOnStopUpdating
-				Engine::m_currentScene->RaiseOnChanging();
+				Engine::m_currentScene->RaiseOnStopUpdating();
 			}
 			if (Engine::m_nextScene != nullptr)
 			{
-				// TODO: nextScene.RaiseOnStartUpdating
-				Engine::m_nextScene->Start();
+				Engine::m_nextScene->RaiseOnStartUpdating();
+				Engine::m_core->ChangeScene(Engine::m_nextScene->m_coreScene.get());
 			}
-			Engine::m_core->ChangeScene(Engine::m_nextScene->m_coreScene.get());
+			else
+			{
+				Engine::m_core->ChangeScene(nullptr);
+			}
 			auto nextState = std::make_shared<FadingInState>(m_transition, Engine::m_currentScene);
 			Engine::m_currentScene = Engine::m_nextScene;
 			return nextState;
@@ -359,8 +361,7 @@ namespace asd
 		{
 			if (m_previousScene != nullptr)
 			{
-				// TODO: previousScene.RaiseOnRemoved
-				m_previousScene->Dispose();
+				m_previousScene->RaiseOnUnregistered();
 			}
 			if (Engine::m_currentScene != nullptr)
 			{
@@ -386,23 +387,24 @@ namespace asd
 	}
 
 	Engine::QuicklyChangingState::QuicklyChangingState(Scene::Ptr nextScene)
-		: m_nextScene(nextScene)
 	{
+		Engine::m_nextScene = nextScene;
 	}
 
 	std::shared_ptr<Engine::SceneTransitionState> Engine::QuicklyChangingState::Proceed()
 	{
 		if (Engine::m_currentScene != nullptr)
 		{
-			Engine::m_currentScene->RaiseOnChanging();
-			Engine::m_currentScene->Dispose();
+			Engine::m_currentScene->RaiseOnStopUpdating();
+			Engine::m_currentScene->RaiseOnUnregistered();
 		}
 		if (m_nextScene != nullptr)
 		{
-			m_nextScene->Start();
+			Engine::m_nextScene->RaiseOnStartUpdating();
+			Engine::m_nextScene->RaiseOnTransitionFinished();
 		}
-		Engine::m_core->ChangeScene(m_nextScene->m_coreScene.get());
-		Engine::m_currentScene = m_nextScene;
+		Engine::m_core->ChangeScene(Engine::m_nextScene->m_coreScene.get());
+		Engine::m_currentScene = Engine::m_nextScene;
 		return std::make_shared<NeutralState>();
 	}
 
@@ -789,11 +791,27 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Engine::ChangeScene(ScenePtr scene)
 	{
+		if (m_currentScene != nullptr)
+		{
+			m_currentScene->RaiseOnChanging();
+		}
+		if (scene != nullptr)
+		{
+			scene->RaiseOnRegistered();
+		}
 		m_transitionState = std::make_shared<QuicklyChangingState>(scene);
 	}
 
 	void Engine::ChangeSceneWithTransition(std::shared_ptr<Scene> scene, const std::shared_ptr<Transition>& transition)
 	{
+		if (m_currentScene != nullptr)
+		{
+			m_currentScene->RaiseOnChanging();
+		}
+		if (scene != nullptr)
+		{
+			scene->RaiseOnRegistered();
+		}
 		m_transitionState = std::make_shared<FadingOutState>(transition, scene);
 	}
 
