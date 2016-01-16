@@ -87,7 +87,7 @@ namespace asd
         public PostEffectLightBloom()
         {
             var g = Engine.Graphics;
-            var baseCode = SwigObject.GetLightBloomShader((swig.GraphicsDeviceType)g.GraphicsDeviceType);
+            var baseCode = CoreInstance.GetLightBloomShader((swig.GraphicsDeviceType)g.GraphicsDeviceType);
 
             var codeX = "#define BLUR_X 1\n" + baseCode;
             var codeX_Lum = "#define BLUR_X 1\n#define LUM 1\n" + baseCode;
@@ -106,7 +106,7 @@ namespace asd
             var shaderSum = g.CreateShader2D(codeSum);
             materialSum = g.CreateMaterial2D(shaderSum);
 
-            string downsampleCode = SwigObject.GetDownsampleShader((swig.GraphicsDeviceType)g.GraphicsDeviceType);
+            string downsampleCode = CoreInstance.GetDownsampleShader((swig.GraphicsDeviceType)g.GraphicsDeviceType);
             var downsampleShader = g.CreateShader2D(downsampleCode);
             downsample = g.CreateMaterial2D(downsampleShader);
         }

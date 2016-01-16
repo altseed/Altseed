@@ -36,7 +36,7 @@ namespace asd
             int count = 0;
             foreach (var p in postEffects)
             {
-                coreObject.BeginPostEffect(p.SwigObject);
+                coreObject.BeginPostEffect(p.CoreInstance);
 
                 var src_ = coreObject.GetSrcForPostEffect(count);
                 var dst_ = coreObject.GetDstForPostEffect(count);
@@ -46,7 +46,7 @@ namespace asd
 
                 p.Draw(dst, src);
 
-                coreObject.EndPostEffect(p.SwigObject);
+                coreObject.EndPostEffect(p.CoreInstance);
 
                 count++;
             }

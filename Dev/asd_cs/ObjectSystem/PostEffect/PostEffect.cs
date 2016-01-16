@@ -11,13 +11,13 @@ namespace asd
     /// </summary>
     public class PostEffect : IDisposable, IReleasable
     {
-        swig.CorePostEffect swigObject;
+        swig.CorePostEffect coreInstance;
 
         public PostEffect()
         {
-            swigObject = Engine.ObjectSystemFactory.CreatePostEffect();
+            coreInstance = Engine.ObjectSystemFactory.CreatePostEffect();
 
-            var p = swigObject.GetPtr();
+            var p = coreInstance.GetPtr();
             if (GC.PostEffects.GetObject(p) != null)
             {
                 Particular.Helper.ThrowException("");
@@ -46,12 +46,12 @@ namespace asd
                 return;
             }
 
-            var obj = swigObject;
+            var core = coreInstance;
 
-            if (obj != null)
+            if (core != null)
             {
-                GC.Collector.AddObject(obj);
-                swigObject = null;
+                GC.Collector.AddObject(core);
+                coreInstance = null;
             }
 
             disposed = true;
@@ -77,7 +77,7 @@ namespace asd
         }
         #endregion
 
-        internal swig.CorePostEffect SwigObject
+        internal swig.CorePostEffect CoreInstance
         {
             get
             {
@@ -86,7 +86,7 @@ namespace asd
                     throw new ObjectDisposedException(GetType().FullName);
                 }
 
-                return swigObject;
+                return coreInstance;
             }
         }
 
@@ -120,7 +120,7 @@ namespace asd
                 throw new ObjectDisposedException(GetType().FullName);
             }
 
-            swigObject.DrawOnTexture2DWithMaterial(IG.GetRenderTexture2D(target), IG.GetMaterial2D(material));
+            coreInstance.DrawOnTexture2DWithMaterial(IG.GetRenderTexture2D(target), IG.GetMaterial2D(material));
         }
     }
 }

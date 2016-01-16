@@ -16,7 +16,7 @@ namespace asd
         public PostEffectGrayScale()
         {
             var g = Engine.Graphics;
-            var shader = g.CreateShader2D(SwigObject.GetGrayScaleShader((swig.GraphicsDeviceType)g.GraphicsDeviceType));
+            var shader = g.CreateShader2D(CoreInstance.GetGrayScaleShader((swig.GraphicsDeviceType)g.GraphicsDeviceType));
             material2d = g.CreateMaterial2D(shader);
         }
 

@@ -130,7 +130,7 @@ namespace asd
             {
                 foreach (var p in postEffects)
                 {
-                    Scene.CoreScene.BeginPostEffect(p.SwigObject);
+                    Scene.CoreScene.BeginPostEffect(p.CoreInstance);
 
                     var src_ = Scene.CoreScene.GetSrcTarget();
                     var dst_ = Scene.CoreScene.GetDstTarget();
@@ -140,7 +140,7 @@ namespace asd
 
                     p.Draw(dst, src);
 
-                    Scene.CoreScene.EndPostEffect(p.SwigObject);
+                    Scene.CoreScene.EndPostEffect(p.CoreInstance);
                 }
             }
         }
@@ -206,7 +206,7 @@ namespace asd
         public void AddPostEffect(PostEffect postEffect)
         {
             postEffects.Add(postEffect);
-            commonObject.AddPostEffect(postEffect.SwigObject);
+            commonObject.AddPostEffect(postEffect.CoreInstance);
         }
 
         /// <summary>
