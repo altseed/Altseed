@@ -29,7 +29,7 @@ namespace asd
 			contentsManager = new ContentsManager<Object2D>();
 			componentManager = new ComponentManager<Layer2D, Layer2DComponent>(this);
 
-			commonObject = coreLayer2D;
+			CoreLayer = coreLayer2D;
 		}
 
 		#region GC対策
@@ -101,6 +101,7 @@ namespace asd
 		{
 			contentsManager.Remove(object2D);
 			coreLayer2D.RemoveObject(object2D.CoreObject);
+			object2D.RaiseOnRemoved();
 			object2D.Layer = null;
 		}
 
@@ -280,7 +281,7 @@ namespace asd
 			OnDrawAdditionally();
 		}
 
-		internal override void Dispose()
+		public override void Dispose()
 		{
 			foreach(var item in Objects)
 			{
@@ -289,6 +290,7 @@ namespace asd
 					item.Dispose();
 				}
 			}
+			IsAlive = false;
 			OnDispose();
 		}
 

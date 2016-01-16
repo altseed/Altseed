@@ -10,8 +10,6 @@ namespace asd
     /// </summary>
     public abstract class Layer
     {
-        internal swig.CoreLayer commonObject = null;
-
         public Layer()
         {
             IsAlive = true;
@@ -23,10 +21,11 @@ namespace asd
             updateTimer = 0;
         }
 
-        /// <summary>
-        /// このレイヤーが有効化どうかを取得する。Vanishメソッドを呼び出した後なら false。
-        /// </summary>
-        public bool IsAlive { get; private set; }
+		#region パラメータ
+		/// <summary>
+		/// このレイヤーが有効化どうかを取得する。<see cref="Dispose"/>メソッドを呼び出した後なら false。
+		/// </summary>
+		public bool IsAlive { get; internal set; }
 
         /// <summary>
         /// レイヤーの更新を実行するかどうか取得または設定する。
@@ -38,8 +37,8 @@ namespace asd
         /// </summary>
         public bool IsDrawn
         {
-            get { return commonObject.GetIsDrawn(); }
-            set { commonObject.SetIsDrawn(value); }
+            get { return CoreLayer.GetIsDrawn(); }
+            set { CoreLayer.SetIsDrawn(value); }
         }
 
         /// <summary>
@@ -76,17 +75,37 @@ namespace asd
         /// </summary>
         public string Name { get; set; }
 
-
         /// <summary>
         /// このレイヤーの描画優先度を取得または設定する。この値が大きいほど手前に描画される。
         /// </summary>
         public int DrawingPriority
         {
-            get { return commonObject.GetDrawingPriority(); }
-            set { commonObject.SetDrawingPriority(value); }
+            get { return CoreLayer.GetDrawingPriority(); }
+            set { CoreLayer.SetDrawingPriority(value); }
+		}
+
+		/// <summary>
+		/// レイヤーの種類を取得する。
+		/// </summary>
+		public abstract LayerType LayerType { get; }
+		#endregion
+
+
+		#region イベント
+		internal void RaiseOnAdded()
+        {
+            OnAdded();
         }
 
+		internal void RaiseOnRemoved()
+		{
+			OnRemoved();
+		}
+
+        public abstract void Dispose();
+
         internal abstract void BeginUpdating();
+
         internal abstract void EndUpdating();
 
         internal virtual void Update()
@@ -112,19 +131,15 @@ namespace asd
 
         internal abstract void UpdateInternal();
 
-        internal abstract void Dispose();
-
-        internal abstract void DrawAdditionally();
-
         internal void BeginDrawing()
         {
             Scene.CoreInstance.SetRenderTargetForDrawingLayer();
-            commonObject.BeginDrawing();
+            CoreLayer.BeginDrawing();
         }
 
         internal void EndDrawing()
         {
-            commonObject.EndDrawing();
+            CoreLayer.EndDrawing();
 
             if (postEffects.Count > 0)
             {
@@ -145,22 +160,28 @@ namespace asd
             }
         }
 
-        internal void Start()
-        {
-            OnStart();
-        }
-
         internal void Draw()
         {
-            commonObject.Draw();
+            CoreLayer.Draw();
         }
 
-        internal swig.CoreLayer CoreLayer { get { return commonObject; } }
+        internal abstract void DrawAdditionally();
 
         /// <summary>
         /// オーバーライドして、このレイヤーの初期化処理を記述できる。
         /// </summary>
-        protected virtual void OnStart()
+        protected virtual void OnAdded()
+        {
+        }
+
+		protected virtual void OnRemoved()
+		{
+		}
+
+        /// <summary>
+        /// オーバーライドして、このレイヤーが破棄されるときの処理を記述できる。
+        /// </summary>
+        protected virtual void OnDispose()
         {
         }
 
@@ -184,29 +205,17 @@ namespace asd
         protected virtual void OnDrawAdditionally()
         {
         }
+		#endregion
 
-        /// <summary>
-        /// オーバーライドして、このレイヤーがVanishメソッドによって破棄されるときの処理を記述できる。
-        /// </summary>
-        protected virtual void OnVanish()
-        {
-        }
 
-        /// <summary>
-        /// オーバーライドして、このレイヤーが破棄されるときの処理を記述できる。
-        /// </summary>
-        protected virtual void OnDispose()
-        {
-        }
-
-        /// <summary>
-        /// ポストエフェクトを追加する。
-        /// </summary>
-        /// <param name="postEffect">ポストエフェクト</param>
-        public void AddPostEffect(PostEffect postEffect)
+		/// <summary>
+		/// ポストエフェクトを追加する。
+		/// </summary>
+		/// <param name="postEffect">ポストエフェクト</param>
+		public void AddPostEffect(PostEffect postEffect)
         {
             postEffects.Add(postEffect);
-            commonObject.AddPostEffect(postEffect.CoreInstance);
+            CoreLayer.AddPostEffect(postEffect.CoreInstance);
         }
 
         /// <summary>
@@ -215,27 +224,16 @@ namespace asd
         public void ClearPostEffects()
         {
             postEffects.Clear();
-            commonObject.ClearPostEffects();
+            CoreLayer.ClearPostEffects();
         }
 
-        /// <summary>
-        /// このレイヤーを破棄する。
-        /// </summary>
-        public void Vanish()
-        {
-            IsAlive = false;
-            OnVanish();
-        }
-
-        /// <summary>
-        /// レイヤーの種類を取得する。
-        /// </summary>
-        public abstract LayerType LayerType { get; }
-
-        protected List<PostEffect> postEffects;
-
-        protected bool isUpdatedCurrent;
 
         private float updateTimer;
-    }
+
+		internal swig.CoreLayer CoreLayer { get; set; }
+
+        internal List<PostEffect> postEffects;
+
+        internal bool isUpdatedCurrent;
+	}
 }

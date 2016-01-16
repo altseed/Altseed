@@ -36,6 +36,159 @@ namespace asd
 
 	public class Engine
 	{
+		#region 遷移状態クラス
+		abstract class SceneTransitionState
+		{
+			/// <summary>
+			/// シーン遷移に関する処理を進行させる。
+			/// </summary>
+			public virtual void Proceed()
+			{
+			}
+			/// <summary>
+			/// シーン遷移処理を更新する。
+			/// </summary>
+			public virtual void Update()
+			{
+			}
+			/// <summary>
+			/// シーンを描画する。
+			/// </summary>
+			public abstract void Draw();
+		}
+
+		class NeutralState : SceneTransitionState
+		{
+			public override void Draw()
+			{
+				if(CurrentScene != null)
+				{
+					core.DrawSceneToWindow(CurrentScene.CoreInstance);
+				}
+			}
+		}
+
+		class FadingOutState : SceneTransitionState
+		{
+			private Transition transition;
+
+			public FadingOutState(Transition transition, Scene nextScene)
+			{
+				this.transition = transition;
+				Engine.nextScene = nextScene;
+			}
+
+			public override void Proceed()
+			{
+				if(transition.IsSceneChanged)
+				{
+					if(CurrentScene != null)
+					{
+						CurrentScene.RaiseOnStopUpdating();
+					}
+					if(nextScene != null)
+					{
+						nextScene.RaiseOnStartUpdating();
+						core.ChangeScene(nextScene.CoreInstance);
+					}
+					else
+					{
+						core.ChangeScene(null);
+					}
+					transitionState = new FadingInState(transition, CurrentScene);
+					CurrentScene = nextScene;
+				}
+			}
+
+			public override void Update()
+			{
+				transition.OnUpdate();
+			}
+
+			public override void Draw()
+			{
+				var curScene = CurrentScene != null ? CurrentScene.CoreInstance : null;
+				core.DrawSceneToWindowWithTransition(null, curScene, transition.SwigObject);
+			}
+		}
+
+		class FadingInState : SceneTransitionState
+		{
+			private Transition transition;
+			private Scene previousScene;
+
+			public FadingInState(Transition transition, Scene previousScene)
+			{
+				this.transition = transition;
+				this.previousScene = previousScene;
+			}
+
+			public override void Proceed()
+			{
+				if(transition.IsFinished)
+				{
+					if(previousScene != null)
+					{
+						previousScene.RaiseOnUnregistered();
+					}
+					if(CurrentScene != null)
+					{
+						CurrentScene.RaiseOnTransitionFinished();
+					}
+					transitionState = new NeutralState();
+				}
+			}
+
+			public override void Update()
+			{
+				transition.OnUpdate();
+			}
+
+			public override void Draw()
+			{
+				var curScene = CurrentScene != null ? CurrentScene.CoreInstance : null;
+				var prevScene = previousScene != null ? previousScene.CoreInstance : null;
+				core.DrawSceneToWindowWithTransition(curScene, prevScene, transition.SwigObject);
+			}
+		}
+
+		class QuicklyChangingState : SceneTransitionState
+		{
+			public QuicklyChangingState(Scene nextScene)
+			{
+				Engine.nextScene = nextScene;
+			}
+
+			public override void Proceed()
+			{
+				if(CurrentScene != null)
+				{
+					CurrentScene.RaiseOnStopUpdating();
+					CurrentScene.RaiseOnUnregistered();
+				}
+				if(nextScene != null)
+				{
+					nextScene.RaiseOnStartUpdating();
+					nextScene.RaiseOnTransitionFinished();
+					core.ChangeScene(nextScene.CoreInstance);
+				}
+				else
+				{
+					core.ChangeScene(null);
+				}
+				transitionState = new NeutralState();
+			}
+
+			public override void Draw()
+			{
+				if(CurrentScene != null)
+				{
+					core.DrawSceneToWindow(CurrentScene.CoreInstance);
+				}
+			}
+		}
+		#endregion
+
 		static swig.Core_Imp core = null;
 		static swig.LayerProfiler layerProfiler = null;
 
@@ -64,8 +217,7 @@ namespace asd
 
 		internal static ObjectSystemFactory ObjectSystemFactory { get; private set; }
 		private static Scene nextScene;
-		private static Scene previousScene;
-		private static Transition transition;
+		private static SceneTransitionState transitionState;
 
 		/// <summary>
 		/// 初期化を行う。
@@ -219,50 +371,7 @@ namespace asd
 				Mouse.RefreshAllState();
 			}
 
-			if(transition != null)
-			{
-				if(transition.SwigObject.GetIsSceneChanged() && nextScene != null)
-				{
-					if(CurrentScene != null)
-					{
-						CurrentScene.CallChanging();
-					}
-					previousScene = CurrentScene;
-					CurrentScene = nextScene;
-					core.ChangeScene(nextScene.CoreInstance);
-					nextScene.Start();
-					nextScene = null;
-				}
-
-				if(transition.SwigObject.GetIsFinished())
-				{
-					if(previousScene != null)
-					{
-						previousScene.Dispose();
-						previousScene = null;
-					}
-
-					transition = null;
-					CurrentScene.CallTransitionFinished();
-				}
-			}
-			else
-			{
-				if(nextScene != null)
-				{
-					if(CurrentScene != null)
-					{
-						CurrentScene.CallChanging();
-						CurrentScene.Dispose();
-					}
-
-					CurrentScene = nextScene;
-					core.ChangeScene(nextScene.CoreInstance);
-					nextScene.Start();
-					nextScene = null;
-				}
-
-			}
+			transitionState.Proceed();
 
 			return mes;
 		}
@@ -288,48 +397,13 @@ namespace asd
 				}
 			}
 
-			if(transition != null)
-			{
-				transition.OnUpdate();
-			}
-
 			if(CurrentScene != null)
 			{
 				CurrentScene.Draw();
 			}
 
-			if(transition != null)
-			{
-				swig.CoreScene prevScene = null;
-				swig.CoreScene curScene = null;
-
-				if(CurrentScene != null)
-				{
-					curScene = CurrentScene.CoreInstance;
-				}
-
-				if(previousScene != null)
-				{
-					prevScene = previousScene.CoreInstance;
-				}
-
-				if(transition.SwigObject.GetIsSceneChanged())
-				{
-					core.DrawSceneToWindowWithTransition(curScene, prevScene, transition.SwigObject);
-				}
-				else
-				{
-					core.DrawSceneToWindowWithTransition(null, curScene, transition.SwigObject);
-				}
-
-			}
-			else
-			{
-				if(CurrentScene != null)
-				{
-					core.DrawSceneToWindow(CurrentScene.CoreInstance);
-				}
-			}
+			transitionState.Update();
+			transitionState.Draw();
 
 			core.Draw();
 
@@ -354,16 +428,9 @@ namespace asd
 				nextScene.Dispose();
 			}
 
-			if(previousScene != null)
-			{
-				previousScene.Dispose();
-			}
-
 
 			CurrentScene = null;
 			nextScene = null;
-			previousScene = null;
-			transition = null;
 
 			GC.Terminate();
 
@@ -592,7 +659,15 @@ namespace asd
 		/// <param name="scene">次のシーン</param>
 		public static void ChangeScene(Scene scene)
 		{
-			nextScene = scene;
+			transitionState = new QuicklyChangingState(scene);
+			if(CurrentScene != null)
+			{
+				CurrentScene.RaiseOnChanging();
+			}
+			if(scene != null)
+			{
+				scene.RaiseOnRegistered();
+			}
 		}
 
 		/// <summary>
@@ -602,8 +677,15 @@ namespace asd
 		/// <param name="transition">画面遷移効果</param>
 		public static void ChangeSceneWithTransition(Scene scene, Transition transition)
 		{
-			nextScene = scene;
-			Engine.transition = transition;
+			transitionState = new FadingOutState(transition, scene);
+			if(CurrentScene != null)
+			{
+				CurrentScene.RaiseOnChanging();
+			}
+			if(scene != null)
+			{
+				scene.RaiseOnRegistered();
+			}
 		}
 
 		/// <summary>

@@ -55,7 +55,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				}
 				if (loop == 10)
 				{
-					child.Vanish();
+					child.Dispose();
 				}
 
 				yield return null;

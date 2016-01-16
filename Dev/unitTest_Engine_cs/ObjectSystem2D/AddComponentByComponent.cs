@@ -64,7 +64,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				{
 					Layer.AddObject(new ObjectAddingObject());
 					Console.WriteLine("vanish object.");
-					Vanish();
+					Dispose();
 				}
 			}
 		}

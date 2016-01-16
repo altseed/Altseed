@@ -104,7 +104,7 @@ void main()
 				m_material2d = g.CreateMaterial2D(m_shader);
 			}
 
-			public override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
+			protected override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
 			{
 				m_material2d.SetTexture2D("g_texture", src);
 				m_material2d.SetVector3DF("g_values", new Vector3DF(640, 480, 200));

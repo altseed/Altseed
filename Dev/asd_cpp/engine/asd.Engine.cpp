@@ -365,7 +365,7 @@ namespace asd
 			}
 			if (Engine::m_currentScene != nullptr)
 			{
-				Engine::m_currentScene->OnTransitionFinished();
+				Engine::m_currentScene->RaiseOnTransitionFinished();
 			}
 			return std::make_shared<NeutralState>();
 		}
@@ -402,8 +402,12 @@ namespace asd
 		{
 			Engine::m_nextScene->RaiseOnStartUpdating();
 			Engine::m_nextScene->RaiseOnTransitionFinished();
+			Engine::m_core->ChangeScene(Engine::m_nextScene->m_coreScene.get());
 		}
-		Engine::m_core->ChangeScene(Engine::m_nextScene->m_coreScene.get());
+		else
+		{
+			Engine::m_core->ChangeScene(nullptr);
+		}
 		Engine::m_currentScene = Engine::m_nextScene;
 		return std::make_shared<NeutralState>();
 	}

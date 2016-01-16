@@ -61,12 +61,12 @@ namespace unitTest_Engine_cs.ObjectSystem2D
             if(time == 10)
             {
                 Console.WriteLine("Vanish Object1");
-                obj1.Vanish();
+                obj1.Dispose();
             }
             if(time == 60)
             {
                 Console.WriteLine("Vanish Layer1");
-                layer1.Vanish();
+                layer1.Dispose();
             }
         }
 
