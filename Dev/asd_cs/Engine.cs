@@ -372,6 +372,10 @@ namespace asd
 			}
 
 			transitionState.Proceed();
+			if(!CurrentScene.IsAlive)
+			{
+				transitionState = new QuicklyChangingState(null);
+			}
 
 			return mes;
 		}
