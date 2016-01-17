@@ -578,6 +578,10 @@ namespace asd
 		{
 			m_transitionState = nextState;
 		}
+		if (!m_currentScene->GetIsAlive())
+		{
+			m_transitionState = std::make_shared<QuicklyChangingState>(nullptr);
+		}
 
 		return m_core->DoEvents();
 	}
