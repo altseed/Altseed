@@ -177,6 +177,7 @@ namespace asd
 					core.ChangeScene(null);
 				}
 				transitionState = new NeutralState();
+				CurrentScene = nextScene;
 			}
 
 			public override void Draw()
