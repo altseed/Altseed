@@ -48,7 +48,7 @@ protected:
 		}
 		if (loop == 10)
 		{
-			child->Vanish();
+			child->Dispose();
 		}
 	}
 };

@@ -1,9 +1,14 @@
 ﻿namespace sample_cs
 {
 	class SceneAndLayer_CustomScene : ISample
-	{
-		// このサンプルで使用するカスタマイズされたシーン。
-		class SampleScene : asd.Scene
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+
+        // このサンプルで使用するカスタマイズされたシーン。
+        class SampleScene : asd.Scene
 		{
 			// フレーム数を数えるカウンタ。
 			private int count;

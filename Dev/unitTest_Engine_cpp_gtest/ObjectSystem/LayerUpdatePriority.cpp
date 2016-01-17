@@ -65,7 +65,7 @@ protected:
 void MessageLayer::OnUpdating()
 {
 	m_parent->AddMessage(m_message);
-	Vanish();
+	Dispose();
 }
 
 ENGINE_TEST(ObjectSystem, LayerUpdatePriority)

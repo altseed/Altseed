@@ -16,7 +16,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				Position = new Vector2DF( x, y );
 			}
 
-			protected override void OnStart()
+			protected override void OnAdded()
 			{
 				var g = Engine.Graphics.CreateTexture2D( CloudTexturePath );
 				Texture = g;

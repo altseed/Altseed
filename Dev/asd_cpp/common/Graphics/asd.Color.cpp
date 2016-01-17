@@ -35,5 +35,13 @@ namespace asd {
 		A = A * right.A / 255;
 		return *this;
 	}
+
+	bool Color::operator==(const Color& right)
+	{
+		return R == right.R
+			&& G == right.G
+			&& B == right.B
+			&& A == right.A;
+	}
 }
 

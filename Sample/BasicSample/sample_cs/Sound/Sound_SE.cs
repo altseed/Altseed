@@ -2,9 +2,14 @@
 namespace sample_cs
 {
 	class Sound_SE : ISample
-	{
-		// Soundを用いて音を鳴らすサンプル。
-		public void Run()
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+
+        // Soundを用いて音を鳴らすサンプル。
+        public void Run()
 		{
 			// Altseedを初期化する。
 			asd.Engine.Initialize("Sound_SE", 640, 480, new asd.EngineOption());

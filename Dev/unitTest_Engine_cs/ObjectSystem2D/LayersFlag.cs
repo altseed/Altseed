@@ -19,7 +19,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				Position = new Vector2DF( x, y );
 			}
 
-			protected override void OnStart()
+			protected override void OnAdded()
 			{
 				Texture = Engine.Graphics.CreateTexture2D( CloudTexturePath );
 				CenterPosition = new Vector2DF( Texture.Size.X / 2, Texture.Size.Y / 2 );

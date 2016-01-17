@@ -25,7 +25,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			{
 				if (time == etime)
 				{
-					vanishedObject.Vanish();
+					vanishedObject.Dispose();
 				}
 
 				time++;

@@ -4,7 +4,12 @@
 /// </summary>
 class TextureObject2D_Transform : ISample
 {
-	public void Run()
+    public string Description
+    {
+        get { return ""; }
+    }
+
+    public void Run()
 	{
 		// Altseedを初期化する。
 		asd.Engine.Initialize("TextureObject2D_Transform", 640, 480, new asd.EngineOption());

@@ -53,6 +53,10 @@ protected:
 		Engine::AddObject2D(parent);
 		Engine::AddObject2D(child1);
 		Engine::AddObject2D(child2);
+		printf("other:%d\n", other->GetAbsoluteDrawingPriority());
+		printf("parent:%d\n", parent->GetAbsoluteDrawingPriority());
+		printf("child1:%d\n", child1->GetAbsoluteDrawingPriority());
+		printf("child2:%d\n", child2->GetAbsoluteDrawingPriority());
 	}
 
 	void OnUpdating()

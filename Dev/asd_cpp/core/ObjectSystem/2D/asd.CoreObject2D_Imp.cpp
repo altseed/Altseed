@@ -95,9 +95,9 @@ namespace asd
 
 	Vector2DF CoreObject2D_Imp::GetAbsolutePosition()
 	{
-		auto vec2 = GetPosition();
-		auto vec3 = Vector3DF(vec2.X, vec2.Y, 1);
-		auto result = GetAbsoluteMatrixToTransform() * vec3;
+		auto vec3 = Vector3DF(0, 0, 1);
+		auto abs = GetAbsoluteMatrixToTransform();
+		auto result = abs * vec3;
 		return Vector2DF(result.X, result.Y);
 	}
 

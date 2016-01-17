@@ -75,7 +75,7 @@ protected:
 void MessageObject::OnUpdate()
 {
 	m_parent->AddMessage(m_message);
-	Vanish();
+	Dispose();
 }
 
 ENGINE_TEST(ObjectSystem, ObjectsUpdatePriority)

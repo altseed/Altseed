@@ -8,6 +8,11 @@ namespace sample_cs
 {
     class PostEffect_Sepia : ISample
     {
+        public string Description
+        {
+            get { return ""; }
+        }
+
         // レイヤーにセピアカラーのポストエフェクトを適用する。
         public void Run()
         {

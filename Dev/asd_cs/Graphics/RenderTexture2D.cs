@@ -6,12 +6,11 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	public class RenderTexture2D : Texture2D
-	{
-		internal RenderTexture2D(swig.RenderTexture2D swig)
-			: base(swig)
-		{
-			SwigObject = swig;
-		}
-	}
+    public class RenderTexture2D : Texture2D
+    {
+        internal RenderTexture2D(swig.RenderTexture2D coreInstance)
+            : base(coreInstance)
+        {
+        }
+    }
 }

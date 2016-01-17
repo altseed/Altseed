@@ -4,7 +4,12 @@
 /// </summary>
 class Texture_Edit : ISample
 {
-	public unsafe void Run()
+    public string Description
+    {
+        get { return ""; }
+    }
+
+    public unsafe void Run()
 	{
 		// Altseedを初期化する。
 		asd.Engine.Initialize("Texture_Edit", 640, 480, new asd.EngineOption());

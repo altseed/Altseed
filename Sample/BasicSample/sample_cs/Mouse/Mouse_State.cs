@@ -3,6 +3,11 @@
 /// </summary>
 public class Mouse_State : ISample
 {
+    public string Description
+    {
+        get { return ""; }
+    }
+
     public void Run()
     {
         //Altseedを初期化する。

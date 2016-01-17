@@ -77,10 +77,15 @@ EXTERN_ENGINE_TEST(ObjectSystem, ObjectsUpdatePriority)
 EXTERN_ENGINE_TEST(ObjectSystem, LayerUpdatePriority)
 EXTERN_ENGINE_TEST(ObjectSystem, DisposeOnVanish)
 EXTERN_ENGINE_TEST(ObjectSystem, UpdateFrequency)
+EXTERN_ENGINE_TEST(ObjectSystem, LifeCycle)
 
 EXTERN_ENGINE_TEST(FamilySystem, DrawnParent)
 EXTERN_ENGINE_TEST(FamilySystem, VanishParent)
 EXTERN_ENGINE_TEST(FamilySystem, ChildManagement)
+EXTERN_ENGINE_TEST(FamilySystem, TextureObject)
+EXTERN_ENGINE_TEST(FamilySystem, TextObject)
+EXTERN_ENGINE_TEST(FamilySystem, GeometoryObject)
+EXTERN_ENGINE_TEST(FamilySystem, AbsoluteParameter)
 
 EXTERN_ENGINE_TEST(Shape, Collision2D)
 
@@ -117,7 +122,7 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	CALL_ENGINE_TEST(FamilySystem, ChildManagement, true)
+	CALL_ENGINE_TEST(ObjectSystem, LifeCycle, true)
 	getchar();
 	return 0;
 

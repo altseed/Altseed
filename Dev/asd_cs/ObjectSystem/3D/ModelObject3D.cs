@@ -53,7 +53,7 @@ namespace asd
 		/// <param name="deformer">デフォーマー</param>
 		public void SetDeformer(Deformer deformer)
 		{
-			coreObject.SetDeformer(deformer.SwigObject);
+			coreObject.SetDeformer(deformer.CoreInstance);
 		}
 
 		/// <summary>

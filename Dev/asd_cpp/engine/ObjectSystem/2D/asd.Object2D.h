@@ -60,19 +60,21 @@ namespace asd
 		int m_updatePriority;
 		std::function<void(int)> m_onUpdatePriorityChanged;
 
-		void Start();
-		void OnRemovedInternal();
+		void RaiseOnAdded();
+		void RaiseOnRemoved();
 		void Update();
 		void DrawAdditionally();
-		void Dispose();
 		void SetLayer(Layer2D* layer);
 		virtual CoreObject2D* GetCoreObject() const = 0;
 
 	protected:
+
 		/**
 			@brief	オーバーライドして、このオブジェクトの初期化処理を記述できる。
 		*/
-		virtual void OnStart();
+		virtual void OnAdded();
+		virtual void OnRemoved();
+		virtual void OnDispose();		
 		/**
 			@brief	オーバーライドして、このオブジェクトの更新処理を記述できる。
 		*/
@@ -82,12 +84,6 @@ namespace asd
 		*/
 		virtual void OnDrawAdditionally();
 
-		/**
-			@brief	オーバーライドして、このオブジェクトがVanishメソッドによって破棄される際の処理を記述できる。
-		*/
-		virtual void OnVanish();
-
-		virtual void OnDispose();
 
 		/**
 		@brief	通常の描画に加えてテクスチャを描画する。
@@ -194,7 +190,7 @@ namespace asd
 		/**
 			@brief	このオブジェクトを破棄する。
 		*/
-		void Vanish();
+		void Dispose();
 
 		/**
 			@brief	このオブジェクトを保持しているレイヤーを取得する。

@@ -7,7 +7,7 @@ class Graphics_Transition : public EngineTest
 {
 public:
 	Graphics_Transition(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("Transition"), isOpenGLMode, 20)
+		: EngineTest(asd::ToAString("Transition"), isOpenGLMode, 150)
 	{
 	}
 
@@ -20,7 +20,7 @@ protected:
 
 	void OnUpdating()
 	{
-		if (GetTime() % 9 == 0)
+		if (GetTime() == 9)
 		{
 			auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Sample1.png").c_str());
 
@@ -31,7 +31,7 @@ protected:
 			layer->AddObject(obj);
 			scene->AddLayer(layer);
 
-			auto transition = std::make_shared<asd::TransitionFade>(3.0f/60.0f, 3.0f/60.0f);
+			auto transition = std::make_shared<asd::TransitionFade>(60.0f/60.0f, 60.0f/60.0f);
 			asd::Engine::ChangeSceneWithTransition(scene, transition);
 		}
 	}

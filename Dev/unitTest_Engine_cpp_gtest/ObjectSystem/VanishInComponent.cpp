@@ -28,7 +28,7 @@ class ObjectSystem_VanishInComponent : public EngineTest
 		{
 			if (time == etime)
 			{
-				vanishedObject->Vanish();
+				vanishedObject->Dispose();
 			}
 
 			time++;

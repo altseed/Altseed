@@ -21,7 +21,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			protected override void OnUpdating()
 			{
 				Console.WriteLine(message);
-				Vanish();
+				Dispose();
 			}
 		}
 

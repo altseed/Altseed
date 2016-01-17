@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 /// </summary>
 public class CameraObject2D_Group : ISample
 {
+    public string Description
+    {
+        get { return ""; }
+    }
+
     public void Run()
     {
         // Altseedを初期化する。

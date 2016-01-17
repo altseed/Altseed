@@ -32,7 +32,7 @@ namespace asd
 		static public swig.CubemapTexture GetCubemapTexture(CubemapTexture o)
 		{
 			if (o == null) return null;
-			return (swig.CubemapTexture)o.SwigObject;
+			return (swig.CubemapTexture)o.CoreInstance;
 		}
 
 		static public swig.Material2D GetMaterial2D(Material2D o)
@@ -50,7 +50,7 @@ namespace asd
 		static public swig.MaterialPropertyBlock GetMaterialPropertyBlock(MaterialPropertyBlock o)
 		{
 			if (o == null) return null;
-			return o.SwigObject;
+			return o.CoreInstance;
 		}
 
 		static public swig.Terrain3D GetTerrain3D(Terrain3D o)
@@ -68,7 +68,7 @@ namespace asd
 		static public swig.CoreChip2D GetChip2D(Chip2D o)
 		{
 			if (o == null) return null;
-			return o.SwigObject;
+			return o.CoreInstance;
 		}
 
 		static public swig.Font GetFont(Font o)
