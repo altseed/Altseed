@@ -166,7 +166,7 @@ namespace asd
 			child.ParentInfo = new ParentInfo2D(this, managementMode);
 			if((managementMode & ChildManagementMode.RegistrationToLayer) != 0)
 			{
-				if(child.Layer != Layer)
+				if(child.Layer != Layer && child.Layer != null)
 				{
 					child.Layer.RemoveObject(child);
 				}

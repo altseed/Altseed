@@ -578,7 +578,7 @@ namespace asd
 		{
 			m_transitionState = nextState;
 		}
-		if (!m_currentScene->GetIsAlive())
+		if (m_currentScene != nullptr && !m_currentScene->GetIsAlive())
 		{
 			m_transitionState = std::make_shared<QuicklyChangingState>(nullptr);
 		}

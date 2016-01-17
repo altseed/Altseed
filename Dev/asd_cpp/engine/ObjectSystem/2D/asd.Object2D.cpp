@@ -196,9 +196,10 @@ namespace asd
 
 		if ((managementMode & ChildManagementMode::RegistrationToLayer) != 0)
 		{
-			if (child->GetLayer() != GetLayer())
+			auto childLayer = child->GetLayer();
+			if (childLayer != GetLayer() && childLayer != nullptr)
 			{
-				child->GetLayer()->RemoveObject(child);
+				childLayer->RemoveObject(child);
 			}
 			if (m_owner != nullptr)
 			{
