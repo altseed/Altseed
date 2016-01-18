@@ -78,6 +78,8 @@ namespace asd
 
 		// 頂点バッファ
 		m_vertexBuffer = g->CreateVertexBuffer_Imp(sizeof(MassModel_IO::Vertex), io.Vertices.size(), false);
+		if (m_vertexBuffer == nullptr) return false;
+
 		m_vertexBuffer->Lock();
 
 		auto vbuf = m_vertexBuffer->GetBuffer<MassModel_IO::Vertex>(io.Vertices.size());
@@ -90,6 +92,9 @@ namespace asd
 
 		// インデックスバッファ
 		m_indexBuffer = g->CreateIndexBuffer_Imp(io.Faces.size() * 3, false, true);
+
+		if (m_indexBuffer == nullptr) return false;
+
 		m_indexBuffer->Lock();
 
 		auto ibuf = m_indexBuffer->GetBuffer<int32_t>(io.Faces.size() * 3);
@@ -106,6 +111,8 @@ namespace asd
 		if (io.AnimationTexture_.TextureWidth > 0)
 		{
 			auto texture = g->CreateEmptyTexture2D(io.AnimationTexture_.TextureWidth, io.AnimationTexture_.TextureHeight, TextureFormat::R16G16B16A16_FLOAT);
+			if (texture == nullptr) return false;
+
 			TextureLockInfomation info;
 
 			if (texture->Lock(&info))

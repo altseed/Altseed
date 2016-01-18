@@ -185,11 +185,11 @@ namespace asd
 		return ret;
 	}
 
-	static void CalculateDivisionState(std::array<DivisionDirection, 16>& dst, bool isCliffes[9])
+	static void CalculateDivisionState(std::array<DivisionDirection, 16>& dst, std::array<bool,9>& isCliffes)
 	{
 		auto rot = [](int32_t ind, int32_t angle) -> int32_t
 		{
-			int32_t lut[9];
+			std::array<int32_t,9> lut;
 			lut[0] = 2;
 			lut[1] = 5;
 			lut[2] = 8;
@@ -373,7 +373,7 @@ namespace asd
 	@param	targetIndex	指定されたチップ
 	@param	cliffs	周囲の高度
 	*/
-	static bool IsFitToHeight(int32_t targetIndex, int32_t cliffs[9])
+	static bool IsFitToHeight(int32_t targetIndex, std::array<int32_t,9>& cliffs)
 	{
 		auto center = cliffs[4];
 
@@ -542,7 +542,7 @@ namespace asd
 		this->Vertecies.clear();
 		this->Faces.clear();
 
-		int32_t clsh[9];
+		std::array<int32_t,9> clsh;
 
 		for (int32_t oy = -1; oy <= 1; oy++)
 		{
@@ -635,7 +635,7 @@ namespace asd
 				return from - to >= 2;
 			};
 
-			bool isCliffs[9];
+			std::array<bool,9> isCliffs;
 			for (int32_t i = 0; i < 9; i++)
 			{
 				isCliffs[i] = isCliff(i);
@@ -648,7 +648,7 @@ namespace asd
 			CalculateDivisionState(divisions, isCliffs);
 
 			// 周囲の分析を行う
-			bool isFits[4];
+			std::array<bool,4> isFits;
 			isFits[0] = IsFitToHeight(1, clsh);
 			isFits[1] = IsFitToHeight(5, clsh);
 			isFits[2] = IsFitToHeight(7, clsh);
