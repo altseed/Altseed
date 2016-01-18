@@ -16,6 +16,8 @@
 #include "Resource/asd.RenderTexture2D_Imp_DX11.h"
 #include "Resource/asd.CubemapTexture_Imp_DX11.h"
 
+#include "DirectXToolKit/DDSTextureLoader.h"
+
 #include <sstream>
 
 //----------------------------------------------------------------------------------
@@ -139,6 +141,29 @@ namespace asd {
 		{}
 
 	public:
+		void* InternalLoadDDS(Graphics_Imp* graphics, const std::vector<uint8_t>& data)
+		{
+			ID3D11Resource* texture = nullptr;
+			ID3D11ShaderResourceView* textureSRV = nullptr;
+
+			auto hr = DirectX::CreateDDSTextureFromMemory(
+				((Graphics_Imp_DX11*) m_graphics)->GetDevice(),
+				data.data(),
+				data.size(),
+				&texture,
+				&textureSRV);
+
+			if (texture == nullptr || textureSRV == nullptr)
+			{
+				SafeRelease(texture);
+				SafeRelease(textureSRV);
+				return nullptr;
+			}
+
+			SafeRelease(texture);
+			return textureSRV;
+		}
+
 		void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height)
 		{
 			ID3D11Texture2D* texture = nullptr;

@@ -55,6 +55,7 @@
 #include <GdiPlus.h>
 #include <Gdiplusinit.h>
 #pragma comment( lib, "gdiplus.lib" )
+
 #endif
 
 //----------------------------------------------------------------------------------
@@ -135,6 +136,17 @@ namespace asd {
 		{
 			dst[0] = L'\0';
 		}
+	}
+
+	static astring GetFileName(const achar* filepath)
+	{
+		auto path = astring(filepath);
+		size_t i = path.rfind('.', path.length());
+		if (i != astring::npos)
+		{
+			return (path.substr(0, i));
+		}
+		return astring();
 	}
 
 	static astring GetFileExt(const achar* filepath)
@@ -581,30 +593,57 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path, Effekseer::TextureType tex
 		return cache->second.Ptr;
 	}
 
-	auto staticFile = m_graphics->GetFile()->CreateStaticFile((const achar*) path);
-	if (staticFile.get() == nullptr) return nullptr;
+	auto name_ = GetFileName((const achar*) path);
 
-	int32_t imageWidth = 0;
-	int32_t imageHeight = 0;
-	std::vector<uint8_t> imageDst;
-	if (!ImageHelper::LoadPNGImage(staticFile->GetData(), staticFile->GetSize(), IsReversed(), imageWidth, imageHeight, imageDst, m_graphics->GetLog()))
+	// DDS
+	while (true)
 	{
-		return nullptr;
+		auto staticFile = m_graphics->GetFile()->CreateStaticFile((name_ + ToAString(".dds")).c_str());
+		if (staticFile.get() == nullptr) break;
+
+		void* img = InternalLoadDDS(m_graphics, staticFile->GetBuffer());
+		if (img == nullptr) break;
+
+		Cache c;
+		c.Ptr = img;
+		c.Count = 1;
+		c.Width = 0;
+		c.Height = 0;
+		m_caches[key] = c;
+		dataToKey[img] = key;
+
+		//m_graphics->IncVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, imageWidth, imageHeight));
+
+		return img;
 	}
 
-	void* img = InternalLoad(m_graphics, imageDst, imageWidth, imageHeight);
+	// PNG
+	{
+		auto staticFile = m_graphics->GetFile()->CreateStaticFile((const achar*) path);
+		if (staticFile.get() == nullptr) return nullptr;
 
-	Cache c;
-	c.Ptr = img;
-	c.Count = 1;
-	c.Width = imageWidth;
-	c.Height = imageHeight;
-	m_caches[key] = c;
-	dataToKey[img] = key;
+		int32_t imageWidth = 0;
+		int32_t imageHeight = 0;
+		std::vector<uint8_t> imageDst;
+		if (!ImageHelper::LoadPNGImage(staticFile->GetData(), staticFile->GetSize(), IsReversed(), imageWidth, imageHeight, imageDst, m_graphics->GetLog()))
+		{
+			return nullptr;
+		}
 
-	m_graphics->IncVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, imageWidth, imageHeight));
+		void* img = InternalLoad(m_graphics, imageDst, imageWidth, imageHeight);
 
-	return img;
+		Cache c;
+		c.Ptr = img;
+		c.Count = 1;
+		c.Width = imageWidth;
+		c.Height = imageHeight;
+		m_caches[key] = c;
+		dataToKey[img] = key;
+
+		m_graphics->IncVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, imageWidth, imageHeight));
+
+		return img;
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -622,8 +661,12 @@ void EffectTextureLoader::Unload(void* data)
 	{
 		InternalUnload(data);
 
-		m_graphics->DecVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, cache->second.Width, cache->second.Height));
+		if (cache->second.Width != 0)
+		{
+			m_graphics->DecVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, cache->second.Width, cache->second.Height));
 
+		}
+		
 		m_caches.erase(key);
 		dataToKey.erase(data);
 	}

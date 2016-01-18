@@ -140,6 +140,8 @@ namespace asd {
 		std::map<void*, astring>		dataToKey;
 
 		virtual void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height ) = 0;
+		virtual void* InternalLoadDDS(Graphics_Imp* graphics, const std::vector<uint8_t>& data) = 0;
+
 		virtual void InternalUnload(void* data) = 0;
 		virtual bool IsReversed() = 0;
 	public:
