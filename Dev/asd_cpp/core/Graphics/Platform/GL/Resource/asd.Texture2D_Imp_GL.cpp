@@ -5,6 +5,8 @@
 #include "asd.Texture2D_Imp_GL.h"
 #include "../asd.Graphics_Imp_GL.h"
 
+#include "../Utils/asd.OpenGLDDSReader.h"
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -169,6 +171,18 @@ namespace asd {
 			texture->InternalUnload();
 
 			return texture;
+		}
+		else if (ImageHelper::IsDDS(data, size))
+		{
+			auto reader = OpenGLDDSReader();
+
+			int32_t w, h, m;
+			GLuint texture = 0;
+			TextureFormat fmt;
+			if (reader.Read(data, size, w, h, m, texture, fmt))
+			{
+				return new Texture2D_Imp_GL(graphics, texture, Vector2DI(w, h), fmt);
+			}
 		}
 
 		return nullptr;
