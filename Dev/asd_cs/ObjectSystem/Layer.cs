@@ -8,8 +8,10 @@ namespace asd
     /// <summary>
     /// オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス
     /// </summary>
-    public abstract class Layer
+    public abstract class Layer : IReleasable
     {
+		public abstract bool IsReleased { get; }
+
         public Layer()
         {
             IsAlive = true;
@@ -227,8 +229,10 @@ namespace asd
             CoreLayer.ClearPostEffects();
         }
 
+		public abstract void ForceToRelease();
 
-        private float updateTimer;
+
+		private float updateTimer;
 
 		internal swig.CoreLayer CoreLayer { get; set; }
 

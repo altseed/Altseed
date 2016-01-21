@@ -263,7 +263,7 @@ namespace asd {
 			@brief	描画する対象となるシーンを変更する。
 			@param	scene	次のシーン
 		*/
-		static void ChangeScene(std::shared_ptr<Scene> scene, bool doAutoDispose = false);
+		static void ChangeScene(std::shared_ptr<Scene> scene, bool doAutoDispose = true);
 
 		/**
 		@brief	描画する対象となるシーンを画面遷移効果ありで変更する。
@@ -273,7 +273,7 @@ namespace asd {
 		static void ChangeSceneWithTransition(
 			std::shared_ptr<Scene> scene,
 			const std::shared_ptr<Transition>& transition,
-			bool doAutoDispose = false);
+			bool doAutoDispose = true);
 
 		/**
 		@brief	スクリーンショットを保存する。

@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 2Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
 	/// </summary>
-	public class Layer2D : Layer, IReleasable
+	public class Layer2D : Layer
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -38,7 +38,7 @@ namespace asd
 			ForceToRelease();
 		}
 
-		public bool IsReleased
+		public override bool IsReleased
 		{
 			get { return coreLayer2D == null; }
 		}
@@ -50,7 +50,7 @@ namespace asd
 		/// 何らかの理由でメモリが不足した場合に実行する。
 		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
 		/// </remarks>
-		public void ForceToRelease()
+		public override void ForceToRelease()
 		{
 			lock (this)
 			{
@@ -259,7 +259,7 @@ namespace asd
 			foreach (var vanishing in contentsManager.VanishingContents)
 			{
 				RemoveObject(vanishing);
-				vanishing.Dispose();
+				vanishing.ForceToRelease();
 			}
 			contentsManager.VanishingContents.Clear();
 
@@ -291,7 +291,6 @@ namespace asd
 					item.Dispose();
 				}
 				OnDispose();
-				ForceToRelease();
 			}
 		}
 

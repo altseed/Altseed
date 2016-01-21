@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 3Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
 	/// </summary>
-	public class Layer3D : Layer, IReleasable
+	public class Layer3D : Layer
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -44,12 +44,12 @@ namespace asd
 			ForceToRelease();
 		}
 
-		public bool IsReleased
+		public override bool IsReleased
 		{
 			get { return coreLayer3D == null; }
 		}
 
-		public void ForceToRelease()
+		public override void ForceToRelease()
 		{
 			lock (this)
 			{
@@ -362,7 +362,7 @@ namespace asd
 			foreach (var vanishing in contentsManager.VanishingContents)
 			{
 				RemoveObject(vanishing);
-				vanishing.Dispose();
+				vanishing.ForceToRelease();
 			}
 			contentsManager.VanishingContents.Clear();
 		}
@@ -392,7 +392,6 @@ namespace asd
 					item.Dispose();
 				}
 				OnDispose();
-				ForceToRelease(); 
 			}
 		}
 

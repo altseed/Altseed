@@ -333,6 +333,7 @@ namespace asd
 			}
 			auto nextState = std::make_shared<FadingInState>(m_transition, Engine::m_currentScene, m_doAutoDispose);
 			Engine::m_currentScene = Engine::m_nextScene;
+			Engine::m_nextScene.reset();
 			return nextState;
 		}
 		return nullptr;
@@ -652,6 +653,7 @@ namespace asd
 		}
 
 		m_currentScene.reset();
+		m_nextScene.reset();
 		m_transitionState.reset();
 
 		m_core->Terminate();

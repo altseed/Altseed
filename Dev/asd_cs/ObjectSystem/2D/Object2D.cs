@@ -61,11 +61,11 @@ namespace asd
 		}
 
 		/// <summary>
-		/// このオブジェクトが実行中かどうかを取得する。Vanishメソッドにより削除された時に false を返す。
+		/// このオブジェクトが実行中かどうかを取得する。破棄されている場合に false を返す。
 		/// </summary>
 		public bool IsAlive
 		{
-			get { return CoreObject.GetIsAlive(); }
+			get { return CoreObject != null && CoreObject.GetIsAlive(); }
 			private set { CoreObject.SetIsAlive(value); }
 		}
 
@@ -343,7 +343,6 @@ namespace asd
 					}
 				}
 				OnDispose();
-				ForceToRelease(); 
 			}
 		}
 

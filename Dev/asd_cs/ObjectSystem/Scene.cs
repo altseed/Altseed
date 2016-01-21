@@ -302,7 +302,7 @@ namespace asd
 			foreach(var item in beVanished)
 			{
 				RemoveLayer(item);
-				item.Dispose();
+				item.ForceToRelease();
 			}
 
 			CommitChanges();
