@@ -170,6 +170,8 @@ namespace asd
 
 	void RenderedMassModelObject3DProxy::Draw(RenderingCommandHelper* helper, RenderingProperty& prop, std::vector<RenderedMassModelObject3DProxy*>& proxies, int32_t offset, int32_t count)
 	{
+		if (ModelPtr == nullptr) return;
+
 		using h = RenderingCommandHelper;
 
 		auto lightDirection = prop.DirectionalLightDirection;

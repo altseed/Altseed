@@ -94,7 +94,9 @@ namespace asd {
 
 		int pictureNumber = 0;
 
+		// DDS優先
 		asd::astring pngExtension = ToAString(".png");
+		asd::astring ddsExtension = ToAString(".dds");
 
 		while (true)
 		{
@@ -102,7 +104,7 @@ namespace asd {
 			asd::astring strNumber = asd::ToAString(std::to_string(pictureNumber).c_str());
 
 			//PNGファイルへのパス文字列を構成。
-			asd::astring pngFilePath = (rawFilePath + ToAString("_") + strNumber + pngExtension);
+			asd::astring pngFilePath = (rawFilePath + ToAString("_") + strNumber + ddsExtension);
 
 			//この連番のファイルが存在するか否か調べて、存在しなかったらループを抜ける。
 
@@ -117,6 +119,33 @@ namespace asd {
 
 
 			++pictureNumber;
+		}
+
+		pictureNumber = 0;
+		if (m_textures.size() == 0)
+		{
+			while (true)
+			{
+				//連番を文字列化。
+				asd::astring strNumber = asd::ToAString(std::to_string(pictureNumber).c_str());
+
+				//PNGファイルへのパス文字列を構成。
+				asd::astring pngFilePath = (rawFilePath + ToAString("_") + strNumber + pngExtension);
+
+				//この連番のファイルが存在するか否か調べて、存在しなかったらループを抜ける。
+
+				auto texture = m_graphics->CreateTexture2D(pngFilePath.c_str());
+
+				if (texture == nullptr)
+				{
+					break;
+				}
+
+				m_textures.push_back(texture);
+
+
+				++pictureNumber;
+			}
 		}
 	}
 

@@ -83,6 +83,11 @@ namespace asd {
 		{}
 
 	public:
+		void* InternalLoadDDS(Graphics_Imp* graphics, const std::vector<uint8_t>& data)
+		{
+			return nullptr;
+		}
+
 		void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height)
 		{
 			GLuint texture = 0;

@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <sys/stat.h>
 #include <unordered_set>
+#include <new>
 
 namespace asd
 {
@@ -93,6 +94,8 @@ namespace asd
 
 	StaticFile* File_Imp::CreateStaticFile_(const achar* path)
 	{
+		std::lock_guard<std::recursive_mutex> lock(mtx_);
+
 		if (FileHelper::IsAbsolutePath(path))
 		{
 			// 絶対パス
@@ -177,6 +180,8 @@ namespace asd
 
 	StreamFile* File_Imp::CreateStreamFile_(const achar* path)
 	{
+		std::lock_guard<std::recursive_mutex> lock(mtx_);
+
 		if (FileHelper::IsAbsolutePath(path))
 		{
 			// 絶対パス
@@ -260,11 +265,15 @@ namespace asd
 
 	void File_Imp::UnregisterStaticFile(const astring& key)
 	{
+		std::lock_guard<std::recursive_mutex> lock(mtx_);
+
 		staticFiles.erase(key);
 	}
 
 	void File_Imp::UnregisterStreamFile(const astring& key)
 	{
+		std::lock_guard<std::recursive_mutex> lock(mtx_);
+
 		streamFiles.erase(key);
 	}
 }

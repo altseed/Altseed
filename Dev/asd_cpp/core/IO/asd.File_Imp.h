@@ -11,6 +11,7 @@
 #include <unordered_set>
 #include <memory>
 #include <vector>
+#include <mutex>
 
 namespace std
 {
@@ -38,6 +39,8 @@ namespace asd
 		std::unordered_map<astring, StaticFile_Imp*> staticFiles;
 		std::unordered_map<astring, StreamFile_Imp*> streamFiles;
 		
+		std::recursive_mutex		mtx_;
+
 	public:
 		static File_Imp* Create() { return new File_Imp(); };
 
