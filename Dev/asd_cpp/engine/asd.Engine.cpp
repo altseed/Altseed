@@ -297,7 +297,7 @@ namespace asd
 
 	std::shared_ptr<Scene>	Engine::m_currentScene;
 	std::shared_ptr<Scene>	Engine::m_nextScene;
-	std::shared_ptr<Engine::SceneTransitionState> Engine::m_transitionState = std::make_shared<Engine::NeutralState>();
+	std::shared_ptr<Engine::SceneTransitionState> Engine::m_transitionState;
 
 	void Engine::NeutralState::Draw()
 	{
@@ -488,6 +488,7 @@ namespace asd
 			m_graphics = m_core->GetGraphics();
 			m_animationSyatem = m_core->GetAnimationSyatem();
 			m_file = m_core->GetFile();
+			m_transitionState = std::make_shared<NeutralState>();
 
 			m_keyboard = m_core->GetKeyboard();
 			m_mouse = m_core->GetMouse();
@@ -555,6 +556,7 @@ namespace asd
 			m_file = m_core->GetFile();
 			m_graphics = m_core->GetGraphics();
 			m_animationSyatem = m_core->GetAnimationSyatem();
+			m_transitionState = std::make_shared<NeutralState>();
 
 			g_objectSystemFactory = m_objectSystemFactory;
 

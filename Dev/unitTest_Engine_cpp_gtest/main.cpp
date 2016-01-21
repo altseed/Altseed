@@ -123,7 +123,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	/*
-	CALL_ENGINE_TEST(FamilySystem, AbsoluteParameter, true)
+	CALL_ENGINE_TEST(FamilySystem, AbsoluteParameter, true);
 	getchar();
 	return 0;
 	//*/
