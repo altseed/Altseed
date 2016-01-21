@@ -1,4 +1,4 @@
-
+ï»¿
 #pragma once
 #include "../../../../PCH/asd.Core.PCH.h"
 #include "../../../../asd.Core.Base.h"
@@ -6,7 +6,7 @@
 namespace asd
 {
 	/**
-		Ql
+		å‚è€ƒ
 		http://asura.iaigiri.com/OpenGL/gl7.html
 	*/
 
@@ -79,30 +79,30 @@ namespace asd
 
 			auto p = (uint8_t*) data;
 			
-			//@ƒ}ƒWƒbƒN‚ğ“Ç‚İæ‚è
+			//ã€€ãƒã‚¸ãƒƒã‚¯ã‚’èª­ã¿å–ã‚Š
 			memcpy(magic, p, 4);
 			p += 4;
 
-			//@ƒ}ƒWƒbƒN‚ğƒ`ƒFƒbƒN
+			//ã€€ãƒã‚¸ãƒƒã‚¯ã‚’ãƒã‚§ãƒƒã‚¯
 			if (strncmp(magic, "DDS ", 4) != 0)
 			{
 				return false;
 			}
 
-			//@ƒwƒbƒ_[‚ğ“Ç‚İæ‚è
+			//ã€€ãƒ˜ãƒƒãƒ€ãƒ¼ã‚’èª­ã¿å–ã‚Š
 			memcpy(&ddsd, p, sizeof(ddsd));
 			p += sizeof(ddsd);
 
-			//@•E‚‚³‚ğŠi”[
+			//ã€€å¹…ãƒ»é«˜ã•ã‚’æ ¼ç´
 			height = ddsd.height;
 			width = ddsd.width;
 			numMipmaps = ddsd.mipMapLevels;
 
-			//@ƒtƒH[ƒ}ƒbƒg”»•Ê
+			//ã€€ãƒ•ã‚©ãƒ¼ãƒãƒƒãƒˆåˆ¤åˆ¥
 			switch (ddsd.format.fourCC)
 			{
 			case FOURCC_DXT1:
-				//@DXT1
+				//ã€€DXT1
 				format = GL_COMPRESSED_RGBA_S3TC_DXT1_EXT;
 				internalFormat = 3;
 				mipmapFactor = 2;
@@ -110,7 +110,7 @@ namespace asd
 				break;
 
 			case FOURCC_DXT3:
-				//@DXT3
+				//ã€€DXT3
 				format = GL_COMPRESSED_RGBA_S3TC_DXT3_EXT;
 				internalFormat = 4;
 				mipmapFactor = 4;
@@ -118,7 +118,7 @@ namespace asd
 				break;
 
 			case FOURCC_DXT5:
-				//@DXT5
+				//ã€€DXT5
 				format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
 				internalFormat = 4;
 				mipmapFactor = 4;
@@ -137,14 +137,14 @@ namespace asd
 			int offset = 0;
 			GLsizei mWidth = width, mHeight = height, mSize = 0;
 
-			//@DXT1
+			//ã€€DXT1
 			if (format == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)
 				blockSize = 8;
-			//@DXT3, DXT5
+			//ã€€DXT3, DXT5
 			else
 				blockSize = 16;
 
-			//@‰ğ“€
+			//ã€€è§£å‡
 			for (int i = 0; i<(int) numMipmaps; i++)
 			{
 				mSize = ((mWidth + 3) / 4) * ((mHeight + 3) / 4) * blockSize;
