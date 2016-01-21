@@ -22,11 +22,6 @@ namespace asd
 
 	protected:
 		/**
-		@brief	オーバーライドして、このオブジェクトの初期化処理を記述できる。
-		*/
-		virtual void OnStart() {};
-
-		/**
 		@brief	オーバーライドして、毎フレーム実行される更新処理を記述できる。
 		*/
 		virtual void OnUpdate() {};

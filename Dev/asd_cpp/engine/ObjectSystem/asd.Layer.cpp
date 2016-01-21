@@ -18,9 +18,12 @@ namespace asd
 
 	void Layer::Dispose()
 	{
-		DisposeInternal();
-		m_isAlive = false;
-		OnDispose();
+		if (GetIsAlive())
+		{
+			m_isAlive = false;
+			DisposeInternal();
+			OnDispose();
+		}
 	}
 
 	void Layer::Update()

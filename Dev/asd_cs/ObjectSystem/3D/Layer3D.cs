@@ -107,7 +107,7 @@ namespace asd
 			contentsManager.Add(object3D);
 			coreLayer3D.AddObject(object3D.CoreObject);
 			object3D.Layer = this;
-			object3D.Start();
+			object3D.RaiseOnAdded();
 		}
 
 		/// <summary>
@@ -118,6 +118,7 @@ namespace asd
 		{
 			contentsManager.Remove(object3D);
 			coreLayer3D.RemoveObject(object3D.CoreObject);
+			object3D.RaiseOnRemoved();
 			object3D.Layer = null;
 		}
 
@@ -383,16 +384,16 @@ namespace asd
 
 		public override void Dispose()
 		{
-			foreach(var item in Objects)
+			if(IsAlive)
 			{
-				if(item.IsAlive)
+				IsAlive = false;
+				foreach(var item in Objects)
 				{
 					item.Dispose();
 				}
+				OnDispose();
+				ForceToRelease(); 
 			}
-			IsAlive = false;
-			OnDispose();
-			ForceToRelease();
 		}
 
 

@@ -26,10 +26,10 @@ namespace asd
             base.ForceToRelease();
         }
 
-        protected override void OnStart() { }
+        protected override void OnAdded() { }
         protected override void OnUpdate() { }
 
-        protected override void OnUpdateInternal()
+        internal override void OnUpdateInternal()
         {
             coreObject.StartAddingPostEffect(postEffects.Count);
 

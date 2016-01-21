@@ -330,18 +330,21 @@ namespace asd
 
 		public void Dispose()
 		{
-			foreach(var item in ChildrenList)
+			if(IsAlive)
 			{
-				CoreObject.RemoveChild(item.CoreObject);
-				item.ParentInfo = null;
-				if(item.IsInheriting(ChildManagementMode.Vanishment))
+				IsAlive = false;
+				foreach(var item in ChildrenList)
 				{
-					item.Dispose();
+					CoreObject.RemoveChild(item.CoreObject);
+					item.ParentInfo = null;
+					if(item.IsInheriting(ChildManagementMode.Vanishment))
+					{
+						item.Dispose();
+					}
 				}
+				OnDispose();
+				ForceToRelease(); 
 			}
-			IsAlive = false;
-			OnDispose();
-			ForceToRelease();
 		}
 
 		internal override void Update()

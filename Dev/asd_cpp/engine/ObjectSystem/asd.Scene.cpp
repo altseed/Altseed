@@ -39,15 +39,15 @@ namespace asd
 
 	void Scene::Dispose()
 	{
-		m_isAlive = false;
-		for (auto& l : m_layersToUpdate)
+		if (GetIsAlive())
 		{
-			if (l->GetIsAlive())
+			m_isAlive = false;
+			for (auto& l : m_layersToUpdate)
 			{
 				l->Dispose();
 			}
+			OnDispose();
 		}
-		OnDispose();
 	}
 
 	void Scene::Update()

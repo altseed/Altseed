@@ -1,4 +1,4 @@
-#include <gtest/gtest.h>
+﻿#include <gtest/gtest.h>
 #include <Altseed.h>
 #include "../EngineTest.h"
 
@@ -85,7 +85,7 @@ class ObjectSystem_LifeCycle : public EngineTest
 
 		void OnDispose() override
 		{
-			haveBeenDisposed = false;
+			haveBeenDisposed = true;
 		}
 
 	public:

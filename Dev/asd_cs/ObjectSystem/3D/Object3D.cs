@@ -15,6 +15,8 @@ namespace asd
 
 		Layer3D owner = null;
 
+		internal swig.CoreObject3D CoreObject { get { return commonObject; } }
+
 		public Object3D()
 		{
 			IsUpdated = true;
@@ -70,23 +72,31 @@ namespace asd
 		/// </summary>
 		public bool IsAlive { get; private set; }
 
-		/// <summary>
-		/// オブジェクトを破棄する。
-		/// </summary>
-		public void Vanish()
-		{
-			IsAlive = false;
-			OnVanish();
-		}
-
-		internal void Start()
-		{
-			OnStart();
-		}
 
 		internal override bool GetIsAlive()
 		{
 			return IsAlive;
+		}
+
+		#region イベントハンドラ
+		internal void RaiseOnAdded()
+		{
+			OnAdded();
+		}
+
+		internal void RaiseOnRemoved()
+		{
+			OnRemoved();
+		}
+
+		internal void Dispose()
+		{
+			if(IsAlive)
+			{
+				IsAlive = false;
+				OnDispose();
+				ForceToRelease();
+			}
 		}
 
 		internal override void Update()
@@ -99,13 +109,6 @@ namespace asd
 			OnUpdate();
 
 			OnUpdateInternal();
-
-			/*
-			foreach (var item in components_)
-			{
-				item.Value.Update();
-			}
-			*/
 		}
 
 		internal void DrawAdditionally()
@@ -117,46 +120,34 @@ namespace asd
 			OnDrawAdditionally();
 		}
 
-		internal void Dispose()
-		{
-			OnDispose();
-		}
-
-		internal swig.CoreObject3D CoreObject { get { return commonObject; } }
-
-		/// <summary>
-		/// ユーザーはオーバーライドしてはいけない。
-		/// </summary>
-		protected virtual void OnUpdateInternal() { }
-
 		/// <summary>
 		/// オーバーライドして、この3Dオブジェクトの初期化処理を記述することができる。
 		/// </summary>
-		protected abstract void OnStart();
+		protected virtual void OnAdded() { }
+
+		protected virtual void OnRemoved() { }
+
+		/// <summary>
+		/// オーバーライドして、この3Dオブジェクトが破棄されるときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnDispose() { }
 
 		/// <summary>
 		/// オーバーライドして、この3Dオブジェクトの更新処理を記述することができる。
 		/// </summary>
-		protected abstract void OnUpdate();
+		protected virtual void OnUpdate() { }
+
+		/// <summary>
+		/// ユーザーはオーバーライドしてはいけない。
+		/// </summary>
+		internal virtual void OnUpdateInternal() { }
 
 		/// <summary>
 		/// オーバーライドして、この3Dオブジェクトに関する追加の描画処理を記述できる。
 		/// </summary>
 		protected virtual void OnDrawAdditionally() { }
+		#endregion
 
-		/// <summary>
-		/// オーバーライドして、この3DオブジェクトがVanishメソッドによって破棄される時の処理を記述できる。
-		/// </summary>
-		protected virtual void OnVanish()
-		{
-		}
-
-		/// <summary>
-		/// オーバーライドして、この3Dオブジェクトが破棄されるときの処理を記述できる。
-		/// </summary>
-		protected virtual void OnDispose()
-		{
-		}
 
 		/// <summary>
 		/// このインスタンスを管理している asd.Layer3D クラスのインスタンスを取得する。

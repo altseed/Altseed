@@ -30,9 +30,9 @@ namespace asd
 		int m_updatePriority;
 		std::function<void(int)> m_onUpdatePriorityChanged;
 		
-		void Start();
+		void RaiseOnAdded();
+		void RaiseOnRemoved();
 		void Update();
-		void Dispose();
 		void SetLayer(Layer3D* layer);
 		CoreObject3D* GetCoreObject() const;
 
@@ -49,7 +49,14 @@ namespace asd
 		/**
 			@brief	オーバーライドして、この3Dオブジェクトの初期化処理を記述することができる。
 		*/
-		virtual void OnStart() = 0;
+		virtual void OnAdded();
+
+		virtual void OnRemoved();
+
+		/**
+			@brief	オーバーライドして、この3Dオブジェクトが破棄されるときの処理を記述できる。
+		*/
+		virtual void OnDispose();
 
 		/**
 			@brief	オーバーライドして、この3Dオブジェクトの更新処理を記述することができる。
@@ -60,16 +67,6 @@ namespace asd
 			@brief	オーバーライドして、この3Dオブジェクトに関する追加の描画処理を記述できる。
 		*/
 		virtual void OnDrawAdditionally() = 0;
-
-		/**
-			@brief	オーバーライドして、この3DオブジェクトがVanishメソッドによって破棄される際の処理を記述できる。
-		*/
-		virtual void OnVanish();
-
-		/**
-			@brief	オーバーライドして、この3Dオブジェクトが破棄されるときの処理を記述できる。
-		*/
-		virtual void OnDispose();
 
 	public:
 		/**
@@ -112,7 +109,7 @@ namespace asd
 		/**
 		@brief	オブジェクトを破棄する。
 		*/
-		void Vanish();
+		void Dispose();
 
 		/**
 		@brief	このインスタンスを管理している asd.Layer3D クラスのインスタンスを取得する。

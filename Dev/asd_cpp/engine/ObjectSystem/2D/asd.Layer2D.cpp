@@ -77,10 +77,7 @@ namespace asd
 	{
 		for (auto& o : m_objects.GetContents())
 		{
-			if (o->GetIsAlive())
-			{
-				o->Dispose();
-			}
+			o->Dispose();
 		}
 	}
 

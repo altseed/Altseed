@@ -39,10 +39,7 @@ namespace asd
 	{
 		for (auto& o : m_objects.GetContents())
 		{
-			if (o->GetIsAlive())
-			{
-				o->Dispose();
-			}
+			o->Dispose();
 		}
 	}
 
@@ -89,13 +86,14 @@ namespace asd
 		auto coreObj = object->GetCoreObject();
 		m_coreLayer->AddObject(coreObj);
 		object->SetLayer(this);
-		object->Start();
+		object->RaiseOnAdded();
 	}
 
 	void Layer3D::RemoveObject(const Object3D::Ptr& object)
 	{
 		m_objects.Remove(object);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
+		object->RaiseOnRemoved();
 		object->SetLayer(nullptr);
 	}
 

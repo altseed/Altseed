@@ -26,7 +26,7 @@ namespace asd
 			base.ForceToRelease();
 		}
 
-		protected override void OnStart() { }
+		protected override void OnAdded() { }
 		protected override void OnUpdate() { }
 
 		/// <summary>

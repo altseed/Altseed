@@ -252,16 +252,16 @@ namespace asd
 
 		public void Dispose()
 		{
-			foreach (var item in layersToUpdate_)
+			if(IsAlive)
 			{
-				if (item.IsAlive)
+				IsAlive = false;
+				foreach(var layer in layersToUpdate_)
 				{
-					item.Dispose();
+					layer.Dispose();
 				}
+				OnDispose();
+				ForceToRelease();
 			}
-			IsAlive = false;
-			OnDispose();
-			ForceToRelease();
 		}
 
 		internal void Update()

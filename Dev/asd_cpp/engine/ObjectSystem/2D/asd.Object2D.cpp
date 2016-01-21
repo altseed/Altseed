@@ -48,17 +48,20 @@ namespace asd
 
 	void Object2D::Dispose()
 	{
-		for (auto& child : m_children)
+		if (GetIsAlive())
 		{
-			GetCoreObject()->RemoveChild(child->GetCoreObject());
-			child->m_parentInfo.reset();
-			if (IS_INHERITED(child, Vanishment))
+			GetCoreObject()->SetIsAlive(false);
+			for (auto& child : m_children)
 			{
-				child->Dispose();
+				GetCoreObject()->RemoveChild(child->GetCoreObject());
+				child->m_parentInfo.reset();
+				if (IS_INHERITED(child, Vanishment))
+				{
+					child->Dispose();
+				}
 			}
+			OnDispose();
 		}
-		GetCoreObject()->SetIsAlive(false);
-		OnDispose();
 	}
 
 	void Object2D::Update()
