@@ -164,6 +164,7 @@ namespace asd
 			}
 
 			glBindTexture(GL_TEXTURE_2D, 0);
+			return true;
 		}
 	};
 
