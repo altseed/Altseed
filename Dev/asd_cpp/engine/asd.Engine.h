@@ -65,6 +65,9 @@ namespace asd {
 			virtual void Update()
 			{
 			}
+			virtual void ForceToComplete()
+			{
+			}
 		};
 
 		class NeutralState : public SceneTransitionState
@@ -77,9 +80,10 @@ namespace asd {
 		{
 		private:
 			std::shared_ptr<Transition> m_transition;
+			bool m_doAutoDispose;
 
 		public:
-			FadingOutState(std::shared_ptr<Transition> transition, Scene::Ptr nextScene);
+			FadingOutState(std::shared_ptr<Transition> transition, Scene::Ptr nextScene, bool doAutoDispose);
 			std::shared_ptr<SceneTransitionState> Proceed() override;
 			void Draw() override;
 			void Update() override;
@@ -90,20 +94,26 @@ namespace asd {
 		private:
 			std::shared_ptr<Transition> m_transition;
 			Scene::Ptr m_previousScene;
+			bool m_doAutoDispose;
 
 		public:
-			FadingInState(std::shared_ptr<Transition> transition, Scene::Ptr previousScene);
+			FadingInState(std::shared_ptr<Transition> transition, Scene::Ptr previousScene, bool doAutoDispose);
 			std::shared_ptr<SceneTransitionState> Proceed() override;
 			void Draw() override;
 			void Update() override;
+			void ForceToComplete() override;
 		};
 
 		class QuicklyChangingState : public SceneTransitionState
 		{
+		private:
+			bool m_doAutoDispose;
+
 		public:
-			QuicklyChangingState(Scene::Ptr nextScene);
+			QuicklyChangingState(Scene::Ptr nextScene, bool doAutoDispose);
 			std::shared_ptr<SceneTransitionState> Proceed() override;
 			void Draw() override;
+			void ForceToComplete() override;
 		};
 
 	private:
@@ -253,14 +263,17 @@ namespace asd {
 			@brief	描画する対象となるシーンを変更する。
 			@param	scene	次のシーン
 		*/
-		static void ChangeScene(std::shared_ptr<Scene> scene);
+		static void ChangeScene(std::shared_ptr<Scene> scene, bool doAutoDispose = false);
 
 		/**
 		@brief	描画する対象となるシーンを画面遷移効果ありで変更する。
 		@param	scene	次のシーン
 		@param	transition	画面遷移効果
 		*/
-		static void ChangeSceneWithTransition(std::shared_ptr<Scene> scene, const std::shared_ptr<Transition>& transition);
+		static void ChangeSceneWithTransition(
+			std::shared_ptr<Scene> scene,
+			const std::shared_ptr<Transition>& transition,
+			bool doAutoDispose = false);
 
 		/**
 		@brief	スクリーンショットを保存する。

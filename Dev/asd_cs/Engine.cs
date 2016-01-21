@@ -55,6 +55,12 @@ namespace asd
 			/// シーンを描画する。
 			/// </summary>
 			public abstract void Draw();
+			/// <summary>
+			/// この遷移状態で行うべき処理を強制的に完了させる。
+			/// </summary>
+			public virtual void ForceToComplete()
+			{
+			}
 		}
 
 		class NeutralState : SceneTransitionState
@@ -71,11 +77,13 @@ namespace asd
 		class FadingOutState : SceneTransitionState
 		{
 			private Transition transition;
+			private bool doAutoDispose;
 
-			public FadingOutState(Transition transition, Scene nextScene)
+			public FadingOutState(Transition transition, Scene nextScene, bool doAutoDispose)
 			{
 				this.transition = transition;
 				Engine.nextScene = nextScene;
+				this.doAutoDispose = doAutoDispose;
 			}
 
 			public override void Proceed()
@@ -95,7 +103,7 @@ namespace asd
 					{
 						core.ChangeScene(null);
 					}
-					transitionState = new FadingInState(transition, CurrentScene);
+					transitionState = new FadingInState(transition, CurrentScene, doAutoDispose);
 					CurrentScene = nextScene;
 				}
 			}
@@ -116,11 +124,13 @@ namespace asd
 		{
 			private Transition transition;
 			private Scene previousScene;
+			private bool doAutoDispose;
 
-			public FadingInState(Transition transition, Scene previousScene)
+			public FadingInState(Transition transition, Scene previousScene, bool doAutoDispose)
 			{
 				this.transition = transition;
 				this.previousScene = previousScene;
+				this.doAutoDispose = doAutoDispose;
 			}
 
 			public override void Proceed()
@@ -130,6 +140,10 @@ namespace asd
 					if(previousScene != null)
 					{
 						previousScene.RaiseOnUnregistered();
+						if(doAutoDispose)
+						{
+							previousScene.Dispose();
+						}
 					}
 					if(CurrentScene != null)
 					{
@@ -150,21 +164,50 @@ namespace asd
 				var prevScene = previousScene != null ? previousScene.CoreInstance : null;
 				core.DrawSceneToWindowWithTransition(curScene, prevScene, transition.SwigObject);
 			}
+
+			public override void ForceToComplete()
+			{
+				if(previousScene != null && doAutoDispose)
+				{
+					previousScene.Dispose();
+				}
+			}
 		}
 
 		class QuicklyChangingState : SceneTransitionState
 		{
-			public QuicklyChangingState(Scene nextScene)
+			private bool doAutoDispose;
+
+			public QuicklyChangingState(Scene nextScene, bool doAutoDispose)
 			{
 				Engine.nextScene = nextScene;
+				this.doAutoDispose = doAutoDispose;
 			}
 
 			public override void Proceed()
+			{
+				ForceToComplete();
+				transitionState = new NeutralState();
+			}
+
+			public override void Draw()
+			{
+				if(CurrentScene != null)
+				{
+					core.DrawSceneToWindow(CurrentScene.CoreInstance);
+				}
+			}
+
+			public override void ForceToComplete()
 			{
 				if(CurrentScene != null)
 				{
 					CurrentScene.RaiseOnStopUpdating();
 					CurrentScene.RaiseOnUnregistered();
+					if(doAutoDispose)
+					{
+						CurrentScene.Dispose();
+					}
 				}
 				if(nextScene != null)
 				{
@@ -176,16 +219,7 @@ namespace asd
 				{
 					core.ChangeScene(null);
 				}
-				transitionState = new NeutralState();
 				CurrentScene = nextScene;
-			}
-
-			public override void Draw()
-			{
-				if(CurrentScene != null)
-				{
-					core.DrawSceneToWindow(CurrentScene.CoreInstance);
-				}
 			}
 		}
 		#endregion
@@ -375,7 +409,7 @@ namespace asd
 			transitionState.Proceed();
 			if(CurrentScene != null && !CurrentScene.IsAlive)
 			{
-				transitionState = new QuicklyChangingState(null);
+				transitionState = new QuicklyChangingState(null, false);
 			}
 
 			return mes;
@@ -662,9 +696,9 @@ namespace asd
 		/// 描画する対象となるシーンを変更する。
 		/// </summary>
 		/// <param name="scene">次のシーン</param>
-		public static void ChangeScene(Scene scene)
+		/// <param name="doAutoDispose">前のシーンを自動的に破棄するかどうかの真偽値</param>
+		public static void ChangeScene(Scene scene, bool doAutoDispose = false)
 		{
-			transitionState = new QuicklyChangingState(scene);
 			if(CurrentScene != null)
 			{
 				CurrentScene.RaiseOnChanging();
@@ -673,6 +707,8 @@ namespace asd
 			{
 				scene.RaiseOnRegistered();
 			}
+			transitionState.ForceToComplete();
+			transitionState = new QuicklyChangingState(scene, doAutoDispose);
 		}
 
 		/// <summary>
@@ -680,9 +716,9 @@ namespace asd
 		/// </summary>
 		/// <param name="scene">次のシーン</param>
 		/// <param name="transition">画面遷移効果</param>
-		public static void ChangeSceneWithTransition(Scene scene, Transition transition)
+		/// <param name="doAutoDispose">前のシーンを自動的に破棄するかどうかの真偽値</param>
+		public static void ChangeSceneWithTransition(Scene scene, Transition transition, bool doAutoDispose = false)
 		{
-			transitionState = new FadingOutState(transition, scene);
 			if(CurrentScene != null)
 			{
 				CurrentScene.RaiseOnChanging();
@@ -691,6 +727,8 @@ namespace asd
 			{
 				scene.RaiseOnRegistered();
 			}
+			transitionState.ForceToComplete();
+			transitionState = new FadingOutState(transition, scene, doAutoDispose);
 		}
 
 		/// <summary>

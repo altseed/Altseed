@@ -307,8 +307,9 @@ namespace asd
 		}
 	}
 
-	Engine::FadingOutState::FadingOutState(std::shared_ptr<Transition> transition, Scene::Ptr nextScene)
+	Engine::FadingOutState::FadingOutState(std::shared_ptr<Transition> transition, Scene::Ptr nextScene, bool doAutoDispose)
 		: m_transition(transition)
+		, m_doAutoDispose(doAutoDispose)
 	{
 		Engine::m_nextScene = nextScene;
 	}
@@ -330,7 +331,7 @@ namespace asd
 			{
 				Engine::m_core->ChangeScene(nullptr);
 			}
-			auto nextState = std::make_shared<FadingInState>(m_transition, Engine::m_currentScene);
+			auto nextState = std::make_shared<FadingInState>(m_transition, Engine::m_currentScene, m_doAutoDispose);
 			Engine::m_currentScene = Engine::m_nextScene;
 			return nextState;
 		}
@@ -349,9 +350,10 @@ namespace asd
 		m_core->DrawSceneToWindowWithTransition(nullptr, curScene.get(), m_transition->coreTransition.get());
 	}
 
-	Engine::FadingInState::FadingInState(std::shared_ptr<Transition> transition, Scene::Ptr previousScene)
+	Engine::FadingInState::FadingInState(std::shared_ptr<Transition> transition, Scene::Ptr previousScene, bool doAutoDispose)
 		: m_transition(transition)
 		, m_previousScene(previousScene)
+		, m_doAutoDispose(doAutoDispose)
 	{
 	}
 
@@ -386,12 +388,35 @@ namespace asd
 		m_core->DrawSceneToWindowWithTransition(curScene.get(), prevScene.get(), m_transition->coreTransition.get());
 	}
 
-	Engine::QuicklyChangingState::QuicklyChangingState(Scene::Ptr nextScene)
+	void Engine::FadingInState::ForceToComplete()
+	{
+		if (m_currentScene != nullptr && m_doAutoDispose)
+		{
+			m_currentScene->Dispose();
+		}
+	}
+
+	Engine::QuicklyChangingState::QuicklyChangingState(Scene::Ptr nextScene, bool doAutoDispose)
+		: m_doAutoDispose(doAutoDispose)
 	{
 		Engine::m_nextScene = nextScene;
 	}
 
 	std::shared_ptr<Engine::SceneTransitionState> Engine::QuicklyChangingState::Proceed()
+	{
+		ForceToComplete();
+		return std::make_shared<NeutralState>();
+	}
+
+	void Engine::QuicklyChangingState::Draw()
+	{
+		if (Engine::m_currentScene != nullptr)
+		{
+			m_core->DrawSceneToWindow(Engine::m_currentScene->m_coreScene.get());
+		}
+	}
+
+	void Engine::QuicklyChangingState::ForceToComplete()
 	{
 		if (Engine::m_currentScene != nullptr)
 		{
@@ -409,15 +434,6 @@ namespace asd
 			Engine::m_core->ChangeScene(nullptr);
 		}
 		Engine::m_currentScene = Engine::m_nextScene;
-		return std::make_shared<NeutralState>();
-	}
-
-	void Engine::QuicklyChangingState::Draw()
-	{
-		if (Engine::m_currentScene != nullptr)
-		{
-			m_core->DrawSceneToWindow(Engine::m_currentScene->m_coreScene.get());
-		}
 	}
 
 
@@ -580,7 +596,7 @@ namespace asd
 		}
 		if (m_currentScene != nullptr && !m_currentScene->GetIsAlive())
 		{
-			m_transitionState = std::make_shared<QuicklyChangingState>(nullptr);
+			m_transitionState = std::make_shared<QuicklyChangingState>(nullptr, false);
 		}
 
 		return m_core->DoEvents();
@@ -797,7 +813,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void Engine::ChangeScene(ScenePtr scene)
+	void Engine::ChangeScene(ScenePtr scene, bool doAutoDispose)
 	{
 		if (m_currentScene != nullptr)
 		{
@@ -807,10 +823,14 @@ namespace asd
 		{
 			scene->RaiseOnRegistered();
 		}
-		m_transitionState = std::make_shared<QuicklyChangingState>(scene);
+		m_transitionState->ForceToComplete();
+		m_transitionState = std::make_shared<QuicklyChangingState>(scene, doAutoDispose);
 	}
 
-	void Engine::ChangeSceneWithTransition(std::shared_ptr<Scene> scene, const std::shared_ptr<Transition>& transition)
+	void Engine::ChangeSceneWithTransition(
+		std::shared_ptr<Scene> scene,
+		const std::shared_ptr<Transition>& transition,
+		bool doAutoDispose)
 	{
 		if (m_currentScene != nullptr)
 		{
@@ -820,7 +840,8 @@ namespace asd
 		{
 			scene->RaiseOnRegistered();
 		}
-		m_transitionState = std::make_shared<FadingOutState>(transition, scene);
+		m_transitionState->ForceToComplete();
+		m_transitionState = std::make_shared<FadingOutState>(transition, scene, doAutoDispose);
 	}
 
 	//----------------------------------------------------------------------------------
