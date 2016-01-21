@@ -3,6 +3,10 @@
 #include "../../../../PCH/asd.Core.PCH.h"
 #include "../../../../asd.Core.Base.h"
 
+#ifdef __APPLE__
+#include <OpenGL/gl3ext.h>
+#endif
+
 namespace asd
 {
 	/**
