@@ -50,7 +50,7 @@ namespace asd
 
 	protected:
 		/**
-		@brief	オーバーライドして、このシーンを初期化処理を記述できる。
+		@brief	オーバーライドして、このシーンがエンジンに登録されたときに実行する処理を記述できる。
 		*/
 		virtual void OnRegistered();
 
@@ -69,12 +69,18 @@ namespace asd
 		*/
 		virtual void OnChanging();
 
+		/**
+			@brief	オーバーライドして、このシーンの更新が止まるときに実行する処理を記述できる。
+		*/
 		virtual void OnStopUpdating();
 
+		/**
+			@brief	オーバーライドして、このシーンがエンジンから登録解除されたときに実行する処理を記述できる。
+		*/
 		virtual void OnUnregistered();
 
 		/**
-		@brief	オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
+		@brief	オーバーライドして、このシーンが破棄される際に実行される処理を記述する。
 		*/
 		virtual void OnDispose();
 

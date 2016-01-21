@@ -12,6 +12,9 @@ namespace asd
     {
 		public abstract bool IsReleased { get; }
 
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
         public Layer()
         {
             IsAlive = true;
@@ -104,6 +107,9 @@ namespace asd
 			OnRemoved();
 		}
 
+		/// <summary>
+		/// このレイヤーを破棄する。
+		/// </summary>
         public abstract void Dispose();
 
         internal abstract void BeginUpdating();
@@ -170,12 +176,15 @@ namespace asd
         internal abstract void DrawAdditionally();
 
         /// <summary>
-        /// オーバーライドして、このレイヤーの初期化処理を記述できる。
+        /// オーバーライドして、このレイヤーがシーンに登録されたときの処理を記述できる。
         /// </summary>
         protected virtual void OnAdded()
         {
         }
 
+		/// <summary>
+		/// オーバーライドして、このレイヤーがシーンから登録解除されたときの処理を記述できる。
+		/// </summary>
 		protected virtual void OnRemoved()
 		{
 		}
@@ -229,6 +238,13 @@ namespace asd
             CoreLayer.ClearPostEffects();
         }
 
+		/// <summary>
+		/// 強制的に使用しているメモリを開放する。
+		/// </summary>
+		/// <remarks>
+		/// 何らかの理由でメモリが不足した場合に実行する。
+		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
+		/// </remarks>
 		public abstract void ForceToRelease();
 
 

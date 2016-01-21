@@ -70,10 +70,16 @@ namespace asd
 	protected:
 
 		/**
-			@brief	オーバーライドして、このオブジェクトの初期化処理を記述できる。
+			@brief	オーバーライドして、この2Dオブジェクトがレイヤーに登録されたときの処理を記述できる。
 		*/
 		virtual void OnAdded();
+		/**
+			@brief	オーバーライドして、この2Dオブジェクトがレイヤーから登録解除されたときの処理を記述できる。
+		*/
 		virtual void OnRemoved();
+		/**
+			@brief	オーバーライドして、この2Dオブジェクトが破棄される際の処理を記述できる。
+		*/
 		virtual void OnDispose();		
 		/**
 			@brief	オーバーライドして、このオブジェクトの更新処理を記述できる。

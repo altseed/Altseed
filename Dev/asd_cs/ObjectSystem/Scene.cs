@@ -61,7 +61,10 @@ namespace asd
 		#endregion
 
 
-		public bool IsAlive { get; set; }
+		/// <summary>
+		/// このシーンが有効かどうかの真偽値を取得する。破棄されていれば false を返す。
+		/// </summary>
+		public bool IsAlive { get; private set; }
 
 		/// <summary>
 		/// 描画先がHDRかどうか、取得、または設定する。
@@ -164,43 +167,49 @@ namespace asd
 
 		#region イベントハンドラ
 		/// <summary>
-		/// オーバーライドして、このシーンを初期化処理を記述できる。
+		/// オーバーライドして、このシーンがエンジンに登録されたときに実行する処理を記述できる。
 		/// </summary>
 		protected virtual void OnRegistered()
 		{
 		}
 
 		/// <summary>
-		/// オーバーライドして、最初のシーン更新時に実行する処理を記述する。
+		/// オーバーライドして、シーンの更新が始まったときに実行する処理を記述できる。
 		/// </summary>
 		protected virtual void OnStartUpdating()
 		{
 		}
 
 		/// <summary>
-		/// オーバーライドして、トランジション終了時に実行する処理を記述する。(※DoEvents関数内で実行される。)
+		/// オーバーライドして、トランジション終了時に実行する処理を記述できる。
 		/// </summary>
 		protected virtual void OnTransitionFinished()
 		{
 		}
 
+		/// <summary>
+		/// オーバーライドして、このシーンから他のシーンへ変わり始めるときに実行する処理を記述できる。
+		/// </summary>
 		protected virtual void OnChanging()
 		{
 		}
 
 		/// <summary>
-		/// オーバーライドして、このシーンから別のシーンに切り替わる際に実行される処理を記述する。
+		/// オーバーライドして、このシーンの更新が止まるときに実行する処理を記述できる。
 		/// </summary>
 		protected virtual void OnStopUpdating()
 		{
 		}
 
+		/// <summary>
+		/// オーバーライドして、このシーンがエンジンから登録解除されたときに実行する処理を記述できる。
+		/// </summary>
 		protected virtual void OnUnregistered()
 		{
 		}
 
 		/// <summary>
-		/// オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
+		/// オーバーライドして、このシーンが破棄される際に実行される処理を記述する。
 		/// </summary>
 		protected virtual void OnDispose()
 		{
@@ -250,6 +259,9 @@ namespace asd
 			OnUnregistered();
 		}
 
+		/// <summary>
+		/// このシーンを破棄する。
+		/// </summary>
 		public void Dispose()
 		{
 			if(IsAlive)

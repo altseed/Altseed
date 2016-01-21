@@ -68,7 +68,7 @@ namespace asd
 		}
 
 		/// <summary>
-		/// オブジェクトが生存しているか取得する。
+		/// オブジェクトが有効かどうかの真偽値を取得する。破棄されているとき false を返す。
 		/// </summary>
 		public bool IsAlive { get; private set; }
 
@@ -89,7 +89,10 @@ namespace asd
 			OnRemoved();
 		}
 
-		internal void Dispose()
+		/// <summary>
+		/// この3Dオブジェクトを破棄する。
+		/// </summary>
+		public void Dispose()
 		{
 			if(IsAlive)
 			{
@@ -120,10 +123,13 @@ namespace asd
 		}
 
 		/// <summary>
-		/// オーバーライドして、この3Dオブジェクトの初期化処理を記述することができる。
+		/// オーバーライドして、この3Dオブジェクトがレイヤーに登録されたときの処理を記述できる。
 		/// </summary>
 		protected virtual void OnAdded() { }
 
+		/// <summary>
+		/// オーバーライドして、この3Dオブジェクトがレイヤーから登録解除されたときの処理を記述できる。
+		/// </summary>
 		protected virtual void OnRemoved() { }
 
 		/// <summary>

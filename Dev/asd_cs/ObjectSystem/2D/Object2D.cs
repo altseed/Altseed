@@ -328,6 +328,9 @@ namespace asd
 			OnRemoved();
 		}
 
+		/// <summary>
+		/// この2Dオブジェクトを破棄する。
+		/// </summary>
 		public void Dispose()
 		{
 			if(IsAlive)
@@ -364,10 +367,13 @@ namespace asd
 		}
 
 		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
+		/// オーバーライドして、この2Dオブジェクトがレイヤーに登録されたときの処理を記述できる。
 		/// </summary>
 		protected virtual void OnAdded() { }
 
+		/// <summary>
+		/// オーバーライドして、この2Dオブジェクトがレイヤーから登録解除されたときの処理を記述できる。
+		/// </summary>
 		protected virtual void OnRemoved() { }
 
 		/// <summary>

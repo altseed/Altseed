@@ -62,6 +62,9 @@ namespace asd
 		}
 		#endregion
 
+		/// <summary>
+		/// このレイヤーが管理している2Dオブジェクトの数を取得する。
+		/// </summary>
 		public override int ObjectCount
 		{
 			get { return Objects.Count(); }
@@ -281,6 +284,9 @@ namespace asd
 			OnDrawAdditionally();
 		}
 
+		/// <summary>
+		/// このレイヤーを破棄する。
+		/// </summary>
 		public override void Dispose()
 		{
 			if(IsAlive)

@@ -55,34 +55,37 @@ namespace asd
 	protected:
 
 		/**
-		@brief	オーバーライドして、このレイヤーの初期化処理を記述できる。
+			@brief	オーバーライドして、このレイヤーがシーンに登録されたときの処理を記述できる。
 		*/
 		virtual void OnAdded();
 
+		/**
+			@brief	オーバーライドして、このレイヤーがシーンから登録解除されたときの処理を記述できる。
+		*/
 		virtual void OnRemoved();
 		
 		/**
-		@brief	オーバーライドして、このレイヤーが更新される前の処理を記述できる。
+			@brief	オーバーライドして、このレイヤーが更新される前の処理を記述できる。
 		*/
 		virtual void OnUpdating();
 		
 		/**
-		@brief	オーバーライドして、このレイヤーが更新された後の処理を記述できる。
+			@brief	オーバーライドして、このレイヤーが更新された後の処理を記述できる。
 		*/
 		virtual void OnUpdated();
 	
 		/**
-		@brief	オーバーライドして、このレイヤーの描画処理を記述できる。
+			@brief	オーバーライドして、このレイヤーの描画処理を記述できる。
 		*/
 		virtual void OnDrawAdditionally();
 
 		/**
-		@brief	オーバーライドして、このレイヤーがVanishメソッドによって破棄されるときの処理を記述できる。
+			@brief	オーバーライドして、このレイヤーがVanishメソッドによって破棄されるときの処理を記述できる。
 		*/
 		virtual void OnVanish();
 		
 		/**
-		@brief	オーバーライドして、このレイヤーが破棄されるときの処理を記述できる。
+			@brief	オーバーライドして、このレイヤーが破棄されるときの処理を記述できる。
 		*/
 		virtual void OnDispose();
 
