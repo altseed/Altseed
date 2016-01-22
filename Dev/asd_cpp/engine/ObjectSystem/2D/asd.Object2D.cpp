@@ -220,7 +220,7 @@ namespace asd
 
 	Object2D* Object2D::GetParent() const
 	{
-		return m_parentInfo->GetParent();
+		return m_parentInfo != nullptr ? m_parentInfo->GetParent() : nullptr;
 	}
 
 	const std::list<Object2D::Ptr>& Object2D::GetChildren() const

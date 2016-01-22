@@ -79,7 +79,7 @@ namespace asd
 		/// </summary>
 		public Object2D Parent
 		{
-			get { return ParentInfo.Parent; }
+			get { return ParentInfo != null ? ParentInfo.Parent : null; }
 		}
 
 		/// <summary>
