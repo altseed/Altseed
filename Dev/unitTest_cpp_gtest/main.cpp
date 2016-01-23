@@ -98,8 +98,8 @@ int main(int argc, char **argv)
 	GetDirectoryName(current_path, argv[0]);
 	SetCurrentDirectoryA(current_path);
 #endif
-	Graphics_TextureFormat(true);
-	return 0;
+	//Graphics_CubemapTexture(true);
+	//return 0;
 	//Graphics_CubemapTexture(false);
 	//return 0;
 

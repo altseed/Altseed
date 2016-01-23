@@ -2,6 +2,10 @@
 #include "asd.CubemapTexture_Imp_GL.h"
 #include "../asd.Graphics_Imp_GL.h"
 
+#include "../../../../3rdParty/nv_dds/nv_dds.h"
+
+#include <sstream>
+
 namespace asd
 {
 	CubemapTexture_Imp_GL::CubemapTexture_Imp_GL(Graphics* graphics, TextureFormat format, GLuint cubemapTexture, Vector2DI size, int32_t mipmapCount)
@@ -235,6 +239,43 @@ namespace asd
 
 	CubemapTexture_Imp* CubemapTexture_Imp_GL::Create(Graphics_Imp* graphics, const achar* path)
 	{
-		return nullptr;
+		auto staticFile = graphics->GetFile()->CreateStaticFile(path);
+		if (staticFile.get() == nullptr) return nullptr;
+
+		if (!ImageHelper::IsDDS(staticFile->GetBuffer().data(), staticFile->GetBuffer().size())) return nullptr;
+
+		nv_dds::CDDSImage image;
+		std::istringstream stream(std::string(staticFile->GetBuffer().begin(), staticFile->GetBuffer().end()));
+		image.load(stream);
+
+		auto g = (Graphics_Imp_GL*) graphics;
+
+		GLuint texture;
+
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, texture);
+
+		for (int n = 0; n < 6; n++)
+		{
+		    auto target = GL_TEXTURE_CUBE_MAP_POSITIVE_X+n;
+			auto& face = image.get_cubemap_face(n);
+
+		    glTexImage2D(target, 0, image.get_components(), face.get_width(),
+		        face.get_height(), 0, image.get_format(), GL_UNSIGNED_BYTE,
+		        face);
+		
+			for (int i = 0; i < face.get_num_mipmaps(); i++)
+		    {
+		        glTexImage2D(target, i+1, image.get_components(),
+		            face.get_mipmap(i).get_width(),
+		            face.get_mipmap(i).get_height(), 0,
+					image.get_format(), GL_UNSIGNED_BYTE, face.get_mipmap(i));
+		    }
+		}
+
+
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+
+		return new CubemapTexture_Imp_GL(graphics, TextureFormat::R8G8B8A8_UNORM, texture, Vector2DI(image.get_width(), image.get_height()), image.get_num_mipmaps());
 	}
 }
