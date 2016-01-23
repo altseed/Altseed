@@ -151,8 +151,8 @@
     <Filter Include="Graphics\Helper">
       <UniqueIdentifier>{2ba8aa37-127b-4d29-a747-16deff68beae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Platform\GL\Utils">
-      <UniqueIdentifier>{01ed388a-03bf-4650-8d8e-860400047f00}</UniqueIdentifier>
+    <Filter Include="3rdParty\nv_dds">
+      <UniqueIdentifier>{3952a795-869b-4420-85d5-b013cc33c680}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -1023,8 +1023,8 @@
     <ClInclude Include="..\core\ObjectSystem\2D\asd.CoreDrawnObject2D_Imp.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\GL\Utils\asd.OpenGLDDSReader.h">
-      <Filter>Graphics\Platform\GL\Utils</Filter>
+    <ClInclude Include="..\core\3rdParty\nv_dds\nv_dds.h">
+      <Filter>3rdParty\nv_dds</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1443,6 +1443,9 @@
     </ClCompile>
     <ClCompile Include="..\core\ObjectSystem\2D\asd.CoreDrawnObject2D_Imp.cpp">
       <Filter>ObjectSystem\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\nv_dds\nv_dds.cpp">
+      <Filter>3rdParty\nv_dds</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

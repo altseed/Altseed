@@ -28,6 +28,7 @@ set(tool_src
 )
 
 set(core_src
+	asd_cpp/core/3rdParty/nv_dds/nv_dds.cpp
 	asd_cpp/core/3rdParty/poly2tri/common/shapes.cpp
 	asd_cpp/core/3rdParty/poly2tri/sweep/advancing_front.cpp
 	asd_cpp/core/3rdParty/poly2tri/sweep/cdt.cpp
@@ -52,9 +53,12 @@ set(core_src
 	asd_cpp/core/Graphics/3D/Object/asd.RenderedTerrainObject3D.cpp
 	asd_cpp/core/Graphics/3D/PostProcess/asd.SSAO.cpp
 	asd_cpp/core/Graphics/3D/Renderer/asd.EnvironmentRendering.cpp
+	asd_cpp/core/Graphics/3D/Renderer/asd.HeightFogRendering.cpp
 	asd_cpp/core/Graphics/3D/Renderer/asd.LightRendering.cpp
+	asd_cpp/core/Graphics/3D/Renderer/asd.OceanRendering.cpp
 	asd_cpp/core/Graphics/3D/Renderer/asd.Renderer3D.cpp
 	asd_cpp/core/Graphics/3D/Renderer/asd.Renderer3DProxy.cpp
+	asd_cpp/core/Graphics/3D/Renderer/asd.SkyCubeRendering.cpp
 	asd_cpp/core/Graphics/3D/Renderer/asd.SpriteRenderer3D.cpp
 	asd_cpp/core/Graphics/3D/Resource/Animation/asd.AnimationClip_Imp.cpp
 	asd_cpp/core/Graphics/3D/Resource/Animation/asd.AnimationSource_Imp.cpp
@@ -106,6 +110,7 @@ set(core_src
 	asd_cpp/core/Log/asd.Log_Imp.cpp
 	asd_cpp/core/ObjectSystem/2D/asd.CoreCameraObject2D_Imp.cpp
 	asd_cpp/core/ObjectSystem/2D/asd.CoreChip2D_Imp.cpp
+	asd_cpp/core/ObjectSystem/2D/asd.CoreDrawnObject2D_Imp.cpp
 	asd_cpp/core/ObjectSystem/2D/asd.CoreEffectObject2D_Imp.cpp
 	asd_cpp/core/ObjectSystem/2D/asd.CoreGeometryObject2D_Imp.cpp
 	asd_cpp/core/ObjectSystem/2D/asd.CoreLayer2D_Imp.cpp
@@ -145,6 +150,7 @@ set(core_src
 	asd_cpp/core/Sound/asd.SoundSource_Imp.cpp
 	asd_cpp/core/Sound/asd.Sound_Imp.cpp
 	asd_cpp/core/Utils/asd.ResourceContainer.cpp
+	asd_cpp/core/Window/asd.Cursor_Imp.cpp
 	asd_cpp/core/Window/asd.Window_Imp.cpp
 )
 
@@ -183,6 +189,7 @@ set(engine_src
 	asd_cpp/engine/asd.Engine.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.CameraObject2D.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.Chip2D.cpp
+	asd_cpp/engine/ObjectSystem/2D/asd.DrawnObject2D.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.EffectObject2D.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.GeometryObject2D.cpp
 	asd_cpp/engine/ObjectSystem/2D/asd.Layer2D.cpp
@@ -257,6 +264,13 @@ set(unittest_gtest_src
 set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
 	unitTest_Engine_cpp_gtest/EngineTest.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/AbsoluteParameter.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/ChildManagement.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/DrawnParent.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/GeometoryObject.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/TextObject.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/TextureObject.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/VanishParent.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/CameraObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/EffectObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/GeometryObject2D.cpp
@@ -294,17 +308,23 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/ObjectSystem/AddComponentByComponent.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/Culling2D_Debug.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/DisposeOnVanish.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayerComponent.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayerHasNoObject.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayersFlag.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayersMember.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/LayerUpdatePriority.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/LifeCycle.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsFlag.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsMember.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsUpdatePriority.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ParentObject.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/SetSourceOfTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/SimpleObject2D.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/TrasingCamera.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/UpdateFrequency.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/VanishInComponent.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/VanishOwnerInComponent.cpp
 	unitTest_Engine_cpp_gtest/PCH/asd.UnitTestEngineCpp.PCH.cpp
@@ -318,6 +338,13 @@ set(unittest_engine_gtest_src
 set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/EngineGraphics3DTest.cpp
 	unitTest_Engine_cpp_gtest/EngineTest.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/AbsoluteParameter.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/ChildManagement.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/DrawnParent.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/GeometoryObject.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/TextObject.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/TextureObject.cpp
+	unitTest_Engine_cpp_gtest/FamilySystem/VanishParent.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/CameraObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/EffectObject2D.cpp
 	unitTest_Engine_cpp_gtest/Graphics/2D/GeometryObject2D.cpp
@@ -355,17 +382,23 @@ set(unittest_engine_gtest_src
 	unitTest_Engine_cpp_gtest/ObjectSystem/AddComponentByComponent.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CameraAndSetTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/Component.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/Culling2D_Debug.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/CustomObject.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/DisposeOnVanish.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayerComponent.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayerHasNoObject.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayersFlag.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/LayersMember.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/LayerUpdatePriority.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/LifeCycle.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsFlag.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsMember.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/ObjectsUpdatePriority.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/ParentObject.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/SetSourceOfTexture.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/SimpleObject2D.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/TrasingCamera.cpp
+	unitTest_Engine_cpp_gtest/ObjectSystem/UpdateFrequency.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/VanishInComponent.cpp
 	unitTest_Engine_cpp_gtest/ObjectSystem/VanishOwnerInComponent.cpp
 	unitTest_Engine_cpp_gtest/PCH/asd.UnitTestEngineCpp.PCH.cpp

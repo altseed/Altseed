@@ -157,7 +157,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\core\;..\..\include\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\asd_cpp\core\;..\..\include\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>..\PCH\asd.UnitTestCpp.PCH.h</PrecompiledHeaderFile>

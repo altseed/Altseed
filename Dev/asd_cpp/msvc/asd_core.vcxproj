@@ -318,6 +318,7 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\core\3rdParty\nv_dds\nv_dds.h" />
     <ClInclude Include="..\core\3rdParty\poly2tri\common\shapes.h" />
     <ClInclude Include="..\core\3rdParty\poly2tri\common\utils.h" />
     <ClInclude Include="..\core\3rdParty\poly2tri\poly2tri.h" />
@@ -403,7 +404,6 @@
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.RenderTexture2D_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.Texture2D_Imp_GL.h" />
     <ClInclude Include="..\core\Graphics\Platform\GL\Resource\asd.VertexBuffer_Imp_GL.h" />
-    <ClInclude Include="..\core\Graphics\Platform\GL\Utils\asd.OpenGLDDSReader.h" />
     <ClInclude Include="..\core\Graphics\Resource\asd.CubemapTexture.h" />
     <ClInclude Include="..\core\Graphics\Resource\asd.CubemapTexture_Imp.h" />
     <ClInclude Include="..\core\Graphics\Resource\asd.DepthBuffer_Imp.h" />
@@ -629,6 +629,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\core\3rdParty\nv_dds\nv_dds.cpp" />
     <ClCompile Include="..\core\3rdParty\poly2tri\common\shapes.cpp" />
     <ClCompile Include="..\core\3rdParty\poly2tri\sweep\advancing_front.cpp" />
     <ClCompile Include="..\core\3rdParty\poly2tri\sweep\cdt.cpp" />
