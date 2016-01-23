@@ -1,7 +1,8 @@
 ﻿
 #include "asd.CubemapTexture_Imp_DX11.h"
 #include "../asd.Graphics_Imp_DX11.h"
-#include "../DirectXToolKit/DDSTextureLoader.h"
+
+#include "../../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
 
 namespace asd
 {

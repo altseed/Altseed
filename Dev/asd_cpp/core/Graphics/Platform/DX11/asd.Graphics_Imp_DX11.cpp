@@ -16,7 +16,7 @@
 #include "Resource/asd.RenderTexture2D_Imp_DX11.h"
 #include "Resource/asd.CubemapTexture_Imp_DX11.h"
 
-#include "DirectXToolKit/DDSTextureLoader.h"
+#include "../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
 
 #include <sstream>
 

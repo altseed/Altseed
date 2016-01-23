@@ -138,7 +138,7 @@ namespace asd {
 		}
 	}
 
-	static astring GetFileName(const achar* filepath)
+	static astring GetFileNameWithoutExtension(const achar* filepath)
 	{
 		auto path = astring(filepath);
 		size_t i = path.rfind('.', path.length());
@@ -593,18 +593,19 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path, Effekseer::TextureType tex
 		return cache->second.Ptr;
 	}
 
-	auto name_ = GetFileName((const achar*) path);
+	auto nameWE = GetFileNameWithoutExtension((const achar*) path);
 
-	// DDS
+	// DDS優先読み込み
 	while (true)
 	{
-		auto staticFile = m_graphics->GetFile()->CreateStaticFile((name_ + ToAString(".dds")).c_str());
+		auto staticFile = m_graphics->GetFile()->CreateStaticFile((nameWE + ToAString(".dds")).c_str());
 		if (staticFile.get() == nullptr) break;
 
 		void* img = InternalLoadDDS(m_graphics, staticFile->GetBuffer());
 		if (img == nullptr) break;
 
 		Cache c;
+		c.IsDDS = true;
 		c.Ptr = img;
 		c.Count = 1;
 		c.Width = 0;
@@ -633,6 +634,7 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path, Effekseer::TextureType tex
 		void* img = InternalLoad(m_graphics, imageDst, imageWidth, imageHeight);
 
 		Cache c;
+		c.IsDDS = false;
 		c.Ptr = img;
 		c.Count = 1;
 		c.Width = imageWidth;
@@ -661,10 +663,9 @@ void EffectTextureLoader::Unload(void* data)
 	{
 		InternalUnload(data);
 
-		if (cache->second.Width != 0)
+		if (cache->second.Width != 0 && !cache->second.IsDDS)
 		{
 			m_graphics->DecVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, cache->second.Width, cache->second.Height));
-
 		}
 		
 		m_caches.erase(key);
@@ -889,7 +890,19 @@ Graphics_Imp::~Graphics_Imp()
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 {
-	auto ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
+	auto nameWE = GetFileNameWithoutExtension((const achar*) path);
+	auto ddsPath = nameWE + ToAString("dds");
+
+	Texture2D_Imp* ret = nullptr;
+	
+	// DDS優先読み込み
+	ret = Texture2DContainer->TryLoad(ddsPath.c_str(), [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
+	{
+		return CreateTexture2D_Imp_Internal(this, data, size);
+	});
+	if (ret != nullptr) return ret;
+
+	ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
 	{
 		return CreateTexture2D_Imp_Internal(this, data, size);
 	});
@@ -899,7 +912,19 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 
 Texture2D_Imp* Graphics_Imp::CreateTexture2DAsRawData_Imp(const achar* path)
 {
-	auto ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
+	auto nameWE = GetFileNameWithoutExtension((const achar*) path);
+	auto ddsPath = nameWE + ToAString("dds");
+
+	Texture2D_Imp* ret = nullptr;
+
+	// DDS優先読み込み
+	ret = Texture2DContainer->TryLoad(ddsPath.c_str(), [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
+	{
+		return CreateTexture2DAsRawData_Imp_Internal(this, data, size);
+	});
+	if (ret != nullptr) return ret;
+
+	ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
 	{
 		return CreateTexture2DAsRawData_Imp_Internal(this, data, size);
 	});

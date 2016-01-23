@@ -131,6 +131,7 @@ namespace asd {
 
 		struct Cache
 		{
+			bool IsDDS;
 			int32_t Count;
 			void* Ptr;
 			int32_t Width;

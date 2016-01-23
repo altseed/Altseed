@@ -136,9 +136,6 @@
     <Filter Include="Utils">
       <UniqueIdentifier>{738ee52d-79cc-410a-b7b3-3a7215246838}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Graphics\Platform\DX11\DirectXToolKit">
-      <UniqueIdentifier>{ffbbcee5-e1ed-4029-9020-bb07561a6913}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Shape">
       <UniqueIdentifier>{39a4e209-38a6-4338-8978-c09661be9f98}</UniqueIdentifier>
     </Filter>
@@ -153,6 +150,9 @@
     </Filter>
     <Filter Include="3rdParty\nv_dds">
       <UniqueIdentifier>{3952a795-869b-4420-85d5-b013cc33c680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="3rdParty\DirectXToolKit">
+      <UniqueIdentifier>{eeefc298-8e73-4ea2-b074-16bf6a34d585}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -826,18 +826,6 @@
     <ClInclude Include="..\core\Graphics\Shader\GL\3D\Terrain_Internal_VS.h">
       <Filter>Graphics\Shader\GL\3D</Filter>
     </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.h">
-      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DirectXHelpers.h">
-      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\PlatformHelpers.h">
-      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
-    </ClInclude>
-    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\dds.h">
-      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
-    </ClInclude>
     <ClInclude Include="..\core\Log\asd.GetSpec.h">
       <Filter>Log</Filter>
     </ClInclude>
@@ -1025,6 +1013,18 @@
     </ClInclude>
     <ClInclude Include="..\core\3rdParty\nv_dds\nv_dds.h">
       <Filter>3rdParty\nv_dds</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\DirectXToolKit\dds.h">
+      <Filter>3rdParty\DirectXToolKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\DirectXToolKit\DDSTextureLoader.h">
+      <Filter>3rdParty\DirectXToolKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\DirectXToolKit\DirectXHelpers.h">
+      <Filter>3rdParty\DirectXToolKit</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\3rdParty\DirectXToolKit\PlatformHelpers.h">
+      <Filter>3rdParty\DirectXToolKit</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1358,9 +1358,6 @@
     <ClCompile Include="..\core\ObjectSystem\3D\asd.CoreTerrainObject3D_Imp.cpp">
       <Filter>ObjectSystem\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.cpp">
-      <Filter>Graphics\Platform\DX11\DirectXToolKit</Filter>
-    </ClCompile>
     <ClCompile Include="..\core\dll.cxx" />
     <ClCompile Include="..\core\asd.StructTranslator.cpp" />
     <ClCompile Include="..\core\Graphics\Resource\asd.ImagePackage_Imp.cpp">
@@ -1446,6 +1443,9 @@
     </ClCompile>
     <ClCompile Include="..\core\3rdParty\nv_dds\nv_dds.cpp">
       <Filter>3rdParty\nv_dds</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\3rdParty\DirectXToolKit\DDSTextureLoader.cpp">
+      <Filter>3rdParty\DirectXToolKit</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
