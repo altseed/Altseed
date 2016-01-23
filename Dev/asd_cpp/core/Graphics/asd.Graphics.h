@@ -60,7 +60,7 @@ public:
 	@brief	テクスチャを生成する。
 	@param	path	画像ファイルへの相対パス
 	@return	テクスチャ
-	@warning	読み込める画像形式はPNGまたはDDSのみ。(DDSはDirectX動作時のみ)
+	@warning	読み込める画像形式はPNGまたはDDSのみ。
 	*/
 	std::shared_ptr<Texture2D> CreateTexture2D(const achar* path) { return CreateSharedPtrWithReleaseDLL(CreateTexture2D_(path)); }
 
@@ -70,7 +70,7 @@ public:
 	@return	テクスチャ
 	@note
 	画素がRGB空間にマッピングされている時に使用する。(ノーマルマップ等)
-	@warning	読み込める画像形式はPNGまたはDDSのみ。(DDSはDirectX動作時のみ)
+	@warning	読み込める画像形式はPNGまたはDDSのみ。
 	*/
 	std::shared_ptr<Texture2D> CreateTexture2DAsRawData(const achar* path) { return CreateSharedPtrWithReleaseDLL(CreateTexture2DAsRawData_(path)); }
 
