@@ -322,7 +322,7 @@ void ImageHelper::SavePNGImage(const achar* filepath, int32_t width, int32_t hei
 	png_write_image(pp, raw2D.data());
 	png_write_end(pp, ip);
 
-	/* 開放 */
+	/* 解放 */
 	png_destroy_write_struct(&pp, &ip);
 	fclose(fp);
 }

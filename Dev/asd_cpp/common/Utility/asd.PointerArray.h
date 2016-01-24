@@ -6,7 +6,7 @@ namespace asd
 
 /**
 	@brief	確保されたメモリ領域の先頭ポインタと長さから、デバッグ時境界検査つき配列を提供する
-	@details	確保されたメモリの所有権は移動しないので、使用する側でメモリを開放する必要がある
+	@details	確保されたメモリの所有権は移動しないので、使用する側でメモリを解放する必要がある
 */
 
 template<typename T> class PointerArray

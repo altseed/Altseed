@@ -85,7 +85,7 @@ namespace FontGenerator
 		png_write_image(pp, raw2D);
 		png_write_end(pp, ip);
 
-		/* 開放 */
+		/* 解放 */
 		png_destroy_write_struct(&pp, &ip);
 		fclose(fp);
 		free(raw1D);
