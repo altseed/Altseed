@@ -181,9 +181,9 @@ namespace asd
 		OnTransitionFinished();
 	}
 
-	void Scene::RaiseOnChanging()
+	void Scene::RaiseOnTransitionBegin()
 	{
-		OnChanging();
+		OnTransitionBegin();
 	}
 
 	void Scene::RaiseOnStopUpdating()
@@ -208,7 +208,7 @@ namespace asd
 	{
 	}
 
-	void Scene::OnChanging()
+	void Scene::OnTransitionBegin()
 	{
 	}
 

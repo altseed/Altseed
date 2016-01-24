@@ -703,7 +703,7 @@ namespace asd
 		{
 			if(CurrentScene != null)
 			{
-				CurrentScene.RaiseOnChanging();
+				CurrentScene.RaiseOnTransitionBegin();
 			}
 			if(scene != null)
 			{
@@ -723,7 +723,7 @@ namespace asd
 		{
 			if(CurrentScene != null)
 			{
-				CurrentScene.RaiseOnChanging();
+				CurrentScene.RaiseOnTransitionBegin();
 			}
 			if(scene != null)
 			{

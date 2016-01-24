@@ -39,7 +39,7 @@ namespace asd
 		void RaiseOnRegistered();
 		void RaiseOnStartUpdating();
 		void RaiseOnTransitionFinished();
-		void RaiseOnChanging();
+		void RaiseOnTransitionBegin();
 		void RaiseOnStopUpdating();
 		void RaiseOnUnregistered();
 
@@ -67,7 +67,7 @@ namespace asd
 		/**
 		@brief	オーバーライドして、このシーンから別のシーンに切り替わる際に実行される処理を記述する。
 		*/
-		virtual void OnChanging();
+		virtual void OnTransitionBegin();
 
 		/**
 			@brief	オーバーライドして、このシーンの更新が止まるときに実行する処理を記述できる。

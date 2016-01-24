@@ -190,7 +190,7 @@ namespace asd
 		/// <summary>
 		/// オーバーライドして、このシーンから他のシーンへ変わり始めるときに実行する処理を記述できる。
 		/// </summary>
-		protected virtual void OnChanging()
+		protected virtual void OnTransitionBegin()
 		{
 		}
 
@@ -244,9 +244,9 @@ namespace asd
 			OnTransitionFinished();
 		}
 
-		internal void RaiseOnChanging()
+		internal void RaiseOnTransitionBegin()
 		{
-			OnChanging();
+			OnTransitionBegin();
 		}
 
 		internal void RaiseOnStopUpdating()

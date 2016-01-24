@@ -121,7 +121,7 @@ class ObjectSystem_LifeCycle : public EngineTest
 			phase = 3;
 		}
 
-		void OnChanging() override
+		void OnTransitionBegin() override
 		{
 			ASSERT_EQ(phase, 3);
 			phase = 4;

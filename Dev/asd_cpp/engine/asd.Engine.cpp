@@ -821,7 +821,7 @@ namespace asd
 	{
 		if (m_currentScene != nullptr)
 		{
-			m_currentScene->RaiseOnChanging();
+			m_currentScene->RaiseOnTransitionBegin();
 		}
 		if (scene != nullptr)
 		{
@@ -838,7 +838,7 @@ namespace asd
 	{
 		if (m_currentScene != nullptr)
 		{
-			m_currentScene->RaiseOnChanging();
+			m_currentScene->RaiseOnTransitionBegin();
 		}
 		if (scene != nullptr)
 		{

@@ -24,6 +24,7 @@
 *.user
 *.sln.docstates
 *.sln.ide/
+.vscode/
 
 # Build results
 
@@ -287,6 +288,7 @@ master.zip
 
 /CPP_XML/
 /Reference_CPP/
+/Reference_CS/
 
 # Result of Test
 /Dev/bin/TestSS/
@@ -344,4 +346,11 @@ Template/cpp_win/cpp/
 Template/cpp_win/bin/
 Template/cs_win/cpp/
 Template/cs_win/bin/
+
+# Product
+Altseed.dll
+Altseed_core.dll
+Altseed_core.Debug.dll
+sample_cpp.Debug.exe
+sample_cs.exe
 

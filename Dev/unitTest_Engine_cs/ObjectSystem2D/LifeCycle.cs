@@ -123,7 +123,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				Phase = 3;
 			}
 
-			protected override void OnChanging()
+			protected override void OnTransitionBegin()
 			{
 				Assert.AreEqual(3, Phase);
 				Phase = 4;
