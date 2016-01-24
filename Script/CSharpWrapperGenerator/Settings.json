@@ -95,7 +95,7 @@
 		"Texture2D.Lock",
 
 		"Mesh.SetMaterial",
-		"Terrain3D.LoadFromMemory",
+		"Terrain3D.LoadFromMemory"
 	],
 	"ListOfClassWhoseCoreIsPrivate":
 	[

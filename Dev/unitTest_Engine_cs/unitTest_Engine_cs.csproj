@@ -49,6 +49,7 @@
     <Compile Include="EngineGraphics3DTest.cs" />
     <Compile Include="EngineTest.cs" />
     <Compile Include="FamilySystem\AbsoluteParameter.cs" />
+    <Compile Include="FamilySystem\ChildManagement.cs" />
     <Compile Include="FamilySystem\DrawnParent.cs" />
     <Compile Include="FamilySystem\GeometryObject.cs" />
     <Compile Include="FamilySystem\TextObject.cs" />

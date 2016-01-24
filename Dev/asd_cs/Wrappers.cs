@@ -134,10 +134,6 @@ namespace asd {
 		/// <summary>
 		/// 
 		/// </summary>
-		R16G16B16A16_FLOAT = asd.swig.TextureFormat.R16G16B16A16_FLOAT,
-		/// <summary>
-		/// 
-		/// </summary>
 		R32G32B32A32_FLOAT = asd.swig.TextureFormat.R32G32B32A32_FLOAT,
 		/// <summary>
 		/// 
@@ -229,10 +225,6 @@ namespace asd {
 		/// 全加算(内部処理用) 
 		/// </summary>
 		AddAll = asd.swig.AlphaBlendMode.AddAll,
-		/// <summary>
-		/// 全不透明(内部処理用) 
-		/// </summary>
-		OpacityAll = asd.swig.AlphaBlendMode.OpacityAll,
 	}
 
 	/// <summary>
@@ -301,21 +293,6 @@ namespace asd {
 		/// OpenGL. 
 		/// </summary>
 		OpenGL = asd.swig.GraphicsDeviceType.OpenGL,
-	}
-
-	/// <summary>
-	/// ウインドウ表示位置 
-	///	</summary>
-	public enum WindowPositionType : int
-	{
-		/// <summary>
-		/// OSによる自動選択 
-		/// </summary>
-		Default = asd.swig.WindowPositionType.Default,
-		/// <summary>
-		/// プライマリモニタの中央 
-		/// </summary>
-		Centering = asd.swig.WindowPositionType.Centering,
 	}
 
 	/// <summary>
@@ -1097,30 +1074,40 @@ namespace asd {
 	}
 
 	/// <summary>
-	/// オブジェクトの親子関係の同期方法を表す列挙体 
-	///	</summary>
-	public enum ChildTransformingMode : int
-	{
-		/// <summary>
-		/// 位置のみを同期する。 
-		/// </summary>
-		Position = asd.swig.ChildTransformingMode.Position,
-		/// <summary>
-		/// 位置・角度・拡大率を同期する。 
-		/// </summary>
-		All = asd.swig.ChildTransformingMode.All,
-		/// <summary>
-		/// 同期を行わない。 
-		/// </summary>
-		Nothing = asd.swig.ChildTransformingMode.Nothing,
-	}
-
-	/// <summary>
-	/// カーソルを表すクラス 
+	/// 
 	/// </summary>
 	public partial class Cursor
 	{
 		internal asd.swig.Cursor CoreInstance { get; set; }
+
+
+	}
+
+
+	/// <summary>
+	/// 
+	/// </summary>
+	public partial class DrawnObject2D
+	{
+		internal asd.swig.DrawnObject2D CoreInstance { get; set; }
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public asd.Color Color
+		{
+			get { return CoreInstance.GetColor(); }
+			set { CoreInstance.SetColor(value); }
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		public int DrawingPriority
+		{
+			get { return CoreInstance.GetDrawingPriority(); }
+			set { CoreInstance.SetDrawingPriority(value); }
+		}
 
 
 	}
@@ -2275,66 +2262,60 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 再生速度変更するかを取得する。 
+		/// 
 		/// </summary>
-		/// <param name="id">音のID </param>
-		/// <returns>再生速度変更するか? </returns>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		public bool GetIsPlaybackSpeedEnabled(int id)
 		{
 			return CoreInstance.GetIsPlaybackSpeedEnabled(id);
 		}
 
 		/// <summary>
-		/// 再生速度変更するかを設定する。 
+		/// 
 		/// </summary>
-		/// <param name="id">音のID </param>
-		/// <param name="isPlaybackSpeedEnabled">再生速度変更するか? </param>
+		/// <param name="id"></param>
+		/// <param name="isPlaybackSpeedEnabled"></param>
 		public void SetIsPlaybackSpeedEnabled(int id, bool isPlaybackSpeedEnabled)
 		{
 			CoreInstance.SetIsPlaybackSpeedEnabled(id, isPlaybackSpeedEnabled);
 		}
 
 		/// <summary>
-		/// 再生速度を取得する。 
+		/// 
 		/// </summary>
-		/// <param name="id">音のID </param>
-		/// <returns>再生速度(比率) </returns>
-		/// <remarks>
-		/// 設定値は再生速度に比例する。1.0で等速。範囲は0.25から4.0。 音程は再生速度に比例して変化する。 
-		/// </remarks>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		public float GetPlaybackSpeed(int id)
 		{
 			return CoreInstance.GetPlaybackSpeed(id);
 		}
 
 		/// <summary>
-		/// 再生速度を設定する。 
+		/// 
 		/// </summary>
-		/// <param name="id">音のID </param>
-		/// <param name="playbackSpeed">再生速度(比率) </param>
-		/// <remarks>
-		/// 設定値は再生速度に比例する。1.0で等速。範囲は0.25から4.0。 音程は再生速度に比例して変化する。 
-		/// </remarks>
+		/// <param name="id"></param>
+		/// <param name="playbackSpeed"></param>
 		public void SetPlaybackSpeed(int id, float playbackSpeed)
 		{
 			CoreInstance.SetPlaybackSpeed(id, playbackSpeed);
 		}
 
 		/// <summary>
-		/// パン位置を取得する。 
+		/// 
 		/// </summary>
-		/// <param name="id">音のID </param>
-		/// <returns>パン位置, 0.0で中央, -1.0で左, 1.0で右。 </returns>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		public float GetPanningPosition(int id)
 		{
 			return CoreInstance.GetPanningPosition(id);
 		}
 
 		/// <summary>
-		/// パン位置を設定する。 
+		/// 
 		/// </summary>
-		/// <param name="id">音のID </param>
-		/// <param name="panningPosition">パン位置, 0.0で中央, -1.0で左, 1.0で右。 </param>
+		/// <param name="id"></param>
+		/// <param name="panningPosition"></param>
 		public void SetPanningPosition(int id, float panningPosition)
 		{
 			CoreInstance.SetPanningPosition(id, panningPosition);
@@ -2460,6 +2441,17 @@ namespace asd {
 
 
 	/// <summary>
+	/// 
+	/// </summary>
+	public partial class SWIGTYPE_p_ChildManagementMode__Flags
+	{
+		internal asd.swig.SWIGTYPE_p_ChildManagementMode__Flags CoreInstance { get; set; }
+
+
+	}
+
+
+	/// <summary>
 	/// 地形のクラス 
 	/// </summary>
 	public partial class Terrain3D
@@ -2468,7 +2460,7 @@ namespace asd {
 
 
 		/// <summary>
-		/// マップに対する変更を適用してメッシュを生成する。 
+		/// 
 		/// </summary>
 		/// <returns></returns>
 		public bool Commit()
@@ -2477,7 +2469,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 編集可能な情報を破棄して固定化する。 
+		/// 
 		/// </summary>
 		public void Fix()
 		{
@@ -2485,7 +2477,7 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 衝突判定を削除する。 
+		/// 
 		/// </summary>
 		public void ClearCollisions()
 		{
@@ -2527,11 +2519,11 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 崖のテクスチャを設定する。 
+		/// 
 		/// </summary>
-		/// <param name="diffuseTexture">色テクスチャ </param>
-		/// <param name="normalTexture">法線テクスチャ </param>
-		/// <param name="metalnessTexture">金属度テクスチャ </param>
+		/// <param name="diffuseTexture"></param>
+		/// <param name="normalTexture"></param>
+		/// <param name="metalnessTexture"></param>
 		public void SetCliffTexture(Texture2D diffuseTexture, Texture2D normalTexture, Texture2D metalnessTexture)
 		{
 			var diffuseTextureCore = diffuseTexture != null ? diffuseTexture.CoreInstance : null;
@@ -2555,39 +2547,39 @@ namespace asd {
 		}
 
 		/// <summary>
-		/// 円形に地形を上下させる。 
+		/// 
 		/// </summary>
-		/// <param name="x">円形の中心座標 </param>
-		/// <param name="y">円形の中心座標 </param>
-		/// <param name="radius">円形の半径 </param>
-		/// <param name="value">値 </param>
-		/// <param name="fallout">周囲のぼかし(0～1) </param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="radius"></param>
+		/// <param name="value"></param>
+		/// <param name="fallout"></param>
 		public void RaiseHeightWithCircle(float x, float y, float radius, float value, float fallout)
 		{
 			CoreInstance.RaiseHeightWithCircle(x, y, radius, value, fallout);
 		}
 
 		/// <summary>
-		/// 円形に地形を指定した高度に設定する。 
+		/// 
 		/// </summary>
-		/// <param name="x">円形の中心座標 </param>
-		/// <param name="y">円形の中心座標 </param>
-		/// <param name="radius">円形の半径 </param>
-		/// <param name="value">高度 </param>
-		/// <param name="fallout">周囲のぼかし(0～1) </param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="radius"></param>
+		/// <param name="value"></param>
+		/// <param name="fallout"></param>
 		public void ChangeHeightWithCircle(float x, float y, float radius, float value, float fallout)
 		{
 			CoreInstance.ChangeHeightWithCircle(x, y, radius, value, fallout);
 		}
 
 		/// <summary>
-		/// 円形に地形を平滑化させる。 
+		/// 
 		/// </summary>
-		/// <param name="x">円形の中心座標 </param>
-		/// <param name="y">円形の中心座標 </param>
-		/// <param name="radius">円形の半径 </param>
-		/// <param name="value">平滑度(0～1) </param>
-		/// <param name="fallout">周囲のぼかし(0～1) </param>
+		/// <param name="x"></param>
+		/// <param name="y"></param>
+		/// <param name="radius"></param>
+		/// <param name="value"></param>
+		/// <param name="fallout"></param>
 		public void SmoothHeightWithCircle(float x, float y, float radius, float value, float fallout)
 		{
 			CoreInstance.SmoothHeightWithCircle(x, y, radius, value, fallout);
