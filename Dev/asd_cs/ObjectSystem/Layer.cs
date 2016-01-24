@@ -8,7 +8,7 @@ namespace asd
     /// <summary>
     /// オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス
     /// </summary>
-    public abstract class Layer : IReleasable
+    public abstract class Layer : IReleasable, IDisposable
     {
 		public abstract bool IsReleased { get; }
 

@@ -20,7 +20,7 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
 	/// </summary>
-	public abstract class Object2D : Content, IReleasable
+	public abstract class Object2D : Content, IReleasable, IDisposable
 	{
 		/// <summary>
 		/// コンストラクタ

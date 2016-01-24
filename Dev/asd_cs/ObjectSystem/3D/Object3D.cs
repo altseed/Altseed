@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
 	/// </summary>
-	public abstract class Object3D : Content, IReleasable
+	public abstract class Object3D : Content, IReleasable, IDisposable
 	{
 		internal swig.CoreObject3D commonObject = null;
 

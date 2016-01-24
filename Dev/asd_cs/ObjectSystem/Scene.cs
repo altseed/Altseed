@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// レイヤーの更新と描画を管理するシーン機能を提供するクラス。
 	/// </summary>
-	public class Scene : IReleasable
+	public class Scene : IReleasable, IDisposable
 	{
 		/// <summary>
 		/// コンストラクタ

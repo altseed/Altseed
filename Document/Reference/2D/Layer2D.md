@@ -19,6 +19,7 @@
 | AddObject | オブジェクト2Dをレイヤーに追加する。 |
 | RemoveObject | オブジェクト2Dをレイヤーから取り除く。 |
 | DrawSpriteAdditionally | 直接四角形をレイヤーに描画する。 |
+| Dispose | このレイヤーを破棄(消去)する。 |
 
 
 ### 主なプロパティ
