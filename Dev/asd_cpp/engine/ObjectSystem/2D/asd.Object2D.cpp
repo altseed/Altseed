@@ -54,11 +54,11 @@ namespace asd
 			for (auto& child : m_children)
 			{
 				GetCoreObject()->RemoveChild(child->GetCoreObject());
-				child->m_parentInfo.reset();
 				if (IS_INHERITED(child, Vanishment))
 				{
 					child->Dispose();
 				}
+				child->m_parentInfo.reset();
 			}
 			OnDispose();
 		}

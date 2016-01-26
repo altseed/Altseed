@@ -396,11 +396,11 @@ namespace asd
 				foreach(var item in ChildrenList)
 				{
 					CoreObject.RemoveChild(item.CoreObject);
-					item.ParentInfo = null;
 					if(item.IsInheriting(ChildManagementMode.Vanishment))
 					{
 						item.Dispose();
 					}
+					item.ParentInfo = null;
 				}
 				OnDispose();
 			}

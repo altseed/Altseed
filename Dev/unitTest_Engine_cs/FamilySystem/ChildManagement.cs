@@ -90,7 +90,7 @@ namespace unitTest_Engine_cs.FamilySystem
 
 		protected override void OnUpdating()
 		{
-			if(Time == 60)
+			if(Time == 30)
 			{
 				isDrawnChanged.Parent.IsDrawn = false;
 				isUpdateChanged.Parent.IsUpdated = false;

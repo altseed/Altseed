@@ -13,7 +13,7 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
 			//*
-			TestSequencially(typeof(ObjectSystem2D.ThrowIfDisposed));
+			TestSequencially(typeof(FamilySystem.ChildManagement));
 			Console.ReadKey();
 			return;
 			//*/
