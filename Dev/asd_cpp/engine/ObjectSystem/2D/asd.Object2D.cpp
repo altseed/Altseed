@@ -54,7 +54,7 @@ namespace asd
 			for (auto& child : m_children)
 			{
 				GetCoreObject()->RemoveChild(child->GetCoreObject());
-				if (IS_INHERITED(child, Vanishment))
+				if (IS_INHERITED(child, Disposal))
 				{
 					child->Dispose();
 				}

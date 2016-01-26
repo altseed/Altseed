@@ -79,7 +79,7 @@ namespace unitTest_Engine_cs.FamilySystem
 			isDrawnChanged = new Family(new Vector2DF(190, 70), ChildManagementMode.IsDrawn);
 			isUpdateChanged = new Family(new Vector2DF(310, 70), ChildManagementMode.IsUpdated);
 			registrationToLayerChanged = new Family(new Vector2DF(430, 70), ChildManagementMode.RegistrationToLayer);
-			disposed = new Family(new Vector2DF(550, 70), ChildManagementMode.Vanishment);
+			disposed = new Family(new Vector2DF(550, 70), ChildManagementMode.Disposal);
 
 			nothing.Initialize();
 			isDrawnChanged.Initialize();

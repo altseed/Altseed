@@ -89,7 +89,7 @@ protected:
 		isDrawnChanged = make_shared<Family>(Vector2DF(190, 70), ChildManagementMode::IsDrawn);
 		isUpdatedChanged = make_shared<Family>(Vector2DF(310, 70), ChildManagementMode::IsUpdated);
 		registrationToLayerChanged = make_shared<Family>(Vector2DF(430, 70), ChildManagementMode::RegistrationToLayer);
-		vanished = make_shared<Family>(Vector2DF(550, 70), ChildManagementMode::Vanishment);
+		vanished = make_shared<Family>(Vector2DF(550, 70), ChildManagementMode::Disposal);
 
 		nothing->Initialize();
 		isDrawnChanged->Initialize();

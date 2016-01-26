@@ -20,7 +20,7 @@ namespace asd
 		/**
 			@brief	親オブジェクトが破棄されたとき、子オブジェクトも破棄する。
 		*/
-		static const Flags Vanishment = 2;
+		static const Flags Disposal = 2;
 		/**
 			@brief	親オブジェクトが更新されないとき、子オブジェクトも更新しない。
 		*/

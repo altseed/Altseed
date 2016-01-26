@@ -396,7 +396,7 @@ namespace asd
 				foreach(var item in ChildrenList)
 				{
 					CoreObject.RemoveChild(item.CoreObject);
-					if(item.IsInheriting(ChildManagementMode.Vanishment))
+					if(item.IsInheriting(ChildManagementMode.Disposal))
 					{
 						item.Dispose();
 					}
