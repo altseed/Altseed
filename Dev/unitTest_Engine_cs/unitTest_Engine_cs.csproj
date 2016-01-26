@@ -89,6 +89,7 @@
     <Compile Include="ObjectSystem2D\ObjectsMembers.cs" />
     <Compile Include="ObjectSystem2D\ObjectUpdatePriority.cs" />
     <Compile Include="ObjectSystem2D\ParentObject.cs" />
+    <Compile Include="ObjectSystem2D\ThrowIfDisposed.cs" />
     <Compile Include="ObjectSystem2D\TransformOutOfUpdate.cs" />
     <Compile Include="ObjectSystem2D\UpdateFrequency.cs" />
     <Compile Include="ObjectSystem2D\VanishInComponent.cs" />

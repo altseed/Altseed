@@ -20,7 +20,7 @@ namespace asd
 			renderedObject = Engine.ObjectSystemFactory.CreateTextureObject2D();
 
 			var p = renderedObject.GetPtr();
-			if (GC.Object2Ds.GetObject(p) != null)
+			if(GC.Object2Ds.GetObject(p) != null)
 			{
 				Particular.Helper.ThrowException("");
 			}
@@ -63,8 +63,16 @@ namespace asd
 		/// </summary>
 		public Texture2D Texture
 		{
-			get { return GC.GenerateTexture2D(renderedObject.GetTexture(), GC.GenerationType.Get); }
-			set { renderedObject.SetTexture(IG.GetTexture2D(value)); }
+			get
+			{
+				ThrowIfDisposed();
+				return GC.GenerateTexture2D(renderedObject.GetTexture(), GC.GenerationType.Get);
+			}
+			set
+			{
+				ThrowIfDisposed();
+				renderedObject.SetTexture(IG.GetTexture2D(value));
+			}
 		}
 
 		/// <summary>
@@ -72,48 +80,96 @@ namespace asd
 		/// </summary>
 		public Vector2DF CenterPosition
 		{
-			get { return renderedObject.GetCenterPosition(); }
-			set { renderedObject.SetCenterPosition(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return renderedObject.GetCenterPosition();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				renderedObject.SetCenterPosition(value);
+			}
 		}
 		/// <summary>
 		/// この2Dオブジェクトを描画する際に合成する色を取得または設定する。
 		/// </summary>
 		public override Color Color
 		{
-			get { return renderedObject.GetColor(); }
-			set { renderedObject.SetColor(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return renderedObject.GetColor();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				renderedObject.SetColor(value);
+			}
 		}
 		/// <summary>
 		/// この2Dオブジェクトを描画する際に左右反転するかどうかの真偽値を取得または設定する。
 		/// </summary>
 		public bool TurnLR
 		{
-			get { return renderedObject.GetTurnLR(); }
-			set { renderedObject.SetTurnLR(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return renderedObject.GetTurnLR();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				renderedObject.SetTurnLR(value);
+			}
 		}
 		/// <summary>
 		/// この2Dオブジェクトを描画する際に上下反転するかどうかの真偽値を取得または設定する。
 		/// </summary>
 		public bool TurnUL
 		{
-			get { return renderedObject.GetTurnUL(); }
-			set { renderedObject.SetTurnUL(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return renderedObject.GetTurnUL();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				renderedObject.SetTurnUL(value);
+			}
 		}
 		/// <summary>
 		/// この2Dオブジェクトを描画する際の描画優先度を取得または設定する。描画優先度が高いほど手前に描画される。
 		/// </summary>
 		public override int DrawingPriority
 		{
-			get { return renderedObject.GetDrawingPriority(); }
-			set { renderedObject.SetDrawingPriority(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return renderedObject.GetDrawingPriority();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				renderedObject.SetDrawingPriority(value);
+			}
 		}
 		/// <summary>
 		/// この2Dオブジェクトを描画する際のブレンドモードを取得または設定する。
 		/// </summary>
 		public AlphaBlendMode AlphaBlend
 		{
-			get { return (AlphaBlendMode)renderedObject.GetAlphaBlendMode(); }
-			set { renderedObject.SetAlphaBlendMode((swig.AlphaBlendMode)value); }
+			get
+			{
+				ThrowIfDisposed();
+				return (AlphaBlendMode)renderedObject.GetAlphaBlendMode();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				renderedObject.SetAlphaBlendMode((swig.AlphaBlendMode)value);
+			}
 		}
 
 		///<summary>
@@ -122,8 +178,16 @@ namespace asd
 		/// <remarks>負の値は無効であり、負の値が含まれる場合はテクスチャ全体を描画する。</remarks>
 		public RectF Src
 		{
-			get { return renderedObject.GetSrc(); }
-			set { renderedObject.SetSrc(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return renderedObject.GetSrc();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				renderedObject.SetSrc(value);
+			}
 		}
 
 		///<summary>
@@ -131,8 +195,16 @@ namespace asd
 		/// </summary>
 		public TextureFilterType TextureFilterType
 		{
-			get { return (TextureFilterType)renderedObject.GetTextureFilterType(); }
-			set { renderedObject.SetTextureFilterType((swig.TextureFilterType)value); }
+			get
+			{
+				ThrowIfDisposed();
+				return (TextureFilterType)renderedObject.GetTextureFilterType();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				renderedObject.SetTextureFilterType((swig.TextureFilterType)value);
+			}
 		}
 
 		internal override swig.CoreObject2D CoreObject

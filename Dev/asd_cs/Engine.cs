@@ -428,10 +428,10 @@ namespace asd
 
 			layerProfiler.Refresh();
 
-			if(CurrentScene != null)
+			if(CurrentScene != null && CurrentScene.IsAlive)
 			{
 				CurrentScene.Update();
-
+				
 				foreach(var item in CurrentScene.Layers)
 				{
 					layerProfiler.Record(item.Name, item.ObjectCount, item.TimeForUpdate);

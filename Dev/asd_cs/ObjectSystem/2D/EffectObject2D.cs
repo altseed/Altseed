@@ -8,7 +8,7 @@ namespace asd
 {
 	public class EffectObject2D : Object2D, IReleasable
 	{
-		
+
 		internal override swig.CoreObject2D CoreObject
 		{
 			get { return coreEffectObject; }
@@ -20,12 +20,12 @@ namespace asd
 			coreEffectObject = Engine.ObjectSystemFactory.CreateEffectObject2D();
 
 			var p = coreEffectObject.GetPtr();
-			if( GC.Object2Ds.GetObject( p ) != null )
+			if(GC.Object2Ds.GetObject(p) != null)
 			{
 				Particular.Helper.ThrowException("");
 			}
 
-			GC.Object2Ds.AddObject( p, this );
+			GC.Object2Ds.AddObject(p, this);
 		}
 
 		/// <summary>
@@ -35,13 +35,15 @@ namespace asd
 		{
 			get
 			{
+				ThrowIfDisposed();
 				return GC.GenerateEffect(swig.Accessor.CoreEffectObject2D_GetEffect(coreEffectObject), GC.GenerationType.Get);
 			}
 			set
 			{
+				ThrowIfDisposed();
 				coreEffectObject.SetEffect(IG.GetEffect(value));
 			}
-			
+
 		}
 
 		/// <summary>
@@ -50,9 +52,10 @@ namespace asd
 		/// <returns>再生されたエフェクトのID</returns>
 		public int Play()
 		{
-			if (Layer == null)
+			ThrowIfDisposed();
+			if(Layer == null)
 			{
-				throw new Exception("レイヤーに追加されていません。");
+				throw new InvalidOperationException("レイヤーに追加されていません。");
 			}
 
 			return coreEffectObject.Play();
@@ -63,6 +66,7 @@ namespace asd
 		/// </summary>
 		public void Stop()
 		{
+			ThrowIfDisposed();
 			coreEffectObject.Stop();
 		}
 
@@ -71,6 +75,7 @@ namespace asd
 		/// </summary>
 		public void StopRoot()
 		{
+			ThrowIfDisposed();
 			coreEffectObject.StopRoot();
 		}
 
@@ -79,6 +84,7 @@ namespace asd
 		/// </summary>
 		public void Show()
 		{
+			ThrowIfDisposed();
 			coreEffectObject.Show();
 		}
 
@@ -87,6 +93,7 @@ namespace asd
 		/// </summary>
 		public void Hide()
 		{
+			ThrowIfDisposed();
 			coreEffectObject.Hide();
 		}
 
@@ -98,6 +105,7 @@ namespace asd
 		{
 			get
 			{
+				ThrowIfDisposed();
 				return coreEffectObject.GetIsPlaying();
 			}
 		}
@@ -109,10 +117,12 @@ namespace asd
 		{
 			get
 			{
+				ThrowIfDisposed();
 				return coreEffectObject.GetSyncEffects();
 			}
 			set
 			{
+				ThrowIfDisposed();
 				coreEffectObject.SetSyncEffects(value);
 			}
 		}
@@ -128,10 +138,12 @@ namespace asd
 		{
 			get
 			{
+				ThrowIfDisposed();
 				return coreEffectObject.GetEffectRotation();
 			}
 			set
 			{
+				ThrowIfDisposed();
 				coreEffectObject.SetEffectRotation(value);
 			}
 		}
@@ -141,11 +153,19 @@ namespace asd
 		/// </summary>
 		public int DrawingPriority
 		{
-			get { return coreEffectObject.GetDrawingPriority(); }
-			set { coreEffectObject.SetDrawingPriority(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return coreEffectObject.GetDrawingPriority();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				coreEffectObject.SetDrawingPriority(value);
+			}
 		}
 
-#region GC対策
+		#region GC対策
 		~EffectObject2D()
 		{
 			ForceToRelease();
@@ -165,14 +185,14 @@ namespace asd
 		/// </remarks>
 		public override void ForceToRelease()
 		{
-			lock( this )
+			lock (this)
 			{
-				if( coreEffectObject == null ) return;
-				GC.Collector.AddObject( coreEffectObject );
+				if(coreEffectObject == null) return;
+				GC.Collector.AddObject(coreEffectObject);
 				coreEffectObject = null;
 			}
 			Particular.GC.SuppressFinalize(this);
 		}
-#endregion
+		#endregion
 	}
 }

@@ -5,26 +5,26 @@ using System.Text;
 
 namespace asd
 {
-    /// <summary>
-    /// オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス
-    /// </summary>
-    public abstract class Layer : IReleasable, IDisposable
-    {
+	/// <summary>
+	/// オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス
+	/// </summary>
+	public abstract class Layer : IReleasable, IDisposable
+	{
 		public abstract bool IsReleased { get; }
 
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
-        public Layer()
-        {
-            IsAlive = true;
-            IsUpdated = true;
-            postEffects = new List<PostEffect>();
-            Name = "Layer";
-            UpdatePriority = 0;
-            UpdateFrequency = 1;
-            updateTimer = 0;
-        }
+		public Layer()
+		{
+			IsAlive = true;
+			IsUpdated = true;
+			postEffects = new List<PostEffect>();
+			Name = "Layer";
+			UpdatePriority = 0;
+			UpdateFrequency = 1;
+			updateTimer = 0;
+		}
 
 		#region パラメータ
 		/// <summary>
@@ -32,61 +32,61 @@ namespace asd
 		/// </summary>
 		public bool IsAlive { get; internal set; }
 
-        /// <summary>
-        /// レイヤーの更新を実行するかどうか取得または設定する。
-        /// </summary>
-        public bool IsUpdated { get; set; }
+		/// <summary>
+		/// レイヤーの更新を実行するかどうか取得または設定する。
+		/// </summary>
+		public bool IsUpdated { get; set; }
 
-        /// <summary>
-        /// レイヤーを描画するかどうか取得または設定する。
-        /// </summary>
-        public bool IsDrawn
-        {
-            get { return CoreLayer.GetIsDrawn(); }
-            set { CoreLayer.SetIsDrawn(value); }
-        }
+		/// <summary>
+		/// レイヤーを描画するかどうか取得または設定する。
+		/// </summary>
+		public bool IsDrawn
+		{
+			get { return CoreLayer.GetIsDrawn(); }
+			set { CoreLayer.SetIsDrawn(value); }
+		}
 
-        /// <summary>
-        /// このレイヤーの更新の優先順位を取得または設定する。
-        /// </summary>
-        public int UpdatePriority { get; set; }
+		/// <summary>
+		/// このレイヤーの更新の優先順位を取得または設定する。
+		/// </summary>
+		public int UpdatePriority { get; set; }
 
-        /// <summary>
-        /// このレイヤーの１フレームごとの更新回数を取得または設定する。
-        /// </summary>
-        /// <returns></returns>
-        public float UpdateFrequency { get; set; }
+		/// <summary>
+		/// このレイヤーの１フレームごとの更新回数を取得または設定する。
+		/// </summary>
+		/// <returns></returns>
+		public float UpdateFrequency { get; set; }
 
-        /// <summary>
-        /// このインスタンスを管理している asd.Scene クラスのインスタンスを取得する。
-        /// </summary>
-        public Scene Scene { get; internal set; }
+		/// <summary>
+		/// このインスタンスを管理している asd.Scene クラスのインスタンスを取得する。
+		/// </summary>
+		public Scene Scene { get; internal set; }
 
-        /// <summary>
-        /// このレイヤーの前回の更新時間を取得する。
-        /// </summary>
-        public int TimeForUpdate
-        {
-            get { return CoreLayer.GetTimeForUpdate(); }
-        }
+		/// <summary>
+		/// このレイヤーの前回の更新時間を取得する。
+		/// </summary>
+		public int TimeForUpdate
+		{
+			get { return CoreLayer.GetTimeForUpdate(); }
+		}
 
-        /// <summary>
-        /// このレイヤーに登録されているオブジェクトの数を取得する。
-        /// </summary>
-        public abstract int ObjectCount { get; }
+		/// <summary>
+		/// このレイヤーに登録されているオブジェクトの数を取得する。
+		/// </summary>
+		public abstract int ObjectCount { get; }
 
-        /// <summary>
-        /// このレイヤーの名前を取得または設定する。
-        /// </summary>
-        public string Name { get; set; }
+		/// <summary>
+		/// このレイヤーの名前を取得または設定する。
+		/// </summary>
+		public string Name { get; set; }
 
-        /// <summary>
-        /// このレイヤーの描画優先度を取得または設定する。この値が大きいほど手前に描画される。
-        /// </summary>
-        public int DrawingPriority
-        {
-            get { return CoreLayer.GetDrawingPriority(); }
-            set { CoreLayer.SetDrawingPriority(value); }
+		/// <summary>
+		/// このレイヤーの描画優先度を取得または設定する。この値が大きいほど手前に描画される。
+		/// </summary>
+		public int DrawingPriority
+		{
+			get { return CoreLayer.GetDrawingPriority(); }
+			set { CoreLayer.SetDrawingPriority(value); }
 		}
 
 		/// <summary>
@@ -98,9 +98,9 @@ namespace asd
 
 		#region イベント
 		internal void RaiseOnAdded()
-        {
-            OnAdded();
-        }
+		{
+			OnAdded();
+		}
 
 		internal void RaiseOnRemoved()
 		{
@@ -110,77 +110,90 @@ namespace asd
 		/// <summary>
 		/// このレイヤーを破棄する。
 		/// </summary>
-        public abstract void Dispose();
+		public abstract void Dispose();
 
-        internal abstract void BeginUpdating();
+		internal abstract void BeginUpdating();
 
-        internal abstract void EndUpdating();
+		internal abstract void EndUpdating();
 
-        internal virtual void Update()
-        {
-            if (!isUpdatedCurrent || !IsAlive)
-            {
-                return;
-            }
+		internal virtual void Update()
+		{
+			if(!IsAlive || !isUpdatedCurrent)
+			{
+				return;
+			}
 
-            CoreLayer.BeginMeasureUpdateTime();
+			CoreLayer.BeginMeasureUpdateTime();
 
-            updateTimer += UpdateFrequency;
-            while (updateTimer >= 1)
-            {
-                OnUpdating();
-                UpdateInternal();
-                OnUpdated();
-                updateTimer -= 1;
-            }
+			updateTimer += UpdateFrequency;
+			while(updateTimer >= 1)
+			{
+				OnUpdating();
+				UpdateInternal();
+				OnUpdated();
+				updateTimer -= 1;
+			}
 
-            CoreLayer.EndMeasureUpdateTime();
-        }
+			CoreLayer.EndMeasureUpdateTime();
+		}
 
-        internal abstract void UpdateInternal();
+		internal abstract void UpdateInternal();
 
-        internal void BeginDrawing()
-        {
-            Scene.CoreInstance.SetRenderTargetForDrawingLayer();
-            CoreLayer.BeginDrawing();
-        }
+		internal void BeginDrawing()
+		{
+			if(!IsAlive)
+			{
+				return;
+			}
 
-        internal void EndDrawing()
-        {
-            CoreLayer.EndDrawing();
+			Scene.CoreInstance.SetRenderTargetForDrawingLayer();
+			CoreLayer.BeginDrawing();
+		}
 
-            if (postEffects.Count > 0)
-            {
-                foreach (var p in postEffects)
-                {
-                    Scene.CoreInstance.BeginPostEffect(p.CoreInstance);
+		internal void EndDrawing()
+		{
+			if(!IsAlive)
+			{
+				return;
+			}
 
-                    var src_ = Scene.CoreInstance.GetSrcTarget();
-                    var dst_ = Scene.CoreInstance.GetDstTarget();
+			CoreLayer.EndDrawing();
 
-                    RenderTexture2D src = GC.GenerateRenderTexture2D(src_, GC.GenerationType.Get);
-                    RenderTexture2D dst = GC.GenerateRenderTexture2D(dst_, GC.GenerationType.Get);
+			if(postEffects.Count > 0)
+			{
+				foreach(var p in postEffects)
+				{
+					Scene.CoreInstance.BeginPostEffect(p.CoreInstance);
 
-                    p.Draw(dst, src);
+					var src_ = Scene.CoreInstance.GetSrcTarget();
+					var dst_ = Scene.CoreInstance.GetDstTarget();
 
-                    Scene.CoreInstance.EndPostEffect(p.CoreInstance);
-                }
-            }
-        }
+					RenderTexture2D src = GC.GenerateRenderTexture2D(src_, GC.GenerationType.Get);
+					RenderTexture2D dst = GC.GenerateRenderTexture2D(dst_, GC.GenerationType.Get);
 
-        internal void Draw()
-        {
-            CoreLayer.Draw();
-        }
+					p.Draw(dst, src);
 
-        internal abstract void DrawAdditionally();
+					Scene.CoreInstance.EndPostEffect(p.CoreInstance);
+				}
+			}
+		}
 
-        /// <summary>
-        /// オーバーライドして、このレイヤーがシーンに登録されたときの処理を記述できる。
-        /// </summary>
-        protected virtual void OnAdded()
-        {
-        }
+		internal void Draw()
+		{
+			if(IsAlive)
+			{
+				CoreLayer.Draw();
+			}
+		}
+
+		internal abstract void DrawAdditionally();
+
+		/// <summary>
+		/// オーバーライドして、このレイヤーがシーンに登録されたときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnAdded()
+		{
+		}
 
 		/// <summary>
 		/// オーバーライドして、このレイヤーがシーンから登録解除されたときの処理を記述できる。
@@ -189,33 +202,33 @@ namespace asd
 		{
 		}
 
-        /// <summary>
-        /// オーバーライドして、このレイヤーが破棄されるときの処理を記述できる。
-        /// </summary>
-        protected virtual void OnDispose()
-        {
-        }
+		/// <summary>
+		/// オーバーライドして、このレイヤーが破棄されるときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnDispose()
+		{
+		}
 
-        /// <summary>
-        /// オーバーライドして、このレイヤーが更新される前の処理を記述できる。
-        /// </summary>
-        protected virtual void OnUpdating()
-        {
-        }
+		/// <summary>
+		/// オーバーライドして、このレイヤーが更新される前の処理を記述できる。
+		/// </summary>
+		protected virtual void OnUpdating()
+		{
+		}
 
-        /// <summary>
-        /// オーバーライドして、このレイヤーが更新された後の処理を記述できる。
-        /// </summary>
-        protected virtual void OnUpdated()
-        {
-        }
+		/// <summary>
+		/// オーバーライドして、このレイヤーが更新された後の処理を記述できる。
+		/// </summary>
+		protected virtual void OnUpdated()
+		{
+		}
 
-        /// <summary>
-        /// オーバーライドして、このレイヤーの追加の描画処理を記述できる。
-        /// </summary>
-        protected virtual void OnDrawAdditionally()
-        {
-        }
+		/// <summary>
+		/// オーバーライドして、このレイヤーの追加の描画処理を記述できる。
+		/// </summary>
+		protected virtual void OnDrawAdditionally()
+		{
+		}
 		#endregion
 
 
@@ -224,19 +237,23 @@ namespace asd
 		/// </summary>
 		/// <param name="postEffect">ポストエフェクト</param>
 		public void AddPostEffect(PostEffect postEffect)
-        {
-            postEffects.Add(postEffect);
-            CoreLayer.AddPostEffect(postEffect.CoreInstance);
-        }
+		{
+			ThrowIfDisposed();
+			CoreLayer.Draw();
+			postEffects.Add(postEffect);
+			CoreLayer.AddPostEffect(postEffect.CoreInstance);
+		}
 
-        /// <summary>
-        /// ポストエフェクトを全て消去する。
-        /// </summary>
-        public void ClearPostEffects()
-        {
-            postEffects.Clear();
-            CoreLayer.ClearPostEffects();
-        }
+		/// <summary>
+		/// ポストエフェクトを全て消去する。
+		/// </summary>
+		public void ClearPostEffects()
+		{
+			ThrowIfDisposed();
+			CoreLayer.Draw();
+			postEffects.Clear();
+			CoreLayer.ClearPostEffects();
+		}
 
 		/// <summary>
 		/// 強制的に使用しているメモリを開放する。
@@ -247,13 +264,27 @@ namespace asd
 		/// </remarks>
 		public abstract void ForceToRelease();
 
+		internal void ThrowIfDisposed()
+		{
+			if(!IsAlive)
+			{
+				throw new ObjectDisposedException(GetType().FullName);
+			}
+		}
+
 
 		private float updateTimer;
 
-		internal swig.CoreLayer CoreLayer { get; set; }
+		private swig.CoreLayer coreLayer_;
 
-        internal List<PostEffect> postEffects;
+		internal swig.CoreLayer CoreLayer
+		{
+			get { return coreLayer_; }
+			set { coreLayer_ = value; }
+		}
 
-        internal bool isUpdatedCurrent;
+		internal List<PostEffect> postEffects;
+
+		internal bool isUpdatedCurrent;
 	}
 }

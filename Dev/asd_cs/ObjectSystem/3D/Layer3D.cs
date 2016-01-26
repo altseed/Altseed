@@ -93,10 +93,12 @@ namespace asd
 		{
 			get
 			{
+				ThrowIfDisposed();
 				return new RenderSettings(coreLayer3D.GetRenderSettings());
 			}
 			set
 			{
+				ThrowIfDisposed();
 				swig.RenderSettings settings_ = new swig.RenderSettings();
 				settings_.IsLightweightMode = value.IsLightweightMode;
 				settings_.VisualizedBuffer = (swig.VisualizedBufferType)value.VisualizedBuffer;
@@ -110,6 +112,7 @@ namespace asd
 		/// <param name="object3D">追加する3Dオブジェクト</param>
 		public void AddObject(Object3D object3D)
 		{
+			ThrowIfDisposed();
 			if (object3D.Layer != null)
 			{
 				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
@@ -126,6 +129,7 @@ namespace asd
 		/// <param name="object3D">削除される3Dオブジェクト</param>
 		public void RemoveObject(Object3D object3D)
 		{
+			ThrowIfDisposed();
 			contentsManager.Remove(object3D);
 			coreLayer3D.RemoveObject(object3D.CoreObject);
 			object3D.RaiseOnRemoved();
@@ -157,6 +161,7 @@ namespace asd
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 		{
+			ThrowIfDisposed();
 			coreLayer3D.DrawSpriteAdditionally(
 				upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlendMode)alphaBlend, depthWrite, depthTest);
 		}
@@ -170,6 +175,7 @@ namespace asd
 		/// </remarks>
 		public void SetAmbientColorIntensity(float ambientColorIntensity)
 		{
+			ThrowIfDisposed();
 			coreLayer3D.SetAmbientColorIntensity(ambientColorIntensity);
 		}
 
@@ -179,6 +185,7 @@ namespace asd
 		/// <param name="color">色</param>
 		public void SetSkyAmbientColor(Color color)
 		{
+			ThrowIfDisposed();
 			coreLayer3D.SetSkyAmbientColor(color);
 		}
 	
@@ -188,6 +195,7 @@ namespace asd
 		/// <param name="color">色</param>
 		public void SetGroundAmbientColor(Color color)
 		{
+			ThrowIfDisposed();
 			coreLayer3D.SetGroundAmbientColor(color);
 		}
 
@@ -201,6 +209,7 @@ namespace asd
 		/// </remarks>
 		public void SetEnvironmentColorIntensity(float environmentDiffuseColorIntensity, float environmentSpecularColorIntensity)
 		{
+			ThrowIfDisposed();
 			coreLayer3D.SetEnvironmentColorIntensity(environmentDiffuseColorIntensity, environmentSpecularColorIntensity);
 		}
 
@@ -211,6 +220,7 @@ namespace asd
 		/// <param name="specularColor">スペキュラ色</param>
 		public void SetEnvironmentColor(CubemapTexture diffuseColor, CubemapTexture specularColor)
 		{
+			ThrowIfDisposed();
 			coreLayer3D.SetEnvironmentColor(IG.GetCubemapTexture(diffuseColor), IG.GetCubemapTexture(specularColor));
 		}
 
@@ -219,8 +229,10 @@ namespace asd
 		/// </summary>
 		public float SSAO_Radius
 		{
-			get { return coreLayer3D.GetSSAO_Radius(); }
-			set { coreLayer3D.SetSSAO_Radius(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetSSAO_Radius(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetSSAO_Radius(value); }
 		}
 
 		/// <summary>
@@ -228,8 +240,10 @@ namespace asd
 		/// </summary>
 		public float SSAO_Bias
 		{
-			get { return coreLayer3D.GetSSAO_Bias(); }
-			set { coreLayer3D.SetSSAO_Bias(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetSSAO_Bias(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetSSAO_Bias(value); }
 		}
 
 		/// <summary>
@@ -237,8 +251,10 @@ namespace asd
 		/// </summary>
 		public float SSAO_Intensity
 		{
-			get { return coreLayer3D.GetSSAO_Intensity(); }
-			set { coreLayer3D.SetSSAO_Intensity(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetSSAO_Intensity(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetSSAO_Intensity(value); }
 		}
 
 		/// <summary>
@@ -246,8 +262,10 @@ namespace asd
 		/// </summary>
 		public float SSAO_FarPlain
 		{
-			get { return coreLayer3D.GetSSAO_FarPlain(); }
-			set { coreLayer3D.SetSSAO_FarPlain(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetSSAO_FarPlain(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetSSAO_FarPlain(value); }
 		}
 
 		/// <summary>
@@ -255,8 +273,10 @@ namespace asd
 		/// </summary>
 		public bool IsHeightFogEnabled
 		{
-			get { return coreLayer3D.GetIsHeightFogEnabled(); }
-			set { coreLayer3D.SetIsHeightFogEnabled(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetIsHeightFogEnabled(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetIsHeightFogEnabled(value); }
 		}
 
 		/// <summary>
@@ -264,8 +284,10 @@ namespace asd
 		/// </summary>
 		public float HeightFogDensity
 		{
-			get { return coreLayer3D.GetHeightFogDensity(); }
-			set { coreLayer3D.SetHeightFogDensity(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetHeightFogDensity(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetHeightFogDensity(value); }
 		}
 
 		/// <summary>
@@ -273,8 +295,10 @@ namespace asd
 		/// </summary>
 		public Color HeightFogColor
 		{
-			get { return coreLayer3D.GetHeightFogColor(); }
-			set { coreLayer3D.SetHeightFogColor(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetHeightFogColor(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetHeightFogColor(value); }
 		}
 
 		/// <summary>
@@ -285,8 +309,10 @@ namespace asd
 		/// </remarks>
 		public float HeightFogFalloff
 		{
-			get { return coreLayer3D.GetHeightFogFalloff(); }
-			set { coreLayer3D.SetHeightFogFalloff(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetHeightFogFalloff(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetHeightFogFalloff(value); }
 		}
 
 		/// <summary>
@@ -297,56 +323,74 @@ namespace asd
 		/// </remarks>
 		public float HeightFogStartDistance
 		{
-			get { return coreLayer3D.GetHeightFogStartDistance(); }
-			set { coreLayer3D.SetHeightFogStartDistance(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetHeightFogStartDistance(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetHeightFogStartDistance(value); }
 		}
 
 		public bool IsOceanEnabled
 		{
-			get { return coreLayer3D.GetIsOceanEnabled(); }
-			set { coreLayer3D.SetIsOceanEnabled(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetIsOceanEnabled(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetIsOceanEnabled(value); }
 		}
 
 		public RectF OceanArea
 		{
-			get { return coreLayer3D.GetOceanArea(); }
-			set { coreLayer3D.SetOceanArea(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetOceanArea(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetOceanArea(value); }
 		}
 
 		public float OceanGridSize
 		{
-			get { return coreLayer3D.GetOceanGridSize(); }
-			set { coreLayer3D.SetOceanGridSize(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetOceanGridSize(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetOceanGridSize(value); }
 		}
 
 		public float OceanHeight
 		{
-			get { return coreLayer3D.GetOceanHeight(); }
-			set { coreLayer3D.SetOceanHeight(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetOceanHeight(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetOceanHeight(value); }
 		}
 
 		public Color OceanColor
 		{
-			get { return coreLayer3D.GetOceanColor(); }
-			set { coreLayer3D.SetOceanColor(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetOceanColor(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetOceanColor(value); }
 		}
 
 		public float OceanDensity
 		{
-			get { return coreLayer3D.GetOceanDensity(); }
-			set { coreLayer3D.SetOceanDensity(value); }
+			get { ThrowIfDisposed();
+				return coreLayer3D.GetOceanDensity(); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetOceanDensity(value); }
 		}
 
 		public Texture2D OceanNormalMap
 		{
-			get { return GC.GenerateTexture2D(coreLayer3D.GetOceanNormalMap(), GC.GenerationType.Get); }
-			set { coreLayer3D.SetOceanNormalMap(IG.GetTexture2D(value)); }
+			get { ThrowIfDisposed();
+				return GC.GenerateTexture2D(coreLayer3D.GetOceanNormalMap(), GC.GenerationType.Get); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetOceanNormalMap(IG.GetTexture2D(value)); }
 		}
 
 		public Texture2D OceanMask
 		{
-			get { return GC.GenerateTexture2D(coreLayer3D.GetOceanMask(), GC.GenerationType.Get); }
-			set { coreLayer3D.SetOceanMask(IG.GetTexture2D(value)); }
+			get { ThrowIfDisposed();
+				return GC.GenerateTexture2D(coreLayer3D.GetOceanMask(), GC.GenerationType.Get); }
+			set { ThrowIfDisposed();
+				coreLayer3D.SetOceanMask(IG.GetTexture2D(value)); }
 		}
 
 		public override LayerType LayerType
@@ -356,12 +400,20 @@ namespace asd
 
 		internal override void BeginUpdating()
 		{
+			if(!IsAlive)
+			{
+				return;
+			}
 			isUpdatedCurrent = IsUpdated;
 			coreLayer3D.BeginUpdating(isUpdatedCurrent);
 		}
 
 		internal override void EndUpdating()
 		{
+			if(!IsAlive)
+			{
+				return;
+			}
 			coreLayer3D.EndUpdating(isUpdatedCurrent);
 		}
 
@@ -379,7 +431,7 @@ namespace asd
 
 		internal override void DrawAdditionally()
 		{
-			if (!IsDrawn)
+			if (!IsAlive || !IsDrawn)
 			{
 				return;
 			}
@@ -405,6 +457,7 @@ namespace asd
 					item.Dispose();
 				}
 				OnDispose();
+				ForceToRelease();
 			}
 		}
 

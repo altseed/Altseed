@@ -85,6 +85,7 @@ namespace asd
 		/// <param name="object2D">追加する2Dオブジェクト</param>
 		public void AddObject(Object2D object2D)
 		{
+			ThrowIfDisposed();
 			if(object2D.Layer != null)
 			{
 				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
@@ -102,6 +103,7 @@ namespace asd
 		/// <param name="object2D">削除される2Dオブジェクト</param>
 		public void RemoveObject(Object2D object2D)
 		{
+			ThrowIfDisposed();
 			contentsManager.Remove(object2D);
 			coreLayer2D.RemoveObject(object2D.CoreObject);
 			object2D.RaiseOnRemoved();
@@ -143,6 +145,7 @@ namespace asd
 		/// </summary>
 		public void Clear()
 		{
+			ThrowIfDisposed();
 			foreach(var obj in contentsManager.Contents)
 			{
 				obj.Layer = null;
@@ -175,6 +178,7 @@ namespace asd
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
+			ThrowIfDisposed();
 			coreLayer2D.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
@@ -193,49 +197,49 @@ namespace asd
 		/// </remarks>
 		public void DrawTextAdditionally(Vector2DF pos, Color color, Font font, string text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int priority)
 		{
-			if (coreLayer2D == null) return;
+			ThrowIfDisposed();
 			coreLayer2D.DrawTextAdditionally(pos, color, IG.GetFont(font), text, (swig.WritingDirection)writingDirection, (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
 		public void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			if (coreLayer2D == null) return;
+			ThrowIfDisposed();
 			coreLayer2D.DrawRectangleAdditionally(drawingArea, color, uv, (texture == null) ? null : texture.CoreInstance, (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
 		public void DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			if (coreLayer2D == null) return;
+			ThrowIfDisposed();
 			coreLayer2D.DrawRotatedRectangleAdditionally(drawingArea, color, rotationCenter, angle, uv, (texture == null) ? null : texture.CoreInstance, (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
 		public void DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			if (coreLayer2D == null) return;
+			ThrowIfDisposed();
 			coreLayer2D.DrawTriangleAdditionally(position1, position2, position3, color, uv1, uv2, uv3, (texture == null) ? null : texture.CoreInstance, (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
 		public void DrawCircleAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			if (coreLayer2D == null) return;
-			coreLayer2D.DrawCircleAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, (texture==null)?null : texture.CoreInstance, (swig.AlphaBlendMode)alphaBlend, priority);
+			ThrowIfDisposed();
+			coreLayer2D.DrawCircleAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, (texture == null) ? null : texture.CoreInstance, (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
 		public void DrawArcAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			if (coreLayer2D == null) return;
+			ThrowIfDisposed();
 			coreLayer2D.DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startingVerticalAngle, endingVerticalAngle, angle, (texture == null) ? null : texture.CoreInstance, (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
 		public void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, float thickness, Color color, AlphaBlendMode alphaBlend, int priority)
 		{
-			if (coreLayer2D == null) return;
+			ThrowIfDisposed();
 			coreLayer2D.DrawLineAdditionally(point1, point2, thickness, color, (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
 		public void DrawShapeAdditionally(Shape shape, Color color, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			if (coreLayer2D == null) return;
+			ThrowIfDisposed();
 			coreLayer2D.DrawShapeAdditionally(shape.CoreShape, color, (texture == null) ? null : texture.CoreInstance, (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
@@ -246,12 +250,20 @@ namespace asd
 
 		internal override void BeginUpdating()
 		{
+			if(!IsAlive)
+			{
+				return;
+			}
 			isUpdatedCurrent = IsUpdated;
 			coreLayer2D.BeginUpdating(isUpdatedCurrent);
 		}
 
 		internal override void EndUpdating()
 		{
+			if(!IsAlive)
+			{
+				return;
+			}
 			coreLayer2D.EndUpdating(isUpdatedCurrent);
 		}
 
@@ -259,7 +271,7 @@ namespace asd
 		{
 			contentsManager.Update();
 
-			foreach (var vanishing in contentsManager.VanishingContents)
+			foreach(var vanishing in contentsManager.VanishingContents)
 			{
 				RemoveObject(vanishing);
 				vanishing.ForceToRelease();
@@ -271,7 +283,7 @@ namespace asd
 
 		internal override void DrawAdditionally()
 		{
-			if(!IsDrawn)
+			if(!IsAlive || !IsDrawn)
 			{
 				return;
 			}
@@ -297,10 +309,18 @@ namespace asd
 					item.Dispose();
 				}
 				OnDispose();
+				ForceToRelease();
 			}
 		}
 
-		private swig.CoreLayer2D coreLayer2D { get; set; }
+
+		private swig.CoreLayer2D coreLayer2D_;
+
+		private swig.CoreLayer2D coreLayer2D
+		{
+			get { return coreLayer2D_; }
+			set { coreLayer2D_ = value; }
+		}
 
 		private ContentsManager<Object2D> contentsManager { get; set; }
 

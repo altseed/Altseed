@@ -60,6 +60,14 @@ namespace asd
 		}
 		#endregion
 
+		internal void ThrowIfDisposed()
+		{
+			if(!IsAlive)
+			{
+				throw new ObjectDisposedException(GetType().FullName);
+			}
+		}
+
 
 		/// <summary>
 		/// このシーンが有効かどうかの真偽値を取得する。破棄されていれば false を返す。
@@ -71,8 +79,10 @@ namespace asd
 		/// </summary>
 		public bool HDRMode
 		{
-			get { return CoreInstance.GetHDRMode(); }
-			set { CoreInstance.SetHDRMode(value); }
+			get { ThrowIfDisposed();
+				return CoreInstance.GetHDRMode(); }
+			set { ThrowIfDisposed();
+				CoreInstance.SetHDRMode(value); }
 		}
 
 		/// <summary>
@@ -84,6 +94,7 @@ namespace asd
 		{
 			get
 			{
+				ThrowIfDisposed();
 				return GC.GenerateRenderTexture2D(CoreInstance.GetBaseTarget(), GC.GenerationType.Get);
 			}
 		}
@@ -100,6 +111,7 @@ namespace asd
 		/// <param name="layer">追加されるレイヤー</param>
 		public void AddLayer(Layer layer)
 		{
+			ThrowIfDisposed();
 			if (executing)
 			{
 				addingLayer.AddLast(layer);
@@ -108,7 +120,7 @@ namespace asd
 
 			if (layer.Scene != null)
 			{
-				throw new ArgumentException("指定したレイヤーは、既に別のシーンに所属しています。", "layer");
+				throw new InvalidOperationException("指定したレイヤーは、既に別のシーンに所属しています。");
 			}
 			layersToDraw_.Add(layer);
 			layersToUpdate_.Add(layer);
@@ -123,17 +135,8 @@ namespace asd
 		/// <param name="layer">削除されるレイヤー</param>
 		public void RemoveLayer(Layer layer)
 		{
-			if (executing)
-			{
-				removingLayer.AddLast(layer);
-				return;
-			}
-
-			layersToDraw_.Remove(layer);
-			layersToUpdate_.Remove(layer);
-			CoreInstance.RemoveLayer(layer.CoreLayer);
-			layer.RaiseOnRemoved();
-			layer.Scene = null;
+			ThrowIfDisposed();
+			RemoveLayerInternal(layer);
 		}
 
 		/// <summary>
@@ -278,6 +281,11 @@ namespace asd
 
 		internal void Update()
 		{
+			if(!IsAlive)
+			{
+				return;
+			}
+
 			var beVanished = new List<Layer>();
 
 			executing = true;
@@ -313,7 +321,7 @@ namespace asd
 
 			foreach(var item in beVanished)
 			{
-				RemoveLayer(item);
+				RemoveLayerInternal(item);
 				item.ForceToRelease();
 			}
 
@@ -338,6 +346,11 @@ namespace asd
 
 		internal void Draw()
 		{
+			if(!IsAlive)
+			{
+				return;
+			}
+
 			executing = true;
 
 			Particular.Helper.SortLayersToDraw(layersToDraw_);
@@ -371,6 +384,22 @@ namespace asd
 			CommitChanges();
 		}
 		#endregion
+
+
+		private void RemoveLayerInternal(Layer layer)
+		{
+			if(executing)
+			{
+				removingLayer.AddLast(layer);
+				return;
+			}
+
+			layersToDraw_.Remove(layer);
+			layersToUpdate_.Remove(layer);
+			CoreInstance.RemoveLayer(layer.CoreLayer);
+			layer.RaiseOnRemoved();
+			layer.Scene = null;
+		}
 
 
 		internal unsafe swig.CoreScene CoreInstance { get; private set; }

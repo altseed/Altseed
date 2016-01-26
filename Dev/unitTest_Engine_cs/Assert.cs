@@ -43,5 +43,18 @@ namespace unitTest_Engine_cs
 				throw new TestFailedException("式の値は true である必要があります。");
 			}
 		}
+
+		public static void Throws<TException>(Action action) where TException : Exception
+		{
+			try
+			{
+				action();
+			}
+			catch(TException)
+			{
+				return;
+			}
+			throw new TestFailedException(typeof(TException).Name + "の例外が投げられることが期待されましたが、投げられませんでした。");
+		}
 	}
 }
