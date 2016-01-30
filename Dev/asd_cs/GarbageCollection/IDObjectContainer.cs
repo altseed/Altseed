@@ -21,7 +21,7 @@ namespace asd
 
             if (objects.ContainsKey(id))
             {
-                T t;
+                T t = null;
 
                 if (!objects[id].TryGetTarget(out t) || t.IsReleased)
                 {
@@ -51,11 +51,11 @@ namespace asd
 
         internal T GetObject(IntPtr id)
         {
-            WeakReference<T> w;
+            WeakReference<T> w = null;
 
             if (objects.TryGetValue(id, out w))
             {
-                T t;
+                T t = null;
 
                 if (w.TryGetTarget(out t) && !t.IsReleased)
                 {
@@ -72,7 +72,7 @@ namespace asd
 
             foreach (var kv in objects)
             {
-                T t;
+                T t = null;
 
                 if (!kv.Value.TryGetTarget(out t) || t.IsReleased)
                 {
@@ -92,7 +92,7 @@ namespace asd
         {
             foreach (var kv in objects)
             {
-                T t;
+                T t = null;
 
                 if (kv.Value.TryGetTarget(out t) && !t.IsReleased)
                 {

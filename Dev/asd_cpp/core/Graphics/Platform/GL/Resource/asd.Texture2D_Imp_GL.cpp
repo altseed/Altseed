@@ -65,7 +65,7 @@ namespace asd {
 
 		glBindTexture(GL_TEXTURE_2D, texture);
 
-		if (isSRGB)
+		if (isSRGB && g->GetOption().ColorSpace == ColorSpaceType::LinearSpace)
 		{
 			glTexImage2D(
 				GL_TEXTURE_2D,
@@ -95,7 +95,7 @@ namespace asd {
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		if (isSRGB)
+		if (isSRGB && g->GetOption().ColorSpace == ColorSpaceType::LinearSpace)
 		{
 			m_format = TextureFormat::R8G8B8A8_UNORM_SRGB;
 		}

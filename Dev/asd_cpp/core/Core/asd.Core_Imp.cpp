@@ -186,6 +186,11 @@ namespace asd
 
 		m_isInitializedByExternal = false;
 
+		GraphicsOption go;
+		go.IsFullScreen = option.IsFullScreen;
+		go.IsReloadingEnabled = option.IsReloadingEnabled;
+		go.ColorSpace = option.ColorSpace;
+
 #if _WIN32
 		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
@@ -207,11 +212,11 @@ namespace asd
 		// フルスクリーン切り替えを実現するためのハック
 		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
-			m_window = Window_Imp::Create(width, height, title, m_logger, option.IsFullScreen);
+			m_window = Window_Imp::Create(width, height, title, m_logger, option.ColorSpace, option.IsFullScreen);
 		}
 		else
 		{
-			m_window = Window_Imp::Create(width, height, title, m_logger, false);
+			m_window = Window_Imp::Create(width, height, title, m_logger, option.ColorSpace, false);
 		}
 
 		if (m_window == nullptr) return false;
@@ -235,7 +240,7 @@ namespace asd
 		m_joystickContainer = JoystickContainer_Imp::Create();
 
 		m_file = File_Imp::Create();
-		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, m_file, option.IsReloadingEnabled, option.IsFullScreen);
+		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, m_file, go);
 
 		if (m_graphics == nullptr) return false;
 
@@ -320,7 +325,12 @@ namespace asd
 		m_file = File_Imp::Create();
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
-		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger,m_file, option.IsReloadingEnabled, option.IsFullScreen);
+		GraphicsOption go;
+		go.IsFullScreen = option.IsFullScreen;
+		go.IsReloadingEnabled = option.IsReloadingEnabled;
+		go.ColorSpace = option.ColorSpace;
+
+		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger,m_file, go);
 		if (m_graphics == nullptr) return false;
 
 		m_sound = new Sound_Imp(m_file, m_logger, option.IsReloadingEnabled);

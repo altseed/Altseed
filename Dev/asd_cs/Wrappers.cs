@@ -319,6 +319,21 @@ namespace asd {
 	}
 
 	/// <summary>
+	/// カラースペース 
+	///	</summary>
+	public enum ColorSpaceType : int
+	{
+		/// <summary>
+		/// ガンマスペース 
+		/// </summary>
+		GammaSpace = asd.swig.ColorSpaceType.GammaSpace,
+		/// <summary>
+		/// リニアスペース 
+		/// </summary>
+		LinearSpace = asd.swig.ColorSpaceType.LinearSpace,
+	}
+
+	/// <summary>
 	/// 
 	///	</summary>
 	public enum Object2DType : int

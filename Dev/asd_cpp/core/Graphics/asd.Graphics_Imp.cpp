@@ -781,21 +781,21 @@ void Graphics_Imp::EndRenderingThread()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, File* file, GraphicsOption option)
 {
 #if _WIN32
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, file,isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_GL::Create(window, log, file, option);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create(window, log, file,isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create(window, log, file, option);
 	}
 #else
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, file, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_GL::Create(window, log, file, option);
 	}
 	else
 	{
@@ -807,34 +807,35 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDe
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, File* file, GraphicsOption option)
 {
 #if _WIN32
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file,isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file, option);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file,isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file, option);
 	}
 #elif __APPLE__
 	return nullptr; // not supported
 #else
-	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, file,isReloadingEnabled, isFullScreen);
+	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, file, option);
 #endif
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, File* file, GraphicsOption option)
 	: m_size(size)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)
 	, m_shaderPtr(nullptr)
 	, m_log(log)
 	, m_file(file)
+	, option(option)
 {
 	CreateShaderCacheDirectory();
 

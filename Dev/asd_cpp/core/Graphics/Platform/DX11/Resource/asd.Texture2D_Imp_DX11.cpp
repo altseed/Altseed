@@ -97,7 +97,7 @@ namespace asd {
 		m_size.X = m_internalTextureWidth;
 		m_size.Y = m_internalTextureHeight;
 
-		if (isSRGB)
+		if (isSRGB && g->GetOption().ColorSpace == ColorSpaceType::LinearSpace)
 		{
 			m_format = TextureFormat::R8G8B8A8_UNORM_SRGB;
 		}

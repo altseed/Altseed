@@ -26,6 +26,7 @@ namespace asd {
 		GraphicsDeviceType GraphicsDevice;
 		bool IsReloadingEnabled;
 		WindowPositionType WindowPosition;
+		ColorSpaceType ColorSpace;
 	};
 
 	class Core

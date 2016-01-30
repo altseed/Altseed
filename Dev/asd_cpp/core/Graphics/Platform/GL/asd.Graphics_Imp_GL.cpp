@@ -153,8 +153,8 @@ namespace asd {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::asd::Window* window, Log* log,File *file, bool isReloadingEnabled, bool isFullScreen)
-		: Graphics_Imp(size, log,file, isReloadingEnabled, isFullScreen)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::asd::Window* window, Log* log, File *file, GraphicsOption option)
+		: Graphics_Imp(size, log,file, option)
 	, m_window(window)
 	, m_endStarting(false)
 {
@@ -228,8 +228,8 @@ namespace asd {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
-		: Graphics_Imp(size, log,file, isReloadingEnabled, isFullScreen)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, File* file, GraphicsOption option)
+		: Graphics_Imp(size, log,file, option)
 	, m_window(nullptr)
 	, m_endStarting(false)
 {
@@ -749,7 +749,7 @@ void Graphics_Imp_GL::SetViewport(int32_t x, int32_t y, int32_t width, int32_t h
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log,File *file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log, File *file, GraphicsOption option)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -788,7 +788,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log,File *f
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL(window->GetSize(), window, log, file, isReloadingEnabled, isFullScreen);
+	return new Graphics_Imp_GL(window->GetSize(), window, log, file, option);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));
