@@ -417,7 +417,7 @@ namespace asd
 
 		internal void DrawAdditionally()
 		{
-			if(AbsoluteBeingDrawn && IsAlive)
+			if(IsAlive && AbsoluteBeingDrawn)
 			{
 				OnDrawAdditionally();
 			}
