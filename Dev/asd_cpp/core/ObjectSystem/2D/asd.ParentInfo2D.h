@@ -73,7 +73,7 @@ namespace asd
 		virtual Matrix33 GetInheritedMatrixToTranslate()
 		{
 			if (m_transformingMode == ChildTransformingMode::Position
-				&& m_transformingMode == ChildTransformingMode::All)
+				|| m_transformingMode == ChildTransformingMode::All)
 			{
 				return m_parent->GetAbsoluteMatrixToTranslate();
 			}

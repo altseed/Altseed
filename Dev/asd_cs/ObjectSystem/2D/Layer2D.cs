@@ -271,6 +271,11 @@ namespace asd
 		{
 			contentsManager.Update();
 
+			if(!IsAlive)
+			{
+				return;
+			}
+
 			foreach(var vanishing in contentsManager.VanishingContents)
 			{
 				RemoveObject(vanishing);
