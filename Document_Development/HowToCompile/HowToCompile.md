@@ -5,7 +5,7 @@
 * Python(3.0以上)
 * cmake(2.8.11以上)
 * swig(3.0.0以上)
-* 7-zip(9.20以上)
+* ~~7-zip(9.20以上)~~(不要になりました)
 
 * Java版をコンパイルする場合、swigは3.0.5以上(現状パッケージ管理ツールでインストール不可)
 
@@ -14,8 +14,9 @@ Windowsでは実行ファイルへパスを通す必要があります。
 Windowsではパッケージ管理ツール Chocolatey を使用することで容易に導入できます。
 Chocolateyは管理者として実行する必要があります。
 
-Linuxをお使いの方は、7-zipの代わりに[p7zip](http://p7zip.sourceforge.net/)をお使いください。
-(※Ubuntu/Debianのaptをお使いの方は、p7zipではなくp7zip-fullパッケージをインストールしてください。)
+~~Linuxをお使いの方は、7-zipの代わりに[p7zip](http://p7zip.sourceforge.net/)をお使いください。~~
+~~(※Ubuntu/Debianのaptをお使いの方は、p7zipではなくp7zip-fullパッケージをインストールしてください。)~~
+(7-zipは不要になりました)
 
 Ubuntuでは、```Script/install_swig_ubuntu.sh```　を実行することでswigを容易にインストールすることができます。
 
