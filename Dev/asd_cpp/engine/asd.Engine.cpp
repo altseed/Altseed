@@ -1010,6 +1010,11 @@ namespace asd
 		return m_core->GetWindowSize();
 	}
 
+	void Engine::SetWindowSize(Vector2DI size)
+	{
+		m_core->SetWindowSize(size);
+	}
+
 	bool Engine::GetProfilerVisibility()
 	{
 		return m_core->GetProfilerVisibility();

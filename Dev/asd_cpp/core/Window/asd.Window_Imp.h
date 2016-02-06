@@ -47,6 +47,8 @@ namespace asd {
 
 		Vector2DI GetSize() const { return m_size; }
 
+		void SetSize(Vector2DI size);
+
 		void SetCursor(Cursor* cursor);
 
 		const achar* GetClipboardString();

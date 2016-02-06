@@ -850,6 +850,17 @@ namespace asd
 		return m_windowSize;
 	}
 
+	void Core_Imp::SetWindowSize(Vector2DI size)
+	{
+		m_windowSize = size;
+		if (m_window != nullptr)
+		{
+			m_window->SetSize(size);
+		}
+
+		m_graphics->SetWindowSize(size);
+	}
+
 	bool Core_Imp::GetProfilerVisibility() const
 	{
 		return m_isProfilerVisible;

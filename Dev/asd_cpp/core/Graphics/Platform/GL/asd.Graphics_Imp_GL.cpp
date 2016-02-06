@@ -167,8 +167,11 @@ namespace asd {
 	glfwMakeContextCurrent(window_);
 	GLCheckError();
 	
-	glEnable(GL_FRAMEBUFFER_SRGB);
-
+	if (option.ColorSpace == ColorSpaceType::LinearSpace)
+	{
+		glEnable(GL_FRAMEBUFFER_SRGB);
+	}
+	
 	// 同期しない
 	glfwSwapInterval(0);
 	GLCheckError();
@@ -275,7 +278,10 @@ namespace asd {
 	MakeContextNone();
 	GLCheckError();
 
-	glEnable(GL_FRAMEBUFFER_SRGB);
+	if (option.ColorSpace == ColorSpaceType::LinearSpace)
+	{
+		glEnable(GL_FRAMEBUFFER_SRGB);
+	}
 
 	CreateContextBeforeThreading(nullptr);
 	GLCheckError();
@@ -1426,6 +1432,11 @@ void Graphics_Imp_GL::FlushCommand()
 void Graphics_Imp_GL::SetIsFullscreenMode(bool isFullscreenMode)
 {
 	// GLの場合、現状無効
+}
+
+void Graphics_Imp_GL::SetWindowSize(Vector2DI size)
+{
+
 }
 
 void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)

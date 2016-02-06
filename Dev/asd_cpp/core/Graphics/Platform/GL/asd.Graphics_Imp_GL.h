@@ -157,6 +157,9 @@ namespace asd {
 		void FlushCommand() override;
 
 		void SetIsFullscreenMode(bool isFullscreenMode) override;
+
+		void SetWindowSize(Vector2DI size) override;
+
 	private:
 
 		/**

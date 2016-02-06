@@ -181,6 +181,8 @@ namespace asd {
 
 		Vector2DI GetWindowSize();
 
+		void SetWindowSize(Vector2DI size) override;
+
 		bool GetProfilerVisibility() const;
 
 		void SetProfilerVisibility(bool visible);

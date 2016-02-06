@@ -630,6 +630,8 @@ namespace asd {
 
 	virtual void SetIsFullscreenMode(bool isFullscreenMode) = 0;
 
+	virtual void SetWindowSize(Vector2DI size) = 0;
+
 	/**
 		@brief	スレッドを取得する。
 		@return	スレッド

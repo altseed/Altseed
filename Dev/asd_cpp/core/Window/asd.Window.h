@@ -59,6 +59,8 @@ public:
 	*/
 	virtual Vector2DI GetSize() const = 0;
 
+	virtual void SetSize(Vector2DI size) = 0;
+
 	/**
 		@brief	ウインドウズの場合、ウインドウハンドルを取得する。
 		@return	ウインドウハンドル

@@ -423,9 +423,15 @@ namespace asd {
 
 		/**
 		@brief	ウィンドウのサイズを取得する。
-		preturn	ウィンドウのサイズ
+		@return	ウィンドウのサイズ
 		*/
 		static Vector2DI GetWindowSize();
+
+		/**
+		@brief	ウインドウのサイズを設定する。
+		@param	size	ウインドウのサイズ
+		*/
+		static void SetWindowSize(Vector2DI size);
 
 		static bool GetProfilerVisibility();
 

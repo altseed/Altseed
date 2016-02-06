@@ -1055,7 +1055,16 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	hDXGISwapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 	hDXGISwapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 	//hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+	if (option.ColorSpace == ColorSpaceType::LinearSpace)
+	{
+		hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	}
+	else
+	{
+		hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	}
+
 	hDXGISwapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	hDXGISwapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	hDXGISwapChainDesc.SampleDesc.Count = 1;
@@ -1585,6 +1594,49 @@ void Graphics_Imp_DX11::SetIsFullscreenMode(bool isFullscreenMode)
 	{
 		m_swapChain->SetFullscreenState(FALSE, 0);
 	}
+}
+
+void Graphics_Imp_DX11::SetWindowSize(Vector2DI size)
+{
+	DXGI_FORMAT format;
+
+	if (GetOption().ColorSpace == ColorSpaceType::LinearSpace)
+	{
+		format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	}
+	else
+	{
+		format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	}
+
+	m_swapChain->ResizeBuffers(1, size.X, size.Y, format, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+	SafeRelease(m_defaultBack);
+	SafeRelease(m_defaultBackRenderTargetView);
+	SafeRelease(m_defaultDepthBuffer);
+	SafeRelease(m_defaultDepthStencilView);
+
+	m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**) &m_defaultBack);
+	m_device->CreateRenderTargetView(m_defaultBack, NULL, &m_defaultBackRenderTargetView);
+	
+	D3D11_TEXTURE2D_DESC descDepth;
+	descDepth.Width = size.X;
+	descDepth.Height = size.Y;
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality = 0;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+	m_device->CreateTexture2D(&descDepth, NULL, &m_defaultDepthBuffer);
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC viewDesc;
+	viewDesc.Format = descDepth.Format;
+	viewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+	viewDesc.Flags = 0;
+	m_device->CreateDepthStencilView(m_defaultDepthBuffer, &viewDesc, &m_defaultDepthStencilView);
 }
 
 //----------------------------------------------------------------------------------

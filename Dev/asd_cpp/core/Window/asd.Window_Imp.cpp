@@ -49,6 +49,11 @@ Window_Imp* Window_Imp::Create(int32_t width, int32_t height, const achar* title
 	return ret;
 }
 
+void Window_Imp::SetSize(Vector2DI size)
+{
+	glfwSetWindowSize(m_window, size.X, size.Y);
+}
+
 void Window_Imp::SetCursor(Cursor* cursor)
 {
 	if (cursor == nullptr)

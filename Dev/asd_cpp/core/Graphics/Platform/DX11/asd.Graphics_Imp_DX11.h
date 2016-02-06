@@ -152,6 +152,8 @@ namespace asd {
 
 		void SetIsFullscreenMode(bool isFullscreenMode) override;
 
+		void SetWindowSize(Vector2DI size) override;
+
 	public:
 		void Clear(bool isColorTarget, bool isDepthTarget, const Color& color);
 

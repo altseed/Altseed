@@ -895,14 +895,17 @@ namespace asd
 		}
 
 		/// <summary>
-		/// ウィンドウのサイズを取得する。
+		/// ウィンドウのサイズを取得、または設定する。
 		/// </summary>
-		/// <returns>ウィンドウのサイズ</returns>
 		public static Vector2DI WindowSize
 		{
 			get
 			{
 				return core.GetWindowSize();
+			}
+			set
+			{
+				core.SetWindowSize(value);
 			}
 		}
 	}
