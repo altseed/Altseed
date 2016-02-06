@@ -14,6 +14,8 @@
 * [レイヤー](./Basic/Layer.md)
 * [親子関係機能](./Basic/FamilySystem.md)
 
+* [カーソル](./Basic/Cursor.md)
+
 ### 描画
 
 * [グラフィックス](./Graphics/Graphics.md)
