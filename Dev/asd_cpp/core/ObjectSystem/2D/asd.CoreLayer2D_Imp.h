@@ -90,6 +90,8 @@ namespace asd
 		void AddChipCullingObject(CoreChip2D_Imp *chip, uint32_t firstSortKey);
 		void RemoveChipCullingObject(CoreChip2D_Imp *chip);
 #endif
+		void SetSize(Vector2DI size) override;
+
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);
 		void Clear();

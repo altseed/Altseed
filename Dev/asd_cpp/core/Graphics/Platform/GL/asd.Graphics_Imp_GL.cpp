@@ -1436,7 +1436,7 @@ void Graphics_Imp_GL::SetIsFullscreenMode(bool isFullscreenMode)
 
 void Graphics_Imp_GL::SetWindowSize(Vector2DI size)
 {
-
+	m_size = size;
 }
 
 void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)

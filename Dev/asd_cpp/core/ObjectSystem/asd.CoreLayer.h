@@ -34,6 +34,8 @@ namespace asd
 		virtual void EndMeasureUpdateTime() = 0;
 		virtual int GetTimeForUpdate() const = 0;
 
+		virtual void SetSize(Vector2DI size) = 0;
+
 #if !SWIG
 		virtual void SetScene(CoreScene* scene) = 0;
 #endif

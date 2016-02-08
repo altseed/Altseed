@@ -858,6 +858,26 @@ namespace asd
 			m_window->SetSize(size);
 		}
 
+		layerRenderer->SetWindowSize(m_windowSize);
+
+		{
+			asd::Vector2DF lpos[4];
+			lpos[0].X = 0;
+			lpos[0].Y = 0;
+			lpos[1].X = (float) m_windowSize.X;
+			lpos[1].Y = 0;
+			lpos[2].X = (float) m_windowSize.X;
+			lpos[2].Y = (float) m_windowSize.Y;
+			lpos[3].X = 0;
+			lpos[3].Y = (float) m_windowSize.Y;
+			layerRenderer->SetLayerPosition(lpos);
+		}
+
+		if (m_currentScene != nullptr)
+		{
+			m_currentScene->SetSize(size);
+		}
+
 		m_graphics->SetWindowSize(size);
 	}
 

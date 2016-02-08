@@ -1598,6 +1598,22 @@ void Graphics_Imp_DX11::SetIsFullscreenMode(bool isFullscreenMode)
 
 void Graphics_Imp_DX11::SetWindowSize(Vector2DI size)
 {
+	// リセット
+	SetRenderTarget(nullptr, nullptr);
+	SafeRelease(m_defaultBack);
+	SafeRelease(m_defaultBackRenderTargetView);
+	SafeRelease(m_defaultDepthBuffer);
+	SafeRelease(m_defaultDepthStencilView);
+
+	for (auto i = 0; i < MaxRenderTarget; i++)
+	{
+		SafeRelease(m_currentBackRenderTargetViews[i]);
+	}
+
+	SafeRelease(m_currentDepthStencilView);
+
+	m_size = size;
+
 	DXGI_FORMAT format;
 
 	if (GetOption().ColorSpace == ColorSpaceType::LinearSpace)
@@ -1610,10 +1626,6 @@ void Graphics_Imp_DX11::SetWindowSize(Vector2DI size)
 	}
 
 	m_swapChain->ResizeBuffers(1, size.X, size.Y, format, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
-	SafeRelease(m_defaultBack);
-	SafeRelease(m_defaultBackRenderTargetView);
-	SafeRelease(m_defaultDepthBuffer);
-	SafeRelease(m_defaultDepthStencilView);
 
 	m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**) &m_defaultBack);
 	m_device->CreateRenderTargetView(m_defaultBack, NULL, &m_defaultBackRenderTargetView);
@@ -1637,6 +1649,8 @@ void Graphics_Imp_DX11::SetWindowSize(Vector2DI size)
 	viewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
 	viewDesc.Flags = 0;
 	m_device->CreateDepthStencilView(m_defaultDepthBuffer, &viewDesc, &m_defaultDepthStencilView);
+
+	SetRenderTarget(nullptr, nullptr);
 }
 
 //----------------------------------------------------------------------------------
