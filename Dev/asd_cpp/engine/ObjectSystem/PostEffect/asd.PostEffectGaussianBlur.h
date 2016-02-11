@@ -20,6 +20,9 @@ namespace asd
 
 		float intensity = 5.0f;
 
+	protected:
+		virtual void OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src) override;
+
 	public:
 		PostEffectGaussianBlur();
 		virtual ~PostEffectGaussianBlur() = default;
@@ -29,9 +32,6 @@ namespace asd
 		@detail 実質的にはガウス関数の分散にあたる値の平方根
 		*/
 		void SetIntensity(float const value){ if (value <= 0.0f){ return; }intensity = value; }
-
-		
-		virtual void OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src) override;
 	};
 
 }

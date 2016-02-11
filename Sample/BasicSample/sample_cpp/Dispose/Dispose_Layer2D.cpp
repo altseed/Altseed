@@ -1,34 +1,22 @@
 ﻿
 #include <Altseed.h>
 
-// Vanishが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
+// Disposeが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
 class Dispose_MessageObject : public asd::TextureObject2D
 {
 protected:
-	// Vanishが呼ばれたときに呼ばれる。
-	void OnVanish()
-	{
-		printf("Dispose_MessageObject.OnVanish\n");
-	}
-
-	// このオブジェクトが破棄されたときに呼ばれる。
+	// Disposeが呼ばれたときに呼ばれる。
 	void OnDispose()
 	{
 		printf("Dispose_MessageObject.OnDispose\n");
 	}
 };
 
-// Vanishが呼ばれた時や破棄されたときにコンソールに出力するレイヤー。
+// Disposeが呼ばれた時や破棄されたときにコンソールに出力するレイヤー。
 class Dispose_MessageLayer : public asd::Layer2D
 {
 protected:
-	// Vanishが呼ばれたときに呼ばれる。
-	void OnVanish()
-	{
-		printf("Dispose_MessageLayer.OnVanish\n");
-	}
-
-	// このレイヤーが破棄されたときに呼ばれる。
+	// Disposeが呼ばれたときに呼ばれる。
 	void OnDispose()
 	{
 		printf("Dispose_MessageLayer.OnDispose\n");
@@ -82,7 +70,7 @@ void Dispose_Layer2D()
 		{
 			printf("レイヤーを破棄します\n");
 			// レイヤーを破棄する。
-			layer->Vanish();
+			layer->Dispose();
 		}
 	}
 

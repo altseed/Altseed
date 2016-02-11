@@ -30,6 +30,9 @@ namespace asd
 		float exposure = 1.0f;
 		bool isLuminanceMode = false;
 
+	protected:
+		virtual void OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src) override;
+
 	public:
 		PostEffectLightBloom();
 		virtual ~PostEffectLightBloom() = default;
@@ -61,8 +64,6 @@ namespace asd
 		この値がtrueだと、RGBではなく輝度からぼかされる色を決定する。
 		*/
 		void SetIsLuminanceMode(bool value) { isLuminanceMode = value; }
-
-		virtual void OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src) override;
 	};
 
 }
