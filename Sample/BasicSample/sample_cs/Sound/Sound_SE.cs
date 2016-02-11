@@ -7,6 +7,10 @@ namespace sample_cs
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
         // Soundを用いて音を鳴らすサンプル。
         public void Run()

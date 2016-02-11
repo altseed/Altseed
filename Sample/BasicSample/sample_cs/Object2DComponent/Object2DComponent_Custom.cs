@@ -7,6 +7,10 @@ namespace sample_cs
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
         // オブジェクトを回転させるコンポーネント。
         class RotateComponent : asd.Object2DComponent

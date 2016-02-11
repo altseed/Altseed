@@ -52,4 +52,10 @@ public class CameraObject2D_Basic : ISample
         // Altseedを終了する。
         asd.Engine.Terminate();
     }
+
+
+	public string Title
+	{
+		get { return "カメラの基本"; }
+	}
 }

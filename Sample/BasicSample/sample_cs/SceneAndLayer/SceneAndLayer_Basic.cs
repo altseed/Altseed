@@ -6,6 +6,10 @@
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
         // シーンとレイヤーを手動で生成する。
         public void Run()

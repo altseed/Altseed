@@ -7,6 +7,10 @@ public class Mouse_Position : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public void Run()
     {

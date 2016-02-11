@@ -9,6 +9,10 @@ class Basic_Empty : ISample
     {
         get { return "空のウインドウを表示するサンプル。"; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public void Run()
 	{

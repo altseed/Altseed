@@ -8,6 +8,10 @@ public class Keyboard_PuralKeys : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public void Run()
     {

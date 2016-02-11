@@ -6,6 +6,10 @@
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
         // このサンプルで使用するカスタマイズされたシーン。
         class SampleScene : asd.Scene

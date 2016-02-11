@@ -10,7 +10,7 @@ namespace sample_cs
 	class SampleBrowserLayer : Layer2D
 	{
 		public static readonly int Columns = 3;
-		public static readonly Vector2DF ItemOffset = new Vector2DF(632 / Columns, 142);
+		public static readonly Vector2DF ItemOffset = new Vector2DF(632 / Columns, 150);
 
 		private List<SampleItem> items;
 		private CameraObject2D camera;

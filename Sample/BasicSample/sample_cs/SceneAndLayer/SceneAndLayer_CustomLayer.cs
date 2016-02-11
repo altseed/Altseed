@@ -6,6 +6,10 @@
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
         // このサンプルで使用するカスタマイズしたレイヤー。
         class SampleLayer : asd.Layer2D

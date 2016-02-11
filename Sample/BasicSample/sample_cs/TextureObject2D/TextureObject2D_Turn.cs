@@ -8,6 +8,10 @@ class TextureObject2D_Turn : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public void Run()
     {

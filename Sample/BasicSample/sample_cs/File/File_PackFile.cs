@@ -7,6 +7,10 @@ namespace sample_cs
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
         // PackFileを用いて、パッケージから画像を表示するサンプルです。
         public void Run()

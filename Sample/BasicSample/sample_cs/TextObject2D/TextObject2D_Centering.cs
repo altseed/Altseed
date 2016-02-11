@@ -8,6 +8,10 @@ class TextObject2D_Centering : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public void Run()
     {

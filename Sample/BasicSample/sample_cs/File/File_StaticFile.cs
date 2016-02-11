@@ -8,6 +8,10 @@ namespace sample_cs
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
         // StaticFile を用いて、ファイルからテキストを読み込むサンプルです。
         public void Run()

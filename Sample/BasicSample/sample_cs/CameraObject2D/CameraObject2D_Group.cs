@@ -13,6 +13,10 @@ public class CameraObject2D_Group : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public void Run()
     {

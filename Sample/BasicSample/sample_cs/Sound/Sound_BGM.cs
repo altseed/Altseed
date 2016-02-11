@@ -6,6 +6,10 @@
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
         // Soundを用いてBGMを鳴らすサンプル。
         public void Run()

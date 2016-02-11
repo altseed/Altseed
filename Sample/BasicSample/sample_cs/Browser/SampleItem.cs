@@ -10,7 +10,7 @@ namespace sample_cs
 	class SampleItem : TextureObject2D
 	{
 		public static readonly Vector2DF Size = new Vector2DF(150, 112.5f);
-		public static int TitleMaxLength = 19;
+		public static int TitleMaxLength = 9;
 
 		private RectangleShape shape_;
 		private TextureObject2D frame { get; set; }
@@ -34,10 +34,10 @@ namespace sample_cs
 
 		public SampleItem(ISample sample, Font font)
 		{
-			var sampleName = sample.GetType().Name;
+			var sampleName = sample.Title;
 			Sample = sample;
 
-			Texture = Engine.Graphics.CreateTexture2D("Data/Browser/" + sampleName + ".png");
+			Texture = Engine.Graphics.CreateTexture2D("Data/Browser/" + sample.GetType().Name + ".png");
 			if(Texture == null)
 			{
 				Texture = Engine.Graphics.CreateTexture2D("Data/Browser/Default.png");
@@ -75,16 +75,16 @@ namespace sample_cs
 			};
 		}
 
-		protected override void OnStart()
+		protected override void OnAdded()
 		{
 			Layer.AddObject(Title);
 			Layer.AddObject(frame);
 		}
 
-		protected override void OnVanish()
+		protected override void OnDispose()
 		{
-			Title.Vanish();
-			frame.Vanish();
+			Title.Dispose();
+			frame.Dispose();
 		}
 
 		public void Activate()

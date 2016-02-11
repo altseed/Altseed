@@ -12,6 +12,10 @@ namespace sample_cs
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
         // レイヤーにライトブルームのポストエフェクトを適用する。
         public void Run()

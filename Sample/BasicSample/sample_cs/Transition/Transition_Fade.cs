@@ -5,13 +5,17 @@ class Transition_Fade : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     // フェードアウト・フェードインでシーン遷移をするサンプル。
 
     // 遷移後のシーン
     class Scene2 : asd.Scene
 	{
-		protected override void OnStart()
+		protected override void OnRegistered()
 		{
 			// 画像を読み込み、オブジェクトに設定する。
 			var obj = new asd.TextureObject2D();
@@ -28,7 +32,7 @@ class Transition_Fade : ISample
 	// 遷移前のシーン
 	class Scene1 : asd.Scene
 	{
-		protected override void OnStart()
+		protected override void OnRegistered()
 		{
 			// 画像を読み込み、オブジェクトに設定する。
 			var obj = new asd.TextureObject2D();

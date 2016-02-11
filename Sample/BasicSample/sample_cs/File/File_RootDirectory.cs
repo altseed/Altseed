@@ -7,6 +7,10 @@ namespace sample_cs
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
         // AddRootDirectory を用いて、ファイルの起点となる場所を指定。
         // その起点を基準とした相対パスで画像を指定し描画するサンプルです。
