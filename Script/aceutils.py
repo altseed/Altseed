@@ -168,3 +168,12 @@ def editCmakeForACE(path,enc='utf-8'):
 	f.write(lines)
 	f.close()
 
+# strings
+cmd_cmake = ''
+cmd_cmake_x64 = ''
+cmd_compile = ''
+
+if isWin():
+	cmd_cmake = r'cmake -G "Visual Studio 12" '
+	cmd_cmake_x64 = r'cmake -G "Visual Studio 12 Win64" '
+	cmd_compile = r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" '

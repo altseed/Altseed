@@ -22,9 +22,9 @@ aceutils.mkdir(r"gtest_bin_x64")
 aceutils.cd(r"gtest_bin")
 
 if aceutils.isWin():
-	aceutils.call(r'cmake -G "Visual Studio 12" -D BUILD_SHARED_LIBS:BOOL=OFF ../gtest-1.7.0/')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" gtest.sln /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" gtest.sln /p:configuration=Release')
+	aceutils.call(aceutils.cmd_cmake+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../gtest-1.7.0/')
+	aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
+	aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Release')
 elif aceutils.isMac():
 	aceutils.call(r'cmake -G "Unix Makefiles" -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX=../Dev "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../gtest-1.7.0/')
 	aceutils.call(r'make')
@@ -37,9 +37,9 @@ aceutils.cd(r"../")
 aceutils.cd(r"gtest_bin_x64")
 
 if aceutils.isWin():
-	aceutils.call(r'cmake -G "Visual Studio 12 Win64" -D BUILD_SHARED_LIBS:BOOL=OFF ../gtest-1.7.0/')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" gtest.sln /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" gtest.sln /p:configuration=Release')
+	aceutils.call(aceutils.cmd_cmake_x64+r'-D BUILD_SHARED_LIBS:BOOL=OFF ../gtest-1.7.0/')
+	aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Debug')
+	aceutils.call(aceutils.cmd_compile + r'gtest.sln /p:configuration=Release')
 
 aceutils.cd(r"../")
 
