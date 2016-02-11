@@ -22,22 +22,23 @@
 #ifdef _WIN64
 
 #if _DEBUG
-#pragma comment(lib,"x64/Debug/glew32sd.lib")
+#pragma comment(lib,"x64/Debug/libglew32d.lib")
 #else
-#pragma comment(lib,"x64/Release/glew32s.lib")
+#pragma comment(lib,"x64/Release/libglew32.lib")
 #endif
 
 #else
 
 #if _DEBUG
-#pragma comment(lib,"x86/Debug/glew32sd.lib")
+#pragma comment(lib,"x86/Debug/libglew32d.lib")
 #else
-#pragma comment(lib,"x86/Release/glew32s.lib")
+#pragma comment(lib,"x86/Release/libglew32.lib")
 #endif
 
 #endif
 
 #endif
+
 
 // GLU
 #pragma comment(lib, "glu32.lib")

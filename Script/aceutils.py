@@ -147,7 +147,7 @@ def editCmakeForACE(path,enc='utf-8'):
 	lines = lines + "endif()\n"
 	
 	
-	if 'Box2D' in lines or 'freetype' in lines or 'PROJECT(GD)' in lines or 'SET (LIBGD_SRC_FILES' in lines:
+	if 'project (glew)' in lines or 'Box2D' in lines or 'freetype' in lines or 'PROJECT(GD)' in lines or 'SET (LIBGD_SRC_FILES' in lines:
 		lines = lines + "if (MSVC)\n"
 		lines = lines + "\tforeach (flag CMAKE_C_FLAGS\n"
 		lines = lines + "\t\tCMAKE_C_FLAGS_DEBUG\n"
