@@ -30,7 +30,8 @@ namespace asd
 			[&paths](const std::tr2::sys::path& p) {
 			if (std::tr2::sys::is_regular_file(p))
 			{
-				paths.push_back(p);
+				auto p_ = p.string();
+				paths.push_back(p_);
 			}});
 #elif defined __APPLE__
 		DIR *dir;

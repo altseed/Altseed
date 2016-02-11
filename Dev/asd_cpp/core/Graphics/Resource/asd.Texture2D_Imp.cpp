@@ -34,7 +34,7 @@
 #endif
 #endif
 
-#ifdef _v130
+#ifdef _v140
 #ifdef _WIN64
 
 #if _DEBUG

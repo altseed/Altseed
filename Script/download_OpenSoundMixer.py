@@ -37,7 +37,7 @@ aceutils.cd(r"../")
 aceutils.cd(r"osm_bin_x64")
 
 if aceutils.isWin():
-	aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../OpenSoundMixer-master/')
+	aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../OpenSoundMixer-master/')
 	aceutils.call(aceutils.cmd_compile + r'OpenSoundMixer.sln /p:configuration=Debug')
 	aceutils.call(aceutils.cmd_compile + r'OpenSoundMixer.sln /p:configuration=Release')
 
