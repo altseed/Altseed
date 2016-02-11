@@ -27,10 +27,7 @@ namespace asd
 
 		CorePostEffect* GetCoreObject() const;
 
-	public:
-		PostEffect();
-		virtual ~PostEffect();
-
+	protected:
 		/**
 		@brief	オーバーライドして、毎フレーム描画される処理を記述できる。
 		*/
@@ -42,5 +39,9 @@ namespace asd
 		@param	material	マテリアル
 		*/
 		void DrawOnTexture2DWithMaterial(std::shared_ptr<RenderTexture2D> target, std::shared_ptr<Material2D> material);
+
+	public:
+		PostEffect();
+		virtual ~PostEffect();
 	};
 }

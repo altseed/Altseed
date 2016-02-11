@@ -121,7 +121,7 @@ void main()
 			material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
 		}
 
-		public override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
+		protected override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
 		{
 			// マテリアルを経由してシェーダー内のg_texture変数に画面の画像(src)を入力する。
 			material2d.SetTexture2D("g_texture", src);

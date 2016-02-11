@@ -9,7 +9,7 @@
 class PauseLayer
 	: public asd::Layer2D
 {
-	void OnStart() override
+	void OnAdded() override
 	{
 		// ポーズ以外のレイヤーの更新を停止する。
 		for(auto& layer : GetScene()->GetLayers())
@@ -32,7 +32,7 @@ class PauseLayer
 			{
 				layer->SetIsUpdated(true);
 			}
-			Vanish();
+			Dispose();
 		}
 	}
 };

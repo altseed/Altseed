@@ -7,7 +7,7 @@ class Scene2
 	: public asd::Scene
 {
 public:
-	void OnStart() override
+	void OnRegistered() override
 	{
 		// 画像を読み込み、オブジェクトに設定する。
 		auto obj = std::make_shared<asd::TextureObject2D>();
@@ -26,7 +26,7 @@ class Scene1
 	: public asd::Scene
 {
 public:
-	void OnStart() override
+	void OnRegistered() override
 	{
 		// 画像を読み込み、オブジェクトに設定する。
 		auto obj = std::make_shared<asd::TextureObject2D>();
