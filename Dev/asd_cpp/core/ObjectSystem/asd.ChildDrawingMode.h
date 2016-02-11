@@ -10,17 +10,20 @@ namespace asd
 	public:
 		typedef int Flags;
 
-		/**
-			@brief	何も同期しない。
-		*/
-		static const Flags Nothing = 0;
-		/**
-			@brief	描画の際に親の色を子に乗算する。
-		*/
-		static const Flags Color = 1;
-		/**
-			@brief	描画の際に親の描画優先度を子の描画優先度に足す。
-		*/
-		static const Flags DrawingPriority = 2;
+		enum : Flags
+		{
+			/**
+				@brief	何も同期しない。
+			*/
+			Nothing = 0,
+			/**
+				@brief	描画の際に親の色を子に乗算する。
+			*/
+			Color = 1,
+			/**
+				@brief	描画の際に親の描画優先度を子の描画優先度に足す。
+			*/
+			DrawingPriority = 2,
+		};
 	};
 }
