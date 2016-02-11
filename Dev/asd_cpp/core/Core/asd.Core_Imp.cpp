@@ -235,6 +235,19 @@ namespace asd
 		}
 		m_window->ShowWindow();
 
+		// アイコン設定
+#if _WIN32
+		{
+			auto hwnd = (HWND) m_window->GetWindowHandle();
+			auto icon = LoadIconW(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_APPLICATION));
+			if (icon != nullptr)
+			{
+				::SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM) icon);
+				::SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM) icon);
+			}
+		}
+#endif
+
 		m_keyboard = Keyboard_Imp::Create(m_window);
 		m_mouse = Mouse_Imp::Create(m_window);
 		m_joystickContainer = JoystickContainer_Imp::Create();
