@@ -5,15 +5,15 @@ namespace sample_cs
     {
         public string Description
         {
-            get { return ""; }
+			get { return "ファイルを探す際のルートディレクトリを設定する機能のサンプル。"; }
         }
 		public string Title
 		{
-			get { return ""; }
+			get { return "ルートディレクトリの設定"; }
 		}
 
         // AddRootDirectory を用いて、ファイルの起点となる場所を指定。
-        // その起点を基準とした相対パスで画像を指定し描画するサンプルです。
+        // その起点を基準とした相対パスで画像を指定し描画するサンプル。
         public void Run()
 		{
 			// Altseedを初期化する。

@@ -9,7 +9,7 @@ namespace sample_cs
 {
 	class SampleBrowser
 	{
-        public static readonly float Margin = 8;
+        public static readonly float Margin = 16;
 
 		private ISample[] samples;
 

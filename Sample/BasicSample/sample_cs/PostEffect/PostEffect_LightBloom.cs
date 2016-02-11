@@ -10,11 +10,11 @@ namespace sample_cs
     {
         public string Description
         {
-            get { return ""; }
+            get { return "レイヤーの描画結果にライトブルーム効果をかけるサンプル。"; }
         }
 		public string Title
 		{
-			get { return ""; }
+			get { return "ライトブルーム"; }
 		}
 
         // レイヤーにライトブルームのポストエフェクトを適用する。

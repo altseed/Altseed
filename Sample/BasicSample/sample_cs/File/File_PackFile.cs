@@ -5,14 +5,14 @@ namespace sample_cs
     {
         public string Description
         {
-            get { return ""; }
+            get { return "Altseedのパッケージ機能でパッケージにまとめたファイルにアクセスするサンプル。"; }
         }
 		public string Title
 		{
-			get { return ""; }
+			get { return "パッケージからのファイル読み込み"; }
 		}
 
-        // PackFileを用いて、パッケージから画像を表示するサンプルです。
+        // PackFileを用いて、パッケージから画像を表示するサンプル。
         public void Run()
 		{
 			// Altseedを初期化する。

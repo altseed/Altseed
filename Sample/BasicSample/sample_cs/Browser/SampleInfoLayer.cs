@@ -106,7 +106,7 @@ namespace sample_cs
 		public void MoveScrollBar(float pos)
 		{
 			float yOffset = pos / totalHeight * (480 - 20 - PanelHeight - SampleBrowser.Margin * 2);
-			scrollBar.Position = new Vector2DF(640 - ScrollBerWidth - SampleBrowser.Margin, 20 + SampleBrowser.Margin + yOffset);
+			scrollBar.Position = new Vector2DF(640 - ScrollBerWidth - SampleBrowser.Margin, 20 + SampleBrowser.Margin / 2 + yOffset);
 		}
 	}
 }

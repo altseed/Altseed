@@ -4,11 +4,11 @@
     {
         public string Description
         {
-            get { return ""; }
+            get { return "シーンとレイヤーを手動で生成して操作するサンプル。"; }
         }
 		public string Title
 		{
-			get { return ""; }
+			get { return "シーンとレイヤーの基本"; }
 		}
 
         // シーンとレイヤーを手動で生成する。

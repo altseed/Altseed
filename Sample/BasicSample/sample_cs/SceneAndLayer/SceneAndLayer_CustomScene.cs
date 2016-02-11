@@ -4,11 +4,11 @@
     {
         public string Description
         {
-            get { return ""; }
+            get { return "Sceneクラスを継承して、ふるまいをカスタマイズするサンプル。"; }
         }
 		public string Title
 		{
-			get { return ""; }
+			get { return "シーンのカスタマイズ"; }
 		}
 
         // このサンプルで使用するカスタマイズされたシーン。

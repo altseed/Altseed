@@ -34,7 +34,6 @@ namespace sample_cs
 
 		public SampleItem(ISample sample, Font font)
 		{
-			var sampleName = sample.Title;
 			Sample = sample;
 
 			Texture = Engine.Graphics.CreateTexture2D("Data/Browser/" + sample.GetType().Name + ".png");
@@ -44,15 +43,10 @@ namespace sample_cs
 			}
 			Scale = Size / Texture.Size.To2DF();
 
-			var text = sampleName;
-			if(text.Length > TitleMaxLength)
-			{
-				text = "…" + text.Substring(text.Length - TitleMaxLength);
-			}
-
+			var text = sample.Title != "" ? sample.Title : sample.GetType().Name;
 			Title = new TextObject2D()
 			{
-				Text = text,
+				Text = GetWrappedString(font, text),
 				Font = font,
 				Position = new Vector2DF(0, 115),
 				DrawingPriority = 1,
@@ -73,6 +67,20 @@ namespace sample_cs
 			{
 				DrawingArea = new RectF(Position.X, Position.Y, Size.X, Size.Y),
 			};
+		}
+
+		private string GetWrappedString(Font font, string title)
+		{
+			string result = title;
+			if(font.CalcTextureSize(result, WritingDirection.Horizontal).X <= Size.X)
+			{
+				return result;
+			}
+			while(font.CalcTextureSize(result + "…", WritingDirection.Horizontal).X > Size.X)
+			{
+				result = result.Substring(0, result.Length - 1);
+			}
+			return result + "…";
 		}
 
 		protected override void OnAdded()

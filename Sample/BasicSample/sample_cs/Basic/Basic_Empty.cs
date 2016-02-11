@@ -11,7 +11,7 @@ class Basic_Empty : ISample
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "Altseedの基本"; }
 	}
 
     public void Run()
