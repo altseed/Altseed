@@ -8,8 +8,12 @@ namespace sample_cs
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
-        // StaticFile を用いて、ファイルからテキストを読み込むサンプルです。
+        // StaticFile を用いて、ファイルからテキストを読み込むサンプル。
         public void Run()
 		{
 			// Altseedを初期化する。

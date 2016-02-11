@@ -71,4 +71,9 @@ public class CameraObject2D_Texture : ISample
 		// Altseedを終了する。
 		asd.Engine.Terminate();
 	}
+
+	public string Title
+	{
+		get { return ""; }
+	}
 }

@@ -77,4 +77,9 @@ public class Collision2D_Basic : ISample
         asd.Engine.Terminate();
 
     }
+
+	public string Title
+	{
+		get { return ""; }
+	}
 }

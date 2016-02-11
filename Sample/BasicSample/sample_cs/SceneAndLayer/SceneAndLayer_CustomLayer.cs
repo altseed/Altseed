@@ -4,8 +4,12 @@
     {
         public string Description
         {
-            get { return ""; }
+            get { return "Layer2Dクラスを継承して、ふるまいをカスタマイズするサンプル。"; }
         }
+		public string Title
+		{
+			get { return "レイヤーのカスタマイズ"; }
+		}
 
         // このサンプルで使用するカスタマイズしたレイヤー。
         class SampleLayer : asd.Layer2D

@@ -6,6 +6,10 @@
         {
             get { return ""; }
         }
+		public string Title
+		{
+			get { return ""; }
+		}
 
         // BGMをループ再生するサンプル。
         public void Run()

@@ -7,6 +7,10 @@ public class Keyboard_SingularKey : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public void Run()
     {   

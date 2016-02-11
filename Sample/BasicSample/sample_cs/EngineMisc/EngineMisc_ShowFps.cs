@@ -5,6 +5,10 @@ class EngineMisc_ShowFps : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     // 現在のFPSを画面に表示するサンプル。
     public void Run()

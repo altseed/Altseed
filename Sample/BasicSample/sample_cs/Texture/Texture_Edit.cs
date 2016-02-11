@@ -8,6 +8,10 @@ class Texture_Edit : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public unsafe void Run()
 	{

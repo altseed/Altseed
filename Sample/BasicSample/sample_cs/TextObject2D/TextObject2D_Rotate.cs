@@ -13,6 +13,10 @@ class TextObject2D_Rotate : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public void Run()
     {

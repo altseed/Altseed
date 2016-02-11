@@ -7,6 +7,10 @@ class GeometryObject2D_PolygonShape : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public void Run()
     {

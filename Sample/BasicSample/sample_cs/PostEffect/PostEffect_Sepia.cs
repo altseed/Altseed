@@ -10,8 +10,12 @@ namespace sample_cs
     {
         public string Description
         {
-            get { return ""; }
+            get { return "レイヤーの描画結果をセピア調にするサンプル。"; }
         }
+		public string Title
+		{
+			get { return "セピア調"; }
+		}
 
         // レイヤーにセピアカラーのポストエフェクトを適用する。
         public void Run()

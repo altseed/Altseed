@@ -8,6 +8,10 @@ class Texture_Basic : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public unsafe void Run()
 	{

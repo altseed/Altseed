@@ -9,6 +9,10 @@ class Basic_Empty : ISample
     {
         get { return "空のウインドウを表示するサンプル。"; }
     }
+	public string Title
+	{
+		get { return "Altseedの基本"; }
+	}
 
     public void Run()
 	{

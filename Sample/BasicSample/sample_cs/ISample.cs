@@ -3,6 +3,7 @@ interface ISample
 {
 	void Run();
 	string Description { get; }
+	string Title { get; }
 }
 
 class Recorder

@@ -106,4 +106,9 @@ public class Collision2D_Geometries : ISample
         // Altseedの終了処理をする。
         asd.Engine.Terminate();
     }
+
+	public string Title
+	{
+		get { return ""; }
+	}
 }

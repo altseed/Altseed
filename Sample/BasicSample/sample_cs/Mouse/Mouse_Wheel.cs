@@ -7,6 +7,10 @@ public class Mouse_Wheel : ISample
     {
         get { return ""; }
     }
+	public string Title
+	{
+		get { return ""; }
+	}
 
     public void Run()
     {

@@ -10,8 +10,12 @@ namespace sample_cs
     {
         public string Description
         {
-            get { return ""; }
+            get { return "レイヤーの描画結果にガウスぼかしをかけるサンプル。"; }
         }
+		public string Title
+		{
+			get { return "ガウスぼかし"; }
+		}
 
         // レイヤーにガウスぼかしのポストエフェクトを適用する。
         public void Run()
