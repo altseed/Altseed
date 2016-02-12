@@ -4,6 +4,16 @@
 /// </summary>
 class Pause_Basic : ISample
 {
+	public string Description
+	{
+		get { return ""; }
+	}
+
+	public string Title
+	{
+		get { return ""; }
+	}
+
 	/// <summary>
 	/// ポーズを実行するレイヤー
 	/// </summary>

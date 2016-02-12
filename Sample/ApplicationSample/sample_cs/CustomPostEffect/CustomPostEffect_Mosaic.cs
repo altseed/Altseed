@@ -4,6 +4,16 @@
 /// </summary>
 class CustomPostEffect_Mosaic : ISample
 {
+	public string Description
+	{
+		get { return ""; }
+	}
+
+	public string Title
+	{
+		get { return ""; }
+	}
+
 	/// <summary>
 	/// DirectX向けシェーダー(HLSLで記述)
 	/// </summary>
@@ -100,6 +110,16 @@ void main()
 	{
 		asd.Shader2D shader;
 		asd.Material2D material2d;
+
+		public string Description
+		{
+			get { return ""; }
+		}
+
+		public string Title
+		{
+			get { return ""; }
+		}
 
 		public MosaicPostEffect()
 		{

@@ -111,5 +111,16 @@ void main()
 
 		asd.Engine.Terminate();
 	}
+
+
+	public string Description
+	{
+		get { return ""; }
+	}
+
+	public string Title
+	{
+		get { return ""; }
+	}
 }
 

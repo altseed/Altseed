@@ -1,5 +1,6 @@
 ﻿#include "SampleGuide.h"
-#define INFO(func) { func, #func }
+#include "Browser\SampleBrowser.h"
+#define INFO(func, title, description) { func, asd::ToAString(#func), asd::ToAString(title), asd::ToAString(description), true }
 
 #if _WIN32
 #ifdef _DEBUG
@@ -96,81 +97,83 @@ int main(int argc, char** argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 
+	SampleInfo info = { [](){}, asd::ToAString("test"), asd::ToAString("title"), asd::ToAString("description"), true };
+
 	std::vector<SampleInfo> samples =
 	{
-		INFO(Basic_Empty),
-		INFO(TextureObject2D_Basic),
-		INFO(TextureObject2D_Turn),
-		INFO(TextureObject2D_Src),
-		INFO(TextureObject2D_Transform),
+		INFO(Basic_Empty, "", ""),
+		INFO(TextureObject2D_Basic, "", ""),
+		INFO(TextureObject2D_Turn, "", ""),
+		INFO(TextureObject2D_Src, "", ""),
+		INFO(TextureObject2D_Transform, "", ""),
 
-		INFO(Transition_Fade),
+		INFO(Transition_Fade, "", ""),
 
-		INFO(Mouse_Position),
-		INFO(Mouse_Click),
-		INFO(Mouse_State),
-		INFO(Mouse_Wheel),
+		INFO(Mouse_Position, "", ""),
+		INFO(Mouse_Click, "", ""),
+		INFO(Mouse_State, "", ""),
+		INFO(Mouse_Wheel, "", ""),
 
-		INFO(Keyboard_Basic),
-		INFO(Keyboard_SingularKey),
-		INFO(Keyboard_PuralKeys),
+		INFO(Keyboard_Basic, "", ""),
+		INFO(Keyboard_SingularKey, "", ""),
+		INFO(Keyboard_PuralKeys, "", ""),
 
-		INFO(Joystick_Basic),
-		INFO(Joystick_Axis),
+		INFO(Joystick_Basic, "", ""),
+		INFO(Joystick_Axis, "", ""),
 
-		INFO(Sound_SE),
-		INFO(Sound_BGM),
-		INFO(Sound_Loop),
+		INFO(Sound_SE, "", ""),
+		INFO(Sound_BGM, "", ""),
+		INFO(Sound_Loop, "", ""),
 
-		INFO(Object2DComponent_Custom),
+		INFO(Object2DComponent_Custom, "", ""),
 
-		INFO(CameraObject2D_Basic),
-		INFO(CameraObject2D_Magnify),
-		INFO(CameraObject2D_Group),
-		INFO(CameraObject2D_Texture),
+		INFO(CameraObject2D_Basic, "", ""),
+		INFO(CameraObject2D_Magnify, "", ""),
+		INFO(CameraObject2D_Group, "", ""),
+		INFO(CameraObject2D_Texture, "", ""),
 
-		INFO(EffectObject2D_Basic),
+		INFO(EffectObject2D_Basic, "", ""),
 
-		INFO(TextObject2D_Basic),
-		INFO(TextObject2D_DynamicFont),
-		INFO(TextObject2D_Rotate),
-		INFO(TextObject2D_Filtered),
-		INFO(TextObject2D_Centering),
+		INFO(TextObject2D_Basic, "", ""),
+		INFO(TextObject2D_DynamicFont, "", ""),
+		INFO(TextObject2D_Rotate, "", ""),
+		INFO(TextObject2D_Filtered, "", ""),
+		INFO(TextObject2D_Centering, "", ""),
 
-		INFO(GeometryObject2D_CircleShape),
-		INFO(GeometryObject2D_ArcShape),
-		INFO(GeometryObject2D_RectangleShape),
-		INFO(GeometryObject2D_PolygonShape),
-		INFO(GeometryObject2D_PolygonShape_Textured),
+		INFO(GeometryObject2D_CircleShape, "", ""),
+		INFO(GeometryObject2D_ArcShape, "", ""),
+		INFO(GeometryObject2D_RectangleShape, "", ""),
+		INFO(GeometryObject2D_PolygonShape, "", ""),
+		INFO(GeometryObject2D_PolygonShape_Textured, "", ""),
 
-		INFO(Collision2D_Basic),
-		INFO(Collision2D_Geometries),
+		INFO(Collision2D_Basic, "", ""),
+		INFO(Collision2D_Geometries, "", ""),
 
-		INFO(SceneAndLayer_Basic),
-		INFO(SceneAndLayer_CustomLayer),
-		INFO(SceneAndLayer_CustomScene),
+		INFO(SceneAndLayer_Basic, "", ""),
+		INFO(SceneAndLayer_CustomLayer, "", ""),
+		INFO(SceneAndLayer_CustomScene, "", ""),
 
-		INFO(Dispose_Object2D),
-		INFO(Dispose_Layer2D),
+		INFO(Dispose_Object2D, "", ""),
+		INFO(Dispose_Layer2D, "", ""),
 
-		INFO(PostEffect_GrayScale),
-		INFO(PostEffect_Sepia),
-		INFO(PostEffect_GaussianBlur),
-		INFO(PostEffect_LightBloom),
+		INFO(PostEffect_GrayScale, "", ""),
+		INFO(PostEffect_Sepia, "", ""),
+		INFO(PostEffect_GaussianBlur, "", ""),
+		INFO(PostEffect_LightBloom, "", ""),
 
-		INFO(File_PackFile),
-		INFO(File_RootDirectory),
-		INFO(File_StaticFile),
-		INFO(File_StreamFile),
+		INFO(File_PackFile, "", ""),
+		INFO(File_RootDirectory, "", ""),
+		INFO(File_StaticFile, "", ""),
+		INFO(File_StreamFile, "", ""),
 
-		INFO(EngineMisc_ShowFps),
+		INFO(EngineMisc_ShowFps, "", ""),
 
-		INFO(Texture_Basic),
-		INFO(Texture_Edit),
+		INFO(Texture_Basic, "", ""),
+		INFO(Texture_Edit, "", ""),
 	};
 
-	auto cui = SampleGuide(samples);
-	cui.Show();
+	auto browser = SampleBrowser(samples);
+	browser.Run();
 
 	return 0;
 }

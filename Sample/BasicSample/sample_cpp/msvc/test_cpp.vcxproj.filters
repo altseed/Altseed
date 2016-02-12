@@ -159,10 +159,28 @@
     <ClCompile Include="..\Dispose\Dispose_Layer2D.cpp">
       <Filter>Dispose</Filter>
     </ClCompile>
+    <ClCompile Include="..\Browser\SampleBrowser.cpp">
+      <Filter>Browser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Browser\SampleBrowserLayer.cpp">
+      <Filter>Browser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Browser\SampleItem.cpp">
+      <Filter>Browser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
     <ClInclude Include="..\SampleGuide.h" />
+    <ClInclude Include="..\Browser\SampleBrowser.h">
+      <Filter>Browser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Browser\SampleBrowserLayer.h">
+      <Filter>Browser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Browser\SampleItem.h">
+      <Filter>Browser</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Basic">
@@ -221,6 +239,9 @@
     </Filter>
     <Filter Include="Dispose">
       <UniqueIdentifier>{b65be3b7-e5ea-4ea7-9d24-61913bfbab44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Browser">
+      <UniqueIdentifier>{44634fe3-bf97-4cf3-b7f5-141af6fdcc4c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
