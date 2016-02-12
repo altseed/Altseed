@@ -20,9 +20,9 @@ aceutils.mkdir(r"culling3d_bin_x64")
 aceutils.cd(r"culling3d_bin")
 
 if aceutils.isWin():
-	aceutils.call(r'cmake -G "Visual Studio 12" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Culling3D-master/')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Culling3D.sln /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Culling3D.sln /p:configuration=Release')
+	aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Culling3D-master/')
+	aceutils.call(aceutils.cmd_compile + r'Culling3D.sln /p:configuration=Debug')
+	aceutils.call(aceutils.cmd_compile + r'Culling3D.sln /p:configuration=Release')
 elif aceutils.isMac():
 	aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../Culling3D-master/')
 	aceutils.call(r'make')
@@ -35,9 +35,9 @@ aceutils.cd(r"../")
 aceutils.cd(r"culling3d_bin_x64")
 
 if aceutils.isWin():
-	aceutils.call(r'cmake -G "Visual Studio 12 Win64" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Culling3D-master/')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Culling3D.sln /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Culling3D.sln /p:configuration=Release')
+	aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Culling3D-master/')
+	aceutils.call(aceutils.cmd_compile + r'Culling3D.sln /p:configuration=Debug')
+	aceutils.call(aceutils.cmd_compile + r'Culling3D.sln /p:configuration=Release')
 
 aceutils.cd(r"../")
 

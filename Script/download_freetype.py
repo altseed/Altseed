@@ -20,9 +20,9 @@ aceutils.editCmakeForACE(r'freetype-2.6/CMakeLists.txt','cp932')
 aceutils.cd(r"freetype_bin")
 
 if aceutils.isWin():
-	aceutils.call(r'cmake -G "Visual Studio 12" ../freetype-2.6/')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" freetype.sln /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" freetype.sln /p:configuration=Release')
+	aceutils.call(aceutils.cmd_cmake+r'../freetype-2.6/')
+	aceutils.call(aceutils.cmd_compile + r'freetype.sln /p:configuration=Debug')
+	aceutils.call(aceutils.cmd_compile + r'freetype.sln /p:configuration=Release')
 elif aceutils.isMac():
 	aceutils.call(r'cmake -G "Unix Makefiles" "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../freetype-2.6/')
 	aceutils.call(r'make')
@@ -35,9 +35,9 @@ aceutils.cd(r"../")
 aceutils.cd(r"freetype_bin_x64")
 
 if aceutils.isWin():
-	aceutils.call(r'cmake -G "Visual Studio 12 Win64" ../freetype-2.6/')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" freetype.sln /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" freetype.sln /p:configuration=Release')
+	aceutils.call(aceutils.cmd_cmake_x64+r'../freetype-2.6/')
+	aceutils.call(aceutils.cmd_compile + r'freetype.sln /p:configuration=Debug')
+	aceutils.call(aceutils.cmd_compile + r'freetype.sln /p:configuration=Release')
 
 aceutils.cd(r"../")
 

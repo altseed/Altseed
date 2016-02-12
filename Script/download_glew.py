@@ -21,9 +21,9 @@ aceutils.mkdir(r"glew_bin_x64")
 aceutils.cd(r"glew_bin")
 
 if aceutils.isWin():
-	aceutils.call(r'cmake -G "Visual Studio 12" -UGLEW_USE_STATIC_LIBS ../' + pathname + '/build/cmake')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" ALL_BUILD.vcxproj /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" ALL_BUILD.vcxproj /p:configuration=Release')
+	aceutils.call(aceutils.cmd_cmake+r'-UGLEW_USE_STATIC_LIBS ../' + pathname + '/build/cmake')
+	aceutils.call(aceutils.cmd_compile + r'ALL_BUILD.vcxproj /p:configuration=Debug')
+	aceutils.call(aceutils.cmd_compile + r'ALL_BUILD.vcxproj /p:configuration=Release')
 elif aceutils.isMac():
 	aceutils.call(r'cmake -G "Unix Makefiles" -UGLEW_USE_STATIC_LIBS -D CMAKE_INSTALL_PREFIX:PATH=../Dev "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../' + pathname + '/build/cmake')
 	aceutils.call(r'make install')
@@ -36,9 +36,9 @@ aceutils.cd(r"../")
 aceutils.cd(r"glew_bin_x64")
 
 if aceutils.isWin():
-	aceutils.call(r'cmake -G "Visual Studio 12 Win64" -UGLEW_USE_STATIC_LIBS ../' + pathname + '/build/cmake')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" ALL_BUILD.vcxproj /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" ALL_BUILD.vcxproj /p:configuration=Release')
+	aceutils.call(aceutils.cmd_cmake_x64+r'-UGLEW_USE_STATIC_LIBS ../' + pathname + '/build/cmake')
+	aceutils.call(aceutils.cmd_compile + r'ALL_BUILD.vcxproj /p:configuration=Debug')
+	aceutils.call(aceutils.cmd_compile + r'ALL_BUILD.vcxproj /p:configuration=Release')
 
 aceutils.cd(r"../")
 

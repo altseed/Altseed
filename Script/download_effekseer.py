@@ -21,9 +21,9 @@ aceutils.mkdir(r"effekseer_bin_x64")
 aceutils.cd(r"effekseer_bin")
 
 if aceutils.isWin():
-	aceutils.call(r'cmake -G "Visual Studio 12" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Effekseer.sln /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Effekseer.sln /p:configuration=Release')
+	aceutils.call(aceutils.cmd_cmake+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
+	aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Debug')
+	aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Release')
 elif aceutils.isMac():
 	aceutils.call(r'cmake -G "Unix Makefiles" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF -D USE_GLEW_STATIC:BOOL=OFF -D USE_GLEW_DLL:BOOL=OFF -D USE_OPENGL3:BOOL=ON -D USE_OPENAL:BOOL=OFF "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../Effekseer-master/Dev/Cpp/')
 	aceutils.call(r'make')
@@ -37,9 +37,9 @@ aceutils.cd(r"../")
 aceutils.cd(r"effekseer_bin_x64")
 
 if aceutils.isWin():
-	aceutils.call(r'cmake -G "Visual Studio 12 Win64" -D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Effekseer.sln /p:configuration=Debug')
-	aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Effekseer.sln /p:configuration=Release')
+	aceutils.call(aceutils.cmd_cmake_x64+r'-D USE_MSVC_RUNTIME_LIBRARY_DLL:BOOL=OFF -D USE_INTERNAL_LOADER:BOOL=OFF ../Effekseer-master/Dev/Cpp/')
+	aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Debug')
+	aceutils.call(aceutils.cmd_compile + r'Effekseer.sln /p:configuration=Release')
 
 aceutils.cd(r"../")
 
