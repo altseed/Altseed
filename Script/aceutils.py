@@ -174,6 +174,15 @@ cmd_cmake_x64 = ''
 cmd_compile = ''
 
 if isWin():
-	cmd_cmake = r'cmake -G "Visual Studio 12" '
-	cmd_cmake_x64 = r'cmake -G "Visual Studio 12 Win64" '
-	cmd_compile = r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" '
+	if (len(sys.argv) == 1) or (len(sys.argv) == 2 and sys.argv[1] == 'Visual Studio 12'):
+		# vs2013
+		cmd_cmake = r'cmake -G "Visual Studio 12" '
+		cmd_cmake_x64 = r'cmake -G "Visual Studio 12 Win64" '
+		cmd_compile = r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" '
+
+	if (len(sys.argv) == 2 and sys.argv[1] == 'Visual Studio 14'):
+		# vs2015
+		cmd_cmake = r'cmake -G "Visual Studio 14" '
+		cmd_cmake_x64 = r'cmake -G "Visual Studio 14 Win64" '
+		cmd_compile = r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" '
+
