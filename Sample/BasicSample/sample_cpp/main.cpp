@@ -97,11 +97,9 @@ int main(int argc, char** argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 
-	SampleInfo info = { [](){}, asd::ToAString("test"), asd::ToAString("title"), asd::ToAString("description"), true };
-
 	std::vector<SampleInfo> samples =
 	{
-		INFO(Basic_Empty, "", ""),
+		INFO(Basic_Empty, "Altseedの基本", ""),
 		INFO(TextureObject2D_Basic, "", ""),
 		INFO(TextureObject2D_Turn, "", ""),
 		INFO(TextureObject2D_Src, "", ""),
