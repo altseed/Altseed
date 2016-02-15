@@ -27,6 +27,9 @@
     <ClCompile Include="..\MapObject2D\MapObject2D_Basic.cpp">
       <Filter>MapObject2D</Filter>
     </ClCompile>
+    <ClCompile Include="..\Action2D\Action2D_Camera.cpp">
+      <Filter>Action2D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -44,6 +47,9 @@
     </Filter>
     <Filter Include="MapObject2D">
       <UniqueIdentifier>{018f0c8c-26bf-46f6-94e4-4702c5065e6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Action2D">
+      <UniqueIdentifier>{23e50de3-5bcb-457e-99bd-18324472213b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

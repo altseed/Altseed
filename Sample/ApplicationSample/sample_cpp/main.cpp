@@ -28,6 +28,8 @@ extern void CustomPostEffect_Mosaic();
 extern void MapObject2D_Basic();
 extern void MapObject2D_Camera();
 
+extern void Action2D_Camera();
+
 int main(int argc, char** argv)
 {
 #if _WIN32
@@ -49,6 +51,8 @@ int main(int argc, char** argv)
 
 		INFO(MapObject2D_Basic),
 		INFO(MapObject2D_Camera),
+
+		INFO(Action2D_Camera),
 	};
 
 	auto cui = SampleGuide(samples);

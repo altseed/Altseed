@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action2D\Action2D_Camera.cs" />
     <Compile Include="Browser\SampleBrowser.cs" />
     <Compile Include="Browser\SampleBrowserLayer.cs" />
     <Compile Include="Browser\SampleInfoLayer.cs" />
