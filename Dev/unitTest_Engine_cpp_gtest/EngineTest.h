@@ -71,6 +71,8 @@ protected:
 	*/
 	virtual void OnFinish();
 
+	std::shared_ptr<asd::Texture2D> GetTexture();
+
 public:
 	EngineTest(asd::astring title, bool isOpenGLMode, int exitTime, int32_t width = 640, int32_t height = 480);
 	void Run();

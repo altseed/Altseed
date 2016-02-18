@@ -40,12 +40,6 @@
     <ClCompile Include="..\Graphics\3D\Camera3DPostEffect.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\ObjectSystem\SetSourceOfTexture.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ObjectSystem\CameraAndSetTexture.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\ObjectSystem\TrasingCamera.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
@@ -107,15 +101,6 @@
     <ClCompile Include="..\Graphics\3D\TerrainObject3D.cpp">
       <Filter>Graphics\3D</Filter>
     </ClCompile>
-    <ClCompile Include="..\ObjectSystem\VanishInComponent.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ObjectSystem\VanishOwnerInComponent.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ObjectSystem\AddComponentByComponent.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\Graphics\Resource\ImagePackage.cpp">
       <Filter>Graphics\Resource</Filter>
     </ClCompile>
@@ -157,9 +142,6 @@
     </ClCompile>
     <ClCompile Include="..\Shape\Collision2D.cpp">
       <Filter>Shape</Filter>
-    </ClCompile>
-    <ClCompile Include="TransformOutOfUpdate.cpp">
-      <Filter>ObjectSystem</Filter>
     </ClCompile>
     <ClCompile Include="..\PCH\asd.UnitTestEngineCpp.PCH.cpp" />
     <ClCompile Include="..\Graphics\2D\TextObject2D_Dynamic.cpp">
@@ -204,6 +186,27 @@
     <ClCompile Include="..\ObjectSystem\LifeCycle.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
+    <ClCompile Include="..\BugFix\DisposeAndChangeParent.cpp">
+      <Filter>BugFix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BugFix\TransformOutOfUpdate.cpp">
+      <Filter>BugFix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BugFix\VanishInComponent.cpp">
+      <Filter>BugFix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BugFix\VanishOwnerInComponent.cpp">
+      <Filter>BugFix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BugFix\AddComponentByComponent.cpp">
+      <Filter>BugFix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BugFix\CameraAndSetTexture.cpp">
+      <Filter>BugFix</Filter>
+    </ClCompile>
+    <ClCompile Include="..\BugFix\SetSourceOfTexture.cpp">
+      <Filter>BugFix</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -244,6 +247,9 @@
     </Filter>
     <Filter Include="FamilySystem">
       <UniqueIdentifier>{2dface51-9116-4774-97e6-5cdb09586047}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="BugFix">
+      <UniqueIdentifier>{7ce4f33b-2dc8-483a-8690-ef44747951f1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

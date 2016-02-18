@@ -137,6 +137,8 @@ namespace asd
 		{
 			ThrowIfDisposed();
 			RemoveLayerInternal(layer);
+			layer.RaiseOnRemoved();
+			layer.Scene = null;
 		}
 
 		/// <summary>
@@ -397,8 +399,6 @@ namespace asd
 			layersToDraw_.Remove(layer);
 			layersToUpdate_.Remove(layer);
 			CoreInstance.RemoveLayer(layer.CoreLayer);
-			layer.RaiseOnRemoved();
-			layer.Scene = null;
 		}
 
 

@@ -102,6 +102,8 @@ EXTERN_ENGINE_TEST(IO, StreamFile_PackageWithKey)
 
 EXTERN_ENGINE_TEST(Profiler, Profiling)
 
+EXTERN_ENGINE_TEST(BugFix, DisposeAndChangeParent)
+
 #if defined(PERFORMANCE_MODE)
 EXTERN_ENGINE_TEST(Performance, MassModelObject3D)
 EXTERN_ENGINE_TEST(Performance, TextureObject2D)
@@ -123,7 +125,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	//*
-	CALL_ENGINE_TEST(FamilySystem, ChildManagement, true);
+	CALL_ENGINE_TEST(BugFix, DisposeAndChangeParent, true);
 	getchar();
 	return 0;
 	//*/

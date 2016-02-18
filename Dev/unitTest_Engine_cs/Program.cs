@@ -13,7 +13,7 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
 			//*
-			TestSequencially(typeof(FamilySystem.TextureObject));
+			TestSequencially(typeof(BugFix.DisposeAndChangeParent));
 			Console.ReadKey();
 			return;
 			//*/
