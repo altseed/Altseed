@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Action2D\Action2D_Camera.cpp" />
     <ClCompile Include="..\CustomPostEffect\CustomPostEffect_Invert.cpp" />
     <ClCompile Include="..\CustomPostEffect\CustomPostEffect_Mosaic.cpp" />
     <ClCompile Include="..\ImagePackageUI\ImagePackageUI_AlphaBlend.cpp" />

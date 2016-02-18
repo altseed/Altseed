@@ -24,6 +24,8 @@ namespace sample_cs
 
                 new MapObject2D_Basic(),
                 new MapObject2D_Camera(),
+
+				new Action2D_Camera(),
             };
 
 			var browser = new SampleBrowser(samples);
