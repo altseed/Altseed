@@ -33,6 +33,8 @@ namespace asd
 		void DrawAdditionally();
 		void DisposeInternal();
 
+		void DirectlyRemoveObject(const Object2D::Ptr& object);
+
 	protected:
 
 	public:

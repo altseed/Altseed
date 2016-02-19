@@ -20,7 +20,7 @@ namespace asd
 		CoreDrawnObject2D* GetCoreDrawnObject() const override;
 
 	public:
-		typedef std::shared_ptr<CoreGeometryObject2D> Ptr;
+		typedef std::shared_ptr<GeometryObject2D> Ptr;
 
 		GeometryObject2D();
 		virtual ~GeometryObject2D();

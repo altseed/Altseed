@@ -104,10 +104,15 @@ namespace asd
 		public void RemoveObject(Object2D object2D)
 		{
 			ThrowIfDisposed();
-			contentsManager.Remove(object2D);
-			coreLayer2D.RemoveObject(object2D.CoreObject);
+			DirectlyRemoveObject(object2D);
 			object2D.RaiseOnRemoved();
 			object2D.Layer = null;
+		}
+
+		private void DirectlyRemoveObject(Object2D object2D)
+		{
+			contentsManager.Remove(object2D);
+			coreLayer2D.RemoveObject(object2D.CoreObject);
 		}
 
 		/// <summary>
@@ -278,7 +283,7 @@ namespace asd
 
 			foreach(var vanishing in contentsManager.VanishingContents)
 			{
-				RemoveObject(vanishing);
+				DirectlyRemoveObject(vanishing);
 				vanishing.ForceToRelease();
 			}
 			contentsManager.VanishingContents.Clear();

@@ -40,7 +40,7 @@ namespace asd
 
 		for (auto& vanishing : m_objects.GetVanishingContents())
 		{
-			RemoveObject(vanishing);
+			DirectlyRemoveObject(vanishing);
 			vanishing->Dispose();
 		}
 		m_objects.GetVanishingContents().clear();
@@ -162,9 +162,14 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Layer2D::RemoveObject(const Object2D::Ptr& object)
 	{
-		m_objects.Remove(object);
+		DirectlyRemoveObject(object);
 		object->RaiseOnRemoved();
 		object->SetLayer(nullptr);
+	}
+
+	void Layer2D::DirectlyRemoveObject(const Object2D::Ptr& object)
+	{
+		m_objects.Remove(object);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 	}
 

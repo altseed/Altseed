@@ -48,6 +48,8 @@ namespace asd
 		void CommitChanges();
 		void UpdateComponents();
 
+		void DirectlyRemoveLayer(const Layer::Ptr& layer);
+
 	protected:
 		/**
 		@brief	オーバーライドして、このシーンがエンジンに登録されたときに実行する処理を記述できる。

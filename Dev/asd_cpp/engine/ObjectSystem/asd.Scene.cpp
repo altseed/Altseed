@@ -90,7 +90,7 @@ namespace asd
 
 		for (auto& layer : beVanished)
 		{
-			RemoveLayer(layer);
+			DirectlyRemoveLayer(layer);
 			layer->Dispose();
 		}
 
@@ -262,14 +262,19 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Scene::RemoveLayer(const Layer::Ptr& layer)
 	{
+		DirectlyRemoveLayer(layer);
+		layer->RaiseOnRemoved();
+		layer->SetScene(nullptr);
+	}
+
+	void Scene::DirectlyRemoveLayer(const Layer::Ptr& layer)
+	{
 		if (executing)
 		{
 			removingLayer.push_back(layer);
 			return;
 		}
 
-		layer->RaiseOnRemoved();
-		layer->SetScene(nullptr);
 		m_layersToDraw.remove(layer);
 		m_layersToUpdate.remove(layer);
 		m_coreScene->RemoveLayer(layer->GetCoreLayer().get());

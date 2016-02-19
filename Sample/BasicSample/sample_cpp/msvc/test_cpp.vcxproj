@@ -14,6 +14,7 @@
     <ClCompile Include="..\Basic\Basic_Empty.cpp" />
     <ClCompile Include="..\Browser\SampleBrowser.cpp" />
     <ClCompile Include="..\Browser\SampleBrowserLayer.cpp" />
+    <ClCompile Include="..\Browser\SampleInfoLayer.cpp" />
     <ClCompile Include="..\Browser\SampleItem.cpp" />
     <ClCompile Include="..\CameraObject2D\CameraObject2D_Basic.cpp" />
     <ClCompile Include="..\CameraObject2D\CameraObject2D_Group.cpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="..\Base.h" />
     <ClInclude Include="..\Browser\SampleBrowser.h" />
     <ClInclude Include="..\Browser\SampleBrowserLayer.h" />
+    <ClInclude Include="..\Browser\SampleInfoLayer.h" />
     <ClInclude Include="..\Browser\SampleItem.h" />
     <ClInclude Include="..\SampleGuide.h" />
   </ItemGroup>

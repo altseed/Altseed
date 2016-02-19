@@ -1,5 +1,6 @@
 #include "SampleBrowser.h"
 #include "SampleBrowserLayer.h"
+#include "SampleInfoLayer.h"
 #include <memory>
 #include <Altseed.h>
 
@@ -24,8 +25,14 @@ void SampleBrowser::Run()
 		auto layer = make_shared<SampleBrowserLayer>(m_samples);
 		layer->SetOnDecideEventHandler([&selected](SampleInfo s){ selected = s; });
 
+		auto size = (480 - 85) * (480 - 85) / layer->GetTotalHeight();
+		auto infoLayer = make_shared<SampleInfoLayer>(size, layer->GetTotalHeight());
+		infoLayer->SetDrawingPriority(2);
+		layer->SetOnSelectionChangedEventHandler([&infoLayer](SampleInfo s){ infoLayer->Show(s); });
+
 		Engine::ChangeScene(scene);
 		scene->AddLayer(layer);
+		scene->AddLayer(infoLayer);
 
 		auto hintLayer = make_shared<Layer2D>();
 		auto hintObject = make_shared<TextureObject2D>();
@@ -37,6 +44,7 @@ void SampleBrowser::Run()
 		while (Engine::DoEvents() && !selected.isAvailable)
 		{
 			Engine::Update();
+			infoLayer->MoveScrollBar(layer->GetCameraArea().Y);
 		}
 
 		Engine::Terminate();

@@ -168,6 +168,9 @@
     <ClCompile Include="..\Browser\SampleItem.cpp">
       <Filter>Browser</Filter>
     </ClCompile>
+    <ClCompile Include="..\Browser\SampleInfoLayer.cpp">
+      <Filter>Browser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -179,6 +182,9 @@
       <Filter>Browser</Filter>
     </ClInclude>
     <ClInclude Include="..\Browser\SampleItem.h">
+      <Filter>Browser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Browser\SampleInfoLayer.h">
       <Filter>Browser</Filter>
     </ClInclude>
   </ItemGroup>
