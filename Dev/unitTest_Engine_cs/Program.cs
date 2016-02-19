@@ -13,7 +13,7 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
 			//*
-			TestSequencially(typeof(BugFix.DisposeAndChangeParent));
+			TestSequencially(typeof(BugFix.ModifyObjectHavingDisposedChild));
 			Console.ReadKey();
 			return;
 			//*/

@@ -410,6 +410,7 @@ namespace asd
 		{
 			if(IsAlive && AbsoluteBeingUpdated)
 			{
+				ChildrenList.RemoveAll(c => !c.IsAlive);
 				OnUpdate();
 				componentManager_.Update();
 			}

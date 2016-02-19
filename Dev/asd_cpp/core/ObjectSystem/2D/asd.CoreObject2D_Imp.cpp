@@ -7,6 +7,7 @@
 #include "asd.CoreMapObject2D_Imp.h"
 #include "asd.CoreEffectObject2D_Imp.h"
 #include "asd.CoreGeometryObject2D_Imp.h"
+#include <list>
 
 namespace asd
 {
@@ -31,18 +32,22 @@ namespace asd
 	{
 #if __CULLING_2D__
 
-		for (auto ite = obj->children.begin(); ite != obj->children.end();)
-		{
-			if (!(*ite)->GetIsAlive())
+		{	// 破棄された子を削除する処理のブロック
+			std::list<CoreObject2D*> beRemoved = std::list<CoreObject2D*>();
+
+			for (auto& child : obj->children)
 			{
-				obj->children.erase(ite++);
+				if (!child->GetIsAlive())
+				{
+					beRemoved.push_back(child);
+				}
 			}
-			else
+
+			for (auto& rm : beRemoved)
 			{
-				ite++;
+				obj->children.erase(rm);
 			}
 		}
-
 
 		if (!obj->GetAlreadyCullingUpdated())
 		{

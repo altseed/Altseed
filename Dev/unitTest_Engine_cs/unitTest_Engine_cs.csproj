@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Assert.cs" />
     <Compile Include="BugFix\DisposeAndChangeParent.cs" />
+    <Compile Include="BugFix\ModifyObjectHavingDisposedChild.cs" />
     <Compile Include="Debug\Profiler.cs" />
     <Compile Include="EngineGraphics3DTest.cs" />
     <Compile Include="EngineTest.cs" />
