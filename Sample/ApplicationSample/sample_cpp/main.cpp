@@ -1,5 +1,6 @@
 ﻿#include "SampleGuide.h"
-#define INFO(func) { func, #func }
+#include "Browser\SampleBrowser.h"
+#define INFO(func, title, description) { func, asd::ToAString(#func), asd::ToAString(title), asd::ToAString(description), true }
 
 #if _WIN32
 #ifdef _DEBUG
@@ -40,23 +41,23 @@ int main(int argc, char** argv)
 
 	std::vector<SampleInfo> samples =
 	{
-		INFO(ImagePackageUI_Basic),
-		INFO(ImagePackageUI_AlphaBlend),
-		INFO(ImagePackageUI_Component),
+		INFO(ImagePackageUI_Basic, "", ""),
+		INFO(ImagePackageUI_AlphaBlend, "", ""),
+		INFO(ImagePackageUI_Component, "", ""),
 
-		INFO(Pause_Basic),
+		INFO(Pause_Basic, "ポーズ", "レイヤーの更新を一時停止するサンプル。"),
 
-		INFO(CustomPostEffect_Invert),
-		INFO(CustomPostEffect_Mosaic),
+		INFO(CustomPostEffect_Invert, "", ""),
+		INFO(CustomPostEffect_Mosaic, "", ""),
 
-		INFO(MapObject2D_Basic),
-		INFO(MapObject2D_Camera),
+		INFO(MapObject2D_Basic, "", ""),
+		INFO(MapObject2D_Camera, "", ""),
 
-		INFO(Action2D_Camera),
+		INFO(Action2D_Camera, "", ""),
 	};
 
-	auto cui = SampleGuide(samples);
-	cui.Show();
+	auto browser = SampleBrowser(samples);
+	browser.Run();
 
 	return 0;
 }
