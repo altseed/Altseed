@@ -133,17 +133,17 @@ namespace asd
 
 		Vector2DF operator-();
 
-		Vector2DF operator+(const Vector2DF& right);
+		Vector2DF operator+(const Vector2DF& right) const;
 
-		Vector2DF operator-(const Vector2DF& right);
+		Vector2DF operator-(const Vector2DF& right) const;
 
-		Vector2DF operator*(const Vector2DF& right);
+		Vector2DF operator*(const Vector2DF& right) const;
 
-		Vector2DF operator/(const Vector2DF& right);
+		Vector2DF operator/(const Vector2DF& right) const;
 
-		Vector2DF operator*(float right);
+		Vector2DF operator*(float right) const;
 
-		Vector2DF operator/(float right);
+		Vector2DF operator/(float right) const;
 
 		Vector2DF& operator+=(const Vector2DF& right);
 
