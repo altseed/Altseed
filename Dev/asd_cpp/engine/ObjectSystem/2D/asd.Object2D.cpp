@@ -60,6 +60,11 @@ namespace asd
 				}
 				child->m_parentInfo.reset();
 			}
+			auto parent = this->GetParent();
+			if (parent != nullptr && parent->GetIsAlive())
+			{
+				parent->RemoveChild(shared_ptr<Object2D>(this));
+			}
 			OnDispose();
 		}
 	}
@@ -69,19 +74,6 @@ namespace asd
 		if (!GetIsAlive() || !GetAbsoluteBeingUpdated())
 		{
 			return;
-		}
-
-		std::list<Object2D::Ptr> vanishing;
-		for (auto& child : m_children)
-		{
-			if (!child->GetIsAlive())
-			{
-				vanishing.push_back(child);
-			}
-		}
-		for (auto& v : vanishing)
-		{
-			RemoveChild(v);
 		}
 
 		OnUpdate();

@@ -402,6 +402,10 @@ namespace asd
 					}
 					item.ParentInfo = null;
 				}
+				if(Parent != null && Parent.IsAlive)
+				{
+					Parent.RemoveChild(this);
+				}
 				OnDispose();
 			}
 		}
@@ -410,7 +414,6 @@ namespace asd
 		{
 			if(IsAlive && AbsoluteBeingUpdated)
 			{
-				ChildrenList.RemoveAll(c => !c.IsAlive);
 				OnUpdate();
 				componentManager_.Update();
 			}

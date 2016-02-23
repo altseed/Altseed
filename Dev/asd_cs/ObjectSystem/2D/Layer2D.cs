@@ -319,7 +319,6 @@ namespace asd
 					item.Dispose();
 				}
 				OnDispose();
-				ForceToRelease();
 			}
 		}
 
