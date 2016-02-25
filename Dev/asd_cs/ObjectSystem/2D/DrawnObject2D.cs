@@ -51,6 +51,7 @@ namespace asd
 			ChildTransformingMode transformingMode,
 			ChildDrawingMode drawingMode)
 		{
+			ThrowIfDisposed();
 			CoreDrawnObject.AddDrawnChild(child.CoreDrawnObject,
 				(int)managementMode,
 				(swig.ChildTransformingMode)transformingMode,
