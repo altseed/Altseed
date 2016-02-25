@@ -97,7 +97,7 @@ namespace asd
 		object->SetLayer(nullptr);
 	}
 
-	const std::list<Object3D::Ptr>& Layer3D::GetObjects() const
+	std::list<Object3D::Ptr> Layer3D::GetObjects() const
 	{
 		return m_objects.GetContents();
 	}

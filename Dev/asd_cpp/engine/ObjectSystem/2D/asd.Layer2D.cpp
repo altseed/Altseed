@@ -173,7 +173,7 @@ namespace asd
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 	}
 
-	const list<Object2D::Ptr>& Layer2D::GetObjects() const
+	list<Object2D::Ptr> Layer2D::GetObjects() const
 	{
 		return m_objects.GetContents();
 	}

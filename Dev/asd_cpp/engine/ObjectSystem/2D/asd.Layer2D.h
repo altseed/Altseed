@@ -61,7 +61,7 @@ namespace asd
 			@brief	このレイヤーに登録されている2Dオブジェクトのリストを取得する。
 			@return	登録されているオブジェクトのリスト
 		*/
-		const std::list<Object2D::Ptr>& GetObjects() const;
+		std::list<Object2D::Ptr> GetObjects() const;
 
 		/**
 		@brief	レイヤーが所持する全ての2Dオブジェクトをこのインスタンスから削除する。
