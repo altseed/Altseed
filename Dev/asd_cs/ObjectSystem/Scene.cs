@@ -271,12 +271,12 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				IsAlive = false;
 				foreach(var layer in layersToUpdate_)
 				{
 					layer.Dispose();
 				}
 				OnDispose();
+				IsAlive = false;
 				ForceToRelease();
 			}
 		}

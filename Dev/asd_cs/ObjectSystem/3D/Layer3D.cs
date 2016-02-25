@@ -451,12 +451,12 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				IsAlive = false;
 				foreach(var item in Objects)
 				{
 					item.Dispose();
 				}
 				OnDispose();
+				IsAlive = false;
 			}
 		}
 

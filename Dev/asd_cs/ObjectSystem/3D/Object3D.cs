@@ -96,8 +96,8 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				IsAlive = false;
 				OnDispose();
+				IsAlive = false;
 			}
 		}
 

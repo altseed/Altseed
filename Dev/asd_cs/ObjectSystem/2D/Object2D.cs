@@ -392,7 +392,6 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				IsAlive = false;
 				foreach(var item in ChildrenList)
 				{
 					CoreObject.RemoveChild(item.CoreObject);
@@ -407,6 +406,7 @@ namespace asd
 					Parent.RemoveChild(this);
 				}
 				OnDispose();
+				IsAlive = false;
 			}
 		}
 
