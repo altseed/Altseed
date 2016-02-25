@@ -363,7 +363,7 @@ namespace asd
 		internal void RaiseOnAdded()
 		{
 			OnAdded();
-			foreach(var item in ChildrenList)
+			foreach(var item in ChildrenList.Where(x => x.IsAlive))
 			{
 				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
 				{
@@ -374,7 +374,7 @@ namespace asd
 
 		internal void RaiseOnRemoved()
 		{
-			foreach(var item in ChildrenList)
+			foreach(var item in ChildrenList.Where(x => x.IsAlive))
 			{
 				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
 				{
@@ -392,7 +392,9 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				foreach(var item in ChildrenList)
+				OnDispose();
+				IsAlive = false;
+				foreach(var item in ChildrenList.Where(x => x.IsAlive))
 				{
 					CoreObject.RemoveChild(item.CoreObject);
 					if(item.IsInheriting(ChildManagementMode.Disposal))
@@ -403,10 +405,8 @@ namespace asd
 				}
 				if(Parent != null && Parent.IsAlive)
 				{
-					Parent.RemoveChild(this);
+					Parent.CoreObject.RemoveChild(CoreObject);
 				}
-				OnDispose();
-				IsAlive = false;
 			}
 		}
 
@@ -414,6 +414,7 @@ namespace asd
 		{
 			if(IsAlive && AbsoluteBeingUpdated)
 			{
+				ChildrenList.RemoveAll(x => !x.IsAlive);
 				OnUpdate();
 				componentManager_.Update();
 			}
