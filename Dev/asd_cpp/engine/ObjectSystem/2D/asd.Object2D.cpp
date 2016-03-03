@@ -63,7 +63,8 @@ namespace asd
 			auto parent = this->GetParent();
 			if (parent != nullptr && parent->GetIsAlive())
 			{
-				parent->RemoveChild(shared_ptr<Object2D>(this));
+				parent->RemoveChild(shared_from_this());
+				//parent->RemoveChild(shared_ptr<Object2D>(this));
 			}
 			OnDispose();
 		}

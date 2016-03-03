@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using asd;
 
-namespace unitTest_Engine_cs.ObjectSystem2D
+namespace unitTest_Engine_cs.BugFix
 {
 	class TransformOutOfUpdate : EngineTest
 	{
