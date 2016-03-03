@@ -64,7 +64,6 @@ namespace asd
 			if (parent != nullptr && parent->GetIsAlive())
 			{
 				parent->RemoveChild(shared_from_this());
-				//parent->RemoveChild(shared_ptr<Object2D>(this));
 			}
 			OnDispose();
 		}

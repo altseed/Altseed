@@ -15,7 +15,8 @@ namespace asd
 	/**
 		@brief	画面上に描画される2Dオブジェクトを表すクラス。
 	*/
-	class Object2D : public std::enable_shared_from_this<Object2D>
+	class Object2D :
+		public std::enable_shared_from_this<Object2D>
 	{
 		friend class Layer2D;
 		friend class ContentsManager < Object2D > ;
