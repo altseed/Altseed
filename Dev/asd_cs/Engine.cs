@@ -122,7 +122,7 @@ namespace asd
 			public override void Draw()
 			{
 				var curScene = CurrentScene != null ? CurrentScene.CoreInstance : null;
-				core.DrawSceneToWindowWithTransition(null, curScene, transition.SwigObject);
+				core.DrawSceneToWindowWithTransition(null, curScene, transition.coreInstance);
 			}
 		}
 
@@ -168,7 +168,7 @@ namespace asd
 			{
 				var curScene = CurrentScene != null ? CurrentScene.CoreInstance : null;
 				var prevScene = previousScene != null ? previousScene.CoreInstance : null;
-				core.DrawSceneToWindowWithTransition(curScene, prevScene, transition.SwigObject);
+				core.DrawSceneToWindowWithTransition(curScene, prevScene, transition.coreInstance);
 			}
 
 			public override void ForceToComplete()

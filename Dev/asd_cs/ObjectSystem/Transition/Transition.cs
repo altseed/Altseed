@@ -9,31 +9,61 @@ namespace asd
     /// <summary>
     /// シーン遷移時の効果を適用するクラス
     /// </summary>
-    public class Transition : IReleasable
+    public class Transition : IDisposable, IReleasable
     {
-        internal swig.CoreTransition SwigObject;
+        internal swig.CoreTransition coreInstance;
 
         public Transition()
         {
-            SwigObject = Engine.ObjectSystemFactory.CreateTransition();
+            coreInstance = Engine.ObjectSystemFactory.CreateTransition();
 
-            var p = SwigObject.GetPtr();
-            if (GC.Transitions.GetObject(p) != null)
+            var p = coreInstance.GetPtr();
+
+            if (GC.Transitions.Contains(p))
             {
                 Particular.Helper.ThrowException("");
             }
+
             GC.Transitions.AddObject(p, this);
         }
 
-        #region GC対応
+        #region IDisposable Support
+        bool disposed = false;
+
         ~Transition()
         {
-            ForceToRelease();
+            Dispose(false);
         }
 
-        public bool IsReleased
+        public void Dispose()
         {
-            get { return SwigObject == null; }
+            Dispose(true);
+            System.GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            var core = coreInstance;
+
+            if (core != null)
+            {
+                GC.Collector.AddObject(core);
+                coreInstance = null;
+            }
+
+            disposed = true;
+        }
+        #endregion
+
+        #region GC対応
+        bool IReleasable.IsReleased
+        {
+            get { return disposed; }
         }
 
         /// <summary>
@@ -43,15 +73,9 @@ namespace asd
         /// 何らかの理由でメモリが不足した場合に実行する。
         /// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
         /// </remarks>
-        public void ForceToRelease()
+        void IReleasable.ForceToRelease()
         {
-            lock (this)
-            {
-                if (SwigObject == null) return;
-                GC.Collector.AddObject(SwigObject);
-                SwigObject = null;
-            }
-            Particular.GC.SuppressFinalize(this);
+            Dispose();
         }
         #endregion
 
@@ -67,7 +91,7 @@ namespace asd
         {
             get
             {
-                return SwigObject.GetIsSceneChanged();
+                return coreInstance.GetIsSceneChanged();
             }
         }
 
@@ -76,7 +100,7 @@ namespace asd
         /// </summary>
         public void ChangeScene()
         {
-            SwigObject.ChangeScene();
+            coreInstance.ChangeScene();
         }
 
         /// <summary>
@@ -86,7 +110,7 @@ namespace asd
         {
             get
             {
-                return SwigObject.GetIsFinished();
+                return coreInstance.GetIsFinished();
             }
         }
 
@@ -95,7 +119,7 @@ namespace asd
         /// </summary>
         public void Finish()
         {
-            SwigObject.Finish();
+            coreInstance.Finish();
         }
 
         /// <summary>
@@ -116,7 +140,7 @@ namespace asd
         Color col1, Color col2, Color col3,
         Vector2DF uv1, Vector2DF uv2, Vector2DF uv3)
         {
-            SwigObject.DrawTriangleWithNextScene(
+            coreInstance.DrawTriangleWithNextScene(
                 pos1, pos2, pos3,
                 col1, col2, col3,
                 uv1, uv2, uv3);
@@ -143,7 +167,7 @@ namespace asd
             Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
             Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV)
         {
-            SwigObject.DrawRectangleWithNextScene(
+            coreInstance.DrawRectangleWithNextScene(
                 upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos,
                 upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol,
                 upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV);
@@ -167,7 +191,7 @@ namespace asd
         Color col1, Color col2, Color col3,
         Vector2DF uv1, Vector2DF uv2, Vector2DF uv3)
         {
-            SwigObject.DrawTriangleWithPreviousScene(
+            coreInstance.DrawTriangleWithPreviousScene(
                 pos1, pos2, pos3,
                 col1, col2, col3,
                 uv1, uv2, uv3);
@@ -194,7 +218,7 @@ namespace asd
             Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
             Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV)
         {
-            SwigObject.DrawRectangleWithPreviousScene(
+            coreInstance.DrawRectangleWithPreviousScene(
                 upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos,
                 upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol,
                 upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV);
