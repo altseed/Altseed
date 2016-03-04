@@ -14,6 +14,7 @@ namespace asd
         internal override swig.CoreShape CoreShape
         {
             get { return coreCircle; }
+            set { coreCircle = value as swig.CoreCircleShape; }
         }
         private swig.CoreCircleShape coreCircle { get; set; }
 
@@ -23,47 +24,18 @@ namespace asd
         }
 
         public CircleShape()
-            : base()
         {
             coreCircle = Engine.ObjectSystemFactory.CreateCircleShape();
 
             var p = coreCircle.GetPtr();
-            if (GC.Shapes.GetObject(p) != null)
+
+            if (GC.Shapes.Contains(p))
             {
-				Particular.Helper.ThrowException("");
+                Particular.Helper.ThrowException("");
             }
+
             GC.Shapes.AddObject(p, this);
         }
-
-        #region GC対応
-        ~CircleShape()
-        {
-            ForceToRelease();
-        }
-
-        public override bool IsReleased
-        {
-            get { return coreCircle == null; }
-        }
-
-		/// <summary>
-		/// 強制的に使用しているメモリを開放する。
-		/// </summary>
-		/// <remarks>
-		/// 何らかの理由でメモリが不足した場合に実行する。
-		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-		/// </remarks>
-        public override void ForceToRelease()
-        {
-            lock (this)
-            {
-                if (coreCircle == null) return;
-                GC.Collector.AddObject(coreCircle);
-                coreCircle = null;
-            }
-            Particular.GC.SuppressFinalize(this);
-        }
-        #endregion
 
         /// <summary>
         /// 円の中心座標を取得または設定する。

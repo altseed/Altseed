@@ -14,6 +14,7 @@ namespace asd
         internal override swig.CoreShape CoreShape
         {
             get { return coreArc; }
+            set { coreArc = value as swig.CoreArcShape; }
         }
         private swig.CoreArcShape coreArc { get; set; }
 
@@ -28,43 +29,13 @@ namespace asd
 
             var p = coreArc.GetPtr();
 
-            if (GC.Shapes.GetObject(p) != null)
+            if (GC.Shapes.Contains(p))
             {
                 Particular.Helper.ThrowException("");
             }
 
             GC.Shapes.AddObject(p, this);
         }
-
-        #region GC対応
-        ~ArcShape()
-        {
-            ForceToRelease();
-        }
-
-        public override bool IsReleased
-        {
-            get { return coreArc == null; }
-        }
-
-        /// <summary>
-        /// 強制的に使用しているメモリを開放する。
-        /// </summary>
-        /// <remarks>
-        /// 何らかの理由でメモリが不足した場合に実行する。
-        /// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-        /// </remarks>
-        public override void ForceToRelease()
-        {
-            lock (this)
-            {
-                if (coreArc == null) return;
-                GC.Collector.AddObject(coreArc);
-                coreArc = null;
-            }
-            Particular.GC.SuppressFinalize(this);
-        }
-        #endregion		
 
         /// <summary>
         /// 弧の中心座標を取得または設定する。

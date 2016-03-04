@@ -10,11 +10,12 @@ namespace asd
     /// <summary>
     /// 図形としての線分を扱うクラス。
     /// </summary>
-    public class LineShape : Shape,IReleasable
+    public class LineShape : Shape
     {
         internal override swig.CoreShape CoreShape
         {
             get { return coreLine; }
+            set { coreLine = value as swig.CoreLineShape; }
         }
         private swig.CoreLineShape coreLine { get; set; }
 
@@ -23,49 +24,19 @@ namespace asd
             get { return ShapeType.LineShape; }
         }
 
-		public LineShape()
-			: base()
-		{
-			coreLine = Engine.ObjectSystemFactory.CreateLineShape();
-
-			var p = coreLine.GetPtr();
-			if (GC.Shapes.GetObject(p) != null)
-			{
-				Particular.Helper.ThrowException("");
-			}
-			GC.Shapes.AddObject(p, this);
-		}
-
-        #region GC対応
-        ~LineShape()
+        public LineShape()
         {
-            ForceToRelease();
-        }
+            coreLine = Engine.ObjectSystemFactory.CreateLineShape();
 
-        public override bool IsReleased
-        {
-            get { return coreLine == null; }
-        }
+            var p = coreLine.GetPtr();
 
-		/// <summary>
-		/// 強制的に使用しているメモリを開放する。
-		/// </summary>
-		/// <remarks>
-		/// 何らかの理由でメモリが不足した場合に実行する。
-		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-		/// </remarks>
-        public override void ForceToRelease()
-        {
-            lock (this)
+            if (GC.Shapes.Contains(p))
             {
-                if (coreLine == null) return;
-                GC.Collector.AddObject(coreLine);
-                coreLine = null;
+                Particular.Helper.ThrowException("");
             }
-            Particular.GC.SuppressFinalize(this);
-        }
-        #endregion
 
+            GC.Shapes.AddObject(p, this);
+        }
 
         /// <summary>
         /// 線分の始点座標を取得もしくは設定する。
