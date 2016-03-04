@@ -9,9 +9,9 @@ namespace asd
     /// <summary>
     /// マップオブジェクト2Dで描画するテクスチャの情報を扱うチップクラス。
     /// </summary>
-    public class Chip2D : IReleasable
+    public class Chip2D : IDisposable, IReleasable
     {
-        internal swig.CoreChip2D CoreInstance { get; set; }
+        internal swig.CoreChip2D CoreInstance { get; private set; }
 
         public Chip2D()
         {
@@ -19,7 +19,7 @@ namespace asd
 
             var p = CoreInstance.GetPtr();
 
-            if (GC.Shapes.Contains(p))
+            if (GC.Chip2Ds.Contains(p))
             {
                 Particular.Helper.ThrowException("");
             }
@@ -27,17 +27,42 @@ namespace asd
             GC.Chip2Ds.AddObject(p, this);
         }
 
+        #region IDisposable Support
+        bool disposed = false;
+
         ~Chip2D()
         {
-            ForceToRelease();
+            Dispose(false);
         }
 
-        public bool IsReleased
+        public void Dispose()
         {
-            get
+            Dispose(true);
+            System.GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
             {
-                return CoreInstance == null;
+                return;
             }
+
+            var core = CoreInstance;
+
+            if (core != null)
+            {
+                GC.Collector.AddObject(core);
+                CoreInstance = null;
+            }
+
+            disposed = true;
+        }
+        #endregion
+
+        bool IReleasable.IsReleased
+        {
+            get { return disposed; }
         }
 
         /// <summary>
@@ -47,15 +72,9 @@ namespace asd
         /// 何らかの理由でメモリが不足した場合に実行する。
         /// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
         /// </remarks>
-        public void ForceToRelease()
+        void IReleasable.ForceToRelease()
         {
-            lock (this)
-            {
-                if (CoreInstance == null) return;
-                GC.Collector.AddObject(CoreInstance);
-                CoreInstance = null;
-            }
-            Particular.GC.SuppressFinalize(this);
+            Dispose();
         }
 
         /// <summary>
