@@ -3,11 +3,11 @@
 
 Altseed(元AC-Engine)はC++、C#対応ゲームエンジンです。
 
-**最新版 2015/11/14**
+**最新版 2016/03/06**
 * [ウェブサイト](http://altseed.github.io/)
 * [導入方法(C++版、Windows)](Document/HowToIntroduce/Windows_CPP.md)
 * [導入方法(C#版、Windows)](Document/HowToIntroduce/Windows_CS.md)
-* Mac、Linuxの場合、自分でソースコードからコンパイルする必要があります。
+* Linuxの場合、自分でソースコードからコンパイルする必要があります。
 
 [ユーザーマニュアル](Document/Index.md)
 
@@ -49,11 +49,7 @@ githubにバグや要望を報告する
 
 #### 公式チャット
 
-[![Join the chat at https://gitter.im/altseed/Altseed](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/altseed/Altseed?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
-定例ミーティングを毎週土曜日23時から行っています。報告や開発の方針の決定を行っています。興味ある方は是非とも参加をお願いします。
-
-定例ミーティング以外も質問等ありましたらどうぞ。
+Slackを使用しています。公式サイトからどうぞ。
 
 #### メーリングリスト
 
