@@ -66,7 +66,7 @@ libogg libvorbis libvorbisfiles libSM libICE libX11 libXext libXrandr libXi libX
 
 ### Windows
 
-自動化できないため最初から追加済み
+```Script/download_glew.py``` を実行します。
 
 ### Linux
 
@@ -145,4 +145,4 @@ Dev/unitTest_Engine_cs.sln
 # リリース
 
 DoxygenとPandocをインストールします。
-```Script/release.py``` を実行します。現在、Windowsのみ対応しております。
+```Script/release.py``` を実行します。現在、WindowsとMacのみ対応しております。
