@@ -125,7 +125,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	//*
-	CALL_ENGINE_TEST(BugFix, DisposeAndChangeParent, true);
+	CALL_ENGINE_TEST(Graphics, Transition, true);
 	getchar();
 	return 0;
 	//*/

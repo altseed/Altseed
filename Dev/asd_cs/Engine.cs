@@ -729,6 +729,10 @@ namespace asd
 		/// <param name="doAutoDispose">前のシーンを自動的に破棄するかどうかの真偽値</param>
 		public static void ChangeSceneWithTransition(Scene scene, Transition transition, bool doAutoDispose = true)
 		{
+			if(transition == null)
+			{
+				throw new ArgumentNullException("transition");
+			}
 			if(CurrentScene != null)
 			{
 				CurrentScene.RaiseOnTransitionBegin();

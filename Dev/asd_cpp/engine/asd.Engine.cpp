@@ -838,6 +838,7 @@ namespace asd
 		const std::shared_ptr<Transition>& transition,
 		bool doAutoDispose)
 	{
+		ACE_ASSERT(transition != nullptr, "transition に nullptr は指定できません。");
 		if (m_currentScene != nullptr)
 		{
 			m_currentScene->RaiseOnTransitionBegin();
