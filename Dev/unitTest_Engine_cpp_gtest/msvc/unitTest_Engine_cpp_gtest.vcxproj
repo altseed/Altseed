@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\EngineGraphics3DTest.cpp" />
     <ClCompile Include="..\EngineTest.cpp" />
+    <ClCompile Include="..\FamilySystem\AllKindOfDrawnObjects.cpp" />
     <ClCompile Include="..\FamilySystem\ChildManagement.cpp" />
     <ClCompile Include="..\FamilySystem\DrawnParent.cpp" />
     <ClCompile Include="..\FamilySystem\VanishParent.cpp" />
