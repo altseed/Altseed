@@ -3,17 +3,20 @@
 namespace sample_cs
 {
 	class Dispose_Object2D : ISample
-	{
-		// Vanishが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
-		class MessageObject : asd.TextureObject2D
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+		public string Title
 		{
-			// Vanishが呼ばれたときに呼ばれる。
-			protected override void OnVanish()
-			{
-				Console.WriteLine("MessageObject.OnVanish");
-			}
+			get { return ""; }
+		}
 
-			// このオブジェクトが破棄されたときに呼ばれる。
+        // Disposeが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
+        class MessageObject : asd.TextureObject2D
+		{
+			// Disposeが呼ばれたときに呼ばれる。
 			protected override void OnDispose()
 			{
 				Console.WriteLine("MessageObject.OnDispose");
@@ -55,7 +58,7 @@ namespace sample_cs
 				{
 					Console.WriteLine("Objectを破棄します");
 					// オブジェクトを破棄する。
-					obj.Vanish();
+					obj.Dispose();
 				}
 			}
 

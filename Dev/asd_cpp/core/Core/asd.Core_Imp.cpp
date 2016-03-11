@@ -186,6 +186,11 @@ namespace asd
 
 		m_isInitializedByExternal = false;
 
+		GraphicsOption go;
+		go.IsFullScreen = option.IsFullScreen;
+		go.IsReloadingEnabled = option.IsReloadingEnabled;
+		go.ColorSpace = option.ColorSpace;
+
 #if _WIN32
 		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
@@ -207,11 +212,11 @@ namespace asd
 		// フルスクリーン切り替えを実現するためのハック
 		if (option.GraphicsDevice == GraphicsDeviceType::OpenGL)
 		{
-			m_window = Window_Imp::Create(width, height, title, m_logger, option.IsFullScreen);
+			m_window = Window_Imp::Create(width, height, title, m_logger, option.ColorSpace, option.IsFullScreen);
 		}
 		else
 		{
-			m_window = Window_Imp::Create(width, height, title, m_logger, false);
+			m_window = Window_Imp::Create(width, height, title, m_logger, option.ColorSpace, false);
 		}
 
 		if (m_window == nullptr) return false;
@@ -230,12 +235,25 @@ namespace asd
 		}
 		m_window->ShowWindow();
 
+		// アイコン設定
+#if _WIN32
+		{
+			auto hwnd = (HWND) m_window->GetWindowHandle();
+			auto icon = LoadIconW(GetModuleHandle(NULL), MAKEINTRESOURCE(IDI_APPLICATION));
+			if (icon != nullptr)
+			{
+				::SendMessage(hwnd, WM_SETICON, ICON_SMALL, (LPARAM) icon);
+				::SendMessage(hwnd, WM_SETICON, ICON_BIG, (LPARAM) icon);
+			}
+		}
+#endif
+
 		m_keyboard = Keyboard_Imp::Create(m_window);
 		m_mouse = Mouse_Imp::Create(m_window);
 		m_joystickContainer = JoystickContainer_Imp::Create();
 
 		m_file = File_Imp::Create();
-		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, m_file, option.IsReloadingEnabled, option.IsFullScreen);
+		m_graphics = Graphics_Imp::Create(m_window, option.GraphicsDevice, m_logger, m_file, go);
 
 		if (m_graphics == nullptr) return false;
 
@@ -320,7 +338,12 @@ namespace asd
 		m_file = File_Imp::Create();
 		m_logger = Log_Imp::Create(ToAString("Log.html").c_str(), ToAString(L"").c_str());
 
-		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger,m_file, option.IsReloadingEnabled, option.IsFullScreen);
+		GraphicsOption go;
+		go.IsFullScreen = option.IsFullScreen;
+		go.IsReloadingEnabled = option.IsReloadingEnabled;
+		go.ColorSpace = option.ColorSpace;
+
+		m_graphics = Graphics_Imp::Create(handle1, handle2, width, height, option.GraphicsDevice, m_logger,m_file, go);
 		if (m_graphics == nullptr) return false;
 
 		m_sound = new Sound_Imp(m_file, m_logger, option.IsReloadingEnabled);
@@ -838,6 +861,37 @@ namespace asd
 	Vector2DI Core_Imp::GetWindowSize()
 	{
 		return m_windowSize;
+	}
+
+	void Core_Imp::SetWindowSize(Vector2DI size)
+	{
+		m_windowSize = size;
+		if (m_window != nullptr)
+		{
+			m_window->SetSize(size);
+		}
+
+		layerRenderer->SetWindowSize(m_windowSize);
+
+		{
+			asd::Vector2DF lpos[4];
+			lpos[0].X = 0;
+			lpos[0].Y = 0;
+			lpos[1].X = (float) m_windowSize.X;
+			lpos[1].Y = 0;
+			lpos[2].X = (float) m_windowSize.X;
+			lpos[2].Y = (float) m_windowSize.Y;
+			lpos[3].X = 0;
+			lpos[3].Y = (float) m_windowSize.Y;
+			layerRenderer->SetLayerPosition(lpos);
+		}
+
+		if (m_currentScene != nullptr)
+		{
+			m_currentScene->SetSize(size);
+		}
+
+		m_graphics->SetWindowSize(size);
 	}
 
 	bool Core_Imp::GetProfilerVisibility() const

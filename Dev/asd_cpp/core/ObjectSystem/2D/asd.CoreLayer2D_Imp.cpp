@@ -174,9 +174,25 @@ namespace asd
 	}
 #endif
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::SetSize(Vector2DI size)
+	{
+		m_windowSize = size;
+		m_layerRenderer->SetWindowSize(size);
+
+		{
+			asd::Vector2DF lpos[4];
+			lpos[0].X = 0;
+			lpos[0].Y = 0;
+			lpos[1].X = m_windowSize.X;
+			lpos[1].Y = 0;
+			lpos[2].X = m_windowSize.X;
+			lpos[2].Y = m_windowSize.Y;
+			lpos[3].X = 0;
+			lpos[3].Y = m_windowSize.Y;
+			m_layerRenderer->SetLayerPosition(lpos);
+		}
+	}
+
 	void CoreLayer2D_Imp::AddObject(ObjectPtr object)
 	{
 		if (object->GetObjectType() == Object2DType::Camera)

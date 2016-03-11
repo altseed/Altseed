@@ -147,7 +147,7 @@ def editCmakeForACE(path,enc='utf-8'):
 	lines = lines + "endif()\n"
 	
 	
-	if 'Box2D' in lines or 'freetype' in lines or 'PROJECT(GD)' in lines or 'SET (LIBGD_SRC_FILES' in lines:
+	if 'project (glew)' in lines or 'Box2D' in lines or 'freetype' in lines or 'PROJECT(GD)' in lines or 'SET (LIBGD_SRC_FILES' in lines:
 		lines = lines + "if (MSVC)\n"
 		lines = lines + "\tforeach (flag CMAKE_C_FLAGS\n"
 		lines = lines + "\t\tCMAKE_C_FLAGS_DEBUG\n"
@@ -167,4 +167,22 @@ def editCmakeForACE(path,enc='utf-8'):
 	f = open(path, 'w')
 	f.write(lines)
 	f.close()
+
+# strings
+cmd_cmake = ''
+cmd_cmake_x64 = ''
+cmd_compile = ''
+
+if isWin():
+	if (len(sys.argv) == 1) or (len(sys.argv) == 2 and sys.argv[1] == 'Visual Studio 12'):
+		# vs2013
+		cmd_cmake = r'cmake -G "Visual Studio 12" '
+		cmd_cmake_x64 = r'cmake -G "Visual Studio 12 Win64" '
+		cmd_compile = r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" '
+
+	if (len(sys.argv) == 2 and sys.argv[1] == 'Visual Studio 14'):
+		# vs2015
+		cmd_cmake = r'cmake -G "Visual Studio 14" '
+		cmd_cmake_x64 = r'cmake -G "Visual Studio 14 Win64" '
+		cmd_compile = r'"C:\Program Files (x86)\MSBuild\14.0\Bin\msbuild" '
 

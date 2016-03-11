@@ -23,7 +23,7 @@ namespace asd
 		/// <summary>
 		/// 親オブジェクトが破棄されたとき、子オブジェクトも破棄する。
 		/// </summary>
-		Vanishment = 2,
+		Disposal = 2,
 		/// <summary>
 		/// 親オブジェクトが更新されないとき、子オブジェクトも更新しない。
 		/// </summary>

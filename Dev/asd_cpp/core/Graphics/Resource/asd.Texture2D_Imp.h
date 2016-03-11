@@ -29,7 +29,7 @@ namespace asd {
 		bool InternalLoad(void* data, int32_t size, bool rev);
 		
 		/**
-			@brief	内部に展開された画像を開放する。
+			@brief	内部に展開された画像を解放する。
 		*/
 		void InternalUnload();
 

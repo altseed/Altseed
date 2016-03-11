@@ -157,7 +157,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;_$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -175,7 +175,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;_$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -193,7 +193,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;_$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -213,7 +213,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;_$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -235,7 +235,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;_$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -256,7 +256,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;_$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -277,7 +277,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;_$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -300,7 +300,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>_WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_WIN32;_$(PlatformToolset);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\..\asd_cpp\common\;..\..\asd_cpp\tool\;..\..\include\;..\..\asd_cpp\core\;..\..\include\freetype\</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
@@ -318,6 +318,11 @@
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\core\3rdParty\DirectXToolKit\dds.h" />
+    <ClInclude Include="..\core\3rdParty\DirectXToolKit\DDSTextureLoader.h" />
+    <ClInclude Include="..\core\3rdParty\DirectXToolKit\DirectXHelpers.h" />
+    <ClInclude Include="..\core\3rdParty\DirectXToolKit\PlatformHelpers.h" />
+    <ClInclude Include="..\core\3rdParty\nv_dds\nv_dds.h" />
     <ClInclude Include="..\core\3rdParty\poly2tri\common\shapes.h" />
     <ClInclude Include="..\core\3rdParty\poly2tri\common\utils.h" />
     <ClInclude Include="..\core\3rdParty\poly2tri\poly2tri.h" />
@@ -383,10 +388,6 @@
     <ClInclude Include="..\core\Graphics\Helper\asd.GifAnimationHelper.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\asd.DX11.Base.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.h" />
-    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\dds.h" />
-    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.h" />
-    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DirectXHelpers.h" />
-    <ClInclude Include="..\core\Graphics\Platform\DX11\DirectXToolKit\PlatformHelpers.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.CubemapTexture_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.DepthBuffer_Imp_DX11.h" />
     <ClInclude Include="..\core\Graphics\Platform\DX11\Resource\asd.IndexBuffer_Imp_DX11.h" />
@@ -628,6 +629,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\core\3rdParty\DirectXToolKit\DDSTextureLoader.cpp" />
+    <ClCompile Include="..\core\3rdParty\nv_dds\nv_dds.cpp" />
     <ClCompile Include="..\core\3rdParty\poly2tri\common\shapes.cpp" />
     <ClCompile Include="..\core\3rdParty\poly2tri\sweep\advancing_front.cpp" />
     <ClCompile Include="..\core\3rdParty\poly2tri\sweep\cdt.cpp" />
@@ -677,7 +680,6 @@
     <ClCompile Include="..\core\Graphics\Command\asd.RenderingCommandHelper.cpp" />
     <ClCompile Include="..\core\Graphics\Helper\asd.GifAnimationHelper.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\asd.Graphics_Imp_DX11.cpp" />
-    <ClCompile Include="..\core\Graphics\Platform\DX11\DirectXToolKit\DDSTextureLoader.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.CubemapTexture_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.DepthBuffer_Imp_DX11.cpp" />
     <ClCompile Include="..\core\Graphics\Platform\DX11\Resource\asd.IndexBuffer_Imp_DX11.cpp" />

@@ -16,6 +16,8 @@
 #include "Resource/asd.RenderTexture2D_Imp_DX11.h"
 #include "Resource/asd.CubemapTexture_Imp_DX11.h"
 
+#include "../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
+
 #include <sstream>
 
 //----------------------------------------------------------------------------------
@@ -139,6 +141,29 @@ namespace asd {
 		{}
 
 	public:
+		void* InternalLoadDDS(Graphics_Imp* graphics, const std::vector<uint8_t>& data)
+		{
+			ID3D11Resource* texture = nullptr;
+			ID3D11ShaderResourceView* textureSRV = nullptr;
+
+			auto hr = DirectX::CreateDDSTextureFromMemory(
+				((Graphics_Imp_DX11*) m_graphics)->GetDevice(),
+				data.data(),
+				data.size(),
+				&texture,
+				&textureSRV);
+
+			if (texture == nullptr || textureSRV == nullptr)
+			{
+				SafeRelease(texture);
+				SafeRelease(textureSRV);
+				return nullptr;
+			}
+
+			SafeRelease(texture);
+			return textureSRV;
+		}
+
 		void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height)
 		{
 			ID3D11Texture2D* texture = nullptr;
@@ -308,8 +333,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	Vector2DI size,
 	Log* log,
 	File* file,
-	bool isReloadingEnabled,
-	bool isFullScreen,
+	GraphicsOption option,
 	ID3D11Device* device,
 	ID3D11DeviceContext* context,
 	IDXGIDevice1* dxgiDevice,
@@ -320,7 +344,7 @@ Graphics_Imp_DX11::Graphics_Imp_DX11(
 	ID3D11RenderTargetView*	defaultBackRenderTargetView,
 	ID3D11Texture2D* defaultDepthBuffer,
 	ID3D11DepthStencilView* defaultDepthStencilView)
-	: Graphics_Imp(size, log,file, isReloadingEnabled, isFullScreen)
+	: Graphics_Imp(size, log,file, option)
 	, m_window(window)
 	, m_device(device)
 	, m_context(context)
@@ -913,7 +937,7 @@ void Graphics_Imp_DX11::BeginInternal()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, File* file,bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -1031,7 +1055,16 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	hDXGISwapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
 	hDXGISwapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 	//hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-	hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+
+	if (option.ColorSpace == ColorSpaceType::LinearSpace)
+	{
+		hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	}
+	else
+	{
+		hDXGISwapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	}
+
 	hDXGISwapChainDesc.BufferDesc.ScanlineOrdering = DXGI_MODE_SCANLINE_ORDER_UNSPECIFIED;
 	hDXGISwapChainDesc.BufferDesc.Scaling = DXGI_MODE_SCALING_UNSPECIFIED;
 	hDXGISwapChainDesc.SampleDesc.Count = 1;
@@ -1039,7 +1072,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 	hDXGISwapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	hDXGISwapChainDesc.BufferCount = 1;
 	hDXGISwapChainDesc.OutputWindow = handle;
-	hDXGISwapChainDesc.Windowed = isFullScreen ? FALSE : TRUE;
+	hDXGISwapChainDesc.Windowed = option.IsFullScreen ? FALSE : TRUE;
 	hDXGISwapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	hDXGISwapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 
@@ -1107,8 +1140,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, HWND handle, int32_
 		Vector2DI(width, height),
 		log,
 		file,
-		isReloadingEnabled,
-		isFullScreen,
+		option,
 		device,
 		context,
 		dxgiDevice,
@@ -1139,19 +1171,19 @@ End:
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(Window* window, Log* log, File* file, GraphicsOption option)
 {
 	auto size = window->GetSize();
 	auto handle = glfwGetWin32Window(((Window_Imp*) window)->GetWindow());
-	return Create(handle, size.X, size.Y, log, file,isReloadingEnabled, isFullScreen);
+	return Create(handle, size.X, size.Y, log, file, option);
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option)
 {
-	return Create(nullptr, handle, width, height, log,file, isReloadingEnabled, isFullScreen);
+	return Create(nullptr, handle, width, height, log,file, option);
 }
 
 //----------------------------------------------------------------------------------
@@ -1562,6 +1594,63 @@ void Graphics_Imp_DX11::SetIsFullscreenMode(bool isFullscreenMode)
 	{
 		m_swapChain->SetFullscreenState(FALSE, 0);
 	}
+}
+
+void Graphics_Imp_DX11::SetWindowSize(Vector2DI size)
+{
+	// リセット
+	SetRenderTarget(nullptr, nullptr);
+	SafeRelease(m_defaultBack);
+	SafeRelease(m_defaultBackRenderTargetView);
+	SafeRelease(m_defaultDepthBuffer);
+	SafeRelease(m_defaultDepthStencilView);
+
+	for (auto i = 0; i < MaxRenderTarget; i++)
+	{
+		SafeRelease(m_currentBackRenderTargetViews[i]);
+	}
+
+	SafeRelease(m_currentDepthStencilView);
+
+	m_size = size;
+
+	DXGI_FORMAT format;
+
+	if (GetOption().ColorSpace == ColorSpaceType::LinearSpace)
+	{
+		format = DXGI_FORMAT_R8G8B8A8_UNORM_SRGB;
+	}
+	else
+	{
+		format = DXGI_FORMAT_R8G8B8A8_UNORM;
+	}
+
+	m_swapChain->ResizeBuffers(1, size.X, size.Y, format, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
+
+	m_swapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**) &m_defaultBack);
+	m_device->CreateRenderTargetView(m_defaultBack, NULL, &m_defaultBackRenderTargetView);
+	
+	D3D11_TEXTURE2D_DESC descDepth;
+	descDepth.Width = size.X;
+	descDepth.Height = size.Y;
+	descDepth.MipLevels = 1;
+	descDepth.ArraySize = 1;
+	descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+	descDepth.SampleDesc.Count = 1;
+	descDepth.SampleDesc.Quality = 0;
+	descDepth.Usage = D3D11_USAGE_DEFAULT;
+	descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+	descDepth.CPUAccessFlags = 0;
+	descDepth.MiscFlags = 0;
+	m_device->CreateTexture2D(&descDepth, NULL, &m_defaultDepthBuffer);
+
+	D3D11_DEPTH_STENCIL_VIEW_DESC viewDesc;
+	viewDesc.Format = descDepth.Format;
+	viewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS;
+	viewDesc.Flags = 0;
+	m_device->CreateDepthStencilView(m_defaultDepthBuffer, &viewDesc, &m_defaultDepthStencilView);
+
+	SetRenderTarget(nullptr, nullptr);
 }
 
 //----------------------------------------------------------------------------------

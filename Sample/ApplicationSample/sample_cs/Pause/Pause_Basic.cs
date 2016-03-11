@@ -4,12 +4,22 @@
 /// </summary>
 class Pause_Basic : ISample
 {
+	public string Description
+	{
+		get { return ""; }
+	}
+
+	public string Title
+	{
+		get { return ""; }
+	}
+
 	/// <summary>
 	/// ポーズを実行するレイヤー
 	/// </summary>
 	class PauseLayer : asd.Layer2D
 	{
-		protected override void OnStart()
+		protected override void OnAdded()
 		{
 			// ポーズ以外のレイヤーの更新を停止する。
 			foreach (var layer in Scene.Layers)
@@ -32,7 +42,7 @@ class Pause_Basic : ISample
 				{
 					layer.IsUpdated = true;
 				}
-				Vanish();
+				Dispose();
 			}
 		}
 	}

@@ -12,9 +12,11 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-			TestSequencially(typeof(ObjectSystem2D.ParentObject));
+			//*
+			TestSequencially(typeof(Graphics.Transition.Transition));
 			Console.ReadKey();
 			return;
+			//*/
 
 			TestAll();
 

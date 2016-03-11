@@ -131,6 +131,7 @@ namespace asd {
 
 		struct Cache
 		{
+			bool IsDDS;
 			int32_t Count;
 			void* Ptr;
 			int32_t Width;
@@ -140,6 +141,8 @@ namespace asd {
 		std::map<void*, astring>		dataToKey;
 
 		virtual void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height ) = 0;
+		virtual void* InternalLoadDDS(Graphics_Imp* graphics, const std::vector<uint8_t>& data) = 0;
+
 		virtual void InternalUnload(void* data) = 0;
 		virtual bool IsReversed() = 0;
 	public:
@@ -173,6 +176,13 @@ namespace asd {
 		void* Load(const EFK_CHAR* path) override;
 		void Unload(void* data) override;
 	};
+
+	struct GraphicsOption
+	{
+		bool			IsReloadingEnabled;
+		bool			IsFullScreen;
+		ColorSpaceType	ColorSpace;
+	};
 #endif
 
 /**
@@ -203,6 +213,8 @@ namespace asd {
 		int32_t				drawCallCountCurrent = 0;
 
 		int32_t				vramCount = 0;
+
+		GraphicsOption		option;
 
 		void AddDeviceObject(DeviceObject* o);
 		void RemoveDeviceObject(DeviceObject* o);
@@ -279,20 +291,21 @@ namespace asd {
 
 		File* GetFile() { return m_file; }
 		Log* GetLog() { return m_log; }
+		GraphicsOption GetOption() { return option; }
 
 		void IncVRAM(int32_t size) { vramCount += size; }
 		void DecVRAM(int32_t size) { vramCount -= size; }
 
 #endif
 
-		Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);
+#if !SWIG
+		Graphics_Imp(Vector2DI size, Log* log, File* file, GraphicsOption option);
 		virtual ~Graphics_Imp();
 
-		static Graphics_Imp* Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp* Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, File* file, GraphicsOption option);
 
-		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, File *file, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp* Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, File *file, GraphicsOption option);
 
-#if !SWIG
 		/**
 		@brief	画面をクリアする。
 		@param	isColorTarget	色をクリアするか
@@ -616,6 +629,8 @@ namespace asd {
 	virtual void FlushCommand() = 0;
 
 	virtual void SetIsFullscreenMode(bool isFullscreenMode) = 0;
+
+	virtual void SetWindowSize(Vector2DI size) = 0;
 
 	/**
 		@brief	スレッドを取得する。

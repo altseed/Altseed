@@ -102,7 +102,7 @@ bool VertexBuffer_Imp_DX11::RingBufferLock(int32_t count)
 
 	auto lockedSize = count * m_size;
 
-	if (true || m_vertexRingOffset + lockedSize > m_maxCount * m_size)
+	if (m_vertexRingOffset + lockedSize > m_maxCount * m_size)
 	{
 		offset = 0;
 		m_ringLockedOffset = 0;

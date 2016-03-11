@@ -6,13 +6,38 @@ using System.Threading.Tasks;
 
 namespace asd
 {
+    /// <summary>
+    /// 描画に関するパラメータを持つ2Dオブジェクト。
+    /// </summary>
 	public abstract partial class DrawnObject2D : Object2D
 	{
 		internal abstract swig.CoreDrawnObject2D CoreDrawnObject { get; }
 
+        /// <summary>
+        /// この2Dオブジェクトを描画する際に合成する色を取得または設定する。
+        /// </summary>
 		public abstract Color Color { get; set; }
 
+        /// <summary>
+        /// この2Dオブジェクトを描画する際の描画優先度を取得または設定する。描画優先度が高いほど手前に描画される。
+        /// </summary>
 		public abstract int DrawingPriority { get; set; }
+
+        /// <summary>
+        /// 親子関係を考慮して最終的に描画時にこのオブジェクトに合成する色を取得する。
+        /// </summary>
+        public Color AbsoluteColor
+        {
+            get { return CoreDrawnObject.GetAbsoluteColor(); }
+        }
+
+        /// <summary>
+        /// 親子関係を考慮したこのオブジェクトの最終的な描画優先度を取得する。
+        /// </summary>
+        public int AbsoluteDrawingPriority
+        {
+            get { return CoreDrawnObject.GetAbsoluteDrawingPriority(); }
+        }
 
 		/// <summary>
 		/// 描画に関する同期設定を指定して、指定した2Dオブジェクトを子オブジェクトとしてこのインスタンスに追加する。
@@ -26,6 +51,7 @@ namespace asd
 			ChildTransformingMode transformingMode,
 			ChildDrawingMode drawingMode)
 		{
+			ThrowIfDisposed();
 			CoreDrawnObject.AddDrawnChild(child.CoreDrawnObject,
 				(int)managementMode,
 				(swig.ChildTransformingMode)transformingMode,

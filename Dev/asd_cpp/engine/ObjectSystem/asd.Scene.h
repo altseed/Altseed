@@ -30,41 +30,36 @@ namespace asd
 		std::list<Layer::Ptr> m_layersToUpdate;
 		ComponentManager<Scene, SceneComponent> m_componentManager;
 		bool alreadyFirstUpdate;
+		bool m_isAlive;
 
 		std::list<Layer::Ptr> addingLayer;
 		std::list<Layer::Ptr> removingLayer;
 		bool executing = false;
 
-		void Start();
-		void Draw();
+		void RaiseOnRegistered();
+		void RaiseOnStartUpdating();
+		void RaiseOnTransitionFinished();
+		void RaiseOnTransitionBegin();
+		void RaiseOnStopUpdating();
+		void RaiseOnUnregistered();
 
 		void Update();
+		void Draw();
+		void CommitChanges();
 		void UpdateComponents();
 
-		void CommitChanges();
-
-		void CallTransitionFinished();
-		void CallChanging();
-		void Dispose();
+		void DirectlyRemoveLayer(const Layer::Ptr& layer);
 
 	protected:
 		/**
-		@brief	オーバーライドして、このシーンを初期化処理を記述できる。
+		@brief	オーバーライドして、このシーンがエンジンに登録されたときに実行する処理を記述できる。
 		*/
-		virtual void OnStart();
+		virtual void OnRegistered();
 
-		/**
-			@brief	オーバーライドして、このシーンを更新する直前の処理を記述できる。
-		*/
-		virtual void OnUpdating();
-		/**
-			@brief	オーバーライドして、このシーンを更新した直後の処理を記述できる。
-		*/
-		virtual void OnUpdated();
 		/**
 		@brief	オーバーライドして、最初のシーン更新時に実行する処理を記述する。
 		*/
-		virtual void OnUpdateForTheFirstTime();
+		virtual void OnStartUpdating();
 
 		/**
 		@brief	オーバーライドして、トランジション終了時に実行する処理を記述する。
@@ -74,12 +69,31 @@ namespace asd
 		/**
 		@brief	オーバーライドして、このシーンから別のシーンに切り替わる際に実行される処理を記述する。
 		*/
-		virtual void OnChanging();
+		virtual void OnTransitionBegin();
 
 		/**
-		@brief	オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
+			@brief	オーバーライドして、このシーンの更新が止まるときに実行する処理を記述できる。
+		*/
+		virtual void OnStopUpdating();
+
+		/**
+			@brief	オーバーライドして、このシーンがエンジンから登録解除されたときに実行する処理を記述できる。
+		*/
+		virtual void OnUnregistered();
+
+		/**
+		@brief	オーバーライドして、このシーンが破棄される際に実行される処理を記述する。
 		*/
 		virtual void OnDispose();
+
+		/**
+			@brief	オーバーライドして、このシーンを更新する直前の処理を記述できる。
+		*/
+		virtual void OnUpdating();
+		/**
+			@brief	オーバーライドして、このシーンを更新した直後の処理を記述できる。
+		*/
+		virtual void OnUpdated();
 
 	public:
 		/**
@@ -145,5 +159,9 @@ namespace asd
 			@return	所属しているレイヤー
 		*/
 		const std::list<Layer::Ptr>& GetLayers() const;
+
+		bool GetIsAlive() const;
+
+		void Dispose();
 	};
 }

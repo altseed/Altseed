@@ -1,9 +1,18 @@
 ﻿namespace sample_cs
 {
 	class Sound_BGM : ISample
-	{
-		// Soundを用いてBGMを鳴らすサンプル。
-		public void Run()
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+		public string Title
+		{
+			get { return ""; }
+		}
+
+        // Soundを用いてBGMを鳴らすサンプル。
+        public void Run()
 		{
 			// Altseedを初期化する。
 			asd.Engine.Initialize("Sound_BGM", 640, 480, new asd.EngineOption());

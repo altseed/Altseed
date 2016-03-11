@@ -57,6 +57,8 @@ namespace asd {
 		Color operator*(const Color& right);
 
 		Color& operator*=(const Color& right);
+
+		bool operator==(const Color& right);
 	};
 
 	//----------------------------------------------------------------------------------

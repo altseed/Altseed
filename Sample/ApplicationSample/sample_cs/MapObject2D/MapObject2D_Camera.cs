@@ -9,6 +9,16 @@ using System.Threading.Tasks;
 /// </summary>
 class MapObject2D_Camera : ISample
 {
+	public string Description
+	{
+		get { return ""; }
+	}
+
+	public string Title
+	{
+		get { return ""; }
+	}
+
     public void Run()
     {
         // Altseedを初期化する

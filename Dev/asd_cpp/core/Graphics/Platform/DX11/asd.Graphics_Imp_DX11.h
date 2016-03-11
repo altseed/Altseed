@@ -74,8 +74,7 @@ namespace asd {
 			Vector2DI size,
 			Log* log,
 			File* file,
-			bool isReloadingEnabled,
-			bool isFullScreen,
+			GraphicsOption option,
 			ID3D11Device* device,
 			ID3D11DeviceContext* context,
 			IDXGIDevice1* dxgiDevice,
@@ -111,13 +110,13 @@ namespace asd {
 
 		void BeginInternal();
 
-		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log,File *file, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp_DX11* Create(Window* window, HWND handle, int32_t width, int32_t height, Log* log, File *file, GraphicsOption option);
 
 	public:
 		
-		static Graphics_Imp_DX11* Create(Window* window, Log* log, File* file,bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp_DX11* Create(Window* window, Log* log, File* file, GraphicsOption option);
 
-		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp_DX11* Create(HWND handle, int32_t width, int32_t height, Log* log, File* file, GraphicsOption option);
 
 		Texture2D_Imp* CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size);
 
@@ -152,6 +151,8 @@ namespace asd {
 		void FlushCommand();
 
 		void SetIsFullscreenMode(bool isFullscreenMode) override;
+
+		void SetWindowSize(Vector2DI size) override;
 
 	public:
 		void Clear(bool isColorTarget, bool isDepthTarget, const Color& color);

@@ -4,6 +4,15 @@
 /// </summary>
 public class Keyboard_PuralKeys : ISample
 {
+    public string Description
+    {
+        get { return ""; }
+    }
+	public string Title
+	{
+		get { return ""; }
+	}
+
     public void Run()
     {
         // Altseedを初期化する。

@@ -4,6 +4,16 @@
 /// </summary>
 class CustomPostEffect_Mosaic : ISample
 {
+	public string Description
+	{
+		get { return ""; }
+	}
+
+	public string Title
+	{
+		get { return ""; }
+	}
+
 	/// <summary>
 	/// DirectX向けシェーダー(HLSLで記述)
 	/// </summary>
@@ -101,6 +111,16 @@ void main()
 		asd.Shader2D shader;
 		asd.Material2D material2d;
 
+		public string Description
+		{
+			get { return ""; }
+		}
+
+		public string Title
+		{
+			get { return ""; }
+		}
+
 		public MosaicPostEffect()
 		{
 			// シェーダーをHLSL/GLSLから生成する。
@@ -121,7 +141,7 @@ void main()
 			material2d = asd.Engine.Graphics.CreateMaterial2D(shader);
 		}
 
-		public override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
+		protected override void OnDraw(asd.RenderTexture2D dst, asd.RenderTexture2D src)
 		{
 			// マテリアルを経由してシェーダー内のg_texture変数に画面の画像(src)を入力する。
 			material2d.SetTexture2D("g_texture", src);

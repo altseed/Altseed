@@ -14,6 +14,7 @@ namespace asd
         internal override swig.CoreShape CoreShape
         {
             get { return coreArc; }
+            set { coreArc = value as swig.CoreArcShape; }
         }
         private swig.CoreArcShape coreArc { get; set; }
 
@@ -23,47 +24,18 @@ namespace asd
         }
 
         public ArcShape()
-            :base()
-		{
-			coreArc = Engine.ObjectSystemFactory.CreateArcShape();
+        {
+            coreArc = Engine.ObjectSystemFactory.CreateArcShape();
 
-			var p = coreArc.GetPtr();
-			if(GC.Shapes.GetObject(p) != null)
-			{
-				Particular.Helper.ThrowException("");
-			}
-			GC.Shapes.AddObject(p, this);
-		}
+            var p = coreArc.GetPtr();
 
-		#region GC対応
-        ~ArcShape()
-		{
-			ForceToRelease();
-		}
+            if (GC.Shapes.Contains(p))
+            {
+                Particular.Helper.ThrowException("");
+            }
 
-		public override bool IsReleased
-		{
-			get { return coreArc == null; }
-		}
-
-		/// <summary>
-		/// 強制的に使用しているメモリを開放する。
-		/// </summary>
-		/// <remarks>
-		/// 何らかの理由でメモリが不足した場合に実行する。
-		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-		/// </remarks>
-		public override void ForceToRelease()
-		{
-			lock (this)
-			{
-				if(coreArc == null) return;
-				GC.Collector.AddObject(coreArc);
-				coreArc = null;
-			}
-			Particular.GC.SuppressFinalize(this);
-		}
-		#endregion		
+            GC.Shapes.AddObject(p, this);
+        }
 
         /// <summary>
         /// 弧の中心座標を取得または設定する。
@@ -94,7 +66,7 @@ namespace asd
                 coreArc.SetOuterDiameter(value);
             }
         }
-        
+
 
         /// <summary>
         /// 弧の内径を取得または設定する。
@@ -125,7 +97,7 @@ namespace asd
                 coreArc.SetAngle(value);
             }
         }
-        
+
         /// <summary>
         /// 弧の外周、内周上の曲がり角（滑らかさ）の数を取得または設定する。
         /// </summary>
@@ -142,7 +114,7 @@ namespace asd
         }
 
         /// <summary>
-        ///弧の 始点となる外周、内周の曲がり角の番号を取得または設定する。(0 <= StartingCorner <= NumberOfCorners)
+        /// 弧の 始点となる外周、内周の曲がり角の番号を取得または設定する。(0 &lt;= StartingCorner &lt;= NumberOfCorners)
         /// </summary>
         public int StartingCorner
         {
@@ -157,7 +129,7 @@ namespace asd
         }
 
         /// <summary>
-        ///弧の終点となる外周、内周の曲がり角の番号を取得または設定する。(0 <= EndingCorner <= NumberOfCorners)
+        /// 弧の終点となる外周、内周の曲がり角の番号を取得または設定する。(0 &lt;= EndingCorner &lt;= NumberOfCorners)
         /// </summary>
         public int EndingCorner
         {

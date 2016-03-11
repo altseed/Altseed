@@ -1,7 +1,8 @@
 ﻿
 #include "asd.CubemapTexture_Imp_DX11.h"
 #include "../asd.Graphics_Imp_DX11.h"
-#include "../DirectXToolKit/DDSTextureLoader.h"
+
+#include "../../../../3rdParty/DirectXToolKit/DDSTextureLoader.h"
 
 namespace asd
 {
@@ -414,25 +415,10 @@ namespace asd
 
 	CubemapTexture_Imp* CubemapTexture_Imp_DX11::Create(Graphics_Imp* graphics, const achar* path)
 	{
-		auto loadFile = [graphics](const achar* path, std::vector<uint8_t>& dst)-> bool
-		{
-			auto staticFile = graphics->GetFile()->CreateStaticFile(path);
-			if (staticFile.get() == nullptr) return false;
+		auto staticFile = graphics->GetFile()->CreateStaticFile(path);
+		if (staticFile.get() == nullptr) return nullptr;
 
-			dst.resize(staticFile->GetSize());
-			memcpy(dst.data(), staticFile->GetData(), staticFile->GetSize());
-
-			return true;
-		};
-
-		std::vector<uint8_t> data;
-
-		if (!loadFile(path, data))
-		{
-			return nullptr;
-		}
-
-		if (!ImageHelper::IsDDS(data.data(), data.size())) return nullptr;
+		if (!ImageHelper::IsDDS(staticFile->GetBuffer().data(), staticFile->GetBuffer().size())) return nullptr;
 
 		auto g = (Graphics_Imp_DX11*) graphics;
 
@@ -441,8 +427,8 @@ namespace asd
 
 		auto hr = DirectX::CreateDDSTextureFromMemory(
 			g->GetDevice(),
-			data.data(),
-			data.size(),
+			staticFile->GetBuffer().data(),
+			staticFile->GetBuffer().size(),
 			&texture,
 			&textureSRV);
 

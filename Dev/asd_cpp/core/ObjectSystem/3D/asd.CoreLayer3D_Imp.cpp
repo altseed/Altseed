@@ -43,6 +43,11 @@ namespace asd
 		m_renderer->SetRenderSettings(settings);
 	}
 
+	void CoreLayer3D_Imp::SetSize(Vector2DI size)
+	{
+
+	}
+
 	void CoreLayer3D_Imp::AddObject(ObjectPtr object3D)
 	{
 		if (m_objects.count(object3D) == 0)

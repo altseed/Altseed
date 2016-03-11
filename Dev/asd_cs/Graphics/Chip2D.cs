@@ -9,51 +9,72 @@ namespace asd
     /// <summary>
     /// マップオブジェクト2Dで描画するテクスチャの情報を扱うチップクラス。
     /// </summary>
-    public class Chip2D : IReleasable
+    public class Chip2D : IDisposable, IReleasable
     {
-        internal swig.CoreChip2D SwigObject { get; set; }
+        internal swig.CoreChip2D CoreInstance { get; private set; }
 
         public Chip2D()
         {
-            SwigObject = Engine.ObjectSystemFactory.CreateChip2D();
+            CoreInstance = Engine.ObjectSystemFactory.CreateChip2D();
 
-            var p = SwigObject.GetPtr();
-            if (GC.Shapes.GetObject(p) != null)
+            var p = CoreInstance.GetPtr();
+
+            if (GC.Chip2Ds.Contains(p))
             {
                 Particular.Helper.ThrowException("");
             }
+
             GC.Chip2Ds.AddObject(p, this);
         }
 
+        #region IDisposable Support
+        bool disposed = false;
+
         ~Chip2D()
         {
-            ForceToRelease();
+            Dispose(false);
         }
 
-        public bool IsReleased
+        public void Dispose()
         {
-            get
-            {
-                return SwigObject == null;
-            }
+            Dispose(true);
+            System.GC.SuppressFinalize(this);
         }
 
-		/// <summary>
-		/// 強制的に使用しているメモリを開放する。
-		/// </summary>
-		/// <remarks>
-		/// 何らかの理由でメモリが不足した場合に実行する。
-		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-		/// </remarks>
-        public void ForceToRelease()
+        protected virtual void Dispose(bool disposing)
         {
-            lock (this)
+            if (disposed)
             {
-                if (SwigObject == null) return;
-                GC.Collector.AddObject(SwigObject);
-                SwigObject = null;
+                return;
             }
-            Particular.GC.SuppressFinalize(this);
+
+            var core = CoreInstance;
+
+            if (core != null)
+            {
+                GC.Collector.AddObject(core);
+                CoreInstance = null;
+            }
+
+            disposed = true;
+        }
+        #endregion
+
+        bool IReleasable.IsReleased
+        {
+            get { return disposed; }
+        }
+
+        /// <summary>
+        /// 強制的に使用しているメモリを開放する。
+        /// </summary>
+        /// <remarks>
+        /// 何らかの理由でメモリが不足した場合に実行する。
+        /// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
+        /// </remarks>
+        void IReleasable.ForceToRelease()
+        {
+            Dispose();
         }
 
         /// <summary>
@@ -61,8 +82,8 @@ namespace asd
         /// </summary>
         public Texture2D Texture
         {
-            get { return GC.GenerateTexture2D(swig.Accessor.Chip2D_GetTexture(SwigObject) , GC.GenerationType.Get); }
-            set { SwigObject.SetTexture(IG.GetTexture2D(value)); }
+            get { return GC.GenerateTexture2D(swig.Accessor.Chip2D_GetTexture(CoreInstance), GC.GenerationType.Get); }
+            set { CoreInstance.SetTexture(IG.GetTexture2D(value)); }
         }
 
         /// <summary>
@@ -70,8 +91,8 @@ namespace asd
         /// </summary>
         public RectF Src
         {
-            get { return SwigObject.GetSrc(); }
-            set { SwigObject.SetSrc(value); }
+            get { return CoreInstance.GetSrc(); }
+            set { CoreInstance.SetSrc(value); }
         }
 
         /// <summary>
@@ -79,8 +100,8 @@ namespace asd
         /// </summary>
         public Vector2DF Position
         {
-            get { return SwigObject.GetPosition(); }
-            set { SwigObject.SetPosition(value); }
+            get { return CoreInstance.GetPosition(); }
+            set { CoreInstance.SetPosition(value); }
         }
 
         /// <summary>
@@ -88,8 +109,8 @@ namespace asd
         /// </summary>
         public float Angle
         {
-            get { return SwigObject.GetAngle(); }
-            set { SwigObject.SetAngle(value); }
+            get { return CoreInstance.GetAngle(); }
+            set { CoreInstance.SetAngle(value); }
         }
 
         /// <summary>
@@ -97,8 +118,8 @@ namespace asd
         /// </summary>
         public Vector2DF Scale
         {
-            get { return SwigObject.GetScale(); }
-            set { SwigObject.SetScale(value); }
+            get { return CoreInstance.GetScale(); }
+            set { CoreInstance.SetScale(value); }
         }
 
         /// <summary>
@@ -106,8 +127,8 @@ namespace asd
         /// </summary>
         public Vector2DF CenterPosition
         {
-            get { return SwigObject.GetCenterPosition(); }
-            set { SwigObject.SetCenterPosition(value); }
+            get { return CoreInstance.GetCenterPosition(); }
+            set { CoreInstance.SetCenterPosition(value); }
         }
 
         /// <summary>
@@ -115,8 +136,8 @@ namespace asd
         /// </summary>
         public Color Color
         {
-            get { return SwigObject.GetColor(); }
-            set { SwigObject.SetColor(value); }
+            get { return CoreInstance.GetColor(); }
+            set { CoreInstance.SetColor(value); }
         }
 
         /// <summary>
@@ -124,8 +145,8 @@ namespace asd
         /// </summary>
         public bool TurnLR
         {
-            get { return SwigObject.GetTurnLR(); }
-            set { SwigObject.SetTurnLR(value); }
+            get { return CoreInstance.GetTurnLR(); }
+            set { CoreInstance.SetTurnLR(value); }
         }
 
         /// <summary>
@@ -133,8 +154,8 @@ namespace asd
         /// </summary>
         public bool TurnUL
         {
-            get { return SwigObject.GetTurnUL(); }
-            set { SwigObject.SetTurnUL(value); }
+            get { return CoreInstance.GetTurnUL(); }
+            set { CoreInstance.SetTurnUL(value); }
         }
 
         /// <summary>
@@ -142,8 +163,8 @@ namespace asd
         /// </summary>
         public AlphaBlendMode AlphaBlendMode
         {
-            get { return (AlphaBlendMode)SwigObject.GetAlphaBlendMode(); }
-            set { SwigObject.SetAlphaBlendMode((swig.AlphaBlendMode)value); }
+            get { return (AlphaBlendMode)CoreInstance.GetAlphaBlendMode(); }
+            set { CoreInstance.SetAlphaBlendMode((swig.AlphaBlendMode)value); }
         }
 
         /// <summary>
@@ -151,8 +172,8 @@ namespace asd
         /// </summary>
         public TextureFilterType TextureFilterType
         {
-            get { return (TextureFilterType)SwigObject.GetTextureFilterType(); }
-            set { SwigObject.SetTextureFilterType((swig.TextureFilterType)value); }
+            get { return (TextureFilterType)CoreInstance.GetTextureFilterType(); }
+            set { CoreInstance.SetTextureFilterType((swig.TextureFilterType)value); }
         }
 
         /// <summary>
@@ -160,8 +181,8 @@ namespace asd
         /// </summary>
         public int DrawingPriority
         {
-            get { return SwigObject.GetDrawingPriority(); }
-            set { SwigObject.SetDrawingPriority(value); }
+            get { return CoreInstance.GetDrawingPriority(); }
+            set { CoreInstance.SetDrawingPriority(value); }
         }
     }
 }

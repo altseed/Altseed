@@ -40,6 +40,8 @@ namespace asd
 		RenderSettings GetRenderSettings() const;
 		void SetRenderSettings(RenderSettings settings);
 
+		void SetSize(Vector2DI size) override;
+
 		void AddObject(ObjectPtr object3D);
 		void RemoveObject(ObjectPtr object3D);
 

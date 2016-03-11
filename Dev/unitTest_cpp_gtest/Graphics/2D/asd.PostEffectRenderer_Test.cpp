@@ -60,7 +60,11 @@ void Graphics_PostEffectRenderer(bool isOpenGLMode)
 	auto file = asd::File_Imp::Create();
 	ASSERT_TRUE(file != nullptr);
 
-	auto graphics = asd::Graphics_Imp::Create(window, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, log, file, false, false);
+	asd::GraphicsOption go;
+	go.IsFullScreen = false;
+	go.IsReloadingEnabled = false;
+	go.ColorSpace = asd::ColorSpaceType::LinearSpace;
+	auto graphics = asd::Graphics_Imp::Create(window, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, log, file, go);
 	ASSERT_TRUE(graphics != nullptr);
 
 	auto rtex = graphics->CreateRenderTexture2D(640, 480, asd::TextureFormat::R8G8B8A8_UNORM);

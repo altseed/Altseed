@@ -15,6 +15,7 @@ namespace asd
         internal override swig.CoreShape CoreShape
         {
             get { return coreRectangle; }
+            set { coreRectangle = value as swig.CoreRectangleShape; }
         }
         private swig.CoreRectangleShape coreRectangle { get; set; }
 
@@ -24,48 +25,19 @@ namespace asd
         }
 
         public RectangleShape()
-            : base()
         {
             coreRectangle = Engine.ObjectSystemFactory.CreateRectangleShape();
 
             var p = coreRectangle.GetPtr();
-            if (GC.Shapes.GetObject(p) != null)
+
+            if (GC.Shapes.Contains(p))
             {
-				Particular.Helper.ThrowException("");
+                Particular.Helper.ThrowException("");
             }
+
             GC.Shapes.AddObject(p, this);
         }
 
-        #region GC対応
-        ~RectangleShape()
-        {
-            ForceToRelease();
-        }
-
-        public override bool IsReleased
-        {
-            get { return coreRectangle == null; }
-        }
-
-		/// <summary>
-		/// 強制的に使用しているメモリを開放する。
-		/// </summary>
-		/// <remarks>
-		/// 何らかの理由でメモリが不足した場合に実行する。
-		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-		/// </remarks>
-        public override void ForceToRelease()
-        {
-            lock (this)
-            {
-                if (coreRectangle == null) return;
-                GC.Collector.AddObject(coreRectangle);
-                coreRectangle = null;
-            }
-            Particular.GC.SuppressFinalize(this);
-        }
-        #endregion
-		
         /// <summary>
         /// 矩形の描画範囲を取得もしくは設定する。
         /// </summary>

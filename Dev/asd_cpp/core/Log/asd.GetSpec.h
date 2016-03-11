@@ -40,7 +40,7 @@ std::string GetCPUName()
 	
 	for(std::uint32_t i = 0; i < 3; i++)
 	{
-#if defined(_MSC_VER)
+#if defined(_MSC_VER) && !defined(_WIN64)
 		_asm
 		{
 			mov EAX, inst

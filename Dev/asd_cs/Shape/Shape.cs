@@ -9,18 +9,56 @@ namespace asd
     /// <summary>
     /// 当たり判定や図形描画に用いられる図形を扱う抽象クラス。
     /// </summary>
-    public abstract class Shape : IReleasable
+    public abstract class Shape : IDisposable, IReleasable
     {
+        #region IDisposable Support
+        bool disposed = false;
+
+        ~Shape()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            System.GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposed)
+            {
+                return;
+            }
+
+            var core = CoreShape;
+
+            if (core != null)
+            {
+                GC.Collector.AddObject(core);
+                CoreShape = null;
+            }
+
+            disposed = false;
+        }
+        #endregion
         /// <summary>
         /// 図形のタイプを取得する。
         /// </summary>
         public abstract ShapeType ShapeType { get; }
 
-        internal abstract swig.CoreShape CoreShape { get; }
+        internal abstract swig.CoreShape CoreShape { get; set; }
 
-        public abstract bool IsReleased { get; }
+        bool IReleasable.IsReleased
+        {
+            get { return disposed; }
+        }
 
-        public abstract void ForceToRelease();
+        void IReleasable.ForceToRelease()
+        {
+            Dispose();
+        }
 
         /// <summary>
         /// 指定した図形と衝突しているか否かを調べる。

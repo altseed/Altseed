@@ -90,7 +90,16 @@ namespace asd
 				b = &(subBuf[subBufferOffset]);
 				subBufferOffset += size;
 			}
-			return new(b) T[count];
+
+			auto ret = (T*)b;
+
+			for (int32_t i = 0; i < count; i++)
+			{
+				auto result = new(b) T();
+				b += sizeof(T);
+			}
+
+			return ret;
 		}
 
 		/**

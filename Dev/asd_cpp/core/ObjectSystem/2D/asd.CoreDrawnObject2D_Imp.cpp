@@ -4,6 +4,8 @@ namespace asd
 {
 	CoreDrawnObject2D_Imp::CoreDrawnObject2D_Imp(Graphics_Imp* graphics)
 		: CoreObject2D_Imp(graphics)
+		, m_color(Color(255, 255, 255, 255))
+		, m_drawingPriority(0)
 	{
 	}
 

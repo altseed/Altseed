@@ -5,6 +5,10 @@
 #include "asd.Texture2D_Imp_GL.h"
 #include "../asd.Graphics_Imp_GL.h"
 
+#include "../../../../3rdParty/nv_dds/nv_dds.h"
+
+#include <sstream>
+
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
@@ -61,7 +65,7 @@ namespace asd {
 
 		glBindTexture(GL_TEXTURE_2D, texture);
 
-		if (isSRGB)
+		if (isSRGB && g->GetOption().ColorSpace == ColorSpaceType::LinearSpace)
 		{
 			glTexImage2D(
 				GL_TEXTURE_2D,
@@ -91,7 +95,7 @@ namespace asd {
 
 		glBindTexture(GL_TEXTURE_2D, 0);
 
-		if (isSRGB)
+		if (isSRGB && g->GetOption().ColorSpace == ColorSpaceType::LinearSpace)
 		{
 			m_format = TextureFormat::R8G8B8A8_UNORM_SRGB;
 		}
@@ -169,6 +173,80 @@ namespace asd {
 			texture->InternalUnload();
 
 			return texture;
+		}
+		else if (ImageHelper::IsDDS(data, size))
+		{
+			std::vector<char> d;
+			d.resize(size);
+			memcpy(d.data(), data, size);
+			nv_dds::CDDSImage image;
+			std::istringstream stream(std::string(d.begin(), d.end()));
+			image.load(stream);
+
+			if (image.get_format() == GL_RGBA)
+			{
+				GLuint texture;
+
+				glGenTextures(1, &texture);
+				glBindTexture(GL_TEXTURE_2D, texture);
+
+				glTexImage2D(GL_TEXTURE_2D, 0, image.get_components(), image.get_width(),
+					image.get_height(), 0, image.get_format(), GL_UNSIGNED_BYTE, image);
+
+				for (int i = 0; i < image.get_num_mipmaps(); i++)
+				{
+					glTexImage2D(GL_TEXTURE_2D, i + 1, image.get_components(),
+						image.get_mipmap(i).get_width(), image.get_mipmap(i).get_height(),
+						0, image.get_format(), GL_UNSIGNED_BYTE, image.get_mipmap(i));
+				}
+
+				glBindTexture(GL_TEXTURE_2D, 0);
+
+				return new Texture2D_Imp_GL(graphics, texture, Vector2DI(image.get_width(), image.get_height()), TextureFormat::R8G8B8A8_UNORM);
+			}
+
+			if (image.get_format() == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT ||
+				image.get_format() == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT ||
+				image.get_format() == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
+			{
+				GLuint texture;
+
+				glGenTextures(1, &texture);
+				glBindTexture(GL_TEXTURE_2D, texture);
+
+				glCompressedTexImage2D(GL_TEXTURE_2D, 0, image.get_format(),
+				    image.get_width(), image.get_height(), 0, image.get_size(),
+				    image);
+				
+				for (int i = 0; i < image.get_num_mipmaps(); i++)
+				{
+				   auto mipmap = image.get_mipmap(i);
+				
+				    glCompressedTexImage2D(GL_TEXTURE_2D, i+1, image.get_format(),
+				        mipmap.get_width(), mipmap.get_height(), 0, mipmap.get_size(),
+				        mipmap);
+				}
+
+				glBindTexture(GL_TEXTURE_2D, 0);
+
+				if (image.get_format() == GL_COMPRESSED_RGBA_S3TC_DXT1_EXT)
+				{
+					return new Texture2D_Imp_GL(graphics, texture, Vector2DI(image.get_width(), image.get_height()), TextureFormat::BC1);
+				}
+
+				if (image.get_format() == GL_COMPRESSED_RGBA_S3TC_DXT3_EXT)
+				{
+					return new Texture2D_Imp_GL(graphics, texture, Vector2DI(image.get_width(), image.get_height()), TextureFormat::BC2);
+				}
+
+				if (image.get_format() == GL_COMPRESSED_RGBA_S3TC_DXT5_EXT)
+				{
+					return new Texture2D_Imp_GL(graphics, texture, Vector2DI(image.get_width(), image.get_height()), TextureFormat::BC3);
+				}
+
+				return nullptr;
+			}
+			
 		}
 
 		return nullptr;

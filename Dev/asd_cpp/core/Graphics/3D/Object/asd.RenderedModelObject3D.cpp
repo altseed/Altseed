@@ -1004,9 +1004,9 @@ namespace asd
 	{
 		auto pos = this->GetPosition();
 		proxy->CullingObject->SetPosition(Culling3D::Vector3DF(pos.X, pos.Y, pos.Z));
-		proxy->CullingObject->SetShapeType(Culling3D::eObjectShapeType::OBJECT_SHAPE_TYPE_SPHERE);
+
 		// 仮の数値
-		proxy->CullingObject->SetRadius(200.0f);
+		proxy->CullingObject->ChangeIntoSphere(200.0f);
 	}
 
 	void RenderedModelObject3D::Flip(float deltaTime)

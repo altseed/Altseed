@@ -28,7 +28,7 @@ namespace asd
 
 		void DrawAdditionally();
 		void UpdateInternal();
-		void Dispose();
+		void DisposeInternal();
 
 	protected:
 
@@ -70,7 +70,7 @@ namespace asd
 		@brief	このレイヤーに登録されている3Dオブジェクトのリストを取得する。
 		@return	登録されているオブジェクトのリスト
 		*/
-		const std::list<Object3D::Ptr>& GetObjects() const;
+		std::list<Object3D::Ptr> GetObjects() const;
 
 		/**
 		@brief	通常の描画に加えてテクスチャを描画する。

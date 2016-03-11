@@ -31,22 +31,27 @@ Window_Imp::~Window_Imp()
 	SafeRelease(currentCursor);
 }
 
-Window_Imp* Window_Imp::Create(int32_t width, int32_t height, const achar* title, Log* logger, bool isFullScreen)
+Window_Imp* Window_Imp::Create(int32_t width, int32_t height, const achar* title, Log* logger, ColorSpaceType colorSpaceType, bool isFullScreen)
 {
 	Window_Imp* ret = nullptr;
 
 	if (logger != nullptr) logger->WriteHeading("ウインドウ");
 
 #ifdef _WIN32
-	ret = Window_Imp_Win::Create(width, height, title, logger, isFullScreen);
+	ret = Window_Imp_Win::Create(width, height, title, logger, colorSpaceType, isFullScreen);
 #else
-	ret = Window_Imp_X11::Create( width, height, title, logger, isFullScreen);
+	ret = Window_Imp_X11::Create( width, height, title, logger, colorSpaceType, isFullScreen);
 #endif
 	if (ret != nullptr)
 	{
 		if (logger != nullptr) logger->WriteLine("ウインドウ作成成功");
 	}
 	return ret;
+}
+
+void Window_Imp::SetSize(Vector2DI size)
+{
+	glfwSetWindowSize(m_window, size.X, size.Y);
 }
 
 void Window_Imp::SetCursor(Cursor* cursor)

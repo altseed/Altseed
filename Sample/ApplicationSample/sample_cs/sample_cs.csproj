@@ -48,6 +48,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Action2D\Action2D_Camera.cs" />
+    <Compile Include="Browser\SampleBrowser.cs" />
+    <Compile Include="Browser\SampleBrowserLayer.cs" />
+    <Compile Include="Browser\SampleInfoLayer.cs" />
+    <Compile Include="Browser\SampleItem.cs" />
     <Compile Include="CustomPostEffect\CustomPostEffect_Invert.cs" />
     <Compile Include="CustomPostEffect\CustomPostEffect_Mosaic.cs" />
     <Compile Include="ImagePackageUI\ImagePackageUI_AlphaBlend.cs" />
@@ -58,7 +63,7 @@
     <Compile Include="MapObject2D\MapObject2D_Basic.cs" />
     <Compile Include="Pause\Pause_Basic.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="SampleCUI.cs" />
+    <Compile Include="Browser\SampleCUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

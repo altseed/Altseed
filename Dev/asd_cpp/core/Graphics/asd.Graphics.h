@@ -60,7 +60,7 @@ public:
 	@brief	テクスチャを生成する。
 	@param	path	画像ファイルへの相対パス
 	@return	テクスチャ
-	@warning	読み込める画像形式はPNGまたはDDSのみ。(DDSはDirectX動作時のみ)
+	@warning	読み込める画像形式はPNGまたはDDSのみ。
 	*/
 	std::shared_ptr<Texture2D> CreateTexture2D(const achar* path) { return CreateSharedPtrWithReleaseDLL(CreateTexture2D_(path)); }
 
@@ -70,7 +70,7 @@ public:
 	@return	テクスチャ
 	@note
 	画素がRGB空間にマッピングされている時に使用する。(ノーマルマップ等)
-	@warning	読み込める画像形式はPNGまたはDDSのみ。(DDSはDirectX動作時のみ)
+	@warning	読み込める画像形式はPNGまたはDDSのみ。
 	*/
 	std::shared_ptr<Texture2D> CreateTexture2DAsRawData(const achar* path) { return CreateSharedPtrWithReleaseDLL(CreateTexture2DAsRawData_(path)); }
 
@@ -111,7 +111,7 @@ public:
 	@param	right	右方向の画像ファイルへの相対パス
 	@param	top		上方向の画像ファイルへの相対パス
 	@param	bottom	下方向の画像ファイルへの相対パス
-	@warning	読み込める画像形式はPNGまたはDDSのみ。(DDSはDirectX動作時のみ)
+	@warning	読み込める画像形式はPNGまたはDDSのみ。
 	@return	キューブマップ
 	*/
 	std::shared_ptr<CubemapTexture> CreateCubemapTextureFrom6ImageFiles(const achar* front, const achar* left, const achar* back, const achar* right, const achar* top, const achar* bottom)
@@ -125,7 +125,7 @@ public:
 	@brief	複数の画像ファイルからミップマップ付のキューブマップテクスチャを生成する。
 	@param	path		ファイルの名称の先頭
 	@param	mipmapCount	ミップマップ数
-	@warning	読み込める画像形式はPNGまたはDDSのみ。(DDSはDirectX動作時のみ)
+	@warning	読み込める画像形式はPNGまたはDDSのみ。
 	@return	キューブマップ
 	*/
 	std::shared_ptr<CubemapTexture> CreateCubemapTextureFromMipmapImageFiles(const achar* path, int32_t mipmapCount)
@@ -139,7 +139,7 @@ public:
 	@brief	1つのファイルからミップマップ付のキューブマップテクスチャを生成する。
 	@param	path		画像ファイルへの相対パス
 	@return	キューブマップ
-	@warning	読み込める画像形式はPNGまたはDDSのみ。(DDSはDirectX動作時のみ)
+	@warning	読み込める画像形式はDDSのみ。
 	*/
 	std::shared_ptr<CubemapTexture> CreateCubemapTextureFromSingleImageFile(const achar* path)
 	{

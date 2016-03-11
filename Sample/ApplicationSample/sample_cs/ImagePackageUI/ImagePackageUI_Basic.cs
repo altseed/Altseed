@@ -4,6 +4,16 @@
 /// </summary>
 class ImagePackageUI_Basic : ISample
 {
+	public string Description
+	{
+		get { return ""; }
+	}
+
+	public string Title
+	{
+		get { return ""; }
+	}
+
 	public void Run()
 	{
 		// Altseedを初期化する。

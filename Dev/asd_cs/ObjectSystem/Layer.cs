@@ -8,10 +8,13 @@ namespace asd
 	/// <summary>
 	/// オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス
 	/// </summary>
-	public abstract class Layer
+	public abstract class Layer : IReleasable, IDisposable
 	{
-		internal swig.CoreLayer commonObject = null;
+		public abstract bool IsReleased { get; }
 
+		/// <summary>
+		/// コンストラクタ
+		/// </summary>
 		public Layer()
 		{
 			IsAlive = true;
@@ -23,10 +26,11 @@ namespace asd
 			updateTimer = 0;
 		}
 
+		#region パラメータ
 		/// <summary>
-		/// このレイヤーが有効化どうかを取得する。Vanishメソッドを呼び出した後なら false。
+		/// このレイヤーが有効化どうかを取得する。<see cref="Dispose"/>メソッドを呼び出した後なら false。
 		/// </summary>
-		public bool IsAlive { get; private set; }
+		public bool IsAlive { get; internal set; }
 
 		/// <summary>
 		/// レイヤーの更新を実行するかどうか取得または設定する。
@@ -38,8 +42,8 @@ namespace asd
 		/// </summary>
 		public bool IsDrawn
 		{
-			get { return commonObject.GetIsDrawn(); }
-			set { commonObject.SetIsDrawn(value); }
+			get { return CoreLayer.GetIsDrawn(); }
+			set { CoreLayer.SetIsDrawn(value); }
 		}
 
 		/// <summary>
@@ -76,22 +80,45 @@ namespace asd
 		/// </summary>
 		public string Name { get; set; }
 
-
 		/// <summary>
 		/// このレイヤーの描画優先度を取得または設定する。この値が大きいほど手前に描画される。
 		/// </summary>
 		public int DrawingPriority
 		{
-			get { return commonObject.GetDrawingPriority(); }
-			set { commonObject.SetDrawingPriority(value); }
+			get { return CoreLayer.GetDrawingPriority(); }
+			set { CoreLayer.SetDrawingPriority(value); }
 		}
 
+		/// <summary>
+		/// レイヤーの種類を取得する。
+		/// </summary>
+		public abstract LayerType LayerType { get; }
+		#endregion
+
+
+		#region イベント
+		internal void RaiseOnAdded()
+		{
+			OnAdded();
+		}
+
+		internal void RaiseOnRemoved()
+		{
+			OnRemoved();
+		}
+
+		/// <summary>
+		/// このレイヤーを破棄する。
+		/// </summary>
+		public abstract void Dispose();
+
 		internal abstract void BeginUpdating();
+
 		internal abstract void EndUpdating();
 
 		internal virtual void Update()
 		{
-			if(!isUpdatedCurrent || !IsAlive)
+			if(!IsAlive || !isUpdatedCurrent)
 			{
 				return;
 			}
@@ -112,55 +139,73 @@ namespace asd
 
 		internal abstract void UpdateInternal();
 
-		internal abstract void Dispose();
-
-		internal abstract void DrawAdditionally();
-
 		internal void BeginDrawing()
 		{
-			Scene.CoreScene.SetRenderTargetForDrawingLayer();
-			commonObject.BeginDrawing();
+			if(!IsAlive)
+			{
+				return;
+			}
+
+			Scene.CoreInstance.SetRenderTargetForDrawingLayer();
+			CoreLayer.BeginDrawing();
 		}
 
 		internal void EndDrawing()
 		{
-			commonObject.EndDrawing();
+			if(!IsAlive)
+			{
+				return;
+			}
+
+			CoreLayer.EndDrawing();
 
 			if(postEffects.Count > 0)
 			{
 				foreach(var p in postEffects)
 				{
-					Scene.CoreScene.BeginPostEffect(p.SwigObject);
+					Scene.CoreInstance.BeginPostEffect(p.CoreInstance);
 
-					var src_ = Scene.CoreScene.GetSrcTarget();
-					var dst_ = Scene.CoreScene.GetDstTarget();
+					var src_ = Scene.CoreInstance.GetSrcTarget();
+					var dst_ = Scene.CoreInstance.GetDstTarget();
 
 					RenderTexture2D src = GC.GenerateRenderTexture2D(src_, GC.GenerationType.Get);
 					RenderTexture2D dst = GC.GenerateRenderTexture2D(dst_, GC.GenerationType.Get);
 
-					p.OnDraw(dst, src);
+					p.Draw(dst, src);
 
-					Scene.CoreScene.EndPostEffect(p.SwigObject);
+					Scene.CoreInstance.EndPostEffect(p.CoreInstance);
 				}
 			}
 		}
 
-		internal void Start()
-		{
-			OnStart();
-		}
-
 		internal void Draw()
 		{
-			commonObject.Draw();
+			if(IsAlive)
+			{
+				CoreLayer.Draw();
+			}
 		}
 
-		internal swig.CoreLayer CoreLayer { get { return commonObject; } }
+		internal abstract void DrawAdditionally();
 
 		/// <summary>
-		/// オーバーライドして、このレイヤーの初期化処理を記述できる。
+		/// オーバーライドして、このレイヤーがシーンに登録されたときの処理を記述できる。
 		/// </summary>
-		protected virtual void OnStart()
+		protected virtual void OnAdded()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このレイヤーがシーンから登録解除されたときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnRemoved()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このレイヤーが破棄されるときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnDispose()
 		{
 		}
 
@@ -184,20 +229,8 @@ namespace asd
 		protected virtual void OnDrawAdditionally()
 		{
 		}
+		#endregion
 
-		/// <summary>
-		/// オーバーライドして、このレイヤーがVanishメソッドによって破棄されるときの処理を記述できる。
-		/// </summary>
-		protected virtual void OnVanish()
-		{
-		}
-
-		/// <summary>
-		/// オーバーライドして、このレイヤーが破棄されるときの処理を記述できる。
-		/// </summary>
-		protected virtual void OnDispose()
-		{
-		}
 
 		/// <summary>
 		/// ポストエフェクトを追加する。
@@ -205,8 +238,10 @@ namespace asd
 		/// <param name="postEffect">ポストエフェクト</param>
 		public void AddPostEffect(PostEffect postEffect)
 		{
+			ThrowIfDisposed();
+			CoreLayer.Draw();
 			postEffects.Add(postEffect);
-			commonObject.AddPostEffect(postEffect.SwigObject);
+			CoreLayer.AddPostEffect(postEffect.CoreInstance);
 		}
 
 		/// <summary>
@@ -214,28 +249,42 @@ namespace asd
 		/// </summary>
 		public void ClearPostEffects()
 		{
+			ThrowIfDisposed();
+			CoreLayer.Draw();
 			postEffects.Clear();
-			commonObject.ClearPostEffects();
+			CoreLayer.ClearPostEffects();
 		}
 
 		/// <summary>
-		/// このレイヤーを破棄する。
+		/// 強制的に使用しているメモリを開放する。
 		/// </summary>
-		public void Vanish()
+		/// <remarks>
+		/// 何らかの理由でメモリが不足した場合に実行する。
+		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
+		/// </remarks>
+		public abstract void ForceToRelease();
+
+		internal void ThrowIfDisposed()
 		{
-			IsAlive = false;
-			OnVanish();
+			if(!IsAlive)
+			{
+				throw new ObjectDisposedException(GetType().FullName);
+			}
 		}
 
-		/// <summary>
-		/// レイヤーの種類を取得する。
-		/// </summary>
-		public abstract LayerType LayerType { get; }
-
-		protected List<PostEffect> postEffects;
-
-		protected bool isUpdatedCurrent;
 
 		private float updateTimer;
+
+		private swig.CoreLayer coreLayer_;
+
+		internal swig.CoreLayer CoreLayer
+		{
+			get { return coreLayer_; }
+			set { coreLayer_ = value; }
+		}
+
+		internal List<PostEffect> postEffects;
+
+		internal bool isUpdatedCurrent;
 	}
 }

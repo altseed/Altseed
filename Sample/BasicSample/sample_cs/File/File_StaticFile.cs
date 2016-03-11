@@ -3,9 +3,18 @@
 namespace sample_cs
 {
 	class File_StaticFile : ISample
-	{
-		// StaticFile を用いて、ファイルからテキストを読み込むサンプルです。
-		public void Run()
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+		public string Title
+		{
+			get { return ""; }
+		}
+
+        // StaticFile を用いて、ファイルからテキストを読み込むサンプル。
+        public void Run()
 		{
 			// Altseedを初期化する。
 			asd.Engine.Initialize("File_StaticFile", 640, 480, new asd.EngineOption());

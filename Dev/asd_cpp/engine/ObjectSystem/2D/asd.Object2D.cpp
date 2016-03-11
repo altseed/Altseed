@@ -6,9 +6,6 @@ using namespace std;
 
 namespace asd
 {
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	Object2D::Object2D()
 		: m_owner(nullptr)
 		, m_children(list<Object2D::Ptr>())
@@ -20,19 +17,14 @@ namespace asd
 	{
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	Object2D::~Object2D()
 	{
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Object2D::Start()
+
+	void Object2D::RaiseOnAdded()
 	{
-		OnStart();
+		OnAdded();
 		for (auto& child : m_children)
 		{
 			if (IS_INHERITED(child, RegistrationToLayer))
@@ -42,7 +34,7 @@ namespace asd
 		}
 	}
 
-	void Object2D::OnRemovedInternal()
+	void Object2D::RaiseOnRemoved()
 	{
 		for (auto& child : m_children)
 		{
@@ -51,6 +43,30 @@ namespace asd
 				GetLayer()->RemoveObject(child);
 			}
 		}
+		OnRemoved();
+	}
+
+	void Object2D::Dispose()
+	{
+		if (GetIsAlive())
+		{
+			GetCoreObject()->SetIsAlive(false);
+			for (auto& child : m_children)
+			{
+				GetCoreObject()->RemoveChild(child->GetCoreObject());
+				if (IS_INHERITED(child, Disposal))
+				{
+					child->Dispose();
+				}
+				child->m_parentInfo.reset();
+			}
+			auto parent = this->GetParent();
+			if (parent != nullptr && parent->GetIsAlive())
+			{
+				parent->RemoveChild(shared_from_this());
+			}
+			OnDispose();
+		}
 	}
 
 	void Object2D::Update()
@@ -58,19 +74,6 @@ namespace asd
 		if (!GetIsAlive() || !GetAbsoluteBeingUpdated())
 		{
 			return;
-		}
-
-		std::list<Object2D::Ptr> vanishing;
-		for (auto& child : m_children)
-		{
-			if (!child->GetIsAlive())
-			{
-				vanishing.push_back(child);
-			}
-		}
-		for (auto& v : vanishing)
-		{
-			RemoveChild(v);
 		}
 
 		OnUpdate();
@@ -85,17 +88,16 @@ namespace asd
 		}
 	}
 
-	void Object2D::Dispose()
+
+	void Object2D::OnAdded()
 	{
-		for (auto& child : m_children)
-		{
-			GetCoreObject()->RemoveChild(child->GetCoreObject());
-		}
-		OnDispose();
 	}
 
+	void Object2D::OnRemoved()
+	{
+	}
 
-	void Object2D::OnStart()
+	void Object2D::OnDispose()
 	{
 	}
 
@@ -107,13 +109,6 @@ namespace asd
 	{
 	}
 
-	void Object2D::OnVanish()
-	{
-	}
-
-	void Object2D::OnDispose()
-	{
-	}
 
 	void Object2D::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
@@ -172,22 +167,10 @@ namespace asd
 		layer->DrawShapeAdditionally(shape, color, texture, alphaBlend, priority);
 	}
 
+
 	bool Object2D::GetIsAlive() const
 	{
 		return GetCoreObject()->GetIsAlive();
-	}
-
-	void Object2D::Vanish()
-	{
-		GetCoreObject()->SetIsAlive(false);
-		for (auto& child : m_children)
-		{
-			if (IS_INHERITED(child, Vanishment))
-			{
-				child->Vanish();
-			}
-		}
-		OnVanish();
 	}
 
 	Layer2D* Object2D::GetLayer() const
@@ -205,6 +188,19 @@ namespace asd
 		GetCoreObject()->AddChild((child->GetCoreObject()), managementMode, transformingMode);
 		m_children.push_back(child);
 		child->m_parentInfo = make_shared<ParentInfo2D>(this, managementMode);
+
+		if ((managementMode & ChildManagementMode::RegistrationToLayer) != 0)
+		{
+			auto childLayer = child->GetLayer();
+			if (childLayer != GetLayer() && childLayer != nullptr)
+			{
+				childLayer->RemoveObject(child);
+			}
+			if (m_owner != nullptr)
+			{
+				m_owner->AddObject(child);
+			}
+		}
 	}
 
 	void Object2D::RemoveChild(const Object2D::Ptr& child)
@@ -212,6 +208,11 @@ namespace asd
 		GetCoreObject()->RemoveChild((child->GetCoreObject()));
 		m_children.remove(child);
 		child->m_parentInfo.reset();
+	}
+
+	Object2D* Object2D::GetParent() const
+	{
+		return m_parentInfo != nullptr ? m_parentInfo->GetParent() : nullptr;
 	}
 
 	const std::list<Object2D::Ptr>& Object2D::GetChildren() const

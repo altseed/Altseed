@@ -24,10 +24,12 @@ namespace sample_cs
 
                 new MapObject2D_Basic(),
                 new MapObject2D_Camera(),
+
+				new Action2D_Camera(),
             };
 
-			var cui = new SampleGuide( samples );
-			cui.Show();
+			var browser = new SampleBrowser(samples);
+			browser.Run();
 		}
 	}
 }

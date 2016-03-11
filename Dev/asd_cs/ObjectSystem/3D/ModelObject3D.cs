@@ -26,7 +26,7 @@ namespace asd
 			base.ForceToRelease();
 		}
 
-		protected override void OnStart() { }
+		protected override void OnAdded() { }
 		protected override void OnUpdate() { }
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace asd
 		/// <param name="deformer">デフォーマー</param>
 		public void SetDeformer(Deformer deformer)
 		{
-			coreObject.SetDeformer(deformer.SwigObject);
+			coreObject.SetDeformer(deformer.CoreInstance);
 		}
 
 		/// <summary>

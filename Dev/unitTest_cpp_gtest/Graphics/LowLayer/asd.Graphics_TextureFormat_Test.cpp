@@ -104,7 +104,11 @@ void Graphics_TextureFormat(bool isOpenGLMode)
 	auto file = asd::File_Imp::Create();
 	ASSERT_TRUE(file != nullptr);
 
-	auto graphics = asd::Graphics_Imp::Create(window, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, log, file, false, false);
+	asd::GraphicsOption go;
+	go.IsFullScreen = false;
+	go.IsReloadingEnabled = false;
+	go.ColorSpace = asd::ColorSpaceType::LinearSpace;
+	auto graphics = asd::Graphics_Imp::Create(window, isOpenGLMode ? asd::GraphicsDeviceType::OpenGL : asd::GraphicsDeviceType::DirectX11, log, file, go);
 	ASSERT_TRUE(graphics != nullptr);
 
 	const int32_t textureCount = 4;
@@ -113,19 +117,15 @@ void Graphics_TextureFormat(bool isOpenGLMode)
 	textures[0] = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Format_PNG.png").c_str());
 	ASSERT_TRUE(textures[0] != nullptr);
 
-	if (!isOpenGLMode)
-	{
-		textures[1] = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Format_DDS_DXT1.dds").c_str());
-		ASSERT_TRUE(textures[1] != nullptr);
+	textures[1] = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Format_DDS_DXT1.dds").c_str());
+	ASSERT_TRUE(textures[1] != nullptr);
 
-		textures[2] = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Format_DDS_DXT3.dds").c_str());
-		ASSERT_TRUE(textures[2] != nullptr);
+	textures[2] = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Format_DDS_DXT3.dds").c_str());
+	ASSERT_TRUE(textures[2] != nullptr);
 
-		textures[3] = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Format_DDS_DXT5.dds").c_str());
-		ASSERT_TRUE(textures[3] != nullptr);
-
-	}
-
+	textures[3] = graphics->CreateTexture2D(asd::ToAString(L"Data/Texture/Format_DDS_DXT5.dds").c_str());
+	ASSERT_TRUE(textures[3] != nullptr);
+	
 	auto vertexBuffer = graphics->CreateVertexBuffer_Imp(sizeof(Vertex), 4, false);
 	ASSERT_TRUE(vertexBuffer != nullptr);
 

@@ -9,19 +9,18 @@ namespace asd
 	/// <summary>
 	/// レイヤーの更新と描画を管理するシーン機能を提供するクラス。
 	/// </summary>
-	public class Scene : IReleasable
+	public class Scene : IReleasable, IDisposable
 	{
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		public Scene()
 		{
-			CoreScene = Engine.ObjectSystemFactory.CreateScene();
+			CoreInstance = Engine.ObjectSystemFactory.CreateScene();
 
-			var p = CoreScene.GetPtr();
+			var p = CoreInstance.GetPtr();
 
-			var existing = GC.Scenes.GetObject(p);
-			if (existing != null)
+			if (GC.Scenes.Contains(p))
 			{
 				Particular.Helper.ThrowException("");
 			}
@@ -31,8 +30,8 @@ namespace asd
 			layersToDraw_ = new List<Layer>();
 			layersToUpdate_ = new List<Layer>();
 			componentManager_ = new ComponentManager<Scene, SceneComponent>(this);
-
-			alreadyFirstUpdate = false;
+			
+			IsAlive = true;
 		}
 
 		#region GC対策
@@ -45,7 +44,7 @@ namespace asd
 		{
 			get
 			{
-				return CoreScene == null;
+				return CoreInstance == null;
 			}
 		}
 
@@ -53,23 +52,57 @@ namespace asd
 		{
 			lock (this)
 			{
-				if(CoreScene == null) return;
-				GC.Collector.AddObject(CoreScene);
-				CoreScene = null;
+				if (CoreInstance == null) return;
+				GC.Collector.AddObject(CoreInstance);
+				CoreInstance = null;
 			}
 			Particular.GC.SuppressFinalize(this);
 		}
 		#endregion
 
+		internal void ThrowIfDisposed()
+		{
+			if(!IsAlive)
+			{
+				throw new ObjectDisposedException(GetType().FullName);
+			}
+		}
+
+
+		/// <summary>
+		/// このシーンが有効かどうかの真偽値を取得する。破棄されていれば false を返す。
+		/// </summary>
+		public bool IsAlive { get; private set; }
 
 		/// <summary>
 		/// 描画先がHDRかどうか、取得、または設定する。
 		/// </summary>
 		public bool HDRMode
 		{
-			get { return CoreScene.GetHDRMode(); }
-			set { CoreScene.SetHDRMode(value); }
+			get { ThrowIfDisposed();
+				return CoreInstance.GetHDRMode(); }
+			set { ThrowIfDisposed();
+				CoreInstance.SetHDRMode(value); }
 		}
+
+		/// <summary>
+		/// 全てのレイヤーとポストエフェクトが描画され終わった画面をテクスチャとして取得する。
+		/// </summary>
+		/// <returns>画面</returns>
+		/// <remarks>テクスチャの内容はシーンが描画されるたびに変わる。主にシーン遷移の際に使用する。</remarks>
+		public RenderTexture2D EffectedScreen
+		{
+			get
+			{
+				ThrowIfDisposed();
+				return GC.GenerateRenderTexture2D(CoreInstance.GetBaseTarget(), GC.GenerationType.Get);
+			}
+		}
+
+		/// <summary>
+		/// 所属しているレイヤーを取得する。
+		/// </summary>
+		public IEnumerable<Layer> Layers { get { return layersToUpdate_; } }
 
 
 		/// <summary>
@@ -78,6 +111,7 @@ namespace asd
 		/// <param name="layer">追加されるレイヤー</param>
 		public void AddLayer(Layer layer)
 		{
+			ThrowIfDisposed();
 			if (executing)
 			{
 				addingLayer.AddLast(layer);
@@ -86,13 +120,13 @@ namespace asd
 
 			if (layer.Scene != null)
 			{
-				Particular.Helper.ThrowException("指定したレイヤーは、既に別のシーンに所属しています。");
+				throw new InvalidOperationException("指定したレイヤーは、既に別のシーンに所属しています。");
 			}
 			layersToDraw_.Add(layer);
 			layersToUpdate_.Add(layer);
-			CoreScene.AddLayer(layer.CoreLayer);
+			CoreInstance.AddLayer(layer.CoreLayer);
 			layer.Scene = this;
-			layer.Start();
+			layer.RaiseOnAdded();
 		}
 
 		/// <summary>
@@ -101,15 +135,9 @@ namespace asd
 		/// <param name="layer">削除されるレイヤー</param>
 		public void RemoveLayer(Layer layer)
 		{
-			if(executing)
-			{
-				removingLayer.AddLast(layer);
-				return;
-			}
-
-			layersToDraw_.Remove(layer);
-			layersToUpdate_.Remove(layer);
-			CoreScene.RemoveLayer(layer.CoreLayer);
+			ThrowIfDisposed();
+			RemoveLayerInternal(layer);
+			layer.RaiseOnRemoved();
 			layer.Scene = null;
 		}
 
@@ -142,28 +170,53 @@ namespace asd
 			return componentManager_.Remove(key);
 		}
 
+		#region イベントハンドラ
 		/// <summary>
-		/// 全てのレイヤーとポストエフェクトが描画され終わった画面をテクスチャとして取得する。
+		/// オーバーライドして、このシーンがエンジンに登録されたときに実行する処理を記述できる。
 		/// </summary>
-		/// <returns>画面</returns>
-		/// <remarks>テクスチャの内容はシーンが描画されるたびに変わる。主にシーン遷移の際に使用する。</remarks>
-		public RenderTexture2D EffectedScreen
+		protected virtual void OnRegistered()
 		{
-			get
-			{
-				return GC.GenerateRenderTexture2D(CoreScene.GetBaseTarget(), GC.GenerationType.Get);
-			}
 		}
 
 		/// <summary>
-		/// 所属しているレイヤーを取得する。
+		/// オーバーライドして、シーンの更新が始まったときに実行する処理を記述できる。
 		/// </summary>
-		public IEnumerable<Layer> Layers { get { return layersToUpdate_; } }
+		protected virtual void OnStartUpdating()
+		{
+		}
 
 		/// <summary>
-		/// オーバーライドして、このシーンを初期化処理を記述できる。
+		/// オーバーライドして、トランジション終了時に実行する処理を記述できる。
 		/// </summary>
-		protected virtual void OnStart()
+		protected virtual void OnTransitionFinished()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このシーンから他のシーンへ変わり始めるときに実行する処理を記述できる。
+		/// </summary>
+		protected virtual void OnTransitionBegin()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このシーンの更新が止まるときに実行する処理を記述できる。
+		/// </summary>
+		protected virtual void OnStopUpdating()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このシーンがエンジンから登録解除されたときに実行する処理を記述できる。
+		/// </summary>
+		protected virtual void OnUnregistered()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このシーンが破棄される際に実行される処理を記述する。
+		/// </summary>
+		protected virtual void OnDispose()
 		{
 		}
 
@@ -181,75 +234,69 @@ namespace asd
 		{
 		}
 
-		/// <summary>
-		/// オーバーライドして、最初のシーン更新時に実行する処理を記述する。
-		/// </summary>
-		protected virtual void OnUpdateForTheFirstTime()
+		internal void RaiseOnRegistered()
 		{
+			OnRegistered();
 		}
 
-		/// <summary>
-		/// オーバーライドして、トランジション終了時に実行する処理を記述する。(※DoEvents関数内で実行される。)
-		/// </summary>
-		protected virtual void OnTransitionFinished()
+		internal void RaiseOnStartUpdating()
 		{
+			OnStartUpdating();
 		}
 
-		/// <summary>
-		/// オーバーライドして、このシーンから別のシーンに切り替わる際に実行される処理を記述する。
-		/// </summary>
-		protected virtual void OnChanging()
-		{
-		}
-
-		/// <summary>
-		/// オーバーライドして、このシーンが無条件に破棄される際に実行される処理を記述する。
-		/// </summary>
-		protected virtual void OnDispose()
-		{
-		}
-
-		internal void CallTransitionFinished()
+		internal void RaiseOnTransitionFinished()
 		{
 			OnTransitionFinished();
 		}
 
-		internal void CallChanging()
+		internal void RaiseOnTransitionBegin()
 		{
-			OnChanging();
+			OnTransitionBegin();
 		}
 
-		internal void Dispose()
+		internal void RaiseOnStopUpdating()
 		{
-			foreach(var item in layersToUpdate_)
+			OnStopUpdating();
+		}
+
+		internal void RaiseOnUnregistered()
+		{
+			OnUnregistered();
+		}
+
+		/// <summary>
+		/// このシーンを破棄する。
+		/// </summary>
+		public void Dispose()
+		{
+			if(IsAlive)
 			{
-				if(item.IsAlive)
+				OnDispose();
+				IsAlive = false;
+				foreach(var layer in layersToUpdate_)
 				{
-					item.Dispose();
+					layer.Dispose();
 				}
+				ForceToRelease();
 			}
-			OnDispose();
 		}
-
-		internal unsafe swig.CoreScene CoreScene { get; private set; }
 
 		internal void Update()
-        {
-            var beVanished = new List<Layer>();
-
-            executing = true;
-
-			if(!alreadyFirstUpdate)
+		{
+			if(!IsAlive)
 			{
-				OnUpdateForTheFirstTime();
-				alreadyFirstUpdate = true;
+				return;
 			}
+
+			var beVanished = new List<Layer>();
+
+			executing = true;
 
 			layersToUpdate_.Sort((x, y) => x.UpdatePriority - y.UpdatePriority);
 
 			OnUpdating();
 
-            foreach(var item in layersToUpdate_)
+			foreach(var item in layersToUpdate_)
 			{
 				item.BeginUpdating();
 			}
@@ -259,7 +306,7 @@ namespace asd
 				item.Update();
 				if(!item.IsAlive)
 				{
-                    beVanished.Add(item);
+					beVanished.Add(item);
 				}
 			}
 
@@ -274,13 +321,13 @@ namespace asd
 
 			executing = false;
 
-            foreach(var item in beVanished)
-            {
-                RemoveLayer(item);
-                item.Dispose();
-            }
+			foreach(var item in beVanished)
+			{
+				RemoveLayerInternal(item);
+				item.ForceToRelease();
+			}
 
-            CommitChanges();
+			CommitChanges();
 		}
 
 		void CommitChanges()
@@ -299,13 +346,13 @@ namespace asd
 			removingLayer.Clear();
 		}
 
-		internal void Start()
-		{
-			OnStart();
-		}
-
 		internal void Draw()
 		{
+			if(!IsAlive)
+			{
+				return;
+			}
+
 			executing = true;
 
 			Particular.Helper.SortLayersToDraw(layersToDraw_);
@@ -315,7 +362,7 @@ namespace asd
 				item.DrawAdditionally();
 			}
 
-			CoreScene.BeginDrawing();
+			CoreInstance.BeginDrawing();
 
 			foreach(var item in layersToDraw_)
 			{
@@ -332,23 +379,37 @@ namespace asd
 				item.EndDrawing();
 			}
 
-			CoreScene.EndDrawing();
+			CoreInstance.EndDrawing();
 
 			executing = false;
 
 			CommitChanges();
 		}
+		#endregion
 
-		private List<Layer> layersToDraw_;
 
-		private List<Layer> layersToUpdate_;
+		private void RemoveLayerInternal(Layer layer)
+		{
+			if(executing)
+			{
+				removingLayer.AddLast(layer);
+				return;
+			}
+
+			layersToDraw_.Remove(layer);
+			layersToUpdate_.Remove(layer);
+			CoreInstance.RemoveLayer(layer.CoreLayer);
+		}
+
+
+		internal unsafe swig.CoreScene CoreInstance { get; private set; }
 
 		private ComponentManager<Scene, SceneComponent> componentManager_ { get; set; }
 
-		private bool alreadyFirstUpdate;
-
-		LinkedList<Layer> addingLayer = new LinkedList<Layer>();
-		LinkedList<Layer> removingLayer = new LinkedList<Layer>();
-		bool executing = false;
+		private LinkedList<Layer> addingLayer = new LinkedList<Layer>();
+		private LinkedList<Layer> removingLayer = new LinkedList<Layer>();
+		private List<Layer> layersToDraw_;
+		private List<Layer> layersToUpdate_;
+		private bool executing = false;
 	}
 }

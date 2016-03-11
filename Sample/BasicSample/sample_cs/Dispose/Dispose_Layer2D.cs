@@ -2,34 +2,31 @@
 
 namespace sample_cs
 {
-	class Dispose_Layer2D : ISample
-	{
-		// Vanishが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
-		class MessageObject : asd.TextureObject2D
+    class Dispose_Layer2D : ISample
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+		public string Title
 		{
-			// Vanishが呼ばれたときに呼ばれる。
-			protected override void OnVanish()
-			{
-				Console.WriteLine("MessageObject.OnVanish");
-			}
+			get { return ""; }
+		}
 
-			// このオブジェクトが破棄されたときに呼ばれる。
+        // Disposeが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
+        class MessageObject : asd.TextureObject2D
+		{
+			// Disposeが呼ばれたときに呼ばれる。
 			protected override void OnDispose()
 			{
 				Console.WriteLine("MessageObject.OnDispose");
 			}
 		}
 
-		// Vanishが呼ばれた時や破棄されたときにコンソールに出力するレイヤー。
+		// Disposeが呼ばれた時や破棄されたときにコンソールに出力するレイヤー。
 		class MessageLayer : asd.Layer2D
 		{
-			// Vanishが呼ばれたときに呼ばれる。
-			protected override void OnVanish()
-			{
-				Console.WriteLine("MessageLayer.OnVanish");
-			}
-
-			// このレイヤーが破棄されたときに呼ばれる。
+			// Disposeが呼ばれたときに呼ばれる。
 			protected override void OnDispose()
 			{
 				Console.WriteLine("MessageLayer.OnDispose");
@@ -83,7 +80,7 @@ namespace sample_cs
 				{
 					Console.WriteLine("Layerを破棄します");
 					// レイヤーを破棄する。
-					layer.Vanish();
+					layer.Dispose();
 				}
 			}
 

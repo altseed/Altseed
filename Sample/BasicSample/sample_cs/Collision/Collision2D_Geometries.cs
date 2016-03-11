@@ -3,6 +3,11 @@
 /// </summary>
 public class Collision2D_Geometries : ISample
 {
+    public string Description
+    {
+        get { return ""; }
+    }
+
     public void Run()
     {
         // Altseedを初期化する。
@@ -101,4 +106,9 @@ public class Collision2D_Geometries : ISample
         // Altseedの終了処理をする。
         asd.Engine.Terminate();
     }
+
+	public string Title
+	{
+		get { return ""; }
+	}
 }

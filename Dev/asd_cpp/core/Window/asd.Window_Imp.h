@@ -43,9 +43,11 @@ namespace asd {
 			@param	isFullScreen	フルスクリーンか
 			@return	ウインドウ
 		*/
-		static Window_Imp* Create(int32_t width, int32_t height, const achar* title, Log* logger = nullptr, bool isFullScreen = false);
+		static Window_Imp* Create(int32_t width, int32_t height, const achar* title, Log* logger = nullptr, ColorSpaceType colorSpaceType = ColorSpaceType::LinearSpace, bool isFullScreen = false);
 
 		Vector2DI GetSize() const { return m_size; }
+
+		void SetSize(Vector2DI size);
 
 		void SetCursor(Cursor* cursor);
 

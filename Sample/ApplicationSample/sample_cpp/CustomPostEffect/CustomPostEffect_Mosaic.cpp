@@ -121,7 +121,8 @@ public:
 		material2d = asd::Engine::GetGraphics()->CreateMaterial2D(shader);
 	}
 
-	void OnDraw(std::shared_ptr<asd::RenderTexture2D> dst, std::shared_ptr<asd::RenderTexture2D> src)
+protected:
+	void OnDraw(std::shared_ptr<asd::RenderTexture2D> dst, std::shared_ptr<asd::RenderTexture2D> src) override
 	{
 		// マテリアルを経由してシェーダー内のg_texture変数に画面の画像(src)を入力する。
 		material2d->SetTexture2D(asd::ToAString("g_texture").c_str(), src);

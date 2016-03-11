@@ -4,7 +4,12 @@
 /// </summary>
 public class CameraObject2D_Texture : ISample
 {
-	public void Run()
+    public string Description
+    {
+        get { return ""; }
+    }
+
+    public void Run()
 	{
 		// Altseedを初期化する。
 		asd.Engine.Initialize("CameraObject2D_Texture", 640, 480, new asd.EngineOption());
@@ -65,5 +70,10 @@ public class CameraObject2D_Texture : ISample
 
 		// Altseedを終了する。
 		asd.Engine.Terminate();
+	}
+
+	public string Title
+	{
+		get { return ""; }
 	}
 }

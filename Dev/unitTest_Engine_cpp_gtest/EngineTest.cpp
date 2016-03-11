@@ -61,6 +61,11 @@ void EngineTest::OnFinish()
 {
 }
 
+shared_ptr<Texture2D> EngineTest::GetTexture()
+{
+	return Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Texture/Cloud1.png").c_str());
+}
+
 void EngineTest::Run()
 {
 	CreateSSDirectory();

@@ -4,6 +4,16 @@
 /// </summary>
 class ImagePackageUI_Component : ISample
 {
+	public string Description
+	{
+		get { return ""; }
+	}
+
+	public string Title
+	{
+		get { return ""; }
+	}
+
 	class AlphaAnimationComponent : asd.Object2DComponent
 	{
 		int time = 0;

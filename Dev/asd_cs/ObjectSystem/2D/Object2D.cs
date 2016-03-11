@@ -20,7 +20,7 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
 	/// </summary>
-	public abstract class Object2D : Content, IReleasable
+	public abstract class Object2D : Content, IReleasable, IDisposable
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -32,16 +32,26 @@ namespace asd
 			IsUpdated = true;
 		}
 
+
+		#region パラメータ
 		/// <summary>
 		/// カメラに表示するグループを取得する。
 		/// </summary>
 		/// <remarks>
-		/// カメラのグループと他のオブジェクトのグループで&でビット演算して1以上だった場合、そのカメラにオブジェクトが描画されるようになる。
+		/// カメラのグループと他のオブジェクトのグループで&amp;でビット演算して1以上だった場合、そのカメラにオブジェクトが描画されるようになる。
 		/// </remarks>
 		public int CameraGroup
 		{
-			get { return CoreObject.GetCameraGroup(); }
-			set { CoreObject.SetCameraGroup(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return CoreObject.GetCameraGroup();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				CoreObject.SetCameraGroup(value);
+			}
 		}
 
 		/// <summary>
@@ -54,16 +64,24 @@ namespace asd
 		/// </summary>
 		public bool IsDrawn
 		{
-			get { return CoreObject.GetIsDrawn(); }
-			set { CoreObject.SetIsDrawn(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return CoreObject.GetIsDrawn();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				CoreObject.SetIsDrawn(value);
+			}
 		}
 
 		/// <summary>
-		/// このオブジェクトが実行中かどうかを取得する。Vanishメソッドにより削除された時に false を返す。
+		/// このオブジェクトが実行中かどうかを取得する。破棄されている場合に false を返す。
 		/// </summary>
 		public bool IsAlive
 		{
-			get { return CoreObject.GetIsAlive(); }
+			get { return CoreObject != null && CoreObject.GetIsAlive(); }
 			private set { CoreObject.SetIsAlive(value); }
 		}
 
@@ -72,6 +90,13 @@ namespace asd
 		/// </summary>
 		public Layer2D Layer { get; internal set; }
 
+		/// <summary>
+		/// このオブジェクトの親オブジェクトを取得する。
+		/// </summary>
+		public Object2D Parent
+		{
+			get { return ParentInfo != null ? ParentInfo.Parent : null; }
+		}
 
 		/// <summary>
 		/// このオブジェクトが持っている子オブジェクトのコレクションを取得する。
@@ -86,8 +111,16 @@ namespace asd
 		/// </summary>
 		public Vector2DF Position
 		{
-			get { return CoreObject.GetPosition(); }
-			set { CoreObject.SetPosition(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return CoreObject.GetPosition();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				CoreObject.SetPosition(value);
+			}
 		}
 
 		/// <summary>
@@ -98,8 +131,16 @@ namespace asd
 		/// </remarks>
 		public float Angle
 		{
-			get { return CoreObject.GetAngle(); }
-			set { CoreObject.SetAngle(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return CoreObject.GetAngle();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				CoreObject.SetAngle(value);
+			}
 		}
 
 		/// <summary>
@@ -107,9 +148,46 @@ namespace asd
 		/// </summary>
 		public Vector2DF Scale
 		{
-			get { return CoreObject.GetScale(); }
-			set { CoreObject.SetScale(value); }
+			get
+			{
+				ThrowIfDisposed();
+				return CoreObject.GetScale();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				CoreObject.SetScale(value);
+			}
 		}
+
+		/// <summary>
+		/// このオブジェクトが親子関係を考慮して最終的に更新されるかどうかの真偽値を取得します。
+		/// </summary>
+		public bool AbsoluteBeingUpdated
+		{
+			get
+			{
+				ThrowIfDisposed();
+				return IsUpdated
+					&& !(ParentInfo != null
+					&& (ParentInfo.ManagementMode & ChildManagementMode.IsUpdated) != 0
+					&& !ParentInfo.Parent.AbsoluteBeingUpdated);
+			}
+		}
+
+		/// <summary>
+		/// このオブジェクトが親子関係を考慮して最終的に描画されるかどうかの真偽値を取得します。
+		/// </summary>
+		public bool AbsoluteBeingDrawn
+		{
+			get
+			{
+				ThrowIfDisposed();
+				return CoreObject.GetAbsoluteBeingDrawn();
+			}
+		}
+		#endregion
+
 
 		/// <summary>
 		/// この2Dオブジェクトを描画する際の実際の位置を取得または設定する。親子関係がある場合に、親の位置を考慮した位置を取得できる。
@@ -117,23 +195,8 @@ namespace asd
 		/// <returns>この2Dオブジェクトの位置。</returns>
 		public Vector2DF GetGlobalPosition()
 		{
+			ThrowIfDisposed();
 			return CoreObject.GetGlobalPosition();
-		}
-
-		/// <summary>
-		/// この2Dオブジェクトを破棄します。
-		/// </summary>
-		public void Vanish()
-		{
-			foreach(var item in ChildrenList)
-			{
-				if(item.IsInheriting(ChildManagementMode.Vanishment))
-				{
-					item.Vanish();
-				}
-			}
-			IsAlive = false;
-			OnVanish();
 		}
 
 		/// <summary>
@@ -144,9 +207,21 @@ namespace asd
 		/// <param name="transformingMode">子オブジェクトの変形に関する同期設定。</param>
 		public void AddChild(Object2D child, ChildManagementMode managementMode, ChildTransformingMode transformingMode)
 		{
+			ThrowIfDisposed();
 			CoreObject.AddChild(child.CoreObject, (int)managementMode, (swig.ChildTransformingMode)transformingMode);
 			ChildrenList.Add(child);
 			child.ParentInfo = new ParentInfo2D(this, managementMode);
+			if((managementMode & ChildManagementMode.RegistrationToLayer) != 0)
+			{
+				if(child.Layer != Layer && child.Layer != null)
+				{
+					child.Layer.RemoveObject(child);
+				}
+				if(Layer != null)
+				{
+					Layer.AddObject(child);
+				}
+			}
 		}
 
 		/// <summary>
@@ -155,6 +230,7 @@ namespace asd
 		/// <param name="child"></param>
 		public void RemoveChild(Object2D child)
 		{
+			ThrowIfDisposed();
 			CoreObject.RemoveChild(child.CoreObject);
 			ChildrenList.Remove(child);
 			child.ParentInfo = null;
@@ -190,90 +266,182 @@ namespace asd
 			return componentManager_.Remove(key);
 		}
 
-        /// <summary>
-        /// 通常の描画に加えてテクスチャを描画する。
-        /// </summary>
-        /// <param name="upperLeftPos">テクスチャの左上の描画位置</param>
-        /// <param name="upperRightPos">テクスチャの右上の描画位置</param>
-        /// <param name="lowerRightPos">テクスチャの右下の描画位置</param>
-        /// <param name="lowerLeftPos">テクスチャの左下の描画位置</param>
-        /// <param name="upperLeftCol">テクスチャの左上の頂点色</param>
-        /// <param name="upperRightCol">テクスチャの右上の頂点色</param>
-        /// <param name="lowerRightCol">テクスチャの右下の頂点色</param>
-        /// <param name="lowerLeftCol">テクスチャの左下の頂点色</param>
-        /// <param name="upperLeftUV">テクスチャの左上のUV値</param>
-        /// <param name="upperRightUV">テクスチャの右上のUV値</param>
-        /// <param name="lowerRightUV">テクスチャの右下のUV値</param>
-        /// <param name="lowerLeftUV">テクスチャの左下のUV値</param>
-        /// <param name="texture">描画するテクスチャ</param>
-        /// <param name="alphaBlend">アルファブレンドの種類</param>
-        /// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
-        /// <remarks>OnDrawAdditionallyの中以外では実行してはいけない。</remarks>
-        protected void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+
+		#region 追加描画
+		/// <summary>
+		/// 通常の描画に加えてテクスチャを描画する。
+		/// </summary>
+		/// <param name="upperLeftPos">テクスチャの左上の描画位置</param>
+		/// <param name="upperRightPos">テクスチャの右上の描画位置</param>
+		/// <param name="lowerRightPos">テクスチャの右下の描画位置</param>
+		/// <param name="lowerLeftPos">テクスチャの左下の描画位置</param>
+		/// <param name="upperLeftCol">テクスチャの左上の頂点色</param>
+		/// <param name="upperRightCol">テクスチャの右上の頂点色</param>
+		/// <param name="lowerRightCol">テクスチャの右下の頂点色</param>
+		/// <param name="lowerLeftCol">テクスチャの左下の頂点色</param>
+		/// <param name="upperLeftUV">テクスチャの左上のUV値</param>
+		/// <param name="upperRightUV">テクスチャの右上のUV値</param>
+		/// <param name="lowerRightUV">テクスチャの右下のUV値</param>
+		/// <param name="lowerLeftUV">テクスチャの左下のUV値</param>
+		/// <param name="texture">描画するテクスチャ</param>
+		/// <param name="alphaBlend">アルファブレンドの種類</param>
+		/// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
+		/// <remarks>OnDrawAdditionallyの中以外では実行してはいけない。</remarks>
+		protected void DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
+			ThrowIfDisposed();
 			Layer.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture, alphaBlend, priority);
 		}
 
-        /// <summary>
-        /// 通常の描画に加えて文字列を描画する。
-        /// </summary>
-        /// <param name="pos">描画位置</param>
-        /// <param name="color">頂点色</param>
-        /// <param name="font">フォント</param>
-        /// <param name="text">文字列</param>
-        /// <param name="writingDirection">行方向</param>
-        /// <param name="alphaBlend">アルファブレンドの種類</param>
-        /// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
-        /// <remarks>
-        /// OnDrawAdditionallyの中以外では実行してはいけない。
-        /// </remarks>
-        protected void DrawTextAdditionally(Vector2DF pos, Color color, Font font, string text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int priority)
+		/// <summary>
+		/// 通常の描画に加えて文字列を描画する。
+		/// </summary>
+		/// <param name="pos">描画位置</param>
+		/// <param name="color">頂点色</param>
+		/// <param name="font">フォント</param>
+		/// <param name="text">文字列</param>
+		/// <param name="writingDirection">行方向</param>
+		/// <param name="alphaBlend">アルファブレンドの種類</param>
+		/// <param name="priority">描画の優先順位(大きいほど前面に描画される)</param>
+		/// <remarks>
+		/// OnDrawAdditionallyの中以外では実行してはいけない。
+		/// </remarks>
+		protected void DrawTextAdditionally(Vector2DF pos, Color color, Font font, string text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int priority)
 		{
+			ThrowIfDisposed();
 			Layer.DrawTextAdditionally(pos, color, font, text, writingDirection, alphaBlend, priority);
 		}
 
-        protected void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
-        {
-            Layer.DrawRectangleAdditionally(drawingArea, color, uv, texture, alphaBlend, priority);
-        }
+		protected void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+		{
+			ThrowIfDisposed();
+			Layer.DrawRectangleAdditionally(drawingArea, color, uv, texture, alphaBlend, priority);
+		}
 
-        protected void DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
-        {
-            Layer.DrawRotatedRectangleAdditionally(drawingArea, color, rotationCenter, angle, uv, texture, alphaBlend, priority);
-        }
+		protected void DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+		{
+			ThrowIfDisposed();
+			Layer.DrawRotatedRectangleAdditionally(drawingArea, color, rotationCenter, angle, uv, texture, alphaBlend, priority);
+		}
 
-        protected void DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
-        {
-            Layer.DrawTriangleAdditionally(position1, position2, position3, color, uv1, uv2, uv3, texture, alphaBlend, priority);
-        }
+		protected void DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+		{
+			ThrowIfDisposed();
+			Layer.DrawTriangleAdditionally(position1, position2, position3, color, uv1, uv2, uv3, texture, alphaBlend, priority);
+		}
 
-        protected void DrawCircleAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
-        {
-            Layer.DrawCircleAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, texture, alphaBlend, priority);
-        }
+		protected void DrawCircleAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+		{
+			ThrowIfDisposed();
+			Layer.DrawCircleAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, texture, alphaBlend, priority);
+		}
 
-        protected void DrawArcAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
-        {
-            Layer.DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startingVerticalAngle, endingVerticalAngle, angle, texture, alphaBlend, priority);
-        }
+		protected void DrawArcAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+		{
+			ThrowIfDisposed();
+			Layer.DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startingVerticalAngle, endingVerticalAngle, angle, texture, alphaBlend, priority);
+		}
 
-        protected void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlendMode alphaBlend, int priority)
-        {
-            Layer.DrawLineAdditionally(point1, point2,  thickness, color, alphaBlend, priority);
-        }
+		protected void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlendMode alphaBlend, int priority)
+		{
+			ThrowIfDisposed();
+			Layer.DrawLineAdditionally(point1, point2, thickness, color, alphaBlend, priority);
+		}
 
-        protected void DrawShapeAdditionally(Shape shape, Color color, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
-        {
-            Layer.DrawShapeAdditionally(shape, color, texture, alphaBlend, priority);
-        }
+		protected void DrawShapeAdditionally(Shape shape, Color color, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
+		{
+			ThrowIfDisposed();
+			Layer.DrawShapeAdditionally(shape, color, texture, alphaBlend, priority);
+		}
+		#endregion
 
-        /// <summary>
-        /// オーバーライドして、この2Dオブジェクトの初期化処理を記述できる。
-        /// </summary>
-        protected virtual void OnStart() { }
+
+		#region イベントハンドラ
+		internal void RaiseOnAdded()
+		{
+			OnAdded();
+			foreach(var item in ChildrenList.Where(x => x.IsAlive))
+			{
+				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
+				{
+					Layer.AddObject(item);
+				}
+			}
+		}
+
+		internal void RaiseOnRemoved()
+		{
+			foreach(var item in ChildrenList.Where(x => x.IsAlive))
+			{
+				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
+				{
+					Layer.RemoveObject(item);
+				}
+				item.ParentInfo = null;
+			}
+			OnRemoved();
+		}
+
+		/// <summary>
+		/// この2Dオブジェクトを破棄する。
+		/// </summary>
+		public void Dispose()
+		{
+			if(IsAlive)
+			{
+				OnDispose();
+				IsAlive = false;
+				foreach(var item in ChildrenList.Where(x => x.IsAlive))
+				{
+					CoreObject.RemoveChild(item.CoreObject);
+					if(item.IsInheriting(ChildManagementMode.Disposal))
+					{
+						item.Dispose();
+					}
+					item.ParentInfo = null;
+				}
+				if(Parent != null && Parent.IsAlive)
+				{
+					Parent.CoreObject.RemoveChild(CoreObject);
+				}
+			}
+		}
+
+		internal override void Update()
+		{
+			if(IsAlive && AbsoluteBeingUpdated)
+			{
+				ChildrenList.RemoveAll(x => !x.IsAlive);
+				OnUpdate();
+				componentManager_.Update();
+			}
+		}
+
+		internal void DrawAdditionally()
+		{
+			if(IsAlive && AbsoluteBeingDrawn)
+			{
+				OnDrawAdditionally();
+			}
+		}
+
+		/// <summary>
+		/// オーバーライドして、この2Dオブジェクトがレイヤーに登録されたときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnAdded() { }
+
+		/// <summary>
+		/// オーバーライドして、この2Dオブジェクトがレイヤーから登録解除されたときの処理を記述できる。
+		/// </summary>
+		protected virtual void OnRemoved() { }
+
+		/// <summary>
+		/// オーバーライドして、この2Dオブジェクトが破棄される際の処理を記述できる。
+		/// </summary>
+		protected virtual void OnDispose() { }
 
 		/// <summary>
 		/// オーバーライドして、この2Dオブジェクトの更新処理を記述できる。
@@ -284,84 +452,30 @@ namespace asd
 		/// オーバーライドして、この2Dオブジェクトに関する追加の描画処理を記述できる。
 		/// </summary>
 		protected virtual void OnDrawAdditionally() { }
+		#endregion
 
-		/// <summary>
-		/// オーバーライドして、この2DオブジェクトがVanishメソッドによって破棄される際の処理を記述できる。
-		/// </summary>
-		protected virtual void OnVanish()
+
+		private bool IsInheriting(ChildManagementMode mode)
 		{
+			return ParentInfo != null && (ParentInfo.ManagementMode & mode) != 0;
 		}
 
-		/// <summary>
-		/// オーバーライドして、この2Dオブジェクトが破棄される際の処理を記述できる。
-		/// </summary>
-		protected virtual void OnDispose()
+		internal void ThrowIfDisposed()
 		{
+			if(!IsAlive)
+			{
+				throw new ObjectDisposedException(GetType().FullName);
+			}
 		}
 
+		private ComponentManager<Object2D, Object2DComponent> componentManager_ { get; set; }
 
 		internal abstract swig.CoreObject2D CoreObject { get; }
-
-		internal void Start()
-		{
-			OnStart();
-			foreach(var item in ChildrenList)
-			{
-				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
-				{
-					Layer.AddObject(item);
-				}
-			}
-		}
-
-		internal void CallOnRemoved()
-		{
-			foreach(var item in ChildrenList)
-			{
-				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
-				{
-					Layer.RemoveObject(item);
-				}
-			}
-		}
 
 		internal override bool GetIsAlive()
 		{
 			return IsAlive;
 		}
-
-		internal override void Update()
-		{
-			if(IsInheriting(ChildManagementMode.IsUpdated) && !ParentInfo.Parent.IsUpdated)
-			{
-				return;
-			}
-			if(IsUpdated && IsAlive)
-			{
-				OnUpdate();
-				componentManager_.Update();
-			}
-		}
-
-		internal void DrawAdditionally()
-		{
-			if(!IsDrawn || !IsAlive)
-			{
-				return;
-			}
-			if(IsInheriting(ChildManagementMode.IsDrawn) && !ParentInfo.Parent.IsDrawn)
-			{
-				return;
-			}
-			OnDrawAdditionally();
-		}
-
-		internal void Dispose()
-		{
-			OnDispose();
-		}
-
-		private ComponentManager<Object2D, Object2DComponent> componentManager_ { get; set; }
 
 		internal List<Object2D> ChildrenList { get; set; }
 
@@ -370,10 +484,5 @@ namespace asd
 		public abstract bool IsReleased { get; }
 
 		public abstract void ForceToRelease();
-
-		private bool IsInheriting(ChildManagementMode mode)
-		{
-			return ParentInfo != null && (ParentInfo.ManagementMode & mode) != 0;
-		}
 	}
 }

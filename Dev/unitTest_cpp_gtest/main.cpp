@@ -99,6 +99,7 @@ int main(int argc, char **argv)
 	SetCurrentDirectoryA(current_path);
 #endif
 	//Graphics_CubemapTexture(true);
+	//return 0;
 	//Graphics_CubemapTexture(false);
 	//return 0;
 

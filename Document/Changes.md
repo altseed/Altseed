@@ -1,5 +1,28 @@
 ﻿## 変更点
 
+### 2016/03/06
+* イベントハンドラの名称や実行タイミングを修正(破壊的変更)
+    * 今までの`OnStart`は`OnAdded`に変更
+    * 今までの`OnVanish`は`OnDispose`に統合
+    * `Scene.OnUpdateForTheFirstTime`は`Scene.OnStartUpdating`に変更。Update中に呼ばれていたのをUpdate外で呼ぶように
+    * `Scene.OnChanging`は`Scene.OnStopUpdating`に変更
+    * `Scene.OnDispose`の実行タイミングを、今まで他のシーンへChangeSceneしたときだったが`Scene.Dispose`メソッドを呼んだときに変更。今までの用途には代わりに`Scene.OnUnregistered`を用意
+    * いくつか今までなかったタイミングで呼ばれるイベントを追加。詳しくはリファレンスを参照のこと。
+* オブジェクト・レイヤー・シーンの破棄に関するルールを整理(破壊的変更)
+    * オブジェクト・レイヤーの`Vanish`メソッドを`Dispose`メソッドに変更
+    * `Scene.Dispose`メソッドを追加
+    * C#側で、オブジェクト・レイヤー・シーンの`Dispose`メソッドを呼ぶとアンマネージドメモリを即解放するように変更
+    * `Engine.ChangeScene`メソッドが自動的にシーンをDisposeするように変更
+* 親子関係で同期できる項目をいくつか追加(破壊的変更)
+    * AddChildメソッドが取る引数を３つに変更
+    * `ChildMode`列挙体は`ChildTransformingMode`に変更。
+    * 第２引数に`ChildManagementMode.Nothing`を渡すと従来の動作になる
+    * オブジェクトの管理や描画に関する項目を同期する機能を追加。詳しくはリファレンスを参照のこと
+
+* DDS読込に対応
+* カーソル機能を追加
+* クリップボード機能を追加
+
 ### 2015/11/14
 * OnDestroyをOnDisposeに名称を変更(破壊的変更)
 * レイヤーに追加されていないEffectObject2DでPlayを実行した時に例外が発生するように変更

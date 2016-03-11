@@ -70,7 +70,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DF Vector2DF::operator+(const Vector2DF& right)
+	Vector2DF Vector2DF::operator+(const Vector2DF& right) const
 	{
 		return Vector2DF(X + right.X, Y + right.Y);
 	}
@@ -78,7 +78,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DF Vector2DF::operator-(const Vector2DF& right)
+	Vector2DF Vector2DF::operator-(const Vector2DF& right) const
 	{
 		return Vector2DF(X - right.X, Y - right.Y);
 	}
@@ -86,7 +86,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DF Vector2DF::operator*(const Vector2DF& right)
+	Vector2DF Vector2DF::operator*(const Vector2DF& right) const
 	{
 		return Vector2DF(X * right.X, Y * right.Y);
 	}
@@ -94,7 +94,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DF Vector2DF::operator/(const Vector2DF& right)
+	Vector2DF Vector2DF::operator/(const Vector2DF& right) const
 	{
 		return Vector2DF(X / right.X, Y / right.Y);
 	}
@@ -102,7 +102,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DF Vector2DF::operator*(float right)
+	Vector2DF Vector2DF::operator*(float right) const
 	{
 		return Vector2DF(X * right, Y * right);
 	}
@@ -110,7 +110,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	Vector2DF Vector2DF::operator/(float right)
+	Vector2DF Vector2DF::operator/(float right) const
 	{
 		return Vector2DF(X / right, Y / right);
 	}

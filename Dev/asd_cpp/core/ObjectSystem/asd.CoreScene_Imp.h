@@ -36,6 +36,8 @@ namespace asd
 		virtual ~CoreScene_Imp();
 	public:
 
+		void SetSize(Vector2DI size) override;
+
 		bool GetHDRMode() const override;
 		void SetHDRMode(bool value) override;
 

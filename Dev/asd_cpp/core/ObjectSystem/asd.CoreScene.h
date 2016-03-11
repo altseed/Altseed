@@ -14,6 +14,8 @@ namespace asd
 	public:
 		typedef CoreLayer* LayerPtr;
 
+		virtual void SetSize(Vector2DI size) = 0;
+
 		virtual bool GetHDRMode() const = 0;
 		virtual void SetHDRMode(bool value) = 0;
 

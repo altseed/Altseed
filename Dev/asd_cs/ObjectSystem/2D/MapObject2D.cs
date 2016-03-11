@@ -68,8 +68,10 @@ namespace asd
         /// </summary>
         public Vector2DF CenterPosition
         {
-            get { return coreMapObject.GetCenterPosition(); }
-            set { coreMapObject.SetCenterPosition(value); }
+            get { ThrowIfDisposed();
+				return coreMapObject.GetCenterPosition(); }
+            set { ThrowIfDisposed();
+				coreMapObject.SetCenterPosition(value); }
         }
 
         /// <summary>
@@ -77,8 +79,10 @@ namespace asd
         /// </summary>
         public int DrawingPriority
         {
-            get { return coreMapObject.GetDrawingPriority(); }
-            set { coreMapObject.SetDrawingPriority(value); }
+            get { ThrowIfDisposed();
+				return coreMapObject.GetDrawingPriority(); }
+            set { ThrowIfDisposed();
+				coreMapObject.SetDrawingPriority(value); }
         }
 
         /// <summary>
@@ -86,7 +90,8 @@ namespace asd
         /// </summary>
         public bool AddChip(Chip2D chip)
         {
-            chips.Add(chip);
+			ThrowIfDisposed();
+			chips.Add(chip);
             return coreMapObject.AddChip(IG.GetChip2D(chip));
         }
 
@@ -104,7 +109,8 @@ namespace asd
         /// </summary>
         public bool RemoveChip(Chip2D chip)
         {
-            chips.Remove(chip);
+			ThrowIfDisposed();
+			chips.Remove(chip);
             return coreMapObject.RemoveChip(IG.GetChip2D(chip));
         }
 
@@ -113,7 +119,8 @@ namespace asd
         /// </summary>
         public void Clear()
         {
-            chips.Clear();
+			ThrowIfDisposed();
+			chips.Clear();
             coreMapObject.Clear();
         }
     }

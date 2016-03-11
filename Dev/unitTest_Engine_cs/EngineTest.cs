@@ -42,34 +42,39 @@ namespace unitTest_Engine_cs
 				throw new Exception("Altseedの初期化に失敗しました。");
 			}
 
-			OnStart();
-
-			while (Engine.DoEvents())
+			try
 			{
-				OnUpdating();
-				Engine.Update();
-				OnUpdated();
+				OnStart();
 
-				if (Time == ExitTime)
+				while(Engine.DoEvents())
 				{
-					if (!Directory.Exists(PathOfSS))
+					OnUpdating();
+					Engine.Update();
+					OnUpdated();
+
+					if(Time == ExitTime)
 					{
-						Directory.CreateDirectory(PathOfSS);
+						if(!Directory.Exists(PathOfSS))
+						{
+							Directory.CreateDirectory(PathOfSS);
+						}
+						var path = string.Format("{0}/{1}_{2}.png", PathOfSS, Title, graphicsType);
+						Engine.TakeScreenshot(path);
 					}
-					var path = string.Format("{0}/{1}_{2}.png", PathOfSS, Title, graphicsType);
-					Engine.TakeScreenshot(path);
-				}
-				else if (Time == ExitTime + 2)
-				{
-					break;
+					else if(Time == ExitTime + 2)
+					{
+						break;
+					}
+
+					++Time;
 				}
 
-				++Time;
+				OnFinish();
 			}
-
-			OnFinish();
-
-			Engine.Terminate();
+			finally
+			{
+				Engine.Terminate();
+			}
 		}
 
 		protected virtual void OnFinish()

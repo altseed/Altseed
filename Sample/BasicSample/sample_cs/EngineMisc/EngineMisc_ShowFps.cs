@@ -1,8 +1,17 @@
 ﻿
 class EngineMisc_ShowFps : ISample
 {
-	// 現在のFPSを画面に表示するサンプル。
-	public void Run()
+    public string Description
+    {
+        get { return ""; }
+    }
+	public string Title
+	{
+		get { return ""; }
+	}
+
+    // 現在のFPSを画面に表示するサンプル。
+    public void Run()
 	{
 		// Altseedを初期化する。
 		asd.Engine.Initialize("EngineMisc_ShowFps", 640, 480, new asd.EngineOption());

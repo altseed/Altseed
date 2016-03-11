@@ -55,6 +55,7 @@
 #include <GdiPlus.h>
 #include <Gdiplusinit.h>
 #pragma comment( lib, "gdiplus.lib" )
+
 #endif
 
 //----------------------------------------------------------------------------------
@@ -135,6 +136,17 @@ namespace asd {
 		{
 			dst[0] = L'\0';
 		}
+	}
+
+	static astring GetFileNameWithoutExtension(const achar* filepath)
+	{
+		auto path = astring(filepath);
+		size_t i = path.rfind('.', path.length());
+		if (i != astring::npos)
+		{
+			return (path.substr(0, i));
+		}
+		return astring();
 	}
 
 	static astring GetFileExt(const achar* filepath)
@@ -310,7 +322,7 @@ void ImageHelper::SavePNGImage(const achar* filepath, int32_t width, int32_t hei
 	png_write_image(pp, raw2D.data());
 	png_write_end(pp, ip);
 
-	/* 開放 */
+	/* 解放 */
 	png_destroy_write_struct(&pp, &ip);
 	fclose(fp);
 }
@@ -581,30 +593,59 @@ void* EffectTextureLoader::Load(const EFK_CHAR* path, Effekseer::TextureType tex
 		return cache->second.Ptr;
 	}
 
-	auto staticFile = m_graphics->GetFile()->CreateStaticFile((const achar*) path);
-	if (staticFile.get() == nullptr) return nullptr;
+	auto nameWE = GetFileNameWithoutExtension((const achar*) path);
 
-	int32_t imageWidth = 0;
-	int32_t imageHeight = 0;
-	std::vector<uint8_t> imageDst;
-	if (!ImageHelper::LoadPNGImage(staticFile->GetData(), staticFile->GetSize(), IsReversed(), imageWidth, imageHeight, imageDst, m_graphics->GetLog()))
+	// DDS優先読み込み
+	while (true)
 	{
-		return nullptr;
+		auto staticFile = m_graphics->GetFile()->CreateStaticFile((nameWE + ToAString(".dds")).c_str());
+		if (staticFile.get() == nullptr) break;
+
+		void* img = InternalLoadDDS(m_graphics, staticFile->GetBuffer());
+		if (img == nullptr) break;
+
+		Cache c;
+		c.IsDDS = true;
+		c.Ptr = img;
+		c.Count = 1;
+		c.Width = 0;
+		c.Height = 0;
+		m_caches[key] = c;
+		dataToKey[img] = key;
+
+		//m_graphics->IncVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, imageWidth, imageHeight));
+
+		return img;
 	}
 
-	void* img = InternalLoad(m_graphics, imageDst, imageWidth, imageHeight);
+	// PNG
+	{
+		auto staticFile = m_graphics->GetFile()->CreateStaticFile((const achar*) path);
+		if (staticFile.get() == nullptr) return nullptr;
 
-	Cache c;
-	c.Ptr = img;
-	c.Count = 1;
-	c.Width = imageWidth;
-	c.Height = imageHeight;
-	m_caches[key] = c;
-	dataToKey[img] = key;
+		int32_t imageWidth = 0;
+		int32_t imageHeight = 0;
+		std::vector<uint8_t> imageDst;
+		if (!ImageHelper::LoadPNGImage(staticFile->GetData(), staticFile->GetSize(), IsReversed(), imageWidth, imageHeight, imageDst, m_graphics->GetLog()))
+		{
+			return nullptr;
+		}
 
-	m_graphics->IncVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, imageWidth, imageHeight));
+		void* img = InternalLoad(m_graphics, imageDst, imageWidth, imageHeight);
 
-	return img;
+		Cache c;
+		c.IsDDS = false;
+		c.Ptr = img;
+		c.Count = 1;
+		c.Width = imageWidth;
+		c.Height = imageHeight;
+		m_caches[key] = c;
+		dataToKey[img] = key;
+
+		m_graphics->IncVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, imageWidth, imageHeight));
+
+		return img;
+	}
 }
 
 //----------------------------------------------------------------------------------
@@ -622,8 +663,11 @@ void EffectTextureLoader::Unload(void* data)
 	{
 		InternalUnload(data);
 
-		m_graphics->DecVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, cache->second.Width, cache->second.Height));
-
+		if (cache->second.Width != 0 && !cache->second.IsDDS)
+		{
+			m_graphics->DecVRAM(ImageHelper::GetVRAMSize(TextureFormat::R8G8B8A8_UNORM, cache->second.Width, cache->second.Height));
+		}
+		
 		m_caches.erase(key);
 		dataToKey.erase(data);
 	}
@@ -737,21 +781,21 @@ void Graphics_Imp::EndRenderingThread()
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDevice, Log* log, File* file, GraphicsOption option)
 {
 #if _WIN32
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, file,isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_GL::Create(window, log, file, option);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create(window, log, file,isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create(window, log, file, option);
 	}
 #else
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_GL::Create(window, log, file, isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_GL::Create(window, log, file, option);
 	}
 	else
 	{
@@ -763,34 +807,35 @@ Graphics_Imp* Graphics_Imp::Create(Window* window, GraphicsDeviceType graphicsDe
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp* Graphics_Imp::Create(void* handle1, void* handle2, int32_t width, int32_t height, GraphicsDeviceType graphicsDevice, Log* log, File* file, GraphicsOption option)
 {
 #if _WIN32
 	if (graphicsDevice == GraphicsDeviceType::OpenGL)
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file,isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file, option);
 	}
 	else
 	{
-		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file,isReloadingEnabled, isFullScreen);
+		return Graphics_Imp_DX11::Create((HWND) handle1, width, height, log, file, option);
 	}
 #elif __APPLE__
 	return nullptr; // not supported
 #else
-	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, file,isReloadingEnabled, isFullScreen);
+	return Graphics_Imp_GL::Create_X11(handle1, handle2, width, height, log, file, option);
 #endif
 }
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp::Graphics_Imp(Vector2DI size, Log* log, File* file, GraphicsOption option)
 	: m_size(size)
 	, m_vertexBufferPtr(nullptr)
 	, m_indexBufferPtr(nullptr)
 	, m_shaderPtr(nullptr)
 	, m_log(log)
 	, m_file(file)
+	, option(option)
 {
 	CreateShaderCacheDirectory();
 
@@ -846,7 +891,19 @@ Graphics_Imp::~Graphics_Imp()
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 {
-	auto ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
+	auto nameWE = GetFileNameWithoutExtension((const achar*) path);
+	auto ddsPath = nameWE + ToAString("dds");
+
+	Texture2D_Imp* ret = nullptr;
+	
+	// DDS優先読み込み
+	ret = Texture2DContainer->TryLoad(ddsPath.c_str(), [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
+	{
+		return CreateTexture2D_Imp_Internal(this, data, size);
+	});
+	if (ret != nullptr) return ret;
+
+	ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
 	{
 		return CreateTexture2D_Imp_Internal(this, data, size);
 	});
@@ -856,7 +913,19 @@ Texture2D_Imp* Graphics_Imp::CreateTexture2D_Imp(const achar* path)
 
 Texture2D_Imp* Graphics_Imp::CreateTexture2DAsRawData_Imp(const achar* path)
 {
-	auto ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
+	auto nameWE = GetFileNameWithoutExtension((const achar*) path);
+	auto ddsPath = nameWE + ToAString("dds");
+
+	Texture2D_Imp* ret = nullptr;
+
+	// DDS優先読み込み
+	ret = Texture2DContainer->TryLoad(ddsPath.c_str(), [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
+	{
+		return CreateTexture2DAsRawData_Imp_Internal(this, data, size);
+	});
+	if (ret != nullptr) return ret;
+
+	ret = Texture2DContainer->TryLoad(path, [this](uint8_t* data, int32_t size) -> Texture2D_Imp*
 	{
 		return CreateTexture2DAsRawData_Imp_Internal(this, data, size);
 	});

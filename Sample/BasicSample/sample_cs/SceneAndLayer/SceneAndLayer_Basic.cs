@@ -1,9 +1,18 @@
 ﻿namespace sample_cs
 {
 	class SceneAndLayer_Basic : ISample
-	{
-		// シーンとレイヤーを手動で生成する。
-		public void Run()
+    {
+        public string Description
+        {
+            get { return "シーンとレイヤーを手動で生成して操作するサンプル。"; }
+        }
+		public string Title
+		{
+			get { return "シーンとレイヤーの基本"; }
+		}
+
+        // シーンとレイヤーを手動で生成する。
+        public void Run()
 		{
 			// Altseedを初期化する。
 			asd.Engine.Initialize("SceneAndLayer_Basic", 640, 480, new asd.EngineOption());

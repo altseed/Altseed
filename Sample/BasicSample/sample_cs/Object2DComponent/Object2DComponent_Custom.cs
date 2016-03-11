@@ -2,9 +2,18 @@
 namespace sample_cs
 {
 	class Object2DComponent_Custom : ISample
-	{
-		// オブジェクトを回転させるコンポーネント。
-		class RotateComponent : asd.Object2DComponent
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+		public string Title
+		{
+			get { return ""; }
+		}
+
+        // オブジェクトを回転させるコンポーネント。
+        class RotateComponent : asd.Object2DComponent
 		{
 			protected override void OnUpdate()
 			{

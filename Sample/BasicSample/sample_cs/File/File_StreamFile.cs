@@ -4,8 +4,17 @@ using System.Text;
 namespace sample_cs
 {
 	class File_StreamFile : ISample
-	{
-		public void Run()
+    {
+        public string Description
+        {
+            get { return ""; }
+        }
+		public string Title
+		{
+			get { return ""; }
+		}
+
+        public void Run()
 		{
 			// Altseedを初期化する。
 			asd.Engine.Initialize("File_StreamFile", 640, 480, new asd.EngineOption());

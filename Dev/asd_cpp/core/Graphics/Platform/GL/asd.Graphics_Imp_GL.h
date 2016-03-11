@@ -61,9 +61,9 @@ namespace asd {
 		GLuint			m_samplers[MaxTextureCount];
 #pragma endregion
 
-		Graphics_Imp_GL(Vector2DI size, ::asd::Window* window, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen);
+		Graphics_Imp_GL(Vector2DI size, ::asd::Window* window, Log* log, File* file, GraphicsOption option);
 
-		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen);
+		Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, File* file, GraphicsOption option);
 
 		virtual ~Graphics_Imp_GL();
 
@@ -96,7 +96,7 @@ namespace asd {
 
 	public:
 		
-		static Graphics_Imp_GL* Create(::asd::Window* window, Log* log, File* file, bool isReloadingEnabled, bool isFullScreen);
+		static Graphics_Imp_GL* Create(::asd::Window* window, Log* log, File* file, GraphicsOption option);
 
 #if _WIN32
 #elif __APPLE__
@@ -157,6 +157,9 @@ namespace asd {
 		void FlushCommand() override;
 
 		void SetIsFullscreenMode(bool isFullscreenMode) override;
+
+		void SetWindowSize(Vector2DI size) override;
+
 	private:
 
 		/**

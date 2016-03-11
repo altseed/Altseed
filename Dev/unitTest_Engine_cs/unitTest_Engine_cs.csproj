@@ -45,9 +45,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assert.cs" />
+    <Compile Include="BugFix\DisposeAndChangeParent.cs" />
+    <Compile Include="BugFix\ModifyObjectHavingDisposedChild.cs" />
     <Compile Include="Debug\Profiler.cs" />
     <Compile Include="EngineGraphics3DTest.cs" />
     <Compile Include="EngineTest.cs" />
+    <Compile Include="FamilySystem\AbsoluteParameter.cs" />
+    <Compile Include="FamilySystem\ChildManagement.cs" />
+    <Compile Include="FamilySystem\DrawnParent.cs" />
+    <Compile Include="FamilySystem\GeometryObject.cs" />
+    <Compile Include="FamilySystem\TextObject.cs" />
+    <Compile Include="FamilySystem\TextureObject.cs" />
     <Compile Include="Graphics\2D\AdditionallyDraw.cs" />
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
     <Compile Include="Graphics\2D\GeometryObject2D.cs" />
@@ -70,24 +78,27 @@
     <Compile Include="IO\StaticFile_Package.cs" />
     <Compile Include="Debug\Log.cs" />
     <Compile Include="Graphics\2D\CameraObject2D.cs" />
-    <Compile Include="ObjectSystem2D\AddComponentByComponent.cs" />
+    <Compile Include="BugFix\AddComponentByComponent.cs" />
     <Compile Include="ObjectSystem2D\CustomObject.cs" />
     <Compile Include="ObjectSystem2D\DisposeOnVanish.cs" />
     <Compile Include="ObjectSystem2D\LayerComponent.cs" />
     <Compile Include="ObjectSystem2D\LayersFlag.cs" />
     <Compile Include="ObjectSystem2D\LayerUpdatePriority.cs" />
+    <Compile Include="ObjectSystem2D\LifeCycle.cs" />
     <Compile Include="ObjectSystem2D\ObjectComponent.cs" />
     <Compile Include="ObjectSystem2D\ObjectsFlag.cs" />
     <Compile Include="ObjectSystem2D\ObjectSimple.cs" />
     <Compile Include="ObjectSystem2D\ObjectsMembers.cs" />
     <Compile Include="ObjectSystem2D\ObjectUpdatePriority.cs" />
     <Compile Include="ObjectSystem2D\ParentObject.cs" />
-    <Compile Include="ObjectSystem2D\TransformOutOfUpdate.cs" />
+    <Compile Include="ObjectSystem2D\ThrowIfDisposed.cs" />
+    <Compile Include="BugFix\TransformOutOfUpdate.cs" />
     <Compile Include="ObjectSystem2D\UpdateFrequency.cs" />
-    <Compile Include="ObjectSystem2D\VanishInComponent.cs" />
+    <Compile Include="BugFix\VanishInComponent.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sound\Sound.cs" />
+    <Compile Include="TestFailedException.cs" />
     <Compile Include="Window\Empty.cs" />
     <Compile Include="Window\EmptyExternal.cs" />
   </ItemGroup>
@@ -101,6 +112,7 @@
       <Name>ace_cs</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

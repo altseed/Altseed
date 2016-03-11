@@ -6,91 +6,94 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	/// <summary>
-	/// 地形のクラス
-	/// </summary>
-	public partial class Terrain3D : IReleasable
-	{
-		internal Terrain3D(swig.Terrain3D swig)
-		{
+    /// <summary>
+    /// 地形のクラス
+    /// </summary>
+    public partial class Terrain3D : IReleasable
+    {
+        internal Terrain3D(swig.Terrain3D coreInstance)
+        {
 #if DEBUG
-			// 唯一の対応するクラスであることを保証
-			if (GC.Terrain3Ds.GetObject(swig.GetPtr()) != null) Particular.Helper.ThrowException("");
+            // 唯一の対応するクラスであることを保証
+            if (GC.Terrain3Ds.Contains(coreInstance.GetPtr()))
+            {
+                Particular.Helper.ThrowException("");
+            }
 #endif
-			CoreInstance = swig;
-		}
+            CoreInstance = coreInstance;
+        }
 
-		~Terrain3D()
-		{
-			ForceToRelease();
-		}
+        ~Terrain3D()
+        {
+            ForceToRelease();
+        }
 
-		public bool IsReleased
-		{
-			get
-			{
-				return CoreInstance == null;
-			}
-		}
+        public bool IsReleased
+        {
+            get
+            {
+                return CoreInstance == null;
+            }
+        }
 
-		/// <summary>
-		/// 強制的に使用しているメモリを開放する。
-		/// </summary>
-		/// <remarks>
-		/// 何らかの理由でメモリが不足した場合に実行する。
-		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-		/// </remarks>
-		public void ForceToRelease()
-		{
-			lock (this)
-			{
-				if (CoreInstance == null) return;
-				GC.Collector.AddObject(CoreInstance);
-				CoreInstance = null;
-			}
-			Particular.GC.SuppressFinalize(this);
-		}
+        /// <summary>
+        /// 強制的に使用しているメモリを開放する。
+        /// </summary>
+        /// <remarks>
+        /// 何らかの理由でメモリが不足した場合に実行する。
+        /// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
+        /// </remarks>
+        public void ForceToRelease()
+        {
+            lock (this)
+            {
+                if (CoreInstance == null) return;
+                GC.Collector.AddObject(CoreInstance);
+                CoreInstance = null;
+            }
+            Particular.GC.SuppressFinalize(this);
+        }
 
-		/// <summary>
-		/// 材質を設定する。
-		/// </summary>
-		/// <param name="material">材質</param>
-		public void SetMaterial(int materialIndex, Material3D material)
-		{
-			CoreInstance.SetMaterial(IG.GetMaterial3D(material));
-		}
+        /// <summary>
+        /// 材質を設定する。
+        /// </summary>
+        /// <param name="material">材質</param>
+        public void SetMaterial(int materialIndex, Material3D material)
+        {
+            CoreInstance.SetMaterial(IG.GetMaterial3D(material));
+        }
 
-		/// <summary>
-		/// メモリから地形のデータを読み込む。
-		/// </summary>
-		/// <param name="buffer">バッファ</param>
-		/// <remarks>
-		/// テクスチャのパスは保存されないので、読み込んだ後にAddSurfaceする必要がある。
-		/// </remarks>
-		public void LoadFromMemory(byte[] buffer)
-		{
-			var buf = new swig.VectorUint8();
-			foreach(var b in buffer)
-			{
-				buf.Add(b);
-			}
+        /// <summary>
+        /// メモリから地形のデータを読み込む。
+        /// </summary>
+        /// <param name="buffer">バッファ</param>
+        /// <remarks>
+        /// テクスチャのパスは保存されないので、読み込んだ後にAddSurfaceする必要がある。
+        /// </remarks>
+        public void LoadFromMemory(byte[] buffer)
+        {
+            var buf = new swig.VectorUint8();
+            foreach (var b in buffer)
+            {
+                buf.Add(b);
+            }
 
-			CoreInstance.LoadFromMemory(buf);
+            CoreInstance.LoadFromMemory(buf);
 
-			buf.Dispose();
-		}
+            buf.Dispose();
+        }
 
-		/// <summary>
-		/// メモリに地形のデータを保存する。
-		/// </summary>
-		/// <returns>地形のデータ</returns>
-		public byte[] SaveToMemory()
-		{
-			var buf = CoreInstance.SaveToMemory();
-			byte[] dst = new byte[buf.Count];
-			buf.CopyTo(dst);
+        /// <summary>
+        /// メモリに地形のデータを保存する。
+        /// </summary>
+        /// <returns>地形のデータ</returns>
+        public byte[] SaveToMemory()
+        {
+            var buf = CoreInstance.SaveToMemory();
+            byte[] dst = new byte[buf.Count];
+            buf.CopyTo(dst);
 
-			return dst;
-		}
-	}
+            return dst;
+        }
+    }
 }

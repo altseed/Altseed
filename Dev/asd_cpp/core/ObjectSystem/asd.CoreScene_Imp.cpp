@@ -69,6 +69,16 @@ namespace asd
 		SafeRelease(m_baseTarget1);
 		SafeRelease(m_graphics);
 	}
+	
+	void CoreScene_Imp::SetSize(Vector2DI size)
+	{
+		m_windowSize = size;
+
+		for (auto& layer : m_layers)
+		{
+			layer->SetSize(size);
+		}
+	}
 
 	bool CoreScene_Imp::GetHDRMode() const
 	{

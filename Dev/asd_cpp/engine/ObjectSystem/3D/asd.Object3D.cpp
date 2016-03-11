@@ -4,9 +4,23 @@
 
 namespace asd
 {
-	void Object3D::Start()
+	void Object3D::RaiseOnAdded()
 	{
-		OnStart();
+		OnAdded();
+	}
+
+	void Object3D::RaiseOnRemoved()
+	{
+		OnRemoved();
+	}
+
+	void Object3D::Dispose()
+	{
+		if (GetIsAlive())
+		{
+			m_isAlive = false;
+			OnDispose();
+		}
 	}
 
 	void Object3D::Update()
@@ -19,19 +33,20 @@ namespace asd
 		OnUpdate();
 
 		OnUpdateInternal();
-
-		/*
-		for (auto& x : m_components)
-		{
-			x.second->Update();
-		}
-		*/
 	}
 
-	void Object3D::Dispose()
+	void Object3D::OnAdded()
 	{
-		OnDispose();
 	}
+
+	void Object3D::OnRemoved()
+	{
+	}
+
+	void Object3D::OnDispose()
+	{
+	}
+
 
 	void Object3D::SetLayer(Layer3D* layer)
 	{
@@ -41,14 +56,6 @@ namespace asd
 	CoreObject3D* Object3D::GetCoreObject() const
 	{
 		return m_commonObject;
-	}
-
-	void Object3D::OnVanish()
-	{
-	}
-
-	void Object3D::OnDispose()
-	{
 	}
 
 	Object3D::Object3D()
@@ -96,12 +103,6 @@ namespace asd
 	bool Object3D::GetIsAlive() const
 	{
 		return m_isAlive;
-	}
-
-	void Object3D::Vanish()
-	{
-		m_isAlive = false;
-		OnVanish();
 	}
 
 	Vector3DF Object3D::GetPosition() const

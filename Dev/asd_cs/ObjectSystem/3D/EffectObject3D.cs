@@ -26,13 +26,6 @@ namespace asd
 			base.ForceToRelease();
 		}
 
-		protected override void OnStart() { }
-		protected override void OnUpdate() { }
-
-		protected override void OnUpdateInternal()
-		{
-		}
-
 		/// <summary>
 		/// 描画に使用するエフェクトを設定する。
 		/// </summary>

@@ -9,7 +9,7 @@ namespace unitTest_Engine_cs.Graphics.Transition
 	class Transition : EngineTest
 	{
 		public Transition()
-			: base(20)
+			: base(150)
 		{
 		}
 
@@ -19,20 +19,20 @@ namespace unitTest_Engine_cs.Graphics.Transition
 
 		protected override void OnUpdating()
 		{
-			if (Time % 9 == 0)
-		{
-			var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
+			if(Time == 9)
+			{
+				var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Sample1.png");
 
-			var obj = new asd.TextureObject2D();
-			obj.Texture = texture;
-			var scene = new asd.Scene();
-			var layer = new asd.Layer2D();
-			layer.AddObject(obj);
-			scene.AddLayer(layer);
+				var obj = new asd.TextureObject2D();
+				obj.Texture = texture;
+				var scene = new asd.Scene();
+				var layer = new asd.Layer2D();
+				layer.AddObject(obj);
+				scene.AddLayer(layer);
 
-			var transition = new asd.TransitionFade(3.0f / 60.0f, 3.0f / 60.0f);
-			asd.Engine.ChangeSceneWithTransition(scene, transition);
-		}
+				var transition = new asd.TransitionFade(60.0f / 60.0f, 60.0f / 60.0f);
+				asd.Engine.ChangeSceneWithTransition(scene, transition);
+			}
 		}
 	}
 }

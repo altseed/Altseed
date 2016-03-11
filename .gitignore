@@ -24,6 +24,7 @@
 *.user
 *.sln.docstates
 *.sln.ide/
+.vscode/
 
 # Build results
 
@@ -242,6 +243,10 @@ $RECYCLE.BIN/
 /bullet_bin_x64/
 /bullet-2.82-r2704/
 /ImagePackageGenerator-master/
+/glew-1.13.0/
+/glew_bin/
+/glew_bin_x64/
+/glew-1.13.0.zip
 
 Box2D_v2.3.0.7z
 libpng-1.6.6.tar.gz
@@ -287,6 +292,7 @@ master.zip
 
 /CPP_XML/
 /Reference_CPP/
+/Reference_CS/
 
 # Result of Test
 /Dev/bin/TestSS/
@@ -345,3 +351,13 @@ Template/cpp_win/bin/
 Template/cs_win/cpp/
 Template/cs_win/bin/
 
+# Product
+Altseed.dll
+Altseed_core.dll
+Altseed_core.Debug.dll
+sample_cpp.Debug.exe
+sample_cs.exe
+
+Box2D-master/
+glfw-ed451ea6823380af9ea1ced320182fbcfb176c64/
+ed451ea6823380af9ea1ced320182fbcfb176c64.zip

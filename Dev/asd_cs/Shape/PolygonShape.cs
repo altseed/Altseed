@@ -15,6 +15,7 @@ namespace asd
         internal override swig.CoreShape CoreShape
         {
             get { return corePolygon; }
+            set { corePolygon = value as swig.CorePolygonShape; }
         }
         private swig.CorePolygonShape corePolygon { get; set; }
 
@@ -24,47 +25,18 @@ namespace asd
         }
 
         public PolygonShape()
-            : base()
         {
             corePolygon = Engine.ObjectSystemFactory.CreatePolygonShape();
 
             var p = corePolygon.GetPtr();
-            if (GC.Shapes.GetObject(p) != null)
+
+            if (GC.Shapes.Contains(p))
             {
-				Particular.Helper.ThrowException("");
+                Particular.Helper.ThrowException("");
             }
+
             GC.Shapes.AddObject(p, this);
         }
-
-        #region GC対応
-        ~PolygonShape()
-        {
-            ForceToRelease();
-        }
-
-        public override bool IsReleased
-        {
-            get { return corePolygon == null; }
-        }
-
-		/// <summary>
-		/// 強制的に使用しているメモリを開放する。
-		/// </summary>
-		/// <remarks>
-		/// 何らかの理由でメモリが不足した場合に実行する。
-		/// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
-		/// </remarks>
-        public override void ForceToRelease()
-        {
-            lock (this)
-            {
-                if (corePolygon == null) return;
-                GC.Collector.AddObject(corePolygon);
-                corePolygon = null;
-            }
-            Particular.GC.SuppressFinalize(this);
-        }
-        #endregion
 
         /// <summary>
         /// 多角形を構成する頂点を追加する。

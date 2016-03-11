@@ -16,11 +16,13 @@ namespace asd
 	{
 	private:
 		std::shared_ptr<asd::Material2D>	material2d;
+
+	protected:
+		virtual void OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src) override;
+
 	public:
 		PostEffectSepia();
 		virtual ~PostEffectSepia() = default;
-
-		virtual void OnDraw(std::shared_ptr<RenderTexture2D> dst, std::shared_ptr<RenderTexture2D> src) override;
 	};
 
 }

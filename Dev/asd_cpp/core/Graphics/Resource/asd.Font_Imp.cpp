@@ -242,12 +242,22 @@ namespace asd {
 	{
 		auto g = (Graphics_Imp*) GetGraphics();
 
+		asd::TextureFormat format;
+		if (g->GetOption().ColorSpace == asd::ColorSpaceType::GammaSpace)
+		{
+			format = asd::TextureFormat::R8G8B8A8_UNORM;
+		}
+		else
+		{
+			format = asd::TextureFormat::R8G8B8A8_UNORM_SRGB;;
+		}
+
 		for (auto index : updatingTexture)
 		{
 			while (index >= m_textures.size())
 			{
 				m_textures.push_back(
-					g->CreateEmptyTexture2D(rasterizer->GetImageSize(), rasterizer->GetImageSize(), asd::TextureFormat::R8G8B8A8_UNORM_SRGB));
+					g->CreateEmptyTexture2D(rasterizer->GetImageSize(), rasterizer->GetImageSize(), format));
 			}
 
 			auto& buf = rasterizer->GetImages()[index];

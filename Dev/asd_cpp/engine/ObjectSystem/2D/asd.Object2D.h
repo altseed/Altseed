@@ -15,7 +15,8 @@ namespace asd
 	/**
 		@brief	画面上に描画される2Dオブジェクトを表すクラス。
 	*/
-	class Object2D
+	class Object2D :
+		public std::enable_shared_from_this<Object2D>
 	{
 		friend class Layer2D;
 		friend class ContentsManager < Object2D > ;
@@ -28,19 +29,19 @@ namespace asd
 		class ParentInfo2D
 		{
 		private:
-			const Object2D* m_parent;
+			Object2D* m_parent;
 			ChildManagementMode::Flags m_managementMode;
 
 		public:
 			typedef std::shared_ptr<ParentInfo2D> Ptr;
 
-			ParentInfo2D(const Object2D* parent, ChildManagementMode::Flags managementMode)
+			ParentInfo2D(Object2D* parent, ChildManagementMode::Flags managementMode)
 				: m_parent(parent)
 				, m_managementMode(managementMode)
 			{
 			}
 
-			const Object2D* GetParent() const
+			Object2D* GetParent() const
 			{
 				return m_parent;
 			}
@@ -60,19 +61,27 @@ namespace asd
 		int m_updatePriority;
 		std::function<void(int)> m_onUpdatePriorityChanged;
 
-		void Start();
-		void OnRemovedInternal();
+		void RaiseOnAdded();
+		void RaiseOnRemoved();
 		void Update();
 		void DrawAdditionally();
-		void Dispose();
 		void SetLayer(Layer2D* layer);
 		virtual CoreObject2D* GetCoreObject() const = 0;
 
 	protected:
+
 		/**
-			@brief	オーバーライドして、このオブジェクトの初期化処理を記述できる。
+			@brief	オーバーライドして、この2Dオブジェクトがレイヤーに登録されたときの処理を記述できる。
 		*/
-		virtual void OnStart();
+		virtual void OnAdded();
+		/**
+			@brief	オーバーライドして、この2Dオブジェクトがレイヤーから登録解除されたときの処理を記述できる。
+		*/
+		virtual void OnRemoved();
+		/**
+			@brief	オーバーライドして、この2Dオブジェクトが破棄される際の処理を記述できる。
+		*/
+		virtual void OnDispose();		
 		/**
 			@brief	オーバーライドして、このオブジェクトの更新処理を記述できる。
 		*/
@@ -82,12 +91,6 @@ namespace asd
 		*/
 		virtual void OnDrawAdditionally();
 
-		/**
-			@brief	オーバーライドして、このオブジェクトがVanishメソッドによって破棄される際の処理を記述できる。
-		*/
-		virtual void OnVanish();
-
-		virtual void OnDispose();
 
 		/**
 		@brief	通常の描画に加えてテクスチャを描画する。
@@ -194,7 +197,7 @@ namespace asd
 		/**
 			@brief	このオブジェクトを破棄する。
 		*/
-		void Vanish();
+		void Dispose();
 
 		/**
 			@brief	このオブジェクトを保持しているレイヤーを取得する。
@@ -220,7 +223,7 @@ namespace asd
 		/**
 			@brief	このオブジェクトの親オブジェクトを取得する。親がいなければnullptrを返す。
 		*/
-		const Object2D* GetParent() const;
+		Object2D* GetParent() const;
 
 		/**
 			@brief	指定したコンポーネントをこのインスタンスに追加する。

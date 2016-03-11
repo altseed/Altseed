@@ -2,34 +2,34 @@
 #include <Base.h>
 
 /**
-@brief	‰¹‚ğ–Â‚ç‚·ƒTƒ“ƒvƒ‹
+@brief	éŸ³ã‚’é³´ã‚‰ã™ã‚µãƒ³ãƒ—ãƒ«
 */
 void Sound()
 {
-	// ace‚ğ‰Šú‰»‚·‚éB
+	// Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("Sound").c_str(), 640, 480, asd::EngineOption());
 
-	// ƒtƒ@ƒCƒ‹‚ğ“Ç‚İ‚ŞB
+	// ãƒ•ã‚¡ã‚¤ãƒ«ã‚’èª­ã¿è¾¼ã‚€ã€‚
 	std::shared_ptr<asd::SoundSource> se1 = asd::Engine::GetSound()->CreateSoundSource(asd::ToAString("Data/Sound/se1.wav").c_str(), true);
 	std::shared_ptr<asd::SoundSource> bgm1 = asd::Engine::GetSound()->CreateSoundSource(asd::ToAString("Data/Sound/bgm1.ogg").c_str(), false);
 
-	// Ä¶‚·‚éB
+	// å†ç”Ÿã™ã‚‹ã€‚
 	int id_se1 = asd::Engine::GetSound()->Play(se1);
 	int id_bgm1 = asd::Engine::GetSound()->Play(bgm1);
 
-	// ace‚ªis‰Â”\‚©ƒ`ƒFƒbƒN‚·‚éB
+	// AltseedãŒé€²è¡Œå¯èƒ½ã‹ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// ace‚ğXV‚·‚éB
+		// aceã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 
-		// ‰¹‚ªÄ¶I—¹‚µ‚Ä‚é‚©’²‚×‚éB
+		// éŸ³ãŒå†ç”Ÿçµ‚äº†ã—ã¦ã‚‹ã‹èª¿ã¹ã‚‹ã€‚
 		if (!asd::Engine::GetSound()->GetIsPlaying(id_bgm1))
 		{
 			break;
 		}
 	}
 
-	// ace‚ğI—¹‚·‚éB
+	// Altseedã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }

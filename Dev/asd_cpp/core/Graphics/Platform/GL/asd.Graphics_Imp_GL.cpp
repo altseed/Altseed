@@ -83,6 +83,11 @@ namespace asd {
 		{}
 
 	public:
+		void* InternalLoadDDS(Graphics_Imp* graphics, const std::vector<uint8_t>& data)
+		{
+			return nullptr;
+		}
+
 		void* InternalLoad(Graphics_Imp* graphics, std::vector<uint8_t>& data, int32_t width, int32_t height)
 		{
 			GLuint texture = 0;
@@ -148,8 +153,8 @@ namespace asd {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::asd::Window* window, Log* log,File *file, bool isReloadingEnabled, bool isFullScreen)
-		: Graphics_Imp(size, log,file, isReloadingEnabled, isFullScreen)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, ::asd::Window* window, Log* log, File *file, GraphicsOption option)
+		: Graphics_Imp(size, log,file, option)
 	, m_window(window)
 	, m_endStarting(false)
 {
@@ -162,8 +167,11 @@ namespace asd {
 	glfwMakeContextCurrent(window_);
 	GLCheckError();
 	
-	glEnable(GL_FRAMEBUFFER_SRGB);
-
+	if (option.ColorSpace == ColorSpaceType::LinearSpace)
+	{
+		glEnable(GL_FRAMEBUFFER_SRGB);
+	}
+	
 	// 同期しない
 	glfwSwapInterval(0);
 	GLCheckError();
@@ -223,8 +231,8 @@ namespace asd {
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log,File* file, bool isReloadingEnabled, bool isFullScreen)
-		: Graphics_Imp(size, log,file, isReloadingEnabled, isFullScreen)
+	Graphics_Imp_GL::Graphics_Imp_GL(Vector2DI size, void* display, void* window, void* context, Log* log, File* file, GraphicsOption option)
+		: Graphics_Imp(size, log,file, option)
 	, m_window(nullptr)
 	, m_endStarting(false)
 {
@@ -270,7 +278,10 @@ namespace asd {
 	MakeContextNone();
 	GLCheckError();
 
-	glEnable(GL_FRAMEBUFFER_SRGB);
+	if (option.ColorSpace == ColorSpaceType::LinearSpace)
+	{
+		glEnable(GL_FRAMEBUFFER_SRGB);
+	}
 
 	CreateContextBeforeThreading(nullptr);
 	GLCheckError();
@@ -744,7 +755,7 @@ void Graphics_Imp_GL::SetViewport(int32_t x, int32_t y, int32_t width, int32_t h
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
-Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log,File *file, bool isReloadingEnabled, bool isFullScreen)
+Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log, File *file, GraphicsOption option)
 {
 	auto writeLogHeading = [log](const astring s) -> void
 	{
@@ -783,7 +794,7 @@ Graphics_Imp_GL* Graphics_Imp_GL::Create(::asd::Window* window, Log* log,File *f
 	writeLog(ToAString("OpenGL初期化成功"));
 	writeLog(ToAString(""));
 
-	return new Graphics_Imp_GL(window->GetSize(), window, log, file, isReloadingEnabled, isFullScreen);
+	return new Graphics_Imp_GL(window->GetSize(), window, log, file, option);
 
 End:;
 	writeLog(ToAString("OpenGL初期化失敗"));
@@ -1421,6 +1432,11 @@ void Graphics_Imp_GL::FlushCommand()
 void Graphics_Imp_GL::SetIsFullscreenMode(bool isFullscreenMode)
 {
 	// GLの場合、現状無効
+}
+
+void Graphics_Imp_GL::SetWindowSize(Vector2DI size)
+{
+	m_size = size;
 }
 
 void Graphics_Imp_GL::CreateContextBeforeThreading(GLFWwindow* window)

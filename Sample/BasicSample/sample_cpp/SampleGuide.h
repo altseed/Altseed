@@ -3,11 +3,16 @@
 #include <vector>
 #include <iostream>
 #include <cstdlib>
+#include <memory>
+#include <Altseed.h>
 
 struct SampleInfo
 {
 	std::function<void()> func;
-	std::string title;
+	asd::astring title;
+	asd::astring readableTitle;
+	asd::astring description;
+	bool isAvailable;
 };
 
 class SampleGuide

@@ -25,13 +25,13 @@ def init(type, targetDir):
 
 def compile(type):
 	if aceutils.isWin():
-		aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/unitTest_Engine_cpp.sln /p:configuration=Debug')
-		aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/unitTest_Engine_cpp.sln /p:configuration=Release')
-		aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/unitTest_Engine_cs.sln /p:configuration=Release')
+		aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Debug')
+		aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Release')
+		aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cs.sln /p:configuration=Release')
 
-		aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/FontGeneratorWPF.sln /p:configuration=Release')
+		aceutils.call(aceutils.cmd_compile + r'Dev/FontGeneratorWPF.sln /p:configuration=Release')
 
-		aceutils.call(r'"C:\Program Files (x86)\MSBuild\12.0\Bin\msbuild" Dev/FilePackageGenerator.sln /p:configuration=Release')
+		aceutils.call(aceutils.cmd_compile + r'Dev/FilePackageGenerator.sln /p:configuration=Release')
 
 	elif aceutils.isMac():
 		if type=='cpp':

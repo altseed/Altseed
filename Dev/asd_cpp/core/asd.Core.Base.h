@@ -246,6 +246,17 @@ namespace asd {
 		Centering = 1,		///< プライマリモニタの中央
 	};
 
+	/**
+		@brief	カラースペース
+		@note
+		リニアスペースが設定されている場合、画像を逆ガンマ補正して読み込み、描画結果はガンマ補正して出力される。
+	*/
+	enum class ColorSpaceType : int32_t
+	{
+		GammaSpace = 0,	///< ガンマスペース
+		LinearSpace = 1, ///< リニアスペース
+	};
+
 	enum class Object2DType : int32_t
 	{
 		Unknown,

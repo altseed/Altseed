@@ -68,21 +68,21 @@ namespace sample_cs
                 new GeometryObject2D_PolygonShape(),
                 new GeometryObject2D_PolygonShape_Textured(),
 
-				new Dispose_Object2D(),
-				new Dispose_Layer2D(),
+                new Dispose_Object2D(),
+                new Dispose_Layer2D(),
 
                 new Collision2D_Basic(),
                 new Collision2D_Geometries(),
 
-				new File_RootDirectory(),
-				new File_PackFile(),
-				new File_StaticFile(),
-				new File_StreamFile(),
+                new File_RootDirectory(),
+                new File_PackFile(),
+                new File_StaticFile(),
+                new File_StreamFile(),
 
-				new EngineMisc_ShowFps(),
+                new EngineMisc_ShowFps(),
 
-				new Texture_Basic(),
-				new Texture_Edit(),
+                new Texture_Basic(),
+                new Texture_Edit(),
             };
 
 			var browser = new SampleBrowser(samples);

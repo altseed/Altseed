@@ -3,6 +3,11 @@
 /// </summary>
 public class Collision2D_Basic : ISample
 {
+    public string Description
+    {
+        get { return ""; }
+    }
+
     public void Run()
     {
         // Altseedを初期化する。
@@ -72,4 +77,9 @@ public class Collision2D_Basic : ISample
         asd.Engine.Terminate();
 
     }
+
+	public string Title
+	{
+		get { return ""; }
+	}
 }

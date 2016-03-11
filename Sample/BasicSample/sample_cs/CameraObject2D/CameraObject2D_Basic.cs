@@ -9,6 +9,11 @@ using System.Threading.Tasks;
 /// </summary>
 public class CameraObject2D_Basic : ISample
 {
+    public string Description
+    {
+        get { return "カメラを用いた描画空間の一部を切り取って描画する\nサンプルを表示する。"; }
+    }
+
     public void Run()
     {
         // Altseedを初期化する。
@@ -47,4 +52,10 @@ public class CameraObject2D_Basic : ISample
         // Altseedを終了する。
         asd.Engine.Terminate();
     }
+
+
+	public string Title
+	{
+		get { return "カメラの基本"; }
+	}
 }

@@ -26,6 +26,7 @@ namespace asd {
 		GraphicsDeviceType GraphicsDevice;
 		bool IsReloadingEnabled;
 		WindowPositionType WindowPosition;
+		ColorSpaceType ColorSpace;
 	};
 
 	class Core
@@ -287,6 +288,8 @@ namespace asd {
 		@brief	ウィンドウサイズを取得する。
 		*/
 		virtual Vector2DI GetWindowSize() = 0;
+
+		virtual void SetWindowSize(Vector2DI size) = 0;
 
 		virtual bool GetProfilerVisibility() const = 0;
 
