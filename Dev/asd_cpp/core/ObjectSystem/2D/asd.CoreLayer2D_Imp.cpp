@@ -104,6 +104,7 @@ namespace asd
 			SafeRelease(camera);
 		}
 #if __CULLING_2D__
+		transformedObjects.clear();
 		culling2d::SafeDelete(world);
 #endif
 	}
@@ -678,6 +679,7 @@ namespace asd
 		}
 
 #if __CULLING_2D__
+		transformedObjects.clear();
 		world->ResetNextFirstSortedKey();
 		world->ResetNextSecondSortedKey();
 #endif
