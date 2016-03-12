@@ -259,6 +259,7 @@ master.zip
 /Dev/packages/
 
 /Dev/amcr-glfw/
+/Dev/include/GL/
 /Dev/include/GLFW/
 /Dev/include/gtest/
 /Dev/include/Box2D/
