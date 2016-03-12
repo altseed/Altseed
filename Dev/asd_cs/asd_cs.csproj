@@ -54,7 +54,7 @@
     <Compile Include="Graphics\Animation\AnimationSource.cs" />
     <Compile Include="Graphics\Animation\AnimationSystem.cs" />
     <Compile Include="Graphics\Animation\KeyframeAnimation.cs" />
-    <Compile Include="Graphics\Chip2D.cs" />
+    <Compile Include="ObjectSystem\2D\Chip2D.cs" />
     <Compile Include="Graphics\CubemapTexture.cs" />
     <Compile Include="Graphics\Def.cs" />
     <Compile Include="Graphics\Color.cs" />
