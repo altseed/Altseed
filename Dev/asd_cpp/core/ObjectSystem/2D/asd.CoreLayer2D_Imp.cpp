@@ -62,47 +62,23 @@ namespace asd
 		SafeDelete(m_renderer);
 		SafeDelete(m_rendererForCamera);
 
-		for (auto& object : m_objects)
+		for (auto object : m_objects)
 		{
-#if __CULLING_2D__
-			if (object->GetObjectType() == Object2DType::Map)
-			{
-				auto mapObj = (CoreMapObject2D_Imp*)CoreObject2DToImp(object);
-				auto &chips = mapObj->GetChips();
-				for (auto c : chips)
-				{
-					auto chipImp = (CoreChip2D_Imp*)c;
+			auto o = CoreObject2DToImp(object);
+			o->OnRemoving(m_renderer); 
 
-					auto cObj = chipImp->GetCullingObject();
-
-					auto userData = (Culling2DUserData*)(cObj->GetUserData());
-
-					SafeDelete(userData);
-
-					world->RemoveObject(cObj);
-				}
-			}
-			else if (object->GetObjectType() != Object2DType::Camera)
-			{
-				auto o = CoreObject2DToImp(object);
-				auto cObj = o->GetCullingObject();
-				auto userData = (Culling2DUserData*)(cObj->GetUserData());
-
-				SafeDelete(userData);
-
-				world->RemoveObject(cObj);
-			}
-#endif
+			RemoveObjectFromCulling(object, o);
 			
 			object->SetLayer(nullptr);
 			SafeRelease(object);
 		}
 
-		for (auto& camera : m_cameras)
+		for (auto camera : m_cameras)
 		{
 			camera->SetLayer(nullptr);
 			SafeRelease(camera);
 		}
+
 #if __CULLING_2D__
 		culling2d::SafeDelete(world);
 #endif
@@ -247,38 +223,22 @@ namespace asd
 
 	}
 
+
 	//----------------------------------------------------------------------------------
 	//
 	//----------------------------------------------------------------------------------
-	void CoreLayer2D_Imp::RemoveObject(ObjectPtr object)
+	void CoreLayer2D_Imp::RemoveObjectFromCulling(ObjectPtr object,CoreObject2D_Imp* o)
 	{
-		{
-			auto o = CoreObject2DToImp(object);
-			o->OnRemoving(m_renderer);
-
 #if __CULLING_2D__
-			if (object->GetObjectType() == Object2DType::Map)
+		if (object->GetObjectType() == Object2DType::Map)
+		{
+			auto mapObj = (CoreMapObject2D_Imp*)o;
+			auto &chips = mapObj->GetChips();
+			for (auto c : chips)
 			{
-				auto mapObj = (CoreMapObject2D_Imp*)o;
-				auto &chips = mapObj->GetChips();
-				for (auto c : chips)
-				{
-					auto chipImp = (CoreChip2D_Imp*)c;
+				auto chipImp = (CoreChip2D_Imp*)c;
 
-					auto cObj = chipImp->GetCullingObject();
-
-					RemoveTransformedObject(cObj);
-
-					auto userData = (Culling2DUserData*)(cObj->GetUserData());
-
-					SafeDelete(userData);
-
-					world->RemoveObject(cObj);
-				}
-			}
-			else if (object->GetObjectType() != Object2DType::Camera)
-			{
-				auto cObj = o->GetCullingObject();
+				auto cObj = chipImp->GetCullingObject();
 
 				RemoveTransformedObject(cObj);
 
@@ -288,8 +248,31 @@ namespace asd
 
 				world->RemoveObject(cObj);
 			}
-#endif
 		}
+		else if (object->GetObjectType() != Object2DType::Camera)
+		{
+			auto cObj = o->GetCullingObject();
+
+			RemoveTransformedObject(cObj);
+
+			auto userData = (Culling2DUserData*)(cObj->GetUserData());
+
+			SafeDelete(userData);
+
+			world->RemoveObject(cObj);
+		}
+#endif
+	}
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+	void CoreLayer2D_Imp::RemoveObject(ObjectPtr object)
+	{
+		auto o = CoreObject2DToImp(object);
+		o->OnRemoving(m_renderer);
+
+		RemoveObjectFromCulling(object, o);
 
 		object->SetLayer(nullptr);
 
@@ -638,41 +621,13 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void CoreLayer2D_Imp::Clear()
 	{
-		for(auto object:m_objects)
+		for (auto object : m_objects)
 		{
-			{
-				auto o = CoreObject2DToImp(object);
-				o->OnRemoving(m_renderer);
+			auto o = CoreObject2DToImp(object);
+			o->OnRemoving(m_renderer);
 
-#if __CULLING_2D__
-				if (object->GetObjectType() == Object2DType::Map)
-				{
-					auto mapObj = (CoreMapObject2D_Imp*)o;
-					auto &chips = mapObj->GetChips();
-					for (auto c : chips)
-					{
-						auto chipImp = (CoreChip2D_Imp*)c;
+			RemoveObjectFromCulling(object, o);
 
-						auto cObj = chipImp->GetCullingObject();
-
-						auto userData = (Culling2DUserData*)(cObj->GetUserData());
-
-						SafeDelete(userData);
-
-						world->RemoveObject(cObj);
-					}
-				}
-				else if (object->GetObjectType() != Object2DType::Camera)
-				{
-					auto cObj = o->GetCullingObject();
-					auto userData = (Culling2DUserData*)(cObj->GetUserData());
-
-					SafeDelete(userData);
-
-					world->RemoveObject(cObj);
-				}
-#endif
-			}
 			object->SetLayer(nullptr);
 			SafeRelease(object);
 		}
@@ -684,14 +639,13 @@ namespace asd
 
 		m_objects.clear();
 
-		for (auto object : m_cameras)
+		for (auto camera : m_cameras)
 		{
 			{
-				auto o = CoreObject2DToImp(object);
+				auto o = CoreObject2DToImp(camera);
 				o->OnRemoving(m_renderer);
 			}
-			object->SetLayer(nullptr);
-			auto camera = (CoreCameraObject2D*)object;
+			camera->SetLayer(nullptr);
 			SafeRelease(camera);
 
 		}

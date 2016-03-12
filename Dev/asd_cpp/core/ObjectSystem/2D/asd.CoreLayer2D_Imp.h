@@ -80,6 +80,7 @@ namespace asd
 		culling2d::World *world = nullptr;
 		std::deque<culling2d::Object*> transformedObjects;
 #endif
+		void RemoveObjectFromCulling(ObjectPtr object, CoreObject2D_Imp* o);
 	public:
 #if __CULLING_2D__
 		culling2d::World *GetCullingWorld() const;

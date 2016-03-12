@@ -13,7 +13,7 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
 			//*
-			TestSequencially(typeof(Graphics.Transition.Transition));
+			TestSequencially(typeof(Graphics._2D.EffectObject2D));
 			Console.ReadKey();
 			return;
 			//*/
