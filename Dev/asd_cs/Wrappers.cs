@@ -1763,7 +1763,11 @@ namespace asd {
 		/// <param name="value"></param>
 		public void SetTexture2D(string name, Texture2D value)
 		{
-			var valueCore = value != null ? value.CoreInstance : null;
+			asd.swig.Texture2D valueCore = null;
+			if(value != null)
+			{
+				valueCore = value.CoreInstance;
+			}
 			CoreInstance.SetTexture2D(name, valueCore);
 		}
 
@@ -1905,7 +1909,11 @@ namespace asd {
 		/// <param name="value"></param>
 		public void SetTexture2D(string name, Texture2D value)
 		{
-			var valueCore = value != null ? value.CoreInstance : null;
+			asd.swig.Texture2D valueCore = null;
+			if(value != null)
+			{
+				valueCore = value.CoreInstance;
+			}
 			CoreInstance.SetTexture2D(name, valueCore);
 		}
 
@@ -2025,7 +2033,11 @@ namespace asd {
 		/// </remarks>
 		public void SetColorTexture(int materialIndex, Texture2D texture)
 		{
-			var textureCore = texture != null ? texture.CoreInstance : null;
+			asd.swig.Texture2D textureCore = null;
+			if(texture != null)
+			{
+				textureCore = texture.CoreInstance;
+			}
 			CoreInstance.SetColorTexture(materialIndex, textureCore);
 		}
 
@@ -2039,7 +2051,11 @@ namespace asd {
 		/// </remarks>
 		public void SetNormalTexture(int materialIndex, Texture2D texture)
 		{
-			var textureCore = texture != null ? texture.CoreInstance : null;
+			asd.swig.Texture2D textureCore = null;
+			if(texture != null)
+			{
+				textureCore = texture.CoreInstance;
+			}
 			CoreInstance.SetNormalTexture(materialIndex, textureCore);
 		}
 
@@ -2053,7 +2069,11 @@ namespace asd {
 		/// </remarks>
 		public void SetMetalnessTexture(int materialIndex, Texture2D texture)
 		{
-			var textureCore = texture != null ? texture.CoreInstance : null;
+			asd.swig.Texture2D textureCore = null;
+			if(texture != null)
+			{
+				textureCore = texture.CoreInstance;
+			}
 			CoreInstance.SetMetalnessTexture(materialIndex, textureCore);
 		}
 
@@ -2067,7 +2087,11 @@ namespace asd {
 		/// </remarks>
 		public void SetSmoothnessTexture(int materialIndex, Texture2D texture)
 		{
-			var textureCore = texture != null ? texture.CoreInstance : null;
+			asd.swig.Texture2D textureCore = null;
+			if(texture != null)
+			{
+				textureCore = texture.CoreInstance;
+			}
 			CoreInstance.SetSmoothnessTexture(materialIndex, textureCore);
 		}
 
@@ -2196,7 +2220,11 @@ namespace asd {
 		/// <returns>ID </returns>
 		public int Play(SoundSource soundSource)
 		{
-			var soundSourceCore = soundSource != null ? soundSource.CoreInstance : null;
+			asd.swig.SoundSource soundSourceCore = null;
+			if(soundSource != null)
+			{
+				soundSourceCore = soundSource.CoreInstance;
+			}
 			return CoreInstance.Play(soundSourceCore);
 		}
 
@@ -2549,9 +2577,21 @@ namespace asd {
 		/// <param name="metalnessTexture">金属度テクスチャ </param>
 		public void SetCliffTexture(Texture2D diffuseTexture, Texture2D normalTexture, Texture2D metalnessTexture)
 		{
-			var diffuseTextureCore = diffuseTexture != null ? diffuseTexture.CoreInstance : null;
-			var normalTextureCore = normalTexture != null ? normalTexture.CoreInstance : null;
-			var metalnessTextureCore = metalnessTexture != null ? metalnessTexture.CoreInstance : null;
+			asd.swig.Texture2D diffuseTextureCore = null;
+			if(diffuseTexture != null)
+			{
+				diffuseTextureCore = diffuseTexture.CoreInstance;
+			}
+			asd.swig.Texture2D normalTextureCore = null;
+			if(normalTexture != null)
+			{
+				normalTextureCore = normalTexture.CoreInstance;
+			}
+			asd.swig.Texture2D metalnessTextureCore = null;
+			if(metalnessTexture != null)
+			{
+				metalnessTextureCore = metalnessTexture.CoreInstance;
+			}
 			CoreInstance.SetCliffTexture(diffuseTextureCore, normalTextureCore, metalnessTextureCore);
 		}
 
