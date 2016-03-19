@@ -9,13 +9,10 @@ namespace asd
 
 	Matrix33& Matrix33::SetIdentity()
 	{
-		for (int i = 0; i < 3; ++i)
-		{
-			for (int j = 0; j < 3; ++j)
-			{
-				Values[i][j] = i == j ? 1 : 0;
-			}
-		}
+		memset(Values, 0, sizeof(float) * 9);
+		Values[0][0] = 1.0f;
+		Values[1][1] = 1.0f;
+		Values[2][2] = 1.0f;
 
 		return *this;
 	}

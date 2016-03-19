@@ -19,22 +19,19 @@ namespace asd
 		/// </summary>
 		public void SetIdentity()
 		{
-			fixed(float* v = Values)
+			fixed (float* v = Values)
 			{
-				for (int i = 0; i < 3; ++i)
-				{
-					for (int j = 0; j < 3; ++j)
-					{
-						if (i == j)
-						{
-							v[i*3 + j] = 1;
-						}
-						else
-						{
-							v[i*3 + j] = 0;
-						}
-					}
-				}
+				v[0 * 3 + 0] = 1.0f;
+				v[0 * 3 + 1] = 0.0f;
+				v[0 * 3 + 2] = 0.0f;
+
+				v[1 * 3 + 0] = 0.0f;
+				v[1 * 3 + 1] = 1.0f;
+				v[1 * 3 + 2] = 0.0f;
+
+				v[2 * 3 + 0] = 0.0f;
+				v[2 * 3 + 1] = 0.0f;
+				v[2 * 3 + 2] = 1.0f;
 			}
 		}
 
