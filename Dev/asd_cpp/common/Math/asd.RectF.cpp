@@ -35,14 +35,14 @@ namespace asd
 
 	array<Vector2DF, 4> RectF::GetVertexes() const
 	{
-		array<Vector2DF, 4> result =
-		{
-			Vector2DF(X, Y),
-			Vector2DF(X + Width, Y),
-			Vector2DF(X + Width, Y + Height),
-			Vector2DF(X, Y + Height)
-		};
-		return result;
+		array<Vector2DF, 4> ret;
+
+		ret[0] = Vector2DF(X, Y);
+		ret[1] = Vector2DF(X + Width, Y);
+		ret[2] = Vector2DF(X + Width, Y + Height);
+		ret[3] = Vector2DF(X, Y + Height);
+
+		return ret;
 	}
 
 	bool RectF::operator!=(const RectF& right)

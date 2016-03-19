@@ -81,11 +81,14 @@ namespace asd
 		{
 			get
 			{
-				return new Vector2DI[]{
-				new Vector2DI(X,Y),
-				new Vector2DI(X+Width,Y),
-				new Vector2DI(X+Width,Y+Height),
-				new Vector2DI(X,Y+Height)};
+				var ret = new Vector2DI[4];
+
+				ret[0] = new Vector2DI(X,Y);
+				ret[1] = new Vector2DI(X + Width, Y);
+				ret[2] = new Vector2DI(X + Width, Y + Height);
+				ret[3] = new Vector2DI(X, Y + Height);
+
+				return ret;
 			}
 		}
 

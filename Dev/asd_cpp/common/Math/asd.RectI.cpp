@@ -35,14 +35,14 @@ namespace asd
 
 	array<Vector2DI, 4> RectI::GetVertexes() const
 	{
-		array<Vector2DI, 4> result =
-		{
-			Vector2DI(X, Y),
-			Vector2DI(X + Width, Y),
-			Vector2DI(X + Width, Y + Height),
-			Vector2DI(X, Y + Height)
-		};
-		return result;
+		array<Vector2DI, 4> ret;
+
+		ret[0] = Vector2DI(X, Y);
+		ret[1] = Vector2DI(X + Width, Y);
+		ret[2] = Vector2DI(X + Width, Y + Height);
+		ret[3] = Vector2DI(X, Y + Height);
+		
+		return ret;
 	}
 
 	bool RectI::operator==(const RectI& other) const
