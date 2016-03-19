@@ -346,8 +346,12 @@ namespace asd
 
 	void Engine::FadingOutState::Draw()
 	{
-		std::shared_ptr<CoreScene> curScene = Engine::m_currentScene != nullptr ? Engine::m_currentScene->m_coreScene
-												: nullptr;
+		std::shared_ptr<CoreScene> curScene = nullptr;
+		if (Engine::m_currentScene != nullptr)
+		{
+			curScene = Engine::m_currentScene->m_coreScene;
+		}
+
 		m_core->DrawSceneToWindowWithTransition(nullptr, curScene.get(), m_transition->coreTransition.get());
 	}
 
@@ -382,10 +386,19 @@ namespace asd
 
 	void Engine::FadingInState::Draw()
 	{
-		std::shared_ptr<CoreScene> curScene = Engine::m_currentScene != nullptr ? Engine::m_currentScene->m_coreScene
-												: nullptr;
-		std::shared_ptr<CoreScene> prevScene = m_previousScene != nullptr ? m_previousScene->m_coreScene
-												: nullptr;
+		std::shared_ptr<CoreScene> curScene = nullptr;
+		std::shared_ptr<CoreScene> prevScene = nullptr;
+
+		if (Engine::m_currentScene != nullptr)
+		{
+			curScene = Engine::m_currentScene->m_coreScene;
+		}
+
+		if (m_previousScene != nullptr)
+		{
+			prevScene = m_previousScene->m_coreScene;
+		}
+
 		m_core->DrawSceneToWindowWithTransition(curScene.get(), prevScene.get(), m_transition->coreTransition.get());
 	}
 

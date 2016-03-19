@@ -121,7 +121,12 @@ namespace asd
 
 			public override void Draw()
 			{
-				var curScene = CurrentScene != null ? CurrentScene.CoreInstance : null;
+				swig.CoreScene curScene = null;
+				if (CurrentScene != null)
+				{
+					curScene = CurrentScene.CoreInstance;
+				}
+
 				core.DrawSceneToWindowWithTransition(null, curScene, transition.coreInstance);
 			}
 		}
@@ -166,8 +171,19 @@ namespace asd
 
 			public override void Draw()
 			{
-				var curScene = CurrentScene != null ? CurrentScene.CoreInstance : null;
-				var prevScene = previousScene != null ? previousScene.CoreInstance : null;
+				swig.CoreScene curScene = null;
+				swig.CoreScene prevScene = null;
+
+				if(CurrentScene != null)
+				{
+					curScene = CurrentScene.CoreInstance;
+				}
+				
+				if(previousScene != null)
+				{
+					prevScene =  previousScene.CoreInstance;
+				}
+
 				core.DrawSceneToWindowWithTransition(curScene, prevScene, transition.coreInstance);
 			}
 
