@@ -25,7 +25,14 @@ namespace asd
 				{
 					for (int j = 0; j < 3; ++j)
 					{
-						v[i*3+j] = i == j ? 1 : 0;
+						if (i == j)
+						{
+							v[i*3 + j] = 1;
+						}
+						else
+						{
+							v[i*3 + j] = 0;
+						}
 					}
 				}
 			}
