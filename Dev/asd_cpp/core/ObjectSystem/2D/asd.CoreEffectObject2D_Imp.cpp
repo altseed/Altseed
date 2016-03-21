@@ -44,11 +44,17 @@ namespace asd
 
 		efMat.Value[2][2] = (sx + sy) / 2.0f;
 
-		// Y軸回転
-		Effekseer::Matrix43 rotyMat;
 		Effekseer::Matrix43 ef2Mat;
-		rotyMat.RotationY(DegreeToRadian(-m_rotation));
-		Effekseer::Matrix43::Multiple(ef2Mat, rotyMat, efMat);
+
+		// X軸回転
+		Effekseer::Matrix43 rotyMatX;
+		rotyMatX.RotationX(DegreeToRadian(-m_rotationX));
+		Effekseer::Matrix43::Multiple(ef2Mat, rotyMatX, efMat);
+
+		// Y軸回転
+		Effekseer::Matrix43 rotyMatY;
+		rotyMatY.RotationY(DegreeToRadian(-m_rotationY));
+		Effekseer::Matrix43::Multiple(ef2Mat, rotyMatY, ef2Mat);
 
 		return ef2Mat;
 	}
@@ -135,15 +141,35 @@ namespace asd
 
 		return false;
 	}
+	
+	float CoreEffectObject2D_Imp::GetEffectRotationX() const
+	{
+		return m_rotationX;
+	}
+
+	void CoreEffectObject2D_Imp::SetEffectRotationX(float value)
+	{
+		m_rotationX = value;
+	}
+
+	float CoreEffectObject2D_Imp::GetEffectRotationY() const
+	{
+		return m_rotationY;
+	}
+
+	void CoreEffectObject2D_Imp::SetEffectRotationY(float value)
+	{
+		m_rotationY = value;
+	}
 
 	float CoreEffectObject2D_Imp::GetEffectRotation() const
 	{
-		return m_rotation;
+		return m_rotationY;
 	}
 
 	void CoreEffectObject2D_Imp::SetEffectRotation(float value)
 	{
-		m_rotation = value;
+		m_rotationY = value;
 	}
 
 	void CoreEffectObject2D_Imp::OnAdded(Renderer2D* renderer)

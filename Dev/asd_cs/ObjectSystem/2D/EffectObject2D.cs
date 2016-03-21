@@ -127,12 +127,57 @@ namespace asd
 			}
 		}
 
+
+		/// <summary>
+		/// このオブジェクトから再生されるエフェクトの角度(X軸)を指定する。
+		/// </summary>
+		/// <remarks>
+		/// エフェクトの形状が画面に垂直な方向に長い場合、2D表示では予期せぬ見た目で表示されることがある。
+		/// この時、X軸を中心にエフェクトを回転することで、違和感のない表示をできるようにする。
+		/// </remarks>
+		public float EffectRotationX
+		{
+			get
+			{
+				ThrowIfDisposed();
+				return coreEffectObject.GetEffectRotationX();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				coreEffectObject.SetEffectRotationX(value);
+			}
+		}
+
+
+		/// <summary>
+		/// このオブジェクトから再生されるエフェクトの角度(Y軸)を指定する。
+		/// </summary>
+		/// <remarks>
+		/// エフェクトの形状が画面に垂直な方向に長い場合、2D表示では予期せぬ見た目で表示されることがある。
+		/// この時、Y軸を中心にエフェクトを回転することで、違和感のない表示をできるようにする。
+		/// </remarks>
+		public float EffectRotationY
+		{
+			get
+			{
+				ThrowIfDisposed();
+				return coreEffectObject.GetEffectRotationY();
+			}
+			set
+			{
+				ThrowIfDisposed();
+				coreEffectObject.SetEffectRotationY(value);
+			}
+		}
+
 		/// <summary>
 		/// このオブジェクトから再生されるエフェクトの向き(度)を指定する。
 		/// </summary>
 		/// <remarks>
 		/// 2D表示だとエフェクトが画面に対して前後に表示されるように作成されていた場合、予期せぬ見た目で表示されてしまうことがある。
 		/// そのため、Y軸を中心にエフェクトを回転させ2Dとして違和感のない表示ができるようにする。
+		/// 互換性のために残されている。
 		/// </remarks>
 		public float EffectRotation
 		{

@@ -76,6 +76,26 @@ namespace asd
 		m_coreObject->SetSyncEffects(value);
 	}
 
+	float EffectObject2D::GetEffectRotationX() const
+	{
+		return m_coreObject->GetEffectRotationX();
+	}
+
+	void EffectObject2D::SetEffectRotationX(float value)
+	{
+		m_coreObject->SetEffectRotationX(value);
+	}
+
+	float EffectObject2D::GetEffectRotationY() const
+	{
+		return m_coreObject->GetEffectRotationY();
+	}
+
+	void EffectObject2D::SetEffectRotationY(float value)
+	{
+		m_coreObject->SetEffectRotationY(value);
+	}
+
 	float EffectObject2D::GetEffectRotation() const
 	{
 		return m_coreObject->GetEffectRotation();

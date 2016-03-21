@@ -19,9 +19,14 @@ namespace asd
 		int								m_drawingPtiority;
 
 		/**
-			@brief	Y軸回転(度)
+		@brief	X軸(3D)回転(度)
 		*/
-		float							m_rotation = 0.0f;
+		float							m_rotationX = 0.0f;
+		
+		/**
+		@brief	Y軸(3D)回転(度)
+		*/
+		float							m_rotationY = 0.0f;
 
 		Effekseer::Matrix43 CalcEffectMatrix();
 
@@ -68,6 +73,14 @@ namespace asd
 		@param	value	フラグ
 		*/
 		void SetSyncEffects(bool value) { m_syncEffects = value; }
+
+		float GetEffectRotationX() const override;
+
+		void SetEffectRotationX(float value) override;
+
+		float GetEffectRotationY() const override;
+
+		void SetEffectRotationY(float value) override;
 
 		float GetEffectRotation() const override;
 
