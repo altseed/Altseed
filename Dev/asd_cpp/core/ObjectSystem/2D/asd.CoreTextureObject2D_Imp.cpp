@@ -53,6 +53,7 @@ namespace asd
 		{
 			m_src = RectF(0, 0, 1, 1);
 		}
+		SetCullingUpdate(this);
 	}
 
 	RectF CoreTextureObject2D_Imp::GetSrc() const

@@ -82,7 +82,6 @@ namespace asd
 #endif
 	public:
 #if __CULLING_2D__
-		culling2d::World *GetCullingWorld() const;
 
 		void AddTransformedObject(culling2d::Object* object);
 		void RemoveTransformedObject(culling2d::Object* object);

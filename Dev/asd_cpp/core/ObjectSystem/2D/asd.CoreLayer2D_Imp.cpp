@@ -333,12 +333,6 @@ namespace asd
 	//
 	//----------------------------------------------------------------------------------
 #if __CULLING_2D__
-	culling2d::World *CoreLayer2D_Imp::GetCullingWorld() const
-	{
-		return world;
-	}
-
-
 	void CoreLayer2D_Imp::AddTransformedObject(culling2d::Object* object)
 	{
 		assert(object != nullptr);
