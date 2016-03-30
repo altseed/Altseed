@@ -105,7 +105,7 @@ namespace asd
 				IsAlive = false;
 				if (Layer != null)
 				{
-					Layer.RemoveObject(this);
+					Layer.DirectlyRemoveObject(this);
 				}
 				if (disposeNative)
 				{

@@ -133,6 +133,7 @@
     <Compile Include="Particular\Dictionary.cs" />
     <Compile Include="Particular\GC.cs" />
     <Compile Include="Particular\Helper.cs" />
+    <Compile Include="Particular\Lambda.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shape\ArcShape.cs" />

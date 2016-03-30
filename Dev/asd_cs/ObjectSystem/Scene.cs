@@ -133,7 +133,7 @@ namespace asd
 		public void RemoveLayer(Layer layer)
 		{
 			ThrowIfDisposed();
-			DirectryRemoveLayer(layer);
+			DirectlyRemoveLayer(layer);
 			layer.RaiseOnRemoved();
 			layer.Scene = null;
 		}
@@ -383,7 +383,7 @@ namespace asd
 		#endregion
 
 
-		internal void DirectryRemoveLayer(Layer layer)
+		internal void DirectlyRemoveLayer(Layer layer)
 		{
 			if(executing)
 			{

@@ -130,12 +130,12 @@ namespace asd
 		public void RemoveObject(Object3D object3D)
 		{
 			ThrowIfDisposed();
-			DirectryRemoveObject(object3D);
+			DirectlyRemoveObject(object3D);
 			object3D.RaiseOnRemoved();
 			object3D.Layer = null;
 		}
 
-		internal void DirectryRemoveObject(Object3D object3D)
+		internal void DirectlyRemoveObject(Object3D object3D)
 		{
 			contentsManager.Remove(object3D);
 			coreLayer3D.RemoveObject(object3D.CoreObject);
@@ -452,7 +452,7 @@ namespace asd
 				contentsManager.Dispose(disposeNative);
 				if (Scene != null)
 				{
-					Scene.DirectryRemoveLayer(this);
+					Scene.DirectlyRemoveLayer(this);
 				}
 				if (disposeNative)
 				{

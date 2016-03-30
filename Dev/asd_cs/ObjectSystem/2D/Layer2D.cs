@@ -294,7 +294,7 @@ namespace asd
 				contentsManager.Dispose(disposeNative);
 				if (Scene != null)
 				{
-					Scene.DirectryRemoveLayer(this);
+					Scene.DirectlyRemoveLayer(this);
 				}
 				if (disposeNative)
 				{
