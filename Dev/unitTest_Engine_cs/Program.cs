@@ -12,8 +12,8 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-			//*
-			TestSequencially(typeof(Graphics.Transition.Transition));
+			/*
+			TestSequencially(typeof(ObjectSystem2D.AccessAfterDisposed));
 			Console.ReadKey();
 			return;
 			//*/

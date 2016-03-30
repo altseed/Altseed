@@ -24,19 +24,19 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			scene.AddLayer(layer);
 			layer.AddObject(obj);
 
-			obj.Dispose();
+			obj.Dispose(true);
 			Assert.Throws<ObjectDisposedException>(() =>
 			{
 				obj.DrawingPriority = 2;
 			});
 
-			layer.Dispose();
+			layer.Dispose(true);
 			Assert.Throws<ObjectDisposedException>(() =>
 			{
 				layer.AddPostEffect(new PostEffectGaussianBlur());
 			});
 
-			scene.Dispose();
+			scene.Dispose(true);
 			Assert.Throws<ObjectDisposedException>(() =>
 			{
 				scene.AddLayer(new Layer3D());

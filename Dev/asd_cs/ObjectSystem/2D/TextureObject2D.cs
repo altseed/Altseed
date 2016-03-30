@@ -65,12 +65,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return GC.GenerateTexture2D(renderedObject.GetTexture(), GC.GenerationType.Get);
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				renderedObject.SetTexture(IG.GetTexture2D(value));
 			}
 		}
@@ -82,12 +82,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return renderedObject.GetCenterPosition();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				renderedObject.SetCenterPosition(value);
 			}
 		}
@@ -98,12 +98,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return renderedObject.GetColor();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				renderedObject.SetColor(value);
 			}
 		}
@@ -114,12 +114,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return renderedObject.GetTurnLR();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				renderedObject.SetTurnLR(value);
 			}
 		}
@@ -130,12 +130,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return renderedObject.GetTurnUL();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				renderedObject.SetTurnUL(value);
 			}
 		}
@@ -146,12 +146,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return renderedObject.GetDrawingPriority();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				renderedObject.SetDrawingPriority(value);
 			}
 		}
@@ -162,12 +162,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return (AlphaBlendMode)renderedObject.GetAlphaBlendMode();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				renderedObject.SetAlphaBlendMode((swig.AlphaBlendMode)value);
 			}
 		}
@@ -180,12 +180,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return renderedObject.GetSrc();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				renderedObject.SetSrc(value);
 			}
 		}
@@ -197,12 +197,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return (TextureFilterType)renderedObject.GetTextureFilterType();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				renderedObject.SetTextureFilterType((swig.TextureFilterType)value);
 			}
 		}

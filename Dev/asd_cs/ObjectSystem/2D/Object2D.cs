@@ -44,12 +44,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return CoreObject.GetCameraGroup();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				CoreObject.SetCameraGroup(value);
 			}
 		}
@@ -66,12 +66,10 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
 				return CoreObject.GetIsDrawn();
 			}
 			set
 			{
-				ThrowIfDisposed();
 				CoreObject.SetIsDrawn(value);
 			}
 		}
@@ -120,12 +118,10 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
 				return CoreObject.GetPosition();
 			}
 			set
 			{
-				ThrowIfDisposed();
 				CoreObject.SetPosition(value);
 			}
 		}
@@ -140,12 +136,10 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
 				return CoreObject.GetAngle();
 			}
 			set
 			{
-				ThrowIfDisposed();
 				CoreObject.SetAngle(value);
 			}
 		}
@@ -157,12 +151,10 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
 				return CoreObject.GetScale();
 			}
 			set
 			{
-				ThrowIfDisposed();
 				CoreObject.SetScale(value);
 			}
 		}
@@ -174,7 +166,6 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
 				return IsUpdated
 					&& !(ParentInfo != null
 					&& (ParentInfo.ManagementMode & ChildManagementMode.IsUpdated) != 0
@@ -189,7 +180,6 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
 				return CoreObject.GetAbsoluteBeingDrawn();
 			}
 		}
@@ -202,7 +192,6 @@ namespace asd
 		/// <returns>この2Dオブジェクトの位置。</returns>
 		public Vector2DF GetGlobalPosition()
 		{
-			ThrowIfDisposed();
 			return CoreObject.GetGlobalPosition();
 		}
 
@@ -299,7 +288,6 @@ namespace asd
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			ThrowIfDisposed();
 			Layer.DrawSpriteAdditionally(upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, texture, alphaBlend, priority);
 		}
 
@@ -318,49 +306,41 @@ namespace asd
 		/// </remarks>
 		protected void DrawTextAdditionally(Vector2DF pos, Color color, Font font, string text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int priority)
 		{
-			ThrowIfDisposed();
 			Layer.DrawTextAdditionally(pos, color, font, text, writingDirection, alphaBlend, priority);
 		}
 
 		protected void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			ThrowIfDisposed();
 			Layer.DrawRectangleAdditionally(drawingArea, color, uv, texture, alphaBlend, priority);
 		}
 
 		protected void DrawRotatedRectangleAdditionally(RectF drawingArea, Color color, Vector2DF rotationCenter, float angle, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			ThrowIfDisposed();
 			Layer.DrawRotatedRectangleAdditionally(drawingArea, color, rotationCenter, angle, uv, texture, alphaBlend, priority);
 		}
 
 		protected void DrawTriangleAdditionally(Vector2DF position1, Vector2DF position2, Vector2DF position3, Color color, Vector2DF uv1, Vector2DF uv2, Vector2DF uv3, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			ThrowIfDisposed();
 			Layer.DrawTriangleAdditionally(position1, position2, position3, color, uv1, uv2, uv3, texture, alphaBlend, priority);
 		}
 
 		protected void DrawCircleAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			ThrowIfDisposed();
 			Layer.DrawCircleAdditionally(center, outerDiameter, innerDiameter, color, vertNum, angle, texture, alphaBlend, priority);
 		}
 
 		protected void DrawArcAdditionally(Vector2DF center, float outerDiameter, float innerDiameter, Color color, int vertNum, int startingVerticalAngle, int endingVerticalAngle, float angle, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			ThrowIfDisposed();
 			Layer.DrawArcAdditionally(center, outerDiameter, innerDiameter, color, vertNum, startingVerticalAngle, endingVerticalAngle, angle, texture, alphaBlend, priority);
 		}
 
 		protected void DrawLineAdditionally(Vector2DF point1, Vector2DF point2, Color color, float thickness, AlphaBlendMode alphaBlend, int priority)
 		{
-			ThrowIfDisposed();
 			Layer.DrawLineAdditionally(point1, point2, thickness, color, alphaBlend, priority);
 		}
 
 		protected void DrawShapeAdditionally(Shape shape, Color color, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
-			ThrowIfDisposed();
 			Layer.DrawShapeAdditionally(shape, color, texture, alphaBlend, priority);
 		}
 		#endregion
@@ -392,10 +372,7 @@ namespace asd
 			OnRemoved();
 		}
 
-		/// <summary>
-		/// この2Dオブジェクトを破棄する。
-		/// </summary>
-		public void Dispose()
+		public override void Dispose(bool disposeNative)
 		{
 			if(IsAlive)
 			{
@@ -414,7 +391,23 @@ namespace asd
 				{
 					Parent.CoreObject.RemoveChild(CoreObject);
 				}
+				if (Layer != null)
+				{
+					Layer.DirectlyRemoveObject(this);
+				}
+				if (disposeNative)
+				{
+					ForceToRelease();
+				}
 			}
+		}
+
+		/// <summary>
+		/// この2Dオブジェクトを破棄する。
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(false);
 		}
 
 		internal override void Update()
@@ -469,7 +462,15 @@ namespace asd
 
 		internal void ThrowIfDisposed()
 		{
-			if(!IsAlive)
+			if (!IsAlive)
+			{
+				throw new ObjectDisposedException(GetType().FullName);
+			}
+		}
+
+		internal void ThrowIfReleased()
+		{
+			if(IsReleased)
 			{
 				throw new ObjectDisposedException(GetType().FullName);
 			}

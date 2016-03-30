@@ -30,5 +30,6 @@ namespace asd
 
 		internal abstract bool GetIsAlive();
 		internal abstract void Update();
+		public abstract void Dispose(bool disposeNative);
 	}
 }

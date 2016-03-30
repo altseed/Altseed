@@ -35,12 +35,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return GC.GenerateEffect(swig.Accessor.CoreEffectObject2D_GetEffect(coreEffectObject), GC.GenerationType.Get);
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreEffectObject.SetEffect(IG.GetEffect(value));
 			}
 
@@ -52,7 +52,7 @@ namespace asd
 		/// <returns>再生されたエフェクトのID</returns>
 		public int Play()
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			if(Layer == null)
 			{
 				throw new InvalidOperationException("レイヤーに追加されていません。");
@@ -66,7 +66,7 @@ namespace asd
 		/// </summary>
 		public void Stop()
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			coreEffectObject.Stop();
 		}
 
@@ -75,7 +75,7 @@ namespace asd
 		/// </summary>
 		public void StopRoot()
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			coreEffectObject.StopRoot();
 		}
 
@@ -84,7 +84,7 @@ namespace asd
 		/// </summary>
 		public void Show()
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			coreEffectObject.Show();
 		}
 
@@ -93,7 +93,7 @@ namespace asd
 		/// </summary>
 		public void Hide()
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			coreEffectObject.Hide();
 		}
 
@@ -105,7 +105,7 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreEffectObject.GetIsPlaying();
 			}
 		}
@@ -117,12 +117,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreEffectObject.GetSyncEffects();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreEffectObject.SetSyncEffects(value);
 			}
 		}
@@ -139,12 +139,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreEffectObject.GetEffectRotationX();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreEffectObject.SetEffectRotationX(value);
 			}
 		}
@@ -161,12 +161,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreEffectObject.GetEffectRotationY();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreEffectObject.SetEffectRotationY(value);
 			}
 		}
@@ -183,12 +183,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreEffectObject.GetEffectRotation();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreEffectObject.SetEffectRotation(value);
 			}
 		}
@@ -200,12 +200,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreEffectObject.GetDrawingPriority();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreEffectObject.SetDrawingPriority(value);
 			}
 		}

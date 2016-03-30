@@ -79,10 +79,8 @@ namespace asd
 		/// </summary>
 		public bool HDRMode
 		{
-			get { ThrowIfDisposed();
-				return CoreInstance.GetHDRMode(); }
-			set { ThrowIfDisposed();
-				CoreInstance.SetHDRMode(value); }
+			get { return CoreInstance.GetHDRMode(); }
+			set { CoreInstance.SetHDRMode(value); }
 		}
 
 		/// <summary>
@@ -94,7 +92,6 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
 				return GC.GenerateRenderTexture2D(CoreInstance.GetBaseTarget(), GC.GenerationType.Get);
 			}
 		}
@@ -136,7 +133,7 @@ namespace asd
 		public void RemoveLayer(Layer layer)
 		{
 			ThrowIfDisposed();
-			RemoveLayerInternal(layer);
+			DirectryRemoveLayer(layer);
 			layer.RaiseOnRemoved();
 			layer.Scene = null;
 		}
@@ -269,15 +266,25 @@ namespace asd
 		/// </summary>
 		public void Dispose()
 		{
+			Dispose(false);
+		}
+
+		public void Dispose(bool disposeNative)
+		{
 			if(IsAlive)
 			{
 				OnDispose();
 				IsAlive = false;
+				executing = true;
 				foreach(var layer in layersToUpdate_)
 				{
-					layer.Dispose();
+					layer.Dispose(disposeNative);
 				}
-				ForceToRelease();
+				executing = false;
+				if(disposeNative)
+				{
+					ForceToRelease();
+				}
 			}
 		}
 
@@ -287,8 +294,6 @@ namespace asd
 			{
 				return;
 			}
-
-			var beVanished = new List<Layer>();
 
 			executing = true;
 
@@ -304,10 +309,6 @@ namespace asd
 			foreach(var item in layersToUpdate_)
 			{
 				item.Update();
-				if(!item.IsAlive)
-				{
-					beVanished.Add(item);
-				}
 			}
 
 			foreach(var item in layersToUpdate_)
@@ -320,12 +321,6 @@ namespace asd
 			OnUpdated();
 
 			executing = false;
-
-			foreach(var item in beVanished)
-			{
-				RemoveLayerInternal(item);
-				item.ForceToRelease();
-			}
 
 			CommitChanges();
 		}
@@ -388,7 +383,7 @@ namespace asd
 		#endregion
 
 
-		private void RemoveLayerInternal(Layer layer)
+		internal void DirectryRemoveLayer(Layer layer)
 		{
 			if(executing)
 			{

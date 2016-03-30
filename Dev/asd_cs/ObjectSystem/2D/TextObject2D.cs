@@ -74,12 +74,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return GC.GenerateFont(coreTextObject.GetFont(), GC.GenerationType.Get);
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetFont(IG.GetFont(value));
 			}
 		}
@@ -92,12 +92,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreTextObject.GetText();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetText(value);
 			}
 		}
@@ -110,12 +110,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return (WritingDirection)coreTextObject.GetWritingDirection();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetWritingDirection((swig.WritingDirection)value);
 			}
 		}
@@ -128,12 +128,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreTextObject.GetLetterSpacing();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetLetterSpacing(value);
 			}
 		}
@@ -146,12 +146,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreTextObject.GetLineSpacing();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetLineSpacing(value);
 			}
 		}
@@ -163,12 +163,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreTextObject.GetCenterPosition();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetCenterPosition(value);
 			}
 		}
@@ -179,12 +179,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreTextObject.GetColor();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetColor(value);
 			}
 		}
@@ -195,12 +195,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreTextObject.GetTurnLR();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetTurnLR(value);
 			}
 		}
@@ -211,12 +211,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreTextObject.GetTurnUL();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetTurnUL(value);
 			}
 		}
@@ -227,12 +227,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return coreTextObject.GetDrawingPriority();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetDrawingPriority(value);
 			}
 		}
@@ -243,12 +243,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return (AlphaBlendMode)coreTextObject.GetAlphaBlendMode();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetAlphaBlendMode((swig.AlphaBlendMode)value);
 			}
 		}
@@ -260,12 +260,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return (TextureFilterType)coreTextObject.GetTextureFilterType();
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				coreTextObject.SetTextureFilterType((swig.TextureFilterType)value);
 			}
 		}

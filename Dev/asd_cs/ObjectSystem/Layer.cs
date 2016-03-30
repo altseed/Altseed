@@ -110,7 +110,12 @@ namespace asd
 		/// <summary>
 		/// このレイヤーを破棄する。
 		/// </summary>
-		public abstract void Dispose();
+		public virtual void Dispose()
+		{
+			Dispose(false);
+		}
+
+		public abstract void Dispose(bool disposeNative);
 
 		internal abstract void BeginUpdating();
 
@@ -238,7 +243,7 @@ namespace asd
 		/// <param name="postEffect">ポストエフェクト</param>
 		public void AddPostEffect(PostEffect postEffect)
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			CoreLayer.Draw();
 			postEffects.Add(postEffect);
 			CoreLayer.AddPostEffect(postEffect.CoreInstance);
@@ -249,7 +254,7 @@ namespace asd
 		/// </summary>
 		public void ClearPostEffects()
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			CoreLayer.Draw();
 			postEffects.Clear();
 			CoreLayer.ClearPostEffects();
@@ -272,6 +277,14 @@ namespace asd
 			}
 		}
 
+		internal void ThrowIfReleased()
+		{
+			if(IsReleased)
+			{
+				throw new ObjectDisposedException(GetType().FullName);
+			}
+		}
+		
 
 		private float updateTimer;
 

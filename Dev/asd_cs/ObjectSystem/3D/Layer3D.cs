@@ -93,12 +93,12 @@ namespace asd
 		{
 			get
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				return new RenderSettings(coreLayer3D.GetRenderSettings());
 			}
 			set
 			{
-				ThrowIfDisposed();
+				ThrowIfReleased();
 				swig.RenderSettings settings_ = new swig.RenderSettings();
 				settings_.IsLightweightMode = value.IsLightweightMode;
 				settings_.VisualizedBuffer = (swig.VisualizedBufferType)value.VisualizedBuffer;
@@ -130,10 +130,15 @@ namespace asd
 		public void RemoveObject(Object3D object3D)
 		{
 			ThrowIfDisposed();
-			contentsManager.Remove(object3D);
-			coreLayer3D.RemoveObject(object3D.CoreObject);
+			DirectryRemoveObject(object3D);
 			object3D.RaiseOnRemoved();
 			object3D.Layer = null;
+		}
+
+		internal void DirectryRemoveObject(Object3D object3D)
+		{
+			contentsManager.Remove(object3D);
+			coreLayer3D.RemoveObject(object3D.CoreObject);
 		}
 
 		/// <summary>
@@ -161,7 +166,7 @@ namespace asd
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D texture, AlphaBlendMode alphaBlend, bool depthWrite, bool depthTest)
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			coreLayer3D.DrawSpriteAdditionally(
 				upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos, upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol, upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV, IG.GetTexture2D(texture), (swig.AlphaBlendMode)alphaBlend, depthWrite, depthTest);
 		}
@@ -175,7 +180,7 @@ namespace asd
 		/// </remarks>
 		public void SetAmbientColorIntensity(float ambientColorIntensity)
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			coreLayer3D.SetAmbientColorIntensity(ambientColorIntensity);
 		}
 
@@ -185,7 +190,7 @@ namespace asd
 		/// <param name="color">色</param>
 		public void SetSkyAmbientColor(Color color)
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			coreLayer3D.SetSkyAmbientColor(color);
 		}
 	
@@ -195,7 +200,7 @@ namespace asd
 		/// <param name="color">色</param>
 		public void SetGroundAmbientColor(Color color)
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			coreLayer3D.SetGroundAmbientColor(color);
 		}
 
@@ -209,7 +214,7 @@ namespace asd
 		/// </remarks>
 		public void SetEnvironmentColorIntensity(float environmentDiffuseColorIntensity, float environmentSpecularColorIntensity)
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			coreLayer3D.SetEnvironmentColorIntensity(environmentDiffuseColorIntensity, environmentSpecularColorIntensity);
 		}
 
@@ -220,7 +225,7 @@ namespace asd
 		/// <param name="specularColor">スペキュラ色</param>
 		public void SetEnvironmentColor(CubemapTexture diffuseColor, CubemapTexture specularColor)
 		{
-			ThrowIfDisposed();
+			ThrowIfReleased();
 			coreLayer3D.SetEnvironmentColor(IG.GetCubemapTexture(diffuseColor), IG.GetCubemapTexture(specularColor));
 		}
 
@@ -229,9 +234,9 @@ namespace asd
 		/// </summary>
 		public float SSAO_Radius
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetSSAO_Radius(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetSSAO_Radius(value); }
 		}
 
@@ -240,9 +245,9 @@ namespace asd
 		/// </summary>
 		public float SSAO_Bias
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetSSAO_Bias(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetSSAO_Bias(value); }
 		}
 
@@ -251,9 +256,9 @@ namespace asd
 		/// </summary>
 		public float SSAO_Intensity
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetSSAO_Intensity(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetSSAO_Intensity(value); }
 		}
 
@@ -262,9 +267,9 @@ namespace asd
 		/// </summary>
 		public float SSAO_FarPlain
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetSSAO_FarPlain(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetSSAO_FarPlain(value); }
 		}
 
@@ -273,9 +278,9 @@ namespace asd
 		/// </summary>
 		public bool IsHeightFogEnabled
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetIsHeightFogEnabled(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetIsHeightFogEnabled(value); }
 		}
 
@@ -284,9 +289,9 @@ namespace asd
 		/// </summary>
 		public float HeightFogDensity
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetHeightFogDensity(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetHeightFogDensity(value); }
 		}
 
@@ -295,9 +300,9 @@ namespace asd
 		/// </summary>
 		public Color HeightFogColor
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetHeightFogColor(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetHeightFogColor(value); }
 		}
 
@@ -309,9 +314,9 @@ namespace asd
 		/// </remarks>
 		public float HeightFogFalloff
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetHeightFogFalloff(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetHeightFogFalloff(value); }
 		}
 
@@ -323,73 +328,73 @@ namespace asd
 		/// </remarks>
 		public float HeightFogStartDistance
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetHeightFogStartDistance(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetHeightFogStartDistance(value); }
 		}
 
 		public bool IsOceanEnabled
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetIsOceanEnabled(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetIsOceanEnabled(value); }
 		}
 
 		public RectF OceanArea
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetOceanArea(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetOceanArea(value); }
 		}
 
 		public float OceanGridSize
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetOceanGridSize(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetOceanGridSize(value); }
 		}
 
 		public float OceanHeight
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetOceanHeight(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetOceanHeight(value); }
 		}
 
 		public Color OceanColor
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetOceanColor(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetOceanColor(value); }
 		}
 
 		public float OceanDensity
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return coreLayer3D.GetOceanDensity(); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetOceanDensity(value); }
 		}
 
 		public Texture2D OceanNormalMap
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return GC.GenerateTexture2D(coreLayer3D.GetOceanNormalMap(), GC.GenerationType.Get); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetOceanNormalMap(IG.GetTexture2D(value)); }
 		}
 
 		public Texture2D OceanMask
 		{
-			get { ThrowIfDisposed();
+			get { ThrowIfReleased();
 				return GC.GenerateTexture2D(coreLayer3D.GetOceanMask(), GC.GenerationType.Get); }
-			set { ThrowIfDisposed();
+			set { ThrowIfReleased();
 				coreLayer3D.SetOceanMask(IG.GetTexture2D(value)); }
 		}
 
@@ -420,12 +425,6 @@ namespace asd
 		internal override void UpdateInternal()
 		{
 			contentsManager.Update();
-
-			foreach (var vanishing in contentsManager.VanishingContents)
-			{
-				RemoveObject(vanishing);
-				vanishing.ForceToRelease();
-			}
 			contentsManager.VanishingContents.Clear();
 		}
 
@@ -444,22 +443,23 @@ namespace asd
 			OnDrawAdditionally();
 		}
 
-		/// <summary>
-		/// このレイヤーを破棄する。
-		/// </summary>
-		public override void Dispose()
+		public override void Dispose(bool disposeNative)
 		{
 			if(IsAlive)
 			{
 				OnDispose();
 				IsAlive = false;
-				foreach(var item in Objects)
+				contentsManager.Dispose(disposeNative);
+				if (Scene != null)
 				{
-					item.Dispose();
+					Scene.DirectryRemoveLayer(this);
+				}
+				if (disposeNative)
+				{
+					ForceToRelease();
 				}
 			}
 		}
-
 
 		private ContentsManager<Object3D> contentsManager { get;set; }
 	}

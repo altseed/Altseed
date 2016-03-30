@@ -132,5 +132,30 @@ namespace asd
 			beAdded.Clear();
 			beRemoved.Clear();
 		}
+
+		public void Dispose(bool disposeNative)
+		{
+			isUpdating = true;
+
+			foreach (var item in Contents)
+			{
+				item.Dispose(disposeNative);
+			}
+
+			isUpdating = false;
+
+			foreach(var item in beAdded)
+			{
+				AddToContents(item);
+			}
+
+			foreach(var item in beRemoved)
+			{
+				RemoveFromContents(item);
+			}
+
+			beAdded.Clear();
+			beRemoved.Clear();
+		}
 	}
 }

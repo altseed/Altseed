@@ -94,10 +94,23 @@ namespace asd
 		/// </summary>
 		public void Dispose()
 		{
+			Dispose(false);
+		}
+
+		public override void Dispose(bool disposeNative)
+		{
 			if(IsAlive)
 			{
 				OnDispose();
 				IsAlive = false;
+				if (Layer != null)
+				{
+					Layer.RemoveObject(this);
+				}
+				if (disposeNative)
+				{
+					ForceToRelease();
+				}
 			}
 		}
 
