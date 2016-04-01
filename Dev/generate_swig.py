@@ -74,6 +74,20 @@ if len(argv) == 1 or argv[1] == 'csharp':
 
 	exec_sync( 'swig -c++ -csharp -namespace asd.swig -dllimport Altseed_core -o asd_cpp/core/dll.cxx -outdir asd_cs/swig/ swig.i' )
 
+
+	f = open(r'asd_cs/swig/asd_corePINVOKE.cs', 'r', encoding='utf-8')
+	lines = f.read()
+	f.close()
+
+	lines = lines.replace(r'"Altseed_core"', r'asd.Particular.Define.DLL')
+
+	f = open(r'asd_cs/swig/asd_corePINVOKE.cs', 'w')
+	f.write(lines)
+	f.close()
+
+
+
+
 elif argv[1] == 'java':
 	if not os.path.isdir('asd_java'):
 		os.makedirs('asd_java')
