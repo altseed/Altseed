@@ -125,6 +125,12 @@ namespace asd
 		return localMatrix;
 	}
 
+	void RenderedObject3D::SetLoalMatrixDirectly(Matrix44 localMat)
+	{
+		localMatrix = localMat;
+		isSRTChanged = false;
+	}
+
 	void RenderedObject3D::Flip(float deltaTime)
 	{
 		auto proxy = GetProxy();

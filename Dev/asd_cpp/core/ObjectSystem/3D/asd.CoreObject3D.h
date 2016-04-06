@@ -23,6 +23,8 @@ namespace asd
 		virtual void SetRotation(const Vector3DF& rot) = 0;
 		virtual Vector3DF GetScale() const = 0;
 		virtual void SetScale(const Vector3DF& scale) = 0;
+		virtual Matrix44 GetLocalMatrix() = 0;
+		virtual void SetLoalMatrixDirectly(Matrix44 localMat) = 0;
 
 #if !SWIG
 		virtual void SetLayer(CoreLayer3D* layer) = 0;

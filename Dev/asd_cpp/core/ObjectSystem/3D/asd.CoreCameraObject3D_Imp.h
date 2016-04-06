@@ -38,6 +38,9 @@ namespace asd
 		float GetZNear();
 		void SetZNear(float znear);
 
+		Matrix44 GetProjectionMatrixDirectly() override;
+		void SetProjectionMatrixDirectly(Matrix44 projectionMatrix) override;
+
 		bool GetHDRMode() const override;
 		void SetHDRMode(bool value) override;
 
@@ -62,6 +65,9 @@ namespace asd
 
 		virtual Vector3DF GetScale() const{ return CoreObject3D_Imp::GetScale(); }
 		virtual void SetScale(const Vector3DF& scale){ CoreObject3D_Imp::SetScale(scale); }
+
+		virtual Matrix44 GetLocalMatrix() { return CoreObject3D_Imp::GetLocalMatrix(); }
+		virtual void SetLoalMatrixDirectly(Matrix44 localMat) { CoreObject3D_Imp::SetLoalMatrixDirectly(localMat); }
 
 		virtual void SetLayer(CoreLayer3D* layer) { CoreObject3D_Imp::SetLayer(layer); }
 

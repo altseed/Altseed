@@ -90,6 +90,16 @@ namespace asd
 		m_coreObject->SetZNear(znear);
 	}
 
+	Matrix44 CameraObject3D::GetProjectionMatrixDirectly()
+	{
+		return m_coreObject->GetProjectionMatrixDirectly();
+	}
+
+	void CameraObject3D::SetProjectionMatrixDirectly(Matrix44 projectionMatrix)
+	{
+		m_coreObject->SetProjectionMatrixDirectly(projectionMatrix);
+	}
+
 	bool CameraObject3D::GetHDRMode() const
 	{
 		return m_coreObject->GetHDRMode();

@@ -29,6 +29,9 @@ namespace asd
 		virtual float GetZNear() = 0;
 		virtual void SetZNear(float znear) = 0;
 
+		virtual Matrix44 GetProjectionMatrixDirectly() = 0;
+		virtual void SetProjectionMatrixDirectly(Matrix44 projectionMatrix) = 0;
+
 		virtual bool GetHDRMode() const = 0;
 		virtual void SetHDRMode(bool value) = 0;
 

@@ -109,21 +109,24 @@ namespace asd
 
 	void RenderedCameraObject3DProxy::OnUpdateAsync()
 	{
-		if (deviceType == GraphicsDeviceType::DirectX11)
+		if (!IsProjectionMatSet)
 		{
-			ProjectionMatrix.SetPerspectiveFovRH(
-				FOV / 180.0f * 3.141592f,
-				(float) WindowSize.X / (float) WindowSize.Y,
-				ZNear,
-				ZFar);
-		}
-		else
-		{
-			ProjectionMatrix.SetPerspectiveFovRH_OpenGL(
-				FOV / 180.0f * 3.141592f,
-				(float) WindowSize.X / (float) WindowSize.Y,
-				ZNear,
-				ZFar);
+			if (deviceType == GraphicsDeviceType::DirectX11)
+			{
+				ProjectionMatrix.SetPerspectiveFovRH(
+					FOV / 180.0f * 3.141592f,
+					(float) WindowSize.X / (float) WindowSize.Y,
+					ZNear,
+					ZFar);
+			}
+			else
+			{
+				ProjectionMatrix.SetPerspectiveFovRH_OpenGL(
+					FOV / 180.0f * 3.141592f,
+					(float) WindowSize.X / (float) WindowSize.Y,
+					ZNear,
+					ZFar);
+			}
 		}
 
 		auto pos = GetGlobalPosition();
@@ -179,6 +182,9 @@ namespace asd
 		m_values.znear = 0.0f;
 		m_values.hdrMode = false;
 		m_values.postEffectCount = 0;
+
+		m_values.isProjectionMatSet = false;
+		m_values.projectionMat.SetIdentity();
 		
 		proxy = new RenderedCameraObject3DProxy(graphics);
 	}
@@ -197,6 +203,12 @@ namespace asd
 		proxy->FOV = m_values.fov;
 		proxy->Focus = m_values.focus;
 		proxy->SetWindow(GetGraphics(), m_values.size, m_values.hdrMode);
+
+		proxy->IsProjectionMatSet = m_values.isProjectionMatSet;
+		if (proxy->IsProjectionMatSet)
+		{
+			proxy->ProjectionMatrix = m_values.projectionMat;
+		}
 
 		proxy->postEffectCount = m_values.postEffectCount;
 

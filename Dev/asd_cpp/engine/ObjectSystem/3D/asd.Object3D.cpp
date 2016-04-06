@@ -135,6 +135,16 @@ namespace asd
 		m_commonObject->SetScale(scale);
 	}
 
+	Matrix44 Object3D::GetLocalMatrix()
+	{
+		return m_commonObject->GetLocalMatrix();
+	}
+
+	void Object3D::SetLoalMatrixDirectly(Matrix44 localMat)
+	{
+		m_commonObject->SetLoalMatrixDirectly(localMat);
+	}
+
 	int Object3D::GetUpdatePriority() const
 	{
 		return m_updatePriority;

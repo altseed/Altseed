@@ -5,6 +5,7 @@
 #include "../../asd.ReferenceObject.h"
 
 #include <Math/asd.Vector3DF.h>
+#include <Math/asd.Matrix44.h>
 
 namespace asd
 {
@@ -33,6 +34,9 @@ namespace asd
 
 		virtual Vector3DF GetScale() const;
 		virtual void SetScale(const Vector3DF& scale);
+
+		virtual Matrix44 GetLocalMatrix();
+		virtual void SetLoalMatrixDirectly(Matrix44 localMat);
 
 		virtual void SetLayer(CoreLayer3D* layer);
 	};

@@ -96,6 +96,20 @@ namespace asd
 		void SetZNear(float znear);
 
 		/**
+		@brief	プロジェクション行列を直接取得する。
+		@return	プロジェクション行列
+		*/
+		Matrix44 GetProjectionMatrixDirectly();
+
+		/**
+		@brief	プロジェクション行列を直接設定する。
+		@param	projectionMatrix	プロジェクション行列
+		@note
+		この値を直接設定した場合、プロジェクション行列に関わるパラメーターは無効化される。
+		*/
+		void SetProjectionMatrixDirectly(Matrix44 projectionMatrix);
+
+		/**
 		@brief	描画先のフォーマットがHDRか取得する。
 		@return	HDRか?
 		*/

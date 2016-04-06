@@ -57,6 +57,16 @@ namespace asd
 		m_commonObject->SetScale(scale);
 	}
 
+	Matrix44 CoreObject3D_Imp::GetLocalMatrix()
+	{
+		return m_commonObject->GetLocalMatrix();
+	}
+
+	void CoreObject3D_Imp::SetLoalMatrixDirectly(Matrix44 localMat)
+	{
+		m_commonObject->SetLoalMatrixDirectly(localMat);
+	}
+
 	void CoreObject3D_Imp::SetLayer(CoreLayer3D* layer)
 	{
 		if (layer != nullptr)

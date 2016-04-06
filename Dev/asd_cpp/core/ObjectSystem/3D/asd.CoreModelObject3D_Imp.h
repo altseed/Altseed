@@ -55,6 +55,9 @@ namespace asd
 		virtual Vector3DF GetScale() const{ return CoreObject3D_Imp::GetScale(); }
 		virtual void SetScale(const Vector3DF& scale){ CoreObject3D_Imp::SetScale(scale); }
 
+		virtual Matrix44 GetLocalMatrix() { return CoreObject3D_Imp::GetLocalMatrix(); }
+		virtual void SetLoalMatrixDirectly(Matrix44 localMat) { CoreObject3D_Imp::SetLoalMatrixDirectly(localMat); }
+
 		virtual void SetLayer(CoreLayer3D* layer) { CoreObject3D_Imp::SetLayer(layer); }
 
 #if !SWIG

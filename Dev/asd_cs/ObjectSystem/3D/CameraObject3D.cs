@@ -106,6 +106,18 @@ namespace asd
             set { coreObject.SetZNear(value); }
         }
 
+		/// <summary>
+		/// プロジェクション行列を直接取得または設定する。
+		/// </summary>
+		/// <remarks>
+		/// この値を直接設定した場合、プロジェクション行列に関わるパラメーターは無効化される。
+		/// </remarks>
+		public Matrix44 ProjectionMatrixDirectly
+		{
+			get { return coreObject.GetProjectionMatrixDirectly(); }
+			set { coreObject.SetProjectionMatrixDirectly(value); }
+		}
+
         /// <summary>
         /// ポストエフェクトを追加する。
         /// </summary>

@@ -47,7 +47,10 @@ namespace asd
 
 	private:
 		bool		isSRTChanged = false;
+		bool		isMatrixSetDirectly = false;
 		Matrix44	localMatrix;
+
+
 	public:
 		Vector3DF	Position;
 		Vector3DF	Rotation;
@@ -122,6 +125,7 @@ namespace asd
 		void SetScale(const Vector3DF& scale);
 
 		const Matrix44& GetLocalMatrix();
+		void SetLoalMatrixDirectly(Matrix44 localMat);
 
 		/**
 			@brief	レンダラーに追加された時に呼ばれる

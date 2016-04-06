@@ -156,6 +156,20 @@ namespace asd
 		void SetScale(Vector3DF scale);
 
 		/**
+		@brief	モデル行列を直接取得する。
+		@return	モデル行列
+		*/
+		Matrix44 GetLocalMatrix();
+
+		/**
+		@brief	モデル行列を直接設定する。
+		@param	localMat	モデル行列
+		@note
+		この値を設定した場合、通常の移動や回転は無効化される。
+		*/
+		void SetLoalMatrixDirectly(Matrix44 localMat);
+
+		/**
 			@brief	このインスタンスの更新の優先順位を取得する。
 		*/
 		int GetUpdatePriority() const;

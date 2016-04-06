@@ -38,6 +38,9 @@ namespace asd
 		float ZFar = 0.0f;
 		float ZNear = 0.0f;
 		float FOV = 0.0f;
+
+		bool IsProjectionMatSet = false;
+		
 		Vector3DF Focus;
 		Matrix44	CameraMatrix;
 		Matrix44	ProjectionMatrix;
@@ -106,6 +109,9 @@ namespace asd
 			Vector2DI	size;
 			Vector3DF	focus;
 
+			bool		isProjectionMatSet;
+			Matrix44	projectionMat;
+
 			bool	hdrMode;
 
 			int32_t	postEffectCount;
@@ -138,6 +144,13 @@ namespace asd
 
 		float GetZNear(){ return m_values.znear; }
 		void SetZNear(float znear);
+
+		Matrix44 GetProjectionMatrixDirectly(){ return m_values.projectionMat; }
+		void SetProjectionMatrixDirectly(Matrix44 projectionMatrix)
+		{
+			m_values.projectionMat = projectionMatrix;
+			m_values.isProjectionMatSet = true;
+		}
 
 		bool GetHDRMode() const;
 		void SetHDRMode(bool value);
