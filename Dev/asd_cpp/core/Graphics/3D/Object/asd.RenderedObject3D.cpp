@@ -129,6 +129,7 @@ namespace asd
 	{
 		localMatrix = localMat;
 		isSRTChanged = false;
+		isSRTSentToProxy = false;
 	}
 
 	void RenderedObject3D::Flip(float deltaTime)
