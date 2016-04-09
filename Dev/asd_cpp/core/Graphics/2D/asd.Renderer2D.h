@@ -57,6 +57,9 @@ namespace asd {
 		*/
 		virtual void ClearCache() = 0;
 
+
+		virtual void AddSpriteWithMaterial(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Material2D* material, AlphaBlendMode alphaBlend, int32_t priority) = 0;
+
 		/**
 			@brief	スプライト描画をキャッシュに追加する。
 			@param	positions	頂点座標

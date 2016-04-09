@@ -32,6 +32,7 @@ namespace asd
 			std::array<Color, 4> col;
 			std::array<Vector2DF, 4> uv;
 			std::shared_ptr<Texture2D> Texture_;
+			std::shared_ptr<Material2D> Material_;
 			AlphaBlendMode AlphaBlend_;
 			int32_t Priority;
 		};
@@ -116,6 +117,11 @@ namespace asd
 			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
 			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
 			Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority);
+
+		void DrawSpriteWithMaterialAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+			Material2D* material, AlphaBlendMode alphaBlend, int32_t priority) override;
 
 		void DrawTextAdditionally(Vector2DF pos, Color color, Font* font, const achar* text, WritingDirection writingDirection, AlphaBlendMode alphaBlend, int32_t priority) override;
 

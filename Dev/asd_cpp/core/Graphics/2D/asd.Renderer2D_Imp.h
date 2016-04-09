@@ -78,6 +78,7 @@ namespace asd {
 					color		Colors[4];
 					vector2DF	UV[4];
 					Texture2D*	TexturePtr;
+					Material2D*	Material2DPtr;
 					AlphaBlendMode	AlphaBlendState;
 					TextureFilterType	Filter;
 					TextureWrapType		Wrap;
@@ -105,6 +106,7 @@ namespace asd {
 		struct SpriteState
 		{
 			Texture2D*	TexturePtr;
+			Material2D*	Material2DPtr;
 			AlphaBlendMode	AlphaBlendState;
 			TextureFilterType	Filter;
 			TextureWrapType		Wrap;
@@ -150,6 +152,8 @@ namespace asd {
 		void DrawCache();
 
 		void ClearCache();
+
+		void AddSpriteWithMaterial(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Material2D* material, AlphaBlendMode alphaBlend, int32_t priority) override;
 
 		void AddSprite(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Texture2D* texture, AlphaBlendMode alphaBlend, int32_t priority, TextureFilterType filter = TextureFilterType::Nearest, TextureWrapType wrap = TextureWrapType::Clamp) override;
 

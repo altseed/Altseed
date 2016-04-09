@@ -50,6 +50,7 @@ namespace asd {
 		struct SpriteState
 		{
 			Texture2D*	TexturePtr;
+			Material2D*	Material2DPtr;
 			AlphaBlendMode	AlphaBlendState;
 			bool		DepthTest;
 			bool		DepthWrite;

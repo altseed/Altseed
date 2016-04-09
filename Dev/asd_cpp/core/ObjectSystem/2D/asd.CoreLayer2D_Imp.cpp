@@ -7,6 +7,8 @@
 #include "../../Graphics/Resource/asd.Font_Imp.h"
 #include "../../ObjectSystem/2D/asd.CoreChip2D_Imp.h"
 #include "../../Graphics/Resource/asd.Texture2D_Imp.h"
+#include "../../Graphics/Resource/asd.Material2D_Imp.h"
+#include "../../Graphics/Resource/asd.Shader2D_Imp.h"
 
 #include "asd.CoreTextureObject2D_Imp.h"
 #include "asd.CoreTextObject2D_Imp.h"
@@ -461,13 +463,27 @@ namespace asd
 
 		for (auto& sprite : sprites)
 		{
-			m_renderer->AddSprite(
-				sprite.pos.data(),
-				sprite.col.data(),
-				sprite.uv.data(),
-				sprite.Texture_.get(),
-				sprite.AlphaBlend_,
-				sprite.Priority);
+			if (sprite.Material_ != nullptr)
+			{
+				m_renderer->AddSpriteWithMaterial(
+					sprite.pos.data(),
+					sprite.col.data(),
+					sprite.uv.data(),
+					sprite.Material_.get(),
+					sprite.AlphaBlend_,
+					sprite.Priority);
+			}
+			else
+			{
+				m_renderer->AddSprite(
+					sprite.pos.data(),
+					sprite.col.data(),
+					sprite.uv.data(),
+					sprite.Texture_.get(),
+					sprite.AlphaBlend_,
+					sprite.Priority);
+			}
+
 		}
 
 		for (auto& text : texts)
@@ -509,6 +525,28 @@ namespace asd
 		sprite.col = col;
 		sprite.uv = uv;
 		sprite.Texture_ = CreateSharedPtrWithReleaseDLL(texture);
+		sprite.AlphaBlend_ = alphaBlend;
+		sprite.Priority = priority;
+
+		sprites.push_back(sprite);
+	}
+
+	void CoreLayer2D_Imp::DrawSpriteWithMaterialAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+		Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+		Material2D* material, AlphaBlendMode alphaBlend, int32_t priority)
+	{
+		Sprite sprite;
+		std::array<Vector2DF, 4> pos = { upperLeftPos, upperRightPos, lowerRightPos, lowerLeftPos };
+		std::array<Color, 4> col = { upperLeftCol, upperRightCol, lowerRightCol, lowerLeftCol };
+		std::array<Vector2DF, 4> uv = { upperLeftUV, upperRightUV, lowerRightUV, lowerLeftUV };
+
+		SafeAddRef(material);
+
+		sprite.pos = pos;
+		sprite.col = col;
+		sprite.uv = uv;
+		sprite.Material_ = CreateSharedPtrWithReleaseDLL(material);
 		sprite.AlphaBlend_ = alphaBlend;
 		sprite.Priority = priority;
 

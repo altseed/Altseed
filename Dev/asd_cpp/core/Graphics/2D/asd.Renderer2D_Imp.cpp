@@ -9,6 +9,9 @@
 #include "../Resource/asd.VertexBuffer_Imp.h"
 #include "../Resource/asd.IndexBuffer_Imp.h"
 #include "../Resource/asd.NativeShader_Imp.h"
+
+#include "../Resource/asd.Shader2D_Imp.h"
+#include "../Resource/asd.Material2D_Imp.h"
 #include "../Resource/asd.ShaderCache.h"
 
 #include "../Resource/asd.Font_Imp.h"
@@ -246,6 +249,7 @@ namespace asd {
 				if (e.Type == Event::EventType::Sprite)
 				{
 					SafeRelease(e.Data.Sprite.TexturePtr);
+					SafeRelease(e.Data.Sprite.Material2DPtr);
 				}
 				else if (e.Type == Event::EventType::Effect)
 				{
@@ -254,6 +258,24 @@ namespace asd {
 
 			c.second.clear();
 		}
+	}
+
+	void Renderer2D_Imp::AddSpriteWithMaterial(Vector2DF positions[4], Color colors[4], Vector2DF uv[4], Material2D* material, AlphaBlendMode alphaBlend, int32_t priority)
+	{
+		Event e;
+		e.Type = Event::EventType::Sprite;
+
+		memcpy(e.Data.Sprite.Positions, positions, sizeof(asd::Vector2DF) * 4);
+		memcpy(e.Data.Sprite.Colors, colors, sizeof(asd::Color) * 4);
+		memcpy(e.Data.Sprite.UV, uv, sizeof(asd::Vector2DF) * 4);
+		e.Data.Sprite.AlphaBlendState = alphaBlend;
+		e.Data.Sprite.TexturePtr = nullptr;
+		e.Data.Sprite.Material2DPtr = material;
+
+		SafeAddRef(e.Data.Sprite.TexturePtr);
+		SafeAddRef(e.Data.Sprite.Material2DPtr);
+
+		AddEvent(priority, e);
 	}
 
 	//----------------------------------------------------------------------------------
@@ -269,9 +291,12 @@ namespace asd {
 		memcpy(e.Data.Sprite.UV, uv, sizeof(asd::Vector2DF) * 4);
 		e.Data.Sprite.AlphaBlendState = alphaBlend;
 		e.Data.Sprite.TexturePtr = texture;
+		e.Data.Sprite.Material2DPtr = nullptr;
 		e.Data.Sprite.Filter = filter;
 		e.Data.Sprite.Wrap = wrap;
+
 		SafeAddRef(e.Data.Sprite.TexturePtr);
+		SafeAddRef(e.Data.Sprite.Material2DPtr);
 
 		AddEvent(priority, e);
 	}
@@ -429,6 +454,7 @@ namespace asd {
 		auto resetState = [this,e]() -> void
 		{
 			m_state.TexturePtr = e.Data.Sprite.TexturePtr;
+			m_state.Material2DPtr = e.Data.Sprite.Material2DPtr;
 			m_state.AlphaBlendState = e.Data.Sprite.AlphaBlendState;
 			m_state.Filter = e.Data.Sprite.Filter;
 			m_state.Wrap = e.Data.Sprite.Wrap;
@@ -448,6 +474,7 @@ namespace asd {
 				// 同時描画不可のケースかどうか?
 				// もしくはバッファが溢れないかどうか?
 				if (m_state.TexturePtr != e.Data.Sprite.TexturePtr ||
+					m_state.Material2DPtr != e.Data.Sprite.Material2DPtr ||
 					m_state.AlphaBlendState != e.Data.Sprite.AlphaBlendState ||
 					m_state.Filter != e.Data.Sprite.Filter ||
 					m_state.Wrap != e.Data.Sprite.Wrap ||
@@ -493,6 +520,17 @@ namespace asd {
 	{
 		if (m_drawingSprites.size() == 0) return;
 
+		auto isMaterialMode = m_state.Material2DPtr != nullptr;
+
+		// 行列を計算
+		Matrix44 mat, mat_t, mat_scale, mat_rot;
+
+		mat_t.SetTranslation(-(area.X + area.Width / 2.0f), -(area.Y + area.Height / 2.0f), 0);
+		mat_scale.SetScale(2.0f / area.Width, -2.0f / area.Height, 1.0f);
+		mat_rot.SetRotationZ(angle);
+
+		mat = mat_rot * mat_scale * mat_t;
+
 		// 頂点情報をビデオメモリに転送
 		if (!m_vertexBuffer->RingBufferLock(m_drawingSprites.size() * 4))
 		{
@@ -517,41 +555,54 @@ namespace asd {
 				buf[ind + i].Color_.B = e->Data.Sprite.Colors[i].B;
 				buf[ind + i].Color_.A = e->Data.Sprite.Colors[i].A;
 			}
+
+			// マテリアルモードではシェーダーで行列計算をしないため、CPUで計算
+			if (isMaterialMode)
+			{
+				for (int32_t i = 0; i < 4; i++)
+				{
+					buf[ind + i].Position = mat.Transform3D(buf[ind + i].Position);
+				}
+			}
 			ind += 4;
 		}
 
 		m_vertexBuffer->Unlock();
 
+		NativeShader_Imp* shader = nullptr;
+
 		// テクスチャの有無でシェーダーを選択
-		std::shared_ptr<NativeShader_Imp> shader;
-		if (m_state.TexturePtr != nullptr)
+		if (isMaterialMode)
 		{
-			shader = m_shader;
+			auto material = (Material2D_Imp*) m_state.Material2DPtr;
+			auto command = material->GenerateShaderCommand();
+			
+			shader = command->GetShader();
+			auto& constantValues = command->GetConstantValues();
+			shader->SetConstantValues(constantValues.data(), constantValues.size());
 		}
 		else
 		{
-			shader = m_shader_nt;
+			if (m_state.TexturePtr != nullptr)
+			{
+				shader = m_shader.get();
+			}
+			else
+			{
+				shader = m_shader_nt.get();
+			}
+			shader->SetMatrix44("mat", mat);
 		}
 
-		// 定数バッファを設定
-		Matrix44 mat, mat_t, mat_scale, mat_rot;
-
-		mat_t.SetTranslation(-(area.X + area.Width / 2.0f), -(area.Y + area.Height / 2.0f), 0);
-		mat_scale.SetScale(2.0f / area.Width, - 2.0f / area.Height, 1.0f);
-		mat_rot.SetRotationZ(angle);
-
-		mat = mat_rot * mat_scale * mat_t;
-
-		shader->SetMatrix44("mat", mat);
 
 		// 描画
-		if (m_state.TexturePtr != nullptr)
+		if (m_state.Material2DPtr == nullptr && m_state.TexturePtr != nullptr)
 		{
 			shader->SetTexture("g_texture", m_state.TexturePtr, m_state.Filter, m_state.Wrap, 0);
 		}
 		m_graphics->SetVertexBuffer(m_vertexBuffer.get());
 		m_graphics->SetIndexBuffer(m_indexBuffer.get());
-		m_graphics->SetShader(shader.get());
+		m_graphics->SetShader(shader);
 
 		RenderState state;
 		

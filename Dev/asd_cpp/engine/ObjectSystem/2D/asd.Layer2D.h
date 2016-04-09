@@ -113,6 +113,31 @@ namespace asd
 			std::shared_ptr<Texture2D>  texture, AlphaBlendMode alphaBlend, int32_t priority);
 
 		/**
+		@brief	通常の描画に加えて素材を用いて2Dスプライトを描画する。
+		@param	upperLeftPos	テクスチャの左上の描画位置
+		@param	upperRightPos	テクスチャの右上の描画位置
+		@param	lowerRightPos	テクスチャの右下の描画位置
+		@param	lowerLeftPos	テクスチャの左下の描画位置
+		@param	upperLeftCol	テクスチャの左上の頂点色
+		@param	upperRightCol	テクスチャの右上の頂点色
+		@param	lowerRightCol	テクスチャの右下の頂点色
+		@param	lowerLeftCol	テクスチャの左下の頂点色
+		@param	upperLeftUV		テクスチャの左上のUV値
+		@param	upperRightUV	テクスチャの右上のUV値
+		@param	lowerRightUV	テクスチャの右下のUV値
+		@param	lowerLeftUV		テクスチャの左下のUV値
+		@param	material		表示に使用するマテリアル
+		@param	alphaBlend		アルファブレンドの種類
+		@param	priority		描画の優先順位(大きいほど前面に描画される)
+		@note
+		OnDrawAdditionallyの中以外では実行してはいけない。
+		*/
+		void DrawSpriteWithMaterialAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
+			Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
+			Vector2DF upperLeftUV, Vector2DF upperRightUV, Vector2DF lowerRightUV, Vector2DF lowerLeftUV,
+			std::shared_ptr<Material2D> material, AlphaBlendMode alphaBlend, int32_t priority);
+
+		/**
 			@brief	通常の描画に加えて文字列を描画する。
 			@param	pos					描画位置
 			@param	color				頂点色
