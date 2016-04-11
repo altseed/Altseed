@@ -105,10 +105,5 @@ namespace asd.Particular
 		{
 			throw new Exception(string.Format("未開放のインスタンスが{0}個存在します。", count));
 		}
-
-		public static void SortLayersToDraw(List<Layer> layersToDraw)
-		{
-			layersToDraw.Sort((x, y) => x.DrawingPriority - y.DrawingPriority);
-		}
 	}
 }

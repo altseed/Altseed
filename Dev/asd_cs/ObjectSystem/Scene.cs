@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd.Particular;
 
 namespace asd
 {
@@ -296,8 +297,8 @@ namespace asd
 			}
 
 			executing = true;
-
-			layersToUpdate_.Sort((x, y) => x.UpdatePriority - y.UpdatePriority);
+			
+			Lambda.SortByUpdatePriority(layersToUpdate_);
 
 			OnUpdating();
 
@@ -350,7 +351,7 @@ namespace asd
 
 			executing = true;
 
-			Particular.Helper.SortLayersToDraw(layersToDraw_);
+			Lambda.SortByDrawingPriority(layersToDraw_);
 
 			foreach(var item in layersToDraw_)
 			{
