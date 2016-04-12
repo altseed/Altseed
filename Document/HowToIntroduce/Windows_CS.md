@@ -12,7 +12,7 @@ C#版の導入方法について説明しています。
 ダウンロードが終わったら、「Visual Studio」をインストールします。
 
 ### Altseedのダウンロード
-[Altseed](https://github.com/altseed/Altseed/releases/download/20160306/Altseed_CS_20160306_WIN.zip)　をダウンロードします。
+[Altseed](https://github.com/altseed/Altseed/releases/download/20160412/Altseed_CS_20160412_WIN.zip)　をダウンロードします。
 ダウンロードしたファイルを解凍します。
 
 開発には以下のファイルを使用します。
