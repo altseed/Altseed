@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using asd.Particular;
 
 namespace asd
 {
@@ -378,7 +379,7 @@ namespace asd
 		internal void RaiseOnAdded()
 		{
 			OnAdded();
-			foreach(var item in ChildrenList.Where(x => x.IsAlive))
+			foreach(var item in Lambda.FilterDeadObject(ChildrenList))
 			{
 				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
 				{
@@ -389,7 +390,7 @@ namespace asd
 
 		internal void RaiseOnRemoved()
 		{
-			foreach(var item in ChildrenList.Where(x => x.IsAlive))
+			foreach(var item in Lambda.FilterDeadObject(ChildrenList))
 			{
 				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
 				{
@@ -406,7 +407,7 @@ namespace asd
 			{
 				OnDispose();
 				IsAlive = false;
-				foreach(var item in ChildrenList.Where(x => x.IsAlive))
+				foreach(var item in Lambda.FilterDeadObject(ChildrenList))
 				{
 					CoreObject.RemoveChild(item.CoreObject);
 					if(item.IsInheriting(ChildManagementMode.Disposal))
@@ -442,7 +443,7 @@ namespace asd
 		{
 			if(IsAlive && AbsoluteBeingUpdated)
 			{
-				ChildrenList.RemoveAll(x => !x.IsAlive);
+				Lambda.RemoveDead(ChildrenList);
 				OnUpdate();
 				componentManager_.Update();
 			}

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd.Particular;
 
 namespace asd
 {
@@ -17,7 +18,7 @@ namespace asd
 
 		public IEnumerable<TContent> Contents
 		{
-			get { return contents_.SelectMany(x => x.Value); }
+			get { return Lambda.ToLinear(contents_); }
 		}
 
 		public LinkedList<TContent> VanishingContents { get { return beVanished; } }
@@ -32,7 +33,7 @@ namespace asd
 
 		private void AddToContents(TContent content)
 		{
-			if(contents_.Any(x => x.Key == content.UpdatePriority))
+			if(Lambda.HasContentHavingSpecificUpdatePriority(contents_, content.UpdatePriority))
 			{
 				contents_[content.UpdatePriority].AddLast(content);
 			}
