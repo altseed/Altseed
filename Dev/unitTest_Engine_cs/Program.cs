@@ -13,7 +13,7 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
 			//*
-			TestSequencially(typeof(Graphics._3D.DrawSpriteAdditionally3D));
+			TestSequencially(typeof(BugFix.DisposeBug));
 			Console.ReadKey();
 			return;
 			//*/

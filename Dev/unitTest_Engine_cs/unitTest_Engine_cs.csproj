@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Assert.cs" />
     <Compile Include="BugFix\DisposeAndChangeParent.cs" />
+    <Compile Include="BugFix\DisposeBug.cs" />
     <Compile Include="BugFix\ModifyObjectHavingDisposedChild.cs" />
     <Compile Include="Debug\Profiler.cs" />
     <Compile Include="EngineGraphics3DTest.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="BugFix\AddComponentByComponent.cs" />
     <Compile Include="ObjectSystem2D\AccessAfterDisposed.cs" />
     <Compile Include="ObjectSystem2D\CustomObject.cs" />
+    <Compile Include="ObjectSystem2D\DisposeLayerByContent.cs" />
     <Compile Include="ObjectSystem2D\DisposeOnVanish.cs" />
     <Compile Include="ObjectSystem2D\LayerComponent.cs" />
     <Compile Include="ObjectSystem2D\LayersFlag.cs" />

@@ -109,6 +109,10 @@ namespace asd
 			object2D.Layer = null;
 		}
 
+		/// <summary>
+		/// 指定した2Dオブジェクトをこのレイヤーから削除する。ただし、IsAliveチェックやOnRemovedイベントの発火などを省く。
+		/// </summary>
+		/// <param name="object2D">削除する2Dオブジェクト。</param>
 		internal void DirectlyRemoveObject(Object2D object2D)
 		{
 			contentsManager.Remove(object2D);
@@ -293,7 +297,6 @@ namespace asd
 		internal override void UpdateInternal()
 		{
 			contentsManager.Update();
-			contentsManager.VanishingContents.Clear();
 			componentManager.Update();
 		}
 

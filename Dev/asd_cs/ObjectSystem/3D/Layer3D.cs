@@ -425,7 +425,6 @@ namespace asd
 		internal override void UpdateInternal()
 		{
 			contentsManager.Update();
-			contentsManager.VanishingContents.Clear();
 		}
 
 		internal override void DrawAdditionally()
