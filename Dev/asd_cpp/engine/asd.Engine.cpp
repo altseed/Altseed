@@ -211,7 +211,7 @@ namespace asd
 
 #if _WIN32
 #if _DEBUG
-			const char* path = "Altseed_core.Debug.dll";
+			const char* path = "Altseed_core_Debug.dll";
 #else
 			const char* path = "Altseed_core.dll";
 #endif

@@ -9,7 +9,7 @@ namespace asd.Particular
 	class Define
 	{
 #if DEBUG
-		public const string DLL = "Altseed_core.Debug";
+		public const string DLL = "Altseed_core_Debug";
 #else
 		public const string DLL = "Altseed_core";
 #endif

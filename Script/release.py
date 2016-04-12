@@ -150,7 +150,7 @@ def release_cpp():
 		aceutils.mkdir(sampleDir+r'cpp/lib/Release/')
 
 		if aceutils.isWin():
-			aceutils.copy(r'Dev/bin/Altseed_core.Debug.dll', sampleBinDir)
+			aceutils.copy(r'Dev/bin/Altseed_core_Debug.dll', sampleBinDir)
 			aceutils.copy(r'Dev/bin/Altseed_core.dll', sampleBinDir)
 		elif aceutils.isMac():
 			aceutils.copy(r'Dev/bin/libAltseed_core.dylib', sampleBinDir)
@@ -177,7 +177,7 @@ def release_cpp():
 	aceutils.mkdir(runtimeDir+r'Release/')
 
 	if aceutils.isWin():
-		aceutils.copy(r'Dev/bin/Altseed_core.Debug.dll', runtimeDir)
+		aceutils.copy(r'Dev/bin/Altseed_core_Debug.dll', runtimeDir)
 		aceutils.copy(r'Dev/bin/Altseed_core.dll', runtimeDir)
 	elif aceutils.isMac():
 		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', runtimeDir)
@@ -205,7 +205,7 @@ def release_cpp():
 		aceutils.mkdir(targetDir+r'/Template/cpp/lib/Debug/')
 		aceutils.mkdir(targetDir+r'/Template/cpp/lib/Release/')
 
-		aceutils.copy(r'Dev/bin/Altseed_core.Debug.dll', targetDir+r'/Template/bin/')
+		aceutils.copy(r'Dev/bin/Altseed_core_Debug.dll', targetDir+r'/Template/bin/')
 		aceutils.copy(r'Dev/bin/Altseed_core.dll', targetDir+r'/Template/bin/')
 		aceutils.copy(r'Dev/include/Altseed.h', targetDir+r'/Template/cpp/include/')
 		aceutils.copy(r'Dev/lib/x86/Debug/Altseed.lib', targetDir+r'/Template/cpp/lib/Debug/')

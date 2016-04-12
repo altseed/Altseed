@@ -120,7 +120,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>Altseed_core.$(Configuration)</TargetName>
+    <TargetName>Altseed_core_$(Configuration)</TargetName>
     <OutDir>$(ProjectDir)..\..\bin\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

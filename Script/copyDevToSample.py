@@ -23,7 +23,7 @@ def copyDev(targetDir):
 
 	aceutils.copy(r'Dev/bin/Altseed.dll', sampleDir+r'bin/')
 	if aceutils.isWin():
-		aceutils.copy(r'Dev/bin/Altseed_core.Debug.dll', sampleDir+r'bin/')
+		aceutils.copy(r'Dev/bin/Altseed_core_Debug.dll', sampleDir+r'bin/')
 		aceutils.copy(r'Dev/bin/Altseed_core.dll', sampleDir+r'bin/')
 	elif aceutils.isMac():
 		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', sampleDir+r'bin/')
