@@ -37,7 +37,7 @@ namespace asd
 		~Culling2DUserData()
 		{
 #if _DEBUG
-			printf("Erased.\n");
+			//printf("Erased.\n");
 #endif
 		}
 
@@ -49,7 +49,7 @@ namespace asd
 			Chip = nullptr;
 
 #if _DEBUG
-			printf("Created.\n");
+			//printf("Created.\n");
 #endif
 		}
 
@@ -61,7 +61,7 @@ namespace asd
 			Chip = chip;
 
 #if _DEBUG
-			printf("Created.\n");
+			//printf("Created.\n");
 #endif
 		}
 
@@ -73,7 +73,7 @@ namespace asd
 			Chip = nullptr;
 
 #if _DEBUG
-			printf("Created.\n");
+			//printf("Created.\n");
 #endif
 		}
 	};
