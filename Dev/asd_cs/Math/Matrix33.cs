@@ -89,7 +89,7 @@ namespace asd
 				a11 * a22 * a33 + a21 * a32 * a13 + a31 * a12 * a23 - a11 * a32 * a23 - a31 * a22 * a13 - a21 * a12 * a33;
 			if ((-float.Epsilon <= Det) && (Det <= +float.Epsilon))
 			{
-				
+				return;
 			}
 
 			float InvDet = 1.0f / Det;
