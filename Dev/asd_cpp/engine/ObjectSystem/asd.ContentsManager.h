@@ -23,7 +23,8 @@ namespace asd
 			auto contents = m_contents.find(key);
 			if (contents == m_contents.end())
 			{
-				m_contents[key] = std::list<ContentPtr>({ content });
+				m_contents[key] = std::list<ContentPtr>();
+				m_contents[key].push_back(content);
 			}
 			else
 			{
