@@ -17,6 +17,7 @@ namespace asd
 	class Layer2D : public Layer
 	{
 		friend class Scene;
+		friend class Object2D;
 
 	public:
 		typedef std::shared_ptr<Layer2D> Ptr;

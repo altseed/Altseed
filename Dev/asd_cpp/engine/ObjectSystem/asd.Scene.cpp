@@ -42,11 +42,14 @@ namespace asd
 		if (GetIsAlive())
 		{
 			m_isAlive = false;
+			OnDispose();
+
+			executing = true;
 			for (auto& l : m_layersToUpdate)
 			{
 				l->Dispose();
 			}
-			OnDispose();
+			executing = false;
 		}
 	}
 
@@ -71,10 +74,6 @@ namespace asd
 		for (auto& layer : m_layersToUpdate)
 		{
 			layer->Update();
-			if (!layer->GetIsAlive())
-			{
-				beVanished.push_back(layer);
-			}
 		}
 
 		for (auto& layer : m_layersToUpdate)

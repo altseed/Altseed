@@ -20,6 +20,10 @@ namespace asd
 		{
 			m_isAlive = false;
 			OnDispose();
+			if (m_owner != nullptr)
+			{
+				m_owner->DirectlyRemoveObject(shared_from_this());
+			}
 		}
 	}
 

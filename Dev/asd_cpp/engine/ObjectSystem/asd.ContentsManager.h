@@ -13,7 +13,6 @@ namespace asd
 		std::map<int, std::list<ContentPtr>> m_contents;
 		std::list<ContentPtr> m_beAdded;
 		std::list<ContentPtr> m_beRemoved;
-		std::list<ContentPtr> beVanished;
 		bool m_isUpdating;
 
 	private:
@@ -76,11 +75,6 @@ namespace asd
 			return result;
 		}
 
-		std::list<ContentPtr>& GetVanishingContents()
-		{
-			return beVanished;
-		}
-
 		void Add(const ContentPtr& content)
 		{
 			if (m_isUpdating)
@@ -131,12 +125,9 @@ namespace asd
 				for (auto& c : list.second)
 				{
 					c->Update();
-					if (!c->GetIsAlive())
-					{
-						beVanished.push_back(c);
-					}
 				}
 			}
+
 			m_isUpdating = false;
 
 			for (auto& c : m_beAdded)
@@ -152,6 +143,18 @@ namespace asd
 
 			m_beAdded.clear();
 			m_beRemoved.clear();
+		}
+
+		void Dispose()
+		{
+			m_isUpdating = true;
+
+			for (auto& c : GetContents())
+			{
+				c->Dispose();
+			}
+
+			m_isUpdating = false;
 		}
 	};
 }

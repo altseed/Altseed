@@ -26,21 +26,11 @@ namespace asd
 	void Layer3D::UpdateInternal()
 	{
 		m_objects.Update();
-
-		for (auto& vanishing : m_objects.GetVanishingContents())
-		{
-			RemoveObject(vanishing);
-			vanishing->Dispose();
-		}
-		m_objects.GetVanishingContents().clear();
 	}
 
 	void Layer3D::DisposeInternal()
 	{
-		for (auto& o : m_objects.GetContents())
-		{
-			o->Dispose();
-		}
+		m_objects.Dispose();
 	}
 
 	void Layer3D::BeginUpdating()
@@ -91,10 +81,15 @@ namespace asd
 
 	void Layer3D::RemoveObject(const Object3D::Ptr& object)
 	{
-		m_objects.Remove(object);
-		m_coreLayer->RemoveObject(object->GetCoreObject());
+		DirectlyRemoveObject(object);
 		object->RaiseOnRemoved();
 		object->SetLayer(nullptr);
+	}
+
+	void Layer3D::DirectlyRemoveObject(const Object3D::Ptr& object)
+	{
+		m_objects.Remove(object);
+		m_coreLayer->RemoveObject(object->GetCoreObject());
 	}
 
 	std::list<Object3D::Ptr> Layer3D::GetObjects() const

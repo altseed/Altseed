@@ -101,8 +101,8 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				OnDispose();
 				IsAlive = false;
+				OnDispose();
 				if (Layer != null)
 				{
 					Layer.DirectlyRemoveObject(this);

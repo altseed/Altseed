@@ -21,17 +21,42 @@ namespace asd
 		if (GetIsAlive())
 		{
 			m_isAlive = false;
-			DisposeInternal();
-			OnDispose();
+
+			if (m_isExecuting)
+			{
+				m_isDisposing = true;
+			}
+			else
+			{
+				DisposeDirectly();
+			}
+		}
+	}
+
+	void Layer::DisposeDirectly()
+	{
+		OnDispose();
+		DisposeInternal();
+		if (GetScene() != nullptr)
+		{
+			GetScene()->DirectlyRemoveLayer(shared_from_this());
 		}
 	}
 
 	void Layer::Update()
 	{
-		if (!m_isUpdatedCurrent || !m_isAlive)
+		if (m_isDisposing)
+		{
+			DisposeDirectly();
+			m_isDisposing = false;
+		}
+
+		if (!m_isAlive || !m_isUpdatedCurrent)
 		{
 			return;
 		}
+
+		m_isExecuting = true;
 
 		m_commonObject->BeginMeasureUpdateTime();
 
@@ -45,6 +70,8 @@ namespace asd
 		}
 
 		m_commonObject->EndMeasureUpdateTime();
+
+		m_isExecuting = false;
 	}
 
 	void Layer::Draw()

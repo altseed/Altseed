@@ -37,14 +37,6 @@ namespace asd
 	void Layer2D::UpdateInternal()
 	{
 		m_objects.Update();
-
-		for (auto& vanishing : m_objects.GetVanishingContents())
-		{
-			DirectlyRemoveObject(vanishing);
-			vanishing->Dispose();
-		}
-		m_objects.GetVanishingContents().clear();
-
 		m_components.Update();
 	}
 
@@ -75,10 +67,7 @@ namespace asd
 
 	void Layer2D::DisposeInternal()
 	{
-		for (auto& o : m_objects.GetContents())
-		{
-			o->Dispose();
-		}
+		m_objects.Dispose();
 	}
 
 	void Layer2D::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,

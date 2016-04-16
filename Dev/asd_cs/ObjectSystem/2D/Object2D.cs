@@ -405,8 +405,8 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				OnDispose();
 				IsAlive = false;
+				OnDispose();
 				foreach(var item in Lambda.FilterDeadObject(ChildrenList))
 				{
 					CoreObject.RemoveChild(item.CoreObject);

@@ -30,7 +30,6 @@ namespace unitTest_Engine_cs
 		{
 			Assembly.GetAssembly(typeof(Program))
 				.GetTypes()
-				.Where(x => x.Namespace == "unitTest_Engine_cs.ObjectSystem2D")
 				.Where(_ => !_.IsAbstract)
 				.Where(_ => _.IsSubclassOf(typeof(TestFramework)))
 				.Where(x => x.GetConstructor(new Type[0]) != null)

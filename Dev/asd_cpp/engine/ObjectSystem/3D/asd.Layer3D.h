@@ -14,6 +14,7 @@ namespace asd
 		: public Layer
 	{
 		friend class Scene;
+		friend class Object3D;
 
 	public:
 		typedef std::shared_ptr<Object3D> ObjectPtr;
@@ -29,6 +30,8 @@ namespace asd
 		void DrawAdditionally();
 		void UpdateInternal();
 		void DisposeInternal();
+
+		void DirectlyRemoveObject(const Object3D::Ptr& object);
 
 	protected:
 

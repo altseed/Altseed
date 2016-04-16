@@ -12,7 +12,8 @@ namespace asd
 	/**
 		@brief	更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
 	*/
-	class Object3D
+	class Object3D :
+		public std::enable_shared_from_this<Object3D>
 	{
 		friend class Layer3D;
 		friend class ContentsManager < Object3D > ;

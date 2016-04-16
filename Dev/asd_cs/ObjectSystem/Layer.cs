@@ -163,6 +163,7 @@ namespace asd
 			if(Disposing != null)
 			{
 				DisposeDirectly(Disposing.DisposeNative);
+				Disposing = null;
 				return;
 			}
 

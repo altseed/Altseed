@@ -51,6 +51,7 @@ namespace asd
 		if (GetIsAlive())
 		{
 			GetCoreObject()->SetIsAlive(false);
+			OnDispose();
 			for (auto& child : m_children)
 			{
 				GetCoreObject()->RemoveChild(child->GetCoreObject());
@@ -65,7 +66,10 @@ namespace asd
 			{
 				parent->RemoveChild(shared_from_this());
 			}
-			OnDispose();
+			if (m_owner != nullptr)
+			{
+				m_owner->DirectlyRemoveObject(shared_from_this());
+			}
 		}
 	}
 

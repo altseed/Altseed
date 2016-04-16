@@ -274,8 +274,8 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				OnDispose();
 				IsAlive = false;
+				OnDispose();
 				executing = true;
 				foreach(var layer in layersToUpdate_)
 				{
