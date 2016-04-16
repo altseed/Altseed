@@ -48,6 +48,7 @@ namespace asd
 		void CommitChanges();
 		void UpdateComponents();
 
+		void DirectlyAddLayer(const Layer::Ptr& layer);
 		void DirectlyRemoveLayer(const Layer::Ptr& layer);
 
 	protected:

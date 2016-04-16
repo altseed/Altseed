@@ -12,8 +12,8 @@ namespace unitTest_Engine_cs
 		[STAThread]
 		static void Main(string[] args)
 		{
-			/*
-			TestSequencially(typeof(ObjectSystem2D.DisposeLayerByContent));
+			//*
+			TestSequencially(typeof(ObjectSystem2D.TimingOfRegisteringLayer));
 			Console.ReadKey();
 			return;
 			//*/
