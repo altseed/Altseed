@@ -30,14 +30,11 @@ namespace asd
 
 		private void AddToContents(TContent content)
 		{
-			if(Lambda.HasContentHavingSpecificUpdatePriority(contents_, content.UpdatePriority))
+			if(!Lambda.HasContentHavingSpecificUpdatePriority(contents_, content.UpdatePriority))
 			{
-				contents_[content.UpdatePriority].AddLast(content);
+				contents_[content.UpdatePriority] = new LinkedList<TContent>();
 			}
-			else
-			{
-				contents_[content.UpdatePriority] = new LinkedList<TContent>(new[] { content });
-            }
+			contents_[content.UpdatePriority].AddLast(content);
 			content.OnUpdatePriorityChanged += Redistribute;
 		}
 
