@@ -242,18 +242,23 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Scene::AddLayer(const Layer::Ptr& layer)
 	{
+		ACE_ASSERT(layer->GetScene() == nullptr, "追加しようとしたレイヤーは、すでに別のシーンに所属しています。");
+		DirectlyAddLayer(layer);
+		layer->SetScene(this);
+		layer->RaiseOnAdded();
+	}
+
+	void Scene::DirectlyAddLayer(const Layer::Ptr& layer)
+	{
 		if (executing)
 		{
 			addingLayer.push_back(layer);
 			return;
 		}
 
-		ACE_ASSERT(layer->GetScene() == nullptr, "追加しようとしたレイヤーは、すでに別のシーンに所属しています。");
 		m_layersToDraw.push_back(layer);
 		m_layersToUpdate.push_back(layer);
 		m_coreScene->AddLayer(layer->GetCoreLayer().get());
-		layer->SetScene(this);
-		layer->RaiseOnAdded();
 	}
 
 	//----------------------------------------------------------------------------------

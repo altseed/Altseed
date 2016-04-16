@@ -110,21 +110,27 @@ namespace asd
 		public void AddLayer(Layer layer)
 		{
 			ThrowIfDisposed();
-			if (executing)
+			if (layer.Scene != null)
+			{
+				throw new InvalidOperationException("指定したレイヤーは、既に別のシーンに所属しています。");
+			}
+			
+			DirectlyAddLayer(layer);
+			layer.Scene = this;
+			layer.RaiseOnAdded();
+		}
+
+		internal void DirectlyAddLayer(Layer layer)
+		{
+			if(executing)
 			{
 				addingLayer.AddLast(layer);
 				return;
 			}
 
-			if (layer.Scene != null)
-			{
-				throw new InvalidOperationException("指定したレイヤーは、既に別のシーンに所属しています。");
-			}
 			layersToDraw_.Add(layer);
 			layersToUpdate_.Add(layer);
 			CoreInstance.AddLayer(layer.CoreLayer);
-			layer.Scene = this;
-			layer.RaiseOnAdded();
 		}
 
 		/// <summary>
@@ -137,6 +143,19 @@ namespace asd
 			DirectlyRemoveLayer(layer);
 			layer.RaiseOnRemoved();
 			layer.Scene = null;
+		}
+
+		internal void DirectlyRemoveLayer(Layer layer)
+		{
+			if(executing)
+			{
+				removingLayer.AddLast(layer);
+				return;
+			}
+
+			layersToDraw_.Remove(layer);
+			layersToUpdate_.Remove(layer);
+			CoreInstance.RemoveLayer(layer.CoreLayer);
 		}
 
 		/// <summary>
@@ -330,12 +349,12 @@ namespace asd
 		{
 			foreach(var layer in addingLayer)
 			{
-				AddLayer(layer);
+				DirectlyAddLayer(layer);
 			}
 
 			foreach(var layer in removingLayer)
 			{
-				RemoveLayer(layer);
+				DirectlyRemoveLayer(layer);
 			}
 
 			addingLayer.Clear();
@@ -382,20 +401,6 @@ namespace asd
 			CommitChanges();
 		}
 		#endregion
-
-
-		internal void DirectlyRemoveLayer(Layer layer)
-		{
-			if(executing)
-			{
-				removingLayer.AddLast(layer);
-				return;
-			}
-
-			layersToDraw_.Remove(layer);
-			layersToUpdate_.Remove(layer);
-			CoreInstance.RemoveLayer(layer.CoreLayer);
-		}
 
 
 		internal unsafe swig.CoreScene CoreInstance { get; private set; }

@@ -96,6 +96,7 @@
     <Compile Include="ObjectSystem2D\ParentObject.cs" />
     <Compile Include="ObjectSystem2D\ThrowIfDisposed.cs" />
     <Compile Include="BugFix\TransformOutOfUpdate.cs" />
+    <Compile Include="ObjectSystem2D\TimingOfRegisteringLayer.cs" />
     <Compile Include="ObjectSystem2D\UpdateFrequency.cs" />
     <Compile Include="BugFix\VanishInComponent.cs" />
     <Compile Include="Program.cs" />
