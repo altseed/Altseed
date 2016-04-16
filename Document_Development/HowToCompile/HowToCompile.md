@@ -142,6 +142,14 @@ Dev/unitTest_Engine_cs.sln
 
 ```Script/compile.py``` を実行します。
 
+# Java版への対応
+
+antをインストールします。
+
+Script/generateTranslatedCode.py　を実行します。
+
+Dev/asd_java/ でantと入力します。
+
 # リリース
 
 DoxygenとPandocをインストールします。
