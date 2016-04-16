@@ -10,7 +10,7 @@ namespace asd
 {
 	internal class ContentsManager<TContent> where TContent : Content
 	{
-		SortedList<int, LinkedList<TContent>> contents_ { get; }
+		SortedList<int, LinkedList<TContent>> contents_ { get; set; }
 
 		public IEnumerable<TContent> Contents
 		{
@@ -30,7 +30,8 @@ namespace asd
 			}
 			else
 			{
-				contents_[content.UpdatePriority] = new LinkedList<TContent>(new[] { content });
+				contents_[content.UpdatePriority] = new LinkedList<TContent>();
+				contents_[content.UpdatePriority].AddLast(content);
 			}
 			content.OnUpdatePriorityChanged += Redistribute;
 		}
