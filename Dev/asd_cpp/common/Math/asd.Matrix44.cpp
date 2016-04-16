@@ -55,6 +55,8 @@ Matrix44& Matrix44::SetTransposed()
 //----------------------------------------------------------------------------------
 Matrix44& Matrix44::SetInverted()
 {
+	auto e = 0.00001f;
+
 	float a11 = this->Values[0][0];
 	float a12 = this->Values[0][1];
 	float a13 = this->Values[0][2];
@@ -95,7 +97,7 @@ Matrix44& Matrix44::SetInverted()
 
 	// 行列式の逆数をかける
 	float Det = (a11 * b11) + (a12 * b21) + (a13 * b31) + (a14 * b41);
-	if ((-FLT_MIN <= Det) && (Det <= +FLT_MIN))
+	if ((-e <= Det) && (Det <= +e))
 	{
 		return *this;
 	}

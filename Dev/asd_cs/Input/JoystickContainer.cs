@@ -19,7 +19,7 @@ namespace asd
         {
             CoreInstance = jc;
             joysticks = new Joystick[MAX_JOYSTICK_NUM];
-            for(int i=0;i<MAX_JOYSTICK_NUM;++i)
+			for (int i = 0; i < MAX_JOYSTICK_NUM; i++)
             {
                 joysticks[i] = new Joystick(CoreInstance.GetJoystickAt(i));
             }
