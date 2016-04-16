@@ -442,22 +442,9 @@ namespace asd
 			OnDrawAdditionally();
 		}
 
-		public override void Dispose(bool disposeNative)
+		internal override void DisposeContents(bool disposeNative)
 		{
-			if(IsAlive)
-			{
-				OnDispose();
-				IsAlive = false;
-				contentsManager.Dispose(disposeNative);
-				if (Scene != null)
-				{
-					Scene.DirectlyRemoveLayer(this);
-				}
-				if (disposeNative)
-				{
-					ForceToRelease();
-				}
-			}
+			contentsManager.Dispose(disposeNative);
 		}
 
 		private ContentsManager<Object3D> contentsManager { get;set; }

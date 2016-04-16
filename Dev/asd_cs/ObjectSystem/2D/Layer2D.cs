@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd.ObjectSystem;
 
 namespace asd
 {
@@ -315,22 +316,9 @@ namespace asd
 			OnDrawAdditionally();
 		}
 
-		public override void Dispose(bool disposeNative)
+		internal override void DisposeContents(bool disposeNative)
 		{
-			if(IsAlive)
-			{
-				OnDispose();
-				IsAlive = false;
-				contentsManager.Dispose(disposeNative);
-				if (Scene != null)
-				{
-					Scene.DirectlyRemoveLayer(this);
-				}
-				if (disposeNative)
-				{
-					ForceToRelease();
-				}
-			}
+			contentsManager.Dispose(disposeNative);
 		}
 
 
