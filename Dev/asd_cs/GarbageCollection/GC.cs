@@ -6,6 +6,25 @@ using System.Threading.Tasks;
 
 namespace asd
 {
+	/// <summary>
+	/// C++のインスタンスの生成及び取得方法
+	/// </summary>
+	internal enum GenerationType
+	{
+		/// <summary>
+		/// ファイルパス等からC++のインスタンスが生成された場合
+		/// 生成時に使い回しをしている場合、カウンタを増やしているので、
+		/// 使い回しと判定した場合、カウンタを減らす
+		/// </summary>
+		Create = 0,
+
+		/// <summary>
+		/// C++のインスタンスを取得した場合、
+		/// 新規の場合はC#側でC++のインスタンスを保持するのでカウンタを増やす
+		/// </summary>
+		Get = 1,
+	}
+
     static class GC
     {
         internal static GarbageCollector Collector { get; private set; }
@@ -215,25 +234,6 @@ namespace asd
                 System.GC.Collect();
                 Collector.Collect();
             }
-        }
-
-        /// <summary>
-        /// C++のインスタンスの生成及び取得方法
-        /// </summary>
-        public enum GenerationType
-        {
-            /// <summary>
-            /// ファイルパス等からC++のインスタンスが生成された場合
-            /// 生成時に使い回しをしている場合、カウンタを増やしているので、
-            /// 使い回しと判定した場合、カウンタを減らす
-            /// </summary>
-            Create,
-
-            /// <summary>
-            /// C++のインスタンスを取得した場合、
-            /// 新規の場合はC#側でC++のインスタンスを保持するのでカウンタを増やす
-            /// </summary>
-            Get,
         }
 
         /// <summary>
