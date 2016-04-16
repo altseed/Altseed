@@ -221,8 +221,8 @@ namespace asd
 					var src_ = Scene.CoreInstance.GetSrcTarget();
 					var dst_ = Scene.CoreInstance.GetDstTarget();
 
-					RenderTexture2D src = GC.GenerateRenderTexture2D(src_, GC.GenerationType.Get);
-					RenderTexture2D dst = GC.GenerateRenderTexture2D(dst_, GC.GenerationType.Get);
+					RenderTexture2D src = GC.GenerateRenderTexture2D(src_, GenerationType.Get);
+					RenderTexture2D dst = GC.GenerateRenderTexture2D(dst_, GenerationType.Get);
 
 					p.Draw(dst, src);
 

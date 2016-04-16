@@ -521,7 +521,7 @@ namespace asd
 		/// <returns>カーソル</returns>
 		public static Cursor CreateCursor(string path, Vector2DI hot)
 		{
-			return GC.GenerateCursor(core.CreateCursor(path, hot), GC.GenerationType.Create);
+			return GC.GenerateCursor(core.CreateCursor(path, hot), GenerationType.Create);
 		}
 
 		/// <summary>

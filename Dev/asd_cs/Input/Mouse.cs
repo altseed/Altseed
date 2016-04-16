@@ -36,7 +36,7 @@ namespace asd
             rightButton.SetState(mstate);
 
 			mstate = (MouseButtonState)CoreInstance.GetMiddleButton().GetButtonState();
-			double rot = CoreInstance.GetMiddleButton().GetRotation();
+			float rot = CoreInstance.GetMiddleButton().GetRotation();
             middleButton.SetState(mstate, rot);
         }
 

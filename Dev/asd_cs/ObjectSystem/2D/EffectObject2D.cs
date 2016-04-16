@@ -36,7 +36,7 @@ namespace asd
 			get
 			{
 				ThrowIfReleased();
-				return GC.GenerateEffect(swig.Accessor.CoreEffectObject2D_GetEffect(coreEffectObject), GC.GenerationType.Get);
+				return GC.GenerateEffect(swig.Accessor.CoreEffectObject2D_GetEffect(coreEffectObject), GenerationType.Get);
 			}
 			set
 			{

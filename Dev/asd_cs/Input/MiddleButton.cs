@@ -14,7 +14,7 @@ namespace asd
         /// <summary>
         /// 回転度合いを保持する変数
         /// </summary>
-        private double rotation;
+        private float rotation;
 
         /// <summary>
         /// 押下状態を保持する変数
@@ -31,7 +31,7 @@ namespace asd
         /// </summary>
         /// <param name="mbuttonstate">押し状態</param>
         /// <param name="rot">回転度合い</param>
-        internal void SetState(MouseButtonState mbuttonstate,double rot)
+		internal void SetState(MouseButtonState mbuttonstate, float rot)
         {
             rotation = rot;
             mouseButtonState = mbuttonstate;
@@ -40,7 +40,7 @@ namespace asd
         /// <summary>
         /// ホイールの回転度合いを返すプロパティ
         /// </summary>
-        public double WheelRotation
+		public float WheelRotation
         {
             get { return rotation; }
         }

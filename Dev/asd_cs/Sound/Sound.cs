@@ -24,7 +24,7 @@ namespace asd
 		/// <returns>音源</returns>
 		public SoundSource CreateSoundSource(string path, bool isDecompressed)
 		{
-			return GC.GenerateSoundSource(swig.Accessor.Sound_CreateSoundSource(CoreInstance, path, isDecompressed), GC.GenerationType.Create);
+			return GC.GenerateSoundSource(swig.Accessor.Sound_CreateSoundSource(CoreInstance, path, isDecompressed), GenerationType.Create);
 		}
 	}
 }

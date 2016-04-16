@@ -61,7 +61,7 @@ namespace asd
         /// <returns>アニメーションクリップ</returns>
         public AnimationClip GetAnimationClip(int index)
         {
-            return GC.GenerateAnimationClip(swig.Accessor.Model_GetAnimationClip(CoreInstance, index), GC.GenerationType.Get);
+            return GC.GenerateAnimationClip(swig.Accessor.Model_GetAnimationClip(CoreInstance, index), GenerationType.Get);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace asd
         /// <returns></returns>
         public Mesh GetMesh(int index)
         {
-            return GC.GenerateMesh(swig.Accessor.Model_GetMesh(CoreInstance, index), GC.GenerationType.Get);
+            return GC.GenerateMesh(swig.Accessor.Model_GetMesh(CoreInstance, index), GenerationType.Get);
         }
     }
 }

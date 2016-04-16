@@ -21,7 +21,7 @@ namespace asd
 		public Texture2D CreateTexture2D(string path)
 		{
 			var texture = CoreInstance.CreateTexture2D_Imp(path);
-			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
+			return GC.GenerateTexture2D(texture, GenerationType.Create);
 		}
 
 		/// <summary>
@@ -35,7 +35,7 @@ namespace asd
 		public Texture2D CreateTexture2DAsRawData(string path)
 		{
 			var texture = CoreInstance.CreateTexture2DAsRawData_Imp(path);
-			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
+			return GC.GenerateTexture2D(texture, GenerationType.Create);
 		}
 
 		/// <summary>
@@ -48,7 +48,7 @@ namespace asd
 		public Texture2D CreateEmptyTexture2D(int width, int height, TextureFormat format)
 		{
 			var texture = CoreInstance.CreateEmptyTexture2D_Imp(width, height, (swig.TextureFormat)format);
-			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
+			return GC.GenerateTexture2D(texture, GenerationType.Create);
 		}
 
 		/// <summary>
@@ -62,7 +62,7 @@ namespace asd
 		public Texture2D CreateEditableTexture2D(string path)
 		{
 			var texture = CoreInstance.CreateEditableTexture2D_Imp(path);
-			return GC.GenerateTexture2D(texture, GC.GenerationType.Create);
+			return GC.GenerateTexture2D(texture, GenerationType.Create);
 		}
 
 		/// <summary>
@@ -100,7 +100,7 @@ namespace asd
 		/// <returns>キューブマップ</returns>
 		public CubemapTexture CreateCubemapTextureFrom6ImageFiles(string front, string left, string back, string right, string top, string bottom)
 		{
-			return GC.GenerateCubemapTexture(CoreInstance.CreateCubemapTextureFrom6ImageFiles_(front, left, back, right, top, bottom), GC.GenerationType.Create);
+			return GC.GenerateCubemapTexture(CoreInstance.CreateCubemapTextureFrom6ImageFiles_(front, left, back, right, top, bottom), GenerationType.Create);
 		}
 
 		/// <summary>
@@ -111,7 +111,7 @@ namespace asd
 		/// <returns>キューブマップ</returns>
 		public CubemapTexture CreateCubemapTextureFromMipmapImageFiles(string path, int mipmapCount)
 		{
-			return GC.GenerateCubemapTexture(CoreInstance.CreateCubemapTextureFromMipmapImageFiles_(path, mipmapCount), GC.GenerationType.Create);
+			return GC.GenerateCubemapTexture(CoreInstance.CreateCubemapTextureFromMipmapImageFiles_(path, mipmapCount), GenerationType.Create);
 		}
 
 		/// <summary>
@@ -121,7 +121,7 @@ namespace asd
 		/// <returns>キューブマップ</returns>
 		public CubemapTexture CreateCubemapTextureFromSingleImageFile(string path)
 		{
-			return GC.GenerateCubemapTexture(CoreInstance.CreateCubemapTextureFromSingleImageFile_(path), GC.GenerationType.Create);
+			return GC.GenerateCubemapTexture(CoreInstance.CreateCubemapTextureFromSingleImageFile_(path), GenerationType.Create);
 		}
 
 		/// <summary>
@@ -176,7 +176,7 @@ namespace asd
 		public Shader3D CreateShader3D(string shaderText)
 		{
 			var shader = CoreInstance.CreateShader3D_(shaderText);
-			return GC.GenerateShader3D(shader, GC.GenerationType.Create);
+			return GC.GenerateShader3D(shader, GenerationType.Create);
 		}
 
 		/// <summary>
@@ -187,7 +187,7 @@ namespace asd
 		public Material3D CreateMaterial3D(Shader3D shader)
 		{
 			var material = CoreInstance.CreateMaterial3D_(shader.CoreInstance);
-			return GC.GenerateMaterial3D(material, GC.GenerationType.Create);
+			return GC.GenerateMaterial3D(material, GenerationType.Create);
 		}
 
 		/// <summary>
@@ -196,7 +196,7 @@ namespace asd
 		/// <returns>マテリアルプロパティブロック</returns>
 		public MaterialPropertyBlock CreateMaterialPropertyBlock()
 		{
-			return GC.GenerateMaterialPropertyBlock(CoreInstance.CreateMaterialPropertyBlock_(), GC.GenerationType.Create);
+			return GC.GenerateMaterialPropertyBlock(CoreInstance.CreateMaterialPropertyBlock_(), GenerationType.Create);
 		}
 
 		/// <summary>
@@ -205,7 +205,7 @@ namespace asd
 		/// <returns>メッシュ</returns>
 		public Mesh CreateMesh()
 		{
-			return GC.GenerateMesh(CoreInstance.CreateMesh_(), GC.GenerationType.Create);
+			return GC.GenerateMesh(CoreInstance.CreateMesh_(), GenerationType.Create);
 		}
 
 		/// <summary>
@@ -214,7 +214,7 @@ namespace asd
 		/// <returns>デフォーマー</returns>
 		public Deformer CreateDeformer()
 		{
-			return GC.GenerateDeformer(CoreInstance.CreateDeformer_(), GC.GenerationType.Create);
+			return GC.GenerateDeformer(CoreInstance.CreateDeformer_(), GenerationType.Create);
 		}
 
 		/// <summary>
@@ -226,7 +226,7 @@ namespace asd
 		{
 			var model = CoreInstance.CreateModel_(path);
 			if (model == null) return null;
-			return GC.GenerateModel(model, GC.GenerationType.Create);
+			return GC.GenerateModel(model, GenerationType.Create);
 		}
 
 		/// <summary>
@@ -238,7 +238,7 @@ namespace asd
 		{
 			var model = CoreInstance.CreateMassModelFromModelFile_(path);
 			if (model == null) return null;
-			return GC.GenerateMassModel(model, GC.GenerationType.Create);
+			return GC.GenerateMassModel(model, GenerationType.Create);
 		}
 
 		/// <summary>
@@ -250,7 +250,7 @@ namespace asd
 		{
 			var model = CoreInstance.CreateMassModel_(path);
 			if (model == null) return null;
-			return GC.GenerateMassModel(model, GC.GenerationType.Create);
+			return GC.GenerateMassModel(model, GenerationType.Create);
 		}
 
 		/// <summary>
@@ -261,7 +261,7 @@ namespace asd
 		{
 			var terrain = CoreInstance.CreateTerrain3D_();
 			if (terrain == null) return null;
-			return GC.GenerateTerrain3D(terrain, GC.GenerationType.Create);
+			return GC.GenerateTerrain3D(terrain, GenerationType.Create);
 		}
 
 		/// <summary>
@@ -273,7 +273,7 @@ namespace asd
 		{
 			var effect = CoreInstance.CreateEffect_(path);
 			if (effect == null) return null;
-			return GC.GenerateEffect(effect, GC.GenerationType.Create);
+			return GC.GenerateEffect(effect, GenerationType.Create);
 		}
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace asd
         {
             var font = CoreInstance.CreateFont_(path);
             if (font == null) return null;
-            return GC.GenerateFont(font, GC.GenerationType.Create);
+            return GC.GenerateFont(font, GenerationType.Create);
         }
 
 		/// <summary>
@@ -307,7 +307,7 @@ namespace asd
 		{
 			var font_ = CoreInstance.CreateDynamicFont_(font, fontSize, color, outlineSize, outlineColor);
 			if (font_ == null) return null;
-			return GC.GenerateFont(font_, GC.GenerationType.Create);
+			return GC.GenerateFont(font_, GenerationType.Create);
 		}
 
 		/// <summary>
@@ -319,7 +319,7 @@ namespace asd
 		{
 			 var ip = CoreInstance.CreateImagePackage_(path);
             if (ip == null) return null;
-            return GC.GenerateImagePackage(ip, GC.GenerationType.Create);
+            return GC.GenerateImagePackage(ip, GenerationType.Create);
 		}
 
 		/// <summary>

@@ -82,7 +82,7 @@ namespace asd
         /// </summary>
         public Texture2D Texture
         {
-            get { return GC.GenerateTexture2D(swig.Accessor.Chip2D_GetTexture(CoreInstance), GC.GenerationType.Get); }
+            get { return GC.GenerateTexture2D(swig.Accessor.Chip2D_GetTexture(CoreInstance), GenerationType.Get); }
             set { CoreInstance.SetTexture(IG.GetTexture2D(value)); }
         }
 

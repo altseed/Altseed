@@ -385,7 +385,7 @@ namespace asd
 		public Texture2D OceanNormalMap
 		{
 			get { ThrowIfReleased();
-				return GC.GenerateTexture2D(coreLayer3D.GetOceanNormalMap(), GC.GenerationType.Get); }
+				return GC.GenerateTexture2D(coreLayer3D.GetOceanNormalMap(), GenerationType.Get); }
 			set { ThrowIfReleased();
 				coreLayer3D.SetOceanNormalMap(IG.GetTexture2D(value)); }
 		}
@@ -393,7 +393,7 @@ namespace asd
 		public Texture2D OceanMask
 		{
 			get { ThrowIfReleased();
-				return GC.GenerateTexture2D(coreLayer3D.GetOceanMask(), GC.GenerationType.Get); }
+				return GC.GenerateTexture2D(coreLayer3D.GetOceanMask(), GenerationType.Get); }
 			set { ThrowIfReleased();
 				coreLayer3D.SetOceanMask(IG.GetTexture2D(value)); }
 		}

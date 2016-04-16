@@ -43,7 +43,7 @@ namespace asd
 		/// </summary>
 		public Texture2D Texture
 		{
-			get { return GC.GenerateTexture2D(coreCameraObject.GetTexture(), GC.GenerationType.Get); }
+			get { return GC.GenerateTexture2D(coreCameraObject.GetTexture(), GenerationType.Get); }
 		}
 
 		///<summary>

@@ -63,7 +63,7 @@ namespace asd
         {
             get
             {
-                return GC.GenerateAnimationSource(swig.Accessor.AnimationClip_GetSource(CoreInstance), GC.GenerationType.Get);
+                return GC.GenerateAnimationSource(swig.Accessor.AnimationClip_GetSource(CoreInstance), GenerationType.Get);
             }
             set
             {

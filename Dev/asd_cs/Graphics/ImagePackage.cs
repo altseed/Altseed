@@ -61,7 +61,7 @@ namespace asd
         /// <returns>画像</returns>
         public Texture2D GetImage(int index)
         {
-            return GC.GenerateTexture2D(swig.Accessor.ImagePackage_GetImage(CoreInstance, index), GC.GenerationType.Get);
+            return GC.GenerateTexture2D(swig.Accessor.ImagePackage_GetImage(CoreInstance, index), GenerationType.Get);
         }
     }
 }

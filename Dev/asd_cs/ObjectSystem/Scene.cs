@@ -93,7 +93,7 @@ namespace asd
 		{
 			get
 			{
-				return GC.GenerateRenderTexture2D(CoreInstance.GetBaseTarget(), GC.GenerationType.Get);
+				return GC.GenerateRenderTexture2D(CoreInstance.GetBaseTarget(), GenerationType.Get);
 			}
 		}
 

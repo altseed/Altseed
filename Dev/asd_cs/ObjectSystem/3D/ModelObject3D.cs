@@ -63,7 +63,7 @@ namespace asd
 		/// <returns>アニメーションクリップ</returns>
 		public AnimationClip GetAnimationClip(string name)
 		{
-			return GC.GenerateAnimationClip(coreObject.GetAnimationClip(name), GC.GenerationType.Get);
+			return GC.GenerateAnimationClip(coreObject.GetAnimationClip(name), GenerationType.Get);
 		}
 
 		/// <summary>

@@ -99,7 +99,7 @@ namespace asd
         public Texture2D GetTexture2D(string name)
         {
             var swigObj = swig.Accessor.MaterialPropertyBlock_GetTexture2D(CoreInstance, name);
-            return GC.GenerateTexture2D(swigObj, GC.GenerationType.Get);
+            return GC.GenerateTexture2D(swigObj, GenerationType.Get);
         }
 
         public void SetTexture2D(string name, Texture2D value)

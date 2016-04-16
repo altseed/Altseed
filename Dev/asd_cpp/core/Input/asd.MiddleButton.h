@@ -21,8 +21,8 @@ namespace asd{
 		/**
 		@brief ホイールの回転度合いを返す
 		*/
-		virtual double GetRotation() const;
-		MiddleButton(MouseButtonState mouseButtonState,double rotation);
+		virtual float GetRotation() const;
+		MiddleButton(MouseButtonState mouseButtonState, float rotation);
 		MiddleButton(){}
 	};
 };

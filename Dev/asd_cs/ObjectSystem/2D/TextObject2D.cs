@@ -75,7 +75,7 @@ namespace asd
 			get
 			{
 				ThrowIfReleased();
-				return GC.GenerateFont(coreTextObject.GetFont(), GC.GenerationType.Get);
+				return GC.GenerateFont(coreTextObject.GetFont(), GenerationType.Get);
 			}
 			set
 			{

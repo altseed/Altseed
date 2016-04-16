@@ -66,7 +66,7 @@ namespace asd
 			get
 			{
 				ThrowIfReleased();
-				return GC.GenerateTexture2D(renderedObject.GetTexture(), GC.GenerationType.Get);
+				return GC.GenerateTexture2D(renderedObject.GetTexture(), GenerationType.Get);
 			}
 			set
 			{
