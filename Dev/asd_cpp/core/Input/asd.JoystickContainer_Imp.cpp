@@ -4,7 +4,7 @@
 namespace asd{
 	JoystickContainer_Imp::JoystickContainer_Imp()
 	{
-		for (int i = 0; i < MAX_CONTAINER_SIZE; ++i)
+		for (int i = 0; i < MAX_CONTAINER_SIZE; i++)
 		{
 			m_joystickContainer[i] = Joystick_Imp::Create(i);
 			isPresent[i] = glfwJoystickPresent(i) == GL_TRUE;
@@ -13,7 +13,7 @@ namespace asd{
 
 	JoystickContainer_Imp::~JoystickContainer_Imp()
 	{
-		for (int i = 0; i < MAX_CONTAINER_SIZE; ++i)
+		for (int i = 0; i < MAX_CONTAINER_SIZE; i++)
 		{
 			SafeDelete(m_joystickContainer[i]);
 		}
@@ -21,7 +21,7 @@ namespace asd{
 
 	void JoystickContainer_Imp::RefreshJoysticks()
 	{
-		for (int i = 0; i < MAX_CONTAINER_SIZE; ++i)
+		for (int i = 0; i < MAX_CONTAINER_SIZE; i++)
 		{
 			if (GetIsPresentAt(i)) m_joystickContainer[i]->RefreshInputState();
 		}
@@ -44,7 +44,7 @@ namespace asd{
 
 	void JoystickContainer_Imp::RefreshAllJoysticks()
 	{
-		for (int i = 0; i < MAX_CONTAINER_SIZE; ++i)
+		for (int i = 0; i < MAX_CONTAINER_SIZE; i++)
 		{
 			isPresent[i] = glfwJoystickPresent(i) == GL_TRUE;
 		}
