@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using asd.ObjectSystem;
 
 namespace asd
 {
@@ -115,7 +116,43 @@ namespace asd
 			Dispose(false);
 		}
 
-		public abstract void Dispose(bool disposeNative);
+		/// <summary>
+		/// このレイヤーを破棄する。
+		/// </summary>
+		/// <param name="disposeNative">ネイティブ リソースを即解放するかどうかの真偽値</param>
+		public void Dispose(bool disposeNative)
+		{
+			if(IsAlive)
+			{
+				IsAlive = false;
+
+				if(IsUpdating)
+				{
+					// 登録されているオブジェクトの列挙中にDisposeが走ってコレクションが変更されるのを防ぐため
+					Disposing = new DisposingOfLayer(disposeNative);
+				}
+				else
+				{
+					DisposeDirectly(disposeNative);
+				}
+			}
+		}
+
+		private void DisposeDirectly(bool disposeNative)
+		{
+			OnDispose();
+			DisposeContents(disposeNative);
+			if(Scene != null)
+			{
+				Scene.DirectlyRemoveLayer(this);
+			}
+			if(disposeNative)
+			{
+				ForceToRelease();
+			}
+		}
+
+		internal abstract void DisposeContents(bool disposeNative);
 
 		internal abstract void BeginUpdating();
 
@@ -123,10 +160,18 @@ namespace asd
 
 		internal virtual void Update()
 		{
+			if(Disposing != null)
+			{
+				DisposeDirectly(Disposing.DisposeNative);
+				return;
+			}
+
 			if(!IsAlive || !isUpdatedCurrent)
 			{
 				return;
 			}
+
+			IsUpdating = true;
 
 			CoreLayer.BeginMeasureUpdateTime();
 
@@ -140,6 +185,8 @@ namespace asd
 			}
 
 			CoreLayer.EndMeasureUpdateTime();
+
+			IsUpdating = false;
 		}
 
 		internal abstract void UpdateInternal();
@@ -299,5 +346,9 @@ namespace asd
 		internal List<PostEffect> postEffects;
 
 		internal bool isUpdatedCurrent;
+
+		private bool IsUpdating { get; set; }
+
+		private DisposingOfLayer Disposing { get; set; }
 	}
 }

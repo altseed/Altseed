@@ -34,7 +34,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 		private Scene scene_;
 
 		public DisposeLayerByContent()
-			: base(1200)
+			: base(300)
 		{
 		}
 
@@ -49,7 +49,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 
 		protected override void OnUpdating()
 		{
-			if (Time == 300)
+			if (Time == 120)
 			{
 				GC.Collect();
 			}

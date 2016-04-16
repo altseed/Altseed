@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Mime;
 using System.Text;
 using System.Threading.Tasks;
 using asd.Particular;
@@ -11,6 +10,10 @@ namespace asd
 	internal class ContentsManager<TContent> where TContent : Content
 	{
 		SortedList<int, LinkedList<TContent>> contents_ { get; set; }
+		LinkedList<TContent> beAdded { get; set; }
+		LinkedList<TContent> beRemoved { get; set; }
+
+		bool isUpdating { get; set; }
 
 		public IEnumerable<TContent> Contents
 		{
@@ -20,6 +23,9 @@ namespace asd
 		public ContentsManager()
 		{
 			contents_ = new SortedList<int, LinkedList<TContent>>();
+			beAdded = new LinkedList<TContent>();
+			beRemoved = new LinkedList<TContent>();
+			isUpdating = false;
 		}
 
 		private void AddToContents(TContent content)
@@ -30,9 +36,8 @@ namespace asd
 			}
 			else
 			{
-				contents_[content.UpdatePriority] = new LinkedList<TContent>();
-				contents_[content.UpdatePriority].AddLast(content);
-			}
+				contents_[content.UpdatePriority] = new LinkedList<TContent>(new[] { content });
+            }
 			content.OnUpdatePriorityChanged += Redistribute;
 		}
 
@@ -59,36 +64,80 @@ namespace asd
 				Particular.Helper.ThrowException("ArgumentNullException(Content)");
 			}
 
-			AddToContents(content);
+			if(isUpdating)
+			{
+				beAdded.AddLast(content);
+			}
+			else
+			{
+				AddToContents(content);
+			}
 		}
 
 		public bool Remove(TContent content)
 		{
-			return RemoveFromContents(content);
+			if(isUpdating)
+			{
+				beRemoved.AddLast(content);
+				return Contents.Contains(content) || beAdded.Contains(content);
+			}
+			else
+			{
+				return RemoveFromContents(content);
+			}
 		}
 
 		public void Clear()
 		{
-			foreach (var content in Contents.ToArray())
+			if(isUpdating)
 			{
-				RemoveFromContents(content);
+				foreach(var item in Contents)
+				{
+					beRemoved.AddLast(item);
+				}
+				beAdded.Clear();
+			}
+			else
+			{
+				contents_.Clear();
 			}
 		}
 
 		public void Update()
 		{
-			foreach(var item in Contents.ToArray())
+			isUpdating = true;
+
+			foreach(var item in Contents)
 			{
 				item.Update();
 			}
+
+			isUpdating = false;
+
+			foreach(var item in beAdded)
+			{
+				AddToContents(item);
+			}
+
+			foreach(var item in beRemoved)
+			{
+				RemoveFromContents(item);
+			}
+
+			beAdded.Clear();
+			beRemoved.Clear();
 		}
 
 		public void Dispose(bool disposeNative)
 		{
-			foreach(var item in Contents.ToArray())
+			isUpdating = true;
+
+			foreach (var item in Contents)
 			{
 				item.Dispose(disposeNative);
 			}
+
+			isUpdating = false;
 		}
 	}
 }
