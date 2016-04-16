@@ -67,6 +67,8 @@ namespace asd
 		/// </summary>
 		public void SetInverted()
 		{
+			var e = 0.00001f;
+
 			fixed (float* v = Values)
 			{
 				float a11 = v[0 * 4 + 0];
@@ -109,7 +111,7 @@ namespace asd
 
 				// 行列式の逆数をかける
 				float Det = (a11 * b11) + (a12 * b21) + (a13 * b31) + (a14 * b41);
-				if ((-float.Epsilon <= Det) && (Det <= +float.Epsilon))
+				if ((-e <= Det) && (Det <= +e))
 				{
 					return;
 				}
