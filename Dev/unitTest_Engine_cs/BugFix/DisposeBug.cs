@@ -57,7 +57,7 @@ namespace unitTest_Engine_cs.BugFix
 		}
 
 		public DisposeBug()
-			: base(600)
+			: base(60)
 		{
 		}
 
