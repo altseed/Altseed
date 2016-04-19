@@ -15,6 +15,7 @@
 #include <Math/asd.RectI.h>
 #include <Math/asd.RectF.h>
 
+#include <Math/asd.Matrix33.h>
 #include <Math/asd.Matrix44.h>
 
 #include <Graphics/asd.Graphics.Common.h>
@@ -72,6 +73,8 @@ namespace asd
 
 		static void EnqueueRectF(const RectF& v);
 		static void EnqueueRectI(const RectI& v);
+
+		static void EnqueueMatrix33(const Matrix33& v);
 
 		static void EnqueueMatrix44(const Matrix44& v);
 
