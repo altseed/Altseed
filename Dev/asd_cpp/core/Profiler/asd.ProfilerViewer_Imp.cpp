@@ -25,6 +25,7 @@ namespace asd
 	const int COLUMN1_OFFSET = 15;
 	const int COLUMN2_OFFSET = 80;
 	const int COLUMN3_OFFSET = 160;
+	const int LAYER_NAME_OFFSET = 40;
 	const int DRAWCALL_OFFSET = 80;
 	const Color SECTION_HEADER_COLOR = Color(255, 255, 0, 255);
 	const Color HEADER_COLOR = Color(128, 128, 128, 255);
@@ -160,12 +161,12 @@ namespace asd
 			ToAString("Name"));
 
 		DrawTextSprite(
-			Vector2DF(COLUMN2_OFFSET, top + ROW_HEIGHT),
+			Vector2DF(COLUMN2_OFFSET + LAYER_NAME_OFFSET, top + ROW_HEIGHT),
 			HEADER_COLOR,
 			ToAString("Time(ns)"));
 
 		DrawTextSprite(
-			Vector2DF(COLUMN3_OFFSET, top + ROW_HEIGHT),
+			Vector2DF(COLUMN3_OFFSET + LAYER_NAME_OFFSET, top + ROW_HEIGHT),
 			HEADER_COLOR,
 			ToAString("Objects"));
 
@@ -179,12 +180,12 @@ namespace asd
 				profile->GetName());
 
 			DrawTextSprite(
-				Vector2DF(COLUMN2_OFFSET, bodyTop + index * ROW_HEIGHT),
+				Vector2DF(COLUMN2_OFFSET + LAYER_NAME_OFFSET, bodyTop + index * ROW_HEIGHT),
 				CONTENT_COLOR,
 				ToAString(to_string(profile->GetTime()).c_str()));
 
 			DrawTextSprite(
-				Vector2DF(COLUMN3_OFFSET, bodyTop + index * ROW_HEIGHT),
+				Vector2DF(COLUMN3_OFFSET + LAYER_NAME_OFFSET, bodyTop + index * ROW_HEIGHT),
 				CONTENT_COLOR,
 				ToAString(to_string(profile->GetObjectCount()).c_str()));
 

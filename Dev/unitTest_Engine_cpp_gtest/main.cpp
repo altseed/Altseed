@@ -124,8 +124,8 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	/*
-	CALL_ENGINE_TEST(Graphics, DrawSpriteAdditionally3D, true);
+	//*
+	CALL_ENGINE_TEST(Profiler, Profiling, true);
 	getchar();
 	return 0;
 	//*/

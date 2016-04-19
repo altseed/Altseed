@@ -119,7 +119,7 @@
     <Compile Include="ObjectSystem\ContentsManager.cs" />
     <Compile Include="ObjectSystem\Layer.cs" />
     <Compile Include="ObjectSystem\2D\Layer2D.cs" />
-    <Compile Include="ObjectSystem\ManagerDisposingLayer.cs" />
+    <Compile Include="ObjectSystem\DisposingOfLayer.cs" />
     <Compile Include="ObjectSystem\ObjectSystemFactory.cs" />
     <Compile Include="ObjectSystem\PostEffect\PostEffectGrayScale.cs" />
     <Compile Include="ObjectSystem\PostEffect\PostEffect.cs" />
