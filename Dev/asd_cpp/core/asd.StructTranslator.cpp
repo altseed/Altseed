@@ -192,6 +192,12 @@ namespace asd
 		buffers[size - 1].Int = v.Height;
 	}
 
+	void StructTranslator::EnqueueMatrix33(const Matrix33& v)
+	{
+		size += 9;
+		memcpy(&(buffers[size - 9].Float), &v, sizeof(float) * 9);
+	}
+
 	void StructTranslator::EnqueueMatrix44(const Matrix44& v)
 	{
 		size += 16;
