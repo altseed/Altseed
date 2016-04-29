@@ -66,14 +66,14 @@ public class Helper
 		{
 			String os = System.getProperty("os.name").toLowerCase();
 
-			var isUnix = os.startsWith("linux") || os.startsWith("mac");
+			Boolean isUnix = os.startsWith("linux") || os.startsWith("mac");
 			
 			if(isUnix)
 			{
-				return GraphicsDeviceType.OpenGL;
+				return asd.GraphicsDeviceType.OpenGL;
 			}
 
-			return GraphicsDeviceType.DirectX11;
+			return asd.GraphicsDeviceType.DirectX11;
 		}
 
 		public static void ThrowException(String message)
@@ -86,7 +86,7 @@ public class Helper
 			Formatter fm = new Formatter();
 			fm.format("未登録のクラス%sを検出しました。", o);
 
-			throw new Exception(fm);
+			throw new Exception(fm.toString());
 		}
 
 		public static void ThrowUnreleasedInstanceException(int count)
@@ -94,7 +94,6 @@ public class Helper
 			Formatter fm = new Formatter();
 			fm.format("未開放のインスタンスが%s個存在します。", count);
 
-
-			throw new Exception(fm);
+			throw new Exception(fm.toString());
 		}
 }
