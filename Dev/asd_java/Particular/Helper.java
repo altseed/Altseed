@@ -11,7 +11,7 @@ public class Helper
 		{
 			asd.GraphicsDeviceType device = GetDefaultDevice();
 
-			if(device == GraphicsDeviceType.DirectX11)
+			if(device == asd.GraphicsDeviceType.DirectX11)
 			{
 				if (!HasDLL("D3DCOMPILER_43.dll"))
 				{

@@ -16,10 +16,15 @@ namespace asd.Particular
 
 		static public bool CheckInitialize()
 		{
-			if (!HasDLL("D3DCOMPILER_43.dll"))
+			var device = GetDefaultDevice();
+
+			if(device == GraphicsDeviceType.DirectX11)
 			{
-				System.Windows.Forms.MessageBox.Show("最新のDirectXEndUserRuntimeをインストールしてください。");
-				return false;
+				if (!HasDLL("D3DCOMPILER_43.dll"))
+				{
+					System.Windows.Forms.MessageBox.Show("最新のDirectXEndUserRuntimeをインストールしてください。");
+					return false;
+				}
 			}
 
 			if (!Check45())
