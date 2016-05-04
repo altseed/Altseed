@@ -386,10 +386,24 @@ namespace asd
 					Layer.AddObject(item);
 				}
 			}
+
+			componentManager_.StartEnumerate();
+			foreach (var component in componentManager_.Components)
+			{
+				component.RaiseOnAdded();
+			}
+			componentManager_.EndEnumerate();
 		}
 
 		internal void RaiseOnRemoved()
 		{
+			componentManager_.StartEnumerate();
+			foreach(var component in componentManager_.Components)
+			{
+				component.RaiseOnRemoved();
+			}
+			componentManager_.EndEnumerate();
+
 			foreach(var item in Lambda.FilterDeadObject(ChildrenList))
 			{
 				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
@@ -445,7 +459,13 @@ namespace asd
 			{
 				Lambda.RemoveDead(ChildrenList);
 				OnUpdate();
-				componentManager_.Update();
+
+				componentManager_.StartEnumerate();
+				foreach(var component in componentManager_.Components)
+				{
+					component.RaiseOnUpdate();
+				}
+				componentManager_.EndEnumerate();
 			}
 		}
 

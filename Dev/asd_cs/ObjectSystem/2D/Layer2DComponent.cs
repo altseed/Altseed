@@ -30,15 +30,62 @@ namespace asd
 		public bool IsUpdated { get; set; }
 
 		/// <summary>
-		/// オーバーライドして、このコンポーネントの Update時の処理を記述できる。
+		/// オーバーライドして、このコンポーネントを持つレイヤーが更新される直前の処理を記述できる。
 		/// </summary>
-		protected abstract void OnUpdated();
+		protected virtual void OnUpdating()
+		{
+		}
 
-		internal override void Update()
+		/// <summary>
+		/// オーバーライドして、このコンポーネントを持つレイヤーが更新された直後の処理を記述できる。
+		/// </summary>
+		protected virtual void OnUpdated()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このコンポーネントを持つレイヤーがシーンに登録された時の処理を記述できる。
+		/// </summary>
+		protected virtual void OnAdded()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このコンポーネントを持つレイヤーがシーンから登録解除された時の処理を記述できる。
+		/// </summary>
+		protected virtual void OnRemoved()
+		{
+		}
+
+		internal void RaiseOnUpdating()
+		{
+			if (IsAlive && IsUpdated)
+			{
+				OnUpdating();
+			}
+		}
+
+		internal void RaiseOnUpdated()
 		{
 			if( IsAlive && IsUpdated )
 			{
 				OnUpdated();
+			}
+		}
+
+		internal void RaiesOnAdded()
+		{
+			if (IsAlive)
+			{
+				OnAdded();
+			}
+		}
+
+		internal void RaiesOnRemoved()
+		{
+			if (IsAlive)
+			{
+				OnRemoved();
 			}
 		}
 	}

@@ -13,7 +13,7 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
 			//*
-			TestSequencially(typeof(ObjectSystem2D.TimingOfRegisteringLayer));
+			TestSequencially(typeof(ObjectSystem2D.Layer2DComponentLifeCycle));
 			Console.ReadKey();
 			return;
 			//*/

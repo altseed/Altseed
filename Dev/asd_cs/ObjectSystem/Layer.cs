@@ -97,12 +97,12 @@ namespace asd
 
 
 		#region イベント
-		internal void RaiseOnAdded()
+		internal virtual void RaiseOnAdded()
 		{
 			OnAdded();
 		}
 
-		internal void RaiseOnRemoved()
+		internal virtual void RaiseOnRemoved()
 		{
 			OnRemoved();
 		}

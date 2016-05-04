@@ -29,15 +29,47 @@ namespace asd
 		public bool IsUpdated { get; set; }
 
 		/// <summary>
-		/// オーバーライドして、このコンポーネントの Update時の処理を記述できる。
+		/// オーバーライドして、このコンポーネントを持つオブジェクトが更新される時の処理を記述できる。
 		/// </summary>
-		protected abstract void OnUpdate();
+		protected virtual void OnUpdate()
+		{
+		}
 
-		internal override void Update()
+		/// <summary>
+		/// オーバーライドして、このコンポーネントを持つオブジェクトがレイヤーに登録された時の処理を記述できる。
+		/// </summary>
+		protected virtual void OnAdded()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このコンポーネントを持つオブジェクトがレイヤーから登録解除された時の処理を記述できる。
+		/// </summary>
+		protected virtual void OnRemoved()
+		{
+		}
+
+		internal void RaiseOnUpdate()
 		{
 			if( IsUpdated && IsAlive )
 			{
 				OnUpdate();
+			}
+		}
+
+		internal void RaiseOnAdded()
+		{
+			if (IsAlive)
+			{
+				OnAdded();
+			}
+		}
+
+		internal void RaiseOnRemoved()
+		{
+			if (IsAlive)
+			{
+				OnRemoved();
 			}
 		}
 	}

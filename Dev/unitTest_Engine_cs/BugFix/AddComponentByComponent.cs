@@ -39,7 +39,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			}
 		}
 
-		class ComponentAddingScene : SceneComponent
+		class ComponentAddingScene : asd.SceneComponent
 		{
 			int count = 0;
 			protected override void OnUpdated()

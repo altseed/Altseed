@@ -122,7 +122,7 @@ namespace asd
 
 		internal void DirectlyAddLayer(Layer layer)
 		{
-			if(executing)
+			if(enumeratingLayers)
 			{
 				addingLayer.AddLast(layer);
 				return;
@@ -147,7 +147,7 @@ namespace asd
 
 		internal void DirectlyRemoveLayer(Layer layer)
 		{
-			if(executing)
+			if(enumeratingLayers)
 			{
 				removingLayer.AddLast(layer);
 				return;
@@ -254,30 +254,66 @@ namespace asd
 		internal void RaiseOnRegistered()
 		{
 			OnRegistered();
+			componentManager_.StartEnumerate();
+			foreach (var component in componentManager_.Components)
+			{
+				component.RaiseOnRegistered();
+			}
+			componentManager_.EndEnumerate();
 		}
 
 		internal void RaiseOnStartUpdating()
 		{
 			OnStartUpdating();
+			componentManager_.StartEnumerate();
+			foreach(var component in componentManager_.Components)
+			{
+				component.RaiseOnStartUpdating();
+			}
+			componentManager_.EndEnumerate();
 		}
 
 		internal void RaiseOnTransitionFinished()
 		{
 			OnTransitionFinished();
+			componentManager_.StartEnumerate();
+			foreach(var component in componentManager_.Components)
+			{
+				component.RaiseOnTransitionFinished();
+			}
+			componentManager_.EndEnumerate();
 		}
 
 		internal void RaiseOnTransitionBegin()
 		{
+			componentManager_.StartEnumerate();
+			foreach(var component in componentManager_.Components)
+			{
+				component.RaiseOnTransitionBegin();
+			}
+			componentManager_.EndEnumerate();
 			OnTransitionBegin();
 		}
 
 		internal void RaiseOnStopUpdating()
 		{
+			componentManager_.StartEnumerate();
+			foreach(var component in componentManager_.Components)
+			{
+				component.RaiseOnStopUpdating();
+			}
+			componentManager_.EndEnumerate();
 			OnStopUpdating();
 		}
 
 		internal void RaiseOnUnregistered()
 		{
+			componentManager_.StartEnumerate();
+			foreach(var component in componentManager_.Components)
+			{
+				component.RaiseOnUnregistered();
+			}
+			componentManager_.EndEnumerate();
 			OnUnregistered();
 		}
 
@@ -295,12 +331,12 @@ namespace asd
 			{
 				IsAlive = false;
 				OnDispose();
-				executing = true;
+				enumeratingLayers = true;
 				foreach(var layer in layersToUpdate_)
 				{
 					layer.Dispose(disposeNative);
 				}
-				executing = false;
+				enumeratingLayers = false;
 				if(disposeNative)
 				{
 					ForceToRelease();
@@ -315,11 +351,18 @@ namespace asd
 				return;
 			}
 
-			executing = true;
+			enumeratingLayers = true;
 			
 			Lambda.SortByUpdatePriority(layersToUpdate_);
 
 			OnUpdating();
+
+			componentManager_.StartEnumerate();
+			foreach(var component in componentManager_.Components)
+			{
+				component.RaiseOnUpdating();
+			}
+			componentManager_.EndEnumerate();
 
 			foreach(var item in layersToUpdate_)
 			{
@@ -336,11 +379,16 @@ namespace asd
 				item.EndUpdating();
 			}
 
-			componentManager_.Update();
+			componentManager_.StartEnumerate();
+			foreach(var component in componentManager_.Components)
+			{
+				component.RaiseOnUpdated();
+			}
+			componentManager_.EndEnumerate();
 
 			OnUpdated();
 
-			executing = false;
+			enumeratingLayers = false;
 
 			CommitChanges();
 		}
@@ -368,7 +416,7 @@ namespace asd
 				return;
 			}
 
-			executing = true;
+			enumeratingLayers = true;
 
 			Lambda.SortByDrawingPriority(layersToDraw_);
 
@@ -396,7 +444,7 @@ namespace asd
 
 			CoreInstance.EndDrawing();
 
-			executing = false;
+			enumeratingLayers = false;
 
 			CommitChanges();
 		}
@@ -411,6 +459,7 @@ namespace asd
 		private LinkedList<Layer> removingLayer = new LinkedList<Layer>();
 		private List<Layer> layersToDraw_;
 		private List<Layer> layersToUpdate_;
-		private bool executing = false;
+		private bool enumeratingLayers = false;
+		private bool enumeratingComponents = false;
 	}
 }

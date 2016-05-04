@@ -6,15 +6,20 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	internal class ComponentManager<TOwner, TComponent>
+	internal partial class ComponentManager<TOwner, TComponent>
 		where TOwner : class
 		where TComponent : Component<TOwner>
 	{
 		private TOwner owner { get; set; }
-		private Dictionary<string, TComponent> components { get;set; }
-		private Dictionary<string, TComponent> beAdded { get;set; }
+		private Dictionary<string, TComponent> components { get; set; }
+		private Dictionary<string, TComponent> beAdded { get; set; }
 		private List<string> beRemoved { get; set; }
-		private bool IsUpdating { get;set; }
+		private bool IsEnumerating { get;set; }
+
+		public IEnumerable<TComponent> Components
+		{
+			get { return components.Values; }
+		} 
 
 		public ComponentManager(TOwner owner)
 		{
@@ -22,7 +27,7 @@ namespace asd
 			components = new Dictionary<string, TComponent>();
 			beAdded = new Dictionary<string, TComponent>();
 			beRemoved = new List<string>();
-			IsUpdating = false;
+			IsEnumerating = false;
 		}
 
 		public void Add(TComponent component, string key)
@@ -32,7 +37,7 @@ namespace asd
 				Particular.Helper.ThrowException("ArgumentNullException(Component)");
 			}
 
-			if(IsUpdating)
+			if(IsEnumerating)
 			{
 				Particular.Dictionary.Set(beAdded, key, component);
 			}
@@ -43,28 +48,12 @@ namespace asd
 			component.Owner = owner;
 		}
 
-		public TComponent Get(string key)
-		{
-			if(components.ContainsKey(key))
-			{
-				return Particular.Dictionary.Get(components,key);
-			}
-			else if(beAdded.ContainsKey(key))
-			{
-				return Particular.Dictionary.Get(beAdded, key);
-			}
-			else
-			{
-				return null;
-			}
-		}
-
 		public bool Remove(string key)
 		{
 			var c = Get(key);
 			if(c != null)
 			{
-				if(IsUpdating)
+				if(IsEnumerating)
 				{
 					beRemoved.Add(key);
 				}
@@ -81,24 +70,30 @@ namespace asd
 			}
 		}
 
-		public void Update()
+		public TComponent Get(string key)
 		{
-			IsUpdating = true;
-			var beVanished = new List<string>();
-			foreach(var item in components)
+			if(components.ContainsKey(key))
 			{
-				item.Value.Update();
-				if(!item.Value.IsAlive)
-				{
-					beVanished.Add(item.Key);
-				}
+				return Particular.Dictionary.Get(components, key);
 			}
-			IsUpdating = false;
+			else if(beAdded.ContainsKey(key))
+			{
+				return Particular.Dictionary.Get(beAdded, key);
+			}
+			else
+			{
+				return null;
+			}
+		}
 
-			foreach(var item in beVanished)
-			{
-				components.Remove(item);
-			}
+		public void StartEnumerate()
+		{
+			IsEnumerating = true;
+		}
+
+		public void EndEnumerate()
+		{
+			IsEnumerating = false;
 
 			foreach(var item in beAdded)
 			{

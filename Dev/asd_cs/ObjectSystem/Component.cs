@@ -30,8 +30,6 @@ namespace asd
 			IsAlive = true;
 		}
 
-		internal abstract void Update();
-
 		/// <summary>
 		/// このコンポーネントを破棄する。
 		/// </summary>
