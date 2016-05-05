@@ -70,6 +70,7 @@ namespace asd
 		internal static ObjectSystemFactory ObjectSystemFactory { get; private set; }
 		internal static Scene nextScene;
 		internal static SceneTransitionState transitionState;
+		internal static Queue<IRegistrationEvent> RegistrationEvents { get; set; }
 
 		/// <summary>
 		/// 初期化を行う。
@@ -269,6 +270,10 @@ namespace asd
 
 			core.EndDrawing();
 
+			while (RegistrationEvents.Count > 0)
+			{
+				RegistrationEvents.Dequeue().Manage();
+			}
 		}
 
 		/// <summary>
@@ -707,6 +712,8 @@ namespace asd
 			AnimationSystem = new AnimationSystem(core.GetAnimationSyatem());
 
 			layerProfiler = core.GetLayerProfiler();
+
+			RegistrationEvents = new Queue<IRegistrationEvent>();
 		}
 
 		/// <summary>

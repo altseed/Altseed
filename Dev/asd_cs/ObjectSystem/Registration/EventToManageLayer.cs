@@ -9,9 +9,9 @@
 			Command = command;
 		}
 
-		private Scene Scene { get; }
-		private Layer Layer { get; }
-		private RegistrationCommand Command { get; }
+		private Scene Scene { get; set; }
+		private Layer Layer { get; set; }
+		private RegistrationCommand Command { get; set; }
 
 		public void Manage()
 		{

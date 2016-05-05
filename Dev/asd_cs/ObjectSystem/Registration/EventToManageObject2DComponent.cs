@@ -2,10 +2,10 @@
 {
 	internal class EventToManageObject2DComponent : IRegistrationEvent
 	{
-		private Object2D Obj { get; }
-		private Object2DComponent Component { get; }
-		private string Key { get; }
-		private RegistrationCommand Command { get; }
+		private Object2D Obj { get; set; }
+		private Object2DComponent Component { get; set; }
+		private string Key { get; set; }
+		private RegistrationCommand Command { get; set; }
 
 		private EventToManageObject2DComponent(
 			Object2D obj,

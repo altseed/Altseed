@@ -2,10 +2,10 @@
 {
 	internal class EventToManageLayer2DComponent : IRegistrationEvent
 	{
-		private Layer2D Layer { get; }
-		private Layer2DComponent Component { get; }
-		private string Key { get; }
-		private RegistrationCommand Command { get; }
+		private Layer2D Layer { get; set; }
+		private Layer2DComponent Component { get; set; }
+		private string Key { get; set; }
+		private RegistrationCommand Command { get; set; }
 
 		private EventToManageLayer2DComponent(
 			Layer2D layer,

@@ -2,10 +2,10 @@
 {
 	internal class EventToManageSceneComponent : IRegistrationEvent
 	{
-		private Scene Scene { get; }
-		private SceneComponent Component { get; }
-		private string Key { get; }
-		private RegistrationCommand Command { get; }
+		private Scene Scene { get; set; }
+		private SceneComponent Component { get; set; }
+		private string Key { get; set; }
+		private RegistrationCommand Command { get; set; }
 
 		private EventToManageSceneComponent(Scene scene, SceneComponent component, string key, RegistrationCommand command)
 		{

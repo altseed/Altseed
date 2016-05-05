@@ -2,9 +2,9 @@
 {
 	internal class EventToManageObject2D : IRegistrationEvent
 	{
-		private Layer2D Layer { get; }
-		private Object2D Obj { get; }
-		private RegistrationCommand Command { get; }
+		private Layer2D Layer { get; set; }
+		private Object2D Obj { get; set; }
+		private RegistrationCommand Command { get; set; }
 
 		public EventToManageObject2D(Layer2D layer, Object2D obj, RegistrationCommand command)
 		{

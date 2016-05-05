@@ -2,9 +2,9 @@
 {
 	internal class EventToAddObject3D : IRegistrationEvent
 	{
-		private Layer3D Layer { get; }
-		private Object3D Obj { get; }
-		private RegistrationCommand Command { get; }
+		private Layer3D Layer { get; set; }
+		private Object3D Obj { get; set; }
+		private RegistrationCommand Command { get; set; }
 
 		public EventToAddObject3D(Layer3D layer, Object3D obj, RegistrationCommand command)
 		{
