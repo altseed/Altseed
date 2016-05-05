@@ -126,6 +126,14 @@
     <Compile Include="ObjectSystem\PostEffect\PostEffectGaussianBlur.cs" />
     <Compile Include="ObjectSystem\PostEffect\PostEffectLightBloom.cs" />
     <Compile Include="ObjectSystem\PostEffect\PostEffectSepia.cs" />
+    <Compile Include="ObjectSystem\Registration\EventToManageLayer.cs" />
+    <Compile Include="ObjectSystem\Registration\EventToManageLayer2DComponent.cs" />
+    <Compile Include="ObjectSystem\Registration\EventToManageObject2D.cs" />
+    <Compile Include="ObjectSystem\Registration\EventToManageObject2DComponent.cs" />
+    <Compile Include="ObjectSystem\Registration\EventToManageObject3D.cs" />
+    <Compile Include="ObjectSystem\Registration\EventToManageSceneComponent.cs" />
+    <Compile Include="ObjectSystem\Registration\IRegistrationEvent.cs" />
+    <Compile Include="ObjectSystem\Registration\RegistrationCommand.cs" />
     <Compile Include="ObjectSystem\Scene.cs" />
     <Compile Include="ObjectSystem\SceneComponent.cs" />
     <Compile Include="ObjectSystem\2D\TextureObject2D.cs" />
