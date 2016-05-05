@@ -11,18 +11,33 @@
 
 		private Scene Scene { get; set; }
 		private Layer Layer { get; set; }
-		private RegistrationCommand Command { get; set; }
+		public RegistrationCommand Command { get; set; }
 
-		public void Manage()
+		public object Owner
 		{
+			get { return Scene; }
+		}
+
+		public object Content
+		{
+			get { return Layer; }
+		}
+
+		public void Commit()
+		{
+			if (!Scene.IsAlive)
+			{
+				return;
+			}
+
 			switch (Command)
 			{
 			case RegistrationCommand.Add:
-				Scene.AddLayer(Layer);
+				Scene.DirectlyAddLayer(Layer);
 				break;
 
 			case RegistrationCommand.Remove:
-				Scene.RemoveLayer(Layer);
+				Scene.DirectlyRemoveLayer(Layer);
 				break;
 			}
 		}

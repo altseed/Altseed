@@ -115,19 +115,18 @@ namespace asd
 				throw new InvalidOperationException("指定したレイヤーは、既に別のシーンに所属しています。");
 			}
 			
-			DirectlyAddLayer(layer);
+			RegisterLayerToAdd(layer);
 			layer.Scene = this;
 			layer.RaiseOnAdded();
 		}
 
+		internal void RegisterLayerToAdd(Layer layer)
+		{
+			Engine.RegistrationManager.Push(new EventToManageLayer(this, layer, RegistrationCommand.Add));
+		}
+
 		internal void DirectlyAddLayer(Layer layer)
 		{
-			if(enumeratingLayers)
-			{
-				addingLayer.AddLast(layer);
-				return;
-			}
-
 			layersToDraw_.Add(layer);
 			layersToUpdate_.Add(layer);
 			CoreInstance.AddLayer(layer.CoreLayer);
@@ -140,19 +139,18 @@ namespace asd
 		public void RemoveLayer(Layer layer)
 		{
 			ThrowIfDisposed();
-			DirectlyRemoveLayer(layer);
+			RegisterLayerToRemove(layer);
 			layer.RaiseOnRemoved();
 			layer.Scene = null;
 		}
 
+		internal void RegisterLayerToRemove(Layer layer)
+		{
+			Engine.RegistrationManager.Push(new EventToManageLayer(this, layer, RegistrationCommand.Remove));
+		}
+
 		internal void DirectlyRemoveLayer(Layer layer)
 		{
-			if(enumeratingLayers)
-			{
-				removingLayer.AddLast(layer);
-				return;
-			}
-
 			layersToDraw_.Remove(layer);
 			layersToUpdate_.Remove(layer);
 			CoreInstance.RemoveLayer(layer.CoreLayer);
@@ -254,66 +252,54 @@ namespace asd
 		internal void RaiseOnRegistered()
 		{
 			OnRegistered();
-			componentManager_.StartEnumerate();
 			foreach (var component in componentManager_.Components)
 			{
 				component.RaiseOnRegistered();
 			}
-			componentManager_.EndEnumerate();
 		}
 
 		internal void RaiseOnStartUpdating()
 		{
 			OnStartUpdating();
-			componentManager_.StartEnumerate();
 			foreach(var component in componentManager_.Components)
 			{
 				component.RaiseOnStartUpdating();
 			}
-			componentManager_.EndEnumerate();
 		}
 
 		internal void RaiseOnTransitionFinished()
 		{
 			OnTransitionFinished();
-			componentManager_.StartEnumerate();
 			foreach(var component in componentManager_.Components)
 			{
 				component.RaiseOnTransitionFinished();
 			}
-			componentManager_.EndEnumerate();
 		}
 
 		internal void RaiseOnTransitionBegin()
 		{
-			componentManager_.StartEnumerate();
 			foreach(var component in componentManager_.Components)
 			{
 				component.RaiseOnTransitionBegin();
 			}
-			componentManager_.EndEnumerate();
 			OnTransitionBegin();
 		}
 
 		internal void RaiseOnStopUpdating()
 		{
-			componentManager_.StartEnumerate();
 			foreach(var component in componentManager_.Components)
 			{
 				component.RaiseOnStopUpdating();
 			}
-			componentManager_.EndEnumerate();
 			OnStopUpdating();
 		}
 
 		internal void RaiseOnUnregistered()
 		{
-			componentManager_.StartEnumerate();
 			foreach(var component in componentManager_.Components)
 			{
 				component.RaiseOnUnregistered();
 			}
-			componentManager_.EndEnumerate();
 			OnUnregistered();
 		}
 
@@ -331,12 +317,10 @@ namespace asd
 			{
 				IsAlive = false;
 				OnDispose();
-				enumeratingLayers = true;
 				foreach(var layer in layersToUpdate_)
 				{
 					layer.Dispose(disposeNative);
 				}
-				enumeratingLayers = false;
 				if(disposeNative)
 				{
 					ForceToRelease();
@@ -350,19 +334,15 @@ namespace asd
 			{
 				return;
 			}
-
-			enumeratingLayers = true;
 			
 			Lambda.SortByUpdatePriority(layersToUpdate_);
 
 			OnUpdating();
 
-			componentManager_.StartEnumerate();
 			foreach(var component in componentManager_.Components)
 			{
 				component.RaiseOnUpdating();
 			}
-			componentManager_.EndEnumerate();
 
 			foreach(var item in layersToUpdate_)
 			{
@@ -379,34 +359,12 @@ namespace asd
 				item.EndUpdating();
 			}
 
-			componentManager_.StartEnumerate();
 			foreach(var component in componentManager_.Components)
 			{
 				component.RaiseOnUpdated();
 			}
-			componentManager_.EndEnumerate();
 
 			OnUpdated();
-
-			enumeratingLayers = false;
-
-			CommitChanges();
-		}
-
-		void CommitChanges()
-		{
-			foreach(var layer in addingLayer)
-			{
-				DirectlyAddLayer(layer);
-			}
-
-			foreach(var layer in removingLayer)
-			{
-				DirectlyRemoveLayer(layer);
-			}
-
-			addingLayer.Clear();
-			removingLayer.Clear();
 		}
 
 		internal void Draw()
@@ -415,8 +373,6 @@ namespace asd
 			{
 				return;
 			}
-
-			enumeratingLayers = true;
 
 			Lambda.SortByDrawingPriority(layersToDraw_);
 
@@ -443,10 +399,6 @@ namespace asd
 			}
 
 			CoreInstance.EndDrawing();
-
-			enumeratingLayers = false;
-
-			CommitChanges();
 		}
 		#endregion
 
@@ -454,12 +406,7 @@ namespace asd
 		internal unsafe swig.CoreScene CoreInstance { get; private set; }
 
 		private ComponentManager<Scene, SceneComponent> componentManager_ { get; set; }
-
-		private LinkedList<Layer> addingLayer = new LinkedList<Layer>();
-		private LinkedList<Layer> removingLayer = new LinkedList<Layer>();
 		private List<Layer> layersToDraw_;
 		private List<Layer> layersToUpdate_;
-		private bool enumeratingLayers = false;
-		private bool enumeratingComponents = false;
 	}
 }

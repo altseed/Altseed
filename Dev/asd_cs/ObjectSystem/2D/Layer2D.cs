@@ -296,21 +296,17 @@ namespace asd
 
 		internal override void UpdateInternal()
 		{
-			componentManager.StartEnumerate();
 			foreach(var component in componentManager.Components)
 			{
 				component.RaiseOnUpdating();
 			}
-			componentManager.EndEnumerate();
 
 			contentsManager.Update();
 
-			componentManager.StartEnumerate();
 			foreach(var component in componentManager.Components)
 			{
 				component.RaiseOnUpdated();
 			}
-			componentManager.EndEnumerate();
 		}
 
 		internal override void DrawAdditionally()
@@ -336,22 +332,18 @@ namespace asd
 		protected override void OnAdded()
 		{
 			base.OnAdded();
-			componentManager.StartEnumerate();
 			foreach (var component in componentManager.Components)
 			{
 				component.RaiesOnAdded();
 			}
-			componentManager.EndEnumerate();
 		}
 
 		protected override void OnRemoved()
 		{
-			componentManager.StartEnumerate();
 			foreach(var component in componentManager.Components)
 			{
 				component.RaiesOnRemoved();
 			}
-			componentManager.EndEnumerate();
 			base.OnRemoved();
 		}
 

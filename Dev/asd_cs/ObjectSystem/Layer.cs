@@ -143,7 +143,7 @@ namespace asd
 			DisposeContents(disposeNative);
 			if(Scene != null)
 			{
-				Scene.DirectlyRemoveLayer(this);
+				Scene.RegisterLayerToRemove(this);
 			}
 			if(disposeNative)
 			{

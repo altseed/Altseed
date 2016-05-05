@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	internal interface IRegistrationEvent
+	internal interface ICommitable
 	{
-		void Manage();
+		void Commit();
 	}
 }

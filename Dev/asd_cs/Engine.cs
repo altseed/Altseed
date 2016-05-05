@@ -70,7 +70,7 @@ namespace asd
 		internal static ObjectSystemFactory ObjectSystemFactory { get; private set; }
 		internal static Scene nextScene;
 		internal static SceneTransitionState transitionState;
-		internal static Queue<IRegistrationEvent> RegistrationEvents { get; set; }
+		internal static RegistrationManager RegistrationManager { get; private set; }
 
 		/// <summary>
 		/// 初期化を行う。
@@ -258,6 +258,8 @@ namespace asd
 				}
 			}
 
+			RegistrationManager.Commit();
+
 			if(CurrentScene != null)
 			{
 				CurrentScene.Draw();
@@ -269,11 +271,6 @@ namespace asd
 			core.Draw();
 
 			core.EndDrawing();
-
-			while (RegistrationEvents.Count > 0)
-			{
-				RegistrationEvents.Dequeue().Manage();
-			}
 		}
 
 		/// <summary>
@@ -713,7 +710,7 @@ namespace asd
 
 			layerProfiler = core.GetLayerProfiler();
 
-			RegistrationEvents = new Queue<IRegistrationEvent>();
+			RegistrationManager = new RegistrationManager();
 		}
 
 		/// <summary>

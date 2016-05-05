@@ -9,26 +9,62 @@ namespace asd
 {
 	internal class ContentsManager<TContent> where TContent : Content
 	{
-		SortedList<int, LinkedList<TContent>> contents_ { get; set; }
-		LinkedList<TContent> beAdded { get; set; }
-		LinkedList<TContent> beRemoved { get; set; }
-
-		bool isUpdating { get; set; }
+		private SortedList<int, LinkedList<TContent>> contents_ { get; set; }
+		private TContent[] ActualContents { get; set; }
 
 		public IEnumerable<TContent> Contents
 		{
-			get { return Lambda.ToLinear(contents_); }
+			get { return Engine.RegistrationManager.GetActualContents(this, contents_.SelectMany(x => x.Value)); }
 		}
 
 		public ContentsManager()
 		{
 			contents_ = new SortedList<int, LinkedList<TContent>>();
-			beAdded = new LinkedList<TContent>();
-			beRemoved = new LinkedList<TContent>();
-			isUpdating = false;
 		}
 
-		private void AddToContents(TContent content)
+		public void Add(TContent content)
+		{
+			if(content == null)
+			{
+				Particular.Helper.ThrowException("ArgumentNullException(Content)");
+			}
+
+			Engine.RegistrationManager.Push(new EventToManageContent<TContent>(this, content, RegistrationCommand.Add));
+		}
+
+		public bool Remove(TContent content)
+		{
+			var result = contents_.SelectMany(x => x.Value).Contains(content)
+				| Engine.RegistrationManager.Push(new EventToManageContent<TContent>(this, content, RegistrationCommand.Remove));
+
+			return (bool) result;
+		}
+
+		public void Clear()
+		{
+			foreach(var content in Contents)
+			{
+				Remove(content);
+			}
+		}
+
+		public void Update()
+		{
+			foreach(var item in Contents)
+			{
+				item.Update();
+			}
+		}
+
+		public void Dispose(bool disposeNative)
+		{
+			foreach(var item in Contents)
+			{
+				item.Dispose(disposeNative);
+			}
+		}
+
+		internal void AddToContents(TContent content)
 		{
 			if(!Lambda.HasContentHavingSpecificUpdatePriority(contents_, content.UpdatePriority))
 			{
@@ -38,7 +74,7 @@ namespace asd
 			content.OnUpdatePriorityChanged += Redistribute;
 		}
 
-		private bool RemoveFromContents(TContent content)
+		internal bool RemoveFromContents(TContent content)
 		{
 			content.OnUpdatePriorityChanged -= Redistribute;
 			if(contents_.ContainsKey(content.UpdatePriority))
@@ -52,89 +88,6 @@ namespace asd
 		{
 			RemoveFromContents((TContent)content);
 			AddToContents((TContent)content);
-		}
-
-		public void Add(TContent content)
-		{
-			if(content == null)
-			{
-				Particular.Helper.ThrowException("ArgumentNullException(Content)");
-			}
-
-			if(isUpdating)
-			{
-				beAdded.AddLast(content);
-			}
-			else
-			{
-				AddToContents(content);
-			}
-		}
-
-		public bool Remove(TContent content)
-		{
-			if(isUpdating)
-			{
-				beRemoved.AddLast(content);
-				return Contents.Contains(content) || beAdded.Contains(content);
-			}
-			else
-			{
-				return RemoveFromContents(content);
-			}
-		}
-
-		public void Clear()
-		{
-			if(isUpdating)
-			{
-				foreach(var item in Contents)
-				{
-					beRemoved.AddLast(item);
-				}
-				beAdded.Clear();
-			}
-			else
-			{
-				contents_.Clear();
-			}
-		}
-
-		public void Update()
-		{
-			isUpdating = true;
-
-			foreach(var item in Contents)
-			{
-				item.Update();
-			}
-
-			isUpdating = false;
-
-			foreach(var item in beAdded)
-			{
-				AddToContents(item);
-			}
-
-			foreach(var item in beRemoved)
-			{
-				RemoveFromContents(item);
-			}
-
-			beAdded.Clear();
-			beRemoved.Clear();
-		}
-
-		public void Dispose(bool disposeNative)
-		{
-			isUpdating = true;
-
-			foreach (var item in Contents)
-			{
-				item.Dispose(disposeNative);
-			}
-
-			isUpdating = false;
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace unitTest_Engine_cs
 		static void Main(string[] args)
 		{
 			//*
-			TestSequencially(typeof(ObjectSystem2D.ReuseLayer));
+			TestSequencially(typeof(ObjectSystem2D.RemoveLayerAndDisposeScene));
 			Console.ReadKey();
 			return;
 			//*/
@@ -31,6 +31,7 @@ namespace unitTest_Engine_cs
 			Assembly.GetAssembly(typeof(Program))
 				.GetTypes()
 				.Where(_ => !_.IsAbstract)
+				.Where(x => x.Namespace == "unitTest_Engine_cs.ObjectSystem2D")
 				.Where(_ => _.IsSubclassOf(typeof(TestFramework)))
 				.Where(x => x.GetConstructor(new Type[0]) != null)
 				.ToList()
