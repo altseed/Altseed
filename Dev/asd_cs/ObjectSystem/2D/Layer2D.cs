@@ -26,7 +26,7 @@ namespace asd
 
 			GC.Layer2Ds.AddObject(p, this);
 
-			contentsManager = new ContentsManager<Object2D>();
+			ObjectManager = new ObjectManager<Layer2D>(this);
 			componentManager = new ComponentManager<Layer2D, Layer2DComponent>(this);
 
 			CoreLayer = coreLayer2D;
@@ -76,7 +76,7 @@ namespace asd
 		/// </summary>
 		public IEnumerable<Object2D> Objects
 		{
-			get { return contentsManager.Contents; }
+			get { return ObjectManager.Contents.Cast<Object2D>(); }
 		}
 
 		/// <summary>
@@ -85,16 +85,13 @@ namespace asd
 		/// <param name="object2D">追加する2Dオブジェクト</param>
 		public void AddObject(Object2D object2D)
 		{
-			ThrowIfDisposed();
 			if(object2D.Layer != null)
 			{
 				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
 			}
 
-			contentsManager.Add(object2D);
+			ObjectManager.Add(object2D);
 			coreLayer2D.AddObject(object2D.CoreObject);
-			object2D.Layer = this;
-			object2D.RaiseOnAdded();
 		}
 
 		/// <summary>
@@ -103,19 +100,17 @@ namespace asd
 		/// <param name="object2D">削除される2Dオブジェクト</param>
 		public void RemoveObject(Object2D object2D)
 		{
-			ThrowIfDisposed();
-			DirectlyRemoveObject(object2D);
-			object2D.RaiseOnRemoved();
-			object2D.Layer = null;
+			ObjectManager.Remove(object2D, true);
+			coreLayer2D.RemoveObject(object2D.CoreObject);
 		}
 
 		/// <summary>
 		/// 指定した2Dオブジェクトをこのレイヤーから削除する。ただし、IsAliveチェックやOnRemovedイベントの発火などを省く。
 		/// </summary>
 		/// <param name="object2D">削除する2Dオブジェクト。</param>
-		internal void DirectlyRemoveObject(Object2D object2D)
+		internal void RemoveObjectWithNoEvent(Object2D object2D)
 		{
-			contentsManager.Remove(object2D);
+			ObjectManager.Remove(object2D, false);
 			coreLayer2D.RemoveObject(object2D.CoreObject);
 		}
 
@@ -155,14 +150,15 @@ namespace asd
 		public void Clear()
 		{
 			ThrowIfDisposed();
-			foreach(var obj in contentsManager.Contents)
+			foreach(var obj in ObjectManager.Contents)
 			{
 				obj.Layer = null;
 			}
 			coreLayer2D.Clear();
-			contentsManager.Clear();
+			ObjectManager.Clear();
 		}
 
+		#region DrawAdditionally
 		/// <summary>
 		/// 通常の描画に加えてテクスチャを描画する。
 		/// </summary>
@@ -270,10 +266,7 @@ namespace asd
 			coreLayer2D.DrawShapeAdditionally(shape.CoreShape, color, IG.GetTexture2D(texture), (swig.AlphaBlendMode)alphaBlend, priority);
 		}
 
-		public override LayerType LayerType
-		{
-			get { return LayerType.Layer2D; }
-		}
+		#endregion
 
 		internal override void BeginUpdating()
 		{
@@ -301,7 +294,7 @@ namespace asd
 				component.RaiseOnUpdating();
 			}
 
-			contentsManager.Update();
+			ObjectManager.UpdateObjects();
 
 			foreach(var component in componentManager.Components)
 			{
@@ -316,7 +309,7 @@ namespace asd
 				return;
 			}
 
-			foreach(var item in contentsManager.Contents)
+			foreach(var item in Objects)
 			{
 				item.DrawAdditionally();
 			}
@@ -326,13 +319,13 @@ namespace asd
 
 		internal override void DisposeContents(bool disposeNative)
 		{
-			contentsManager.Dispose(disposeNative);
+			ObjectManager.DisposeObjects(disposeNative);
 		}
 
 		protected override void OnAdded()
 		{
 			base.OnAdded();
-			foreach (var component in componentManager.Components)
+			foreach(var component in componentManager.Components)
 			{
 				component.RaiesOnAdded();
 			}
@@ -348,6 +341,11 @@ namespace asd
 		}
 
 
+		public override LayerType LayerType
+		{
+			get { return LayerType.Layer2D; }
+		}
+
 		private swig.CoreLayer2D coreLayer2D_;
 
 		private swig.CoreLayer2D coreLayer2D
@@ -356,7 +354,7 @@ namespace asd
 			set { coreLayer2D_ = value; }
 		}
 
-		private ContentsManager<Object2D> contentsManager { get; set; }
+		private ObjectManager<Layer2D> ObjectManager { get; set; }
 
 		private ComponentManager<Layer2D, Layer2DComponent> componentManager { get; set; }
 	}

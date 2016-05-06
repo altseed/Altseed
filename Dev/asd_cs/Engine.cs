@@ -71,6 +71,7 @@ namespace asd
 		internal static Scene nextScene;
 		internal static SceneTransitionState transitionState;
 		internal static RegistrationManager RegistrationManager { get; private set; }
+		internal static Queue<ICommitable> ChangesToBeCommited { get; private set; }
 
 		/// <summary>
 		/// 初期化を行う。
@@ -259,6 +260,11 @@ namespace asd
 			}
 
 			RegistrationManager.Commit();
+
+			while (ChangesToBeCommited.Count > 0)
+			{
+				ChangesToBeCommited.Dequeue().Commit();
+			}
 
 			if(CurrentScene != null)
 			{
@@ -711,6 +717,7 @@ namespace asd
 			layerProfiler = core.GetLayerProfiler();
 
 			RegistrationManager = new RegistrationManager();
+			ChangesToBeCommited = new Queue<ICommitable>();
 		}
 
 		/// <summary>

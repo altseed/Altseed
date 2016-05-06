@@ -21,7 +21,7 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
 	/// </summary>
-	public abstract class Object2D : Content, IReleasable, IDisposable
+	public abstract class Object2D : AltseedObject<Layer2D>, IReleasable, IDisposable
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -83,11 +83,6 @@ namespace asd
 			get { return CoreObject != null && CoreObject.GetIsAlive(); }
 			private set { CoreObject.SetIsAlive(value); }
 		}
-
-		/// <summary>
-		/// このインスタンスを管理している asd.Layer2D クラスのインスタンスを取得する。
-		/// </summary>
-		public Layer2D Layer { get; internal set; }
 
 		/// <summary>
 		/// このオブジェクトの親オブジェクトを取得する。
@@ -376,7 +371,7 @@ namespace asd
 
 
 		#region イベントハンドラ
-		internal void RaiseOnAdded()
+		internal override void RaiseOnAdded()
 		{
 			OnAdded();
 			foreach(var item in Lambda.FilterDeadObject(ChildrenList))
@@ -393,7 +388,7 @@ namespace asd
 			}
 		}
 
-		internal void RaiseOnRemoved()
+		internal override void RaiseOnRemoved()
 		{
 			foreach(var component in componentManager_.Components)
 			{
@@ -432,7 +427,7 @@ namespace asd
 				}
 				if (Layer != null)
 				{
-					Layer.DirectlyRemoveObject(this);
+					Layer.RemoveObjectWithNoEvent(this);
 				}
 				if (disposeNative)
 				{

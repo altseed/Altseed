@@ -33,7 +33,7 @@ namespace asd
 
 			GC.Layer3Ds.AddObject(p, this);
 
-			contentsManager = new ContentsManager<Object3D>();
+			ObjectManager = new ObjectManager<Layer3D>(this);
 
 			CoreLayer = coreLayer3D;
 		}
@@ -75,7 +75,7 @@ namespace asd
 		/// </summary>
 		public IEnumerable<Object3D> Objects
 		{
-			get { return contentsManager.Contents; }
+			get { return ObjectManager.Contents.Cast<Object3D>(); }
 		}
 
 		/// <summary>
@@ -112,15 +112,13 @@ namespace asd
 		/// <param name="object3D">追加する3Dオブジェクト</param>
 		public void AddObject(Object3D object3D)
 		{
-			ThrowIfDisposed();
 			if (object3D.Layer != null)
 			{
 				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
 			}
-			contentsManager.Add(object3D);
+
+			ObjectManager.Add(object3D);
 			coreLayer3D.AddObject(object3D.CoreObject);
-			object3D.Layer = this;
-			object3D.RaiseOnAdded();
 		}
 
 		/// <summary>
@@ -129,15 +127,13 @@ namespace asd
 		/// <param name="object3D">削除される3Dオブジェクト</param>
 		public void RemoveObject(Object3D object3D)
 		{
-			ThrowIfDisposed();
-			DirectlyRemoveObject(object3D);
-			object3D.RaiseOnRemoved();
-			object3D.Layer = null;
+			ObjectManager.Remove(object3D, true);
+			coreLayer3D.RemoveObject(object3D.CoreObject);
 		}
 
 		internal void DirectlyRemoveObject(Object3D object3D)
 		{
-			contentsManager.Remove(object3D);
+			ObjectManager.Remove(object3D, false);
 			coreLayer3D.RemoveObject(object3D.CoreObject);
 		}
 
@@ -424,7 +420,7 @@ namespace asd
 
 		internal override void UpdateInternal()
 		{
-			contentsManager.Update();
+			ObjectManager.UpdateObjects();
 		}
 
 		internal override void DrawAdditionally()
@@ -434,7 +430,7 @@ namespace asd
 				return;
 			}
 
-			foreach (var item in contentsManager.Contents)
+			foreach (var item in Objects)
 			{
 				item.DrawAdditionally();
 			}
@@ -444,9 +440,9 @@ namespace asd
 
 		internal override void DisposeContents(bool disposeNative)
 		{
-			contentsManager.Dispose(disposeNative);
+			ObjectManager.DisposeObjects(disposeNative);
 		}
 
-		private ContentsManager<Object3D> contentsManager { get;set; }
+		private ObjectManager<Layer3D> ObjectManager { get; set; }
 	}
 }

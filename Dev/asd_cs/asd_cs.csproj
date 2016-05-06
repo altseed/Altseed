@@ -116,7 +116,7 @@
     <Compile Include="ObjectSystem\ComponentManager.cs" />
     <Compile Include="ObjectSystem\Component.cs" />
     <Compile Include="ObjectSystem\Contents.cs" />
-    <Compile Include="ObjectSystem\ContentsManager.cs" />
+    <Compile Include="ObjectSystem\ObjectManager.cs" />
     <Compile Include="ObjectSystem\Layer.cs" />
     <Compile Include="ObjectSystem\2D\Layer2D.cs" />
     <Compile Include="ObjectSystem\DisposingOfLayer.cs" />
@@ -129,7 +129,7 @@
     <Compile Include="ObjectSystem\Registration\EventToManageComponent.cs" />
     <Compile Include="ObjectSystem\Registration\EventToManageContent.cs" />
     <Compile Include="ObjectSystem\Registration\EventToManageLayer.cs" />
-    <Compile Include="ObjectSystem\Registration\IRegistrationEvent.cs" />
+    <Compile Include="ObjectSystem\Registration\ICommitable.cs" />
     <Compile Include="ObjectSystem\Registration\RegistrationCommand.cs" />
     <Compile Include="ObjectSystem\Registration\RegistrationManager.cs" />
     <Compile Include="ObjectSystem\Scene.cs" />

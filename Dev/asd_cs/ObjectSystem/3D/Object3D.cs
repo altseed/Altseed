@@ -9,11 +9,9 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
 	/// </summary>
-	public abstract class Object3D : Content, IReleasable, IDisposable
+	public abstract class Object3D : AltseedObject<Layer3D>, IReleasable, IDisposable
 	{
 		internal swig.CoreObject3D commonObject = null;
-
-		Layer3D owner = null;
 
 		internal swig.CoreObject3D CoreObject { get { return commonObject; } }
 
@@ -79,12 +77,12 @@ namespace asd
 		}
 
 		#region イベントハンドラ
-		internal void RaiseOnAdded()
+		internal override void RaiseOnAdded()
 		{
 			OnAdded();
 		}
 
-		internal void RaiseOnRemoved()
+		internal override void RaiseOnRemoved()
 		{
 			OnRemoved();
 		}
@@ -165,16 +163,6 @@ namespace asd
 		/// </summary>
 		protected virtual void OnDrawAdditionally() { }
 		#endregion
-
-
-		/// <summary>
-		/// このインスタンスを管理している asd.Layer3D クラスのインスタンスを取得する。
-		/// </summary>
-		public Layer3D Layer
-		{
-			get { return owner; }
-			internal set { owner = value; }
-		}
 
 		/// <summary>
 		/// このインスタンスの親に対する現在の座標を取得または設定する。

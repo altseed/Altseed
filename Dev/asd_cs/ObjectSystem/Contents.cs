@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	public abstract class Content
+	internal interface IActionWithObject<TLayer>
+		where TLayer : Layer
+	{
+		void Invoke(AltseedObject<TLayer> obj);
+	}
+
+	public abstract class AltseedObject<TLayer>
+		where TLayer : Layer
 	{
 		private int updatePriority_;
 
@@ -21,15 +28,19 @@ namespace asd
 				updatePriority_ = value;
 				if(OnUpdatePriorityChanged != null)
 				{
-					OnUpdatePriorityChanged(this);
+					OnUpdatePriorityChanged.Invoke(this);
 				}
 			}
 		}
 
-		internal event Action<Content> OnUpdatePriorityChanged;
+		public TLayer Layer { get; set; }
+
+		internal IActionWithObject<TLayer> OnUpdatePriorityChanged;
 
 		internal abstract bool GetIsAlive();
 		internal abstract void Update();
+		internal abstract void RaiseOnAdded();
+		internal abstract void RaiseOnRemoved();
 		public abstract void Dispose(bool disposeNative);
 	}
 }

@@ -6,23 +6,29 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	internal class EventToManageContent<TContent> : IRegistrationEvent
-		where TContent : Content
+	internal class EventToManageContent<TLayer> : IRegistrationEvent
+		where TLayer : Layer
 	{
-		public EventToManageContent(ContentsManager<TContent> contentManager, TContent content, RegistrationCommand command)
+		public EventToManageContent(
+			ObjectManager<TLayer> objectManager,
+			AltseedObject<TLayer> content,
+			RegistrationCommand command,
+			bool raiseEvent)
 		{
-			ContentManager = contentManager;
+			ObjectManager = objectManager;
 			Content = content;
 			Command = command;
+			RaiseEvent = raiseEvent;
 		}
 
-		private ContentsManager<TContent> ContentManager { get; set; }
-		public TContent Content { get; set; }
+		private ObjectManager<TLayer> ObjectManager { get; set; }
+		public AltseedObject<TLayer> Content { get; set; }
 		public RegistrationCommand Command { get; set; }
+		public bool RaiseEvent { get; set; }
 
 		public object Owner
 		{
-			get { return ContentManager; }
+			get { return ObjectManager; }
 		}
 
 		object IRegistrationEvent.Content
@@ -35,11 +41,11 @@ namespace asd
 			switch (Command)
 			{
 			case RegistrationCommand.Add:
-				ContentManager.AddToContents(Content);
+				ObjectManager.AddToContents(Content, RaiseEvent);
 				break;
 
 			case RegistrationCommand.Remove:
-				ContentManager.RemoveFromContents(Content);
+				ObjectManager.RemoveFromContents(Content, RaiseEvent);
 				break;
 			}
 		}
