@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	internal class EventToManageComponent<TOwner, TComponent> : IRegistrationEvent
+	internal class EventToManageComponent<TOwner, TComponent> : ICommitable
 		where TOwner : class 
 		where TComponent : Component<TOwner>
 	{

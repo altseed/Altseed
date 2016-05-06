@@ -1,11 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using asd;
 
-namespace unitTest_Engine_cs.ObjectSystem2D
+namespace unitTest_Engine_cs.ObjectSystem2D.LifeCycle
 {
 	/// <summary>
 	/// レイヤーが、持っているオブジェクトのUpdate中に破棄された場合のテスト。

@@ -32,7 +32,8 @@ namespace asd
 			}
 			else
 			{
-				Engine.RegistrationManager.Push(EventToManageComponent<TOwner, TComponent>.GetAddEvent(this, component, key));
+				var e = EventToManageComponent<TOwner, TComponent>.GetAddEvent(this, component, key);
+				Engine.ChangesToBeCommited.Enqueue(e);
 				component.Owner = owner;
 			}
 		}
@@ -42,7 +43,8 @@ namespace asd
 			var c = Get(key);
 			if(c != null)
 			{
-				Engine.RegistrationManager.Push(EventToManageComponent<TOwner, TComponent>.GetRemoveEvent(this, key));
+				var e = EventToManageComponent<TOwner, TComponent>.GetRemoveEvent(this, key);
+				Engine.ChangesToBeCommited.Enqueue(e);
 				c.Owner = null;
 				return true;
 			}

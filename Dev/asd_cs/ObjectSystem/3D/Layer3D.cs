@@ -110,13 +110,9 @@ namespace asd
 		/// このレイヤーに指定した3Dオブジェクトを追加する。
 		/// </summary>
 		/// <param name="object3D">追加する3Dオブジェクト</param>
+		/// <remarks><see cref="Objects"/>プロパティの内容などへ実際に追加されるのは、このメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void AddObject(Object3D object3D)
 		{
-			if (object3D.Layer != null)
-			{
-				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
-			}
-
 			ObjectManager.Add(object3D);
 			coreLayer3D.AddObject(object3D.CoreObject);
 		}
@@ -125,15 +121,16 @@ namespace asd
 		/// このレイヤーから指定した3Dオブジェクトを削除する。
 		/// </summary>
 		/// <param name="object3D">削除される3Dオブジェクト</param>
+		/// <remarks><see cref="Objects"/>プロパティの内容などから実際に削除されるのは、このメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void RemoveObject(Object3D object3D)
 		{
 			ObjectManager.Remove(object3D, true);
 			coreLayer3D.RemoveObject(object3D.CoreObject);
 		}
 
-		internal void DirectlyRemoveObject(Object3D object3D)
+		internal void ImmediatelyRemoveObject(Object3D object3D, bool raiseEvent)
 		{
-			ObjectManager.Remove(object3D, false);
+			ObjectManager.Remove(object3D, raiseEvent);
 			coreLayer3D.RemoveObject(object3D.CoreObject);
 		}
 

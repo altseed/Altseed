@@ -8,7 +8,7 @@ namespace asd
 	/// <summary>
 	/// オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス
 	/// </summary>
-	public abstract class Layer : IReleasable, IDisposable
+	public abstract class Layer : IReleasable, IDisposable, IBeingAbleToDisposeNative
 	{
 		public abstract bool IsReleased { get; }
 
@@ -118,36 +118,28 @@ namespace asd
 		/// <summary>
 		/// このレイヤーを破棄する。
 		/// </summary>
-		/// <param name="disposeNative">ネイティブ リソースを即解放するかどうかの真偽値</param>
+		/// <param name="disposeNative">ネイティブ リソースも即解放するかどうかの真偽値。</param>
+		/// <remarks>登録されているオブジェクトもすべて破棄するが、オブジェクトの破棄はこのメソッドを呼び出したフレームの最後に実行されるので注意が必要。</remarks>
 		public void Dispose(bool disposeNative)
 		{
-			if(IsAlive)
-			{
-				IsAlive = false;
-
-				if(IsUpdating)
-				{
-					// 登録されているオブジェクトの列挙中にDisposeが走ってコレクションが変更されるのを防ぐため
-					Disposing = new DisposingOfLayer(disposeNative);
-				}
-				else
-				{
-					DisposeDirectly(disposeNative);
-				}
-			}
+			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
 		}
 
-		private void DisposeDirectly(bool disposeNative)
+		void IBeingAbleToDisposeNative.DisposeImmediately(bool disposeNative)
 		{
-			OnDispose();
-			DisposeContents(disposeNative);
-			if(Scene != null)
+			if (IsAlive)
 			{
-				Scene.RegisterLayerToRemove(this);
-			}
-			if(disposeNative)
-			{
-				ForceToRelease();
+				IsAlive = false;
+				OnDispose();
+				DisposeContents(disposeNative);
+				if(Scene != null)
+				{
+					Scene.ImmediatelyRemoveLayer(this, false);
+				}
+				if(disposeNative)
+				{
+					ForceToRelease();
+				}
 			}
 		}
 
@@ -159,19 +151,10 @@ namespace asd
 
 		internal virtual void Update()
 		{
-			if(Disposing != null)
-			{
-				DisposeDirectly(Disposing.DisposeNative);
-				Disposing = null;
-				return;
-			}
-
 			if(!IsAlive || !isUpdatedCurrent)
 			{
 				return;
 			}
-
-			IsUpdating = true;
 
 			CoreLayer.BeginMeasureUpdateTime();
 
@@ -185,8 +168,6 @@ namespace asd
 			}
 
 			CoreLayer.EndMeasureUpdateTime();
-
-			IsUpdating = false;
 		}
 
 		internal abstract void UpdateInternal();
@@ -346,9 +327,5 @@ namespace asd
 		internal List<PostEffect> postEffects;
 
 		internal bool isUpdatedCurrent;
-
-		private bool IsUpdating { get; set; }
-
-		private DisposingOfLayer Disposing { get; set; }
 	}
 }

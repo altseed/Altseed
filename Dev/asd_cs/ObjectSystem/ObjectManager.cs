@@ -51,16 +51,13 @@ namespace asd
 			}
 
 			var e = new EventToManageContent<TLayer>(this, @object, RegistrationCommand.Add, true);
-			Engine.RegistrationManager.Push(e);
+			Engine.ChangesToBeCommited.Enqueue(e);
 		}
 
-		public bool Remove(AltseedObject<TLayer> @object, bool raiseEvent)
+		public void Remove(AltseedObject<TLayer> @object, bool raiseEvent)
 		{
 			var e = new EventToManageContent<TLayer>(this, @object, RegistrationCommand.Remove, raiseEvent);
-			var result = contents_.SelectMany(x => x.Value).Contains(@object)
-				| Engine.RegistrationManager.Push(e);
-
-			return (bool) result;
+			Engine.ChangesToBeCommited.Enqueue(e);
 		}
 
 		public void Clear()
@@ -94,6 +91,11 @@ namespace asd
 				return;
 			}
 
+			if(obj.Layer != null)
+			{
+				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
+			}
+
 			if(!Lambda.HasContentHavingSpecificUpdatePriority(contents_, obj.UpdatePriority))
 			{
 				contents_[obj.UpdatePriority] = new LinkedList<AltseedObject<TLayer>>();
@@ -108,25 +110,23 @@ namespace asd
 			}
 		}
 
-		internal bool RemoveFromContents(AltseedObject<TLayer> obj, bool raiseEvent)
+		internal void RemoveFromContents(AltseedObject<TLayer> obj, bool raiseEvent)
 		{
 			if(!Owner.IsAlive)
 			{
-				return false;
+				return;
 			}
 
 			obj.OnUpdatePriorityChanged = null;
 			if(contents_.ContainsKey(obj.UpdatePriority))
 			{
-				var result = contents_[obj.UpdatePriority].Remove(obj);
+				contents_[obj.UpdatePriority].Remove(obj);
 				if (raiseEvent)
 				{
 					obj.RaiseOnRemoved();
 				}
 				obj.Layer = null;
-				return result;
 			}
-			return false;
 		}
 	}
 }

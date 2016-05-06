@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
 	/// </summary>
-	public abstract class Object3D : AltseedObject<Layer3D>, IReleasable, IDisposable
+	public abstract class Object3D : AltseedObject<Layer3D>, IReleasable, IDisposable, IBeingAbleToDisposeNative
 	{
 		internal swig.CoreObject3D commonObject = null;
 
@@ -95,15 +95,24 @@ namespace asd
 			Dispose(false);
 		}
 
+		/// <summary>
+		/// この3Dオブジェクトを破棄する。
+		/// </summary>
+		/// <param name="disposeNative">ネイティブ リソースも即解放するかどうかの真偽値。</param>
 		public override void Dispose(bool disposeNative)
 		{
-			if(IsAlive)
+			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
+		}
+
+		void IBeingAbleToDisposeNative.DisposeImmediately(bool disposeNative)
+		{
+			if (IsAlive)
 			{
 				IsAlive = false;
 				OnDispose();
 				if (Layer != null)
 				{
-					Layer.DirectlyRemoveObject(this);
+					Layer.ImmediatelyRemoveObject(this, false);
 				}
 				if (disposeNative)
 				{

@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using asd;
 
-namespace unitTest_Engine_cs.ObjectSystem2D
+namespace unitTest_Engine_cs.ObjectSystem2D.LifeCycle
 {
 	class SceneComponentLifeCycle : EngineTest
 	{

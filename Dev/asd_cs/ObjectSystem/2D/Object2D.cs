@@ -21,7 +21,7 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
 	/// </summary>
-	public abstract class Object2D : AltseedObject<Layer2D>, IReleasable, IDisposable
+	public abstract class Object2D : AltseedObject<Layer2D>, IReleasable, IBeingAbleToDisposeNative
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -406,42 +406,52 @@ namespace asd
 			OnRemoved();
 		}
 
-		public override void Dispose(bool disposeNative)
-		{
-			if(IsAlive)
-			{
-				IsAlive = false;
-				OnDispose();
-				foreach(var item in Lambda.FilterDeadObject(ChildrenList))
-				{
-					CoreObject.RemoveChild(item.CoreObject);
-					if(item.IsInheriting(ChildManagementMode.Disposal))
-					{
-						item.Dispose();
-					}
-					item.ParentInfo = null;
-				}
-				if(Parent != null && Parent.IsAlive)
-				{
-					Parent.CoreObject.RemoveChild(CoreObject);
-				}
-				if (Layer != null)
-				{
-					Layer.RemoveObjectWithNoEvent(this);
-				}
-				if (disposeNative)
-				{
-					ForceToRelease();
-				}
-			}
-		}
-
 		/// <summary>
 		/// この2Dオブジェクトを破棄する。
 		/// </summary>
 		public void Dispose()
 		{
 			Dispose(false);
+		}
+
+		/// <summary>
+		/// この2Dオブジェクトを破棄する。
+		/// </summary>
+		/// <param name="disposeNative">ネイティブ リソースも即解放するかどうかの真偽値。</param>
+		/// <remarks>破棄状況を同期している子オブジェクトもすべて破棄するが、子オブジェクトの破棄はこのメソッドを呼び出したフレームの最後に実行されるので注意が必要。</remarks>
+		public override void Dispose(bool disposeNative)
+		{
+			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
+		}
+
+		void IBeingAbleToDisposeNative.DisposeImmediately(bool disposeNative)
+		{
+			if (IsAlive)
+			{
+				IsAlive = false;
+				OnDispose();
+				foreach (var item in Lambda.FilterDeadObject(ChildrenList))
+				{
+					CoreObject.RemoveChild(item.CoreObject);
+					if (item.IsInheriting(ChildManagementMode.Disposal))
+					{
+						item.Dispose();
+					}
+					item.ParentInfo = null;
+				}
+				if (Parent != null && Parent.IsAlive)
+				{
+					Parent.CoreObject.RemoveChild(CoreObject);
+				}
+				if (Layer != null)
+				{
+					Layer.ImmediatelyRemoveObject(this, false);
+				}
+				if (disposeNative)
+				{
+					ForceToRelease();
+				}
+			}
 		}
 
 		internal override void Update()

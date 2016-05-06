@@ -1,27 +1,19 @@
 ﻿namespace asd
 {
-	internal class EventToManageLayer : IRegistrationEvent
+	internal class EventToManageLayer : ICommitable
 	{
-		public EventToManageLayer(Scene scene, Layer layer, RegistrationCommand command)
+		public EventToManageLayer(Scene scene, Layer layer, RegistrationCommand command, bool raiseEvent)
 		{
 			Scene = scene;
 			Layer = layer;
 			Command = command;
+			RaiseEvent = raiseEvent;
 		}
 
 		private Scene Scene { get; set; }
 		private Layer Layer { get; set; }
 		public RegistrationCommand Command { get; set; }
-
-		public object Owner
-		{
-			get { return Scene; }
-		}
-
-		public object Content
-		{
-			get { return Layer; }
-		}
+		private bool RaiseEvent { get; set; }
 
 		public void Commit()
 		{
@@ -33,11 +25,11 @@
 			switch (Command)
 			{
 			case RegistrationCommand.Add:
-				Scene.DirectlyAddLayer(Layer);
+				Scene.ImmediatelyAddLayer(Layer, RaiseEvent);
 				break;
 
 			case RegistrationCommand.Remove:
-				Scene.DirectlyRemoveLayer(Layer);
+				Scene.ImmediatelyRemoveLayer(Layer, RaiseEvent);
 				break;
 			}
 		}

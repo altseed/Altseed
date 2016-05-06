@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using asd;
+﻿using asd;
 
-namespace unitTest_Engine_cs.ObjectSystem2D
+namespace unitTest_Engine_cs.ObjectSystem2D.LifeCycle
 {
-	class LifeCycle : EngineTest
+	class ObjectSystemLifeCycle : EngineTest
 	{
 		class MessageObject : TextureObject2D
 		{
@@ -151,7 +146,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 		private MessageLayer layer;
 		private MessageScene scene;
 
-		public LifeCycle() : base(120)
+		public ObjectSystemLifeCycle() : base(120)
 		{
 		}
 
@@ -168,26 +163,41 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			Assert.AreEqual(false, obj.IsAdded);
 			Assert.AreEqual(false, obj.HaveBeenDisposed);
 
-			layer.AddObject(obj);
-			Assert.AreEqual(true, obj.IsAdded);
-			layer.RemoveObject(obj);
-			Assert.AreEqual(false, obj.IsAdded);
-			layer.AddObject(obj);
-
-			scene.AddLayer(layer);
-			Assert.AreEqual(true, layer.IsAdded);
-			scene.RemoveLayer(layer);
-			Assert.AreEqual(false, layer.IsAdded);
-			scene.AddLayer(layer);
-
-			Engine.ChangeSceneWithTransition(scene, new TransitionFade(0.3f, 0.3f));
+			Engine.ChangeSceneWithTransition(scene, new TransitionFade(0.1f, 0.1f));
 		}
 
 		protected override void OnUpdating()
 		{
-			if(Time == 65)
+			switch (Time)
 			{
-				Engine.ChangeSceneWithTransition(null, new TransitionFade(0.3f, 0.3f));
+			case 21:
+				layer.AddObject(obj);
+				break;
+
+			case 22:
+				Assert.AreEqual(true, obj.IsAdded);
+				layer.RemoveObject(obj);
+				break;
+
+			case 23:
+				Assert.AreEqual(false, obj.IsAdded);
+				layer.AddObject(obj);
+				scene.AddLayer(layer);
+				break;
+
+			case 24:
+				Assert.AreEqual(true, layer.IsAdded);
+				scene.RemoveLayer(layer);
+				break;
+
+			case 25:
+				Assert.AreEqual(false, layer.IsAdded);
+				scene.AddLayer(layer);
+				break;
+
+			case 60:
+				Engine.ChangeSceneWithTransition(null, new TransitionFade(0.1f, 0.1f));
+				break;
 			}
 		}
 

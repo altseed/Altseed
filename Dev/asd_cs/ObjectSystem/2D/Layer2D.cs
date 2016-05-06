@@ -83,13 +83,9 @@ namespace asd
 		/// 指定した2Dオブジェクトをこのレイヤーに追加する。
 		/// </summary>
 		/// <param name="object2D">追加する2Dオブジェクト</param>
+		/// <remarks><see cref="Objects"/>プロパティの内容などへ実際に追加されるのは、このメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void AddObject(Object2D object2D)
 		{
-			if(object2D.Layer != null)
-			{
-				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
-			}
-
 			ObjectManager.Add(object2D);
 			coreLayer2D.AddObject(object2D.CoreObject);
 		}
@@ -98,6 +94,7 @@ namespace asd
 		/// 指定した2Dオブジェクトをこのレイヤーから削除する。
 		/// </summary>
 		/// <param name="object2D">削除される2Dオブジェクト</param>
+		/// <remarks><see cref="Objects"/>プロパティの内容などから実際に削除されるのは、このメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void RemoveObject(Object2D object2D)
 		{
 			ObjectManager.Remove(object2D, true);
@@ -108,9 +105,16 @@ namespace asd
 		/// 指定した2Dオブジェクトをこのレイヤーから削除する。ただし、IsAliveチェックやOnRemovedイベントの発火などを省く。
 		/// </summary>
 		/// <param name="object2D">削除する2Dオブジェクト。</param>
-		internal void RemoveObjectWithNoEvent(Object2D object2D)
+		/// <param name="raiseEvent"></param>
+		internal void RemoveObject(Object2D object2D, bool raiseEvent)
 		{
-			ObjectManager.Remove(object2D, false);
+			ObjectManager.Remove(object2D, raiseEvent);
+			coreLayer2D.RemoveObject(object2D.CoreObject);
+		}
+
+		internal void ImmediatelyRemoveObject(Object2D object2D, bool raiseEvent)
+		{
+			ObjectManager.RemoveFromContents(object2D, raiseEvent);
 			coreLayer2D.RemoveObject(object2D.CoreObject);
 		}
 

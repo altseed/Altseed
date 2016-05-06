@@ -70,7 +70,6 @@ namespace asd
 		internal static ObjectSystemFactory ObjectSystemFactory { get; private set; }
 		internal static Scene nextScene;
 		internal static SceneTransitionState transitionState;
-		internal static RegistrationManager RegistrationManager { get; private set; }
 		internal static Queue<ICommitable> ChangesToBeCommited { get; private set; }
 
 		/// <summary>
@@ -125,6 +124,9 @@ namespace asd
 					scene.AddLayer(layer);
 					ChangeScene(scene, true);
 				}
+
+				CommitChanges();
+				transitionState.Proceed();
 
 				return true;
 			}
@@ -189,6 +191,9 @@ namespace asd
 					scene.AddLayer(layer);
 					ChangeScene(scene, true);
 				}
+
+				CommitChanges();
+				transitionState.Proceed();
 
 				return true;
 			}
@@ -259,12 +264,7 @@ namespace asd
 				}
 			}
 
-			RegistrationManager.Commit();
-
-			while (ChangesToBeCommited.Count > 0)
-			{
-				ChangesToBeCommited.Dequeue().Commit();
-			}
+			CommitChanges();
 
 			if(CurrentScene != null)
 			{
@@ -277,6 +277,14 @@ namespace asd
 			core.Draw();
 
 			core.EndDrawing();
+		}
+
+		private static void CommitChanges()
+		{
+			while (ChangesToBeCommited.Count > 0)
+			{
+				ChangesToBeCommited.Dequeue().Commit();
+			}
 		}
 
 		/// <summary>
@@ -528,16 +536,7 @@ namespace asd
 		/// <param name="doAutoDispose">前のシーンを自動的に破棄するかどうかの真偽値</param>
 		public static void ChangeScene(Scene scene, bool doAutoDispose = true)
 		{
-			if(CurrentScene != null)
-			{
-				CurrentScene.RaiseOnTransitionBegin();
-			}
-			if(scene != null)
-			{
-				scene.RaiseOnRegistered();
-			}
-			transitionState.ForceToComplete();
-			transitionState = new QuicklyChangingState(scene, doAutoDispose);
+			ChangesToBeCommited.Enqueue(new EventToChangeScene(scene, null, doAutoDispose));
 		}
 
 		/// <summary>
@@ -552,16 +551,7 @@ namespace asd
 			{
 				throw new ArgumentNullException("transition");
 			}
-			if(CurrentScene != null)
-			{
-				CurrentScene.RaiseOnTransitionBegin();
-			}
-			if(scene != null)
-			{
-				scene.RaiseOnRegistered();
-			}
-			transitionState.ForceToComplete();
-			transitionState = new FadingOutState(transition, scene, doAutoDispose);
+			ChangesToBeCommited.Enqueue(new EventToChangeScene(scene, transition, doAutoDispose));
 		}
 
 		/// <summary>
@@ -715,8 +705,7 @@ namespace asd
 			AnimationSystem = new AnimationSystem(core.GetAnimationSyatem());
 
 			layerProfiler = core.GetLayerProfiler();
-
-			RegistrationManager = new RegistrationManager();
+			
 			ChangesToBeCommited = new Queue<ICommitable>();
 		}
 

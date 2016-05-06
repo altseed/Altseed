@@ -10,7 +10,7 @@ namespace asd
 	/// <summary>
 	/// レイヤーの更新と描画を管理するシーン機能を提供するクラス。
 	/// </summary>
-	public class Scene : IReleasable, IDisposable
+	public class Scene : IReleasable, IDisposable, IBeingAbleToDisposeNative
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -21,7 +21,7 @@ namespace asd
 
 			var p = CoreInstance.GetPtr();
 
-			if (GC.Scenes.Contains(p))
+			if(GC.Scenes.Contains(p))
 			{
 				Particular.Helper.ThrowException("");
 			}
@@ -31,7 +31,7 @@ namespace asd
 			layersToDraw_ = new List<Layer>();
 			layersToUpdate_ = new List<Layer>();
 			componentManager_ = new ComponentManager<Scene, SceneComponent>(this);
-			
+
 			IsAlive = true;
 		}
 
@@ -53,7 +53,7 @@ namespace asd
 		{
 			lock (this)
 			{
-				if (CoreInstance == null) return;
+				if(CoreInstance == null) return;
 				GC.Collector.AddObject(CoreInstance);
 				CoreInstance = null;
 			}
@@ -107,53 +107,54 @@ namespace asd
 		/// 指定したレイヤーをこのシーンに追加する。
 		/// </summary>
 		/// <param name="layer">追加されるレイヤー</param>
+		/// <remarks><see cref="Layers"/>プロパティの内容などへ実際に追加されるのは、このメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void AddLayer(Layer layer)
 		{
-			ThrowIfDisposed();
-			if (layer.Scene != null)
+			Engine.ChangesToBeCommited.Enqueue(new EventToManageLayer(this, layer, RegistrationCommand.Add, true));
+			CoreInstance.AddLayer(layer.CoreLayer);
+		}
+
+		internal void ImmediatelyAddLayer(Layer layer, bool raiseEvent)
+		{
+			if(layer.Scene != null)
 			{
 				throw new InvalidOperationException("指定したレイヤーは、既に別のシーンに所属しています。");
 			}
-			
-			RegisterLayerToAdd(layer);
-			layer.Scene = this;
-			layer.RaiseOnAdded();
-		}
 
-		internal void RegisterLayerToAdd(Layer layer)
-		{
-			Engine.RegistrationManager.Push(new EventToManageLayer(this, layer, RegistrationCommand.Add));
-		}
-
-		internal void DirectlyAddLayer(Layer layer)
-		{
 			layersToDraw_.Add(layer);
 			layersToUpdate_.Add(layer);
-			CoreInstance.AddLayer(layer.CoreLayer);
+			layer.Scene = this;
+			if(raiseEvent)
+			{
+				layer.RaiseOnAdded();
+			}
 		}
 
 		/// <summary>
 		/// 指定したレイヤーをこのシーンから削除する。
 		/// </summary>
 		/// <param name="layer">削除されるレイヤー</param>
+		/// <remarks><see cref="Layers"/>プロパティの内容などから実際に削除されるのは、このメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void RemoveLayer(Layer layer)
 		{
-			ThrowIfDisposed();
-			RegisterLayerToRemove(layer);
-			layer.RaiseOnRemoved();
-			layer.Scene = null;
+			RemoveLayer(layer, true);
 		}
 
-		internal void RegisterLayerToRemove(Layer layer)
+		internal void RemoveLayer(Layer layer, bool raiseEvent)
 		{
-			Engine.RegistrationManager.Push(new EventToManageLayer(this, layer, RegistrationCommand.Remove));
+			Engine.ChangesToBeCommited.Enqueue(new EventToManageLayer(this, layer, RegistrationCommand.Remove, raiseEvent));
+			CoreInstance.RemoveLayer(layer.CoreLayer);
 		}
 
-		internal void DirectlyRemoveLayer(Layer layer)
+		internal void ImmediatelyRemoveLayer(Layer layer, bool raiseEvent)
 		{
 			layersToDraw_.Remove(layer);
 			layersToUpdate_.Remove(layer);
-			CoreInstance.RemoveLayer(layer.CoreLayer);
+			if(raiseEvent)
+			{
+				layer.RaiseOnRemoved();
+			}
+			layer.Scene = null;
 		}
 
 		/// <summary>
@@ -252,7 +253,7 @@ namespace asd
 		internal void RaiseOnRegistered()
 		{
 			OnRegistered();
-			foreach (var component in componentManager_.Components)
+			foreach(var component in componentManager_.Components)
 			{
 				component.RaiseOnRegistered();
 			}
@@ -306,12 +307,23 @@ namespace asd
 		/// <summary>
 		/// このシーンを破棄する。
 		/// </summary>
+		/// <remarks>登録されているレイヤーもすべて破棄されるが、レイヤーの破棄はこのメソッドを呼んだフレームの最後に実行されるので注意が必要。</remarks>
 		public void Dispose()
 		{
 			Dispose(false);
 		}
 
+		/// <summary>
+		/// このシーンを破棄する。
+		/// </summary>
+		/// <param name="disposeNative">ネイティブ リソースも即破棄するかどうかの真偽値。</param>
+		/// <remarks>登録されているレイヤーもすべて破棄されるが、レイヤーの破棄はこのメソッドを呼んだフレームの最後に実行されるので注意が必要。</remarks>
 		public void Dispose(bool disposeNative)
+		{
+			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
+		}
+
+		void IBeingAbleToDisposeNative.DisposeImmediately(bool disposeNative)
 		{
 			if(IsAlive)
 			{
@@ -334,7 +346,7 @@ namespace asd
 			{
 				return;
 			}
-			
+
 			Lambda.SortByUpdatePriority(layersToUpdate_);
 
 			OnUpdating();
