@@ -240,6 +240,18 @@
     <ClInclude Include="..\engine\ObjectSystem\2D\asd.DrawnObject2D.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\ICommitable.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\EventToChangeScene.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\EventToManageLayer.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\RegistrationCommand.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -265,6 +277,9 @@
     </Filter>
     <Filter Include="Shape">
       <UniqueIdentifier>{4a428c16-88a6-48b9-bc88-e3df624b1f17}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ObjectSystem\Registration">
+      <UniqueIdentifier>{8abb1252-0532-450e-af8f-ba10dd941045}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

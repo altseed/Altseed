@@ -4,11 +4,13 @@
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+#include <queue>
 #include "asd.CoreToEngine.h"
 #include "ObjectSystem/asd.Scene.h"
 #include "ObjectSystem/2D/asd.Layer2D.h"
 #include "ObjectSystem/3D/asd.Layer3D.h"
 #include "ObjectSystem/Transition/asd.Transition.h"
+#include "ObjectSystem/Registration/ICommitable.h"
 #include "asd.Engine.Base.h"
 
 //----------------------------------------------------------------------------------
@@ -58,6 +60,9 @@ namespace asd {
 
 	class Engine
 	{
+		friend class EventToChangeScene;
+		friend class Scene;
+
 	private:
 		class SceneTransitionState
 		{
@@ -142,10 +147,13 @@ namespace asd {
 		static std::shared_ptr<Scene>	m_currentScene;
 		static std::shared_ptr<Scene>	m_nextScene;
 		static std::shared_ptr<SceneTransitionState> m_transitionState;
+		static std::queue<std::shared_ptr<ICommitable>> m_changesToCommit;
 
 		static bool HasDLL(const char* path);
 		static bool CheckDLL();
 		static bool GenerateCore();
+
+		static void CommitChange();
 
 		Engine();
 		~Engine();
@@ -315,6 +323,8 @@ namespace asd {
 		何らかの理由で無理やり経過時間を指定する場合に使用する。
 		*/
 		static void SetDeltaTime(float deltaTime);
+
+		static Scene::Ptr GetCurrentScene();
 
 		/**
 		@brief	現在のFPSを取得する。

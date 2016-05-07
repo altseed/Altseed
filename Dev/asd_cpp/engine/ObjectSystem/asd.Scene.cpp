@@ -1,6 +1,7 @@
 ﻿#include <exception>
 #include <list>
 #include "asd.Scene.h"
+#include "../asd.Engine.h"
 using namespace std;
 
 namespace asd
@@ -198,7 +199,7 @@ namespace asd
 	void Scene::OnRegistered()
 	{
 	}
-	
+
 	void Scene::OnStartUpdating()
 	{
 	}
@@ -242,23 +243,23 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Scene::AddLayer(const Layer::Ptr& layer)
 	{
-		ACE_ASSERT(layer->GetScene() == nullptr, "追加しようとしたレイヤーは、すでに別のシーンに所属しています。");
-		DirectlyAddLayer(layer);
-		layer->SetScene(this);
-		layer->RaiseOnAdded();
+		asd::Engine::m_changesToCommit.push(
+			make_shared<EventToManageLayer>(shared_from_this(), layer, RegistrationCommand::Add, true));
 	}
 
-	void Scene::DirectlyAddLayer(const Layer::Ptr& layer)
+	void Scene::ImmediatelyAddLayer(const Layer::Ptr& layer, bool raiseEvent)
 	{
-		if (executing)
-		{
-			addingLayer.push_back(layer);
-			return;
-		}
+		ACE_ASSERT(layer->GetScene() == nullptr, "追加しようとしたレイヤーは、すでに別のシーンに所属しています。");
 
 		m_layersToDraw.push_back(layer);
 		m_layersToUpdate.push_back(layer);
 		m_coreScene->AddLayer(layer->GetCoreLayer().get());
+
+		layer->SetScene(this);
+		if (raiseEvent)
+		{
+			layer->RaiseOnAdded();
+		}
 	}
 
 	//----------------------------------------------------------------------------------
@@ -266,19 +267,18 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Scene::RemoveLayer(const Layer::Ptr& layer)
 	{
-		DirectlyRemoveLayer(layer);
-		layer->RaiseOnRemoved();
-		layer->SetScene(nullptr);
+		asd::Engine::m_changesToCommit.push(
+			make_shared<EventToManageLayer>(shared_from_this(), layer, RegistrationCommand::Remove, true));
 	}
 
-	void Scene::DirectlyRemoveLayer(const Layer::Ptr& layer)
+	void Scene::ImmediatelyRemoveLayer(const Layer::Ptr& layer, bool raiseEvent)
 	{
-		if (executing)
+		if (raiseEvent)
 		{
-			removingLayer.push_back(layer);
-			return;
+			layer->RaiseOnRemoved();
 		}
 
+		layer->SetScene(nullptr);
 		m_layersToDraw.remove(layer);
 		m_layersToUpdate.remove(layer);
 		m_coreScene->RemoveLayer(layer->GetCoreLayer().get());

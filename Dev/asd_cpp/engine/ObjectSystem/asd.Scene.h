@@ -7,18 +7,23 @@
 #include "2D/asd.Layer2D.h"
 #include "Component/asd.SceneComponent.h"
 #include "Component/asd.ComponentManager.h"
+#include "Registration/EventToManageLayer.h"
 
 namespace asd
 {
 	class Engine;
+	class EventToChangeScene;
 	class Layer;
 
 	/**
 		@brief	画面を表し、レイヤーを管理するクラス。
 	*/
-	class Scene
+	class Scene :
+		public std::enable_shared_from_this<Layer>
 	{
 		friend class Engine;
+		friend class EventToChangeScene;
+		friend class EventToManageLayer;
 		friend class Layer;
 
 	public:
@@ -48,8 +53,8 @@ namespace asd
 		void CommitChanges();
 		void UpdateComponents();
 
-		void DirectlyAddLayer(const Layer::Ptr& layer);
-		void DirectlyRemoveLayer(const Layer::Ptr& layer);
+		void ImmediatelyAddLayer(const Layer::Ptr& layer, bool raiseEvent);
+		void ImmediatelyRemoveLayer(const Layer::Ptr& layer, bool raiseEvent);
 
 	protected:
 		/**

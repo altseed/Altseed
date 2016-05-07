@@ -29,7 +29,7 @@ namespace asd
 	{
 		private SortedList<int, LinkedList<AltseedObject<TLayer>>> contents_ { get; set; }
 		private TLayer Owner { get; set; }
-		private RedistributeAction<TLayer> Redistribution; 
+		private RedistributeAction<TLayer> Redistribution;
 
 		public IEnumerable<AltseedObject<TLayer>> Contents
 		{
@@ -86,7 +86,7 @@ namespace asd
 
 		internal void AddToContents(AltseedObject<TLayer> obj, bool raiseEvent)
 		{
-			if (!Owner.IsAlive)
+			if(!Owner.IsAlive)
 			{
 				return;
 			}
@@ -104,7 +104,7 @@ namespace asd
 
 			obj.OnUpdatePriorityChanged = Redistribution;
 			obj.Layer = Owner;
-			if (raiseEvent)
+			if(raiseEvent)
 			{
 				obj.RaiseOnAdded();
 			}
@@ -121,7 +121,7 @@ namespace asd
 			if(contents_.ContainsKey(obj.UpdatePriority))
 			{
 				contents_[obj.UpdatePriority].Remove(obj);
-				if (raiseEvent)
+				if(raiseEvent)
 				{
 					obj.RaiseOnRemoved();
 				}
@@ -130,3 +130,5 @@ namespace asd
 		}
 	}
 }
+
+

@@ -111,7 +111,6 @@ namespace asd
 		public void AddLayer(Layer layer)
 		{
 			Engine.ChangesToBeCommited.Enqueue(new EventToManageLayer(this, layer, RegistrationCommand.Add, true));
-			CoreInstance.AddLayer(layer.CoreLayer);
 		}
 
 		internal void ImmediatelyAddLayer(Layer layer, bool raiseEvent)
@@ -123,6 +122,7 @@ namespace asd
 
 			layersToDraw_.Add(layer);
 			layersToUpdate_.Add(layer);
+			CoreInstance.AddLayer(layer.CoreLayer);
 			layer.Scene = this;
 			if(raiseEvent)
 			{
@@ -143,18 +143,18 @@ namespace asd
 		internal void RemoveLayer(Layer layer, bool raiseEvent)
 		{
 			Engine.ChangesToBeCommited.Enqueue(new EventToManageLayer(this, layer, RegistrationCommand.Remove, raiseEvent));
-			CoreInstance.RemoveLayer(layer.CoreLayer);
 		}
 
 		internal void ImmediatelyRemoveLayer(Layer layer, bool raiseEvent)
 		{
-			layersToDraw_.Remove(layer);
-			layersToUpdate_.Remove(layer);
 			if(raiseEvent)
 			{
 				layer.RaiseOnRemoved();
 			}
 			layer.Scene = null;
+			layersToDraw_.Remove(layer);
+			layersToUpdate_.Remove(layer);
+			CoreInstance.RemoveLayer(layer.CoreLayer);
 		}
 
 		/// <summary>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	internal class EventToManageContent<TLayer> : IRegistrationEvent
+	internal class EventToManageContent<TLayer> : ICommitable
 		where TLayer : Layer
 	{
 		public EventToManageContent(
@@ -25,16 +25,6 @@ namespace asd
 		public AltseedObject<TLayer> Content { get; set; }
 		public RegistrationCommand Command { get; set; }
 		public bool RaiseEvent { get; set; }
-
-		public object Owner
-		{
-			get { return ObjectManager; }
-		}
-
-		object IRegistrationEvent.Content
-		{
-			get { return Content; }
-		}
 
 		public void Commit()
 		{

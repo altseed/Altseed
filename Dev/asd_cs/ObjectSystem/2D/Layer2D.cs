@@ -88,6 +88,7 @@ namespace asd
 		{
 			ObjectManager.Add(object2D);
 			coreLayer2D.AddObject(object2D.CoreObject);
+			// SceneではImmediately~で初めてCoreを操作するが、LayerではContentManagerの型引数が増えてしまう都合上ひとまず即操作するように……
 		}
 
 		/// <summary>

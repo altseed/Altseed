@@ -17,6 +17,8 @@ namespace asd
 		std::shared_ptr<CoreTransition> GetCoreTransition() { return coreTransition; }
 
 	public:
+		typedef std::shared_ptr<Transition> Ptr;
+
 		Transition();
 		virtual ~Transition();
 

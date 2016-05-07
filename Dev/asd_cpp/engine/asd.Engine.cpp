@@ -298,6 +298,7 @@ namespace asd
 	std::shared_ptr<Scene>	Engine::m_currentScene;
 	std::shared_ptr<Scene>	Engine::m_nextScene;
 	std::shared_ptr<Engine::SceneTransitionState> Engine::m_transitionState;
+	std::queue<std::shared_ptr<ICommitable>> Engine::m_changesToCommit;
 
 	void Engine::NeutralState::Draw()
 	{
@@ -503,6 +504,7 @@ namespace asd
 			m_animationSyatem = m_core->GetAnimationSyatem();
 			m_file = m_core->GetFile();
 			m_transitionState = std::make_shared<NeutralState>();
+			m_changesToCommit = std::queue<std::shared_ptr<ICommitable>>();
 
 			m_keyboard = m_core->GetKeyboard();
 			m_mouse = m_core->GetMouse();
@@ -525,6 +527,9 @@ namespace asd
 				scene->AddLayer(layer);
 				ChangeScene(scene);
 			}
+
+			CommitChange();
+			m_transitionState->Proceed();
 		}
 		else
 		{
@@ -590,8 +595,20 @@ namespace asd
 				scene->AddLayer(layer);
 				ChangeScene(scene);
 			}
+
+			CommitChange();
+			m_transitionState->Proceed();
 		}
 		return init;
+	}
+
+	void Engine::CommitChange()
+	{
+		while (!m_changesToCommit.empty())
+		{
+			m_changesToCommit.front()->Commit();
+			m_changesToCommit.pop();
+		}
 	}
 
 	void Engine::SetTitle(const achar* title)
@@ -885,6 +902,11 @@ namespace asd
 	void Engine::SetDeltaTime(float deltaTime)
 	{
 		m_core->SetDeltaTime(deltaTime);
+	}
+
+	Scene::Ptr Engine::GetCurrentScene()
+	{
+		return m_currentScene;
 	}
 
 	//----------------------------------------------------------------------------------
