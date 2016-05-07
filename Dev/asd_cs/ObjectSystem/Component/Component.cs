@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd.ObjectSystem.Registration;
 
 namespace asd
 {
@@ -33,7 +34,12 @@ namespace asd
 		/// <summary>
 		/// このコンポーネントを破棄する。
 		/// </summary>
-		public void Vanish()
+		public void Dispose()
+		{
+			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeComponent<TOwner>(this));
+		}
+
+		public void ImmediatelyDispose()
 		{
 			IsAlive = false;
 		}

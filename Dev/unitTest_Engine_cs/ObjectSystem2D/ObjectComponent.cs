@@ -35,7 +35,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			layer.AddObject( obj1.Item1 );
 			layer.AddObject( obj2.Item1 );
 
-			obj2.Item2.Vanish();
+			obj2.Item2.Dispose();
 		}
 
 		private Tuple<TextureObject2D, MyComponent> GetObject( float x )

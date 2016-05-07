@@ -32,7 +32,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 			scene.AddLayer( layer2.Item1 );
 			Engine.ChangeScene(scene);
 
-			layer2.Item2.Vanish();
+			layer2.Item2.Dispose();
 		}
 
 		private Tuple<Layer2D, MyComponent> CreateSampleLayer( float x )

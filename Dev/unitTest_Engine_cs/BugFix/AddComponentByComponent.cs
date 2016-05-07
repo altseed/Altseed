@@ -19,7 +19,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				{
 					Owner.AddComponent(new ComponentAddingObject(), "Add");
 					Console.WriteLine("vanish object component.");
-					Vanish();
+					Dispose();
 				}
 			}
 		}
@@ -34,7 +34,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				{
 					Owner.AddComponent(new ComponentAddingLayer(), "Add");
 					Console.WriteLine("vanish layer component.");
-					Vanish();
+					Dispose();
 				}
 			}
 		}
@@ -49,7 +49,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 				{
 					Owner.AddComponent(new ComponentAddingScene(), "Add");
 					Console.WriteLine("vanish scene component.");
-					Vanish();
+					Dispose();
 				}
 			}
 		}

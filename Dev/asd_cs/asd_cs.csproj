@@ -126,6 +126,7 @@
     <Compile Include="ObjectSystem\PostEffect\PostEffectGaussianBlur.cs" />
     <Compile Include="ObjectSystem\PostEffect\PostEffectLightBloom.cs" />
     <Compile Include="ObjectSystem\PostEffect\PostEffectSepia.cs" />
+    <Compile Include="ObjectSystem\Registration\EventToDisposeComponent.cs" />
     <Compile Include="ObjectSystem\Registration\EventToDisposeContent.cs" />
     <Compile Include="ObjectSystem\Registration\EventToManageComponent.cs" />
     <Compile Include="ObjectSystem\Registration\EventToManageContent.cs" />
