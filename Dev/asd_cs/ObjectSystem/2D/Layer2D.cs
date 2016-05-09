@@ -87,8 +87,6 @@ namespace asd
 		public void AddObject(Object2D object2D)
 		{
 			ObjectManager.Add(object2D);
-			coreLayer2D.AddObject(object2D.CoreObject);
-			// SceneではImmediately~で初めてCoreを操作するが、LayerではContentManagerの型引数が増えてしまう都合上ひとまず即操作するように……
 		}
 
 		/// <summary>
@@ -99,16 +97,6 @@ namespace asd
 		public void RemoveObject(Object2D object2D)
 		{
 			ObjectManager.Remove(object2D, true);
-		}
-
-		/// <summary>
-		/// 指定した2Dオブジェクトをこのレイヤーから削除する。ただし、IsAliveチェックやOnRemovedイベントの発火などを省く。
-		/// </summary>
-		/// <param name="object2D">削除する2Dオブジェクト。</param>
-		/// <param name="raiseEvent"></param>
-		internal void RemoveObject(Object2D object2D, bool raiseEvent)
-		{
-			ObjectManager.Remove(object2D, raiseEvent);
 		}
 
 		internal void ImmediatelyRemoveObject(Object2D object2D, bool raiseEvent)

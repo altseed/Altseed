@@ -27,16 +27,6 @@ namespace asd
 		private string Key { get; set; }
 		public RegistrationCommand Command { get; set; }
 
-		public object Owner
-		{
-			get { return Manager; }
-		}
-
-		public object Content
-		{
-			get { return Component; }
-		}
-
 		public void Commit()
 		{
 			switch (Command)
