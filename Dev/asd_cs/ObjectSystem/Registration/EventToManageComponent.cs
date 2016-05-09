@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd.ObjectSystem.Registration;
 
 namespace asd
 {
-	internal class EventToManageComponent<TOwner, TComponent> : ICommitable
-		where TOwner : class 
-		where TComponent : Component<TOwner>
+	internal class EventToManageComponent<TComponent> : ICommitable
+		where TComponent : Component
 	{
 		public EventToManageComponent(
-			ComponentManager<TOwner, TComponent> manager,
+			IImmediatelyComponentmanager<TComponent> manager,
 			TComponent component,
 			string key,
 			RegistrationCommand command)
@@ -22,7 +22,7 @@ namespace asd
 			Command = command;
 		}
 
-		private ComponentManager<TOwner, TComponent> Manager { get; set; }
+		private IImmediatelyComponentmanager<TComponent> Manager { get; set; }
 		private TComponent Component { get; set; }
 		private string Key { get; set; }
 		public RegistrationCommand Command { get; set; }
@@ -42,28 +42,28 @@ namespace asd
 			switch (Command)
 			{
 			case RegistrationCommand.Add:
-				Manager.AddDirectly(Component, Key);
+				Manager.ImmediatelyAddComponent(Component, Key);
 				break;
 
 			case RegistrationCommand.Remove:
-				Manager.RemoveDirectly(Key);
+				Manager.ImmediatelyRemoveComponent(Key);
 				break;
 			}
 		}
 
-		public static EventToManageComponent<TOwner, TComponent> GetAddEvent(
-			ComponentManager<TOwner, TComponent> manager,
+		public static EventToManageComponent<TComponent> GetAddEvent(
+			ComponentManager<TComponent> manager,
 			TComponent component,
 			string key)
 		{
-			return new EventToManageComponent<TOwner, TComponent>(manager, component, key, RegistrationCommand.Add);
+			return new EventToManageComponent<TComponent>(manager, component, key, RegistrationCommand.Add);
 		}
 
-		public static EventToManageComponent<TOwner, TComponent> GetRemoveEvent(
-			ComponentManager<TOwner, TComponent> manager,
+		public static EventToManageComponent<TComponent> GetRemoveEvent(
+			ComponentManager<TComponent> manager,
 			string key)
 		{
-			return new EventToManageComponent<TOwner, TComponent>(manager, null, key, RegistrationCommand.Remove);
+			return new EventToManageComponent<TComponent>(manager, null, key, RegistrationCommand.Remove);
 		} 
 	}
 }

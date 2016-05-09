@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// asd.Layer2D クラスに登録することができるコンポーネント クラス。
 	/// </summary>
-	public abstract class Layer2DComponent : Component<Layer2D>
+	public abstract class Layer2DComponent : Component
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -22,7 +22,7 @@ namespace asd
 		/// <summary>
 		/// このコンポーネントを保持しているレイヤー クラスのインスタンスを取得する。
 		/// </summary>
-		public override Layer2D Owner { get; internal set; }
+		public Layer2D Owner { get; internal set; }
 
 		/// <summary>
 		/// このコンポーネントが更新されるかどうかを取得する。

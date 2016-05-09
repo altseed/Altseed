@@ -6,14 +6,12 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	internal interface IActionWithObject<TLayer>
-		where TLayer : Layer
+	internal interface IActionWithObject
 	{
-		void Invoke(AltseedObject<TLayer> obj);
+		void Invoke(AltseedObject obj);
 	}
 
-	public abstract class AltseedObject<TLayer>
-		where TLayer : Layer
+	public abstract class AltseedObject
 	{
 		private int updatePriority_;
 
@@ -33,9 +31,9 @@ namespace asd
 			}
 		}
 
-		public TLayer Layer { get; set; }
+		internal abstract bool IsRegisteredToLayer { get; }
 
-		internal IActionWithObject<TLayer> OnUpdatePriorityChanged;
+		internal IActionWithObject OnUpdatePriorityChanged;
 
 		internal abstract bool GetIsAlive();
 		internal abstract void Update();

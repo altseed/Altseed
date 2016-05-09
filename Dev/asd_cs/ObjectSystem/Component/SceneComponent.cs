@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// asd.Scene クラスに登録することができるコンポーネント。
 	/// </summary>
-	public abstract class SceneComponent : Component<Scene>
+	public abstract class SceneComponent : Component
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -22,7 +22,7 @@ namespace asd
 		/// <summary>
 		/// このインスタンスを保持しているシーン クラスを取得する。
 		/// </summary>
-		public override Scene Owner { get; internal set; }
+		public Scene Owner { get; internal set; }
 
 		/// <summary>
 		/// このコンポーネントが更新されるかどうかを取得または設定する。

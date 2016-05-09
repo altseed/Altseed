@@ -39,7 +39,7 @@ namespace asd
 		DisposeInternal();
 		if (GetScene() != nullptr)
 		{
-			GetScene()->DirectlyRemoveLayer(shared_from_this());
+			GetScene()->ImmediatelyRemoveLayer(shared_from_this(), false);
 		}
 	}
 

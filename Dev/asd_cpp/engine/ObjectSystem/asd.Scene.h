@@ -7,19 +7,19 @@
 #include "2D/asd.Layer2D.h"
 #include "Component/asd.SceneComponent.h"
 #include "Component/asd.ComponentManager.h"
-#include "Registration/EventToManageLayer.h"
 
 namespace asd
 {
 	class Engine;
 	class EventToChangeScene;
+	class EventToManageLayer;
 	class Layer;
 
 	/**
 		@brief	画面を表し、レイヤーを管理するクラス。
 	*/
 	class Scene :
-		public std::enable_shared_from_this<Layer>
+		public std::enable_shared_from_this<Scene>
 	{
 		friend class Engine;
 		friend class EventToChangeScene;
@@ -36,10 +36,6 @@ namespace asd
 		ComponentManager<Scene, SceneComponent> m_componentManager;
 		bool alreadyFirstUpdate;
 		bool m_isAlive;
-
-		std::list<Layer::Ptr> addingLayer;
-		std::list<Layer::Ptr> removingLayer;
-		bool executing = false;
 
 		void RaiseOnRegistered();
 		void RaiseOnStartUpdating();

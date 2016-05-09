@@ -108,6 +108,7 @@
     <Compile Include="ObjectSystem\3D\ModelObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Object3D.cs" />
     <Compile Include="ObjectSystem\3D\TerrainObject3D.cs" />
+    <Compile Include="ObjectSystem\Component\IComponentRegisterable.cs" />
     <Compile Include="ObjectSystem\Component\Layer2DComponent.cs" />
     <Compile Include="ObjectSystem\Component\Object2DComponent.cs" />
     <Compile Include="ObjectSystem\2D\Object2D.cs" />
@@ -117,6 +118,7 @@
     <Compile Include="ObjectSystem\Component\Component.cs" />
     <Compile Include="ObjectSystem\Contents.cs" />
     <Compile Include="ObjectSystem\IBeingAbleToDisposeNative.cs" />
+    <Compile Include="ObjectSystem\IObjectRegisterable.cs" />
     <Compile Include="ObjectSystem\ObjectManager.cs" />
     <Compile Include="ObjectSystem\Layer.cs" />
     <Compile Include="ObjectSystem\2D\Layer2D.cs" />
@@ -129,10 +131,11 @@
     <Compile Include="ObjectSystem\Registration\EventToDisposeComponent.cs" />
     <Compile Include="ObjectSystem\Registration\EventToDisposeContent.cs" />
     <Compile Include="ObjectSystem\Registration\EventToManageComponent.cs" />
-    <Compile Include="ObjectSystem\Registration\EventToManageContent.cs" />
+    <Compile Include="ObjectSystem\Registration\EventToManageObject.cs" />
     <Compile Include="ObjectSystem\Registration\EventToManageLayer.cs" />
     <Compile Include="ObjectSystem\Registration\EventToChangeScene.cs" />
     <Compile Include="ObjectSystem\Registration\ICommitable.cs" />
+    <Compile Include="ObjectSystem\Registration\IImmediatelyComponentmanager.cs" />
     <Compile Include="ObjectSystem\Registration\RegistrationCommand.cs" />
     <Compile Include="ObjectSystem\Scene.cs" />
     <Compile Include="ObjectSystem\Component\SceneComponent.cs" />

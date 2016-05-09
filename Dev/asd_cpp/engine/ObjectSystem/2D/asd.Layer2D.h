@@ -8,6 +8,7 @@
 #include "../Component/asd.Layer2DComponent.h"
 #include "../Component/asd.ComponentManager.h"
 #include "../../Shape/asd.Shape.h"
+#include "../asd.ObjectManager.h"
 
 namespace asd
 {
@@ -24,7 +25,7 @@ namespace asd
 
 	private:
 		std::shared_ptr<CoreLayer2D>	m_coreLayer;
-		ContentsManager<Object2D> m_objects;
+		ObjectManager<Layer2D, Object2D> m_objects;
 		ComponentManager<Layer2D, Layer2DComponent> m_components;
 
 		void BeginUpdating();

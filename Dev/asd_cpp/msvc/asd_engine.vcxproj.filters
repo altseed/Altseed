@@ -138,9 +138,6 @@
     <ClInclude Include="..\engine\ObjectSystem\Component\asd.ComponentManager.h">
       <Filter>ObjectSystem\Component</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\asd.ContentsManager.h">
-      <Filter>ObjectSystem</Filter>
-    </ClInclude>
     <ClInclude Include="..\engine\ObjectSystem\3D\asd.DirectionalLightObject3D.h">
       <Filter>ObjectSystem\3D</Filter>
     </ClInclude>
@@ -240,16 +237,22 @@
     <ClInclude Include="..\engine\ObjectSystem\2D\asd.DrawnObject2D.h">
       <Filter>ObjectSystem\2D</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\Registration\ICommitable.h">
+    <ClInclude Include="..\engine\ObjectSystem\asd.ObjectManager.h">
+      <Filter>ObjectSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToChangeScene.h">
       <Filter>ObjectSystem\Registration</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\Registration\EventToChangeScene.h">
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageLayer.h">
       <Filter>ObjectSystem\Registration</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\Registration\EventToManageLayer.h">
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageObject.h">
       <Filter>ObjectSystem\Registration</Filter>
     </ClInclude>
-    <ClInclude Include="..\engine\ObjectSystem\Registration\RegistrationCommand.h">
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.ICommitable.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.RegistrationCommand.h">
       <Filter>ObjectSystem\Registration</Filter>
     </ClInclude>
   </ItemGroup>

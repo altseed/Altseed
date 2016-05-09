@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	internal class EventToManageContent<TLayer> : ICommitable
-		where TLayer : Layer
+	internal class EventToManageObject<TObject> : ICommitable
+		where TObject : AltseedObject
 	{
-		public EventToManageContent(
-			ObjectManager<TLayer> objectManager,
-			AltseedObject<TLayer> content,
+		public EventToManageObject(
+			ObjectManager<TObject> objectManager,
+			TObject content,
 			RegistrationCommand command,
 			bool raiseEvent)
 		{
@@ -21,8 +21,8 @@ namespace asd
 			RaiseEvent = raiseEvent;
 		}
 
-		private ObjectManager<TLayer> ObjectManager { get; set; }
-		public AltseedObject<TLayer> Content { get; set; }
+		private ObjectManager<TObject> ObjectManager { get; set; }
+		public TObject Content { get; set; }
 		public RegistrationCommand Command { get; set; }
 		public bool RaiseEvent { get; set; }
 

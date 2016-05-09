@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 3Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
 	/// </summary>
-	public class Layer3D : Layer
+	public class Layer3D : Layer, IObjectRegisterable<Object3D>
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -33,7 +33,7 @@ namespace asd
 
 			GC.Layer3Ds.AddObject(p, this);
 
-			ObjectManager = new ObjectManager<Layer3D>(this);
+			ObjectManager = new ObjectManager<Object3D>(this);
 
 			CoreLayer = coreLayer3D;
 		}
@@ -114,7 +114,6 @@ namespace asd
 		public void AddObject(Object3D object3D)
 		{
 			ObjectManager.Add(object3D);
-			coreLayer3D.AddObject(object3D.CoreObject);
 		}
 
 		/// <summary>
@@ -125,13 +124,23 @@ namespace asd
 		public void RemoveObject(Object3D object3D)
 		{
 			ObjectManager.Remove(object3D, true);
-			coreLayer3D.RemoveObject(object3D.CoreObject);
 		}
 
 		internal void ImmediatelyRemoveObject(Object3D object3D, bool raiseEvent)
 		{
 			ObjectManager.Remove(object3D, raiseEvent);
-			coreLayer3D.RemoveObject(object3D.CoreObject);
+		}
+
+		void IObjectRegisterable<Object3D>.Register(Object3D obj)
+		{
+			obj.Layer = this;
+			coreLayer3D.AddObject(obj.CoreObject);
+		}
+
+		void IObjectRegisterable<Object3D>.Unregister(Object3D obj)
+		{
+			obj.Layer = null;
+			coreLayer3D.RemoveObject(obj.CoreObject);
 		}
 
 		/// <summary>
@@ -440,6 +449,6 @@ namespace asd
 			ObjectManager.DisposeObjects(disposeNative);
 		}
 
-		private ObjectManager<Layer3D> ObjectManager { get; set; }
+		private ObjectManager<Object3D> ObjectManager { get; set; }
 	}
 }

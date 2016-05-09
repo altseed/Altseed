@@ -8,7 +8,7 @@ namespace asd
 	/// <summary>
 	/// asd.Object2D クラスに登録できるコンポーネント クラス。
 	/// </summary>
-	public abstract class Object2DComponent : Component<Object2D>
+	public abstract class Object2DComponent : Component
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -21,7 +21,7 @@ namespace asd
 		/// <summary>
 		/// このコンポーネントを保持している2Dオブジェクトのインスタンスを取得する。
 		/// </summary>
-		public override Object2D Owner { get; internal set; }
+		public Object2D Owner { get; internal set; }
 
 		/// <summary>
 		/// このコンポーネントが更新されるかどうかを取得または設定する。

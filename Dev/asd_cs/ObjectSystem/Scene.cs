@@ -10,7 +10,7 @@ namespace asd
 	/// <summary>
 	/// レイヤーの更新と描画を管理するシーン機能を提供するクラス。
 	/// </summary>
-	public class Scene : IReleasable, IDisposable, IBeingAbleToDisposeNative
+	public class Scene : IReleasable, IDisposable, IBeingAbleToDisposeNative, IComponentRegisterable<SceneComponent>
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -30,7 +30,7 @@ namespace asd
 
 			layersToDraw_ = new List<Layer>();
 			layersToUpdate_ = new List<Layer>();
-			componentManager_ = new ComponentManager<Scene, SceneComponent>(this);
+			componentManager_ = new ComponentManager<SceneComponent>(this);
 
 			IsAlive = true;
 		}
@@ -415,9 +415,20 @@ namespace asd
 		#endregion
 
 
+		void IComponentRegisterable<SceneComponent>.Register(SceneComponent component)
+		{
+			component.Owner = this;
+		}
+
+		void IComponentRegisterable<SceneComponent>.Unregister(SceneComponent component)
+		{
+			component.Owner = null;
+		}
+
+
 		internal unsafe swig.CoreScene CoreInstance { get; private set; }
 
-		private ComponentManager<Scene, SceneComponent> componentManager_ { get; set; }
+		private ComponentManager<SceneComponent> componentManager_ { get; set; }
 		private List<Layer> layersToDraw_;
 		private List<Layer> layersToUpdate_;
 	}

@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 2Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
 	/// </summary>
-	public class Layer2D : Layer
+	public class Layer2D : Layer, IObjectRegisterable<Object2D>, IComponentRegisterable<Layer2DComponent>
 	{
 		/// <summary>
 		/// コンストラクタ
@@ -26,8 +26,8 @@ namespace asd
 
 			GC.Layer2Ds.AddObject(p, this);
 
-			ObjectManager = new ObjectManager<Layer2D>(this);
-			componentManager = new ComponentManager<Layer2D, Layer2DComponent>(this);
+			ObjectManager = new ObjectManager<Object2D>(this);
+			componentManager = new ComponentManager<Layer2DComponent>(this);
 
 			CoreLayer = coreLayer2D;
 		}
@@ -70,7 +70,6 @@ namespace asd
 			get { return Objects.Count(); }
 		}
 
-
 		/// <summary>
 		/// このレイヤーが管理している2Dオブジェクトのコレクションを取得する。
 		/// </summary>
@@ -78,6 +77,7 @@ namespace asd
 		{
 			get { return ObjectManager.Contents.Cast<Object2D>(); }
 		}
+
 
 		/// <summary>
 		/// 指定した2Dオブジェクトをこのレイヤーに追加する。
@@ -99,7 +99,6 @@ namespace asd
 		public void RemoveObject(Object2D object2D)
 		{
 			ObjectManager.Remove(object2D, true);
-			coreLayer2D.RemoveObject(object2D.CoreObject);
 		}
 
 		/// <summary>
@@ -110,13 +109,11 @@ namespace asd
 		internal void RemoveObject(Object2D object2D, bool raiseEvent)
 		{
 			ObjectManager.Remove(object2D, raiseEvent);
-			coreLayer2D.RemoveObject(object2D.CoreObject);
 		}
 
 		internal void ImmediatelyRemoveObject(Object2D object2D, bool raiseEvent)
 		{
 			ObjectManager.RemoveFromContents(object2D, raiseEvent);
-			coreLayer2D.RemoveObject(object2D.CoreObject);
 		}
 
 		/// <summary>
@@ -345,6 +342,28 @@ namespace asd
 			base.OnRemoved();
 		}
 
+		void IObjectRegisterable<Object2D>.Register(Object2D obj)
+		{
+			obj.Layer = this;
+			coreLayer2D.AddObject(obj.CoreObject);
+		}
+
+		void IObjectRegisterable<Object2D>.Unregister(Object2D obj)
+		{
+			obj.Layer = null;
+			coreLayer2D.RemoveObject(obj.CoreObject);
+		}
+
+		void IComponentRegisterable<Layer2DComponent>.Register(Layer2DComponent component)
+		{
+			component.Owner = this;
+		}
+
+		void IComponentRegisterable<Layer2DComponent>.Unregister(Layer2DComponent component)
+		{
+			component.Owner = null;
+		}
+
 
 		public override LayerType LayerType
 		{
@@ -359,8 +378,8 @@ namespace asd
 			set { coreLayer2D_ = value; }
 		}
 
-		private ObjectManager<Layer2D> ObjectManager { get; set; }
+		private ObjectManager<Object2D> ObjectManager { get; set; }
 
-		private ComponentManager<Layer2D, Layer2DComponent> componentManager { get; set; }
+		private ComponentManager<Layer2DComponent> componentManager { get; set; }
 	}
 }

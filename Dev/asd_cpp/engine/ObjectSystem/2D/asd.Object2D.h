@@ -5,7 +5,7 @@
 #include "../../asd.CoreToEngine.h"
 #include "../Component/asd.Object2DComponent.h"
 #include "../Component/asd.ComponentManager.h"
-#include "../asd.ContentsManager.h"
+#include "../asd.ObjectManager.h"
 #include "../../Shape/asd.Shape.h"
 
 namespace asd
@@ -19,7 +19,7 @@ namespace asd
 		public std::enable_shared_from_this<Object2D>
 	{
 		friend class Layer2D;
-		friend class ContentsManager < Object2D > ;
+		friend class ObjectManager<Layer2D, Object2D>;
 		friend class DrawnObject2D;
 
 	public:

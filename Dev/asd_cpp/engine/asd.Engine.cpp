@@ -577,6 +577,7 @@ namespace asd
 			m_graphics = m_core->GetGraphics();
 			m_animationSyatem = m_core->GetAnimationSyatem();
 			m_transitionState = std::make_shared<NeutralState>();
+			m_changesToCommit = std::queue<std::shared_ptr<ICommitable>>();
 
 			g_objectSystemFactory = m_objectSystemFactory;
 

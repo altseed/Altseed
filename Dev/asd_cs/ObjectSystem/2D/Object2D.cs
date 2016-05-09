@@ -21,18 +21,20 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
 	/// </summary>
-	public abstract class Object2D : AltseedObject<Layer2D>, IReleasable, IBeingAbleToDisposeNative
+	public abstract class Object2D : AltseedObject, IReleasable, IBeingAbleToDisposeNative, IComponentRegisterable<Object2DComponent>
 	{
 		/// <summary>
 		/// コンストラクタ
 		/// </summary>
 		public Object2D()
 		{
-			componentManager_ = new ComponentManager<Object2D, Object2DComponent>(this);
+			componentManager_ = new ComponentManager<Object2DComponent>(this);
 			ChildrenList = new List<Object2D>();
 			IsUpdated = true;
 		}
 
+
+		public Layer2D Layer { get; set; }
 
 		#region パラメータ
 		/// <summary>
@@ -503,6 +505,17 @@ namespace asd
 		#endregion
 
 
+		void IComponentRegisterable<Object2DComponent>.Register(Object2DComponent component)
+		{
+			component.Owner = this;
+		}
+
+		void IComponentRegisterable<Object2DComponent>.Unregister(Object2DComponent component)
+		{
+			component.Owner = null;
+		}
+
+
 		private bool IsInheriting(ChildManagementMode mode)
 		{
 			return ParentInfo != null && (ParentInfo.ManagementMode & mode) != 0;
@@ -524,13 +537,18 @@ namespace asd
 			}
 		}
 
-		private ComponentManager<Object2D, Object2DComponent> componentManager_ { get; set; }
+		private ComponentManager<Object2DComponent> componentManager_ { get; set; }
 
 		internal abstract swig.CoreObject2D CoreObject { get; }
 
 		internal override bool GetIsAlive()
 		{
 			return IsAlive;
+		}
+
+		internal override bool IsRegisteredToLayer
+		{
+			get { return Layer != null; }
 		}
 
 		internal List<Object2D> ChildrenList { get; set; }

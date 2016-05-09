@@ -2,6 +2,8 @@
 #include <list>
 #include "asd.Scene.h"
 #include "../asd.Engine.h"
+#include "Registration/RegistrationCommand.h"
+#include "Registration/EventToManageLayer.h"
 using namespace std;
 
 namespace asd
@@ -44,13 +46,10 @@ namespace asd
 		{
 			m_isAlive = false;
 			OnDispose();
-
-			executing = true;
 			for (auto& l : m_layersToUpdate)
 			{
 				l->Dispose();
 			}
-			executing = false;
 		}
 	}
 
@@ -60,10 +59,6 @@ namespace asd
 		{
 			return x->GetUpdatePriority() < y->GetUpdatePriority();
 		});
-
-		auto beVanished = list<Layer::Ptr>();
-
-		executing = true;
 
 		OnUpdating();
 
@@ -85,37 +80,10 @@ namespace asd
 		m_componentManager.Update();
 
 		OnUpdated();
-
-		executing = false;
-
-		for (auto& layer : beVanished)
-		{
-			DirectlyRemoveLayer(layer);
-			layer->Dispose();
-		}
-
-		CommitChanges();
-	}
-
-	void Scene::CommitChanges()
-	{
-		for (auto layer : addingLayer)
-		{
-			AddLayer(layer);
-		}
-
-		for (auto layer : removingLayer)
-		{
-			RemoveLayer(layer);
-		}
-		addingLayer.clear();
-		removingLayer.clear();
 	}
 
 	void Scene::Draw()
 	{
-		executing = true;
-
 		m_layersToDraw.sort([](const Layer::Ptr& x, const Layer::Ptr& y) -> bool
 		{
 			return x->GetDrawingPriority() < y->GetDrawingPriority();
@@ -144,10 +112,6 @@ namespace asd
 		}
 
 		m_coreScene->EndDrawing();
-
-		executing = false;
-
-		CommitChanges();
 	}
 
 	void Scene::OnDispose()

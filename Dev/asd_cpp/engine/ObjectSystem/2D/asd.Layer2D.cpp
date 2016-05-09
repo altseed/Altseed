@@ -149,7 +149,6 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Layer2D::AddObject(const Object2D::Ptr& object)
 	{
-		ACE_ASSERT(object->GetLayer() == nullptr, "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。");
 		m_objects.Add(object);
 		m_coreLayer->AddObject(object->GetCoreObject());
 		object->SetLayer(this);

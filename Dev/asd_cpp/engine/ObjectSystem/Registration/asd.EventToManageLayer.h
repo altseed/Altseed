@@ -6,10 +6,12 @@
 
 namespace asd
 {
+	class Scene;
+
 	class EventToManageLayer : public ICommitable
 	{
 	private:
-		Scene::Ptr m_scene;
+		asd::Scene::Ptr m_scene;
 		Layer::Ptr m_layer;
 		RegistrationCommand m_command;
 		bool m_raiseEvent;

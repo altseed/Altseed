@@ -1,23 +1,37 @@
 ﻿#pragma once
 #include <memory>
 #include <list>
+#include "../asd.Engine.h"
+#include "Registration/asd.EventToManageObject.h"
 
 namespace asd
 {
-	template<typename TContent>
-	class ContentsManager
+	template<typename TOwner, typename TContent>
+	class ObjectManager : public std::enable_shared_from_this<ObjectManager<TOwner, TContent>>
 	{
+		class EventToManageObject<TOwner, TContent>;
+		friend class EventToManageObject<TOwner, TContent>;
+
 	private:
 		typedef std::shared_ptr<TContent> ContentPtr;
+		typedef std::shared_ptr<TOwner> OwnerPtr;
 
+		OwnerPtr m_owner;
 		std::map<int, std::list<ContentPtr>> m_contents;
 		std::list<ContentPtr> m_beAdded;
 		std::list<ContentPtr> m_beRemoved;
 		bool m_isUpdating;
 
 	private:
-		void AddToContents(const ContentPtr& content)
+		void AddToContents(const ContentPtr& content, bool raiseEvent)
 		{
+			if (!m_owner->GetIsAlive())
+			{
+				return;
+			}
+
+			ACE_ASSERT(content->GetLayer() == nullptr, "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。");
+
 			auto key = content->GetUpdatePriority();
 			auto contents = m_contents.find(key);
 			if (contents == m_contents.end())
@@ -30,30 +44,49 @@ namespace asd
 				(*contents).second.push_back(content);
 			}
 			content->m_onUpdatePriorityChanged = [this,content](int x) { Redistribute(content); };
+
+			content->SetLayer(m_owner.get());
+			if (raiseEvent)
+			{
+				content->RaiseOnAdded();
+			}
 		}
 
-		void RemoveFromContents(const ContentPtr& content)
+		void RemoveFromContents(const ContentPtr& content, bool raiseEvent)
 		{
+			if (!m_owner->GetIsAlive())
+			{
+				return;
+			}
+
 			auto key = content->GetUpdatePriority();
+			content->m_onUpdatePriorityChanged = nullptr;
 			m_contents[key].remove(content);
+
+			if (raiseEvent)
+			{
+				content->RaiseOnRemoved();
+			}
+			content->SetLayer(nullptr);
 		}
 
 		void Redistribute(const ContentPtr& content)
 		{
-			RemoveFromContents(content);
-			AddToContents(content);
+			RemoveFromContents(content, false);
+			AddToContents(content, false);
 		}
 
 	public:
-		ContentsManager()
+		ObjectManager(OwnerPtr owner)
 			: m_contents(std::map<int, std::list<ContentPtr>>())
+			, m_owner(owner)
 			, m_beAdded(std::list<ContentPtr>())
 			, m_beRemoved(std::list<ContentPtr>())
 			, m_isUpdating(false)
 		{
 		}
 
-		~ContentsManager()
+		~ObjectManager()
 		{
 			auto contents = GetContents();
 			for (auto& content : contents)
@@ -77,49 +110,34 @@ namespace asd
 
 		void Add(const ContentPtr& content)
 		{
-			if (m_isUpdating)
-			{
-				m_beAdded.push_back(content);
-			}
-			else
-			{
-				AddToContents(content);
-			}
+			var e = std::make_shared<EventToManageObject<TOwner, TContent>>(
+				shared_from_this(),
+				content,
+				RegistrationCommand::Add,
+				true);
+			Engine::m_changesToCommit.push(e);
 		}
 
-		void Remove(const ContentPtr& content)
+		void Remove(const ContentPtr& content, bool raiseEvent)
 		{
-			if (m_isUpdating)
-			{
-				m_beRemoved.push_back(content);
-			}
-			else
-			{
-				RemoveFromContents(content);
-				content->m_onUpdatePriorityChanged = nullptr;
-			}
+			var e = std::make_shared<EventToManageObject<TOwner, TContent>>(
+				shared_from_this(),
+				content,
+				RegistrationCommand::Remove,
+				raiseEvent);
+			Engine::m_changesToCommit.push(e);
 		}
 
 		void Clear()
 		{
-			if (m_isUpdating)
+			for (auto& c : GetContents())
 			{
-				for (auto& c : GetContents())
-				{
-					m_beRemoved.push_back(c);
-				}
-				m_beAdded.clear();
-			}
-			else
-			{
-				m_contents.clear();
+				Remove(c);
 			}
 		}
 
 		void Update()
 		{
-			m_isUpdating = true;
-			
 			for (auto& list : m_contents)
 			{
 				for (auto& c : list.second)
@@ -127,34 +145,14 @@ namespace asd
 					c->Update();
 				}
 			}
-
-			m_isUpdating = false;
-
-			for (auto& c : m_beAdded)
-			{
-				AddToContents(c);
-			}
-
-			for (auto& c : m_beRemoved)
-			{
-				RemoveFromContents(c);
-				c->m_onUpdatePriorityChanged = nullptr;
-			}
-
-			m_beAdded.clear();
-			m_beRemoved.clear();
 		}
 
 		void Dispose()
 		{
-			m_isUpdating = true;
-
 			for (auto& c : GetContents())
 			{
 				c->Dispose();
 			}
-
-			m_isUpdating = false;
 		}
 	};
 }

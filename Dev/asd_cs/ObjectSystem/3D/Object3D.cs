@@ -9,7 +9,7 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
 	/// </summary>
-	public abstract class Object3D : AltseedObject<Layer3D>, IReleasable, IDisposable, IBeingAbleToDisposeNative
+	public abstract class Object3D : AltseedObject, IReleasable, IDisposable, IBeingAbleToDisposeNative
 	{
 		internal swig.CoreObject3D commonObject = null;
 
@@ -69,6 +69,13 @@ namespace asd
 		/// オブジェクトが有効かどうかの真偽値を取得する。破棄されているとき false を返す。
 		/// </summary>
 		public bool IsAlive { get; private set; }
+
+		public Layer3D Layer { get; set; }
+
+		internal override bool IsRegisteredToLayer
+		{
+			get { return Layer != null; }
+		}
 
 
 		internal override bool GetIsAlive()

@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace asd.ObjectSystem.Registration
+namespace asd
 {
-	class EventToDisposeComponent<TOwner> : ICommitable
-		where TOwner : class
+	class EventToDisposeComponent : ICommitable
 	{
-		public EventToDisposeComponent(Component<TOwner> component)
+		public EventToDisposeComponent(asd.Component component)
 		{
 			Component = component;
 		}
 
-		private Component<TOwner> Component { get; set; }
+		private asd.Component Component { get; set; }
 
 		public void Commit()
 		{

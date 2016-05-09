@@ -10,7 +10,7 @@
 #include "ObjectSystem/2D/asd.Layer2D.h"
 #include "ObjectSystem/3D/asd.Layer3D.h"
 #include "ObjectSystem/Transition/asd.Transition.h"
-#include "ObjectSystem/Registration/ICommitable.h"
+#include "ObjectSystem/Registration/asd.ICommitable.h"
 #include "asd.Engine.Base.h"
 
 //----------------------------------------------------------------------------------
@@ -62,6 +62,7 @@ namespace asd {
 	{
 		friend class EventToChangeScene;
 		friend class Scene;
+		friend class ObjectManager;
 
 	private:
 		class SceneTransitionState
