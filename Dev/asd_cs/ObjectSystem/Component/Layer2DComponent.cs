@@ -88,5 +88,11 @@ namespace asd
 				OnRemoved();
 			}
 		}
+
+		internal override void ImmediatelyDispose()
+		{
+			IsAlive = false;
+			Owner.ImmediatelyRemoveComponent(Key);
+		}
 	}
 }

@@ -2,13 +2,16 @@
 #include <memory>
 #include <list>
 #include <map>
-#include "asd.Object2D.h"
 #include "../../asd.CoreToEngine.h"
 #include "../asd.Layer.h"
-#include "../Component/asd.Layer2DComponent.h"
-#include "../Component/asd.ComponentManager.h"
 #include "../../Shape/asd.Shape.h"
+
+#include "asd.Object2D.h"
+#include "../Component/asd.Layer2DComponent.h"
 #include "../asd.ObjectManager.h"
+#include "../Component/asd.ComponentManager.h"
+#include "../Registration/asd.IObjectRegisterable.h"
+#include "../Registration/asd.IComponentRegisterable.h"
 
 namespace asd
 {
@@ -16,6 +19,8 @@ namespace asd
 		@brief	2Dオブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス。
 	*/
 	class Layer2D : public Layer
+		, public IObjectRegisterable<Object2D::Ptr>
+		, public IComponentRegisterable<Layer2DComponent::Ptr>
 	{
 		friend class Scene;
 		friend class Object2D;
@@ -30,12 +35,15 @@ namespace asd
 
 		void BeginUpdating();
 		void EndUpdateting();
-
 		void UpdateInternal();
 		void DrawAdditionally();
 		void DisposeInternal();
 
-		void DirectlyRemoveObject(const Object2D::Ptr& object);
+		void DirectlyRemoveObject(const Object2D::Ptr& object, bool raiseEvent);
+		void Register(const Object2D::Ptr& object);
+		void Register(const Layer2DComponent::Ptr& component);
+		void Unregister(const Object2D::Ptr& object);
+		void Unregister(const Layer2DComponent::Ptr& component);
 
 	protected:
 

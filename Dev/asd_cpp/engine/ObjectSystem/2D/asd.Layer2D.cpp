@@ -150,9 +150,6 @@ namespace asd
 	void Layer2D::AddObject(const Object2D::Ptr& object)
 	{
 		m_objects.Add(object);
-		m_coreLayer->AddObject(object->GetCoreObject());
-		object->SetLayer(this);
-		object->RaiseOnAdded();
 	}
 
 	//----------------------------------------------------------------------------------
@@ -160,15 +157,34 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Layer2D::RemoveObject(const Object2D::Ptr& object)
 	{
-		DirectlyRemoveObject(object);
-		object->RaiseOnRemoved();
-		object->SetLayer(nullptr);
+		DirectlyRemoveObject(object, true);
 	}
 
-	void Layer2D::DirectlyRemoveObject(const Object2D::Ptr& object)
+	void Layer2D::DirectlyRemoveObject(const Object2D::Ptr& object, bool raiseEvent)
 	{
-		m_objects.Remove(object);
+		m_objects.Remove(object, raiseEvent);
+	}
+
+	void Layer2D::Register(const Object2D::Ptr& object)
+	{
+		object->SetLayer(this);
+		m_coreLayer->AddObject(object->GetCoreObject());
+	}
+
+	void Layer2D::Unregister(const Object2D::Ptr& object)
+	{
+		object->SetLayer(nullptr);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
+	}
+
+	void Layer2D::Register(const Layer2DComponent::Ptr& component)
+	{
+		component->SetOwner(this);
+	}
+
+	void Layer2D::Unregister(const Layer2DComponent::Ptr& component)
+	{
+		component->SetOwner(nullptr);
 	}
 
 	list<Object2D::Ptr> Layer2D::GetObjects() const

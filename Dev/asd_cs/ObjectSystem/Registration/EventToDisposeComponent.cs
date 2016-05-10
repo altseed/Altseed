@@ -13,7 +13,7 @@ namespace asd
 			Component = component;
 		}
 
-		private asd.Component Component { get; set; }
+		private Component Component { get; set; }
 
 		public void Commit()
 		{

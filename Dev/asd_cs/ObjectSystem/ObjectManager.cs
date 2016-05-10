@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd.ObjectSystem.Registration;
 using asd.Particular;
 
 namespace asd
@@ -10,21 +11,21 @@ namespace asd
 	internal class RedistributeAction<TObject> : IActionWithObject
 		where TObject : AltseedObject
 	{
-		public RedistributeAction(ObjectManager<TObject> manager)
+		public RedistributeAction(IImmediateObjectManager<TObject> manager)
 		{
 			Source = manager;
 		}
 
-		private ObjectManager<TObject> Source { get; set; }
+		private IImmediateObjectManager<TObject> Source { get; set; }
 
 		public void Invoke(AltseedObject obj)
 		{
-			Source.RemoveFromContents((TObject)obj, false);
-			Source.AddToContents((TObject)obj, false);
+			Source.ImmediatelyRemoveObject((TObject)obj, false);
+			Source.ImmediatelyAddObject((TObject)obj, false);
 		}
 	}
 
-	internal class ObjectManager<TObject>
+	internal class ObjectManager<TObject> : IImmediateObjectManager<TObject>
 		where TObject : AltseedObject
 	{
 		private SortedList<int, LinkedList<TObject>> contents_ { get; set; }
@@ -85,7 +86,7 @@ namespace asd
 		}
 
 
-		internal void AddToContents(TObject obj, bool raiseEvent)
+		public void ImmediatelyAddObject(TObject obj, bool raiseEvent)
 		{
 			if(!Owner.IsAlive)
 			{
@@ -111,7 +112,7 @@ namespace asd
 			}
 		}
 
-		internal void RemoveFromContents(TObject obj, bool raiseEvent)
+		public void ImmediatelyRemoveObject(TObject obj, bool raiseEvent)
 		{
 			if(!Owner.IsAlive || !contents_.ContainsKey(obj.UpdatePriority))
 			{

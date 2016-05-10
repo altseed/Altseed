@@ -255,6 +255,18 @@
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.RegistrationCommand.h">
       <Filter>ObjectSystem\Registration</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IObjectRegisterable.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IComponentRegisterable.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IImmediateComponentManager.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IImmediateObjectManager.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd.ObjectSystem.Registration;
 
 namespace asd
 {
@@ -27,7 +28,7 @@ namespace asd
 			GC.Layer2Ds.AddObject(p, this);
 
 			ObjectManager = new ObjectManager<Object2D>(this);
-			componentManager = new ComponentManager<Layer2DComponent>(this);
+			ComponentManager = new ComponentManager<Layer2DComponent>(this);
 
 			CoreLayer = coreLayer2D;
 		}
@@ -78,7 +79,7 @@ namespace asd
 			get { return ObjectManager.Contents.Cast<Object2D>(); }
 		}
 
-
+		#region オブジェクト管理
 		/// <summary>
 		/// 指定した2Dオブジェクトをこのレイヤーに追加する。
 		/// </summary>
@@ -101,37 +102,7 @@ namespace asd
 
 		internal void ImmediatelyRemoveObject(Object2D object2D, bool raiseEvent)
 		{
-			ObjectManager.RemoveFromContents(object2D, raiseEvent);
-		}
-
-		/// <summary>
-		/// 指定したコンポーネントをこのレイヤーに追加する。
-		/// </summary>
-		/// <param name="component">追加するコンポーネント</param>
-		/// <param name="key">コンポーネントに関連付けるキー</param>
-		public void AddComponent(Layer2DComponent component, string key)
-		{
-			componentManager.Add(component, key);
-		}
-
-		/// <summary>
-		/// 指定したキーを持つコンポーネントを取得する。
-		/// </summary>
-		/// <param name="key">取得するコンポーネントのキー</param>
-		/// <returns>コンポーネント</returns>
-		public Layer2DComponent GetComponent(string key)
-		{
-			return componentManager.Get(key);
-		}
-
-		/// <summary>
-		/// 指定したコンポーネントをこのレイヤーから削除する。
-		/// </summary>
-		/// <param name="key">削除するコンポーネントを示すキー</param>
-		/// <returns>削除が成功したか否か。キーに対応するコンポーネントがなかった場合は false。</returns>
-		public bool RemoveComponent(string key)
-		{
-			return componentManager.Remove(key);
+			ObjectManager.ImmediatelyRemoveObject(object2D, raiseEvent);
 		}
 
 		/// <summary>
@@ -147,6 +118,66 @@ namespace asd
 			coreLayer2D.Clear();
 			ObjectManager.Clear();
 		}
+
+		void IObjectRegisterable<Object2D>.Register(Object2D obj)
+		{
+			obj.Layer = this;
+			coreLayer2D.AddObject(obj.CoreObject);
+		}
+
+		void IObjectRegisterable<Object2D>.Unregister(Object2D obj)
+		{
+			obj.Layer = null;
+			coreLayer2D.RemoveObject(obj.CoreObject);
+		}
+		#endregion
+
+		#region コンポーネント管理
+		/// <summary>
+		/// 指定したコンポーネントをこのレイヤーに追加する。
+		/// </summary>
+		/// <param name="component">追加するコンポーネント</param>
+		/// <param name="key">コンポーネントに関連付けるキー</param>
+		public void AddComponent(Layer2DComponent component, string key)
+		{
+			ComponentManager.Add(component, key);
+		}
+
+		/// <summary>
+		/// 指定したキーを持つコンポーネントを取得する。
+		/// </summary>
+		/// <param name="key">取得するコンポーネントのキー</param>
+		/// <returns>コンポーネント</returns>
+		public Layer2DComponent GetComponent(string key)
+		{
+			return ComponentManager.Get(key);
+		}
+
+		/// <summary>
+		/// 指定したコンポーネントをこのレイヤーから削除する。
+		/// </summary>
+		/// <param name="key">削除するコンポーネントを示すキー</param>
+		/// <returns>削除が成功したか否か。キーに対応するコンポーネントがなかった場合は false。</returns>
+		public bool RemoveComponent(string key)
+		{
+			return ComponentManager.Remove(key);
+		}
+
+		internal void ImmediatelyRemoveComponent(string key)
+		{
+			ComponentManager.ImmediatelyRemoveComponent(key);
+		}
+
+		void IComponentRegisterable<Layer2DComponent>.Register(Layer2DComponent component)
+		{
+			component.Owner = this;
+		}
+
+		void IComponentRegisterable<Layer2DComponent>.Unregister(Layer2DComponent component)
+		{
+			component.Owner = null;
+		}
+		#endregion
 
 		#region DrawAdditionally
 		/// <summary>
@@ -279,14 +310,14 @@ namespace asd
 
 		internal override void UpdateInternal()
 		{
-			foreach(var component in componentManager.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiseOnUpdating();
 			}
 
 			ObjectManager.UpdateObjects();
 
-			foreach(var component in componentManager.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiseOnUpdated();
 			}
@@ -315,7 +346,7 @@ namespace asd
 		protected override void OnAdded()
 		{
 			base.OnAdded();
-			foreach(var component in componentManager.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiesOnAdded();
 			}
@@ -323,33 +354,11 @@ namespace asd
 
 		protected override void OnRemoved()
 		{
-			foreach(var component in componentManager.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiesOnRemoved();
 			}
 			base.OnRemoved();
-		}
-
-		void IObjectRegisterable<Object2D>.Register(Object2D obj)
-		{
-			obj.Layer = this;
-			coreLayer2D.AddObject(obj.CoreObject);
-		}
-
-		void IObjectRegisterable<Object2D>.Unregister(Object2D obj)
-		{
-			obj.Layer = null;
-			coreLayer2D.RemoveObject(obj.CoreObject);
-		}
-
-		void IComponentRegisterable<Layer2DComponent>.Register(Layer2DComponent component)
-		{
-			component.Owner = this;
-		}
-
-		void IComponentRegisterable<Layer2DComponent>.Unregister(Layer2DComponent component)
-		{
-			component.Owner = null;
 		}
 
 
@@ -368,6 +377,6 @@ namespace asd
 
 		private ObjectManager<Object2D> ObjectManager { get; set; }
 
-		private ComponentManager<Layer2DComponent> componentManager { get; set; }
+		private ComponentManager<Layer2DComponent> ComponentManager { get; set; }
 	}
 }

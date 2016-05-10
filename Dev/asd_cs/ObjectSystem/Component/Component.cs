@@ -14,7 +14,9 @@ namespace asd
 		/// <summary>
 		/// このコンポーネントが実行中かどうかを取得する。Vanishメソッドによって破棄された時に false を返す。
 		/// </summary>
-		public bool IsAlive { get; private set; }
+		public bool IsAlive { get; internal set; }
+
+		public string Key { get; internal set; }
 
 		/// <summary>
 		/// コンストラクタ
@@ -32,9 +34,6 @@ namespace asd
 			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeComponent(this));
 		}
 
-		public void ImmediatelyDispose()
-		{
-			IsAlive = false;
-		}
+		internal abstract void ImmediatelyDispose();
 	}
 }

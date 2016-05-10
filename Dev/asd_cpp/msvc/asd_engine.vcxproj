@@ -208,7 +208,11 @@
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageLayer.h" />
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageObject.h" />
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.ICommitable.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IComponentRegisterable.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IImmediateComponentManager.h" />
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.RegistrationCommand.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IObjectRegisterable.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IImmediateObjectManager.h" />
     <ClInclude Include="..\engine\ObjectSystem\Transition\asd.Transition.h" />
     <ClInclude Include="..\engine\ObjectSystem\Transition\asd.TransitionFade.h" />
     <ClInclude Include="..\engine\PCH\asd.Engine.PCH.h" />

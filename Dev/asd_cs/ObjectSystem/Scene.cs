@@ -30,7 +30,7 @@ namespace asd
 
 			layersToDraw_ = new List<Layer>();
 			layersToUpdate_ = new List<Layer>();
-			componentManager_ = new ComponentManager<SceneComponent>(this);
+			ComponentManager = new ComponentManager<SceneComponent>(this);
 
 			IsAlive = true;
 		}
@@ -157,6 +157,7 @@ namespace asd
 			CoreInstance.RemoveLayer(layer.CoreLayer);
 		}
 
+
 		/// <summary>
 		/// 指定したコンポーネントをこのシーンに追加する。
 		/// </summary>
@@ -164,7 +165,7 @@ namespace asd
 		/// <param name="key">コンポーネントに関連付けるキー</param>
 		public void AddComponent(SceneComponent component, string key)
 		{
-			componentManager_.Add(component, key);
+			ComponentManager.Add(component, key);
 		}
 
 		/// <summary>
@@ -174,7 +175,7 @@ namespace asd
 		/// <returns>コンポーネント</returns>
 		public SceneComponent GetComponent(string key)
 		{
-			return componentManager_.Get(key);
+			return ComponentManager.Get(key);
 		}
 
 		/// <summary>
@@ -183,7 +184,12 @@ namespace asd
 		/// <param name="key">削除するコンポーネントを示すキー</param>
 		public bool RemoveComponent(string key)
 		{
-			return componentManager_.Remove(key);
+			return ComponentManager.Remove(key);
+		}
+
+		internal void ImmediatelyRemoveComponent(string key)
+		{
+			ComponentManager.ImmediatelyRemoveComponent(key);
 		}
 
 		#region イベントハンドラ
@@ -253,7 +259,7 @@ namespace asd
 		internal void RaiseOnRegistered()
 		{
 			OnRegistered();
-			foreach(var component in componentManager_.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiseOnRegistered();
 			}
@@ -262,7 +268,7 @@ namespace asd
 		internal void RaiseOnStartUpdating()
 		{
 			OnStartUpdating();
-			foreach(var component in componentManager_.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiseOnStartUpdating();
 			}
@@ -271,7 +277,7 @@ namespace asd
 		internal void RaiseOnTransitionFinished()
 		{
 			OnTransitionFinished();
-			foreach(var component in componentManager_.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiseOnTransitionFinished();
 			}
@@ -279,7 +285,7 @@ namespace asd
 
 		internal void RaiseOnTransitionBegin()
 		{
-			foreach(var component in componentManager_.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiseOnTransitionBegin();
 			}
@@ -288,7 +294,7 @@ namespace asd
 
 		internal void RaiseOnStopUpdating()
 		{
-			foreach(var component in componentManager_.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiseOnStopUpdating();
 			}
@@ -297,7 +303,7 @@ namespace asd
 
 		internal void RaiseOnUnregistered()
 		{
-			foreach(var component in componentManager_.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiseOnUnregistered();
 			}
@@ -351,7 +357,7 @@ namespace asd
 
 			OnUpdating();
 
-			foreach(var component in componentManager_.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiseOnUpdating();
 			}
@@ -371,7 +377,7 @@ namespace asd
 				item.EndUpdating();
 			}
 
-			foreach(var component in componentManager_.Components)
+			foreach(var component in ComponentManager.Components)
 			{
 				component.RaiseOnUpdated();
 			}
@@ -428,7 +434,7 @@ namespace asd
 
 		internal unsafe swig.CoreScene CoreInstance { get; private set; }
 
-		private ComponentManager<SceneComponent> componentManager_ { get; set; }
+		private ComponentManager<SceneComponent> ComponentManager { get; set; }
 		private List<Layer> layersToDraw_;
 		private List<Layer> layersToUpdate_;
 	}

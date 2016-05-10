@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd.ObjectSystem.Registration;
 
 namespace asd
 {
@@ -10,7 +11,7 @@ namespace asd
 		where TObject : AltseedObject
 	{
 		public EventToManageObject(
-			ObjectManager<TObject> objectManager,
+			IImmediateObjectManager<TObject> objectManager,
 			TObject content,
 			RegistrationCommand command,
 			bool raiseEvent)
@@ -21,7 +22,7 @@ namespace asd
 			RaiseEvent = raiseEvent;
 		}
 
-		private ObjectManager<TObject> ObjectManager { get; set; }
+		private IImmediateObjectManager<TObject> ObjectManager { get; set; }
 		public TObject Content { get; set; }
 		public RegistrationCommand Command { get; set; }
 		public bool RaiseEvent { get; set; }
@@ -31,11 +32,11 @@ namespace asd
 			switch (Command)
 			{
 			case RegistrationCommand.Add:
-				ObjectManager.AddToContents(Content, RaiseEvent);
+				ObjectManager.ImmediatelyAddObject(Content, RaiseEvent);
 				break;
 
 			case RegistrationCommand.Remove:
-				ObjectManager.RemoveFromContents(Content, RaiseEvent);
+				ObjectManager.ImmediatelyRemoveObject(Content, RaiseEvent);
 				break;
 			}
 		}

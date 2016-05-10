@@ -260,6 +260,21 @@ namespace asd
 			return componentManager_.Remove(key);
 		}
 
+		void IComponentRegisterable<Object2DComponent>.Register(Object2DComponent component)
+		{
+			component.Owner = this;
+		}
+
+		void IComponentRegisterable<Object2DComponent>.Unregister(Object2DComponent component)
+		{
+			component.Owner = null;
+		}
+
+		internal void ImmediatelyRemoveComponent(string key)
+		{
+			componentManager_.ImmediatelyRemoveComponent(key);
+		}
+
 
 		#region 追加描画
 		/// <summary>
@@ -504,16 +519,6 @@ namespace asd
 		protected virtual void OnDrawAdditionally() { }
 		#endregion
 
-
-		void IComponentRegisterable<Object2DComponent>.Register(Object2DComponent component)
-		{
-			component.Owner = this;
-		}
-
-		void IComponentRegisterable<Object2DComponent>.Unregister(Object2DComponent component)
-		{
-			component.Owner = null;
-		}
 
 
 		private bool IsInheriting(ChildManagementMode mode)

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using asd.ObjectSystem.Registration;
 
 namespace asd
 {
@@ -11,7 +10,7 @@ namespace asd
 		where TComponent : Component
 	{
 		public EventToManageComponent(
-			IImmediatelyComponentmanager<TComponent> manager,
+			IImmediateComponentmanager<TComponent> manager,
 			TComponent component,
 			string key,
 			RegistrationCommand command)
@@ -22,7 +21,7 @@ namespace asd
 			Command = command;
 		}
 
-		private IImmediatelyComponentmanager<TComponent> Manager { get; set; }
+		private IImmediateComponentmanager<TComponent> Manager { get; set; }
 		private TComponent Component { get; set; }
 		private string Key { get; set; }
 		public RegistrationCommand Command { get; set; }

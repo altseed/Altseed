@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using asd.ObjectSystem.Registration;
 
 namespace asd
 {
-	internal class ComponentManager<TComponent> : IImmediatelyComponentmanager<TComponent>
+	internal class ComponentManager<TComponent> : IImmediateComponentmanager<TComponent>
 		where TComponent : Component
 	{
 		private IComponentRegisterable<TComponent> owner { get; set; }
@@ -49,19 +48,11 @@ namespace asd
 			return false;
 		}
 
-		public TComponent Get(string key)
-		{
-			if(components.ContainsKey(key))
-			{
-				return Particular.Dictionary.Get(components, key);
-			}
-			return null;
-		}
-
 		public void ImmediatelyAddComponent(TComponent component, string key)
 		{
 			Particular.Dictionary.Set(components, key, component);
 			owner.Register(component);
+			component.Key = key;
 		}
 
 		public void ImmediatelyRemoveComponent(string key)
@@ -69,6 +60,16 @@ namespace asd
 			var component = Get(key);
 			components.Remove(key);
 			owner.Unregister(component);
+			component.Key = null;
+		}
+
+		public TComponent Get(string key)
+		{
+			if(components.ContainsKey(key))
+			{
+				return Particular.Dictionary.Get(components, key);
+			}
+			return null;
 		}
 	}
 }

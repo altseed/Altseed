@@ -3,27 +3,26 @@
 #include <list>
 #include "../asd.Engine.h"
 #include "Registration/asd.EventToManageObject.h"
+#include "Registration/asd.IImmediateObjectManager.h"
+#include "Registration/asd.IObjectRegisterable.h"
 
 namespace asd
 {
-	template<typename TOwner, typename TContent>
-	class ObjectManager : public std::enable_shared_from_this<ObjectManager<TOwner, TContent>>
+	template<typename TObject>
+	class ObjectManager
+		: public std::enable_shared_from_this<ObjectManager<TObject>>
+		, public ImmediateObjectManager<TObject>
 	{
-		class EventToManageObject<TOwner, TContent>;
-		friend class EventToManageObject<TOwner, TContent>;
+		friend class EventToManageObject<TObject>;
 
 	private:
-		typedef std::shared_ptr<TContent> ContentPtr;
-		typedef std::shared_ptr<TOwner> OwnerPtr;
+		typedef std::shared_ptr<TObject> ObjectPtr;
 
-		OwnerPtr m_owner;
-		std::map<int, std::list<ContentPtr>> m_contents;
-		std::list<ContentPtr> m_beAdded;
-		std::list<ContentPtr> m_beRemoved;
-		bool m_isUpdating;
+		IObjectRegisterable<TObject>* m_owner;
+		std::map<int, std::list<ObjectPtr>> m_contents;
 
 	private:
-		void AddToContents(const ContentPtr& content, bool raiseEvent)
+		void ImmediatelyAddObject(const ContentPtr& content, bool raiseEvent)
 		{
 			if (!m_owner->GetIsAlive())
 			{
@@ -45,14 +44,14 @@ namespace asd
 			}
 			content->m_onUpdatePriorityChanged = [this,content](int x) { Redistribute(content); };
 
-			content->SetLayer(m_owner.get());
+			m_owner->Register(content);
 			if (raiseEvent)
 			{
 				content->RaiseOnAdded();
 			}
 		}
 
-		void RemoveFromContents(const ContentPtr& content, bool raiseEvent)
+		void ImmediatelyRemoveObject(const ContentPtr& content, bool raiseEvent)
 		{
 			if (!m_owner->GetIsAlive())
 			{
@@ -67,7 +66,7 @@ namespace asd
 			{
 				content->RaiseOnRemoved();
 			}
-			content->SetLayer(nullptr);
+			m_owner->Unregister(content);
 		}
 
 		void Redistribute(const ContentPtr& content)
@@ -77,12 +76,9 @@ namespace asd
 		}
 
 	public:
-		ObjectManager(OwnerPtr owner)
+		ObjectManager(IObjectRegisterable<TObject>* owner)
 			: m_contents(std::map<int, std::list<ContentPtr>>())
 			, m_owner(owner)
-			, m_beAdded(std::list<ContentPtr>())
-			, m_beRemoved(std::list<ContentPtr>())
-			, m_isUpdating(false)
 		{
 		}
 
@@ -110,7 +106,7 @@ namespace asd
 
 		void Add(const ContentPtr& content)
 		{
-			var e = std::make_shared<EventToManageObject<TOwner, TContent>>(
+			var e = std::make_shared<EventToManageObject<ObjectPtr>>(
 				shared_from_this(),
 				content,
 				RegistrationCommand::Add,
@@ -120,7 +116,7 @@ namespace asd
 
 		void Remove(const ContentPtr& content, bool raiseEvent)
 		{
-			var e = std::make_shared<EventToManageObject<TOwner, TContent>>(
+			var e = std::make_shared<EventToManageObject<ObjectPtr>>(
 				shared_from_this(),
 				content,
 				RegistrationCommand::Remove,
