@@ -8,9 +8,9 @@ namespace asd
 {
 	public partial class Graphics
 	{
-		internal Graphics(swig.Graphics_Imp swig)
+		internal Graphics(swig.Graphics_Imp nativeInstance)
 		{
-			CoreInstance = swig;
+			CoreInstance = nativeInstance;
 		}
 
 		/// <summary>
