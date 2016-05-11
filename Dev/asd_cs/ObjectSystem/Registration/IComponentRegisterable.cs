@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	interface IComponentRegisterable<TComponent>
+	internal interface IComponentRegisterable<TComponent>
 		where TComponent : Component
 	{
 		void Register(TComponent component);

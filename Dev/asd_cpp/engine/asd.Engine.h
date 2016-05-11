@@ -94,7 +94,7 @@ namespace asd {
 			bool m_doAutoDispose;
 
 		public:
-			FadingOutState(std::shared_ptr<Transition> transition, Scene::Ptr nextScene, bool doAutoDispose);
+			FadingOutState(std::shared_ptr<Transition> transition, typename Scene::Ptr nextScene, bool doAutoDispose);
 			std::shared_ptr<SceneTransitionState> Proceed() override;
 			void Draw() override;
 			void Update() override;
