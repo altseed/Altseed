@@ -163,7 +163,6 @@ engineHeader.readLines("asd_cpp/core/ObjectSystem/asd.ChildManagementMode.h")
 engineHeader.readLines("asd_cpp/core/ObjectSystem/asd.ChildTransformingMode.h")
 engineHeader.readLines("asd_cpp/core/ObjectSystem/asd.ChildDrawingMode.h")
 
-engineHeader.readLines("asd_cpp/engine/ObjectSystem/asd.ContentsManager.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/2D/asd.Chip2D.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/2D/asd.Object2D.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/2D/asd.DrawnObject2D.h")
