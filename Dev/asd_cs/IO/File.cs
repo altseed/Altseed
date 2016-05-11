@@ -8,9 +8,9 @@ namespace asd
 {
     public partial class File
     {
-        internal File(swig.File swig)
+        internal File(swig.File nativeInstance)
 		{
-			CoreInstance = swig;
+			CoreInstance = nativeInstance;
 		}
 
         public StaticFile CreateStaticFile(string path)
