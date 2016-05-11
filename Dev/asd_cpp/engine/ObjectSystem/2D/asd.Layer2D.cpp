@@ -11,8 +11,8 @@ namespace asd
 
 	Layer2D::Layer2D()
 		: m_coreLayer(nullptr)
-		, m_objects()
-		, m_components(this)
+		, m_objects(std::make_shared<ObjectManager<Object2D>>(this))
+		, m_components(std::make_shared<ComponentManager<Layer2DComponent>>(this))
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer2D());
 		m_commonObject = m_coreLayer;
@@ -199,7 +199,7 @@ namespace asd
 		component->SetOwner(nullptr);
 	}
 
-	const Layer2DComponent::Ptr& Layer2D::GetComponent(astring key)
+	Layer2DComponent::Ptr Layer2D::GetComponent(astring key)
 	{
 		return m_components->Get(key);
 	}

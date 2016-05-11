@@ -10,7 +10,7 @@ namespace asd
 
 	Layer3D::Layer3D(RenderSettings settings)
 		: m_coreLayer(nullptr)
-		, m_objects(make_shared< ObjectManager<Object3D> >())
+		, m_objects(std::make_shared<ObjectManager<Object3D>>(this))
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer3D(settings));
 		m_commonObject = m_coreLayer;
@@ -32,6 +32,25 @@ namespace asd
 	void Layer3D::DisposeInternal()
 	{
 		m_objects->Dispose();
+	}
+
+	bool Layer3D::GetIsAlive() const
+	{
+		return Layer::GetIsAlive(); // TODO: これでいいのか?
+	}
+
+	void Layer3D::Register(const Object3D::Ptr& object)
+	{
+		// TODO: これでいいのか?
+		object->SetLayer(this);
+		m_coreLayer->AddObject(object->GetCoreObject());
+	}
+
+	void Layer3D::Unregister(const Object3D::Ptr& object)
+	{
+		// TODO: これでいいのか?
+		object->SetLayer(nullptr);
+		m_coreLayer->RemoveObject(object->GetCoreObject());
 	}
 
 	void Layer3D::BeginUpdating()

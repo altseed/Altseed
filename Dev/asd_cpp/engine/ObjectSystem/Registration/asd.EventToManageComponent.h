@@ -1,12 +1,13 @@
-#pragma once
+﻿#pragma once
 #include <memory>
+#include "asd.ICommitable.h"
 #include "asd.IImmediateComponentManager.h"
 #include "asd.RegistrationCommand.h"
 
 namespace asd
 {
 	template<typename TComponent>
-	class EventToManageComponent
+	class EventToManageComponent : public ICommitable
 	{
 	private:
 		typedef std::shared_ptr<TComponent> ComponentPtr;

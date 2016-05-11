@@ -7,6 +7,7 @@
 namespace asd
 {
 	class Layer2D;
+	template<typename TComponent> class ComponentManager;
 
 	/**
 		@brief	asd::Layer2D クラスに登録することができるコンポーネント。

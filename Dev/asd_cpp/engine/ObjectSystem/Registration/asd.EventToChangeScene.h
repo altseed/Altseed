@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include "ICommitable.h"
 #include "../../asd.Engine.h"
@@ -7,15 +7,18 @@
 
 namespace asd
 {
+	class Scene;
+	class Transition;
+
 	class EventToChangeScene : public ICommitable
 	{
 	private:
-		Scene::Ptr m_nextScene;
-		Transition::Ptr m_transition;
+		std::shared_ptr<Scene> m_nextScene;
+		std::shared_ptr<Transition> m_transition;
 		bool m_doAutoDispose;
 
 	public:
-		EventToChangeScene(Scene::Ptr scene, Transition::Ptr transition, bool doAutoDispose)
+		EventToChangeScene(std::shared_ptr<Scene> scene, std::shared_ptr<Transition> transition, bool doAutoDispose)
 			: m_nextScene(scene)
 			, m_transition(transition)
 			, m_doAutoDispose(doAutoDispose)

@@ -14,6 +14,7 @@ namespace asd
 	class EventToChangeScene;
 	class EventToManageLayer;
 	class Layer;
+	template<typename TComponent> class ComponentManager;
 
 	/**
 		@brief	画面を表し、レイヤーを管理するクラス。
@@ -34,7 +35,7 @@ namespace asd
 		std::shared_ptr<CoreScene> m_coreScene;
 		std::list<Layer::Ptr> m_layersToDraw;
 		std::list<Layer::Ptr> m_layersToUpdate;
-		ComponentManager<SceneComponent>::Ptr m_componentManager;
+		std::shared_ptr<ComponentManager<SceneComponent>> m_componentManager;
 		bool alreadyFirstUpdate;
 		bool m_isAlive;
 

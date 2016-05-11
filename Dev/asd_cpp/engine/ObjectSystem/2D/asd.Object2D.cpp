@@ -9,7 +9,7 @@ namespace asd
 	Object2D::Object2D()
 		: m_owner(nullptr)
 		, m_children(list<Object2D::Ptr>())
-		, m_componentManager(this)
+		, m_componentManager(std::make_shared<ComponentManager<Object2DComponent>>(this))
 		, m_isUpdated(true)
 		, m_isDrawn(true)
 		, m_updatePriority(0)
@@ -244,7 +244,7 @@ namespace asd
 		m_componentManager->Add(component, key);
 	}
 
-	const Object2DComponent::Ptr& Object2D::GetComponent(astring key)
+	Object2DComponent::Ptr Object2D::GetComponent(astring key)
 	{
 		return m_componentManager->Get(key);
 	}

@@ -3,6 +3,7 @@
 #include <map>
 #include <list>
 #include "../../asd.CoreToEngine.h"
+#include "../../asd.Engine.h"
 #include "../Registration/asd.IComponentRegisterable.h"
 #include "../Registration/asd.IImmediateComponentManager.h"
 #include "../Registration/asd.EventToManageComponent.h"
@@ -11,10 +12,12 @@ namespace asd
 {
 	template<typename TComponent>
 	class ComponentManager
-		: std::enable_shared_from_this<ComponentManager<TComponent>>
-		, IImmediateComponentManager<TComponent>
+		: public std::enable_shared_from_this<ComponentManager<TComponent>>
+		, public IImmediateComponentManager<TComponent>
 	{
 	private:
+		typedef std::shared_ptr<TComponent> ComponentPtr;
+
 		IComponentRegisterable<TComponent>* m_owner;
 		std::map<astring, ComponentPtr> m_components;
 
@@ -24,7 +27,7 @@ namespace asd
 		ComponentManager(IComponentRegisterable<TComponent>* owner)
 			: m_owner(owner)
 			, m_components(std::map<astring, ComponentPtr>())
-			, m_isUpdating(false)
+			//, m_isUpdating(false)
 		{
 		}
 
@@ -32,7 +35,9 @@ namespace asd
 		{
 			ACE_ASSERT(component != nullptr, "nullptrをコンポーネントとして追加することはできません。");
 
-			auto e = EventToManageComponent<TComponent>::GetAddEvent(shared_from_this(), component, key);
+			auto e = EventToManageComponent<TComponent>::GetAddEvent(
+				std::static_pointer_cast<IImmediateComponentManager<TComponent>>(this->shared_from_this()),
+				component, key);
 			Engine::m_changesToCommit.push(e);
 		}
 
@@ -41,7 +46,7 @@ namespace asd
 			auto c = Get(key);
 			if (c != nullptr)
 			{
-				auto e = EventToManageComponent<TComponent>::GetRemoveEvent(shared_from_this(), key);
+				auto e = EventToManageComponent<TComponent>::GetRemoveEvent(this->shared_from_this(), key);
 				Engine::m_changesToCommit.push(e);
 				return true;
 			}

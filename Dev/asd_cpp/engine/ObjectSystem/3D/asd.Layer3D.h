@@ -5,14 +5,18 @@
 #include "../asd.Layer.h"
 #include "asd.Object3D.h"
 #include "../asd.ObjectManager.h"
+#include "../Registration/asd.IObjectRegisterable.h"
 
 namespace asd
 {
+	template<typename TObject> class ObjectManager;
+
 	/**
 		@brief	3Dオブジェクトの更新と描画を管理するレイヤーの機能を提供するクラス
 		*/
 	class Layer3D
 		: public Layer
+		, public IObjectRegisterable<Object3D>
 	{
 		friend class Scene;
 		friend class Object3D;
@@ -23,7 +27,7 @@ namespace asd
 	private:
 
 		std::shared_ptr<CoreLayer3D>	m_coreLayer;
-		ObjectManager<Object3D>::Ptr	m_objects;
+		std::shared_ptr<ObjectManager<Object3D>>	m_objects;
 
 		void BeginUpdating();
 		void EndUpdateting();
@@ -33,6 +37,10 @@ namespace asd
 		void DisposeInternal();
 
 		void DirectlyRemoveObject(const Object3D::Ptr& object);
+
+		bool GetIsAlive() const;
+		void Register(const Object3D::Ptr& object);
+		void Unregister(const Object3D::Ptr& object);
 
 	protected:
 

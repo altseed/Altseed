@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "asd.ICommitable.h"
 #include "../asd.Layer.h"
 #include "../asd.Scene.h"
@@ -7,17 +7,18 @@
 namespace asd
 {
 	class Scene;
+	class Layer;
 
 	class EventToManageLayer : public ICommitable
 	{
 	private:
-		asd::Scene::Ptr m_scene;
-		Layer::Ptr m_layer;
+		std::shared_ptr<Scene> m_scene;
+		std::shared_ptr<Layer> m_layer;
 		RegistrationCommand m_command;
 		bool m_raiseEvent;
 
 	public:
-		EventToManageLayer(Scene::Ptr scene, Layer::Ptr layer, RegistrationCommand command, bool raiseEvent)
+		EventToManageLayer(std::shared_ptr<Scene> scene, std::shared_ptr<Layer> layer, RegistrationCommand command, bool raiseEvent)
 			: m_scene(scene)
 			, m_layer(layer)
 			, m_command(command)

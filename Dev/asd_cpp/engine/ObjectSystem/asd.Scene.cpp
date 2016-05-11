@@ -18,7 +18,7 @@ namespace asd
 		, m_layersToUpdate(list<Layer::Ptr>())
 		, m_coreScene(nullptr)
 		, alreadyFirstUpdate(false)
-		, m_componentManager(make_shared<ComponentManager<SceneComponent>>(this))
+		, m_componentManager(std::make_shared<ComponentManager<SceneComponent>>(this))
 		, m_isAlive(true)
 	{
 		m_coreScene = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateScene());

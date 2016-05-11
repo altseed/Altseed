@@ -144,7 +144,14 @@ engineHeader.readLines("asd_cpp/engine/ObjectSystem/PostEffect/asd.PostEffectLig
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/Transition/asd.Transition.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/Transition/asd.TransitionFade.h")
 
-engineHeader.readLines('asd_cpp/engine/ObjectSystem/Component/asd.ComponentManager.h')
+engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.ICommitable.h")
+engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.IComponentRegisterable.h")
+engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.IImmediateComponentManager.h")
+engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.IImmediateObjectManager.h")
+engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.IObjectRegisterable.h")
+engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.RegistrationCommand.h")
+
+#engineHeader.readLines('asd_cpp/engine/ObjectSystem/Component/asd.ComponentManager.h')
 engineHeader.readLines('asd_cpp/engine/ObjectSystem/Component/asd.Object2DComponent.h')
 engineHeader.readLines('asd_cpp/engine/ObjectSystem/Component/asd.Layer2DComponent.h')
 engineHeader.readLines('asd_cpp/engine/ObjectSystem/Component/asd.SceneComponent.h')

@@ -5,8 +5,10 @@
 #include <asd.common.Base.h>
 #include "asd.Engine.h"
 
+#include "ObjectSystem/asd.Scene.h"
 #include "ObjectSystem/2D/asd.Layer2D.h"
 #include "ObjectSystem/3D/asd.Layer3D.h"
+#include "ObjectSystem/asd.ObjectManager.h"
 
 #if _WIN32
 

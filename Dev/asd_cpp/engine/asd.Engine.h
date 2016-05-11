@@ -6,18 +6,28 @@
 //----------------------------------------------------------------------------------
 #include <queue>
 #include "asd.CoreToEngine.h"
-#include "ObjectSystem/asd.Scene.h"
-#include "ObjectSystem/2D/asd.Layer2D.h"
-#include "ObjectSystem/3D/asd.Layer3D.h"
+//#include "ObjectSystem/asd.Scene.h"
+//#include "ObjectSystem/2D/asd.Layer2D.h"
+//#include "ObjectSystem/3D/asd.Layer3D.h"
 #include "ObjectSystem/Transition/asd.Transition.h"
 #include "ObjectSystem/Registration/asd.ICommitable.h"
-#include "ObjectSystem/asd.ObjectManager.h"
+// #include "ObjectSystem/asd.ObjectManager.h"
 #include "asd.Engine.Base.h"
 
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
 namespace asd {
+
+	//----------------------------------------------------------------------------------
+	//
+	//----------------------------------------------------------------------------------
+
+	// 先行宣言
+
+	class Scene;
+	class Object2D;
+	class Object3D;
 
 	//----------------------------------------------------------------------------------
 	//
@@ -63,6 +73,8 @@ namespace asd {
 	{
 		friend class EventToChangeScene;
 		friend class Scene;
+		template<typename TObject> friend class ObjectManager;
+		template<typename TComponent> friend class ComponentManager;
 
 	private:
 		class SceneTransitionState
@@ -94,7 +106,7 @@ namespace asd {
 			bool m_doAutoDispose;
 
 		public:
-			FadingOutState(std::shared_ptr<Transition> transition, typename Scene::Ptr nextScene, bool doAutoDispose);
+			FadingOutState(std::shared_ptr<Transition> transition, std::shared_ptr<Scene> nextScene, bool doAutoDispose);
 			std::shared_ptr<SceneTransitionState> Proceed() override;
 			void Draw() override;
 			void Update() override;
@@ -104,11 +116,11 @@ namespace asd {
 		{
 		private:
 			std::shared_ptr<Transition> m_transition;
-			Scene::Ptr m_previousScene;
+			std::shared_ptr<Scene> m_previousScene;
 			bool m_doAutoDispose;
 
 		public:
-			FadingInState(std::shared_ptr<Transition> transition, Scene::Ptr previousScene, bool doAutoDispose);
+			FadingInState(std::shared_ptr<Transition> transition, std::shared_ptr<Scene> previousScene, bool doAutoDispose);
 			std::shared_ptr<SceneTransitionState> Proceed() override;
 			void Draw() override;
 			void Update() override;
@@ -121,7 +133,7 @@ namespace asd {
 			bool m_doAutoDispose;
 
 		public:
-			QuicklyChangingState(Scene::Ptr nextScene, bool doAutoDispose);
+			QuicklyChangingState(std::shared_ptr<Scene> nextScene, bool doAutoDispose);
 			std::shared_ptr<SceneTransitionState> Proceed() override;
 			void Draw() override;
 			void ForceToComplete() override;
@@ -325,7 +337,7 @@ namespace asd {
 		*/
 		static void SetDeltaTime(float deltaTime);
 
-		static Scene::Ptr GetCurrentScene();
+		static std::shared_ptr<Scene> GetCurrentScene();
 
 		/**
 		@brief	現在のFPSを取得する。

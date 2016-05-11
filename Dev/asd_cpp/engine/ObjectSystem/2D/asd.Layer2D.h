@@ -15,6 +15,9 @@
 
 namespace asd
 {
+	template<typename TObject> class ObjectManager;
+	template<typename TComponent> class ComponentManager;
+
 	/**
 		@brief	2Dオブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス。
 	*/
@@ -31,8 +34,8 @@ namespace asd
 
 	private:
 		std::shared_ptr<CoreLayer2D>	m_coreLayer;
-		ObjectManager<Object2D>::Ptr m_objects;
-		ComponentManager<Layer2DComponent>::Ptr m_components;
+		std::shared_ptr<ObjectManager<Object2D>> m_objects;
+		std::shared_ptr<ComponentManager<Layer2DComponent>> m_components;
 
 		void BeginUpdating();
 		void EndUpdateting();
@@ -92,7 +95,7 @@ namespace asd
 			@brief	指定したキーを持つコンポーネントを取得する。
 			@param	key		取得するコンポーネントを示すキー
 		*/
-		const Layer2DComponent::Ptr& GetComponent(astring key);
+		Layer2DComponent::Ptr GetComponent(astring key);
 
 		/**
 			@brief	指定したコンポーネントをこのインスタンスから削除する。

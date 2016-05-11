@@ -11,7 +11,7 @@
 namespace asd
 {
 	class Layer2D;
-	template<class TObject> class ObjectManager;
+	template<typename TObject> class ObjectManager;
 
 	/**
 		@brief	画面上に描画される2Dオブジェクトを表すクラス。
@@ -57,7 +57,7 @@ namespace asd
 		Layer2D* m_owner;
 		ParentInfo2D::Ptr m_parentInfo;
 		std::list<Object2D::Ptr> m_children;
-		ComponentManager<Object2DComponent>::Ptr m_componentManager;
+		std::shared_ptr<ComponentManager<Object2DComponent>> m_componentManager;
 		bool m_isUpdated;
 		bool m_isDrawn;
 		int m_updatePriority;
@@ -265,7 +265,7 @@ namespace asd
 			@brief	指定したキーを持つコンポーネントを取得する。
 			@param	key		取得するコンポーネントを示すキー
 		*/
-		const Object2DComponent::Ptr& GetComponent(astring key);
+		Object2DComponent::Ptr GetComponent(astring key);
 		/**
 			@brief	指定したコンポーネントを削除する。
 			@param	key		削除するコンポーネントを示すキー

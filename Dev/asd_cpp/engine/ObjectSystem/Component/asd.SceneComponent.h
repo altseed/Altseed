@@ -7,6 +7,7 @@
 namespace asd
 {
 	class Scene;
+	template<typename TComponent> class ComponentManager;
 
 	/**
 		@brief	asd::Scene クラスに登録することができるコンポーネント。

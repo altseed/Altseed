@@ -7,6 +7,7 @@
 namespace asd
 {
 	class Object2D;
+	template<typename TComponent> class ComponentManager;
 
 	/**
 		@brief	asd::Object2D クラスに登録することができるコンポーネント。

@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <memory>
 #include "../Registration/asd.RegistrationCommand.h"
 #include "asd.ICommitable.h"

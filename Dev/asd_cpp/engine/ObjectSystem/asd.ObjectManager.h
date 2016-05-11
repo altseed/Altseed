@@ -8,12 +8,14 @@
 
 namespace asd
 {
-	template<class TObject>
+	template<typename TObject>
 	class ObjectManager
 		: public std::enable_shared_from_this< ObjectManager<TObject> >
 		, public ImmediateObjectManager<TObject>
 	{
 	private:
+		typedef std::shared_ptr<TObject> ObjectPtr;
+
 		IObjectRegisterable<TObject>* m_owner;
 		std::map< int, std::list<ObjectPtr> > m_contents;
 
@@ -43,7 +45,7 @@ namespace asd
 
 		std::list<ObjectPtr> GetContents() const
 		{
-			std::list<ContentPtr> result;
+			std::list<ObjectPtr> result;
 			for (auto& l : m_contents)
 			{
 				for (auto& c : l.second)
@@ -56,7 +58,7 @@ namespace asd
 
 		void Add(const ObjectPtr& content)
 		{
-			var e = std::make_shared<EventToManageObject<ObjectPtr>>(
+			auto e = std::make_shared<EventToManageObject<TObject>>(
 				this->shared_from_this(),
 				content,
 				RegistrationCommand::Add,
@@ -66,7 +68,7 @@ namespace asd
 
 		void Remove(const ObjectPtr& content, bool raiseEvent)
 		{
-			var e = std::make_shared<EventToManageObject<ObjectPtr>>(
+			auto e = std::make_shared<EventToManageObject<TObject>>(
 				this->shared_from_this(),
 				content,
 				RegistrationCommand::Remove,
@@ -125,7 +127,7 @@ namespace asd
 		{
 			for (auto& c : GetContents())
 			{
-				Remove(c);
+				Remove(c,true); // TODO: raiseEventはtrueでよい?
 			}
 		}
 
