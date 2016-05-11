@@ -3,11 +3,11 @@
 
 #include <functional>
 #include "../../asd.CoreToEngine.h"
-#include "../asd.ContentsManager.h"
 
 namespace asd
 {
 	class Layer3D;
+	template<class TObject> class ObjectManager;
 
 	/**
 		@brief	更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
@@ -16,7 +16,7 @@ namespace asd
 		public std::enable_shared_from_this<Object3D>
 	{
 		friend class Layer3D;
-		friend class ContentsManager < Object3D > ;
+		friend class ObjectManager<Object3D>;
 
 	public:
 		typedef std::shared_ptr<Object3D> Ptr;

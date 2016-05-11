@@ -18,8 +18,9 @@ namespace asd
 	/**
 		@brief	画面を表し、レイヤーを管理するクラス。
 	*/
-	class Scene :
-		public std::enable_shared_from_this<Scene>
+	class Scene
+		: public std::enable_shared_from_this<Scene>
+		, public IComponentRegisterable<SceneComponent>
 	{
 		friend class Engine;
 		friend class EventToChangeScene;
@@ -33,7 +34,7 @@ namespace asd
 		std::shared_ptr<CoreScene> m_coreScene;
 		std::list<Layer::Ptr> m_layersToDraw;
 		std::list<Layer::Ptr> m_layersToUpdate;
-		ComponentManager<Scene, SceneComponent> m_componentManager;
+		ComponentManager<SceneComponent>::Ptr m_componentManager;
 		bool alreadyFirstUpdate;
 		bool m_isAlive;
 
@@ -51,6 +52,8 @@ namespace asd
 
 		void ImmediatelyAddLayer(const Layer::Ptr& layer, bool raiseEvent);
 		void ImmediatelyRemoveLayer(const Layer::Ptr& layer, bool raiseEvent);
+		void Register(const SceneComponent::Ptr& component);
+		void Unregister(const SceneComponent::Ptr& component);
 
 	protected:
 		/**

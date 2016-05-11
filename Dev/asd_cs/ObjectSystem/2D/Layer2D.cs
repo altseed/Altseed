@@ -110,12 +110,6 @@ namespace asd
 		/// </summary>
 		public void Clear()
 		{
-			ThrowIfDisposed();
-			foreach(var obj in ObjectManager.Contents)
-			{
-				obj.Layer = null;
-			}
-			coreLayer2D.Clear();
 			ObjectManager.Clear();
 		}
 

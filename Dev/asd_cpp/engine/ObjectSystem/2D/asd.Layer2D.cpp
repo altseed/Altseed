@@ -8,9 +8,7 @@ namespace asd
 {
 	extern ObjectSystemFactory* g_objectSystemFactory;
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+
 	Layer2D::Layer2D()
 		: m_coreLayer(nullptr)
 		, m_objects()
@@ -20,24 +18,26 @@ namespace asd
 		m_commonObject = m_coreLayer;
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	Layer2D::~Layer2D()
 	{
-		for (auto& object : m_objects.GetContents())
+		for (auto& object : m_objects->GetContents())
 		{
 			object->SetLayer(nullptr);
 		}
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+	bool Layer2D::GetIsAlive() const
+	{
+		return Layer::GetIsAlive();
+	}
+
 	void Layer2D::UpdateInternal()
 	{
-		m_objects.Update();
-		m_components.Update();
+		m_objects->Update();
+		for (auto& component : m_components->GetComponents())
+		{
+			component.second->Update();
+		}
 	}
 
 	void Layer2D::BeginUpdating()
@@ -58,7 +58,7 @@ namespace asd
 			return;
 		}
 
-		for (auto& object : m_objects.GetContents())
+		for (auto& object : m_objects->GetContents())
 		{
 			object->OnDrawAdditionally();
 		}
@@ -67,8 +67,9 @@ namespace asd
 
 	void Layer2D::DisposeInternal()
 	{
-		m_objects.Dispose();
+		m_objects->Dispose();
 	}
+
 
 	void Layer2D::DrawSpriteAdditionally(Vector2DF upperLeftPos, Vector2DF upperRightPos, Vector2DF lowerRightPos, Vector2DF lowerLeftPos,
 		Color upperLeftCol, Color upperRightCol, Color lowerRightCol, Color lowerLeftCol,
@@ -144,25 +145,20 @@ namespace asd
 		m_coreLayer->DrawShapeAdditionally(shape->GetCoreShape().get(), color, texture.get(), alphaBlend, priority);
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+
 	void Layer2D::AddObject(const Object2D::Ptr& object)
 	{
-		m_objects.Add(object);
+		m_objects->Add(object);
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	void Layer2D::RemoveObject(const Object2D::Ptr& object)
 	{
-		DirectlyRemoveObject(object, true);
+		m_objects->Remove(object, true);
 	}
 
-	void Layer2D::DirectlyRemoveObject(const Object2D::Ptr& object, bool raiseEvent)
+	void Layer2D::ImmediatelyRemoveObject(const Object2D::Ptr& object, bool raiseEvent)
 	{
-		m_objects.Remove(object, raiseEvent);
+		m_objects->ImmediatelyRemoveObject(object, raiseEvent);
 	}
 
 	void Layer2D::Register(const Object2D::Ptr& object)
@@ -177,6 +173,22 @@ namespace asd
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 	}
 
+	void Layer2D::Clear()
+	{
+		m_objects->Clear();
+	}
+
+
+	void Layer2D::AddComponent(const Layer2DComponent::Ptr& component, astring key)
+	{
+		m_components->Add(component, key);
+	}
+
+	bool Layer2D::RemoveComponent(astring key)
+	{
+		return m_components->Remove(key);
+	}
+
 	void Layer2D::Register(const Layer2DComponent::Ptr& component)
 	{
 		component->SetOwner(this);
@@ -187,47 +199,19 @@ namespace asd
 		component->SetOwner(nullptr);
 	}
 
-	list<Object2D::Ptr> Layer2D::GetObjects() const
-	{
-		return m_objects.GetContents();
-	}
-
-	void Layer2D::Clear()
-	{
-		for (auto object : m_objects.GetContents())
-		{
-			object->RaiseOnRemoved();
-			object->SetLayer(nullptr);
-		}
-		m_objects.Clear();
-		m_coreLayer->Clear();
-	}
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Layer2D::AddComponent(const Layer2DComponent::Ptr& component, astring key)
-	{
-		m_components.Add(component, key);
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	const Layer2DComponent::Ptr& Layer2D::GetComponent(astring key)
 	{
-		return m_components.Get(key);
+		return m_components->Get(key);
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	bool Layer2D::RemoveComponent(astring key)
+
+	list<Object2D::Ptr> Layer2D::GetObjects() const
 	{
-		return m_components.Remove(key);
+		return m_objects->GetContents();
 	}
 
 	int Layer2D::GetObjectCount() const
 	{
-		return m_objects.GetContents().size();
+		return m_objects->GetContents().size();
 	}
 }

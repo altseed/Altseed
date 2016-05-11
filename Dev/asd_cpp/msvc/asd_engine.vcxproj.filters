@@ -267,6 +267,9 @@
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IImmediateObjectManager.h">
       <Filter>ObjectSystem\Registration</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageComponent.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

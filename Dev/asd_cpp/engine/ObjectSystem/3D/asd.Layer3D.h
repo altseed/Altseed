@@ -4,6 +4,7 @@
 #include "../../asd.CoreToEngine.h"
 #include "../asd.Layer.h"
 #include "asd.Object3D.h"
+#include "../asd.ObjectManager.h"
 
 namespace asd
 {
@@ -22,7 +23,7 @@ namespace asd
 	private:
 
 		std::shared_ptr<CoreLayer3D>	m_coreLayer;
-		ContentsManager<Object3D>		m_objects;
+		ObjectManager<Object3D>::Ptr	m_objects;
 
 		void BeginUpdating();
 		void EndUpdateting();

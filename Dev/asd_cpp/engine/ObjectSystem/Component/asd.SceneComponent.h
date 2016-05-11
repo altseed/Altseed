@@ -14,7 +14,7 @@ namespace asd
 	class SceneComponent
 	{
 		friend class Scene;
-		friend class ComponentManager < Scene, SceneComponent > ;
+		friend class ComponentManager<SceneComponent>;
 
 	private:
 		Scene* m_scene;

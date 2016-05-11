@@ -5,22 +5,24 @@
 #include "../../asd.CoreToEngine.h"
 #include "../Component/asd.Object2DComponent.h"
 #include "../Component/asd.ComponentManager.h"
-#include "../asd.ObjectManager.h"
 #include "../../Shape/asd.Shape.h"
+#include "../Registration/asd.IComponentRegisterable.h"
 
 namespace asd
 {
 	class Layer2D;
+	template<class TObject> class ObjectManager;
 
 	/**
 		@brief	画面上に描画される2Dオブジェクトを表すクラス。
 	*/
-	class Object2D :
-		public std::enable_shared_from_this<Object2D>
+	class Object2D
+		: public std::enable_shared_from_this<Object2D>
+		, public IComponentRegisterable<Object2DComponent>
 	{
 		friend class Layer2D;
-		friend class ObjectManager<Layer2D, Object2D>;
 		friend class DrawnObject2D;
+		friend class ObjectManager<Object2D>;
 
 	public:
 		typedef std::shared_ptr<Object2D> Ptr;
@@ -55,7 +57,7 @@ namespace asd
 		Layer2D* m_owner;
 		ParentInfo2D::Ptr m_parentInfo;
 		std::list<Object2D::Ptr> m_children;
-		ComponentManager<Object2D, Object2DComponent> m_componentManager;
+		ComponentManager<Object2DComponent>::Ptr m_componentManager;
 		bool m_isUpdated;
 		bool m_isDrawn;
 		int m_updatePriority;
@@ -67,6 +69,9 @@ namespace asd
 		void DrawAdditionally();
 		void SetLayer(Layer2D* layer);
 		virtual CoreObject2D* GetCoreObject() const = 0;
+
+		void Register(const Object2DComponent::Ptr& component);
+		void Unregister(const Object2DComponent::Ptr& component);
 
 	protected:
 

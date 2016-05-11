@@ -2,8 +2,8 @@
 #include <list>
 #include "asd.Scene.h"
 #include "../asd.Engine.h"
-#include "Registration/RegistrationCommand.h"
-#include "Registration/EventToManageLayer.h"
+#include "Registration/asd.RegistrationCommand.h"
+#include "Registration/asd.EventToManageLayer.h"
 using namespace std;
 
 namespace asd
@@ -18,7 +18,7 @@ namespace asd
 		, m_layersToUpdate(list<Layer::Ptr>())
 		, m_coreScene(nullptr)
 		, alreadyFirstUpdate(false)
-		, m_componentManager(this)
+		, m_componentManager(make_shared<ComponentManager<SceneComponent>>(this))
 		, m_isAlive(true)
 	{
 		m_coreScene = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateScene());
@@ -77,7 +77,10 @@ namespace asd
 			layer->EndUpdateting();
 		}
 
-		m_componentManager.Update();
+		for (auto& component : m_componentManager->GetComponents())
+		{
+			component.second->Update();
+		}
 
 		OnUpdated();
 	}
@@ -185,30 +188,16 @@ namespace asd
 	}
 
 
-	// ========
-	// その他
-	// ========
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	bool Scene::GetHDRMode() const
-	{
-		return m_coreScene->GetHDRMode();
-	}
-
-	void Scene::SetHDRMode(bool value)
-	{
-		m_coreScene->SetHDRMode(value);
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	void Scene::AddLayer(const Layer::Ptr& layer)
 	{
 		asd::Engine::m_changesToCommit.push(
 			make_shared<EventToManageLayer>(shared_from_this(), layer, RegistrationCommand::Add, true));
+	}
+
+	void Scene::RemoveLayer(const Layer::Ptr& layer)
+	{
+		asd::Engine::m_changesToCommit.push(
+			make_shared<EventToManageLayer>(shared_from_this(), layer, RegistrationCommand::Remove, true));
 	}
 
 	void Scene::ImmediatelyAddLayer(const Layer::Ptr& layer, bool raiseEvent)
@@ -226,15 +215,6 @@ namespace asd
 		}
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	void Scene::RemoveLayer(const Layer::Ptr& layer)
-	{
-		asd::Engine::m_changesToCommit.push(
-			make_shared<EventToManageLayer>(shared_from_this(), layer, RegistrationCommand::Remove, true));
-	}
-
 	void Scene::ImmediatelyRemoveLayer(const Layer::Ptr& layer, bool raiseEvent)
 	{
 		if (raiseEvent)
@@ -248,33 +228,42 @@ namespace asd
 		m_coreScene->RemoveLayer(layer->GetCoreLayer().get());
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	void Scene::AddComponent(const SceneComponent::Ptr& component, astring key)
 	{
-		m_componentManager.Add(component, key);
+		m_componentManager->Add(component, key);
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
-	const SceneComponent::Ptr& Scene::GetComponent(astring key)
-	{
-		return m_componentManager.Get(key);
-	}
-
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
 	bool Scene::RemoveComponent(astring key)
 	{
-		return m_componentManager.Remove(key);
+		return m_componentManager->Remove(key);
 	}
 
-	//----------------------------------------------------------------------------------
-	//
-	//----------------------------------------------------------------------------------
+	void Scene::Register(const SceneComponent::Ptr& component)
+	{
+		component->SetOwner(this);
+	}
+
+	void Scene::Unregister(const SceneComponent::Ptr& component)
+	{
+		component->SetOwner(nullptr);
+	}
+
+	const SceneComponent::Ptr& Scene::GetComponent(astring key)
+	{
+		return m_componentManager->Get(key);
+	}
+
+
+	bool Scene::GetHDRMode() const
+	{
+		return m_coreScene->GetHDRMode();
+	}
+
+	void Scene::SetHDRMode(bool value)
+	{
+		m_coreScene->SetHDRMode(value);
+	}
+
 	std::shared_ptr<RenderTexture2D> Scene::GetEffectedScreen()
 	{
 		auto target = m_coreScene->GetBaseTarget();

@@ -68,7 +68,7 @@ namespace asd
 			}
 			if (m_owner != nullptr)
 			{
-				m_owner->DirectlyRemoveObject(shared_from_this());
+				m_owner->ImmediatelyRemoveObject(shared_from_this(), false);
 			}
 		}
 	}
@@ -81,7 +81,11 @@ namespace asd
 		}
 
 		OnUpdate();
-		m_componentManager.Update();
+
+		for (auto& component : m_componentManager->GetComponents())
+		{
+			component.second->Update();
+		}
 	}
 
 	void Object2D::DrawAdditionally()
@@ -197,6 +201,7 @@ namespace asd
 		m_owner = layer;
 	}
 
+
 	void Object2D::AddChild(const Object2D::Ptr& child, ChildManagementMode::Flags managementMode, ChildTransformingMode transformingMode)
 	{
 		GetCoreObject()->AddChild((child->GetCoreObject()), managementMode, transformingMode);
@@ -236,17 +241,27 @@ namespace asd
 
 	void Object2D::AddComponent(const Object2DComponent::Ptr& component, astring key)
 	{
-		m_componentManager.Add(component, key);
+		m_componentManager->Add(component, key);
 	}
 
 	const Object2DComponent::Ptr& Object2D::GetComponent(astring key)
 	{
-		return m_componentManager.Get(key);
+		return m_componentManager->Get(key);
 	}
 
 	bool Object2D::RemoveComponent(astring key)
 	{
-		return m_componentManager.Remove(key);
+		return m_componentManager->Remove(key);
+	}
+
+	void Object2D::Register(const Object2DComponent::Ptr& component)
+	{
+		component->SetOwner(this);
+	}
+
+	void Object2D::Unregister(const Object2DComponent::Ptr& component)
+	{
+		component->SetOwner(nullptr);
 	}
 
 #pragma region Get/Set

@@ -14,7 +14,7 @@ namespace asd
 	class Layer2DComponent
 	{
 		friend class Layer2D;
-		friend class ComponentManager < Layer2D, Layer2DComponent > ;
+		friend class ComponentManager<Layer2DComponent>;
 
 	private:
 		Layer2D* m_layer;

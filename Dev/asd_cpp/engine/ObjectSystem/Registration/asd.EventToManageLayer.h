@@ -1,8 +1,8 @@
 #pragma once
-#include "ICommitable.h"
+#include "asd.ICommitable.h"
 #include "../asd.Layer.h"
 #include "../asd.Scene.h"
-#include "RegistrationCommand.h"
+#include "asd.RegistrationCommand.h"
 
 namespace asd
 {

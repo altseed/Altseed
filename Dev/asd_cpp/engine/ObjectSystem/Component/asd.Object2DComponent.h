@@ -14,7 +14,7 @@ namespace asd
 	class Object2DComponent
 	{
 		friend class Object2D;
-		friend class ComponentManager < Object2D, Object2DComponent > ;
+		friend class ComponentManager<Object2DComponent>;
 
 	private:
 		Object2D* m_owner;

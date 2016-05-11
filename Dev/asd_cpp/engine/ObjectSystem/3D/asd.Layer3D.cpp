@@ -1,6 +1,7 @@
 ﻿
 #include "asd.Layer3D.h"
 #include <Utility/asd.Timer.h>
+using namespace std;
 
 namespace asd
 {
@@ -9,7 +10,7 @@ namespace asd
 
 	Layer3D::Layer3D(RenderSettings settings)
 		: m_coreLayer(nullptr)
-		, m_objects()
+		, m_objects(make_shared< ObjectManager<Object3D> >())
 	{
 		m_coreLayer = CreateSharedPtrWithReleaseDLL(g_objectSystemFactory->CreateLayer3D(settings));
 		m_commonObject = m_coreLayer;
@@ -17,7 +18,7 @@ namespace asd
 
 	Layer3D::~Layer3D()
 	{
-		for (auto& object : m_objects.GetContents())
+		for (auto& object : m_objects->GetContents())
 		{
 			object->SetLayer(nullptr);
 		}
@@ -25,12 +26,12 @@ namespace asd
 
 	void Layer3D::UpdateInternal()
 	{
-		m_objects.Update();
+		m_objects->Update();
 	}
 
 	void Layer3D::DisposeInternal()
 	{
-		m_objects.Dispose();
+		m_objects->Dispose();
 	}
 
 	void Layer3D::BeginUpdating()
@@ -51,7 +52,7 @@ namespace asd
 			return;
 		}
 
-		for (auto& object : m_objects.GetContents())
+		for (auto& object : m_objects->GetContents())
 		{
 			object->OnDrawAdditionally();
 		}
@@ -72,7 +73,7 @@ namespace asd
 	void Layer3D::AddObject(const Object3D::Ptr& object)
 	{
 		ACE_ASSERT(object->GetLayer() == nullptr, "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。");
-		m_objects.Add(object);
+		m_objects->Add(object);
 		auto coreObj = object->GetCoreObject();
 		m_coreLayer->AddObject(coreObj);
 		object->SetLayer(this);
@@ -88,13 +89,13 @@ namespace asd
 
 	void Layer3D::DirectlyRemoveObject(const Object3D::Ptr& object)
 	{
-		m_objects.Remove(object);
+		m_objects->Remove(object, false);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 	}
 
 	std::list<Object3D::Ptr> Layer3D::GetObjects() const
 	{
-		return m_objects.GetContents();
+		return m_objects->GetContents();
 	}
 
 	void Layer3D::DrawSpriteAdditionally(Vector3DF upperLeftPos, Vector3DF upperRightPos, Vector3DF lowerRightPos, Vector3DF lowerLeftPos,
@@ -303,6 +304,6 @@ namespace asd
 
 	int Layer3D::GetObjectCount() const
 	{
-		return m_objects.GetContents().size();
+		return m_objects->GetContents().size();
 	}
 };

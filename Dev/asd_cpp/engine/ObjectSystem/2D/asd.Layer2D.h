@@ -5,8 +5,8 @@
 #include "../../asd.CoreToEngine.h"
 #include "../asd.Layer.h"
 #include "../../Shape/asd.Shape.h"
-
 #include "asd.Object2D.h"
+
 #include "../Component/asd.Layer2DComponent.h"
 #include "../asd.ObjectManager.h"
 #include "../Component/asd.ComponentManager.h"
@@ -18,9 +18,10 @@ namespace asd
 	/**
 		@brief	2Dオブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス。
 	*/
-	class Layer2D : public Layer
-		, public IObjectRegisterable<Object2D::Ptr>
-		, public IComponentRegisterable<Layer2DComponent::Ptr>
+	class Layer2D
+		: public Layer
+		, public IObjectRegisterable<Object2D>
+		, public IComponentRegisterable<Layer2DComponent>
 	{
 		friend class Scene;
 		friend class Object2D;
@@ -30,8 +31,8 @@ namespace asd
 
 	private:
 		std::shared_ptr<CoreLayer2D>	m_coreLayer;
-		ObjectManager<Layer2D, Object2D> m_objects;
-		ComponentManager<Layer2D, Layer2DComponent> m_components;
+		ObjectManager<Object2D>::Ptr m_objects;
+		ComponentManager<Layer2DComponent>::Ptr m_components;
 
 		void BeginUpdating();
 		void EndUpdateting();
@@ -39,11 +40,11 @@ namespace asd
 		void DrawAdditionally();
 		void DisposeInternal();
 
-		void DirectlyRemoveObject(const Object2D::Ptr& object, bool raiseEvent);
+		void ImmediatelyRemoveObject(const Object2D::Ptr& object, bool raiseEvent);
 		void Register(const Object2D::Ptr& object);
-		void Register(const Layer2DComponent::Ptr& component);
+		void Register(const Layer2DComponent::Ptr& component) override;
 		void Unregister(const Object2D::Ptr& object);
-		void Unregister(const Layer2DComponent::Ptr& component);
+		void Unregister(const Layer2DComponent::Ptr& component) override;
 
 	protected:
 
@@ -56,6 +57,8 @@ namespace asd
 			@brief	デストラクタ
 		*/
 		virtual ~Layer2D();
+
+		bool GetIsAlive() const;
 
 		/**
 			@brief	指定した2Dオブジェクトをこのインスタンスに追加する。

@@ -7,7 +7,6 @@
 
 namespace asd
 {
-	class Engine;
 	class Scene;
 
 	/**
