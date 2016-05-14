@@ -9,22 +9,14 @@ namespace asd
 	internal class EventToManageComponent<TComponent> : ICommitable
 		where TComponent : Component
 	{
-		public EventToManageComponent(
-			IImmediateComponentmanager<TComponent> manager,
-			TComponent component,
-			string key,
-			RegistrationCommand command)
+		public EventToManageComponent()
 		{
-			Manager = manager;
-			Component = component;
-			Key = key;
-			Command = command;
 		}
 
 		private IImmediateComponentmanager<TComponent> Manager { get; set; }
 		private TComponent Component { get; set; }
 		private string Key { get; set; }
-		public RegistrationCommand Command { get; set; }
+		private RegistrationCommand Command { get; set; }
 
 		public void Commit()
 		{
@@ -40,19 +32,24 @@ namespace asd
 			}
 		}
 
-		public static EventToManageComponent<TComponent> GetAddEvent(
+		public void SetUpAsAddEvent(
 			ComponentManager<TComponent> manager,
 			TComponent component,
 			string key)
 		{
-			return new EventToManageComponent<TComponent>(manager, component, key, RegistrationCommand.Add);
+			Manager = manager;
+			Component = component;
+			Key = key;
+			Command = RegistrationCommand.Add;
 		}
 
-		public static EventToManageComponent<TComponent> GetRemoveEvent(
+		public void SetUpAsRemoveEvent(
 			ComponentManager<TComponent> manager,
 			string key)
 		{
-			return new EventToManageComponent<TComponent>(manager, null, key, RegistrationCommand.Remove);
+			Manager = manager;
+			Key = key;
+			Command = RegistrationCommand.Remove;
 		} 
 	}
 }

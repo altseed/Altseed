@@ -31,7 +31,8 @@ namespace asd
 			}
 			else
 			{
-				var e = EventToManageComponent<TComponent>.GetAddEvent(this, component, key);
+				var e = new EventToManageComponent<TComponent>();
+				e.SetUpAsAddEvent(this, component, key);
 				Engine.ChangesToBeCommited.Enqueue(e);
 			}
 		}
@@ -41,7 +42,8 @@ namespace asd
 			var c = Get(key);
 			if(c != null)
 			{
-				var e = EventToManageComponent<TComponent>.GetRemoveEvent(this, key);
+				var e = new EventToManageComponent<TComponent>();
+				e.SetUpAsRemoveEvent(this, key);
 				Engine.ChangesToBeCommited.Enqueue(e);
 				return true;
 			}
