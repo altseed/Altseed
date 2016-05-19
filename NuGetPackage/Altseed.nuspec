@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+    <metadata>
+        <id>Altseed</id>
+        <version>1.0.0</version>
+        <title>Altseed</title>
+        <authors>Altseed</authors>
+        <licenseUrl>https://github.com/altseed/Altseed/blob/master/LICENSE</licenseUrl>
+        <projectUrl>http://altseed.github.io/</projectUrl>
+        <requireLicenseAcceptance>true</requireLicenseAcceptance>
+        <description>Game Library.</description>
+        <copyright>Copyright (c) 2013-2016 Altseed</copyright>
+        <language>ja-JP</language>
+        <tags>Game</tags>
+    </metadata>
+    <files>
+        <file src="Altseed_core.dll" target="content\Altseed_core.dll" />
+        <file src="Altseed.dll" target="lib\Altseed.dll" />
+        <file src="Altseed.xml" target="lib\Altseed.xml" />
+    </files>
+</package>
