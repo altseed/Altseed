@@ -51,7 +51,18 @@ namespace asd
 			ChildTransformingMode transformingMode,
 			ChildDrawingMode drawingMode)
 		{
-			ThrowIfDisposed();
+			var e = new EventToMangeDrawnFamilyship2D(this, child);
+			e.SetUpAsAddEvent(managementMode, transformingMode, drawingMode);
+			Engine.ChangesToBeCommited.Enqueue(e);
+
+		}
+
+	    internal void ImmediatelyAddDrawnChild(
+		    DrawnObject2D child,
+		    ChildManagementMode managementMode,
+		    ChildTransformingMode transformingMode,
+		    ChildDrawingMode drawingMode)
+		{
 			CoreDrawnObject.AddDrawnChild(child.CoreDrawnObject,
 				(int)managementMode,
 				(swig.ChildTransformingMode)transformingMode,

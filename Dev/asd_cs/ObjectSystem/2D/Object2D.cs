@@ -34,7 +34,37 @@ namespace asd
 		}
 
 
-		public Layer2D Layer { get; set; }
+		/// <summary>
+		/// このオブジェクトの親オブジェクトを取得する。
+		/// </summary>
+		public Object2D Parent
+		{
+			get
+			{
+				if(ParentInfo != null)
+				{
+					return ParentInfo.Parent;
+				}
+				return null;
+			}
+		}
+
+		/// <summary>
+		/// このオブジェクトが持っている子オブジェクトのコレクションを取得する。
+		/// </summary>
+		public IEnumerable<Object2D> Children
+		{
+			get { return ChildrenList; }
+		}
+
+		/// <summary>
+		/// このオブジェクトが登録されているレイヤーを取得します。
+		/// </summary>
+		public Layer2D Layer { get; internal set; }
+
+		public abstract bool IsReleased { get; }
+
+		public abstract void ForceToRelease();
 
 		#region パラメータ
 		/// <summary>
@@ -84,29 +114,6 @@ namespace asd
 		{
 			get { return CoreObject != null && CoreObject.GetIsAlive(); }
 			private set { CoreObject.SetIsAlive(value); }
-		}
-
-		/// <summary>
-		/// このオブジェクトの親オブジェクトを取得する。
-		/// </summary>
-		public Object2D Parent
-		{
-			get
-			{
-				if (ParentInfo != null)
-				{
-					return ParentInfo.Parent;
-				}
-				return null;
-			}
-		}
-
-		/// <summary>
-		/// このオブジェクトが持っている子オブジェクトのコレクションを取得する。
-		/// </summary>
-		public IEnumerable<Object2D> Children
-		{
-			get { return ChildrenList; }
 		}
 
 		/// <summary>
@@ -181,8 +188,6 @@ namespace asd
 				return CoreObject.GetAbsoluteBeingDrawn();
 			}
 		}
-		#endregion
-
 
 		/// <summary>
 		/// この2Dオブジェクトを描画する際の実際の位置を取得または設定する。親子関係がある場合に、親の位置を考慮した位置を取得できる。
@@ -191,6 +196,26 @@ namespace asd
 		public Vector2DF GetGlobalPosition()
 		{
 			return CoreObject.GetGlobalPosition();
+		}
+		#endregion
+
+		#region Management
+		/// <summary>
+		/// この2Dオブジェクトを破棄する。
+		/// </summary>
+		public void Dispose()
+		{
+			Dispose(false);
+		}
+
+		/// <summary>
+		/// この2Dオブジェクトを破棄する。
+		/// </summary>
+		/// <param name="disposeNative">ネイティブ リソースも即解放するかどうかの真偽値。</param>
+		/// <remarks>破棄状況を同期している子オブジェクトもすべて破棄するが、子オブジェクトの破棄はこのメソッドを呼び出したフレームの最後に実行されるので注意が必要。</remarks>
+		public override void Dispose(bool disposeNative)
+		{
+			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
 		}
 
 		/// <summary>
@@ -201,21 +226,9 @@ namespace asd
 		/// <param name="transformingMode">子オブジェクトの変形に関する同期設定。</param>
 		public void AddChild(Object2D child, ChildManagementMode managementMode, ChildTransformingMode transformingMode)
 		{
-			ThrowIfDisposed();
-			CoreObject.AddChild(child.CoreObject, (int)managementMode, (swig.ChildTransformingMode)transformingMode);
-			ChildrenList.Add(child);
-			child.ParentInfo = new ParentInfo2D(this, managementMode);
-			if((managementMode & ChildManagementMode.RegistrationToLayer) != 0)
-			{
-				if(child.Layer != Layer && child.Layer != null)
-				{
-					child.Layer.RemoveObject(child);
-				}
-				if(Layer != null)
-				{
-					Layer.AddObject(child);
-				}
-			}
+			var e = new EventToManageFamilyship2D(this, child);
+			e.SetUpAsAddEvent(managementMode, transformingMode);
+			Engine.ChangesToBeCommited.Enqueue(e);
 		}
 
 		/// <summary>
@@ -224,10 +237,9 @@ namespace asd
 		/// <param name="child"></param>
 		public void RemoveChild(Object2D child)
 		{
-			ThrowIfDisposed();
-			CoreObject.RemoveChild(child.CoreObject);
-			ChildrenList.Remove(child);
-			child.ParentInfo = null;
+			var e = new EventToManageFamilyship2D(this, child);
+			e.SetUpAsRemoveEvent();
+			Engine.ChangesToBeCommited.Enqueue(e);
 		}
 
 		/// <summary>
@@ -260,6 +272,73 @@ namespace asd
 			return componentManager_.Remove(key);
 		}
 
+
+		internal void ImmediatelyAddChild(
+			Object2D child,
+			ChildManagementMode managementMode,
+			ChildTransformingMode transformingMode)
+		{
+			CoreObject.AddChild(child.CoreObject, (int)managementMode, (swig.ChildTransformingMode)transformingMode);
+			ChildrenList.Add(child);
+			child.ParentInfo = new ParentInfo2D(this, managementMode);
+			if((managementMode & ChildManagementMode.RegistrationToLayer) != 0)
+			{
+				if(child.Layer != Layer && child.Layer != null)
+				{
+					child.Layer.RemoveObject(child);
+				}
+				if(Layer != null)
+				{
+					Layer.AddObject(child);
+				}
+			}
+		}
+
+		internal void ImmediatelyRemoveChild(Object2D child)
+		{
+			if(IsAlive)
+			{
+				CoreObject.RemoveChild(child.CoreObject);
+				ChildrenList.Remove(child);
+				child.ParentInfo = null;
+			}
+		}
+
+		internal void ImmediatelyRemoveComponent(string key)
+		{
+			componentManager_.ImmediatelyRemoveComponent(key);
+		}
+
+		void IBeingAbleToDisposeNative.DisposeImmediately(bool disposeNative)
+		{
+			if(IsAlive)
+			{
+				IsAlive = false;
+				OnDispose();
+				foreach(var item in Lambda.FilterDeadObject(ChildrenList))
+				{
+					CoreObject.RemoveChild(item.CoreObject);
+					if(item.IsInheriting(ChildManagementMode.Disposal))
+					{
+						item.Dispose();
+					}
+					item.ParentInfo = null;
+				}
+				if(Parent != null)
+				{
+					Parent.ImmediatelyRemoveChild(this);
+				}
+				if(Layer != null)
+				{
+					Layer.ImmediatelyRemoveObject(this, false);
+				}
+				if(disposeNative)
+				{
+					ForceToRelease();
+				}
+			}
+		}
+
 		void IComponentRegisterable<Object2DComponent>.Register(Object2DComponent component)
 		{
 			component.Owner = this;
@@ -269,12 +348,7 @@ namespace asd
 		{
 			component.Owner = null;
 		}
-
-		internal void ImmediatelyRemoveComponent(string key)
-		{
-			componentManager_.ImmediatelyRemoveComponent(key);
-		}
-
+		#endregion
 
 		#region 追加描画
 		/// <summary>
@@ -349,7 +423,7 @@ namespace asd
 		{
 			Layer.DrawTextAdditionally(pos, color, font, text, writingDirection, alphaBlend, priority);
 		}
-
+		
 		protected void DrawRectangleAdditionally(RectF drawingArea, Color color, RectF uv, Texture2D texture, AlphaBlendMode alphaBlend, int priority)
 		{
 			Layer.DrawRectangleAdditionally(drawingArea, color, uv, texture, alphaBlend, priority);
@@ -386,7 +460,6 @@ namespace asd
 		}
 		#endregion
 
-
 		#region イベントハンドラ
 		internal override void RaiseOnAdded()
 		{
@@ -399,7 +472,7 @@ namespace asd
 				}
 			}
 
-			foreach (var component in componentManager_.Components)
+			foreach(var component in componentManager_.Components)
 			{
 				component.RaiseOnAdded();
 			}
@@ -423,59 +496,10 @@ namespace asd
 			OnRemoved();
 		}
 
-		/// <summary>
-		/// この2Dオブジェクトを破棄する。
-		/// </summary>
-		public void Dispose()
-		{
-			Dispose(false);
-		}
-
-		/// <summary>
-		/// この2Dオブジェクトを破棄する。
-		/// </summary>
-		/// <param name="disposeNative">ネイティブ リソースも即解放するかどうかの真偽値。</param>
-		/// <remarks>破棄状況を同期している子オブジェクトもすべて破棄するが、子オブジェクトの破棄はこのメソッドを呼び出したフレームの最後に実行されるので注意が必要。</remarks>
-		public override void Dispose(bool disposeNative)
-		{
-			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
-		}
-
-		void IBeingAbleToDisposeNative.DisposeImmediately(bool disposeNative)
-		{
-			if (IsAlive)
-			{
-				IsAlive = false;
-				OnDispose();
-				foreach (var item in Lambda.FilterDeadObject(ChildrenList))
-				{
-					CoreObject.RemoveChild(item.CoreObject);
-					if (item.IsInheriting(ChildManagementMode.Disposal))
-					{
-						item.Dispose();
-					}
-					item.ParentInfo = null;
-				}
-				if (Parent != null && Parent.IsAlive)
-				{
-					Parent.CoreObject.RemoveChild(CoreObject);
-				}
-				if (Layer != null)
-				{
-					Layer.ImmediatelyRemoveObject(this, false);
-				}
-				if (disposeNative)
-				{
-					ForceToRelease();
-				}
-			}
-		}
-
 		internal override void Update()
 		{
 			if(IsAlive && AbsoluteBeingUpdated)
 			{
-				Lambda.RemoveDead(ChildrenList);
 				OnUpdate();
 
 				foreach(var component in componentManager_.Components)
@@ -520,7 +544,6 @@ namespace asd
 		#endregion
 
 
-
 		private bool IsInheriting(ChildManagementMode mode)
 		{
 			return ParentInfo != null && (ParentInfo.ManagementMode & mode) != 0;
@@ -528,7 +551,7 @@ namespace asd
 
 		internal void ThrowIfDisposed()
 		{
-			if (!IsAlive)
+			if(!IsAlive)
 			{
 				throw new ObjectDisposedException(GetType().FullName);
 			}
@@ -542,14 +565,15 @@ namespace asd
 			}
 		}
 
-		private ComponentManager<Object2DComponent> componentManager_ { get; set; }
-
-		internal abstract swig.CoreObject2D CoreObject { get; }
-
 		internal override bool GetIsAlive()
 		{
 			return IsAlive;
 		}
+
+
+		private ComponentManager<Object2DComponent> componentManager_ { get; set; }
+
+		internal abstract swig.CoreObject2D CoreObject { get; }
 
 		internal override bool IsRegisteredToLayer
 		{
@@ -559,9 +583,5 @@ namespace asd
 		internal List<Object2D> ChildrenList { get; set; }
 
 		internal ParentInfo2D ParentInfo { get; set; }
-
-		public abstract bool IsReleased { get; }
-
-		public abstract void ForceToRelease();
 	}
 }

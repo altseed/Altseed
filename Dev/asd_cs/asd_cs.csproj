@@ -108,6 +108,8 @@
     <Compile Include="ObjectSystem\3D\ModelObject3D.cs" />
     <Compile Include="ObjectSystem\3D\Object3D.cs" />
     <Compile Include="ObjectSystem\3D\TerrainObject3D.cs" />
+    <Compile Include="ObjectSystem\Registration\EventToManageFamilyship2D.cs" />
+    <Compile Include="ObjectSystem\Registration\EventToMangeDrawnFamilyship2D.cs" />
     <Compile Include="ObjectSystem\Registration\IComponentRegisterable.cs" />
     <Compile Include="ObjectSystem\Component\Layer2DComponent.cs" />
     <Compile Include="ObjectSystem\Component\Object2DComponent.cs" />

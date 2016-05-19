@@ -70,7 +70,7 @@ namespace asd
 		/// </summary>
 		public bool IsAlive { get; private set; }
 
-		public Layer3D Layer { get; set; }
+		public Layer3D Layer { get; internal set; }
 
 		internal override bool IsRegisteredToLayer
 		{
