@@ -21,7 +21,7 @@ namespace asd
 	/// <summary>
 	/// 更新・描画処理を行う単位となる2Dオブジェクトの機能を提供する抽象クラス。
 	/// </summary>
-	public abstract class Object2D : AltseedObject, IReleasable, IBeingAbleToDisposeNative, IComponentRegisterable<Object2DComponent>
+	public abstract class Object2D : AltseedObject, IReleasable, IDisposable, IBeingAbleToDisposeNative, IComponentRegisterable<Object2DComponent>
 	{
 		/// <summary>
 		/// コンストラクタ
