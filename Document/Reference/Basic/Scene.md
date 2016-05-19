@@ -14,6 +14,8 @@
 | RemoveLayer | このシーンからレイヤーを取り除きます。 |
 | Dispose | このシーンを破棄(消去)します。 |
 
+これらの操作は、実際にはメソッドを呼び出したフレームの最後に処理されるのでご注意ください。
+
 ### 主なプロパティ
 
 | 名称 | 説明 |
@@ -26,10 +28,12 @@
 |---|---|
 | OnUpdating | ObjectのOnUpdateとLayerのOnUpdatingが実行される前に毎フレーム実行される更新イベント |
 | OnUpdated | ObjectのOnUpdateとLayerのOnUpdatedが実行された後に毎フレーム実行される更新イベント |
-| OnUpdateForTheFirstTime | 最初のObjectのOnUpdateとLayerのOnUpdatingが実行される前に一度だけ実行されるイベント |
+| OnRegistered | Engineへ追加されたときに一度だけ実行されるイベント |
+| OnStartUpdating | このシーンのUpdateが実行され始めるときに一度だけ実行されるイベント |
 | OnTransitionFinished | トランジション終了時にDoEvents関数内で呼び出されるイベント |
-| OnChanging | このシーンから別のシーンに切り替わる際に一度だけ呼び出されるイベント |
-| OnDestroy | このシーンが無条件に破棄される際に一度だけ呼び出されるイベント |
+| OnTransitionBegin | このシーンから別のシーンに切り替わり始める際に一度だけ呼び出されるイベント |
+| OnUnregistered | このシーンのUpdateが停止するときに一度だけ実行されるイベント |
+| OnDispose | このシーンが破棄される際に一度だけ呼び出されるイベント |
 
 ### 使用方法
 

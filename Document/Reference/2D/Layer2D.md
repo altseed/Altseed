@@ -21,6 +21,7 @@
 | DrawSpriteAdditionally | 直接四角形をレイヤーに描画する。 |
 | Dispose | このレイヤーを破棄(消去)する。 |
 
+`AddObject`, `RemoveObject`, `Dispose`メソッドの操作は、実際にはメソッドを呼び出したフレームの最後に実行されるのでご注意ください。
 
 ### 主なプロパティ
 

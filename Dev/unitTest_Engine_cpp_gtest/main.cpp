@@ -111,7 +111,7 @@ EXTERN_ENGINE_TEST(Performance, TextureObject2D)
 #endif
 
 /**
-	@brief	単体テストを実行する。
+	@brief	単体テストを実行する。	
 	@note
 	現在、単体テスト内でEngineを使用した場合の動作は保証していない。
 	テスト内でCoreを直接生成する。

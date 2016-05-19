@@ -37,7 +37,7 @@
 シーン、レイヤー、オブジェクトには上で述べたイベントが次のように実装されています。
 
 ||OnAdded|OnRemoved|OnDispose|OnUpdate|OnDrawAdditionally|
-|-|-|-|-|-|-|
+|---|---|---|---|---|---|
 |Scene|OnRegistered, OnStartUpdating, OnTransitionFinished|OnTransitionBegin, OnStopUpdating, OnUnregistered|○|Updating, Updated| |
 |Layer|○|○|○|Updating, Updated|○|
 |Object|○|○|○|○|○|
