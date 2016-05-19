@@ -1,16 +1,32 @@
 ﻿#include "asd.DrawnObject2D.h"
+#include "../../asd.CoreToEngine.h"
+#include "../Registration/asd.EventToManageDrawnFamilyship2D.h"
+using namespace std;
 
 namespace asd
 {
-	void DrawnObject2D::AddDrawnChild(const DrawnObject2D::Ptr& child,
+	void DrawnObject2D::AddDrawnChild(
+		const DrawnObject2D::Ptr& child,
 		ChildManagementMode::Flags managementMode,
 		ChildTransformingMode transformingMode,
-		ChildDrawingMode::Flags drwingMode)
+		ChildDrawingMode::Flags drawingMode)
+	{
+		auto thisPtr = static_pointer_cast<DrawnObject2D>(shared_from_this());
+		auto e = make_shared<EventToManageDrawnFamilyship2D>(thisPtr, child);
+		e->SetUpAsAddEvent(managementMode, transformingMode, drawingMode);
+		Engine::m_changesToCommit.push(e);
+	}
+
+	void DrawnObject2D::ImmediatelyAddDrawnChild(
+		const DrawnObject2D::Ptr& child,
+		ChildManagementMode::Flags managementMode,
+		ChildTransformingMode transformingMode,
+		ChildDrawingMode::Flags drawingMode)
 	{
 		GetCoreDrawnObject()->AddDrawnChild(child->GetCoreDrawnObject(),
 			managementMode,
 			transformingMode,
-			drwingMode);
+			drawingMode);
 		m_children.push_back(child);
 		child->m_parentInfo = std::make_shared<ParentInfo2D>(this, managementMode);
 	}

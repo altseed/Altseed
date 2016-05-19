@@ -206,6 +206,8 @@
     <ClInclude Include="..\engine\ObjectSystem\PostEffect\asd.PostEffectSepia.h" />
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToChangeScene.h" />
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageComponent.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageDrawnFamilyship2D.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageFamilyship2D.h" />
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageLayer.h" />
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageObject.h" />
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.ICommitable.h" />

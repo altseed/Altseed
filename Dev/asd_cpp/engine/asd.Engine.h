@@ -74,6 +74,7 @@ namespace asd {
 		friend class EventToChangeScene;
 		friend class Scene;
 		friend class Layer;
+		friend class DrawnObject2D;
 		friend class Object2D;
 		friend class Object3D;
 		friend class Object2DComponent;

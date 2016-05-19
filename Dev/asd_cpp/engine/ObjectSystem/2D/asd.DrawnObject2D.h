@@ -4,13 +4,26 @@
 
 namespace asd
 {
-	class DrawnObject2D : public Object2D
+	class EventToManageDrawnFamilyship2D;
+
+	class DrawnObject2D
+		: public Object2D
 	{
-	private:
-		virtual CoreDrawnObject2D* GetCoreDrawnObject() const = 0;
+		friend class EventToManageDrawnFamilyship2D;
 
 	public:
 		typedef std::shared_ptr<DrawnObject2D> Ptr;
+
+	private:
+		virtual CoreDrawnObject2D* GetCoreDrawnObject() const = 0;
+
+		void ImmediatelyAddDrawnChild(
+			const DrawnObject2D::Ptr& child,
+			ChildManagementMode::Flags managementMode,
+			ChildTransformingMode transformingMode,
+			ChildDrawingMode::Flags drawingMode);
+
+	public:
 
 		/**
 			@brief	描画する際に合成する色を取得する。
@@ -46,9 +59,10 @@ namespace asd
 			@param	transformingmode	子オブジェクトの変形に関する同期設定。
 			@param	drawingMode	子オブジェクトの描画に関する同期設定。フラグをOR演算でつなげて複数指定することができる。
 		*/
-		void AddDrawnChild(const DrawnObject2D::Ptr& child,
+		void AddDrawnChild(
+			const DrawnObject2D::Ptr& child,
 			ChildManagementMode::Flags managementMode,
 			ChildTransformingMode transformingMode,
-			ChildDrawingMode::Flags drwingMode);
+			ChildDrawingMode::Flags drawingMode);
 	};
 }

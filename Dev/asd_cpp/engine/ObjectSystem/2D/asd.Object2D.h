@@ -13,6 +13,8 @@ namespace asd
 {
 	class Layer2D;
 	template<typename TObject> class ObjectManager;
+	class EventToManageFamilyship2D;
+	class EventToManageDrawnFamilyship2D;
 
 	/**
 		@brief	画面上に描画される2Dオブジェクトを表すクラス。
@@ -26,6 +28,8 @@ namespace asd
 		friend class DrawnObject2D;
 		friend class ObjectManager<Object2D>;
 		friend class Object2DComponent;
+		friend class EventToManageFamilyship2D;
+		friend class EventToManageDrawnFamilyship2D;
 
 	public:
 		typedef std::shared_ptr<Object2D> Ptr;
@@ -77,6 +81,11 @@ namespace asd
 		void Unregister(const Object2DComponent::Ptr& component);
 		void DisposeImmediately();
 		void ImmediatelyRemoveComponent(astring key);
+		void ImmediatelyAddChild(
+			const Object2D::Ptr& child,
+			ChildManagementMode::Flags managementMode,
+			ChildTransformingMode transformingMode);
+		void ImmediatelyRemoveChild(const Object2D::Ptr& child);
 
 	protected:
 

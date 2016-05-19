@@ -99,17 +99,17 @@ namespace asd
 			ObjectManager.Remove(object2D, true);
 		}
 
-		internal void ImmediatelyRemoveObject(Object2D object2D, bool raiseEvent)
-		{
-			ObjectManager.ImmediatelyRemoveObject(object2D, raiseEvent);
-		}
-
 		/// <summary>
 		/// 保持している全ての2Dオブジェクトをこのレイヤーから削除する。
 		/// </summary>
 		public void Clear()
 		{
 			ObjectManager.Clear();
+		}
+
+		internal void ImmediatelyRemoveObject(Object2D object2D, bool raiseEvent)
+		{
+			ObjectManager.ImmediatelyRemoveObject(object2D, raiseEvent);
 		}
 
 		void IObjectRegisterable<Object2D>.Register(Object2D obj)
@@ -137,16 +137,6 @@ namespace asd
 		}
 
 		/// <summary>
-		/// 指定したキーを持つコンポーネントを取得する。
-		/// </summary>
-		/// <param name="key">取得するコンポーネントのキー</param>
-		/// <returns>コンポーネント</returns>
-		public Layer2DComponent GetComponent(string key)
-		{
-			return ComponentManager.Get(key);
-		}
-
-		/// <summary>
 		/// 指定したコンポーネントをこのレイヤーから削除する。
 		/// </summary>
 		/// <param name="key">削除するコンポーネントを示すキー</param>
@@ -154,6 +144,16 @@ namespace asd
 		public bool RemoveComponent(string key)
 		{
 			return ComponentManager.Remove(key);
+		}
+
+		/// <summary>
+		/// 指定したキーを持つコンポーネントを取得する。
+		/// </summary>
+		/// <param name="key">取得するコンポーネントのキー</param>
+		/// <returns>コンポーネント</returns>
+		public Layer2DComponent GetComponent(string key)
+		{
+			return ComponentManager.Get(key);
 		}
 
 		internal void ImmediatelyRemoveComponent(string key)

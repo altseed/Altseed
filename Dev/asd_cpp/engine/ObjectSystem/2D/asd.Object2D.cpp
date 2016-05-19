@@ -2,6 +2,7 @@
 #include "asd.Object2D.h"
 #include "asd.Layer2D.h"
 #include "../Registration/asd.EventToDisposeContent.h"
+#include "../Registration/asd.EventToManageFamilyship2D.h"
 #define IS_INHERITED(obj, flag) (obj->m_parentInfo != nullptr && (obj->m_parentInfo->GetManagementMode() & ChildManagementMode::flag) != 0)
 using namespace std;
 
@@ -45,38 +46,6 @@ namespace asd
 			}
 		}
 		OnRemoved();
-	}
-
-	void Object2D::Dispose()
-	{
-		Engine::m_changesToCommit.push(make_shared<EventToDisposeContent>(shared_from_this()));
-	}
-
-	void Object2D::DisposeImmediately()
-	{
-		if (GetIsAlive())
-		{
-			GetCoreObject()->SetIsAlive(false);
-			OnDispose();
-			for (auto& child : m_children)
-			{
-				GetCoreObject()->RemoveChild(child->GetCoreObject());
-				if (IS_INHERITED(child, Disposal))
-				{
-					child->Dispose();
-				}
-				child->m_parentInfo.reset();
-			}
-			auto parent = this->GetParent();
-			if (parent != nullptr && parent->GetIsAlive())
-			{
-				parent->RemoveChild(shared_from_this());
-			}
-			if (m_owner != nullptr)
-			{
-				m_owner->ImmediatelyRemoveObject(shared_from_this(), false);
-			}
-		}
 	}
 
 	void Object2D::Update()
@@ -207,8 +176,38 @@ namespace asd
 		m_owner = layer;
 	}
 
+	Object2D* Object2D::GetParent() const
+	{
+		return m_parentInfo != nullptr ? m_parentInfo->GetParent() : nullptr;
+	}
 
-	void Object2D::AddChild(const Object2D::Ptr& child, ChildManagementMode::Flags managementMode, ChildTransformingMode transformingMode)
+	const std::list<Object2D::Ptr>& Object2D::GetChildren() const
+	{
+		return m_children;
+	}
+
+
+	void Object2D::AddChild(
+		const Object2D::Ptr& child,
+		ChildManagementMode::Flags managementMode,
+		ChildTransformingMode transformingMode)
+	{
+		auto e = make_shared<EventToManageFamilyship2D>(shared_from_this(), child);
+		e->SetUpAsAddEvent(managementMode, transformingMode);
+		Engine::m_changesToCommit.push(e);
+	}
+
+	void Object2D::RemoveChild(const Object2D::Ptr& child)
+	{
+		auto e = make_shared<EventToManageFamilyship2D>(shared_from_this(), child);
+		e->SetUpAsRemoveEvent();
+		Engine::m_changesToCommit.push(e);
+	}
+
+	void Object2D::ImmediatelyAddChild(
+		const Object2D::Ptr& child,
+		ChildManagementMode::Flags managementMode,
+		ChildTransformingMode transformingMode)
 	{
 		GetCoreObject()->AddChild((child->GetCoreObject()), managementMode, transformingMode);
 		m_children.push_back(child);
@@ -228,21 +227,16 @@ namespace asd
 		}
 	}
 
-	void Object2D::RemoveChild(const Object2D::Ptr& child)
+	void Object2D::ImmediatelyRemoveChild(const Object2D::Ptr& child)
 	{
-		GetCoreObject()->RemoveChild((child->GetCoreObject()));
+		GetCoreObject()->RemoveChild(child->GetCoreObject());
 		m_children.remove(child);
 		child->m_parentInfo.reset();
 	}
 
-	Object2D* Object2D::GetParent() const
+	void Object2D::Dispose()
 	{
-		return m_parentInfo != nullptr ? m_parentInfo->GetParent() : nullptr;
-	}
-
-	const std::list<Object2D::Ptr>& Object2D::GetChildren() const
-	{
-		return m_children;
+		Engine::m_changesToCommit.push(make_shared<EventToDisposeContent>(shared_from_this()));
 	}
 
 	void Object2D::AddComponent(const Object2DComponent::Ptr& component, astring key)
@@ -250,14 +244,41 @@ namespace asd
 		m_componentManager->Add(component, key);
 	}
 
+	bool Object2D::RemoveComponent(astring key)
+	{
+		return m_componentManager->Remove(key);
+	}
+
 	Object2DComponent::Ptr Object2D::GetComponent(astring key)
 	{
 		return m_componentManager->Get(key);
 	}
 
-	bool Object2D::RemoveComponent(astring key)
+	void Object2D::DisposeImmediately()
 	{
-		return m_componentManager->Remove(key);
+		if (GetIsAlive())
+		{
+			GetCoreObject()->SetIsAlive(false);
+			OnDispose();
+			for (auto& child : m_children)
+			{
+				GetCoreObject()->RemoveChild(child->GetCoreObject());
+				if (IS_INHERITED(child, Disposal))
+				{
+					child->Dispose();
+				}
+				child->m_parentInfo.reset();
+			}
+			auto parent = this->GetParent();
+			if (parent != nullptr && parent->GetIsAlive())
+			{
+				parent->RemoveChild(shared_from_this());
+			}
+			if (m_owner != nullptr)
+			{
+				m_owner->ImmediatelyRemoveObject(shared_from_this(), false);
+			}
+		}
 	}
 
 	void Object2D::ImmediatelyRemoveComponent(astring key)

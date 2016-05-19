@@ -276,6 +276,12 @@
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IImmediatelyDisposable.h">
       <Filter>ObjectSystem\Registration</Filter>
     </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageFamilyship2D.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToManageDrawnFamilyship2D.h">
+      <Filter>ObjectSystem\Registration</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">

@@ -14,6 +14,8 @@ public:
 	}
 
 protected:
+	TextureObject2D::Ptr child;
+
 	void OnStart()
 	{
 		auto shape = make_shared<CircleShape>();
@@ -26,7 +28,7 @@ protected:
 		parent->SetIsUpdated(false);
 		parent->SetIsDrawn(false);
 
-		auto child = make_shared<TextureObject2D>();
+		child = make_shared<TextureObject2D>();
 		child->SetPosition(Vector2DF(100, 0));
 		child->SetColor(Color(255, 255, 128, 255));
 		child->SetDrawingPriority(1);
@@ -40,24 +42,18 @@ protected:
 
 		Engine::AddObject2D(parent);
 		Engine::AddObject2D(child);
-
-		ASSERT_TRUE(child->GetGlobalPosition() == Vector2DF(140, 40));
-		ASSERT_EQ(child->GetAbsoluteBeingUpdated(), false);
-		ASSERT_EQ(child->GetAbsoluteBeingDrawn(), false);
-		ASSERT_TRUE(child->GetAbsoluteColor() == Color(128, 255, 128, 255));
-		ASSERT_EQ(child->GetAbsoluteDrawingPriority(), 3);
 	}
 
 	void OnUpdating()
 	{
-	}
-
-	void OnUpdated()
-	{
-	}
-
-	void OnFinish()
-	{
+		if (m_currentTime == 1)
+		{
+			ASSERT_TRUE(child->GetGlobalPosition() == Vector2DF(140, 40));
+			ASSERT_EQ(child->GetAbsoluteBeingUpdated(), false);
+			ASSERT_EQ(child->GetAbsoluteBeingDrawn(), false);
+			ASSERT_TRUE(child->GetAbsoluteColor() == Color(128, 255, 128, 255));
+			ASSERT_EQ(child->GetAbsoluteDrawingPriority(), 3);
+		}
 	}
 };
 
