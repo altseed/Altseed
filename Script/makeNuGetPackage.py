@@ -18,5 +18,8 @@ if aceutils.isWin():
 
     aceutils.cd(targetDir)
     aceutils.call(r'nuget pack Altseed.nuspec -Version ' + version)
+    file = open(r'version.txt', 'w')
+    file.write(r'latest version: ' + version)
+
 else:
     print(r'NuGet package can be created only on Windows.')
