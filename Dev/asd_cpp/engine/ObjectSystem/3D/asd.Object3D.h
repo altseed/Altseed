@@ -1,8 +1,8 @@
-﻿
-#pragma once
+﻿#pragma once
 
 #include <functional>
 #include "../../asd.CoreToEngine.h"
+#include "../Registration/asd.IImmediatelyDisposable.h"
 
 namespace asd
 {
@@ -12,8 +12,9 @@ namespace asd
 	/**
 		@brief	更新・描画処理を行う単位となる3Dオブジェクトの機能を提供するクラス
 	*/
-	class Object3D :
-		public std::enable_shared_from_this<Object3D>
+	class Object3D
+		: public std::enable_shared_from_this<Object3D>
+		, public IImmediatelyDisposable
 	{
 		friend class Layer3D;
 		friend class ObjectManager<Object3D>;
@@ -36,6 +37,7 @@ namespace asd
 		void Update();
 		void SetLayer(Layer3D* layer);
 		CoreObject3D* GetCoreObject() const;
+		void DisposeImmediately();
 
 	protected:
 		CoreObject3D*	m_commonObject;

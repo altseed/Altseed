@@ -176,27 +176,34 @@ protected:
 		ASSERT_EQ(scene->phase, 0);
 		ASSERT_EQ(scene->haveBeenDisposed, false);
 		ASSERT_EQ(layer->haveBeenDisposed, false);
-		ASSERT_EQ(layer->isAdded, false);
-		ASSERT_EQ(object->isAdded, false);
 		ASSERT_EQ(object->haveBeenDisposed, false);
-
-		layer->AddObject(object);
-		ASSERT_EQ(object->isAdded, true);
-		layer->RemoveObject(object);
-		ASSERT_EQ(object->isAdded, false);
-		layer->AddObject(object);
-
-		scene->AddLayer(layer);
-		ASSERT_EQ(layer->isAdded, true);
-		scene->RemoveLayer(layer);
-		ASSERT_EQ(layer->isAdded, false);
-		scene->AddLayer(layer);
 
 		Engine::ChangeSceneWithTransition(scene, make_shared<TransitionFade>(0.3f, 0.3f));
 	}
 
 	void OnUpdating()
 	{
+		if (m_currentTime == 1)
+		{
+			ASSERT_EQ(layer->isAdded, false);
+			ASSERT_EQ(object->isAdded, false);
+			layer->AddObject(object);
+			scene->AddLayer(layer);
+		}
+		if (m_currentTime == 2)
+		{
+			ASSERT_EQ(layer->isAdded, true);
+			ASSERT_EQ(object->isAdded, true);
+			scene->RemoveLayer(layer);
+			layer->RemoveObject(object);
+		}
+		if (m_currentTime == 3)
+		{
+			scene->AddLayer(layer);
+			layer->AddObject(object);
+			ASSERT_EQ(layer->isAdded, false);
+			ASSERT_EQ(object->isAdded, false);
+		}
 		if (m_currentTime == 65)
 		{
 			Engine::ChangeSceneWithTransition(nullptr, make_shared<TransitionFade>(0.3f, 0.3f));
@@ -211,9 +218,6 @@ protected:
 	{
 		scene->Dispose();
 		ASSERT_EQ(scene->phase, 6);
-		ASSERT_EQ(scene->haveBeenDisposed, true);
-		ASSERT_EQ(layer->haveBeenDisposed, true);
-		ASSERT_EQ(object->haveBeenDisposed, true);
 	}
 };
 

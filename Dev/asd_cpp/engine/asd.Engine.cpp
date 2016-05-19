@@ -9,6 +9,7 @@
 #include "ObjectSystem/2D/asd.Layer2D.h"
 #include "ObjectSystem/3D/asd.Layer3D.h"
 #include "ObjectSystem/asd.ObjectManager.h"
+#include "ObjectSystem/Registration/asd.EventToChangeScene.h"
 
 #if _WIN32
 
@@ -664,6 +665,8 @@ namespace asd
 			}
 		}
 
+		CommitChange();
+
 		if (m_currentScene != nullptr)
 		{
 			m_currentScene->Draw();
@@ -687,6 +690,11 @@ namespace asd
 		if (m_currentScene != nullptr)
 		{
 			m_currentScene->Dispose();
+		}
+
+		while (!m_changesToCommit.empty())
+		{
+			m_changesToCommit.pop();
 		}
 
 		m_currentScene.reset();
@@ -854,16 +862,7 @@ namespace asd
 	//----------------------------------------------------------------------------------
 	void Engine::ChangeScene(ScenePtr scene, bool doAutoDispose)
 	{
-		if (m_currentScene != nullptr)
-		{
-			m_currentScene->RaiseOnTransitionBegin();
-		}
-		if (scene != nullptr)
-		{
-			scene->RaiseOnRegistered();
-		}
-		m_transitionState->ForceToComplete();
-		m_transitionState = std::make_shared<QuicklyChangingState>(scene, doAutoDispose);
+		m_changesToCommit.push(std::make_shared<EventToChangeScene>(scene, nullptr, doAutoDispose));
 	}
 
 	void Engine::ChangeSceneWithTransition(
@@ -872,16 +871,7 @@ namespace asd
 		bool doAutoDispose)
 	{
 		ACE_ASSERT(transition != nullptr, "transition に nullptr は指定できません。");
-		if (m_currentScene != nullptr)
-		{
-			m_currentScene->RaiseOnTransitionBegin();
-		}
-		if (scene != nullptr)
-		{
-			scene->RaiseOnRegistered();
-		}
-		m_transitionState->ForceToComplete();
-		m_transitionState = std::make_shared<FadingOutState>(transition, scene, doAutoDispose);
+		m_changesToCommit.push(std::make_shared<EventToChangeScene>(scene, transition, doAutoDispose));
 	}
 
 	//----------------------------------------------------------------------------------

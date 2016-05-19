@@ -6,6 +6,9 @@ namespace asd
 	class IComponentRegisterable
 	{
 	public:
+		virtual ~IComponentRegisterable()
+		{
+		}
 		virtual void Register(const std::shared_ptr<TComponent>& component) = 0;
 		virtual void Unregister(const std::shared_ptr<TComponent>& component) = 0;
 	};

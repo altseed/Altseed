@@ -4,6 +4,7 @@
 #include "../asd.Engine.h"
 #include "Registration/asd.RegistrationCommand.h"
 #include "Registration/asd.EventToManageLayer.h"
+#include "Registration/asd.EventToDisposeContent.h"
 using namespace std;
 
 namespace asd
@@ -41,6 +42,11 @@ namespace asd
 	// ========
 
 	void Scene::Dispose()
+	{
+		Engine::m_changesToCommit.push(make_shared<EventToDisposeContent>(shared_from_this()));
+	}
+
+	void Scene::DisposeImmediately()
 	{
 		if (GetIsAlive())
 		{
@@ -236,6 +242,11 @@ namespace asd
 	bool Scene::RemoveComponent(astring key)
 	{
 		return m_componentManager->Remove(key);
+	}
+
+	void Scene::ImmediatelyRemoveComponent(astring key)
+	{
+		m_componentManager->ImmediatelyRemoveComponent(key);
 	}
 
 	void Scene::Register(const SceneComponent::Ptr& component)

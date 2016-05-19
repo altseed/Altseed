@@ -2,7 +2,9 @@
 #pragma once
 
 #include <asd.common.Base.h>
+#include <memory>
 #include "asd.ComponentManager.h"
+#include "../Registration/asd.IImmediatelyDisposable.h"
 
 namespace asd
 {
@@ -13,6 +15,8 @@ namespace asd
 		@brief	asd::Scene クラスに登録することができるコンポーネント。
 	*/
 	class SceneComponent
+		: public std::enable_shared_from_this<SceneComponent>
+		, public IImmediatelyDisposable
 	{
 		friend class Scene;
 		friend class ComponentManager<SceneComponent>;
@@ -21,9 +25,12 @@ namespace asd
 		Scene* m_scene;
 		bool m_isUpdated;
 		bool m_isAlive;
+		astring m_key;
 
 		void Update();
 		void SetOwner(Scene* value);
+
+		void DisposeImmediately();
 
 	protected:
 		/**
@@ -59,6 +66,10 @@ namespace asd
 		*/
 		void SetIsUpdated(bool value);
 
+		astring GetKey() const;
+
+		void SetKey(astring value);
+
 		/**
 			@brief	このコンポーネントが実行中かどうかを取得する。Vanishメソッドによって破棄された時に false を返します。
 		*/
@@ -67,6 +78,6 @@ namespace asd
 		/**
 			@brief	このコンポーネントを破棄します。
 		*/
-		void Vanish();
+		void Dispose();
 	};
 }

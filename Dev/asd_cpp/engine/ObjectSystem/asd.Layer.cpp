@@ -1,6 +1,7 @@
 ﻿
 #include "asd.Scene.h"
 #include "asd.Layer.h"
+#include "Registration/asd.EventToDisposeContent.h"
 
 using namespace std;
 
@@ -18,45 +19,30 @@ namespace asd
 
 	void Layer::Dispose()
 	{
+		Engine::m_changesToCommit.push(make_shared<EventToDisposeContent>(shared_from_this()));
+	}
+
+	void Layer::DisposeImmediately()
+	{
 		if (GetIsAlive())
 		{
 			m_isAlive = false;
 
-			if (m_isExecuting)
+			OnDispose();
+			DisposeInternal();
+			if (GetScene() != nullptr)
 			{
-				m_isDisposing = true;
+				GetScene()->ImmediatelyRemoveLayer(shared_from_this(), false);
 			}
-			else
-			{
-				DisposeDirectly();
-			}
-		}
-	}
-
-	void Layer::DisposeDirectly()
-	{
-		OnDispose();
-		DisposeInternal();
-		if (GetScene() != nullptr)
-		{
-			GetScene()->ImmediatelyRemoveLayer(shared_from_this(), false);
 		}
 	}
 
 	void Layer::Update()
 	{
-		if (m_isDisposing)
-		{
-			DisposeDirectly();
-			m_isDisposing = false;
-		}
-
 		if (!m_isAlive || !m_isUpdatedCurrent)
 		{
 			return;
 		}
-
-		m_isExecuting = true;
 
 		m_commonObject->BeginMeasureUpdateTime();
 
@@ -70,8 +56,6 @@ namespace asd
 		}
 
 		m_commonObject->EndMeasureUpdateTime();
-
-		m_isExecuting = false;
 	}
 
 	void Layer::Draw()

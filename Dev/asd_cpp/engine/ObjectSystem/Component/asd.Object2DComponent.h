@@ -2,7 +2,9 @@
 #pragma once
 
 #include <asd.common.Base.h>
+#include <memory>
 #include "asd.ComponentManager.h"
+#include "../Registration/asd.IImmediatelyDisposable.h"
 
 namespace asd
 {
@@ -11,8 +13,10 @@ namespace asd
 
 	/**
 		@brief	asd::Object2D クラスに登録することができるコンポーネント。
-		*/
+	*/
 	class Object2DComponent
+		: public IImmediatelyDisposable
+		, public std::enable_shared_from_this<Object2DComponent>
 	{
 		friend class Object2D;
 		friend class ComponentManager<Object2DComponent>;
@@ -21,9 +25,12 @@ namespace asd
 		Object2D* m_owner;
 		bool m_isUpdated;
 		bool m_isAlive;
+		astring m_key;
 
 		void Update();
 		void SetOwner(Object2D* value);
+
+		void DisposeImmediately();
 
 	protected:
 		/**
@@ -59,6 +66,11 @@ namespace asd
 			*/
 		void SetIsUpdated(bool value);
 
+		astring GetKey() const;
+
+		void SetKey(astring value);
+
+
 		/**
 			@brief	このコンポーネントが実行中かどうかを取得する。Vanishメソッドによって破棄された時に false を返します。
 			*/
@@ -67,6 +79,6 @@ namespace asd
 		/**
 			@brief	このコンポーネントを破棄します。
 			*/
-		void Vanish();
+		void Dispose();
 	};
 }

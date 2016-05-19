@@ -27,7 +27,6 @@ namespace asd
 		ComponentManager(IComponentRegisterable<TComponent>* owner)
 			: m_owner(owner)
 			, m_components(std::map<astring, ComponentPtr>())
-			//, m_isUpdating(false)
 		{
 		}
 
@@ -57,7 +56,7 @@ namespace asd
 		{
 			m_components[key] = component;
 			m_owner->Register(component);
-			// TODO: Componentにキーを保存
+			component->SetKey(key);
 		}
 
 		void ImmediatelyRemoveComponent(astring key)
@@ -65,7 +64,7 @@ namespace asd
 			auto component = m_components[key];
 			m_components.erase(key);
 			m_owner->Unregister(component);
-			// TODO: Componentのキーをnullに
+			component->SetKey(ToAString(""));
 		}
 
 		ComponentPtr Get(astring key)

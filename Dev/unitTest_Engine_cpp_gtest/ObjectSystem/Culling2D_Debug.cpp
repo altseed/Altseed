@@ -14,7 +14,7 @@ class ObjectSystem_Culling2D_Debug : public EngineTest
 	float X;
 public:
 	ObjectSystem_Culling2D_Debug(bool isOpenGLMode)
-		: EngineTest(asd::ToAString("ObjectSystem_Culling2D_Debug"), isOpenGLMode, -6, 960, 640)
+		: EngineTest(asd::ToAString("ObjectSystem_Culling2D_Debug"), isOpenGLMode, 30, 960, 640)
 	{
 	}
 

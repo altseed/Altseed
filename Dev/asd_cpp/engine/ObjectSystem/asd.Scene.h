@@ -7,6 +7,7 @@
 #include "2D/asd.Layer2D.h"
 #include "Component/asd.SceneComponent.h"
 #include "Component/asd.ComponentManager.h"
+#include "Registration/asd.IImmediatelyDisposable.h"
 
 namespace asd
 {
@@ -22,11 +23,13 @@ namespace asd
 	class Scene
 		: public std::enable_shared_from_this<Scene>
 		, public IComponentRegisterable<SceneComponent>
+		, public IImmediatelyDisposable
 	{
 		friend class Engine;
 		friend class EventToChangeScene;
 		friend class EventToManageLayer;
 		friend class Layer;
+		friend class SceneComponent;
 
 	public:
 		typedef std::shared_ptr<Scene> Ptr;
@@ -53,6 +56,8 @@ namespace asd
 
 		void ImmediatelyAddLayer(const Layer::Ptr& layer, bool raiseEvent);
 		void ImmediatelyRemoveLayer(const Layer::Ptr& layer, bool raiseEvent);
+		void ImmediatelyRemoveComponent(astring key);
+		void DisposeImmediately();
 		void Register(const SceneComponent::Ptr& component);
 		void Unregister(const SceneComponent::Ptr& component);
 

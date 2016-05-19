@@ -36,7 +36,7 @@ namespace asd
 		void UpdateInternal();
 		void DisposeInternal();
 
-		void DirectlyRemoveObject(const Object3D::Ptr& object);
+		void ImmediatelyRemoveObject(const Object3D::Ptr& object);
 
 		bool GetIsAlive() const;
 		void Register(const Object3D::Ptr& object);

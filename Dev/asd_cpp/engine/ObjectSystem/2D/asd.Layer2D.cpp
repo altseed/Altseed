@@ -189,6 +189,11 @@ namespace asd
 		return m_components->Remove(key);
 	}
 
+	void Layer2D::ImmediatelyRemoveComponent(astring key)
+	{
+		m_components->ImmediatelyRemoveComponent(key);
+	}
+
 	void Layer2D::Register(const Layer2DComponent::Ptr& component)
 	{
 		component->SetOwner(this);

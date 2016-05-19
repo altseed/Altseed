@@ -34,11 +34,14 @@ protected:
 		effectObj->SetEffectRotation(90);
 
 		effectObj->SetEffect(effect);
-		effectObj->Play();
 	}
 
 	void OnUpdating()
 	{
+		if (m_currentTime == 1)
+		{
+			effectObj->Play();
+		}
 	}
 };
 

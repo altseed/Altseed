@@ -73,6 +73,12 @@ namespace asd {
 	{
 		friend class EventToChangeScene;
 		friend class Scene;
+		friend class Layer;
+		friend class Object2D;
+		friend class Object3D;
+		friend class Object2DComponent;
+		friend class Layer2DComponent;
+		friend class SceneComponent;
 		template<typename TObject> friend class ObjectManager;
 		template<typename TComponent> friend class ComponentManager;
 

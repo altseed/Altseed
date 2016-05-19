@@ -9,6 +9,10 @@ namespace asd
 		typedef std::shared_ptr<TComponent> ComponentPtr;
 
 	public:
+		virtual ~IImmediateComponentManager()
+		{
+		}
+
 		virtual void ImmediatelyAddComponent(const ComponentPtr& component, astring key) = 0;
 		virtual void ImmediatelyRemoveComponent(astring key) = 0;
 	};

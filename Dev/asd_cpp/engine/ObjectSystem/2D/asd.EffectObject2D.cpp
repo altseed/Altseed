@@ -33,11 +33,7 @@ namespace asd
 
 	int32_t EffectObject2D::Play()
 	{
-		if (m_coreObject->GetLayer() == nullptr)
-		{
-			throw std::runtime_error("レイヤーに追加されていません。");
-		}
-
+		ACE_ASSERT(m_coreObject->GetLayer() != nullptr, "レイヤーに追加されていません。");
 		return m_coreObject->Play();
 	}
 

@@ -28,6 +28,7 @@ namespace asd
 	{
 		friend class Scene;
 		friend class Object2D;
+		friend class Layer2DComponent;
 
 	public:
 		typedef std::shared_ptr<Layer2D> Ptr;
@@ -44,6 +45,7 @@ namespace asd
 		void DisposeInternal();
 
 		void ImmediatelyRemoveObject(const Object2D::Ptr& object, bool raiseEvent);
+		void ImmediatelyRemoveComponent(astring key);
 		void Register(const Object2D::Ptr& object);
 		void Register(const Layer2DComponent::Ptr& component) override;
 		void Unregister(const Object2D::Ptr& object);

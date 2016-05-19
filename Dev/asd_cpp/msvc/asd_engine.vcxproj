@@ -214,6 +214,8 @@
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.RegistrationCommand.h" />
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IObjectRegisterable.h" />
     <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IImmediateObjectManager.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.EventToDisposeContent.h" />
+    <ClInclude Include="..\engine\ObjectSystem\Registration\asd.IImmediatelyDisposable.h" />
     <ClInclude Include="..\engine\ObjectSystem\Transition\asd.Transition.h" />
     <ClInclude Include="..\engine\ObjectSystem\Transition\asd.TransitionFade.h" />
     <ClInclude Include="..\engine\PCH\asd.Engine.PCH.h" />

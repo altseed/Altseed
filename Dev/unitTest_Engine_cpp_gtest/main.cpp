@@ -103,6 +103,7 @@ EXTERN_ENGINE_TEST(IO, StreamFile_PackageWithKey)
 EXTERN_ENGINE_TEST(Profiler, Profiling)
 
 EXTERN_ENGINE_TEST(BugFix, DisposeAndChangeParent)
+EXTERN_ENGINE_TEST(BugFix, MemoryLeak)
 
 #if defined(PERFORMANCE_MODE)
 EXTERN_ENGINE_TEST(Performance, MassModelObject3D)
@@ -125,7 +126,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	//*
-	CALL_ENGINE_TEST(Profiler, Profiling, true);
+	CALL_ENGINE_TEST(Graphics, EffectObject2D, true);
 	getchar();
 	return 0;
 	//*/

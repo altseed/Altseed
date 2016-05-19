@@ -11,7 +11,7 @@ namespace asd
 	template<typename TObject>
 	class ObjectManager
 		: public std::enable_shared_from_this< ObjectManager<TObject> >
-		, public ImmediateObjectManager<TObject>
+		, public IImmediateObjectManager<TObject>
 	{
 	private:
 		typedef std::shared_ptr<TObject> ObjectPtr;

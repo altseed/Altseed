@@ -2,8 +2,8 @@
 #include <memory>
 #include <map>
 #include "../asd.CoreToEngine.h"
-
 #include "PostEffect/asd.PostEffect.h"
+#include "Registration/asd.IImmediatelyDisposable.h"
 
 namespace asd
 {
@@ -12,8 +12,9 @@ namespace asd
 	/**
 		@brief	オブジェクトの更新と描画を管理するレイヤーの機能を提供する抽象クラス。
 	*/
-	class Layer :
-		public std::enable_shared_from_this<Layer>
+	class Layer
+		: public std::enable_shared_from_this<Layer>
+		, public IImmediatelyDisposable
 	{
 		friend class Scene;
 	public:
@@ -29,9 +30,6 @@ namespace asd
 		float m_updateFrequency;
 		float m_updateTimer;
 
-		bool m_isExecuting = false;
-		bool m_isDisposing = false;
-
 		std::vector<std::shared_ptr<PostEffect>>	m_postEffects;
 
 	private:
@@ -42,7 +40,7 @@ namespace asd
 
 		std::shared_ptr<CoreLayer> GetCoreLayer() const;
 
-		void DisposeDirectly();
+		void DisposeImmediately();
 		virtual void DisposeInternal() = 0;
 		virtual void BeginUpdating() = 0;
 		virtual void EndUpdateting() = 0;

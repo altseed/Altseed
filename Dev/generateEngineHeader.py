@@ -148,6 +148,7 @@ engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.ICommitable
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.IComponentRegisterable.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.IImmediateComponentManager.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.IImmediateObjectManager.h")
+engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.IImmediatelyDisposable.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.IObjectRegisterable.h")
 engineHeader.readLines("asd_cpp/engine/ObjectSystem/Registration/asd.RegistrationCommand.h")
 

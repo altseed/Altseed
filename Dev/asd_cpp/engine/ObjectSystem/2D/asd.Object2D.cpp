@@ -1,6 +1,7 @@
 ﻿#include <list>
 #include "asd.Object2D.h"
 #include "asd.Layer2D.h"
+#include "../Registration/asd.EventToDisposeContent.h"
 #define IS_INHERITED(obj, flag) (obj->m_parentInfo != nullptr && (obj->m_parentInfo->GetManagementMode() & ChildManagementMode::flag) != 0)
 using namespace std;
 
@@ -47,6 +48,11 @@ namespace asd
 	}
 
 	void Object2D::Dispose()
+	{
+		Engine::m_changesToCommit.push(make_shared<EventToDisposeContent>(shared_from_this()));
+	}
+
+	void Object2D::DisposeImmediately()
 	{
 		if (GetIsAlive())
 		{
@@ -252,6 +258,11 @@ namespace asd
 	bool Object2D::RemoveComponent(astring key)
 	{
 		return m_componentManager->Remove(key);
+	}
+
+	void Object2D::ImmediatelyRemoveComponent(astring key)
+	{
+		m_componentManager->ImmediatelyRemoveComponent(key);
 	}
 
 	void Object2D::Register(const Object2DComponent::Ptr& component)

@@ -7,6 +7,7 @@
 #include "../Component/asd.ComponentManager.h"
 #include "../../Shape/asd.Shape.h"
 #include "../Registration/asd.IComponentRegisterable.h"
+#include "../Registration/asd.IImmediatelyDisposable.h"
 
 namespace asd
 {
@@ -19,10 +20,12 @@ namespace asd
 	class Object2D
 		: public std::enable_shared_from_this<Object2D>
 		, public IComponentRegisterable<Object2DComponent>
+		, public IImmediatelyDisposable
 	{
 		friend class Layer2D;
 		friend class DrawnObject2D;
 		friend class ObjectManager<Object2D>;
+		friend class Object2DComponent;
 
 	public:
 		typedef std::shared_ptr<Object2D> Ptr;
@@ -72,6 +75,8 @@ namespace asd
 
 		void Register(const Object2DComponent::Ptr& component);
 		void Unregister(const Object2DComponent::Ptr& component);
+		void DisposeImmediately();
+		void ImmediatelyRemoveComponent(astring key);
 
 	protected:
 

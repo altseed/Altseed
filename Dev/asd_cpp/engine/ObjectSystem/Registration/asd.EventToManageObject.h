@@ -10,14 +10,14 @@ namespace asd
 	class EventToManageObject : public ICommitable
 	{
 	private:
-		std::shared_ptr<ImmediateObjectManager<TObject>> m_manager;
+		std::shared_ptr<IImmediateObjectManager<TObject>> m_manager;
 		std::shared_ptr<TObject> m_object;
 		RegistrationCommand m_command;
 		bool m_raiseEvent;
 
 	public:
 		EventToManageObject(
-			std::shared_ptr<ImmediateObjectManager<TObject>> manager,
+			std::shared_ptr<IImmediateObjectManager<TObject>> manager,
 			std::shared_ptr<TObject> object,
 			RegistrationCommand command,
 			bool raiseEvent)

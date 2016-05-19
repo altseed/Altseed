@@ -1,6 +1,7 @@
-﻿
-#include "asd.Object3D.h"
+﻿#include "asd.Object3D.h"
 #include "asd.Layer3D.h"
+#include "../Registration/asd.EventToDisposeContent.h"
+using namespace std;
 
 namespace asd
 {
@@ -16,13 +17,18 @@ namespace asd
 
 	void Object3D::Dispose()
 	{
+		Engine::m_changesToCommit.push(make_shared<EventToDisposeContent>(shared_from_this()));
+	}
+
+	void Object3D::DisposeImmediately()
+	{
 		if (GetIsAlive())
 		{
 			m_isAlive = false;
 			OnDispose();
 			if (m_owner != nullptr)
 			{
-				m_owner->DirectlyRemoveObject(shared_from_this());
+				m_owner->ImmediatelyRemoveObject(shared_from_this());
 			}
 		}
 	}

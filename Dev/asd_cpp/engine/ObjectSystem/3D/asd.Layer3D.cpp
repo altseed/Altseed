@@ -41,14 +41,12 @@ namespace asd
 
 	void Layer3D::Register(const Object3D::Ptr& object)
 	{
-		// TODO: これでいいのか?
 		object->SetLayer(this);
 		m_coreLayer->AddObject(object->GetCoreObject());
 	}
 
 	void Layer3D::Unregister(const Object3D::Ptr& object)
 	{
-		// TODO: これでいいのか?
 		object->SetLayer(nullptr);
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 	}
@@ -91,25 +89,17 @@ namespace asd
 
 	void Layer3D::AddObject(const Object3D::Ptr& object)
 	{
-		ACE_ASSERT(object->GetLayer() == nullptr, "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。");
 		m_objects->Add(object);
-		auto coreObj = object->GetCoreObject();
-		m_coreLayer->AddObject(coreObj);
-		object->SetLayer(this);
-		object->RaiseOnAdded();
 	}
 
 	void Layer3D::RemoveObject(const Object3D::Ptr& object)
 	{
-		DirectlyRemoveObject(object);
-		object->RaiseOnRemoved();
-		object->SetLayer(nullptr);
+		m_objects->Remove(object, true);
 	}
 
-	void Layer3D::DirectlyRemoveObject(const Object3D::Ptr& object)
+	void Layer3D::ImmediatelyRemoveObject(const Object3D::Ptr& object)
 	{
-		m_objects->Remove(object, false);
-		m_coreLayer->RemoveObject(object->GetCoreObject());
+		m_objects->ImmediatelyRemoveObject(object, false);
 	}
 
 	std::list<Object3D::Ptr> Layer3D::GetObjects() const
