@@ -83,7 +83,7 @@ namespace asd
 		/// 指定した2Dオブジェクトをこのレイヤーに追加する。
 		/// </summary>
 		/// <param name="object2D">追加する2Dオブジェクト</param>
-		/// <remarks><see cref="Objects"/>プロパティの内容などへ実際に追加されるのは、このメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
+		/// <remarks>実際に追加されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void AddObject(Object2D object2D)
 		{
 			ObjectManager.Add(object2D);
@@ -93,7 +93,7 @@ namespace asd
 		/// 指定した2Dオブジェクトをこのレイヤーから削除する。
 		/// </summary>
 		/// <param name="object2D">削除される2Dオブジェクト</param>
-		/// <remarks><see cref="Objects"/>プロパティの内容などから実際に削除されるのは、このメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
+		/// <remarks>実際に削除されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void RemoveObject(Object2D object2D)
 		{
 			ObjectManager.Remove(object2D, true);
@@ -102,11 +102,17 @@ namespace asd
 		/// <summary>
 		/// 保持している全ての2Dオブジェクトをこのレイヤーから削除する。
 		/// </summary>
+		/// <remarks>実際に削除されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void Clear()
 		{
 			ObjectManager.Clear();
 		}
 
+		/// <summary>
+		/// 指定した2Dオブジェクトをすぐにこのレイヤーに追加する。
+		/// </summary>
+		/// <param name="object2D">追加する2Dオブジェクト</param>
+		/// <param name="raiseEvent">OnRemovedイベントを呼び出すかどうかの真偽値</param>
 		internal void ImmediatelyRemoveObject(Object2D object2D, bool raiseEvent)
 		{
 			ObjectManager.ImmediatelyRemoveObject(object2D, raiseEvent);
@@ -131,6 +137,7 @@ namespace asd
 		/// </summary>
 		/// <param name="component">追加するコンポーネント</param>
 		/// <param name="key">コンポーネントに関連付けるキー</param>
+		/// <remarks>実際に追加されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void AddComponent(Layer2DComponent component, string key)
 		{
 			ComponentManager.Add(component, key);
@@ -141,6 +148,7 @@ namespace asd
 		/// </summary>
 		/// <param name="key">削除するコンポーネントを示すキー</param>
 		/// <returns>削除が成功したか否か。キーに対応するコンポーネントがなかった場合は false。</returns>
+		/// <remarks>実際に削除されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public bool RemoveComponent(string key)
 		{
 			return ComponentManager.Remove(key);

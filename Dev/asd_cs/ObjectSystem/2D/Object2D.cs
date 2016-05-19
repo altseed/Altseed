@@ -224,6 +224,7 @@ namespace asd
 		/// <param name="child">追加する子オブジェクト</param>
 		/// <param name="managementMode">子オブジェクトの管理に関する同期設定。フラグをOR演算でつなげて複数指定することができる。</param>
 		/// <param name="transformingMode">子オブジェクトの変形に関する同期設定。</param>
+		/// <remarks>実際に追加されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void AddChild(Object2D child, ChildManagementMode managementMode, ChildTransformingMode transformingMode)
 		{
 			var e = new EventToManageFamilyship2D(this, child);
@@ -234,7 +235,8 @@ namespace asd
 		/// <summary>
 		/// 指定した子オブジェクトをこのインスタンスから削除する。
 		/// </summary>
-		/// <param name="child"></param>
+		/// <param name="child">削除する子オブジェクト</param>
+		/// <remarks>実際に削除されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void RemoveChild(Object2D child)
 		{
 			var e = new EventToManageFamilyship2D(this, child);
@@ -247,6 +249,7 @@ namespace asd
 		/// </summary>
 		/// <param name="component">追加するコンポーネント</param>
 		/// <param name="key">コンポーネントに関連付けるキー</param>
+		/// <remarks>実際に追加されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void AddComponent(Object2DComponent component, string key)
 		{
 			componentManager_.Add(component, key);
@@ -267,6 +270,7 @@ namespace asd
 		/// </summary>
 		/// <param name="key">削除するコンポーネントを示すキー</param>
 		/// <returns>削除が成功したか否か。キーに対応するコンポーネントがなかった場合は false。</returns>
+		/// <remarks>実際に削除されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public bool RemoveComponent(string key)
 		{
 			return componentManager_.Remove(key);

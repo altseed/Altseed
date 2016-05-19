@@ -107,10 +107,51 @@ namespace asd
 		/// 指定したレイヤーをこのシーンに追加する。
 		/// </summary>
 		/// <param name="layer">追加されるレイヤー</param>
-		/// <remarks><see cref="Layers"/>プロパティの内容などへ実際に追加されるのは、このメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
+		/// <remarks>実際に追加されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void AddLayer(Layer layer)
 		{
 			Engine.ChangesToBeCommited.Enqueue(new EventToManageLayer(this, layer, RegistrationCommand.Add, true));
+		}
+
+		/// <summary>
+		/// 指定したレイヤーをこのシーンから削除する。
+		/// </summary>
+		/// <param name="layer">削除されるレイヤー</param>
+		/// <remarks>実際に削除されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
+		public void RemoveLayer(Layer layer)
+		{
+			Engine.ChangesToBeCommited.Enqueue(new EventToManageLayer(this, layer, RegistrationCommand.Remove, true));
+		}
+
+		/// <summary>
+		/// 指定したコンポーネントをこのシーンに追加する。
+		/// </summary>
+		/// <param name="component">追加するコンポーネント</param>
+		/// <param name="key">コンポーネントに関連付けるキー</param>
+		/// <remarks>実際に追加されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
+		public void AddComponent(SceneComponent component, string key)
+		{
+			ComponentManager.Add(component, key);
+		}
+
+		/// <summary>
+		/// 指定したコンポーネントをこのシーンから削除する。
+		/// </summary>
+		/// <param name="key">削除するコンポーネントを示すキー</param>
+		/// <remarks>実際に削除されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
+		public bool RemoveComponent(string key)
+		{
+			return ComponentManager.Remove(key);
+		}
+
+		/// <summary>
+		/// 指定したキーを持つコンポーネントを取得する。
+		/// </summary>
+		/// <param name="key">取得するコンポーネントのキー</param>
+		/// <returns>コンポーネント</returns>
+		public SceneComponent GetComponent(string key)
+		{
+			return ComponentManager.Get(key);
 		}
 
 		internal void ImmediatelyAddLayer(Layer layer, bool raiseEvent)
@@ -130,21 +171,6 @@ namespace asd
 			}
 		}
 
-		/// <summary>
-		/// 指定したレイヤーをこのシーンから削除する。
-		/// </summary>
-		/// <param name="layer">削除されるレイヤー</param>
-		/// <remarks><see cref="Layers"/>プロパティの内容などから実際に削除されるのは、このメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
-		public void RemoveLayer(Layer layer)
-		{
-			RemoveLayer(layer, true);
-		}
-
-		internal void RemoveLayer(Layer layer, bool raiseEvent)
-		{
-			Engine.ChangesToBeCommited.Enqueue(new EventToManageLayer(this, layer, RegistrationCommand.Remove, raiseEvent));
-		}
-
 		internal void ImmediatelyRemoveLayer(Layer layer, bool raiseEvent)
 		{
 			if(raiseEvent)
@@ -155,36 +181,6 @@ namespace asd
 			layersToDraw_.Remove(layer);
 			layersToUpdate_.Remove(layer);
 			CoreInstance.RemoveLayer(layer.CoreLayer);
-		}
-
-
-		/// <summary>
-		/// 指定したコンポーネントをこのシーンに追加する。
-		/// </summary>
-		/// <param name="component">追加するコンポーネント</param>
-		/// <param name="key">コンポーネントに関連付けるキー</param>
-		public void AddComponent(SceneComponent component, string key)
-		{
-			ComponentManager.Add(component, key);
-		}
-
-		/// <summary>
-		/// 指定したキーを持つコンポーネントを取得する。
-		/// </summary>
-		/// <param name="key">取得するコンポーネントのキー</param>
-		/// <returns>コンポーネント</returns>
-		public SceneComponent GetComponent(string key)
-		{
-			return ComponentManager.Get(key);
-		}
-
-		/// <summary>
-		/// 指定したコンポーネントをこのシーンから削除する。
-		/// </summary>
-		/// <param name="key">削除するコンポーネントを示すキー</param>
-		public bool RemoveComponent(string key)
-		{
-			return ComponentManager.Remove(key);
 		}
 
 		internal void ImmediatelyRemoveComponent(string key)
