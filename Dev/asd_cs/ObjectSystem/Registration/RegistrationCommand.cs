@@ -8,6 +8,7 @@ namespace asd
 {
 	internal enum RegistrationCommand
 	{
-		Add, Remove
+		Add = 0,
+		Remove = 1,
 	}
 }

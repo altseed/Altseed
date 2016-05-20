@@ -43,20 +43,20 @@ namespace asd
 			Redistribution = new RedistributeAction<TObject>(this);
 		}
 
-		public void Add(TObject @object)
+		public void Add(TObject content)
 		{
-			if(@object == null)
+			if(content == null)
 			{
 				Particular.Helper.ThrowException("ArgumentNullException(Content)");
 			}
 
-			var e = new EventToManageObject<TObject>(this, @object, RegistrationCommand.Add, true);
+			var e = new EventToManageObject<TObject>(this, content, RegistrationCommand.Add, true);
 			Engine.ChangesToBeCommited.Enqueue(e);
 		}
 
-		public void Remove(TObject @object, bool raiseEvent)
+		public void Remove(TObject content, bool raiseEvent)
 		{
-			var e = new EventToManageObject<TObject>(this, @object, RegistrationCommand.Remove, raiseEvent);
+			var e = new EventToManageObject<TObject>(this, content, RegistrationCommand.Remove, raiseEvent);
 			Engine.ChangesToBeCommited.Enqueue(e);
 		}
 

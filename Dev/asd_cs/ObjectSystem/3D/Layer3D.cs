@@ -75,7 +75,7 @@ namespace asd
 		/// </summary>
 		public IEnumerable<Object3D> Objects
 		{
-			get { return ObjectManager.Contents.Cast<Object3D>(); }
+			get { return ObjectManager.Contents; }
 		}
 
 		/// <summary>

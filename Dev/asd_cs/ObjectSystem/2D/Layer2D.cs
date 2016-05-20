@@ -75,7 +75,7 @@ namespace asd
 		/// </summary>
 		public IEnumerable<Object2D> Objects
 		{
-			get { return ObjectManager.Contents.Cast<Object2D>(); }
+			get { return ObjectManager.Contents; }
 		}
 
 		#region オブジェクト管理
