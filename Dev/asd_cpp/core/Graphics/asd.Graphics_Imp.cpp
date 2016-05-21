@@ -363,6 +363,13 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 	/* IHDRチャンク情報を取得 */
 	png_read_info(png, png_info);
 
+	/* インターレース */
+	auto number_of_passes = png_set_interlace_handling(png);
+	if (number_of_passes == 0)
+	{
+		number_of_passes = 1;
+	}
+
 	/* RGBA8888フォーマットに変換する */
 	if (png_info->bit_depth < 8)
 	{
@@ -417,16 +424,23 @@ bool ImageHelper::LoadPNGImage(void* data, int32_t size, bool rev, int32_t& imag
 	// 読み込み
 	if (rev)
 	{
-		for (uint32_t i = 0; i < png_info->height; i++)
+		png_bytepp rp;
+		for (auto pass = 0; pass < number_of_passes; pass++)
 		{
-			png_read_row(png, &image[(png_info->height - 1 - i) * pitch], NULL);
+			for (uint32_t i = 0; i < png_info->height; i++)
+			{
+				png_read_row(png, &image[(png_info->height - 1 - i) * pitch], NULL);
+			}
 		}
 	}
 	else
 	{
-		for (uint32_t i = 0; i < png_info->height; i++)
+		for (auto pass = 0; pass < number_of_passes; pass++)
 		{
-			png_read_row(png, &image[i * pitch], NULL);
+			for (uint32_t i = 0; i < png_info->height; i++)
+			{
+				png_read_row(png, &image[i * pitch], NULL);
+			}
 		}
 	}
 
