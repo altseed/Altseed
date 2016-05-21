@@ -15,6 +15,11 @@ namespace asd
 
 	}
 
+	bool CorePolygonShape_Imp::IsValid()
+	{
+		return isValid;
+	}
+
 	void CorePolygonShape_Imp::AddVertex(Vector2DF vertex)
 	{
 		isNeededCalcBoundingCircle = true;
@@ -51,6 +56,7 @@ namespace asd
 #if !SWIG
 	void CorePolygonShape_Imp::DivideToTriangles()
 	{
+		isValid = true;
 
 		float maxLeft = FLT_MAX;
 		float maxRight = -FLT_MAX;
@@ -84,6 +90,7 @@ namespace asd
 				{
 					delete point;
 				}
+				isValid = false;
 				return;
 			}
 			pset.insert(v);

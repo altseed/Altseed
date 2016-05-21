@@ -1,7 +1,10 @@
-﻿#include "asd.CoreGeometryObject2D_Imp.h"
+﻿
+#include "asd.CoreGeometryObject2D_Imp.h"
 #include "../../Shape/asd.CoreTriangleShape.h"
 #include "../../Shape/asd.CoreShapeConverter.h"
 #include "../../Shape/asd.CoreShape_Imp.h"
+
+#include "../../Log/asd.Log.h"
 
 namespace asd
 {
@@ -90,7 +93,16 @@ namespace asd
 
 		auto shape_Imp = CoreShape2DToImp(m_shape);
 
-		for (auto triangle : shape_Imp->GetDividedTriangles())
+		auto& triangles = shape_Imp->GetDividedTriangles();
+
+		if (triangles.size() == 0)
+		{
+			auto layer = GetLayer();
+			auto g = (Graphics_Imp*)layer->GetGraphicsImp();
+			g->GetLog()->Write("無効な形状を描画しました。正しく表示されない場合があります。", LogLevel::Warning);
+		}
+
+		for (auto triangle : triangles)
 		{
 			std::array<Vector2DF, 4> position;
 			std::array<Vector2DF, 4> uvs;

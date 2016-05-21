@@ -13,10 +13,13 @@ namespace asd
 	{
 	private:
 		std::vector<Vector2DF> vertexes;
+		bool	isValid = true;
+
 	public:
 		CorePolygonShape_Imp();
 		virtual ~CorePolygonShape_Imp();
 
+		bool IsValid() override;
 		void AddVertex(Vector2DF vertex) override;
 		void ClearVertexes() override;
 		int GetVertexesNum() const override;
