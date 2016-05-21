@@ -73,6 +73,22 @@ namespace asd
 			points.push_back(point);
 		}
 
+		// 重畳している場合は失敗扱いにする。
+		std::set<Vector2DF> pset;
+		for (auto p : points)
+		{
+			auto v = Vector2DF((*p).x, (*p).y);
+			if (pset.find(v) != pset.end())
+			{
+				for (auto point : points)
+				{
+					delete point;
+				}
+				return;
+			}
+			pset.insert(v);
+		}
+
 		p2t::CDT* cdt = new p2t::CDT(points);
 		cdt->Triangulate();
 
