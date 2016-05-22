@@ -14,6 +14,7 @@ namespace sample_cs
 			ISample[] samples =
 			{
 				new Basic_Empty(),
+				new Basic_FullScreen(), 
 
                 new SceneAndLayer_Basic(),
 				new SceneAndLayer_CustomLayer(),
