@@ -149,17 +149,13 @@ namespace asd
 			currentPosVector.SetDegree(currentPosDeg);
 
 			Vector2DF nextPosVector = currentPosVector;
-			auto nextPosDeg = nextPosVector.GetDegree();
-			nextPosDeg += radInc;
-			nextPosVector.SetDegree(nextPosDeg);
+			nextPosVector.SetDegree(currentPosDeg + radInc);
 
 			Vector2DF currentUVVector = uvVector;
 			currentUVVector.SetDegree(currentUVDeg);
 
 			Vector2DF nextUVVector = currentUVVector;
-			auto nextUVDeg = nextUVVector.GetDegree();
-			nextUVDeg += radInc;
-			nextUVVector.SetDegree(nextUVDeg);
+			nextUVVector.SetDegree(currentUVDeg + radInc);
 
 
 			std::array<Vector2DF, 4> vertexes = { position + currentPosVector*outerRadius, position + nextPosVector*outerRadius, position + nextPosVector*innerRadius, position + currentPosVector*innerRadius };
@@ -215,9 +211,7 @@ namespace asd
 			currentPosVector.SetDegree(currentPosDeg);
 
 			Vector2DF nextPosVector = currentPosVector;
-			auto nextPosDeg = nextPosVector.GetDegree();
-			nextPosDeg += radInc;
-			nextPosVector.SetDegree(nextPosDeg);
+			nextPosVector.SetDegree(currentPosDeg + radInc);
 
 			std::array<Vector2DF, 4> vertexes = { position + currentPosVector*outerRadius, position + nextPosVector*outerRadius, position + nextPosVector*innerRadius, position + currentPosVector*innerRadius };
 
