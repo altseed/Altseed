@@ -13,6 +13,8 @@ namespace asd
 	{
 	private:
 		std::vector<Vector2DF> vertexes;
+		std::vector<CoreShape*> holeShapes;
+		std::vector<CoreShape_Imp*> holeShapes_Imp;
 		bool	isValid = true;
 
 	public:
@@ -26,6 +28,10 @@ namespace asd
 
 		ShapeType GetShapeType() const override;
 		ShapeType GetType() const override;
+
+
+		bool AddHole(CoreShape *holeShape) override;
+		bool RemoveHole(CoreShape *holeShape) override;
 
 #if !SWIG
 	public:
