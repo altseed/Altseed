@@ -19,6 +19,7 @@ namespace asd
         }
         private swig.CorePolygonShape corePolygon { get; set; }
 
+
         public override ShapeType ShapeType
         {
             get { return ShapeType.PolygonShape; }
@@ -27,6 +28,7 @@ namespace asd
         public PolygonShape()
         {
             corePolygon = Engine.ObjectSystemFactory.CreatePolygonShape();
+            HoleShapes = new List<Shape>();
 
             var p = corePolygon.GetPtr();
 
@@ -63,5 +65,32 @@ namespace asd
         {
             return corePolygon.GetVertexesNum();
         }
+
+        /// <summary>
+        /// 多角形に空ける穴となるオブジェクトを追加する。
+        /// </summary>
+        /// <param name="holeShape">穴となるオブジェクトのインスタンス</param>
+        /// <returns>正しく追加されたかどうか</returns>
+        public bool AddHole(Shape holeShape)
+        {
+            HoleShapes.Add(holeShape);
+            return corePolygon.AddHole(holeShape.CoreShape);
+        }
+
+        /// <summary>
+        /// 多角形に空ける穴となるオブジェクトを削除する。
+        /// </summary>
+        /// <param name="holeShape">穴となるオブジェクトのインスタンス</param>
+        /// <returns>正しく削除されたかどうか</returns>
+        public bool RemoveHole(Shape holeShape)
+        {
+            HoleShapes.Remove(holeShape);
+            return corePolygon.RemoveHole(holeShape.CoreShape);
+        }
+
+        /// <summary>
+        /// 追加された穴となるオブジェクトの一覧
+        /// </summary>
+        public List<Shape> HoleShapes { get; private set; }
     }
 }

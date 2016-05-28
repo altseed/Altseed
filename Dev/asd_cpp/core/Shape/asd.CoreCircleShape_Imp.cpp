@@ -126,19 +126,28 @@ namespace asd
 			std::array<Vector2DF, 4> uvs = { uvCenter + currentUVVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + currentUVVector*ratio };
 
 			auto triangle1 = new CoreTriangleShape_Imp();
-			auto triangle2 = new CoreTriangleShape_Imp();
 
 			for (int j = 0; j < 3; ++j)
 			{
 				triangle1->SetPointByIndex(vertexes[j], j);
 				triangle1->SetUVByIndex(uvs[j], j);
 
-				triangle2->SetPointByIndex(vertexes[(j + 2) % 4], j);
-				triangle2->SetUVByIndex(uvs[(j + 2) % 4], j);
 			}
 
 			triangles.push_back(triangle1);
-			triangles.push_back(triangle2);
+
+			if (innerDiameter > 0)
+			{
+				auto triangle2 = new CoreTriangleShape_Imp();
+
+				for (int j = 0; j < 3; ++j)
+				{
+					triangle2->SetPointByIndex(vertexes[(j + 2) % 4], j);
+					triangle2->SetUVByIndex(uvs[(j + 2) % 4], j);
+				}
+
+				triangles.push_back(triangle2);
+			}
 
 			currentPosDeg += radInc;
 			currentUVDeg += radInc;
