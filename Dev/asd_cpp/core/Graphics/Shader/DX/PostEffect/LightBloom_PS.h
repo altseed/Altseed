@@ -82,18 +82,18 @@ float4 CalcBlurredColor(float2 uv)
 #endif
 #if SUM
 	float2 size = float2(0.000000, 0.000000);
-	float2 shift_p = float2(0.500000 / size.x, 0.500000 / size.y);
-	float2 shift_m = float2(-1.50000 / size.x, 0.500000 / size.y);
+	float2 shift_p = float2(0.000000 / size.x, -0.500000 / size.y);
+	float2 shift_m = float2(-1.50000 / size.x, -0.500000 / size.y);
 	float2 adder = float2(2.00000f / size.x, 0.000000);
 #endif
 #if BLUR_X
-	float2 shift_p = float2(0.500000 / size.x, 0.500000 / size.y);
-	float2 shift_m = float2(-1.50000 / size.x, 0.500000 / size.y);
+	float2 shift_p = float2(0.500000 / size.x, -0.500000 / size.y);
+	float2 shift_m = float2(-1.50000 / size.x, -0.500000 / size.y);
 	float2 adder = float2(2.00000f / size.x, 0.000000);
 #endif
 #if BLUR_Y
-	float2 shift_p = float2(0.500000 / size.x, 0.500000 / size.y);
-	float2 shift_m = float2(0.500000 / size.x, -1.50000 / size.y);
+	float2 shift_p = float2(-0.500000 / size.x, 0.500000 / size.y);
+	float2 shift_m = float2(-0.500000 / size.x, -1.50000 / size.y);
 	float2 adder = float2(0.000000, 2.00000 / size.y);
 #endif
 	float4 sum = float4(0.000000, 0.000000, 0.000000, 0.000000);

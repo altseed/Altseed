@@ -87,18 +87,18 @@ vec4 CalcBlurredColor(vec2 uv)
 #endif
 #ifdef SUM
 	vec2 size = vec2(0.000000, 0.000000);
-	vec2 shift_p = vec2(0.500000 / size.x, 0.500000 / size.y);
-	vec2 shift_m = vec2(-1.50000 / size.x, 0.500000 / size.y);
+	vec2 shift_p = vec2(0.500000 / size.x, -0.500000 / size.y);
+	vec2 shift_m = vec2(-0.50000 / size.x, -0.500000 / size.y);
 	vec2 adder = vec2(2.00000 / size.x, 0.000000);
 #endif
 #ifdef BLUR_X
-	vec2 shift_p = vec2(0.500000 / size.x, 0.500000 / size.y);
-	vec2 shift_m = vec2(-1.50000 / size.x, 0.500000 / size.y);
+	vec2 shift_p = vec2(0.500000 / size.x, -0.500000 / size.y);
+	vec2 shift_m = vec2(-0.50000 / size.x, -0.500000 / size.y);
 	vec2 adder = vec2(2.00000 / size.x, 0.000000);
 #endif
 #ifdef BLUR_Y
-	vec2 shift_p = vec2(0.500000 / size.x, 0.500000 / size.y);
-	vec2 shift_m = vec2(0.500000 / size.x, -1.50000 / size.y);
+	vec2 shift_p = vec2(-0.500000 / size.x, 0.500000 / size.y);
+	vec2 shift_m = vec2(-0.500000 / size.x, -0.50000 / size.y);
 	vec2 adder = vec2(0.000000, 2.00000 / size.y);
 #endif
 	vec4 sum = vec4(0.000000, 0.000000, 0.000000, 0.000000);

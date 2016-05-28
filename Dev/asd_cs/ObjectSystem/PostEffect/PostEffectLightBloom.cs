@@ -169,22 +169,22 @@ namespace asd
 
             downsample.SetTexture2D("g_texture", src);
             downsample.SetTextureFilterType("g_texture", TextureFilterType.Linear);
-            downsample.SetVector2DF("g_offset", new Vector2DF(1.0f / (float)size.X, 1.0f / (float)size.Y));
+			downsample.SetVector2DF("g_offset", new Vector2DF(0.5f / (float)(size.X / 1.0f), 0.5f / (float)(size.Y / 1.0f)));
             DrawOnTexture2DWithMaterial(downsampledTexture0, downsample);
 
             downsample.SetTexture2D("g_texture", downsampledTexture0);
             downsample.SetTextureFilterType("g_texture", TextureFilterType.Linear);
-            downsample.SetVector2DF("g_offset", new Vector2DF(2.0f / (float)size.X, 2.0f / (float)size.Y));
+			downsample.SetVector2DF("g_offset", new Vector2DF(0.5f / (float)(size.X / 2.0f), 0.5f / (float)(size.Y / 2.0f)));
             DrawOnTexture2DWithMaterial(downsampledTexture1, downsample);
 
             downsample.SetTexture2D("g_texture", downsampledTexture1);
             downsample.SetTextureFilterType("g_texture", TextureFilterType.Linear);
-            downsample.SetVector2DF("g_offset", new Vector2DF(4.0f / (float)size.X, 4.0f / (float)size.Y));
+			downsample.SetVector2DF("g_offset", new Vector2DF(0.5f / (float)(size.X / 4.0f), 0.5f / (float)(size.Y / 4.0f)));
             DrawOnTexture2DWithMaterial(downsampledTexture2, downsample);
 
             downsample.SetTexture2D("g_texture", downsampledTexture2);
             downsample.SetTextureFilterType("g_texture", TextureFilterType.Linear);
-            downsample.SetVector2DF("g_offset", new Vector2DF(8.0f / (float)size.X, 8.0f / (float)size.Y));
+			downsample.SetVector2DF("g_offset", new Vector2DF(0.5f / (float)(size.X / 8.0f), 0.5f / (float)(size.Y / 8.0f)));
             DrawOnTexture2DWithMaterial(downsampledTexture3, downsample);
 
             Material2D blurX = null;
