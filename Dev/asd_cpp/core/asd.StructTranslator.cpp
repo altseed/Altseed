@@ -440,6 +440,36 @@ namespace asd
 		return ret;
 	}
 
+	Matrix33 StructTranslator::DequeueMatrix33()
+	{
+		Matrix33 mat;
+		memcpy(&mat, &(buffers[currentIndex + 0]), sizeof(float) * 9);
+
+		currentIndex += 9;
+
+		if (currentIndex == size)
+		{
+			currentIndex = 0;
+			size = 0;
+		}
+
+		return mat;
+	}
+
+	Matrix33* StructTranslator::Dequeue_Matrix33()
+	{
+		auto ret = (Matrix33*) &(buffers[currentIndex + 0].Float);
+		currentIndex += 9;
+
+		if (currentIndex == size)
+		{
+			currentIndex = 0;
+			size = 0;
+		}
+
+		return ret;
+	}
+
 	Matrix44 StructTranslator::DequeueMatrix44()
 	{
 		Matrix44 mat;

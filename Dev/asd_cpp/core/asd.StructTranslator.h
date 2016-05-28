@@ -101,6 +101,9 @@ namespace asd
 		static RectI DequeueRectI();
 		static RectI* Dequeue_RectI();
 
+		static Matrix33 DequeueMatrix33();
+		static Matrix33* Dequeue_Matrix33();
+
 		static Matrix44 DequeueMatrix44();
 		static Matrix44* Dequeue_Matrix44();
 
