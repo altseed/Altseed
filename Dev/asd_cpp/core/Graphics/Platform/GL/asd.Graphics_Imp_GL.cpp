@@ -871,7 +871,7 @@ End:;
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp_GL::CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
 {
-	auto ret = Texture2D_Imp_GL::Create(this, data, size, false, true);
+	auto ret = Texture2D_Imp_GL::Create(this, data, size, false, this->GetOption().ColorSpace == ColorSpaceType::LinearSpace);
 	return ret;
 }
 

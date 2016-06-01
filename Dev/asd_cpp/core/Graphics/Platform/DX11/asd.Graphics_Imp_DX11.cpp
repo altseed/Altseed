@@ -1191,7 +1191,7 @@ Graphics_Imp_DX11* Graphics_Imp_DX11::Create(HWND handle, int32_t width, int32_t
 //----------------------------------------------------------------------------------
 Texture2D_Imp* Graphics_Imp_DX11::CreateTexture2D_Imp_Internal(Graphics* graphics, uint8_t* data, int32_t size)
 {
-	auto ret = Texture2D_Imp_DX11::Create(this, data, size, false, true);
+	auto ret = Texture2D_Imp_DX11::Create(this, data, size, false, this->GetOption().ColorSpace == ColorSpaceType::LinearSpace);
 	return ret;
 }
 
