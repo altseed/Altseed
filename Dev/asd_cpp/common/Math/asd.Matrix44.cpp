@@ -140,7 +140,7 @@ Matrix44 Matrix44::GetInverted() const
 Matrix44& Matrix44::SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up)
 {
 	// F=正面、R=右方向、U=上方向
-	Vector3DF F = (eye - at).GetNormal();
+	Vector3DF F = Vector3DF::Subtract(eye,at).GetNormal();
 	Vector3DF R = Vector3DF::Cross(up, F).GetNormal();
 	Vector3DF U = Vector3DF::Cross(F, R).GetNormal();
 
@@ -172,7 +172,7 @@ Matrix44& Matrix44::SetLookAtRH(const Vector3DF& eye, const Vector3DF& at, const
 Matrix44& Matrix44::SetLookAtLH(const Vector3DF& eye, const Vector3DF& at, const Vector3DF& up)
 {
 	// F=正面、R=右方向、U=上方向
-	Vector3DF F = (at - eye).GetNormal();
+	Vector3DF F = Vector3DF::Subtract(at,eye).GetNormal();
 	Vector3DF R = Vector3DF::Cross(up, F).GetNormal();
 	Vector3DF U = Vector3DF::Cross(F, R).GetNormal();
 

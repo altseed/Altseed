@@ -167,6 +167,21 @@ namespace asd
 		}
 
 		/// <summary>
+		/// 減算する。
+		/// </summary>
+		/// <param name="v1"></param>
+		/// <param name="v2"></param>
+		/// <returns></returns>
+		public static Vector3DF Subtract(Vector3DF v1, Vector3DF v2)
+		{
+			Vector3DF o = new Vector3DF();
+			o.X = v1.X - v2.X;
+			o.Y = v1.Y - v2.Y;
+			o.Z = v1.Z - v2.Z;
+			return o;
+		}
+
+		/// <summary>
 		/// 2点間の距離を取得する。
 		/// </summary>
 		/// <param name="v1">v1ベクトル</param>

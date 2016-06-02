@@ -141,6 +141,14 @@ public:
 	static Vector3DF Cross(const Vector3DF& v1, const Vector3DF& v2 );
 
 	/**
+		@brief	減算する。
+		@param	v1	v1ベクトル
+		@param	v2	v2ベクトル
+		@return v1-v2
+	*/
+	static Vector3DF Subtract(Vector3DF v1, Vector3DF v2);
+
+	/**
 		@brief	2点間の距離を取得する。
 		@param	v1	v1ベクトル
 		@param	v2	v2ベクトル

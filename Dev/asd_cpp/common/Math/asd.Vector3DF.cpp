@@ -211,6 +211,19 @@ Vector3DF Vector3DF::Cross(const Vector3DF& v1, const Vector3DF& v2 )
 //----------------------------------------------------------------------------------
 //
 //----------------------------------------------------------------------------------
+Vector3DF Vector3DF::Subtract(Vector3DF v1, Vector3DF v2)
+{
+	Vector3DF o = Vector3DF();
+	o.X = v1.X - v2.X;
+	o.Y = v1.Y - v2.Y;
+	o.Z = v1.Z - v2.Z;
+	return o;
+}
+
+
+//----------------------------------------------------------------------------------
+//
+//----------------------------------------------------------------------------------
 float Vector3DF::Distance(const Vector3DF& v1, const Vector3DF& v2)
 {
 	float dx = v1.X - v2.X;

@@ -8,9 +8,9 @@ namespace asd
 {
 	public partial class Shader3D : IReleasable
 	{
-		internal Shader3D(swig.Shader3D swig)
+		internal Shader3D(swig.Shader3D instance)
 		{
-			CoreInstance = swig;
+			CoreInstance = instance;
 		}
 
 		~Shader3D()

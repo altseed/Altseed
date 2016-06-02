@@ -293,6 +293,21 @@ StructTranslator.Enqueue_##NAME($javainput)
 		return v;
 	}
 
+	public static asd.Matrix33 Dequeue_Matrix33(asd.Matrix33 v) {
+		return new asd.Matrix33(
+		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
+		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
+		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat());
+	}
+
+	public static asd.Matrix33 Enqueue_Matrix33(asd.Matrix33 v) {
+		StructTranslator.EnqueueMatrix33(
+		v.Values[0], v.Values[1], v.Values[2],
+		v.Values[3], v.Values[4], v.Values[5],
+		v.Values[6], v.Values[7], v.Values[8]);
+		return v;
+	}
+
 	public static asd.Matrix44 Dequeue_Matrix44(asd.Matrix44 v) {
 		return new asd.Matrix44(
 		StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(), StructTranslator.DequeueFloat(),
