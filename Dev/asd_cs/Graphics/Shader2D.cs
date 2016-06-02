@@ -9,9 +9,9 @@ namespace asd
 	public partial class Shader2D : IReleasable
 	{
 
-		internal Shader2D(swig.Shader2D swig)
+		internal Shader2D(swig.Shader2D instance)
 		{
-			CoreInstance = swig;
+			CoreInstance = instance;
 		}
 
 		~Shader2D()

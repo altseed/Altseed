@@ -22,7 +22,7 @@ namespace asd
         public void Dispose()
         {
             Dispose(true);
-            System.GC.SuppressFinalize(this);
+			Particular.GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
