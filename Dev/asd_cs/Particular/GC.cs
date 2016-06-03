@@ -12,5 +12,12 @@ namespace asd.Particular
 		{
 			System.GC.SuppressFinalize(obj);
 		}
+
+		public static void CollectAll()
+		{
+			System.GC.Collect();
+			System.GC.WaitForPendingFinalizers();
+			System.GC.Collect();
+		}
 	}
 }

@@ -227,12 +227,9 @@ namespace asd
                 Shapes.DestroyAll();
 
                 //Profilers.DestroyAll();
-
-                Collector.Collect();
-                System.GC.Collect();
-                System.GC.WaitForPendingFinalizers();
-                System.GC.Collect();
-                Collector.Collect();
+				Collector.Collect();
+				Particular.GC.CollectAll();
+				Collector.Collect();
             }
         }
 

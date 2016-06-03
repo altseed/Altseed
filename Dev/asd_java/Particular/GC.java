@@ -7,4 +7,9 @@ public class GC
 		// 対応するメソッドがない
 		// ファイナライザが必ず呼ばれる
 	}
+
+	public static void CollectAll()
+	{
+		java.lang.System.gc();
+	}
 }
