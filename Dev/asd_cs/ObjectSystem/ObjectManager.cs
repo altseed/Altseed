@@ -104,7 +104,7 @@ namespace asd
 			contents_[obj.UpdatePriority].AddLast(obj);
 			obj.OnUpdatePriorityChanged = Redistribution;
 
-			Owner.Register(obj);
+			Owner.__Register(obj);
 			if(raiseEvent)
 			{
 				obj.RaiseOnAdded();
@@ -124,7 +124,7 @@ namespace asd
 			{
 				obj.RaiseOnRemoved();
 			}
-			Owner.Unregister(obj);
+			Owner.__Unregister(obj);
 		}
 	}
 }

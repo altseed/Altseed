@@ -53,7 +53,7 @@ namespace asd
 		public void ImmediatelyAddComponent(TComponent component, string key)
 		{
 			Particular.Dictionary.Set(components, key, component);
-			owner.Register(component);
+			owner.__Register(component);
 			component.Key = key;
 		}
 
@@ -61,7 +61,7 @@ namespace asd
 		{
 			var component = Get(key);
 			components.Remove(key);
-			owner.Unregister(component);
+			owner.__Unregister(component);
 			component.Key = null;
 		}
 

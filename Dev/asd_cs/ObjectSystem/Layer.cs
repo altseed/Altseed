@@ -125,7 +125,11 @@ namespace asd
 			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
 		}
 
-		void IBeingAbleToDisposeNative.DisposeImmediately(bool disposeNative)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="disposeNative"></param>
+		public void __DisposeImmediately(bool disposeNative)
 		{
 			if (IsAlive)
 			{

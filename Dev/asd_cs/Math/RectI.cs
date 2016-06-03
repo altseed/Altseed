@@ -100,5 +100,24 @@ namespace asd
 		{
 			return new RectF(X, Y, Width, Height);
 		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj is RectI)
+			{
+				return (RectI) obj == this;
+			}
+			return false;
+		}
+
+		public static bool operator ==(RectI lop, RectI rop)
+		{
+			return lop.X == rop.X && lop.Y == rop.Y && lop.Width == rop.Width && lop.Height == rop.Height;
+		}
+
+		public static bool operator !=(RectI lop, RectI rop)
+		{
+			return !(lop == rop);
+		}
 	}
 }

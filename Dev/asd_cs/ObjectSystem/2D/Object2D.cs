@@ -313,7 +313,11 @@ namespace asd
 			componentManager_.ImmediatelyRemoveComponent(key);
 		}
 
-		void IBeingAbleToDisposeNative.DisposeImmediately(bool disposeNative)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="disposeNative"></param>
+		public void __DisposeImmediately(bool disposeNative)
 		{
 			if(IsAlive)
 			{
@@ -343,12 +347,20 @@ namespace asd
 			}
 		}
 
-		void IComponentRegisterable<Object2DComponent>.Register(Object2DComponent component)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="component"></param>
+		public void __Register(Object2DComponent component)
 		{
 			component.Owner = this;
 		}
 
-		void IComponentRegisterable<Object2DComponent>.Unregister(Object2DComponent component)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="component"></param>
+		public void __Unregister(Object2DComponent component)
 		{
 			component.Owner = null;
 		}

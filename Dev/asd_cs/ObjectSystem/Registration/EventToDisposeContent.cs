@@ -19,7 +19,7 @@ namespace asd
 
 		public void Commit()
 		{
-			Disposable.DisposeImmediately(DisposeNative);
+			Disposable.__DisposeImmediately(DisposeNative);
 		}
 	}
 }

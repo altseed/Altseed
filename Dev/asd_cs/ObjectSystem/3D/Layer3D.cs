@@ -131,13 +131,21 @@ namespace asd
 			ObjectManager.Remove(object3D, raiseEvent);
 		}
 
-		void IObjectRegisterable<Object3D>.Register(Object3D obj)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="obj"></param>
+		public void __Register(Object3D obj)
 		{
 			obj.Layer = this;
 			coreLayer3D.AddObject(obj.CoreObject);
 		}
 
-		void IObjectRegisterable<Object3D>.Unregister(Object3D obj)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="obj"></param>
+		public void __Unregister(Object3D obj)
 		{
 			obj.Layer = null;
 			coreLayer3D.RemoveObject(obj.CoreObject);
