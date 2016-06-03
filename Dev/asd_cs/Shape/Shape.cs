@@ -50,12 +50,12 @@ namespace asd
 
         internal abstract swig.CoreShape CoreShape { get; set; }
 
-        bool IReleasable.IsReleased
+        public bool IsReleased
         {
             get { return disposed; }
         }
 
-        void IReleasable.ForceToRelease()
+		public void ForceToRelease()
         {
             Dispose();
         }
