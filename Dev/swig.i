@@ -330,7 +330,7 @@ StructTranslator.Enqueue_##NAME($javainput)
 	}
 
 	public static asd.FCurveKeyframe Enqueue_FCurveKeyframe(asd.FCurveKeyframe v) {
-		StructTranslator.EnqueueFCurveKeyframe(v.KeyValue.X, v.KeyValue.Y, v.LeftHandle.X, v.LeftHandle.Y, v.RightHandle.X, v.RightHandle.Y, v.InterpolationType.getID());
+		StructTranslator.EnqueueFCurveKeyframe(v.KeyValue.X, v.KeyValue.Y, v.LeftHandle.X, v.LeftHandle.Y, v.RightHandle.X, v.RightHandle.Y, v.InterpolationType.swigValue());
 		return v;
 	}
 %}

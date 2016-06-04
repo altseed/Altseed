@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace asd
 {
@@ -50,11 +51,15 @@ namespace asd
 
         internal abstract swig.CoreShape CoreShape { get; set; }
 
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsReleased
         {
             get { return disposed; }
         }
 
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public void ForceToRelease()
         {
             Dispose();

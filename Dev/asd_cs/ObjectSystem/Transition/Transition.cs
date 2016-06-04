@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace asd
 {
@@ -61,6 +62,8 @@ namespace asd
         #endregion
 
         #region GC対応
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsReleased
         {
             get { return disposed; }
@@ -73,6 +76,8 @@ namespace asd
         /// 何らかの理由でメモリが不足した場合に実行する。
         /// 開放した後の動作の保証はしていないので、必ず参照が残っていないことを確認する必要がある。
         /// </remarks>
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
         public void ForceToRelease()
         {
             Dispose();
