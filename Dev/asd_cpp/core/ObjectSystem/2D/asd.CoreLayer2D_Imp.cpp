@@ -453,7 +453,7 @@ namespace asd
 		for (auto& x : m_objects)
 		{
 			if (x->GetIsAlive() && 
-				x->GetCameraGroup() & group != 0 &&
+				(x->GetCameraGroup() & group) != 0 &&
 				x->GetObjectType() == Object2DType::Effect)
 			{
 				x->Draw(m_renderer);
