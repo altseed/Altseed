@@ -10,5 +10,6 @@ namespace asd
 	{
 		Add = 0,
 		Remove = 1,
+		Invalid = 2,
 	}
 }

@@ -11,6 +11,7 @@ namespace asd
 	{
 		public EventToManageComponent()
 		{
+			Command = RegistrationCommand.Invalid;
 		}
 
 		private IImmediateComponentmanager<TComponent> Manager { get; set; }
