@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -158,6 +159,7 @@ namespace asd
 		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
 		/// </summary>
 		/// <param name="component"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public void __Register(SceneComponent component)
 		{
 			component.Owner = this;
@@ -167,6 +169,7 @@ namespace asd
 		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
 		/// </summary>
 		/// <param name="component"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public void __Unregister(SceneComponent component)
 		{
 			component.Owner = null;
@@ -229,6 +232,7 @@ namespace asd
 		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
 		/// </summary>
 		/// <param name="disposeNative"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public void __DisposeImmediately(bool disposeNative)
 		{
 			if(IsAlive)

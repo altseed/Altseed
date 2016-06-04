@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -135,6 +136,7 @@ namespace asd
 		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
 		/// </summary>
 		/// <param name="obj"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public void __Register(Object3D obj)
 		{
 			obj.Layer = this;
@@ -145,6 +147,7 @@ namespace asd
 		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
 		/// </summary>
 		/// <param name="obj"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
 		public void __Unregister(Object3D obj)
 		{
 			obj.Layer = null;
