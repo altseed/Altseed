@@ -7,7 +7,7 @@ using asd.Particular;
 
 namespace asd
 {
-	internal class ParentInfo2D
+	public class ParentInfo2D
 	{
 		public Object2D Parent { get; private set; }
 		public ChildManagementMode ManagementMode { get; private set; }
