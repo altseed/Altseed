@@ -8,16 +8,17 @@ namespace asd
 {
 	public static class MathHelper
 	{
-		const float ReversePI = 1 / (float)Math.PI;
-		const float Reverse180 = 1 / 180.0f;
-
 		public static float RadianToDegree(float radian)
 		{
+			const float ReversePI = 1 / (float)Math.PI;
+
 			return radian * ReversePI * 180;
 		}
 
 		public static float DegreeToRadian(float degree)
 		{
+			const float Reverse180 = 1 / 180.0f;
+
 			return degree * Reverse180 * (float)Math.PI;
 		}
 

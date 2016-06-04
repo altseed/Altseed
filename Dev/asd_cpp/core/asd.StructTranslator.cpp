@@ -65,6 +65,24 @@ namespace asd
 		buffers[size - 1].Int = h;
 	}
 
+	void StructTranslator::EnqueueMatrix33(
+		float m00, float m01, float m02,
+		float m10, float m11, float m12,
+		float m20, float m21, float m22)
+	{
+		size += 9;
+		buffers[size - 9].Float = m00;
+		buffers[size - 8].Float = m01;
+		buffers[size - 7].Float = m02;
+		buffers[size - 6].Float = m10;
+		buffers[size - 5].Float = m11;
+		buffers[size - 4].Float = m12;
+		buffers[size - 3].Float = m20;
+		buffers[size - 2].Float = m21;
+		buffers[size - 1].Float = m22;
+	}
+
+
 	void StructTranslator::EnqueueMatrix44(
 		float m00, float m01, float m02, float m03,
 		float m10, float m11, float m12, float m13,
