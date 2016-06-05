@@ -21,11 +21,12 @@ namespace asd
 
             if (objects.ContainsKey(id))
             {
-                T t = null;
+				var weakPtr = Particular.Dictionary.Get(objects, id);
+				T t = Particular.WeakReference.Get(weakPtr);
 
-                if (!objects[id].TryGetTarget(out t) || t.IsReleased)
+				if (t != null && t.IsReleased)
                 {
-                    objects[id] = new WeakReference<T>(o);
+					Particular.Dictionary.Set(objects, id, new WeakReference<T>(o));
                     return;
                 }
 
@@ -72,9 +73,10 @@ namespace asd
 
             foreach (var kv in objects)
             {
-                T t = null;
+				var weakPtr = kv.Value;
+				T t = Particular.WeakReference.Get(weakPtr);
 
-                if (!kv.Value.TryGetTarget(out t) || t.IsReleased)
+                if (t != null || t.IsReleased)
                 {
                     removingKeys.Add(kv.Key);
                 }
@@ -92,9 +94,10 @@ namespace asd
         {
             foreach (var kv in objects)
             {
-                T t = null;
+				var weakPtr = kv.Value;
+				T t = Particular.WeakReference.Get(weakPtr);
 
-                if (kv.Value.TryGetTarget(out t) && !t.IsReleased)
+				if (t != null || !t.IsReleased)
                 {
                     t.ForceToRelease();
                 }
