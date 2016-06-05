@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using asd.Particular;
 
 namespace asd
 {
@@ -33,7 +32,7 @@ namespace asd
 
 		public IEnumerable<TObject> Contents
 		{
-			get { return Lambda.ToLinear(contents_); }
+			get { return asd.Particular.Lambda.ToLinear(contents_); }
 		}
 
 		public ObjectManager(IObjectRegisterable<TObject> owner)
@@ -97,7 +96,7 @@ namespace asd
 				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
 			}
 
-			if(!Lambda.HasContentHavingSpecificUpdatePriority(contents_, obj.UpdatePriority))
+			if (!asd.Particular.Lambda.HasContentHavingSpecificUpdatePriority(contents_, obj.UpdatePriority))
 			{
 				contents_[obj.UpdatePriority] = new LinkedList<TObject>();
 			}

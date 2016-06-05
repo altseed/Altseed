@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using asd.Particular;
 
 namespace asd
 {
@@ -325,7 +324,7 @@ namespace asd
 			{
 				IsAlive = false;
 				OnDispose();
-				foreach(var item in Lambda.FilterDeadObject(ChildrenList))
+				foreach(var item in asd.Particular.Lambda.FilterDeadObject(ChildrenList))
 				{
 					CoreObject.RemoveChild(item.CoreObject);
 					if(item.IsInheriting(ChildManagementMode.Disposal))
@@ -484,7 +483,7 @@ namespace asd
 		internal override void RaiseOnAdded()
 		{
 			OnAdded();
-			foreach(var item in Lambda.FilterDeadObject(ChildrenList))
+			foreach (var item in asd.Particular.Lambda.FilterDeadObject(ChildrenList))
 			{
 				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
 				{
@@ -505,7 +504,7 @@ namespace asd
 				component.RaiseOnRemoved();
 			}
 
-			foreach(var item in Lambda.FilterDeadObject(ChildrenList))
+			foreach (var item in asd.Particular.Lambda.FilterDeadObject(ChildrenList))
 			{
 				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
 				{

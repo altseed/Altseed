@@ -31,7 +31,7 @@ namespace asd
 
         internal override void OnUpdateInternal()
         {
-            coreObject.StartAddingPostEffect(postEffects.Count);
+            coreObject.StartAddingPostEffect(postEffects.Count());
 
             int count = 0;
             foreach (var p in postEffects)

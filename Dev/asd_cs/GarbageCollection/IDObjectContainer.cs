@@ -52,13 +52,13 @@ namespace asd
 
         internal T GetObject(IntPtr id)
         {
-            WeakReference<T> w = null;
-
-            if (objects.TryGetValue(id, out w))
+			WeakReference<T> weakPtr = Particular.Dictionary.Get(objects, id);
+			
+            if (weakPtr != null)
             {
-                T t = null;
+				T t = Particular.WeakReference.Get(weakPtr);
 
-                if (w.TryGetTarget(out t) && !t.IsReleased)
+                if (t != null && !t.IsReleased)
                 {
                     return t;
                 }

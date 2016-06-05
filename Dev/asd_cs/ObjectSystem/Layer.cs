@@ -198,7 +198,7 @@ namespace asd
 
 			CoreLayer.EndDrawing();
 
-			if(postEffects.Count > 0)
+			if(postEffects.Count() > 0)
 			{
 				foreach(var p in postEffects)
 				{

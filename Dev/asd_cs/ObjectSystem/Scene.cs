@@ -4,7 +4,6 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using asd.Particular;
 
 namespace asd
 {
@@ -376,7 +375,7 @@ namespace asd
 				return;
 			}
 
-			Lambda.SortByUpdatePriority(layersToUpdate_);
+			asd.Particular.Lambda.SortByUpdatePriority(layersToUpdate_);
 
 			OnUpdating();
 
@@ -415,7 +414,7 @@ namespace asd
 				return;
 			}
 
-			Lambda.SortByDrawingPriority(layersToDraw_);
+			asd.Particular.Lambda.SortByDrawingPriority(layersToDraw_);
 
 			foreach(var item in layersToDraw_)
 			{
