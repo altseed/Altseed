@@ -4,6 +4,7 @@ import java.util.Formatter;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.event.*;
+import java.io.*;
 
 public class Helper
 {
@@ -78,7 +79,7 @@ public class Helper
 
 		public static void ThrowException(String message)
 		{
-			throw new Exception(message);
+			throw new RuntimeException(message);
 		}
 
 		public static void ThrowUnregisteredClassException(Object o)
@@ -86,7 +87,7 @@ public class Helper
 			Formatter fm = new Formatter();
 			fm.format("未登録のクラス%sを検出しました。", o);
 
-			throw new Exception(fm.toString());
+			throw new RuntimeException(fm.toString());
 		}
 
 		public static void ThrowUnreleasedInstanceException(int count)
@@ -94,6 +95,6 @@ public class Helper
 			Formatter fm = new Formatter();
 			fm.format("未開放のインスタンスが%s個存在します。", count);
 
-			throw new Exception(fm.toString());
+			throw new RuntimeException(fm.toString());
 		}
 }
