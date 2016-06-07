@@ -110,5 +110,10 @@ namespace asd.Particular
 		{
 			throw new Exception(string.Format("未開放のインスタンスが{0}個存在します。", count));
 		}
+
+		public static String Format(String format, params Object[] args)
+		{
+			return String.Format(format, args);
+		}
 	}
 }

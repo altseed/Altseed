@@ -51,7 +51,7 @@ namespace asd
 
 		public override string ToString()
 		{
-			return string.Format("({0}, {1}, {2}, {3})", X, Y, Z, W);
+			return asd.Particular.Helper.Format("({0}, {1}, {2}, {3})", X, Y, Z, W);
 		}
 
 		/// <summary>

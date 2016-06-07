@@ -97,4 +97,9 @@ public class Helper
 
 			throw new RuntimeException(fm.toString());
 		}
+
+		public static String Format(String format, Object... args)
+		{
+			return String.format(format, args);
+		}
 }
