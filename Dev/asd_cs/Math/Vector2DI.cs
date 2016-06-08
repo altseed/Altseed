@@ -82,5 +82,19 @@ namespace asd
 		{
 			return new Vector2DI(left.X / right.X, left.Y / right.Y);
 		}
+
+		/// <summary>
+		/// スカラーで除算する。
+		/// </summary>
+		/// <param name="v1">値1</param>
+		/// <param name="v2">値2</param>
+		/// <returns>v1/v2</returns>
+		public static Vector2DI DivideByScalar(Vector2DI v1, float v2)
+		{
+			var ret = new Vector2DI();
+			ret.X = (int)(v1.X / v2);
+			ret.Y = (int)(v1.Y / v2);
+			return ret;
+		}
 	}
 }

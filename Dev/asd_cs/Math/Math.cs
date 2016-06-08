@@ -24,12 +24,12 @@ namespace asd
 
 		public static T Clamp<T>(T v, T max, T min) where T : System.IComparable<T>
 		{
-			if (v.CompareTo(max) > 0)
+			if (asd.Particular.Helper.CompareTo(v, max) > 0)
 			{
 				v = max;
 			}
 
-			if (v.CompareTo(min) < 0)
+			if (asd.Particular.Helper.CompareTo(v, min) < 0)
 			{
 				v = min;
 			}

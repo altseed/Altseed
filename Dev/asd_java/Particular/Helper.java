@@ -102,4 +102,9 @@ public class Helper
 		{
 			return String.format(format, args);
 		}
+
+		public static <T extends java.lang.Comparable> int CompareTo(T v1, T v2)
+		{
+			return v1.compareTo(v2);
+		}
 }

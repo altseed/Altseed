@@ -75,6 +75,14 @@ namespace asd
 		@return	Vector2DF型
 		*/
 		Vector2DF To2DF() const;
+
+		/**
+			@brief	スカラーで除算する。
+			@param	v1	値1
+			@param	v2	値2
+			@return	v1/v2
+		*/
+		static Vector2DI DivideByScalar(const Vector2DI& v1, float v2);
 	};
 
 	//----------------------------------------------------------------------------------

@@ -61,7 +61,7 @@ namespace asd{
 		auto format = src->GetFormat();
 
 		if (tempTexture0 == nullptr ||
-			(tempTexture0->GetSize() != size / 2 || tempTexture0->GetFormat() != format))
+			(tempTexture0->GetSize() != Vector2DI::DivideByScalar(size,2) || tempTexture0->GetFormat() != format))
 		{
 			if (format ==TextureFormat::R32G32B32A32_FLOAT)
 			{

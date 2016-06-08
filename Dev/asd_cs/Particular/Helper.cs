@@ -115,5 +115,10 @@ namespace asd.Particular
 		{
 			return String.Format(format, args);
 		}
+
+		public static int CompareTo<T>(T v1, T v2) where T : System.IComparable<T>
+		{
+			return v1.CompareTo(v2);
+		}
 	}
 }
