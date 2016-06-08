@@ -509,6 +509,45 @@ namespace asd {
 	}
 
 	/// <summary>
+	/// マウスのボタン一覧を示す列挙型 
+	///	</summary>
+	public enum MouseButtons : int
+	{
+		/// <summary>
+		/// 左ボタン 
+		/// </summary>
+		ButtonLeft = asd.swig.MouseButtons.ButtonLeft,
+		/// <summary>
+		/// 右ボタン 
+		/// </summary>
+		ButtonRight = asd.swig.MouseButtons.ButtonRight,
+		/// <summary>
+		/// 中央ボタン 
+		/// </summary>
+		ButtonMiddle = asd.swig.MouseButtons.ButtonMiddle,
+		/// <summary>
+		/// サブボタン1 
+		/// </summary>
+		SubButton1 = asd.swig.MouseButtons.SubButton1,
+		/// <summary>
+		/// サブボタン2 
+		/// </summary>
+		SubButton2 = asd.swig.MouseButtons.SubButton2,
+		/// <summary>
+		/// サブボタン3 
+		/// </summary>
+		SubButton3 = asd.swig.MouseButtons.SubButton3,
+		/// <summary>
+		/// サブボタン4 
+		/// </summary>
+		SubButton4 = asd.swig.MouseButtons.SubButton4,
+		/// <summary>
+		/// サブボタン5 
+		/// </summary>
+		SubButton5 = asd.swig.MouseButtons.SubButton5,
+	}
+
+	/// <summary>
 	/// ACEで扱うキーボードのキー一覧 
 	///	</summary>
 	public enum Keys : int
@@ -2136,7 +2175,7 @@ namespace asd {
 
 
 	/// <summary>
-	/// 
+	/// マウスからの入力を取得するクラス 
 	/// </summary>
 	public partial class Mouse
 	{
@@ -2150,6 +2189,24 @@ namespace asd {
 			get { return CoreInstance.GetPosition(); }
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		public float Wheel
+		{
+			get { return CoreInstance.GetWheel(); }
+		}
+
+
+		/// <summary>
+		/// 指定したボタンの入力状態を取得 
+		/// </summary>
+		/// <param name="mouseButton"></param>
+		/// <returns></returns>
+		public MouseButtonState GetButtonInputState(MouseButtons mouseButton)
+		{
+			return (asd.MouseButtonState)CoreInstance.GetButtonInputState((asd.swig.MouseButtons)mouseButton);
+		}
 
 	}
 
