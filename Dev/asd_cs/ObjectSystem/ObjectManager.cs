@@ -98,9 +98,12 @@ namespace asd
 
 			if (!asd.Particular.Lambda.HasContentHavingSpecificUpdatePriority(contents_, obj.UpdatePriority))
 			{
-				contents_[obj.UpdatePriority] = new LinkedList<TObject>();
+				asd.Particular.SortedList.Set(contents_, obj.UpdatePriority, new LinkedList<TObject>());
 			}
-			contents_[obj.UpdatePriority].AddLast(obj);
+
+			var content = asd.Particular.SortedList.Get(contents_, obj.UpdatePriority);
+			content.AddLast(obj);
+	
 			obj.OnUpdatePriorityChanged = Redistribution;
 
 			Owner.__Register(obj);
@@ -117,7 +120,9 @@ namespace asd
 				return;
 			}
 
-			contents_[obj.UpdatePriority].Remove(obj);
+			var content = asd.Particular.SortedList.Get(contents_, obj.UpdatePriority);
+			content.Remove(obj);
+
 			obj.OnUpdatePriorityChanged = null;
 			if(raiseEvent)
 			{

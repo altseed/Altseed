@@ -151,6 +151,7 @@
     <Compile Include="Particular\GC.cs" />
     <Compile Include="Particular\Helper.cs" />
     <Compile Include="Particular\Lambda.cs" />
+    <Compile Include="Particular\SortedList.cs" />
     <Compile Include="Particular\WeakReference.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
