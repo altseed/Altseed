@@ -242,6 +242,7 @@
     <Compile Include="swig\MiddleButton.cs" />
     <Compile Include="swig\Model.cs" />
     <Compile Include="swig\Mouse.cs" />
+    <Compile Include="swig\MouseButtons.cs" />
     <Compile Include="swig\MouseButtonState.cs" />
     <Compile Include="swig\Object2DType.cs" />
     <Compile Include="swig\ObjectSystemFactory.cs" />
