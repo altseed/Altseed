@@ -69,7 +69,7 @@ namespace asd
 		{
 			if(components.ContainsKey(key))
 			{
-				return Particular.Dictionary.Get<string,TComponent>(components, key);
+				return Particular.Dictionary.Get(components, key);
 			}
 			return null;
 		}
