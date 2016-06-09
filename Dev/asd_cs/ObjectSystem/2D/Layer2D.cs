@@ -68,7 +68,7 @@ namespace asd
 		/// </summary>
 		public override int ObjectCount
 		{
-			get { return Objects.Count(); }
+			get { return asd.Particular.Helper.CountIterable(Objects); }
 		}
 
 		/// <summary>

@@ -107,4 +107,11 @@ public class Helper
 		{
 			return v1.compareTo(v2);
 		}
+
+		public static <TContent> int CountIterable(java.lang.Iterable<TContent> contents)
+		{
+			int count = 0;
+			for (Object content : contents) count++;
+			return count;
+		}
 }

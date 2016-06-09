@@ -120,5 +120,10 @@ namespace asd.Particular
 		{
 			return v1.CompareTo(v2);
 		}
+
+		public static int CountIterable<TContent>(System.Collections.Generic.IEnumerable<TContent> contents)
+		{
+			return contents.Count();
+		}
 	}
 }
