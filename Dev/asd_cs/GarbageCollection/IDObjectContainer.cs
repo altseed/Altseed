@@ -71,7 +71,7 @@ namespace asd
         {
             removingKeys.Clear();
 
-            foreach (var kv in objects)
+            foreach (var kv in asd.Particular.Dictionary.EntrySet(objects))
             {
 				var weakPtr = kv.Value;
 				T t = Particular.WeakReference.Get(weakPtr);
@@ -92,7 +92,7 @@ namespace asd
 
         internal void DestroyAll()
         {
-            foreach (var kv in objects)
+            foreach (var kv in asd.Particular.Dictionary.EntrySet(objects))
             {
 				var weakPtr = kv.Value;
 				T t = Particular.WeakReference.Get(weakPtr);

@@ -11,4 +11,9 @@ public class Dictionary
 	{
 		d.put(key, value);
 	}
+
+	public static <TKey, TValue> java.util.Set<java.util.Map.Entry<TKey, TValue>> EntrySet(java.util.Map<TKey, TValue> d)
+	{
+		return d.entrySet();
+	}
 }

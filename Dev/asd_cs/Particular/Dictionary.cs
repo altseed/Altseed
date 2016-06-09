@@ -28,5 +28,10 @@ namespace asd.Particular
 		{
 			d[key] = value;
 		}
+
+		public static IEnumerable<KeyValuePair<TKey, TValue>> EntrySet<TKey, TValue>(Dictionary<TKey, TValue> d)
+		{
+			return d;
+		}
 	}
 }
