@@ -32,6 +32,7 @@ public class Helper
 
 		static Boolean HasDLL(String path)
 		{
+			/*
 			try
 			{
 				System.loadLibrary(path);
@@ -40,6 +41,7 @@ public class Helper
 			{
 				return false;
 			}
+			*/
 			return true;
 		}
 
