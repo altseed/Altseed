@@ -24,7 +24,7 @@ namespace asd
 				var weakPtr = Particular.Dictionary.Get(objects, id);
 				T t = Particular.WeakReference.Get(weakPtr);
 
-				if (t != null && t.IsReleased)
+				if (t == null || t.IsReleased)
                 {
 					Particular.Dictionary.Set(objects, id, new WeakReference<T>(o));
                     return;
@@ -79,7 +79,7 @@ namespace asd
 				var weakPtr = kv.Value;
 				T t = Particular.WeakReference.Get(weakPtr);
 
-                if (t != null || t.IsReleased)
+                if (t == null || t.IsReleased)
                 {
                     removingKeys.Add(kv.Key);
                 }
@@ -100,7 +100,7 @@ namespace asd
 				var weakPtr = kv.Value;
 				T t = Particular.WeakReference.Get(weakPtr);
 
-				if (t != null || !t.IsReleased)
+				if (t != null && !t.IsReleased)
                 {
                     t.ForceToRelease();
                 }
