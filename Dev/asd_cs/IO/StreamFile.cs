@@ -60,13 +60,7 @@ namespace asd
         {
             if (buffer == null) return;
 
-            swig.Accessor.StreamFile_Read_(CoreInstance, size);
-            System.IntPtr raw = swig.Accessor.StreamFile_GetTempBuffer_(CoreInstance);
-            byte[] bytes = new byte[swig.Accessor.StreamFile_GetTempBufferSize_(CoreInstance)];
-            Marshal.Copy(raw, bytes, 0, bytes.Length);
-
-            buffer.Clear();
-            buffer.AddRange(bytes);
+			asd.Particular.Helper.CopyStreamFileToList(CoreInstance, buffer, size);
         }
     }
 }

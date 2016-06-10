@@ -148,5 +148,24 @@ namespace asd.Particular
 			buf.CopyTo(dst);
 			return dst;
 		}
+
+		public static unsafe byte[] CreateArrayFromStaticFile(asd.swig.StaticFile CoreInstance)
+		{
+			System.IntPtr raw = CoreInstance.GetData();
+			byte[] bytes = new byte[CoreInstance.GetSize()];
+			System.Runtime.InteropServices.Marshal.Copy(raw, bytes, 0, CoreInstance.GetSize());
+			return bytes;
+		}
+
+		public static unsafe void CopyStreamFileToList(asd.swig.StreamFile CoreInstance, List<byte> buffer, int size)
+		{
+			swig.Accessor.StreamFile_Read_(CoreInstance, size);
+            System.IntPtr raw = swig.Accessor.StreamFile_GetTempBuffer_(CoreInstance);
+            byte[] bytes = new byte[swig.Accessor.StreamFile_GetTempBufferSize_(CoreInstance)];
+            System.Runtime.InteropServices.Marshal.Copy(raw, bytes, 0, bytes.Length);
+
+            buffer.Clear();
+            buffer.AddRange(bytes);
+        }
 	}
 }
