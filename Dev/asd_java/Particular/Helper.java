@@ -114,4 +114,32 @@ public class Helper
 			for (Object content : contents) count++;
 			return count;
 		}
+
+		public static asd.swig.VectorUint8 CreateVectorUint8FromArray(short[] array)
+		{
+			asd.swig.VectorUint8 buf = new asd.swig.VectorUint8();
+			for (short b : array)
+			{
+				buf.add(b);
+			}
+
+			return buf;
+		}
+
+		public static void DisposeVectorUint8(asd.swig.VectorUint8 buf)
+		{
+			buf.delete();
+		}
+
+		public static short[] CreateArrayFromVectorUint8(asd.swig.VectorUint8 buf)
+		{
+			short[] dst = new short[(int)buf.size()];
+			
+			for(int i = 0; i < dst.length; i++)
+			{
+				dst[i] = buf.get(i);
+			}
+
+			return dst;
+		}
 }

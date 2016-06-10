@@ -18,7 +18,7 @@ namespace asd.Particular
 		{
 			var device = GetDefaultDevice();
 
-			if(device == GraphicsDeviceType.DirectX11)
+			if (device == GraphicsDeviceType.DirectX11)
 			{
 				if (!HasDLL("D3DCOMPILER_43.dll"))
 				{
@@ -75,7 +75,7 @@ namespace asd.Particular
 			{
 				return swig.Core_Imp.CreateCore();
 			}
-			catch(DllNotFoundException e)
+			catch (DllNotFoundException e)
 			{
 				System.Windows.Forms.MessageBox.Show("DLLを読み込めません。");
 			}
@@ -87,8 +87,8 @@ namespace asd.Particular
 		{
 			var os = System.Environment.OSVersion;
 			var isUnix = os.Platform == PlatformID.Unix || os.Platform == PlatformID.MacOSX;
-			
-			if(isUnix)
+
+			if (isUnix)
 			{
 				return GraphicsDeviceType.OpenGL;
 			}
@@ -124,6 +124,29 @@ namespace asd.Particular
 		public static int CountIterable<TContent>(System.Collections.Generic.IEnumerable<TContent> contents)
 		{
 			return contents.Count();
+		}
+
+		public static asd.swig.VectorUint8 CreateVectorUint8FromArray(byte[] array)
+		{
+			var buf = new asd.swig.VectorUint8();
+			foreach (var b in array)
+			{
+				buf.Add(b);
+			}
+
+			return buf;
+		}
+
+		public static void DisposeVectorUint8(asd.swig.VectorUint8 buf)
+		{
+			buf.Dispose();
+		}
+
+		public static byte[] CreateArrayFromVectorUint8(asd.swig.VectorUint8 buf)
+		{
+			byte[] dst = new byte[buf.Count];
+			buf.CopyTo(dst);
+			return dst;
 		}
 	}
 }
