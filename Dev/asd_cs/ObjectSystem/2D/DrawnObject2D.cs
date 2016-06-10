@@ -64,9 +64,9 @@ namespace asd
 		    ChildDrawingMode drawingMode)
 		{
 			CoreDrawnObject.AddDrawnChild(child.CoreDrawnObject,
-				(int)managementMode,
+				asd.Particular.ChildManagementMode.ToInt(managementMode),
 				(swig.ChildTransformingMode)transformingMode,
-				(int)drawingMode);
+				asd.Particular.ChildDrawingMode.ToInt(drawingMode));
 			ChildrenList.Add(child);
 			child.ParentInfo = new ParentInfo2D(this, managementMode);
 		}

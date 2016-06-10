@@ -173,7 +173,7 @@ namespace asd
 			{
 				return IsUpdated
 					&& !(ParentInfo != null
-					&& (ParentInfo.ManagementMode & ChildManagementMode.IsUpdated) != 0
+					&& (asd.Particular.ChildManagementMode.And(ParentInfo.ManagementMode, ChildManagementMode.IsUpdated) != 0)
 					&& !ParentInfo.Parent.AbsoluteBeingUpdated);
 			}
 		}
@@ -282,10 +282,14 @@ namespace asd
 			ChildManagementMode managementMode,
 			ChildTransformingMode transformingMode)
 		{
-			CoreObject.AddChild(child.CoreObject, (int)managementMode, (swig.ChildTransformingMode)transformingMode);
+			CoreObject.AddChild(
+				child.CoreObject, 
+				asd.Particular.ChildManagementMode.ToInt(managementMode), 
+				(swig.ChildTransformingMode)transformingMode);
+
 			ChildrenList.Add(child);
 			child.ParentInfo = new ParentInfo2D(this, managementMode);
-			if((managementMode & ChildManagementMode.RegistrationToLayer) != 0)
+			if((asd.Particular.ChildManagementMode.And(managementMode, ChildManagementMode.RegistrationToLayer)) != 0)
 			{
 				if(child.Layer != Layer && child.Layer != null)
 				{
@@ -565,7 +569,7 @@ namespace asd
 
 		private bool IsInheriting(ChildManagementMode mode)
 		{
-			return ParentInfo != null && (ParentInfo.ManagementMode & mode) != 0;
+			return ParentInfo != null && asd.Particular.ChildManagementMode.And(ParentInfo.ManagementMode,mode) != 0;
 		}
 
 		internal void ThrowIfDisposed()

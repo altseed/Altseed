@@ -146,6 +146,8 @@
     <Compile Include="ObjectSystem\Transition\Transition.cs" />
     <Compile Include="ObjectSystem\Transition\TransitionFade.cs" />
     <Compile Include="ObjectSystem\Transition\TransitionState.cs" />
+    <Compile Include="Particular\ChildDrawingMode.cs" />
+    <Compile Include="Particular\ChildManagementMode.cs" />
     <Compile Include="Particular\Define.cs" />
     <Compile Include="Particular\Dictionary.cs" />
     <Compile Include="Particular\GC.cs" />
