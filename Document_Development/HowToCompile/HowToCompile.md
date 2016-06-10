@@ -146,9 +146,9 @@ Dev/unitTest_Engine_cs.sln
 
 antをインストールします。
 
-Script/generateTranslatedCode.py　を実行します。
+```Script/generateTranslatedCode.py``` を実行します。
 
-Dev/asd_java/ でantと入力します。
+Dev/asd_java/ で ```ant``` を実行します。
 
 # リリース
 
