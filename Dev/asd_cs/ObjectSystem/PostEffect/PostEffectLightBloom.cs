@@ -139,7 +139,8 @@ namespace asd
             var format = src.Format;
 
 			if (tempTexture0 == null ||
-				(tempTexture0.Size != Vector2DI.DivideByScalar(size, 2) || tempTexture0.Format != format))
+				(!tempTexture0.Size.Equals(Vector2DI.DivideByScalar(size, 2)) ||
+				tempTexture0.Format != format))
 			{
 				if (format == TextureFormat.R32G32B32A32_FLOAT)
 				{
