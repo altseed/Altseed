@@ -107,6 +107,11 @@ namespace asd
 			return new Vector2DI((int)X, (int)Y);
 		}
 
+		public bool Equals(Vector2DF other)
+		{
+			return X == other.X && Y == other.Y;
+		}
+
 		public override string ToString()
 		{
 			return asd.Particular.Helper.Format( "({0}, {1})", X, Y );

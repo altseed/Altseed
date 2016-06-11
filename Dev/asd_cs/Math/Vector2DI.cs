@@ -42,6 +42,12 @@ namespace asd
 			return new Vector2DF(X, Y);
 		}
 
+		public bool Equals(Vector2DI other)
+		{
+			return X == other.X && Y == other.Y;
+		}
+
+
 		public static bool operator ==(Vector2DI left, Vector2DI right)
 		{
 			return left.X == right.X && left.Y == right.Y;

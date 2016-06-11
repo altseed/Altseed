@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace asd
 {
-	internal interface IImmediateComponentmanager
+	internal interface IImmediateRemovingComponentmanager
 	{
 		void ImmediatelyRemoveComponent(string key);
 	}
 
-	internal interface IImmediateComponentmanager<TComponent> : IImmediateComponentmanager
+	internal interface IImmediateComponentmanager<TComponent> : IImmediateRemovingComponentmanager
 		where TComponent : Component
 	{
 		void ImmediatelyAddComponent(TComponent component, string key);

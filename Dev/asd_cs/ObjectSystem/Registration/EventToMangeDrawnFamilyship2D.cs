@@ -45,17 +45,16 @@ namespace asd
 				return;
 			}
 
-			switch (Command)
+			if(Command == RegistrationCommand.Add)
 			{
-			case RegistrationCommand.Add:
 				Parent.ImmediatelyAddDrawnChild(Child, ManagementMode, TransformingMode, DrawingMode);
-				break;
-
-			case RegistrationCommand.Remove:
+			}
+			else if(Command == RegistrationCommand.Remove)
+			{
 				Parent.ImmediatelyRemoveChild(Child);
-				break;
-
-			case RegistrationCommand.Invalid:
+			}
+			else if(Command == RegistrationCommand.Invalid)
+			{
 				throw new InvalidOperationException("EventToMangeDrawnFamilyship2D イベントがセットアップされていません。");
 			}
 		}

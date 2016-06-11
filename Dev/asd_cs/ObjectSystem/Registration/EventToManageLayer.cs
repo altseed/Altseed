@@ -22,15 +22,13 @@
 				return;
 			}
 
-			switch (Command)
+			if(Command == RegistrationCommand.Add)
 			{
-			case RegistrationCommand.Add:
 				Scene.ImmediatelyAddLayer(Layer, RaiseEvent);
-				break;
-
-			case RegistrationCommand.Remove:
+			}
+			else if(Command == RegistrationCommand.Remove)
+			{
 				Scene.ImmediatelyRemoveLayer(Layer, RaiseEvent);
-				break;
 			}
 		}
 	}

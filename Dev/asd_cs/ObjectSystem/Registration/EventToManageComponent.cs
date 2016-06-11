@@ -21,15 +21,13 @@ namespace asd
 
 		public void Commit()
 		{
-			switch (Command)
+			if(Command == RegistrationCommand.Add)
 			{
-			case RegistrationCommand.Add:
 				Manager.ImmediatelyAddComponent(Component, Key);
-				break;
-
-			case RegistrationCommand.Remove:
+			}
+			else if (Command == RegistrationCommand.Remove)
+			{
 				Manager.ImmediatelyRemoveComponent(Key);
-				break;
 			}
 		}
 
