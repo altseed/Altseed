@@ -25,20 +25,25 @@ def init(type, targetDir):
 
 def compile(type):
 	if aceutils.isWin():
-		aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Debug')
-		aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Release')
-		aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cs.sln /p:configuration=Release')
 
 		aceutils.call(aceutils.cmd_compile + r'Dev/FontGeneratorWPF.sln /p:configuration=Release')
-
 		aceutils.call(aceutils.cmd_compile + r'Dev/FilePackageGenerator.sln /p:configuration=Release')
+
+		if type=='cpp':
+			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Debug')
+			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cpp.sln /p:configuration=Release')
+		
+		if type=='cs':
+			aceutils.call(aceutils.cmd_compile + r'Dev/unitTest_Engine_cs.sln /p:configuration=Release')
+
+		if type=='java':
+			aceutils.cd(r'Dev/asd_java')
+			aceutils.call(r'ant')
+			aceutils.cd(r'../../')
 
 	elif aceutils.isMac():
 		if type=='cpp':
-			aceutils.rmdir(r'Dev/cmake')
-			aceutils.mkdir(r'Dev/cmake')
 			aceutils.cd(r'Dev/cmake')
-			aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../ "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../')
 			aceutils.call(r'make install')
 			aceutils.cd(r'../../')
 
@@ -46,6 +51,11 @@ def compile(type):
 			aceutils.cd(r'Dev')
 			aceutils.call(r'xbuild /p:Configuration=Release unitTest_Engine_cs.sln')
 			aceutils.cd(r'../')
+
+		elif type=='java':
+			aceutils.cd(r'Dev/asd_java')
+			aceutils.call(r'ant')
+			aceutils.cd(r'../../')
 
 def copyTool(type, targetDir):
 	toolDir=targetDir+r'/Tool/'
@@ -117,6 +127,20 @@ def editCSFiles(targetDir):
 
 		with open(file, mode='w',  encoding='utf-8') as f:
 			f.writelines(ls)
+
+
+def release_common():
+	aceutils.cdToScript()
+	aceutils.cd(r'../')
+
+	# generate makefiles using cmake
+
+	if aceutils.isMac():
+		aceutils.rmdir(r'Dev/cmake')
+		aceutils.mkdir(r'Dev/cmake')
+		aceutils.cd(r'Dev/cmake')
+		aceutils.call(r'cmake -G "Unix Makefiles" -D CMAKE_BUILD_TYPE=Release -D BUILD_SHARED_LIBS:BOOL=OFF -D CMAKE_INSTALL_PREFIX:PATH=../ "-DCMAKE_OSX_ARCHITECTURES=x86_64;i386" ../')
+		aceutils.cd(r'../../')
 
 def release_cpp():
 	type = 'cpp'
@@ -226,6 +250,9 @@ def release_cs():
 		
 	init(type, targetDir)
 	
+	# GenerateHeader
+	aceutils.call(r'python Dev/generate_swig.py')
+	
 	compile(type)
 
 	aceutils.mkdir(targetDir+r'/')
@@ -292,9 +319,36 @@ def release_cs():
 		aceutils.copy(r'Dev/bin/Altseed.XML', targetDir+r'/Template/Game/')
 		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', targetDir+r'/Template/bin/')
 
+def release_java():
+	type = 'java'
+
+	targetDir = getTargetDir(type)
+		
+	init(type, targetDir)
+
+	# GenerateHeader	
+	aceutils.call(r'python Dev/generate_swig.py')
+	aceutils.call(r'python Script/generateTranslatedCode.py')
+		
+	compile(type)
+
+	aceutils.mkdir(targetDir+r'/')
+
+	# Runtime
+	runtimeDir = targetDir+r'/Runtime/'
+
+	aceutils.mkdir(runtimeDir)
+
+	if aceutils.isWin():
+		aceutils.copy(r'Dev/bin/Altseed_core.dll', runtimeDir)
+	elif aceutils.isMac():
+		aceutils.copy(r'Dev/bin/libAltseed_core.dylib', runtimeDir)
+	aceutils.copy(r'Dev/bin/Altseed.jar', runtimeDir)
+
+release_common()
 release_cpp()
 release_cs()
-
+release_java()
 
 
 
