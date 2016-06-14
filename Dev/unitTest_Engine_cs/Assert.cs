@@ -10,29 +10,29 @@ namespace unitTest_Engine_cs
 	{
 		private static readonly string baseMessage = "アサーションに失敗しました。";
 
-		public static void AreEqual<T>( T expected, T actual )
+		public static void AreEqual<T>(T expected, T actual)
 		{
-			if( expected == null && actual == null )
+			if(expected == null && actual == null)
 			{
 				return;
 			}
-			if( ( expected == null && actual != null ) || !expected.Equals( actual ) )
+			if((expected == null && actual != null) || !expected.Equals(actual))
 			{
-				var message = string.Format( "{0} が必要ですが、{1} が指定されました。", expected, actual );
-				throw new TestFailedException( baseMessage + message );
+				var message = string.Format("{0} が必要ですが、{1} が指定されました。", expected, actual);
+				throw new TestFailedException(baseMessage + message);
 			}
 		}
 
-		public static void AreNotEqual<T>( T notExpected, T actual )
+		public static void AreNotEqual<T>(T notExpected, T actual)
 		{
-			if( notExpected == null && actual != null )
+			if(notExpected == null && actual != null)
 			{
 				return;
 			}
-			if( ( notExpected == null && actual == null ) || notExpected.Equals( actual ) )
+			if((notExpected == null && actual == null) || notExpected.Equals(actual))
 			{
-				var message = string.Format( "値は {0} でない必要があります。", actual );
-				throw new TestFailedException( baseMessage + message );
+				var message = string.Format("値は {0} でない必要があります。", actual);
+				throw new TestFailedException(baseMessage + message);
 			}
 		}
 

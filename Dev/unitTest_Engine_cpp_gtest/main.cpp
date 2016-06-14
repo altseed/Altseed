@@ -75,7 +75,6 @@ EXTERN_ENGINE_TEST(ObjectSystem, TransformOutOfUpdate)
 EXTERN_ENGINE_TEST(ObjectSystem, Culling2D_Debug)
 EXTERN_ENGINE_TEST(ObjectSystem, ObjectsUpdatePriority)
 EXTERN_ENGINE_TEST(ObjectSystem, LayerUpdatePriority)
-EXTERN_ENGINE_TEST(ObjectSystem, DisposeOnVanish)
 EXTERN_ENGINE_TEST(ObjectSystem, UpdateFrequency)
 EXTERN_ENGINE_TEST(ObjectSystem, LifeCycle)
 
@@ -126,7 +125,7 @@ int main(int argc, char **argv)
 	::testing::InitGoogleTest(&argc, argv);
 	
 	/*
-	CALL_ENGINE_TEST(FamilySystem, AbsoluteParameter, true);
+	CALL_ENGINE_TEST(FamilySystem, ChildManagement, true);
 	getchar();
 	return 0;
 	//*/

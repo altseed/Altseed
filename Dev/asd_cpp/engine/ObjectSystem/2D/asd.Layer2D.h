@@ -47,8 +47,10 @@ namespace asd
 		void ImmediatelyRemoveObject(const Object2D::Ptr& object, bool raiseEvent);
 		void ImmediatelyRemoveComponent(astring key);
 		void Register(const Object2D::Ptr& object);
-		void Register(const Layer2DComponent::Ptr& component) override;
 		void Unregister(const Object2D::Ptr& object);
+		void AddToCore(const Object2D::Ptr& object) override;
+		void RemoveFromCore(const Object2D::Ptr& object) override;
+		void Register(const Layer2DComponent::Ptr& component) override;
 		void Unregister(const Layer2DComponent::Ptr& component) override;
 
 	protected:

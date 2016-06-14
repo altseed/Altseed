@@ -164,12 +164,20 @@ namespace asd
 	void Layer2D::Register(const Object2D::Ptr& object)
 	{
 		object->SetLayer(this);
-		m_coreLayer->AddObject(object->GetCoreObject());
 	}
 
 	void Layer2D::Unregister(const Object2D::Ptr& object)
 	{
 		object->SetLayer(nullptr);
+	}
+
+	void Layer2D::AddToCore(const Object2D::Ptr& object)
+	{
+		m_coreLayer->AddObject(object->GetCoreObject());
+	}
+	
+	void Layer2D::RemoveFromCore(const Object2D::Ptr& object)
+	{
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 	}
 

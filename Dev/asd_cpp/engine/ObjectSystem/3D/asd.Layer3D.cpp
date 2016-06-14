@@ -42,12 +42,20 @@ namespace asd
 	void Layer3D::Register(const Object3D::Ptr& object)
 	{
 		object->SetLayer(this);
-		m_coreLayer->AddObject(object->GetCoreObject());
 	}
 
 	void Layer3D::Unregister(const Object3D::Ptr& object)
 	{
 		object->SetLayer(nullptr);
+	}
+
+	void Layer3D::AddToCore(const Object3D::Ptr& object)
+	{
+		m_coreLayer->AddObject(object->GetCoreObject());
+	}
+
+	void Layer3D::RemoveFromCore(const Object3D::Ptr& object)
+	{
 		m_coreLayer->RemoveObject(object->GetCoreObject());
 	}
 

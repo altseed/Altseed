@@ -64,6 +64,9 @@ class FamilySystem_ChildManagement : public EngineTest
 			{
 				Engine::AddObject2D(child);
 			}
+
+			ASSERT_NE(nullptr, child->GetParent());
+			ASSERT_NE(nullptr, child->GetParent()->GetLayer());
 		}
 
 		SpinObject::Ptr& GetParent()

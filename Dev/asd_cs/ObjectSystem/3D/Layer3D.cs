@@ -140,7 +140,6 @@ namespace asd
 		public void __Register(Object3D obj)
 		{
 			obj.Layer = this;
-			coreLayer3D.AddObject(obj.CoreObject);
 		}
 
 		/// <summary>
@@ -151,6 +150,25 @@ namespace asd
 		public void __Unregister(Object3D obj)
 		{
 			obj.Layer = null;
+		}
+
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="obj"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __AddToCore(Object3D obj)
+		{
+			coreLayer3D.AddObject(obj.CoreObject);
+		}
+
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="obj"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __RemoveFromCore(Object3D obj)
+		{
 			coreLayer3D.RemoveObject(obj.CoreObject);
 		}
 

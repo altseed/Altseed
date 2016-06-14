@@ -127,7 +127,6 @@ namespace asd
 		public void __Register(Object2D obj)
 		{
 			obj.Layer = this;
-			coreLayer2D.AddObject(obj.CoreObject);
 		}
 
 		/// <summary>
@@ -138,8 +137,28 @@ namespace asd
 		public void __Unregister(Object2D obj)
 		{
 			obj.Layer = null;
+		}
+
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="obj"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __AddToCore(Object2D obj)
+		{
+			coreLayer2D.AddObject(obj.CoreObject);
+		}
+
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="obj"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __RemoveFromCore(Object2D obj)
+		{
 			coreLayer2D.RemoveObject(obj.CoreObject);
 		}
+
 		#endregion
 
 		#region コンポーネント管理

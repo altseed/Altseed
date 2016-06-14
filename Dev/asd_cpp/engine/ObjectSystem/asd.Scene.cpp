@@ -196,8 +196,11 @@ namespace asd
 
 	void Scene::AddLayer(const Layer::Ptr& layer)
 	{
+		ACE_ASSERT(layer->GetScene() == nullptr, "追加しようとしたレイヤーは、すでに別のシーンに所属しています。");
+
 		asd::Engine::m_changesToCommit.push(
 			make_shared<EventToManageLayer>(shared_from_this(), layer, RegistrationCommand::Add, true));
+		layer->SetScene(this);
 	}
 
 	void Scene::RemoveLayer(const Layer::Ptr& layer)
@@ -208,13 +211,10 @@ namespace asd
 
 	void Scene::ImmediatelyAddLayer(const Layer::Ptr& layer, bool raiseEvent)
 	{
-		ACE_ASSERT(layer->GetScene() == nullptr, "追加しようとしたレイヤーは、すでに別のシーンに所属しています。");
-
 		m_layersToDraw.push_back(layer);
 		m_layersToUpdate.push_back(layer);
 		m_coreScene->AddLayer(layer->GetCoreLayer().get());
 
-		layer->SetScene(this);
 		if (raiseEvent)
 		{
 			layer->RaiseOnAdded();

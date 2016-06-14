@@ -11,5 +11,7 @@ namespace asd
 		bool IsAlive { get; }
 		void __Register(TObject obj);
 		void __Unregister(TObject obj);
+		void __AddToCore(TObject obj);
+		void __RemoveFromCore(TObject obj);
 	}
 }

@@ -58,12 +58,16 @@ namespace asd
 
 		void Add(const ObjectPtr& content)
 		{
+			ACE_ASSERT(content->GetLayer() == nullptr, "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。");
+
 			auto e = std::make_shared<EventToManageObject<TObject>>(
 				this->shared_from_this(),
 				content,
 				RegistrationCommand::Add,
 				true);
 			Engine::m_changesToCommit.push(e);
+
+			m_owner->Register(content);
 		}
 
 		void Remove(const ObjectPtr& content, bool raiseEvent)
@@ -74,6 +78,7 @@ namespace asd
 				RegistrationCommand::Remove,
 				raiseEvent);
 			Engine::m_changesToCommit.push(e);
+			m_owner->Unregister(content);
 		}
 
 		void ImmediatelyAddObject(const ObjectPtr& content, bool raiseEvent)
@@ -82,8 +87,6 @@ namespace asd
 			{
 				return;
 			}
-
-			ACE_ASSERT(content->GetLayer() == nullptr, "追加しようとしたオブジェクトは、すでに別のレイヤーに所属しています。");
 
 			auto key = content->GetUpdatePriority();
 			auto contents = m_contents.find(key);
@@ -98,7 +101,7 @@ namespace asd
 			}
 			content->m_onUpdatePriorityChanged = [this, content](int x) { Redistribute(content); };
 
-			m_owner->Register(content);
+			m_owner->AddToCore(content);
 			if (raiseEvent)
 			{
 				content->RaiseOnAdded();
@@ -112,15 +115,16 @@ namespace asd
 				return;
 			}
 
-			auto key = content->GetUpdatePriority();
-			content->m_onUpdatePriorityChanged = nullptr;
-			m_contents[key].remove(content);
-
 			if (raiseEvent)
 			{
 				content->RaiseOnRemoved();
 			}
-			m_owner->Unregister(content);
+
+			m_owner->RemoveFromCore(content);
+
+			auto key = content->GetUpdatePriority();
+			content->m_onUpdatePriorityChanged = nullptr;
+			m_contents[key].remove(content);
 		}
 
 		void Clear()

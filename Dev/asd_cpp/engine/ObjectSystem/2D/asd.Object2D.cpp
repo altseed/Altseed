@@ -27,24 +27,10 @@ namespace asd
 	void Object2D::RaiseOnAdded()
 	{
 		OnAdded();
-		for (auto& child : m_children)
-		{
-			if (IS_INHERITED(child, RegistrationToLayer))
-			{
-				GetLayer()->AddObject(child);
-			}
-		}
 	}
 
 	void Object2D::RaiseOnRemoved()
 	{
-		for (auto& child : m_children)
-		{
-			if (IS_INHERITED(child, RegistrationToLayer))
-			{
-				GetLayer()->RemoveObject(child);
-			}
-		}
 		OnRemoved();
 	}
 
@@ -195,6 +181,21 @@ namespace asd
 		auto e = make_shared<EventToManageFamilyship2D>(shared_from_this(), child);
 		e->SetUpAsAddEvent(managementMode, transformingMode);
 		Engine::m_changesToCommit.push(e);
+
+		child->m_parentInfo = make_shared<ParentInfo2D>(this, managementMode);
+
+		if ((managementMode & ChildManagementMode::RegistrationToLayer) != 0)
+		{
+			auto childLayer = child->GetLayer();
+			if (childLayer != GetLayer() && childLayer != nullptr)
+			{
+				childLayer->RemoveObject(child);
+			}
+			if (m_owner != nullptr)
+			{
+				m_owner->AddObject(child);
+			}
+		}
 	}
 
 	void Object2D::RemoveChild(const Object2D::Ptr& child)
@@ -211,20 +212,6 @@ namespace asd
 	{
 		GetCoreObject()->AddChild((child->GetCoreObject()), managementMode, transformingMode);
 		m_children.push_back(child);
-		child->m_parentInfo = make_shared<ParentInfo2D>(this, managementMode);
-
-		if ((managementMode & ChildManagementMode::RegistrationToLayer) != 0)
-		{
-			auto childLayer = child->GetLayer();
-			if (childLayer != GetLayer() && childLayer != nullptr)
-			{
-				childLayer->RemoveObject(child);
-			}
-			if (m_owner != nullptr)
-			{
-				m_owner->AddObject(child);
-			}
-		}
 	}
 
 	void Object2D::ImmediatelyRemoveChild(const Object2D::Ptr& child)

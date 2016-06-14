@@ -64,6 +64,9 @@ namespace unitTest_Engine_cs.FamilySystem
 				{
 					Engine.AddObject2D(child);
 				}
+
+				Assert.AreNotEqual(null, child.Parent);
+				Assert.AreNotEqual(null, child.Parent.Layer);
 			}
 		}
 

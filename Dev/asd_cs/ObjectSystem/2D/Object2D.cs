@@ -230,6 +230,19 @@ namespace asd
 			var e = new EventToManageFamilyship2D(this, child);
 			e.SetUpAsAddEvent(managementMode, transformingMode);
 			Engine.ChangesToBeCommited.Enqueue(e);
+
+			child.ParentInfo = new ParentInfo2D(this, managementMode);
+			if(asd.Particular.ChildManagementMode.And(managementMode, ChildManagementMode.RegistrationToLayer) != 0)
+			{
+				if(child.Layer != Layer && child.Layer != null)
+				{
+					child.Layer.RemoveObject(child);
+				}
+				if(Layer != null)
+				{
+					Layer.AddObject(child);
+				}
+			}
 		}
 
 		/// <summary>
@@ -242,6 +255,12 @@ namespace asd
 			var e = new EventToManageFamilyship2D(this, child);
 			e.SetUpAsRemoveEvent();
 			Engine.ChangesToBeCommited.Enqueue(e);
+
+			if(child.IsInheriting(ChildManagementMode.RegistrationToLayer))
+			{
+				Layer.RemoveObject(child);
+			}
+			child.ParentInfo = null;
 		}
 
 		/// <summary>
@@ -283,23 +302,10 @@ namespace asd
 			ChildTransformingMode transformingMode)
 		{
 			CoreObject.AddChild(
-				child.CoreObject, 
-				asd.Particular.ChildManagementMode.ToInt(managementMode), 
+				child.CoreObject,
+				asd.Particular.ChildManagementMode.ToInt(managementMode),
 				(swig.ChildTransformingMode)transformingMode);
-
 			ChildrenList.Add(child);
-			child.ParentInfo = new ParentInfo2D(this, managementMode);
-			if((asd.Particular.ChildManagementMode.And(managementMode, ChildManagementMode.RegistrationToLayer)) != 0)
-			{
-				if(child.Layer != Layer && child.Layer != null)
-				{
-					child.Layer.RemoveObject(child);
-				}
-				if(Layer != null)
-				{
-					Layer.AddObject(child);
-				}
-			}
 		}
 
 		internal void ImmediatelyRemoveChild(Object2D child)
@@ -308,7 +314,6 @@ namespace asd
 			{
 				CoreObject.RemoveChild(child.CoreObject);
 				ChildrenList.Remove(child);
-				child.ParentInfo = null;
 			}
 		}
 
@@ -487,13 +492,6 @@ namespace asd
 		internal override void RaiseOnAdded()
 		{
 			OnAdded();
-			foreach (var item in asd.Particular.Lambda.FilterDeadObject(ChildrenList))
-			{
-				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
-				{
-					Layer.AddObject(item);
-				}
-			}
 
 			foreach(var component in componentManager_.Components)
 			{
@@ -508,14 +506,6 @@ namespace asd
 				component.RaiseOnRemoved();
 			}
 
-			foreach (var item in asd.Particular.Lambda.FilterDeadObject(ChildrenList))
-			{
-				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
-				{
-					Layer.RemoveObject(item);
-				}
-				item.ParentInfo = null;
-			}
 			OnRemoved();
 		}
 

@@ -21,10 +21,12 @@ namespace unitTest_Engine_cs.ObjectSystem2D.LifeCycle
 		{
 		}
 
+		private Layer2D layer;
+
 		protected override void OnStart()
 		{
 			var scene = new MyScene();
-			var layer = new Layer2D();
+			layer = new Layer2D();
 			var obj = new TextureObject2D
 			{
 				Texture = Engine.Graphics.CreateTexture2D(CloudTexturePath),
@@ -33,6 +35,14 @@ namespace unitTest_Engine_cs.ObjectSystem2D.LifeCycle
 			layer.AddObject(obj);
 			scene.AddLayer(layer);
 			Engine.ChangeScene(scene);
+		}
+
+		protected override void OnUpdated()
+		{
+			if (Time == 5)
+			{
+				//Engine.CurrentScene.AddLayer(layer);
+			}
 		}
 	}
 }

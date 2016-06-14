@@ -156,9 +156,6 @@
     <ClCompile Include="..\ObjectSystem\LayerUpdatePriority.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>
-    <ClCompile Include="..\ObjectSystem\DisposeOnVanish.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
     <ClCompile Include="..\ObjectSystem\UpdateFrequency.cpp">
       <Filter>ObjectSystem</Filter>
     </ClCompile>

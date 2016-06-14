@@ -41,6 +41,8 @@ namespace asd
 		bool GetIsAlive() const;
 		void Register(const Object3D::Ptr& object);
 		void Unregister(const Object3D::Ptr& object);
+		void AddToCore(const Object3D::Ptr& object);
+		void RemoveFromCore(const Object3D::Ptr& object);
 
 	protected:
 

@@ -42,28 +42,28 @@ namespace asd
 			Redistribution = new RedistributeAction<TObject>(this);
 		}
 
-		public void Add(TObject content)
+		public void Add(TObject obj)
 		{
-			if(content == null)
+			if(obj == null)
 			{
 				Particular.Helper.ThrowException("ArgumentNullException(Content)");
 			}
 
-			if(content.IsRegisteredToLayer)
+			if(obj.IsRegisteredToLayer)
 			{
 				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
 			}
 
-			var e = new EventToManageObject<TObject>(this, content, RegistrationCommand.Add, true);
+			var e = new EventToManageObject<TObject>(this, obj, RegistrationCommand.Add, true);
 			Engine.ChangesToBeCommited.Enqueue(e);
-
-			Owner.__Register(content);
+			Owner.__Register(obj);
 		}
 
-		public void Remove(TObject content, bool raiseEvent)
+		public void Remove(TObject obj, bool raiseEvent)
 		{
-			var e = new EventToManageObject<TObject>(this, content, RegistrationCommand.Remove, raiseEvent);
+			var e = new EventToManageObject<TObject>(this, obj, RegistrationCommand.Remove, raiseEvent);
 			Engine.ChangesToBeCommited.Enqueue(e);
+			Owner.__Unregister(obj);
 		}
 
 		public void Clear()
@@ -102,12 +102,11 @@ namespace asd
 			{
 				asd.Particular.SortedList.Set(contents_, obj.UpdatePriority, new LinkedList<TObject>());
 			}
-
 			var content = asd.Particular.SortedList.Get(contents_, obj.UpdatePriority);
 			content.AddLast(obj);
-	
 			obj.OnUpdatePriorityChanged = Redistribution;
 			
+			Owner.__AddToCore(obj);
 			if(raiseEvent)
 			{
 				obj.RaiseOnAdded();
@@ -121,15 +120,16 @@ namespace asd
 				return;
 			}
 
-			var content = asd.Particular.SortedList.Get(contents_, obj.UpdatePriority);
-			content.Remove(obj);
-
-			obj.OnUpdatePriorityChanged = null;
 			if(raiseEvent)
 			{
 				obj.RaiseOnRemoved();
 			}
-			Owner.__Unregister(obj);
+
+			var content = asd.Particular.SortedList.Get(contents_, obj.UpdatePriority);
+			content.Remove(obj);
+
+			obj.OnUpdatePriorityChanged = null;
+			Owner.__RemoveFromCore(obj);
 		}
 	}
 }

@@ -116,7 +116,6 @@ namespace asd
 			}
 
 			Engine.ChangesToBeCommited.Enqueue(new EventToManageLayer(this, layer, RegistrationCommand.Add, true));
-			CoreInstance.AddLayer(layer.CoreLayer);
 			layer.Scene = this;
 		}
 
@@ -128,6 +127,7 @@ namespace asd
 		public void RemoveLayer(Layer layer)
 		{
 			Engine.ChangesToBeCommited.Enqueue(new EventToManageLayer(this, layer, RegistrationCommand.Remove, true));
+			layer.Scene = null;
 		}
 
 		/// <summary>
@@ -162,6 +162,52 @@ namespace asd
 		}
 
 		/// <summary>
+		/// このシーンを破棄する。
+		/// </summary>
+		/// <remarks>登録されているレイヤーもすべて破棄されるが、レイヤーの破棄はこのメソッドを呼んだフレームの最後に実行されるので注意が必要。</remarks>
+		public void Dispose()
+		{
+			Dispose(false);
+		}
+
+		/// <summary>
+		/// このシーンを破棄する。
+		/// </summary>
+		/// <param name="disposeNative">ネイティブ リソースも即破棄するかどうかの真偽値。</param>
+		/// <remarks>登録されているレイヤーもすべて破棄されるが、レイヤーの破棄はこのメソッドを呼んだフレームの最後に実行されるので注意が必要。</remarks>
+		public void Dispose(bool disposeNative)
+		{
+			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
+		}
+
+		internal void ImmediatelyAddLayer(Layer layer, bool raiseEvent)
+		{
+			layersToDraw_.Add(layer);
+			layersToUpdate_.Add(layer);
+			CoreInstance.AddLayer(layer.CoreLayer);
+			if(raiseEvent)
+			{
+				layer.RaiseOnAdded();
+			}
+		}
+
+		internal void ImmediatelyRemoveLayer(Layer layer, bool raiseEvent)
+		{
+			if(raiseEvent)
+			{
+				layer.RaiseOnRemoved();
+			}
+			layersToDraw_.Remove(layer);
+			layersToUpdate_.Remove(layer);
+			CoreInstance.RemoveLayer(layer.CoreLayer);
+		}
+
+		internal void ImmediatelyRemoveComponent(string key)
+		{
+			ComponentManager.ImmediatelyRemoveComponent(key);
+		}
+
+		/// <summary>
 		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
 		/// </summary>
 		/// <param name="component"></param>
@@ -179,52 +225,6 @@ namespace asd
 		public void __Unregister(SceneComponent component)
 		{
 			component.Owner = null;
-		}
-
-		internal void ImmediatelyAddLayer(Layer layer, bool raiseEvent)
-		{
-			layersToDraw_.Add(layer);
-			layersToUpdate_.Add(layer);
-			if(raiseEvent)
-			{
-				layer.RaiseOnAdded();
-			}
-		}
-
-		internal void ImmediatelyRemoveLayer(Layer layer, bool raiseEvent)
-		{
-			if(raiseEvent)
-			{
-				layer.RaiseOnRemoved();
-			}
-			layer.Scene = null;
-			layersToDraw_.Remove(layer);
-			layersToUpdate_.Remove(layer);
-			CoreInstance.RemoveLayer(layer.CoreLayer);
-		}
-
-		internal void ImmediatelyRemoveComponent(string key)
-		{
-			ComponentManager.ImmediatelyRemoveComponent(key);
-		}
-
-		/// <summary>
-		/// このシーンを破棄する。
-		/// </summary>
-		/// <remarks>登録されているレイヤーもすべて破棄されるが、レイヤーの破棄はこのメソッドを呼んだフレームの最後に実行されるので注意が必要。</remarks>
-		public void Dispose()
-		{
-			Dispose(false);
-		}
-
-		/// <summary>
-		/// このシーンを破棄する。
-		/// </summary>
-		/// <param name="disposeNative">ネイティブ リソースも即破棄するかどうかの真偽値。</param>
-		/// <remarks>登録されているレイヤーもすべて破棄されるが、レイヤーの破棄はこのメソッドを呼んだフレームの最後に実行されるので注意が必要。</remarks>
-		public void Dispose(bool disposeNative)
-		{
-			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
 		}
 
 		/// <summary>
