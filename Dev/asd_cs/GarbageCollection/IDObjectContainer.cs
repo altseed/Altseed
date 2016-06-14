@@ -21,11 +21,12 @@ namespace asd
 
             if (objects.ContainsKey(id))
             {
-                T t = null;
+				var weakPtr = Particular.Dictionary.Get(objects, id);
+				T t = Particular.WeakReference.Get(weakPtr);
 
-                if (!objects[id].TryGetTarget(out t) || t.IsReleased)
+				if (t == null || t.IsReleased)
                 {
-                    objects[id] = new WeakReference<T>(o);
+					Particular.Dictionary.Set(objects, id, new WeakReference<T>(o));
                     return;
                 }
 
@@ -51,17 +52,20 @@ namespace asd
 
         internal T GetObject(IntPtr id)
         {
-            WeakReference<T> w = null;
+			if (objects.ContainsKey(id))
+			{
+				WeakReference<T> weakPtr = Particular.Dictionary.Get(objects, id);
 
-            if (objects.TryGetValue(id, out w))
-            {
-                T t = null;
+				if (weakPtr != null)
+				{
+					T t = Particular.WeakReference.Get(weakPtr);
 
-                if (w.TryGetTarget(out t) && !t.IsReleased)
-                {
-                    return t;
-                }
-            }
+					if (t != null && !t.IsReleased)
+					{
+						return t;
+					}
+				}
+			}
 
             return null;
         }
@@ -70,11 +74,12 @@ namespace asd
         {
             removingKeys.Clear();
 
-            foreach (var kv in objects)
+            foreach (var kv in asd.Particular.Dictionary.EntrySet(objects))
             {
-                T t = null;
+				var weakPtr = kv.Value;
+				T t = Particular.WeakReference.Get(weakPtr);
 
-                if (!kv.Value.TryGetTarget(out t) || t.IsReleased)
+                if (t == null || t.IsReleased)
                 {
                     removingKeys.Add(kv.Key);
                 }
@@ -90,11 +95,12 @@ namespace asd
 
         internal void DestroyAll()
         {
-            foreach (var kv in objects)
+            foreach (var kv in asd.Particular.Dictionary.EntrySet(objects))
             {
-                T t = null;
+				var weakPtr = kv.Value;
+				T t = Particular.WeakReference.Get(weakPtr);
 
-                if (kv.Value.TryGetTarget(out t) && !t.IsReleased)
+				if (t != null && !t.IsReleased)
                 {
                     t.ForceToRelease();
                 }

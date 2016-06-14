@@ -34,7 +34,7 @@ namespace asd
 				var e = new EventToManageComponent<TComponent>();
 				e.SetUpAsAddEvent(this, component, key);
 				Engine.ChangesToBeCommited.Enqueue(e);
-				owner.Register(component);
+				owner.__Register(component);
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace asd
 		{
 			var component = Get(key);
 			components.Remove(key);
-			owner.Unregister(component);
+			owner.__Unregister(component);
 			component.Key = null;
 		}
 

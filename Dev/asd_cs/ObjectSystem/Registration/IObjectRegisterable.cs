@@ -9,7 +9,7 @@ namespace asd
 	internal interface IObjectRegisterable<TObject>
 	{
 		bool IsAlive { get; }
-		void Register(TObject obj);
-		void Unregister(TObject obj);
+		void __Register(TObject obj);
+		void __Unregister(TObject obj);
 	}
 }

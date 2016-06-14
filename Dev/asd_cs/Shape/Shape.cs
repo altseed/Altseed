@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel;
 
 namespace asd
 {
@@ -22,7 +23,7 @@ namespace asd
         public void Dispose()
         {
             Dispose(true);
-            System.GC.SuppressFinalize(this);
+			Particular.GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -50,12 +51,16 @@ namespace asd
 
         internal abstract swig.CoreShape CoreShape { get; set; }
 
-        bool IReleasable.IsReleased
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
+        public bool IsReleased
         {
             get { return disposed; }
         }
 
-        void IReleasable.ForceToRelease()
+		[Browsable(false)]
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void ForceToRelease()
         {
             Dispose();
         }

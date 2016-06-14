@@ -65,6 +65,24 @@ namespace asd
 		buffers[size - 1].Int = h;
 	}
 
+	void StructTranslator::EnqueueMatrix33(
+		float m00, float m01, float m02,
+		float m10, float m11, float m12,
+		float m20, float m21, float m22)
+	{
+		size += 9;
+		buffers[size - 9].Float = m00;
+		buffers[size - 8].Float = m01;
+		buffers[size - 7].Float = m02;
+		buffers[size - 6].Float = m10;
+		buffers[size - 5].Float = m11;
+		buffers[size - 4].Float = m12;
+		buffers[size - 3].Float = m20;
+		buffers[size - 2].Float = m21;
+		buffers[size - 1].Float = m22;
+	}
+
+
 	void StructTranslator::EnqueueMatrix44(
 		float m00, float m01, float m02, float m03,
 		float m10, float m11, float m12, float m13,
@@ -430,6 +448,36 @@ namespace asd
 	{
 		auto ret = (RectI*) &(buffers[currentIndex + 0].Int);
 		currentIndex += 4;
+
+		if (currentIndex == size)
+		{
+			currentIndex = 0;
+			size = 0;
+		}
+
+		return ret;
+	}
+
+	Matrix33 StructTranslator::DequeueMatrix33()
+	{
+		Matrix33 mat;
+		memcpy(&mat, &(buffers[currentIndex + 0]), sizeof(float) * 9);
+
+		currentIndex += 9;
+
+		if (currentIndex == size)
+		{
+			currentIndex = 0;
+			size = 0;
+		}
+
+		return mat;
+	}
+
+	Matrix33* StructTranslator::Dequeue_Matrix33()
+	{
+		auto ret = (Matrix33*) &(buffers[currentIndex + 0].Float);
+		currentIndex += 9;
 
 		if (currentIndex == size)
 		{

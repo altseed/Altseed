@@ -28,15 +28,13 @@ namespace asd
 
 		public void Commit()
 		{
-			switch (Command)
+			if(Command == RegistrationCommand.Add)
 			{
-			case RegistrationCommand.Add:
 				ObjectManager.ImmediatelyAddObject(Content, RaiseEvent);
-				break;
-
-			case RegistrationCommand.Remove:
+			}
+			else if(Command == RegistrationCommand.Remove)
+			{
 				ObjectManager.ImmediatelyRemoveObject(Content, RaiseEvent);
-				break;
 			}
 		}
 	}

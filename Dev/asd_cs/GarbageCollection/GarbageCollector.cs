@@ -39,56 +39,56 @@ namespace asd
 
                 foreach (var o in objects)
                 {
-                    if (TryRelease<swig.SoundSource>(o)) continue;
+					if (TryRelease(o as swig.SoundSource)) continue;
 
-                    if (TryRelease<swig.Cursor>(o)) continue;
+					if (TryRelease(o as swig.Cursor)) continue;
 
-                    if (TryRelease<swig.Texture2D>(o)) continue;
-                    if (TryRelease<swig.Texture2D_Imp>(o)) continue;
-                    if (TryRelease<swig.RenderTexture2D>(o)) continue;
-                    if (TryRelease<swig.CubemapTexture>(o)) continue;
-                    if (TryRelease<swig.Shader2D>(o)) continue;
-                    if (TryRelease<swig.Shader3D>(o)) continue;
-                    if (TryRelease<swig.Material2D>(o)) continue;
-                    if (TryRelease<swig.Material3D>(o)) continue;
-                    if (TryRelease<swig.MaterialPropertyBlock>(o)) continue;
+					if (TryRelease(o as swig.Texture2D)) continue;
+					if (TryRelease(o as swig.Texture2D_Imp)) continue;
+					if (TryRelease(o as swig.RenderTexture2D)) continue;
+					if (TryRelease(o as swig.CubemapTexture)) continue;
+					if (TryRelease(o as swig.Shader2D)) continue;
+					if (TryRelease(o as swig.Shader3D)) continue;
+					if (TryRelease(o as swig.Material2D)) continue;
+					if (TryRelease(o as swig.Material3D)) continue;
+					if (TryRelease(o as swig.MaterialPropertyBlock)) continue;
 
-                    if (TryRelease<swig.ImagePackage>(o)) continue;
+					if (TryRelease(o as swig.ImagePackage)) continue;
 
-                    if (TryRelease<swig.Effect>(o)) continue;
-                    if (TryRelease<swig.Font>(o)) continue;
+					if (TryRelease(o as swig.Effect)) continue;
+					if (TryRelease(o as swig.Font)) continue;
 
-                    if (TryRelease<swig.Mesh>(o)) continue;
-                    if (TryRelease<swig.Deformer>(o)) continue;
-                    if (TryRelease<swig.Model>(o)) continue;
-                    if (TryRelease<swig.MassModel>(o)) continue;
-                    if (TryRelease<swig.Terrain3D>(o)) continue;
+					if (TryRelease(o as swig.Mesh)) continue;
+					if (TryRelease(o as swig.Deformer)) continue;
+					if (TryRelease(o as swig.Model)) continue;
+					if (TryRelease(o as swig.MassModel)) continue;
+					if (TryRelease(o as swig.Terrain3D)) continue;
 
-                    if (TryRelease<swig.KeyframeAnimation>(o)) continue;
-                    if (TryRelease<swig.AnimationSource>(o)) continue;
-                    if (TryRelease<swig.AnimationClip>(o)) continue;
+					if (TryRelease(o as swig.KeyframeAnimation)) continue;
+					if (TryRelease(o as swig.AnimationSource)) continue;
+					if (TryRelease(o as swig.AnimationClip)) continue;
 
 
-                    if (TryRelease<swig.CoreScene>(o)) continue;
+					if (TryRelease(o as swig.CoreScene)) continue;
 
-                    if (TryRelease<swig.CoreChip2D>(o)) continue;
-                    if (TryRelease<swig.CoreLayer2D>(o)) continue;
-                    if (TryRelease<swig.CoreObject2D>(o)) continue;
-                    if (TryRelease<swig.CoreTextureObject2D>(o)) continue;
-                    if (TryRelease<swig.CoreTextObject2D>(o)) continue;
-                    if (TryRelease<swig.CoreMapObject2D>(o)) continue;
+					if (TryRelease(o as swig.CoreChip2D)) continue;
+					if (TryRelease(o as swig.CoreLayer2D)) continue;
+					if (TryRelease(o as swig.CoreObject2D)) continue;
+					if (TryRelease(o as swig.CoreTextureObject2D)) continue;
+					if (TryRelease(o as swig.CoreTextObject2D)) continue;
+					if (TryRelease(o as swig.CoreMapObject2D)) continue;
 
-                    if (TryRelease<swig.CoreLayer3D>(o)) continue;
-                    if (TryRelease<swig.CoreObject3D>(o)) continue;
+					if (TryRelease(o as swig.CoreLayer3D)) continue;
+					if (TryRelease(o as swig.CoreObject3D)) continue;
 
-                    if (TryRelease<swig.CorePostEffect>(o)) continue;
+					if (TryRelease(o as swig.CorePostEffect)) continue;
 
-                    if (TryRelease<swig.CoreTransition>(o)) continue;
+					if (TryRelease(o as swig.CoreTransition)) continue;
 
-                    if (TryRelease<swig.StaticFile>(o)) continue;
-                    if (TryRelease<swig.StreamFile>(o)) continue;
+					if (TryRelease(o as swig.StaticFile)) continue;
+					if (TryRelease(o as swig.StreamFile)) continue;
 
-                    if (TryRelease<swig.CoreShape>(o)) continue;
+					if (TryRelease(o as swig.CoreShape)) continue;
 
                     Particular.Helper.ThrowUnregisteredClassException(o);
                 }
@@ -99,9 +99,9 @@ namespace asd
             }
         }
 
-        private bool TryRelease<T>(object obj) where T : swig.IReference
+        private bool TryRelease<T>(T obj) where T : swig.IReference
         {
-            var o = obj as T;
+            var o = obj;
             if (o != null)
             {
                 o.Release();

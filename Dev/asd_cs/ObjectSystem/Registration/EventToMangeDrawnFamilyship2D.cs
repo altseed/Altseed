@@ -13,13 +13,13 @@ namespace asd
 		private ChildManagementMode ManagementMode { get; set; }
 		private ChildTransformingMode TransformingMode { get; set; }
 		private ChildDrawingMode DrawingMode { get; set; }
-		private RegistrationCommand? Command { get; set; }
+		private RegistrationCommand Command { get; set; }
 
 		public EventToMangeDrawnFamilyship2D(DrawnObject2D parent, DrawnObject2D child)
 		{
 			Parent = parent;
 			Child = child;
-			Command = null;
+			Command = RegistrationCommand.Invalid;
 		}
 
 		public void SetUpAsAddEvent(
@@ -45,17 +45,16 @@ namespace asd
 				return;
 			}
 
-			switch (Command)
+			if(Command == RegistrationCommand.Add)
 			{
-			case RegistrationCommand.Add:
 				Parent.ImmediatelyAddDrawnChild(Child, ManagementMode, TransformingMode, DrawingMode);
-				break;
-
-			case RegistrationCommand.Remove:
+			}
+			else if(Command == RegistrationCommand.Remove)
+			{
 				Parent.ImmediatelyRemoveChild(Child);
-				break;
-
-			case null:
+			}
+			else if(Command == RegistrationCommand.Invalid)
+			{
 				throw new InvalidOperationException("EventToMangeDrawnFamilyship2D イベントがセットアップされていません。");
 			}
 		}

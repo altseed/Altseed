@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using asd.Particular;
 
 namespace asd
 {
-	internal class ParentInfo2D
+	public class ParentInfo2D
 	{
 		public Object2D Parent { get; private set; }
 		public ChildManagementMode ManagementMode { get; private set; }
@@ -173,7 +173,7 @@ namespace asd
 			{
 				return IsUpdated
 					&& !(ParentInfo != null
-					&& (ParentInfo.ManagementMode & ChildManagementMode.IsUpdated) != 0
+					&& (asd.Particular.ChildManagementMode.And(ParentInfo.ManagementMode, ChildManagementMode.IsUpdated) != 0)
 					&& !ParentInfo.Parent.AbsoluteBeingUpdated);
 			}
 		}
@@ -282,10 +282,14 @@ namespace asd
 			ChildManagementMode managementMode,
 			ChildTransformingMode transformingMode)
 		{
-			CoreObject.AddChild(child.CoreObject, (int)managementMode, (swig.ChildTransformingMode)transformingMode);
+			CoreObject.AddChild(
+				child.CoreObject, 
+				asd.Particular.ChildManagementMode.ToInt(managementMode), 
+				(swig.ChildTransformingMode)transformingMode);
+
 			ChildrenList.Add(child);
 			child.ParentInfo = new ParentInfo2D(this, managementMode);
-			if((managementMode & ChildManagementMode.RegistrationToLayer) != 0)
+			if((asd.Particular.ChildManagementMode.And(managementMode, ChildManagementMode.RegistrationToLayer)) != 0)
 			{
 				if(child.Layer != Layer && child.Layer != null)
 				{
@@ -313,13 +317,18 @@ namespace asd
 			componentManager_.ImmediatelyRemoveComponent(key);
 		}
 
-		void IBeingAbleToDisposeNative.DisposeImmediately(bool disposeNative)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="disposeNative"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __DisposeImmediately(bool disposeNative)
 		{
 			if(IsAlive)
 			{
 				IsAlive = false;
 				OnDispose();
-				foreach(var item in Lambda.FilterDeadObject(ChildrenList))
+				foreach(var item in asd.Particular.Lambda.FilterDeadObject(ChildrenList))
 				{
 					CoreObject.RemoveChild(item.CoreObject);
 					if(item.IsInheriting(ChildManagementMode.Disposal))
@@ -343,12 +352,22 @@ namespace asd
 			}
 		}
 
-		void IComponentRegisterable<Object2DComponent>.Register(Object2DComponent component)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="component"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __Register(Object2DComponent component)
 		{
 			component.Owner = this;
 		}
 
-		void IComponentRegisterable<Object2DComponent>.Unregister(Object2DComponent component)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="component"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __Unregister(Object2DComponent component)
 		{
 			component.Owner = null;
 		}
@@ -468,7 +487,7 @@ namespace asd
 		internal override void RaiseOnAdded()
 		{
 			OnAdded();
-			foreach(var item in Lambda.FilterDeadObject(ChildrenList))
+			foreach (var item in asd.Particular.Lambda.FilterDeadObject(ChildrenList))
 			{
 				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
 				{
@@ -489,7 +508,7 @@ namespace asd
 				component.RaiseOnRemoved();
 			}
 
-			foreach(var item in Lambda.FilterDeadObject(ChildrenList))
+			foreach (var item in asd.Particular.Lambda.FilterDeadObject(ChildrenList))
 			{
 				if(item.IsInheriting(ChildManagementMode.RegistrationToLayer))
 				{
@@ -550,7 +569,7 @@ namespace asd
 
 		private bool IsInheriting(ChildManagementMode mode)
 		{
-			return ParentInfo != null && (ParentInfo.ManagementMode & mode) != 0;
+			return ParentInfo != null && asd.Particular.ChildManagementMode.And(ParentInfo.ManagementMode,mode) != 0;
 		}
 
 		internal void ThrowIfDisposed()

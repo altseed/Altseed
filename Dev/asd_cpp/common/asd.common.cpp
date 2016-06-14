@@ -384,12 +384,22 @@ namespace asd
 #endif
 	}
 
+	astring ToAString(const char16_t* src)
+	{
+#ifdef _WIN32
+		return astring((const achar*)src);
+#else
+		return astring(reinterpret_cast<const achar*>(src));
+#endif
+		return astring();
+	}
+
 	astring ToAString(const wchar_t* src)
 	{
 		if (sizeof(wchar_t) == 2)
 		{
 #ifdef _WIN32
-			return astring(src);
+			return astring((const achar*)src);
 #else
 			return astring(reinterpret_cast<const achar*>(src));
 #endif
@@ -566,7 +576,7 @@ namespace asd
 	void ShowMessageBox(const achar* title, const achar* text)
 	{
 #if _WIN32
-		::MessageBoxW(NULL, text, title, MB_OK);
+		::MessageBoxW(NULL, (const wchar_t*)text, (const wchar_t*)title, MB_OK);
 #else
 		auto title_ = ToUtf8String(title);
 		auto text_ = ToUtf8String(text);

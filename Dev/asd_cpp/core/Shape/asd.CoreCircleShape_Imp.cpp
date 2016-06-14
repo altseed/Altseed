@@ -113,37 +113,41 @@ namespace asd
 			Vector2DF currentPosVector = baseVector;
 			currentPosVector.SetDegree(currentPosDeg);
 
-			Vector2DF nextPosVector = currentPosVector;
-			auto nextPosDeg = nextPosVector.GetDegree();
-			nextPosDeg += radInc;
-			nextPosVector.SetDegree(nextPosDeg);
+			Vector2DF nextPosVector = baseVector;
+			nextPosVector.SetDegree(currentPosDeg + radInc);
 
 			Vector2DF currentUVVector = uvVector;
 			currentUVVector.SetDegree(currentUVDeg);
 
-			Vector2DF nextUVVector = currentUVVector;
-			auto nextUVDeg = nextUVVector.GetDegree();
-			nextUVDeg += radInc;
-			nextUVVector.SetDegree(nextUVDeg);
-
+			Vector2DF nextUVVector = uvVector;
+			nextUVVector.SetDegree(currentUVDeg + radInc);
 
 			std::array<Vector2DF, 4> vertexes = { position + currentPosVector*outerRadius, position + nextPosVector*outerRadius, position + nextPosVector*innerRadius, position + currentPosVector*innerRadius };
 			std::array<Vector2DF, 4> uvs = { uvCenter + currentUVVector, uvCenter + nextUVVector, uvCenter + nextUVVector*ratio, uvCenter + currentUVVector*ratio };
 
 			auto triangle1 = new CoreTriangleShape_Imp();
-			auto triangle2 = new CoreTriangleShape_Imp();
 
 			for (int j = 0; j < 3; ++j)
 			{
 				triangle1->SetPointByIndex(vertexes[j], j);
 				triangle1->SetUVByIndex(uvs[j], j);
 
-				triangle2->SetPointByIndex(vertexes[(j + 2) % 4], j);
-				triangle2->SetUVByIndex(uvs[(j + 2) % 4], j);
 			}
 
 			triangles.push_back(triangle1);
-			triangles.push_back(triangle2);
+
+			if (innerDiameter > 0)
+			{
+				auto triangle2 = new CoreTriangleShape_Imp();
+
+				for (int j = 0; j < 3; ++j)
+				{
+					triangle2->SetPointByIndex(vertexes[(j + 2) % 4], j);
+					triangle2->SetUVByIndex(uvs[(j + 2) % 4], j);
+				}
+
+				triangles.push_back(triangle2);
+			}
 
 			currentPosDeg += radInc;
 			currentUVDeg += radInc;

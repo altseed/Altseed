@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,7 +68,7 @@ namespace asd
 		/// </summary>
 		public override int ObjectCount
 		{
-			get { return Objects.Count(); }
+			get { return asd.Particular.Helper.CountIterable(Objects); }
 		}
 
 		/// <summary>
@@ -118,13 +119,23 @@ namespace asd
 			ObjectManager.ImmediatelyRemoveObject(object2D, raiseEvent);
 		}
 
-		void IObjectRegisterable<Object2D>.Register(Object2D obj)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="obj"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __Register(Object2D obj)
 		{
 			obj.Layer = this;
 			coreLayer2D.AddObject(obj.CoreObject);
 		}
 
-		void IObjectRegisterable<Object2D>.Unregister(Object2D obj)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="obj"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __Unregister(Object2D obj)
 		{
 			obj.Layer = null;
 			coreLayer2D.RemoveObject(obj.CoreObject);
@@ -169,12 +180,22 @@ namespace asd
 			ComponentManager.ImmediatelyRemoveComponent(key);
 		}
 
-		void IComponentRegisterable<Layer2DComponent>.Register(Layer2DComponent component)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="component"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __Register(Layer2DComponent component)
 		{
 			component.Owner = this;
 		}
 
-		void IComponentRegisterable<Layer2DComponent>.Unregister(Layer2DComponent component)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="component"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __Unregister(Layer2DComponent component)
 		{
 			component.Owner = null;
 		}

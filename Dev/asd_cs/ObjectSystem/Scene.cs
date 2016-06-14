@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using asd.Particular;
 
 namespace asd
 {
@@ -102,7 +102,7 @@ namespace asd
 		/// </summary>
 		public IEnumerable<Layer> Layers { get { return layersToUpdate_; } }
 
-
+		#region 管理
 		/// <summary>
 		/// 指定したレイヤーをこのシーンに追加する。
 		/// </summary>
@@ -161,6 +161,26 @@ namespace asd
 			return ComponentManager.Get(key);
 		}
 
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="component"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __Register(SceneComponent component)
+		{
+			component.Owner = this;
+		}
+
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="component"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __Unregister(SceneComponent component)
+		{
+			component.Owner = null;
+		}
+
 		internal void ImmediatelyAddLayer(Layer layer, bool raiseEvent)
 		{
 			layersToDraw_.Add(layer);
@@ -187,6 +207,48 @@ namespace asd
 		{
 			ComponentManager.ImmediatelyRemoveComponent(key);
 		}
+
+		/// <summary>
+		/// このシーンを破棄する。
+		/// </summary>
+		/// <remarks>登録されているレイヤーもすべて破棄されるが、レイヤーの破棄はこのメソッドを呼んだフレームの最後に実行されるので注意が必要。</remarks>
+		public void Dispose()
+		{
+			Dispose(false);
+		}
+
+		/// <summary>
+		/// このシーンを破棄する。
+		/// </summary>
+		/// <param name="disposeNative">ネイティブ リソースも即破棄するかどうかの真偽値。</param>
+		/// <remarks>登録されているレイヤーもすべて破棄されるが、レイヤーの破棄はこのメソッドを呼んだフレームの最後に実行されるので注意が必要。</remarks>
+		public void Dispose(bool disposeNative)
+		{
+			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
+		}
+
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="disposeNative"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __DisposeImmediately(bool disposeNative)
+		{
+			if(IsAlive)
+			{
+				IsAlive = false;
+				OnDispose();
+				foreach(var layer in layersToUpdate_)
+				{
+					layer.Dispose(disposeNative);
+				}
+				if(disposeNative)
+				{
+					ForceToRelease();
+				}
+			}
+		}
+		#endregion
 
 		#region イベントハンドラ
 		/// <summary>
@@ -306,42 +368,6 @@ namespace asd
 			OnUnregistered();
 		}
 
-		/// <summary>
-		/// このシーンを破棄する。
-		/// </summary>
-		/// <remarks>登録されているレイヤーもすべて破棄されるが、レイヤーの破棄はこのメソッドを呼んだフレームの最後に実行されるので注意が必要。</remarks>
-		public void Dispose()
-		{
-			Dispose(false);
-		}
-
-		/// <summary>
-		/// このシーンを破棄する。
-		/// </summary>
-		/// <param name="disposeNative">ネイティブ リソースも即破棄するかどうかの真偽値。</param>
-		/// <remarks>登録されているレイヤーもすべて破棄されるが、レイヤーの破棄はこのメソッドを呼んだフレームの最後に実行されるので注意が必要。</remarks>
-		public void Dispose(bool disposeNative)
-		{
-			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
-		}
-
-		void IBeingAbleToDisposeNative.DisposeImmediately(bool disposeNative)
-		{
-			if(IsAlive)
-			{
-				IsAlive = false;
-				OnDispose();
-				foreach(var layer in layersToUpdate_)
-				{
-					layer.Dispose(disposeNative);
-				}
-				if(disposeNative)
-				{
-					ForceToRelease();
-				}
-			}
-		}
-
 		internal void Update()
 		{
 			if(!IsAlive)
@@ -349,7 +375,7 @@ namespace asd
 				return;
 			}
 
-			Lambda.SortByUpdatePriority(layersToUpdate_);
+			asd.Particular.Lambda.SortByUpdatePriority(layersToUpdate_);
 
 			OnUpdating();
 
@@ -388,7 +414,7 @@ namespace asd
 				return;
 			}
 
-			Lambda.SortByDrawingPriority(layersToDraw_);
+			asd.Particular.Lambda.SortByDrawingPriority(layersToDraw_);
 
 			foreach(var item in layersToDraw_)
 			{
@@ -415,17 +441,6 @@ namespace asd
 			CoreInstance.EndDrawing();
 		}
 		#endregion
-
-
-		void IComponentRegisterable<SceneComponent>.Register(SceneComponent component)
-		{
-			component.Owner = this;
-		}
-
-		void IComponentRegisterable<SceneComponent>.Unregister(SceneComponent component)
-		{
-			component.Owner = null;
-		}
 
 
 		internal unsafe swig.CoreScene CoreInstance { get; private set; }

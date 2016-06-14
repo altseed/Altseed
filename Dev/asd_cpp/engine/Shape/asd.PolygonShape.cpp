@@ -38,4 +38,21 @@ namespace asd
 	{
 		return ShapeType::PolygonShape;
 	}
+
+	bool PolygonShape::AddHole(std::shared_ptr<CoreShape> holeShape)
+	{
+		holeShapes.push_back(holeShape);
+		return m_coreObject->AddHole(holeShape.get());
+	}
+
+	bool PolygonShape::RemoveHole(std::shared_ptr<CoreShape> holeShape)
+	{
+		holeShapes.erase(std::remove(holeShapes.begin(), holeShapes.end(), holeShape), holeShapes.end());
+		return m_coreObject->RemoveHole(holeShape.get());
+	}
+
+	std::vector<std::shared_ptr<CoreShape>>& PolygonShape::GetHoleShapes()
+	{
+		return holeShapes;
+	}
 }

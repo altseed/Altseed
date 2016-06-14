@@ -138,53 +138,54 @@ namespace asd
             var size = src.Size;
             var format = src.Format;
 
-            if (tempTexture0 == null ||
-                (tempTexture0.Size != size / 2 || tempTexture0.Format != format))
-            {
-                if (format == TextureFormat.R32G32B32A32_FLOAT)
-                {
-                    tempTexture0 = Engine.Graphics.CreateRenderTexture2D(size.X / 2, size.Y / 2, TextureFormat.R32G32B32A32_FLOAT);
-                    tempTexture1 = Engine.Graphics.CreateRenderTexture2D(size.X / 4, size.Y / 4, TextureFormat.R32G32B32A32_FLOAT);
-                    tempTexture2 = Engine.Graphics.CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat.R32G32B32A32_FLOAT);
-                    tempTexture3 = Engine.Graphics.CreateRenderTexture2D(size.X / 16, size.Y / 16, TextureFormat.R32G32B32A32_FLOAT);
+			if (tempTexture0 == null ||
+				(!tempTexture0.Size.Equals(Vector2DI.DivideByScalar(size, 2)) ||
+				tempTexture0.Format != format))
+			{
+				if (format == TextureFormat.R32G32B32A32_FLOAT)
+				{
+					tempTexture0 = Engine.Graphics.CreateRenderTexture2D(size.X / 2, size.Y / 2, TextureFormat.R32G32B32A32_FLOAT);
+					tempTexture1 = Engine.Graphics.CreateRenderTexture2D(size.X / 4, size.Y / 4, TextureFormat.R32G32B32A32_FLOAT);
+					tempTexture2 = Engine.Graphics.CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat.R32G32B32A32_FLOAT);
+					tempTexture3 = Engine.Graphics.CreateRenderTexture2D(size.X / 16, size.Y / 16, TextureFormat.R32G32B32A32_FLOAT);
 
-                    downsampledTexture0 = Engine.Graphics.CreateRenderTexture2D(size.X / 2, size.Y / 2, TextureFormat.R32G32B32A32_FLOAT);
-                    downsampledTexture1 = Engine.Graphics.CreateRenderTexture2D(size.X / 4, size.Y / 4, TextureFormat.R32G32B32A32_FLOAT);
-                    downsampledTexture2 = Engine.Graphics.CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat.R32G32B32A32_FLOAT);
-                    downsampledTexture3 = Engine.Graphics.CreateRenderTexture2D(size.X / 16, size.Y / 16, TextureFormat.R32G32B32A32_FLOAT);
-                }
-                else
-                {
-                    tempTexture0 = Engine.Graphics.CreateRenderTexture2D(size.X / 2, size.Y / 2, TextureFormat.R8G8B8A8_UNORM);
-                    tempTexture1 = Engine.Graphics.CreateRenderTexture2D(size.X / 4, size.Y / 4, TextureFormat.R8G8B8A8_UNORM);
-                    tempTexture2 = Engine.Graphics.CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat.R8G8B8A8_UNORM);
-                    tempTexture3 = Engine.Graphics.CreateRenderTexture2D(size.X / 16, size.Y / 16, TextureFormat.R8G8B8A8_UNORM);
+					downsampledTexture0 = Engine.Graphics.CreateRenderTexture2D(size.X / 2, size.Y / 2, TextureFormat.R32G32B32A32_FLOAT);
+					downsampledTexture1 = Engine.Graphics.CreateRenderTexture2D(size.X / 4, size.Y / 4, TextureFormat.R32G32B32A32_FLOAT);
+					downsampledTexture2 = Engine.Graphics.CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat.R32G32B32A32_FLOAT);
+					downsampledTexture3 = Engine.Graphics.CreateRenderTexture2D(size.X / 16, size.Y / 16, TextureFormat.R32G32B32A32_FLOAT);
+				}
+				else
+				{
+					tempTexture0 = Engine.Graphics.CreateRenderTexture2D(size.X / 2, size.Y / 2, TextureFormat.R8G8B8A8_UNORM);
+					tempTexture1 = Engine.Graphics.CreateRenderTexture2D(size.X / 4, size.Y / 4, TextureFormat.R8G8B8A8_UNORM);
+					tempTexture2 = Engine.Graphics.CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat.R8G8B8A8_UNORM);
+					tempTexture3 = Engine.Graphics.CreateRenderTexture2D(size.X / 16, size.Y / 16, TextureFormat.R8G8B8A8_UNORM);
 
-                    downsampledTexture0 = Engine.Graphics.CreateRenderTexture2D(size.X / 2, size.Y / 2, TextureFormat.R8G8B8A8_UNORM);
-                    downsampledTexture1 = Engine.Graphics.CreateRenderTexture2D(size.X / 4, size.Y / 4, TextureFormat.R8G8B8A8_UNORM);
-                    downsampledTexture2 = Engine.Graphics.CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat.R8G8B8A8_UNORM);
-                    downsampledTexture3 = Engine.Graphics.CreateRenderTexture2D(size.X / 16, size.Y / 16, TextureFormat.R8G8B8A8_UNORM);
-                }
-            }
+					downsampledTexture0 = Engine.Graphics.CreateRenderTexture2D(size.X / 2, size.Y / 2, TextureFormat.R8G8B8A8_UNORM);
+					downsampledTexture1 = Engine.Graphics.CreateRenderTexture2D(size.X / 4, size.Y / 4, TextureFormat.R8G8B8A8_UNORM);
+					downsampledTexture2 = Engine.Graphics.CreateRenderTexture2D(size.X / 8, size.Y / 8, TextureFormat.R8G8B8A8_UNORM);
+					downsampledTexture3 = Engine.Graphics.CreateRenderTexture2D(size.X / 16, size.Y / 16, TextureFormat.R8G8B8A8_UNORM);
+				}
+			}
 
             downsample.SetTexture2D("g_texture", src);
             downsample.SetTextureFilterType("g_texture", TextureFilterType.Linear);
-            downsample.SetVector2DF("g_offset", new Vector2DF(1.0f / (float)size.X, 1.0f / (float)size.Y));
+			downsample.SetVector2DF("g_offset", new Vector2DF(0.5f / (float)(size.X / 1.0f), 0.5f / (float)(size.Y / 1.0f)));
             DrawOnTexture2DWithMaterial(downsampledTexture0, downsample);
 
             downsample.SetTexture2D("g_texture", downsampledTexture0);
             downsample.SetTextureFilterType("g_texture", TextureFilterType.Linear);
-            downsample.SetVector2DF("g_offset", new Vector2DF(2.0f / (float)size.X, 2.0f / (float)size.Y));
+			downsample.SetVector2DF("g_offset", new Vector2DF(0.5f / (float)(size.X / 2.0f), 0.5f / (float)(size.Y / 2.0f)));
             DrawOnTexture2DWithMaterial(downsampledTexture1, downsample);
 
             downsample.SetTexture2D("g_texture", downsampledTexture1);
             downsample.SetTextureFilterType("g_texture", TextureFilterType.Linear);
-            downsample.SetVector2DF("g_offset", new Vector2DF(4.0f / (float)size.X, 4.0f / (float)size.Y));
+			downsample.SetVector2DF("g_offset", new Vector2DF(0.5f / (float)(size.X / 4.0f), 0.5f / (float)(size.Y / 4.0f)));
             DrawOnTexture2DWithMaterial(downsampledTexture2, downsample);
 
             downsample.SetTexture2D("g_texture", downsampledTexture2);
             downsample.SetTextureFilterType("g_texture", TextureFilterType.Linear);
-            downsample.SetVector2DF("g_offset", new Vector2DF(8.0f / (float)size.X, 8.0f / (float)size.Y));
+			downsample.SetVector2DF("g_offset", new Vector2DF(0.5f / (float)(size.X / 8.0f), 0.5f / (float)(size.Y / 8.0f)));
             DrawOnTexture2DWithMaterial(downsampledTexture3, downsample);
 
             Material2D blurX = null;

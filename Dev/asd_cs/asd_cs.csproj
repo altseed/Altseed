@@ -146,11 +146,15 @@
     <Compile Include="ObjectSystem\Transition\Transition.cs" />
     <Compile Include="ObjectSystem\Transition\TransitionFade.cs" />
     <Compile Include="ObjectSystem\Transition\TransitionState.cs" />
+    <Compile Include="Particular\ChildDrawingMode.cs" />
+    <Compile Include="Particular\ChildManagementMode.cs" />
     <Compile Include="Particular\Define.cs" />
     <Compile Include="Particular\Dictionary.cs" />
     <Compile Include="Particular\GC.cs" />
     <Compile Include="Particular\Helper.cs" />
     <Compile Include="Particular\Lambda.cs" />
+    <Compile Include="Particular\SortedList.cs" />
+    <Compile Include="Particular\WeakReference.cs" />
     <Compile Include="Profiler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Shape\ArcShape.cs" />
@@ -240,6 +244,7 @@
     <Compile Include="swig\MiddleButton.cs" />
     <Compile Include="swig\Model.cs" />
     <Compile Include="swig\Mouse.cs" />
+    <Compile Include="swig\MouseButtons.cs" />
     <Compile Include="swig\MouseButtonState.cs" />
     <Compile Include="swig\Object2DType.cs" />
     <Compile Include="swig\ObjectSystemFactory.cs" />

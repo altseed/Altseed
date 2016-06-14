@@ -8,9 +8,9 @@ namespace asd
 {
 	public partial class Material2D : IReleasable
 	{
-		internal Material2D(swig.Material2D swig)
+		internal Material2D(swig.Material2D instance)
 		{
-			CoreInstance = swig;
+			CoreInstance = instance;
 		}
 
 		~Material2D()

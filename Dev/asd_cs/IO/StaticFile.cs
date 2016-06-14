@@ -67,16 +67,7 @@ namespace asd
             {
                 if (buffer == null)
                 {
-                    System.IntPtr raw = CoreInstance.GetData();
-                    byte[] bytes = new byte[CoreInstance.GetSize()];
-                    Marshal.Copy(raw, bytes, 0, CoreInstance.GetSize());
-                    buffer = bytes;
-
-                    /*
-                     var buf = CoreInstance.GetBuffer();
-                    buffer = new byte[buf.Count];
-                    buf.CopyTo(buffer);
-                     */
+					buffer = asd.Particular.Helper.CreateArrayFromStaticFile(CoreInstance);
                 }
 
                 return buffer;

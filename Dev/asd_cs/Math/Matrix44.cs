@@ -157,7 +157,7 @@ namespace asd
 		public void SetLookAtRH(Vector3DF eye, Vector3DF at, Vector3DF up)
 		{
 			// F=正面、R=右方向、U=上方向
-			Vector3DF F = (eye - at).Normal;
+			Vector3DF F = Vector3DF.Subtract(eye,at).Normal;
 			Vector3DF R = Vector3DF.Cross(up, F).Normal;
 			Vector3DF U = Vector3DF.Cross(F, R).Normal;
 
@@ -194,7 +194,7 @@ namespace asd
 		public void SetLookAtLH(Vector3DF eye, Vector3DF at, Vector3DF up)
 		{
 			// F=正面、R=右方向、U=上方向
-			Vector3DF F = (at - eye).Normal;
+			Vector3DF F = Vector3DF.Subtract(at,eye).Normal;
 			Vector3DF R = Vector3DF.Cross(up, F).Normal;
 			Vector3DF U = Vector3DF.Cross(F,  R).Normal;
 

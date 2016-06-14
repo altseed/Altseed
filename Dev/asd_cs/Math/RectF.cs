@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -99,6 +100,25 @@ namespace asd
 		public RectI ToI()
 		{
 			return new RectI((int)X, (int)Y, (int)Width, (int)Height);
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj is RectF)
+			{
+				return (RectF)obj == this;
+			}
+			return false;
+		}
+
+		public static bool operator ==(RectF lop, RectF rop)
+		{
+			return lop.X == rop.X && lop.Y == rop.Y && lop.Width == rop.Width && lop.Height == rop.Height;
+		}
+
+		public static bool operator !=(RectF lop, RectF rop)
+		{
+			return !(lop == rop);
 		}
 	}
 }

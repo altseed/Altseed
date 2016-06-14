@@ -118,6 +118,10 @@ else()
 	list(APPEND common_inc ${OPENGL_INCLUDE_DIR})
 	list(APPEND common_lib ${OPENGL_LIBRARY})
 
+	find_package(JNI)
+	list(APPEND common_inc ${JNI_INCLUDE_DIRS})
+	list(APPEND common_lib ${JNI_LIBRARIES})
+
 	if(NOT APPLE)
 		find_package(X11 REQUIRED)
 		list(APPEND common_inc ${X11_INCLUDE_DIR})
@@ -174,6 +178,9 @@ else()
 	endif()
 
 endif()
+
+# 共通インクルードの追加
+include_directories( AFTER SYSTEM ${common_inc} )
 
 # コンパイル先を追加
 add_library( asdCommon STATIC ${common_src} )

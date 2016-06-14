@@ -3,6 +3,16 @@
 
 Altseed(元AC-Engine)はC++、C#対応ゲームエンジンです。
 
+**JVM版を公開しました。(2016/06/11)**
+
+JavaやScalaで使用できるAltseedです。
+現在、ベータ版です。
+
+ドキュメントはありませんが、JavaとScalaのサンプルコードが付属しています。
+
+[JVM版(ベータ版)](https://github.com/altseed/Altseed/releases/tag/Altseed_JVM)
+
+
 **最新版 2016/04/12**
 * [ウェブサイト](http://altseed.github.io/)
 * [導入方法(C++版、Windows)](Document/HowToIntroduce/Windows_CPP.md)

@@ -9,7 +9,7 @@ namespace asd
 	internal interface IComponentRegisterable<TComponent>
 		where TComponent : Component
 	{
-		void Register(TComponent component);
-		void Unregister(TComponent component);
+		void __Register(TComponent component);
+		void __Unregister(TComponent component);
 	}
 }

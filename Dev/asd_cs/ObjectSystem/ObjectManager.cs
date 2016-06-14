@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using asd.Particular;
 
 namespace asd
 {
@@ -33,7 +32,7 @@ namespace asd
 
 		public IEnumerable<TObject> Contents
 		{
-			get { return Lambda.ToLinear(contents_); }
+			get { return asd.Particular.Lambda.ToLinear(contents_); }
 		}
 
 		public ObjectManager(IObjectRegisterable<TObject> owner)
@@ -58,7 +57,7 @@ namespace asd
 			var e = new EventToManageObject<TObject>(this, content, RegistrationCommand.Add, true);
 			Engine.ChangesToBeCommited.Enqueue(e);
 
-			Owner.Register(content);
+			Owner.__Register(content);
 		}
 
 		public void Remove(TObject content, bool raiseEvent)
@@ -98,14 +97,17 @@ namespace asd
 			{
 				return;
 			}
-
-			if(!Lambda.HasContentHavingSpecificUpdatePriority(contents_, obj.UpdatePriority))
+			
+			if (!asd.Particular.Lambda.HasContentHavingSpecificUpdatePriority(contents_, obj.UpdatePriority))
 			{
-				contents_[obj.UpdatePriority] = new LinkedList<TObject>();
+				asd.Particular.SortedList.Set(contents_, obj.UpdatePriority, new LinkedList<TObject>());
 			}
-			contents_[obj.UpdatePriority].AddLast(obj);
-			obj.OnUpdatePriorityChanged = Redistribution;
 
+			var content = asd.Particular.SortedList.Get(contents_, obj.UpdatePriority);
+			content.AddLast(obj);
+	
+			obj.OnUpdatePriorityChanged = Redistribution;
+			
 			if(raiseEvent)
 			{
 				obj.RaiseOnAdded();
@@ -119,13 +121,15 @@ namespace asd
 				return;
 			}
 
-			contents_[obj.UpdatePriority].Remove(obj);
+			var content = asd.Particular.SortedList.Get(contents_, obj.UpdatePriority);
+			content.Remove(obj);
+
 			obj.OnUpdatePriorityChanged = null;
 			if(raiseEvent)
 			{
 				obj.RaiseOnRemoved();
 			}
-			Owner.Unregister(obj);
+			Owner.__Unregister(obj);
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -125,7 +126,12 @@ namespace asd
 			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
 		}
 
-		void IBeingAbleToDisposeNative.DisposeImmediately(bool disposeNative)
+		/// <summary>
+		/// 内部用のメソッドで、ユーザーは呼び出してはいけない。
+		/// </summary>
+		/// <param name="disposeNative"></param>
+		[EditorBrowsable(EditorBrowsableState.Never)]
+		public void __DisposeImmediately(bool disposeNative)
 		{
 			if (IsAlive)
 			{

@@ -40,8 +40,14 @@
 namespace asd
 {
 #ifdef _WIN32
-typedef wchar_t achar;
-typedef std::wstring astring;
+
+#ifdef _CHAR16T
+	typedef wchar_t achar;
+	typedef std::wstring astring;
+#else
+	typedef char16_t achar;
+	typedef std::basic_string<char16_t> astring;
+#endif
 #else 
 typedef char16_t achar;
 typedef std::basic_string<char16_t> astring;
@@ -177,6 +183,8 @@ int32_t Utf8ToUtf16(std::vector<int16_t> &dst, const int8_t* src);
 
 std::wstring ToWide(const char* pText);
 
+astring ToAString(const char16_t* src);
+
 astring ToAString(const wchar_t* src);
 
 astring ToAString(const char* src);
@@ -219,7 +227,7 @@ if (!(condition)) { \
 	auto state = f + ::asd::ToAString("(") + l + ::asd::ToAString(")"); \
 	auto m_ = state + ::asd::ToAString("\n") + m; \
 	::asd::ShowMessageBox(::asd::ToAString("Assert").c_str(), m_.c_str()); \
-	(*((int*)0x0) = 0x0);  } \
+	(*((volatile int*)0x0) = 0x0);  } \
 }
 
 #define ACE_ASSERT_A(condition, message) { \
@@ -232,7 +240,7 @@ if (!(condition)) { \
 	auto state = f + ::asd::ToAString("(") + l + ::asd::ToAString(")"); \
 	auto m_ = state + ::asd::ToAString("\n") + m; \
 	::asd::ShowMessageBox(::asd::ToAString("Assert").c_str(), m_.c_str()); \
-	(*((int*)0x0) = 0x0);  } \
+	(*((volatile int*)0x0) = 0x0);  } \
 }
 
 #endif

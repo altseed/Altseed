@@ -61,7 +61,7 @@ namespace asd{
 		auto format = src->GetFormat();
 
 		if (tempTexture0 == nullptr ||
-			(tempTexture0->GetSize() != size / 2 || tempTexture0->GetFormat() != format))
+			(tempTexture0->GetSize() != Vector2DI::DivideByScalar(size,2) || tempTexture0->GetFormat() != format))
 		{
 			if (format ==TextureFormat::R32G32B32A32_FLOAT)
 			{
@@ -91,22 +91,22 @@ namespace asd{
 
 		downsample->SetTexture2D(asd::ToAString("g_texture").c_str(), src);
 		downsample->SetTextureFilterType(asd::ToAString("g_texture").c_str(), TextureFilterType::Linear);
-		downsample->SetVector2DF(asd::ToAString("g_offset").c_str(), Vector2DF(1.0f / (float) size.X, 1.0f / (float) size.Y));
+		downsample->SetVector2DF(asd::ToAString("g_offset").c_str(), Vector2DF(0.5f / (float) (size.X), 0.5f / (float) (size.Y)));
 		DrawOnTexture2DWithMaterial(downsampledTexture0, downsample);
 
 		downsample->SetTexture2D(asd::ToAString("g_texture").c_str(), downsampledTexture0);
 		downsample->SetTextureFilterType(asd::ToAString("g_texture").c_str(), TextureFilterType::Linear);
-		downsample->SetVector2DF(asd::ToAString("g_offset").c_str(), Vector2DF(2.0f / (float) size.X, 2.0f / (float) size.Y));
+		downsample->SetVector2DF(asd::ToAString("g_offset").c_str(), Vector2DF(0.5f / (float) (size.X / 2.0f), 0.5f / (float) (size.Y / 2.0f)));
 		DrawOnTexture2DWithMaterial(downsampledTexture1, downsample);
 
 		downsample->SetTexture2D(asd::ToAString("g_texture").c_str(), downsampledTexture1);
 		downsample->SetTextureFilterType(asd::ToAString("g_texture").c_str(), TextureFilterType::Linear);
-		downsample->SetVector2DF(asd::ToAString("g_offset").c_str(), Vector2DF(4.0f / (float) size.X, 4.0f / (float) size.Y));
+		downsample->SetVector2DF(asd::ToAString("g_offset").c_str(), Vector2DF(0.5f / (float) (size.X / 4.0f), 0.5f / (float) (size.Y / 4.0f)));
 		DrawOnTexture2DWithMaterial(downsampledTexture2, downsample);
 
 		downsample->SetTexture2D(asd::ToAString("g_texture").c_str(), downsampledTexture2);
 		downsample->SetTextureFilterType(asd::ToAString("g_texture").c_str(), TextureFilterType::Linear);
-		downsample->SetVector2DF(asd::ToAString("g_offset").c_str(), Vector2DF(8.0f / (float) size.X, 8.0f / (float) size.Y));
+		downsample->SetVector2DF(asd::ToAString("g_offset").c_str(), Vector2DF(0.5f / (float) (size.X / 8.0f), 0.5f / (float) (size.Y /8.0f)));
 		DrawOnTexture2DWithMaterial(downsampledTexture3, downsample);
 		
 		std::shared_ptr<asd::Material2D> blurX;

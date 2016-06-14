@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Basic\Basic_FullScreen.cs" />
     <Compile Include="Browser\SampleInfoLayer.cs" />
     <Compile Include="CameraObject2D\CameraObject2D_Basic.cs" />
     <Compile Include="CameraObject2D\CameraObject2D_Group.cs" />

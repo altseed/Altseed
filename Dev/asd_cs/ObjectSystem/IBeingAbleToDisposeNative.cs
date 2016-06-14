@@ -9,6 +9,6 @@ namespace asd
 	internal interface IBeingAbleToDisposeNative
 	{
 		void Dispose(bool disposeNative);
-		void DisposeImmediately(bool disposeNative);
+		void __DisposeImmediately(bool disposeNative);
 	}
 }

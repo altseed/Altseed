@@ -2,6 +2,7 @@
 
 #include "../Window/asd.Window_Imp.h"
 #include "asd.Mouse.h"
+#include <array>
 
 namespace asd{
 	class Mouse_Imp:public Mouse
@@ -13,6 +14,9 @@ namespace asd{
 		MiddleButton* GetMiddleButton() const override;
 		Vector2DF GetPosition() const override;
 		void RefreshInputState();
+
+		MouseButtonState GetButtonInputState(MouseButtons mouseButton) const override;
+		float GetWheel() const override;
 	private:
 		Mouse_Imp(Window_Imp* window_Imp);
 		Vector2DF m_position;
@@ -20,9 +24,9 @@ namespace asd{
 		SideButton* m_leftButton;
 		SideButton* m_rightButton;
 		MiddleButton* m_middleButton;
-		bool m_preHitLeft;
-		bool m_preHitMiddle;
-		bool m_preHitRight;
+
+		std::array<bool, 8> preHits;
+		std::array<MouseButtonState, 8> buttonInputStates;
 		double m_wheel;
 	};
 };

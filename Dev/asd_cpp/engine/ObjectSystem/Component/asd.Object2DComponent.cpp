@@ -1,6 +1,7 @@
 ﻿#include "asd.Object2DComponent.h"
 #include "../2D/asd.Object2D.h"
-#include "../Registration/asd.EventToDisposeContent.h";
+#include "../Registration/asd.EventToDisposeContent.h"
+
 using namespace std;
 
 namespace asd

@@ -4,6 +4,7 @@ import java.util.Formatter;
 import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.event.*;
+import java.io.*;
 
 public class Helper
 {
@@ -31,6 +32,7 @@ public class Helper
 
 		static Boolean HasDLL(String path)
 		{
+			/*
 			try
 			{
 				System.loadLibrary(path);
@@ -39,6 +41,7 @@ public class Helper
 			{
 				return false;
 			}
+			*/
 			return true;
 		}
 
@@ -78,7 +81,7 @@ public class Helper
 
 		public static void ThrowException(String message)
 		{
-			throw new Exception(message);
+			throw new RuntimeException(message);
 		}
 
 		public static void ThrowUnregisteredClassException(Object o)
@@ -86,7 +89,7 @@ public class Helper
 			Formatter fm = new Formatter();
 			fm.format("未登録のクラス%sを検出しました。", o);
 
-			throw new Exception(fm.toString());
+			throw new RuntimeException(fm.toString());
 		}
 
 		public static void ThrowUnreleasedInstanceException(int count)
@@ -94,6 +97,75 @@ public class Helper
 			Formatter fm = new Formatter();
 			fm.format("未開放のインスタンスが%s個存在します。", count);
 
-			throw new Exception(fm.toString());
+			throw new RuntimeException(fm.toString());
 		}
+
+		public static String Format(String format, Object... args)
+		{
+			return String.format(format, args);
+		}
+
+		public static <T extends java.lang.Comparable> int CompareTo(T v1, T v2)
+		{
+			return v1.compareTo(v2);
+		}
+
+		public static <TContent> int CountIterable(java.lang.Iterable<TContent> contents)
+		{
+			int count = 0;
+			for (Object content : contents) count++;
+			return count;
+		}
+
+		public static asd.swig.VectorUint8 CreateVectorUint8FromArray(short[] array)
+		{
+			asd.swig.VectorUint8 buf = new asd.swig.VectorUint8();
+			for (short b : array)
+			{
+				buf.add(b);
+			}
+
+			return buf;
+		}
+
+		public static void DisposeVectorUint8(asd.swig.VectorUint8 buf)
+		{
+			buf.delete();
+		}
+
+		public static short[] CreateArrayFromVectorUint8(asd.swig.VectorUint8 buf)
+		{
+			short[] dst = new short[(int)buf.size()];
+			
+			for(int i = 0; i < dst.length; i++)
+			{
+				dst[i] = buf.get(i);
+			}
+
+			return dst;
+		}
+
+		public static short[] CreateArrayFromStaticFile(asd.swig.StaticFile CoreInstance)
+		{
+			return null;
+			/*
+			System.IntPtr raw = CoreInstance.GetData();
+			byte[] bytes = new byte[CoreInstance.GetSize()];
+			System.Runtime.InteropServices.Marshal.Copy(raw, bytes, 0, CoreInstance.GetSize());
+			return bytes;
+			*/
+		}
+
+		public static void CopyStreamFileToList(asd.swig.StreamFile CoreInstance, java.util.ArrayList<java.lang.Integer> buffer, int size)
+		{
+			/*
+			swig.Accessor.StreamFile_Read_(CoreInstance, size);
+            System.IntPtr raw = swig.Accessor.StreamFile_GetTempBuffer_(CoreInstance);
+            byte[] bytes = new byte[swig.Accessor.StreamFile_GetTempBufferSize_(CoreInstance)];
+            System.Runtime.InteropServices.Marshal.Copy(raw, bytes, 0, bytes.Length);
+
+            buffer.Clear();
+            buffer.AddRange(bytes);
+			*/
+        }
 }

@@ -72,15 +72,11 @@ namespace asd
         /// </remarks>
         public void LoadFromMemory(byte[] buffer)
         {
-            var buf = new swig.VectorUint8();
-            foreach (var b in buffer)
-            {
-                buf.Add(b);
-            }
+			var buf = asd.Particular.Helper.CreateVectorUint8FromArray(buffer);
 
             CoreInstance.LoadFromMemory(buf);
 
-            buf.Dispose();
+			asd.Particular.Helper.DisposeVectorUint8(buf);
         }
 
         /// <summary>
@@ -90,10 +86,7 @@ namespace asd
         public byte[] SaveToMemory()
         {
             var buf = CoreInstance.SaveToMemory();
-            byte[] dst = new byte[buf.Count];
-            buf.CopyTo(dst);
-
-            return dst;
+			return asd.Particular.Helper.CreateArrayFromVectorUint8(buf);
         }
     }
 }

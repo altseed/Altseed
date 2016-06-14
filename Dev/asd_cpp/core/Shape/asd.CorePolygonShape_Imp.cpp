@@ -2,6 +2,7 @@
 #include "asd.CoreTriangleShape_Imp.h"
 #include "../3rdParty/poly2tri/poly2tri.h"
 #include <Box2D/Box2D.h>
+#include "asd.CoreShapeConverter.h"
 
 namespace asd
 {
@@ -12,7 +13,12 @@ namespace asd
 
 	CorePolygonShape_Imp::~CorePolygonShape_Imp()
 	{
+		std::for_each(holeShapes.begin(), holeShapes.end(), [](CoreShape* holeShape){SafeRelease(holeShape); });
+	}
 
+	bool CorePolygonShape_Imp::IsValid()
+	{
+		return isValid;
 	}
 
 	void CorePolygonShape_Imp::AddVertex(Vector2DF vertex)
@@ -48,9 +54,36 @@ namespace asd
 		return ShapeType::PolygonShape;
 	}
 
+	bool CorePolygonShape_Imp::AddHole(CoreShape *holeShape)
+	{
+		if (std::find(holeShapes.begin(), holeShapes.end(), holeShape) != holeShapes.end())
+		{
+			return false;
+		}
+
+		SafeAddRef(holeShape);
+		holeShapes.push_back(holeShape);
+		holeShapes_Imp.push_back(CoreShape2DToImp(holeShape));
+		return true;
+	}
+
+	bool CorePolygonShape_Imp::RemoveHole(CoreShape *holeShape)
+	{
+		if (std::find(holeShapes.begin(), holeShapes.end(), holeShape) == holeShapes.end())
+		{
+			return false;
+		}
+
+		SafeRelease(holeShape);
+		holeShapes.erase(std::remove(holeShapes.begin(), holeShapes.end(), holeShape), holeShapes.end());
+		holeShapes_Imp.erase(std::remove(holeShapes_Imp.begin(), holeShapes_Imp.end(), CoreShape2DToImp(holeShape)), holeShapes_Imp.end());
+		return true;
+	}
+
 #if !SWIG
 	void CorePolygonShape_Imp::DivideToTriangles()
 	{
+		isValid = true;
 
 		float maxLeft = FLT_MAX;
 		float maxRight = -FLT_MAX;
@@ -73,7 +106,42 @@ namespace asd
 			points.push_back(point);
 		}
 
+		// 重畳している場合は失敗扱いにする。
+		std::set<Vector2DF> pset;
+		for (auto p : points)
+		{
+			auto v = Vector2DF((*p).x, (*p).y);
+			if (pset.find(v) != pset.end())
+			{
+				for (auto point : points)
+				{
+					delete point;
+				}
+				isValid = false;
+				return;
+			}
+			pset.insert(v);
+		}
+
+		std::vector < std::vector<p2t::Point* >> holePointsList;
 		p2t::CDT* cdt = new p2t::CDT(points);
+		
+		for (auto holeShape : holeShapes_Imp)
+		{
+
+			for (auto tri : holeShape->GetDividedTriangles())
+			{
+				std::vector<p2t::Point*> holePoints(3);
+				for (int p = 0; p < 3; ++p)
+				{
+					auto holePoint = tri->GetPointByIndex(p);
+					holePoints[p] = new p2t::Point(holePoint.X, holePoint.Y);
+				}
+				cdt->AddHole(holePoints);
+				holePointsList.push_back(holePoints);
+			}
+		}
+
 		cdt->Triangulate();
 
 		auto outTriangles = cdt->GetTriangles();
@@ -93,8 +161,15 @@ namespace asd
 			triangles.push_back(triangle);
 		}
 
-
 		delete cdt;
+
+		for (auto holePoints : holePointsList)
+		{
+			for (auto holePoint : holePoints)
+			{
+				delete holePoint;
+			}
+		}
 
 		for (auto point : points)
 		{
@@ -137,5 +212,6 @@ namespace asd
 
 		collisionShapes.push_back(polygon);
 	}
+
 #endif
 }

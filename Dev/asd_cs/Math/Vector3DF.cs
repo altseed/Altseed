@@ -44,7 +44,7 @@ namespace asd
 
 		public override string ToString()
 		{
-			return string.Format("({0}, {1}, {2})", X, Y, Z);
+			return asd.Particular.Helper.Format("({0}, {1}, {2})", X, Y, Z);
 		}
 
 		/// <summary>
@@ -163,6 +163,21 @@ namespace asd
 			o.X = x;
 			o.Y = y;
 			o.Z = z;
+			return o;
+		}
+
+		/// <summary>
+		/// 減算する。
+		/// </summary>
+		/// <param name="v1"></param>
+		/// <param name="v2"></param>
+		/// <returns></returns>
+		public static Vector3DF Subtract(Vector3DF v1, Vector3DF v2)
+		{
+			Vector3DF o = new Vector3DF();
+			o.X = v1.X - v2.X;
+			o.Y = v1.Y - v2.Y;
+			o.Z = v1.Z - v2.Z;
 			return o;
 		}
 
