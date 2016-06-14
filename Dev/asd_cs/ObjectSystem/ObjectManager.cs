@@ -50,8 +50,15 @@ namespace asd
 				Particular.Helper.ThrowException("ArgumentNullException(Content)");
 			}
 
+			if(content.IsRegisteredToLayer)
+			{
+				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
+			}
+
 			var e = new EventToManageObject<TObject>(this, content, RegistrationCommand.Add, true);
 			Engine.ChangesToBeCommited.Enqueue(e);
+
+			Owner.Register(content);
 		}
 
 		public void Remove(TObject content, bool raiseEvent)
@@ -92,11 +99,6 @@ namespace asd
 				return;
 			}
 
-			if(obj.IsRegisteredToLayer)
-			{
-				Particular.Helper.ThrowException("指定したオブジェクトは既に別のレイヤーに所属しています。");
-			}
-
 			if(!Lambda.HasContentHavingSpecificUpdatePriority(contents_, obj.UpdatePriority))
 			{
 				contents_[obj.UpdatePriority] = new LinkedList<TObject>();
@@ -104,7 +106,6 @@ namespace asd
 			contents_[obj.UpdatePriority].AddLast(obj);
 			obj.OnUpdatePriorityChanged = Redistribution;
 
-			Owner.Register(obj);
 			if(raiseEvent)
 			{
 				obj.RaiseOnAdded();

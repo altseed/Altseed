@@ -45,6 +45,7 @@ namespace unitTest_Engine_cs
 				.Where(_ => !_.IsAbstract)
 				.Where(_ => _.IsSubclassOf(typeof(TestFramework)))
 				.Where(x => x.GetConstructor(new Type[0]) != null)
+				.Where(x => x.Namespace.Contains("ObjectSystem2D"))
 				.Where(x => !x.Namespace.Contains("BugFix"))
 				.Select(TestOnAllDevice)
 				.Where(x => x.Exceptions.Any(y => y.Value != null))

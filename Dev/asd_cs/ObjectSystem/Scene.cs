@@ -110,7 +110,14 @@ namespace asd
 		/// <remarks>実際に追加されるのはこのメソッドを呼び出したフレームの最後になるので注意が必要。</remarks>
 		public void AddLayer(Layer layer)
 		{
+			if(layer.Scene != null)
+			{
+				throw new InvalidOperationException("指定したレイヤーは、既に別のシーンに所属しています。");
+			}
+
 			Engine.ChangesToBeCommited.Enqueue(new EventToManageLayer(this, layer, RegistrationCommand.Add, true));
+			CoreInstance.AddLayer(layer.CoreLayer);
+			layer.Scene = this;
 		}
 
 		/// <summary>
@@ -156,15 +163,8 @@ namespace asd
 
 		internal void ImmediatelyAddLayer(Layer layer, bool raiseEvent)
 		{
-			if(layer.Scene != null)
-			{
-				throw new InvalidOperationException("指定したレイヤーは、既に別のシーンに所属しています。");
-			}
-
 			layersToDraw_.Add(layer);
 			layersToUpdate_.Add(layer);
-			CoreInstance.AddLayer(layer.CoreLayer);
-			layer.Scene = this;
 			if(raiseEvent)
 			{
 				layer.RaiseOnAdded();

@@ -34,6 +34,7 @@ namespace asd
 				var e = new EventToManageComponent<TComponent>();
 				e.SetUpAsAddEvent(this, component, key);
 				Engine.ChangesToBeCommited.Enqueue(e);
+				owner.Register(component);
 			}
 		}
 
@@ -53,7 +54,6 @@ namespace asd
 		public void ImmediatelyAddComponent(TComponent component, string key)
 		{
 			Particular.Dictionary.Set(components, key, component);
-			owner.Register(component);
 			component.Key = key;
 		}
 
