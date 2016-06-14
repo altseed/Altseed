@@ -24,7 +24,7 @@ namespace sample_cs
 			{
 				ISample selected = null;
 
-				Engine.Initialize("サンプルブラウザ", 640, 480, new EngineOption(){ GraphicsDevice = GraphicsDeviceType.OpenGL });
+				Engine.Initialize("サンプルブラウザ", 640, 480, new EngineOption(){ GraphicsDevice = GraphicsDeviceType.DirectX11 });
 
 				var scene = new Scene();
 				var layer = new SampleBrowserLayer(samples);

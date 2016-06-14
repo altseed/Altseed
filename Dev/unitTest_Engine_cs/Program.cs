@@ -21,10 +21,10 @@ namespace unitTest_Engine_cs
 
 	class Program
 	{
-		[STAThread]
+		//[STAThread]
 		static void Main(string[] args)
 		{
-			/*
+			//*
 			TestOnAllDevice(typeof(FamilySystem.ChildManagement));
 			Console.ReadKey();
 			return;
