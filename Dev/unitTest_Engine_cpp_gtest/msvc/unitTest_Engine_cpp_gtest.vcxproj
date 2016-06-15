@@ -58,6 +58,7 @@
     <ClCompile Include="..\Graphics\PostEffect\PostEffectSepia.cpp" />
     <ClCompile Include="..\Graphics\Resource\ImagePackage.cpp" />
     <ClCompile Include="..\Graphics\Transition\Transition.cpp" />
+    <ClCompile Include="..\Input\MouseWithManyButtons.cpp" />
     <ClCompile Include="..\IO\StaticFile_NonePackage.cpp" />
     <ClCompile Include="..\IO\StaticFile_NonePackage_AddDefaultRootDirectory.cpp" />
     <ClCompile Include="..\IO\StaticFile_NonePackage_Cache.cpp" />

@@ -210,6 +210,9 @@
     <ClCompile Include="..\BugFix\MemoryLeak.cpp">
       <Filter>BugFix</Filter>
     </ClCompile>
+    <ClCompile Include="..\Input\MouseWithManyButtons.cpp">
+      <Filter>Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ObjectSystem">
@@ -253,6 +256,9 @@
     </Filter>
     <Filter Include="BugFix">
       <UniqueIdentifier>{7ce4f33b-2dc8-483a-8690-ef44747951f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{19462a7b-4de5-4286-a685-b5acb7250208}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

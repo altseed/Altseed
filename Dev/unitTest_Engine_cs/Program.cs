@@ -24,17 +24,9 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			/*
-			TestOnAllDevice(typeof(ObjectSystem2D.LifeCycle.ReuseLayer));
+			TestOnAllDevice(typeof(Input.MouseWithManyButtons));
 			Console.ReadKey();
 			return;
-			//*/
-
-			/*
-			TestInNamespace("FamilySystem");
-			Console.ReadKey();
-			return;
-			//*/
 
 			TestAll();
 			Console.ReadKey();
