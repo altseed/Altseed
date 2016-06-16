@@ -99,6 +99,8 @@ EXTERN_ENGINE_TEST(IO, StaticFile_Package_Priority)
 EXTERN_ENGINE_TEST(IO, StaticFile_PackageWithKey)
 EXTERN_ENGINE_TEST(IO, StreamFile_PackageWithKey)
 
+EXTERN_ENGINE_TEST(Input, MouseWithManyButtons)
+
 EXTERN_ENGINE_TEST(Profiler, Profiling)
 
 EXTERN_ENGINE_TEST(BugFix, DisposeAndChangeParent)
@@ -124,11 +126,10 @@ int main(int argc, char **argv)
 #endif
 	::testing::InitGoogleTest(&argc, argv);
 	
-	/*
-	CALL_ENGINE_TEST(FamilySystem, ChildManagement, true);
+	
+	CALL_ENGINE_TEST(Input, MouseWithManyButtons, true);
 	getchar();
 	return 0;
-	//*/
 	
 	auto result = RUN_ALL_TESTS();
 

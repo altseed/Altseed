@@ -75,6 +75,7 @@
     <Compile Include="Graphics\PostEffect\PostEffectSepia.cs" />
     <Compile Include="Graphics\Resource\ImagePackage.cs" />
     <Compile Include="Graphics\Transition\Transition.cs" />
+    <Compile Include="Input\MouseWithManyButtons.cs" />
     <Compile Include="IO\StaticFile_NonPackage.cs" />
     <Compile Include="IO\StaticFile_Package.cs" />
     <Compile Include="Debug\Log.cs" />
