@@ -27,19 +27,31 @@ namespace asd
 	void Object2D::RaiseOnAdded()
 	{
 		OnAdded();
+
 		for (auto& component : m_componentManager->GetComponents())
 		{
 			component.second->RaiseOnAdded();
+		}
+
+		for (auto& child : m_children)
+		{
+			SyncContainerWithChild(child);
 		}
 	}
 
 	void Object2D::RaiseOnRemoved()
 	{
-		OnRemoved();
+		for (auto& child : m_children)
+		{
+			SyncContainerWithChild(child);
+		}
+
 		for (auto& component : m_componentManager->GetComponents())
 		{
 			component.second->RaiseOnRemoved();
 		}
+
+		OnRemoved();
 	}
 
 	void Object2D::Update()
@@ -191,19 +203,7 @@ namespace asd
 		Engine::m_changesToCommit.push(e);
 
 		child->m_parentInfo = make_shared<ParentInfo2D>(this, managementMode);
-
-		if ((managementMode & ChildManagementMode::RegistrationToLayer) != 0)
-		{
-			auto childLayer = child->GetLayer();
-			if (childLayer != GetLayer() && childLayer != nullptr)
-			{
-				childLayer->RemoveObject(child);
-			}
-			if (m_owner != nullptr)
-			{
-				m_owner->AddObject(child);
-			}
-		}
+		SyncContainerWithChild(child);
 	}
 
 	void Object2D::RemoveChild(const Object2D::Ptr& child)
@@ -293,6 +293,22 @@ namespace asd
 	void Object2D::Unregister(const Object2DComponent::Ptr& component)
 	{
 		component->SetOwner(nullptr);
+	}
+
+	void Object2D::SyncContainerWithChild(const Object2D::Ptr& child)
+	{
+		if (IS_INHERITED(child, RegistrationToLayer))
+		{
+			auto childLayer = child->GetLayer();
+			if (childLayer != nullptr && childLayer != GetLayer())
+			{
+				childLayer->RemoveObject(child);
+			}
+			if (childLayer == nullptr && m_owner != nullptr)
+			{
+				m_owner->AddObject(child);
+			}
+		}
 	}
 
 #pragma region Get/Set

@@ -218,6 +218,21 @@ namespace asd
 			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
 		}
 
+		private void SyncContainerWithChild(Object2D child)
+		{
+			if (child.IsInheriting(ChildManagementMode.RegistrationToLayer))
+			{
+				if(child.Layer != null && child.Layer != Layer)
+				{
+					child.Layer.RemoveObject(child);
+				}
+				if(child.Layer == null && Layer != null)
+				{
+					Layer.AddObject(child);
+				}
+			}
+		}
+
 		/// <summary>
 		/// 指定した2Dオブジェクトを子オブジェクトとしてこのインスタンスに追加する。
 		/// </summary>
@@ -232,17 +247,7 @@ namespace asd
 			Engine.ChangesToBeCommited.Enqueue(e);
 
 			child.ParentInfo = new ParentInfo2D(this, managementMode);
-			if(asd.Particular.ChildManagementMode.And(managementMode, ChildManagementMode.RegistrationToLayer) != 0)
-			{
-				if(child.Layer != Layer && child.Layer != null)
-				{
-					child.Layer.RemoveObject(child);
-				}
-				if(Layer != null)
-				{
-					Layer.AddObject(child);
-				}
-			}
+			SyncContainerWithChild(child);
 		}
 
 		/// <summary>
@@ -501,10 +506,20 @@ namespace asd
 			{
 				component.RaiseOnAdded();
 			}
+
+			foreach (var child in Children)
+			{
+				SyncContainerWithChild(child);
+			}
 		}
 
 		internal override void RaiseOnRemoved()
 		{
+			foreach(var child in Children)
+			{
+				SyncContainerWithChild(child);
+			}
+
 			foreach(var component in componentManager_.Components)
 			{
 				component.RaiseOnRemoved();

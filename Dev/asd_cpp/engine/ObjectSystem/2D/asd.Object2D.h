@@ -77,6 +77,8 @@ namespace asd
 		void SetLayer(Layer2D* layer);
 		virtual CoreObject2D* GetCoreObject() const = 0;
 
+		void SyncContainerWithChild(const Object2D::Ptr& child);
+
 		void Register(const Object2DComponent::Ptr& component);
 		void Unregister(const Object2DComponent::Ptr& component);
 		void DisposeImmediately();
