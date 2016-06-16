@@ -39,21 +39,28 @@ namespace asd
 		/// <summary>
 		/// オーバーライドして、このコンポーネントを持つレイヤーが更新された直後の処理を記述できる。
 		/// </summary>
-		protected virtual void OnUpdated()
+		protected virtual void OnLayerUpdated()
 		{
 		}
 
 		/// <summary>
 		/// オーバーライドして、このコンポーネントを持つレイヤーがシーンに登録された時の処理を記述できる。
 		/// </summary>
-		protected virtual void OnAdded()
+		protected virtual void OnLayerAdded()
 		{
 		}
 
 		/// <summary>
 		/// オーバーライドして、このコンポーネントを持つレイヤーがシーンから登録解除された時の処理を記述できる。
 		/// </summary>
-		protected virtual void OnRemoved()
+		protected virtual void OnLayerRemoved()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このコンポーネントを持つレイヤーが破棄された時の処理を記述できる。
+		/// </summary>
+		protected virtual void OnLayerDisposed()
 		{
 		}
 
@@ -69,7 +76,7 @@ namespace asd
 		{
 			if( IsAlive && IsUpdated )
 			{
-				OnUpdated();
+				OnLayerUpdated();
 			}
 		}
 
@@ -77,7 +84,7 @@ namespace asd
 		{
 			if (IsAlive)
 			{
-				OnAdded();
+				OnLayerAdded();
 			}
 		}
 
@@ -85,7 +92,15 @@ namespace asd
 		{
 			if (IsAlive)
 			{
-				OnRemoved();
+				OnLayerRemoved();
+			}
+		}
+
+		internal void RaiseOnDisposed()
+		{
+			if (IsAlive)
+			{
+				OnLayerDisposed();
 			}
 		}
 

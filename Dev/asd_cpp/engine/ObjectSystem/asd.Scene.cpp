@@ -52,6 +52,10 @@ namespace asd
 		{
 			m_isAlive = false;
 			OnDispose();
+			for (auto& component : m_componentManager->GetComponents())
+			{
+				component.second->RaiseOnDisposed();
+			}
 			for (auto& l : m_layersToUpdate)
 			{
 				l->Dispose();
@@ -142,31 +146,55 @@ namespace asd
 	void Scene::RaiseOnRegistered()
 	{
 		OnRegistered();
+		for (auto& component : m_componentManager->GetComponents())
+		{
+			component.second->RaiseOnRegistered();
+		}
 	}
 
 	void Scene::RaiseOnStartUpdating()
 	{
 		OnStartUpdating();
+		for (auto& component : m_componentManager->GetComponents())
+		{
+			component.second->RaiseOnStartUpdating();
+		}
 	}
 
 	void Scene::RaiseOnTransitionFinished()
 	{
 		OnTransitionFinished();
+		for (auto& component : m_componentManager->GetComponents())
+		{
+			component.second->RaiseOnTransitionFinished();
+		}
 	}
 
 	void Scene::RaiseOnTransitionBegin()
 	{
 		OnTransitionBegin();
+		for (auto& component : m_componentManager->GetComponents())
+		{
+			component.second->RaiseOnTransitionBegin();
+		}
 	}
 
 	void Scene::RaiseOnStopUpdating()
 	{
 		OnStopUpdating();
+		for (auto& component : m_componentManager->GetComponents())
+		{
+			component.second->RaiseOnStopUpdating();
+		}
 	}
 
 	void Scene::RaiseOnUnregistered()
 	{
 		OnUnregistered();
+		for (auto& component : m_componentManager->GetComponents())
+		{
+			component.second->RaiseOnUnregistered();
+		}
 	}
 
 	void Scene::OnRegistered()

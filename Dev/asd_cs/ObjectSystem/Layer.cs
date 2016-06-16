@@ -137,7 +137,7 @@ namespace asd
 			{
 				IsAlive = false;
 				OnDispose();
-				DisposeContents(disposeNative);
+				DisposeSpecifics(disposeNative);
 				if(Scene != null)
 				{
 					Scene.ImmediatelyRemoveLayer(this, false);
@@ -149,7 +149,7 @@ namespace asd
 			}
 		}
 
-		internal abstract void DisposeContents(bool disposeNative);
+		internal abstract void DisposeSpecifics(bool disposeNative);
 
 		internal abstract void BeginUpdating();
 

@@ -38,14 +38,21 @@ namespace asd
 		/// <summary>
 		/// オーバーライドして、このコンポーネントを持つオブジェクトがレイヤーに登録された時の処理を記述できる。
 		/// </summary>
-		protected virtual void OnAdded()
+		protected virtual void OnObjectAdded()
 		{
 		}
 
 		/// <summary>
 		/// オーバーライドして、このコンポーネントを持つオブジェクトがレイヤーから登録解除された時の処理を記述できる。
 		/// </summary>
-		protected virtual void OnRemoved()
+		protected virtual void OnObjectRemoved()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このコンポーネントを持つオブジェクトが破棄された時の処理を記述できる。
+		/// </summary>
+		protected virtual void OnObjectDisposed()
 		{
 		}
 
@@ -61,7 +68,7 @@ namespace asd
 		{
 			if (IsAlive)
 			{
-				OnAdded();
+				OnObjectAdded();
 			}
 		}
 
@@ -69,7 +76,15 @@ namespace asd
 		{
 			if (IsAlive)
 			{
-				OnRemoved();
+				OnObjectRemoved();
+			}
+		}
+
+		internal void RaiseOnDisposed()
+		{
+			if (IsAlive)
+			{
+				OnObjectDisposed();
 			}
 		}
 

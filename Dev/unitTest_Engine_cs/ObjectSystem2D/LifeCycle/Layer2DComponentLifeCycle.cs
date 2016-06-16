@@ -18,12 +18,12 @@ namespace unitTest_Engine_cs.ObjectSystem2D.LifeCycle
 			public bool IsAdded { get; set; }
 			public int Count { get; set; }
 
-			protected override void OnAdded()
+			protected override void OnLayerAdded()
 			{
 				IsAdded = true;
 			}
 
-			protected override void OnRemoved()
+			protected override void OnLayerRemoved()
 			{
 				IsAdded = false;
 			}
@@ -33,7 +33,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D.LifeCycle
 				Count++;
 			}
 
-			protected override void OnUpdated()
+			protected override void OnLayerUpdated()
 			{
 				if(Count == 30)
 				{

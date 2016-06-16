@@ -379,9 +379,13 @@ namespace asd
 			OnDrawAdditionally();
 		}
 
-		internal override void DisposeContents(bool disposeNative)
+		internal override void DisposeSpecifics(bool disposeNative)
 		{
 			ObjectManager.DisposeObjects(disposeNative);
+			foreach (var component in ComponentManager.Components)
+			{
+				component.RaiseOnDisposed();
+			}
 		}
 
 		protected override void OnAdded()

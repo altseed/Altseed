@@ -11,7 +11,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 	{
 		class MyComponent : Layer2DComponent
 		{
-			protected override void OnUpdated()
+			protected override void OnLayerUpdated()
 			{
 				Owner.IsDrawn = false;
 			}

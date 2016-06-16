@@ -21,6 +21,30 @@ namespace asd
 		}
 	}
 
+	void Object2DComponent::RaiseOnAdded()
+	{
+		if (m_isUpdated)
+		{
+			OnObjectAdded();
+		}
+	}
+
+	void Object2DComponent::RaiseOnRemoved()
+	{
+		if (m_isUpdated)
+		{
+			OnObjectRemoved();
+		}
+	}
+
+	void Object2DComponent::RaiseOnDisposed()
+	{
+		if (m_isUpdated)
+		{
+			OnObjectDisposed();
+		}
+	}
+
 	Object2D* Object2DComponent::GetOwner() const
 	{
 		return m_owner;

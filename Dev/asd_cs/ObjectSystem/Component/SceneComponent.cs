@@ -46,42 +46,49 @@ namespace asd
 		/// <summary>
 		/// オーバーライドして、このコンポーネントを持つシーンがエンジンに追加された時の処理を記述できる。
 		/// </summary>
-		protected virtual void OnRegistered()
+		protected virtual void OnSceneRegistered()
 		{
 		}
 
 		/// <summary>
 		/// オーバーライドして、このコンポーネントを持つシーンの更新が始まる時の処理を記述できる。
 		/// </summary>
-		protected virtual void OnStartUpdating()
+		protected virtual void OnStartSceneUpdating()
 		{
 		}
 
 		/// <summary>
 		/// オーバーライドして、このコンポーネントを持つシーンへの画面遷移が完了した時の処理を記述できる。
 		/// </summary>
-		protected virtual void OnTransitionFinished()
+		protected virtual void OnSceneTransitionFinished()
 		{
 		}
 
 		/// <summary>
 		/// オーバーライドして、このコンポーネントを持つシーンからの画面遷移が始まる時の処理を記述できる。
 		/// </summary>
-		protected virtual void OnTransitionBegin()
+		protected virtual void OnSceneTransitionBegin()
 		{
 		}
 
 		/// <summary>
 		/// オーバーライドして、このコンポーネントを持つシーンの更新が止まる時の処理を記述できる。
 		/// </summary>
-		protected virtual void OnStopUpdating()
+		protected virtual void OnStopSceneUpdating()
 		{
 		}
 
 		/// <summary>
 		/// オーバーライドして、このコンポーネントを持つシーンがエンジンから登録解除された時の処理を記述できる。
 		/// </summary>
-		protected virtual void OnUnregistered()
+		protected virtual void OnSceneUnregistered()
+		{
+		}
+
+		/// <summary>
+		/// オーバーライドして、このコンポーネントを持つシーンが破棄された時の処理を記述できる。
+		/// </summary>
+		protected virtual void OnSceneDisposed()
 		{
 		}
 
@@ -105,7 +112,7 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				OnRegistered();
+				OnSceneRegistered();
 			}
 		}
 
@@ -113,7 +120,7 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				OnStartUpdating();
+				OnStartSceneUpdating();
 			}
 		}
 
@@ -121,7 +128,7 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				OnTransitionFinished();
+				OnSceneTransitionFinished();
 			}
 		}
 
@@ -129,7 +136,7 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				OnTransitionBegin();
+				OnSceneTransitionBegin();
 			}
 		}
 
@@ -137,7 +144,7 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				OnStopUpdating();
+				OnStopSceneUpdating();
 			}
 		}
 
@@ -145,7 +152,15 @@ namespace asd
 		{
 			if(IsAlive)
 			{
-				OnUnregistered();
+				OnSceneUnregistered();
+			}
+		}
+
+		internal void RaiseOnDisposed()
+		{
+			if (IsAlive)
+			{
+				OnSceneDisposed();
 			}
 		}
 

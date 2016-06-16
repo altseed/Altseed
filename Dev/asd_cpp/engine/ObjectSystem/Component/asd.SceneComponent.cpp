@@ -20,6 +20,63 @@ namespace asd
 		}
 	}
 
+	void SceneComponent::RaiseOnRegistered()
+	{
+		if (m_isUpdated)
+		{
+			OnSceneRegistered();
+		}
+	}
+
+	void SceneComponent::RaiseOnStartUpdating()
+	{
+		if (m_isUpdated)
+		{
+			OnStartSceneUpdating();
+		}
+	}
+
+	void SceneComponent::RaiseOnTransitionFinished()
+	{
+		if (m_isUpdated)
+		{
+			OnSceneTransitionFinished();
+		}
+	}
+
+	void SceneComponent::RaiseOnTransitionBegin()
+	{
+		if (m_isUpdated)
+		{
+			OnSceneTransitionBegin();
+		}
+	}
+
+	void SceneComponent::RaiseOnStopUpdating()
+	{
+		if (m_isUpdated)
+		{
+			OnStopSceneUpdating();
+		}
+	}
+
+	void SceneComponent::RaiseOnUnregistered()
+	{
+		if (m_isUpdated)
+		{
+			OnSceneUnregistered();
+		}
+	}
+
+	void SceneComponent::RaiseOnDisposed()
+	{
+		if (m_isUpdated)
+		{
+			OnSceneDisposed();
+		}
+	}
+
+
 	Scene* SceneComponent::GetOwner() const
 	{
 		return m_scene;

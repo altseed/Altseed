@@ -14,37 +14,37 @@ namespace unitTest_Engine_cs.ObjectSystem2D.LifeCycle
 				State = 0;
 			}
 
-			protected override void OnRegistered()
+			protected override void OnSceneRegistered()
 			{
 				Assert.AreEqual(0, State);
 				State = 1;
 			}
 
-			protected override void OnStartUpdating()
+			protected override void OnStartSceneUpdating()
 			{
 				Assert.AreEqual(1, State);
 				State = 2;
 			}
 
-			protected override void OnTransitionFinished()
+			protected override void OnSceneTransitionFinished()
 			{
 				Assert.AreEqual(2, State);
 				State = 3;
 			}
 
-			protected override void OnTransitionBegin()
+			protected override void OnSceneTransitionBegin()
 			{
 				Assert.AreEqual(3, State);
 				State = 4;
 			}
 
-			protected override void OnStopUpdating()
+			protected override void OnStopSceneUpdating()
 			{
 				Assert.AreEqual(4, State);
 				State = 5;
 			}
 
-			protected override void OnUnregistered()
+			protected override void OnSceneUnregistered()
 			{
 				Assert.AreEqual(5, State);
 				State = 0;

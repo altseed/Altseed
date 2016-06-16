@@ -53,6 +53,9 @@ namespace asd
 		void Register(const Layer2DComponent::Ptr& component) override;
 		void Unregister(const Layer2DComponent::Ptr& component) override;
 
+		void RaiseOnAdded();
+		void RaiseOnRemoved();
+
 	protected:
 
 	public:

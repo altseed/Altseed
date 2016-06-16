@@ -21,6 +21,31 @@ namespace asd
 		}
 	}
 
+	void Layer2DComponent::RaiseOnAdded()
+	{
+		if (m_isUpdated)
+		{
+			OnLayerAdded();
+		}
+	}
+
+	void Layer2DComponent::RaiseOnRemoved()
+	{
+		if (m_isUpdated)
+		{
+			OnLayerRemoved();
+		}
+	}
+
+	void Layer2DComponent::RaiseOnDisposed()
+	{
+		if (m_isUpdated)
+		{
+			OnLayerDisposed();
+		}
+	}
+
+
 	Layer2D* Layer2DComponent::GetOwner() const
 	{
 		return m_layer;

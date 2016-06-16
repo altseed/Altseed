@@ -333,6 +333,10 @@ namespace asd
 			{
 				IsAlive = false;
 				OnDispose();
+				foreach (var component in componentManager_.Components)
+				{
+					component.RaiseOnDisposed();
+				}
 				foreach(var item in asd.Particular.Lambda.FilterDeadObject(ChildrenList))
 				{
 					CoreObject.RemoveChild(item.CoreObject);

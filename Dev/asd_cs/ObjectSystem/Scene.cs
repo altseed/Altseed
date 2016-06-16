@@ -238,6 +238,10 @@ namespace asd
 			{
 				IsAlive = false;
 				OnDispose();
+				foreach (var component in ComponentManager.Components)
+				{
+					component.RaiseOnDisposed();
+				}
 				foreach(var layer in layersToUpdate_)
 				{
 					layer.Dispose(disposeNative);

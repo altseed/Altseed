@@ -28,6 +28,9 @@ namespace asd
 		astring m_key;
 
 		void Update();
+		void RaiseOnAdded();
+		void RaiseOnRemoved();
+		void RaiseOnDisposed();
 		void SetOwner(Object2D* value);
 
 		void DisposeImmediately();
@@ -37,6 +40,18 @@ namespace asd
 			@brief	オーバーライドして、このコンポーネントの更新処理を記述できる。
 			*/
 		virtual void OnUpdate() = 0;
+
+		virtual void OnObjectAdded()
+		{
+		}
+
+		virtual void OnObjectRemoved()
+		{
+		}
+
+		virtual void OnObjectDisposed()
+		{
+		}
 
 	public:
 		typedef std::shared_ptr<Object2DComponent> Ptr;

@@ -27,7 +27,7 @@ namespace unitTest_Engine_cs.ObjectSystem2D
 		class ComponentAddingLayer : Layer2DComponent
 		{
 			int count = 0;
-			protected override void OnUpdated()
+			protected override void OnLayerUpdated()
 			{
 				count++;
 				if(count == 10)

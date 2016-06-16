@@ -28,6 +28,9 @@ namespace asd
 		astring m_key;
 
 		void Update();
+		void RaiseOnAdded();
+		void RaiseOnRemoved();
+		void RaiseOnDisposed();
 		void SetOwner(Layer2D* value);
 
 		void DisposeImmediately();
@@ -37,6 +40,18 @@ namespace asd
 			@brief	オーバーライドして、このコンポーネントの更新処理を記述できる。
 		*/
 		virtual void OnUpdate() = 0;
+
+		virtual void OnLayerAdded()
+		{
+		}
+
+		virtual void OnLayerRemoved()
+		{
+		}
+
+		virtual void OnLayerDisposed()
+		{
+		}
 
 	public:
 		typedef std::shared_ptr<Layer2DComponent> Ptr;

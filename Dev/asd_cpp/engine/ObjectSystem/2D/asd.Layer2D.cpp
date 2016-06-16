@@ -68,6 +68,26 @@ namespace asd
 	void Layer2D::DisposeInternal()
 	{
 		m_objects->Dispose();
+		for (auto& component : m_components->GetComponents())
+		{
+			component.second->RaiseOnDisposed();
+		}
+	}
+
+	void Layer2D::RaiseOnAdded()
+	{
+		for (auto& component : m_components->GetComponents())
+		{
+			component.second->RaiseOnAdded();
+		}
+	}
+
+	void Layer2D::RaiseOnRemoved()
+	{
+		for (auto& component : m_components->GetComponents())
+		{
+			component.second->RaiseOnRemoved();
+		}
 	}
 
 

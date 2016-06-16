@@ -27,11 +27,19 @@ namespace asd
 	void Object2D::RaiseOnAdded()
 	{
 		OnAdded();
+		for (auto& component : m_componentManager->GetComponents())
+		{
+			component.second->RaiseOnAdded();
+		}
 	}
 
 	void Object2D::RaiseOnRemoved()
 	{
 		OnRemoved();
+		for (auto& component : m_componentManager->GetComponents())
+		{
+			component.second->RaiseOnRemoved();
+		}
 	}
 
 	void Object2D::Update()
@@ -247,6 +255,10 @@ namespace asd
 		{
 			GetCoreObject()->SetIsAlive(false);
 			OnDispose();
+			for (auto& component : m_componentManager->GetComponents())
+			{
+				component.second->RaiseOnDisposed();
+			}
 			for (auto& child : m_children)
 			{
 				GetCoreObject()->RemoveChild(child->GetCoreObject());

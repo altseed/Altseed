@@ -28,6 +28,13 @@ namespace asd
 		astring m_key;
 
 		void Update();
+		void RaiseOnRegistered();
+		void RaiseOnStartUpdating();
+		void RaiseOnTransitionFinished();
+		void RaiseOnTransitionBegin();
+		void RaiseOnStopUpdating();
+		void RaiseOnUnregistered();
+		void RaiseOnDisposed();
 		void SetOwner(Scene* value);
 
 		void DisposeImmediately();
@@ -37,6 +44,34 @@ namespace asd
 			@brief	オーバーライドして、このコンポーネントの更新処理を記述できる。
 		*/
 		virtual void OnUpdate() = 0;
+
+		virtual void OnSceneRegistered()
+		{
+		}
+
+		virtual void OnStartSceneUpdating()
+		{
+		}
+
+		virtual void OnSceneTransitionFinished()
+		{
+		}
+
+		virtual void OnSceneTransitionBegin()
+		{
+		}
+
+		virtual void OnStopSceneUpdating()
+		{
+		}
+
+		virtual void OnSceneUnregistered()
+		{
+		}
+
+		virtual void OnSceneDisposed()
+		{
+		}
 
 	public:
 		typedef std::shared_ptr<SceneComponent> Ptr;
