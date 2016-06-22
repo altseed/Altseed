@@ -8,7 +8,8 @@
         <licenseUrl>https://github.com/altseed/Altseed/blob/master/LICENSE</licenseUrl>
         <projectUrl>http://altseed.github.io/</projectUrl>
         <requireLicenseAcceptance>true</requireLicenseAcceptance>
-        <description>Game Library.</description>
+        <description>Altseedはマルチプラットフォームな和製ゲームエンジンです。オブジェクト指向を用いて効率的にゲームを組み立てることができます。このパッケージにはゲームエンジンのライブラリ部分のみが含まれます。</description>
+        <summary>Altseedはマルチプラットフォームな和製ゲームエンジンです。</summary>
         <copyright>Copyright (c) 2013-2016 Altseed</copyright>
         <language>ja-JP</language>
         <tags>Game</tags>
@@ -16,7 +17,7 @@
     <files>
         <file src="Altseed.targets" target="build\Altseed.targets" />
         <file src="Altseed_core.dll" target="build\Altseed_core.dll" />
-        <file src="Altseed.xml" target="lib\net45\Altseed.xml" />
         <file src="Altseed.dll" target="lib\net45\Altseed.dll" />
+        <file src="Altseed.xml" target="lib\net45\Altseed.xml" />
     </files>
 </package>
