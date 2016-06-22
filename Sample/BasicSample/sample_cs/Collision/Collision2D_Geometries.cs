@@ -20,12 +20,12 @@ public class Collision2D_Geometries : ISample
         asd.GeometryObject2D geometryObj3 = new asd.GeometryObject2D();
 
         // マウスによって動かす円。
-        asd.CircleShape selfCircle;
+        asd.CircleShape selfCircle = null;
 
         // 停止している円、三角形、矩形。
-        asd.CircleShape circle;
-        asd.TriangleShape triangle;
-        asd.RectangleShape rect;
+		asd.CircleShape circle = null;
+		asd.TriangleShape triangle = null;
+		asd.RectangleShape rect = null;
 
 
         // 図形描画オブジェクトをエンジンに追加する。

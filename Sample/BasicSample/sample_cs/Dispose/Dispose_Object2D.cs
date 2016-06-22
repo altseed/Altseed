@@ -51,7 +51,7 @@ namespace sample_cs
 				asd.Engine.Update();
 
 				// フレームを数える。
-				++count;
+				count++;
 
 				// 10フレーム目になったら
 				if(count == 10)

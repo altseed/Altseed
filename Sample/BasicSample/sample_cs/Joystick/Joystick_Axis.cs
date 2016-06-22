@@ -41,7 +41,7 @@ class Joystick_Axis : ISample
                 // 1つ目のジョイスティックの全てのアナログスティックの入力状態を表示する。
                 var joystick = asd.Engine.JoystickContainer.GetJoystickAt(0);
 
-                for (int axisIndex = 0; axisIndex < joystick.AxesCount; ++axisIndex)
+				for (int axisIndex = 0; axisIndex < joystick.AxesCount; axisIndex++)
                 {
                     var axisVal = joystick.GetAxisState(axisIndex);
                     displayStr += ("軸 " + axisIndex.ToString() + ": ");

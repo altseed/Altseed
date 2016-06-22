@@ -44,7 +44,7 @@ class Joystick_Basic : ISample
                 // 1つ目のジョイスティックの全てのボタンの入力状態を表示する。
                 var joystick = asd.Engine.JoystickContainer.GetJoystickAt(0);
 
-                for (int buttonIndex = 0; buttonIndex < joystick.ButtonsCount; ++buttonIndex)
+				for (int buttonIndex = 0; buttonIndex < joystick.ButtonsCount; buttonIndex++)
                 {
                     switch (joystick.GetButtonState(buttonIndex))
                     {

@@ -18,10 +18,10 @@ public class Collision2D_Basic : ISample
         asd.GeometryObject2D geometryObj1 = new asd.GeometryObject2D();
 
         // マウスによって動かす円。
-        asd.CircleShape selfCircle;
+        asd.CircleShape selfCircle = null;
 
         // 停止している円。
-        asd.CircleShape circle;
+        asd.CircleShape circle = null;
 
         // 図形描画オブジェクトをエンジンに追加する。
         asd.Engine.AddObject2D(geometryObj0);

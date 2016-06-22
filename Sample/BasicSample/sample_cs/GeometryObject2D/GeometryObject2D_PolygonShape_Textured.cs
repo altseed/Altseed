@@ -30,7 +30,7 @@ class GeometryObject2D_PolygonShape_Textured : ISample
         var polygon = new asd.PolygonShape();
 
         // 多角形を構成する頂点を追加していく。（星形になるようにする。）
-        for (int i = 0; i < 10; ++i)
+		for (int i = 0; i < 10; i++)
         {
             asd.Vector2DF vec = new asd.Vector2DF(1, 0);
             vec.Degree = i * 36;

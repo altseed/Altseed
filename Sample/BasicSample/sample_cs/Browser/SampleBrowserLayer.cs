@@ -40,7 +40,7 @@ namespace sample_cs
 				AddObject(item);
 				items.Add(item);
 
-				++index;
+				index++;
 			}
 
             var isThereJut = index % Columns == 0 ? 0 : 1;
