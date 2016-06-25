@@ -25,6 +25,8 @@ class Texture_Basic : ISample
 		asd.TextureLockInfomation lockInfo = new asd.TextureLockInfomation();
 		if (texture.Lock(lockInfo))
 		{
+#if LANG_CS
+			// C#のみの高速処理
 			for (int y = 0; y < lockInfo.Size.Y; y++)
 			{
 				for (int x = 0; x < lockInfo.Size.X; x++)
@@ -36,7 +38,9 @@ class Texture_Basic : ISample
 					pixel[3] = 255;
 				}
 			}
-
+#else
+			Console.WriteLine("実装されていません。");
+#endif
 			// Unlockして編集結果を適用する。
 			texture.Unlock();
 		}
