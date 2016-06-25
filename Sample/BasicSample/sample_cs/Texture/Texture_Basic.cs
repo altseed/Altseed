@@ -39,7 +39,7 @@ class Texture_Basic : ISample
 				}
 			}
 #else
-			Console.WriteLine("実装されていません。");
+			System.Console.WriteLine("実装されていません。");
 #endif
 			// Unlockして編集結果を適用する。
 			texture.Unlock();
