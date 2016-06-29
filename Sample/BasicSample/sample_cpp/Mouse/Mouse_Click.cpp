@@ -29,7 +29,7 @@ void Mouse_Click()
 		{
 			stateText->SetText(asd::ToAString("左ボタンが押されていません。").c_str());
 		}
-		
+
 		// Altseedを更新する。
 		asd::Engine::Update();
 	}

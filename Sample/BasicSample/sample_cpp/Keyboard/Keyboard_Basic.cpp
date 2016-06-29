@@ -26,7 +26,6 @@ void Keyboard_Basic()
 
 		if (zstate == asd::KeyState::Free) // Zキーを離している状態。
 		{
-			
 			keyStateText->SetText(asd::ToAString("Zキーを離しています。").c_str());
 		}
 		else if (zstate == asd::KeyState::Hold) // Zキーを押している状態。

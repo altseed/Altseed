@@ -19,20 +19,20 @@ void Keyboard_PuralKeys()
 
 	// 入力チェックするキー一覧。(Z, X, C, V, B)
 	std::vector<asd::Keys> keys = {
-		asd::Keys::Z, 
-		asd::Keys::X, 
-		asd::Keys::C, 
-		asd::Keys::V, 
-		asd::Keys::B 
+		asd::Keys::Z,
+		asd::Keys::X,
+		asd::Keys::C,
+		asd::Keys::V,
+		asd::Keys::B
 	};
 
 	//キーを文字列に変換するマップ。
-	std::map<asd::Keys, std::string> keyToStr = { 
-		{ asd::Keys::Z, "Z" },
-		{ asd::Keys::X, "X" },
-		{ asd::Keys::C, "C" },
-		{ asd::Keys::V, "V" },
-		{ asd::Keys::B, "B" }
+	std::map<asd::Keys, std::string> keyToStr = {
+			{ asd::Keys::Z, "Z" },
+			{ asd::Keys::X, "X" },
+			{ asd::Keys::C, "C" },
+			{ asd::Keys::V, "V" },
+			{ asd::Keys::B, "B" }
 	};
 
 	// Altseedのウインドウが閉じられていないか確認する。
