@@ -15,7 +15,16 @@ SampleItem::SampleItem(SampleInfo sample, std::shared_ptr<asd::Font>& font)
 	SetTexture(texture);
 	SetScale(Vector2DF(SizeX, SizeY) / texture->GetSize().To2DF());
 
-	auto text = sample.readableTitle.empty() ? sample.title : sample.readableTitle;
+	asd::astring text;
+	if (!sample.readableTitle.empty())
+	{
+		text = sample.readableTitle;
+	}
+	else
+	{
+		text = sample.title;
+	}
+
 	m_title = make_shared<TextObject2D>();
 	m_title->SetFont(font);
 	m_title->SetText(GetWrappedString(font, text).c_str());

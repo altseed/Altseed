@@ -22,7 +22,16 @@ void GeometryObject2D_PolygonShape()
 	{
 		asd::Vector2DF vec = asd::Vector2DF(1, 0);
 		vec.SetDegree(i * 36);
-		vec.SetLength((i % 2 == 0) ? 200 : 75);
+
+		if (i % 2 == 0)
+		{
+			vec.SetLength(200);
+		}
+		else
+		{
+			vec.SetLength(75);
+		}
+
 		polygon->AddVertex(vec + asd::Vector2DF(320, 240));
 	}
 

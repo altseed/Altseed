@@ -34,7 +34,16 @@ class GeometryObject2D_PolygonShape_Textured : ISample
         {
             asd.Vector2DF vec = new asd.Vector2DF(1, 0);
             vec.Degree = i * 36;
-            vec.Length = (i % 2 == 0) ? 200 : 75;
+
+            if(i % 2 ==0)
+            {
+                vec.Length = 200;
+            }
+            else
+            {
+                vec.Length = 75;
+            }
+
             polygon.AddVertex(vec + new asd.Vector2DF(320, 240));
 
         }

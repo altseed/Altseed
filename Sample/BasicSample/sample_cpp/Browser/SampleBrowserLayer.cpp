@@ -25,8 +25,15 @@ SampleBrowserLayer::SampleBrowserLayer(std::vector<SampleInfo>& samples)
 		++index;
 	}
 
-	int haveJut = index % Columns == 0 ? 0 : 1;
-	m_totalHeight = ItemOffsetY * (index / Columns + haveJut) + 8 + 20;
+	auto haveJut = index % Columns == 0;
+	if (haveJut)
+	{
+		m_totalHeight = ItemOffsetY * (index / Columns) + 8 + 20;
+	}
+	else
+	{
+		m_totalHeight = ItemOffsetY * (index / Columns + 1) + 8 + 20;
+	}
 
 	m_camera = make_shared<CameraObject2D>();
 	m_camera->SetSrc(RectI(0, 0, 640, 480));
@@ -36,7 +43,13 @@ SampleBrowserLayer::SampleBrowserLayer(std::vector<SampleInfo>& samples)
 
 void SampleBrowserLayer::OnUpdated()
 {
-	auto rows = (m_items.size() / Columns) + (m_items.size() % Columns == 0 ? 0 : 1);
+	auto rows = m_items.size() / Columns;
+
+	if (m_items.size() % Columns != 0)
+	{
+		rows++;
+	}
+
 	auto y = m_camera->GetSrc().Y - Engine::GetMouse()->GetMiddleButton()->GetRotation() * 30;
 	y = max(0, y);
 	y = min(rows * ItemOffsetY - 480 + 24 + 60, y);

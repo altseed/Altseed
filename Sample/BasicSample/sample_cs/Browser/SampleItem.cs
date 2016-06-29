@@ -18,7 +18,14 @@ namespace sample_cs
 		public ISample Sample { get; private set; }
 		public RectangleShape Shape
 		{
-			get { return shape_ = shape_ ?? GetArea(); }
+            get
+            {
+                if (shape_ == null)
+                {
+                    shape_ = GetArea();
+                }
+                return shape_;
+            }
 		}
 		public TextObject2D Title { get; private set; }
 
@@ -43,7 +50,16 @@ namespace sample_cs
 			}
 			Scale = Size / Texture.Size.To2DF();
 
-			var text = sample.Title != "" ? sample.Title : sample.GetType().Name;
+            string text;
+            if(sample.Title != "")
+            {
+                text = sample.Title;
+            }
+            else
+            {
+                text = sample.GetType().Name;
+            }
+
 			Title = new TextObject2D()
 			{
 				Text = GetWrappedString(font, text),

@@ -43,8 +43,17 @@ namespace sample_cs
 				index++;
 			}
 
-            var isThereJut = index % Columns == 0 ? 0 : 1;
-            TotalHeight = ItemOffset.Y * (index / Columns + isThereJut) + 8 + 20;
+            var isThereJut = index % Columns == 0;
+
+            if(isThereJut)
+            {
+                TotalHeight = ItemOffset.Y * (index / Columns) + 8 + 20;
+            }
+            else
+            {
+                TotalHeight = ItemOffset.Y * (index / Columns + 1) + 8 + 20;
+            }
+            
 
             camera = new CameraObject2D()
 			{
@@ -56,7 +65,13 @@ namespace sample_cs
 
 		protected override void OnUpdated()
 		{
-			var rows = (items.Count / Columns) + (items.Count % Columns == 0 ? 0 : 1);
+            var rows = items.Count / Columns;
+            
+            if(items.Count % Columns != 0)
+            {
+                rows++;
+            }
+
             var y = camera.Src.Y - Engine.Mouse.MiddleButton.WheelRotation * 30;
 			y = Math.Max(0, y);
 			y = Math.Min(rows * ItemOffset.Y - 480 + 24 + 60, y);
