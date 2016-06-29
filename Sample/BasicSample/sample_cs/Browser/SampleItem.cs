@@ -50,7 +50,7 @@ namespace sample_cs
 			}
 			Scale = Size / Texture.Size.To2DF();
 
-            string text;
+            string text = "";
             if(sample.Title != "")
             {
                 text = sample.Title;
