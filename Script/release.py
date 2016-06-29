@@ -334,6 +334,8 @@ def release_java():
 
 	aceutils.mkdir(targetDir+r'/')
 
+	makeDocument(type, targetDir,'java')
+
 	# Runtime
 	runtimeDir = targetDir+r'/Runtime/'
 

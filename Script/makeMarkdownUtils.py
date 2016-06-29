@@ -17,7 +17,7 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,sampleDirPrefix,mode='
     relCodePath コードファイルへのルートからの相対パス
     ssDir SSの保存ディレクトリ
 	sampleDirPrefix サンプルdirへのリンクの前に追加される文字列
-    mode 表示モード(cpp,cs)
+    mode 表示モード(cpp,cs,java)
     """
 
     #includeの実装
@@ -54,6 +54,7 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,sampleDirPrefix,mode='
 
             cpp_targetPath = getFile('.cpp')
             cs_targetPath = getFile('.cs')
+            java_targetPath = getFile('.java')
 
             # SSの表示
             if len(ss_files) > 0:
@@ -79,6 +80,9 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,sampleDirPrefix,mode='
                 elif ext=='.cs':
                     ls_included.append(r'<h3 class="csharp">C#</h3>'+'\n')
                     ls_included.append('```cs\n')
+                elif ext=='.java':
+                    ls_included.append(r'<h3 class="java">Java</h3>'+'\n')
+                    ls_included.append('```java\n')
                 else:
                     ls_included.append('```\n')
 
@@ -103,11 +107,13 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,sampleDirPrefix,mode='
             if mode == 'all':
                 includeFile(cpp_targetPath)
                 includeFile(cs_targetPath)
+                includeFile(java_targetPath)
             if mode == 'cs':
                 includeFile(cs_targetPath)
             elif mode == 'cpp':
                 includeFile(cpp_targetPath)
-
+            elif mode == 'java':
+                includeFile(java_targetPath)
         else:
             ls_included.append(s)
 
