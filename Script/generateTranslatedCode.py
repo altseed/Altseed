@@ -16,10 +16,9 @@ def exec_sync( cmd ):
 aceutils.cdToScript()
 
 if aceutils.isWin():
-	exec_sync('.\CSharpTranslator\LanguageTranslator.exe ../Dev/asd_cs/ ../Dev/asd_java/')
 	exec_sync('.\..\Dev\generate_swig.py java')
+	exec_sync('.\CSharpTranslator\LanguageTranslator.exe ../Dev/asd_cs/ ../Dev/asd_java/')
 else:
-	exec_sync('mono ./CSharpTranslator/LanguageTranslator.exe ../Dev/asd_cs/ ../Dev/asd_java/')
 	exec_sync('python ./../Dev/generate_swig.py java')
-
+	exec_sync('mono ./CSharpTranslator/LanguageTranslator.exe ../Dev/asd_cs/ ../Dev/asd_java/')
 
