@@ -29,21 +29,24 @@ public class Keyboard_SingularKey : ISample
         while (asd.Engine.DoEvents())
         {
             // キーボードのZキーの入力状態を取得する。
-            // キー入力状態を示す文字列を更新する。
-            switch (asd.Engine.Keyboard.GetKeyState(asd.Keys.Z))
+
+            var zstate = asd.Engine.Keyboard.GetKeyState(asd.Keys.Z);
+
+            if(zstate == asd.KeyState.Free) // 前フレームと本フレームで非押下
             {
-                case asd.KeyState.Free: // 前フレームと本フレームで非押下
-                    keyStateText.Text = "Zキーを離しています。";
-                    break;
-                case asd.KeyState.Hold: // 前フレームと本フレームで押下
-                    keyStateText.Text = "Zキーを押しています。";
-                    break;
-                case asd.KeyState.Release: // 前フレームで押下、本フレームで非押下
-                    keyStateText.Text = "Zキーを離しました!";
-                    break;
-                case asd.KeyState.Push: // 前フレームで非押下、本フレームで押下
-                    keyStateText.Text = "Zキーを押しました!";
-                    break;
+                keyStateText.Text = "Zキーを離しています。";
+            }
+            else if(zstate == asd.KeyState.Hold) // 前フレームと本フレームで押下
+            {
+                keyStateText.Text = "Zキーを押しています。";
+            }
+            else if(zstate == asd.KeyState.Release) // 前フレームで押下、本フレームで非押下
+            {
+                keyStateText.Text = "Zキーを離しました!";
+            }
+            else if(zstate == asd.KeyState.Push) // 前フレームで非押下、本フレームで押下
+            {
+                keyStateText.Text = "Zキーを押しました!";
             }
 
             // Altseedを更新する。

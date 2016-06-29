@@ -21,21 +21,23 @@ void Keyboard_SingularKey()
 	while (asd::Engine::DoEvents())
 	{
 		// キーボードのZキーの入力状態を取得する。
-		// キー入力状態を示す文字列を更新する。
-		switch (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Z))
+		auto zstate = asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Z);
+
+		if (zstate == asd::KeyState::Free) // 前フレームと本フレームで非押下
 		{
-		case asd::KeyState::Free: // 前フレームと本フレームで非押下
 			keyStateText->SetText(asd::ToAString("Zキーを離しています。").c_str());
-			break;
-		case asd::KeyState::Hold: // 前フレームと本フレームで押下
+		}
+		else if (zstate == asd::KeyState::Hold) // 前フレームと本フレームで押下
+		{
 			keyStateText->SetText(asd::ToAString("Zキーを押しています。").c_str());
-			break;
-		case asd::KeyState::Release: // 前フレームで押下、本フレームで非押下
+		}
+		else if (zstate == asd::KeyState::Release) // 前フレームで押下、本フレームで非押下
+		{
 			keyStateText->SetText(asd::ToAString("Zキーを離しました!").c_str());
-			break;
-		case asd::KeyState::Push: // 前フレームで非押下、本フレームで押下
+		}
+		else if (zstate == asd::KeyState::Push) // 前フレームで非押下、本フレームで押下
+		{
 			keyStateText->SetText(asd::ToAString("Zキーを押しました!").c_str());
-			break;
 		}
 
 		// Altseedを更新する。

@@ -30,20 +30,24 @@ public class Mouse_State : ISample
         while (asd.Engine.DoEvents())
         {
             // マウスの中央クリック状態を取得して表示する。
-            switch (asd.Engine.Mouse.MiddleButton.ButtonState)
+
+            var middlestate = asd.Engine.Mouse.MiddleButton.ButtonState;
+
+            if(middlestate == asd.MouseButtonState.Free) //前フレームと本フレームで非押下
             {
-                case asd.MouseButtonState.Free: //前フレームと本フレームで非押下
-                    buttonStateText.Text = "中ボタンを離しています。";
-                    break;
-                case asd.MouseButtonState.Hold: //前フレームと本フレームで押下
-                    buttonStateText.Text = "中ボタンを押しています。";
-                    break;
-                case asd.MouseButtonState.Release: //前フレームで押下、本フレームで非押下
-                    buttonStateText.Text = "中ボタンを離しました!";
-                    break;
-                case asd.MouseButtonState.Push: //前フレームで非押下、本フレームで押下
-                    buttonStateText.Text = "中ボタンを押しました!";
-                    break;
+                buttonStateText.Text = "中ボタンを離しています。";
+            }
+            else if(middlestate == asd.MouseButtonState.Hold) //前フレームと本フレームで押下
+            {
+                buttonStateText.Text = "中ボタンを押しています。";
+            }
+            else if(middlestate == asd.MouseButtonState.Release) //前フレームで押下、本フレームで非押下
+            {
+                buttonStateText.Text = "中ボタンを離しました!";
+            }
+            else if(middlestate == asd.MouseButtonState.Push) //前フレームで非押下、本フレームで押下
+            {
+                buttonStateText.Text = "中ボタンを押しました!";
             }
 
             // Altseedを更新する。

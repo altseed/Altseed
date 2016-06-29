@@ -29,15 +29,16 @@ public class Keyboard_Basic :ISample
         while (asd.Engine.DoEvents())
         {
             // キーボードのZキーの入力状態を取得する。
-            // キー入力状態を示す文字列を更新する。
-            switch (asd.Engine.Keyboard.GetKeyState(asd.Keys.Z))
+
+            var zstate = asd.Engine.Keyboard.GetKeyState(asd.Keys.Z);
+
+            if(zstate == asd.KeyState.Free) // Zキーを離している状態。
             {
-                case asd.KeyState.Free: // Zキーを離している状態。
                     keyStateText.Text = "Zキーを離しています。";
-                    break;
-                case asd.KeyState.Hold: // Zキーを押している状態。
+            }
+            else if(zstate == asd.KeyState.Hold) // Zキーを押している状態。
+            {
                     keyStateText.Text = "Zキーを押しています。";
-                    break;
             }
 
             // Altseedを更新する。

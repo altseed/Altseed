@@ -46,20 +46,23 @@ void Keyboard_PuralKeys()
 			auto keyStr = keyToStr[key];
 
 			// キーボードのZキーの入力状態を取得する。
-			switch (asd::Engine::GetKeyboard()->GetKeyState(key))
+			auto zstate = asd::Engine::GetKeyboard()->GetKeyState(key);
+
+			if (zstate == asd::KeyState::Free) // 前フレームと本フレームで非押下
 			{
-			case asd::KeyState::Free: // 前フレームと本フレームで非押下
 				displayStr += asd::ToAString((keyStr + "キーを離しています。").c_str());
-				break;
-			case asd::KeyState::Hold: // 前フレームと本フレームで押下
+			}
+			else if (zstate == asd::KeyState::Hold) // 前フレームと本フレームで押下
+			{
 				displayStr += asd::ToAString((keyStr + "キーを押しています。").c_str());
-				break;
-			case asd::KeyState::Release: // 前フレームで押下、本フレームで非押下
+			}
+			else if (zstate == asd::KeyState::Release) // 前フレームで押下、本フレームで非押下
+			{
 				displayStr += asd::ToAString((keyStr + "キーを離しました!").c_str());
-				break;
-			case asd::KeyState::Push: // 前フレームで非押下、本フレームで押下
+			}
+			else if (zstate == asd::KeyState::Push) // 前フレームで非押下、本フレームで押下
+			{
 				displayStr += asd::ToAString((keyStr + "キーを押しました!").c_str());
-				break;
 			}
 
 			displayStr += asd::ToAString("\n");

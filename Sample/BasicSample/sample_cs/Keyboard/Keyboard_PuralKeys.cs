@@ -58,20 +58,23 @@ public class Keyboard_PuralKeys : ISample
                 var keyStr = keyToStr[key];
 
                 // キーボードのZキーの入力状態を取得する。
-                switch (asd.Engine.Keyboard.GetKeyState(key))
+                var state = asd.Engine.Keyboard.GetKeyState(key);
+
+                if(state == asd.KeyState.Free) // 前フレームと本フレームで非押下
                 {
-                    case asd.KeyState.Free: // 前フレームと本フレームで非押下
                         displayStr += (keyStr + "キーを離しています。");
-                        break;
-                    case asd.KeyState.Hold: // 前フレームと本フレームで押下
+                }
+                else if(state == asd.KeyState.Hold) // 前フレームと本フレームで押下
+                {
                         displayStr += (keyStr + "キーを押しています。");
-                        break;
-                    case asd.KeyState.Release: // 前フレームで押下、本フレームで非押下
+                }
+                else if(state == asd.KeyState.Release) // 前フレームで押下、本フレームで非押下
+                {
                         displayStr += (keyStr + "キーを離しました!");
-                        break;
-                    case asd.KeyState.Push: // 前フレームで非押下、本フレームで押下
+                }
+                else if(state == asd.KeyState.Push) // 前フレームで非押下、本フレームで押下
+                {
                         displayStr += (keyStr + "キーを押しました!");
-                        break;
                 }
 
                 displayStr += "\n";
