@@ -345,6 +345,9 @@ Sample/ApplicationSample/sample_cs/Altseed.XML
 Sample/ApplicationSample/bin/Altseed.xml
 Sample/ApplicationSample/bin/Log.html
 
+# Sample
+Sample/BasicSample/sample_java/*.java
+
 # Template
 Template/cpp_win/cpp/
 Template/cpp_win/bin/

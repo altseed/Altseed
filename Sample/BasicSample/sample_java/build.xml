@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project default="build" name="Altseed">
+
+
+<target name="build">
+	<javac	srcdir=".;"
+		destdir="./../bin"
+		encoding="UTF-8"
+		classpath="./../Altseed.jar" />
+</target>
+
+
+</project>
