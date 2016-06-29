@@ -60,7 +60,7 @@ void Joystick_Basic()
 			}
 
 		}
-		
+
 		stateText->SetText(displayStr.c_str());
 
 		// Altseedを更新する。
