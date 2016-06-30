@@ -6,7 +6,7 @@
 	<javac	srcdir=".;"
 		destdir="./../bin"
 		encoding="UTF-8"
-		classpath="./../Altseed.jar" />
+		classpath="./../bin/Altseed.jar" />
 </target>
 
 
