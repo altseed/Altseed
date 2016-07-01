@@ -15,18 +15,18 @@ namespace sample_cs
         private List<SampleItem> items;
         private CameraObject2D camera;
         private SampleItem activeItem;
+        private SampleBrowser browser;
 
-        public event Action<ISample> SelectionChanged;
-        public event Action<ISample> OnDecide;
         public RectF CameraArea
         {
             get { return camera.Src.ToF(); }
         }
         public float TotalHeight { get; private set; }
 
-        public SampleBrowserLayer(ISample[] samples)
+        public SampleBrowserLayer(SampleBrowser browser, ISample[] samples)
         {
             Name = "BrowserLayer";
+            this.browser = browser;
             items = new List<SampleItem>();
 
             var font = Engine.Graphics.CreateDynamicFont("", 12, new Color(255, 255, 255, 255), 1, new Color(0, 0, 0, 255));
@@ -40,7 +40,7 @@ namespace sample_cs
                 AddObject(item);
                 items.Add(item);
 
-                ++index;
+                index++;
             }
 
             var isThereJut = index % Columns == 0;
@@ -53,6 +53,7 @@ namespace sample_cs
             {
                 TotalHeight = ItemOffset.Y * (index / Columns + 1) + 8 + 20;
             }
+
 
             camera = new CameraObject2D()
             {
@@ -70,7 +71,6 @@ namespace sample_cs
             {
                 rows++;
             }
-
 
             var y = camera.Src.Y - Engine.Mouse.MiddleButton.WheelRotation * 30;
             y = Math.Max(0, y);
@@ -91,7 +91,7 @@ namespace sample_cs
             {
                 activeItem.Disactivate();
                 activeItem = null;
-                SelectionChanged(null);
+                browser.ShowInfo(null);
             }
 
             foreach (var item in items)
@@ -102,11 +102,11 @@ namespace sample_cs
                     {
                         item.Activate();
                         activeItem = item;
-                        SelectionChanged(item.Sample);
+                        browser.ShowInfo(item.Sample);
                     }
-                    if (OnDecide != null && Engine.Mouse.LeftButton.ButtonState == MouseButtonState.Push)
+                    if (Engine.Mouse.LeftButton.ButtonState == MouseButtonState.Push)
                     {
-                        OnDecide(item.Sample);
+                        browser.Selected = item.Sample;
                     }
                     break;
                 }

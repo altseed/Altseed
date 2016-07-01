@@ -1,13 +1,16 @@
+#include "SampleBrowser.h"
 #include "SampleBrowserLayer.h"
 #include "SampleItem.h"
 
 using namespace std;
 using namespace asd;
 
-SampleBrowserLayer::SampleBrowserLayer(std::vector<SampleInfo>& samples)
+SampleBrowserLayer::SampleBrowserLayer(SampleBrowser* browser, std::vector<SampleInfo>& samples)
 	: m_items(std::vector<shared_ptr<SampleItem>>())
 {
 	SetName(ToAString("BrowserLayer"));
+
+	this->browser = browser;
 
 	auto font = Engine::GetGraphics()->CreateDynamicFont(
 		ToAString("").c_str(),
@@ -26,7 +29,7 @@ SampleBrowserLayer::SampleBrowserLayer(std::vector<SampleInfo>& samples)
 	}
 
 	auto haveJut = index % Columns == 0;
-	if (haveJut)	
+	if (haveJut)
 	{
 		m_totalHeight = ItemOffsetY * (index / Columns) + 8 + 20;
 	}
@@ -34,7 +37,6 @@ SampleBrowserLayer::SampleBrowserLayer(std::vector<SampleInfo>& samples)
 	{
 		m_totalHeight = ItemOffsetY * (index / Columns + 1) + 8 + 20;
 	}
-
 
 	m_camera = make_shared<CameraObject2D>();
 	m_camera->SetSrc(RectI(0, 0, 640, 480));
@@ -45,12 +47,11 @@ SampleBrowserLayer::SampleBrowserLayer(std::vector<SampleInfo>& samples)
 void SampleBrowserLayer::OnUpdated()
 {
 	auto rows = m_items.size() / Columns;
-	
+
 	if (m_items.size() % Columns != 0)
 	{
 		rows++;
 	}
-	
 
 	auto y = m_camera->GetSrc().Y - Engine::GetMouse()->GetMiddleButton()->GetRotation() * 30;
 	y = max(0, y);
@@ -68,13 +69,10 @@ void SampleBrowserLayer::OnUpdated()
 
 		auto disabled = SampleInfo();
 		disabled.isAvailable = false;
-		if (m_onSelectionChanged != nullptr)
-		{
-			m_onSelectionChanged(disabled);
-		}
+		browser->ShowInfo(disabled);
 	}
 
-	for(auto& item : m_items)
+	for (auto& item : m_items)
 	{
 		if (item->GetArea().GetIsCollidedWith(mouse))
 		{
@@ -82,14 +80,11 @@ void SampleBrowserLayer::OnUpdated()
 			{
 				item->Activate();
 				m_activeItem = item;
-				if (m_onSelectionChanged != nullptr)
-				{
-					m_onSelectionChanged(item->GetSample());
-				}
+				browser->ShowInfo(item->GetSample());
 			}
-			if (m_onDecide != nullptr && Engine::GetMouse()->GetLeftButton()->GetButtonState() == MouseButtonState::Push)
+			if (Engine::GetMouse()->GetLeftButton()->GetButtonState() == MouseButtonState::Push)
 			{
-				m_onDecide(item->GetSample());
+				browser->Selected = item->GetSample();
 			}
 			break;
 		}
@@ -104,14 +99,4 @@ RectF& SampleBrowserLayer::GetCameraArea() const
 float SampleBrowserLayer::GetTotalHeight() const
 {
 	return m_totalHeight;
-}
-
-void SampleBrowserLayer::SetOnSelectionChangedEventHandler(std::function<void(SampleInfo)> eventHandler)
-{
-	m_onSelectionChanged = eventHandler;
-}
-
-void SampleBrowserLayer::SetOnDecideEventHandler(std::function<void(SampleInfo)> eventHandler)
-{
-	m_onDecide = eventHandler;
 }
