@@ -5,13 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Reflection;
 
-namespace sample_cs
+class Program
 {
-	class Program
-	{
-		static void Main(string[] args)
-		{
-			ISample[] samples =
+    static void Main(string[] args)
+    {
+        ISample[] samples =
 			{
 				new ImagePackageUI_Basic(),
 				new ImagePackageUI_AlphaBlend(),
@@ -28,8 +26,7 @@ namespace sample_cs
 				new Action2D_Camera(),
             };
 
-			var browser = new SampleBrowser(samples);
-			browser.Run();
-		}
-	}
+        var browser = new SampleBrowser(samples);
+        browser.Run();
+    }
 }

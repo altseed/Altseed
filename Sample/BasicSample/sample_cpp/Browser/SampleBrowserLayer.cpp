@@ -69,10 +69,7 @@ void SampleBrowserLayer::OnUpdated()
 
 		auto disabled = SampleInfo();
 		disabled.isAvailable = false;
-		if (m_onSelectionChanged != nullptr)
-		{
-			m_onSelectionChanged(disabled);
-		}
+		browser->ShowInfo(disabled);
 	}
 
 	for(auto& item : m_items)
@@ -83,10 +80,7 @@ void SampleBrowserLayer::OnUpdated()
 			{
 				item->Activate();
 				m_activeItem = item;
-				if (m_onSelectionChanged != nullptr)
-				{
-					m_onSelectionChanged(item->GetSample());
-				}
+				browser->ShowInfo(item->GetSample());
 			}
 			if (Engine::GetMouse()->GetLeftButton()->GetButtonState() == MouseButtonState::Push)
 			{
@@ -105,9 +99,4 @@ RectF& SampleBrowserLayer::GetCameraArea() const
 float SampleBrowserLayer::GetTotalHeight() const
 {
 	return m_totalHeight;
-}
-
-void SampleBrowserLayer::SetOnSelectionChangedEventHandler(std::function<void(SampleInfo)> eventHandler)
-{
-	m_onSelectionChanged = eventHandler;
 }

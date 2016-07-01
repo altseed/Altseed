@@ -13,7 +13,6 @@ private:
 	std::vector<std::shared_ptr<SampleItem>> m_items;
 	asd::CameraObject2D::Ptr m_camera;
 	asd::RectF m_cameraArea;
-	std::function<void(SampleInfo)> m_onSelectionChanged;
 	
 	SampleBrowser*	browser = nullptr;
 
@@ -32,5 +31,4 @@ public:
 
 	asd::RectF& GetCameraArea() const;
 	float GetTotalHeight() const;
-	void SetOnSelectionChangedEventHandler(std::function<void(SampleInfo)> eventHandler);
 };

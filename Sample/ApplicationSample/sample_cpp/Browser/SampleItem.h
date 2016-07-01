@@ -19,6 +19,8 @@ public:
 
 	SampleItem(SampleInfo sample, std::shared_ptr<asd::Font>& font);
 
+	void OnAdded() override;
+
 	asd::RectangleShape GetArea();
 	SampleInfo GetSample() const;
 

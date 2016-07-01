@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Reflection;
-
-namespace sample_cs
+﻿
+class Program
 {
-	class Program
+	static void Main(string[] args)
 	{
-		static void Main(string[] args)
-		{
-			ISample[] samples =
+		ISample[] samples =
 			{
 				new Basic_Empty(),
 				new Basic_FullScreen(), 
@@ -86,8 +78,7 @@ namespace sample_cs
                 new Texture_Edit(),
             };
 
-			var browser = new SampleBrowser(samples);
-			browser.Run();
-		}
+		var browser = new SampleBrowser(samples);
+		browser.Run();
 	}
 }
