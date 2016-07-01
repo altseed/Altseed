@@ -14,11 +14,18 @@ namespace sample_cs
 		private ISample[] samples;
 
 		public ISample Selected = null;
+        private SampleBrowserLayer browserLayer = null;
+        private SampleInfoLayer infoLayer = null;
 
 		public SampleBrowser(ISample[] samples)
 		{
 			this.samples = samples;
 		}
+
+        public void ShowInfo(ISample sample)
+        {
+            infoLayer.Show(sample);
+        }
 
 		public void Run()
 		{
@@ -27,15 +34,14 @@ namespace sample_cs
 				Engine.Initialize("サンプルブラウザ", 640, 480, new EngineOption());
 
 				var scene = new Scene();
-				var layer = new SampleBrowserLayer(this, samples);
+                browserLayer = new SampleBrowserLayer(this, samples);
 
                 var viewSize = SampleBrowserLayer.Columns * SampleBrowserLayer.ItemOffset.Y;
-                var size = (480 - 80) * viewSize / layer.TotalHeight;
-                var infoLayer = new SampleInfoLayer(size, layer.TotalHeight, viewSize) { DrawingPriority = 2 };
-                layer.SelectionChanged += s => infoLayer.Show(s);
+                var size = (480 - 80) * viewSize / browserLayer.TotalHeight;
+                infoLayer = new SampleInfoLayer(size, browserLayer.TotalHeight, viewSize) { DrawingPriority = 2 };
 
 				Engine.ChangeScene(scene);
-				scene.AddLayer(layer);
+                scene.AddLayer(browserLayer);
                 scene.AddLayer(infoLayer);
 
 				var hintLayer = new Layer2D();
@@ -49,7 +55,7 @@ namespace sample_cs
 				while(Engine.DoEvents() && Selected == null)
 				{
 					Engine.Update();
-                    infoLayer.MoveScrollBar(layer.CameraArea.Y);
+                    infoLayer.MoveScrollBar(browserLayer.CameraArea.Y);
 				}
 
 				Engine.Terminate();

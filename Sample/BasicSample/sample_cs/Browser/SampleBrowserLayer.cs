@@ -16,8 +16,6 @@ namespace sample_cs
 		private CameraObject2D camera;
 		private SampleItem activeItem;
 		private SampleBrowser browser;
-
-        public event Action<ISample> SelectionChanged;
 		
         public RectF CameraArea
         {
@@ -93,7 +91,7 @@ namespace sample_cs
 			{
 				activeItem.Disactivate();
 				activeItem = null;
-                SelectionChanged(null);
+                browser.ShowInfo(null);
             }
 
 			foreach(var item in items)
@@ -104,7 +102,7 @@ namespace sample_cs
                     {
                         item.Activate();
                         activeItem = item;
-                        SelectionChanged(item.Sample);
+                        browser.ShowInfo(item.Sample);
                     }
 					if(Engine.Mouse.LeftButton.ButtonState == MouseButtonState.Push)
 					{

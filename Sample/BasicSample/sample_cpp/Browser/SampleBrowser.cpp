@@ -20,15 +20,14 @@ void SampleBrowser::Run()
 		Engine::Initialize(ToAString("サンプルブラウザ").c_str(), 640, 480, EngineOption());
 
 		auto scene = make_shared<Scene>();
-		auto layer = make_shared<SampleBrowserLayer>(this, m_samples);
+		browserLayer = make_shared<SampleBrowserLayer>(this, m_samples);
 
-		auto size = (480 - 85) * (480 - 85) / layer->GetTotalHeight();
-		auto infoLayer = make_shared<SampleInfoLayer>(size, layer->GetTotalHeight());
+		auto size = (480 - 85) * (480 - 85) / browserLayer->GetTotalHeight();
+		infoLayer = make_shared<SampleInfoLayer>(size, browserLayer->GetTotalHeight());
 		infoLayer->SetDrawingPriority(2);
-		layer->SetOnSelectionChangedEventHandler([&infoLayer](SampleInfo s){ infoLayer->Show(s); });
 
 		Engine::ChangeScene(scene);
-		scene->AddLayer(layer);
+		scene->AddLayer(browserLayer);
 		scene->AddLayer(infoLayer);
 
 		auto hintLayer = make_shared<Layer2D>();
@@ -41,7 +40,7 @@ void SampleBrowser::Run()
 		while (Engine::DoEvents() && !Selected.isAvailable)
 		{
 			Engine::Update();
-			infoLayer->MoveScrollBar(layer->GetCameraArea().Y);
+			infoLayer->MoveScrollBar(browserLayer->GetCameraArea().Y);
 		}
 
 		Engine::Terminate();
@@ -54,4 +53,10 @@ void SampleBrowser::Run()
 		Selected.isAvailable = false;
 
 	}
+
+}
+
+void SampleBrowser::ShowInfo(SampleInfo sample)
+{
+	infoLayer->Show(sample);
 }
