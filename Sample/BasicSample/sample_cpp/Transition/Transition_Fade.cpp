@@ -3,7 +3,7 @@
 // フェードアウト・フェードインでシーン遷移をするサンプル。
 
 // 遷移後のシーン
-class Scene2
+class Transition_Fade_Scene2
 	: public asd::Scene
 {
 public:
@@ -22,7 +22,7 @@ public:
 };
 
 // 遷移前のシーン
-class Scene1
+class Transition_Fade_Scene1
 	: public asd::Scene
 {
 public:
@@ -46,7 +46,7 @@ public:
 		{
 			// フェードアウト・インによるシーン遷移を開始する。
 			// 1秒かけてフェードアウトし、1.5秒かけてフェードイン。
-			asd::Engine::ChangeSceneWithTransition(std::make_shared<Scene2>(), std::make_shared<asd::TransitionFade>(1.0f, 1.5f));
+			asd::Engine::ChangeSceneWithTransition(std::make_shared<Transition_Fade_Scene2>(), std::make_shared<asd::TransitionFade>(1.0f, 1.5f));
 		}
 	}
 };
@@ -57,7 +57,7 @@ void Transition_Fade()
 	asd::Engine::Initialize(asd::ToAString("Transition_Fade").c_str(), 640, 480, asd::EngineOption());
 
 	// シーンのインスタンスを生成する。
-	auto scene = std::make_shared<Scene1>();
+	auto scene = std::make_shared<Transition_Fade_Scene1>();
 
 	// シーンをシーン1に設定する。
 	asd::Engine::ChangeScene(scene);
