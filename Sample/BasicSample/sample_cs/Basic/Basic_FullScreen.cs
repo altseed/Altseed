@@ -1,6 +1,5 @@
 ﻿
-namespace sample_cs
-{
+
 	class Basic_FullScreen : ISample
 	{
 		public void Run()
@@ -53,4 +52,3 @@ namespace sample_cs
 			get { return "フルスクリーンモード"; }
 		}
 	}
-}

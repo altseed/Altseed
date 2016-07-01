@@ -5,68 +5,66 @@ using System.Text;
 using System.Threading.Tasks;
 using asd;
 
-namespace sample_cs
+
+class SampleBrowser
 {
-	class SampleBrowser
+	public static readonly float Margin = 16;
+
+	private ISample[] samples;
+
+	public ISample Selected = null;
+	private SampleBrowserLayer browserLayer = null;
+	private SampleInfoLayer infoLayer = null;
+
+	public SampleBrowser(ISample[] samples)
 	{
-        public static readonly float Margin = 16;
+		this.samples = samples;
+	}
 
-		private ISample[] samples;
+	public void ShowInfo(ISample sample)
+	{
+		infoLayer.Show(sample);
+	}
 
-		public ISample Selected = null;
-        private SampleBrowserLayer browserLayer = null;
-        private SampleInfoLayer infoLayer = null;
-
-		public SampleBrowser(ISample[] samples)
+	public void Run()
+	{
+		while (true)
 		{
-			this.samples = samples;
-		}
+			Engine.Initialize("サンプルブラウザ", 640, 480, new EngineOption());
 
-        public void ShowInfo(ISample sample)
-        {
-            infoLayer.Show(sample);
-        }
+			var scene = new Scene();
+			browserLayer = new SampleBrowserLayer(this, samples);
 
-		public void Run()
-		{
-			while(true)
+			var viewSize = SampleBrowserLayer.Columns * SampleBrowserLayer.ItemOffset.Y;
+			var size = (480 - 80) * viewSize / browserLayer.TotalHeight;
+			infoLayer = new SampleInfoLayer(size, browserLayer.TotalHeight, viewSize) { DrawingPriority = 2 };
+
+			Engine.ChangeScene(scene);
+			scene.AddLayer(browserLayer);
+			scene.AddLayer(infoLayer);
+
+			var hintLayer = new Layer2D();
+			hintLayer.AddObject(new TextureObject2D()
 			{
-				Engine.Initialize("サンプルブラウザ", 640, 480, new EngineOption());
+				Texture = Engine.Graphics.CreateTexture2D("Data/Browser/Hint.png")
+			});
 
-				var scene = new Scene();
-                browserLayer = new SampleBrowserLayer(this, samples);
+			scene.AddLayer(hintLayer);
 
-                var viewSize = SampleBrowserLayer.Columns * SampleBrowserLayer.ItemOffset.Y;
-                var size = (480 - 80) * viewSize / browserLayer.TotalHeight;
-                infoLayer = new SampleInfoLayer(size, browserLayer.TotalHeight, viewSize) { DrawingPriority = 2 };
-
-				Engine.ChangeScene(scene);
-                scene.AddLayer(browserLayer);
-                scene.AddLayer(infoLayer);
-
-				var hintLayer = new Layer2D();
-				hintLayer.AddObject(new TextureObject2D()
-				{
-					Texture = Engine.Graphics.CreateTexture2D("Data/Browser/Hint.png")
-				});
-
-				scene.AddLayer(hintLayer);
-
-				while(Engine.DoEvents() && Selected == null)
-				{
-					Engine.Update();
-                    infoLayer.MoveScrollBar(browserLayer.CameraArea.Y);
-				}
-
-				Engine.Terminate();
-
-				if(Selected == null)
-				{
-					break;
-				}
-				Selected.Run();
-				Selected = null;
+			while (Engine.DoEvents() && Selected == null)
+			{
+				Engine.Update();
+				infoLayer.MoveScrollBar(browserLayer.CameraArea.Y);
 			}
+
+			Engine.Terminate();
+
+			if (Selected == null)
+			{
+				break;
+			}
+			Selected.Run();
+			Selected = null;
 		}
 	}
 }
