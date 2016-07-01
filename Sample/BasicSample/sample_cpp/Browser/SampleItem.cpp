@@ -31,14 +31,17 @@ SampleItem::SampleItem(SampleInfo sample, std::shared_ptr<asd::Font>& font)
 	m_title->SetPosition(Vector2DF(0, 115));
 	m_title->SetDrawingPriority(1);
 
-	AddChild(m_title,
-		ChildManagementMode::RegistrationToLayer | ChildManagementMode::Disposal,
-		ChildTransformingMode::Position);
-
 	auto frameTexture = Engine::GetGraphics()->CreateTexture2D(ToAString("Data/Browser/Frame.png").c_str());
 	m_frame = make_shared<TextureObject2D>();
 	m_frame->SetTexture(frameTexture);
 	m_frame->SetPosition(Vector2DF(-3, -3));
+}
+
+void SampleItem::OnAdded()
+{
+	AddChild(m_title,
+		ChildManagementMode::RegistrationToLayer | ChildManagementMode::Disposal,
+		ChildTransformingMode::Position);
 
 	AddChild(m_frame,
 		ChildManagementMode::RegistrationToLayer | ChildManagementMode::Disposal,
