@@ -55,6 +55,8 @@ namespace asd
 			e.SetUpAsAddEvent(managementMode, transformingMode, drawingMode);
 			Engine.ChangesToBeCommited.Enqueue(e);
 
+			child.ParentInfo = new ParentInfo2D(this, managementMode);
+			SyncContainerWithChild(child);
 		}
 
 	    internal void ImmediatelyAddDrawnChild(
@@ -68,7 +70,6 @@ namespace asd
 				(swig.ChildTransformingMode)transformingMode,
 				asd.Particular.ChildDrawingMode.ToInt(drawingMode));
 			ChildrenList.Add(child);
-			child.ParentInfo = new ParentInfo2D(this, managementMode);
 		}
 	}
 }
