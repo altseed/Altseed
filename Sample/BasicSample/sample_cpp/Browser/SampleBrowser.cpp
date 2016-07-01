@@ -16,14 +16,11 @@ void SampleBrowser::Run()
 {
 	while (true)
 	{
-		SampleInfo selected = SampleInfo();
-		selected.isAvailable = false;
-
+		Selected.isAvailable = false;
 		Engine::Initialize(ToAString("サンプルブラウザ").c_str(), 640, 480, EngineOption());
 
 		auto scene = make_shared<Scene>();
-		auto layer = make_shared<SampleBrowserLayer>(m_samples);
-		layer->SetOnDecideEventHandler([&selected](SampleInfo s){ selected = s; });
+		auto layer = make_shared<SampleBrowserLayer>(this, m_samples);
 
 		auto size = (480 - 85) * (480 - 85) / layer->GetTotalHeight();
 		auto infoLayer = make_shared<SampleInfoLayer>(size, layer->GetTotalHeight());
@@ -41,7 +38,7 @@ void SampleBrowser::Run()
 
 		scene->AddLayer(hintLayer);
 
-		while (Engine::DoEvents() && !selected.isAvailable)
+		while (Engine::DoEvents() && !Selected.isAvailable)
 		{
 			Engine::Update();
 			infoLayer->MoveScrollBar(layer->GetCameraArea().Y);
@@ -49,10 +46,12 @@ void SampleBrowser::Run()
 
 		Engine::Terminate();
 
-		if (!selected.isAvailable)
+		if (!Selected.isAvailable)
 		{
 			break;
 		}
-		selected.func();
+		Selected.func();
+		Selected.isAvailable = false;
+
 	}
 }

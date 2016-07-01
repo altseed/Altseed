@@ -1,13 +1,16 @@
+#include "SampleBrowser.h"
 #include "SampleBrowserLayer.h"
 #include "SampleItem.h"
 
 using namespace std;
 using namespace asd;
 
-SampleBrowserLayer::SampleBrowserLayer(std::vector<SampleInfo>& samples)
+SampleBrowserLayer::SampleBrowserLayer(SampleBrowser* browser, std::vector<SampleInfo>& samples)
 	: m_items(std::vector<shared_ptr<SampleItem>>())
 {
 	SetName(ToAString("BrowserLayer"));
+
+	this->browser = browser;
 
 	auto font = Engine::GetGraphics()->CreateDynamicFont(
 		ToAString("").c_str(),
@@ -85,9 +88,9 @@ void SampleBrowserLayer::OnUpdated()
 					m_onSelectionChanged(item->GetSample());
 				}
 			}
-			if (m_onDecide != nullptr && Engine::GetMouse()->GetLeftButton()->GetButtonState() == MouseButtonState::Push)
+			if (Engine::GetMouse()->GetLeftButton()->GetButtonState() == MouseButtonState::Push)
 			{
-				m_onDecide(item->GetSample());
+				browser->Selected = item->GetSample();
 			}
 			break;
 		}
@@ -107,9 +110,4 @@ float SampleBrowserLayer::GetTotalHeight() const
 void SampleBrowserLayer::SetOnSelectionChangedEventHandler(std::function<void(SampleInfo)> eventHandler)
 {
 	m_onSelectionChanged = eventHandler;
-}
-
-void SampleBrowserLayer::SetOnDecideEventHandler(std::function<void(SampleInfo)> eventHandler)
-{
-	m_onDecide = eventHandler;
 }

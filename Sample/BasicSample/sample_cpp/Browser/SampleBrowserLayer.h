@@ -5,6 +5,8 @@
 #include <functional>
 #include "SampleItem.h"
 
+class SampleBrowser;
+
 class SampleBrowserLayer : public asd::Layer2D
 {
 private:
@@ -12,7 +14,9 @@ private:
 	asd::CameraObject2D::Ptr m_camera;
 	asd::RectF m_cameraArea;
 	std::function<void(SampleInfo)> m_onSelectionChanged;
-	std::function<void(SampleInfo)> m_onDecide;
+	
+	SampleBrowser*	browser = nullptr;
+
 	float m_totalHeight;
 	std::shared_ptr<SampleItem> m_activeItem;
 
@@ -24,10 +28,9 @@ public:
 	const static int ItemOffsetX = 632 / Columns;
 	const static int ItemOffsetY = 150;
 
-	SampleBrowserLayer(std::vector<SampleInfo>& samples);
+	SampleBrowserLayer(SampleBrowser* browser, std::vector<SampleInfo>& samples);
 
 	asd::RectF& GetCameraArea() const;
 	float GetTotalHeight() const;
 	void SetOnSelectionChangedEventHandler(std::function<void(SampleInfo)> eventHandler);
-	void SetOnDecideEventHandler(std::function<void(SampleInfo)> eventHandler);
 };

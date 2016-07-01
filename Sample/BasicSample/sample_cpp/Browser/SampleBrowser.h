@@ -12,5 +12,7 @@ public:
 
 	SampleBrowser(std::vector<SampleInfo>& samples);
 
+	SampleInfo	Selected;
+
 	void Run();
 };

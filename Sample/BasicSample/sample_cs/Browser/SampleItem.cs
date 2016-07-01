@@ -67,14 +67,12 @@ namespace sample_cs
 				Position = new Vector2DF(0, 115),
 				DrawingPriority = 1,
 			};
-			AddChild(Title, ChildManagementMode.Nothing, ChildTransformingMode.Position);
-
+			
 			frame = new TextureObject2D()
 			{
 				Texture = Engine.Graphics.CreateTexture2D("Data/Browser/Frame.png"),
 				Position = new Vector2DF(-3, -3),
 			};
-			AddChild(frame, ChildManagementMode.Nothing, ChildTransformingMode.Position);
 		}
 
 		public RectangleShape GetArea()
@@ -103,6 +101,9 @@ namespace sample_cs
 		{
 			Layer.AddObject(Title);
 			Layer.AddObject(frame);
+
+			AddChild(Title, ChildManagementMode.Nothing, ChildTransformingMode.Position);
+			AddChild(frame, ChildManagementMode.Nothing, ChildTransformingMode.Position);
 		}
 
 		protected override void OnDispose()
