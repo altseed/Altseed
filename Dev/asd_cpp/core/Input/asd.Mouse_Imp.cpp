@@ -1,9 +1,11 @@
 ﻿#include "asd.Mouse.h"
 #include "asd.Mouse_Imp.h"
 
-double yWheel = 0;
-void GetWheelInternal(GLFWwindow* wHandle,double x,double y){
+static double yWheel = 0;
+static bool wheelCalled = false;
+static void GetWheelInternal(GLFWwindow* wHandle,double x,double y){
 	yWheel = y;
+	wheelCalled = true;
 }
 
 namespace asd{
@@ -53,9 +55,13 @@ namespace asd{
 			}
 		}
 
+		yWheel = (wheelCalled) ? yWheel : 0;
+
 		m_leftButton = new SideButton(buttonInputStates[0], false);
 		m_rightButton = new SideButton(buttonInputStates[1], false);
 		m_middleButton = new MiddleButton(buttonInputStates[2], yWheel);
+
+		wheelCalled = false;
 	}
 
 	SideButton* Mouse_Imp::GetLeftButton() const
