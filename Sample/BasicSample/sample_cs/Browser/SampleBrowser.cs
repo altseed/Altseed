@@ -13,6 +13,8 @@ namespace sample_cs
 
 		private ISample[] samples;
 
+		public ISample Selected = null;
+
 		public SampleBrowser(ISample[] samples)
 		{
 			this.samples = samples;
@@ -22,13 +24,10 @@ namespace sample_cs
 		{
 			while(true)
 			{
-				ISample selected = null;
-
 				Engine.Initialize("サンプルブラウザ", 640, 480, new EngineOption());
 
 				var scene = new Scene();
-				var layer = new SampleBrowserLayer(samples);
-				layer.OnDecide += s => selected = s;
+				var layer = new SampleBrowserLayer(this, samples);
 
                 var viewSize = SampleBrowserLayer.Columns * SampleBrowserLayer.ItemOffset.Y;
                 var size = (480 - 80) * viewSize / layer.TotalHeight;
@@ -47,7 +46,7 @@ namespace sample_cs
 
 				scene.AddLayer(hintLayer);
 
-				while(Engine.DoEvents() && selected == null)
+				while(Engine.DoEvents() && Selected == null)
 				{
 					Engine.Update();
                     infoLayer.MoveScrollBar(layer.CameraArea.Y);
@@ -55,11 +54,12 @@ namespace sample_cs
 
 				Engine.Terminate();
 
-				if(selected == null)
+				if(Selected == null)
 				{
 					break;
 				}
-				selected.Run();
+				Selected.Run();
+				Selected = null;
 			}
 		}
 	}
