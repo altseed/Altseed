@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using asd;
 
-class SampleItem : TextureObject2D
+class SampleItem : asd.TextureObject2D
 {
-    public static readonly Vector2DF Size = new Vector2DF(150, 112.5f);
+    public static readonly asd.Vector2DF Size = new asd.Vector2DF(150, 112.5f);
     public static int TitleMaxLength = 9;
 
-    private RectangleShape shape_;
-    private TextureObject2D frame { get; set; }
+    private asd.RectangleShape shape_;
+    private asd.TextureObject2D frame { get; set; }
 
     public ISample Sample { get; private set; }
-    public RectangleShape Shape
+    public asd.RectangleShape Shape
     {
         get
         {
@@ -25,9 +24,9 @@ class SampleItem : TextureObject2D
             return shape_;
         }
     }
-    public TextObject2D Title { get; private set; }
+    public asd.TextObject2D Title { get; private set; }
 
-    public new Vector2DF Position
+    public new asd.Vector2DF Position
     {
         get { return base.Position; }
         set
@@ -37,14 +36,14 @@ class SampleItem : TextureObject2D
         }
     }
 
-    public SampleItem(ISample sample, Font font)
+    public SampleItem(ISample sample, asd.Font font)
     {
         Sample = sample;
 
-        Texture = Engine.Graphics.CreateTexture2D("Data/Browser/" + sample.GetType().Name + ".png");
+        Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/" + sample.GetType().Name + ".png");
         if (Texture == null)
         {
-            Texture = Engine.Graphics.CreateTexture2D("Data/Browser/Default.png");
+            Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/Default.png");
         }
         Scale = Size / Texture.Size.To2DF();
 
@@ -58,37 +57,37 @@ class SampleItem : TextureObject2D
             text = sample.GetType().Name;
         }
 
-        Title = new TextObject2D()
+        Title = new asd.TextObject2D()
         {
             Text = GetWrappedString(font, text),
             Font = font,
-            Position = new Vector2DF(0, 115),
+            Position = new asd.Vector2DF(0, 115),
             DrawingPriority = 1,
         };
 
-        frame = new TextureObject2D()
+        frame = new asd.TextureObject2D()
         {
-            Texture = Engine.Graphics.CreateTexture2D("Data/Browser/Frame.png"),
-            Position = new Vector2DF(-3, -3),
+            Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/Frame.png"),
+            Position = new asd.Vector2DF(-3, -3),
         };
     }
 
-    public RectangleShape GetArea()
+    public asd.RectangleShape GetArea()
     {
-        return new RectangleShape
+        return new asd.RectangleShape
         {
-            DrawingArea = new RectF(Position.X, Position.Y, Size.X, Size.Y),
+            DrawingArea = new asd.RectF(Position.X, Position.Y, Size.X, Size.Y),
         };
     }
 
-    private string GetWrappedString(Font font, string title)
+    private string GetWrappedString(asd.Font font, string title)
     {
         string result = title;
-        if (font.CalcTextureSize(result, WritingDirection.Horizontal).X <= Size.X)
+        if (font.CalcTextureSize(result, asd.WritingDirection.Horizontal).X <= Size.X)
         {
             return result;
         }
-        while (font.CalcTextureSize(result + "…", WritingDirection.Horizontal).X > Size.X)
+        while (font.CalcTextureSize(result + "…", asd.WritingDirection.Horizontal).X > Size.X)
         {
             result = result.Substring(0, result.Length - 1);
         }
@@ -100,8 +99,8 @@ class SampleItem : TextureObject2D
         Layer.AddObject(Title);
         Layer.AddObject(frame);
 
-        AddChild(Title, ChildManagementMode.Nothing, ChildTransformingMode.Position);
-        AddChild(frame, ChildManagementMode.Nothing, ChildTransformingMode.Position);
+        AddChild(Title, asd.ChildManagementMode.Nothing, asd.ChildTransformingMode.Position);
+        AddChild(frame, asd.ChildManagementMode.Nothing, asd.ChildTransformingMode.Position);
     }
 
     protected override void OnDispose()
@@ -112,11 +111,11 @@ class SampleItem : TextureObject2D
 
     public void Activate()
     {
-        frame.Texture = Engine.Graphics.CreateTexture2D("Data/Browser/FrameActive.png");
+        frame.Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/FrameActive.png");
     }
 
     public void Disactivate()
     {
-        frame.Texture = Engine.Graphics.CreateTexture2D("Data/Browser/Frame.png");
+        frame.Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/Frame.png");
     }
 }

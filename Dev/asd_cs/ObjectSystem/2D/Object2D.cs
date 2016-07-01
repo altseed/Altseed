@@ -218,7 +218,7 @@ namespace asd
 			Engine.ChangesToBeCommited.Enqueue(new EventToDisposeContent(this, disposeNative));
 		}
 
-		private void SyncContainerWithChild(Object2D child)
+		internal void SyncContainerWithChild(Object2D child)
 		{
 			if (child.IsInheriting(ChildManagementMode.RegistrationToLayer))
 			{

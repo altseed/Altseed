@@ -61,6 +61,7 @@
     <Compile Include="Graphics\2D\EffectObject2D.cs" />
     <Compile Include="Graphics\2D\GeometryObject2D.cs" />
     <Compile Include="Graphics\2D\MapObject2D.cs" />
+    <Compile Include="Graphics\2D\PlayEffectBeforeRegister.cs" />
     <Compile Include="Graphics\2D\SetPositionWhenFontIsNull.cs" />
     <Compile Include="Graphics\2D\TextObject2D.cs" />
     <Compile Include="Graphics\2D\TextureObject2D.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="BugFix\AddComponentByComponent.cs" />
     <Compile Include="ObjectSystem2D\LifeCycle\AccessAfterDisposed.cs" />
     <Compile Include="ObjectSystem2D\CustomObject.cs" />
+    <Compile Include="ObjectSystem2D\LifeCycle\AddChildOnCtor.cs" />
     <Compile Include="ObjectSystem2D\LifeCycle\DisposeLayerByContent.cs" />
     <Compile Include="ObjectSystem2D\DisposeOnVanish.cs" />
     <Compile Include="ObjectSystem2D\LifeCycle\Layer2DComponentLifeCycle.cs" />

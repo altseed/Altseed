@@ -24,7 +24,7 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestOnAllDevice(typeof(FamilySystem.ChildManagement));
+			TestOnAllDevice(typeof(Graphics._2D.PlayEffectBeforeRegister));
 			Console.ReadKey();
 			return;
 
