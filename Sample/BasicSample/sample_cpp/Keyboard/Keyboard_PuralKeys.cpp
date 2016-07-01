@@ -18,22 +18,20 @@ void Keyboard_PuralKeys()
 	asd::Engine::AddObject2D(keyStateText);
 
 	// 入力チェックするキー一覧。(Z, X, C, V, B)
-	std::vector<asd::Keys> keys = {
-		asd::Keys::Z,
-		asd::Keys::X,
-		asd::Keys::C,
-		asd::Keys::V,
-		asd::Keys::B
-	};
+	std::vector<asd::Keys> keys;
+	keys.push_back(asd::Keys::Z);
+	keys.push_back(asd::Keys::X);
+	keys.push_back(asd::Keys::C);
+	keys.push_back(asd::Keys::V);
+	keys.push_back(asd::Keys::B);
 
 	//キーを文字列に変換するマップ。
-	std::map<asd::Keys, std::string> keyToStr = {
-			{ asd::Keys::Z, "Z" },
-			{ asd::Keys::X, "X" },
-			{ asd::Keys::C, "C" },
-			{ asd::Keys::V, "V" },
-			{ asd::Keys::B, "B" }
-	};
+	std::vector<std::string> keyStrs;
+	keyStrs.push_back("Z");
+	keyStrs.push_back("X");
+	keyStrs.push_back("C");
+	keyStrs.push_back("V");
+	keyStrs.push_back("B");
 
 	// Altseedのウインドウが閉じられていないか確認する。
 	while (asd::Engine::DoEvents())
@@ -41,28 +39,28 @@ void Keyboard_PuralKeys()
 		asd::astring displayStr = asd::ToAString("");
 
 		//すべてのキーに対して入力状態を確認してから表示する。
-		for (auto key : keys)
+		for (int i = 0; i < keys.size(); ++i)
 		{
-			auto keyStr = keyToStr[key];
+			std::string keystr = keyStrs[i];
 
 			// キーボードのZキーの入力状態を取得する。
-			auto zstate = asd::Engine::GetKeyboard()->GetKeyState(key);
+			asd::KeyState zstate = asd::Engine::GetKeyboard()->GetKeyState(keys[i]);
 
 			if (zstate == asd::KeyState::Free) // 前フレームと本フレームで非押下
 			{
-				displayStr += asd::ToAString((keyStr + "キーを離しています。").c_str());
+				displayStr += asd::ToAString((keystr + "キーを離しています。").c_str());
 			}
 			else if (zstate == asd::KeyState::Hold) // 前フレームと本フレームで押下
 			{
-				displayStr += asd::ToAString((keyStr + "キーを押しています。").c_str());
+				displayStr += asd::ToAString((keystr + "キーを押しています。").c_str());
 			}
 			else if (zstate == asd::KeyState::Release) // 前フレームで押下、本フレームで非押下
 			{
-				displayStr += asd::ToAString((keyStr + "キーを離しました!").c_str());
+				displayStr += asd::ToAString((keystr + "キーを離しました!").c_str());
 			}
 			else if (zstate == asd::KeyState::Push) // 前フレームで非押下、本フレームで押下
 			{
-				displayStr += asd::ToAString((keyStr + "キーを押しました!").c_str());
+				displayStr += asd::ToAString((keystr + "キーを押しました!").c_str());
 			}
 
 			displayStr += asd::ToAString("\n");
