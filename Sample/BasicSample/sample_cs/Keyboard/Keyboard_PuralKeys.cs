@@ -48,7 +48,7 @@ public class Keyboard_PuralKeys : ISample
             string displayStr = string.Empty;
 
             //すべてのキーに対して入力状態を確認してから表示する。
-            for (int i = 0; i < keys.Count; ++i)
+			for (int i = 0; i < keys.Count; i++)
             {
                 string keystr = keyStrs[i];
 
