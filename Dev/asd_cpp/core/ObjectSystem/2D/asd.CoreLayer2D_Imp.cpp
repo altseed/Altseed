@@ -196,6 +196,18 @@ namespace asd
 		}
 	}
 
+	void CoreLayer2D_Imp::PrepareToAddObject(ObjectPtr object)
+	{
+		auto o = CoreObject2DToImp(object);
+		o->OnAdding(m_renderer);
+	}
+
+	void CoreLayer2D_Imp::PrepareToRemoveObject(ObjectPtr object)
+	{
+		auto o = CoreObject2DToImp(object);
+		o->OnRemoving(m_renderer);
+	}
+
 	void CoreLayer2D_Imp::AddObject(ObjectPtr object)
 	{
 		if (object->GetObjectType() == Object2DType::Camera)
@@ -214,7 +226,6 @@ namespace asd
 
 		{
 			auto o = CoreObject2DToImp(object);
-			o->OnAdded(m_renderer);
 
 #if __CULLING_2D__
 			if (object->GetObjectType() == Object2DType::Map)
@@ -257,7 +268,7 @@ namespace asd
 	{
 		{
 			auto o = CoreObject2DToImp(object);
-			o->OnRemoving(m_renderer);
+			//o->OnRemoving(m_renderer);
 
 #if __CULLING_2D__
 			if (object->GetObjectType() == Object2DType::Map)

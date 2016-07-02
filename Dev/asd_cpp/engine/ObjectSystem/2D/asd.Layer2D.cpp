@@ -169,11 +169,13 @@ namespace asd
 	void Layer2D::AddObject(const Object2D::Ptr& object)
 	{
 		m_objects->Add(object);
+		m_coreLayer->PrepareToAddObject(object->GetCoreObject());
 	}
 
 	void Layer2D::RemoveObject(const Object2D::Ptr& object)
 	{
 		m_objects->Remove(object, true);
+		m_coreLayer->PrepareToRemoveObject(object->GetCoreObject());
 	}
 
 	void Layer2D::ImmediatelyRemoveObject(const Object2D::Ptr& object, bool raiseEvent)

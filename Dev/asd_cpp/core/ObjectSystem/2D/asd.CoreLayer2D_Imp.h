@@ -92,6 +92,8 @@ namespace asd
 #endif
 		void SetSize(Vector2DI size) override;
 
+		void PrepareToAddObject(ObjectPtr object) override;
+		void PrepareToRemoveObject(ObjectPtr object) override;
 		void AddObject(ObjectPtr object);
 		void RemoveObject(ObjectPtr object);
 		void Clear();

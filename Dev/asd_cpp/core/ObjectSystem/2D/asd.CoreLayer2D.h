@@ -27,6 +27,8 @@ namespace asd
 		*/
 		virtual ~CoreLayer2D(){}
 
+		virtual void PrepareToAddObject(ObjectPtr object2D) = 0;
+		virtual void PrepareToRemoveObject(ObjectPtr object2D) = 0;
 		virtual void AddObject(ObjectPtr object2D) = 0;
 		virtual void RemoveObject(ObjectPtr object2D) = 0;
 		virtual void Clear() = 0;

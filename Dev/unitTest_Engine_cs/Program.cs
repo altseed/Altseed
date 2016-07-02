@@ -24,7 +24,11 @@ namespace unitTest_Engine_cs
 		//[STAThread]
 		static void Main(string[] args)
 		{
-			TestOnAllDevice(typeof(Graphics._2D.PlayEffectBeforeRegister));
+			TestInNamespace("Graphics._2D");
+			Console.ReadKey();
+			return;
+
+			TestOnAllDevice(typeof(Graphics._2D.EffectObject2D));
 			Console.ReadKey();
 			return;
 

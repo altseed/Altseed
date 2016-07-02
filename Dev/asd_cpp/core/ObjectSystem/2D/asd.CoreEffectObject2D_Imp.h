@@ -86,7 +86,7 @@ namespace asd
 
 		void SetEffectRotation(float value) override;
 
-		void OnAdded(Renderer2D* renderer) override;
+		void OnAdding(Renderer2D* renderer) override;
 
 		void OnRemoving(Renderer2D* renderer) override;
 

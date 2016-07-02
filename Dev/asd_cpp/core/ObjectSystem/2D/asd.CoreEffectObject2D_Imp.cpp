@@ -172,7 +172,7 @@ namespace asd
 		m_rotationY = value;
 	}
 
-	void CoreEffectObject2D_Imp::OnAdded(Renderer2D* renderer)
+	void CoreEffectObject2D_Imp::OnAdding(Renderer2D* renderer)
 	{
 		assert(m_renderer == nullptr);
 		ASSERT_STATIC_CAST(Renderer2D_Imp*, renderer);

@@ -88,6 +88,7 @@ namespace asd
 		public void AddObject(Object2D object2D)
 		{
 			ObjectManager.Add(object2D);
+			coreLayer2D.PrepareToAddObject(object2D.CoreObject);
 		}
 
 		/// <summary>
@@ -98,6 +99,7 @@ namespace asd
 		public void RemoveObject(Object2D object2D)
 		{
 			ObjectManager.Remove(object2D, true);
+			coreLayer2D.PrepareToRemoveObject(object2D.CoreObject);
 		}
 
 		/// <summary>

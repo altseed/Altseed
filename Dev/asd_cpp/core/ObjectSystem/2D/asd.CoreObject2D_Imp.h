@@ -123,7 +123,7 @@ namespace asd
 			return m_parentInfo.get();
 		}
 
-		virtual void OnAdded(Renderer2D* renderer) {}
+		virtual void OnAdding(Renderer2D* renderer) {}
 
 		virtual void OnRemoving(Renderer2D* renderer) {}
 
