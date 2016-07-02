@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using asd;
 
 class SampleBrowser
 {
@@ -29,34 +28,34 @@ class SampleBrowser
     {
         while (true)
         {
-            Engine.Initialize("サンプルブラウザ", 640, 480, new EngineOption());
+            asd.Engine.Initialize("サンプルブラウザ", 640, 480, new asd.EngineOption());
 
-            var scene = new Scene();
+            var scene = new asd.Scene();
             browserLayer = new SampleBrowserLayer(this, samples);
 
             var viewSize = SampleBrowserLayer.Columns * SampleBrowserLayer.ItemOffset.Y;
             var size = (480 - 80) * viewSize / browserLayer.TotalHeight;
             infoLayer = new SampleInfoLayer(size, browserLayer.TotalHeight, viewSize) { DrawingPriority = 2 };
 
-            Engine.ChangeScene(scene);
+            asd.Engine.ChangeScene(scene);
             scene.AddLayer(browserLayer);
             scene.AddLayer(infoLayer);
 
-            var hintLayer = new Layer2D();
-            hintLayer.AddObject(new TextureObject2D()
+            var hintLayer = new asd.Layer2D();
+            hintLayer.AddObject(new asd.TextureObject2D()
             {
-                Texture = Engine.Graphics.CreateTexture2D("Data/Browser/Hint.png")
+                Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/Hint.png")
             });
 
             scene.AddLayer(hintLayer);
 
-            while (Engine.DoEvents() && Selected == null)
+            while (asd.Engine.DoEvents() && Selected == null)
             {
-                Engine.Update();
+                asd.Engine.Update();
                 infoLayer.MoveScrollBar(browserLayer.CameraArea.Y);
             }
 
-            Engine.Terminate();
+            asd.Engine.Terminate();
 
             if (Selected == null)
             {

@@ -8,10 +8,10 @@ public class Keyboard_PuralKeys : ISample
     {
         get { return ""; }
     }
-	public string Title
-	{
-		get { return ""; }
-	}
+    public string Title
+    {
+        get { return ""; }
+    }
 
     public void Run()
     {
@@ -27,25 +27,20 @@ public class Keyboard_PuralKeys : ISample
         asd.Engine.AddObject2D(keyStateText);
 
         // 入力チェックするキー一覧。(Z, X, C, V, B)
-        List<asd.Keys> keys
-            = new List<asd.Keys>() {
-                asd.Keys.Z,
-                asd.Keys.X,
-                asd.Keys.C,
-                asd.Keys.V,
-                asd.Keys.B
-            };
+        List<asd.Keys> keys = new List<asd.Keys>();
+        keys.Add(asd.Keys.Z);
+        keys.Add(asd.Keys.X);
+        keys.Add(asd.Keys.C);
+        keys.Add(asd.Keys.V);
+        keys.Add(asd.Keys.B);
 
-        //キーを文字列に変換するマップ。
-        Dictionary<asd.Keys, string> keyToStr
-            = new Dictionary<asd.Keys, string>()
-        {
-            { asd.Keys.Z, "Z" },
-            { asd.Keys.X, "X" },
-            { asd.Keys.C, "C" },
-            { asd.Keys.V, "V" },
-            { asd.Keys.B, "B" }
-        };
+        //キーの文字列表現。
+        List<string> keyStrs = new List<string>();
+        keyStrs.Add("Z");
+        keyStrs.Add("X");
+        keyStrs.Add("C");
+        keyStrs.Add("V");
+        keyStrs.Add("B");
 
         // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
@@ -53,28 +48,28 @@ public class Keyboard_PuralKeys : ISample
             string displayStr = string.Empty;
 
             //すべてのキーに対して入力状態を確認してから表示する。
-            foreach (var key in keys)
+            for (int i = 0; i < keys.Count; ++i)
             {
-                var keyStr = keyToStr[key];
+                string keystr = keyStrs[i];
 
                 // キーボードのZキーの入力状態を取得する。
-                var state = asd.Engine.Keyboard.GetKeyState(key);
+                asd.KeyState state = asd.Engine.Keyboard.GetKeyState(keys[i]);
 
-                if(state == asd.KeyState.Free) // 前フレームと本フレームで非押下
+                if (state == asd.KeyState.Free) // 前フレームと本フレームで非押下
                 {
-                        displayStr += (keyStr + "キーを離しています。");
+                    displayStr += (keystr + "キーを離しています。");
                 }
-                else if(state == asd.KeyState.Hold) // 前フレームと本フレームで押下
+                else if (state == asd.KeyState.Hold) // 前フレームと本フレームで押下
                 {
-                        displayStr += (keyStr + "キーを押しています。");
+                    displayStr += (keystr + "キーを押しています。");
                 }
-                else if(state == asd.KeyState.Release) // 前フレームで押下、本フレームで非押下
+                else if (state == asd.KeyState.Release) // 前フレームで押下、本フレームで非押下
                 {
-                        displayStr += (keyStr + "キーを離しました!");
+                    displayStr += (keystr + "キーを離しました!");
                 }
-                else if(state == asd.KeyState.Push) // 前フレームで非押下、本フレームで押下
+                else if (state == asd.KeyState.Push) // 前フレームで非押下、本フレームで押下
                 {
-                        displayStr += (keyStr + "キーを押しました!");
+                    displayStr += (keystr + "キーを押しました!");
                 }
 
                 displayStr += "\n";

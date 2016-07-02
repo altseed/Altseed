@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using asd;
 
-class SampleBrowserLayer : Layer2D
+class SampleBrowserLayer : asd.Layer2D
 {
     public static readonly int Columns = 3;
-    public static readonly Vector2DF ItemOffset = new Vector2DF(632 / Columns, 150);
+    public static readonly asd.Vector2DF ItemOffset = new asd.Vector2DF(632 / Columns, 150);
 
     private List<SampleItem> items;
-    private CameraObject2D camera;
+    private asd.CameraObject2D camera;
     private SampleItem activeItem;
     private SampleBrowser browser;
 
-    public RectF CameraArea
+    public asd.RectF CameraArea
     {
         get { return camera.Src.ToF(); }
     }
@@ -27,14 +26,14 @@ class SampleBrowserLayer : Layer2D
         this.browser = browser;
         items = new List<SampleItem>();
 
-        var font = Engine.Graphics.CreateDynamicFont("", 12, new Color(255, 255, 255, 255), 1, new Color(0, 0, 0, 255));
+        var font = asd.Engine.Graphics.CreateDynamicFont("", 12, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
         int index = 0;
         foreach (var sample in samples)
         {
             var item = new SampleItem(sample, font);
             var x = ItemOffset.X * (index % Columns) + 8;
             var y = ItemOffset.Y * (index / Columns) + 8 + 20;
-            item.Position = new Vector2DF(x, y);
+            item.Position = new asd.Vector2DF(x, y);
             AddObject(item);
             items.Add(item);
 
@@ -53,10 +52,10 @@ class SampleBrowserLayer : Layer2D
         }
 
 
-        camera = new CameraObject2D()
+        camera = new asd.CameraObject2D()
         {
-            Src = new RectI(0, 0, 640, 480),
-            Dst = new RectI(0, 0, 640, 480),
+            Src = new asd.RectI(0, 0, 640, 480),
+            Dst = new asd.RectI(0, 0, 640, 480),
         };
         AddObject(camera);
     }
@@ -70,18 +69,18 @@ class SampleBrowserLayer : Layer2D
             rows++;
         }
 
-        var y = camera.Src.Y - Engine.Mouse.MiddleButton.WheelRotation * 30;
+        var y = camera.Src.Y - asd.Engine.Mouse.MiddleButton.WheelRotation * 30;
         y = Math.Max(0, y);
         y = Math.Min(rows * ItemOffset.Y - 480 + 24 + 60, y);
-        camera.Src = new RectI(
+        camera.Src = new asd.RectI(
             camera.Src.X,
             (int)y,
             camera.Src.Width,
             camera.Src.Height);
 
-        var mouse = new CircleShape()
+        var mouse = new asd.CircleShape()
         {
-            Position = Engine.Mouse.Position + new Vector2DF(0, camera.Src.Y),
+            Position = asd.Engine.Mouse.Position + new asd.Vector2DF(0, camera.Src.Y),
             OuterDiameter = 2,
         };
 
@@ -102,7 +101,7 @@ class SampleBrowserLayer : Layer2D
                     activeItem = item;
                     browser.ShowInfo(item.Sample);
                 }
-                if (Engine.Mouse.LeftButton.ButtonState == MouseButtonState.Push)
+                if (asd.Engine.Mouse.LeftButton.ButtonState == asd.MouseButtonState.Push)
                 {
                     browser.Selected = item.Sample;
                 }
