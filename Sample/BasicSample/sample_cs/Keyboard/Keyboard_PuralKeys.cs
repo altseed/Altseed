@@ -18,7 +18,7 @@ public class Keyboard_PuralKeys : ISample
         // Altseedを初期化する。
         asd.Engine.Initialize("Keyboard_PuralKeys", 640, 480, new asd.EngineOption());
 
-        var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 40, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
+        var font = asd.Engine.Graphics.CreateDynamicFont("", 40, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
 
         // キーの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
         var keyStateText = new asd.TextObject2D();
@@ -45,10 +45,10 @@ public class Keyboard_PuralKeys : ISample
         // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
         {
-            string displayStr = string.Empty;
+            string displayStr = "";
 
             //すべてのキーに対して入力状態を確認してから表示する。
-            for (int i = 0; i < keys.Count; ++i)
+			for (int i = 0; i < keys.Count; i++)
             {
                 string keystr = keyStrs[i];
 

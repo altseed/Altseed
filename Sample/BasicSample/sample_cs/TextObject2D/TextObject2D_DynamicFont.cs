@@ -25,7 +25,7 @@ class TextObject2D_DynamicFont : ISample
 
         {
             // 動的フォントを生成する。
-            var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 35, new asd.Color(255, 0, 0, 255), 1, new asd.Color(255, 255, 255, 255));
+            var font = asd.Engine.Graphics.CreateDynamicFont("", 35, new asd.Color(255, 0, 0, 255), 1, new asd.Color(255, 255, 255, 255));
 
             // 文字描画オブジェクトを生成する。
             var obj = new asd.TextObject2D();

@@ -4,7 +4,7 @@
 // Object2DComponentを用いて、オブジェクトのパラメーターを変更するサンプル。
 
 // オブジェクトを回転させるコンポーネント
-class RotatingComponent : public asd::Object2DComponent
+class Object2DComponent_Custom_RotatingComponent : public asd::Object2DComponent
 {
 public:
 	void OnUpdate()
@@ -35,7 +35,7 @@ void Object2DComponent_Custom()
 	asd::Engine::AddObject2D(obj);
 
 	// 回転コンポーネントを生成する。
-	auto component = std::make_shared<RotatingComponent>();
+	auto component = std::make_shared<Object2DComponent_Custom_RotatingComponent>();
 
 	// オブジェクトに回転コンポーネントをコンポーネント名"Rotate"で追加する。
 	obj->AddComponent(component, asd::ToAString("Rotate"));

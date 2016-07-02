@@ -2,7 +2,7 @@
 #include <Altseed.h>
 
 // Disposeが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
-class Dispose_MessageObject : public asd::TextureObject2D
+class Dispose_Layer2D_Dispose_MessageObject : public asd::TextureObject2D
 {
 protected:
 	// Disposeが呼ばれたときに呼ばれる。
@@ -13,7 +13,7 @@ protected:
 };
 
 // Disposeが呼ばれた時や破棄されたときにコンソールに出力するレイヤー。
-class Dispose_MessageLayer : public asd::Layer2D
+class Dispose_Layer2D_Dispose_MessageLayer : public asd::Layer2D
 {
 protected:
 	// Disposeが呼ばれたときに呼ばれる。
@@ -35,10 +35,10 @@ void Dispose_Layer2D()
 	auto scene = std::make_shared<asd::Scene>();
 
 	// カスタマイズしたレイヤーのインスタンスを生成する。
-	auto layer = std::make_shared<Dispose_MessageLayer>();
+	auto layer = std::make_shared<Dispose_Layer2D_Dispose_MessageLayer>();
 
 	// カスタマイズしたオブジェクトのインスタンスを生成する。
-	auto obj = std::make_shared<Dispose_MessageObject>();
+	auto obj = std::make_shared<Dispose_Layer2D_Dispose_MessageObject>();
 
 	// オブジェクトの位置とテクスチャを設定する。
 	obj->SetPosition(asd::Vector2DF(50, 50));
