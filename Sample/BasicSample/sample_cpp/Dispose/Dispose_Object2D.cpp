@@ -2,7 +2,7 @@
 #include <Altseed.h>
 
 // Disposeが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
-class Dispose_MessageObject : public asd::TextureObject2D
+class Dispose_Object2D_Dispose_MessageObject : public asd::TextureObject2D
 {
 protected:
 	// Disposeが呼ばれたときに呼ばれる。
@@ -21,7 +21,7 @@ void Dispose_Object2D()
 	auto texture = asd::Engine::GetGraphics()->CreateTexture2D(asd::ToAString("Data/Texture/Picture1.png").c_str());
 
 	// 画像描画オブジェクトのインスタンスを生成する。
-	auto obj = std::make_shared<Dispose_MessageObject>();
+	auto obj = std::make_shared<Dispose_Object2D_Dispose_MessageObject>();
 
 	// 描画される画像を設定する。
 	obj->SetTexture(texture);

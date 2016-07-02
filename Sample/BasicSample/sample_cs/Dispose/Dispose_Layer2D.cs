@@ -1,4 +1,23 @@
-﻿using System;
+﻿
+// Disposeが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
+class Dispose_Layer2D_MessageObject : asd.TextureObject2D
+{
+	// Disposeが呼ばれたときに呼ばれる。
+	protected override void OnDispose()
+	{
+		System.Console.WriteLine("MessageObject.OnDispose");
+	}
+}
+
+// Disposeが呼ばれた時や破棄されたときにコンソールに出力するレイヤー。
+class Dispose_Layer2D_MessageLayer : asd.Layer2D
+{
+	// Disposeが呼ばれたときに呼ばれる。
+	protected override void OnDispose()
+	{
+		System.Console.WriteLine("MessageLayer.OnDispose");
+	}
+}
 
 class Dispose_Layer2D : ISample
 {
@@ -9,26 +28,6 @@ class Dispose_Layer2D : ISample
 	public string Title
 	{
 		get { return ""; }
-	}
-
-	// Disposeが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
-	class MessageObject : asd.TextureObject2D
-	{
-		// Disposeが呼ばれたときに呼ばれる。
-		protected override void OnDispose()
-		{
-			Console.WriteLine("MessageObject.OnDispose");
-		}
-	}
-
-	// Disposeが呼ばれた時や破棄されたときにコンソールに出力するレイヤー。
-	class MessageLayer : asd.Layer2D
-	{
-		// Disposeが呼ばれたときに呼ばれる。
-		protected override void OnDispose()
-		{
-			Console.WriteLine("MessageLayer.OnDispose");
-		}
 	}
 
 	public void Run()
@@ -43,10 +42,10 @@ class Dispose_Layer2D : ISample
 		var scene = new asd.Scene();
 
 		// カスタマイズしたレイヤーのインスタンスを生成する。
-		var layer = new MessageLayer();
+		var layer = new Dispose_Layer2D_MessageLayer();
 
 		// カスタマイズしたオブジェクトのインスタンスを生成する。
-		var obj = new MessageObject();
+		var obj = new Dispose_Layer2D_MessageObject();
 
 		// オブジェクトの位置とテクスチャを設定する。
 		obj.Position = new asd.Vector2DF(50, 50);
@@ -76,7 +75,7 @@ class Dispose_Layer2D : ISample
 			// 10フレーム目になったら
 			if (count == 10)
 			{
-				Console.WriteLine("Layerを破棄します");
+				System.Console.WriteLine("Layerを破棄します");
 				// レイヤーを破棄する。
 				layer.Dispose();
 			}

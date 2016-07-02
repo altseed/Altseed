@@ -1,4 +1,14 @@
 ﻿
+// Disposeが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
+class Dispose_Object2D_MessageObject : asd.TextureObject2D
+{
+	// Disposeが呼ばれたときに呼ばれる。
+	protected override void OnDispose()
+	{
+		System.Console.WriteLine("MessageObject.OnDispose");
+	}
+}
+
 class Dispose_Object2D : ISample
 {
 	public string Description
@@ -10,16 +20,6 @@ class Dispose_Object2D : ISample
 		get { return ""; }
 	}
 
-	// Disposeが呼ばれた時や破棄されたときにコンソールに出力するオブジェクト。
-	class MessageObject : asd.TextureObject2D
-	{
-		// Disposeが呼ばれたときに呼ばれる。
-		protected override void OnDispose()
-		{
-			System.Console.WriteLine("MessageObject.OnDispose");
-		}
-	}
-
 	public void Run()
 	{
 		// Altseedを初期化する。
@@ -29,7 +29,7 @@ class Dispose_Object2D : ISample
 		var texture = asd.Engine.Graphics.CreateTexture2D("Data/Texture/Picture1.png");
 
 		// カスタマイズしたオブジェクトのインスタンスを生成する。
-		var obj = new MessageObject();
+		var obj = new Dispose_Object2D_MessageObject();
 
 		// オブジェクトの位置とテクスチャを設定する。
 		obj.Position = new asd.Vector2DF(50, 50);

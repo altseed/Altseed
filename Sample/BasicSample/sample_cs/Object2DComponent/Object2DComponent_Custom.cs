@@ -1,4 +1,14 @@
 ﻿
+// オブジェクトを回転させるコンポーネント。
+class Object2DComponent_Custom_RotateComponent : asd.Object2DComponent
+{
+	protected override void OnUpdate()
+	{
+		// 毎フレーム、オブジェクトの角度を回転させる
+		Owner.Angle += 2;
+	}
+}
+
 class Object2DComponent_Custom : ISample
 {
 	public string Description
@@ -8,16 +18,6 @@ class Object2DComponent_Custom : ISample
 	public string Title
 	{
 		get { return ""; }
-	}
-
-	// オブジェクトを回転させるコンポーネント。
-	class RotateComponent : asd.Object2DComponent
-	{
-		protected override void OnUpdate()
-		{
-			// 毎フレーム、オブジェクトの角度を回転させる
-			Owner.Angle += 2;
-		}
 	}
 
 	// Object2DComponentを用いて、オブジェクトのパラメーターを変更するサンプル。
@@ -42,7 +42,7 @@ class Object2DComponent_Custom : ISample
 		asd.Engine.AddObject2D(obj);
 
 		// 回転コンポーネントを生成する。
-		var component = new RotateComponent();
+		var component = new Object2DComponent_Custom_RotateComponent();
 
 		// オブジェクトに回転コンポーネントをコンポーネント名"Rotate"で追加する。
 		obj.AddComponent(component, "Rotate");

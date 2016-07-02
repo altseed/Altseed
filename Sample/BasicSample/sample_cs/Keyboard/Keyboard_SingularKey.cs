@@ -17,7 +17,7 @@ public class Keyboard_SingularKey : ISample
 		// Altseedを初期化する。
         asd.Engine.Initialize("Keyboard_SingularKey", 640, 480, new asd.EngineOption());
 
-        var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 40, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
+        var font = asd.Engine.Graphics.CreateDynamicFont("", 40, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
 
         // キーの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
         var keyStateText = new asd.TextObject2D();

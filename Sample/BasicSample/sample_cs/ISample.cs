@@ -8,7 +8,7 @@ interface ISample
 
 class Recorder
 {
-	static string currentName = string.Empty;
+	static string currentName = "";
 
 	static int currentTime = 0;
 

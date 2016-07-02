@@ -18,7 +18,7 @@ class Joystick_Basic : ISample
         asd.Engine.Initialize("Joystick_Basic", 640, 480, new asd.EngineOption());
 
         // ジョイスティックの状態を表示するテキストを生成する。
-        var font = asd.Engine.Graphics.CreateDynamicFont(string.Empty, 25, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
+        var font = asd.Engine.Graphics.CreateDynamicFont("", 25, new asd.Color(255, 255, 255, 255), 1, new asd.Color(0, 0, 0, 255));
 
         // ボタンの入力状態を表示する文字描画オブジェクトを設定して、エンジンに追加する。
         var stateText = new asd.TextObject2D();
@@ -32,7 +32,7 @@ class Joystick_Basic : ISample
         // Altseedのウインドウが閉じられていないか確認する。
         while (asd.Engine.DoEvents())
         {
-            string displayStr = string.Empty;
+            string displayStr = "";
 
             // ジョイスティックが接続されているかどうかを確認する。
             if (!asd.Engine.JoystickContainer.GetIsPresentAt(0))
