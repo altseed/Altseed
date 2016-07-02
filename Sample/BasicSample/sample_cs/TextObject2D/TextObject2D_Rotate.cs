@@ -11,11 +11,11 @@ class TextObject2D_Rotate : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "文字列を回転させて描画するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "文字列の回転"; }
 	}
 
     public void Run()

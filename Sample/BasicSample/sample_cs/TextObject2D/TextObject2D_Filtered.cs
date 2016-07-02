@@ -11,11 +11,11 @@ class TextObject2D_Filtered : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "文字列の回転をしたときにギザギザが発生するのを防ぐ機能を使ったサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "回転した文字列の滑らかな描画"; }
 	}
 
     public void Run()

@@ -3,11 +3,11 @@ class Sound_Loop : ISample
 {
 	public string Description
 	{
-		get { return ""; }
+		get { return "BGMをループ再生するサンプルです。"; }
 	}
 	public string Title
 	{
-		get { return ""; }
+		get { return "BGMのループ再生"; }
 	}
 
 	// BGMをループ再生するサンプル。

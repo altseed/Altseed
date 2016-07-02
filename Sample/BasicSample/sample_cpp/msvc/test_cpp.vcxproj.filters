@@ -171,6 +171,18 @@
     <ClCompile Include="..\Browser\SampleInfoLayer.cpp">
       <Filter>Browser</Filter>
     </ClCompile>
+    <ClCompile Include="..\Log\Log_Basic.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Log\Log_OutputLevel.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Log\Log_Table.cpp">
+      <Filter>Log</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Basic\Basic_FullScreen.cpp">
+      <Filter>Basic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Base.h" />
@@ -248,6 +260,9 @@
     </Filter>
     <Filter Include="Browser">
       <UniqueIdentifier>{44634fe3-bf97-4cf3-b7f5-141af6fdcc4c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Log">
+      <UniqueIdentifier>{921cc83b-8d9d-4e7a-9ab6-c8f04d3f87f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

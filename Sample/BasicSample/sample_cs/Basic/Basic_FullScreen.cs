@@ -5,21 +5,17 @@
 		public void Run()
 		{
 			// フルスクリーンで起動するように初期化オプションを生成する。
-			var option = new asd.EngineOption
-			{
-				IsFullScreen = true
-			};
+			var option = new asd.EngineOption();
+			option.IsFullScreen = true;
 
 			// 作成した初期化オプションを用いてAltseedを初期化する。
 			asd.Engine.Initialize("Empty", 640, 480, option);
 
 			// 操作説明文を文字列オブジェクトとして作成。CreateDynamicFontで作成したフォントオブジェクトを用いる
 			var font = asd.Engine.Graphics.CreateDynamicFont("", 20, new asd.Color(255, 255, 255), 2, new asd.Color(0, 0, 0));
-			var obj = new asd.TextObject2D
-			{
-				Font = font,
-				Text = "Escキーで終了"
-			};
+			var obj = new asd.TextObject2D();
+			obj.Font = font;
+			obj.Text = "Escキーで終了";
 
 			// 操作説明文のオブジェクトをエンジンに登録する。
 			asd.Engine.AddObject2D(obj);

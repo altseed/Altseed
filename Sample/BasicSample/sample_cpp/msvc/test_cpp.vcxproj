@@ -12,6 +12,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Basic\Basic_Empty.cpp" />
+    <ClCompile Include="..\Basic\Basic_FullScreen.cpp" />
     <ClCompile Include="..\Browser\SampleBrowser.cpp" />
     <ClCompile Include="..\Browser\SampleBrowserLayer.cpp" />
     <ClCompile Include="..\Browser\SampleInfoLayer.cpp" />
@@ -40,6 +41,9 @@
     <ClCompile Include="..\Keyboard\Keyboard_Basic.cpp" />
     <ClCompile Include="..\Keyboard\Keyboard_PuralKeys.cpp" />
     <ClCompile Include="..\Keyboard\Keyboard_SingularKey.cpp" />
+    <ClCompile Include="..\Log\Log_Basic.cpp" />
+    <ClCompile Include="..\Log\Log_OutputLevel.cpp" />
+    <ClCompile Include="..\Log\Log_Table.cpp" />
     <ClCompile Include="..\main.cpp" />
     <ClCompile Include="..\Mouse\Mouse_Position.cpp" />
     <ClCompile Include="..\Mouse\Mouse_Click.cpp" />

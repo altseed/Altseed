@@ -5,11 +5,11 @@ public class Mouse_Position : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "マウスの座標を取得し、その位置を表示するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "マウス座標の取得"; }
 	}
 
     public void Run()

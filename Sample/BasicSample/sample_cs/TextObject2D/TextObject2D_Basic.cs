@@ -11,11 +11,11 @@ class TextObject2D_Basic : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "文字列を描画するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "文字列の描画"; }
 	}
 
     public void Run()

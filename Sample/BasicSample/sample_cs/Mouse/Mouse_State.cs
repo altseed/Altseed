@@ -5,11 +5,11 @@ public class Mouse_State : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "マウスの中ボタンの状態を調べ、状態を表示するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "マウスボタンの状態"; }
 	}
 
     public void Run()

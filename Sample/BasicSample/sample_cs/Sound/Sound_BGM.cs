@@ -3,11 +3,11 @@ class Sound_BGM : ISample
 {
 	public string Description
 	{
-		get { return ""; }
+		get { return "BGMを再生するサンプルです。"; }
 	}
 	public string Title
 	{
-		get { return ""; }
+		get { return "BGMの再生"; }
 	}
 
 	// Soundを用いてBGMを鳴らすサンプル。

@@ -5,11 +5,11 @@ class Joystick_Basic : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "ジョイスティックのボタンの入力状態を調べ、表示するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "ジョイスティックのボタン入力"; }
 	}
 
     public void Run()

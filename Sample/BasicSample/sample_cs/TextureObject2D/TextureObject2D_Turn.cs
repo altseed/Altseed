@@ -6,11 +6,11 @@ class TextureObject2D_Turn : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "画像の上下を反転して描画するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "画像の上下反転"; }
 	}
 
     public void Run()

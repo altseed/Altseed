@@ -19,6 +19,7 @@ void GetDirectoryName(char* dst, char* src);
 #endif
 
 extern void Basic_Empty();
+extern void Basic_FullScreen();
 
 extern void PostEffect_GrayScale();
 extern void PostEffect_Sepia();
@@ -89,6 +90,10 @@ extern void EngineMisc_ShowFps();
 extern void Texture_Basic();
 extern void Texture_Edit();
 
+extern void Log_Basic();
+extern void Log_OutputLevel();
+extern void Log_Table();
+
 int main(int argc, char** argv)
 {
 #if _WIN32
@@ -100,43 +105,41 @@ int main(int argc, char** argv)
 	std::vector<SampleInfo> samples =
 	{
 		INFO(Basic_Empty, "Altseedの基本", "空のウィンドウを表示するサンプル。"),
-		INFO(TextureObject2D_Basic, "", ""),
-		INFO(TextureObject2D_Turn, "", ""),
-		INFO(TextureObject2D_Src, "", ""),
-		INFO(TextureObject2D_Transform, "", ""),
+		INFO(Basic_FullScreen, "フルスクリーンモード", "アプリケーションをフルスクリーンで起動するサンプル。"),
 
-		INFO(Transition_Fade, "", ""),
+		INFO(TextureObject2D_Basic, "画像の表示", "画像を表示する基本的なサンプルです。"),
+		INFO(TextureObject2D_Turn, "画像の上下反転", "画像の上下を反転して描画するサンプルです。"),
+		INFO(TextureObject2D_Src, "画像の切り抜き", "画像の一部を切り出して描画するサンプルです。"),
+		INFO(TextureObject2D_Transform, "画像の変形", "画像を回転させたり、拡大縮小して描画するサンプルです。"),
 
-		INFO(Mouse_Position, "", ""),
-		INFO(Mouse_Click, "", ""),
-		INFO(Mouse_State, "", ""),
-		INFO(Mouse_Wheel, "", ""),
+		INFO(Mouse_Position, "マウス座標の取得", "マウスの座標を取得し、その位置を表示するサンプルです。"),
+		INFO(Mouse_Click, "マウスのクリック検知", "マウスの左クリックを検知するサンプルです。"),
+		INFO(Mouse_State, "マウスボタンの状態", "マウスの中ボタンの状態を調べ、状態を表示するサンプルです。"),
+		INFO(Mouse_Wheel, "マウスホイール", "マウスホイールの回転の度合いを調べ、表示するサンプルです。"),
 
-		INFO(Keyboard_Basic, "", ""),
-		INFO(Keyboard_SingularKey, "", ""),
-		INFO(Keyboard_PuralKeys, "", ""),
+		INFO(Keyboard_Basic, "キーボード入力の基本", "Zキーを押しているかどうかを調べ、結果を表示するサンプルです。"),
+		INFO(Keyboard_SingularKey, "キーボードの入力状態", "キーボードのキー入力状態を詳しく調べ、状態を表示するサンプルです。"),
+		INFO(Keyboard_PuralKeys, "複数のキーの入力状態", "キーボードの複数のキーの入力状態を調べ、表示するサンプルです。"),
 
-		INFO(Joystick_Basic, "", ""),
-		INFO(Joystick_Axis, "", ""),
+		INFO(Joystick_Basic, "ジョイスティックのボタン入力", "ジョイスティックのボタンの入力状態を調べ、表示するサンプルです。"),
+		INFO(Joystick_Axis, "アナログスティック入力", "ジョイスティックのアナログスティックの入力状態を調べ、表示するサンプルです。"),
 
-		INFO(Sound_SE, "", ""),
-		INFO(Sound_BGM, "", ""),
-		INFO(Sound_Loop, "", ""),
+		INFO(Sound_SE, "効果音の再生", "効果音(Sound Effect)を再生するサンプルです。"),
+		INFO(Sound_BGM, "BGMの再生", "BGMを再生するサンプルです。"),
+		INFO(Sound_Loop, "BGMのループ再生", "BGMをループ再生するサンプルです。"),
 
-		INFO(Object2DComponent_Custom, "", ""),
+		INFO(TextObject2D_Basic, "文字列の描画", "文字列を描画するサンプルです。"),
+		INFO(TextObject2D_DynamicFont, "フォントの動的生成", "フォントをプログラム実行中にに準備して、そのフォントで文字列を描画するサンプルです。"),
+		INFO(TextObject2D_Rotate, "文字列の回転", "文字列を回転させて描画するサンプルです。"),
+		INFO(TextObject2D_Filtered, "回転した文字列の滑らかな描画", "文字列の回転をしたときにギザギザが発生するのを防ぐ機能を使ったサンプルです。"),
+		INFO(TextObject2D_Centering, "文字列の中央揃え", "文字列を中央揃えで描画するサンプルです。"),
 
-		INFO(CameraObject2D_Basic, "", ""),
-		INFO(CameraObject2D_Magnify, "", ""),
+		INFO(CameraObject2D_Basic, "カメラの基本", "カメラを用いて描画空間の一部を切り取って描画するサンプルです。"),
+		INFO(CameraObject2D_Magnify, "カメラによる拡大描画", "カメラを用いて描画空間の一部を虫眼鏡のように拡大して描画するサンプルです。"),
 		INFO(CameraObject2D_Group, "", ""),
 		INFO(CameraObject2D_Texture, "", ""),
 
 		INFO(EffectObject2D_Basic, "", ""),
-
-		INFO(TextObject2D_Basic, "", ""),
-		INFO(TextObject2D_DynamicFont, "", ""),
-		INFO(TextObject2D_Rotate, "", ""),
-		INFO(TextObject2D_Filtered, "", ""),
-		INFO(TextObject2D_Centering, "", ""),
 
 		INFO(GeometryObject2D_CircleShape, "", ""),
 		INFO(GeometryObject2D_ArcShape, "", ""),
@@ -144,12 +147,21 @@ int main(int argc, char** argv)
 		INFO(GeometryObject2D_PolygonShape, "", ""),
 		INFO(GeometryObject2D_PolygonShape_Textured, "", ""),
 
+		INFO(Object2DComponent_Custom, "", ""),
+
 		INFO(Collision2D_Basic, "", ""),
 		INFO(Collision2D_Geometries, "", ""),
+
+		INFO(File_PackFile, "", ""),
+		INFO(File_RootDirectory, "", ""),
+		INFO(File_StaticFile, "", ""),
+		INFO(File_StreamFile, "", ""),
 
 		INFO(SceneAndLayer_Basic, "", ""),
 		INFO(SceneAndLayer_CustomLayer, "", ""),
 		INFO(SceneAndLayer_CustomScene, "", ""),
+
+		INFO(Transition_Fade, "フェードイン・フェードアウト", "画像を回転させたり、拡大縮小して描画するサンプルです。"),
 
 		INFO(Dispose_Object2D, "", ""),
 		INFO(Dispose_Layer2D, "", ""),
@@ -159,15 +171,14 @@ int main(int argc, char** argv)
 		INFO(PostEffect_GaussianBlur, "", ""),
 		INFO(PostEffect_LightBloom, "", ""),
 
-		INFO(File_PackFile, "", ""),
-		INFO(File_RootDirectory, "", ""),
-		INFO(File_StaticFile, "", ""),
-		INFO(File_StreamFile, "", ""),
-
 		INFO(EngineMisc_ShowFps, "", ""),
 
 		INFO(Texture_Basic, "", ""),
 		INFO(Texture_Edit, "", ""),
+
+		INFO(Log_Basic, "ログ出力", "ログファイルにログを出力するサンプルです。"),
+		INFO(Log_OutputLevel, "ログの出力レベルの指定", "ログファイルにログを出力するサンプルです。\n出力レベルを指定し、低レベルのログを無視します。"),
+		INFO(Log_Table, "表組みされたログ出力", "ログファイルに表組みで表現されたログを出力するサンプルです。"),
 	};
 
 	auto browser = SampleBrowser(samples);

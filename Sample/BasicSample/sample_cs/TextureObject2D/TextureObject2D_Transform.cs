@@ -6,11 +6,11 @@ class TextureObject2D_Transform : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "画像を回転させたり、拡大縮小して描画するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "画像の変形"; }
 	}
 
     public void Run()

@@ -11,8 +11,13 @@ public class CameraObject2D_Basic : ISample
 {
     public string Description
     {
-        get { return "カメラを用いた描画空間の一部を切り取って描画する\nサンプルを表示する。"; }
+        get { return "カメラを用いて描画空間の一部を切り取って描画するサンプルです。"; }
     }
+
+	public string Title
+	{
+		get { return "カメラの基本"; }
+	}
 
     public void Run()
     {
@@ -52,10 +57,4 @@ public class CameraObject2D_Basic : ISample
         // Altseedを終了する。
         asd.Engine.Terminate();
     }
-
-
-	public string Title
-	{
-		get { return "カメラの基本"; }
-	}
 }

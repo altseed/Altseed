@@ -5,11 +5,11 @@ class Joystick_Axis : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "ジョイスティックのアナログスティックの入力状態を調べ、表示するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "アナログスティック入力"; }
 	}
 
     public void Run()

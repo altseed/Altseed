@@ -6,11 +6,11 @@ class TextObject2D_Centering : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "文字列を中央揃えで描画するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "文字列の中央揃え"; }
 	}
 
     public void Run()

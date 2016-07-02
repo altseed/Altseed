@@ -6,11 +6,11 @@ class TextureObject2D_Src : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "画像の一部を切り出して描画するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "画像の切り抜き"; }
 	}
 
     public void Run()

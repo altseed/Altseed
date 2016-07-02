@@ -6,11 +6,11 @@ class TextureObject2D_Basic : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "画像を表示する基本的なサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "画像の表示"; }
 	}
 
     public void Run()

@@ -3,11 +3,11 @@ class Sound_SE : ISample
 {
 	public string Description
 	{
-		get { return ""; }
+		get { return "効果音(Sound Effect)を再生するサンプルです。"; }
 	}
 	public string Title
 	{
-		get { return ""; }
+		get { return "効果音の再生"; }
 	}
 
 	// Soundを用いて音を鳴らすサンプル。

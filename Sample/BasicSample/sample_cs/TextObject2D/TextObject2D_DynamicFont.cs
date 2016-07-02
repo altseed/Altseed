@@ -11,11 +11,11 @@ class TextObject2D_DynamicFont : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "フォントをプログラム実行中にに準備して、そのフォントで文字列を描画するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "フォントの動的生成"; }
 	}
 
     public void Run()

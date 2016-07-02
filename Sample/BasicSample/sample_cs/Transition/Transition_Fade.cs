@@ -62,11 +62,11 @@ class Transition_Fade : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "フェードイン・フェードアウトを用いてシーン遷移をするサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "フェードイン・フェードアウト"; }
 	}
 
 	public void Run()

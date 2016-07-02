@@ -6,11 +6,11 @@ public class Keyboard_PuralKeys : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "キーボードの複数のキーの入力状態を調べ、表示するサンプルです。"; }
     }
     public string Title
     {
-        get { return ""; }
+        get { return "複数のキーの入力状態"; }
     }
 
     public void Run()

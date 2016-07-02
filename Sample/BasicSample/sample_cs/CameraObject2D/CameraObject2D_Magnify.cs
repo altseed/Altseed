@@ -11,11 +11,11 @@ public class CameraObject2D_Magnify : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "カメラを用いて描画空間の一部を虫眼鏡のように拡大して描画するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "カメラによる拡大描画"; }
 	}
 
     public void Run()

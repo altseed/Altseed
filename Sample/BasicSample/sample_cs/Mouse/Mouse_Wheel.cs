@@ -5,11 +5,11 @@ public class Mouse_Wheel : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "マウスホイールの回転の度合いを調べ、表示するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "マウスホイール"; }
 	}
 
     public void Run()

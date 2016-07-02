@@ -5,11 +5,11 @@ public class Keyboard_SingularKey : ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "キーボードのキー入力状態を詳しく調べ、状態を表示するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "キーボードの入力状態"; }
 	}
 
     public void Run()

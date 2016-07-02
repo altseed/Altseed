@@ -5,11 +5,11 @@ public class Mouse_Click :ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "マウスの左クリックを検知するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "マウスのクリック検知"; }
 	}
 
     public void Run()

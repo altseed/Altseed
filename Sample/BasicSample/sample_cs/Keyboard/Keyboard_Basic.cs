@@ -5,11 +5,11 @@ public class Keyboard_Basic :ISample
 {
     public string Description
     {
-        get { return ""; }
+        get { return "Zキーを押しているかどうかを調べ、結果を表示するサンプルです。"; }
     }
 	public string Title
 	{
-		get { return ""; }
+		get { return "キーボード入力の基本"; }
 	}
 
     public void Run()
