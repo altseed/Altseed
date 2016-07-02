@@ -71,6 +71,7 @@ class SceneAndLayer_CustomLayer : ISample
 			// Altseedを更新する。
 			asd.Engine.Update();
 			Recorder.CaptureScreen("SceneAndLayer_CustomLayer", 0, 100, 0.5f, 0.5f);
+			Recorder.TakeScreenShot("SceneAndLayer_CustomLayer", 150);
 		}
 
 		// Altseedを終了する。

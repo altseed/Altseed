@@ -37,6 +37,7 @@ public class Mouse_Position : ISample
             asd.Engine.Update();
 
             Recorder.CaptureScreen("Mouse_Position", 30, 75, 0.5f, 0.7f);
+			Recorder.TakeScreenShot("Mouse_Position", 30);
         }
 
         //Altseedの終了処理をする。

@@ -48,26 +48,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Graphics\2D\CameraObject2D.cs" />
-    <Compile Include="Graphics\2D\EffectObject2D.cs" />
-    <Compile Include="Graphics\2D\ImagePackage.cs" />
     <Compile Include="Graphics\PostEffect\CustomPostEffect.cs" />
-    <Compile Include="Graphics\PostEffect\PostEffect.cs" />
     <Compile Include="ISample.cs" />
     <Compile Include="Log.cs" />
-    <Compile Include="ObjectSystem\Object2DComponent.cs" />
-    <Compile Include="ObjectSystem\Transition.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="SampleCUI.cs" />
-    <Compile Include="Sound\Sound.cs" />
-    <Compile Include="Window\Empty.cs" />
     <Compile Include="Window\EmptyExternal.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Graphics\2D\" />
+    <Folder Include="ObjectSystem\" />
     <Folder Include="Properties\" />
+    <Folder Include="Sound\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -6,12 +6,12 @@ class Pause_Basic : ISample
 {
 	public string Description
 	{
-		get { return ""; }
+		get { return "レイヤーの処理を一時停止するサンプルです。"; }
 	}
 
 	public string Title
 	{
-		get { return ""; }
+		get { return "ポーズ"; }
 	}
 
 	/// <summary>

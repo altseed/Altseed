@@ -6,12 +6,12 @@ class ImagePackageUI_Basic : ISample
 {
 	public string Description
 	{
-		get { return ""; }
+		get { return "ImagePackageを用いてUIを配置するサンプルです。"; }
 	}
 
 	public string Title
 	{
-		get { return ""; }
+		get { return "ImagePackage"; }
 	}
 
 	public void Run()

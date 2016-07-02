@@ -40,7 +40,8 @@ class SampleItem : asd.TextureObject2D
     {
         Sample = sample;
 
-        Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/" + sample.GetType().Name + ".png");
+	    var path = "Data/Browser/" + sample.GetType().Name + ".png";
+        Texture = asd.Engine.Graphics.CreateTexture2D(path);
         if (Texture == null)
         {
             Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/Default.png");

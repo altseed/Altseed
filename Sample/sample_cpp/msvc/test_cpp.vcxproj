@@ -11,14 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp" />
-    <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp" />
-    <ClCompile Include="..\Graphics\2D\ImagePackage.cpp" />
     <ClCompile Include="..\main.cpp" />
-    <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp" />
-    <ClCompile Include="..\ObjectSystem\Transition.cpp" />
     <ClCompile Include="..\SampleGuide.cpp" />
-    <ClCompile Include="..\Sound\Sound.cpp" />
     <ClCompile Include="..\Window\EmptyExternal.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -82,6 +82,7 @@ public class Keyboard_PuralKeys : ISample
             asd.Engine.Update();
 
             Recorder.CaptureScreen("Keyboard_PuralKeys", 30, 60, 0.2f, 0.5f);
+			Recorder.TakeScreenShot("Keyboard_PuralKeys", 30);
         }
 
         //Altseedの終了処理をする。

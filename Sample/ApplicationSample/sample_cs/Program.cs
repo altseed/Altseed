@@ -11,6 +11,8 @@ class Program
     {
         ISample[] samples =
 			{
+				new Window_External(),
+
 				new ImagePackageUI_Basic(),
 				new ImagePackageUI_AlphaBlend(),
 				new ImagePackageUI_Component(),

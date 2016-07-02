@@ -57,6 +57,7 @@ class Dispose_Object2D : ISample
 				// オブジェクトを破棄する。
 				obj.Dispose();
 			}
+			Recorder.TakeScreenShot("Dispose_Object2D", 30);
 		}
 
 		// Altseedを終了する。

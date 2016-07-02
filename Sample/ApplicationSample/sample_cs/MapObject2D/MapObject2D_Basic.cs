@@ -11,12 +11,12 @@ class MapObject2D_Basic : ISample
 {
 	public string Description
 	{
-		get { return ""; }
+		get { return "マップチップを並べて描画するサンプルです。"; }
 	}
 
 	public string Title
 	{
-		get { return ""; }
+		get { return "マップチップの描画"; }
 	}
 
     public void Run()

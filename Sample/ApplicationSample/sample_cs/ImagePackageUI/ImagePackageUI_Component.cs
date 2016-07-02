@@ -6,12 +6,12 @@ class ImagePackageUI_Component : ISample
 {
 	public string Description
 	{
-		get { return ""; }
+		get { return "ImagePackageを用いてUIを配置し、その際に特定の名前の画像を\nアニメーションさせるサンプル。"; }
 	}
 
 	public string Title
 	{
-		get { return ""; }
+		get { return "ImagePackageとアニメーション"; }
 	}
 
 	class AlphaAnimationComponent : asd.Object2DComponent
@@ -61,6 +61,7 @@ class ImagePackageUI_Component : ISample
 			// Altseedを更新する。
 			asd.Engine.Update();
 			Recorder.CaptureScreen("ImagePackageUI_Component", 5, 16, 0.25f, 0.5f);
+			Recorder.TakeScreenShot("ImagePackageUI_Component", 30);
 		}
 
 		// Altseedの終了処理をする。

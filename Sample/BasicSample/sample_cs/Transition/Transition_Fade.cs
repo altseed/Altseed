@@ -17,6 +17,17 @@ class Transition_Fade_Scene2 : asd.Scene
 		AddLayer(layer);
 		layer.AddObject(obj);
 	}
+
+	protected override void OnUpdated()
+	{
+		// マウスの左ボタンが押されるのを待つ。
+		if(asd.Engine.Mouse.LeftButton.ButtonState == asd.MouseButtonState.Push)
+		{
+			// フェードアウト・インによるシーン遷移を開始する。
+			// 1秒かけてフェードアウトし、1.5秒かけてフェードイン。
+			asd.Engine.ChangeSceneWithTransition(new Transition_Fade_Scene1(), new asd.TransitionFade(1.0f, 1.5f));
+		}
+	}
 }
 
 // 遷移前のシーン
@@ -74,6 +85,7 @@ class Transition_Fade : ISample
 		{
 			// Altseedを更新する。
 			asd.Engine.Update();
+			Recorder.TakeScreenShot("Transition_Fade", 40);
 		}
 
 		// Altseedを終了する。

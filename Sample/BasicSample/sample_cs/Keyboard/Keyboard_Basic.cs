@@ -45,6 +45,7 @@ public class Keyboard_Basic :ISample
             asd.Engine.Update();
 
             Recorder.CaptureScreen("Keyboard_Basic", 30, 60, 0.5f, 0.5f);
+			Recorder.TakeScreenShot("Keyboard_Basic", 30);
         }
 
         //Altseedの終了処理をする。

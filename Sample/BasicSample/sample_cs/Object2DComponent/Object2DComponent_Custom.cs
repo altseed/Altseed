@@ -53,6 +53,7 @@ class Object2DComponent_Custom : ISample
 			// Altseedを更新する。
 			asd.Engine.Update();
 			Recorder.CaptureScreen("Object2DComponent_Custom", 0, 30, 0.5f, 0.5f);
+			Recorder.TakeScreenShot("Object2DComponent_Custom", 30);
 		}
 
 		//Altseedの終了処理をする。

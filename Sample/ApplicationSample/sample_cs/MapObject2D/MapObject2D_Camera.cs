@@ -11,12 +11,12 @@ class MapObject2D_Camera : ISample
 {
 	public string Description
 	{
-		get { return ""; }
+		get { return "マップチップを並べて描画し、さらにカメラでスクロールするサンプルです。"; }
 	}
 
 	public string Title
 	{
-		get { return ""; }
+		get { return "マップチップとスクロール"; }
 	}
 
     public void Run()
@@ -76,6 +76,7 @@ class MapObject2D_Camera : ISample
             // Altseedを更新する。
             asd.Engine.Update();
             Recorder.CaptureScreen("MapObject2D_Camera", 0, 8, 0.2f, 0.5f);
+			Recorder.TakeScreenShot("MapObject2D_Camera", 20);
         }
 
         // Altseedの終了処理をする。

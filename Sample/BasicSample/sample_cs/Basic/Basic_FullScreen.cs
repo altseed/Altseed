@@ -36,6 +36,7 @@
 					// ゲームループを抜ける
 					break;
 				}
+				Recorder.TakeScreenShot("Basic_FullScreen", 20);
 			}
 
 			// Altseedの終了処理をする。

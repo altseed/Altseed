@@ -6,12 +6,12 @@ class CustomPostEffect_Mosaic : ISample
 {
 	public string Description
 	{
-		get { return ""; }
+		get { return "一部の領域にモザイクをかけるポストエフェクトのサンプルです。"; }
 	}
 
 	public string Title
 	{
-		get { return ""; }
+		get { return "モザイク ポストエフェクト"; }
 	}
 
 	/// <summary>
@@ -110,16 +110,6 @@ void main()
 	{
 		asd.Shader2D shader;
 		asd.Material2D material2d;
-
-		public string Description
-		{
-			get { return ""; }
-		}
-
-		public string Title
-		{
-			get { return ""; }
-		}
 
 		public MosaicPostEffect()
 		{

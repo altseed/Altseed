@@ -115,12 +115,12 @@ void main()
 
 	public string Description
 	{
-		get { return ""; }
+		get { return "画面の色の階調を反転するポストエフェクトのサンプル。"; }
 	}
 
 	public string Title
 	{
-		get { return ""; }
+		get { return "反転ポストエフェクト"; }
 	}
 }
 

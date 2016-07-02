@@ -1,17 +1,14 @@
 ﻿
-/// <summary>
-/// アクションゲームでカメラがキャラクターを追うサンプル。
-/// </summary>
 class Action2D_Camera : ISample
 {
 	public string Description
 	{
-		get { return ""; }
+		get { return "アクションゲームでカメラがキャラクターを追うサンプルです。"; }
 	}
 
 	public string Title
 	{
-		get { return ""; }
+		get { return "アクションゲームのカメラ"; }
 	}
 
 	public void Run()
@@ -83,6 +80,8 @@ class Action2D_Camera : ISample
 
 			// Altseedを更新する。
 			asd.Engine.Update();
+
+			Recorder.TakeScreenShot("Action2D_Camera", 20);
 		}
 
 		// Altseedの終了処理をする。

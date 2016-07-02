@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using asd;
 
 class SampleItem : asd.TextureObject2D
 {
@@ -41,6 +42,7 @@ class SampleItem : asd.TextureObject2D
         Sample = sample;
 
         Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/" + sample.GetType().Name + ".png");
+		TextureFilterType = TextureFilterType.Linear;
         if (Texture == null)
         {
             Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/Default.png");

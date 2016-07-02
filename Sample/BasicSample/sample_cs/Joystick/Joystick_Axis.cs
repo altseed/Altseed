@@ -57,6 +57,7 @@ class Joystick_Axis : ISample
             asd.Engine.Update();
 
             Recorder.CaptureScreen("Joystick_Axis", 30, 30, 0.2f, 0.5f);
+			Recorder.TakeScreenShot("Joystick_Axis", 30);
         }
 
         //Altseedの終了処理をする。

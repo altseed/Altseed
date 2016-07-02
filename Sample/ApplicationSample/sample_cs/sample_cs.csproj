@@ -63,6 +63,7 @@
     <Compile Include="MapObject2D\MapObject2D_Basic.cs" />
     <Compile Include="Pause\Pause_Basic.cs" />
     <Compile Include="Program.cs" />
+    <Compile Include="Window\Window_External.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

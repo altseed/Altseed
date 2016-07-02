@@ -6,40 +6,10 @@
       <Filter>Window</Filter>
     </ClCompile>
     <ClCompile Include="..\SampleGuide.cpp" />
-    <ClCompile Include="..\Sound\Sound.cpp">
-      <Filter>Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Graphics\2D\EffectObject2D.cpp">
-      <Filter>Graphics\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ObjectSystem\Object2DComponent.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Graphics\2D\CameraObject2D.cpp">
-      <Filter>Graphics\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="..\ObjectSystem\Transition.cpp">
-      <Filter>ObjectSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Graphics\2D\ImagePackage.cpp">
-      <Filter>Graphics\2D</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Window">
       <UniqueIdentifier>{35756864-34d6-43ea-ba04-ee2f1b1e0673}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sound">
-      <UniqueIdentifier>{430850be-6470-4f64-ae8a-4edb291f8f18}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics">
-      <UniqueIdentifier>{fda98404-d5cd-4870-bcd2-7ab7cd7b68d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Graphics\2D">
-      <UniqueIdentifier>{66bd8d3a-2abb-4ca1-b2dc-5aa986424124}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="ObjectSystem">
-      <UniqueIdentifier>{f166ded0-24df-46b8-9df6-7a84de854163}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

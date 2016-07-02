@@ -76,6 +76,7 @@ public class CameraObject2D_Magnify : ISample
             // Altseedを更新する。
             asd.Engine.Update();
             Recorder.CaptureScreen("CameraObject2D_Magnify", 30, 60, 0.2f, 0.5f);
+			Recorder.TakeScreenShot("CameraObject2D_Magnify", 30);
         }
 
         // Altseedの終了処理をする。

@@ -53,6 +53,7 @@ public class Keyboard_SingularKey : ISample
             asd.Engine.Update();
 
             Recorder.CaptureScreen("Keyboard_SingularKey", 30, 60, 0.5f, 0.5f);
+			Recorder.TakeScreenShot("Keyboard_SingularKey", 30);
         }
 
         //Altseedの終了処理をする。

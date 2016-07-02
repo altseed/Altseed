@@ -80,6 +80,7 @@ class Dispose_Layer2D : ISample
 				// レイヤーを破棄する。
 				layer.Dispose();
 			}
+			Recorder.TakeScreenShot("Dispose_Layer2D", 30);
 		}
 
 		// Altseedを終了する。

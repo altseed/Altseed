@@ -6,12 +6,12 @@ class ImagePackageUI_AlphaBlend : ISample
 {
 	public string Description
 	{
-		get { return ""; }
+		get { return "ImagePackageを用いてUIを配置し、その際に特定の名前の画像のアルファブレンドの方法を\n変更するサンプルです"; }
 	}
 
 	public string Title
 	{
-		get { return ""; }
+		get { return "ImagePackageとアルファブレンド"; }
 	}
 
 	public void Run()
