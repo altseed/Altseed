@@ -16,7 +16,7 @@ def exec_sync( cmd ):
 aceutils.cdToScript()
 
 if aceutils.isWin():
-	exec_sync('.\CSharpTranslator\LanguageTranslator.exe ../Sample/BasicSample/sample_cs/ ../Sample/BasicSample/sample_java/ java ../Sample/bin/Altseed.dll')
+	exec_sync('.\CSharpTranslator\LanguageTranslator.exe ../Sample/BasicSample/sample_cs/ ../Sample/BasicSample/sample_java/ java ../Sample/BasicSample/bin/Altseed.dll')
 else:
-	exec_sync('mono ./CSharpTranslator/LanguageTranslator.exe ../Sample/BasicSample/sample_cs/ ../Sample/BasicSample/sample_java/ java ../Sample/bin/Altseed.dll')
+	exec_sync('mono ./CSharpTranslator/LanguageTranslator.exe ../Sample/BasicSample/sample_cs/ ../Sample/BasicSample/sample_java/ java ../Sample/BasicSample/bin/Altseed.dll')
 
