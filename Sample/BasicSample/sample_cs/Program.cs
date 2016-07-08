@@ -1,6 +1,4 @@
 ﻿
-using sample_cs.Log;
-
 class Program
 {
 	static void Main(string[] args)

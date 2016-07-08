@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 class SampleBrowser
 {
     public static readonly float Margin = 16;
@@ -42,10 +37,9 @@ class SampleBrowser
             scene.AddLayer(infoLayer);
 
             var hintLayer = new asd.Layer2D();
-            hintLayer.AddObject(new asd.TextureObject2D()
-            {
-                Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/Hint.png")
-            });
+	        var hintObject = new asd.TextureObject2D();
+	        hintObject.Texture = asd.Engine.Graphics.CreateTexture2D("Data/Browser/Hint.png");
+            hintLayer.AddObject(hintObject);
 
             scene.AddLayer(hintLayer);
 
