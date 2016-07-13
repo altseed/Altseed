@@ -1,37 +1,37 @@
-#include <Altseed.h>
+ï»¿#include <Altseed.h>
 
 void Basic_FullScreen()
 {
-	// ƒtƒ‹ƒXƒNƒŠ[ƒ“‚Å‹N“®‚·‚é‚æ‚¤‚É‰Šú‰»ƒIƒvƒVƒ‡ƒ“‚ğ¶¬‚·‚éB
+	// ãƒ•ãƒ«ã‚¹ã‚¯ãƒªãƒ¼ãƒ³ã§èµ·å‹•ã™ã‚‹ã‚ˆã†ã«åˆæœŸåŒ–ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’ç”Ÿæˆã™ã‚‹ã€‚
 	auto option = asd::EngineOption();
 	option.IsFullScreen = true;
 
-	// ì¬‚µ‚½‰Šú‰»ƒIƒvƒVƒ‡ƒ“‚ğ—p‚¢‚ÄAltseed‚ğ‰Šú‰»‚·‚éB
+	// ä½œæˆã—ãŸåˆæœŸåŒ–ã‚ªãƒ—ã‚·ãƒ§ãƒ³ã‚’ç”¨ã„ã¦Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("Empty").c_str(), 640, 480, option);
 
-	// ‘€ìà–¾•¶‚ğ•¶š—ñƒIƒuƒWƒFƒNƒg‚Æ‚µ‚Äì¬BCreateDynamicFont‚Åì¬‚µ‚½ƒtƒHƒ“ƒgƒIƒuƒWƒFƒNƒg‚ğ—p‚¢‚é
+	// æ“ä½œèª¬æ˜æ–‡ã‚’æ–‡å­—åˆ—ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã¨ã—ã¦ä½œæˆã€‚CreateDynamicFontã§ä½œæˆã—ãŸãƒ•ã‚©ãƒ³ãƒˆã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ç”¨ã„ã‚‹
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 20, asd::Color(255, 255, 255, 255), 2, asd::Color(0, 0, 0, 255));
 	auto obj = std::make_shared<asd::TextObject2D>();
 	obj->SetFont(font);
-	obj->SetText(asd::ToAString("EscƒL[‚ÅI—¹").c_str());
+	obj->SetText(asd::ToAString("Escã‚­ãƒ¼ã§çµ‚äº†").c_str());
 
-	// ‘€ìà–¾•¶‚ÌƒIƒuƒWƒFƒNƒg‚ğƒGƒ“ƒWƒ“‚É“o˜^‚·‚éB
+	// æ“ä½œèª¬æ˜æ–‡ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’ã‚¨ãƒ³ã‚¸ãƒ³ã«ç™»éŒ²ã™ã‚‹ã€‚
 	asd::Engine::AddObject2D(obj);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 
-		// EscƒL[‚ª‰Ÿ‚³‚ê‚Ä‚¢‚½‚ç
+		// Escã‚­ãƒ¼ãŒæŠ¼ã•ã‚Œã¦ã„ãŸã‚‰
 		if (asd::Engine::GetKeyboard()->GetKeyState(asd::Keys::Escape) == asd::KeyState::Push)
 		{
-			// ƒQ[ƒ€ƒ‹[ƒv‚ğ”²‚¯‚é
+			// ã‚²ãƒ¼ãƒ ãƒ«ãƒ¼ãƒ—ã‚’æŠœã‘ã‚‹
 			break;
 		}
 	}
 
-	// Altseed‚ÌI—¹ˆ—‚ğ‚·‚éB
+	// Altseedã®çµ‚äº†å‡¦ç†ã‚’ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }

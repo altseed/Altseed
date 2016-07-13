@@ -28,33 +28,34 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,sampleDirPrefix,mode='
     for s in ls:
         m = includer.search(s.replace('\r','').replace('\n',''))
         if m != None:
-            sampleName = m.group(1)
+            sampleNames = m.group(1).split('+')
+            sampleName = sampleNames[0]
             searchedTargetDir = sampleDir
             
             files = []
             for f in aceutils.get_files(searchedTargetDir):
                 basename = os.path.basename(f)
                 name = os.path.splitext(basename)[0]
-                if name == sampleName:
+                if name in sampleNames:
                     files.append(f)
       
             ss_files = []
             for f in aceutils.get_files(sample_ss_dir):
                 basename = os.path.basename(f)
                 name = os.path.splitext(basename)[0]
-                if name == sampleName:
+                if name in sampleNames:
                     ss_files.append(f)
       
             # コードの検索
-            def getFile(ext):
+            def getFiles(ext):
                 files_ = [f for f in files if os.path.splitext(f)[1]==ext]
                 if len(files_) > 0:
-                    return files_[0]
+                    return files_
                 return None
 
-            cpp_targetPath = getFile('.cpp')
-            cs_targetPath = getFile('.cs')
-            java_targetPath = getFile('.java')
+            cpp_targetPath = getFiles('.cpp')
+            cs_targetPath = getFiles('.cs')
+            java_targetPath = getFiles('.java')
 
             # SSの表示
             if len(ss_files) > 0:
@@ -65,15 +66,13 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,sampleDirPrefix,mode='
                 included_ss_paths.append(ss_files[0])
                 #print(relCodePath + ' : ' + ssDir+os.path.basename(ss_file) + ' : ' + rel_ss_file)
 
-            def includeFile(targetPath):
-                if targetPath==None:
+            def includeFile(targetPaths):
+                if targetPaths==None:
                     print('include not found : ' + sampleName )
                     return
 
-                print('include : ' + targetPath)
+                ext = os.path.splitext(targetPaths[0])[1]
 
-                ext = os.path.splitext(targetPath)[1]
-            
                 if ext=='.cpp':
                     ls_included.append(r'<h3 class="cpp">C++</h3>'+'\n')
                     ls_included.append('```cpp\n')
@@ -86,22 +85,34 @@ def include_sample(ls,relCodePath,pattern,sampleDir,ssDir,sampleDirPrefix,mode='
                 else:
                     ls_included.append('```\n')
 
-                with open(targetPath, mode='r', encoding='utf-8-sig') as f:
-                    for fl in f.readlines():
-                        if ext=='.cpp':
-                            fl = fl.replace(r'void ' + sampleName + '()',r'int main()')
-                            fl = fl.replace(r'return;',r'return 0;')
-
-                        if ext=='.cs':
-                            fl = fl.replace(r'public void Run()','[System.STAThread]\r\n\tstatic void Main(string[] args)')
-                            fl = fl.replace(r' : ISample','')
-                            if 'Recorder.TakeScreenShot' in fl:
-                                continue
-                            if 'Recorder.CaptureScreen' in fl:
-                                continue
-
-                        ls_included.append(fl)
-                
+                for targetPath in targetPaths:
+                    print('include : ' + targetPath)
+				    				    
+                    # コードの編集
+                    with open(targetPath, mode='r', encoding='utf-8-sig') as f:
+                        for fl in f.readlines():
+                            if ext=='.cpp':
+                                fl = fl.replace(r'void ' + sampleName + '()',r'int main()')
+                                fl = fl.replace(r'return;',r'return 0;')
+				    
+                            if ext=='.cs':
+                                fl = fl.replace(r'public void Run()','[System.STAThread]\r\n\tstatic void Main(string[] args)')
+                                fl = fl.replace(r' : ISample','')
+                                if 'Recorder.TakeScreenShot' in fl:
+                                    continue
+                                if 'Recorder.CaptureScreen' in fl:
+                                    continue
+				    
+                            if ext=='.java':
+                                fl = fl.replace(r'public    void Run(){','public static void main(String args[]){')
+                                fl = fl.replace(r'implements ISample','')
+                                if 'Recorder.TakeScreenShot' in fl:
+                                    continue
+                                if 'Recorder.CaptureScreen' in fl:
+                                    continue
+				    
+                            ls_included.append(fl)
+                    
                 ls_included.append('\n```\n')
 
             if mode == 'all':

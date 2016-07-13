@@ -278,7 +278,6 @@ def release_cs():
 		elif aceutils.isMac():
 			aceutils.copy(r'Dev/bin/libAltseed_core.dylib', sampleBinDir)
 
-		aceutils.copy(r'Sample/sample_cs.sln', sampleDir)
 		aceutils.mkdir(sampleDir+r'sample_cs/')
 		aceutils.copytreeWithExt(from_ + r'sample_cs/',sampleDir+r'sample_cs/',[ r'.h', r'.cpp', r'.filters', r'.config', r'.vcxproj', r'.cs', r'.csproj', r'.sln', r'.wav', r'.ogg', r'.png', r'.aip', r'.efk', r'.aff', r'.pack', r'.txt'])
 

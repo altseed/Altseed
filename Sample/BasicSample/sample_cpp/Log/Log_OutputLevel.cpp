@@ -1,42 +1,42 @@
-#include <Altseed.h>
+ï»¿#include <Altseed.h>
 
 void Log_OutputLevel()
 {
-	//Altseed‚ğ‰Šú‰»‚·‚éB
+	//Altseedã‚’åˆæœŸåŒ–ã™ã‚‹ã€‚
 	asd::Engine::Initialize(asd::ToAString("Log_OutputLevel").c_str(), 640, 480, asd::EngineOption());
 
-	// Engine‚Ì•W€‚ÌƒƒK[‚ğg‚¤iLog.html‚Éo—Í‚³‚ê‚éj
+	// Engineã®æ¨™æº–ã®ãƒ­ã‚¬ãƒ¼ã‚’ä½¿ã†ï¼ˆLog.htmlã«å‡ºåŠ›ã•ã‚Œã‚‹ï¼‰
 	auto log = asd::Engine::GetLogger();
 
-	// ƒwƒbƒ_[•¶š—ñ‚ğo—Í‚·‚é
-	log->WriteHeading("ƒTƒ“ƒvƒ‹o—Í");
+	// ãƒ˜ãƒƒãƒ€ãƒ¼æ–‡å­—åˆ—ã‚’å‡ºåŠ›ã™ã‚‹
+	log->WriteHeading("ã‚µãƒ³ãƒ—ãƒ«å‡ºåŠ›");
 
-	// SetOutputLevelƒƒ\ƒbƒh‚Åw’è‚µ‚½‚à‚Ì‚æ‚è’á‚¢ƒŒƒxƒ‹‚Éw’è‚µ‚½o—Í‚ÍAÀs‚³‚ê‚È‚¢
-	// ƒŒƒxƒ‹‚ª‚‚¢•û‚©‚ç‡‚ÉAInformation, Warning, Critical, Error
+	// SetOutputLevelãƒ¡ã‚½ãƒƒãƒ‰ã§æŒ‡å®šã—ãŸã‚‚ã®ã‚ˆã‚Šä½ã„ãƒ¬ãƒ™ãƒ«ã«æŒ‡å®šã—ãŸå‡ºåŠ›ã¯ã€å®Ÿè¡Œã•ã‚Œãªã„
+	// ãƒ¬ãƒ™ãƒ«ãŒé«˜ã„æ–¹ã‹ã‚‰é †ã«ã€Information, Warning, Critical, Error
 	log->SetOutputLevel(asd::LogLevel::Critical);
 
-	// CriticalƒŒƒxƒ‹‚Åo—Í‚·‚éB
-	log->WriteLine("o—Í‚³‚ê‚éƒƒO(Critical)", asd::LogLevel::Critical);
+	// Criticalãƒ¬ãƒ™ãƒ«ã§å‡ºåŠ›ã™ã‚‹ã€‚
+	log->WriteLine("å‡ºåŠ›ã•ã‚Œã‚‹ãƒ­ã‚°(Critical)", asd::LogLevel::Critical);
 
-	// InformationƒŒƒxƒ‹‚Åo—Í‚·‚éB
-	log->WriteLine("o—Í‚³‚ê‚È‚¢ƒƒO(Information)", asd::LogLevel::Information);
+	// Informationãƒ¬ãƒ™ãƒ«ã§å‡ºåŠ›ã™ã‚‹ã€‚
+	log->WriteLine("å‡ºåŠ›ã•ã‚Œãªã„ãƒ­ã‚°(Information)", asd::LogLevel::Information);
 
 
-	// ƒƒbƒZ[ƒW—p‚Ì•¶š—ñ‚ğ—pˆÓ‚·‚éBTextObject2D_DynamicFont‚ÌƒTƒ“ƒvƒ‹QÆ
+	// ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ç”¨ã®æ–‡å­—åˆ—ã‚’ç”¨æ„ã™ã‚‹ã€‚TextObject2D_DynamicFontã®ã‚µãƒ³ãƒ—ãƒ«å‚ç…§
 	auto font = asd::Engine::GetGraphics()->CreateDynamicFont(asd::ToAString("").c_str(), 35, asd::Color(255, 0, 0, 255), 1, asd::Color(255, 255, 255, 255));
 	auto obj = std::make_shared<asd::TextObject2D>();
 	obj->SetFont(font);
 	obj->SetPosition(asd::Vector2DF(0, 0));
-	obj->SetText(asd::ToAString("Log.html‚ÉƒƒO‚ğo—Í‚µ‚Ü‚µ‚½B\nƒEƒBƒ“ƒhƒE‚ğ•Â‚¶‚é‘O‚ÉŠm”F‚µ‚Ä‚­‚¾‚³‚¢B").c_str());
+	obj->SetText(asd::ToAString("Log.htmlã«ãƒ­ã‚°ã‚’å‡ºåŠ›ã—ã¾ã—ãŸã€‚\nã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã‚’é–‰ã˜ã‚‹å‰ã«ç¢ºèªã—ã¦ãã ã•ã„ã€‚").c_str());
 	asd::Engine::AddObject2D(obj);
 
-	// Altseed‚ÌƒEƒCƒ“ƒhƒE‚ª•Â‚¶‚ç‚ê‚Ä‚¢‚È‚¢‚©Šm”F‚·‚éB
+	// Altseedã®ã‚¦ã‚¤ãƒ³ãƒ‰ã‚¦ãŒé–‰ã˜ã‚‰ã‚Œã¦ã„ãªã„ã‹ç¢ºèªã™ã‚‹ã€‚
 	while (asd::Engine::DoEvents())
 	{
-		// Altseed‚ğXV‚·‚éB
+		// Altseedã‚’æ›´æ–°ã™ã‚‹ã€‚
 		asd::Engine::Update();
 	}
 
-	// Altseed‚ğI—¹‚·‚éB
+	// Altseedã‚’çµ‚äº†ã™ã‚‹ã€‚
 	asd::Engine::Terminate();
 }
