@@ -141,12 +141,45 @@ public:
 	static Vector3DF Cross(const Vector3DF& v1, const Vector3DF& v2 );
 
 	/**
+	@brief	加算する。
+	@param	v1	v1ベクトル
+	@param	v2	v2ベクトル
+	@return v1+v2
+	*/
+	static Vector3DF Add(Vector3DF v1, Vector3DF v2)
+	{
+		return Vector3DF(v1.X + v2.X, v1.Y + v2.Y, v1.Z + v2.Z);
+	}
+
+	/**
 		@brief	減算する。
 		@param	v1	v1ベクトル
 		@param	v2	v2ベクトル
 		@return v1-v2
 	*/
 	static Vector3DF Subtract(Vector3DF v1, Vector3DF v2);
+
+	/**
+	@brief	除算する。
+	@param	v1	値1
+	@param	v2	値2
+	@return	v1/v2
+	*/
+	static Vector3DF Divide(const Vector3DF& v1, const Vector3DF& v2)
+	{
+		return Vector3DF(v1.X / v2.X, v1.Y / v2.Y, v1.Z / v2.Z);
+	}
+
+	/**
+	@brief	スカラーで除算する。
+	@param	v1	値1
+	@param	v2	値2
+	@return	v1/v2
+	*/
+	static Vector3DF DivideByScalar(const Vector3DF& v1, float v2)
+	{
+		return Vector3DF(v1.X / v2, v1.Y / v2, v1.Z / v2);
+	}
 
 	/**
 		@brief	2点間の距離を取得する。

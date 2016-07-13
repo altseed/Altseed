@@ -192,5 +192,61 @@ namespace asd
 			float dy = v1.Y - v2.Y;
 			return (float)Math.Sqrt(dx * dx + dy * dy);
 		}
+
+		/// <summary>
+		/// 加算する。
+		/// </summary>
+		/// <param name="v1"></param>
+		/// <param name="v2"></param>
+		/// <returns></returns>
+		public static Vector2DF Add(Vector2DF v1, Vector2DF v2)
+		{
+			Vector2DF o = new Vector2DF();
+			o.X = v1.X + v2.X;
+			o.Y = v1.Y + v2.Y;
+			return o;
+		}
+
+		/// <summary>
+		/// 減算する。
+		/// </summary>
+		/// <param name="v1"></param>
+		/// <param name="v2"></param>
+		/// <returns></returns>
+		public static Vector2DF Subtract(Vector2DF v1, Vector2DF v2)
+		{
+			Vector2DF o = new Vector2DF();
+			o.X = v1.X - v2.X;
+			o.Y = v1.Y - v2.Y;
+			return o;
+		}
+
+		/// <summary>
+		/// 除算する。
+		/// </summary>
+		/// <param name="v1">値1</param>
+		/// <param name="v2">値2</param>
+		/// <returns>v1/v2</returns>
+		public static Vector2DF Divide(Vector2DF v1, Vector2DF v2)
+		{
+			var ret = new Vector2DF();
+			ret.X = v1.X / v2.X;
+			ret.Y = v1.Y / v2.Y;
+			return ret;
+		}
+
+		/// <summary>
+		/// スカラーで除算する。
+		/// </summary>
+		/// <param name="v1">値1</param>
+		/// <param name="v2">値2</param>
+		/// <returns>v1/v2</returns>
+		public static Vector2DF DivideByScalar(Vector2DF v1, float v2)
+		{
+			var ret = new Vector2DF();
+			ret.X = v1.X / v2;
+			ret.Y = v1.Y / v2;
+			return ret;
+		}
 	}
 }

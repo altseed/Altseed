@@ -193,6 +193,50 @@ namespace asd
 		}
 
 		/**
+		@brief	加算する。
+		@param	v1	v1ベクトル
+		@param	v2	v2ベクトル
+		@return v1+v2
+		*/
+		static Vector2DF Add(Vector2DF v1, Vector2DF v2)
+		{
+			return Vector2DF(v1.X + v2.X, v1.Y + v2.Y);
+		}
+
+		/**
+		@brief	減算する。
+		@param	v1	v1ベクトル
+		@param	v2	v2ベクトル
+		@return v1-v2
+		*/
+		static Vector2DF Subtract(Vector2DF v1, Vector2DF v2)
+		{
+			return Vector2DF(v1.X - v2.X, v1.Y - v2.Y);
+		}
+
+		/**
+		@brief	除算する。
+		@param	v1	値1
+		@param	v2	値2
+		@return	v1/v2
+		*/
+		static Vector2DF Divide(const Vector2DF& v1, const Vector2DF& v2)
+		{
+			return Vector2DF(v1.X / v2.X, v1.Y / v2.Y);
+		}
+
+		/**
+		@brief	スカラーで除算する。
+		@param	v1	値1
+		@param	v2	値2
+		@return	v1/v2
+		*/
+		static Vector2DF DivideByScalar(const Vector2DF& v1, float v2)
+		{
+			return Vector2DF(v1.X / v2, v1.Y / v2);
+		}
+
+		/**
 			@brief	Vector2DI型に変換する。
 			@return	Vector2DI型
 		*/

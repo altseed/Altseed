@@ -154,7 +154,7 @@ namespace asd
 		/// <remarks>
 		/// 右手の親指がv1、人差し指がv2としたとき、中指の方向を返す。
 		/// </remarks>
-		public static Vector3DF Cross( Vector3DF v1, Vector3DF v2 )
+		public static Vector3DF Cross(Vector3DF v1, Vector3DF v2)
 		{
 			Vector3DF o = new Vector3DF();
 			float x = v1.Y * v2.Z - v1.Z * v2.Y;
@@ -163,6 +163,21 @@ namespace asd
 			o.X = x;
 			o.Y = y;
 			o.Z = z;
+			return o;
+		}
+
+		/// <summary>
+		/// 加算する。
+		/// </summary>
+		/// <param name="v1"></param>
+		/// <param name="v2"></param>
+		/// <returns></returns>
+		public static Vector3DF Add(Vector3DF v1, Vector3DF v2)
+		{
+			Vector3DF o = new Vector3DF();
+			o.X = v1.X + v2.X;
+			o.Y = v1.Y + v2.Y;
+			o.Z = v1.Z + v2.Z;
 			return o;
 		}
 
@@ -179,6 +194,36 @@ namespace asd
 			o.Y = v1.Y - v2.Y;
 			o.Z = v1.Z - v2.Z;
 			return o;
+		}
+
+		/// <summary>
+		/// 除算する。
+		/// </summary>
+		/// <param name="v1">値1</param>
+		/// <param name="v2">値2</param>
+		/// <returns>v1/v2</returns>
+		public static Vector3DF Divide(Vector3DF v1, Vector3DF v2)
+		{
+			var ret = new Vector3DF();
+			ret.X = v1.X / v2.X;
+			ret.Y = v1.Y / v2.Y;
+			ret.Z = v1.Z / v2.Z;
+			return ret;
+		}
+
+		/// <summary>
+		/// スカラーで除算する。
+		/// </summary>
+		/// <param name="v1">値1</param>
+		/// <param name="v2">値2</param>
+		/// <returns>v1/v2</returns>
+		public static Vector3DF DivideByScalar(Vector3DF v1, float v2)
+		{
+			var ret = new Vector3DF();
+			ret.X = v1.X / v2;
+			ret.Y = v1.Y / v2;
+			ret.Z = v1.Z / v2;
+			return ret;
 		}
 
 		/// <summary>
